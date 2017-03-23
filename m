@@ -1,17 +1,42 @@
-Return-Path: <romain.perier@collabora.com>
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
-	by mail.openembedded.org (Postfix) with ESMTP id E76C771D31
+Return-Path: <fathi.boudra@linaro.org>
+Received: from mail-wm0-f44.google.com (mail-wm0-f44.google.com [74.125.82.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 0EDC071ADD
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Mar 2017 14:52:27 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(Authenticated sender: rperier) with ESMTPSA id 82EE82660AD
-From: Romain Perier <romain.perier@collabora.com>
-To: liezhi.yang@windriver.com
-Date: Thu, 23 Mar 2017 15:52:20 +0100
-Message-Id: <20170323145220.1287-1-romain.perier@collabora.com>
-X-Mailer: git-send-email 2.9.3
-Cc: yocto@yoctoproject.org, openembedded-core@lists.openembedded.org
-Subject: [PATCH RESEND] logrotate: Add systemd support
+	Thu, 23 Mar 2017 15:30:25 +0000 (UTC)
+Received: by mail-wm0-f44.google.com with SMTP id n11so64286813wma.1
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 23 Mar 2017 08:30:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=HQqEOrpmWmF3o6j5ryrPIqBPxOt9s79SN+3zJ+u+78Y=;
+	b=GZo2Xyn1MOc2hsSISzNsCtc2ohtyD+7mTZ+vpxIioztWRC/KmxGqWmE9zMAXqv/+0v
+	A1sh2ukxtt1l3jusw3OvncNPRUg/Kqau2Mh+e8AVqKjE+eDLjmaSiHOcZ3LX0hak+5tP
+	OMwfvYEdBenh6uDbkRfXDmPQ9YOvTVOi/fwB0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=HQqEOrpmWmF3o6j5ryrPIqBPxOt9s79SN+3zJ+u+78Y=;
+	b=f2MlyEWBlW30OwGdRWYX+UgAQlEDnwDOto9ATTpAvZpKMy+Tsr54owj/lcbyvjBPVq
+	xls/Dm8pfPxC7EM6mri76gMXWW/XtgAIxvCD28E5dA7TRA76LR1yVhdFp7+6tX3L6+9/
+	f6Knh+89OxEf49Ob0j/h535FVqMf9Muo1fK/PjnOa6JcQUh+oNAlTQkX/LPav+tswXhX
+	FmLYnFYmQ0tCfFLamgUtaS/xxzIXsFpQ20UqoNZ+KQmH+FC6BdcBKLgBTaYF0e6Qf61S
+	uC6gYdW9f2NAkBhKUkN1PDxAe0zOMgNYTidCq8NHXSPAyde/e3n2R22u2+wfii2U6gWA
+	KveQ==
+X-Gm-Message-State: AFeK/H22A2sFdlcxnwuP/ED6svT9xxuSilxuae8Z/4Bo/9D1j3qnzCvEJR2CbSKEjf4IjlLK5CR4EWT4QYb3UwDz
+X-Received: by 10.28.57.84 with SMTP id g81mr13158836wma.41.1490283026732;
+	Thu, 23 Mar 2017 08:30:26 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.28.54.90 with HTTP; Thu, 23 Mar 2017 08:30:26 -0700 (PDT)
+In-Reply-To: <CAJTo0Lan2hjh13NJMFr2=j+g5D76CSNWBCnS4F=5M3MO7B9Fpw@mail.gmail.com>
+References: <20170323055412.10238-1-fathi.boudra@linaro.org>
+	<CAJTo0Lan2hjh13NJMFr2=j+g5D76CSNWBCnS4F=5M3MO7B9Fpw@mail.gmail.com>
+From: Fathi Boudra <fathi.boudra@linaro.org>
+Date: Thu, 23 Mar 2017 17:30:26 +0200
+Message-ID: <CAGNsrLA5zuS=csj-G7kcRFvoPoB-8jcKBWYrXL9HrOSUkLbK0w@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] glibc: add missing TRAP_BRANCH/TRAP_HWBKPT definitions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -24,103 +49,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Mar 2017 14:52:29 -0000
+X-List-Received-Date: Thu, 23 Mar 2017 15:30:26 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Currently, this recipe only supports daily scheduling via a cron job.
-This commit adds support for systemd, including systemd service and
-systemd timer. When the corresponding distro feature is enabled the
-systemd timer will be used instead of the cron job.
+On 23 March 2017 at 13:25, Burton, Ross <ross.burton@intel.com> wrote:
+>
+> On 23 March 2017 at 05:54, Fathi Boudra <fathi.boudra@linaro.org> wrote:
+>>
+>> +
+>> file://0028-bits-siginfo.h-enum-definition-for-TRAP_HWBKPT-is-mi.patch
+>
+>
+> Not that I'm suggesting you didn't test your patch, but this line is missing
+> a backslash...
+>
+> :)
 
-Signed-off-by: Romain Perier <romain.perier@collabora.com>
----
+thanks for the catch. Actually, it has been tested ;)
+It only breaks for folks that have a bbappend (it wasn't my case).
 
-Note: I was not registered on the yocto and oe ML, I subscribed. So
-I resend for this reason (my bad).
-
- .../logrotate/logrotate/logrotate.service          |  9 +++++++++
- .../logrotate/logrotate/logrotate.timer            |  7 +++++++
- meta/recipes-extended/logrotate/logrotate_3.9.1.bb | 22 ++++++++++++++++++++--
- 3 files changed, 36 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-extended/logrotate/logrotate/logrotate.service
- create mode 100644 meta/recipes-extended/logrotate/logrotate/logrotate.timer
-
-diff --git a/meta/recipes-extended/logrotate/logrotate/logrotate.service b/meta/recipes-extended/logrotate/logrotate/logrotate.service
-new file mode 100644
-index 0000000..3edb8ef
---- /dev/null
-+++ b/meta/recipes-extended/logrotate/logrotate/logrotate.service
-@@ -0,0 +1,9 @@
-+[Unit]
-+Description=Rotate log files
-+
-+[Service]
-+Type=oneshot
-+ExecStart=/usr/sbin/logrotate /etc/logrotate.conf
-+Nice=19
-+IOSchedulingClass=best-effort
-+IOSchedulingPriority=7
-diff --git a/meta/recipes-extended/logrotate/logrotate/logrotate.timer b/meta/recipes-extended/logrotate/logrotate/logrotate.timer
-new file mode 100644
-index 0000000..a92ba1e
---- /dev/null
-+++ b/meta/recipes-extended/logrotate/logrotate/logrotate.timer
-@@ -0,0 +1,7 @@
-+[Unit]
-+Description=Daily rotation of log files
-+
-+[Timer]
-+OnCalendar=daily
-+AccuracySec=12h
-+Persistent=true
-diff --git a/meta/recipes-extended/logrotate/logrotate_3.9.1.bb b/meta/recipes-extended/logrotate/logrotate_3.9.1.bb
-index 5f1a601..734d661 100644
---- a/meta/recipes-extended/logrotate/logrotate_3.9.1.bb
-+++ b/meta/recipes-extended/logrotate/logrotate_3.9.1.bb
-@@ -14,6 +14,8 @@ SRC_URI = "https://fedorahosted.org/releases/l/o/logrotate/logrotate-${PV}.tar.g
-            file://act-as-mv-when-rotate.patch \
-            file://update-the-manual.patch \
-            file://disable-check-different-filesystems.patch \
-+           ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'file://logrotate.service', '', d)} \
-+           ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'file://logrotate.timer', '', d)} \
-             "
- 
- SRC_URI[md5sum] = "4492b145b6d542e4a2f41e77fa199ab0"
-@@ -47,6 +49,14 @@ EXTRA_OEMAKE = "\
- # INSTALL=install and BASEDIR=/usr.
- OS_NAME = "Linux"
- 
-+inherit systemd
-+
-+SYSTEMD_AUTO_ENABLE = "disable"
-+SYSTEMD_SERVICE_${PN} = "\
-+    ${PN}.service \
-+    ${PN}.timer \
-+"
-+
- do_compile_prepend() {
-     # Make sure the recompile is OK
-     rm -f ${B}/.depend
-@@ -55,9 +65,17 @@ do_compile_prepend() {
- do_install(){
-     oe_runmake install DESTDIR=${D} PREFIX=${D} MANDIR=${mandir}
-     mkdir -p ${D}${sysconfdir}/logrotate.d
--    mkdir -p ${D}${sysconfdir}/cron.daily
-     mkdir -p ${D}${localstatedir}/lib
-     install -p -m 644 examples/logrotate-default ${D}${sysconfdir}/logrotate.conf
--    install -p -m 755 examples/logrotate.cron ${D}${sysconfdir}/cron.daily/logrotate
-     touch ${D}${localstatedir}/lib/logrotate.status
-+
-+    # Install systemd unit files
-+    if [ "${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'systemd', '', d)}" = "systemd" ]; then
-+        install -d ${D}/${systemd_system_unitdir}
-+        install -m 0644 ${WORKDIR}/logrotate.service ${D}/${systemd_system_unitdir}/logrotate.service
-+        install -m 0644 ${WORKDIR}/logrotate.timer ${D}/${systemd_system_unitdir}/logrotate.timer
-+    else
-+        mkdir -p ${D}${sysconfdir}/cron.daily
-+        install -p -m 0755 examples/logrotate.cron ${D}${sysconfdir}/cron.daily/logrotate
-+    fi
- }
--- 
-1.8.3.1
-
+> Ross
 
