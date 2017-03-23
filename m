@@ -1,30 +1,30 @@
-Return-Path: <vedang.patel@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id B31D477A26
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 3BFEE606CA
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Mar 2017 01:05:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-	d=intel.com; i=@intel.com; q=dns/txt; s=intel;
-	t=1490231162; x=1521767162;
-	h=from:to:cc:subject:date:message-id:in-reply-to: references;
-	bh=Flgzsc/woGkdVt6ELCylIazKPeJQ4liZf4cJR0d/Gi4=;
-	b=kCyxRyhS+DImKXkHS+pgg/9VSZPfiIiRMguD3bJkSxO6ZP8YVPIrn5JZ
-	TqM49Kqhx2GUkCHLglkRwUDsZEloUg==;
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	22 Mar 2017 18:06:00 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.36,207,1486454400"; d="scan'208";a="1111245785"
-Received: from vpatel-dev2.jf.intel.com ([10.7.159.64])
-	by orsmga001.jf.intel.com with ESMTP; 22 Mar 2017 18:06:00 -0700
-From: Vedang Patel <vedang.patel@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 22 Mar 2017 18:05:58 -0700
-Message-Id: <1490231158-6151-1-git-send-email-vedang.patel@intel.com>
-X-Mailer: git-send-email 2.7.3
-In-Reply-To: <1490225634.15509.40.camel@intel.com>
-References: <1490225634.15509.40.camel@intel.com>
-Subject: [PATCH v2] libxslt: Add PACKAGECONFIG support for python
+	Thu, 23 Mar 2017 02:30:48 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v2N2UnFL010770
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 22 Mar 2017 19:30:49 -0700 (PDT)
+Received: from soho-mhatle-m.corp.ad.wrs.com (128.224.176.122) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.294.0; Wed, 22 Mar 2017 19:30:48 -0700
+To: <openembedded-core@lists.openembedded.org>
+References: <alpine.LFD.2.20.1703220648410.15178@uk63952.mitel.com>
+	<CAJTo0LbY4m=t5wzMnoOJxd0EuA+mVai6kovk7YRfZYPT_ymnLw@mail.gmail.com>
+	<alpine.LFD.2.20.1703220701350.15389@uk63952.mitel.com>
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+Message-ID: <9fff31b3-2d67-0bed-b5c3-7b6d60cb4d5f@windriver.com>
+Date: Thu, 23 Mar 2017 10:30:47 +0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:45.0)
+	Gecko/20100101 Thunderbird/45.8.0
+MIME-Version: 1.0
+In-Reply-To: <alpine.LFD.2.20.1703220701350.15389@uk63952.mitel.com>
+Subject: Re: possible content for site.conf?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,42 +37,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Mar 2017 01:06:00 -0000
+X-List-Received-Date: Thu, 23 Mar 2017 02:30:50 -0000
+Content-Type: text/plain; charset="windows-1252"
+Content-Transfer-Encoding: 7bit
 
-Add support to enable python bindings for libxslt using PACKAGECONFIG.
-This will include --with-python argument while compiling the package.
-The support is disabled by default.
+On 3/22/17 7:02 PM, Robert P. J. Day wrote:
+> On Wed, 22 Mar 2017, Burton, Ross wrote:
+> 
+>>
+>> On 22 March 2017 at 10:51, Robert P. J. Day <rpjday@crashcourse.ca> wrote:
+>>         from site.conf.sample, the obvious content is things like:
+>>
+>>       * download dir
+>>       * reference to local (in-house) source mirror
+>>       * http proxies/fetching configuration
+>>
+>>       and so on. any other things people throw into site.conf i can just add
+>>       to a list so readers can understand what that file is truly designed
+>>       for?
+>>
+>>
+>> That's pretty much the expected use.
+> 
+>   i thought so ... i wracked my brain trying to think what else
+> belonged in there, and that's all i came up with. thanks.
 
-Signed-off-by: Vedang Patel <vedang.patel@intel.com>
----
- meta/recipes-support/libxslt/libxslt_1.1.29.bb | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+I have seen people do some blacklist entries here (or preferred version) when
+they have a company policy not to use certain software.  (Similarly a site wide
+PACKAGECONFIG to disable a feature that isn't allowed.)
 
-diff --git a/meta/recipes-support/libxslt/libxslt_1.1.29.bb b/meta/recipes-support/libxslt/libxslt_1.1.29.bb
-index be747e608d9d..1e00306207c5 100644
---- a/meta/recipes-support/libxslt/libxslt_1.1.29.bb
-+++ b/meta/recipes-support/libxslt/libxslt_1.1.29.bb
-@@ -22,7 +22,7 @@ S = "${WORKDIR}/libxslt-${PV}"
- 
- BINCONFIG = "${bindir}/xslt-config"
- 
--inherit autotools pkgconfig binconfig-disabled lib_package
-+inherit autotools pkgconfig binconfig-disabled lib_package distutils-common-base
- 
- # We don't DEPEND on binutils for ansidecl.h so ensure we don't use the header
- do_configure_prepend () {
-@@ -33,7 +33,9 @@ do_configure_prepend () {
- 	touch ${S}/doc/xsltproc.1
- }
- 
--EXTRA_OECONF = "--without-python --without-debug --without-mem-debug --without-crypto"
-+EXTRA_OECONF = "--without-debug --without-mem-debug --without-crypto"
-+PACKAGECONFIG[libxslt-python] = "--with-python=${PYTHON_BASE_VERSION}, --without-python"
-+
- # older versions of this recipe had ${PN}-utils
- RPROVIDES_${PN}-bin += "${PN}-utils"
- RCONFLICTS_${PN}-bin += "${PN}-utils"
--- 
-2.7.3
+--Mark
+
+> rday
+> 
+> 
+> 
 
 
