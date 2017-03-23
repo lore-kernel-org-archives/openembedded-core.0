@@ -1,50 +1,54 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
-	by mail.openembedded.org (Postfix) with ESMTP id E8D6177B04
+Return-Path: <prvs=0255d8ba8c=mike.looijmans@topicproducts.com>
+X-Greylist: delayed 16346 seconds by postgrey-1.34 at layers.openembedded.org;
+	Thu, 23 Mar 2017 13:40:40 UTC
+Received: from mx36-44.antispamcloud.com (mx36-44.antispamcloud.com
+	[209.126.121.60])
+	by mail.openembedded.org (Postfix) with ESMTP id A7A9F77AC7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Mar 2017 12:21:17 +0000 (UTC)
-Received: by mail-wm0-f68.google.com with SMTP id u132so16191557wmg.1
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Mar 2017 05:21:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:in-reply-to:references;
-	bh=f6lPHJyxsw2TWHM6CA4bjEk+KM5ID7oqpmAqJ9aDrtg=;
-	b=hX+3iIO6+PxwEJN/wD+LWfmbAfmSdGZZEWnFTvCoDwnA8NjP/Q7IWi2JjfXzWrNVRG
-	7AuBNNxyPTzvNE/en6faJ6TgyhKBbPeHcxitAkJFtqNI6BTudXCjNRSdSf8U1GTRv4f7
-	HX1tlt1HlJ1qKv5herdneRUhQhzJpYrWpFXKISKMIl4htllL6nJiZkZG4wpQ9LQOcnPR
-	BuXcgm+OkQ1xv5g1EC27xT5di79+M0VMZl54dzeXDgur7Bk1f5Wag6HNcgTJZagg6g6O
-	Sn38BsaxndiKgmboJwSdU/mjrMbyAzRJCVPQMZlKtebvyik+PfRmsJ4hKRlIhVhJAK+m
-	/kkw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:in-reply-to:references;
-	bh=f6lPHJyxsw2TWHM6CA4bjEk+KM5ID7oqpmAqJ9aDrtg=;
-	b=K9rg6kfl4+dW8JXgiZua/Q1MsVrBOQ7LrCYiFi34yu9au5myvzBiykrPxW04cCuDCF
-	A7uID1/8dkIHwC7J1BW/CCX6lnW1ZGdO91TKgXGT2C70f0pabRHi0/tin9xJZe56oeCw
-	Wh8ZXDPbCX2zurmEzXtzV/W8deb7VEiCweWNc3uSeFVeJoFfShlVCvcP+y4H3WRoj/BR
-	tnpgs3B3/vzvUquQML1bGutJkXAXS5A1kIqYjwuRC3/lxtTPLirKS8il+r5yD/zgttMd
-	rKK9tbxUCHy3yTRifgM3r8i1bcPLz0+B5wgNZWDv0wMYvjXI5/DVnSmADKQDfRxY5b1x
-	PrNg==
-X-Gm-Message-State: AFeK/H3YWxuzuadOj02l3IY1tPXTaejd6cFGzYAds1fRfq+7+14dVfC60JgSbmAgtgYTiw==
-X-Received: by 10.28.166.133 with SMTP id p127mr13258757wme.62.1490271679223; 
-	Thu, 23 Mar 2017 05:21:19 -0700 (PDT)
-Received: from localhost ([217.30.68.212])
-	by smtp.gmail.com with ESMTPSA id c8sm5658542wrd.57.2017.03.23.05.21.18
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 23 Mar 2017 05:21:18 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 23 Mar 2017 13:21:22 +0100
-Message-Id: <8b1e4421b2a14b516f1ea83c46cc54809f2fb170.1490271643.git.Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.12.0
-In-Reply-To: <3d7e2a0b6f99a996eb981c0fb64a9954247002d2.1490265213.git.Martin.Jansa@gmail.com>
-References: <3d7e2a0b6f99a996eb981c0fb64a9954247002d2.1490265213.git.Martin.Jansa@gmail.com>
-In-Reply-To: <cover.1490271643.git.Martin.Jansa@gmail.com>
-References: <cover.1490271643.git.Martin.Jansa@gmail.com>
-Subject: [PATCHv2 1/2] rootfs.py: Respect OPKGLIBDIR variable
+	Thu, 23 Mar 2017 13:40:40 +0000 (UTC)
+Received: from [37.74.225.130] (helo=TOP-EX01.TOPIC.LOCAL)
+	by mx36.antispamcloud.com with esmtps (TLSv1:ECDHE-RSA-AES128-SHA:128)
+	(Exim 4.86) (envelope-from <mike.looijmans@topicproducts.com>)
+	id 1cqyhx-0005Fu-3p for openembedded-core@lists.openembedded.org;
+	Thu, 23 Mar 2017 10:08:15 +0100
+Received: from [192.168.80.121] (192.168.80.121) by webmail.topic.nl
+	(192.168.10.102) with Microsoft SMTP Server id 14.3.224.2;
+	Thu, 23 Mar 2017 10:06:59 +0100
+To: <openembedded-core@lists.openembedded.org>
+References: <1490222875-16219-1-git-send-email-armccurdy@gmail.com>
+From: Mike Looijmans <mike.looijmans@topic.nl>
+Organization: TOPIC
+Message-ID: <bca89655-d4fd-d6ea-74c7-9f6050473b89@topic.nl>
+Date: Thu, 23 Mar 2017 10:06:58 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.7.0
+MIME-Version: 1.0
+In-Reply-To: <1490222875-16219-1-git-send-email-armccurdy@gmail.com>
+X-Originating-IP: [192.168.80.121]
+X-EXCLAIMER-MD-CONFIG: 9833cda7-5b21-4d34-9a38-8d025ddc3664
+X-EXCLAIMER-MD-BIFURCATION-INSTANCE: 0
+X-Originating-IP: 37.74.225.130
+X-SpamExperts-Domain: topic.nl
+X-SpamExperts-Username: 37.74.225.128/28
+Authentication-Results: antispamcloud.com;
+	auth=pass smtp.auth=37.74.225.128/28@topic.nl
+X-SpamExperts-Outgoing-Class: ham
+X-SpamExperts-Outgoing-Evidence: Combined (0.01)
+X-Recommended-Action: accept
+X-Filter-ID: s0sct1PQhAABKnZB5plbIbbvfIHzQjPVmPLZeVYSu3xU9luQrU+8/8qthi+0Jd/W/95+6ZE6dI+d
+	FNTaLLKrTD4PkK8WOoKuw32u9iEtZmisSr42qUwvK7U11fJ5smF5bE7GwnNXTE7JFCR1ojdwNClF
+	+ZA3+2Q5NKWP5lQdP2gH4ZOQKh6Lj2tUX7/fClwFSB9vhIbrpdC1yI/MLxBAZWbjO41FyBEqIaDu
+	dcVplPGNaieKxw/vh63RdlaW2Zj1hcQD6Dxo9kokFZNwiacNPxeTCKssqlJePCDBHWfCYUvWOATT
+	vnG+QUCcfrSs6FZc7tZ3vKwSN7Mv0HNteAusUZ8BuYwGqmI8Tx/Ism0pnCcmlWACu0WC7nIKSPYV
+	aBAANeo6Hr4UJMIZEVOGlXeApA3I626B4k1VCg2pmPRu/ttI+5uNYlio18PhwYAI3KFjI0DemMnj
+	X6/AHZrydiX+6L3upx1n/FUf/NwbTI+uRoXlWvXEyVXmV1DcCGMoc6ig/SVaKi0jvtxxX4zA29pu
+	2ONYQFX+rhdRbxagFZk9QeUTMKkbMlXz2JUArHA+14szgKKlg5rRfJw9pxA0+9OX6RKm353ztx8x
+	waw1cKnsBGyxcEIKVJg0J7erdcW8mf2rcxw3qqhc+N6cuEg4XWh5Fgb/MuIXu+2kk2WrDexOHyU7
+	WKxT4LlSKLDfp/19yPrhJ3Hzrrl0oVtjq6fTF9Jl0KmxVEE6gtF+B/lEIPzms76tk/3XLTmRwzit
+	RAMwkvBlOAbafFWolSz8SP6cor7doMIclqURQOfTUwDe+Ri01fKK+Cycbw9+K8eJsPoj5lo/GFYM
+	cVhzpcLQdqKp7LlvQx6beeRpmwmn73M0kjMKSZNhE0K4g0gX9R2hqKQ2Vgyd
+X-Report-Abuse-To: spam@quarantine2.antispamcloud.com
+Subject: Re: [PATCH] native.bbclass: clear MACHINE_FEATURES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,35 +61,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Mar 2017 12:21:25 -0000
+X-List-Received-Date: Thu, 23 Mar 2017 13:40:41 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
 
-* when OPKGLIBDIR doesn't have the default /var/lib value it will
-  silently fail to copy package database from normal rootfs to debugfs
-  rootfs and then when trying to install *-dbg complimentary packages
-  it won't install anything, because installed_pkgs.txt file generated
-  from debugfs is empty
+=EF=BB=BFOn 22-03-17 23:47, Andre McCurdy wrote:
+> Try to avoid native recipes accidentally being dependent on
+> MACHINE_FEATURES. This simple change doesn't prevent MACHINE_FEATURES
+> set via MACHINE_FEATURES_BACKFILL sneaking through, but it's better
+> than nothing.
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/lib/oe/rootfs.py | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+Maybe this would work:
 
-diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
-index 5e1c09762a..96591f370e 100644
---- a/meta/lib/oe/rootfs.py
-+++ b/meta/lib/oe/rootfs.py
-@@ -946,7 +946,9 @@ class OpkgRootfs(DpkgOpkgRootfs):
-         if self.progress_reporter:
-             self.progress_reporter.next_stage()
- 
--        self._setup_dbg_rootfs(['/var/lib/opkg'])
-+        opkg_lib_dir = self.d.getVar('OPKGLIBDIR')
-+        opkg_dir = os.path.join(opkg_lib_dir, 'opkg')
-+        self._setup_dbg_rootfs([opkg_dir])
- 
-         execute_pre_post_process(self.d, opkg_post_process_cmds)
- 
--- 
-2.12.0
+MACHINE_FEATURES_BACKFILL_CONSIDERED =3D "${MACHINE_FEATURES_BACKFILL}"
+
+>
+> Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+> ---
+>  meta/classes/native.bbclass | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/meta/classes/native.bbclass b/meta/classes/native.bbclass
+> index 6becf82..1919fbc 100644
+> --- a/meta/classes/native.bbclass
+> +++ b/meta/classes/native.bbclass
+> @@ -112,6 +112,7 @@ PKG_CONFIG_SYSTEM_INCLUDE_PATH[unexport] =3D "1"
+>  LIBCOVERRIDE =3D ""
+>  CLASSOVERRIDE =3D "class-native"
+>  MACHINEOVERRIDES =3D ""
+> +MACHINE_FEATURES =3D ""
+>
+>  PATH_prepend =3D "${COREBASE}/scripts/native-intercept:"
+>
+>
+
+
+
+Kind regards,
+
+Mike Looijmans
+System Expert
+
+TOPIC Products
+Materiaalweg 4, NL-5681 RJ Best
+Postbus 440, NL-5680 AK Best
+Telefoon: +31 (0) 499 33 69 79
+E-mail: mike.looijmans@topicproducts.com
+Website: www.topicproducts.com
+
+Please consider the environment before printing this e-mail
+
+
+
+
 
 
