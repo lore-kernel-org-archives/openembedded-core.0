@@ -1,30 +1,44 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 3993A77A98
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pg0-f42.google.com (mail-pg0-f42.google.com [74.125.83.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 977DF71AB3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Mar 2017 03:10:31 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v2N3AWEi014238
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 22 Mar 2017 20:10:32 -0700 (PDT)
-Received: from [128.224.162.201] (128.224.162.201) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.294.0;
-	Wed, 22 Mar 2017 20:10:31 -0700
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1490174366.git.Qi.Chen@windriver.com>
-	<afcb3771cf109ba4d11e81a79eaadef62f9437a3.1490174366.git.Qi.Chen@windriver.com>
-	<1490178423.13980.168.camel@linuxfoundation.org>
-From: ChenQi <Qi.Chen@windriver.com>
-Message-ID: <884b927a-25d1-7719-da24-ab93d1425be1@windriver.com>
-Date: Thu, 23 Mar 2017 11:11:36 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.4.0
-MIME-Version: 1.0
-In-Reply-To: <1490178423.13980.168.camel@linuxfoundation.org>
-X-Originating-IP: [128.224.162.201]
-Subject: Re: [PATCH 1/1] runqemu-gen-tapdevs: fix file path in example
+	Thu, 23 Mar 2017 03:38:09 +0000 (UTC)
+Received: by mail-pg0-f42.google.com with SMTP id g2so115764874pge.3
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 22 Mar 2017 20:38:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=bejkzTUdZc2bAk4ptCO6/2CwmxbLWTXupRnfc/bWoTg=;
+	b=qeWff2nu1XVykAKwBrsMionCDVf90bh15z/QgZ3nmHAvzbFlLzE+Vjr0lP70MBT3p+
+	wffeKjKsqEJdui5tV2pE1IFy/9R4aCejYN/M9aPLM3QaDjJSyoqBzYei1KFJapJjWJ9i
+	DkSKBT9vIQux2p6dfshn4BlD/w6xtiEAZTGM38bT4nKqu6YAxQXhsiUdl3WElErXlgfm
+	RqFC7dqqkd3YIPrOUdMlD6vzMGK1h+c/W3Ty9ec6W7O2cyPmGIl7t1X+Ci6EoFPcFfhC
+	gmFpsFU1HyKQQk2QE55QhNgcF83E1Ju0FHyVsAyo8hb9xvFSmipk0ysLwOJydHSAmmSN
+	/eyQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=bejkzTUdZc2bAk4ptCO6/2CwmxbLWTXupRnfc/bWoTg=;
+	b=ZJSlZkhpTHOanfcFhx9VH0vn4gjrsmno56zutqLfuFFKDqKNQcVLgv05LYRBQRTPZb
+	f7gB4/keirS6u2sSucCIz9VNkllQc2gAMRyuHfJoRppmC8j4tRll4L5kiYv2EHP7x/d4
+	X0F+PmjUzFkaA/fti73pVVhG3stUdG7lt5pTMsK7on21T7Xvu/2eDL8E/U+o0ill+2hB
+	9+ZB0IasJ27u0XXOeP/Sl2sZuemMjOR4Pq1UBrDXSYYafIKNgUZ8Dd2AmFqkSyJ4GSIg
+	Uxp+iF8dtd7UpAR628TWdUUrHXkCiQErfDNtbVvl2jbsBWhDfPWcvrWrh6sMxCPlR+0m
+	qpZQ==
+X-Gm-Message-State: AFeK/H3F3fy/GjrqLl+ybR/nXR22d32iydFKOlBW7PclOI6fVZFSXvp40SsGbWjTkFr4WQ==
+X-Received: by 10.99.123.72 with SMTP id k8mr408848pgn.139.1490240290682;
+	Wed, 22 Mar 2017 20:38:10 -0700 (PDT)
+Received: from localhost.localdomain (c-76-102-32-192.hsd1.ca.comcast.net.
+	[76.102.32.192]) by smtp.gmail.com with ESMTPSA id
+	d4sm6471560pfb.104.2017.03.22.20.38.09
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 22 Mar 2017 20:38:09 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 22 Mar 2017 20:37:58 -0700
+Message-Id: <cover.1490240196.git.raj.khem@gmail.com>
+X-Mailer: git-send-email 2.12.1
+Subject: [PATCH 0/2] Misc fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,47 +51,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Mar 2017 03:10:32 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 23 Mar 2017 03:38:09 -0000
 
-On 03/22/2017 06:27 PM, Richard Purdie wrote:
-> On Wed, 2017-03-22 at 17:23 +0800, Chen Qi wrote:
->> Fix the path in example so that '/usr/bin/tunctl' could be found under
->> this path.
->>
->> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
->> ---
->>   scripts/runqemu-gen-tapdevs | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/scripts/runqemu-gen-tapdevs b/scripts/runqemu-gen-tapdevs
->> index 9e5e5b9..994efd0 100755
->> --- a/scripts/runqemu-gen-tapdevs
->> +++ b/scripts/runqemu-gen-tapdevs
->> @@ -29,7 +29,7 @@ usage() {
->>   	echo " is the number of tap devices to create (0 to remove all)"
->>   	echo " is the path to the build system's native sysroot"
->>   	echo "e.g. $ bitbake qemu-helper-native -c addto_recipe_sysroot"
-> If we change this, you also need to change the above to remove -c
-> addto_recipe_sysroot.
->
-> Cheers,
->
-> Richard
+clang finds couple of more issues to weed out
 
-Thanks. V2 has been sent.
+The following changes since commit d1d55041e38b12d40f896834b56475ea19a6047f:
 
-Best Regards,
-Chen Qi
+  sstate: Ensure installation directory is empty before execution (2017-03-22 10:12:10 +0000)
 
->> -	echo "$ sudo $0 1000 1000 4 tmp/work/x86_64-linux/qemu-helper-native/*/recipe-sysroot-native/"
->> +	echo "$ sudo $0 1000 1000 4 tmp/sysroots-components/x86_64/qemu-helper-native/"
->>   	exit 1
->>   }
->>   
->> -- 
->> 1.9.1
->>
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib kraj/pu
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=kraj/pu
+
+Khem Raj (2):
+  db: Fix atomic function namespace clash with clang builtins
+  libvorbis: Contain gcc specific compiler flags using configure option
+
+ .../libvorbis/0001-configure-Check-for-clang.patch | 56 ++++++++++++++++++++++
+ .../libvorbis/libvorbis_1.3.5.bb                   |  4 +-
+ ...me-local-__atomic_compare_exchange-to-avo.patch | 45 +++++++++++++++++
+ meta/recipes-support/db/db_5.3.28.bb               |  1 +
+ 4 files changed, 105 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-multimedia/libvorbis/libvorbis/0001-configure-Check-for-clang.patch
+ create mode 100644 meta/recipes-support/db/db/0001-atomic-Rename-local-__atomic_compare_exchange-to-avo.patch
+
+-- 
+2.12.1
 
 
