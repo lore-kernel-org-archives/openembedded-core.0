@@ -1,26 +1,24 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 8193571E12
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 8838677A8D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Mar 2017 03:10:28 +0000 (UTC)
+	Thu, 23 Mar 2017 03:10:26 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v2N3ASge031349
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v2N3AR4p021000
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Mar 2017 20:10:29 -0700
+	Wed, 22 Mar 2017 20:10:27 -0700 (PDT)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.201) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.294.0; Wed, 22 Mar 2017 20:10:28 -0700
+	14.3.294.0; Wed, 22 Mar 2017 20:10:26 -0700
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 23 Mar 2017 11:11:33 +0800
-Message-ID: <9b89651abf85539ce365e4dc0136a87aae81a0df.1490238463.git.Qi.Chen@windriver.com>
+Date: Thu, 23 Mar 2017 11:11:32 +0800
+Message-ID: <cover.1490238463.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1490238463.git.Qi.Chen@windriver.com>
-References: <cover.1490238463.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH V2 1/1] runqemu-gen-tapdevs: fix file path in example
+Subject: [PATCH V2 0/1] runqemu-gen-tapdevs: fix file path in example
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,29 +34,21 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Thu, 23 Mar 2017 03:10:29 -0000
 Content-Type: text/plain
 
-Fix the path in example so that '/usr/bin/tunctl' could be found under
-this path.
+The following changes since commit 49c2df5652d25e6e9b2a4976658ab9bb17fe6694:
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
+  meta-yocto-bsp: Remove superfluous OVERRIDES in machine conf files (2017-03-22 11:35:23 +0000)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib ChenQi/example-path
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/example-path
+
+Chen Qi (1):
+  runqemu-gen-tapdevs: fix file path in example
+
  scripts/runqemu-gen-tapdevs | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/scripts/runqemu-gen-tapdevs b/scripts/runqemu-gen-tapdevs
-index 9e5e5b9..49e1efc 100755
---- a/scripts/runqemu-gen-tapdevs
-+++ b/scripts/runqemu-gen-tapdevs
-@@ -28,8 +28,8 @@ usage() {
- 	echo "Where <gid> is the numeric group id the tap devices will be owned by"
- 	echo "<num> is the number of tap devices to create (0 to remove all)"
- 	echo "<native-sysroot-basedir> is the path to the build system's native sysroot"
--	echo "e.g. $ bitbake qemu-helper-native -c addto_recipe_sysroot"
--	echo "$ sudo $0 1000 1000 4 tmp/work/x86_64-linux/qemu-helper-native/*/recipe-sysroot-native/"
-+	echo "e.g. $ bitbake qemu-helper-native"
-+	echo "$ sudo $0 1000 1000 4 tmp/sysroots-components/x86_64/qemu-helper-native/"
- 	exit 1
- }
- 
 -- 
 1.9.1
 
