@@ -1,28 +1,46 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 8FB7F72F77
+Return-Path: <liu.ming50@gmail.com>
+Received: from mail-wr0-f195.google.com (mail-wr0-f195.google.com
+	[209.85.128.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 318BC72F71
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Mar 2017 12:00:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-	d=intel.com; i=@intel.com; q=dns/txt; s=intel;
-	t=1490270426; x=1521806426;
+	Thu, 23 Mar 2017 12:11:44 +0000 (UTC)
+Received: by mail-wr0-f195.google.com with SMTP id y90so7108560wrb.1
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 23 Mar 2017 05:11:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id;
-	bh=SrARaDizj/HaZCjydLboWOu7vC9wf9ZSV6UZzNLyl9E=;
-	b=SubCr5+wpM4gHZC8tW4JQWG4Q20xvWlM8Ws/KcrwsLCd26nbUdgsWZlF
-	H6FgXOwLfNmU1u3zGv0wsZZxLov8Ew==;
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	23 Mar 2017 05:00:25 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.36,209,1486454400"; d="scan'208";a="947392740"
-Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by orsmga003.jf.intel.com with ESMTP; 23 Mar 2017 05:00:24 -0700
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+	bh=lcinvM8z+YUlOm3uUEYSeYgpf2miGIvKFm+Y11UH1Nw=;
+	b=XVhh+qYbbUWuaiplJOOL3Av1Te04C8NqkiY6bzEpDrtSgL4XumDAs58uy3rDM+WSwt
+	7Y81y/XXhOXnpWHpICB+8mnd/APh28T628KClYPEv0s8sXtkfveWAY4JvWoDyEjXMlpM
+	wN8qbIBKPAO2azho4ho1qbRTlWEvlWEuNepC8QLou9KRbB0iOj3UKna5+bY2aGigl0Dm
+	UKyMgl6PtPtV1bxzyPQ+ba4eUOLSbX6lEn4CcDx9Hj/hV1ik48xmL+XipFHxxGBIuMM3
+	iKwXPpXDjQH71VsJwAop1RXH12uIM7yv5ZlHd+a+wjV6avM8UAiXxwEb7iYktqBX/Elv
+	S/Tg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=lcinvM8z+YUlOm3uUEYSeYgpf2miGIvKFm+Y11UH1Nw=;
+	b=MCa3I2dC8jc72BViHSOLYITzwrUM/TfDOShYuqW/gLqB1ak13m6kfyzJrRooKNxU68
+	5Z+Alxug8RouoiH4/X3azjGCrHFWS+1p2iN5NaFaiuygMpLfZlNMhdlt3DqtKjkoHoJ8
+	HcDeyXJEOG6EuVDOp2GrgP1K+Ic4XZqR59IAdofadO8453ze/xkLtfaD5LoysMYGCI88
+	sF4Ar2zh7C2ehYdyRiLLWIMl6CDQGtOdBu44qxmQJQ9ROiVB+OifBZ1d5ofP3cejzUzt
+	Pk8J4b7Vv16l4CwUfaJTt25e39p3W+GJZEWwYbbGH0v/t7QFvHrecXWdvWN2NFtsicVC
+	CUKQ==
+X-Gm-Message-State: AFeK/H3wc7y3mkqnaz8137rH4jLD9qWbVfZa683NyegAGNbKts38TXTfh5vyoHaYIS05tw==
+X-Received: by 10.223.165.17 with SMTP id i17mr2467275wrb.70.1490271105844;
+	Thu, 23 Mar 2017 05:11:45 -0700 (PDT)
+Received: from peterliu-Precision-M4800.emea.group.atlascopco.com
+	([106.116.217.162]) by smtp.gmail.com with ESMTPSA id
+	k190sm4093773wmg.10.2017.03.23.05.11.43
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 23 Mar 2017 05:11:45 -0700 (PDT)
+From: liu.ming50@gmail.com
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 23 Mar 2017 13:59:37 +0200
-Message-Id: <20170323115937.19781-1-alexander.kanavin@linux.intel.com>
-X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] expect: resolve string formatting issues
+Date: Thu, 23 Mar 2017 13:11:11 +0100
+Message-Id: <1490271075-3490-1-git-send-email-liu.ming50@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Cc: Ming Liu <liu.ming50@gmail.com>
+Subject: [PATCH V4 0/4] Fix some issues of kernel/image recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,78 +53,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Mar 2017 12:00:24 -0000
+X-List-Received-Date: Thu, 23 Mar 2017 12:11:45 -0000
 
-[YOCTO #9542]
+From: Ming Liu <liu.ming50@gmail.com>
 
-Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
----
- meta/conf/distro/include/security_flags.inc        |  1 -
- .../0001-Resolve-string-formatting-issues.patch    | 29 ++++++++++++++++++++++
- meta/recipes-devtools/expect/expect_5.45.bb        |  1 +
- 3 files changed, 30 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-devtools/expect/expect/0001-Resolve-string-formatting-issues.patch
+Changes in V4:
+1 Do not append 'vmlinux' to KERNEL_IMAGETYPES.
 
-diff --git a/meta/conf/distro/include/security_flags.inc b/meta/conf/distro/include/security_flags.inc
-index 5a1ea0de8e9..89fd45b859c 100644
---- a/meta/conf/distro/include/security_flags.inc
-+++ b/meta/conf/distro/include/security_flags.inc
-@@ -91,7 +91,6 @@ SECURITY_CFLAGS_pn-zlib = "${SECURITY_NO_PIE_CFLAGS}"
- 
- # Recipes which fail to compile when elevating -Wformat-security to an error
- SECURITY_STRINGFORMAT_pn-busybox = ""
--SECURITY_STRINGFORMAT_pn-expect = ""
- SECURITY_STRINGFORMAT_pn-gcc = ""
- SECURITY_STRINGFORMAT_pn-oh-puzzles = ""
- 
-diff --git a/meta/recipes-devtools/expect/expect/0001-Resolve-string-formatting-issues.patch b/meta/recipes-devtools/expect/expect/0001-Resolve-string-formatting-issues.patch
-new file mode 100644
-index 00000000000..af1d8c626c2
---- /dev/null
-+++ b/meta/recipes-devtools/expect/expect/0001-Resolve-string-formatting-issues.patch
-@@ -0,0 +1,29 @@
-+From 107cc370705d8520ba42f1416d89ed3544277c83 Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex.kanavin@gmail.com>
-+Date: Thu, 23 Mar 2017 13:44:41 +0200
-+Subject: [PATCH] Resolve string formatting issues.
-+
-+Upstream-Status: Inappropriate [upstream seems dead]
-+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-+---
-+ exp_clib.c | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
-+
-+diff --git a/exp_clib.c b/exp_clib.c
-+index 172c05e..809200e 100644
-+--- a/exp_clib.c
-++++ b/exp_clib.c
-+@@ -1476,8 +1476,8 @@ expDiagLogU(str)
-+      char *str;
-+ {
-+   if (exp_is_debugging) {
-+-    fprintf(stderr,str);
-+-    if (exp_logfile) fprintf(exp_logfile,str);
-++    fprintf(stderr, "%s", str);
-++    if (exp_logfile) fprintf(exp_logfile, "%s", str);
-+   }
-+ }
-+ 
-+-- 
-+2.11.0
-+
-diff --git a/meta/recipes-devtools/expect/expect_5.45.bb b/meta/recipes-devtools/expect/expect_5.45.bb
-index ab22a61394e..630f2e46492 100644
---- a/meta/recipes-devtools/expect/expect_5.45.bb
-+++ b/meta/recipes-devtools/expect/expect_5.45.bb
-@@ -25,6 +25,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/expect/Expect/${PV}/${BPN}${PV}.tar.gz \
-            file://0002-tcl.m4.patch \
-            file://01-example-shebang.patch \
-            file://0001-expect-install-scripts-without-using-the-fixline1-tc.patch \
-+           file://0001-Resolve-string-formatting-issues.patch \
-           "
- SRC_URI[md5sum] = "44e1a4f4c877e9ddc5a542dfa7ecc92b"
- SRC_URI[sha256sum] = "b28dca90428a3b30e650525cdc16255d76bb6ccd65d448be53e620d95d5cc040"
+Ming Liu (4):
+  kernel.bbclass: fix some incorrect inter-task dependencies
+  kernel.bbclass: introduce INITRAMFS_IMAGE_NAME
+  image.bbclass: remove initramfs bundle related code
+  kernel-initramfs: add recipe
+
+ meta/classes/image.bbclass                    |  13 ----
+ meta/classes/kernel-fitimage.bbclass          |  10 +--
+ meta/classes/kernel.bbclass                   |  26 +++----
+ meta/recipes-kernel/linux/kernel-initramfs.bb | 100 ++++++++++++++++++++++++++
+ meta/recipes-kernel/linux/linux-yocto.inc     |   1 -
+ 5 files changed, 119 insertions(+), 31 deletions(-)
+ create mode 100644 meta/recipes-kernel/linux/kernel-initramfs.bb
+
 -- 
-2.11.0
+2.7.4
 
 
