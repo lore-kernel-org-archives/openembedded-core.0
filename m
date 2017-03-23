@@ -1,48 +1,48 @@
-Return-Path: <liu.ming50@gmail.com>
-Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
-	by mail.openembedded.org (Postfix) with ESMTP id A8F4977B27
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
+	by mail.openembedded.org (Postfix) with ESMTP id AD4D577AF6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Mar 2017 12:12:05 +0000 (UTC)
-Received: by mail-wm0-f68.google.com with SMTP id z133so16256139wmb.2
+	Thu, 23 Mar 2017 12:16:25 +0000 (UTC)
+Received: by mail-wm0-f67.google.com with SMTP id z133so16280613wmb.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Mar 2017 05:12:07 -0700 (PDT)
+	Thu, 23 Mar 2017 05:16:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=FmUeBGNIuTCHkT0J8df4x75UNvoHfJ9BcBaF3IsXyY4=;
-	b=m5LIOB6mxpZMLzh43DjNA+YsT5aqy5AB72irTMuumpk0gvcoBTlHyVsjjkff9dQ22b
-	uiEFVrQdGuQcHPx2z/bhXbq7o/vcOSXEMX9iE5eOapvYhtP9McD9N/OE/AqIouBPUsAZ
-	dzy9AdUKEO6p2gX8fTUaPy8n/g88KPhDgaH+tjknNCRmYHHHn8maHx0jvMT40J9lfnRd
-	yffYUIKZS524NcbmnDdC0x4uqZAEWKeDjhpVBd657qXMQed6wTVft6QN8Cp2xiJeqYfv
-	KQFaXaHbKZMximGaR2FQZoGdNMxiU0SLBpcWxZTs+iup4R/r+8IOFGG7mz006R1cSKLe
-	CKbQ==
+	h=from:to:subject:date:message-id:in-reply-to:references;
+	bh=6+cQl4uCgW2SvuA3YzcSznj03EMqqy3Rsk5vFp36L3M=;
+	b=J7nRiZudGSxlgRraPd1S79+1hj7MIe2gcLySA3Mh/aMy9/mWqYSaMdlow2ZDdqKeUs
+	XHXw/tFyb8gGJg+kZd1Yz/4JFXJz7bqFWLn1T0giC4mAk2zoSpOQq0qAb9qKVrp+mO49
+	zGjLkz2PkpTJQoajEjGXVppDWjSjOsvExIsGiaz0CsrlFI+0gv9wjLvE6Nl9o3mvXbqT
+	kThcH9L9RkUGh2zUyqrD5Qnumcx+m1vdZYVrVhbGoXwBoF3Fkey8wWHMPcWn7AM2pEno
+	Lvs/vM+//nFPtxmucTJEDgxFWSZGlUeeBeZNC/hEhj8nn6QEGXgDiehG4SCCMxC//xb2
+	WNqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=FmUeBGNIuTCHkT0J8df4x75UNvoHfJ9BcBaF3IsXyY4=;
-	b=hXqfHjEOH8rrxuTVqWBR6aj64zl7t/8DCokLtnP8F21MVdINQufRCdoSdpjyO/85s4
-	xPRketXczSAhj/imf+RxqrssbFzzGjQq3MNn44goFFqwo20vdpMcCTyPRAFFWK/6apA8
-	Z0SIbrf8NNpMfutTupweoN1EdFep+1mHh9iBIxjr9MChiYPQAw66ohJ5k8drVDsVjbfr
-	Oa7+5WhNFfQ13we+7HcDJm2Lx+5BzjHKLixTKmmKtG53dmA9Grg5qrVq/t1BpEooH1FZ
-	+NhIXcN2We8F9EJ0D9vJ27Z1EeV6nqHBGoK4dPHaETzbcISmQJ2c+dClezM7x4gg+t2k
-	EFhQ==
-X-Gm-Message-State: AFeK/H1Ol95B0l00yXb0NGsJU8veYjylM8O1mOxd3bAzA8GeWYeNgWRHWO5QRX1Z+AcSuQ==
-X-Received: by 10.28.194.7 with SMTP id s7mr2569249wmf.34.1490271126770;
-	Thu, 23 Mar 2017 05:12:06 -0700 (PDT)
-Received: from peterliu-Precision-M4800.emea.group.atlascopco.com
-	([106.116.217.162]) by smtp.gmail.com with ESMTPSA id
-	k190sm4093773wmg.10.2017.03.23.05.12.04
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 23 Mar 2017 05:12:06 -0700 (PDT)
-From: liu.ming50@gmail.com
+	bh=6+cQl4uCgW2SvuA3YzcSznj03EMqqy3Rsk5vFp36L3M=;
+	b=ZGROHwHXCUoRc7mqh2IQpT+WwWVGvcK+gLlnX/g4ORe8dPQWBuQWaPWWILv60Kstj+
+	VNAQR0zcJw357C9qBK6FI9FHn9NfUpTz3Mj5YmMuMy4QcF+g3nxh1SEoqUsgJmD0dDTD
+	X/v6iLFdFV0reojuXdl50Zjy9bgVsl8Cp8RoyKo9ByH85xmdK5iSlxXsB4M0m5la58Wa
+	nIq1aDeuS27qkAESRrsMQsF3aa/gVD3MNqNgXW6hDAA1QKcQKtP0Zf1KI4uv0tw8oSAY
+	dhH3fAVhomx6jHNhieAKxRStiQo2MX5K7+bADy8ljA2SinHUH5GOyFwal+hSqkz4irNO
+	/7AQ==
+X-Gm-Message-State: AFeK/H0iB7ke8E6s45D3WDvJGR/+PRYb8GuBvGJDb+BR2WqYaXW4aLtMe00pGO69+chrZQ==
+X-Received: by 10.28.88.129 with SMTP id m123mr2770631wmb.28.1490271386427;
+	Thu, 23 Mar 2017 05:16:26 -0700 (PDT)
+Received: from localhost ([217.30.68.212])
+	by smtp.gmail.com with ESMTPSA id 82sm1135279wmg.0.2017.03.23.05.16.25
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 23 Mar 2017 05:16:25 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 23 Mar 2017 13:11:15 +0100
-Message-Id: <1490271075-3490-5-git-send-email-liu.ming50@gmail.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1490271075-3490-1-git-send-email-liu.ming50@gmail.com>
-References: <1490271075-3490-1-git-send-email-liu.ming50@gmail.com>
-Cc: Ming Liu <peter.x.liu@external.atlascopco.com>
-Subject: [PATCH V4 4/4] kernel-initramfs: add recipe
+Date: Thu, 23 Mar 2017 13:16:29 +0100
+Message-Id: <a659511ad2e9309b9ed625f1cebda2af229fd67b.1490271349.git.Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.12.0
+In-Reply-To: <cover.1490271349.git.Martin.Jansa@gmail.com>
+References: <cover.1490271349.git.Martin.Jansa@gmail.com>
+Subject: [PATCH][morty 1/2] rootfs.py: Respect OPKGLIBDIR variable
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,140 +55,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Mar 2017 12:12:06 -0000
+X-List-Received-Date: Thu, 23 Mar 2017 12:16:28 -0000
 
-From: Ming Liu <peter.x.liu@external.atlascopco.com>
+* when OPKGLIBDIR doesn't have the default /var/lib value it will
+  silently fail to copy package database from normal rootfs to debugfs
+  rootfs and then when trying to install *-dbg complimentary packages
+  it won't install anything, because installed_pkgs.txt file generated
+  from debugfs is empty
 
-To implement initramfs bundled kernel packaging.
-
-The kernel images are copied from DEPLOY_DIR_IMAGE, and a list of
-packages will be generated according to KERNEL_IMAGETYPES setting.
-
-For instance:
-For KERNEL_IMAGETYPES = "bzImage vmlinux"
-
-the generated packages would be:
-- kernel-initramfs (Base package, RDEPENDS on kernel-initramfs-image)
-- kernel-initramfs-image (Image package, RDEPENDS on all sub images)
-- kernel-initramfs-image-bzimage (Contains bzImage image)
-- kernel-initramfs-image-vmlinux (Contains vmlinux image)
-
-This recipe would be skipped if INITRAMFS_IMAGE_BUNDLE or
-INITRAMFS_IMAGE is not being set correctly.
-
-Signed-off-by: Ming Liu <peter.x.liu@external.atlascopco.com>
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- meta/recipes-kernel/linux/kernel-initramfs.bb | 100 ++++++++++++++++++++++++++
- 1 file changed, 100 insertions(+)
- create mode 100644 meta/recipes-kernel/linux/kernel-initramfs.bb
+ meta/lib/oe/rootfs.py | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-kernel/linux/kernel-initramfs.bb b/meta/recipes-kernel/linux/kernel-initramfs.bb
-new file mode 100644
-index 0000000..91ea55e
---- /dev/null
-+++ b/meta/recipes-kernel/linux/kernel-initramfs.bb
-@@ -0,0 +1,100 @@
-+SUMMARY = "Initramfs bundled kernel images"
-+DESCRIPTION = "When built, it packages initramfs bundled kernel images of the \
-+preferred virtual/kernel provider."
-+SECTION = "kernel"
-+LICENSE = "GPLv2"
-+
-+inherit linux-kernel-base
-+
-+# Whilst not a module, this ensures we don't get multilib extended. (which would make no sense)
-+inherit module-base
-+
-+S = "${STAGING_KERNEL_DIR}"
-+B = "${WORKDIR}/build"
-+
-+# we dont need the default dependencies.
-+INHIBIT_DEFAULT_DEPS = "1"
-+
-+KERNEL_ALT_IMAGETYPE ??= ""
-+KERNEL_IMAGETYPES_append = " vmlinux"
-+KERNEL_IMAGETYPE ?= "zImage"
-+KERNEL_IMAGEDEST ?= "boot"
-+KERNEL_VERSION = "${@['1.0.0', get_kernelversion_file('${STAGING_KERNEL_BUILDDIR}')][get_kernelversion_file('${STAGING_KERNEL_BUILDDIR}') != None]}"
-+KERNEL_PKG_NAME = "${@legitimize_package_name(d.getVar('KERNEL_VERSION'))}"
-+KERNEL_PRIORITY ?= "${@int(d.getVar('KERNEL_VERSION').split('-')[0].split('+')[0].split('.')[0]) * 10000 + \
-+                       int(d.getVar('KERNEL_VERSION').split('-')[0].split('+')[0].split('.')[1]) * 100 + \
-+                       int(d.getVar('KERNEL_VERSION').split('-')[0].split('+')[0].split('.')[-1])}"
-+
-+PACKAGES = "${PN} ${PN}-image"
-+
-+FILES_${PN} = ""
-+FILES_${PN}-image = ""
-+RDEPENDS_${PN} = "${PN}-image"
-+PKG_${PN} = "${PN}-${KERNEL_PKG_NAME}"
-+PKG_${PN}-image = "${PN}-image-${KERNEL_PKG_NAME}"
-+RPROVIDES_${PN} += "${PN}-${KERNEL_VERSION}"
-+ALLOW_EMPTY_${PN} = "1"
-+ALLOW_EMPTY_${PN}-image = "1"
-+
-+PACKAGE_ARCH = "${MACHINE_ARCH}"
-+
-+PACKAGES_DYNAMIC = "^kernel-initramfs-image-.*"
-+
-+python __anonymous () {
-+    # Skip processing of this recipe if INITRAMFS_IMAGE or INITRAMFS_IMAGE_BUNDLE
-+    # is not set correctly, to avoid generating only empty packages which makes
-+    # no sense.
-+    if not d.getVar('INITRAMFS_IMAGE') or d.getVar('INITRAMFS_IMAGE_BUNDLE') != '1':
-+        raise bb.parse.SkipPackage("Set INITRAMFS_IMAGE and INITRAMFS_IMAGE_BUNDLE to enable it")
-+
-+    # Merge KERNEL_IMAGETYPE and KERNEL_ALT_IMAGETYPE into KERNEL_IMAGETYPES
-+    types = set((d.getVar('KERNEL_IMAGETYPES') or "").split())
-+    types.add(d.getVar('KERNEL_IMAGETYPE') or "")
-+    types.add(d.getVar('KERNEL_ALT_IMAGETYPE') or "")
-+    types = ' '.join(sorted(types)).strip()
-+    d.setVar('KERNEL_IMAGETYPES', types)
-+
-+    for type in types.split():
-+        pn = d.getVar('PN')
-+        imagedest = d.getVar('KERNEL_IMAGEDEST')
-+        if type == "vmlinux":
-+            typelower = type.lower()
-+        else:
-+            typelower = "image-%s" % type.lower()
-+
-+        d.appendVar('PACKAGES', ' %s-%s' % (pn, typelower))
-+        if type != 'vmlinux' or 'vmlinux' in (d.getVar('KERNEL_IMAGETYPE') or ""):
-+            d.appendVar('RDEPENDS_%s-image' % pn, ' %s-%s' % (pn, typelower))
-+
-+        d.setVar('FILES_%s-%s' % (pn, typelower), '/%s/%s-initramfs-${KERNEL_VERSION}' % (imagedest, type))
-+        d.setVar('PKG_%s-%s' % ( pn, typelower), '%s-%s-${KERNEL_PKG_NAME}' % (pn, typelower))
-+
-+        priority = d.getVar('KERNEL_PRIORITY')
-+        postinst = '#!/bin/sh\nupdate-alternatives --install /%s/%s-initramfs %s-initramfs %s-initramfs-${KERNEL_VERSION} %s || true\n' % (imagedest, type, type, type, priority)
-+        d.setVar('pkg_postinst_%s-%s' % (pn, typelower), postinst)
-+
-+        postrm = '#!/bin/sh\nupdate-alternatives --remove %s-initramfs %s-initramfs-${KERNEL_VERSION} || true\n' % (type, type)
-+        d.setVar('pkg_postrm_%s-%s' % (pn, typelower), postrm)
-+}
-+
-+# Need the output of deploy.
-+do_install[depends] += "virtual/kernel:do_deploy"
-+
-+# We only need the packaging tasks - disable the rest
-+do_fetch[noexec] = "1"
-+do_unpack[noexec] = "1"
-+do_patch[noexec] = "1"
-+do_configure[noexec] = "1"
-+do_compile[noexec] = "1"
-+do_populate_sysroot[noexec] = "1"
-+
-+do_install() {
-+	if [ ! -z "${INITRAMFS_IMAGE}" -a x"${INITRAMFS_IMAGE_BUNDLE}" = x1 ]; then
-+		echo "Copying initramfs bundled kernel images from ${DEPLOY_DIR_IMAGE}..."
-+		install -d ${D}/${KERNEL_IMAGEDEST}
-+		for type in ${KERNEL_IMAGETYPES}; do
-+			echo "Copying initramfs bundled kernel image: $type-initramfs-${MACHINE}.bin"
-+			install -m 0644 ${DEPLOY_DIR_IMAGE}/$type-initramfs-${MACHINE}.bin ${D}/${KERNEL_IMAGEDEST}/$type-initramfs-${KERNEL_VERSION}
-+		done
-+	fi
-+}
+diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
+index ed40b23ee4..c4a5086bec 100644
+--- a/meta/lib/oe/rootfs.py
++++ b/meta/lib/oe/rootfs.py
+@@ -949,7 +949,9 @@ class OpkgRootfs(DpkgOpkgRootfs):
+         if self.progress_reporter:
+             self.progress_reporter.next_stage()
+ 
+-        self._setup_dbg_rootfs(['/etc', '/var/lib/opkg', '/usr/lib/ssl'])
++        opkg_lib_dir = self.d.getVar('OPKGLIBDIR', True)
++        opkg_dir = os.path.join(opkg_lib_dir, 'opkg')
++        self._setup_dbg_rootfs(['/etc', opkg_dir, '/usr/lib/ssl'])
+ 
+         execute_pre_post_process(self.d, opkg_post_process_cmds)
+ 
 -- 
-2.7.4
+2.12.0
 
 
