@@ -1,32 +1,45 @@
-Return-Path: <rpjday@crashcourse.ca>
-Received: from smtp484.redcondor.net (smtp484.redcondor.net [208.80.204.84])
-	by mail.openembedded.org (Postfix) with ESMTP id 1CC9171ABD
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wm0-f51.google.com (mail-wm0-f51.google.com [74.125.82.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 5A13C72F11
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Mar 2017 09:52:40 +0000 (UTC)
-Received: from astoria.ccjclearline.com ([64.235.106.9])
-	by smtp484.redcondor.net ({c48374e7-08df-40d9-a0de-96cc9883a037})
-	via TCP (outbound) with ESMTPS id 20170323095239722_0484;
-	Thu, 23 Mar 2017 09:52:39 +0000
-X-RC-FROM: <rpjday@crashcourse.ca>
-Received: from [216.191.234.70] (port=45343 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
-	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1cqzQ0-0002jG-Tj; Thu, 23 Mar 2017 05:52:33 -0400
-Date: Thu, 23 Mar 2017 05:52:30 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@uk63952.mitel.com
-To: Mark Hatle <mark.hatle@windriver.com>
-In-Reply-To: <9fff31b3-2d67-0bed-b5c3-7b6d60cb4d5f@windriver.com>
-Message-ID: <alpine.LFD.2.20.1703230552170.31066@uk63952.mitel.com>
-References: <alpine.LFD.2.20.1703220648410.15178@uk63952.mitel.com>
-	<CAJTo0LbY4m=t5wzMnoOJxd0EuA+mVai6kovk7YRfZYPT_ymnLw@mail.gmail.com>
-	<alpine.LFD.2.20.1703220701350.15389@uk63952.mitel.com>
-	<9fff31b3-2d67-0bed-b5c3-7b6d60cb4d5f@windriver.com>
-User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
-MIME-Version: 1.0
-X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: possible content for site.conf?
+	Thu, 23 Mar 2017 10:34:17 +0000 (UTC)
+Received: by mail-wm0-f51.google.com with SMTP id t189so59004528wmt.1
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 23 Mar 2017 03:34:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:subject:date:message-id;
+	bh=PvpG1BOZl20hDHe0a4nGlYjkd4MXVi4yN4dHEXAW3as=;
+	b=XKIThzqi06FhDDF5D1tFQuCOXDcJe8Ji2dMu/cNqOnVXCMS9MtNHDgHVrD0xncmziN
+	ALNooiSsosVelFwADful7RyaCNlszGKP7nVQW9/jUaJXNJX4/uAiOx8TdpeLDVHhPiDq
+	gH9W2+TL5U7b3TOuhvAt+2LkLf8bfUNAiCjeH2Y5aZpEEQ2+BkYxgnnkE1GqcO2y2VoR
+	vxykDsElMA5Dn/rZW6k2e/DpFA9SWT5o9xv7YLX/gOX5RpPUa5AQvYRDgQU3M9Ltl5fz
+	ZjNequzxQXmkZ7WKOzUavo628mRWk+Y72ysb1Hapeaq2QhgBaq64HxIIh5NsSf8Yeeds
+	1vfg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=PvpG1BOZl20hDHe0a4nGlYjkd4MXVi4yN4dHEXAW3as=;
+	b=HSDRh3XxfcE1sA00+f0t7upylrD1HYLkdlzYrdLxKH3qDP+uCIZFlYGqiZRWX3j47n
+	8dW8rCBLQJkx+16CHiPeGdPurgTNAxBvjnCAtAOZrtS5TnL/hexIXGR0CiAkUo57dRq0
+	w/4PDY/AXFhUILYpIhtTD9FYIcbyFWk6P8qiAqrc15B2VZOBX63GA+Pw7NWDJhm+DCG/
+	5QM+khy+jwSTFxclGgkrotp0iggOOhP3PZXEQC6x3aA8hdXLrKANw+Pa7XR3Y2No36vd
+	0C0Bvt2ii8WKXp92bkVgCFchsvIAXB6ouy4HLTWUJwUeH0rPdjrjvKJqnuaORzCD4P1C
+	pO7Q==
+X-Gm-Message-State: AFeK/H061DZWKxPfjtkFTbOGOB4k36CJebv36q/UNLpAd7JeCPXft/DuWlXyTxsgPZHLbA==
+X-Received: by 10.28.136.204 with SMTP id k195mr1994008wmd.99.1490265258907;
+	Thu, 23 Mar 2017 03:34:18 -0700 (PDT)
+Received: from localhost ([217.30.68.212]) by smtp.gmail.com with ESMTPSA id
+	w10sm3819048wmw.14.2017.03.23.03.34.18
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 23 Mar 2017 03:34:18 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 23 Mar 2017 11:34:21 +0100
+Message-Id: <cover.1490265213.git.Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.12.0
+Subject: [PATCH 0/2] Debugfs fixes with different than default OPKGLIBDIR
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,49 +52,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Mar 2017 09:52:42 -0000
-Content-Type: text/plain; charset=US-ASCII
+X-List-Received-Date: Thu, 23 Mar 2017 10:34:18 -0000
 
-On Thu, 23 Mar 2017, Mark Hatle wrote:
+The following changes since commit d1d55041e38b12d40f896834b56475ea19a6047f:
 
-> On 3/22/17 7:02 PM, Robert P. J. Day wrote:
-> > On Wed, 22 Mar 2017, Burton, Ross wrote:
-> >
-> >>
-> >> On 22 March 2017 at 10:51, Robert P. J. Day <rpjday@crashcourse.ca> wrote:
-> >>         from site.conf.sample, the obvious content is things like:
-> >>
-> >>       * download dir
-> >>       * reference to local (in-house) source mirror
-> >>       * http proxies/fetching configuration
-> >>
-> >>       and so on. any other things people throw into site.conf i can just add
-> >>       to a list so readers can understand what that file is truly designed
-> >>       for?
-> >>
-> >>
-> >> That's pretty much the expected use.
-> >
-> >   i thought so ... i wracked my brain trying to think what else
-> > belonged in there, and that's all i came up with. thanks.
->
-> I have seen people do some blacklist entries here (or preferred
-> version) when they have a company policy not to use certain
-> software.  (Similarly a site wide PACKAGECONFIG to disable a feature
-> that isn't allowed.)
+  sstate: Ensure installation directory is empty before execution (2017-03-22 10:12:10 +0000)
 
-  ah, yes, good points, thanks.
+are available in the git repository at:
 
-rday
+  git://git.openembedded.org/openembedded-core-contrib jansa/master-rootfs-fix
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=jansa/master-rootfs-fix
+
+Martin Jansa (2):
+  rootfs.py: Respect OPKGLIBDIR variable
+  package_manager.py: respect OPKGLIBDIR
+
+ meta/lib/oe/package_manager.py | 21 ++++++++++++++-------
+ meta/lib/oe/rootfs.py          |  4 +++-
+ 2 files changed, 17 insertions(+), 8 deletions(-)
 
 -- 
-
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
+2.12.0
 
 
