@@ -1,47 +1,48 @@
-Return-Path: <daniel.diaz@linaro.org>
-Received: from mail-ot0-f171.google.com (mail-ot0-f171.google.com
-	[74.125.82.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 50FB273081
+Return-Path: <vedang.patel@intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id D3E8672F74
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Mar 2017 21:35:17 +0000 (UTC)
-Received: by mail-ot0-f171.google.com with SMTP id a5so4747601oth.1
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Mar 2017 14:35:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=sgCVTl3ua68T8HxLfMYi19L509Jh2XYlHcm8lrpwfZQ=;
-	b=V2kXesHOAOm6IWuifGKHr4wy9adsnyi7STi8LQIScWiWcOB+YpeqjLuIfxwBWFiXQd
-	9rzqLGJqkmijnKSXetw44CC1a6qUeZD2+lG0i0QxL3fuwBKKO4HqrLH5VIElC7l5bc+Y
-	LvrDgFIvLoUna91/WfKz5/mBJ/L6Qe75SNdPQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=sgCVTl3ua68T8HxLfMYi19L509Jh2XYlHcm8lrpwfZQ=;
-	b=fA+lNmHr45PxoEBgP0UdxoQb2OFqE2aet+rIVIkcyPB32c/QyLKv63X9df9vgeIJTv
-	4ZjxKKEGHC9nWzs3TIAuqksxs18AqZtF1hmNGC3XTd3ZUXY+y8Tf3xEFU11raksu9M3C
-	B/WagCgVPCRORJpgWSxrel0odPZSot3TsC3jPRFX55+lJX5j++lqsWjNBvqnQGocwOV1
-	SN4pybIxLDX3cTsJWSW9mV4W2e0QKzBNeq1v1+PSCMIL5vaAfDkYXSaqYXQb30Oq2NPe
-	SRmsUO+tZmkHd4dOHNPQbtb0mWDkMRwcgkzHANlzqQxeYQplxwLDQArSCKx/eavCFp/2
-	NCJA==
-X-Gm-Message-State: AFeK/H0Tx3LI3NEFaYm2D6dugH95/AJX6BCOJRSDeNb9mSDa7K8a8h65SEW12HYuzy7H/zQR
-X-Received: by 10.157.54.210 with SMTP id s18mr2833938otd.245.1490304918309;
-	Thu, 23 Mar 2017 14:35:18 -0700 (PDT)
-Received: from aura.cortijodelrio.net
-	(CableLink67-82.telefonia.InterCable.net. [201.172.67.82])
-	by smtp.googlemail.com with ESMTPSA id
-	r130sm142321oif.20.2017.03.23.14.35.17
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 23 Mar 2017 14:35:17 -0700 (PDT)
-From: =?UTF-8?q?Daniel=20D=C3=ADaz?= <daniel.diaz@linaro.org>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 23 Mar 2017 15:34:44 -0600
-Message-Id: <1490304884-32402-1-git-send-email-daniel.diaz@linaro.org>
-X-Mailer: git-send-email 1.9.1
+	Thu, 23 Mar 2017 21:56:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+	d=intel.com; i=@intel.com; q=dns/txt; s=intel;
+	t=1490306210; x=1521842210;
+	h=from:to:subject:date:message-id:references:in-reply-to:
+	content-id:content-transfer-encoding:mime-version;
+	bh=XC7WZGNwoyH4HZTdL6urct2Ia2GplbrEC5xwi6fveAw=;
+	b=Pyp6tmi9mii4KV1crGz+ktWkJTPSagpVB3t6E1lCpkl9oPyKkdKaxNPQ
+	HtDTT59USUuey8qhGvQGFu+u2R6aMg==;
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	23 Mar 2017 14:56:49 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.36,211,1486454400"; d="scan'208";a="64295545"
+Received: from orsmsx108.amr.corp.intel.com ([10.22.240.6])
+	by orsmga002.jf.intel.com with ESMTP; 23 Mar 2017 14:56:48 -0700
+Received: from orsmsx116.amr.corp.intel.com (10.22.240.14) by
+	ORSMSX108.amr.corp.intel.com (10.22.240.6) with Microsoft SMTP Server
+	(TLS) id 14.3.319.2; Thu, 23 Mar 2017 14:56:46 -0700
+Received: from orsmsx115.amr.corp.intel.com ([169.254.4.44]) by
+	ORSMSX116.amr.corp.intel.com ([10.22.240.14]) with mapi id
+	14.03.0319.002; Thu, 23 Mar 2017 14:56:46 -0700
+From: "Patel, Vedang" <vedang.patel@intel.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>, "randy.e.witt@linux.intel.com"
+	<randy.e.witt@linux.intel.com>
+Thread-Topic: [OE-core] [PATCH v2] libxslt: Add PACKAGECONFIG support for
+	python
+Thread-Index: AQHSo3GwDNER4RqNLECmjeNJDpV9dqGjTTEAgAAh/YA=
+Date: Thu, 23 Mar 2017 21:56:45 +0000
+Message-ID: <1490306205.12818.5.camel@intel.com>
+References: <1490225634.15509.40.camel@intel.com>
+	<1490231158-6151-1-git-send-email-vedang.patel@intel.com>
+	<ee7db60c-985e-49a5-8e64-0632e40d2db2@linux.intel.com>
+In-Reply-To: <ee7db60c-985e-49a5-8e64-0632e40d2db2@linux.intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.7.159.64]
 MIME-Version: 1.0
-Cc: Koen Kooi <koen.kooi@linaro.org>
-Subject: [PATCH v2] base-files: resize only serial tty's in profile
+Subject: Re: [PATCH v2] libxslt: Add PACKAGECONFIG support for python
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,43 +55,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Mar 2017 21:35:18 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 23 Mar 2017 21:56:50 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <F6F1BC96B48DB14B8704404FD7BC2AF5@intel.com>
+Content-Transfer-Encoding: base64
 
-We don't want to run resize on non serial consoles. There's
-been an earlier attempt (6557787), so this builds upon that.
-
-The problem we're seeing is that if there is text buffered in
-the virtual console (like from a desperate user trying to
-enter login details), resize will get stuck while calling
-  ioctl(tty, TCSETAW);
-
-Since serial consoles are named (not just numbered), this
-change limits resize's reach even further to run only on
-/dev/tty[A-z] (thus avoiding /dev/tty[0-9]).
-
-Signed-off-by: Daniel Díaz <daniel.diaz@linaro.org>
----
-v2: Rationale behind this patch, no functional change.
-
- meta/recipes-core/base-files/base-files/profile | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/recipes-core/base-files/base-files/profile b/meta/recipes-core/base-files/base-files/profile
-index 7367fd1..c616616 100644
---- a/meta/recipes-core/base-files/base-files/profile
-+++ b/meta/recipes-core/base-files/base-files/profile
-@@ -26,7 +26,7 @@ if [ -x /usr/bin/resize ] && termpath="`tty`"; then
-   # Make sure we are on a serial console (i.e. the device used starts with /dev/tty),
-   # otherwise we confuse e.g. the eclipse launcher which tries do use ssh
-   case "$termpath" in
--  /dev/tty*) resize >/dev/null
-+  /dev/tty[A-z]*) resize >/dev/null
-   esac
- fi
- 
--- 
-1.9.1
-
+T24gVGh1LCAyMDE3LTAzLTIzIGF0IDEyOjU1IC0wNzAwLCBSYW5keSBXaXR0IHdyb3RlOg0KPiBI
+aSBQYXRlbCwNCj4gDQo+IE9uIDAzLzIyLzIwMTcgMDY6MDUgUE0sIFZlZGFuZyBQYXRlbCB3cm90
+ZToNCj4gPiANCj4gPiBBZGQgc3VwcG9ydCB0byBlbmFibGUgcHl0aG9uIGJpbmRpbmdzIGZvciBs
+aWJ4c2x0IHVzaW5nDQo+ID4gUEFDS0FHRUNPTkZJRy4NCj4gPiBUaGlzIHdpbGwgaW5jbHVkZSAt
+LXdpdGgtcHl0aG9uIGFyZ3VtZW50IHdoaWxlIGNvbXBpbGluZyB0aGUNCj4gPiBwYWNrYWdlLg0K
+PiA+IFRoZSBzdXBwb3J0IGlzIGRpc2FibGVkIGJ5IGRlZmF1bHQuDQo+ID4gDQo+ID4gU2lnbmVk
+LW9mZi1ieTogVmVkYW5nIFBhdGVsIDx2ZWRhbmcucGF0ZWxAaW50ZWwuY29tPg0KPiA+IC0tLQ0K
+PiA+IMKgbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGlieHNsdC9saWJ4c2x0XzEuMS4yOS5iYiB8IDYg
+KysrKy0tDQo+ID4gwqAxIGZpbGUgY2hhbmdlZCwgNCBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9u
+cygtKQ0KPiA+IA0KPiA+IGRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJ4c2x0
+L2xpYnhzbHRfMS4xLjI5LmJiDQo+ID4gYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJ4c2x0L2xp
+YnhzbHRfMS4xLjI5LmJiDQo+ID4gaW5kZXggYmU3NDdlNjA4ZDlkLi4xZTAwMzA2MjA3YzUgMTAw
+NjQ0DQo+ID4gLS0tIGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGlieHNsdC9saWJ4c2x0XzEuMS4y
+OS5iYg0KPiA+ICsrKyBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYnhzbHQvbGlieHNsdF8xLjEu
+MjkuYmINCj4gPiBAQCAtMjIsNyArMjIsNyBAQCBTID0gIiR7V09SS0RJUn0vbGlieHNsdC0ke1BW
+fSINCj4gPiANCj4gPiDCoEJJTkNPTkZJRyA9ICIke2JpbmRpcn0veHNsdC1jb25maWciDQo+ID4g
+DQo+ID4gLWluaGVyaXQgYXV0b3Rvb2xzIHBrZ2NvbmZpZyBiaW5jb25maWctZGlzYWJsZWQgbGli
+X3BhY2thZ2UNCj4gPiAraW5oZXJpdCBhdXRvdG9vbHMgcGtnY29uZmlnIGJpbmNvbmZpZy1kaXNh
+YmxlZCBsaWJfcGFja2FnZQ0KPiA+IGRpc3R1dGlscy1jb21tb24tYmFzZQ0KPiA+IA0KPiA+IMKg
+IyBXZSBkb24ndCBERVBFTkQgb24gYmludXRpbHMgZm9yIGFuc2lkZWNsLmggc28gZW5zdXJlIHdl
+IGRvbid0DQo+ID4gdXNlIHRoZSBoZWFkZXINCj4gPiDCoGRvX2NvbmZpZ3VyZV9wcmVwZW5kICgp
+IHsNCj4gPiBAQCAtMzMsNyArMzMsOSBAQCBkb19jb25maWd1cmVfcHJlcGVuZCAoKSB7DQo+ID4g
+wqAJdG91Y2ggJHtTfS9kb2MveHNsdHByb2MuMQ0KPiA+IMKgfQ0KPiA+IA0KPiA+IC1FWFRSQV9P
+RUNPTkYgPSAiLS13aXRob3V0LXB5dGhvbiAtLXdpdGhvdXQtZGVidWcgLS13aXRob3V0LW1lbS0N
+Cj4gPiBkZWJ1ZyAtLXdpdGhvdXQtY3J5cHRvIg0KPiA+ICtFWFRSQV9PRUNPTkYgPSAiLS13aXRo
+b3V0LWRlYnVnIC0td2l0aG91dC1tZW0tZGVidWcgLS13aXRob3V0LQ0KPiA+IGNyeXB0byINCj4g
+PiArUEFDS0FHRUNPTkZJR1tsaWJ4c2x0LXB5dGhvbl0gPSAiLS13aXRoLQ0KPiA+IHB5dGhvbj0k
+e1BZVEhPTl9CQVNFX1ZFUlNJT059LCAtLXdpdGhvdXQtcHl0aG9uIg0KPiA+ICsNCj4gWW91IGtl
+cHQgImxpYnhzbHQtcHl0aG9uIiwgYW5kIEkgdGhpbmsgeW91IG1lYW50IHRvIGNoYW5nZSBpdCB0
+bw0KPiAicHl0aG9uIi4NCj4gDQpZZWFoIEkgdG90YWxseSBtaXNzZWQgdGhhdC4uLiBXaWxsIGZp
+eCBpdCBpbiB0aGUgbmV4dCB2ZXJzaW9uLg0KDQotVmVkYW5nDQo+ID4gDQo+ID4gwqAjIG9sZGVy
+IHZlcnNpb25zIG9mIHRoaXMgcmVjaXBlIGhhZCAke1BOfS11dGlscw0KPiA+IMKgUlBST1ZJREVT
+XyR7UE59LWJpbiArPSAiJHtQTn0tdXRpbHMiDQo+ID4gwqBSQ09ORkxJQ1RTXyR7UE59LWJpbiAr
+PSAiJHtQTn0tdXRpbHMiDQo+ID4g
 
