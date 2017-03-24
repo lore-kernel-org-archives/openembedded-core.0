@@ -1,26 +1,17 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id A57D577BA4
+Return-Path: <romain.perier@collabora.com>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+	by mail.openembedded.org (Postfix) with ESMTP id 1429977BAD
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Mar 2017 08:45:08 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v2O8j8Bm009590
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Mar 2017 01:45:09 -0700
-Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
-	Fri, 24 Mar 2017 01:45:07 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 24 Mar 2017 01:45:02 -0700
-Message-ID: <fe13db1c6fe5e550a2959ab3b129e6b06191efd2.1490343063.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 2.9.0
-In-Reply-To: <cover.1490343063.git.liezhi.yang@windriver.com>
-References: <cover.1490343063.git.liezhi.yang@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 4/4] targetcontrol.py: use logger.info to replace of bb.note
+	Fri, 24 Mar 2017 08:46:10 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(Authenticated sender: rperier) with ESMTPSA id ED52F265AAC
+From: Romain Perier <romain.perier@collabora.com>
+To: liezhi.yang@windriver.com
+Date: Fri, 24 Mar 2017 09:46:04 +0100
+Message-Id: <20170324084604.10391-1-romain.perier@collabora.com>
+X-Mailer: git-send-email 2.9.3
+Cc: yocto@yoctoproject.org, openembedded-core@lists.openembedded.org
+Subject: [PATCH v2] logrotate: Add systemd support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,113 +24,109 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Mar 2017 08:45:08 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 24 Mar 2017 08:46:11 -0000
 
-The bb.note prints multiple same lines when invoke this class again, but
-if we set mainlogger.propagate = False, nothing would be printed,
-according to logging's document:
+Currently, this recipe only supports daily scheduling via a cron job.
+This commit adds support for systemd, including systemd service and
+systemd timer. When the corresponding distro feature is enabled the
+systemd variant will be used. The timer granularity and its accuracy
+are also configurable.
 
-https://docs.python.org/3/library/logging.html
-Note
-If you attach a handler to a logger and one or more of its ancestors, it
-may emit the same record multiple times. In general, you should not need
-to attach a handler to more than one logger - if you just attach it to
-the appropriate logger which is highest in the logger hierarchy, then it
-will see all events logged by all descendant loggers, provided that
-their propagate setting is left set to True. A common scenario is to
-attach handlers only to the root logger, and to let propagation take
-care of the rest.
-
-We may need avoid using bb.note or bb.warn in oeqa since it attaches
-multiple log handlers which may cause confusions
-
-This patch only sets "mainlogger.propagate = False" in
-selftest/runqemu.py and use logger.info to replace bb.note in
-targetcontrol.py to minimize the impact.
-
-[YOCTO #10249]
-
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+Signed-off-by: Romain Perier <romain.perier@collabora.com>
 ---
- meta/lib/oeqa/selftest/runqemu.py |  4 ++++
- meta/lib/oeqa/targetcontrol.py    | 13 +++++++------
- 2 files changed, 11 insertions(+), 6 deletions(-)
 
-diff --git a/meta/lib/oeqa/selftest/runqemu.py b/meta/lib/oeqa/selftest/runqemu.py
-index c1d5c16..58c6f96 100644
---- a/meta/lib/oeqa/selftest/runqemu.py
-+++ b/meta/lib/oeqa/selftest/runqemu.py
-@@ -21,6 +21,10 @@ class RunqemuTests(oeSelfTest):
-         self.fstypes = "ext4 iso hddimg vmdk qcow2 vdi"
-         self.cmd_common = "runqemu nographic"
- 
-+        # Avoid emit the same record multiple times.
-+        mainlogger = logging.getLogger("BitBake.Main")
-+        mainlogger.propagate = False
+Changes in v2:
+- Make the systemd timer configurable (as this is distribution or target specific)
+
+ .../logrotate/logrotate/logrotate.service          |  9 ++++++++
+ .../logrotate/logrotate/logrotate.timer            |  7 ++++++
+ meta/recipes-extended/logrotate/logrotate_3.9.1.bb | 27 ++++++++++++++++++++--
+ 3 files changed, 41 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-extended/logrotate/logrotate/logrotate.service
+ create mode 100644 meta/recipes-extended/logrotate/logrotate/logrotate.timer
+
+diff --git a/meta/recipes-extended/logrotate/logrotate/logrotate.service b/meta/recipes-extended/logrotate/logrotate/logrotate.service
+new file mode 100644
+index 0000000..3edb8ef
+--- /dev/null
++++ b/meta/recipes-extended/logrotate/logrotate/logrotate.service
+@@ -0,0 +1,9 @@
++[Unit]
++Description=Rotate log files
 +
-         self.write_config(
- """
- MACHINE = "%s"
-diff --git a/meta/lib/oeqa/targetcontrol.py b/meta/lib/oeqa/targetcontrol.py
-index 8d11cf0..82aaf2f 100644
---- a/meta/lib/oeqa/targetcontrol.py
-+++ b/meta/lib/oeqa/targetcontrol.py
-@@ -18,6 +18,8 @@ from oeqa.utils.dump import TargetDumper
- from oeqa.controllers.testtargetloader import TestTargetLoader
- from abc import ABCMeta, abstractmethod
- 
-+logger = logging.getLogger('BitBake.QemuRunner')
++[Service]
++Type=oneshot
++ExecStart=/usr/sbin/logrotate /etc/logrotate.conf
++Nice=19
++IOSchedulingClass=best-effort
++IOSchedulingPriority=7
+diff --git a/meta/recipes-extended/logrotate/logrotate/logrotate.timer b/meta/recipes-extended/logrotate/logrotate/logrotate.timer
+new file mode 100644
+index 0000000..c616b43
+--- /dev/null
++++ b/meta/recipes-extended/logrotate/logrotate/logrotate.timer
+@@ -0,0 +1,7 @@
++[Unit]
++Description=Daily rotation of log files
 +
- def get_target_controller(d):
-     testtarget = d.getVar("TEST_TARGET")
-     # old, simple names
-@@ -63,7 +65,7 @@ class BaseTarget(object, metaclass=ABCMeta):
-         if os.path.islink(sshloglink):
-             os.unlink(sshloglink)
-         os.symlink(self.sshlog, sshloglink)
--        bb.note("SSH log file: %s" %  self.sshlog)
-+        logger.info("SSH log file: %s" %  self.sshlog)
++[Timer]
++OnCalendar=@TIMER_BASIS@
++AccuracySec=@TIMER_ACCURACY@
++Persistent=true
+diff --git a/meta/recipes-extended/logrotate/logrotate_3.9.1.bb b/meta/recipes-extended/logrotate/logrotate_3.9.1.bb
+index 5f1a601..6953996 100644
+--- a/meta/recipes-extended/logrotate/logrotate_3.9.1.bb
++++ b/meta/recipes-extended/logrotate/logrotate_3.9.1.bb
+@@ -14,6 +14,8 @@ SRC_URI = "https://fedorahosted.org/releases/l/o/logrotate/logrotate-${PV}.tar.g
+            file://act-as-mv-when-rotate.patch \
+            file://update-the-manual.patch \
+            file://disable-check-different-filesystems.patch \
++           ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'file://logrotate.service', '', d)} \
++           ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'file://logrotate.timer', '', d)} \
+             "
  
-     @abstractmethod
-     def start(self, params=None, ssh=True, extra_bootparams=None):
-@@ -140,7 +142,6 @@ class QemuTarget(BaseTarget):
-         import oe.path
-         bb.utils.mkdirhier(self.testdir)
-         self.qemurunnerlog = os.path.join(self.testdir, 'qemurunner_log.%s' % self.datetime)
--        logger = logging.getLogger('BitBake.QemuRunner')
-         loggerhandler = logging.FileHandler(self.qemurunnerlog)
-         loggerhandler.setFormatter(logging.Formatter("%(levelname)s: %(message)s"))
-         logger.addHandler(loggerhandler)
-@@ -177,8 +178,8 @@ class QemuTarget(BaseTarget):
-             os.unlink(qemuloglink)
-         os.symlink(self.qemulog, qemuloglink)
+ SRC_URI[md5sum] = "4492b145b6d542e4a2f41e77fa199ab0"
+@@ -47,6 +49,17 @@ EXTRA_OEMAKE = "\
+ # INSTALL=install and BASEDIR=/usr.
+ OS_NAME = "Linux"
  
--        bb.note("rootfs file: %s" %  self.rootfs)
--        bb.note("Qemu log file: %s" % self.qemulog)
-+        logger.info("rootfs file: %s" %  self.rootfs)
-+        logger.info("Qemu log file: %s" % self.qemulog)
-         super(QemuTarget, self).deploy()
- 
-     def start(self, params=None, ssh=True, extra_bootparams='', runqemuparams='', launch_cmd=''):
-@@ -230,14 +231,14 @@ class SimpleRemoteTarget(BaseTarget):
-             self.port = addr.split(":")[1]
-         except IndexError:
-             self.port = None
--        bb.note("Target IP: %s" % self.ip)
-+        logger.info("Target IP: %s" % self.ip)
-         self.server_ip = d.getVar("TEST_SERVER_IP")
-         if not self.server_ip:
-             try:
-                 self.server_ip = subprocess.check_output(['ip', 'route', 'get', self.ip ]).split("\n")[0].split()[-1]
-             except Exception as e:
-                 bb.fatal("Failed to determine the host IP address (alternatively you can set TEST_SERVER_IP with the IP address of this machine): %s" % e)
--        bb.note("Server IP: %s" % self.server_ip)
-+        logger.info("Server IP: %s" % self.server_ip)
- 
-     def deploy(self):
-         super(SimpleRemoteTarget, self).deploy()
++inherit systemd
++
++SYSTEMD_AUTO_ENABLE = "disable"
++SYSTEMD_SERVICE_${PN} = "\
++    ${PN}.service \
++    ${PN}.timer \
++"
++
++LOGROTATE_SYSTEMD_TIMER_BASIS ?= "daily"
++LOGROTATE_SYSTEMD_TIMER_ACCURACY ?= "12h"
++
+ do_compile_prepend() {
+     # Make sure the recompile is OK
+     rm -f ${B}/.depend
+@@ -55,9 +68,19 @@ do_compile_prepend() {
+ do_install(){
+     oe_runmake install DESTDIR=${D} PREFIX=${D} MANDIR=${mandir}
+     mkdir -p ${D}${sysconfdir}/logrotate.d
+-    mkdir -p ${D}${sysconfdir}/cron.daily
+     mkdir -p ${D}${localstatedir}/lib
+     install -p -m 644 examples/logrotate-default ${D}${sysconfdir}/logrotate.conf
+-    install -p -m 755 examples/logrotate.cron ${D}${sysconfdir}/cron.daily/logrotate
+     touch ${D}${localstatedir}/lib/logrotate.status
++
++    # Install systemd unit files
++    if [ "${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'systemd', '', d)}" = "systemd" ]; then
++        install -d ${D}/${systemd_system_unitdir}
++        install -m 0644 ${WORKDIR}/logrotate.service ${D}/${systemd_system_unitdir}/logrotate.service
++        install -m 0644 ${WORKDIR}/logrotate.timer ${D}/${systemd_system_unitdir}/logrotate.timer
++        sed -i -e 's,@TIMER_BASIS@,${LOGROTATE_SYSTEMD_TIMER_BASIS},g' ${D}${systemd_system_unitdir}/logrotate.timer
++        sed -i -e 's,@TIMER_ACCURACY@,${LOGROTATE_SYSTEMD_TIMER_ACCURACY},g' ${D}${systemd_system_unitdir}/logrotate.timer
++    else
++        mkdir -p ${D}${sysconfdir}/cron.daily
++        install -p -m 0755 examples/logrotate.cron ${D}${sysconfdir}/cron.daily/logrotate
++    fi
+ }
 -- 
-2.9.0
+1.8.3.1
 
 
