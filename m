@@ -1,24 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 3060477BA1
+	by mail.openembedded.org (Postfix) with ESMTP id 4D55277BA4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Mar 2017 08:45:05 +0000 (UTC)
+	Fri, 24 Mar 2017 08:45:06 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v2O8j3cn005494
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v2O8j7XF005497
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Mar 2017 01:45:03 -0700 (PDT)
+	Fri, 24 Mar 2017 01:45:07 -0700 (PDT)
 Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
-	Fri, 24 Mar 2017 01:45:02 -0700
+	Fri, 24 Mar 2017 01:45:06 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 24 Mar 2017 01:44:58 -0700
-Message-ID: <cover.1490343063.git.liezhi.yang@windriver.com>
+Date: Fri, 24 Mar 2017 01:45:01 -0700
+Message-ID: <08256d39d329de1dba672a8cf583e308e2606b46.1490343063.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.9.0
+In-Reply-To: <cover.1490343063.git.liezhi.yang@windriver.com>
+References: <cover.1490343063.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/4 V2] runqemu: add selftest
+Subject: [PATCH 3/4] selftest/runqemu.py: add it to test runqemu
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,35 +36,179 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Fri, 24 Mar 2017 08:45:06 -0000
 Content-Type: text/plain
 
-* V2
-  Add Qi's patch to fix hang of "oe-selftest -r wic.Wic.test_qemu_efi".
+Usage:
+$ oe-selftest -r runqemu
 
-// Robert
+Current test cases:
+$ runqemu nographic qemux86-64
+$ runqemu nographic qemux86-64 ext4
+$ runqemu nographic qemux86-64 iso
+$ runqemu nographic core-image-minimal
+$ runqemu nographic core-image-minimal vmdk
+$ runqemu nographic core-image-minimal vdi
+$ runqemu nographic tmp/deploy/images/qemux86-64
+$ runqemu nographic tmp/deploy/images/qemux86-64 hddimg
+$ runqemu nographic qemux86-64 slirp
+$ runqemu nographic qemux86-64 slirp qcow2
+$ runqemu nographic tmp/deploy/images/qemux86-64/core-image-minimal-qemux86-64.qemuboot.conf
+$ runqemu nographic tmp/deploy/images/qemux86-64/core-image-minimal-qemux86-64.ext4
 
-The following changes since commit 3b5ac72bdf76ac8ff98dc3c882a4edc77c6e2c33:
+Need more later:
+- Test initramfs
+- Test nfs
+- Test when set DEPLOY_DIR_IMAGE and OECORE_NATIVE_SYSROOT
+- And others which similate runqemu runs on SDK and eSDK.
 
-  rpm: add a "rpm-build" PROVIDES (2017-03-22 15:09:26 +0000)
+[YOCTO #10249]
 
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib rbt/qemu
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=rbt/qemu
-
-Chen Qi (1):
-  qemurunner.py: fix handling of runqemuparams
-
-Robert Yang (3):
-  oeqa/targetcontrol.py: modify it to test runqemu
-  selftest/runqemu.py: add it to test runqemu
-  targetcontrol.py: use logger.info to replace of bb.note
-
- meta/lib/oeqa/selftest/runqemu.py | 140 ++++++++++++++++++++++++++++++++++++++
- meta/lib/oeqa/targetcontrol.py    |  33 ++++++---
- meta/lib/oeqa/utils/commands.py   |  13 +++-
- meta/lib/oeqa/utils/qemurunner.py |  28 +++++---
- 4 files changed, 190 insertions(+), 24 deletions(-)
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
+ meta/lib/oeqa/selftest/runqemu.py | 136 ++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 136 insertions(+)
  create mode 100644 meta/lib/oeqa/selftest/runqemu.py
 
+diff --git a/meta/lib/oeqa/selftest/runqemu.py b/meta/lib/oeqa/selftest/runqemu.py
+new file mode 100644
+index 0000000..c1d5c16
+--- /dev/null
++++ b/meta/lib/oeqa/selftest/runqemu.py
+@@ -0,0 +1,136 @@
++#
++# Copyright (c) 2017 Wind River Systems, Inc.
++#
++
++import re
++import logging
++
++from oeqa.selftest.base import oeSelfTest
++from oeqa.utils.commands import bitbake, runqemu, get_bb_var
++from oeqa.utils.decorators import testcase
++
++class RunqemuTests(oeSelfTest):
++    """Runqemu test class"""
++
++    image_is_ready = False
++    deploy_dir_image = ''
++
++    def setUpLocal(self):
++        self.recipe = 'core-image-minimal'
++        self.machine =  'qemux86-64'
++        self.fstypes = "ext4 iso hddimg vmdk qcow2 vdi"
++        self.cmd_common = "runqemu nographic"
++
++        self.write_config(
++"""
++MACHINE = "%s"
++IMAGE_FSTYPES = "%s"
++# 10 means 1 second
++SYSLINUX_TIMEOUT = "10"
++"""
++% (self.machine, self.fstypes)
++        )
++
++        if not RunqemuTests.image_is_ready:
++            RunqemuTests.deploy_dir_image = get_bb_var('DEPLOY_DIR_IMAGE')
++            bitbake(self.recipe)
++            RunqemuTests.image_is_ready = True
++
++    @testcase(2001)
++    def test_boot_machine(self):
++        """Test runqemu machine"""
++        cmd = "%s %s" % (self.cmd_common, self.machine)
++        with runqemu(self.recipe, ssh=False, launch_cmd=cmd) as qemu:
++            self.assertTrue(qemu.runner.logged, "Failed: %s" % cmd)
++
++    @testcase(2002)
++    def test_boot_machine_ext4(self):
++        """Test runqemu machine ext4"""
++        cmd = "%s %s ext4" % (self.cmd_common, self.machine)
++        with runqemu(self.recipe, ssh=False, launch_cmd=cmd) as qemu:
++            with open(qemu.qemurunnerlog) as f:
++                self.assertTrue('rootfs.ext4' in f.read(), "Failed: %s" % cmd)
++
++    @testcase(2003)
++    def test_boot_machine_iso(self):
++        """Test runqemu machine iso"""
++        cmd = "%s %s iso" % (self.cmd_common, self.machine)
++        with runqemu(self.recipe, ssh=False, launch_cmd=cmd) as qemu:
++            with open(qemu.qemurunnerlog) as f:
++                self.assertTrue(' -cdrom ' in f.read(), "Failed: %s" % cmd)
++
++    @testcase(2004)
++    def test_boot_recipe_image(self):
++        """Test runqemu recipe-image"""
++        cmd = "%s %s" % (self.cmd_common, self.recipe)
++        with runqemu(self.recipe, ssh=False, launch_cmd=cmd) as qemu:
++            self.assertTrue(qemu.runner.logged, "Failed: %s" % cmd)
++
++    @testcase(2005)
++    def test_boot_recipe_image_vmdk(self):
++        """Test runqemu recipe-image vmdk"""
++        cmd = "%s %s vmdk" % (self.cmd_common, self.recipe)
++        with runqemu(self.recipe, ssh=False, launch_cmd=cmd) as qemu:
++            with open(qemu.qemurunnerlog) as f:
++                self.assertTrue('format=vmdk' in f.read(), "Failed: %s" % cmd)
++
++    @testcase(2006)
++    def test_boot_recipe_image_vdi(self):
++        """Test runqemu recipe-image vdi"""
++        cmd = "%s %s vdi" % (self.cmd_common, self.recipe)
++        with runqemu(self.recipe, ssh=False, launch_cmd=cmd) as qemu:
++            with open(qemu.qemurunnerlog) as f:
++                self.assertTrue('format=vdi' in f.read(), "Failed: %s" % cmd)
++
++    @testcase(2007)
++    def test_boot_deploy(self):
++        """Test runqemu deploy_dir_image"""
++        cmd = "%s %s" % (self.cmd_common, self.deploy_dir_image)
++        with runqemu(self.recipe, ssh=False, launch_cmd=cmd) as qemu:
++            self.assertTrue(qemu.runner.logged, "Failed: %s" % cmd)
++
++    @testcase(2008)
++    def test_boot_deploy_hddimg(self):
++        """Test runqemu deploy_dir_image hddimg"""
++        cmd = "%s %s hddimg" % (self.cmd_common, self.deploy_dir_image)
++        with runqemu(self.recipe, ssh=False, launch_cmd=cmd) as qemu:
++            with open(qemu.qemurunnerlog) as f:
++                self.assertTrue(re.search('file=.*.hddimg', f.read()), "Failed: %s" % cmd)
++
++    @testcase(2009)
++    def test_boot_machine_slirp(self):
++        """Test runqemu machine slirp"""
++        cmd = "%s slirp %s" % (self.cmd_common, self.machine)
++        with runqemu(self.recipe, ssh=False, launch_cmd=cmd) as qemu:
++            with open(qemu.qemurunnerlog) as f:
++                self.assertTrue(' -netdev user' in f.read(), "Failed: %s" % cmd)
++
++    @testcase(2009)
++    def test_boot_machine_slirp_qcow2(self):
++        """Test runqemu machine slirp qcow2"""
++        cmd = "%s slirp qcow2 %s" % (self.cmd_common, self.machine)
++        with runqemu(self.recipe, ssh=False, launch_cmd=cmd) as qemu:
++            with open(qemu.qemurunnerlog) as f:
++                self.assertTrue('format=qcow2' in f.read(), "Failed: %s" % cmd)
++
++    @testcase(2010)
++    def test_boot_qemu_boot(self):
++        """Test runqemu /path/to/image.qemuboot.conf"""
++        qemuboot_conf = "%s-%s.qemuboot.conf" % (self.recipe, self.machine)
++        qemuboot_conf = os.path.join(self.deploy_dir_image, qemuboot_conf)
++        if not os.path.exists(qemuboot_conf):
++            self.skipTest("%s not found" % qemuboot_conf)
++        cmd = "%s %s" % (self.cmd_common, qemuboot_conf)
++        with runqemu(self.recipe, ssh=False, launch_cmd=cmd) as qemu:
++            self.assertTrue(qemu.runner.logged, "Failed: %s" % cmd)
++
++    @testcase(2011)
++    def test_boot_rootfs(self):
++        """Test runqemu /path/to/rootfs.ext4"""
++        rootfs = "%s-%s.ext4" % (self.recipe, self.machine)
++        rootfs = os.path.join(self.deploy_dir_image, rootfs)
++        if not os.path.exists(rootfs):
++            self.skipTest("%s not found" % rootfs)
++        cmd = "%s %s" % (self.cmd_common, rootfs)
++        with runqemu(self.recipe, ssh=False, launch_cmd=cmd) as qemu:
++            self.assertTrue(qemu.runner.logged, "Failed: %s" % cmd)
 -- 
 2.9.0
 
