@@ -1,30 +1,42 @@
-Return-Path: <ejo@pengutronix.de>
-Received: from metis.ext.4.pengutronix.de (metis.ext.4.pengutronix.de
-	[92.198.50.35])
-	by mail.openembedded.org (Postfix) with ESMTP id 7EBAF60079
+Return-Path: <cody@arrc.ou.edu>
+Received: from mail-ot0-f194.google.com (mail-ot0-f194.google.com
+	[74.125.82.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 44C5B77BB4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Mar 2017 14:01:00 +0000 (UTC)
-Received: from mango.hi.pengutronix.de ([2001:67c:670:100:76d4:35ff:fee8:98b3])
-	by metis.ext.pengutronix.de with esmtp (Exim 4.84_2)
-	(envelope-from <ejo@pengutronix.de>)
-	id 1crPm2-0008Tk-0a; Fri, 24 Mar 2017 15:01:02 +0100
-To: Daniel Schultz <d.schultz@phytec.de>
-References: <20170324111502.23474-1-ejo@pengutronix.de>
-	<d277a548-fc71-01a7-d995-1f9c9301db51@phytec.de>
-From: Enrico Joerns <ejo@pengutronix.de>
-Message-ID: <82c9bea8-d333-c1b8-638a-e24945af795b@pengutronix.de>
-Date: Fri, 24 Mar 2017 15:01:01 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Icedove/45.6.0
+	Fri, 24 Mar 2017 14:07:46 +0000 (UTC)
+Received: by mail-ot0-f194.google.com with SMTP id y88so400574ota.1
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 24 Mar 2017 07:07:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=arrc-ou-edu.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:from:date:message-id:subject:to;
+	bh=E11VfJVqyy1ZeTY+wwOqCbzBolyxMj6c65rAKLvxXO4=;
+	b=CDtkB4nbWX8Fx+x17LlvvGjiPys6oiL4qcVrYXG/8HeI3aW1v71FQFnZDk/xJ6Qy3f
+	VURgRhCH7KRU91kiFfTTVsNSZiT3BpszMngRBeLwEa09jeHEYag6dwCCZPSVHrvvzW9Z
+	BJXd5fjLzizlq49y7n9z29fZUVNBZPhFA056WfHxEMaQwqClEu9pql5cVfhfqGvACkaN
+	mYp9R86/Ozn7X0V6T7yNICrus5VJmV8jsvYBOvgjdsnHAJva14i+NChBncNGOcbJLKby
+	JrZbTNFpqbk6g9OmnE8VDr4V6Amo2OzKagouCOk+0m/FHGyJAhJAINUP/DsbszByZnJo
+	ExPg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+	bh=E11VfJVqyy1ZeTY+wwOqCbzBolyxMj6c65rAKLvxXO4=;
+	b=DOxN5kUbimprAi6igOJ3emQUT3IDf6P73Pi+hxywj0JkNzxh+IC1AguZVWxMtOokMc
+	pwoZIGzdA4hH+8JfQLb1KB/WItMBrFoiFjHZUDURKE5pFHJK4JQFN/MhOMxGAq1Buo5v
+	mweh+O6Csm+E3KQQXsFR1I4fZNFspvNPtT2cBEbr5rHaki8Oz6C9kCnooNi0T1RQgON1
+	xzzos89DRi0X6dwAl5pwWUPRzs7HOVj/AiZUIN8iKH2r+IjSON+2t3OF9eMQQImkm54H
+	GFvF5HgPChJ/2GreJifK+qOZ2hE3Jja+pMKgbfnAy82wI41k1YYrlZqJV3qJ5Re+Q1H9
+	u+Zg==
+X-Gm-Message-State: AFeK/H1p4CsMtBHp5SxcQ8oPTTsDp7vpgU1/l00cemSyGqlUk3FCK08u8Jfm7gT0NUMPLT5ygjUjy9fng+IPKl/F
+X-Received: by 10.157.7.230 with SMTP id 93mr4037324oto.223.1490364467433;
+	Fri, 24 Mar 2017 07:07:47 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <d277a548-fc71-01a7-d995-1f9c9301db51@phytec.de>
-X-SA-Exim-Connect-IP: 2001:67c:670:100:76d4:35ff:fee8:98b3
-X-SA-Exim-Mail-From: ejo@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
-	SAEximRunCond expanded to false
-X-PTX-Original-Recipient: openembedded-core@lists.openembedded.org
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] image_types: perform fsck on created ext image
+Received: by 10.157.4.203 with HTTP; Fri, 24 Mar 2017 07:07:47 -0700 (PDT)
+From: Cody Piersall <cody@arrc.ou.edu>
+Date: Fri, 24 Mar 2017 09:07:47 -0500
+Message-ID: <CAKEinFxuOqEeYv1zt5oL9KpPQnN=jQ+rA3++igT7dWuWeBX=rg@mail.gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: Remove do_install_append() from zsh's recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,48 +49,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Mar 2017 14:01:03 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 24 Mar 2017 14:07:47 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Hi Daniel,
+Hello,
 
-On 03/24/2017 02:34 PM, Daniel Schultz wrote:
-> Hi Enrico,
->
-> I have sent fixes for the same problem on Monday.
-> These include a fix of the wrong return code after optimizations (now it
-> returns 0) and an fsck execution after the creation of EXT partitions.
->
-> The patch which is identical to yours wasn't applied so far, the other
-> ones were.
+The recipe for building zsh includes the following function:
 
-ouh, we should have checked that before, but we did not assume that 
-someone would have posted a fix for this relatively old behavior during 
-the last days. Reality disabused us... Anyway, good to see that we are 
-not the only one that stumbled across this issue ;)
+do_install_append () {
+    rm -fr ${D}/usr/share
+}
 
-But, there is another difference between our patches. We use `-pvfD`, 
-while you use `-fy` as an fsck.extN option.
+For me, this is not a useful function because zsh store lots of nice
+functionality in the "/usr/share/zsh/5.0.5/functions" directory.  This
+includes things like typing cd <TAB> and autocompleting only for
+directories.  I propose that this function be removed from the recipe
+(patch below).  If someone needs this functionality, it would be easy
+to add to their bbappend file.
 
-I would expect `-p` to be sufficient for letting fsck perform minor 
-optimizations. If you use `-y` instead, fsck will fix also real issues. 
-This is not what it should do here, even if it will return 1 afterwards. 
-If the file system was created with errors I guess we should let the 
-image creation fail without further touching the ext4.
+Link to zsh recipe:
+http://cgit.openembedded.org/meta-openembedded/tree/meta-oe/recipes-extended/zsh/zsh_5.0.5.bb?h=master
 
--D will let fsck perform further directory optimizations
--v might be helpful for debugging purpose
+This patch removes this do_install_append:
 
+diff --git a/meta-oe/recipes-extended/zsh/zsh_5.0.5.bb
+b/meta-oe/recipes-extended/zsh/zsh_5.0.5.bb
+index 39b2d95..d5bb1b7 100644
+--- a/meta-oe/recipes-extended/zsh/zsh_5.0.5.bb
++++ b/meta-oe/recipes-extended/zsh/zsh_5.0.5.bb
+@@ -44,10 +44,6 @@ do_configure () {
+     oe_runconf
+ }
 
-Best regards
+-do_install_append () {
+-    rm -fr ${D}/usr/share
+-}
+-
+ pkg_postinst_${PN} () {
+     touch $D${sysconfdir}/shells
+     grep -q "bin/zsh" $D${sysconfdir}/shells || echo /bin/zsh >>
+$D${sysconfdir}/shells
 
-Enrico
+This is my first post to this list, so please feel free to correct me
+on any etiquette issues I've messed up.
 
--- 
-Pengutronix e.K.                           | Enrico Jörns                |
-Industrial Linux Solutions                 | http://www.pengutronix.de/  |
-Peiner Str. 6-8, 31137 Hildesheim, Germany | Phone: +49-5121-206917-5080 |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
-
+Thanks,
+Cody
 
