@@ -1,27 +1,30 @@
 Return-Path: <markus.lehtonen@linux.intel.com>
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id E688177BBA
+	by mail.openembedded.org (Postfix) with ESMTP id 105F277BBC
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Mar 2017 14:43:25 +0000 (UTC)
+	Fri, 24 Mar 2017 14:43:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
 	d=intel.com; i=@intel.com; q=dns/txt; s=intel;
-	t=1490366607; x=1521902607; h=from:to:subject:date:message-id;
-	bh=tj+2gGNKc4UX/EAFmcwhpM7pwM+qUm9zx7edYWN+g2Y=;
-	b=d47a+BTrnpsCx0nYNjew7kTcmDlW/vNxeOH7bj407lmVszGys9y6UWys
-	Sga95Dt/WAEY8O5Z+VweAuDcdqfMPg==;
+	t=1490366607; x=1521902607;
+	h=from:to:subject:date:message-id:in-reply-to:references;
+	bh=vQ3O+tLV5auZJfUHG+WGRufSbMy3ubOopAZH+8aq+i8=;
+	b=Y6aQdh2DlzXJlErt6gkYydc0bs2Q4HQcrSv+ZaBvk/7rkKLnOSKL/LPB
+	se+bkHknqsh4rODtNT+A+rx99twuqw==;
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
 	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	24 Mar 2017 07:43:26 -0700
+	24 Mar 2017 07:43:27 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.36,215,1486454400"; d="scan'208";a="947835365"
+X-IronPort-AV: E=Sophos;i="5.36,215,1486454400"; d="scan'208";a="947835369"
 Received: from marquiz.fi.intel.com ([10.237.72.155])
-	by orsmga003.jf.intel.com with ESMTP; 24 Mar 2017 07:43:25 -0700
+	by orsmga003.jf.intel.com with ESMTP; 24 Mar 2017 07:43:26 -0700
 From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 24 Mar 2017 16:43:24 +0200
-Message-Id: <20170324144325.28637-1-markus.lehtonen@linux.intel.com>
+Date: Fri, 24 Mar 2017 16:43:25 +0200
+Message-Id: <20170324144325.28637-2-markus.lehtonen@linux.intel.com>
 X-Mailer: git-send-email 2.10.2
-Subject: [PATCH 1/2] oeqa.utils.commands: limit runCmd exception output
+In-Reply-To: <20170324144325.28637-1-markus.lehtonen@linux.intel.com>
+References: <20170324144325.28637-1-markus.lehtonen@linux.intel.com>
+Subject: [PATCH 2/2] oeqa.buildperf: limit the length of error output
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,49 +39,27 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 24 Mar 2017 14:43:26 -0000
 
-Make it possible to limit the length of output lines shown in runCmd
-exceptions. E.g when running bitbake we easily get thousands of lines of
-log output, where only the last few (tens) are interesting or relevant
-when an error occurs.
+Limit the length of error logs to 40 lines. We don't need to
+show/archive thousands of lines of bitbake logs if an error occurs.
 
 Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
 ---
- meta/lib/oeqa/utils/commands.py | 13 ++++++++++---
- 1 file changed, 10 insertions(+), 3 deletions(-)
+ meta/lib/oeqa/buildperf/base.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/lib/oeqa/utils/commands.py b/meta/lib/oeqa/utils/commands.py
-index 82c5908..6901f1a 100644
---- a/meta/lib/oeqa/utils/commands.py
-+++ b/meta/lib/oeqa/utils/commands.py
-@@ -97,7 +97,8 @@ class Result(object):
-     pass
+diff --git a/meta/lib/oeqa/buildperf/base.py b/meta/lib/oeqa/buildperf/base.py
+index dd473a0..e9a53dc 100644
+--- a/meta/lib/oeqa/buildperf/base.py
++++ b/meta/lib/oeqa/buildperf/base.py
+@@ -35,7 +35,7 @@ log = logging.getLogger('build-perf')
+ 
+ # Our own version of runCmd which does not raise AssertErrors which would cause
+ # errors to interpreted as failures
+-runCmd2 = partial(runCmd, assert_error=False)
++runCmd2 = partial(runCmd, assert_error=False, limit_exc_output=40)
  
  
--def runCmd(command, ignore_status=False, timeout=None, assert_error=True, native_sysroot=None, **options):
-+def runCmd(command, ignore_status=False, timeout=None, assert_error=True,
-+          native_sysroot=None, limit_exc_output=0, **options):
-     result = Result()
- 
-     if native_sysroot:
-@@ -117,10 +118,16 @@ def runCmd(command, ignore_status=False, timeout=None, assert_error=True, native
-     result.pid = cmd.process.pid
- 
-     if result.status and not ignore_status:
-+        exc_output = result.output
-+        if limit_exc_output > 0:
-+            split = result.output.splitlines()
-+            if len(split) > limit_exc_output:
-+                exc_output = "\n... (last %d lines of output)\n" % limit_exc_output + \
-+                             '\n'.join(split[-limit_exc_output:])
-         if assert_error:
--            raise AssertionError("Command '%s' returned non-zero exit status %d:\n%s" % (command, result.status, result.output))
-+            raise AssertionError("Command '%s' returned non-zero exit status %d:\n%s" % (command, result.status, exc_output))
-         else:
--            raise CommandError(result.status, command, result.output)
-+            raise CommandError(result.status, command, exc_output)
- 
-     return result
- 
+ class KernelDropCaches(object):
 -- 
 2.10.2
 
