@@ -1,54 +1,26 @@
-Return-Path: <tobias.hagelborn@axis.com>
-Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
-	by mail.openembedded.org (Postfix) with ESMTP id 4520777BA6
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id E52DF62132
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Mar 2017 07:08:29 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bes.se.axis.com (Postfix) with ESMTP id 965982E321
+	Fri, 24 Mar 2017 08:45:05 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v2O8j6WR007073
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Mar 2017 08:08:30 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
-Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id DhHMs9V8MT6Z
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Mar 2017 08:08:27 +0100 (CET)
-Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
-	by bes.se.axis.com (Postfix) with ESMTPS id 7BC932E636
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Mar 2017 08:08:27 +0100 (CET)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 67C851E09C
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Mar 2017 08:08:27 +0100 (CET)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 5CDE91E09B
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Mar 2017 08:08:27 +0100 (CET)
-Received: from seth.se.axis.com (unknown [10.0.2.172])
-	by boulder03.se.axis.com (Postfix) with ESMTP
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Mar 2017 08:08:27 +0100 (CET)
-Received: from XBOX02.axis.com (xbox02.axis.com [10.0.5.16])
-	by seth.se.axis.com (Postfix) with ESMTP id 514D21B17
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Mar 2017 08:08:27 +0100 (CET)
-Received: from lnxtobiasha.se.axis.com (10.0.5.60) by XBOX02.axis.com
-	(10.0.5.16) with Microsoft SMTP Server (TLS) id 15.0.1210.3;
-	Fri, 24 Mar 2017 08:08:27 +0100
-From: Tobias Hagelborn <tobias.hagelborn@axis.com>
+	Fri, 24 Mar 2017 01:45:06 -0700 (PDT)
+Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
+	Fri, 24 Mar 2017 01:45:05 -0700
+From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 24 Mar 2017 08:07:17 +0100
-Message-ID: <1490339237-2618-3-git-send-email-tobiasha@axis.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <1490339237-2618-1-git-send-email-tobiasha@axis.com>
-References: <1490339237-2618-1-git-send-email-tobiasha@axis.com>
+Date: Fri, 24 Mar 2017 01:45:00 -0700
+Message-ID: <dda2150fb3a0d37c50155fe5aa5729777c22dfc2.1490343063.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 2.9.0
+In-Reply-To: <cover.1490343063.git.liezhi.yang@windriver.com>
+References: <cover.1490343063.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-X-Originating-IP: [10.0.5.60]
-X-ClientProxiedBy: XBOX02.axis.com (10.0.5.16) To XBOX02.axis.com (10.0.5.16)
-X-TM-AS-GCONF: 00
-Cc: Tobias Hagelborn <tobiasha@axis.com>
-Subject: [PATCH 2/2] devtool: srctree: New command for setting up browsable source-code
+Subject: [PATCH 2/4] qemurunner.py: fix handling of runqemuparams
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,116 +33,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Mar 2017 07:08:30 -0000
+X-List-Received-Date: Fri, 24 Mar 2017 08:45:06 -0000
 Content-Type: text/plain
 
-Setup a directory tree for source code according to section name.
-(if known).
+From: Chen Qi <Qi.Chen@windriver.com>
 
-This tree is intended for code browsing ONLY.
-If source is moved, for instance with devtool modify,
-this command should be rerun to be up-to-date with that move.
+The launch() doesn't need runqemuparams, we need handle it in start().
 
-Signed-off-by: Tobias Hagelborn <tobiasha@axis.com>
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- scripts/lib/devtool/srctree.py | 87 ++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 87 insertions(+)
- create mode 100644 scripts/lib/devtool/srctree.py
+ meta/lib/oeqa/utils/qemurunner.py | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/scripts/lib/devtool/srctree.py b/scripts/lib/devtool/srctree.py
-new file mode 100644
-index 0000000..dbf1608
---- /dev/null
-+++ b/scripts/lib/devtool/srctree.py
-@@ -0,0 +1,87 @@
-+# Development tool - srctree command plugin
-+#
-+# Copyright (C) 2016-2017 Axis Communications AB
-+# Author: Tobias Hagelborn <tobias.hagelborn@axis.com>
-+#
-+# This program is free software; you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License version 2 as
-+# published by the Free Software Foundation.
-+#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License along
-+# with this program; if not, write to the Free Software Foundation, Inc.,
-+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-+
-+
-+"""Devtool srctree plugin"""
-+
-+import os
-+import logging
-+import tempfile
-+import bb
-+
-+from devtool import exec_build_env_command
-+
-+logger = logging.getLogger('devtool')
-+
-+
-+def _create_conf_file(values, conf_file=None):
-+    """ Create bitbake config for use with srctree devtool command """
-+    if not conf_file:
-+        _, conf_file = tempfile.mkstemp(suffix='.conf')
-+    elif not os.path.exists(os.path.dirname(conf_file)):
-+        logger.debug("Creating folder %s", os.path.dirname(conf_file))
-+        bb.utils.mkdirhier(os.path.dirname(conf_file))
-+    if values:
-+        with open(conf_file, 'w') as f:
-+            for key, value in values.items():
-+                f.write('%s = "%s"\n' % (key, value))
-+    return conf_file
-+
-+
-+#pylint: disable=unused-argument
-+def srctree(args, config, basepath, workspace):
-+    """Entry point for the devtool 'srctree' subcommand"""
-+
-+    values = {}
-+    if args.destination:
-+        values['SRCTREE_DIR'] = os.path.abspath(args.destination)
-+        logger.info('Setting up srctree in: %s', values['SRCTREE_DIR'])
-+    if args.verbose:
-+        values['SRCTREE_VERBOSE'] = "1"
-+    conf_file = _create_conf_file(values)
-+
-+    with open(conf_file, 'a') as f:
-+        f.write('INHERIT += "srctree"\n')
-+
-+    workdir = basepath
-+    exec_build_env_command(
-+        config.init_path, workdir,
-+        'bitbake -k -R %s -c srctree_all %s' % (conf_file, ' '.join(args.recipename)),
-+        watch=True)
-+    os.unlink(conf_file)
-+
-+
-+def register_commands(subparsers, context):
-+    """Register devtool subcommands from this plugin"""
-+    parser_search = subparsers.add_parser(
-+        'srctree',
-+        help='Setup a directory tree for source code browsing',
-+        description='Setup a directory tree for source code according to section name (if known). '
-+                    'This tree is intended for code browsing ONLY. '
-+                    'If source is moved, for instance with devtool modify, '
-+                    'this command should be rerun to be up-to-date with that move. '
-+                    'Please read the README file that is created together with '
-+                    'the source tree for more information.')
-+    parser_search.add_argument('recipename', nargs='+',
-+                               help='Recipe to use. Multiple recipes are accepted. '
-+                               'Example: core-image-minimal')
-+    parser_search.add_argument('-D', '--destination',
-+                               help='Destination root folder. Default: ${TOPDIR}/src.')
-+    parser_search.add_argument('-v', '--verbose', action="store_true",
-+                               help='Be more verbose.')
-+    parser_search.set_defaults(func=srctree)
+diff --git a/meta/lib/oeqa/utils/qemurunner.py b/meta/lib/oeqa/utils/qemurunner.py
+index 76c570e..abdbd14 100644
+--- a/meta/lib/oeqa/utils/qemurunner.py
++++ b/meta/lib/oeqa/utils/qemurunner.py
+@@ -118,7 +118,7 @@ class QemuRunner:
+             os.environ["DEPLOY_DIR_IMAGE"] = self.deploy_dir_image
+ 
+         if not launch_cmd:
+-            launch_cmd = 'runqemu snapshot'
++            launch_cmd = 'runqemu snapshot %s' % runqemuparams
+             if self.use_kvm:
+                 logger.info('Using kvm for runqemu')
+                 launch_cmd += ' kvm'
+@@ -128,9 +128,9 @@ class QemuRunner:
+                 launch_cmd += ' nographic'
+             launch_cmd += ' %s %s' % (self.machine, self.rootfs)
+ 
+-        return self.launch(launch_cmd, qemuparams=qemuparams, get_ip=get_ip, extra_bootparams=extra_bootparams, runqemuparams=runqemuparams)
++        return self.launch(launch_cmd, qemuparams=qemuparams, get_ip=get_ip, extra_bootparams=extra_bootparams)
+ 
+-    def launch(self, launch_cmd, get_ip = True, qemuparams = None, extra_bootparams = None, runqemuparams=''):
++    def launch(self, launch_cmd, get_ip = True, qemuparams = None, extra_bootparams = None):
+         try:
+             threadsock, threadport = self.create_socket()
+             self.server_socket, self.serverport = self.create_socket()
 -- 
-2.1.4
+2.9.0
 
 
