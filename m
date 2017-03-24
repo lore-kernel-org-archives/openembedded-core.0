@@ -1,46 +1,48 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-wr0-f194.google.com (mail-wr0-f194.google.com
-	[209.85.128.194])
-	by mail.openembedded.org (Postfix) with ESMTP id E367D77B99
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-wr0-f193.google.com (mail-wr0-f193.google.com
+	[209.85.128.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 7A66677BA0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Mar 2017 01:39:55 +0000 (UTC)
-Received: by mail-wr0-f194.google.com with SMTP id u108so106496wrb.2
+	Fri, 24 Mar 2017 06:39:15 +0000 (UTC)
+Received: by mail-wr0-f193.google.com with SMTP id y90so656574wrb.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Mar 2017 18:39:57 -0700 (PDT)
+	Thu, 23 Mar 2017 23:39:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=Y2daGN6FVTBhx311k2apQKpBYDpOoEQCQKA6edLAJSk=;
-	b=CgvzY1/zBFBYAkrd1rJuy1mhpXTTfC+KVVpAy9TqVY9wf+/BdkfJ102YEbUKTtZbrX
-	5Y1PB2+Ol6ezOT86NSHtUJlo9S3/JkIhmer1OO3ZApNS28cZBxhs30T8FMMnv0QGls91
-	1quiloGYU+Ml2OwlX7VfPbwIqQk9fKVmceJMsF5gD2hFnqcfprm+A98P/dHSG/Snkn0n
-	GEWg4mohtNTxWM/OSWfLvjh6+oak8j+VArJH08EvgOyaaDYlNChuHykMkCpgz+iIDa4J
-	gCdlBUmDmm9Id89nKVhS7t7KdaKca4SbMznFhgXFr+u2LfjTllrhEeaOCrIZvrp/GH8V
-	84UQ==
+	:cc; bh=gryxwxLlqGN5WvsRvCe2BXxe1+v0n06T6TRGGPuhv+4=;
+	b=JmneP5rgAKNWnIyqs+naHqvK0P9+foEqLoZeyR9rEliSMu2EnMxFaVytzGaE4isd2E
+	duEesYXgDb4A8qHtqnUkOS9NqurASVUBZwCQCgsY0HCOtDRY2zADVqIv71EMgHe6NnMj
+	9re2fC74U4y0cvg4TdxuXWrnPCQQBMyMMz2Z08p+QcH6aQCh/1USqcx6H49FPokPzAdH
+	wXrP504XYMNQY7g53+LEef1jqKLK5BprsrkkO+IxJXE1L+Q9tM7cUZFgoK6Z+ScACNKn
+	annN2MgT9PDXa7MyfAhpTOYgy0SF8cDDbdD9VnvZbyKsWrVcJkU1uAJFWkFQGLZEb/iI
+	k45g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=Y2daGN6FVTBhx311k2apQKpBYDpOoEQCQKA6edLAJSk=;
-	b=AXFqKP0Zut1ZD4N37XwPGkm07rJ1EPpAvpVUpwVU2jnDK86aSHVHkZNAIt3DRvXMr9
-	+aOG6l/mn8hqopitBfVO+g1ZZp5LtpM2VStqgs6XWxSvKfVTGp4Bqwc/y1OQZP6WnyRc
-	2dez20aXJ6oWziLu2tyC9AFTzoz9AeLcQFvWtUKROCHTH31MMDEAhx8uVPGvLBDyCn/t
-	gj5+lkFb82vSBdh4QHI0svRGKvHpTqoef4MdyhaSVRHoZssfAW5imfjFm6w6WvLlJpoB
-	2A0AaBEIX7FakCASIUYUrB2skHcupmYtS9b3o6QcIl7kuga+RXdiX5K1D2xNHYtOvs1n
-	Vrqw==
-X-Gm-Message-State: AFeK/H2rr2UzynzF4EPlMFY9oM+bWrRWGhRuHhyAPeCcdqiV01uNcaTFNgsb8tHr6qiR5BSURaN/qUtjMRy/qA==
-X-Received: by 10.223.152.173 with SMTP id w42mr32603wrb.72.1490319596458;
-	Thu, 23 Mar 2017 18:39:56 -0700 (PDT)
+	bh=gryxwxLlqGN5WvsRvCe2BXxe1+v0n06T6TRGGPuhv+4=;
+	b=J594aiOThj4XMXAavZ872KsHtOD4HAjOP9s8MD36KrdIeN2Wpcpmi0KAPAIVetUm6X
+	jAM7giJoTtAttDAPKN2ftNKgF3s2aEbPl3TACPJUnrT/VoOp2GsAzBVIK1/lvlF7Zw2V
+	4WO20DmL66wAMTT4ne64toGYq9exsLsw8sCZLxYN6h40LXbSwXiYzgoxe2ciKRY5s7VV
+	7jm7I7M2/JncUJOJbXCrpjzlGlwt+EmRugdzI0ETnJxvuVYFU3eMIioO4rFULE+BCf1I
+	6e98zKql+r+iQz3/mQR5W1b/32b9gplbvXE9dkgr9PZ/9WwPzek8s6kDtbA2UHcCoKVK
+	EtZg==
+X-Gm-Message-State: AFeK/H1kMxJyaIwXkOwK2Xxs08gTqqilY7TJbEbNEvefxj1ITCLs+OY6MJa7mrnC5g4zm0hLnh7Rq9+IUUhtOA==
+X-Received: by 10.223.164.201 with SMTP id h9mr5568117wrb.175.1490337557049;
+	Thu, 23 Mar 2017 23:39:17 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.223.152.55 with HTTP; Thu, 23 Mar 2017 18:39:55 -0700 (PDT)
-In-Reply-To: <1490313649-32458-1-git-send-email-vedang.patel@intel.com>
-References: <1490306205.12818.5.camel@intel.com>
-	<1490313649-32458-1-git-send-email-vedang.patel@intel.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-Date: Thu, 23 Mar 2017 18:39:55 -0700
-Message-ID: <CAJ86T=WeV6_5WRj7FSqVUFoJH_+SE6j-5qfD+HQ6UTEBT9guNg@mail.gmail.com>
-To: Vedang Patel <vedang.patel@intel.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] libxslt: Add PACKAGECONFIG support for python
+Received: by 10.80.180.162 with HTTP; Thu, 23 Mar 2017 23:38:46 -0700 (PDT)
+In-Reply-To: <CAGNsrLBy2phUWevgVdR4njdQJPUaGRW=PTHTZG2wU_e6Hp9_BA@mail.gmail.com>
+References: <20170323055412.10238-1-fathi.boudra@linaro.org>
+	<CAMKF1sq9UMGWoCBEOp-8gmpPekA4p6MEKg3FiJvrFr85mFjxVQ@mail.gmail.com>
+	<CAGNsrLBy2phUWevgVdR4njdQJPUaGRW=PTHTZG2wU_e6Hp9_BA@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 23 Mar 2017 23:38:46 -0700
+Message-ID: <CAMKF1spcsqxXg58_i7qoAdKjB=+DCv+WEUJJM=nAR+2CpME2gw@mail.gmail.com>
+To: Fathi Boudra <fathi.boudra@linaro.org>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] glibc: add missing TRAP_BRANCH/TRAP_HWBKPT definitions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,60 +55,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Mar 2017 01:39:56 -0000
+X-List-Received-Date: Fri, 24 Mar 2017 06:39:17 -0000
 Content-Type: text/plain; charset=UTF-8
 
- On Thu, Mar 23, 2017 at 5:00 PM, Vedang Patel <vedang.patel@intel.com> wrote:
-> Add support to enable python bindings for libxslt using PACKAGECONFIG.
-> This will include --with-python argument while compiling the package.
-> The support is disabled by default.
+On Thu, Mar 23, 2017 at 12:11 PM, Fathi Boudra <fathi.boudra@linaro.org> wrote:
+> On 23 March 2017 at 19:22, Khem Raj <raj.khem@gmail.com> wrote:
+>> On Wed, Mar 22, 2017 at 10:54 PM, Fathi Boudra <fathi.boudra@linaro.org> wrote:
+>>> Patch submitted upstream, pending to be merged:
+>>> https://sourceware.org/bugzilla/show_bug.cgi?id=21286
+>>
+>> Patch to glibc is fine provided you resent it with proper SRC_URI change
+>> and report on how it builds in OE with this change applied
 >
-> Signed-off-by: Vedang Patel <vedang.patel@intel.com>
-> ---
->  meta/recipes-support/libxslt/libxslt_1.1.29.bb | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
->
-> diff --git a/meta/recipes-support/libxslt/libxslt_1.1.29.bb b/meta/recipes-support/libxslt/libxslt_1.1.29.bb
-> index be747e608d9d..707f2f97b7fc 100644
-> --- a/meta/recipes-support/libxslt/libxslt_1.1.29.bb
-> +++ b/meta/recipes-support/libxslt/libxslt_1.1.29.bb
-> @@ -22,7 +22,7 @@ S = "${WORKDIR}/libxslt-${PV}"
->
->  BINCONFIG = "${bindir}/xslt-config"
->
-> -inherit autotools pkgconfig binconfig-disabled lib_package
-> +inherit autotools pkgconfig binconfig-disabled lib_package distutils-common-base
->
->  # We don't DEPEND on binutils for ansidecl.h so ensure we don't use the header
->  do_configure_prepend () {
-> @@ -33,7 +33,9 @@ do_configure_prepend () {
->         touch ${S}/doc/xsltproc.1
->  }
->
-> -EXTRA_OECONF = "--without-python --without-debug --without-mem-debug --without-crypto"
-> +EXTRA_OECONF = "--without-debug --without-mem-debug --without-crypto"
-> +PACKAGECONFIG[python] = "--with-python=${PYTHON_BASE_VERSION}, --without-python"
+> we'll need a v2 to address the backslash, but also the patch itself.
+> It's currently incomplete, it misses the inclusion on other
+> architectures siginfo headers.
 
-The more conventional way to order these lines would be:
-
-  PACKAGECONFIG ?= ""
-  PACKAGECONFIG[python] = "--with-python=${PYTHON_BASE_VERSION},
---without-python"
-
-  EXTRA_OECONF = "--without-debug --without-mem-debug --without-crypto"
-
-The python PACKAGECONFIG option probably needs to include a dependency
-on python.
-
->  # older versions of this recipe had ${PN}-utils
->  RPROVIDES_${PN}-bin += "${PN}-utils"
->  RCONFLICTS_${PN}-bin += "${PN}-utils"
-> --
-> 2.7.3
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+yes, I saw that but I thought its not causing any regressions so we
+can accept it, however if you are working  on pan-arch solution then
+we should wait.
 
