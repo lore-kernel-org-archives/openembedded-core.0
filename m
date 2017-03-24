@@ -1,46 +1,27 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qt0-f172.google.com (mail-qt0-f172.google.com
-	[209.85.216.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 0934F71985
+Return-Path: <markus.lehtonen@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id E688177BBA
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Mar 2017 14:28:34 +0000 (UTC)
-Received: by mail-qt0-f172.google.com with SMTP id x35so3571157qtc.2
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Mar 2017 07:28:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=43Ewbc5JBjbP0pVDmstFxqLmrQrQMHNYts7UUWGU7t0=;
-	b=bhEDBYUMZpzDSRLP6l8m9UmtUXS8hUOUeTxyB4QptLyt+Hp+YF1FlohK7IUqKAWvh/
-	Aro99mQT+gzD/XwIjLWVl4SSPM+M3FDdSUQ+8Ek0dgWMeBG+2qoCnmRs8GCw7owiyLiC
-	hLg8o1TmHgt/+zEEQ70J3tRGrSTnGG0tIvgdilwHkFAXOLt1RotPZWsLwFBMcZ1bmDjb
-	Sra+vU113xHOxvvxW2MqEUCsBS8WckacogHEsAdn/OhL5LgqM3DVE62+pgSJKvg0xF5E
-	2F3xD7P9mEfn5R5eA7izW10T8gTYGXjFEMqm39RmM8TNkGNrSYJnFbHHX4wqIkIoZSHk
-	Z7Kg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=43Ewbc5JBjbP0pVDmstFxqLmrQrQMHNYts7UUWGU7t0=;
-	b=rPk3O+jZ2YEZF1/K9YbKYh0/nGcVE0KpTN46Ef5ScD4R6cwcWft93aDVhm7LmQQhCG
-	CILv9FDU8vIiLa4aUjkf82kIfD8oj3JMnsrExYlWH7+bNKYTXNF/KGSPHNJso/7bB1xJ
-	7Oqm2m2Z+eGUIUHuyQfG5HfXWcVdU9tq+wtBq9l9hLu62GTJSehkxrgQQuBfrrxkP55Z
-	csKPNDOMABu8pCmFnc/nr1eUq33bRgTU+aQ1nCmAB5KLHz/82NR3laK5Z2VzamLVMao3
-	rID872FZn0fv733HvrDpbFH0UwKX+NzoakCqQJfvWE1fJ2Zl7vgvL+bLpwt8IcshJOkz
-	Sijw==
-X-Gm-Message-State: AFeK/H1XsqNU8PXZTFuIIB0h0p1H98snmcTbCQ6/o0HTIrpqSB9LV18+O6GWuC/EQvOXUn9Cl+6aRpxx/Ssd9GT7
-X-Received: by 10.200.33.182 with SMTP id 51mr8508744qty.65.1490365715291;
-	Fri, 24 Mar 2017 07:28:35 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.22.166 with HTTP; Fri, 24 Mar 2017 07:28:14 -0700 (PDT)
-In-Reply-To: <CAKEinFxuOqEeYv1zt5oL9KpPQnN=jQ+rA3++igT7dWuWeBX=rg@mail.gmail.com>
-References: <CAKEinFxuOqEeYv1zt5oL9KpPQnN=jQ+rA3++igT7dWuWeBX=rg@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 24 Mar 2017 14:28:14 +0000
-Message-ID: <CAJTo0LbrMMXLGy78MZcRAGe9npRs9Q=rFDhnSTqZ+E5w8+E2EA@mail.gmail.com>
-To: Cody Piersall <cody@arrc.ou.edu>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Remove do_install_append() from zsh's recipe
+	Fri, 24 Mar 2017 14:43:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+	d=intel.com; i=@intel.com; q=dns/txt; s=intel;
+	t=1490366607; x=1521902607; h=from:to:subject:date:message-id;
+	bh=tj+2gGNKc4UX/EAFmcwhpM7pwM+qUm9zx7edYWN+g2Y=;
+	b=d47a+BTrnpsCx0nYNjew7kTcmDlW/vNxeOH7bj407lmVszGys9y6UWys
+	Sga95Dt/WAEY8O5Z+VweAuDcdqfMPg==;
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	24 Mar 2017 07:43:26 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.36,215,1486454400"; d="scan'208";a="947835365"
+Received: from marquiz.fi.intel.com ([10.237.72.155])
+	by orsmga003.jf.intel.com with ESMTP; 24 Mar 2017 07:43:25 -0700
+From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 24 Mar 2017 16:43:24 +0200
+Message-Id: <20170324144325.28637-1-markus.lehtonen@linux.intel.com>
+X-Mailer: git-send-email 2.10.2
+Subject: [PATCH 1/2] oeqa.utils.commands: limit runCmd exception output
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,48 +34,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Mar 2017 14:28:35 -0000
-Content-Type: multipart/alternative; boundary=001a113c64180bef4d054b7acf7f
+X-List-Received-Date: Fri, 24 Mar 2017 14:43:26 -0000
 
---001a113c64180bef4d054b7acf7f
-Content-Type: text/plain; charset=UTF-8
+Make it possible to limit the length of output lines shown in runCmd
+exceptions. E.g when running bitbake we easily get thousands of lines of
+log output, where only the last few (tens) are interesting or relevant
+when an error occurs.
 
-Hi,
+Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+---
+ meta/lib/oeqa/utils/commands.py | 13 ++++++++++---
+ 1 file changed, 10 insertions(+), 3 deletions(-)
 
-On 24 March 2017 at 14:07, Cody Piersall <cody@arrc.ou.edu> wrote:
+diff --git a/meta/lib/oeqa/utils/commands.py b/meta/lib/oeqa/utils/commands.py
+index 82c5908..6901f1a 100644
+--- a/meta/lib/oeqa/utils/commands.py
++++ b/meta/lib/oeqa/utils/commands.py
+@@ -97,7 +97,8 @@ class Result(object):
+     pass
+ 
+ 
+-def runCmd(command, ignore_status=False, timeout=None, assert_error=True, native_sysroot=None, **options):
++def runCmd(command, ignore_status=False, timeout=None, assert_error=True,
++          native_sysroot=None, limit_exc_output=0, **options):
+     result = Result()
+ 
+     if native_sysroot:
+@@ -117,10 +118,16 @@ def runCmd(command, ignore_status=False, timeout=None, assert_error=True, native
+     result.pid = cmd.process.pid
+ 
+     if result.status and not ignore_status:
++        exc_output = result.output
++        if limit_exc_output > 0:
++            split = result.output.splitlines()
++            if len(split) > limit_exc_output:
++                exc_output = "\n... (last %d lines of output)\n" % limit_exc_output + \
++                             '\n'.join(split[-limit_exc_output:])
+         if assert_error:
+-            raise AssertionError("Command '%s' returned non-zero exit status %d:\n%s" % (command, result.status, result.output))
++            raise AssertionError("Command '%s' returned non-zero exit status %d:\n%s" % (command, result.status, exc_output))
+         else:
+-            raise CommandError(result.status, command, result.output)
++            raise CommandError(result.status, command, exc_output)
+ 
+     return result
+ 
+-- 
+2.10.2
 
-> This is my first post to this list, so please feel free to correct me
-> on any etiquette issues I've messed up.
->
 
-Patches for meta-oe need to go to the
-openembedded-devel@lists.openembedded.org list, not -core which is specific
-to oe-core.
-
-Also put [meta-oe] in the subject prefix, and send the patch using
-git-format-patch with a properly formatted commit message.
-
-Ross
-
---001a113c64180bef4d054b7acf7f
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra">Hi,</div><div class=3D"gmail_ex=
-tra"><br></div><div class=3D"gmail_extra"><div class=3D"gmail_quote">On 24 =
-March 2017 at 14:07, Cody Piersall <span dir=3D"ltr">&lt;<a href=3D"mailto:=
-cody@arrc.ou.edu" target=3D"_blank">cody@arrc.ou.edu</a>&gt;</span> wrote:<=
-br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left=
-:1px #ccc solid;padding-left:1ex"><div id=3D":td" class=3D"a3s aXjCH m15b00=
-a585efaf9e2">This is my first post to this list, so please feel free to cor=
-rect me<br>
-on any etiquette issues I&#39;ve messed up.<br></div></blockquote></div><br=
->Patches for meta-oe need to go to the <a href=3D"mailto:openembedded-devel=
-@lists.openembedded.org">openembedded-devel@lists.openembedded.org</a> list=
-, not -core which is specific to oe-core.</div><div class=3D"gmail_extra"><=
-br></div><div class=3D"gmail_extra">Also put [meta-oe] in the subject prefi=
-x, and send the patch using git-format-patch with a properly formatted comm=
-it message.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_e=
-xtra">Ross</div></div>
-
---001a113c64180bef4d054b7acf7f--
