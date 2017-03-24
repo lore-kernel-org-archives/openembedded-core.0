@@ -1,31 +1,31 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 8E0A972F4E
+Return-Path: <d.schultz@phytec.de>
+Received: from root.phytec.de (mail.x-arc.co.uk [217.6.246.34])
+	by mail.openembedded.org (Postfix) with ESMTP id 5F84C77A30
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Mar 2017 12:30:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-	d=intel.com; i=@intel.com; q=dns/txt; s=intel;
-	t=1490358616; x=1521894616;
-	h=from:to:cc:subject:date:message-id;
-	bh=R/+349YcL7TOaGUAmMrVg6JPnVKuOPall3Lewsha7yk=;
-	b=crStBvgetiPLnPlw4Y9SXAT2/NsK6q0u5SVSP1MLcPoHnWh7xJC+LYu7
-	RFemQUgiue4Z4L/gSIbfIOPS9DSF8w==;
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	24 Mar 2017 05:30:15 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.36,214,1486454400"; d="scan'208";a="64517941"
-Received: from linux.intel.com ([10.54.29.200])
-	by orsmga002.jf.intel.com with ESMTP; 24 Mar 2017 05:30:14 -0700
-Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
-	by linux.intel.com (Postfix) with ESMTP id 586B56A4080;
-	Fri, 24 Mar 2017 05:30:08 -0700 (PDT)
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
+	Fri, 24 Mar 2017 13:34:00 +0000 (UTC)
+Received: from idefix.phytec.de (idefix.phytec.de [172.16.0.10])
+	by root.phytec.de (Postfix) with ESMTP id 1FC58A001D4;
+	Fri, 24 Mar 2017 14:34:33 +0100 (CET)
+Received: from [172.16.25.214] ([172.16.25.214])
+	by idefix.phytec.de (IBM Domino Release 9.0.1FP7)
+	with ESMTP id 2017032414340025-406066 ;
+	Fri, 24 Mar 2017 14:34:00 +0100 
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 24 Mar 2017 14:29:52 +0200
-Message-Id: <1490358592-32508-1-git-send-email-ed.bartosh@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] wic: use kernel_dir to find systemd-efi bootloader
+References: <20170324111502.23474-1-ejo@pengutronix.de>
+From: Daniel Schultz <d.schultz@phytec.de>
+Message-ID: <d277a548-fc71-01a7-d995-1f9c9301db51@phytec.de>
+Date: Fri, 24 Mar 2017 14:34:00 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.5.1
+MIME-Version: 1.0
+In-Reply-To: <20170324111502.23474-1-ejo@pengutronix.de>
+X-MIMETrack: Itemize by SMTP Server on Idefix/Phytec(Release 9.0.1FP7|August
+	17, 2016) at 24.03.2017 14:34:00,
+	Serialize by Router on Idefix/Phytec(Release 9.0.1FP7|August  17,
+	2016) at 24.03.2017 14:34:00
+X-TNEFEvaluated: 1
+Cc: ejo@pengutronix.de
+Subject: Re: [PATCH] image_types: perform fsck on created ext image
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,34 +38,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Mar 2017 12:30:14 -0000
+X-List-Received-Date: Fri, 24 Mar 2017 13:34:01 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
 
-Fixed test failure caused by using bootimg_dir path
-instead of kernel_dir to find systemd-efi bootloader:
-FAIL: test_systemd_bootdisk (oeqa.selftest.wic.Wic)
-...
-FileNotFoundError: [Errno 2] No such file or directory:
-'tmp/work/qemux86_64-poky-linux/core-image-minimal/1.0-r0/recipe-sysroot/usr/share'
+Hi Enrico,
 
-Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
----
- scripts/lib/wic/plugins/source/bootimg-efi.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I have sent fixes for the same problem on Monday.
+These include a fix of the wrong return code after optimizations (now it=20
+returns 0) and an fsck execution after the creation of EXT partitions.
 
-diff --git a/scripts/lib/wic/plugins/source/bootimg-efi.py b/scripts/lib/wic/plugins/source/bootimg-efi.py
-index ff76c2f..9879cb9 100644
---- a/scripts/lib/wic/plugins/source/bootimg-efi.py
-+++ b/scripts/lib/wic/plugins/source/bootimg-efi.py
-@@ -209,7 +209,7 @@ class BootimgEFIPlugin(SourcePlugin):
-                 shutil.move("%s/grub.cfg" % cr_workdir,
-                             "%s/hdd/boot/EFI/BOOT/grub.cfg" % cr_workdir)
-             elif source_params['loader'] == 'systemd-boot':
--                for mod in [x for x in os.listdir(bootimg_dir) if x.startswith("systemd-")]:
-+                for mod in [x for x in os.listdir(kernel_dir) if x.startswith("systemd-")]:
-                     cp_cmd = "cp %s/%s %s/EFI/BOOT/%s" % (kernel_dir, mod, hdddir, mod[8:])
-                     exec_cmd(cp_cmd, True)
-             else:
--- 
-2.1.4
+The patch which is identical to yours wasn't applied so far, the other=20
+ones were.
+
+--=20
+Mit freundlichen Gr=C3=BC=C3=9Fen,
+With best regards,
+   Daniel Schultz
+
+Am 24.03.2017 um 12:15 schrieb Enrico Jorns:
+> When performing a file system check, the image created with mkfs will
+> trigger Pass 3A ('Optimizing directories') which turns the file system
+> into state "changed" (EXT2=5FFLAG=5FCHANGED).
+>
+> This will let fsck request a reboot by setting the return code flag "2".
+>
+> The result of this is that each ext-image built with oe-core will
+> trigger a reboot during the first time an fsck is triggered.
+>
+> A common case where this might occur is when fsck detects having
+> a future superblock write time. This always happens when booting a
+> newly created ext4 rootfs with a target that does not have a recent time
+> set.
+>
+> This patch moves the initial fsck run that performs the optimization
+> from the target to the host system and thus prevents the target from
+> performing an avoidable reboot.
+>
+> Signed-off-by: Enrico Jorns <ejo@pengutronix.de>
+> Signed-off-by: Ulrich =C3=96lmann <uol@pengutronix.de>
+> ---
+>  meta/classes/image=5Ftypes.bbclass | 2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/meta/classes/image=5Ftypes.bbclass b/meta/classes/image=5Fty=
+pes.bbclass
+> index 1ce8334e3a..52d3af0cc1 100644
+> --- a/meta/classes/image=5Ftypes.bbclass
+> +++ b/meta/classes/image=5Ftypes.bbclass
+> @@ -66,6 +66,8 @@ oe=5Fmkext234fs () {
+>  	# Create a sparse image block
+>  	dd if=3D/dev/zero of=3D${IMGDEPLOYDIR}/${IMAGE=5FNAME}${IMAGE=5FNAME=5F=
+SUFFIX}.$fstype seek=3D$ROOTFS=5FSIZE count=3D$COUNT bs=3D1024
+>  	mkfs.$fstype -F $extra=5Fimagecmd ${IMGDEPLOYDIR}/${IMAGE=5FNAME}${IMAG=
+E=5FNAME=5FSUFFIX}.$fstype -d ${IMAGE=5FROOTFS}
+> +	# Error codes 0-3 indicate successfull operation of fsck (no errors or =
+errors corrected)
+> +	fsck.$fstype -pvfD ${IMGDEPLOYDIR}/${IMAGE=5FNAME}${IMAGE=5FNAME=5FSUFF=
+IX}.$fstype || [ $? -le 3 ]
+>  }
+>
+>  IMAGE=5FCMD=5Fext2 =3D "oe=5Fmkext234fs ext2 ${EXTRA=5FIMAGECMD}"
+>
 
 
