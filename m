@@ -1,17 +1,24 @@
-Return-Path: <romain.perier@collabora.com>
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
-	by mail.openembedded.org (Postfix) with ESMTP id 1429977BAD
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 8253272F4F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Mar 2017 08:46:10 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(Authenticated sender: rperier) with ESMTPSA id ED52F265AAC
-From: Romain Perier <romain.perier@collabora.com>
-To: liezhi.yang@windriver.com
-Date: Fri, 24 Mar 2017 09:46:04 +0100
-Message-Id: <20170324084604.10391-1-romain.perier@collabora.com>
-X-Mailer: git-send-email 2.9.3
-Cc: yocto@yoctoproject.org, openembedded-core@lists.openembedded.org
-Subject: [PATCH v2] logrotate: Add systemd support
+	Fri, 24 Mar 2017 08:55:34 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v2O8tXpQ008829
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 24 Mar 2017 01:55:36 -0700 (PDT)
+Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
+	Fri, 24 Mar 2017 01:55:33 -0700
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 24 Mar 2017 01:55:30 -0700
+Message-ID: <cover.1490345691.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 2.9.0
+MIME-Version: 1.0
+Subject: [PATCH 0/3] meta: 3 minor fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -24,109 +31,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Mar 2017 08:46:11 -0000
+X-List-Received-Date: Fri, 24 Mar 2017 08:55:35 -0000
+Content-Type: text/plain
 
-Currently, this recipe only supports daily scheduling via a cron job.
-This commit adds support for systemd, including systemd service and
-systemd timer. When the corresponding distro feature is enabled the
-systemd variant will be used. The timer granularity and its accuracy
-are also configurable.
+The following changes since commit 3b5ac72bdf76ac8ff98dc3c882a4edc77c6e2c33:
 
-Signed-off-by: Romain Perier <romain.perier@collabora.com>
----
+  rpm: add a "rpm-build" PROVIDES (2017-03-22 15:09:26 +0000)
 
-Changes in v2:
-- Make the systemd timer configurable (as this is distribution or target specific)
+are available in the git repository at:
 
- .../logrotate/logrotate/logrotate.service          |  9 ++++++++
- .../logrotate/logrotate/logrotate.timer            |  7 ++++++
- meta/recipes-extended/logrotate/logrotate_3.9.1.bb | 27 ++++++++++++++++++++--
- 3 files changed, 41 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-extended/logrotate/logrotate/logrotate.service
- create mode 100644 meta/recipes-extended/logrotate/logrotate/logrotate.timer
+  git://git.openembedded.org/openembedded-core-contrib rbt/3fixes
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=rbt/3fixes
 
-diff --git a/meta/recipes-extended/logrotate/logrotate/logrotate.service b/meta/recipes-extended/logrotate/logrotate/logrotate.service
-new file mode 100644
-index 0000000..3edb8ef
---- /dev/null
-+++ b/meta/recipes-extended/logrotate/logrotate/logrotate.service
-@@ -0,0 +1,9 @@
-+[Unit]
-+Description=Rotate log files
-+
-+[Service]
-+Type=oneshot
-+ExecStart=/usr/sbin/logrotate /etc/logrotate.conf
-+Nice=19
-+IOSchedulingClass=best-effort
-+IOSchedulingPriority=7
-diff --git a/meta/recipes-extended/logrotate/logrotate/logrotate.timer b/meta/recipes-extended/logrotate/logrotate/logrotate.timer
-new file mode 100644
-index 0000000..c616b43
---- /dev/null
-+++ b/meta/recipes-extended/logrotate/logrotate/logrotate.timer
-@@ -0,0 +1,7 @@
-+[Unit]
-+Description=Daily rotation of log files
-+
-+[Timer]
-+OnCalendar=@TIMER_BASIS@
-+AccuracySec=@TIMER_ACCURACY@
-+Persistent=true
-diff --git a/meta/recipes-extended/logrotate/logrotate_3.9.1.bb b/meta/recipes-extended/logrotate/logrotate_3.9.1.bb
-index 5f1a601..6953996 100644
---- a/meta/recipes-extended/logrotate/logrotate_3.9.1.bb
-+++ b/meta/recipes-extended/logrotate/logrotate_3.9.1.bb
-@@ -14,6 +14,8 @@ SRC_URI = "https://fedorahosted.org/releases/l/o/logrotate/logrotate-${PV}.tar.g
-            file://act-as-mv-when-rotate.patch \
-            file://update-the-manual.patch \
-            file://disable-check-different-filesystems.patch \
-+           ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'file://logrotate.service', '', d)} \
-+           ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'file://logrotate.timer', '', d)} \
-             "
- 
- SRC_URI[md5sum] = "4492b145b6d542e4a2f41e77fa199ab0"
-@@ -47,6 +49,17 @@ EXTRA_OEMAKE = "\
- # INSTALL=install and BASEDIR=/usr.
- OS_NAME = "Linux"
- 
-+inherit systemd
-+
-+SYSTEMD_AUTO_ENABLE = "disable"
-+SYSTEMD_SERVICE_${PN} = "\
-+    ${PN}.service \
-+    ${PN}.timer \
-+"
-+
-+LOGROTATE_SYSTEMD_TIMER_BASIS ?= "daily"
-+LOGROTATE_SYSTEMD_TIMER_ACCURACY ?= "12h"
-+
- do_compile_prepend() {
-     # Make sure the recompile is OK
-     rm -f ${B}/.depend
-@@ -55,9 +68,19 @@ do_compile_prepend() {
- do_install(){
-     oe_runmake install DESTDIR=${D} PREFIX=${D} MANDIR=${mandir}
-     mkdir -p ${D}${sysconfdir}/logrotate.d
--    mkdir -p ${D}${sysconfdir}/cron.daily
-     mkdir -p ${D}${localstatedir}/lib
-     install -p -m 644 examples/logrotate-default ${D}${sysconfdir}/logrotate.conf
--    install -p -m 755 examples/logrotate.cron ${D}${sysconfdir}/cron.daily/logrotate
-     touch ${D}${localstatedir}/lib/logrotate.status
-+
-+    # Install systemd unit files
-+    if [ "${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'systemd', '', d)}" = "systemd" ]; then
-+        install -d ${D}/${systemd_system_unitdir}
-+        install -m 0644 ${WORKDIR}/logrotate.service ${D}/${systemd_system_unitdir}/logrotate.service
-+        install -m 0644 ${WORKDIR}/logrotate.timer ${D}/${systemd_system_unitdir}/logrotate.timer
-+        sed -i -e 's,@TIMER_BASIS@,${LOGROTATE_SYSTEMD_TIMER_BASIS},g' ${D}${systemd_system_unitdir}/logrotate.timer
-+        sed -i -e 's,@TIMER_ACCURACY@,${LOGROTATE_SYSTEMD_TIMER_ACCURACY},g' ${D}${systemd_system_unitdir}/logrotate.timer
-+    else
-+        mkdir -p ${D}${sysconfdir}/cron.daily
-+        install -p -m 0755 examples/logrotate.cron ${D}${sysconfdir}/cron.daily/logrotate
-+    fi
- }
+Robert Yang (3):
+  runtime-test.py: fix typo
+  scripts/wic: fix typo
+  apt: fix hardcode of /usr/lib
+
+ meta/lib/oeqa/selftest/runtime-test.py    | 4 ++--
+ meta/recipes-devtools/apt/apt-package.inc | 2 +-
+ scripts/wic                               | 4 ++--
+ 3 files changed, 5 insertions(+), 5 deletions(-)
+
 -- 
-1.8.3.1
+2.9.0
 
 
