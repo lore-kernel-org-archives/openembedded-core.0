@@ -1,52 +1,49 @@
 Return-Path: <patrick.ohly@intel.com>
-Received: from mail-it0-f54.google.com (mail-it0-f54.google.com
-	[209.85.214.54])
-	by mail.openembedded.org (Postfix) with ESMTP id D8B3F77C11
+Received: from mail-it0-f43.google.com (mail-it0-f43.google.com
+	[209.85.214.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 606F977C11
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Mar 2017 21:43:18 +0000 (UTC)
-Received: by mail-it0-f54.google.com with SMTP id y18so3151715itc.1
+	Fri, 24 Mar 2017 21:46:23 +0000 (UTC)
+Received: by mail-it0-f43.google.com with SMTP id y18so22609890itc.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Mar 2017 14:43:20 -0700 (PDT)
+	Fri, 24 Mar 2017 14:46:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:organization:mime-version:content-transfer-encoding;
-	bh=uSJ0JsS+zjK7yBrQZzKNoQLH3hwnO+y4DaaqmAR9ap4=;
-	b=A3dUeiUBTf1bA3pd/eWMrDNTGu7DlCxnRrWZlfGMEx8cB8HEVN6Pwc4ETAdFMYSpf7
-	vHHtV1uTE8np1ZI7oIxcyoRFWLixiqhfZZxpP8xYKDiMrKukrg6G5bL0wGVnOkocgavR
-	pc6hBXEQMBo79PjCUAPpgq2dGMHHlBPlGKELzEIO2wxxSvUOK8zYkYfpEBkJI3HGZsf4
-	fn7d0DdaKZe+tF2N/+jDskLNRSsvvm0iiRmmy4VJLH2a/8C7DdkjWqIPMh3LlvJu9Xco
-	9O5IqZfw5oc1+Y7rTPM1ZvfeH9vEWf0o+LQnqV6HiRZV6iEQaJygV+bQ7q5f7GCyziWg
-	CmJw==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=cfyiHUca8LxKp0+ntqfn0oPYlXHlD8cHlhA4kPqmtds=;
+	b=W6qRud8MOb4AzyN7f2fKn6OIqoTuPX/gv9pDbT+N/JHEPiGPr3wfV6wYa4TPuW0br4
+	lKfw6QAUW6HUqtHbu7E4vZj4OT+LKzI6eY3nfp23CPTU2W+rQVjpr/7vZ5tglv9XCsb1
+	cgVW0jyPM9eSbijJyyQEXzNZJQa2Xf1kjlsgihtaFBF7vVkuan2K9yhRaLg5YpYr79mz
+	B80+au3pDGnWCkkcGsvRd2mjLRAMq/+AcJInscBqHZM0gW9wpwI0/boSQf7fCvQZjhs1
+	qBItxJswEya2E6/mVa5rWRZa9xU0EhuQ/TDuRRcpqFIGWSGbqNgnHqr09ZUtMB5k0rC0
+	UMdg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:organization:mime-version:content-transfer-encoding;
-	bh=uSJ0JsS+zjK7yBrQZzKNoQLH3hwnO+y4DaaqmAR9ap4=;
-	b=lDusjYP5kBylWQVcayB+tKWhzSNpo3TKaslNhQ9PWXYv/GZN4NzIRgng1Tk8eQCqlu
-	/LXbDT4YnSWW7e9IEjC3vWs/MPFIdAVbMid4mPQWyVsWGsbOABFwcta2oNv1P8hKWSj1
-	FCwJtjizQrQtIwfm9Aaf+bhDXITXFRU5VWnf38nt4vqjpXKFOB909XSjOM0CXOsLmHMM
-	JJbLYkY2GLeS5HqtA3O0MCRodP55uZizekmPZ7gmjFhmyHlxBUN6y3gTYJCjXGqeWHlz
-	f1Ydig3MDvCC8LJdM3Ac6jCUpPdOzWIdYIP1AqQvyg88JhGDlMbUBKSTrnCkfDNUMbhq
-	g33g==
-X-Gm-Message-State: AFeK/H2XXrKBcQcUYB3mMUu+Lmc7vSgutHTK94ttYqSqwxTRSbjwvCyNJXt/7ODxyyYQFlmF
-X-Received: by 10.107.147.67 with SMTP id v64mr11653691iod.120.1490391799761; 
-	Fri, 24 Mar 2017 14:43:19 -0700 (PDT)
-Received: from pohly-mobl1 (p5DE8E2F9.dip0.t-ipconnect.de. [93.232.226.249])
-	by smtp.gmail.com with ESMTPSA id s21sm1571003ite.0.2017.03.24.14.43.17
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 24 Mar 2017 14:43:18 -0700 (PDT)
-Message-ID: <1490391796.6396.287.camel@intel.com>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=cfyiHUca8LxKp0+ntqfn0oPYlXHlD8cHlhA4kPqmtds=;
+	b=mwMM/VIdx9/QJx4hAe3SQONys1W9+T5L/G/DUmss7hT7Pd0NcBBNuHK3S7rgXy7lA3
+	uqCakPH8YqQXrUbP5hqBZRvFzTN8zc8xfNAWTRky8jMmCBDWSjFRnvcX9CHU+QgHD7Fv
+	2df08PDhHEu14fjJy6Bd3kIDKUC4bqhX+VnsQekD2Y5aBQyRusyiY9dYIYjcZmoCw3l+
+	/I04SygRvsCPkg0UoSDx4C/fTqBjEKyJI9aGOSRntLerYj40QTFv9jkO0QwBNywdvsnP
+	mvB92G0F/nMbtmaQ3ZAJ9Pbo37fBrZ1lyWxBTqEBkefWV5E+E0A9MMCCW7yMcQEhWe02
+	6PXA==
+X-Gm-Message-State: AFeK/H3sFYoK1OAEowx0uQixWGy0xvp6tBar/NGDEGooWjAZB5PM1U8P3EbO9tmqMP7xAaT7
+X-Received: by 10.36.58.76 with SMTP id m73mr5262969itm.17.1490391984904;
+	Fri, 24 Mar 2017 14:46:24 -0700 (PDT)
+Received: from pohly-desktop.fritz.box (p5DE8E2F9.dip0.t-ipconnect.de.
+	[93.232.226.249])
+	by smtp.gmail.com with ESMTPSA id 202sm1567370ith.7.2017.03.24.14.46.22
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 24 Mar 2017 14:46:23 -0700 (PDT)
 From: Patrick Ohly <patrick.ohly@intel.com>
-To: Robert Yang <liezhi.yang@windriver.com>
-Date: Fri, 24 Mar 2017 22:43:16 +0100
-In-Reply-To: <cover.1490343063.git.liezhi.yang@windriver.com>
-References: <cover.1490343063.git.liezhi.yang@windriver.com>
-Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
-X-Mailer: Evolution 3.12.9-1+b1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/4 V2] runqemu: add selftest
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 24 Mar 2017 22:46:15 +0100
+Message-Id: <cover.0d2b67b6fd1ebbbb5d2fa788032f2316e484f09b.1490391921.git-series.patrick.ohly@intel.com>
+X-Mailer: git-send-email 2.11.0
+In-Reply-To: <cover.893d808ab8d6ae450d8d95e1b23eeecb627cde36.1490375888.git-series.patrick.ohly@intel.com>
+References: <cover.893d808ab8d6ae450d8d95e1b23eeecb627cde36.1490375888.git-series.patrick.ohly@intel.com>
+Subject: [PATCH v2 0/4] oeqa: more control over qemu
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,33 +56,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Mar 2017 21:43:19 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 24 Mar 2017 21:46:25 -0000
 
-On Fri, 2017-03-24 at 01:44 -0700, Robert Yang wrote:
-> * V2
->   Add Qi's patch to fix hang of "oe-selftest -r wic.Wic.test_qemu_efi".
+I'm currently working on testing an installer image. During that test
+I need to:
+- boot with two drives attached to the virtual machine (installer image
+  and internal disk)
+- install to internal disk
+- reboot with just the internal disk
 
-The test seems to be run correctly now:
-runqemu - INFO -
-Running .../core-image-minimal/1.0-r0/recipe-sysroot-native/usr/bin/qemu-system-x86_64 -device virtio-net-pci,netdev=net0,mac=52:54:00:12:34:02 -netdev tap,id=net0,ifname=tap0,script=no,downscript=no -drive if=virtio,file=.../core-image-minimal-intel-corei7-64.wic,format=raw -no-reboot -vga vmware -show-cursor -usb -usbdevice tablet -device virtio-rng-pci -drive if=pflash,format=qcow2,file=.../tmp-glibc/deploy/images/intel-corei7-64/ovmf.qcow2 -vga std  -serial tcp:127.0.0.1:46279  -cpu Nehalem -m 256 -serial tcp:127.0.0.1:35585 -snapshot
+There were several problems doing that:
+- attaching second disk via qemuparams was not possible
+- run_serial() timed out too early during the long-running install command
+- writes to the internal disks were discarded
+- booting with only the non-standard internal disk instead of the
+  recipe's image was not possible
 
-However, the EFI image was broken in my configuration
-(MACHINE=intel-corei7-64, intel-iot-refkit + openembedded master-next),
-it didn't have an efi/boot/bootx64.efi. That's an unrelated problem with
-the original test.
+V2: rebased on top of master-next + Robert's "runqemu: add selftest" series,
+    no other changes (merge V1 if not taking Robert's patches first)
 
-I'm fine with merging this patch series.
+Patrick Ohly (4):
+  qemurunner: configurable timeout for run_serial()
+  oeqa: allow extending qemuparams="..."
+  oeqa: allow customizing image used by runqemu()
+  oeqa: allow persistent image writes in runqemu()
 
+ meta/lib/oeqa/targetcontrol.py        | 10 +++++-----
+ meta/lib/oeqa/utils/commands.py       |  6 ++++--
+ meta/lib/oeqa/utils/qemurunner.py     | 21 ++++++++++++---------
+ meta/lib/oeqa/utils/qemutinyrunner.py |  8 +++++---
+ 4 files changed, 26 insertions(+), 19 deletions(-)
+
+base-commit: 9ff93dd64edb54888e9682ce39d8c3d63cfea4d8
 -- 
-Best Regards, Patrick Ohly
-
-The content of this message is my personal opinion only and although
-I am an employee of Intel, the statements I make here in no way
-represent Intel's position on the issue, nor am I authorized to speak
-on behalf of Intel on this matter.
-
-
-
+git-series 0.9.1
 
