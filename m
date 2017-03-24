@@ -1,24 +1,32 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 1843C77BB3
+Return-Path: <ejo@pengutronix.de>
+X-Greylist: delayed 993 seconds by postgrey-1.34 at layers.openembedded.org;
+	Fri, 24 Mar 2017 11:32:15 UTC
+Received: from metis.ext.4.pengutronix.de (metis.ext.4.pengutronix.de
+	[92.198.50.35])
+	by mail.openembedded.org (Postfix) with ESMTP id C38AA72F7B
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Mar 2017 09:19:16 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v2O9JHH2005620
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Mar 2017 02:19:17 -0700 (PDT)
-Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.294.0; Fri, 24 Mar 2017 02:19:16 -0700
-From: <kai.kang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 24 Mar 2017 17:18:57 +0800
-Message-ID: <20170324091857.11560-1-kai.kang@windriver.com>
-X-Mailer: git-send-email 2.10.1
+	Fri, 24 Mar 2017 11:32:15 +0000 (UTC)
+Received: from dude.hi.pengutronix.de ([2001:67c:670:100:1d::7])
+	by metis.ext.pengutronix.de with esmtps
+	(TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.84_2)
+	(envelope-from <ejo@pengutronix.de>)
+	id 1crNC3-0000di-G1; Fri, 24 Mar 2017 12:15:43 +0100
+Received: from ejo by dude.hi.pengutronix.de with local (Exim 4.88)
+	(envelope-from <ejo@pengutronix.de>)
+	id 1crNC3-0001Si-14; Fri, 24 Mar 2017 12:15:43 +0100
+From: Enrico Jorns <ejo@pengutronix.de>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 24 Mar 2017 12:15:02 +0100
+Message-Id: <20170324111502.23474-1-ejo@pengutronix.de>
+X-Mailer: git-send-email 2.11.0
 MIME-Version: 1.0
-Subject: [PATCH] mdadm: update criteria to build with corosync
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::7
+X-SA-Exim-Mail-From: ejo@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+	SAEximRunCond expanded to false
+X-PTX-Original-Recipient: openembedded-core@lists.openembedded.org
+Cc: uol@pengutronix.de, Enrico Jorns <ejo@pengutronix.de>
+Subject: [PATCH] image_types: perform fsck on created ext image
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,60 +39,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Mar 2017 09:19:17 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 24 Mar 2017 11:32:16 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-From: Kai Kang <kai.kang@windriver.com>
+When performing a file system check, the image created with mkfs will
+trigger Pass 3A ('Optimizing directories') which turns the file system
+into state "changed" (EXT2_FLAG_CHANGED).
 
-mdadm only works with corosync 2.x which provides header file corosync/cmap.h.
-If build mdadm with corosync 1.x, it fails with:
+This will let fsck request a reboot by setting the return code flag "2".
 
-| member.c:12:27: fatal error: corosync/cmap.h: No such file or directory
-|  #include <corosync/cmap.h>
-|                            ^
+The result of this is that each ext-image built with oe-core will
+trigger a reboot during the first time an fsck is triggered.
 
-Build with corosync only header file corosync/cmap.h exists.
+A common case where this might occur is when fsck detects having
+a future superblock write time. This always happens when booting a
+newly created ext4 rootfs with a target that does not have a recent time
+set.
 
-Ref:
-https://github.com/neilbrown/mdadm/blob/master/mdadm.h#L63
+This patch moves the initial fsck run that performs the optimization
+from the target to the host system and thus prevents the target from
+performing an avoidable reboot.
 
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
+Signed-off-by: Enrico Jorns <ejo@pengutronix.de>
+Signed-off-by: Ulrich Ölmann <uol@pengutronix.de>
 ---
- ...ix-the-path-of-corosync-and-dlm-header-files-check.patch | 13 ++++++++++++-
- 1 file changed, 12 insertions(+), 1 deletion(-)
+ meta/classes/image_types.bbclass | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-extended/mdadm/files/0001-Fix-the-path-of-corosync-and-dlm-header-files-check.patch b/meta/recipes-extended/mdadm/files/0001-Fix-the-path-of-corosync-and-dlm-header-files-check.patch
-index deb7486..a891614 100644
---- a/meta/recipes-extended/mdadm/files/0001-Fix-the-path-of-corosync-and-dlm-header-files-check.patch
-+++ b/meta/recipes-extended/mdadm/files/0001-Fix-the-path-of-corosync-and-dlm-header-files-check.patch
-@@ -10,6 +10,17 @@ Upstream-Status: Inappropriate [Yocto specific]
+diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
+index 1ce8334e3a..52d3af0cc1 100644
+--- a/meta/classes/image_types.bbclass
++++ b/meta/classes/image_types.bbclass
+@@ -66,6 +66,8 @@ oe_mkext234fs () {
+ 	# Create a sparse image block
+ 	dd if=/dev/zero of=${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.$fstype seek=$ROOTFS_SIZE count=$COUNT bs=1024
+ 	mkfs.$fstype -F $extra_imagecmd ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.$fstype -d ${IMAGE_ROOTFS}
++	# Error codes 0-3 indicate successfull operation of fsck (no errors or errors corrected)
++	fsck.$fstype -pvfD ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.$fstype || [ $? -le 3 ]
+ }
  
- Signed-off-by: Maxin B. John <maxin.john@intel.com>
- ---
-+mdadm only works with corosync 2.x which provides header file corosync/cmap.h.
-+If build mdadm with corosync 1.x, it fails with:
-+
-+| member.c:12:27: fatal error: corosync/cmap.h: No such file or directory
-+|  #include <corosync/cmap.h>
-+|                            ^
-+
-+Build with corosync only header file corosync/cmap.h exists.
-+
-+Signed-off-by: Kai Kang <kai.kang@windriver.com>
-+---
-  Makefile | 4 ++--
-  1 file changed, 2 insertions(+), 2 deletions(-)
- 
-@@ -23,7 +34,7 @@ index fd79cfb..34150a9 100644
-  
- -COROSYNC:=$(shell [ -d /usr/include/corosync ] || echo -DNO_COROSYNC)
- -DLM:=$(shell [ -f /usr/include/libdlm.h ] || echo -DNO_DLM)
--+COROSYNC:=$(shell [ -d $(SYSROOT)/usr/include/corosync ] || echo -DNO_COROSYNC)
-++COROSYNC:=$(shell [ -f $(SYSROOT)/usr/include/corosync/cmap.h ] || echo -DNO_COROSYNC)
- +DLM:=$(shell [ -f $(SYSROOT)/usr/include/libdlm.h ] || echo -DNO_DLM)
-  
-  DIRFLAGS = -DMAP_DIR=\"$(MAP_DIR)\" -DMAP_FILE=\"$(MAP_FILE)\"
+ IMAGE_CMD_ext2 = "oe_mkext234fs ext2 ${EXTRA_IMAGECMD}"
 -- 
-2.10.1
+2.11.0
 
 
