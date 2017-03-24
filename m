@@ -1,56 +1,47 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id B88FF77BD2
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pf0-f195.google.com (mail-pf0-f195.google.com
+	[209.85.192.195])
+	by mail.openembedded.org (Postfix) with ESMTP id B3A8B77BC6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Mar 2017 15:10:33 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id 209DD18254;
-	Fri, 24 Mar 2017 16:10:33 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id aogqOi9+nPtu; Fri, 24 Mar 2017 16:10:32 +0100 (CET)
-Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
-	by bastet.se.axis.com (Postfix) with ESMTPS id 26BF718370;
-	Fri, 24 Mar 2017 16:10:32 +0100 (CET)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 159C21A092;
-	Fri, 24 Mar 2017 16:10:32 +0100 (CET)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 0A5011A040;
-	Fri, 24 Mar 2017 16:10:32 +0100 (CET)
-Received: from seth.se.axis.com (unknown [10.0.2.172])
-	by boulder02.se.axis.com (Postfix) with ESMTP;
-	Fri, 24 Mar 2017 16:10:32 +0100 (CET)
-Received: from XBOX01.axis.com (xbox01.axis.com [10.0.5.15])
-	by seth.se.axis.com (Postfix) with ESMTP id F24AF1C06;
-	Fri, 24 Mar 2017 16:10:31 +0100 (CET)
-Received: from XBOX02.axis.com (10.0.5.16) by XBOX01.axis.com (10.0.5.15) with
-	Microsoft SMTP Server (TLS) id 15.0.1210.3;
-	Fri, 24 Mar 2017 16:10:31 +0100
-Received: from XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776]) by
-	XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776%21]) with mapi id
-	15.00.1210.000; Fri, 24 Mar 2017 16:10:31 +0100
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>, Andre McCurdy
-	<armccurdy@gmail.com>, OE Core mailing list
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] Using MACHINE_FEATURES in a native recipe
-Thread-Index: AQHSo1VEQzGGeZuXJ0O7Pb82vZwFKqGikb4AgAGGtxA=
-Date: Fri, 24 Mar 2017 15:10:31 +0000
-Message-ID: <f67e1ac46aff43cfb085fd76fe0f60c6@XBOX02.axis.com>
-References: <CAJ86T=WhxRaQ42=2bsFVZpeLhrZo2XwZBYoWp=f42tyebo2=2A@mail.gmail.com>
-	<1490287404.13980.231.camel@linuxfoundation.org>
-In-Reply-To: <1490287404.13980.231.camel@linuxfoundation.org>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.60]
-MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-Subject: Re: Using MACHINE_FEATURES in a native recipe
+	Fri, 24 Mar 2017 16:01:15 +0000 (UTC)
+Received: by mail-pf0-f195.google.com with SMTP id o126so1065905pfb.1
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 24 Mar 2017 09:01:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:subject:date:message-id;
+	bh=quvuInj6vYNTQERLdWK1e7q3DgUBgLwFaymQg7jFlRs=;
+	b=OfEyi3BhNJ71GRu9jwZLbKDGS+VG8wp1UUVgwz5V2FtADiVS3wlDix7Mq1kq9xyFvf
+	kx2PRrtRRhjj7/wBj39cp5B6wX6uGg1oJM7WtZPU/QKKrmFUY7tpnP92ayNk3lQgBGL6
+	3/7tqlzKKs6uMtIhbUACAYhVDRO9FSsvjKNOo4hB/D3S/I11KNJTqshGJWjAIKaHTNzk
+	0RdX6joxkDhQG9pp5dTwm9aKusEWuDM7wN/+wqokmoF0nLGQzP4nN3zCCndfEKuSOPsR
+	RyGwSW7PCTXPfSRHk0uThwd8ZWBRF6hkyjNhhBhPmHEBY7aYwnlZPDuE7tA4PD2eFtm/
+	bTiQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=quvuInj6vYNTQERLdWK1e7q3DgUBgLwFaymQg7jFlRs=;
+	b=HgH5Bux3U7X4mI3UXwcRzKaSFO+CJzw8UQCpuRwZ/pjnwlrGAck/ed98XjrufjTtx1
+	ayBK1z9TaWKQCCOeC/4OYhFrTHdm/7ForkMclWTD+tHvQfqvJxGF0eKClOkiGVZtPygc
+	1sbuFxSmfbwDWphfevWaOqRMH5rb2qEwIl3aKovGjj9TbUOSQg408EmWKsBP+T39cE6O
+	fjff4JWmcQOc+Rs6erNpQdqjohFamUjBbS26K6J+j9fn48B2KwwN16V4CdcQwj2cjNeD
+	p62EDAIq0EvlhTMYK8vU0lfr98+rziZcXixCp55bhcQBR2bpDZBuqKuGShIEi8N6iMND
+	Nv8g==
+X-Gm-Message-State: AFeK/H1/TNRxOR8I1nhYVRHHes6AiX0wxf3pajY8zBjUUMYxMJQUaZxqKzE+MpFijjfq4A==
+X-Received: by 10.84.176.129 with SMTP id v1mr11653448plb.192.1490371277399;
+	Fri, 24 Mar 2017 09:01:17 -0700 (PDT)
+Received: from akuster-ThinkPad-X240.mvista.com
+	([2601:202:4001:9ea0:e3df:bf0a:9f90:498e])
+	by smtp.gmail.com with ESMTPSA id
+	h25sm5568800pfk.119.2017.03.24.09.01.16
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 24 Mar 2017 09:01:16 -0700 (PDT)
+From: Armin Kuster <akuster808@gmail.com>
+To: akuster@mvista.com,
+	openembedded-core@lists.openembedded.org
+Date: Fri, 24 Mar 2017 09:01:13 -0700
+Message-Id: <1490371274-20416-1-git-send-email-akuster808@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH 1/2] tzcode: update to 2017b
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,38 +54,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Mar 2017 15:10:34 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Fri, 24 Mar 2017 16:01:17 -0000
 
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBvcGVuZW1iZWRkZWQtY29yZS1i
-b3VuY2VzQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gW21haWx0bzpvcGVuZW1iZWRkZWQtY29y
-ZS1ib3VuY2VzQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmddIE9uIEJlaGFsZiBPZg0KPiBSaWNoYXJk
-IFB1cmRpZQ0KPiBTZW50OiBkZW4gMjMgbWFycyAyMDE3IDE3OjQzDQo+IFRvOiBBbmRyZSBNY0N1
-cmR5OyBPRSBDb3JlIG1haWxpbmcgbGlzdA0KPiBTdWJqZWN0OiBSZTogW09FLWNvcmVdIFVzaW5n
-IE1BQ0hJTkVfRkVBVFVSRVMgaW4gYSBuYXRpdmUgcmVjaXBlDQo+IA0KPiBPbiBXZWQsIDIwMTct
-MDMtMjIgYXQgMTQ6NDIgLTA3MDAsIEFuZHJlIE1jQ3VyZHkgd3JvdGU6DQo+ID4gQ3VycmVudGx5
-IG5hdGl2ZS5iYmNsYXNzIGNsZWFycyBNQUNISU5FT1ZFUlJJREVTIGJ1dCBsZWF2ZXMNCj4gPiBN
-QUNISU5FX0ZFQVRVUkVTIGFsb25lLiBJcyB0aGF0IGFuIG92ZXJzaWdodD8gT3IgaXMgdGhlcmUg
-ZXZlciBhDQo+ID4gbGVnaXRpbWF0ZSByZWFzb24gZm9yIGEgbmF0aXZlIHJlY2lwZSB0byBoYXZl
-IGEgZGVwZW5kZW5jeSBvbg0KPiA+IE1BQ0hJTkVfRkVBVFVSRVM/DQo+IA0KPiBUaGVyZSBpcyBu
-byBnb29kIHJlYXNvbi4gQ3VycmVudGx5IGhhdmluZyB0aGlzIGRpbGVtbWEgd2l0aA0KPiBESVNU
-Uk9fRkVBVFVSRVMgdG9vIDovLg0KPiANCj4gb3BrZy1uYXRpdmUgcmVidWlsZGluZyBpZiB5b3Ug
-ZW5hYmxlL2Rpc2FibGUgc3lzdGVtZCBpc24ndA0KPiBleHBlY3RlZC9uaWNlLg0KPiANCj4gQ2hl
-ZXJzLA0KPiANCj4gUmljaGFyZA0KDQpFdmVuIHRob3VnaCBJIGFncmVlIHRoaXMgaXMgYSBnb29k
-IGNoYW5nZSBhbmQgdGhhdCBpdCBzaG91bGQgYmUgZG9uZSwgSSANCndvbmRlciBpZiB3ZSBjYW4g
-ZWl0aGVyIGhvbGQgaXQgb2ZmIHVudGlsIGFmdGVyIFB5cm8gaGFzIGJlZW4gcmVsZWFzZWQgDQpv
-ciBtYWtlIGl0IHBvc3NpYmxlIHRvIGF2b2lkIGl0PyBUaGUgcmVhc29uIGZvciB0aGlzIGlzIHRo
-YXQgSSBrbm93IA0KdGhhdCB0aGlzIGNoYW5nZSB3aWxsIHJlcXVpcmUgYSBodWdlIGFtb3VudCBv
-ZiBkZXZlbG9wbWVudCB3b3JrIGZvciB1cywgDQpzb21ldGhpbmcgdGhhdCB3aWxsIG5vdCBiZSBw
-b3NzaWJsZSB0byBkbyBpbiB0aGUgdGltZSBmcmFtZSBsZWZ0IHVudGlsIA0KUHlybyBpcyByZWxl
-YXNlZC4gT3IgYWx0ZXJuYXRpdmVseSB3ZSB3aWxsIGhhdmUgdG8gY29weSBuYXRpdmUuYmJjbGFz
-cyANCnRvIG91ciBsYXllcnMgYW5kIG1haW50YWluIGEgZm9yayBvZiBpdCwgd2hpY2ggc3Vja3Mu
-Li4NCg0KVGhlIHJlYXNvbiBmb3IgdGhpcyBpcyB0aGF0IG91ciB1bml0IHRlc3QgZnJhbWV3b3Jr
-IGlzIGJhc2VkIG9uIGJ1aWxkaW5nIA0KYWxsIG91ciBvd24gcGFja2FnZXMgYXMgbmF0aXZlLCBi
-dXQgc3RpbGwgY29uZmlndXJlZCB2aWEsIGFtb25nc3Qgb3RoZXJzLCANCk1BQ0hJTkVfRkVBVFVS
-RVMgYXMgaWYgYnVpbGRpbmcgZm9yIHRoZSByZWFsIHRhcmdldC4gVGhpcyB3aWxsIG9mIGNvdXJz
-ZSANCm5vdCB3b3JrIGFueW1vcmUgaWYgTUFDSElORV9GRUFUVVJFUyBpcyBzZXQgdG8gIiIgd2l0
-aCBubyB3YXkgb2YgDQpvdmVycmlkaW5nIGl0Lg0KDQovL1BldGVyDQoNCg==
+From: Armin Kuster <akuster@mvista.com>
+
+ Briefly: Haiti has resumed DST.
+
+  Changes to past and future time stamps
+
+    Haiti resumed observance of DST in 2017.  (Thanks to Steffen Thorsen.)
+
+  Changes to past time stamps
+
+    Liberia changed from -004430 to +00 on 1972-01-07, not 1972-05-01.
+
+    Use "MMT" to abbreviate Liberia's time zone before 1972, as "-004430"
+    is one byte over the POSIX limit.  (Problem reported by Derick Rethans.)
+
+Signed-off-by: Armin Kuster <akuster@mvista.com>
+---
+ .../tzcode/{tzcode-native_2017a.bb => tzcode-native_2017b.bb}     | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+ rename meta/recipes-extended/tzcode/{tzcode-native_2017a.bb => tzcode-native_2017b.bb} (70%)
+
+diff --git a/meta/recipes-extended/tzcode/tzcode-native_2017a.bb b/meta/recipes-extended/tzcode/tzcode-native_2017b.bb
+similarity index 70%
+rename from meta/recipes-extended/tzcode/tzcode-native_2017a.bb
+rename to meta/recipes-extended/tzcode/tzcode-native_2017b.bb
+index 2c26744f..2084f79 100644
+--- a/meta/recipes-extended/tzcode/tzcode-native_2017a.bb
++++ b/meta/recipes-extended/tzcode/tzcode-native_2017b.bb
+@@ -9,10 +9,10 @@ SRC_URI =" http://www.iana.org/time-zones/repository/releases/tzcode${PV}.tar.gz
+            http://www.iana.org/time-zones/repository/releases/tzdata${PV}.tar.gz;name=tzdata"
+ UPSTREAM_CHECK_URI = "http://www.iana.org/time-zones"
+ 
+-SRC_URI[tzcode.md5sum] = "eef0bfac7a52dce6989a7d8b40d86fe0"
+-SRC_URI[tzcode.sha256sum] = "02f2c6b58b99edd0d47f0cad34075b359fd1a4dab71850f493b0404ded3b38ac"
+-SRC_URI[tzdata.md5sum] = "cb8274cd175f8a4d9d1b89895df876dc"
+-SRC_URI[tzdata.sha256sum] = "df3a5c4d0a2cf0cde0b3f35796ccf6c9acfd598b8e70f8dece5404cd7626bbd6"
++SRC_URI[tzcode.md5sum] = "afaf15deb13759e8b543d86350385b16"
++SRC_URI[tzcode.sha256sum] = "4d1735bb54e22b8d7443d4d1f1a13d007ae11be79a35e51f8e8322fb8e292d40"
++SRC_URI[tzdata.md5sum] = "50dc0dc50c68644c1f70804f2e7a1625"
++SRC_URI[tzdata.sha256sum] = "f8242a522ea3496b0ce4ff4f2e75a049178da21001a08b8e666d8cbe07d18086"
+ 
+ S = "${WORKDIR}"
+ 
+-- 
+2.7.4
+
 
