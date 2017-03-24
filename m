@@ -1,31 +1,28 @@
 Return-Path: <markus.lehtonen@linux.intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id F377A77BB3
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id C350F77BA4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Mar 2017 14:18:00 +0000 (UTC)
+	Fri, 24 Mar 2017 14:18:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
 	d=intel.com; i=@intel.com; q=dns/txt; s=intel;
-	t=1490365082; x=1521901082;
-	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=YaI/cZlag6ucIEmu+HOjTtjujKR2UCgJBIB/XOHByCY=;
-	b=F5V58cemho+TwOR7b730mnz0qfPrvl0z/6ZoMVwhlW545YrkgWvX4lbE
-	+3L+xyANz2Vt6CBUJL3Brdh/3bbn4Q==;
+	t=1490365096; x=1521901096; h=from:to:subject:date:message-id;
+	bh=w1/jeZqiyXlZuEF4QvPTZCtNjbnfIbgUytkL5CGW/qY=;
+	b=ILfiJtUrGDJCXWU6kO9F7D6aqpglyASxvdkpJXn+st10aYIfpeerP+qy
+	oIWlf23Dzwv/pWeD1dmQSvnzolZMbg==;
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
 	24 Mar 2017 07:18:01 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.36,215,1486454400"; d="scan'208";a="1146511865"
+X-IronPort-AV: E=Sophos;i="5.36,215,1486454400"; d="scan'208";a="1146511852"
 Received: from mlehtone-mac02.fi.intel.com (HELO mqz-osx-suse64.fi.intel.com)
 	([10.237.66.34])
-	by fmsmga002.fm.intel.com with ESMTP; 24 Mar 2017 07:17:40 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 24 Mar 2017 07:17:35 -0700
 From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 24 Mar 2017 16:17:29 +0200
-Message-Id: <1490365050-11776-6-git-send-email-markus.lehtonen@linux.intel.com>
+Date: Fri, 24 Mar 2017 16:17:24 +0200
+Message-Id: <1490365050-11776-1-git-send-email-markus.lehtonen@linux.intel.com>
 X-Mailer: git-send-email 2.6.6
-In-Reply-To: <1490365050-11776-1-git-send-email-markus.lehtonen@linux.intel.com>
-References: <1490365050-11776-1-git-send-email-markus.lehtonen@linux.intel.com>
-Subject: [PATCH 5/6] scripts/oe-git-archive: implement --notes
+Subject: [PATCH 0/6] oe-build-perf-test: re-organize buildstats archiving
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,77 +35,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Mar 2017 14:18:01 -0000
+X-List-Received-Date: Fri, 24 Mar 2017 14:18:14 -0000
 
-Option for adding git-notes to the commit.
+This patchset optimizes the way buildstats are stored in oe-build-perf-test
+result data. After this change buildstats are stored under
+refs/notes/buildstats/* in Git, and thus, they're not cloned/fetched by
+default. The motivation is to reduce the data footprint as buildstats are
+rarely used but they take a lot of space. With thousands of test runs, the
+amount of data transfer required by git clone drops from the order of gigabytes
+to megabytes. If needed for deeper analysis, buildstats can always be fetched
+separately.
 
-[YOCTO #10582]
+The first patch in this changeset packs all buildstats into one JSON-formatted
+file so that they're easier to work with under git-notes.
 
-Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
----
- scripts/oe-git-archive | 21 ++++++++++++++++++---
- 1 file changed, 18 insertions(+), 3 deletions(-)
+The second patch optimizes buildstats data footprint by combining rusage
+values.
 
-diff --git a/scripts/oe-git-archive b/scripts/oe-git-archive
-index 1805ab3..ab19cb9 100755
---- a/scripts/oe-git-archive
-+++ b/scripts/oe-git-archive
-@@ -83,7 +83,7 @@ def init_git_repo(path, no_create, bare):
-     return repo
- 
- 
--def git_commit_data(repo, data_dir, branch, message, exclude):
-+def git_commit_data(repo, data_dir, branch, message, exclude, notes):
-     """Commit data into a Git repository"""
-     log.info("Committing data into to branch %s", branch)
-     tmp_index = os.path.join(repo.git_dir, 'index.oe-git-archive')
-@@ -106,6 +106,12 @@ def git_commit_data(repo, data_dir, branch, message, exclude):
-             git_cmd += ['-p', parent]
-         commit = repo.run_cmd(git_cmd, env_update)
- 
-+        # Create git notes
-+        for ref, filename in notes:
-+            ref = ref.format(branch_name=branch)
-+            repo.run_cmd(['notes', '--ref', ref, 'add',
-+                          '-F', os.path.abspath(filename), commit])
-+
-         # Update branch head
-         git_cmd = ['update-ref', 'refs/heads/' + branch, commit]
-         if parent:
-@@ -191,6 +197,13 @@ def parse_args(argv):
-     parser.add_argument('--exclude', action='append', default=[],
-                         help="Glob to exclude files from the commit. Relative "
-                              "to DATA_DIR. May be specified multiple times")
-+    parser.add_argument('--notes', nargs=2, action='append', default=[],
-+                        metavar=('GIT_REF', 'FILE'),
-+                        help="Add a file as a note under refs/notes/GIT_REF. "
-+                             "{branch_name} in GIT_REF will be expanded to the "
-+                             "actual target branch name (specified by "
-+                             "--branch-name). This option may be specified "
-+                             "multiple times.")
-     parser.add_argument('data_dir', metavar='DATA_DIR',
-                         help="Data to commit")
-     return parser.parse_args(argv)
-@@ -229,7 +242,7 @@ def main(argv=None):
- 
-         # Commit data
-         commit = git_commit_data(data_repo, args.data_dir, branch_name,
--                                 commit_msg, args.exclude)
-+                                 commit_msg, args.exclude, args.notes)
- 
-         # Create tag
-         if tag_name:
-@@ -242,7 +255,9 @@ def main(argv=None):
-             # If no remote is given we push with the default settings from
-             # gitconfig
-             if args.push is not True:
--                cmd.extend([args.push, branch_name])
-+                notes_refs = ['refs/notes/' + ref.format(branch_name=branch_name)
-+                                for ref, _ in args.notes]
-+                cmd.extend([args.push, branch_name] + notes_refs)
-             log.info("Pushing data to remote")
-             data_repo.run_cmd(cmd)
- 
+Patches #3, #4 and #5 add oe-git-archive script the ability to store data under
+git-notes, also fixing one bug in the git push functionality.
+
+The last patch changes the build perf test worker script to store buildstats
+under git-notes.
+
+
+The following changes since commit 3b5ac72bdf76ac8ff98dc3c882a4edc77c6e2c33:
+
+  rpm: add a "rpm-build" PROVIDES (2017-03-22 15:09:26 +0000)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib marquiz/buildperf/buildstats
+  http://git.openembedded.org/openembedded-core-contrib/log/?h=marquiz/buildperf/buildstats
+
+
+Markus Lehtonen (6):
+  oe-build-perf-test: pack all buildstat in one file
+  oe-build-perf-test: sum rusage in buildstats
+  scripts/oe-git-archive: fix pushing
+  scripts/oe-git-archive: implement --exclude
+  scripts/oe-git-archive: implement --notes
+  build-perf-test-wrapper.sh: store buildstats under git-notes
+
+ meta/lib/oeqa/buildperf/base.py            | 66 ++++++++++++++++--------------
+ meta/lib/oeqa/buildperf/test_basic.py      | 24 +++++------
+ scripts/contrib/build-perf-test-wrapper.sh |  2 +
+ scripts/oe-build-perf-test                 |  1 +
+ scripts/oe-git-archive                     | 32 +++++++++++++--
+ 5 files changed, 78 insertions(+), 47 deletions(-)
+
 -- 
 2.6.6
 
