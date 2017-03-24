@@ -1,46 +1,56 @@
-Return-Path: <max.oss.09@gmail.com>
-Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
-	by mail.openembedded.org (Postfix) with ESMTP id A558677BC8
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id B88FF77BD2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Mar 2017 15:07:43 +0000 (UTC)
-Received: by mail-wm0-f65.google.com with SMTP id x124so1126978wmf.3
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Mar 2017 08:07:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=ZrCacVfTvcCwu2bBB9zrX9n9DmeaboBObacAPNf21ZQ=;
-	b=cRhv90HjI8WmAUAO/SsWIbAOSP+xO0MncYdtcp6TUJh2vWE3S7AR1FdqPeMa6aZ2wp
-	2xmhQPAlGOJ04c85gO5BTTqAikohOa6vYPQJGS/NtU39xly3d1bYEOx57336LJQ70CAW
-	Qwl05XuPOFz7xm3qnK0UDF6aFyKNKUlG6+2gvY8+VOG1AX7S3naEO8hK1Dr8uILfXTJ7
-	dK3q35NOXNqP8kyh8QilQzu8InczKFye5PEg/1qiHl8Ov0+rkZMio1ilF+/sIlDOeR69
-	WTUl+nr7dPBziHp2dfCKVGJNExHTD7G/0U44eClw7Q/VBk9Q8t6WFvLrQKe+pIywaBWJ
-	ZXQA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=ZrCacVfTvcCwu2bBB9zrX9n9DmeaboBObacAPNf21ZQ=;
-	b=DnGllTJacOlqAg2xINkPb9NYNgAPukBImadjsFOAwEhe+Vmm18/3oE3d/bnlVjawrS
-	F48aazn7gumJwsWpVp+dBykgLFRFC4X2/vp43Ava5L2zufBE6f6l9f/T/dJtMHVS4HRB
-	5vVnb+xuYWecZQAgBJJQrG7g7KLW8E7QDC08BBxzeU/NzpknsrSpXAyShs+IBI3NJcp1
-	iLalFPerS5+vFLQnO6FgvB/w3wKaBWpGR+BzlSOjxZk1u+iulN/NzpB3OX4uRM5D/5dG
-	HVqHA81OjSj++GtrAFsB5JNgjtfSWMWkoul4NT3iEPFCorLnHQMDR2IRJrsyu+2z8PDe
-	ipIg==
-X-Gm-Message-State: AFeK/H0REeFICnS4sAoakPsRX0ji4toNj5SwQu5BXvJd0V1hMRNMVoOa0W86Vsqyk9QrYQ==
-X-Received: by 10.28.84.18 with SMTP id i18mr3728818wmb.12.1490367739248;
-	Fri, 24 Mar 2017 08:02:19 -0700 (PDT)
-Received: from Saturn.local.all ([194.191.225.83])
-	by smtp.gmail.com with ESMTPSA id
-	h187sm2745332wma.32.2017.03.24.08.02.18
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 24 Mar 2017 08:02:18 -0700 (PDT)
-From: Max Krummenacher <max.oss.09@gmail.com>
-X-Google-Original-From: Max Krummenacher <max.krummenacher@toradex.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 24 Mar 2017 16:01:14 +0100
-Message-Id: <1490367674-24329-1-git-send-email-max.krummenacher@toradex.com>
-X-Mailer: git-send-email 2.6.6
-Cc: Max Krummenacher <max.krummenacher@toradex.com>
-Subject: [PATCH] openssl: Fix regression when building for thumb2
+	Fri, 24 Mar 2017 15:10:33 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id 209DD18254;
+	Fri, 24 Mar 2017 16:10:33 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024)
+	with LMTP id aogqOi9+nPtu; Fri, 24 Mar 2017 16:10:32 +0100 (CET)
+Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
+	by bastet.se.axis.com (Postfix) with ESMTPS id 26BF718370;
+	Fri, 24 Mar 2017 16:10:32 +0100 (CET)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 159C21A092;
+	Fri, 24 Mar 2017 16:10:32 +0100 (CET)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 0A5011A040;
+	Fri, 24 Mar 2017 16:10:32 +0100 (CET)
+Received: from seth.se.axis.com (unknown [10.0.2.172])
+	by boulder02.se.axis.com (Postfix) with ESMTP;
+	Fri, 24 Mar 2017 16:10:32 +0100 (CET)
+Received: from XBOX01.axis.com (xbox01.axis.com [10.0.5.15])
+	by seth.se.axis.com (Postfix) with ESMTP id F24AF1C06;
+	Fri, 24 Mar 2017 16:10:31 +0100 (CET)
+Received: from XBOX02.axis.com (10.0.5.16) by XBOX01.axis.com (10.0.5.15) with
+	Microsoft SMTP Server (TLS) id 15.0.1210.3;
+	Fri, 24 Mar 2017 16:10:31 +0100
+Received: from XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776]) by
+	XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776%21]) with mapi id
+	15.00.1210.000; Fri, 24 Mar 2017 16:10:31 +0100
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>, Andre McCurdy
+	<armccurdy@gmail.com>, OE Core mailing list
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] Using MACHINE_FEATURES in a native recipe
+Thread-Index: AQHSo1VEQzGGeZuXJ0O7Pb82vZwFKqGikb4AgAGGtxA=
+Date: Fri, 24 Mar 2017 15:10:31 +0000
+Message-ID: <f67e1ac46aff43cfb085fd76fe0f60c6@XBOX02.axis.com>
+References: <CAJ86T=WhxRaQ42=2bsFVZpeLhrZo2XwZBYoWp=f42tyebo2=2A@mail.gmail.com>
+	<1490287404.13980.231.camel@linuxfoundation.org>
+In-Reply-To: <1490287404.13980.231.camel@linuxfoundation.org>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.60]
+MIME-Version: 1.0
+X-TM-AS-GCONF: 00
+Subject: Re: Using MACHINE_FEATURES in a native recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,59 +63,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Mar 2017 15:07:46 -0000
+X-List-Received-Date: Fri, 24 Mar 2017 15:10:34 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Commit 'c8da8ce openssl: Fix build with clang' introduced a regression.
-do_compile fails when building with gcc/thumb2.
-
-Note that I did not test if it still builds with clang.
-
-Prevents the following when building with thumb2:
-
-| ghash-armv4.S: Assembler messages:
-| ghash-armv4.S:88: Error: thumb conditional instruction should be in IT block -- `ldrplb r12,[r2,r3]'
-| ghash-armv4.S:98: conditional infixes are deprecated in unified syntax
-| ghash-armv4.S:98: Error: thumb conditional instruction should be in IT block -- `ldrplb r8,[r0,r3]'
-| ghash-armv4.S:105: Error: thumb conditional instruction should be in IT block -- `eorpl r12,r12,r8'
-| ghash-armv4.S:107: Error: thumb conditional instruction should be in IT block -- `andpl r14,r12,#0xf0'
-| ghash-armv4.S:108: Error: thumb conditional instruction should be in IT block -- `andpl r12,r12,#0x0f'
-| ghash-armv4.S:144: conditional infixes are deprecated in unified syntax
-| ghash-armv4.S:144: Error: thumb conditional instruction should be in IT block -- `ldrneb r12,[r2,#15]'
-| ghash-armv4.S:231: conditional infixes are deprecated in unified syntax
-| ghash-armv4.S:231: Error: thumb conditional instruction should be in IT block -- `ldrplb r12,[r0,r3]'
-| ghash-armv4.S:248: Error: thumb conditional instruction should be in IT block -- `andpl r14,r12,#0xf0'
-| ghash-armv4.S:249: Error: thumb conditional instruction should be in IT block -- `andpl r12,r12,#0x0f'
-
-Signed-off-by: Max Krummenacher <max.krummenacher@toradex.com>
----
- .../0001-Fix-build-with-clang-using-external-assembler.patch        | 6 +-----
- 1 file changed, 1 insertion(+), 5 deletions(-)
-
-diff --git a/meta/recipes-connectivity/openssl/openssl/0001-Fix-build-with-clang-using-external-assembler.patch b/meta/recipes-connectivity/openssl/openssl/0001-Fix-build-with-clang-using-external-assembler.patch
-index 47b83a5..2270962 100644
---- a/meta/recipes-connectivity/openssl/openssl/0001-Fix-build-with-clang-using-external-assembler.patch
-+++ b/meta/recipes-connectivity/openssl/openssl/0001-Fix-build-with-clang-using-external-assembler.patch
-@@ -29,18 +29,14 @@ diff --git a/crypto/modes/asm/ghash-armv4.pl b/crypto/modes/asm/ghash-armv4.pl
- index 8ccc963ef..442fed4da 100644
- --- a/crypto/modes/asm/ghash-armv4.pl
- +++ b/crypto/modes/asm/ghash-armv4.pl
--@@ -124,7 +124,14 @@ $code=<<___;
-+@@ -124,7 +124,10 @@ $code=<<___;
-  #include "arm_arch.h"
-  
-  .text
- +#if defined(__thumb2__) || defined(__clang__)
- +.syntax	unified
- +#endif
--+#if defined(__thumb2__)
--+.thumb
--+#else
-  .code	32
--+#endif
-  
-  #ifdef __clang__
-  #define ldrplb	ldrbpl
--- 
-2.6.6
-
+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBvcGVuZW1iZWRkZWQtY29yZS1i
+b3VuY2VzQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gW21haWx0bzpvcGVuZW1iZWRkZWQtY29y
+ZS1ib3VuY2VzQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmddIE9uIEJlaGFsZiBPZg0KPiBSaWNoYXJk
+IFB1cmRpZQ0KPiBTZW50OiBkZW4gMjMgbWFycyAyMDE3IDE3OjQzDQo+IFRvOiBBbmRyZSBNY0N1
+cmR5OyBPRSBDb3JlIG1haWxpbmcgbGlzdA0KPiBTdWJqZWN0OiBSZTogW09FLWNvcmVdIFVzaW5n
+IE1BQ0hJTkVfRkVBVFVSRVMgaW4gYSBuYXRpdmUgcmVjaXBlDQo+IA0KPiBPbiBXZWQsIDIwMTct
+MDMtMjIgYXQgMTQ6NDIgLTA3MDAsIEFuZHJlIE1jQ3VyZHkgd3JvdGU6DQo+ID4gQ3VycmVudGx5
+IG5hdGl2ZS5iYmNsYXNzIGNsZWFycyBNQUNISU5FT1ZFUlJJREVTIGJ1dCBsZWF2ZXMNCj4gPiBN
+QUNISU5FX0ZFQVRVUkVTIGFsb25lLiBJcyB0aGF0IGFuIG92ZXJzaWdodD8gT3IgaXMgdGhlcmUg
+ZXZlciBhDQo+ID4gbGVnaXRpbWF0ZSByZWFzb24gZm9yIGEgbmF0aXZlIHJlY2lwZSB0byBoYXZl
+IGEgZGVwZW5kZW5jeSBvbg0KPiA+IE1BQ0hJTkVfRkVBVFVSRVM/DQo+IA0KPiBUaGVyZSBpcyBu
+byBnb29kIHJlYXNvbi4gQ3VycmVudGx5IGhhdmluZyB0aGlzIGRpbGVtbWEgd2l0aA0KPiBESVNU
+Uk9fRkVBVFVSRVMgdG9vIDovLg0KPiANCj4gb3BrZy1uYXRpdmUgcmVidWlsZGluZyBpZiB5b3Ug
+ZW5hYmxlL2Rpc2FibGUgc3lzdGVtZCBpc24ndA0KPiBleHBlY3RlZC9uaWNlLg0KPiANCj4gQ2hl
+ZXJzLA0KPiANCj4gUmljaGFyZA0KDQpFdmVuIHRob3VnaCBJIGFncmVlIHRoaXMgaXMgYSBnb29k
+IGNoYW5nZSBhbmQgdGhhdCBpdCBzaG91bGQgYmUgZG9uZSwgSSANCndvbmRlciBpZiB3ZSBjYW4g
+ZWl0aGVyIGhvbGQgaXQgb2ZmIHVudGlsIGFmdGVyIFB5cm8gaGFzIGJlZW4gcmVsZWFzZWQgDQpv
+ciBtYWtlIGl0IHBvc3NpYmxlIHRvIGF2b2lkIGl0PyBUaGUgcmVhc29uIGZvciB0aGlzIGlzIHRo
+YXQgSSBrbm93IA0KdGhhdCB0aGlzIGNoYW5nZSB3aWxsIHJlcXVpcmUgYSBodWdlIGFtb3VudCBv
+ZiBkZXZlbG9wbWVudCB3b3JrIGZvciB1cywgDQpzb21ldGhpbmcgdGhhdCB3aWxsIG5vdCBiZSBw
+b3NzaWJsZSB0byBkbyBpbiB0aGUgdGltZSBmcmFtZSBsZWZ0IHVudGlsIA0KUHlybyBpcyByZWxl
+YXNlZC4gT3IgYWx0ZXJuYXRpdmVseSB3ZSB3aWxsIGhhdmUgdG8gY29weSBuYXRpdmUuYmJjbGFz
+cyANCnRvIG91ciBsYXllcnMgYW5kIG1haW50YWluIGEgZm9yayBvZiBpdCwgd2hpY2ggc3Vja3Mu
+Li4NCg0KVGhlIHJlYXNvbiBmb3IgdGhpcyBpcyB0aGF0IG91ciB1bml0IHRlc3QgZnJhbWV3b3Jr
+IGlzIGJhc2VkIG9uIGJ1aWxkaW5nIA0KYWxsIG91ciBvd24gcGFja2FnZXMgYXMgbmF0aXZlLCBi
+dXQgc3RpbGwgY29uZmlndXJlZCB2aWEsIGFtb25nc3Qgb3RoZXJzLCANCk1BQ0hJTkVfRkVBVFVS
+RVMgYXMgaWYgYnVpbGRpbmcgZm9yIHRoZSByZWFsIHRhcmdldC4gVGhpcyB3aWxsIG9mIGNvdXJz
+ZSANCm5vdCB3b3JrIGFueW1vcmUgaWYgTUFDSElORV9GRUFUVVJFUyBpcyBzZXQgdG8gIiIgd2l0
+aCBubyB3YXkgb2YgDQpvdmVycmlkaW5nIGl0Lg0KDQovL1BldGVyDQoNCg==
 
