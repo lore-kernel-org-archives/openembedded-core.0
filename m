@@ -1,26 +1,24 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 62A7572F4F
+Return-Path: <Kai.Kang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 1843C77BB3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Mar 2017 08:55:37 +0000 (UTC)
+	Fri, 24 Mar 2017 09:19:16 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v2O8tcwf009784
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v2O9JHH2005620
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Mar 2017 01:55:38 -0700
-Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
-	Fri, 24 Mar 2017 01:55:37 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
+	Fri, 24 Mar 2017 02:19:17 -0700 (PDT)
+Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.294.0; Fri, 24 Mar 2017 02:19:16 -0700
+From: <kai.kang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 24 Mar 2017 01:55:32 -0700
-Message-ID: <de7ddacb8dd4f72739dd46ce3aee5b610de8b430.1490345691.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 2.9.0
-In-Reply-To: <cover.1490345691.git.liezhi.yang@windriver.com>
-References: <cover.1490345691.git.liezhi.yang@windriver.com>
+Date: Fri, 24 Mar 2017 17:18:57 +0800
+Message-ID: <20170324091857.11560-1-kai.kang@windriver.com>
+X-Mailer: git-send-email 2.10.1
 MIME-Version: 1.0
-Subject: [PATCH 2/3] scripts/wic: fix typo
+Subject: [PATCH] mdadm: update criteria to build with corosync
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,39 +31,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Mar 2017 08:55:38 -0000
+X-List-Received-Date: Fri, 24 Mar 2017 09:19:17 -0000
 Content-Type: text/plain
 
-roofs -> rootfs
+From: Kai Kang <kai.kang@windriver.com>
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+mdadm only works with corosync 2.x which provides header file corosync/cmap.h.
+If build mdadm with corosync 1.x, it fails with:
+
+| member.c:12:27: fatal error: corosync/cmap.h: No such file or directory
+|  #include <corosync/cmap.h>
+|                            ^
+
+Build with corosync only header file corosync/cmap.h exists.
+
+Ref:
+https://github.com/neilbrown/mdadm/blob/master/mdadm.h#L63
+
+Signed-off-by: Kai Kang <kai.kang@windriver.com>
 ---
- scripts/wic | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ ...ix-the-path-of-corosync-and-dlm-header-files-check.patch | 13 ++++++++++++-
+ 1 file changed, 12 insertions(+), 1 deletion(-)
 
-diff --git a/scripts/wic b/scripts/wic
-index 8e9c05c..a5f2dbf 100755
---- a/scripts/wic
-+++ b/scripts/wic
-@@ -146,7 +146,7 @@ def wic_create_subcommand(args, usage_str):
-         raise WicError("Wrong number of arguments, exiting")
+diff --git a/meta/recipes-extended/mdadm/files/0001-Fix-the-path-of-corosync-and-dlm-header-files-check.patch b/meta/recipes-extended/mdadm/files/0001-Fix-the-path-of-corosync-and-dlm-header-files-check.patch
+index deb7486..a891614 100644
+--- a/meta/recipes-extended/mdadm/files/0001-Fix-the-path-of-corosync-and-dlm-header-files-check.patch
++++ b/meta/recipes-extended/mdadm/files/0001-Fix-the-path-of-corosync-and-dlm-header-files-check.patch
+@@ -10,6 +10,17 @@ Upstream-Status: Inappropriate [Yocto specific]
  
-     if options.build_rootfs and not bitbake_main:
--        raise WicError("Can't build roofs as bitbake is not in the $PATH")
-+        raise WicError("Can't build rootfs as bitbake is not in the $PATH")
+ Signed-off-by: Maxin B. John <maxin.john@intel.com>
+ ---
++mdadm only works with corosync 2.x which provides header file corosync/cmap.h.
++If build mdadm with corosync 1.x, it fails with:
++
++| member.c:12:27: fatal error: corosync/cmap.h: No such file or directory
++|  #include <corosync/cmap.h>
++|                            ^
++
++Build with corosync only header file corosync/cmap.h exists.
++
++Signed-off-by: Kai Kang <kai.kang@windriver.com>
++---
+  Makefile | 4 ++--
+  1 file changed, 2 insertions(+), 2 deletions(-)
  
-     if not options.image_name:
-         missed = []
-@@ -223,7 +223,7 @@ def wic_create_subcommand(args, usage_str):
-         kernel_dir = options.kernel_dir
-         native_sysroot = options.native_sysroot
-         if rootfs_dir and not os.path.isdir(rootfs_dir):
--            raise WicError("--roofs-dir (-r) not found, exiting")
-+            raise WicError("--rootfs-dir (-r) not found, exiting")
-         if not os.path.isdir(bootimg_dir):
-             raise WicError("--bootimg-dir (-b) not found, exiting")
-         if not os.path.isdir(kernel_dir):
+@@ -23,7 +34,7 @@ index fd79cfb..34150a9 100644
+  
+ -COROSYNC:=$(shell [ -d /usr/include/corosync ] || echo -DNO_COROSYNC)
+ -DLM:=$(shell [ -f /usr/include/libdlm.h ] || echo -DNO_DLM)
+-+COROSYNC:=$(shell [ -d $(SYSROOT)/usr/include/corosync ] || echo -DNO_COROSYNC)
+++COROSYNC:=$(shell [ -f $(SYSROOT)/usr/include/corosync/cmap.h ] || echo -DNO_COROSYNC)
+ +DLM:=$(shell [ -f $(SYSROOT)/usr/include/libdlm.h ] || echo -DNO_DLM)
+  
+  DIRFLAGS = -DMAP_DIR=\"$(MAP_DIR)\" -DMAP_FILE=\"$(MAP_FILE)\"
 -- 
-2.9.0
+2.10.1
 
 
