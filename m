@@ -1,42 +1,48 @@
-Return-Path: <cody@arrc.ou.edu>
-Received: from mail-ot0-f194.google.com (mail-ot0-f194.google.com
-	[74.125.82.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 44C5B77BB4
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qt0-f179.google.com (mail-qt0-f179.google.com
+	[209.85.216.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 1304D77BB1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Mar 2017 14:07:46 +0000 (UTC)
-Received: by mail-ot0-f194.google.com with SMTP id y88so400574ota.1
+	Fri, 24 Mar 2017 14:07:54 +0000 (UTC)
+Received: by mail-qt0-f179.google.com with SMTP id n21so3073398qta.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Mar 2017 07:07:48 -0700 (PDT)
+	Fri, 24 Mar 2017 07:07:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=arrc-ou-edu.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:from:date:message-id:subject:to;
-	bh=E11VfJVqyy1ZeTY+wwOqCbzBolyxMj6c65rAKLvxXO4=;
-	b=CDtkB4nbWX8Fx+x17LlvvGjiPys6oiL4qcVrYXG/8HeI3aW1v71FQFnZDk/xJ6Qy3f
-	VURgRhCH7KRU91kiFfTTVsNSZiT3BpszMngRBeLwEa09jeHEYag6dwCCZPSVHrvvzW9Z
-	BJXd5fjLzizlq49y7n9z29fZUVNBZPhFA056WfHxEMaQwqClEu9pql5cVfhfqGvACkaN
-	mYp9R86/Ozn7X0V6T7yNICrus5VJmV8jsvYBOvgjdsnHAJva14i+NChBncNGOcbJLKby
-	JrZbTNFpqbk6g9OmnE8VDr4V6Amo2OzKagouCOk+0m/FHGyJAhJAINUP/DsbszByZnJo
-	ExPg==
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=u68WRDh4lT77OmZ3BANJScbOqnm3LPZMODxavP6GtJc=;
+	b=nMqEvlTrSPB4f2eEKZgLHNwOhW1U6rN+vXrRGqEqSronNxXpRhAvkGqNLVCZv3datF
+	Bz3FVTGP1euEkIX74lQBfs66+QrteexN4oZDeJKb6y/EmBIyL/v7ip0GdghpelRRHALb
+	d6n4AmSZzyDYJGTmdxU8uRV3p0v8ffG+Nu2B478hagy+5K+XkKWGeHbevPCByvIfBy36
+	kgiClOJZLBFuSfVwIqXmx6ElfjGeQm+5KyxlX6tBwfapVzkcWdjhDmkn/HjxRCEWZHOf
+	vogyra7Ky1njU3IilPWXEYYuYADV6Q7Tn+WOR/qXk+RAperaDmj3gFa6r43+ZWsJs7c6
+	wEAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-	bh=E11VfJVqyy1ZeTY+wwOqCbzBolyxMj6c65rAKLvxXO4=;
-	b=DOxN5kUbimprAi6igOJ3emQUT3IDf6P73Pi+hxywj0JkNzxh+IC1AguZVWxMtOokMc
-	pwoZIGzdA4hH+8JfQLb1KB/WItMBrFoiFjHZUDURKE5pFHJK4JQFN/MhOMxGAq1Buo5v
-	mweh+O6Csm+E3KQQXsFR1I4fZNFspvNPtT2cBEbr5rHaki8Oz6C9kCnooNi0T1RQgON1
-	xzzos89DRi0X6dwAl5pwWUPRzs7HOVj/AiZUIN8iKH2r+IjSON+2t3OF9eMQQImkm54H
-	GFvF5HgPChJ/2GreJifK+qOZ2hE3Jja+pMKgbfnAy82wI41k1YYrlZqJV3qJ5Re+Q1H9
-	u+Zg==
-X-Gm-Message-State: AFeK/H1p4CsMtBHp5SxcQ8oPTTsDp7vpgU1/l00cemSyGqlUk3FCK08u8Jfm7gT0NUMPLT5ygjUjy9fng+IPKl/F
-X-Received: by 10.157.7.230 with SMTP id 93mr4037324oto.223.1490364467433;
-	Fri, 24 Mar 2017 07:07:47 -0700 (PDT)
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=u68WRDh4lT77OmZ3BANJScbOqnm3LPZMODxavP6GtJc=;
+	b=WZMM10GPhmkdVh3GyBuRo2TWEEdX+riSPZgdOFaaUGMOB46uIh0IE95NAZ67ay3sIA
+	2N7teSUP8M2AGMc7iYia10AeEk0c5/emDT/1izCtOCTXFnaUPs4DcGwi1ofkMBeFyCdc
+	mdCgSPrxQAvQ14jF4kF756DMUoxW3pkUqtShEnS/WY+ulnikoabbTz9zCTfHUZXLZPRr
+	S4/e18vJPRSKNJWOuv75HgelsolTkvaptEArZChfKqDiD0PQzVkayq9Qf0ld3dqHUl+m
+	CEMqngWqY2dFwLwy631ImAjHc5ltsGDLF6BRfoQ65ZN0MIixVtElUb7MHbDHzsDYj6Ju
+	khdg==
+X-Gm-Message-State: AFeK/H0d/QUZrx/6OoWG78s7CcKRsKiMf0TiZPG5qhZh1Oahkz23Nw15k0Vw24uZJWT4duZwPwVJ2mcRSzbQVHD6
+X-Received: by 10.237.43.69 with SMTP id p63mr7792588qtd.68.1490364475455;
+	Fri, 24 Mar 2017 07:07:55 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.157.4.203 with HTTP; Fri, 24 Mar 2017 07:07:47 -0700 (PDT)
-From: Cody Piersall <cody@arrc.ou.edu>
-Date: Fri, 24 Mar 2017 09:07:47 -0500
-Message-ID: <CAKEinFxuOqEeYv1zt5oL9KpPQnN=jQ+rA3++igT7dWuWeBX=rg@mail.gmail.com>
-To: openembedded-core@lists.openembedded.org
-Subject: Remove do_install_append() from zsh's recipe
+Received: by 10.140.22.166 with HTTP; Fri, 24 Mar 2017 07:07:35 -0700 (PDT)
+In-Reply-To: <82c9bea8-d333-c1b8-638a-e24945af795b@pengutronix.de>
+References: <20170324111502.23474-1-ejo@pengutronix.de>
+	<d277a548-fc71-01a7-d995-1f9c9301db51@phytec.de>
+	<82c9bea8-d333-c1b8-638a-e24945af795b@pengutronix.de>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 24 Mar 2017 14:07:35 +0000
+Message-ID: <CAJTo0LZZKN3tBLx0NBS1HCsZ5vEy5Yc9=+FLdVM9grRBRDNrJw@mail.gmail.com>
+To: Enrico Joerns <ejo@pengutronix.de>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] image_types: perform fsck on created ext image
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,50 +55,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Mar 2017 14:07:47 -0000
+X-List-Received-Date: Fri, 24 Mar 2017 14:07:55 -0000
+Content-Type: multipart/alternative; boundary=94eb2c124cc4261eab054b7a85d7
+
+--94eb2c124cc4261eab054b7a85d7
 Content-Type: text/plain; charset=UTF-8
 
-Hello,
+On 24 March 2017 at 14:01, Enrico Joerns <ejo@pengutronix.de> wrote:
 
-The recipe for building zsh includes the following function:
+> But, there is another difference between our patches. We use `-pvfD`,
+> while you use `-fy` as an fsck.extN option.
+>
 
-do_install_append () {
-    rm -fr ${D}/usr/share
-}
+Indeed, I've selected your patch for my staging branch.
 
-For me, this is not a useful function because zsh store lots of nice
-functionality in the "/usr/share/zsh/5.0.5/functions" directory.  This
-includes things like typing cd <TAB> and autocompleting only for
-directories.  I propose that this function be removed from the recipe
-(patch below).  If someone needs this functionality, it would be easy
-to add to their bbappend file.
+Cheers,
+Ross
 
-Link to zsh recipe:
-http://cgit.openembedded.org/meta-openembedded/tree/meta-oe/recipes-extended/zsh/zsh_5.0.5.bb?h=master
+--94eb2c124cc4261eab054b7a85d7
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-This patch removes this do_install_append:
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 24 March 2017 at 14:01, Enrico Joerns <span dir=3D"ltr">&lt;<a href=3D"m=
+ailto:ejo@pengutronix.de" target=3D"_blank">ejo@pengutronix.de</a>&gt;</spa=
+n> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;b=
+order-left:1px #ccc solid;padding-left:1ex"><div id=3D":o8" class=3D"a3s aX=
+jCH m15b009fd556cc0b5">But, there is another difference between our patches=
+. We use `-pvfD`, while you use `-fy` as an fsck.extN option.<br></div></bl=
+ockquote></div><br>Indeed, I&#39;ve selected your patch for my staging bran=
+ch.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ch=
+eers,</div><div class=3D"gmail_extra">Ross</div></div>
 
-diff --git a/meta-oe/recipes-extended/zsh/zsh_5.0.5.bb
-b/meta-oe/recipes-extended/zsh/zsh_5.0.5.bb
-index 39b2d95..d5bb1b7 100644
---- a/meta-oe/recipes-extended/zsh/zsh_5.0.5.bb
-+++ b/meta-oe/recipes-extended/zsh/zsh_5.0.5.bb
-@@ -44,10 +44,6 @@ do_configure () {
-     oe_runconf
- }
-
--do_install_append () {
--    rm -fr ${D}/usr/share
--}
--
- pkg_postinst_${PN} () {
-     touch $D${sysconfdir}/shells
-     grep -q "bin/zsh" $D${sysconfdir}/shells || echo /bin/zsh >>
-$D${sysconfdir}/shells
-
-This is my first post to this list, so please feel free to correct me
-on any etiquette issues I've messed up.
-
-Thanks,
-Cody
-
+--94eb2c124cc4261eab054b7a85d7--
