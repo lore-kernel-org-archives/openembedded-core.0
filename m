@@ -1,26 +1,18 @@
-Return-Path: <tristan.vanberkom@codethink.co.uk>
-X-Greylist: delayed 1487 seconds by postgrey-1.34 at layers.openembedded.org;
-	Fri, 24 Mar 2017 18:09:13 UTC
-Received: from imap0.codethink.co.uk (imap0.codethink.co.uk [185.43.218.159])
-	by mail.openembedded.org (Postfix) with ESMTP id 908B777BC5
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Mar 2017 18:09:13 +0000 (UTC)
-Received: from imap1.codethink.co.uk ([176.9.8.82])
-	by imap0.codethink.co.uk with esmtps (Exim 4.84_2 #1 (Debian))
-	id 1crTGF-0004WP-8P for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Mar 2017 17:44:27 +0000
-Received: from 82-70-136-246.dsl.in-addr.zen.co.uk ([82.70.136.246] helo=think)
-	by imap1.codethink.co.uk with esmtpsa (Exim 4.84_2 #1 (Debian))
-	id 1crTGD-0006ud-P0 for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Mar 2017 17:44:26 +0000
-Message-ID: <1490377463.18519.4.camel@codethink.co.uk>
-From: Tristan Van Berkom <tristan.vanberkom@codethink.co.uk>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 24 Mar 2017 17:44:23 +0000
-Organization: Codethink
-X-Mailer: Evolution 3.20.5-1 
-Mime-Version: 1.0
-Subject: [PATCH] libjpeg-turbo fails to build for aarch64/arm targets on aarch64 host
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id E67A977BBD;
+	Fri, 24 Mar 2017 18:32:07 +0000 (UTC)
+MIME-Version: 1.0
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Tristan Van Berkom <tristan.vanberkom@codethink.co.uk>
+Date: Fri, 24 Mar 2017 18:32:09 -0000
+Message-ID: <20170324183209.6648.5518@do.openembedded.org>
+References: <1490377463.18519.4.camel@codethink.co.uk>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <1490377463.18519.4.camel@codethink.co.uk>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgbGlianBlZy10dXJibyBmYWlscyB0byBidWlsZCBmb3IgYWFyY2g2NC9hcm0gdGFyZ2V0cyBvbiBhYXJjaDY0IGhvc3Q=?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,65 +25,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Mar 2017 18:09:15 -0000
-X-Groupsio-MsgNum: 95217
-Content-Type: multipart/mixed; boundary="=-E7Yw3Akv+41p+cZM7Seg"
+X-List-Received-Date: Fri, 24 Mar 2017 18:32:08 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
---=-E7Yw3Akv+41p+cZM7Seg
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+== Series Details ==
 
-This is already filed in the appropriate bugzilla:
-   https://bugzilla.yoctoproject.org/show_bug.cgi?id=11240
+Series: libjpeg-turbo fails to build for aarch64/arm targets on aarch64 host
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/5967/
+State : failure
 
-Just notifying the list as the custom goes...
+== Summary ==
 
-libjpeg-turbo in recipes-graphics has an unconditional dependency on
-nasm-native, which is intel specific and wont be provided on non intel
-arches.
 
-Attaching a patch which fixes this by only requiring nasm-native when
-targeting intel architectures.
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
 
-Cheers,
-    -Tristan
 
---=-E7Yw3Akv+41p+cZM7Seg
-Content-Disposition: attachment;
-	filename*0=0001-libjpeg-turbo-Support-building-on-non-intel-targets.patc;
-	filename*1=h
-Content-Type: text/x-patch;
-	name="0001-libjpeg-turbo-Support-building-on-non-intel-targets.patch";
-	charset="UTF-8"
-Content-Transfer-Encoding: base64
 
-RnJvbSAyOWE4MmJhMjVhOWMzOTVmNTIxNDY5OWNhMGFmYjViZDQ2NWViZGYxIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBUcmlzdGFuIFZhbiBCZXJrb20gPHRyaXN0YW4udmFuYmVya29t
-QGNvZGV0aGluay5jby51az4KRGF0ZTogRnJpLCAyNCBNYXIgMjAxNyAxNTozNzozNiArMDAwMApT
-dWJqZWN0OiBbUEFUQ0hdIGxpYmpwZWctdHVyYm86IFN1cHBvcnQgYnVpbGRpbmcgb24gbm9uIGlu
-dGVsIHRhcmdldHMuCgpuYXNtIGlzIGludGVsIHNwZWNpZmljLCBob3dldmVyIGxpYmpwZWctdHVy
-Ym8gaXMgc3RpbGwgZGVzaXJhYmxlCm9uIG90aGVyIGFyY2hpdGVjdHVyZXMuCgpXaXRob3V0IHRo
-aXMgcGF0Y2gsIGl0IHdvdWxkIHNlZW0gdGhhdCBuYXNtIGlzIGJ1aWx0IG9uIGFuIGludGVsCmhv
-c3QgYW5kIHRoZW4gaWdub3JlZCB3aGVuIGNvbXBpbGluZyBsaWJqcGVnLXR1cmJvIGZvciBhbiBh
-cm0gdGFyZ2V0LApob3dldmVyIGl0IGhhcyBsaWJqcGVnLXR1cmJvIHJlcXVpcmluZyBuYXNtIGJl
-IGJ1aWx0IHdoZW4gYnVpbGRpbmcKb24gYW4gYXJtL2FhcmNoNjQgaG9zdC4KClRoaXMgZml4ZXMg
-dGhlIGlzc3VlIHNvIHRoYXQgbmFzbS1uYXRpdmUgaXMgbm90IHJlcXVpcmVkIG9uIHRoZSBob3N0
-CndoZW4gYnVpbGRpbmcgZm9yIGFuIGFhcmNoNjQgdGFyZ2V0LgotLS0KIG1ldGEvcmVjaXBlcy1n
-cmFwaGljcy9qcGVnL2xpYmpwZWctdHVyYm9fMS41LjAuYmIgfCAzICsrLQogMSBmaWxlIGNoYW5n
-ZWQsIDIgaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigtKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVj
-aXBlcy1ncmFwaGljcy9qcGVnL2xpYmpwZWctdHVyYm9fMS41LjAuYmIgYi9tZXRhL3JlY2lwZXMt
-Z3JhcGhpY3MvanBlZy9saWJqcGVnLXR1cmJvXzEuNS4wLmJiCmluZGV4IGM5ZTcwZDczZDIuLmEw
-MjQwNmVhYTYgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy9qcGVnL2xpYmpwZWct
-dHVyYm9fMS41LjAuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL2pwZWcvbGlianBlZy10
-dXJib18xLjUuMC5iYgpAQCAtNyw3ICs3LDggQEAgTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8v
-Y2RqcGVnLmg7ZW5kbGluZT0xMzttZDU9MDViYWI3YzdhZDg5OWQ4NWJmYmE2MGRhMWExMjcKICAg
-ICAgICAgICAgICAgICAgICAgZmlsZTovL2pwZWdsaWIuaDtlbmRsaW5lPTE2O21kNT1mNjdkNzBl
-NTQ3YTI2NjJjMDc5NzgxYzcyZjg3N2Y3MiBcCiAgICAgICAgICAgICAgICAgICAgIGZpbGU6Ly9k
-anBlZy5jO2VuZGxpbmU9MTE7bWQ1PWI5MGI2ZDJiNDExOWY5ZTU4MDdjZDI3M2Y1MjVkMmFmIFwK
-ICIKLURFUEVORFMgPSAibmFzbS1uYXRpdmUiCitERVBFTkRTX2FwcGVuZF94ODYtNjQgPSAiIG5h
-c20tbmF0aXZlIgorREVQRU5EU19hcHBlbmRfeDg2ICAgID0gIiBuYXNtLW5hdGl2ZSIKIAogU1JD
-X1VSSSA9ICIke1NPVVJDRUZPUkdFX01JUlJPUn0vJHtCUE59LyR7QlBOfS0ke1BWfS50YXIuZ3oi
-CiBTUkNfVVJJW21kNXN1bV0gPSAiM2ZjNWQ5YjZhOGJjZTk2MTYxNjU5YWU3YTk5MzkyNTciCi0t
-IAoyLjExLjAKCg==
+* Patch            libjpeg-turbo fails to build for aarch64/arm targets on aarch64 host
+ Issue             Shortlog does not follow expected format [test_shortlog_format] 
+  Suggested fix    Commit shortlog (first line of commit message) should follow the format "<target>: <summary>"
 
---=-E7Yw3Akv+41p+cZM7Seg--
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at 3b5ac72bdf)
+
+* Patch            libjpeg-turbo fails to build for aarch64/arm targets on aarch64 host
+ Issue             Patch is missing Signed-off-by [test_signed_off_by_presence] 
+  Suggested fix    Sign off the patch (either manually or with "git commit --amend -s")
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
+---
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+
+
