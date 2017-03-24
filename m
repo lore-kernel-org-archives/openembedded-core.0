@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 4D55277BA4
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id CF63362132
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Mar 2017 08:45:06 +0000 (UTC)
+	Fri, 24 Mar 2017 08:45:05 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v2O8j7XF005497
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v2O8j4GC009587
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Mar 2017 01:45:07 -0700 (PDT)
+	Fri, 24 Mar 2017 01:45:05 -0700
 Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
-	Fri, 24 Mar 2017 01:45:06 -0700
+	Fri, 24 Mar 2017 01:45:03 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 24 Mar 2017 01:45:01 -0700
-Message-ID: <08256d39d329de1dba672a8cf583e308e2606b46.1490343063.git.liezhi.yang@windriver.com>
+Date: Fri, 24 Mar 2017 01:44:59 -0700
+Message-ID: <4dbc4313fedc70dee6c170bd9865e64587706eee.1490343063.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.9.0
 In-Reply-To: <cover.1490343063.git.liezhi.yang@windriver.com>
 References: <cover.1490343063.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 3/4] selftest/runqemu.py: add it to test runqemu
+Subject: [PATCH 1/4] oeqa/targetcontrol.py: modify it to test runqemu
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,182 +33,168 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Mar 2017 08:45:06 -0000
+X-List-Received-Date: Fri, 24 Mar 2017 08:45:07 -0000
 Content-Type: text/plain
 
-Usage:
-$ oe-selftest -r runqemu
+Modify the following files to test runqemu:
+    targetcontrol.py
+    utils/commands.py
+    utils/qemurunner.py
 
-Current test cases:
-$ runqemu nographic qemux86-64
-$ runqemu nographic qemux86-64 ext4
-$ runqemu nographic qemux86-64 iso
-$ runqemu nographic core-image-minimal
-$ runqemu nographic core-image-minimal vmdk
-$ runqemu nographic core-image-minimal vdi
-$ runqemu nographic tmp/deploy/images/qemux86-64
-$ runqemu nographic tmp/deploy/images/qemux86-64 hddimg
-$ runqemu nographic qemux86-64 slirp
-$ runqemu nographic qemux86-64 slirp qcow2
-$ runqemu nographic tmp/deploy/images/qemux86-64/core-image-minimal-qemux86-64.qemuboot.conf
-$ runqemu nographic tmp/deploy/images/qemux86-64/core-image-minimal-qemux86-64.ext4
-
-Need more later:
-- Test initramfs
-- Test nfs
-- Test when set DEPLOY_DIR_IMAGE and OECORE_NATIVE_SYSROOT
-- And others which similate runqemu runs on SDK and eSDK.
+We need simulate how "runqemu" works in command line, so when test
+"runqemu", the targetcontrol.py, utils/commands.py and
+utils/qemurunner.py don't have to find the rootfs or set env vars.
 
 [YOCTO #10249]
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/lib/oeqa/selftest/runqemu.py | 136 ++++++++++++++++++++++++++++++++++++++
- 1 file changed, 136 insertions(+)
- create mode 100644 meta/lib/oeqa/selftest/runqemu.py
+ meta/lib/oeqa/targetcontrol.py    | 20 +++++++++++++++-----
+ meta/lib/oeqa/utils/commands.py   | 13 +++++++++++--
+ meta/lib/oeqa/utils/qemurunner.py | 28 +++++++++++++++++-----------
+ 3 files changed, 43 insertions(+), 18 deletions(-)
 
-diff --git a/meta/lib/oeqa/selftest/runqemu.py b/meta/lib/oeqa/selftest/runqemu.py
-new file mode 100644
-index 0000000..c1d5c16
---- /dev/null
-+++ b/meta/lib/oeqa/selftest/runqemu.py
-@@ -0,0 +1,136 @@
-+#
-+# Copyright (c) 2017 Wind River Systems, Inc.
-+#
+diff --git a/meta/lib/oeqa/targetcontrol.py b/meta/lib/oeqa/targetcontrol.py
+index 0ad3a6b..8d11cf0 100644
+--- a/meta/lib/oeqa/targetcontrol.py
++++ b/meta/lib/oeqa/targetcontrol.py
+@@ -117,10 +117,15 @@ class QemuTarget(BaseTarget):
+ 
+         super(QemuTarget, self).__init__(d)
+ 
+-        self.image_fstype = image_fstype or self.get_image_fstype(d)
++        self.rootfs = ''
++        self.kernel = ''
++        self.image_fstype = ''
 +
-+import re
-+import logging
++        if d.getVar('FIND_ROOTFS') == '1':
++            self.image_fstype = image_fstype or self.get_image_fstype(d)
++            self.rootfs = os.path.join(d.getVar("DEPLOY_DIR_IMAGE"),  d.getVar("IMAGE_LINK_NAME") + '.' + self.image_fstype)
++            self.kernel = os.path.join(d.getVar("DEPLOY_DIR_IMAGE"), d.getVar("KERNEL_IMAGETYPE", False) + '-' + d.getVar('MACHINE', False) + '.bin')
+         self.qemulog = os.path.join(self.testdir, "qemu_boot_log.%s" % self.datetime)
+-        self.rootfs = os.path.join(d.getVar("DEPLOY_DIR_IMAGE"),  d.getVar("IMAGE_LINK_NAME") + '.' + self.image_fstype)
+-        self.kernel = os.path.join(d.getVar("DEPLOY_DIR_IMAGE"), d.getVar("KERNEL_IMAGETYPE", False) + '-' + d.getVar('MACHINE', False) + '.bin')
+         dump_target_cmds = d.getVar("testimage_dump_target")
+         dump_host_cmds = d.getVar("testimage_dump_host")
+         dump_dir = d.getVar("TESTIMAGE_DUMP_DIR")
+@@ -176,8 +181,13 @@ class QemuTarget(BaseTarget):
+         bb.note("Qemu log file: %s" % self.qemulog)
+         super(QemuTarget, self).deploy()
+ 
+-    def start(self, params=None, ssh=True, extra_bootparams=None, runqemuparams=''):
+-        if self.runner.start(params, get_ip=ssh, extra_bootparams=extra_bootparams, runqemuparams=runqemuparams):
++    def start(self, params=None, ssh=True, extra_bootparams='', runqemuparams='', launch_cmd=''):
++        if launch_cmd:
++            start = self.runner.launch(get_ip=ssh, launch_cmd=launch_cmd)
++        else:
++            start = self.runner.start(params, get_ip=ssh, extra_bootparams=extra_bootparams, runqemuparams=runqemuparams)
 +
-+from oeqa.selftest.base import oeSelfTest
-+from oeqa.utils.commands import bitbake, runqemu, get_bb_var
-+from oeqa.utils.decorators import testcase
++        if start:
+             if ssh:
+                 self.ip = self.runner.ip
+                 self.server_ip = self.runner.server_ip
+diff --git a/meta/lib/oeqa/utils/commands.py b/meta/lib/oeqa/utils/commands.py
+index 82c5908..6528a98 100644
+--- a/meta/lib/oeqa/utils/commands.py
++++ b/meta/lib/oeqa/utils/commands.py
+@@ -218,7 +218,10 @@ def create_temp_layer(templayerdir, templayername, priority=999, recipepathspec=
+ 
+ 
+ @contextlib.contextmanager
+-def runqemu(pn, ssh=True, runqemuparams='', image_fstype=None):
++def runqemu(pn, ssh=True, runqemuparams='', image_fstype=None, launch_cmd=None):
++    """
++    launch_cmd means directly run the command, don't need set rootfs or env vars.
++    """
+ 
+     import bb.tinfoil
+     import bb.build
+@@ -230,6 +233,12 @@ def runqemu(pn, ssh=True, runqemuparams='', image_fstype=None):
+         import oeqa.targetcontrol
+         tinfoil.config_data.setVar("TEST_LOG_DIR", "${WORKDIR}/testimage")
+         tinfoil.config_data.setVar("TEST_QEMUBOOT_TIMEOUT", "1000")
++        # Tell QemuTarget() whether need find rootfs/kernel or not
++        if launch_cmd:
++            tinfoil.config_data.setVar("FIND_ROOTFS", '0')
++        else:
++            tinfoil.config_data.setVar("FIND_ROOTFS", '1')
 +
-+class RunqemuTests(oeSelfTest):
-+    """Runqemu test class"""
+         recipedata = tinfoil.parse_recipe(pn)
+ 
+         # The QemuRunner log is saved out, but we need to ensure it is at the right
+@@ -260,7 +269,7 @@ def runqemu(pn, ssh=True, runqemuparams='', image_fstype=None):
+     try:
+         qemu.deploy()
+         try:
+-            qemu.start(ssh=ssh, runqemuparams=runqemuparams)
++            qemu.start(ssh=ssh, runqemuparams=runqemuparams, launch_cmd=launch_cmd)
+         except bb.build.FuncFailed:
+             raise Exception('Failed to start QEMU - see the logs in %s' % logdir)
+ 
+diff --git a/meta/lib/oeqa/utils/qemurunner.py b/meta/lib/oeqa/utils/qemurunner.py
+index 9ef7629..76c570e 100644
+--- a/meta/lib/oeqa/utils/qemurunner.py
++++ b/meta/lib/oeqa/utils/qemurunner.py
+@@ -97,7 +97,7 @@ class QemuRunner:
+                 self._dump_host()
+                 raise SystemExit
+ 
+-    def start(self, qemuparams = None, get_ip = True, extra_bootparams = None, runqemuparams=''):
++    def start(self, qemuparams = None, get_ip = True, extra_bootparams = None, runqemuparams='', launch_cmd=None):
+         if self.display:
+             os.environ["DISPLAY"] = self.display
+             # Set this flag so that Qemu doesn't do any grabs as SDL grabs
+@@ -117,6 +117,20 @@ class QemuRunner:
+         else:
+             os.environ["DEPLOY_DIR_IMAGE"] = self.deploy_dir_image
+ 
++        if not launch_cmd:
++            launch_cmd = 'runqemu snapshot'
++            if self.use_kvm:
++                logger.info('Using kvm for runqemu')
++                launch_cmd += ' kvm'
++            else:
++                logger.info('Not using kvm for runqemu')
++            if not self.display:
++                launch_cmd += ' nographic'
++            launch_cmd += ' %s %s' % (self.machine, self.rootfs)
 +
-+    image_is_ready = False
-+    deploy_dir_image = ''
++        return self.launch(launch_cmd, qemuparams=qemuparams, get_ip=get_ip, extra_bootparams=extra_bootparams, runqemuparams=runqemuparams)
 +
-+    def setUpLocal(self):
-+        self.recipe = 'core-image-minimal'
-+        self.machine =  'qemux86-64'
-+        self.fstypes = "ext4 iso hddimg vmdk qcow2 vdi"
-+        self.cmd_common = "runqemu nographic"
++    def launch(self, launch_cmd, get_ip = True, qemuparams = None, extra_bootparams = None, runqemuparams=''):
+         try:
+             threadsock, threadport = self.create_socket()
+             self.server_socket, self.serverport = self.create_socket()
+@@ -124,27 +138,19 @@ class QemuRunner:
+             logger.error("Failed to create listening socket: %s" % msg[1])
+             return False
+ 
+-
+         bootparams = 'console=tty1 console=ttyS0,115200n8 printk.time=1'
+         if extra_bootparams:
+             bootparams = bootparams + ' ' + extra_bootparams
+ 
+         self.qemuparams = 'bootparams="{0}" qemuparams="-serial tcp:127.0.0.1:{1}"'.format(bootparams, threadport)
+-        if not self.display:
+-            self.qemuparams = 'nographic ' + self.qemuparams
+         if qemuparams:
+             self.qemuparams = self.qemuparams[:-1] + " " + qemuparams + " " + '\"'
+ 
++        launch_cmd += ' tcpserial=%s %s' % (self.serverport, self.qemuparams)
 +
-+        self.write_config(
-+"""
-+MACHINE = "%s"
-+IMAGE_FSTYPES = "%s"
-+# 10 means 1 second
-+SYSLINUX_TIMEOUT = "10"
-+"""
-+% (self.machine, self.fstypes)
-+        )
-+
-+        if not RunqemuTests.image_is_ready:
-+            RunqemuTests.deploy_dir_image = get_bb_var('DEPLOY_DIR_IMAGE')
-+            bitbake(self.recipe)
-+            RunqemuTests.image_is_ready = True
-+
-+    @testcase(2001)
-+    def test_boot_machine(self):
-+        """Test runqemu machine"""
-+        cmd = "%s %s" % (self.cmd_common, self.machine)
-+        with runqemu(self.recipe, ssh=False, launch_cmd=cmd) as qemu:
-+            self.assertTrue(qemu.runner.logged, "Failed: %s" % cmd)
-+
-+    @testcase(2002)
-+    def test_boot_machine_ext4(self):
-+        """Test runqemu machine ext4"""
-+        cmd = "%s %s ext4" % (self.cmd_common, self.machine)
-+        with runqemu(self.recipe, ssh=False, launch_cmd=cmd) as qemu:
-+            with open(qemu.qemurunnerlog) as f:
-+                self.assertTrue('rootfs.ext4' in f.read(), "Failed: %s" % cmd)
-+
-+    @testcase(2003)
-+    def test_boot_machine_iso(self):
-+        """Test runqemu machine iso"""
-+        cmd = "%s %s iso" % (self.cmd_common, self.machine)
-+        with runqemu(self.recipe, ssh=False, launch_cmd=cmd) as qemu:
-+            with open(qemu.qemurunnerlog) as f:
-+                self.assertTrue(' -cdrom ' in f.read(), "Failed: %s" % cmd)
-+
-+    @testcase(2004)
-+    def test_boot_recipe_image(self):
-+        """Test runqemu recipe-image"""
-+        cmd = "%s %s" % (self.cmd_common, self.recipe)
-+        with runqemu(self.recipe, ssh=False, launch_cmd=cmd) as qemu:
-+            self.assertTrue(qemu.runner.logged, "Failed: %s" % cmd)
-+
-+    @testcase(2005)
-+    def test_boot_recipe_image_vmdk(self):
-+        """Test runqemu recipe-image vmdk"""
-+        cmd = "%s %s vmdk" % (self.cmd_common, self.recipe)
-+        with runqemu(self.recipe, ssh=False, launch_cmd=cmd) as qemu:
-+            with open(qemu.qemurunnerlog) as f:
-+                self.assertTrue('format=vmdk' in f.read(), "Failed: %s" % cmd)
-+
-+    @testcase(2006)
-+    def test_boot_recipe_image_vdi(self):
-+        """Test runqemu recipe-image vdi"""
-+        cmd = "%s %s vdi" % (self.cmd_common, self.recipe)
-+        with runqemu(self.recipe, ssh=False, launch_cmd=cmd) as qemu:
-+            with open(qemu.qemurunnerlog) as f:
-+                self.assertTrue('format=vdi' in f.read(), "Failed: %s" % cmd)
-+
-+    @testcase(2007)
-+    def test_boot_deploy(self):
-+        """Test runqemu deploy_dir_image"""
-+        cmd = "%s %s" % (self.cmd_common, self.deploy_dir_image)
-+        with runqemu(self.recipe, ssh=False, launch_cmd=cmd) as qemu:
-+            self.assertTrue(qemu.runner.logged, "Failed: %s" % cmd)
-+
-+    @testcase(2008)
-+    def test_boot_deploy_hddimg(self):
-+        """Test runqemu deploy_dir_image hddimg"""
-+        cmd = "%s %s hddimg" % (self.cmd_common, self.deploy_dir_image)
-+        with runqemu(self.recipe, ssh=False, launch_cmd=cmd) as qemu:
-+            with open(qemu.qemurunnerlog) as f:
-+                self.assertTrue(re.search('file=.*.hddimg', f.read()), "Failed: %s" % cmd)
-+
-+    @testcase(2009)
-+    def test_boot_machine_slirp(self):
-+        """Test runqemu machine slirp"""
-+        cmd = "%s slirp %s" % (self.cmd_common, self.machine)
-+        with runqemu(self.recipe, ssh=False, launch_cmd=cmd) as qemu:
-+            with open(qemu.qemurunnerlog) as f:
-+                self.assertTrue(' -netdev user' in f.read(), "Failed: %s" % cmd)
-+
-+    @testcase(2009)
-+    def test_boot_machine_slirp_qcow2(self):
-+        """Test runqemu machine slirp qcow2"""
-+        cmd = "%s slirp qcow2 %s" % (self.cmd_common, self.machine)
-+        with runqemu(self.recipe, ssh=False, launch_cmd=cmd) as qemu:
-+            with open(qemu.qemurunnerlog) as f:
-+                self.assertTrue('format=qcow2' in f.read(), "Failed: %s" % cmd)
-+
-+    @testcase(2010)
-+    def test_boot_qemu_boot(self):
-+        """Test runqemu /path/to/image.qemuboot.conf"""
-+        qemuboot_conf = "%s-%s.qemuboot.conf" % (self.recipe, self.machine)
-+        qemuboot_conf = os.path.join(self.deploy_dir_image, qemuboot_conf)
-+        if not os.path.exists(qemuboot_conf):
-+            self.skipTest("%s not found" % qemuboot_conf)
-+        cmd = "%s %s" % (self.cmd_common, qemuboot_conf)
-+        with runqemu(self.recipe, ssh=False, launch_cmd=cmd) as qemu:
-+            self.assertTrue(qemu.runner.logged, "Failed: %s" % cmd)
-+
-+    @testcase(2011)
-+    def test_boot_rootfs(self):
-+        """Test runqemu /path/to/rootfs.ext4"""
-+        rootfs = "%s-%s.ext4" % (self.recipe, self.machine)
-+        rootfs = os.path.join(self.deploy_dir_image, rootfs)
-+        if not os.path.exists(rootfs):
-+            self.skipTest("%s not found" % rootfs)
-+        cmd = "%s %s" % (self.cmd_common, rootfs)
-+        with runqemu(self.recipe, ssh=False, launch_cmd=cmd) as qemu:
-+            self.assertTrue(qemu.runner.logged, "Failed: %s" % cmd)
+         self.origchldhandler = signal.getsignal(signal.SIGCHLD)
+         signal.signal(signal.SIGCHLD, self.handleSIGCHLD)
+ 
+-        launch_cmd = 'runqemu snapshot %s ' % runqemuparams
+-        if self.use_kvm:
+-            logger.info('Using kvm for runqemu')
+-            launch_cmd += 'kvm '
+-        else:
+-            logger.info('Not using kvm for runqemu')
+-        launch_cmd += 'tcpserial=%s %s %s %s' % (self.serverport, self.machine, self.rootfs, self.qemuparams)
+         logger.info('launchcmd=%s'%(launch_cmd))
+ 
+         # FIXME: We pass in stdin=subprocess.PIPE here to work around stty
 -- 
 2.9.0
 
