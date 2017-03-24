@@ -1,46 +1,46 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f44.google.com (mail-wm0-f44.google.com [74.125.82.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 874F577BDB
+Return-Path: <cody@arrc.ou.edu>
+Received: from mail-ot0-f174.google.com (mail-ot0-f174.google.com
+	[74.125.82.174])
+	by mail.openembedded.org (Postfix) with ESMTP id ABFBC6AC37
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Mar 2017 16:09:29 +0000 (UTC)
-Received: by mail-wm0-f44.google.com with SMTP id n11so6123649wma.0
+	Fri, 24 Mar 2017 16:21:37 +0000 (UTC)
+Received: by mail-ot0-f174.google.com with SMTP id a5so5014926oth.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Mar 2017 09:09:30 -0700 (PDT)
+	Fri, 24 Mar 2017 09:21:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=6pnl4CSB/XT73ppH9d8tDOziW/9cB08kH938y9t+auE=;
-	b=tv1HRwCIqoNiij1U/6mrSIhqDBFioOK5z/eOCMPBtEMIpKz+/+cCqb1yG0D6h9vfgz
-	Noq8jWELnhie4yCnXXgLeOe+ME/BZ3GiXoqfbtYOw8NU91QJfd5N9G8bnMZ22oCBD3vq
-	XKOGfaeZ6XcSzgW/2fQIREsQkbkt7tWTMhP2fNmWQX22vH1c6+A+IweRr9SzXzlsG91k
-	MTKljZIfFrcDFILXr/643RH1fn4gIRNk+vjEAVPxBIYoDuW2TwB27wA59ZKVi3y2JOLj
-	fnQDp88n/cX73ej4FleKbZY6pJPvDz9CFb9uU67ROHzBRpWLuVKU9VUGF+SyOFrpWNCj
-	WpEg==
+	d=arrc-ou-edu.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=IE1LNNVvRFTkwTzLjnYqjVMKOh8EpkFaww5elrPIeZ4=;
+	b=kLC2MpAMaMDsHyj9k3vcMBhUNDButubvYvLQaCMMCtcn6B+O7nD3LScdQdv4DNCTgA
+	IQqjQA6JaiMYfnfQzcrg3WDzZ0/03BnnpADg1wJmq5ngCXUKfX3HaGvEWbf4QqJ1lvIe
+	YOE9RC0s9eTPKkG9uoF6+jWGlYXHCooDcAJYrbGtvLkEVenbkWlHB6pMisB8p/m8IYT5
+	qNMFMmv/7YdkYC9yaXy3E5lSLrJa7Yhmcg+ARqMtzRXVw4KsehgnynkyPE2fvvtF9KhO
+	zCSdTJ7P6vnVYNhRbYGf7trgA5aGN8tDeKAFngCtnNV7HD8DC7nGKsuqjKYICx4RmBQZ
+	9vtw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=6pnl4CSB/XT73ppH9d8tDOziW/9cB08kH938y9t+auE=;
-	b=G5A2pWMiEhQsTJd+zXp9c/BFzDQ/GO5mKVYZKqOvFC/keLoKiB9RakWfV69e8S+7Fd
-	1nkd+OA5Ny1w5m46N3bKIXFG0gS4mhPSWSMLWqdB3iSkVmONWSSb7gyLlOXsK/TAwRGj
-	G79/F0ozC3adyI3ljf6xEAjrcGg1ALKCOFTrQQaxJJLKqZC6rtuh3qROQ3Py915jDb9B
-	NKGgk2GjhLnz414jOEpkRoS6jCCcmHvABCxir6H1N6JGaD0e0wgR+tMhP0pBpvqewfAi
-	D5nbwIoWRPiAiOYlJ835Kmhiaaa1+5xevBCUAkITESJcNqPbu5FoT5gz5fvm54s2Q20w
-	vnlA==
-X-Gm-Message-State: AFeK/H12wMtFLPgYDRka4o/Z9OJwr9DvfZmJBq+mZrUybif8SaYIEBdUHbHOQK+SOaWObgrQ
-X-Received: by 10.28.95.87 with SMTP id t84mr3782284wmb.35.1490371769686;
-	Fri, 24 Mar 2017 09:09:29 -0700 (PDT)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id
-	b42sm3447252wra.36.2017.03.24.09.09.28
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 24 Mar 2017 09:09:29 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 24 Mar 2017 16:09:27 +0000
-Message-Id: <1490371767-30577-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.8.1
-Subject: [PATCH] boost: various cleanups
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=IE1LNNVvRFTkwTzLjnYqjVMKOh8EpkFaww5elrPIeZ4=;
+	b=pNbQVYC+crCtJRLU1it5ATuRNrayaFmQqN221ckQ8QCzkZPe9Iq9ux0rMAsiLO0lVh
+	1/bH2nZZrbIYgGGXhkk2W6uY165Dt5W8v4bYLLmDFRv3OJ2wXJzHO3HCHHFjp0/dJcwx
+	HNcrAQ+zawlX6hqk1a7fnCfUGgJDl5c7vhOAei6Ove6mxOybSXTwN5XVhpw+e9UFnZz9
+	vlg+i/g3IHUbipIkKU/y0l9JsGaseRGcnQJD2dUiULWIb16k//jG1Peqxup4tUG5IAwa
+	aBXrku4zOq2E4nwHFcR+JFnIbLobhwIRZC1MPgAoDavPxo2Uo41sALUyki1zREDnlpxC
+	JRSw==
+X-Gm-Message-State: AFeK/H0J74sSkHEgeuAdZhWciooL3wFHiaYnEcxh8bXEAC0IxEQ0bUonp1CVUEvU8q9vaTXKdqLXt4RulSXVnv9q
+X-Received: by 10.157.7.230 with SMTP id 93mr4357387oto.223.1490372498544;
+	Fri, 24 Mar 2017 09:21:38 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.157.4.203 with HTTP; Fri, 24 Mar 2017 09:21:38 -0700 (PDT)
+In-Reply-To: <CAJTo0LbrMMXLGy78MZcRAGe9npRs9Q=rFDhnSTqZ+E5w8+E2EA@mail.gmail.com>
+References: <CAKEinFxuOqEeYv1zt5oL9KpPQnN=jQ+rA3++igT7dWuWeBX=rg@mail.gmail.com>
+	<CAJTo0LbrMMXLGy78MZcRAGe9npRs9Q=rFDhnSTqZ+E5w8+E2EA@mail.gmail.com>
+From: Cody Piersall <cody@arrc.ou.edu>
+Date: Fri, 24 Mar 2017 11:21:38 -0500
+Message-ID: <CAKEinFxLMBZvO6g3bFey7i1GrZwFwEi1jxCxXCuo7x-tvEjEOw@mail.gmail.com>
+To: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: Remove do_install_append() from zsh's recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,69 +53,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Mar 2017 16:09:29 -0000
+X-List-Received-Date: Fri, 24 Mar 2017 16:21:40 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Re-order some assignments to be logically arranged.
+On Fri, Mar 24, 2017 at 9:28 AM, Burton, Ross <ross.burton@intel.com> wrote:
+> Patches for meta-oe need to go to the
+> openembedded-devel@lists.openembedded.org list, not -core which is specific
+> to oe-core.
+>
+> Also put [meta-oe] in the subject prefix, and send the patch using
+> git-format-patch with a properly formatted commit message.
+>
+> Ross
 
-Remove the set -ex statements as they serve no purpose.
+Thanks for pointing me in the right direction. I've posted a patch now:
+http://lists.openembedded.org/pipermail/openembedded-devel/2017-March/111929.html.
 
-Pass --debug-configuration to see what configuration steps boost is taking.
-
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-support/boost/boost.inc | 10 ++++------
- 1 file changed, 4 insertions(+), 6 deletions(-)
-
-diff --git a/meta/recipes-support/boost/boost.inc b/meta/recipes-support/boost/boost.inc
-index dcadcbc..4ff70e3 100644
---- a/meta/recipes-support/boost/boost.inc
-+++ b/meta/recipes-support/boost/boost.inc
-@@ -69,7 +69,6 @@ python __anonymous () {
- }
- 
- # Override the contents of specific packages
--FILES_${PN}-graph = "${libdir}/libboost_graph.so.*"
- FILES_${PN}-graph_parallel = "${libdir}/libboost_graph_parallel.so.*"
- FILES_${PN}-locale = "${libdir}/libboost_locale.so.*"
- FILES_${PN}-mpi = "${libdir}/mpi.so ${libdir}/libboost_mpi*.so.*"
-@@ -80,15 +79,15 @@ FILES_boost-test = "${libdir}/libboost_prg_exec_monitor*.so.* \
- 
- # -dev last to pick up the remaining stuff
- PACKAGES += "${PN}-dev ${PN}-staticdev"
--FILES_${PN} = ""
- FILES_${PN}-dev = "${includedir} ${libdir}/libboost_*.so"
- FILES_${PN}-staticdev = "${libdir}/libboost_*.a"
- 
- # "boost" is a metapackage which pulls in all boost librabries
- PACKAGES += "${PN}"
-+FILES_${PN} = ""
-+ALLOW_EMPTY_${PN} = "1"
- RRECOMMENDS_${PN} += "${BOOST_PACKAGES}"
- RRECOMMENDS_${PN}_class-native = ""
--ALLOW_EMPTY_${PN} = "1"
- 
- # to avoid GNU_HASH QA errors added LDFLAGS to ARCH; a little bit dirty but at least it works
- TARGET_CC_ARCH += "${LDFLAGS}"
-@@ -196,16 +195,15 @@ do_configure() {
- }
- 
- do_compile() {
--	set -ex
- 	rm -rf ${S}/${TARGET_SYS}
- 	bjam ${BJAM_OPTS} --prefix=${prefix} \
- 		--exec-prefix=${exec_prefix} \
- 		--libdir=${libdir} \
--		--includedir=${includedir}
-+		--includedir=${includedir} \
-+		--debug-configuration
- }
- 
- do_install() {
--	set -ex
- 	bjam ${BJAM_OPTS} \
- 		--libdir=${D}${libdir} \
- 		--includedir=${D}${includedir} \
--- 
-2.8.1
-
+Cody
 
