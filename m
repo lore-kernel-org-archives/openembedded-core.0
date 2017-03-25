@@ -1,41 +1,29 @@
-Return-Path: <munagala.nareshbabu@gmail.com>
-Received: from mail-it0-f43.google.com (mail-it0-f43.google.com
-	[209.85.214.43])
-	by mail.openembedded.org (Postfix) with ESMTP id B004271CA2
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 0596671AC6
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 25 Mar 2017 16:14:36 +0000 (UTC)
-Received: by mail-it0-f43.google.com with SMTP id 190so16681681itm.0
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 25 Mar 2017 09:14:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:from:date:message-id:subject:to;
-	bh=AH5nXLCzXcVLn8yIkfjOqkynprnZv8jgYYtbXOvefe0=;
-	b=pn3d2TmWTqt94NSUIHzAerI+5Igz4kD8tX1SGTm57edP4llnu0LB7b4JAlm1qed98q
-	WZe9GhHY4z7ZdTIgeVfsyN+WnwPWxVa+/jbPUpIxLWC51y0yQMbd0hz1IcHShTgc23Ql
-	0VXfTEunZCpgvGswBnYwqVUPs6cdETVtjnceeGCp+SftIRJXuQcpL7DKZIWZJ/Hlclls
-	6oNbJynkJ9NB8y7AxSNLcDbB0FmVisUCHg/frleJDdXzDJeaM3N3wWsTDU+9GZjztNhG
-	ZJySMH+RGtzgaLITbs7j6swlEXnZvO540DKelAzM32v5aRaxe2Kkd1fiL3yBsSsyZmcu
-	rh4g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-	bh=AH5nXLCzXcVLn8yIkfjOqkynprnZv8jgYYtbXOvefe0=;
-	b=coaYIRn4u4ZvF2oR4cfkoBI111PcJT8HJMf0POFvbTJQ+R0OXEyWI+uHQIDDnEsyL6
-	/53oAnVeVWrISPyjCpf85VwtRwOvDS7DmnEWNnc21vzya3KN1RYQ8nbODzuAiKVC1O7T
-	tEst10fSus29+RQFXgftVj0nAukUeiBSs/MXtuENfbajfeqxbzuO2IWOnFx9rGZXmvMI
-	cMgwNpm5XoyKOYrPsdt+PlScerpZYlKTFRhfYL4AylqTtcFXZo/xAoH35XCHs7D8B0NW
-	O77ytRaUuQZK87IWb4QMKAIUu6MtmfomJspiJww25+UJg2E2TcOTybV9YnddZhk9F7BZ
-	axZw==
-X-Gm-Message-State: AFeK/H1M79iRaS5T6MBSdnXb9OHsrFdDIcPWQijbURxvvbmWkBxvt7pAWZdwoF5P+qp9og/TFtoI4Yy6PiKvsg==
-X-Received: by 10.107.202.69 with SMTP id a66mr13936641iog.68.1490458477421;
-	Sat, 25 Mar 2017 09:14:37 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.107.159.212 with HTTP; Sat, 25 Mar 2017 09:14:36 -0700 (PDT)
-From: Munagala Naresh <munagala.nareshbabu@gmail.com>
-Date: Sat, 25 Mar 2017 21:44:36 +0530
-Message-ID: <CACfW1NoPeUfyJ7a7cNZ=UfK9pXKPfnoJ0M2sOQGWbs+9ZedH2Q@mail.gmail.com>
-To: openembedded-core@lists.openembedded.org
-Subject: CPU profiling at thread level
+	Sat, 25 Mar 2017 17:56:59 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	v2PHuvNG027605; Sat, 25 Mar 2017 17:56:57 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id ueOi_3mnlr2y; Sat, 25 Mar 2017 17:56:57 +0000 (GMT)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	v2PHutB8027602
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Sat, 25 Mar 2017 17:56:57 GMT
+Message-ID: <1490464615.13980.250.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>,
+	openembedded-core@lists.openembedded.org
+Date: Sat, 25 Mar 2017 17:56:55 +0000
+In-Reply-To: <20170324210816.13530-1-alexander.kanavin@linux.intel.com>
+References: <20170324210816.13530-1-alexander.kanavin@linux.intel.com>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.1 
+Mime-Version: 1.0
+Subject: Re: [PATCHv2] dnf: move the entire dnf/rpm4 stack to Python 3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,54 +36,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 25 Mar 2017 16:14:37 -0000
-Content-Type: multipart/alternative; boundary=94eb2c0bad161990bc054b906899
+X-List-Received-Date: Sat, 25 Mar 2017 17:57:00 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---94eb2c0bad161990bc054b906899
-Content-Type: text/plain; charset=UTF-8
+On Fri, 2017-03-24 at 23:08 +0200, Alexander Kanavin wrote:
+> [YOCTO #11180]
 
-Hi Team,
+So close but:
 
-To analyzes the CPU load consumption of a particular process, we need to
-find the thread level consumption. Default *top *and *ps *utils are not
-supporting all the parameters that are available in Linux/Android.
+https://autobuilder.yocto.io/builders/nightly-multilib/builds/226
+https://autobuilder.yocto.io/builders/nightly-x32/builds/206
 
+Cheers,
 
-Could you please suggest some alternatives which works in openembedded
-platform?
+Richard
 
-
-Appreciate any pointers.
-
-Thanks
-Naresh
-
---94eb2c0bad161990bc054b906899
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div><div><span style=3D"color:rgb(31,73,125)">Hi Team,</s=
-pan><br><br><span style=3D"font-size:11pt;font-family:&quot;calibri&quot;,s=
-ans-serif;color:rgb(31,73,125)">
-
-</span><p class=3D"MsoNormal"><span style=3D"color:rgb(31,73,125)">To analy=
-zes the CPU load consumption of a particular process, we need to find the t=
-hread level consumption. Default <b>top </b>and <b>ps </b>utils are not sup=
-porting all the parameters that are available in Linux/Android. <br></span>=
-</p><p class=3D"MsoNormal"><span style=3D"color:rgb(31,73,125)"><br></span>=
-</p>
-
-<p class=3D"MsoNormal"><span style=3D"color:rgb(31,73,125)">Could you pleas=
-e suggest some
-alternatives which works in openembedded platform?</span></p><p class=3D"Ms=
-oNormal"><span style=3D"color:rgb(31,73,125)"><br></span></p><p class=3D"Ms=
-oNormal"><span style=3D"color:rgb(31,73,125)">Appreciate any pointers. <br>=
-</span></p><br></div>Thanks<br></div>Naresh <br><div><div><div class=3D"gma=
-il_signature"><div><br><div><br></div></div><div style=3D"padding:0px;margi=
-n-left:0px;margin-top:0px;overflow:hidden;color:black;font-size:10px;text-a=
-lign:left;line-height:130%"></div><div style=3D"padding:0px;margin-left:0px=
-;margin-top:0px;overflow:hidden;color:black;font-size:10px;text-align:left;=
-line-height:130%"></div></div>
-</div></div></div>
-
---94eb2c0bad161990bc054b906899--
