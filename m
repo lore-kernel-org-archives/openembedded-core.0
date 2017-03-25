@@ -1,58 +1,41 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
-	by mail.openembedded.org (Postfix) with ESMTP id 1419377BE4
+Return-Path: <munagala.nareshbabu@gmail.com>
+Received: from mail-it0-f43.google.com (mail-it0-f43.google.com
+	[209.85.214.43])
+	by mail.openembedded.org (Postfix) with ESMTP id B004271CA2
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 25 Mar 2017 15:34:01 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bes.se.axis.com (Postfix) with ESMTP id DF8D911A00B;
-	Sat, 25 Mar 2017 16:34:01 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
-Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id SRA34teutEwE; Sat, 25 Mar 2017 16:34:00 +0100 (CET)
-Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
-	by bes.se.axis.com (Postfix) with ESMTPS id 9ACBC2E616;
-	Sat, 25 Mar 2017 16:34:00 +0100 (CET)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 877BF1E064;
-	Sat, 25 Mar 2017 16:34:00 +0100 (CET)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 7C1411E04F;
-	Sat, 25 Mar 2017 16:34:00 +0100 (CET)
-Received: from thoth.se.axis.com (unknown [10.0.2.173])
-	by boulder03.se.axis.com (Postfix) with ESMTP;
-	Sat, 25 Mar 2017 16:34:00 +0100 (CET)
-Received: from XBOX03.axis.com (xbox03.axis.com [10.0.5.17])
-	by thoth.se.axis.com (Postfix) with ESMTP id 6DDF61D83;
-	Sat, 25 Mar 2017 16:34:00 +0100 (CET)
-Received: from XBOX02.axis.com (10.0.5.16) by XBOX03.axis.com (10.0.5.17) with
-	Microsoft SMTP Server (TLS) id 15.0.1210.3;
-	Sat, 25 Mar 2017 16:34:00 +0100
-Received: from XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776]) by
-	XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776%21]) with mapi id
-	15.00.1210.000; Sat, 25 Mar 2017 16:34:00 +0100
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>, Andre McCurdy
-	<armccurdy@gmail.com>, OE Core mailing list
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] Using MACHINE_FEATURES in a native recipe
-Thread-Index: AQHSo1VEQzGGeZuXJ0O7Pb82vZwFKqGikb4AgAGGtxCAATTRgIAAYEnw
-Date: Sat, 25 Mar 2017 15:34:00 +0000
-Message-ID: <d33381889bbb46db8e6f4f2190b2d1f4@XBOX02.axis.com>
-References: <CAJ86T=WhxRaQ42=2bsFVZpeLhrZo2XwZBYoWp=f42tyebo2=2A@mail.gmail.com>
-	<1490287404.13980.231.camel@linuxfoundation.org>
-	<f67e1ac46aff43cfb085fd76fe0f60c6@XBOX02.axis.com>
-	<1490437627.13980.248.camel@linuxfoundation.org>
-In-Reply-To: <1490437627.13980.248.camel@linuxfoundation.org>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.60]
+	Sat, 25 Mar 2017 16:14:36 +0000 (UTC)
+Received: by mail-it0-f43.google.com with SMTP id 190so16681681itm.0
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 25 Mar 2017 09:14:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:from:date:message-id:subject:to;
+	bh=AH5nXLCzXcVLn8yIkfjOqkynprnZv8jgYYtbXOvefe0=;
+	b=pn3d2TmWTqt94NSUIHzAerI+5Igz4kD8tX1SGTm57edP4llnu0LB7b4JAlm1qed98q
+	WZe9GhHY4z7ZdTIgeVfsyN+WnwPWxVa+/jbPUpIxLWC51y0yQMbd0hz1IcHShTgc23Ql
+	0VXfTEunZCpgvGswBnYwqVUPs6cdETVtjnceeGCp+SftIRJXuQcpL7DKZIWZJ/Hlclls
+	6oNbJynkJ9NB8y7AxSNLcDbB0FmVisUCHg/frleJDdXzDJeaM3N3wWsTDU+9GZjztNhG
+	ZJySMH+RGtzgaLITbs7j6swlEXnZvO540DKelAzM32v5aRaxe2Kkd1fiL3yBsSsyZmcu
+	rh4g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+	bh=AH5nXLCzXcVLn8yIkfjOqkynprnZv8jgYYtbXOvefe0=;
+	b=coaYIRn4u4ZvF2oR4cfkoBI111PcJT8HJMf0POFvbTJQ+R0OXEyWI+uHQIDDnEsyL6
+	/53oAnVeVWrISPyjCpf85VwtRwOvDS7DmnEWNnc21vzya3KN1RYQ8nbODzuAiKVC1O7T
+	tEst10fSus29+RQFXgftVj0nAukUeiBSs/MXtuENfbajfeqxbzuO2IWOnFx9rGZXmvMI
+	cMgwNpm5XoyKOYrPsdt+PlScerpZYlKTFRhfYL4AylqTtcFXZo/xAoH35XCHs7D8B0NW
+	O77ytRaUuQZK87IWb4QMKAIUu6MtmfomJspiJww25+UJg2E2TcOTybV9YnddZhk9F7BZ
+	axZw==
+X-Gm-Message-State: AFeK/H1M79iRaS5T6MBSdnXb9OHsrFdDIcPWQijbURxvvbmWkBxvt7pAWZdwoF5P+qp9og/TFtoI4Yy6PiKvsg==
+X-Received: by 10.107.202.69 with SMTP id a66mr13936641iog.68.1490458477421;
+	Sat, 25 Mar 2017 09:14:37 -0700 (PDT)
 MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-Subject: Re: Using MACHINE_FEATURES in a native recipe
+Received: by 10.107.159.212 with HTTP; Sat, 25 Mar 2017 09:14:36 -0700 (PDT)
+From: Munagala Naresh <munagala.nareshbabu@gmail.com>
+Date: Sat, 25 Mar 2017 21:44:36 +0530
+Message-ID: <CACfW1NoPeUfyJ7a7cNZ=UfK9pXKPfnoJ0M2sOQGWbs+9ZedH2Q@mail.gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: CPU profiling at thread level
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -65,52 +48,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 25 Mar 2017 15:34:03 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Sat, 25 Mar 2017 16:14:37 -0000
+Content-Type: multipart/alternative; boundary=94eb2c0bad161990bc054b906899
+
+--94eb2c0bad161990bc054b906899
+Content-Type: text/plain; charset=UTF-8
+
+Hi Team,
+
+To analyzes the CPU load consumption of a particular process, we need to
+find the thread level consumption. Default *top *and *ps *utils are not
+supporting all the parameters that are available in Linux/Android.
+
+
+Could you please suggest some alternatives which works in openembedded
+platform?
+
+
+Appreciate any pointers.
+
+Thanks
+Naresh
+
+--94eb2c0bad161990bc054b906899
+Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org
-> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
-> Richard Purdie
-> Sent: den 25 mars 2017 11:27
-> To: Peter Kjellerstedt; Andre McCurdy; OE Core mailing list
-> Subject: Re: [OE-core] Using MACHINE_FEATURES in a native recipe
->=20
-> On Fri, 2017-03-24 at 15:10 +0000, Peter Kjellerstedt wrote:
-> > Even though I agree this is a good change and that it should be done,
-> > I wonder if we can either hold it off until after Pyro has been
-> > released or make it possible to avoid it? The reason for this is that
-> > I know that this change will require a huge amount of development
-> > work for us, something that will not be possible to do in the time
-> > frame left until Pyro is released. Or alternatively we will have to
-> > copy native.bbclass to our layers and maintain a fork of it, which
-> > sucks...
-> >
-> > The reason for this is that our unit test framework is based on
-> > building all our own packages as native, but still configured via,
-> > amongst others, MACHINE_FEATURES as if building for the real target.
-> > This will of course not work anymore if MACHINE_FEATURES is set to ""
-> > with no way of overriding it.
->=20
-> I'm afraid I only saw this after I merged it :(
+<div dir=3D"ltr"><div><div><span style=3D"color:rgb(31,73,125)">Hi Team,</s=
+pan><br><br><span style=3D"font-size:11pt;font-family:&quot;calibri&quot;,s=
+ans-serif;color:rgb(31,73,125)">
 
-No worries. I'll backport native.bbclass to our layers for now.
+</span><p class=3D"MsoNormal"><span style=3D"color:rgb(31,73,125)">To analy=
+zes the CPU load consumption of a particular process, we need to find the t=
+hread level consumption. Default <b>top </b>and <b>ps </b>utils are not sup=
+porting all the parameters that are available in Linux/Android. <br></span>=
+</p><p class=3D"MsoNormal"><span style=3D"color:rgb(31,73,125)"><br></span>=
+</p>
 
-> I appreciate its a pain but I do think the change is the right thing to
-> do (maybe with a corresponding DISTRO_FEATURES one too). Hopefully we
-> can find a way that lets you work around it somehow...
+<p class=3D"MsoNormal"><span style=3D"color:rgb(31,73,125)">Could you pleas=
+e suggest some
+alternatives which works in openembedded platform?</span></p><p class=3D"Ms=
+oNormal"><span style=3D"color:rgb(31,73,125)"><br></span></p><p class=3D"Ms=
+oNormal"><span style=3D"color:rgb(31,73,125)">Appreciate any pointers. <br>=
+</span></p><br></div>Thanks<br></div>Naresh <br><div><div><div class=3D"gma=
+il_signature"><div><br><div><br></div></div><div style=3D"padding:0px;margi=
+n-left:0px;margin-top:0px;overflow:hidden;color:black;font-size:10px;text-a=
+lign:left;line-height:130%"></div><div style=3D"padding:0px;margin-left:0px=
+;margin-top:0px;overflow:hidden;color:black;font-size:10px;text-align:left;=
+line-height:130%"></div></div>
+</div></div></div>
 
-I agree that cleaning MACHINE_FEATURES is the right thing to do. However,=20
-I am not so sure about DISTRO_FEATURES. After all, the native tools are=20
-part of the distro as well and there may be reasons to build them=20
-differently based on enabled features in the distro.
-
-> Cheers,
->=20
-> Richard
-
-//Peter
-
-
+--94eb2c0bad161990bc054b906899--
