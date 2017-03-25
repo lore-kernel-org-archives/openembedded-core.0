@@ -1,18 +1,29 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 009FD719B7;
-	Sat, 25 Mar 2017 18:32:03 +0000 (UTC)
+Return-Path: <rpjday@crashcourse.ca>
+Received: from smtp685.redcondor.net (smtp685.redcondor.net [208.80.206.85])
+	by mail.openembedded.org (Postfix) with ESMTP id ADFEF6E660
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 25 Mar 2017 19:22:42 +0000 (UTC)
+Received: from astoria.ccjclearline.com ([64.235.106.9])
+	by smtp685.redcondor.net ({20c8e40f-6b6c-4c9e-abff-1640ea7bf404})
+	via TCP (outbound) with ESMTPS id 20170325192242520_0685
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 25 Mar 2017 12:22:42 -0700
+X-RC-FROM: <rpjday@crashcourse.ca>
+X-RC-RCPT: <openembedded-core@lists.openembedded.org>
+Received: from [174.118.92.171] (port=41700 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
+	id 1crrGm-0002Ij-Oz for openembedded-core@lists.openembedded.org;
+	Sat, 25 Mar 2017 15:22:36 -0400
+Date: Sat, 25 Mar 2017 15:22:34 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@localhost.localdomain
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Message-ID: <alpine.LFD.2.20.1703251517250.9637@localhost.localdomain>
+User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
 MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Robert P. J. Day <rpjday@crashcourse.ca>
-Date: Sat, 25 Mar 2017 18:32:05 -0000
-Message-ID: <20170325183205.6649.70810@do.openembedded.org>
-References: <alpine.LFD.2.20.1703251400150.8339@localhost.localdomain>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <alpine.LFD.2.20.1703251400150.8339@localhost.localdomain>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgY2xhc3NlczogUmVwbGFjZSAiaWYgdGVzdCIgZmlsZSB0ZXN0cyB3aXRoIFBPU0lYIGZpbGUgdGVzdHM=?=
+X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
+Subject: another cleanup: "grep ... >/dev/null" -> "grep -q"?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,41 +36,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 25 Mar 2017 18:32:04 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-
-== Series Details ==
-
-Series: classes: Replace "if test" file tests with POSIX file tests
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/5977/
-State : failure
-
-== Summary ==
+X-List-Received-Date: Sat, 25 Mar 2017 19:22:44 -0000
+Content-Type: text/plain; charset=US-ASCII
 
 
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
+  something else that grates on me:
 
+$ grep "grep.*/dev/null" *
+autotools.bbclass:		if grep "^[[:space:]]*AM_GLIB_GNU_GETTEXT" $CONFIGURE_AC >/dev/null; then
+autotools.bbclass:			if grep "sed.*POTFILES" $CONFIGURE_AC >/dev/null; then
+autotools.bbclass:		elif grep "^[[:space:]]*AM_GNU_GETTEXT" $CONFIGURE_AC >/dev/null; then
+autotools.bbclass:		if grep "^[[:space:]]*[AI][CT]_PROG_INTLTOOL" $CONFIGURE_AC >/dev/null; then
+insane.bbclass:            statement = "grep -e '%s/[^ :]\{1,\}/[^ :]\{1,\}' %s > /dev/null" % (exec_prefix, path)
+insane.bbclass:        statement = "grep -e 'CROSS COMPILE Badness:' -e 'is unsafe for cross-compilation' %s > /dev/null" % compilelog
+insane.bbclass:        statement = "grep -e 'CROSS COMPILE Badness:' -e 'is unsafe for cross-compilation' %s > /dev/null" % installlog
+insane.bbclass:                gnu = "grep \"^[[:space:]]*AM_GNU_GETTEXT\" %s >/dev/null" % config
+rootfs-postcommands.bbclass:		if grep -q DROPBEAR_EXTRA_ARGS ${IMAGE_ROOTFS}${sysconfdir}/default/dropbear 2>/dev/null ; then
+utils.bbclass:	if echo "$destpath/" | egrep '^${STAGING_LIBDIR}/' >/dev/null
+$
 
+  1) can most of those be simplified with "grep -q"?
+  2) is there any need for "egrep" in that last match?
 
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  master (currently at 552bd782d9)
+rday
 
+-- 
 
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
 
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
----
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
 
