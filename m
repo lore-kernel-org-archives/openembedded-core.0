@@ -1,33 +1,46 @@
-Return-Path: <mariano.lopez@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 90A9477C31
+Return-Path: <twoerner@gmail.com>
+Received: from mail-it0-f65.google.com (mail-it0-f65.google.com
+	[209.85.214.65])
+	by mail.openembedded.org (Postfix) with ESMTP id F0BB66AC37
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Mar 2017 22:06:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-	d=intel.com; i=@intel.com; q=dns/txt; s=intel;
-	t=1490393188; x=1521929188;
-	h=from:to:cc:subject:date:message-id;
-	bh=FTjiIwnKCz5jLzkixA7dCkHmnmIiQljYXA7UKzkfXAo=;
-	b=QPntas8iBnhKnyMI8ywrhTS4dZSzKOdc/qzCJNxKTf6sgzMcVLzIJr3b
-	tYrB+O9a/KNVsewqjjNdqpceEiemPQ==;
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	24 Mar 2017 15:06:18 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.36,216,1486454400"; d="scan'208";a="1111907765"
-Received: from yctb01.ostc.intel.com ([10.54.69.55])
-	by orsmga001.jf.intel.com with ESMTP; 24 Mar 2017 15:06:18 -0700
-From: mariano.lopez@linux.intel.com
-To: openembedded-core@lists.openembedded.org,
-	juro.bystricky@intel.com
-Date: Fri, 24 Mar 2017 15:06:15 -0700
-Message-Id: <08d36d732abad80c4e13cc62f4465d441a8c00b0.1490392540.git.mariano.lopez@linux.intel.com>
-X-Mailer: git-send-email 2.10.2
-In-Reply-To: <cover.1490392540.git.mariano.lopez@linux.intel.com>
-References: <cover.1490392540.git.mariano.lopez@linux.intel.com>
-In-Reply-To: <cover.1490392540.git.mariano.lopez@linux.intel.com>
-References: <cover.1490392540.git.mariano.lopez@linux.intel.com>
-Subject: [PATCH 2/3] oeqa/target: Add decorator to register targets
+	Sat, 25 Mar 2017 05:19:49 +0000 (UTC)
+Received: by mail-it0-f65.google.com with SMTP id z70so1776152itb.1
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 24 Mar 2017 22:19:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:subject:date:message-id;
+	bh=WCwKvqkm+IW7kQZSGAO2pUPfXoSE5SzzvFQKMkI7MEo=;
+	b=ntz1tDAK+b8SqYLYiHlv0+DLoZnJepO/brgb6y42nA1mhaq8GYG/iNVMbC6GNGQTB+
+	4XWMldCIGE964Z67yQvmEh8YqkLbCCcU0IeN8dQpJX/lwXHwGEBrqWalhasiTR3VeSn9
+	8Qb0/g07tbjQ94Ac78Y3y+tNKdGP229vYyeJLOW7jRzmTfW+s5AMxuIA3ffE8QP3bEtM
+	XTKWuU5wNEuvOssQt9FUjL6KU4XYf3hV+0V2ltxGhfluxaf36JXxcWGRoMa97cHn7Quy
+	Tn/jADsR2s6gLFJtIJSFMxwIXwNiDY7Pmk4abem50VN0SdGOI8H9gh9mtgZRSSng+FaZ
+	h2sQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=WCwKvqkm+IW7kQZSGAO2pUPfXoSE5SzzvFQKMkI7MEo=;
+	b=PP+lcwn/xZbZqHf5e6UV/BeMxXfn56alxC6GR8R/pvTguzAFCdKsj7uKz2McPfznjP
+	0tOq/eNa+QGmV0Z8Orfraiu0cIb8RJumfOYmlTbZJR0d1fMtYKUPgrKkQumTdgdoc3KX
+	fZEH5+awtk1rUPpHQDN8mOnsea4D+C+/fwjozqHMV7VYZMf/Z90287Z27hhjR8yfUpL7
+	fykdkTeXdPsVewbEPpPR0qs9Rj36ltl6BamNoa/Z3XHwQhSlrZvuKPuzcmdufttMD1/8
+	w8g80kjiPKhKdKfUaIBGsjAt0eu5qzp3H7DeuHHLrzB814psCxNTiMF/ep5hR00NvCY9
+	V5Pw==
+X-Gm-Message-State: AFeK/H1E5FNVevndklAxI1b4E3mOlX8n22WCE6BN/jqxiVPc0iC1MImyWAFgBiDY8OZkFA==
+X-Received: by 10.36.245.196 with SMTP id k187mr549662ith.42.1490419190463;
+	Fri, 24 Mar 2017 22:19:50 -0700 (PDT)
+Received: from linux-uys3.suse (dsl-67-55-28-109.acanac.net. [67.55.28.109])
+	by smtp.gmail.com with ESMTPSA id
+	j102sm2297317ioo.40.2017.03.24.22.19.49
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 24 Mar 2017 22:19:49 -0700 (PDT)
+From: Trevor Woerner <twoerner@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sat, 25 Mar 2017 01:19:47 -0400
+Message-Id: <20170325051947.21433-1-twoerner@gmail.com>
+X-Mailer: git-send-email 2.12.0.rc1.48.g076c053
+Subject: [PATCH] xserver-nodm-init: option to remove cursor
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,99 +53,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Mar 2017 22:06:27 -0000
+X-List-Received-Date: Sat, 25 Mar 2017 05:19:53 -0000
 
-From: Mariano Lopez <mariano.lopez@linux.intel.com>
+Add a PACKAGECONFIG option to allow the user to disable the mouse
+cursor/pointer in the X server. This might be useful where a
+touchscreen is used.
 
-This adds a way to register targets that can be used with runtime testing. To
-do this just decorate a target class with registerTarget, and set "targetName"
-attribute to the name that will be used by TEST_TARGET variable.
-
-Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
+Signed-off-by: Trevor Woerner <twoerner@gmail.com>
 ---
- meta/lib/oeqa/core/target/base.py | 23 +++++++++++++++++++++++
- meta/lib/oeqa/core/target/qemu.py |  5 +++++
- meta/lib/oeqa/core/target/ssh.py  |  6 +++++-
- 3 files changed, 33 insertions(+), 1 deletion(-)
+ .../recipes-graphics/x11-common/xserver-nodm-init/xserver-nodm.conf.in | 2 +-
+ meta/recipes-graphics/x11-common/xserver-nodm-init_3.0.bb              | 3 +++
+ 2 files changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/meta/lib/oeqa/core/target/base.py b/meta/lib/oeqa/core/target/base.py
-index d2468bc..c886491 100644
---- a/meta/lib/oeqa/core/target/base.py
-+++ b/meta/lib/oeqa/core/target/base.py
-@@ -1,8 +1,31 @@
- # Copyright (C) 2016 Intel Corporation
- # Released under the MIT license (see COPYING.MIT)
-+import os
-+import sys
-+import importlib
+diff --git a/meta/recipes-graphics/x11-common/xserver-nodm-init/xserver-nodm.conf.in b/meta/recipes-graphics/x11-common/xserver-nodm-init/xserver-nodm.conf.in
+index 757c23d95a..4a9670d8d2 100644
+--- a/meta/recipes-graphics/x11-common/xserver-nodm-init/xserver-nodm.conf.in
++++ b/meta/recipes-graphics/x11-common/xserver-nodm-init/xserver-nodm.conf.in
+@@ -2,6 +2,6 @@
  
- from abc import abstractmethod
+ XSERVER=/usr/bin/Xorg
+ DISPLAY=:0
+-ARGS=" -br -pn @BLANK_ARGS@ "
++ARGS=" -br -pn @BLANK_ARGS@ @NO_CURSOR_ARG@ "
+ HOME=@HOME@
+ USER=@USER@
+diff --git a/meta/recipes-graphics/x11-common/xserver-nodm-init_3.0.bb b/meta/recipes-graphics/x11-common/xserver-nodm-init_3.0.bb
+index 62da11800c..345b589696 100644
+--- a/meta/recipes-graphics/x11-common/xserver-nodm-init_3.0.bb
++++ b/meta/recipes-graphics/x11-common/xserver-nodm-init_3.0.bb
+@@ -24,6 +24,7 @@ REQUIRED_DISTRO_FEATURES = "x11"
+ PACKAGECONFIG ??= "blank"
+ # dpms and screen saver will be on only if 'blank' is in PACKAGECONFIG
+ PACKAGECONFIG[blank] = ""
++PACKAGECONFIG[nocursor] = ""
  
-+# Used to keep record of registered targets, it
-+# uses class' targetName as the key to the class.
-+targetClasses = {}
-+
-+def registerTarget(obj):
-+    """ Use as decorator to register targets for runtime testing """
-+
-+    if (obj.targetName in targetClasses and
-+        obj.__name__ != targetClasses[obj.targetName].__name__):
-+
-+        msg = ('Tried to register %s as "%s" that is used by %s' %
-+               (obj, obj.targetName, targetClasses[obj.targetName]))
-+        raise ImportError(msg)
-+
-+    if not issubclass(obj, OETarget):
-+        raise TypeError('%s must inherit from OETarget' % obj)
-+
-+    targetClasses[obj.targetName] = obj
-+    return obj
-+
- class OETarget(object):
+ do_install() {
+     install -d ${D}${sysconfdir}/default
+@@ -35,6 +36,7 @@ do_install() {
+     install X11/Xsession ${D}${sysconfdir}/X11/
  
-     def __init__(self, logger, *args, **kwargs):
-diff --git a/meta/lib/oeqa/core/target/qemu.py b/meta/lib/oeqa/core/target/qemu.py
-index 261c466..d1b6bf5 100644
---- a/meta/lib/oeqa/core/target/qemu.py
-+++ b/meta/lib/oeqa/core/target/qemu.py
-@@ -6,12 +6,17 @@ import sys
- import signal
- import time
+     BLANK_ARGS="${@bb.utils.contains('PACKAGECONFIG', 'blank', '', '-s 0 -dpms', d)}"
++    NO_CURSOR_ARG="${@bb.utils.contains('PACKAGECONFIG', 'nocursor', '-nocursor', '', d)}"
+     if [ "${ROOTLESS_X}" = "1" ] ; then
+         XUSER_HOME="/home/xuser"
+         XUSER="xuser"
+@@ -44,6 +46,7 @@ do_install() {
+     fi
+     sed -i "s:@HOME@:${XUSER_HOME}:; s:@USER@:${XUSER}:; s:@BLANK_ARGS@:${BLANK_ARGS}:" \
+         ${D}${sysconfdir}/default/xserver-nodm
++    sed -i "s:@NO_CURSOR_ARG@:${NO_CURSOR_ARG}:" ${D}${sysconfdir}/default/xserver-nodm
  
-+from oeqa.core.target.base import registerTarget
- from oeqa.core.target.ssh import OESSHTarget
- from oeqa.utils.qemurunner import QemuRunner
- 
- supported_fstypes = ['ext3', 'ext4', 'cpio.gz', 'wic', 'elf']
- 
-+@registerTarget
- class OEQemuTarget(OESSHTarget):
-+
-+    targetName = 'qemu'
-+
-     def __init__(self, logger, ip, server_ip, timeout=300, user='root',
-             port=None, machine='', rootfs='', kernel='', kvm=False,
-             dump_dir='', dump_host_cmds='', display='', bootlog='',
-diff --git a/meta/lib/oeqa/core/target/ssh.py b/meta/lib/oeqa/core/target/ssh.py
-index 035965a..d973058 100644
---- a/meta/lib/oeqa/core/target/ssh.py
-+++ b/meta/lib/oeqa/core/target/ssh.py
-@@ -7,9 +7,13 @@ import select
- import logging
- import subprocess
- 
--from oeqa.core.target.base import OETarget
-+from oeqa.core.target.base import OETarget, registerTarget
- 
-+@registerTarget
- class OESSHTarget(OETarget):
-+
-+    targetName = 'simpleremote'
-+
-     def __init__(self, logger, ip, server_ip, timeout=300, user='root',
-                  port=None, **kwargs):
-         if not logger:
+     if ${@bb.utils.contains('DISTRO_FEATURES','systemd','true','false',d)}; then
+         install -d ${D}${systemd_unitdir}/system
 -- 
-2.10.2
+2.12.0.rc1.48.g076c053
 
 
