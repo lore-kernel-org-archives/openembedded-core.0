@@ -1,50 +1,39 @@
-Return-Path: <jussi.kukkonen@intel.com>
-Received: from mail-yw0-f181.google.com (mail-yw0-f181.google.com
-	[209.85.161.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 9CB9277A50
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-qk0-f196.google.com (mail-qk0-f196.google.com
+	[209.85.220.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 4380F71AC1
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 26 Mar 2017 17:10:04 +0000 (UTC)
-Received: by mail-yw0-f181.google.com with SMTP id v76so18281550ywg.0
+	Sun, 26 Mar 2017 19:59:07 +0000 (UTC)
+Received: by mail-qk0-f196.google.com with SMTP id p22so5250655qka.0
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 26 Mar 2017 10:10:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=xsSK1ctJGFjZQrVPhDOkbXah8vRh2g8G+9qztEG8g4I=;
-	b=FfAtKE+9LzzycCUXhj2daulHfgjNPeMSprlTqTYiS1xXEEYxWFPDWcQQ4XXtxoouye
-	kRiJYjX0PajnD/QMGsk2yIctM8miQfOX9O8QW0laBGP0/n+6OXcygMQ1cDVCp5IvDZ5H
-	/MvLftdvNCCQdc6B7RTWZbfvEbz07zvCEkMOptACWFHYhPMm9iSPjzk8puXuA4VtB6o+
-	ec3zQmzTWC4Q/BrvhbTbjCIW+u/rjXHkMBrNHvgIVBoeHBLEIQgH2Nsty7dE4HVfUN34
-	ozG7RMeY1Iw/2ZPzAUEFv7HZ0yikqrOIt6bIrtw8vLpx/44rdkNsJDTwnX0b+u8qqhYN
-	XCeg==
+	Sun, 26 Mar 2017 12:59:09 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=xsSK1ctJGFjZQrVPhDOkbXah8vRh2g8G+9qztEG8g4I=;
-	b=NFCOANW2sFWPliECDZoOBSGylJ35sYzXxLGXe/yC1aMhYcKgNLX9fo7bogoTMgQS6u
-	rcmyGzkYlFHPmtzeInhQQ1Ok/72AL2MUEhzca5xRGYlBjH5x/iY+CFe+BPl/2a+v3TUp
-	Rw0caseOA+s6e7aHo1Ac9OhZ5uyTc4aFc+gXac24fZibyTFnOnPyzqiH9tCqnRIrik6U
-	HQZvAfMtW0A3+S3dYqRuuJgGby+6mV779V+7apYwiVB2Zo0GpgagoyyJmGfxsjin1zQe
-	8Rkfva7pagN5DQtlPjyzH63Ans+/m1QBrONdZrKveWG13rFWLq4IdSzHSE8ji3nDKdxu
-	6bwQ==
-X-Gm-Message-State: AFeK/H2YmMQXu8FTo8YX0AwpHPGf05u03N8LJDqINHhVOiOrDonCg0M7pENnKZlAPcaKY9AjzW8u8vZfh2c319mb
-X-Received: by 10.37.221.134 with SMTP id u128mr13151741ybg.51.1490548205493; 
-	Sun, 26 Mar 2017 10:10:05 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.129.81.136 with HTTP; Sun, 26 Mar 2017 10:09:35 -0700 (PDT)
-In-Reply-To: <d33381889bbb46db8e6f4f2190b2d1f4@XBOX02.axis.com>
-References: <CAJ86T=WhxRaQ42=2bsFVZpeLhrZo2XwZBYoWp=f42tyebo2=2A@mail.gmail.com>
-	<1490287404.13980.231.camel@linuxfoundation.org>
-	<f67e1ac46aff43cfb085fd76fe0f60c6@XBOX02.axis.com>
-	<1490437627.13980.248.camel@linuxfoundation.org>
-	<d33381889bbb46db8e6f4f2190b2d1f4@XBOX02.axis.com>
-From: Jussi Kukkonen <jussi.kukkonen@intel.com>
-Date: Sun, 26 Mar 2017 20:09:35 +0300
-Message-ID: <CAHiDW_EF_yzWm9-wgjyLidA-W2=Yq-sqRhHFXQFD2LtqSuz2Gw@mail.gmail.com>
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: Using MACHINE_FEATURES in a native recipe
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:organization;
+	bh=U9z7brU3rrjjhSulX5Ory7vFq+ti8Zgqhr1WKstyBw4=;
+	b=JemGP3XskbJE7bzUrDmcCKKAprw7TNlPJ27wv3UBMHzjO5JX5UbtRel66QWGVXp5La
+	5qPYstHLWbPyOU3wAebg5Oj1BhCEo1ib0Z5w/46G/GpIeBLBqPnNpFazlLt0lMirbP2R
+	lGr4OhYlDhrb2GtG9MIOHarBsZ61/CozEC2G4v3ixFh0nnc8ypEyFppgZC1uhwazcwf6
+	XJJ6sjp2vAEH++BDFSmVPfZXZuLQFjFLmvm8rvmJo4MEEXNarDjKfniPian/PgV2hBop
+	ujFNj/BCt7y6LkSDz79oJ4CB9gMOvewfgeCVaC7pKhVeITajzY42xMrN7/599eqldGXY
+	i3KQ==
+X-Gm-Message-State: AFeK/H2L48FhVWvfAfQpY1eUmZ7VNe5+0NDvvrAMjFuWZYEfbQ/OPK6LG5/MAB4hpm3cYw==
+X-Received: by 10.55.97.67 with SMTP id v64mr18649767qkb.80.1490558349065;
+	Sun, 26 Mar 2017 12:59:09 -0700 (PDT)
+Received: from localhost ([189.114.111.135])
+	by smtp.gmail.com with ESMTPSA id d4sm6418340qkf.30.2017.03.26.12.59.05
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sun, 26 Mar 2017 12:59:07 -0700 (PDT)
+Received: by localhost (sSMTP sendmail emulation);
+	Sun, 26 Mar 2017 16:59:03 -0300
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Date: Sun, 26 Mar 2017 16:58:59 -0300
+Message-Id: <20170326195900.15990-1-otavio@ossystems.com.br>
+X-Mailer: git-send-email 2.12.1
+Organization: O.S. Systems Software LTDA.
+Cc: Otavio Salvador <otavio@ossystems.com.br>
+Subject: [PATCH 1/2] mesa: Update to 17.0.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,127 +46,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 26 Mar 2017 17:10:06 -0000
-Content-Type: multipart/alternative; boundary=001a114bcea44f35c3054ba54c99
+X-List-Received-Date: Sun, 26 Mar 2017 19:59:08 -0000
 
---001a114bcea44f35c3054ba54c99
-Content-Type: text/plain; charset=UTF-8
+This is a bugfix only release.
 
-On 25 March 2017 at 17:34, Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-wrote:
+,----
+| Bug fixes
+|
+| Bug 68504 - 9.2-rc1 workaround for clover build failure on ppc/altivec: cannot convert 'bool' to '__vector(4) __bool int' in return
+| Bug 97988 - [radeonsi] playing back videos with VDPAU exhibits deinterlacing/anti-aliasing issues not visible with VA-API
+| Bug 99484 - Crusader Kings 2 - Loading bars, siege bars, morale bars, etc. do not render correctly
+| Bug 99715 - Don't print: "Note: Buggy applications may crash, if they do please report to vendor"
+| Bug 100049 - "ralloc: Make sure ralloc() allocations match malloc()'s alignment." causes seg fault in 32bit build
+`----
 
-> > -----Original Message-----
-> > From: openembedded-core-bounces@lists.openembedded.org
-> > [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
-> > Richard Purdie
-> > Sent: den 25 mars 2017 11:27
-> > To: Peter Kjellerstedt; Andre McCurdy; OE Core mailing list
-> > Subject: Re: [OE-core] Using MACHINE_FEATURES in a native recipe
-> >
-> > On Fri, 2017-03-24 at 15:10 +0000, Peter Kjellerstedt wrote:
-> > > Even though I agree this is a good change and that it should be done,
-> > > I wonder if we can either hold it off until after Pyro has been
-> > > released or make it possible to avoid it? The reason for this is that
-> > > I know that this change will require a huge amount of development
-> > > work for us, something that will not be possible to do in the time
-> > > frame left until Pyro is released. Or alternatively we will have to
-> > > copy native.bbclass to our layers and maintain a fork of it, which
-> > > sucks...
-> > >
-> > > The reason for this is that our unit test framework is based on
-> > > building all our own packages as native, but still configured via,
-> > > amongst others, MACHINE_FEATURES as if building for the real target.
-> > > This will of course not work anymore if MACHINE_FEATURES is set to ""
-> > > with no way of overriding it.
-> >
-> > I'm afraid I only saw this after I merged it :(
->
-> No worries. I'll backport native.bbclass to our layers for now.
->
-> > I appreciate its a pain but I do think the change is the right thing to
-> > do (maybe with a corresponding DISTRO_FEATURES one too). Hopefully we
-> > can find a way that lets you work around it somehow...
->
-> I agree that cleaning MACHINE_FEATURES is the right thing to do. However,
-> I am not so sure about DISTRO_FEATURES. After all, the native tools are
-> part of the distro as well and there may be reasons to build them
-> differently based on enabled features in the distro.
->
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+---
 
-It's possible but I've not found a single reason yet... If someone has a
-hunch about a distro feature actually affecting a native tool, please
-mention in https://bugzilla.yoctoproject.org/show_bug.cgi?id=11239
+ meta/recipes-graphics/mesa/{mesa-gl_17.0.1.bb => mesa-gl_17.0.2.bb} | 0
+ meta/recipes-graphics/mesa/{mesa_17.0.1.bb => mesa_17.0.2.bb}       | 5 +++--
+ 2 files changed, 3 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/mesa/{mesa-gl_17.0.1.bb => mesa-gl_17.0.2.bb} (100%)
+ rename meta/recipes-graphics/mesa/{mesa_17.0.1.bb => mesa_17.0.2.bb} (82%)
 
-Jussi
+diff --git a/meta/recipes-graphics/mesa/mesa-gl_17.0.1.bb b/meta/recipes-graphics/mesa/mesa-gl_17.0.2.bb
+similarity index 100%
+rename from meta/recipes-graphics/mesa/mesa-gl_17.0.1.bb
+rename to meta/recipes-graphics/mesa/mesa-gl_17.0.2.bb
+diff --git a/meta/recipes-graphics/mesa/mesa_17.0.1.bb b/meta/recipes-graphics/mesa/mesa_17.0.2.bb
+similarity index 82%
+rename from meta/recipes-graphics/mesa/mesa_17.0.1.bb
+rename to meta/recipes-graphics/mesa/mesa_17.0.2.bb
+index 9e491c28dc..2689e8fac2 100644
+--- a/meta/recipes-graphics/mesa/mesa_17.0.1.bb
++++ b/meta/recipes-graphics/mesa/mesa_17.0.2.bb
+@@ -5,8 +5,9 @@ SRC_URI = "ftp://ftp.freedesktop.org/pub/mesa/mesa-${PV}.tar.xz \
+            file://disable-asm-on-non-gcc.patch \
+            file://0001-Use-wayland-scanner-in-the-path.patch \
+ "
+-SRC_URI[md5sum] = "6a7e768241846c8c69bbadbf904dcc58"
+-SRC_URI[sha256sum] = "96fd70ef5f31d276a17e424e7e1bb79447ccbbe822b56844213ef932e7ad1b0c"
++
++SRC_URI[md5sum] = "8f808e92b893d412fbd6510e1d16f5c5"
++SRC_URI[sha256sum] = "f8f191f909e01e65de38d5bdea5fb057f21649a3aed20948be02348e77a689d4"
+ 
+ #because we cannot rely on the fact that all apps will use pkgconfig,
+ #make eglplatform.h independent of MESA_EGL_NO_X11_HEADER
+-- 
+2.12.1
 
---001a114bcea44f35c3054ba54c99
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_quote">On 2=
-5 March 2017 at 17:34, Peter Kjellerstedt <span dir=3D"ltr">&lt;<a href=3D"=
-mailto:peter.kjellerstedt@axis.com" target=3D"_blank">peter.kjellerstedt@ax=
-is.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"=
-margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-lef=
-t:1ex"><span class=3D"gmail-">&gt; -----Original Message-----<br>
-&gt; From: <a href=3D"mailto:openembedded-core-bounces@lists.openembedded.o=
-rg">openembedded-core-bounces@<wbr>lists.openembedded.org</a><br>
-&gt; [mailto:<a href=3D"mailto:openembedded-core-bounces@lists.openembedded=
-.org">openembedded-core-<wbr>bounces@lists.openembedded.org</a><wbr>] On Be=
-half Of<br>
-&gt; Richard Purdie<br>
-</span><span class=3D"gmail-">&gt; Sent: den 25 mars 2017 11:27<br>
-&gt; To: Peter Kjellerstedt; Andre McCurdy; OE Core mailing list<br>
-&gt; Subject: Re: [OE-core] Using MACHINE_FEATURES in a native recipe<br>
-&gt;<br>
-</span><span class=3D"gmail-">&gt; On Fri, 2017-03-24 at 15:10 +0000, Peter=
- Kjellerstedt wrote:<br>
-&gt; &gt; Even though I agree this is a good change and that it should be d=
-one,<br>
-&gt; &gt; I wonder if we can either hold it off until after Pyro has been<b=
-r>
-&gt; &gt; released or make it possible to avoid it? The reason for this is =
-that<br>
-&gt; &gt; I know that this change will require a huge amount of development=
-<br>
-&gt; &gt; work for us, something that will not be possible to do in the tim=
-e<br>
-&gt; &gt; frame left until Pyro is released. Or alternatively we will have =
-to<br>
-&gt; &gt; copy native.bbclass to our layers and maintain a fork of it, whic=
-h<br>
-&gt; &gt; sucks...<br>
-&gt; &gt;<br>
-&gt; &gt; The reason for this is that our unit test framework is based on<b=
-r>
-&gt; &gt; building all our own packages as native, but still configured via=
-,<br>
-&gt; &gt; amongst others, MACHINE_FEATURES as if building for the real targ=
-et.<br>
-&gt; &gt; This will of course not work anymore if MACHINE_FEATURES is set t=
-o &quot;&quot;<br>
-&gt; &gt; with no way of overriding it.<br>
-&gt;<br>
-&gt; I&#39;m afraid I only saw this after I merged it :(<br>
-<br>
-</span>No worries. I&#39;ll backport native.bbclass to our layers for now.<=
-br>
-<span class=3D"gmail-"><br>
-&gt; I appreciate its a pain but I do think the change is the right thing t=
-o<br>
-&gt; do (maybe with a corresponding DISTRO_FEATURES one too). Hopefully we<=
-br>
-&gt; can find a way that lets you work around it somehow...<br>
-<br>
-</span>I agree that cleaning MACHINE_FEATURES is the right thing to do. How=
-ever,<br>
-I am not so sure about DISTRO_FEATURES. After all, the native tools are<br>
-part of the distro as well and there may be reasons to build them<br>
-differently based on enabled features in the distro.<br></blockquote><div><=
-br></div><div>It&#39;s possible but I&#39;ve not found a single reason yet.=
-.. If someone has a hunch about a distro feature actually affecting a nativ=
-e tool, please mention in <a href=3D"https://bugzilla.yoctoproject.org/show=
-_bug.cgi?id=3D11239">https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D11=
-239</a>=C2=A0</div><div>=C2=A0</div><div>Jussi</div></div></div></div>
-
---001a114bcea44f35c3054ba54c99--
