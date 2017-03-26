@@ -1,29 +1,29 @@
 Return-Path: <rpjday@crashcourse.ca>
-Received: from smtp685.redcondor.net (smtp685.redcondor.net [208.80.206.85])
-	by mail.openembedded.org (Postfix) with ESMTP id ADFEF6E660
+Received: from smtp484.redcondor.net (smtp484.redcondor.net [208.80.204.84])
+	by mail.openembedded.org (Postfix) with ESMTP id 1893671CBF
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 25 Mar 2017 19:22:42 +0000 (UTC)
+	Sun, 26 Mar 2017 10:24:15 +0000 (UTC)
 Received: from astoria.ccjclearline.com ([64.235.106.9])
-	by smtp685.redcondor.net ({20c8e40f-6b6c-4c9e-abff-1640ea7bf404})
-	via TCP (outbound) with ESMTPS id 20170325192242520_0685
+	by smtp484.redcondor.net ({c48374e7-08df-40d9-a0de-96cc9883a037})
+	via TCP (outbound) with ESMTPS id 20170326102416152_0484
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 25 Mar 2017 12:22:42 -0700
+	Sun, 26 Mar 2017 10:24:16 +0000
 X-RC-FROM: <rpjday@crashcourse.ca>
 X-RC-RCPT: <openembedded-core@lists.openembedded.org>
-Received: from [174.118.92.171] (port=41700 helo=crashcourse.ca)
+Received: from [174.118.92.171] (port=50430 helo=crashcourse.ca)
 	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
 	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1crrGm-0002Ij-Oz for openembedded-core@lists.openembedded.org;
-	Sat, 25 Mar 2017 15:22:36 -0400
-Date: Sat, 25 Mar 2017 15:22:34 -0400 (EDT)
+	id 1cs5LG-0006UQ-Cv for openembedded-core@lists.openembedded.org;
+	Sun, 26 Mar 2017 06:24:10 -0400
+Date: Sun, 26 Mar 2017 06:24:07 -0400 (EDT)
 From: "Robert P. J. Day" <rpjday@crashcourse.ca>
 X-X-Sender: rpjday@localhost.localdomain
 To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Message-ID: <alpine.LFD.2.20.1703251517250.9637@localhost.localdomain>
+Message-ID: <alpine.LFD.2.20.1703260622220.16304@localhost.localdomain>
 User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
 MIME-Version: 1.0
 X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
-Subject: another cleanup: "grep ... >/dev/null" -> "grep -q"?
+Subject: [PATCH] autotools.bbclass: Replace "grep ... >/dev/null" with "grep -q"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,29 +36,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 25 Mar 2017 19:22:44 -0000
+X-List-Received-Date: Sun, 26 Mar 2017 10:24:17 -0000
 Content-Type: text/plain; charset=US-ASCII
 
 
-  something else that grates on me:
+For aesthetic style reasons, use "grep -q" instead of ">/dev/null".
 
-$ grep "grep.*/dev/null" *
-autotools.bbclass:		if grep "^[[:space:]]*AM_GLIB_GNU_GETTEXT" $CONFIGURE_AC >/dev/null; then
-autotools.bbclass:			if grep "sed.*POTFILES" $CONFIGURE_AC >/dev/null; then
-autotools.bbclass:		elif grep "^[[:space:]]*AM_GNU_GETTEXT" $CONFIGURE_AC >/dev/null; then
-autotools.bbclass:		if grep "^[[:space:]]*[AI][CT]_PROG_INTLTOOL" $CONFIGURE_AC >/dev/null; then
-insane.bbclass:            statement = "grep -e '%s/[^ :]\{1,\}/[^ :]\{1,\}' %s > /dev/null" % (exec_prefix, path)
-insane.bbclass:        statement = "grep -e 'CROSS COMPILE Badness:' -e 'is unsafe for cross-compilation' %s > /dev/null" % compilelog
-insane.bbclass:        statement = "grep -e 'CROSS COMPILE Badness:' -e 'is unsafe for cross-compilation' %s > /dev/null" % installlog
-insane.bbclass:                gnu = "grep \"^[[:space:]]*AM_GNU_GETTEXT\" %s >/dev/null" % config
-rootfs-postcommands.bbclass:		if grep -q DROPBEAR_EXTRA_ARGS ${IMAGE_ROOTFS}${sysconfdir}/default/dropbear 2>/dev/null ; then
-utils.bbclass:	if echo "$destpath/" | egrep '^${STAGING_LIBDIR}/' >/dev/null
-$
+Signed-off-by: Robert P. J. Day <rpjday@crashcourse.ca>
 
-  1) can most of those be simplified with "grep -q"?
-  2) is there any need for "egrep" in that last match?
+---
 
-rday
+diff --git a/meta/classes/autotools.bbclass b/meta/classes/autotools.bbclass
+index d494734..ac04a07 100644
+--- a/meta/classes/autotools.bbclass
++++ b/meta/classes/autotools.bbclass
+@@ -193,14 +193,14 @@ autotools_do_configure() {
+ 		else
+ 			CONFIGURE_AC=configure.ac
+ 		fi
+-		if grep "^[[:space:]]*AM_GLIB_GNU_GETTEXT" $CONFIGURE_AC >/dev/null; then
+-			if grep "sed.*POTFILES" $CONFIGURE_AC >/dev/null; then
++		if grep -q "^[[:space:]]*AM_GLIB_GNU_GETTEXT" $CONFIGURE_AC; then
++			if grep -q "sed.*POTFILES" $CONFIGURE_AC; then
+ 				: do nothing -- we still have an old unmodified configure.ac
+ 	    		else
+ 				bbnote Executing glib-gettextize --force --copy
+ 				echo "no" | glib-gettextize --force --copy
+ 			fi
+-		elif grep "^[[:space:]]*AM_GNU_GETTEXT" $CONFIGURE_AC >/dev/null; then
++		elif grep -q "^[[:space:]]*AM_GNU_GETTEXT" $CONFIGURE_AC; then
+ 			# We'd call gettextize here if it wasn't so broken...
+ 			cp ${STAGING_DATADIR_NATIVE}/gettext/config.rpath ${AUTOTOOLS_AUXDIR}/
+ 			if [ -d ${S}/po/ ]; then
+@@ -212,7 +212,7 @@ autotools_do_configure() {
+ 			PRUNE_M4="$PRUNE_M4 gettext.m4 iconv.m4 lib-ld.m4 lib-link.m4 lib-prefix.m4 nls.m4 po.m4 progtest.m4"
+ 		fi
+ 		mkdir -p m4
+-		if grep "^[[:space:]]*[AI][CT]_PROG_INTLTOOL" $CONFIGURE_AC >/dev/null; then
++		if grep -q "^[[:space:]]*[AI][CT]_PROG_INTLTOOL" $CONFIGURE_AC; then
+ 			if ! echo "${DEPENDS}" | grep -q intltool-native; then
+ 				bbwarn "Missing DEPENDS on intltool-native"
+ 			fi
 
 -- 
 
