@@ -1,28 +1,26 @@
-Return-Path: <california.l.sullivan@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id EBCF7779DC
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 889F37306B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Mar 2017 21:33:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-	d=intel.com; i=@intel.com; q=dns/txt; s=intel;
-	t=1490650423; x=1522186423;
-	h=from:to:cc:subject:date:message-id;
-	bh=IstY/JXBfGrq6rVaaDGSEv1U4iVwkMNArKvF1+170IQ=;
-	b=JkmhJsBfpb7aScuMDn39BGw6JO1CuropRE8vZ6zM9/YdUd0zKu38tmeC
-	vR9BHbmd1Yha5vQGBaFLNdjacmXAwg==;
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	27 Mar 2017 14:33:43 -0700
+	Mon, 27 Mar 2017 22:53:31 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga105.fm.intel.com with ESMTP; 27 Mar 2017 15:53:32 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.36,233,1486454400"; d="scan'208";a="1112711668"
-Received: from clsulliv.jf.intel.com ([10.7.201.36])
-	by orsmga001.jf.intel.com with ESMTP; 27 Mar 2017 14:33:43 -0700
-From: California Sullivan <california.l.sullivan@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 27 Mar 2017 14:33:37 -0700
-Message-Id: <1490650417-16932-1-git-send-email-california.l.sullivan@intel.com>
-X-Mailer: git-send-email 2.5.5
-Subject: [morty][PATCH] parselogs: Whitelist NUC6 firmware load error message on genericx86-64
+X-IronPort-AV: E=Sophos;i="5.36,234,1486454400"; d="scan'208";a="1147653404"
+Received: from dalin-mobl1.gar.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.255.138.23])
+	by fmsmga002.fm.intel.com with ESMTP; 27 Mar 2017 15:53:31 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Date: Tue, 28 Mar 2017 11:53:28 +1300
+Message-ID: <18181743.RMn13RZB2O@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+In-Reply-To: <20170327125359.16788-2-alexander.kanavin@linux.intel.com>
+References: <20170327125359.16788-1-alexander.kanavin@linux.intel.com>
+	<20170327125359.16788-2-alexander.kanavin@linux.intel.com>
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCHv3 2/2] dnf: move the entire dnf/rpm4 stack to Python 3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,38 +33,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Mar 2017 21:33:42 -0000
+X-List-Received-Date: Mon, 27 Mar 2017 22:53:32 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-This was already whitelisted, but the 4.8 kernel changed the error
-message, causing it to get caught by parselogs again.
+Hi Alex,
 
-Fixes [YOCTO #10494].
+On Tuesday, 28 March 2017 1:53:59 AM NZDT Alexander Kanavin wrote:
+> [YOCTO #11180]
+> 
+> Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+> ---
 
-Signed-off-by: California Sullivan <california.l.sullivan@intel.com>
-Signed-off-by: Ross Burton <ross.burton@intel.com>
-(cherry picked from commit e1bad14231115f3b1a2bf844ef5b2022c648b55d)
-Signed-off-by: California Sullivan <california.l.sullivan@intel.com>
----
-This is a backport from master. This error occurs on 2.2.1 - see latest
-comments on bug 10494. If I need to add additional info to this commit
-message, please let me know and I'll send a V2.
+If you're doing another rev can you please have a reasonable commit message in 
+here? Even if it's trivial.
 
- meta/lib/oeqa/runtime/parselogs.py | 1 +
- 1 file changed, 1 insertion(+)
+Thanks,
+Paul
 
-diff --git a/meta/lib/oeqa/runtime/parselogs.py b/meta/lib/oeqa/runtime/parselogs.py
-index e79c39a..aa5008b 100644
---- a/meta/lib/oeqa/runtime/parselogs.py
-+++ b/meta/lib/oeqa/runtime/parselogs.py
-@@ -142,6 +142,7 @@ ignore_errors = {
-         'Failed to load firmware i915',
-         'Failed to fetch GuC',
-         'Failed to initialize GuC',
-+        'Failed to load DMC firmware',
-         'The driver is built-in, so to load the firmware you need to',
-         ] + x86_common,
-     'edgerouter' : [
 -- 
-2.5.5
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
