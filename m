@@ -1,29 +1,21 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 9E14572F5A
+Return-Path: <anibal.limon@linux.intel.com>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id EC37B60685
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Mar 2017 16:34:49 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTP id v2RGYnpn029968; 
-	Mon, 27 Mar 2017 17:34:49 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id rogUwKGt-lK3; Mon, 27 Mar 2017 17:34:49 +0100 (BST)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v2RGYlVY029951
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Mon, 27 Mar 2017 17:34:48 +0100
-Message-ID: <1490632487.13980.272.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Munagala Naresh <munagala.nareshbabu@gmail.com>,
-	openembedded-core@lists.openembedded.org
-Date: Mon, 27 Mar 2017 17:34:47 +0100
-In-Reply-To: <CACfW1NoPeUfyJ7a7cNZ=UfK9pXKPfnoJ0M2sOQGWbs+9ZedH2Q@mail.gmail.com>
-References: <CACfW1NoPeUfyJ7a7cNZ=UfK9pXKPfnoJ0M2sOQGWbs+9ZedH2Q@mail.gmail.com>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.1 
-Mime-Version: 1.0
-Subject: Re: CPU profiling at thread level
+	Mon, 27 Mar 2017 17:01:34 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga105.fm.intel.com with ESMTP; 27 Mar 2017 10:01:36 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.36,232,1486454400"; d="scan'208";a="65594189"
+Received: from alimonb-mobl1.zpn.intel.com ([10.219.128.126])
+	by orsmga002.jf.intel.com with ESMTP; 27 Mar 2017 10:01:35 -0700
+From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 27 Mar 2017 11:05:30 -0600
+Message-Id: <1490634330-5652-1-git-send-email-anibal.limon@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+MIME-Version: 1.0
+Subject: [PATCH] scripts/yocto-compat-layer.py: Add dependency validation in add_layer
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,29 +28,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Mar 2017 16:34:51 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 27 Mar 2017 17:01:35 -0000
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On Sat, 2017-03-25 at 21:44 +0530, Munagala Naresh wrote:
-> Hi Team,
-> 
-> To analyzes the CPU load consumption of a particular process, we need
-> to find the thread level consumption. Default top and ps utils are
-> not supporting all the parameters that are available in
-> Linux/Android. 
-> 
-> Could you please suggest some alternatives which works in
-> openembedded platform?
-> 
-> Appreciate any pointers. 
+Some layers don't have dependencies so add a validation to avoid
+exception when trying to None.split().
 
-The issue is probably that you're using utils from busybox by default.
-If you install the "full" ps from the procps recipe you'll probably
-have the experience you want. I think the full top utility may come
-from procps too.
+Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
+---
+ scripts/lib/compatlayer/__init__.py | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-Cheers,
+diff --git a/scripts/lib/compatlayer/__init__.py b/scripts/lib/compatlayer/__init__.py
+index 435679e..58f94b7 100644
+--- a/scripts/lib/compatlayer/__init__.py
++++ b/scripts/lib/compatlayer/__init__.py
+@@ -143,7 +143,11 @@ def add_layer(bblayersconf, layer, layers, logger):
+     logger.info('Adding layer %s' % layer['name'])
+ 
+     for collection in layer['collections']:
+-        for depend in layer['collections'][collection]['depends'].split():
++        depends = layer['collections'][collection]['depends']
++        if not depends:
++            continue
++
++        for depend in depends.split():
+             # core (oe-core) is suppose to be provided
+             if depend == 'core':
+                 continue
+-- 
+2.1.4
 
-Richard
 
