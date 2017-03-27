@@ -1,36 +1,39 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 5DDB672F94
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-qt0-f193.google.com (mail-qt0-f193.google.com
+	[209.85.216.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 6B4DF72F94
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Mar 2017 13:16:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-	d=intel.com; i=@intel.com; q=dns/txt; s=intel;
-	t=1490620595; x=1522156595;
-	h=subject:to:references:cc:from:message-id:date:
-	mime-version:in-reply-to:content-transfer-encoding;
-	bh=8Gqg82ZeLW/G6NYIYvaUic/dX/E4FJwdmSs6kjdorUY=;
-	b=K8jgjGKkvpgYLYWtANAmupwT2G75AsXPlfvO25L2cWcj9gAnxGhxh8nF
-	g8Li0JRldxD/WEZH3sCr0y6/h8+yEg==;
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	27 Mar 2017 06:16:34 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.36,231,1486454400"; d="scan'208";a="1127581414"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by fmsmga001.fm.intel.com with ESMTP; 27 Mar 2017 06:16:33 -0700
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <20170327125359.16788-1-alexander.kanavin@linux.intel.com>
-	<CAJTo0LaHFRVRJuK6VLyP-O=wo+O1iGRdeZrTvzUwgQY68Dg73A@mail.gmail.com>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <2c8d7162-32a9-ebbc-c7d3-85611e4d4848@linux.intel.com>
-Date: Mon, 27 Mar 2017 16:15:51 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Icedove/45.6.0
-MIME-Version: 1.0
-In-Reply-To: <CAJTo0LaHFRVRJuK6VLyP-O=wo+O1iGRdeZrTvzUwgQY68Dg73A@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCHv3 1/2] python3: do not hardcode "lib" into site-packages search path
+	Mon, 27 Mar 2017 13:19:04 +0000 (UTC)
+Received: by mail-qt0-f193.google.com with SMTP id n37so7477335qtb.3
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 27 Mar 2017 06:19:05 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:organization;
+	bh=q5+IAtHBWS1lz9z5JfZz9onJSmkLR4wPRGJQQRnm68I=;
+	b=CwjDjOOz/+l4tI04AUfc+0QQLv4LaZcGfaVAdBc72ROyRSNN1JAf+V/vA471OX6laV
+	CrzCgC3qlr4fd7rdjIe9TXeOzx8DtSigNJlxg+OUIx83hKeOIneim9c5Nx+63MLtJsrQ
+	ywj6OzT7vNn+Y6mwQfz7JkNfNiVMdX7uRYHRY7Fx6BZV4iacMKSEvh1Qhjcu1fGTHBel
+	TcP0OA11UjLUuPo9U7dpAcYceWupyLBmyfx3nTVT5uBXCMV9YagTXAoxOgumdR8vLKGv
+	qQchGks5y5EusCKLf9Pfou0Hn/5/YetwIGaSEMrEx0GGGLgEoNeJlyKXb8iWuKDsjMSr
+	Yv2Q==
+X-Gm-Message-State: AFeK/H3xsbIqgcfwJNZdqND78ZYUpdE4CW1HU4tjXUx9ItYmdm08aP64Qybyz7DDTk9I5A==
+X-Received: by 10.200.56.210 with SMTP id g18mr19859230qtc.63.1490620745050;
+	Mon, 27 Mar 2017 06:19:05 -0700 (PDT)
+Received: from localhost ([189.114.111.135])
+	by smtp.gmail.com with ESMTPSA id i65sm342773qka.13.2017.03.27.06.19.01
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 27 Mar 2017 06:19:03 -0700 (PDT)
+Received: by localhost (sSMTP sendmail emulation);
+	Mon, 27 Mar 2017 10:18:58 -0300
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Date: Mon, 27 Mar 2017 09:57:33 -0300
+Message-Id: <20170327125733.8585-1-otavio@ossystems.com.br>
+X-Mailer: git-send-email 2.12.1
+Organization: O.S. Systems Software LTDA.
+Cc: Otavio Salvador <otavio@ossystems.com.br>
+Subject: [PATCH v2] u-boot: Update to 2017.03 release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,24 +46,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Mar 2017 13:16:33 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 27 Mar 2017 13:19:04 -0000
 
-On 03/27/2017 03:58 PM, Burton, Ross wrote:
+This 2017.03 release is out since March 13th, 2017 and is the latest
+stable release prior Pyro release.
 
->     +
->     file://0001-Do-not-hardcode-lib-into-site-packages-path.patch \
->
->
-> This should probably be added
-> to meta/recipes-devtools/python/python3/python-3.3-multilib.patch
-> instead of being in a separate patch.
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+---
 
-Sure, but the patch that does that isn't particularly easy to read, 
-because devtool moves things around when modifying patches. You'll see 
-in a second.
+Changes in v2:
+- Fix typo in commit log
 
-Alex
+ .../u-boot/{u-boot-common_2017.01.inc => u-boot-common_2017.03.inc}     | 2 +-
+ .../u-boot/{u-boot-fw-utils_2017.01.bb => u-boot-fw-utils_2017.03.bb}   | 0
+ .../u-boot/{u-boot-mkimage_2017.01.bb => u-boot-mkimage_2017.03.bb}     | 0
+ meta/recipes-bsp/u-boot/{u-boot_2017.01.bb => u-boot_2017.03.bb}        | 0
+ 4 files changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-bsp/u-boot/{u-boot-common_2017.01.inc => u-boot-common_2017.03.inc} (86%)
+ rename meta/recipes-bsp/u-boot/{u-boot-fw-utils_2017.01.bb => u-boot-fw-utils_2017.03.bb} (100%)
+ rename meta/recipes-bsp/u-boot/{u-boot-mkimage_2017.01.bb => u-boot-mkimage_2017.03.bb} (100%)
+ rename meta/recipes-bsp/u-boot/{u-boot_2017.01.bb => u-boot_2017.03.bb} (100%)
+
+diff --git a/meta/recipes-bsp/u-boot/u-boot-common_2017.01.inc b/meta/recipes-bsp/u-boot/u-boot-common_2017.03.inc
+similarity index 86%
+rename from meta/recipes-bsp/u-boot/u-boot-common_2017.01.inc
+rename to meta/recipes-bsp/u-boot/u-boot-common_2017.03.inc
+index df24c853dd..c115f36831 100644
+--- a/meta/recipes-bsp/u-boot/u-boot-common_2017.01.inc
++++ b/meta/recipes-bsp/u-boot/u-boot-common_2017.03.inc
+@@ -7,7 +7,7 @@ PE = "1"
+ 
+ # We use the revision in order to avoid having to fetch it from the
+ # repo during parse
+-SRCREV = "a705ebc81b7f91bbd0ef7c634284208342901149"
++SRCREV = "8537ddd769f460d7fb7a62a3dcc9669049702e51"
+ 
+ SRC_URI = "git://git.denx.de/u-boot.git"
+ 
+diff --git a/meta/recipes-bsp/u-boot/u-boot-fw-utils_2017.01.bb b/meta/recipes-bsp/u-boot/u-boot-fw-utils_2017.03.bb
+similarity index 100%
+rename from meta/recipes-bsp/u-boot/u-boot-fw-utils_2017.01.bb
+rename to meta/recipes-bsp/u-boot/u-boot-fw-utils_2017.03.bb
+diff --git a/meta/recipes-bsp/u-boot/u-boot-mkimage_2017.01.bb b/meta/recipes-bsp/u-boot/u-boot-mkimage_2017.03.bb
+similarity index 100%
+rename from meta/recipes-bsp/u-boot/u-boot-mkimage_2017.01.bb
+rename to meta/recipes-bsp/u-boot/u-boot-mkimage_2017.03.bb
+diff --git a/meta/recipes-bsp/u-boot/u-boot_2017.01.bb b/meta/recipes-bsp/u-boot/u-boot_2017.03.bb
+similarity index 100%
+rename from meta/recipes-bsp/u-boot/u-boot_2017.01.bb
+rename to meta/recipes-bsp/u-boot/u-boot_2017.03.bb
+-- 
+2.12.1
 
 
