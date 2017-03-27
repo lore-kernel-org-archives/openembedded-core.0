@@ -1,50 +1,33 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f174.google.com (mail-qk0-f174.google.com
-	[209.85.220.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 51D4F72F67
+Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id D029772F5B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Mar 2017 15:52:52 +0000 (UTC)
-Received: by mail-qk0-f174.google.com with SMTP id r142so13324563qke.2
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Mar 2017 08:52:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=sD26wGH61l1wEP5puzkpmJ5KmYBgg7Qu3pkNR+CtvnY=;
-	b=YhLo0pm7yxCEMUbufHVkH8P0NkWLPZjZHtmqVZLNeLXVP0VQoS2NyRm9hDCfAj0qQk
-	61J/n6/6MPBZfN49psdWKnBMaX1XrIgkZyXJl+reHLm73DrIoPxzuVPqMDJAjpKwHdOZ
-	Ytpt/Edjeb6aMz5FkakKmKRTnuGSLp2Kqm+r7eRm06oXCRRy1nn9zgMXUM5txRF8CD/g
-	CAOW0YLvEVqSEwS+/gP2KZn7dRVhVGNjwbhUAIsufoacZZPdyjLzxI8RDA7BMmRb6jiL
-	P2EOhTi5Z3sgiHqRVfUt2JU20ZSMttffdDpQoZOQwnLtk9br1UygXCD4cUNwpM2hMx7k
-	ftoA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=sD26wGH61l1wEP5puzkpmJ5KmYBgg7Qu3pkNR+CtvnY=;
-	b=Jv7lyL78/y12X7hZnKFtyP+uYvbuHLLTBzGRvDNpayYmP4uMslgqsaVEMl/lxIkK20
-	xQlDkULPlLKyjXDrAEOQb9atj2aOsFgBgT4eJ3nNqcvBI/v504yzXmThYFvP9jxLHdsN
-	S9JdcoeP5Un5bJLKZuo9P1LXjHOuTBdqMwXDd6e/kZO58EyrllRGVjRiFhdckMM/mkG0
-	GwJS4M0AjzMYg+ZNG9jdVzcotyL7LYxIWi//HWBZ0E+ufUkdJcI/ysFPu4BBwMvgLXPU
-	xT7/AOdQCRM5y9A40Lz1RBqxJL+OBZEJRKJCwQM1Elq81BrXWmS+xoltkcI4hgHjaBBY
-	CX8Q==
-X-Gm-Message-State: AFeK/H0vlDtA+Pt9JP5YwJ91qTsjlKw1iipq1nhH2aXIFo5tqM3dsqrCIAjoFBPZ1bTQ0UKXc/BLl1a3AszGNKne
-X-Received: by 10.55.47.4 with SMTP id v4mr20593461qkh.77.1490629974346; Mon,
-	27 Mar 2017 08:52:54 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.22.166 with HTTP; Mon, 27 Mar 2017 08:52:33 -0700 (PDT)
-In-Reply-To: <20170327154757.GJ15664@denix.org>
-References: <20170326200813.23705-1-otavio@ossystems.com.br>
-	<20170326211438.GI15664@denix.org>
-	<CAJTo0LZ_V3p43c55r5cjhxp8K5ABf-001Dx=S-V0GtASPp2-tQ@mail.gmail.com>
-	<20170327154757.GJ15664@denix.org>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 27 Mar 2017 16:52:33 +0100
-Message-ID: <CAJTo0LbE22GrO99s8WY++sFXc_DgEHxmdVJYZ1pkKP_nUV4Hcg@mail.gmail.com>
-To: Denys Dmytriyenko <denis@denix.org>
-Cc: Otavio Salvador <otavio@ossystems.com.br>,
-	OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] u-boot: Update to 2017.03 release
+	Mon, 27 Mar 2017 16:16:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+	d=intel.com; i=@intel.com; q=dns/txt; s=intel;
+	t=1490631418; x=1522167418;
+	h=message-id:subject:from:to:cc:date:in-reply-to:
+	references:mime-version:content-transfer-encoding;
+	bh=zdRWWYb/uA7wPGUujwWjhSQPAJrs5WLvGmD4680liw0=;
+	b=IEdXXz7tUtV795zk+rh/h8sqarWbLW3GtLbyHDDJFzRbJB5klL+sRR/C
+	nsNuVI/svNkCZ/+Ypr5P9oaVmvyK3Q==;
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	27 Mar 2017 09:16:56 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.36,232,1486454400"; d="scan'208";a="1112607703"
+Received: from lsandov1-mobl2.zpn.intel.com ([10.219.128.141])
+	by orsmga001.jf.intel.com with ESMTP; 27 Mar 2017 09:16:53 -0700
+Message-ID: <1490631895.28281.103.camel@linux.intel.com>
+From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+To: Munagala Naresh <munagala.nareshbabu@gmail.com>
+Date: Mon, 27 Mar 2017 10:24:55 -0600
+In-Reply-To: <CACfW1NoPeUfyJ7a7cNZ=UfK9pXKPfnoJ0M2sOQGWbs+9ZedH2Q@mail.gmail.com>
+References: <CACfW1NoPeUfyJ7a7cNZ=UfK9pXKPfnoJ0M2sOQGWbs+9ZedH2Q@mail.gmail.com>
+X-Mailer: Evolution 3.12.9-1+b1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: CPU profiling at thread level
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,37 +40,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Mar 2017 15:52:54 -0000
-Content-Type: multipart/alternative; boundary=001a114f41081d13eb054bb85652
+X-List-Received-Date: Mon, 27 Mar 2017 16:16:57 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---001a114f41081d13eb054bb85652
-Content-Type: text/plain; charset=UTF-8
+On Sat, 2017-03-25 at 21:44 +0530, Munagala Naresh wrote:
+> Hi Team,
+> 
+> 
+> 
+> To analyzes the CPU load consumption of a particular process, we need
+> to find the thread level consumption. Default top and ps utils are not
+> supporting all the parameters that are available in Linux/Android. 
+> 
+I am not a performance expert, but you may try the software package htop
+located at meta-oe; other than this, you may try querying /proc/[pid]
 
-On 27 March 2017 at 16:47, Denys Dmytriyenko <denis@denix.org> wrote:
+> 
+> 
+> Could you please suggest some alternatives which works in openembedded
+> platform?
+> 
+> 
+> Appreciate any pointers. 
+> 
+> 
+> 
+> 
+> Thanks
+> 
+> Naresh 
+> 
+> 
+> 
+> 
+> 
+> -- 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
-> I haven't personally tested 2017.03 yet, as we are staying on 2017.01 for a
-> bit longer...
->
 
-It that just because you've stabilised, or is there something in .03 that
-you're concerned about?
 
-Ross
-
---001a114f41081d13eb054bb85652
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 27 March 2017 at 16:47, Denys Dmytriyenko <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:denis@denix.org" target=3D"_blank">denis@denix.org</a>&gt;</span=
-> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bo=
-rder-left:1px #ccc solid;padding-left:1ex"><div id=3D":3zx" class=3D"a3s aX=
-jCH m15b10744d6869999">I haven&#39;t personally tested 2017.03 yet, as we a=
-re staying on 2017.01 for a<br>
-bit longer...</div></blockquote></div><br>It that just because you&#39;ve s=
-tabilised, or is there something in .03 that you&#39;re concerned about?</d=
-iv><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</di=
-v></div>
-
---001a114f41081d13eb054bb85652--
