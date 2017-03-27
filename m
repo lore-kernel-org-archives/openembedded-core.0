@@ -1,48 +1,22 @@
-Return-Path: <twoerner@gmail.com>
-Received: from mail-vk0-f68.google.com (mail-vk0-f68.google.com
-	[209.85.213.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 21AC46FFFE
+Return-Path: <mariano.lopez@linux.intel.com>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	by mail.openembedded.org (Postfix) with ESMTP id 1D21B65C8F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Mar 2017 18:01:11 +0000 (UTC)
-Received: by mail-vk0-f68.google.com with SMTP id d188so9296640vka.3
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Mar 2017 11:01:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=lizuePc8epe9Yrt1JtoB1974Tw3VSh9k1g8KblxkCoE=;
-	b=MceC6GBPRxL+GmiLTtCVVUjrtssdZRurr9Ns8VD4d9VAn1qZjy+1zrGXqZG3C5NOxU
-	LgofIOn1XcwDc5Kiu0vNGNlAXP1u7tq3TzsDEPgx+KcBUZudUj0oUGg8y7IDCc35P1BO
-	CQ7hzQYtfq77ABFjf45GhqG7tHu/6sgNuEP1PVNQlFHpcjYIRtM5V53GYwknkfg6o2dd
-	2PwKcVcVTvaAKrxwUeSf1AFHLvqYwvsKLaoiVDFOi3by6Dn2S9Pndnt+16kBJmh4yG7n
-	r3JLSvruaz69Ssi4eItGeoKJfkk1PvxMyWTAzCFjW4OOA+XYSKmu4m6yz0h6WfPv4jdn
-	oLMA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=lizuePc8epe9Yrt1JtoB1974Tw3VSh9k1g8KblxkCoE=;
-	b=GXMYnayBtZRXMTHaKoL5FlceMkiY8Rn5eL9MNmxgKbzH46gRRQZZK9HQcMeMKClBav
-	tV32k0LzBCM9Euh3j+yNLMSom0G2tU6CQ/aWCnRMlX7QTvDFNLa6wv0w718FnKyLV+ry
-	9wbsc3Iqc2s02mO1Yf8x9WQWwqY/yvGNkrBe8IO8LSXdk6TzGqGwo80UQbg6pO8E1gZ3
-	06WjWCSgsCZZZA4jDNblzRUjtJ5nS2m+te7oufpLdik1eWi867b9Qy24HSzBhT6vJ2PI
-	oqVqPhgJbqBhXpTGQdNq5NWZbPGUCyf5FzQd8Tna1zvHZ5PeSZTAZulUldRSnJjg0qDM
-	l91Q==
-X-Gm-Message-State: AFeK/H0daZdsPn+wkpvY53YHx9nSxcdxY5OUem/Qn85zKpsi0DjTpN9ScKABSL0hg03huXA+FJ7HjZoE7QLrGQ==
-X-Received: by 10.159.53.105 with SMTP id o96mr9411249uao.113.1490637672626;
-	Mon, 27 Mar 2017 11:01:12 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.103.43.65 with HTTP; Mon, 27 Mar 2017 11:01:12 -0700 (PDT)
-In-Reply-To: <CAJTo0LZ1NQOtX9_=VEA00o5=_oV0GoEdwYOBHtOvQd6Evpn8TQ@mail.gmail.com>
-References: <20170325051947.21433-1-twoerner@gmail.com>
-	<CAJTo0LZsmYeQXDKTJm0PTjwbnvaKrQzg_w=0gOQaSjfiL14aMw@mail.gmail.com>
-	<20170327151053.GA30578@linux-uys3>
-	<CAJTo0LZ1NQOtX9_=VEA00o5=_oV0GoEdwYOBHtOvQd6Evpn8TQ@mail.gmail.com>
-From: Trevor Woerner <twoerner@gmail.com>
-Date: Mon, 27 Mar 2017 14:01:12 -0400
-Message-ID: <CAHUNapTSk0GxrpYTGYsuu3dLBEmY0u4R-AEqt1q6Bw0QZXgwFg@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] xserver-nodm-init: option to remove cursor
+	Mon, 27 Mar 2017 18:13:07 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by orsmga105.jf.intel.com with ESMTP; 27 Mar 2017 11:13:09 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.36,232,1486454400"; d="scan'208";a="948711500"
+Received: from yctb01.ostc.intel.com ([10.54.69.55])
+	by orsmga003.jf.intel.com with ESMTP; 27 Mar 2017 11:13:08 -0700
+From: mariano.lopez@linux.intel.com
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 27 Mar 2017 11:13:06 -0700
+Message-Id: <d29c49125ba4ea0378545ab7cba3d7795c49a354.1490638349.git.mariano.lopez@linux.intel.com>
+X-Mailer: git-send-email 2.10.2
+In-Reply-To: <cover.1490638349.git.mariano.lopez@linux.intel.com>
+References: <cover.1490638349.git.mariano.lopez@linux.intel.com>
+Subject: [PATCH 1/1] oeqa/core/loader.py: Do not import underscore modules by default
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,31 +29,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Mar 2017 18:01:12 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 27 Mar 2017 18:13:09 -0000
 
-On Mon, Mar 27, 2017 at 11:14 AM, Burton, Ross <ross.burton@intel.com> wrote:
->
-> On 27 March 2017 at 16:10, Trevor Woerner <twoerner@gmail.com> wrote:
->>
->> What I want is to get rid of the mouse pointer completely. Formfactor has
->> variables that would appear to affect things like rotation and whether or
->> not
->> the calibration routine gets called when X starts up. I don't see anything
->> in
->> there that can disable the showing of the pointer.
->
->
-> The touchscreen variable results in the X startup scripts hiding the cursor.
+From: Mariano Lopez <mariano.lopez@linux.intel.com>
 
-Oh, I see what you're saying... on *SATO*. Agreed. On _sato_ setting
-HAVE_TOUCHSCREEN set to 1 hides the cursor:
-meta/recipes-sato/machbox-session-sato/session
+Underscore modules are meant to be run only when manually added to the test
+suite, so far another mechanisms are in place to make this happen with
+runtime, sdk, and esdk (mostly in test* bbclasses).
 
-But what about on plain ol' core-image-x11? Although I wasn't aware of
-formfactor before, using it now it still doesn't solve the issue for
-me. The existing mechanism tweaks the pointer at the window manager
-level, my proposed patch tweaks the pointer at the X server level
-which (I'm arguing) is a better place to adjust it. This way it's
-independent of everything (except which display server you're using).
+This will add such functionality in the core framework so other specific
+frameworks can take use this without adding something else.
+
+[YOCTO 10980]
+
+Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
+---
+ meta/lib/oeqa/core/loader.py | 34 ++++++++++++++++++++++++++++++----
+ 1 file changed, 30 insertions(+), 4 deletions(-)
+
+diff --git a/meta/lib/oeqa/core/loader.py b/meta/lib/oeqa/core/loader.py
+index 74f1117..63a1703 100644
+--- a/meta/lib/oeqa/core/loader.py
++++ b/meta/lib/oeqa/core/loader.py
+@@ -223,8 +223,21 @@ class OETestLoader(unittest.TestLoader):
+                 msg = 'Tried to import %s test module but is a built-in'
+                 raise ImportError(msg % module.__name__)
+ 
+-            if not self.modules or "all" in self.modules or \
+-                    module.__name__ in self.modules:
++            # Normal test modules are loaded if no modules were specified,
++            # if module is in the specified module list or if 'all' is in
++            # module list.
++            # Underscore modules are loaded only if specified in module list.
++            load_module = True if not module.__name__.startswith('_') \
++                                  and (not self.modules \
++                                       or module.__name__ in self.modules \
++                                       or 'all' in self.modules) \
++                               else False
++
++            load_underscore = True if module.__name__.startswith('_') \
++                                      and module.__name__ in self.modules \
++                                   else False
++
++            if load_module or load_underscore:
+                 return super(OETestLoader, self).loadTestsFromModule(
+                         module, *args, pattern=pattern, **kws)
+             else:
+@@ -238,8 +251,21 @@ class OETestLoader(unittest.TestLoader):
+                 msg = 'Tried to import %s test module but is a built-in'
+                 raise ImportError(msg % module.__name__)
+ 
+-            if not self.modules or "all" in self.modules or \
+-                    module.__name__ in self.modules:
++            # Normal test modules are loaded if no modules were specified,
++            # if module is in the specified module list or if 'all' is in
++            # module list.
++            # Underscore modules are loaded only if specified in module list.
++            load_module = True if not module.__name__.startswith('_') \
++                                  and (not self.modules \
++                                       or module.__name__ in self.modules \
++                                       or 'all' in self.modules) \
++                               else False
++
++            load_underscore = True if module.__name__.startswith('_') \
++                                      and module.__name__ in self.modules \
++                                   else False
++
++            if load_module or load_underscore:
+                 return super(OETestLoader, self).loadTestsFromModule(
+                         module, use_load_tests)
+             else:
+-- 
+2.10.2
+
 
