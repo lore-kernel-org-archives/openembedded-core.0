@@ -1,62 +1,29 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-ot0-f170.google.com (mail-ot0-f170.google.com
-	[74.125.82.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 0AA2772FA3
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 82C1E72FA3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Mar 2017 13:28:49 +0000 (UTC)
-Received: by mail-ot0-f170.google.com with SMTP id y88so30225113ota.2
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Mar 2017 06:28:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
-	:cc; bh=dkgTVGFinyAe/YNYPru93EXQ4Sjt7KUz+j4D2ra+lVU=;
-	b=DvOOIzpVMpSniylDvvWdIBojzUVVyezSo0zyNlVvgHDqtPPy+PmlYsjD15N0EGhDqd
-	SeHcxsa8detwqMdgc+iQJESMdghpgg4dR4ZhZvtGRctgLB10vaIXPcc34ijb8+sF/Yuc
-	hiRAUavTIFWmfmrGg/6t1t4FOV9Ey503Nw37FZ5ixQ4AhbY5AN/0tPgVQ7XpVccnMjwO
-	KszzmLdaYCSpMVn1ecHWHZ3p+rm8zQVJWPQNdEi0tUx9D/SFPEulBoWHRU3DwUFJjBQV
-	uU7ecRgSGX5yR637fbkQ+IWXqIuSnOUMySd3sywArhcknmRTWHNLb0pNJ/vwRdLRkiB1
-	8SBg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
-	:message-id:subject:to:cc;
-	bh=dkgTVGFinyAe/YNYPru93EXQ4Sjt7KUz+j4D2ra+lVU=;
-	b=eq9e9jJ38oyTFzgq/PAssunvSlF46jGd/w4sn3ckAjSX8UZNlePVxoQme8Rfdrx/KR
-	0R/XBZBYU6AQ+AJM4d+oszSbY0oMgK3PYMe682QH4tHin+m9oZFSb63h2HgucSXDFxPs
-	ZIPBYRfRwyRdviG2O0tzEvKzKOzT5nthY1POuNuqwxRSCj8KBw8XWhI6w3Gjgnx//QJh
-	IP869BfOg9WDTzYSrqe52AHRBqQz4eHGzuDLH76yPyJsxTXS5me80cU+EY09MQ09sSfp
-	CuyJenSA31zPbEY9HMoW62nVfaOOi8qYlKgXlTis1LFPQq8PHzJURlP3X63jGlqU1rDm
-	bUxw==
-X-Gm-Message-State: AFeK/H16PsSD0MiONMBQNie/KehuC4fW8voapwqqnC72MqGWiH436wTreNA2KrVWnu+xpA==
-X-Received: by 10.157.53.34 with SMTP id o31mr6061692otc.76.1490621330694;
-	Mon, 27 Mar 2017 06:28:50 -0700 (PDT)
-Received: from mail-ot0-f178.google.com (mail-ot0-f178.google.com.
-	[74.125.82.178])
-	by smtp.gmail.com with ESMTPSA id r2sm206959ota.21.2017.03.27.06.28.49
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 27 Mar 2017 06:28:50 -0700 (PDT)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-ot0-f178.google.com with SMTP id t8so25696580otf.3
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Mar 2017 06:28:49 -0700 (PDT)
-X-Received: by 10.157.48.59 with SMTP id d56mr11349376otc.81.1490621328808;
-	Mon, 27 Mar 2017 06:28:48 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.74.79.203 with HTTP; Mon, 27 Mar 2017 06:28:48 -0700 (PDT)
-In-Reply-To: <CAJTo0LZ_V3p43c55r5cjhxp8K5ABf-001Dx=S-V0GtASPp2-tQ@mail.gmail.com>
-References: <20170326200813.23705-1-otavio@ossystems.com.br>
-	<20170326211438.GI15664@denix.org>
-	<CAJTo0LZ_V3p43c55r5cjhxp8K5ABf-001Dx=S-V0GtASPp2-tQ@mail.gmail.com>
-Date: Mon, 27 Mar 2017 10:28:48 -0300
-X-Gmail-Original-Message-ID: <CAP9ODKq8YMMDT-GK762Y==Ut=1MpsGR_jFOD29cVrD+8iTAgGg@mail.gmail.com>
-Message-ID: <CAP9ODKq8YMMDT-GK762Y==Ut=1MpsGR_jFOD29cVrD+8iTAgGg@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: Otavio Salvador <otavio@ossystems.com.br>,
-	OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] u-boot: Update to 2017.03 release
+	Mon, 27 Mar 2017 13:31:36 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTP id v2RDVTeq008668; 
+	Mon, 27 Mar 2017 14:31:29 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id kW9qMB_VX0uC; Mon, 27 Mar 2017 14:31:29 +0100 (BST)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	v2RDVPQF008663
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Mon, 27 Mar 2017 14:31:27 +0100
+Message-ID: <1490621485.13980.263.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: "Robert P. J. Day" <rpjday@crashcourse.ca>, OE Core mailing list
+	<openembedded-core@lists.openembedded.org>
+Date: Mon, 27 Mar 2017 14:31:25 +0100
+In-Reply-To: <alpine.LFD.2.20.1703251400150.8339@localhost.localdomain>
+References: <alpine.LFD.2.20.1703251400150.8339@localhost.localdomain>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.1 
+Mime-Version: 1.0
+Subject: Re: [PATCH] classes: Replace "if test" file tests with POSIX file tests
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -69,24 +36,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Mar 2017 13:28:50 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 27 Mar 2017 13:31:38 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Mon, Mar 27, 2017 at 10:19 AM, Burton, Ross <ross.burton@intel.com> wrote:
-...
-> Also what boards has it been tested on?  As it's from Otavio I presume the
-> Freescale boards have been tested.  Denys, have you tested this version on
-> your boards?
+On Sat, 2017-03-25 at 14:03 -0400, Robert P. J. Day wrote:
+> In entire meta/classes/ directory, replace shell tests of the form
+> "if test -? ..." with POSIX tests of the form "if [ -? ...
+> 
+> Signed-off-by: Robert P. J. Day <rpjday@crashcourse.ca>
+> 
+> ---
+> 
+>   as i cannot abide those silly "if test" constructs, i zipped
+> through
+> and changed them to POSIX form. is there any objection to this kind
+> of
+> cleanup? next up ... all those "x${VAR} = x" tests ...
 
-We are using it internally and we will upgrade meta-freescale for this
-release as well. I believe it would be great to upgrade this as U-Boot
-bieng up to date allows for a more up to date reference code.
+I've merged most of this. There were pieces of the diff that simply
+didn't apply so I skipped them.
 
-If there is any failure in the automated tests I can try to iron them
-out but I believe it should be fine.
+The reason I've taken what applied is that this is very expensive for
+us to test right now and I made the most of the testing time I had on
+the weekend. The issue is changes to the core classes rebuild
+everything so we can't reuse sstate and the tests are much slower.
 
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+We're running late with M3 rc2 but just about to build it and I thought
+it was worth getting some of this in rather none at all. Please do
+figure out the remaining pieces and send them and we may or may not
+tweak the remaining bits in M4.
+
+Cheers,
+
+Richard
 
