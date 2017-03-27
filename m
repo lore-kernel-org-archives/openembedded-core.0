@@ -1,46 +1,49 @@
 Return-Path: <patrick.ohly@intel.com>
-Received: from mail-it0-f52.google.com (mail-it0-f52.google.com
-	[209.85.214.52])
-	by mail.openembedded.org (Postfix) with ESMTP id A8F4771CB3
+Received: from mail-it0-f44.google.com (mail-it0-f44.google.com
+	[209.85.214.44])
+	by mail.openembedded.org (Postfix) with ESMTP id ED1CC72FB0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Mar 2017 13:03:27 +0000 (UTC)
-Received: by mail-it0-f52.google.com with SMTP id y18so51573997itc.1
+	Mon, 27 Mar 2017 13:03:40 +0000 (UTC)
+Received: by mail-it0-f44.google.com with SMTP id y18so71896797itc.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Mar 2017 06:03:28 -0700 (PDT)
+	Mon, 27 Mar 2017 06:03:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id;
-	bh=pEQ/otYc7KebNk8GuSpMaf5LyIR2SkywDkOHWbQZjXc=;
-	b=aiJSGWtembsyL4wCpioZokY6aO8yVUA2CPsS4ysl8EFnprIDxo7vCDMXK9nj5dZuyt
-	zQhpgEoCTKOe74E5GNs6sVgBIjHoSWEXPUaVNK5aDlO5q7tkf0kJAqEA3d0Crnlxiq2v
-	y9gQ92j8ydomxQgxsRbtaMUjytJ0TQXXScnXYajOVR7NTpq4Wd0B0uojcDTRB9rP+d/N
-	fY//vLpgEwgGxr51E682vwTkEL/U8AvZozj1J6JDyxA77hrNkyP3DgmIUEGs2aghkpJO
-	0v9HjhnL99CD36L5TLVDyrj0hUbn2EI6yRNRXMg41y+eFuhu+F8jFkZDPGlaruAIRWOA
-	xn9g==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=iWop/UVKrOn8grylxWP0Y3K3F+RdxLz7VyGlGQMPSPQ=;
+	b=KlRq7d38RvZN+NPYZ3H3MpQImjE+9NXoJC6mpUaKeRq+JyYrx7viVVaIFCcnkdKW/y
+	u21/zP4+NLlQuwau+U/GRQFXe9x6DGv9P81gLN5PLvaBdQFBY3fDm2uNzLIX4dsAFAIV
+	T/g3RHjKYvuqIMIAXUFt9/S1tKk2TAMpM6a9SE+bPhS6MW1BGdr4LxAehMaF7zu18bco
+	K5CtEvMBuB5mRhkFMkMG0a4lwOjk9MPA6+5kgncQZy/w0SnRSy+dg0Qsxi5LZBS4cg+5
+	JpzfDkpm0JISmTlBJzJH9QKPDjsRCq3MGXcBzPdwj9UUj65ubSUKRPGKPe4U/iQ/Lsc5
+	7h/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=pEQ/otYc7KebNk8GuSpMaf5LyIR2SkywDkOHWbQZjXc=;
-	b=QwAaf0dtMthEjpppZza6aO38hIixF99b9bQr7f9z5cDOhTzUZDwnC17ft9v7KQsAcy
-	D7llQVrbQQCGLfO880vIVzo8gEsKo+WuP6qECExldUbnkSUvhT0A293vuhhPUVqBnYpL
-	hFGWgPukR5klJs4rReoxOZQ3uJPVjpcESsGkhbNauAXFw68WXEDEWuQqjkPmCEt/0EWY
-	Zj6GIFHHoaz9AFsFkk1a4mGNmkHvwUDZZUCFzi0V96fQVuUQqBJ5n6RuY4ec1BotFiyF
-	A75RvyAiS7WOQYrkprNNDJV8PRWmc6D160Ekt/dhPBTJxkGh6ctP668kOHZhpm6HBjWc
-	IkBA==
-X-Gm-Message-State: AFeK/H1ZDQR+g6IDlLTXJKNrKBHRRJ9EVpwxDNapVTeR685aVw6i9xX4RM1LrvQSdSDSwwTJ
-X-Received: by 10.36.37.71 with SMTP id g68mr9212231itg.66.1490619808353;
-	Mon, 27 Mar 2017 06:03:28 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=iWop/UVKrOn8grylxWP0Y3K3F+RdxLz7VyGlGQMPSPQ=;
+	b=OR3ETOByYym7lzoL5l84V1EiI7Y4R71OYx+ykrM+xLgLrA1bqCL/hmZEzQtZYhmM51
+	QuqueWEH0KGB9HvI5AffVK1lQcKvIJvqn98eVtOXW01tB6oemE6gJtG2JhnLaveiu6Gl
+	R+SkkS1sxUHJOQj8tqVUbiP7FNbVHKOf3VfPD+otMJd/w/6QCnqcWGzE9X0gdFruJKpo
+	IABhmCA0Z+xY00Y5zGD0SGXk5Zo6Vchpbtd7yettmxUUnKzNpfiJ5PWNB9kzDJrpzUUp
+	+SCJlW9vm0UVWoaFKIOM0/btDuSRWWfc2TGEHw9JmT5Ifklk+8ssG6VQC0XIGNd9/f+T
+	MFdQ==
+X-Gm-Message-State: AFeK/H3iQw0emMmDHNLJUTHTCPN6pPhot/cmyTCeUEXtV+4VKbXYNIEh9pG6ZrGmvI8XMq0P
+X-Received: by 10.107.6.206 with SMTP id f75mr19483866ioi.75.1490619814255;
+	Mon, 27 Mar 2017 06:03:34 -0700 (PDT)
 Received: from pohly-desktop.fritz.box (p5DE8D2B5.dip0.t-ipconnect.de.
 	[93.232.210.181]) by smtp.gmail.com with ESMTPSA id
-	y203sm217251iod.11.2017.03.27.06.03.26
+	y203sm217251iod.11.2017.03.27.06.03.32
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 27 Mar 2017 06:03:27 -0700 (PDT)
+	Mon, 27 Mar 2017 06:03:33 -0700 (PDT)
 From: Patrick Ohly <patrick.ohly@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 27 Mar 2017 15:03:21 +0200
-Message-Id: <cover.4189796e0dbea7cfc888587157135c9fb8477ab8.1490619742.git-series.patrick.ohly@intel.com>
+Date: Mon, 27 Mar 2017 15:03:23 +0200
+Message-Id: <798bd1ee14f3880d25bfaa051fd2585396eabfdf.1490619742.git-series.patrick.ohly@intel.com>
 X-Mailer: git-send-email 2.11.0
-Subject: [PATCH 0/2] oeqa: runqemu enhancements
+In-Reply-To: <cover.4189796e0dbea7cfc888587157135c9fb8477ab8.1490619742.git-series.patrick.ohly@intel.com>
+References: <cover.4189796e0dbea7cfc888587157135c9fb8477ab8.1490619742.git-series.patrick.ohly@intel.com>
+Subject: [PATCH 2/2] oeqa: QEMU_USE_KVM can list machines
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,23 +56,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Mar 2017 13:03:27 -0000
+X-List-Received-Date: Mon, 27 Mar 2017 13:03:41 -0000
 
-Just something that I happened to notice when using oe-selftest a bit
-more... Both patches are non-essential enhancements and thus can wait
-until after 2.4.
+Previously, QEMU_USE_KVM=True enabled the use of kvm only when "x86"
+was in the MACHINE name. That is too limiting, because for example
+intel-corei7-64 can also use kvm but it wasn't possible to enable that
+without changing OE-core.
 
-Patrick Ohly (2):
-  oeqa: tolerate interrupted select() while waiting for qemu
-  oeqa: QEMU_USE_KVM can list machines
+That traditional usage is still supported. In addition, QEMU_USE_KVM
+can be set to a list of space-separated MACHINE names for which kvm is
+to be enabled.
 
- meta/classes/testimage.bbclass        |  4 +++-
- meta/lib/oeqa/targetcontrol.py        |  7 ++++---
- meta/lib/oeqa/utils/qemurunner.py     | 10 ++++++++--
- meta/lib/oeqa/utils/qemutinyrunner.py |  5 ++++-
- 4 files changed, 19 insertions(+), 7 deletions(-)
+Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
+---
+ meta/classes/testimage.bbclass | 4 +++-
+ meta/lib/oeqa/targetcontrol.py | 7 ++++---
+ 2 files changed, 7 insertions(+), 4 deletions(-)
 
-base-commit: ff4a94fdf7b42cfd7c5114f29734078874d753b8
+diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.bbclass
+index bfe5714..a259423 100644
+--- a/meta/classes/testimage.bbclass
++++ b/meta/classes/testimage.bbclass
+@@ -210,7 +210,9 @@ def testimage_main(d):
+ 
+     # Get use_kvm
+     qemu_use_kvm = d.getVar("QEMU_USE_KVM")
+-    if qemu_use_kvm and qemu_use_kvm == 'True' and 'x86' in machine:
++    if qemu_use_kvm and \
++       (qemu_use_kvm == 'True' and 'x86' in machine or \
++        d.getVar('MACHINE') in qemu_use_kvm.split()):
+         kvm = True
+     else:
+         kvm = False
+diff --git a/meta/lib/oeqa/targetcontrol.py b/meta/lib/oeqa/targetcontrol.py
+index 47cfe85..b256f1b 100644
+--- a/meta/lib/oeqa/targetcontrol.py
++++ b/meta/lib/oeqa/targetcontrol.py
+@@ -131,9 +131,10 @@ class QemuTarget(BaseTarget):
+         dump_target_cmds = d.getVar("testimage_dump_target")
+         dump_host_cmds = d.getVar("testimage_dump_host")
+         dump_dir = d.getVar("TESTIMAGE_DUMP_DIR")
+-        if d.getVar("QEMU_USE_KVM", False) is not None \
+-           and d.getVar("QEMU_USE_KVM", False) == "True" \
+-           and "x86" in d.getVar("MACHINE"):
++        qemu_use_kvm = d.getVar("QEMU_USE_KVM")
++        if qemu_use_kvm and \
++           (qemu_use_kvm == "True" and "x86" in d.getVar("MACHINE") or \
++            d.getVar("MACHINE") in qemu_use_kvm.split()):
+             use_kvm = True
+         else:
+             use_kvm = False
 -- 
 git-series 0.9.1
 
