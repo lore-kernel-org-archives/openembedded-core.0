@@ -1,29 +1,29 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 82C1E72FA3
+	by mail.openembedded.org (Postfix) with ESMTP id CDD0E60107
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Mar 2017 13:31:36 +0000 (UTC)
+	Mon, 27 Mar 2017 13:38:50 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTP id v2RDVTeq008668; 
-	Mon, 27 Mar 2017 14:31:29 +0100
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTP id v2RDciVG009452; 
+	Mon, 27 Mar 2017 14:38:44 +0100
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id kW9qMB_VX0uC; Mon, 27 Mar 2017 14:31:29 +0100 (BST)
+	with LMTP id viMTf2TEcD3I; Mon, 27 Mar 2017 14:38:44 +0100 (BST)
 Received: from hex ([192.168.3.34]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v2RDVPQF008663
+	v2RDceaE009448
 	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Mon, 27 Mar 2017 14:31:27 +0100
-Message-ID: <1490621485.13980.263.camel@linuxfoundation.org>
+	Mon, 27 Mar 2017 14:38:42 +0100
+Message-ID: <1490621920.13980.265.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: "Robert P. J. Day" <rpjday@crashcourse.ca>, OE Core mailing list
-	<openembedded-core@lists.openembedded.org>
-Date: Mon, 27 Mar 2017 14:31:25 +0100
-In-Reply-To: <alpine.LFD.2.20.1703251400150.8339@localhost.localdomain>
-References: <alpine.LFD.2.20.1703251400150.8339@localhost.localdomain>
+To: mariano.lopez@linux.intel.com, openembedded-core@lists.openembedded.org,
+	juro.bystricky@intel.com
+Date: Mon, 27 Mar 2017 14:38:40 +0100
+In-Reply-To: <cover.1490392540.git.mariano.lopez@linux.intel.com>
+References: <cover.1490392540.git.mariano.lopez@linux.intel.com>
 X-Mailer: Evolution 3.18.5.2-0ubuntu3.1 
 Mime-Version: 1.0
-Subject: Re: [PATCH] classes: Replace "if test" file tests with POSIX file tests
+Subject: Re: [PATCH 0/3] oeqa/runtime: Import custom targets
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,36 +36,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Mar 2017 13:31:38 -0000
+X-List-Received-Date: Mon, 27 Mar 2017 13:38:54 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-On Sat, 2017-03-25 at 14:03 -0400, Robert P. J. Day wrote:
-> In entire meta/classes/ directory, replace shell tests of the form
-> "if test -? ..." with POSIX tests of the form "if [ -? ...
+On Fri, 2017-03-24 at 15:06 -0700, mariano.lopez@linux.intel.com wrote:
+> From: Mariano Lopez <mariano.lopez@linux.intel.com>
 > 
-> Signed-off-by: Robert P. J. Day <rpjday@crashcourse.ca>
+> This series allows to import custom targets to be used with runtime
+> testing.
+> Now is possible to have a target in <layer>/lib/oeqa/core/target and
+> testimage and testexport can use such target using TEST_TARGET
+> variable.
 > 
-> ---
-> 
->   as i cannot abide those silly "if test" constructs, i zipped
-> through
-> and changed them to POSIX form. is there any objection to this kind
-> of
-> cleanup? next up ... all those "x${VAR} = x" tests ...
+> To register a custom target you just need use decorate a target class
+> with
+> registerTarget, and set "targetName" attribute to the name that will
+> be used
+> by TEST_TARGET variable.
 
-I've merged most of this. There were pieces of the diff that simply
-didn't apply so I skipped them.
+Unfortunately something about this series break oe-selftest:
 
-The reason I've taken what applied is that this is very expensive for
-us to test right now and I made the most of the testing time I had on
-the weekend. The issue is changes to the core classes rebuild
-everything so we can't reuse sstate and the tests are much slower.
+https://autobuilder.yocto.io/builders/nightly-oe-selftest/builds/229/st
+eps/Running%20oe-selftest/logs/stdio
 
-We're running late with M3 rc2 but just about to build it and I thought
-it was worth getting some of this in rather none at all. Please do
-figure out the remaining pieces and send them and we may or may not
-tweak the remaining bits in M4.
+It doesn't do it in isolation, that test run by itself is fine. When
+run as part of oe-selftest it breaks though. I did bisect it down to
+this series and things have all built fine after I dropped these 3
+patches.
+
+So we'll have to figure out what is happening here...
 
 Cheers,
 
