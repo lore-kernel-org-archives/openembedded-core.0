@@ -1,38 +1,48 @@
-Return-Path: <denis@denix.org>
-Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.17])
-	by mail.openembedded.org (Postfix) with ESMTP id C963871D31
+Return-Path: <twoerner@gmail.com>
+Received: from mail-vk0-f68.google.com (mail-vk0-f68.google.com
+	[209.85.213.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 21AC46FFFE
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Mar 2017 17:49:32 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mailout4.zoneedit.com (Postfix) with ESMTP id 8052E20B84;
-	Mon, 27 Mar 2017 17:49:33 +0000 (UTC)
-Received: from mailout4.zoneedit.com ([127.0.0.1])
-	by localhost (zmo03-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
-	port 10024)
-	with ESMTP id 047gvEwALWw7; Mon, 27 Mar 2017 17:49:33 +0000 (UTC)
-Received: from mail.denix.org (pool-100-15-85-143.washdc.fios.verizon.net
-	[100.15.85.143])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 57B46208CB;
-	Mon, 27 Mar 2017 17:49:31 +0000 (UTC)
-Received: by mail.denix.org (Postfix, from userid 1000)
-	id DCF71162434; Mon, 27 Mar 2017 13:49:30 -0400 (EDT)
-Date: Mon, 27 Mar 2017 13:49:30 -0400
-From: Denys Dmytriyenko <denis@denix.org>
-To: "Burton, Ross" <ross.burton@intel.com>
-Message-ID: <20170327174930.GN15664@denix.org>
-References: <20170326200813.23705-1-otavio@ossystems.com.br>
-	<20170326211438.GI15664@denix.org>
-	<CAJTo0LZ_V3p43c55r5cjhxp8K5ABf-001Dx=S-V0GtASPp2-tQ@mail.gmail.com>
-	<20170327154757.GJ15664@denix.org>
-	<CAJTo0LbE22GrO99s8WY++sFXc_DgEHxmdVJYZ1pkKP_nUV4Hcg@mail.gmail.com>
+	Mon, 27 Mar 2017 18:01:11 +0000 (UTC)
+Received: by mail-vk0-f68.google.com with SMTP id d188so9296640vka.3
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 27 Mar 2017 11:01:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=lizuePc8epe9Yrt1JtoB1974Tw3VSh9k1g8KblxkCoE=;
+	b=MceC6GBPRxL+GmiLTtCVVUjrtssdZRurr9Ns8VD4d9VAn1qZjy+1zrGXqZG3C5NOxU
+	LgofIOn1XcwDc5Kiu0vNGNlAXP1u7tq3TzsDEPgx+KcBUZudUj0oUGg8y7IDCc35P1BO
+	CQ7hzQYtfq77ABFjf45GhqG7tHu/6sgNuEP1PVNQlFHpcjYIRtM5V53GYwknkfg6o2dd
+	2PwKcVcVTvaAKrxwUeSf1AFHLvqYwvsKLaoiVDFOi3by6Dn2S9Pndnt+16kBJmh4yG7n
+	r3JLSvruaz69Ssi4eItGeoKJfkk1PvxMyWTAzCFjW4OOA+XYSKmu4m6yz0h6WfPv4jdn
+	oLMA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=lizuePc8epe9Yrt1JtoB1974Tw3VSh9k1g8KblxkCoE=;
+	b=GXMYnayBtZRXMTHaKoL5FlceMkiY8Rn5eL9MNmxgKbzH46gRRQZZK9HQcMeMKClBav
+	tV32k0LzBCM9Euh3j+yNLMSom0G2tU6CQ/aWCnRMlX7QTvDFNLa6wv0w718FnKyLV+ry
+	9wbsc3Iqc2s02mO1Yf8x9WQWwqY/yvGNkrBe8IO8LSXdk6TzGqGwo80UQbg6pO8E1gZ3
+	06WjWCSgsCZZZA4jDNblzRUjtJ5nS2m+te7oufpLdik1eWi867b9Qy24HSzBhT6vJ2PI
+	oqVqPhgJbqBhXpTGQdNq5NWZbPGUCyf5FzQd8Tna1zvHZ5PeSZTAZulUldRSnJjg0qDM
+	l91Q==
+X-Gm-Message-State: AFeK/H0daZdsPn+wkpvY53YHx9nSxcdxY5OUem/Qn85zKpsi0DjTpN9ScKABSL0hg03huXA+FJ7HjZoE7QLrGQ==
+X-Received: by 10.159.53.105 with SMTP id o96mr9411249uao.113.1490637672626;
+	Mon, 27 Mar 2017 11:01:12 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0LbE22GrO99s8WY++sFXc_DgEHxmdVJYZ1pkKP_nUV4Hcg@mail.gmail.com>
-User-Agent: Mutt/1.5.20 (2009-06-14)
-Cc: Otavio Salvador <otavio@ossystems.com.br>,
-	OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] u-boot: Update to 2017.03 release
+Received: by 10.103.43.65 with HTTP; Mon, 27 Mar 2017 11:01:12 -0700 (PDT)
+In-Reply-To: <CAJTo0LZ1NQOtX9_=VEA00o5=_oV0GoEdwYOBHtOvQd6Evpn8TQ@mail.gmail.com>
+References: <20170325051947.21433-1-twoerner@gmail.com>
+	<CAJTo0LZsmYeQXDKTJm0PTjwbnvaKrQzg_w=0gOQaSjfiL14aMw@mail.gmail.com>
+	<20170327151053.GA30578@linux-uys3>
+	<CAJTo0LZ1NQOtX9_=VEA00o5=_oV0GoEdwYOBHtOvQd6Evpn8TQ@mail.gmail.com>
+From: Trevor Woerner <twoerner@gmail.com>
+Date: Mon, 27 Mar 2017 14:01:12 -0400
+Message-ID: <CAHUNapTSk0GxrpYTGYsuu3dLBEmY0u4R-AEqt1q6Bw0QZXgwFg@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] xserver-nodm-init: option to remove cursor
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,24 +55,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Mar 2017 17:49:33 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Mon, 27 Mar 2017 18:01:12 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Mon, Mar 27, 2017 at 04:52:33PM +0100, Burton, Ross wrote:
-> On 27 March 2017 at 16:47, Denys Dmytriyenko <denis@denix.org> wrote:
-> 
-> > I haven't personally tested 2017.03 yet, as we are staying on 2017.01 for a
-> > bit longer...
-> >
-> 
-> It that just because you've stabilised, or is there something in .03 that
-> you're concerned about?
+On Mon, Mar 27, 2017 at 11:14 AM, Burton, Ross <ross.burton@intel.com> wrote:
+>
+> On 27 March 2017 at 16:10, Trevor Woerner <twoerner@gmail.com> wrote:
+>>
+>> What I want is to get rid of the mouse pointer completely. Formfactor has
+>> variables that would appear to affect things like rotation and whether or
+>> not
+>> the calibration routine gets called when X starts up. I don't see anything
+>> in
+>> there that can disable the showing of the pointer.
+>
+>
+> The touchscreen variable results in the X startup scripts hiding the cursor.
 
-No, I'm not aware of any major issues with .03, although haven't done much 
-testing with it due to pending internal release with .01 - the timing is 
-rather unfortunate...
+Oh, I see what you're saying... on *SATO*. Agreed. On _sato_ setting
+HAVE_TOUCHSCREEN set to 1 hides the cursor:
+meta/recipes-sato/machbox-session-sato/session
 
--- 
-Denys
+But what about on plain ol' core-image-x11? Although I wasn't aware of
+formfactor before, using it now it still doesn't solve the issue for
+me. The existing mechanism tweaks the pointer at the window manager
+level, my proposed patch tweaks the pointer at the X server level
+which (I'm arguing) is a better place to adjust it. This way it's
+independent of everything (except which display server you're using).
 
