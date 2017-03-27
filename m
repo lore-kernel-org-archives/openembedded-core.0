@@ -1,50 +1,46 @@
-Return-Path: <twoerner@gmail.com>
-Received: from mail-it0-f68.google.com (mail-it0-f68.google.com
-	[209.85.214.68])
-	by mail.openembedded.org (Postfix) with ESMTP id CC4A472F94
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qt0-f182.google.com (mail-qt0-f182.google.com
+	[209.85.216.182])
+	by mail.openembedded.org (Postfix) with ESMTP id B6D6172F5F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Mar 2017 15:10:54 +0000 (UTC)
-Received: by mail-it0-f68.google.com with SMTP id e75so4881265itd.1
+	Mon, 27 Mar 2017 15:15:10 +0000 (UTC)
+Received: by mail-qt0-f182.google.com with SMTP id x35so40068201qtc.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Mar 2017 08:10:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=lZiCTUi37XeUnZ7EkKIcAl4V2VVqvAEulysTMW/zTgE=;
-	b=GCN/jkoh5O3miApvujMo1YN0/GuLyxwirywYFgOQqV7ZLmXS+y4vUqGFRNfPLsarcA
-	ElKNil7yjZFHXeqNnbF+AVQnbbtGkHjCqgbGQqFn9qPyaTzZ0u99B9MwS/XC49rrpbaJ
-	TyPompMVZn6PqJYZqxDNw2GiQwJwmveJkWkiufHMM2cp/AEaaBMCVrhIpTOn4AIOcX2E
-	3qq72ERIuFTZwxOhQKfXxLwEK7sCal2hL/Sz0iope7SGoJWbr03GflL12QQZ0FK/OLuB
-	rE+XGLABIf1WlNJyMWAhGxPmwd2DHEbuoEFWK0DsxIMpO2eAIe7gDqUsv700WlZ8ZniH
-	HOvw==
+	Mon, 27 Mar 2017 08:15:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=LiF+WGNF0E47wOsK2IapJqf6JzAoxDfrIDpjUXwgFOI=;
+	b=S4hRzqns6QX4aPe9KqasWQCq/kD516PE/Bl+MC2w1XEbKonj3FgL9WmtL70TC0DRil
+	XCqKgRFzX4tGPsm4DnrnTvrJrbhFqe1xt9F37tt42qe4qerkeW0xC0BZztIz2mmTnUE8
+	i7qRTX9uEPVsWFXdvKmRLAossnJccuog4xQX0kmIdDe5/SQ0zd+rxNAST8MpQGGc1vCf
+	iB0gri1aim7rCQQJgQGDp7sRyoBdmepUaLmqUq9l7VARgPbjM3NIOOTzkqFaW2PXdLek
+	9LxFkuCG+FWFLILC6biZRuCZbPi3bBvW+v9QMntCpmkj4fSIdjVPGfT9p3gJMilYXLrV
+	dqIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=lZiCTUi37XeUnZ7EkKIcAl4V2VVqvAEulysTMW/zTgE=;
-	b=fiHX3Rri3JQl1iQpC/f9xAvqS/oftCaCKDfoLstizM9a0JIUEoI87mctbA3JDCt6NX
-	kbK2kIcmr23/FI6K7WopRAWbkOCASU47SS8oJtM0025YWs8lKYUReKWAR/gaT/l9n5gY
-	aoeR+yKgF3OrFZD13BiYzprt9BXIpnMisNGddasdFTH3L1Gv4klux8NtU6c9pnQGHNof
-	gF6oy31r6Xxq0CPG6rU9RjgX4DqUQ5G9yCtHQ2ACfctLBSMQHEm/5BWIAJcQFvn0FFwM
-	2ZptHcdHPhDDtXroF8inDzg3wNu4iLgnf6N6GdrmqbPeHJHK/1fOgbREcRPu+Dffz/ih
-	QKaw==
-X-Gm-Message-State: AFeK/H0hagK9dOm9h0xrOO5QyLNc5VP9ODHhWN5YlBbjEnn8EkkS/7YrlD5kZPyRys3fHg==
-X-Received: by 10.107.168.21 with SMTP id r21mr20389962ioe.45.1490627455755;
-	Mon, 27 Mar 2017 08:10:55 -0700 (PDT)
-Received: from linux-uys3 (104-247-246-30.cpe.teksavvy.com. [104.247.246.30])
-	by smtp.gmail.com with ESMTPSA id
-	c100sm359847itd.20.2017.03.27.08.10.54
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 27 Mar 2017 08:10:54 -0700 (PDT)
-Date: Mon, 27 Mar 2017 11:10:53 -0400
-From: Trevor Woerner <twoerner@gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Message-ID: <20170327151053.GA30578@linux-uys3>
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=LiF+WGNF0E47wOsK2IapJqf6JzAoxDfrIDpjUXwgFOI=;
+	b=NrBzlU3vSjLschFiEEtx5VMLnD1pogSIsOCdGPGKNOuZQALUR0OhkVMP5UEIXMXVco
+	NbC0J/t6UyBNBsxvQiVSR7toGJVCClrl5AtncuESRenDtrX1LdaJIvEYkQ9k2o1JNERP
+	LwOmhMZtPgeebKwPSEOtGxG7W6PKWNIAbPk/+7/z4IAuy4sy4nN00OqCb/2L+J7fIikd
+	EDH1r4/oIfE2NhPmW40bzgLsxg8VwLn5ImLPohIWmvAMZ7Wi267ey04r8pDudVu9B9uf
+	a11C5YNBMLQjHPsX/P/9xaYcHx/6zaTLMaxhLB6Y+xH3OilQY9Wuw9IKQYDvt5kbchDT
+	64wA==
+X-Gm-Message-State: AFeK/H3WU/+eu5K344R9/CaiNu583u5yVgr9zo+/X1/fzdANZVWhV/YTWtj2aUs9jE3S/s1Utk2DaeCpO/MFTj59
+X-Received: by 10.200.2.150 with SMTP id p22mr23329626qtg.197.1490627711985;
+	Mon, 27 Mar 2017 08:15:11 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.22.166 with HTTP; Mon, 27 Mar 2017 08:14:51 -0700 (PDT)
+In-Reply-To: <20170327151053.GA30578@linux-uys3>
 References: <20170325051947.21433-1-twoerner@gmail.com>
 	<CAJTo0LZsmYeQXDKTJm0PTjwbnvaKrQzg_w=0gOQaSjfiL14aMw@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <CAJTo0LZsmYeQXDKTJm0PTjwbnvaKrQzg_w=0gOQaSjfiL14aMw@mail.gmail.com>
-User-Agent: Mutt/1.6.0 (2016-04-01)
+	<20170327151053.GA30578@linux-uys3>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 27 Mar 2017 16:14:51 +0100
+Message-ID: <CAJTo0LZ1NQOtX9_=VEA00o5=_oV0GoEdwYOBHtOvQd6Evpn8TQ@mail.gmail.com>
+To: Trevor Woerner <twoerner@gmail.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] xserver-nodm-init: option to remove cursor
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -59,27 +55,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Mar 2017 15:10:55 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-List-Received-Date: Mon, 27 Mar 2017 15:15:12 -0000
+Content-Type: multipart/alternative; boundary=f4030435c23444330f054bb7cfc4
 
-On Mon 2017-03-27 @ 12:35:51 PM, Burton, Ross wrote:
-> On 25 March 2017 at 05:19, Trevor Woerner <twoerner@gmail.com> wrote:
-> 
-> > Add a PACKAGECONFIG option to allow the user to disable the mouse
-> > cursor/pointer in the X server. This might be useful where a
-> > touchscreen is used.
-> >
-> 
-> This is what the touchscreen variable in the formfactor recipe is for.  Is
-> this not sufficient?
+--f4030435c23444330f054bb7cfc4
+Content-Type: text/plain; charset=UTF-8
 
-To be honest I hadn't noticed formfactor before I created my patch. But
-looking at it now, no, I don't think it would be sufficient. I'll take a
-couple stabs at it, but I don't think it'll do what I want.
+On 27 March 2017 at 16:10, Trevor Woerner <twoerner@gmail.com> wrote:
 
-What I want is to get rid of the mouse pointer completely. Formfactor has
-variables that would appear to affect things like rotation and whether or not
-the calibration routine gets called when X starts up. I don't see anything in
-there that can disable the showing of the pointer.
+> What I want is to get rid of the mouse pointer completely. Formfactor has
+> variables that would appear to affect things like rotation and whether or
+> not
+> the calibration routine gets called when X starts up. I don't see anything
+> in
+> there that can disable the showing of the pointer.
+>
 
+The touchscreen variable results in the X startup scripts hiding the cursor.
+
+Ross
+
+--f4030435c23444330f054bb7cfc4
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 27 March 2017 at 16:10, Trevor Woerner <span dir=3D"ltr">&lt;<a href=3D"=
+mailto:twoerner@gmail.com" target=3D"_blank">twoerner@gmail.com</a>&gt;</sp=
+an> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;=
+border-left:1px #ccc solid;padding-left:1ex"><div id=3D":2i2" class=3D"a3s =
+aXjCH m15b1052fba5d712f">What I want is to get rid of the mouse pointer com=
+pletely. Formfactor has<br>
+variables that would appear to affect things like rotation and whether or n=
+ot<br>
+the calibration routine gets called when X starts up. I don&#39;t see anyth=
+ing in<br>
+there that can disable the showing of the pointer.</div></blockquote></div>=
+<br>The touchscreen variable results in the X startup scripts hiding the cu=
+rsor.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">=
+Ross</div></div>
+
+--f4030435c23444330f054bb7cfc4--
