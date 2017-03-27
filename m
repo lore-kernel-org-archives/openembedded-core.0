@@ -1,29 +1,47 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 37D3B72F94
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qt0-f176.google.com (mail-qt0-f176.google.com
+	[209.85.216.176])
+	by mail.openembedded.org (Postfix) with ESMTP id E00F972F94
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Mar 2017 13:26:28 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTP id v2RDQSmv007691; 
-	Mon, 27 Mar 2017 14:26:28 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id KUJ_61nanfVY; Mon, 27 Mar 2017 14:26:28 +0100 (BST)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v2RDQME9007671
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Mon, 27 Mar 2017 14:26:24 +0100
-Message-ID: <1490621182.13980.260.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Robert Yang <liezhi.yang@windriver.com>,
-	openembedded-core@lists.openembedded.org
-Date: Mon, 27 Mar 2017 14:26:22 +0100
-In-Reply-To: <2f711e48736f36ead014a28d077975ab457fae99.1490610854.git.liezhi.yang@windriver.com>
+	Mon, 27 Mar 2017 13:28:25 +0000 (UTC)
+Received: by mail-qt0-f176.google.com with SMTP id x35so36946734qtc.2
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 27 Mar 2017 06:28:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=sji/sUzqlwf7SXcdoErObZmmk3GP2xHX4uNs7RaHrpk=;
+	b=boiGCyiApb8B+2aIiMpvqNOKsBSJ6JSrCgzXpUfPhEFIaRrFX01RtMT14pO09BqABh
+	iFrf3IUYxc6dvbyphaEyOmcTvg7/OTCSlszcFqY+Ig11zJldtbCpbS4pbbvSBy/BrIT3
+	9IByu8IELB+P1rp8IXVjk38iX9Z1d3MJWdtroGn4qWLGj+hxjAAhVcVLlnYreZK+Y2b/
+	sZab4efDijJM43usw9z30qnIVWj3S9SfhTphaliH4w5JTq54/HfekOVTHycxwr2eX01P
+	U4aOIsDLuMxahiW09MlNH5WFjXZtijghkjC1d7Ud3BvPrj1X59L6JePjV7lgy3hfW10H
+	nHXQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=sji/sUzqlwf7SXcdoErObZmmk3GP2xHX4uNs7RaHrpk=;
+	b=qv53ruzkyuGYh9nhnLSAChzESMkrrbuGQ3EDZTClx4C8qBuYf0z0iGn5pIls8pR0/A
+	nLPYmqR15WRCgIEA6QoL/o9kAKHB+AW9GT7A/haOKe1retKuAdJfF700Pk9Y/GvDpk0d
+	C6UhLnObSqFW+vPnFOev6rF6aKex7nPobAZkl3eCFsTS/cuTvS8y5XkBuKPujn8mmlj/
+	ycJrk+1fFZyfoag6YII9B+Zb42NmusQgXgmeFL/4FYEzPQ2mXu0M0lx8ocoMZwYl0d/G
+	TCl5SaoZST58chGo2nvJYrniK6ktmrI1HmK06WFr5WTgALFItDj59HzvL4LBGDBBcYQU
+	i1kw==
+X-Gm-Message-State: AFeK/H0JVEjx+2COsobvLDK15Bl+uZdyGvgQ6o8T+mtXFLPh1s1OolIrqB0gqdjhZZO7/tAekQ1LB24oW5gSFVB1
+X-Received: by 10.237.53.9 with SMTP id a9mr19990719qte.188.1490621306566;
+	Mon, 27 Mar 2017 06:28:26 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.22.166 with HTTP; Mon, 27 Mar 2017 06:28:06 -0700 (PDT)
+In-Reply-To: <1490621182.13980.260.camel@linuxfoundation.org>
 References: <cover.1490610854.git.liezhi.yang@windriver.com>
 	<2f711e48736f36ead014a28d077975ab457fae99.1490610854.git.liezhi.yang@windriver.com>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.1 
-Mime-Version: 1.0
+	<1490621182.13980.260.camel@linuxfoundation.org>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 27 Mar 2017 14:28:06 +0100
+Message-ID: <CAJTo0LZ5ANvYeh_qqEg2XaSPfHemfFFYg9arD2LQ=TcQ+Ao1Qg@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 1/1] bitbake.conf: add sudo to HOSTTOOLS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -37,51 +55,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Mar 2017 13:26:36 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 27 Mar 2017 13:28:26 -0000
+Content-Type: multipart/alternative; boundary=001a11c0285e79520f054bb65144
 
-On Mon, 2017-03-27 at 03:34 -0700, Robert Yang wrote:
-> Fixed:
-> $ bitbake meta-ide-support
-> $ . ./tmp/environment-setup-i586-poky-linux
-> $ runqemu tmp/deploy/images/qemux86/core-image-sato-
-> qemux86.qemuboot.conf
-> 
-> [snip]
-> /bin/sh: sudo: command not found
-> runqemu - ERROR - Failed to setup tap device. Run runqemu-gen-tapdevs 
-> to manually create.
-> [snip]
-> 
-> The qemu can start, but the IP was wrong, this patch fixes the
-> problem.
-> 
-> [YOCTO #11232]
-> 
-> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-> ---
->  meta/conf/bitbake.conf | 3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-> index fa5445b65b..0b1d8d82e0 100644
-> --- a/meta/conf/bitbake.conf
-> +++ b/meta/conf/bitbake.conf
-> @@ -468,6 +468,9 @@ HOSTTOOLS += " \
->  # Tools needed to run testimage runtime image testing
->  HOSTTOOLS += "ps stty ip ssh scp ping"
->  
-> +# Tools needed by runqemu in meta-ide-support environment
-> +HOSTTOOLS += "sudo"
-> +
->  # Link to these if present
->  HOSTTOOLS_NONFATAL += "ccache ld.bfd ld.gold gcc-ar gpg sftp nc
-> socat sudo"
+--001a11c0285e79520f054bb65144
+Content-Type: text/plain; charset=UTF-8
 
-sudo is already in HOSTTOOLS_NONFATAL?
+On 27 March 2017 at 14:26, Richard Purdie <
+richard.purdie@linuxfoundation.org> wrote:
 
-Cheers,
+> sudo is already in HOSTTOOLS_NONFATAL?
+>
 
-Richard
+Good point well made.
 
+Ross
+
+--001a11c0285e79520f054bb65144
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 27 March 2017 at 14:26, Richard Purdie <span dir=3D"ltr">&lt;<a href=3D"=
+mailto:richard.purdie@linuxfoundation.org" target=3D"_blank">richard.purdie=
+@linuxfoundation.org</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_qu=
+ote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex=
+"><div id=3D":4ab" class=3D"a3s aXjCH m15b0ff3260deea3e">sudo is already in=
+ HOSTTOOLS_NONFATAL?<br></div></blockquote></div><br>Good point well made.<=
+/div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</=
+div></div>
+
+--001a11c0285e79520f054bb65144--
