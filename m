@@ -1,32 +1,47 @@
-Return-Path: <ejo@pengutronix.de>
-Received: from metis.ext.4.pengutronix.de (metis.ext.4.pengutronix.de
-	[92.198.50.35])
-	by mail.openembedded.org (Postfix) with ESMTP id 73C0477A41
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f175.google.com (mail-qk0-f175.google.com
+	[209.85.220.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 8D5B177A37
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Mar 2017 11:04:23 +0000 (UTC)
-Received: from mango.hi.pengutronix.de ([2001:67c:670:100:76d4:35ff:fee8:98b3])
-	by metis.ext.pengutronix.de with esmtp (Exim 4.84_2)
-	(envelope-from <ejo@pengutronix.de>)
-	id 1csSRj-0001gg-Ee; Mon, 27 Mar 2017 13:04:23 +0200
-To: Daniel Schultz <d.schultz@phytec.de>
-References: <20170324111502.23474-1-ejo@pengutronix.de>
-	<d277a548-fc71-01a7-d995-1f9c9301db51@phytec.de>
-	<82c9bea8-d333-c1b8-638a-e24945af795b@pengutronix.de>
-	<64ec78c3-6932-6d4a-b211-675473c75c85@phytec.de>
-From: Enrico Joerns <ejo@pengutronix.de>
-Message-ID: <3cebaf14-8c4d-dd93-d1a8-6c6274298ead@pengutronix.de>
-Date: Mon, 27 Mar 2017 13:04:23 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Icedove/45.6.0
+	Mon, 27 Mar 2017 11:34:23 +0000 (UTC)
+Received: by mail-qk0-f175.google.com with SMTP id f11so35257110qkb.0
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 27 Mar 2017 04:34:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=pg+Gxb2ocxklnNTYmQU3N4Qfl//5X0EPoExfSLmq7Ok=;
+	b=EsT2BkuYKYs4WtgaAMkz2Z0NXZk9MQhfNf+tKb3SO+hX7Gix73/ESdyh7Zz+MQeyc/
+	/thMSREDmTG6xb7+lXWJ1fwPGge5/ldgK5fpAnU4Dltj28gYEsU+pJxMBSdC2E8uIGHu
+	OcLmIPL4OgOLmBEzqydUSXpOfrKWPy9Ec9jrUYbEd/031OMP9zzMAYycP+TxHkG/0wk/
+	raln9XMQ7TDCWLKth6aKGkugvD2OA9pKE3qfKHMXx4J8+zEjgRS73ZEb1YRkB5wifZRC
+	Qhaa66kr1ymcR2qGAyuuUwZT22y3bU1Awa78/Xt1nQ+fO3iL7hpwQAIshcTke8TFZupw
+	XZbQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=pg+Gxb2ocxklnNTYmQU3N4Qfl//5X0EPoExfSLmq7Ok=;
+	b=MmRWlJRHAZDFZmQJ82zokZNiuTYqMd/51jIWiXMUvnjgZjyXR2u6CWSZP2XlfFKILK
+	TLPhhoZCFxr5SUPfuNheqvXNqci+fpUQvUq7JHEwemXvz5UIBmyyynDiJHPUM68BBAII
+	Ed/TkqmW1X0SQ5LoQuRzdrRJH32ka6VSzkbskgAREUamaNboAtH55fzt9+mD23D8lLWt
+	MqrnaL7rJHvr/l6H+4hWjfLxR36XMoayiZtfkeDbTReW0BMHz01N9PxT2KzWyNMAI+3E
+	AIA9eH6LT8xt3LFv+ZHufxQDZfgAIJfIoiJlLFrpd/hkGotl47CskjSyPPo7mc16UDJN
+	D/Pg==
+X-Gm-Message-State: AFeK/H0MWBXP6EVt4INfeAWBd07MWdkQjBsPW+0RVOPKC9+53ELciu4sO8WVhFNYrjeiaC3lvstm0XwvPvL+KFad
+X-Received: by 10.55.108.195 with SMTP id h186mr22194640qkc.36.1490614464417; 
+	Mon, 27 Mar 2017 04:34:24 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <64ec78c3-6932-6d4a-b211-675473c75c85@phytec.de>
-X-SA-Exim-Connect-IP: 2001:67c:670:100:76d4:35ff:fee8:98b3
-X-SA-Exim-Mail-From: ejo@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
-	SAEximRunCond expanded to false
-X-PTX-Original-Recipient: openembedded-core@lists.openembedded.org
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] image_types: perform fsck on created ext image
+Received: by 10.140.22.166 with HTTP; Mon, 27 Mar 2017 04:34:03 -0700 (PDT)
+In-Reply-To: <2f711e48736f36ead014a28d077975ab457fae99.1490610854.git.liezhi.yang@windriver.com>
+References: <cover.1490610854.git.liezhi.yang@windriver.com>
+	<2f711e48736f36ead014a28d077975ab457fae99.1490610854.git.liezhi.yang@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 27 Mar 2017 12:34:03 +0100
+Message-ID: <CAJTo0La_-yycaRdiYZFpSO7w+ZHRUoKu1CNfw0OXTtojGWo9ag@mail.gmail.com>
+To: Robert Yang <liezhi.yang@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] bitbake.conf: add sudo to HOSTTOOLS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,55 +54,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Mar 2017 11:04:23 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 27 Mar 2017 11:34:23 -0000
+Content-Type: multipart/alternative; boundary=001a114fe79aa663f7054bb4b920
 
-Hi Daniel,
+--001a114fe79aa663f7054bb4b920
+Content-Type: text/plain; charset=UTF-8
 
-On 03/27/2017 09:37 AM, Daniel Schultz wrote:
->>> I have sent fixes for the same problem on Monday.
->>> These include a fix of the wrong return code after optimizations (now it
->>> returns 0) and an fsck execution after the creation of EXT partitions.
->>>
->>> The patch which is identical to yours wasn't applied so far, the other
->>> ones were.
->>
->> ouh, we should have checked that before, but we did not assume that
->> someone would have posted a fix for this relatively old behavior during
->> the last days. Reality disabused us... Anyway, good to see that we are
->> not the only one that stumbled across this issue ;)
->>
->> But, there is another difference between our patches. We use `-pvfD`,
->> while you use `-fy` as an fsck.extN option.
->>
->> I would expect `-p` to be sufficient for letting fsck perform minor
->> optimizations. If you use `-y` instead, fsck will fix also real issues.
->> This is not what it should do here, even if it will return 1 afterwards.
->> If the file system was created with errors I guess we should let the
->> image creation fail without further touching the ext4.
->>
->> -D will let fsck perform further directory optimizations
->> -v might be helpful for debugging purpose
->>
-> Yes, that's better. I will them also apply to the WIC tools.
+On 27 March 2017 at 11:34, Robert Yang <liezhi.yang@windriver.com> wrote:
+
+> [snip]
+> /bin/sh: sudo: command not found
+> runqemu - ERROR - Failed to setup tap device. Run runqemu-gen-tapdevs to
+> manually create.
+> [snip]
 >
-> Do you think the test expression is still needed?
-> My opinion is, that it will obfuscate the return code of fsck to either
-> true or false. This could confuse other people. What do you think?
 
-well, as far as I see it, the test expression will only be needed if 
-fsck still returns an error code for those uncritical optimizations it 
-performs. With the backported patch applied you had in your series i 
-guess there should be no need for the test expression, but I did not 
-test it yet in this setup.
+This only happens if the tapdevs haven't already been generated, in which
+case sudo isn't required.  Should it be a NONFATAL tool?
 
-Best regards, Enrico
+Ross
 
--- 
-Pengutronix e.K.                           | Enrico Jörns                |
-Industrial Linux Solutions                 | http://www.pengutronix.de/  |
-Peiner Str. 6-8, 31137 Hildesheim, Germany | Phone: +49-5121-206917-5080 |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+--001a114fe79aa663f7054bb4b920
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 27 March 2017 at 11:34, Robert Yang <span dir=3D"ltr">&lt;<a href=3D"mai=
+lto:liezhi.yang@windriver.com" target=3D"_blank">liezhi.yang@windriver.com<=
+/a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:=
+0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":3t4" cl=
+ass=3D"a3s aXjCH m15b0f55980480a27">[snip]<br>
+/bin/sh: sudo: command not found<br>
+runqemu - ERROR - Failed to setup tap device. Run runqemu-gen-tapdevs to ma=
+nually create.<br>
+[snip]<br></div></blockquote></div><br>This only happens if the tapdevs hav=
+en&#39;t already been generated, in which case sudo isn&#39;t required.=C2=
+=A0 Should it be a NONFATAL tool?</div><div class=3D"gmail_extra"><br></div=
+><div class=3D"gmail_extra">Ross</div></div>
 
+--001a114fe79aa663f7054bb4b920--
