@@ -1,33 +1,44 @@
-Return-Path: <d.schultz@phytec.de>
-Received: from root.phytec.de (mail.visioncatalog.com [217.6.246.34])
-	by mail.openembedded.org (Postfix) with ESMTP id E40ED65CC7
+Return-Path: <freesilicon@gmail.com>
+Received: from mail-wr0-f178.google.com (mail-wr0-f178.google.com
+	[209.85.128.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 6495577B38
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Mar 2017 07:37:24 +0000 (UTC)
-Received: from idefix.phytec.de (idefix.phytec.de [172.16.0.10])
-	by root.phytec.de (Postfix) with ESMTP id 6D268A0031F;
-	Mon, 27 Mar 2017 09:37:58 +0200 (CEST)
-Received: from [172.16.25.210] ([172.16.25.210])
-	by idefix.phytec.de (IBM Domino Release 9.0.1FP7)
-	with ESMTP id 2017032709372440-411328 ;
-	Mon, 27 Mar 2017 09:37:24 +0200 
-To: Enrico Joerns <ejo@pengutronix.de>
-References: <20170324111502.23474-1-ejo@pengutronix.de>
-	<d277a548-fc71-01a7-d995-1f9c9301db51@phytec.de>
-	<82c9bea8-d333-c1b8-638a-e24945af795b@pengutronix.de>
-From: Daniel Schultz <d.schultz@phytec.de>
-Message-ID: <64ec78c3-6932-6d4a-b211-675473c75c85@phytec.de>
-Date: Mon, 27 Mar 2017 09:37:24 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.5.1
-MIME-Version: 1.0
-In-Reply-To: <82c9bea8-d333-c1b8-638a-e24945af795b@pengutronix.de>
-X-MIMETrack: Itemize by SMTP Server on Idefix/Phytec(Release 9.0.1FP7|August
-	17, 2016) at 27.03.2017 09:37:24,
-	Serialize by Router on Idefix/Phytec(Release 9.0.1FP7|August  17,
-	2016) at 27.03.2017 09:37:24
-X-TNEFEvaluated: 1
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] image_types: perform fsck on created ext image
+	Mon, 27 Mar 2017 07:38:54 +0000 (UTC)
+Received: by mail-wr0-f178.google.com with SMTP id l43so42511534wre.1
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 27 Mar 2017 00:38:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=AbdnwPpfuqsPuWDfnYqhG/gv01TjfGTL171IRYE+OXs=;
+	b=vYV7eYWJuL66jVJOpsd2LV+mtrGKixIELx7xyg7h7k0xSZxZJWPJ++5CUweInD1iZz
+	s1rzNb+W+uVUrvOCWpiGBeJevECJeLApF+A8Z6mo4cfh62x7vZAgOmijaDTG3R+IAcxB
+	6Ehu6WR2PBPwSAqjNe/YU58UulP2S6+NTL1uxa/6nt8AIcNXpQfpLCaw1lFCA1xlnujn
+	4imOlQu2LDOyTsqoW53XjSp8W1MKEfpzbZmqpetBBH7FnPQO1n4SkwDUJcPy7lwsIv80
+	9Kh/xR58iwDP1Hd4r94sDD0bl0lKZr6RqxsKyKLTXx/7TqbIHR4H0d85ZILgy17whw/C
+	/7yg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=AbdnwPpfuqsPuWDfnYqhG/gv01TjfGTL171IRYE+OXs=;
+	b=XF+3+ypldcdlMGaoVvNs59V6fvk28UmHk03/s0ygjasQIKzp/LO49J8v8ZnNe1Hko7
+	Gy4Z6Nhdk05/d91eqNrsyIGXWeVT7sIM0DheB94okwB5pr5J6OvaPR1RjOzaz9XxQYv0
+	+wScNJHjNfwWqn8yazcZx2QVugPz2OpNus+2esYPQXSw4F6x21JonZ6grmHuj2f4P5Fy
+	3Yq5DfTvABQPjP0c2m8YPuaPSgM1lmotTpE5Sj9Crf9ujA02asE5wEeDiHAvC0/yMEg9
+	ggoEdMuBiTF3cVd6RVIQnb/OSawncXHA3d02HwGgtt5PQEar4o1Ge+CdoaBoj9MQOucO
+	ZVRg==
+X-Gm-Message-State: AFeK/H2j6ZqZKk3KciTB0LlRbIHlf1qCKOKBpHM7MXjgycoXCyMakbjU5V4z5vJ+Q2bgDw==
+X-Received: by 10.28.150.194 with SMTP id y185mr8014987wmd.92.1490600334978;
+	Mon, 27 Mar 2017 00:38:54 -0700 (PDT)
+Received: from crde-port-20.cahors.local ([185.47.80.46])
+	by smtp.gmail.com with ESMTPSA id 35sm13687727wrn.9.2017.03.27.00.38.54
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 27 Mar 2017 00:38:54 -0700 (PDT)
+From: David Vincent <freesilicon@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 27 Mar 2017 09:37:47 +0200
+Message-Id: <20170327073747.22770-1-freesilicon@gmail.com>
+X-Mailer: git-send-email 2.12.0
+Subject: [PATCH] ifupdown: Fix initscript
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,50 +51,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Mar 2017 07:37:26 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 27 Mar 2017 07:38:54 -0000
 
-Hi Enrico,
+ifupdown does not provide an initscript so this recipe should not
+inherit update-rc.d class. Instead, we rely on init-ifupdown recipe to
+startup networking.
 
-Am 24.03.2017 um 15:01 schrieb Enrico Joerns:
-> Hi Daniel,
->
-> On 03/24/2017 02:34 PM, Daniel Schultz wrote:
->> Hi Enrico,
->>
->> I have sent fixes for the same problem on Monday.
->> These include a fix of the wrong return code after optimizations (now it
->> returns 0) and an fsck execution after the creation of EXT partitions.
->>
->> The patch which is identical to yours wasn't applied so far, the other
->> ones were.
->
-> ouh, we should have checked that before, but we did not assume that
-> someone would have posted a fix for this relatively old behavior during
-> the last days. Reality disabused us... Anyway, good to see that we are
-> not the only one that stumbled across this issue ;)
->
-> But, there is another difference between our patches. We use `-pvfD`,
-> while you use `-fy` as an fsck.extN option.
->
-> I would expect `-p` to be sufficient for letting fsck perform minor
-> optimizations. If you use `-y` instead, fsck will fix also real issues.
-> This is not what it should do here, even if it will return 1 afterwards.
-> If the file system was created with errors I guess we should let the
-> image creation fail without further touching the ext4.
->
-> -D will let fsck perform further directory optimizations
-> -v might be helpful for debugging purpose
->
-Yes, that's better. I will them also apply to the WIC tools.
+Signed-off-by: David Vincent <freesilicon@gmail.com>
+---
+ meta/recipes-core/ifupdown/ifupdown_0.8.16.bb | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
-Do you think the test expression is still needed?
-My opinion is, that it will obfuscate the return code of fsck to either=20
-true or false. This could confuse other people. What do you think?
+diff --git a/meta/recipes-core/ifupdown/ifupdown_0.8.16.bb b/meta/recipes-core/ifupdown/ifupdown_0.8.16.bb
+index eb8426cb97..5654528ae8 100644
+--- a/meta/recipes-core/ifupdown/ifupdown_0.8.16.bb
++++ b/meta/recipes-core/ifupdown/ifupdown_0.8.16.bb
+@@ -16,7 +16,7 @@ SRCREV = "11b9f99f7ecc7052497e6786156cfed531f11823"
+ S = "${WORKDIR}/git"
+ 
+ 
+-inherit update-rc.d update-alternatives
++inherit update-alternatives
+ 
+ do_compile () {
+ 	chmod a+rx *.pl *.sh
+@@ -44,6 +44,3 @@ ALTERNATIVE_${PN} = "ifup ifdown"
+ 
+ ALTERNATIVE_LINK_NAME[ifup] = "${base_sbindir}/ifup"
+ ALTERNATIVE_LINK_NAME[ifdown] = "${base_sbindir}/ifdown"
+-
+-INITSCRIPT_NAME = "ifup"
+-INITSCRIPT_PARAMS = "start 39 S . stop 39 0 6 1 ."
+-- 
+2.12.0
 
---=20
-Mit freundlichen Gr=C3=BC=C3=9Fen,
-With best regards,
-   Daniel Schultz
 
