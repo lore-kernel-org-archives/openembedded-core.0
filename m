@@ -1,26 +1,24 @@
 Return-Path: <Liezhi.Yang@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 3C3A277A42
+	by mail.openembedded.org (Postfix) with ESMTP id 88D8877A40
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Mar 2017 10:34:42 +0000 (UTC)
+	Mon, 27 Mar 2017 10:39:13 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v2RAYiT9007593
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v2RAdFB9007606
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Mar 2017 03:34:44 -0700 (PDT)
+	Mon, 27 Mar 2017 03:39:15 -0700 (PDT)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
-	Mon, 27 Mar 2017 03:34:43 -0700
+	Mon, 27 Mar 2017 03:39:14 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 27 Mar 2017 03:34:42 -0700
-Message-ID: <2f711e48736f36ead014a28d077975ab457fae99.1490610854.git.liezhi.yang@windriver.com>
+Date: Mon, 27 Mar 2017 03:39:12 -0700
+Message-ID: <cover.1490611084.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.11.0.rc2.dirty
-In-Reply-To: <cover.1490610854.git.liezhi.yang@windriver.com>
-References: <cover.1490610854.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/1] bitbake.conf: add sudo to HOSTTOOLS
+Subject: [PATCH 0/2] oe-find-native-sysroot: make it work with RSS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,42 +31,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Mar 2017 10:34:43 -0000
+X-List-Received-Date: Mon, 27 Mar 2017 10:39:14 -0000
 Content-Type: text/plain
 
-Fixed:
-$ bitbake meta-ide-support
-$ . ./tmp/environment-setup-i586-poky-linux
-$ runqemu tmp/deploy/images/qemux86/core-image-sato-qemux86.qemuboot.conf
+The following changes since commit 78928016f4cf38cf6751cb089200bf950d07ae93:
 
-[snip]
-/bin/sh: sudo: command not found
-runqemu - ERROR - Failed to setup tap device. Run runqemu-gen-tapdevs to manually create.
-[snip]
+  classes: Replace "if test" file tests with POSIX file tests (2017-03-27 11:08:28 +0100)
 
-The qemu can start, but the IP was wrong, this patch fixes the problem.
+are available in the git repository at:
 
-[YOCTO #11232]
+  git://git.openembedded.org/openembedded-core-contrib rbt/rssfix
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=rbt/rssfix
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- meta/conf/bitbake.conf | 3 +++
- 1 file changed, 3 insertions(+)
+Robert Yang (2):
+  oe-run-native: OLDPATH -> OLD_PATH
+  oe-find-native-sysroot: work with RSS
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index fa5445b65b..0b1d8d82e0 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -468,6 +468,9 @@ HOSTTOOLS += " \
- # Tools needed to run testimage runtime image testing
- HOSTTOOLS += "ps stty ip ssh scp ping"
- 
-+# Tools needed by runqemu in meta-ide-support environment
-+HOSTTOOLS += "sudo"
-+
- # Link to these if present
- HOSTTOOLS_NONFATAL += "ccache ld.bfd ld.gold gcc-ar gpg sftp nc socat sudo"
- 
+ scripts/oe-find-native-sysroot | 56 ++++++++++++++++++++++++++++--------------
+ scripts/oe-run-native          | 17 ++++++++-----
+ scripts/runqemu-export-rootfs  |  2 +-
+ scripts/runqemu-extract-sdk    |  2 +-
+ 4 files changed, 50 insertions(+), 27 deletions(-)
+
 -- 
 2.11.0.rc2.dirty
 
