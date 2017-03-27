@@ -1,35 +1,46 @@
-Return-Path: <mariano.lopez@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id E36A072F5F
+Return-Path: <ross.burton@intel.com>
+Received: from mail-lf0-f50.google.com (mail-lf0-f50.google.com
+	[209.85.215.50])
+	by mail.openembedded.org (Postfix) with ESMTP id DAA4F72F5F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Mar 2017 15:20:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-	d=intel.com; i=@intel.com; q=dns/txt; s=intel;
-	t=1490628053; x=1522164053;
-	h=subject:to:references:from:message-id:date:mime-version:
-	in-reply-to:content-transfer-encoding;
-	bh=H4qHqDf5Q3Ap6df8CyjVArmChLP1p3KXdzLnh0tmqFA=;
-	b=H5ke2ESh4Lw21zpq7jpJi3q/W0FsaDmONXTlyGqrujNWhy2Xu3s3GFXP
-	ZIJKoLgLjgKi2rbAwVPZUzkwbG7xUQ==;
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	27 Mar 2017 08:20:50 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.36,232,1486454400"; d="scan'208";a="81078311"
-Received: from unknown (HELO [10.219.128.124]) ([10.219.128.124])
-	by fmsmga005.fm.intel.com with ESMTP; 27 Mar 2017 08:20:49 -0700
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	openembedded-core@lists.openembedded.org, juro.bystricky@intel.com
-References: <cover.1490392540.git.mariano.lopez@linux.intel.com>
-	<1490621920.13980.265.camel@linuxfoundation.org>
-From: Mariano Lopez <mariano.lopez@linux.intel.com>
-Message-ID: <6a17c688-b9ee-6b02-12fd-6797c24174bb@linux.intel.com>
-Date: Mon, 27 Mar 2017 09:22:51 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.7.0
-MIME-Version: 1.0
-In-Reply-To: <1490621920.13980.265.camel@linuxfoundation.org>
-Subject: Re: [PATCH 0/3] oeqa/runtime: Import custom targets
+	Mon, 27 Mar 2017 15:26:09 +0000 (UTC)
+Received: by mail-lf0-f50.google.com with SMTP id h125so24136159lfe.0
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 27 Mar 2017 08:26:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=Tb/LA0tDwFh0YR72fRfNbPqKYhWPNjt21jEkA15HT+c=;
+	b=gREoBZQK/jn62WSHL1+v050+sC1oLESDDN0HWaBUzaeOUbkqL2Te+QbHYHYxiUjDf1
+	fuFXjjQ6pK9cNqZXK7AIsyPtmaNkssFG7gmD/EiGxRwJDWyG0Yhz3qukeQYAVy/H/sKX
+	BudgM+9TWpBtMgVn0ORYyOcPtExkYaHrnf+JIS0KvVCkb4P3TrBcdO92KJGzrxRUgTAN
+	ablK5xbROpsqqwPYMjLehnOncAzXko1LxMb/7F6+TaPM/Z0CBVPU+ssA4XTsdGvuMGcM
+	twmP2Ds8sybSXifz2pcAX14nPyftIGmktAJk56hvNl4cXlunorF+NI4p+J/wrABe7Svr
+	DIRA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=Tb/LA0tDwFh0YR72fRfNbPqKYhWPNjt21jEkA15HT+c=;
+	b=FhxbO0Su0c9kJEEjnU2olsS77nETvW/8GS0ds9Dl1qcqRd3/ftMMSkKw3onsDp91el
+	98AXbDmYdmvrPJ/zmDM0G/i5BQrtejFY8hS4Q+iohOkRSWzeKyQ7kBSxv6BfbmUTOyHt
+	W3zfYQcrFfp/Yfhcw/NsOXYuvj01rRSXtmJUjYXI+BZl5OCyaBaW9Iood0RNt6ogxCEJ
+	jmwouuYCDOqvGFC0q2g70Y2o6RYW+bpCcZ2fK4z0lrI5MoAvZxoHpaHJGSYHYnzmRnyE
+	kxZW9PfzpDVH9FLKb60AidxRlD6b9TMrNKJQU6FR3oGEy8PiLINhHjxf/1JhxtuYLWOX
+	VCXg==
+X-Gm-Message-State: AFeK/H1ynb5OylO0AD6OtoxEC/BkrzUFkdFNet6z+LMuzdLFTdoHdQoQXpFn9Hzs6+8H56E3
+X-Received: by 10.28.30.19 with SMTP id e19mr10090155wme.52.1490628369861;
+	Mon, 27 Mar 2017 08:26:09 -0700 (PDT)
+Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id 134sm1304147wmj.6.2017.03.27.08.26.08
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 27 Mar 2017 08:26:09 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 27 Mar 2017 16:26:04 +0100
+Message-Id: <1490628365-5428-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.8.1
+Subject: [PATCH 1/2] boost: build context and coroutine on ARM
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,53 +53,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Mar 2017 15:20:52 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 27 Mar 2017 15:26:10 -0000
 
+With the right flags to the build, the context library can be built on ARM.
 
+[ YOCTO #11253 ]
 
-On 27/03/17 07:38, Richard Purdie wrote:
-> On Fri, 2017-03-24 at 15:06 -0700, mariano.lopez@linux.intel.com wrote:
->> From: Mariano Lopez <mariano.lopez@linux.intel.com>
->>
->> This series allows to import custom targets to be used with runtime
->> testing.
->> Now is possible to have a target in <layer>/lib/oeqa/core/target and
->> testimage and testexport can use such target using TEST_TARGET
->> variable.
->>
->> To register a custom target you just need use decorate a target class
->> with
->> registerTarget, and set "targetName" attribute to the name that will
->> be used
->> by TEST_TARGET variable.
-> Unfortunately something about this series break oe-selftest:
->
-> https://autobuilder.yocto.io/builders/nightly-oe-selftest/builds/229/st
-> eps/Running%20oe-selftest/logs/stdio
->
-> It doesn't do it in isolation, that test run by itself is fine. When
-> run as part of oe-selftest it breaks though. I did bisect it down to
-> this series and things have all built fine after I dropped these 3
-> patches.
->
-> So we'll have to figure out what is happening here...
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-support/boost/boost.inc | 11 ++++++++---
+ 1 file changed, 8 insertions(+), 3 deletions(-)
 
-I'm very sorry that you have to do a bisect to find this out :(
-
-I did run selftest in my workstation to avoid this thing but it seems
-it wasn't enough.
-
-The problem is when importing the modules with
-oe-test (outside bitbake). I did check it with python 3.4 but I didn't
-test it with 3.5 so, I'll start with that.
-
-Regards,
-Mariano
->
-> Cheers,
->
-> Richard
+diff --git a/meta/recipes-support/boost/boost.inc b/meta/recipes-support/boost/boost.inc
+index 4ff70e3..f85e1d1 100644
+--- a/meta/recipes-support/boost/boost.inc
++++ b/meta/recipes-support/boost/boost.inc
+@@ -28,12 +28,15 @@ BOOST_LIBS = "\
+ 	wave \
+ 	"
+ 
+-# only supported by x86 and powerpc
++# Enable context only on platforms we've verified it builds on
++BOOST_LIBS_append_arm = " context coroutine"
++BOOST_LIBS_append_arm-64 = " context coroutine"
++BOOST_LIBS_append_powerpc = " context coroutine"
+ BOOST_LIBS_append_x86 = " context coroutine"
+ BOOST_LIBS_append_x86-64 = " context coroutine"
+-BOOST_LIBS_append_powerpc = " context coroutine"
+ # need consistent settings for native builds (x86 override not applied for native)
+ BOOST_LIBS_remove_class-native = " context coroutine"
++
+ # does not compile
+ BOOST_LIBS_remove_mips16e = "wave"
+ 
+@@ -168,7 +171,9 @@ BJAM_OPTS    = '${BOOST_PARALLEL_MAKE} -d+2 -q \
+ # Native compilation of bzip2 isn't working
+ BJAM_OPTS_append_class-native = ' -sNO_BZIP2=1'
+ 
+-# Adjust the build for x32
++# Teach bjam how to build as it ignores the compiler flags we pass
++BJAM_OPTS_append_arm += " abi=aapcs binary-format=elf address-model=32 architecture=arm"
++BJAM_OPTS_append_arm-64 += " abi=aapcs binary-format=elf address-model=64 architecture=arm"
+ BJAM_OPTS_append_linux-gnux32 = " abi=x32 address-model=64"
+ 
+ do_configure() {
+-- 
+2.8.1
 
 
