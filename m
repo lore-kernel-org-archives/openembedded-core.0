@@ -1,39 +1,61 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-qt0-f193.google.com (mail-qt0-f193.google.com
-	[209.85.216.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 6B4DF72F94
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-ot0-f177.google.com (mail-ot0-f177.google.com
+	[74.125.82.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 87B1772F94
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Mar 2017 13:19:04 +0000 (UTC)
-Received: by mail-qt0-f193.google.com with SMTP id n37so7477335qtb.3
+	Mon, 27 Mar 2017 13:19:27 +0000 (UTC)
+Received: by mail-ot0-f177.google.com with SMTP id y88so30034876ota.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Mar 2017 06:19:05 -0700 (PDT)
+	Mon, 27 Mar 2017 06:19:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
+	:cc; bh=itsm1+3mPnpBgXb4eB2F2Dm3FNjEkKY/529ogR3HJkA=;
+	b=i0LKTwrCL/Z3kaHzJM8SUnGzCYSip0udg1JV9JPj11fKvEa9xwxeag5i4MmZwDppat
+	9qUEz3nrKPQ7oUvNMnUfUigiPxaywB5cLu4AMb9CmZ6iE0wesSs4w4xsXTSdxCVZay3e
+	JyJ7bXfmhNJSmPN3x4ZGHqUeymnXhMy2HEvO5PfIwU7J7LAxGczdJ2jIuNY8SQBTGoJY
+	3/Skr00Fnck70v+15L8trVaYIB4EuDMiB2nT25C+8x2c9W3oZCsRBIFF4YZHaLrS9ODa
+	kc8Dauz2g4Q9d3IKL1ppTrrwBtTR4xTtl5MteCDsYy0FGvyjYZ5x+HY6DrFhcXXfpuIZ
+	jgwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:organization;
-	bh=q5+IAtHBWS1lz9z5JfZz9onJSmkLR4wPRGJQQRnm68I=;
-	b=CwjDjOOz/+l4tI04AUfc+0QQLv4LaZcGfaVAdBc72ROyRSNN1JAf+V/vA471OX6laV
-	CrzCgC3qlr4fd7rdjIe9TXeOzx8DtSigNJlxg+OUIx83hKeOIneim9c5Nx+63MLtJsrQ
-	ywj6OzT7vNn+Y6mwQfz7JkNfNiVMdX7uRYHRY7Fx6BZV4iacMKSEvh1Qhjcu1fGTHBel
-	TcP0OA11UjLUuPo9U7dpAcYceWupyLBmyfx3nTVT5uBXCMV9YagTXAoxOgumdR8vLKGv
-	qQchGks5y5EusCKLf9Pfou0Hn/5/YetwIGaSEMrEx0GGGLgEoNeJlyKXb8iWuKDsjMSr
-	Yv2Q==
-X-Gm-Message-State: AFeK/H3xsbIqgcfwJNZdqND78ZYUpdE4CW1HU4tjXUx9ItYmdm08aP64Qybyz7DDTk9I5A==
-X-Received: by 10.200.56.210 with SMTP id g18mr19859230qtc.63.1490620745050;
-	Mon, 27 Mar 2017 06:19:05 -0700 (PDT)
-Received: from localhost ([189.114.111.135])
-	by smtp.gmail.com with ESMTPSA id i65sm342773qka.13.2017.03.27.06.19.01
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
+	:message-id:subject:to:cc;
+	bh=itsm1+3mPnpBgXb4eB2F2Dm3FNjEkKY/529ogR3HJkA=;
+	b=ngKHmd5f8slnWbDkKjjqrbqmXJ5yFtPA8yZITKxfJW/H6WpZBdljeY4Y63is4c0DDV
+	liQLou/zUsX6SAorSV/EkPtAtReE822ZoMOLsx+EONdJr6prZWp9yvFhuyB2lDfIWefu
+	usa3QbPBbq/ua8St2ur5Ukj9XLHq1ToZoPRIbE258wGlOmb6YP2mi/Q4v/ceuw230w+b
+	GMWqty2egn4D0csCmgScu1u2ZdW3iVX/Fh7C/s/YsdNXis6lMUxd/TWhks4AHMdSHCOm
+	1+Be/2i9ELuh48zbZba5ujP2695eSdWRthGeXNVBQje+mg1gPi600GWoxfdIw8sDLi9s
+	Ro2Q==
+X-Gm-Message-State: AFeK/H17ixuJFsThgI9QVz0jFL7qfSc3sYByCiapVdL5wnYPigLx/rKEdaI26+jUBnB/rw==
+X-Received: by 10.157.61.202 with SMTP id l68mr12405859otc.242.1490620768192; 
+	Mon, 27 Mar 2017 06:19:28 -0700 (PDT)
+Received: from mail-oi0-f50.google.com (mail-oi0-f50.google.com.
+	[209.85.218.50])
+	by smtp.gmail.com with ESMTPSA id h55sm202137otd.1.2017.03.27.06.19.26
+	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 27 Mar 2017 06:19:03 -0700 (PDT)
-Received: by localhost (sSMTP sendmail emulation);
-	Mon, 27 Mar 2017 10:18:58 -0300
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Mon, 27 Mar 2017 09:57:33 -0300
-Message-Id: <20170327125733.8585-1-otavio@ossystems.com.br>
-X-Mailer: git-send-email 2.12.1
-Organization: O.S. Systems Software LTDA.
-Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH v2] u-boot: Update to 2017.03 release
+	Mon, 27 Mar 2017 06:19:27 -0700 (PDT)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-oi0-f50.google.com with SMTP id r203so22780521oib.3
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 27 Mar 2017 06:19:26 -0700 (PDT)
+X-Received: by 10.202.196.71 with SMTP id u68mr11141275oif.210.1490620766636; 
+	Mon, 27 Mar 2017 06:19:26 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.74.79.203 with HTTP; Mon, 27 Mar 2017 06:19:26 -0700 (PDT)
+In-Reply-To: <20170326211438.GI15664@denix.org>
+References: <20170326200813.23705-1-otavio@ossystems.com.br>
+	<20170326211438.GI15664@denix.org>
+Date: Mon, 27 Mar 2017 10:19:26 -0300
+X-Gmail-Original-Message-ID: <CAP9ODKprtiWwTEYucC72P6Q3tvrEeqKeKnCMrcnKTdZ+J8mCVQ@mail.gmail.com>
+Message-ID: <CAP9ODKprtiWwTEYucC72P6Q3tvrEeqKeKnCMrcnKTdZ+J8mCVQ@mail.gmail.com>
+To: Denys Dmytriyenko <denis@denix.org>
+Cc: Otavio Salvador <otavio@ossystems.com.br>,
+	OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] u-boot: Update to 2017.03 release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,56 +68,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Mar 2017 13:19:04 -0000
+X-List-Received-Date: Mon, 27 Mar 2017 13:19:27 -0000
+Content-Type: text/plain; charset=UTF-8
 
-This 2017.03 release is out since March 13th, 2017 and is the latest
-stable release prior Pyro release.
+On Sun, Mar 26, 2017 at 6:14 PM, Denys Dmytriyenko <denis@denix.org> wrote:
+> On Sun, Mar 26, 2017 at 05:08:13PM -0300, Otavio Salvador wrote:
+>> Ths 2017.03 release is out since March 13th 2017 and is the latest
+>> stable release prior Pyro release.
+>
+> At least 2 typos in the description...
 
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
----
+Sent a v2.
 
-Changes in v2:
-- Fix typo in commit log
-
- .../u-boot/{u-boot-common_2017.01.inc => u-boot-common_2017.03.inc}     | 2 +-
- .../u-boot/{u-boot-fw-utils_2017.01.bb => u-boot-fw-utils_2017.03.bb}   | 0
- .../u-boot/{u-boot-mkimage_2017.01.bb => u-boot-mkimage_2017.03.bb}     | 0
- meta/recipes-bsp/u-boot/{u-boot_2017.01.bb => u-boot_2017.03.bb}        | 0
- 4 files changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-bsp/u-boot/{u-boot-common_2017.01.inc => u-boot-common_2017.03.inc} (86%)
- rename meta/recipes-bsp/u-boot/{u-boot-fw-utils_2017.01.bb => u-boot-fw-utils_2017.03.bb} (100%)
- rename meta/recipes-bsp/u-boot/{u-boot-mkimage_2017.01.bb => u-boot-mkimage_2017.03.bb} (100%)
- rename meta/recipes-bsp/u-boot/{u-boot_2017.01.bb => u-boot_2017.03.bb} (100%)
-
-diff --git a/meta/recipes-bsp/u-boot/u-boot-common_2017.01.inc b/meta/recipes-bsp/u-boot/u-boot-common_2017.03.inc
-similarity index 86%
-rename from meta/recipes-bsp/u-boot/u-boot-common_2017.01.inc
-rename to meta/recipes-bsp/u-boot/u-boot-common_2017.03.inc
-index df24c853dd..c115f36831 100644
---- a/meta/recipes-bsp/u-boot/u-boot-common_2017.01.inc
-+++ b/meta/recipes-bsp/u-boot/u-boot-common_2017.03.inc
-@@ -7,7 +7,7 @@ PE = "1"
- 
- # We use the revision in order to avoid having to fetch it from the
- # repo during parse
--SRCREV = "a705ebc81b7f91bbd0ef7c634284208342901149"
-+SRCREV = "8537ddd769f460d7fb7a62a3dcc9669049702e51"
- 
- SRC_URI = "git://git.denx.de/u-boot.git"
- 
-diff --git a/meta/recipes-bsp/u-boot/u-boot-fw-utils_2017.01.bb b/meta/recipes-bsp/u-boot/u-boot-fw-utils_2017.03.bb
-similarity index 100%
-rename from meta/recipes-bsp/u-boot/u-boot-fw-utils_2017.01.bb
-rename to meta/recipes-bsp/u-boot/u-boot-fw-utils_2017.03.bb
-diff --git a/meta/recipes-bsp/u-boot/u-boot-mkimage_2017.01.bb b/meta/recipes-bsp/u-boot/u-boot-mkimage_2017.03.bb
-similarity index 100%
-rename from meta/recipes-bsp/u-boot/u-boot-mkimage_2017.01.bb
-rename to meta/recipes-bsp/u-boot/u-boot-mkimage_2017.03.bb
-diff --git a/meta/recipes-bsp/u-boot/u-boot_2017.01.bb b/meta/recipes-bsp/u-boot/u-boot_2017.03.bb
-similarity index 100%
-rename from meta/recipes-bsp/u-boot/u-boot_2017.01.bb
-rename to meta/recipes-bsp/u-boot/u-boot_2017.03.bb
 -- 
-2.12.1
-
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
