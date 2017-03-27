@@ -1,46 +1,49 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-lf0-f50.google.com (mail-lf0-f50.google.com
-	[209.85.215.50])
-	by mail.openembedded.org (Postfix) with ESMTP id DAA4F72F5F
+Received: from mail-wr0-f174.google.com (mail-wr0-f174.google.com
+	[209.85.128.174])
+	by mail.openembedded.org (Postfix) with ESMTP id C756372F60
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Mar 2017 15:26:09 +0000 (UTC)
-Received: by mail-lf0-f50.google.com with SMTP id h125so24136159lfe.0
+	Mon, 27 Mar 2017 15:26:10 +0000 (UTC)
+Received: by mail-wr0-f174.google.com with SMTP id w43so49313906wrb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Mar 2017 08:26:11 -0700 (PDT)
+	Mon, 27 Mar 2017 08:26:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=Tb/LA0tDwFh0YR72fRfNbPqKYhWPNjt21jEkA15HT+c=;
-	b=gREoBZQK/jn62WSHL1+v050+sC1oLESDDN0HWaBUzaeOUbkqL2Te+QbHYHYxiUjDf1
-	fuFXjjQ6pK9cNqZXK7AIsyPtmaNkssFG7gmD/EiGxRwJDWyG0Yhz3qukeQYAVy/H/sKX
-	BudgM+9TWpBtMgVn0ORYyOcPtExkYaHrnf+JIS0KvVCkb4P3TrBcdO92KJGzrxRUgTAN
-	ablK5xbROpsqqwPYMjLehnOncAzXko1LxMb/7F6+TaPM/Z0CBVPU+ssA4XTsdGvuMGcM
-	twmP2Ds8sybSXifz2pcAX14nPyftIGmktAJk56hvNl4cXlunorF+NI4p+J/wrABe7Svr
-	DIRA==
+	h=from:to:subject:date:message-id:in-reply-to:references;
+	bh=b9HyvDefk/FRXXrcTfxawYMutR/8BoP08qWaIQFwq+Q=;
+	b=QY7y9NPHZFw+acKpmosZPSfCE+vh7AKYa11EUB29/5m9vcM76MYPBpYl3+E2COtBhB
+	cF9c+pc04h+ycsTRRgWLFfzAXb8HyBM+XCc3Jzc39wUbx4/0KlPipeUaw6UzcTSNDl1J
+	X1XqHq2rJ01pFQy7YhmDPle3wGrV4vMET2ILk5rL0ttZpmQiNsCBGGRo4j//mt3kt85N
+	piVL3ZfdvO3+Tmz0fvtXPGtlUY7xrjuwt5GH0v3JnRz6nFbpe/kCgKOJ2YrX5CWAygvI
+	JXGszszfwlMvKxIkR56fO6HOhENYARc7SoR//kbGJBGTu/hQ9jT/0HyiH258KcuMNGmy
+	JJiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=Tb/LA0tDwFh0YR72fRfNbPqKYhWPNjt21jEkA15HT+c=;
-	b=FhxbO0Su0c9kJEEjnU2olsS77nETvW/8GS0ds9Dl1qcqRd3/ftMMSkKw3onsDp91el
-	98AXbDmYdmvrPJ/zmDM0G/i5BQrtejFY8hS4Q+iohOkRSWzeKyQ7kBSxv6BfbmUTOyHt
-	W3zfYQcrFfp/Yfhcw/NsOXYuvj01rRSXtmJUjYXI+BZl5OCyaBaW9Iood0RNt6ogxCEJ
-	jmwouuYCDOqvGFC0q2g70Y2o6RYW+bpCcZ2fK4z0lrI5MoAvZxoHpaHJGSYHYnzmRnyE
-	kxZW9PfzpDVH9FLKb60AidxRlD6b9TMrNKJQU6FR3oGEy8PiLINhHjxf/1JhxtuYLWOX
-	VCXg==
-X-Gm-Message-State: AFeK/H1ynb5OylO0AD6OtoxEC/BkrzUFkdFNet6z+LMuzdLFTdoHdQoQXpFn9Hzs6+8H56E3
-X-Received: by 10.28.30.19 with SMTP id e19mr10090155wme.52.1490628369861;
-	Mon, 27 Mar 2017 08:26:09 -0700 (PDT)
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references;
+	bh=b9HyvDefk/FRXXrcTfxawYMutR/8BoP08qWaIQFwq+Q=;
+	b=Clu1VdOv4emwDFdeix+gkpnI8oYSIju0wButXTKHreoBf0DuxE7UVMBn/zCfhQ0l5w
+	ddtl9PhxdJvZ0tMQySn98pa+UAktHFoQBJ4OGeYlCvnBKoMhxSoZ6u5TaA1qo3KtI3KQ
+	QDPyhy1lumtAxY8PwMwhOPyUwpLE83lQRHTjg+WkofiW43qGzzMOfWVE3xJ10jyXbO5P
+	gYzbzyT/YgufA0qLDXCTsthimgGLR8P2UOgNkD+NIFrnN8dZkSFD95QAXiW3smXW7r/5
+	7+r2ZgegT7C1q2MPtTDce228/ijUzJj4cNIvmPk23u98snMGAqkNx9D9semYnDcBBI7y
+	uNLw==
+X-Gm-Message-State: AFeK/H1Oep7CbIUlE0dsNnXOkxzyTjSarmAw9fLwY1eLZ3T0gilCkJPbJO9RqZYS29FHAy/f
+X-Received: by 10.28.199.129 with SMTP id x123mr10588160wmf.7.1490628370814;
+	Mon, 27 Mar 2017 08:26:10 -0700 (PDT)
 Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id 134sm1304147wmj.6.2017.03.27.08.26.08
+	by smtp.gmail.com with ESMTPSA id 134sm1304147wmj.6.2017.03.27.08.26.09
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 27 Mar 2017 08:26:09 -0700 (PDT)
+	Mon, 27 Mar 2017 08:26:10 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 27 Mar 2017 16:26:04 +0100
-Message-Id: <1490628365-5428-1-git-send-email-ross.burton@intel.com>
+Date: Mon, 27 Mar 2017 16:26:05 +0100
+Message-Id: <1490628365-5428-2-git-send-email-ross.burton@intel.com>
 X-Mailer: git-send-email 2.8.1
-Subject: [PATCH 1/2] boost: build context and coroutine on ARM
+In-Reply-To: <1490628365-5428-1-git-send-email-ross.burton@intel.com>
+References: <1490628365-5428-1-git-send-email-ross.burton@intel.com>
+Subject: [PATCH 2/2] boost: enable more libraries
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,50 +56,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Mar 2017 15:26:10 -0000
+X-List-Received-Date: Mon, 27 Mar 2017 15:26:11 -0000
 
-With the right flags to the build, the context library can be built on ARM.
+Enable the fiber, metaparse, and type_erasure libraries.
 
-[ YOCTO #11253 ]
+We can't enable coroutine2 as it needs C++11 and it appears our hacks to
+configure the compiler mean boost doesn't think we support that.
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-support/boost/boost.inc | 11 ++++++++---
- 1 file changed, 8 insertions(+), 3 deletions(-)
+ meta/recipes-support/boost/boost.inc | 5 +++++
+ 1 file changed, 5 insertions(+)
 
 diff --git a/meta/recipes-support/boost/boost.inc b/meta/recipes-support/boost/boost.inc
-index 4ff70e3..f85e1d1 100644
+index f85e1d1..100fb0d 100644
 --- a/meta/recipes-support/boost/boost.inc
 +++ b/meta/recipes-support/boost/boost.inc
-@@ -28,12 +28,15 @@ BOOST_LIBS = "\
+@@ -5,17 +5,21 @@ DEPENDS = "bjam-native zlib bzip2"
+ ARM_INSTRUCTION_SET_armv4 = "arm"
+ ARM_INSTRUCTION_SET_armv5 = "arm"
+ 
++# When we don't insist that our GCC is 4.3.1 (see below) hopefully coroutine2
++# (which needs C++11) will work.
+ BOOST_LIBS = "\
+ 	atomic \
+ 	chrono \
+ 	container \
+ 	date_time \
+ 	exception \
++	fiber \
+ 	filesystem \
+ 	graph \
+ 	iostreams \
+ 	log \
+ 	math \
++	metaparse \
+ 	program_options \
+ 	random \
+ 	regex \
+@@ -24,6 +28,7 @@ BOOST_LIBS = "\
+ 	system \
+ 	timer \
+ 	test \
++	type_erasure \
+ 	thread \
  	wave \
  	"
- 
--# only supported by x86 and powerpc
-+# Enable context only on platforms we've verified it builds on
-+BOOST_LIBS_append_arm = " context coroutine"
-+BOOST_LIBS_append_arm-64 = " context coroutine"
-+BOOST_LIBS_append_powerpc = " context coroutine"
- BOOST_LIBS_append_x86 = " context coroutine"
- BOOST_LIBS_append_x86-64 = " context coroutine"
--BOOST_LIBS_append_powerpc = " context coroutine"
- # need consistent settings for native builds (x86 override not applied for native)
- BOOST_LIBS_remove_class-native = " context coroutine"
-+
- # does not compile
- BOOST_LIBS_remove_mips16e = "wave"
- 
-@@ -168,7 +171,9 @@ BJAM_OPTS    = '${BOOST_PARALLEL_MAKE} -d+2 -q \
- # Native compilation of bzip2 isn't working
- BJAM_OPTS_append_class-native = ' -sNO_BZIP2=1'
- 
--# Adjust the build for x32
-+# Teach bjam how to build as it ignores the compiler flags we pass
-+BJAM_OPTS_append_arm += " abi=aapcs binary-format=elf address-model=32 architecture=arm"
-+BJAM_OPTS_append_arm-64 += " abi=aapcs binary-format=elf address-model=64 architecture=arm"
- BJAM_OPTS_append_linux-gnux32 = " abi=x32 address-model=64"
- 
- do_configure() {
 -- 
 2.8.1
 
