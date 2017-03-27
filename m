@@ -1,18 +1,28 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 606E271D31;
-	Mon, 27 Mar 2017 20:02:11 +0000 (UTC)
-MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Date: Mon, 27 Mar 2017 20:02:13 -0000
-Message-ID: <20170327200213.6648.20103@do.openembedded.org>
-References: <20170327193734.29904-1-otavio@ossystems.com.br>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <20170327193734.29904-1-otavio@ossystems.com.br>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgZXVkZXY6IHJlc3RvcmUgdXNlcnNwYWNlIGZpcm13YXJlIGxvYWRpbmcgc3VwcG9ydA==?=
+Return-Path: <mariano.lopez@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 29F5B71D31
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 27 Mar 2017 20:05:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+	d=intel.com; i=@intel.com; q=dns/txt; s=intel;
+	t=1490645128; x=1522181128;
+	h=from:to:cc:subject:date:message-id;
+	bh=0TA92V5Egto638J+hsBSWiBIqryulLrkQrqmej5Ke9Y=;
+	b=PICrp+hYLekJiD02cp9I9lshcXep+ieTnCiVzSDP//l1cX/Mju+DTca1
+	qZKMNIj2BRJIKneWrqdK/NJElr/B5g==;
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	27 Mar 2017 13:05:28 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.36,233,1486454400"; d="scan'208";a="839020797"
+Received: from yctb01.ostc.intel.com ([10.54.69.55])
+	by FMSMGA003.fm.intel.com with ESMTP; 27 Mar 2017 13:05:28 -0700
+From: mariano.lopez@linux.intel.com
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 27 Mar 2017 13:05:23 -0700
+Message-Id: <cover.1490645010.git.mariano.lopez@linux.intel.com>
+X-Mailer: git-send-email 2.10.2
+Subject: [PATCHv2 0/1] oeqa/core/loader.py: Do not import underscore modules by default
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,43 +35,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Mar 2017 20:02:11 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 27 Mar 2017 20:05:27 -0000
 
-== Series Details ==
+From: Mariano Lopez <mariano.lopez@linux.intel.com>
 
-Series: eudev: restore userspace firmware loading support
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/6004/
-State : failure
+Changes in v2:
+- Rebase to master.
+- Fix how bug number was specified to make patchtest happy.
 
-== Summary ==
+The following changes since commit f5187871ce03fc24cb0017cff1089a288f50a24f:
 
+  classes: Replace "if test" file tests with POSIX file tests (2017-03-27 11:08:34 +0100)
 
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
+are available in the git repository at:
 
+  git://git.yoctoproject.org/poky-contrib mariano/bug10980
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=mariano/bug10980
 
+Mariano Lopez (1):
+  oeqa/core/loader.py: Do not import underscore modules by default
 
-* Issue             Added patch file is missing Upstream-Status in the header [test_upstream_status_presence] 
-  Suggested fix    Add Upstream-Status: <status> to the header of meta/recipes-core/udev/eudev/Revert-udev-remove-userspace-firmware-loading-suppor.patch (possible values: Pending, Submitted, Accepted, Backport, Denied, Inappropriate)
+ meta/lib/oeqa/core/loader.py | 34 ++++++++++++++++++++++++++++++----
+ 1 file changed, 30 insertions(+), 4 deletions(-)
 
-* Issue             A patch file has been added, but does not have a Signed-off-by tag [test_signed_off_by_presence] 
-  Suggested fix    Sign off the added patch file (meta/recipes-core/udev/eudev/Revert-udev-remove-userspace-firmware-loading-suppor.patch)
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
----
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+-- 
+2.10.2
 
 
