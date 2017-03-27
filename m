@@ -1,28 +1,28 @@
 Return-Path: <stephano.cetola@linux.intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 8772A72F83
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id CCBA260685
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Mar 2017 17:02:33 +0000 (UTC)
+	Mon, 27 Mar 2017 17:12:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
 	d=intel.com; i=@intel.com; q=dns/txt; s=intel;
-	t=1490634157; x=1522170157;
+	t=1490634730; x=1522170730;
 	h=from:to:cc:subject:date:message-id;
-	bh=tKvg0webRV/PgeF9zAT5/oJu5aXs0uTmzU+LNbiomF0=;
-	b=dJk6fo0sVTkyo3ZQo1SHTofODk1oCjKlAEqHQFtg+4TQuLF+PA+agGlt
-	tIy6OtLU4M9rGwQlTNA4Vwme0a1b1A==;
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	27 Mar 2017 10:02:35 -0700
+	bh=JewjdkPIxVjZFVcTO1sFvcZS/juLkHd8XuBdIBFQ3Lw=;
+	b=qSQPEW/DGGMAVHqqBixb6a+qS0qTXJg+eGA1nL9X8eN/aPxnxZyyGolU
+	LdjfqwWFewJgAimfuQZQQp50VdfOWg==;
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	27 Mar 2017 10:12:09 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.36,232,1486454400"; d="scan'208";a="79822535"
+X-IronPort-AV: E=Sophos;i="5.36,232,1486454400"; d="scan'208";a="1147530064"
 Received: from pequod.jf.intel.com ([10.54.74.23])
-	by orsmga005.jf.intel.com with ESMTP; 27 Mar 2017 10:02:35 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 27 Mar 2017 10:12:08 -0700
 From: Stephano Cetola <stephano.cetola@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 27 Mar 2017 10:01:36 -0700
-Message-Id: <20170327170136.2446-1-stephano.cetola@linux.intel.com>
+Date: Mon, 27 Mar 2017 10:11:21 -0700
+Message-Id: <20170327171121.2636-1-stephano.cetola@linux.intel.com>
 X-Mailer: git-send-email 2.12.1
-Subject: [PATCH] devtool: open kconfig fragment in binary mode
+Subject: [PATCH] insane.bbclass: error if file-rdeps not met
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,33 +35,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Mar 2017 17:02:35 -0000
+X-List-Received-Date: Mon, 27 Mar 2017 17:12:09 -0000
 
-When devtool writes to the kconfig fragment, it writes the output of
-the diff command returned from pipe.communicate(). This function
-returns binary objects. We should open the kconfig fragment file in
-binary mode if we expect to write binary objects to it.
+Missing runtime dependencies should result in an error rather than a
+warning. Indeed, if RPM is listed in PACKAGE_CLASSES, it will throw
+an error rather than install packages with missing dependencies. This
+functionality should be consistent across package types. This patch
+ensures that an error will be thrown.
 
-[YOCTO #11171]
+[YOCTO #10949]
 
 Signed-off-by: Stephano Cetola <stephano.cetola@linux.intel.com>
 ---
- scripts/lib/devtool/standard.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/classes/insane.bbclass | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard.py
-index 07c1400388..ffca2c9ec4 100644
---- a/scripts/lib/devtool/standard.py
-+++ b/scripts/lib/devtool/standard.py
-@@ -1223,7 +1223,7 @@ def _create_kconfig_diff(srctree, rd, outfile):
-         stdout, stderr = pipe.communicate()
-         if pipe.returncode == 1:
-             logger.info("Updating config fragment %s" % outfile)
--            with open(outfile, 'w') as fobj:
-+            with open(outfile, 'wb') as fobj:
-                 fobj.write(stdout)
-         elif pipe.returncode == 0:
-             logger.info("Would remove config fragment %s" % outfile)
+diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+index 7a869977e1..dc1c2f8d41 100644
+--- a/meta/classes/insane.bbclass
++++ b/meta/classes/insane.bbclass
+@@ -30,7 +30,7 @@ QA_SANE = "True"
+ WARN_QA ?= "ldflags useless-rpaths rpaths staticdev libdir xorg-driver-abi \
+             textrel already-stripped incompatible-license files-invalid \
+             installed-vs-shipped compile-host-path install-host-path \
+-            pn-overrides infodir build-deps file-rdeps \
++            pn-overrides infodir build-deps \
+             unknown-configure-option symlink-to-sysroot multilib \
+             invalid-packageconfig host-user-contaminated \
+             "
+@@ -38,7 +38,7 @@ ERROR_QA ?= "dev-so debug-deps dev-deps debug-files arch pkgconfig la \
+             perms dep-cmp pkgvarcheck perm-config perm-line perm-link \
+             split-strip packages-list pkgv-undefined var-undefined \
+             version-going-backwards expanded-d invalid-chars \
+-            license-checksum dev-elf \
++            license-checksum dev-elf file-rdeps \
+             "
+ FAKEROOT_QA = "host-user-contaminated"
+ FAKEROOT_QA[doc] = "QA tests which need to run under fakeroot. If any \
 -- 
 2.12.1
 
