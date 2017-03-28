@@ -1,37 +1,44 @@
-Return-Path: <spopovyc@cisco.com>
-Received: from rcdn-iport-3.cisco.com (rcdn-iport-3.cisco.com [173.37.86.74])
-	by mail.openembedded.org (Postfix) with ESMTP id 59DE777ACD
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-wm0-f45.google.com (mail-wm0-f45.google.com [74.125.82.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 2633577AE1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Mar 2017 19:00:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=cisco.com; i=@cisco.com; l=3654; q=dns/txt; s=iport;
-	t=1490727656; x=1491937256;
-	h=from:to:cc:subject:date:message-id;
-	bh=MykZoeE5lMIieiftAhtykd8OjlDVv05uZYs1/OFxR24=;
-	b=dbDQGSpYCBUv/66RXw03rObJyVM3i7/+xkuppsoYkL9geOESkS/jXEWh
-	uHQnWbBmDkLcKo6/IROoRI6dF2zbwFewYftdQMOOkc8XWtg44d33rLgV5
-	XfzWcd/x9WNvp6KkOyGqrf/Uyla5HqaTptQL46j94lYwO0YsAICNND+b7 E=;
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-Anti-Spam-Result: =?us-ascii?q?A0AmAQAPstpY/4MNJK1dGQEBAQEBAQEBA?=
-	=?us-ascii?q?QEBBwEBAQEBg1RhgQuNcZExk1yCD4IOJoV8gyU/GAECAQEBAQEBAWsohRUBfyw?=
-	=?us-ascii?q?DAQJ+IYl6DQ6vYopMAQEBAQYoE4Y7gg2HBoJ8gxkFnGCGfItTgXxUjmOIWIsSH?=
-	=?us-ascii?q?ziBBDofFYcZQDWHFSiCFQEBAQ?=
-X-IronPort-AV: E=Sophos;i="5.36,237,1486425600"; d="scan'208";a="215518489"
-Received: from alln-core-1.cisco.com ([173.36.13.131])
-	by rcdn-iport-3.cisco.com with ESMTP/TLS/DHE-RSA-AES256-SHA;
-	28 Mar 2017 19:00:54 +0000
-Received: from sjc-ads-6963.cisco.com (sjc-ads-6963.cisco.com [10.30.218.83])
-	by alln-core-1.cisco.com (8.14.5/8.14.5) with ESMTP id v2SJ0rLg019327
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=NO);
-	Tue, 28 Mar 2017 19:00:54 GMT
-From: Serhii Popovych <spopovyc@cisco.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 28 Mar 2017 19:00:48 +0000
-Message-Id: <e1eee1aa56e1dc59a55a9cac25a00a1ea2f9375e.1490727568.git.spopovyc@cisco.com>
-X-Mailer: git-send-email 2.7.4
-X-Auto-Response-Suppress: DR, OOF, AutoReply
-Cc: XE-Linux <xe-linux-external@cisco.com>
-Subject: [PATCH] ca-certificates: Fix symlinks to the certificates in nativesdk
+	Tue, 28 Mar 2017 19:01:27 +0000 (UTC)
+Received: by mail-wm0-f45.google.com with SMTP id t189so6734612wmt.1
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 28 Mar 2017 12:01:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=YLQV1/psMdY6/lnmMZsUIE4HGGuyVxTnJ5pIx0hB9WU=;
+	b=Y+tNVkM9yf7TbXUhEdVNMXpgkvAGaES0htOImvWiJxwvP5W2pieKMqiXyL0d1747S+
+	NxcwTvR/aPLLudyMbdJ0oFSdgNLyZkp843BXxWFHoRAaWfDPdc1x6jO7dxamsMB21V8W
+	s4pGeUqUXOHmKIdR9BaqTlgAwKRjIvIQ7XjnyKolQ0Z0Fp1cs2T3MFAJbsz4wyub0+r5
+	uetJKfU11Pz/p6/lNE+fTKruMTH8tX1US03ywR06YoX3qvbgfP3OdncT+Bg7e5SQSHLP
+	y6tWskXzxLDXeu26gd/gZanwYVyIFUzY5dSZfx3ZOO5gSSvfPDGpRySnoBr75qh1gLpH
+	2lSw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=YLQV1/psMdY6/lnmMZsUIE4HGGuyVxTnJ5pIx0hB9WU=;
+	b=J8krmKHdtoJ1WPNM/SIaLPFvcPX7DQ2qRxmtNjmV07emf4RnAdx3uepHW1vL+ACSEM
+	j8S6XIfem0hnkEbFX7Ibyx+Ad2RcoRM7r3ZNRVLCy4osQg59vOCLS9ykA4oKjjvLGmxa
+	iyHmsZbLJD6MkVCTTz7oGFdnKvQlWS6WiPIVTQDmnQ50+XKUmNT+a2M3Lp8gmx3WhQGn
+	QUxgy99vG8AxJuBeejr1Gx49U3dobLgv1cGOVzBW4lW54ci4Q1PC3KY0Gj2iy0Lue3fW
+	5Xzrc5jj+PFlP+1hDm2V9Gj2iS4EwFLNJk3jncxKJMp1E3Vzkrqy6AJ3SYenQ+WhgVqP
+	wz6g==
+X-Gm-Message-State: AFeK/H2V9QroIqKScHTA7NfWhFNkNgH5qzvLlt46Os4uW6xzISPUAc8EIoQpU4gt6fEXCnbo7Vllf+PSimj2EA==
+X-Received: by 10.28.137.208 with SMTP id l199mr15124825wmd.65.1490727688579; 
+	Tue, 28 Mar 2017 12:01:28 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.223.152.55 with HTTP; Tue, 28 Mar 2017 12:01:27 -0700 (PDT)
+In-Reply-To: <alpine.LFD.2.20.1703281010420.3894@uk63952.mitel.com>
+References: <alpine.LFD.2.20.1703281010420.3894@uk63952.mitel.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+Date: Tue, 28 Mar 2017 12:01:27 -0700
+Message-ID: <CAJ86T=UoP2sHmz9gYUpOTqDYy4Dg6i+DBuR97E9VrzVuMahW7A@mail.gmail.com>
+To: "Robert P. J. Day" <rpjday@crashcourse.ca>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: how to specify *just* the KERNEL_IMAGETYPES i want?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,84 +51,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Mar 2017 19:00:54 -0000
+X-List-Received-Date: Tue, 28 Mar 2017 19:01:28 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Symlinks to certificates in buildtools-tarball at /etc/ssl/certs
-installed with absolute pathes making these sumlinks pointing
-outside of toolchain to the host system locations.
+On Tue, Mar 28, 2017 at 7:19 AM, Robert P. J. Day <rpjday@crashcourse.ca> wrote:
+>
+>   playing with building fit images, and i started with mpc8315e-rdb,
+> built virtual/kernel using all defaults, and got this in images/:
+>
+> modules--4.9.8+git0+b65e9b6153_6b67f448d6-r0-mpc8315e-rdb-20170315095945.tgz
+> uImage--4.9.8+git0+b65e9b6153_6b67f448d6-r0-mpc8315e-rdb-20170315095945.bin
+> uImage--4.9.8+git0+b65e9b6153_6b67f448d6-r0-mpc8315erdb-20170315095945.dtb
+>
+> which is perfectly fine, since the machine conf file for that target
+> includes the line:
+>
+>   KERNEL_IMAGETYPE = "uImage"
+>
+> now i start another (fresh) build, and add to local.conf the lines:
+>
+>   KERNEL_CLASSES = "kernel-fitimage"
+>   KERNEL_IMAGETYPES = "fitImage"
+>
+> now my use of the above is my (alleged) way of saying, "i only want a
+> fitImage", but given this snippet from kernel.bbclass:
+>
+>     # Merge KERNEL_IMAGETYPE and KERNEL_ALT_IMAGETYPE into KERNEL_IMAGETYPES
+>     type = d.getVar('KERNEL_IMAGETYPE') or ""
+>     alttype = d.getVar('KERNEL_ALT_IMAGETYPE') or ""
+>     types = d.getVar('KERNEL_IMAGETYPES') or ""
+>     if type not in types.split():
+>         types = (type + ' ' + types).strip()
+>
+> i apparently get both the default as specified in the machine .conf
+> file, *as well as* the fitImage i ask for. and, sure enough, in my
+> images/ directory, i have uImages and fitImages (and zImages, but i
+> believe that's because fitImages require them, so no big deal).
+>
+>   i suspect i could prevent the generation of uImages by using:
+>
+>   KERNEL_IMAGETYPE_mpc8315e-rdb = "fitImage"
+>
+> but from a clarity point of view, would it not make more sense that if
+> someone had a line:
+>
+>   KERNEL_IMAGETYPES = " ... list of types ..."
+>
+> that should override whatever KERNEL_IMAGETYPE is in the machine conf
+> file and generate *just* those images? or am i missing something here?
 
-These locations may not contain some certificates (thus link to
-the certificate in toolchain is broken) or host system
-certificate may be revoked by CRL or outdated.
+KERNEL_IMAGETYPE is the legacy variable and it's added to
+KERNEL_IMAGETYPES for backwards compatibility.
 
-Since this change seems non intrusive for target package apply
-patch for all builds.
+If you update your machine config and local.conf over-rides etc to all
+consistently use KERNEL_IMAGETYPES then the behaviour should be closer
+to what you expect.
 
-Cc: XE-Linux <xe-linux-external@cisco.com>
-Signed-off-by: Serhii Popovych <spopovyc@cisco.com>
----
- ...ertificates-Use-relative-paths-when-linki.patch | 38 ++++++++++++++++++++++
- .../ca-certificates/ca-certificates_20161130.bb    |  1 +
- 2 files changed, 39 insertions(+)
- create mode 100644 meta/recipes-support/ca-certificates/ca-certificates/0003-update-ca-certificates-Use-relative-paths-when-linki.patch
-
-diff --git a/meta/recipes-support/ca-certificates/ca-certificates/0003-update-ca-certificates-Use-relative-paths-when-linki.patch b/meta/recipes-support/ca-certificates/ca-certificates/0003-update-ca-certificates-Use-relative-paths-when-linki.patch
-new file mode 100644
-index 0000000..8666e30
---- /dev/null
-+++ b/meta/recipes-support/ca-certificates/ca-certificates/0003-update-ca-certificates-Use-relative-paths-when-linki.patch
-@@ -0,0 +1,38 @@
-+From 912e7be8e7151bd4a2feed6d34f927d42b12bb7e Mon Sep 17 00:00:00 2001
-+From: Serhii Popovych <spopovyc@cisco.com>
-+Date: Wed, 16 Dec 2015 16:48:03 +0200
-+Subject: [PATCH] update-ca-certificates: Use relative paths when linking certs
-+
-+Creating links in $ETCCERTSDIR (/etc/ssl/certs) with absolute
-+path could broke paths to the certificates in toolchains by
-+pointing to the outside of toolchain root directory. These
-+absolute paths may not exist in the host system or contain
-+certificates older than provided within toolchain.
-+
-+Use absolute pathes when creating symbolic links to the
-+certificates to ensure we always pointing to the toolchain
-+provied certificates.
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Serhii Popovych <spopovyc@cisco.com>
-+---
-+ sbin/update-ca-certificates | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/sbin/update-ca-certificates b/sbin/update-ca-certificates
-+index 3a5ffd3..cb3c1f1 100755
-+--- a/sbin/update-ca-certificates
-++++ b/sbin/update-ca-certificates
-+@@ -94,7 +94,7 @@ add() {
-+                                                   -e 's/,/_/g').pem"
-+   if ! test -e "$PEM" || [ "$(readlink "$PEM")" != "${CERT##$SYSROOT}" ]
-+   then
-+-    ln -sf "${CERT##$SYSROOT}" "$PEM"
-++    ln -sf "$(echo "${ETCCERTSDIR##$SYSROOT}" | sed -e 's/\/[^/]\+/..\//g')${CERT##$SYSROOT/}" "$PEM"
-+     echo "+$PEM" >> "$ADDED"
-+   fi
-+   # Add trailing newline to certificate, if it is missing (#635570)
-+-- 
-+2.3.0
-+
-diff --git a/meta/recipes-support/ca-certificates/ca-certificates_20161130.bb b/meta/recipes-support/ca-certificates/ca-certificates_20161130.bb
-index 42088b9..e6e17de 100644
---- a/meta/recipes-support/ca-certificates/ca-certificates_20161130.bb
-+++ b/meta/recipes-support/ca-certificates/ca-certificates_20161130.bb
-@@ -17,6 +17,7 @@ SRCREV = "61b70a1007dc269d56881a0d480fc841daacc77c"
- 
- SRC_URI = "git://anonscm.debian.org/collab-maint/ca-certificates.git \
-            file://0002-update-ca-certificates-use-SYSROOT.patch \
-+           file://0003-update-ca-certificates-Use-relative-paths-when-linki.patch \
-            file://0001-update-ca-certificates-don-t-use-Debianisms-in-run-p.patch \
-            file://update-ca-certificates-support-Toybox.patch \
-            file://default-sysroot.patch \
--- 
-2.7.4
-
+> rday
+>
+> --
+>
+> ========================================================================
+> Robert P. J. Day                                 Ottawa, Ontario, CANADA
+>                         http://crashcourse.ca
+>
+> Twitter:                                       http://twitter.com/rpjday
+> LinkedIn:                               http://ca.linkedin.com/in/rpjday
+> ========================================================================
+>
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
