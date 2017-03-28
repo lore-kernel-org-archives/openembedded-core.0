@@ -1,40 +1,40 @@
 Return-Path: <spopovyc@cisco.com>
-Received: from rcdn-iport-6.cisco.com (rcdn-iport-6.cisco.com [173.37.86.77])
-	by mail.openembedded.org (Postfix) with ESMTP id 0324172FA3
+Received: from alln-iport-3.cisco.com (alln-iport-3.cisco.com [173.37.142.90])
+	by mail.openembedded.org (Postfix) with ESMTP id D95F777A93
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Mar 2017 18:36:52 +0000 (UTC)
+	Tue, 28 Mar 2017 18:41:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=cisco.com; i=@cisco.com; l=9457; q=dns/txt; s=iport;
-	t=1490726214; x=1491935814;
+	d=cisco.com; i=@cisco.com; l=7086; q=dns/txt; s=iport;
+	t=1490726467; x=1491936067;
 	h=from:to:cc:subject:date:message-id:in-reply-to: references;
-	bh=Mp83l9lJeDk1l1clHeJzZHAHV15U+snTmpF/aGocpIM=;
-	b=W2j8CqWaJu9bI36sUy5ib2/8EVD2WIw7iZfA3DhTeaE9v7ti43RpXr3s
-	L4UrW9vmjh5T+8gzhQV9zDVNj/MXSKEoCJCkr30RG9ET78EvfEHjhrxQQ
-	mUy2e7HpCfMYINZCGCgEnKEzn4qpRbzMAKm/g46KqH4BbUobUft0Mqk+l c=;
+	bh=7LW/rgesNW3OKwmJAI1Tw4Pd69eQdeSNCaauDDHNHwg=;
+	b=EJzN4mH9NBDcN9WGfib2mnrkOjS1IP+5CBpYC8EjX+OJevuRy09JP8e8
+	Qgl25UXffiVWAsl2eO502M0lAGSgJoKnea18KV8pLIb+6YGJtj4+UhvMS
+	dV4E4quYYlqgZBYWliF3z+n2A8AcK2LLQtRAFcrwlk7/i51nR+yZhSzdn 0=;
 X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-Anti-Spam-Result: =?us-ascii?q?A0AABQAaqtpY/4ENJK1VCBkBAQEBAQEBA?=
-	=?us-ascii?q?QEBAQcBAQEBAYMpK2GBC41xkHk4H4o3glaGMIIPgg4mgkaDNgKDIz8YAQIBAQE?=
-	=?us-ascii?q?BAQEBayhCDoRFAQMDeRAcAwECL08IGRuJXw2vUIpNAQEBAQEBBAEBAQEBIxOGO?=
-	=?us-ascii?q?4INhwYOhgcFiR6GQ4x/hnyLU4F8VI5jiFiGbIQmHziBBDofFYUaHBmBSkA1g3G?=
-	=?us-ascii?q?DJII9AQEB?=
-X-IronPort-AV: E=Sophos;i="5.36,237,1486425600"; d="scan'208";a="225898346"
+X-IronPort-Anti-Spam-Result: =?us-ascii?q?A0BCAwDYrdpY/4ENJK1VCBkBAQEBAQEBA?=
+	=?us-ascii?q?QEBAQcBAQEBAYMpK2GBC41xkHlXijeCVoYwgg+CDiaCRoM2AoMjPxgBAgEBAQE?=
+	=?us-ascii?q?BAQFrKIUVAQMDeRAcAwECL08IGRuJXw2vYopMAQEBAQEBAQMBAQEBASMThjuJE?=
+	=?us-ascii?q?w6GBwWJHoZDjH+GfItTAoF6VI5jiFiGbIQmHziBBDofFYUaHBmBSkA1hxWCPQE?=
+	=?us-ascii?q?BAQ?=
+X-IronPort-AV: E=Sophos;i="5.36,237,1486425600"; d="scan'208";a="403597593"
 Received: from alln-core-9.cisco.com ([173.36.13.129])
-	by rcdn-iport-6.cisco.com with ESMTP/TLS/DHE-RSA-AES256-SHA;
-	28 Mar 2017 18:27:20 +0000
+	by alln-iport-3.cisco.com with ESMTP/TLS/DHE-RSA-AES256-SHA;
+	28 Mar 2017 18:41:06 +0000
 Received: from sjc-ads-6963.cisco.com (sjc-ads-6963.cisco.com [10.30.218.83])
-	by alln-core-9.cisco.com (8.14.5/8.14.5) with ESMTP id v2SIRFr4006083
+	by alln-core-9.cisco.com (8.14.5/8.14.5) with ESMTP id v2SIf5Fn019345
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=NO);
-	Tue, 28 Mar 2017 18:27:20 GMT
+	Tue, 28 Mar 2017 18:41:05 GMT
 From: Serhii Popovych <spopovyc@cisco.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 28 Mar 2017 18:26:47 +0000
-Message-Id: <9cd3399c646482fbcf00e7d4ecb6f8c0a3d8b5ea.1490722167.git.spopovyc@cisco.com>
+Date: Tue, 28 Mar 2017 18:40:55 +0000
+Message-Id: <1490726455-54345-1-git-send-email-spopovyc@cisco.com>
 X-Mailer: git-send-email 2.7.4
-In-Reply-To: <cover.1490722167.git.spopovyc@cisco.com>
-References: <cover.1490722167.git.spopovyc@cisco.com>
+In-Reply-To: <9cd3399c646482fbcf00e7d4ecb6f8c0a3d8b5ea.1490722167.git.spopovyc@cisco.com>
+References: <9cd3399c646482fbcf00e7d4ecb6f8c0a3d8b5ea.1490722167.git.spopovyc@cisco.com>
 X-Auto-Response-Suppress: DR, OOF, AutoReply
 Cc: XE-Linux <xe-linux-external@cisco.com>
-Subject: [PATCH 1/2] autoconf: Adjust shebang lines to remove interpreter path hardcode
+Subject: [PATCH v2 2/2] autoconf: Adjust shebang lines to remove interpreter path hardcode
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,7 +47,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Mar 2017 18:36:53 -0000
+X-List-Received-Date: Tue, 28 Mar 2017 18:41:06 -0000
 
 If build host perl (and other tools) is old and we use some kind
 of toolchain to provide recent perl/python/etc to the OE build
@@ -78,13 +78,16 @@ autoconf-native.
 Also add RDEPENDS for class-nativesdk and add nativesdk-perl
 to them.
 
+v2: Just realized that files in quilt directory (.pc) patched
+    unnecessarily.
+
 Cc: XE-Linux <xe-linux-external@cisco.com>
 Signed-off-by: Serhii Popovych <spopovyc@cisco.com>
 ---
  meta/recipes-devtools/autoconf/autoconf.inc        |   7 +-
- ...tion-in-shebangs-with-modern-use-warnings.patch | 196 +++++++++++++++++++++
+ ...tion-in-shebangs-with-modern-use-warnings.patch | 120 +++++++++++++++++++++
  meta/recipes-devtools/autoconf/autoconf_2.69.bb    |   1 +
- 3 files changed, 203 insertions(+), 1 deletion(-)
+ 3 files changed, 127 insertions(+), 1 deletion(-)
  create mode 100644 meta/recipes-devtools/autoconf/autoconf/autoconf-replace-w-option-in-shebangs-with-modern-use-warnings.patch
 
 diff --git a/meta/recipes-devtools/autoconf/autoconf.inc b/meta/recipes-devtools/autoconf/autoconf.inc
@@ -113,10 +116,10 @@ index b4e3356..408c5c9 100644
  	oe_runconf
 diff --git a/meta/recipes-devtools/autoconf/autoconf/autoconf-replace-w-option-in-shebangs-with-modern-use-warnings.patch b/meta/recipes-devtools/autoconf/autoconf/autoconf-replace-w-option-in-shebangs-with-modern-use-warnings.patch
 new file mode 100644
-index 0000000..c3dff2d
+index 0000000..38457d1
 --- /dev/null
 +++ b/meta/recipes-devtools/autoconf/autoconf/autoconf-replace-w-option-in-shebangs-with-modern-use-warnings.patch
-@@ -0,0 +1,196 @@
+@@ -0,0 +1,120 @@
 +From 236552ff5b9f1ebf666d8d0e9850007dcce03d26 Mon Sep 17 00:00:00 2001
 +From: Serhii Popovych <spopovyc@cisco.com>
 +Date: Wed, 10 Feb 2016 16:32:44 +0000
@@ -137,89 +140,13 @@ index 0000000..c3dff2d
 +Upstream-Status: Penging
 +Signed-off-by: Serhii Popovych <spopovyc@cisco.com>
 +---
-+ .pc/autoreconf-exclude.patch/bin/autoreconf.in           | 3 ++-
-+ .pc/autoreconf-gnuconfigize.patch/bin/autoreconf.in      | 3 ++-
-+ .pc/autoreconf-include.patch/bin/autoreconf.in           | 3 ++-
-+ .pc/check-automake-cross-warning.patch/bin/autoreconf.in | 3 ++-
 + bin/autom4te.in                                          | 3 ++-
 + bin/autoreconf.in                                        | 3 ++-
 + bin/autoscan.in                                          | 3 ++-
 + bin/autoupdate.in                                        | 3 ++-
 + bin/ifnames.in                                           | 3 ++-
-+ 9 files changed, 18 insertions(+), 9 deletions(-)
++ 5 files changed, 10 insertions(+), 5 deletions(-)
 +
-+diff --git a/.pc/autoreconf-exclude.patch/bin/autoreconf.in b/.pc/autoreconf-exclude.patch/bin/autoreconf.in
-+index 060cec7..b77b317 100644
-+--- a/.pc/autoreconf-exclude.patch/bin/autoreconf.in
-++++ b/.pc/autoreconf-exclude.patch/bin/autoreconf.in
-+@@ -1,4 +1,4 @@
-+-#! @PERL@ -w
-++#! @PERL@
-+ # -*- perl -*-
-+ # @configure_input@
-+ 
-+@@ -45,6 +45,7 @@ use Autom4te::XFile;
-+ # Do not use Cwd::chdir, since it might hang.
-+ use Cwd 'cwd';
-+ use strict;
-++use warnings;
-+ 
-+ ## ----------- ##
-+ ## Variables.  ##
-+diff --git a/.pc/autoreconf-gnuconfigize.patch/bin/autoreconf.in b/.pc/autoreconf-gnuconfigize.patch/bin/autoreconf.in
-+index afc1343..e1a02e7 100644
-+--- a/.pc/autoreconf-gnuconfigize.patch/bin/autoreconf.in
-++++ b/.pc/autoreconf-gnuconfigize.patch/bin/autoreconf.in
-+@@ -1,4 +1,4 @@
-+-#! @PERL@ -w
-++#! @PERL@
-+ # -*- perl -*-
-+ # @configure_input@
-+ 
-+@@ -45,6 +45,7 @@ use Autom4te::XFile;
-+ # Do not use Cwd::chdir, since it might hang.
-+ use Cwd 'cwd';
-+ use strict;
-++use warnings;
-+ 
-+ ## ----------- ##
-+ ## Variables.  ##
-+diff --git a/.pc/autoreconf-include.patch/bin/autoreconf.in b/.pc/autoreconf-include.patch/bin/autoreconf.in
-+index acf25d4..8909a54 100644
-+--- a/.pc/autoreconf-include.patch/bin/autoreconf.in
-++++ b/.pc/autoreconf-include.patch/bin/autoreconf.in
-+@@ -1,4 +1,4 @@
-+-#! @PERL@ -w
-++#! @PERL@
-+ # -*- perl -*-
-+ # @configure_input@
-+ 
-+@@ -45,6 +45,7 @@ use Autom4te::XFile;
-+ # Do not use Cwd::chdir, since it might hang.
-+ use Cwd 'cwd';
-+ use strict;
-++use warnings;
-+ 
-+ ## ----------- ##
-+ ## Variables.  ##
-+diff --git a/.pc/check-automake-cross-warning.patch/bin/autoreconf.in b/.pc/check-automake-cross-warning.patch/bin/autoreconf.in
-+index 11ff026..3240abc 100644
-+--- a/.pc/check-automake-cross-warning.patch/bin/autoreconf.in
-++++ b/.pc/check-automake-cross-warning.patch/bin/autoreconf.in
-+@@ -1,4 +1,4 @@
-+-#! @PERL@ -w
-++#! @PERL@
-+ # -*- perl -*-
-+ # @configure_input@
-+ 
-+@@ -45,6 +45,7 @@ use Autom4te::XFile;
-+ # Do not use Cwd::chdir, since it might hang.
-+ use Cwd 'cwd';
-+ use strict;
-++use warnings;
-+ 
-+ ## ----------- ##
-+ ## Variables.  ##
 +diff --git a/bin/autom4te.in b/bin/autom4te.in
 +index 11773c9..a8f5e41 100644
 +--- a/bin/autom4te.in
