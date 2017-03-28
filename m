@@ -1,18 +1,18 @@
 Return-Path: <patchwork@patchwork.openembedded.org>
 Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 4110A77B20;
-	Tue, 28 Mar 2017 19:02:25 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id 2A5D477AE1;
+	Tue, 28 Mar 2017 19:02:26 +0000 (UTC)
 MIME-Version: 1.0
 From: Patchwork <patchwork@patchwork.openembedded.org>
 To: Serhii Popovych <spopovyc@cisco.com>
 Date: Tue, 28 Mar 2017 19:02:27 -0000
-Message-ID: <20170328190227.6649.67586@do.openembedded.org>
-References: <cover.1490722167.git.spopovyc@cisco.com>
+Message-ID: <20170328190227.6647.76065@do.openembedded.org>
+References: <cover.1490726618.git.spopovyc@cisco.com>
 Reply-To: openembedded-core@lists.openembedded.org
 X-Patchwork-Hint: ignore
-In-Reply-To: <cover.1490722167.git.spopovyc@cisco.com>
+In-Reply-To: <cover.1490726618.git.spopovyc@cisco.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgYXV0b21ha2UvYXV0b2NvbmY6IGF2b2lkIHBhdGggdG8gcGVybCBpbnRlcnByZXRlciBoYXJkY29kaW5nIChyZXYyKQ==?=
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgZGlzdHV0aWxzOiBjb3JyZWN0IHBhdGggdG8gcHl0aG9uIGZvciBuYXRpdmVzZGs=?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,15 +25,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Mar 2017 19:02:25 -0000
+X-List-Received-Date: Tue, 28 Mar 2017 19:02:26 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
 == Series Details ==
 
-Series: automake/autoconf: avoid path to perl interpreter hardcoding (rev2)
-Revision: 2
-URL   : https://patchwork.openembedded.org/series/6028/
+Series: distutils: correct path to python for nativesdk
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/6029/
 State : failure
 
 == Summary ==
@@ -45,8 +45,9 @@ series by patchtest resulting in the following failures:
 
 
 
-* Issue             Upstream-Status is in incorrect format [test_upstream_status_format] 
-  Suggested fix    Fix Upstream-Status format in meta/recipes-devtools/autoconf/autoconf/autoconf-replace-w-option-in-shebangs-with-modern-use-warnings.patch so it is one of: Pending, Submitted, Accepted, Backport, Denied, Inappropriate
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at d68a86d87a)
 
 
 
