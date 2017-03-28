@@ -1,23 +1,29 @@
-Return-Path: <stefan@agner.ch>
-Received: from mail.kmu-office.ch (mail.kmu-office.ch [178.209.48.109])
-	by mail.openembedded.org (Postfix) with ESMTP id 069A077B96
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id C23F377AA9
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Mar 2017 22:47:19 +0000 (UTC)
-Received: from seahawk.toradex.int
-	(75-146-58-181-Washington.hfc.comcastbusiness.net [75.146.58.181])
-	by mail.kmu-office.ch (Postfix) with ESMTPSA id B3BB05C1316;
-	Wed, 29 Mar 2017 00:36:57 +0200 (CEST)
-From: Stefan Agner <stefan@agner.ch>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 28 Mar 2017 15:45:09 -0700
-Message-Id: <1490741109-18909-1-git-send-email-stefan@agner.ch>
-X-Mailer: git-send-email 2.7.4
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
-	t=1490740618; bh=LjWfkn3/fp8HLHKGUIhQF1jgSWpwX/5AGnQVGDTXSfA=;
-	h=From:To:Cc:Subject:Date:Message-Id;
-	b=GRvM6UAcWAN7p0Lh6AM/n40k4jeF0gj1pYn7AyjWTJSQUM2h9vYShL8HQnYxqKpiwPak2zV6g90MJvGW5uUysOv/u6KDjdTp/9mkDNAfA5QvDpbPBwPBpQ/22s/8QU2VpSTov1E+rG3aE2StrX6vF3Or4E9um1rRBXkY3pNXFqo=
-Cc: Stefan Agner <stefan.agner@toradex.com>
-Subject: [PATCH v2] util-linux: make blkdiscard a separate package
+	Tue, 28 Mar 2017 23:02:41 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTP id v2SN2foU016158; 
+	Wed, 29 Mar 2017 00:02:41 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id rCVWyBbmu_bW; Wed, 29 Mar 2017 00:02:41 +0100 (BST)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	v2SN2cEk016155
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Wed, 29 Mar 2017 00:02:40 +0100
+Message-ID: <1490742158.13980.296.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Peter Bergin <peter@berginkonsult.se>,
+	openembedded-core@lists.openembedded.org
+Date: Wed, 29 Mar 2017 00:02:38 +0100
+In-Reply-To: <1490731726-14536-1-git-send-email-peter@berginkonsult.se>
+References: <1490731726-14536-1-git-send-email-peter@berginkonsult.se>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.1 
+Mime-Version: 1.0
+Subject: Re: [PATCH] busybox: move default config fragments to defconfig
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,58 +36,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Mar 2017 22:47:21 -0000
+X-List-Received-Date: Tue, 28 Mar 2017 23:02:43 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: Stefan Agner <stefan.agner@toradex.com>
+On Tue, 2017-03-28 at 22:08 +0200, Peter Bergin wrote:
+> Move config fragments that are unconditionally and always applied
+> to the configuration to the default defconfig file. This will
+> make it easier to provide your own defconfig file for your target.
+> 
+> The problem this commit will solve is that if you provide your own
+> defconfig file for your target it will be tampered with by the
+> configuration fragments in SRC_URI. If you not want those
+> configurations in your own setup you have to modify SRC_URI
+> variable in your setup. As those confguration fragment was always
+> applied it is a better solution to have them in the default
+> defconfig file instead.
 
-Busybox doesn't provide a similar tool so having it in a
-separate package allows to use it in addition to busybox
-without having to include all of util-linux.
+This basically removes any standard feature grouping from being used in
+the base busybox recipe. I don't think this is something we want to
+encourage, I'd actually like to see more feature group usage.
 
-Before it was part of the top level util-linux package.
-Now it is a separate package util-linux-blkdiscard but the
-top level package still RRECOMMENDS it so for most users
-nothing should change.
+So we need to find some other way of solving your issue.
 
-Signed-off-by: Stefan Agner <stefan.agner@toradex.com>
----
- meta/recipes-core/util-linux/util-linux.inc | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+Cheers,
 
-diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
-index 63302a9..c07417f 100644
---- a/meta/recipes-core/util-linux/util-linux.inc
-+++ b/meta/recipes-core/util-linux/util-linux.inc
-@@ -30,8 +30,8 @@ PACKAGES =+ "util-linux-agetty util-linux-fdisk util-linux-cfdisk util-linux-sfd
-              util-linux-swaponoff util-linux-losetup util-linux-umount \
-              util-linux-mount util-linux-readprofile util-linux-uuidd \
-              util-linux-uuidgen util-linux-lscpu util-linux-fsck.cramfs util-linux-fsck \
--             util-linux-blkid util-linux-mkfs util-linux-mcookie util-linux-reset \
--             util-linux-lsblk util-linux-mkfs.cramfs util-linux-fstrim \
-+             util-linux-blkdiscard util-linux-blkid util-linux-mkfs util-linux-mcookie \
-+             util-linux-reset util-linux-lsblk util-linux-mkfs.cramfs util-linux-fstrim \
-              util-linux-partx util-linux-hwclock util-linux-mountpoint \
-              util-linux-findfs util-linux-getopt util-linux-sulogin util-linux-prlimit"
- PACKAGES += "${@bb.utils.contains('PACKAGECONFIG', 'pylibmount', 'util-linux-pylibmount', '', d)}"
-@@ -112,6 +112,8 @@ FILES_util-linux-blkid = "${base_sbindir}/blkid*"
- RCONFLICTS_util-linux-blkid = "e2fsprogs-blkid"
- RREPLACES_util-linux-blkid = "e2fsprogs-blkid"
- 
-+FILES_util-linux-blkdiscard = "${sbindir}/blkdiscard"
-+
- # reset calls 'tput'
- RDEPENDS_util-linux-reset += "ncurses"
- 
-@@ -120,7 +122,7 @@ RDEPENDS_util-linux-runuser += "libpam"
- RDEPENDS_${PN} = "util-linux-umount util-linux-swaponoff util-linux-losetup util-linux-sulogin util-linux-lsblk"
- RDEPENDS_${PN} += "${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'util-linux-runuser', '', d)}"
- 
--RRECOMMENDS_${PN} = "util-linux-fdisk util-linux-cfdisk util-linux-sfdisk util-linux-mount util-linux-readprofile util-linux-mkfs util-linux-mountpoint util-linux-prlimit"
-+RRECOMMENDS_${PN} = "util-linux-fdisk util-linux-cfdisk util-linux-sfdisk util-linux-mount util-linux-readprofile util-linux-mkfs util-linux-mountpoint util-linux-prlimit util-linux-blkdiscard"
- 
- RRECOMMENDS_${PN}_class-native = ""
- RRECOMMENDS_${PN}_class-nativesdk = ""
--- 
-2.7.4
-
+Richard
 
