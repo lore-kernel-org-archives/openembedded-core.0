@@ -1,58 +1,29 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-it0-f51.google.com (mail-it0-f51.google.com
-	[209.85.214.51])
-	by mail.openembedded.org (Postfix) with ESMTP id CF4B271A74
+Return-Path: <rpjday@crashcourse.ca>
+Received: from smtp685.redcondor.net (smtp685.redcondor.net [208.80.206.85])
+	by mail.openembedded.org (Postfix) with ESMTP id 980AB77B42
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Mar 2017 13:42:28 +0000 (UTC)
-Received: by mail-it0-f51.google.com with SMTP id e75so56423191itd.1
+	Tue, 28 Mar 2017 14:20:40 +0000 (UTC)
+Received: from astoria.ccjclearline.com ([64.235.106.9])
+	by smtp685.redcondor.net ({20c8e40f-6b6c-4c9e-abff-1640ea7bf404})
+	via TCP (outbound) with ESMTPS id 20170328141942271_0685
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Mar 2017 06:42:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:organization:mime-version:content-transfer-encoding;
-	bh=+iWoN5PKiLX4epjjqHwhtpJVwpfLBqr3CVJVBTtsyz8=;
-	b=vGcfzalIvq+7ic3QVO/tgaPeCunzNLds4taJLN7eLc0DZxHS2xA2oGzLzZm/LNcS9e
-	7P3g28GalSm+Xxq4N7R5IkFmq49hNpnG/h16tcdPFiF6nUNfJZu9nmmLpw6Z9/En9mVx
-	axeO0taRSl6RKYG5bVtp5rxkeD/xka/HlEMZLddYsPOaFdfNGJX5YyIqCv8OcVgpOcnx
-	UA+sSv7BIZKBmu3HoxZRhitxL3yYjXuHwxeBNzY/2daqMH0oO1EZUr1nvcC1LbROv/Yc
-	VNFcwDA8ZLrXzWpHfeQ6F7z6ZlbuC5WAfwVNnAH161roZ4AsQvuGAUMzJNWQsqmGNieW
-	ZhaA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:organization:mime-version:content-transfer-encoding;
-	bh=+iWoN5PKiLX4epjjqHwhtpJVwpfLBqr3CVJVBTtsyz8=;
-	b=UICYkO122cRuBiPjp48d88bSekXCtwzrpYB2ahGz/GQj/ESvxiUTGAMxcUhfL0SaDi
-	Gj+NqM70wz2VzYWTln+ZJjJVi9aVg7e5D6qDwiil/6swZRj6fMXWJuPzWBOV/87v+yVD
-	zEB5nEX8deAsIKfXR2yl9k9UO89lsOCYGJPMQhvzcNx4cbAvhqtCgpzoDDJJLYc+721E
-	Ag7t08EgWkGrsiLOrsq/YWdbL7e7sLzRV3H3AueVHG0IuEyoJvZsEvjPZHPuJg1dKI5F
-	MKD7yzBKBgOW9g6unXTJ4bYA84pwodjKAPQstZ9/m1yNlpmKuSWkKYguc/ySlOR4SYwI
-	OIVg==
-X-Gm-Message-State: AFeK/H0ti1/dBh40TO1Ou0EwOLjB3FBXKPnHNAQM0FLyZOY5GOKxMf0vq5OQHS2tJXjmQLxH
-X-Received: by 10.107.136.93 with SMTP id k90mr25812411iod.224.1490708548021; 
-	Tue, 28 Mar 2017 06:42:28 -0700 (PDT)
-Received: from pohly-mobl1 (p5DE8D2BA.dip0.t-ipconnect.de. [93.232.210.186])
-	by smtp.gmail.com with ESMTPSA id
-	s97sm1909697ioi.50.2017.03.28.06.42.25
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 28 Mar 2017 06:42:26 -0700 (PDT)
-Message-ID: <1490708543.6396.397.camel@intel.com>
-From: Patrick Ohly <patrick.ohly@intel.com>
-To: "Robert P. J. Day" <rpjday@crashcourse.ca>
-Date: Tue, 28 Mar 2017 15:42:23 +0200
-In-Reply-To: <alpine.LFD.2.20.1703280651250.4321@uk63952.mitel.com>
-References: <alpine.LFD.2.20.1703251400150.8339@localhost.localdomain>
-	<1490621485.13980.263.camel@linuxfoundation.org>
-	<alpine.LFD.2.20.1703280554060.2771@uk63952.mitel.com>
-	<e91ff8ce530942ef8f6711d3c7726f36@XBOX02.axis.com>
-	<alpine.LFD.2.20.1703280651250.4321@uk63952.mitel.com>
-Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
-X-Mailer: Evolution 3.12.9-1+b1 
-Mime-Version: 1.0
-Cc: Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
-	OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] classes: Replace "if test" file tests with POSIX file tests
+	Tue, 28 Mar 2017 07:19:42 -0700
+X-RC-FROM: <rpjday@crashcourse.ca>
+X-RC-RCPT: <openembedded-core@lists.openembedded.org>
+Received: from [216.191.234.70] (port=58831 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
+	id 1csry5-0004d2-Sg for openembedded-core@lists.openembedded.org;
+	Tue, 28 Mar 2017 10:19:29 -0400
+Date: Tue, 28 Mar 2017 10:19:28 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@uk63952.mitel.com
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Message-ID: <alpine.LFD.2.20.1703281010420.3894@uk63952.mitel.com>
+User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
+MIME-Version: 1.0
+X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
+Subject: how to specify *just* the KERNEL_IMAGETYPES i want?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -65,29 +36,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Mar 2017 13:42:30 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 28 Mar 2017 14:20:42 -0000
+Content-Type: text/plain; charset=US-ASCII
 
-On Tue, 2017-03-28 at 06:54 -0400, Robert P. J. Day wrote:
->   i'm fine with that, as long as it's officially POSIX. that also
-> suggests the alternate tests:
-> 
->   [ "${VAR}" ]
->   [ ! "${VAR}" ]
 
-I personally prefer this. ! instead of -z feels more consistent (when
-not using the special "-n", let's also avoid the special "-z" and use
-the more general "!" instead.
+  playing with building fit images, and i started with mpc8315e-rdb,
+built virtual/kernel using all defaults, and got this in images/:
+
+modules--4.9.8+git0+b65e9b6153_6b67f448d6-r0-mpc8315e-rdb-20170315095945.tgz
+uImage--4.9.8+git0+b65e9b6153_6b67f448d6-r0-mpc8315e-rdb-20170315095945.bin
+uImage--4.9.8+git0+b65e9b6153_6b67f448d6-r0-mpc8315erdb-20170315095945.dtb
+
+which is perfectly fine, since the machine conf file for that target
+includes the line:
+
+  KERNEL_IMAGETYPE = "uImage"
+
+now i start another (fresh) build, and add to local.conf the lines:
+
+  KERNEL_CLASSES = "kernel-fitimage"
+  KERNEL_IMAGETYPES = "fitImage"
+
+now my use of the above is my (alleged) way of saying, "i only want a
+fitImage", but given this snippet from kernel.bbclass:
+
+    # Merge KERNEL_IMAGETYPE and KERNEL_ALT_IMAGETYPE into KERNEL_IMAGETYPES
+    type = d.getVar('KERNEL_IMAGETYPE') or ""
+    alttype = d.getVar('KERNEL_ALT_IMAGETYPE') or ""
+    types = d.getVar('KERNEL_IMAGETYPES') or ""
+    if type not in types.split():
+        types = (type + ' ' + types).strip()
+
+i apparently get both the default as specified in the machine .conf
+file, *as well as* the fitImage i ask for. and, sure enough, in my
+images/ directory, i have uImages and fitImages (and zImages, but i
+believe that's because fitImages require them, so no big deal).
+
+  i suspect i could prevent the generation of uImages by using:
+
+  KERNEL_IMAGETYPE_mpc8315e-rdb = "fitImage"
+
+but from a clarity point of view, would it not make more sense that if
+someone had a line:
+
+  KERNEL_IMAGETYPES = " ... list of types ..."
+
+that should override whatever KERNEL_IMAGETYPE is in the machine conf
+file and generate *just* those images? or am i missing something here?
+
+rday
 
 -- 
-Best Regards, Patrick Ohly
 
-The content of this message is my personal opinion only and although
-I am an employee of Intel, the statements I make here in no way
-represent Intel's position on the issue, nor am I authorized to speak
-on behalf of Intel on this matter.
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
 
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
 
 
