@@ -1,46 +1,43 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f175.google.com (mail-qk0-f175.google.com
-	[209.85.220.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 8F1AC77A46
+Return-Path: <pidge@toganlabs.com>
+X-Greylist: delayed 424 seconds by postgrey-1.34 at layers.openembedded.org;
+	Tue, 28 Mar 2017 11:35:34 UTC
+Received: from egyptian.birch.relay.mailchannels.net
+	(egyptian.birch.relay.mailchannels.net [23.83.209.56])
+	by mail.openembedded.org (Postfix) with ESMTP id 2277E77A46
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Mar 2017 11:31:28 +0000 (UTC)
-Received: by mail-qk0-f175.google.com with SMTP id p22so62312999qka.3
+	Tue, 28 Mar 2017 11:35:34 +0000 (UTC)
+X-Sender-Id: hostpapa|x-authuser|pidge@toganlabs.com
+Received: from relay.mailchannels.net (localhost [127.0.0.1])
+	by relay.mailchannels.net (Postfix) with ESMTP id 44D557C1E99
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Mar 2017 04:31:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=oQ6lUDA4XvUkzH3N4I/oIvL1U8Ao0i7BOANNwuSPVVY=;
-	b=KbrYpnd2hXAW5z9/aW7HN5nVUoTIz13vv+ryl20cr0+F8QER0t8basJyPMFSUYtrhS
-	jPA2a9CkzXcMzuUL8j8kMtkMt7t+ytQOQuoZwkX6GE6uk5ohm3SxiECrzWd2FD9X6MBJ
-	jHA2T23UmxmLIlc36+dFk54OOdNg3VhgnzBS5OUW/x3z80ErhxGOEmqXFZgrahOlJ040
-	PlZKtlFUg4HMpYEwWnaMZIj0XZtmK4hH6DE0boj5TEgat31b+n6V/kBn4CWsgMFnGA9C
-	2xobTSV/o9/80vYn1JJ6efIZQB8I9IlzHodA/eK4UCy0MRomraGxcd1+p30znfia+icP
-	iZNw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=oQ6lUDA4XvUkzH3N4I/oIvL1U8Ao0i7BOANNwuSPVVY=;
-	b=dtPoGYEaelifcgJ9Ubiz3ehifDdg2DDQO10+snrITynhJwb85msjBlBQFLhWv5+oIG
-	n7cep8xT3mS/sRJH8W40TLRCzJgB1YCmbZ9Cs6fxv55KteS/gPtE+ZOsVq8FBKOOrovL
-	EEmpVMwPxXyx7ylJmmlBk3wN5t3bL/ZJzVxjC0mSenNXXzp12ceIfZEwHYz/VlpvK/H8
-	HpcS6Lzd8iAkqRizRfXV3C7UrQkFWRwdwcEOYk/GYTcYwihx1ZhkeOJVWfeu+Z8aV9+A
-	z9AabI+Benii2XMQ243o7WMhNpfkYUiFWpAL4U+40GyvJ1MQMO4KAxxAc10w4x1l4LAL
-	kANA==
-X-Gm-Message-State: AFeK/H3r7kh/Et7roYWu2+yXQurHJXgvX3TSREVTSBIOmAUBAqxhvKjjZQ9NA44xabXexFH32/id/ZeJKY6gR23P
-X-Received: by 10.55.47.4 with SMTP id v4mr24442096qkh.77.1490700689826; Tue,
-	28 Mar 2017 04:31:29 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.22.166 with HTTP; Tue, 28 Mar 2017 04:31:09 -0700 (PDT)
-In-Reply-To: <alpine.LFD.2.20.1703280641380.4243@uk63952.mitel.com>
-References: <alpine.LFD.2.20.1703280641380.4243@uk63952.mitel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 28 Mar 2017 12:31:09 +0100
-Message-ID: <CAJTo0LYhHdYHb8ecGCuF_L=Cf_29a0pW3_1yk7di402C3mObLA@mail.gmail.com>
-To: "Robert P. J. Day" <rpjday@crashcourse.ca>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] classes: Standardize strings tests, and join some if/then/while/do lines
+	Tue, 28 Mar 2017 11:28:10 +0000 (UTC)
+Received: from hp181.hostpapa.com (unknown [100.96.135.247])
+	by relay.mailchannels.net (Postfix) with ESMTPA id E7C347C284E
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 28 Mar 2017 11:28:09 +0000 (UTC)
+X-Sender-Id: hostpapa|x-authuser|pidge@toganlabs.com
+Received: from hp181.hostpapa.com (hp181.hostpapa.com [172.20.66.218])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384)
+	by 0.0.0.0:2500 (trex/5.7.37); Tue, 28 Mar 2017 11:28:10 +0000
+X-MC-Relay: Neutral
+X-MailChannels-SenderId: hostpapa|x-authuser|pidge@toganlabs.com
+X-MailChannels-Auth-Id: hostpapa
+X-Shoe-Squirrel: 04441e24406003e2_1490700490162_942027420
+X-MC-Loop-Signature: 1490700490162:895682194
+X-MC-Ingress-Time: 1490700490162
+Received: from ns325767.ip-37-187-157.eu ([37.187.157.197]:37755
+	helo=ns325767.ovh.net) by hp181.hostpapa.com with esmtpsa
+	(TLSv1.2:ECDHE-RSA-AES128-SHA256:128) (Exim 4.87)
+	(envelope-from <pidge@toganlabs.com>)
+	id 1cspIH-000UTE-3A; Tue, 28 Mar 2017 13:28:09 +0200
+From: Elizabeth 'pidge' Flanagan <pidge@toganlabs.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 28 Mar 2017 13:40:50 +0200
+Message-Id: <1490701251-20408-1-git-send-email-pidge@toganlabs.com>
+X-Mailer: git-send-email 1.9.1
+X-OutGoing-Spam-Status: No, score=5.0
+X-AuthUser: pidge@toganlabs.com
+Subject: [PATCH 1/2] aws-cli_1.11.66.bb: Initial commit of aws-cli
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,38 +50,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Mar 2017 11:31:34 -0000
-Content-Type: multipart/alternative; boundary=001a114f4108159baa054bc8cd54
+X-List-Received-Date: Tue, 28 Mar 2017 11:35:35 -0000
 
---001a114f4108159baa054bc8cd54
-Content-Type: text/plain; charset=UTF-8
+With fetch2 supporting s3, having an aws-cli recipe makes sense.
 
-On 28 March 2017 at 11:50, Robert P. J. Day <rpjday@crashcourse.ca> wrote:
+Signed-off-by: Elizabeth 'pidge' Flanagan <pidge@toganlabs.com>
+---
+ meta/recipes-devtools/aws-cli/aws-cli.inc        | 14 ++++++++++++++
+ meta/recipes-devtools/aws-cli/aws-cli_1.11.66.bb |  5 +++++
+ 2 files changed, 19 insertions(+)
+ create mode 100644 meta/recipes-devtools/aws-cli/aws-cli.inc
+ create mode 100644 meta/recipes-devtools/aws-cli/aws-cli_1.11.66.bb
 
->  gconf_postinst() {
-> -if [ "x$D" != "x" ]; then
-> +if [ -n "${D}" ]; then
->
+diff --git a/meta/recipes-devtools/aws-cli/aws-cli.inc b/meta/recipes-devtools/aws-cli/aws-cli.inc
+new file mode 100644
+index 0000000..e9a2677
+--- /dev/null
++++ b/meta/recipes-devtools/aws-cli/aws-cli.inc
+@@ -0,0 +1,14 @@
++SUMMARY = "Amazon Web Services Command Line Interface"
++DESCRIPTION = "The AWS Command Line Interface (CLI) is a \
++unified tool to manage your AWS services." 
++HOMEPAGE = "https://aws.amazon.com/cli/"
++SECTION = "console/utils"
++
++SRC_URI = "https://github.com/aws/${BPN}/archive/${PV}.tar.gz"
++
++LICENSE = "Apache-2.0"
++LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=71a3e14f29ac5c23e1b5b934ca4ddfc9"
++
++S = "${WORKDIR}/${BPN}-${PV}"
++
++BBCLASSEXTEND = "native nativesdk"
+diff --git a/meta/recipes-devtools/aws-cli/aws-cli_1.11.66.bb b/meta/recipes-devtools/aws-cli/aws-cli_1.11.66.bb
+new file mode 100644
+index 0000000..a96b71e
+--- /dev/null
++++ b/meta/recipes-devtools/aws-cli/aws-cli_1.11.66.bb
+@@ -0,0 +1,5 @@
++require aws-cli.inc
++
++SRC_URI[md5sum] = "c556adb58d0234eb661520488b9b467f"
++SRC_URI[sha256sum] = "2c1da406203e0a9b5c717004bd463228e4fa4fa8fe47208f0e1836c02bee6f60"
++
+-- 
+1.9.1
 
-This totally changes how the postinst behaves.  I'll leave understanding
-how as an exercise to the reader. :)
 
-Ross
-
---001a114f4108159baa054bc8cd54
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 28 March 2017 at 11:50, Robert P. J. Day <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:rpjday@crashcourse.ca" target=3D"_blank">rpjday@crashcourse.ca</=
-a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0=
- 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":23x" cla=
-ss=3D"a3s aXjCH m15b148a839a153ba">=C2=A0gconf_postinst() {<br>
--if [ &quot;x$D&quot; !=3D &quot;x&quot; ]; then<br>
-+if [ -n &quot;${D}&quot; ]; then<br></div></blockquote></div><br>This tota=
-lly changes how the postinst behaves.=C2=A0 I&#39;ll leave understanding ho=
-w as an exercise to the reader. :)</div><div class=3D"gmail_extra"><br></di=
-v><div class=3D"gmail_extra">Ross</div></div>
-
---001a114f4108159baa054bc8cd54--
