@@ -1,30 +1,24 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id C6B7E77A54
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 1FA5C77A4F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Mar 2017 12:44:07 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTP id v2SChhxJ008051; 
-	Tue, 28 Mar 2017 13:44:06 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id lwpH32fatH0Z; Tue, 28 Mar 2017 13:44:06 +0100 (BST)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v2SCi3JG008184
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Tue, 28 Mar 2017 13:44:04 +0100
-Message-ID: <1490705043.13980.277.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
-	openembedded-core@lists.openembedded.org
-Date: Tue, 28 Mar 2017 13:44:03 +0100
-In-Reply-To: <c03b3d4d91d37d2b620230fe29158478fe985afe.1490704144.git.pkj@axis.com>
-References: <cover.1490704144.git.pkj@axis.com>
-	<c03b3d4d91d37d2b620230fe29158478fe985afe.1490704144.git.pkj@axis.com>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.1 
-Mime-Version: 1.0
-Subject: Re: [PATCH 1/1] fetch2: Create/replace symbolic links atomically
+	Tue, 28 Mar 2017 12:58:08 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v2SCw8v2012470
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Tue, 28 Mar 2017 05:58:09 -0700
+Received: from yow-bashfiel-d4.wrs.com (128.224.56.94) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.294.0; Tue, 28 Mar 2017 05:58:08 -0700
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+To: <richard.purdie@linuxfoundation.org>
+Date: Tue, 28 Mar 2017 08:58:02 -0400
+Message-ID: <cover.1490705726.git.bruce.ashfield@windriver.com>
+X-Mailer: git-send-email 2.5.0
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH 0/5] linux-yocto: -stable, -rt updates and 4.8 removal
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,95 +31,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Mar 2017 12:44:08 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 28 Mar 2017 12:58:09 -0000
+Content-Type: text/plain
 
-On Tue, 2017-03-28 at 14:30 +0200, Peter Kjellerstedt wrote:
-> Under rare circumstances, creating symbolic links could fail because
-> the link already exists. At first glance the code seemed to protect
-> against this, but there was a small window where two separate tasks
-> could decide that a symbolic link needed to be created and then the
-> first task would create it and the second task would fail.
-> 
-> Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-> ---
->  bitbake/lib/bb/fetch2/__init__.py | 20 +++++++++++++-------
->  1 file changed, 13 insertions(+), 7 deletions(-)
+Hi all,
 
-As Ross says, this needs to go to the bitbake list. I'm also curious
-why not watch for the "AlreadyExists" exception (whatever it really is)
-and then simply pass over the error assuming the symlink points to the
-same place? That saves messing with temporary files.
+These are updates to the 4.4, 4.9 and 4.10 linux-yocto kernel trees to
+the latest -stable and -rt releases.
 
-I also worry a little about the locking? Why have you two fetch
-processes which are changing the same files but not covered by the same
-lock file? :/
+Nothing particular ground breaking here, but they are the usual set of
+CVE and bug fixes. Everything built and booted fine for me.
+
+I'm also removing the 4.8 linux-yocto recipe from master, since we are
+adding 4.10 for this release. I'll still be doing updates to 4.8, just
+not sending SRCREV updates to master.
 
 Cheers,
 
-Richard
+Bruce
 
-> diff --git a/bitbake/lib/bb/fetch2/__init__.py
-> b/bitbake/lib/bb/fetch2/__init__.py
-> index 464e66b98a..f891e34eab 100644
-> --- a/bitbake/lib/bb/fetch2/__init__.py
-> +++ b/bitbake/lib/bb/fetch2/__init__.py
-> @@ -25,7 +25,7 @@ BitBake build tools.
->  #
->  # Based on functions from the base bb module, Copyright 2003 Holger
-> Schurig
->  
-> -import os, re
-> +import os, re, tempfile
->  import signal
->  import logging
->  import urllib.request, urllib.parse, urllib.error
-> @@ -946,6 +946,16 @@ def rename_bad_checksum(ud, suffix):
->      bb.warn("Renaming %s to %s" % (ud.localpath, new_localpath))
->      bb.utils.movefile(ud.localpath, new_localpath)
->  
-> +def atomic_symlink(src, dst):
-> +    """Create/replace a symbolic link atomically."""
-> +
-> +    tmpname = tempfile.mktemp(prefix=dst)
-> +    os.symlink(src, tmpname)
-> +    try:
-> +        os.rename(tmpname, dst)
-> +    except OSError:
-> +        os.remove(tmpname)
-> +        raise
->  
->  def try_mirror_url(fetch, origud, ud, ld, check = False):
->      # Return of None or a value means we're finished
-> @@ -983,7 +993,7 @@ def try_mirror_url(fetch, origud, ud, ld, check =
-> False):
->                  open(ud.donestamp, 'w').close()
->              dest = os.path.join(dldir,
-> os.path.basename(ud.localpath))
->              if not os.path.exists(dest):
-> -                os.symlink(ud.localpath, dest)
-> +                atomic_symlink(ud.localpath, dest)
->              if not verify_donestamp(origud, ld) or
-> origud.method.need_update(origud, ld):
->                  origud.method.download(origud, ld)
->                  if hasattr(origud.method,"build_mirror_data"):
-> @@ -991,11 +1001,7 @@ def try_mirror_url(fetch, origud, ud, ld, check
-> = False):
->              return origud.localpath
->          # Otherwise the result is a local file:// and we symlink to
-> it
->          if not os.path.exists(origud.localpath):
-> -            if os.path.islink(origud.localpath):
-> -                # Broken symbolic link
-> -                os.unlink(origud.localpath)
-> -
-> -            os.symlink(ud.localpath, origud.localpath)
-> +            atomic_symlink(ud.localpath, origud.localpath)
->          update_stamp(origud, ld)
->          return ud.localpath
->  
-> -- 
-> 2.12.0
-> 
+The following changes since commit 49c2df5652d25e6e9b2a4976658ab9bb17fe6694:
+
+  meta-yocto-bsp: Remove superfluous OVERRIDES in machine conf files (2017-03-22 11:35:23 +0000)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib zedd/kernel
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
+
+Bruce Ashfield (5):
+  linux-yocto/4.10: update to v4.10.5
+  linux-yocto/4.9: update to v4.9.17
+  linux-yocto/4.4: update to v4.4.56
+  linux-yocto/4.9: integrate 4.9-rt12
+  linux-yocto: drop 4.8 recipes
+
+ meta/recipes-kernel/linux/linux-yocto-rt_4.10.bb   |  6 +--
+ meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb    |  6 +--
+ meta/recipes-kernel/linux/linux-yocto-rt_4.8.bb    | 38 -------------------
+ meta/recipes-kernel/linux/linux-yocto-rt_4.9.bb    |  6 +--
+ meta/recipes-kernel/linux/linux-yocto-tiny_4.10.bb |  6 +--
+ meta/recipes-kernel/linux/linux-yocto-tiny_4.4.bb  |  6 +--
+ meta/recipes-kernel/linux/linux-yocto-tiny_4.8.bb  | 25 ------------
+ meta/recipes-kernel/linux/linux-yocto-tiny_4.9.bb  |  6 +--
+ meta/recipes-kernel/linux/linux-yocto_4.10.bb      | 20 +++++-----
+ meta/recipes-kernel/linux/linux-yocto_4.4.bb       | 20 +++++-----
+ meta/recipes-kernel/linux/linux-yocto_4.8.bb       | 44 ----------------------
+ meta/recipes-kernel/linux/linux-yocto_4.9.bb       | 20 +++++-----
+ 12 files changed, 48 insertions(+), 155 deletions(-)
+ delete mode 100644 meta/recipes-kernel/linux/linux-yocto-rt_4.8.bb
+ delete mode 100644 meta/recipes-kernel/linux/linux-yocto-tiny_4.8.bb
+ delete mode 100644 meta/recipes-kernel/linux/linux-yocto_4.8.bb
+
+-- 
+2.5.0
+
 
