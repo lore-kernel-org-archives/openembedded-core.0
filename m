@@ -1,44 +1,23 @@
-Return-Path: <raltherr@google.com>
-Received: from mail-wm0-f47.google.com (mail-wm0-f47.google.com [74.125.82.47])
-	by mail.openembedded.org (Postfix) with ESMTP id D1CFC77B99
+Return-Path: <stefan@agner.ch>
+Received: from mail.kmu-office.ch (mail.kmu-office.ch [178.209.48.109])
+	by mail.openembedded.org (Postfix) with ESMTP id 069A077B96
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Mar 2017 22:37:02 +0000 (UTC)
-Received: by mail-wm0-f47.google.com with SMTP id x124so10624108wmf.0
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Mar 2017 15:37:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=PTHAk0M3G2zDGE0N7qeDe8bNmvPtyZaoPFkEuC+S8DM=;
-	b=QbEB3Ujwb9rzNbhYzRX2oj6wdCwIEX/6E1A0l6ja6sqiF7RHjjAhsaW8P2LI+/iaWq
-	VffoGedao/FzJa2rsSqTzqXZjidlVei55iJVg1/Q+/Q4Do30ps72cFcv6M1tT2Q/lnON
-	imAZ3Hot8868/YEAZc61SOe2znR+0U8mpjNvORm9bZ8nCv2J1cyQtTnblIFsk4Iplku6
-	VnqdjswIlWSg5sOA3cKQbEFXDIVAOEWtuYGMg6HGDzBu5JZVxG1tewdLaIwaEi17BDCe
-	9paPPy5SAmQQVlDXFJK3+HO2S+9ReE01M68Ve7Tmat79o4/dWypnyYxGk4Ec7FaloAgQ
-	rrRA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=PTHAk0M3G2zDGE0N7qeDe8bNmvPtyZaoPFkEuC+S8DM=;
-	b=lXKtPbBHM1FYM5oV/jOKDaeP/aHWiPYYTCwtMFUm9ChfcnhzpRlD/0uQ9y0kMCEH/m
-	JCAK1hcqRjsEJR4VJjcfnTym6cJkT4dL0/hZM8eSbLs0ugy87weVMI7VCIP6ML63LbjO
-	naAfSqRYLYPvn3bwhI6PWAInWXc2+ViuSKmCFFtZXRjWhDAIZ2qPaqvvb2ZR3cDGRP7c
-	DXfgKoYZKaJjadE/oNb6EvYHL0hGF1ksTaweba5egFZiRyHyv4b+f+BAH5+P5B0lCPvz
-	W60kwAJ9aKDf/DG3efyYnL6tWtRIupnKZVNEmASQH/yrWUhkCcOvUIDdTvQydzFL99Pc
-	wX+Q==
-X-Gm-Message-State: AFeK/H01nuusuqFSVJsXrMDuzdbVy9Jx7CtKSR/mEsS41MOXI1rzzQk8qNe1b2Y5Vc0dVXjkwiLK9s9ZU7DSR0UL
-X-Received: by 10.28.63.22 with SMTP id m22mr6132235wma.142.1490740622890;
-	Tue, 28 Mar 2017 15:37:02 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.28.169.8 with HTTP; Tue, 28 Mar 2017 15:37:02 -0700 (PDT)
-In-Reply-To: <alpine.LFD.2.20.1703281817440.27955@localhost.localdomain>
-References: <alpine.LFD.2.20.1703281817440.27955@localhost.localdomain>
-From: Rick Altherr <raltherr@google.com>
-Date: Tue, 28 Mar 2017 15:37:02 -0700
-Message-ID: <CAPLgG==F8OV8U6CVZ2yEyErUhCJw+UwHmbEaCmaXpJBaBeLHaA@mail.gmail.com>
-To: "Robert P. J. Day" <rpjday@crashcourse.ca>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: is there OE support for building multi-image/component FIT image files?
+	Tue, 28 Mar 2017 22:47:19 +0000 (UTC)
+Received: from seahawk.toradex.int
+	(75-146-58-181-Washington.hfc.comcastbusiness.net [75.146.58.181])
+	by mail.kmu-office.ch (Postfix) with ESMTPSA id B3BB05C1316;
+	Wed, 29 Mar 2017 00:36:57 +0200 (CEST)
+From: Stefan Agner <stefan@agner.ch>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 28 Mar 2017 15:45:09 -0700
+Message-Id: <1490741109-18909-1-git-send-email-stefan@agner.ch>
+X-Mailer: git-send-email 2.7.4
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
+	t=1490740618; bh=LjWfkn3/fp8HLHKGUIhQF1jgSWpwX/5AGnQVGDTXSfA=;
+	h=From:To:Cc:Subject:Date:Message-Id;
+	b=GRvM6UAcWAN7p0Lh6AM/n40k4jeF0gj1pYn7AyjWTJSQUM2h9vYShL8HQnYxqKpiwPak2zV6g90MJvGW5uUysOv/u6KDjdTp/9mkDNAfA5QvDpbPBwPBpQ/22s/8QU2VpSTov1E+rG3aE2StrX6vF3Or4E9um1rRBXkY3pNXFqo=
+Cc: Stefan Agner <stefan.agner@toradex.com>
+Subject: [PATCH v2] util-linux: make blkdiscard a separate package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,48 +30,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Mar 2017 22:37:03 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 28 Mar 2017 22:47:21 -0000
 
-kernel-fitimage.bbclass loops through all the DTBs listed in
-KERNEL_DEVICETREE and adds a FIT section for each one.  It looks like
-only the first one is put into a config section though.
+From: Stefan Agner <stefan.agner@toradex.com>
 
-On Tue, Mar 28, 2017 at 3:22 PM, Robert P. J. Day <rpjday@crashcourse.ca> wrote:
->
->   not sure i even know if i'm asking the right question, but i already
-> know that i can build a *basic* FIT image file for (as an example) a
-> mpc8315e-rdb target, just goofing around. the .its file contains a
-> node for the kernel, and the dtb file, and the corresponding
-> configuration node, so everything is fine.
->
->   however, let's say i was building for a beaglebone black, for which,
-> when you build the kernel. you get *multiple* dtb files for numerous
-> related targets.
->
->   is there OE support for defining .its files that contain multiple
-> kernels, and/or multiple dtb files, that automatically generates
-> multiple configurations nodes to cover those possibilities?
->
->   i realize you can do all that manually with the "mkimage" command,
-> i'm just not sure how far you can push creating FIT image files with
-> stock OE support.
->
-> rday
->
-> --
->
-> ========================================================================
-> Robert P. J. Day                                 Ottawa, Ontario, CANADA
->                         http://crashcourse.ca
->
-> Twitter:                                       http://twitter.com/rpjday
-> LinkedIn:                               http://ca.linkedin.com/in/rpjday
-> ========================================================================
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Busybox doesn't provide a similar tool so having it in a
+separate package allows to use it in addition to busybox
+without having to include all of util-linux.
+
+Before it was part of the top level util-linux package.
+Now it is a separate package util-linux-blkdiscard but the
+top level package still RRECOMMENDS it so for most users
+nothing should change.
+
+Signed-off-by: Stefan Agner <stefan.agner@toradex.com>
+---
+ meta/recipes-core/util-linux/util-linux.inc | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
+
+diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
+index 63302a9..c07417f 100644
+--- a/meta/recipes-core/util-linux/util-linux.inc
++++ b/meta/recipes-core/util-linux/util-linux.inc
+@@ -30,8 +30,8 @@ PACKAGES =+ "util-linux-agetty util-linux-fdisk util-linux-cfdisk util-linux-sfd
+              util-linux-swaponoff util-linux-losetup util-linux-umount \
+              util-linux-mount util-linux-readprofile util-linux-uuidd \
+              util-linux-uuidgen util-linux-lscpu util-linux-fsck.cramfs util-linux-fsck \
+-             util-linux-blkid util-linux-mkfs util-linux-mcookie util-linux-reset \
+-             util-linux-lsblk util-linux-mkfs.cramfs util-linux-fstrim \
++             util-linux-blkdiscard util-linux-blkid util-linux-mkfs util-linux-mcookie \
++             util-linux-reset util-linux-lsblk util-linux-mkfs.cramfs util-linux-fstrim \
+              util-linux-partx util-linux-hwclock util-linux-mountpoint \
+              util-linux-findfs util-linux-getopt util-linux-sulogin util-linux-prlimit"
+ PACKAGES += "${@bb.utils.contains('PACKAGECONFIG', 'pylibmount', 'util-linux-pylibmount', '', d)}"
+@@ -112,6 +112,8 @@ FILES_util-linux-blkid = "${base_sbindir}/blkid*"
+ RCONFLICTS_util-linux-blkid = "e2fsprogs-blkid"
+ RREPLACES_util-linux-blkid = "e2fsprogs-blkid"
+ 
++FILES_util-linux-blkdiscard = "${sbindir}/blkdiscard"
++
+ # reset calls 'tput'
+ RDEPENDS_util-linux-reset += "ncurses"
+ 
+@@ -120,7 +122,7 @@ RDEPENDS_util-linux-runuser += "libpam"
+ RDEPENDS_${PN} = "util-linux-umount util-linux-swaponoff util-linux-losetup util-linux-sulogin util-linux-lsblk"
+ RDEPENDS_${PN} += "${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'util-linux-runuser', '', d)}"
+ 
+-RRECOMMENDS_${PN} = "util-linux-fdisk util-linux-cfdisk util-linux-sfdisk util-linux-mount util-linux-readprofile util-linux-mkfs util-linux-mountpoint util-linux-prlimit"
++RRECOMMENDS_${PN} = "util-linux-fdisk util-linux-cfdisk util-linux-sfdisk util-linux-mount util-linux-readprofile util-linux-mkfs util-linux-mountpoint util-linux-prlimit util-linux-blkdiscard"
+ 
+ RRECOMMENDS_${PN}_class-native = ""
+ RRECOMMENDS_${PN}_class-nativesdk = ""
+-- 
+2.7.4
+
 
