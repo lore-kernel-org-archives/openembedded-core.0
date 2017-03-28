@@ -1,27 +1,29 @@
-Return-Path: <francisco.j.pedraza.gonzalez@intel.com>
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	by mail.openembedded.org (Postfix) with ESMTP id DEC8072FDC
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 63ECF6069D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Mar 2017 07:15:50 +0000 (UTC)
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-	by fmsmga105.fm.intel.com with ESMTP; 28 Mar 2017 00:15:51 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.36,235,1486454400"; d="scan'208";a="80056957"
-Received: from linux.intel.com ([10.54.29.200])
-	by orsmga005.jf.intel.com with ESMTP; 28 Mar 2017 00:15:51 -0700
-Received: from yocto-ab03.ostc.intel.com (yocto-ab03.ostc.intel.com
-	[10.54.69.73])
-	by linux.intel.com (Postfix) with ESMTP id 05B3F2C8001;
-	Tue, 28 Mar 2017 00:15:45 -0700 (PDT)
-From: Francisco Pedraza <francisco.j.pedraza.gonzalez@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 28 Mar 2017 00:15:41 -0700
-Message-Id: <1490685341-9889-2-git-send-email-francisco.j.pedraza.gonzalez@intel.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1490685341-9889-1-git-send-email-francisco.j.pedraza.gonzalez@intel.com>
-References: <1490685341-9889-1-git-send-email-francisco.j.pedraza.gonzalez@intel.com>
-Cc: Francisco Pedraza <francisco.j.pedraza.gonzalez@intel.com>
-Subject: [PATCH v3, 2/2] meta/classes/populate_sdk: Adds support for generating eSDK manifest files
+	Tue, 28 Mar 2017 07:53:47 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTP id v2S7ripw001999; 
+	Tue, 28 Mar 2017 08:53:44 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id 0beyXwnFPDVH; Tue, 28 Mar 2017 08:53:44 +0100 (BST)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	v2S7reZV001992
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Tue, 28 Mar 2017 08:53:41 +0100
+Message-ID: <1490687620.13980.273.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Ross Burton <ross.burton@intel.com>,
+	openembedded-core@lists.openembedded.org
+Date: Tue, 28 Mar 2017 08:53:40 +0100
+In-Reply-To: <1490628365-5428-1-git-send-email-ross.burton@intel.com>
+References: <1490628365-5428-1-git-send-email-ross.burton@intel.com>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.1 
+Mime-Version: 1.0
+Subject: Re: [PATCH 1/2] boost: build context and coroutine on ARM
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,78 +36,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Mar 2017 07:15:51 -0000
+X-List-Received-Date: Tue, 28 Mar 2017 07:53:48 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-The functionalities to generate SDK and eSDK manifest files are different,
-the SDK comes from package information and the eSDK comes from sstate artifacts.
-Only execute write_sdk_{host, target}_manifest when is on populate_sdk class.
+On Mon, 2017-03-27 at 16:26 +0100, Ross Burton wrote:
+> With the right flags to the build, the context library can be built
+> on ARM.
+> 
+> [ YOCTO #11253 ]
+> 
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
+> ---
+>  meta/recipes-support/boost/boost.inc | 11 ++++++++---
+>  1 file changed, 8 insertions(+), 3 deletions(-)
 
-Adds new functions write_sdk{host, target}_ext_manifest to execute on postprocess
-in populate_sdk_ext because at the end we have all the sstate artifacts to generate the manifest.
-[YOCTO #9038]
+Sorry, but:
 
-Signed-off-by: Francisco Pedraza <francisco.j.pedraza.gonzalez@intel.com>
----
- meta/classes/populate_sdk_base.bbclass |  6 +++---
- meta/classes/populate_sdk_ext.bbclass  | 27 +++++++++++++++++++++++++++
- 2 files changed, 30 insertions(+), 3 deletions(-)
+https://autobuilder.yocto.io/builders/nightly-arm/builds/270
+https://autobuilder.yocto.io/builders/nightly-arm-lsb/builds/218
 
-diff --git a/meta/classes/populate_sdk_base.bbclass b/meta/classes/populate_sdk_base.bbclass
-index 563582e..6928d02 100644
---- a/meta/classes/populate_sdk_base.bbclass
-+++ b/meta/classes/populate_sdk_base.bbclass
-@@ -87,9 +87,9 @@ python write_host_sdk_manifest () {
-     with open(d.getVar('SDK_HOST_MANIFEST'), 'w') as output:
-         output.write(format_pkg_list(pkgs, 'ver'))
- }
--
--POPULATE_SDK_POST_TARGET_COMMAND_append = " write_target_sdk_manifest ; write_sdk_test_data ; "
--POPULATE_SDK_POST_HOST_COMMAND_append = " write_host_sdk_manifest; "
-+POPULATE_SDK_POST_TARGET_COMMAND_append = " write_sdk_test_data ; "
-+POPULATE_SDK_POST_TARGET_COMMAND_append_task-populate-sdk  = " write_target_sdk_manifest ; "
-+POPULATE_SDK_POST_HOST_COMMAND_append_task-populate-sdk = " write_host_sdk_manifest; "
- SDK_PACKAGING_COMMAND = "${@'${SDK_PACKAGING_FUNC};' if '${SDK_PACKAGING_FUNC}' else ''}"
- SDK_POSTPROCESS_COMMAND = " create_sdk_files; check_sdk_sysroots; tar_sdk; ${SDK_PACKAGING_COMMAND} "
- 
-diff --git a/meta/classes/populate_sdk_ext.bbclass b/meta/classes/populate_sdk_ext.bbclass
-index 3bccb14..81d0050 100644
---- a/meta/classes/populate_sdk_ext.bbclass
-+++ b/meta/classes/populate_sdk_ext.bbclass
-@@ -83,6 +83,33 @@ TOOLCHAIN_OUTPUTNAME_task-populate-sdk-ext = "${TOOLCHAINEXT_OUTPUTNAME}"
- SDK_EXT_TARGET_MANIFEST = "${SDK_DEPLOY}/${TOOLCHAINEXT_OUTPUTNAME}.target.manifest"
- SDK_EXT_HOST_MANIFEST = "${SDK_DEPLOY}/${TOOLCHAINEXT_OUTPUTNAME}.host.manifest"
- 
-+python write_target_sdk_ext_manifest () {
-+    from oe.sdk import get_extra_sdkinfo
-+    sstate_dir = d.expand('${SDK_OUTPUT}/${SDKPATH}/sstate-cache')
-+    extra_info = get_extra_sdkinfo(sstate_dir)
-+    target = d.getVar('TARGET_SYS')
-+    target_multimach = d.getVar('MULTIMACH_TARGET_SYS')
-+    with open(d.getVar('SDK_EXT_TARGET_MANIFEST'), 'w') as f:
-+        for fn in extra_info['filesizes']:
-+            info = fn.split(':') #added
-+            if info[2] in (target, target_multimach):
-+                f.write("%s %s %s\n" % (info[1], info[2], info[3]))
-+}
-+
-+python write_host_sdk_ext_manifest () {
-+    from oe.sdk import get_extra_sdkinfo
-+    sstate_dir = d.expand('${SDK_OUTPUT}/${SDKPATH}/sstate-cache')
-+    extra_info = get_extra_sdkinfo(sstate_dir)
-+    host = d.getVar('BUILD_SYS')
-+    with open(d.getVar('SDK_EXT_HOST_MANIFEST'), 'w') as f:
-+        for fn in extra_info['filesizes']:
-+            info = fn.split(':') #added
-+            if info[2] == host:
-+                f.write("%s %s %s\n" % (info[1], info[2], info[3]))
-+}
-+
-+SDK_POSTPROCESS_COMMAND_append_task-populate-sdk-ext = "write_target_sdk_ext_manifest; write_host_sdk_ext_manifest; "
-+
- SDK_TITLE_task-populate-sdk-ext = "${@d.getVar('DISTRO_NAME') or d.getVar('DISTRO')} Extensible SDK"
- 
- def clean_esdk_builddir(d, sdkbasepath):
--- 
-1.8.3.1
+Cheers,
 
+Richard
 
