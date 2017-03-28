@@ -1,26 +1,30 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id 46F4E77B1F
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id C6B7E77A54
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Mar 2017 12:43:23 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga104.jf.intel.com with ESMTP; 28 Mar 2017 05:43:25 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.36,236,1486454400"; d="scan'208";a="839278070"
-Received: from linux.intel.com ([10.54.29.200])
-	by FMSMGA003.fm.intel.com with ESMTP; 28 Mar 2017 05:43:25 -0700
-Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
-	by linux.intel.com (Postfix) with ESMTP id 103F06A4006
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Mar 2017 05:43:17 -0700 (PDT)
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 28 Mar 2017 15:41:06 +0300
-Message-Id: <5c9fbe5d5f1ba56ebe17fc419c9a02b8c5dae685.1490704390.git.ed.bartosh@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <cover.1490704390.git.ed.bartosh@linux.intel.com>
-References: <cover.1490704390.git.ed.bartosh@linux.intel.com>
-Subject: [PATCH 9/9] oe-selftest: add test_image_bootpart_globbed test for wic
+	Tue, 28 Mar 2017 12:44:07 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTP id v2SChhxJ008051; 
+	Tue, 28 Mar 2017 13:44:06 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id lwpH32fatH0Z; Tue, 28 Mar 2017 13:44:06 +0100 (BST)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	v2SCi3JG008184
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Tue, 28 Mar 2017 13:44:04 +0100
+Message-ID: <1490705043.13980.277.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
+	openembedded-core@lists.openembedded.org
+Date: Tue, 28 Mar 2017 13:44:03 +0100
+In-Reply-To: <c03b3d4d91d37d2b620230fe29158478fe985afe.1490704144.git.pkj@axis.com>
+References: <cover.1490704144.git.pkj@axis.com>
+	<c03b3d4d91d37d2b620230fe29158478fe985afe.1490704144.git.pkj@axis.com>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.1 
+Mime-Version: 1.0
+Subject: Re: [PATCH 1/1] fetch2: Create/replace symbolic links atomically
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,37 +37,95 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Mar 2017 12:43:24 -0000
+X-List-Received-Date: Tue, 28 Mar 2017 12:44:08 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Test image-bootpart wic plugin with globbed value of
-IMAGE_BOOT_FILES variable to increase test coverage.
+On Tue, 2017-03-28 at 14:30 +0200, Peter Kjellerstedt wrote:
+> Under rare circumstances, creating symbolic links could fail because
+> the link already exists. At first glance the code seemed to protect
+> against this, but there was a small window where two separate tasks
+> could decide that a symbolic link needed to be created and then the
+> first task would create it and the second task would fail.
+> 
+> Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+> ---
+>  bitbake/lib/bb/fetch2/__init__.py | 20 +++++++++++++-------
+>  1 file changed, 13 insertions(+), 7 deletions(-)
 
-[YOCTO #10618]
+As Ross says, this needs to go to the bitbake list. I'm also curious
+why not watch for the "AlreadyExists" exception (whatever it really is)
+and then simply pass over the error assuming the symlink points to the
+same place? That saves messing with temporary files.
 
-Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
----
- meta/lib/oeqa/selftest/wic.py | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+I also worry a little about the locking? Why have you two fetch
+processes which are changing the same files but not covered by the same
+lock file? :/
 
-diff --git a/meta/lib/oeqa/selftest/wic.py b/meta/lib/oeqa/selftest/wic.py
-index f0d9dd9..2401aaa 100644
---- a/meta/lib/oeqa/selftest/wic.py
-+++ b/meta/lib/oeqa/selftest/wic.py
-@@ -748,3 +748,13 @@ part /etc --source rootfs --ondisk mmcblk0 --fstype=ext4 --exclude-path bin/ --r
-             wksname = os.path.splitext(os.path.basename(wks.name))[0]
-             out = glob(self.resultdir + "%s-*direct" % wksname)
-             self.assertEqual(1, len(out))
-+
-+    def test_image_bootpart_globbed(self):
-+        """Test globbed sources with image-bootpart plugin"""
-+        img = "core-image-minimal"
-+        cmd = "wic create sdimage-bootpart -e %s -o %s" % (img, self.resultdir)
-+        config = 'IMAGE_BOOT_FILES = "%s*"' % get_bb_var('KERNEL_IMAGETYPE', img)
-+        self.append_config(config)
-+        self.assertEqual(0, runCmd(cmd).status)
-+        self.remove_config(config)
-+        self.assertEqual(1, len(glob(self.resultdir + "sdimage-bootpart-*direct")))
--- 
-2.1.4
+Cheers,
 
+Richard
+
+> diff --git a/bitbake/lib/bb/fetch2/__init__.py
+> b/bitbake/lib/bb/fetch2/__init__.py
+> index 464e66b98a..f891e34eab 100644
+> --- a/bitbake/lib/bb/fetch2/__init__.py
+> +++ b/bitbake/lib/bb/fetch2/__init__.py
+> @@ -25,7 +25,7 @@ BitBake build tools.
+>  #
+>  # Based on functions from the base bb module, Copyright 2003 Holger
+> Schurig
+>  
+> -import os, re
+> +import os, re, tempfile
+>  import signal
+>  import logging
+>  import urllib.request, urllib.parse, urllib.error
+> @@ -946,6 +946,16 @@ def rename_bad_checksum(ud, suffix):
+>      bb.warn("Renaming %s to %s" % (ud.localpath, new_localpath))
+>      bb.utils.movefile(ud.localpath, new_localpath)
+>  
+> +def atomic_symlink(src, dst):
+> +    """Create/replace a symbolic link atomically."""
+> +
+> +    tmpname = tempfile.mktemp(prefix=dst)
+> +    os.symlink(src, tmpname)
+> +    try:
+> +        os.rename(tmpname, dst)
+> +    except OSError:
+> +        os.remove(tmpname)
+> +        raise
+>  
+>  def try_mirror_url(fetch, origud, ud, ld, check = False):
+>      # Return of None or a value means we're finished
+> @@ -983,7 +993,7 @@ def try_mirror_url(fetch, origud, ud, ld, check =
+> False):
+>                  open(ud.donestamp, 'w').close()
+>              dest = os.path.join(dldir,
+> os.path.basename(ud.localpath))
+>              if not os.path.exists(dest):
+> -                os.symlink(ud.localpath, dest)
+> +                atomic_symlink(ud.localpath, dest)
+>              if not verify_donestamp(origud, ld) or
+> origud.method.need_update(origud, ld):
+>                  origud.method.download(origud, ld)
+>                  if hasattr(origud.method,"build_mirror_data"):
+> @@ -991,11 +1001,7 @@ def try_mirror_url(fetch, origud, ud, ld, check
+> = False):
+>              return origud.localpath
+>          # Otherwise the result is a local file:// and we symlink to
+> it
+>          if not os.path.exists(origud.localpath):
+> -            if os.path.islink(origud.localpath):
+> -                # Broken symbolic link
+> -                os.unlink(origud.localpath)
+> -
+> -            os.symlink(ud.localpath, origud.localpath)
+> +            atomic_symlink(ud.localpath, origud.localpath)
+>          update_stamp(origud, ld)
+>          return ud.localpath
+>  
+> -- 
+> 2.12.0
+> 
 
