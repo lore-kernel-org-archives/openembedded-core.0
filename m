@@ -1,25 +1,18 @@
-Return-Path: <stefan@agner.ch>
-X-Greylist: delayed 428 seconds by postgrey-1.34 at layers.openembedded.org;
-	Tue, 28 Mar 2017 21:04:48 UTC
-Received: from mail.kmu-office.ch (mail.kmu-office.ch [178.209.48.109])
-	by mail.openembedded.org (Postfix) with ESMTP id F409877BAD
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Mar 2017 21:04:48 +0000 (UTC)
-Received: from seahawk.toradex.int
-	(75-146-58-181-Washington.hfc.comcastbusiness.net [75.146.58.181])
-	by mail.kmu-office.ch (Postfix) with ESMTPSA id 0BF3F5C1251;
-	Tue, 28 Mar 2017 22:47:17 +0200 (CEST)
-From: Stefan Agner <stefan@agner.ch>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 28 Mar 2017 13:57:32 -0700
-Message-Id: <1490734652-13327-1-git-send-email-stefan@agner.ch>
-X-Mailer: git-send-email 2.7.4
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
-	t=1490734038; bh=QDVkAT+QtDKGZK4YuWi8zOuYfh/YiXRMjFkFb2Co7ag=;
-	h=From:To:Cc:Subject:Date:Message-Id;
-	b=SknYitT8AlHDgSg5skntDRIw4HhjhoDoGJkGyew0Cg8MjxdxYudYU96RtAYH5FeJRfVx78UWDDDt5aTAQ1cIGWFhpK/SbsSmtfULVYZo3SR8L4XRdlnliL0gX4kZnohXfuFfNNKgMrMmnvTal+CNzoBDCKJqgO2IMmxfvw+nGKg=
-Cc: Stefan Agner <stefan.agner@toradex.com>
-Subject: [PATCH] util-linux: make blkdiscard a separate package
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 3B5C772F3B;
+	Tue, 28 Mar 2017 21:32:05 +0000 (UTC)
+MIME-Version: 1.0
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Stefan Agner <stefan@agner.ch>
+Date: Tue, 28 Mar 2017 21:32:07 -0000
+Message-ID: <20170328213207.6645.45279@do.openembedded.org>
+References: <1490734652-13327-1-git-send-email-stefan@agner.ch>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <1490734652-13327-1-git-send-email-stefan@agner.ch>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgdXRpbC1saW51eDogbWFrZSBibGtkaXNjYXJkIGEgc2VwYXJhdGUgcGFja2FnZQ==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,55 +25,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Mar 2017 21:04:49 -0000
+X-List-Received-Date: Tue, 28 Mar 2017 21:32:05 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-From: Stefan Agner <stefan.agner@toradex.com>
+== Series Details ==
 
-Busybox doesn't provide a similar tool so having it in a
-separate package allows to use it in addition to busybox
-without having to include all of util-linux.
+Series: util-linux: make blkdiscard a separate package
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/6038/
+State : failure
 
-Before it was part of the top level util-linux package.
-Now it is a separate package util-linux-blkdiscard but the
-top level package still RRECOMMENDS it so for most users
-nothing should change.
+== Summary ==
 
-Signed-off-by: Stefan Agner <stefan.agner@toradex.com>
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at d68a86d87a)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- meta/recipes-core/util-linux/util-linux.inc | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
-
-diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
-index 21815fb..434c453 100644
---- a/meta/recipes-core/util-linux/util-linux.inc
-+++ b/meta/recipes-core/util-linux/util-linux.inc
-@@ -30,6 +30,7 @@ PACKAGES =+ "util-linux-agetty util-linux-fdisk util-linux-cfdisk util-linux-sfd
-              util-linux-swaponoff util-linux-losetup util-linux-umount \
-              util-linux-mount util-linux-readprofile util-linux-uuidd \
-              util-linux-uuidgen util-linux-lscpu util-linux-fsck util-linux-blkid \
-+             util-linux-blkdiscard \
-              util-linux-mkfs util-linux-mcookie util-linux-reset \
-              util-linux-mkfs.cramfs util-linux-fsck.cramfs util-linux-fstrim \
-              util-linux-partx util-linux-hwclock util-linux-mountpoint \
-@@ -111,6 +112,8 @@ FILES_util-linux-blkid = "${base_sbindir}/blkid*"
- RCONFLICTS_util-linux-blkid = "e2fsprogs-blkid"
- RREPLACES_util-linux-blkid = "e2fsprogs-blkid"
- 
-+FILES_util-linux-blkdiscard = "${sbindir}/blkdiscard"
-+
- # reset calls 'tput'
- RDEPENDS_util-linux-reset += "ncurses"
- 
-@@ -119,7 +122,7 @@ RDEPENDS_util-linux-runuser += "libpam"
- RDEPENDS_${PN} = "util-linux-umount util-linux-swaponoff util-linux-losetup util-linux-sulogin"
- RDEPENDS_${PN} += "${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'util-linux-runuser', '', d)}"
- 
--RRECOMMENDS_${PN} = "util-linux-fdisk util-linux-cfdisk util-linux-sfdisk util-linux-mount util-linux-readprofile util-linux-mkfs util-linux-mountpoint util-linux-prlimit"
-+RRECOMMENDS_${PN} = "util-linux-fdisk util-linux-cfdisk util-linux-sfdisk util-linux-mount util-linux-readprofile util-linux-mkfs util-linux-mountpoint util-linux-prlimit util-linux-blkdiscard"
- 
- RRECOMMENDS_${PN}_class-native = ""
- RRECOMMENDS_${PN}_class-nativesdk = ""
--- 
-2.7.4
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
