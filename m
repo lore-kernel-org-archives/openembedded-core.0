@@ -1,48 +1,53 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f178.google.com (mail-qk0-f178.google.com
-	[209.85.220.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 1931C77A4A
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
+	by mail.openembedded.org (Postfix) with ESMTP id 470AC71A21
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Mar 2017 12:23:25 +0000 (UTC)
-Received: by mail-qk0-f178.google.com with SMTP id d10so57491607qke.1
+	Tue, 28 Mar 2017 12:30:48 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bes.se.axis.com (Postfix) with ESMTP id EDC0B2E2FD
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Mar 2017 05:23:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=Egaq8Db7vNmkhHYWhFrlqs9pyScp7Ul7O07tmV/g1Fg=;
-	b=SnYmsSf/dCPqL7UPJqSF7JSZtXk/9f0133BjJqdr1frm0ODpNG3VU+6nbzho36p7eU
-	qxfue66iN1LJrBvl5jmLzaH42I97MciePJtpdpIO0HY1jlFu9IfbcsVySXQdPEMf6JC6
-	csbuCpHKgdaZkAs+zPwyrCUSh9kdGZwED5x2WvJMYIaQ6ZJeT92dosnI0LenJKbYUyRK
-	k8K9wUuRWkpNn2MNKc809u3yL6kgeDR/qhIiMm/cPMbboDfH+xHhhaYqYKCn8BU2C+1w
-	tXGOrE0fRxGhlbOyMonyUwzhB5aR61niDVkK01GViQpSSfm8vZ1+zO4gQPmqcwIVKsBb
-	uWPA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=Egaq8Db7vNmkhHYWhFrlqs9pyScp7Ul7O07tmV/g1Fg=;
-	b=a+HiTQKdVOCjhINIBCgpfq4lL7MueZ+WPKFU/2TIpFgEV1+yB8XbXs5b0hiL4UO0q5
-	Wz5wOR3GThILPB7VybcJUybc35WSPFekfGcQ3bhOc6GEht1/TFh6fEwmy3b508+OqiXT
-	Zy9Jk/5GhhZnOqqaLQ7SxE6X2zfewTsI6mkyLj4Q+2pmCgkNHZdltPkwhM/GKp/vWR88
-	0UkJQe34zNQSMtXp09pOQkcxBIPvQwyj5e0MtL9R2imauQekZw7tc/I65N8WbDBJZN4B
-	dlN27jN0Ksk7SMsUjC6HZJVBHSDS9OgOdUen9ni7zbASwMWitOZMnj8MRD8jM9Fn0EXE
-	Psgg==
-X-Gm-Message-State: AFeK/H3hD+EkIc6HMhcoN7wwIs+AJDSPJVFuTcXzui9rPsBu9GXTi6v3IFWNrV/WFONQABtzK99fKGTfY9KHhRej
-X-Received: by 10.55.108.195 with SMTP id h186mr28257078qkc.36.1490703806848; 
-	Tue, 28 Mar 2017 05:23:26 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.22.166 with HTTP; Tue, 28 Mar 2017 05:23:06 -0700 (PDT)
-In-Reply-To: <alpine.LFD.2.20.1703280816090.29290@uk63952.mitel.com>
-References: <alpine.LFD.2.20.1703280641380.4243@uk63952.mitel.com>
-	<CAJTo0LYhHdYHb8ecGCuF_L=Cf_29a0pW3_1yk7di402C3mObLA@mail.gmail.com>
-	<alpine.LFD.2.20.1703280816090.29290@uk63952.mitel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 28 Mar 2017 13:23:06 +0100
-Message-ID: <CAJTo0LZcxahN6dOTp9sSZ4uMzGVwi+n1OqfdvQnYaHk5q+5JKw@mail.gmail.com>
-To: "Robert P. J. Day" <rpjday@crashcourse.ca>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] classes: Standardize strings tests, and join some if/then/while/do lines
+	Tue, 28 Mar 2017 14:30:49 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
+Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP id Zk0guOddrLUA
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 28 Mar 2017 14:30:48 +0200 (CEST)
+Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
+	by bes.se.axis.com (Postfix) with ESMTPS id CB2712E2CD
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 28 Mar 2017 14:30:47 +0200 (CEST)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id A15B01A06F
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 28 Mar 2017 14:30:47 +0200 (CEST)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 9665C1A075
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 28 Mar 2017 14:30:47 +0200 (CEST)
+Received: from thoth.se.axis.com (unknown [10.0.2.173])
+	by boulder02.se.axis.com (Postfix) with ESMTP
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 28 Mar 2017 14:30:47 +0200 (CEST)
+Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
+	by thoth.se.axis.com (Postfix) with ESMTP id 89491212D
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 28 Mar 2017 14:30:47 +0200 (CEST)
+Received: from saur-2.se.axis.com (localhost [127.0.0.1])
+	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id v2SCUlnD023958
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 28 Mar 2017 14:30:47 +0200
+Received: (from pkj@localhost)
+	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id v2SCUl3j023957
+	for openembedded-core@lists.openembedded.org;
+	Tue, 28 Mar 2017 14:30:47 +0200
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 28 Mar 2017 14:30:42 +0200
+Message-Id: <cover.1490704144.git.pkj@axis.com>
+X-Mailer: git-send-email 2.12.0
+X-TM-AS-GCONF: 00
+Subject: [PATCH 0/1] Create symbolic links atomically in the fetcher
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,62 +60,128 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Mar 2017 12:23:26 -0000
-Content-Type: multipart/alternative; boundary=001a114fe79adf7ca8054bc98639
+X-List-Received-Date: Tue, 28 Mar 2017 12:30:50 -0000
 
---001a114fe79adf7ca8054bc98639
-Content-Type: text/plain; charset=UTF-8
+We have occasional failures in our autobuilders where a setscene task
+fails, causing the original task to be run instead, but bitbake still
+fails with an error code in the end, causing unnecessary grief. One
+such case has been identified through the following error log:
 
-On 28 March 2017 at 13:18, Robert P. J. Day <rpjday@crashcourse.ca> wrote:
+The stack trace of python calls that resulted in this exception/failure was:
+File: 'exec_python_func() autogenerated', lineno: 2, function: <module>
+     0001:
+ *** 0002:do_package_write_rpm_setscene(d)
+     0003:
+File: '${COREBASE}/meta/classes/package_rpm.bbclass', lineno: 757, function: do_package_write_rpm_setscene
+     0753:# but we need to stop the rootfs/solver from running while we do...
+     0754:do_package_write_rpm[sstate-lockfile-shared] += "${DEPLOY_DIR_RPM}/rpm.lock"
+     0755:
+     0756:python do_package_write_rpm_setscene () {
+ *** 0757:    sstate_setscene(d)
+     0758:}
+     0759:addtask do_package_write_rpm_setscene
+     0760:
+     0761:python do_package_write_rpm () {
+File: '${COREBASE}/meta/classes/sstate.bbclass', lineno: 648, function: sstate_setscene
+     0644:            break
+     0645:
+     0646:def sstate_setscene(d):
+     0647:    shared_state = sstate_state_fromvars(d)
+ *** 0648:    accelerate = sstate_installpkg(shared_state, d)
+     0649:    if not accelerate:
+     0650:        raise bb.build.FuncFailed("No suitable staging package found")
+     0651:
+     0652:python sstate_task_prefunc () {
+File: '${COREBASE}/meta/classes/sstate.bbclass', lineno: 297, function: sstate_installpkg
+     0293:    sstatefetch = d.getVar('SSTATE_PKGNAME', True) + '_' + ss['task'] + ".tgz"
+     0294:    sstatepkg = d.getVar('SSTATE_PKG', True) + '_' + ss['task'] + ".tgz"
+     0295:
+     0296:    if not os.path.exists(sstatepkg):
+ *** 0297:        pstaging_fetch(sstatefetch, sstatepkg, d)
+     0298:
+     0299:    if not os.path.isfile(sstatepkg):
+     0300:        bb.note("Staging package %s does not exist" % sstatepkg)
+     0301:        return False
+File: '${COREBASE}/meta/classes/sstate.bbclass', lineno: 635, function: pstaging_fetch
+     0631:    for srcuri in uris:
+     0632:        localdata.setVar('SRC_URI', srcuri)
+     0633:        try:
+     0634:            fetcher = bb.fetch2.Fetch([srcuri], localdata, cache=False)
+ *** 0635:            fetcher.download()
+     0636:
+     0637:            # Need to optimise this, if using file:// urls, the fetcher just changes the local path
+     0638:            # For now work around by symlinking
+     0639:            localpath = bb.data.expand(fetcher.localpath(srcuri), localdata)
+File: '${COREBASE}/poky/bitbake/lib/bb/fetch2/__init__.py', lineno: 1572, function: download
+     1568:                    localpath = ud.localpath
+     1569:                elif m.try_premirror(ud, self.d):
+     1570:                    logger.debug(1, "Trying PREMIRRORS")
+     1571:                    mirrors = mirror_from_string(self.d.getVar('PREMIRRORS', True))
+ *** 1572:                    localpath = try_mirrors(self, self.d, ud, mirrors, False)
+     1573:
+     1574:                if premirroronly:
+     1575:                    self.d.setVar("BB_NO_NETWORK", "1")
+     1576:
+File: '${COREBASE}/poky/bitbake/lib/bb/fetch2/__init__.py', lineno: 1020, function: try_mirrors
+     1016:
+     1017:    uris, uds = build_mirroruris(origud, mirrors, ld)
+     1018:
+     1019:    for index, uri in enumerate(uris):
+ *** 1020:        ret = try_mirror_url(fetch, origud, uds[index], ld, check)
+     1021:        if ret != False:
+     1022:            return ret
+     1023:    return None
+     1024:
+File: '${COREBASE}/poky/bitbake/lib/bb/fetch2/__init__.py', lineno: 978, function: try_mirror_url
+     0974:            if os.path.islink(origud.localpath):
+     0975:                # Broken symbolic link
+     0976:                os.unlink(origud.localpath)
+     0977:
+ *** 0978:            os.symlink(ud.localpath, origud.localpath)
+     0979:        update_stamp(origud, ld)
+     0980:        return ud.localpath
+     0981:
+     0982:    except bb.fetch2.NetworkAccess:
+Exception: OSError: [Errno 17] File exists
 
->   ok, i thought i knew what you meant but now, i'm just drawing a
-> blank. in what way is that not testing for a non-empty string as the
-> value of D? what painfully obvious clue am i missing?
->
+What happens here is that two tasks simultaneously decide to download
+something, and both come to the conclusion that they need to create a
+symbolic link. And even if there is a check for whether the link
+already exists, there is a small window of time where both tasks see
+the missing link and tries to create it with the result that the
+second task fails as per above.
 
-The gconf_postinst is shell to be executed in the package management
-postinst code, so either at rootfs time, or first boot for the ones that
-didn't work at rootfs, or when the package is installed on the target.
+The change provided here causes the link creation to be made in an
+atomic way so that even if two tasks actually do decide that they need
+to create the same link, neither of them will fail.
 
-The postinst can tell those apart by inspecting the value of the
-environment variable $D, which if set means the postinst is running on the
-host in the rootfs context, so should prefix all paths with $D.
+I do not know if this solves the same problem that is solved by commit
+b8b14d975a254444461ba857fc6fb8c725de8874 on the master-next branch in
+the bitbake repository. Since I have no way to recreate the failure in
+a controlled way, I cannot test if the change on the master-next
+branch also solves it or not. Its description does not exactly match
+our situation (we do not map file:// URLs to http:// URLs in our
+SSTATE_MIRRORS), but maybe someone with better knowledge of the code
+can tell if either or both changes are needed.
 
-$D *needs* to be fetched from the environment when the script is executing,
-and using ${D} will result in *bitbake* expanding it whilst writing the
-package, where it is the path to the package staging directory.
+//Peter
 
-(yes, using a different variable name that wasn't overloaded wouldn't cause
-this problem)
+The following changes since commit 415b72ffcbd26e5f3664370d8b2a9b8105fb6342:
 
-Ross
+  dnf: remove systemd units in nativesdk builds (2017-03-28 10:34:37 +0100)
 
---001a114fe79adf7ca8054bc98639
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+are available in the git repository at:
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 28 March 2017 at 13:18, Robert P. J. Day <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:rpjday@crashcourse.ca" target=3D"_blank">rpjday@crashcourse.ca</=
-a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0=
- 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":3ms" cla=
-ss=3D"a3s aXjCH m15b14db286875907">=C2=A0 ok, i thought i knew what you mea=
-nt but now, i&#39;m just drawing a<br>
-blank. in what way is that not testing for a non-empty string as the<br>
-value of D? what painfully obvious clue am i missing?</div></blockquote></d=
-iv><br>The gconf_postinst is shell to be executed in the package management=
- postinst code, so either at rootfs time, or first boot for the ones that d=
-idn&#39;t work at rootfs, or when the package is installed on the target.</=
-div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">The pos=
-tinst can tell those apart by inspecting the value of the environment varia=
-ble $D, which if set means the postinst is running on the host in the rootf=
-s context, so should prefix all paths with $D.</div><div class=3D"gmail_ext=
-ra"><br></div><div class=3D"gmail_extra">$D *needs* to be fetched from the =
-environment when the script is executing, and using ${D} will result in *bi=
-tbake* expanding it whilst writing the package, where it is the path to the=
- package staging directory.</div><div class=3D"gmail_extra"><br></div><div =
-class=3D"gmail_extra">(yes, using a different variable name that wasn&#39;t=
- overloaded wouldn&#39;t cause this problem)</div><div class=3D"gmail_extra=
-"><br></div><div class=3D"gmail_extra">Ross</div></div>
+  git://git.yoctoproject.org/poky-contrib pkj/atomic_symlinks
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=pkj/atomic_symlinks
 
---001a114fe79adf7ca8054bc98639--
+Peter Kjellerstedt (1):
+  fetch2: Create/replace symbolic links atomically
+
+ bitbake/lib/bb/fetch2/__init__.py | 20 +++++++++++++-------
+ 1 file changed, 13 insertions(+), 7 deletions(-)
+
+-- 
+2.12.0
+
+
