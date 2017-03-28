@@ -1,46 +1,62 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-ot0-f179.google.com (mail-ot0-f179.google.com
-	[74.125.82.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 8171477AF0
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-ot0-f171.google.com (mail-ot0-f171.google.com
+	[74.125.82.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 857D277A8F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Mar 2017 20:12:20 +0000 (UTC)
-Received: by mail-ot0-f179.google.com with SMTP id t8so55347507otf.3
+	Tue, 28 Mar 2017 20:52:14 +0000 (UTC)
+Received: by mail-ot0-f171.google.com with SMTP id y88so60534998ota.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Mar 2017 13:12:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=Tb2saieXxMvvUFXWKO7BVsj3CzT2dO3XHhH1IVOrfYY=;
-	b=d/MDpkxq1cRU1fPjjfvJ6158ossc9vdTR3jr9yjy0YdZxIT1YymanGt+rQLfERRD9H
-	aYFgtOFkYaY7DS+GWbrtF1yjroA+Uj7Jdd6BQQYs4Cmrogk+hpEqF+Z+jbiSeLx2PTek
-	T+NAdJ5ypKHzIbvAnyW0Y0IBKr7QiDp+Iwkl4ekdlpUWEzfoJHOL4tNpSbVfPRUbo+Ol
-	iBF3itRMQltbOcbOGpkUJQJMclUjmavpgG1bfZZHVWRb+Hb/jauqs1IGHlGJmSa9RShj
-	CdrY6t/hfDGKnblzI2B/qDvsVRVeeCeoJA9F1bZiWx6hgbXQSeRIhdAmjy8+75SB0ByP
-	GtxQ==
+	Tue, 28 Mar 2017 13:52:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=/9L6YTYl5DqXcjVpm71bkrkdeOlpAkzC+RHn5h06b6M=;
+	b=p1ZuraBFKCyhKODIqXcSDJ7SR8Obj7A4+TTGs5goFJNiMiSXJRTTg1ntyioEPpf3aA
+	2DsA0DQXYQ6sI+GbzttB9Z8DSYdx0ajhU/wIaRADicZhgdp46Zi6odkAbrkHj5JB4mXb
+	ylyq+puMuNE+2MoS/uC7/ZNGWTTBynKe2g2Vp864XEzb4WLUlhKmFOd8Kkug2I6AZu7B
+	FYPE04lz/dImz9GMpVbHnqxpjf8BySuBJjTJ6Nwx+GCvLFkypqnl5IDMrlIGZ+8lovjh
+	QUa1ezX377tCJmBm+aNQJjw9sZ4pJKBlE+PvjueDLarKJp9Wo1LzDnp3ePbsO5+mh6QL
+	/XwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=Tb2saieXxMvvUFXWKO7BVsj3CzT2dO3XHhH1IVOrfYY=;
-	b=U7rk5Om6zlRk/Q1RJNcteJgQSSMguvYYk8lNHFlKHm2L92Txi8HY1w+BjK+UXN4nGV
-	qsZy2ObBzCf2NB9aJUpsKW44E1GcU4d2mBnOrUyscVaXpsVFWPxldtuUjYXddQdN6Ion
-	06nUe8RPn3FTKDsZSDIekO7rMmdXw1+ykuV7iIYZzpl1PN2792r7drbk+kjoRkDei3Eu
-	RlnRAL9UU9yAPik67WkCh4kQUKXt/oM0FyDUURpQ4iwsPG3ZIVEu8rTKpJdq6diLBv0u
-	kCk5zJp1euXoySB/WRVmBaH1mgV5zlV7bNbFMrBkgSFApbGnB1/P7lkW+3vCLgpe1mwK
-	Sk1A==
-X-Gm-Message-State: AFeK/H0pkjsLN4l0tEd6ThamXW8B1w2rKH1r3Bq955x+mZU1dtrgshHfILAbbeentMoyi/LL3Kiw+xN0mrro0g==
-X-Received: by 10.157.58.68 with SMTP id j62mr15463886otc.145.1490731942249;
-	Tue, 28 Mar 2017 13:12:22 -0700 (PDT)
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=/9L6YTYl5DqXcjVpm71bkrkdeOlpAkzC+RHn5h06b6M=;
+	b=T7cJETIsktBbtLLAQ9aANUQWqeQmQHOq84s7xljVn/7/5chyYH7SnfgDOZmXea9J+g
+	dkWMSvaGNf9x8CIGp6Q/4yEzzS0uPIr28QPFjK1B0S9dMnYAZPwLSQjLIT0AOuxQZpI8
+	YhZSsz4xfZz+8+I89Heglab0ycSn81rabKPqrrVVHuHeI+9z6CyBA++qOqi54+MQWqeP
+	zhaMfEDi3UxP56VjFT9xrd7E8777B7alvMUn5JqnhU8E/7Ney0Al0tcl/IYf/FQn0yFQ
+	2cswsUEcL1uhCxN/imgUytB5W1zcooN2Nl7ngtSwvjUFW2G4WA0eOuZUXmhNOVOgLute
+	dNrw==
+X-Gm-Message-State: AFeK/H2ECixbCk6jVxEf/5YCVTi3cELddd9L3pX5G8mtEbITUvjlyOsCIpw+wDB3as+CXQ==
+X-Received: by 10.157.19.114 with SMTP id q47mr2421887otq.77.1490734335751;
+	Tue, 28 Mar 2017 13:52:15 -0700 (PDT)
+Received: from mail-oi0-f41.google.com (mail-oi0-f41.google.com.
+	[209.85.218.41]) by smtp.gmail.com with ESMTPSA id
+	k37sm2224854otd.14.2017.03.28.13.52.14
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 28 Mar 2017 13:52:14 -0700 (PDT)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-oi0-f41.google.com with SMTP id o67so35790444oib.1
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 28 Mar 2017 13:52:14 -0700 (PDT)
+X-Received: by 10.202.105.16 with SMTP id e16mr8978754oic.178.1490734333647;
+	Tue, 28 Mar 2017 13:52:13 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.157.32.161 with HTTP; Tue, 28 Mar 2017 13:12:01 -0700 (PDT)
-In-Reply-To: <e1eee1aa56e1dc59a55a9cac25a00a1ea2f9375e.1490727568.git.spopovyc@cisco.com>
+Received: by 10.74.79.203 with HTTP; Tue, 28 Mar 2017 13:52:13 -0700 (PDT)
+In-Reply-To: <CABcZAN=pYQH82T4Gxi9VneWQtRQYZyeu+Wrr+4V7iWeXW+_RvA@mail.gmail.com>
 References: <e1eee1aa56e1dc59a55a9cac25a00a1ea2f9375e.1490727568.git.spopovyc@cisco.com>
-From: Christopher Larson <kergoth@gmail.com>
-Date: Tue, 28 Mar 2017 13:12:01 -0700
-Message-ID: <CABcZAN=pYQH82T4Gxi9VneWQtRQYZyeu+Wrr+4V7iWeXW+_RvA@mail.gmail.com>
-To: Serhii Popovych <spopovyc@cisco.com>
-Cc: XE-Linux <xe-linux-external@cisco.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
+	<CABcZAN=pYQH82T4Gxi9VneWQtRQYZyeu+Wrr+4V7iWeXW+_RvA@mail.gmail.com>
+Date: Tue, 28 Mar 2017 17:52:13 -0300
+X-Gmail-Original-Message-ID: <CAP9ODKriYpw7vBBokSQFQSHWnTttYm5n4sKyaFxJeDLPV_DJjQ@mail.gmail.com>
+Message-ID: <CAP9ODKriYpw7vBBokSQFQSHWnTttYm5n4sKyaFxJeDLPV_DJjQ@mail.gmail.com>
+To: Christopher Larson <kergoth@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>,
+	XE-Linux <xe-linux-external@cisco.com>
 Subject: Re: [PATCH] ca-certificates: Fix symlinks to the certificates in nativesdk
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -54,81 +70,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Mar 2017 20:12:23 -0000
-Content-Type: multipart/alternative; boundary=001a114929e6df89b9054bd01364
-
---001a114929e6df89b9054bd01364
+X-List-Received-Date: Tue, 28 Mar 2017 20:52:16 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Mar 28, 2017 at 12:00 PM, Serhii Popovych <spopovyc@cisco.com>
-wrote:
+On Tue, Mar 28, 2017 at 5:12 PM, Christopher Larson <kergoth@gmail.com> wro=
+te:
+> We actually run a script against the entire sdk sysroot to convert all
+> absolute links to relative (see `POPULATE_SDK_POST_TARGET_COMMAND +=3D
+> =E2=80=9Crootfs_sysroot_relativelinks;` in image.bbclass and
+> rootfs_sysroot_relativelinks in rootfs-postcommands.bbclass), but this
+> script had a bug. I recently sent a patch (this morning) to it to fix thi=
+s
+> exact issue. Of course, it wouldn=E2=80=99t hurt to also change the behav=
+ior in the
+> recipe, but it=E2=80=99s not necessary with the script fixed.
 
-> Symlinks to certificates in buildtools-tarball at /etc/ssl/certs
-> installed with absolute pathes making these sumlinks pointing
-> outside of toolchain to the host system locations.
->
-> These locations may not contain some certificates (thus link to
-> the certificate in toolchain is broken) or host system
-> certificate may be revoked by CRL or outdated.
->
-> Since this change seems non intrusive for target package apply
-> patch for all builds.
->
-> Cc: XE-Linux <xe-linux-external@cisco.com>
-> Signed-off-by: Serhii Popovych <spopovyc@cisco.com>
->
+I prefer to keep it in a single place instead of multiple recipe doing the =
+same.
 
-We actually run a script against the entire sdk sysroot to convert all
-absolute links to relative (see `POPULATE_SDK_POST_TARGET_COMMAND +=3D
-=E2=80=9Crootfs_sysroot_relativelinks;` in image.bbclass and
-rootfs_sysroot_relativelinks in rootfs-postcommands.bbclass), but this
-script had a bug. I recently sent a patch (this morning) to it to fix this
-exact issue. Of course, it wouldn=E2=80=99t hurt to also change the behavio=
-r in the
-recipe, but it=E2=80=99s not necessary with the script fixed.
 --=20
-Christopher Larson
-kergoth at gmail dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Senior Software Engineer, Mentor Graphics
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
---001a114929e6df89b9054bd01364
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On Tue, Mar 28, 2017 at 12:00 PM, Serhii Popovych <span dir=3D"ltr">&lt;<a =
-href=3D"mailto:spopovyc@cisco.com" target=3D"_blank">spopovyc@cisco.com</a>=
-&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px=
- 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);bor=
-der-left-style:solid;padding-left:1ex"><div id=3D"gmail-:3o6" class=3D"gmai=
-l-a3s gmail-aXjCH gmail-m15b164aedd3825ff">Symlinks to certificates in buil=
-dtools-tarball at /etc/ssl/certs<br>
-installed with absolute pathes making these sumlinks pointing<br>
-outside of toolchain to the host system locations.<br>
-<br>
-These locations may not contain some certificates (thus link to<br>
-the certificate in toolchain is broken) or host system<br>
-certificate may be revoked by CRL or outdated.<br>
-<br>
-Since this change seems non intrusive for target package apply<br>
-patch for all builds.<br>
-<br>
-Cc: XE-Linux &lt;<a href=3D"mailto:xe-linux-external@cisco.com">xe-linux-ex=
-ternal@cisco.com</a>&gt;<br>
-Signed-off-by: Serhii Popovych &lt;<a href=3D"mailto:spopovyc@cisco.com">sp=
-opovyc@cisco.com</a>&gt;</div></blockquote></div><br>We actually run a scri=
-pt against the entire sdk sysroot to convert all absolute links to relative=
- (see `POPULATE_SDK_POST_TARGET_COMMAND +=3D =E2=80=9Crootfs_sysroot_relati=
-velinks;` in image.bbclass and rootfs_sysroot_relativelinks in rootfs-postc=
-ommands.bbclass), but this script had a bug. I recently sent a patch (this =
-morning) to it to fix this exact issue. Of course, it wouldn=E2=80=99t hurt=
- to also change the behavior in the recipe, but it=E2=80=99s not necessary =
-with the script fixed.<br>-- <br><div class=3D"gmail_signature"><div dir=3D=
-"ltr"><div><div dir=3D"ltr">Christopher Larson<br>kergoth at gmail dot com<=
-br>Founder - BitBake, OpenEmbedded, OpenZaurus<br>Senior Software Engineer,=
- Mentor Graphics</div></div></div></div>
-</div></div>
-
---001a114929e6df89b9054bd01364--
