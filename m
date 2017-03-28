@@ -1,18 +1,29 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 3B5C772F3B;
-	Tue, 28 Mar 2017 21:32:05 +0000 (UTC)
+Return-Path: <rpjday@crashcourse.ca>
+Received: from smtp685.redcondor.net (smtp685.redcondor.net [208.80.206.85])
+	by mail.openembedded.org (Postfix) with ESMTP id E112A77BC9
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 28 Mar 2017 22:22:34 +0000 (UTC)
+Received: from astoria.ccjclearline.com ([64.235.106.9])
+	by smtp685.redcondor.net ({20c8e40f-6b6c-4c9e-abff-1640ea7bf404})
+	via TCP (outbound) with ESMTPS id 20170328222233761_0685
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 28 Mar 2017 15:22:33 -0700
+X-RC-FROM: <rpjday@crashcourse.ca>
+X-RC-RCPT: <openembedded-core@lists.openembedded.org>
+Received: from [174.118.92.171] (port=57930 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
+	id 1cszVT-0004QC-IK for openembedded-core@lists.openembedded.org;
+	Tue, 28 Mar 2017 18:22:27 -0400
+Date: Tue, 28 Mar 2017 18:22:25 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@localhost.localdomain
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Message-ID: <alpine.LFD.2.20.1703281817440.27955@localhost.localdomain>
+User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
 MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Stefan Agner <stefan@agner.ch>
-Date: Tue, 28 Mar 2017 21:32:07 -0000
-Message-ID: <20170328213207.6645.45279@do.openembedded.org>
-References: <1490734652-13327-1-git-send-email-stefan@agner.ch>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <1490734652-13327-1-git-send-email-stefan@agner.ch>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgdXRpbC1saW51eDogbWFrZSBibGtkaXNjYXJkIGEgc2VwYXJhdGUgcGFja2FnZQ==?=
+X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
+Subject: is there OE support for building multi-image/component FIT image files?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,41 +36,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Mar 2017 21:32:05 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-
-== Series Details ==
-
-Series: util-linux: make blkdiscard a separate package
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/6038/
-State : failure
-
-== Summary ==
+X-List-Received-Date: Tue, 28 Mar 2017 22:22:37 -0000
+Content-Type: text/plain; charset=US-ASCII
 
 
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
+  not sure i even know if i'm asking the right question, but i already
+know that i can build a *basic* FIT image file for (as an example) a
+mpc8315e-rdb target, just goofing around. the .its file contains a
+node for the kernel, and the dtb file, and the corresponding
+configuration node, so everything is fine.
 
+  however, let's say i was building for a beaglebone black, for which,
+when you build the kernel. you get *multiple* dtb files for numerous
+related targets.
 
+  is there OE support for defining .its files that contain multiple
+kernels, and/or multiple dtb files, that automatically generates
+multiple configurations nodes to cover those possibilities?
 
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  master (currently at d68a86d87a)
+  i realize you can do all that manually with the "mkimage" command,
+i'm just not sure how far you can push creating FIT image files with
+stock OE support.
 
+rday
 
+-- 
 
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
 
----
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
 
