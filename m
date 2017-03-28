@@ -1,44 +1,52 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
-	by mail.openembedded.org (Postfix) with ESMTP id A87BE77B20
+Return-Path: <slemieux.tyco@gmail.com>
+Received: from mail-it0-f67.google.com (mail-it0-f67.google.com
+	[209.85.214.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 2A8FE71A39
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Mar 2017 16:50:10 +0000 (UTC)
-Received: by mail-wm0-f68.google.com with SMTP id x124so731161wmf.3
+	Tue, 28 Mar 2017 17:20:56 +0000 (UTC)
+Received: by mail-it0-f67.google.com with SMTP id e75so4782725itd.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Mar 2017 09:50:11 -0700 (PDT)
+	Tue, 28 Mar 2017 10:20:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=MMtE3YADkcanvo8hICy8S0B0vSmK2N18okpchpF3L/g=;
-	b=roIKqjaINvTUIr/QHaYXJNsfliCxA4JcEpzRk6rlthwrx4+K0DXa/pGRU0R/6ADwwx
-	kGbkpYzdUkrEUZEcsRIevjkWy07hlZeHnpM2KFXKlLQYkbiWnk234v/BpqoSRm4PGuDw
-	VJFhHndiUVIhVYBvd0WLTnT93J/cmHn0YAP2SLFij+e6Ld2c2OwtI01P+e1eamoFQ726
-	UFK+2uWCE6k7Q3a3wC7upw3NtemlT5JkMyIsWc2yPqMhnsFojWx/NK6YZcieKGu3pYOQ
-	pV1mrZHcC9NQC4Ked+a4LX85XExK8AKiy1G0CLyE+ZXgbxzksQtwR4js0lv7AUnBT000
-	LdqA==
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=QKI0NR49ulc2tbdxAZ4H0T8bYMZDWaao664OMuVpW0E=;
+	b=lB6wCPBENMwgCb048VaO+hNr30D6GfGisYTMzYD6lAeOK0RBOfJiYwQjzRwEsCPxB/
+	TvEc+NjHAKagWwtJ7arxn0fqcrXh8K+F94Svygc1xHpN2NmuXOfB3P6q1+Kowtaz6M3k
+	K4XtxXxDut/Q8ChPRPSOwEqngwi+AjM4AfAyAc3aR1aToqWls3+5PCTYSHOBmu4zlUkv
+	B/BO2QwbtANHz0MLWiKextsByMm09JM2Hu9aUbrWRK+h7m60YCArtGCcZWQt6/87zICz
+	r60ooqqqEBUtLFE1OL5UpEbvWXA2F1D05cVRKnSlpl9jPPu47EmEaHWX0QiZ7L5an/6J
+	cPtw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=MMtE3YADkcanvo8hICy8S0B0vSmK2N18okpchpF3L/g=;
-	b=oE9CmewLyh/4sfqNycABW3teqgaBSBtAucbVxMVDBcaIwQ+l1ZZqxkKFJFvfXMO872
-	WV8t7XHpqftiZGBXLiIqYg2ScpZX3AkAENq3lR1H/DAapUDScW9COaV4L0BVpVRGnLNN
-	invMExR0xaxteuiYKBqxcsbZ9ZGScCS/U/Rmhg+A384Q1hh0junoIOcjPy8/e1lGrXI9
-	2herzUTiDh9/zMMaEY77uYUl+1+1LznE1NZRNw8wW9b9QqNaDORcKTF+kbnyUVT4qIQs
-	3ts1ZsJosOYyHxqzBwfIen64ugFjOYV9NRugI1si7ZW8ALceST5ooicHuvIO7b0uR09R
-	yKgw==
-X-Gm-Message-State: AFeK/H3MgjOq4ldKJ7XiEolHLgDTryIBw0vrQak6t6NAf5Ev+EhfVQyEUdBPncub3Us7aPtOuJS01esNqjWFwQ==
-X-Received: by 10.28.215.18 with SMTP id o18mr15639232wmg.98.1490719811190;
-	Tue, 28 Mar 2017 09:50:11 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.223.152.55 with HTTP; Tue, 28 Mar 2017 09:50:10 -0700 (PDT)
-In-Reply-To: <1490701251-20408-1-git-send-email-pidge@toganlabs.com>
-References: <1490701251-20408-1-git-send-email-pidge@toganlabs.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-Date: Tue, 28 Mar 2017 09:50:10 -0700
-Message-ID: <CAJ86T=UUfShQ2Ap0ExTrL6qKT62pBt_v=GCMvT2Cw-qdjAR60w@mail.gmail.com>
-To: "Elizabeth 'pidge' Flanagan" <pidge@toganlabs.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] aws-cli_1.11.66.bb: Initial commit of aws-cli
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=QKI0NR49ulc2tbdxAZ4H0T8bYMZDWaao664OMuVpW0E=;
+	b=pPN7iOFA6MwQLKZ77gcJdWwv5gp5SIKUNoUccjNyBY1pX56oAhglSDaAKxyHRJlRqG
+	GCbjAjKiQs6Z6kwmc2YhPsgNwSV6mVLJrkNhvnsSE8ORFLNGqt4JOgcMmWBVUbtDJyHw
+	nw8oZkUHg8zQ2YYgaXnuoGNgxw4LauauS/Auqc0Pin2nrLkSLPg1EFSTrYJSpT5QWM1W
+	D79gorTiXk+Lpab8r94NyDfp1AA2Ac/gb1bl/rwcuGumPYQFMXjixp8DshmrvlgPZMpB
+	yWsknjk1Z8bWPm//i/Vxtw/7+P9WEivdlTZ9E8gtA+6B4RICmipupnKLpYWtEi8WfKXY
+	k8xQ==
+X-Gm-Message-State: AFeK/H3p2Ew1faVzp7adKG14tlfXh7eT4zy0Ce5Wgp0ptvf8teBkj97uFia5P+qxR8NAmA==
+X-Received: by 10.107.180.70 with SMTP id d67mr31926986iof.21.1490721658137;
+	Tue, 28 Mar 2017 10:20:58 -0700 (PDT)
+Received: from CABRO3AP00510 ([74.51.240.241])
+	by smtp.googlemail.com with ESMTPSA id
+	x127sm1797719itg.26.2017.03.28.10.20.57
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 28 Mar 2017 10:20:57 -0700 (PDT)
+Message-ID: <1490721656.24147.0.camel@gmail.com>
+From: Sylvain Lemieux <slemieux.tyco@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 28 Mar 2017 13:20:56 -0400
+In-Reply-To: <20170307205502.14261-2-slemieux.tyco@gmail.com>
+References: <20170307205502.14261-1-slemieux.tyco@gmail.com>
+	<20170307205502.14261-2-slemieux.tyco@gmail.com>
+X-Mailer: Evolution 3.12.11 (3.12.11-22.el7) 
+Mime-Version: 1.0
+Cc: gary@mlbassoc.com
+Subject: Re: [PATCH v2 1/2] recipes-core: busybox: setup "cron" sub-package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,67 +59,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Mar 2017 16:50:11 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 28 Mar 2017 17:20:57 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Tue, Mar 28, 2017 at 4:40 AM, Elizabeth 'pidge' Flanagan
-<pidge@toganlabs.com> wrote:
-> With fetch2 supporting s3, having an aws-cli recipe makes sense.
->
-> Signed-off-by: Elizabeth 'pidge' Flanagan <pidge@toganlabs.com>
+ping
+
+On Tue, 2017-03-07 at 15:55 -0500, Sylvain Lemieux wrote:
+> From: Sylvain Lemieux <slemieux@tycoint.com>
+> 
+> Setup "cron" as a sub-package in "busybox" and
+> add the support to install "cron" as a startup script.
+> 
+> Signed-off-by: Sylvain Lemieux <slemieux@tycoint.com>
 > ---
->  meta/recipes-devtools/aws-cli/aws-cli.inc        | 14 ++++++++++++++
->  meta/recipes-devtools/aws-cli/aws-cli_1.11.66.bb |  5 +++++
->  2 files changed, 19 insertions(+)
->  create mode 100644 meta/recipes-devtools/aws-cli/aws-cli.inc
->  create mode 100644 meta/recipes-devtools/aws-cli/aws-cli_1.11.66.bb
->
-> diff --git a/meta/recipes-devtools/aws-cli/aws-cli.inc b/meta/recipes-devtools/aws-cli/aws-cli.inc
-> new file mode 100644
-> index 0000000..e9a2677
-> --- /dev/null
-> +++ b/meta/recipes-devtools/aws-cli/aws-cli.inc
-> @@ -0,0 +1,14 @@
-> +SUMMARY = "Amazon Web Services Command Line Interface"
-> +DESCRIPTION = "The AWS Command Line Interface (CLI) is a \
-> +unified tool to manage your AWS services."
-> +HOMEPAGE = "https://aws.amazon.com/cli/"
-> +SECTION = "console/utils"
-> +
-> +SRC_URI = "https://github.com/aws/${BPN}/archive/${PV}.tar.gz"
-> +
-> +LICENSE = "Apache-2.0"
-> +LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=71a3e14f29ac5c23e1b5b934ca4ddfc9"
+> Changes from v1 to v2:
+> * Rebased on latest master.
+> 
+>  meta/recipes-core/busybox/busybox.inc | 8 +++++---
+>  1 file changed, 5 insertions(+), 3 deletions(-)
+> 
+> diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
+> index 39c2eef082..3bede6307c 100644
+> --- a/meta/recipes-core/busybox/busybox.inc
+> +++ b/meta/recipes-core/busybox/busybox.inc
+> @@ -21,7 +21,7 @@ export EXTRA_LDFLAGS = "${LDFLAGS}"
+>  # We don't want '-e MAKEFLAGS=' in EXTRA_OEMAKE
+>  EXTRA_OEMAKE = "CC='${CC}' LD='${CCLD}' V=1 ARCH=${TARGET_ARCH} CROSS_COMPILE=${TARGET_PREFIX} SKIP_STRIP=y HOSTCC='${BUILD_CC}' HOSTCPP='${BUILD_CPP}'"
+>  
+> -PACKAGES =+ "${PN}-httpd ${PN}-udhcpd ${PN}-udhcpc ${PN}-syslog ${PN}-mdev ${PN}-hwclock"
+> +PACKAGES =+ "${PN}-httpd ${PN}-udhcpd ${PN}-udhcpc ${PN}-syslog ${PN}-mdev ${PN}-hwclock ${PN}-cron"
+>  
+>  FILES_${PN}-httpd = "${sysconfdir}/init.d/busybox-httpd /srv/www"
+>  FILES_${PN}-syslog = "${sysconfdir}/init.d/syslog* ${sysconfdir}/syslog-startup.conf* ${sysconfdir}/syslog.conf* ${systemd_unitdir}/system/syslog.service ${sysconfdir}/default/busybox-syslog"
+> @@ -29,8 +29,9 @@ FILES_${PN}-mdev = "${sysconfdir}/init.d/mdev ${sysconfdir}/mdev.conf ${sysconfd
+>  FILES_${PN}-udhcpd = "${sysconfdir}/init.d/busybox-udhcpd"
+>  FILES_${PN}-udhcpc = "${sysconfdir}/udhcpc.d ${datadir}/udhcpc"
+>  FILES_${PN}-hwclock = "${sysconfdir}/init.d/hwclock.sh"
+> +FILES_${PN}-cron = "${sysconfdir}/init.d/busybox-cron"
+>  
+> -INITSCRIPT_PACKAGES = "${PN}-httpd ${PN}-syslog ${PN}-udhcpd ${PN}-mdev ${PN}-hwclock"
+> +INITSCRIPT_PACKAGES = "${PN}-httpd ${PN}-syslog ${PN}-udhcpd ${PN}-mdev ${PN}-hwclock ${PN}-cron"
+>  
+>  INITSCRIPT_NAME_${PN}-httpd = "busybox-httpd"
+>  INITSCRIPT_NAME_${PN}-hwclock = "hwclock.sh"
+> @@ -38,6 +39,7 @@ INITSCRIPT_NAME_${PN}-mdev = "mdev"
+>  INITSCRIPT_PARAMS_${PN}-mdev = "start 04 S ."
+>  INITSCRIPT_NAME_${PN}-syslog = "syslog"
+>  INITSCRIPT_NAME_${PN}-udhcpd = "busybox-udhcpd"
+> +INITSCRIPT_NAME_${PN}-cron = "busybox-cron"
+>  
+>  SYSTEMD_PACKAGES = "${PN}-syslog"
+>  SYSTEMD_SERVICE_${PN}-syslog = "busybox-syslog.service"
+> @@ -45,7 +47,7 @@ SYSTEMD_SERVICE_${PN}-syslog = "busybox-syslog.service"
+>  CONFFILES_${PN}-syslog = "${sysconfdir}/syslog-startup.conf.${BPN}"
+>  CONFFILES_${PN}-mdev = "${sysconfdir}/mdev.conf"
+>  
+> -RRECOMMENDS_${PN} = "${PN}-syslog ${PN}-udhcpc"
+> +RRECOMMENDS_${PN} = "${PN}-syslog ${PN}-udhcpc ${PN}-cron"
+>  
+>  inherit cml1 systemd update-rc.d ptest
+>  
 
-According to the style guide, LICENSE should come before SRC_URI.
 
-> +
-> +S = "${WORKDIR}/${BPN}-${PV}"
-
-That's the default.
-
-> +
-> +BBCLASSEXTEND = "native nativesdk"
-> diff --git a/meta/recipes-devtools/aws-cli/aws-cli_1.11.66.bb b/meta/recipes-devtools/aws-cli/aws-cli_1.11.66.bb
-> new file mode 100644
-> index 0000000..a96b71e
-> --- /dev/null
-> +++ b/meta/recipes-devtools/aws-cli/aws-cli_1.11.66.bb
-> @@ -0,0 +1,5 @@
-> +require aws-cli.inc
-
-Ross has been merging single use .inc files into their respective
-recipes. Not sure if we should be creating new ones.
-
-> +SRC_URI[md5sum] = "c556adb58d0234eb661520488b9b467f"
-> +SRC_URI[sha256sum] = "2c1da406203e0a9b5c717004bd463228e4fa4fa8fe47208f0e1836c02bee6f60"
-> +
-> --
-> 1.9.1
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
