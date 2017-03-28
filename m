@@ -1,49 +1,47 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-it0-f53.google.com (mail-it0-f53.google.com
-	[209.85.214.53])
-	by mail.openembedded.org (Postfix) with ESMTP id DCFAC77A4A
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wr0-f174.google.com (mail-wr0-f174.google.com
+	[209.85.128.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 8B27A77A46
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Mar 2017 08:02:34 +0000 (UTC)
-Received: by mail-it0-f53.google.com with SMTP id y18so9947114itc.1
+	Tue, 28 Mar 2017 09:33:57 +0000 (UTC)
+Received: by mail-wr0-f174.google.com with SMTP id u1so95323604wra.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Mar 2017 01:02:36 -0700 (PDT)
+	Tue, 28 Mar 2017 02:33:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=uasofx50oCYac0LkCo0bWI14bqWSc2az2iEOYB76Frc=;
-	b=V9s8dKSpyTgi+XnY1SBkZK4r4FoSUSeTp+t31dN0OSrPuEtnV110O3aWiFoHZsRr+l
-	dp9QEoDsNESnC8n74AQnjTlUqrcvpo+BY4fjIoGBSWp0vEiDz9n5CJ43qJnhejPqtMBl
-	fUJyEV4yPkInAWpHYcmCN+dmrfGq3LoBUGN8XPN9uiquXHkCbcaUDghG54Og9RaEc7Ab
-	++SHw8MckirYDlLMu7zbyMbHhpKeWSMprn1DrMGb+9oQCOyQYaVHS64n1nE4NN8+s7/V
-	aWpHEzYBEwpXzGfzXHfyJXo6Njpb2lm3ZvVrlCwkV2mm4wddaTNukRogrdLmE9fmEEx0
-	xRAQ==
+	h=from:to:subject:date:message-id;
+	bh=0i11ksVxuowiJTwd/Y9Yl/m+mA3KxOiJC58t0iEKdLU=;
+	b=KmhNhjeA3F+Ujxn84q74rQYR4Q/48TYnj4jB6y90SbJbEiXEAoJalCXuZJO1CpexcY
+	eizz5xF61p/s/BihEYNdQUgOXSjQIZIBsU/i/8eS6gS2XfbHAxoeQ3zYC830A/1J3NGy
+	qoA3ag+LZ7u8Mwz9FDYV8129zmmHlUbQ3DazLGPQRM6WdXCd5qEXLh/sbl9Or6b0sM7c
+	25j2YKW+U8Eopcp4MHvSdGTExxFcS5KYJa5LjPUTdiDNnr/9P8uSeBxRTJblNSoPAOqI
+	XT7mQco+cWX78PvxJozOXZ+T+XkiwwgCFfd/vW5X8Rqwwc6Zv9eTuMdWXRZTkA6TT+8B
+	fpww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=uasofx50oCYac0LkCo0bWI14bqWSc2az2iEOYB76Frc=;
-	b=FETb3l3NUbUekAYcHuQyE7VbPKoCA7n8Br3YZ4ggOrlmLx2F95dlokdMX+MClESIie
-	mhVKkWUsjT36H0ksJuKw87ZoLmJeX0f2/RCpPfrNl0wezNHZmzHlgWnMEXNHo1ntCRcX
-	7WEqGQzGDYYVk9Xyj8TjDNQhqMzun0E42a7vzpTneWXi+eIXbr5zAE+j6uLxyPZdd10h
-	nPdQXmlbZ13cfQVAyWhojKP6Rb6P0P+LPuBqZsrc7ywwvZixtnb3LLOjuvUQUFLlxWEu
-	lqpa2c74C0HXzXlZzIctnnEkQmKTCVBvPOOrySXZbxrFs0QZt6Z4j1KjfXpKouZ37a5x
-	ADJg==
-X-Gm-Message-State: AFeK/H198PKTp1twjhLhgST5SxxRJfXB3rkChf6gId4FHPIfWLTEItcrtJzi8WsvUnSO1MxP
-X-Received: by 10.36.108.144 with SMTP id w138mr6793309itb.67.1490688156072;
-	Tue, 28 Mar 2017 01:02:36 -0700 (PDT)
-Received: from pohly-desktop.fritz.box (p5DE8D2BA.dip0.t-ipconnect.de.
-	[93.232.210.186]) by smtp.gmail.com with ESMTPSA id
-	k186sm1137867ita.30.2017.03.28.01.02.34
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=0i11ksVxuowiJTwd/Y9Yl/m+mA3KxOiJC58t0iEKdLU=;
+	b=hJXu6qQIKG7RUSmz1D3jelBCwvmUB9eaP6LZuzPQJULvWpf658dqUyBcEeqOxb3fy/
+	RVT3W+U5X0GSqVkX1qIaLwCUFyimg7DM5NFzmU6ra60dby1GLKbZEYIOICa7XbuK7ZTJ
+	0+W+0tAz+fCpPDjZRJ0P/aHMUZDwfl1lSWAlxosoV6lHX9zE64j9wJvV3jLzq0BD2xD7
+	AqvqKrPmPg/LpNCID66Y/W+ywUzLbktw9xIDjIu7othPkXMc4WP7A9Ux+y/M5NMZHh1u
+	b6bDm0QU/gTW2wea5Q8pLPNS4vwIhRqldoCtY009kBfR863MGAbcrArgiqbDX7tbdNYc
+	ni/w==
+X-Gm-Message-State: AFeK/H0gLyUA+JsAV1OZUygeIfnyeGgkT9/VuR9fIPIXFaQ/Cjiej+gK7O90E2jqrYU8DJjT
+X-Received: by 10.28.23.194 with SMTP id 185mr3096578wmx.52.1490693638018;
+	Tue, 28 Mar 2017 02:33:58 -0700 (PDT)
+Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id
+	m14sm4081975wrb.22.2017.03.28.02.33.56
+	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 28 Mar 2017 01:02:35 -0700 (PDT)
-From: Patrick Ohly <patrick.ohly@intel.com>
+	Tue, 28 Mar 2017 02:33:56 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 28 Mar 2017 10:02:19 +0200
-Message-Id: <b96b881bd41f611633a0d5933163d00790d39f60.1490687992.git-series.patrick.ohly@intel.com>
-X-Mailer: git-send-email 2.11.0
-In-Reply-To: <cover.dc1fc462863c093e384c22eb65a3a07dbc6f3004.1490687992.git-series.patrick.ohly@intel.com>
-References: <cover.dc1fc462863c093e384c22eb65a3a07dbc6f3004.1490687992.git-series.patrick.ohly@intel.com>
-Subject: [PATCH v5 3/3] oeqa: allow persistent image writes in runqemu()
+Date: Tue, 28 Mar 2017 10:33:54 +0100
+Message-Id: <1490693634-29673-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.8.1
+Subject: [PATCH] dnf: remove systemd units in nativesdk builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,113 +54,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Mar 2017 08:02:35 -0000
+X-List-Received-Date: Tue, 28 Mar 2017 09:33:58 -0000
 
-By default, QemuRunner avoids modifying the image files that it boots
-into by enabling the qemu snapshot mode. However, some tests may want
-to test changes that must persists across reboots, so this mode
-should be optional.
+If the DISTRO_FEATURES contain systemd then the systemd class won't delete the
+units for us. Until the class is fixed to do this automatically, delete them
+explicitly.
 
-This can be combined by copying the image file to a temporary location
-first and then booting with that copy. It's also useful when testing
-with additional drives attached to a virtual machine.
-
-QemuTinyRunner doesn't use the snapshot parameter and therefore ignores
-the new parameter.
-
-Long term, a better way of passing these various configuration
-parameters should be used, and perhaps QemuRunner and QemuTinyRunner
-can be merged into one again to avoid code duplication. But for now
-the patch follows the exiting style.
-
-Also beware that QemuTarget.start() now acts in two different modes
-(with or without explicit launch command), and depending on that mode
-parameters like discard_writes must be ignored, i.e. not get passed to
-launch().
-
-Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/lib/oeqa/targetcontrol.py        | 4 ++--
- meta/lib/oeqa/utils/commands.py       | 4 ++--
- meta/lib/oeqa/utils/qemurunner.py     | 4 ++--
- meta/lib/oeqa/utils/qemutinyrunner.py | 2 +-
- 4 files changed, 7 insertions(+), 7 deletions(-)
+ meta/recipes-devtools/dnf/dnf_git.bb | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/meta/lib/oeqa/targetcontrol.py b/meta/lib/oeqa/targetcontrol.py
-index 40a2589..57fd3b8 100644
---- a/meta/lib/oeqa/targetcontrol.py
-+++ b/meta/lib/oeqa/targetcontrol.py
-@@ -182,11 +182,11 @@ class QemuTarget(BaseTarget):
-         logger.info("Qemu log file: %s" % self.qemulog)
-         super(QemuTarget, self).deploy()
+diff --git a/meta/recipes-devtools/dnf/dnf_git.bb b/meta/recipes-devtools/dnf/dnf_git.bb
+index 7d7f597..b6b6cea 100644
+--- a/meta/recipes-devtools/dnf/dnf_git.bb
++++ b/meta/recipes-devtools/dnf/dnf_git.bb
+@@ -42,6 +42,12 @@ do_install_append_class-native() {
+                 RPM_NO_CHROOT_FOR_SCRIPTS=1
+ }
  
--    def start(self, params=None, ssh=True, extra_bootparams='', runqemuparams='', launch_cmd=''):
-+    def start(self, params=None, ssh=True, extra_bootparams='', runqemuparams='', launch_cmd='', discard_writes=True):
-         if launch_cmd:
-             start = self.runner.launch(get_ip=ssh, launch_cmd=launch_cmd)
-         else:
--            start = self.runner.start(params, get_ip=ssh, extra_bootparams=extra_bootparams, runqemuparams=runqemuparams)
-+            start = self.runner.start(params, get_ip=ssh, extra_bootparams=extra_bootparams, runqemuparams=runqemuparams, discard_writes=discard_writes)
- 
-         if start:
-             if ssh:
-diff --git a/meta/lib/oeqa/utils/commands.py b/meta/lib/oeqa/utils/commands.py
-index 88c9bb1..2951dfb 100644
---- a/meta/lib/oeqa/utils/commands.py
-+++ b/meta/lib/oeqa/utils/commands.py
-@@ -225,7 +225,7 @@ def create_temp_layer(templayerdir, templayername, priority=999, recipepathspec=
- 
- 
- @contextlib.contextmanager
--def runqemu(pn, ssh=True, runqemuparams='', image_fstype=None, launch_cmd=None, qemuparams=None, overrides={}):
-+def runqemu(pn, ssh=True, runqemuparams='', image_fstype=None, launch_cmd=None, qemuparams=None, overrides={}, discard_writes=True):
-     """
-     launch_cmd means directly run the command, don't need set rootfs or env vars.
-     """
-@@ -278,7 +278,7 @@ def runqemu(pn, ssh=True, runqemuparams='', image_fstype=None, launch_cmd=None, 
-     try:
-         qemu.deploy()
-         try:
--            qemu.start(params=qemuparams, ssh=ssh, runqemuparams=runqemuparams, launch_cmd=launch_cmd)
-+            qemu.start(params=qemuparams, ssh=ssh, runqemuparams=runqemuparams, launch_cmd=launch_cmd, discard_writes=discard_writes)
-         except bb.build.FuncFailed:
-             raise Exception('Failed to start QEMU - see the logs in %s' % logdir)
- 
-diff --git a/meta/lib/oeqa/utils/qemurunner.py b/meta/lib/oeqa/utils/qemurunner.py
-index 95f5925..cd79f21 100644
---- a/meta/lib/oeqa/utils/qemurunner.py
-+++ b/meta/lib/oeqa/utils/qemurunner.py
-@@ -97,7 +97,7 @@ class QemuRunner:
-                 self._dump_host()
-                 raise SystemExit
- 
--    def start(self, qemuparams = None, get_ip = True, extra_bootparams = None, runqemuparams='', launch_cmd=None):
-+    def start(self, qemuparams = None, get_ip = True, extra_bootparams = None, runqemuparams='', launch_cmd=None, discard_writes=True):
-         if self.display:
-             os.environ["DISPLAY"] = self.display
-             # Set this flag so that Qemu doesn't do any grabs as SDL grabs
-@@ -118,7 +118,7 @@ class QemuRunner:
-             os.environ["DEPLOY_DIR_IMAGE"] = self.deploy_dir_image
- 
-         if not launch_cmd:
--            launch_cmd = 'runqemu snapshot %s' % runqemuparams
-+            launch_cmd = 'runqemu %s %s ' % ('snapshot' if discard_writes else '', runqemuparams)
-             if self.use_kvm:
-                 logger.info('Using kvm for runqemu')
-                 launch_cmd += ' kvm'
-diff --git a/meta/lib/oeqa/utils/qemutinyrunner.py b/meta/lib/oeqa/utils/qemutinyrunner.py
-index b1009a0..34cb912 100644
---- a/meta/lib/oeqa/utils/qemutinyrunner.py
-+++ b/meta/lib/oeqa/utils/qemutinyrunner.py
-@@ -60,7 +60,7 @@ class QemuTinyRunner(QemuRunner):
-             with open(self.logfile, "a") as f:
-                 f.write("%s" % msg)
- 
--    def start(self, qemuparams = None, ssh=True, extra_bootparams=None, runqemuparams=''):
-+    def start(self, qemuparams = None, ssh=True, extra_bootparams=None, runqemuparams='', discard_writes=True):
- 
-         if self.display:
-             os.environ["DISPLAY"] = self.display
++# If the distro uses systemd then these won't be deleted by systemd.bbclass
++do_install_append_class-nativesdk() {
++    rm -rf ${D}/${systemd_unitdir}
++    rmdir --ignore-fail-on-non-empty ${D}${nonarch_base_libdir}
++}
++
+ SYSTEMD_SERVICE_${PN} = "dnf-makecache.service dnf-makecache.timer \
+                          dnf-automatic-download.service dnf-automatic-download.timer \
+                          dnf-automatic-install.service dnf-automatic-install.timer \
 -- 
-git-series 0.9.1
+2.8.1
+
 
