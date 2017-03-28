@@ -1,18 +1,18 @@
 Return-Path: <patchwork@patchwork.openembedded.org>
 Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 5A35277ACD;
-	Tue, 28 Mar 2017 19:02:24 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id 4110A77B20;
+	Tue, 28 Mar 2017 19:02:25 +0000 (UTC)
 MIME-Version: 1.0
 From: Patchwork <patchwork@patchwork.openembedded.org>
 To: Serhii Popovych <spopovyc@cisco.com>
-Date: Tue, 28 Mar 2017 19:02:26 -0000
-Message-ID: <20170328190226.6645.62740@do.openembedded.org>
+Date: Tue, 28 Mar 2017 19:02:27 -0000
+Message-ID: <20170328190227.6649.67586@do.openembedded.org>
 References: <cover.1490722167.git.spopovyc@cisco.com>
 Reply-To: openembedded-core@lists.openembedded.org
 X-Patchwork-Hint: ignore
 In-Reply-To: <cover.1490722167.git.spopovyc@cisco.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgYXV0b21ha2UvYXV0b2NvbmY6IGF2b2lkIHBhdGggdG8gcGVybCBpbnRlcnByZXRlciBoYXJkY29kaW5n?=
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgYXV0b21ha2UvYXV0b2NvbmY6IGF2b2lkIHBhdGggdG8gcGVybCBpbnRlcnByZXRlciBoYXJkY29kaW5nIChyZXYyKQ==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,14 +25,14 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Mar 2017 19:02:24 -0000
+X-List-Received-Date: Tue, 28 Mar 2017 19:02:25 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
 == Series Details ==
 
-Series: automake/autoconf: avoid path to perl interpreter hardcoding
-Revision: 1
+Series: automake/autoconf: avoid path to perl interpreter hardcoding (rev2)
+Revision: 2
 URL   : https://patchwork.openembedded.org/series/6028/
 State : failure
 
