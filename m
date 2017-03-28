@@ -1,30 +1,58 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id BBD0777A0C
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-it0-f51.google.com (mail-it0-f51.google.com
+	[209.85.214.51])
+	by mail.openembedded.org (Postfix) with ESMTP id CF4B271A74
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Mar 2017 13:34:56 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTP id v2SDYm3a020359; 
-	Tue, 28 Mar 2017 14:34:57 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id zhEv4sK92BFo; Tue, 28 Mar 2017 14:34:57 +0100 (BST)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v2SDYsRU020504
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Tue, 28 Mar 2017 14:34:55 +0100
-Message-ID: <1490708094.13980.286.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: "Elizabeth 'pidge' Flanagan" <pidge@toganlabs.com>,
-	openembedded-core@lists.openembedded.org
-Date: Tue, 28 Mar 2017 14:34:54 +0100
-In-Reply-To: <1490701251-20408-2-git-send-email-pidge@toganlabs.com>
-References: <1490701251-20408-1-git-send-email-pidge@toganlabs.com>
-	<1490701251-20408-2-git-send-email-pidge@toganlabs.com>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.1 
+	Tue, 28 Mar 2017 13:42:28 +0000 (UTC)
+Received: by mail-it0-f51.google.com with SMTP id e75so56423191itd.1
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 28 Mar 2017 06:42:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:organization:mime-version:content-transfer-encoding;
+	bh=+iWoN5PKiLX4epjjqHwhtpJVwpfLBqr3CVJVBTtsyz8=;
+	b=vGcfzalIvq+7ic3QVO/tgaPeCunzNLds4taJLN7eLc0DZxHS2xA2oGzLzZm/LNcS9e
+	7P3g28GalSm+Xxq4N7R5IkFmq49hNpnG/h16tcdPFiF6nUNfJZu9nmmLpw6Z9/En9mVx
+	axeO0taRSl6RKYG5bVtp5rxkeD/xka/HlEMZLddYsPOaFdfNGJX5YyIqCv8OcVgpOcnx
+	UA+sSv7BIZKBmu3HoxZRhitxL3yYjXuHwxeBNzY/2daqMH0oO1EZUr1nvcC1LbROv/Yc
+	VNFcwDA8ZLrXzWpHfeQ6F7z6ZlbuC5WAfwVNnAH161roZ4AsQvuGAUMzJNWQsqmGNieW
+	ZhaA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:organization:mime-version:content-transfer-encoding;
+	bh=+iWoN5PKiLX4epjjqHwhtpJVwpfLBqr3CVJVBTtsyz8=;
+	b=UICYkO122cRuBiPjp48d88bSekXCtwzrpYB2ahGz/GQj/ESvxiUTGAMxcUhfL0SaDi
+	Gj+NqM70wz2VzYWTln+ZJjJVi9aVg7e5D6qDwiil/6swZRj6fMXWJuPzWBOV/87v+yVD
+	zEB5nEX8deAsIKfXR2yl9k9UO89lsOCYGJPMQhvzcNx4cbAvhqtCgpzoDDJJLYc+721E
+	Ag7t08EgWkGrsiLOrsq/YWdbL7e7sLzRV3H3AueVHG0IuEyoJvZsEvjPZHPuJg1dKI5F
+	MKD7yzBKBgOW9g6unXTJ4bYA84pwodjKAPQstZ9/m1yNlpmKuSWkKYguc/ySlOR4SYwI
+	OIVg==
+X-Gm-Message-State: AFeK/H0ti1/dBh40TO1Ou0EwOLjB3FBXKPnHNAQM0FLyZOY5GOKxMf0vq5OQHS2tJXjmQLxH
+X-Received: by 10.107.136.93 with SMTP id k90mr25812411iod.224.1490708548021; 
+	Tue, 28 Mar 2017 06:42:28 -0700 (PDT)
+Received: from pohly-mobl1 (p5DE8D2BA.dip0.t-ipconnect.de. [93.232.210.186])
+	by smtp.gmail.com with ESMTPSA id
+	s97sm1909697ioi.50.2017.03.28.06.42.25
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 28 Mar 2017 06:42:26 -0700 (PDT)
+Message-ID: <1490708543.6396.397.camel@intel.com>
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: "Robert P. J. Day" <rpjday@crashcourse.ca>
+Date: Tue, 28 Mar 2017 15:42:23 +0200
+In-Reply-To: <alpine.LFD.2.20.1703280651250.4321@uk63952.mitel.com>
+References: <alpine.LFD.2.20.1703251400150.8339@localhost.localdomain>
+	<1490621485.13980.263.camel@linuxfoundation.org>
+	<alpine.LFD.2.20.1703280554060.2771@uk63952.mitel.com>
+	<e91ff8ce530942ef8f6711d3c7726f36@XBOX02.axis.com>
+	<alpine.LFD.2.20.1703280651250.4321@uk63952.mitel.com>
+Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
+X-Mailer: Evolution 3.12.9-1+b1 
 Mime-Version: 1.0
-Subject: Re: [PATCH 2/2] bitbake.conf: Add aws-cli support
+Cc: Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
+	OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] classes: Replace "if test" file tests with POSIX file tests
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,45 +65,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Mar 2017 13:34:57 -0000
+X-List-Received-Date: Tue, 28 Mar 2017 13:42:30 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-On Tue, 2017-03-28 at 13:40 +0200, Elizabeth 'pidge' Flanagan wrote:
-> This commit adds aws-cli support to bitbake in order to support
-> the s3 fetcher in bitbake.
+On Tue, 2017-03-28 at 06:54 -0400, Robert P. J. Day wrote:
+>   i'm fine with that, as long as it's officially POSIX. that also
+> suggests the alternate tests:
 > 
-> Signed-off-by: Elizabeth 'pidge' Flanagan <pidge@toganlabs.com>
-> ---
->  meta/conf/bitbake.conf | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
-> 
-> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-> index fa5445b..f21b8d3 100644
-> --- a/meta/conf/bitbake.conf
-> +++ b/meta/conf/bitbake.conf
-> @@ -458,8 +458,8 @@ HOSTTOOLS += " \
->      bash sh cut sed gcc ld git rm install which find xargs cat true mktemp \
->      grep tar gzip touch cp mv basename dirname tr getopt sort awk head tail \
->      mkdir patch uniq perl python chmod python3 ar strip expr ls make as \
-> -    ranlib egrep echo chown cpio tee wc wget bzip2 stat date rmdir od diff \
-> -    md5sum dd chrpath file pod2man gunzip python2.7 ln g++ [ false true \
-> +    ranlib egrep echo chown cpio tee wc wget aws bzip2 stat date rmdir \
-> +    od diff md5sum dd chrpath file pod2man gunzip python2.7 ln g++ [ false true \
->      uname test hostname nm objdump objcopy cmp printf env readlink gawk fgrep \
->      expand pwd sleep diffstat chgrp flock ldd strings rpcgen du makeinfo \
->      getconf mknod cpp readelf split \
+>   [ "${VAR}" ]
+>   [ ! "${VAR}" ]
 
-Adding to HOSTTOOLS means *all* systems have to have this available
-else the build fails. This for example would breaks all our
-autobuilders. Past feature freeze point this tends to upset me a bit
-even more than usual.
+I personally prefer this. ! instead of -z feels more consistent (when
+not using the special "-n", let's also avoid the special "-z" and use
+the more general "!" instead.
 
-You want to add this to HOSTTOOLS_NONFATAL below.
+-- 
+Best Regards, Patrick Ohly
 
-Your patch also doesn't apply against master either.
+The content of this message is my personal opinion only and although
+I am an employee of Intel, the statements I make here in no way
+represent Intel's position on the issue, nor am I authorized to speak
+on behalf of Intel on this matter.
 
-Cheers,
 
-Richard
+
 
