@@ -1,43 +1,43 @@
 Return-Path: <pidge@toganlabs.com>
-X-Greylist: delayed 424 seconds by postgrey-1.34 at layers.openembedded.org;
-	Tue, 28 Mar 2017 11:35:34 UTC
 Received: from egyptian.birch.relay.mailchannels.net
 	(egyptian.birch.relay.mailchannels.net [23.83.209.56])
-	by mail.openembedded.org (Postfix) with ESMTP id 2277E77A46
+	by mail.openembedded.org (Postfix) with ESMTP id CFE2E77A91
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Mar 2017 11:35:34 +0000 (UTC)
+	Tue, 28 Mar 2017 11:35:39 +0000 (UTC)
 X-Sender-Id: hostpapa|x-authuser|pidge@toganlabs.com
 Received: from relay.mailchannels.net (localhost [127.0.0.1])
-	by relay.mailchannels.net (Postfix) with ESMTP id 44D557C1E99
+	by relay.mailchannels.net (Postfix) with ESMTP id 529BA7C3B13
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Mar 2017 11:28:10 +0000 (UTC)
-Received: from hp181.hostpapa.com (unknown [100.96.135.247])
-	by relay.mailchannels.net (Postfix) with ESMTPA id E7C347C284E
+	Tue, 28 Mar 2017 11:28:26 +0000 (UTC)
+Received: from hp181.hostpapa.com (unknown [100.96.133.151])
+	by relay.mailchannels.net (Postfix) with ESMTPA id C1E417C3AB6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Mar 2017 11:28:09 +0000 (UTC)
+	Tue, 28 Mar 2017 11:28:25 +0000 (UTC)
 X-Sender-Id: hostpapa|x-authuser|pidge@toganlabs.com
-Received: from hp181.hostpapa.com (hp181.hostpapa.com [172.20.66.218])
+Received: from hp181.hostpapa.com (hp181.hostpapa.com [172.20.72.20])
 	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384)
-	by 0.0.0.0:2500 (trex/5.7.37); Tue, 28 Mar 2017 11:28:10 +0000
+	by 0.0.0.0:2500 (trex/5.7.37); Tue, 28 Mar 2017 11:28:26 +0000
 X-MC-Relay: Neutral
 X-MailChannels-SenderId: hostpapa|x-authuser|pidge@toganlabs.com
 X-MailChannels-Auth-Id: hostpapa
-X-Shoe-Squirrel: 04441e24406003e2_1490700490162_942027420
-X-MC-Loop-Signature: 1490700490162:895682194
-X-MC-Ingress-Time: 1490700490162
+X-Army-Relation: 41f4d2cd174b7938_1490700506058_1359228810
+X-MC-Loop-Signature: 1490700506058:894512875
+X-MC-Ingress-Time: 1490700506057
 Received: from ns325767.ip-37-187-157.eu ([37.187.157.197]:37755
 	helo=ns325767.ovh.net) by hp181.hostpapa.com with esmtpsa
 	(TLSv1.2:ECDHE-RSA-AES128-SHA256:128) (Exim 4.87)
 	(envelope-from <pidge@toganlabs.com>)
-	id 1cspIH-000UTE-3A; Tue, 28 Mar 2017 13:28:09 +0200
+	id 1cspIU-000UTE-QP; Tue, 28 Mar 2017 13:28:23 +0200
 From: Elizabeth 'pidge' Flanagan <pidge@toganlabs.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 28 Mar 2017 13:40:50 +0200
-Message-Id: <1490701251-20408-1-git-send-email-pidge@toganlabs.com>
+Date: Tue, 28 Mar 2017 13:40:51 +0200
+Message-Id: <1490701251-20408-2-git-send-email-pidge@toganlabs.com>
 X-Mailer: git-send-email 1.9.1
+In-Reply-To: <1490701251-20408-1-git-send-email-pidge@toganlabs.com>
+References: <1490701251-20408-1-git-send-email-pidge@toganlabs.com>
 X-OutGoing-Spam-Status: No, score=5.0
 X-AuthUser: pidge@toganlabs.com
-Subject: [PATCH 1/2] aws-cli_1.11.66.bb: Initial commit of aws-cli
+Subject: [PATCH 2/2] bitbake.conf: Add aws-cli support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,49 +50,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Mar 2017 11:35:35 -0000
+X-List-Received-Date: Tue, 28 Mar 2017 11:35:40 -0000
 
-With fetch2 supporting s3, having an aws-cli recipe makes sense.
+This commit adds aws-cli support to bitbake in order to support
+the s3 fetcher in bitbake.
 
 Signed-off-by: Elizabeth 'pidge' Flanagan <pidge@toganlabs.com>
 ---
- meta/recipes-devtools/aws-cli/aws-cli.inc        | 14 ++++++++++++++
- meta/recipes-devtools/aws-cli/aws-cli_1.11.66.bb |  5 +++++
- 2 files changed, 19 insertions(+)
- create mode 100644 meta/recipes-devtools/aws-cli/aws-cli.inc
- create mode 100644 meta/recipes-devtools/aws-cli/aws-cli_1.11.66.bb
+ meta/conf/bitbake.conf | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-devtools/aws-cli/aws-cli.inc b/meta/recipes-devtools/aws-cli/aws-cli.inc
-new file mode 100644
-index 0000000..e9a2677
---- /dev/null
-+++ b/meta/recipes-devtools/aws-cli/aws-cli.inc
-@@ -0,0 +1,14 @@
-+SUMMARY = "Amazon Web Services Command Line Interface"
-+DESCRIPTION = "The AWS Command Line Interface (CLI) is a \
-+unified tool to manage your AWS services." 
-+HOMEPAGE = "https://aws.amazon.com/cli/"
-+SECTION = "console/utils"
-+
-+SRC_URI = "https://github.com/aws/${BPN}/archive/${PV}.tar.gz"
-+
-+LICENSE = "Apache-2.0"
-+LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=71a3e14f29ac5c23e1b5b934ca4ddfc9"
-+
-+S = "${WORKDIR}/${BPN}-${PV}"
-+
-+BBCLASSEXTEND = "native nativesdk"
-diff --git a/meta/recipes-devtools/aws-cli/aws-cli_1.11.66.bb b/meta/recipes-devtools/aws-cli/aws-cli_1.11.66.bb
-new file mode 100644
-index 0000000..a96b71e
---- /dev/null
-+++ b/meta/recipes-devtools/aws-cli/aws-cli_1.11.66.bb
-@@ -0,0 +1,5 @@
-+require aws-cli.inc
-+
-+SRC_URI[md5sum] = "c556adb58d0234eb661520488b9b467f"
-+SRC_URI[sha256sum] = "2c1da406203e0a9b5c717004bd463228e4fa4fa8fe47208f0e1836c02bee6f60"
-+
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index fa5445b..f21b8d3 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -458,8 +458,8 @@ HOSTTOOLS += " \
+     bash sh cut sed gcc ld git rm install which find xargs cat true mktemp \
+     grep tar gzip touch cp mv basename dirname tr getopt sort awk head tail \
+     mkdir patch uniq perl python chmod python3 ar strip expr ls make as \
+-    ranlib egrep echo chown cpio tee wc wget bzip2 stat date rmdir od diff \
+-    md5sum dd chrpath file pod2man gunzip python2.7 ln g++ [ false true \
++    ranlib egrep echo chown cpio tee wc wget aws bzip2 stat date rmdir \
++    od diff md5sum dd chrpath file pod2man gunzip python2.7 ln g++ [ false true \
+     uname test hostname nm objdump objcopy cmp printf env readlink gawk fgrep \
+     expand pwd sleep diffstat chgrp flock ldd strings rpcgen du makeinfo \
+     getconf mknod cpp readelf split \
+@@ -640,6 +640,7 @@ FETCHCMD_cvs = "/usr/bin/env cvs"
+ FETCHCMD_wget = "/usr/bin/env wget -t 2 -T 30 -nv --passive-ftp --no-check-certificate"
+ FETCHCMD_bzr = "/usr/bin/env bzr"
+ FETCHCMD_hg = "/usr/bin/env hg"
++FETCHCMD_s3 = "/usr/bin/env aws s3"
+ 
+ SRCDATE = "${DATE}"
+ SRCREV ??= "INVALID"
 -- 
 1.9.1
 
