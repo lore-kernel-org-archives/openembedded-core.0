@@ -1,34 +1,34 @@
 Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 308AF77B14
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 5D88D77B3C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Mar 2017 12:43:20 +0000 (UTC)
+	Tue, 28 Mar 2017 12:43:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
 	d=intel.com; i=@intel.com; q=dns/txt; s=intel;
-	t=1490705002; x=1522241002;
+	t=1490705003; x=1522241003;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=/K6VEvIEMzUDUOK83uCBcCi8Sdq+BEBln2q50as1WBw=;
-	b=S41yfiYo0xpMvLTjz+UKeTQGnsjjKJ4XjSPtIbPltQSFTPGSegK+N2pc
-	KKaTRVjljighIVGP1iLuj44/BZ4P/w==;
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	28 Mar 2017 05:43:21 -0700
+	bh=xlvdZW2GQsueToGzO0yHT7D9buZGZ77F5Tyd/JjtvO4=;
+	b=u/YfEqpEjpnDd6HLT1GiE2aYfM5vlu6EA8iVXyCvhO6QueBD7hTC12EF
+	4hmmvYoUc3C2MnCRK8wQoTM0oPpVHw==;
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	28 Mar 2017 05:43:23 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.36,236,1486454400"; d="scan'208";a="71268582"
+X-IronPort-AV: E=Sophos;i="5.36,236,1486454400"; d="scan'208";a="241207887"
 Received: from linux.intel.com ([10.54.29.200])
-	by orsmga004.jf.intel.com with ESMTP; 28 Mar 2017 05:43:21 -0700
+	by fmsmga004.fm.intel.com with ESMTP; 28 Mar 2017 05:43:23 -0700
 Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
-	by linux.intel.com (Postfix) with ESMTP id E507F6A4006
+	by linux.intel.com (Postfix) with ESMTP id E8D636A4006
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Mar 2017 05:43:14 -0700 (PDT)
+	Tue, 28 Mar 2017 05:43:15 -0700 (PDT)
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 28 Mar 2017 15:41:03 +0300
-Message-Id: <1c068947e561a336bcfaf6bb433d7bf4c6e25908.1490704390.git.ed.bartosh@linux.intel.com>
+Date: Tue, 28 Mar 2017 15:41:04 +0300
+Message-Id: <0e5fc0c9daf40d6e89d02755f8b387eb465b1202.1490704390.git.ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1490704390.git.ed.bartosh@linux.intel.com>
 References: <cover.1490704390.git.ed.bartosh@linux.intel.com>
-Subject: [PATCH 6/9] wic: use wic-tools STAGING_DATADIR as bootimg_dir
+Subject: [PATCH 7/9] wic: remove runner.show API
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,97 +41,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Mar 2017 12:43:20 -0000
+X-List-Received-Date: Tue, 28 Mar 2017 12:43:21 -0000
 
-If bootloader artifacts are not found in default bootimg_dir
-use wic-tools sysroot for the same purpose. This should
-prevent wic from failing if bootloader artifacts can't be
-found in image native sysroot.
+Replaced runner.show call to exec_cmd call in bootimg-pcbios
+plugin. Removed runner.show API as it's not used anywhere else.
+
+[YOCTO #10618]
 
 Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 ---
- scripts/lib/wic/plugins/source/bootimg-pcbios.py | 42 +++++++++++-------------
- 1 file changed, 20 insertions(+), 22 deletions(-)
+ scripts/lib/wic/plugins/source/bootimg-pcbios.py |  6 ++----
+ scripts/lib/wic/utils/runner.py                  | 24 ------------------------
+ 2 files changed, 2 insertions(+), 28 deletions(-)
 
 diff --git a/scripts/lib/wic/plugins/source/bootimg-pcbios.py b/scripts/lib/wic/plugins/source/bootimg-pcbios.py
-index 11db304..bfb8ff5 100644
+index bfb8ff5..5890c12 100644
 --- a/scripts/lib/wic/plugins/source/bootimg-pcbios.py
 +++ b/scripts/lib/wic/plugins/source/bootimg-pcbios.py
-@@ -44,19 +44,16 @@ class BootimgPcbiosPlugin(SourcePlugin):
-     name = 'bootimg-pcbios'
+@@ -81,10 +81,8 @@ class BootimgPcbiosPlugin(SourcePlugin):
+         logger.debug("Installing MBR on disk %s as %s with size %s bytes",
+                      disk_name, full_path, disk.min_size)
+ 
+-        rcode = runner.show(['dd', 'if=%s' % mbrfile,
+-                             'of=%s' % full_path, 'conv=notrunc'])
+-        if rcode != 0:
+-            raise WicError("Unable to set MBR to %s" % full_path)
++        dd_cmd = "dd if=%s of=%s conv=notrunc" % (mbrfile, full_path)
++        exec_cmd(dd_cmd, native_sysroot)
  
      @classmethod
--    def _get_syslinux_dir(cls, bootimg_dir):
-+    def _get_bootimg_dir(cls, bootimg_dir, dirname):
-         """
--        Get path to syslinux from either default bootimg_dir
--        or wic-tools STAGING_DIR.
-+        Check if dirname exists in default bootimg_dir or
-+        in wic-tools STAGING_DIR.
-         """
--        for path in (bootimg_dir, get_bitbake_var("STAGING_DATADIR", "wic-tools")):
--            if not path:
--                continue
--            syslinux_dir = os.path.join(path, 'syslinux')
--            if os.path.exists(syslinux_dir):
--                return syslinux_dir
-+        for result in (bootimg_dir, get_bitbake_var("STAGING_DATADIR", "wic-tools")):
-+            if os.path.exists("%s/%s" % (result, dirname)):
-+                return result
+     def do_configure_partition(cls, part, source_params, creator, cr_workdir,
+diff --git a/scripts/lib/wic/utils/runner.py b/scripts/lib/wic/utils/runner.py
+index 56d7ea3..348557a 100644
+--- a/scripts/lib/wic/utils/runner.py
++++ b/scripts/lib/wic/utils/runner.py
+@@ -82,30 +82,6 @@ def runtool(cmdln_or_args, catch=1):
  
--        raise WicError("Couldn't find syslinux directory, exiting")
-+        raise WicError("Couldn't find correct bootimg_dir, exiting")
+     return (process.returncode, out)
  
-     @classmethod
-     def do_install_disk(cls, disk, disk_name, creator, workdir, oe_builddir,
-@@ -65,11 +62,12 @@ class BootimgPcbiosPlugin(SourcePlugin):
-         Called after all partitions have been prepared and assembled into a
-         disk image.  In this case, we install the MBR.
-         """
--        syslinux_dir = cls._get_syslinux_dir(bootimg_dir)
-+        bootimg_dir = cls._get_bootimg_dir(bootimg_dir, 'syslinux')
-+        mbrfile = "%s/syslinux/" % bootimg_dir
-         if creator.ptable_format == 'msdos':
--            mbrfile = os.path.join(syslinux_dir, "mbr.bin")
-+            mbrfile += "mbr.bin"
-         elif creator.ptable_format == 'gpt':
--            mbrfile = os.path.join(syslinux_dir, "gptmbr.bin")
-+            mbrfile += "gptmbr.bin"
-         else:
-             raise WicError("Unsupported partition table: %s" %
-                            creator.ptable_format)
-@@ -155,7 +153,7 @@ class BootimgPcbiosPlugin(SourcePlugin):
-         'prepares' the partition to be incorporated into the image.
-         In this case, prepare content for legacy bios boot partition.
-         """
--        syslinux_dir = cls._get_syslinux_dir(bootimg_dir)
-+        bootimg_dir = cls._get_bootimg_dir(bootimg_dir, 'syslinux')
- 
-         staging_kernel_dir = kernel_dir
- 
-@@ -163,14 +161,14 @@ class BootimgPcbiosPlugin(SourcePlugin):
- 
-         cmds = ("install -m 0644 %s/bzImage %s/vmlinuz" %
-                 (staging_kernel_dir, hdddir),
--                "install -m 444 %s/ldlinux.sys %s/ldlinux.sys" %
--                (syslinux_dir, hdddir),
--                "install -m 0644 %s/vesamenu.c32 %s/vesamenu.c32" %
--                (syslinux_dir, hdddir),
--                "install -m 444 %s/libcom32.c32 %s/libcom32.c32" %
--                (syslinux_dir, hdddir),
--                "install -m 444 %s/libutil.c32 %s/libutil.c32" %
--                (syslinux_dir, hdddir))
-+                "install -m 444 %s/syslinux/ldlinux.sys %s/ldlinux.sys" %
-+                (bootimg_dir, hdddir),
-+                "install -m 0644 %s/syslinux/vesamenu.c32 %s/vesamenu.c32" %
-+                (bootimg_dir, hdddir),
-+                "install -m 444 %s/syslinux/libcom32.c32 %s/libcom32.c32" %
-+                (bootimg_dir, hdddir),
-+                "install -m 444 %s/syslinux/libutil.c32 %s/libutil.c32" %
-+                (bootimg_dir, hdddir))
- 
-         for install_cmd in cmds:
-             exec_cmd(install_cmd)
+-def show(cmdln_or_args):
+-    """Show all messages using logger.debug."""
+-
+-    rcode, out = runtool(cmdln_or_args, catch=3)
+-
+-    if isinstance(cmdln_or_args, list):
+-        cmd = ' '.join(cmdln_or_args)
+-    else:
+-        cmd = cmdln_or_args
+-
+-    msg = 'running command: "%s"' % cmd
+-    if out:
+-        out = out.strip()
+-    if out:
+-        msg += ', with output::'
+-        msg += '\n  +----------------'
+-        for line in out.splitlines():
+-            msg += '\n  | %s' % line
+-        msg += '\n  +----------------'
+-
+-    logger.debug(msg)
+-
+-    return rcode
+-
+ def outs(cmdln_or_args, catch=1):
+     # get the outputs of tools
+     return runtool(cmdln_or_args, catch)[1].strip()
 -- 
 2.1.4
 
