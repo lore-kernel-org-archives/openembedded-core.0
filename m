@@ -1,54 +1,29 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
-	by mail.openembedded.org (Postfix) with ESMTP id 2764777B20
+Return-Path: <rpjday@crashcourse.ca>
+Received: from smtp685.redcondor.net (smtp685.redcondor.net [208.80.206.85])
+	by mail.openembedded.org (Postfix) with ESMTP id ED10C77B20
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Mar 2017 14:25:50 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bes.se.axis.com (Postfix) with ESMTP id 1B69F2E08A;
-	Tue, 28 Mar 2017 16:25:52 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
-Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id TbU79teuVQGb; Tue, 28 Mar 2017 16:25:51 +0200 (CEST)
-Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
-	by bes.se.axis.com (Postfix) with ESMTPS id 222622E5CA;
-	Tue, 28 Mar 2017 16:25:51 +0200 (CEST)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 115031A06D;
-	Tue, 28 Mar 2017 16:25:51 +0200 (CEST)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 065961A06B;
-	Tue, 28 Mar 2017 16:25:51 +0200 (CEST)
-Received: from seth.se.axis.com (unknown [10.0.2.172])
-	by boulder02.se.axis.com (Postfix) with ESMTP;
-	Tue, 28 Mar 2017 16:25:50 +0200 (CEST)
-Received: from XBOX01.axis.com (xbox01.axis.com [10.0.5.15])
-	by seth.se.axis.com (Postfix) with ESMTP id EEFBB2070;
-	Tue, 28 Mar 2017 16:25:50 +0200 (CEST)
-Received: from XBOX02.axis.com (10.0.5.16) by XBOX01.axis.com (10.0.5.15) with
-	Microsoft SMTP Server (TLS) id 15.0.1210.3;
-	Tue, 28 Mar 2017 16:25:50 +0200
-Received: from XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776]) by
-	XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776%21]) with mapi id
-	15.00.1210.000; Tue, 28 Mar 2017 16:25:50 +0200
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: "Robert P. J. Day" <rpjday@crashcourse.ca>, OE Core mailing list
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH] classes: Standardize strings tests, and join
-	some if/then/while/do lines
-Thread-Index: AQHSp7EztGFvCHKPLU2Sq9OvyykwmqGqSSjw
-Date: Tue, 28 Mar 2017 14:25:50 +0000
-Message-ID: <01f71a47963847fbb79bf376b814d551@XBOX02.axis.com>
+	Tue, 28 Mar 2017 14:29:42 +0000 (UTC)
+Received: from astoria.ccjclearline.com ([64.235.106.9])
+	by smtp685.redcondor.net ({20c8e40f-6b6c-4c9e-abff-1640ea7bf404})
+	via TCP (outbound) with ESMTPS id 20170328142934056_0685;
+	Tue, 28 Mar 2017 07:29:34 -0700
+X-RC-FROM: <rpjday@crashcourse.ca>
+Received: from [216.191.234.70] (port=14883 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
+	id 1css7j-0005Of-AV; Tue, 28 Mar 2017 10:29:27 -0400
+Date: Tue, 28 Mar 2017 10:29:25 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@uk63952.mitel.com
+To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+In-Reply-To: <01f71a47963847fbb79bf376b814d551@XBOX02.axis.com>
+Message-ID: <alpine.LFD.2.20.1703281028540.4377@uk63952.mitel.com>
 References: <alpine.LFD.2.20.1703280641380.4243@uk63952.mitel.com>
-In-Reply-To: <alpine.LFD.2.20.1703280641380.4243@uk63952.mitel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.60]
+	<01f71a47963847fbb79bf376b814d551@XBOX02.axis.com>
+User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
 MIME-Version: 1.0
-X-TM-AS-GCONF: 00
+X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] classes: Standardize strings tests, and join some if/then/while/do lines
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -62,51 +37,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Mar 2017 14:25:55 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 28 Mar 2017 14:29:43 -0000
+Content-Type: text/plain; charset=US-ASCII
 
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org
-> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
-> Robert P. J. Day
-> Sent: den 28 mars 2017 12:51
-> To: OE Core mailing list
-> Subject: [OE-core] [PATCH] classes: Standardize strings tests, and join
-> some if/then/while/do lines
->=20
->=20
-> For better or worse, two types of cleanup in meta/classes directory:
->=20
-> * Replace old-style 'x${VAR} =3D x' tests with -n/-z string tests
-> * Unsplit lines to keep if/then, while/do on same line
->=20
-> Signed-off-by: Robert P. J. Day <rpjday@crashcourse.ca>
->=20
-> ---
->=20
->   i realize there are two types of tidying here -- if that offends
-> people, i can split it into two separate submissions. nothing here
-> should affect execution, but it's always possible i screwed something
-> up, not sure how to rigourously test these changes.
->=20
->   also, when i did change a shell string test, i added {} around the
-> variable name, it's just a standard i like for visual clarity. apply
-> all or part of what seems useful.
+On Tue, 28 Mar 2017, Peter Kjellerstedt wrote:
 
-You should absolutely not do this, especially if you want visual clarity=20
-in a BitBake recipe. This makes the variable look like a BitBake variable=20
-instead of a shell variable,  and not just to us humans, but to bitbake=20
-as well. It will cause bitbake to put an unnecessary dependency on the=20
-(typically non-existent) BitBake variable ${VAR} in the state signature=20
-for the shell function. Which, as Ross pointed out, will cause problems=20
-in the case where there actually are both a BitBake variable and a shell=20
-variable with the same name.
+> > -----Original Message-----
+> > From: openembedded-core-bounces@lists.openembedded.org
+> > [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
+> > Robert P. J. Day
+> > Sent: den 28 mars 2017 12:51
+> > To: OE Core mailing list
+> > Subject: [OE-core] [PATCH] classes: Standardize strings tests, and join
+> > some if/then/while/do lines
+> >
+> >
+> > For better or worse, two types of cleanup in meta/classes directory:
+> >
+> > * Replace old-style 'x${VAR} = x' tests with -n/-z string tests
+> > * Unsplit lines to keep if/then, while/do on same line
+> >
+> > Signed-off-by: Robert P. J. Day <rpjday@crashcourse.ca>
+> >
+> > ---
+> >
+> >   i realize there are two types of tidying here -- if that offends
+> > people, i can split it into two separate submissions. nothing here
+> > should affect execution, but it's always possible i screwed something
+> > up, not sure how to rigourously test these changes.
+> >
+> >   also, when i did change a shell string test, i added {} around the
+> > variable name, it's just a standard i like for visual clarity. apply
+> > all or part of what seems useful.
+>
+> You should absolutely not do this, especially if you want visual clarity
+> in a BitBake recipe. This makes the variable look like a BitBake variable
+> instead of a shell variable,  and not just to us humans, but to bitbake
+> as well...
 
-In addition to that, you would throw at least our company's shell expert=20
-into a fit if you tried to do that in any shell code at all. ;)
+   yes, ross just pointed that out, i had totally forgotten about
+that. so scrap what i sent in earlier.
 
-//Peter
+rday
+
+-- 
+
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
 
