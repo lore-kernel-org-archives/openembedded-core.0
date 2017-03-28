@@ -1,51 +1,39 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg0-f65.google.com (mail-pg0-f65.google.com [74.125.83.65])
-	by mail.openembedded.org (Postfix) with ESMTP id CE0D577A87
+Return-Path: <spopovyc@cisco.com>
+X-Greylist: delayed 574 seconds by postgrey-1.34 at layers.openembedded.org;
+	Tue, 28 Mar 2017 18:36:49 UTC
+Received: from rcdn-iport-9.cisco.com (rcdn-iport-9.cisco.com [173.37.86.80])
+	by mail.openembedded.org (Postfix) with ESMTP id 33A2F72FA3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Mar 2017 18:12:35 +0000 (UTC)
-Received: by mail-pg0-f65.google.com with SMTP id 81so23077485pgh.3
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Mar 2017 11:12:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:references:from:message-id:date:user-agent:mime-version
-	:in-reply-to; bh=1CYBLr/ujnvQeAbZ/9+8Gk4vd0xLXMPCl4wUQ8kgiUU=;
-	b=qBeP12n1jzzIlahiqpuQLCXiLUK0XO+p2/7R8unij9NHPbOfu2YnCoWlhHQjswKJM5
-	7sI3fKnmlf5GoU/9S3S8ME9pOBpppWJtdrtYseOIXkkuoIUvLNOSAtVhO+lasPlwiuH6
-	KZWTIoL0vtJZl5x+cLhJStqewU9W+YWm5W2BQE51nfY+iDEpQZ0X1LwOpEaU1BVon/uH
-	fL+UD7oQlVSXxzqT11KolRa6WUV72q2J4yDVhX7sxMOoWxTUX2399l5y1vcSYmHY32dY
-	ZuJsbi8AhUmvFEMtc55rw+wmyFoTdfZNdRR57X/w63Kzp1digXmMMMZSId6H06xltwiY
-	Zb3A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to;
-	bh=1CYBLr/ujnvQeAbZ/9+8Gk4vd0xLXMPCl4wUQ8kgiUU=;
-	b=Pn/Kg/mXfqXk6Sl6XyMqlRfNeqYqYy0N1y/dDOea+eXeeTW15CCIt1TfSlyyXQ5SzN
-	2sxNE7kQhcM+k/wv3v9uxCsUZE5BwNovy9FbZDOLzEtUtIFMLZOtoNZDjdyNDfUDB+XZ
-	6AgQdAM+UleBCZ1qRQ4Hs4wtUCCkaH3QMVO858fCanen9eCUzhL+aiBhucuya3OdX55V
-	IjQN+6iE+jof2V1RGCEeLmSDk0gJG6A6vxjuVIXu6xINu+yOCFhRvwWJqNL5JtzhZfWf
-	EHODK5XssfRtcHvh8xYjCRzStEr4Uqaq8pX+TYjZjudbOnxsGvTaSW0X5hEShVPEaGNw
-	hlSw==
-X-Gm-Message-State: AFeK/H1PJUVJPZAoqSbMjpnpOTBPrncLmck0/YM1ku988CT985YKDdSe8e78PLMl3dZTuQ==
-X-Received: by 10.99.56.88 with SMTP id h24mr31398396pgn.108.1490724756247;
-	Tue, 28 Mar 2017 11:12:36 -0700 (PDT)
-Received: from CACSVMO-14452.local ([2601:647:4c00:23ec:1153:8bec:b665:1636])
-	by smtp.gmail.com with ESMTPSA id
-	11sm8731881pgf.28.2017.03.28.11.12.34
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 28 Mar 2017 11:12:34 -0700 (PDT)
+	Tue, 28 Mar 2017 18:36:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=cisco.com; i=@cisco.com; l=1238; q=dns/txt; s=iport;
+	t=1490726211; x=1491935811;
+	h=from:to:cc:subject:date:message-id;
+	bh=j1YtKD+Ed47Q1nKAWWhc9vE28LQTJCf/3CciVNpy+pY=;
+	b=AeDApH6xYrtUXwlxiSr1nSXpYsbi5j9khnZ6f2KowXbk4Isqq4DsBWf9
+	uUGZDUJyCkbN0cUNyfRlNCwrKChl2ylmQHD+KlUOKkAhWhdlYABsHGOoR
+	p1fGAswLE2ddjvKN+w4ClFCUL0dPlPl7A1rWyGDYydJgH5FV2BB7KIVvb I=;
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-Anti-Spam-Result: =?us-ascii?q?A0DyAABWqtpY/4ENJK1dGQEBAQEBAQEBA?=
+	=?us-ascii?q?QEBBwEBAQEBg1RhgQuNcaUNgg+CDiaFfIMlPxgBAgEBAQEBAQFrKIYVgVGJeg2?=
+	=?us-ascii?q?vVYpNAQEIKBOGO4oPhRkFlhCGUIZ8i1OBfIUqiFOBOpNqHzg+RjofFYVPgUpAN?=
+	=?us-ascii?q?YlSAQEB?=
+X-IronPort-AV: E=Sophos;i="5.36,237,1486425600"; d="scan'208";a="223760017"
+Received: from alln-core-9.cisco.com ([173.36.13.129])
+	by rcdn-iport-9.cisco.com with ESMTP/TLS/DHE-RSA-AES256-SHA;
+	28 Mar 2017 18:27:16 +0000
+Received: from sjc-ads-6963.cisco.com (sjc-ads-6963.cisco.com [10.30.218.83])
+	by alln-core-9.cisco.com (8.14.5/8.14.5) with ESMTP id v2SIRFr3006083
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=NO);
+	Tue, 28 Mar 2017 18:27:16 GMT
+From: Serhii Popovych <spopovyc@cisco.com>
 To: openembedded-core@lists.openembedded.org
-References: <20170328040201.20341-1-jonathan.yong@intel.com>
-	<20170328040201.20341-3-jonathan.yong@intel.com>
-From: Khem Raj <raj.khem@gmail.com>
-Message-ID: <245d8d7c-2198-b3e0-bb34-7543b24808e9@gmail.com>
-Date: Tue, 28 Mar 2017 11:12:28 -0700
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:45.0)
-	Gecko/20100101 Thunderbird/45.8.0
-MIME-Version: 1.0
-In-Reply-To: <20170328040201.20341-3-jonathan.yong@intel.com>
-Subject: Re: [PATCH] f2fs-tools: Update to Version 1.8.0
+Date: Tue, 28 Mar 2017 18:26:46 +0000
+Message-Id: <cover.1490722167.git.spopovyc@cisco.com>
+X-Mailer: git-send-email 2.7.4
+X-Auto-Response-Suppress: DR, OOF, AutoReply
+Cc: XE-Linux <xe-linux-external@cisco.com>
+Subject: [PATCH 0/2] automake/autoconf: avoid path to perl interpreter hardcoding
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,123 +46,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Mar 2017 18:12:36 -0000
-X-Groupsio-MsgNum: 95393
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature";
-	boundary="8MqjarO5rnlv189CEtnh0xh2mepKK1pSu"
+X-List-Received-Date: Tue, 28 Mar 2017 18:36:50 -0000
 
---8MqjarO5rnlv189CEtnh0xh2mepKK1pSu
-Content-Type: multipart/mixed; boundary="UnVFwtTVL7cfFAr3V34cREKmUbQ8vjHbb";
- protected-headers="v1"
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Message-ID: <245d8d7c-2198-b3e0-bb34-7543b24808e9@gmail.com>
-Subject: Re: [OE-core] [PATCH] f2fs-tools: Update to Version 1.8.0
-References: <20170328040201.20341-1-jonathan.yong@intel.com>
- <20170328040201.20341-3-jonathan.yong@intel.com>
-In-Reply-To: <20170328040201.20341-3-jonathan.yong@intel.com>
+Hi,
 
---UnVFwtTVL7cfFAr3V34cREKmUbQ8vjHbb
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: quoted-printable
+In this small series I would like to address build host perl
+interpreter hardcoding in shebang lines of various
+automake/autoconf scripts.
 
+This allows to use newer version of perl interpreter from
+some toolchain (e.g. devtoolset from SCL on RHEL6) when
+build host version is quite old to be used with automake/autoconf.
 
+Please review.
 
-On 3/27/17 9:02 PM, Yong, Jonathan wrote:
-> Signed-off-by: Yong, Jonathan <jonathan.yong@intel.com>
-> ---
->  .../0002-Fix-mkfs-out-of-tree-builds.patch         | 27 ++++++++++++++=
-++++++++
->  .../{f2fs-tools_1.4.0.bb =3D> f2fs-tools_1.8.0.bb}   |  5 ++--
->  2 files changed, 30 insertions(+), 2 deletions(-)
->  create mode 100644 meta-filesystems/recipes-utils/f2fs-tools/f2fs-tool=
-s/0002-Fix-mkfs-out-of-tree-builds.patch
->  rename meta-filesystems/recipes-utils/f2fs-tools/{f2fs-tools_1.4.0.bb =
-=3D> f2fs-tools_1.8.0.bb} (81%)
->=20
-> diff --git a/meta-filesystems/recipes-utils/f2fs-tools/f2fs-tools/0002-=
-Fix-mkfs-out-of-tree-builds.patch b/meta-filesystems/recipes-utils/f2fs-t=
-ools/f2fs-tools/0002-Fix-mkfs-out-of-tree-builds.patch
-> new file mode 100644
-> index 0000000..3aadf3c
-> --- /dev/null
-> +++ b/meta-filesystems/recipes-utils/f2fs-tools/f2fs-tools/0002-Fix-mkf=
-s-out-of-tree-builds.patch
-> @@ -0,0 +1,27 @@
-> +From 1d4f6b6a945eabb364a2035d5ef0b69f68a87f74 Mon Sep 17 00:00:00 2001=
+Thanks.
 
-> +From: "Yong, Jonathan" <jonathan.yong@intel.com>
-> +Date: Mon, 27 Mar 2017 08:34:06 +0000
-> +Subject: [PATCH] Fix mkfs out of tree builds
-> +
-> +Libraries are built in builddir, not srcdir, fix Makefile.am
-> +accordingly.
+Cc: XE-Linux <xe-linux-external@cisco.com>
+Serhii Popovych (2):
+  autoconf: Adjust shebang lines to remove interpreter path hardcode
+  automake: Adjust shebang lines to remove interpreter path hardcode
 
-This patch should also be upstreamed into f2fs
+ meta/recipes-devtools/autoconf/autoconf.inc        |   7 +-
+ ...tion-in-shebangs-with-modern-use-warnings.patch | 196 +++++++++++++++++++++
+ meta/recipes-devtools/autoconf/autoconf_2.69.bb    |   1 +
+ ...tion-in-shebangs-with-modern-use-warnings.patch |  99 +++++++++++
+ meta/recipes-devtools/automake/automake_1.15.bb    |  13 +-
+ 5 files changed, 312 insertions(+), 4 deletions(-)
+ create mode 100644 meta/recipes-devtools/autoconf/autoconf/autoconf-replace-w-option-in-shebangs-with-modern-use-warnings.patch
+ create mode 100644 meta/recipes-devtools/automake/automake/automake-replace-w-option-in-shebangs-with-modern-use-warnings.patch
 
-> +
-> +Signed-off-by: Yong, Jonathan <jonathan.yong@intel.com>
-> +---
-> + mkfs/Makefile.am | 2 +-
-> + 1 file changed, 1 insertion(+), 1 deletion(-)
-> +
-> +diff --git a/mkfs/Makefile.am b/mkfs/Makefile.am
-> +index 8b4c16c..ae211b2 100644
-> +--- a/mkfs/Makefile.am
-> ++++ b/mkfs/Makefile.am
-> +@@ -10,5 +10,5 @@ lib_LTLIBRARIES =3D libf2fs_format.la
-> + libf2fs_format_la_SOURCES =3D f2fs_format_main.c f2fs_format.c f2fs_f=
-ormat_utils.c
-> + libf2fs_format_la_CFLAGS =3D -DWITH_BLKDISCARD
-> + libf2fs_format_la_CPPFLAGS =3D -I$(top_srcdir)/include
-> +-libf2fs_format_la_LDFLAGS =3D -luuid -L$(top_srcdir)/lib -lf2fs \
-> ++libf2fs_format_la_LDFLAGS =3D -luuid -L$(top_builddir)/lib -lf2fs \
-> + 	-version-info $(FMT_CURRENT):$(FMT_REVISION):$(FMT_AGE)
-> +--=20
-> +2.10.2
-> +
-> diff --git a/meta-filesystems/recipes-utils/f2fs-tools/f2fs-tools_1.4.0=
-=2Ebb b/meta-filesystems/recipes-utils/f2fs-tools/f2fs-tools_1.8.0.bb
-> similarity index 81%
-> rename from meta-filesystems/recipes-utils/f2fs-tools/f2fs-tools_1.4.0.=
-bb
-> rename to meta-filesystems/recipes-utils/f2fs-tools/f2fs-tools_1.8.0.bb=
-
-> index 1a558e7..691cb6e 100644
-> --- a/meta-filesystems/recipes-utils/f2fs-tools/f2fs-tools_1.4.0.bb
-> +++ b/meta-filesystems/recipes-utils/f2fs-tools/f2fs-tools_1.8.0.bb
-> @@ -7,9 +7,10 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D362b4b2594c=
-d362b874a97718faa51d3"
->  # to provide libuuid
->  DEPENDS =3D "util-linux"
-> =20
-> -SRCREV =3D "baac4b4e6f41ceb02511da49dd3707674f3fea21"
-> +SRCREV =3D "1e7aedf99b85d16f94d1d8ad2fcf846403bb2174"
->  SRC_URI =3D "git://git.kernel.org/pub/scm/linux/kernel/git/jaegeuk/f2f=
-s-tools.git \
-> -    file://0001-Remove-AC_CHECK_FILE-for-cross-compilation.patch"
-> +    file://0001-Remove-AC_CHECK_FILE-for-cross-compilation.patch \
-> +    file://0002-Fix-mkfs-out-of-tree-builds.patch"
->  S =3D "${WORKDIR}/git"
-> =20
->  inherit pkgconfig autotools
->=20
+-- 
+2.7.4
 
 
---UnVFwtTVL7cfFAr3V34cREKmUbQ8vjHbb--
-
---8MqjarO5rnlv189CEtnh0xh2mepKK1pSu
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-Comment: GPGTools - https://gpgtools.org
-
-iEYEARECAAYFAljap5EACgkQuwUzVZGdMxSF+QCgiA1hw3QVBn9y60zWoK/Ykjok
-TlIAn1T8VuypKhOjTIkYQ4f443F7B5rQ
-=mPI8
------END PGP SIGNATURE-----
-
---8MqjarO5rnlv189CEtnh0xh2mepKK1pSu--
