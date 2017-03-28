@@ -1,47 +1,31 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f176.google.com (mail-qk0-f176.google.com
-	[209.85.220.176])
-	by mail.openembedded.org (Postfix) with ESMTP id B5F6971A21
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 2AA0271A21
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Mar 2017 12:37:43 +0000 (UTC)
-Received: by mail-qk0-f176.google.com with SMTP id r142so34902543qke.2
+	Tue, 28 Mar 2017 12:41:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+	d=intel.com; i=@intel.com; q=dns/txt; s=intel;
+	t=1490704905; x=1522240905; h=from:to:subject:date:message-id;
+	bh=UO8ClGaap7HlcX8vGOmKD+OegNbCVILnQX4YW6er9kI=;
+	b=eeXGjrxjyCFRirLm582PrTjBHKtroG3JhndPivpCSvdr+Vm0XttOskT/
+	5a5tGs3LVMC2f/mWApFqUrEMhHaO7w==;
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	28 Mar 2017 05:41:42 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.36,236,1486454400"; d="scan'208";a="81463713"
+Received: from linux.intel.com ([10.54.29.200])
+	by fmsmga005.fm.intel.com with ESMTP; 28 Mar 2017 05:41:42 -0700
+Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
+	by linux.intel.com (Postfix) with ESMTP id 41A166A4006
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Mar 2017 05:37:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=CMvK6OdUyf9sgeNPEHA+ZSdDrrL3ONVvvw9AoC16R5A=;
-	b=B0eylJf48Le7RP3dombOC6FlEolakAIJJ/ncBXuWibUKApTs4u7Dfej/QLryofP7wY
-	EfnlMPOvv6bxuD2aNEMPfEjuHY79HG+qy+N3/R5axtaNfuIl2UOYIywNS6PSlRFzfo0J
-	TS4vDcZQcGC3BAomb8KviCTfftXYs7WuXVCKgk6TzFkfST/6ovZGljYjBYmEaSjlDkmU
-	rpx1QI5BFiW87q0w4a9NEUspRbdEnvtYBr9dYNCUHDouwkogdIzGZyWsPYTv+fiS+i9Q
-	zzWoo+QWOE2PgBhoZUmamFYexAPHve/mK29ChglqLWyxPpL3b45SYUos+AymDa01Ieq5
-	xwKg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=CMvK6OdUyf9sgeNPEHA+ZSdDrrL3ONVvvw9AoC16R5A=;
-	b=iMLnorZGUfzNg/0eR09qqY/mZARhSrhuSaMP3pQpX0wPpQmBYo2EmXS3Gk5Y1aOy6H
-	9m/k0wA1h6BvC8Jf/uFKQ3lbnpb8ZfVYYCN8VJxfUekj+lmaxaYhqsVFBHQ4ctcYWfNe
-	z1EJrWwJS9O15jDqeJnd9plw92mV5D8n7gjCeG1dfgBlRsSrt4hIknJteRN0slJx9BfV
-	8CEksG7oqaid1HwgTil8OXMb89AVzFRgEEnCFIxdC5+/+jPVNFQcNAcYiYxBBZccmI0k
-	Wgd+szIAX1wAN8m+53wdJHf6/si29TvE/rkLYNmgPPRe8Nlu1wRZ3AnBQiRQbghOlGrp
-	vqjw==
-X-Gm-Message-State: AFeK/H1aZWyFDuIpVOWPZqz+R58AVy/H8aAE0rFnpIxAxw0oo7wI8FQPAw6mQv8tjOmW6avxlrKNAHZgCCTX1E1B
-X-Received: by 10.55.47.4 with SMTP id v4mr24727063qkh.77.1490704662902; Tue,
-	28 Mar 2017 05:37:42 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.22.166 with HTTP; Tue, 28 Mar 2017 05:37:22 -0700 (PDT)
-In-Reply-To: <c03b3d4d91d37d2b620230fe29158478fe985afe.1490704144.git.pkj@axis.com>
-References: <cover.1490704144.git.pkj@axis.com>
-	<c03b3d4d91d37d2b620230fe29158478fe985afe.1490704144.git.pkj@axis.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 28 Mar 2017 13:37:22 +0100
-Message-ID: <CAJTo0LZJDf=UUAcx6nixT6r0gKKFDxaXkUc+8LnWiQ3r2Px+mw@mail.gmail.com>
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] fetch2: Create/replace symbolic links atomically
+	Tue, 28 Mar 2017 05:41:35 -0700 (PDT)
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 28 Mar 2017 15:40:57 +0300
+Message-Id: <cover.1490704390.git.ed.bartosh@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH 0/9] #10618: Increase oe-selftest coverage of wic codebase (last part)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,52 +38,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Mar 2017 12:37:44 -0000
-Content-Type: multipart/alternative; boundary=001a114f4108e5e8be054bc9b979
+X-List-Received-Date: Tue, 28 Mar 2017 12:41:44 -0000
 
---001a114f4108e5e8be054bc9b979
-Content-Type: text/plain; charset=UTF-8
+Hi,
 
-On 28 March 2017 at 13:30, Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-wrote:
+Increased test coverage of the wic codebase to 81%:
+ - tested partitions with various fs types(btrfs, squashfs, etc)
+ - removed fsimage plugin
+ - removed not used code from filemap.py and runner.py
+ - tested globbed source spec of image-bootpart plugin
 
-> Under rare circumstances, creating symbolic links could fail because
-> the link already exists. At first glance the code seemed to protect
-> against this, but there was a small window where two separate tasks
-> could decide that a symbolic link needed to be created and then the
-> first task would create it and the second task would fail.
->
-> Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
->
+The following changes since commit 415b72ffcbd26e5f3664370d8b2a9b8105fb6342:
 
-Bitbake has its own list, can you resend to
-bitbake-devel@lists.openembedded.org?
+  dnf: remove systemd units in nativesdk builds (2017-03-28 10:34:37 +0100)
 
-Cheers,
-Ross
+are available in the git repository at:
 
---001a114f4108e5e8be054bc9b979
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+  git://git.yoctoproject.org/poky-contrib ed/wic/wip
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=ed/wic/wip
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 28 March 2017 at 13:30, Peter Kjellerstedt <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:peter.kjellerstedt@axis.com" target=3D"_blank">peter.kjellersted=
-t@axis.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(20=
-4,204,204);border-left-style:solid;padding-left:1ex"><div id=3D"gmail-:4cq"=
- class=3D"gmail-a3s gmail-aXjCH gmail-m15b14e630fb8b9ab">Under rare circums=
-tances, creating symbolic links could fail because<br>
-the link already exists. At first glance the code seemed to protect<br>
-against this, but there was a small window where two separate tasks<br>
-could decide that a symbolic link needed to be created and then the<br>
-first task would create it and the second task would fail.<br>
-<br>
-Signed-off-by: Peter Kjellerstedt &lt;<a href=3D"mailto:peter.kjellerstedt@=
-axis.com">peter.kjellerstedt@axis.com</a>&gt;</div></blockquote></div><br>B=
-itbake has its own list, can you resend to=C2=A0<a href=3D"mailto:bitbake-d=
-evel@lists.openembedded.org">bitbake-devel@lists.openembedded.org</a>?</div=
-><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Cheers,</d=
-iv><div class=3D"gmail_extra">Ross</div></div>
+Ed Bartosh (9):
+  wic-tools: add btrfs-tools squashfs-tools to DEPENDS
+  oe-selftest: add wic test case test_fs_types
+  filemap: remove FilemapSeek class
+  oe-selftest: add kickstart_parser test case
+  wic: remove fsimage plugin
+  wic: use wic-tools STAGING_DATADIR as bootimg_dir
+  wic: remove runner.show API
+  wic: remove unused code from runner module
+  oe-selftest: add test_image_bootpart_globbed test for wic
 
---001a114f4108e5e8be054bc9b979--
+ meta/lib/oeqa/selftest/wic.py                    |  41 +++
+ meta/recipes-core/meta/wic-tools.bb              |   6 +-
+ scripts/lib/wic/filemap.py                       | 309 ++++-------------------
+ scripts/lib/wic/partition.py                     |  13 -
+ scripts/lib/wic/plugins/source/bootimg-pcbios.py |  48 ++--
+ scripts/lib/wic/plugins/source/fsimage.py        |  56 ----
+ scripts/lib/wic/utils/misc.py                    |  14 +-
+ scripts/lib/wic/utils/runner.py                  |  74 +-----
+ 8 files changed, 130 insertions(+), 431 deletions(-)
+ delete mode 100644 scripts/lib/wic/plugins/source/fsimage.py
+
+-- 
+2.1.4
+
+
