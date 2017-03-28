@@ -1,47 +1,18 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 2A6B877A54
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Mar 2017 12:01:34 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id 49C7E18421;
-	Tue, 28 Mar 2017 14:01:35 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id WNGg2XE3TAxI; Tue, 28 Mar 2017 14:01:34 +0200 (CEST)
-Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
-	by bastet.se.axis.com (Postfix) with ESMTPS id 8F78918337;
-	Tue, 28 Mar 2017 14:01:34 +0200 (CEST)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 55CC51A075;
-	Tue, 28 Mar 2017 14:01:34 +0200 (CEST)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 4A94A1A072;
-	Tue, 28 Mar 2017 14:01:34 +0200 (CEST)
-Received: from thoth.se.axis.com (unknown [10.0.2.173])
-	by boulder02.se.axis.com (Postfix) with ESMTP;
-	Tue, 28 Mar 2017 14:01:34 +0200 (CEST)
-Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
-	by thoth.se.axis.com (Postfix) with ESMTP id 3D1212115;
-	Tue, 28 Mar 2017 14:01:34 +0200 (CEST)
-Received: from saur-2.se.axis.com (localhost [127.0.0.1])
-	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id v2SC1Y6a019889;
-	Tue, 28 Mar 2017 14:01:34 +0200
-Received: (from pkj@localhost)
-	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id v2SC1YaY019888;
-	Tue, 28 Mar 2017 14:01:34 +0200
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Amarnath Valluri <amarnath.valluri@intel.com>,
-	openembedded-core@lists.openembedded.org
-Date: Tue, 28 Mar 2017 14:01:18 +0200
-Message-Id: <20170328120118.19826-2-pkj@axis.com>
-X-Mailer: git-send-email 2.12.0
-In-Reply-To: <20170328120118.19826-1-pkj@axis.com>
-References: <20170328120118.19826-1-pkj@axis.com>
-X-TM-AS-GCONF: 00
-Subject: [PATCH 2/2] lsb: Create ${base_prefix}/lib64 correctly when needed
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id B58AE77A54;
+	Tue, 28 Mar 2017 12:02:04 +0000 (UTC)
+MIME-Version: 1.0
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Elizabeth 'pidge' Flanagan <pidge@toganlabs.com>
+Date: Tue, 28 Mar 2017 12:02:06 -0000
+Message-ID: <20170328120206.6648.21745@do.openembedded.org>
+References: <1490701251-20408-1-git-send-email-pidge@toganlabs.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <1490701251-20408-1-git-send-email-pidge@toganlabs.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgImF3cy1jbGlfMS4xMS42Ni5iYjogSW5pdGlhbCBjby4uLiIgYW5kIDEgbW9yZQ==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,53 +25,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Mar 2017 12:01:38 -0000
+X-List-Received-Date: Tue, 28 Mar 2017 12:02:05 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-There were two remaining cases that could end up creating /lib64
-rather than ${base_prefix}/lib64. The difference matters when building
-with usrmerge.
+== Series Details ==
 
-Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+Series: "aws-cli_1.11.66.bb: Initial co..." and 1 more
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/6019/
+State : failure
+
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at d68a86d87a)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- meta/recipes-extended/lsb/lsb_4.1.bb | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
-
-diff --git a/meta/recipes-extended/lsb/lsb_4.1.bb b/meta/recipes-extended/lsb/lsb_4.1.bb
-index 2eb67b8c3a..cedf39eb65 100644
---- a/meta/recipes-extended/lsb/lsb_4.1.bb
-+++ b/meta/recipes-extended/lsb/lsb_4.1.bb
-@@ -97,8 +97,8 @@ do_install_append() {
-        ln -sf ${sbindir}/chkconfig ${D}${nonarch_libdir}/lsb/remove_initd
- 
-        if [ "${TARGET_ARCH}" = "x86_64" ]; then
--               if [ "${baselib}" != "lib64" ]; then
--                   lnr ${D}${base_libdir} ${D}/lib64
-+               if [ "${base_libdir}" != "${base_prefix}/lib64" ]; then
-+                   lnr ${D}${base_libdir} ${D}${base_prefix}/lib64
-                fi
- 	       cd ${D}${base_libdir}
-                ln -sf ld-linux-x86-64.so.2 ld-lsb-x86-64.so.2
-@@ -111,8 +111,8 @@ do_install_append() {
-        fi
- 
-        if [ "${TARGET_ARCH}" = "powerpc64" ]; then
--               if [ "${baselib}" != "lib64" ]; then
--                   lnr  ${D}${base_libdir} ${D}/lib64
-+               if [ "${base_libdir}" != "${base_prefix}/lib64" ]; then
-+                   lnr ${D}${base_libdir} ${D}${base_prefix}/lib64
-                fi
-                cd ${D}${base_libdir}
-                ln -sf ld64.so.1 ld-lsb-ppc64.so.2
-@@ -125,7 +125,7 @@ do_install_append() {
-        fi
- }
- 
--FILES_${PN} += "${@'/lib64' if d.getVar('TARGET_ARCH')  == ('x86_64' or 'powerpc64') and '${baselib}' != 'lib64' else ''} \
-+FILES_${PN} += "${@'${base_prefix}/lib64' if d.getVar('TARGET_ARCH') == ('x86_64' or 'powerpc64') and '${base_libdir}' != '${base_prefix}/lib64' else ''} \
-                 ${base_libdir} \
-                 ${nonarch_libdir}/lsb \
-                 ${nonarch_base_libdir}/lsb/* \
--- 
-2.12.0
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
