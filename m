@@ -1,47 +1,37 @@
-Return-Path: <andrea.adami@gmail.com>
-Received: from mail-wr0-f195.google.com (mail-wr0-f195.google.com
-	[209.85.128.195])
-	by mail.openembedded.org (Postfix) with ESMTP id D4E1C6093D
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Mar 2017 22:52:40 +0000 (UTC)
-Received: by mail-wr0-f195.google.com with SMTP id w43so7146305wrb.1
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Mar 2017 15:52:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=EISmwQu20mejbWcCseB32X/1eKZ7eVKsN4Dtfyhi3nw=;
-	b=mr/+WXmK/YQbf7YgE3oKVlrXHY89ebbZhCXbFsmR5m2fVaxoBNkGwBYBtj11gJuoO7
-	d7zACiX2Jf5abafGJRNpVPq863mWnUQ0IYuyqsZoD2hdEusb0H0YWNc6Zmhn3zYx0mt+
-	vNBR4l1LaA5gjnauN7Sz9I5fJg+mqYL/JKENRXPceEwc6ESqev8pKSL5IRalRGhLP6dB
-	puzGYyjRdTwXeJBJ+PR3SdBMe4T5j/JEv8PAxXM/4C4s0z8JihHyZftUJKPI/4Ezzk7v
-	VQQJLA6ALGp/PUUpxAeufDuh8gV5a7bb8HWbeSYmI0bi6g/b/UYD5F4VEDm/E3xKOVfs
-	sp6A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=EISmwQu20mejbWcCseB32X/1eKZ7eVKsN4Dtfyhi3nw=;
-	b=dmw024jDbMx7UaXPMZpxdUGhtCL19MPD3wkJTs/peYlQs3QJQFH9AXje9kNm+r6zsX
-	UQ/U+tbmx+ALxLfeZ5iRtr7YlCm7gFTbbmc8NQWMy3YsIlZwqg8JSAo6qj8EeIbenxfK
-	eqKmUw8ixMGRqaF3+TulHtNwAg8X5/skvqr5d6ksgZM0YI9Xnsg1hNlT1zgy+xD/5a5f
-	5wWHlaqhrH7NRjbfx39CnXtoYgOSC2GfHTx9bqdPnOZF76jdKL6g/w2HHoH2MD98i9PH
-	+8n5KatpEifebH7J6bNcaYHi2GJ5O8K6MXr47UxK8mEGOSqhXUoDP5x0eHsHpWzEyOIb
-	AFMg==
-X-Gm-Message-State: AFeK/H1e30Uldsw3CfBrcigPEeJkkS/BLLpHItMDdUhD9jbZW0bMfdBcHHnZcyuEZ1ekfsYhXMX6TUWl3EJfZg==
-X-Received: by 10.223.145.199 with SMTP id 65mr2364320wri.182.1490827961349;
-	Wed, 29 Mar 2017 15:52:41 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.80.150.195 with HTTP; Wed, 29 Mar 2017 15:52:40 -0700 (PDT)
-In-Reply-To: <1490826296.13980.335.camel@linuxfoundation.org>
-References: <1490820317-3686-1-git-send-email-andrea.adami@gmail.com>
-	<20170329230933.3b71d516@t510.zcs.saftware.de>
-	<1490826296.13980.335.camel@linuxfoundation.org>
-From: Andrea Adami <andrea.adami@gmail.com>
-Date: Thu, 30 Mar 2017 00:52:40 +0200
-Message-ID: <CAAQYJAtwSctCha6mJqUUFVddnV31oGwaabNPLtV9PqAULDLs-g@mail.gmail.com>
+Return-Path: <denis@denix.org>
+Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.17])
+	by mail.openembedded.org (Postfix) with ESMTP id 298D46067C;
+	Wed, 29 Mar 2017 23:00:36 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by mailout4.zoneedit.com (Postfix) with ESMTP id 10EDB20B7A;
+	Wed, 29 Mar 2017 23:00:38 +0000 (UTC)
+Received: from mailout4.zoneedit.com ([127.0.0.1])
+	by localhost (zmo03-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
+	port 10024)
+	with ESMTP id GovNmtFdx35i; Wed, 29 Mar 2017 23:00:38 +0000 (UTC)
+Received: from mail.denix.org (pool-100-15-85-143.washdc.fios.verizon.net
+	[100.15.85.143])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 972162010C;
+	Wed, 29 Mar 2017 23:00:33 +0000 (UTC)
+Received: by mail.denix.org (Postfix, from userid 1000)
+	id 18E1D162450; Wed, 29 Mar 2017 19:00:33 -0400 (EDT)
+Date: Wed, 29 Mar 2017 19:00:33 -0400
+From: Denys Dmytriyenko <denis@denix.org>
 To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] bitbake.conf: add whoami to HOSTTOOLS
+Message-ID: <20170329230033.GR15664@denix.org>
+References: <20170327142231.21807-1-marex@denx.de>
+	<1490624701.13980.267.camel@linuxfoundation.org>
+	<5c037512-7bf1-8a3c-cb76-fda7230781a0@denx.de>
+	<20170329215658.GP15664@denix.org>
+	<1490825767.13980.333.camel@linuxfoundation.org>
+MIME-Version: 1.0
+In-Reply-To: <1490825767.13980.333.camel@linuxfoundation.org>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Cc: Marek Vasut <marex@denx.de>, openembedded-core@lists.openembedded.org,
+	openembedded-devel@lists.openembedded.org
+Subject: Re: [PATCH] u-boot: Update to 2017.03 release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,42 +44,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Mar 2017 22:52:41 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 29 Mar 2017 23:00:37 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Thu, Mar 30, 2017 at 12:24 AM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> On Wed, 2017-03-29 at 23:09 +0200, Andreas Oberritter wrote:
->> On Wed, 29 Mar 2017 22:45:17 +0200
->> Andrea Adami <andrea.adami@gmail.com> wrote:
->>
->> >
->> > Spotted in log do_compile of linux:
->> >
->> >  /tmp/build/tmp-glibc/work-shared/c7x0/kernel-
->> > source/scripts/mkcompile_h:
->> >  line 46: whoami: command not found
->> As an alternative, we could set KBUILD_BUILD_USER (and possibly
->> KBUILD_BUILD_HOST) to a fixed or machine-based value in
->> kernel.bbclass'
->> EXTRA_OEMAKE variable, which could also improve the reproducibility
->> of
->> builds.
->
-> Agreed, I already suggested we should figure out how to pass in a
-> deterministic value and said I would not accept a patch to add whoami
-> to HOSTTOOLS.
->
-> Cheers,
->
-> Richard
+On Wed, Mar 29, 2017 at 11:16:07PM +0100, Richard Purdie wrote:
+> On Wed, 2017-03-29 at 17:56 -0400, Denys Dmytriyenko wrote:
+> > On Mon, Mar 27, 2017 at 04:31:16PM +0200, Marek Vasut wrote:
+> > > 
+> > > On 03/27/2017 04:25 PM, Richard Purdie wrote:
+> > > > 
+> > > > On Mon, 2017-03-27 at 16:22 +0200, Marek Vasut wrote:
+> > > > > 
+> > > > > Upgrade U-Boot to the latest version.
+> > > > Wrong list and how does this compare to Ovatio's patch?
+> > > I was not CCed on Otavio's patch :(
+> > Yeah, me neither, unfortunately - people just ignore maintainers file
+> > now.
+> > 
+> > Good thing Ross copied me on the other discussion!
+> 
+> This raises a very valid point which is what any maintainers file is
+> and what it is not.
+> 
+> The one that exists in meta-yocto today has a very specific meaning. I
+> know there is discussion about moving it to OE-Core however if we do so
+> I want to by *really* *really* clear about what being listed there
+> means and does not mean.
+> 
+> As things stand right now, there is no requirement or advice in any of
+> our guides to cc "maintainers". People struggle to send patches as it
+> is and giving them more hoops to jump through doesn't seem like a
+> brilliant idea to me. I know we can create a file with all kinds of
+> path matching for files people care/don't care about but I worry this
+> will descend into complicated scripts and people still getting upset
+> when they were cc'd needlessly or weren't cc'd etc.
+> 
+> I also quite strongly dislike the "I own X, so only I can change it"
+> type view, to be the maintainers are people who help look after
+> specific areas in the absence of anyone else and help review patches
+> that come in. They certainly get significant influence on things but
+> the price for that is they also have to help fix issues and figure out
+> ways of helping others with issues in that area.
+> 
+> So please think very carefully about what you want this "maintainers"
+> file to be/not be as I worry its a huge can of worms we once tried in
+> OE before...
 
-Hello,
+Well, this reminds me of numerous discussions we've had in the past at several 
+OEDEMs and OEDAMs about maintainers file and requirements/responsibilities it 
+carries - unfortunately we never been able to resolve it one way or another. I 
+guess we'll try finalizing it again with the renewed effort now...
 
-well, I'm all for reproducible builds.
-But there is the fact that this is the standard kernel behavior and we
-never limited the user choices about how to build/configure a kernel.
 
-Cheers
-Andrea
+As of u-boot - wasn't trying to claim ownership at all. In the past we've had 
+a number of updates from TI, as it's a bootloader of choice for our platforms. 
+Somehow I got assigned as a maintainer for the corresponding recipes. I know 
+Otavio is also responsible for some changes there, from his involvement with 
+Freescale. And at OEDEM last fall, I had a good conversation with Marek about 
+u-boot recipes, we've discussed restructuring and re-versioning plans and 
+since then he's copying me on his updates - I'm trying to review and/or test 
+his changes as much as I can. That's all to it.
+
+-- 
+Denys
 
