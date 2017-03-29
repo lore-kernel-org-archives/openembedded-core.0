@@ -1,49 +1,49 @@
 Return-Path: <patrick.ohly@intel.com>
-Received: from mail-it0-f45.google.com (mail-it0-f45.google.com
-	[209.85.214.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 862B177CCE
+Received: from mail-it0-f49.google.com (mail-it0-f49.google.com
+	[209.85.214.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 245AD77CCF
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Mar 2017 11:30:15 +0000 (UTC)
-Received: by mail-it0-f45.google.com with SMTP id y18so53044644itc.1
+	Wed, 29 Mar 2017 11:30:17 +0000 (UTC)
+Received: by mail-it0-f49.google.com with SMTP id y18so147814797itc.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Mar 2017 04:30:16 -0700 (PDT)
+	Wed, 29 Mar 2017 04:30:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=fu/PhYyv9kHMGqGsSwWkbynnM4p7gfNtm5yCWo1OT/8=;
-	b=MaH1sXSF2+8bwhDnFnHWewo9pSTz8swvDIwww/XNYaLMVU/njGSL7mAU7sBQCIao02
-	ZFMjNVNJnSR1ShrrKf+2Om7e4RqoFrbOpo6z1JrIa+VX5HDxLKEJoTIyvYLZcIf/Zh75
-	4VKKYCjZTBIMVGfP1YOFFnprhRarFp0Ix+o6kX0MrLYjgvJH/G28C7o5EOV+fbo6PsY+
-	ya8ZKUsR61HOU1+L8hcxB6pzB44/rnhm9cl5IGLrWgvdpZYl/VW57wCUqujAEVuEnPkX
-	Wcr8qs1kthwAjvrj1jRVvIWCgaBxpWIS1tl5eCEiCArYLlelj6cMpDqJqszetXbEQ4xM
-	CMkA==
+	bh=xkwHQZ/vHnNoW64LrDCRA8fEjjlT1DjSzmDi3TBAKCs=;
+	b=OrbFhtU5XZ0Md+91GxdgOGpVH6mkyBd+XmM4S8PePceuGCTmpmglaQAgW/jSKb6GW6
+	9/WSGok+Hio/jqGrDUYk7qw5dehJt+5tuuhHjSLD5WtfH89vKzUShfq8cZoPy0RwvNRO
+	D4xgbGfck4suW3ffseW2c28Qo3FqPj5+nYI0nr2wDhH2cSuEe5MyNUZhov3o2MdtLSch
+	kAKcEfODhjN5YHhGsPGAxz5y+yMiMLagwkqadiNcLXXl0UxIXdzwdyCw70NRlpMejxqr
+	yeqg1RZvr9QZmPHTxNrYxT3sXqPMgeTT9K3VfPmEfKdJKs2tWL543TcMia1fVsd1BD4f
+	jiuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=fu/PhYyv9kHMGqGsSwWkbynnM4p7gfNtm5yCWo1OT/8=;
-	b=ORdsAyM0ZtVsdpTS98eVcf7gxI6q1AX7JIx/aw+iVFdfrhVfBSR6UaK0Pe7tIofzSo
-	swgRSd61vu4M1OcYY3E39larO5NqQ45VlR/weIo8k+YEji1amlLUDnga6ln4BtPcIgi4
-	89FCsNaz5N6Xtv1qk7XbXYzxDvmc9nOGAYnTExD/KmtbctCeuWTX+R3hILrqmw8HnzQU
-	6a79euwYBXp7T54tslm/i3ovlN5yBmQEcVfSxm+tZa1CGPH/SftJauwrRNC6vJZJBRtP
-	EcgmMbF8BSbRiVDwR7ibIkG51Uo5lbARQtVzt+ae38DszOMnMdhR9n5MeEuHXBBaeVIi
-	dRxA==
-X-Gm-Message-State: AFeK/H2XRpd2V+t4A+btXVdADuWmO25sfOUUqtD6NFA4Nd9KyLdUoz4NKHkC2ExCTl0o4rly
-X-Received: by 10.36.92.20 with SMTP id q20mr208425itb.49.1490787016375;
-	Wed, 29 Mar 2017 04:30:16 -0700 (PDT)
+	bh=xkwHQZ/vHnNoW64LrDCRA8fEjjlT1DjSzmDi3TBAKCs=;
+	b=hLywh6rxSDoLmM9u8j1brxdGAuSkYwS9udUcmwLiJ9NRBsjuPb2sNjjrE4jx8NOYXK
+	FK8H0yPHno31daYd2CL9xsuDvh9/MrN2cbtVcfElMtMKGQsIYJ5scdYBpK3AcS9amOfN
+	uNCm8tHVPHpMxZXvNQG4f3tYSupo1SU3fNHI1jg/hHOOkBmxoPB1/rmmO4Ru6kXXcSlY
+	653jTSQbux7rCbmFUmGWKcNdeiPQP22PvKItCDA5pQ1TjhORKZsVggzhCv+XAWZfk+M1
+	4tZ65sRitkwmywnTw4vpTmuXBoDyilO97o9XTA53P3EJJGaidBMM6IAGd6izjSXnq7s8
+	doZA==
+X-Gm-Message-State: AFeK/H2psv1trpjRchZ+wb3809TkC1xnqLpNiD2Zkird20hvmzeDA7ENAx/H+vYS20BHwVGZ
+X-Received: by 10.36.138.129 with SMTP id v123mr220336itd.108.1490787019209;
+	Wed, 29 Mar 2017 04:30:19 -0700 (PDT)
 Received: from pohly-desktop.fritz.box (p5DE8D6D7.dip0.t-ipconnect.de.
 	[93.232.214.215]) by smtp.gmail.com with ESMTPSA id
-	d196sm3579511ioe.3.2017.03.29.04.30.14
+	d196sm3579511ioe.3.2017.03.29.04.30.17
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 29 Mar 2017 04:30:15 -0700 (PDT)
+	Wed, 29 Mar 2017 04:30:18 -0700 (PDT)
 From: Patrick Ohly <patrick.ohly@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 29 Mar 2017 13:29:49 +0200
-Message-Id: <e9bfdb7e174db5b6436ab126dccf42202dd924b7.1490786957.git-series.patrick.ohly@intel.com>
+Date: Wed, 29 Mar 2017 13:29:50 +0200
+Message-Id: <c31440874d6a41b98fe3f8aacbc5666fd68c9635.1490786957.git-series.patrick.ohly@intel.com>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <cover.425c03862da4e6657583439f3eb42e3c88fb71ac.1490786957.git-series.patrick.ohly@intel.com>
 References: <cover.425c03862da4e6657583439f3eb42e3c88fb71ac.1490786957.git-series.patrick.ohly@intel.com>
-Subject: [PATCH 1/2] rm_work.bbclass: introduce do_build_without_rm_work
+Subject: [PATCH 2/2] populate_sdk_ext.bbclass: enhance compatibility with rm_work.bbclass
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,81 +56,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Mar 2017 11:30:15 -0000
+X-List-Received-Date: Wed, 29 Mar 2017 11:30:18 -0000
 
-Some classes, for example populate_sdk_ext.bbclass, must be able to
-trigger a full build of a recipe without also triggering
-do_rm_work. They cannot depend on do_build anymore, because that would
-trigger do_rm_work.
+"bitbake -c populate_dsk_ext" must not trigger do_rm_work, because it
+is impossible to declare that the additional tasks activated by "-c
+populate_dsk_ext" must run before do_rm_work. When do_populate_dsk_ext
+and do_rm_work are both active, the resulting race condition breaks
+do_populate_dsk_ext.
 
-Instead, do_build_without_rm_work can be used. It has the exact same
-dependencies as do_build, minus do_rm_work and do_rm_work_all.
+The existing bitbake dependencies can't be used for that, because
+"addtask populate_dsk_ext before do_rm_work" would then always execute
+populate_dsk_ext also in normal builds.
 
-This may also be useful in a test build of a recipe where one wants
-to preserve the work directory without having to modify configuration
-settings:
-   bitbake foobar:do_build_without_rm_work
+do_populate_dsk_ext triggers do_rm_work indirectly through the
+dependency on do_build of the SDK_TARGETs. Using the new
+do_build_without_rm_work instead (when available, with do_build as
+before if not) avoids the problem.
+
+However, one has to be careful to not trigger do_rm_work in the same
+build in some other way.  "bitbake core-image-sato:do_populate_sdk_ext
+core-image-sato:do_build" still fails, for example. Doing one after
+the other works.
+
+Fixes: [YOCTO 11042]
 
 Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
 ---
- meta/classes/rm_work.bbclass | 27 ++++++++++++++++++++++++---
- 1 file changed, 24 insertions(+), 3 deletions(-)
+ meta/classes/populate_sdk_ext.bbclass | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/meta/classes/rm_work.bbclass b/meta/classes/rm_work.bbclass
-index 2490a69..badeaeb 100644
---- a/meta/classes/rm_work.bbclass
-+++ b/meta/classes/rm_work.bbclass
-@@ -121,10 +121,24 @@ rm_work_rootfs () {
- }
- rm_work_rootfs[cleandirs] = "${WORKDIR}/rootfs"
+diff --git a/meta/classes/populate_sdk_ext.bbclass b/meta/classes/populate_sdk_ext.bbclass
+index 3bccb14..db822bf 100644
+--- a/meta/classes/populate_sdk_ext.bbclass
++++ b/meta/classes/populate_sdk_ext.bbclass
+@@ -656,7 +656,12 @@ do_populate_sdk_ext[depends] = "${@d.getVarFlag('do_populate_sdk', 'depends', Fa
+                                 ${@'meta-world-pkgdata:do_collect_packagedata' if d.getVar('SDK_INCLUDE_PKGDATA') == '1' else ''} \
+                                 ${@'meta-extsdk-toolchain:do_locked_sigs' if d.getVar('SDK_INCLUDE_TOOLCHAIN') == '1' else ''}"
  
--# We have to add the do_rmwork task already now, because all tasks are
-+# This task can be used instead of do_build to trigger building
-+# without also invoking do_rm_work. It only exists when rm_work.bbclass
-+# is active, otherwise do_build needs to be used.
-+#
-+# The intended usage is
-+# ${@ d.getVar('RM_WORK_BUILD_WITHOUT') or 'do_build'}
-+# in places that previously used just 'do_build'.
-+RM_WORK_BUILD_WITHOUT = "do_build_without_rm_work"
-+do_build_without_rm_work () {
-+    :
-+}
-+do_build_without_rm_work[noexec] = "1"
-+
-+# We have to add these tasks already now, because all tasks are
- # meant to be defined before the RecipeTaskPreProcess event triggers.
- # The inject_rm_work event handler then merely changes task dependencies.
- addtask do_rm_work
-+addtask do_build_without_rm_work
- addhandler inject_rm_work
- inject_rm_work[eventmask] = "bb.event.RecipeTaskPreProcess"
- python inject_rm_work() {
-@@ -133,6 +147,12 @@ python inject_rm_work() {
-     # If the recipe name is in the RM_WORK_EXCLUDE, skip the recipe.
-     excludes = (d.getVar("RM_WORK_EXCLUDE") or "").split()
-     pn = d.getVar("PN")
-+
-+    # Determine what do_build depends upon, without including do_build
-+    # itself or our own special do_rm_work_all.
-+    deps = set(bb.build.preceedtask('do_build', True, d))
-+    deps.difference_update(('do_build', 'do_rm_work_all'))
-+
-     if pn in excludes:
-         d.delVarFlag('rm_work_rootfs', 'cleandirs')
-         d.delVarFlag('rm_work_populatesdk', 'cleandirs')
-@@ -144,8 +164,9 @@ python inject_rm_work() {
-         # do_build inherits additional runtime dependencies on
-         # other recipes and thus will typically run much later than completion of
-         # work in the recipe itself.
--        deps = set(bb.build.preceedtask('do_build', True, d))
--        deps.difference_update(('do_build', 'do_rm_work_all'))
-         # In practice, addtask() here merely updates the dependencies.
-         bb.build.addtask('do_rm_work', 'do_build', ' '.join(deps), d)
-+
-+    # Always update do_build_without_rm_work dependencies.
-+    bb.build.addtask('do_build_without_rm_work', '', ' '.join(deps), d)
- }
+-do_populate_sdk_ext[rdepends] += "${@' '.join([x + ':do_build' for x in d.getVar('SDK_TARGETS').split()])}"
++# We must avoid depending on do_build here if rm_work.bbclass is active,
++# because otherwise do_rm_work may run before do_populate_sdk_ext itself.
++# We can't mark do_populate_sdk_ext and do_sdk_depends as having to
++# run before do_rm_work, because then they would also run as part
++# of normal builds.
++do_populate_sdk_ext[rdepends] += "${@' '.join([x + ':' + (d.getVar('RM_WORK_BUILD_WITHOUT') or 'do_build') for x in d.getVar('SDK_TARGETS').split()])}"
+ 
+ # Make sure code changes can result in rebuild
+ do_populate_sdk_ext[vardeps] += "copy_buildsystem \
 -- 
 git-series 0.9.1
 
