@@ -1,33 +1,53 @@
-Return-Path: <francisco.j.pedraza.gonzalez@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 5DFCE77C25
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
+	by mail.openembedded.org (Postfix) with ESMTP id 51E9071A3E
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Mar 2017 23:12:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-	d=intel.com; i=@intel.com; q=dns/txt; s=intel;
-	t=1490829125; x=1522365125;
-	h=from:to:cc:subject:date:message-id;
-	bh=aTJD8retUppcvg/0gJzQ7c1t3bfgryWW/n/I7Z0nrb4=;
-	b=cWT2EGX+/IuGCgInCg1X0mRVggLVkilbQe6k2nSUdVu8WIeRM6mvngyZ
-	XJnDO/2hAJscavMPuSjPTpWz8AVmxw==;
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	29 Mar 2017 16:12:04 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.36,243,1486454400"; d="scan'208";a="949578796"
-Received: from linux.intel.com ([10.54.29.200])
-	by orsmga003.jf.intel.com with ESMTP; 29 Mar 2017 16:12:03 -0700
-Received: from yocto-ab03.ostc.intel.com (yocto-ab03.ostc.intel.com
-	[10.54.69.73])
-	by linux.intel.com (Postfix) with ESMTP id 2F4606A4080;
-	Wed, 29 Mar 2017 16:11:57 -0700 (PDT)
-From: Francisco Pedraza <francisco.j.pedraza.gonzalez@intel.com>
+	Wed, 29 Mar 2017 23:16:21 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bes.se.axis.com (Postfix) with ESMTP id 8D6C12E3E8
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 30 Mar 2017 01:16:21 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
+Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP id PpkKrCAV8s37
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 30 Mar 2017 01:16:21 +0200 (CEST)
+Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
+	by bes.se.axis.com (Postfix) with ESMTPS id 02CEB2E3E2
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 30 Mar 2017 01:16:21 +0200 (CEST)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id E3FEF1E0A0
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 30 Mar 2017 01:16:20 +0200 (CEST)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id D91781E09D
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 30 Mar 2017 01:16:20 +0200 (CEST)
+Received: from thoth.se.axis.com (unknown [10.0.2.173])
+	by boulder03.se.axis.com (Postfix) with ESMTP
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 30 Mar 2017 01:16:20 +0200 (CEST)
+Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
+	by thoth.se.axis.com (Postfix) with ESMTP id CD31A2243
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 30 Mar 2017 01:16:20 +0200 (CEST)
+Received: from saur-2.se.axis.com (localhost [127.0.0.1])
+	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id v2TNGKWj022191
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 30 Mar 2017 01:16:20 +0200
+Received: (from pkj@localhost)
+	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id v2TNGKEm022190
+	for openembedded-core@lists.openembedded.org;
+	Thu, 30 Mar 2017 01:16:20 +0200
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 29 Mar 2017 16:12:02 -0700
-Message-Id: <1490829122-31454-1-git-send-email-francisco.j.pedraza.gonzalez@intel.com>
-X-Mailer: git-send-email 1.8.3.1
-Cc: Francisco Pedraza <francisco.j.pedraza.gonzalez@intel.com>
-Subject: [PATCH v5] oeqa/sdk/cases:Adds validation for SDK compatibility tests
+Date: Thu, 30 Mar 2017 01:16:06 +0200
+Message-Id: <20170329231606.22118-1-pkj@axis.com>
+X-Mailer: git-send-email 2.12.0
+X-TM-AS-GCONF: 00
+Subject: [PATCH] update_gio_module_cache: Do not chown a non-existing file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,99 +60,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Mar 2017 23:12:03 -0000
+X-List-Received-Date: Wed, 29 Mar 2017 23:16:21 -0000
 
-Added validation for SDK compatibility tests with eSDK.
-buildiptables, gcc, perl, python and buildgalculator based on target manifest file.Running with: $ bitbake <image> -c testsdkext
-[YOCTO #9090]
+Only change the ownership of ${libdir}/gio/modules/giomodule.cache if
+it exists.
 
-Signed-off-by: Francisco Pedraza <francisco.j.pedraza.gonzalez@intel.com>
+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 ---
- meta/lib/oeqa/sdk/cases/buildgalculator.py | 4 +++-
- meta/lib/oeqa/sdk/cases/buildiptables.py   | 4 +++-
- meta/lib/oeqa/sdk/cases/gcc.py             | 4 +++-
- meta/lib/oeqa/sdk/cases/perl.py            | 5 ++++-
- meta/lib/oeqa/sdk/cases/python.py          | 5 ++++-
- 5 files changed, 17 insertions(+), 5 deletions(-)
+ scripts/postinst-intercepts/update_gio_module_cache | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/lib/oeqa/sdk/cases/buildgalculator.py b/meta/lib/oeqa/sdk/cases/buildgalculator.py
-index 42e8ddb..f309ddf 100644
---- a/meta/lib/oeqa/sdk/cases/buildgalculator.py
-+++ b/meta/lib/oeqa/sdk/cases/buildgalculator.py
-@@ -9,7 +9,9 @@ class GalculatorTest(OESDKTestCase):
-     @classmethod
-     def setUpClass(self):
-         if not (self.tc.hasTargetPackage("gtk+3") or\
--                self.tc.hasTargetPackage("libgtk-3.0")):
-+                self.tc.hasTargetPackage("libgtk-3.0") or
-+                self.tc.hasTargetPackage("gtk") or
-+                self.tc.hasTargetPackage("matchbox-config-gtk")):
-             raise unittest.SkipTest("GalculatorTest class: SDK don't support gtk+3")
+diff --git a/scripts/postinst-intercepts/update_gio_module_cache b/scripts/postinst-intercepts/update_gio_module_cache
+index 92092f2144..fc3f9d0d6c 100644
+--- a/scripts/postinst-intercepts/update_gio_module_cache
++++ b/scripts/postinst-intercepts/update_gio_module_cache
+@@ -3,7 +3,7 @@
+ set -e
  
-     def test_galculator(self):
-diff --git a/meta/lib/oeqa/sdk/cases/buildiptables.py b/meta/lib/oeqa/sdk/cases/buildiptables.py
-index 0bd00d1..1795f6a 100644
---- a/meta/lib/oeqa/sdk/cases/buildiptables.py
-+++ b/meta/lib/oeqa/sdk/cases/buildiptables.py
-@@ -17,7 +17,9 @@ class BuildIptablesTest(OESDKTestCase):
+ PSEUDO_UNLOAD=1 qemuwrapper -L $D -E LD_LIBRARY_PATH=$D${libdir}:$D${base_libdir} \
+-        $D${libexecdir}/${binprefix}gio-querymodules $D${libdir}/gio/modules/
+-
+-chown root:root $D${libdir}/gio/modules/giomodule.cache
++	$D${libexecdir}/${binprefix}gio-querymodules $D${libdir}/gio/modules/
  
-         machine = self.td.get("MACHINE")
- 
--        if not self.tc.hasHostPackage("packagegroup-cross-canadian-%s" % machine):
-+        if not (self.tc.hasTargetPackage("packagegroup-cross-canadian-%s" % machine) or
-+                self.tc.hasTargetPackage("gcc-runtime") or
-+                self.tc.hasTargetPackage("libgcc")):
-             raise unittest.SkipTest("SDK doesn't contain a cross-canadian toolchain")
- 
-     def test_iptables(self):
-diff --git a/meta/lib/oeqa/sdk/cases/gcc.py b/meta/lib/oeqa/sdk/cases/gcc.py
-index 74ad2a2..a7e6026 100644
---- a/meta/lib/oeqa/sdk/cases/gcc.py
-+++ b/meta/lib/oeqa/sdk/cases/gcc.py
-@@ -18,7 +18,9 @@ class GccCompileTest(OESDKTestCase):
- 
-     def setUp(self):
-         machine = self.td.get("MACHINE")
--        if not self.tc.hasHostPackage("packagegroup-cross-canadian-%s" % machine):
-+        if not (self.tc.hasTargetPackage("packagegroup-cross-canadian-%s" % machine) or
-+                self.tc.hasTargetPackage("gcc-runtime") or
-+                self.tc.hasTargetPackage("libgcc")):
-             raise unittest.SkipTest("GccCompileTest class: SDK doesn't contain a cross-canadian toolchain")
- 
-     def test_gcc_compile(self):
-diff --git a/meta/lib/oeqa/sdk/cases/perl.py b/meta/lib/oeqa/sdk/cases/perl.py
-index e1bded2..8be9b74 100644
---- a/meta/lib/oeqa/sdk/cases/perl.py
-+++ b/meta/lib/oeqa/sdk/cases/perl.py
-@@ -8,7 +8,10 @@ from oeqa.sdk.case import OESDKTestCase
- class PerlTest(OESDKTestCase):
-     @classmethod
-     def setUpClass(self):
--        if not self.tc.hasHostPackage("nativesdk-perl"):
-+        if not (self.tc.hasHostPackage("nativesdk-perl") or
-+                self.tc.hasHostPackage("perl-native") or
-+                self.tc.hasHostPackage("libperl5") or
-+                self.tc.hasHostPackage("perl")):
-             raise unittest.SkipTest("No perl package in the SDK")
- 
-         for f in ['test.pl']:
-diff --git a/meta/lib/oeqa/sdk/cases/python.py b/meta/lib/oeqa/sdk/cases/python.py
-index 94a296f..29705bf 100644
---- a/meta/lib/oeqa/sdk/cases/python.py
-+++ b/meta/lib/oeqa/sdk/cases/python.py
-@@ -8,7 +8,10 @@ from oeqa.sdk.case import OESDKTestCase
- class PythonTest(OESDKTestCase):
-     @classmethod
-     def setUpClass(self):
--        if not self.tc.hasHostPackage("nativesdk-python"):
-+        if not (self.tc.hasHostPackage("nativesdk-python") or
-+                self.tc.hasHostPackage("python-smartpm-native") or
-+                self.tc.hasHostPackage("nativesdk-python3")):
-+
-             raise unittest.SkipTest("No python package in the SDK")
- 
-         for f in ['test.py']:
++[ ! -e $D${libdir}/gio/modules/giomodule.cache ] ||
++	chown root:root $D${libdir}/gio/modules/giomodule.cache
 -- 
-1.8.3.1
+2.12.0
 
 
