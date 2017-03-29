@@ -1,28 +1,45 @@
-Return-Path: <stefan@agner.ch>
-Received: from mail.kmu-office.ch (mail.kmu-office.ch [178.209.48.109])
-	by mail.openembedded.org (Postfix) with ESMTP id 8835477C25
+Return-Path: <uol@pengutronix.de>
+X-Greylist: delayed 1198 seconds by postgrey-1.34 at layers.openembedded.org;
+	Wed, 29 Mar 2017 17:45:04 UTC
+Received: from metis.ext.4.pengutronix.de (metis.ext.4.pengutronix.de
+	[92.198.50.35])
+	by mail.openembedded.org (Postfix) with ESMTP id E38D277C25
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Mar 2017 17:42:59 +0000 (UTC)
-Received: from webmail.kmu-office.ch (unknown [178.209.48.103])
-	by mail.kmu-office.ch (Postfix) with ESMTPSA id 6E14B5C18B6;
-	Wed, 29 Mar 2017 19:32:37 +0200 (CEST)
+	Wed, 29 Mar 2017 17:45:04 +0000 (UTC)
+Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
+	by metis.ext.pengutronix.de with esmtps
+	(TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.84_2)
+	(envelope-from <uol@pengutronix.de>) id 1ctHLH-00065M-2j
+	for openembedded-core@lists.openembedded.org;
+	Wed, 29 Mar 2017 19:25:07 +0200
+Received: from uol by pty.hi.pengutronix.de with local (Exim 4.84_2)
+	(envelope-from <uol@pengutronix.de>) id 1ctHLG-0003Ef-SD
+	for openembedded-core@lists.openembedded.org;
+	Wed, 29 Mar 2017 19:25:06 +0200
+Date: Wed, 29 Mar 2017 19:25:06 +0200
+From: Ulrich =?iso-8859-1?Q?=D6lmann?= <u.oelmann@pengutronix.de>
+To: openembedded-core@lists.openembedded.org
+Message-ID: <20170329172506.jgwc676imi7jk3ps@pengutronix.de>
+References: <1490731726-14536-1-git-send-email-peter@berginkonsult.se>
+	<1490742158.13980.296.camel@linuxfoundation.org>
+	<2b16b764-38e0-4112-48b4-9e17cbe129c3@berginkonsult.se>
+	<1490783069.13980.307.camel@linuxfoundation.org>
+	<CAJ86T=VJjTvtwBPvY+jW1+P8tDMMjMJuRgsHTZXSgj=F=vjbxA@mail.gmail.com>
 MIME-Version: 1.0
-Date: Wed, 29 Mar 2017 10:42:49 -0700
-From: Stefan Agner <stefan@agner.ch>
-To: "Burton, Ross" <ross.burton@intel.com>
-In-Reply-To: <CAJTo0LZS0OKSGiX2=6Q-dWFgGrKfF0VXhwq88wtHExTSP9iFpw@mail.gmail.com>
-References: <1490741109-18909-1-git-send-email-stefan@agner.ch>
-	<CAJTo0LZS0OKSGiX2=6Q-dWFgGrKfF0VXhwq88wtHExTSP9iFpw@mail.gmail.com>
-Message-ID: <ace950db96fcfe4379dee1fa6c685c94@agner.ch>
-X-Sender: stefan@agner.ch
-User-Agent: Roundcube Webmail/1.1.3
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
-	t=1490808757; bh=wR6SUzs28eVS4D9L+LmBKh37b0iSc4nKZ59g7kYHrrI=;
-	h=MIME-Version:Content-Type:Date:From:To:Cc:Subject:In-Reply-To:References:Message-ID;
-	b=iRIkkAiIeCWUYHqqSB4PVOlLscxm9EHZyPvDaUsvhoQlq8mlJj588fcqh3jaFJFnqF+AcPVkRCqj9nhXz3uxEsWuj/buoSjBjmA4KhOXsi626aaegBsEA6KkW1rlBITZ8LAr6tFboPEyd89unVUo4pqHAuQ/VAMYDUL8UQChRHo=
-Cc: Stefan Agner <stefan.agner@toradex.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] util-linux: make blkdiscard a separate package
+In-Reply-To: <CAJ86T=VJjTvtwBPvY+jW1+P8tDMMjMJuRgsHTZXSgj=F=vjbxA@mail.gmail.com>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-IRC: #ptxdist @freenode
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-Uptime: 19:22:52 up 4 days, 4:51, 2 users, load average: 0.00, 0.00, 0.00
+User-Agent: Mutt/1.6.2-neo (2016-06-11)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
+X-SA-Exim-Mail-From: uol@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+	SAEximRunCond expanded to false
+X-PTX-Original-Recipient: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] busybox: move default config fragments to defconfig
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,103 +52,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Mar 2017 17:43:01 -0000
-Content-Type: multipart/alternative;
-	boundary="=_8e866910daa5cf84484149e0f8f75ad3"
+X-List-Received-Date: Wed, 29 Mar 2017 17:45:05 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
---=_8e866910daa5cf84484149e0f8f75ad3
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset=US-ASCII
-
- 
-
-On 2017-03-29 08:41, Burton, Ross wrote: 
-
-> On 28 March 2017 at 23:45, Stefan Agner <stefan@agner.ch> wrote:
+On Wed, Mar 29, 2017 at 08:23:00AM -0700, Andre McCurdy wrote:
+> On Wed, Mar 29, 2017 at 3:24 AM, Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+> >
+> > Also, in case its not apparent, you can work around this today by
+> > providing empty fragment files in your own layer. These would override
+> > the default ones in the main recipe if you set it up right.
 > 
->> @@ -30,8 +30,8 @@ PACKAGES =+ "util-linux-agetty util-linux-fdisk util-linux-cfdisk util-linux-sfd
->> util-linux-swaponoff util-linux-losetup util-linux-umount \
->> util-linux-mount util-linux-readprofile util-linux-uuidd \
->> util-linux-uuidgen util-linux-lscpu util-linux-fsck.cramfs util-linux-fsck \
->> -             util-linux-blkid util-linux-mkfs util-linux-mcookie util-linux-reset \
->> -             util-linux-lsblk util-linux-mkfs.cramfs util-linux-fstrim \
->> +             util-linux-blkdiscard util-linux-blkid util-linux-mkfs util-linux-mcookie \
->> +             util-linux-reset util-linux-lsblk util-linux-mkfs.cramfs util-linux-fstrim \
->> util-linux-partx util-linux-hwclock util-linux-mountpoint \
->> util-linux-findfs util-linux-getopt util-linux-sulogin util-linux-prlimit"
-> 
-> We're growing a lot of packages containing a single binary.  Would it be sensible to group them into "file system tools", "process tools", etc?
+> Or use SRC_URI_remove = "file://login-utilities.cfg" etc.
 
-Not sure if such a high level grouping is helpful. Just because an image
-uses one fs utility, does not mean the others are used too. There might
-be some potential on a lower level (e.g. util-linux-mkfs.cramfs and
-util-linux-fsck.cramfs). 
+But for both suggested approaches you need to know the existance and name of the
+config fragment file(s), don't you?
 
-Is having lots of single binary packages an issue? I guess package
-management data adds some space overhead? In my case, I build a image
-without package metadata, so I guess there is no overhead for the final
-image (for the final image). 
+Regards
+Ulrich
+-- 
+Pengutronix e.K.                           |                             |
+Industrial Linux Solutions                 | http://www.pengutronix.de/  |
+Peiner Str. 6-8, 31137 Hildesheim, Germany | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
 
-Best regards, 
-
-Stefan 
-  
-
---=_8e866910daa5cf84484149e0f8f75ad3
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/html; charset=UTF-8
-
-<html><head><meta http-equiv=3D"Content-Type" content=3D"text/html; charset=
-=3DUTF-8" /></head><body style=3D'font-size: 10pt; font-family: Verdana,Gen=
-eva,sans-serif'>
-<p>On 2017-03-29 08:41, Burton, Ross wrote:</p>
-<blockquote type=3D"cite" style=3D"padding: 0 0.4em; border-left: #1010ff 2=
-px solid; margin: 0"><!-- html ignored --><!-- head ignored --><!-- meta ig=
-nored -->
-<div dir=3D"ltr">
-<div class=3D"gmail_extra"><br />
-<div class=3D"gmail_quote">On 28 March 2017 at 23:45, Stefan Agner <span>&l=
-t;<a href=3D"mailto:stefan@agner.ch">stefan@agner.ch</a>&gt;</span> wrote:<=
-br />
-<blockquote class=3D"gmail_quote" style=3D"margin: 0 0 0 .8ex; border-left:=
- 1px #ccc solid; padding-left: 1ex;">
-<div id=3D":yn" class=3D"a3s aXjCH m15b171ab2ecb0014">@@ -30,8 +30,8 @@ PAC=
-KAGES =3D+ "util-linux-agetty util-linux-fdisk util-linux-cfdisk util-linux=
--sfd<br /> <span class=3D"">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp=
-; util-linux-swaponoff util-linux-losetup util-linux-umount \<br /> &nbsp; =
-&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; util-linux-mount util-linux-readp=
-rofile util-linux-uuidd \<br /> </span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; &nbsp; util-linux-uuidgen util-linux-lscpu util-linux-fsck.cramfs uti=
-l-linux-fsck \<br /> -&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;util-=
-linux-blkid util-linux-mkfs util-linux-mcookie util-linux-reset \<br /> -&n=
-bsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;util-linux-lsblk util-linux-m=
-kfs.cramfs util-linux-fstrim \<br /> +&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &n=
-bsp; &nbsp;util-linux-blkdiscard util-linux-blkid util-linux-mkfs util-linu=
-x-mcookie \<br /> +&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;util-lin=
-ux-reset util-linux-lsblk util-linux-mkfs.cramfs util-linux-fstrim \<br /> =
-&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; util-linux-partx util-linu=
-x-hwclock util-linux-mountpoint \<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
-&nbsp; &nbsp; util-linux-findfs util-linux-getopt util-linux-sulogin util-l=
-inux-prlimit"</div>
-</blockquote>
-</div>
-<br />We're growing a lot of packages containing a single binary.&nbsp; Wou=
-ld it be sensible to group them into "file system tools", "process tools", =
-etc?</div>
-</div>
-</blockquote>
-<p>Not sure if such a high level grouping is helpful.&nbsp;Just because an =
-image&nbsp;uses one fs utility, does not mean the others are used too.&nbsp=
-;There might be some&nbsp;potential on a lower level (e.g.&nbsp;<span>util-=
-linux-mkfs.cramfs and&nbsp;<span>util-linux-fsck.cramfs).</span></span></p>
-<p>Is having lots of single binary packages an issue? I guess package manag=
-ement data adds some space overhead? In my case, I build a image without pa=
-ckage metadata, so I guess there is no&nbsp;overhead for&nbsp;the final ima=
-ge (for the final image).</p>
-<p>&nbsp;</p>
-<p>Best regards,</p>
-<p>Stefan</p>
-<div>&nbsp;</div>
-</body></html>
-
---=_8e866910daa5cf84484149e0f8f75ad3--
