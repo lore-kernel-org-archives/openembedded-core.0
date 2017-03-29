@@ -1,45 +1,46 @@
-Return-Path: <spopovyc@cisco.com>
-Received: from aer-iport-2.cisco.com (aer-iport-2.cisco.com [173.38.203.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 0BBFF77C0C
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-it0-f44.google.com (mail-it0-f44.google.com
+	[209.85.214.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 561F677CC6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Mar 2017 11:27:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=cisco.com; i=@cisco.com; l=5475; q=dns/txt; s=iport;
-	t=1490786850; x=1491996450;
-	h=subject:to:references:from:message-id:date:mime-version:
-	in-reply-to:content-transfer-encoding;
-	bh=PwTr3r643EHtdUFRLL1n7T4ZxsoluBYoQ+br1ertO3Y=;
-	b=SmF8kBoKzNW3vdwdtIgfYpQ76alDIrQhU/+zoD+ku9B6TJE8d1s/kOWB
-	phXK8wC24Cqds4v4LcYO1mSHY4H4qUIpfULlS9Rsy7XnPQRBv+sznukEv
-	7MVClA+ZWredS1Owm9mw+Nl3OVQHNQARDAVQd/+R6l7jU8Z2cAotXzlHu E=;
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-Anti-Spam-Result: =?us-ascii?q?A0CpAQAomdtY/xbLJq1dGQEBAQEBAQEBA?=
-	=?us-ascii?q?QEBBwEBAQEBhDaBC4NiihFzkF2NDoYxgg+CDiKGAAKDcxgBAgEBAQEBAQFrKIU?=
-	=?us-ascii?q?VAQEBAQIBI1sLCxEBAgECAQICJgICPQwGCAYBDAYCAQGJeQUIrW+CJopJAQEBA?=
-	=?us-ascii?q?QEBAQEBAQEBAQEBASKBC4VDggWBQIEqh1qCXwWJFweGQ3xRizKGfYtTglCOY0i?=
-	=?us-ascii?q?TIh84gQQ6HxWFGR0ZgU09NYk2AQEB?=
-X-IronPort-AV: E=Sophos;i="5.36,241,1486425600"; d="scan'208";a="650757921"
-Received: from aer-iport-nat.cisco.com (HELO aer-core-2.cisco.com)
-	([173.38.203.22])
-	by aer-iport-2.cisco.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	29 Mar 2017 11:27:28 +0000
-Received: from tuxracer.local ([10.61.218.101]) (authenticated bits=0)
-	by aer-core-2.cisco.com (8.14.5/8.14.5) with ESMTP id v2TBRRnu002084
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Wed, 29 Mar 2017 11:27:27 GMT
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	openembedded-core@lists.openembedded.org
-References: <4713eca3e627fb1bececc59af252a0768c955d11.1490727266.git.spopovyc@cisco.com>
-	<1490739984.13980.294.camel@linuxfoundation.org>
-From: Serhii Popovych <spopovyc@cisco.com>
-Message-ID: <80bc0ce9-3e83-864d-7f94-ed80b4f0cc79@cisco.com>
-Date: Wed, 29 Mar 2017 14:27:27 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.8.0
-MIME-Version: 1.0
-In-Reply-To: <1490739984.13980.294.camel@linuxfoundation.org>
-X-Authenticated-User: spopovyc
-Subject: Re: [PATCH] glibc: Support building with 2.6.32 kernels on x86 / x86_64
+	Wed, 29 Mar 2017 11:30:12 +0000 (UTC)
+Received: by mail-it0-f44.google.com with SMTP id y18so53043432itc.1
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 29 Mar 2017 04:30:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id;
+	bh=rLHUfREv9MfcK/CkTAX9JwW4HEJfsmgod+CHluoxfks=;
+	b=Z65UequnDAZayNM3NO2AHGfZAuddqDNZDrvPsX5Kvl8zVwLGy8VTEjahV6ai07Bs3d
+	ck24NMQRw40n52soRlsA8CwJ4m7CqUUkzRCoOvRtKxTPmdiwJk5gWrT3p1G84USSF5tt
+	hLXm3f0DAu5+xR/jB4xA/Hu3jcg/bSyEHwWoJIgGAMCEhUkzOirOee0QNpVsU2tWAfMM
+	K/tSOiBrhuMHD0TkmdBHVMTp7QCX72KBMrO11aFZ4ZhtFhis679i7UO02WF6wH0fxYv7
+	zWcU9EabVl8P89XrGYVLbaIi5sQBtuAnJbFC+0bXpw0bBHTxw0J1vKSSMdJTtmC0DBZ4
+	3fbw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=rLHUfREv9MfcK/CkTAX9JwW4HEJfsmgod+CHluoxfks=;
+	b=tNWC7As5QbhzkvXqoiHfme0IPzDVkvl2vq6y5B5vaWQD2kqITlBdQ7296nprxD+uji
+	Xt8Yq66lPzbzrUGl8hCt2pNCRyvTfZfq/k49HfX6mARpMPQbQyt9PHS3Cd1qLjdiIQtQ
+	G8dJz6hC11bw0h8+yEQXY4lgL1sNDmeN+VOxZoNh8nham/+KWO8smKWvzt/L++AZSk3D
+	e2bHhlR5B9u6ppMRg/GuogtYrPy21ZLNy2S7i2BiUZJYWMQnIuT32Koe+oOPxl65WFcQ
+	ORouX0sV51BE5tf/G2KsM7nwgRNcGgKvxNjUjToiqK7uUA3+6zLJN003IzhoPfEI4ovf
+	Ez7w==
+X-Gm-Message-State: AFeK/H0zAE1Oz88KDU43Rvph+Sn4oq4g4ku4/yaQ5BIiCmLGxOFLuau14dvZjxLrw3st+BPP
+X-Received: by 10.36.1.208 with SMTP id 199mr667747itk.20.1490787013549;
+	Wed, 29 Mar 2017 04:30:13 -0700 (PDT)
+Received: from pohly-desktop.fritz.box (p5DE8D6D7.dip0.t-ipconnect.de.
+	[93.232.214.215]) by smtp.gmail.com with ESMTPSA id
+	d196sm3579511ioe.3.2017.03.29.04.30.11
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 29 Mar 2017 04:30:12 -0700 (PDT)
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 29 Mar 2017 13:29:48 +0200
+Message-Id: <cover.425c03862da4e6657583439f3eb42e3c88fb71ac.1490786957.git-series.patrick.ohly@intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH 0/2] eSDK: enhance compatibility with rm_work
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,134 +53,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Mar 2017 11:27:28 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 29 Mar 2017 11:30:12 -0000
 
+Currently "-c populate_sdk_ext" enables do_rm_work and then fails when
+that runs first. This is simular to the problem discussed with Mike
+Crowe: additional tasks that are only meant to run when explicitly
+requested by the user cannot be ordered to run before do_rm_work
+without also making them part of normal builds.
 
-> On Tue, 2017-03-28 at 18:57 +0000, Serhii Popovych wrote:
->> While glibc states that 2.6.32 kernels still supported
->> for x86 / x86_64 builds are failing due to out of date
->> LIBC_LINUX_VERSION macro checks for such architectures.
->>
->> This macro statically defined to 3.2.0 with commit 5b4ecd3
->> (Require Linux 3.2 except on x86 / x86_64, 3.2 headers everywhere.)
->> and additionally checked before --enable-kernel.
->>
->> Since both --enable-kernel and LIBC_LINUX_VERSION checks
->> are the same and there is no users of last one we can
->> safely get rid of it enabling glibc builds with 2.6.32
->> kernel headers.
->>
->> Also add --enable-kernel to glibc-initial build so that we
->> build it correctly with old headers.
->>
->> Cc: XE-Linux <xe-linux-external@cisco.com>
->> Signed-off-by: Serhii Popovych <spopovyc@cisco.com>
->> ---
->>  meta/recipes-core/glibc/glibc-initial.inc          |   1 +
->>  .../glibc/0028-Kill-LIBC_LINUX_VERSION-macro.patch | 113
->> +++++++++++++++++++++
->>  meta/recipes-core/glibc/glibc_2.25.bb              |   1 +
->>  3 files changed, 115 insertions(+)
->>  create mode 100644 meta/recipes-core/glibc/glibc/0028-Kill-
->> LIBC_LINUX_VERSION-macro.patch
->>
->> diff --git a/meta/recipes-core/glibc/glibc-initial.inc
->> b/meta/recipes-core/glibc/glibc-initial.inc
->> index f94603c..60b25dd 100644
->> --- a/meta/recipes-core/glibc/glibc-initial.inc
->> +++ b/meta/recipes-core/glibc/glibc-initial.inc
->> @@ -12,6 +12,7 @@ do_configure () {
->>  	find ${S} -name "configure" | xargs touch
->>  	cfgscript=`python3 -c "import os;
->> print(os.path.relpath('${S}', '.'))"`/configure
->>  	$cfgscript --host=${TARGET_SYS} --build=${BUILD_SYS} \
->> +		--enable-kernel=${OLDEST_KERNEL} \
->>  		--prefix=/usr \
->>  		--without-cvs --disable-sanity-checks \
->>  		--with-headers=${STAGING_DIR_TARGET}${includedir} \
->> diff --git a/meta/recipes-core/glibc/glibc/0028-Kill-
->> LIBC_LINUX_VERSION-macro.patch b/meta/recipes-core/glibc/glibc/0028-
->> Kill-LIBC_LINUX_VERSION-macro.patch
->> new file mode 100644
->> index 0000000..f5eaf1c
->> --- /dev/null
->> +++ b/meta/recipes-core/glibc/glibc/0028-Kill-LIBC_LINUX_VERSION-
->> macro.patch
->> @@ -0,0 +1,113 @@
->> +From 88f83e4b5a8929dac9095ed264700fcb62d5e4dd Mon Sep 17 00:00:00
->> 2001
->> +From: Serhii Popovych <spopovyc@cisco.com>
->> +Date: Fri, 17 Mar 2017 15:48:34 +0000
->> +Subject: Kill LIBC_LINUX_VERSION macro
->> +
->> +After commit 5b4ecd3 (Require Linux 3.2 except on x86 / x86_64,
->> +3.2 headers everywhere.) minimal kernel version raised from
->> +2.6.32 to 3.2.0 for all architectures except x86 and x86_64
->> +unless newer already used for architecture.
->> +
->> +However LIBC_LINUX_VERSION macro still is in effect and fails
->> +configure even with --enable-kernel=2.6.32.
->> +
->> +While it is present in configure.ac it does not affect anything
->> +except LINUX_VERSION_CODE check which already performed by
->> +--enable-kernel.
->> +
->> +Upstream-Status: Pending
->> +Signed-off-by: Serhii Popovych <spopovyc@cisco.com>
->> +---
->> + sysdeps/unix/sysv/linux/configure    | 39 -----------------------
->> -------------
->> + sysdeps/unix/sysv/linux/configure.ac | 21 -------------------
->> + 2 files changed, 60 deletions(-)
->> +
->> +diff --git a/sysdeps/unix/sysv/linux/configure
->> b/sysdeps/unix/sysv/linux/configure
-> 
-> This is presumably a generated file. We should only patch configure.ac
-> as otherwise the potential timestamp differences between these can
-> cause problems (we've been burnt before). The configure version will
-> get updated when we reautoconf.
+IMHO this has always been a problem, injecting do_rm_work before
+do_build just triggers it more often.
 
-Yes thats true, but I get following
+There's no good solution besides avoiding do_rm_work, which is what
+the two following patches do. The more reliable solution would be to
+have additional ordering dependencies between tasks than the current
+"A must run before B".
 
-| running configure fragment for sysdeps/unix/sysv/linux
-| checking installed Linux kernel header files... missing or too old!
-| configure: error: GNU libc requires kernel header files from
-| Linux 3.2.0 or later to be installed before configuring.
-| The kernel header files are found usually in /usr/include/asm and
-| /usr/include/linux; make sure these directories use files from
-| Linux 3.2.0 or later.  This check uses <linux/version.h>, so
-| make sure that file was built correctly when installing the kernel header
-| files.  To use kernel headers not from /usr/include/linux, use the
-| configure option --with-headers.
-| WARNING:
-/home/spopovyc/oe/build-oe/tmp-glibc/work/x86_64-nativesdk-oesdk-linux/nativesdk-glibc-initial/2.25-r0/temp/run.do_configure.58685:1
-exit 1 from '$cfgscript --host=x86_64-oesdk-linux --build=x86_64-linux
---enable-kernel=2.6.32 --prefix=/usr --without-cvs
---disable-sanity-checks
---with-headers=/home/spopovyc/oe/build-oe/tmp-glibc/work/x86_64-nativesdk-oesdk-linux/nativesdk-glibc-initial/2.25-r0/recipe-sysroot/usr/local/oecore-x86_64/sysroots/x86_64-oesdk-linux/usr/include
---enable-hacker-mode --enable-addons'
-| ERROR: Function failed: do_configure (log file is located at
-/home/spopovyc/oe/build-oe/tmp-glibc/work/x86_64-nativesdk-oesdk-linux/nativesdk-glibc-initial/2.25-r0/temp/log.do_configure.58685)
+I also considered solving this in the task scheduler, but I believe
+that this wouldn't work because even if it schedules populate_sdk_ext
+before rm_work, it wouldn't be able to prevent rm_work from running in
+parallel to populate_sdk_ext.
 
-When patching only configure.ac and by looking at configure
-I see it wasn't recreated from changes in confiugre.ac
+Patrick Ohly (2):
+  rm_work.bbclass: introduce do_build_without_rm_work
+  populate_sdk_ext.bbclass: enhance compatibility with rm_work.bbclass
 
-and by looking at glibc-initial/glibc recipes i see that
-do_configure() task is overwritten to not to call autoreconf,
-so I think patching configure is correct here.
+ meta/classes/populate_sdk_ext.bbclass |  7 ++++++-
+ meta/classes/rm_work.bbclass          | 27 ++++++++++++++++++++++++---
+ 2 files changed, 30 insertions(+), 4 deletions(-)
 
-Also I found few more patches in glibc directory that patch
-both configure and configure.ac.
-
-Thanks,
-Serhii
-
-> 
-> Cheers,
-> 
-> Richard
-> 
+base-commit: d68a86d87aa017dd0fecb0f626d22711efefcd3f
+-- 
+git-series 0.9.1
 
