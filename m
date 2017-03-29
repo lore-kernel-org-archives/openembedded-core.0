@@ -1,31 +1,46 @@
-Return-Path: <rpjday@crashcourse.ca>
-Received: from smtp484.redcondor.net (smtp484.redcondor.net [208.80.204.84])
-	by mail.openembedded.org (Postfix) with ESMTP id 0448577BD5
+Return-Path: <spopovyc@cisco.com>
+X-Greylist: delayed 374 seconds by postgrey-1.34 at layers.openembedded.org;
+	Wed, 29 Mar 2017 10:04:07 UTC
+Received: from aer-iport-3.cisco.com (aer-iport-3.cisco.com [173.38.203.53])
+	by mail.openembedded.org (Postfix) with ESMTP id DFE3E77B6E
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Mar 2017 09:56:35 +0000 (UTC)
-Received: from astoria.ccjclearline.com ([64.235.106.9])
-	by smtp484.redcondor.net ({c48374e7-08df-40d9-a0de-96cc9883a037})
-	via TCP (outbound) with ESMTPS id 20170329095635171_0484
+	Wed, 29 Mar 2017 10:04:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=cisco.com; i=@cisco.com; l=9383; q=dns/txt; s=iport;
+	t=1490781849; x=1491991449;
+	h=from:subject:to:references:message-id:date:mime-version:
+	in-reply-to:content-transfer-encoding;
+	bh=vCztiazzQA682Ed2Vx7CwH3/YPEvzcOV7Y0eNP/kYSA=;
+	b=PfE8se7kXg/Otz8QoqqMJ6P2K/vAjJovoW3ITc8XLuBnNo2HdV7yKKg9
+	eU6IbDtd/vayEDawJaVDunGIMapQoe35Xwnt2PnVVcefNhOa2aCq8/xVV
+	IgR7uxJhCA+goKuc8KZ74lpvG9qTlvVc/Rxom2AlBWHFhNQZ8sE+WX/3B M=;
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-Anti-Spam-Result: =?us-ascii?q?A0B3AQBChNtY/xbLJq1dGQEBAQEBAQEBA?=
+	=?us-ascii?q?QEBBwEBAQEBhDaBC41zc5A+H40OhjGCD4IOIoYAAoNzGAECAQEBAQEBAWsohRU?=
+	=?us-ascii?q?BAQEBAgF+CwsRAQIBAgEuPQwGCBMGAgEBiXkFCK94ikoBAQgCJoZOggUIgTiBK?=
+	=?us-ascii?q?oo5AQSJHoZDfIUzhlCGfYtTglCOY0iTIh84gQQ6HxWFGR0ZgU09NYk2AQEB?=
+X-IronPort-AV: E=Sophos;i="5.36,240,1486425600"; d="scan'208";a="651777275"
+Received: from aer-iport-nat.cisco.com (HELO aer-core-2.cisco.com)
+	([173.38.203.22])
+	by aer-iport-3.cisco.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	29 Mar 2017 10:00:52 +0000
+Received: from tuxracer.local ([10.61.216.184]) (authenticated bits=0)
+	by aer-core-2.cisco.com (8.14.5/8.14.5) with ESMTP id v2TA0pw9010595
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Mar 2017 09:56:35 +0000
-X-RC-FROM: <rpjday@crashcourse.ca>
-X-RC-RCPT: <openembedded-core@lists.openembedded.org>
-Received: from [216.191.234.70] (port=59375 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
-	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1ctAL7-0007a9-HZ for openembedded-core@lists.openembedded.org;
-	Wed, 29 Mar 2017 05:56:29 -0400
-Date: Wed, 29 Mar 2017 05:56:27 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@uk63952.mitel.com
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-In-Reply-To: <alpine.LFD.2.20.1703290548440.3733@uk63952.mitel.com>
-Message-ID: <alpine.LFD.2.20.1703290555150.2895@uk63952.mitel.com>
-References: <alpine.LFD.2.20.1703290548440.3733@uk63952.mitel.com>
-User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
+	Wed, 29 Mar 2017 10:00:52 GMT
+From: Serhii Popovych <spopovyc@cisco.com>
+To: openembedded-core@lists.openembedded.org
+References: <4713eca3e627fb1bececc59af252a0768c955d11.1490727266.git.spopovyc@cisco.com>
+	<ec839388-19b4-5daa-d6fe-b9d5c5c9c054@gmail.com>
+Message-ID: <8a3c642f-9844-61e7-10f9-fb478f530b7a@cisco.com>
+Date: Wed, 29 Mar 2017 13:00:51 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.8.0
 MIME-Version: 1.0
-X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
-Subject: Re: wanting to clarify HOSTTOOLS and HOSTTOOLS_NONFATAL
+In-Reply-To: <ec839388-19b4-5daa-d6fe-b9d5c5c9c054@gmail.com>
+X-Authenticated-User: spopovyc
+Subject: Re: [PATCH] glibc: Support building with 2.6.32 kernels on x86 / x86_64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,38 +53,222 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Mar 2017 09:56:37 -0000
-Content-Type: text/plain; charset=US-ASCII
+X-List-Received-Date: Wed, 29 Mar 2017 10:04:08 -0000
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 7bit
 
-On Wed, 29 Mar 2017, Robert P. J. Day wrote:
 
->   again, trying to catch up with new developments, and i want to
-> make sure i understand these variables. as i read it (and i could be
-> off-base), HOSTTOOLS represents a list of tools that *must* be
-> available one way or the other, and any tools listed there are
-> allowed to be symlinked from the tools available in PATH, is that
-> correct?
->
->   OTOH, HOSTTOOLS_NONFATAL represents whitelisted tools that will be
-> symlinked if they're there, but their absence is not fatal.
->
->   i'm still not totally clear here ... and there is no mention of
-> these variables in the YP reference manual variables glossary.
+> 
+> 
+> On 3/28/17 11:57 AM, Serhii Popovych wrote:
+>> While glibc states that 2.6.32 kernels still supported
+>> for x86 / x86_64 builds are failing due to out of date
+>> LIBC_LINUX_VERSION macro checks for such architectures.
+>>
+>> This macro statically defined to 3.2.0 with commit 5b4ecd3
+>> (Require Linux 3.2 except on x86 / x86_64, 3.2 headers everywhere.)
+>> and additionally checked before --enable-kernel.
+>>
+>> Since both --enable-kernel and LIBC_LINUX_VERSION checks
+>> are the same and there is no users of last one we can
+>> safely get rid of it enabling glibc builds with 2.6.32
+>> kernel headers.
+>>
+>> Also add --enable-kernel to glibc-initial build so that we
+>> build it correctly with old headers.
+>>
+>> Cc: XE-Linux <xe-linux-external@cisco.com>
+>> Signed-off-by: Serhii Popovych <spopovyc@cisco.com>
+>> ---
+>>  meta/recipes-core/glibc/glibc-initial.inc          |   1 +
+>>  .../glibc/0028-Kill-LIBC_LINUX_VERSION-macro.patch | 113 +++++++++++++++++++++
+>>  meta/recipes-core/glibc/glibc_2.25.bb              |   1 +
+>>  3 files changed, 115 insertions(+)
+>>  create mode 100644 meta/recipes-core/glibc/glibc/0028-Kill-LIBC_LINUX_VERSION-macro.patch
+>>
+>> diff --git a/meta/recipes-core/glibc/glibc-initial.inc b/meta/recipes-core/glibc/glibc-initial.inc
+>> index f94603c..60b25dd 100644
+>> --- a/meta/recipes-core/glibc/glibc-initial.inc
+>> +++ b/meta/recipes-core/glibc/glibc-initial.inc
+>> @@ -12,6 +12,7 @@ do_configure () {
+>>  	find ${S} -name "configure" | xargs touch
+>>  	cfgscript=`python3 -c "import os; print(os.path.relpath('${S}', '.'))"`/configure
+>>  	$cfgscript --host=${TARGET_SYS} --build=${BUILD_SYS} \
+>> +		--enable-kernel=${OLDEST_KERNEL} \
+>>  		--prefix=/usr \
+>>  		--without-cvs --disable-sanity-checks \
+>>  		--with-headers=${STAGING_DIR_TARGET}${includedir} \
+>> diff --git a/meta/recipes-core/glibc/glibc/0028-Kill-LIBC_LINUX_VERSION-macro.patch b/meta/recipes-core/glibc/glibc/0028-Kill-LIBC_LINUX_VERSION-macro.patch
+>> new file mode 100644
+>> index 0000000..f5eaf1c
+>> --- /dev/null
+>> +++ b/meta/recipes-core/glibc/glibc/0028-Kill-LIBC_LINUX_VERSION-macro.patch
+>> @@ -0,0 +1,113 @@
+>> +From 88f83e4b5a8929dac9095ed264700fcb62d5e4dd Mon Sep 17 00:00:00 2001
+>> +From: Serhii Popovych <spopovyc@cisco.com>
+>> +Date: Fri, 17 Mar 2017 15:48:34 +0000
+>> +Subject: Kill LIBC_LINUX_VERSION macro
+>> +
+>> +After commit 5b4ecd3 (Require Linux 3.2 except on x86 / x86_64,
+>> +3.2 headers everywhere.) minimal kernel version raised from
+>> +2.6.32 to 3.2.0 for all architectures except x86 and x86_64
+>> +unless newer already used for architecture.
+>> +
+>> +However LIBC_LINUX_VERSION macro still is in effect and fails
+>> +configure even with --enable-kernel=2.6.32.
+>> +
+>> +While it is present in configure.ac it does not affect anything
+>> +except LINUX_VERSION_CODE check which already performed by
+>> +--enable-kernel.
+>> +
+> 
+> --enable-kernel is forces the minimum kernel for glibc to configure for
+> kernel interfaces if not set it defaults to arch specific value but it
+> wont check for version of linux headers during compile time. Whereas
+> this check is checking and errors out during build time if minimum
+> kernel version is not met.
 
-  oh, i think i asked this before as well ... how do these variables
-relate to ASSUME_PROVIDED? IIRC, ASSUME_PROVIDED is interpreted as "i
-have these utilities on my host, use them."
+But why in configure.ac
+define([LIBC_LINUX_VERSION],[3.2.0])
+sets to version 3.2.0?
 
-rday
+and then AC_TRY_COMPILE() sets libc_cv_linuxVER='missing or too old!'
+causing configure to fail due to missing kheaders >= 3.2.0, not 2.6.32.
 
--- 
+Later in configure.ac I see minimum_kernel being checked with
+AC_TRY_COMPILE() and same code as for LIBC_LINUX_VERSION.
 
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
+So we check for 3.2.0 and then check for minimum_kernel (--enable-
+kernel) 2.6.32 after this?
 
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
 
+> If you were to make the LIBC_LINUX_VERSION
+> have a value that matches the arch_minimum_kernel version that would be
+> an improvement.
+
+configure.ac (and thus configure) is only place where
+LIBC_LINUX_VERSION is used, so I decided to remove it as remnant from
+pre --enable-kernel option ages.
+
+> 
+> As such if you want to do quick fix then lower the value of
+> LIBC_LINUX_VERSION to 2.6.32 when building for x86/x86_64, we can accept
+> such a patch with a bit less happiness.
+
+I do not want to get quick fix. I want to find way to fix it right.
+
+Thanks.
+
+> 
+> 
+>> +Upstream-Status: Pending
+>> +Signed-off-by: Serhii Popovych <spopovyc@cisco.com>
+>> +---
+>> + sysdeps/unix/sysv/linux/configure    | 39 ------------------------------------
+>> + sysdeps/unix/sysv/linux/configure.ac | 21 -------------------
+>> + 2 files changed, 60 deletions(-)
+>> +
+>> +diff --git a/sysdeps/unix/sysv/linux/configure b/sysdeps/unix/sysv/linux/configure
+>> +index cace758..ab5fabe 100644
+>> +--- a/sysdeps/unix/sysv/linux/configure
+>> ++++ b/sysdeps/unix/sysv/linux/configure
+>> +@@ -6,45 +6,6 @@ if test -n "$sysheaders"; then
+>> +   CPPFLAGS="$CPPFLAGS $SYSINCLUDES"
+>> + fi
+>> + 
+>> +-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking installed Linux kernel header files" >&5
+>> +-$as_echo_n "checking installed Linux kernel header files... " >&6; }
+>> +-if ${libc_cv_linux320+:} false; then :
+>> +-  $as_echo_n "(cached) " >&6
+>> +-else
+>> +-  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+>> +-/* end confdefs.h.  */
+>> +-#include <linux/version.h>
+>> +-#if !defined LINUX_VERSION_CODE || LINUX_VERSION_CODE <  (3 *65536+ 2 *256+ 0) /* 3.2.0 */
+>> +-# error kernel headers missing or too old
+>> +-#endif
+>> +-int
+>> +-main ()
+>> +-{
+>> +-
+>> +-  ;
+>> +-  return 0;
+>> +-}
+>> +-_ACEOF
+>> +-if ac_fn_c_try_compile "$LINENO"; then :
+>> +-  libc_cv_linux320='3.2.0 or later'
+>> +-else
+>> +-  libc_cv_linux320='missing or too old!'
+>> +-fi
+>> +-rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
+>> +-fi
+>> +-{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $libc_cv_linux320" >&5
+>> +-$as_echo "$libc_cv_linux320" >&6; }
+>> +-if test "$libc_cv_linux320" != '3.2.0 or later'; then
+>> +-  as_fn_error $? "GNU libc requires kernel header files from
+>> +-Linux 3.2.0 or later to be installed before configuring.
+>> +-The kernel header files are found usually in /usr/include/asm and
+>> +-/usr/include/linux; make sure these directories use files from
+>> +-Linux 3.2.0 or later.  This check uses <linux/version.h>, so
+>> +-make sure that file was built correctly when installing the kernel header
+>> +-files.  To use kernel headers not from /usr/include/linux, use the
+>> +-configure option --with-headers." "$LINENO" 5
+>> +-fi
+>> +-
+>> + # If the user gave a minimal version number test whether the available
+>> + # kernel headers are young enough.  Additionally we have minimal
+>> + # kernel versions for some architectures.  If a previous configure fragment
+>> +diff --git a/sysdeps/unix/sysv/linux/configure.ac b/sysdeps/unix/sysv/linux/configure.ac
+>> +index 13abda0..5b47db5 100644
+>> +--- a/sysdeps/unix/sysv/linux/configure.ac
+>> ++++ b/sysdeps/unix/sysv/linux/configure.ac
+>> +@@ -1,31 +1,10 @@
+>> + GLIBC_PROVIDES dnl See aclocal.m4 in the top level source directory.
+>> + # Local configure fragment for sysdeps/unix/sysv/linux.
+>> + 
+>> +-define([LIBC_LINUX_VERSION],[3.2.0])dnl
+>> + if test -n "$sysheaders"; then
+>> +   OLD_CPPFLAGS=$CPPFLAGS
+>> +   CPPFLAGS="$CPPFLAGS $SYSINCLUDES"
+>> + fi
+>> +-define([libc_cv_linuxVER], [libc_cv_linux]patsubst(LIBC_LINUX_VERSION,[\.]))dnl
+>> +-AC_CACHE_CHECK(installed Linux kernel header files, libc_cv_linuxVER, [dnl
+>> +-AC_TRY_COMPILE([#include <linux/version.h>
+>> +-#if !defined LINUX_VERSION_CODE || LINUX_VERSION_CODE < ]dnl
+>> +-patsubst(LIBC_LINUX_VERSION,[^\([^.]*\)\.\([^.]*\)\.\([^.]*\)$],dnl
+>> +-[ (\1 *65536+ \2 *256+ \3) /* \1.\2.\3 */])[
+>> +-# error kernel headers missing or too old
+>> +-#endif], [],
+>> +-	       [libc_cv_linuxVER='LIBC_LINUX_VERSION or later'],
+>> +-	       [libc_cv_linuxVER='missing or too old!'])])
+>> +-if test "$libc_cv_linuxVER" != 'LIBC_LINUX_VERSION or later'; then
+>> +-  AC_MSG_ERROR([GNU libc requires kernel header files from
+>> +-Linux LIBC_LINUX_VERSION or later to be installed before configuring.
+>> +-The kernel header files are found usually in /usr/include/asm and
+>> +-/usr/include/linux; make sure these directories use files from
+>> +-Linux LIBC_LINUX_VERSION or later.  This check uses <linux/version.h>, so
+>> +-make sure that file was built correctly when installing the kernel header
+>> +-files.  To use kernel headers not from /usr/include/linux, use the
+>> +-configure option --with-headers.])
+>> +-fi
+>> + 
+>> + # If the user gave a minimal version number test whether the available
+>> + # kernel headers are young enough.  Additionally we have minimal
+>> +-- 
+>> +2.7.4
+>> +
+>> diff --git a/meta/recipes-core/glibc/glibc_2.25.bb b/meta/recipes-core/glibc/glibc_2.25.bb
+>> index cf9c4f7..869d023 100644
+>> --- a/meta/recipes-core/glibc/glibc_2.25.bb
+>> +++ b/meta/recipes-core/glibc/glibc_2.25.bb
+>> @@ -42,6 +42,7 @@ SRC_URI = "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
+>>             file://0025-Define-DUMMY_LOCALE_T-if-not-defined.patch \
+>>             file://0026-elf-dl-deps.c-Make-_dl_build_local_scope-breadth-fir.patch \
+>>             file://0027-locale-fix-hard-coded-reference-to-gcc-E.patch \
+>> +           file://0028-Kill-LIBC_LINUX_VERSION-macro.patch \
+>>  "
+>>  
+>>  NATIVESDKFIXES ?= ""
+>>
+> 
 
