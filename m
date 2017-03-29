@@ -1,48 +1,46 @@
-Return-Path: <spopovyc@cisco.com>
-Received: from aer-iport-2.cisco.com (aer-iport-2.cisco.com [173.38.203.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 2274677CD7
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-it0-f42.google.com (mail-it0-f42.google.com
+	[209.85.214.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 7B6AB77C9B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Mar 2017 12:51:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=cisco.com; i=@cisco.com; l=1637; q=dns/txt; s=iport;
-	t=1490791868; x=1492001468;
-	h=subject:to:references:cc:from:message-id:date:
-	mime-version:in-reply-to:content-transfer-encoding;
-	bh=CyCKWikgljo2/IX9gnTh7SeEJNLCQceOqNl4RUieO1c=;
-	b=MEqQEpCAat+S82bz6BxlwBO3nORKT833wTk2MRYDW/+MOvp1PJ/ZIcNO
-	XLtjqH/EDEZPKDxqteNYm6wunZvy+POFqkCvMK63SHX9PgDIzI0BSB8hy
-	yYwLFBhFw1E+hkvEB7dx7Qd+XGRL677mW53YUe0d4VK53wYR9mxWyiCHJ Q=;
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-Anti-Spam-Result: =?us-ascii?q?A0CYAQDdrNtY/xbLJq1dGQEBAQEBAQEBA?=
-	=?us-ascii?q?QEBBwEBAQEBhUGDYooRc5Bdkz+CD4IOgmyDNgKDdxgBAgEBAQEBAQFrKIUVAQE?=
-	=?us-ascii?q?BAQIBIw8BRhALDgoCAiMDAgI9CREGDQYCAQGJeQUIrW2CJopJAQEBAQEBAQECA?=
-	=?us-ascii?q?QEBAQEBASETeIVDggWBQIEqhFSDBoJfBZBdjAOSUJEzk2ofOIEEOh8VhU+BTT0?=
-	=?us-ascii?q?1hnkoghUBAQE?=
-X-IronPort-AV: E=Sophos;i="5.36,241,1486425600"; d="scan'208";a="650760473"
-Received: from aer-iport-nat.cisco.com (HELO aer-core-2.cisco.com)
-	([173.38.203.22])
-	by aer-iport-2.cisco.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	29 Mar 2017 12:51:05 +0000
-Received: from tuxracer.local ([10.61.218.101]) (authenticated bits=0)
-	by aer-core-2.cisco.com (8.14.5/8.14.5) with ESMTP id v2TCp4Fi028116
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Wed, 29 Mar 2017 12:51:05 GMT
-To: Christopher Larson <kergoth@gmail.com>
-References: <e1eee1aa56e1dc59a55a9cac25a00a1ea2f9375e.1490727568.git.spopovyc@cisco.com>
-	<CABcZAN=pYQH82T4Gxi9VneWQtRQYZyeu+Wrr+4V7iWeXW+_RvA@mail.gmail.com>
-From: Serhii Popovych <spopovyc@cisco.com>
-Message-ID: <a0db5863-003a-ab83-aa85-c719656ddc62@cisco.com>
-Date: Wed, 29 Mar 2017 15:51:04 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.8.0
-MIME-Version: 1.0
-In-Reply-To: <CABcZAN=pYQH82T4Gxi9VneWQtRQYZyeu+Wrr+4V7iWeXW+_RvA@mail.gmail.com>
-X-Auto-Response-Suppress: DR, OOF, AutoReply
-X-Authenticated-User: spopovyc
-Cc: XE-Linux <xe-linux-external@cisco.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] ca-certificates: Fix symlinks to the certificates in nativesdk
+	Wed, 29 Mar 2017 12:52:12 +0000 (UTC)
+Received: by mail-it0-f42.google.com with SMTP id e75so91284602itd.1
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 29 Mar 2017 05:52:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id;
+	bh=C88LoHmLhVxwkPC3idcvxsHIDs3kjIzeIOxd2s+V370=;
+	b=D7JML5mos5PJqmztUfRhLgf64HfUZvGtzUr8fKsB8Xc3tLUSMcTFEY/Y/PiZ/RtQWu
+	qLZ4IgG68/IyqYDJb+7T87ZeAMYQOqPg9ASzH9EwUhv5TXak96rmb6G6k5BA/eCoANs3
+	EMuel/UXvrOvyEjdi6eET/9FW9DfO3EVcWFNEOW4onu/tQk8sIuMDo8kRf13fIefkh+U
+	UBUhbMPm7vKNK2b/HPfkDUy3UYn62RzZ9ZElTqWHpjIn8204ZYm1+gGjNNcshxPgKdYK
+	AU2n2o/EqCwmW1pgVjFZbj26im4XC6Hc5sxAinWVYETvXM4W2vPXGjCXDe7HAPz4Ud47
+	aFHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=C88LoHmLhVxwkPC3idcvxsHIDs3kjIzeIOxd2s+V370=;
+	b=X9dteMhdT9oBdhXUMeujDEpoIoNJnOgPdv4vKE+g9uhus9Bat1kjzJCIEKmJcSYtY1
+	YcZpBDqB+kUd5f93kOkMVWKOaEs5Fnh5AKtTGXt0opPCBuqrS8ATQFM/grcd76uwosRM
+	2Wu+UVMd9YPKaSBC7uDnh7DZL58vUVNp/xfumF2GTRIl1mmIUj1BZZaH6Te5C94o7oDb
+	FFn9TSvswxkQTAOpvBE3/reynBulvoZGBnA+tFs4pnEYevTZLSSnNqnKd/7jDi9q99fb
+	5dF4qRbvvm1KL6k9dHkVTXJ4WDuMzUY4PL+3eNJFIcfAcifJ1QN/Z/X/vofnN7rpbl0P
+	E+qg==
+X-Gm-Message-State: AFeK/H29XDY1+Q+7F+UsxxE/xuy9d3CahpVvM3DTULpI70HCYdMUHk//N+pq/cevv+d+J+Y7
+X-Received: by 10.107.30.67 with SMTP id e64mr601138ioe.54.1490791932506;
+	Wed, 29 Mar 2017 05:52:12 -0700 (PDT)
+Received: from pohly-desktop.fritz.box (p5DE8D6D7.dip0.t-ipconnect.de.
+	[93.232.214.215])
+	by smtp.gmail.com with ESMTPSA id p6sm3670027iof.12.2017.03.29.05.52.10
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 29 Mar 2017 05:52:11 -0700 (PDT)
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 29 Mar 2017 14:52:06 +0200
+Message-Id: <e4f5d88b8e69964c40e7011c1e7f33f6484b9090.1490791914.git-series.patrick.ohly@intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH] ovmf: avoid linking with gold
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,53 +53,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Mar 2017 12:51:06 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 29 Mar 2017 12:52:12 -0000
 
+Linking with gold fails due to an internal error in gold. The ovmf
+linker is gcc, which has a -fuse-ld=bfd option to choose the linker
+which (for ovmf) is known to work.
 
-> 
-> On Tue, Mar 28, 2017 at 12:00 PM, Serhii Popovych <spopovyc@cisco.com
-> <mailto:spopovyc@cisco.com>> wrote:
-> 
->     Symlinks to certificates in buildtools-tarball at /etc/ssl/certs
->     installed with absolute pathes making these sumlinks pointing
->     outside of toolchain to the host system locations.
-> 
->     These locations may not contain some certificates (thus link to
->     the certificate in toolchain is broken) or host system
->     certificate may be revoked by CRL or outdated.
-> 
->     Since this change seems non intrusive for target package apply
->     patch for all builds.
-> 
->     Cc: XE-Linux <xe-linux-external@cisco.com
->     <mailto:xe-linux-external@cisco.com>>
->     Signed-off-by: Serhii Popovych <spopovyc@cisco.com
->     <mailto:spopovyc@cisco.com>>
-> 
-> 
-> We actually run a script against the entire sdk sysroot to convert all
-> absolute links to relative (see `POPULATE_SDK_POST_TARGET_COMMAND +=
-> “rootfs_sysroot_relativelinks;` in image.bbclass and
-> rootfs_sysroot_relativelinks in rootfs-postcommands.bbclass), but this
-> script had a bug. I recently sent a patch (this morning) to it to fix
-> this exact issue.
-That's great. What the subject of this change in openembedded-core?
-I wish to test it.
+Like the choice of the compilers, this is done in ovmf-native. To keep
+that recipe independent of DISTRO_FEATURES, choosing bfd is done
+unconditionally.
 
-Because with current *master* I see problem is still here.
+Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
+---
+ meta/recipes-core/ovmf/ovmf_git.bb | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-Thanks,
-Serhii
+diff --git a/meta/recipes-core/ovmf/ovmf_git.bb b/meta/recipes-core/ovmf/ovmf_git.bb
+index 898c5b7..73fdfc6 100644
+--- a/meta/recipes-core/ovmf/ovmf_git.bb
++++ b/meta/recipes-core/ovmf/ovmf_git.bb
+@@ -98,6 +98,14 @@ fix_toolchain_append_class-native() {
+         -e '/^LINKER/a LFLAGS += ${BUILD_LDFLAGS}\nCFLAGS += ${BUILD_CFLAGS}' \
+         ${S}/BaseTools/Source/C/Makefiles/app.makefile \
+         ${S}/BaseTools/Source/C/VfrCompile/GNUmakefile
++    # Linking with gold fails:
++    # internal error in do_layout, at ../../gold/object.cc:1821
++    # make: *** [.../OUTPUT/Facs.acpi] Error 1
++    # We intentionally hard-code the use of ld.bfd regardless of DISTRO_FEATURES
++    # to make ovmf-native reusable across distros.
++    sed -i \
++        -e 's#^\(DEFINE GCC.*DLINK.*FLAGS  *=\)#\1 -fuse-ld=bfd#' \
++        ${S}/BaseTools/Conf/tools_def.template
+ }
+ 
+ GCC_VER="$(${CC} -v 2>&1 | tail -n1 | awk '{print $3}')"
 
-Of course, it wouldn’t hurt to also change the
-> behavior in the recipe, but it’s not necessary with the script fixed.
-
-
-> -- 
-> Christopher Larson
-> kergoth at gmail dot com
-> Founder - BitBake, OpenEmbedded, OpenZaurus
-> Senior Software Engineer, Mentor Graphics
+base-commit: c31440874d6a41b98fe3f8aacbc5666fd68c9635
+-- 
+git-series 0.9.1
 
