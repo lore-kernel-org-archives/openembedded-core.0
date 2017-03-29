@@ -1,31 +1,46 @@
-Return-Path: <jussi.kukkonen@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id CB39377BFF
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qt0-f180.google.com (mail-qt0-f180.google.com
+	[209.85.216.180])
+	by mail.openembedded.org (Postfix) with ESMTP id C1EFB71AB5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Mar 2017 14:44:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-	d=intel.com; i=@intel.com; q=dns/txt; s=intel;
-	t=1490798669; x=1522334669;
-	h=from:to:cc:subject:date:message-id;
-	bh=H5vdfTXGGaxMTq8mM3KVJlPuaY+PgGN3SAoI8j90RnY=;
-	b=CtjO6C48HD4dhEWXxYAXVG0pvXXN2erznwZQXBWI0MOIEAxwSDiwkgJ+
-	3srOzyfoOVHMduAcFR+/zRZRrWpOIg==;
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	29 Mar 2017 07:44:21 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.36,241,1486454400"; d="scan'208";a="1148396933"
-Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga002.fm.intel.com with ESMTP; 29 Mar 2017 07:44:21 -0700
-Received: from theory.fi.intel.com (theory.fi.intel.com [10.237.72.53])
-	by linux.intel.com (Postfix) with ESMTP id 903096A4080;
-	Wed, 29 Mar 2017 07:44:13 -0700 (PDT)
-From: Jussi Kukkonen <jussi.kukkonen@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 29 Mar 2017 17:44:07 +0300
-Message-Id: <1490798647-28191-1-git-send-email-jussi.kukkonen@intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] quilt: Fix paths for patch and perl
+	Wed, 29 Mar 2017 14:50:37 +0000 (UTC)
+Received: by mail-qt0-f180.google.com with SMTP id n21so14571546qta.1
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 29 Mar 2017 07:50:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=5kZUbkHi485loaK4WXR73x2s2Ifh/EufufyRktRejI4=;
+	b=m4FP0/tNkRy9+KOW5K2I1QaF1kEaUopW5ep33sPgY8oYsfWVRCDcgD9AROxqELNO3W
+	UJ8rFIYfv7M4AV905vUe05AlJJA+s52OZ5+Ga2pwwD+MS9OwbuP9z0CaYfaXCKQGPqC4
+	bGZb1bqcHRFGiYZraQ1OaVu2ffIxaYwZPk48WaUt2G/j6rOlu2Id0klrmiC/9jdrlxdw
+	vNDrELR1WuEs7UFE1YFj/8Nv1dWNa1ohU7aTk1L2P7WWpmFWipz58sV29++sdB12xa8B
+	lzEgrZgrR3dmGW9WaTGsAxc5jIMF50PH2hg6ySM2CgkL1hBRgJC9reSv2SRDdk/JTQHb
+	PdQQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=5kZUbkHi485loaK4WXR73x2s2Ifh/EufufyRktRejI4=;
+	b=GWxOHxUKGpdsBbI7hwkGvWjJ3iEJqtMFmhZA8olIl5uOKQmiYs8P/XZnAUyvQo7PXq
+	A4tAsnISHy3WlStfM0p7sO+DwcI+HvUClyL9HmN+mb1eW3m378Qo8+8O1kIPeYoRQYy6
+	YkTAFWiZPRHocaRforXQ02mFHdvABPUq+T2brefZuXSAjVgrUB8bs9opMVtYxF1B/HHK
+	R7O+Zmmm8aIPt3rTrEcm17Z6r1h2TMQjfgwESjQM/AgJIQzcdHDcmJ+TJOkhokhAd1un
+	f2459sCU0jmkkOZGp+y196h0h0CCcrCtyP6uwlUPuwV0FLjoJzRY+ZzeSLWXSDMkIMzU
+	B9rA==
+X-Gm-Message-State: AFeK/H07JVpnPvXyHKdR7UAGJonmgDHivbefZEiLzSsTdy6/AlSnXosoASuQJ1RXTQl/N2ywRpiz/jZ5MpBKkR5b
+X-Received: by 10.237.34.250 with SMTP id q55mr999242qtc.144.1490799037647;
+	Wed, 29 Mar 2017 07:50:37 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.22.166 with HTTP; Wed, 29 Mar 2017 07:50:17 -0700 (PDT)
+In-Reply-To: <699e3efa-95bb-fc2c-ba12-5a5e7807acb9@mindchasers.com>
+References: <699e3efa-95bb-fc2c-ba12-5a5e7807acb9@mindchasers.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 29 Mar 2017 15:50:17 +0100
+Message-ID: <CAJTo0LZAWTAuC_GjBifQRzL_bMJCw52qZm-Jvo4S4QYaba8H8Q@mail.gmail.com>
+To: Bob Cochran <openembedded@mindchasers.com>
+Cc: mlauer@vanille-media.de, OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: python: manifest files have a bad link to "Embedded Systems Site"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,104 +53,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Mar 2017 14:44:28 -0000
+X-List-Received-Date: Wed, 29 Mar 2017 14:50:45 -0000
+Content-Type: multipart/alternative; boundary=001a113eea5a125ba1054bdfb384
 
---with-perl value is used as part of shebang lines: the previous
-do_install_append hack did not work as it was often used as
-    #! /usr/bin/env perl -w
-Env does not support arguments, set --with-perl instead. Native
-recipe already overrides this so should not break.
+--001a113eea5a125ba1054bdfb384
+Content-Type: text/plain; charset=UTF-8
 
---with-patch is used within the gnu patch wrapper only: before this
-commit the wrapper contained a path to (build host) native patch.
+On 29 March 2017 at 13:49, Bob Cochran <openembedded@mindchasers.com> wrote:
 
-Also tweak one test so busybox mv output is accepted.
+> These files: python-2.7-manifest.inc  python-3.5-manifest.inc
+> python-native-2.7-manifest.inc  python-native-3.5-manifest.inc
+>
+> all have:
+>
+> "Visit the Python for Embedded Systems Site =>
+> http://www.Vanille.de/projects/python.spy"
+>
+> That URL returns a 404
+>
+> Someone want to fix the link?
+>
+> Otherwise, I'll be happy to submit a patch if provided guidance on what
+> site these files should now reference.
+>
 
-All ptests should now pass: Fixes [YOCTO #11221].
+Wow, that must be about a decade old now.
 
-Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
----
- meta/recipes-devtools/quilt/quilt.inc              |  3 ++-
- ...0001-tests-Allow-different-output-from-mv.patch | 29 ++++++++++++++++++++++
- meta/recipes-devtools/quilt/quilt_0.65.bb          | 10 --------
- 3 files changed, 31 insertions(+), 11 deletions(-)
- create mode 100644 meta/recipes-devtools/quilt/quilt/0001-tests-Allow-different-output-from-mv.patch
+As the scripts are part of openembedded, I don't think this needs a link
+anymore.  Feel free to just delete that comment block.
 
-diff --git a/meta/recipes-devtools/quilt/quilt.inc b/meta/recipes-devtools/quilt/quilt.inc
-index 57e2a14..e6a63ce 100644
---- a/meta/recipes-devtools/quilt/quilt.inc
-+++ b/meta/recipes-devtools/quilt/quilt.inc
-@@ -8,6 +8,7 @@ SRC_URI = "${SAVANNAH_GNU_MIRROR}/quilt/quilt-${PV}.tar.gz \
-         file://run-ptest \
-         file://Makefile \
-         file://test.sh \
-+        file://0001-tests-Allow-different-output-from-mv.patch \
- "
- 
- SRC_URI[md5sum] = "c67ba0228f5b7b8bbe469474661f92d6"
-@@ -33,7 +34,7 @@ RDEPENDS_${PN} = "bash"
- EXTRA_OE_MAKE_ARGS_darwin ?= ""
- EXTRA_OE_MAKE_ARGS ?= "BUILD_ROOT=${D}"
- 
--EXTRA_OECONF = "--with-perl=perl"
-+EXTRA_OECONF = "--with-perl=${bindir}/perl --with-patch=patch"
- 
- CACHED_CONFIGUREVARS += "ac_cv_path_BASH=/bin/bash"
- 
-diff --git a/meta/recipes-devtools/quilt/quilt/0001-tests-Allow-different-output-from-mv.patch b/meta/recipes-devtools/quilt/quilt/0001-tests-Allow-different-output-from-mv.patch
-new file mode 100644
-index 0000000..21219a0
---- /dev/null
-+++ b/meta/recipes-devtools/quilt/quilt/0001-tests-Allow-different-output-from-mv.patch
-@@ -0,0 +1,29 @@
-+From 1530138960cfafbeefb95f2a760954c00b4d0ef0 Mon Sep 17 00:00:00 2001
-+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
-+Date: Wed, 29 Mar 2017 15:11:59 +0300
-+Subject: [PATCH] tests: Allow different output from mv
-+
-+busybox mv has different error messages: fix the test
-+
-+Upstream-Status: Inappropriate [embedded]
-+Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
-+---
-+ test/failbackup.test | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/test/failbackup.test b/test/failbackup.test
-+index 37046f7..fce6725 100644
-+--- a/test/failbackup.test
-++++ b/test/failbackup.test
-+@@ -16,7 +16,7 @@ What happens when refresh fails because of a permission error?
-+ 	$ cat > test.txt
-+ 	< This is updated test.txt.
-+ 	$ quilt refresh --backup
-+-	>~ mv: cannot move [`']?%{P}test.diff'? to [`']?%{P}test.diff~'?: Permission denied
-++	>~ mv: .*: Permission denied
-+ 	$ echo %{?}
-+ 	> 1
-+ 
-+-- 
-+2.1.4
-+
-diff --git a/meta/recipes-devtools/quilt/quilt_0.65.bb b/meta/recipes-devtools/quilt/quilt_0.65.bb
-index 00f900a..12859f0 100644
---- a/meta/recipes-devtools/quilt/quilt_0.65.bb
-+++ b/meta/recipes-devtools/quilt/quilt_0.65.bb
-@@ -4,13 +4,3 @@ RDEPENDS_${PN} += "patch diffstat bzip2 util-linux"
- SRC_URI += "file://aclocal.patch \
-             file://gnu_patch_test_fix_target.patch \
-            "
--
--# fix build-distro specific perl path in the target perl scripts
--do_install_append() {
--	for perlscript in ${D}${datadir}/quilt/scripts/remove-trailing-ws ${D}${datadir}/quilt/scripts/dependency-graph ${D}${datadir}/quilt/scripts/edmail ${D}${bindir}/guards
--	do
--		if [ -f $perlscript ]; then
--			sed -i -e '1s,#!.*perl,#! ${USRBINPATH}/env perl,' $perlscript
--		fi
--	done
--}
--- 
-2.1.4
+Ross
 
+--001a113eea5a125ba1054bdfb384
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 29 March 2017 at 13:49, Bob Cochran <span dir=3D"ltr">&lt;<a href=3D"mai=
+lto:openembedded@mindchasers.com" target=3D"_blank">openembedded@mindchaser=
+s.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"m=
+argin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":q=
+s" class=3D"a3s aXjCH m15b1a3c6066340a8">These files: python-2.7-manifest.i=
+nc=C2=A0 python-3.5-manifest.inc python-native-2.7-manifest.<wbr>inc=C2=A0 =
+python-native-3.5-manifest.inc<br>
+<br>
+all have:<br>
+<br>
+&quot;Visit the Python for Embedded Systems Site =3D&gt; <a href=3D"http://=
+www.Vanille.de/projects/python.spy" rel=3D"noreferrer" target=3D"_blank">ht=
+tp://www.Vanille.de/projects<wbr>/python.spy</a>&quot;<br>
+<br>
+That URL returns a 404<br>
+<br>
+Someone want to fix the link?<br>
+<br>
+Otherwise, I&#39;ll be happy to submit a patch if provided guidance on what=
+ site these files should now reference.</div></blockquote></div><br>Wow, th=
+at must be about a decade old now.</div><div class=3D"gmail_extra"><br></di=
+v><div class=3D"gmail_extra">As the scripts are part of openembedded, I don=
+&#39;t think this needs a link anymore.=C2=A0 Feel free to just delete that=
+ comment block.</div><div class=3D"gmail_extra"><br></div><div class=3D"gma=
+il_extra">Ross</div></div>
+
+--001a113eea5a125ba1054bdfb384--
