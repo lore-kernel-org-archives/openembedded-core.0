@@ -1,31 +1,30 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 1FA7E77CB1
+	by mail.openembedded.org (Postfix) with ESMTP id ABA1877CB2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Mar 2017 10:24:33 +0000 (UTC)
+	Wed, 29 Mar 2017 10:30:15 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTP id v2TAOXtv005740; 
-	Wed, 29 Mar 2017 11:24:33 +0100
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTP id v2TAU8ZH006364; 
+	Wed, 29 Mar 2017 11:30:08 +0100
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 76dZRDg0e-CR; Wed, 29 Mar 2017 11:24:33 +0100 (BST)
+	with LMTP id FnucC-QWyYXC; Wed, 29 Mar 2017 11:30:08 +0100 (BST)
 Received: from hex ([192.168.3.34]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v2TAOTpN005735
+	v2TAU68H006361
 	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Wed, 29 Mar 2017 11:24:31 +0100
-Message-ID: <1490783069.13980.307.camel@linuxfoundation.org>
+	Wed, 29 Mar 2017 11:30:07 +0100
+Message-ID: <1490783406.13980.310.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Peter Bergin <peter@berginkonsult.se>,
-	openembedded-core@lists.openembedded.org
-Date: Wed, 29 Mar 2017 11:24:29 +0100
-In-Reply-To: <2b16b764-38e0-4112-48b4-9e17cbe129c3@berginkonsult.se>
-References: <1490731726-14536-1-git-send-email-peter@berginkonsult.se>
-	<1490742158.13980.296.camel@linuxfoundation.org>
-	<2b16b764-38e0-4112-48b4-9e17cbe129c3@berginkonsult.se>
+To: "Robert P. J. Day" <rpjday@crashcourse.ca>, OE Core mailing list
+	<openembedded-core@lists.openembedded.org>
+Date: Wed, 29 Mar 2017 11:30:06 +0100
+In-Reply-To: <alpine.LFD.2.20.1703290555150.2895@uk63952.mitel.com>
+References: <alpine.LFD.2.20.1703290548440.3733@uk63952.mitel.com>
+	<alpine.LFD.2.20.1703290555150.2895@uk63952.mitel.com>
 X-Mailer: Evolution 3.18.5.2-0ubuntu3.1 
 Mime-Version: 1.0
-Subject: Re: [PATCH] busybox: move default config fragments to defconfig
+Subject: Re: wanting to clarify HOSTTOOLS and HOSTTOOLS_NONFATAL
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,46 +37,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Mar 2017 10:24:34 -0000
+X-List-Received-Date: Wed, 29 Mar 2017 10:30:17 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Wed, 2017-03-29 at 10:16 +0200, Peter Bergin wrote:
-> On 2017-03-29 01:02, Richard Purdie wrote:
+On Wed, 2017-03-29 at 05:56 -0400, Robert P. J. Day wrote:
+> On Wed, 29 Mar 2017, Robert P. J. Day wrote:
+> 
 > > 
-> > On Tue, 2017-03-28 at 22:08 +0200, Peter Bergin wrote:
-> > > 
-> > > Move config fragments that are unconditionally and always applied
-> > > to the configuration to the default defconfig file. This will
-> > > make it easier to provide your own defconfig file for your
-> > > target.
-> > > 
-> > > The problem this commit will solve is that if you provide your
-> > > own
-> > > defconfig file for your target it will be tampered with by the
-> > > configuration fragments in SRC_URI. If you not want those
-> > > configurations in your own setup you have to modify SRC_URI
-> > > variable in your setup. As those confguration fragment was always
-> > > applied it is a better solution to have them in the default
-> > > defconfig file instead.
-> > This basically removes any standard feature grouping from being
-> > used in
-> > the base busybox recipe. I don't think this is something we want to
-> > encourage, I'd actually like to see more feature group usage.
+> >   again, trying to catch up with new developments, and i want to
+> > make sure i understand these variables. as i read it (and i could
+> > be
+> > off-base), HOSTTOOLS represents a list of tools that *must* be
+> > available one way or the other, and any tools listed there are
+> > allowed to be symlinked from the tools available in PATH, is that
+> > correct?
 > > 
-> > So we need to find some other way of solving your issue.
-> > 
-> > Cheers,
-> > 
-> > Richard
-> I agree that it is nice and encouraged to group configurations
-> together and make them selectable as a group.
+> >   OTOH, HOSTTOOLS_NONFATAL represents whitelisted tools that will
+> > be
+> > symlinked if they're there, but their absence is not fatal.
 
-Also, in case its not apparent, you can work around this today by
-providing empty fragment files in your own layer. These would override
-the default ones in the main recipe if you set it up right.
+Correct. Perhaps you could send a patch to add these to the manual? :)
+
+> >   i'm still not totally clear here ... and there is no mention of
+> > these variables in the YP reference manual variables glossary.
+>   oh, i think i asked this before as well ... how do these variables
+> relate to ASSUME_PROVIDED? IIRC, ASSUME_PROVIDED is interpreted as "i
+> have these utilities on my host, use them."
+
+ASSUME_PROVIDED means that if something does DEPENDS += "x" and x is in
+ASSUME_PRODIDED, bitbake won't try and build it or require a recipe for
+it.
+
+HOSTTOOLS is about filtering out tools from PATH for determinism.
+
+Its unfortunate there is overlap between these but both are good things
+to have in their own rights and I don't really see a way to automate it
+in a 100% accurate way.
 
 Cheers,
 
 Richard
+
+
 
