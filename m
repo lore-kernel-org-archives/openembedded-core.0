@@ -1,52 +1,45 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg0-f68.google.com (mail-pg0-f68.google.com [74.125.83.68])
-	by mail.openembedded.org (Postfix) with ESMTP id B4DE2606CA
+Return-Path: <vedang.patel@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 184986FEE0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Mar 2017 00:03:07 +0000 (UTC)
-Received: by mail-pg0-f68.google.com with SMTP id g2so90652pge.2
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Mar 2017 17:03:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:references:cc:from:message-id:date:user-agent
-	:mime-version:in-reply-to;
-	bh=0MGjZqt8Az3rHxyajQkp4suRK34WZF4rzalwAU1ROrc=;
-	b=SiSeoIiozSAdnkTkZlwCoKwG0w/1C2OLI80SGLfDkUGz5P6mOc0EFYc/G5WSkdjOlT
-	LDc0tQKXwI62olsJ7CM3oFJ0nc1I3i3X0v2OJoWIbwpFooh68VOLR6HvK96REmUoXKDA
-	hG8aQc5yokUEXXb2DzIvNy/Uc+8qNzkkGxE3/CRTvZ/0HHvWP5OrmdHbcmBDFFRfanL/
-	r6WZneDOAcMJMApCMWaGZk6sMTQdXMJjHfP93B3DuQHeAqHDGHbdWMwXQkCmy+ngYT2K
-	aaChnDgtVPopyA9bYjrAnB4weHELcA/p087aGOMKEdB8pw1OxpsZ9/uu+aT510vtTWKP
-	yXgA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:references:cc:from:message-id:date
-	:user-agent:mime-version:in-reply-to;
-	bh=0MGjZqt8Az3rHxyajQkp4suRK34WZF4rzalwAU1ROrc=;
-	b=Zd5SI8eMkL7lcJ4FtajLh9E0Zp5PAzACX9XiQXX6fZnPpOM6qKZbkhVQdaaEIEhz3I
-	6lOd7bvPQhG1xt68jwglWbvWiIQCoiDIEx3L/psuC4C8vrWxhzcy9VUySfGA54aKLB5G
-	9sNBP1uEEcNxEzO4P7oQgk9nQNJYZGPhAowX1TF5+H/9oAnrKcMhtdCJREOy9iC6xen/
-	r9Qkf7CFZ0UfoYToxZkBAfesAtN20W5Ump2XGpshHKvCWXCapNKD7xtlIUEbm/7WiN6y
-	ji1ALgxEqe8JHboZUlisvi3Du4+nlp6M/GPYsML0Cmspc5AkVof0rdGSc0Q+QhjdrdmF
-	4RwA==
-X-Gm-Message-State: AFeK/H3y00iyH6GJbNyRiROaAjT0D5CCYsyKnF9PDCd89Vsk6OEFGyjIE2T85lDb1R4cZA==
-X-Received: by 10.99.213.81 with SMTP id v17mr33135979pgi.130.1490745788577;
-	Tue, 28 Mar 2017 17:03:08 -0700 (PDT)
-Received: from CACSVMO-14452.local ([2601:646:8882:b8c:3d13:dbd2:8d6d:4405])
-	by smtp.gmail.com with ESMTPSA id
-	s65sm9289109pgb.64.2017.03.28.17.03.06
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 28 Mar 2017 17:03:07 -0700 (PDT)
-To: Serhii Popovych <spopovyc@cisco.com>,
-	openembedded-core@lists.openembedded.org
-References: <4713eca3e627fb1bececc59af252a0768c955d11.1490727266.git.spopovyc@cisco.com>
-From: Khem Raj <raj.khem@gmail.com>
-Message-ID: <ec839388-19b4-5daa-d6fe-b9d5c5c9c054@gmail.com>
-Date: Tue, 28 Mar 2017 17:03:00 -0700
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:45.0)
-	Gecko/20100101 Thunderbird/45.8.0
+	Wed, 29 Mar 2017 00:29:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+	d=intel.com; i=@intel.com; q=dns/txt; s=intel;
+	t=1490747354; x=1522283354;
+	h=from:to:cc:subject:date:message-id:references:
+	in-reply-to:content-id:content-transfer-encoding: mime-version;
+	bh=smyUMXiqgAzgfoSMXfNqQA7ypv+oJ89oACDz9BQzFxE=;
+	b=Z55h2OY3o/AstpHRo+iKA3LvFTeQF1YXycP/MjtNu1hAv/uhdPKk59ay
+	6UWu70EMo3KdthIynUnxFLJTZndECA==;
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	28 Mar 2017 17:29:12 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.36,239,1486454400"; d="scan'208";a="80400457"
+Received: from orsmsx107.amr.corp.intel.com ([10.22.240.5])
+	by orsmga005.jf.intel.com with ESMTP; 28 Mar 2017 17:29:12 -0700
+Received: from orsmsx115.amr.corp.intel.com ([169.254.4.44]) by
+	ORSMSX107.amr.corp.intel.com ([169.254.1.73]) with mapi id
+	14.03.0319.002; Tue, 28 Mar 2017 17:29:12 -0700
+From: "Patel, Vedang" <vedang.patel@intel.com>
+To: "armccurdy@gmail.com" <armccurdy@gmail.com>, "Burton, Ross"
+	<ross.burton@intel.com>
+Thread-Topic: [OE-core] [PATCH] libxslt: Add PACKAGECONFIG support for python
+Thread-Index: AQHSpDG7a3h4ohrUF0idWsChykVR16GjrAmAgAfH5IA=
+Date: Wed, 29 Mar 2017 00:29:11 +0000
+Message-ID: <1490747351.12818.47.camel@intel.com>
+References: <1490306205.12818.5.camel@intel.com>
+	<1490313649-32458-1-git-send-email-vedang.patel@intel.com>
+	<CAJ86T=WeV6_5WRj7FSqVUFoJH_+SE6j-5qfD+HQ6UTEBT9guNg@mail.gmail.com>
+In-Reply-To: <CAJ86T=WeV6_5WRj7FSqVUFoJH_+SE6j-5qfD+HQ6UTEBT9guNg@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.7.159.64]
 MIME-Version: 1.0
-In-Reply-To: <4713eca3e627fb1bececc59af252a0768c955d11.1490727266.git.spopovyc@cisco.com>
-Cc: XE-Linux <xe-linux-external@cisco.com>
-Subject: Re: [PATCH] glibc: Support building with 2.6.32 kernels on x86 / x86_64
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] libxslt: Add PACKAGECONFIG support for python
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,257 +52,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Mar 2017 00:03:07 -0000
-X-Groupsio-MsgNum: 95424
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature";
-	boundary="iDTaAACLcSxUARjKEQuPKOfcb32QP5RnO"
+X-List-Received-Date: Wed, 29 Mar 2017 00:29:12 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <ED9770E9B2DF4B49B7EE2D92228ABBE1@intel.com>
+Content-Transfer-Encoding: base64
 
---iDTaAACLcSxUARjKEQuPKOfcb32QP5RnO
-Content-Type: multipart/mixed; boundary="DuIO9kCXMDtCjSjBXj8baDTf6f7Q9vNL4";
- protected-headers="v1"
-From: Khem Raj <raj.khem@gmail.com>
-To: Serhii Popovych <spopovyc@cisco.com>,
- openembedded-core@lists.openembedded.org
-Cc: XE-Linux <xe-linux-external@cisco.com>
-Message-ID: <ec839388-19b4-5daa-d6fe-b9d5c5c9c054@gmail.com>
-Subject: Re: [OE-core] [PATCH] glibc: Support building with 2.6.32 kernels on
- x86 / x86_64
-References: <4713eca3e627fb1bececc59af252a0768c955d11.1490727266.git.spopovyc@cisco.com>
-In-Reply-To: <4713eca3e627fb1bececc59af252a0768c955d11.1490727266.git.spopovyc@cisco.com>
+SGkgQW5kcmUsIFJvc3MsDQoNCk9uIFRodSwgMjAxNy0wMy0yMyBhdCAxODozOSAtMDcwMCwgQW5k
+cmUgTWNDdXJkeSB3cm90ZToNCj4gwqBPbiBUaHUsIE1hciAyMywgMjAxNyBhdCA1OjAwIFBNLCBW
+ZWRhbmcgUGF0ZWwgPHZlZGFuZy5wYXRlbEBpbnRlbC5jbw0KPiBtPiB3cm90ZToNCj4gPiANCj4g
+PiBBZGQgc3VwcG9ydCB0byBlbmFibGUgcHl0aG9uIGJpbmRpbmdzIGZvciBsaWJ4c2x0IHVzaW5n
+DQo+ID4gUEFDS0FHRUNPTkZJRy4NCj4gPiBUaGlzIHdpbGwgaW5jbHVkZSAtLXdpdGgtcHl0aG9u
+IGFyZ3VtZW50IHdoaWxlIGNvbXBpbGluZyB0aGUNCj4gPiBwYWNrYWdlLg0KPiA+IFRoZSBzdXBw
+b3J0IGlzIGRpc2FibGVkIGJ5IGRlZmF1bHQuDQo+ID4gDQo+ID4gU2lnbmVkLW9mZi1ieTogVmVk
+YW5nIFBhdGVsIDx2ZWRhbmcucGF0ZWxAaW50ZWwuY29tPg0KPiA+IC0tLQ0KPiA+IMKgbWV0YS9y
+ZWNpcGVzLXN1cHBvcnQvbGlieHNsdC9saWJ4c2x0XzEuMS4yOS5iYiB8IDYgKysrKy0tDQo+ID4g
+wqAxIGZpbGUgY2hhbmdlZCwgNCBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQ0KPiA+IA0K
+PiA+IGRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJ4c2x0L2xpYnhzbHRfMS4x
+LjI5LmJiDQo+ID4gYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJ4c2x0L2xpYnhzbHRfMS4xLjI5
+LmJiDQo+ID4gaW5kZXggYmU3NDdlNjA4ZDlkLi43MDdmMmY5N2I3ZmMgMTAwNjQ0DQo+ID4gLS0t
+IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGlieHNsdC9saWJ4c2x0XzEuMS4yOS5iYg0KPiA+ICsr
+KyBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYnhzbHQvbGlieHNsdF8xLjEuMjkuYmINCj4gPiBA
+QCAtMjIsNyArMjIsNyBAQCBTID0gIiR7V09SS0RJUn0vbGlieHNsdC0ke1BWfSINCj4gPiANCj4g
+PiDCoEJJTkNPTkZJRyA9ICIke2JpbmRpcn0veHNsdC1jb25maWciDQo+ID4gDQo+ID4gLWluaGVy
+aXQgYXV0b3Rvb2xzIHBrZ2NvbmZpZyBiaW5jb25maWctZGlzYWJsZWQgbGliX3BhY2thZ2UNCj4g
+PiAraW5oZXJpdCBhdXRvdG9vbHMgcGtnY29uZmlnIGJpbmNvbmZpZy1kaXNhYmxlZCBsaWJfcGFj
+a2FnZQ0KPiA+IGRpc3R1dGlscy1jb21tb24tYmFzZQ0KPiA+IA0KPiA+IMKgIyBXZSBkb24ndCBE
+RVBFTkQgb24gYmludXRpbHMgZm9yIGFuc2lkZWNsLmggc28gZW5zdXJlIHdlIGRvbid0DQo+ID4g
+dXNlIHRoZSBoZWFkZXINCj4gPiDCoGRvX2NvbmZpZ3VyZV9wcmVwZW5kICgpIHsNCj4gPiBAQCAt
+MzMsNyArMzMsOSBAQCBkb19jb25maWd1cmVfcHJlcGVuZCAoKSB7DQo+ID4gwqDCoMKgwqDCoMKg
+wqDCoHRvdWNoICR7U30vZG9jL3hzbHRwcm9jLjENCj4gPiDCoH0NCj4gPiANCj4gPiAtRVhUUkFf
+T0VDT05GID0gIi0td2l0aG91dC1weXRob24gLS13aXRob3V0LWRlYnVnIC0td2l0aG91dC1tZW0t
+DQo+ID4gZGVidWcgLS13aXRob3V0LWNyeXB0byINCj4gPiArRVhUUkFfT0VDT05GID0gIi0td2l0
+aG91dC1kZWJ1ZyAtLXdpdGhvdXQtbWVtLWRlYnVnIC0td2l0aG91dC0NCj4gPiBjcnlwdG8iDQo+
+ID4gK1BBQ0tBR0VDT05GSUdbcHl0aG9uXSA9ICItLXdpdGgtcHl0aG9uPSR7UFlUSE9OX0JBU0Vf
+VkVSU0lPTn0sIC0tDQo+ID4gd2l0aG91dC1weXRob24iDQo+IFRoZSBtb3JlIGNvbnZlbnRpb25h
+bCB3YXkgdG8gb3JkZXIgdGhlc2UgbGluZXMgd291bGQgYmU6DQo+IA0KPiDCoCBQQUNLQUdFQ09O
+RklHID89ICIiDQo+IMKgIFBBQ0tBR0VDT05GSUdbcHl0aG9uXSA9ICItLXdpdGgtcHl0aG9uPSR7
+UFlUSE9OX0JBU0VfVkVSU0lPTn0sDQo+IC0td2l0aG91dC1weXRob24iDQo+IA0KPiDCoCBFWFRS
+QV9PRUNPTkYgPSAiLS13aXRob3V0LWRlYnVnIC0td2l0aG91dC1tZW0tZGVidWcgLS13aXRob3V0
+LQ0KPiBjcnlwdG8iDQo+IA0KPiBUaGUgcHl0aG9uIFBBQ0tBR0VDT05GSUcgb3B0aW9uIHByb2Jh
+Ymx5IG5lZWRzIHRvIGluY2x1ZGUgYQ0KPiBkZXBlbmRlbmN5DQo+IG9uIHB5dGhvbi4NCj4gDQpJ
+IHdpbGwgbWFrZSB0aGUgcHJvcG9zZWQgY2hhbmdlcyBpbiB0aGUgYXJyYW5nZW1lbnQgb2YgdGhl
+IHN0YXRlbWVudHMuDQoNClJlZ2FyZGluZyB0aGUgcHl0aG9uIGRlcGVuZGVuY3ksIHRoZSBmZWVk
+YmFjayBmcm9tIEFuZHJlIGlzIHRoZQ0Kb3Bwb3NpdGUgb2Ygd2hhdCBSb3NzIGdhdmUgbWUgaW4g
+b25lIG9mIHRoZSBwcmV2aW91cyBlbWFpbHMgd2hlcmUgaGUNCnRvbGQgbm90IHRvIGluY2x1ZGUg
+dGhlIHB5dGhvbiBkZXBlbmRlbmN5IGluIFBBQ0tBR0VDT05GSUcuIEhlIGFza2VkIHRvDQptYWtl
+IHN1cmUgdGhhdCB0aGUgcHl0aG9uIG1vZHVsZSBpcyBwYWNrYWdlZCBzZXBlcmF0ZWx5LiAoSnVz
+dCBGWUk6DQrCoEhlcmUsIGxpYnhzbHQgaGFzIGEgaGFyZCBkZXBlbmRlbmN5IG9uIHB5dGhvbi0y
+LjcuKQ0KDQpBbHNvLCB0aGUgLS13aXRoLXB5dGhvbiBhcmd1bWVudCB3aWxsIG9ubHkgYWRkaW5n
+IHB5dGhvbiBiaW5kaW5ncyB0bw0KbGlieHNsdC4gSXMgaXQgYSBnb29kIGlkZWEgwqB0byBtb3Zl
+IHRoYXQgdG8gYSBzdWJwYWNrYWdlPyBJZiBzbywgY2FuDQp5b3UgcG9pbnQgbWUgdG8gYSBnb29k
+IGV4YW1wbGUgZm9yIHRoYXQNCg0KVGhhbmtzLA0KVmVkYW5nIFBhdGVsDQpTb2Z0d2FyZSBFbmdp
+bmVlcg0KSW50ZWwgQ29ycG9yYXRpb24NCj4gPiANCj4gPiDCoCMgb2xkZXIgdmVyc2lvbnMgb2Yg
+dGhpcyByZWNpcGUgaGFkICR7UE59LXV0aWxzDQo+ID4gwqBSUFJPVklERVNfJHtQTn0tYmluICs9
+ICIke1BOfS11dGlscyINCj4gPiDCoFJDT05GTElDVFNfJHtQTn0tYmluICs9ICIke1BOfS11dGls
+cyINCj4gPiAtLQ0KPiA+IDIuNy4zDQo+ID4gDQo+ID4gLS0NCj4gPiBfX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXw0KPiA+IE9wZW5lbWJlZGRlZC1jb3JlIG1h
+aWxpbmcgbGlzdA0KPiA+IE9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcN
+Cj4gPiBodHRwOi8vbGlzdHMub3BlbmVtYmVkZGVkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL29wZW5l
+bWJlZGRlZC1jb3Jl
 
---DuIO9kCXMDtCjSjBXj8baDTf6f7Q9vNL4
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: quoted-printable
-
-
-
-On 3/28/17 11:57 AM, Serhii Popovych wrote:
-> While glibc states that 2.6.32 kernels still supported
-> for x86 / x86_64 builds are failing due to out of date
-> LIBC_LINUX_VERSION macro checks for such architectures.
->=20
-> This macro statically defined to 3.2.0 with commit 5b4ecd3
-> (Require Linux 3.2 except on x86 / x86_64, 3.2 headers everywhere.)
-> and additionally checked before --enable-kernel.
->=20
-> Since both --enable-kernel and LIBC_LINUX_VERSION checks
-> are the same and there is no users of last one we can
-> safely get rid of it enabling glibc builds with 2.6.32
-> kernel headers.
->=20
-> Also add --enable-kernel to glibc-initial build so that we
-> build it correctly with old headers.
->=20
-> Cc: XE-Linux <xe-linux-external@cisco.com>
-> Signed-off-by: Serhii Popovych <spopovyc@cisco.com>
-> ---
->  meta/recipes-core/glibc/glibc-initial.inc          |   1 +
->  .../glibc/0028-Kill-LIBC_LINUX_VERSION-macro.patch | 113 +++++++++++++=
-++++++++
->  meta/recipes-core/glibc/glibc_2.25.bb              |   1 +
->  3 files changed, 115 insertions(+)
->  create mode 100644 meta/recipes-core/glibc/glibc/0028-Kill-LIBC_LINUX_=
-VERSION-macro.patch
->=20
-> diff --git a/meta/recipes-core/glibc/glibc-initial.inc b/meta/recipes-c=
-ore/glibc/glibc-initial.inc
-> index f94603c..60b25dd 100644
-> --- a/meta/recipes-core/glibc/glibc-initial.inc
-> +++ b/meta/recipes-core/glibc/glibc-initial.inc
-> @@ -12,6 +12,7 @@ do_configure () {
->  	find ${S} -name "configure" | xargs touch
->  	cfgscript=3D`python3 -c "import os; print(os.path.relpath('${S}', '.'=
-))"`/configure
->  	$cfgscript --host=3D${TARGET_SYS} --build=3D${BUILD_SYS} \
-> +		--enable-kernel=3D${OLDEST_KERNEL} \
->  		--prefix=3D/usr \
->  		--without-cvs --disable-sanity-checks \
->  		--with-headers=3D${STAGING_DIR_TARGET}${includedir} \
-> diff --git a/meta/recipes-core/glibc/glibc/0028-Kill-LIBC_LINUX_VERSION=
--macro.patch b/meta/recipes-core/glibc/glibc/0028-Kill-LIBC_LINUX_VERSION=
--macro.patch
-> new file mode 100644
-> index 0000000..f5eaf1c
-> --- /dev/null
-> +++ b/meta/recipes-core/glibc/glibc/0028-Kill-LIBC_LINUX_VERSION-macro.=
-patch
-> @@ -0,0 +1,113 @@
-> +From 88f83e4b5a8929dac9095ed264700fcb62d5e4dd Mon Sep 17 00:00:00 2001=
-
-> +From: Serhii Popovych <spopovyc@cisco.com>
-> +Date: Fri, 17 Mar 2017 15:48:34 +0000
-> +Subject: Kill LIBC_LINUX_VERSION macro
-> +
-> +After commit 5b4ecd3 (Require Linux 3.2 except on x86 / x86_64,
-> +3.2 headers everywhere.) minimal kernel version raised from
-> +2.6.32 to 3.2.0 for all architectures except x86 and x86_64
-> +unless newer already used for architecture.
-> +
-> +However LIBC_LINUX_VERSION macro still is in effect and fails
-> +configure even with --enable-kernel=3D2.6.32.
-> +
-> +While it is present in configure.ac it does not affect anything
-> +except LINUX_VERSION_CODE check which already performed by
-> +--enable-kernel.
-> +
-
---enable-kernel is forces the minimum kernel for glibc to configure for
-kernel interfaces if not set it defaults to arch specific value but it
-wont check for version of linux headers during compile time. Whereas
-this check is checking and errors out during build time if minimum
-kernel version is not met. If you were to make the LIBC_LINUX_VERSION
-have a value that matches the arch_minimum_kernel version that would be
-an improvement.
-
-As such if you want to do quick fix then lower the value of
-LIBC_LINUX_VERSION to 2.6.32 when building for x86/x86_64, we can accept
-such a patch with a bit less happiness.
-
-
-> +Upstream-Status: Pending
-> +Signed-off-by: Serhii Popovych <spopovyc@cisco.com>
-> +---
-> + sysdeps/unix/sysv/linux/configure    | 39 ---------------------------=
----------
-> + sysdeps/unix/sysv/linux/configure.ac | 21 -------------------
-> + 2 files changed, 60 deletions(-)
-> +
-> +diff --git a/sysdeps/unix/sysv/linux/configure b/sysdeps/unix/sysv/lin=
-ux/configure
-> +index cace758..ab5fabe 100644
-> +--- a/sysdeps/unix/sysv/linux/configure
-> ++++ b/sysdeps/unix/sysv/linux/configure
-> +@@ -6,45 +6,6 @@ if test -n "$sysheaders"; then
-> +   CPPFLAGS=3D"$CPPFLAGS $SYSINCLUDES"
-> + fi
-> +=20
-> +-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking installed Linux ker=
-nel header files" >&5
-> +-$as_echo_n "checking installed Linux kernel header files... " >&6; }
-> +-if ${libc_cv_linux320+:} false; then :
-> +-  $as_echo_n "(cached) " >&6
-> +-else
-> +-  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-> +-/* end confdefs.h.  */
-> +-#include <linux/version.h>
-> +-#if !defined LINUX_VERSION_CODE || LINUX_VERSION_CODE <  (3 *65536+ 2=
- *256+ 0) /* 3.2.0 */
-> +-# error kernel headers missing or too old
-> +-#endif
-> +-int
-> +-main ()
-> +-{
-> +-
-> +-  ;
-> +-  return 0;
-> +-}
-> +-_ACEOF
-> +-if ac_fn_c_try_compile "$LINENO"; then :
-> +-  libc_cv_linux320=3D'3.2.0 or later'
-> +-else
-> +-  libc_cv_linux320=3D'missing or too old!'
-> +-fi
-> +-rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
-> +-fi
-> +-{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $libc_cv_linux320" >=
-&5
-> +-$as_echo "$libc_cv_linux320" >&6; }
-> +-if test "$libc_cv_linux320" !=3D '3.2.0 or later'; then
-> +-  as_fn_error $? "GNU libc requires kernel header files from
-> +-Linux 3.2.0 or later to be installed before configuring.
-> +-The kernel header files are found usually in /usr/include/asm and
-> +-/usr/include/linux; make sure these directories use files from
-> +-Linux 3.2.0 or later.  This check uses <linux/version.h>, so
-> +-make sure that file was built correctly when installing the kernel he=
-ader
-> +-files.  To use kernel headers not from /usr/include/linux, use the
-> +-configure option --with-headers." "$LINENO" 5
-> +-fi
-> +-
-> + # If the user gave a minimal version number test whether the availabl=
-e
-> + # kernel headers are young enough.  Additionally we have minimal
-> + # kernel versions for some architectures.  If a previous configure fr=
-agment
-> +diff --git a/sysdeps/unix/sysv/linux/configure.ac b/sysdeps/unix/sysv/=
-linux/configure.ac
-> +index 13abda0..5b47db5 100644
-> +--- a/sysdeps/unix/sysv/linux/configure.ac
-> ++++ b/sysdeps/unix/sysv/linux/configure.ac
-> +@@ -1,31 +1,10 @@
-> + GLIBC_PROVIDES dnl See aclocal.m4 in the top level source directory.
-> + # Local configure fragment for sysdeps/unix/sysv/linux.
-> +=20
-> +-define([LIBC_LINUX_VERSION],[3.2.0])dnl
-> + if test -n "$sysheaders"; then
-> +   OLD_CPPFLAGS=3D$CPPFLAGS
-> +   CPPFLAGS=3D"$CPPFLAGS $SYSINCLUDES"
-> + fi
-> +-define([libc_cv_linuxVER], [libc_cv_linux]patsubst(LIBC_LINUX_VERSION=
-,[\.]))dnl
-> +-AC_CACHE_CHECK(installed Linux kernel header files, libc_cv_linuxVER,=
- [dnl
-> +-AC_TRY_COMPILE([#include <linux/version.h>
-> +-#if !defined LINUX_VERSION_CODE || LINUX_VERSION_CODE < ]dnl
-> +-patsubst(LIBC_LINUX_VERSION,[^\([^.]*\)\.\([^.]*\)\.\([^.]*\)$],dnl
-> +-[ (\1 *65536+ \2 *256+ \3) /* \1.\2.\3 */])[
-> +-# error kernel headers missing or too old
-> +-#endif], [],
-> +-	       [libc_cv_linuxVER=3D'LIBC_LINUX_VERSION or later'],
-> +-	       [libc_cv_linuxVER=3D'missing or too old!'])])
-> +-if test "$libc_cv_linuxVER" !=3D 'LIBC_LINUX_VERSION or later'; then
-> +-  AC_MSG_ERROR([GNU libc requires kernel header files from
-> +-Linux LIBC_LINUX_VERSION or later to be installed before configuring.=
-
-> +-The kernel header files are found usually in /usr/include/asm and
-> +-/usr/include/linux; make sure these directories use files from
-> +-Linux LIBC_LINUX_VERSION or later.  This check uses <linux/version.h>=
-, so
-> +-make sure that file was built correctly when installing the kernel he=
-ader
-> +-files.  To use kernel headers not from /usr/include/linux, use the
-> +-configure option --with-headers.])
-> +-fi
-> +=20
-> + # If the user gave a minimal version number test whether the availabl=
-e
-> + # kernel headers are young enough.  Additionally we have minimal
-> +--=20
-> +2.7.4
-> +
-> diff --git a/meta/recipes-core/glibc/glibc_2.25.bb b/meta/recipes-core/=
-glibc/glibc_2.25.bb
-> index cf9c4f7..869d023 100644
-> --- a/meta/recipes-core/glibc/glibc_2.25.bb
-> +++ b/meta/recipes-core/glibc/glibc_2.25.bb
-> @@ -42,6 +42,7 @@ SRC_URI =3D "${GLIBC_GIT_URI};branch=3D${SRCBRANCH};n=
-ame=3Dglibc \
->             file://0025-Define-DUMMY_LOCALE_T-if-not-defined.patch \
->             file://0026-elf-dl-deps.c-Make-_dl_build_local_scope-breadt=
-h-fir.patch \
->             file://0027-locale-fix-hard-coded-reference-to-gcc-E.patch =
-\
-> +           file://0028-Kill-LIBC_LINUX_VERSION-macro.patch \
->  "
-> =20
->  NATIVESDKFIXES ?=3D ""
->=20
-
-
---DuIO9kCXMDtCjSjBXj8baDTf6f7Q9vNL4--
-
---iDTaAACLcSxUARjKEQuPKOfcb32QP5RnO
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-Comment: GPGTools - https://gpgtools.org
-
-iEYEARECAAYFAlja+boACgkQuwUzVZGdMxSIdgCgk87c4aUQRA26vB4ZYm0hWbZp
-uLAAnjyCAvPhnwKhkpBQ4tDCMN+4J1dp
-=ef5+
------END PGP SIGNATURE-----
-
---iDTaAACLcSxUARjKEQuPKOfcb32QP5RnO--
