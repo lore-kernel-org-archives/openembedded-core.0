@@ -1,24 +1,35 @@
-Return-Path: <anibal.limon@linux.intel.com>
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id B8C3C77C05
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Mar 2017 21:40:13 +0000 (UTC)
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-	by orsmga105.jf.intel.com with ESMTP; 29 Mar 2017 14:40:15 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.36,243,1486454400"; d="scan'208";a="80736027"
-Received: from alimonb-mobl1.zpn.intel.com ([10.219.128.126])
-	by orsmga005.jf.intel.com with ESMTP; 29 Mar 2017 14:40:14 -0700
-From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 29 Mar 2017 15:44:10 -0600
-Message-Id: <1490823850-20782-2-git-send-email-anibal.limon@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <1490823850-20782-1-git-send-email-anibal.limon@linux.intel.com>
-References: <1490823850-20782-1-git-send-email-anibal.limon@linux.intel.com>
+Return-Path: <denis@denix.org>
+Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.17])
+	by mail.openembedded.org (Postfix) with ESMTP id C00CB77BEB;
+	Wed, 29 Mar 2017 21:57:03 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by mailout4.zoneedit.com (Postfix) with ESMTP id 0979D20B7A;
+	Wed, 29 Mar 2017 21:57:04 +0000 (UTC)
+Received: from mailout4.zoneedit.com ([127.0.0.1])
+	by localhost (zmo03-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
+	port 10024)
+	with ESMTP id z9PeULVJMvwB; Wed, 29 Mar 2017 21:57:03 +0000 (UTC)
+Received: from mail.denix.org (pool-100-15-85-143.washdc.fios.verizon.net
+	[100.15.85.143])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 6D98B208B3;
+	Wed, 29 Mar 2017 21:56:59 +0000 (UTC)
+Received: by mail.denix.org (Postfix, from userid 1000)
+	id E6464162450; Wed, 29 Mar 2017 17:56:58 -0400 (EDT)
+Date: Wed, 29 Mar 2017 17:56:58 -0400
+From: Denys Dmytriyenko <denis@denix.org>
+To: Marek Vasut <marex@denx.de>
+Message-ID: <20170329215658.GP15664@denix.org>
+References: <20170327142231.21807-1-marex@denx.de>
+	<1490624701.13980.267.camel@linuxfoundation.org>
+	<5c037512-7bf1-8a3c-cb76-fda7230781a0@denx.de>
 MIME-Version: 1.0
-Cc: patrick.ohly@gmx.de, saul.wold@intel.com
-Subject: [PATCH 2/2] scripts: Add yocto-compat-layer-wrapper
+In-Reply-To: <5c037512-7bf1-8a3c-cb76-fda7230781a0@denx.de>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Cc: openembedded-core@lists.openembedded.org,
+	openembedded-devel@lists.openembedded.org
+Subject: Re: [PATCH] u-boot: Update to 2017.03 release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,104 +42,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Mar 2017 21:40:13 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 29 Mar 2017 21:57:05 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-This script will be used to create it's own environment to make
-runs of yocto-compat-layer.py againts layers isolated.
+On Mon, Mar 27, 2017 at 04:31:16PM +0200, Marek Vasut wrote:
+> On 03/27/2017 04:25 PM, Richard Purdie wrote:
+> > On Mon, 2017-03-27 at 16:22 +0200, Marek Vasut wrote:
+> >> Upgrade U-Boot to the latest version.
+> > 
+> > Wrong list and how does this compare to Ovatio's patch?
+> 
+> I was not CCed on Otavio's patch :(
 
-It clones the oe-core and bitbake repository in a temporary folder
-and then calls yocto-compat-layer.py with specified LAYERS_DIRs to
-test.
+Yeah, me neither, unfortunately - people just ignore maintainers file now.
 
-Example:
+Good thing Ross copied me on the other discussion!
 
-$ ./scripts/yocto-compat-layer-wrapper LAYER_DIR LAYER_DIR_N
-
-[YOCTO #11164]
-
-Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
----
- scripts/yocto-compat-layer-wrapper | 68 ++++++++++++++++++++++++++++++++++++++
- 1 file changed, 68 insertions(+)
- create mode 100755 scripts/yocto-compat-layer-wrapper
-
-diff --git a/scripts/yocto-compat-layer-wrapper b/scripts/yocto-compat-layer-wrapper
-new file mode 100755
-index 0000000..6776f64
---- /dev/null
-+++ b/scripts/yocto-compat-layer-wrapper
-@@ -0,0 +1,68 @@
-+#!/usr/bin/env bash
-+
-+# Yocto Project compatibility layer tool wrapper
-+#
-+# Copyright (C) 2017 Intel Corporation
-+# Released under the MIT license (see COPYING.MIT)
-+
-+oe_core_repo="git://git.openembedded.org/openembedded-core"
-+bitbake_repo="git://git.openembedded.org/bitbake"
-+
-+show_help() {
-+	printf "Usage: %s [-o output_log] [-h] LAYER_DIR ...\n" $0
-+}
-+
-+output_log=''
-+layer_dirs=""
-+while getopts o:h arg
-+do
-+	case $arg in
-+	o)
-+		output_log=$(realpath "$OPTARG");;
-+	h)
-+		show_help
-+		exit 0;;
-+	?)
-+		show_help
-+		exit 2;;
-+	esac
-+done
-+shift $(($OPTIND - 1))
-+if [[ -z $* ]]; then
-+	show_help
-+	exit 1
-+else
-+	for layer_dir in $(realpath $*); do
-+		layer_dirs="$layer_dirs $layer_dir"
-+	done
-+fi
-+
-+env_dir=$(mktemp -d -t yocto-compat-XXXX)
-+echo "The environment will be setup at $env_dir"
-+echo ""
-+
-+echo "Cloning oe-core..."
-+git clone $oe_core_repo $env_dir
-+if [ $? -ne 0 ]; then
-+	echo "Failed to clone oe-core repository"
-+	exit 1
-+fi
-+
-+echo "Cloning bitbake..."
-+git clone $bitbake_repo $env_dir/bitbake
-+if [ $? -ne 0 ]; then
-+	echo "Failed to clone bitbake repository"
-+	exit 1
-+fi
-+
-+echo ""
-+echo "Changing directory to $env_dir"
-+cd $env_dir
-+source oe-init-build-env
-+if [[ -z $output_log ]]; then
-+	echo "Running yocto-compat-layer.py $layer_dirs"
-+	yocto-compat-layer.py $layer_dirs
-+else
-+	echo "Running yocto-compat-layer.py -o $output_log $layer_dirs"
-+	yocto-compat-layer.py -o $output_log $layer_dirs
-+fi
 -- 
-2.1.4
-
+Denys
 
