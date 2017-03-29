@@ -1,37 +1,28 @@
-Return-Path: <peter@berginkonsult.se>
-Received: from mailrelay2.public.one.com (mailrelay2.public.one.com
-	[91.198.169.125])
-	by mail.openembedded.org (Postfix) with ESMTP id BA10F71D7E
+Return-Path: <stefan@agner.ch>
+Received: from mail.kmu-office.ch (mail.kmu-office.ch [178.209.48.109])
+	by mail.openembedded.org (Postfix) with ESMTP id 8835477C25
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Mar 2017 17:19:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-	d=berginkonsult.se; s=20140924;
-	h=from:subject:date:message-id:to:mime-version:content-type:
-	content-transfer-encoding:in-reply-to:references;
-	bh=67quoQWm/lwqsJh/ISmnudJVy56mZkm6MKcVPfl59tE=;
-	b=ml/NvaBc2EzPX6xMxbF8SCg9CQCJbD3LZ0/hnIGdQ8sIMUNu+qzcxmd83eckDXqZxHqvQoY5qDxsA
-	LEX9Sgzrc5cp5eTqWOTKrPnPaBzLfZ8YVmwc9FrMeabFbZWZMtUY4pCwClZJfmBnuQj2HibpJx3xfh
-	J9IfLyR43XuQBkfs=
-X-HalOne-Cookie: 3af8449e96f9641c2e3effd30985809a8359fcfc
-X-HalOne-ID: eeeb9a30-14a3-11e7-bc04-b82a72d03b9b
-Received: from [192.168.100.217] (unknown [37.123.162.211])
-	by smtpfilter2.public.one.com (Halon) with ESMTPSA
-	id eeeb9a30-14a3-11e7-bc04-b82a72d03b9b;
-	Wed, 29 Mar 2017 17:19:58 +0000 (UTC)
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	openembedded-core@lists.openembedded.org
-References: <1490731726-14536-1-git-send-email-peter@berginkonsult.se>
-	<1490742158.13980.296.camel@linuxfoundation.org>
-	<2b16b764-38e0-4112-48b4-9e17cbe129c3@berginkonsult.se>
-	<1490782943.13980.306.camel@linuxfoundation.org>
-From: Peter Bergin <peter@berginkonsult.se>
-Message-ID: <794d2836-c1ae-cc8b-f1dd-d1fb27b05e28@berginkonsult.se>
-Date: Wed, 29 Mar 2017 19:19:57 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.8.0
+	Wed, 29 Mar 2017 17:42:59 +0000 (UTC)
+Received: from webmail.kmu-office.ch (unknown [178.209.48.103])
+	by mail.kmu-office.ch (Postfix) with ESMTPSA id 6E14B5C18B6;
+	Wed, 29 Mar 2017 19:32:37 +0200 (CEST)
 MIME-Version: 1.0
-In-Reply-To: <1490782943.13980.306.camel@linuxfoundation.org>
-Subject: Re: [PATCH] busybox: move default config fragments to defconfig
+Date: Wed, 29 Mar 2017 10:42:49 -0700
+From: Stefan Agner <stefan@agner.ch>
+To: "Burton, Ross" <ross.burton@intel.com>
+In-Reply-To: <CAJTo0LZS0OKSGiX2=6Q-dWFgGrKfF0VXhwq88wtHExTSP9iFpw@mail.gmail.com>
+References: <1490741109-18909-1-git-send-email-stefan@agner.ch>
+	<CAJTo0LZS0OKSGiX2=6Q-dWFgGrKfF0VXhwq88wtHExTSP9iFpw@mail.gmail.com>
+Message-ID: <ace950db96fcfe4379dee1fa6c685c94@agner.ch>
+X-Sender: stefan@agner.ch
+User-Agent: Roundcube Webmail/1.1.3
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
+	t=1490808757; bh=wR6SUzs28eVS4D9L+LmBKh37b0iSc4nKZ59g7kYHrrI=;
+	h=MIME-Version:Content-Type:Date:From:To:Cc:Subject:In-Reply-To:References:Message-ID;
+	b=iRIkkAiIeCWUYHqqSB4PVOlLscxm9EHZyPvDaUsvhoQlq8mlJj588fcqh3jaFJFnqF+AcPVkRCqj9nhXz3uxEsWuj/buoSjBjmA4KhOXsi626aaegBsEA6KkW1rlBITZ8LAr6tFboPEyd89unVUo4pqHAuQ/VAMYDUL8UQChRHo=
+Cc: Stefan Agner <stefan.agner@toradex.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] util-linux: make blkdiscard a separate package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,94 +35,103 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Mar 2017 17:19:59 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
+X-List-Received-Date: Wed, 29 Mar 2017 17:43:01 -0000
+Content-Type: multipart/alternative;
+	boundary="=_8e866910daa5cf84484149e0f8f75ad3"
+
+--=_8e866910daa5cf84484149e0f8f75ad3
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=US-ASCII
 
-On 2017-03-29 12:22, Richard Purdie wrote:
-> On Wed, 2017-03-29 at 10:16 +0200, Peter Bergin wrote:
->> I agree that it is nice and encouraged to group configurations
->> together and make them selectable as a group. A good example from
->> busybox_1.24.1.bb is:
->>
->>              ${@["",
->> "file://init.cfg"][(d.getVar('VIRTUAL-RUNTIME_init_manager') ==
->> 'busybox')]} \
->>              ${@["",
->> "file://mdev.cfg"][(d.getVar('VIRTUAL-RUNTIME_dev_manager') ==
->> 'busybox-mdev')]} \
->>
->> In the example above, configuration fragments are added based on some
->> configuration in your build. The configuration fragments that I
->> removed with my patch was always added and in that situation I think
->> it is better that they are added to the defconfig file. The situation
->> now force me to do workarounds to avoid having these default
->> configurations in my busybox .config.
->>
->> Ideas for better solutions are welcome and I hope we can find a
->> solution that make it possible to provide your own busybox defconfig
->> file that is only changed due to configurations in your build.
-> I don't think its difficult to make something which would improve
-> things and be configurable from other layers. How about something like:
->
-> diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
-> index 6246c95..cb20207 100644
-> --- a/meta/recipes-core/busybox/busybox.inc
-> +++ b/meta/recipes-core/busybox/busybox.inc
-> @@ -15,6 +15,11 @@ SECTION = "base"
->   # Whether to split the suid apps into a seperate binary
->   BUSYBOX_SPLIT_SUID ?= "1"
->   
-> +BUSYBOX_FRAGMENTS = "login-utilities"
-> +
-> +def busybox_fragment(name, d):
-> +    return bb.utils.contains('BUSYBOX_FRAGMENTS', name, "file://" + name + ".cfg", "", d)
-> +
->   export EXTRA_CFLAGS = "${CFLAGS}"
->   export EXTRA_LDFLAGS = "${LDFLAGS}"
->   
-> diff --git a/meta/recipes-core/busybox/busybox_1.24.1.bb b/meta/recipes-core/busybox/busybox_1.24.1.bb
-> index 41fc641..a0ef17b 100644
-> --- a/meta/recipes-core/busybox/busybox_1.24.1.bb
-> +++ b/meta/recipes-core/busybox/busybox_1.24.1.bb
-> @@ -25,7 +25,7 @@ SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
->              file://run-ptest \
->              file://inetd.conf \
->              file://inetd \
-> -           file://login-utilities.cfg \
-> +           ${@busybox_fragment("login-utilities", d)} \
->              file://recognize_connmand.patch \
->              file://busybox-cross-menuconfig.patch \
->              file://0001-Use-CC-when-linking-instead-of-LD-and-use-CFLAGS-and.patch \
->
-> Obviously I just used login-utilities as an example...
->
-> Cheers,
->
-> Richard
->
-Thanks for your suggestion. I think this is one step better than what's 
-in master today as it can more easily be overridden. But I don't think 
-this is a better solution to the problem than moving the defaults to the 
-defconfig. Probably I have a bit different view of grouping the config 
-features. I think that the grouping in .cfg fragments is a good design 
-if you have features that you enable for example via DISTRO_FEATURE or 
-VIRTUAL-RUNTIME_init_manager or some other feature option that is 
-present in the build system. As in the examples with mbox.cfg and init.cfg.
+ 
 
-I think grouping of configurations because they belong together is a 
-task for busybox's Kconfig. In the Kconfig system for busybox you can 
-see the options you have and their relations. If you start a project and 
-want to tune busybox the natural place to do it is in the defconfig 
-file. And modifying the defconfig file with help of menuconfig.
+On 2017-03-29 08:41, Burton, Ross wrote: 
 
-What pros do you see of having standard feature .cfg files in SRC_URI 
-that are (default) always added instead of having them in the defconfig? 
-How does it help the developer/maintainer?
+> On 28 March 2017 at 23:45, Stefan Agner <stefan@agner.ch> wrote:
+> 
+>> @@ -30,8 +30,8 @@ PACKAGES =+ "util-linux-agetty util-linux-fdisk util-linux-cfdisk util-linux-sfd
+>> util-linux-swaponoff util-linux-losetup util-linux-umount \
+>> util-linux-mount util-linux-readprofile util-linux-uuidd \
+>> util-linux-uuidgen util-linux-lscpu util-linux-fsck.cramfs util-linux-fsck \
+>> -             util-linux-blkid util-linux-mkfs util-linux-mcookie util-linux-reset \
+>> -             util-linux-lsblk util-linux-mkfs.cramfs util-linux-fstrim \
+>> +             util-linux-blkdiscard util-linux-blkid util-linux-mkfs util-linux-mcookie \
+>> +             util-linux-reset util-linux-lsblk util-linux-mkfs.cramfs util-linux-fstrim \
+>> util-linux-partx util-linux-hwclock util-linux-mountpoint \
+>> util-linux-findfs util-linux-getopt util-linux-sulogin util-linux-prlimit"
+> 
+> We're growing a lot of packages containing a single binary.  Would it be sensible to group them into "file system tools", "process tools", etc?
 
-Best regards,
-/Peter
+Not sure if such a high level grouping is helpful. Just because an image
+uses one fs utility, does not mean the others are used too. There might
+be some potential on a lower level (e.g. util-linux-mkfs.cramfs and
+util-linux-fsck.cramfs). 
 
+Is having lots of single binary packages an issue? I guess package
+management data adds some space overhead? In my case, I build a image
+without package metadata, so I guess there is no overhead for the final
+image (for the final image). 
 
+Best regards, 
 
+Stefan 
+  
 
+--=_8e866910daa5cf84484149e0f8f75ad3
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/html; charset=UTF-8
+
+<html><head><meta http-equiv=3D"Content-Type" content=3D"text/html; charset=
+=3DUTF-8" /></head><body style=3D'font-size: 10pt; font-family: Verdana,Gen=
+eva,sans-serif'>
+<p>On 2017-03-29 08:41, Burton, Ross wrote:</p>
+<blockquote type=3D"cite" style=3D"padding: 0 0.4em; border-left: #1010ff 2=
+px solid; margin: 0"><!-- html ignored --><!-- head ignored --><!-- meta ig=
+nored -->
+<div dir=3D"ltr">
+<div class=3D"gmail_extra"><br />
+<div class=3D"gmail_quote">On 28 March 2017 at 23:45, Stefan Agner <span>&l=
+t;<a href=3D"mailto:stefan@agner.ch">stefan@agner.ch</a>&gt;</span> wrote:<=
+br />
+<blockquote class=3D"gmail_quote" style=3D"margin: 0 0 0 .8ex; border-left:=
+ 1px #ccc solid; padding-left: 1ex;">
+<div id=3D":yn" class=3D"a3s aXjCH m15b171ab2ecb0014">@@ -30,8 +30,8 @@ PAC=
+KAGES =3D+ "util-linux-agetty util-linux-fdisk util-linux-cfdisk util-linux=
+-sfd<br /> <span class=3D"">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp=
+; util-linux-swaponoff util-linux-losetup util-linux-umount \<br /> &nbsp; =
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; util-linux-mount util-linux-readp=
+rofile util-linux-uuidd \<br /> </span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
+nbsp; &nbsp; util-linux-uuidgen util-linux-lscpu util-linux-fsck.cramfs uti=
+l-linux-fsck \<br /> -&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;util-=
+linux-blkid util-linux-mkfs util-linux-mcookie util-linux-reset \<br /> -&n=
+bsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;util-linux-lsblk util-linux-m=
+kfs.cramfs util-linux-fstrim \<br /> +&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &n=
+bsp; &nbsp;util-linux-blkdiscard util-linux-blkid util-linux-mkfs util-linu=
+x-mcookie \<br /> +&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;util-lin=
+ux-reset util-linux-lsblk util-linux-mkfs.cramfs util-linux-fstrim \<br /> =
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; util-linux-partx util-linu=
+x-hwclock util-linux-mountpoint \<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
+&nbsp; &nbsp; util-linux-findfs util-linux-getopt util-linux-sulogin util-l=
+inux-prlimit"</div>
+</blockquote>
+</div>
+<br />We're growing a lot of packages containing a single binary.&nbsp; Wou=
+ld it be sensible to group them into "file system tools", "process tools", =
+etc?</div>
+</div>
+</blockquote>
+<p>Not sure if such a high level grouping is helpful.&nbsp;Just because an =
+image&nbsp;uses one fs utility, does not mean the others are used too.&nbsp=
+;There might be some&nbsp;potential on a lower level (e.g.&nbsp;<span>util-=
+linux-mkfs.cramfs and&nbsp;<span>util-linux-fsck.cramfs).</span></span></p>
+<p>Is having lots of single binary packages an issue? I guess package manag=
+ement data adds some space overhead? In my case, I build a image without pa=
+ckage metadata, so I guess there is no&nbsp;overhead for&nbsp;the final ima=
+ge (for the final image).</p>
+<p>&nbsp;</p>
+<p>Best regards,</p>
+<p>Stefan</p>
+<div>&nbsp;</div>
+</body></html>
+
+--=_8e866910daa5cf84484149e0f8f75ad3--
