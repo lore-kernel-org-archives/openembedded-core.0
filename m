@@ -1,24 +1,48 @@
-Return-Path: <tristan.vanberkom@codethink.co.uk>
-Received: from imap0.codethink.co.uk (imap0.codethink.co.uk [185.43.218.159])
-	by mail.openembedded.org (Postfix) with ESMTP id BE2BA77CAC
+Return-Path: <spopovyc@cisco.com>
+Received: from aer-iport-2.cisco.com (aer-iport-2.cisco.com [173.38.203.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 2274677CD7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Mar 2017 12:42:09 +0000 (UTC)
-Received: from imap1.codethink.co.uk ([176.9.8.82])
-	by imap0.codethink.co.uk with esmtps (Exim 4.84_2 #1 (Debian))
-	id 1ctCvQ-0003ga-HD for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Mar 2017 13:42:09 +0100
-Received: from [114.207.54.40] (helo=think)
-	by imap1.codethink.co.uk with esmtpsa (Exim 4.84_2 #1 (Debian))
-	id 1ctCvN-0002oc-Sa for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Mar 2017 13:42:08 +0100
-Message-ID: <1490791319.18519.23.camel@codethink.co.uk>
-From: Tristan Van Berkom <tristan.vanberkom@codethink.co.uk>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 29 Mar 2017 21:41:59 +0900
-Organization: Codethink
-X-Mailer: Evolution 3.20.5-1 
-Mime-Version: 1.0
-Subject: [PATCHv3] libjpeg-turbo: fix build on aarch64 or non-intel build hosts
+	Wed, 29 Mar 2017 12:51:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=cisco.com; i=@cisco.com; l=1637; q=dns/txt; s=iport;
+	t=1490791868; x=1492001468;
+	h=subject:to:references:cc:from:message-id:date:
+	mime-version:in-reply-to:content-transfer-encoding;
+	bh=CyCKWikgljo2/IX9gnTh7SeEJNLCQceOqNl4RUieO1c=;
+	b=MEqQEpCAat+S82bz6BxlwBO3nORKT833wTk2MRYDW/+MOvp1PJ/ZIcNO
+	XLtjqH/EDEZPKDxqteNYm6wunZvy+POFqkCvMK63SHX9PgDIzI0BSB8hy
+	yYwLFBhFw1E+hkvEB7dx7Qd+XGRL677mW53YUe0d4VK53wYR9mxWyiCHJ Q=;
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-Anti-Spam-Result: =?us-ascii?q?A0CYAQDdrNtY/xbLJq1dGQEBAQEBAQEBA?=
+	=?us-ascii?q?QEBBwEBAQEBhUGDYooRc5Bdkz+CD4IOgmyDNgKDdxgBAgEBAQEBAQFrKIUVAQE?=
+	=?us-ascii?q?BAQIBIw8BRhALDgoCAiMDAgI9CREGDQYCAQGJeQUIrW2CJopJAQEBAQEBAQECA?=
+	=?us-ascii?q?QEBAQEBASETeIVDggWBQIEqhFSDBoJfBZBdjAOSUJEzk2ofOIEEOh8VhU+BTT0?=
+	=?us-ascii?q?1hnkoghUBAQE?=
+X-IronPort-AV: E=Sophos;i="5.36,241,1486425600"; d="scan'208";a="650760473"
+Received: from aer-iport-nat.cisco.com (HELO aer-core-2.cisco.com)
+	([173.38.203.22])
+	by aer-iport-2.cisco.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	29 Mar 2017 12:51:05 +0000
+Received: from tuxracer.local ([10.61.218.101]) (authenticated bits=0)
+	by aer-core-2.cisco.com (8.14.5/8.14.5) with ESMTP id v2TCp4Fi028116
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Wed, 29 Mar 2017 12:51:05 GMT
+To: Christopher Larson <kergoth@gmail.com>
+References: <e1eee1aa56e1dc59a55a9cac25a00a1ea2f9375e.1490727568.git.spopovyc@cisco.com>
+	<CABcZAN=pYQH82T4Gxi9VneWQtRQYZyeu+Wrr+4V7iWeXW+_RvA@mail.gmail.com>
+From: Serhii Popovych <spopovyc@cisco.com>
+Message-ID: <a0db5863-003a-ab83-aa85-c719656ddc62@cisco.com>
+Date: Wed, 29 Mar 2017 15:51:04 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.8.0
+MIME-Version: 1.0
+In-Reply-To: <CABcZAN=pYQH82T4Gxi9VneWQtRQYZyeu+Wrr+4V7iWeXW+_RvA@mail.gmail.com>
+X-Auto-Response-Suppress: DR, OOF, AutoReply
+X-Authenticated-User: spopovyc
+Cc: XE-Linux <xe-linux-external@cisco.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] ca-certificates: Fix symlinks to the certificates in nativesdk
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,46 +55,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Mar 2017 12:42:11 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 29 Mar 2017 12:51:06 -0000
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
 
-From f54c719dc0ca3444bc579663b7326d016bf2e1e7 Mon Sep 17 00:00:00 2001
-From: Tristan Van Berkom <tristan.vanberkom@codethink.co.uk>
-Date: Fri, 24 Mar 2017 15:37:36 +0000
-Subject: [PATCH] libjpeg-turbo: Support building on non intel targets.
 
-nasm is intel specific, however libjpeg-turbo is still desirable
-on other architectures.
+> 
+> On Tue, Mar 28, 2017 at 12:00 PM, Serhii Popovych <spopovyc@cisco.com
+> <mailto:spopovyc@cisco.com>> wrote:
+> 
+>     Symlinks to certificates in buildtools-tarball at /etc/ssl/certs
+>     installed with absolute pathes making these sumlinks pointing
+>     outside of toolchain to the host system locations.
+> 
+>     These locations may not contain some certificates (thus link to
+>     the certificate in toolchain is broken) or host system
+>     certificate may be revoked by CRL or outdated.
+> 
+>     Since this change seems non intrusive for target package apply
+>     patch for all builds.
+> 
+>     Cc: XE-Linux <xe-linux-external@cisco.com
+>     <mailto:xe-linux-external@cisco.com>>
+>     Signed-off-by: Serhii Popovych <spopovyc@cisco.com
+>     <mailto:spopovyc@cisco.com>>
+> 
+> 
+> We actually run a script against the entire sdk sysroot to convert all
+> absolute links to relative (see `POPULATE_SDK_POST_TARGET_COMMAND +=
+> “rootfs_sysroot_relativelinks;` in image.bbclass and
+> rootfs_sysroot_relativelinks in rootfs-postcommands.bbclass), but this
+> script had a bug. I recently sent a patch (this morning) to it to fix
+> this exact issue.
+That's great. What the subject of this change in openembedded-core?
+I wish to test it.
 
-Without this patch, it would seem that nasm is built on an intel
-host and then ignored when compiling libjpeg-turbo for an arm target,
-however it has libjpeg-turbo requiring nasm be built when building
-on an arm/aarch64 host.
+Because with current *master* I see problem is still here.
 
-This fixes the issue so that nasm-native is not required on the host
-when building for an aarch64 target.
+Thanks,
+Serhii
 
-Signed-off-by: Tristan Van Berkom <tristan.vanberkom@codethink.co.uk>
----
- meta/recipes-graphics/jpeg/libjpeg-turbo_1.5.1.bb | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Of course, it wouldn’t hurt to also change the
+> behavior in the recipe, but it’s not necessary with the script fixed.
 
-diff --git a/meta/recipes-graphics/jpeg/libjpeg-turbo_1.5.1.bb b/meta/recipes-graphics/jpeg/libjpeg-turbo_1.5.1.bb
-index 70d38f4a1a..a650d6af2d 100644
---- a/meta/recipes-graphics/jpeg/libjpeg-turbo_1.5.1.bb
-+++ b/meta/recipes-graphics/jpeg/libjpeg-turbo_1.5.1.bb
-@@ -7,7 +7,8 @@ LIC_FILES_CHKSUM = "file://cdjpeg.h;endline=13;md5=05bab7c7ad899d85bfba60da1a127
-                     file://jpeglib.h;endline=16;md5=f67d70e547a2662c079781c72f877f72 \
-                     file://djpeg.c;endline=11;md5=b90b6d2b4119f9e5807cd273f525d2af \
- "
--DEPENDS = "nasm-native"
-+DEPENDS_append_x86-64 = " nasm-native"
-+DEPENDS_append_x86    = " nasm-native"
- 
- SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/${BPN}-${PV}.tar.gz \
-            file://fix-mips.patch"
--- 
-2.11.0
 
+> -- 
+> Christopher Larson
+> kergoth at gmail dot com
+> Founder - BitBake, OpenEmbedded, OpenZaurus
+> Senior Software Engineer, Mentor Graphics
 
