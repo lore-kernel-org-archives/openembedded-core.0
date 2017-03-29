@@ -1,46 +1,31 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wr0-f175.google.com (mail-wr0-f175.google.com
-	[209.85.128.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 992CC77BB4;
-	Wed, 29 Mar 2017 10:14:50 +0000 (UTC)
-Received: by mail-wr0-f175.google.com with SMTP id w11so8041571wrc.3;
-	Wed, 29 Mar 2017 03:14:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=6EoZVvHF7jNeutcqk8wXSQkMNkbTbhhSAKxOyLzjy0s=;
-	b=Uze8FzZJ7FbvP75cjOpm1mL6DoO6BiShFxlvj/5K7P9AVXbtOwF6nLIgHAVpDw4TqZ
-	PECkt9a0zVUTIV0VucfCDGoKOHpE2sFMgyzwjE0usyWaLI9JJ7K4E/KtgR8Ei4Cootga
-	HU4gLMv2Baa4u5kmewj/e4BQWCLO5LuzVV141pwV/PEXLq+1tFZhmYv3qn/qwO9B2BsK
-	ZbjoUfc+GDFmhEzvJmYVxlJg3Oim2GXXhk+tkarh9BgaFHOLPYXgsawZpG8zXc08WeW9
-	0bn8KkK5xQIyTSKifMDgGIbJDbcD6ppE3BFQnLuMCOTJPLcQtH8hmF0Wb3RIUrrR8LGZ
-	8Low==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=6EoZVvHF7jNeutcqk8wXSQkMNkbTbhhSAKxOyLzjy0s=;
-	b=tZyJi7jl4XTJozsy1ocmKXqttlCgQE2B8xuJqM/UERtrd5L//kuig+YgfbPUh4c8OH
-	V6kHO0fC9KNqAG2G+BnXQAd9DoL1VI/U5U+FuAFDIM6ttpAIuREI8/2GFZ6oydXxquzc
-	Aodkul+hMZT7BbVY+Q7IEEkwMv7Y/QUb3wUhMSSIVJBneB5dqr6BTWI2sNpnbL6Vmqk5
-	bKAGUKsl4KRfZROL2PnOTY89/bnSfpgN42y4EKiTozqMRrrDvBEL8j93EtMALT9pp3av
-	lwWEJqP1Wtwb1Qm8wEgRNYXovl4fsC0YpzHmnJMfM1NcV6H3orDqHacjUvsxEnEo1YKV
-	No+A==
-X-Gm-Message-State: AFeK/H00559dPG+A6iLrAwgxqugYfd7GmQTLJLYjRptEfQoOq1vzjkUdgfizKlRhv3LcMIk4QZUzJCAH4ZNMIQ==
-X-Received: by 10.28.19.207 with SMTP id 198mr545726wmt.49.1490782490873; Wed,
-	29 Mar 2017 03:14:50 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.80.145.24 with HTTP; Wed, 29 Mar 2017 03:14:50 -0700 (PDT)
-In-Reply-To: <1490780318.6396.410.camel@intel.com>
-References: <20170329072316.GA3298@jama> <1490776523.6396.407.camel@intel.com>
-	<20170329091444.GB3298@jama> <1490780318.6396.410.camel@intel.com>
-From: Martin Jansa <martin.jansa@gmail.com>
-Date: Wed, 29 Mar 2017 12:14:50 +0200
-Message-ID: <CA+chaQcd7Pa-w7zWLLbck1Xu+r0t3udzLf0tJQqrkgSzCu+HZA@mail.gmail.com>
-To: Patrick Ohly <patrick.ohly@intel.com>
-Cc: openembedded-devel <openembedded-devel@lists.openembedded.org>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: State of bitbake world, Failed tasks 2017-03-27
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 406CC77C41
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 29 Mar 2017 10:22:25 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTP id v2TAMPbO005493; 
+	Wed, 29 Mar 2017 11:22:25 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id 7ggGSM6WBzTr; Wed, 29 Mar 2017 11:22:25 +0100 (BST)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	v2TAMN5i005490
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Wed, 29 Mar 2017 11:22:24 +0100
+Message-ID: <1490782943.13980.306.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Peter Bergin <peter@berginkonsult.se>,
+	openembedded-core@lists.openembedded.org
+Date: Wed, 29 Mar 2017 11:22:23 +0100
+In-Reply-To: <2b16b764-38e0-4112-48b4-9e17cbe129c3@berginkonsult.se>
+References: <1490731726-14536-1-git-send-email-peter@berginkonsult.se>
+	<1490742158.13980.296.camel@linuxfoundation.org>
+	<2b16b764-38e0-4112-48b4-9e17cbe129c3@berginkonsult.se>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.1 
+Mime-Version: 1.0
+Subject: Re: [PATCH] busybox: move default config fragments to defconfig
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,174 +38,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Mar 2017 10:14:51 -0000
-Content-Type: multipart/alternative; boundary=001a1145b3f0ce5736054bdbd8a9
+X-List-Received-Date: Wed, 29 Mar 2017 10:22:26 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
---001a1145b3f0ce5736054bdbd8a9
-Content-Type: text/plain; charset=UTF-8
+On Wed, 2017-03-29 at 10:16 +0200, Peter Bergin wrote:
+> I agree that it is nice and encouraged to group configurations
+> together and make them selectable as a group. A good example from 
+> busybox_1.24.1.bb is:
+> 
+>             ${@["", 
+> "file://init.cfg"][(d.getVar('VIRTUAL-RUNTIME_init_manager') == 
+> 'busybox')]} \
+>             ${@["", 
+> "file://mdev.cfg"][(d.getVar('VIRTUAL-RUNTIME_dev_manager') == 
+> 'busybox-mdev')]} \
+> 
+> In the example above, configuration fragments are added based on some
+> configuration in your build. The configuration fragments that I
+> removed with my patch was always added and in that situation I think
+> it is better that they are added to the defconfig file. The situation
+> now force me to do workarounds to avoid having these default
+> configurations in my busybox .config.
+> 
+> Ideas for better solutions are welcome and I hope we can find a
+> solution that make it possible to provide your own busybox defconfig
+> file that is only changed due to configurations in your build.
 
-> Can individual recipes choose to be built using the normal ld?
+I don't think its difficult to make something which would improve
+things and be configurable from other layers. How about something like:
 
-yes, see example in:
-meta/recipes-bsp/u-boot/u-boot.inc
-meta/recipes-support/libunwind/libunwind_git.bb
+diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
+index 6246c95..cb20207 100644
+--- a/meta/recipes-core/busybox/busybox.inc
++++ b/meta/recipes-core/busybox/busybox.inc
+@@ -15,6 +15,11 @@ SECTION = "base"
+ # Whether to split the suid apps into a seperate binary
+ BUSYBOX_SPLIT_SUID ?= "1"
+ 
++BUSYBOX_FRAGMENTS = "login-utilities"
++
++def busybox_fragment(name, d):
++    return bb.utils.contains('BUSYBOX_FRAGMENTS', name, "file://" + name + ".cfg", "", d)
++
+ export EXTRA_CFLAGS = "${CFLAGS}"
+ export EXTRA_LDFLAGS = "${LDFLAGS}"
+ 
+diff --git a/meta/recipes-core/busybox/busybox_1.24.1.bb b/meta/recipes-core/busybox/busybox_1.24.1.bb
+index 41fc641..a0ef17b 100644
+--- a/meta/recipes-core/busybox/busybox_1.24.1.bb
++++ b/meta/recipes-core/busybox/busybox_1.24.1.bb
+@@ -25,7 +25,7 @@ SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
+            file://run-ptest \
+            file://inetd.conf \
+            file://inetd \
+-           file://login-utilities.cfg \
++           ${@busybox_fragment("login-utilities", d)} \
+            file://recognize_connmand.patch \
+            file://busybox-cross-menuconfig.patch \
+            file://0001-Use-CC-when-linking-instead-of-LD-and-use-CFLAGS-and.patch \
 
-but it was working with older binutils, so maybe worth tracking down where
-it got borken.
+Obviously I just used login-utilities as an example...
 
-On Wed, Mar 29, 2017 at 11:38 AM, Patrick Ohly <patrick.ohly@intel.com>
-wrote:
+Cheers,
 
-> On Wed, 2017-03-29 at 11:14 +0200, Martin Jansa wrote:
-> > On Wed, Mar 29, 2017 at 10:35:23AM +0200, Patrick Ohly wrote:
-> > > On Wed, 2017-03-29 at 09:23 +0200, Martin Jansa wrote:
-> > > > INFO: jenkins-job.sh-1.8.19 Complete log available at
-> http://logs.nslu2-linux.org/buildlogs/oe/world/pyro/log.
-> report.20170328_014155.log
-> > >
-> > > That used OE-core 552bd78, if I read this right:
-> > >
-> > >         == Tested changes (not included in master yet) -
-> openembedded-core ==
-> > >         latest upstream commit:
-> > >         552bd78 wic: use kernel_dir to find systemd-efi bootloader
-> > >
-> > > >     * openembedded-core/meta/recipes-core/ovmf/ovmf_git.bb:
-> do_compile
-> > >
-> > > http://errors.yoctoproject.org/Errors/Details/135202/
-> > >
-> > > "gcc-ar: not found" - that should have been fixed by OE-core 23a12d87a6
-> > > "fix toolchain selection", which is included in OE-core 552bd78 and
-> thus
-> > > should have been included in the build.
-> > >
-> > > However, the error above was "Submitted on: 11/03/17 10:13", which was
-> a
-> > > while ago and in particular before that fix.
-> > >
-> > > Did ovmf really fail in the latest world build?
-> >
-> > The report shows:
-> > http://errors.yoctoproject.org/Errors/Build/34933/
-> > which leads to:
-> >
-> > http://errors.yoctoproject.org/Errors/Details/138261/
-> > Submitted on: 27/03/17 05:31
->
-> Got it. I followed the wrong link at some point.
->
-> > So yes it failed again, but this time with different error:
-> > TOPDIR/tmp-glibc/work/i586-oe-linux/ovmf/git-r0/recipe-
-> sysroot-native/usr/bin/i586-oe-linux/../../libexec/i586-
-> oe-linux/gcc/i586-oe-linux/6.3.0/ld:
-> > internal error in do_layout, at ../../gold/object.cc:1821
->
-> Hmm, internal error in gold. Not sure what to do about that :-/
->
-> Can individual recipes choose to be built using the normal ld?
->
-> --
-> Best Regards, Patrick Ohly
->
-> The content of this message is my personal opinion only and although
-> I am an employee of Intel, the statements I make here in no way
-> represent Intel's position on the issue, nor am I authorized to speak
-> on behalf of Intel on this matter.
->
->
->
->
+Richard
 
---001a1145b3f0ce5736054bdbd8a9
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">&gt;=C2=A0<span style=3D"font-size:12.8px">Can individual =
-recipes choose to be built using the normal ld?</span><div class=3D"gmail-y=
-j6qo gmail-ajU" style=3D"font-size:12.8px"></div><div><span style=3D"font-s=
-ize:12.8px"><br></span></div><div><span style=3D"font-size:12.8px">yes, see=
- example in:</span></div><div><span style=3D"font-size:12.8px">meta/recipes=
--bsp/u-boot/u-boot.inc</span><br></div><div><span style=3D"font-size:12.8px=
-">meta/recipes-support/libunwind/<a href=3D"http://libunwind_git.bb">libunw=
-ind_git.bb</a></span><br></div><div><span style=3D"font-size:12.8px"><br></=
-span></div><div><span style=3D"font-size:12.8px">but it was working with ol=
-der binutils, so maybe worth tracking down where it got borken.</span></div=
-></div><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">On Wed, Ma=
-r 29, 2017 at 11:38 AM, Patrick Ohly <span dir=3D"ltr">&lt;<a href=3D"mailt=
-o:patrick.ohly@intel.com" target=3D"_blank">patrick.ohly@intel.com</a>&gt;<=
-/span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8=
-ex;border-left:1px #ccc solid;padding-left:1ex"><span class=3D"">On Wed, 20=
-17-03-29 at 11:14 +0200, Martin Jansa wrote:<br>
-&gt; On Wed, Mar 29, 2017 at 10:35:23AM +0200, Patrick Ohly wrote:<br>
-&gt; &gt; On Wed, 2017-03-29 at 09:23 +0200, Martin Jansa wrote:<br>
-&gt; &gt; &gt; INFO: jenkins-job.sh-1.8.19 Complete log available at <a hre=
-f=3D"http://logs.nslu2-linux.org/buildlogs/oe/world/pyro/log.report.2017032=
-8_014155.log" rel=3D"noreferrer" target=3D"_blank">http://logs.nslu2-linux.=
-org/<wbr>buildlogs/oe/world/pyro/log.<wbr>report.20170328_014155.log</a><br=
->
-&gt; &gt;<br>
-&gt; &gt; That used OE-core 552bd78, if I read this right:<br>
-&gt; &gt;<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D=3D Tested changes (not inclu=
-ded in master yet) - openembedded-core =3D=3D<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0latest upstream commit:<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0552bd78 wic: use kernel_dir to f=
-ind systemd-efi bootloader<br>
-&gt; &gt;<br>
-&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0* openembedded-core/meta/<wbr>recipes-cor=
-e/ovmf/<a href=3D"http://ovmf_git.bb">ovmf_git.bb</a>:<wbr>do_compile<br>
-&gt; &gt;<br>
-&gt; &gt; <a href=3D"http://errors.yoctoproject.org/Errors/Details/135202/"=
- rel=3D"noreferrer" target=3D"_blank">http://errors.yoctoproject.<wbr>org/E=
-rrors/Details/135202/</a><br>
-&gt; &gt;<br>
-&gt; &gt; &quot;gcc-ar: not found&quot; - that should have been fixed by OE=
--core 23a12d87a6<br>
-&gt; &gt; &quot;fix toolchain selection&quot;, which is included in OE-core=
- 552bd78 and thus<br>
-&gt; &gt; should have been included in the build.<br>
-&gt; &gt;<br>
-&gt; &gt; However, the error above was &quot;Submitted on: 11/03/17 10:13&q=
-uot;, which was a<br>
-&gt; &gt; while ago and in particular before that fix.<br>
-&gt; &gt;<br>
-&gt; &gt; Did ovmf really fail in the latest world build?<br>
-&gt;<br>
-&gt; The report shows:<br>
-&gt; <a href=3D"http://errors.yoctoproject.org/Errors/Build/34933/" rel=3D"=
-noreferrer" target=3D"_blank">http://errors.yoctoproject.<wbr>org/Errors/Bu=
-ild/34933/</a><br>
-&gt; which leads to:<br>
-&gt;<br>
-&gt; <a href=3D"http://errors.yoctoproject.org/Errors/Details/138261/" rel=
-=3D"noreferrer" target=3D"_blank">http://errors.yoctoproject.<wbr>org/Error=
-s/Details/138261/</a><br>
-&gt; Submitted on: 27/03/17 05:31<br>
-<br>
-</span>Got it. I followed the wrong link at some point.<br>
-<span class=3D""><br>
-&gt; So yes it failed again, but this time with different error:<br>
-&gt; TOPDIR/tmp-glibc/work/i586-oe-<wbr>linux/ovmf/git-r0/recipe-<wbr>sysro=
-ot-native/usr/bin/i586-<wbr>oe-linux/../../libexec/i586-<wbr>oe-linux/gcc/i=
-586-oe-linux/6.<wbr>3.0/ld:<br>
-&gt; internal error in do_layout, at ../../gold/object.cc:1821<br>
-<br>
-</span>Hmm, internal error in gold. Not sure what to do about that :-/<br>
-<br>
-Can individual recipes choose to be built using the normal ld?<br>
-<div class=3D"HOEnZb"><div class=3D"h5"><br>
---<br>
-Best Regards, Patrick Ohly<br>
-<br>
-The content of this message is my personal opinion only and although<br>
-I am an employee of Intel, the statements I make here in no way<br>
-represent Intel&#39;s position on the issue, nor am I authorized to speak<b=
-r>
-on behalf of Intel on this matter.<br>
-<br>
-<br>
-<br>
-</div></div></blockquote></div><br></div>
-
---001a1145b3f0ce5736054bdbd8a9--
