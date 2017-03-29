@@ -1,55 +1,41 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-it0-f49.google.com (mail-it0-f49.google.com
-	[209.85.214.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 6101F77BF0
+Return-Path: <pidge@toganlabs.com>
+Received: from egyptian.birch.relay.mailchannels.net
+	(egyptian.birch.relay.mailchannels.net [23.83.209.56])
+	by mail.openembedded.org (Postfix) with ESMTP id C461A77BCD
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Mar 2017 09:38:40 +0000 (UTC)
-Received: by mail-it0-f49.google.com with SMTP id e75so86282507itd.1
+	Wed, 29 Mar 2017 09:47:37 +0000 (UTC)
+X-Sender-Id: hostpapa|x-authuser|pidge@toganlabs.com
+Received: from relay.mailchannels.net (localhost [127.0.0.1])
+	by relay.mailchannels.net (Postfix) with ESMTP id E3CC91021D0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Mar 2017 02:38:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:organization:mime-version:content-transfer-encoding;
-	bh=yFeCwD9Vfbwlu+2Uzlhm7FHxelUi1zFycCklnqXax78=;
-	b=qQcNS76EovLl2ePdu5KypTd/Z+LTmw+tCLOfoq39Fcpl1ckNNPsl0a1eyKV6gkYX15
-	b4r5yD+B1rM6KVpHIkxFxtrhinCLDrg6y1sDpv7xFpD9gMaZ4d8qkO0wy0anBR9ZwwxR
-	NQLeuSKH9xGSxgtUC4YvJaa/4ZybQL6t4AZvLgTHJGrHpGu/d8Zxih9GdumC7QRDlVOP
-	anfv0ewoLebjmZ1c4jE/fmJ2T5bZSayQGYeRU0wB021uyHxgROHlkLDiYOUzXUifoEdy
-	locmWs+y7p0pt2R34Sqzi/66DDbqCZ+5rQDT4M7oGVVVY3tt05XsMv2DgJyBQQEwGrmF
-	n5ew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:organization:mime-version:content-transfer-encoding;
-	bh=yFeCwD9Vfbwlu+2Uzlhm7FHxelUi1zFycCklnqXax78=;
-	b=jCCkVaCNI5kYbxMq6967DTRHAp+FGMNWM13xdt/G8lylNiuG5FUTqIbpA7hh0Npd0V
-	zthZTrYen/xz7+nkTrs/SMCR2ZURi4aeitBNiM9fqOlsU+YDOL153AUhv3ksxM1FHZEd
-	1izbHeT6B0Qg/ViD7CpZoFWxfVfJIKqU/gFoWNT+dOQTMdYJjicWXngkqA8sn5hQ0N24
-	w1Uoy+R7cUWgtUixRY0K9WOPnSf1lTr4prBJbtIJW8Q9vIP2Eudy4kyYRqoovW/aq+Z/
-	F4ngUX/nO0vQLox4o1oH0F3gDl6gD7M79lHpG3I2cKPDyB5J68lYRjBXieHG19bNPqqw
-	c79g==
-X-Gm-Message-State: AFeK/H3DpdfsJ0GglY4msbYC8QYLrHK11sU28wTIL636YHgu6V4pk0hoW8Vo7JscfV0xXDgZ
-X-Received: by 10.36.33.68 with SMTP id e65mr258313ita.21.1490780322220;
-	Wed, 29 Mar 2017 02:38:42 -0700 (PDT)
-Received: from pohly-mobl1 (p5DE8D6D7.dip0.t-ipconnect.de. [93.232.214.215])
-	by smtp.gmail.com with ESMTPSA id 71sm3468546iof.29.2017.03.29.02.38.40
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 29 Mar 2017 02:38:41 -0700 (PDT)
-Message-ID: <1490780318.6396.410.camel@intel.com>
-From: Patrick Ohly <patrick.ohly@intel.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Date: Wed, 29 Mar 2017 11:38:38 +0200
-In-Reply-To: <20170329091444.GB3298@jama>
-References: <20170329072316.GA3298@jama>
-	<1490776523.6396.407.camel@intel.com> <20170329091444.GB3298@jama>
-Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
-X-Mailer: Evolution 3.12.9-1+b1 
-Mime-Version: 1.0
-Cc: openembedded-devel <openembedded-devel@lists.openembedded.org>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: State of bitbake world, Failed tasks 2017-03-27
+	Wed, 29 Mar 2017 09:47:36 +0000 (UTC)
+Received: from hp181.hostpapa.com (unknown [100.96.129.119])
+	by relay.mailchannels.net (Postfix) with ESMTPA id 6ADFA1031DD
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 29 Mar 2017 09:47:36 +0000 (UTC)
+X-Sender-Id: hostpapa|x-authuser|pidge@toganlabs.com
+Received: from hp181.hostpapa.com (hp181.hostpapa.com [172.20.63.14])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384)
+	by 0.0.0.0:2500 (trex/5.7.37); Wed, 29 Mar 2017 09:47:36 +0000
+X-MC-Relay: Neutral
+X-MailChannels-SenderId: hostpapa|x-authuser|pidge@toganlabs.com
+X-MailChannels-Auth-Id: hostpapa
+X-Exultant-Abortive: 2f2b3e9b4ef445f7_1490780856731_3687260011
+X-MC-Loop-Signature: 1490780856731:414866610
+X-MC-Ingress-Time: 1490780856730
+Received: from ns325767.ip-37-187-157.eu ([37.187.157.197]:38354
+	helo=ns325767.ovh.net) by hp181.hostpapa.com with esmtpsa
+	(TLSv1.2:ECDHE-RSA-AES128-SHA256:128) (Exim 4.87)
+	(envelope-from <pidge@toganlabs.com>)
+	id 1ctACR-000Yle-Ii; Wed, 29 Mar 2017 11:47:32 +0200
+From: Elizabeth 'pidge' Flanagan <pidge@toganlabs.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 29 Mar 2017 12:00:08 +0200
+Message-Id: <1490781608-1841-1-git-send-email-pidge@toganlabs.com>
+X-Mailer: git-send-email 1.9.1
+X-OutGoing-Spam-Status: No, score=5.0
+X-AuthUser: pidge@toganlabs.com
+Subject: [PATCH] bitbake.conf: Add aws to HOSTTOOLS_NONFATAL
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,59 +48,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Mar 2017 09:38:41 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 29 Mar 2017 09:47:40 -0000
 
-On Wed, 2017-03-29 at 11:14 +0200, Martin Jansa wrote:
-> On Wed, Mar 29, 2017 at 10:35:23AM +0200, Patrick Ohly wrote:
-> > On Wed, 2017-03-29 at 09:23 +0200, Martin Jansa wrote:
-> > > INFO: jenkins-job.sh-1.8.19 Complete log available at http://logs.nslu2-linux.org/buildlogs/oe/world/pyro/log.report.20170328_014155.log
-> > 
-> > That used OE-core 552bd78, if I read this right:
-> > 
-> >         == Tested changes (not included in master yet) - openembedded-core ==
-> >         latest upstream commit: 
-> >         552bd78 wic: use kernel_dir to find systemd-efi bootloader
-> > 
-> > >     * openembedded-core/meta/recipes-core/ovmf/ovmf_git.bb:do_compile
-> > 
-> > http://errors.yoctoproject.org/Errors/Details/135202/
-> > 
-> > "gcc-ar: not found" - that should have been fixed by OE-core 23a12d87a6
-> > "fix toolchain selection", which is included in OE-core 552bd78 and thus
-> > should have been included in the build.
-> > 
-> > However, the error above was "Submitted on: 11/03/17 10:13", which was a
-> > while ago and in particular before that fix.
-> > 
-> > Did ovmf really fail in the latest world build?
-> 
-> The report shows:
-> http://errors.yoctoproject.org/Errors/Build/34933/
-> which leads to:
-> 
-> http://errors.yoctoproject.org/Errors/Details/138261/
-> Submitted on: 27/03/17 05:31
+This adds aws to HOSTTOOLS_NONFATAL in order to get the s3 fetcher
+working again. It also sets FETCHCMD_s3 for completions sake.
 
-Got it. I followed the wrong link at some point.
+Signed-off-by: Elizabeth 'pidge' Flanagan <pidge@toganlabs.com>
+---
+ meta/conf/bitbake.conf | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-> So yes it failed again, but this time with different error:
-> TOPDIR/tmp-glibc/work/i586-oe-linux/ovmf/git-r0/recipe-sysroot-native/usr/bin/i586-oe-linux/../../libexec/i586-oe-linux/gcc/i586-oe-linux/6.3.0/ld:
-> internal error in do_layout, at ../../gold/object.cc:1821
-
-Hmm, internal error in gold. Not sure what to do about that :-/
-
-Can individual recipes choose to be built using the normal ld?
-
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 96a9ed9..bfa8dd8 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -469,7 +469,7 @@ HOSTTOOLS += " \
+ HOSTTOOLS += "ip ping ps scp ssh stty"
+ 
+ # Link to these if present
+-HOSTTOOLS_NONFATAL += "ccache gcc-ar gpg ld.bfd ld.gold nc sftp socat sudo"
++HOSTTOOLS_NONFATAL += "ccache gcc-ar gpg ld.bfd ld.gold nc sftp socat sudo aws"
+ 
+ # Temporary add few more detected in bitbake world
+ HOSTTOOLS_NONFATAL += "join nl size yes zcat"
+@@ -640,6 +640,7 @@ FETCHCMD_cvs = "/usr/bin/env cvs"
+ FETCHCMD_wget = "/usr/bin/env wget -t 2 -T 30 -nv --passive-ftp --no-check-certificate"
+ FETCHCMD_bzr = "/usr/bin/env bzr"
+ FETCHCMD_hg = "/usr/bin/env hg"
++FETCHCMD_aws = "/usr/bin/env aws"
+ 
+ SRCDATE = "${DATE}"
+ SRCREV ??= "INVALID"
 -- 
-Best Regards, Patrick Ohly
-
-The content of this message is my personal opinion only and although
-I am an employee of Intel, the statements I make here in no way
-represent Intel's position on the issue, nor am I authorized to speak
-on behalf of Intel on this matter.
-
-
+1.9.1
 
 
