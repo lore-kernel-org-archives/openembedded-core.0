@@ -1,49 +1,24 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-it0-f49.google.com (mail-it0-f49.google.com
-	[209.85.214.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 245AD77CCF
+Return-Path: <tristan.vanberkom@codethink.co.uk>
+Received: from imap0.codethink.co.uk (imap0.codethink.co.uk [185.43.218.159])
+	by mail.openembedded.org (Postfix) with ESMTP id 1CE7B77CA8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Mar 2017 11:30:17 +0000 (UTC)
-Received: by mail-it0-f49.google.com with SMTP id y18so147814797itc.0
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Mar 2017 04:30:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=xkwHQZ/vHnNoW64LrDCRA8fEjjlT1DjSzmDi3TBAKCs=;
-	b=OrbFhtU5XZ0Md+91GxdgOGpVH6mkyBd+XmM4S8PePceuGCTmpmglaQAgW/jSKb6GW6
-	9/WSGok+Hio/jqGrDUYk7qw5dehJt+5tuuhHjSLD5WtfH89vKzUShfq8cZoPy0RwvNRO
-	D4xgbGfck4suW3ffseW2c28Qo3FqPj5+nYI0nr2wDhH2cSuEe5MyNUZhov3o2MdtLSch
-	kAKcEfODhjN5YHhGsPGAxz5y+yMiMLagwkqadiNcLXXl0UxIXdzwdyCw70NRlpMejxqr
-	yeqg1RZvr9QZmPHTxNrYxT3sXqPMgeTT9K3VfPmEfKdJKs2tWL543TcMia1fVsd1BD4f
-	jiuw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=xkwHQZ/vHnNoW64LrDCRA8fEjjlT1DjSzmDi3TBAKCs=;
-	b=hLywh6rxSDoLmM9u8j1brxdGAuSkYwS9udUcmwLiJ9NRBsjuPb2sNjjrE4jx8NOYXK
-	FK8H0yPHno31daYd2CL9xsuDvh9/MrN2cbtVcfElMtMKGQsIYJ5scdYBpK3AcS9amOfN
-	uNCm8tHVPHpMxZXvNQG4f3tYSupo1SU3fNHI1jg/hHOOkBmxoPB1/rmmO4Ru6kXXcSlY
-	653jTSQbux7rCbmFUmGWKcNdeiPQP22PvKItCDA5pQ1TjhORKZsVggzhCv+XAWZfk+M1
-	4tZ65sRitkwmywnTw4vpTmuXBoDyilO97o9XTA53P3EJJGaidBMM6IAGd6izjSXnq7s8
-	doZA==
-X-Gm-Message-State: AFeK/H2psv1trpjRchZ+wb3809TkC1xnqLpNiD2Zkird20hvmzeDA7ENAx/H+vYS20BHwVGZ
-X-Received: by 10.36.138.129 with SMTP id v123mr220336itd.108.1490787019209;
-	Wed, 29 Mar 2017 04:30:19 -0700 (PDT)
-Received: from pohly-desktop.fritz.box (p5DE8D6D7.dip0.t-ipconnect.de.
-	[93.232.214.215]) by smtp.gmail.com with ESMTPSA id
-	d196sm3579511ioe.3.2017.03.29.04.30.17
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 29 Mar 2017 04:30:18 -0700 (PDT)
-From: Patrick Ohly <patrick.ohly@intel.com>
+	Wed, 29 Mar 2017 12:11:39 +0000 (UTC)
+Received: from imap1.codethink.co.uk ([176.9.8.82])
+	by imap0.codethink.co.uk with esmtps (Exim 4.84_2 #1 (Debian))
+	id 1ctCRu-0003aN-W5 for <openembedded-core@lists.openembedded.org>;
+	Wed, 29 Mar 2017 13:11:39 +0100
+Received: from [114.207.54.40] (helo=think)
+	by imap1.codethink.co.uk with esmtpsa (Exim 4.84_2 #1 (Debian))
+	id 1ctCRu-0002Ie-0z for <openembedded-core@lists.openembedded.org>;
+	Wed, 29 Mar 2017 13:11:38 +0100
+Message-ID: <1490789493.18519.18.camel@codethink.co.uk>
+From: Tristan Van Berkom <tristan.vanberkom@codethink.co.uk>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 29 Mar 2017 13:29:50 +0200
-Message-Id: <c31440874d6a41b98fe3f8aacbc5666fd68c9635.1490786957.git-series.patrick.ohly@intel.com>
-X-Mailer: git-send-email 2.11.0
-In-Reply-To: <cover.425c03862da4e6657583439f3eb42e3c88fb71ac.1490786957.git-series.patrick.ohly@intel.com>
-References: <cover.425c03862da4e6657583439f3eb42e3c88fb71ac.1490786957.git-series.patrick.ohly@intel.com>
-Subject: [PATCH 2/2] populate_sdk_ext.bbclass: enhance compatibility with rm_work.bbclass
+Date: Wed, 29 Mar 2017 21:11:33 +0900
+Organization: Codethink
+X-Mailer: Evolution 3.20.5-1 
+Mime-Version: 1.0
+Subject: [PATCH] libjpeg-turbo: fix build on aarch64 or non-intel build hosts
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,53 +31,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Mar 2017 11:30:18 -0000
+X-List-Received-Date: Wed, 29 Mar 2017 12:11:40 -0000
+X-Groupsio-MsgNum: 95452
+Content-Type: multipart/mixed; boundary="=-XyuYD0+eU8B0h0QoyvVA"
 
-"bitbake -c populate_dsk_ext" must not trigger do_rm_work, because it
-is impossible to declare that the additional tasks activated by "-c
-populate_dsk_ext" must run before do_rm_work. When do_populate_dsk_ext
-and do_rm_work are both active, the resulting race condition breaks
-do_populate_dsk_ext.
+--=-XyuYD0+eU8B0h0QoyvVA
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-The existing bitbake dependencies can't be used for that, because
-"addtask populate_dsk_ext before do_rm_work" would then always execute
-populate_dsk_ext also in normal builds.
+This is already filed in the appropriate bugzilla:
+   https://bugzilla.yoctoproject.org/show_bug.cgi?id=11240
 
-do_populate_dsk_ext triggers do_rm_work indirectly through the
-dependency on do_build of the SDK_TARGETs. Using the new
-do_build_without_rm_work instead (when available, with do_build as
-before if not) avoids the problem.
+Just notifying the list as the custom goes...
 
-However, one has to be careful to not trigger do_rm_work in the same
-build in some other way.  "bitbake core-image-sato:do_populate_sdk_ext
-core-image-sato:do_build" still fails, for example. Doing one after
-the other works.
+libjpeg-turbo in recipes-graphics has an unconditional dependency on
+nasm-native, which is intel specific and wont be provided on non intel
+arches.
 
-Fixes: [YOCTO 11042]
+Attaching a patch which fixes this by only requiring nasm-native when
+targeting intel architectures.
 
-Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
----
- meta/classes/populate_sdk_ext.bbclass | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+Cheers,
+    -Tristan
 
-diff --git a/meta/classes/populate_sdk_ext.bbclass b/meta/classes/populate_sdk_ext.bbclass
-index 3bccb14..db822bf 100644
---- a/meta/classes/populate_sdk_ext.bbclass
-+++ b/meta/classes/populate_sdk_ext.bbclass
-@@ -656,7 +656,12 @@ do_populate_sdk_ext[depends] = "${@d.getVarFlag('do_populate_sdk', 'depends', Fa
-                                 ${@'meta-world-pkgdata:do_collect_packagedata' if d.getVar('SDK_INCLUDE_PKGDATA') == '1' else ''} \
-                                 ${@'meta-extsdk-toolchain:do_locked_sigs' if d.getVar('SDK_INCLUDE_TOOLCHAIN') == '1' else ''}"
- 
--do_populate_sdk_ext[rdepends] += "${@' '.join([x + ':do_build' for x in d.getVar('SDK_TARGETS').split()])}"
-+# We must avoid depending on do_build here if rm_work.bbclass is active,
-+# because otherwise do_rm_work may run before do_populate_sdk_ext itself.
-+# We can't mark do_populate_sdk_ext and do_sdk_depends as having to
-+# run before do_rm_work, because then they would also run as part
-+# of normal builds.
-+do_populate_sdk_ext[rdepends] += "${@' '.join([x + ':' + (d.getVar('RM_WORK_BUILD_WITHOUT') or 'do_build') for x in d.getVar('SDK_TARGETS').split()])}"
- 
- # Make sure code changes can result in rebuild
- do_populate_sdk_ext[vardeps] += "copy_buildsystem \
--- 
-git-series 0.9.1
+--=-XyuYD0+eU8B0h0QoyvVA
+Content-Disposition: attachment;
+	filename*0=0001-libjpeg-turbo-Support-building-on-non-intel-targets.patc;
+	filename*1=h
+Content-Transfer-Encoding: base64
+Content-Type: text/x-patch;
+	name="0001-libjpeg-turbo-Support-building-on-non-intel-targets.patch";
+	charset="UTF-8"
 
+RnJvbSBkNzZkNTdhMTQ4ZGQzNzJmZjI2YjliOTAyYjdiNzlhNGRkYjVlN2EyIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBUcmlzdGFuIFZhbiBCZXJrb20gPHRyaXN0YW4udmFuYmVya29t
+QGNvZGV0aGluay5jby51az4KRGF0ZTogRnJpLCAyNCBNYXIgMjAxNyAxNTozNzozNiArMDAwMApT
+dWJqZWN0OiBbUEFUQ0hdIGxpYmpwZWctdHVyYm86IFN1cHBvcnQgYnVpbGRpbmcgb24gbm9uIGlu
+dGVsIHRhcmdldHMuCgpuYXNtIGlzIGludGVsIHNwZWNpZmljLCBob3dldmVyIGxpYmpwZWctdHVy
+Ym8gaXMgc3RpbGwgZGVzaXJhYmxlCm9uIG90aGVyIGFyY2hpdGVjdHVyZXMuCgpXaXRob3V0IHRo
+aXMgcGF0Y2gsIGl0IHdvdWxkIHNlZW0gdGhhdCBuYXNtIGlzIGJ1aWx0IG9uIGFuIGludGVsCmhv
+c3QgYW5kIHRoZW4gaWdub3JlZCB3aGVuIGNvbXBpbGluZyBsaWJqcGVnLXR1cmJvIGZvciBhbiBh
+cm0gdGFyZ2V0LApob3dldmVyIGl0IGhhcyBsaWJqcGVnLXR1cmJvIHJlcXVpcmluZyBuYXNtIGJl
+IGJ1aWx0IHdoZW4gYnVpbGRpbmcKb24gYW4gYXJtL2FhcmNoNjQgaG9zdC4KClRoaXMgZml4ZXMg
+dGhlIGlzc3VlIHNvIHRoYXQgbmFzbS1uYXRpdmUgaXMgbm90IHJlcXVpcmVkIG9uIHRoZSBob3N0
+CndoZW4gYnVpbGRpbmcgZm9yIGFuIGFhcmNoNjQgdGFyZ2V0LgotLS0KIG1ldGEvcmVjaXBlcy1n
+cmFwaGljcy9qcGVnL2xpYmpwZWctdHVyYm9fMS41LjEuYmIgfCAzICsrLQogMSBmaWxlIGNoYW5n
+ZWQsIDIgaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigtKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVj
+aXBlcy1ncmFwaGljcy9qcGVnL2xpYmpwZWctdHVyYm9fMS41LjEuYmIgYi9tZXRhL3JlY2lwZXMt
+Z3JhcGhpY3MvanBlZy9saWJqcGVnLXR1cmJvXzEuNS4xLmJiCmluZGV4IDcwZDM4ZjRhMWEuLmE2
+NTBkNmFmMmQgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy9qcGVnL2xpYmpwZWct
+dHVyYm9fMS41LjEuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL2pwZWcvbGlianBlZy10
+dXJib18xLjUuMS5iYgpAQCAtNyw3ICs3LDggQEAgTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8v
+Y2RqcGVnLmg7ZW5kbGluZT0xMzttZDU9MDViYWI3YzdhZDg5OWQ4NWJmYmE2MGRhMWExMjcKICAg
+ICAgICAgICAgICAgICAgICAgZmlsZTovL2pwZWdsaWIuaDtlbmRsaW5lPTE2O21kNT1mNjdkNzBl
+NTQ3YTI2NjJjMDc5NzgxYzcyZjg3N2Y3MiBcCiAgICAgICAgICAgICAgICAgICAgIGZpbGU6Ly9k
+anBlZy5jO2VuZGxpbmU9MTE7bWQ1PWI5MGI2ZDJiNDExOWY5ZTU4MDdjZDI3M2Y1MjVkMmFmIFwK
+ICIKLURFUEVORFMgPSAibmFzbS1uYXRpdmUiCitERVBFTkRTX2FwcGVuZF94ODYtNjQgPSAiIG5h
+c20tbmF0aXZlIgorREVQRU5EU19hcHBlbmRfeDg2ICAgID0gIiBuYXNtLW5hdGl2ZSIKIAogU1JD
+X1VSSSA9ICIke1NPVVJDRUZPUkdFX01JUlJPUn0vJHtCUE59LyR7QlBOfS0ke1BWfS50YXIuZ3og
+XAogICAgICAgICAgICBmaWxlOi8vZml4LW1pcHMucGF0Y2giCi0tIAoyLjExLjAKCg==
+
+--=-XyuYD0+eU8B0h0QoyvVA--
