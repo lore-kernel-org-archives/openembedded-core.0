@@ -1,43 +1,23 @@
-Return-Path: <pidge@toganlabs.com>
-X-Greylist: delayed 93029 seconds by postgrey-1.34 at layers.openembedded.org;
-	Wed, 29 Mar 2017 13:18:41 UTC
-Received: from burlywood.maple.relay.mailchannels.net
-	(burlywood.maple.relay.mailchannels.net [23.83.214.26])
-	by mail.openembedded.org (Postfix) with ESMTP id D5426605BF
+Return-Path: <openembedded@mindchasers.com>
+X-Greylist: delayed 1736 seconds by postgrey-1.34 at layers.openembedded.org;
+	Wed, 29 Mar 2017 13:18:52 UTC
+Received: from smtp.webfaction.com (mail6.webfaction.com [74.55.86.74])
+	by mail.openembedded.org (Postfix) with ESMTP id 3CA6471AB5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Mar 2017 13:18:41 +0000 (UTC)
-X-Sender-Id: hostpapa|x-authuser|pidge@toganlabs.com
-Received: from relay.mailchannels.net (localhost [127.0.0.1])
-	by relay.mailchannels.net (Postfix) with ESMTP id A4AD1121A62
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Mar 2017 13:18:40 +0000 (UTC)
-Received: from hp181.hostpapa.com (unknown [100.96.131.98])
-	by relay.mailchannels.net (Postfix) with ESMTPA id 1BFBD121819
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Mar 2017 13:18:40 +0000 (UTC)
-X-Sender-Id: hostpapa|x-authuser|pidge@toganlabs.com
-Received: from hp181.hostpapa.com (hp181.hostpapa.com [172.20.66.218])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384)
-	by 0.0.0.0:2500 (trex/5.7.37); Wed, 29 Mar 2017 13:18:40 +0000
-X-MC-Relay: Neutral
-X-MailChannels-SenderId: hostpapa|x-authuser|pidge@toganlabs.com
-X-MailChannels-Auth-Id: hostpapa
-X-Macabre-Slimy: 72ece1551a50a40a_1490793520404_1654603179
-X-MC-Loop-Signature: 1490793520404:3845062622
-X-MC-Ingress-Time: 1490793520403
-Received: from ns325767.ip-37-187-157.eu ([37.187.157.197]:40431
-	helo=ns325767.ovh.net) by hp181.hostpapa.com with esmtpsa
-	(TLSv1.2:ECDHE-RSA-AES128-SHA256:128) (Exim 4.87)
-	(envelope-from <pidge@toganlabs.com>)
-	id 1ctDUl-001N0X-8Y; Wed, 29 Mar 2017 15:18:39 +0200
-From: Elizabeth 'pidge' Flanagan <pidge@toganlabs.com>
+	Wed, 29 Mar 2017 13:18:52 +0000 (UTC)
+Received: from [192.168.1.14] (c-73-10-189-235.hsd1.nj.comcast.net
+	[73.10.189.235])
+	by smtp.webfaction.com (Postfix) with ESMTP id 92A872079372;
+	Wed, 29 Mar 2017 12:49:57 +0000 (UTC)
+From: Bob Cochran <openembedded@mindchasers.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 29 Mar 2017 15:31:25 +0200
-Message-Id: <1490794285-4010-1-git-send-email-pidge@toganlabs.com>
-X-Mailer: git-send-email 1.9.1
-X-OutGoing-Spam-Status: No, score=5.0
-X-AuthUser: pidge@toganlabs.com
-Subject: [PATCHv2] bitbake.conf: Add aws to HOSTTOOLS_NONFATAL
+Message-ID: <699e3efa-95bb-fc2c-ba12-5a5e7807acb9@mindchasers.com>
+Date: Wed, 29 Mar 2017 08:49:56 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.7.0
+MIME-Version: 1.0
+Cc: mlauer@vanille-media.de
+Subject: python: manifest files have a bad link to "Embedded Systems Site"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,30 +30,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Mar 2017 13:18:42 -0000
+X-List-Received-Date: Wed, 29 Mar 2017 13:18:53 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-This adds aws to HOSTTOOLS_NONFATAL in order to get the s3 fetcher
-working again. It also sets FETCHCMD_s3 for completions sake.
+These files: python-2.7-manifest.inc  python-3.5-manifest.inc 
+python-native-2.7-manifest.inc  python-native-3.5-manifest.inc
 
-Signed-off-by: Elizabeth 'pidge' Flanagan <pidge@toganlabs.com>
----
- meta/conf/bitbake.conf | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+all have:
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 96a9ed9..d95e39d 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -469,7 +469,7 @@ HOSTTOOLS += " \
- HOSTTOOLS += "ip ping ps scp ssh stty"
- 
- # Link to these if present
--HOSTTOOLS_NONFATAL += "ccache gcc-ar gpg ld.bfd ld.gold nc sftp socat sudo"
-+HOSTTOOLS_NONFATAL += "aws ccache gcc-ar gpg ld.bfd ld.gold nc sftp socat sudo"
- 
- # Temporary add few more detected in bitbake world
- HOSTTOOLS_NONFATAL += "join nl size yes zcat"
--- 
-1.9.1
+"Visit the Python for Embedded Systems Site => 
+http://www.Vanille.de/projects/python.spy"
+
+That URL returns a 404
+
+Someone want to fix the link?
+
+Otherwise, I'll be happy to submit a patch if provided guidance on what 
+site these files should now reference.
+
+Bob
+
+
+
 
 
