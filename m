@@ -1,44 +1,44 @@
 Return-Path: <raltherr@google.com>
-Received: from mail-wr0-f175.google.com (mail-wr0-f175.google.com
-	[209.85.128.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 4A97677B99
+Received: from mail-wr0-f171.google.com (mail-wr0-f171.google.com
+	[209.85.128.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 735A871A82
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Mar 2017 15:30:48 +0000 (UTC)
-Received: by mail-wr0-f175.google.com with SMTP id w11so19636464wrc.3
+	Wed, 29 Mar 2017 15:33:24 +0000 (UTC)
+Received: by mail-wr0-f171.google.com with SMTP id w43so20424007wrb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Mar 2017 08:30:50 -0700 (PDT)
+	Wed, 29 Mar 2017 08:33:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=RKxj6mH1p9eAVTxLVYt6MdySskIVNtdXo7wufRA40Ik=;
-	b=PcrIN1a3Z3CpEpsNxLbJ6PDWC27u34yGbmJImsOWWZLBGINGUyssaHIbyOFii83GLB
-	aRXPQBqk8TCx+bK2eU289iI+8YVv70JyjtmSwwnTQYDVRq7uj7erBbpRV0zyv81xmc/S
-	Zbjuwelm2exHbV1bLcjb2XRPUIyBpMuVGRKVnjAPbgVdQ69F4TPM0ic4kmBq4w87biG3
-	zRZKlKVhvBjKfI7txhQZRVkSCqFkQwdwkzkIAkYt6NQxv1Wb5l8ROGF8CMDPcQUwaDmM
-	56QN/+zep0jG/JMD7OXZSvJmc+j/tQePw5+H2xC7EY3MiUBrie6kSCMkYXiWpLU3crwq
-	Vjlg==
+	:cc; bh=bkF3imYgGvnXe2E+sRiBaYTYNyPVbx54kITtqvHOyps=;
+	b=QP3Sy4gjUlGtcLd/0Z3BZ7qlmKQAFg/qy4XVMWPUUu3WHgqhcjkCC010IkwU1vLpxM
+	s8WWxpt0YOlp0++fscYelLQFuj39VLsZ2t8Dd1Fu6mPQqf8auZUOcq0PpoMUxMUluFrv
+	4RFRTIH7k4d7Z257j1DlNDzdteYXD3tjBSA1uY10FUxRjwuZ2MkBGonU/Fj7etucpwgG
+	gLnodInSwxTo/zcJ3Wtr8J4SNmbVjGK9ACTh+vdeajbphvnB07m822HXzRmRF4efJ6iP
+	xDLHijm0iILmWeAHc435Y1kuw89AS5TdCWpfXAQixYfOIBDtVhFe1IlnpK7Lm9aftnJu
+	CzyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=RKxj6mH1p9eAVTxLVYt6MdySskIVNtdXo7wufRA40Ik=;
-	b=t3jOlyMZjcvWs7LwU9tn26O16b3Kp8Oa3vPm7KItFr9cLuSgZ1qjmNLwEmXXxfnhfW
-	NU6iZnw1Cg8kIwsAEGxtycmArvmuTonYU79fPIKoczhZazXfmHH1Q4OFFYfrqyRje8dA
-	VJ8ModbnDp1O6ns//d/HNjlZbmcCpbJi6OtDliWIRIXM96BvrzGjv/U156D3p9VOfVFy
-	0RqIEnnSK4N4szYxaNLIsYY0Lry6rLlA+GqCgAMt05GzHbyXdjmsQ2Y8xoXzBOvyQybj
-	VKF7cvapZDTDlGZDe7dzcBs+rsAT8ay38DuhcU9HSmHM8cebKCRbef/exIW1pmkT678C
-	yFzA==
-X-Gm-Message-State: AFeK/H07qavTwqe8TCVEcYLdbs6BLbMsJ6svUL898eZALzixwj0FDut9YAcN0+HIH4usRce6PjT6ga9EWiqoUoyx
-X-Received: by 10.223.164.6 with SMTP id d6mr1081927wra.132.1490801449314;
-	Wed, 29 Mar 2017 08:30:49 -0700 (PDT)
+	bh=bkF3imYgGvnXe2E+sRiBaYTYNyPVbx54kITtqvHOyps=;
+	b=s0ES6RUSJEM/9/DZbmtGi71SX0DjVMP6kaqqN8WpNDPahLmd3z6e5kVUL/nVzJtSaD
+	XGwrk+LRBgFmbe0ov6jjsseYSb70hbUD/4LUVYU3kZfJnZucowk1QDo97X3AHIRi8Dkj
+	olTYtXseNRyf9jKpe+2z8mW3fH3GzlZWvRDJc+tESnPfVHVDpEsi4iTS1dL+zl6KhsMR
+	xXQV8yp8uohGSEyMlfeQY/OWeFPEJ3McvZurfOtYNtD/bt8QfviI9iSbs1PWpZzTGDvs
+	FDBVvjnMTnmIyd0/jp64HFSdco/peZ/odjIUbPlqFjw2V6C5D7Ekey/yLvSmG/5MxMF7
+	iLeA==
+X-Gm-Message-State: AFeK/H1k/RcJN51oWXvu/Jht/fs62Afmba6rESbttg66wqt9wo4C+2zfGTt5C1MTKW0aiviWShtAYnw1LjKakLlG
+X-Received: by 10.28.199.132 with SMTP id x126mr1261090wmf.37.1490801604943;
+	Wed, 29 Mar 2017 08:33:24 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.28.169.8 with HTTP; Wed, 29 Mar 2017 08:30:48 -0700 (PDT)
-In-Reply-To: <alpine.LFD.2.20.1703290532280.1776@uk63952.mitel.com>
+Received: by 10.28.169.8 with HTTP; Wed, 29 Mar 2017 08:33:24 -0700 (PDT)
+In-Reply-To: <alpine.LFD.2.20.1703290647590.19269@uk63952.mitel.com>
 References: <alpine.LFD.2.20.1703281817440.27955@localhost.localdomain>
 	<CAPLgG==F8OV8U6CVZ2yEyErUhCJw+UwHmbEaCmaXpJBaBeLHaA@mail.gmail.com>
-	<alpine.LFD.2.20.1703290532280.1776@uk63952.mitel.com>
+	<alpine.LFD.2.20.1703290647590.19269@uk63952.mitel.com>
 From: Rick Altherr <raltherr@google.com>
-Date: Wed, 29 Mar 2017 08:30:48 -0700
-Message-ID: <CAPLgG=nPSi+MDPnVHdWk8DXEGAZ+48q6DVkLFOwX=69EDskScA@mail.gmail.com>
+Date: Wed, 29 Mar 2017 08:33:24 -0700
+Message-ID: <CAPLgG=mrr9bigbBUB5r=FgrwMLtGzhMZK8vyALgQ7D9MFkmbuw@mail.gmail.com>
 To: "Robert P. J. Day" <rpjday@crashcourse.ca>
 Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
 Subject: Re: is there OE support for building multi-image/component FIT image files?
@@ -54,27 +54,93 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Mar 2017 15:30:50 -0000
+X-List-Received-Date: Wed, 29 Mar 2017 15:33:27 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On Wed, Mar 29, 2017 at 2:33 AM, Robert P. J. Day <rpjday@crashcourse.ca> wrote:
+Looks like this was changed 8 days ago:
+http://git.openembedded.org/openembedded-core/commit/meta/classes/kernel-fitimage.bbclass?id=cd2ed7f80b555add07795cc0cbaee866e6c193a3.
+I was looking at an old local repo.
+
+On Wed, Mar 29, 2017 at 3:52 AM, Robert P. J. Day <rpjday@crashcourse.ca> wrote:
 > On Tue, 28 Mar 2017, Rick Altherr wrote:
 >
 >> kernel-fitimage.bbclass loops through all the DTBs listed in
->> KERNEL_DEVICETREE and adds a FIT section for each one.  It looks like
->> only the first one is put into a config section though.
+>> KERNEL_DEVICETREE and adds a FIT section for each one.  It looks
+>> like only the first one is put into a config section though.
 >
->   maybe i just haven't read far enough, but what value would that
-> have? as i read it, "bootm" can either boot based on an actual image
-> reference, or a configuration entry. i don't see how you can select
-> from among DTBs unless they're referenced in a configuration entry.
+>   that's not what i'm seeing based on a test with YP-provided
+> beaglebone reference board. that machine config file includes the
+> line for two dtb files:
 >
-
-bootm takes 3 arguments: kernel, initrd, fdt.  Each of those can
-reference a specific image within the FIT using
-<fit-address>:<image-name> format.
-
->   can someone clarify this?
+>   KERNEL_DEVICETREE="am335x-bone.dtb am335x-boneblack.dtb"
+>
+> and the resulting .its file generated contains two configurations --
+> using the same kernel, and for each dtb file. i just need to read the
+> code more carefully to verify that it appears to loop through all the
+> dtb files.
+>
+>
+> images {
+>         kernel@1 {
+>                 description = "Linux kernel";
+>                 data = /incbin/("linux.bin");
+>                 type = "kernel";
+>                 arch = "arm";
+>                 os = "linux";
+>                 compression = "none";
+>                 load = <0x80008000>;
+>                 entry = <0x80008000>;
+>                 hash@1 {
+>                         algo = "sha1";
+>                 };
+>         };
+>         fdt@am335x-bone.dtb {
+>                 description = "Flattened Device Tree blob";
+>                 data = /incbin/("arch/arm/boot/dts/am335x-bone.dtb");
+>                 type = "flat_dt";
+>                 arch = "arm";
+>                 compression = "none";
+>                 hash@1 {
+>                         algo = "sha1";
+>                 };
+>         };
+>         fdt@am335x-boneblack.dtb {
+>                 description = "Flattened Device Tree blob";
+>                 data = /incbin/("arch/arm/boot/dts/am335x-boneblack.dtb");
+>                 type = "flat_dt";
+>                 arch = "arm";
+>                 compression = "none";
+>                 hash@1 {
+>                         algo = "sha1";
+>                 };
+>         };
+>         };
+>
+> configurations {
+>         default = "conf@am335x-bone.dtb";
+>         conf@am335x-bone.dtb {
+>                         description = "1 Linux kernel, FDT blob";
+>                         kernel = "kernel@1";
+>                         fdt = "fdt@am335x-bone.dtb";
+>
+>
+>                 hash@1 {
+>                         algo = "sha1";
+>                 };
+>         };
+>
+>         conf@am335x-boneblack.dtb {
+>                         description = "0 Linux kernel, FDT blob";
+>                         kernel = "kernel@1";
+>                         fdt = "fdt@am335x-boneblack.dtb";
+>
+>
+>                 hash@1 {
+>                         algo = "sha1";
+>                 };
+>         };
+> };
+>
 >
 > rday
 >
