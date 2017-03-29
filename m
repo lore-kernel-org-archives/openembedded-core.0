@@ -1,37 +1,38 @@
-Return-Path: <spopovyc@cisco.com>
-Received: from alln-iport-2.cisco.com (alln-iport-2.cisco.com [173.37.142.89])
-	by mail.openembedded.org (Postfix) with ESMTP id B87616078E
+Return-Path: <peter@berginkonsult.se>
+Received: from mailrelay2.public.one.com (mailrelay2.public.one.com
+	[91.198.169.125])
+	by mail.openembedded.org (Postfix) with ESMTP id 9F06A77BFD
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Mar 2017 18:02:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=cisco.com; i=@cisco.com; l=1160; q=dns/txt; s=iport;
-	t=1490810576; x=1492020176;
-	h=from:to:cc:subject:date:message-id;
-	bh=vaRmk9BeZXw1roByTh/IJCKr2Aw2ds4vRBg48UyeByk=;
-	b=X95ZGG80kHPp87LmK5IZS/ByBeSPxi0ALcu+j9OKXUb+tuL2bqEhcP/x
-	buXKuZB9LM7rCRYlykP9CoEm+8G5DFoI8KKwEdbSAugK9wKX/8ts+QViX
-	nZuyZr7JrdIXselQhjO3e82YBcF/qw2nJrIhhAAaNpWy6s2UN+jigmDpB c=;
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-Anti-Spam-Result: =?us-ascii?q?A0ATAQA89ttY/4wNJK1dGQEBAQEBAQEBA?=
-	=?us-ascii?q?QEBBwEBAQEBg1VhgQuNc6UQgg+CDiKGAINFPxgBAgEBAQEBAQFrKIYVgVGJfQ2?=
-	=?us-ascii?q?wGIpSAQEBBygThjuKD4UZBZxghn2LUwKBeokBhjaTah84gQQ6HxWHGUA1iTYBA?=
-	=?us-ascii?q?QE?=
-X-IronPort-AV: E=Sophos;i="5.36,242,1486425600"; d="scan'208";a="400884855"
-Received: from alln-core-7.cisco.com ([173.36.13.140])
-	by alln-iport-2.cisco.com with ESMTP/TLS/DHE-RSA-AES256-SHA;
-	29 Mar 2017 18:02:55 +0000
-Received: from sjc-ads-6963.cisco.com (sjc-ads-6963.cisco.com [10.30.218.83])
-	by alln-core-7.cisco.com (8.14.5/8.14.5) with ESMTP id v2TI2sLe013839
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=NO);
-	Wed, 29 Mar 2017 18:02:54 GMT
-From: Serhii Popovych <spopovyc@cisco.com>
+	Wed, 29 Mar 2017 18:25:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+	d=berginkonsult.se; s=20140924;
+	h=from:subject:date:message-id:to:mime-version:content-type:
+	content-transfer-encoding:in-reply-to:references;
+	bh=L5woexBCvMpfQly7AX5Tg2EpSyUm52ev5NXFi5OlYMo=;
+	b=JkeVwCr4mSJ6YMFFyfEcT/6dPBWMdwj8l6h1QaM+lPEA2b3FMGwNNRV59R2hqHfv+vwYoT3nyNurs
+	bUV9sN3dYsSZV3bPcEV4BOr+RJEpnOGUW9/SlADj3OFODlrbIDMRsdxywwXi/YcchNssBwHKtYEDTa
+	MeDZNfUBtK8N28Os=
+X-HalOne-Cookie: 1020ecabd165a78e18ff8735f9d78dbd5db235a4
+X-HalOne-ID: 167e6cd2-14ad-11e7-bc04-b82a72d03b9b
+Received: from [192.168.100.217] (unknown [37.123.162.211])
+	by smtpfilter2.public.one.com (Halon) with ESMTPSA
+	id 167e6cd2-14ad-11e7-bc04-b82a72d03b9b;
+	Wed, 29 Mar 2017 18:25:30 +0000 (UTC)
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 29 Mar 2017 18:02:52 +0000
-Message-Id: <1490810572-19648-1-git-send-email-spopovyc@cisco.com>
-X-Mailer: git-send-email 2.7.4
-X-Auto-Response-Suppress: DR, OOF, AutoReply
-Cc: XE-Linux <xe-linux-external@cisco.com>
-Subject: [PATCH] dnf: Use lnr to create relative symlinks
+References: <1490731726-14536-1-git-send-email-peter@berginkonsult.se>
+	<1490742158.13980.296.camel@linuxfoundation.org>
+	<2b16b764-38e0-4112-48b4-9e17cbe129c3@berginkonsult.se>
+	<1490783069.13980.307.camel@linuxfoundation.org>
+	<CAJ86T=VJjTvtwBPvY+jW1+P8tDMMjMJuRgsHTZXSgj=F=vjbxA@mail.gmail.com>
+	<20170329172506.jgwc676imi7jk3ps@pengutronix.de>
+From: Peter Bergin <peter@berginkonsult.se>
+Message-ID: <ded5ae42-931f-eef0-9048-1165084a6c87@berginkonsult.se>
+Date: Wed, 29 Mar 2017 20:25:29 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.8.0
+MIME-Version: 1.0
+In-Reply-To: <20170329172506.jgwc676imi7jk3ps@pengutronix.de>
+Subject: Re: [PATCH] busybox: move default config fragments to defconfig
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,33 +45,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Mar 2017 18:02:54 -0000
+X-List-Received-Date: Wed, 29 Mar 2017 18:25:33 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Make use of lnr while creating relative symlinks to enable
-builds on host with old ln that does not support -r option.
+On 2017-03-29 19:25, Ulrich Ölmann wrote:
+> On Wed, Mar 29, 2017 at 08:23:00AM -0700, Andre McCurdy wrote:
+>> On Wed, Mar 29, 2017 at 3:24 AM, Richard Purdie
+>> <richard.purdie@linuxfoundation.org> wrote:
+>>> Also, in case its not apparent, you can work around this today by
+>>> providing empty fragment files in your own layer. These would override
+>>> the default ones in the main recipe if you set it up right.
+>> Or use SRC_URI_remove = "file://login-utilities.cfg" etc.
+> But for both suggested approaches you need to know the existance and name of the
+> config fragment file(s), don't you?
+>
+> Regards
+> Ulrich
 
-Cc: XE-Linux <xe-linux-external@cisco.com>
-Signed-off-by: Serhii Popovych <spopovyc@cisco.com>
----
- meta/recipes-devtools/dnf/dnf_git.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+That is correct. With these approaches you need to specify all present 
+.cfg files either in SRC_URI_remove or as empty files in your local layer.
 
-diff --git a/meta/recipes-devtools/dnf/dnf_git.bb b/meta/recipes-devtools/dnf/dnf_git.bb
-index b6b6cea..1194928 100644
---- a/meta/recipes-devtools/dnf/dnf_git.bb
-+++ b/meta/recipes-devtools/dnf/dnf_git.bb
-@@ -31,8 +31,8 @@ RDEPENDS_${PN}_class-target += "python3-core python3-codecs python3-netclient py
- # .spec file in dnf source tree does (and then Fedora and dnf documentation
- # says that dnf binary is plain 'dnf').
- do_install_append() {
--        ln -s -r ${D}/${bindir}/dnf-3 ${D}/${bindir}/dnf
--        ln -s -r ${D}/${bindir}/dnf-automatic-3 ${D}/${bindir}/dnf-automatic
-+        lnr ${D}/${bindir}/dnf-3 ${D}/${bindir}/dnf
-+        lnr ${D}/${bindir}/dnf-automatic-3 ${D}/${bindir}/dnf-automatic
- }
- 
- # Direct dnf-native to read rpm configuration from our sysroot, not the one it was compiled in
--- 
-2.7.4
+Best regards,
+/Peter
+
 
 
