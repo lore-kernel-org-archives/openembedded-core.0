@@ -1,40 +1,38 @@
 Return-Path: <spopovyc@cisco.com>
-X-Greylist: delayed 374 seconds by postgrey-1.34 at layers.openembedded.org;
-	Wed, 29 Mar 2017 10:04:07 UTC
-Received: from aer-iport-3.cisco.com (aer-iport-3.cisco.com [173.38.203.53])
-	by mail.openembedded.org (Postfix) with ESMTP id DFE3E77B6E
+Received: from aer-iport-4.cisco.com (aer-iport-4.cisco.com [173.38.203.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 6065B77BB4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Mar 2017 10:04:07 +0000 (UTC)
+	Wed, 29 Mar 2017 10:07:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
 	d=cisco.com; i=@cisco.com; l=9383; q=dns/txt; s=iport;
-	t=1490781849; x=1491991449;
-	h=from:subject:to:references:message-id:date:mime-version:
+	t=1490782080; x=1491991680;
+	h=subject:to:references:from:message-id:date:mime-version:
 	in-reply-to:content-transfer-encoding;
 	bh=vCztiazzQA682Ed2Vx7CwH3/YPEvzcOV7Y0eNP/kYSA=;
-	b=PfE8se7kXg/Otz8QoqqMJ6P2K/vAjJovoW3ITc8XLuBnNo2HdV7yKKg9
-	eU6IbDtd/vayEDawJaVDunGIMapQoe35Xwnt2PnVVcefNhOa2aCq8/xVV
-	IgR7uxJhCA+goKuc8KZ74lpvG9qTlvVc/Rxom2AlBWHFhNQZ8sE+WX/3B M=;
+	b=Yzx5wNM3fnPEHTv8ewqF1PFs8iFPJ3DMNtFFyTDXCFtMfR2PY/AxOPX6
+	uhEgawC3PZKxoRQAm2YMimxcU3V4xk4AYuRbHrUChyxEKCbiw1FT47wyL
+	rC3Q9pBMSVXjm5sObOsDT99NibnOfc+5VNfNAmM8+DxR8prcMo7eg3MfH w=;
 X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-Anti-Spam-Result: =?us-ascii?q?A0B3AQBChNtY/xbLJq1dGQEBAQEBAQEBA?=
-	=?us-ascii?q?QEBBwEBAQEBhDaBC41zc5A+H40OhjGCD4IOIoYAAoNzGAECAQEBAQEBAWsohRU?=
-	=?us-ascii?q?BAQEBAgF+CwsRAQIBAgEuPQwGCBMGAgEBiXkFCK94ikoBAQgCJoZOggUIgTiBK?=
-	=?us-ascii?q?oo5AQSJHoZDfIUzhlCGfYtTglCOY0iTIh84gQQ6HxWFGR0ZgU09NYk2AQEB?=
-X-IronPort-AV: E=Sophos;i="5.36,240,1486425600"; d="scan'208";a="651777275"
+X-IronPort-Anti-Spam-Result: =?us-ascii?q?A0D/AACHhNtY/xbLJq1dGQEBAQEBAQEBA?=
+	=?us-ascii?q?QEBBwEBAQEBhDaBC41zc5BdjQ6GMYIPgg4ihgACg3MYAQIBAQEBAQEBayiFFQE?=
+	=?us-ascii?q?BAQECAX4LCxEBAgECAS49DAYIBgEMBgIBAYl5BQiveIpKAQEBAQEBAQEBAQEBA?=
+	=?us-ascii?q?QEBAQEBAQEBHYZOggWBQIEqijkBBIkehkN8hTOGUIZ9i1OCUI5jSJMiHziBBDo?=
+	=?us-ascii?q?fFYUZHRmBTT01iTYBAQE?=
+X-IronPort-AV: E=Sophos;i="5.36,240,1486425600"; d="scan'208";a="653598193"
 Received: from aer-iport-nat.cisco.com (HELO aer-core-2.cisco.com)
 	([173.38.203.22])
-	by aer-iport-3.cisco.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	29 Mar 2017 10:00:52 +0000
+	by aer-iport-4.cisco.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	29 Mar 2017 09:57:53 +0000
 Received: from tuxracer.local ([10.61.216.184]) (authenticated bits=0)
-	by aer-core-2.cisco.com (8.14.5/8.14.5) with ESMTP id v2TA0pw9010595
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Mar 2017 10:00:52 GMT
-From: Serhii Popovych <spopovyc@cisco.com>
-To: openembedded-core@lists.openembedded.org
+	by aer-core-2.cisco.com (8.14.5/8.14.5) with ESMTP id v2T9vrVm009726
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Wed, 29 Mar 2017 09:57:53 GMT
+To: Khem Raj <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org
 References: <4713eca3e627fb1bececc59af252a0768c955d11.1490727266.git.spopovyc@cisco.com>
 	<ec839388-19b4-5daa-d6fe-b9d5c5c9c054@gmail.com>
-Message-ID: <8a3c642f-9844-61e7-10f9-fb478f530b7a@cisco.com>
-Date: Wed, 29 Mar 2017 13:00:51 +0300
+From: Serhii Popovych <spopovyc@cisco.com>
+Message-ID: <858ef934-44d8-484c-319b-f94ab0733b79@cisco.com>
+Date: Wed, 29 Mar 2017 12:57:52 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
 	Thunderbird/45.8.0
 MIME-Version: 1.0
@@ -53,7 +51,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Mar 2017 10:04:08 -0000
+X-List-Received-Date: Wed, 29 Mar 2017 10:08:00 -0000
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 
