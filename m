@@ -1,55 +1,29 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-it0-f46.google.com (mail-it0-f46.google.com
-	[209.85.214.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 7867C65D00
+Return-Path: <ejo@pengutronix.de>
+Received: from metis.ext.4.pengutronix.de (metis.ext.4.pengutronix.de
+	[92.198.50.35])
+	by mail.openembedded.org (Postfix) with ESMTP id BC72277B8B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Mar 2017 08:35:25 +0000 (UTC)
-Received: by mail-it0-f46.google.com with SMTP id e75so84799179itd.1
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Mar 2017 01:35:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:organization:mime-version:content-transfer-encoding;
-	bh=0LIuyGQ/YDB54r08cjDdh+YKAm7vTKGh1OePv61umJo=;
-	b=WsYu2RzhCGBsAYTcIVnplou+eOfF/Wy5/RpV1qd9uPbUt0vc7VfJqJDWP2d8egAlXz
-	Vb3Wotr9a+jETxncvtgDwB6NzL6TIO6eOhhMce2MfVOnCJwneI8/6lbsFJwPVp2Frz/3
-	Gby6M1p5k4zWXcnDXYwI86SFSfF+I8OcGWtpc1GbbcnIB/eS0y615YG8tZ6CAn8+qAPi
-	F6gkUzBehLUmNOXqDgIPSmta6ebQEgRZ0sUTo7OoKCRdZvR2FYLAyd3st2tZrfa6ucaF
-	l0WF1oPCjybfBgo0+MHNwmQpLdNTLSzMfAcWKy9nbE7jk+qowQNnbzxXka+PhgHHvykx
-	qp6w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:organization:mime-version:content-transfer-encoding;
-	bh=0LIuyGQ/YDB54r08cjDdh+YKAm7vTKGh1OePv61umJo=;
-	b=N/8qkMOLmf/BseJyeu9nnVl1PpSTdpRpc27k4mOh4EkQcKDQB099f7gNSpOA6zdcpQ
-	3LoQvJ1KL7ar+KQjp0B9nj4ammRuheZKvtgFatXUTPT6ephGpLl3wbepjUb6p8bUnxun
-	yVTPX6/020JPDAf+PM857t5CGKbU1n1Py1nBTZdC9L1ObUCVi+TjSpUqNRgYMTvXvlTe
-	EUosqxZ1FEFeIJrqsmPK3rW8g0m5iV4h11PZCcXBRibetc+a33R+BGjLcp1pPVZp6/F0
-	9vnWYuMjDMILgAwlfIzWb4p11NtzCKC7PQgeF3JJMhpXQ3dsB1ESOLVJm59qsuGWmHJd
-	05gw==
-X-Gm-Message-State: AFeK/H29KIjXQ4FizJ8jxi1MwwLxcfZCW9qh5KbGoXReDQuv7hOMcUoNRKaRfmGrPNGSWS2/
-X-Received: by 10.107.138.14 with SMTP id m14mr34695042iod.235.1490776527296; 
-	Wed, 29 Mar 2017 01:35:27 -0700 (PDT)
-Received: from pohly-mobl1 (p5DE8D6D7.dip0.t-ipconnect.de. [93.232.214.215])
-	by smtp.gmail.com with ESMTPSA id
-	m63sm3402823ioa.15.2017.03.29.01.35.24
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 29 Mar 2017 01:35:26 -0700 (PDT)
-Message-ID: <1490776523.6396.407.camel@intel.com>
-From: Patrick Ohly <patrick.ohly@intel.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Date: Wed, 29 Mar 2017 10:35:23 +0200
-In-Reply-To: <20170329072316.GA3298@jama>
-References: <20170329072316.GA3298@jama>
-Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
-X-Mailer: Evolution 3.12.9-1+b1 
-Mime-Version: 1.0
-Cc: openembedded-devel <openembedded-devel@lists.openembedded.org>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: State of bitbake world, Failed tasks 2017-03-27
+	Wed, 29 Mar 2017 09:08:27 +0000 (UTC)
+Received: from dude.hi.pengutronix.de ([2001:67c:670:100:1d::7])
+	by metis.ext.pengutronix.de with esmtps
+	(TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.84_2)
+	(envelope-from <ejo@pengutronix.de>)
+	id 1ct9ad-0000oT-LU; Wed, 29 Mar 2017 11:08:27 +0200
+Received: from ejo by dude.hi.pengutronix.de with local (Exim 4.88)
+	(envelope-from <ejo@pengutronix.de>)
+	id 1ct9ad-0008PD-Db; Wed, 29 Mar 2017 11:08:27 +0200
+From: Enrico Jorns <ejo@pengutronix.de>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 29 Mar 2017 11:07:33 +0200
+Message-Id: <20170329090733.32101-1-ejo@pengutronix.de>
+X-Mailer: git-send-email 2.11.0
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::7
+X-SA-Exim-Mail-From: ejo@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+	SAEximRunCond expanded to false
+X-PTX-Original-Recipient: openembedded-core@lists.openembedded.org
+Cc: Enrico Jorns <ejo@pengutronix.de>
+Subject: [PATCH] systemd: make vconsole a PACKAGECONFIG option
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,40 +36,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Mar 2017 08:35:26 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 29 Mar 2017 09:08:28 -0000
 
-On Wed, 2017-03-29 at 09:23 +0200, Martin Jansa wrote:
-> INFO: jenkins-job.sh-1.8.19 Complete log available at http://logs.nslu2-linux.org/buildlogs/oe/world/pyro/log.report.20170328_014155.log
+Allowing to remove the systemd-vconsole-setup package without specifying
+the --disable-vconsole configure option for systemd will make the system
+boot with the failure prompt
 
-That used OE-core 552bd78, if I read this right:
+| systemd-udevd[142]: failed to execute '/lib/systemd/systemd-vconsole-setup' '/lib/systemd/systemd-vconsole-setup': No such file or directory
+| systemd-udevd[96]: Process '/lib/systemd/systemd-vconsole-setup' failed with exit code 2.
 
-        == Tested changes (not included in master yet) - openembedded-core ==
-        latest upstream commit: 
-        552bd78 wic: use kernel_dir to find systemd-efi bootloader
+as the 90-vconsole.rules will still be installed with having a
+RUN+="/lib/systemd/systemd-vconsole-setup" in it that attempts to
+execute a non-existing binary.
 
->     * openembedded-core/meta/recipes-core/ovmf/ovmf_git.bb:do_compile
+Signed-off-by: Enrico Jorns <ejo@pengutronix.de>
+---
+ meta/recipes-core/systemd/systemd_232.bb | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-http://errors.yoctoproject.org/Errors/Details/135202/
-
-"gcc-ar: not found" - that should have been fixed by OE-core 23a12d87a6
-"fix toolchain selection", which is included in OE-core 552bd78 and thus
-should have been included in the build.
-
-However, the error above was "Submitted on: 11/03/17 10:13", which was a
-while ago and in particular before that fix.
-
-Did ovmf really fail in the latest world build?
-
+diff --git a/meta/recipes-core/systemd/systemd_232.bb b/meta/recipes-core/systemd/systemd_232.bb
+index fa6a6a817f..398cb46f0d 100644
+--- a/meta/recipes-core/systemd/systemd_232.bb
++++ b/meta/recipes-core/systemd/systemd_232.bb
+@@ -47,6 +47,7 @@ PACKAGECONFIG ??= "xz \
+                    randomseed \
+                    machined \
+                    backlight \
++                   vconsole \
+                    quotacheck \
+                    hostnamed \
+                    ${@bb.utils.contains('TCLIBC', 'glibc', 'myhostname sysusers', '', d)} \
+@@ -79,6 +80,7 @@ PACKAGECONFIG[resolved] = "--enable-resolved,--disable-resolved"
+ PACKAGECONFIG[networkd] = "--enable-networkd,--disable-networkd"
+ PACKAGECONFIG[machined] = "--enable-machined,--disable-machined"
+ PACKAGECONFIG[backlight] = "--enable-backlight,--disable-backlight"
++PACKAGECONFIG[vconsole] = "--enable-vconsole,--disable-vconsole,,${PN}-vconsole-setup"
+ PACKAGECONFIG[quotacheck] = "--enable-quotacheck,--disable-quotacheck"
+ PACKAGECONFIG[hostnamed] = "--enable-hostnamed,--disable-hostnamed"
+ PACKAGECONFIG[myhostname] = "--enable-myhostname,--disable-myhostname"
+@@ -475,7 +477,6 @@ RDEPENDS_${PN} += "kmod dbus util-linux-mount udev (= ${EXTENDPKGV})"
+ RDEPENDS_${PN} += "volatile-binds update-rc.d"
+ 
+ RRECOMMENDS_${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'serial-getty-generator', '', 'systemd-serialgetty', d)} \
+-                      systemd-vconsole-setup \
+                       systemd-extra-utils \
+                       systemd-compat-units udev-hwdb \
+                       util-linux-agetty  util-linux-fsck e2fsprogs-e2fsck \
 -- 
-Best Regards, Patrick Ohly
-
-The content of this message is my personal opinion only and although
-I am an employee of Intel, the statements I make here in no way
-represent Intel's position on the issue, nor am I authorized to speak
-on behalf of Intel on this matter.
-
-
+2.11.0
 
 
