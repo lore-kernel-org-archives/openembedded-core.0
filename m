@@ -1,37 +1,33 @@
-Return-Path: <denis@denix.org>
-Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.17])
-	by mail.openembedded.org (Postfix) with ESMTP id 298D46067C;
-	Wed, 29 Mar 2017 23:00:36 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mailout4.zoneedit.com (Postfix) with ESMTP id 10EDB20B7A;
-	Wed, 29 Mar 2017 23:00:38 +0000 (UTC)
-Received: from mailout4.zoneedit.com ([127.0.0.1])
-	by localhost (zmo03-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
-	port 10024)
-	with ESMTP id GovNmtFdx35i; Wed, 29 Mar 2017 23:00:38 +0000 (UTC)
-Received: from mail.denix.org (pool-100-15-85-143.washdc.fios.verizon.net
-	[100.15.85.143])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 972162010C;
-	Wed, 29 Mar 2017 23:00:33 +0000 (UTC)
-Received: by mail.denix.org (Postfix, from userid 1000)
-	id 18E1D162450; Wed, 29 Mar 2017 19:00:33 -0400 (EDT)
-Date: Wed, 29 Mar 2017 19:00:33 -0400
-From: Denys Dmytriyenko <denis@denix.org>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Message-ID: <20170329230033.GR15664@denix.org>
-References: <20170327142231.21807-1-marex@denx.de>
-	<1490624701.13980.267.camel@linuxfoundation.org>
-	<5c037512-7bf1-8a3c-cb76-fda7230781a0@denx.de>
-	<20170329215658.GP15664@denix.org>
-	<1490825767.13980.333.camel@linuxfoundation.org>
-MIME-Version: 1.0
-In-Reply-To: <1490825767.13980.333.camel@linuxfoundation.org>
-User-Agent: Mutt/1.5.20 (2009-06-14)
-Cc: Marek Vasut <marex@denx.de>, openembedded-core@lists.openembedded.org,
-	openembedded-devel@lists.openembedded.org
-Subject: Re: [PATCH] u-boot: Update to 2017.03 release
+Return-Path: <francisco.j.pedraza.gonzalez@intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 5DFCE77C25
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 29 Mar 2017 23:12:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+	d=intel.com; i=@intel.com; q=dns/txt; s=intel;
+	t=1490829125; x=1522365125;
+	h=from:to:cc:subject:date:message-id;
+	bh=aTJD8retUppcvg/0gJzQ7c1t3bfgryWW/n/I7Z0nrb4=;
+	b=cWT2EGX+/IuGCgInCg1X0mRVggLVkilbQe6k2nSUdVu8WIeRM6mvngyZ
+	XJnDO/2hAJscavMPuSjPTpWz8AVmxw==;
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	29 Mar 2017 16:12:04 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.36,243,1486454400"; d="scan'208";a="949578796"
+Received: from linux.intel.com ([10.54.29.200])
+	by orsmga003.jf.intel.com with ESMTP; 29 Mar 2017 16:12:03 -0700
+Received: from yocto-ab03.ostc.intel.com (yocto-ab03.ostc.intel.com
+	[10.54.69.73])
+	by linux.intel.com (Postfix) with ESMTP id 2F4606A4080;
+	Wed, 29 Mar 2017 16:11:57 -0700 (PDT)
+From: Francisco Pedraza <francisco.j.pedraza.gonzalez@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 29 Mar 2017 16:12:02 -0700
+Message-Id: <1490829122-31454-1-git-send-email-francisco.j.pedraza.gonzalez@intel.com>
+X-Mailer: git-send-email 1.8.3.1
+Cc: Francisco Pedraza <francisco.j.pedraza.gonzalez@intel.com>
+Subject: [PATCH v5] oeqa/sdk/cases:Adds validation for SDK compatibility tests
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,68 +40,99 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Mar 2017 23:00:37 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Wed, 29 Mar 2017 23:12:03 -0000
 
-On Wed, Mar 29, 2017 at 11:16:07PM +0100, Richard Purdie wrote:
-> On Wed, 2017-03-29 at 17:56 -0400, Denys Dmytriyenko wrote:
-> > On Mon, Mar 27, 2017 at 04:31:16PM +0200, Marek Vasut wrote:
-> > > 
-> > > On 03/27/2017 04:25 PM, Richard Purdie wrote:
-> > > > 
-> > > > On Mon, 2017-03-27 at 16:22 +0200, Marek Vasut wrote:
-> > > > > 
-> > > > > Upgrade U-Boot to the latest version.
-> > > > Wrong list and how does this compare to Ovatio's patch?
-> > > I was not CCed on Otavio's patch :(
-> > Yeah, me neither, unfortunately - people just ignore maintainers file
-> > now.
-> > 
-> > Good thing Ross copied me on the other discussion!
-> 
-> This raises a very valid point which is what any maintainers file is
-> and what it is not.
-> 
-> The one that exists in meta-yocto today has a very specific meaning. I
-> know there is discussion about moving it to OE-Core however if we do so
-> I want to by *really* *really* clear about what being listed there
-> means and does not mean.
-> 
-> As things stand right now, there is no requirement or advice in any of
-> our guides to cc "maintainers". People struggle to send patches as it
-> is and giving them more hoops to jump through doesn't seem like a
-> brilliant idea to me. I know we can create a file with all kinds of
-> path matching for files people care/don't care about but I worry this
-> will descend into complicated scripts and people still getting upset
-> when they were cc'd needlessly or weren't cc'd etc.
-> 
-> I also quite strongly dislike the "I own X, so only I can change it"
-> type view, to be the maintainers are people who help look after
-> specific areas in the absence of anyone else and help review patches
-> that come in. They certainly get significant influence on things but
-> the price for that is they also have to help fix issues and figure out
-> ways of helping others with issues in that area.
-> 
-> So please think very carefully about what you want this "maintainers"
-> file to be/not be as I worry its a huge can of worms we once tried in
-> OE before...
+Added validation for SDK compatibility tests with eSDK.
+buildiptables, gcc, perl, python and buildgalculator based on target manifest file.Running with: $ bitbake <image> -c testsdkext
+[YOCTO #9090]
 
-Well, this reminds me of numerous discussions we've had in the past at several 
-OEDEMs and OEDAMs about maintainers file and requirements/responsibilities it 
-carries - unfortunately we never been able to resolve it one way or another. I 
-guess we'll try finalizing it again with the renewed effort now...
+Signed-off-by: Francisco Pedraza <francisco.j.pedraza.gonzalez@intel.com>
+---
+ meta/lib/oeqa/sdk/cases/buildgalculator.py | 4 +++-
+ meta/lib/oeqa/sdk/cases/buildiptables.py   | 4 +++-
+ meta/lib/oeqa/sdk/cases/gcc.py             | 4 +++-
+ meta/lib/oeqa/sdk/cases/perl.py            | 5 ++++-
+ meta/lib/oeqa/sdk/cases/python.py          | 5 ++++-
+ 5 files changed, 17 insertions(+), 5 deletions(-)
 
-
-As of u-boot - wasn't trying to claim ownership at all. In the past we've had 
-a number of updates from TI, as it's a bootloader of choice for our platforms. 
-Somehow I got assigned as a maintainer for the corresponding recipes. I know 
-Otavio is also responsible for some changes there, from his involvement with 
-Freescale. And at OEDEM last fall, I had a good conversation with Marek about 
-u-boot recipes, we've discussed restructuring and re-versioning plans and 
-since then he's copying me on his updates - I'm trying to review and/or test 
-his changes as much as I can. That's all to it.
-
+diff --git a/meta/lib/oeqa/sdk/cases/buildgalculator.py b/meta/lib/oeqa/sdk/cases/buildgalculator.py
+index 42e8ddb..f309ddf 100644
+--- a/meta/lib/oeqa/sdk/cases/buildgalculator.py
++++ b/meta/lib/oeqa/sdk/cases/buildgalculator.py
+@@ -9,7 +9,9 @@ class GalculatorTest(OESDKTestCase):
+     @classmethod
+     def setUpClass(self):
+         if not (self.tc.hasTargetPackage("gtk+3") or\
+-                self.tc.hasTargetPackage("libgtk-3.0")):
++                self.tc.hasTargetPackage("libgtk-3.0") or
++                self.tc.hasTargetPackage("gtk") or
++                self.tc.hasTargetPackage("matchbox-config-gtk")):
+             raise unittest.SkipTest("GalculatorTest class: SDK don't support gtk+3")
+ 
+     def test_galculator(self):
+diff --git a/meta/lib/oeqa/sdk/cases/buildiptables.py b/meta/lib/oeqa/sdk/cases/buildiptables.py
+index 0bd00d1..1795f6a 100644
+--- a/meta/lib/oeqa/sdk/cases/buildiptables.py
++++ b/meta/lib/oeqa/sdk/cases/buildiptables.py
+@@ -17,7 +17,9 @@ class BuildIptablesTest(OESDKTestCase):
+ 
+         machine = self.td.get("MACHINE")
+ 
+-        if not self.tc.hasHostPackage("packagegroup-cross-canadian-%s" % machine):
++        if not (self.tc.hasTargetPackage("packagegroup-cross-canadian-%s" % machine) or
++                self.tc.hasTargetPackage("gcc-runtime") or
++                self.tc.hasTargetPackage("libgcc")):
+             raise unittest.SkipTest("SDK doesn't contain a cross-canadian toolchain")
+ 
+     def test_iptables(self):
+diff --git a/meta/lib/oeqa/sdk/cases/gcc.py b/meta/lib/oeqa/sdk/cases/gcc.py
+index 74ad2a2..a7e6026 100644
+--- a/meta/lib/oeqa/sdk/cases/gcc.py
++++ b/meta/lib/oeqa/sdk/cases/gcc.py
+@@ -18,7 +18,9 @@ class GccCompileTest(OESDKTestCase):
+ 
+     def setUp(self):
+         machine = self.td.get("MACHINE")
+-        if not self.tc.hasHostPackage("packagegroup-cross-canadian-%s" % machine):
++        if not (self.tc.hasTargetPackage("packagegroup-cross-canadian-%s" % machine) or
++                self.tc.hasTargetPackage("gcc-runtime") or
++                self.tc.hasTargetPackage("libgcc")):
+             raise unittest.SkipTest("GccCompileTest class: SDK doesn't contain a cross-canadian toolchain")
+ 
+     def test_gcc_compile(self):
+diff --git a/meta/lib/oeqa/sdk/cases/perl.py b/meta/lib/oeqa/sdk/cases/perl.py
+index e1bded2..8be9b74 100644
+--- a/meta/lib/oeqa/sdk/cases/perl.py
++++ b/meta/lib/oeqa/sdk/cases/perl.py
+@@ -8,7 +8,10 @@ from oeqa.sdk.case import OESDKTestCase
+ class PerlTest(OESDKTestCase):
+     @classmethod
+     def setUpClass(self):
+-        if not self.tc.hasHostPackage("nativesdk-perl"):
++        if not (self.tc.hasHostPackage("nativesdk-perl") or
++                self.tc.hasHostPackage("perl-native") or
++                self.tc.hasHostPackage("libperl5") or
++                self.tc.hasHostPackage("perl")):
+             raise unittest.SkipTest("No perl package in the SDK")
+ 
+         for f in ['test.pl']:
+diff --git a/meta/lib/oeqa/sdk/cases/python.py b/meta/lib/oeqa/sdk/cases/python.py
+index 94a296f..29705bf 100644
+--- a/meta/lib/oeqa/sdk/cases/python.py
++++ b/meta/lib/oeqa/sdk/cases/python.py
+@@ -8,7 +8,10 @@ from oeqa.sdk.case import OESDKTestCase
+ class PythonTest(OESDKTestCase):
+     @classmethod
+     def setUpClass(self):
+-        if not self.tc.hasHostPackage("nativesdk-python"):
++        if not (self.tc.hasHostPackage("nativesdk-python") or
++                self.tc.hasHostPackage("python-smartpm-native") or
++                self.tc.hasHostPackage("nativesdk-python3")):
++
+             raise unittest.SkipTest("No python package in the SDK")
+ 
+         for f in ['test.py']:
 -- 
-Denys
+1.8.3.1
+
 
