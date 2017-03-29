@@ -1,28 +1,59 @@
-Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 9EB0B6093E
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
+	by mail.openembedded.org (Postfix) with ESMTP id 916ED6FFFB
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Mar 2017 23:39:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-	d=intel.com; i=@intel.com; q=dns/txt; s=intel;
-	t=1490830789; x=1522366789;
-	h=from:to:cc:subject:date:message-id;
-	bh=4mWndtoOXzzUKF0GmkIvwuZjJaLRcZc0ZQGNbdnunis=;
-	b=JQj/gVbMafzghE1KHwP4++5nW3JZM+cl0jTea6+JnNU3tmZv4vw2rdro
-	jiDLE1oc6taevfHQmw5ER387iO44+g==;
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	29 Mar 2017 16:39:48 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.36,243,1486454400"; d="scan'208";a="241822333"
-Received: from yctb05.ostc.intel.com ([10.54.69.59])
-	by fmsmga004.fm.intel.com with ESMTP; 29 Mar 2017 16:39:48 -0700
-From: leonardo.sandoval.gonzalez@linux.intel.com
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 29 Mar 2017 23:39:21 -0700
-Message-Id: <20170330063921.31988-1-leonardo.sandoval.gonzalez@linux.intel.com>
-X-Mailer: git-send-email 2.10.2
-Subject: [PATCH] selftest/pkgdata: support musl on unit tests
+	Wed, 29 Mar 2017 23:54:35 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bes.se.axis.com (Postfix) with ESMTP id AFD2C2E307;
+	Thu, 30 Mar 2017 01:54:36 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
+Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024)
+	with LMTP id UPztQ0xoIchx; Thu, 30 Mar 2017 01:54:34 +0200 (CEST)
+Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
+	by bes.se.axis.com (Postfix) with ESMTPS id 3185A2E310;
+	Thu, 30 Mar 2017 01:54:34 +0200 (CEST)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id E3CF81A08B;
+	Thu, 30 Mar 2017 01:54:33 +0200 (CEST)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id C327D1A08A;
+	Thu, 30 Mar 2017 01:54:33 +0200 (CEST)
+Received: from seth.se.axis.com (unknown [10.0.2.172])
+	by boulder02.se.axis.com (Postfix) with ESMTP;
+	Thu, 30 Mar 2017 01:54:33 +0200 (CEST)
+Received: from XBOX03.axis.com (xbox03.axis.com [10.0.5.17])
+	by seth.se.axis.com (Postfix) with ESMTP id B6C112211;
+	Thu, 30 Mar 2017 01:54:33 +0200 (CEST)
+Received: from XBOX02.axis.com (10.0.5.16) by XBOX03.axis.com (10.0.5.17) with
+	Microsoft SMTP Server (TLS) id 15.0.1210.3;
+	Thu, 30 Mar 2017 01:54:33 +0200
+Received: from XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776]) by
+	XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776%21]) with mapi id
+	15.00.1210.000; Thu, 30 Mar 2017 01:54:33 +0200
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: Christopher Larson <kergoth@gmail.com>, Andrea Adami
+	<andrea.adami@gmail.com>
+Thread-Topic: [OE-core] [PATCH 1/3] update_gio_module_cache: fix host user
+	contamination
+Thread-Index: AQHSqMy+ftYqO79LcUuKzcUTa+PdT6Gseq8g
+Date: Wed, 29 Mar 2017 23:54:33 +0000
+Message-ID: <9d94d2771cd34d5fa5f1f3df1ee52ffa@XBOX02.axis.com>
+References: <cover.1490717618.git.chris_larson@mentor.com>
+	<f619859747304e1ed4ba32488ea416419ede955d.1490717618.git.chris_larson@mentor.com>
+	<CAAQYJAvnEY2=jHs6dkjk0aSR74s6+4xYLEQMsp4yVXjngsWQ4g@mail.gmail.com>
+	<CABcZAN=vQzdwxd6F=nGBq0TWhOjx8kw0_MZfPpN82V=pbntF5g@mail.gmail.com>
+In-Reply-To: <CABcZAN=vQzdwxd6F=nGBq0TWhOjx8kw0_MZfPpN82V=pbntF5g@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.60]
+MIME-Version: 1.0
+X-TM-AS-GCONF: 00
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/3] update_gio_module_cache: fix host user	contamination
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,127 +66,265 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Mar 2017 23:39:47 -0000
+X-List-Received-Date: Wed, 29 Mar 2017 23:54:37 -0000
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_9d94d2771cd34d5fa5f1f3df1ee52ffaXBOX02axiscom_"
 
-From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+--_000_9d94d2771cd34d5fa5f1f3df1ee52ffaXBOX02axiscom_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Test cases should be agnostic to supported distro/tclibc, so consider
-musl libc on pkgdata unit tests.
+DQpGcm9tOiBvcGVuZW1iZWRkZWQtY29yZS1ib3VuY2VzQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcg
+W21haWx0bzpvcGVuZW1iZWRkZWQtY29yZS1ib3VuY2VzQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmdd
+IE9uIEJlaGFsZiBPZiBDaHJpc3RvcGhlciBMYXJzb24NClNlbnQ6IGRlbiAyOSBtYXJzIDIwMTcg
+MjI6NDANClRvOiBBbmRyZWEgQWRhbWkNCkNjOiBvcGVuZW1iZWRkZWQtY29yZQ0KU3ViamVjdDog
+UmU6IFtPRS1jb3JlXSBbUEFUQ0ggMS8zXSB1cGRhdGVfZ2lvX21vZHVsZV9jYWNoZTogZml4IGhv
+c3QgdXNlciBjb250YW1pbmF0aW9uDQoNCg0KT24gV2VkLCBNYXIgMjksIDIwMTcgYXQgMTozMyBQ
+TSwgQW5kcmVhIEFkYW1pIDxhbmRyZWEuYWRhbWlAZ21haWwuY29tPG1haWx0bzphbmRyZWEuYWRh
+bWlAZ21haWwuY29tPj4gd3JvdGU6DQpPbiBUdWUsIE1hciAyOCwgMjAxNyBhdCA2OjE0IFBNLCBD
+aHJpc3RvcGhlciBMYXJzb24gPGtlcmdvdGhAZ21haWwuY29tPG1haWx0bzprZXJnb3RoQGdtYWls
+LmNvbT4+IHdyb3RlOg0KPiBGcm9tOiBBYmR1ciBSZWhtYW4gPGFiZHVyX3JlaG1hbkBtZW50b3Iu
+Y29tPG1haWx0bzphYmR1cl9yZWhtYW5AbWVudG9yLmNvbT4+DQo+DQo+IHVwZGF0ZV9naW9fbW9k
+dWxlX2NhY2hlIGludGVyY2VwdCBjcmVhdGVzIGZpbGU6DQo+ICREJHtsaWJkaXJ9L2dpby9tb2R1
+bGVzL2dpb21vZHVsZS5jYWNoZQ0KPg0KPiBDaGFuZ2Ugb3duZXJzaGlwIG9mIHRoaXMgZmlsZSB0
+byByb290OnJvb3QgdG8gYXZvaWQgdXNlciBjb250YW1pbmF0aW9uDQo+IGJ5IGhvc3QuDQo+DQo+
+IFNpZ25lZC1vZmYtYnk6IEFiZHVyIFJlaG1hbiA8YWJkdXJfcmVobWFuQG1lbnRvci5jb208bWFp
+bHRvOmFiZHVyX3JlaG1hbkBtZW50b3IuY29tPj4NCj4gU2lnbmVkLW9mZi1ieTogQ2hyaXN0b3Bo
+ZXIgTGFyc29uIDxjaHJpc19sYXJzb25AbWVudG9yLmNvbTxtYWlsdG86Y2hyaXNfbGFyc29uQG1l
+bnRvci5jb20+Pg0KPiAtLS0NCj4gIHNjcmlwdHMvcG9zdGluc3QtaW50ZXJjZXB0cy91cGRhdGVf
+Z2lvX21vZHVsZV9jYWNoZSB8IDIgKysNCj4gIDEgZmlsZSBjaGFuZ2VkLCAyIGluc2VydGlvbnMo
+KykNCj4NCj4gZGlmZiAtLWdpdCBhL3NjcmlwdHMvcG9zdGluc3QtaW50ZXJjZXB0cy91cGRhdGVf
+Z2lvX21vZHVsZV9jYWNoZSBiL3NjcmlwdHMvcG9zdGluc3QtaW50ZXJjZXB0cy91cGRhdGVfZ2lv
+X21vZHVsZV9jYWNoZQ0KPiBpbmRleCBmZTQ2ODA5MmNmLi45MjA5MmYyMTQ0IDEwMDY0NA0KPiAt
+LS0gYS9zY3JpcHRzL3Bvc3RpbnN0LWludGVyY2VwdHMvdXBkYXRlX2dpb19tb2R1bGVfY2FjaGUN
+Cj4gKysrIGIvc2NyaXB0cy9wb3N0aW5zdC1pbnRlcmNlcHRzL3VwZGF0ZV9naW9fbW9kdWxlX2Nh
+Y2hlDQo+IEBAIC01LDMgKzUsNSBAQCBzZXQgLWUNCj4gIFBTRVVET19VTkxPQUQ9MSBxZW11d3Jh
+cHBlciAtTCAkRCAtRSBMRF9MSUJSQVJZX1BBVEg9JEQke2xpYmRpcn06JEQke2Jhc2VfbGliZGly
+fSBcDQo+ICAgICAgICAgICREJHtsaWJleGVjZGlyfS8ke2JpbnByZWZpeH1naW8tcXVlcnltb2R1
+bGVzICREJHtsaWJkaXJ9L2dpby9tb2R1bGVzLw0KPg0KPiArY2hvd24gcm9vdDpyb290ICREJHts
+aWJkaXJ9L2dpby9tb2R1bGVzL2dpb21vZHVsZS5jYWNoZQ0KPiArDQo+IC0tDQo+IDIuMTEuMQ0K
+Pg0KPiAtLQ0KPiBfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+Xw0KPiBPcGVuZW1iZWRkZWQtY29yZSBtYWlsaW5nIGxpc3QNCj4gT3BlbmVtYmVkZGVkLWNvcmVA
+bGlzdHMub3BlbmVtYmVkZGVkLm9yZzxtYWlsdG86T3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3Bl
+bmVtYmVkZGVkLm9yZz4NCj4gaHR0cDovL2xpc3RzLm9wZW5lbWJlZGRlZC5vcmcvbWFpbG1hbi9s
+aXN0aW5mby9vcGVuZW1iZWRkZWQtY29yZQ0KDQoNCkhlbGxvLA0KVGhlcmUgbXVzdCBiZSBzb21l
+dGhpbmcgd3Jvbmcgd2l0aCB0aGlzIHBhdGNoLg0KQWZ0ZXIgZnJlc2ggcHVsbCBvZiBhbiBob3Vy
+IGFnbyBJIGdpdDoNCg0KYW5kcmVhQFRoaW5rUGFkLVQ1MjA6L29lL29lLWNvcmUvYnVpbGQkIGJp
+dGJha2UgY29yZS1pbWFnZS1iYXNlDQpMb2FkaW5nIGNhY2hlOiAxMDAlIHwjIyMjIyMjIyMjIyMj
+IyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjI3wgVGltZTogMDowMDowMA0KTG9hZGVkIDIw
+OTUgZW50cmllcyBmcm9tIGRlcGVuZGVuY3kgY2FjaGUuDQpOT1RFOiBSZXNvbHZpbmcgYW55IG1p
+c3NpbmcgdGFzayBxdWV1ZSBkZXBlbmRlbmNpZXMNCg0KQnVpbGQgQ29uZmlndXJhdGlvbjoNCkJC
+X1ZFUlNJT04gICAgICAgID0gIjEuMzMuMiINCkJVSUxEX1NZUyAgICAgICAgID0gIng4Nl82NC1s
+aW51eCINCk5BVElWRUxTQlNUUklORyAgID0gInVidW50dS0xNi4wNCINClRBUkdFVF9TWVMgICAg
+ICAgID0gImFybS1vZS1saW51eC1nbnVlYWJpIg0KTUFDSElORSAgICAgICAgICAgPSAiYzd4MCIN
+CkRJU1RSTyAgICAgICAgICAgID0gIm5vZGlzdHJvIg0KRElTVFJPX1ZFUlNJT04gICAgPSAibm9k
+aXN0cm8uMCINClRVTkVfRkVBVFVSRVMgICAgID0gImFybSBhcm12NSB0aHVtYiBkc3AiDQpUQVJH
+RVRfRlBVICAgICAgICA9ICJzb2Z0Ig0KbWV0YSAgICAgICAgICAgICAgPSAibWFzdGVyOmMxODcz
+MjZhZmNmMWU5ZDc4MWMxYmQwOTIzZTEzNjJhNmY1MGY2MTMiDQptZXRhLWhhbmRoZWxkICAgICA9
+ICJtYXN0ZXI6Zjg4ZjViYzU0NmVjMThkZTIzMmE5MWRjMWM4MTg1YWQyNDJjNDVmNyINCm1ldGEt
+b2UNCm1ldGEtaW5pdHJhbWZzICAgID0gIm1hc3RlcjoyMjVlNjRkOTViYzQxMDc3NzgyODE1ZjNk
+Y2ViNmYyZDFhNDJiMTY3Ig0KDQpJbml0aWFsaXNpbmcgdGFza3M6IDEwMCUgfCMjIyMjIyMjIyMj
+IyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjI3wgVGltZTogMDowMDowOA0KTk9URTogRXhlY3V0
+aW5nIFNldFNjZW5lIFRhc2tzDQpOT1RFOiBFeGVjdXRpbmcgUnVuUXVldWUgVGFza3MNCldBUk5J
+Tkc6IGNvcmUtaW1hZ2UtYmFzZS0xLjAtcjAgZG9fcm9vdGZzOiBUaGUgcG9zdGluc3RhbGwgaW50
+ZXJjZXB0DQpob29rICd1cGRhdGVfZ2lvX21vZHVsZV9jYWNoZScgZmFpbGVkIChleGl0IGNvZGU6
+IDEpISBTZWUgbG9nIGZvcg0KZGV0YWlscyEgKE91dHB1dDogYicnKQ0KV0FSTklORzogY29yZS1p
+bWFnZS1iYXNlLTEuMC1yMCBkb19yb290ZnM6IFRoZSBwb3N0aW5zdGFsbHMgZm9yIHRoZQ0KZm9s
+bG93aW5nIHBhY2thZ2VzIHdpbGwgYmUgcG9zdHBvbmVkIGZvciBmaXJzdCBib290OiBsaWJnbGli
+LTIuMC0wDQpOT1RFOiBUYXNrcyBTdW1tYXJ5OiBBdHRlbXB0ZWQgMzQ0MCB0YXNrcyBvZiB3aGlj
+aCAzNDI3IGRpZG4ndCBuZWVkIHRvDQpiZSByZXJ1biBhbmQgYWxsIHN1Y2NlZWRlZC4NCg0KT2Rk
+LCB3ZeKAmXZlIGJlZW4gcnVubmluZyB3aXRoIHRoaXMgYXBwbGllZCBmb3IgYWdlcy4gSXMgdGhl
+cmUgYW55dGhpbmcgdXNlZnVsIGluIGRvX3Jvb3Rmcz8gSeKAmWxsIGF0dGVtcHQgdG8gcmVwcm8g
+aGVyZS4gVGhhbmtzLCBhbmQgc29ycnkgZm9yIHRoZSBoYXNzbGUuDQotLQ0KQ2hyaXN0b3BoZXIg
+TGFyc29uDQprZXJnb3RoIGF0IGdtYWlsIGRvdCBjb20NCkZvdW5kZXIgLSBCaXRCYWtlLCBPcGVu
+RW1iZWRkZWQsIE9wZW5aYXVydXMNClNlbmlvciBTb2Z0d2FyZSBFbmdpbmVlciwgTWVudG9yIEdy
+YXBoaWNzDQoNCkkgaGF2ZSBzZW50IGEgcGF0Y2ggdG8gZml4IHRoaXMuIFRoZSBpbnRlcmVzdGlu
+ZyBwYXJ0IGZyb20gdGhlIGxvZyB3YXM6DQoNCmNob3duOiBjYW5ub3QgYWNjZXNzIGAke1dPUktE
+SVJ9L3Jvb3Rmcy91c3IvbGliL2dpby9tb2R1bGVzL2dpb21vZHVsZS5jYWNoZSc6IE5vIHN1Y2gg
+ZmlsZSBvciBkaXJlY3RvcnkNCg0KT25lIHRoaW5nIHRoYXQgY29uZnVzZXMgbWUgdGhvdWdoIGlz
+IHRoZSDigJwoT3V0cHV0OiBiJycp4oCdIHBhcnQgaW4gdGhlIHdhcm5pbmcgYmVsb3c6DQoNCldB
+Uk5JTkc6IGNvcmUtaW1hZ2UtYmFzZS0xLjAtcjAgZG9fcm9vdGZzOiBUaGUgcG9zdGluc3RhbGwg
+aW50ZXJjZXB0IGhvb2sgJ3VwZGF0ZV9naW9fbW9kdWxlX2NhY2hlJyBmYWlsZWQgKGV4aXQgY29k
+ZTogMSkhIFNlZSBsb2cgZm9yIGRldGFpbHMhIChPdXRwdXQ6IGInJykNCg0KV2hhdCBkb2VzIHRo
+YXQgYicnIG1lYW4/DQoNCi8vUGV0ZXINCg0K
 
-[YOCTO #10890]
+--_000_9d94d2771cd34d5fa5f1f3df1ee52ffaXBOX02axiscom_
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
----
- meta/lib/oeqa/selftest/pkgdata.py | 39 ++++++++++++++++++++++++---------------
- 1 file changed, 24 insertions(+), 15 deletions(-)
+PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
+bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
+YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
+cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
+VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
+Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
+ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
+PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
+IkNhbWJyaWEgTWF0aCI7DQoJcGFub3NlLTE6MiA0IDUgMyA1IDQgNiAzIDIgNDt9DQpAZm9udC1m
+YWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIgMiAyIDQgMyAy
+IDQ7fQ0KQGZvbnQtZmFjZQ0KCXtmb250LWZhbWlseTpDb25zb2xhczsNCglwYW5vc2UtMToyIDEx
+IDYgOSAyIDIgNCAzIDIgNDt9DQovKiBTdHlsZSBEZWZpbml0aW9ucyAqLw0KcC5Nc29Ob3JtYWws
+IGxpLk1zb05vcm1hbCwgZGl2Lk1zb05vcm1hbA0KCXttYXJnaW46MGNtOw0KCW1hcmdpbi1ib3R0
+b206LjAwMDFwdDsNCglmb250LXNpemU6MTIuMHB0Ow0KCWZvbnQtZmFtaWx5OiJUaW1lcyBOZXcg
+Um9tYW4iLHNlcmlmO30NCmE6bGluaywgc3Bhbi5Nc29IeXBlcmxpbmsNCgl7bXNvLXN0eWxlLXBy
+aW9yaXR5Ojk5Ow0KCWNvbG9yOmJsdWU7DQoJdGV4dC1kZWNvcmF0aW9uOnVuZGVybGluZTt9DQph
+OnZpc2l0ZWQsIHNwYW4uTXNvSHlwZXJsaW5rRm9sbG93ZWQNCgl7bXNvLXN0eWxlLXByaW9yaXR5
+Ojk5Ow0KCWNvbG9yOnB1cnBsZTsNCgl0ZXh0LWRlY29yYXRpb246dW5kZXJsaW5lO30NCnNwYW4u
+YWJuDQoJe21zby1zdHlsZS1uYW1lOmFibjt9DQpzcGFuLmFxag0KCXttc28tc3R5bGUtbmFtZTph
+cWo7fQ0Kc3Bhbi5FbWFpbFN0eWxlMTkNCgl7bXNvLXN0eWxlLXR5cGU6cGVyc29uYWwtcmVwbHk7
+DQoJZm9udC1mYW1pbHk6IkNhbGlicmkiLHNhbnMtc2VyaWY7DQoJY29sb3I6Izk0MzYzNDsNCglm
+b250LXdlaWdodDpub3JtYWw7DQoJZm9udC1zdHlsZTpub3JtYWw7DQoJdGV4dC1kZWNvcmF0aW9u
+Om5vbmUgbm9uZTt9DQouTXNvQ2hwRGVmYXVsdA0KCXttc28tc3R5bGUtdHlwZTpleHBvcnQtb25s
+eTt9DQpAcGFnZSBXb3JkU2VjdGlvbjENCgl7c2l6ZTo2MTIuMHB0IDc5Mi4wcHQ7DQoJbWFyZ2lu
+OjcyLjBwdCA3Mi4wcHQgNzIuMHB0IDcyLjBwdDt9DQpkaXYuV29yZFNlY3Rpb24xDQoJe3BhZ2U6
+V29yZFNlY3Rpb24xO30NCi0tPjwvc3R5bGU+PCEtLVtpZiBndGUgbXNvIDldPjx4bWw+DQo8bzpz
+aGFwZWRlZmF1bHRzIHY6ZXh0PSJlZGl0IiBzcGlkbWF4PSIxMDI2IiAvPg0KPC94bWw+PCFbZW5k
+aWZdLS0+PCEtLVtpZiBndGUgbXNvIDldPjx4bWw+DQo8bzpzaGFwZWxheW91dCB2OmV4dD0iZWRp
+dCI+DQo8bzppZG1hcCB2OmV4dD0iZWRpdCIgZGF0YT0iMSIgLz4NCjwvbzpzaGFwZWxheW91dD48
+L3htbD48IVtlbmRpZl0tLT4NCjwvaGVhZD4NCjxib2R5IGxhbmc9IkVOLVVTIiBsaW5rPSJibHVl
+IiB2bGluaz0icHVycGxlIj4NCjxkaXYgY2xhc3M9IldvcmRTZWN0aW9uMSI+DQo8cCBjbGFzcz0i
+TXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVv
+dDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWY7Y29sb3I6Izk0MzYzNCI+PG86cD4mbmJzcDs8L286
+cD48L3NwYW4+PC9wPg0KPGRpdiBzdHlsZT0iYm9yZGVyOm5vbmU7Ym9yZGVyLWxlZnQ6c29saWQg
+Ymx1ZSAxLjVwdDtwYWRkaW5nOjBjbSAwY20gMGNtIDQuMHB0Ij4NCjxkaXY+DQo8ZGl2IHN0eWxl
+PSJib3JkZXI6bm9uZTtib3JkZXItdG9wOnNvbGlkICNFMUUxRTEgMS4wcHQ7cGFkZGluZzozLjBw
+dCAwY20gMGNtIDBjbSI+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48Yj48c3BhbiBzdHlsZT0iZm9u
+dC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWYi
+PkZyb206PC9zcGFuPjwvYj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWls
+eTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWYiPiBvcGVuZW1iZWRkZWQtY29yZS1ib3Vu
+Y2VzQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcgW21haWx0bzpvcGVuZW1iZWRkZWQtY29yZS1ib3Vu
+Y2VzQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmddDQo8Yj5PbiBCZWhhbGYgT2YgPC9iPkNocmlzdG9w
+aGVyIExhcnNvbjxicj4NCjxiPlNlbnQ6PC9iPiBkZW4gMjkgbWFycyAyMDE3IDIyOjQwPGJyPg0K
+PGI+VG86PC9iPiBBbmRyZWEgQWRhbWk8YnI+DQo8Yj5DYzo8L2I+IG9wZW5lbWJlZGRlZC1jb3Jl
+PGJyPg0KPGI+U3ViamVjdDo8L2I+IFJlOiBbT0UtY29yZV0gW1BBVENIIDEvM10gdXBkYXRlX2dp
+b19tb2R1bGVfY2FjaGU6IGZpeCBob3N0IHVzZXIgY29udGFtaW5hdGlvbjxvOnA+PC9vOnA+PC9z
+cGFuPjwvcD4NCjwvZGl2Pg0KPC9kaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpwPiZuYnNw
+OzwvbzpwPjwvcD4NCjxkaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PG86cD4mbmJz
+cDs8L286cD48L3A+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+T24gV2VkLCBNYXIgMjks
+IDIwMTcgYXQgMTozMyBQTSwgQW5kcmVhIEFkYW1pICZsdDs8YSBocmVmPSJtYWlsdG86YW5kcmVh
+LmFkYW1pQGdtYWlsLmNvbSIgdGFyZ2V0PSJfYmxhbmsiPmFuZHJlYS5hZGFtaUBnbWFpbC5jb208
+L2E+Jmd0OyB3cm90ZTo8bzpwPjwvbzpwPjwvcD4NCjxibG9ja3F1b3RlIHN0eWxlPSJib3JkZXI6
+bm9uZTtib3JkZXItbGVmdDpzb2xpZCAjQ0NDQ0NDIDEuMHB0O3BhZGRpbmc6MGNtIDBjbSAwY20g
+Ni4wcHQ7bWFyZ2luLWxlZnQ6NC44cHQ7bWFyZ2luLXJpZ2h0OjBjbSI+DQo8ZGl2Pg0KPGRpdj4N
+CjxwIGNsYXNzPSJNc29Ob3JtYWwiPk9uIFR1ZSwgTWFyIDI4LCAyMDE3IGF0IDY6MTQgUE0sIENo
+cmlzdG9waGVyIExhcnNvbiAmbHQ7PGEgaHJlZj0ibWFpbHRvOmtlcmdvdGhAZ21haWwuY29tIj5r
+ZXJnb3RoQGdtYWlsLmNvbTwvYT4mZ3Q7IHdyb3RlOjxicj4NCiZndDsgRnJvbTogQWJkdXIgUmVo
+bWFuICZsdDs8YSBocmVmPSJtYWlsdG86YWJkdXJfcmVobWFuQG1lbnRvci5jb20iPmFiZHVyX3Jl
+aG1hbkBtZW50b3IuY29tPC9hPiZndDs8YnI+DQomZ3Q7PGJyPg0KJmd0OyB1cGRhdGVfZ2lvX21v
+ZHVsZV9jYWNoZSBpbnRlcmNlcHQgY3JlYXRlcyBmaWxlOjxicj4NCiZndDsgJEQke2xpYmRpcn0v
+Z2lvL21vZHVsZXMvZ2lvbW9kdWxlLmNhY2hlPGJyPg0KJmd0Ozxicj4NCiZndDsgQ2hhbmdlIG93
+bmVyc2hpcCBvZiB0aGlzIGZpbGUgdG8gcm9vdDpyb290IHRvIGF2b2lkIHVzZXIgY29udGFtaW5h
+dGlvbjxicj4NCiZndDsgYnkgaG9zdC48YnI+DQomZ3Q7PGJyPg0KJmd0OyBTaWduZWQtb2ZmLWJ5
+OiBBYmR1ciBSZWhtYW4gJmx0OzxhIGhyZWY9Im1haWx0bzphYmR1cl9yZWhtYW5AbWVudG9yLmNv
+bSI+YWJkdXJfcmVobWFuQG1lbnRvci5jb208L2E+Jmd0Ozxicj4NCiZndDsgU2lnbmVkLW9mZi1i
+eTogQ2hyaXN0b3BoZXIgTGFyc29uICZsdDs8YSBocmVmPSJtYWlsdG86Y2hyaXNfbGFyc29uQG1l
+bnRvci5jb20iPmNocmlzX2xhcnNvbkBtZW50b3IuY29tPC9hPiZndDs8YnI+DQomZ3Q7IC0tLTxi
+cj4NCiZndDsmbmJzcDsgc2NyaXB0cy9wb3N0aW5zdC1pbnRlcmNlcHRzL3VwZGF0ZV9naW9fbW9k
+dWxlX2NhY2hlIHwgMiAmIzQzOyYjNDM7PGJyPg0KJmd0OyZuYnNwOyAxIGZpbGUgY2hhbmdlZCwg
+MiBpbnNlcnRpb25zKCYjNDM7KTxicj4NCiZndDs8YnI+DQomZ3Q7IGRpZmYgLS1naXQgYS9zY3Jp
+cHRzL3Bvc3RpbnN0LWludGVyY2VwdHMvdXBkYXRlX2dpb19tb2R1bGVfY2FjaGUgYi9zY3JpcHRz
+L3Bvc3RpbnN0LWludGVyY2VwdHMvdXBkYXRlX2dpb19tb2R1bGVfY2FjaGU8YnI+DQomZ3Q7IGlu
+ZGV4IGZlNDY4MDkyY2YuLjkyMDkyZjIxNDQgMTAwNjQ0PGJyPg0KJmd0OyAtLS0gYS9zY3JpcHRz
+L3Bvc3RpbnN0LWludGVyY2VwdHMvdXBkYXRlX2dpb19tb2R1bGVfY2FjaGU8YnI+DQomZ3Q7ICYj
+NDM7JiM0MzsmIzQzOyBiL3NjcmlwdHMvcG9zdGluc3QtaW50ZXJjZXB0cy91cGRhdGVfZ2lvX21v
+ZHVsZV9jYWNoZTxicj4NCiZndDsgQEAgLTUsMyAmIzQzOzUsNSBAQCBzZXQgLWU8YnI+DQomZ3Q7
+Jm5ic3A7IFBTRVVET19VTkxPQUQ9MSBxZW11d3JhcHBlciAtTCAkRCAtRSBMRF9MSUJSQVJZX1BB
+VEg9JEQke2xpYmRpcn06JEQke2Jhc2VfbGliZGlyfSBcPGJyPg0KJmd0OyZuYnNwOyAmbmJzcDsg
+Jm5ic3A7ICZuYnNwOyAmbmJzcDsgJEQke2xpYmV4ZWNkaXJ9LyR7YmlucHJlZml4fWdpby1xdWVy
+eW1vZHVsZXMgJEQke2xpYmRpcn0vZ2lvL21vZHVsZXMvPGJyPg0KJmd0Ozxicj4NCiZndDsgJiM0
+MztjaG93biByb290OnJvb3QgJEQke2xpYmRpcn0vZ2lvL21vZHVsZXMvZ2lvbW9kdWxlLmNhY2hl
+PGJyPg0KJmd0OyAmIzQzOzxicj4NCiZndDsgLS08YnI+DQomZ3Q7IDIuMTEuMTxicj4NCiZndDs8
+bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPC9kaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj4mZ3Q7
+IC0tPGJyPg0KJmd0OyBfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fXzxicj4NCiZndDsgT3BlbmVtYmVkZGVkLWNvcmUgbWFpbGluZyBsaXN0PGJyPg0KJmd0OyA8
+YSBocmVmPSJtYWlsdG86T3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZyI+
+T3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZzwvYT48YnI+DQomZ3Q7IDxh
+IGhyZWY9Imh0dHA6Ly9saXN0cy5vcGVuZW1iZWRkZWQub3JnL21haWxtYW4vbGlzdGluZm8vb3Bl
+bmVtYmVkZGVkLWNvcmUiIHRhcmdldD0iX2JsYW5rIj4NCmh0dHA6Ly9saXN0cy5vcGVuZW1iZWRk
+ZWQub3JnL21haWxtYW4vbGlzdGluZm8vb3BlbmVtYmVkZGVkLWNvcmU8L2E+PGJyPg0KPGJyPg0K
+PGJyPg0KSGVsbG8sPGJyPg0KVGhlcmUgbXVzdCBiZSBzb21ldGhpbmcgd3Jvbmcgd2l0aCB0aGlz
+IHBhdGNoLjxicj4NCkFmdGVyIGZyZXNoIHB1bGwgb2YgYW4gaG91ciBhZ28gSSBnaXQ6PGJyPg0K
+PGJyPg0KYW5kcmVhQFRoaW5rUGFkLVQ1MjA6L29lL29lLWNvcmUvYnVpbGQkIGJpdGJha2UgY29y
+ZS1pbWFnZS1iYXNlPGJyPg0KTG9hZGluZyBjPHNwYW4gY2xhc3M9ImFxaiI+YWNoZTogMTwvc3Bh
+bj4wMCUgfCMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjfCBUaW1l
+OiAwOjAwOjAwPGJyPg0KTG9hZGVkIDIwOTUgZW50cmllcyBmcm9tIGRlcGVuZGVuY3kgY2FjaGUu
+PGJyPg0KTk9URTogUmVzb2x2aW5nIGFueSBtaXNzaW5nIHRhc2sgcXVldWUgZGVwZW5kZW5jaWVz
+PGJyPg0KPGJyPg0KQnVpbGQgQ29uZmlndXJhdGlvbjo8YnI+DQpCQl9WRVJTSU9OJm5ic3A7ICZu
+YnNwOyAmbmJzcDsgJm5ic3A7ID0gJnF1b3Q7MS4zMy4yJnF1b3Q7PGJyPg0KQlVJTERfU1lTJm5i
+c3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOz0gJnF1b3Q7eDg2XzY0LWxpbnV4JnF1b3Q7
+PGJyPg0KTkFUSVZFTFNCU1RSSU5HJm5ic3A7ICZuYnNwOz0gJnF1b3Q7dWJ1bnR1LTE2LjA0JnF1
+b3Q7PGJyPg0KVEFSR0VUX1NZUyZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyA9ICZxdW90O2Fy
+bS1vZS1saW51eC1nbnVlYWJpJnF1b3Q7PGJyPg0KTUFDSElORSZuYnNwOyAmbmJzcDsgJm5ic3A7
+ICZuYnNwOyAmbmJzcDsgJm5ic3A7PSAmcXVvdDtjN3gwJnF1b3Q7PGJyPg0KRElTVFJPJm5ic3A7
+ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgPSAmcXVvdDtub2Rpc3RybyZxdW90
+Ozxicj4NCkRJU1RST19WRVJTSU9OJm5ic3A7ICZuYnNwOyA9ICZxdW90O25vZGlzdHJvLjAmcXVv
+dDs8YnI+DQpUVU5FX0ZFQVRVUkVTJm5ic3A7ICZuYnNwOyAmbmJzcDs9ICZxdW90O2FybSBhcm12
+NSB0aHVtYiBkc3AmcXVvdDs8YnI+DQpUQVJHRVRfRlBVJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5i
+c3A7ID0gJnF1b3Q7c29mdCZxdW90Ozxicj4NCm1ldGEmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJz
+cDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgPSAmcXVvdDttYXN0ZXI6YzE4NzMyNmFmY2YxZTlkNzgx
+YzFiZDA5MjNlMTM2MmE2ZjUwZjYxMyZxdW90Ozxicj4NCm1ldGEtaGFuZGhlbGQmbmJzcDsgJm5i
+c3A7ICZuYnNwOz0gJnF1b3Q7bWFzdGVyOmY4OGY1YmM1NDZlYzE4ZGUyMzJhOTFkYzFjODE4NWFk
+MjQyYzQ1ZjcmcXVvdDs8YnI+DQptZXRhLW9lPGJyPg0KbWV0YS1pbml0cmFtZnMmbmJzcDsgJm5i
+c3A7ID0gJnF1b3Q7bWFzdGVyOjIyNWU2NGQ5NWJjNDEwNzc3ODI4MTVmM2RjZWI2ZjJkMWE0MmIx
+NjcmcXVvdDs8YnI+DQo8YnI+DQpJbml0aWFsaXM8c3BhbiBjbGFzcz0iYXFqIj5pbmcgdGFzPC9z
+cGFuPmtzOiAxMDAlIHwjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyN8IFRp
+bWU6IDA6MDA6MDg8YnI+DQpOT1RFOiBFeGVjdXRpbmcgU2V0U2NlbmUgVGFza3M8YnI+DQpOT1RF
+OiBFeGVjdXRpbmcgUnVuUXVldWUgVGFza3M8YnI+DQpXQVJOSU5HOiBjb3JlLWltYWdlLWJhc2Ut
+MS4wLXIwIGRvX3Jvb3RmczogVGhlIHBvc3RpbnN0YWxsIGludGVyY2VwdDxicj4NCmhvb2sgJ3Vw
+ZGF0ZV9naW9fbW9kdWxlX2NhY2hlJyBmYWlsZWQgKGV4aXQgY29kZTogMSkhIFNlZSBsb2cgZm9y
+PGJyPg0KZGV0YWlscyEgKE91dHB1dDogYicnKTxicj4NCldBUk5JTkc6IGNvcmUtaW1hZ2UtYmFz
+ZS0xLjAtcjAgZG9fcm9vdGZzOiBUaGUgcG9zdGluc3RhbGxzIGZvciB0aGU8YnI+DQpmb2xsb3dp
+bmcgcGFja2FnZXMgd2lsbCBiZSBwb3N0cG9uZWQgZm9yIGZpcnN0IGJvb3Q6IGxpYmdsaWItMi4w
+LTA8YnI+DQpOT1RFOiBUYXNrcyBTdW1tYXJ5OiBBdHRlbXB0ZWQgMzQ0MCB0YXNrcyBvZiB3aGlj
+aCAzNDI3IGRpZG4ndCBuZWVkIHRvPGJyPg0KYmUgcmVydW4gYW5kIGFsbCBzdWNjZWVkZWQuPG86
+cD48L286cD48L3A+DQo8L2Jsb2NrcXVvdGU+DQo8L2Rpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwi
+Pjxicj4NCk9kZCwgd2XigJl2ZSBiZWVuIHJ1bm5pbmcgd2l0aCB0aGlzIGFwcGxpZWQgZm9yIGFn
+ZXMuIElzIHRoZXJlIGFueXRoaW5nIHVzZWZ1bCBpbiBkb19yb290ZnM/IEnigJlsbCBhdHRlbXB0
+IHRvIHJlcHJvIGhlcmUuIFRoYW5rcywgYW5kIHNvcnJ5IGZvciB0aGUgaGFzc2xlLjxicj4NCi0t
+IDxvOnA+PC9vOnA+PC9wPg0KPGRpdj4NCjxkaXY+DQo8ZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJN
+c29Ob3JtYWwiPkNocmlzdG9waGVyIExhcnNvbjxicj4NCmtlcmdvdGggYXQgZ21haWwgZG90IGNv
+bTxicj4NCkZvdW5kZXIgLSBCaXRCYWtlLCBPcGVuRW1iZWRkZWQsIE9wZW5aYXVydXM8YnI+DQpT
+ZW5pb3IgU29mdHdhcmUgRW5naW5lZXIsIE1lbnRvciBHcmFwaGljczxvOnA+PC9vOnA+PC9wPg0K
+PC9kaXY+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9kaXY+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9kaXY+DQo8
+cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZh
+bWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWY7Y29sb3I6Izk0MzYzNCI+PG86cD4m
+bmJzcDs8L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9
+ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OyxzYW5zLXNl
+cmlmO2NvbG9yOiM5NDM2MzQiPkkgaGF2ZSBzZW50IGEgcGF0Y2ggdG8gZml4IHRoaXMuIFRoZSBp
+bnRlcmVzdGluZyBwYXJ0IGZyb20gdGhlIGxvZyB3YXM6PG86cD48L286cD48L3NwYW4+PC9wPg0K
+PHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1m
+YW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OyxzYW5zLXNlcmlmO2NvbG9yOiM5NDM2MzQiPjxvOnA+
+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxl
+PSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1z
+ZXJpZjtjb2xvcjojOTQzNjM0Ij5jaG93bjogY2Fubm90IGFjY2VzcyBgJHtXT1JLRElSfS9yb290
+ZnMvdXNyL2xpYi9naW8vbW9kdWxlcy9naW9tb2R1bGUuY2FjaGUnOiBObyBzdWNoIGZpbGUgb3Ig
+ZGlyZWN0b3J5PG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNw
+YW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90
+OyxzYW5zLXNlcmlmO2NvbG9yOiM5NDM2MzQiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4N
+CjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQt
+ZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJpZjtjb2xvcjojOTQzNjM0Ij5PbmUg
+dGhpbmcgdGhhdCBjb25mdXNlcyBtZSB0aG91Z2ggaXMgdGhlIOKAnChPdXRwdXQ6IGInJynigJ0g
+cGFydCBpbiB0aGUgd2FybmluZyBiZWxvdzo8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFz
+cz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTom
+cXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWY7Y29sb3I6Izk0MzYzNCI+PG86cD4mbmJzcDs8
+L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQt
+c2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6Q29uc29sYXM7Y29sb3I6Izk0MzYzNCI+V0FSTklORzog
+Y29yZS1pbWFnZS1iYXNlLTEuMC1yMCBkb19yb290ZnM6IFRoZSBwb3N0aW5zdGFsbCBpbnRlcmNl
+cHQgaG9vayAndXBkYXRlX2dpb19tb2R1bGVfY2FjaGUnIGZhaWxlZCAoZXhpdCBjb2RlOiAxKSEg
+U2VlIGxvZyBmb3IgZGV0YWlscyEgKE91dHB1dDogYicnKTxvOnA+PC9vOnA+PC9zcGFuPjwvcD4N
+CjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQt
+ZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJpZjtjb2xvcjojOTQzNjM0Ij48bzpw
+PiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHls
+ZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMt
+c2VyaWY7Y29sb3I6Izk0MzYzNCI+V2hhdCBkb2VzIHRoYXQgYicnIG1lYW4/PG86cD48L286cD48
+L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZTox
+MS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OyxzYW5zLXNlcmlmO2NvbG9yOiM5
+NDM2MzQiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwi
+PjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkm
+cXVvdDssc2Fucy1zZXJpZjtjb2xvcjojOTQzNjM0Ij4vL1BldGVyPG86cD48L286cD48L3NwYW4+
+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7
+Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OyxzYW5zLXNlcmlmO2NvbG9yOiM5NDM2MzQi
+PjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjwvZGl2Pg0KPC9ib2R5Pg0KPC9odG1sPg0K
 
-diff --git a/meta/lib/oeqa/selftest/pkgdata.py b/meta/lib/oeqa/selftest/pkgdata.py
-index 36d8b34..ae402ab 100644
---- a/meta/lib/oeqa/selftest/pkgdata.py
-+++ b/meta/lib/oeqa/selftest/pkgdata.py
-@@ -3,6 +3,7 @@ import os
- import tempfile
- import logging
- import fnmatch
-+import collections
- 
- import oeqa.utils.ftools as ftools
- from oeqa.selftest.base import oeSelfTest
-@@ -16,21 +17,27 @@ class OePkgdataUtilTests(oeSelfTest):
-         # Ensure we have the right data in pkgdata
-         logger = logging.getLogger("selftest")
-         logger.info('Running bitbake to generate pkgdata')
--        bitbake('glibc busybox zlib m4')
-+        bitbake('virtual/libc busybox zlib m4')
-+
-+        # recipe-runtime-package relation for virtual/libc provider
-+        Libc = collections.namedtuple('Libc', ['recipe', 'runtime_pkg', 'libpath', 'staticdev', 'utils', 'rutils'])
-+        cls.libc = Libc('glibc', 'libc6', '/lib/libc.so.6', 'libc6-staticdev', 'glibc-utils', 'lib6-utils')
-+        if get_bb_var('TCLIBC') == 'musl':
-+            cls.libc = Libc('musl', 'musl', '/usr/lib/libc.so', 'musl-staticdev', None, None)
- 
-     @testcase(1203)
-     def test_lookup_pkg(self):
-         # Forward tests
--        result = runCmd('oe-pkgdata-util lookup-pkg "glibc busybox"')
--        self.assertEqual(result.output, 'libc6\nbusybox')
-+        result = runCmd('oe-pkgdata-util lookup-pkg "%s busybox"' % self.libc.recipe)
-+        self.assertEqual(result.output, '%s\nbusybox' % self.libc.runtime_pkg)
-         result = runCmd('oe-pkgdata-util lookup-pkg zlib-dev')
-         self.assertEqual(result.output, 'libz-dev')
-         result = runCmd('oe-pkgdata-util lookup-pkg nonexistentpkg', ignore_status=True)
-         self.assertEqual(result.status, 1, "Status different than 1. output: %s" % result.output)
-         self.assertEqual(result.output, 'ERROR: The following packages could not be found: nonexistentpkg')
-         # Reverse tests
--        result = runCmd('oe-pkgdata-util lookup-pkg -r "libc6 busybox"')
--        self.assertEqual(result.output, 'glibc\nbusybox')
-+        result = runCmd('oe-pkgdata-util lookup-pkg -r "%s busybox"' % self.libc.runtime_pkg)
-+        self.assertEqual(result.output, '%s\nbusybox' % self.libc.recipe)
-         result = runCmd('oe-pkgdata-util lookup-pkg -r libz-dev')
-         self.assertEqual(result.output, 'zlib-dev')
-         result = runCmd('oe-pkgdata-util lookup-pkg -r nonexistentpkg', ignore_status=True)
-@@ -49,8 +56,8 @@ class OePkgdataUtilTests(oeSelfTest):
- 
-     @testcase(1198)
-     def test_find_path(self):
--        result = runCmd('oe-pkgdata-util find-path /lib/libc.so.6')
--        self.assertEqual(result.output, 'glibc: /lib/libc.so.6')
-+        result = runCmd('oe-pkgdata-util find-path %s' % self.libc.libpath)
-+        self.assertEqual(result.output, '%s: %s' % (self.libc.recipe, self.libc.libpath))
-         result = runCmd('oe-pkgdata-util find-path /usr/bin/m4')
-         self.assertEqual(result.output, 'm4: /usr/bin/m4')
-         result = runCmd('oe-pkgdata-util find-path /not/exist', ignore_status=True)
-@@ -59,8 +66,8 @@ class OePkgdataUtilTests(oeSelfTest):
- 
-     @testcase(1204)
-     def test_lookup_recipe(self):
--        result = runCmd('oe-pkgdata-util lookup-recipe "libc6-staticdev busybox"')
--        self.assertEqual(result.output, 'glibc\nbusybox')
-+        result = runCmd('oe-pkgdata-util lookup-recipe "%s busybox"' % self.libc.staticdev)
-+        self.assertEqual(result.output, '%s\nbusybox' % self.libc.recipe)
-         result = runCmd('oe-pkgdata-util lookup-recipe libz-dbg')
-         self.assertEqual(result.output, 'zlib')
-         result = runCmd('oe-pkgdata-util lookup-recipe nonexistentpkg', ignore_status=True)
-@@ -72,12 +79,14 @@ class OePkgdataUtilTests(oeSelfTest):
-         # No arguments
-         result = runCmd('oe-pkgdata-util list-pkgs')
-         pkglist = result.output.split()
--        self.assertIn('glibc-utils', pkglist, "Listed packages: %s" % result.output)
-+        # musl does not have the glibc-utils counterpart so just test on glibc
-+        self.libc.utils and self.assertIn(self.libc.utils, pkglist, "Listed packages: %s" % result.output)
-         self.assertIn('zlib-dev', pkglist, "Listed packages: %s" % result.output)
-         # No pkgspec, runtime
-         result = runCmd('oe-pkgdata-util list-pkgs -r')
-         pkglist = result.output.split()
--        self.assertIn('libc6-utils', pkglist, "Listed packages: %s" % result.output)
-+        # musl does not have the libc6-utils counterpart so just test on glibc
-+        self.libc.rutils and self.assertIn(self.libc.rutils, pkglist, "Listed packages: %s" % result.output)
-         self.assertIn('libz-dev', pkglist, "Listed packages: %s" % result.output)
-         # With recipe specified
-         result = runCmd('oe-pkgdata-util list-pkgs -p zlib')
-@@ -208,11 +217,11 @@ class OePkgdataUtilTests(oeSelfTest):
-         self.track_for_cleanup(tempdir)
-         pkglistfile = os.path.join(tempdir, 'pkglist')
-         with open(pkglistfile, 'w') as f:
--            f.write('libc6\n')
-+            f.write('%s\n' % self.libc.runtime_pkg)
-             f.write('libz1\n')
-             f.write('busybox\n')
-         result = runCmd('oe-pkgdata-util glob %s "*-dev"' % pkglistfile)
--        desiredresult = ['libc6-dev', 'libz-dev', 'busybox-dev']
-+        desiredresult = ['%s-dev' % self.libc.runtime_pkg, 'libz-dev', 'busybox-dev']
-         self.assertEqual(sorted(result.output.split()), sorted(desiredresult))
-         # The following should not error (because when we use this during rootfs construction, sometimes the complementary package won't exist)
-         result = runCmd('oe-pkgdata-util glob %s "*-nonexistent"' % pkglistfile)
-@@ -225,5 +234,5 @@ class OePkgdataUtilTests(oeSelfTest):
- 
-     @testcase(1206)
-     def test_specify_pkgdatadir(self):
--        result = runCmd('oe-pkgdata-util -p %s lookup-pkg glibc' % get_bb_var('PKGDATA_DIR'))
--        self.assertEqual(result.output, 'libc6')
-+        result = runCmd('oe-pkgdata-util -p %s lookup-pkg %s' % (get_bb_var('PKGDATA_DIR'), self.libc.recipe))
-+        self.assertEqual(result.output, self.libc.runtime_pkg)
--- 
-2.10.2
-
-
+--_000_9d94d2771cd34d5fa5f1f3df1ee52ffaXBOX02axiscom_--
