@@ -1,15 +1,50 @@
-Return-Path: <philip@balister.org>
-Received: from sanddollar.geekisp.com (sanddollar.geekisp.com
-	[216.168.135.167])
-	by mail.openembedded.org (Postfix) with ESMTP id D97EF77D41
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-oi0-f51.google.com (mail-oi0-f51.google.com
+	[209.85.218.51])
+	by mail.openembedded.org (Postfix) with ESMTP id C7FA777D41
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Mar 2017 19:12:45 +0000 (UTC)
-Received: (qmail 1803 invoked by uid 1003); 30 Mar 2017 19:12:46 -0000
-Received: from unknown (HELO ?192.168.11.142?)
-	(philip@opensdr.com@108.44.116.166)
-	by mail.geekisp.com with (DHE-RSA-AES128-SHA encrypted) SMTP;
-	30 Mar 2017 19:12:46 -0000
-To: Denys Dmytriyenko <denis@denix.org>, Marek Vasut <marex@denx.de>
+	Thu, 30 Mar 2017 19:26:59 +0000 (UTC)
+Received: by mail-oi0-f51.google.com with SMTP id o67so41096380oib.1
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 30 Mar 2017 12:27:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
+	:cc; bh=3y1LkvcLWy+AVlA5c04EX6LLJJlzwjW0lQ/3JcXhegM=;
+	b=nmKkpFu0jrrQkSrD3UDcuoTbUbokXsWpH1cY+qO5/BNbxW0HOthSYQLrRWSkZxDyve
+	c4TaTs45zId0N+Y00AKEvwsSHZoWtfPw5Xwhz6xIbwClpTFJOaIk49k+4HDk4+8UjBxI
+	+VF2tQb11QeiXCYj+EW8GS3xaWfZXtRt6oCN0WsR5c+1yzM9SbU4iJRT1Kov+UBUDpjG
+	FsJ42JFtIh7PlnP4oy7SD+OJGQkV/T7gVRyWm2y/3G+WM4wv/IwvG4AUz0Bn0u2STpNB
+	x/3vZvn9+Ock8bzeHJpgTE38AtZydBnNBO75QhQm21PTWAwvXAggN6RNxffX6oUEQUQ/
+	fpJQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
+	:message-id:subject:to:cc;
+	bh=3y1LkvcLWy+AVlA5c04EX6LLJJlzwjW0lQ/3JcXhegM=;
+	b=qd67bn+2X/Xk5mZgGrtUYyXjl+kkQuaUlMLzySl69e8T8kNioq8IofItbPRa31ZbgQ
+	Vc8ZMbesIw9UUqEDzm8/+/NXq+i8eml3DRAl1bpVjUr0qYPHKpXzLY8+ArclhbydgU/S
+	u7BdmWNeAODxunylIatbeRxNNi5ARYPAddSItNvfYNmg7u179RLw7O4ncZ+LiDIQa7Od
+	tN4e1R//y/J5ULMXwgMGeksSW38I07kxKXh/1JkB77DZHUniMcSGrI8tR3bE7nB1TiYX
+	PNImHokmE7rKGClXfVUeCVxc8v5YA2u6rnEi0fnc/zvvBQ4V5zAVBwidUzFij7XkRTnH
+	No+A==
+X-Gm-Message-State: AFeK/H1JpLWJ6EjRJTVkh9euvn6P4oE4LQDjJlZcQRMLeODfKv139CiIYsG9FUlk/iGzHw==
+X-Received: by 10.202.71.149 with SMTP id u143mr1015190oia.76.1490902020486;
+	Thu, 30 Mar 2017 12:27:00 -0700 (PDT)
+Received: from mail-oi0-f44.google.com (mail-oi0-f44.google.com.
+	[209.85.218.44])
+	by smtp.gmail.com with ESMTPSA id e66sm1062962oih.0.2017.03.30.12.26.59
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 30 Mar 2017 12:26:59 -0700 (PDT)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-oi0-f44.google.com with SMTP id f193so41092688oib.2;
+	Thu, 30 Mar 2017 12:26:59 -0700 (PDT)
+X-Received: by 10.202.244.203 with SMTP id s194mr1045948oih.162.1490902018674; 
+	Thu, 30 Mar 2017 12:26:58 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.74.79.203 with HTTP; Thu, 30 Mar 2017 12:26:58 -0700 (PDT)
+In-Reply-To: <36e2ad5b-466d-b6c1-7c84-1f5b5c1a66c3@balister.org>
 References: <20170327142231.21807-1-marex@denx.de>
 	<1490624701.13980.267.camel@linuxfoundation.org>
 	<5c037512-7bf1-8a3c-cb76-fda7230781a0@denx.de>
@@ -18,15 +53,15 @@ References: <20170327142231.21807-1-marex@denx.de>
 	<20170330132447.GU15664@denix.org>
 	<a8de81ca-4056-ad2c-4e38-1bd1b4c62315@denx.de>
 	<20170330180636.GV15664@denix.org>
-From: Philip Balister <philip@balister.org>
-Message-ID: <36e2ad5b-466d-b6c1-7c84-1f5b5c1a66c3@balister.org>
-Date: Thu, 30 Mar 2017 15:12:44 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.8.0
-MIME-Version: 1.0
-In-Reply-To: <20170330180636.GV15664@denix.org>
-Cc: openembedded-devel@lists.openembedded.org,
-	openembedded-core@lists.openembedded.org
+	<36e2ad5b-466d-b6c1-7c84-1f5b5c1a66c3@balister.org>
+Date: Thu, 30 Mar 2017 16:26:58 -0300
+X-Gmail-Original-Message-ID: <CAP9ODKq7wn=Zw01-4yJpDLDhbivhrOrYirM-30MLbJU=6LxqOg@mail.gmail.com>
+Message-ID: <CAP9ODKq7wn=Zw01-4yJpDLDhbivhrOrYirM-30MLbJU=6LxqOg@mail.gmail.com>
+To: Philip Balister <philip@balister.org>
+Cc: Marek Vasut <marex@denx.de>,
+	OpenEmbedded Devel List <openembedded-devel@lists.openembedded.org>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] u-boot: Update to 2017.03 release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -40,48 +75,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Mar 2017 19:12:46 -0000
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 30 Mar 2017 19:27:00 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 03/30/2017 02:06 PM, Denys Dmytriyenko wrote:
-> On Thu, Mar 30, 2017 at 04:12:08PM +0200, Marek Vasut wrote:
->> On 03/30/2017 03:24 PM, Denys Dmytriyenko wrote:
->>> On Thu, Mar 30, 2017 at 10:21:31AM +0200, Marek Vasut wrote:
->>>> On 03/29/2017 11:56 PM, Denys Dmytriyenko wrote:
->>>>> On Mon, Mar 27, 2017 at 04:31:16PM +0200, Marek Vasut wrote:
->>>>>> On 03/27/2017 04:25 PM, Richard Purdie wrote:
->>>>>>> On Mon, 2017-03-27 at 16:22 +0200, Marek Vasut wrote:
->>>>>>>> Upgrade U-Boot to the latest version.
->>>>>>>
->>>>>>> Wrong list and how does this compare to Ovatio's patch?
->>>>>>
->>>>>> I was not CCed on Otavio's patch :(
->>>>>
->>>>> Yeah, me neither, unfortunately - people just ignore maintainers file now.
->>>>>
->>>>> Good thing Ross copied me on the other discussion!
->>>>>
->>>> Which other discussion ? :-(
->>>
->>> http://lists.openembedded.org/pipermail/openembedded-core/2017-March/134682.html
->>>
->> I see. I'm all for updating to 2017.03 , since it fixes the OMAP serial
->> bug too :)
-> 
-> "Known devil is better than unknown angel"? :)
-> 
+On Thu, Mar 30, 2017 at 4:12 PM, Philip Balister <philip@balister.org> wrote:
+> I've got a machine under development that boots from the 2013.01 recipe
+> and a bbappend. I don't think it is a problem moving to .03, but I don't
+> know. I'm not sure how many other BSP's have done the same.
 
-I've got a machine under development that boots from the 2013.01 recipe
-and a bbappend. I don't think it is a problem moving to .03, but I don't
-know. I'm not sure how many other BSP's have done the same.
+If it is a full mainline machine it should be smooth; otherwise
+sending the patch to enable it in mainline is the best long term
+solution. Keeping a patch on top a recipe is a decision which ends
+with the maintenance burden at the developer adding the patch.
 
-Meanwhile, I understand the desire of others who have work upstreamed in
-u-boot they like to use with the next release.
+External layers should not delay the additions or upgrades of recipes
+of OE-Core. If maintenance is a concern, upstreaming is the best
+choice or fork the U-Boot and keep the fork with an independent cycle.
 
-How many u-boot releases are there a year? How do they line up with YP
-releases? Should we carry two u-boot versions, similar to what happens
-with the kernel?
+> Meanwhile, I understand the desire of others who have work upstreamed in
+> u-boot they like to use with the next release.
 
-Philip
+And it has been a way to endorse the upstreaming effort to reduce the
+maintenance work.
+
+> How many u-boot releases are there a year? How do they line up with YP
+> releases? Should we carry two u-boot versions, similar to what happens
+> with the kernel?
+
+Every two months now. I see no reason to carry two versions. OE-Core
+provides the basis and every BSP layers can maintain their own
+versions.
+
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
