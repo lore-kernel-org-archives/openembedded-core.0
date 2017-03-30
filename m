@@ -1,31 +1,33 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id DADAA77D2F
+Return-Path: <jussi.kukkonen@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 8E99277D3F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Mar 2017 16:45:12 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTP id v2UGj8aC023667; 
-	Thu, 30 Mar 2017 17:45:08 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id aBpXOryRBWLp; Thu, 30 Mar 2017 17:45:08 +0100 (BST)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v2UGj3WG023662
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Thu, 30 Mar 2017 17:45:04 +0100
-Message-ID: <1490892303.13980.369.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Serhii Popovych <spopovyc@cisco.com>,
-	openembedded-core@lists.openembedded.org
-Date: Thu, 30 Mar 2017 17:45:03 +0100
-In-Reply-To: <e5e8a9eba45b85ef30e6fcdf6276476da0d384b6.1490728922.git.spopovyc@cisco.com>
-References: <cover.1490728921.git.spopovyc@cisco.com>
-	<e5e8a9eba45b85ef30e6fcdf6276476da0d384b6.1490728922.git.spopovyc@cisco.com>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.1 
-Mime-Version: 1.0
-Cc: XE-Linux <xe-linux-external@cisco.com>
-Subject: Re: [PATCH v2 2/2] automake: Adjust shebang lines to remove interpreter path hardcode
+	Thu, 30 Mar 2017 16:49:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+	d=intel.com; i=@intel.com; q=dns/txt; s=intel;
+	t=1490892574; x=1522428574;
+	h=from:to:cc:subject:date:message-id:in-reply-to: references;
+	bh=4WioeiC5KyEwmanuyyjG3/l0lFPQqOEa7vqE7EY+WR8=;
+	b=TJ95HH+Ab56zWaKo1T9R04shIvS/09f6dgfAoAFA+LobYxDHQ0HcxR/O
+	bm0kiExVVJqYnPRgKw21MnbvEouTew==;
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	30 Mar 2017 09:49:33 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.36,247,1486454400"; d="scan'208";a="1128987781"
+Received: from linux.intel.com ([10.54.29.200])
+	by fmsmga001.fm.intel.com with ESMTP; 30 Mar 2017 09:49:33 -0700
+Received: from theory.fi.intel.com (theory.fi.intel.com [10.237.72.53])
+	by linux.intel.com (Postfix) with ESMTP id D27B92C8001;
+	Thu, 30 Mar 2017 09:49:25 -0700 (PDT)
+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 30 Mar 2017 19:49:28 +0300
+Message-Id: <1490892568-37764-1-git-send-email-jussi.kukkonen@intel.com>
+X-Mailer: git-send-email 2.1.4
+In-Reply-To: <1490892201-37433-1-git-send-email-jussi.kukkonen@intel.com>
+References: <1490892201-37433-1-git-send-email-jussi.kukkonen@intel.com>
+Subject: [PATCHv3] quilt: Fix paths for patch and perl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,50 +40,138 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Mar 2017 16:45:13 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 30 Mar 2017 16:49:32 -0000
 
-On Tue, 2017-03-28 at 19:25 +0000, Serhii Popovych wrote:
-> If build host perl (and other tools) is old and we use some kind
-> of toolchain to provide recent perl/python/etc to the OE build
-> we still locked to use build host perl due to hardcoded shebang
-> lines in automake scripts.
-> 
-> Behaviour was observed with Enterprise Linux 6 and devtoolset
-> toolchain from SCL (Software Collections) used to provide recent
-> version of perl (not provided with default buildtools-tarball).
-> 
-> Pass /usr/bin/env perl in ac_cv_path_PERL configuration variables
-> for class-native and class-nativesdk. Use patch to automake to
-> replace
-> -w option in shebang line with modern way to enable warnings on perl
-> (i.e. "use warnings").
-> 
-> Note that ac_cv_path_PERL must be valid perl interpreter path
-> since configure will check perl version and Flock implementation.
-> It is not possible currently to use nativeperl from native
-> sysroot because automake does not DEPENDS on perl-native (and
-> doing so fails due to circular dependencies). Only possible
-> solution is to overwrite shebangs with nativeperl somewhere at
-> do_install() and update RDEPENDS for class-native. Or add perl
-> symlinks to nativeperl in sysroot.
-> 
-> For now it seems good to use perl found by /usr/bin/env from
-> automake-native.
-> 
-> Also add RDEPENDS for class-nativesdk and add nativesdk-perl to
-> them.
-> 
-> v2: Corrected Upstream-Status tag.
-> 
-> Cc: XE-Linux <xe-linux-external@cisco.com>
-> Signed-off-by: Serhii Popovych <spopovyc@cisco.com>
+Currently some shebang lines end up as
+    #! /usr/bin/env perl -w
+env does not like the argument. Also the current sed to insert env
+does not cover the copies ptests use. Fix these issues by:
+ - using --with-perl to insert "env"
+ - Replacing "-w" in shebang lines with a new "use warning;" line
 
-Again, the patch description and what it actually does don't match
-(RDEPENDS)...
+Remove a EXTRA_OECONF_append_class_target from the native recipe.
+Don't overwrite EXTRA_OECONF in native: the values should be correct
+for native as well.
 
-Cheers,
+--with-patch is used within the gnu patch wrapper only: before this
+commit the wrapper contained a (build host) path to native patch.
 
-Richard
+Also tweak one test so busybox mv output is accepted.
+
+All ptests should now pass: Fixes [YOCTO #11221].
+
+Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+---
+
+changes since v2:
+ * Added missing leading space in EXTRA_OECONF_append
+
+
+ meta/recipes-devtools/quilt/quilt-native.inc       |  3 +--
+ meta/recipes-devtools/quilt/quilt.inc              |  9 ++++++-
+ ...0001-tests-Allow-different-output-from-mv.patch | 29 ++++++++++++++++++++++
+ meta/recipes-devtools/quilt/quilt_0.65.bb          | 10 --------
+ 4 files changed, 38 insertions(+), 13 deletions(-)
+ create mode 100644 meta/recipes-devtools/quilt/quilt/0001-tests-Allow-different-output-from-mv.patch
+
+diff --git a/meta/recipes-devtools/quilt/quilt-native.inc b/meta/recipes-devtools/quilt/quilt-native.inc
+index fce5fa1..c706704 100644
+--- a/meta/recipes-devtools/quilt/quilt-native.inc
++++ b/meta/recipes-devtools/quilt/quilt-native.inc
+@@ -5,8 +5,7 @@ INHIBIT_AUTOTOOLS_DEPS = "1"
+ inherit native
+ 
+ PATCHTOOL = "patch"
+-EXTRA_OECONF = "--disable-nls"
+-EXTRA_OECONF_append_class-target = "--with-perl=perl"
++EXTRA_OECONF_append = " --disable-nls"
+ 
+ do_configure () {
+ 	oe_runconf
+diff --git a/meta/recipes-devtools/quilt/quilt.inc b/meta/recipes-devtools/quilt/quilt.inc
+index 57e2a14..c7bb741 100644
+--- a/meta/recipes-devtools/quilt/quilt.inc
++++ b/meta/recipes-devtools/quilt/quilt.inc
+@@ -8,6 +8,7 @@ SRC_URI = "${SAVANNAH_GNU_MIRROR}/quilt/quilt-${PV}.tar.gz \
+         file://run-ptest \
+         file://Makefile \
+         file://test.sh \
++        file://0001-tests-Allow-different-output-from-mv.patch \
+ "
+ 
+ SRC_URI[md5sum] = "c67ba0228f5b7b8bbe469474661f92d6"
+@@ -33,10 +34,16 @@ RDEPENDS_${PN} = "bash"
+ EXTRA_OE_MAKE_ARGS_darwin ?= ""
+ EXTRA_OE_MAKE_ARGS ?= "BUILD_ROOT=${D}"
+ 
+-EXTRA_OECONF = "--with-perl=perl"
++EXTRA_OECONF = "--with-perl='${USRBINPATH}/env perl' --with-patch=patch"
+ 
+ CACHED_CONFIGUREVARS += "ac_cv_path_BASH=/bin/bash"
+ 
++# Make sure we don't have "-w" in shebang lines: it breaks using
++# "/usr/bin/env perl" as parser
++do_configure_prepend () {
++	find ${S} -name "*.in" -exec sed -i -e "1s,^#\!.*@PERL@ -w$,#\! @PERL@\nuse warnings;," {} \;
++}
++
+ # Don't setup symlinks to host utilities, we don't need them
+ do_configure_append () {
+ 	sed -e 's,^COMPAT_SYMLINKS.*:=.*,COMPAT_SYMLINKS	:=,' -i ${S}/Makefile
+diff --git a/meta/recipes-devtools/quilt/quilt/0001-tests-Allow-different-output-from-mv.patch b/meta/recipes-devtools/quilt/quilt/0001-tests-Allow-different-output-from-mv.patch
+new file mode 100644
+index 0000000..21219a0
+--- /dev/null
++++ b/meta/recipes-devtools/quilt/quilt/0001-tests-Allow-different-output-from-mv.patch
+@@ -0,0 +1,29 @@
++From 1530138960cfafbeefb95f2a760954c00b4d0ef0 Mon Sep 17 00:00:00 2001
++From: Jussi Kukkonen <jussi.kukkonen@intel.com>
++Date: Wed, 29 Mar 2017 15:11:59 +0300
++Subject: [PATCH] tests: Allow different output from mv
++
++busybox mv has different error messages: fix the test
++
++Upstream-Status: Inappropriate [embedded]
++Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
++---
++ test/failbackup.test | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/test/failbackup.test b/test/failbackup.test
++index 37046f7..fce6725 100644
++--- a/test/failbackup.test
+++++ b/test/failbackup.test
++@@ -16,7 +16,7 @@ What happens when refresh fails because of a permission error?
++ 	$ cat > test.txt
++ 	< This is updated test.txt.
++ 	$ quilt refresh --backup
++-	>~ mv: cannot move [`']?%{P}test.diff'? to [`']?%{P}test.diff~'?: Permission denied
+++	>~ mv: .*: Permission denied
++ 	$ echo %{?}
++ 	> 1
++ 
++-- 
++2.1.4
++
+diff --git a/meta/recipes-devtools/quilt/quilt_0.65.bb b/meta/recipes-devtools/quilt/quilt_0.65.bb
+index 00f900a..12859f0 100644
+--- a/meta/recipes-devtools/quilt/quilt_0.65.bb
++++ b/meta/recipes-devtools/quilt/quilt_0.65.bb
+@@ -4,13 +4,3 @@ RDEPENDS_${PN} += "patch diffstat bzip2 util-linux"
+ SRC_URI += "file://aclocal.patch \
+             file://gnu_patch_test_fix_target.patch \
+            "
+-
+-# fix build-distro specific perl path in the target perl scripts
+-do_install_append() {
+-	for perlscript in ${D}${datadir}/quilt/scripts/remove-trailing-ws ${D}${datadir}/quilt/scripts/dependency-graph ${D}${datadir}/quilt/scripts/edmail ${D}${bindir}/guards
+-	do
+-		if [ -f $perlscript ]; then
+-			sed -i -e '1s,#!.*perl,#! ${USRBINPATH}/env perl,' $perlscript
+-		fi
+-	done
+-}
+-- 
+2.1.4
+
 
