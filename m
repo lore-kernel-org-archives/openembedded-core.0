@@ -1,55 +1,50 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-io0-f181.google.com (mail-io0-f181.google.com
-	[209.85.223.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 0168277D25
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f174.google.com (mail-qk0-f174.google.com
+	[209.85.220.174])
+	by mail.openembedded.org (Postfix) with ESMTP id CC20677BDF
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Mar 2017 16:13:44 +0000 (UTC)
-Received: by mail-io0-f181.google.com with SMTP id z13so22474293iof.2
+	Thu, 30 Mar 2017 16:15:52 +0000 (UTC)
+Received: by mail-qk0-f174.google.com with SMTP id d10so44499151qke.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Mar 2017 09:13:46 -0700 (PDT)
+	Thu, 30 Mar 2017 09:15:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:organization:mime-version:content-transfer-encoding;
-	bh=ODtNVAU14BCFhRKVjNb3DKSbFBdImCRiOrup81byYUA=;
-	b=dLW0VAr99J1DmCB2Lj7uZPijjak6LIU1ztGW25e6YE+8nl1cvxdJ7vdaIpdKJE6ZbV
-	KYXLvMzPcqal9nL6+l20Z48V8ZOM9MYQ4Zb1zXOJdClNGiwWdE1X6ZEk4cnWSLSMAqZE
-	dDcPx9aW367ZSi4cKbvv2+js9ShHPDRp/g73k+mwEh3eS84MlH6ET0lYeWq2Nj9J0kjo
-	JUmKd/b4PWF4kowfgV+fKmYa080yPbyRwfTS0dtSCPCon/DvcHHUs3kyzdCb0nmXtYyj
-	904WMxix3es122dzyrCFTu+4WLabtERN82vV24oYBqizUgOupqhA5ruwkYk2wpj18R98
-	tnRQ==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=S4hhGPl6XL9YmDBcCOrKBp0rPM1KRa07u6u4Cg5M5Vg=;
+	b=L8iGSPRejmcG2sldYuiVTzKikwM4MPgXAMTkrwch8ps+5idZ5V6ScyYhXAuMyaJrLh
+	m/tUuyl+lUu0d96iNdYvMvTHJq3xOGnJFe0lis23K9ac099269V7gZeVYqnZ0t+qMxpo
+	ggvWkzTz+sEmZG8iroMsFbFMD1HU64wQeRiJGYaepGBEHKfogr4/VDZTpx8VerSOxGiU
+	zAK7CGYgEUP8vX39ckrGpvbDlCoxSMPZqYap1MbkrrBON/xvPDrLRJshQdvCllM9cs/y
+	Jx7HXOuyVOWMJyXkKnpASvcQi8OcmffquaKt+k07KuG60U+KbMwz3fM32H9F1r3CqF5z
+	vDMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:organization:mime-version:content-transfer-encoding;
-	bh=ODtNVAU14BCFhRKVjNb3DKSbFBdImCRiOrup81byYUA=;
-	b=a6V7uAsQC1tSkTtBoJ8sGidg95TT1YA5lDbDrIDJwE6wxG5rxbQ8ZJV832gYNo9YbN
-	Q+ljqlsOtudrd5SNZD9c9c17cNNg9jCAsWcpvFMRyjri+RVvcGItdGJKZ20YJeXkSN0v
-	Vjg8gGSPYtjg+n/b4f118M2xX22pu4vR6eymjHrMRwx0iBehcHYwmZ/F1jE8TurZtTK/
-	jdciq/+yQ0e8gYV2/le6WuW74gKgdWp7Uq3ZIIhIZDSKjw7NFDxpmJAtLnK1VXDg/zze
-	/5aKoTiyNPfp2uxHjPN4IkSLtwRHX7UHbIvKy5ZiI1aWCsQkmoz+LxxEWHbonTU0wOrl
-	9G2g==
-X-Gm-Message-State: AFeK/H1ieqiiDOMIsehZiJkRhAQhIexMhzBBOcd1QvLY5DfRi+kbg1eVpVvOPtrE2A5e8pBx
-X-Received: by 10.107.59.22 with SMTP id i22mr1297696ioa.177.1490890426059;
-	Thu, 30 Mar 2017 09:13:46 -0700 (PDT)
-Received: from pohly-mobl1 (p5DE8CE63.dip0.t-ipconnect.de. [93.232.206.99])
-	by smtp.gmail.com with ESMTPSA id m124sm600077itd.3.2017.03.30.09.13.44
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 30 Mar 2017 09:13:45 -0700 (PDT)
-Message-ID: <1490890422.6396.459.camel@intel.com>
-From: Patrick Ohly <patrick.ohly@intel.com>
-To: =?ISO-8859-1?Q?An=EDbal_Lim=F3n?= <anibal.limon@linux.intel.com>
-Date: Thu, 30 Mar 2017 18:13:42 +0200
-In-Reply-To: <58DD2C5B.8010704@linux.intel.com>
-References: <1490823850-20782-1-git-send-email-anibal.limon@linux.intel.com>
-	<1490823850-20782-2-git-send-email-anibal.limon@linux.intel.com>
-	<1490853745.6396.439.camel@gmx.de> <58DD2C5B.8010704@linux.intel.com>
-Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
-X-Mailer: Evolution 3.12.9-1+b1 
-Mime-Version: 1.0
-Cc: OpenEmbedded <openembedded-core@lists.openembedded.org>,
-	saul.wold@intel.com
-Subject: Re: [PATCH 2/2] scripts: Add yocto-compat-layer-wrapper
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=S4hhGPl6XL9YmDBcCOrKBp0rPM1KRa07u6u4Cg5M5Vg=;
+	b=GrseXdxNz969reiZODdD9nn8EyEYmBOqtQxaN2KkVAZMmAnuMD82+MHMcEgQrZkVSM
+	O/2IiR/ec7jDQAoW3aTiVv11REAM9qLdgWApXwAIItz1dTYA/mIs2D0IVQ+7tQ1L044m
+	ghTg9hMUkiFHPRlElNhsifW+2kDB9Na5vmbtAOQua+kisPhrm88b8H+nTJhXu5zx4XCC
+	nopSjdx5THHBuSv5eXXIaiWR+MR8jKM4plTfRe5HV0go6PbE/p0jlrG5cs7mvQ4DKN5w
+	ISDNgBkW0pty89g+rFsrt0ZKjYyfwW3foBtLSeZNtgX/M1kQ5j1Xjn/nZGpgHVyuI3e4
+	EnTA==
+X-Gm-Message-State: AFeK/H3jE/DyfFNmaq0zzb8N6+S8OyBvElRGAjSQY/JiVoAJl+7TiNkqCotrQWRR3ys+AbX9ib5/dkD3YempAJvJ
+X-Received: by 10.55.119.134 with SMTP id s128mr521032qkc.244.1490890553677;
+	Thu, 30 Mar 2017 09:15:53 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.22.166 with HTTP; Thu, 30 Mar 2017 09:15:33 -0700 (PDT)
+In-Reply-To: <0b00658b-a9c7-680c-9ec3-c6cee05b7f67@linux.intel.com>
+References: <20170329092638.11677-1-mikko.ylinen@linux.intel.com>
+	<CAJTo0LaLhSaC3bx09=qc+gL7YsPKD0YEtukZafUXcxZdW37dwQ@mail.gmail.com>
+	<4cf87faa3852485a820c7526323ef2ab@XBOX02.axis.com>
+	<0b00658b-a9c7-680c-9ec3-c6cee05b7f67@linux.intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 30 Mar 2017 17:15:33 +0100
+Message-ID: <CAJTo0LbtX-r+wp+1+taeimS7P0jGC1ygZHftfSeqJRRQY72iCg@mail.gmail.com>
+To: Mikko Ylinen <mikko.ylinen@linux.intel.com>
+Cc: Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] systemd: check 'efi' in MACHINE_FEATURES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,81 +57,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Mar 2017 16:13:45 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 30 Mar 2017 16:15:53 -0000
+Content-Type: multipart/alternative; boundary=94eb2c05cbd0d9f12a054bf501f7
 
-On Thu, 2017-03-30 at 10:03 -0600, Aníbal Limón wrote:
-> 
-> On 03/30/2017 12:02 AM, Patrick Ohly wrote:
-> > On Wed, 2017-03-29 at 15:44 -0600, Aníbal Limón wrote:
-> > ...
-> >> +show_help() {
-> >> +	printf "Usage: %s [-o output_log] [-h] LAYER_DIR ...\n" $0
-> >> +}
-> >> +
-> > ...
-> >> +env_dir=$(mktemp -d -t yocto-compat-XXXX)
-> >> +echo "The environment will be setup at $env_dir"
-> >> +echo ""
-> > 
-> > The directory gets created, but not removed.
-> 
-> I didn't remove the temp directory because may be the user wants to
-> access the dir after the check.
+--94eb2c05cbd0d9f12a054bf501f7
+Content-Type: text/plain; charset=UTF-8
 
-I think that this should be something that the user explicitly needs to
-request. As it is now, accumulating directories in /tmp when invoking
-the script is just unexpected and not the normal behavior of tools
-creating something in /tmp.
+On 30 March 2017 at 07:59, Mikko Ylinen <mikko.ylinen@linux.intel.com>
+wrote:
 
-> >> +echo "Cloning oe-core..."
-> >> +git clone $oe_core_repo $env_dir
-> >> +if [ $? -ne 0 ]; then
-> >> +	echo "Failed to clone oe-core repository"
-> >> +	exit 1
-> >> +fi
-> >> +
-> >> +echo "Cloning bitbake..."
-> >> +git clone $bitbake_repo $env_dir/bitbake
-> >> +if [ $? -ne 0 ]; then
-> >> +	echo "Failed to clone bitbake repository"
-> >> +	exit 1
-> >> +fi
-> > 
-> > Cloning bitbake and OE-core each time the script runs will be fairly
-> > slow. There's also a chicken-and-egg problem: if you don't have bitbake,
-> > where's the script?
-> > 
-> > I'd prefer to use an existing checkout of both, just as for the layers
-> > which are to be tested.
-> 
-> I choose to clone the oe-core/bitbake to ensure there are a clean
-> environment, without any previous layer added.
+> I'm fine. Perhaps 'efi' should not be a PACKAGECONFIG at all (and
+> unconditionally disabled here) and
+> the functionality (just bootctl?) is moved in systemd-boot. Thoughts?
+>
 
-I don't quite get that argument. When using existing bitbake and OE-core
-directories, how can they have layers added to them? I understand that
-the existing checkout might contain additional modifications and/or
-might not match current master, but I consider that a feature. As it
-stands now, the caller of the script cannot test against Yocto 2.3 once
-it is released, because the script will always check out master.
+I'm not fully aware of the details here but this seems like a good idea.
+Can you prepare a patch?
 
-Control over that can of course also be added to the script, but I just
-don't see the need for all this additional complexity. Just my 2 cents.
+Ross
 
-> I could add an option to
-> specify a oe-core/bitbake dir if isn't set then clone.
+--94eb2c05cbd0d9f12a054bf501f7
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-At the very least please do that.
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 30 March 2017 at 07:59, Mikko Ylinen <span dir=3D"ltr">&lt;<a href=3D"ma=
+ilto:mikko.ylinen@linux.intel.com" target=3D"_blank">mikko.ylinen@linux.int=
+el.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"=
+margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":=
+1qs" class=3D"a3s aXjCH m15b1e03452bba5a6">I&#39;m fine. Perhaps &#39;efi&#=
+39; should not be a PACKAGECONFIG at all (and unconditionally disabled here=
+) and<br>
+the functionality (just bootctl?) is moved in systemd-boot. Thoughts?<br></=
+div></blockquote><div><br></div><div>I&#39;m not fully aware of the details=
+ here but this seems like a good idea.=C2=A0 Can you prepare a patch?</div>=
+<div><br></div><div>Ross</div></div></div></div>
 
--- 
-Best Regards, Patrick Ohly
-
-The content of this message is my personal opinion only and although
-I am an employee of Intel, the statements I make here in no way
-represent Intel's position on the issue, nor am I authorized to speak
-on behalf of Intel on this matter.
-
-
-
-
+--94eb2c05cbd0d9f12a054bf501f7--
