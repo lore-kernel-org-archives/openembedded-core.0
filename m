@@ -1,48 +1,46 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f175.google.com (mail-qk0-f175.google.com
-	[209.85.220.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 98AF477BD5
+Received: from mail-wr0-f170.google.com (mail-wr0-f170.google.com
+	[209.85.128.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 9F2F777BD5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Mar 2017 11:21:29 +0000 (UTC)
-Received: by mail-qk0-f175.google.com with SMTP id p22so36400970qka.3
+	Thu, 30 Mar 2017 11:26:07 +0000 (UTC)
+Received: by mail-wr0-f170.google.com with SMTP id l43so57232155wre.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Mar 2017 04:21:30 -0700 (PDT)
+	Thu, 30 Mar 2017 04:26:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=74c5aDq1hmJYiNS1D1ve4Es5t7L/y8w1Ez6E4yxYvK8=;
-	b=M0zjANlHuU841wQv5Sv5UTR6drY52jlnFuenjpX1WKoDcagwmIx3izwF5KuxS7O8RX
-	hAe/ZjHpEsdSSx+eDVgqJGErYvnqXr18Kpg0d1EkYQLjL18ABIIXuTwW8g3ZXZaP+oSC
-	LA2ylLki4mo0eo8HJuiPbbXM3Tx+zsLwYe0jQCKfE49h7+MNStSCqzz2+pCzxP1Fb0ax
-	CHuXe76VAdWWQJBmD2b4Mek1Yu85knRiPv5gObBTIAhJjyRZw9ajMFUBbsjVy2jWHkcR
-	K3WHFOEtksVsu0NPhGx98TQyVmKOfJttkM3d1jFbeYu6JCF8IuvtX2bFtICI2Pmz6YMC
-	G8eg==
+	h=from:to:subject:date:message-id;
+	bh=FoGLOAo1QC4OhwbhWzSt78bDeHh8BkEcXf2WMjifSTQ=;
+	b=JwzGBQkH+6B9w/45CTRh5aE6t0dpUDHTMsnvamJ8B1zPhyr9TPTSUnhCZ7+NSyk2mC
+	54SRDozHnWC0nT7pGz6+VIohk9X+ztyiYmWFjPWiy2IQdKzrlUMl8Hd3y8ZKnWDwT+T/
+	8lKXeg3HHRvdSWU5XFsfz7eQSlRrQ9A8lpsXa35ydOrmJeXhvyPeTI+qtCh0vmnw3MGx
+	dKo8MqG5/M9n6Y9esKfXTUPVmf90k3osJWRsTtaKryMSTUxx+T2C6+no0D0VKYoKuDlH
+	Uk0TCCmoil/mgaQOCTnadZDTmhh3Y4+WfBzHYPBpWQz8I6zP+h0anIgTR2oxvj78Ht3K
+	ZF2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=74c5aDq1hmJYiNS1D1ve4Es5t7L/y8w1Ez6E4yxYvK8=;
-	b=YQ3ccm5Ag9TDwhTcWpf0Q/Et5yqWNH7e/cMfBERVEkoY+Xf/zdUWfzXfEWzCKkV55+
-	E72163euv5NY6wtRTB4fnFH6IZUGZo27qrYASZlmdT+OYbKr9m0tAQuAbmPn/RwC0Xl9
-	gtvBV5ZunHSBeWkkDNXgekkK/ALwItJ/Z+6GhXaSBk2Udi+uY33zpzAVEO3Tptcj8Cc9
-	0otCzfbArvMa7JGAYhIb2+bqLRPBeyWd+SQ1qhagqdySu+oYHF0GHevpGKRpmovHWmWJ
-	mJlz98/nApE4c6fyX1DWpAAN1qkQdUo+a/XfmodlkfUo1o1QN6qO6SB/gPEjw2yw291J
-	oziw==
-X-Gm-Message-State: AFeK/H1rDbOvHqpI4qo3SDmJwW+sXue1Wk3dFTGBIuMA8BXoDyiq6RD/O5Nwa3uJ/LeWvsccNvhhs+kohWiK20sc
-X-Received: by 10.55.162.203 with SMTP id l194mr5000251qke.221.1490872890210; 
-	Thu, 30 Mar 2017 04:21:30 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.22.166 with HTTP; Thu, 30 Mar 2017 04:21:09 -0700 (PDT)
-In-Reply-To: <20170330080955.GA403@mbabyjoh-desk.ger.corp.intel.com>
-References: <1490789493.18519.18.camel@codethink.co.uk>
-	<CAJ86T=VYpCkzddgtVkT++N+gxj5oi8iuzb29Cm9N_0=7RrG_1A@mail.gmail.com>
-	<20170330080955.GA403@mbabyjoh-desk.ger.corp.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 30 Mar 2017 12:21:09 +0100
-Message-ID: <CAJTo0Lar4023Z0kWdcgBPgc4aD+E6oEvh6jkfhCKdr0gtpYJkQ@mail.gmail.com>
-To: "Maxin B. John" <maxin.john@intel.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] libjpeg-turbo: fix build on aarch64 or non-intel build hosts
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=FoGLOAo1QC4OhwbhWzSt78bDeHh8BkEcXf2WMjifSTQ=;
+	b=kf3feyh0ztDAi04pPIJnHZfHguy7pdmweGSF7acdYBPyEmUH0p6PlsHoZb2kBYiOMk
+	TfpvX3Y9w0kqNz3KKNBP7qPyfa5LJc9FtxQMw9E23Ti6KVtf50ShCOUYF92hNvqCFI8W
+	1a1eVqYN97+AujvCuo/5CthcM6HPO1Hs3VXr4SOREkHRzneA9MEgUKAd26G0y0jXDjZr
+	Ay/g2OpwqvGY0aKhrS6jg+2YW2h2ThhGOWHUq9tlIJzufL+FsHwLLK2H0u/JxNyQJ3Oq
+	QX5nTJYazSc4l/jc2mh8vooQRAmyTVZB0LPHS7tPQ1ENYvqDxKER9zz7RKk5N7osEXYv
+	udAQ==
+X-Gm-Message-State: AFeK/H3znznHnOD+HiX8cRUtLEKKr7fz0mHqvSlakvHrdXHQ549nAGWlpxtOt/XnozH+iCPT
+X-Received: by 10.28.93.65 with SMTP id r62mr2856620wmb.77.1490873168036;
+	Thu, 30 Mar 2017 04:26:08 -0700 (PDT)
+Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id 68sm1926952wme.7.2017.03.30.04.26.07
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 30 Mar 2017 04:26:07 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 30 Mar 2017 12:26:02 +0100
+Message-Id: <1490873162-7837-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.8.1
+Subject: [PATCH] nasm: remove COMPATIBLE_HOST
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,41 +53,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Mar 2017 11:21:29 -0000
-Content-Type: multipart/alternative; boundary=001a114d7fb006d7b6054bf0e5a8
+X-List-Received-Date: Thu, 30 Mar 2017 11:26:08 -0000
 
---001a114d7fb006d7b6054bf0e5a8
-Content-Type: text/plain; charset=UTF-8
+nasm can build on every architecture, it just can't generate anything but X86
+code.  As we can't know what the user intends to do with nasm, remove the
+COMPATIBLE_HOST line.
 
-On 30 March 2017 at 09:09, Maxin B. John <maxin.john@intel.com> wrote:
->
-> Agree with Andre here. I would suggest to update nasm recipe to support
-> build for other archs as well (tested on arm and it works as expected. Will
-> require more testing on other archs).
->
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-devtools/nasm/nasm_2.12.02.bb | 1 -
+ 1 file changed, 1 deletion(-)
 
-Yes.  Simply deleting the COMPATIBLE_HOST in nasm.bb should be sufficient,
-Debian builds nasm for every architecture so that demonstrates that it
-builds just fine.
+diff --git a/meta/recipes-devtools/nasm/nasm_2.12.02.bb b/meta/recipes-devtools/nasm/nasm_2.12.02.bb
+index 9c4b60f..3280b84 100644
+--- a/meta/recipes-devtools/nasm/nasm_2.12.02.bb
++++ b/meta/recipes-devtools/nasm/nasm_2.12.02.bb
+@@ -2,7 +2,6 @@ SUMMARY = "General-purpose x86 assembler"
+ SECTION = "devel"
+ LICENSE = "BSD-2-Clause"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=90904486f8fbf1861cf42752e1a39efe"
+-COMPATIBLE_HOST = '(x86_64|i.86).*-(linux|freebsd.*)'
+ 
+ SRC_URI = "http://www.nasm.us/pub/nasm/releasebuilds/${PV}/nasm-${PV}.tar.bz2 "
+ 
+-- 
+2.8.1
 
-Ross
 
---001a114d7fb006d7b6054bf0e5a8
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 30 March 2017 at 09:09, Maxin B. John <span dir=3D"ltr">&lt;<a href=3D"m=
-ailto:maxin.john@intel.com" target=3D"_blank">maxin.john@intel.com</a>&gt;<=
-/span> wrote:<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;b=
-order-left:1px #ccc solid;padding-left:1ex">Agree with Andre here. I would =
-suggest to update nasm recipe to support<br>
-build for other archs as well (tested on arm and it works as expected. Will=
-<br>
-require more testing on other archs).<br></blockquote></div><br>Yes.=C2=A0 =
-Simply deleting the COMPATIBLE_HOST in <a href=3D"http://nasm.bb">nasm.bb</=
-a> should be sufficient, Debian builds nasm for every architecture so that =
-demonstrates that it builds just fine.</div><div class=3D"gmail_extra"><br>=
-</div><div class=3D"gmail_extra">Ross</div></div>
-
---001a114d7fb006d7b6054bf0e5a8--
