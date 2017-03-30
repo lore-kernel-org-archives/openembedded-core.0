@@ -1,30 +1,28 @@
 Return-Path: <richard@rpsys.net>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 4A97177C4D
+	by mail.openembedded.org (Postfix) with ESMTP id 4B7E377C4F
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 30 Mar 2017 09:35:40 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTP id v2U9ZeMS030687; 
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTP id v2U9ZeJ1030685; 
 	Thu, 30 Mar 2017 10:35:40 +0100
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id NdAN7YSO9v_n; Thu, 30 Mar 2017 10:35:40 +0100 (BST)
+	with LMTP id jpaaiwKC9UiH; Thu, 30 Mar 2017 10:35:40 +0100 (BST)
 Received: from hex ([192.168.3.34]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v2U9ZcAj030671
+	v2U9ZchE030669
 	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
 	Thu, 30 Mar 2017 10:35:39 +0100
 Received: from richard by hex with local (Exim 4.86_2)
 	(envelope-from <richard@rpsys.net>)
-	id 1ctWUU-0005kj-Fr; Thu, 30 Mar 2017 10:35:38 +0100
+	id 1ctWUU-0005kb-Ed; Thu, 30 Mar 2017 10:35:38 +0100
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 30 Mar 2017 10:35:35 +0100
-Message-Id: <1490866536-22063-3-git-send-email-richard.purdie@linuxfoundation.org>
+Date: Thu, 30 Mar 2017 10:35:33 +0100
+Message-Id: <1490866536-22063-1-git-send-email-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1490866536-22063-1-git-send-email-richard.purdie@linuxfoundation.org>
-References: <1490866536-22063-1-git-send-email-richard.purdie@linuxfoundation.org>
-Subject: [PATCH 3/4] ccache: Use MULTIMACH_TARGET_SYS not HOST_SYS
+Subject: [PATCH 1/4] bitbake.conf: Add DEPLOY_DIR to BB_HASHBASE_WHITELIST
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,25 +37,29 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 30 Mar 2017 09:35:41 -0000
 
-I suspect this was a typo and that TARGET_SYS makes more sense here. Its
-also the only remaining user of MULTIMACH_HOST_SYS in OE-Core. Change it.
+Users should be able to locally choose DEPLOY_DIR without impacting
+the reuse of sstate, this change allows that.
+
+[YOCTO #11110]
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/classes/ccache.bbclass | 2 +-
+ meta/conf/bitbake.conf | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/ccache.bbclass b/meta/classes/ccache.bbclass
-index 9713fea..d58c8f6 100644
---- a/meta/classes/ccache.bbclass
-+++ b/meta/classes/ccache.bbclass
-@@ -1,5 +1,5 @@
- CCACHE = "${@bb.utils.which(d.getVar('PATH'), 'ccache') and 'ccache '}"
--export CCACHE_DIR ?= "${TMPDIR}/ccache/${MULTIMACH_HOST_SYS}/${PN}"
-+export CCACHE_DIR ?= "${TMPDIR}/ccache/${MULTIMACH_TARGET_SYS}/${PN}"
- CCACHE_DISABLE[unexport] = "1"
- 
- # We need to stop ccache considering the current directory or the
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index d95e39d..d756af4 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -834,7 +834,7 @@ BB_HASHBASE_WHITELIST ?= "TMPDIR FILE PATH PWD BB_TASKHASH BBPATH BBSERVER DL_DI
+     PRSERV_DUMPDIR PRSERV_DUMPFILE PRSERV_LOCKDOWN PARALLEL_MAKE \
+     CCACHE_DIR EXTERNAL_TOOLCHAIN CCACHE CCACHE_DISABLE LICENSE_PATH SDKPKGSUFFIX \
+     WARN_QA ERROR_QA WORKDIR STAMPCLEAN PKGDATA_DIR BUILD_ARCH SSTATE_PKGARCH \
+-    BB_WORKERCONTEXT BB_LIMITEDDEPS extend_recipe_sysroot"
++    BB_WORKERCONTEXT BB_LIMITEDDEPS extend_recipe_sysroot DEPLOY_DIR"
+ BB_HASHCONFIG_WHITELIST ?= "${BB_HASHBASE_WHITELIST} DATE TIME SSH_AGENT_PID \
+     SSH_AUTH_SOCK PSEUDO_BUILD BB_ENV_EXTRAWHITE DISABLE_SANITY_CHECKS \
+     PARALLEL_MAKE BB_NUMBER_THREADS BB_ORIGENV BB_INVALIDCONF BBINCLUDED \
 -- 
 2.7.4
 
