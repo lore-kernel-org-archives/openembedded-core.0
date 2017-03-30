@@ -1,46 +1,46 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wr0-f170.google.com (mail-wr0-f170.google.com
-	[209.85.128.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 9F2F777BD5
+Received: from mail-qk0-f182.google.com (mail-qk0-f182.google.com
+	[209.85.220.182])
+	by mail.openembedded.org (Postfix) with ESMTP id C200677CD7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Mar 2017 11:26:07 +0000 (UTC)
-Received: by mail-wr0-f170.google.com with SMTP id l43so57232155wre.1
+	Thu, 30 Mar 2017 11:45:59 +0000 (UTC)
+Received: by mail-qk0-f182.google.com with SMTP id p22so36862428qka.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Mar 2017 04:26:08 -0700 (PDT)
+	Thu, 30 Mar 2017 04:46:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=FoGLOAo1QC4OhwbhWzSt78bDeHh8BkEcXf2WMjifSTQ=;
-	b=JwzGBQkH+6B9w/45CTRh5aE6t0dpUDHTMsnvamJ8B1zPhyr9TPTSUnhCZ7+NSyk2mC
-	54SRDozHnWC0nT7pGz6+VIohk9X+ztyiYmWFjPWiy2IQdKzrlUMl8Hd3y8ZKnWDwT+T/
-	8lKXeg3HHRvdSWU5XFsfz7eQSlRrQ9A8lpsXa35ydOrmJeXhvyPeTI+qtCh0vmnw3MGx
-	dKo8MqG5/M9n6Y9esKfXTUPVmf90k3osJWRsTtaKryMSTUxx+T2C6+no0D0VKYoKuDlH
-	Uk0TCCmoil/mgaQOCTnadZDTmhh3Y4+WfBzHYPBpWQz8I6zP+h0anIgTR2oxvj78Ht3K
-	ZF2w==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=GuNQ8Lc9C1sJUtor7BuKy9KlCIGHzTKSUueym7Z5mnE=;
+	b=MPimFY6jaE4J3PjxafoKaBiWS/7dLQUFbPE4cEM9I7a8JWnlqljMDt16lCu9+g/kjU
+	xWUISUHQd//xvAZ3mh2SBBs40+MANRwJGd6SmPyPIqUNJs/BFHxdeOHzslMchkSIb+pn
+	5E6ABjHHSniBMiImtMtC7ewi99vXhOekjJ1ivLn0a/aOsBRbElJ8Z9OLeP0elHs5fMuz
+	hQdvm47l/t5RjNueqCJ0AlwB8MXtTuHszFthyP0Ao+3p4ip6RlJnFbZO3c2PFhs2ZMq9
+	/e/5q3EtgVh51XWIiJuwzreqrsdWMojnPf6Png9cXn59MauaX53H2JTLeSi+mUIaYsbP
+	r2zA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=FoGLOAo1QC4OhwbhWzSt78bDeHh8BkEcXf2WMjifSTQ=;
-	b=kf3feyh0ztDAi04pPIJnHZfHguy7pdmweGSF7acdYBPyEmUH0p6PlsHoZb2kBYiOMk
-	TfpvX3Y9w0kqNz3KKNBP7qPyfa5LJc9FtxQMw9E23Ti6KVtf50ShCOUYF92hNvqCFI8W
-	1a1eVqYN97+AujvCuo/5CthcM6HPO1Hs3VXr4SOREkHRzneA9MEgUKAd26G0y0jXDjZr
-	Ay/g2OpwqvGY0aKhrS6jg+2YW2h2ThhGOWHUq9tlIJzufL+FsHwLLK2H0u/JxNyQJ3Oq
-	QX5nTJYazSc4l/jc2mh8vooQRAmyTVZB0LPHS7tPQ1ENYvqDxKER9zz7RKk5N7osEXYv
-	udAQ==
-X-Gm-Message-State: AFeK/H3znznHnOD+HiX8cRUtLEKKr7fz0mHqvSlakvHrdXHQ549nAGWlpxtOt/XnozH+iCPT
-X-Received: by 10.28.93.65 with SMTP id r62mr2856620wmb.77.1490873168036;
-	Thu, 30 Mar 2017 04:26:08 -0700 (PDT)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id 68sm1926952wme.7.2017.03.30.04.26.07
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 30 Mar 2017 04:26:07 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 30 Mar 2017 12:26:02 +0100
-Message-Id: <1490873162-7837-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.8.1
-Subject: [PATCH] nasm: remove COMPATIBLE_HOST
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=GuNQ8Lc9C1sJUtor7BuKy9KlCIGHzTKSUueym7Z5mnE=;
+	b=jQ73tR4TuL/seXIPLKxkwLtbtXEFCvwtX2HLQDcfNUvvekgscdFot6FgbflBDi1cMS
+	jUmULONX/KaVlO1ycMDY8wWcg6PgkcSg9wRUXuIODID1+RctqBVHxjSMY4lUvrwK98Mn
+	Ewtjts/ovbP++wMfwqGrpcxR6ScyjfcH8rOJtk75cKnJMx4xdhWoWsZXd0prWRKOc2w5
+	N+W0Js6I+0vxTDdUzPXIV33RNPDgbBjhGoMqIlJezHBiuGbm8pWKcxi+sAEQ/CHmCEmJ
+	4N4zwS9fkVU3p2vh5OpBYi4ONp/IGrMa0MT1VJ/fmnHBMq/u8HdOTxFEelmOC/RhIP01
+	cOWw==
+X-Gm-Message-State: AFeK/H33TEhCLBHdn4muCIYqnoe0MG033i+xIgKGL+0S2Q4uKiHBx6PDj6QNR0/Ol/kI+gpF7BZdHejcs+UNBSh1
+X-Received: by 10.55.107.196 with SMTP id g187mr2753697qkc.77.1490874360871;
+	Thu, 30 Mar 2017 04:46:00 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.22.166 with HTTP; Thu, 30 Mar 2017 04:45:40 -0700 (PDT)
+In-Reply-To: <20170330063921.31988-1-leonardo.sandoval.gonzalez@linux.intel.com>
+References: <20170330063921.31988-1-leonardo.sandoval.gonzalez@linux.intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 30 Mar 2017 12:45:40 +0100
+Message-ID: <CAJTo0Lbb-TZYaZs+aKMSZEKUAhcN=8n6+bDrq5GjaTxo-Ws-cw@mail.gmail.com>
+To: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] selftest/pkgdata: support musl on unit tests
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,30 +53,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Mar 2017 11:26:08 -0000
+X-List-Received-Date: Thu, 30 Mar 2017 11:46:00 -0000
+Content-Type: multipart/alternative; boundary=001a114fe396af561a054bf13c6e
 
-nasm can build on every architecture, it just can't generate anything but X86
-code.  As we can't know what the user intends to do with nasm, remove the
-COMPATIBLE_HOST line.
+--001a114fe396af561a054bf13c6e
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-devtools/nasm/nasm_2.12.02.bb | 1 -
- 1 file changed, 1 deletion(-)
+On 30 March 2017 at 07:39, <leonardo.sandoval.gonzalez@linux.intel.com>
+wrote:
 
-diff --git a/meta/recipes-devtools/nasm/nasm_2.12.02.bb b/meta/recipes-devtools/nasm/nasm_2.12.02.bb
-index 9c4b60f..3280b84 100644
---- a/meta/recipes-devtools/nasm/nasm_2.12.02.bb
-+++ b/meta/recipes-devtools/nasm/nasm_2.12.02.bb
-@@ -2,7 +2,6 @@ SUMMARY = "General-purpose x86 assembler"
- SECTION = "devel"
- LICENSE = "BSD-2-Clause"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=90904486f8fbf1861cf42752e1a39efe"
--COMPATIBLE_HOST = '(x86_64|i.86).*-(linux|freebsd.*)'
- 
- SRC_URI = "http://www.nasm.us/pub/nasm/releasebuilds/${PV}/nasm-${PV}.tar.bz2 "
- 
--- 
-2.8.1
+> +        # recipe-runtime-package relation for virtual/libc provider
+> +        Libc = collections.namedtuple('Libc', ['recipe', 'runtime_pkg',
+> 'libpath', 'staticdev', 'utils', 'rutils'])
+> +        cls.libc = Libc('glibc', 'libc6', '/lib/libc.so.6',
+> 'libc6-staticdev', 'glibc-utils', 'lib6-utils')
+> +        if get_bb_var('TCLIBC') == 'musl':
+> +            cls.libc = Libc('musl', 'musl', '/usr/lib/libc.so',
+> 'musl-staticdev', None, None)
+>
 
+Instead of all of this, why not just change the tests to use a different
+package?  The bulk of them were just using glibc as it's going to be built,
+but we've built zlib too so the tests could use that instead.
 
+Ross
+
+--001a114fe396af561a054bf13c6e
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 30 March 2017 at 07:39,  <span dir=3D"ltr">&lt;<a href=3D"mailto:leonard=
+o.sandoval.gonzalez@linux.intel.com" target=3D"_blank">leonardo.sandoval.go=
+nzalez@linux.intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_=
+quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1=
+ex"><div id=3D":1ew" class=3D"a3s aXjCH m15b1c72b606c2146">+=C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 # recipe-runtime-package relation for virtual/libc provider<b=
+r>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 Libc =3D collections.namedtuple(&#39;Libc&#39;=
+, [&#39;recipe&#39;, &#39;runtime_pkg&#39;, &#39;libpath&#39;, &#39;staticd=
+ev&#39;, &#39;utils&#39;, &#39;rutils&#39;])<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 cls.libc =3D Libc(&#39;glibc&#39;, &#39;libc6&=
+#39;, &#39;/lib/libc.so.6&#39;, &#39;libc6-staticdev&#39;, &#39;glibc-utils=
+&#39;, &#39;lib6-utils&#39;)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if get_bb_var(&#39;TCLIBC&#39;) =3D=3D &#39;mu=
+sl&#39;:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 cls.libc =3D Libc(&#39;musl&#39;=
+, &#39;musl&#39;, &#39;/usr/lib/libc.so&#39;, &#39;musl-staticdev&#39;, Non=
+e, None)<br></div></blockquote></div><br>Instead of all of this, why not ju=
+st change the tests to use a different package?=C2=A0 The bulk of them were=
+ just using glibc as it&#39;s going to be built, but we&#39;ve built zlib t=
+oo so the tests could use that instead.</div><div class=3D"gmail_extra"><br=
+></div><div class=3D"gmail_extra">Ross</div></div>
+
+--001a114fe396af561a054bf13c6e--
