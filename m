@@ -1,29 +1,29 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 813E277BF3
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id A19AF77C05
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Mar 2017 09:02:11 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTP id v2U929gN026549; 
-	Thu, 30 Mar 2017 10:02:09 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id ajl00HCA_ONw; Thu, 30 Mar 2017 10:02:09 +0100 (BST)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v2U924BS026537
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Thu, 30 Mar 2017 10:02:05 +0100
-Message-ID: <1490864524.13980.343.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Jussi Kukkonen <jussi.kukkonen@intel.com>,
-	openembedded-core@lists.openembedded.org
-Date: Thu, 30 Mar 2017 10:02:04 +0100
-In-Reply-To: <1490798647-28191-1-git-send-email-jussi.kukkonen@intel.com>
-References: <1490798647-28191-1-git-send-email-jussi.kukkonen@intel.com>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.1 
-Mime-Version: 1.0
-Subject: Re: [PATCH] quilt: Fix paths for patch and perl
+	Thu, 30 Mar 2017 09:21:50 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v2U9LolM015808
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 30 Mar 2017 02:21:51 -0700 (PDT)
+Received: from [128.224.162.201] (128.224.162.201) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.294.0;
+	Thu, 30 Mar 2017 02:21:50 -0700
+To: Gary Thomas <gary@mlbassoc.com>, <openembedded-core@lists.openembedded.org>
+References: <cover.1490863008.git.Qi.Chen@windriver.com>
+	<ae8133ce6aa20fd7e0f6189ebad556a5716d5111.1490863008.git.Qi.Chen@windriver.com>
+	<f9f0bdc7-2ac3-90f2-706e-012ffe86f501@mlbassoc.com>
+From: ChenQi <Qi.Chen@windriver.com>
+Message-ID: <0b9253f8-4be5-32d4-71ed-70831f12c43e@windriver.com>
+Date: Thu, 30 Mar 2017 17:23:06 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.4.0
+MIME-Version: 1.0
+In-Reply-To: <f9f0bdc7-2ac3-90f2-706e-012ffe86f501@mlbassoc.com>
+X-Originating-IP: [128.224.162.201]
+Subject: Re: [PATCH 1/1] wic: improve error message
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,62 +36,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Mar 2017 09:02:13 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 30 Mar 2017 09:21:51 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, 2017-03-29 at 17:44 +0300, Jussi Kukkonen wrote:
-> --with-perl value is used as part of shebang lines: the previous
-> do_install_append hack did not work as it was often used as
->     #! /usr/bin/env perl -w
-> Env does not support arguments, set --with-perl instead. Native
-> recipe already overrides this so should not break.
-> 
-> --with-patch is used within the gnu patch wrapper only: before this
-> commit the wrapper contained a path to (build host) native patch.
-> 
-> Also tweak one test so busybox mv output is accepted.
-> 
-> All ptests should now pass: Fixes [YOCTO #11221].
-> 
-> Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
-> ---
->  meta/recipes-devtools/quilt/quilt.inc              |  3 ++-
->  ...0001-tests-Allow-different-output-from-mv.patch | 29
-> ++++++++++++++++++++++
->  meta/recipes-devtools/quilt/quilt_0.65.bb          | 10 --------
->  3 files changed, 31 insertions(+), 11 deletions(-)
->  create mode 100644 meta/recipes-devtools/quilt/quilt/0001-tests-
-> Allow-different-output-from-mv.patch
-> 
-> diff --git a/meta/recipes-devtools/quilt/quilt.inc b/meta/recipes-
-> devtools/quilt/quilt.inc
-> index 57e2a14..e6a63ce 100644
-> --- a/meta/recipes-devtools/quilt/quilt.inc
-> +++ b/meta/recipes-devtools/quilt/quilt.inc
-> @@ -8,6 +8,7 @@ SRC_URI = "${SAVANNAH_GNU_MIRROR}/quilt/quilt-
-> ${PV}.tar.gz \
->          file://run-ptest \
->          file://Makefile \
->          file://test.sh \
-> +        file://0001-tests-Allow-different-output-from-mv.patch \
->  "
->  
->  SRC_URI[md5sum] = "c67ba0228f5b7b8bbe469474661f92d6"
-> @@ -33,7 +34,7 @@ RDEPENDS_${PN} = "bash"
->  EXTRA_OE_MAKE_ARGS_darwin ?= ""
->  EXTRA_OE_MAKE_ARGS ?= "BUILD_ROOT=${D}"
->  
-> -EXTRA_OECONF = "--with-perl=perl"
-> +EXTRA_OECONF = "--with-perl=${bindir}/perl --with-patch=patch"
+On 03/30/2017 04:54 PM, Gary Thomas wrote:
+> On 2017-03-30 10:37, Chen Qi wrote:
+>> When using `wic create mkefidisk -e core-image-minimal', the following
+>> error message appeared.
+>>
+>>   Please bake it with 'bitbake parted-native' and try again.
+>>
+>> However, following this command doesn't do any help. The same problem
+>> still appeared.
+>>
+>> The problem is that when we 'bitbake parted-native', it doesn't have
+>> anything to do with core-image-minimal. And the required tool 'parted'
+>> is not under core-image-minimal's recipe-sysroot-native directory.
+>>
+>> Improve the error message so that following it could get things done.
+>
+> Why not just fix the wic-tools recipe directly and not push it off 
+> onto the user?
+>
 
-Unfortunately I think this would break nativesdk-quilt since we'd no
-longer be using env and hence would require the buildtools tarball and
-sdks contained perl?
+wic-tools does have 'parted-native' in its DEPENDS.
+I met this error when I used wic command before I executed `bitbake 
+wic-tools'.
 
-Cheers,
+What's important here is, when an error message suggests the user to do 
+something, the suggestion should at least have some chance to work. But 
+following the current error message has no chance to fix things.
 
-Richard
+Best Regards,
+Chen Qi
 
+>>
+>> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+>> ---
+>>  scripts/lib/wic/utils/misc.py | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/scripts/lib/wic/utils/misc.py 
+>> b/scripts/lib/wic/utils/misc.py
+>> index c941112..1b0ab3b 100644
+>> --- a/scripts/lib/wic/utils/misc.py
+>> +++ b/scripts/lib/wic/utils/misc.py
+>> @@ -131,7 +131,7 @@ def exec_native_cmd(cmd_and_args, native_sysroot, 
+>> catch=3, pseudo=""):
+>>                "was not found (see details above).\n\n" % prog
+>>          recipe = NATIVE_RECIPES.get(prog)
+>>          if recipe:
+>> -            msg += "Please bake it with 'bitbake %s-native' "\
+>> +            msg += "Please make sure wic-tools have %s-native in its 
+>> DEPENDS, bake it with 'bitbake wic-tools' "\
+>>                     "and try again.\n" % recipe
+>>          else:
+>>              msg += "Wic failed to find a recipe to build native %s. 
+>> Please "\
+>>
+>
+>
 
 
