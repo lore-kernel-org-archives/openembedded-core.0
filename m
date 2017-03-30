@@ -1,41 +1,25 @@
-Return-Path: <marex@denx.de>
-Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.10])
-	by mail.openembedded.org (Postfix) with ESMTP id D80C977C17;
-	Thu, 30 Mar 2017 14:12:11 +0000 (UTC)
-Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
-	by mail-out.m-online.net (Postfix) with ESMTP id 3vv65Q0RXdz1qql6;
-	Thu, 30 Mar 2017 16:12:10 +0200 (CEST)
-Received: from localhost (dynscan01.mnet-online.de [192.168.6.70])
-	by mail.m-online.net (Postfix) with ESMTP id 3vv65P6Ygjz3hhTq;
-	Thu, 30 Mar 2017 16:12:09 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at mnet-online.de
-Received: from mail.mnet-online.de ([192.168.8.182])
-	by localhost (dynscan01.mail.m-online.net [192.168.6.70]) (amavisd-new,
-	port 10024)
-	with ESMTP id jYtN-MeE8lxg; Thu, 30 Mar 2017 16:12:08 +0200 (CEST)
-X-Auth-Info: 3Qp3RjqZ6AuEEyjpQsWfFvDks37eMuR7BhIr0xwk/bc=
-Received: from [IPv6:::1] (unknown [195.140.253.167])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mail.mnet-online.de (Postfix) with ESMTPSA;
-	Thu, 30 Mar 2017 16:12:08 +0200 (CEST)
-To: Denys Dmytriyenko <denis@denix.org>
-References: <20170327142231.21807-1-marex@denx.de>
-	<1490624701.13980.267.camel@linuxfoundation.org>
-	<5c037512-7bf1-8a3c-cb76-fda7230781a0@denx.de>
-	<20170329215658.GP15664@denix.org>
-	<a5b043f0-b0ee-a74b-fd55-4f8d20669cba@denx.de>
-	<20170330132447.GU15664@denix.org>
-From: Marek Vasut <marex@denx.de>
-Message-ID: <a8de81ca-4056-ad2c-4e38-1bd1b4c62315@denx.de>
-Date: Thu, 30 Mar 2017 16:12:08 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Icedove/45.4.0
-MIME-Version: 1.0
-In-Reply-To: <20170330132447.GU15664@denix.org>
-Cc: openembedded-core@lists.openembedded.org,
-	openembedded-devel@lists.openembedded.org
-Subject: Re: [PATCH] u-boot: Update to 2017.03 release
+Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	by mail.openembedded.org (Postfix) with ESMTP id D8C3277CD8
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 30 Mar 2017 14:30:12 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga105.jf.intel.com with ESMTP; 30 Mar 2017 07:30:13 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.36,246,1486454400"; d="scan'208";a="1113667497"
+Received: from lsandov1-mobl2.zpn.intel.com ([10.219.128.141])
+	by orsmga001.jf.intel.com with ESMTP; 30 Mar 2017 07:30:13 -0700
+Message-ID: <1490884701.17259.52.camel@linux.intel.com>
+From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 30 Mar 2017 08:38:21 -0600
+In-Reply-To: <CAJTo0Lbb-TZYaZs+aKMSZEKUAhcN=8n6+bDrq5GjaTxo-Ws-cw@mail.gmail.com>
+References: <20170330063921.31988-1-leonardo.sandoval.gonzalez@linux.intel.com>
+	<CAJTo0Lbb-TZYaZs+aKMSZEKUAhcN=8n6+bDrq5GjaTxo-Ws-cw@mail.gmail.com>
+X-Mailer: Evolution 3.12.9-1+b1 
+Mime-Version: 1.0
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] selftest/pkgdata: support musl on unit tests
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,34 +32,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Mar 2017 14:12:13 -0000
-Content-Type: text/plain; charset=windows-1252
+X-List-Received-Date: Thu, 30 Mar 2017 14:30:13 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 03/30/2017 03:24 PM, Denys Dmytriyenko wrote:
-> On Thu, Mar 30, 2017 at 10:21:31AM +0200, Marek Vasut wrote:
->> On 03/29/2017 11:56 PM, Denys Dmytriyenko wrote:
->>> On Mon, Mar 27, 2017 at 04:31:16PM +0200, Marek Vasut wrote:
->>>> On 03/27/2017 04:25 PM, Richard Purdie wrote:
->>>>> On Mon, 2017-03-27 at 16:22 +0200, Marek Vasut wrote:
->>>>>> Upgrade U-Boot to the latest version.
->>>>>
->>>>> Wrong list and how does this compare to Ovatio's patch?
->>>>
->>>> I was not CCed on Otavio's patch :(
->>>
->>> Yeah, me neither, unfortunately - people just ignore maintainers file now.
->>>
->>> Good thing Ross copied me on the other discussion!
->>>
->> Which other discussion ? :-(
+On Thu, 2017-03-30 at 12:45 +0100, Burton, Ross wrote:
 > 
-> http://lists.openembedded.org/pipermail/openembedded-core/2017-March/134682.html
+> On 30 March 2017 at 07:39,
+> <leonardo.sandoval.gonzalez@linux.intel.com> wrote:
+>         +        # recipe-runtime-package relation for virtual/libc
+>         provider
+>         +        Libc = collections.namedtuple('Libc', ['recipe',
+>         'runtime_pkg', 'libpath', 'staticdev', 'utils', 'rutils'])
+>         +        cls.libc = Libc('glibc', 'libc6', '/lib/libc.so.6',
+>         'libc6-staticdev', 'glibc-utils', 'lib6-utils')
+>         +        if get_bb_var('TCLIBC') == 'musl':
+>         +            cls.libc = Libc('musl', 'musl',
+>         '/usr/lib/libc.so', 'musl-staticdev', None, None)
+>         
 > 
-I see. I'm all for updating to 2017.03 , since it fixes the OMAP serial
-bug too :)
+> Instead of all of this, why not just change the tests to use a
+> different package?  The bulk of them were just using glibc as it's
+> going to be built, but we've built zlib too so the tests could use
+> that instead.
 
--- 
-Best regards,
-Marek Vasut
+If you consider that replacing the libc for another recipe/package is
+fine, I go that way.
+
+Leo
+> 
+> 
+> Ross
+
+
 
