@@ -1,30 +1,30 @@
 Return-Path: <richard@rpsys.net>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 8383C77D00
+	by mail.openembedded.org (Postfix) with ESMTP id 8473A77D04
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 30 Mar 2017 15:27:43 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTP id v2UFRgFw010213; 
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTP id v2UFRghY010223; 
 	Thu, 30 Mar 2017 16:27:42 +0100
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id eKzw_LRXWS9R; Thu, 30 Mar 2017 16:27:42 +0100 (BST)
+	with LMTP id DdY5yUro4oDv; Thu, 30 Mar 2017 16:27:42 +0100 (BST)
 Received: from hex ([192.168.3.34]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v2UFRe4F010205
+	v2UFRe1I010207
 	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
 	Thu, 30 Mar 2017 16:27:41 +0100
 Received: from richard by hex with local (Exim 4.86_2)
 	(envelope-from <richard@rpsys.net>)
-	id 1ctbzA-00075H-9y; Thu, 30 Mar 2017 16:27:40 +0100
+	id 1ctbzA-00075P-B8; Thu, 30 Mar 2017 16:27:40 +0100
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 30 Mar 2017 16:27:37 +0100
-Message-Id: <1490887659-27179-3-git-send-email-richard.purdie@linuxfoundation.org>
+Date: Thu, 30 Mar 2017 16:27:39 +0100
+Message-Id: <1490887659-27179-5-git-send-email-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1490887659-27179-1-git-send-email-richard.purdie@linuxfoundation.org>
 References: <1490887659-27179-1-git-send-email-richard.purdie@linuxfoundation.org>
-Subject: [PATCH 3/5] glibc-package: Allow 32 and 64 bit headers to exist on arm
+Subject: [PATCH 5/5] linux-libc-headers: Remove reference to cross-linkage
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,44 +39,24 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 30 Mar 2017 15:27:45 -0000
 
-With this change (combined with the previous linux-libc-header fix), a
-combined sysroot for 32 and 64 bit arm works meaning our SDK works
-correctly for that multilib setup.
+This is long dead (thankfully), remove stale reference/comment.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-core/glibc/glibc-package.inc | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
+ meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/meta/recipes-core/glibc/glibc-package.inc b/meta/recipes-core/glibc/glibc-package.inc
-index 6e548cb..2ca5666 100644
---- a/meta/recipes-core/glibc/glibc-package.inc
-+++ b/meta/recipes-core/glibc/glibc-package.inc
-@@ -140,8 +140,25 @@ do_install_append_aarch64 () {
- 				${D}/lib/ld-linux-aarch64_be.so.1
- 		fi
- 	fi
-+	do_install_armmultilib
- }
+diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc
+index bb9a669..1b01741 100644
+--- a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc
++++ b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc
+@@ -83,7 +83,6 @@ do_install_armmultilib () {
  
-+do_install_append_arm () {
-+	do_install_armmultilib
-+}
-+
-+do_install_armmultilib () {
-+
-+	oe_multilib_header bits/endian.h bits/fcntl.h bits/fenv.h bits/fp-fast.h bits/hwcap.h bits/ipc.h bits/link.h bits/wordsize.h
-+	oe_multilib_header bits/local_lim.h bits/mman.h bits/msq.h bits/pthreadtypes.h  bits/sem.h  bits/semaphore.h bits/setjmp.h
-+	oe_multilib_header bits/shm.h bits/sigstack.h bits/stat.h bits/statfs.h bits/string.h bits/typesizes.h
-+
-+	oe_multilib_header fpu_control.h gnu/lib-names.h gnu/stubs.h ieee754.h
-+
-+	oe_multilib_header sys/elf.h sys/procfs.h sys/ptrace.h sys/ucontext.h sys/user.h
-+}
-+
-+
- LOCALESTASH = "${WORKDIR}/stashed-locale"
- bashscripts = "mtrace sotruss xtrace"
+ BBCLASSEXTEND = "nativesdk"
+ 
+-#DEPENDS = "cross-linkage"
+ RDEPENDS_${PN}-dev = ""
+ RRECOMMENDS_${PN}-dbg = "${PN}-dev (= ${EXTENDPKGV})"
  
 -- 
 2.7.4
