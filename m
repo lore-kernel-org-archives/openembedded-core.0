@@ -1,40 +1,46 @@
-Return-Path: <Awais_Belal@mentor.com>
-Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id 95F4F77CCC
+Return-Path: <liu.ming50@gmail.com>
+Received: from mail-lf0-f67.google.com (mail-lf0-f67.google.com
+	[209.85.215.67])
+	by mail.openembedded.org (Postfix) with ESMTP id C7C0377CCC
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Mar 2017 13:02:35 +0000 (UTC)
-Received: from nat-ies.mentorg.com ([192.94.31.2]
-	helo=SVR-IES-MBX-03.mgc.mentorg.com)
-	by relay1.mentorg.com with esmtp 
-	id 1ctZim-0002Ac-Mp from Awais_Belal@mentor.com 
-	for openembedded-core@lists.openembedded.org;
-	Thu, 30 Mar 2017 06:02:37 -0700
-Received: from SVR-IES-MBX-03.mgc.mentorg.com (139.181.222.3) by
-	SVR-IES-MBX-03.mgc.mentorg.com (139.181.222.3) with Microsoft SMTP
-	Server (TLS) id 15.0.1210.3; Thu, 30 Mar 2017 14:02:33 +0100
-Received: from SVR-IES-MBX-03.mgc.mentorg.com ([fe80::1072:fb6e:87f1:ed17]) by
-	SVR-IES-MBX-03.mgc.mentorg.com ([fe80::1072:fb6e:87f1:ed17%22]) with
-	mapi id 15.00.1210.000; Thu, 30 Mar 2017 14:02:33 +0100
-From: "Belal, Awais" <Awais_Belal@mentor.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH v2 2/2]	grub-efi/live-vm-common:	allow	grub	as
-	EFI_PROVIDER
-Thread-Index: AQHSevx+i/pIvL3VfUqlJ7VCxmqT56GttcpR
-Date: Thu, 30 Mar 2017 13:02:33 +0000
-Message-ID: <1490878952938.54033@mentor.com>
-References: <1481890756-18807-1-git-send-email-awais_belal@mentor.com>,
-	<1481890756-18807-2-git-send-email-awais_belal@mentor.com>,
-	<1482840941211.2620@mentor.com>, <1483446891372.91851@mentor.com>,
-	<1484050790272.67871@mentor.com>,<1485782741272.36101@mentor.com>
-In-Reply-To: <1485782741272.36101@mentor.com>
-Accept-Language: en-US, en-IE
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [137.202.0.87]
-MIME-Version: 1.0
-Subject: Re: [PATCH v2 2/2]	grub-efi/live-vm-common:	allow	grub	as	EFI_PROVIDER
+	Thu, 30 Mar 2017 13:17:19 +0000 (UTC)
+Received: by mail-lf0-f67.google.com with SMTP id x137so4573519lff.1
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 30 Mar 2017 06:17:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=9UFbsNDdC4PCiIW783U/B/SPwbxN0KWtHeu1vFRWtqw=;
+	b=ErRYvPS7C8vI8nZSxbC4EYBmfVjmnUA7DZdn/DnJWqMU86lMeDCdbqf4PLeWTfBTph
+	rTBC88WBpxTySkKd3xzQXI0u3Ld41JcGbnoB5lX3wdwIlWv2dKM9lCXcB7bjtNaAsvmq
+	I8mOsYHzsOjqDTK7wd6Ba5ppIyfRpgWsa8YLeV25l+sEEO6D3+jPe8yszOD9GwN9G8fr
+	d+MEbUPjPZbUqwb+OUXXnjFz7kCRI/lbtI6PJD8TPEUCDmv3ajgxRQTZB7rNzAS3dq54
+	Xtb6FLBv/pB3sIdyCSEb6a+hY3bGhOPRyxieUPpGjqESgzC4eW1tTMTwalVrWdhZjmD9
+	nswA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=9UFbsNDdC4PCiIW783U/B/SPwbxN0KWtHeu1vFRWtqw=;
+	b=UpQ/5dvTCLmAY4EymzeogtexigYQcw1aJU74mpLwFOn8gCOE0GxaEo8CgZGYinOm4Q
+	T5/ZiQUC4rCW56+rSofNwHDotbtZbUI9qrsw/NXYTg9WnHF06oHtab7TN/NBAfCvk8aO
+	T7B3bddC5o3kSGr/JgqI84grSdGBA7iX9VIGLvul8cY0ll8gGuvxjDktwthlZwEw4UdV
+	sgkeCkdPmsplwygkGVJUJMYh/Kgd0wQkhoLanN7Il9vmtR9ycoPzbc8x3huFDDRGhl2E
+	hBKsOSJ0KphAy6L0Ql2iVvOSJUt9p0ydgW9LgGwZWlRzPqm1G9fXfS9VEvPqzCNwh3Ns
+	2a1A==
+X-Gm-Message-State: AFeK/H0y2aCIC9KcWtFcMm6EZRcGaKThrXo4+Sog8cWQlosV5hHtlwC297V0IUAVAe6fgg==
+X-Received: by 10.28.59.139 with SMTP id i133mr323417wma.135.1490879839900;
+	Thu, 30 Mar 2017 06:17:19 -0700 (PDT)
+Received: from peterliu-Precision-M4800.emea.group.atlascopco.com
+	([106.116.223.149])
+	by smtp.gmail.com with ESMTPSA id n7sm4612266wmi.16.2017.03.30.06.17.17
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 30 Mar 2017 06:17:19 -0700 (PDT)
+From: liu.ming50@gmail.com
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 30 Mar 2017 15:17:04 +0200
+Message-Id: <1490879824-9097-1-git-send-email-liu.ming50@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Cc: Ming Liu <peter.x.liu@external.atlascopco.com>
+Subject: [PATCH V2] kernel.bbclass: fix a typo
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,177 +53,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Mar 2017 13:02:35 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 30 Mar 2017 13:17:20 -0000
 
-ping!=0A=
-=0A=
-BR,=0A=
-Awais=0A=
-=0A=
-________________________________________=0A=
-From: openembedded-core-bounces@lists.openembedded.org <openembedded-core-b=
-ounces@lists.openembedded.org> on behalf of Belal, Awais=0A=
-Sent: Monday, January 30, 2017 6:25 PM=0A=
-To: openembedded-core@lists.openembedded.org=0A=
-Subject: Re: [OE-core] [PATCH v2 2/2]   grub-efi/live-vm-common:        all=
-ow   grub    as      EFI_PROVIDER=0A=
-=0A=
-ping!=0A=
-=0A=
-BR,=0A=
-Awais=0A=
-=0A=
-________________________________________=0A=
-From: openembedded-core-bounces@lists.openembedded.org <openembedded-core-b=
-ounces@lists.openembedded.org> on behalf of Belal, Awais=0A=
-Sent: Tuesday, January 10, 2017 5:19 PM=0A=
-To: openembedded-core@lists.openembedded.org=0A=
-Subject: Re: [OE-core] [PATCH v2 2/2] grub-efi/live-vm-common:  allow   gru=
-b    as      EFI_PROVIDER=0A=
-=0A=
-ping!=0A=
-=0A=
-BR,=0A=
-Awais=0A=
-=0A=
-________________________________________=0A=
-From: openembedded-core-bounces@lists.openembedded.org <openembedded-core-b=
-ounces@lists.openembedded.org> on behalf of Belal, Awais=0A=
-Sent: Tuesday, January 3, 2017 5:34 PM=0A=
-To: openembedded-core@lists.openembedded.org=0A=
-Subject: Re: [OE-core] [PATCH v2 2/2] grub-efi/live-vm-common: allow    gru=
-b    as      EFI_PROVIDER=0A=
-=0A=
-ping!=0A=
-=0A=
-BR,=0A=
-Awais=0A=
-=0A=
-________________________________________=0A=
-From: openembedded-core-bounces@lists.openembedded.org <openembedded-core-b=
-ounces@lists.openembedded.org> on behalf of Belal, Awais=0A=
-Sent: Tuesday, December 27, 2016 5:15 PM=0A=
-To: openembedded-core@lists.openembedded.org=0A=
-Subject: Re: [OE-core] [PATCH v2 2/2] grub-efi/live-vm-common: allow grub  =
-     as      EFI_PROVIDER=0A=
-=0A=
-Ping!=0A=
-=0A=
-BR,=0A=
-Awais=0A=
-=0A=
-________________________________________=0A=
-From: openembedded-core-bounces@lists.openembedded.org <openembedded-core-b=
-ounces@lists.openembedded.org> on behalf of Belal, Awais=0A=
-Sent: Friday, December 16, 2016 5:19 PM=0A=
-To: openembedded-core@lists.openembedded.org=0A=
-Subject: [OE-core] [PATCH v2 2/2] grub-efi/live-vm-common: allow grub as   =
-     EFI_PROVIDER=0A=
-=0A=
-This allows grub to be used as EFI_PROVIDER and=0A=
-extends the grub-efi class so it can be used as is=0A=
-when EFI_PROVIDER is grub.=0A=
-Currently this can only be leveraged if you are=0A=
-using the grub_git recipe and GRUBPLATFORM plus=0A=
-EFI_PROVIDER are set correctly.=0A=
-=0A=
-Signed-off-by: Awais Belal <awais_belal@mentor.com>=0A=
----=0A=
- meta/classes/grub-efi.bbclass       | 23 +++++++++++++++++------=0A=
- meta/classes/live-vm-common.bbclass |  2 +-=0A=
- 2 files changed, 18 insertions(+), 7 deletions(-)=0A=
-=0A=
-diff --git a/meta/classes/grub-efi.bbclass b/meta/classes/grub-efi.bbclass=
-=0A=
-index 17417ba..c847645 100644=0A=
---- a/meta/classes/grub-efi.bbclass=0A=
-+++ b/meta/classes/grub-efi.bbclass=0A=
-@@ -16,8 +16,8 @@=0A=
- # ${GRUB_TIMEOUT} - timeout before executing the deault label (optional)=
-=0A=
- # ${GRUB_ROOT} - grub's root device.=0A=
-=0A=
--do_bootimg[depends] +=3D "${MLPREFIX}grub-efi:do_deploy"=0A=
--do_bootdirectdisk[depends] +=3D "${MLPREFIX}grub-efi:do_deploy"=0A=
-+do_bootimg[depends] +=3D "${MLPREFIX}${EFI_PROVIDER}:do_deploy"=0A=
-+do_bootdirectdisk[depends] +=3D "${MLPREFIX}${EFI_PROVIDER}:do_deploy"=0A=
-=0A=
- GRUB_SERIAL ?=3D "console=3DttyS0,115200"=0A=
- GRUB_CFG_VM =3D "${S}/grub_vm.cfg"=0A=
-@@ -40,10 +40,21 @@ efi_populate() {=0A=
-=0A=
-        install -d ${DEST}${EFIDIR}=0A=
-=0A=
--       GRUB_IMAGE=3D"bootia32.efi"=0A=
--       if [ "${TARGET_ARCH}" =3D "x86_64" ]; then=0A=
--               GRUB_IMAGE=3D"bootx64.efi"=0A=
--       fi=0A=
-+    if [ "${EFI_PROVIDER}" =3D "grub" ]; then=0A=
-+           GRUB_IMAGE=3D"bootia32.${GRUBPLATFORM}"=0A=
-+           if [ "${TARGET_ARCH}" =3D "x86_64" ]; then=0A=
-+                   GRUB_IMAGE=3D"bootx64.${GRUBPLATFORM}"=0A=
-+           elif [ "${TARGET_ARCH}" =3D "arm" ]; then=0A=
-+            grubimage =3D "bootarm.${GRUBPLATFORM}"=0A=
-+           elif [ "${TARGET_ARCH}" =3D "aarch64" ]; then=0A=
-+            grubimage =3D "bootaa64.${GRUBPLATFORM}"=0A=
-+        fi=0A=
-+    else=0A=
-+        GRUB_IMAGE=3D"bootia32.efi"=0A=
-+           if [ "${TARGET_ARCH}" =3D "x86_64" ]; then=0A=
-+                   GRUB_IMAGE=3D"bootx64.efi"=0A=
-+        fi=0A=
-+    fi=0A=
-        install -m 0644 ${DEPLOY_DIR_IMAGE}/${GRUB_IMAGE} ${DEST}${EFIDIR}=
-=0A=
-        EFIPATH=3D$(echo "${EFIDIR}" | sed 's/\//\\/g')=0A=
-        printf 'fs0:%s\%s\n' "$EFIPATH" "$GRUB_IMAGE" >${DEST}/startup.nsh=
-=0A=
-diff --git a/meta/classes/live-vm-common.bbclass b/meta/classes/live-vm-com=
-mon.bbclass=0A=
-index 734697f..0af228b 100644=0A=
---- a/meta/classes/live-vm-common.bbclass=0A=
-+++ b/meta/classes/live-vm-common.bbclass=0A=
-@@ -13,7 +13,7 @@ def set_live_vm_vars(d, suffix):=0A=
-=0A=
- EFI =3D "${@bb.utils.contains("MACHINE_FEATURES", "efi", "1", "0", d)}"=0A=
- EFI_PROVIDER ?=3D "grub-efi"=0A=
--EFI_CLASS =3D "${@bb.utils.contains("MACHINE_FEATURES", "efi", "${EFI_PROV=
-IDER}", "", d)}"=0A=
-+EFI_CLASS =3D "${@bb.utils.contains("EFI_PROVIDER", "grub", "grub-efi", "$=
-{EFI_PROVIDER}", d)}"=0A=
-=0A=
- # Include legacy boot if MACHINE_FEATURES includes "pcbios" or if it does =
-not=0A=
- # contain "efi". This way legacy is supported by default if neither is=0A=
---=0A=
-1.9.1=0A=
-=0A=
---=0A=
-_______________________________________________=0A=
-Openembedded-core mailing list=0A=
-Openembedded-core@lists.openembedded.org=0A=
-http://lists.openembedded.org/mailman/listinfo/openembedded-core=0A=
---=0A=
-_______________________________________________=0A=
-Openembedded-core mailing list=0A=
-Openembedded-core@lists.openembedded.org=0A=
-http://lists.openembedded.org/mailman/listinfo/openembedded-core=0A=
---=0A=
-_______________________________________________=0A=
-Openembedded-core mailing list=0A=
-Openembedded-core@lists.openembedded.org=0A=
-http://lists.openembedded.org/mailman/listinfo/openembedded-core=0A=
---=0A=
-_______________________________________________=0A=
-Openembedded-core mailing list=0A=
-Openembedded-core@lists.openembedded.org=0A=
-http://lists.openembedded.org/mailman/listinfo/openembedded-core=0A=
---=0A=
-_______________________________________________=0A=
-Openembedded-core mailing list=0A=
-Openembedded-core@lists.openembedded.org=0A=
-http://lists.openembedded.org/mailman/listinfo/openembedded-core=0A=
+From: Ming Liu <peter.x.liu@external.atlascopco.com>
+
+In a addtask statement, do_strip should be strip.
+
+Signed-off-by: Ming Liu <peter.x.liu@external.atlascopco.com>
+---
+ meta/classes/kernel.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index 244087a..91c260a 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -566,7 +566,7 @@ do_strip() {
+ }
+ do_strip[dirs] = "${B}"
+ 
+-addtask do_strip before do_sizecheck after do_kernel_link_images
++addtask strip before do_sizecheck after do_kernel_link_images
+ 
+ # Support checking the kernel size since some kernels need to reside in partitions
+ # with a fixed length or there is a limit in transferring the kernel to memory
+-- 
+2.7.4
+
 
