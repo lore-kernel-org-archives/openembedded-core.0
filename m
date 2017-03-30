@@ -1,26 +1,28 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id DEFE26B6EA
+Return-Path: <ejo@pengutronix.de>
+Received: from metis.ext.4.pengutronix.de (metis.ext.4.pengutronix.de
+	[92.198.50.35])
+	by mail.openembedded.org (Postfix) with ESMTP id 1875571AC9
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Mar 2017 05:11:27 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v2U5BSq8021536
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Mar 2017 22:11:28 -0700 (PDT)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.201) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.294.0; Wed, 29 Mar 2017 22:11:28 -0700
-From: Chen Qi <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 30 Mar 2017 13:12:44 +0800
-Message-ID: <d6b2737e706f743644df63f21a8f061b9e2f83c7.1490850708.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1490850708.git.Qi.Chen@windriver.com>
-References: <cover.1490850708.git.Qi.Chen@windriver.com>
+	Thu, 30 Mar 2017 06:27:15 +0000 (UTC)
+Received: from mango.hi.pengutronix.de ([2001:67c:670:100:76d4:35ff:fee8:98b3])
+	by metis.ext.pengutronix.de with esmtp (Exim 4.84_2)
+	(envelope-from <ejo@pengutronix.de>)
+	id 1ctTYB-0004DI-V3; Thu, 30 Mar 2017 08:27:15 +0200
+To: openembedded-core@lists.openembedded.org
+References: <20170329090733.32101-1-ejo@pengutronix.de>
+From: Enrico Joerns <ejo@pengutronix.de>
+Message-ID: <34c3db7c-9df2-104d-0083-b28226834042@pengutronix.de>
+Date: Thu, 30 Mar 2017 08:27:14 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Icedove/45.6.0
 MIME-Version: 1.0
-Subject: [PATCH 1/1] image.inc/qemu.inc: preserve directories to be used by runqemu
+In-Reply-To: <20170329090733.32101-1-ejo@pengutronix.de>
+X-SA-Exim-Connect-IP: 2001:67c:670:100:76d4:35ff:fee8:98b3
+X-SA-Exim-Mail-From: ejo@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+	SAEximRunCond expanded to false
+X-PTX-Original-Recipient: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] systemd: make vconsole a PACKAGECONFIG option
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,47 +35,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Mar 2017 05:11:28 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 30 Mar 2017 06:27:16 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 8bit
 
-The 'recipe-sysroot' and 'recipe-sysroot-native' directories need to
-be preserved for runqemu to work correctly. Otherwise, when 'rm_work'
-is enabled, these directories are removed, thus causing errors when
-using runqemu .
+On 03/29/2017 11:07 AM, Enrico Jorns wrote:
+> Allowing to remove the systemd-vconsole-setup package without specifying
+> the --disable-vconsole configure option for systemd will make the system
+> boot with the failure prompt
+>
+> | systemd-udevd[142]: failed to execute '/lib/systemd/systemd-vconsole-setup' '/lib/systemd/systemd-vconsole-setup': No such file or directory
+> | systemd-udevd[96]: Process '/lib/systemd/systemd-vconsole-setup' failed with exit code 2.
+>
+> as the 90-vconsole.rules will still be installed with having a
+> RUN+="/lib/systemd/systemd-vconsole-setup" in it that attempts to
+> execute a non-existing binary.
+>
+> Signed-off-by: Enrico Jorns <ejo@pengutronix.de>
+> ---
+>  meta/recipes-core/systemd/systemd_232.bb | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-core/systemd/systemd_232.bb b/meta/recipes-core/systemd/systemd_232.bb
+> index fa6a6a817f..398cb46f0d 100644
+> --- a/meta/recipes-core/systemd/systemd_232.bb
+> +++ b/meta/recipes-core/systemd/systemd_232.bb
+> @@ -47,6 +47,7 @@ PACKAGECONFIG ??= "xz \
+>                     randomseed \
+>                     machined \
+>                     backlight \
+> +                   vconsole \
+>                     quotacheck \
+>                     hostnamed \
+>                     ${@bb.utils.contains('TCLIBC', 'glibc', 'myhostname sysusers', '', d)} \
+> @@ -79,6 +80,7 @@ PACKAGECONFIG[resolved] = "--enable-resolved,--disable-resolved"
+>  PACKAGECONFIG[networkd] = "--enable-networkd,--disable-networkd"
+>  PACKAGECONFIG[machined] = "--enable-machined,--disable-machined"
+>  PACKAGECONFIG[backlight] = "--enable-backlight,--disable-backlight"
+> +PACKAGECONFIG[vconsole] = "--enable-vconsole,--disable-vconsole,,${PN}-vconsole-setup"
+>  PACKAGECONFIG[quotacheck] = "--enable-quotacheck,--disable-quotacheck"
+>  PACKAGECONFIG[hostnamed] = "--enable-hostnamed,--disable-hostnamed"
+>  PACKAGECONFIG[myhostname] = "--enable-myhostname,--disable-myhostname"
+> @@ -475,7 +477,6 @@ RDEPENDS_${PN} += "kmod dbus util-linux-mount udev (= ${EXTENDPKGV})"
+>  RDEPENDS_${PN} += "volatile-binds update-rc.d"
+>
+>  RRECOMMENDS_${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'serial-getty-generator', '', 'systemd-serialgetty', d)} \
+> -                      systemd-vconsole-setup \
+>                        systemd-extra-utils \
+>                        systemd-compat-units udev-hwdb \
+>                        util-linux-agetty  util-linux-fsck e2fsprogs-e2fsck \
+>
 
-[YOCTO #11266]
-[YOCTO #11193]
+Ooops, forgot the maintainer CC ;)
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- meta/classes/image.bbclass         | 1 +
- meta/conf/machine/include/qemu.inc | 3 +++
- 2 files changed, 4 insertions(+)
+Enrico
 
-diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index 405fd73..cac3a5f 100644
---- a/meta/classes/image.bbclass
-+++ b/meta/classes/image.bbclass
-@@ -8,6 +8,7 @@ inherit ${SDKEXTCLASS}
- TOOLCHAIN_TARGET_TASK += "${PACKAGE_INSTALL}"
- TOOLCHAIN_TARGET_TASK_ATTEMPTONLY += "${PACKAGE_INSTALL_ATTEMPTONLY}"
- POPULATE_SDK_POST_TARGET_COMMAND += "rootfs_sysroot_relativelinks; "
-+RM_WORK_EXCLUDE_ITEMS_append = " ${IMAGE_RM_WORK_EXCLUDE_ITEMS}"
- 
- LICENSE = "MIT"
- PACKAGES = ""
-diff --git a/meta/conf/machine/include/qemu.inc b/meta/conf/machine/include/qemu.inc
-index 0e4103b..8345c08 100644
---- a/meta/conf/machine/include/qemu.inc
-+++ b/meta/conf/machine/include/qemu.inc
-@@ -29,3 +29,6 @@ KERNEL_FEATURES_append_pn-linux-yocto = " features/nfsd/nfsd-enable.scc"
- MACHINE_EXTRA_RRECOMMENDS += "rng-tools"
- 
- IMAGE_CLASSES += "qemuboot"
-+
-+# These two directories need to be preserved for runqemu to work well
-+IMAGE_RM_WORK_EXCLUDE_ITEMS = "recipe-sysroot recipe-sysroot-native"
 -- 
-1.9.1
+Pengutronix e.K.                           | Enrico Jörns                |
+Industrial Linux Solutions                 | http://www.pengutronix.de/  |
+Peiner Str. 6-8, 31137 Hildesheim, Germany | Phone: +49-5121-206917-5080 |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
 
 
