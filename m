@@ -1,29 +1,47 @@
-Return-Path: <ejo@pengutronix.de>
-Received: from metis.ext.4.pengutronix.de (metis.ext.4.pengutronix.de
-	[92.198.50.35])
-	by mail.openembedded.org (Postfix) with ESMTP id EFF4E77C9E
+Return-Path: <ross.burton@intel.com>
+Received: from mail-lf0-f48.google.com (mail-lf0-f48.google.com
+	[209.85.215.48])
+	by mail.openembedded.org (Postfix) with ESMTP id CCCF277C9E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Mar 2017 13:32:11 +0000 (UTC)
-Received: from mango.hi.pengutronix.de ([2001:67c:670:100:76d4:35ff:fee8:98b3])
-	by metis.ext.pengutronix.de with esmtp (Exim 4.84_2)
-	(envelope-from <ejo@pengutronix.de>)
-	id 1ctaBP-0001c1-Sl; Thu, 30 Mar 2017 15:32:11 +0200
-To: Daniel Schultz <d.schultz@phytec.de>
-References: <1490877011-3374-1-git-send-email-d.schultz@phytec.de>
-From: Enrico Joerns <ejo@pengutronix.de>
-Message-ID: <57e781f0-3607-a12f-ff6a-fd66edf76b2a@pengutronix.de>
-Date: Thu, 30 Mar 2017 15:32:11 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Icedove/45.6.0
-MIME-Version: 1.0
-In-Reply-To: <1490877011-3374-1-git-send-email-d.schultz@phytec.de>
-X-SA-Exim-Connect-IP: 2001:67c:670:100:76d4:35ff:fee8:98b3
-X-SA-Exim-Mail-From: ejo@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
-	SAEximRunCond expanded to false
-X-PTX-Original-Recipient: openembedded-core@lists.openembedded.org
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH morty] wic: partition: Add fsck to avoid corrupt EXT file systems
+	Thu, 30 Mar 2017 13:34:12 +0000 (UTC)
+Received: by mail-lf0-f48.google.com with SMTP id x137so26677293lff.3
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 30 Mar 2017 06:34:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=zKCQkoSMTESctLLQMMk7GVFOq5p7sLJCzrJjovaaQa8=;
+	b=frDdSWAyGRE0pjgsZh/lVv0XLoBa+mOzYASe6mmXBR2QL0mT5N750sWceaXmTSJg/i
+	iWbp1URBIqwkLZTnrXHAq1a5+Zb77Evwbw9ee8+vLhDcAS7TRSJ3sJ03merxcwEKM9ie
+	N7CENLBOYqg3Grpos0fYAhfxPzQ81cPNojyckXmh80bOl9zFWlrXK8hJmdgxf6X3Q17B
+	u8dFlQlEvr7Xkvu8FWIiaNbLAnhQchv6IkUcBFxH/NG2RED7z6WxYlOJfP8/KPCGm0r/
+	SZ7zUh/8wO2dD4N9IXtUyxZ58WVljZ5OgSI1h23gDlxisZMQA2eiIBa4ezLScsFbXY74
+	jlIw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=zKCQkoSMTESctLLQMMk7GVFOq5p7sLJCzrJjovaaQa8=;
+	b=fOQMHy2LKV4dRmb2GyX2k7fPdh8iISavW+qpGiDaquiNMIsO0ZqLVYORyfzUA/3+yX
+	HLHFQMK3ANG4izIu0kLqHPBOCFQUXLXs3xWMuXpV5uj2nMj2vFtYfCK1QAAI0VZU2kRv
+	1BI+RB/5c8HycpbRQrKz4idlADXCEZsp2lj3ulL1Z7FFrlZ4uLX23WRaHHKw4g0sKkCJ
+	+9qORv5CvT8r8cEvaWpZ5nbe/QBJApFEr3qRiTDZBB7oWEu4/0oE4cJJv0J6MTJ27wJN
+	iJsUw3TZZbgqTD2MQIi65MKgxLel0Z15+FrpzYl7MuK8+Bc5Q9Drt9zxN/Q20sTN/iDc
+	84pA==
+X-Gm-Message-State: AFeK/H09VUYpelsE6TgQ6e4O/QTEsnBVIkR2D3Cxh1A+OGT29JQVz0lUewYwS/PoEPlFayon
+X-Received: by 10.28.139.195 with SMTP id n186mr414292wmd.139.1490880853164;
+	Thu, 30 Mar 2017 06:34:13 -0700 (PDT)
+Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id
+	x103sm1925718wrb.5.2017.03.30.06.34.12
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 30 Mar 2017 06:34:12 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 30 Mar 2017 14:34:10 +0100
+Message-Id: <1490880850-30814-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.8.1
+Subject: [PATCH] base.bbclass: ensure HOSTTOOLS links point to executables
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,56 +54,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Mar 2017 13:32:13 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 30 Mar 2017 13:34:14 -0000
 
-Hi Daniel,
+Use the new executable argument to bb.utils.which() to ensure that the symlinks
+point to executable files and not for example directories with the right name
+which happened to be on $PATH.
 
-On 03/30/2017 02:30 PM, Daniel Schultz wrote:
-> This patch avoids the creation of a corrupt EXT file system.
->
-> Since there are no checks if a EXT file system was successfully created,
-> this should add to prevent possible system failures.
->
-> Signed-off-by: Daniel Schultz <d.schultz@phytec.de>
-> ---
->  scripts/lib/wic/partition.py | 3 +++
->  1 file changed, 3 insertions(+)
->
-> diff --git a/scripts/lib/wic/partition.py b/scripts/lib/wic/partition.py
-> index 3b3bd2d..152eb7b 100644
-> --- a/scripts/lib/wic/partition.py
-> +++ b/scripts/lib/wic/partition.py
-> @@ -239,6 +239,9 @@ class Partition():
->              (self.fstype, extra_imagecmd, rootfs, label_str, rootfs_dir)
->          exec_native_cmd(mkfs_cmd, native_sysroot, pseudo=pseudo)
->
-> +        mkfs_cmd = "fsck.%s -pvfD %s" % (self.fstype, rootfs)
-> +        exec_native_cmd(mkfs_cmd, native_sysroot, pseudo=pseudo)
-> +
->      def prepare_rootfs_btrfs(self, rootfs, oe_builddir, rootfs_dir,
->                               native_sysroot, pseudo):
->          """
->
+[ YOCTO #11256 ]
 
-maybe it's worth noting this check should not primary target fixing a 
-corrupt ext4 (bad if mkfs created on!) but performs some directory 
-optimization on the build host that otherwise would be performed on the 
-target the next time something triggers an fsck.
-Performing those optimizations on the target will also make fsck trigger 
-a reboot!
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/classes/base.bbclass | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-As the options as provided will not fix a real corrupted EXT it might 
-also be useful to change the patch description to not confuse about the 
-impact of the change.
-
-Regards, Enrico
-
+diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+index cf8748a..e29821f 100644
+--- a/meta/classes/base.bbclass
++++ b/meta/classes/base.bbclass
+@@ -128,9 +128,9 @@ def setup_hosttools_dir(dest, toolsvar, d, fatal=True):
+     for tool in tools:
+         desttool = os.path.join(dest, tool)
+         if not os.path.exists(desttool):
+-            srctool = bb.utils.which(path, tool)
++            srctool = bb.utils.which(path, tool, executable=True)
+             if "ccache" in srctool:
+-                srctool = bb.utils.which(path, tool, direction=1)
++                srctool = bb.utils.which(path, tool, executable=True, direction=1)
+             if srctool:
+                 os.symlink(srctool, desttool)
+             else:
 -- 
-Pengutronix e.K.                           | Enrico Jörns                |
-Industrial Linux Solutions                 | http://www.pengutronix.de/  |
-Peiner Str. 6-8, 31137 Hildesheim, Germany | Phone: +49-5121-206917-5080 |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+2.8.1
 
 
