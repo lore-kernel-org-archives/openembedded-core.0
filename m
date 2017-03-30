@@ -1,56 +1,28 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id BD05E77C07
+Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 9EB0B6093E
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Mar 2017 23:36:24 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id 1086618378;
-	Thu, 30 Mar 2017 01:36:25 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id X69gZTG4Pgq7; Thu, 30 Mar 2017 01:36:24 +0200 (CEST)
-Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
-	by bastet.se.axis.com (Postfix) with ESMTPS id 2500118226;
-	Thu, 30 Mar 2017 01:36:23 +0200 (CEST)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id CB9CD1E0A0;
-	Thu, 30 Mar 2017 01:36:23 +0200 (CEST)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id B6AEC1E09D;
-	Thu, 30 Mar 2017 01:36:23 +0200 (CEST)
-Received: from thoth.se.axis.com (unknown [10.0.2.173])
-	by boulder03.se.axis.com (Postfix) with ESMTP;
-	Thu, 30 Mar 2017 01:36:23 +0200 (CEST)
-Received: from XBOX03.axis.com (xbox03.axis.com [10.0.5.17])
-	by thoth.se.axis.com (Postfix) with ESMTP id AA96322B8;
-	Thu, 30 Mar 2017 01:36:23 +0200 (CEST)
-Received: from XBOX02.axis.com (10.0.5.16) by XBOX03.axis.com (10.0.5.17) with
-	Microsoft SMTP Server (TLS) id 15.0.1210.3;
-	Thu, 30 Mar 2017 01:36:23 +0200
-Received: from XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776]) by
-	XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776%21]) with mapi id
-	15.00.1210.000; Thu, 30 Mar 2017 01:36:23 +0200
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: "Burton, Ross" <ross.burton@intel.com>, Mikko Ylinen
-	<mikko.ylinen@linux.intel.com>
-Thread-Topic: [OE-core] [PATCH] systemd: check 'efi' in MACHINE_FEATURES
-Thread-Index: AQHSqG6gnTSbDbjwDk2pu6BXrMUmhKGr2N+AgACezfA=
-Date: Wed, 29 Mar 2017 23:36:23 +0000
-Message-ID: <4cf87faa3852485a820c7526323ef2ab@XBOX02.axis.com>
-References: <20170329092638.11677-1-mikko.ylinen@linux.intel.com>
-	<CAJTo0LaLhSaC3bx09=qc+gL7YsPKD0YEtukZafUXcxZdW37dwQ@mail.gmail.com>
-In-Reply-To: <CAJTo0LaLhSaC3bx09=qc+gL7YsPKD0YEtukZafUXcxZdW37dwQ@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.60]
-MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] systemd: check 'efi' in MACHINE_FEATURES
+	Wed, 29 Mar 2017 23:39:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+	d=intel.com; i=@intel.com; q=dns/txt; s=intel;
+	t=1490830789; x=1522366789;
+	h=from:to:cc:subject:date:message-id;
+	bh=4mWndtoOXzzUKF0GmkIvwuZjJaLRcZc0ZQGNbdnunis=;
+	b=JQj/gVbMafzghE1KHwP4++5nW3JZM+cl0jTea6+JnNU3tmZv4vw2rdro
+	jiDLE1oc6taevfHQmw5ER387iO44+g==;
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	29 Mar 2017 16:39:48 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.36,243,1486454400"; d="scan'208";a="241822333"
+Received: from yctb05.ostc.intel.com ([10.54.69.59])
+	by fmsmga004.fm.intel.com with ESMTP; 29 Mar 2017 16:39:48 -0700
+From: leonardo.sandoval.gonzalez@linux.intel.com
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 29 Mar 2017 23:39:21 -0700
+Message-Id: <20170330063921.31988-1-leonardo.sandoval.gonzalez@linux.intel.com>
+X-Mailer: git-send-email 2.10.2
+Subject: [PATCH] selftest/pkgdata: support musl on unit tests
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,126 +35,127 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Mar 2017 23:36:25 -0000
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_4cf87faa3852485a820c7526323ef2abXBOX02axiscom_"
+X-List-Received-Date: Wed, 29 Mar 2017 23:39:47 -0000
 
---_000_4cf87faa3852485a820c7526323ef2abXBOX02axiscom_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
 
-Rm9yIHRoZSByZWNvcmQsIHRoaXMgaXMganVzdCBjb3JyZWN0aW5nIGEgcmVncmVzc2lvbiB0aGF0
-IHdhcyBpbnRyb2R1Y2VkIHdpdGggbXkgY2hhbmdlIHRvIHVzZSBiYi51dGlscy5maWx0ZXIoKSB3
-aGVyZSBJIGFwcGFyZW50bHkgbWlzc2VkIHRoYXQgbm90IGFsbCB0aGUgZmVhdHVyZXMgd2VyZSBE
-SVNUUk9fRkVBVFVSRVPigKYNCg0KVGhhdCBzYWlkLCBJIGRvIGFncmVlIHRoYXQgaXQgd291bGQg
-YmUgcHJlZmVyYWJsZSB0byBnZXQgcmlkIG9mIHRoZSBtYWNoaW5lIHNwZWNpZmljIGRlcGVuZGVu
-Y3kgaWYgcG9zc2libGUuDQoNCi8vUGV0ZXINCg0KRnJvbTogb3BlbmVtYmVkZGVkLWNvcmUtYm91
-bmNlc0BsaXN0cy5vcGVuZW1iZWRkZWQub3JnIFttYWlsdG86b3BlbmVtYmVkZGVkLWNvcmUtYm91
-bmNlc0BsaXN0cy5vcGVuZW1iZWRkZWQub3JnXSBPbiBCZWhhbGYgT2YgQnVydG9uLCBSb3NzDQpT
-ZW50OiBkZW4gMjkgbWFycyAyMDE3IDE4OjAxDQpUbzogTWlra28gWWxpbmVuDQpDYzogT0UtY29y
-ZQ0KU3ViamVjdDogUmU6IFtPRS1jb3JlXSBbUEFUQ0hdIHN5c3RlbWQ6IGNoZWNrICdlZmknIGlu
-IE1BQ0hJTkVfRkVBVFVSRVMNCg0KDQpPbiAyOSBNYXJjaCAyMDE3IGF0IDEwOjI2LCBNaWtrbyBZ
-bGluZW4gPG1pa2tvLnlsaW5lbkBsaW51eC5pbnRlbC5jb208bWFpbHRvOm1pa2tvLnlsaW5lbkBs
-aW51eC5pbnRlbC5jb20+PiB3cm90ZToNClRoZSByZWNpcGUgY2hlY2tzICdlZmknIGluIERJU1RS
-T19GRUFUVVJFUyBidXQgaXQncyBhIG1hY2hpbmUgZmVhdHVyZS4NCg0KRml4IHRoZSBjaGVjayB0
-byB1c2UgTUFDSElORV9GRUFUVVJFUyB0byBkZXRlcm1pbmUgd2hldGhlciB0bw0KZW5hYmxlL2Rp
-c2FibGUgJ2VmaScgUEFDS0FHRUNPTkZJRy4NCg0KVGhpcyBtYWtlcyBzeXN0ZW1kIGEgTUFDSElO
-RS1zcGVjaWZpYyByZWNpcGUsIGFuZCBhcyBpdCBjb250YWlucyBsaWJ1ZGV2IGNhdXNlcyByZWJ1
-aWxkcyBmb3IgZXZlcnl0aGluZyBsaW5raW5nIHRvIHRoYXQuICBXaGF0J3MgdGhlIGFjdHVhbCBp
-bXBhY3Qgb2YgZW5hYmxpbmcvZGlzYWJsaW5nIEVGST8NCg0KVGhlcmUgaXMgYSB3aGl0ZWxpc3Qg
-Zm9yIHJlY2lwZXMgd2hpY2ggYXJlIG1hY2hpbmUtc3BlY2lmaWMgYnV0IHNob3VsZCBiZSB0cmVh
-dGVkIGFzIHR1bmUsIGJ1dCB0aGUgYmFycmllciB0byBnZXQgb24gdGhhdCBsaXN0IGlzIGhpZ2gu
-DQoNClJvc3MNCg==
+Test cases should be agnostic to supported distro/tclibc, so consider
+musl libc on pkgdata unit tests.
 
---_000_4cf87faa3852485a820c7526323ef2abXBOX02axiscom_
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: base64
+[YOCTO #10890]
 
-PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
-bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
-YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
-cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
-VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
-Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
-ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
-PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
-IkNhbWJyaWEgTWF0aCI7DQoJcGFub3NlLTE6MiA0IDUgMyA1IDQgNiAzIDIgNDt9DQpAZm9udC1m
-YWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIgMiAyIDQgMyAy
-IDQ7fQ0KLyogU3R5bGUgRGVmaW5pdGlvbnMgKi8NCnAuTXNvTm9ybWFsLCBsaS5Nc29Ob3JtYWws
-IGRpdi5Nc29Ob3JtYWwNCgl7bWFyZ2luOjBjbTsNCgltYXJnaW4tYm90dG9tOi4wMDAxcHQ7DQoJ
-Zm9udC1zaXplOjEyLjBwdDsNCglmb250LWZhbWlseToiVGltZXMgTmV3IFJvbWFuIixzZXJpZjt9
-DQphOmxpbmssIHNwYW4uTXNvSHlwZXJsaW5rDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsNCglj
-b2xvcjpibHVlOw0KCXRleHQtZGVjb3JhdGlvbjp1bmRlcmxpbmU7fQ0KYTp2aXNpdGVkLCBzcGFu
-Lk1zb0h5cGVybGlua0ZvbGxvd2VkDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsNCgljb2xvcjpw
-dXJwbGU7DQoJdGV4dC1kZWNvcmF0aW9uOnVuZGVybGluZTt9DQpzcGFuLkVtYWlsU3R5bGUxNw0K
-CXttc28tc3R5bGUtdHlwZTpwZXJzb25hbC1yZXBseTsNCglmb250LWZhbWlseToiQ2FsaWJyaSIs
-c2Fucy1zZXJpZjsNCgljb2xvcjojOTQzNjM0Ow0KCWZvbnQtd2VpZ2h0Om5vcm1hbDsNCglmb250
-LXN0eWxlOm5vcm1hbDsNCgl0ZXh0LWRlY29yYXRpb246bm9uZSBub25lO30NCi5Nc29DaHBEZWZh
-dWx0DQoJe21zby1zdHlsZS10eXBlOmV4cG9ydC1vbmx5Ow0KCWZvbnQtZmFtaWx5OiJDYWxpYnJp
-IixzYW5zLXNlcmlmO30NCkBwYWdlIFdvcmRTZWN0aW9uMQ0KCXtzaXplOjYxMi4wcHQgNzkyLjBw
-dDsNCgltYXJnaW46NzIuMHB0IDcyLjBwdCA3Mi4wcHQgNzIuMHB0O30NCmRpdi5Xb3JkU2VjdGlv
-bjENCgl7cGFnZTpXb3JkU2VjdGlvbjE7fQ0KLS0+PC9zdHlsZT48IS0tW2lmIGd0ZSBtc28gOV0+
-PHhtbD4NCjxvOnNoYXBlZGVmYXVsdHMgdjpleHQ9ImVkaXQiIHNwaWRtYXg9IjEwMjYiIC8+DQo8
-L3htbD48IVtlbmRpZl0tLT48IS0tW2lmIGd0ZSBtc28gOV0+PHhtbD4NCjxvOnNoYXBlbGF5b3V0
-IHY6ZXh0PSJlZGl0Ij4NCjxvOmlkbWFwIHY6ZXh0PSJlZGl0IiBkYXRhPSIxIiAvPg0KPC9vOnNo
-YXBlbGF5b3V0PjwveG1sPjwhW2VuZGlmXS0tPg0KPC9oZWFkPg0KPGJvZHkgbGFuZz0iRU4tVVMi
-IGxpbms9ImJsdWUiIHZsaW5rPSJwdXJwbGUiPg0KPGRpdiBjbGFzcz0iV29yZFNlY3Rpb24xIj4N
-CjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQt
-ZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJpZjtjb2xvcjojOTQzNjM0Ij5Gb3Ig
-dGhlIHJlY29yZCwgdGhpcyBpcyBqdXN0IGNvcnJlY3RpbmcgYSByZWdyZXNzaW9uIHRoYXQgd2Fz
-IGludHJvZHVjZWQgd2l0aCBteSBjaGFuZ2UgdG8gdXNlIGJiLnV0aWxzLmZpbHRlcigpIHdoZXJl
-IEkgYXBwYXJlbnRseSBtaXNzZWQgdGhhdCBub3QgYWxsIHRoZSBmZWF0dXJlcw0KIHdlcmUgRElT
-VFJPX0ZFQVRVUkVT4oCmPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1h
-bCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJy
-aSZxdW90OyxzYW5zLXNlcmlmO2NvbG9yOiM5NDM2MzQiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFu
-PjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0
-O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJpZjtjb2xvcjojOTQzNjM0
-Ij5UaGF0IHNhaWQsIEkgZG8gYWdyZWUgdGhhdCBpdCB3b3VsZCBiZSBwcmVmZXJhYmxlIHRvIGdl
-dCByaWQgb2YgdGhlIG1hY2hpbmUgc3BlY2lmaWMgZGVwZW5kZW5jeSBpZiBwb3NzaWJsZS48bzpw
-PjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9u
-dC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWY7
-Y29sb3I6Izk0MzYzNCI+PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1z
-b05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7
-Q2FsaWJyaSZxdW90OyxzYW5zLXNlcmlmO2NvbG9yOiM5NDM2MzQiPi8vUGV0ZXI8bzpwPjwvbzpw
-Pjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXpl
-OjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWY7Y29sb3I6
-Izk0MzYzNCI+PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0KPGRpdiBzdHlsZT0iYm9yZGVy
-Om5vbmU7Ym9yZGVyLWxlZnQ6c29saWQgYmx1ZSAxLjVwdDtwYWRkaW5nOjBjbSAwY20gMGNtIDQu
-MHB0Ij4NCjxkaXY+DQo8ZGl2IHN0eWxlPSJib3JkZXI6bm9uZTtib3JkZXItdG9wOnNvbGlkICNF
-MUUxRTEgMS4wcHQ7cGFkZGluZzozLjBwdCAwY20gMGNtIDBjbSI+DQo8cCBjbGFzcz0iTXNvTm9y
-bWFsIj48Yj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtD
-YWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWYiPkZyb206PC9zcGFuPjwvYj48c3BhbiBzdHlsZT0iZm9u
-dC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWYi
-PiBvcGVuZW1iZWRkZWQtY29yZS1ib3VuY2VzQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcgW21haWx0
-bzpvcGVuZW1iZWRkZWQtY29yZS1ib3VuY2VzQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmddDQo8Yj5P
-biBCZWhhbGYgT2YgPC9iPkJ1cnRvbiwgUm9zczxicj4NCjxiPlNlbnQ6PC9iPiBkZW4gMjkgbWFy
-cyAyMDE3IDE4OjAxPGJyPg0KPGI+VG86PC9iPiBNaWtrbyBZbGluZW48YnI+DQo8Yj5DYzo8L2I+
-IE9FLWNvcmU8YnI+DQo8Yj5TdWJqZWN0OjwvYj4gUmU6IFtPRS1jb3JlXSBbUEFUQ0hdIHN5c3Rl
-bWQ6IGNoZWNrICdlZmknIGluIE1BQ0hJTkVfRkVBVFVSRVM8bzpwPjwvbzpwPjwvc3Bhbj48L3A+
-DQo8L2Rpdj4NCjwvZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PG86cD4mbmJzcDs8L286cD48
-L3A+DQo8ZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+
-PC9wPg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPk9uIDI5IE1hcmNoIDIwMTcgYXQgMTA6
-MjYsIE1pa2tvIFlsaW5lbiAmbHQ7PGEgaHJlZj0ibWFpbHRvOm1pa2tvLnlsaW5lbkBsaW51eC5p
-bnRlbC5jb20iIHRhcmdldD0iX2JsYW5rIj5taWtrby55bGluZW5AbGludXguaW50ZWwuY29tPC9h
-PiZndDsgd3JvdGU6PG86cD48L286cD48L3A+DQo8YmxvY2txdW90ZSBzdHlsZT0iYm9yZGVyOm5v
-bmU7Ym9yZGVyLWxlZnQ6c29saWQgI0NDQ0NDQyAxLjBwdDtwYWRkaW5nOjBjbSAwY20gMGNtIDYu
-MHB0O21hcmdpbi1sZWZ0OjQuOHB0O21hcmdpbi1yaWdodDowY20iPg0KPGRpdiBpZD0iOjI1NyI+
-DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj5UaGUgcmVjaXBlIGNoZWNrcyAnZWZpJyBpbiBESVNUUk9f
-RkVBVFVSRVMgYnV0IGl0J3MgYSBtYWNoaW5lIGZlYXR1cmUuPGJyPg0KPGJyPg0KRml4IHRoZSBj
-aGVjayB0byB1c2UgTUFDSElORV9GRUFUVVJFUyB0byBkZXRlcm1pbmUgd2hldGhlciB0bzxicj4N
-CmVuYWJsZS9kaXNhYmxlICdlZmknIFBBQ0tBR0VDT05GSUcuPG86cD48L286cD48L3A+DQo8L2Rp
-dj4NCjwvYmxvY2txdW90ZT4NCjwvZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PGJyPg0KVGhp
-cyBtYWtlcyBzeXN0ZW1kIGEgTUFDSElORS1zcGVjaWZpYyByZWNpcGUsIGFuZCBhcyBpdCBjb250
-YWlucyBsaWJ1ZGV2IGNhdXNlcyByZWJ1aWxkcyBmb3IgZXZlcnl0aGluZyBsaW5raW5nIHRvIHRo
-YXQuJm5ic3A7IFdoYXQncyB0aGUgYWN0dWFsIGltcGFjdCBvZiBlbmFibGluZy9kaXNhYmxpbmcg
-RUZJPzxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+
-PG86cD4mbmJzcDs8L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFs
-Ij5UaGVyZSBpcyBhIHdoaXRlbGlzdCBmb3IgcmVjaXBlcyB3aGljaCBhcmUgbWFjaGluZS1zcGVj
-aWZpYyBidXQgc2hvdWxkIGJlIHRyZWF0ZWQgYXMgdHVuZSwgYnV0IHRoZSBiYXJyaWVyIHRvIGdl
-dCBvbiB0aGF0IGxpc3QgaXMgaGlnaC48bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxw
-IGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0K
-PHAgY2xhc3M9Ik1zb05vcm1hbCI+Um9zczxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8L2Rpdj4N
-CjwvZGl2Pg0KPC9kaXY+DQo8L2JvZHk+DQo8L2h0bWw+DQo=
+Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+---
+ meta/lib/oeqa/selftest/pkgdata.py | 39 ++++++++++++++++++++++++---------------
+ 1 file changed, 24 insertions(+), 15 deletions(-)
 
---_000_4cf87faa3852485a820c7526323ef2abXBOX02axiscom_--
+diff --git a/meta/lib/oeqa/selftest/pkgdata.py b/meta/lib/oeqa/selftest/pkgdata.py
+index 36d8b34..ae402ab 100644
+--- a/meta/lib/oeqa/selftest/pkgdata.py
++++ b/meta/lib/oeqa/selftest/pkgdata.py
+@@ -3,6 +3,7 @@ import os
+ import tempfile
+ import logging
+ import fnmatch
++import collections
+ 
+ import oeqa.utils.ftools as ftools
+ from oeqa.selftest.base import oeSelfTest
+@@ -16,21 +17,27 @@ class OePkgdataUtilTests(oeSelfTest):
+         # Ensure we have the right data in pkgdata
+         logger = logging.getLogger("selftest")
+         logger.info('Running bitbake to generate pkgdata')
+-        bitbake('glibc busybox zlib m4')
++        bitbake('virtual/libc busybox zlib m4')
++
++        # recipe-runtime-package relation for virtual/libc provider
++        Libc = collections.namedtuple('Libc', ['recipe', 'runtime_pkg', 'libpath', 'staticdev', 'utils', 'rutils'])
++        cls.libc = Libc('glibc', 'libc6', '/lib/libc.so.6', 'libc6-staticdev', 'glibc-utils', 'lib6-utils')
++        if get_bb_var('TCLIBC') == 'musl':
++            cls.libc = Libc('musl', 'musl', '/usr/lib/libc.so', 'musl-staticdev', None, None)
+ 
+     @testcase(1203)
+     def test_lookup_pkg(self):
+         # Forward tests
+-        result = runCmd('oe-pkgdata-util lookup-pkg "glibc busybox"')
+-        self.assertEqual(result.output, 'libc6\nbusybox')
++        result = runCmd('oe-pkgdata-util lookup-pkg "%s busybox"' % self.libc.recipe)
++        self.assertEqual(result.output, '%s\nbusybox' % self.libc.runtime_pkg)
+         result = runCmd('oe-pkgdata-util lookup-pkg zlib-dev')
+         self.assertEqual(result.output, 'libz-dev')
+         result = runCmd('oe-pkgdata-util lookup-pkg nonexistentpkg', ignore_status=True)
+         self.assertEqual(result.status, 1, "Status different than 1. output: %s" % result.output)
+         self.assertEqual(result.output, 'ERROR: The following packages could not be found: nonexistentpkg')
+         # Reverse tests
+-        result = runCmd('oe-pkgdata-util lookup-pkg -r "libc6 busybox"')
+-        self.assertEqual(result.output, 'glibc\nbusybox')
++        result = runCmd('oe-pkgdata-util lookup-pkg -r "%s busybox"' % self.libc.runtime_pkg)
++        self.assertEqual(result.output, '%s\nbusybox' % self.libc.recipe)
+         result = runCmd('oe-pkgdata-util lookup-pkg -r libz-dev')
+         self.assertEqual(result.output, 'zlib-dev')
+         result = runCmd('oe-pkgdata-util lookup-pkg -r nonexistentpkg', ignore_status=True)
+@@ -49,8 +56,8 @@ class OePkgdataUtilTests(oeSelfTest):
+ 
+     @testcase(1198)
+     def test_find_path(self):
+-        result = runCmd('oe-pkgdata-util find-path /lib/libc.so.6')
+-        self.assertEqual(result.output, 'glibc: /lib/libc.so.6')
++        result = runCmd('oe-pkgdata-util find-path %s' % self.libc.libpath)
++        self.assertEqual(result.output, '%s: %s' % (self.libc.recipe, self.libc.libpath))
+         result = runCmd('oe-pkgdata-util find-path /usr/bin/m4')
+         self.assertEqual(result.output, 'm4: /usr/bin/m4')
+         result = runCmd('oe-pkgdata-util find-path /not/exist', ignore_status=True)
+@@ -59,8 +66,8 @@ class OePkgdataUtilTests(oeSelfTest):
+ 
+     @testcase(1204)
+     def test_lookup_recipe(self):
+-        result = runCmd('oe-pkgdata-util lookup-recipe "libc6-staticdev busybox"')
+-        self.assertEqual(result.output, 'glibc\nbusybox')
++        result = runCmd('oe-pkgdata-util lookup-recipe "%s busybox"' % self.libc.staticdev)
++        self.assertEqual(result.output, '%s\nbusybox' % self.libc.recipe)
+         result = runCmd('oe-pkgdata-util lookup-recipe libz-dbg')
+         self.assertEqual(result.output, 'zlib')
+         result = runCmd('oe-pkgdata-util lookup-recipe nonexistentpkg', ignore_status=True)
+@@ -72,12 +79,14 @@ class OePkgdataUtilTests(oeSelfTest):
+         # No arguments
+         result = runCmd('oe-pkgdata-util list-pkgs')
+         pkglist = result.output.split()
+-        self.assertIn('glibc-utils', pkglist, "Listed packages: %s" % result.output)
++        # musl does not have the glibc-utils counterpart so just test on glibc
++        self.libc.utils and self.assertIn(self.libc.utils, pkglist, "Listed packages: %s" % result.output)
+         self.assertIn('zlib-dev', pkglist, "Listed packages: %s" % result.output)
+         # No pkgspec, runtime
+         result = runCmd('oe-pkgdata-util list-pkgs -r')
+         pkglist = result.output.split()
+-        self.assertIn('libc6-utils', pkglist, "Listed packages: %s" % result.output)
++        # musl does not have the libc6-utils counterpart so just test on glibc
++        self.libc.rutils and self.assertIn(self.libc.rutils, pkglist, "Listed packages: %s" % result.output)
+         self.assertIn('libz-dev', pkglist, "Listed packages: %s" % result.output)
+         # With recipe specified
+         result = runCmd('oe-pkgdata-util list-pkgs -p zlib')
+@@ -208,11 +217,11 @@ class OePkgdataUtilTests(oeSelfTest):
+         self.track_for_cleanup(tempdir)
+         pkglistfile = os.path.join(tempdir, 'pkglist')
+         with open(pkglistfile, 'w') as f:
+-            f.write('libc6\n')
++            f.write('%s\n' % self.libc.runtime_pkg)
+             f.write('libz1\n')
+             f.write('busybox\n')
+         result = runCmd('oe-pkgdata-util glob %s "*-dev"' % pkglistfile)
+-        desiredresult = ['libc6-dev', 'libz-dev', 'busybox-dev']
++        desiredresult = ['%s-dev' % self.libc.runtime_pkg, 'libz-dev', 'busybox-dev']
+         self.assertEqual(sorted(result.output.split()), sorted(desiredresult))
+         # The following should not error (because when we use this during rootfs construction, sometimes the complementary package won't exist)
+         result = runCmd('oe-pkgdata-util glob %s "*-nonexistent"' % pkglistfile)
+@@ -225,5 +234,5 @@ class OePkgdataUtilTests(oeSelfTest):
+ 
+     @testcase(1206)
+     def test_specify_pkgdatadir(self):
+-        result = runCmd('oe-pkgdata-util -p %s lookup-pkg glibc' % get_bb_var('PKGDATA_DIR'))
+-        self.assertEqual(result.output, 'libc6')
++        result = runCmd('oe-pkgdata-util -p %s lookup-pkg %s' % (get_bb_var('PKGDATA_DIR'), self.libc.recipe))
++        self.assertEqual(result.output, self.libc.runtime_pkg)
+-- 
+2.10.2
+
+
