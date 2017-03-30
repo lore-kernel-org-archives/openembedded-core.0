@@ -1,37 +1,29 @@
-Return-Path: <denis@denix.org>
-Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.17])
-	by mail.openembedded.org (Postfix) with ESMTP id 3CE4877C17;
-	Thu, 30 Mar 2017 13:24:51 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mailout4.zoneedit.com (Postfix) with ESMTP id C18CC209B9;
-	Thu, 30 Mar 2017 13:24:52 +0000 (UTC)
-Received: from mailout4.zoneedit.com ([127.0.0.1])
-	by localhost (zmo03-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
-	port 10024)
-	with ESMTP id D6K__0ByL3EP; Thu, 30 Mar 2017 13:24:52 +0000 (UTC)
-Received: from mail.denix.org (pool-100-15-85-143.washdc.fios.verizon.net
-	[100.15.85.143])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 170272010C;
-	Thu, 30 Mar 2017 13:24:47 +0000 (UTC)
-Received: by mail.denix.org (Postfix, from userid 1000)
-	id 7958F16245A; Thu, 30 Mar 2017 09:24:47 -0400 (EDT)
-Date: Thu, 30 Mar 2017 09:24:47 -0400
-From: Denys Dmytriyenko <denis@denix.org>
-To: Marek Vasut <marex@denx.de>
-Message-ID: <20170330132447.GU15664@denix.org>
-References: <20170327142231.21807-1-marex@denx.de>
-	<1490624701.13980.267.camel@linuxfoundation.org>
-	<5c037512-7bf1-8a3c-cb76-fda7230781a0@denx.de>
-	<20170329215658.GP15664@denix.org>
-	<a5b043f0-b0ee-a74b-fd55-4f8d20669cba@denx.de>
+Return-Path: <ejo@pengutronix.de>
+Received: from metis.ext.4.pengutronix.de (metis.ext.4.pengutronix.de
+	[92.198.50.35])
+	by mail.openembedded.org (Postfix) with ESMTP id EFF4E77C9E
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 30 Mar 2017 13:32:11 +0000 (UTC)
+Received: from mango.hi.pengutronix.de ([2001:67c:670:100:76d4:35ff:fee8:98b3])
+	by metis.ext.pengutronix.de with esmtp (Exim 4.84_2)
+	(envelope-from <ejo@pengutronix.de>)
+	id 1ctaBP-0001c1-Sl; Thu, 30 Mar 2017 15:32:11 +0200
+To: Daniel Schultz <d.schultz@phytec.de>
+References: <1490877011-3374-1-git-send-email-d.schultz@phytec.de>
+From: Enrico Joerns <ejo@pengutronix.de>
+Message-ID: <57e781f0-3607-a12f-ff6a-fd66edf76b2a@pengutronix.de>
+Date: Thu, 30 Mar 2017 15:32:11 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Icedove/45.6.0
 MIME-Version: 1.0
-In-Reply-To: <a5b043f0-b0ee-a74b-fd55-4f8d20669cba@denx.de>
-User-Agent: Mutt/1.5.20 (2009-06-14)
-Cc: openembedded-core@lists.openembedded.org,
-	openembedded-devel@lists.openembedded.org
-Subject: Re: [PATCH] u-boot: Update to 2017.03 release
+In-Reply-To: <1490877011-3374-1-git-send-email-d.schultz@phytec.de>
+X-SA-Exim-Connect-IP: 2001:67c:670:100:76d4:35ff:fee8:98b3
+X-SA-Exim-Mail-From: ejo@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+	SAEximRunCond expanded to false
+X-PTX-Original-Recipient: openembedded-core@lists.openembedded.org
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH morty] wic: partition: Add fsck to avoid corrupt EXT file systems
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,29 +36,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Mar 2017 13:24:52 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Thu, 30 Mar 2017 13:32:13 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Thu, Mar 30, 2017 at 10:21:31AM +0200, Marek Vasut wrote:
-> On 03/29/2017 11:56 PM, Denys Dmytriyenko wrote:
-> > On Mon, Mar 27, 2017 at 04:31:16PM +0200, Marek Vasut wrote:
-> >> On 03/27/2017 04:25 PM, Richard Purdie wrote:
-> >>> On Mon, 2017-03-27 at 16:22 +0200, Marek Vasut wrote:
-> >>>> Upgrade U-Boot to the latest version.
-> >>>
-> >>> Wrong list and how does this compare to Ovatio's patch?
-> >>
-> >> I was not CCed on Otavio's patch :(
-> > 
-> > Yeah, me neither, unfortunately - people just ignore maintainers file now.
-> > 
-> > Good thing Ross copied me on the other discussion!
-> > 
-> Which other discussion ? :-(
+Hi Daniel,
 
-http://lists.openembedded.org/pipermail/openembedded-core/2017-March/134682.html
+On 03/30/2017 02:30 PM, Daniel Schultz wrote:
+> This patch avoids the creation of a corrupt EXT file system.
+>
+> Since there are no checks if a EXT file system was successfully created,
+> this should add to prevent possible system failures.
+>
+> Signed-off-by: Daniel Schultz <d.schultz@phytec.de>
+> ---
+>  scripts/lib/wic/partition.py | 3 +++
+>  1 file changed, 3 insertions(+)
+>
+> diff --git a/scripts/lib/wic/partition.py b/scripts/lib/wic/partition.py
+> index 3b3bd2d..152eb7b 100644
+> --- a/scripts/lib/wic/partition.py
+> +++ b/scripts/lib/wic/partition.py
+> @@ -239,6 +239,9 @@ class Partition():
+>              (self.fstype, extra_imagecmd, rootfs, label_str, rootfs_dir)
+>          exec_native_cmd(mkfs_cmd, native_sysroot, pseudo=pseudo)
+>
+> +        mkfs_cmd = "fsck.%s -pvfD %s" % (self.fstype, rootfs)
+> +        exec_native_cmd(mkfs_cmd, native_sysroot, pseudo=pseudo)
+> +
+>      def prepare_rootfs_btrfs(self, rootfs, oe_builddir, rootfs_dir,
+>                               native_sysroot, pseudo):
+>          """
+>
+
+maybe it's worth noting this check should not primary target fixing a 
+corrupt ext4 (bad if mkfs created on!) but performs some directory 
+optimization on the build host that otherwise would be performed on the 
+target the next time something triggers an fsck.
+Performing those optimizations on the target will also make fsck trigger 
+a reboot!
+
+As the options as provided will not fix a real corrupted EXT it might 
+also be useful to change the patch description to not confuse about the 
+impact of the change.
+
+Regards, Enrico
 
 -- 
-Denys
+Pengutronix e.K.                           | Enrico Jörns                |
+Industrial Linux Solutions                 | http://www.pengutronix.de/  |
+Peiner Str. 6-8, 31137 Hildesheim, Germany | Phone: +49-5121-206917-5080 |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+
 
