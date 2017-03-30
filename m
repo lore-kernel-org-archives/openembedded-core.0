@@ -1,25 +1,46 @@
-Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id D8C3277CD8
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-it0-f53.google.com (mail-it0-f53.google.com
+	[209.85.214.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 9BBB677CF4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Mar 2017 14:30:12 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga105.jf.intel.com with ESMTP; 30 Mar 2017 07:30:13 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.36,246,1486454400"; d="scan'208";a="1113667497"
-Received: from lsandov1-mobl2.zpn.intel.com ([10.219.128.141])
-	by orsmga001.jf.intel.com with ESMTP; 30 Mar 2017 07:30:13 -0700
-Message-ID: <1490884701.17259.52.camel@linux.intel.com>
-From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 30 Mar 2017 08:38:21 -0600
-In-Reply-To: <CAJTo0Lbb-TZYaZs+aKMSZEKUAhcN=8n6+bDrq5GjaTxo-Ws-cw@mail.gmail.com>
-References: <20170330063921.31988-1-leonardo.sandoval.gonzalez@linux.intel.com>
-	<CAJTo0Lbb-TZYaZs+aKMSZEKUAhcN=8n6+bDrq5GjaTxo-Ws-cw@mail.gmail.com>
-X-Mailer: Evolution 3.12.9-1+b1 
-Mime-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] selftest/pkgdata: support musl on unit tests
+	Thu, 30 Mar 2017 15:09:43 +0000 (UTC)
+Received: by mail-it0-f53.google.com with SMTP id e75so114392311itd.1
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 30 Mar 2017 08:09:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id;
+	bh=EUgRDQ23s9YKHw+giggZgASSUjSBaYgfvjAZ31L3HUQ=;
+	b=DX20l01xwItKuMslomB7VlpPOLk+k4wnsg1xZh1tq847GmRpdPAufsLseBsLYlQD6R
+	A0n3sbV1ou5MJhi1YwuXTTTr/mAUMWcVX7ewsGCSkGETqYHZY0CLuCOLjHJxi4aW09wN
+	h652E68+ISi62VKnn0GDIZBHI3eJjKq6J7QLfKSnNs1ndGOL2oE0sKpLWQPbgzINaQ9N
+	thSNDoGPnyCb/+neYJ35A602cdUDuR5VxcOj2fIBzmQ812oQkz4z+nHwQdWiUuyPP7qe
+	EPZHlTWeJpgWk7AIvhottwXtZb/wUrTJ++Nc0F/11QnWwurdClZbtqmdsl5FUMtP8r9E
+	J4pg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=EUgRDQ23s9YKHw+giggZgASSUjSBaYgfvjAZ31L3HUQ=;
+	b=fgoqXpXTz51zEZ+MimK6T8O/P6KrVd3fpsDwF0Co9AJQqiDuKgi5DV37QP3EdXDREK
+	CnGtwyqriknw77jVZuCIMpcI3AuSiQAEPJ0ntuw4O0ZKA1dEzio3liKas/szC9MPqswu
+	bf/2uBXTTzDgJy8iaaxFFGjqjCyefsqdPVJRjhLd65aJShZ4DnVfXKzY4JHUP6fUrmR7
+	Ze3MxsG+79Cr6tPILjKao64ddZiCOMVGBgekagQdbdk58E4olearKc+dThy/ItYnhZJs
+	OfiYQMIKn3nPH87FY88FKHZP8iV/jhGCRakmydT9fM79AUZJbC5sEeJ4l0ZOiXQ65QOD
+	hySg==
+X-Gm-Message-State: AFeK/H0+/Os4/PsUa1MQLl554G54rjX0MB9eCCu/t8Hl2bZeNE0QrFwJjNtEQzJboCVw0veO
+X-Received: by 10.36.13.74 with SMTP id 71mr4701864itx.62.1490886584591;
+	Thu, 30 Mar 2017 08:09:44 -0700 (PDT)
+Received: from pohly-desktop.fritz.box (p5DE8CE63.dip0.t-ipconnect.de.
+	[93.232.206.99]) by smtp.gmail.com with ESMTPSA id
+	c100sm1468889itd.20.2017.03.30.08.09.42
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 30 Mar 2017 08:09:43 -0700 (PDT)
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 30 Mar 2017 17:09:36 +0200
+Message-Id: <7e4d76293bf16287959f76b75aa4ed26c56ea170.1490886538.git-series.patrick.ohly@intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH] net-tools: enable native and nativesdk variant
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,37 +53,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Mar 2017 14:30:13 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 30 Mar 2017 15:09:43 -0000
 
-On Thu, 2017-03-30 at 12:45 +0100, Burton, Ross wrote:
-> 
-> On 30 March 2017 at 07:39,
-> <leonardo.sandoval.gonzalez@linux.intel.com> wrote:
->         +        # recipe-runtime-package relation for virtual/libc
->         provider
->         +        Libc = collections.namedtuple('Libc', ['recipe',
->         'runtime_pkg', 'libpath', 'staticdev', 'utils', 'rutils'])
->         +        cls.libc = Libc('glibc', 'libc6', '/lib/libc.so.6',
->         'libc6-staticdev', 'glibc-utils', 'lib6-utils')
->         +        if get_bb_var('TCLIBC') == 'musl':
->         +            cls.libc = Libc('musl', 'musl',
->         '/usr/lib/libc.so', 'musl-staticdev', None, None)
->         
-> 
-> Instead of all of this, why not just change the tests to use a
-> different package?  The bulk of them were just using glibc as it's
-> going to be built, but we've built zlib too so the tests could use
-> that instead.
+net-tools-native is needed by swtpm-wrappers (in meta-security)
+because swtpm_setup.sh calls netstat, which cannot be assumed to be
+present in all Linux installations (for example, it is not in OpenSUSE
+minimal base).
 
-If you consider that replacing the libc for another recipe/package is
-fine, I go that way.
+Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
+---
+ meta/recipes-extended/net-tools/net-tools_1.60-26.bb | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-Leo
-> 
-> 
-> Ross
+diff --git a/meta/recipes-extended/net-tools/net-tools_1.60-26.bb b/meta/recipes-extended/net-tools/net-tools_1.60-26.bb
+index be26735..4152a4f 100644
+--- a/meta/recipes-extended/net-tools/net-tools_1.60-26.bb
++++ b/meta/recipes-extended/net-tools/net-tools_1.60-26.bb
+@@ -70,11 +70,20 @@ python do_patch() {
+     bb.build.exec_func('patch_do_patch', d)
+ }
+ 
++# i18n only enabled for the target, doesn't build for native
++# and isn't needed there.
++disable_i18n() {
++	sed -i -e 's/^I18N=1/# I18N=1/' ${S}/config.make
++}
++disable_i18n_class-target () {
++}
++
+ do_configure() {
+ 	# net-tools has its own config mechanism requiring "make config"
+ 	# we pre-generate desired options and copy to source directory instead
+ 	cp ${WORKDIR}/net-tools-config.h    ${S}/config.h
+ 	cp ${WORKDIR}/net-tools-config.make ${S}/config.make
++	disable_i18n
+ }
+ 
+ do_compile() {
+@@ -125,3 +134,4 @@ python __anonymous() {
+ }
+ ALTERNATIVE_PRIORITY = "100"
+ 
++BBCLASSEXTEND = "native nativesdk"
 
-
+base-commit: e4f5d88b8e69964c40e7011c1e7f33f6484b9090
+-- 
+git-series 0.9.1
 
