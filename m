@@ -1,40 +1,47 @@
-Return-Path: <anibal.limon@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 3159877D2E
+Return-Path: <liu.ming50@gmail.com>
+Received: from mail-vk0-f54.google.com (mail-vk0-f54.google.com
+	[209.85.213.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 9C9A277D2E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Mar 2017 16:39:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-	d=intel.com; i=@intel.com; q=dns/txt; s=intel;
-	t=1490891960; x=1522427960;
-	h=subject:to:references:cc:from:message-id:date:
-	mime-version:in-reply-to;
-	bh=rQwEaU/w1l3LXa320fUq/slDXJjg5gs/SKThCgTur0c=;
-	b=dZI7OItbx1LDiQqbt4SsiaywgQABU37yPVvdO+pCWJdu5O+6qK0Wk2X/
-	0qoKfIncAos0ztcYZkfH9tzIc7Kpeg==;
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	30 Mar 2017 09:39:05 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.36,247,1486454400"; 
-	d="asc'?scan'208";a="949868185"
-Received: from alimonb-mobl1.zpn.intel.com (HELO [10.219.128.126])
-	([10.219.128.126])
-	by orsmga003.jf.intel.com with ESMTP; 30 Mar 2017 09:39:04 -0700
-To: Patrick Ohly <patrick.ohly@intel.com>
-References: <1490823850-20782-1-git-send-email-anibal.limon@linux.intel.com>
-	<1490823850-20782-2-git-send-email-anibal.limon@linux.intel.com>
-	<1490853745.6396.439.camel@gmx.de> <58DD2C5B.8010704@linux.intel.com>
-	<1490890422.6396.459.camel@intel.com>
-From: =?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <anibal.limon@linux.intel.com>
-Message-ID: <58DD3595.1060209@linux.intel.com>
-Date: Thu, 30 Mar 2017 10:43:01 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.3.0
+	Thu, 30 Mar 2017 16:41:02 +0000 (UTC)
+Received: by mail-vk0-f54.google.com with SMTP id z204so61548361vkd.1
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 30 Mar 2017 09:41:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=uKgJ4kNqniaprGt550gxbE3aZmjDb5BZXuwXYe//KJc=;
+	b=lodtfVh5Jytk8nx6D/ykeH+1okCnmS0QiK7smjGNflHcOFjCqna2j3a8je3T6eQlG8
+	nQlUpCzM3MHJ8lHB6MRcc6YrxbVxh1LRyhhRwisOltKkM+GdKg0OosO/s84LWwkSSf8Y
+	iBH9Ep+zyrFJIyVNJqfb1+Z2eHCsDEQzdE7wxPdKTtbwDpfI2C1D3ifEDsl9cCG/bOcv
+	weU+NfEPJ5YsywfOvIuSZOsYD3bM4tZKjr+3L39WyDI/upej3TWZ8cykAwuqIBy1yLng
+	9yvq2DQ7ECCVlqZG272a+GlYCxqcW536W31/WLBYMhaI1gIx6vrndpxns2oSPIgXFzAZ
+	9FJQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=uKgJ4kNqniaprGt550gxbE3aZmjDb5BZXuwXYe//KJc=;
+	b=ol6gGf+C0C2FwMabFP/hJBlxIxST8O02wGuORZPB/PNMLndEanPk369juwzZ/jA/Qz
+	Or2lbCtxdmHT1sfJQa8KzHcB2K9Zrhsgw88Z4qi8ESqlMIdGjhJYiKIIk3rMQ8LXTINH
+	IBcmX59Ow+UQjJwAoW8FfJ9J/sNjly5m8KRMR2TjpgYBS2hzccTrlZBNz3msmzc5x7sY
+	/k7rCP+HF1KqYvwm/qk/KONw+b34ugC/x/7rcxorqiuonrK2+F7X35l9UY5RwJuBdL4M
+	bp0qd18h7ryLudnSZxjbElori+L+O6F7EaYq/KMJRwpJzK7/3KtEBqbjop4nsDwnYKkn
+	zmJg==
+X-Gm-Message-State: AFeK/H3kmMyVABaKPhq/Odw+HZX31fx7LhJqw58zgYtmqibglFSRnE4tcpLs7iugc7B5zzE0zopAcy2PT34TtA==
+X-Received: by 10.159.32.104 with SMTP id 95mr364745uam.31.1490892063156; Thu,
+	30 Mar 2017 09:41:03 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <1490890422.6396.459.camel@intel.com>
-Cc: OpenEmbedded <openembedded-core@lists.openembedded.org>,
-	saul.wold@intel.com
-Subject: Re: [PATCH 2/2] scripts: Add yocto-compat-layer-wrapper
+Received: by 10.103.149.92 with HTTP; Thu, 30 Mar 2017 09:41:02 -0700 (PDT)
+In-Reply-To: <1490888052.13980.356.camel@linuxfoundation.org>
+References: <1490860656-27448-1-git-send-email-liu.ming50@gmail.com>
+	<1490888052.13980.356.camel@linuxfoundation.org>
+From: Ming Liu <liu.ming50@gmail.com>
+Date: Thu, 30 Mar 2017 18:41:02 +0200
+Message-ID: <CALatG=6_LxYPfAy5LAwSBGEzLyy434mYTTuCRdqQSo6AVJTBzg@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Ming Liu <peter.x.liu@external.atlascopco.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] meta: define REAL_MULTIMACH_TARGET_SYS/SDKTARGETSYSROOT in bitbake.conf
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,129 +54,87 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Mar 2017 16:39:18 -0000
-X-Groupsio-MsgNum: 95567
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature";
-	boundary="TJuI1xEfbAcI6x2kIq8Pvq6kQMAHrchfr"
+X-List-Received-Date: Thu, 30 Mar 2017 16:41:04 -0000
+Content-Type: multipart/alternative; boundary=94eb2c03f428d2ae25054bf55bd3
 
---TJuI1xEfbAcI6x2kIq8Pvq6kQMAHrchfr
-Content-Type: text/plain; charset=utf-8
+--94eb2c03f428d2ae25054bf55bd3
+Content-Type: text/plain; charset=UTF-8
+
+Hi, Richard:
+
+No, it's not about multilib, but just some special requirement from my
+company, we have 2 IMX5 machines and we want to separate the sdk install
+path for them, so it's decided we append the ${MACHINE} to
+REAL_MULTIMACH_TARGET_SYS, but in current poky, to achieve it, I need
+extend two recipes, meta-environment.bbappend and populate_sdk_base
+inheritor, since I can not override it in a conf file, otherwise some other
+"REAL_MULTIMACH_TARGET_SYS = "none"" setting will be overriden as well.
+
+BTW, do you mean this patch: "multilib_header: Update wrapper to handle arm
+32/64 bit"?
+
+//Ming Liu
+
+
+2017-03-30 17:34 GMT+02:00 Richard Purdie <
+richard.purdie@linuxfoundation.org>:
+
+> On Thu, 2017-03-30 at 09:57 +0200, liu.ming50@gmail.com wrote:
+> > From: Ming Liu <peter.x.liu@external.atlascopco.com>
+> >
+> > REAL_MULTIMACH_TARGET_SYS is being defined and referred in several
+> > recipes, which is redundant and not easy to be overriden, and
+> > SDKTARGETSYSROOT is also defined in two recipes.
+> >
+> > So move their definitions to bitbake.conf.
+>
+> I have been wondering why you're needing to customise
+> REAL_MULTIMACH_TARGET_SYS? Are you having trouble with arm multilibs?
+> If so, the patches I just sent out might be useful...
+>
+> Cheers,
+>
+> Richard
+>
+
+--94eb2c03f428d2ae25054bf55bd3
+Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div>Hi, Richard:</div><div><br></div><div>No, it&#39;s no=
+t about multilib, but just some special requirement from my company, we hav=
+e 2 IMX5 machines and we want to separate the sdk install path for them, so=
+ it&#39;s decided we append the ${MACHINE} to REAL_MULTIMACH_TARGET_SYS, bu=
+t in current poky, to achieve it, I need extend two recipes, meta-environme=
+nt.bbappend and populate_sdk_base inheritor, since I can not override it in=
+ a conf file, otherwise some other &quot;REAL_MULTIMACH_TARGET_SYS =3D &quo=
+t;none&quot;&quot; setting will be overriden as well.</div><div><br></div><=
+div>BTW, do you mean this patch: &quot;multilib_header: Update wrapper to h=
+andle arm 32/64 bit&quot;?</div><div><br></div><div>//Ming Liu</div><div><b=
+r></div></div><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">201=
+7-03-30 17:34 GMT+02:00 Richard Purdie <span dir=3D"ltr">&lt;<a href=3D"mai=
+lto:richard.purdie@linuxfoundation.org" target=3D"_blank">richard.purdie@li=
+nuxfoundation.org</a>&gt;</span>:<br><blockquote class=3D"gmail_quote" styl=
+e=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><span c=
+lass=3D"">On Thu, 2017-03-30 at 09:57 +0200, <a href=3D"mailto:liu.ming50@g=
+mail.com">liu.ming50@gmail.com</a> wrote:<br>
+</span><span class=3D"">&gt; From: Ming Liu &lt;<a href=3D"mailto:peter.x.l=
+iu@external.atlascopco.com">peter.x.liu@external.<wbr>atlascopco.com</a>&gt=
+;<br>
+&gt;<br>
+&gt; REAL_MULTIMACH_TARGET_SYS is being defined and referred in several<br>
+&gt; recipes, which is redundant and not easy to be overriden, and<br>
+&gt; SDKTARGETSYSROOT is also defined in two recipes.<br>
+&gt;<br>
+&gt; So move their definitions to bitbake.conf.<br>
+<br>
+</span>I have been wondering why you&#39;re needing to customise=C2=A0<br>
+REAL_MULTIMACH_TARGET_SYS? Are you having trouble with arm multilibs?<br>
+If so, the patches I just sent out might be useful...<br>
+<br>
+Cheers,<br>
+<br>
+Richard<br>
+</blockquote></div><br></div>
 
-
-On 03/30/2017 10:13 AM, Patrick Ohly wrote:
-> On Thu, 2017-03-30 at 10:03 -0600, An=C3=ADbal Lim=C3=B3n wrote:
->>
->> On 03/30/2017 12:02 AM, Patrick Ohly wrote:
->>> On Wed, 2017-03-29 at 15:44 -0600, An=C3=ADbal Lim=C3=B3n wrote:
->>> ...
->>>> +show_help() {
->>>> +	printf "Usage: %s [-o output_log] [-h] LAYER_DIR ...\n" $0
->>>> +}
->>>> +
->>> ...
->>>> +env_dir=3D$(mktemp -d -t yocto-compat-XXXX)
->>>> +echo "The environment will be setup at $env_dir"
->>>> +echo ""
->>>
->>> The directory gets created, but not removed.
->>
->> I didn't remove the temp directory because may be the user wants to
->> access the dir after the check.
->=20
-> I think that this should be something that the user explicitly needs to=
-
-> request. As it is now, accumulating directories in /tmp when invoking
-> the script is just unexpected and not the normal behavior of tools
-> creating something in /tmp.
-
-Ok, i will add an option to don't delete and change the default behavior
-to delete after check.
-
-
->=20
->>>> +echo "Cloning oe-core..."
->>>> +git clone $oe_core_repo $env_dir
->>>> +if [ $? -ne 0 ]; then
->>>> +	echo "Failed to clone oe-core repository"
->>>> +	exit 1
->>>> +fi
->>>> +
->>>> +echo "Cloning bitbake..."
->>>> +git clone $bitbake_repo $env_dir/bitbake
->>>> +if [ $? -ne 0 ]; then
->>>> +	echo "Failed to clone bitbake repository"
->>>> +	exit 1
->>>> +fi
->>>
->>> Cloning bitbake and OE-core each time the script runs will be fairly
->>> slow. There's also a chicken-and-egg problem: if you don't have bitba=
-ke,
->>> where's the script?
->>>
->>> I'd prefer to use an existing checkout of both, just as for the layer=
-s
->>> which are to be tested.
->>
->> I choose to clone the oe-core/bitbake to ensure there are a clean
->> environment, without any previous layer added.
->=20
-> I don't quite get that argument. When using existing bitbake and OE-cor=
-e
-> directories, how can they have layers added to them? I understand that
-> the existing checkout might contain additional modifications and/or
-> might not match current master, but I consider that a feature. As it
-> stands now, the caller of the script cannot test against Yocto 2.3 once=
-
-> it is released, because the script will always check out master.
->=20
-> Control over that can of course also be added to the script, but I just=
-
-> don't see the need for all this additional complexity. Just my 2 cents.=
-
-
-That's the original issue to create this script, if a user tries to
-validate a layer and has modifications in configuration (bblayers,
-local, auto), the check will be contaminated in some how.
-
-If you want to run in some previous cloned repository you can use
-directly the yocto-compat-layer.py without the wrapper.
-
->=20
->> I could add an option to
->> specify a oe-core/bitbake dir if isn't set then clone.
->=20
-> At the very least please do that.
-
-Yes i will do.
-
-	Anibal
->=20
-
-
---TJuI1xEfbAcI6x2kIq8Pvq6kQMAHrchfr
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iQIcBAEBAgAGBQJY3TWXAAoJEGJqcE9h3glgY0wP/0FT3fQf62JcDXTo7ziJqLYV
-uVle0PwOHJKeHyyoa5H8BhyJsUAqRDrITrF+PBmMSv0zveBI69L7bCuBHMH4AoqJ
-XidfQxr5twoB1cGgmc5GNyIISilzmkuhhvDxqK8NcOcCMJEjHFyff+9vLkqeQyMb
-FMurXNJyLDzUcQE9hgH1hJc4bNLOUCHCIHV8j/msj2yvthLz4d+qQdQiplbfj+TN
-6R1unfnccJePWgNMZ7pfylxb0pIIATvPfLa3jD0h3a4jPLl+bF4JT28EGPqfFMBZ
-8Z9NqF0lDAbabc6GY4euW1qZKgNoB3i5wcDbzXDxhViphOE7S6Qa/SmYhcelUH1t
-Epqz9Dy12CGdtYV6GiyQzvH32do4OP/PW27QMEoZDyFg9Bf7xtAkUevBqHQOrdEg
-QeAC7kFs6B9vz3/J2GULEjycwkj5zaLRlOFzptv2HimsWL2vBCo5Cx/IfzPc1m5k
-mMNvlOMO70JAMQfTXjq9Jukk2hbcjCVDRwvW8Fi0lFx0WVP+KX4z1nCpNYMR7/KX
-xXXQcFIV0RAhRxa7n/P09ZguhleAiB8ktv7Kwe91K07NYqb0mIqSm5ECITe6qVnz
-aszo1ZHF2CFiURLST8PfXLkoDFm9lG2vzB3UuR51I97FP/vU5gAEIl2cIyOhj58B
-/EMgSctnLGLXIYfEOtqB
-=O3P8
------END PGP SIGNATURE-----
-
---TJuI1xEfbAcI6x2kIq8Pvq6kQMAHrchfr--
+--94eb2c03f428d2ae25054bf55bd3--
