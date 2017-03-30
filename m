@@ -1,29 +1,35 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id A19AF77C05
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 4221177C05
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Mar 2017 09:21:50 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v2U9LolM015808
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 30 Mar 2017 02:21:51 -0700 (PDT)
-Received: from [128.224.162.201] (128.224.162.201) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.294.0;
-	Thu, 30 Mar 2017 02:21:50 -0700
-To: Gary Thomas <gary@mlbassoc.com>, <openembedded-core@lists.openembedded.org>
-References: <cover.1490863008.git.Qi.Chen@windriver.com>
-	<ae8133ce6aa20fd7e0f6189ebad556a5716d5111.1490863008.git.Qi.Chen@windriver.com>
-	<f9f0bdc7-2ac3-90f2-706e-012ffe86f501@mlbassoc.com>
-From: ChenQi <Qi.Chen@windriver.com>
-Message-ID: <0b9253f8-4be5-32d4-71ed-70831f12c43e@windriver.com>
-Date: Thu, 30 Mar 2017 17:23:06 +0800
+	Thu, 30 Mar 2017 09:28:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+	d=intel.com; i=@intel.com; q=dns/txt; s=intel;
+	t=1490866101; x=1522402101;
+	h=subject:to:references:from:message-id:date:mime-version:
+	in-reply-to:content-transfer-encoding;
+	bh=lFTMWcwioGpxwDbzoZZB7dj7A1OPj+ScHvK28QTcruQ=;
+	b=r+EiL9hioat7g0oFbbMpSGk8pWTupR3IDmZgf6L+zOhlC2Rwf5nuPVeB
+	QVKHfihQwrHRb5rUkL27WeE1i9HXrA==;
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	30 Mar 2017 02:28:19 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.36,246,1486454400"; d="scan'208";a="241970248"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by fmsmga004.fm.intel.com with ESMTP; 30 Mar 2017 02:28:19 -0700
+To: openembedded-core@lists.openembedded.org
+References: <cover.1490717618.git.chris_larson@mentor.com>
+	<f619859747304e1ed4ba32488ea416419ede955d.1490717618.git.chris_larson@mentor.com>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <0eb4c04d-22f0-827a-d41c-ac704fd99eea@linux.intel.com>
+Date: Thu, 30 Mar 2017 12:27:40 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.4.0
+	Thunderbird/45.8.0
 MIME-Version: 1.0
-In-Reply-To: <f9f0bdc7-2ac3-90f2-706e-012ffe86f501@mlbassoc.com>
-X-Originating-IP: [128.224.162.201]
-Subject: Re: [PATCH 1/1] wic: improve error message
+In-Reply-To: <f619859747304e1ed4ba32488ea416419ede955d.1490717618.git.chris_larson@mentor.com>
+Subject: Re: [PATCH 1/3] update_gio_module_cache: fix host user contamination
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,66 +42,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Mar 2017 09:21:51 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
+X-List-Received-Date: Thu, 30 Mar 2017 09:28:19 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 03/30/2017 04:54 PM, Gary Thomas wrote:
-> On 2017-03-30 10:37, Chen Qi wrote:
->> When using `wic create mkefidisk -e core-image-minimal', the following
->> error message appeared.
->>
->>   Please bake it with 'bitbake parted-native' and try again.
->>
->> However, following this command doesn't do any help. The same problem
->> still appeared.
->>
->> The problem is that when we 'bitbake parted-native', it doesn't have
->> anything to do with core-image-minimal. And the required tool 'parted'
->> is not under core-image-minimal's recipe-sysroot-native directory.
->>
->> Improve the error message so that following it could get things done.
+On 03/28/2017 07:14 PM, Christopher Larson wrote:
+> update_gio_module_cache intercept creates file:
+> $D${libdir}/gio/modules/giomodule.cache
 >
-> Why not just fix the wic-tools recipe directly and not push it off 
-> onto the user?
->
+> Change ownership of this file to root:root to avoid user contamination
+> by host.
 
-wic-tools does have 'parted-native' in its DEPENDS.
-I met this error when I used wic command before I executed `bitbake 
-wic-tools'.
+I don't understand how one is related to another, can you explain 
+please? What is happening, and why chown is fixing the problem?
 
-What's important here is, when an error message suggests the user to do 
-something, the suggestion should at least have some chance to work. But 
-following the current error message has no chance to fix things.
 
-Best Regards,
-Chen Qi
-
->>
->> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
->> ---
->>  scripts/lib/wic/utils/misc.py | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/scripts/lib/wic/utils/misc.py 
->> b/scripts/lib/wic/utils/misc.py
->> index c941112..1b0ab3b 100644
->> --- a/scripts/lib/wic/utils/misc.py
->> +++ b/scripts/lib/wic/utils/misc.py
->> @@ -131,7 +131,7 @@ def exec_native_cmd(cmd_and_args, native_sysroot, 
->> catch=3, pseudo=""):
->>                "was not found (see details above).\n\n" % prog
->>          recipe = NATIVE_RECIPES.get(prog)
->>          if recipe:
->> -            msg += "Please bake it with 'bitbake %s-native' "\
->> +            msg += "Please make sure wic-tools have %s-native in its 
->> DEPENDS, bake it with 'bitbake wic-tools' "\
->>                     "and try again.\n" % recipe
->>          else:
->>              msg += "Wic failed to find a recipe to build native %s. 
->> Please "\
->>
->
->
+Alex
 
 
