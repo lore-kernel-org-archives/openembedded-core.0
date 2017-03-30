@@ -1,28 +1,34 @@
-Return-Path: <richard@rpsys.net>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 4B7E377C4F
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 37F6277BEC
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Mar 2017 09:35:40 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTP id v2U9ZeJ1030685; 
-	Thu, 30 Mar 2017 10:35:40 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id jpaaiwKC9UiH; Thu, 30 Mar 2017 10:35:40 +0100 (BST)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v2U9ZchE030669
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Thu, 30 Mar 2017 10:35:39 +0100
-Received: from richard by hex with local (Exim 4.86_2)
-	(envelope-from <richard@rpsys.net>)
-	id 1ctWUU-0005kb-Ed; Thu, 30 Mar 2017 10:35:38 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+	Thu, 30 Mar 2017 09:39:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+	d=intel.com; i=@intel.com; q=dns/txt; s=intel;
+	t=1490866764; x=1522402764;
+	h=subject:to:references:from:message-id:date:mime-version:
+	in-reply-to:content-transfer-encoding;
+	bh=yDo/fmfjCwLTo+BFfOSNeB3rDh59d/wYn17FPYaJflg=;
+	b=weNWyYP/ku7t85XLrKPMrGayzH2O4+SKGKGvvSRquP3gkvQPe8efz97U
+	Q0qKJsx+vJ5MbjNenfBfDQ+pNlFtZw==;
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	30 Mar 2017 02:39:23 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.36,246,1486454400"; d="scan'208";a="66827651"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by orsmga002.jf.intel.com with ESMTP; 30 Mar 2017 02:39:22 -0700
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 30 Mar 2017 10:35:33 +0100
-Message-Id: <1490866536-22063-1-git-send-email-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.7.4
-Subject: [PATCH 1/4] bitbake.conf: Add DEPLOY_DIR to BB_HASHBASE_WHITELIST
+References: <20170329231606.22118-1-pkj@axis.com>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <72959861-69b9-7ed0-7a89-891a4aa9ed26@linux.intel.com>
+Date: Thu, 30 Mar 2017 12:38:44 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.8.0
+MIME-Version: 1.0
+In-Reply-To: <20170329231606.22118-1-pkj@axis.com>
+Subject: Re: [PATCH] update_gio_module_cache: Do not chown a non-existing file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,32 +41,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Mar 2017 09:35:41 -0000
+X-List-Received-Date: Thu, 30 Mar 2017 09:39:22 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Users should be able to locally choose DEPLOY_DIR without impacting
-the reuse of sstate, this change allows that.
+On 03/30/2017 02:16 AM, Peter Kjellerstedt wrote:
+> Only change the ownership of ${libdir}/gio/modules/giomodule.cache if
+> it exists.
+>
+> Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+> ---
+>  scripts/postinst-intercepts/update_gio_module_cache | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+>
+> diff --git a/scripts/postinst-intercepts/update_gio_module_cache b/scripts/postinst-intercepts/update_gio_module_cache
+> index 92092f2144..fc3f9d0d6c 100644
+> --- a/scripts/postinst-intercepts/update_gio_module_cache
+> +++ b/scripts/postinst-intercepts/update_gio_module_cache
+> @@ -3,7 +3,7 @@
+>  set -e
+>
+>  PSEUDO_UNLOAD=1 qemuwrapper -L $D -E LD_LIBRARY_PATH=$D${libdir}:$D${base_libdir} \
+> -        $D${libexecdir}/${binprefix}gio-querymodules $D${libdir}/gio/modules/
+> -
+> -chown root:root $D${libdir}/gio/modules/giomodule.cache
+> +	$D${libexecdir}/${binprefix}gio-querymodules $D${libdir}/gio/modules/
+>
+> +[ ! -e $D${libdir}/gio/modules/giomodule.cache ] ||
+> +	chown root:root $D${libdir}/gio/modules/giomodule.cache
+>
 
-[YOCTO #11110]
+Nope. The postinst-intercept scirpts are allowed to fail, and if they 
+are, they are deferred to first boot. If giomodule.cache file does not 
+exist, that means that qemu does not work for the target machine, which 
+is not a bug, and is handled by detecting script failure and taking the 
+same action at first boot time - which your change breaks.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/conf/bitbake.conf | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index d95e39d..d756af4 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -834,7 +834,7 @@ BB_HASHBASE_WHITELIST ?= "TMPDIR FILE PATH PWD BB_TASKHASH BBPATH BBSERVER DL_DI
-     PRSERV_DUMPDIR PRSERV_DUMPFILE PRSERV_LOCKDOWN PARALLEL_MAKE \
-     CCACHE_DIR EXTERNAL_TOOLCHAIN CCACHE CCACHE_DISABLE LICENSE_PATH SDKPKGSUFFIX \
-     WARN_QA ERROR_QA WORKDIR STAMPCLEAN PKGDATA_DIR BUILD_ARCH SSTATE_PKGARCH \
--    BB_WORKERCONTEXT BB_LIMITEDDEPS extend_recipe_sysroot"
-+    BB_WORKERCONTEXT BB_LIMITEDDEPS extend_recipe_sysroot DEPLOY_DIR"
- BB_HASHCONFIG_WHITELIST ?= "${BB_HASHBASE_WHITELIST} DATE TIME SSH_AGENT_PID \
-     SSH_AUTH_SOCK PSEUDO_BUILD BB_ENV_EXTRAWHITE DISABLE_SANITY_CHECKS \
-     PARALLEL_MAKE BB_NUMBER_THREADS BB_ORIGENV BB_INVALIDCONF BBINCLUDED \
--- 
-2.7.4
-
+Alex
 
