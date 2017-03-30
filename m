@@ -1,24 +1,29 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id 4098E77C14
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 36C4977C14
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Mar 2017 09:29:57 +0000 (UTC)
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by orsmga104.jf.intel.com with ESMTP; 30 Mar 2017 02:29:59 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.36,246,1486454400"; d="scan'208";a="241970541"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by fmsmga004.fm.intel.com with ESMTP; 30 Mar 2017 02:29:58 -0700
-To: openembedded-core@lists.openembedded.org
+	Thu, 30 Mar 2017 09:31:16 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTP id v2U9VF5Q030263; 
+	Thu, 30 Mar 2017 10:31:15 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id ZEYkM5C4lM95; Thu, 30 Mar 2017 10:31:15 +0100 (BST)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	v2U9VEC0030254
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Thu, 30 Mar 2017 10:31:15 +0100
+Message-ID: <1490866274.13980.344.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>,
+	openembedded-core@lists.openembedded.org
+Date: Thu, 30 Mar 2017 10:31:14 +0100
+In-Reply-To: <cf44bdfa-67df-f382-f497-7362b9b584f3@linux.intel.com>
 References: <20170329231606.22118-1-pkj@axis.com>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <cf44bdfa-67df-f382-f497-7362b9b584f3@linux.intel.com>
-Date: Thu, 30 Mar 2017 12:29:20 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.8.0
-MIME-Version: 1.0
-In-Reply-To: <20170329231606.22118-1-pkj@axis.com>
+	<cf44bdfa-67df-f382-f497-7362b9b584f3@linux.intel.com>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.1 
+Mime-Version: 1.0
 Subject: Re: [PATCH] update_gio_module_cache: Do not chown a non-existing file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -32,16 +37,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Mar 2017 09:29:58 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
+X-List-Received-Date: Thu, 30 Mar 2017 09:31:17 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 03/30/2017 02:16 AM, Peter Kjellerstedt wrote:
-> Only change the ownership of ${libdir}/gio/modules/giomodule.cache if
-> it exists.
+On Thu, 2017-03-30 at 12:29 +0300, Alexander Kanavin wrote:
+> On 03/30/2017 02:16 AM, Peter Kjellerstedt wrote:
+> > 
+> > Only change the ownership of ${libdir}/gio/modules/giomodule.cache
+> > if
+> > it exists.
+> Why do we need to change the owndership in the first place?
 
-Why do we need to change the owndership in the first place?
+The qemu call in the line above is made under PSEUDO_UNLOAD, see the
+original patch from Chris.
 
-Alex
+Cheers,
+
+Richard
 
 
