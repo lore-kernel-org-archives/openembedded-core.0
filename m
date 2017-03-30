@@ -1,60 +1,48 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
-	by mail.openembedded.org (Postfix) with ESMTP id 08C6677C20
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f175.google.com (mail-qk0-f175.google.com
+	[209.85.220.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 98AF477BD5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Mar 2017 10:53:38 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bes.se.axis.com (Postfix) with ESMTP id 675B62E0B1;
-	Thu, 30 Mar 2017 12:53:39 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
-Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id 2lyS8P0ua8Sn; Thu, 30 Mar 2017 12:53:38 +0200 (CEST)
-Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
-	by bes.se.axis.com (Postfix) with ESMTPS id 4C5472E272;
-	Thu, 30 Mar 2017 12:53:38 +0200 (CEST)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 3A9B51E0A0;
-	Thu, 30 Mar 2017 12:53:38 +0200 (CEST)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 2FAF11E09D;
-	Thu, 30 Mar 2017 12:53:38 +0200 (CEST)
-Received: from seth.se.axis.com (unknown [10.0.2.172])
-	by boulder03.se.axis.com (Postfix) with ESMTP;
-	Thu, 30 Mar 2017 12:53:38 +0200 (CEST)
-Received: from XBOX03.axis.com (xbox03.axis.com [10.0.5.17])
-	by seth.se.axis.com (Postfix) with ESMTP id 2419E2293;
-	Thu, 30 Mar 2017 12:53:38 +0200 (CEST)
-Received: from xbox12.axis.com (10.0.5.26) by XBOX03.axis.com (10.0.5.17) with
-	Microsoft SMTP Server (TLS) id 15.0.1210.3;
-	Thu, 30 Mar 2017 12:53:38 +0200
-Received: from XBOX02.axis.com (10.0.5.16) by xbox12.axis.com (10.0.5.26) with
-	Microsoft SMTP Server (TLS) id 15.0.1210.3;
-	Thu, 30 Mar 2017 12:53:37 +0200
-Received: from XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776]) by
-	XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776%21]) with mapi id
-	15.00.1210.000; Thu, 30 Mar 2017 12:53:37 +0200
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH] update_gio_module_cache: Do not chown a
-	non-existing file
-Thread-Index: AQHSqTmHdf4iuZEiy02Cdt3bUFeZQqGtKDhg
-Date: Thu, 30 Mar 2017 10:53:37 +0000
-Message-ID: <29c2d438050341bda5c2f610aa7b3972@XBOX02.axis.com>
-References: <20170329231606.22118-1-pkj@axis.com>
-	<72959861-69b9-7ed0-7a89-891a4aa9ed26@linux.intel.com>
-In-Reply-To: <72959861-69b9-7ed0-7a89-891a4aa9ed26@linux.intel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.60]
+	Thu, 30 Mar 2017 11:21:29 +0000 (UTC)
+Received: by mail-qk0-f175.google.com with SMTP id p22so36400970qka.3
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 30 Mar 2017 04:21:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=74c5aDq1hmJYiNS1D1ve4Es5t7L/y8w1Ez6E4yxYvK8=;
+	b=M0zjANlHuU841wQv5Sv5UTR6drY52jlnFuenjpX1WKoDcagwmIx3izwF5KuxS7O8RX
+	hAe/ZjHpEsdSSx+eDVgqJGErYvnqXr18Kpg0d1EkYQLjL18ABIIXuTwW8g3ZXZaP+oSC
+	LA2ylLki4mo0eo8HJuiPbbXM3Tx+zsLwYe0jQCKfE49h7+MNStSCqzz2+pCzxP1Fb0ax
+	CHuXe76VAdWWQJBmD2b4Mek1Yu85knRiPv5gObBTIAhJjyRZw9ajMFUBbsjVy2jWHkcR
+	K3WHFOEtksVsu0NPhGx98TQyVmKOfJttkM3d1jFbeYu6JCF8IuvtX2bFtICI2Pmz6YMC
+	G8eg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=74c5aDq1hmJYiNS1D1ve4Es5t7L/y8w1Ez6E4yxYvK8=;
+	b=YQ3ccm5Ag9TDwhTcWpf0Q/Et5yqWNH7e/cMfBERVEkoY+Xf/zdUWfzXfEWzCKkV55+
+	E72163euv5NY6wtRTB4fnFH6IZUGZo27qrYASZlmdT+OYbKr9m0tAQuAbmPn/RwC0Xl9
+	gtvBV5ZunHSBeWkkDNXgekkK/ALwItJ/Z+6GhXaSBk2Udi+uY33zpzAVEO3Tptcj8Cc9
+	0otCzfbArvMa7JGAYhIb2+bqLRPBeyWd+SQ1qhagqdySu+oYHF0GHevpGKRpmovHWmWJ
+	mJlz98/nApE4c6fyX1DWpAAN1qkQdUo+a/XfmodlkfUo1o1QN6qO6SB/gPEjw2yw291J
+	oziw==
+X-Gm-Message-State: AFeK/H1rDbOvHqpI4qo3SDmJwW+sXue1Wk3dFTGBIuMA8BXoDyiq6RD/O5Nwa3uJ/LeWvsccNvhhs+kohWiK20sc
+X-Received: by 10.55.162.203 with SMTP id l194mr5000251qke.221.1490872890210; 
+	Thu, 30 Mar 2017 04:21:30 -0700 (PDT)
 MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-Subject: Re: [PATCH] update_gio_module_cache: Do not chown a non-existing file
+Received: by 10.140.22.166 with HTTP; Thu, 30 Mar 2017 04:21:09 -0700 (PDT)
+In-Reply-To: <20170330080955.GA403@mbabyjoh-desk.ger.corp.intel.com>
+References: <1490789493.18519.18.camel@codethink.co.uk>
+	<CAJ86T=VYpCkzddgtVkT++N+gxj5oi8iuzb29Cm9N_0=7RrG_1A@mail.gmail.com>
+	<20170330080955.GA403@mbabyjoh-desk.ger.corp.intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 30 Mar 2017 12:21:09 +0100
+Message-ID: <CAJTo0Lar4023Z0kWdcgBPgc4aD+E6oEvh6jkfhCKdr0gtpYJkQ@mail.gmail.com>
+To: "Maxin B. John" <maxin.john@intel.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] libjpeg-turbo: fix build on aarch64 or non-intel build hosts
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -67,67 +55,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Mar 2017 10:53:39 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Thu, 30 Mar 2017 11:21:29 -0000
+Content-Type: multipart/alternative; boundary=001a114d7fb006d7b6054bf0e5a8
+
+--001a114d7fb006d7b6054bf0e5a8
+Content-Type: text/plain; charset=UTF-8
+
+On 30 March 2017 at 09:09, Maxin B. John <maxin.john@intel.com> wrote:
+>
+> Agree with Andre here. I would suggest to update nasm recipe to support
+> build for other archs as well (tested on arm and it works as expected. Will
+> require more testing on other archs).
+>
+
+Yes.  Simply deleting the COMPATIBLE_HOST in nasm.bb should be sufficient,
+Debian builds nasm for every architecture so that demonstrates that it
+builds just fine.
+
+Ross
+
+--001a114d7fb006d7b6054bf0e5a8
+Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org
-> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
-> Alexander Kanavin
-> Sent: den 30 mars 2017 11:39
-> To: openembedded-core@lists.openembedded.org
-> Subject: Re: [OE-core] [PATCH] update_gio_module_cache: Do not chown a
-> non-existing file
->=20
-> On 03/30/2017 02:16 AM, Peter Kjellerstedt wrote:
-> > Only change the ownership of ${libdir}/gio/modules/giomodule.cache if
-> > it exists.
-> >
-> > Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-> > ---
-> >  scripts/postinst-intercepts/update_gio_module_cache | 6 +++---
-> >  1 file changed, 3 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/scripts/postinst-intercepts/update_gio_module_cache
-> b/scripts/postinst-intercepts/update_gio_module_cache
-> > index 92092f2144..fc3f9d0d6c 100644
-> > --- a/scripts/postinst-intercepts/update_gio_module_cache
-> > +++ b/scripts/postinst-intercepts/update_gio_module_cache
-> > @@ -3,7 +3,7 @@
-> >  set -e
-> >
-> >  PSEUDO_UNLOAD=3D1 qemuwrapper -L $D -E
-> LD_LIBRARY_PATH=3D$D${libdir}:$D${base_libdir} \
-> > -        $D${libexecdir}/${binprefix}gio-querymodules
-> $D${libdir}/gio/modules/
-> > -
-> > -chown root:root $D${libdir}/gio/modules/giomodule.cache
-> > +	$D${libexecdir}/${binprefix}gio-querymodules
-> $D${libdir}/gio/modules/
-> >
-> > +[ ! -e $D${libdir}/gio/modules/giomodule.cache ] ||
-> > +	chown root:root $D${libdir}/gio/modules/giomodule.cache
-> >
->=20
-> Nope. The postinst-intercept scirpts are allowed to fail, and if they
-> are, they are deferred to first boot. If giomodule.cache file does not
-> exist, that means that qemu does not work for the target machine, which
-> is not a bug, and is handled by detecting script failure and taking the
-> same action at first boot time - which your change breaks.
->=20
-> Alex
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 30 March 2017 at 09:09, Maxin B. John <span dir=3D"ltr">&lt;<a href=3D"m=
+ailto:maxin.john@intel.com" target=3D"_blank">maxin.john@intel.com</a>&gt;<=
+/span> wrote:<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;b=
+order-left:1px #ccc solid;padding-left:1ex">Agree with Andre here. I would =
+suggest to update nasm recipe to support<br>
+build for other archs as well (tested on arm and it works as expected. Will=
+<br>
+require more testing on other archs).<br></blockquote></div><br>Yes.=C2=A0 =
+Simply deleting the COMPATIBLE_HOST in <a href=3D"http://nasm.bb">nasm.bb</=
+a> should be sufficient, Debian builds nasm for every architecture so that =
+demonstrates that it builds just fine.</div><div class=3D"gmail_extra"><br>=
+</div><div class=3D"gmail_extra">Ross</div></div>
 
-No, the script will still fail if running gio-querymodules fails since=20
-`set -e` is in effect. But it will no longer fail if gio-querymodules=20
-succeeds without producing a cache file, which is the case for us.
-
-I do not know under what circumstances gio-querymodules will or will=20
-not produce a cache file, but I have tried running it on our target=20
-and it does not produce a cache file there either, so I assume the=20
-build time job is doing the right thing in not creating a file.
-
-//Peter
-
-
+--001a114d7fb006d7b6054bf0e5a8--
