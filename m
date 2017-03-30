@@ -1,34 +1,51 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 066B077D64
+Return-Path: <kergoth@gmail.com>
+Received: from mail-oi0-f52.google.com (mail-oi0-f52.google.com
+	[209.85.218.52])
+	by mail.openembedded.org (Postfix) with ESMTP id A17AC77D5B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Mar 2017 18:45:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-	d=intel.com; i=@intel.com; q=dns/txt; s=intel;
-	t=1490899521; x=1522435521;
-	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=TX23vx9hM35XpRQ4VIf1ckZG+XnszjZG5wgUcOcZp4E=;
-	b=Vrg6nPYNi4P17gst15e6MRBJj7KWMnj+tA0aLU5ggEGg+3vCIETYzi1a
-	WpE4ycBLp4Gtp6fInA68MkWki7eK0A==;
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	30 Mar 2017 11:45:21 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.36,248,1486454400"; d="scan'208";a="949916427"
-Received: from linux.intel.com ([10.54.29.200])
-	by orsmga003.jf.intel.com with ESMTP; 30 Mar 2017 11:45:21 -0700
-Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
-	by linux.intel.com (Postfix) with ESMTP id ECA342C8001
+	Thu, 30 Mar 2017 18:51:00 +0000 (UTC)
+Received: by mail-oi0-f52.google.com with SMTP id o67so40161537oib.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Mar 2017 11:45:13 -0700 (PDT)
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 30 Mar 2017 21:43:51 +0300
-Message-Id: <46c0422039f93c384aa4adf4acde2f1137c39717.1490898545.git.ed.bartosh@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <cover.1490898545.git.ed.bartosh@linux.intel.com>
-References: <cover.1490898545.git.ed.bartosh@linux.intel.com>
-Subject: [PATCH 9/9] wic: remove prepare_empty_partition_squashfs
+	Thu, 30 Mar 2017 11:51:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=Xa/Fcy6jeawUqCk4HKQGnFXNUP/aBkzepRBDz1FKcy4=;
+	b=EieYsZXi6tsLbizZ6YrL1TGq6lRfJ/FQWcs0nAcH1Hx2cRV2vbOh/xqxwBD3wVrHG2
+	vki2R5DxWXWESdjgiuIBA486LnVLwBQR5Q8HZZN6tW+GkPDFy9z24rx3iwwqVF92u8ge
+	qH7cDasssoXCLQXCjEe49uewOUOEOu2WGw7DvpP7BPo0nksh7fKazKT/+hCBjcssJkG4
+	D1CR7/1umaP86qMmiLBDcEmr5eOX7mrW1T5uGEIqhMiW/F7CsU4EHpiDioSp9z2+MOdA
+	3ISRDBDtzupiFd5J/bZ1uL1Ygtg22DazF853K1RqJ2lQiaeRq2KElvHKSxn4QgK/5/cl
+	Nyag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=Xa/Fcy6jeawUqCk4HKQGnFXNUP/aBkzepRBDz1FKcy4=;
+	b=fxVsfMfi5uCoa8nQxf42j+snRR01/dykB5ZRMyViqffNVO7qdpJ+jHo2tWQRkn9som
+	166fxW3ZgJvEffzUdkqDQFnAHbjbwR1jDb+J5wnpP8mgiH08uTFiueFAj8BihliYvzzh
+	XW1DYLMe3t7lnvucaYbA3t8RKYsqXU+/wawgQZpf3bn2ZpPd+5G8QiJeeyK8Y5UI83gM
+	Xf7zSc+cApL5+5+Z++Mf7gyT8+p823cDvU0u5pFWlPC6t3tI/biDAVVOGopTSwXAAxcF
+	kHOoTgZdtsx04vJ5fLsGCgFy3nAB3jG4/qoEmTRZokijxi7i56VtlWbPOeLmgqkmOwvU
+	nBpQ==
+X-Gm-Message-State: AFeK/H2gtlhfmJmw9GtgLjY7BL2CxDvsjONGYJai1TBOBLj5iYhLsPmq1ysnChvWVSeFe7nSsIpbV7LZ4Tj/Wg==
+X-Received: by 10.157.48.8 with SMTP id d8mr881199otc.15.1490899861502; Thu,
+	30 Mar 2017 11:51:01 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.157.32.161 with HTTP; Thu, 30 Mar 2017 11:50:41 -0700 (PDT)
+In-Reply-To: <b3461cd0-8336-3c15-5a5b-193fb68ed3ad@cisco.com>
+References: <e1eee1aa56e1dc59a55a9cac25a00a1ea2f9375e.1490727568.git.spopovyc@cisco.com>
+	<CABcZAN=pYQH82T4Gxi9VneWQtRQYZyeu+Wrr+4V7iWeXW+_RvA@mail.gmail.com>
+	<a0db5863-003a-ab83-aa85-c719656ddc62@cisco.com>
+	<CAJTo0La9kxbzE4drCC5YP-2sZb+6WeBqwH1jw8yGgzaYLi+EWw@mail.gmail.com>
+	<b3461cd0-8336-3c15-5a5b-193fb68ed3ad@cisco.com>
+From: Christopher Larson <kergoth@gmail.com>
+Date: Thu, 30 Mar 2017 11:50:41 -0700
+Message-ID: <CABcZAN=5Xohyw3HJ4wtUxV3-j2rTA=tMcQka0NfqWqUZUAOanQ@mail.gmail.com>
+To: Serhii Popovych <spopovyc@cisco.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>,
+	XE-Linux <xe-linux-external@cisco.com>
+Subject: Re: [PATCH] ca-certificates: Fix symlinks to the certificates in nativesdk
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,93 +58,86 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Mar 2017 18:45:20 -0000
+X-List-Received-Date: Thu, 30 Mar 2017 18:51:01 -0000
+Content-Type: multipart/alternative; boundary=001a113e1740a40132054bf72cd7
 
-There is not much sense in creation of empty squashfs
-partition. It's also not possible to create empty squashfs
-partition of specified size.
+--001a113e1740a40132054bf72cd7
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Even more, prepare_empty_partition_squashfs method is
-absolutely broken. It raises exception when called and
-even its signature differs from the rest of of similar
-methods. It means that nobody uses it and it's safe
-to remove it.
+On Thu, Mar 30, 2017 at 11:30 AM, Serhii Popovych <spopovyc@cisco.com>
+wrote:
 
-Removed prepare_empty_partition_squashfs method and
-testing of empty squashfs partition.
-
-Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
----
- meta/lib/oeqa/selftest/wic.py |  3 +--
- scripts/lib/wic/partition.py  | 33 ++++-----------------------------
- 2 files changed, 5 insertions(+), 31 deletions(-)
-
-diff --git a/meta/lib/oeqa/selftest/wic.py b/meta/lib/oeqa/selftest/wic.py
-index c160f5f..df5e060 100644
---- a/meta/lib/oeqa/selftest/wic.py
-+++ b/meta/lib/oeqa/selftest/wic.py
-@@ -729,8 +729,7 @@ part /etc --source rootfs --ondisk mmcblk0 --fstype=ext4 --exclude-path bin/ --r
-                             'part emptyvfat   --fstype vfat   --size 1M\n',
-                             'part emptymsdos  --fstype msdos  --size 1M\n',
-                             'part emptyext2   --fstype ext2   --size 1M\n',
--                            'part emptybtrfs  --fstype btrfs  --size 100M\n',
--                            'part emptysquash --fstype squashfs --size 1M\n'])
-+                            'part emptybtrfs  --fstype btrfs  --size 100M\n'])
-             wks.flush()
-             cmd = "wic create %s -e %s -o %s" % (wks.name, img, self.resultdir)
-             self.assertEqual(0, runCmd(cmd).status)
-diff --git a/scripts/lib/wic/partition.py b/scripts/lib/wic/partition.py
-index 6f324ad..5edb340 100644
---- a/scripts/lib/wic/partition.py
-+++ b/scripts/lib/wic/partition.py
-@@ -141,6 +141,10 @@ class Partition():
-                                             native_sysroot)
-                 self.source_file = "%s/fs.%s" % (cr_workdir, self.fstype)
-             else:
-+                if self.fstype == 'squashfs':
-+                    raise WicError("It's not possible to create empty squashfs "
-+                                   "partition '%s'" % (self.mountpoint))
-+
-                 rootfs = "%s/fs_%s.%s.%s" % (cr_workdir, self.label,
-                                              self.lineno, self.fstype)
-                 if os.path.isfile(rootfs):
-@@ -390,35 +394,6 @@ class Partition():
- 
-     prepare_empty_partition_vfat = prepare_empty_partition_msdos
- 
--    def prepare_empty_partition_squashfs(self, cr_workdir, oe_builddir,
--                                         native_sysroot):
--        """
--        Prepare an empty squashfs partition.
--        """
--        logger.warning("Creating of an empty squashfs %s partition was attempted. "
--                       "Proceeding as requested.", self.mountpoint)
--
--        path = "%s/fs_%s.%s" % (cr_workdir, self.label, self.fstype)
--        if os.path.isfile(path):
--            os.remove(path)
--
--        # it is not possible to create a squashfs without source data,
--        # thus prepare an empty temp dir that is used as source
--        tmpdir = tempfile.mkdtemp()
--
--        squashfs_cmd = "mksquashfs %s %s -noappend" % \
--                       (tmpdir, path)
--        exec_native_cmd(squashfs_cmd, native_sysroot)
--
--        os.rmdir(tmpdir)
--
--        # get the rootfs size in the right units for kickstart (kB)
--        du_cmd = "du -Lbks %s" % path
--        out = exec_cmd(du_cmd)
--        fs_size = out.split()[0]
--
--        self.size = int(fs_size)
--
-     def prepare_swap_partition(self, cr_workdir, oe_builddir, native_sysroot):
-         """
-         Prepare a swap partition.
--- 
-2.1.4
+> >
+> > On 29 March 2017 at 13:51, Serhii Popovych <spopovyc@cisco.com
+> > <mailto:spopovyc@cisco.com>> wrote:
+> >
+> >     That's great. What the subject of this change in openembedded-core?
+> >     I wish to test it.
+> >
+> >     Because with current *master* I see problem is still here.
+> >
+> >
+> > "    sysroot-relativelinks: also consider links to dirs on the host"
+> > oe-core c5b522378fff13962a5187d9d09979866f805cb5, now in master.
+>
+> Tested, works for SDK, but does not work for buildtools-tarball
+> (e.g. bitbake buildtools-tarball).
 
 
+Ah, that makes sense, sysroot-relativelinks being run is handled by
+image.bbclass at this time, which wouldn=E2=80=99t be inherited for that re=
+cipe.
+Perhaps add this to the recipe:
+
+    POPULATE_SDK_POST_TARGET_COMMAND +=3D =E2=80=9Crootfs_sysroot_relativel=
+inks;"
+--=20
+Christopher Larson
+kergoth at gmail dot com
+Founder - BitBake, OpenEmbedded, OpenZaurus
+Senior Software Engineer, Mentor Graphics
+
+--001a113e1740a40132054bf72cd7
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On Thu, Mar 30, 2017 at 11:30 AM, Serhii Popovych <span dir=3D"ltr">&lt;<a =
+href=3D"mailto:spopovyc@cisco.com" target=3D"_blank">spopovyc@cisco.com</a>=
+&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px=
+ 0px 0px 0.8ex;border-left-width:1px;border-left-style:solid;border-left-co=
+lor:rgb(204,204,204);padding-left:1ex"><span class=3D"gmail-">&gt;<br>
+&gt; On 29 March 2017 at 13:51, Serhii Popovych &lt;<a href=3D"mailto:spopo=
+vyc@cisco.com">spopovyc@cisco.com</a><br>
+</span><span class=3D"gmail-">&gt; &lt;mailto:<a href=3D"mailto:spopovyc@ci=
+sco.com">spopovyc@cisco.com</a>&gt;&gt; wrote:<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0That&#39;s great. What the subject of this change i=
+n openembedded-core?<br>
+&gt;=C2=A0 =C2=A0 =C2=A0I wish to test it.<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0Because with current *master* I see problem is stil=
+l here.<br>
+&gt;<br>
+&gt;<br>
+&gt; &quot;=C2=A0 =C2=A0 sysroot-relativelinks: also consider links to dirs=
+ on the host&quot;<br>
+&gt; oe-core c5b522378fff13962a5187d9d09979<wbr>866f805cb5, now in master.<=
+br>
+<br>
+</span>Tested, works for SDK, but does not work for buildtools-tarball<br>
+(e.g. bitbake buildtools-tarball).</blockquote></div><br>Ah, that makes sen=
+se, sysroot-relativelinks being run is handled by image.bbclass at this tim=
+e, which wouldn=E2=80=99t be inherited for that recipe. Perhaps add this to=
+ the recipe:</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_=
+extra"><span style=3D"font-size:12.800000190734863px">=C2=A0 =C2=A0 POPULAT=
+E_SDK_POST_TARGET_</span><wbr style=3D"font-size:12.800000190734863px"><spa=
+n style=3D"font-size:12.800000190734863px">COMMAND +=3D =E2=80=9Crootfs_sys=
+root_relativelinks;&quot;</span><br>-- <br><div class=3D"gmail_signature"><=
+div dir=3D"ltr"><div><div dir=3D"ltr">Christopher Larson<br>kergoth at gmai=
+l dot com<br>Founder - BitBake, OpenEmbedded, OpenZaurus<br>Senior Software=
+ Engineer, Mentor Graphics</div></div></div></div>
+</div></div>
+
+--001a113e1740a40132054bf72cd7--
