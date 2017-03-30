@@ -1,33 +1,60 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 0734F719B3
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
+	by mail.openembedded.org (Postfix) with ESMTP id 08C6677C20
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Mar 2017 10:08:52 +0000 (UTC)
+	Thu, 30 Mar 2017 10:53:38 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTP id v2UA8phc004613; 
-	Thu, 30 Mar 2017 11:08:51 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id QmUrF8kSAFSF; Thu, 30 Mar 2017 11:08:51 +0100 (BST)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v2UA8m5E004609
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Thu, 30 Mar 2017 11:08:49 +0100
-Message-ID: <1490868528.13980.353.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Peter Bergin <peter@berginkonsult.se>,
-	openembedded-core@lists.openembedded.org
-Date: Thu, 30 Mar 2017 11:08:48 +0100
-In-Reply-To: <794d2836-c1ae-cc8b-f1dd-d1fb27b05e28@berginkonsult.se>
-References: <1490731726-14536-1-git-send-email-peter@berginkonsult.se>
-	<1490742158.13980.296.camel@linuxfoundation.org>
-	<2b16b764-38e0-4112-48b4-9e17cbe129c3@berginkonsult.se>
-	<1490782943.13980.306.camel@linuxfoundation.org>
-	<794d2836-c1ae-cc8b-f1dd-d1fb27b05e28@berginkonsult.se>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.1 
-Mime-Version: 1.0
-Subject: Re: [PATCH] busybox: move default config fragments to defconfig
+	by bes.se.axis.com (Postfix) with ESMTP id 675B62E0B1;
+	Thu, 30 Mar 2017 12:53:39 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
+Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024)
+	with LMTP id 2lyS8P0ua8Sn; Thu, 30 Mar 2017 12:53:38 +0200 (CEST)
+Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
+	by bes.se.axis.com (Postfix) with ESMTPS id 4C5472E272;
+	Thu, 30 Mar 2017 12:53:38 +0200 (CEST)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 3A9B51E0A0;
+	Thu, 30 Mar 2017 12:53:38 +0200 (CEST)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 2FAF11E09D;
+	Thu, 30 Mar 2017 12:53:38 +0200 (CEST)
+Received: from seth.se.axis.com (unknown [10.0.2.172])
+	by boulder03.se.axis.com (Postfix) with ESMTP;
+	Thu, 30 Mar 2017 12:53:38 +0200 (CEST)
+Received: from XBOX03.axis.com (xbox03.axis.com [10.0.5.17])
+	by seth.se.axis.com (Postfix) with ESMTP id 2419E2293;
+	Thu, 30 Mar 2017 12:53:38 +0200 (CEST)
+Received: from xbox12.axis.com (10.0.5.26) by XBOX03.axis.com (10.0.5.17) with
+	Microsoft SMTP Server (TLS) id 15.0.1210.3;
+	Thu, 30 Mar 2017 12:53:38 +0200
+Received: from XBOX02.axis.com (10.0.5.16) by xbox12.axis.com (10.0.5.26) with
+	Microsoft SMTP Server (TLS) id 15.0.1210.3;
+	Thu, 30 Mar 2017 12:53:37 +0200
+Received: from XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776]) by
+	XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776%21]) with mapi id
+	15.00.1210.000; Thu, 30 Mar 2017 12:53:37 +0200
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH] update_gio_module_cache: Do not chown a
+	non-existing file
+Thread-Index: AQHSqTmHdf4iuZEiy02Cdt3bUFeZQqGtKDhg
+Date: Thu, 30 Mar 2017 10:53:37 +0000
+Message-ID: <29c2d438050341bda5c2f610aa7b3972@XBOX02.axis.com>
+References: <20170329231606.22118-1-pkj@axis.com>
+	<72959861-69b9-7ed0-7a89-891a4aa9ed26@linux.intel.com>
+In-Reply-To: <72959861-69b9-7ed0-7a89-891a4aa9ed26@linux.intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.60]
+MIME-Version: 1.0
+X-TM-AS-GCONF: 00
+Subject: Re: [PATCH] update_gio_module_cache: Do not chown a non-existing file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,55 +67,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Mar 2017 10:08:53 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 30 Mar 2017 10:53:39 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, 2017-03-29 at 19:19 +0200, Peter Bergin wrote:
-> Thanks for your suggestion. I think this is one step better than
-> what's  in master today as it can more easily be overridden. But I
-> don't think  this is a better solution to the problem than moving the
-> defaults to the defconfig. Probably I have a bit different view of
-> grouping the config features. I think that the grouping in .cfg
-> fragments is a good design if you have features that you enable for
-> example via DISTRO_FEATURE or VIRTUAL-RUNTIME_init_manager or some
-> other feature option that is present in the build system. As in the
-> examples with mbox.cfg and init.cfg.
-> 
-> I think grouping of configurations because they belong together is a 
-> task for busybox's Kconfig. In the Kconfig system for busybox you can
-> see the options you have and their relations. If you start a project
-> and want to tune busybox the natural place to do it is in the
-> defconfig file. And modifying the defconfig file with help of
-> menuconfig.
-> 
-> What pros do you see of having standard feature .cfg files in SRC_URI
-> that are (default) always added instead of having them in the
-> defconfig? How does it help the developer/maintainer?
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org
+> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
+> Alexander Kanavin
+> Sent: den 30 mars 2017 11:39
+> To: openembedded-core@lists.openembedded.org
+> Subject: Re: [OE-core] [PATCH] update_gio_module_cache: Do not chown a
+> non-existing file
+>=20
+> On 03/30/2017 02:16 AM, Peter Kjellerstedt wrote:
+> > Only change the ownership of ${libdir}/gio/modules/giomodule.cache if
+> > it exists.
+> >
+> > Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+> > ---
+> >  scripts/postinst-intercepts/update_gio_module_cache | 6 +++---
+> >  1 file changed, 3 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/scripts/postinst-intercepts/update_gio_module_cache
+> b/scripts/postinst-intercepts/update_gio_module_cache
+> > index 92092f2144..fc3f9d0d6c 100644
+> > --- a/scripts/postinst-intercepts/update_gio_module_cache
+> > +++ b/scripts/postinst-intercepts/update_gio_module_cache
+> > @@ -3,7 +3,7 @@
+> >  set -e
+> >
+> >  PSEUDO_UNLOAD=3D1 qemuwrapper -L $D -E
+> LD_LIBRARY_PATH=3D$D${libdir}:$D${base_libdir} \
+> > -        $D${libexecdir}/${binprefix}gio-querymodules
+> $D${libdir}/gio/modules/
+> > -
+> > -chown root:root $D${libdir}/gio/modules/giomodule.cache
+> > +	$D${libexecdir}/${binprefix}gio-querymodules
+> $D${libdir}/gio/modules/
+> >
+> > +[ ! -e $D${libdir}/gio/modules/giomodule.cache ] ||
+> > +	chown root:root $D${libdir}/gio/modules/giomodule.cache
+> >
+>=20
+> Nope. The postinst-intercept scirpts are allowed to fail, and if they
+> are, they are deferred to first boot. If giomodule.cache file does not
+> exist, that means that qemu does not work for the target machine, which
+> is not a bug, and is handled by detecting script failure and taking the
+> same action at first boot time - which your change breaks.
+>=20
+> Alex
 
-I can see cases where there is a logic group of features (such as
-login-utilities) where there isn't a corresponding DISTRO_FEATURE or
-VIRTUAL-RUNTIME yet we do want the developer/maintainer being able to
-turn that group of things on/off, depending on the rest of their system
-/distro setup.
+No, the script will still fail if running gio-querymodules fails since=20
+`set -e` is in effect. But it will no longer fail if gio-querymodules=20
+succeeds without producing a cache file, which is the case for us.
 
-I do agree that some of the smaller configs are a little unusual, but
-even those do actually have uses since for example people have security
-policies which may "ban" sha1 due to its vulnerabilities. With your
-proposal they'd be forced into providing their own complete defconfig
-which I don't think does anyone any favours where as today, they can
-control that single thing but inherit our defaults.
+I do not know under what circumstances gio-querymodules will or will=20
+not produce a cache file, but I have tried running it on our target=20
+and it does not produce a cache file there either, so I assume the=20
+build time job is doing the right thing in not creating a file.
 
-I'd like to encourage more inheritance, not less. Equally, you do have
-a valid problem in wanting to control things entirely and I'm trying to
-give you a solution which can work for everyone.
-
-Cheers,
-
-Richard
-
-
-
-
+//Peter
 
 
