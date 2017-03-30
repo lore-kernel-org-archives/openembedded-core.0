@@ -1,47 +1,41 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-lf0-f48.google.com (mail-lf0-f48.google.com
-	[209.85.215.48])
-	by mail.openembedded.org (Postfix) with ESMTP id CCCF277C9E
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Mar 2017 13:34:12 +0000 (UTC)
-Received: by mail-lf0-f48.google.com with SMTP id x137so26677293lff.3
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Mar 2017 06:34:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=zKCQkoSMTESctLLQMMk7GVFOq5p7sLJCzrJjovaaQa8=;
-	b=frDdSWAyGRE0pjgsZh/lVv0XLoBa+mOzYASe6mmXBR2QL0mT5N750sWceaXmTSJg/i
-	iWbp1URBIqwkLZTnrXHAq1a5+Zb77Evwbw9ee8+vLhDcAS7TRSJ3sJ03merxcwEKM9ie
-	N7CENLBOYqg3Grpos0fYAhfxPzQ81cPNojyckXmh80bOl9zFWlrXK8hJmdgxf6X3Q17B
-	u8dFlQlEvr7Xkvu8FWIiaNbLAnhQchv6IkUcBFxH/NG2RED7z6WxYlOJfP8/KPCGm0r/
-	SZ7zUh/8wO2dD4N9IXtUyxZ58WVljZ5OgSI1h23gDlxisZMQA2eiIBa4ezLScsFbXY74
-	jlIw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=zKCQkoSMTESctLLQMMk7GVFOq5p7sLJCzrJjovaaQa8=;
-	b=fOQMHy2LKV4dRmb2GyX2k7fPdh8iISavW+qpGiDaquiNMIsO0ZqLVYORyfzUA/3+yX
-	HLHFQMK3ANG4izIu0kLqHPBOCFQUXLXs3xWMuXpV5uj2nMj2vFtYfCK1QAAI0VZU2kRv
-	1BI+RB/5c8HycpbRQrKz4idlADXCEZsp2lj3ulL1Z7FFrlZ4uLX23WRaHHKw4g0sKkCJ
-	+9qORv5CvT8r8cEvaWpZ5nbe/QBJApFEr3qRiTDZBB7oWEu4/0oE4cJJv0J6MTJ27wJN
-	iJsUw3TZZbgqTD2MQIi65MKgxLel0Z15+FrpzYl7MuK8+Bc5Q9Drt9zxN/Q20sTN/iDc
-	84pA==
-X-Gm-Message-State: AFeK/H09VUYpelsE6TgQ6e4O/QTEsnBVIkR2D3Cxh1A+OGT29JQVz0lUewYwS/PoEPlFayon
-X-Received: by 10.28.139.195 with SMTP id n186mr414292wmd.139.1490880853164;
-	Thu, 30 Mar 2017 06:34:13 -0700 (PDT)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id
-	x103sm1925718wrb.5.2017.03.30.06.34.12
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 30 Mar 2017 06:34:12 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 30 Mar 2017 14:34:10 +0100
-Message-Id: <1490880850-30814-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.8.1
-Subject: [PATCH] base.bbclass: ensure HOSTTOOLS links point to executables
+Return-Path: <marex@denx.de>
+Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.10])
+	by mail.openembedded.org (Postfix) with ESMTP id D80C977C17;
+	Thu, 30 Mar 2017 14:12:11 +0000 (UTC)
+Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
+	by mail-out.m-online.net (Postfix) with ESMTP id 3vv65Q0RXdz1qql6;
+	Thu, 30 Mar 2017 16:12:10 +0200 (CEST)
+Received: from localhost (dynscan01.mnet-online.de [192.168.6.70])
+	by mail.m-online.net (Postfix) with ESMTP id 3vv65P6Ygjz3hhTq;
+	Thu, 30 Mar 2017 16:12:09 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at mnet-online.de
+Received: from mail.mnet-online.de ([192.168.8.182])
+	by localhost (dynscan01.mail.m-online.net [192.168.6.70]) (amavisd-new,
+	port 10024)
+	with ESMTP id jYtN-MeE8lxg; Thu, 30 Mar 2017 16:12:08 +0200 (CEST)
+X-Auth-Info: 3Qp3RjqZ6AuEEyjpQsWfFvDks37eMuR7BhIr0xwk/bc=
+Received: from [IPv6:::1] (unknown [195.140.253.167])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mail.mnet-online.de (Postfix) with ESMTPSA;
+	Thu, 30 Mar 2017 16:12:08 +0200 (CEST)
+To: Denys Dmytriyenko <denis@denix.org>
+References: <20170327142231.21807-1-marex@denx.de>
+	<1490624701.13980.267.camel@linuxfoundation.org>
+	<5c037512-7bf1-8a3c-cb76-fda7230781a0@denx.de>
+	<20170329215658.GP15664@denix.org>
+	<a5b043f0-b0ee-a74b-fd55-4f8d20669cba@denx.de>
+	<20170330132447.GU15664@denix.org>
+From: Marek Vasut <marex@denx.de>
+Message-ID: <a8de81ca-4056-ad2c-4e38-1bd1b4c62315@denx.de>
+Date: Thu, 30 Mar 2017 16:12:08 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Icedove/45.4.0
+MIME-Version: 1.0
+In-Reply-To: <20170330132447.GU15664@denix.org>
+Cc: openembedded-core@lists.openembedded.org,
+	openembedded-devel@lists.openembedded.org
+Subject: Re: [PATCH] u-boot: Update to 2017.03 release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,36 +48,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Mar 2017 13:34:14 -0000
+X-List-Received-Date: Thu, 30 Mar 2017 14:12:13 -0000
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 7bit
 
-Use the new executable argument to bb.utils.which() to ensure that the symlinks
-point to executable files and not for example directories with the right name
-which happened to be on $PATH.
+On 03/30/2017 03:24 PM, Denys Dmytriyenko wrote:
+> On Thu, Mar 30, 2017 at 10:21:31AM +0200, Marek Vasut wrote:
+>> On 03/29/2017 11:56 PM, Denys Dmytriyenko wrote:
+>>> On Mon, Mar 27, 2017 at 04:31:16PM +0200, Marek Vasut wrote:
+>>>> On 03/27/2017 04:25 PM, Richard Purdie wrote:
+>>>>> On Mon, 2017-03-27 at 16:22 +0200, Marek Vasut wrote:
+>>>>>> Upgrade U-Boot to the latest version.
+>>>>>
+>>>>> Wrong list and how does this compare to Ovatio's patch?
+>>>>
+>>>> I was not CCed on Otavio's patch :(
+>>>
+>>> Yeah, me neither, unfortunately - people just ignore maintainers file now.
+>>>
+>>> Good thing Ross copied me on the other discussion!
+>>>
+>> Which other discussion ? :-(
+> 
+> http://lists.openembedded.org/pipermail/openembedded-core/2017-March/134682.html
+> 
+I see. I'm all for updating to 2017.03 , since it fixes the OMAP serial
+bug too :)
 
-[ YOCTO #11256 ]
-
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/classes/base.bbclass | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
-index cf8748a..e29821f 100644
---- a/meta/classes/base.bbclass
-+++ b/meta/classes/base.bbclass
-@@ -128,9 +128,9 @@ def setup_hosttools_dir(dest, toolsvar, d, fatal=True):
-     for tool in tools:
-         desttool = os.path.join(dest, tool)
-         if not os.path.exists(desttool):
--            srctool = bb.utils.which(path, tool)
-+            srctool = bb.utils.which(path, tool, executable=True)
-             if "ccache" in srctool:
--                srctool = bb.utils.which(path, tool, direction=1)
-+                srctool = bb.utils.which(path, tool, executable=True, direction=1)
-             if srctool:
-                 os.symlink(srctool, desttool)
-             else:
 -- 
-2.8.1
-
+Best regards,
+Marek Vasut
 
