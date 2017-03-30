@@ -1,34 +1,34 @@
 Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 324E277D41
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id 1ACC477D45
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Mar 2017 18:45:12 +0000 (UTC)
+	Thu, 30 Mar 2017 18:45:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
 	d=intel.com; i=@intel.com; q=dns/txt; s=intel;
 	t=1490899515; x=1522435515;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=g9WSnZcIMkT8l6eiMfIWFldTh5sGnT9RiIX2OajEAsc=;
-	b=mBrtHn2MBJTYW/73Ucb1TlV1CMHsf4y1fatZHb7AKxx+1DUHU9HM4PNK
-	5xN6LC78NtZcbHOgkFWjn4KyfFyeIQ==;
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	30 Mar 2017 11:45:14 -0700
+	bh=VRPRWARTX5/UEGU+rJqho0rO974WbLfVQywcvx4cSNk=;
+	b=CuQrpOcG7i38C82/FxcZsKxpfSAjXB0Q/vfpT3NRFkd3sj7C76G3VfXF
+	Cv/Duhi0MPoA80DoMY78Q8zuOJqCZA==;
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	30 Mar 2017 11:45:15 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.36,248,1486454400"; d="scan'208";a="840142215"
+X-IronPort-AV: E=Sophos;i="5.36,248,1486454400"; d="scan'208";a="1113744377"
 Received: from linux.intel.com ([10.54.29.200])
-	by FMSMGA003.fm.intel.com with ESMTP; 30 Mar 2017 11:45:13 -0700
+	by orsmga001.jf.intel.com with ESMTP; 30 Mar 2017 11:45:14 -0700
 Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
-	by linux.intel.com (Postfix) with ESMTP id 4C2C42C8001
+	by linux.intel.com (Postfix) with ESMTP id 66ABE2C8001
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Mar 2017 11:45:06 -0700 (PDT)
+	Thu, 30 Mar 2017 11:45:07 -0700 (PDT)
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 30 Mar 2017 21:43:44 +0300
-Message-Id: <22aaaef8c655ce2f6d6cff5258a06df82803bdea.1490898545.git.ed.bartosh@linux.intel.com>
+Date: Thu, 30 Mar 2017 21:43:45 +0300
+Message-Id: <db68f23066569fa07a40927620ac22261ceadd33.1490898545.git.ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1490898545.git.ed.bartosh@linux.intel.com>
 References: <cover.1490898545.git.ed.bartosh@linux.intel.com>
-Subject: [PATCH 2/9] wic: allow only supported fstypes
+Subject: [PATCH 3/9] wic: don't silently skip unknown fstypes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,79 +41,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Mar 2017 18:45:13 -0000
+X-List-Received-Date: Thu, 30 Mar 2017 18:45:14 -0000
 
-Restricted possible values of --fstype to the list of
-supported types. This should catch incorrect values
-when .wks file is being parsed.
-
-Removed checks for empty fstype and mentioning of
-unsupported fstype 'ontrackdm6aux3'.
+Fixed wic code that loops through hard-coded list of known fstypes
+to find prepare_rootfs_<fstype> or prepare_empty_partition_<fstype>
+methods and silently skipping unknown fstypes.
 
 Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 ---
- scripts/lib/wic/ksparser.py              | 4 +++-
- scripts/lib/wic/partition.py             | 8 ++------
- scripts/lib/wic/plugins/imager/direct.py | 2 --
- 3 files changed, 5 insertions(+), 9 deletions(-)
+ scripts/lib/wic/partition.py | 32 +++++++++++++-------------------
+ 1 file changed, 13 insertions(+), 19 deletions(-)
 
-diff --git a/scripts/lib/wic/ksparser.py b/scripts/lib/wic/ksparser.py
-index a039300..d026caa 100644
---- a/scripts/lib/wic/ksparser.py
-+++ b/scripts/lib/wic/ksparser.py
-@@ -136,7 +136,9 @@ class KickStart():
-         part.add_argument('--exclude-path', nargs='+')
-         part.add_argument("--extra-space", type=sizetype)
-         part.add_argument('--fsoptions', dest='fsopts')
--        part.add_argument('--fstype')
-+        part.add_argument('--fstype', default='vfat',
-+                          choices=('ext2', 'ext3', 'ext4', 'btrfs',
-+                                   'squashfs', 'vfat', 'msdos', 'swap'))
-         part.add_argument('--label')
-         part.add_argument('--no-table', action='store_true')
-         part.add_argument('--ondisk', '--ondrive', dest='disk', default='sda')
 diff --git a/scripts/lib/wic/partition.py b/scripts/lib/wic/partition.py
-index 647a6fb..f0e88fb 100644
+index f0e88fb..28ad3e6 100644
 --- a/scripts/lib/wic/partition.py
 +++ b/scripts/lib/wic/partition.py
-@@ -136,11 +136,11 @@ class Partition():
-                                "specify a non-zero --size/--fixed-size for that "
-                                "partition." % self.mountpoint)
- 
--            if self.fstype and self.fstype == "swap":
-+            if self.fstype == "swap":
-                 self.prepare_swap_partition(cr_workdir, oe_builddir,
-                                             native_sysroot)
-                 self.source_file = "%s/fs.%s" % (cr_workdir, self.fstype)
--            elif self.fstype:
-+            else:
-                 rootfs = "%s/fs_%s.%s.%s" % (cr_workdir, self.label,
+@@ -145,13 +145,11 @@ class Partition():
                                               self.lineno, self.fstype)
                  if os.path.isfile(rootfs):
-@@ -217,10 +217,6 @@ class Partition():
-         if os.path.isfile(rootfs):
-             os.remove(rootfs)
+                     os.remove(rootfs)
+-                for prefix in ("ext", "btrfs", "vfat", "squashfs"):
+-                    if self.fstype.startswith(prefix):
+-                        method = getattr(self,
+-                                         "prepare_empty_partition_" + prefix)
+-                        method(rootfs, oe_builddir, native_sysroot)
+-                        self.source_file = rootfs
+-                        break
++
++                prefix = "ext" if self.fstype.startswith("ext") else self.fstype
++                method = getattr(self, "prepare_empty_partition_" + prefix)
++                method(rootfs, oe_builddir, native_sysroot)
++                self.source_file = rootfs
+             return
  
--        if not self.fstype:
--            raise WicError("File system for partition %s not specified in "
--                           "kickstart, use --fstype option" % self.mountpoint)
+         plugins = PluginMgr.get_plugins('source')
+@@ -231,19 +229,15 @@ class Partition():
+                                '--overhead-factor will be applied')
+                 self.size = int(round(float(rsize_bb)))
+ 
+-        for prefix in ("ext", "btrfs", "vfat", "squashfs"):
+-            if self.fstype.startswith(prefix):
+-                method = getattr(self, "prepare_rootfs_" + prefix)
+-                method(rootfs, oe_builddir, rootfs_dir, native_sysroot, pseudo)
 -
-         # Get rootfs size from bitbake variable if it's not set in .ks file
-         if not self.size:
-             # Bitbake variable ROOTFS_SIZE is calculated in
-diff --git a/scripts/lib/wic/plugins/imager/direct.py b/scripts/lib/wic/plugins/imager/direct.py
-index 67fd183..79b948a 100644
---- a/scripts/lib/wic/plugins/imager/direct.py
-+++ b/scripts/lib/wic/plugins/imager/direct.py
-@@ -487,8 +487,6 @@ class PartitionedImage():
-                 parted_fs_type = "fat32"
-             elif part.fstype == "msdos":
-                 parted_fs_type = "fat16"
--            elif part.fstype == "ontrackdm6aux3":
--                parted_fs_type = "ontrackdm6aux3"
-             else:
-                 # Type for ext2/ext3/ext4/btrfs
-                 parted_fs_type = "ext2"
+-                self.source_file = rootfs
++        prefix = "ext" if self.fstype.startswith("ext") else self.fstype
++        method = getattr(self, "prepare_rootfs_" + prefix)
++        method(rootfs, oe_builddir, rootfs_dir, native_sysroot, pseudo)
++        self.source_file = rootfs
+ 
+-                # get the rootfs size in the right units for kickstart (kB)
+-                du_cmd = "du -Lbks %s" % rootfs
+-                out = exec_cmd(du_cmd)
+-                self.size = int(out.split()[0])
+-
+-                break
++        # get the rootfs size in the right units for kickstart (kB)
++        du_cmd = "du -Lbks %s" % rootfs
++        out = exec_cmd(du_cmd)
++        self.size = int(out.split()[0])
+ 
+     def prepare_rootfs_ext(self, rootfs, oe_builddir, rootfs_dir,
+                            native_sysroot, pseudo):
 -- 
 2.1.4
 
