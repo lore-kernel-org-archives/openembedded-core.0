@@ -1,29 +1,28 @@
-Return-Path: <mikko.ylinen@linux.intel.com>
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id 8E8C060557
+Return-Path: <d.schultz@phytec.de>
+Received: from root.phytec.de (mail.tricorecenter.de [217.6.246.34])
+	by mail.openembedded.org (Postfix) with ESMTP id 841396093D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Mar 2017 06:59:11 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga105.jf.intel.com with ESMTP; 29 Mar 2017 23:59:12 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.36,245,1486454400"; d="scan'208";a="66779334"
-Received: from janmalax-mobl1.ger.corp.intel.com (HELO [10.252.22.91])
-	([10.252.22.91])
-	by orsmga002.jf.intel.com with ESMTP; 29 Mar 2017 23:59:09 -0700
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
-	"Burton, Ross" <ross.burton@intel.com>
-References: <20170329092638.11677-1-mikko.ylinen@linux.intel.com>
-	<CAJTo0LaLhSaC3bx09=qc+gL7YsPKD0YEtukZafUXcxZdW37dwQ@mail.gmail.com>
-	<4cf87faa3852485a820c7526323ef2ab@XBOX02.axis.com>
-From: Mikko Ylinen <mikko.ylinen@linux.intel.com>
-Message-ID: <0b00658b-a9c7-680c-9ec3-c6cee05b7f67@linux.intel.com>
-Date: Thu, 30 Mar 2017 09:59:13 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.8.0
-MIME-Version: 1.0
-In-Reply-To: <4cf87faa3852485a820c7526323ef2ab@XBOX02.axis.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] systemd: check 'efi' in MACHINE_FEATURES
+	Thu, 30 Mar 2017 07:07:14 +0000 (UTC)
+Received: from idefix.phytec.de (idefix.phytec.de [172.16.0.10])
+	by root.phytec.de (Postfix) with ESMTP id CDE06A00368
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 30 Mar 2017 09:07:48 +0200 (CEST)
+Received: from augenblix.phytec.de ([172.16.0.56])
+	by idefix.phytec.de (IBM Domino Release 9.0.1FP7)
+	with ESMTP id 2017033009071359-426612 ;
+	Thu, 30 Mar 2017 09:07:13 +0200 
+From: Daniel Schultz <d.schultz@phytec.de>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 30 Mar 2017 09:07:13 +0200
+Message-Id: <1490857633-1346-1-git-send-email-d.schultz@phytec.de>
+X-Mailer: git-send-email 1.9.1
+X-MIMETrack: Itemize by SMTP Server on Idefix/Phytec(Release 9.0.1FP7|August
+	17, 2016) at 30.03.2017 09:07:13,
+	Serialize by Router on Idefix/Phytec(Release 9.0.1FP7|August  17,
+	2016) at 30.03.2017 09:07:13,
+	Serialize complete at 30.03.2017 09:07:13
+X-TNEFEvaluated: 1
+Subject: [PATCH] wic: partition: Update fsck parameters
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,30 +35,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Mar 2017 06:59:11 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 30 Mar 2017 07:07:15 -0000
 
+These parameters are copied from the ext image class.
 
+-D will let fsck perform further directory optimizations
+-v might be helpful for debugging purpose
 
-On 30/03/17 02:36, Peter Kjellerstedt wrote:
->
-> For the record, this is just correcting a regression that was 
-> introduced with my change to use bb.utils.filter() where I apparently 
-> missed that not all the features were DISTRO_FEATURES…
->
+Signed-off-by: Daniel Schultz <d.schultz@phytec.de>
+---
+ scripts/lib/wic/partition.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Yes, this was the case. I got a report that 'bootctl' is no longer 
-installed part of systemd.
+diff --git a/scripts/lib/wic/partition.py b/scripts/lib/wic/partition.py
+index 8e32afc..93b9b16 100644
+--- a/scripts/lib/wic/partition.py
++++ b/scripts/lib/wic/partition.py
+@@ -286,7 +286,7 @@ class Partition():
+             (self.fstype, extra_imagecmd, rootfs, label_str, rootfs_dir)
+         exec_native_cmd(mkfs_cmd, native_sysroot, pseudo=pseudo)
+ 
+-        mkfs_cmd = "fsck.%s -fy %s" % (self.fstype, rootfs)
++        mkfs_cmd = "fsck.%s -pvfD %s" % (self.fstype, rootfs)
+         exec_native_cmd(mkfs_cmd, native_sysroot, pseudo=pseudo)
+ 
+     def prepare_rootfs_btrfs(self, rootfs, oe_builddir, rootfs_dir,
+-- 
+1.9.1
 
-> That said, I do agree that it would be preferable to get rid of the 
-> machine specific dependency if possible.
->
->
-
-I'm fine. Perhaps 'efi' should not be a PACKAGECONFIG at all (and 
-unconditionally disabled here) and
-the functionality (just bootctl?) is moved in systemd-boot. Thoughts?
-
--- Mikko
 
