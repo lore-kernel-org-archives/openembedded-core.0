@@ -1,28 +1,26 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id C3A5560017
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 53E4D77C73
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 Mar 2017 01:56:40 +0000 (UTC)
+	Fri, 31 Mar 2017 02:30:48 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v2V1udwv026299
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Thu, 30 Mar 2017 18:56:39 -0700
-Received: from [128.224.162.201] (128.224.162.201) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.294.0;
-	Thu, 30 Mar 2017 18:56:38 -0700
-To: Andre McCurdy <armccurdy@gmail.com>,
-	<openembedded-core@lists.openembedded.org>
-References: <1490897180-19715-1-git-send-email-armccurdy@gmail.com>
-From: ChenQi <Qi.Chen@windriver.com>
-Message-ID: <4314035d-6938-85d6-5c7b-8e01b1e02896@windriver.com>
-Date: Fri, 31 Mar 2017 09:57:55 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.4.0
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v2V2UnRb027367
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 30 Mar 2017 19:30:49 -0700 (PDT)
+Received: from msp-lpggp1.wrs.com (172.25.34.110) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.294.0;
+	Thu, 30 Mar 2017 19:30:49 -0700
+From: Mark Hatle <mark.hatle@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 30 Mar 2017 21:30:26 -0500
+Message-ID: <1490927429-48266-2-git-send-email-mark.hatle@windriver.com>
+X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1490927429-48266-1-git-send-email-mark.hatle@windriver.com>
+References: <1490927429-48266-1-git-send-email-mark.hatle@windriver.com>
 MIME-Version: 1.0
-In-Reply-To: <1490897180-19715-1-git-send-email-armccurdy@gmail.com>
-X-Originating-IP: [128.224.162.201]
-Subject: Re: [PATCH] busybox: drop unmaintained _git recipe
+Cc: saul.wold@intel.com
+Subject: [PATCH 1/4] yocto-compat-layer.py: Add status for skipped items
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,89 +33,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 31 Mar 2017 01:56:41 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 31 Mar 2017 02:30:50 -0000
+Content-Type: text/plain
 
-On 03/31/2017 02:06 AM, Andre McCurdy wrote:
-> The busybox _git recipe is not formally tested or kept up to date.
-> The gstreamer _git recipes were recently removed from oe-core and the
-> justifications for that change apply to the busybox _git recipe too.
->
-> Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
-> ---
->   meta/recipes-core/busybox/busybox_git.bb | 52 --------------------------------
->   1 file changed, 52 deletions(-)
->   delete mode 100644 meta/recipes-core/busybox/busybox_git.bb
->
-> diff --git a/meta/recipes-core/busybox/busybox_git.bb b/meta/recipes-core/busybox/busybox_git.bb
-> deleted file mode 100644
-> index c2ee3e6..0000000
-> --- a/meta/recipes-core/busybox/busybox_git.bb
-> +++ /dev/null
-> @@ -1,52 +0,0 @@
-> -require busybox.inc
-> -
-> -SRCREV = "1b7c17391de66502dd7a97c866e0a33681edbb1f"
-> -# Lookout for PV bump too when SRCREV is changed
-> -PV = "1.25.0+git${SRCPV}"
-> -
-> -S = "${WORKDIR}/git"
-> -
-> -SRC_URI = "git://busybox.net/busybox.git \
-> -           file://busybox-udhcpc-no_deconfig.patch \
-> -           file://find-touchscreen.sh \
-> -           file://busybox-cron \
-> -           file://busybox-httpd \
-> -           file://busybox-udhcpd \
-> -           file://default.script \
-> -           file://simple.script \
-> -           file://hwclock.sh \
-> -           file://mount.busybox \
-> -           file://syslog \
-> -           file://syslog-startup.conf \
-> -           file://syslog.conf \
-> -           file://busybox-syslog.default \
-> -           file://mdev \
-> -           file://mdev.conf \
-> -           file://mdev-mount.sh \
-> -           file://umount.busybox \
-> -           file://defconfig \
-> -           file://busybox-syslog.service.in \
-> -           file://busybox-klogd.service.in \
-> -           file://fail_on_no_media.patch \
-> -           file://run-ptest \
-> -           file://inetd.conf \
-> -           file://inetd \
-> -           file://login-utilities.cfg \
-> -           file://recognize_connmand.patch \
-> -           file://busybox-cross-menuconfig.patch \
-> -           file://0001-Use-CC-when-linking-instead-of-LD-and-use-CFLAGS-and.patch \
-> -           file://mount-via-label.cfg \
-> -           file://sha1sum.cfg \
-> -           file://sha256sum.cfg \
-> -           file://getopts.cfg \
-> -           file://resize.cfg \
-> -           ${@["", "file://init.cfg"][(d.getVar('VIRTUAL-RUNTIME_init_manager') == 'busybox')]} \
-> -           ${@["", "file://mdev.cfg"][(d.getVar('VIRTUAL-RUNTIME_dev_manager') == 'busybox-mdev')]} \
-> -           file://inittab \
-> -           file://rcS \
-> -           file://rcK \
-> -           file://runlevel \
-> -"
-> -SRC_URI_append_libc-musl = " file://musl.cfg "
-> -
-> -DEFAULT_PREFERENCE = "-1"
+If items were skipped because the dependencies could not be found, we
+want to record this was skipped so we can display it later.
 
-Hi Andre,
+Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+---
+ scripts/yocto-compat-layer.py | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
 
-This git recipe is maintained as far as I know. It was added so that it 
-would be easier to hack with busybox. As busybox is broadly used in our 
-project, an easier way to hack with it seems reasonable.
-
-Best Regards,
-
-Chen Qi
-
+diff --git a/scripts/yocto-compat-layer.py b/scripts/yocto-compat-layer.py
+index 9e74033..d13d8c0 100755
+--- a/scripts/yocto-compat-layer.py
++++ b/scripts/yocto-compat-layer.py
+@@ -107,6 +107,7 @@ def main():
+ 
+     td = {}
+     results = collections.OrderedDict()
++    results_status = collections.OrderedDict()
+ 
+     logger.info('')
+     logger.info('Getting initial bitbake variables ...')
+@@ -125,19 +126,22 @@ def main():
+         shutil.copyfile(bblayersconf + '.backup', bblayersconf)
+ 
+         if not add_layer(bblayersconf, layer, layers, logger):
++            results[layer['name']] = None
++            results_status[layer['name']] = 'SKIPPED (Missing dependencies)'
++            layers_tested = layers_tested + 1
+             continue
+ 
+         result = test_layer_compatibility(td, layer)
+         results[layer['name']] = result
++        results_status[layer['name']] = 'PASS' if results[layer['name']].wasSuccessful() else 'FAIL'
+         layers_tested = layers_tested + 1
+ 
+     if layers_tested:
+         logger.info('')
+         logger.info('Summary of results:')
+         logger.info('')
+-        for layer_name in results:
+-            logger.info('%s ... %s' % (layer_name, 'PASS' if \
+-                    results[layer_name].wasSuccessful() else 'FAIL'))
++        for layer_name in results_status:
++            logger.info('%s ... %s' % (layer_name, results_status[layer_name]))
+ 
+     cleanup_bblayers(None, None)
+ 
+-- 
+1.8.3.1
 
 
