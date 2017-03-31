@@ -1,44 +1,47 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg0-f67.google.com (mail-pg0-f67.google.com [74.125.83.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 770F577BE0
+Return-Path: <matt@madison.systems>
+Received: from mail-lf0-f44.google.com (mail-lf0-f44.google.com
+	[209.85.215.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 4E1D777E2E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 Mar 2017 18:58:07 +0000 (UTC)
-Received: by mail-pg0-f67.google.com with SMTP id g2so19169348pge.2
+	Fri, 31 Mar 2017 19:42:22 +0000 (UTC)
+Received: by mail-lf0-f44.google.com with SMTP id j90so49092732lfk.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 Mar 2017 11:58:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=G5TrbutDs+XlrfGeETPim6L3NX+bYg8dJsoXiVkLevs=;
-	b=gYuZSt9oJRaVCvVv4EVA88wQTegbmZBe9dgwkRbcKv9KLksQxcmueSgpQW3hcoB2B2
-	BSzpYiQOKTGyUCM77oqwuRIarQ+6bRrn1WtdeR9+4CbqWUGGIHJjykB3q5vkrcqtVqhR
-	h4sxNLdrGnA8ZKLQhlXI4moCdLlnlWEVk35zR8wvsZRh1gxt2ACyMdyg84VhU4oYwW1W
-	vDGrEPdG5zsTdHwIJejlq5SzqcbX0IycUrWknLDaMNjtghwwFpQFL7xm3u1lsRr+wUnb
-	+KxNv5UIUAEHiOFf0Bp7cp48JmDQvxhxvN6bawpswIL58L4Ok4sEAc0nFjd4Nxb0nO3J
-	8qXA==
+	Fri, 31 Mar 2017 12:42:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=madison-systems.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=26ejxFy/k2JC2g23+w1Jsxotn0miYoh4LMATRqjDOtQ=;
+	b=gMl1nNXsG53JzrAkjHKKVZJ/k6DrZqvzojk6lMiBFSyYQBj0MXkxKl5LaUPOzh5zpG
+	vMxSkqWBoHtm2w2kR6ra0YC/Ceb5FXUEbIuP4HTaoGkWwAGwSK4eDd+06r7eDaWSVwlI
+	dZmfmq6NHSLCUbsFSR0p3ffk6gWwOnb5EmzwspQW1kNxYVWIM5nMG5sFaE4uREEHYZSV
+	5QIXMwwcGRyMqYacXhum4gRpzOKpxpGzmivLmzsACaUHf67uzb8elE5/wawfCPAkumPt
+	jqx4gLgYYFhxuVQnN1tkchxBeLr2BrbfDRWdELMctI+sSlZlRFt78Y7Yn0KZWJmgMXw3
+	zF8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=G5TrbutDs+XlrfGeETPim6L3NX+bYg8dJsoXiVkLevs=;
-	b=McZNYP575lLvYX9cQpWbrn9NVFhllUh57k2dLLGaU5W8VsLGMf+x3tDls83p7OhGRI
-	EaW/byFKg/7Z3NlPYCQPyY+o9v/BRJfxcn58jUKZ61og5pMdBHa+bK5rGiQ+mA7knPWu
-	KovMnO7YPbjpfif5bCK/mnEnhKfyEn2eOixIGQX1pIVXjdIciQjo8lmHxs/maHirIN2o
-	0Ir9iO46B3IqQsED8BeQgiAi8+rDd6tlrEetHfw4Jdm6DxQBo5mKNgmLtue5l9mkaPQr
-	wc/thDb7GmV6Re/2P31LVDesIdgBG2ZrNmzutgzduxda/JHAwU63OoBbOiP8JQ2SZkZH
-	z9kQ==
-X-Gm-Message-State: AFeK/H1Yv0Z1nZ79zsimQGvDGp+/r6lTep5uNRLxT/GACspGe1kF7o8oyr2S9BotdkU60Q==
-X-Received: by 10.99.97.77 with SMTP id v74mr4523431pgb.76.1490986689502;
-	Fri, 31 Mar 2017 11:58:09 -0700 (PDT)
-Received: from localhost.localdomain (c-76-102-32-192.hsd1.ca.comcast.net.
-	[76.102.32.192]) by smtp.gmail.com with ESMTPSA id
-	k184sm12024836pgc.23.2017.03.31.11.58.08
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 31 Mar 2017 11:58:08 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 31 Mar 2017 11:57:55 -0700
-Message-Id: <20170331185755.14492-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.12.1
-Subject: [PATCH] binutils: Detect 64bit mips target for gold
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=26ejxFy/k2JC2g23+w1Jsxotn0miYoh4LMATRqjDOtQ=;
+	b=T6gfp9f4g9iBg+LOY5Prlj+CEAY0iHPQE6McLAKeNY+WW1csNkV43Ak+hhN4za1A/A
+	aopZ5Ca+bqA7pkpGO6EKE38k/XYQwYlNzH7npuo3pAH8zp25Xo+bgZs3dpMbmalyI/GU
+	ODoNfGxUrQ1SCv4Q8mRc5OvlPAy+hwPmilk4WfU6iiPbto4rxaFaLyRG+v9pq5CWD4DV
+	KXvfZPO3alDGxm5FLCgcNAUJCB2spka9evIoVlVw6FVIYEOjRJHe4/gfs+bSJ+JgCttA
+	F008FkbGgbyQHkbhzUg8HIQyVIp4dfFvLlbswCVMd43lLIEE1r8KvhAF0/nG+Nq0i09D
+	X1Aw==
+X-Gm-Message-State: AFeK/H0a/3osvc8dooxZ2Iv9uRkVmRnZiugaE2UWjQPg0uAoEuNWNHbTGpQh2PV3Dp8s42DkmsBj8e0tB/biJg==
+X-Received: by 10.46.84.7 with SMTP id i7mr1671224ljb.74.1490989343711; Fri,
+	31 Mar 2017 12:42:23 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.25.18.36 with HTTP; Fri, 31 Mar 2017 12:42:23 -0700 (PDT)
+In-Reply-To: <1490969358-21290-1-git-send-email-richard.purdie@linuxfoundation.org>
+References: <1490969358-21290-1-git-send-email-richard.purdie@linuxfoundation.org>
+From: Matt Madison <matt@madison.systems>
+Date: Fri, 31 Mar 2017 12:42:23 -0700
+Message-ID: <CAGgRHJo73NB3hXQMYJnuEGX9G9ptWF4APeqWPbNyjCBzFkF8ag@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] dpkg: Add PACKAGECONFIG for liblzma and enable it
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,84 +54,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 31 Mar 2017 18:58:09 -0000
+X-List-Received-Date: Fri, 31 Mar 2017 19:42:24 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/recipes-devtools/binutils/binutils-2.28.inc   |  1 +
- .../binutils/0016-Detect-64-bit-MIPS-targets.patch | 50 ++++++++++++++++++++++
- 2 files changed, 51 insertions(+)
- create mode 100644 meta/recipes-devtools/binutils/binutils/0016-Detect-64-bit-MIPS-targets.patch
+On Fri, Mar 31, 2017 at 7:09 AM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> liblzma is part of xz and we already build it but configure it out. This makes
+> no sense. Enabling it means we gain multithreaded compression and it speeds
+> dpkg-deb up massively. It also removes the fork overhead of separate xz processes.
+>
+> Turning the existing config into a PACKAGECONFIG and turning it on by default
+> therefore makes best use of what we have available.
+>
+> The manual RDEPENDS are no longer needed since it uses liblzma which is picked
+> up by the shlibs code magically.
+>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-diff --git a/meta/recipes-devtools/binutils/binutils-2.28.inc b/meta/recipes-devtools/binutils/binutils-2.28.inc
-index fcf30357f69..76b81b04cae 100644
---- a/meta/recipes-devtools/binutils/binutils-2.28.inc
-+++ b/meta/recipes-devtools/binutils/binutils-2.28.inc
-@@ -34,6 +34,7 @@ SRC_URI = "\
-      file://0013-Add-support-for-Netlogic-XLP.patch \
-      file://0014-fix-the-incorrect-assembling-for-ppc-wait-mnemonic.patch \
-      file://0015-sync-with-OE-libtool-changes.patch \
-+     file://0016-Detect-64-bit-MIPS-targets.patch \
- "
- S  = "${WORKDIR}/git"
- 
-diff --git a/meta/recipes-devtools/binutils/binutils/0016-Detect-64-bit-MIPS-targets.patch b/meta/recipes-devtools/binutils/binutils/0016-Detect-64-bit-MIPS-targets.patch
-new file mode 100644
-index 00000000000..1b2eb8485c5
---- /dev/null
-+++ b/meta/recipes-devtools/binutils/binutils/0016-Detect-64-bit-MIPS-targets.patch
-@@ -0,0 +1,50 @@
-+From c3ebde5d8cc3b0092966b4d725cad7cfd074fd8d Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Fri, 31 Mar 2017 11:42:03 -0700
-+Subject: [PATCH 16/16] Detect 64-bit MIPS targets
-+
-+Add mips64 target triplets and default to N64
-+
-+Upstream-Status: Submitted
-+https://sourceware.org/ml/binutils/2016-08/msg00048.html
-+
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ gold/configure.tgt | 14 ++++++++++++++
-+ 1 file changed, 14 insertions(+)
-+
-+diff --git a/gold/configure.tgt b/gold/configure.tgt
-+index 3d63027297..c1f92a1360 100644
-+--- a/gold/configure.tgt
-++++ b/gold/configure.tgt
-+@@ -153,6 +153,13 @@ aarch64*-*)
-+  targ_big_endian=false
-+  targ_extra_big_endian=true
-+  ;;
-++mips*64*el*-*-*|mips*64*le*-*-*)
-++ targ_obj=mips
-++ targ_machine=EM_MIPS_RS3_LE
-++ targ_size=64
-++ targ_big_endian=false
-++ targ_extra_big_endian=true
-++ ;;
-+ mips*el*-*-*|mips*le*-*-*)
-+  targ_obj=mips
-+  targ_machine=EM_MIPS_RS3_LE
-+@@ -160,6 +167,13 @@ mips*el*-*-*|mips*le*-*-*)
-+  targ_big_endian=false
-+  targ_extra_big_endian=true
-+  ;;
-++mips*64*-*-*)
-++ targ_obj=mips
-++ targ_machine=EM_MIPS
-++ targ_size=64
-++ targ_big_endian=true
-++ targ_extra_big_endian=false
-++ ;;
-+ mips*-*-*)
-+  targ_obj=mips
-+  targ_machine=EM_MIPS
-+-- 
-+2.12.1
-+
--- 
-2.12.1
+Yes, please.  I've been using dpkg configured this way for a month or
+so on my deb-based distro, and was going to submit a patch for this
+myself.  The performance improvement during packaging is significant,
+and I haven't seen any downsides.
 
+Thanks,
+-Matt
+
+> ---
+>  meta/recipes-devtools/dpkg/dpkg.inc | 8 +++++---
+>  1 file changed, 5 insertions(+), 3 deletions(-)
+>
+> diff --git a/meta/recipes-devtools/dpkg/dpkg.inc b/meta/recipes-devtools/dpkg/dpkg.inc
+> index 6abe3ae..870117a 100644
+> --- a/meta/recipes-devtools/dpkg/dpkg.inc
+> +++ b/meta/recipes-devtools/dpkg/dpkg.inc
+> @@ -4,8 +4,8 @@ SECTION = "base"
+>
+>  DEPENDS = "zlib bzip2 perl ncurses"
+>  DEPENDS_class-native = "bzip2-replacement-native zlib-native virtual/update-alternatives-native gettext-native perl-native"
+> -RDEPENDS_${PN} = "${VIRTUAL-RUNTIME_update-alternatives} xz perl"
+> -RDEPENDS_${PN}_class-native = "xz-native"
+> +RDEPENDS_${PN} = "${VIRTUAL-RUNTIME_update-alternatives} perl"
+> +RDEPENDS_${PN}_class-native = ""
+>
+>  UPSTREAM_CHECK_URI = "${DEBIAN_MIRROR}/main/d/dpkg/"
+>
+> @@ -28,10 +28,12 @@ EXTRA_OECONF = "\
+>                 --enable-start-stop-daemon \
+>                 --with-libz \
+>                 --with-libbz2 \
+> -               --without-liblzma \
+>                 --without-libselinux \
+>                 "
+>
+> +PACKAGECONFIG = "liblzma"
+> +PACKAGECONFIG[liblzma] = "--with-liblzma,--without-liblzma, xz"
+> +
+>  EXTRA_OECONF += "TAR=tar"
+>  EXTRA_OECONF_append_class-target = " DEB_HOST_ARCH=${DPKG_ARCH}"
+>
+> --
+> 2.7.4
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
