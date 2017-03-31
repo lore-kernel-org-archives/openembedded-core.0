@@ -1,67 +1,55 @@
-Return-Path: <pkonopel@visteon.com>
-Received: from EUR01-DB5-obe.outbound.protection.outlook.com
-	(mail-db5eur01on0138.outbound.protection.outlook.com [104.47.2.138])
-	by mail.openembedded.org (Postfix) with ESMTP id 5323777D57
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wr0-f193.google.com (mail-wr0-f193.google.com
+	[209.85.128.193])
+	by mail.openembedded.org (Postfix) with ESMTP id CDE4877DC9
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 Mar 2017 15:06:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=visteon.onmicrosoft.com; s=selector1-visteon-com;
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
-	bh=Yqrz2de58xrUbub9eC0g9VhxZDSNSPLA2eUZBU/OPgI=;
-	b=HHo6IKxSaQyKJ8Xxx8xM8yCo9AzAB8mbJFzDBQAXCVA+yrR2nqaDmKHMcmCZtGBNfLE10SoahtJWYc/rnBuuW8FajYr//ZpNKhvMY8lTEoq5vYD9Z3v0I/2c4eXaTY48pzSzGEUtYcdZ+fwvRChdkA7TzkQ/UfHNTlMSupI9HlA=
-Received: from VI1PR0601MB2045.eurprd06.prod.outlook.com (10.169.135.140) by
-	VI1PR0601MB2048.eurprd06.prod.outlook.com (10.169.135.143) with
-	Microsoft SMTP Server (version=TLS1_2,
-	cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.991.14;
-	Fri, 31 Mar 2017 08:34:22 +0000
-Received: from VI1PR0601MB2045.eurprd06.prod.outlook.com ([10.169.135.140]) by
-	VI1PR0601MB2045.eurprd06.prod.outlook.com ([10.169.135.140]) with
-	mapi id 15.01.0991.022; Fri, 31 Mar 2017 08:34:22 +0000
-From: "Konopelko, Pavel (P.)" <pkonopel@visteon.com>
-To: Philip Balister <philip@balister.org>
-Thread-Topic: [OE-core] Subscribing to openembedded-architecture list
-Thread-Index: AdKpQLA+lfn4lN7/RHGdwDPBJlZ3ZQAQUW+AAB3JOqA=
-Date: Fri, 31 Mar 2017 08:34:22 +0000
-Message-ID: <VI1PR0601MB2045F8FE2BE3944C67D1346AC5370@VI1PR0601MB2045.eurprd06.prod.outlook.com>
-References: <VI1PR0601MB204589915BEAFCD77E7F9E42C5340@VI1PR0601MB2045.eurprd06.prod.outlook.com>
-	<7752ad18-af62-78ed-2795-931aff3ce186@balister.org>
-In-Reply-To: <7752ad18-af62-78ed-2795-931aff3ce186@balister.org>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: balister.org; dkim=none (message not signed)
-	header.d=none; balister.org;
-	dmarc=none action=none header.from=visteon.com; 
-x-originating-ip: [77.10.10.200]
-x-microsoft-exchange-diagnostics: 1; VI1PR0601MB2048;
-	7:nQBmYue/uT8wtPIrwPNQB9y+LN0CQutvf0v7EYTma7MbZt0QsRsQ7mMyo3BFUzw3mdcVmxfnGWaTI32efBDRzir3YKFOK7JkeNeR6HDBFlO5dmjZxi/qfnbXo2h50eu1n2yfuKHLwq2axId2jXPnm7wIHJX3Mma71z1zzG+5AhYuPw8cBsDK2P0Y8mVAXgCaDAymsYrbxzItjI0QI+2eaxglC5srXTuzjQsJIzLixim9gmFcmqshwsuRynB3QpYAkgJsw6osTC75gpCccRlWp/Di/Yq2TDYGGWwOjOIRmPn3iRaowmwM9DulSTUMBe+omrBsXItpT2tiWUyWM/jYMQ==
-x-ms-office365-filtering-correlation-id: 78f6ab1a-d4e3-4404-8882-08d47810bbae
-x-ms-office365-filtering-ht: Tenant
-x-microsoft-antispam: UriScan:; BCL:0; PCL:0;
-	RULEID:(22001)(2017030254075)(48565401081)(201703131423075)(201703031133081);
-	SRVR:VI1PR0601MB2048; 
-x-microsoft-antispam-prvs: <VI1PR0601MB2048A70D08A8253D14C07B2AC5370@VI1PR0601MB2048.eurprd06.prod.outlook.com>
-x-exchange-antispam-report-test: UriScan:;
-x-exchange-antispam-report-cfa-test: BCL:0; PCL:0;
-	RULEID:(6040450)(601004)(2401047)(8121501046)(5005006)(10201501046)(3002001)(93006095)(93001095)(6055026)(6041248)(201703131423075)(201702281528075)(201703061421075)(20161123560025)(20161123555025)(20161123562025)(20161123564025)(6072148);
-	SRVR:VI1PR0601MB2048; BCL:0; PCL:0; RULEID:;
-	SRVR:VI1PR0601MB2048; 
-x-forefront-prvs: 02638D901B
-x-forefront-antispam-report: SFV:NSPM;
-	SFS:(10019020)(6009001)(39840400002)(39860400002)(39450400003)(39850400002)(39400400002)(39410400002)(377454003)(24454002)(377424004)(53754006)(8936002)(8676002)(81166006)(66066001)(74316002)(7736002)(305945005)(5660300001)(122556002)(110136004)(53546009)(2906002)(3280700002)(25786009)(53936002)(966004)(2950100002)(6916009)(189998001)(3846002)(6306002)(53376002)(38730400002)(6246003)(9686003)(77096006)(6436002)(4326008)(99286003)(55016002)(3660700001)(6506006)(6116002)(102836003)(229853002)(19625735003)(50986999)(54356999)(76176999)(7696004)(86362001)(1720100001)(2900100001)(33656002);
-	DIR:OUT; SFP:1102; SCL:1; SRVR:VI1PR0601MB2048;
-	H:VI1PR0601MB2045.eurprd06.prod.outlook.com; FPR:; SPF:None;
-	MLV:sfv; LANG:en; 
-spamdiagnosticoutput: 1:99
-spamdiagnosticmetadata: NSPM
+	Fri, 31 Mar 2017 15:08:10 +0000 (UTC)
+Received: by mail-wr0-f193.google.com with SMTP id p52so21366219wrc.2
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 31 Mar 2017 08:08:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=oebv8wWY+Ap8xRruyQ+UEqDhwUIsMQU4kz/2CpwF3p8=;
+	b=DOw+LqbXP0cFdOLhfORrxOZd4F8C97v12fTCjO0EpY0mvCxN4ChBufzihUgGwIRWWk
+	k1v+IxUvi07mSR6sLZHVC1pnNIGtQMA2RcxuSQfHjDZgTj3EV8cHeYB8DXWNXOAsgomi
+	dQAJSC6nXmW2kg0xoeOiITL5t6zJCzNS9BSfPpk1pxSue0TlD+c9sbil2jSrLPJV2hrU
+	P6QNSAUj1k+Lg8tw9/7zVlew0D2IfvLlz7jBy2O+ttYvKw/E/lOfwZwY8tYMaF/+kcwd
+	Ydrx6vRSyVIsYBYr6p7sXbibejDYonFVlO1lgpjFKlwKVvi2uWGQdxfDWW7/zp37+HgN
+	WQaA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=oebv8wWY+Ap8xRruyQ+UEqDhwUIsMQU4kz/2CpwF3p8=;
+	b=T7NVBCPgTMkGaf7wJ98mb7b99RLDlB46rEs8I+EwvUb6+dMZnPZo1Qn9WO16rk9Rx6
+	gK9Hp00l1M2y+ako8m30VydLQ+LNpCDm6aDKj2uNJ8PLx1qQDTWLyDwTfG9lFeeWtdQ6
+	bReOivpVRxRrvcneQdVJbGxLmeIc1Mx8pKgArtlLN/CxOdJNfdtbVO3LLXA0x1mc6/7s
+	j4Oog9g25XxaekEE0jsd4DEbxR7jy+YhmodjaX1LcIsmoxRwMg4BeSQ4fvj8hrWkdm7E
+	uQkCw1F84C9QLLKRYf8Wm2AQULyYdtW8DFPt6KYbOLKd1Ed1YrZCSqUjkLjUG13pTBu4
+	UKFw==
+X-Gm-Message-State: AFeK/H2tGbVyHILyLd1SNqrPtVLdC9YlHZk2cEM6MMfScfgvNc4jM0EjCCD9IhN/5Dma5Q==
+X-Received: by 10.223.166.46 with SMTP id k43mr3588387wrc.64.1490972891640;
+	Fri, 31 Mar 2017 08:08:11 -0700 (PDT)
+Received: from localhost ([217.30.68.212])
+	by smtp.gmail.com with ESMTPSA id 24sm7051601wrw.46.2017.03.31.08.08.10
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Fri, 31 Mar 2017 08:08:10 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Fri, 31 Mar 2017 17:08:10 +0200
+To: Khem Raj <raj.khem@gmail.com>
+Message-ID: <20170331150810.GA3897@jama>
+References: <cover.1489267743.git.raj.khem@gmail.com>
+	<5124b899-8410-1d30-c397-65237f9d0a90@gmail.com>
+	<CA+chaQdT-TRBD4mA5hHuXWBtJupOE6tfe=tqehu8DLVa78e=OA@mail.gmail.com>
+	<CAMKF1sqGsV22S7MFVCMBgDxbSKFgqF1iZSviSU-e6pS0Ljx6aQ@mail.gmail.com>
 MIME-Version: 1.0
-X-OriginatorOrg: visteon.com
-X-MS-Exchange-CrossTenant-originalarrivaltime: 31 Mar 2017 08:34:22.8769 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 7a147aaf-01ec-498c-80a1-e34a8c63c548
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR0601MB2048
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Subscribing to openembedded-architecture list
+In-Reply-To: <CAMKF1sqGsV22S7MFVCMBgDxbSKFgqF1iZSviSU-e6pS0Ljx6aQ@mail.gmail.com>
+User-Agent: Mutt/1.8.0 (2017-02-23)
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/1] mesa: Contain configure search for llvm
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -74,42 +62,120 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 31 Mar 2017 15:06:51 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Fri, 31 Mar 2017 15:08:11 -0000
+X-Groupsio-MsgNum: 95635
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="bg08WKrSYDhXBjb5"
+Content-Disposition: inline
+
+--bg08WKrSYDhXBjb5
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Philip,
+On Thu, Mar 23, 2017 at 10:31:07AM -0700, Khem Raj wrote:
+> On Thu, Mar 23, 2017 at 12:51 AM, Martin Jansa <martin.jansa@gmail.com> w=
+rote:
+> > I'm not sure if this is the root cause, but last qemux86 build shows:
+> >
+> >
+> > | configure: error: --enable-gallium-llvm selected but llvm-config is n=
+ot
+> > found
+> > | ERROR: Function failed: do_configure (log file is located at
+> > /home/jenkins/oe/world/shr-core/tmp-glibc/work/i586-oe-linux/mesa/2_17.=
+0.1-r0/temp/log.do_configure.11359)
+> >
+>=20
+> can you point where is llvm-config installed in sysroot ? its possible
+> its not in native sysroot location ${STAGING_BINDIR_NATIVE}
 
-Philip Balister wrote on 2017-03-30:
-> You should be able to join. Did you get any messages at all?
+OE qemux86@ ~/build/oe-core $ find tmp-glibc/work/i586-oe-linux/mesa/2_17.0=
+=2E2-r0/recipe-sysroot* -name llvm\*
+tmp-glibc/work/i586-oe-linux/mesa/2_17.0.2-r0/recipe-sysroot/usr/bin/crosss=
+cripts/llvm-config
+tmp-glibc/work/i586-oe-linux/mesa/2_17.0.2-r0/recipe-sysroot/usr/bin/crosss=
+cripts/llvm-config3.3
+tmp-glibc/work/i586-oe-linux/mesa/2_17.0.2-r0/recipe-sysroot/usr/include/ll=
+vm3.3
+tmp-glibc/work/i586-oe-linux/mesa/2_17.0.2-r0/recipe-sysroot/usr/include/ll=
+vm3.3/llvm-c
+tmp-glibc/work/i586-oe-linux/mesa/2_17.0.2-r0/recipe-sysroot/usr/include/ll=
+vm3.3/llvm
+tmp-glibc/work/i586-oe-linux/mesa/2_17.0.2-r0/recipe-sysroot/usr/include/ll=
+vm3.3/llvm/Config/llvm-config.h
+tmp-glibc/work/i586-oe-linux/mesa/2_17.0.2-r0/recipe-sysroot/usr/lib/llvm3.3
+tmp-glibc/work/i586-oe-linux/mesa/2_17.0.2-r0/recipe-sysroot/sysroot-provid=
+ers/llvm-common
+tmp-glibc/work/i586-oe-linux/mesa/2_17.0.2-r0/recipe-sysroot/sysroot-provid=
+ers/llvm3.3
+tmp-glibc/work/i586-oe-linux/mesa/2_17.0.2-r0/recipe-sysroot-native/install=
+eddeps/llvm3.3.complete
+tmp-glibc/work/i586-oe-linux/mesa/2_17.0.2-r0/recipe-sysroot-native/install=
+eddeps/llvm-common.complete
+tmp-glibc/work/i586-oe-linux/mesa/2_17.0.2-r0/recipe-sysroot-native/install=
+eddeps/llvm-common.6be6a4ae98ee0dff7c2a4c4df17f026a
+tmp-glibc/work/i586-oe-linux/mesa/2_17.0.2-r0/recipe-sysroot-native/install=
+eddeps/llvm-common
+tmp-glibc/work/i586-oe-linux/mesa/2_17.0.2-r0/recipe-sysroot-native/install=
+eddeps/llvm3.3.388adaa288ab3b1d35e01a43b6542368
+tmp-glibc/work/i586-oe-linux/mesa/2_17.0.2-r0/recipe-sysroot-native/install=
+eddeps/llvm3.3
 
-No responses at all.  Neither for web interface nor for mail requests to op=
-enembedded-architecture-{request|join}.  The only time I've got a response =
-was when I tried to send the question below to openembedded-architecture an=
-d the message bounced.
+>=20
+> >
+> > I've noticed some llvm changes for meta-clang, do we need similar chang=
+es
+> > for meta-oe version of llvm?
+> >
+> >
+> > On Sun, Mar 12, 2017 at 12:16 AM, Khem Raj <raj.khem@gmail.com> wrote:
+> >>
+> >>
+> >>
+> >> On 3/11/17 1:30 PM, Khem Raj wrote:
+> >> > The following changes since commit
+> >> > a47e64d985a610535449730806651f5bfd75d9ec:
+> >> >
+> >> >   libcomps: add a recipe (2017-03-11 16:08:50 +0000)
+> >> >
+> >> > are available in the git repository at:
+> >> >
+> >> >   git://git.openembedded.org/openembedded-core-contrib kraj/pu
+> >> >   http://cgit.openembedded.org/openembedded-core-contrib/log/?h=3Dkr=
+aj/pu
+> >> >
+> >> > Khem Raj (1):
+> >> >   mesa: Contain configure search for llvm
+> >> >
+> >>
+> >> I added another fix for mesa-gl to remove one of obsolete packageconfi=
+gs
+> >> and its on the same pull branch now.
+> >>
+> >> >  meta/recipes-graphics/mesa/mesa.inc | 2 +-
+> >> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >> >
+> >> --
+> >> _______________________________________________
+> >> Openembedded-core mailing list
+> >> Openembedded-core@lists.openembedded.org
+> >> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> >
+> >
 
-Regards,
---Pavel Konopelko
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
-> On 03/30/2017 06:32 AM, Konopelko, Pavel (P.) wrote:
->> Hello everybody,
->>=20
->> I wonder if openembedded-architecture list is closed, invitation-only
-> or something.  The OE wiki [1] does not mention any restrictions.
-> Nevertheless I seem to be unable to subscribe via the web interface or
-> via an e-mail request (tried several times over the last couple of
-> weeks).
->>=20
->> What am I missing?
->>=20
->>=20
->> Thanks,
->> --Pavel Konopelko
->>=20
->> [1] http://openembedded.org/wiki/Mailing_lists
->>=20
->>
+--bg08WKrSYDhXBjb5
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
+-----BEGIN PGP SIGNATURE-----
 
+iF0EARECAB0WIQRU+ejDffEzV2Je2oc3VSO3ZXaAHAUCWN5w2gAKCRA3VSO3ZXaA
+HM3EAJ99i1pTEZ8W5rZ0AC3tdCJsj4mFnQCgpJR+JWu0xkgFnIfkBBI2sbFFLjU=
+=cAGQ
+-----END PGP SIGNATURE-----
 
+--bg08WKrSYDhXBjb5--
