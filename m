@@ -1,28 +1,47 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 3E93F77D82
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f170.google.com (mail-qk0-f170.google.com
+	[209.85.220.170])
+	by mail.openembedded.org (Postfix) with ESMTP id C1F9677B99
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 Mar 2017 09:31:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-	d=intel.com; i=@intel.com; q=dns/txt; s=intel;
-	t=1490952714; x=1522488714;
-	h=from:to:cc:subject:date:message-id;
-	bh=902xNJfk2o6PfjgWaSuKYP67LujNKSiXerKh7yl0wN8=;
-	b=xnfJXNOwPHTRrIlHgzGAJxonhMZjhqHuU8kcAbStZS9iqoGX0jbgu+o9
-	QdJXP6U51EjySXuMZD2rhUiXbwzl5A==;
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	31 Mar 2017 02:31:53 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.36,251,1486454400"; d="scan'208";a="1113952603"
-Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by orsmga001.jf.intel.com with ESMTP; 31 Mar 2017 02:31:51 -0700
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 31 Mar 2017 12:31:13 +0300
-Message-Id: <20170331093113.9167-1-alexander.kanavin@linux.intel.com>
-X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] openssl: add a "openssl10" PROVIDES
+	Fri, 31 Mar 2017 10:37:04 +0000 (UTC)
+Received: by mail-qk0-f170.google.com with SMTP id r142so63073863qke.2
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 31 Mar 2017 03:37:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=XXeYNvM4wHlBcoMMHkE91kKdxW2N76BeP+OEsMdeOt0=;
+	b=HOG21D+rJ328VG8sV3DMbo1tf8c0p+e3SHn/shNsgASbe+N9GKavmEmVChyB8Ad1ta
+	vOraGvhPXNGIDVDpGSjfs7q24oZlpQOzq3bNB/Adi3WZVSWcCX7WqwKL7N4m/Gv6e6dx
+	tjOp7iy792iAEu0RamyFcwt6AdpMwgjkUMkcibT0d8Nfy1i6uYzylQZ4QF64YeeQ4WjF
+	QrAcHjL+EG0lpyjRUgrqTlN9TDT03XruQxuVnqawP7kMbH7CjDZHx96lMA6612pJjFc5
+	B8FumyytDSWTIiz5TGbVUFL3jPiUpRggQ7YRTvhk+kBIodFBVc8gbvdqDGCcF0ZzYP9m
+	9F3A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=XXeYNvM4wHlBcoMMHkE91kKdxW2N76BeP+OEsMdeOt0=;
+	b=ABx22NQ4N6iaLZBmzm+kwxlsNqT7TZ9PwK5R2l/3qccLH+2FNFwZfv+NhWsC3EOfE5
+	dnCFTqzkzjcELdM3Hj2ASAEd7qYqIGN9Vgc8rmAIt1l0QLH5GOkCPeAMNDbi/6syrnab
+	UXVdjruHu8YHiu0yBYFlz02+XjgoeNRllbRNMhgBwzi+20rPjA1GQ8E/Mxjmby3JGKne
+	vnaFXjMLxeNeXyrH2I/tgzMnMSdNFJFPiK5AGdjTSSUcjvtMLxYMNi7MD+JXbFthhikq
+	J760K32Xydlgg5uVBTH9+aNSIQdhvOx8CGdQPBtaq9HwezfkCSBpYtuYZrJLhVjTHxMs
+	BrDA==
+X-Gm-Message-State: AFeK/H3iEkIywEg7HXGYD6uuPgS8t8wMMQyomir2EZrEjIqU7Uu0FL5ZWKJQdzVe35QL9wBR+a0lDuJeuAoU7Jv1
+X-Received: by 10.55.162.203 with SMTP id l194mr1731378qke.221.1490956626167; 
+	Fri, 31 Mar 2017 03:37:06 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.22.166 with HTTP; Fri, 31 Mar 2017 03:36:45 -0700 (PDT)
+In-Reply-To: <4314035d-6938-85d6-5c7b-8e01b1e02896@windriver.com>
+References: <1490897180-19715-1-git-send-email-armccurdy@gmail.com>
+	<4314035d-6938-85d6-5c7b-8e01b1e02896@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 31 Mar 2017 11:36:45 +0100
+Message-ID: <CAJTo0LaGNCG849F=V+GR9XFrPh7cUa7=fk7JKvyGQm-Ag13sgg@mail.gmail.com>
+To: ChenQi <Qi.Chen@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] busybox: drop unmaintained _git recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,42 +54,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 31 Mar 2017 09:31:52 -0000
+X-List-Received-Date: Fri, 31 Mar 2017 10:37:08 -0000
+Content-Type: multipart/alternative; boundary=001a114d7fb0141f2b054c0464bc
 
-In 2.4 development cycle openssl 1.1 will replace openssl 1.0 as the
-default openssl version. Openssl 1.0 will stay but will be renamed
-to openssl10, and eventually it will be removed (hopefully much
-sooner than the official end of support date of Dec 2019, as we do not
-want an unsupported openssl version in supported Yocto releases).
+--001a114d7fb0141f2b054c0464bc
+Content-Type: text/plain; charset=UTF-8
 
-There are several recipes that are not API compatible with 1.1; some
-of them will eventually be fixed, but others will never be (such as Qt4).
-To avoid breaking such recipes when openssl 1.1 is added to oe-core,
-let's provide "openssl10" already now and change the recipes to depend
-on that where necessary; Qt4 is a particularly pressing issue as it is
-causing failures on the autobuilder with my work in progress
-openssl 1.1 branch, and so I'm not able to see what else would fail
-later in the build process.
+On 31 March 2017 at 02:57, ChenQi <Qi.Chen@windriver.com> wrote:
 
-Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
----
- meta/recipes-connectivity/openssl/openssl.inc | 2 ++
- 1 file changed, 2 insertions(+)
+> This git recipe is maintained as far as I know. It was added so that it
+> would be easier to hack with busybox. As busybox is broadly used in our
+> project, an easier way to hack with it seems reasonable.
+>
 
-diff --git a/meta/recipes-connectivity/openssl/openssl.inc b/meta/recipes-connectivity/openssl/openssl.inc
-index 28421dab338..481a4445605 100644
---- a/meta/recipes-connectivity/openssl/openssl.inc
-+++ b/meta/recipes-connectivity/openssl/openssl.inc
-@@ -37,6 +37,8 @@ FILES_${PN} =+ " ${libdir}/ssl/*"
- FILES_${PN}-misc = "${libdir}/ssl/misc"
- RDEPENDS_${PN}-misc = "${@bb.utils.filter('PACKAGECONFIG', 'perl', d)}"
- 
-+PROVIDES += "openssl10"
-+
- # Add the openssl.cnf file to the openssl-conf package.  Make the libcrypto
- # package RRECOMMENDS on this package.  This will enable the configuration
- # file to be installed for both the base openssl package and the libcrypto
--- 
-2.11.0
+git log doesn't really agree with you.  It's touched, but occasionally to
+sync it with the versioned recipe.
 
+Ross
 
+--001a114d7fb0141f2b054c0464bc
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 31 March 2017 at 02:57, ChenQi <span dir=3D"ltr">&lt;<a href=3D"mailto:Q=
+i.Chen@windriver.com" target=3D"_blank">Qi.Chen@windriver.com</a>&gt;</span=
+> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bo=
+rder-left:1px #ccc solid;padding-left:1ex"><div id=3D":4rv" class=3D"a3s aX=
+jCH m15b2214df762f9fc">This git recipe is maintained as far as I know. It w=
+as added so that it would be easier to hack with busybox. As busybox is bro=
+adly used in our project, an easier way to hack with it seems reasonable.<b=
+r></div></blockquote></div><br></div><div class=3D"gmail_extra">git log doe=
+sn&#39;t really agree with you.=C2=A0 It&#39;s touched, but occasionally to=
+ sync it with the versioned recipe.</div><div class=3D"gmail_extra"><br></d=
+iv><div class=3D"gmail_extra">Ross</div></div>
+
+--001a114d7fb0141f2b054c0464bc--
