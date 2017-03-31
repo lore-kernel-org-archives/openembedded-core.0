@@ -1,47 +1,29 @@
-Return-Path: <matt@madison.systems>
-Received: from mail-lf0-f44.google.com (mail-lf0-f44.google.com
-	[209.85.215.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 4E1D777E2E
+Return-Path: <juro.bystricky@intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id B8C2377CD3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 Mar 2017 19:42:22 +0000 (UTC)
-Received: by mail-lf0-f44.google.com with SMTP id j90so49092732lfk.2
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 Mar 2017 12:42:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=madison-systems.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=26ejxFy/k2JC2g23+w1Jsxotn0miYoh4LMATRqjDOtQ=;
-	b=gMl1nNXsG53JzrAkjHKKVZJ/k6DrZqvzojk6lMiBFSyYQBj0MXkxKl5LaUPOzh5zpG
-	vMxSkqWBoHtm2w2kR6ra0YC/Ceb5FXUEbIuP4HTaoGkWwAGwSK4eDd+06r7eDaWSVwlI
-	dZmfmq6NHSLCUbsFSR0p3ffk6gWwOnb5EmzwspQW1kNxYVWIM5nMG5sFaE4uREEHYZSV
-	5QIXMwwcGRyMqYacXhum4gRpzOKpxpGzmivLmzsACaUHf67uzb8elE5/wawfCPAkumPt
-	jqx4gLgYYFhxuVQnN1tkchxBeLr2BrbfDRWdELMctI+sSlZlRFt78Y7Yn0KZWJmgMXw3
-	zF8g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=26ejxFy/k2JC2g23+w1Jsxotn0miYoh4LMATRqjDOtQ=;
-	b=T6gfp9f4g9iBg+LOY5Prlj+CEAY0iHPQE6McLAKeNY+WW1csNkV43Ak+hhN4za1A/A
-	aopZ5Ca+bqA7pkpGO6EKE38k/XYQwYlNzH7npuo3pAH8zp25Xo+bgZs3dpMbmalyI/GU
-	ODoNfGxUrQ1SCv4Q8mRc5OvlPAy+hwPmilk4WfU6iiPbto4rxaFaLyRG+v9pq5CWD4DV
-	KXvfZPO3alDGxm5FLCgcNAUJCB2spka9evIoVlVw6FVIYEOjRJHe4/gfs+bSJ+JgCttA
-	F008FkbGgbyQHkbhzUg8HIQyVIp4dfFvLlbswCVMd43lLIEE1r8KvhAF0/nG+Nq0i09D
-	X1Aw==
-X-Gm-Message-State: AFeK/H0a/3osvc8dooxZ2Iv9uRkVmRnZiugaE2UWjQPg0uAoEuNWNHbTGpQh2PV3Dp8s42DkmsBj8e0tB/biJg==
-X-Received: by 10.46.84.7 with SMTP id i7mr1671224ljb.74.1490989343711; Fri,
-	31 Mar 2017 12:42:23 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.25.18.36 with HTTP; Fri, 31 Mar 2017 12:42:23 -0700 (PDT)
-In-Reply-To: <1490969358-21290-1-git-send-email-richard.purdie@linuxfoundation.org>
-References: <1490969358-21290-1-git-send-email-richard.purdie@linuxfoundation.org>
-From: Matt Madison <matt@madison.systems>
-Date: Fri, 31 Mar 2017 12:42:23 -0700
-Message-ID: <CAGgRHJo73NB3hXQMYJnuEGX9G9ptWF4APeqWPbNyjCBzFkF8ag@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] dpkg: Add PACKAGECONFIG for liblzma and enable it
+	Fri, 31 Mar 2017 21:28:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+	d=intel.com; i=@intel.com; q=dns/txt; s=intel;
+	t=1490995704; x=1522531704;
+	h=from:to:cc:subject:date:message-id;
+	bh=QDn8OslUpO1vgDoP2b9vIJPw0TvFo7anFQ0eN974BA8=;
+	b=FuWrkPjVI0RDXzAnjaK3X2ajSnqDTDwN+0hY0j/gia3ntiYmQjkXyUc7
+	j0iY36mY2gioyfha10zTmmFTyJ9GXw==;
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	31 Mar 2017 14:28:23 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.36,253,1486454400"; d="scan'208";a="950349691"
+Received: from juro-precision-t5610.jf.intel.com ([10.7.198.53])
+	by orsmga003.jf.intel.com with ESMTP; 31 Mar 2017 14:28:23 -0700
+From: Juro Bystricky <juro.bystricky@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 31 Mar 2017 14:28:13 -0700
+Message-Id: <1490995693-19005-1-git-send-email-juro.bystricky@intel.com>
+X-Mailer: git-send-email 2.7.4
+Cc: richard.purdie@intel.com
+Subject: [PATCH] ncurses_6.0: Improve reproducibility
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,70 +36,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 31 Mar 2017 19:42:24 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 31 Mar 2017 21:28:23 -0000
 
-On Fri, Mar 31, 2017 at 7:09 AM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> liblzma is part of xz and we already build it but configure it out. This makes
-> no sense. Enabling it means we gain multithreaded compression and it speeds
-> dpkg-deb up massively. It also removes the fork overhead of separate xz processes.
->
-> Turning the existing config into a PACKAGECONFIG and turning it on by default
-> therefore makes best use of what we have available.
->
-> The manual RDEPENDS are no longer needed since it uses liblzma which is picked
-> up by the shlibs code magically.
->
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Build static libraries without the binutils "ar" -U option.
+This option deliberately breaks deterministic mode.
+The option seems to be a relic from 2015, intended as a workaround
+for some unspecified build problems.
 
-Yes, please.  I've been using dpkg configured this way for a month or
-so on my deb-based distro, and was going to submit a patch for this
-myself.  The performance improvement during packaging is significant,
-and I haven't seen any downsides.
+[YOCTO#11247]
 
-Thanks,
--Matt
+Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
+---
+ .../ncurses/files/configure-reproducible.patch       | 20 ++++++++++++++++++++
+ meta/recipes-core/ncurses/ncurses_6.0+20161126.bb    |  1 +
+ 2 files changed, 21 insertions(+)
+ create mode 100644 meta/recipes-core/ncurses/files/configure-reproducible.patch
 
-> ---
->  meta/recipes-devtools/dpkg/dpkg.inc | 8 +++++---
->  1 file changed, 5 insertions(+), 3 deletions(-)
->
-> diff --git a/meta/recipes-devtools/dpkg/dpkg.inc b/meta/recipes-devtools/dpkg/dpkg.inc
-> index 6abe3ae..870117a 100644
-> --- a/meta/recipes-devtools/dpkg/dpkg.inc
-> +++ b/meta/recipes-devtools/dpkg/dpkg.inc
-> @@ -4,8 +4,8 @@ SECTION = "base"
->
->  DEPENDS = "zlib bzip2 perl ncurses"
->  DEPENDS_class-native = "bzip2-replacement-native zlib-native virtual/update-alternatives-native gettext-native perl-native"
-> -RDEPENDS_${PN} = "${VIRTUAL-RUNTIME_update-alternatives} xz perl"
-> -RDEPENDS_${PN}_class-native = "xz-native"
-> +RDEPENDS_${PN} = "${VIRTUAL-RUNTIME_update-alternatives} perl"
-> +RDEPENDS_${PN}_class-native = ""
->
->  UPSTREAM_CHECK_URI = "${DEBIAN_MIRROR}/main/d/dpkg/"
->
-> @@ -28,10 +28,12 @@ EXTRA_OECONF = "\
->                 --enable-start-stop-daemon \
->                 --with-libz \
->                 --with-libbz2 \
-> -               --without-liblzma \
->                 --without-libselinux \
->                 "
->
-> +PACKAGECONFIG = "liblzma"
-> +PACKAGECONFIG[liblzma] = "--with-liblzma,--without-liblzma, xz"
-> +
->  EXTRA_OECONF += "TAR=tar"
->  EXTRA_OECONF_append_class-target = " DEB_HOST_ARCH=${DPKG_ARCH}"
->
-> --
-> 2.7.4
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+diff --git a/meta/recipes-core/ncurses/files/configure-reproducible.patch b/meta/recipes-core/ncurses/files/configure-reproducible.patch
+new file mode 100644
+index 0000000..54a8bdc
+--- /dev/null
++++ b/meta/recipes-core/ncurses/files/configure-reproducible.patch
+@@ -0,0 +1,20 @@
++"configure" enforces -U for ar flags, breaking deterministic builds.
++The flag was added to fix some vaguely specified "recent POSIX binutil
++build problems" in 2015. 
++
++Upstream-Status: Pending
++Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
++
++diff --git a/configure b/configure
++index 7f31208..aa80911 100755
++--- a/configure
+++++ b/configure
++@@ -4428,7 +4428,7 @@ if test "${cf_cv_ar_flags+set}" = set; then
++ else
++ 
++ 	cf_cv_ar_flags=unknown
++-	for cf_ar_flags in -curvU -curv curv -crv crv -cqv cqv -rv rv
+++	for cf_ar_flags in -curv curv -crv crv -cqv cqv -rv rv
++ 	do
++ 
++ 		# check if $ARFLAGS already contains this choice
+diff --git a/meta/recipes-core/ncurses/ncurses_6.0+20161126.bb b/meta/recipes-core/ncurses/ncurses_6.0+20161126.bb
+index e95741f..ace3108 100644
+--- a/meta/recipes-core/ncurses/ncurses_6.0+20161126.bb
++++ b/meta/recipes-core/ncurses/ncurses_6.0+20161126.bb
+@@ -3,6 +3,7 @@ require ncurses.inc
+ SRC_URI += "file://tic-hang.patch \
+             file://fix-cflags-mangle.patch \
+             file://config.cache \
++            file://configure-reproducible.patch \
+ "
+ # commit id corresponds to the revision in package version
+ SRCREV = "3db0bd19cb50e3d9b4f2cf15b7a102fe11302068"
+-- 
+2.7.4
+
 
