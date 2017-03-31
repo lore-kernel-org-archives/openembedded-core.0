@@ -1,26 +1,26 @@
 Return-Path: <mark.hatle@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id EBE8577C73
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 48CB677D76
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 Mar 2017 02:30:51 +0000 (UTC)
+	Fri, 31 Mar 2017 02:30:54 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v2V2Uq38027370
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v2V2UpjE005374
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 30 Mar 2017 19:30:52 -0700 (PDT)
+	Thu, 30 Mar 2017 19:30:51 -0700 (PDT)
 Received: from msp-lpggp1.wrs.com (172.25.34.110) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.40) with Microsoft SMTP Server id 14.3.294.0;
-	Thu, 30 Mar 2017 19:30:52 -0700
+	Thu, 30 Mar 2017 19:30:51 -0700
 From: Mark Hatle <mark.hatle@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 30 Mar 2017 21:30:29 -0500
-Message-ID: <1490927429-48266-5-git-send-email-mark.hatle@windriver.com>
+Date: Thu, 30 Mar 2017 21:30:28 -0500
+Message-ID: <1490927429-48266-4-git-send-email-mark.hatle@windriver.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1490927429-48266-1-git-send-email-mark.hatle@windriver.com>
 References: <1490927429-48266-1-git-send-email-mark.hatle@windriver.com>
 MIME-Version: 1.0
 Cc: saul.wold@intel.com
-Subject: [PATCH 4/4] yocto-compat-layer.py: Fix the signature validation
+Subject: [PATCH 3/4] compatlayer/__init__.py: Allow add_layer to process recursive deps
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,109 +33,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 31 Mar 2017 02:30:52 -0000
+X-List-Received-Date: Fri, 31 Mar 2017 02:30:54 -0000
 Content-Type: text/plain
 
-The initial signatures need to be collected -after- the dependency layers have
-been added to the system.  Otherwise changes that happen due to dependencies,
-outside of the layer being scanned, will show up as signature problems.
+When processing a layer for dependencies, you have to process the layer
+itself, it's dependencies, the dependencies dependencies and so forth until
+all items have been processed.
 
-The add_layer function was split into two pieces so that we can process
-the dependencies first, and then add the layer itself for the comparison.
+i.e.:  LayerA requires LayerB requires LayerC requires layerD
+
+The end result should be LayerB, LayerC and LayerD are all dependencies of
+LayerA.
 
 Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
 ---
- scripts/lib/compatlayer/__init__.py |  7 ++++---
- scripts/yocto-compat-layer.py       | 29 +++++++++++++++++++----------
- 2 files changed, 23 insertions(+), 13 deletions(-)
+ scripts/lib/compatlayer/__init__.py | 40 ++++++++++++++++++++++++++++++++-----
+ 1 file changed, 35 insertions(+), 5 deletions(-)
 
 diff --git a/scripts/lib/compatlayer/__init__.py b/scripts/lib/compatlayer/__init__.py
-index 24edc88..06c84f4 100644
+index 58f94b7..24edc88 100644
 --- a/scripts/lib/compatlayer/__init__.py
 +++ b/scripts/lib/compatlayer/__init__.py
-@@ -139,9 +139,7 @@ def _find_layer_depends(depend, layers):
-                 return layer
-     return None
+@@ -142,10 +142,9 @@ def _find_layer_depends(depend, layers):
+ def add_layer(bblayersconf, layer, layers, logger):
+     logger.info('Adding layer %s' % layer['name'])
  
--def add_layer(bblayersconf, layer, layers, logger):
--    logger.info('Adding layer %s' % layer['name'])
--
-+def add_layer_dependencies(bblayersconf, layer, layers, logger):
-     def recurse_dependencies(depends, layer, layers, logger, ret = []):
-         logger.debug('Processing dependencies %s for layer %s.' % \
-                     (depends, layer['name']))
-@@ -191,7 +189,10 @@ def add_layer(bblayersconf, layer, layers, logger):
+-    for collection in layer['collections']:
+-        depends = layer['collections'][collection]['depends']
+-        if not depends:
+-            continue
++    def recurse_dependencies(depends, layer, layers, logger, ret = []):
++        logger.debug('Processing dependencies %s for layer %s.' % \
++                    (depends, layer['name']))
+ 
+         for depend in depends.split():
+             # core (oe-core) is suppose to be provided
+@@ -156,8 +155,39 @@ def add_layer(bblayersconf, layer, layers, logger):
+             if not layer_depend:
+                 logger.error('Layer %s depends on %s and isn\'t found.' % \
+                         (layer['name'], depend))
+-                return False
++                ret = None
++                continue
++
++            # We keep processing, even if ret is None, this allows us to report
++            # multiple errors at once
++            if ret is not None and layer_depend not in ret:
++                ret.append(layer_depend)
++
++            # Recursively process...
++            if 'collections' not in layer_depend:
++                continue
++
++            for collection in layer_depend['collections']:
++                collect_deps = layer_depend['collections'][collection]['depends']
++                if not collect_deps:
++                    continue
++                ret = recurse_dependencies(collect_deps, layer_depend, layers, logger, ret)
++
++        return ret
+ 
++    layer_depends = []
++    for collection in layer['collections']:
++        depends = layer['collections'][collection]['depends']
++        if not depends:
++            continue
++
++        layer_depends = recurse_dependencies(depends, layer, layers, logger, layer_depends)
++
++    # Note: [] (empty) is allowed, None is not!
++    if layer_depends is None:
++        return False
++    else:
++        for layer_depend in layer_depends:
              logger.info('Adding layer dependency %s' % layer_depend['name'])
              with open(bblayersconf, 'a+') as f:
                  f.write("\nBBLAYERS += \"%s\"\n" % layer_depend['path'])
-+    return True
- 
-+def add_layer(bblayersconf, layer, layers, logger):
-+    logger.info('Adding layer %s' % layer['name'])
-     with open(bblayersconf, 'a+') as f:
-         f.write("\nBBLAYERS += \"%s\"\n" % layer['path'])
- 
-diff --git a/scripts/yocto-compat-layer.py b/scripts/yocto-compat-layer.py
-index f8a1ac7..22c0c2d 100755
---- a/scripts/yocto-compat-layer.py
-+++ b/scripts/yocto-compat-layer.py
-@@ -22,7 +22,7 @@ import scriptpath
- scriptpath.add_oe_lib_path()
- scriptpath.add_bitbake_lib_path()
- 
--from compatlayer import LayerType, detect_layers, add_layer, get_signatures
-+from compatlayer import LayerType, detect_layers, add_layer, add_layer_dependencies, get_signatures
- from oeqa.utils.commands import get_bb_vars
- 
- PROGNAME = 'yocto-compat-layer'
-@@ -116,29 +116,38 @@ def main():
-     results = collections.OrderedDict()
-     results_status = collections.OrderedDict()
- 
--    logger.info('')
--    logger.info('Getting initial bitbake variables ...')
--    td['bbvars'] = get_bb_vars()
--    logger.info('Getting initial signatures ...')
--    td['builddir'] = builddir
--    td['sigs'] = get_signatures(td['builddir'])
--    logger.info('')
--
-     layers_tested = 0
-     for layer in layers:
-         if layer['type'] == LayerType.ERROR_NO_LAYER_CONF or \
-                 layer['type'] == LayerType.ERROR_BSP_DISTRO:
-             continue
- 
-+        logger.info('')
-+        logger.info("Setting up for %s(%s), %s" % (layer['name'], layer['type'],
-+            layer['path']))
-+
-         shutil.copyfile(bblayersconf + '.backup', bblayersconf)
- 
--        if not add_layer(bblayersconf, layer, dep_layers, logger):
-+        if not add_layer_dependencies(bblayersconf, layer, dep_layers, logger):
-             logger.info('Skipping %s due to missing dependencies.' % layer['name'])
-             results[layer['name']] = None
-             results_status[layer['name']] = 'SKIPPED (Missing dependencies)'
-             layers_tested = layers_tested + 1
-             continue
- 
-+        logger.info('Getting initial bitbake variables ...')
-+        td['bbvars'] = get_bb_vars()
-+        logger.info('Getting initial signatures ...')
-+        td['builddir'] = builddir
-+        td['sigs'] = get_signatures(td['builddir'])
-+
-+        if not add_layer(bblayersconf, layer, dep_layers, logger):
-+            logger.info('Skipping %s ???.' % layer['name'])
-+            results[layer['name']] = None
-+            results_status[layer['name']] = 'SKIPPED (Unknown)'
-+            layers_tested = layers_tested + 1
-+            continue
-+
-         result = test_layer_compatibility(td, layer)
-         results[layer['name']] = result
-         results_status[layer['name']] = 'PASS' if results[layer['name']].wasSuccessful() else 'FAIL'
 -- 
 1.8.3.1
 
