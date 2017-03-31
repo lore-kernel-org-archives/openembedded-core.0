@@ -1,18 +1,28 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id E9CC577D3A;
-	Fri, 31 Mar 2017 12:02:11 +0000 (UTC)
-MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Romain Perier <romain.perier@collabora.com>
-Date: Fri, 31 Mar 2017 12:02:13 -0000
-Message-ID: <20170331120213.6648.63318@do.openembedded.org>
-References: <20170331114043.6165-1-romain.perier@collabora.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <20170331114043.6165-1-romain.perier@collabora.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgYnVzeWJveDogbWFrZSBTWVNMT0dEIG9wdGlvbm5hbA==?=
+Return-Path: <d.schultz@phytec.de>
+Received: from root.phytec.de (mail.phycard.co.uk [217.6.246.34])
+	by mail.openembedded.org (Postfix) with ESMTP id 21D5277D91
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 31 Mar 2017 12:51:47 +0000 (UTC)
+Received: from idefix.phytec.de (idefix.phytec.de [172.16.0.10])
+	by root.phytec.de (Postfix) with ESMTP id 05AB9A00368
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 31 Mar 2017 14:52:23 +0200 (CEST)
+Received: from augenblix.phytec.de ([172.16.0.56])
+	by idefix.phytec.de (IBM Domino Release 9.0.1FP7)
+	with ESMTP id 2017033114514715-433758 ;
+	Fri, 31 Mar 2017 14:51:47 +0200 
+From: Daniel Schultz <d.schultz@phytec.de>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 31 Mar 2017 14:51:47 +0200
+Message-Id: <1490964707-38823-1-git-send-email-d.schultz@phytec.de>
+X-Mailer: git-send-email 1.9.1
+X-MIMETrack: Itemize by SMTP Server on Idefix/Phytec(Release 9.0.1FP7|August
+	17, 2016) at 31.03.2017 14:51:47,
+	Serialize by Router on Idefix/Phytec(Release 9.0.1FP7|August  17,
+	2016) at 31.03.2017 14:51:47,
+	Serialize complete at 31.03.2017 14:51:47
+X-TNEFEvaluated: 1
+Subject: [PATCH morty v2] wic: partition: Run fsck on EXT file systems
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,41 +35,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 31 Mar 2017 12:02:12 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 31 Mar 2017 12:51:49 -0000
 
-== Series Details ==
+Mkfs may create EXT file systems which can only be optimized by fsck
+and not by itself, e.g. directory optimization (in Pass 3A).
 
-Series: busybox: make SYSLOGD optionnal
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/6101/
-State : failure
+To prevent those optimizations during runtime, it will be performed after
+the creation of an EXT file system.
 
-== Summary ==
-
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  master (currently at 49772e1a1f)
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
+Signed-off-by: Daniel Schultz <d.schultz@phytec.de>
 ---
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+ scripts/lib/wic/partition.py | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/scripts/lib/wic/partition.py b/scripts/lib/wic/partition.py
+index 3b3bd2d..152eb7b 100644
+--- a/scripts/lib/wic/partition.py
++++ b/scripts/lib/wic/partition.py
+@@ -239,6 +239,9 @@ class Partition():
+             (self.fstype, extra_imagecmd, rootfs, label_str, rootfs_dir)
+         exec_native_cmd(mkfs_cmd, native_sysroot, pseudo=pseudo)
+ 
++        mkfs_cmd = "fsck.%s -pvfD %s" % (self.fstype, rootfs)
++        exec_native_cmd(mkfs_cmd, native_sysroot, pseudo=pseudo)
++
+     def prepare_rootfs_btrfs(self, rootfs, oe_builddir, rootfs_dir,
+                              native_sysroot, pseudo):
+         """
+-- 
+1.9.1
 
 
