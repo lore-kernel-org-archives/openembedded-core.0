@@ -1,45 +1,50 @@
-Return-Path: <alistair23@gmail.com>
-Received: from mail-oi0-f65.google.com (mail-oi0-f65.google.com
-	[209.85.218.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 7B50377DB2
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pg0-f66.google.com (mail-pg0-f66.google.com [74.125.83.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 4322377DB2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 Mar 2017 17:08:01 +0000 (UTC)
-Received: by mail-oi0-f65.google.com with SMTP id t11so10004863oib.1
+	Fri, 31 Mar 2017 17:14:28 +0000 (UTC)
+Received: by mail-pg0-f66.google.com with SMTP id 81so18730102pgh.3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 Mar 2017 10:08:02 -0700 (PDT)
+	Fri, 31 Mar 2017 10:14:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=YtBdWECI2sAVYFjtPktR0Iiyd2/QTn9tZnVGGK/n8HU=;
-	b=vf/vmEPxGhanz2RdA7JOD+BGeB82jQGVfFMkgDA/Jz1aXkRkJrxmq2R+BZEIBuaTmg
-	ZYkBVwwRzWMRZ7+mBLeCFsIDdrJ/g9R6Cwv1hXkfhP/HZpqWAD+jzUzkepeu581KIwHI
-	a0WH7YffYfvfIWaV+TgJyweWdvNZ2cfRRmT2KU0EX2q76jhZwZqYWuGAqwS13d99QN4i
-	kuJkOzgNFzKu23p3H3MHTYby0kHOnrEkPD26AzATNaecPVxVvnxCnaPwThAvfYGO5n37
-	QkVwhdDbEGIFNtUWRqPTDjMHivuM9Sra5/0sKmGkeqarDnSqAEcRqhth9WEyCYEvDk38
-	/CmQ==
+	h=subject:to:references:from:message-id:date:user-agent:mime-version
+	:in-reply-to; bh=fT4ExCzntheCVrE2qONUwr3EQyP0K9HOzJJnKAeXLgY=;
+	b=gxmdfCBZts5BvjkKBSBQaL5fZZ01YJKs8AtsvYWQQoL2K/HHqgC0D1z6jRTLaqLA41
+	ItqUr+yn2i7pcZSQ3xkCAm8yt9FaZxhsM4JqOIjn4eBAxyZNH/OG9XM2wUkM+/VYAnhS
+	IdDdzMBx1rrUOswM14PYqJ0P57aeG2f6qlEdfSCNi/9uHPGFM2fvRbCWuSTaGRAaomoa
+	QECr83y8cbTOP1DS7wNrftoKwPDFCx4SzmQGw1WO4skUrvRVtnN4ZmkHQAwBnAf2MhBF
+	Fi0JArsr62s8y4kiMLkJ+8msm/xxb8pZciG0B0sejc/wxQJqZ8x3E+TUcTH0Io5uwQhU
+	eMNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=YtBdWECI2sAVYFjtPktR0Iiyd2/QTn9tZnVGGK/n8HU=;
-	b=JAT4BlaAMSqqHYigggDNy8Xmip0ZEQRAPxwDEkMIHsyjA7E11O5+P392poLcdNMq54
-	EnMDO8uzqsF+YSeg5Bgh5i/dCslafQaCDNZkI7OjgWnPRW8yUosjI/5hMAnyEs9MYwWX
-	zjRc5MerUmoc/UW2MXKp0j4mdj50LFYVq9KZzxXJhooeO5KR4xGITd/MJ00rWT6YDM0L
-	P+LvkYgmBqOYRhXEKIJ42dlu0ASqYCWVsQOu8THbDtjcL79PkvCQy7EF1gsSuVgAXKP1
-	c8hLCs2Qu6a9ZAIJHopsFus2ApWMuYY4Wy9Jg3cX/B8IjyzXI4KDKV5bl0+a6/2hOeAf
-	t7Jg==
-X-Gm-Message-State: AFeK/H3GdlnnPi7RPWjBRgYWcK3A+RGDGjbRUzyqPUGGkMSY0jURicEoiLjew5teaVo3Vqp7Uuc7D3xUWh2lTw==
-X-Received: by 10.202.104.130 with SMTP id o2mr2071029oik.93.1490980082437;
-	Fri, 31 Mar 2017 10:08:02 -0700 (PDT)
+	h=x-gm-message-state:subject:to:references:from:message-id:date
+	:user-agent:mime-version:in-reply-to;
+	bh=fT4ExCzntheCVrE2qONUwr3EQyP0K9HOzJJnKAeXLgY=;
+	b=qjaS1NdKkUI/ubBblzuGfPG23MbzJl6Ue/AkckoeMbRxH1Vi8Mb3HszkPjP8SSaYhp
+	+R+TmyBCksVxsubyO/MxflRcvlD+J9QmM+b4m2irvbWk7DaaTdMMsNpCPKA+7t+R0L1l
+	Mlc8HG/eXnRxRYKLPOk8q/fZDHXOKZX0g65yhMDCxe0Wf1mT23T3J0a1PoGa/mjZsf5h
+	HdvyF2zPXDFt5z0NFpAjkTex3nnuXeOo8d7Z6S0zd0x414fbAlxDWh6FbcyBC7ObilOn
+	jxyZ1gZdB96veAnJa6ZRFfF+OyV/gfAIa9or307/0MNn0j41Xf1PbcHdtFtNrUgppQ1t
+	Ky7g==
+X-Gm-Message-State: AFeK/H0pq4L5z6DNvTPxGAgByy2Eqr0A/sb6F5Me7vvFFi1iZf9/VMjPATo2H1RHO5M5qg==
+X-Received: by 10.99.206.5 with SMTP id y5mr4262693pgf.212.1490980469741;
+	Fri, 31 Mar 2017 10:14:29 -0700 (PDT)
+Received: from CACSVMO-14452.local ([2601:646:8882:b8c:dd64:9ebc:182c:f6cf])
+	by smtp.gmail.com with ESMTPSA id
+	l29sm11686312pfb.118.2017.03.31.10.14.28
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 31 Mar 2017 10:14:28 -0700 (PDT)
+To: Daniel Schultz <d.schultz@phytec.de>,
+	openembedded-core@lists.openembedded.org
+References: <1490964707-38823-1-git-send-email-d.schultz@phytec.de>
+From: Khem Raj <raj.khem@gmail.com>
+Message-ID: <469f1f49-8d57-b43a-7aa9-950c4d6afebe@gmail.com>
+Date: Fri, 31 Mar 2017 10:14:21 -0700
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:45.0)
+	Gecko/20100101 Thunderbird/45.8.0
 MIME-Version: 1.0
-Received: by 10.182.2.34 with HTTP; Fri, 31 Mar 2017 10:07:32 -0700 (PDT)
-In-Reply-To: <20170324203858.27464-1-alistair.francis@xilinx.com>
-References: <20170324203858.27464-1-alistair.francis@xilinx.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Fri, 31 Mar 2017 10:07:32 -0700
-Message-ID: <CAKmqyKM-wvykD1R+nyyCMjictWhLYRuOXYW1wmPPKrtVLyu9hw@mail.gmail.com>
-To: Alistair Francis <alistair.francis@xilinx.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2 1/2] runqemu: Automatically add a TFTP directory for slirp boot
+In-Reply-To: <1490964707-38823-1-git-send-email-d.schultz@phytec.de>
+Subject: Re: [PATCH morty v2] wic: partition: Run fsck on EXT file systems
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,36 +57,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 31 Mar 2017 17:08:01 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 31 Mar 2017 17:14:28 -0000
+X-Groupsio-MsgNum: 95643
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature";
+	boundary="No3Ikut21QmVnWuvqrgB78AQFWKi10Bpw"
 
-On Fri, Mar 24, 2017 at 1:38 PM, Alistair Francis
-<alistair.francis@xilinx.com> wrote:
-> When booting QEMU with slirp networking we want to use QEMUs TFTP server
-> to make the images in deploy accessible to the guest.
->
-> Signed-off-by: Alistair Francis <alistair.francis@xilinx.com>
+--No3Ikut21QmVnWuvqrgB78AQFWKi10Bpw
+Content-Type: multipart/mixed; boundary="BrhxLKbtf3uKpELe47m5517E4wWqHCAhj";
+ protected-headers="v1"
+From: Khem Raj <raj.khem@gmail.com>
+To: Daniel Schultz <d.schultz@phytec.de>,
+ openembedded-core@lists.openembedded.org
+Message-ID: <469f1f49-8d57-b43a-7aa9-950c4d6afebe@gmail.com>
+Subject: Re: [OE-core] [PATCH morty v2] wic: partition: Run fsck on EXT file
+ systems
+References: <1490964707-38823-1-git-send-email-d.schultz@phytec.de>
+In-Reply-To: <1490964707-38823-1-git-send-email-d.schultz@phytec.de>
 
-Ping?
+--BrhxLKbtf3uKpELe47m5517E4wWqHCAhj
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: quoted-printable
 
+
+
+On 3/31/17 5:51 AM, Daniel Schultz wrote:
+> Mkfs may create EXT file systems which can only be optimized by fsck
+> and not by itself, e.g. directory optimization (in Pass 3A).
+>=20
+> To prevent those optimizations during runtime, it will be performed aft=
+er
+> the creation of an EXT file system.
+>=20
+> Signed-off-by: Daniel Schultz <d.schultz@phytec.de>
 > ---
->  scripts/runqemu | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/scripts/runqemu b/scripts/runqemu
-> index 23c9efb..f76d976 100755
-> --- a/scripts/runqemu
-> +++ b/scripts/runqemu
-> @@ -832,7 +832,7 @@ class BaseConfig(object):
->          self.kernel_cmdline_script += ' ip=dhcp'
->          # Port mapping
->          hostfwd = ",hostfwd=tcp::2222-:22,hostfwd=tcp::2323-:23"
-> -        qb_slirp_opt_default = "-netdev user,id=net0%s" % hostfwd
-> +        qb_slirp_opt_default = "-netdev user,id=net0%s,tftp=%s" % (hostfwd, self.get('DEPLOY_DIR_IMAGE'))
->          qb_slirp_opt = self.get('QB_SLIRP_OPT') or qb_slirp_opt_default
->          # Figure out the port
->          ports = re.findall('hostfwd=[^-]*:([0-9]+)-[^,-]*', qb_slirp_opt)
-> --
-> 2.9.3
->
+>  scripts/lib/wic/partition.py | 3 +++
+>  1 file changed, 3 insertions(+)
+>=20
+> diff --git a/scripts/lib/wic/partition.py b/scripts/lib/wic/partition.p=
+y
+> index 3b3bd2d..152eb7b 100644
+> --- a/scripts/lib/wic/partition.py
+> +++ b/scripts/lib/wic/partition.py
+> @@ -239,6 +239,9 @@ class Partition():
+>              (self.fstype, extra_imagecmd, rootfs, label_str, rootfs_di=
+r)
+>          exec_native_cmd(mkfs_cmd, native_sysroot, pseudo=3Dpseudo)
+> =20
+> +        mkfs_cmd =3D "fsck.%s -pvfD %s" % (self.fstype, rootfs)
+> +        exec_native_cmd(mkfs_cmd, native_sysroot, pseudo=3Dpseudo)
+> +
 
+is this required on master too ? if yes I would suggest to propose it
+for master and then do a backport.
+
+>      def prepare_rootfs_btrfs(self, rootfs, oe_builddir, rootfs_dir,
+>                               native_sysroot, pseudo):
+>          """
+>=20
+
+
+--BrhxLKbtf3uKpELe47m5517E4wWqHCAhj--
+
+--No3Ikut21QmVnWuvqrgB78AQFWKi10Bpw
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+Comment: GPGTools - https://gpgtools.org
+
+iEYEARECAAYFAljejnMACgkQuwUzVZGdMxT9IQCeIGr+RRBbbbKErqnakWkRUe95
+xikAn3GONFGXoF1mh+18fgo0fGeX6mRa
+=HwKm
+-----END PGP SIGNATURE-----
+
+--No3Ikut21QmVnWuvqrgB78AQFWKi10Bpw--
