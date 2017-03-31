@@ -1,39 +1,49 @@
-Return-Path: <spopovyc@cisco.com>
-Received: from alln-iport-2.cisco.com (alln-iport-2.cisco.com [173.37.142.89])
-	by mail.openembedded.org (Postfix) with ESMTP id B014977D57
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
+	by mail.openembedded.org (Postfix) with ESMTP id A874777DD6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 Mar 2017 15:51:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=cisco.com; i=@cisco.com; l=6430; q=dns/txt; s=iport;
-	t=1490975516; x=1492185116;
-	h=from:to:cc:subject:date:message-id:in-reply-to: references;
-	bh=JSbZMJOt1Facprp15mbCoEE+bNdXE5VoP4LZRYdUV4w=;
-	b=Hv0YIbfiDJ28mc0H5tR4ZwaPOpByQHeFxA9yhn33SdaBs49O/+wXXGPS
-	1kP7FbGb1EWFhVho+reAZVBejoMfWXF7muQPSqM5A3/pgzrr+Bd8pUHnP
-	5+F9lXU54k2RzFBk/zu7sYeBqrR46c2kS5JMSPuOPQ/PJK+i0w4AURHpc g=;
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-Anti-Spam-Result: =?us-ascii?q?A0A4BQB+et5Y/4oNJK1UCBkBAQEBAQEBA?=
-	=?us-ascii?q?QEBAQcBAQEBAYMpK2GBC4tlgg+Qfjgfk0GCD4IOJoJGgzYCg0Y/GAECAQEBAQE?=
-	=?us-ascii?q?BAWsoQg6ERQEDA3kQHAMBAi9PCBkbiWUNsBOKWwEBAQEBAQEDAQEBASQThjuCD?=
-	=?us-ascii?q?YcUhgcFnBxOhn2LU4F9VI5piFyGb4QmHziBBTsgFYUbHBmBSkA1g2uFcAEBAQ?=
-X-IronPort-AV: E=Sophos;i="5.36,252,1486425600"; d="scan'208";a="401862659"
-Received: from alln-core-5.cisco.com ([173.36.13.138])
-	by alln-iport-2.cisco.com with ESMTP/TLS/DHE-RSA-AES256-SHA;
-	31 Mar 2017 15:51:55 +0000
-Received: from sjc-ads-6963.cisco.com (sjc-ads-6963.cisco.com [10.30.218.83])
-	by alln-core-5.cisco.com (8.14.5/8.14.5) with ESMTP id v2VFpYwg027027
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=NO);
-	Fri, 31 Mar 2017 15:51:55 GMT
-From: Serhii Popovych <spopovyc@cisco.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 31 Mar 2017 15:51:29 +0000
-Message-Id: <af419aa685c2a4f3bd84980b9b20ad3604093575.1490973339.git.spopovyc@cisco.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <cover.1490973338.git.spopovyc@cisco.com>
-References: <cover.1490973338.git.spopovyc@cisco.com>
-X-Auto-Response-Suppress: DR, OOF, AutoReply
-Cc: XE-Linux <xe-linux-external@cisco.com>
-Subject: [PATCH v5 2/2] automake: Adjust shebang lines to remove interpreter path hardcode
+	Fri, 31 Mar 2017 15:58:20 +0000 (UTC)
+Received: by mail-wm0-f68.google.com with SMTP id x75so423855wma.1
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 31 Mar 2017 08:58:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=C2ovvevk8ASJmfIhyjsFvlc6fc1cDIhVZzOMccECZKE=;
+	b=LaqkV254g0XJJW6f42DOxX9hPEFTxM8vd4/7yPgg1suShXrl+eANDmao+DGQOprj8P
+	i7/yK6CgkJaAu4AKMvtcEKbbjJtDyaAcWzsbAQEp4rc//Ws1d+UtRPZgbtV+XM2gPd4/
+	PgFleGDozn78lj6ky8no7XANYUPC4VXHti/Tf2L4TxZrsV/KjM7sIheC5fWU5Oqh/5lX
+	5bnmrbZOAswuoCPAeirm+qDsAWYRpxROLR68a3R3wiJAc/wjwuYYxbsL08L5WhhANGjY
+	F+H4t4GLmtzU3UunXdAPwv83dYDFPR06ND7AQWgmZN0fd72Rf1qOmYvAtInwPMTEaNL7
+	Gm8w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=C2ovvevk8ASJmfIhyjsFvlc6fc1cDIhVZzOMccECZKE=;
+	b=rjB+9adUk1AXbNUtGXFIEFuUvI19RphZ7q0epurmmi8FTTe6B2xca3jRYvEOmn19qU
+	ufDyDN4qIfhvAac/cbdEBgaixikpvMtLGggbITquyhfdWBaoBHbYFjUdV8frhuSNrQfa
+	M2dosqeV89q8m5m6c1j4diFgSIJzEoB15xW1U85HVFO2Fa54io+Y5gCkWlq8N1PUlqe5
+	YXv+VXjVdSXnKJvjJoTevCpBnrDCXMWuujg7BiEvBSA1eP5vKw6KJ+nM7zYFbDP9f1Zz
+	DVfihDNe8Ol4VpsSCP9EltjtM1GOXHqy2GUc7lbEpQeVgTK/3mj1UXvGsQ9jlgQTwexB
+	fxBg==
+X-Gm-Message-State: AFeK/H1UYIhHSFlNU162eVGRw1d76fKxzrSLa+r/5ZOcDXf+t7/BeqniGEOG1YpIw0eb5DnGK5kBdAEPCWKy0A==
+X-Received: by 10.28.69.68 with SMTP id s65mr3610819wma.13.1490975901364; Fri,
+	31 Mar 2017 08:58:21 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.80.180.162 with HTTP; Fri, 31 Mar 2017 08:57:50 -0700 (PDT)
+In-Reply-To: <20170331150810.GA3897@jama>
+References: <cover.1489267743.git.raj.khem@gmail.com>
+	<5124b899-8410-1d30-c397-65237f9d0a90@gmail.com>
+	<CA+chaQdT-TRBD4mA5hHuXWBtJupOE6tfe=tqehu8DLVa78e=OA@mail.gmail.com>
+	<CAMKF1sqGsV22S7MFVCMBgDxbSKFgqF1iZSviSU-e6pS0Ljx6aQ@mail.gmail.com>
+	<20170331150810.GA3897@jama>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 31 Mar 2017 08:57:50 -0700
+Message-ID: <CAMKF1soVTYoZKuNumi+qOw8sgSQqpcXkLW2skhM9v_warvRgkw@mail.gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/1] mesa: Contain configure search for llvm
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,191 +56,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 31 Mar 2017 15:51:55 -0000
+X-List-Received-Date: Fri, 31 Mar 2017 15:58:21 -0000
+Content-Type: text/plain; charset=UTF-8
 
-If build host perl (and other tools) is old and we use some kind
-of toolchain to provide recent perl/python/etc to the OE build
-we still locked to use build host perl due to hardcoded shebang
-lines in automake scripts.
+On Fri, Mar 31, 2017 at 8:08 AM, Martin Jansa <martin.jansa@gmail.com> wrote:
+> On Thu, Mar 23, 2017 at 10:31:07AM -0700, Khem Raj wrote:
+>> On Thu, Mar 23, 2017 at 12:51 AM, Martin Jansa <martin.jansa@gmail.com> wrote:
+>> > I'm not sure if this is the root cause, but last qemux86 build shows:
+>> >
+>> >
+>> > | configure: error: --enable-gallium-llvm selected but llvm-config is not
+>> > found
+>> > | ERROR: Function failed: do_configure (log file is located at
+>> > /home/jenkins/oe/world/shr-core/tmp-glibc/work/i586-oe-linux/mesa/2_17.0.1-r0/temp/log.do_configure.11359)
+>> >
+>>
+>> can you point where is llvm-config installed in sysroot ? its possible
+>> its not in native sysroot location ${STAGING_BINDIR_NATIVE}
+>
+> OE qemux86@ ~/build/oe-core $ find tmp-glibc/work/i586-oe-linux/mesa/2_17.0.2-r0/recipe-sysroot* -name llvm\*
+> tmp-glibc/work/i586-oe-linux/mesa/2_17.0.2-r0/recipe-sysroot/usr/bin/crossscripts/llvm-config
+> tmp-glibc/work/i586-oe-linux/mesa/2_17.0.2-r0/recipe-sysroot/usr/bin/crossscripts/llvm-config3.3
+> tmp-glibc/work/i586-oe-linux/mesa/2_17.0.2-r0/recipe-sysroot/usr/include/llvm3.3
+> tmp-glibc/work/i586-oe-linux/mesa/2_17.0.2-r0/recipe-sysroot/usr/include/llvm3.3/llvm-c
+> tmp-glibc/work/i586-oe-linux/mesa/2_17.0.2-r0/recipe-sysroot/usr/include/llvm3.3/llvm
+> tmp-glibc/work/i586-oe-linux/mesa/2_17.0.2-r0/recipe-sysroot/usr/include/llvm3.3/llvm/Config/llvm-config.h
+> tmp-glibc/work/i586-oe-linux/mesa/2_17.0.2-r0/recipe-sysroot/usr/lib/llvm3.3
+> tmp-glibc/work/i586-oe-linux/mesa/2_17.0.2-r0/recipe-sysroot/sysroot-providers/llvm-common
+> tmp-glibc/work/i586-oe-linux/mesa/2_17.0.2-r0/recipe-sysroot/sysroot-providers/llvm3.3
+> tmp-glibc/work/i586-oe-linux/mesa/2_17.0.2-r0/recipe-sysroot-native/installeddeps/llvm3.3.complete
+> tmp-glibc/work/i586-oe-linux/mesa/2_17.0.2-r0/recipe-sysroot-native/installeddeps/llvm-common.complete
+> tmp-glibc/work/i586-oe-linux/mesa/2_17.0.2-r0/recipe-sysroot-native/installeddeps/llvm-common.6be6a4ae98ee0dff7c2a4c4df17f026a
+> tmp-glibc/work/i586-oe-linux/mesa/2_17.0.2-r0/recipe-sysroot-native/installeddeps/llvm-common
+> tmp-glibc/work/i586-oe-linux/mesa/2_17.0.2-r0/recipe-sysroot-native/installeddeps/llvm3.3.388adaa288ab3b1d35e01a43b6542368
+> tmp-glibc/work/i586-oe-linux/mesa/2_17.0.2-r0/recipe-sysroot-native/installeddeps/llvm3.3
+>
 
-Behaviour was observed with Enterprise Linux 6 and devtoolset
-toolchain from SCL (Software Collections) used to provide recent
-version of perl (not provided with default buildtools-tarball).
+so it seems it should point to <recipe-sysroot>/usr/bin/crossscripts
+can you try changing -with-llvm-prefix to point to this dir ?
 
-Pass /usr/bin/env perl in ac_cv_path_PERL configuration variables
-for class-native and class-nativesdk. Use patch to automake to replace
--w option in shebang line with modern way to enable warnings on perl
-(i.e. "use warnings").
-
-Also add nativesdk-autoconf to RDEPENDS to bring runtime dependencies
-inline with other targets.
-
-Note that ac_cv_path_PERL must be valid perl interpreter path
-since configure will check perl version and Flock implementation.
-It is not possible currently to use nativeperl from native
-sysroot because automake does not DEPENDS on perl-native (and
-doing so fails due to circular dependencies). Only possible
-solution is to overwrite shebangs with nativeperl somewhere at
-do_install() and update RDEPENDS for class-native. Or add perl
-symlinks to nativeperl in sysroot.
-
-For now it seems good to use perl found by /usr/bin/env from
-automake-native.
-
-Cc: XE-Linux <xe-linux-external@cisco.com>
-Signed-off-by: Serhii Popovych <spopovyc@cisco.com>
----
-v5: Rebase against current master
-v4: - skipped -
-v3: Kill remnants of nativesdk-perl in RDEPENDS left from internal
-    imlementation part.
-    Thanks to Richard Purdie <richard.purdie@linuxfoundation.org>
-v2: Corrected Upstream-Status tag.
-
- ...tion-in-shebangs-with-modern-use-warnings.patch | 101 +++++++++++++++++++++
- meta/recipes-devtools/automake/automake_1.15.bb    |  13 ++-
- 2 files changed, 111 insertions(+), 3 deletions(-)
- create mode 100644 meta/recipes-devtools/automake/automake/automake-replace-w-option-in-shebangs-with-modern-use-warnings.patch
-
-diff --git a/meta/recipes-devtools/automake/automake/automake-replace-w-option-in-shebangs-with-modern-use-warnings.patch b/meta/recipes-devtools/automake/automake/automake-replace-w-option-in-shebangs-with-modern-use-warnings.patch
-new file mode 100644
-index 0000000..fe1d3d0
---- /dev/null
-+++ b/meta/recipes-devtools/automake/automake/automake-replace-w-option-in-shebangs-with-modern-use-warnings.patch
-@@ -0,0 +1,101 @@
-+From 41e06b7a354774913dcd2e32a35440e407843357 Mon Sep 17 00:00:00 2001
-+From: Serhii Popovych <spopovyc@cisco.com>
-+Date: Wed, 10 Feb 2016 17:07:32 +0000
-+Subject: [PATCH] perl: Replace -w option in shebangs with modern "use
-+ warnings"
-+
-+In some builds we might provide ac_cv_path_PERL as /usr/bin/env
-+perl to use newer version of the perl from users PATH rather than older from
-+standard system path.
-+
-+However using /usr/bin/env perl -w from shebang line isn't
-+possible because it translates to something like
-+/usr/bin/env -w perl and env complains about illegal option.
-+
-+To address this we can remove -w option from perl shebang
-+line and add "use warnings" statement.
-+
-+Upstream-Status: Pending
-+Signed-off-by: Serhii Popovych <spopovyc@cisco.com>
-+---
-+ bin/aclocal.in     | 3 ++-
-+ bin/automake.in    | 3 ++-
-+ t/wrap/aclocal.in  | 3 ++-
-+ t/wrap/automake.in | 3 ++-
-+ 4 files changed, 8 insertions(+), 4 deletions(-)
-+
-+diff --git a/bin/aclocal.in b/bin/aclocal.in
-+index 349f24a..50cb8d3 100644
-+--- a/bin/aclocal.in
-++++ b/bin/aclocal.in
-+@@ -1,4 +1,4 @@
-+-#!@PERL@ -w
-++#!@PERL@
-+ # -*- perl -*-
-+ # @configure_input@
-+ 
-+@@ -33,6 +33,7 @@ BEGIN
-+ }
-+ 
-+ use strict;
-++use warnings;
-+ 
-+ use Automake::Config;
-+ use Automake::General;
-+diff --git a/bin/automake.in b/bin/automake.in
-+index eedc8bc..e0a01cf 100644
-+--- a/bin/automake.in
-++++ b/bin/automake.in
-+@@ -1,4 +1,4 @@
-+-#!@PERL@ -w
-++#!@PERL@
-+ # -*- perl -*-
-+ # @configure_input@
-+ 
-+@@ -28,6 +28,7 @@ eval 'case $# in 0) exec @PERL@ -S "$0";; *) exec @PERL@ -S "$0" "$@";; esac'
-+ package Automake;
-+ 
-+ use strict;
-++use warnings;
-+ 
-+ BEGIN
-+ {
-+diff --git a/t/wrap/aclocal.in b/t/wrap/aclocal.in
-+index e64b546..9996899 100644
-+--- a/t/wrap/aclocal.in
-++++ b/t/wrap/aclocal.in
-+@@ -1,4 +1,4 @@
-+-#!@PERL@ -w
-++#!@PERL@
-+ # @configure_input@
-+ 
-+ # Copyright (C) 2012-2014 Free Software Foundation, Inc.
-+@@ -19,6 +19,7 @@
-+ BEGIN
-+ {
-+   use strict;
-++  use warnings;
-+   @Aclocal::perl_libdirs = ('@abs_top_srcdir@/lib');
-+   unshift @Aclocal::perl_libdirs, '@abs_top_builddir@/lib'
-+     if '@srcdir@' ne '.';
-+diff --git a/t/wrap/automake.in b/t/wrap/automake.in
-+index 8b943b1..be61226 100644
-+--- a/t/wrap/automake.in
-++++ b/t/wrap/automake.in
-+@@ -1,4 +1,4 @@
-+-#!@PERL@ -w
-++#!@PERL@
-+ # @configure_input@
-+ 
-+ # Copyright (C) 2012-2014 Free Software Foundation, Inc.
-+@@ -19,6 +19,7 @@
-+ BEGIN
-+ {
-+   use strict;
-++  use warnings;
-+   @Automake::perl_libdirs = ('@abs_top_srcdir@/lib');
-+   unshift @Automake::perl_libdirs, '@abs_top_builddir@/lib'
-+     if '@srcdir@' ne '.';
-+-- 
-+2.3.0
-+
-diff --git a/meta/recipes-devtools/automake/automake_1.15.bb b/meta/recipes-devtools/automake/automake_1.15.bb
-index a3c72fd..a6904c8 100644
---- a/meta/recipes-devtools/automake/automake_1.15.bb
-+++ b/meta/recipes-devtools/automake/automake_1.15.bb
-@@ -17,16 +17,23 @@ RDEPENDS_${PN} += "\
-     perl-module-vars "
- 
- RDEPENDS_${PN}_class-native = "autoconf-native hostperl-runtime-native"
-+RDEPENDS_${PN}_class-nativesdk = "nativesdk-autoconf"
- 
--SRC_URI += " file://python-libdir.patch \
-+SRC_URI += "file://python-libdir.patch \
-             file://buildtest.patch \
-             file://performance.patch \
--            file://new_rt_path_for_test-driver.patch"
-+            file://new_rt_path_for_test-driver.patch \
-+            file://automake-replace-w-option-in-shebangs-with-modern-use-warnings.patch \
-+            "
- 
- SRC_URI[md5sum] = "716946a105ca228ab545fc37a70df3a3"
- SRC_URI[sha256sum] = "7946e945a96e28152ba5a6beb0625ca715c6e32ac55f2e353ef54def0c8ed924"
- 
--CACHED_CONFIGUREVARS += "ac_cv_path_PERL=${USRBINPATH}/perl"
-+PERL = "${USRBINPATH}/perl"
-+PERL_class-native = "${USRBINPATH}/env perl"
-+PERL_class-nativesdk = "${USRBINPATH}/env perl"
-+
-+CACHED_CONFIGUREVARS += "ac_cv_path_PERL='${PERL}'"
- 
- do_install_append () {
-     install -d ${D}${datadir}
--- 
-2.7.4
-
+>>
+>> >
+>> > I've noticed some llvm changes for meta-clang, do we need similar changes
+>> > for meta-oe version of llvm?
+>> >
+>> >
+>> > On Sun, Mar 12, 2017 at 12:16 AM, Khem Raj <raj.khem@gmail.com> wrote:
+>> >>
+>> >>
+>> >>
+>> >> On 3/11/17 1:30 PM, Khem Raj wrote:
+>> >> > The following changes since commit
+>> >> > a47e64d985a610535449730806651f5bfd75d9ec:
+>> >> >
+>> >> >   libcomps: add a recipe (2017-03-11 16:08:50 +0000)
+>> >> >
+>> >> > are available in the git repository at:
+>> >> >
+>> >> >   git://git.openembedded.org/openembedded-core-contrib kraj/pu
+>> >> >   http://cgit.openembedded.org/openembedded-core-contrib/log/?h=kraj/pu
+>> >> >
+>> >> > Khem Raj (1):
+>> >> >   mesa: Contain configure search for llvm
+>> >> >
+>> >>
+>> >> I added another fix for mesa-gl to remove one of obsolete packageconfigs
+>> >> and its on the same pull branch now.
+>> >>
+>> >> >  meta/recipes-graphics/mesa/mesa.inc | 2 +-
+>> >> >  1 file changed, 1 insertion(+), 1 deletion(-)
+>> >> >
+>> >> --
+>> >> _______________________________________________
+>> >> Openembedded-core mailing list
+>> >> Openembedded-core@lists.openembedded.org
+>> >> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>> >
+>> >
+>
+> --
+> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
