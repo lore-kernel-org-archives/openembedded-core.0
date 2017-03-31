@@ -1,40 +1,55 @@
-Return-Path: <spopovyc@cisco.com>
-Received: from alln-iport-7.cisco.com (alln-iport-7.cisco.com [173.37.142.94])
-	by mail.openembedded.org (Postfix) with ESMTP id 9904077D88
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f175.google.com (mail-qk0-f175.google.com
+	[209.85.220.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 066C877DDE
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 Mar 2017 11:47:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=cisco.com; i=@cisco.com; l=6373; q=dns/txt; s=iport;
-	t=1490960823; x=1492170423;
-	h=from:to:cc:subject:date:message-id:in-reply-to: references;
-	bh=SoqgZfJfaUmQyj1A2QyORwBv6qzcE574hOunO8HSYKA=;
-	b=Ote7a9TKThewKZv7XISDU5MoFroof3BgU4r7PI+Vmym064bJ2Vz5XUpu
-	4aG8T601gb43I0JIerZGFBGEdHVr5n99sncHcX4GCHpYtHCQigyV4CoHb
-	yMLfXIY4suU+QZdY99Ueko7o69h/+IBWvenJiermNw3YIm6o5fv96Z4rT 0=;
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-Anti-Spam-Result: =?us-ascii?q?A0A4BQD1QN5Y/4YNJK1VCBkBAQEBAQEBA?=
-	=?us-ascii?q?QEBAQcBAQEBAYMpK2GBC4tlgg+Qfzgfk0GCD4IOJoJGgzYCg0Y/GAECAQEBAQE?=
-	=?us-ascii?q?BAWsoQg6ERQEDA3kQHAMBAi9PCBkbiWUNr3iKXQEBAQEBAQEDAQEBASQThjuCD?=
-	=?us-ascii?q?YcUhgcFnBxOhn2LU4F9VI5piFyGb4QmHziBBTsgFYUbHBmBSkA1g2uFcAEBAQ?=
-X-IronPort-AV: E=Sophos;i="5.36,251,1486425600"; d="scan'208";a="405636769"
-Received: from alln-core-12.cisco.com ([173.36.13.134])
-	by alln-iport-7.cisco.com with ESMTP/TLS/DHE-RSA-AES256-SHA;
-	31 Mar 2017 11:47:02 +0000
-Received: from sjc-ads-6963.cisco.com (sjc-ads-6963.cisco.com [10.30.218.83])
-	by alln-core-12.cisco.com (8.14.5/8.14.5) with ESMTP id
-	v2VBl0g5018193
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=NO);
-	Fri, 31 Mar 2017 11:47:01 GMT
-From: Serhii Popovych <spopovyc@cisco.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 31 Mar 2017 11:46:58 +0000
-Message-Id: <14aa4c13308afcaea249ede4753fe272e0a12572.1490894407.git.spopovyc@cisco.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <cover.1490894407.git.spopovyc@cisco.com>
-References: <cover.1490894407.git.spopovyc@cisco.com>
-X-Auto-Response-Suppress: DR, OOF, AutoReply
-Cc: XE-Linux <xe-linux-external@cisco.com>
-Subject: [PATCH v3 2/2] automake: Adjust shebang lines to remove interpreter path hardcode
+	Fri, 31 Mar 2017 11:56:00 +0000 (UTC)
+Received: by mail-qk0-f175.google.com with SMTP id r142so64493914qke.2
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 31 Mar 2017 04:56:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=nyc0g7KhpOL7c65kuF0stsU8gRyPInPCp+H9ZaXanWg=;
+	b=ijw4qPr8UpgiRYVWuWfy2dhpV/CSRAXwcfJfy1pttYnXYTGqXsctiBmhrEJAWYiG5k
+	6GEKLooNZdZLFM+/QjaelqVmAf+erxSlbvTzzR906qwXdU1cCJ6okXltmGGCPIyad8MD
+	zapWVbwGBRQ9+f9e7oAExn1v7VeLKpw5XeaiyCjGGwVMiNm6zYkP4B2akOVLjZ8Og5UP
+	re6+2+BLzUt0fMQCcUDpqrZ0Uv/0M1u8HlFB5c4U8+qsS6MOqooFo0BCqyQY+tF6nLwH
+	r+CLRvm7kk8ePhDyL3DY36WP5jbazsDsKdoumS5E6APKZnXCSfBTLJ1jpb5m7wfJ34BO
+	1c/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=nyc0g7KhpOL7c65kuF0stsU8gRyPInPCp+H9ZaXanWg=;
+	b=F4TAcr3Dqu9Uz9dzmRqljt/aTK9kGtQiiHXlv3s6/tHWmA9GblVL0y3PJg29j2qVFK
+	jaUDMhpFKgwP/28EbrS2pVEJzznHoAO3PsYoWNG00dcb2PV91V2rRWVpvafDmMqEcr6f
+	noJ0drNVk1Nb9oDHfpaPMpy7RqF4q4Y0BOESWLo3fxUMv7hnayZswzTMwq/oLVdGDUi+
+	l2imRWecVSNR52KKFvaCMUCvykTYVvzA0CvEbAi4wxK9V4pa+IAXsGYy8ioAbEKMNrFi
+	bOBCw+9S3LfPUvYTEWDFHWOOnegDCj4EoOaYZl9MuVBFMBe8M1icMUPXQgTnWpH36tch
+	PDsA==
+X-Gm-Message-State: AFeK/H3kkGpqfjQOWaodqwxIACXUc4gR67MMZ+yWEZSEiBOgNELKqLWBvADSygI0SCQI/SHBi0dIWrA9vV759DxE
+X-Received: by 10.55.20.100 with SMTP id e97mr2446079qkh.3.1490961361311; Fri,
+	31 Mar 2017 04:56:01 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.22.166 with HTTP; Fri, 31 Mar 2017 04:55:40 -0700 (PDT)
+In-Reply-To: <20170330180636.GV15664@denix.org>
+References: <20170327142231.21807-1-marex@denx.de>
+	<1490624701.13980.267.camel@linuxfoundation.org>
+	<5c037512-7bf1-8a3c-cb76-fda7230781a0@denx.de>
+	<20170329215658.GP15664@denix.org>
+	<a5b043f0-b0ee-a74b-fd55-4f8d20669cba@denx.de>
+	<20170330132447.GU15664@denix.org>
+	<a8de81ca-4056-ad2c-4e38-1bd1b4c62315@denx.de>
+	<20170330180636.GV15664@denix.org>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 31 Mar 2017 12:55:40 +0100
+Message-ID: <CAJTo0LYtO5P7cUvtcKfiQ1KbsaYFSfzoE1oryCPOx_LMnE6vkw@mail.gmail.com>
+To: Denys Dmytriyenko <denis@denix.org>
+Cc: Marek Vasut <marex@denx.de>,
+	OpenEmbedded Devel List <openembedded-devel@lists.openembedded.org>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] u-boot: Update to 2017.03 release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,187 +62,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 31 Mar 2017 11:47:02 -0000
+X-List-Received-Date: Fri, 31 Mar 2017 11:56:02 -0000
+Content-Type: multipart/alternative; boundary=001a1140110450db9c054c057ed7
 
-If build host perl (and other tools) is old and we use some kind
-of toolchain to provide recent perl/python/etc to the OE build
-we still locked to use build host perl due to hardcoded shebang
-lines in automake scripts.
+--001a1140110450db9c054c057ed7
+Content-Type: text/plain; charset=UTF-8
 
-Behaviour was observed with Enterprise Linux 6 and devtoolset
-toolchain from SCL (Software Collections) used to provide recent
-version of perl (not provided with default buildtools-tarball).
+On 30 March 2017 at 19:06, Denys Dmytriyenko <denis@denix.org> wrote:
 
-Pass /usr/bin/env perl in ac_cv_path_PERL configuration variables
-for class-native and class-nativesdk. Use patch to automake to replace
--w option in shebang line with modern way to enable warnings on perl
-(i.e. "use warnings").
+> "Known devil is better than unknown angel"? :)
+>
 
-Also add nativesdk-autoconf to RDEPENDS to bring runtime dependencies
-inline with other targets.
+Agreed, fwiw.  It's late and u-boot is quite important: cherry-pick the
+patch for Pyro and master can upgrade once it has branched.
 
-Note that ac_cv_path_PERL must be valid perl interpreter path
-since configure will check perl version and Flock implementation.
-It is not possible currently to use nativeperl from native
-sysroot because automake does not DEPENDS on perl-native (and
-doing so fails due to circular dependencies). Only possible
-solution is to overwrite shebangs with nativeperl somewhere at
-do_install() and update RDEPENDS for class-native. Or add perl
-symlinks to nativeperl in sysroot.
+Ross
 
-For now it seems good to use perl found by /usr/bin/env from
-automake-native.
+--001a1140110450db9c054c057ed7
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Cc: XE-Linux <xe-linux-external@cisco.com>
-Signed-off-by: Serhii Popovych <spopovyc@cisco.com>
----
-v3: Kill remnants of nativesdk-perl in RDEPENDS left from internal
-    imlementation part.
-    Thanks to Richard Purdie <richard.purdie@linuxfoundation.org>
-v2: Corrected Upstream-Status tag.
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 30 March 2017 at 19:06, Denys Dmytriyenko <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:denis@denix.org" target=3D"_blank">denis@denix.org</a>&gt;</span=
+> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bo=
+rder-left:1px #ccc solid;padding-left:1ex"><div id=3D":1jc" class=3D"a3s aX=
+jCH m15b20660f2699d2c">&quot;Known devil is better than unknown angel&quot;=
+? :)<br></div></blockquote><div><br></div><div>Agreed, fwiw.=C2=A0 It&#39;s=
+ late and u-boot is quite important: cherry-pick the patch for Pyro and mas=
+ter can upgrade once it has branched.</div><div><br></div><div>Ross=C2=A0</=
+div></div><br></div></div>
 
- ...tion-in-shebangs-with-modern-use-warnings.patch | 99 ++++++++++++++++++++++
- meta/recipes-devtools/automake/automake_1.15.bb    | 13 ++-
- 2 files changed, 109 insertions(+), 3 deletions(-)
- create mode 100644 meta/recipes-devtools/automake/automake/automake-replace-w-option-in-shebangs-with-modern-use-warnings.patch
-
-diff --git a/meta/recipes-devtools/automake/automake/automake-replace-w-option-in-shebangs-with-modern-use-warnings.patch b/meta/recipes-devtools/automake/automake/automake-replace-w-option-in-shebangs-with-modern-use-warnings.patch
-new file mode 100644
-index 0000000..64eb253
---- /dev/null
-+++ b/meta/recipes-devtools/automake/automake/automake-replace-w-option-in-shebangs-with-modern-use-warnings.patch
-@@ -0,0 +1,99 @@
-+From 41e06b7a354774913dcd2e32a35440e407843357 Mon Sep 17 00:00:00 2001
-+From: Serhii Popovych <spopovyc@cisco.com>
-+Date: Wed, 10 Feb 2016 17:07:32 +0000
-+Subject: [PATCH] perl: Replace -w option in shebangs with modern "use
-+ warnings" In some builds we might provide ac_cv_path_PERL as /usr/bin/env
-+ perl to use newer version of the perl from users PATH rather than older from
-+ standard system path.
-+
-+However using /usr/bin/env perl -w from shebang line isn't
-+possible because it translates to something like
-+/usr/bin/env -w perl and env complains about illegal option.
-+
-+To address this we can remove -w option from perl shebang
-+line and add "use warnings" statement.
-+
-+Upstream-Status: Pending
-+Signed-off-by: Serhii Popovych <spopovyc@cisco.com>
-+---
-+ bin/aclocal.in     | 3 ++-
-+ bin/automake.in    | 3 ++-
-+ t/wrap/aclocal.in  | 3 ++-
-+ t/wrap/automake.in | 3 ++-
-+ 4 files changed, 8 insertions(+), 4 deletions(-)
-+
-+diff --git a/bin/aclocal.in b/bin/aclocal.in
-+index 349f24a..50cb8d3 100644
-+--- a/bin/aclocal.in
-++++ b/bin/aclocal.in
-+@@ -1,4 +1,4 @@
-+-#!@PERL@ -w
-++#!@PERL@
-+ # -*- perl -*-
-+ # @configure_input@
-+ 
-+@@ -33,6 +33,7 @@ BEGIN
-+ }
-+ 
-+ use strict;
-++use warnings;
-+ 
-+ use Automake::Config;
-+ use Automake::General;
-+diff --git a/bin/automake.in b/bin/automake.in
-+index eedc8bc..e0a01cf 100644
-+--- a/bin/automake.in
-++++ b/bin/automake.in
-+@@ -1,4 +1,4 @@
-+-#!@PERL@ -w
-++#!@PERL@
-+ # -*- perl -*-
-+ # @configure_input@
-+ 
-+@@ -28,6 +28,7 @@ eval 'case $# in 0) exec @PERL@ -S "$0";; *) exec @PERL@ -S "$0" "$@";; esac'
-+ package Automake;
-+ 
-+ use strict;
-++use warnings;
-+ 
-+ BEGIN
-+ {
-+diff --git a/t/wrap/aclocal.in b/t/wrap/aclocal.in
-+index e64b546..9996899 100644
-+--- a/t/wrap/aclocal.in
-++++ b/t/wrap/aclocal.in
-+@@ -1,4 +1,4 @@
-+-#!@PERL@ -w
-++#!@PERL@
-+ # @configure_input@
-+ 
-+ # Copyright (C) 2012-2014 Free Software Foundation, Inc.
-+@@ -19,6 +19,7 @@
-+ BEGIN
-+ {
-+   use strict;
-++  use warnings;
-+   @Aclocal::perl_libdirs = ('@abs_top_srcdir@/lib');
-+   unshift @Aclocal::perl_libdirs, '@abs_top_builddir@/lib'
-+     if '@srcdir@' ne '.';
-+diff --git a/t/wrap/automake.in b/t/wrap/automake.in
-+index 8b943b1..be61226 100644
-+--- a/t/wrap/automake.in
-++++ b/t/wrap/automake.in
-+@@ -1,4 +1,4 @@
-+-#!@PERL@ -w
-++#!@PERL@
-+ # @configure_input@
-+ 
-+ # Copyright (C) 2012-2014 Free Software Foundation, Inc.
-+@@ -19,6 +19,7 @@
-+ BEGIN
-+ {
-+   use strict;
-++  use warnings;
-+   @Automake::perl_libdirs = ('@abs_top_srcdir@/lib');
-+   unshift @Automake::perl_libdirs, '@abs_top_builddir@/lib'
-+     if '@srcdir@' ne '.';
-+-- 
-+2.3.0
-+
-diff --git a/meta/recipes-devtools/automake/automake_1.15.bb b/meta/recipes-devtools/automake/automake_1.15.bb
-index a3c72fd..a6904c8 100644
---- a/meta/recipes-devtools/automake/automake_1.15.bb
-+++ b/meta/recipes-devtools/automake/automake_1.15.bb
-@@ -17,16 +17,23 @@ RDEPENDS_${PN} += "\
-     perl-module-vars "
- 
- RDEPENDS_${PN}_class-native = "autoconf-native hostperl-runtime-native"
-+RDEPENDS_${PN}_class-nativesdk = "nativesdk-autoconf"
- 
--SRC_URI += " file://python-libdir.patch \
-+SRC_URI += "file://python-libdir.patch \
-             file://buildtest.patch \
-             file://performance.patch \
--            file://new_rt_path_for_test-driver.patch"
-+            file://new_rt_path_for_test-driver.patch \
-+            file://automake-replace-w-option-in-shebangs-with-modern-use-warnings.patch \
-+            "
- 
- SRC_URI[md5sum] = "716946a105ca228ab545fc37a70df3a3"
- SRC_URI[sha256sum] = "7946e945a96e28152ba5a6beb0625ca715c6e32ac55f2e353ef54def0c8ed924"
- 
--CACHED_CONFIGUREVARS += "ac_cv_path_PERL=${USRBINPATH}/perl"
-+PERL = "${USRBINPATH}/perl"
-+PERL_class-native = "${USRBINPATH}/env perl"
-+PERL_class-nativesdk = "${USRBINPATH}/env perl"
-+
-+CACHED_CONFIGUREVARS += "ac_cv_path_PERL='${PERL}'"
- 
- do_install_append () {
-     install -d ${D}${datadir}
--- 
-2.5.0
-
-
+--001a1140110450db9c054c057ed7--
