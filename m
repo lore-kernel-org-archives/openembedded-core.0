@@ -1,50 +1,44 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg0-f66.google.com (mail-pg0-f66.google.com [74.125.83.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 4322377DB2
+Received: from mail-pg0-f67.google.com (mail-pg0-f67.google.com [74.125.83.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 770F577BE0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 Mar 2017 17:14:28 +0000 (UTC)
-Received: by mail-pg0-f66.google.com with SMTP id 81so18730102pgh.3
+	Fri, 31 Mar 2017 18:58:07 +0000 (UTC)
+Received: by mail-pg0-f67.google.com with SMTP id g2so19169348pge.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 Mar 2017 10:14:29 -0700 (PDT)
+	Fri, 31 Mar 2017 11:58:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:references:from:message-id:date:user-agent:mime-version
-	:in-reply-to; bh=fT4ExCzntheCVrE2qONUwr3EQyP0K9HOzJJnKAeXLgY=;
-	b=gxmdfCBZts5BvjkKBSBQaL5fZZ01YJKs8AtsvYWQQoL2K/HHqgC0D1z6jRTLaqLA41
-	ItqUr+yn2i7pcZSQ3xkCAm8yt9FaZxhsM4JqOIjn4eBAxyZNH/OG9XM2wUkM+/VYAnhS
-	IdDdzMBx1rrUOswM14PYqJ0P57aeG2f6qlEdfSCNi/9uHPGFM2fvRbCWuSTaGRAaomoa
-	QECr83y8cbTOP1DS7wNrftoKwPDFCx4SzmQGw1WO4skUrvRVtnN4ZmkHQAwBnAf2MhBF
-	Fi0JArsr62s8y4kiMLkJ+8msm/xxb8pZciG0B0sejc/wxQJqZ8x3E+TUcTH0Io5uwQhU
-	eMNg==
+	h=from:to:cc:subject:date:message-id;
+	bh=G5TrbutDs+XlrfGeETPim6L3NX+bYg8dJsoXiVkLevs=;
+	b=gYuZSt9oJRaVCvVv4EVA88wQTegbmZBe9dgwkRbcKv9KLksQxcmueSgpQW3hcoB2B2
+	BSzpYiQOKTGyUCM77oqwuRIarQ+6bRrn1WtdeR9+4CbqWUGGIHJjykB3q5vkrcqtVqhR
+	h4sxNLdrGnA8ZKLQhlXI4moCdLlnlWEVk35zR8wvsZRh1gxt2ACyMdyg84VhU4oYwW1W
+	vDGrEPdG5zsTdHwIJejlq5SzqcbX0IycUrWknLDaMNjtghwwFpQFL7xm3u1lsRr+wUnb
+	+KxNv5UIUAEHiOFf0Bp7cp48JmDQvxhxvN6bawpswIL58L4Ok4sEAc0nFjd4Nxb0nO3J
+	8qXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to;
-	bh=fT4ExCzntheCVrE2qONUwr3EQyP0K9HOzJJnKAeXLgY=;
-	b=qjaS1NdKkUI/ubBblzuGfPG23MbzJl6Ue/AkckoeMbRxH1Vi8Mb3HszkPjP8SSaYhp
-	+R+TmyBCksVxsubyO/MxflRcvlD+J9QmM+b4m2irvbWk7DaaTdMMsNpCPKA+7t+R0L1l
-	Mlc8HG/eXnRxRYKLPOk8q/fZDHXOKZX0g65yhMDCxe0Wf1mT23T3J0a1PoGa/mjZsf5h
-	HdvyF2zPXDFt5z0NFpAjkTex3nnuXeOo8d7Z6S0zd0x414fbAlxDWh6FbcyBC7ObilOn
-	jxyZ1gZdB96veAnJa6ZRFfF+OyV/gfAIa9or307/0MNn0j41Xf1PbcHdtFtNrUgppQ1t
-	Ky7g==
-X-Gm-Message-State: AFeK/H0pq4L5z6DNvTPxGAgByy2Eqr0A/sb6F5Me7vvFFi1iZf9/VMjPATo2H1RHO5M5qg==
-X-Received: by 10.99.206.5 with SMTP id y5mr4262693pgf.212.1490980469741;
-	Fri, 31 Mar 2017 10:14:29 -0700 (PDT)
-Received: from CACSVMO-14452.local ([2601:646:8882:b8c:dd64:9ebc:182c:f6cf])
-	by smtp.gmail.com with ESMTPSA id
-	l29sm11686312pfb.118.2017.03.31.10.14.28
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=G5TrbutDs+XlrfGeETPim6L3NX+bYg8dJsoXiVkLevs=;
+	b=McZNYP575lLvYX9cQpWbrn9NVFhllUh57k2dLLGaU5W8VsLGMf+x3tDls83p7OhGRI
+	EaW/byFKg/7Z3NlPYCQPyY+o9v/BRJfxcn58jUKZ61og5pMdBHa+bK5rGiQ+mA7knPWu
+	KovMnO7YPbjpfif5bCK/mnEnhKfyEn2eOixIGQX1pIVXjdIciQjo8lmHxs/maHirIN2o
+	0Ir9iO46B3IqQsED8BeQgiAi8+rDd6tlrEetHfw4Jdm6DxQBo5mKNgmLtue5l9mkaPQr
+	wc/thDb7GmV6Re/2P31LVDesIdgBG2ZrNmzutgzduxda/JHAwU63OoBbOiP8JQ2SZkZH
+	z9kQ==
+X-Gm-Message-State: AFeK/H1Yv0Z1nZ79zsimQGvDGp+/r6lTep5uNRLxT/GACspGe1kF7o8oyr2S9BotdkU60Q==
+X-Received: by 10.99.97.77 with SMTP id v74mr4523431pgb.76.1490986689502;
+	Fri, 31 Mar 2017 11:58:09 -0700 (PDT)
+Received: from localhost.localdomain (c-76-102-32-192.hsd1.ca.comcast.net.
+	[76.102.32.192]) by smtp.gmail.com with ESMTPSA id
+	k184sm12024836pgc.23.2017.03.31.11.58.08
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 31 Mar 2017 10:14:28 -0700 (PDT)
-To: Daniel Schultz <d.schultz@phytec.de>,
-	openembedded-core@lists.openembedded.org
-References: <1490964707-38823-1-git-send-email-d.schultz@phytec.de>
+	Fri, 31 Mar 2017 11:58:08 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
-Message-ID: <469f1f49-8d57-b43a-7aa9-950c4d6afebe@gmail.com>
-Date: Fri, 31 Mar 2017 10:14:21 -0700
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:45.0)
-	Gecko/20100101 Thunderbird/45.8.0
-MIME-Version: 1.0
-In-Reply-To: <1490964707-38823-1-git-send-email-d.schultz@phytec.de>
-Subject: Re: [PATCH morty v2] wic: partition: Run fsck on EXT file systems
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 31 Mar 2017 11:57:55 -0700
+Message-Id: <20170331185755.14492-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.12.1
+Subject: [PATCH] binutils: Detect 64bit mips target for gold
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,79 +51,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 31 Mar 2017 17:14:28 -0000
-X-Groupsio-MsgNum: 95643
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature";
-	boundary="No3Ikut21QmVnWuvqrgB78AQFWKi10Bpw"
+X-List-Received-Date: Fri, 31 Mar 2017 18:58:09 -0000
 
---No3Ikut21QmVnWuvqrgB78AQFWKi10Bpw
-Content-Type: multipart/mixed; boundary="BrhxLKbtf3uKpELe47m5517E4wWqHCAhj";
- protected-headers="v1"
-From: Khem Raj <raj.khem@gmail.com>
-To: Daniel Schultz <d.schultz@phytec.de>,
- openembedded-core@lists.openembedded.org
-Message-ID: <469f1f49-8d57-b43a-7aa9-950c4d6afebe@gmail.com>
-Subject: Re: [OE-core] [PATCH morty v2] wic: partition: Run fsck on EXT file
- systems
-References: <1490964707-38823-1-git-send-email-d.schultz@phytec.de>
-In-Reply-To: <1490964707-38823-1-git-send-email-d.schultz@phytec.de>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/recipes-devtools/binutils/binutils-2.28.inc   |  1 +
+ .../binutils/0016-Detect-64-bit-MIPS-targets.patch | 50 ++++++++++++++++++++++
+ 2 files changed, 51 insertions(+)
+ create mode 100644 meta/recipes-devtools/binutils/binutils/0016-Detect-64-bit-MIPS-targets.patch
 
---BrhxLKbtf3uKpELe47m5517E4wWqHCAhj
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: quoted-printable
+diff --git a/meta/recipes-devtools/binutils/binutils-2.28.inc b/meta/recipes-devtools/binutils/binutils-2.28.inc
+index fcf30357f69..76b81b04cae 100644
+--- a/meta/recipes-devtools/binutils/binutils-2.28.inc
++++ b/meta/recipes-devtools/binutils/binutils-2.28.inc
+@@ -34,6 +34,7 @@ SRC_URI = "\
+      file://0013-Add-support-for-Netlogic-XLP.patch \
+      file://0014-fix-the-incorrect-assembling-for-ppc-wait-mnemonic.patch \
+      file://0015-sync-with-OE-libtool-changes.patch \
++     file://0016-Detect-64-bit-MIPS-targets.patch \
+ "
+ S  = "${WORKDIR}/git"
+ 
+diff --git a/meta/recipes-devtools/binutils/binutils/0016-Detect-64-bit-MIPS-targets.patch b/meta/recipes-devtools/binutils/binutils/0016-Detect-64-bit-MIPS-targets.patch
+new file mode 100644
+index 00000000000..1b2eb8485c5
+--- /dev/null
++++ b/meta/recipes-devtools/binutils/binutils/0016-Detect-64-bit-MIPS-targets.patch
+@@ -0,0 +1,50 @@
++From c3ebde5d8cc3b0092966b4d725cad7cfd074fd8d Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Fri, 31 Mar 2017 11:42:03 -0700
++Subject: [PATCH 16/16] Detect 64-bit MIPS targets
++
++Add mips64 target triplets and default to N64
++
++Upstream-Status: Submitted
++https://sourceware.org/ml/binutils/2016-08/msg00048.html
++
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++ gold/configure.tgt | 14 ++++++++++++++
++ 1 file changed, 14 insertions(+)
++
++diff --git a/gold/configure.tgt b/gold/configure.tgt
++index 3d63027297..c1f92a1360 100644
++--- a/gold/configure.tgt
+++++ b/gold/configure.tgt
++@@ -153,6 +153,13 @@ aarch64*-*)
++  targ_big_endian=false
++  targ_extra_big_endian=true
++  ;;
+++mips*64*el*-*-*|mips*64*le*-*-*)
+++ targ_obj=mips
+++ targ_machine=EM_MIPS_RS3_LE
+++ targ_size=64
+++ targ_big_endian=false
+++ targ_extra_big_endian=true
+++ ;;
++ mips*el*-*-*|mips*le*-*-*)
++  targ_obj=mips
++  targ_machine=EM_MIPS_RS3_LE
++@@ -160,6 +167,13 @@ mips*el*-*-*|mips*le*-*-*)
++  targ_big_endian=false
++  targ_extra_big_endian=true
++  ;;
+++mips*64*-*-*)
+++ targ_obj=mips
+++ targ_machine=EM_MIPS
+++ targ_size=64
+++ targ_big_endian=true
+++ targ_extra_big_endian=false
+++ ;;
++ mips*-*-*)
++  targ_obj=mips
++  targ_machine=EM_MIPS
++-- 
++2.12.1
++
+-- 
+2.12.1
 
 
-
-On 3/31/17 5:51 AM, Daniel Schultz wrote:
-> Mkfs may create EXT file systems which can only be optimized by fsck
-> and not by itself, e.g. directory optimization (in Pass 3A).
->=20
-> To prevent those optimizations during runtime, it will be performed aft=
-er
-> the creation of an EXT file system.
->=20
-> Signed-off-by: Daniel Schultz <d.schultz@phytec.de>
-> ---
->  scripts/lib/wic/partition.py | 3 +++
->  1 file changed, 3 insertions(+)
->=20
-> diff --git a/scripts/lib/wic/partition.py b/scripts/lib/wic/partition.p=
-y
-> index 3b3bd2d..152eb7b 100644
-> --- a/scripts/lib/wic/partition.py
-> +++ b/scripts/lib/wic/partition.py
-> @@ -239,6 +239,9 @@ class Partition():
->              (self.fstype, extra_imagecmd, rootfs, label_str, rootfs_di=
-r)
->          exec_native_cmd(mkfs_cmd, native_sysroot, pseudo=3Dpseudo)
-> =20
-> +        mkfs_cmd =3D "fsck.%s -pvfD %s" % (self.fstype, rootfs)
-> +        exec_native_cmd(mkfs_cmd, native_sysroot, pseudo=3Dpseudo)
-> +
-
-is this required on master too ? if yes I would suggest to propose it
-for master and then do a backport.
-
->      def prepare_rootfs_btrfs(self, rootfs, oe_builddir, rootfs_dir,
->                               native_sysroot, pseudo):
->          """
->=20
-
-
---BrhxLKbtf3uKpELe47m5517E4wWqHCAhj--
-
---No3Ikut21QmVnWuvqrgB78AQFWKi10Bpw
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-Comment: GPGTools - https://gpgtools.org
-
-iEYEARECAAYFAljejnMACgkQuwUzVZGdMxT9IQCeIGr+RRBbbbKErqnakWkRUe95
-xikAn3GONFGXoF1mh+18fgo0fGeX6mRa
-=HwKm
------END PGP SIGNATURE-----
-
---No3Ikut21QmVnWuvqrgB78AQFWKi10Bpw--
