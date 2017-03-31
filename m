@@ -1,51 +1,27 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-it0-f66.google.com (mail-it0-f66.google.com
-	[209.85.214.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 4FEEB77DAE
+Return-Path: <markus.lehtonen@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 8CBE677DB7
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 Mar 2017 13:43:58 +0000 (UTC)
-Received: by mail-it0-f66.google.com with SMTP id y18so2052461itc.2
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 Mar 2017 06:44:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:references:from:message-id:date:user-agent:mime-version
-	:in-reply-to:content-transfer-encoding;
-	bh=4ZvgMHLIqLzS6bwL3WSx1wDLkyv+OGoVv5G4FkeR+j4=;
-	b=ZeyyUxDJgy/reOu4L+30BLrWcgISWARToRheM5IpUOy30X/8NCkje7r5YBHtb2uUXu
-	kqteCCH6ip9Wxx7qDHQA8qwFhOsfZKOGLzWAKCoXkPCx2eHTEN5HUPQ5LRFW+JSxo3ZB
-	ytfvxCvbaAVJ0jKIquM8kH+6v+Gk6Q7/ADno0bfFg2bEWKv47d2NAQdDxYXpfz47wAI1
-	qdti8IS3jZaZ5Ic/viLu5age3E3DZawEn7XjpGaQ81qYxO4f1StkQWscZ6mOFltDHvXk
-	F6daiLN80sfNSCvlRqbzNynNJdTEzXARQPVYwElEA4RV4v4Vdj6mocgBOup3V173BRqu
-	gdeQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding;
-	bh=4ZvgMHLIqLzS6bwL3WSx1wDLkyv+OGoVv5G4FkeR+j4=;
-	b=RPM3mPahpWUzmz0HHEtARO6HyOPq4dqrWXHQ6BtOELTb2QEyvUAqMyALXup9uyGQIC
-	y2VMDeA5Er2piBlEp79F3TJqHRYA3Tc837nKGEztjeUfPoB1EgiLLsq2T+CKH2N+ORTB
-	bAMtiNd2XqEdbRfFmjg8W8PN5nHx7myD+siQrK/aLcyJjVDTySyg5QY8xSzS9qqktmrX
-	ieu176jXsKstpyYrZhKCVouMM189DyWI52Y9MxLJIYa/64RqKWXvFaggafm0WqkGKUsg
-	1r7su/FNZsS5ctWmS8wDB4g/FloantEfkD9v+yBW4kw0DWGgAvbAiGlicZ07rHGSxAKB
-	imcA==
-X-Gm-Message-State: AFeK/H089yHQcbuByGNdqj6wBDN03Ss/NZTsQTavFl/BcihBX9yS/MTefzgGqS7exnl4RA==
-X-Received: by 10.36.90.144 with SMTP id v138mr3350876ita.24.1490967840369;
-	Fri, 31 Mar 2017 06:44:00 -0700 (PDT)
-Received: from [172.30.15.4] ([67.133.97.98])
-	by smtp.gmail.com with ESMTPSA id m41sm1284843iti.0.2017.03.31.06.43.59
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 31 Mar 2017 06:44:00 -0700 (PDT)
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>,
-	openembedded-core@lists.openembedded.org
-References: <20170331093113.9167-1-alexander.kanavin@linux.intel.com>
-From: akuster808 <akuster808@gmail.com>
-Message-ID: <0bba25a9-4944-18cc-ef39-52532a9cb3c7@gmail.com>
-Date: Fri, 31 Mar 2017 06:43:59 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.8.0
-MIME-Version: 1.0
-In-Reply-To: <20170331093113.9167-1-alexander.kanavin@linux.intel.com>
-Subject: Re: [PATCH] openssl: add a "openssl10" PROVIDES
+	Fri, 31 Mar 2017 14:07:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+	d=intel.com; i=@intel.com; q=dns/txt; s=intel;
+	t=1490969254; x=1522505254; h=from:to:subject:date:message-id;
+	bh=t1EzBPRn94XYziyA1sCC8+u5+FHKWcFvb+2Dsci//4A=;
+	b=LmoiTyo3cfk5g0mm6g87JzKawc9gtKhPRLbchK66RV59TRIFG1dZiQSO
+	DEVUpDlzZ1hF+K9kWc2lKEL62GRhag==;
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	31 Mar 2017 07:07:32 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.36,252,1486454400"; d="scan'208";a="1129337588"
+Received: from marquiz.fi.intel.com ([10.237.72.155])
+	by fmsmga001.fm.intel.com with ESMTP; 31 Mar 2017 07:07:31 -0700
+From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 31 Mar 2017 17:07:28 +0300
+Message-Id: <20170331140730.27171-1-markus.lehtonen@linux.intel.com>
+X-Mailer: git-send-email 2.10.2
+Subject: [PATCH 0/2] Tools for visualizing build performance test results
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,51 +34,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 31 Mar 2017 13:43:59 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 31 Mar 2017 14:07:32 -0000
 
-Alexander,
+This patchset implements two new scripts for analyzing and reporting build
+performance test results. The first script is a tool that is able to generate
+test reports from build perf test data stored in a Git repository. Both
+plain text and html output formats are supported. The second script is a helper
+for converting these (HTML) reports into a format suitable for emails and
+sending them.
 
 
-On 03/31/2017 02:31 AM, Alexander Kanavin wrote:
-> In 2.4 development cycle openssl 1.1 will replace openssl 1.0 as the
-> default openssl version. Openssl 1.0 will stay but will be renamed
-> to openssl10, and eventually it will be removed (hopefully much
-> sooner than the official end of support date of Dec 2019, as we do not
-> want an unsupported openssl version in supported Yocto releases).
-Sounds like a plan.
->
-> There are several recipes that are not API compatible with 1.1; some
-> of them will eventually be fixed, but others will never be (such as Qt4).
-> To avoid breaking such recipes when openssl 1.1 is added to oe-core,
-> let's provide "openssl10" already now and change the recipes to depend
-> on that where necessary; Qt4 is a particularly pressing issue as it is
-> causing failures on the autobuilder with my work in progress
-> openssl 1.1 branch, and so I'm not able to see what else would fail
-> later in the build process.
-nice writeup.
+The following changes since commit 49772e1a1f291d1cacce27b381009dbb441c483e:
 
-- armin
+  distutils3.bbclass: Fix path to python for scripts (2017-03-31 10:09:58 +0100)
 
->
-> Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-> ---
->   meta/recipes-connectivity/openssl/openssl.inc | 2 ++
->   1 file changed, 2 insertions(+)
->
-> diff --git a/meta/recipes-connectivity/openssl/openssl.inc b/meta/recipes-connectivity/openssl/openssl.inc
-> index 28421dab338..481a4445605 100644
-> --- a/meta/recipes-connectivity/openssl/openssl.inc
-> +++ b/meta/recipes-connectivity/openssl/openssl.inc
-> @@ -37,6 +37,8 @@ FILES_${PN} =+ " ${libdir}/ssl/*"
->   FILES_${PN}-misc = "${libdir}/ssl/misc"
->   RDEPENDS_${PN}-misc = "${@bb.utils.filter('PACKAGECONFIG', 'perl', d)}"
->   
-> +PROVIDES += "openssl10"
-> +
->   # Add the openssl.cnf file to the openssl-conf package.  Make the libcrypto
->   # package RRECOMMENDS on this package.  This will enable the configuration
->   # file to be installed for both the base openssl package and the libcrypto
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib marquiz/buildperf/scripts
+  http://git.openembedded.org/openembedded-core-contrib/log/?h=marquiz/buildperf/scripts
+
+
+
+Markus Lehtonen (2):
+  scripts: add oe-build-perf-report script
+  scripts/contrib: add oe-build-perf-report-email
+
+ scripts/contrib/oe-build-perf-report-email.py      | 266 +++++++++++
+ scripts/lib/build_perf/__init__.py                 |  31 ++
+ scripts/lib/build_perf/html.py                     |  19 +
+ scripts/lib/build_perf/html/measurement_chart.html |  50 ++
+ scripts/lib/build_perf/html/report.html            | 209 ++++++++
+ scripts/lib/build_perf/report.py                   | 342 +++++++++++++
+ scripts/lib/build_perf/scrape-html-report.js       |  56 +++
+ scripts/oe-build-perf-report                       | 531 +++++++++++++++++++++
+ 8 files changed, 1504 insertions(+)
+ create mode 100755 scripts/contrib/oe-build-perf-report-email.py
+ create mode 100644 scripts/lib/build_perf/__init__.py
+ create mode 100644 scripts/lib/build_perf/html.py
+ create mode 100644 scripts/lib/build_perf/html/measurement_chart.html
+ create mode 100644 scripts/lib/build_perf/html/report.html
+ create mode 100644 scripts/lib/build_perf/report.py
+ create mode 100644 scripts/lib/build_perf/scrape-html-report.js
+ create mode 100755 scripts/oe-build-perf-report
+
+-- 
+2.10.2
 
 
