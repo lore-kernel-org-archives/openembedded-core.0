@@ -1,18 +1,18 @@
 Return-Path: <patchwork@patchwork.openembedded.org>
 Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 0163B77D3A;
-	Fri, 31 Mar 2017 12:02:10 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id E9CC577D3A;
+	Fri, 31 Mar 2017 12:02:11 +0000 (UTC)
 MIME-Version: 1.0
 From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Serhii Popovych <spopovyc@cisco.com>
-Date: Fri, 31 Mar 2017 12:02:12 -0000
-Message-ID: <20170331120212.6649.57836@do.openembedded.org>
-References: <cover.1490728921.git.spopovyc@cisco.com>
+To: Romain Perier <romain.perier@collabora.com>
+Date: Fri, 31 Mar 2017 12:02:13 -0000
+Message-ID: <20170331120213.6648.63318@do.openembedded.org>
+References: <20170331114043.6165-1-romain.perier@collabora.com>
 Reply-To: openembedded-core@lists.openembedded.org
 X-Patchwork-Hint: ignore
-In-Reply-To: <cover.1490728921.git.spopovyc@cisco.com>
+In-Reply-To: <20170331114043.6165-1-romain.perier@collabora.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgIlt2MywxLzJdIGF1dG9jb25mOiBBZGp1c3Qgc2hlYi4uLiIgYW5kIDEgbW9yZSAocmV2Mik=?=
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgYnVzeWJveDogbWFrZSBTWVNMT0dEIG9wdGlvbm5hbA==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,15 +25,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 31 Mar 2017 12:02:11 -0000
+X-List-Received-Date: Fri, 31 Mar 2017 12:02:12 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
 == Series Details ==
 
-Series: "[v3,1/2] autoconf: Adjust sheb..." and 1 more (rev2)
-Revision: 2
-URL   : https://patchwork.openembedded.org/series/6033/
+Series: busybox: make SYSLOGD optionnal
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/6101/
 State : failure
 
 == Summary ==
