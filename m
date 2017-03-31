@@ -1,26 +1,24 @@
 Return-Path: <mark.hatle@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 53E4D77C73
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id DD2E371CA7
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 31 Mar 2017 02:30:48 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v2V2UnRb027367
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v2V2UmsV005365
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 30 Mar 2017 19:30:49 -0700 (PDT)
+	Thu, 30 Mar 2017 19:30:48 -0700 (PDT)
 Received: from msp-lpggp1.wrs.com (172.25.34.110) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.40) with Microsoft SMTP Server id 14.3.294.0;
-	Thu, 30 Mar 2017 19:30:49 -0700
+	Thu, 30 Mar 2017 19:30:47 -0700
 From: Mark Hatle <mark.hatle@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 30 Mar 2017 21:30:26 -0500
-Message-ID: <1490927429-48266-2-git-send-email-mark.hatle@windriver.com>
+Date: Thu, 30 Mar 2017 21:30:25 -0500
+Message-ID: <1490927429-48266-1-git-send-email-mark.hatle@windriver.com>
 X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1490927429-48266-1-git-send-email-mark.hatle@windriver.com>
-References: <1490927429-48266-1-git-send-email-mark.hatle@windriver.com>
 MIME-Version: 1.0
 Cc: saul.wold@intel.com
-Subject: [PATCH 1/4] yocto-compat-layer.py: Add status for skipped items
+Subject: [PATCH 0/4] yocto-compat-layer.py updates
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,52 +34,37 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Fri, 31 Mar 2017 02:30:50 -0000
 Content-Type: text/plain
 
-If items were skipped because the dependencies could not be found, we
-want to record this was skipped so we can display it later.
+The changes in this series fix a number of issues with the yocto-compat-layer
+script.
 
-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
----
- scripts/yocto-compat-layer.py | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
+- When a layer is skipped due to missing dependencies, it was difficult to
+  see this without inspecting the whole log.
 
-diff --git a/scripts/yocto-compat-layer.py b/scripts/yocto-compat-layer.py
-index 9e74033..d13d8c0 100755
---- a/scripts/yocto-compat-layer.py
-+++ b/scripts/yocto-compat-layer.py
-@@ -107,6 +107,7 @@ def main():
- 
-     td = {}
-     results = collections.OrderedDict()
-+    results_status = collections.OrderedDict()
- 
-     logger.info('')
-     logger.info('Getting initial bitbake variables ...')
-@@ -125,19 +126,22 @@ def main():
-         shutil.copyfile(bblayersconf + '.backup', bblayersconf)
- 
-         if not add_layer(bblayersconf, layer, layers, logger):
-+            results[layer['name']] = None
-+            results_status[layer['name']] = 'SKIPPED (Missing dependencies)'
-+            layers_tested = layers_tested + 1
-             continue
- 
-         result = test_layer_compatibility(td, layer)
-         results[layer['name']] = result
-+        results_status[layer['name']] = 'PASS' if results[layer['name']].wasSuccessful() else 'FAIL'
-         layers_tested = layers_tested + 1
- 
-     if layers_tested:
-         logger.info('')
-         logger.info('Summary of results:')
-         logger.info('')
--        for layer_name in results:
--            logger.info('%s ... %s' % (layer_name, 'PASS' if \
--                    results[layer_name].wasSuccessful() else 'FAIL'))
-+        for layer_name in results_status:
-+            logger.info('%s ... %s' % (layer_name, results_status[layer_name]))
- 
-     cleanup_bblayers(None, None)
- 
+- There needs to be a way to pass in a list of layers that can be used
+  for dependencies, but should not be evaluated in this pass.  The overall
+  evaluation is very time consuming and having to parse/validate 15
+  dependent layers to see if the layer you are working on passes is not
+  useful!
+
+- The dependency processing was not working properly.  It was only processing
+  dependencies at one level.  Move this to a recursive process so we're
+  sure that all needed dependencies are present.
+
+- Change how the initial signatures are stored to be compared to the layers
+  signatures for distro/BSP checks.  Before the signatures were stored very
+  early (before any dependencies were calculated), causing the dependencies
+  for a BSP layer to trigger a failure in signature validation.
+
+Mark Hatle (4):
+  yocto-compat-layer.py: Add status for skipped items
+  yocto-compat-layer.py: Add --dependency argument
+  compatlayer/__init__.py: Allow add_layer to process recursive deps
+  yocto-compat-layer.py: Fix the signature validation
+
+ scripts/lib/compatlayer/__init__.py | 47 ++++++++++++++++++++++++++++++-------
+ scripts/yocto-compat-layer.py       | 47 +++++++++++++++++++++++++++----------
+ 2 files changed, 73 insertions(+), 21 deletions(-)
+
 -- 
 1.8.3.1
 
