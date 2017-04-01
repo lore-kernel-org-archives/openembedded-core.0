@@ -1,31 +1,49 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 0447377E8C
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qt0-f171.google.com (mail-qt0-f171.google.com
+	[209.85.216.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 8A98577CD5
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  1 Apr 2017 07:19:43 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTP id v317JejV022367; 
-	Sat, 1 Apr 2017 08:19:40 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id q7uT-wSQVcLk; Sat,  1 Apr 2017 08:19:39 +0100 (BST)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v317JVAK022360
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Sat, 1 Apr 2017 08:19:36 +0100
-Message-ID: <1491031171.13980.377.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alistair Francis <alistair.francis@xilinx.com>,
-	openembedded-core@lists.openembedded.org, liezhi.yang@windriver.com,
-	ross.burton@intel.com
-Date: Sat, 01 Apr 2017 08:19:31 +0100
-In-Reply-To: <20170324203858.27464-2-alistair.francis@xilinx.com>
-References: <20170324203858.27464-1-alistair.francis@xilinx.com>
-	<20170324203858.27464-2-alistair.francis@xilinx.com>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.1 
-Mime-Version: 1.0
-Subject: Re: [PATCH v2 2/2] runqemu: Add a background command option
+	Sat,  1 Apr 2017 09:14:19 +0000 (UTC)
+Received: by mail-qt0-f171.google.com with SMTP id x35so82228836qtc.2
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 01 Apr 2017 02:14:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=9ZFhJYSTpAD3tt/R4iUZ0PIEMwbVZ9LSGMduwZviXFI=;
+	b=oWawQbDZSeuTL4fVZkc3GpQ+WK3Q6JJuQx4EdhLBhKmIVSnTbxnZNhXlqZN4fS+FbM
+	yFfSiQOAp1pkuhj1VpFSI5M2Ryt0h1Gvyn/zi+pTmpE46XW3KXGn1jyO5jZDdsmTmrSJ
+	tV1GMhsqH5bA+IruUxVgz3ZlXtLDDflOgltnA2Mq0BWQ6ofl6C92yqrpuFsXIyR1UrSJ
+	125l0DsZeY2Aa4gLf1cO7IcXTSB9LJxomskhtZ2u1JUeYqm8S4APe8TZDBgU09DN200a
+	G5rJlStyRMYsAyKnQuNmoR8Ru1gVlRiUF+HHMl4uEqCc8S06VGXKtFV/0wlG6GHlrwYj
+	+f/Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=9ZFhJYSTpAD3tt/R4iUZ0PIEMwbVZ9LSGMduwZviXFI=;
+	b=IsC/srTqBBjBzeu2nUEuQn96Zwnp7O7LJDMwKTMIHw0/4HKRpYdIfLdv9ipx4/mAIM
+	rJ0ckwflqPlYDoz5NvBWlxIjmlK5uQ7eOU1yuWddZyNkzM6isN3VstZMTyCDOeN7qmdf
+	U7KouFboBK58uwkuv3ZRdjYWuiahdjEaA7sVtpP+SpT+gJxogaHj071+xCLmH8jHxnpr
+	UjyVYxrgRJptDgV5YzuintGMSnbM7aquonREw/FyfeS+xmxaXq1fkMerEU7br02Nk7YN
+	z5t49jwWjaOo2y9ASk3bG3qo2jshrN47/LTY6cGCJucyTFPxD2zqc7ZeUGVDx4jt1V/0
+	tV7w==
+X-Gm-Message-State: AFeK/H1nv/bfxyVjk4QBSBZ5rHR5aV+AI5kG0F5t2z91sxUOKZGgm7WWr77W7Ge5ePQieh/J+/X8AMUReC0g7EGc
+X-Received: by 10.237.33.69 with SMTP id 63mr6781921qtc.109.1491038061293;
+	Sat, 01 Apr 2017 02:14:21 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.22.166 with HTTP; Sat, 1 Apr 2017 02:14:00 -0700 (PDT)
+In-Reply-To: <CAMKF1spaeG0a=fg87UmAZF+Z9KPDqFzGCM62TKriURf2T+yMzg@mail.gmail.com>
+References: <1490995693-19005-1-git-send-email-juro.bystricky@intel.com>
+	<CAMKF1sp=tgkByXMiELBa+K1=mQ5=ggr-7TwkTdK9m7ieGeeEPg@mail.gmail.com>
+	<1491000595.13980.375.camel@linuxfoundation.org>
+	<CAMKF1spaeG0a=fg87UmAZF+Z9KPDqFzGCM62TKriURf2T+yMzg@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Sat, 1 Apr 2017 10:14:00 +0100
+Message-ID: <CAJTo0LYhay4KTF6zP_dAXr5Rj4rRZ_WO496a+9usxSEXxzQveA@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] ncurses_6.0: Improve reproducibility
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,52 +56,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 01 Apr 2017 07:19:45 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Sat, 01 Apr 2017 09:14:20 -0000
+Content-Type: multipart/alternative; boundary=94eb2c0c7fc8fd90ba054c175972
 
-On Fri, 2017-03-24 at 13:38 -0700, Alistair Francis wrote:
-> This allows callers to specify commands that should be run in the
-> background
-> while running QEMU. This can be specified by assigning the commands
-> to the
-> 'QB_BACKGROUND_COMMAND' varialbe in the machine conf.
-> 
-> This is useful for starting automated debugging instances, automated
-> testing instances (using QMP) or other servers/clients that QEMU can
-> connect to.
-> 
-> Signed-off-by: Alistair Francis <alistair.francis@xilinx.com>
-> ---
->  scripts/runqemu | 7 +++++++
->  1 file changed, 7 insertions(+)
-> 
-> diff --git a/scripts/runqemu b/scripts/runqemu
-> index f76d976..b5cc56a 100755
-> --- a/scripts/runqemu
-> +++ b/scripts/runqemu
-> @@ -1118,6 +1118,13 @@ class BaseConfig(object):
->                  kernel_opts += " -dtb %s" % self.dtb
->          else:
->              kernel_opts = ""
-> +        background_cmd = self.get('QB_BACKGROUND_COMMAND')
-> +
-> +        if background_cmd:
-> +            logger.info('Running in the background %s' %
-> background_cmd)
-> +            if subprocess.call(background_cmd + ' &', shell=True) !=
-> 0:
-> +                raise Exception('Failed to run %s' % cmd)
-> +
+--94eb2c0c7fc8fd90ba054c175972
+Content-Type: text/plain; charset=UTF-8
 
-I have to admit I'm rather unsure about this. What cleans up this
-process when runqemu finishes?
+On 1 April 2017 at 01:42, Khem Raj <raj.khem@gmail.com> wrote:
 
-We tend to run into a lot of issues around cleanup and a subprocess
-using "&" doesn't sound too attractive given the general issues we run
-into.
+> Not this case obviously but I was reminded that this should be default
+> option from tool gain if not specified
+>
+>>
+Yes, and it already is.
 
-Cheers,
+Ross
 
-Richard
+--94eb2c0c7fc8fd90ba054c175972
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 1 April 2017 at 01:42, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"mailto:=
+raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</span> wro=
+te:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-=
+left:1px #ccc solid;padding-left:1ex"><div>Not this case obviously but I wa=
+s reminded that this should be default option from tool gain if not specifi=
+ed=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;=
+border-left:1px #ccc solid;padding-left:1ex"></blockquote></blockquote></di=
+v><br>Yes, and it already is.</div><div class=3D"gmail_extra"><br></div><di=
+v class=3D"gmail_extra">Ross</div></div>
+
+--94eb2c0c7fc8fd90ba054c175972--
