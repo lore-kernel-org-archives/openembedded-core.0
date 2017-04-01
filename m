@@ -1,49 +1,52 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qt0-f171.google.com (mail-qt0-f171.google.com
-	[209.85.216.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 8A98577CD5
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-wm0-f45.google.com (mail-wm0-f45.google.com [74.125.82.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 9D8CC77E5C
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  1 Apr 2017 09:14:19 +0000 (UTC)
-Received: by mail-qt0-f171.google.com with SMTP id x35so82228836qtc.2
+	Sat,  1 Apr 2017 15:21:46 +0000 (UTC)
+Received: by mail-wm0-f45.google.com with SMTP id v203so3482305wmg.0
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 01 Apr 2017 02:14:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	Sat, 01 Apr 2017 08:21:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=9ZFhJYSTpAD3tt/R4iUZ0PIEMwbVZ9LSGMduwZviXFI=;
-	b=oWawQbDZSeuTL4fVZkc3GpQ+WK3Q6JJuQx4EdhLBhKmIVSnTbxnZNhXlqZN4fS+FbM
-	yFfSiQOAp1pkuhj1VpFSI5M2Ryt0h1Gvyn/zi+pTmpE46XW3KXGn1jyO5jZDdsmTmrSJ
-	tV1GMhsqH5bA+IruUxVgz3ZlXtLDDflOgltnA2Mq0BWQ6ofl6C92yqrpuFsXIyR1UrSJ
-	125l0DsZeY2Aa4gLf1cO7IcXTSB9LJxomskhtZ2u1JUeYqm8S4APe8TZDBgU09DN200a
-	G5rJlStyRMYsAyKnQuNmoR8Ru1gVlRiUF+HHMl4uEqCc8S06VGXKtFV/0wlG6GHlrwYj
-	+f/Q==
+	:cc; bh=Ddlkfq5HyY7Y1cpLB9G/xqo11FUJjpdACoVbiPb+RDo=;
+	b=WyZLwx66yu9kdzYG3c1tkdopZu3qLwBaXzAAEm4SjFXWTSOzA5fzzF/Xtt+uIKtaG/
+	B1lsSLibGtOI3T7lgp4MSlaQH/Bm/VqpTHqTh0wyhTZPQMstxoYtnHeqrbpLVxKu3l3O
+	w50LYE5uqIdLBvFlzloINyQMI9gBpYLuJDBRc9O3iq7j4iZJ9OiwQ7BeZQs4D7fQg6vd
+	6swZX2EKnR5URpAtwxPwvvOgiq3vTwxDsPI8Lu0i+Zg4zEgXu+xwXc2df/270uah9fpV
+	jRn1bbT1Zn8IfiDsMG1oOtkKTFpbG8CUbUlov6ran2vCQKyV8zvXnjDevL0jOG//W7o6
+	qgaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=9ZFhJYSTpAD3tt/R4iUZ0PIEMwbVZ9LSGMduwZviXFI=;
-	b=IsC/srTqBBjBzeu2nUEuQn96Zwnp7O7LJDMwKTMIHw0/4HKRpYdIfLdv9ipx4/mAIM
-	rJ0ckwflqPlYDoz5NvBWlxIjmlK5uQ7eOU1yuWddZyNkzM6isN3VstZMTyCDOeN7qmdf
-	U7KouFboBK58uwkuv3ZRdjYWuiahdjEaA7sVtpP+SpT+gJxogaHj071+xCLmH8jHxnpr
-	UjyVYxrgRJptDgV5YzuintGMSnbM7aquonREw/FyfeS+xmxaXq1fkMerEU7br02Nk7YN
-	z5t49jwWjaOo2y9ASk3bG3qo2jshrN47/LTY6cGCJucyTFPxD2zqc7ZeUGVDx4jt1V/0
-	tV7w==
-X-Gm-Message-State: AFeK/H1nv/bfxyVjk4QBSBZ5rHR5aV+AI5kG0F5t2z91sxUOKZGgm7WWr77W7Ge5ePQieh/J+/X8AMUReC0g7EGc
-X-Received: by 10.237.33.69 with SMTP id 63mr6781921qtc.109.1491038061293;
-	Sat, 01 Apr 2017 02:14:21 -0700 (PDT)
+	bh=Ddlkfq5HyY7Y1cpLB9G/xqo11FUJjpdACoVbiPb+RDo=;
+	b=hSchJK5MDPjckIwzaQigRsoiKWhlMFRhQLF+7iZLmoB1MnDkeOjmunqRPQ/s1m+SbR
+	NNB3tbC/9o8xxnO1v8J3yan7XxWYlFfLAjqEjujO9i6tJq08haY1fGbIlo5k4Zc8u77o
+	Iwk5iPBabhtVrQ+JrxJH4oNKlkAwHxi8rsaQFPhYoRTU7NvkmyReR4cWUvhpJ2Nlzq9J
+	BJfAW+TJx5DFcfA94du5KTYCexOsNY15pyHIqGwWn9AVOqYh1dbsrV12xnlUY49K1H1C
+	GoMVjQ752CJkCrz24dOBp+WMJhrh++RV4E9s0WkAo6LTmch6p93ZVz2GbBH1MW1YGeca
+	Lspg==
+X-Gm-Message-State: AFeK/H06CunsAxs5Ku8yCq0pVImOzJ49Bb0JcbiUi35AdzzD9Db7lsQl
+	CCQP5sfuucQn5pYlGvvc1rIAG2VWXw==
+X-Received: by 10.28.165.145 with SMTP id o139mr2747391wme.13.1491060107285;
+	Sat, 01 Apr 2017 08:21:47 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.140.22.166 with HTTP; Sat, 1 Apr 2017 02:14:00 -0700 (PDT)
-In-Reply-To: <CAMKF1spaeG0a=fg87UmAZF+Z9KPDqFzGCM62TKriURf2T+yMzg@mail.gmail.com>
-References: <1490995693-19005-1-git-send-email-juro.bystricky@intel.com>
-	<CAMKF1sp=tgkByXMiELBa+K1=mQ5=ggr-7TwkTdK9m7ieGeeEPg@mail.gmail.com>
-	<1491000595.13980.375.camel@linuxfoundation.org>
-	<CAMKF1spaeG0a=fg87UmAZF+Z9KPDqFzGCM62TKriURf2T+yMzg@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Sat, 1 Apr 2017 10:14:00 +0100
-Message-ID: <CAJTo0LYhay4KTF6zP_dAXr5Rj4rRZ_WO496a+9usxSEXxzQveA@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] ncurses_6.0: Improve reproducibility
+Received: by 10.80.180.162 with HTTP; Sat, 1 Apr 2017 08:21:16 -0700 (PDT)
+In-Reply-To: <CA+chaQdj48R74vNax1XPzc_mB6EQe7y+bgwXmOW417BQxtguoQ@mail.gmail.com>
+References: <cover.1489267743.git.raj.khem@gmail.com>
+	<5124b899-8410-1d30-c397-65237f9d0a90@gmail.com>
+	<CA+chaQdT-TRBD4mA5hHuXWBtJupOE6tfe=tqehu8DLVa78e=OA@mail.gmail.com>
+	<CAMKF1sqGsV22S7MFVCMBgDxbSKFgqF1iZSviSU-e6pS0Ljx6aQ@mail.gmail.com>
+	<20170331150810.GA3897@jama>
+	<CAMKF1soVTYoZKuNumi+qOw8sgSQqpcXkLW2skhM9v_warvRgkw@mail.gmail.com>
+	<CA+chaQdj48R74vNax1XPzc_mB6EQe7y+bgwXmOW417BQxtguoQ@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Sat, 1 Apr 2017 08:21:16 -0700
+Message-ID: <CAMKF1sozG3W+axiBRVLs7ht+ficrp1Wj45SW38cJEB3bGZNx6Q@mail.gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/1] mesa: Contain configure search for llvm
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,35 +59,123 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 01 Apr 2017 09:14:20 -0000
-Content-Type: multipart/alternative; boundary=94eb2c0c7fc8fd90ba054c175972
-
---94eb2c0c7fc8fd90ba054c175972
+X-List-Received-Date: Sat, 01 Apr 2017 15:21:47 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On 1 April 2017 at 01:42, Khem Raj <raj.khem@gmail.com> wrote:
+On Fri, Mar 31, 2017 at 10:52 PM, Martin Jansa <martin.jansa@gmail.com> wrote:
+> Why is it needed?
 
-> Not this case obviously but I was reminded that this should be default
-> option from tool gain if not specified
+If you have clang/llvm installed on your build host then it defaults to that
+thats why its needed.
+
+> Without this change mesa was finding llvm-config correctly, that's why I've
+> just reverted this to continue building.
+
+
 >
+> On Fri, Mar 31, 2017 at 5:57 PM, Khem Raj <raj.khem@gmail.com> wrote:
 >>
-Yes, and it already is.
+>> On Fri, Mar 31, 2017 at 8:08 AM, Martin Jansa <martin.jansa@gmail.com>
+>> wrote:
+>> > On Thu, Mar 23, 2017 at 10:31:07AM -0700, Khem Raj wrote:
+>> >> On Thu, Mar 23, 2017 at 12:51 AM, Martin Jansa <martin.jansa@gmail.com>
+>> >> wrote:
+>> >> > I'm not sure if this is the root cause, but last qemux86 build shows:
+>> >> >
+>> >> >
+>> >> > | configure: error: --enable-gallium-llvm selected but llvm-config is
+>> >> > not
+>> >> > found
+>> >> > | ERROR: Function failed: do_configure (log file is located at
+>> >> >
+>> >> > /home/jenkins/oe/world/shr-core/tmp-glibc/work/i586-oe-linux/mesa/2_17.0.1-r0/temp/log.do_configure.11359)
+>> >> >
+>> >>
+>> >> can you point where is llvm-config installed in sysroot ? its possible
+>> >> its not in native sysroot location ${STAGING_BINDIR_NATIVE}
+>> >
+>> > OE qemux86@ ~/build/oe-core $ find
+>> > tmp-glibc/work/i586-oe-linux/mesa/2_17.0.2-r0/recipe-sysroot* -name llvm\*
+>> >
+>> > tmp-glibc/work/i586-oe-linux/mesa/2_17.0.2-r0/recipe-sysroot/usr/bin/crossscripts/llvm-config
+>> >
+>> > tmp-glibc/work/i586-oe-linux/mesa/2_17.0.2-r0/recipe-sysroot/usr/bin/crossscripts/llvm-config3.3
+>> >
+>> > tmp-glibc/work/i586-oe-linux/mesa/2_17.0.2-r0/recipe-sysroot/usr/include/llvm3.3
+>> >
+>> > tmp-glibc/work/i586-oe-linux/mesa/2_17.0.2-r0/recipe-sysroot/usr/include/llvm3.3/llvm-c
+>> >
+>> > tmp-glibc/work/i586-oe-linux/mesa/2_17.0.2-r0/recipe-sysroot/usr/include/llvm3.3/llvm
+>> >
+>> > tmp-glibc/work/i586-oe-linux/mesa/2_17.0.2-r0/recipe-sysroot/usr/include/llvm3.3/llvm/Config/llvm-config.h
+>> >
+>> > tmp-glibc/work/i586-oe-linux/mesa/2_17.0.2-r0/recipe-sysroot/usr/lib/llvm3.3
+>> >
+>> > tmp-glibc/work/i586-oe-linux/mesa/2_17.0.2-r0/recipe-sysroot/sysroot-providers/llvm-common
+>> >
+>> > tmp-glibc/work/i586-oe-linux/mesa/2_17.0.2-r0/recipe-sysroot/sysroot-providers/llvm3.3
+>> >
+>> > tmp-glibc/work/i586-oe-linux/mesa/2_17.0.2-r0/recipe-sysroot-native/installeddeps/llvm3.3.complete
+>> >
+>> > tmp-glibc/work/i586-oe-linux/mesa/2_17.0.2-r0/recipe-sysroot-native/installeddeps/llvm-common.complete
+>> >
+>> > tmp-glibc/work/i586-oe-linux/mesa/2_17.0.2-r0/recipe-sysroot-native/installeddeps/llvm-common.6be6a4ae98ee0dff7c2a4c4df17f026a
+>> >
+>> > tmp-glibc/work/i586-oe-linux/mesa/2_17.0.2-r0/recipe-sysroot-native/installeddeps/llvm-common
+>> >
+>> > tmp-glibc/work/i586-oe-linux/mesa/2_17.0.2-r0/recipe-sysroot-native/installeddeps/llvm3.3.388adaa288ab3b1d35e01a43b6542368
+>> >
+>> > tmp-glibc/work/i586-oe-linux/mesa/2_17.0.2-r0/recipe-sysroot-native/installeddeps/llvm3.3
+>> >
+>>
+>> so it seems it should point to <recipe-sysroot>/usr/bin/crossscripts
+>> can you try changing -with-llvm-prefix to point to this dir ?
+>>
+>> >>
+>> >> >
+>> >> > I've noticed some llvm changes for meta-clang, do we need similar
+>> >> > changes
+>> >> > for meta-oe version of llvm?
+>> >> >
+>> >> >
+>> >> > On Sun, Mar 12, 2017 at 12:16 AM, Khem Raj <raj.khem@gmail.com>
+>> >> > wrote:
+>> >> >>
+>> >> >>
+>> >> >>
+>> >> >> On 3/11/17 1:30 PM, Khem Raj wrote:
+>> >> >> > The following changes since commit
+>> >> >> > a47e64d985a610535449730806651f5bfd75d9ec:
+>> >> >> >
+>> >> >> >   libcomps: add a recipe (2017-03-11 16:08:50 +0000)
+>> >> >> >
+>> >> >> > are available in the git repository at:
+>> >> >> >
+>> >> >> >   git://git.openembedded.org/openembedded-core-contrib kraj/pu
+>> >> >> >
+>> >> >> > http://cgit.openembedded.org/openembedded-core-contrib/log/?h=kraj/pu
+>> >> >> >
+>> >> >> > Khem Raj (1):
+>> >> >> >   mesa: Contain configure search for llvm
+>> >> >> >
+>> >> >>
+>> >> >> I added another fix for mesa-gl to remove one of obsolete
+>> >> >> packageconfigs
+>> >> >> and its on the same pull branch now.
+>> >> >>
+>> >> >> >  meta/recipes-graphics/mesa/mesa.inc | 2 +-
+>> >> >> >  1 file changed, 1 insertion(+), 1 deletion(-)
+>> >> >> >
+>> >> >> --
+>> >> >> _______________________________________________
+>> >> >> Openembedded-core mailing list
+>> >> >> Openembedded-core@lists.openembedded.org
+>> >> >> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>> >> >
+>> >> >
+>> >
+>> > --
+>> > Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+>
+>
 
-Ross
-
---94eb2c0c7fc8fd90ba054c175972
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 1 April 2017 at 01:42, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"mailto:=
-raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</span> wro=
-te:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-=
-left:1px #ccc solid;padding-left:1ex"><div>Not this case obviously but I wa=
-s reminded that this should be default option from tool gain if not specifi=
-ed=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;=
-border-left:1px #ccc solid;padding-left:1ex"></blockquote></blockquote></di=
-v><br>Yes, and it already is.</div><div class=3D"gmail_extra"><br></div><di=
-v class=3D"gmail_extra">Ross</div></div>
-
---94eb2c0c7fc8fd90ba054c175972--
