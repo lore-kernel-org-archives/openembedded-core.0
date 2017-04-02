@@ -1,46 +1,37 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pg0-f68.google.com (mail-pg0-f68.google.com [74.125.83.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 38F7571CA3
+Return-Path: <pbarker@toganlabs.com>
+X-Greylist: delayed 1422 seconds by postgrey-1.34 at layers.openembedded.org;
+	Sun, 02 Apr 2017 22:03:56 UTC
+Received: from slow1-d.mail.gandi.net (slow1-d.mail.gandi.net [217.70.178.86])
+	by mail.openembedded.org (Postfix) with ESMTP id 88C6F6FEF5
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  1 Apr 2017 20:06:44 +0000 (UTC)
-Received: by mail-pg0-f68.google.com with SMTP id 79so22976468pgf.0
+	Sun,  2 Apr 2017 22:03:56 +0000 (UTC)
+Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net
+	[217.70.183.194])
+	by slow1-d.mail.gandi.net (Postfix) with ESMTP id 879C747B46A
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 01 Apr 2017 13:06:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id;
-	bh=URoGGvAFc5wXIMKRmre9mMQOoQlfmRJ8JQT+IICebk4=;
-	b=hgt8BwpzC0VzgP3dS2B2xHMhWSSB2OXeGpw1oVlT1h54g/qQ64tRm5Z3/BhjOh03pp
-	YvRPDfwYwrcI2FnWLrS4vsNZWfplZtFV0IfrpixXUeDzmiLN9iGpErIBHiqo32f2w6uU
-	niBbbV9b4YEfM0dOpee3281v8y5p0EC36ahgvj5bXZ7FpzewXrXkW69gHKwc2k5Z32f2
-	FdRNYgoGhPY3QhUO8UbJVxFdoPe/0BEUoHqGa7FSwm6uMPnDA7DJohuSKjjzm4OWmw7s
-	XkU1Q6vfLL/WFRrm6Mro/Ze8Eax1zTHJnS+CSO2XReU5Vz4G6vGj160t3aikcaFGhm6p
-	D2oQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=URoGGvAFc5wXIMKRmre9mMQOoQlfmRJ8JQT+IICebk4=;
-	b=D2h5G9QGeZM40+5WEuv09lCLflMbP3sGzG1YHmx5fSSVQIuZNYSoZoz0DRqYgfXx8Q
-	Na7B0LtPfDW3YVqZKGgwIobKsg6H6WTQVJ4B9hE6Obocy3WCfDpaYEFJTeXsScp3KWvS
-	j1ay7U91o4J4IAFO6uNmdzLtdXgD1x+ufQdw2Y51C0hXjLIMMy9fRBlgepA9Bg1WyEmE
-	84zilRhJZRLVTXhs6w9OOJJPvfQes1hHji0h1rmTCSVLfYex+94VfbyRKcYPf7HF5UE4
-	hiiN77VSwwRlPi36kCXkBd7NpLczBvITSQ66fuHq/W1VUOSVw/b9PbnoM2jpfXuvbBe9
-	OFXQ==
-X-Gm-Message-State: AFeK/H2z7c3ExD9rIZ1SAV3fvaNs0oMGKE6/F3FCXTLWis7spJwGAQyYoa9BL1PmDMFluw==
-X-Received: by 10.98.8.129 with SMTP id 1mr9183754pfi.268.1491077206157;
-	Sat, 01 Apr 2017 13:06:46 -0700 (PDT)
-Received: from akuster-ThinkPad-X240.mvista.com
-	([2601:202:4001:9ea0:e3df:bf0a:9f90:498e])
-	by smtp.gmail.com with ESMTPSA id
-	r12sm17532501pgn.26.2017.04.01.13.06.44
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sat, 01 Apr 2017 13:06:45 -0700 (PDT)
-From: Armin Kuster <akuster808@gmail.com>
-To: akuster@mvista.com,
-	openembedded-core@lists.openembedded.org
-Date: Sat,  1 Apr 2017 13:06:44 -0700
-Message-Id: <1491077204-30363-1-git-send-email-akuster808@gmail.com>
-X-Mailer: git-send-email 2.7.4
-Subject: [PATCH] lz4: update to lastest 1.7.4
+	Sun,  2 Apr 2017 23:32:30 +0200 (CEST)
+Received: from mfilter12-d.gandi.net (mfilter12-d.gandi.net [217.70.178.129])
+	by relay2-d.mail.gandi.net (Postfix) with ESMTP id 03F3CC5A49;
+	Sun,  2 Apr 2017 23:32:29 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at mfilter12-d.gandi.net
+Received: from relay2-d.mail.gandi.net ([217.70.183.194])
+	by mfilter12-d.gandi.net (mfilter12-d.gandi.net [10.0.15.180])
+	(amavisd-new, port 10024)
+	with ESMTP id Qf6mdPGn79Aw; Sun,  2 Apr 2017 23:32:26 +0200 (CEST)
+X-Originating-IP: 82.34.23.153
+Received: from host0.betafive.co.uk
+	(cpc116908-shep14-2-0-cust920.8-3.cable.virginm.net [82.34.23.153])
+	(Authenticated sender: noreply@paulbarker.me.uk)
+	by relay2-d.mail.gandi.net (Postfix) with ESMTPSA id 60F7EC5A46;
+	Sun,  2 Apr 2017 23:32:26 +0200 (CEST)
+Received: by host0.betafive.co.uk (Postfix, from userid 2525)
+	id 93965416B162; Sun,  2 Apr 2017 22:31:55 +0100 (BST)
+From: Paul Barker <pbarker@toganlabs.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sun,  2 Apr 2017 22:31:35 +0100
+Message-Id: <20170402213135.21193-1-pbarker@toganlabs.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH] ethtool: Switch to download mirror
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,141 +44,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 01 Apr 2017 20:06:46 -0000
+X-List-Received-Date: Sun, 02 Apr 2017 22:03:58 -0000
 
-From: Armin Kuster <akuster@mvista.com>
+The md5sum & sha256sum for ethtool-4.8.tar.gz have changed upstream :(
 
-update SRC_URI: as of 1.7.3, repo changed. same owner
-Renamed recipe to reflect PV and added Epoch
-Added ptest, tests added v1.7.3
-updated LICENSE to be more accurate.
-
-Signed-off-by: Armin Kuster <akuster@mvista.com>
+Signed-off-by: Paul Barker <pbarker@toganlabs.com>
 ---
- meta/recipes-support/lz4/files/run-ptest | 43 ++++++++++++++++++++++++++++++++
- meta/recipes-support/lz4/lz4.bb          | 21 ----------------
- meta/recipes-support/lz4/lz4_1.7.4.bb    | 33 ++++++++++++++++++++++++
- 3 files changed, 76 insertions(+), 21 deletions(-)
- create mode 100644 meta/recipes-support/lz4/files/run-ptest
- delete mode 100644 meta/recipes-support/lz4/lz4.bb
- create mode 100644 meta/recipes-support/lz4/lz4_1.7.4.bb
+ meta/recipes-extended/ethtool/ethtool_4.8.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-support/lz4/files/run-ptest b/meta/recipes-support/lz4/files/run-ptest
-new file mode 100644
-index 0000000..d3bfc49
---- /dev/null
-+++ b/meta/recipes-support/lz4/files/run-ptest
-@@ -0,0 +1,43 @@
-+#!/bin/sh
-+cd testsuite
-+
-+echo -n "---- test-lz4 ----"
-+make -C tests test-lz4  > /dev/null 2>&1
-+
-+if [ $? -eq 0 ]; then
-+  echo "PASS"
-+else
-+  echo "FAIL"
-+fi
-+
-+echo -n "---- test-fasttest ----"
-+make -C tests test-fasttest  > /dev/null 2>&1
-+if [ $? -eq 0 ]; then
-+  echo "PASS"
-+else
-+  echo "FAIL"
-+fi
-+
-+echo -n "---- test-frametest ----"
-+make -C tests test-frametest > /dev/null 2>&1
-+if [ $? -eq 0 ]; then
-+  echo "PASS"
-+else
-+  echo "FAIL"
-+fi
-+
-+echo -n "---- test-fullbench ----"
-+make -C tests test-fullbench >  /dev/null 2>&1
-+if [ $? -eq 0 ]; then
-+  echo "PASS"
-+else
-+  echo "FAIL"
-+fi
-+
-+echo -n "---- test-fuzzer ----"
-+make -C tests test-fuzzer >  /dev/null 2>&1
-+if [ $? -eq 0 ]; then
-+  echo "PASS"
-+else
-+  echo "FAIL"
-+fi
-diff --git a/meta/recipes-support/lz4/lz4.bb b/meta/recipes-support/lz4/lz4.bb
-deleted file mode 100644
-index 03c5a7a..0000000
---- a/meta/recipes-support/lz4/lz4.bb
-+++ /dev/null
-@@ -1,21 +0,0 @@
--SUMMARY = "Extremely Fast Compression algorithm"
--DESCRIPTION = "LZ4 is a very fast lossless compression algorithm, providing compression speed at 400 MB/s per core, scalable with multi-cores CPU. It also features an extremely fast decoder, with speed in multiple GB/s per core, typically reaching RAM speed limits on multi-core systems."
--
--LICENSE = "BSD"
--LIC_FILES_CHKSUM = "file://lib/LICENSE;md5=0b0d063f37a4477b54af2459477dcafd"
--
--SRCREV = "d86dc916771c126afb797637dda9f6421c0cb998"
--
--PV = "131+git${SRCPV}"
--
--SRC_URI = "git://github.com/Cyan4973/lz4.git"
--
--S = "${WORKDIR}/git"
--
--EXTRA_OEMAKE = "PREFIX=${prefix} CC='${CC}' DESTDIR=${D} LIBDIR=${libdir} INCLUDEDIR=${includedir}"
--
--do_install() {
--	oe_runmake install
--}
--
--BBCLASSEXTEND = "native nativesdk"
-diff --git a/meta/recipes-support/lz4/lz4_1.7.4.bb b/meta/recipes-support/lz4/lz4_1.7.4.bb
-new file mode 100644
-index 0000000..5ddffd5
---- /dev/null
-+++ b/meta/recipes-support/lz4/lz4_1.7.4.bb
-@@ -0,0 +1,33 @@
-+SUMMARY = "Extremely Fast Compression algorithm"
-+DESCRIPTION = "LZ4 is a very fast lossless compression algorithm, providing compression speed at 400 MB/s per core, scalable with multi-cores CPU. It also features an extremely fast decoder, with speed in multiple GB/s per core, typically reaching RAM speed limits on multi-core systems."
-+
-+LICENSE = "BSD | BSD-2-Clause | GPL-2.0"
-+LIC_FILES_CHKSUM = "file://lib/LICENSE;md5=ebc2ea4814a64de7708f1571904b32cc\
-+                    file://programs/COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
-+                    file://LICENSE;md5=7f2857d58beff6d04137bf9b09e5ffb6"
-+
-+PE = "1"
-+
-+SRCREV = "7bb64ff2b69a9f8367de9ab483cdadf42b4c1b65"
-+
-+SRC_URI = "git://github.com/lz4/lz4.git \
-+           file://run-ptest \
-+"
-+
-+S = "${WORKDIR}/git"
-+inherit ptest
-+
-+EXTRA_OEMAKE = "PREFIX=${prefix} CC='${CC}' DESTDIR=${D} LIBDIR=${libdir} INCLUDEDIR=${includedir}" 
-+
-+do_install() {
-+	oe_runmake install
-+}
-+
-+do_install_ptest () {
-+	install -d ${D}${PTEST_PATH}/testsuite
-+	cp -rf ${S}/* ${D}${PTEST_PATH}/testsuite
-+}
-+
-+RDEPENDS_${PN}-ptest += "make python3"
-+
-+BBCLASSEXTEND = "native nativesdk"
+diff --git a/meta/recipes-extended/ethtool/ethtool_4.8.bb b/meta/recipes-extended/ethtool/ethtool_4.8.bb
+index 4ca88d766c..afaf2e2f71 100644
+--- a/meta/recipes-extended/ethtool/ethtool_4.8.bb
++++ b/meta/recipes-extended/ethtool/ethtool_4.8.bb
+@@ -6,7 +6,7 @@ LICENSE = "GPLv2+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+                     file://ethtool.c;beginline=4;endline=17;md5=c19b30548c582577fc6b443626fc1216"
+ 
+-SRC_URI = "${KERNELORG_MIRROR}/software/network/ethtool/ethtool-${PV}.tar.gz \
++SRC_URI = "https://downloads.yoctoproject.org/mirror/sources/ethtool-${PV}.tar.gz \
+            file://run-ptest \
+            file://avoid_parallel_tests.patch \
+            "
 -- 
-2.7.4
+2.11.0
 
 
