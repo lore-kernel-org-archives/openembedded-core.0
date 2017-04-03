@@ -1,46 +1,47 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f176.google.com (mail-qk0-f176.google.com
-	[209.85.220.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 7ABDB77CFA
+Received: from mail-qt0-f182.google.com (mail-qt0-f182.google.com
+	[209.85.216.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 4BEE671A35
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Apr 2017 13:42:45 +0000 (UTC)
-Received: by mail-qk0-f176.google.com with SMTP id p22so114185967qka.3
+	Mon,  3 Apr 2017 14:12:16 +0000 (UTC)
+Received: by mail-qt0-f182.google.com with SMTP id i34so113018880qtc.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 03 Apr 2017 06:42:46 -0700 (PDT)
+	Mon, 03 Apr 2017 07:12:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=M2jC/L/n0zlfHC3jiVLx1lqOqPr23tDmcgVru2PQn0E=;
-	b=eWZVs6DDlnU7i8kCjv1I8XVNjepoTjlNIgRFUZCppkoTbZ7epBE7H8fmAVexDZ0M1L
-	1W4Nsnp/AbOv760n7SxmEIf3Lc6rcyVGbyqqdYl0RArLl7Z80nKTMUdzN1bZdBy+jdLn
-	WMtFEJG7vRfNbH4OEt0zCZldIqxLznWyYhzpvz5V5KR3YApiM0kWAPrr54svmkKIWBj2
-	N44P+Z6j6pH6Bt4g1bi2Krf09PDvSSGMVkUgCk6soHLAEBLgcuTjcnkT2kyna26Z7Bvt
-	FW3k3p5Nc8MHLrhK2NtKQ/PNLYfPQDuDUiEMe0+3p608N4GqNXl/LGT88dEhwdRbTFC2
-	fJNw==
+	:cc; bh=UYLGSfr/lP9/cfiwX2iZsTOE1sCuu139RhQ4ScdCDno=;
+	b=BSJtLN02QKZzf0IZA09Ys7uTTvCC5bA9Ev6J4h2WBu3/NRczHuLbpS3IW9SQ8anFT6
+	Ng7o41K6TQD8xjGMLRGuiw3BeFYtCmpnXTCQa44QRtNV08CD65/yh5348b3qLLvn9eTe
+	8N2ADeQNhacfKfknQGgca+Q2D03oDtl7Lcanp1DIb7rg6ucvuzFUVQnOpK3FiTpyrEoU
+	pRGK+BxDaIICdFaLw6KV3H55TC3SrecwPt3pI7JMq2sRGM4ct19jox3Wj1NG2QZgfbCL
+	t5+MdhLHtm/BGarjszf21wRK3zxc7EYzlvkPJ2IbaTchQ/sNhWDC6etkP1WYxpFhK2vk
+	E1Lw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=M2jC/L/n0zlfHC3jiVLx1lqOqPr23tDmcgVru2PQn0E=;
-	b=MmIG441iI9d1y9dZ9IMskzdac3yBea5KtFc74jlO+sGIOoOUTQ0JwAddUp/FEDAp+v
-	ykmEXtInNnDGHiKrTQzUcPBLJt4OvSxAjYib6l62QLajm51x/LUWLHXa6kX3Wk7qD2CW
-	qQ3RDlyB7gkQFaB0N9tvAaEox6mVmN/p/cw5n4K0/DSah5Psbtu9IvgYgpdHVRLCxkaC
-	/g+w9Evg2/KvBQVajr8tkRN56Cnq2Puu4J+Ro5q1Um6K9XZxUcCb3trRkvnsCXmHP8Pi
-	aMhGMsGD8U6H/NBJlln6Ae6QaQ+eQWkVrIO9vGQZaMSh1hVNkajKW2M6nyPihaVwLf8o
-	BSCg==
-X-Gm-Message-State: AFeK/H0J5zZIheyU3KvM6WB55rwpI2IdRcr8RnALNiH6AFL7S6dX5xLXvE3eYfl8jypwh+Pdim//OMkwc+JVWS5f
-X-Received: by 10.55.78.80 with SMTP id c77mr1203368qkb.221.1491226966135;
-	Mon, 03 Apr 2017 06:42:46 -0700 (PDT)
+	bh=UYLGSfr/lP9/cfiwX2iZsTOE1sCuu139RhQ4ScdCDno=;
+	b=I3E6LtDJG9S9UUJ1u140dz1/VjHSD9Z7gLzURi1XVRtvUSpogw9KBWcm3D4O5ztoib
+	PSRCTtakjDUxToP8s7iksgt0qVFIILCH0+Mo9CC6TcDF3TSLl7Fc7tskrSMfsp/SdfOj
+	cVqgbJO3ScBN5pyIJl6iS5BMwqe4oZ/2FeqndStGwgUNCe6mHZcPXN8EeAAPuYXreakM
+	wGngNh6ie4xPoheXPvxaD+RfCRTz8Fh1hpV0pHOvTan2u56JHI2nrha1+KTaOE89PxSi
+	ysxxFyv227Civ1CW06V73YIzGrnnSUT8O3AgL7bAY76yF7GTonQxiKwxd2eM68cib9sZ
+	po0w==
+X-Gm-Message-State: AFeK/H27ua6J3zvxIIkIUIhdaIVq3Jr6dmzVkR4J7577WJuiEYaWJl6ezrotZ6AQab2IIS/DvWHc19NDhnaYVEyD
+X-Received: by 10.200.33.182 with SMTP id 51mr17754575qty.65.1491228738142;
+	Mon, 03 Apr 2017 07:12:18 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.140.22.166 with HTTP; Mon, 3 Apr 2017 06:42:25 -0700 (PDT)
-In-Reply-To: <20170403131225.29128-1-dmitry.rozhkov@linux.intel.com>
-References: <20170403131225.29128-1-dmitry.rozhkov@linux.intel.com>
+Received: by 10.140.22.166 with HTTP; Mon, 3 Apr 2017 07:11:57 -0700 (PDT)
+In-Reply-To: <1491077204-30363-1-git-send-email-akuster808@gmail.com>
+References: <1491077204-30363-1-git-send-email-akuster808@gmail.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 3 Apr 2017 14:42:25 +0100
-Message-ID: <CAJTo0LaBC=-ENw4rbd=m-V_Xa3KROOKr73fDeKVB=RLhvjMaoA@mail.gmail.com>
-To: Dmitry Rozhkov <dmitry.rozhkov@linux.intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] libxml2: make dependencies on python conditional
+Date: Mon, 3 Apr 2017 15:11:57 +0100
+Message-ID: <CAJTo0LZ-_j6h8NWo2We+jd+dYzG4-ZeYb7N=69-7tq-r_PONqQ@mail.gmail.com>
+To: Armin Kuster <akuster808@gmail.com>
+Cc: Armin Kuster <akuster@mvista.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] lz4: update to lastest 1.7.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,141 +54,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Apr 2017 13:42:45 -0000
-Content-Type: multipart/alternative; boundary=001a114a896e98ccc3054c435527
+X-List-Received-Date: Mon, 03 Apr 2017 14:12:17 -0000
+Content-Type: multipart/alternative; boundary=001a113c6418376a7b054c43bfc0
 
---001a114a896e98ccc3054c435527
+--001a113c6418376a7b054c43bfc0
 Content-Type: text/plain; charset=UTF-8
 
-On 3 April 2017 at 14:12, Dmitry Rozhkov <dmitry.rozhkov@linux.intel.com>
-wrote:
+On 1 April 2017 at 21:06, Armin Kuster <akuster808@gmail.com> wrote:
 
-> The library libxml2 can provide its own bindings for python2 in addition
-> to the third party python-lxml and python3-lxml packages if this
-> functionality is enabled in PACKAGECONFIG.
->
-> But in case the functionality is disabled there's no need to depend
-> on python2.
->
-> Make the dependency on python2 enabled only if the python feature
-> is added to PACKAGECONFIG. Also don't produce the binary
-> package libxml2-python if it's not needed.
+> update SRC_URI: as of 1.7.3, repo changed. same owner
+> Renamed recipe to reflect PV and added Epoch
+> Added ptest, tests added v1.7.3
+> updated LICENSE to be more accurate.
 >
 
-| ERROR: oe_runmake failed
-| cc1: warning: include location "/usr/include/python3.4m" is unsafe for
-cross-compilation [-Wpoison-system-directories]
-| cc1: warning: include location "/usr/include/python3.4m" is unsafe for
-cross-compilation [-Wpoison-system-directories]
-| cc1: warning: include location "/usr/include/python3.4m" is unsafe for
-cross-compilation [-Wpoison-system-directories]
-| In file included from /usr/include/python3.4m/Python.h:8:0,
-|                  from ../../libxml2-2.9.4/python/libxml2-py.c:3:
-| /usr/include/python3.4m/pyconfig.h:3:52: fatal error:
-x86_64-linux-gnu/python3.4m/pyconfig.h: No such file or directory
-|  #  include <x86_64-linux-gnu/python3.4m/pyconfig.h>
-|                                                     ^
-| In file included from /usr/include/python3.4m/Python.h:8:0,
-|                  from ../../libxml2-2.9.4/python/libxml_wrap.h:1,
-|                  from ../../libxml2-2.9.4/python/types.c:9:
-| /usr/include/python3.4m/pyconfig.h:3:52: fatal error:
-x86_64-linux-gnu/python3.4m/pyconfig.h: No such file or directory
-|  #  include <x86_64-linux-gnu/python3.4m/pyconfig.h>
-|                                                     ^
-| compilation terminated.
-| compilation terminated.
-| Makefile:625: recipe for target 'types.lo' failed
-| make[4]: *** [types.lo] Error 1
-| make[4]: *** Waiting for unfinished jobs....
-| Makefile:625: recipe for target 'libxml2-py.lo' failed
-| make[4]: *** [libxml2-py.lo] Error 1
-| In file included from /usr/include/python3.4m/Python.h:8:0,
-|                  from ../../libxml2-2.9.4/python/libxml.c:14:
-| /usr/include/python3.4m/pyconfig.h:3:52: fatal error:
-x86_64-linux-gnu/python3.4m/pyconfig.h: No such file or directory
-|  #  include <x86_64-linux-gnu/python3.4m/pyconfig.h>
-|                                                     ^
-| compilation terminated.
-| Makefile:625: recipe for target 'libxml.lo' failed
-
-Something went wrong...  Promise it built before I applied the patch.  Also
-the PACKAGES change shouldn't be required as an empty package won't be
-generated.
+Are you happy for this to wait for master to re-open or do you want this
+considered for 2.3?
 
 Ross
 
---001a114a896e98ccc3054c435527
+--001a113c6418376a7b054c43bfc0
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 3 April 2017 at 14:12, Dmitry Rozhkov <span dir=3D"ltr">&lt;<a href=3D"m=
-ailto:dmitry.rozhkov@linux.intel.com" target=3D"_blank">dmitry.rozhkov@linu=
-x.intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" styl=
-e=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-style:solid=
-;border-left-color:rgb(204,204,204);padding-left:1ex"><div id=3D"gmail-:22r=
-" class=3D"gmail-a3s gmail-aXjCH gmail-m15b3404d66c1afaf">The library libxm=
-l2 can provide its own bindings for python2 in addition<br>
-to the third party python-lxml and python3-lxml packages if this<br>
-functionality is enabled in PACKAGECONFIG.<br>
-<br>
-But in case the functionality is disabled there&#39;s no need to depend<br>
-on python2.<br>
-<br>
-Make the dependency on python2 enabled only if the python feature<br>
-is added to PACKAGECONFIG. Also don&#39;t produce the binary<br>
-package libxml2-python if it&#39;s not needed.</div></blockquote></div><br>=
-<div class=3D"gmail_extra">| ERROR: oe_runmake failed</div><div class=3D"gm=
-ail_extra">| cc1: warning: include location &quot;/usr/include/python3.4m&q=
-uot; is unsafe for cross-compilation [-Wpoison-system-directories]</div><di=
-v class=3D"gmail_extra">| cc1: warning: include location &quot;/usr/include=
-/python3.4m&quot; is unsafe for cross-compilation [-Wpoison-system-director=
-ies]</div><div class=3D"gmail_extra">| cc1: warning: include location &quot=
-;/usr/include/python3.4m&quot; is unsafe for cross-compilation [-Wpoison-sy=
-stem-directories]</div><div class=3D"gmail_extra">| In file included from /=
-usr/include/python3.4m/Python.h:8:0,</div><div class=3D"gmail_extra">| =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0from ../../libxm=
-l2-2.9.4/python/libxml2-py.c:3:</div><div class=3D"gmail_extra">| /usr/incl=
-ude/python3.4m/pyconfig.h:3:52: fatal error: x86_64-linux-gnu/python3.4m/py=
-config.h: No such file or directory</div><div class=3D"gmail_extra">| =C2=
-=A0# =C2=A0include &lt;x86_64-linux-gnu/python3.4m/pyconfig.h&gt;</div><div=
- class=3D"gmail_extra">| =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ^</div><div cla=
-ss=3D"gmail_extra">| In file included from /usr/include/python3.4m/Python.h=
-:8:0,</div><div class=3D"gmail_extra">| =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0from ../../libxml2-2.9.4/python/libxml_wrap.h:1,=
-</div><div class=3D"gmail_extra">| =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0from ../../libxml2-2.9.4/python/types.c:9:</div><di=
-v class=3D"gmail_extra">| /usr/include/python3.4m/pyconfig.h:3:52: fatal er=
-ror: x86_64-linux-gnu/python3.4m/pyconfig.h: No such file or directory</div=
-><div class=3D"gmail_extra">| =C2=A0# =C2=A0include &lt;x86_64-linux-gnu/py=
-thon3.4m/pyconfig.h&gt;</div><div class=3D"gmail_extra">| =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 ^</div><div class=3D"gmail_extra">| compilation terminate=
-d.</div><div class=3D"gmail_extra">| compilation terminated.</div><div clas=
-s=3D"gmail_extra">| Makefile:625: recipe for target &#39;types.lo&#39; fail=
-ed</div><div class=3D"gmail_extra">| make[4]: *** [types.lo] Error 1</div><=
-div class=3D"gmail_extra">| make[4]: *** Waiting for unfinished jobs....</d=
-iv><div class=3D"gmail_extra">| Makefile:625: recipe for target &#39;libxml=
-2-py.lo&#39; failed</div><div class=3D"gmail_extra">| make[4]: *** [libxml2=
--py.lo] Error 1</div><div class=3D"gmail_extra">| In file included from /us=
-r/include/python3.4m/Python.h:8:0,</div><div class=3D"gmail_extra">| =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0from ../../libxml2-=
-2.9.4/python/libxml.c:14:</div><div class=3D"gmail_extra">| /usr/include/py=
-thon3.4m/pyconfig.h:3:52: fatal error: x86_64-linux-gnu/python3.4m/pyconfig=
-.h: No such file or directory</div><div class=3D"gmail_extra">| =C2=A0# =C2=
-=A0include &lt;x86_64-linux-gnu/python3.4m/pyconfig.h&gt;</div><div class=
-=3D"gmail_extra">| =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ^</div><div class=3D"g=
-mail_extra">| compilation terminated.</div><div class=3D"gmail_extra">| Mak=
-efile:625: recipe for target &#39;libxml.lo&#39; failed</div><div class=3D"=
-gmail_extra"><br></div><div class=3D"gmail_extra">Something went wrong...=
-=C2=A0 Promise it built before I applied the patch.=C2=A0 Also the PACKAGES=
- change shouldn&#39;t be required as an empty package won&#39;t be generate=
-d.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ros=
-s</div></div></div>
+On 1 April 2017 at 21:06, Armin Kuster <span dir=3D"ltr">&lt;<a href=3D"mai=
+lto:akuster808@gmail.com" target=3D"_blank">akuster808@gmail.com</a>&gt;</s=
+pan> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex=
+;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":21f" class=3D"a3s=
+ aXjCH m15b2b2152ac4f75e">update SRC_URI: as of 1.7.3, repo changed. same o=
+wner<br>
+Renamed recipe to reflect PV and added Epoch<br>
+Added ptest, tests added v1.7.3<br>
+updated LICENSE to be more accurate.</div></blockquote></div><br>Are you ha=
+ppy for this to wait for master to re-open or do you want this considered f=
+or 2.3?</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra=
+">Ross</div></div>
 
---001a114a896e98ccc3054c435527--
+--001a113c6418376a7b054c43bfc0--
