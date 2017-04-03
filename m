@@ -1,47 +1,50 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wr0-f172.google.com (mail-wr0-f172.google.com
-	[209.85.128.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 0A898600EB
+Return-Path: <alistair23@gmail.com>
+Received: from mail-oi0-f65.google.com (mail-oi0-f65.google.com
+	[209.85.218.65])
+	by mail.openembedded.org (Postfix) with ESMTP id D883A71CB3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Apr 2017 17:29:08 +0000 (UTC)
-Received: by mail-wr0-f172.google.com with SMTP id l43so180937001wre.1
+	Mon,  3 Apr 2017 17:47:47 +0000 (UTC)
+Received: by mail-oi0-f65.google.com with SMTP id f193so20891723oib.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 03 Apr 2017 10:29:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=VcaiSCf+qrYtZV33GpSeA0vgCIE+eoxaQtDS0HDKhoM=;
-	b=C4nmTWopsO0cxYaXA7v20V1F0cGJk3CAqm/ntqVLBVodBgT+KQZuD64kW/ZpCyfhGh
-	qjpFBeMecCJM9Us4X2zVNK/vw7npxfGAHFV1PLupSP5uLBRK0u1npNzPaGbFNfmK6D5q
-	/9NPOU/9xIkutqKzYk87dIliSDT9BZrhGqBS/BP7X6b4rGA8gQn11zkjNiCMUHVd+9yE
-	jhWTYROcBpyubBa5fXpG8aMwVRDN+MZYndN6GRblWtD3Db3HRJCYykPy6w8kGhyVNfoa
-	nU54arVD6AcICkFi7/ge7QhPdPbYyTguaNASBCbNNs+LEBA6IwCl/CxFOZYxoFbgazyU
-	bUNQ==
+	Mon, 03 Apr 2017 10:47:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:sender:in-reply-to:references:from:date:message-id
+	:subject:to:cc;
+	bh=HHZBTaoT5jyu/Ml6R6YjyfI6cmqeggOaNIWfg3fZ//g=;
+	b=mUsmK65Axt0fKq886FWJqkoetspMQrxPpBnrX/Ip36gsTqDQkUTxnIRGX83eNgciXO
+	waI+5kiYufmG0l3zHdLuLOpebpXOZvb8LZaWLUuf5Lu2h5ZFgN2/YWys6LGalyaPu1tY
+	zR/rcztz+Ce4LdmdYNkzPiM6FBuWivk9LO8oJwd3ZDnICDfB4GMkEYZ9GwT4Fyk4e1pD
+	pVOUN6XsBM5mLilqUnAHeyYkBmhOiUT8EfMXcfh5qqaz86b/w4byLwS0mCMyQz5n3g1P
+	WCYnZayqFiibuYDrzxzLAcWEdcEpDXAtYeA3WVMvnLrNVlIgIZdj8r3VE4917Cb5hqA/
+	l/uA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=VcaiSCf+qrYtZV33GpSeA0vgCIE+eoxaQtDS0HDKhoM=;
-	b=ai4vEUqLMYNNjch8mu1QHPevSeBB72X/C9nwfQ7+0jX1DfsHZF8oncAGVKsKrIH5K+
-	zmIRAkXPg7iZrzVYOZyRghjwHvctNbAWvBPBI5MUgmoUHHrBqnhCBs4uCCN4exswfxj3
-	TVT4YLoKKxdVgTG7s6/hyuCq0aJdGFciM/K7IODaPxhE47M9Qh2sEzGx9SQ8WuHjU3XO
-	e6xmv+EDJxtEu6jE92CIDRjFufb6DokNaSR4nVh5CibDttGyiaB0pgJDF79/xWyKzkqk
-	BLqKMVqmEEo0m7LERIuuzH6Dum2ouiu7owIiQZOSAZjMxpC3rxWCI06WQ8qu3DgLN3Pk
-	iboA==
-X-Gm-Message-State: AFeK/H0Dxw53bmrDzG32k9Ak23zmBx6ox1zUsgnP/T8seBkrLlkv/GKJ
-	XmSl279NXdkjmD5axpM=
-X-Received: by 10.28.226.4 with SMTP id z4mr10600884wmg.135.1491240549370;
-	Mon, 03 Apr 2017 10:29:09 -0700 (PDT)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id h3sm5758844wrb.43.2017.04.03.10.29.02
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 03 Apr 2017 10:29:08 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  3 Apr 2017 18:28:43 +0100
-Message-Id: <1491240523-14900-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.8.1
-Subject: [PATCH V3] libjpeg-turbo: don't depend on NASM for non-x86 targets
+	h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
+	:date:message-id:subject:to:cc;
+	bh=HHZBTaoT5jyu/Ml6R6YjyfI6cmqeggOaNIWfg3fZ//g=;
+	b=ndLFCHgM74U+MdhVR/fKIq4gcj5IpvfmygVUCmdy5X6shYLZG2YXRT+k6Sn2iWPgRl
+	s1BHkUlbuLPTkzlkkb4vUGigN26l8ttfzZtBQqcl7XsCAFoFxU3IB3VDpV/mw5NizdCD
+	9YjbfeZd3HGpgM8ttScPfccfDLbW7eg3ssbJzZhlzx6DiAW3vT698FDS89TSaSymC63T
+	NRgOuQoPNeZ5nWM5rZiFfkIU/9XE5+XCsrUILHiU1e6J9laycxsWwWig7y+D8LuNLhdo
+	+zX0u/3CscuSOVSh8Q8NKKZRqVtb1CRn94T+wq1BRi7AirpiTesfvCavUZ2S21OsBA5j
+	yKuw==
+X-Gm-Message-State: AFeK/H21DH7RAKD7NIeMWLj5OQ12BASuDBf288PJUHO2rr2Up7bOEa02G/ggObIgYa1DR4QrCYXdONRX7KSkZQ==
+X-Received: by 10.157.80.20 with SMTP id a20mr10612616oth.89.1491241668703;
+	Mon, 03 Apr 2017 10:47:48 -0700 (PDT)
+MIME-Version: 1.0
+Sender: alistair23@gmail.com
+Received: by 10.182.2.34 with HTTP; Mon, 3 Apr 2017 10:47:18 -0700 (PDT)
+In-Reply-To: <1491031171.13980.377.camel@linuxfoundation.org>
+References: <20170324203858.27464-1-alistair.francis@xilinx.com>
+	<20170324203858.27464-2-alistair.francis@xilinx.com>
+	<1491031171.13980.377.camel@linuxfoundation.org>
+From: Alistair Francis <alistair.francis@xilinx.com>
+Date: Mon, 3 Apr 2017 10:47:18 -0700
+X-Google-Sender-Auth: 8yoXQ79VeD4_C74IXXWqUifYRjA
+Message-ID: <CAKmqyKNyhpwgi_NcCxpCYO8K9Q3BNQTUpbpf=oFLBf5x00abcA@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2 2/2] runqemu: Add a background command option
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,63 +57,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Apr 2017 17:29:09 -0000
+X-List-Received-Date: Mon, 03 Apr 2017 17:47:50 -0000
+Content-Type: text/plain; charset=UTF-8
 
-NASM is a x86-specific assembler so it is only required when building for x86
-targets.  Use x86-architecture and class-target overrides to depend on NASM, but
-explicitly disable and don't depend on it for native as complications in the
-native overrides meant NASM was enabled for x86-64 but disabled for x86 (this
-will be investigated later).
+On Sat, Apr 1, 2017 at 12:19 AM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> On Fri, 2017-03-24 at 13:38 -0700, Alistair Francis wrote:
+>> This allows callers to specify commands that should be run in the
+>> background
+>> while running QEMU. This can be specified by assigning the commands
+>> to the
+>> 'QB_BACKGROUND_COMMAND' varialbe in the machine conf.
+>>
+>> This is useful for starting automated debugging instances, automated
+>> testing instances (using QMP) or other servers/clients that QEMU can
+>> connect to.
+>>
+>> Signed-off-by: Alistair Francis <alistair.francis@xilinx.com>
+>> ---
+>>  scripts/runqemu | 7 +++++++
+>>  1 file changed, 7 insertions(+)
+>>
+>> diff --git a/scripts/runqemu b/scripts/runqemu
+>> index f76d976..b5cc56a 100755
+>> --- a/scripts/runqemu
+>> +++ b/scripts/runqemu
+>> @@ -1118,6 +1118,13 @@ class BaseConfig(object):
+>>                  kernel_opts += " -dtb %s" % self.dtb
+>>          else:
+>>              kernel_opts = ""
+>> +        background_cmd = self.get('QB_BACKGROUND_COMMAND')
+>> +
+>> +        if background_cmd:
+>> +            logger.info('Running in the background %s' %
+>> background_cmd)
+>> +            if subprocess.call(background_cmd + ' &', shell=True) !=
+>> 0:
+>> +                raise Exception('Failed to run %s' % cmd)
+>> +
+>
+> I have to admit I'm rather unsure about this. What cleans up this
+> process when runqemu finishes?
 
-Original patch by Tristan Van Berkom <tristan.vanberkom@codethink.co.uk>, more
-work to solve selftest failures by Richard Purdie
-<richard.purdie@linuxfoundation.org>.  I just wrote a nice commit message.
+True, there is nothing cleaning up after the process. The assumption
+is that whatever is being run is tied to QEMU somehow and exits when
+QEMU exits.
 
-Also fix some missing whitespace in _appends.
+>
+> We tend to run into a lot of issues around cleanup and a subprocess
+> using "&" doesn't sound too attractive given the general issues we run
+> into.
 
-[ YOCTO #11240 ]
+Do you have another option that you would prefer? I'm happy to change
+it to something else.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-graphics/jpeg/libjpeg-turbo_1.5.1.bb | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
+Would it be better if we kept track of the PID and killed the process
+before exit?
 
-diff --git a/meta/recipes-graphics/jpeg/libjpeg-turbo_1.5.1.bb b/meta/recipes-graphics/jpeg/libjpeg-turbo_1.5.1.bb
-index 70d38f4..de2eeaf 100644
---- a/meta/recipes-graphics/jpeg/libjpeg-turbo_1.5.1.bb
-+++ b/meta/recipes-graphics/jpeg/libjpeg-turbo_1.5.1.bb
-@@ -7,7 +7,8 @@ LIC_FILES_CHKSUM = "file://cdjpeg.h;endline=13;md5=05bab7c7ad899d85bfba60da1a127
-                     file://jpeglib.h;endline=16;md5=f67d70e547a2662c079781c72f877f72 \
-                     file://djpeg.c;endline=11;md5=b90b6d2b4119f9e5807cd273f525d2af \
- "
--DEPENDS = "nasm-native"
-+DEPENDS_append_x86-64_class-target = " nasm-native"
-+DEPENDS_append_x86_class-target    = " nasm-native"
- 
- SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/${BPN}-${PV}.tar.gz \
-            file://fix-mips.patch"
-@@ -26,6 +27,9 @@ RCONFLICTS_${PN} += "jpeg"
- 
- inherit autotools pkgconfig
- 
-+# Add nasm-native dependency consistently for all build arches is hard
-+EXTRA_OECONF_append_class-native = " --without-simd"
-+
- # Work around missing x32 ABI support
- EXTRA_OECONF_append_class-target = " ${@bb.utils.contains("TUNE_FEATURES", "mx32", "--without-simd", "", d)}"
- 
-@@ -33,8 +37,8 @@ EXTRA_OECONF_append_class-target = " ${@bb.utils.contains("TUNE_FEATURES", "mx32
- EXTRA_OECONF_append_class-target = " ${@bb.utils.contains("MIPSPKGSFX_FPU", "-nf", "--without-simd", "", d)}"
- 
- # Provide a workaround if Altivec unit is not present in PPC
--EXTRA_OECONF_append_class-target_powerpc = "${@bb.utils.contains("TUNE_FEATURES", "altivec", "", "--without-simd", d)}"
--EXTRA_OECONF_append_class-target_powerpc64 = "${@bb.utils.contains("TUNE_FEATURES", "altivec", "", "--without-simd", d)}"
-+EXTRA_OECONF_append_class-target_powerpc = " ${@bb.utils.contains("TUNE_FEATURES", "altivec", "", "--without-simd", d)}"
-+EXTRA_OECONF_append_class-target_powerpc64 = " ${@bb.utils.contains("TUNE_FEATURES", "altivec", "", "--without-simd", d)}"
- 
- PACKAGES =+ "jpeg-tools libturbojpeg"
- 
--- 
-2.8.1
+Thanks,
 
+Alistair
+
+>
+> Cheers,
+>
+> Richard
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
