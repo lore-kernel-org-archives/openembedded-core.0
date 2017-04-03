@@ -1,55 +1,55 @@
 Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
-	by mail.openembedded.org (Postfix) with ESMTP id 24B6F72F4D
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 9104977D03
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Apr 2017 12:48:29 +0000 (UTC)
+	Mon,  3 Apr 2017 12:48:30 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by bes.se.axis.com (Postfix) with ESMTP id 1474F2E2BE
+	by bastet.se.axis.com (Postfix) with ESMTP id 079E3BC3FA
+	for <openembedded-core@lists.openembedded.org>;
+	Mon,  3 Apr 2017 14:48:31 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP id xiRTayxbXqdW
 	for <openembedded-core@lists.openembedded.org>;
 	Mon,  3 Apr 2017 14:48:30 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
-Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id Nb7M3Y6gQAps
-	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Apr 2017 14:48:28 +0200 (CEST)
 Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
-	by bes.se.axis.com (Postfix) with ESMTPS id 9F6652E270
+	by bastet.se.axis.com (Postfix) with ESMTPS id 0D46918343
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Apr 2017 14:48:28 +0200 (CEST)
+	Mon,  3 Apr 2017 14:48:30 +0200 (CEST)
 Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 8D8F51A09B
+	by IMSVA (Postfix) with ESMTP id 9939E1A099
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Apr 2017 14:48:28 +0200 (CEST)
+	Mon,  3 Apr 2017 14:48:29 +0200 (CEST)
 Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 831051A09A
+	by IMSVA (Postfix) with ESMTP id 8E4731A097
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Apr 2017 14:48:28 +0200 (CEST)
+	Mon,  3 Apr 2017 14:48:29 +0200 (CEST)
 Received: from thoth.se.axis.com (unknown [10.0.2.173])
 	by boulder02.se.axis.com (Postfix) with ESMTP
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Apr 2017 14:48:28 +0200 (CEST)
+	Mon,  3 Apr 2017 14:48:29 +0200 (CEST)
 Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
-	by thoth.se.axis.com (Postfix) with ESMTP id 76C6227C1
+	by thoth.se.axis.com (Postfix) with ESMTP id 8268A279E
 	for <openembedded-core@lists.openembedded.org>;
 	Mon,  3 Apr 2017 14:48:28 +0200 (CEST)
 Received: from saur-2.se.axis.com (localhost [127.0.0.1])
-	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id v33CmSqa024783
+	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id v33CmSIY024787
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 3 Apr 2017 14:48:28 +0200
 Received: (from pkj@localhost)
-	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id v33CmSk4024782
+	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id v33CmSEK024786
 	for openembedded-core@lists.openembedded.org;
 	Mon, 3 Apr 2017 14:48:28 +0200
 From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  3 Apr 2017 14:48:26 +0200
-Message-Id: <20170403124827.24735-2-pkj@axis.com>
+Date: Mon,  3 Apr 2017 14:48:27 +0200
+Message-Id: <20170403124827.24735-3-pkj@axis.com>
 X-Mailer: git-send-email 2.12.0
 In-Reply-To: <20170403124827.24735-1-pkj@axis.com>
 References: <20170403124827.24735-1-pkj@axis.com>
 X-TM-AS-GCONF: 00
-Subject: [PATCH 2/3] base-files: profile: Do not assume that the tty command exists
+Subject: [PATCH 3/3] base-files: profile: Simplify setting variables conditionally
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,53 +64,40 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 03 Apr 2017 12:48:30 -0000
 
-This avoids the following error when logging in to a host that does
-not have the tty command:
+It is preferred to use `[ "$FOO" ] || ...` instead of
+`[ -z "$FOO" ] && ...` as the latter leaves $? set to 1.
 
--sh: tty: not found
-
-Reported-by: Cristian Ionescu-Idbohrn <cristian.ionescu-idbohrn@axis.com>
 Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 ---
- meta/recipes-core/base-files/base-files/profile   | 6 +++---
- meta/recipes-core/base-files/base-files_3.0.14.bb | 4 ----
- 2 files changed, 3 insertions(+), 7 deletions(-)
+ meta/recipes-core/base-files/base-files/profile | 14 ++++++--------
+ 1 file changed, 6 insertions(+), 8 deletions(-)
 
 diff --git a/meta/recipes-core/base-files/base-files/profile b/meta/recipes-core/base-files/base-files/profile
-index 22dfb4f219..ceaf15f799 100644
+index ceaf15f799..a062028226 100644
 --- a/meta/recipes-core/base-files/base-files/profile
 +++ b/meta/recipes-core/base-files/base-files/profile
-@@ -22,12 +22,12 @@ if [ -d /etc/profile.d ]; then
- 	unset i
- fi
+@@ -3,15 +3,13 @@
  
--if [ -x /usr/bin/resize ] && termpath="`tty`"; then
-+if command -v resize >/dev/null && command -v tty >/dev/null; then
- 	# Make sure we are on a serial console (i.e. the device used starts with
- 	# /dev/tty[A-z]), otherwise we confuse e.g. the eclipse launcher which
- 	# tries do use ssh
--	case "$termpath" in
--		/dev/tty[A-z]*) resize >/dev/null
-+	case $(tty) in
-+		/dev/tty[A-z]*) resize >/dev/null;;
- 	esac
- fi
+ PATH="/usr/local/bin:/usr/bin:/bin"
+ EDITOR="vi"			# needed for packages like cron, git-commit
+-test -z "$TERM" && TERM="vt100"	# Basic terminal capab. For screen etc.
++[ "$TERM" ] || TERM="vt100"	# Basic terminal capab. For screen etc.
  
-diff --git a/meta/recipes-core/base-files/base-files_3.0.14.bb b/meta/recipes-core/base-files/base-files_3.0.14.bb
-index f56969c52e..ca7bf06353 100644
---- a/meta/recipes-core/base-files/base-files_3.0.14.bb
-+++ b/meta/recipes-core/base-files/base-files_3.0.14.bb
-@@ -128,10 +128,6 @@ do_install () {
- 	install -m 0644 ${WORKDIR}/host.conf ${D}${sysconfdir}/host.conf
- 	install -m 0644 ${WORKDIR}/motd ${D}${sysconfdir}/motd
+-if [ "$HOME" = "ROOTHOME" ]; then
+-	PATH=$PATH:/usr/local/sbin:/usr/sbin:/sbin
+-fi
+-if [ "$PS1" ]; then
+-	# works for bash and ash (no other shells known to be in use here)
+-	PS1='\u@\h:\w\$ '
+-fi
++# Add /sbin & co to $PATH for the root user
++[ "$HOME" != "ROOTHOME" ] || PATH=$PATH:/usr/local/sbin:/usr/sbin:/sbin
++
++# Set the prompt for bash and ash (no other shells known to be in use here)
++[ -z "$PS1" ] || PS1='\u@\h:\w\$ '
  
--	if [ "/usr/bin" != "${bindir}" ]; then
--		sed -i "s,/usr/bin/resize,${bindir}/resize," ${D}${sysconfdir}/profile
--	fi
--
- 	ln -sf /proc/mounts ${D}${sysconfdir}/mtab
- }
- 
+ if [ -d /etc/profile.d ]; then
+ 	for i in /etc/profile.d/*.sh; do
 -- 
 2.12.0
 
