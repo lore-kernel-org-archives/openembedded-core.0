@@ -1,47 +1,52 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qt0-f182.google.com (mail-qt0-f182.google.com
-	[209.85.216.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 4BEE671A35
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pg0-f65.google.com (mail-pg0-f65.google.com [74.125.83.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 1693971ABC
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Apr 2017 14:12:16 +0000 (UTC)
-Received: by mail-qt0-f182.google.com with SMTP id i34so113018880qtc.0
+	Mon,  3 Apr 2017 14:13:19 +0000 (UTC)
+Received: by mail-pg0-f65.google.com with SMTP id o123so30206389pga.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 03 Apr 2017 07:12:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=UYLGSfr/lP9/cfiwX2iZsTOE1sCuu139RhQ4ScdCDno=;
-	b=BSJtLN02QKZzf0IZA09Ys7uTTvCC5bA9Ev6J4h2WBu3/NRczHuLbpS3IW9SQ8anFT6
-	Ng7o41K6TQD8xjGMLRGuiw3BeFYtCmpnXTCQa44QRtNV08CD65/yh5348b3qLLvn9eTe
-	8N2ADeQNhacfKfknQGgca+Q2D03oDtl7Lcanp1DIb7rg6ucvuzFUVQnOpK3FiTpyrEoU
-	pRGK+BxDaIICdFaLw6KV3H55TC3SrecwPt3pI7JMq2sRGM4ct19jox3Wj1NG2QZgfbCL
-	t5+MdhLHtm/BGarjszf21wRK3zxc7EYzlvkPJ2IbaTchQ/sNhWDC6etkP1WYxpFhK2vk
-	E1Lw==
+	Mon, 03 Apr 2017 07:13:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=subject:to:references:from:message-id:date:user-agent:mime-version
+	:in-reply-to:content-transfer-encoding;
+	bh=b7cSJZ1MifxWgrLWjhXEK3blSG6ReuFQ/RL5Y6jyMf4=;
+	b=lr7OrISHOQckl94CO4TLwHl82Lac0anIYd7dTQRw4yJQSjakElM++s9TMJBYhbk2Jb
+	ieErfFFSfU28B1WS+dtRFo2Mj1Oklf4gFQ2Td9JCw0QVX0Fsr7RjkM/uHLEufLu5zIJp
+	Cv5GKYua1IzTXbZl0wyIez+eMYWowWW83/J/YLU8VsVkLnqclod/qstJdKLxCKecRNTF
+	lqVV1MGyaFqKwBrDgwDZFblsATK6UgVAEW2QV9SkBh1qQaCCloJJNX38JJ/1ktuRZsl/
+	WO3t2IhwX7F6j3eYXUGEFA05GSQiljJFAKWF8W9vAwJSyiRVA+gGjzw9l1GpTTXY1ri1
+	59yg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=UYLGSfr/lP9/cfiwX2iZsTOE1sCuu139RhQ4ScdCDno=;
-	b=I3E6LtDJG9S9UUJ1u140dz1/VjHSD9Z7gLzURi1XVRtvUSpogw9KBWcm3D4O5ztoib
-	PSRCTtakjDUxToP8s7iksgt0qVFIILCH0+Mo9CC6TcDF3TSLl7Fc7tskrSMfsp/SdfOj
-	cVqgbJO3ScBN5pyIJl6iS5BMwqe4oZ/2FeqndStGwgUNCe6mHZcPXN8EeAAPuYXreakM
-	wGngNh6ie4xPoheXPvxaD+RfCRTz8Fh1hpV0pHOvTan2u56JHI2nrha1+KTaOE89PxSi
-	ysxxFyv227Civ1CW06V73YIzGrnnSUT8O3AgL7bAY76yF7GTonQxiKwxd2eM68cib9sZ
-	po0w==
-X-Gm-Message-State: AFeK/H27ua6J3zvxIIkIUIhdaIVq3Jr6dmzVkR4J7577WJuiEYaWJl6ezrotZ6AQab2IIS/DvWHc19NDhnaYVEyD
-X-Received: by 10.200.33.182 with SMTP id 51mr17754575qty.65.1491228738142;
-	Mon, 03 Apr 2017 07:12:18 -0700 (PDT)
+	h=x-gm-message-state:subject:to:references:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding;
+	bh=b7cSJZ1MifxWgrLWjhXEK3blSG6ReuFQ/RL5Y6jyMf4=;
+	b=jjI5tr806pnQqmwdhQ4iW/06wlwjr/vGB570NylRrF0MXGjl1gBm1CJetXSJWA0r4r
+	NMtKgogT+VDfLQs6ndw+ynWxCmvirwSWBIOnU6rqe2pIUrxHMVxmOsP+RrjoPvUtRKcD
+	hZWOsWX1A4TCQqmtVDlG22fOIEpzfPup4okJ8lZHkoiPVfYt0NtVxw6JT2tAQd29zowF
+	RYhMgdD/0K284rRj+09K10FkeYmgSaopKu86i9WPePnbPOCB2a69/55kjIzzrBC9WkTQ
+	iCJJsb2/kyy/kUm/xcR7An1nrN37TrjJEZtEhghHrvjWsZ+oez+Hr0JMOgXuW+IMxv9D
+	MJcg==
+X-Gm-Message-State: AFeK/H2z3yInupXg1i60+q81iv2TZuctA24kBZBO2qxhDkveBqO6TZrCr2RAhplfxdQ2YA==
+X-Received: by 10.84.218.71 with SMTP id f7mr22389247plm.188.1491228800829;
+	Mon, 03 Apr 2017 07:13:20 -0700 (PDT)
+Received: from ?IPv6:2601:202:4001:9ea0:e3df:bf0a:9f90:498e?
+	([2601:202:4001:9ea0:e3df:bf0a:9f90:498e])
+	by smtp.gmail.com with ESMTPSA id
+	l28sm26576612pgc.11.2017.04.03.07.13.20
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 03 Apr 2017 07:13:20 -0700 (PDT)
+To: Daniel Schultz <d.schultz@phytec.de>,
+	openembedded-core@lists.openembedded.org
+References: <1491205675-41194-1-git-send-email-d.schultz@phytec.de>
+From: akuster808 <akuster808@gmail.com>
+Message-ID: <5e4181fb-03ce-d521-2e68-fea083e5d423@gmail.com>
+Date: Mon, 3 Apr 2017 07:13:19 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.8.0
 MIME-Version: 1.0
-Received: by 10.140.22.166 with HTTP; Mon, 3 Apr 2017 07:11:57 -0700 (PDT)
-In-Reply-To: <1491077204-30363-1-git-send-email-akuster808@gmail.com>
-References: <1491077204-30363-1-git-send-email-akuster808@gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 3 Apr 2017 15:11:57 +0100
-Message-ID: <CAJTo0LZ-_j6h8NWo2We+jd+dYzG4-ZeYb7N=69-7tq-r_PONqQ@mail.gmail.com>
-To: Armin Kuster <akuster808@gmail.com>
-Cc: Armin Kuster <akuster@mvista.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] lz4: update to lastest 1.7.4
+In-Reply-To: <1491205675-41194-1-git-send-email-d.schultz@phytec.de>
+Subject: Re: [PATCH morty v3] wic: partition: Run fsck on EXT file systems
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,41 +59,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Apr 2017 14:12:17 -0000
-Content-Type: multipart/alternative; boundary=001a113c6418376a7b054c43bfc0
+X-List-Received-Date: Mon, 03 Apr 2017 14:13:20 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
---001a113c6418376a7b054c43bfc0
-Content-Type: text/plain; charset=UTF-8
 
-On 1 April 2017 at 21:06, Armin Kuster <akuster808@gmail.com> wrote:
 
-> update SRC_URI: as of 1.7.3, repo changed. same owner
-> Renamed recipe to reflect PV and added Epoch
-> Added ptest, tests added v1.7.3
-> updated LICENSE to be more accurate.
+On 04/03/2017 12:47 AM, Daniel Schultz wrote:
+> Mkfs may create EXT file systems which can only be optimized by fsck
+> and not by itself, e.g. directory optimization (in Pass 3A).
 >
+> To prevent those optimizations during runtime, it will be performed after
+> the creation of an EXT file system.
+>
+> Signed-off-by: Daniel Schultz <d.schultz@phytec.de>
+> ---
+> Changes:
+> 	v3: Added 'test' to avoid build failures with missing e2fsprogs backport
+Ah, this might help me.
 
-Are you happy for this to wait for master to re-open or do you want this
-considered for 2.3?
+I am seeing loads of failures in oe-selftest over the weekend on my 
+staging changes.
 
-Ross
+thanks for the update.
 
---001a113c6418376a7b054c43bfc0
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+- armin
+>
+>   scripts/lib/wic/partition.py | 3 +++
+>   1 file changed, 3 insertions(+)
+>
+> diff --git a/scripts/lib/wic/partition.py b/scripts/lib/wic/partition.py
+> index 3b3bd2d..ec3aa66 100644
+> --- a/scripts/lib/wic/partition.py
+> +++ b/scripts/lib/wic/partition.py
+> @@ -239,6 +239,9 @@ class Partition():
+>               (self.fstype, extra_imagecmd, rootfs, label_str, rootfs_dir)
+>           exec_native_cmd(mkfs_cmd, native_sysroot, pseudo=pseudo)
+>   
+> +        mkfs_cmd = "fsck.%s -pvfD %s || [ $? -le 3 ]" % (self.fstype, rootfs)
+> +        exec_native_cmd(mkfs_cmd, native_sysroot, pseudo=pseudo)
+> +
+>       def prepare_rootfs_btrfs(self, rootfs, oe_builddir, rootfs_dir,
+>                                native_sysroot, pseudo):
+>           """
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 1 April 2017 at 21:06, Armin Kuster <span dir=3D"ltr">&lt;<a href=3D"mai=
-lto:akuster808@gmail.com" target=3D"_blank">akuster808@gmail.com</a>&gt;</s=
-pan> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex=
-;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":21f" class=3D"a3s=
- aXjCH m15b2b2152ac4f75e">update SRC_URI: as of 1.7.3, repo changed. same o=
-wner<br>
-Renamed recipe to reflect PV and added Epoch<br>
-Added ptest, tests added v1.7.3<br>
-updated LICENSE to be more accurate.</div></blockquote></div><br>Are you ha=
-ppy for this to wait for master to re-open or do you want this considered f=
-or 2.3?</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra=
-">Ross</div></div>
 
---001a113c6418376a7b054c43bfc0--
