@@ -1,46 +1,29 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qt0-f181.google.com (mail-qt0-f181.google.com
-	[209.85.216.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 192096E672
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by mail.openembedded.org (Postfix) with ESMTP id EDEFB71CAF
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Apr 2017 08:57:34 +0000 (UTC)
-Received: by mail-qt0-f181.google.com with SMTP id r45so106171914qte.3
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 03 Apr 2017 01:57:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=dhmuO+LYHt9huy0PrRKwduFb0J4BEkexyOqIHpB3G1o=;
-	b=ipKP8qr49SVW+AFL+VLSn0zf+9SXDA836sOKwhTYvJwoa4Daa8c3FzAzUJtAErTcTm
-	plESFkgAGGzlhn4n/LPIFDBLP7WkwXO3CaNreqWF9gZJry0vmi2bdD80Snmzbyey2lTj
-	nldoyFId8V9mZSfYKdnSVxFeOOkmpgky9CFWYwzIzDqrz1/j5Z4kUwV1hPiM7bYAOwqD
-	cqp3+vrBkPJxvnXKdPIP4mBCo+XjFbjOJ2YhT2sncQH2zdSuQVbYPYzL7F+UIcvVUt9h
-	7W5i45R9ktEhanDx0I9MXaKCsmoFMhkbL/NZq+MSS6rtVpMgVx2i3tY5bweCdu0uGFAo
-	yEgA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=dhmuO+LYHt9huy0PrRKwduFb0J4BEkexyOqIHpB3G1o=;
-	b=h4MuvUxQqVWiDUVfqEMYP3fDWi3YxGGZtG2Ryquqf++chhhMgULJSoyh0cKG4lWMLR
-	vgEQJHqcNYYfqN3zSwqLU5j+C1UqpY9FPue5qThxn63+pEvaNlltldnWbjEgAn2e8HXd
-	MlPUpahgGVIsm86B2TBulTllf2111/VbbG8Vp2qQBaEdsEQEPnESbFZxO3VaaW646I2b
-	rYapbv0ruAeh1SyxYCpYgWmdJue+no99QQg2uinUnLCV4Op880tVz/kBHxVL/6uD4FZM
-	BIMUJ7EKE5DtuhiMnwco/q5CE56nQn5qPyQvViyJeENwAcwquxHhTPcQpjFxhyZJEslu
-	0+UQ==
-X-Gm-Message-State: AFeK/H3oclXsq3VDVEchUSd7bRzA57/BvVGdqPsneD66DzIH2Rknbg5LtOSJ27mQTRnl0yFcqorWbK5LIJlUDqi4
-X-Received: by 10.237.53.9 with SMTP id a9mr14582219qte.188.1491209855774;
-	Mon, 03 Apr 2017 01:57:35 -0700 (PDT)
+	Mon,  3 Apr 2017 09:10:25 +0000 (UTC)
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+	by orsmga104.jf.intel.com with ESMTP; 03 Apr 2017 02:10:27 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.36,269,1486454400"; d="scan'208";a="83589522"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by fmsmga005.fm.intel.com with ESMTP; 03 Apr 2017 02:10:26 -0700
+To: openembedded-core@lists.openembedded.org
+References: <1491187907-5752-1-git-send-email-yin.thong.choong@intel.com>
+	<1491187907-5752-5-git-send-email-yin.thong.choong@intel.com>
+	<CAHiDW_HmcNpGPrmf+oDiKaU8EHS=RoXYZW3XkzPKuZKLFmNauw@mail.gmail.com>
+	<CF0C948DE8E2634BB64BF489FF9EF7E7CB114D@PGSMSX105.gar.corp.intel.com>
+	<CAHiDW_Ee=0nyBAsHkagd0hfS0orWBDu9ahh4k=2uQHR0tet2Fg@mail.gmail.com>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <957114aa-76e3-2eff-a5c1-9e7d4c75badc@linux.intel.com>
+Date: Mon, 3 Apr 2017 12:09:52 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.8.0
 MIME-Version: 1.0
-Received: by 10.140.22.166 with HTTP; Mon, 3 Apr 2017 01:57:15 -0700 (PDT)
-In-Reply-To: <20170402213135.21193-1-pbarker@toganlabs.com>
-References: <20170402213135.21193-1-pbarker@toganlabs.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 3 Apr 2017 09:57:15 +0100
-Message-ID: <CAJTo0Lac+CqnXxzJoanw9iAQii_oeeKum1ebkFCT+3ExJVhAMQ@mail.gmail.com>
-To: Paul Barker <pbarker@toganlabs.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] ethtool: Switch to download mirror
+In-Reply-To: <CAHiDW_Ee=0nyBAsHkagd0hfS0orWBDu9ahh4k=2uQHR0tet2Fg@mail.gmail.com>
+Subject: Re: [PATCH 4/8] logrotate: replace fedorahosted.org SRC_URI with yoctoproject.org source
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,33 +36,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Apr 2017 08:57:35 -0000
-Content-Type: multipart/alternative; boundary=001a11c0285ebd48f6054c3f590a
+X-List-Received-Date: Mon, 03 Apr 2017 09:10:26 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
---001a11c0285ebd48f6054c3f590a
-Content-Type: text/plain; charset=UTF-8
+On 04/03/2017 11:30 AM, Jussi Kukkonen wrote:
 
-On 2 April 2017 at 22:31, Paul Barker <pbarker@toganlabs.com> wrote:
-
-> The md5sum & sha256sum for ethtool-4.8.tar.gz have changed upstream :(
+> This is true, there's not that much in the repo itself to create trust.
+> The major show of trust is here though:
+> http://pkgs.fedoraproject.org/cgit/rpms/logrotate.git/commit/?id=9cb55142e51b82085d6c3136448c1f441454e351
+> Fedora/Red Hat themselves changed to use this repo when the fedorahosted
+> repos were EOL'd (see also Red Hat folks working on the github issues in
+> January).
 >
+> If the release tarballs have been re-generated and the hashes no longer
+> match, I'd still prefer modifying the recipe to use github (after
+> manually diffing to make sure they are the same source release of
+> course) but I can understand a differing viewpoint in this case.
+>
+> It would be good to mention the issue in the commit message, whichever
+> way this is solved.
 
-Have you verified with upstream that they haven't been compromised?
+If github is not trustworthy, I'd say taking the tarball from Debian 
+should be good enough. Same applies to chkconfig - we just shouldn't 
+self-host these things, as that guarantees support headaches.
 
-Ross
 
---001a11c0285ebd48f6054c3f590a
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Alex
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 2 April 2017 at 22:31, Paul Barker <span dir=3D"ltr">&lt;<a href=3D"mail=
-to:pbarker@toganlabs.com" target=3D"_blank">pbarker@toganlabs.com</a>&gt;</=
-span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8e=
-x;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":2et" class=3D"a3=
-s aXjCH m15b30b3474f14117">The md5sum &amp; sha256sum for ethtool-4.8.tar.g=
-z have changed upstream :(<br></div></blockquote></div><br>Have you verifie=
-d with upstream that they haven&#39;t been compromised?</div><div class=3D"=
-gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
 
---001a11c0285ebd48f6054c3f590a--
