@@ -1,46 +1,48 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wr0-f174.google.com (mail-wr0-f174.google.com
-	[209.85.128.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 32A237199A
-	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Apr 2017 12:04:36 +0000 (UTC)
-Received: by mail-wr0-f174.google.com with SMTP id w43so165990052wrb.0
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 03 Apr 2017 05:04:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id;
-	bh=xQIsR4uf64TZuG1Hq8dgRewjRvuKSK5FFL8SLXQEcSA=;
-	b=w0kxYN+rcJFnleI1aJKrus4c42iBVaPX4HNFfPAbjL1xLAIwS8tgLP2047e5ZtgTp4
-	CdHl+m8CQFEOtF0FqxqbpztusekNq5w2cPbyPzR9H1TxjO16eu9Tuo4/DJPwEzXy5KsK
-	GebIdVt+vpIEHTz0Ur0QmxjY5i+xk4uo1xGb5rQrZP8jmy5NfRnuO+IG7/QfkrJKKYLz
-	fbh0d+XuDgqbgUhyd1fAizKy+Galir6D2pXYrgSxh7dfQCC33jB/7NHf7gjR6OErZ7C7
-	V+NCXY67a6yGFLMxeSEEUY9f+IWe3MBjmu1cBsNKeNo/R8ZaUHUwXKt4G0P/AfiGGSdh
-	ocuw==
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wr0-f179.google.com (mail-wr0-f179.google.com
+	[209.85.128.179])
+	by mail.openembedded.org (Postfix) with ESMTP id B30EE60125;
+	Mon,  3 Apr 2017 12:17:45 +0000 (UTC)
+Received: by mail-wr0-f179.google.com with SMTP id w43so166498861wrb.0;
+	Mon, 03 Apr 2017 05:17:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:date:to:subject:message-id:mime-version:content-disposition
+	:user-agent; bh=BF5I9CYCtFgUf+1WWbiD+KZsyXFi/eC7jreV7iKTPIY=;
+	b=uUn235paQCFWKVwtmfLnXlYNrE5dm3WwcPBt6AJz/BmSc8N4FCY/Ac6eao7OaTaqiW
+	zQgIETiaa5x+6zAp78ZfYLcXWxTPfYSpTAl5UOZyoqwHz2Vdh04oxektzvYDmuwsUqqh
+	9jrMkkfa1ogBjrK+k5drOtGgL3eMBwiAImTxD6T4xyD1sabjsNIiwO2fcOGNSyrctoe9
+	xjv3+BKyBSWmH6NomuFNQyi6HEVopoa404G2n1B8WpyQX62rq2HVZ6HK9DSBdIDh4mUc
+	8lx4WvTjrbuip21DGR1Jy4S58832E7PB9+EBw9WqM/fOeMqGz3TY7tXXUg6eYH9RnEeh
+	MNtg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=xQIsR4uf64TZuG1Hq8dgRewjRvuKSK5FFL8SLXQEcSA=;
-	b=jPNqbjQzSY6adtzUrYMAbDraE//5BAiiUF4HJpKNxt+cIkkQ1zxtbP9IV+nUX2h48D
-	XKTzVqxm3XBbqdmW228sjUhrr7Y2iEzm9IKVtRtCBt1d02DG+SPhcx/TZD5M60YKH5kD
-	172Bx8DTnpA01IfzWJK3NGqNBhiHxcxul3SOtiHKTuB8ejJGlVjq1rXh0QRUfJmf49UB
-	WuJNhmFRmk7x74HbjpIF7mvCkhs9D8zIIcCrAE5RWmlub6Ah9LAsbT+I3dSrEJYMICCk
-	Fb2RIMoIxp7FYV0cZadZw7yPe7r5vpgQ/m0obOin+BXYHm5t0R5yZLW3Hkd44fFO1HL3
-	JbZA==
-X-Gm-Message-State: AFeK/H1FVtsjiDGcq2h32ctivl2yKLtQsg1litc6KQujeD7Ny5WV8MP7oiX8nrC5JLLn/yWA
-X-Received: by 10.28.174.203 with SMTP id x194mr9714151wme.85.1491221077522;
-	Mon, 03 Apr 2017 05:04:37 -0700 (PDT)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id
-	18sm17959970wrt.52.2017.04.03.05.04.36
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 03 Apr 2017 05:04:36 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  3 Apr 2017 13:04:34 +0100
-Message-Id: <1491221074-30437-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.8.1
-Subject: [PATCH V2] libjpeg-turbo: don't depend on NASM for non-x86 targets
+	h=x-gm-message-state:from:date:to:subject:message-id:mime-version
+	:content-disposition:user-agent;
+	bh=BF5I9CYCtFgUf+1WWbiD+KZsyXFi/eC7jreV7iKTPIY=;
+	b=PPa+zz1/TUM7qqp585yc60EJ06AIZ9x1TgTKpEMBbHr+LrM+hsZICdcEEDRuzVhTfV
+	a9lyH99/iNHJPHF/A0zuniTxiLpdvO0i5PsfY4vnsb94YkhFVQbzuRaq4SkgHm4OIBne
+	XLdSbHUBjFF6wVxgTu1kx/6w90m2oVRWoHfF6ojQwqAFdF1hBYLG0/jegEL6qOVmzXzb
+	lj7XihKkV0/n+VNsLMvZ+La+1SRAPo16nkbLuOiwCus+sxIFTba+ueutJL7vndfcKnBU
+	1ArPnJrxyNBEeNGEDOGkp9TaOKqy0u1jF0WUHzmS6UglQS5+FcxizegQ/cE7LWASchr3
+	MhOA==
+X-Gm-Message-State: AFeK/H0MswAiAGAm7e5DcrXsIvNNytCxUW063OEQQFSErKPeSIuRqTOk
+	kc6p3j1kHMXY0GAE
+X-Received: by 10.28.199.129 with SMTP id x123mr9547770wmf.7.1491221865883;
+	Mon, 03 Apr 2017 05:17:45 -0700 (PDT)
+Received: from localhost ([217.30.68.212]) by smtp.gmail.com with ESMTPSA id
+	r11sm16780576wrb.16.2017.04.03.05.17.44
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Mon, 03 Apr 2017 05:17:44 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Mon, 3 Apr 2017 14:17:49 +0200
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>, 
+	openembedded-devel <openembedded-devel@lists.openembedded.org>
+Message-ID: <20170403121749.GA3311@jama>
+MIME-Version: 1.0
+User-Agent: Mutt/1.8.0 (2017-02-23)
+Subject: State of bitbake world, Failed tasks 2017-04-01
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,48 +55,203 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Apr 2017 12:04:37 -0000
+X-List-Received-Date: Mon, 03 Apr 2017 12:17:46 -0000
+X-Groupsio-MsgNum: 95688
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="WIyZ46R2i8wDzkSu"
+Content-Disposition: inline
 
-NASM is a x86-specific assembler so it is only required when building for x86
-targets.  Use x86-architecture and class-target overrides to depend on NASM, but
-explicitly disable and don't depend on it for native as complications in the
-native overrides meant NASM was enabled for x86-64 but disabled for x86 (this
-will be investigated later).
+--WIyZ46R2i8wDzkSu
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Original patch by Tristan Van Berkom <tristan.vanberkom@codethink.co.uk>, more
-work to solve selftest failures by Richard Purdie
-<richard.purdie@linuxfoundation.org>.  I just wrote a nice commit message.
+qemux86 shows more failures, I've dropped few master-next changes
+after this build.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-graphics/jpeg/libjpeg-turbo_1.5.1.bb | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+=3D=3D Number of issues - stats =3D=3D
+{| class=3D'wikitable'
+!|Date		     !!colspan=3D'3'|Failed tasks			    !!colspan=3D'6'|Failed depe=
+ncencies			 !!|Signatures		  !!colspan=3D'12'|QA !!Comment
+|-
+||		||qemuarm	||qemux86	||qemux86_64	||qemuarm||max||min	||qemux86||max||mi=
+n	||all 	||already-stripped	||libdir	||textrel	||build-deps	||file-rdeps	||=
+version-going-backwards	||host-user-contaminated	||installed-vs-shipped	||u=
+nknown-configure-option	||symlink-to-sysroot	||invalid-pkgconfig	||pkgname	=
+||=09
+|-
+||2017-04-01	||2	||7	||2	||N/A	||N/A	||N/A	||N/A	||N/A	||N/A	||0	||0		||0		=
+||3		||0		||0		||6		||2		||1		||0		||0		||0		||0		||=09
+|}
 
-diff --git a/meta/recipes-graphics/jpeg/libjpeg-turbo_1.5.1.bb b/meta/recipes-graphics/jpeg/libjpeg-turbo_1.5.1.bb
-index 70d38f4..6f407cc 100644
---- a/meta/recipes-graphics/jpeg/libjpeg-turbo_1.5.1.bb
-+++ b/meta/recipes-graphics/jpeg/libjpeg-turbo_1.5.1.bb
-@@ -7,7 +7,8 @@ LIC_FILES_CHKSUM = "file://cdjpeg.h;endline=13;md5=05bab7c7ad899d85bfba60da1a127
-                     file://jpeglib.h;endline=16;md5=f67d70e547a2662c079781c72f877f72 \
-                     file://djpeg.c;endline=11;md5=b90b6d2b4119f9e5807cd273f525d2af \
- "
--DEPENDS = "nasm-native"
-+DEPENDS_append_x86-64_class-target = " nasm-native"
-+DEPENDS_append_x86_class-target    = " nasm-native"
- 
- SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/${BPN}-${PV}.tar.gz \
-            file://fix-mips.patch"
-@@ -26,6 +27,9 @@ RCONFLICTS_${PN} += "jpeg"
- 
- inherit autotools pkgconfig
- 
-+# Add nasm-native dependency consistently for all build arches is hard
-+EXTRA_OECONF_append_class-native = "--without-simd"
-+
- # Work around missing x32 ABI support
- EXTRA_OECONF_append_class-target = " ${@bb.utils.contains("TUNE_FEATURES", "mx32", "--without-simd", "", d)}"
- 
--- 
-2.8.1
+http://www.openembedded.org/wiki/Bitbake_World_Status
+
+=3D=3D Failed tasks 2017-04-01 =3D=3D
+
+INFO: jenkins-job.sh-1.8.19 Complete log available at http://logs.nslu2-lin=
+ux.org/buildlogs/oe/world/pyro/log.report.20170403_021525.log
+
+=3D=3D=3D common (2) =3D=3D=3D
+    * meta-openembedded/meta-oe/recipes-extended/corosync/corosync_2.4.0.bb=
+:do_compile
+    * meta-openembedded/meta-oe/recipes-support/links/links_2.7.bb:do_confi=
+gure
+
+=3D=3D=3D common-x86 (0) =3D=3D=3D
+
+=3D=3D=3D qemuarm (0) =3D=3D=3D
+
+=3D=3D=3D qemux86 (5) =3D=3D=3D
+    * meta-openembedded/meta-initramfs/recipes-devtools/klibc/klibc_2.0.4.b=
+b:do_compile
+    * meta-openembedded/meta-oe/recipes-extended/tiptop/tiptop_2.3.bb:do_co=
+mpile
+    * meta-openembedded/meta-oe/recipes-graphics/ttf-fonts/ttf-inconsolata_=
+20100526.bb:do_compile
+    * meta-openembedded/meta-oe/recipes-support/loop-aes/loop-aes_v3.7j.bb:=
+do_compile
+    * meta-openembedded/meta-xfce/recipes-apps/xarchiver/xarchiver_git.bb:d=
+o_compile
+
+=3D=3D=3D qemux86_64 (0) =3D=3D=3D
+
+=3D=3D=3D Number of failed tasks (11) =3D=3D=3D
+{| class=3Dwikitable
+|-
+|| qemuarm 	|| 2	 || http://logs.nslu2-linux.org/buildlogs/oe/world/pyro/lo=
+g.world.qemuarm.20170401_212659.log/ || http://errors.yoctoproject.org/Erro=
+rs/Build/35350/
+|-
+|| qemux86 	|| 7	 || http://logs.nslu2-linux.org/buildlogs/oe/world/pyro/lo=
+g.world.qemux86.20170331_214900.log/ || http://errors.yoctoproject.org/Erro=
+rs/Build/35348/
+|-
+|| qemux86_64 	|| 2	 || http://logs.nslu2-linux.org/buildlogs/oe/world/pyro=
+/log.world.qemux86-64.20170401_230709.log/ || http://errors.yoctoproject.or=
+g/Errors/Build/35352/
+|}
+
+=3D=3D=3D PNBLACKLISTs (441) =3D=3D=3D
+
+=3D=3D=3D QA issues (12) =3D=3D=3D
+{| class=3Dwikitable
+!| Count		||Issue
+|-
+||0	||already-stripped
+|-
+||0	||build-deps
+|-
+||0	||file-rdeps
+|-
+||0	||invalid-pkgconfig
+|-
+||0	||libdir
+|-
+||0	||pkgname
+|-
+||0	||symlink-to-sysroot
+|-
+||0	||unknown-configure-option
+|-
+||1	||installed-vs-shipped
+|-
+||2	||host-user-contaminated
+|-
+||3	||textrel
+|-
+||6	||version-going-backwards
+|}
 
 
+
+=3D=3D=3D Incorrect PACKAGE_ARCH or sstate signatures (0) =3D=3D=3D
+
+Complete log: http://logs.nslu2-linux.org/buildlogs/oe/world/pyro/log.signa=
+tures.20170402_201737.log/
+
+No issues detected
+
+QA issues by type:
+count: 0	issue: already-stripped
+
+
+count: 0	issue: libdir
+
+
+count: 3	issue: textrel
+chromium-52.0.2743.76: ELF binary '/tmp/work/i586-oe-linux/chromium/52.0.27=
+43.76-r0/packages-split/chromium/usr/bin/chromium/chrome' has relocations i=
+n .text [textrel]
+chromium-wayland-53.0.2785.143: ELF binary '/tmp/work/i586-oe-linux/chromiu=
+m-wayland/53.0.2785.143-r0/packages-split/chromium-wayland/usr/bin/chromium=
+/chrome' has relocations in .text [textrel]
+x264-r2731+gitAUTOINC+2b741f81e5: ELF binary '/tmp/work/i586-oe-linux/x264/=
+r2731+gitAUTOINC+2b741f81e5-r0/packages-split/x264/usr/lib/libx264.so.148' =
+has relocations in .text [textrel]
+
+
+count: 0	issue: build-deps
+
+
+count: 0	issue: file-rdeps
+
+
+count: 6	issue: version-going-backwards
+minicoredumper-1.0.2: Package version for package minicoredumper-dbg went b=
+ackwards which would break package feeds from (0:2.0.0-r0+gitAUTOINC+248019=
+446c.0 to 0:1.0.2-r0.20) [version-going-backwards]
+minicoredumper-1.0.2: Package version for package minicoredumper-dev went b=
+ackwards which would break package feeds from (0:2.0.0-r0+gitAUTOINC+248019=
+446c.0 to 0:1.0.2-r0.20) [version-going-backwards]
+minicoredumper-1.0.2: Package version for package minicoredumper-doc went b=
+ackwards which would break package feeds from (0:2.0.0-r0+gitAUTOINC+248019=
+446c.0 to 0:1.0.2-r0.20) [version-going-backwards]
+minicoredumper-1.0.2: Package version for package minicoredumper-locale wen=
+t backwards which would break package feeds from (0:2.0.0-r0+gitAUTOINC+248=
+019446c.0 to 0:1.0.2-r0.20) [version-going-backwards]
+minicoredumper-1.0.2: Package version for package minicoredumper-staticdev =
+went backwards which would break package feeds from (0:2.0.0-r0+gitAUTOINC+=
+248019446c.0 to 0:1.0.2-r0.20) [version-going-backwards]
+minicoredumper-1.0.2: Package version for package minicoredumper went backw=
+ards which would break package feeds from (0:2.0.0-r0+gitAUTOINC+248019446c=
+=2E0 to 0:1.0.2-r0.20) [version-going-backwards]
+
+
+count: 2	issue: host-user-contaminated
+glibc-locale-2.25: glibc-locale: /glibc-binary-localedata-lij-it/usr/lib/lo=
+cale/lij_IT/LC_NUMERIC is owned by uid 3004, which is the same as the user =
+running bitbake. This may be due to host contamination [host-user-contamina=
+ted]
+glibc-locale-2.25: glibc-locale: /glibc-binary-localedata-niu-nu/usr/lib/lo=
+cale/niu_NU/LC_PAPER is owned by uid 3004, which is the same as the user ru=
+nning bitbake. This may be due to host contamination [host-user-contaminate=
+d]
+
+
+count: 1	issue: installed-vs-shipped
+minicoredumper: 1 installed and not shipped files. [installed-vs-shipped]
+
+
+count: 0	issue: unknown-configure-option
+
+
+count: 0	issue: symlink-to-sysroot
+
+
+count: 0	issue: invalid-pkgconfig
+
+
+count: 0	issue: pkgname
+
+--WIyZ46R2i8wDzkSu
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EARECAB0WIQRU+ejDffEzV2Je2oc3VSO3ZXaAHAUCWOI9bAAKCRA3VSO3ZXaA
+HGqFAJ0TIvWfFa9UWappP1U2bU8Udx0O0gCfWgXhejDyzTWrN3rkSwPTB6IsYqk=
+=WwvV
+-----END PGP SIGNATURE-----
+
+--WIyZ46R2i8wDzkSu--
