@@ -1,53 +1,46 @@
-Return-Path: <jussi.kukkonen@intel.com>
-Received: from mail-yb0-f170.google.com (mail-yb0-f170.google.com
-	[209.85.213.170])
-	by mail.openembedded.org (Postfix) with ESMTP id EB55B719C3
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wr0-f170.google.com (mail-wr0-f170.google.com
+	[209.85.128.170])
+	by mail.openembedded.org (Postfix) with ESMTP id AA66371979
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Apr 2017 11:47:14 +0000 (UTC)
-Received: by mail-yb0-f170.google.com with SMTP id f204so30925709ybc.2
+	Mon,  3 Apr 2017 12:03:18 +0000 (UTC)
+Received: by mail-wr0-f170.google.com with SMTP id w43so165939772wrb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 03 Apr 2017 04:47:16 -0700 (PDT)
+	Mon, 03 Apr 2017 05:03:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=1aKgvmYUfHzNvwX19knyDdO++zEG/qyAEyJ9Ufhmv8Q=;
-	b=lgHpYQHpV7nov4Cy2N6QUNWmHmmqh8/AMvo8zGppspgpuvetULD5niQmWhgmD4L5c+
-	RcTnIvwcTaxP9867QM9wnAyu/7ocV1izKyHjjadEiccF2BqJRW7nX7BSsCWt8o5yaxKa
-	fyBpyLExs0pa2dOvCXKQ9oJ4sBHrQsiKDMLfd43H5qJ5z/quVefqbdFsP7WiNTW2wCDr
-	CituuYnWkxazGIKSIfWp3EanPuZsB+yz8IVjrwofa8MgumnKj+U8OCkc9sad3jsGPCph
-	Jv+LFb8/wA96/cIT5MeSp67gRZ+MqBAx//eMnJ2DyOBFESM4uKqSmBfe5RfD5l5Vouv9
-	Zi5w==
+	h=from:to:cc:subject:date:message-id;
+	bh=SJLrqmL2EqGUhUqa4vl2IA4nDyHUh6HsaQOT9pblrr0=;
+	b=rxXXg0YHj77Cg7G/7szIxMQ//FvXb9wfnNzebxcEtuEQtHcvNz73kyRLXqTO2bEjn0
+	fJQt4Vh7IbRFzNLzIX1YeVGXu1wTBGGBz0ne04JKoPfiA4OP/v9djCRwSG7KF/pbrvhD
+	2SteZdrIMa0vR2FeW8wudaVY6tAKxJZNra6BmjjGth9e/7ujB6nNQ/TYAGi9PGh8KEgq
+	Afg1VGuNkO1+UsPJSYtrRcAsOojXpfbsaRvqrIpfCzaOoOxoHxOGe5Ms70xg6XpycYRf
+	K1d7d8a5D7X3MgC/M5mdyo/SxTJULRF/f9V98xdQFdSMwupEVCljIHmzpmDeSZ1OBf6h
+	mG3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=1aKgvmYUfHzNvwX19knyDdO++zEG/qyAEyJ9Ufhmv8Q=;
-	b=Jzw7ipRG+huIHIQXCZ1WN0SteWmt3sDhOK41MJoVM3wV7sMCaxx/rhDiyRND4d4yxH
-	r41Bku7yVOZaipCFVYWdFLeAMGA+1SP//OtTmO7ONGE7O1PCChTu6bUfORvcfPZVPStx
-	sVnP9RtACe2ABCYhabVY27zWyhHm7BZNm1Ew9bZG1szG2SSLpRuP4wov1sEmm7Pu5ocv
-	6bauRyOn0bHhS9Lvz/N0DaprhBwkUY8NrY8w5fLRU6JFKeU/iQuScjWWKpoU5R8H+/em
-	mOHVRL8qCWd2YZimcf97ssS/SPpJPmJkH8z1WtziiHQNAZ/uBfnrEZlNZTn4S2ir0bl3
-	RiRA==
-X-Gm-Message-State: AFeK/H2cQFWkQbqravCxhM2vqe85jfttL8hICScWIAb0dCzk/5mSEHGy6BXYj4/EAXomB3B7NXj9XsbrKPAjn0nd
-X-Received: by 10.129.197.74 with SMTP id o10mr12049964ywj.183.1491220035488; 
-	Mon, 03 Apr 2017 04:47:15 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.129.81.136 with HTTP; Mon, 3 Apr 2017 04:46:45 -0700 (PDT)
-In-Reply-To: <CF0C948DE8E2634BB64BF489FF9EF7E7CB120C@PGSMSX105.gar.corp.intel.com>
-References: <1491187907-5752-1-git-send-email-yin.thong.choong@intel.com>
-	<1491187907-5752-5-git-send-email-yin.thong.choong@intel.com>
-	<CAHiDW_HmcNpGPrmf+oDiKaU8EHS=RoXYZW3XkzPKuZKLFmNauw@mail.gmail.com>
-	<CF0C948DE8E2634BB64BF489FF9EF7E7CB114D@PGSMSX105.gar.corp.intel.com>
-	<CAHiDW_Ee=0nyBAsHkagd0hfS0orWBDu9ahh4k=2uQHR0tet2Fg@mail.gmail.com>
-	<CAJTo0Lb6o=fFerSorzQqJpRtMNB6z1L5ZDqE5AzTE6gCpWNmSA@mail.gmail.com>
-	<CF0C948DE8E2634BB64BF489FF9EF7E7CB120C@PGSMSX105.gar.corp.intel.com>
-From: Jussi Kukkonen <jussi.kukkonen@intel.com>
-Date: Mon, 3 Apr 2017 14:46:45 +0300
-Message-ID: <CAHiDW_EDa4mQkDZ69LdzK0JQrOr2YmSXY5nKw1_BUdw_jeQW2w@mail.gmail.com>
-To: "Choong, Yin Thong" <yin.thong.choong@intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 4/8] logrotate: replace fedorahosted.org SRC_URI with yoctoproject.org source
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=SJLrqmL2EqGUhUqa4vl2IA4nDyHUh6HsaQOT9pblrr0=;
+	b=YCSm7yK+/5vkXO8vwHm6tD6Rn+xUnBUf8FRfWaW2YZPhnSK3P9zHwEqLpzelaDgdK/
+	Ke6IPirZgjevpGClg34ZPAY7fx//9ZFVCBr13JdCMLxr5u/LnwGqyNmEUUYLM98BvUMi
+	4lt3BNCHAI0rGm00i+7urp/YCG1LWkxSnGtT3GGl9RovYiT43ACDAJZQUmNLqtg9dZmz
+	zPr+fj3vckq8p/YZGpizbH2+xEgnMESn2n7TgFHdDK0+NtDOlHv/r8rEfZgtH1v6ZlkC
+	FutWCcWgwIryNQhqSWZGLYOVVWpxD0ADyCV0Z2xj9AnjMMRZ+GMH78buy9QehGRj+3kr
+	PAHg==
+X-Gm-Message-State: AFeK/H21nKiGqGcDKe00//tcBX/jHzMMHOG4VQzvvkP4qZo4DT+kCaGD1j4k7Wp1NVruFbLB
+X-Received: by 10.28.125.14 with SMTP id y14mr9600080wmc.101.1491220999072;
+	Mon, 03 Apr 2017 05:03:19 -0700 (PDT)
+Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id
+	v29sm17858585wrv.66.2017.04.03.05.03.18
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 03 Apr 2017 05:03:18 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  3 Apr 2017 13:03:11 +0100
+Message-Id: <1491220991-30131-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.8.1
+Subject: [PATCH] libjpeg-turbo: don't depend on NASM for non-x86 targets
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,50 +53,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Apr 2017 11:47:15 -0000
-Content-Type: multipart/alternative; boundary=94eb2c1a54fa7f6134054c41b87c
+X-List-Received-Date: Mon, 03 Apr 2017 12:03:19 -0000
 
---94eb2c1a54fa7f6134054c41b87c
-Content-Type: text/plain; charset=UTF-8
+NASM is a x86-specific assembler so it is only required when building for x86
+targets.  Use x86-architecture and class-target overrides to depend on NASM, but
+explicitly disable and don't depend on it for native/nativesdk as complications
+in the native overrides meant NASM was enabled for x86-64 but disabled for x86
+(this will be investigated later).
 
-On 3 April 2017 at 14:00, Choong, Yin Thong <yin.thong.choong@intel.com>
-wrote:
->
-> Hi,
-> Once I change to github.com below error pop out. Seem like it miss align
-with the patch compare with github.com logrotate source. Both package seem
-got miss align on the version. When I compare yoctoproject logrotate.c and
-github logrotate.c it has big different (as attached), there even got
-different parameter count on some API function
+Original patch by Tristan Van Berkom <tristan.vanberkom@codethink.co.uk>, more
+work to solve selftest failures by Richard Purdie
+<richard.purdie@linuxfoundation.org>.  I just wrote a nice commit message.
+
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-graphics/jpeg/libjpeg-turbo_1.5.1.bb | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
+
+diff --git a/meta/recipes-graphics/jpeg/libjpeg-turbo_1.5.1.bb b/meta/recipes-graphics/jpeg/libjpeg-turbo_1.5.1.bb
+index 70d38f4..77adf0a 100644
+--- a/meta/recipes-graphics/jpeg/libjpeg-turbo_1.5.1.bb
++++ b/meta/recipes-graphics/jpeg/libjpeg-turbo_1.5.1.bb
+@@ -7,7 +7,8 @@ LIC_FILES_CHKSUM = "file://cdjpeg.h;endline=13;md5=05bab7c7ad899d85bfba60da1a127
+                     file://jpeglib.h;endline=16;md5=f67d70e547a2662c079781c72f877f72 \
+                     file://djpeg.c;endline=11;md5=b90b6d2b4119f9e5807cd273f525d2af \
+ "
+-DEPENDS = "nasm-native"
++DEPENDS_append_x86-64_class-target = " nasm-native"
++DEPENDS_append_x86_class-target    = " nasm-native"
+ 
+ SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/${BPN}-${PV}.tar.gz \
+            file://fix-mips.patch"
+@@ -26,6 +27,10 @@ RCONFLICTS_${PN} += "jpeg"
+ 
+ inherit autotools pkgconfig
+ 
++# Add nasm-native dependency consistently for all build arches is hard
++EXTRA_OECONF_append_class-native = "--without-simd"
++EXTRA_OECONF_append_class-nativesdk = "--without-simd"
++
+ # Work around missing x32 ABI support
+ EXTRA_OECONF_append_class-target = " ${@bb.utils.contains("TUNE_FEATURES", "mx32", "--without-simd", "", d)}"
+ 
+-- 
+2.8.1
 
 
-Ross's  suggestion of asking the maintainer is good but I'll note that
-there does not seem to be any difference in the actual source files: you're
-maybe looking at a different version.
-
-The patching error is a result of the top level source directory name
-changing. This could be worked around with
-  S = "${WORKDIR}/logrotate-r3-9-1"
-
-Jussi
-
---94eb2c1a54fa7f6134054c41b87c
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">On 3 April 2017 at 14:00, Choong, Yin Thong &lt;<a href=3D=
-"mailto:yin.thong.choong@intel.com">yin.thong.choong@intel.com</a>&gt; wrot=
-e:<br>&gt;<br>&gt; Hi,<br>&gt; Once I change to <a href=3D"http://github.co=
-m">github.com</a> below error pop out. Seem like it miss align with the pat=
-ch compare with <a href=3D"http://github.com">github.com</a> logrotate sour=
-ce. Both package seem got miss align on the version. When I compare yoctopr=
-oject logrotate.c and github logrotate.c it has big different (as attached)=
-, there even got different parameter count on some API function<br><br><br>=
-Ross&#39;s =C2=A0suggestion of asking the maintainer is good but I&#39;ll n=
-ote that there does not seem to be any difference in the actual source file=
-s: you&#39;re maybe looking at a different version.=C2=A0<div><br></div><di=
-v>The patching error is a result of the top level source directory name cha=
-nging. This could be worked around with<br>=C2=A0 S =3D &quot;${WORKDIR}/lo=
-grotate-r3-9-1&quot;<br><br>Jussi=C2=A0<br><br></div></div>
-
---94eb2c1a54fa7f6134054c41b87c--
