@@ -1,37 +1,20 @@
-Return-Path: <pbarker@toganlabs.com>
-X-Greylist: delayed 1422 seconds by postgrey-1.34 at layers.openembedded.org;
-	Sun, 02 Apr 2017 22:03:56 UTC
-Received: from slow1-d.mail.gandi.net (slow1-d.mail.gandi.net [217.70.178.86])
-	by mail.openembedded.org (Postfix) with ESMTP id 88C6F6FEF5
+Return-Path: <yin.thong.choong@intel.com>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by mail.openembedded.org (Postfix) with ESMTP id 8973577D1A
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  2 Apr 2017 22:03:56 +0000 (UTC)
-Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net
-	[217.70.183.194])
-	by slow1-d.mail.gandi.net (Postfix) with ESMTP id 879C747B46A
-	for <openembedded-core@lists.openembedded.org>;
-	Sun,  2 Apr 2017 23:32:30 +0200 (CEST)
-Received: from mfilter12-d.gandi.net (mfilter12-d.gandi.net [217.70.178.129])
-	by relay2-d.mail.gandi.net (Postfix) with ESMTP id 03F3CC5A49;
-	Sun,  2 Apr 2017 23:32:29 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at mfilter12-d.gandi.net
-Received: from relay2-d.mail.gandi.net ([217.70.183.194])
-	by mfilter12-d.gandi.net (mfilter12-d.gandi.net [10.0.15.180])
-	(amavisd-new, port 10024)
-	with ESMTP id Qf6mdPGn79Aw; Sun,  2 Apr 2017 23:32:26 +0200 (CEST)
-X-Originating-IP: 82.34.23.153
-Received: from host0.betafive.co.uk
-	(cpc116908-shep14-2-0-cust920.8-3.cable.virginm.net [82.34.23.153])
-	(Authenticated sender: noreply@paulbarker.me.uk)
-	by relay2-d.mail.gandi.net (Postfix) with ESMTPSA id 60F7EC5A46;
-	Sun,  2 Apr 2017 23:32:26 +0200 (CEST)
-Received: by host0.betafive.co.uk (Postfix, from userid 2525)
-	id 93965416B162; Sun,  2 Apr 2017 22:31:55 +0100 (BST)
-From: Paul Barker <pbarker@toganlabs.com>
+	Mon,  3 Apr 2017 02:52:14 +0000 (UTC)
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+	by orsmga104.jf.intel.com with ESMTP; 02 Apr 2017 19:52:15 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.36,267,1486454400"; d="scan'208";a="83488918"
+Received: from platypus.jf.intel.com ([10.54.77.139])
+	by fmsmga005.fm.intel.com with ESMTP; 02 Apr 2017 19:52:13 -0700
+From: yin.thong.choong@intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Sun,  2 Apr 2017 22:31:35 +0100
-Message-Id: <20170402213135.21193-1-pbarker@toganlabs.com>
-X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] ethtool: Switch to download mirror
+Date: Sun,  2 Apr 2017 19:51:39 -0700
+Message-Id: <1491187907-5752-1-git-send-email-yin.thong.choong@intel.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH 0/8] Remove all use of fedorahosted SRC_URI [YOCTO #11226]
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,29 +27,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 02 Apr 2017 22:03:58 -0000
+X-List-Received-Date: Mon, 03 Apr 2017 02:52:15 -0000
 
-The md5sum & sha256sum for ethtool-4.8.tar.gz have changed upstream :(
+From: Choong YinThong <yin.thong.choong@intel.com>
 
-Signed-off-by: Paul Barker <pbarker@toganlabs.com>
----
- meta/recipes-extended/ethtool/ethtool_4.8.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Fedorahosted.org was retired on March 1st, 2017.
+Replace all fedorahosted.org SRC_URI with source
+yoctoproject.org, pagure.io and github.com.
 
-diff --git a/meta/recipes-extended/ethtool/ethtool_4.8.bb b/meta/recipes-extended/ethtool/ethtool_4.8.bb
-index 4ca88d766c..afaf2e2f71 100644
---- a/meta/recipes-extended/ethtool/ethtool_4.8.bb
-+++ b/meta/recipes-extended/ethtool/ethtool_4.8.bb
-@@ -6,7 +6,7 @@ LICENSE = "GPLv2+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
-                     file://ethtool.c;beginline=4;endline=17;md5=c19b30548c582577fc6b443626fc1216"
- 
--SRC_URI = "${KERNELORG_MIRROR}/software/network/ethtool/ethtool-${PV}.tar.gz \
-+SRC_URI = "https://downloads.yoctoproject.org/mirror/sources/ethtool-${PV}.tar.gz \
-            file://run-ptest \
-            file://avoid_parallel_tests.patch \
-            "
+Choong YinThong (8):
+  selftest/recipetool: replace fedorahosted.org SRC_URI with
+    yoctoproject.org source
+  xmlto: replace fedorahosted.org SRC_URI with pagure.io source
+  libuser: replace fedorahosted.org SRC_URI with pagure.io source
+  logrotate: replace fedorahosted.org SRC_URI with yoctoproject.org
+    source
+  libnewt: replace fedorahosted.org SRC_URI with pagure.io source
+  liberation-fonts: replace fedorahosted.org SRC_URI with pagure.io
+    source
+  chkconfig: replace fedorahosted.org SRC_URI with github.com source
+  cronie: replace fedorahosted.org SRC_URI with github.com source
+
+ meta/lib/oeqa/selftest/recipetool.py                     | 4 ++--
+ meta/recipes-devtools/xmlto/xmlto_0.0.28.bb              | 4 ++--
+ meta/recipes-extended/chkconfig/chkconfig_1.3.58.bb      | 4 ++--
+ meta/recipes-extended/cronie/cronie_1.5.1.bb             | 6 ++++--
+ meta/recipes-extended/libuser/libuser_0.62.bb            | 6 +++---
+ meta/recipes-extended/logrotate/logrotate_3.9.1.bb       | 4 ++--
+ meta/recipes-extended/newt/libnewt_0.52.19.bb            | 4 ++--
+ meta/recipes-graphics/ttf-fonts/liberation-fonts_1.04.bb | 4 ++--
+ 8 files changed, 19 insertions(+), 17 deletions(-)
+
 -- 
-2.11.0
+2.7.4
 
 
