@@ -1,51 +1,48 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f180.google.com (mail-qk0-f180.google.com
-	[209.85.220.180])
-	by mail.openembedded.org (Postfix) with ESMTP id E52AD72F4D
+Return-Path: <yin.thong.choong@intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 3F5D071E52
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Apr 2017 09:17:35 +0000 (UTC)
-Received: by mail-qk0-f180.google.com with SMTP id p22so108724224qka.3
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 03 Apr 2017 02:17:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=BE5jb6yiZGpjuFRTMAzapus+A23bOLL7FBT8txVesV4=;
-	b=bDeXPD0tqGGwnMn8C20cWDbdkkeQVUFpOhqQ0Tw3ZffEBvx3OpaZrVIO2ojaesyiP0
-	Pn7w8qHd9/BJqMFHJr9BxHDihdrGYwOJWzoRZ/ogQOYCsKlxGZv1/Riz2UWP3kKxAszu
-	vClWx5l0NuNWQyCwJ25jm6XaKfBNXfzKg6JINSamet+PNx9rVCj+HhGtBnhFUKguPznJ
-	E8szDZ8P0jPEPFRoYOXdC1uEr3MP8lvQyPIVhsuDQctT2nMhytHCs/AuxT5jqXlSzDgG
-	ioDkc7LKuMTfSKkUow6kU3SdJsSgqY33ujg3H7WkzjQ4/1QpZhiIMtht2s3Xk8y8IRph
-	ttww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=BE5jb6yiZGpjuFRTMAzapus+A23bOLL7FBT8txVesV4=;
-	b=Vdg1Ss1X+1rIXoFfBq+8EZpMqFLkpk6y+qJGdCWA2tYZCzwGkFOp/KBByhTpl8kvmR
-	t8+zPzs4nwxfhaf31tUf8fZL7OZ/yacnUi/kl4sukznZKpffXfOtD0BXHufvIH3DkIli
-	4Yd3DnvZeR+sp/2pP4Q+ZnLPARW3nKe29qzIe8ysLEcn7IKhcPJXCPH7yw7+HfO3fctV
-	Z4ktsgbf88C2HSA4BuL5jWBh1mmHIPyCMwhmmrKhzzqZs3SZRVZdxkQTzZziYsvLnuoW
-	XSgVVNmRqWZbLDf27sirYqRP5kK4l6ZNQCNd/oEc1BbxZpsRLYzlho6AqXJeaLr7GyJc
-	0u+w==
-X-Gm-Message-State: AFeK/H3+7ku4qzXIfLPuEnK9E3ToMRf64INoRFvmM+SUufn9dnyDnA5eEcusiUYRdOdZrpgDmnUIU2R2tkw/0a8j
-X-Received: by 10.55.123.6 with SMTP id w6mr16544992qkc.36.1491211057321; Mon,
-	03 Apr 2017 02:17:37 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.22.166 with HTTP; Mon, 3 Apr 2017 02:17:16 -0700 (PDT)
-In-Reply-To: <CAHiDW_Ee=0nyBAsHkagd0hfS0orWBDu9ahh4k=2uQHR0tet2Fg@mail.gmail.com>
+	Mon,  3 Apr 2017 09:18:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+	d=intel.com; i=@intel.com; q=dns/txt; s=intel;
+	t=1491211139; x=1522747139;
+	h=from:to:cc:subject:date:message-id:references:
+	in-reply-to:mime-version;
+	bh=wbg9mAm1OzmJIjsS4e2rcLcByIQ1CI6ngo1fT8TDjFQ=;
+	b=AifrRFfPsvehvQdTaxNGy7mnnr+wvm3c7HYZCVHnxvXkbsyRNyzPDMDs
+	pMRK6uXX/8g4s0xEdmlAhcUZuJKsyw==;
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	03 Apr 2017 02:18:58 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.36,269,1486454400"; 
+	d="scan'208,217";a="951065280"
+Received: from kmsmsx155.gar.corp.intel.com ([172.21.73.106])
+	by orsmga003.jf.intel.com with ESMTP; 03 Apr 2017 02:18:56 -0700
+Received: from pgsmsx105.gar.corp.intel.com ([169.254.4.238]) by
+	KMSMSX155.gar.corp.intel.com ([169.254.15.247]) with mapi id
+	14.03.0319.002; Mon, 3 Apr 2017 17:18:56 +0800
+From: "Choong, Yin Thong" <yin.thong.choong@intel.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Thread-Topic: [OE-core] [PATCH 7/8] chkconfig: replace fedorahosted.org
+	SRC_URI with github.com source
+Thread-Index: AQHSrCVTyDBY+uKZjUqT7AJHzyX7n6Gy1pCAgACHU9A=
+Date: Mon, 3 Apr 2017 09:18:55 +0000
+Message-ID: <CF0C948DE8E2634BB64BF489FF9EF7E7CB1195@PGSMSX105.gar.corp.intel.com>
 References: <1491187907-5752-1-git-send-email-yin.thong.choong@intel.com>
-	<1491187907-5752-5-git-send-email-yin.thong.choong@intel.com>
-	<CAHiDW_HmcNpGPrmf+oDiKaU8EHS=RoXYZW3XkzPKuZKLFmNauw@mail.gmail.com>
-	<CF0C948DE8E2634BB64BF489FF9EF7E7CB114D@PGSMSX105.gar.corp.intel.com>
-	<CAHiDW_Ee=0nyBAsHkagd0hfS0orWBDu9ahh4k=2uQHR0tet2Fg@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 3 Apr 2017 10:17:16 +0100
-Message-ID: <CAJTo0Lb6o=fFerSorzQqJpRtMNB6z1L5ZDqE5AzTE6gCpWNmSA@mail.gmail.com>
-To: Jussi Kukkonen <jussi.kukkonen@intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 4/8] logrotate: replace fedorahosted.org SRC_URI with yoctoproject.org source
+	<1491187907-5752-8-git-send-email-yin.thong.choong@intel.com>
+	<CAJTo0La=dCkggKyAVWQdMwJu-wGbocwTha1v3RE+YHWMqyc1tA@mail.gmail.com>
+In-Reply-To: <CAJTo0La=dCkggKyAVWQdMwJu-wGbocwTha1v3RE+YHWMqyc1tA@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-version: 10.0.102.7
+dlp-reaction: no-action
+x-originating-ip: [172.30.20.205]
+MIME-Version: 1.0
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 7/8] chkconfig: replace fedorahosted.org SRC_URI with github.com source
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,63 +55,144 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Apr 2017 09:17:37 -0000
-Content-Type: multipart/alternative; boundary=94eb2c063a185b80b2054c3fa1e7
+X-List-Received-Date: Mon, 03 Apr 2017 09:18:57 -0000
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_CF0C948DE8E2634BB64BF489FF9EF7E7CB1195PGSMSX105garcorpi_"
 
---94eb2c063a185b80b2054c3fa1e7
-Content-Type: text/plain; charset=UTF-8
+--_000_CF0C948DE8E2634BB64BF489FF9EF7E7CB1195PGSMSX105garcorpi_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On 3 April 2017 at 09:30, Jussi Kukkonen <jussi.kukkonen@intel.com> wrote:
+T3BzLiBJIHdpbGwgZml4IHRoaXMgYXMgUEFUQ0ggVjIgYXMgd2hhdCBjb21tZW50IGZyb20gSnVz
+c2kgKG9uIGxvZ3JvdGF0ZSkuIEkgd2lsbCByZXN1Ym1pdCB0aGUgZW50aXJlIGNoYW5nZXMgd2l0
+aCBQQVRDSCBWMiBhZ2Fpbi4NCg0KVGhhbmtzIGFuZCBSZWdhcmRzDQpDaG9vbmcgWWluVGhvbmcN
+Cg0KRnJvbTogQnVydG9uLCBSb3NzIFttYWlsdG86cm9zcy5idXJ0b25AaW50ZWwuY29tXQ0KU2Vu
+dDogTW9uZGF5LCBBcHJpbCAzLCAyMDE3IDU6MTMgUE0NClRvOiBDaG9vbmcsIFlpbiBUaG9uZyA8
+eWluLnRob25nLmNob29uZ0BpbnRlbC5jb20+DQpDYzogT0UtY29yZSA8b3BlbmVtYmVkZGVkLWNv
+cmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZz4NClN1YmplY3Q6IFJlOiBbT0UtY29yZV0gW1BBVENI
+IDcvOF0gY2hrY29uZmlnOiByZXBsYWNlIGZlZG9yYWhvc3RlZC5vcmcgU1JDX1VSSSB3aXRoIGdp
+dGh1Yi5jb20gc291cmNlDQoNCg0KT24gMyBBcHJpbCAyMDE3IGF0IDAzOjUxLCA8eWluLnRob25n
+LmNob29uZ0BpbnRlbC5jb208bWFpbHRvOnlpbi50aG9uZy5jaG9vbmdAaW50ZWwuY29tPj4gd3Jv
+dGU6DQpmZWRvcmFob3N0ZWQub3JnPGh0dHA6Ly9mZWRvcmFob3N0ZWQub3JnPiB3YXMgcmV0aXJl
+ZCBvbiBNYXJjaCAxc3QsIDIwMTcuIFRoaXMgaXMgdG8gdXBkYXRlDQp0aGUgU1JDX1VSSSB0byBw
+b2ludCB0byBnaXRodWIuY29tPGh0dHA6Ly9naXRodWIuY29tPi4NCg0KSGVyZSB5b3Ugc2F5IGdp
+dGh1Yi5jb208aHR0cDovL2dpdGh1Yi5jb20+Lg0KDQotSE9NRVBBR0UgPSAiaHR0cDovL2ZlZG9y
+YWhvc3RlZC5vcmcvcmVsZWFzZXMvYy9oL2Noa2NvbmZpZyINCitIT01FUEFHRSA9ICJodHRwOi8v
+ZG93bmxvYWRzLnlvY3RvcHJvamVjdC5vcmcvbWlycm9yL3NvdXJjZXMvIg0KDQpIT01FUEFHRSBp
+cyBvcHRpb25hbCBhbmQgdGhpcyBpc24ndCB0aGUgaG9tZXBhZ2UsIHNvIHdlIG1pZ2h0IGFzIHdl
+bGwgZGVsZXRlIHRoaXMuDQoNCi1TUkNfVVJJID0gImh0dHA6Ly9mZWRvcmFob3N0ZWQub3JnL3Jl
+bGVhc2VzL2MvaC9jaGtjb25maWcvJHtCUE59LSR7UFZ9LnRhci5iejI8aHR0cDovL2ZlZG9yYWhv
+c3RlZC5vcmcvcmVsZWFzZXMvYy9oL2Noa2NvbmZpZy8kJTdiQlBOJTdkLSQlN2JQViU3ZC50YXIu
+YnoyPiBcDQorU1JDX1VSSSA9ICJodHRwOi8vZG93bmxvYWRzLnlvY3RvcHJvamVjdC5vcmcvbWly
+cm9yL3NvdXJjZXMvJHtCUE59LSR7UFZ9LnRhci5iejI8aHR0cDovL2Rvd25sb2Fkcy55b2N0b3By
+b2plY3Qub3JnL21pcnJvci9zb3VyY2VzLyQlN2JCUE4lN2QtJCU3YlBWJTdkLnRhci5iejI+IFwN
+Cg0KVGhpcyBpc24ndCBnaXRodWIuDQoNClJvc3MNCg==
 
-> This is true, there's not that much in the repo itself to create trust.
-> The major show of trust is here though: http://pkgs.fedoraproject.org/
-> cgit/rpms/logrotate.git/commit/?id=9cb55142e51b82085d6c3136448c1f
-> 441454e351
-> Fedora/Red Hat themselves changed to use this repo when the fedorahosted
-> repos were EOL'd (see also Red Hat folks working on the github issues in
-> January).
->
+--_000_CF0C948DE8E2634BB64BF489FF9EF7E7CB1195PGSMSX105garcorpi_
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-So logrotate was originally hosted on Fedora infrastructure that is then
-shut down, a github repository appears and Fedora fetch from that github
-repository.  Also the commit in the github repository to change the README
-from fedorahosted to github (
-https://github.com/logrotate/logrotate/commit/09c4fa8bc6cf2c01bad24d33c3ea69371030c014)
-was committed by a Red Hat employee (https://github.com/kdudka).
+PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
+bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
+YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
+cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
+VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
+Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
+ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
+PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
+U2ltU3VuOw0KCXBhbm9zZS0xOjIgMSA2IDAgMyAxIDEgMSAxIDE7fQ0KQGZvbnQtZmFjZQ0KCXtm
+b250LWZhbWlseToiQ2FtYnJpYSBNYXRoIjsNCglwYW5vc2UtMToyIDQgNSAzIDUgNCA2IDMgMiA0
+O30NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6Q2FsaWJyaTsNCglwYW5vc2UtMToyIDE1IDUg
+MiAyIDIgNCAzIDIgNDt9DQpAZm9udC1mYWNlDQoJe2ZvbnQtZmFtaWx5OiJcQFNpbVN1biI7DQoJ
+cGFub3NlLTE6MiAxIDYgMCAzIDEgMSAxIDEgMTt9DQovKiBTdHlsZSBEZWZpbml0aW9ucyAqLw0K
+cC5Nc29Ob3JtYWwsIGxpLk1zb05vcm1hbCwgZGl2Lk1zb05vcm1hbA0KCXttYXJnaW46MGluOw0K
+CW1hcmdpbi1ib3R0b206LjAwMDFwdDsNCglmb250LXNpemU6MTIuMHB0Ow0KCWZvbnQtZmFtaWx5
+OiJUaW1lcyBOZXcgUm9tYW4iLHNlcmlmO30NCmE6bGluaywgc3Bhbi5Nc29IeXBlcmxpbmsNCgl7
+bXNvLXN0eWxlLXByaW9yaXR5Ojk5Ow0KCWNvbG9yOmJsdWU7DQoJdGV4dC1kZWNvcmF0aW9uOnVu
+ZGVybGluZTt9DQphOnZpc2l0ZWQsIHNwYW4uTXNvSHlwZXJsaW5rRm9sbG93ZWQNCgl7bXNvLXN0
+eWxlLXByaW9yaXR5Ojk5Ow0KCWNvbG9yOnB1cnBsZTsNCgl0ZXh0LWRlY29yYXRpb246dW5kZXJs
+aW5lO30NCnNwYW4uRW1haWxTdHlsZTE3DQoJe21zby1zdHlsZS10eXBlOnBlcnNvbmFsLXJlcGx5
+Ow0KCWZvbnQtZmFtaWx5OiJDYWxpYnJpIixzYW5zLXNlcmlmOw0KCWNvbG9yOiMxRjQ5N0Q7fQ0K
+Lk1zb0NocERlZmF1bHQNCgl7bXNvLXN0eWxlLXR5cGU6ZXhwb3J0LW9ubHk7DQoJZm9udC1zaXpl
+OjEwLjBwdDsNCglmb250LWZhbWlseToiQ2FsaWJyaSIsc2Fucy1zZXJpZjt9DQpAcGFnZSBXb3Jk
+U2VjdGlvbjENCgl7c2l6ZTo4LjVpbiAxMS4waW47DQoJbWFyZ2luOjEuMGluIDEuMGluIDEuMGlu
+IDEuMGluO30NCmRpdi5Xb3JkU2VjdGlvbjENCgl7cGFnZTpXb3JkU2VjdGlvbjE7fQ0KLS0+PC9z
+dHlsZT48IS0tW2lmIGd0ZSBtc28gOV0+PHhtbD4NCjxvOnNoYXBlZGVmYXVsdHMgdjpleHQ9ImVk
+aXQiIHNwaWRtYXg9IjEwMjYiIC8+DQo8L3htbD48IVtlbmRpZl0tLT48IS0tW2lmIGd0ZSBtc28g
+OV0+PHhtbD4NCjxvOnNoYXBlbGF5b3V0IHY6ZXh0PSJlZGl0Ij4NCjxvOmlkbWFwIHY6ZXh0PSJl
+ZGl0IiBkYXRhPSIxIiAvPg0KPC9vOnNoYXBlbGF5b3V0PjwveG1sPjwhW2VuZGlmXS0tPg0KPC9o
+ZWFkPg0KPGJvZHkgbGFuZz0iRU4tVVMiIGxpbms9ImJsdWUiIHZsaW5rPSJwdXJwbGUiPg0KPGRp
+diBjbGFzcz0iV29yZFNlY3Rpb24xIj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxhIG5hbWU9Il9N
+YWlsRW5kQ29tcG9zZSI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6
+JnF1b3Q7Q2FsaWJyaSZxdW90OyxzYW5zLXNlcmlmO2NvbG9yOiMxRjQ5N0QiPk9wcy4gSSB3aWxs
+IGZpeCB0aGlzIGFzIFBBVENIIFYyIGFzIHdoYXQgY29tbWVudCBmcm9tIEp1c3NpIChvbiBsb2dy
+b3RhdGUpLiBJIHdpbGwgcmVzdWJtaXQgdGhlIGVudGlyZSBjaGFuZ2VzIHdpdGggUEFUQ0ggVjIg
+YWdhaW4uPG86cD48L286cD48L3NwYW4+PC9hPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxz
+cGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVv
+dDssc2Fucy1zZXJpZjtjb2xvcjojMUY0OTdEIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+
+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250
+LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWY7Y29sb3I6IzFGNDk3RCI+VGhh
+bmtzIGFuZCBSZWdhcmRzPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1h
+bCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJy
+aSZxdW90OyxzYW5zLXNlcmlmO2NvbG9yOiMxRjQ5N0QiPkNob29uZyBZaW5UaG9uZzxvOnA+PC9v
+OnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNp
+emU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJpZjtjb2xv
+cjojMUY0OTdEIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9y
+bWFsIj48Yj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtD
+YWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWYiPkZyb206PC9zcGFuPjwvYj48c3BhbiBzdHlsZT0iZm9u
+dC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWYi
+PiBCdXJ0b24sIFJvc3MgW21haWx0bzpyb3NzLmJ1cnRvbkBpbnRlbC5jb21dDQo8YnI+DQo8Yj5T
+ZW50OjwvYj4gTW9uZGF5LCBBcHJpbCAzLCAyMDE3IDU6MTMgUE08YnI+DQo8Yj5Ubzo8L2I+IENo
+b29uZywgWWluIFRob25nICZsdDt5aW4udGhvbmcuY2hvb25nQGludGVsLmNvbSZndDs8YnI+DQo8
+Yj5DYzo8L2I+IE9FLWNvcmUgJmx0O29wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRl
+ZC5vcmcmZ3Q7PGJyPg0KPGI+U3ViamVjdDo8L2I+IFJlOiBbT0UtY29yZV0gW1BBVENIIDcvOF0g
+Y2hrY29uZmlnOiByZXBsYWNlIGZlZG9yYWhvc3RlZC5vcmcgU1JDX1VSSSB3aXRoIGdpdGh1Yi5j
+b20gc291cmNlPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PG86
+cD4mbmJzcDs8L286cD48L3A+DQo8ZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxv
+OnA+Jm5ic3A7PC9vOnA+PC9wPg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPk9uIDMgQXBy
+aWwgMjAxNyBhdCAwMzo1MSwgJmx0OzxhIGhyZWY9Im1haWx0bzp5aW4udGhvbmcuY2hvb25nQGlu
+dGVsLmNvbSIgdGFyZ2V0PSJfYmxhbmsiPnlpbi50aG9uZy5jaG9vbmdAaW50ZWwuY29tPC9hPiZn
+dDsgd3JvdGU6PG86cD48L286cD48L3A+DQo8YmxvY2txdW90ZSBzdHlsZT0iYm9yZGVyOm5vbmU7
+Ym9yZGVyLWxlZnQ6c29saWQgI0NDQ0NDQyAxLjBwdDtwYWRkaW5nOjBpbiAwaW4gMGluIDYuMHB0
+O21hcmdpbi1sZWZ0OjQuOHB0O21hcmdpbi10b3A6NS4wcHQ7bWFyZ2luLXJpZ2h0OjBpbjttYXJn
+aW4tYm90dG9tOjUuMHB0Ij4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxhIGhyZWY9Imh0dHA6Ly9m
+ZWRvcmFob3N0ZWQub3JnIiB0YXJnZXQ9Il9ibGFuayI+ZmVkb3JhaG9zdGVkLm9yZzwvYT4gd2Fz
+IHJldGlyZWQgb24gTWFyY2ggMXN0LCAyMDE3LiBUaGlzIGlzIHRvIHVwZGF0ZTxicj4NCnRoZSBT
+UkNfVVJJIHRvIHBvaW50IHRvIDxhIGhyZWY9Imh0dHA6Ly9naXRodWIuY29tIiB0YXJnZXQ9Il9i
+bGFuayI+Z2l0aHViLmNvbTwvYT4uPG86cD48L286cD48L3A+DQo8L2Jsb2NrcXVvdGU+DQo8ZGl2
+Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PG86cD4mbmJzcDs8L286cD48L3A+DQo8L2Rpdj4NCjxk
+aXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj5IZXJlIHlvdSBzYXkgPGEgaHJlZj0iaHR0cDovL2dp
+dGh1Yi5jb20iPmdpdGh1Yi5jb208L2E+LjxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0K
+PHAgY2xhc3M9Ik1zb05vcm1hbCI+Jm5ic3A7PG86cD48L286cD48L3A+DQo8L2Rpdj4NCjxibG9j
+a3F1b3RlIHN0eWxlPSJib3JkZXI6bm9uZTtib3JkZXItbGVmdDpzb2xpZCAjQ0NDQ0NDIDEuMHB0
+O3BhZGRpbmc6MGluIDBpbiAwaW4gNi4wcHQ7bWFyZ2luLWxlZnQ6NC44cHQ7bWFyZ2luLXRvcDo1
+LjBwdDttYXJnaW4tcmlnaHQ6MGluO21hcmdpbi1ib3R0b206NS4wcHQiPg0KPHAgY2xhc3M9Ik1z
+b05vcm1hbCI+LUhPTUVQQUdFID0gJnF1b3Q7PGEgaHJlZj0iaHR0cDovL2ZlZG9yYWhvc3RlZC5v
+cmcvcmVsZWFzZXMvYy9oL2Noa2NvbmZpZyIgdGFyZ2V0PSJfYmxhbmsiPmh0dHA6Ly9mZWRvcmFo
+b3N0ZWQub3JnL3JlbGVhc2VzL2MvaC9jaGtjb25maWc8L2E+JnF1b3Q7PGJyPg0KJiM0MztIT01F
+UEFHRSA9ICZxdW90OzxhIGhyZWY9Imh0dHA6Ly9kb3dubG9hZHMueW9jdG9wcm9qZWN0Lm9yZy9t
+aXJyb3Ivc291cmNlcy8iIHRhcmdldD0iX2JsYW5rIj5odHRwOi8vZG93bmxvYWRzLnlvY3RvcHJv
+amVjdC5vcmcvbWlycm9yL3NvdXJjZXMvPC9hPiZxdW90OzxvOnA+PC9vOnA+PC9wPg0KPC9ibG9j
+a3F1b3RlPg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9w
+Pg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+SE9NRVBBR0UgaXMgb3B0aW9u
+YWwgYW5kIHRoaXMgaXNuJ3QgdGhlIGhvbWVwYWdlLCBzbyB3ZSBtaWdodCBhcyB3ZWxsIGRlbGV0
+ZSB0aGlzLjxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1h
+bCI+Jm5ic3A7PG86cD48L286cD48L3A+DQo8L2Rpdj4NCjxibG9ja3F1b3RlIHN0eWxlPSJib3Jk
+ZXI6bm9uZTtib3JkZXItbGVmdDpzb2xpZCAjQ0NDQ0NDIDEuMHB0O3BhZGRpbmc6MGluIDBpbiAw
+aW4gNi4wcHQ7bWFyZ2luLWxlZnQ6NC44cHQ7bWFyZ2luLXRvcDo1LjBwdDttYXJnaW4tcmlnaHQ6
+MGluO21hcmdpbi1ib3R0b206NS4wcHQiPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+LVNSQ19VUkkg
+PSAmcXVvdDs8YSBocmVmPSJodHRwOi8vZmVkb3JhaG9zdGVkLm9yZy9yZWxlYXNlcy9jL2gvY2hr
+Y29uZmlnLyQlN2JCUE4lN2QtJCU3YlBWJTdkLnRhci5iejIiIHRhcmdldD0iX2JsYW5rIj5odHRw
+Oi8vZmVkb3JhaG9zdGVkLm9yZy9yZWxlYXNlcy9jL2gvY2hrY29uZmlnLyR7QlBOfS0ke1BWfS50
+YXIuYnoyPC9hPiBcPGJyPg0KJiM0MztTUkNfVVJJID0gJnF1b3Q7PGEgaHJlZj0iaHR0cDovL2Rv
+d25sb2Fkcy55b2N0b3Byb2plY3Qub3JnL21pcnJvci9zb3VyY2VzLyQlN2JCUE4lN2QtJCU3YlBW
+JTdkLnRhci5iejIiIHRhcmdldD0iX2JsYW5rIj5odHRwOi8vZG93bmxvYWRzLnlvY3RvcHJvamVj
+dC5vcmcvbWlycm9yL3NvdXJjZXMvJHtCUE59LSR7UFZ9LnRhci5iejI8L2E+IFw8bzpwPjwvbzpw
+PjwvcD4NCjwvYmxvY2txdW90ZT4NCjwvZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PGJyPg0K
+VGhpcyBpc24ndCBnaXRodWIuPG86cD48L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFz
+cz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNs
+YXNzPSJNc29Ob3JtYWwiPlJvc3M8bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPC9kaXY+DQo8L2Rp
+dj4NCjwvYm9keT4NCjwvaHRtbD4NCg==
 
-Whilst there are many official-looking forks on github that are just Some
-Guy, this is clearly the new canonical home.
-
-Ross
-
---94eb2c063a185b80b2054c3fa1e7
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 3 April 2017 at 09:30, Jussi Kukkonen <span dir=3D"ltr">&lt;<a href=3D"m=
-ailto:jussi.kukkonen@intel.com" target=3D"_blank">jussi.kukkonen@intel.com<=
-/a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:=
-0px 0px 0px 0.8ex;border-left-width:1px;border-left-style:solid;border-left=
--color:rgb(204,204,204);padding-left:1ex"><div>This is true, there&#39;s no=
-t that much in the repo itself to create trust. The major show of trust is =
-here though: <a href=3D"http://pkgs.fedoraproject.org/cgit/rpms/logrotate.g=
-it/commit/?id=3D9cb55142e51b82085d6c3136448c1f441454e351" target=3D"_blank"=
->http://pkgs.fedoraproject.org/<wbr>cgit/rpms/logrotate.git/<wbr>commit/?id=
-=3D<wbr>9cb55142e51b82085d6c3136448c1f<wbr>441454e351</a></div><div>Fedora/=
-Red Hat themselves changed to use this repo when the fedorahosted repos wer=
-e EOL&#39;d (see also Red Hat folks working on the github issues in January=
-).</div><div></div></blockquote></div><br>So logrotate was originally hoste=
-d on Fedora infrastructure that is then shut down, a github repository appe=
-ars and Fedora fetch from that github repository.=C2=A0 Also the commit in =
-the github repository to change the README from fedorahosted to github (<a =
-href=3D"https://github.com/logrotate/logrotate/commit/09c4fa8bc6cf2c01bad24=
-d33c3ea69371030c014">https://github.com/logrotate/logrotate/commit/09c4fa8b=
-c6cf2c01bad24d33c3ea69371030c014</a>) was committed by a Red Hat employee (=
-<a href=3D"https://github.com/kdudka">https://github.com/kdudka</a>).</div>=
-<div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Whilst ther=
-e are many official-looking forks on github that are just Some Guy, this is=
- clearly the new canonical home.</div><div class=3D"gmail_extra"><br></div>=
-<div class=3D"gmail_extra">Ross</div></div>
-
---94eb2c063a185b80b2054c3fa1e7--
+--_000_CF0C948DE8E2634BB64BF489FF9EF7E7CB1195PGSMSX105garcorpi_--
