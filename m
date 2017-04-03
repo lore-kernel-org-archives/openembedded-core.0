@@ -1,38 +1,38 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f178.google.com (mail-qk0-f178.google.com
-	[209.85.220.178])
-	by mail.openembedded.org (Postfix) with ESMTP id BDB8571AD8
+Return-Path: <jussi.kukkonen@intel.com>
+Received: from mail-yb0-f170.google.com (mail-yb0-f170.google.com
+	[209.85.213.170])
+	by mail.openembedded.org (Postfix) with ESMTP id EB55B719C3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Apr 2017 11:14:11 +0000 (UTC)
-Received: by mail-qk0-f178.google.com with SMTP id d10so111094305qke.1
+	Mon,  3 Apr 2017 11:47:14 +0000 (UTC)
+Received: by mail-yb0-f170.google.com with SMTP id f204so30925709ybc.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 03 Apr 2017 04:14:12 -0700 (PDT)
+	Mon, 03 Apr 2017 04:47:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=u1Z2zU/fD4K90wStZ+sdoi/+BzycvnnAKbOxNhSW0F0=;
-	b=Fbwl40mYuzocFP49zUc/M4sfl27sMA8WGkJA2mSbyAt5GETU2Zu0Y3dPFXn2Th/WhO
-	+ANTazPkQ1aONUmCb1s175Q7J7QAiVVZNB8GZTF+ewXlG3eestB9+yHR5719Q7nrsi/B
-	+f4iO3Unw9DVuM4FQrsj2vF8dxE+NIVJa1V6taG4fuIK2/zlA2FBkANVUGa0R98KJg1s
-	zROGIHx2Rqf3AfuZ6VQLSP+3MbF0L7FQLiTijz3Ep93ZE+2pmX2wn+JlNTndOtZSbva5
-	hutN5JrUxstNUV19iDs2xRMCH+dFV6lWrhK780OyQi4yTIPy9+JLDMZadQ5dNvGt2fs1
-	Yhgg==
+	:cc; bh=1aKgvmYUfHzNvwX19knyDdO++zEG/qyAEyJ9Ufhmv8Q=;
+	b=lgHpYQHpV7nov4Cy2N6QUNWmHmmqh8/AMvo8zGppspgpuvetULD5niQmWhgmD4L5c+
+	RcTnIvwcTaxP9867QM9wnAyu/7ocV1izKyHjjadEiccF2BqJRW7nX7BSsCWt8o5yaxKa
+	fyBpyLExs0pa2dOvCXKQ9oJ4sBHrQsiKDMLfd43H5qJ5z/quVefqbdFsP7WiNTW2wCDr
+	CituuYnWkxazGIKSIfWp3EanPuZsB+yz8IVjrwofa8MgumnKj+U8OCkc9sad3jsGPCph
+	Jv+LFb8/wA96/cIT5MeSp67gRZ+MqBAx//eMnJ2DyOBFESM4uKqSmBfe5RfD5l5Vouv9
+	Zi5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=u1Z2zU/fD4K90wStZ+sdoi/+BzycvnnAKbOxNhSW0F0=;
-	b=lcu9fYWf9FXCRKlCLMx1K5Ush1rBHNrdkDDb0pdbPkTMoHhJbUb1fEBDKgrk7V+dvz
-	T3X0pAEtF1CbC3/ZQFRfMNPdT509uuTlTX36PYvkTvuWaKwBHI/79RqXtTddMuos5T2p
-	/soykeY/P0eO73T8ra81y+1o6vgtJqchrHqMgGomZfPUjEqbQHNeAaeXGwn0sjBqjL7m
-	uAkCBNQuQABXZMnw5BS2UzZzTL85ci7/QJlEHDGxL6jg22pjlWDqPNHEWH0tVYZ4D/pa
-	/UJfawRKlvHWpkLfcZDh2vE0Ny0JsGgqPzSbjEmAcHfXa+0l3xaq3IYwRa6yaaqX9Egy
-	ZrxA==
-X-Gm-Message-State: AFeK/H2Yaj8hLrZbIzjanuaXHT/Rj3H8f1tYt4EmQYqdfxDdWfQ6gHrEALx8chb9t8ejjcGP7IE3ec9kBeLEj6Gx
-X-Received: by 10.55.119.134 with SMTP id s128mr14184034qkc.244.1491218052503; 
-	Mon, 03 Apr 2017 04:14:12 -0700 (PDT)
+	bh=1aKgvmYUfHzNvwX19knyDdO++zEG/qyAEyJ9Ufhmv8Q=;
+	b=Jzw7ipRG+huIHIQXCZ1WN0SteWmt3sDhOK41MJoVM3wV7sMCaxx/rhDiyRND4d4yxH
+	r41Bku7yVOZaipCFVYWdFLeAMGA+1SP//OtTmO7ONGE7O1PCChTu6bUfORvcfPZVPStx
+	sVnP9RtACe2ABCYhabVY27zWyhHm7BZNm1Ew9bZG1szG2SSLpRuP4wov1sEmm7Pu5ocv
+	6bauRyOn0bHhS9Lvz/N0DaprhBwkUY8NrY8w5fLRU6JFKeU/iQuScjWWKpoU5R8H+/em
+	mOHVRL8qCWd2YZimcf97ssS/SPpJPmJkH8z1WtziiHQNAZ/uBfnrEZlNZTn4S2ir0bl3
+	RiRA==
+X-Gm-Message-State: AFeK/H2cQFWkQbqravCxhM2vqe85jfttL8hICScWIAb0dCzk/5mSEHGy6BXYj4/EAXomB3B7NXj9XsbrKPAjn0nd
+X-Received: by 10.129.197.74 with SMTP id o10mr12049964ywj.183.1491220035488; 
+	Mon, 03 Apr 2017 04:47:15 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.140.22.166 with HTTP; Mon, 3 Apr 2017 04:13:52 -0700 (PDT)
+Received: by 10.129.81.136 with HTTP; Mon, 3 Apr 2017 04:46:45 -0700 (PDT)
 In-Reply-To: <CF0C948DE8E2634BB64BF489FF9EF7E7CB120C@PGSMSX105.gar.corp.intel.com>
 References: <1491187907-5752-1-git-send-email-yin.thong.choong@intel.com>
 	<1491187907-5752-5-git-send-email-yin.thong.choong@intel.com>
@@ -41,9 +41,9 @@ References: <1491187907-5752-1-git-send-email-yin.thong.choong@intel.com>
 	<CAHiDW_Ee=0nyBAsHkagd0hfS0orWBDu9ahh4k=2uQHR0tet2Fg@mail.gmail.com>
 	<CAJTo0Lb6o=fFerSorzQqJpRtMNB6z1L5ZDqE5AzTE6gCpWNmSA@mail.gmail.com>
 	<CF0C948DE8E2634BB64BF489FF9EF7E7CB120C@PGSMSX105.gar.corp.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 3 Apr 2017 12:13:52 +0100
-Message-ID: <CAJTo0LZRFsfO7a4Rvp72MwwSQ7Lc3aC+TNDEK2_hm0WaJhtYsg@mail.gmail.com>
+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+Date: Mon, 3 Apr 2017 14:46:45 +0300
+Message-ID: <CAHiDW_EDa4mQkDZ69LdzK0JQrOr2YmSXY5nKw1_BUdw_jeQW2w@mail.gmail.com>
 To: "Choong, Yin Thong" <yin.thong.choong@intel.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
@@ -60,59 +60,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Apr 2017 11:14:12 -0000
-Content-Type: multipart/alternative; boundary=94eb2c05cbd04d7104054c41427d
+X-List-Received-Date: Mon, 03 Apr 2017 11:47:15 -0000
+Content-Type: multipart/alternative; boundary=94eb2c1a54fa7f6134054c41b87c
 
---94eb2c05cbd04d7104054c41427d
+--94eb2c1a54fa7f6134054c41b87c
 Content-Type: text/plain; charset=UTF-8
 
-On 3 April 2017 at 12:00, Choong, Yin Thong <yin.thong.choong@intel.com>
+On 3 April 2017 at 14:00, Choong, Yin Thong <yin.thong.choong@intel.com>
 wrote:
-
-> https://downloads.yoctoproject.org/mirror/sources/logrotate-3.9.1.tar.gz
 >
-> https://github.com/logrotate/logrotate/archive/r3-9-1.tar.gz
->
->
-Annoyingly the /archive/ links on github are generated on demand by 'git
-archive' so only contain the exact contents of the git archive and will not
-be identical to the tarballs.
+> Hi,
+> Once I change to github.com below error pop out. Seem like it miss align
+with the patch compare with github.com logrotate source. Both package seem
+got miss align on the version. When I compare yoctoproject logrotate.c and
+github logrotate.c it has big different (as attached), there even got
+different parameter count on some API function
 
-As the maintainer has been uploading generated tarballs for new releases
-(3.9.2, etc) it's probably work asking him if he'd be willing to upload the
-older tarballs too.
 
-Ross
+Ross's  suggestion of asking the maintainer is good but I'll note that
+there does not seem to be any difference in the actual source files: you're
+maybe looking at a different version.
 
---94eb2c05cbd04d7104054c41427d
+The patching error is a result of the top level source directory name
+changing. This could be worked around with
+  S = "${WORKDIR}/logrotate-r3-9-1"
+
+Jussi
+
+--94eb2c1a54fa7f6134054c41b87c
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 3 April 2017 at 12:00, Choong, Yin Thong <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:yin.thong.choong@intel.com" target=3D"_blank">yin.thong.choong@i=
-ntel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=
-=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><p class=
-=3D"MsoNormal"><a href=3D"https://downloads.yoctoproject.org/mirror/sources=
-/logrotate-3.9.1.tar.gz" target=3D"_blank"><span style=3D"font-size:11.0pt;=
-font-family:&quot;Calibri&quot;,sans-serif">https://downloads.yoctoproject<=
-wbr>.org/mirror/sources/logrotate-<wbr>3.9.1.tar.gz</span></a><span style=
-=3D"font-size:11.0pt;font-family:&quot;Calibri&quot;,sans-serif;color:#1f49=
-7d"><u></u><u></u></span></p>
-<p class=3D"MsoNormal"><a href=3D"https://github.com/logrotate/logrotate/ar=
-chive/r3-9-1.tar.gz" target=3D"_blank"><span style=3D"font-size:11.0pt;font=
--family:&quot;Calibri&quot;,sans-serif">https://github.com/logrotate/l<wbr>=
-ogrotate/archive/r3-9-1.tar.gz</span></a><span style=3D"font-size:11.0pt;fo=
-nt-family:&quot;Calibri&quot;,sans-serif;color:#1f497d"><u></u><u></u></spa=
-n></p>
-<p class=3D"MsoNormal"></p></blockquote></div><br></div><div class=3D"gmail=
-_extra">Annoyingly the /archive/ links on github are generated on demand by=
- &#39;git archive&#39; so only contain the exact contents of the git archiv=
-e and will not be identical to the tarballs.</div><div class=3D"gmail_extra=
-"><br></div><div class=3D"gmail_extra">As the maintainer has been uploading=
- generated tarballs for new releases (3.9.2, etc) it&#39;s probably work as=
-king him if he&#39;d be willing to upload the older tarballs too.</div><div=
- class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div=
->
+<div dir=3D"ltr">On 3 April 2017 at 14:00, Choong, Yin Thong &lt;<a href=3D=
+"mailto:yin.thong.choong@intel.com">yin.thong.choong@intel.com</a>&gt; wrot=
+e:<br>&gt;<br>&gt; Hi,<br>&gt; Once I change to <a href=3D"http://github.co=
+m">github.com</a> below error pop out. Seem like it miss align with the pat=
+ch compare with <a href=3D"http://github.com">github.com</a> logrotate sour=
+ce. Both package seem got miss align on the version. When I compare yoctopr=
+oject logrotate.c and github logrotate.c it has big different (as attached)=
+, there even got different parameter count on some API function<br><br><br>=
+Ross&#39;s =C2=A0suggestion of asking the maintainer is good but I&#39;ll n=
+ote that there does not seem to be any difference in the actual source file=
+s: you&#39;re maybe looking at a different version.=C2=A0<div><br></div><di=
+v>The patching error is a result of the top level source directory name cha=
+nging. This could be worked around with<br>=C2=A0 S =3D &quot;${WORKDIR}/lo=
+grotate-r3-9-1&quot;<br><br>Jussi=C2=A0<br><br></div></div>
 
---94eb2c05cbd04d7104054c41427d--
+--94eb2c1a54fa7f6134054c41b87c--
