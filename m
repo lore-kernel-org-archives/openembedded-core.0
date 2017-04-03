@@ -1,30 +1,18 @@
-Return-Path: <philip@balister.org>
-Received: from sanddollar.geekisp.com (sanddollar.geekisp.com
-	[216.168.135.167])
-	by mail.openembedded.org (Postfix) with ESMTP id BF623719FA
-	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Apr 2017 22:10:58 +0000 (UTC)
-Received: (qmail 4827 invoked by uid 1003); 3 Apr 2017 22:10:59 -0000
-Received: from unknown (HELO ?192.168.11.142?)
-	(philip@opensdr.com@71.171.15.46)
-	by mail.geekisp.com with (DHE-RSA-AES128-SHA encrypted) SMTP;
-	3 Apr 2017 22:10:59 -0000
-To: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	Michael Halstead <mhalstead@linuxfoundation.org>
-References: <VI1PR0601MB204589915BEAFCD77E7F9E42C5340@VI1PR0601MB2045.eurprd06.prod.outlook.com>
-	<7752ad18-af62-78ed-2795-931aff3ce186@balister.org>
-	<VI1PR0601MB2045F8FE2BE3944C67D1346AC5370@VI1PR0601MB2045.eurprd06.prod.outlook.com>
-	<3052459.lMOo6nDaO8@peggleto-mobl.ger.corp.intel.com>
-From: Philip Balister <philip@balister.org>
-Message-ID: <d39d43db-15fb-2616-9d5d-d58fd04fec71@balister.org>
-Date: Mon, 3 Apr 2017 18:10:58 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.8.0
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 4228F77D1A;
+	Mon,  3 Apr 2017 22:31:59 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <3052459.lMOo6nDaO8@peggleto-mobl.ger.corp.intel.com>
-Cc: "Konopelko, Pavel \(P.\)" <pkonopel@visteon.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: Subscribing to openembedded-architecture list
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+Date: Mon, 03 Apr 2017 22:32:01 -0000
+Message-ID: <20170403223201.6647.87869@do.openembedded.org>
+References: <20170404041711.23260-1-leonardo.sandoval.gonzalez@linux.intel.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <20170404041711.23260-1-leonardo.sandoval.gonzalez@linux.intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3Igc2VsZnRlc3QvcGtnZGF0YTogcmVwbGFjZSB0aGUgZ2xpYmMgcmVjaXBlIGFsbG93aW5nIGV4ZWN1dGlvbiBvbiBub24tcG9reSBkaXN0cm9zIChyZXYyKQ==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,48 +25,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Apr 2017 22:11:02 -0000
-Content-Type: text/plain; charset=windows-1252
+X-List-Received-Date: Mon, 03 Apr 2017 22:31:59 -0000
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
-We solved the problem ....
+== Series Details ==
 
-On 04/03/2017 04:39 PM, Paul Eggleton wrote:
-> Michael - can you see anything relating to Pavel's issues subscribing to the 
-> openembedded-architecture list?
-> 
-> Thanks,
-> Paul
-> 
-> On Friday, 31 March 2017 9:34:22 PM NZST Konopelko, Pavel (P.) wrote:
->> Philip Balister wrote on 2017-03-30:
->>> You should be able to join. Did you get any messages at all?
->>
->> No responses at all.  Neither for web interface nor for mail requests to
->> openembedded-architecture-{request|join}.  The only time I've got a
->> response was when I tried to send the question below to
->> openembedded-architecture and the message bounced.
->>
->> Regards,
->> --Pavel Konopelko
->>
->>> On 03/30/2017 06:32 AM, Konopelko, Pavel (P.) wrote:
->>>> Hello everybody,
->>>>
->>>> I wonder if openembedded-architecture list is closed, invitation-only
->>>
->>> or something.  The OE wiki [1] does not mention any restrictions.
->>> Nevertheless I seem to be unable to subscribe via the web interface or
->>> via an e-mail request (tried several times over the last couple of
->>> weeks).
->>>
->>>> What am I missing?
->>>>
->>>>
->>>> Thanks,
->>>> --Pavel Konopelko
->>>>
->>>> [1] http://openembedded.org/wiki/Mailing_lists
-> 
-> 
+Series: selftest/pkgdata: replace the glibc recipe allowing execution on non-poky distros (rev2)
+Revision: 2
+URL   : https://patchwork.openembedded.org/series/6093/
+State : failure
+
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at 3b7111b30d)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
+---
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+
 
