@@ -1,30 +1,22 @@
 Return-Path: <yin.thong.choong@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 8879B71D79
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by mail.openembedded.org (Postfix) with ESMTP id A46F477D1F
 	for <openembedded-core@lists.openembedded.org>;
 	Mon,  3 Apr 2017 02:52:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-	d=intel.com; i=@intel.com; q=dns/txt; s=intel;
-	t=1491187936; x=1522723936;
-	h=from:to:cc:subject:date:message-id:in-reply-to: references;
-	bh=diz9ju5jsRHwSEIW5SyqTVqcpPRTXtH0bNRLFem9VPE=;
-	b=vDy7xGRkojyoY344jElPPRaPx5CLRIJzyvrQkAAIxu30pydiTEo7YpfQ
-	4zxEgwUKIMEAm+qMrLcxkDHTPlO9BA==;
 Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	02 Apr 2017 19:52:15 -0700
+	by orsmga104.jf.intel.com with ESMTP; 02 Apr 2017 19:52:15 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.36,267,1486454400"; d="scan'208";a="83488927"
+X-IronPort-AV: E=Sophos;i="5.36,267,1486454400"; d="scan'208";a="83488921"
 Received: from platypus.jf.intel.com ([10.54.77.139])
 	by fmsmga005.fm.intel.com with ESMTP; 02 Apr 2017 19:52:13 -0700
 From: yin.thong.choong@intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Sun,  2 Apr 2017 19:51:42 -0700
-Message-Id: <1491187907-5752-4-git-send-email-yin.thong.choong@intel.com>
+Date: Sun,  2 Apr 2017 19:51:40 -0700
+Message-Id: <1491187907-5752-2-git-send-email-yin.thong.choong@intel.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1491187907-5752-1-git-send-email-yin.thong.choong@intel.com>
 References: <1491187907-5752-1-git-send-email-yin.thong.choong@intel.com>
-Subject: [PATCH 3/8] libuser: replace fedorahosted.org SRC_URI with pagure.io source
+Subject: [PATCH 1/8] selftest/recipetool: replace fedorahosted.org SRC_URI with yoctoproject.org source
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,40 +34,35 @@ X-List-Received-Date: Mon, 03 Apr 2017 02:52:15 -0000
 From: Choong YinThong <yin.thong.choong@intel.com>
 
 fedorahosted.org was retired on March 1st, 2017. This is to
-update the SRC_URI to point to pagure.io. pagure.io is a
-replacement for fedorahosted.
+update the SRC_URI to point to yoctoproject.org.
 
 [YOCTO #11226]
 
 Signed-off-by: Choong YinThong <yin.thong.choong@intel.com>
 ---
- meta/recipes-extended/libuser/libuser_0.62.bb | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ meta/lib/oeqa/selftest/recipetool.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-extended/libuser/libuser_0.62.bb b/meta/recipes-extended/libuser/libuser_0.62.bb
-index 6960d71..1765346 100644
---- a/meta/recipes-extended/libuser/libuser_0.62.bb
-+++ b/meta/recipes-extended/libuser/libuser_0.62.bb
-@@ -1,8 +1,8 @@
- SUMMARY = "user and group account administration library"
- DESCRIPTION = "The libuser library implements a standardized interface for manipulating and administering user \
- and group accounts"
--HOMEPAGE = "https://fedorahosted.org/libuser/"
--BUGTRACKER = "https://fedorahosted.org/libuser/newticket"
-+HOMEPAGE = "https://pagure.io/libuser"
-+BUGTRACKER = "https://pagure.io/libuser/issues"
- 
- LICENSE = "LGPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=5f30f0716dfdd0d91eb439ebec522ec2 \
-@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=5f30f0716dfdd0d91eb439ebec522ec2 \
- 
- SECTION = "base"
- 
--SRC_URI = "https://fedorahosted.org/releases/l/i/libuser/libuser-${PV}.tar.xz \
-+SRC_URI = "https://releases.pagure.org/libuser/libuser-${PV}.tar.xz \
-            file://0001-Check-for-issetugid.patch \
-            file://0002-remove-unused-execinfo.h.patch \
-            file://0001-modules-files.c-parse_field-fix-string-formating-in-.patch \
+diff --git a/meta/lib/oeqa/selftest/recipetool.py b/meta/lib/oeqa/selftest/recipetool.py
+index d62c8bb..a3667dc 100644
+--- a/meta/lib/oeqa/selftest/recipetool.py
++++ b/meta/lib/oeqa/selftest/recipetool.py
+@@ -369,13 +369,13 @@ class RecipetoolTests(RecipetoolBase):
+         tempsrc = os.path.join(self.tempdir, 'srctree')
+         os.makedirs(tempsrc)
+         recipefile = os.path.join(self.tempdir, 'logrotate_3.8.7.bb')
+-        srcuri = 'https://fedorahosted.org/releases/l/o/logrotate/logrotate-3.8.7.tar.gz'
++        srcuri = 'http://downloads.yoctoproject.org/mirror/sources/logrotate-3.8.7.tar.gz'
+         result = runCmd('recipetool create -o %s %s -x %s' % (recipefile, srcuri, tempsrc))
+         self.assertTrue(os.path.isfile(recipefile))
+         checkvars = {}
+         checkvars['LICENSE'] = 'GPLv2'
+         checkvars['LIC_FILES_CHKSUM'] = 'file://COPYING;md5=18810669f13b87348459e611d31ab760'
+-        checkvars['SRC_URI'] = 'https://fedorahosted.org/releases/l/o/logrotate/logrotate-${PV}.tar.gz'
++        checkvars['SRC_URI'] = 'http://downloads.yoctoproject.org/mirror/sources/logrotate-${PV}.tar.gz'
+         checkvars['SRC_URI[md5sum]'] = '99e08503ef24c3e2e3ff74cc5f3be213'
+         checkvars['SRC_URI[sha256sum]'] = 'f6ba691f40e30e640efa2752c1f9499a3f9738257660994de70a45fe00d12b64'
+         self._test_recipe_contents(recipefile, checkvars, [])
 -- 
 2.7.4
 
