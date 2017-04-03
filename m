@@ -1,22 +1,17 @@
-Return-Path: <yin.thong.choong@intel.com>
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id 1B74D77D28
+Return-Path: <romain.perier@collabora.com>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+	by mail.openembedded.org (Postfix) with ESMTP id 5CD3F65CC7
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Apr 2017 02:52:14 +0000 (UTC)
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-	by orsmga104.jf.intel.com with ESMTP; 02 Apr 2017 19:52:15 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.36,267,1486454400"; d="scan'208";a="83488936"
-Received: from platypus.jf.intel.com ([10.54.77.139])
-	by fmsmga005.fm.intel.com with ESMTP; 02 Apr 2017 19:52:14 -0700
-From: yin.thong.choong@intel.com
-To: openembedded-core@lists.openembedded.org
-Date: Sun,  2 Apr 2017 19:51:45 -0700
-Message-Id: <1491187907-5752-7-git-send-email-yin.thong.choong@intel.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1491187907-5752-1-git-send-email-yin.thong.choong@intel.com>
-References: <1491187907-5752-1-git-send-email-yin.thong.choong@intel.com>
-Subject: [PATCH 6/8] liberation-fonts: replace fedorahosted.org SRC_URI with pagure.io source
+	Mon,  3 Apr 2017 07:13:51 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(Authenticated sender: rperier) with ESMTPSA id D7C63260FD4
+From: Romain Perier <romain.perier@collabora.com>
+To: Qi.Chen@windriver.com
+Date: Mon,  3 Apr 2017 09:13:46 +0200
+Message-Id: <20170403071346.9980-1-romain.perier@collabora.com>
+X-Mailer: git-send-email 2.9.3
+Cc: yocto@yoctoproject.org, openembedded-core@lists.openembedded.org
+Subject: [PATCH v2] busybox: make SYSLOGD optionnal
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,44 +24,127 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Apr 2017 02:52:16 -0000
+X-List-Received-Date: Mon, 03 Apr 2017 07:13:53 -0000
 
-From: Choong YinThong <yin.thong.choong@intel.com>
+Some distros might choose another syslogd provider like rsyslogd.
+update-alternative will update the link from syslogd to the right
+provider. However the syslogd feature is still present and enabled
+in busybox.
 
-fedorahosted.org was retired on March 1st, 2017. This is to
-update the SRC_URI to point to pagure.io. pagure.io is a
-replacement for fedorahosted.
+This commit adds a new configuration fragment to make syslogd
+optionnal in busybox.
 
-[YOCTO #11226]
-
-Signed-off-by: Choong YinThong <yin.thong.choong@intel.com>
+Signed-off-by: Romain Perier <romain.perier@collabora.com>
 ---
- meta/recipes-graphics/ttf-fonts/liberation-fonts_1.04.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-graphics/ttf-fonts/liberation-fonts_1.04.bb b/meta/recipes-graphics/ttf-fonts/liberation-fonts_1.04.bb
-index bda82e7..74212e7 100644
---- a/meta/recipes-graphics/ttf-fonts/liberation-fonts_1.04.bb
-+++ b/meta/recipes-graphics/ttf-fonts/liberation-fonts_1.04.bb
-@@ -2,7 +2,7 @@ SUMMARY = "Liberation(tm) Fonts"
- DESCRIPTION = "The Liberation(tm) Fonts is a font family originally \
- created by Ascender(c) which aims at metric compatibility with \
- Arial, Times New Roman, Courier New."
--HOMEPAGE = "https://fedorahosted.org/liberation-fonts/"
-+HOMEPAGE = "https://releases.pagure.org/liberation-fonts/"
- BUGTRACKER = "https://bugzilla.redhat.com/"
+Changes in v2:
+- Rebased onto master branch (thanks to patchwork)
+
+ meta/recipes-core/busybox/busybox.inc        |  6 +++---
+ meta/recipes-core/busybox/busybox/defconfig  | 20 +++++++++-----------
+ meta/recipes-core/busybox/busybox/syslog.cfg | 11 +++++++++++
+ meta/recipes-core/busybox/busybox_1.24.1.bb  |  1 +
+ meta/recipes-core/busybox/busybox_git.bb     |  1 +
+ 5 files changed, 25 insertions(+), 14 deletions(-)
+ create mode 100644 meta/recipes-core/busybox/busybox/syslog.cfg
+
+diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
+index 6246c95..4c5c98a 100644
+--- a/meta/recipes-core/busybox/busybox.inc
++++ b/meta/recipes-core/busybox/busybox.inc
+@@ -40,7 +40,7 @@ INITSCRIPT_NAME_${PN}-syslog = "syslog"
+ INITSCRIPT_NAME_${PN}-udhcpd = "busybox-udhcpd"
  
- RECIPE_NO_UPDATE_REASON = "2.x depends on fontforge package, which is not yet provided in oe-core"
-@@ -17,7 +17,7 @@ inherit allarch fontcache
+ SYSTEMD_PACKAGES = "${PN}-syslog"
+-SYSTEMD_SERVICE_${PN}-syslog = "busybox-syslog.service"
++SYSTEMD_SERVICE_${PN}-syslog = "${@bb.utils.contains('SRC_URI', 'file://syslog.cfg', 'busybox-syslog.service', '', d)}"
  
- FONT_PACKAGES = "${PN}"
+ CONFFILES_${PN}-syslog = "${sysconfdir}/syslog-startup.conf.${BPN}"
+ CONFFILES_${PN}-mdev = "${sysconfdir}/mdev.conf"
+@@ -330,8 +330,8 @@ inherit update-alternatives
  
--SRC_URI = "https://fedorahosted.org/releases/l/i/liberation-fonts/liberation-fonts-${PV}.tar.gz \
-+SRC_URI = "https://releases.pagure.org/liberation-fonts/liberation-fonts-${PV}.tar.gz \
-            file://30-liberation-aliases.conf"
+ ALTERNATIVE_PRIORITY = "50"
  
- SRC_URI[md5sum] = "4846797ef0fc70b0cbaede2514677c58"
+-ALTERNATIVE_${PN}-syslog += "syslog-conf"
+-ALTERNATIVE_LINK_NAME[syslog-conf] = "${sysconfdir}/syslog.conf"
++ALTERNATIVE_${PN}-syslog += "${@bb.utils.contains('SRC_URI', 'file://syslog.cfg', 'syslog-conf', '', d)}"
++ALTERNATIVE_LINK_NAME[syslog-conf] = "${@bb.utils.contains('SRC_URI', 'file://syslog.cfg', "${sysconfdir}/syslog.conf", '', d)}"
+ 
+ python () {
+     if bb.utils.contains('DISTRO_FEATURES', 'sysvinit', True, False, d):
+diff --git a/meta/recipes-core/busybox/busybox/defconfig b/meta/recipes-core/busybox/busybox/defconfig
+index f649738..75bf146 100644
+--- a/meta/recipes-core/busybox/busybox/defconfig
++++ b/meta/recipes-core/busybox/busybox/defconfig
+@@ -1053,17 +1053,15 @@ CONFIG_FEATURE_SH_HISTFILESIZE=y
+ #
+ # System Logging Utilities
+ #
+-CONFIG_SYSLOGD=y
+-CONFIG_FEATURE_ROTATE_LOGFILE=y
+-CONFIG_FEATURE_REMOTE_LOG=y
+-CONFIG_FEATURE_SYSLOGD_DUP=y
+-CONFIG_FEATURE_SYSLOGD_CFG=y
+-CONFIG_FEATURE_SYSLOGD_READ_BUFFER_SIZE=256
+-CONFIG_FEATURE_IPC_SYSLOG=y
+-CONFIG_FEATURE_IPC_SYSLOG_BUFFER_SIZE=64
+-CONFIG_LOGREAD=y
+-CONFIG_FEATURE_LOGREAD_REDUCED_LOCKING=y
+-CONFIG_FEATURE_KMSG_SYSLOG=y
++# CONFIG_SYSLOGD is not set
++# CONFIG_FEATURE_ROTATE_LOGFILE is not set
++# CONFIG_FEATURE_REMOTE_LOG is not set
++# CONFIG_FEATURE_SYSLOGD_DUP is not set
++# CONFIG_FEATURE_SYSLOGD_CFG is not set
++# CONFIG_FEATURE_IPC_SYSLOG is not set
++# CONFIG_LOGREAD is not set
++# CONFIG_FEATURE_LOGREAD_REDUCED_LOCKING is not set
++# CONFIG_FEATURE_KMSG_SYSLOG is not set
+ CONFIG_KLOGD=y
+ 
+ #
+diff --git a/meta/recipes-core/busybox/busybox/syslog.cfg b/meta/recipes-core/busybox/busybox/syslog.cfg
+new file mode 100644
+index 0000000..e2425ed
+--- /dev/null
++++ b/meta/recipes-core/busybox/busybox/syslog.cfg
+@@ -0,0 +1,11 @@
++CONFIG_SYSLOGD=y
++CONFIG_FEATURE_ROTATE_LOGFILE=y
++CONFIG_FEATURE_REMOTE_LOG=y
++CONFIG_FEATURE_SYSLOGD_DUP=y
++CONFIG_FEATURE_SYSLOGD_CFG=y
++CONFIG_FEATURE_SYSLOGD_READ_BUFFER_SIZE=256
++CONFIG_FEATURE_IPC_SYSLOG=y
++CONFIG_FEATURE_IPC_SYSLOG_BUFFER_SIZE=64
++CONFIG_LOGREAD=y
++CONFIG_FEATURE_LOGREAD_REDUCED_LOCKING=y
++CONFIG_FEATURE_KMSG_SYSLOG=y
+diff --git a/meta/recipes-core/busybox/busybox_1.24.1.bb b/meta/recipes-core/busybox/busybox_1.24.1.bb
+index 41fc641..2e3a041 100644
+--- a/meta/recipes-core/busybox/busybox_1.24.1.bb
++++ b/meta/recipes-core/busybox/busybox_1.24.1.bb
+@@ -40,6 +40,7 @@ SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
+            file://resize.cfg \
+            ${@["", "file://init.cfg"][(d.getVar('VIRTUAL-RUNTIME_init_manager') == 'busybox')]} \
+            ${@["", "file://mdev.cfg"][(d.getVar('VIRTUAL-RUNTIME_dev_manager') == 'busybox-mdev')]} \
++           file://syslog.cfg \
+            file://inittab \
+            file://rcS \
+            file://rcK \
+diff --git a/meta/recipes-core/busybox/busybox_git.bb b/meta/recipes-core/busybox/busybox_git.bb
+index c2ee3e6..50c4c9d 100644
+--- a/meta/recipes-core/busybox/busybox_git.bb
++++ b/meta/recipes-core/busybox/busybox_git.bb
+@@ -42,6 +42,7 @@ SRC_URI = "git://busybox.net/busybox.git \
+            file://resize.cfg \
+            ${@["", "file://init.cfg"][(d.getVar('VIRTUAL-RUNTIME_init_manager') == 'busybox')]} \
+            ${@["", "file://mdev.cfg"][(d.getVar('VIRTUAL-RUNTIME_dev_manager') == 'busybox-mdev')]} \
++           file://syslog.cfg \
+            file://inittab \
+            file://rcS \
+            file://rcK \
 -- 
-2.7.4
+2.9.3
 
 
