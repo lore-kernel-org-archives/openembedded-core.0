@@ -1,28 +1,30 @@
-Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 09BAB71ABD
+Return-Path: <philip@balister.org>
+Received: from sanddollar.geekisp.com (sanddollar.geekisp.com
+	[216.168.135.167])
+	by mail.openembedded.org (Postfix) with ESMTP id BF623719FA
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Apr 2017 21:20:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-	d=intel.com; i=@intel.com; q=dns/txt; s=intel;
-	t=1491254445; x=1522790445;
-	h=from:to:cc:subject:date:message-id;
-	bh=NY76YBik4dGj75R3l/3tZMWoS8GAzpEWTeqyJCn3ALo=;
-	b=DPDAEpMKHI9ju9Z3w5jGqQYha25as/ZseY091Qe0GvvD8dNiH0sEnooo
-	LQTLdw8QxoUtCvOGgOAtmZwPtXInGQ==;
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	03 Apr 2017 14:20:44 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.36,272,1486454400"; d="scan'208";a="951315435"
-Received: from yctb05.ostc.intel.com ([10.54.69.59])
-	by orsmga003.jf.intel.com with ESMTP; 03 Apr 2017 14:20:44 -0700
-From: leonardo.sandoval.gonzalez@linux.intel.com
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  3 Apr 2017 21:20:08 -0700
-Message-Id: <20170404042008.23356-1-leonardo.sandoval.gonzalez@linux.intel.com>
-X-Mailer: git-send-email 2.10.2
-Subject: [PATCH] selftest/devtool: skip test in case of poky-tiny distro
+	Mon,  3 Apr 2017 22:10:58 +0000 (UTC)
+Received: (qmail 4827 invoked by uid 1003); 3 Apr 2017 22:10:59 -0000
+Received: from unknown (HELO ?192.168.11.142?)
+	(philip@opensdr.com@71.171.15.46)
+	by mail.geekisp.com with (DHE-RSA-AES128-SHA encrypted) SMTP;
+	3 Apr 2017 22:10:59 -0000
+To: Paul Eggleton <paul.eggleton@linux.intel.com>,
+	Michael Halstead <mhalstead@linuxfoundation.org>
+References: <VI1PR0601MB204589915BEAFCD77E7F9E42C5340@VI1PR0601MB2045.eurprd06.prod.outlook.com>
+	<7752ad18-af62-78ed-2795-931aff3ce186@balister.org>
+	<VI1PR0601MB2045F8FE2BE3944C67D1346AC5370@VI1PR0601MB2045.eurprd06.prod.outlook.com>
+	<3052459.lMOo6nDaO8@peggleto-mobl.ger.corp.intel.com>
+From: Philip Balister <philip@balister.org>
+Message-ID: <d39d43db-15fb-2616-9d5d-d58fd04fec71@balister.org>
+Date: Mon, 3 Apr 2017 18:10:58 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.8.0
+MIME-Version: 1.0
+In-Reply-To: <3052459.lMOo6nDaO8@peggleto-mobl.ger.corp.intel.com>
+Cc: "Konopelko, Pavel \(P.\)" <pkonopel@visteon.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: Subscribing to openembedded-architecture list
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,35 +37,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Apr 2017 21:20:44 -0000
+X-List-Received-Date: Mon, 03 Apr 2017 22:11:02 -0000
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 7bit
 
-From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+We solved the problem ....
 
-The recipe being tested (devtoo-test-patch-gz) by devtool has dependencies (at
-least libxres and virtual/libx11) that cannot be built with poky-tiny distro so
-skip the test for this particular policy.
-
-[YOCTO #10891]
-
-Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
----
- meta/lib/oeqa/selftest/devtool.py | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/meta/lib/oeqa/selftest/devtool.py b/meta/lib/oeqa/selftest/devtool.py
-index 7f9efe6..7e65e52 100644
---- a/meta/lib/oeqa/selftest/devtool.py
-+++ b/meta/lib/oeqa/selftest/devtool.py
-@@ -1035,6 +1035,8 @@ class DevtoolTests(DevtoolBase):
-     def test_devtool_update_recipe_local_patch_gz(self):
-         # First, modify the recipe
-         testrecipe = 'devtool-test-patch-gz'
-+        if get_bb_var('DISTRO') == 'poky-tiny':
-+            self.skipTest("The DISTRO 'poky-tiny' does not provide the dependencies needed by %s" % testrecipe)
-         bb_vars = get_bb_vars(['FILE', 'SRC_URI'], testrecipe)
-         recipefile = bb_vars['FILE']
-         src_uri = bb_vars['SRC_URI']
--- 
-2.10.2
-
+On 04/03/2017 04:39 PM, Paul Eggleton wrote:
+> Michael - can you see anything relating to Pavel's issues subscribing to the 
+> openembedded-architecture list?
+> 
+> Thanks,
+> Paul
+> 
+> On Friday, 31 March 2017 9:34:22 PM NZST Konopelko, Pavel (P.) wrote:
+>> Philip Balister wrote on 2017-03-30:
+>>> You should be able to join. Did you get any messages at all?
+>>
+>> No responses at all.  Neither for web interface nor for mail requests to
+>> openembedded-architecture-{request|join}.  The only time I've got a
+>> response was when I tried to send the question below to
+>> openembedded-architecture and the message bounced.
+>>
+>> Regards,
+>> --Pavel Konopelko
+>>
+>>> On 03/30/2017 06:32 AM, Konopelko, Pavel (P.) wrote:
+>>>> Hello everybody,
+>>>>
+>>>> I wonder if openembedded-architecture list is closed, invitation-only
+>>>
+>>> or something.  The OE wiki [1] does not mention any restrictions.
+>>> Nevertheless I seem to be unable to subscribe via the web interface or
+>>> via an e-mail request (tried several times over the last couple of
+>>> weeks).
+>>>
+>>>> What am I missing?
+>>>>
+>>>>
+>>>> Thanks,
+>>>> --Pavel Konopelko
+>>>>
+>>>> [1] http://openembedded.org/wiki/Mailing_lists
+> 
+> 
 
