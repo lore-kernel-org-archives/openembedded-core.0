@@ -1,20 +1,35 @@
-Return-Path: <markus.lehtonen@linux.intel.com>
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id 60A84719B1
+Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id F07A371DC7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Apr 2017 13:56:37 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga105.jf.intel.com with ESMTP; 04 Apr 2017 06:56:38 -0700
+	Tue,  4 Apr 2017 14:05:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+	d=intel.com; i=@intel.com; q=dns/txt; s=intel;
+	t=1491314705; x=1522850705;
+	h=message-id:subject:from:to:cc:date:in-reply-to:
+	references:mime-version:content-transfer-encoding;
+	bh=2OT8nKXjRWpjOaWQe+1pUDZe1CrVKQB5RchHwWLQxhg=;
+	b=m6YkeOX7V6qGjfb8uughI1Z6eyMLh4hFttwATo/MVZX4+8bks4j9C22K
+	spZgSTPOZPBIxDuZrQH5beCVxuJF2Q==;
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	04 Apr 2017 07:05:00 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.36,275,1486454400"; d="scan'208";a="1115246884"
-Received: from marquiz.fi.intel.com ([10.237.72.155])
-	by orsmga001.jf.intel.com with ESMTP; 04 Apr 2017 06:56:38 -0700
-From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  4 Apr 2017 16:56:37 +0300
-Message-Id: <20170404135637.11284-1-markus.lehtonen@linux.intel.com>
-X-Mailer: git-send-email 2.10.2
-Subject: [PATCH v2 0/8] Build perf test enhancements
+X-IronPort-AV: E=Sophos;i="5.36,275,1486454400"; d="scan'208";a="243900253"
+Received: from lsandov1-mobl2.zpn.intel.com ([10.219.128.141])
+	by fmsmga004.fm.intel.com with ESMTP; 04 Apr 2017 07:04:59 -0700
+Message-ID: <1491315198.17259.96.camel@linux.intel.com>
+From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 04 Apr 2017 09:13:18 -0500
+In-Reply-To: <CAJTo0LYynrv+_6-T_x6Z1Q9nkBCOV1Ah9u66tdeMvYEkE7BWZg@mail.gmail.com>
+References: <20170404042008.23356-1-leonardo.sandoval.gonzalez@linux.intel.com>
+	<CAJTo0LYynrv+_6-T_x6Z1Q9nkBCOV1Ah9u66tdeMvYEkE7BWZg@mail.gmail.com>
+X-Mailer: Evolution 3.12.9-1+b1 
+Mime-Version: 1.0
+Cc: "Eggleton, Paul" <paul.eggleton@intel.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] selftest/devtool: skip test in case of poky-tiny distro
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,40 +42,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Apr 2017 13:56:44 -0000
+X-List-Received-Date: Tue, 04 Apr 2017 14:05:04 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Only change since v1 is one new patch for oe-build-perf-report-email.py.
+On Tue, 2017-04-04 at 11:22 +0100, Burton, Ross wrote:
+> 
+> On 4 April 2017 at 05:20, <leonardo.sandoval.gonzalez@linux.intel.com>
+> wrote:
+>         The recipe being tested (devtoo-test-patch-gz) by devtool has
+>         dependencies (at
+>         least libxres and virtual/libx11) that cannot be built with
+>         poky-tiny distro so
+>         skip the test for this particular policy.
+>         
+> 
+> I think that whilst this is probably a good fix for now as we're
+> trying to stabilise, changing the test so that it can be built with
+> poky-tiny would be sensible.
 
+Agree. We need to think of a 'simpler recipe' used by devtool test case
+that can be used together with non-poky distros.
+> 
+> 
+> Ross
 
-The following changes since commit 3b7111b30dbd9a4cdd141b594164da18c15ae970:
-
-  automake: Adjust shebang lines to remove interpreter path hardcode (2017-04-01 08:22:04 +0100)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib marquiz/buildperf/scripts
-  http://git.openembedded.org/openembedded-core-contrib/log/?h=marquiz/buildperf/scripts
-
-
-Markus Lehtonen (8):
-  scripts/oe-build-perf-report: better guessing of args
-  scripts/oe-build-perf-report: fix 'charts ready' console message
-  scripts/oe-build-perf-report: fix typo
-  build-perf-test-wrapper.sh: make it possible to specify Git branch
-    name
-  build-perf-test-wrapper.sh: correctly check test script exit status
-  build-perf-test-wrapper.sh: support pushing to remote Git
-  build-perf-test-wrapper.sh: support sending email reports
-  oe-build-perf-report-email.py: fix one file path
-
- scripts/contrib/build-perf-test-wrapper.sh         | 70 +++++++++++++++++-----
- scripts/contrib/oe-build-perf-report-email.py      |  2 +-
- scripts/lib/build_perf/html/measurement_chart.html |  6 +-
- scripts/lib/build_perf/html/report.html            |  5 +-
- scripts/oe-build-perf-report                       |  4 +-
- 5 files changed, 63 insertions(+), 24 deletions(-)
-
--- 
-2.10.2
 
 
