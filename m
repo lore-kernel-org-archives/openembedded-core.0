@@ -1,30 +1,48 @@
-Return-Path: <yin.thong.choong@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id D6AFF77C72
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qt0-f178.google.com (mail-qt0-f178.google.com
+	[209.85.216.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 2A85E77CDA
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Apr 2017 09:29:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-	d=intel.com; i=@intel.com; q=dns/txt; s=intel;
-	t=1491298177; x=1522834177;
-	h=from:to:cc:subject:date:message-id:in-reply-to: references;
-	bh=IR5omKgnIFjqUZqyuD9dCRNZBx+nHY+/8WW+6TxRU34=;
-	b=mIb/dzs9oKD5xVsWZMTi4mKtaEadGlF6eYlyKWarAYcwaf5WHyHk8pw9
-	FGY7CpKpWuEZyCvz/BVfM8AYB1oijA==;
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	04 Apr 2017 02:29:36 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.36,274,1486454400"; d="scan'208";a="1115160791"
-Received: from platypus.jf.intel.com ([10.54.77.139])
-	by orsmga001.jf.intel.com with ESMTP; 04 Apr 2017 02:29:35 -0700
-From: yin.thong.choong@intel.com
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  4 Apr 2017 02:29:12 -0700
-Message-Id: <1491298154-68270-7-git-send-email-yin.thong.choong@intel.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1491298154-68270-1-git-send-email-yin.thong.choong@intel.com>
-References: <1491298154-68270-1-git-send-email-yin.thong.choong@intel.com>
-Subject: [PATCH v2 6/8] liberation-fonts: replace fedorahosted.org SRC_URI with pagure.io source
+	Tue,  4 Apr 2017 09:49:13 +0000 (UTC)
+Received: by mail-qt0-f178.google.com with SMTP id n21so133954465qta.1
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 04 Apr 2017 02:49:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=9gebUrOuhiiYFe4mJY/5pRP4hOKgcojr65j23iGQA7U=;
+	b=OzrNbQ5QGY6NGX63vrYZH33zwcUpDeIIRw5BUKjtPRMFBZlM85mT8AP3SqsbHlMfW7
+	zG0E+IZjZjwe+iyMX+95hzHZuE5LtkP3DdBW7XixAfaxDu2dfUhhfAKiurNgYL7F4nY+
+	xp1+UzwJpE7b65F3ziOqzDMJMq5/TD2AfrKD4ZLJtIJz2Euez4v1+6xNRsXqhpqgj5/r
+	DXrpnqmi34VeDjnRfa8JDlYgMnV6rPRduZ5nHopCcFfAGlr/VrZx0Q1ZjQYl9wPBA7Cf
+	DhZAfDyEf8N26Ro2EU9iJ5O+gLX0tQfJK7o3sBfjGSEfNXfwvwLvA8IEIcBEABMS7I3d
+	kngw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=9gebUrOuhiiYFe4mJY/5pRP4hOKgcojr65j23iGQA7U=;
+	b=UCvCo7Gvo7FzUIMMpm8bYedbLu0Tj41V2roXl3YMY52rW9BbrobX7ByTg25rc+xwdS
+	85SUPJvyrJzxJOhXkS2sJ6xf1peaLORLbiR4XwB857Mbfsk3iP7Fg4+RyeWl68uv22GB
+	qS12CcwwN37Z36wrKHRQOqVg7qVzV/Q00a1woDzQ3ephFhMXhtJB+2Z7hPgNUdV7muIL
+	EAOZY9rDVgaFOpuCw5jaQFXOWNivjBWaOuhTcywW4E07KOrVLlFY4hLkdKy0V/5OUx+p
+	hsRVwkK1FM51Ga9Lkm3VZioi0fNUiGgSnyzvuRjNv+zo33YoAOy9RRzCf003UDlaHdRy
+	F1Rw==
+X-Gm-Message-State: AFeK/H3wLn8Ti2r9yMMATecA4b5SR/43OYHCCemCcf+pA/SQQ+aKsQ54uCEA/qDgNTB32dy97RxmB69v8hYhqfig
+X-Received: by 10.237.53.9 with SMTP id a9mr21528856qte.188.1491299355026;
+	Tue, 04 Apr 2017 02:49:15 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.22.166 with HTTP; Tue, 4 Apr 2017 02:48:54 -0700 (PDT)
+In-Reply-To: <20170404080203.6985-1-Martin.Jansa@gmail.com>
+References: <1d818d62-704e-61f4-1f0c-a3980a09b502@windriver.com>
+	<20170404080203.6985-1-Martin.Jansa@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 4 Apr 2017 10:48:54 +0100
+Message-ID: <CAJTo0LbUrTDOrXU4VzPe=+iiZtFyasL7LhNtpb4YiX6eLTkTWQ@mail.gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>,
+	Bruce Ashfield <bruce.ashfield@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] x86-base.inc, qemuarm.conf: prefer 4.10 version of linux-yocto
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,44 +55,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Apr 2017 09:29:36 -0000
+X-List-Received-Date: Tue, 04 Apr 2017 09:49:14 -0000
+Content-Type: multipart/alternative; boundary=001a11c0285e4f8b9c054c543092
 
-From: Choong YinThong <yin.thong.choong@intel.com>
+--001a11c0285e4f8b9c054c543092
+Content-Type: text/plain; charset=UTF-8
 
-fedorahosted.org was retired on March 1st, 2017. This is to
-update the SRC_URI to point to pagure.io. pagure.io is a
-replacement for fedorahosted.
+On 4 April 2017 at 09:02, Martin Jansa <martin.jansa@gmail.com> wrote:
 
-[YOCTO #11226]
+> -PREFERRED_VERSION_linux-yocto ??= "4.8%"
+> +PREFERRED_VERSION_linux-yocto ??= "4.10%"
+>
 
-Signed-off-by: Choong YinThong <yin.thong.choong@intel.com>
----
- meta/recipes-graphics/ttf-fonts/liberation-fonts_1.04.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+The qemuppc and qemumips machines don't have a preferred version, so should
+we be setting it in all the machine configurations, or can we remove it
+from these recipes?
 
-diff --git a/meta/recipes-graphics/ttf-fonts/liberation-fonts_1.04.bb b/meta/recipes-graphics/ttf-fonts/liberation-fonts_1.04.bb
-index bda82e7..74212e7 100644
---- a/meta/recipes-graphics/ttf-fonts/liberation-fonts_1.04.bb
-+++ b/meta/recipes-graphics/ttf-fonts/liberation-fonts_1.04.bb
-@@ -2,7 +2,7 @@ SUMMARY = "Liberation(tm) Fonts"
- DESCRIPTION = "The Liberation(tm) Fonts is a font family originally \
- created by Ascender(c) which aims at metric compatibility with \
- Arial, Times New Roman, Courier New."
--HOMEPAGE = "https://fedorahosted.org/liberation-fonts/"
-+HOMEPAGE = "https://releases.pagure.org/liberation-fonts/"
- BUGTRACKER = "https://bugzilla.redhat.com/"
- 
- RECIPE_NO_UPDATE_REASON = "2.x depends on fontforge package, which is not yet provided in oe-core"
-@@ -17,7 +17,7 @@ inherit allarch fontcache
- 
- FONT_PACKAGES = "${PN}"
- 
--SRC_URI = "https://fedorahosted.org/releases/l/i/liberation-fonts/liberation-fonts-${PV}.tar.gz \
-+SRC_URI = "https://releases.pagure.org/liberation-fonts/liberation-fonts-${PV}.tar.gz \
-            file://30-liberation-aliases.conf"
- 
- SRC_URI[md5sum] = "4846797ef0fc70b0cbaede2514677c58"
--- 
-2.7.4
+Ross
 
+--001a11c0285e4f8b9c054c543092
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 4 April 2017 at 09:02, Martin Jansa <span dir=3D"ltr">&lt;<a href=3D"mai=
+lto:martin.jansa@gmail.com" target=3D"_blank">martin.jansa@gmail.com</a>&gt=
+;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 =
+.8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":30f" class=3D=
+"a3s aXjCH m15b382759fb1831a">-PREFERRED_VERSION_linux-yocto ??=3D &quot;4.=
+8%&quot;<br>
++PREFERRED_VERSION_linux-yocto ??=3D &quot;4.10%&quot;<br></div></blockquot=
+e></div><div class=3D"gmail_extra"><br></div>The qemuppc and qemumips machi=
+nes don&#39;t have a preferred version, so should we be setting it in all t=
+he machine configurations, or can we remove it from these recipes?<br></div=
+><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div>=
+</div>
+
+--001a11c0285e4f8b9c054c543092--
