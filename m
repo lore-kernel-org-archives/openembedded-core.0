@@ -1,30 +1,30 @@
 Return-Path: <yin.thong.choong@intel.com>
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id EA4CB77C39
+	by mail.openembedded.org (Postfix) with ESMTP id 139FA6010D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Apr 2017 09:29:34 +0000 (UTC)
+	Tue,  4 Apr 2017 09:29:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
 	d=intel.com; i=@intel.com; q=dns/txt; s=intel;
 	t=1491298176; x=1522834176;
 	h=from:to:cc:subject:date:message-id:in-reply-to: references;
-	bh=X2XrFnUTNIve+IBYWoOBDTvxd1n0cbLhU/6TBr+hMGc=;
-	b=t6revd9patVIqtZ/77BsmljIiUXVhdxRbdzb5fPQIYv00qDvGXiljpeA
-	vbrK46RHxygbyK6+rMIjMcnBfgq1OA==;
+	bh=diz9ju5jsRHwSEIW5SyqTVqcpPRTXtH0bNRLFem9VPE=;
+	b=OGrKWLFuSWBX6K17wCwnRqAN+c/NnGuLMIB8oWiWctXEvqbPxPPthq0L
+	SPwYVKwPHHseSPxmAATeJKqAWOoSsw==;
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
 	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
 	04 Apr 2017 02:29:36 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.36,274,1486454400"; d="scan'208";a="1115160779"
+X-IronPort-AV: E=Sophos;i="5.36,274,1486454400"; d="scan'208";a="1115160782"
 Received: from platypus.jf.intel.com ([10.54.77.139])
 	by orsmga001.jf.intel.com with ESMTP; 04 Apr 2017 02:29:35 -0700
 From: yin.thong.choong@intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  4 Apr 2017 02:29:08 -0700
-Message-Id: <1491298154-68270-3-git-send-email-yin.thong.choong@intel.com>
+Date: Tue,  4 Apr 2017 02:29:09 -0700
+Message-Id: <1491298154-68270-4-git-send-email-yin.thong.choong@intel.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1491298154-68270-1-git-send-email-yin.thong.choong@intel.com>
 References: <1491298154-68270-1-git-send-email-yin.thong.choong@intel.com>
-Subject: [PATCH v2 2/8] xmlto: replace fedorahosted.org SRC_URI with pagure.io source
+Subject: [PATCH v2 3/8] libuser: replace fedorahosted.org SRC_URI with pagure.io source
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,27 +49,33 @@ replacement for fedorahosted.
 
 Signed-off-by: Choong YinThong <yin.thong.choong@intel.com>
 ---
- meta/recipes-devtools/xmlto/xmlto_0.0.28.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-extended/libuser/libuser_0.62.bb | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb b/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb
-index ce5d1e0..6216d77 100644
---- a/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb
-+++ b/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb
-@@ -1,11 +1,11 @@
- SUMMARY = "A shell-script tool for converting XML files to various formats"
--HOMEPAGE = "https://fedorahosted.org/xmlto/"
-+HOMEPAGE = "https://releases.pagure.org/xmlto/"
- SECTION = "docs/xmlto"
- LICENSE = "GPLv2"
+diff --git a/meta/recipes-extended/libuser/libuser_0.62.bb b/meta/recipes-extended/libuser/libuser_0.62.bb
+index 6960d71..1765346 100644
+--- a/meta/recipes-extended/libuser/libuser_0.62.bb
++++ b/meta/recipes-extended/libuser/libuser_0.62.bb
+@@ -1,8 +1,8 @@
+ SUMMARY = "user and group account administration library"
+ DESCRIPTION = "The libuser library implements a standardized interface for manipulating and administering user \
+ and group accounts"
+-HOMEPAGE = "https://fedorahosted.org/libuser/"
+-BUGTRACKER = "https://fedorahosted.org/libuser/newticket"
++HOMEPAGE = "https://pagure.io/libuser"
++BUGTRACKER = "https://pagure.io/libuser/issues"
  
- LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552"
+ LICENSE = "LGPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=5f30f0716dfdd0d91eb439ebec522ec2 \
+@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=5f30f0716dfdd0d91eb439ebec522ec2 \
  
--SRC_URI = "https://fedorahosted.org/releases/x/m/xmlto/xmlto-${PV}.tar.gz \
-+SRC_URI = "https://releases.pagure.org/xmlto/xmlto-${PV}.tar.gz \
-            file://configure.in-drop-the-test-of-xmllint-and-xsltproc.patch \
-            file://catalog.xml \
- "
+ SECTION = "base"
+ 
+-SRC_URI = "https://fedorahosted.org/releases/l/i/libuser/libuser-${PV}.tar.xz \
++SRC_URI = "https://releases.pagure.org/libuser/libuser-${PV}.tar.xz \
+            file://0001-Check-for-issetugid.patch \
+            file://0002-remove-unused-execinfo.h.patch \
+            file://0001-modules-files.c-parse_field-fix-string-formating-in-.patch \
 -- 
 2.7.4
 
