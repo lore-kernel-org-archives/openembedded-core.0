@@ -1,47 +1,31 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f172.google.com (mail-qk0-f172.google.com
-	[209.85.220.172])
-	by mail.openembedded.org (Postfix) with ESMTP id A4CF160620
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 2E46B719C3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Apr 2017 10:42:17 +0000 (UTC)
-Received: by mail-qk0-f172.google.com with SMTP id g195so65344677qke.2
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 04 Apr 2017 03:42:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=gOMgLwjoFF3ur7Mb8p8MCYcccPo3cPCNbHtTwM8scAk=;
-	b=RAORvkjubjPGBO6DSAtq9+UTXAs1EFuoZ8w/ySquB87IdBmo00OTdWY/v/mjOi7S6X
-	Z5bTuJEBGC4RkCm5qn5SR2BDKZrwH52Ep0bpETAvya0C7NlDpRk7dJi/DGsZ58JOJ9sr
-	cFH96+I7r//p2YGZkOzzPKhmFOaoVP7VhdWAZHWG6ayqiEOesAanDKBtNtI+cjXI2Mg7
-	uzhvVRq0MphQjZz4FUTOLy3aLwj/i9eka6VFIhTrupvZyVj8l8xdKcpJTRgGkGzzqL2u
-	o3ju/KBk6AVCcfpy8jjewNrGZIZ1LMFTSjdyBatBd6p4zpI3vnRgYeEWuxii+5Tu8q7f
-	sVdA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=gOMgLwjoFF3ur7Mb8p8MCYcccPo3cPCNbHtTwM8scAk=;
-	b=a3Es2V6gdfyYEFyDUFgBODZV8m9bdnTCjj2E801NtKKQfG4HjnK2JswfnCw5cNSJEM
-	O68cBN989U3sKj3QyMwnZysmkMUkQWNWHRpVfL/6IQDucX/Gm7J/yGWVEMIUthx5SQ/H
-	eqxfdww4IN3rRkDAskA3IU7wZtpjEqQGb9tQvnVKVcDTSVwv26yTAm/7dkvDLyQHwvDC
-	Q7PJas7GVlQH7lxYk+HxnGn8zLFyL2PTDMWurmEjPS0YKCCko9WNmHE12/9uIebGCRL6
-	UkCpSX6YFbwJ8rIfSuLdqGlbs6RzhKnLODp5wEZ6LnuY2TaI6NgHz2LK3N0wI/ixrl2y
-	CxjQ==
-X-Gm-Message-State: AFeK/H2Eb9zEX80g7vkzGAtQi2W3lXREi7953XPnGSmJdO9avkaaDMA2C5fgnP0mc9djYw77GvI8bLW+A2fgdEZ2
-X-Received: by 10.55.123.6 with SMTP id w6mr24119348qkc.36.1491302538658; Tue,
-	04 Apr 2017 03:42:18 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.22.166 with HTTP; Tue, 4 Apr 2017 03:41:58 -0700 (PDT)
-In-Reply-To: <1491233968.17259.79.camel@linux.intel.com>
-References: <20170402213135.21193-1-pbarker@toganlabs.com>
-	<1491233968.17259.79.camel@linux.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 4 Apr 2017 11:41:58 +0100
-Message-ID: <CAJTo0LYL5iz_PCVPFK3tmypyRmoDiNh2w6XSsSnRyp6EGYz3Lg@mail.gmail.com>
-To: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] ethtool: Switch to download mirror
+	Tue,  4 Apr 2017 11:11:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+	d=intel.com; i=@intel.com; q=dns/txt; s=intel;
+	t=1491304304; x=1522840304;
+	h=from:to:cc:subject:date:message-id;
+	bh=dbTspJKZwegmwjdLrJ/JZDf7sS2saL5/ucpiDs2rfC4=;
+	b=lAa7peUyEcATxVswVR6R1zFLNJzeOrP5OK+hPwNMrfxBEdDIfKWMHo6n
+	FxjQ7rh/k79rONK+1f/YlpKUveke4Q==;
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	04 Apr 2017 04:11:43 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.36,275,1486454400"; d="scan'208";a="243829577"
+Received: from linux.intel.com ([10.54.29.200])
+	by fmsmga004.fm.intel.com with ESMTP; 04 Apr 2017 04:11:42 -0700
+Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
+	by linux.intel.com (Postfix) with ESMTP id D6DDE2C8001;
+	Tue,  4 Apr 2017 04:11:33 -0700 (PDT)
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  4 Apr 2017 14:10:45 +0300
+Message-Id: <1491304245-7194-1-git-send-email-ed.bartosh@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] oe-selftest: test wic sparse_copy API
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,38 +38,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Apr 2017 10:42:17 -0000
-Content-Type: multipart/alternative; boundary=94eb2c063a1811dc19054c54ee58
+X-List-Received-Date: Tue, 04 Apr 2017 11:11:42 -0000
 
---94eb2c063a1811dc19054c54ee58
-Content-Type: text/plain; charset=UTF-8
+Added new parameter 'api' to sparse_copy function to specify
+underlying filemap API to use. By default sparse_copy will
+try both available APIs.
 
-On 3 April 2017 at 16:39, Leonardo Sandoval <
-leonardo.sandoval.gonzalez@linux.intel.com> wrote:
+Added test case for sparse_copy to wic test suite.
 
-> so why the sums are not changed in the recipe if these change at the
-> upstream repo?
->
+Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+---
+ meta/lib/oeqa/selftest/wic.py | 26 ++++++++++++++++++++++++++
+ scripts/lib/wic/filemap.py    |  6 ++++--
+ 2 files changed, 30 insertions(+), 2 deletions(-)
 
-Because the patch changes the SRC_URI to point at our mirror, which
-contains the old tarball.
+diff --git a/meta/lib/oeqa/selftest/wic.py b/meta/lib/oeqa/selftest/wic.py
+index df5e060..7e26dde 100644
+--- a/meta/lib/oeqa/selftest/wic.py
++++ b/meta/lib/oeqa/selftest/wic.py
+@@ -24,6 +24,7 @@
+ """Test cases for wic."""
+ 
+ import os
++import sys
+ import unittest
+ 
+ from glob import glob
+@@ -758,3 +759,28 @@ part /etc --source rootfs --ondisk mmcblk0 --fstype=ext4 --exclude-path bin/ --r
+         self.assertEqual(0, runCmd(cmd).status)
+         self.remove_config(config)
+         self.assertEqual(1, len(glob(self.resultdir + "sdimage-bootpart-*direct")))
++
++    def test_sparse_copy(self):
++        """Test sparse_copy with FIEMAP and SEEK_HOLE filemap APIs"""
++        libpath = os.path.join(get_bb_var('COREBASE'), 'scripts', 'lib', 'wic')
++        sys.path.insert(0, libpath)
++        from  filemap import FilemapFiemap, FilemapSeek, sparse_copy
++        with NamedTemporaryFile("w", suffix=".wic-sparse") as sparse:
++            src_name = sparse.name
++            src_size = 1024 * 10
++            sparse.truncate(src_size)
++            # write one byte to the file
++            with open(src_name, 'r+b') as sfile:
++                sfile.seek(1024 * 4)
++                sfile.write(b'\x00')
++            dest = sparse.name + '.out'
++            # copy src file to dest using different filemap APIs
++            for api in (FilemapFiemap, FilemapSeek, None):
++                if os.path.exists(dest):
++                    os.unlink(dest)
++                sparse_copy(sparse.name, dest, api=api)
++                dest_stat = os.stat(dest)
++                self.assertEqual(dest_stat.st_size, src_size)
++                # 8 blocks is 4K (physical sector size)
++                self.assertEqual(dest_stat.st_blocks, 8)
++            os.unlink(dest)
+diff --git a/scripts/lib/wic/filemap.py b/scripts/lib/wic/filemap.py
+index 080668e..1f1aacc 100644
+--- a/scripts/lib/wic/filemap.py
++++ b/scripts/lib/wic/filemap.py
+@@ -530,9 +530,11 @@ def filemap(image, log=None):
+     except ErrorNotSupp:
+         return FilemapSeek(image, log)
+ 
+-def sparse_copy(src_fname, dst_fname, offset=0, skip=0):
++def sparse_copy(src_fname, dst_fname, offset=0, skip=0, api=None):
+     """Efficiently copy sparse file to or into another file."""
+-    fmap = filemap(src_fname)
++    if not api:
++        api = filemap
++    fmap = api(src_fname)
+     try:
+         dst_file = open(dst_fname, 'r+b')
+     except IOError:
+-- 
+2.1.4
 
-Ross
 
---94eb2c063a1811dc19054c54ee58
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 3 April 2017 at 16:39, Leonardo Sandoval <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:leonardo.sandoval.gonzalez@linux.intel.com" target=3D"_blank">le=
-onardo.sandoval.gonzalez@linux.intel.com</a>&gt;</span> wrote:<br><blockquo=
-te class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc so=
-lid;padding-left:1ex"><div id=3D":308" class=3D"a3s aXjCH m15b3485f75e3e086=
-">so why the sums are not changed in the recipe if these change at the<br>
-upstream repo?<br></div></blockquote></div><br>Because the patch changes th=
-e SRC_URI to point at our mirror, which contains the old tarball.</div><div=
- class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div=
->
-
---94eb2c063a1811dc19054c54ee58--
