@@ -1,20 +1,18 @@
-Return-Path: <jose.perez.carranza@linux.intel.com>
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id 16ED0719B1
-	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Apr 2017 15:00:30 +0000 (UTC)
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-	by orsmga104.jf.intel.com with ESMTP; 04 Apr 2017 08:00:32 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.36,275,1486454400"; d="scan'208";a="84177618"
-Received: from jgperezc-mobl1.zpn.intel.com ([10.219.4.33])
-	by fmsmga005.fm.intel.com with ESMTP; 04 Apr 2017 08:00:31 -0700
-From: jose.perez.carranza@linux.intel.com
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  4 Apr 2017 10:02:10 -0500
-Message-Id: <20170404150210.3500-1-jose.perez.carranza@linux.intel.com>
-X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] runtime/dnf : Add ID to the dnf test cases
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 6E6F16FFED;
+	Tue,  4 Apr 2017 15:02:03 +0000 (UTC)
+MIME-Version: 1.0
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Ross Burton <ross.burton@intel.com>
+Date: Tue, 04 Apr 2017 15:02:05 -0000
+Message-ID: <20170404150205.6645.61481@do.openembedded.org>
+References: <1491315753-17805-1-git-send-email-ross.burton@intel.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <1491315753-17805-1-git-send-email-ross.burton@intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3Igc2FuaXR5OiBleHBsYWluIHdoZXJlIFRNUERJUiBpcyBpZiB3ZSdyZSB0ZWxsaW5nIHRoZSB1c2VyIHRvIGRlbGV0ZSBpdA==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,98 +25,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Apr 2017 15:00:31 -0000
+X-List-Received-Date: Tue, 04 Apr 2017 15:02:03 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-From: Jose Perez Carranza <jose.perez.carranza@linux.intel.com>
+== Series Details ==
 
-Add the corresponding Testopia ID to the test cases for dnf
+Series: sanity: explain where TMPDIR is if we're telling the user to delete it
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/6146/
+State : failure
 
-Signed-off-by: Jose Perez Carranza <jose.perez.carranza@linux.intel.com>
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             Patch line too long (current length 226) [test_max_line_length] 
+  Suggested fix    Shorten the corresponding patch line (max length supported 180)
+  Patch            meta/classes/sanity.bbclass
+  Line             +            status.addresult("The layout of TMPDIR changed for Recipe Specific  ...
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- meta/lib/oeqa/runtime/cases/dnf.py | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
-
-diff --git a/meta/lib/oeqa/runtime/cases/dnf.py b/meta/lib/oeqa/runtime/cases/dnf.py
-index eb3af07f0f..2f87296b4e 100644
---- a/meta/lib/oeqa/runtime/cases/dnf.py
-+++ b/meta/lib/oeqa/runtime/cases/dnf.py
-@@ -26,22 +26,27 @@ class DnfBasicTest(DnfTest):
-                       'RPM is not the primary package manager')
-     @OEHasPackage(['dnf'])
-     @OETestDepends(['ssh.SSHTest.test_ssh'])
-+    @OETestID(1735)
-     def test_dnf_help(self):
-         self.dnf('--help')
- 
-     @OETestDepends(['dnf.DnfBasicTest.test_dnf_help'])
-+    @OETestID(1739)
-     def test_dnf_version(self):
-         self.dnf('--version')
- 
-     @OETestDepends(['dnf.DnfBasicTest.test_dnf_help'])
-+    @OETestID(1737)
-     def test_dnf_info(self):
-         self.dnf('info dnf')
- 
-     @OETestDepends(['dnf.DnfBasicTest.test_dnf_help'])
-+    @OETestID(1738)
-     def test_dnf_search(self):
-         self.dnf('search dnf')
- 
-     @OETestDepends(['dnf.DnfBasicTest.test_dnf_help'])
-+    @OETestID(1736)
-     def test_dnf_history(self):
-         self.dnf('history')
- 
-@@ -65,6 +70,7 @@ class DnfRepoTest(DnfTest):
-         self.dnf(" ".join(cmdlinerepoopts) + " --nogpgcheck " + command)
- 
-     @OETestDepends(['dnf.DnfBasicTest.test_dnf_help'])
-+    @OETestID(1744)
-     def test_dnf_makecache(self):
-         self.dnf_with_repo('makecache')
- 
-@@ -75,19 +81,23 @@ class DnfRepoTest(DnfTest):
- #        self.dnf_with_repo('repolist')
- 
-     @OETestDepends(['dnf.DnfRepoTest.test_dnf_makecache'])
-+    @OETestID(1746)
-     def test_dnf_repoinfo(self):
-         self.dnf_with_repo('repoinfo')
- 
-     @OETestDepends(['dnf.DnfRepoTest.test_dnf_makecache'])
-+    @OETestID(1740)
-     def test_dnf_install(self):
-         self.dnf_with_repo('install -y run-postinsts-dev')
- 
-     @OETestDepends(['dnf.DnfRepoTest.test_dnf_install'])
-+    @OETestID(1741)
-     def test_dnf_install_dependency(self):
-         self.dnf_with_repo('remove -y run-postinsts')
-         self.dnf_with_repo('install -y run-postinsts-dev')
- 
-     @OETestDepends(['dnf.DnfRepoTest.test_dnf_install_dependency'])
-+    @OETestID(1742)
-     def test_dnf_install_from_disk(self):
-         self.dnf_with_repo('remove -y run-postinsts-dev')
-         self.dnf_with_repo('install -y --downloadonly run-postinsts-dev')
-@@ -96,6 +106,7 @@ class DnfRepoTest(DnfTest):
-         self.dnf_with_repo('install -y %s' % output)
- 
-     @OETestDepends(['dnf.DnfRepoTest.test_dnf_install_from_disk'])
-+    @OETestID(1743)
-     def test_dnf_install_from_http(self):
-         output = subprocess.check_output('%s %s -name run-postinsts-dev*' % (bb.utils.which(os.getenv('PATH'), "find"),
-                                                                            os.path.join(self.tc.td['WORKDIR'], 'oe-testimage-repo')), shell=True).decode("utf-8")
-@@ -105,6 +116,7 @@ class DnfRepoTest(DnfTest):
-         self.dnf_with_repo('install -y %s' % url)
- 
-     @OETestDepends(['dnf.DnfRepoTest.test_dnf_install'])
-+    @OETestID(1745)
-     def test_dnf_reinstall(self):
-         self.dnf_with_repo('reinstall -y run-postinsts-dev')
- 
--- 
-2.11.0
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
