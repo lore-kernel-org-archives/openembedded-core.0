@@ -1,46 +1,46 @@
-Return-Path: <liu.ming50@gmail.com>
-Received: from mail-yw0-f196.google.com (mail-yw0-f196.google.com
-	[209.85.161.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 416346093D
+Return-Path: <kergoth@gmail.com>
+Received: from mail-oi0-f46.google.com (mail-oi0-f46.google.com
+	[209.85.218.46])
+	by mail.openembedded.org (Postfix) with ESMTP id CF03F7198F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Apr 2017 15:12:58 +0000 (UTC)
-Received: by mail-yw0-f196.google.com with SMTP id p77so9384380ywg.0
+	Tue,  4 Apr 2017 15:13:59 +0000 (UTC)
+Received: by mail-oi0-f46.google.com with SMTP id b187so166426271oif.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 04 Apr 2017 08:13:00 -0700 (PDT)
+	Tue, 04 Apr 2017 08:14:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=B77BXN7UQppWWd59o6nUWJYowS/p7quqBukYUeEvdIk=;
-	b=SBKYQqCjUaFe7mvkvRvXOUpt1kTrfk+PntYEp4VCAg6DEA+gSWXDV7PNh5xUJzRjcO
-	WPqMgRfibzCyUW4udI6XSz0A7RCJANqEJCcRp2dmb7tyfVxyvlHFiOfrnkF8DJjoz7jH
-	YC1sUH8QYhEhOQup2V2T9/TD6rE10mpjo/LmSaN9b/aBendsmvkVYLJRx3S4v/BAWCcU
-	Acw5ouyJFT406LcyW+0ORGHmlAyeVsBuaijzhhkc8jerjXwwCr9MxLy+UieeWl8V1Nq5
-	qtnehc/eOIvAgYlfEvUYJLwbAoGFYYb9dWp0kL5ESiW2wseSSWTe0g4EdHXnkYM3N3F3
-	TAgw==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=JUM53/0bkrNbMDwTV3csaj60ASYmj29b/ZjGJbcT5VY=;
+	b=bnPv8Hzu6gbWY1XmXaKqrWJg+tO+XTlp5FYzrtnaYiZfrcjMv+6wOG/tJgRl5Zb9VO
+	SFBnk/UPTykZ941QkUtrHa53w3Iwzkvlngh0X1FAW8Yp/EWl3jPrbmycWJ7tPPBRh1Dx
+	mjpkTlNEl2Osr6se+foLOaJSDkyRL0EiOq6oflsLOSUWN0vtlBAe3QpofTjLNbPfBAeD
+	UyD+hWilrdrYqXBx+ZpR8CZ5LtX1//rzLL6BgBm+z5vMHgVlwozO37Ttol0Fo6K2ML4d
+	Z3Vzglv5G8bKU896gAaKTJbAST3qKWfLJHy98eXKYZKPFM8T/p1GnhN6qrz2hg6q/zDR
+	i7LQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=B77BXN7UQppWWd59o6nUWJYowS/p7quqBukYUeEvdIk=;
-	b=H/NYW1tP77kURBeiPOGbZGI0B3SMnpqDkGQuJ9epgY3NHUoc1dZD6KJn+/cKKmECuZ
-	Mdc4o6JO1p91OZmKpTXeSetsRAHYu+TpdT5DkA+S7KNgGXenyFnorA7wgsCBewkKu8ty
-	hNLaD5gFcyYqJw+CPbYR3cwgvn16xluwSI/mxr71QbiIdWPh6TGID9S7SmWwLDGDKU3T
-	scxGXKVZkg59JtcpD0+/7WBSM+7WoVcEQ/fuQkXSsKty6OHA+8nFsawNWIcJnSBQbxxN
-	XTDiz+Nppy0uaI5AFVMo2ZyVNi3g0FPCgmFjCg9rOLB7fjl40/1gzOnJP4FUD3rLfJ7a
-	xJjQ==
-X-Gm-Message-State: AFeK/H3Oi6X+SUpyngvgc3g4nz2PiT1zuFxSyc64yBgygCAOB6up3BjzZFeAE2bABLoK6Q==
-X-Received: by 10.13.202.22 with SMTP id m22mr14777660ywd.68.1491318779736;
-	Tue, 04 Apr 2017 08:12:59 -0700 (PDT)
-Received: from peterliu-Precision-M4800.emea.group.atlascopco.com
-	([106.116.224.167]) by smtp.gmail.com with ESMTPSA id
-	z194sm8155190ywg.73.2017.04.04.08.12.55
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 04 Apr 2017 08:12:58 -0700 (PDT)
-From: liu.ming50@gmail.com
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  4 Apr 2017 17:12:37 +0200
-Message-Id: <1491318757-6375-1-git-send-email-liu.ming50@gmail.com>
-X-Mailer: git-send-email 2.7.4
-Cc: Ming Liu <peter.x.liu@external.atlascopco.com>
-Subject: [PATCH] glibc: fix nativesdk ldd RTLDLIST
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=JUM53/0bkrNbMDwTV3csaj60ASYmj29b/ZjGJbcT5VY=;
+	b=QY6tb6+lGcx5XAlKhLSO+JpM8RRM/N/44kD5ZYiOeFZ6xs7B4CDj6ovOni+GM63wNy
+	lpDTKLvO0zfgK4Ogec2zXfNrxibt63s1ceZ8Ys4XQqpdFwE8zjup4X3KiUZf1U3h6PVG
+	lcatFVNZydl7mXYEe1lQIonjdgwKTRz1QwVbrkhMBuoKurFvIU4jQgaGLmWRFdVLJKq6
+	1nfG9IesdVt/YyDNdFGzowrQe5U7P+2nhbJ5m++vsdakVe5Q3/iSHbfgzQD+ndZdLStX
+	RU8LMnat2A7AX50IYn/6HbhkoolTwLz915rpUw/HEqkDTVcfnNWM3+a6oa0rdOwcZ5ZI
+	5InA==
+X-Gm-Message-State: AFeK/H3EQywol2v50mLju3/Vp1mD80PkM4ZW/pD2kxxeLkKQ1yAYv/5QkKdOZ09kS7tNp/031mILy2KepVToeA==
+X-Received: by 10.157.41.38 with SMTP id d35mr6468815otb.15.1491318840664;
+	Tue, 04 Apr 2017 08:14:00 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.157.33.197 with HTTP; Tue, 4 Apr 2017 08:13:40 -0700 (PDT)
+In-Reply-To: <1491315753-17805-1-git-send-email-ross.burton@intel.com>
+References: <1491315753-17805-1-git-send-email-ross.burton@intel.com>
+From: Christopher Larson <kergoth@gmail.com>
+Date: Tue, 4 Apr 2017 08:13:40 -0700
+Message-ID: <CABcZANn2e_b4dgdr9=LNMuAUtby5r0OoODv4CVFj0DUTno_wKw@mail.gmail.com>
+To: Ross Burton <ross.burton@intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] sanity: explain where TMPDIR is if we're telling the user to delete it
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,29 +53,88 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Apr 2017 15:12:59 -0000
+X-List-Received-Date: Tue, 04 Apr 2017 15:14:00 -0000
+Content-Type: multipart/alternative; boundary=94eb2c111416bea8c0054c58b98a
 
-From: Ming Liu <peter.x.liu@external.atlascopco.com>
+--94eb2c111416bea8c0054c58b98a
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Override RTLDLIST for nativesdk, or else ldd would fail to run on
-SDK targets.
+On Tue, Apr 4, 2017 at 7:22 AM, Ross Burton <ross.burton@intel.com> wrote:
 
-Signed-off-by: Ming Liu <peter.x.liu@external.atlascopco.com>
----
- meta/recipes-core/glibc/glibc-ld.inc | 1 +
- 1 file changed, 1 insertion(+)
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
+> ---
+>  meta/classes/sanity.bbclass | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
+> index 94c78b5..ade8cb6 100644
+> --- a/meta/classes/sanity.bbclass
+> +++ b/meta/classes/sanity.bbclass
+> @@ -589,7 +589,7 @@ def sanity_handle_abichanges(status, d):
+>              with open(abifile, "w") as f:
+>                  f.write(current_abi)
+>          elif int(abi) <=3D 11 and current_abi =3D=3D "12":
+> -            status.addresult("The layout of TMPDIR changed for Recipe
+> Specific Sysroots.\nConversion doesn't make sense and this change will
+> rebuild everything so please start with a clean TMPDIR.\n")
+> +            status.addresult("The layout of TMPDIR changed for Recipe
+> Specific Sysroots.\nConversion doesn't make sense and this change will
+> rebuild everything so please start with a clean TMPDIR (%s).\n" %
+> d.getVar("TMPDIR"))
+>
 
-diff --git a/meta/recipes-core/glibc/glibc-ld.inc b/meta/recipes-core/glibc/glibc-ld.inc
-index b89b70a..c1d635d 100644
---- a/meta/recipes-core/glibc/glibc-ld.inc
-+++ b/meta/recipes-core/glibc/glibc-ld.inc
-@@ -44,4 +44,5 @@ def glibc_dl_info(d):
- 
- EGLIBC_KNOWN_INTERPRETER_NAMES = "${@glibc_dl_info(d)['ldconfig']}"
- RTLDLIST = "${@glibc_dl_info(d)['lddrewrite']}"
-+RTLDLIST_class-nativesdk = "${base_libdir}/${@bb.utils.contains('SDK_ARCH', 'x86_64', 'ld-linux-x86-64.so.2', 'ld-linux.so.2', d)}"
- glibc_dl_info[vardepsexclude] = "OVERRIDES"
--- 
-2.7.4
+This looks good, though I wonder if we should explicitly state that it
+should be removed. I could see someone wondering how they =E2=80=9Cclean=E2=
+=80=9D their
+tmpdir :)
+--=20
+Christopher Larson
+kergoth at gmail dot com
+Founder - BitBake, OpenEmbedded, OpenZaurus
+Senior Software Engineer, Mentor Graphics
 
+--94eb2c111416bea8c0054c58b98a
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On Tue, Apr 4, 2017 at 7:22 AM, Ross Burton <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:ross.burton@intel.com" target=3D"_blank">ross.burton@intel.com</=
+a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0=
+ 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":1s5" cla=
+ss=3D"a3s aXjCH m15b3978a37edae9c">Signed-off-by: Ross Burton &lt;<a href=
+=3D"mailto:ross.burton@intel.com">ross.burton@intel.com</a>&gt;<br>
+---<br>
+=C2=A0meta/classes/sanity.bbclass | 2 +-<br>
+=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
+<br>
+diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass<br>
+index 94c78b5..ade8cb6 100644<br>
+--- a/meta/classes/sanity.bbclass<br>
++++ b/meta/classes/sanity.bbclass<br>
+@@ -589,7 +589,7 @@ def sanity_handle_abichanges(<wbr>status, d):<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0with open(abifile, &quot;w&=
+quot;) as f:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0f.write(curre=
+nt_abi)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0elif int(abi) &lt;=3D 11 and current_abi =
+=3D=3D &quot;12&quot;:<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 status.addresult(&quot;The layou=
+t of TMPDIR changed for Recipe Specific Sysroots.\nConversion doesn&#39;t m=
+ake sense and this change will rebuild everything so please start with a cl=
+ean TMPDIR.\n&quot;)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 status.addresult(&quot;The layou=
+t of TMPDIR changed for Recipe Specific Sysroots.\nConversion doesn&#39;t m=
+ake sense and this change will rebuild everything so please start with a cl=
+ean TMPDIR (%s).\n&quot; % d.getVar(&quot;TMPDIR&quot;))</div></blockquote>=
+</div><br>This looks good, though I wonder if we should explicitly state th=
+at it should be removed. I could see someone wondering how they =E2=80=9Ccl=
+ean=E2=80=9D their tmpdir :)<br>-- <br><div class=3D"gmail_signature" data-=
+smartmail=3D"gmail_signature"><div dir=3D"ltr"><div><div dir=3D"ltr">Christ=
+opher Larson<br>kergoth at gmail dot com<br>Founder - BitBake, OpenEmbedded=
+, OpenZaurus<br>Senior Software Engineer, Mentor Graphics</div></div></div>=
+</div>
+</div></div>
+
+--94eb2c111416bea8c0054c58b98a--
