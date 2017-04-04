@@ -1,22 +1,24 @@
-Return-Path: <brian.avery@intel.com>
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 6D44F72F4D
+Return-Path: <seebs@seebs.net>
+X-Greylist: delayed 438 seconds by postgrey-1.34 at layers.openembedded.org;
+	Tue, 04 Apr 2017 22:40:58 UTC
+Received: from mail.seebs.net (mail.seebs.net [162.221.74.143])
+	by mail.openembedded.org (Postfix) with ESMTP id 05D4272F4D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Apr 2017 22:20:00 +0000 (UTC)
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-	by fmsmga105.fm.intel.com with ESMTP; 04 Apr 2017 15:20:01 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.36,276,1486454400"; d="scan'208";a="73618121"
-Received: from bavery-ws-desk.jf.intel.com ([10.54.74.5])
-	by orsmga004.jf.intel.com with ESMTP; 04 Apr 2017 15:20:01 -0700
-From: brian avery <brian.avery@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  4 Apr 2017 15:22:11 -0700
-Message-Id: <9151a715d15043697c8e3e92d387a1b417317c17.1491344268.git.brian.avery@intel.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1491344268.git.brian.avery@intel.com>
+	Tue,  4 Apr 2017 22:40:58 +0000 (UTC)
+Received: from seebsdell (home.seebs.net [74.122.98.108])
+	by mail.seebs.net (Postfix) with ESMTPSA id C105C2ADCEA;
+	Tue,  4 Apr 2017 17:33:40 -0500 (CDT)
+Date: Tue, 4 Apr 2017 17:33:39 -0500
+From: Seebs <seebs@seebs.net>
+To: brian avery <brian.avery@intel.com>
+Message-ID: <20170404173339.2e07d9b4@seebsdell>
+In-Reply-To: <c9e2f951c2e2bc367fa6bff0daf039f00503c846.1491344268.git.brian.avery@intel.com>
 References: <cover.1491344268.git.brian.avery@intel.com>
-Subject: [PATCH 2/2] meta-ide-support: exclude this recipe from rm_work
+	<c9e2f951c2e2bc367fa6bff0daf039f00503c846.1491344268.git.brian.avery@intel.com>
+X-Mailer: Claws Mail 3.13.2 (GTK+ 2.24.30; x86_64-pc-linux-gnu)
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/2] scripts: change way we find native tools (pseudo)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,33 +31,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Apr 2017 22:20:00 -0000
+X-List-Received-Date: Tue, 04 Apr 2017 22:40:59 -0000
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-The results of meta-ide-support are used by utilities like runqemu and
-runqemu-extract-sdk.  Since the usr/bin that meta-ide-support creates is
-subsequently removed bu rm_work, we exclude this recipe from the rm_work
-list.
+On Tue,  4 Apr 2017 15:22:10 -0700
+brian avery <brian.avery@intel.com> wrote:
 
-[YOCTO #11119]
+> oe-find-native-sysroot: Recipe Specific Sysroots have eliminated the
+> large STAGING_DIR_NATIVE. Now, we will rely on the meta-ide-support
+> sysroot that is what was populating the large STAGING_DIR_NATIVE in
+> previous versions anyway. We now look for RECIPE_SYSROOT_NATIVE.
 
-Signed-off-by: brian avery <brian.avery@intel.com>
----
- meta/recipes-core/meta/meta-ide-support.bb | 1 +
- 1 file changed, 1 insertion(+)
+So far as I can tell, pseudo internals won't be affected, and this
+sounds reasonable to me.
 
-diff --git a/meta/recipes-core/meta/meta-ide-support.bb b/meta/recipes-core/meta/meta-ide-support.bb
-index 1c4aded..0692ec8 100644
---- a/meta/recipes-core/meta/meta-ide-support.bb
-+++ b/meta/recipes-core/meta/meta-ide-support.bb
-@@ -4,6 +4,7 @@ LICENSE = "MIT"
- 
- DEPENDS = "virtual/libc gdb-cross-${TARGET_ARCH} qemu-native qemu-helper-native unfs3-native"
- PR = "r3"
-+RM_WORK_EXCLUDE += "${PN}"
- 
- inherit meta toolchain-scripts nopackages
- 
--- 
-1.9.1
-
+-s
 
