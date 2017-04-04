@@ -1,18 +1,28 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 809AD77C8F;
-	Tue,  4 Apr 2017 09:02:08 +0000 (UTC)
-MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Martin Jansa <martin.jansa@gmail.com>
-Date: Tue, 04 Apr 2017 09:02:10 -0000
-Message-ID: <20170404090210.6647.51804@do.openembedded.org>
-References: <cover.1490705726.git.bruce.ashfield@windriver.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <cover.1490705726.git.bruce.ashfield@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgbGludXgteW9jdG86IC1zdGFibGUsIC1ydCB1cGRhdGVzIGFuZCA0LjggcmVtb3ZhbCAocmV2Mik=?=
+Return-Path: <yin.thong.choong@intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 031D36010D
+	for <openembedded-core@lists.openembedded.org>;
+	Tue,  4 Apr 2017 09:29:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+	d=intel.com; i=@intel.com; q=dns/txt; s=intel;
+	t=1491298170; x=1522834170;
+	h=from:to:cc:subject:date:message-id;
+	bh=bKPpWEIZyXnGqJ9SqNQ1UCy9jnGFE8ZczcyjN1jUQYQ=;
+	b=dtOSI9ucrg04CNGPmeh7UUvkvwub7gSkub+DNoVUqdatOtT2piksaeIm
+	GRxpeEHIXQTTUU+DAAgW+p/WCTCQvg==;
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	04 Apr 2017 02:29:30 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.36,274,1486454400"; d="scan'208";a="1115160761"
+Received: from platypus.jf.intel.com ([10.54.77.139])
+	by orsmga001.jf.intel.com with ESMTP; 04 Apr 2017 02:29:29 -0700
+From: yin.thong.choong@intel.com
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  4 Apr 2017 02:29:06 -0700
+Message-Id: <1491298154-68270-1-git-send-email-yin.thong.choong@intel.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH v2 0/8] Remove all use of fedorahosted SRC_URI [yocto #11226]
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,41 +35,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Apr 2017 09:02:08 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 04 Apr 2017 09:29:29 -0000
 
-== Series Details ==
+From: Choong YinThong <yin.thong.choong@intel.com>
 
-Series: linux-yocto: -stable, -rt updates and 4.8 removal (rev2)
-Revision: 2
-URL   : https://patchwork.openembedded.org/series/6024/
-State : failure
+Fedorahosted.org was retired on March 1st, 2017.
+Replace all fedorahosted.org SRC_URI with source pagure.io and github.com.
 
-== Summary ==
+Choong YinThong (8):
+  selftest/recipetool: replace fedorahosted.org SRC_URI with github.com
+    source
+  xmlto: replace fedorahosted.org SRC_URI with pagure.io source
+  libuser: replace fedorahosted.org SRC_URI with pagure.io source
+  logrotate: replace fedorahosted.org SRC_URI with github.com source
+  libnewt: replace fedorahosted.org SRC_URI with pagure.io source
+  liberation-fonts: replace fedorahosted.org SRC_URI with pagure.io
+    source
+  chkconfig: replace fedorahosted.org SRC_URI with github.com source
+  cronie: replace fedorahosted.org SRC_URI with github.com source
 
+ meta/lib/oeqa/selftest/recipetool.py                     |  8 ++++----
+ meta/recipes-devtools/xmlto/xmlto_0.0.28.bb              |  4 ++--
+ meta/recipes-extended/chkconfig/chkconfig_1.3.58.bb      | 12 ++++++++----
+ meta/recipes-extended/cronie/cronie_1.5.1.bb             |  6 ++++--
+ meta/recipes-extended/libuser/libuser_0.62.bb            |  6 +++---
+ meta/recipes-extended/logrotate/logrotate_3.9.1.bb       | 12 ++++++++----
+ meta/recipes-extended/newt/libnewt_0.52.19.bb            |  4 ++--
+ meta/recipes-graphics/ttf-fonts/liberation-fonts_1.04.bb |  4 ++--
+ 8 files changed, 33 insertions(+), 23 deletions(-)
 
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  master (currently at 3b7111b30d)
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
----
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+-- 
+2.7.4
 
 
