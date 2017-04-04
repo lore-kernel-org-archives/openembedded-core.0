@@ -1,53 +1,28 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 4000660069
+Return-Path: <jose.a.lamego@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 9535E72F4D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Apr 2017 17:10:26 +0000 (UTC)
-Received: by mail-wm0-f68.google.com with SMTP id x75so6999515wma.1
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 04 Apr 2017 10:10:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=ma0EA8niuQapZl5YlqH/xGGfGbYR522vu3Z/bqktUaI=;
-	b=mRjO+Zdjccef+xpZZ0ZWaAIB8l/KmDVLOzuINnwkZkziR2umHpu5qwIo52aWmw5CFk
-	nxss6JGIlXYGIHsilYsqbSyYHhoGUwpTKz3rGQ71nHpCVB8iuXSl1DDJF95+G8BE3bCG
-	8iPz8rYGvsVjj+XxnPbLf0UDwDeZbt2EHTScTRRUfQmiLeAad5+4s1zinpQLWG81MWfO
-	adAD+akMvZ46IReXcKTn4m9cySww4BK+43xUT6RRdqvA73TtUjKqj98yRNGfdyEmLxpS
-	0P4xPhDVt67DkmxNDlHVSakDP5imwWETgsm/HgUXRA8UrjE0bMEr5hHV78lG7ONIYHVF
-	YO8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=ma0EA8niuQapZl5YlqH/xGGfGbYR522vu3Z/bqktUaI=;
-	b=NvqKv0i0JHK39N+KBwcDCw2tQusxzqjAVSskVBew4D8IfYuiu1rMSn5z9rbCMPZ3df
-	z9i9VPgwERO9s/cD8a9JQ+DctNMqe6T+Kui/OrZgB4BEV+ncHBaxupd0qxOICfbPkEw5
-	ryQZ5LpMarRbIR5+PXtFcopShTYcqJUlWAr5ymE7f9xqynuzHNlGruESOVD7RGupwmC7
-	zn6WvG9RuQihLHdgtMtbYDQUXfwqwbiAXpvCd75WOfHFQmDGvmYSAW9B5GNWO8ZGK8Jp
-	5OFi5ObWLva57JDXFYEApzAwd80ZrupxHRAlS9flfaz0JsG5bq573CQt1LxLuvQZ2iYp
-	vJXQ==
-X-Gm-Message-State: AFeK/H1XMdzuZ87z/w4vEpqQCIFZpdYISQFmIwqYjR8M2+FbBtNiA2tY
-	7FBe5PKORZROJg==
-X-Received: by 10.28.74.18 with SMTP id x18mr9961044wma.64.1491325827957;
-	Tue, 04 Apr 2017 10:10:27 -0700 (PDT)
-Received: from localhost ([217.30.68.212])
-	by smtp.gmail.com with ESMTPSA id 92sm23111253wrh.8.2017.04.04.10.10.26
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Tue, 04 Apr 2017 10:10:26 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Tue, 4 Apr 2017 19:10:27 +0200
-To: "Burton, Ross" <ross.burton@intel.com>
-Message-ID: <20170404171027.GC3316@jama>
-References: <1d818d62-704e-61f4-1f0c-a3980a09b502@windriver.com>
-	<20170404080203.6985-1-Martin.Jansa@gmail.com>
-	<CAJTo0LbUrTDOrXU4VzPe=+iiZtFyasL7LhNtpb4YiX6eLTkTWQ@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <CAJTo0LbUrTDOrXU4VzPe=+iiZtFyasL7LhNtpb4YiX6eLTkTWQ@mail.gmail.com>
-User-Agent: Mutt/1.8.0 (2017-02-23)
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] x86-base.inc, qemuarm.conf: prefer 4.10 version of linux-yocto
+	Tue,  4 Apr 2017 21:45:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+	d=intel.com; i=@intel.com; q=dns/txt; s=intel;
+	t=1491342316; x=1522878316;
+	h=from:to:cc:subject:date:message-id;
+	bh=tyk6ADGIZVeQEbYBTDJVmB3ixMRKxvyBKF7aNuYVUms=;
+	b=BNbly591EBEvr+FOkCrVITiVQjvfwscfnW8GNDLCkg1P1CB2zUBHhC46
+	RgO572pxfSVv5zmvB4KVeIErKG4kOg==;
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	04 Apr 2017 14:45:15 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.36,275,1486454400"; d="scan'208";a="69297395"
+Received: from jalamego-mobl2.zpn.intel.com ([10.219.128.121])
+	by orsmga002.jf.intel.com with ESMTP; 04 Apr 2017 14:45:14 -0700
+From: Jose Lamego <jose.a.lamego@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  4 Apr 2017 16:45:09 -0500
+Message-Id: <1491342309-16373-1-git-send-email-jose.a.lamego@linux.intel.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH] create-pull-request: add "-t in-reply-to" option
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,45 +35,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Apr 2017 17:10:27 -0000
-X-Groupsio-MsgNum: 95767
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="fWddYNRDgTk9wQGZ"
-Content-Disposition: inline
+X-List-Received-Date: Tue, 04 Apr 2017 21:45:16 -0000
 
---fWddYNRDgTk9wQGZ
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+The create-patch-request script creates patches as replies to a cover
+letter, in the form of an email thread. If further revisions are sent to
+the mailing list without referencing to the first revision, these new
+revisions are not identified at the mailing list as part of the original
+thread, but as a new thread instead.
 
-On Tue, Apr 04, 2017 at 10:48:54AM +0100, Burton, Ross wrote:
-> On 4 April 2017 at 09:02, Martin Jansa <martin.jansa@gmail.com> wrote:
->=20
-> > -PREFERRED_VERSION_linux-yocto ??=3D "4.8%"
-> > +PREFERRED_VERSION_linux-yocto ??=3D "4.10%"
-> >
->=20
-> The qemuppc and qemumips machines don't have a preferred version, so shou=
-ld
-> we be setting it in all the machine configurations, or can we remove it
-> from these recipes?
+This change adds the "[-t in_reply_to]" option, where "in_reply_to" is
+the original cover letter's Message-Id, so this reference is added
+to the new cover letter to ensure the thread continuity.
 
-I don't really care, I don't use linux-yocto for anything useful, only
-when testing the regressions in "bitbake world" builds and those 188
-lines of NOTEs is all I care about.
+[YOCTO #11294]
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+Signed-off-by: Jose Lamego <jose.a.lamego@linux.intel.com>
+---
+ scripts/create-pull-request | 14 +++++++++++---
+ 1 file changed, 11 insertions(+), 3 deletions(-)
 
---fWddYNRDgTk9wQGZ
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+diff --git a/scripts/create-pull-request b/scripts/create-pull-request
+index e82858b..46d6538 100755
+--- a/scripts/create-pull-request
++++ b/scripts/create-pull-request
+@@ -34,7 +34,7 @@ RFC=0
+ usage() {
+ CMD=$(basename $0)
+ cat <<EOM
+-Usage: $CMD [-h] [-o output_dir] [-m msg_body_file] [-s subject] [-r relative_to] [-i commit_id] [-d relative_dir] -u remote [-b branch]
++Usage: $CMD [-h] [-o output_dir] [-m msg_body_file] [-s subject] [-r relative_to] [-i commit_id] [-d relative_dir] -u remote [-b branch] [-t in_reply_to]
+   -b branch           Branch name in the specified remote (default: current branch)
+   -l local branch     Local branch name (default: HEAD)
+   -c                  Create an RFC (Request for Comment) patch series
+@@ -49,6 +49,7 @@ Usage: $CMD [-h] [-o output_dir] [-m msg_body_file] [-s subject] [-r relative_to
+   -s subject          The subject to be inserted into the summary email
+   -u remote           The git remote where the branch is located, or set CPR_CONTRIB_REMOTE in env
+   -d relative_dir     Generate patches relative to directory
++  -t in_reply_to      Make mails appear as replies to the given Message-Id, to continue patch/series threads
+ 
+  Examples:
+    $CMD -u contrib -b nitin/basic
+@@ -57,12 +58,13 @@ Usage: $CMD [-h] [-o output_dir] [-m msg_body_file] [-s subject] [-r relative_to
+    $CMD -u contrib -r master -i misc -b nitin/misc -o pull-misc
+    $CMD -u contrib -p "RFC PATCH" -b nitin/experimental
+    $CMD -u contrib -i misc -b nitin/misc -d ./bitbake
++   $CMD -u contrib -p "OE-core][PATCH v2" -t "<cover.11146.git.john.doe@example.com>"
+ EOM
+ }
+ 
+ REMOTE="$CPR_CONTRIB_REMOTE"
+ # Parse and validate arguments
+-while getopts "b:acd:hi:m:o:p:r:s:u:l:" OPT; do
++while getopts "b:acd:hi:m:o:p:r:s:u:l:t:" OPT; do
+ 	case $OPT in
+ 	b)
+ 		BRANCH="$OPTARG"
+@@ -108,6 +110,8 @@ while getopts "b:acd:hi:m:o:p:r:s:u:l:" OPT; do
+ 	a)
+ 		CPR_CONTRIB_AUTO_PUSH="1"
+ 		;;
++        t)
++                IN_REPLY_TO="$OPTARG"
+ 	esac
+ done
+ 
+@@ -205,7 +209,11 @@ if [ -n "$RELDIR" ]; then
+ fi
+ 
+ # Generate the patches and cover letter
+-git format-patch $extraopts -M40 --subject-prefix="$PREFIX" -n -o $ODIR --thread=shallow --cover-letter $RELATIVE_TO..$COMMIT_ID > /dev/null
++if [ -z "$IN_REPLY_TO" ]; then
++    git format-patch $extraopts -M40 --subject-prefix="$PREFIX" -n -o $ODIR --thread=shallow --in-reply-to="$IN_REPLY_TO" --cover-letter $RELATIVE_TO..$COMMIT_ID > /dev/null
++else
++    git format-patch $extraopts -M40 --subject-prefix="$PREFIX" -n -o $ODIR --thread=shallow --cover-letter $RELATIVE_TO..$COMMIT_ID > /dev/null
++fi
+ 
+ if [ -z "$(ls -A $ODIR 2> /dev/null)" ]; then
+     echo "ERROR: $ODIR is empty, no cover letter and patches was generated!"
+-- 
+2.7.4
 
------BEGIN PGP SIGNATURE-----
 
-iF0EARECAB0WIQRU+ejDffEzV2Je2oc3VSO3ZXaAHAUCWOPTggAKCRA3VSO3ZXaA
-HNQHAJ99iuHmggeN8gTnu588svkDNKEe2ACeLyzNCGcxAX/sFqcFAL4mqXyKznE=
-=xD2/
------END PGP SIGNATURE-----
-
---fWddYNRDgTk9wQGZ--
