@@ -1,44 +1,20 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-pg0-f66.google.com (mail-pg0-f66.google.com [74.125.83.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 1BE2471ABB
+Return-Path: <dmitry.rozhkov@linux.intel.com>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 82D8660069
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Apr 2017 01:58:48 +0000 (UTC)
-Received: by mail-pg0-f66.google.com with SMTP id o123so33580324pga.1
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 03 Apr 2017 18:58:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=2C2Rd52bnarXfJdMHUpHV8X2NN7bbLW1+jIMQrMjFhU=;
-	b=Zwud2Vr2svEuLBw7/4obSAnfO1ePM8iDDMEK3p+oTmdKd6CZS0OZxi7sOBi+horisl
-	RLqadiZTM2JRbid461vyNPzk1c5hXipkXGCMZOrmk6Zt2chrJ0WncXiYJLTyMX8mghps
-	E0KPD+4ucvk335nfeT2hCa1mPdxdMYlfK4h6u4pCuSFlVqNJGZpw/mhsXpxA/1HeaUHq
-	+JzGyYbiq4b/SmpoCnhvWJkuPerZQOxMvKHFj+r+ckJFsovV29G5AsbzqkuYyIF3SDQT
-	XvAz1uC+4MrmMmG7zNfEA2PG5cSn2lDOfS1rG7upnKCBCeQ066Q8MdKGXbnUzW2Ph3Ui
-	nqzA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=2C2Rd52bnarXfJdMHUpHV8X2NN7bbLW1+jIMQrMjFhU=;
-	b=mPEDysJP/7bDmEzGz4pNNz+FTZZdQtcFJgTQRu1TdRlRXPUD+IBp3BCneUuKY08mu0
-	qDftu56oQiaM9Y+2PC6ud9saAiRVHZscomBCk6c4mCmr+1WJdQm+KRHR7TMtCXMbnJWc
-	wsLtbDSSZn5MIcLXZ0ybO+aqJM8eQlBbDWGPbIkqUCaRU2a12CMD6K2RomEXLXZfobSp
-	0wiBDef+Gv1jSfGeQALNM4QNLtKxUJ7sJg1aMrruGidwyEjPrBC+Ni7/mB26BAMcZUZv
-	uzN8tYkjkH/SeImY7NKDHBmi1sw6z841R+DbhA2DnAMM6pFpp/okSArMV6ppkXtjYOQa
-	bHmA==
-X-Gm-Message-State: AFeK/H1BgtqJ601bQ8dBDOiJYOqltgkdEBPzTfxRrdz62OBN1+95e3IBD923biHXlZvwDQ==
-X-Received: by 10.99.115.92 with SMTP id d28mr20791869pgn.33.1491271129709;
-	Mon, 03 Apr 2017 18:58:49 -0700 (PDT)
-Received: from e6520.cablelabs.com ([4.16.80.121])
-	by smtp.gmail.com with ESMTPSA id
-	s17sm28161768pgo.27.2017.04.03.18.58.48
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 03 Apr 2017 18:58:48 -0700 (PDT)
-From: Andre McCurdy <armccurdy@gmail.com>
+	Tue,  4 Apr 2017 06:47:03 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga105.fm.intel.com with ESMTP; 03 Apr 2017 23:47:05 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.36,274,1486454400"; d="scan'208";a="1130598130"
+Received: from drozhkov-desk.fi.intel.com ([10.237.72.60])
+	by fmsmga001.fm.intel.com with ESMTP; 03 Apr 2017 23:47:04 -0700
+From: Dmitry Rozhkov <dmitry.rozhkov@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  3 Apr 2017 18:58:43 -0700
-Message-Id: <1491271123-9771-1-git-send-email-armccurdy@gmail.com>
-X-Mailer: git-send-email 1.9.1
-Subject: [PATCH] busybox.inc: drop comment explaining '-e MAKEFLAGS=' in EXTRA_OEMAKE
+Date: Tue,  4 Apr 2017 09:46:46 +0300
+Message-Id: <20170404064646.2636-1-dmitry.rozhkov@linux.intel.com>
+X-Mailer: git-send-email 2.9.3
+Subject: [PATCH v2] libxml2: make dependencies on python conditional
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,29 +27,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Apr 2017 01:58:49 -0000
+X-List-Received-Date: Tue, 04 Apr 2017 06:47:04 -0000
 
-EXTRA_OEMAKE no longer contains '-e MAKEFLAGS=' so the comment
-explaining that it needs to be removed / over-ridden is obsolete.
+The library libxml2 can provide its own bindings for python2 in addition
+to the third party python-lxml and python3-lxml packages if this
+functionality is enabled in PACKAGECONFIG.
 
-Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+But in case the functionality is disabled there's no need to depend
+on python2.
+
+Make the dependency on python2 enabled only if the python feature
+is added to PACKAGECONFIG. Also add missing run-time dependency on make
+to libxml2-ptest.
+
+Signed-off-by: Dmitry Rozhkov <dmitry.rozhkov@linux.intel.com>
 ---
- meta/recipes-core/busybox/busybox.inc | 1 -
- 1 file changed, 1 deletion(-)
 
-diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
-index 6246c95..375632d 100644
---- a/meta/recipes-core/busybox/busybox.inc
-+++ b/meta/recipes-core/busybox/busybox.inc
-@@ -18,7 +18,6 @@ BUSYBOX_SPLIT_SUID ?= "1"
- export EXTRA_CFLAGS = "${CFLAGS}"
- export EXTRA_LDFLAGS = "${LDFLAGS}"
+Changes in v2:
+- Set PACKAGECONFIG before it's used.
+- PACKAGES is left unchanged because empty packages are not generated.
+
+ meta/recipes-core/libxml/libxml2_2.9.4.bb | 20 +++++++++++---------
+ 1 file changed, 11 insertions(+), 9 deletions(-)
+
+diff --git a/meta/recipes-core/libxml/libxml2_2.9.4.bb b/meta/recipes-core/libxml/libxml2_2.9.4.bb
+index 023fe99..0c3d683 100644
+--- a/meta/recipes-core/libxml/libxml2_2.9.4.bb
++++ b/meta/recipes-core/libxml/libxml2_2.9.4.bb
+@@ -32,22 +32,24 @@ SRC_URI[testtar.sha256sum] = "96151685cec997e1f9f3387e3626d61e6284d4d6e66e0e440c
  
--# We don't want '-e MAKEFLAGS=' in EXTRA_OEMAKE
- EXTRA_OEMAKE = "CC='${CC}' LD='${CCLD}' V=1 ARCH=${TARGET_ARCH} CROSS_COMPILE=${TARGET_PREFIX} SKIP_STRIP=y HOSTCC='${BUILD_CC}' HOSTCPP='${BUILD_CPP}'"
+ BINCONFIG = "${bindir}/xml2-config"
  
- PACKAGES =+ "${PN}-httpd ${PN}-udhcpd ${PN}-udhcpc ${PN}-syslog ${PN}-mdev ${PN}-hwclock"
+-inherit autotools pkgconfig binconfig-disabled pythonnative ptest
++PACKAGECONFIG ??= "python \
++    ${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)} \
++"
++PACKAGECONFIG[python] = "--with-python=${PYTHON},--without-python,python"
++PACKAGECONFIG[ipv6] = "--enable-ipv6,--disable-ipv6,"
++
++inherit autotools pkgconfig binconfig-disabled ptest
++
++inherit ${@bb.utils.contains('PACKAGECONFIG', 'python', 'pythonnative', '', d)}
+ 
+-RDEPENDS_${PN}-ptest += "python-core"
++RDEPENDS_${PN}-ptest += "make ${@bb.utils.contains('PACKAGECONFIG', 'python', 'python-core', '', d)}"
+ 
+-RDEPENDS_${PN}-python += "python-core"
++RDEPENDS_${PN}-python += "${@bb.utils.contains('PACKAGECONFIG', 'python', 'python-core', '', d)}"
+ 
+ RDEPENDS_${PN}-ptest_append_libc-glibc = " glibc-gconv-ebcdic-us glibc-gconv-ibm1141"
+ 
+ export PYTHON_SITE_PACKAGES="${PYTHON_SITEPACKAGES_DIR}"
+ 
+-PACKAGECONFIG ??= "python \
+-    ${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)} \
+-"
+-PACKAGECONFIG[python] = "--with-python=${PYTHON},--without-python,python"
+-PACKAGECONFIG[ipv6] = "--enable-ipv6,--disable-ipv6,"
+-
+ # WARNING: zlib is require for RPM use
+ EXTRA_OECONF = "--without-debug --without-legacy --with-catalog --without-docbook --with-c14n --without-lzma --with-fexceptions"
+ EXTRA_OECONF_class-native = "--without-legacy --without-docbook --with-c14n --without-lzma --with-zlib"
 -- 
-1.9.1
+2.9.3
 
 
