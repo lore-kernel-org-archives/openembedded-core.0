@@ -1,38 +1,20 @@
-Return-Path: <andre.draszik@gmail.com>
-Received: from mail-wm0-f50.google.com (mail-wm0-f50.google.com [74.125.82.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 444EA77A2D
+Return-Path: <markus.lehtonen@linux.intel.com>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	by mail.openembedded.org (Postfix) with ESMTP id 60A84719B1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Apr 2017 13:54:46 +0000 (UTC)
-Received: by mail-wm0-f50.google.com with SMTP id x124so28634842wmf.0
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 04 Apr 2017 06:54:48 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:mime-version
-	:content-transfer-encoding;
-	bh=4Jzxba6cQUAzEY9Gm4NGmyra5LouJkxckALmvymbxiQ=;
-	b=H2oKxF1hthSPhL5IaUMpsBn+jIutH7RRERruyS3Ypx+9I7YpAyRFMVZcThW2xPicg/
-	M0o4qCYMv8f+iV7DQ6sNXGJP37FRUIHLzo6ialn2aWxfB9SFOt1n70JVgT+ClnBZgw0m
-	0NtWabcNYSvnY9JUQcdwoPg1eq2anFN8beA9zXNziSnHCNESp+5PiH26o+I6JnJgb4eM
-	AzxpMkJgd/87p7O91KoCJcO4aZ7kVws68xkXvzqAv19iGcrXaN9HrkDKEGSWRENq8cza
-	3MZipeUhMcF3xyfinTwPFT/B2s1RJLxNvjfxtTRe15xjuKF4rUawaAvRKoAX9cY3+uWk
-	x4PQ==
-X-Gm-Message-State: AFeK/H1k/buXz00UMZBCOMvZnkq5dri+2/+H1VXS+XVjXXPf2xBadWRQIRUrvTCt+SPYmg==
-X-Received: by 10.28.54.66 with SMTP id d63mr14772728wma.103.1491314087572;
-	Tue, 04 Apr 2017 06:54:47 -0700 (PDT)
-Received: from tfsielt31850 ([77.107.218.170])
-	by smtp.gmail.com with ESMTPSA id
-	k128sm18552211wmf.16.2017.04.04.06.54.46
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Tue, 04 Apr 2017 06:54:46 -0700 (PDT)
-Message-ID: <1491314085.15389.1.camel@andred.net>
-From: =?ISO-8859-1?Q?Andr=E9?= Draszik <git@andred.net>
+	Tue,  4 Apr 2017 13:56:37 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga105.jf.intel.com with ESMTP; 04 Apr 2017 06:56:38 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.36,275,1486454400"; d="scan'208";a="1115246884"
+Received: from marquiz.fi.intel.com ([10.237.72.155])
+	by orsmga001.jf.intel.com with ESMTP; 04 Apr 2017 06:56:38 -0700
+From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 04 Apr 2017 14:54:45 +0100
-X-Mailer: Evolution 3.22.6-1 
-Mime-Version: 1.0
-Subject: tainting other recipe's specific task
+Date: Tue,  4 Apr 2017 16:56:37 +0300
+Message-Id: <20170404135637.11284-1-markus.lehtonen@linux.intel.com>
+X-Mailer: git-send-email 2.10.2
+Subject: [PATCH v2 0/8] Build perf test enhancements
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,42 +27,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Apr 2017 13:54:47 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 04 Apr 2017 13:56:44 -0000
 
-Hi,
-
-Is it possible to invalidate one recipe's hash for a specific task from
-another recipe?
-
-More specifically, I have an initramfs image recipe and a main image recipe
-where do_rootfs of the main image [depends] on do_deploy of initramfs.
-
-If do_rootfs of the main image needs to be re-run, I need to make sure that
-do_rootfs of the initramfs image is re-run (and of course do_deploy) before.
-Basically I want to add a timestamp to both images, and the timestamp should
-be the same.
-
-Using my current dependencies, do_rootfs of the main image is re-run if the
-initramfs is re-deployed:
-
---- snip main_image.bb: ---
-do_rootfs[depends] += "initramfs:do_deploy"
---- snap ---
-
-but I need this both ways. Just adding the equivalent to the initramfs
-recipe results in bitbake complaining about a recursive dependency loop.
+Only change since v1 is one new patch for oe-build-perf-report-email.py.
 
 
-Can this be achieved? Even some pointers would be helpful...
+The following changes since commit 3b7111b30dbd9a4cdd141b594164da18c15ae970:
+
+  automake: Adjust shebang lines to remove interpreter path hardcode (2017-04-01 08:22:04 +0100)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib marquiz/buildperf/scripts
+  http://git.openembedded.org/openembedded-core-contrib/log/?h=marquiz/buildperf/scripts
 
 
-Or some other approach where I can add the same timestamp to both images if
-either of the images needed to be rebuilt due to some change?
+Markus Lehtonen (8):
+  scripts/oe-build-perf-report: better guessing of args
+  scripts/oe-build-perf-report: fix 'charts ready' console message
+  scripts/oe-build-perf-report: fix typo
+  build-perf-test-wrapper.sh: make it possible to specify Git branch
+    name
+  build-perf-test-wrapper.sh: correctly check test script exit status
+  build-perf-test-wrapper.sh: support pushing to remote Git
+  build-perf-test-wrapper.sh: support sending email reports
+  oe-build-perf-report-email.py: fix one file path
 
+ scripts/contrib/build-perf-test-wrapper.sh         | 70 +++++++++++++++++-----
+ scripts/contrib/oe-build-perf-report-email.py      |  2 +-
+ scripts/lib/build_perf/html/measurement_chart.html |  6 +-
+ scripts/lib/build_perf/html/report.html            |  5 +-
+ scripts/oe-build-perf-report                       |  4 +-
+ 5 files changed, 63 insertions(+), 24 deletions(-)
 
-Cheers,
-Andre'
+-- 
+2.10.2
 
 
