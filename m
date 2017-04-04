@@ -1,47 +1,48 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f49.google.com (mail-wm0-f49.google.com [74.125.82.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 9361560616
+Received: from mail-qk0-f171.google.com (mail-qk0-f171.google.com
+	[209.85.220.171])
+	by mail.openembedded.org (Postfix) with ESMTP id B8D5C71D87
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Apr 2017 16:14:10 +0000 (UTC)
-Received: by mail-wm0-f49.google.com with SMTP id t189so32529692wmt.1
+	Tue,  4 Apr 2017 16:14:44 +0000 (UTC)
+Received: by mail-qk0-f171.google.com with SMTP id g195so73920107qke.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 04 Apr 2017 09:14:11 -0700 (PDT)
+	Tue, 04 Apr 2017 09:14:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=fXnQip7KIFYuZSDPMAMVhBdX83XdQb5TWOhs5k8dHeY=;
-	b=wOQsYLiXUUdfomMiLpG5GTkppHKGGCG2fYiCIlWB2Ne1fKoQ32+k3+ARLFciflHMBY
-	AZ+g5sTeGRBHStlb0xJuCr1t5xgyPAeKpA0F8aoywj6Y5B1E6mgpPwuVYHl0FvLg9iPB
-	IsjeKhXyRJ7JoOuC0CcrL2/2yK9LETUFKjYx+pkzEY3vpDva41vA4fVqroSNUG67LNgC
-	vLCmDDg7WFRyAE/rFZpSRWbfLCWbtj5+NRf7so+jxEc18CRyExPCFuYnVWBHjHVkgV6r
-	I+7EGyp07J707AU7K9BoNYoUnnmN6BmbL2qTkBVJGsi7Rz93pTR+WAumzZKIYD6PRgPs
-	l09g==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=+gDS/1q5KOxQNFwpqf8MlkkfB3bSZF3D/88HV18R3bM=;
+	b=FZxuDrj7D7ZlhUPQYsWjcsDEMs1ncVTiA7NR1e6U6N11xlmHv6/JxyCrEu8tb79kYZ
+	iY3MWr78VsmSDpnrUkvMyRn9gTisDFZfoBvWHgRU5bqVmr/YdcStRMQ/P+kpcrE+K/Tc
+	aVoaDngkU+GAHybwXYsnTvHz4cjsvHt/o+ts0FRE04n1khhkJQbQnjqYKVl6HQGWLdCo
+	zJFRmx1Ra2MJfSdJSH2IAcWD3k+g1ArwCH8cz5uq3aO4yB4MUbm1O4Zq7axH4N9nrcYz
+	OVszMb2rMPmJgvLo8akQJgNJ+ZJ0KHi6h/+VcToB6jdcBovfK4QQR8pBsB7iaAriaGrb
+	5cjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=fXnQip7KIFYuZSDPMAMVhBdX83XdQb5TWOhs5k8dHeY=;
-	b=a4hv0kxCeXQZ8fSacLKZ5P+qRHtT/9+rdc4WvR0JI0IGiO2xWBB65a7RBj0uQdnnHc
-	92bMEOC20USTSICR/1y3huKYnGhH83z8G+eaggG4NWl+lvCixGFH/lCbNXOkVdq0nckA
-	7dSFGCRFJ2zWpAwHciVFbDwUYt8rtxRYdT/0PB8Yv27xt7+uGgLwtIlBnZKbYBtgQ32n
-	C9Ja5oGgEzchFSfBGd8xLtrJMRVHGelKkCcwhPzFH4IlxdY9wbE+FiZRPaHBBqYRjvDm
-	UOzxqGHgiKAFsmF/h2SOT0PCYSKkZxIrHUZ8zbcdErXcyTbV0eQs2FzbXC/88+U4umLM
-	i3/w==
-X-Gm-Message-State: AFeK/H3ukfb1xdsQOLcuWOdQZ9eWAe1zN7TyivftEJvVu3ZosG63phDW
-	WNZy3j6n/yVgBk7rGV8=
-X-Received: by 10.28.199.129 with SMTP id x123mr15447248wmf.7.1491322450853;
-	Tue, 04 Apr 2017 09:14:10 -0700 (PDT)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id
-	v29sm22801014wrv.66.2017.04.04.09.14.09
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 04 Apr 2017 09:14:10 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  4 Apr 2017 17:14:06 +0100
-Message-Id: <1491322446-18058-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.8.1
-Subject: [PATCH V2] sanity: explain where TMPDIR is if we're telling the user to delete it
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=+gDS/1q5KOxQNFwpqf8MlkkfB3bSZF3D/88HV18R3bM=;
+	b=E1KfzqKG4/ddjEhm6LNl8BHsbX4fuhSooN9TBMaqz5YN6qeH9NeUv4xa4lDXBlE2PC
+	rVEbpnYZhTKPpTAeIu6txthU0qQ7UJYfh1QcW1imRxmoJ385IQKGLthl6EadQidC1J6V
+	Q4AJ8hWhbqalvgVtY/CtBIMorz8mhpFZlKN1T6geZy+S4m761A9ggUU+N6DdEtKE8BGq
+	hKimygbqFCUUQBPI9lSzy3DHwxwZBsnBbvKYFPOcfMFHacQtDKDEYNsyGT+B0xBVxQIT
+	qphHRK/ktmFP2SgGfSZqsBxw4zyYt+fO5eLQ8JrlXixPCNErbsKcLoUwe4OUY8A7AwSe
+	LgSA==
+X-Gm-Message-State: AFeK/H3qhffK6VyArJ607Rr5iRxDf6Sr1ANaZCiMxbVoBR9IAhldOiKItenO3rbDodQD7L2GZ95e6TT1oHcElFhO
+X-Received: by 10.55.78.80 with SMTP id c77mr8301776qkb.221.1491322486256;
+	Tue, 04 Apr 2017 09:14:46 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.22.166 with HTTP; Tue, 4 Apr 2017 09:14:25 -0700 (PDT)
+In-Reply-To: <CABcZANn2e_b4dgdr9=LNMuAUtby5r0OoODv4CVFj0DUTno_wKw@mail.gmail.com>
+References: <1491315753-17805-1-git-send-email-ross.burton@intel.com>
+	<CABcZANn2e_b4dgdr9=LNMuAUtby5r0OoODv4CVFj0DUTno_wKw@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 4 Apr 2017 17:14:25 +0100
+Message-ID: <CAJTo0LbDaovDW5YynokiF42pUYLdcMXoJi_5NcZPtZokOie3vA@mail.gmail.com>
+To: Christopher Larson <kergoth@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] sanity: explain where TMPDIR is if we're telling the user to delete it
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,27 +55,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Apr 2017 16:14:10 -0000
+X-List-Received-Date: Tue, 04 Apr 2017 16:14:46 -0000
+Content-Type: multipart/alternative; boundary=001a114a896e0a29a5054c5993fa
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/classes/sanity.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+--001a114a896e0a29a5054c5993fa
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
-index 94c78b5..e8064ac 100644
---- a/meta/classes/sanity.bbclass
-+++ b/meta/classes/sanity.bbclass
-@@ -589,7 +589,7 @@ def sanity_handle_abichanges(status, d):
-             with open(abifile, "w") as f:
-                 f.write(current_abi)
-         elif int(abi) <= 11 and current_abi == "12":
--            status.addresult("The layout of TMPDIR changed for Recipe Specific Sysroots.\nConversion doesn't make sense and this change will rebuild everything so please start with a clean TMPDIR.\n")
-+            status.addresult("The layout of TMPDIR changed for Recipe Specific Sysroots.\nConversion doesn't make sense and this change will rebuild everything so please delete TMPDIR (%s).\n" % d.getVar("TMPDIR"))
-         elif (abi != current_abi):
-             # Code to convert from one ABI to another could go here if possible.
-             status.addresult("Error, TMPDIR has changed its layout version number (%s to %s) and you need to either rebuild, revert or adjust it at your own risk.\n" % (abi, current_abi))
--- 
-2.8.1
+On 4 April 2017 at 16:13, Christopher Larson <kergoth@gmail.com> wrote:
 
+> This looks good, though I wonder if we should explicitly state that it
+> should be removed. I could see someone wondering how they =E2=80=9Cclean=
+=E2=80=9D their
+> tmpdir :)
+>
 
+Good point, v2 sent.
+
+Ross
+
+--001a114a896e0a29a5054c5993fa
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 4 April 2017 at 16:13, Christopher Larson <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:kergoth@gmail.com" target=3D"_blank">kergoth@gmail.com</a>&gt;</=
+span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8e=
+x;border-left:1px #ccc solid;padding-left:1ex"><div class=3D"gmail_extra">T=
+his looks good, though I wonder if we should explicitly state that it shoul=
+d be removed. I could see someone wondering how they =E2=80=9Cclean=E2=80=
+=9D their tmpdir :)<br></div></blockquote><div><br></div><div>Good point, v=
+2 sent.</div><div><br></div><div>Ross=C2=A0</div></div><br></div></div>
+
+--001a114a896e0a29a5054c5993fa--
