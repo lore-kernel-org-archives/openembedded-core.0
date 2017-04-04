@@ -1,26 +1,39 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id E4B2972F4D
+Return-Path: <rpjday@crashcourse.ca>
+X-Greylist: delayed 2674 seconds by postgrey-1.34 at layers.openembedded.org;
+	Tue, 04 Apr 2017 22:56:34 UTC
+Received: from cpanel2.indieserve.net (cpanel2.indieserve.net [199.212.143.6])
+	by mail.openembedded.org (Postfix) with ESMTP id F0A0F71D82
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Apr 2017 22:46:59 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga105.jf.intel.com with ESMTP; 04 Apr 2017 15:46:59 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.36,276,1486454400"; d="scan'208";a="1151075907"
-Received: from afzalahm-mobl.gar.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.255.140.221])
-	by fmsmga002.fm.intel.com with ESMTP; 04 Apr 2017 15:46:56 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Leonardo Sandoval <leonardo.sandoval.gonzalez@intel.com>
-Date: Wed, 05 Apr 2017 10:46:52 +1200
-Message-ID: <1604678.KSh5FdkEZr@peggleto-mobl.ger.corp.intel.com>
-Organization: Intel Corporation
-In-Reply-To: <20170404170205.6649.78705@do.openembedded.org>
-References: <1491322446-18058-1-git-send-email-ross.burton@intel.com>
-	<20170404170205.6649.78705@do.openembedded.org>
+	Tue,  4 Apr 2017 22:56:34 +0000 (UTC)
+Received: from cpec03f0ed08c7f-cm68b6fcf980b0.cpe.net.cable.rogers.com
+	([174.118.92.171]:57210 helo=localhost.localdomain)
+	by cpanel2.indieserve.net with esmtpsa
+	(TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256) (Exim 4.88)
+	(envelope-from <rpjday@crashcourse.ca>) id 1cvWgC-00045B-Qk
+	for openembedded-core@lists.openembedded.org;
+	Tue, 04 Apr 2017 18:12:01 -0400
+Date: Tue, 4 Apr 2017 18:11:58 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@localhost.localdomain
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Message-ID: <alpine.LFD.2.20.1704041811100.6695@localhost.localdomain>
+User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?UmU6IOKclyBwYXRjaHRlc3Q6IGZhaWx1cmUgZm9yIHNhbml0eTogZXhwbGFpbiB3aGVyZSBUTVBESVIgaXMgaWYgd2UncmUgdGVsbGluZyB0aGUgdXNlciB0byBkZWxldGUgaXQgKHJldjIp?=
+X-OutGoing-Spam-Status: No, score=-0.2
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - cpanel2.indieserve.net
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Get-Message-Sender-Via: cpanel2.indieserve.net: authenticated_id:
+	rpjday+crashcourse.ca/only user confirmed/virtual account not
+	confirmed
+X-Authenticated-Sender: cpanel2.indieserve.net: rpjday@crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+Subject: time to get rid of FILESDIR?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,28 +46,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Apr 2017 22:47:00 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Tue, 04 Apr 2017 22:56:35 -0000
+Content-Type: text/plain; charset=US-ASCII
 
-On Wednesday, 5 April 2017 5:02:05 AM NZST Patchwork wrote:
-> * Issue             Patch line too long (current length 214)
-> [test_max_line_length] Suggested fix    Shorten the corresponding patch
-> line (max length supported 180) Patch           
-> meta/classes/sanity.bbclass
->   Line             +            status.addresult("The layout of TMPDIR
-> changed for Recipe Specific  ...
 
-I'm not sure we need to be checking for this. If our code strictly adhered to 
-a maximum line length already then maybe, but the vast majority of it doesn't 
-at the moment.
+  the only references i see to the deprecated FILESDIR are historical,
+none actually being used. what about just tossing it?
 
-Cheers,
-Paul
-
+rday
 
 -- 
 
-Paul Eggleton
-Intel Open Source Technology Centre
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
