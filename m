@@ -1,18 +1,38 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 0FC5671E50;
-	Tue,  4 Apr 2017 12:02:00 +0000 (UTC)
-MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Ed Bartosh <ed.bartosh@linux.intel.com>
-Date: Tue, 04 Apr 2017 12:02:01 -0000
-Message-ID: <20170404120201.6649.79276@do.openembedded.org>
-References: <1491304245-7194-1-git-send-email-ed.bartosh@linux.intel.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <1491304245-7194-1-git-send-email-ed.bartosh@linux.intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3Igb2Utc2VsZnRlc3Q6IHRlc3Qgd2ljIHNwYXJzZV9jb3B5IEFQSQ==?=
+Return-Path: <andre.draszik@gmail.com>
+Received: from mail-wm0-f50.google.com (mail-wm0-f50.google.com [74.125.82.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 444EA77A2D
+	for <openembedded-core@lists.openembedded.org>;
+	Tue,  4 Apr 2017 13:54:46 +0000 (UTC)
+Received: by mail-wm0-f50.google.com with SMTP id x124so28634842wmf.0
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 04 Apr 2017 06:54:48 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:date:mime-version
+	:content-transfer-encoding;
+	bh=4Jzxba6cQUAzEY9Gm4NGmyra5LouJkxckALmvymbxiQ=;
+	b=H2oKxF1hthSPhL5IaUMpsBn+jIutH7RRERruyS3Ypx+9I7YpAyRFMVZcThW2xPicg/
+	M0o4qCYMv8f+iV7DQ6sNXGJP37FRUIHLzo6ialn2aWxfB9SFOt1n70JVgT+ClnBZgw0m
+	0NtWabcNYSvnY9JUQcdwoPg1eq2anFN8beA9zXNziSnHCNESp+5PiH26o+I6JnJgb4eM
+	AzxpMkJgd/87p7O91KoCJcO4aZ7kVws68xkXvzqAv19iGcrXaN9HrkDKEGSWRENq8cza
+	3MZipeUhMcF3xyfinTwPFT/B2s1RJLxNvjfxtTRe15xjuKF4rUawaAvRKoAX9cY3+uWk
+	x4PQ==
+X-Gm-Message-State: AFeK/H1k/buXz00UMZBCOMvZnkq5dri+2/+H1VXS+XVjXXPf2xBadWRQIRUrvTCt+SPYmg==
+X-Received: by 10.28.54.66 with SMTP id d63mr14772728wma.103.1491314087572;
+	Tue, 04 Apr 2017 06:54:47 -0700 (PDT)
+Received: from tfsielt31850 ([77.107.218.170])
+	by smtp.gmail.com with ESMTPSA id
+	k128sm18552211wmf.16.2017.04.04.06.54.46
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Tue, 04 Apr 2017 06:54:46 -0700 (PDT)
+Message-ID: <1491314085.15389.1.camel@andred.net>
+From: =?ISO-8859-1?Q?Andr=E9?= Draszik <git@andred.net>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 04 Apr 2017 14:54:45 +0100
+X-Mailer: Evolution 3.22.6-1 
+Mime-Version: 1.0
+Subject: tainting other recipe's specific task
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,41 +45,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Apr 2017 12:02:00 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 04 Apr 2017 13:54:47 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-== Series Details ==
+Hi,
 
-Series: oe-selftest: test wic sparse_copy API
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/6144/
-State : failure
+Is it possible to invalidate one recipe's hash for a specific task from
+another recipe?
 
-== Summary ==
+More specifically, I have an initramfs image recipe and a main image recipe
+where do_rootfs of the main image [depends] on do_deploy of initramfs.
+
+If do_rootfs of the main image needs to be re-run, I need to make sure that
+do_rootfs of the initramfs image is re-run (and of course do_deploy) before.
+Basically I want to add a timestamp to both images, and the timestamp should
+be the same.
+
+Using my current dependencies, do_rootfs of the main image is re-run if the
+initramfs is re-deployed:
+
+--- snip main_image.bb: ---
+do_rootfs[depends] += "initramfs:do_deploy"
+--- snap ---
+
+but I need this both ways. Just adding the equivalent to the initramfs
+recipe results in bitbake complaining about a recursive dependency loop.
 
 
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
+Can this be achieved? Even some pointers would be helpful...
 
 
-
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  master (currently at 3b7111b30d)
+Or some other approach where I can add the same timestamp to both images if
+either of the images needed to be rebuilt due to some change?
 
 
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
----
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+Cheers,
+Andre'
 
 
