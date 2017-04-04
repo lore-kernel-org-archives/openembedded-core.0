@@ -1,28 +1,28 @@
-Return-Path: <jose.a.lamego@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 9535E72F4D
+Return-Path: <brian.avery@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id E0ACC71C90
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Apr 2017 21:45:13 +0000 (UTC)
+	Tue,  4 Apr 2017 22:19:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
 	d=intel.com; i=@intel.com; q=dns/txt; s=intel;
-	t=1491342316; x=1522878316;
+	t=1491344400; x=1522880400;
 	h=from:to:cc:subject:date:message-id;
-	bh=tyk6ADGIZVeQEbYBTDJVmB3ixMRKxvyBKF7aNuYVUms=;
-	b=BNbly591EBEvr+FOkCrVITiVQjvfwscfnW8GNDLCkg1P1CB2zUBHhC46
-	RgO572pxfSVv5zmvB4KVeIErKG4kOg==;
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	04 Apr 2017 14:45:15 -0700
+	bh=dNLYtwx21yJZ+CKIpXAAYlDggAK4jW0bgQPVQhQWx6g=;
+	b=F1YmXR1ADtdv3nozePgMRrtxl4G2BlP9Gt8AFqextvikB5YZmW6vU1ID
+	gYCQHqxXBdgz1400rl+uB6QAmcPyuA==;
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	04 Apr 2017 15:19:59 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.36,275,1486454400"; d="scan'208";a="69297395"
-Received: from jalamego-mobl2.zpn.intel.com ([10.219.128.121])
-	by orsmga002.jf.intel.com with ESMTP; 04 Apr 2017 14:45:14 -0700
-From: Jose Lamego <jose.a.lamego@linux.intel.com>
+X-IronPort-AV: E=Sophos;i="5.36,276,1486454400"; d="scan'208";a="1151066279"
+Received: from bavery-ws-desk.jf.intel.com ([10.54.74.5])
+	by fmsmga002.fm.intel.com with ESMTP; 04 Apr 2017 15:19:59 -0700
+From: brian avery <brian.avery@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  4 Apr 2017 16:45:09 -0500
-Message-Id: <1491342309-16373-1-git-send-email-jose.a.lamego@linux.intel.com>
-X-Mailer: git-send-email 2.7.4
-Subject: [PATCH] create-pull-request: add "-t in-reply-to" option
+Date: Tue,  4 Apr 2017 15:22:09 -0700
+Message-Id: <cover.1491344268.git.brian.avery@intel.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH 0/2] runqemu-extract-sdk: Fixes for RSS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,84 +35,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Apr 2017 21:45:16 -0000
+X-List-Received-Date: Tue, 04 Apr 2017 22:19:59 -0000
 
-The create-patch-request script creates patches as replies to a cover
-letter, in the form of an email thread. If further revisions are sent to
-the mailing list without referencing to the first revision, these new
-revisions are not identified at the mailing list as part of the original
-thread, but as a new thread instead.
 
-This change adds the "[-t in_reply_to]" option, where "in_reply_to" is
-the original cover letter's Message-Id, so this reference is added
-to the new cover letter to ensure the thread continuity.
+RSS removed the "giant native sysroot" so now we need a modify how tools like runqemu and
+runqemu-extract-sdk find the native tools they need to run.  This patch uses the result of
+meta-ide-support which has pseudo as well as tools like unfsd in it's usr/bin to run.
+Since the meta-ide-support make a usr/bin dir in tmp/work and rm_work sibsequently removes it,
+we exlude meta-ide-support from the rm_work set.
 
-[YOCTO #11294]
+-brian
 
-Signed-off-by: Jose Lamego <jose.a.lamego@linux.intel.com>
----
- scripts/create-pull-request | 14 +++++++++++---
- 1 file changed, 11 insertions(+), 3 deletions(-)
+The following changes since commit eff56e4f0d59b1d965a68e4f009b7f07717b7edd:
 
-diff --git a/scripts/create-pull-request b/scripts/create-pull-request
-index e82858b..46d6538 100755
---- a/scripts/create-pull-request
-+++ b/scripts/create-pull-request
-@@ -34,7 +34,7 @@ RFC=0
- usage() {
- CMD=$(basename $0)
- cat <<EOM
--Usage: $CMD [-h] [-o output_dir] [-m msg_body_file] [-s subject] [-r relative_to] [-i commit_id] [-d relative_dir] -u remote [-b branch]
-+Usage: $CMD [-h] [-o output_dir] [-m msg_body_file] [-s subject] [-r relative_to] [-i commit_id] [-d relative_dir] -u remote [-b branch] [-t in_reply_to]
-   -b branch           Branch name in the specified remote (default: current branch)
-   -l local branch     Local branch name (default: HEAD)
-   -c                  Create an RFC (Request for Comment) patch series
-@@ -49,6 +49,7 @@ Usage: $CMD [-h] [-o output_dir] [-m msg_body_file] [-s subject] [-r relative_to
-   -s subject          The subject to be inserted into the summary email
-   -u remote           The git remote where the branch is located, or set CPR_CONTRIB_REMOTE in env
-   -d relative_dir     Generate patches relative to directory
-+  -t in_reply_to      Make mails appear as replies to the given Message-Id, to continue patch/series threads
- 
-  Examples:
-    $CMD -u contrib -b nitin/basic
-@@ -57,12 +58,13 @@ Usage: $CMD [-h] [-o output_dir] [-m msg_body_file] [-s subject] [-r relative_to
-    $CMD -u contrib -r master -i misc -b nitin/misc -o pull-misc
-    $CMD -u contrib -p "RFC PATCH" -b nitin/experimental
-    $CMD -u contrib -i misc -b nitin/misc -d ./bitbake
-+   $CMD -u contrib -p "OE-core][PATCH v2" -t "<cover.11146.git.john.doe@example.com>"
- EOM
- }
- 
- REMOTE="$CPR_CONTRIB_REMOTE"
- # Parse and validate arguments
--while getopts "b:acd:hi:m:o:p:r:s:u:l:" OPT; do
-+while getopts "b:acd:hi:m:o:p:r:s:u:l:t:" OPT; do
- 	case $OPT in
- 	b)
- 		BRANCH="$OPTARG"
-@@ -108,6 +110,8 @@ while getopts "b:acd:hi:m:o:p:r:s:u:l:" OPT; do
- 	a)
- 		CPR_CONTRIB_AUTO_PUSH="1"
- 		;;
-+        t)
-+                IN_REPLY_TO="$OPTARG"
- 	esac
- done
- 
-@@ -205,7 +209,11 @@ if [ -n "$RELDIR" ]; then
- fi
- 
- # Generate the patches and cover letter
--git format-patch $extraopts -M40 --subject-prefix="$PREFIX" -n -o $ODIR --thread=shallow --cover-letter $RELATIVE_TO..$COMMIT_ID > /dev/null
-+if [ -z "$IN_REPLY_TO" ]; then
-+    git format-patch $extraopts -M40 --subject-prefix="$PREFIX" -n -o $ODIR --thread=shallow --in-reply-to="$IN_REPLY_TO" --cover-letter $RELATIVE_TO..$COMMIT_ID > /dev/null
-+else
-+    git format-patch $extraopts -M40 --subject-prefix="$PREFIX" -n -o $ODIR --thread=shallow --cover-letter $RELATIVE_TO..$COMMIT_ID > /dev/null
-+fi
- 
- if [ -z "$(ls -A $ODIR 2> /dev/null)" ]; then
-     echo "ERROR: $ODIR is empty, no cover letter and patches was generated!"
--- 
-2.7.4
+  bitbake: bitbake-user-manual: Fixed special character in -D output (2017-04-03 22:32:02 +0100)
 
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib bavery/sadpseudo/bug11119
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=bavery/sadpseudo/bug11119
+
+brian avery (2):
+  scripts: change way we find native tools (pseudo)
+  meta-ide-support: exclude this recipe from rm_work
+
+ meta/recipes-core/meta/meta-ide-support.bb | 1 +
+ scripts/oe-find-native-sysroot             | 8 ++++----
+ 2 files changed, 5 insertions(+), 4 deletions(-)
+
+--
+1.9.1
 
