@@ -1,31 +1,24 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 026A073002
+Return-Path: <Catalin.Enache@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id A219F779B1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Apr 2017 11:25:56 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTP id v35BPuIJ025686; 
-	Wed, 5 Apr 2017 12:25:57 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id tmoIh12xtBCh; Wed,  5 Apr 2017 12:25:57 +0100 (BST)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	v35BM0Ch025602
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Wed, 5 Apr 2017 12:22:02 +0100
-Message-ID: <1491391320.17200.8.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Nathan Rossi <nathan@nathanrossi.com>, Chen Qi <Qi.Chen@windriver.com>
-Date: Wed, 05 Apr 2017 12:22:00 +0100
-In-Reply-To: <CA+aJhH1JjWONYpOFi8S4QsDzUdfoPSJS_0FZf=5dQTm-O_4wEQ@mail.gmail.com>
-References: <cover.1490850708.git.Qi.Chen@windriver.com>
-	<d6b2737e706f743644df63f21a8f061b9e2f83c7.1490850708.git.Qi.Chen@windriver.com>
-	<CA+aJhH1JjWONYpOFi8S4QsDzUdfoPSJS_0FZf=5dQTm-O_4wEQ@mail.gmail.com>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] image.inc/qemu.inc: preserve directories to be used by runqemu
+	Wed,  5 Apr 2017 12:07:54 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v35C7smb019677
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 5 Apr 2017 05:07:54 -0700 (PDT)
+Received: from no3.corp.ad.wrs.com (128.224.125.152) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.294.0; Wed, 5 Apr 2017 05:07:53 -0700
+From: Catalin Enache <catalin.enache@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 5 Apr 2017 15:06:51 +0300
+Message-ID: <1491394011-5609-1-git-send-email-catalin.enache@windriver.com>
+X-Mailer: git-send-email 2.7.4
+MIME-Version: 1.0
+Subject: [PATCH] ghostscript: CVE-2017-7207
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,73 +31,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Apr 2017 11:25:57 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 05 Apr 2017 12:07:55 -0000
+Content-Type: text/plain
 
-On Wed, 2017-04-05 at 20:06 +1000, Nathan Rossi wrote:
-> On 30 March 2017 at 15:12, Chen Qi <Qi.Chen@windriver.com> wrote:
-> > 
-> > The 'recipe-sysroot' and 'recipe-sysroot-native' directories need
-> > to
-> > be preserved for runqemu to work correctly. Otherwise, when
-> > 'rm_work'
-> > is enabled, these directories are removed, thus causing errors when
-> > using runqemu .
-> > 
-> > [YOCTO #11266]
-> > [YOCTO #11193]
-> > 
-> > Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-> > ---
-> >  meta/classes/image.bbclass         | 1 +
-> >  meta/conf/machine/include/qemu.inc | 3 +++
-> >  2 files changed, 4 insertions(+)
-> > 
-> > diff --git a/meta/classes/image.bbclass
-> > b/meta/classes/image.bbclass
-> > index 405fd73..cac3a5f 100644
-> > --- a/meta/classes/image.bbclass
-> > +++ b/meta/classes/image.bbclass
-> > @@ -8,6 +8,7 @@ inherit ${SDKEXTCLASS}
-> >  TOOLCHAIN_TARGET_TASK += "${PACKAGE_INSTALL}"
-> >  TOOLCHAIN_TARGET_TASK_ATTEMPTONLY +=
-> > "${PACKAGE_INSTALL_ATTEMPTONLY}"
-> >  POPULATE_SDK_POST_TARGET_COMMAND += "rootfs_sysroot_relativelinks;
-> > "
-> > +RM_WORK_EXCLUDE_ITEMS_append = " ${IMAGE_RM_WORK_EXCLUDE_ITEMS}"
-> > 
-> >  LICENSE = "MIT"
-> >  PACKAGES = ""
-> > diff --git a/meta/conf/machine/include/qemu.inc
-> > b/meta/conf/machine/include/qemu.inc
-> > index 0e4103b..8345c08 100644
-> > --- a/meta/conf/machine/include/qemu.inc
-> > +++ b/meta/conf/machine/include/qemu.inc
-> > @@ -29,3 +29,6 @@ KERNEL_FEATURES_append_pn-linux-yocto = "
-> > features/nfsd/nfsd-enable.scc"
-> >  MACHINE_EXTRA_RRECOMMENDS += "rng-tools"
-> > 
-> >  IMAGE_CLASSES += "qemuboot"
-> > +
-> > +# These two directories need to be preserved for runqemu to work
-> > well
-> > +IMAGE_RM_WORK_EXCLUDE_ITEMS = "recipe-sysroot recipe-sysroot-
-> > native"
-> Should this be setup by qemuboot.bbclass instead, so that it applies
-> to any image/machine (even those that do not use qemu.inc) that is
-> intended to be used by runqemu?
+The mem_get_bits_rectangle function in Artifex Software, Inc.
+Ghostscript 9.20 allows remote attackers to cause a denial
+of service (NULL pointer dereference) via a crafted PostScript
+document.
 
-I'm trying to decide what the best approach here is. I'm thinking it
-might be better to:
+Reference:
+http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2017-7207
 
-a) make qemu builds depend on qemu-helper-native
-b) make that preserve its native sysroot (not the target one).
-c) have runqemu look at qemu-helper-native
+Upstream patch:
+http://git.ghostscript.com/?p=ghostpdl.git;h=309eca4e0a31ea70dcc844812691439312dad091
 
-I think that should solve problems and work better than the above?
+Signed-off-by: Catalin Enache <catalin.enache@windriver.com>
+---
+ .../ghostscript/ghostscript/CVE-2017-7207.patch    | 39 ++++++++++++++++++++++
+ .../ghostscript/ghostscript_9.20.bb                |  1 +
+ 2 files changed, 40 insertions(+)
+ create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2017-7207.patch
 
-Cheers,
+diff --git a/meta/recipes-extended/ghostscript/ghostscript/CVE-2017-7207.patch b/meta/recipes-extended/ghostscript/ghostscript/CVE-2017-7207.patch
+new file mode 100644
+index 0000000..a05dc02
+--- /dev/null
++++ b/meta/recipes-extended/ghostscript/ghostscript/CVE-2017-7207.patch
+@@ -0,0 +1,39 @@
++From 0e88bee1304993668fede72498d656a2dd33a35e Mon Sep 17 00:00:00 2001
++From: Ken Sharp <ken.sharp@artifex.com>
++Date: Mon, 20 Mar 2017 09:34:11 +0000
++Subject: [PATCH] Ensure a device has raster memory, before trying to read it.
++
++Bug #697676 "Null pointer dereference in mem_get_bits_rectangle()"
++
++This is only possible by abusing/mis-using Ghostscript-specific
++language extensions, so cannot happen in a general PostScript program.
++
++Nevertheless, Ghostscript should not crash. So this commit checks the
++memory device to see if raster memory has been allocated, before trying
++to read from it.
++
++Upstream-Status: Backport
++CVE: CVE-2017-7207
++
++Author: Ken Sharp <ken.sharp@artifex.com>
++Signed-off-by: Catalin Enache <catalin.enache@windriver.com>
++---
++ base/gdevmem.c | 2 ++
++ 1 file changed, 2 insertions(+)
++
++diff --git a/base/gdevmem.c b/base/gdevmem.c
++index 41108ba..183f96d 100644
++--- a/base/gdevmem.c
+++++ b/base/gdevmem.c
++@@ -605,6 +605,8 @@ mem_get_bits_rectangle(gx_device * dev, const gs_int_rect * prect,
++             GB_PACKING_CHUNKY | GB_COLORS_NATIVE | GB_ALPHA_NONE;
++         return_error(gs_error_rangecheck);
++     }
+++    if (mdev->line_ptrs == 0x00)
+++        return_error(gs_error_rangecheck);
++     if ((w <= 0) | (h <= 0)) {
++         if ((w | h) < 0)
++             return_error(gs_error_rangecheck);
++-- 
++2.10.2
++
+diff --git a/meta/recipes-extended/ghostscript/ghostscript_9.20.bb b/meta/recipes-extended/ghostscript/ghostscript_9.20.bb
+index 210e9a7..e8fc5df 100644
+--- a/meta/recipes-extended/ghostscript/ghostscript_9.20.bb
++++ b/meta/recipes-extended/ghostscript/ghostscript_9.20.bb
+@@ -31,6 +31,7 @@ SRC_URI = "${SRC_URI_BASE} \
+            file://ghostscript-9.02-genarch.patch \
+            file://objarch.h \
+            file://cups-no-gcrypt.patch \
++           file://CVE-2017-7207.patch \
+            "
+ 
+ SRC_URI_class-native = "${SRC_URI_BASE} \
+-- 
+2.10.2
 
-Richard
 
