@@ -1,28 +1,24 @@
-Return-Path: <dmitry.rozhkov@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 0D80177A4F
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 8435F77A4F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Apr 2017 12:38:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-	d=intel.com; i=@intel.com; q=dns/txt; s=intel;
-	t=1491395894; x=1522931894;
-	h=from:to:cc:subject:date:message-id;
-	bh=rHqt04RJij2BKm3Nld5FTxcjeKUjHiRjbdTu7Pap8FM=;
-	b=C2Bp38BzrGl7GoabdWhHqguURLxsnlPQrTFfbJZQX+G5FGz4Yw9PU/Ka
-	ugDFjsdBs3JYHrP2BLSaxiEHV9X/Tw==;
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	05 Apr 2017 05:38:13 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.36,278,1486454400"; d="scan'208";a="244553402"
-Received: from drozhkov-desk.fi.intel.com ([10.237.72.60])
-	by fmsmga004.fm.intel.com with ESMTP; 05 Apr 2017 05:38:12 -0700
-From: Dmitry Rozhkov <dmitry.rozhkov@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  5 Apr 2017 15:37:45 +0300
-Message-Id: <20170405123745.15688-1-dmitry.rozhkov@linux.intel.com>
-X-Mailer: git-send-email 2.9.3
-Subject: [PATCH] python3: fix run-time deps for core python3 libraries
+	Wed,  5 Apr 2017 12:39:34 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v35CdX2K011172
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Wed, 5 Apr 2017 05:39:34 -0700
+Received: from yow-bashfiel-d4.wrs.com (128.224.56.94) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.294.0; Wed, 5 Apr 2017 05:39:33 -0700
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+To: <richard.purdie@linuxfoundation.org>
+Date: Wed, 5 Apr 2017 08:39:32 -0400
+Message-ID: <1491395972-25386-1-git-send-email-bruce.ashfield@windriver.com>
+X-Mailer: git-send-email 2.5.0
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH] qemu arm/x86: drop linux-yocto preferred version
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,66 +31,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Apr 2017 12:38:13 -0000
+X-List-Received-Date: Wed, 05 Apr 2017 12:39:34 -0000
+Content-Type: text/plain
 
-The http.server module from python3-netclient imports the html module
-which is in python3-html. Also xmlrpc.server imports pydoc which is a
-part of python3-pydoc. But those run-time dependencies are missing
-from python3-netclient and python3-xmlrpc respectively.
+We don't make a linux-yocto version available unless it boots
+on all qemu targets, hence there is no reason to specify a
+specific version .. the latest is always fine.
 
-Add the missing run-time dependencies.
+Also, the other qemu machines don't have this specification, so
+this makes x86 and ARM consistent.
 
-Signed-off-by: Dmitry Rozhkov <dmitry.rozhkov@linux.intel.com>
+Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
 ---
- meta/recipes-devtools/python/python-3.5-manifest.inc | 4 ++--
- scripts/contrib/python/generate-manifest-3.5.py      | 4 ++--
- 2 files changed, 4 insertions(+), 4 deletions(-)
+ meta/conf/machine/include/x86-base.inc | 1 -
+ meta/conf/machine/qemuarm.conf         | 1 -
+ 2 files changed, 2 deletions(-)
 
-diff --git a/meta/recipes-devtools/python/python-3.5-manifest.inc b/meta/recipes-devtools/python/python-3.5-manifest.inc
-index 55bcc4b..ec30eb9 100644
---- a/meta/recipes-devtools/python/python-3.5-manifest.inc
-+++ b/meta/recipes-devtools/python/python-3.5-manifest.inc
-@@ -153,7 +153,7 @@ RDEPENDS_${PN}-multiprocessing="${PN}-core ${PN}-io ${PN}-lang ${PN}-pickle ${PN
- FILES_${PN}-multiprocessing="${libdir}/python3.5/lib-dynload/_multiprocessing.*.so ${libdir}/python3.5/lib-dynload/__pycache__/_multiprocessing.*.so ${libdir}/python3.5/multiprocessing ${libdir}/python3.5/multiprocessing/__pycache__ "
+diff --git a/meta/conf/machine/include/x86-base.inc b/meta/conf/machine/include/x86-base.inc
+index 40d59577fdb5..82e0cf6a5f36 100644
+--- a/meta/conf/machine/include/x86-base.inc
++++ b/meta/conf/machine/include/x86-base.inc
+@@ -20,7 +20,6 @@ SERIAL_CONSOLE ?= "115200 ttyS0"
+ # kernel-related variables
+ #
+ PREFERRED_PROVIDER_virtual/kernel ??= "linux-yocto"
+-PREFERRED_VERSION_linux-yocto ??= "4.8%"
  
- SUMMARY_${PN}-netclient="Python Internet Protocol clients"
--RDEPENDS_${PN}-netclient="${PN}-argparse ${PN}-core ${PN}-crypt ${PN}-datetime ${PN}-io ${PN}-lang ${PN}-logging ${PN}-mime"
-+RDEPENDS_${PN}-netclient="${PN}-argparse ${PN}-core ${PN}-crypt ${PN}-datetime ${PN}-io ${PN}-lang ${PN}-logging ${PN}-mime ${PN}-html"
- FILES_${PN}-netclient="${libdir}/python3.5/*Cookie*.* ${libdir}/python3.5/__pycache__/*Cookie*.* ${libdir}/python3.5/base64.* ${libdir}/python3.5/__pycache__/base64.* ${libdir}/python3.5/cookielib.* ${libdir}/python3.5/__pycache__/cookielib.* ${libdir}/python3.5/ftplib.* ${libdir}/python3.5/__pycache__/ftplib.* ${libdir}/python3.5/gopherlib.* ${libdir}/python3.5/__pycache__/gopherlib.* ${libdir}/python3.5/hmac.* ${libdir}/python3.5/__pycache__/hmac.* ${libdir}/python3.5/http* ${libdir}/python3.5/http*/__pycache__ ${libdir}/python3.5/httplib.* ${libdir}/python3.5/__pycache__/httplib.* ${libdir}/python3.5/mimetypes.* ${libdir}/python3.5/__pycache__/mimetypes.* ${libdir}/python3.5/nntplib.* ${libdir}/python3.5/__pycache__/nntplib.* ${libdir}/python3.5/poplib.* ${libdir}/python3.5/__pycache__/poplib.* ${libdir}/python3.5/smtplib.* ${libdir}/python3.5/__pycache__/smtplib.* ${libdir}/python3.5/telnetlib.* ${libdir}/python3.5/__pycache__/telnetlib.* ${libdir}/python3.5/urllib ${libdir}/python3.5/urllib/__pycache__ ${libdir}/python3.5/uuid.* ${libdir}/python3.5/__pycache__/uuid.* ${libdir}/python3.5/rfc822.* ${libdir}/python3.5/__pycache__/rfc822.* ${libdir}/python3.5/mimetools.* ${libdir}/python3.5/__pycache__/mimetools.* "
- 
- SUMMARY_${PN}-netserver="Python Internet Protocol servers"
-@@ -273,7 +273,7 @@ RDEPENDS_${PN}-xml="${PN}-core ${PN}-re"
- FILES_${PN}-xml="${libdir}/python3.5/lib-dynload/_elementtree.*.so ${libdir}/python3.5/lib-dynload/__pycache__/_elementtree.*.so ${libdir}/python3.5/lib-dynload/pyexpat.*.so ${libdir}/python3.5/lib-dynload/__pycache__/pyexpat.*.so ${libdir}/python3.5/xml ${libdir}/python3.5/xml/__pycache__ ${libdir}/python3.5/xmllib.* ${libdir}/python3.5/__pycache__/xmllib.* "
- 
- SUMMARY_${PN}-xmlrpc="Python XML-RPC support"
--RDEPENDS_${PN}-xmlrpc="${PN}-core ${PN}-xml ${PN}-netserver ${PN}-lang"
-+RDEPENDS_${PN}-xmlrpc="${PN}-core ${PN}-xml ${PN}-netserver ${PN}-lang ${PN}-pydoc"
- FILES_${PN}-xmlrpc="${libdir}/python3.5/xmlrpclib.* ${libdir}/python3.5/__pycache__/xmlrpclib.* ${libdir}/python3.5/SimpleXMLRPCServer.* ${libdir}/python3.5/__pycache__/SimpleXMLRPCServer.* ${libdir}/python3.5/DocXMLRPCServer.* ${libdir}/python3.5/__pycache__/DocXMLRPCServer.* ${libdir}/python3.5/xmlrpc ${libdir}/python3.5/xmlrpc/__pycache__ "
- 
- SUMMARY_${PN}-modules="All Python modules"
-diff --git a/scripts/contrib/python/generate-manifest-3.5.py b/scripts/contrib/python/generate-manifest-3.5.py
-index 386bdfc..5835de8 100755
---- a/scripts/contrib/python/generate-manifest-3.5.py
-+++ b/scripts/contrib/python/generate-manifest-3.5.py
-@@ -340,7 +340,7 @@ if __name__ == "__main__":
-     m.addPackage( "${PN}-multiprocessing", "Python multiprocessing support", "${PN}-core ${PN}-io ${PN}-lang ${PN}-pickle ${PN}-threading ${PN}-ctypes ${PN}-mmap",
-     "lib-dynload/_multiprocessing.*.so multiprocessing" ) # package
- 
--    m.addPackage( "${PN}-netclient", "Python Internet Protocol clients", "${PN}-argparse ${PN}-core ${PN}-crypt ${PN}-datetime ${PN}-io ${PN}-lang ${PN}-logging ${PN}-mime",
-+    m.addPackage( "${PN}-netclient", "Python Internet Protocol clients", "${PN}-argparse ${PN}-core ${PN}-crypt ${PN}-datetime ${PN}-io ${PN}-lang ${PN}-logging ${PN}-mime ${PN}-html",
-     "*Cookie*.* " +
-     "base64.* cookielib.* ftplib.* gopherlib.* hmac.* http* httplib.* mimetypes.* nntplib.* poplib.* smtplib.* telnetlib.* urllib  uuid.* rfc822.* mimetools.*" )
- 
-@@ -422,7 +422,7 @@ if __name__ == "__main__":
-     m.addPackage( "${PN}-xml", "Python basic XML support", "${PN}-core ${PN}-re",
-     "lib-dynload/_elementtree.*.so lib-dynload/pyexpat.*.so xml xmllib.*" ) # package
- 
--    m.addPackage( "${PN}-xmlrpc", "Python XML-RPC support", "${PN}-core ${PN}-xml ${PN}-netserver ${PN}-lang",
-+    m.addPackage( "${PN}-xmlrpc", "Python XML-RPC support", "${PN}-core ${PN}-xml ${PN}-netserver ${PN}-lang ${PN}-pydoc",
-     "xmlrpclib.* SimpleXMLRPCServer.* DocXMLRPCServer.* xmlrpc" )
- 
-     m.addPackage( "${PN}-mailbox", "Python mailbox format support", "${PN}-core ${PN}-mime",
+ #
+ # XSERVER subcomponents, used to build the XSERVER variable
+diff --git a/meta/conf/machine/qemuarm.conf b/meta/conf/machine/qemuarm.conf
+index f9d6dd7e364e..b9b640f974f3 100644
+--- a/meta/conf/machine/qemuarm.conf
++++ b/meta/conf/machine/qemuarm.conf
+@@ -16,5 +16,4 @@ QB_MACHINE = "-machine versatilepb"
+ QB_KERNEL_CMDLINE_APPEND = "console=ttyAMA0,115200 console=tty"
+ # Add the 'virtio-rng-pci' device otherwise the guest may run out of entropy
+ QB_OPT_APPEND = "-show-cursor -usb -usbdevice tablet -device virtio-rng-pci"
+-PREFERRED_VERSION_linux-yocto ??= "4.8%"
+ QB_DTB = "${@base_version_less_or_equal('PREFERRED_VERSION_linux-yocto', '4.7', '', 'zImage-versatile-pb.dtb', d)}"
 -- 
-2.9.3
+2.5.0
 
 
