@@ -1,18 +1,17 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 51A4D77BC9;
-	Wed,  5 Apr 2017 15:02:02 +0000 (UTC)
-MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Andrej Valek <andrej.valek@siemens.com>
-Date: Wed, 05 Apr 2017 15:02:04 -0000
-Message-ID: <20170405150204.6647.78580@do.openembedded.org>
-References: <1491403031-5891-1-git-send-email-andrej.valek@siemens.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <1491403031-5891-1-git-send-email-andrej.valek@siemens.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgYnVzeWJveDogU2VjdXJpdHkgRml4IENWRS0yMDE2LTYzMDE=?=
+Return-Path: <romain.perier@collabora.com>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+	by mail.openembedded.org (Postfix) with ESMTP id 8013A77BE1
+	for <openembedded-core@lists.openembedded.org>;
+	Wed,  5 Apr 2017 15:05:37 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(Authenticated sender: rperier) with ESMTPSA id 868562656B5
+From: Romain Perier <romain.perier@collabora.com>
+To: liezhi.yang@windriver.com
+Date: Wed,  5 Apr 2017 17:05:19 +0200
+Message-Id: <20170405150521.19160-1-romain.perier@collabora.com>
+X-Mailer: git-send-email 2.9.3
+Cc: yocto@yoctoproject.org, openembedded-core@lists.openembedded.org
+Subject: [PATCH 0/2] logrotate: systemd support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,41 +24,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Apr 2017 15:02:02 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 05 Apr 2017 15:05:43 -0000
 
-== Series Details ==
+SystemD is now supported by upstream logrotate. This set of patches first
+bumps the recipe to the last upstream version, that is 3.11.0. Then it adds
+support for systemd.
 
-Series: busybox: Security Fix CVE-2016-6301
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/6173/
-State : failure
+This series is the continuety of the following patch:
 
-== Summary ==
+1. https://lists.yoctoproject.org/pipermail/yocto/2017-March/035277.html
 
+Note:
+The default SRC_URI to be used for tarball is still under discussion on the ML.
+Do we use github or downloads.yoctoproject.org ? How do we upload the tarball ?
 
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
+Romain Perier (2):
+  logrotate: Bump to 3.11.0
+  logrotate: Add systemd support
 
+ .../recipes-extended/logrotate/logrotate_3.11.0.bb | 78 ++++++++++++++++++++++
+ meta/recipes-extended/logrotate/logrotate_3.9.1.bb | 60 -----------------
+ 2 files changed, 78 insertions(+), 60 deletions(-)
+ create mode 100644 meta/recipes-extended/logrotate/logrotate_3.11.0.bb
+ delete mode 100644 meta/recipes-extended/logrotate/logrotate_3.9.1.bb
 
-
-* Patch            busybox: Security Fix CVE-2016-6301
- Issue             Missing or incorrectly formatted CVE tag in commit message [test_cve_presence_in_commit_message] 
-  Suggested fix    Include a "CVE-xxxx-xxxx" tag in the commit message
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
----
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+-- 
+2.9.3
 
 
