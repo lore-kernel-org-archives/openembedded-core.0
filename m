@@ -1,18 +1,45 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 281A277AB3;
-	Wed,  5 Apr 2017 13:02:30 +0000 (UTC)
+Return-Path: <sadlife1990@gmail.com>
+Received: from mail-ua0-f196.google.com (mail-ua0-f196.google.com
+	[209.85.217.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 462EB77AB5
+	for <openembedded-core@lists.openembedded.org>;
+	Wed,  5 Apr 2017 13:05:10 +0000 (UTC)
+Received: by mail-ua0-f196.google.com with SMTP id 100so929227uaj.2
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 05 Apr 2017 06:05:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to; 
+	bh=CJ4OUVH/ktAk/nZt0etS3FAxVCpOUyHtEYLHKAnE8Ps=;
+	b=qgvfbq1PnIa/eCjiJ0zgknJeKIrDgZyMDTwrKh+OlVI+EOkTRRn/3fsl7TuRa3g4hR
+	dBDRCSVDSS7fzp6qM1pA54sJS8Jk1BgStTKjDNtgyZWMXBgN4zyqm2lQYBRVZTfaKD9R
+	Dw0vL0+euszECRsY+nPnblVAgOV9YtRqEMW/4ovTqdOO0XrPPlNMcPipRj69V8rskgSv
+	v5kK3sdYlzbFlKkpQ/VFKFe9U2jbXwPzobAh5AbNS7wX7JlMX/rMhD3KeMVWRZSGemV6
+	WB6x/dTR2UgFXUqmDJWNgxdB/dg3ybN2co+iSgJN91LSVMuvmG2rGSdblGhqStEDnoap
+	L1aw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to;
+	bh=CJ4OUVH/ktAk/nZt0etS3FAxVCpOUyHtEYLHKAnE8Ps=;
+	b=jtLF0RVlWDfdMW2ZMfMrBbFLPNNmpwx/qSYoQoOlZ/Mv0MCegglCLZhkwu7+uuZS/u
+	HuvLMQ4tInW0W4mY+jpltLgPxS3NrT4BFEthytX9rzP3y+57rFRQf+1FjSQ//kpM9sM5
+	+NL92gU4iJvsLSjQvbYCp7QzDDJmzUoJ4sRwYpB6BQ9PMKdjHw73v/Ba3qPEdN4Zus+7
+	DoOBrK72+NXuQ/Sp0AdBwTlP1E5MTr3VQaxcqyTV/dCRJxiPJRVgT1fj9Hb68N39CkFO
+	lRDBvLVKyd7sXdejKEx6Ei21HV6hl9kcKOD+8e0F1pjWl46YBYKrwsnL0QMHLw9/DWDX
+	+NHQ==
+X-Gm-Message-State: AFeK/H3r21ZD+52nCvAf2QoFSa6tt6x+YvR1RulRD62CSEJfEu9dC9n6Uf6dmXN/msl0hTQOP2XFrLylwrx6Tw==
+X-Received: by 10.176.67.97 with SMTP id k88mr11036742uak.5.1491397511827;
+	Wed, 05 Apr 2017 06:05:11 -0700 (PDT)
 MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Dmitry Rozhkov <dmitry.rozhkov@linux.intel.com>
-Date: Wed, 05 Apr 2017 13:02:31 -0000
-Message-ID: <20170405130231.6645.91181@do.openembedded.org>
-References: <20170405123745.15688-1-dmitry.rozhkov@linux.intel.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <20170405123745.15688-1-dmitry.rozhkov@linux.intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgcHl0aG9uMzogZml4IHJ1bi10aW1lIGRlcHMgZm9yIGNvcmUgcHl0aG9uMyBsaWJyYXJpZXM=?=
+Received: by 10.159.32.105 with HTTP; Wed, 5 Apr 2017 06:05:11 -0700 (PDT)
+In-Reply-To: <CAAHuHfwiL_Uep8oSh1yEV7an2hoYStfsztFE+LZcPVLAedaL4A@mail.gmail.com>
+References: <CAAHuHfwiL_Uep8oSh1yEV7an2hoYStfsztFE+LZcPVLAedaL4A@mail.gmail.com>
+From: Life Life <sadlife1990@gmail.com>
+Date: Wed, 5 Apr 2017 16:05:11 +0300
+Message-ID: <CAAHuHfx+0_aS5CER_+H5mRtx7Ur1yWOJwkNnOzqvTt-uk9aB+g@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Adding Static Library Support to the SDK or Rootfs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,46 +52,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Apr 2017 13:02:30 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 05 Apr 2017 13:05:12 -0000
+Content-Type: multipart/alternative; boundary=94eb2c0c19b6e9631f054c6b0aa5
 
-== Series Details ==
+--94eb2c0c19b6e9631f054c6b0aa5
+Content-Type: text/plain; charset=UTF-8
 
-Series: python3: fix run-time deps for core python3 libraries
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/6164/
-State : failure
+Hello,
 
-== Summary ==
+I'm try to build static library for SDK.
 
+Update the *build*/local.conf file with the following information
 
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
+SDKIMAGE_FEATURES = "staticdev-pkgs dev-pkgs"
 
+*INHERIT += "buildhistory"
+BUILDHISTORY_COMMIT = "0"
+ BUILDHISTORY_FEATURES = "sdk"*
 
-
-* Issue             Patch line too long (current length 184) [test_max_line_length] 
-  Suggested fix    Shorten the corresponding patch line (max length supported 180)
-  Patch            scripts/contrib/python/generate-manifest-3.5.py
-  Line             +    m.addPackage( "${PN}-netclient", "Python Internet Protocol clients", "${PN} ...
-
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  master (currently at 3b7111b30d)
+*But cannot create static library for SDK. *
 
 
+*Thanks.*
 
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
+--94eb2c0c19b6e9631f054c6b0aa5
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
----
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+<div dir=3D"ltr"><div class=3D"gmail_quote"><br><br><div dir=3D"ltr">Hello,=
+<div><br></div><div>I&#39;m try to build static library for SDK.</div><div>=
+<br></div><div><span style=3D"color:rgb(51,51,51);font-family:arial,sans-se=
+rif,verdana,tahoma;font-size:14px">Update the <i>build</i></span><span clas=
+s=3D"m_7974944336534841523gmail-ph m_7974944336534841523gmail-filepath" sty=
+le=3D"border:0px;margin:0px;padding:0px;font-size:14px;font-weight:bold;col=
+or:rgb(51,51,51);font-family:arial,sans-serif,verdana,tahoma">/local.conf</=
+span><span style=3D"color:rgb(51,51,51);font-family:arial,sans-serif,verdan=
+a,tahoma;font-size:14px">=C2=A0file with the following information</span><b=
+r></div><div><pre class=3D"m_7974944336534841523gmail-pre m_797494433653484=
+1523gmail-codeblock m_7974944336534841523gmail-cli" style=3D"margin-top:0px=
+;margin-bottom:10px;margin-left:0pt;padding:0.5em 1em 0px 0em;border:none;f=
+ont-size:8pt;color:black;font-family:&quot;courier new&quot;,courier,monosp=
+ace;line-height:12pt;background-color:rgb(238,238,238);word-wrap:normal;ove=
+rflow:auto"><code class=3D"m_7974944336534841523gmail-ph m_7974944336534841=
+523gmail-userinput" style=3D"font-weight:bold;line-height:inherit;border:0p=
+x;margin:inherit;padding:inherit;font-size:inherit;font-family:inherit">SDK=
+IMAGE_FEATURES =3D &quot;staticdev-pkgs dev-pkgs&quot;</code></pre></div><d=
+iv><pre class=3D"m_7974944336534841523gmail-pre m_7974944336534841523gmail-=
+codeblock m_7974944336534841523gmail-cli" style=3D"margin-top:0px;margin-bo=
+ttom:10px;margin-left:0pt;padding:0.5em 1em 0px 0em;border:none;line-height=
+:12pt;background-color:rgb(238,238,238);word-wrap:normal;overflow:auto"><fo=
+nt color=3D"#000000" face=3D"courier new, courier, monospace"><span style=
+=3D"font-size:10.6667px"><b>INHERIT +=3D &quot;buildhistory&quot;
+BUILDHISTORY_COMMIT =3D &quot;0&quot;
+ BUILDHISTORY_FEATURES =3D &quot;sdk&quot;</b></span><span style=3D"font-si=
+ze:8pt"><br></span></font></pre><pre class=3D"m_7974944336534841523gmail-pr=
+e m_7974944336534841523gmail-codeblock m_7974944336534841523gmail-cli" styl=
+e=3D"margin-top:0px;margin-bottom:10px;margin-left:0pt;padding:0.5em 1em 0p=
+x 0em;border:none;line-height:12pt;background-color:rgb(238,238,238);word-w=
+rap:normal;overflow:auto"><font color=3D"#000000" face=3D"courier new, cour=
+ier, monospace"><span style=3D"font-size:10.6667px"><b>But cannot create st=
+atic library for SDK. </b></span></font></pre><pre class=3D"m_7974944336534=
+841523gmail-pre m_7974944336534841523gmail-codeblock m_7974944336534841523g=
+mail-cli" style=3D"margin-top:0px;margin-bottom:10px;margin-left:0pt;paddin=
+g:0.5em 1em 0px 0em;border:none;line-height:12pt;background-color:rgb(238,2=
+38,238);word-wrap:normal;overflow:auto"><font color=3D"#000000" face=3D"cou=
+rier new, courier, monospace"><span style=3D"font-size:10.6667px"><b><br></=
+b></span></font></pre><pre class=3D"m_7974944336534841523gmail-pre m_797494=
+4336534841523gmail-codeblock m_7974944336534841523gmail-cli" style=3D"margi=
+n-top:0px;margin-bottom:10px;margin-left:0pt;padding:0.5em 1em 0px 0em;bord=
+er:none;line-height:12pt;background-color:rgb(238,238,238);word-wrap:normal=
+;overflow:auto"><font color=3D"#000000" face=3D"courier new, courier, monos=
+pace"><span style=3D"font-size:10.6667px"><b>Thanks.</b></span></font></pre=
+></div></div>
+</div><br></div>
 
-
+--94eb2c0c19b6e9631f054c6b0aa5--
