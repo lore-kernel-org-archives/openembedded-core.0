@@ -1,30 +1,22 @@
 Return-Path: <jose.a.lamego@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 38C2F71DD9
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by mail.openembedded.org (Postfix) with ESMTP id 44CCF72F11
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Apr 2017 19:36:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-	d=intel.com; i=@intel.com; q=dns/txt; s=intel;
-	t=1491420990; x=1522956990;
-	h=from:to:cc:subject:date:message-id:in-reply-to: references;
-	bh=r7preJzy2+F/tgqaf8hKd6rb1FpQeuovcszn1GBdEnQ=;
-	b=LE19vw9TVphbWQOOqEHbrsWpMjw90xmSKAamK6CTjPSDO9BCZCptPDAg
-	K4ztw9TjXONudJas3LhM1EN78YUUPA==;
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	05 Apr 2017 12:36:28 -0700
+	Wed,  5 Apr 2017 19:38:37 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by orsmga104.jf.intel.com with ESMTP; 05 Apr 2017 12:38:39 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.37,280,1488873600"; d="scan'208";a="1115918539"
+X-IronPort-AV: E=Sophos;i="5.37,280,1488873600"; d="scan'208";a="1151579246"
 Received: from jalamego-mobl2.zpn.intel.com ([10.219.128.121])
-	by orsmga001.jf.intel.com with ESMTP; 05 Apr 2017 12:36:27 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 05 Apr 2017 12:38:38 -0700
 From: Jose Lamego <jose.a.lamego@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  5 Apr 2017 14:36:28 -0500
-Message-Id: <1491420988-12366-1-git-send-email-jose.a.lamego@linux.intel.com>
+Date: Wed,  5 Apr 2017 14:38:39 -0500
+Message-Id: <1491421119-12540-1-git-send-email-jose.a.lamego@linux.intel.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1491342309-16373-1-git-send-email-jose.a.lamego@linux.intel.com>
 References: <1491342309-16373-1-git-send-email-jose.a.lamego@linux.intel.com>
-Subject: [yocto][patchwork][PATCH v2] create-pull-request: add "-t in-reply-to" option
+Subject: [PATCH v2] create-pull-request: add "-t in-reply-to" option
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,7 +29,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Apr 2017 19:36:29 -0000
+X-List-Received-Date: Wed, 05 Apr 2017 19:38:38 -0000
 
 The create-pull-request script creates patches as replies to a cover
 letter, in the form of an email thread. If further revisions are sent to
