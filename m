@@ -1,29 +1,28 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <richard@rpsys.net>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 3601772F7A
+	by mail.openembedded.org (Postfix) with ESMTP id BDB0577921
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Apr 2017 08:48:53 +0000 (UTC)
+	Wed,  5 Apr 2017 08:52:26 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTP id v358m0hO008354; 
-	Wed, 5 Apr 2017 09:48:01 +0100
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTP id v358qQR1008957; 
+	Wed, 5 Apr 2017 09:52:26 +0100
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id r2_8cdfqWZFl; Wed,  5 Apr 2017 09:48:01 +0100 (BST)
+	with LMTP id msSvWweKq-hH; Wed,  5 Apr 2017 09:52:26 +0100 (BST)
 Received: from hex ([192.168.3.34]) (authenticated bits=0)
 	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	v358djvb007747
+	v358dHqu007726
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Wed, 5 Apr 2017 09:39:47 +0100
-Message-ID: <1491381585.13980.388.camel@linuxfoundation.org>
+	verify=NOT); Wed, 5 Apr 2017 09:39:18 +0100
+Received: from richard by hex with local (Exim 4.86_2)
+	(envelope-from <richard@rpsys.net>)
+	id 1cvgTF-0003xb-Ct; Wed, 05 Apr 2017 09:39:17 +0100
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: "Robert P. J. Day" <rpjday@crashcourse.ca>, OE Core mailing list
-	<openembedded-core@lists.openembedded.org>
-Date: Wed, 05 Apr 2017 09:39:45 +0100
-In-Reply-To: <alpine.LFD.2.20.1704041811100.6695@localhost.localdomain>
-References: <alpine.LFD.2.20.1704041811100.6695@localhost.localdomain>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.1 
-Mime-Version: 1.0
-Subject: Re: time to get rid of FILESDIR?
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  5 Apr 2017 09:39:15 +0100
+Message-Id: <1491381555-15185-1-git-send-email-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH] recipe_sanity: Drop now unused FILESDIR
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,19 +35,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Apr 2017 08:48:55 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 05 Apr 2017 08:52:27 -0000
 
-On Tue, 2017-04-04 at 18:11 -0400, Robert P. J. Day wrote:
->   the only references i see to the deprecated FILESDIR are
-> historical,
-> none actually being used. what about just tossing it?
+FILESDIR is long dead and unreferenced pretty much anywhere now, drop these
+sanity references too.
 
-That has always been the intent, thanks for the reminder. Patches sent
-to do just that.
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/classes/recipe_sanity.bbclass | 17 -----------------
+ 1 file changed, 17 deletions(-)
 
-Cheers,
+diff --git a/meta/classes/recipe_sanity.bbclass b/meta/classes/recipe_sanity.bbclass
+index 3b00b0e..7fa4a84 100644
+--- a/meta/classes/recipe_sanity.bbclass
++++ b/meta/classes/recipe_sanity.bbclass
+@@ -70,22 +70,6 @@ def can_delete_FILESPATH(cfgdata, d):
+             return False
+     return expected != unexpanded
+ 
+-def can_delete_FILESDIR(cfgdata, d):
+-    expected = cfgdata.get("FILESDIR")
+-    #expected = "${@bb.utils.which(d.getVar('FILESPATH'), '.')}"
+-    unexpanded = d.getVar("FILESDIR", False)
+-    if unexpanded is None:
+-        return False
+-
+-    expanded = os.path.normpath(d.getVar("FILESDIR"))
+-    filespath = d.getVar("FILESPATH").split(":")
+-    filespath = [os.path.normpath(f) for f in filespath if os.path.exists(f)]
+-
+-    return unexpanded != expected and \
+-           os.path.exists(expanded) and \
+-           (expanded in filespath or
+-            expanded == d.expand(expected))
+-
+ def can_delete_others(p, cfgdata, d):
+     for k in ["S", "PV", "PN", "DESCRIPTION", "DEPENDS",
+               "SECTION", "PACKAGES", "EXTRA_OECONF", "EXTRA_OEMAKE"]:
+@@ -112,7 +96,6 @@ python do_recipe_sanity () {
+     p = "%s %s %s" % (d.getVar("PN"), d.getVar("PV"), d.getVar("PR"))
+ 
+     sanitychecks = [
+-        (can_delete_FILESDIR, "candidate for removal of FILESDIR"),
+         (can_delete_FILESPATH, "candidate for removal of FILESPATH"),
+         #(can_use_autotools_base, "candidate for use of autotools_base"),
+         (incorrect_nonempty_PACKAGES, "native or cross recipe with non-empty PACKAGES"),
+-- 
+2.7.4
 
-Richard
 
