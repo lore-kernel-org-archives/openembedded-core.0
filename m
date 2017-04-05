@@ -1,24 +1,25 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 8435F77A4F
+Return-Path: <romain.perier@collabora.com>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+	by mail.openembedded.org (Postfix) with ESMTP id A06E077A90
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Apr 2017 12:39:34 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v35CdX2K011172
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Wed, 5 Apr 2017 05:39:34 -0700
-Received: from yow-bashfiel-d4.wrs.com (128.224.56.94) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.294.0; Wed, 5 Apr 2017 05:39:33 -0700
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-To: <richard.purdie@linuxfoundation.org>
-Date: Wed, 5 Apr 2017 08:39:32 -0400
-Message-ID: <1491395972-25386-1-git-send-email-bruce.ashfield@windriver.com>
-X-Mailer: git-send-email 2.5.0
+	Wed,  5 Apr 2017 12:40:16 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(Authenticated sender: rperier) with ESMTPSA id E9F732656A7
+To: openembedded-core@lists.openembedded.org
+References: <20170324084604.10391-1-romain.perier@collabora.com>
+	<04e6341e-ae56-b867-5a6a-7b89cda539d6@collabora.com>
+	<5f4c4daa-3745-d5e7-9581-e8b7179b6dfd@linux.intel.com>
+	<acf909bb-42c8-337d-1f41-463680ce2626@collabora.com>
+	<0cb24550-5cd8-78a0-951f-5a3589511fc0@collabora.com>
+From: Romain Perier <romain.perier@collabora.com>
+Message-ID: <9670c5a6-1947-f238-197d-6a43f268740c@collabora.com>
+Date: Wed, 5 Apr 2017 14:40:13 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.8.0
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH] qemu arm/x86: drop linux-yocto preferred version
+In-Reply-To: <0cb24550-5cd8-78a0-951f-5a3589511fc0@collabora.com>
+Cc: yocto@yoctoproject.org
+Subject: Re: [PATCH v2] logrotate: Add systemd support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,45 +32,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Apr 2017 12:39:34 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 05 Apr 2017 12:40:17 -0000
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 8bit
 
-We don't make a linux-yocto version available unless it boots
-on all qemu targets, hence there is no reason to specify a
-specific version .. the latest is always fine.
+I have just realized, systemd service and timer is already present and
+supported on upstream (like cron, in examples/). At least in 3.11.0 and
+master.
 
-Also, the other qemu machines don't have this specification, so
-this makes x86 and ARM consistent.
+I will propose an update of this recipe to 3.11.0 (the last release) and
+then add support for systemd.
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
----
- meta/conf/machine/include/x86-base.inc | 1 -
- meta/conf/machine/qemuarm.conf         | 1 -
- 2 files changed, 2 deletions(-)
 
-diff --git a/meta/conf/machine/include/x86-base.inc b/meta/conf/machine/include/x86-base.inc
-index 40d59577fdb5..82e0cf6a5f36 100644
---- a/meta/conf/machine/include/x86-base.inc
-+++ b/meta/conf/machine/include/x86-base.inc
-@@ -20,7 +20,6 @@ SERIAL_CONSOLE ?= "115200 ttyS0"
- # kernel-related variables
- #
- PREFERRED_PROVIDER_virtual/kernel ??= "linux-yocto"
--PREFERRED_VERSION_linux-yocto ??= "4.8%"
- 
- #
- # XSERVER subcomponents, used to build the XSERVER variable
-diff --git a/meta/conf/machine/qemuarm.conf b/meta/conf/machine/qemuarm.conf
-index f9d6dd7e364e..b9b640f974f3 100644
---- a/meta/conf/machine/qemuarm.conf
-+++ b/meta/conf/machine/qemuarm.conf
-@@ -16,5 +16,4 @@ QB_MACHINE = "-machine versatilepb"
- QB_KERNEL_CMDLINE_APPEND = "console=ttyAMA0,115200 console=tty"
- # Add the 'virtio-rng-pci' device otherwise the guest may run out of entropy
- QB_OPT_APPEND = "-show-cursor -usb -usbdevice tablet -device virtio-rng-pci"
--PREFERRED_VERSION_linux-yocto ??= "4.8%"
- QB_DTB = "${@base_version_less_or_equal('PREFERRED_VERSION_linux-yocto', '4.7', '', 'zImage-versatile-pb.dtb', d)}"
--- 
-2.5.0
+Regards,
+
+Romain
+
+
+Le 05/04/2017 à 11:41, Romain Perier a écrit :
+> Add yocto and Alexander to Cc: (sorry)
+>
+> Romain
+>
+>
+> Le 05/04/2017 à 11:30, Romain Perier a écrit :
+>> Hello,
+>>
+>>
+>> Le 05/04/2017 à 10:25, Alexander Kanavin a écrit :
+>>> On 04/05/2017 10:58 AM, Romain Perier wrote:
+>>>> ping
+>>>>
+>>> Is this available in newer upstream versions of logrotate? Should you
+>>> send it there first?
+>>>
+>>> Alex
+>>>
+>> No, not yet.
+>> Mhhh, we have variables specific to the recipe in the .service and
+>> .timer, but I think that I can still send a generic version of these
+>> files on upstream and use sed anyway from the recipe...
+>>
+>> Romain
 
 
