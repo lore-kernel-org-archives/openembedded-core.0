@@ -1,19 +1,19 @@
 Return-Path: <romain.perier@collabora.com>
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
-	by mail.openembedded.org (Postfix) with ESMTP id 7F1E977BD3
+	by mail.openembedded.org (Postfix) with ESMTP id 80F8B77BE2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Apr 2017 15:05:37 +0000 (UTC)
+	Wed,  5 Apr 2017 15:05:40 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(Authenticated sender: rperier) with ESMTPSA id E2E122656B7
+	(Authenticated sender: rperier) with ESMTPSA id A98E02656B8
 From: Romain Perier <romain.perier@collabora.com>
 To: liezhi.yang@windriver.com
-Date: Wed,  5 Apr 2017 17:05:20 +0200
-Message-Id: <20170405150521.19160-2-romain.perier@collabora.com>
+Date: Wed,  5 Apr 2017 17:05:21 +0200
+Message-Id: <20170405150521.19160-3-romain.perier@collabora.com>
 X-Mailer: git-send-email 2.9.3
 In-Reply-To: <20170405150521.19160-1-romain.perier@collabora.com>
 References: <20170405150521.19160-1-romain.perier@collabora.com>
 Cc: yocto@yoctoproject.org, openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/2] logrotate: Bump to 3.11.0
+Subject: [PATCH 2/2] logrotate: Add systemd support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,75 +28,57 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 05 Apr 2017 15:05:43 -0000
 
-This commit updates the recipe to the last upstream tag. Then, as the
-tarball no longer contains the pre-generated Makefile, inherit from
-autotools
+Currently, this recipe only supports daily scheduling via a cron job.
+This commit adds support for systemd in the recipe, as the feature is
+already supported on upstream. When the corresponding distro feature
+is enabled the systemd variant will be used. The timer granularity and
+its accuracy are also configurable.
 
 Signed-off-by: Romain Perier <romain.perier@collabora.com>
 ---
- .../{logrotate_3.9.1.bb => logrotate_3.11.0.bb}    | 23 +++++++++++-----------
- 1 file changed, 11 insertions(+), 12 deletions(-)
- rename meta/recipes-extended/logrotate/{logrotate_3.9.1.bb => logrotate_3.11.0.bb} (69%)
+ .../recipes-extended/logrotate/logrotate_3.11.0.bb | 25 +++++++++++++++++++---
+ 1 file changed, 22 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-extended/logrotate/logrotate_3.9.1.bb b/meta/recipes-extended/logrotate/logrotate_3.11.0.bb
-similarity index 69%
-rename from meta/recipes-extended/logrotate/logrotate_3.9.1.bb
-rename to meta/recipes-extended/logrotate/logrotate_3.11.0.bb
-index 9c2dfe0..d72c7f0 100644
---- a/meta/recipes-extended/logrotate/logrotate_3.9.1.bb
+diff --git a/meta/recipes-extended/logrotate/logrotate_3.11.0.bb b/meta/recipes-extended/logrotate/logrotate_3.11.0.bb
+index d72c7f0..b75496d 100644
+--- a/meta/recipes-extended/logrotate/logrotate_3.11.0.bb
 +++ b/meta/recipes-extended/logrotate/logrotate_3.11.0.bb
-@@ -3,23 +3,25 @@ SECTION = "console/utils"
- HOMEPAGE = "https://fedorahosted.org/logrotate/"
- LICENSE = "GPLv2"
- 
--# TODO: logrotate 3.8.8 adds autotools/automake support, update recipe to use it.
- # TODO: Document coreutils dependency. Why not RDEPENDS? Why not busybox?
- 
- DEPENDS="coreutils popt"
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=18810669f13b87348459e611d31ab760"
- 
--SRC_URI = "https://fedorahosted.org/releases/l/o/logrotate/logrotate-${PV}.tar.gz \
-+# TODO: We need to decide if we github or downloads.yoctoproject.org
-+SRC_URI = "https://github.com/logrotate/logrotate/releases/download/${PV}/logrotate-${PV}.tar.gz \
-            file://act-as-mv-when-rotate.patch \
-            file://update-the-manual.patch \
-            file://disable-check-different-filesystems.patch \
-             "
-+SRC_URI[md5sum] = "15db4027b07b3e239297e4c87c6da2e9"
-+SRC_URI[sha256sum] = "7dcb440ed2f1937459e1e06f841c6af1e564b77b2df8009147b56c8649197910"
- 
--SRC_URI[md5sum] = "4492b145b6d542e4a2f41e77fa199ab0"
--SRC_URI[sha256sum] = "022769e3288c80981559a8421703c88e8438b447235e36dd3c8e97cd94c52545"
--
--PACKAGECONFIG ?= "${@bb.utils.filter('DISTRO_FEATURES', 'acl selinux', d)}"
-+PACKAGECONFIG ?= "\
-+    ${@bb.utils.contains('DISTRO_FEATURES', 'acl', 'acl', '', d)} \
-+    ${@bb.utils.contains('DISTRO_FEATURES', 'selinux', 'selinux', '', d)} \
-+"
- 
- PACKAGECONFIG[acl] = ",,acl"
- PACKAGECONFIG[selinux] = ",,libselinux"
-@@ -44,17 +46,14 @@ EXTRA_OEMAKE = "\
+@@ -46,14 +46,33 @@ EXTRA_OEMAKE = "\
  # INSTALL=install and BASEDIR=/usr.
  OS_NAME = "Linux"
  
--do_compile_prepend() {
--    # Make sure the recompile is OK
--    rm -f ${B}/.depend
--}
-+inherit autotools
+-inherit autotools
++inherit autotools systemd
++
++SYSTEMD_AUTO_ENABLE = "disable"
++SYSTEMD_SERVICE_${PN} = "\
++    ${PN}.service \
++    ${PN}.timer \
++"
++
++LOGROTATE_SYSTEMD_TIMER_BASIS ?= "daily"
++LOGROTATE_SYSTEMD_TIMER_ACCURACY ?= "12h"
  
  do_install(){
      oe_runmake install DESTDIR=${D} PREFIX=${D} MANDIR=${mandir}
      mkdir -p ${D}${sysconfdir}/logrotate.d
-     mkdir -p ${D}${sysconfdir}/cron.daily
+-    mkdir -p ${D}${sysconfdir}/cron.daily
      mkdir -p ${D}${localstatedir}/lib
--    install -p -m 644 examples/logrotate-default ${D}${sysconfdir}/logrotate.conf
--    install -p -m 755 examples/logrotate.cron ${D}${sysconfdir}/cron.daily/logrotate
-+    install -p -m 644 ${S}/examples/logrotate-default ${D}${sysconfdir}/logrotate.conf
-+    install -p -m 755 ${S}/examples/logrotate.cron ${D}${sysconfdir}/cron.daily/logrotate
+     install -p -m 644 ${S}/examples/logrotate-default ${D}${sysconfdir}/logrotate.conf
+-    install -p -m 755 ${S}/examples/logrotate.cron ${D}${sysconfdir}/cron.daily/logrotate
      touch ${D}${localstatedir}/lib/logrotate.status
++
++    # Install systemd unit files
++    if [ "${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'systemd', '', d)}" = "systemd" ]; then
++        install -d ${D}${systemd_system_unitdir}
++        install -m 0644 ${S}/examples/logrotate.service ${D}${systemd_system_unitdir}/logrotate.service
++        install -m 0644 ${S}/examples/logrotate.timer ${D}${systemd_system_unitdir}/logrotate.timer
++        sed -i -e 's,OnCalendar=.*$,OnCalendar=${LOGROTATE_SYSTEMD_TIMER_BASIS},g' ${D}${systemd_system_unitdir}/logrotate.timer
++        sed -i -e 's,AccuracySec=.*$,AccuracySec=${LOGROTATE_SYSTEMD_TIMER_ACCURACY},g' ${D}${systemd_system_unitdir}/logrotate.timer
++    else
++        mkdir -p ${D}${sysconfdir}/cron.daily
++        install -p -m 0755 ${S}/examples/logrotate.cron ${D}${sysconfdir}/cron.daily/logrotate
++    fi
  }
 -- 
 2.9.3
