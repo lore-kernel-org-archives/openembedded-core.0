@@ -1,30 +1,24 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 9BC4C77BC9
+Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 058F577BD3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Apr 2017 15:08:17 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTP id v35F8C1x013852; 
-	Wed, 5 Apr 2017 16:08:16 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id MZZ5rD106YxH; Wed,  5 Apr 2017 16:08:16 +0100 (BST)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	v35Ei0IN012633
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Wed, 5 Apr 2017 15:44:01 +0100
-Message-ID: <1491403440.17200.16.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
-	openembedded-core@lists.openembedded.org
-Date: Wed, 05 Apr 2017 15:44:00 +0100
-In-Reply-To: <20170405134642.12572-3-pkj@axis.com>
-References: <20170405134642.12572-1-pkj@axis.com>
-	<20170405134642.12572-3-pkj@axis.com>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.1 
+	Wed,  5 Apr 2017 15:13:24 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga105.fm.intel.com with ESMTP; 05 Apr 2017 08:13:26 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.36,279,1486454400"; d="scan'208";a="1131392439"
+Received: from lsandov1-mobl2.zpn.intel.com ([10.219.128.141])
+	by fmsmga001.fm.intel.com with ESMTP; 05 Apr 2017 08:13:25 -0700
+Message-ID: <1491405706.5062.30.camel@linux.intel.com>
+From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 05 Apr 2017 10:21:46 -0500
+In-Reply-To: <20170405130231.6645.91181@do.openembedded.org>
+References: <20170405123745.15688-1-dmitry.rozhkov@linux.intel.com>
+	<20170405130231.6645.91181@do.openembedded.org>
+X-Mailer: Evolution 3.12.9-1+b1 
 Mime-Version: 1.0
-Subject: Re: [PATCHv2 3/3] base-files: profile: Simplify setting variables conditionally
+Subject: =?UTF-8?B?UmU6IOKclyBwYXRjaHRlc3Q6IGZhaWx1cmUgZm9yIHB5dGhvbjM6IGZpeCBydW4tdGltZSBkZXBzIGZvciBjb3JlIHB5dGhvbjMgbGlicmFyaWVz?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,62 +31,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Apr 2017 15:08:18 -0000
+X-List-Received-Date: Wed, 05 Apr 2017 15:13:25 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-On Wed, 2017-04-05 at 15:46 +0200, Peter Kjellerstedt wrote:
-> It is preferred to use `[ <condition> ] || ...` instead of
-> `[ <negated condition> ] && ...` as the latter leaves $? set to 1.
+On Wed, 2017-04-05 at 13:02 +0000, Patchwork wrote:
+> == Series Details ==
+> 
+> Series: python3: fix run-time deps for core python3 libraries
+> Revision: 1
+> URL   : https://patchwork.openembedded.org/series/6164/
+> State : failure
+> 
+> == Summary ==
+> 
+> 
+> Thank you for submitting this patch series to OpenEmbedded Core. This is
+> an automated response. Several tests have been executed on the proposed
+> series by patchtest resulting in the following failures:
+> 
+> 
+> 
+> * Issue             Patch line too long (current length 184) [test_max_line_length] 
+>   Suggested fix    Shorten the corresponding patch line (max length supported 180)
+>   Patch            scripts/contrib/python/generate-manifest-3.5.py
+>   Line             +    m.addPackage( "${PN}-netclient", "Python Internet Protocol clients", "${PN} ...
 
-Your patch and the description above don't match. There are changes
-here which aren't <negated condition> and are stylistic changes instead
-afaict. We're past feature freeze so whilst I'm interested in genuine
-bugs, I do not really want code churn which just introduces risk.
 
-Cheers,
+Ignore the above patchtest failure. It has been disabled until general
+agreement.
 
-Richard
 
-> Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+> 
+> * Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+>   Suggested fix    Rebase your series on top of targeted branch
+>   Targeted branch  master (currently at 3b7111b30d)
+> 
+> 
+> 
+> If you believe any of these test results are incorrect, please reply to the
+> mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+> Otherwise we would appreciate you correcting the issues and submitting a new
+> version of the patchset if applicable. Please ensure you add/increment the
+> version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+> [PATCH v3] -> ...).
+> 
 > ---
->  meta/recipes-core/base-files/base-files/profile | 14 ++++++--------
->  1 file changed, 6 insertions(+), 8 deletions(-)
+> Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+> Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 > 
-> diff --git a/meta/recipes-core/base-files/base-files/profile
-> b/meta/recipes-core/base-files/base-files/profile
-> index ceaf15f799..a062028226 100644
-> --- a/meta/recipes-core/base-files/base-files/profile
-> +++ b/meta/recipes-core/base-files/base-files/profile
-> @@ -3,15 +3,13 @@
->  
->  PATH="/usr/local/bin:/usr/bin:/bin"
->  EDITOR="vi"			# needed for packages like cron,
-> git-commit
-> -test -z "$TERM" && TERM="vt100"	# Basic terminal capab. For
-> screen etc.
-> +[ "$TERM" ] || TERM="vt100"	# Basic terminal capab. For
-> screen etc.
->  
-> -if [ "$HOME" = "ROOTHOME" ]; then
-> -	PATH=$PATH:/usr/local/sbin:/usr/sbin:/sbin
-> -fi
-> -if [ "$PS1" ]; then
-> -	# works for bash and ash (no other shells known to be in use
-> here)
-> -	PS1='\u@\h:\w\$ '
-> -fi
-> +# Add /sbin & co to $PATH for the root user
-> +[ "$HOME" != "ROOTHOME" ] ||
-> PATH=$PATH:/usr/local/sbin:/usr/sbin:/sbin
-> +
-> +# Set the prompt for bash and ash (no other shells known to be in
-> use here)
-> +[ -z "$PS1" ] || PS1='\u@\h:\w\$ '
->  
->  if [ -d /etc/profile.d ]; then
->  	for i in /etc/profile.d/*.sh; do
-> -- 
-> 2.12.0
-> 
+
+
 
