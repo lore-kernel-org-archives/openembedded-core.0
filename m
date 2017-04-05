@@ -1,27 +1,31 @@
-Return-Path: <martin.balik@siemens.com>
-X-Greylist: delayed 597 seconds by postgrey-1.34 at layers.openembedded.org;
-	Wed, 05 Apr 2017 10:49:51 UTC
-Received: from goliath.siemens.de (goliath.siemens.de [192.35.17.28])
-	by mail.openembedded.org (Postfix) with ESMTP id A0A8177980
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 026A073002
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Apr 2017 10:49:50 +0000 (UTC)
-Received: from mail1.siemens.de (mail1.siemens.de [139.23.33.14])
-	by goliath.siemens.de (8.15.2/8.15.2) with ESMTPS id v35Adr6m021901
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 5 Apr 2017 12:39:54 +0200
-Received: from dev.sbt.siemens.com ([163.242.51.204])
-	by mail1.siemens.de (8.15.2/8.15.2) with ESMTP id v35AdrFn000744;
-	Wed, 5 Apr 2017 12:39:53 +0200
-Received: from dev.sbt.siemens.com (localhost [127.0.0.1])
-	by dev.sbt.siemens.com (Postfix) with ESMTP id 6B8862FBF093;
-	Wed,  5 Apr 2017 12:39:53 +0200 (CEST)
-From: Martin Balik <martin.balik@siemens.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  5 Apr 2017 12:38:57 +0200
-Message-Id: <1491388737-4855-1-git-send-email-martin.balik@siemens.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] busybox: Security fix BUG9071
+	Wed,  5 Apr 2017 11:25:56 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTP id v35BPuIJ025686; 
+	Wed, 5 Apr 2017 12:25:57 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id tmoIh12xtBCh; Wed,  5 Apr 2017 12:25:57 +0100 (BST)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	v35BM0Ch025602
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
+	verify=NOT); Wed, 5 Apr 2017 12:22:02 +0100
+Message-ID: <1491391320.17200.8.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Nathan Rossi <nathan@nathanrossi.com>, Chen Qi <Qi.Chen@windriver.com>
+Date: Wed, 05 Apr 2017 12:22:00 +0100
+In-Reply-To: <CA+aJhH1JjWONYpOFi8S4QsDzUdfoPSJS_0FZf=5dQTm-O_4wEQ@mail.gmail.com>
+References: <cover.1490850708.git.Qi.Chen@windriver.com>
+	<d6b2737e706f743644df63f21a8f061b9e2f83c7.1490850708.git.Qi.Chen@windriver.com>
+	<CA+aJhH1JjWONYpOFi8S4QsDzUdfoPSJS_0FZf=5dQTm-O_4wEQ@mail.gmail.com>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] image.inc/qemu.inc: preserve directories to be used by runqemu
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,88 +38,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Apr 2017 10:49:53 -0000
+X-List-Received-Date: Wed, 05 Apr 2017 11:25:57 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Signed-off-by: Martin Balik <martin.balik@siemens.com>
-Signed-off-by: Pascal Bach <pascal.bach@siemens.com>
----
- .../busybox/BUG9071_buffer_overflow_arp.patch      | 53 ++++++++++++++++++++++
- meta/recipes-core/busybox/busybox_1.24.1.bb        |  1 +
- 2 files changed, 54 insertions(+)
- create mode 100644 meta/recipes-core/busybox/busybox/BUG9071_buffer_overflow_arp.patch
+On Wed, 2017-04-05 at 20:06 +1000, Nathan Rossi wrote:
+> On 30 March 2017 at 15:12, Chen Qi <Qi.Chen@windriver.com> wrote:
+> > 
+> > The 'recipe-sysroot' and 'recipe-sysroot-native' directories need
+> > to
+> > be preserved for runqemu to work correctly. Otherwise, when
+> > 'rm_work'
+> > is enabled, these directories are removed, thus causing errors when
+> > using runqemu .
+> > 
+> > [YOCTO #11266]
+> > [YOCTO #11193]
+> > 
+> > Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> > ---
+> >  meta/classes/image.bbclass         | 1 +
+> >  meta/conf/machine/include/qemu.inc | 3 +++
+> >  2 files changed, 4 insertions(+)
+> > 
+> > diff --git a/meta/classes/image.bbclass
+> > b/meta/classes/image.bbclass
+> > index 405fd73..cac3a5f 100644
+> > --- a/meta/classes/image.bbclass
+> > +++ b/meta/classes/image.bbclass
+> > @@ -8,6 +8,7 @@ inherit ${SDKEXTCLASS}
+> >  TOOLCHAIN_TARGET_TASK += "${PACKAGE_INSTALL}"
+> >  TOOLCHAIN_TARGET_TASK_ATTEMPTONLY +=
+> > "${PACKAGE_INSTALL_ATTEMPTONLY}"
+> >  POPULATE_SDK_POST_TARGET_COMMAND += "rootfs_sysroot_relativelinks;
+> > "
+> > +RM_WORK_EXCLUDE_ITEMS_append = " ${IMAGE_RM_WORK_EXCLUDE_ITEMS}"
+> > 
+> >  LICENSE = "MIT"
+> >  PACKAGES = ""
+> > diff --git a/meta/conf/machine/include/qemu.inc
+> > b/meta/conf/machine/include/qemu.inc
+> > index 0e4103b..8345c08 100644
+> > --- a/meta/conf/machine/include/qemu.inc
+> > +++ b/meta/conf/machine/include/qemu.inc
+> > @@ -29,3 +29,6 @@ KERNEL_FEATURES_append_pn-linux-yocto = "
+> > features/nfsd/nfsd-enable.scc"
+> >  MACHINE_EXTRA_RRECOMMENDS += "rng-tools"
+> > 
+> >  IMAGE_CLASSES += "qemuboot"
+> > +
+> > +# These two directories need to be preserved for runqemu to work
+> > well
+> > +IMAGE_RM_WORK_EXCLUDE_ITEMS = "recipe-sysroot recipe-sysroot-
+> > native"
+> Should this be setup by qemuboot.bbclass instead, so that it applies
+> to any image/machine (even those that do not use qemu.inc) that is
+> intended to be used by runqemu?
 
-diff --git a/meta/recipes-core/busybox/busybox/BUG9071_buffer_overflow_arp.patch b/meta/recipes-core/busybox/busybox/BUG9071_buffer_overflow_arp.patch
-new file mode 100644
-index 0000000..828694c
---- /dev/null
-+++ b/meta/recipes-core/busybox/busybox/BUG9071_buffer_overflow_arp.patch
-@@ -0,0 +1,53 @@
-+busybox1.24.1: Fix busybox - (local) cmdline stack buffer overwrite 
-+
-+[No upstream tracking] -- https://bugs.busybox.net/show_bug.cgi?id=9071
-+
-+busybox - (local) cmdline stack buffer overwrite 
-+
-+Busybox provides an `arp` applet which is missing an array bounds check for 
-+command-line parameter `IFNAME`. It is therefore vulnerable to a command-line 
-+based local stack buffer overwrite effectively allowing local users to write 
-+past a 16 bytes fixed stack buffer. This leads to two scenarios, one (A) where 
-+an IOCTL for GET_HW_ADDRESS (`SIOCGIFHWADDR`) fails and results in a corrupted 
-+`va_list` being passed to `*printf()` and one (B) where an attacker might provide 
-+valid params for the IOCTL and trick the program to proceed and result in a 
-+`RET eip overwrite` eventually gaining code execution.
-+
-+Upstream-Status: Backport [https://git.busybox.net/busybox/commit/networking/arp.c?id=88e2b1cb626761b1924305b761a5dfc723613c4e]
-+BUG: BUG9071
-+Signed-off-by: Martin Balik <martin.balik@siemens.com>
-+Signed-off-by: Pascal Bach <pascal.bach@siemens.com>
-+
-+--
-+
-+diff --git a/networking/arp.c b/networking/arp.c
-+index 0099aa5..87eb327 100644
-+--- a/networking/arp.c
-++++ b/networking/arp.c
-+@@ -176,7 +176,7 @@ static int arp_del(char **args)
-+ 	if (flags == 0)
-+ 		flags = 3;
-+ 
-+-	strncpy(req.arp_dev, device, sizeof(req.arp_dev));
-++	strncpy_IFNAMSIZ(req.arp_dev, device);
-+ 
-+ 	err = -1;
-+ 
-+@@ -217,7 +217,7 @@ static void arp_getdevhw(char *ifname, struct sockaddr *sa)
-+ 	struct ifreq ifr;
-+ 	const struct hwtype *xhw;
-+ 
-+-	strcpy(ifr.ifr_name, ifname);
-++	strncpy_IFNAMSIZ(ifr.ifr_name, ifname);
-+ 	ioctl_or_perror_and_die(sockfd, SIOCGIFHWADDR, &ifr,
-+ 					"can't get HW-Address for '%s'", ifname);
-+ 	if (hw_set && (ifr.ifr_hwaddr.sa_family != hw->type)) {
-+@@ -330,7 +330,7 @@ static int arp_set(char **args)
-+ 	/* Fill in the remainder of the request. */
-+ 	req.arp_flags = flags;
-+ 
-+-	strncpy(req.arp_dev, device, sizeof(req.arp_dev));
-++	strncpy_IFNAMSIZ(req.arp_dev, device);
-+ 
-+ 	/* Call the kernel. */
-+ 	if (option_mask32 & ARP_OPT_v)
-diff --git a/meta/recipes-core/busybox/busybox_1.24.1.bb b/meta/recipes-core/busybox/busybox_1.24.1.bb
-index 41fc641..5dc1808 100644
---- a/meta/recipes-core/busybox/busybox_1.24.1.bb
-+++ b/meta/recipes-core/busybox/busybox_1.24.1.bb
-@@ -55,6 +55,7 @@ SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
-            file://makefile-libbb-race.patch \
-            file://0001-libiproute-handle-table-ids-larger-than-255.patch \
-            file://ifupdown-pass-interface-device-name-for-ipv6-route-c.patch \
-+           file://BUG9071_buffer_overflow_arp.patch \
- "
- SRC_URI_append_libc-musl = " file://musl.cfg "
- 
--- 
-2.1.4
+I'm trying to decide what the best approach here is. I'm thinking it
+might be better to:
 
+a) make qemu builds depend on qemu-helper-native
+b) make that preserve its native sysroot (not the target one).
+c) have runqemu look at qemu-helper-native
+
+I think that should solve problems and work better than the above?
+
+Cheers,
+
+Richard
 
