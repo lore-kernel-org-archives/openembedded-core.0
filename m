@@ -1,47 +1,28 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-qt0-f195.google.com (mail-qt0-f195.google.com
-	[209.85.216.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 6CC8973124
+Return-Path: <dmitry.rozhkov@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 0D80177A4F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Apr 2017 12:13:14 +0000 (UTC)
-Received: by mail-qt0-f195.google.com with SMTP id r5so1307876qtb.2
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 05 Apr 2017 05:13:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=7vIV3idnRkEIB9vS47kDPn4qMP13IgX2OPdseNqADj0=;
-	b=tozMCjqKujr2Fc27XIuv8faioZkxEhZHZqlr/gbntfr5uu3oY1WXrn5eV+tWSX1g/z
-	IetMmOgi1pRe8oWROnsGl0iwcpzU5KJKzHsqGWDzrXvgjuSQhslURBMr/rwEkVWIZP6W
-	GG+Dr35hA0cQH5NTWArRA8Oz2mcrNqiMiBluY/3em8r5tPoAnASRcviRZ4oVTa0E1CEW
-	V6Os44TTdjA/MwHjy2nlJSADymTMzf7Gs2j1TuQdZ4smKKK4FekEYuzcTECIzSuQtye6
-	62SIFneoaBzNe4+VJjksO67s/2uOc5lfFEYpJnV+d0XD/HsX9+g4TTMIf4+WuXS2HbOh
-	+VqQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=7vIV3idnRkEIB9vS47kDPn4qMP13IgX2OPdseNqADj0=;
-	b=lL7zzEygkbDKLM/0nVlGwkKn5K8QATWj8KthpNOQeyhV6Zl/W52YYCQVCyTCMmyYUo
-	dNEZDrd8IcZBsC74ccjEgusTsUsj0easNfR1SSXwTiBqbgT17N2Xx9egPk/thdqRWbIk
-	7AwIm+G6YGN67LCu3xz9hMa5aTafKDk+47VaeoiOc8Yeub2slIZY9C11bt6vP1MYf9nO
-	mQC48G5rClVlsNpZPM7JgQS3vPL1Q0BveMohQVq+fNPulosh4xJwN+9tE6hv4C5IjILJ
-	GQAF3BjFnGXv7M1m1+upP8J9NkTO5UqaWI2eTg7YNwTOrPUqZR7bUvgM/fngJCv+zFIp
-	u7pQ==
-X-Gm-Message-State: AFeK/H3I3iGwYC2+7kIrv/QltvmKfzouek8iVxxSrySnHEgeuN6zRBb9LBhUCSg4vTqIyKkGtN4iOOJ3WhNPkA==
-X-Received: by 10.237.48.37 with SMTP id 34mr27991373qte.117.1491394395064;
-	Wed, 05 Apr 2017 05:13:15 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.12.163.69 with HTTP; Wed, 5 Apr 2017 05:13:14 -0700 (PDT)
-In-Reply-To: <CAJTo0LbUrTDOrXU4VzPe=+iiZtFyasL7LhNtpb4YiX6eLTkTWQ@mail.gmail.com>
-References: <1d818d62-704e-61f4-1f0c-a3980a09b502@windriver.com>
-	<20170404080203.6985-1-Martin.Jansa@gmail.com>
-	<CAJTo0LbUrTDOrXU4VzPe=+iiZtFyasL7LhNtpb4YiX6eLTkTWQ@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Wed, 5 Apr 2017 14:13:14 +0200
-Message-ID: <CADkTA4MVqLyLbjdfVq-Ze=ZOq73ERzw1qpxHmgbzvOPhM4rBPg@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] x86-base.inc, qemuarm.conf: prefer 4.10 version of linux-yocto
+	Wed,  5 Apr 2017 12:38:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+	d=intel.com; i=@intel.com; q=dns/txt; s=intel;
+	t=1491395894; x=1522931894;
+	h=from:to:cc:subject:date:message-id;
+	bh=rHqt04RJij2BKm3Nld5FTxcjeKUjHiRjbdTu7Pap8FM=;
+	b=C2Bp38BzrGl7GoabdWhHqguURLxsnlPQrTFfbJZQX+G5FGz4Yw9PU/Ka
+	ugDFjsdBs3JYHrP2BLSaxiEHV9X/Tw==;
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	05 Apr 2017 05:38:13 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.36,278,1486454400"; d="scan'208";a="244553402"
+Received: from drozhkov-desk.fi.intel.com ([10.237.72.60])
+	by fmsmga004.fm.intel.com with ESMTP; 05 Apr 2017 05:38:12 -0700
+From: Dmitry Rozhkov <dmitry.rozhkov@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  5 Apr 2017 15:37:45 +0300
+Message-Id: <20170405123745.15688-1-dmitry.rozhkov@linux.intel.com>
+X-Mailer: git-send-email 2.9.3
+Subject: [PATCH] python3: fix run-time deps for core python3 libraries
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,78 +35,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Apr 2017 12:13:14 -0000
-Content-Type: multipart/alternative; boundary=94eb2c0c9bbe235310054c6a51c6
+X-List-Received-Date: Wed, 05 Apr 2017 12:38:13 -0000
 
---94eb2c0c9bbe235310054c6a51c6
-Content-Type: text/plain; charset=UTF-8
+The http.server module from python3-netclient imports the html module
+which is in python3-html. Also xmlrpc.server imports pydoc which is a
+part of python3-pydoc. But those run-time dependencies are missing
+from python3-netclient and python3-xmlrpc respectively.
 
-On Tue, Apr 4, 2017 at 11:48 AM, Burton, Ross <ross.burton@intel.com> wrote:
+Add the missing run-time dependencies.
 
->
-> On 4 April 2017 at 09:02, Martin Jansa <martin.jansa@gmail.com> wrote:
->
->> -PREFERRED_VERSION_linux-yocto ??= "4.8%"
->> +PREFERRED_VERSION_linux-yocto ??= "4.10%"
->>
->
-> The qemuppc and qemumips machines don't have a preferred version, so
-> should we be setting it in all the machine configurations, or can we remove
-> it from these recipes?
->
+Signed-off-by: Dmitry Rozhkov <dmitry.rozhkov@linux.intel.com>
+---
+ meta/recipes-devtools/python/python-3.5-manifest.inc | 4 ++--
+ scripts/contrib/python/generate-manifest-3.5.py      | 4 ++--
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
-
-I can look into that. But I'm traveling at the moment and won't have time
-to spin a patch
-and test for a few days.
-
-Bruce
-
-
->
-> Ross
->
-
-
-
+diff --git a/meta/recipes-devtools/python/python-3.5-manifest.inc b/meta/recipes-devtools/python/python-3.5-manifest.inc
+index 55bcc4b..ec30eb9 100644
+--- a/meta/recipes-devtools/python/python-3.5-manifest.inc
++++ b/meta/recipes-devtools/python/python-3.5-manifest.inc
+@@ -153,7 +153,7 @@ RDEPENDS_${PN}-multiprocessing="${PN}-core ${PN}-io ${PN}-lang ${PN}-pickle ${PN
+ FILES_${PN}-multiprocessing="${libdir}/python3.5/lib-dynload/_multiprocessing.*.so ${libdir}/python3.5/lib-dynload/__pycache__/_multiprocessing.*.so ${libdir}/python3.5/multiprocessing ${libdir}/python3.5/multiprocessing/__pycache__ "
+ 
+ SUMMARY_${PN}-netclient="Python Internet Protocol clients"
+-RDEPENDS_${PN}-netclient="${PN}-argparse ${PN}-core ${PN}-crypt ${PN}-datetime ${PN}-io ${PN}-lang ${PN}-logging ${PN}-mime"
++RDEPENDS_${PN}-netclient="${PN}-argparse ${PN}-core ${PN}-crypt ${PN}-datetime ${PN}-io ${PN}-lang ${PN}-logging ${PN}-mime ${PN}-html"
+ FILES_${PN}-netclient="${libdir}/python3.5/*Cookie*.* ${libdir}/python3.5/__pycache__/*Cookie*.* ${libdir}/python3.5/base64.* ${libdir}/python3.5/__pycache__/base64.* ${libdir}/python3.5/cookielib.* ${libdir}/python3.5/__pycache__/cookielib.* ${libdir}/python3.5/ftplib.* ${libdir}/python3.5/__pycache__/ftplib.* ${libdir}/python3.5/gopherlib.* ${libdir}/python3.5/__pycache__/gopherlib.* ${libdir}/python3.5/hmac.* ${libdir}/python3.5/__pycache__/hmac.* ${libdir}/python3.5/http* ${libdir}/python3.5/http*/__pycache__ ${libdir}/python3.5/httplib.* ${libdir}/python3.5/__pycache__/httplib.* ${libdir}/python3.5/mimetypes.* ${libdir}/python3.5/__pycache__/mimetypes.* ${libdir}/python3.5/nntplib.* ${libdir}/python3.5/__pycache__/nntplib.* ${libdir}/python3.5/poplib.* ${libdir}/python3.5/__pycache__/poplib.* ${libdir}/python3.5/smtplib.* ${libdir}/python3.5/__pycache__/smtplib.* ${libdir}/python3.5/telnetlib.* ${libdir}/python3.5/__pycache__/telnetlib.* ${libdir}/python3.5/urllib ${libdir}/python3.5/urllib/__pycache__ ${libdir}/python3.5/uuid.* ${libdir}/python3.5/__pycache__/uuid.* ${libdir}/python3.5/rfc822.* ${libdir}/python3.5/__pycache__/rfc822.* ${libdir}/python3.5/mimetools.* ${libdir}/python3.5/__pycache__/mimetools.* "
+ 
+ SUMMARY_${PN}-netserver="Python Internet Protocol servers"
+@@ -273,7 +273,7 @@ RDEPENDS_${PN}-xml="${PN}-core ${PN}-re"
+ FILES_${PN}-xml="${libdir}/python3.5/lib-dynload/_elementtree.*.so ${libdir}/python3.5/lib-dynload/__pycache__/_elementtree.*.so ${libdir}/python3.5/lib-dynload/pyexpat.*.so ${libdir}/python3.5/lib-dynload/__pycache__/pyexpat.*.so ${libdir}/python3.5/xml ${libdir}/python3.5/xml/__pycache__ ${libdir}/python3.5/xmllib.* ${libdir}/python3.5/__pycache__/xmllib.* "
+ 
+ SUMMARY_${PN}-xmlrpc="Python XML-RPC support"
+-RDEPENDS_${PN}-xmlrpc="${PN}-core ${PN}-xml ${PN}-netserver ${PN}-lang"
++RDEPENDS_${PN}-xmlrpc="${PN}-core ${PN}-xml ${PN}-netserver ${PN}-lang ${PN}-pydoc"
+ FILES_${PN}-xmlrpc="${libdir}/python3.5/xmlrpclib.* ${libdir}/python3.5/__pycache__/xmlrpclib.* ${libdir}/python3.5/SimpleXMLRPCServer.* ${libdir}/python3.5/__pycache__/SimpleXMLRPCServer.* ${libdir}/python3.5/DocXMLRPCServer.* ${libdir}/python3.5/__pycache__/DocXMLRPCServer.* ${libdir}/python3.5/xmlrpc ${libdir}/python3.5/xmlrpc/__pycache__ "
+ 
+ SUMMARY_${PN}-modules="All Python modules"
+diff --git a/scripts/contrib/python/generate-manifest-3.5.py b/scripts/contrib/python/generate-manifest-3.5.py
+index 386bdfc..5835de8 100755
+--- a/scripts/contrib/python/generate-manifest-3.5.py
++++ b/scripts/contrib/python/generate-manifest-3.5.py
+@@ -340,7 +340,7 @@ if __name__ == "__main__":
+     m.addPackage( "${PN}-multiprocessing", "Python multiprocessing support", "${PN}-core ${PN}-io ${PN}-lang ${PN}-pickle ${PN}-threading ${PN}-ctypes ${PN}-mmap",
+     "lib-dynload/_multiprocessing.*.so multiprocessing" ) # package
+ 
+-    m.addPackage( "${PN}-netclient", "Python Internet Protocol clients", "${PN}-argparse ${PN}-core ${PN}-crypt ${PN}-datetime ${PN}-io ${PN}-lang ${PN}-logging ${PN}-mime",
++    m.addPackage( "${PN}-netclient", "Python Internet Protocol clients", "${PN}-argparse ${PN}-core ${PN}-crypt ${PN}-datetime ${PN}-io ${PN}-lang ${PN}-logging ${PN}-mime ${PN}-html",
+     "*Cookie*.* " +
+     "base64.* cookielib.* ftplib.* gopherlib.* hmac.* http* httplib.* mimetypes.* nntplib.* poplib.* smtplib.* telnetlib.* urllib  uuid.* rfc822.* mimetools.*" )
+ 
+@@ -422,7 +422,7 @@ if __name__ == "__main__":
+     m.addPackage( "${PN}-xml", "Python basic XML support", "${PN}-core ${PN}-re",
+     "lib-dynload/_elementtree.*.so lib-dynload/pyexpat.*.so xml xmllib.*" ) # package
+ 
+-    m.addPackage( "${PN}-xmlrpc", "Python XML-RPC support", "${PN}-core ${PN}-xml ${PN}-netserver ${PN}-lang",
++    m.addPackage( "${PN}-xmlrpc", "Python XML-RPC support", "${PN}-core ${PN}-xml ${PN}-netserver ${PN}-lang ${PN}-pydoc",
+     "xmlrpclib.* SimpleXMLRPCServer.* DocXMLRPCServer.* xmlrpc" )
+ 
+     m.addPackage( "${PN}-mailbox", "Python mailbox format support", "${PN}-core ${PN}-mime",
 -- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await thee
-at its end"
+2.9.3
 
---94eb2c0c9bbe235310054c6a51c6
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
-te">On Tue, Apr 4, 2017 at 11:48 AM, Burton, Ross <span dir=3D"ltr">&lt;<a =
-href=3D"mailto:ross.burton@intel.com" target=3D"_blank">ross.burton@intel.c=
-om</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"marg=
-in:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div dir=3D"ltr"=
-><div class=3D"gmail_extra"><span class=3D""><br><div class=3D"gmail_quote"=
->On 4 April 2017 at 09:02, Martin Jansa <span dir=3D"ltr">&lt;<a href=3D"ma=
-ilto:martin.jansa@gmail.com" target=3D"_blank">martin.jansa@gmail.com</a>&g=
-t;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0=
- .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D"m_38203980350=
-65330508:30f" class=3D"m_3820398035065330508a3s m_3820398035065330508aXjCH =
-m_3820398035065330508m15b382759fb1831a">-PREFERRED_VERSION_linux-yocto ??=
-=3D &quot;4.8%&quot;<br>
-+PREFERRED_VERSION_linux-yocto ??=3D &quot;4.10%&quot;<br></div></blockquot=
-e></div><div class=3D"gmail_extra"><br></div></span>The qemuppc and qemumip=
-s machines don&#39;t have a preferred version, so should we be setting it i=
-n all the machine configurations, or can we remove it from these recipes?</=
-div></div></blockquote><div><br></div><div><br></div><div>I can look into t=
-hat. But I&#39;m traveling at the moment and won&#39;t have time to spin a =
-patch</div><div>and test for a few days.</div><div><br></div><div>Bruce</di=
-v><div><br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8=
-ex;border-left:1px #ccc solid;padding-left:1ex"><div dir=3D"ltr"><div class=
-=3D"gmail_extra"><span class=3D"HOEnZb"><font color=3D"#888888"><br></font>=
-</span></div><span class=3D"HOEnZb"><font color=3D"#888888"><div class=3D"g=
-mail_extra"><br></div><div class=3D"gmail_extra">Ross</div></font></span></=
-div>
-</blockquote></div><br><br clear=3D"all"><div><br></div>-- <br><div class=
-=3D"gmail_signature" data-smartmail=3D"gmail_signature">&quot;Thou shalt no=
-t follow the NULL pointer, for chaos and madness await thee at its end&quot=
-;</div>
-</div></div>
-
---94eb2c0c9bbe235310054c6a51c6--
