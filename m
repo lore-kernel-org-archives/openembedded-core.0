@@ -1,55 +1,47 @@
-Return-Path: <prvs=0268497409=mike.looijmans@topicproducts.com>
-X-Greylist: delayed 3097 seconds by postgrey-1.34 at layers.openembedded.org;
-	Wed, 05 Apr 2017 09:41:59 UTC
-Received: from mx18-09.smtp.antispamcloud.com (mx18-09.smtp.antispamcloud.com
-	[207.244.64.178])
-	by mail.openembedded.org (Postfix) with ESMTP id CB05377A2D
+Return-Path: <nathan@nathanrossi.com>
+Received: from mail-qk0-f194.google.com (mail-qk0-f194.google.com
+	[209.85.220.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 7D2F577A48
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Apr 2017 09:41:59 +0000 (UTC)
-Received: from [37.74.225.130] (helo=TOP-EX01.TOPIC.LOCAL)
-	by mx18.antispamcloud.com with esmtps (TLSv1:ECDHE-RSA-AES128-SHA:128)
-	(Exim 4.86) (envelope-from <mike.looijmans@topicproducts.com>)
-	id 1cvgdv-0000li-UP; Wed, 05 Apr 2017 10:50:23 +0200
-Received: from [192.168.80.121] (192.168.80.121) by webmail.topic.nl
-	(192.168.10.102) with Microsoft SMTP Server id 14.3.224.2;
-	Wed, 5 Apr 2017 10:50:13 +0200
-To: =?UTF-8?Q?Andr=c3=a9_Draszik?= <git@andred.net>,
-	<openembedded-core@lists.openembedded.org>
-References: <1491314085.15389.1.camel@andred.net>
-From: Mike Looijmans <mike.looijmans@topic.nl>
-Organization: TOPIC
-Message-ID: <219f123d-e126-1ef7-4f73-ee3080ffbe97@topic.nl>
-Date: Wed, 5 Apr 2017 10:50:13 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.7.0
+	Wed,  5 Apr 2017 10:06:29 +0000 (UTC)
+Received: by mail-qk0-f194.google.com with SMTP id p68so984676qke.1
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 05 Apr 2017 03:06:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=nathanrossi.com; s=google;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=cEXNkpuC1Q1l564ESHs0uEXXpEsIqZoKMvY6Dp1QVUE=;
+	b=TwF/M/qXN0BVWqC5ybTSkI9EJ27GEbdCk6Y0tb6cyweFBbcR3ze+cWAl0TazuK7Aam
+	OOoC8HT8X7vvaTT8XkU9eYf3gKCDZOTf2nCRMFrpm18xhxI6X+aqjlLxSMbrj9HtM0HN
+	E6pnJ94fqk2Abe3/bFlGwBZRV5DKd5s3xg0Tnyk7OUaXBqJ96s+bpH1BMnSg3TkLPHGH
+	ZOWxli7ScNzA7X4jKzCq9nrMZMCpyQV66C/VduvLjvr2iiI1Inydgf5uHvbKY/JC2zMo
+	Z9Ovjag3lSkKA64Am4riWEd2pAUnaeDpEBM6KOkUIolBA90w6NMuh+JoxPU8+AG3Uaqp
+	DDsQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=cEXNkpuC1Q1l564ESHs0uEXXpEsIqZoKMvY6Dp1QVUE=;
+	b=h36YeVXsmxK321qz616Du0TviLeeS77UNpA48KxUlBeEt1/VAVlCideiOMwi+qJAMk
+	pJJdrNHvHaKk1yHpla+uQrMNrSjQ41uCsd2W3w7Yqv1R+NhU5pN6JOwKTZVuR5Srahvm
+	XRnUaJ5C9Lmt047txEDsG++g1x9o2BxeZZZXnnxTsKwCNjDZDSyq+BGG5co3ICK6iJCE
+	E7XZnhYUymujSnBfIs1HmOrAzZ6b+vSwAYQTlSq2lQQ1qem8RFpaGKMqdPpzyljdTFkT
+	iq9ocWzkZzjfWReO/6TMXcdKBMKsi3+MjqCOsw1oP7OhvoZaThaVcEvldVGpJR4wKuX7
+	vcBg==
+X-Gm-Message-State: AFeK/H3fk/2lGWi67+hOzaQjjkcxRPj9zRSX954Xp2iHT2iIMs2aUQmKBxA2V5dGavzuXi2owkEbC0uyvdJwgA==
+X-Received: by 10.55.114.199 with SMTP id n190mr27810845qkc.229.1491386790270; 
+	Wed, 05 Apr 2017 03:06:30 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <1491314085.15389.1.camel@andred.net>
-X-Originating-IP: [192.168.80.121]
-X-EXCLAIMER-MD-CONFIG: 9833cda7-5b21-4d34-9a38-8d025ddc3664
-X-EXCLAIMER-MD-BIFURCATION-INSTANCE: 0
-X-Originating-IP: 37.74.225.130
-X-SpamExperts-Domain: topic.nl
-X-SpamExperts-Username: 37.74.225.128/28
-Authentication-Results: antispamcloud.com;
-	auth=pass smtp.auth=37.74.225.128/28@topic.nl
-X-SpamExperts-Outgoing-Class: unsure
-X-SpamExperts-Outgoing-Evidence: Combined (0.19)
-X-Recommended-Action: accept
-X-Filter-ID: s0sct1PQhAABKnZB5plbIbbvfIHzQjPVmPLZeVYSu3xU9luQrU+8/8qthi+0Jd/W/95+6ZE6dI+d
-	FNTaLLKrTD4PkK8WOoKuw32u9iEtZmisSr42qUwvK7U11fJ5smF5bE7GwnNXTE7JFCR1ojdwNPLJ
-	y1UVQ5eobqUwgxWcNhS8/a3wqJ9QEDVsytmQL5AlnIQeK9m0OSpJdTQT81cI2GbjO41FyBEqIaDu
-	dcVplPGNaieKxw/vh63RdlaW2Zj1hcQD6Dxo9kokFZNwiacNPxeTCKssqlJePCDBHWfCYUvWOATT
-	vnG+QUCcfrSs6FZc7tZ3vKwSN7Mv0HNteAusUZ8BuYwGqmI8Tx/Ism0pnCcmlWACu0WC7nIKSPYV
-	aBAANeo6Hr4UJMIZEVOGlXeApA3I626B4k1VCg2pmPRu/tsFQJrw3CXBQQrpTco7fJK8qWDREgN4
-	nnc3zNPE0mSnZr3upx1n/FUf/NwbTI+uRoXlWvXEyVXmV1DcCGMoc6ig/SVaKi0jvtxxX4zA29pu
-	2ONYQFX+rhdRbxagFZk9QeUTMKkbMlXz2JUArHA+14sz3sbskoLsCzHbimU89cr33RKm353ztx8x
-	waw1cKnsBGxm83Bq3Dr745Bh95etgupgGplHcpVCCoX989hgB8R+yFNe0necuBmgAaEH47pnSozS
-	cx6dixYXWS0UC4sPAz0+AzQePLXQzHCxFVh7JpEHm1dVG3udxDVjJl88/rWN0QJAZs8O0qGELL5L
-	HSCgBqXfiEc3YcCUDBl3OGV65ZQULuQ0Yt6sBXejfJJliPYr+dnJSZw2WpDy9OSdSQJ8DIJaHEXf
-	UijDC0/Rz8RBrz8o0oz7+wVUyggefPEmmLBPACapbEJ69tR6B0KuqSfwE3+xPCboOUgzVvkqUbox
-	4bR18A==
-X-Report-Abuse-To: spam@quarantine2.antispamcloud.com
-Subject: Re: tainting other recipe's specific task
+Received: by 10.12.134.130 with HTTP; Wed, 5 Apr 2017 03:06:29 -0700 (PDT)
+In-Reply-To: <d6b2737e706f743644df63f21a8f061b9e2f83c7.1490850708.git.Qi.Chen@windriver.com>
+References: <cover.1490850708.git.Qi.Chen@windriver.com>
+	<d6b2737e706f743644df63f21a8f061b9e2f83c7.1490850708.git.Qi.Chen@windriver.com>
+From: Nathan Rossi <nathan@nathanrossi.com>
+Date: Wed, 5 Apr 2017 20:06:29 +1000
+Message-ID: <CA+aJhH1JjWONYpOFi8S4QsDzUdfoPSJS_0FZf=5dQTm-O_4wEQ@mail.gmail.com>
+To: Chen Qi <Qi.Chen@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] image.inc/qemu.inc: preserve directories to be used by runqemu
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,80 +54,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Apr 2017 09:42:00 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 05 Apr 2017 10:06:29 -0000
+Content-Type: text/plain; charset=UTF-8
 
-=EF=BB=BFOn 04-04-17 15:54, Andr=C3=A9 Draszik wrote:
-> Hi,
+On 30 March 2017 at 15:12, Chen Qi <Qi.Chen@windriver.com> wrote:
+> The 'recipe-sysroot' and 'recipe-sysroot-native' directories need to
+> be preserved for runqemu to work correctly. Otherwise, when 'rm_work'
+> is enabled, these directories are removed, thus causing errors when
+> using runqemu .
 >
-> Is it possible to invalidate one recipe's hash for a specific task from
-> another recipe?
-
-I hope not...
-
-
-> More specifically, I have an initramfs image recipe and a main image reci=
-pe
-> where do_rootfs of the main image [depends] on do_deploy of initramfs.
+> [YOCTO #11266]
+> [YOCTO #11193]
 >
-> If do_rootfs of the main image needs to be re-run, I need to make sure th=
-at
-> do_rootfs of the initramfs image is re-run (and of course do_deploy) befo=
-re.
-> Basically I want to add a timestamp to both images, and the timestamp sho=
-uld
-> be the same.
+> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> ---
+>  meta/classes/image.bbclass         | 1 +
+>  meta/conf/machine/include/qemu.inc | 3 +++
+>  2 files changed, 4 insertions(+)
 >
-> Using my current dependencies, do_rootfs of the main image is re-run if t=
-he
-> initramfs is re-deployed:
+> diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+> index 405fd73..cac3a5f 100644
+> --- a/meta/classes/image.bbclass
+> +++ b/meta/classes/image.bbclass
+> @@ -8,6 +8,7 @@ inherit ${SDKEXTCLASS}
+>  TOOLCHAIN_TARGET_TASK += "${PACKAGE_INSTALL}"
+>  TOOLCHAIN_TARGET_TASK_ATTEMPTONLY += "${PACKAGE_INSTALL_ATTEMPTONLY}"
+>  POPULATE_SDK_POST_TARGET_COMMAND += "rootfs_sysroot_relativelinks; "
+> +RM_WORK_EXCLUDE_ITEMS_append = " ${IMAGE_RM_WORK_EXCLUDE_ITEMS}"
 >
-> --- snip main_image.bb: ---
-> do_rootfs[depends] +=3D "initramfs:do_deploy"
-> --- snap ---
+>  LICENSE = "MIT"
+>  PACKAGES = ""
+> diff --git a/meta/conf/machine/include/qemu.inc b/meta/conf/machine/include/qemu.inc
+> index 0e4103b..8345c08 100644
+> --- a/meta/conf/machine/include/qemu.inc
+> +++ b/meta/conf/machine/include/qemu.inc
+> @@ -29,3 +29,6 @@ KERNEL_FEATURES_append_pn-linux-yocto = " features/nfsd/nfsd-enable.scc"
+>  MACHINE_EXTRA_RRECOMMENDS += "rng-tools"
 >
-> but I need this both ways. Just adding the equivalent to the initramfs
-> recipe results in bitbake complaining about a recursive dependency loop.
->
->
-> Can this be achieved? Even some pointers would be helpful...
->
->
-> Or some other approach where I can add the same timestamp to both images =
-if
-> either of the images needed to be rebuilt due to some change?
+>  IMAGE_CLASSES += "qemuboot"
+> +
+> +# These two directories need to be preserved for runqemu to work well
+> +IMAGE_RM_WORK_EXCLUDE_ITEMS = "recipe-sysroot recipe-sysroot-native"
 
-What I did was have two image recipes, let's say "big-image" and=20
-"small-image". The big-image included a package called "big-project". To th=
-e=20
-"big-project.bb" recipe I added:
+Should this be setup by qemuboot.bbclass instead, so that it applies
+to any image/machine (even those that do not use qemu.inc) that is
+intended to be used by runqemu?
 
-DEPENDS +=3D "small-image"
-do_install[depends] +=3D "small-image:do_image_complete"
-
-And in the do_install I copy the stuff from small-image into whereever I=20
-wanted it to be insided the small image.
-
-Maybe this covers your use case?
-
-
-Kind regards,
-
-Mike Looijmans
-System Expert
-
-TOPIC Products
-Materiaalweg 4, NL-5681 RJ Best
-Postbus 440, NL-5680 AK Best
-Telefoon: +31 (0) 499 33 69 79
-E-mail: mike.looijmans@topicproducts.com
-Website: www.topicproducts.com
-
-Please consider the environment before printing this e-mail
-
-
-
-
-
+Regards,
+Nathan
 
