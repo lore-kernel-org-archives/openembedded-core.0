@@ -1,34 +1,44 @@
-Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 99AB777BE2
+Return-Path: <vlsireddy@gmail.com>
+Received: from mail-wr0-f173.google.com (mail-wr0-f173.google.com
+	[209.85.128.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 1A60477C22
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Apr 2017 15:17:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-	d=intel.com; i=@intel.com; q=dns/txt; s=intel;
-	t=1491405480; x=1522941480;
-	h=message-id:subject:from:to:cc:date:in-reply-to:
-	references:mime-version:content-transfer-encoding;
-	bh=/nPCRBabdSbKT8uJkMf3SbZjK1wAmVv7bWN9n4x8c54=;
-	b=pl1+b4mOKJp5MMJmhJUMqdh1Ah2HfhSNsyJ6aNwM9nF6T0DX6urysfMG
-	ZyDzzRehElOa8tDqYKvgrbW0MeMh5Q==;
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	05 Apr 2017 08:17:59 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.36,279,1486454400"; d="scan'208";a="1131395103"
-Received: from lsandov1-mobl2.zpn.intel.com ([10.219.128.141])
-	by fmsmga001.fm.intel.com with ESMTP; 05 Apr 2017 08:17:59 -0700
-Message-ID: <1491405979.5062.33.camel@linux.intel.com>
-From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
-To: Patrick Ohly <patrick.ohly@intel.com>
-Date: Wed, 05 Apr 2017 10:26:19 -0500
-In-Reply-To: <b57ac90f02f18be863551ed630acc2d8007a0ffd.1491399200.git-series.patrick.ohly@intel.com>
-References: <cover.3970fab18c2598adf378d62e8fcba4ca004fbd13.1491399200.git-series.patrick.ohly@intel.com>
-	<b57ac90f02f18be863551ed630acc2d8007a0ffd.1491399200.git-series.patrick.ohly@intel.com>
-X-Mailer: Evolution 3.12.9-1+b1 
-Mime-Version: 1.0
-Cc: paul.eggleton@linux.intel.com, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 3/3] yocto-compat-layer: include bitbake-diffsigs output
+	Wed,  5 Apr 2017 15:18:11 +0000 (UTC)
+Received: by mail-wr0-f173.google.com with SMTP id k6so19149360wre.2
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 05 Apr 2017 08:18:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to; 
+	bh=iYOQb+1Q6RgXaaY2KsrN2Yotu5pwyczsY9e1H8GV/Xs=;
+	b=KOR8jV7Zhp7xbNvhEdgXF0epB7BHjhO3Za3wLShWgmNp2uVg75zJAvXE3GeBEeAZRo
+	Ccy9+xAcLZzpCsaoK6mUFi4iOGU8pPIvFceA6P4Dn5Zw54dUKLc0QtFWZXbvjJ7xB6eb
+	osZ2K6MmHMiqLQEf9r0R4Fr1VRxrF8zTA5xw3mKDFjXFpaB0lr98tGVJkGUVb5AJdata
+	KC6mQJ13X6XU2X/lurQcXx5WhgkkqL36Q5yBtO8fIccKVHLhwCuNZwOC43+0qKNIoHf1
+	QNQLixmkawkA6GgPnu/3jgq+Bgcalmqic75RlExEn6eWqtODiIXmyPT6PZS2D1K4toT1
+	nECw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to;
+	bh=iYOQb+1Q6RgXaaY2KsrN2Yotu5pwyczsY9e1H8GV/Xs=;
+	b=RSkMcKnana5QOc0TdJUMNq95nHqH5f9v6IIGsCnbC/T56BraSYXrudLRRXokabChkd
+	vzvNGEITZ4/mYYHbZmiQjNufG5N76FlFqy+6laMbdXa4m0+Zsv5h5AWyHSueeFLByHBF
+	7VBG+MgK0TvevtfmwsNa9DfDqZk56pzdyBXCUxQ1rtl2O5EClhzIc8Fd6z4RhYrWzOW/
+	vIGKMzS/VQMxgOpdyY5U64vczh+xET7CFOzuTBW3UF2tEZzfP0gXGdOoyWJ77D2YrW7W
+	i8srDqaoLn62YaDQ4RPNDEj2+1FlZLfJXCHz68d9CzpogBcWKrmv1PHGdkPHeqg9wfu3
+	sewA==
+X-Gm-Message-State: AFeK/H1rx2vKGXrz0VwvcH3QGUwhnPFWvksX8j8vMQqgRl01eKi+EQ61rnTdUMQ4TwJABncUxxJ5ug6bNEIZzw==
+X-Received: by 10.223.152.107 with SMTP id v98mr7762758wrb.60.1491405492895;
+	Wed, 05 Apr 2017 08:18:12 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.28.35.214 with HTTP; Wed, 5 Apr 2017 08:18:12 -0700 (PDT)
+In-Reply-To: <CAGQ4JX3rYtONiVv_eOhj-MK=2FA7=h3xCA_iytd=fpTF00rT6A@mail.gmail.com>
+References: <CAGQ4JX3rYtONiVv_eOhj-MK=2FA7=h3xCA_iytd=fpTF00rT6A@mail.gmail.com>
+From: Ravi chandra reddy <vlsireddy@gmail.com>
+Date: Wed, 5 Apr 2017 11:18:12 -0400
+Message-ID: <CAGQ4JX06AcUkSzRyg2255mZxxT=etOaE786_fVQqGp32EO8S2Q@mail.gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: Recipe [patch] modification to generate a static library instead of shared library
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,78 +51,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Apr 2017 15:17:59 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 05 Apr 2017 15:18:12 -0000
+Content-Type: multipart/alternative; boundary=f403045d59ae9eca60054c6ce6bd
 
-On Wed, 2017-04-05 at 15:36 +0200, Patrick Ohly wrote:
-> After filtering out potential false positives, it becomes feasible to
-> include the output of bitbake-diffsigs for those tasks which
-> definitely have a change.
-> 
-> Depends on bitbake-diffsigs with the "--signature" parameter.
-> 
-> Enhanced output now is:
-> 
->    AssertionError: False is not true : Layer meta-xxxx changed 120 signatures, initial differences (first hash without, second with layer):
->       gstreamer1.0-plugins-base:do_fetch: 76973f19f2e30d282152bdd7e4efe5bb -> e6e7c6fa9f2bd59d7d8d107f7c6ca1ac
->          Task dependencies changed from:
->          ['PV', 'SRCREV', 'SRC_URI', 'SRC_URI[md5sum]', 'SRC_URI[sha256sum]', 'base_do_fetch']
->          to:
->          ['GST_IMX_PATCHES_TO_APPEND', 'PV', 'SRCREV', 'SRC_URI', 'SRC_URI[md5sum]', 'SRC_URI[sha256sum]', 'base_do_fetch']
->          basehash changed from d679d30bd1ea41c56e57419b57587f3c to 090a79b45f5fa26d10f9d34e2ed7a1e6
->             List of dependencies for variable SRC_URI changed from '{'PV', 'SRC_URI[md5sum]', 'SRC_URI[sha256sum]'}' to '{'GST_IMX_PATCHES_TO_APPEND', 'PV', 'SRC_URI[md5sum]', 'SRC_URI[sha256sum]'}'
->          changed items: {'GST_IMX_PATCHES_TO_APPEND'}
->          Dependency on variable GST_IMX_PATCHES_TO_APPEND was added
->          Variable SRC_URI value changed:
->          "     http://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-base-${PV}.tar.xz     file://get-caps-from-src-pad-when-query-caps.patch     file://0003-ssaparse-enhance-SSA-text-lines-parsing.patch     file://0004-subparse-set-need_segment-after-sink-pad-received-GS.patch     file://encodebin-Need-more-buffers-in-output-queue-for-bett.patch     file://make-gio_unix_2_0-dependency-configurable.patch     file://0001-introspection.m4-prefix-pkgconfig-paths-with-PKG_CON.patch     file://0001-Makefile.am-don-t-hardcode-libtool-name-when-running.patch     file://0002-Makefile.am-prefix-calls-to-pkg-config-with-PKG_CONF.patch     file://0003-riff-add-missing-include-directories-when-calling-in.patch     file://0004-rtsp-drop-incorrect-reference-to-gstreamer-sdp-in-Ma.patch [--] {+${GST_IMX_PATCHES_TO_APPEND}+}"
-> 
->       pulseaudio:do_install: 6bb6fe23e11a6d5fef9c3a25e73e4f9c -> 3f54ea75673a792e307197cfa6ef2694
->          basehash changed from ac4efcfa783bd04a5a98a2c38719aedd to 37679d99623a37c8df955da3a01415a5
->          Variable do_install value changed:
->          @@ -1,3 +1,7 @@
->               autotools_do_install
->            	install -d ${D}${sysconfdir}/default/volatiles
->           	install -m 0644 ${WORKDIR}/volatiles.04_pulse  ${D}${sysconfdir}/default/volatiles/volatiles.04_pulse
->          +    if [ -e "${WORKDIR}/daemon.conf" ] && [ -e "${WORKDIR}/default.pa" ]; then
->          +        install -m 0644 ${WORKDIR}/daemon.conf ${D}${sysconfdir}/pulse/daemon.conf
->          +        install -m 0644 ${WORKDIR}/default.pa ${D}${sysconfdir}/pulse/default.pa
->          +    fi
-> 
-> [YOCTO #11161]
-> 
-> Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
-> ---
->  scripts/lib/compatlayer/cases/common.py | 10 ++++++++++
->  1 file changed, 10 insertions(+)
-> 
-> diff --git a/scripts/lib/compatlayer/cases/common.py b/scripts/lib/compatlayer/cases/common.py
-> index b91da9b..d909d5b 100644
-> --- a/scripts/lib/compatlayer/cases/common.py
-> +++ b/scripts/lib/compatlayer/cases/common.py
-> @@ -76,4 +76,14 @@ class CommonCompatLayer(OECompatLayerTestCase):
->                         (self.tc.layer['name'], len(sig_diff)))
->              for diff in sorted(sig_diff_filtered):
->                  msg.append('   %s: %s -> %s' % diff)
-> +                try:
-> +                    recipe, taskname = diff[0].rsplit(':', 1)
-> +                    output = check_command('Determining signature difference failed.',
-> +                                           'bitbake-diffsigs --task %s %s --signature %s %s' %
-> +                                           (recipe, taskname, diff[1], diff[2])).decode('utf-8')
-> +                except RuntimeError as error:
-> +                    output = str(error)
+--f403045d59ae9eca60054c6ce6bd
+Content-Type: text/plain; charset=UTF-8
 
-Patrick, just a minor comment:  there is no need for the 'if' check,
-because the try and the except bodies set the output variable. 
+Hi All,
+          I am using meta-oe to generate libxml2 library using AARCH64
+compiler. However it generates shared object [.so] library.
 
-Leo
+is there any setting in recipe to modify this, to generate static library
+[instead of shared library]
 
-> +                if output:
-> +                    msg.extend(['      ' + line for line in output.splitlines()])
-> +                    msg.append('')
->              self.assertTrue(False, '\n'.join(msg))
-> -- 
-> git-series 0.9.1
+if so, please point me to the recipe/file to change.
 
+if not, i will try to add it as patch, plz point me to appropriate files to
+change
 
+Thanks
+RC
 
+--f403045d59ae9eca60054c6ce6bd
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"ltr">Hi All,<div>=
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 I am using meta-oe to generate libxml2 l=
+ibrary using AARCH64 compiler. However it generates shared object [.so] lib=
+rary.</div><div><br></div><div>is there any setting in recipe to modify thi=
+s, to generate static library [instead of shared library]</div><div><br></d=
+iv><div>if so, please point me to the recipe/file to change.</div><div><br>=
+</div><div>if not, i will try to add it as patch, plz point me to appropria=
+te files to change</div><div><br></div><div>Thanks</div><span class=3D"HOEn=
+Zb"><font color=3D"#888888"><div>RC</div><div><br></div></font></span></div=
+>
+</div><br></div>
+
+--f403045d59ae9eca60054c6ce6bd--
