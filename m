@@ -1,56 +1,43 @@
-Return-Path: <gizero@gmail.com>
-Received: from mail-wr0-f177.google.com (mail-wr0-f177.google.com
-	[209.85.128.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 409316FF73
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-pg0-f67.google.com (mail-pg0-f67.google.com [74.125.83.67])
+	by mail.openembedded.org (Postfix) with ESMTP id B5AAD72F4F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Apr 2017 22:31:50 +0000 (UTC)
-Received: by mail-wr0-f177.google.com with SMTP id o21so54848067wrb.2
+	Thu,  6 Apr 2017 22:43:58 +0000 (UTC)
+Received: by mail-pg0-f67.google.com with SMTP id o123so10989375pga.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 06 Apr 2017 15:31:52 -0700 (PDT)
+	Thu, 06 Apr 2017 15:44:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=3LVsK+5/jYAcCWxcWKaMKXjWrSTf6tgqxI3GMrah4tc=;
-	b=CyoSaxOkZIerC54BAM4B0d+/Sr/xbipz6TKsHQ0K1xBMYVOrrpT+Q4FKuD3u3WhOPS
-	BdvFqzuOYJIHrt4e4bXN0bt3rEg06/GighH9pIfdJrdLaW0IeWcnh3s2wJpvxA+EIZY3
-	UAkYgDdepyO/9K6qINOHnLf6KdwOWW3JdD/cUsue4Tj1R6IJZD946thRPj2C9jeRMteM
-	V988NpRvWMgH5FABuyQazlCb6YFaeEwWw9aD5oaIVvOsg3hRTt4nwHnTa3yHqBUI5NWk
-	y4RckLSaNoi1eScAgBqN0txaJK6BNEMzyltZEaju571fGaQk1PQ+kIKB3TudtGyiszLJ
-	YZuA==
+	h=from:to:cc:subject:date:message-id;
+	bh=Hbehc5rGQD8HmUHUu7+1BIFKNdydMxoFkE3mgQ49h+w=;
+	b=DmaM/nJNnCyxO0dfLa+/+7RYH8ybGJpi5sQ3gG/PSGSulGfuupwhvxqGf6K/VqZmIE
+	RQkJamuzssXBqwmoDbE6BfXPeIFbnAqty8+DuMLpOeNaqu59FzdYdNmKul6B6jftkFGe
+	uvFwM+7easI5wknCZ1eP4on0rCTmakMQoLIVMy/61MjBESQUqd6GSgyybPNAHPtfHSxi
+	X98/d/25ql8OKgrfla7Pg2e0xvHr/np569dHTHCKJSwnSQkQmB/lbk236usLWhUkv2Db
+	KY6r4fRYEybyfkSFCVYBjrqlSS/EFZbFiiuLIOS48Ke9IoIOVtIxVkk+9AN9vBTEkH2L
+	T8EA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=3LVsK+5/jYAcCWxcWKaMKXjWrSTf6tgqxI3GMrah4tc=;
-	b=qhqYiV+xaEpclhfvPvpHuTBnHmZ00ok1+h5oh/YH/z//5rX8wMKKpo5+GgahuS5QLR
-	KqN7tZAf00R645gUNEOo95qQzJI2deRPc9Zcl2DxkD2fhRWpm75+VA4UJB6r7d1ov5Gd
-	BNGglULEFUzBUJps4JWcksp0Vokpo+4H834ukj9cc1F0zWiRPon/owPhUYS0ObLZ4pDX
-	RsKAo71dQ1LWcTYIj6tl6Cle9IwvuJrojB+JVrXlXyOpPZOeFwufXoQ8gsW9Fp3btdvX
-	Dz4WbPG1ZVNpxA4QgILfoRc85+zuNs/kxnDr4UJ7QBNtJUfj7Rtm815OcsjI8zX3hk1J
-	Gzgg==
-X-Gm-Message-State: AFeK/H3RtcIzRAVh32WrY7Ww4/GXFlUHsdwMOJ44z5R8UYe/FHU7tVKUReTdRM2MKYdfWZKAFyBz/ul2jW9M4g==
-X-Received: by 10.223.134.219 with SMTP id 27mr32300094wry.104.1491517911857; 
-	Thu, 06 Apr 2017 15:31:51 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.28.20.20 with HTTP; Thu, 6 Apr 2017 15:31:51 -0700 (PDT)
-In-Reply-To: <CAGQ4JX1L0jqm6KeKCwDNnhNHDrGZFARJACk9pwreyUKzRgrFTg@mail.gmail.com>
-References: <CAGQ4JX3rYtONiVv_eOhj-MK=2FA7=h3xCA_iytd=fpTF00rT6A@mail.gmail.com>
-	<CAGQ4JX06AcUkSzRyg2255mZxxT=etOaE786_fVQqGp32EO8S2Q@mail.gmail.com>
-	<CAEsOVNencj+9iW4xnqAUTzJAZ1_W=o8-N2-S6x0fr2pB-YJd9g@mail.gmail.com>
-	<1491407333.17200.22.camel@linuxfoundation.org>
-	<CAGQ4JX1DGeQuO3WhhpHZbJFsUpOg1uHmOou1fcQvgBy+hJpjOQ@mail.gmail.com>
-	<CAGQ4JX12JDMaffLGYO16626BhXCSAQ3wzVEzN21wzcrZ7mwJ5A@mail.gmail.com>
-	<CAEsOVNcN6=XAt8b7_PN288yHs8syzV08LreRkwSf2Mxpeb8Cgw@mail.gmail.com>
-	<CAGQ4JX1ibcWeYV7NfYSB8cCOYH=83XEON1=sf4U9S378A16p8w@mail.gmail.com>
-	<CAGQ4JX27J_dh=2wPJ=1Gp_=1T6KL2rcL3EhxNTx4BF=ukLwxJA@mail.gmail.com>
-	<CAEsOVNf_wSreuAQk7mGMAbWN44PGo35WfcshbggzJ14OjvYVog@mail.gmail.com>
-	<CAGQ4JX1L0jqm6KeKCwDNnhNHDrGZFARJACk9pwreyUKzRgrFTg@mail.gmail.com>
-From: Andrea Galbusera <gizero@gmail.com>
-Date: Fri, 7 Apr 2017 00:31:51 +0200
-Message-ID: <CAC+thW3riZUU02kb=v1amSFHojBJWq+utKJ6R5CdSrkdZmKgbg@mail.gmail.com>
-To: Ravi chandra reddy <vlsireddy@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Recipe [patch] modification to generate a static library instead of shared library
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=Hbehc5rGQD8HmUHUu7+1BIFKNdydMxoFkE3mgQ49h+w=;
+	b=P6hWzWL9qfCQuB5zqRzIoU1CMEadvJvkJU61ptAnmu8Kc4buE5vQu2jBLxA1ReSPGt
+	+401t7IFzxGB8z08MB5LuOVaK4gJa5ncsoQH7N4sor5qD/Bs51ihqHJVUQkRcVFkuUeR
+	BOdDyOqk76gVXWAVtPPjechvz5vH9hAZsjw/LOm04EX7s9D6WDaUxgF2DXw5S6a8gQ9G
+	OyvMDD1b8bBx/t0ClOg56iWlwcpwlN4GJ4JGjrPwsyIbYSdvRKtkSsIdGmLQYhgp7Ocd
+	6UeGob5Q0xBpnlSQcYUDwGob5vvhxByhefjSoeE7l239qHECW+c44EwX+DThz6PEnB5R
+	H5Aw==
+X-Gm-Message-State: AFeK/H17r92Z43LBKY4hMWRTp8kj+AkrLe4j8AL9ryJ9FA3Ro6TLDIGuBQW3i3eU35ufJg==
+X-Received: by 10.98.138.80 with SMTP id y77mr16261601pfd.183.1491518639720;
+	Thu, 06 Apr 2017 15:43:59 -0700 (PDT)
+Received: from e6520.guest-wifi.scl.liberty.com ([4.16.80.121])
+	by smtp.gmail.com with ESMTPSA id f5sm5531272pgn.50.2017.04.06.15.43.58
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 06 Apr 2017 15:43:58 -0700 (PDT)
+From: Andre McCurdy <armccurdy@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  6 Apr 2017 15:43:53 -0700
+Message-Id: <1491518633-30798-1-git-send-email-armccurdy@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH] mtd-utils: refresh patches now merged upstream
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,153 +50,178 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Apr 2017 22:31:51 -0000
-Content-Type: multipart/alternative; boundary=001a11491f765001fe054c8713de
+X-List-Received-Date: Thu, 06 Apr 2017 22:43:58 -0000
 
---001a11491f765001fe054c8713de
-Content-Type: text/plain; charset=UTF-8
+Update Upstream-Status tags and apply 010-fix-rpmatch.patch
+unconditionally, since it's merged unconditionally upstream.
 
-Hi,
+Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+---
+ .../mtd/mtd-utils/0001-Fix-build-with-musl.patch   | 15 ++++----
+ .../mtd/mtd-utils/010-fix-rpmatch.patch            | 45 ++++++++++++++++++++--
+ .../mtd/mtd-utils/fix-armv7-neon-alignment.patch   | 21 +++++++---
+ meta/recipes-devtools/mtd/mtd-utils_git.bb         |  3 +-
+ 4 files changed, 66 insertions(+), 18 deletions(-)
 
-On Thu, Apr 6, 2017 at 10:11 PM, Ravi chandra reddy <vlsireddy@gmail.com>
-wrote:
+diff --git a/meta/recipes-devtools/mtd/mtd-utils/0001-Fix-build-with-musl.patch b/meta/recipes-devtools/mtd/mtd-utils/0001-Fix-build-with-musl.patch
+index 6a9bd1c..bf3f98f 100644
+--- a/meta/recipes-devtools/mtd/mtd-utils/0001-Fix-build-with-musl.patch
++++ b/meta/recipes-devtools/mtd/mtd-utils/0001-Fix-build-with-musl.patch
+@@ -1,19 +1,18 @@
+-From e16fa28bc57c29923ab60af2ac343da83e1992d8 Mon Sep 17 00:00:00 2001
++From 4dab9bed1033f797ef9b482c77342fe3fe26d0be Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Tue, 6 Oct 2015 23:51:34 +0000
+ Subject: [PATCH] Fix build with musl
+ 
+-Upstream-Status: Pending
++Upstream-Status: Backport
+ 
+ Signed-off-by: Khem Raj <raj.khem@gmail.com>
++Signed-off-by: David Oberhollenzer <david.oberhollenzer@sigma-star.at>
+ ---
+- mkfs.jffs2.c  | 44 ++++++++++++++++++++++++++++++++++++++++++--
+- recv_image.c  |  1 -
+- serve_image.c |  1 -
+- 3 files changed, 42 insertions(+), 4 deletions(-)
++ jffsX-utils/mkfs.jffs2.c | 1 +
++ 1 file changed, 1 insertion(+)
+ 
+-diff --git a/mkfs.jffs2.c b/mkfs.jffs2.c
+-index f09c0b2..ed2dc43 100644
++diff --git a/jffsX-utils/mkfs.jffs2.c b/jffsX-utils/mkfs.jffs2.c
++index 5446a16..ca5e0d5 100644
+ --- a/jffsX-utils/mkfs.jffs2.c
+ +++ b/jffsX-utils/mkfs.jffs2.c
+ @@ -72,6 +72,7 @@
+diff --git a/meta/recipes-devtools/mtd/mtd-utils/010-fix-rpmatch.patch b/meta/recipes-devtools/mtd/mtd-utils/010-fix-rpmatch.patch
+index 7d783e7..853de6a 100644
+--- a/meta/recipes-devtools/mtd/mtd-utils/010-fix-rpmatch.patch
++++ b/meta/recipes-devtools/mtd/mtd-utils/010-fix-rpmatch.patch
+@@ -1,11 +1,48 @@
+-Replace rpmatch() usage with checking first character of line
++From 82839c3c0371ca2a1643a99d7d01f5bc1c850b28 Mon Sep 17 00:00:00 2001
++From: David Oberhollenzer <david.oberhollenzer@sigma-star.at>
++Date: Thu, 2 Mar 2017 11:40:36 +0100
++Subject: [PATCH] Replace rpmatch() usage with checking first character of line
++
++This is based on the patch from Khem Raj used by openembedded. In
++addition to the original patch, this also removes the fallback
++implementation that was provided for C libraries that don't implement
++rpmatch.
++
++Upstream-Status: Backport
+ 
+-Upstream-Status: Pending
+ Signed-off-by: Khem Raj <raj.khem@gmail.com>
++Signed-off-by: David Oberhollenzer <david.oberhollenzer@sigma-star.at>
++---
++ include/common.h | 25 ++++++-------------------
++ 1 file changed, 6 insertions(+), 19 deletions(-)
+ 
++diff --git a/include/common.h b/include/common.h
++index d0c706d..d609257 100644
+ --- a/include/common.h
+ +++ b/include/common.h
+-@@ -122,10 +122,12 @@
++@@ -129,21 +129,6 @@ extern "C" {
++ 	fprintf(stderr, "%s: warning!: " fmt "\n", PROGRAM_NAME, ##__VA_ARGS__); \
++ } while(0)
++ 
++-/* uClibc versions before 0.9.34 and musl don't have rpmatch() */
++-#if defined(__UCLIBC__) && \
++-		(__UCLIBC_MAJOR__ == 0 && \
++-		(__UCLIBC_MINOR__ < 9 || \
++-		(__UCLIBC_MINOR__ == 9 && __UCLIBC_SUBLEVEL__ < 34))) || \
++-	!defined(__GLIBC__)
++-#undef rpmatch
++-#define rpmatch __rpmatch
++-static inline int __rpmatch(const char *resp)
++-{
++-    return (resp[0] == 'y' || resp[0] == 'Y') ? 1 :
++-	(resp[0] == 'n' || resp[0] == 'N') ? 0 : -1;
++-}
++-#endif
++-
++ /**
++  * prompt the user for confirmation
++  */
++@@ -164,10 +149,12 @@ static inline bool prompt(const char *msg, bool def)
+  		}
+  
+  		if (strcmp("\n", line) != 0) {
+@@ -22,3 +59,5 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+  				puts("unknown response; please try again");
+  				continue;
+  			}
++-- 
++2.6.1
+diff --git a/meta/recipes-devtools/mtd/mtd-utils/fix-armv7-neon-alignment.patch b/meta/recipes-devtools/mtd/mtd-utils/fix-armv7-neon-alignment.patch
+index a279d84..6fc594f 100644
+--- a/meta/recipes-devtools/mtd/mtd-utils/fix-armv7-neon-alignment.patch
++++ b/meta/recipes-devtools/mtd/mtd-utils/fix-armv7-neon-alignment.patch
+@@ -1,16 +1,25 @@
+-Upstream-Status: Pending
++From 7d026a85946a08b8167dcd792ea6660bf6a49e08 Mon Sep 17 00:00:00 2001
++From: Yuanjie Huang <Yuanjie.Huang@windriver.com>
++Date: Thu, 2 Mar 2017 10:43:56 +0100
++Subject: [PATCH] Fix alignment trap triggered by NEON instructions
+ 
+ NEON instruction VLD1.64 was used to copy 64 bits data after type
+ casting, and they will trigger alignment trap.
+ This patch uses memcpy to avoid alignment problem.
+ 
++Upstream-Status: Backport
++
+ Signed-off-by: Yuanjie Huang <Yuanjie.Huang@windriver.com>
++Signed-off-by: David Oberhollenzer <david.oberhollenzer@sigma-star.at>
++---
++ ubifs-utils/mkfs.ubifs/key.h | 16 ++++++++++------
++ 1 file changed, 10 insertions(+), 6 deletions(-)
+ 
+-diff --git a/mkfs.ubifs/key.h b/mkfs.ubifs/key.h
+-index d3a02d4..e7e9218 100644
++diff --git a/ubifs-utils/mkfs.ubifs/key.h b/ubifs-utils/mkfs.ubifs/key.h
++index 39379fd..118858b 100644
+ --- a/ubifs-utils/mkfs.ubifs/key.h
+ +++ b/ubifs-utils/mkfs.ubifs/key.h
+-@@ -141,10 +141,12 @@ static inline void data_key_init(union ubifs_key *key, ino_t inum,
++@@ -159,10 +159,12 @@ static inline void data_key_init(union ubifs_key *key, ino_t inum,
+   */
+  static inline void key_write(const union ubifs_key *from, void *to)
+  {
+@@ -26,7 +35,7 @@ index d3a02d4..e7e9218 100644
+  	memset(to + 8, 0, UBIFS_MAX_KEY_LEN - 8);
+  }
+  
+-@@ -156,10 +158,12 @@ static inline void key_write(const union ubifs_key *from, void *to)
++@@ -174,10 +176,12 @@ static inline void key_write(const union ubifs_key *from, void *to)
+   */
+  static inline void key_write_idx(const union ubifs_key *from, void *to)
+  {
+@@ -42,3 +51,5 @@ index d3a02d4..e7e9218 100644
+  }
+  
+  /**
++-- 
++2.6.1
+diff --git a/meta/recipes-devtools/mtd/mtd-utils_git.bb b/meta/recipes-devtools/mtd/mtd-utils_git.bb
+index 30cf13c..4fbc54f 100644
+--- a/meta/recipes-devtools/mtd/mtd-utils_git.bb
++++ b/meta/recipes-devtools/mtd/mtd-utils_git.bb
+@@ -17,10 +17,9 @@ SRC_URI = "git://git.infradead.org/mtd-utils.git \
+            file://fix-armv7-neon-alignment.patch \
+            file://mtd-utils-fix-corrupt-cleanmarker-with-flash_erase--j-command.patch \
+            file://0001-Fix-build-with-musl.patch \
++           file://010-fix-rpmatch.patch \
+ "
+ 
+-SRC_URI_append_libc-musl = " file://010-fix-rpmatch.patch "
+-
+ S = "${WORKDIR}/git/"
+ 
+ # xattr support creates an additional compile-time dependency on acl because
+-- 
+2.6.1
 
-> Hi,
->     I am trying to generate LibIIO [open source by Analog Devices],
-> however there is dependancy on Libxml2.
->
 
-For libiio there is a recipe in meta-openembedded [1]. Are you using that
-one?
-
-[1] http://layers.openembedded.org/layerindex/recipe/57509/
-
-
-> problem with Libxml2, it is dependant on *python*-lib, libdl, libz,
-> libzma, libm
->
-> for some reason with Yocto built Libxml2.so, i am encountering "undefined
-> references error", which i am unable to solve [inspite of linking possible
-> dependant libraries],
->
-> if i get could the Libxml2.a, it packages all "REQUIRED ELEMENTS", so i
-> assume, there WONT be any error in linking Libxml2 in Libiio.
->
-> ======in short=========
-> Libiio ---linking---> Libxml2*.so* [yocto based] ---errors-> undefined
-> referneces to .....
->
-> ======in short=========
-> Libiio ---linking---> Libxml2.a [yocto based] --> SHOULD solve and install
-> libiio
->
-> for me to generate Libxml2.a, i need to make/ask yocto build LIbxml2.a for
-> me. i tried putting libxml2-staticdev  in the local.conf file and it gives
-> me build error.
->
-> all i want is Libxml2.a which is to be used by Libiio.so/Libiio.a to be
-> used by an application [called in user space of AARCH linux]
->
->
-> Thanks
-> RC
->
-> On Thu, Apr 6, 2017 at 3:17 PM, Matthew McClintock <msm-oss@mcclintock.net
-> > wrote:
->
->> On Thu, Apr 6, 2017 at 9:20 AM, Ravi chandra reddy <vlsireddy@gmail.com>
->> wrote:
->> > Hi,
->> >      Is there any hidden pointer within these static dev packages. i
->> > expected the library to be .a format. what can i understand from these
->> > static dev packages, plz let me know.
->>
->> Can you expand on what you're trying to accomplish? Are you trying to
->> build a static binary? I don't think you actually are trying to
->> install libxml2.a on the running image are you? Maybe you really want
->> an SDK with a sysroot populated with static libraries so you can link
->> against them?
->>
->> -M
->>
->
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
->
-
---001a11491f765001fe054c8713de
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Hi,<br><div class=3D"gmail_extra"><br><div class=3D"gmail_=
-quote">On Thu, Apr 6, 2017 at 10:11 PM, Ravi chandra reddy <span dir=3D"ltr=
-">&lt;<a href=3D"mailto:vlsireddy@gmail.com" target=3D"_blank">vlsireddy@gm=
-ail.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D=
-"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-le=
-ft:1ex"><div dir=3D"ltr">Hi,<div>=C2=A0 =C2=A0 I am trying to generate LibI=
-IO [open source by Analog Devices], however there is dependancy on Libxml2.=
-</div></div></blockquote><div><br></div><div>For libiio there is a recipe i=
-n meta-openembedded [1]. Are you using that one?</div><div><br></div><div>[=
-1]=C2=A0<a href=3D"http://layers.openembedded.org/layerindex/recipe/57509/"=
->http://layers.openembedded.org/layerindex/recipe/57509/</a></div><div><br>=
-</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;b=
-order-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><d=
-iv><br></div><div>problem with Libxml2, it is dependant on *python*-lib, li=
-bdl, libz, libzma, libm</div><div><br></div><div>for some reason with Yocto=
- built Libxml2.so, i am encountering &quot;undefined references error&quot;=
-, which i am unable to solve [inspite of linking possible dependant librari=
-es],=C2=A0</div><div><br></div><div>if i get could the Libxml2.a, it packag=
-es all &quot;REQUIRED ELEMENTS&quot;, so i assume, there WONT be any error =
-in linking Libxml2 in Libiio.</div><div><br></div><div>=3D=3D=3D=3D=3D=3Din=
- short=3D=3D=3D=3D=3D=3D=3D=3D=3D</div><div>Libiio ---linking---&gt; Libxml=
-2<b>.so</b> [yocto based] ---errors-&gt; undefined referneces to .....</div=
-><div><br></div><div><div>=3D=3D=3D=3D=3D=3Din short=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D</div><div>Libiio ---linking---&gt; Libxml2.a [yocto based] --&gt; SH=
-OULD solve and install libiio</div></div><div><br></div><div>for me to gene=
-rate Libxml2.a, i need to make/ask yocto build LIbxml2.a for me. i tried pu=
-tting libxml2-staticdev =C2=A0in the local.conf file and it gives me build =
-error.=C2=A0<br></div><div><br></div><div>all i want is Libxml2.a which is =
-to be used by Libiio.so/Libiio.a to be used by an application [called in us=
-er space of AARCH linux]</div><div><br></div><div><br></div><div>Thanks</di=
-v><span class=3D"gmail-HOEnZb"><font color=3D"#888888"><div>RC</div></font>=
-</span></div><div class=3D"gmail-HOEnZb"><div class=3D"gmail-h5"><div class=
-=3D"gmail_extra"><br><div class=3D"gmail_quote">On Thu, Apr 6, 2017 at 3:17=
- PM, Matthew McClintock <span dir=3D"ltr">&lt;<a href=3D"mailto:msm-oss@mcc=
-lintock.net" target=3D"_blank">msm-oss@mcclintock.net</a>&gt;</span> wrote:=
-<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bor=
-der-left:1px solid rgb(204,204,204);padding-left:1ex"><span>On Thu, Apr 6, =
-2017 at 9:20 AM, Ravi chandra reddy &lt;<a href=3D"mailto:vlsireddy@gmail.c=
-om" target=3D"_blank">vlsireddy@gmail.com</a>&gt; wrote:<br>
-&gt; Hi,<br>
-</span><span>&gt;=C2=A0 =C2=A0 =C2=A0 Is there any hidden pointer within th=
-ese static dev packages. i<br>
-&gt; expected the library to be .a format. what can i understand from these=
-<br>
-&gt; static dev packages, plz let me know.<br>
-<br>
-</span>Can you expand on what you&#39;re trying to accomplish? Are you tryi=
-ng to<br>
-build a static binary? I don&#39;t think you actually are trying to<br>
-install libxml2.a on the running image are you? Maybe you really want<br>
-an SDK with a sysroot populated with static libraries so you can link<br>
-against them?<br>
-<span class=3D"gmail-m_3154373555962040153HOEnZb"><font color=3D"#888888"><=
-br>
--M<br>
-</font></span></blockquote></div><br></div>
-</div></div><br>--<br>
-______________________________<wbr>_________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
-re@lists.<wbr>openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
-ailman/listinfo/openembedded-<wbr>core</a><br>
-<br></blockquote></div><br></div></div>
-
---001a11491f765001fe054c8713de--
