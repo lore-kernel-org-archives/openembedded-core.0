@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 5EECD77BC9
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 3A2F877BAF
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Apr 2017 06:41:41 +0000 (UTC)
+	Thu,  6 Apr 2017 06:41:42 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v366fg3q007035
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v366fh6T004280
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 5 Apr 2017 23:41:42 -0700 (PDT)
+	Wed, 5 Apr 2017 23:41:43 -0700
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
 	Wed, 5 Apr 2017 23:41:42 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 5 Apr 2017 23:41:36 -0700
-Message-ID: <50051d1ff6e0f7a776b26fe727a327f27a42a6b5.1491460816.git.liezhi.yang@windriver.com>
+Date: Wed, 5 Apr 2017 23:41:37 -0700
+Message-ID: <fed21b19e1d665e16c0b1b945ac29f080f770301.1491460816.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.11.0.rc2.dirty
 In-Reply-To: <cover.1491460816.git.liezhi.yang@windriver.com>
 References: <cover.1491460816.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 4/6] runqemu: run without arguments
+Subject: [PATCH 5/6] runqemu: use realpath for imgdir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,11 +33,12 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Apr 2017 06:41:41 -0000
+X-List-Received-Date: Thu, 06 Apr 2017 06:41:42 -0000
 Content-Type: text/plain
 
-Since we can get MACHINE and others from env vars and "bitbake -e",
-"runqemu" can work without any arguments.
+The DEPLOY_DIR_IMAGE maybe relative or absolute path since it can be
+read from env vars, so use realpath for both imgdir and
+DEPLOY_DIR_IMAGE when compare.
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
@@ -45,27 +46,20 @@ Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
  1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/scripts/runqemu b/scripts/runqemu
-index 23a344da35..1b330b7cfd 100755
+index 1b330b7cfd..b9646223c4 100755
 --- a/scripts/runqemu
 +++ b/scripts/runqemu
-@@ -83,6 +83,7 @@ of the following environment variables (in any order):
-   help, -h, --help: print this text
+@@ -705,8 +705,8 @@ class BaseConfig(object):
+         # artefacts are relative to that file, rather than in whatever
+         # directory DEPLOY_DIR_IMAGE in the conf file points to.
+         if self.qbconfload:
+-            imgdir = os.path.dirname(self.qemuboot)
+-            if imgdir != self.get('DEPLOY_DIR_IMAGE'):
++            imgdir = os.path.realpath(os.path.dirname(self.qemuboot))
++            if imgdir != os.path.realpath(self.get('DEPLOY_DIR_IMAGE')):
+                 logger.info('Setting DEPLOY_DIR_IMAGE to folder containing %s (%s)' % (self.qemuboot, imgdir))
+                 self.set('DEPLOY_DIR_IMAGE', imgdir)
  
- Examples:
-+  runqemu
-   runqemu qemuarm
-   runqemu tmp/deploy/images/qemuarm
-   runqemu tmp/deploy/images/qemux86/<qemuboot.conf>
-@@ -1182,8 +1183,7 @@ class BaseConfig(object):
-             logger.warn("Couldn't run 'bitbake -e' to gather environment information:\n%s" % err.output.decode('utf-8'))
- 
- def main():
--    if len(sys.argv) == 1 or "help" in sys.argv or \
--            '-h' in sys.argv or '--help' in sys.argv:
-+    if "help" in sys.argv or '-h' in sys.argv or '--help' in sys.argv:
-         print_usage()
-         return 0
-     config = BaseConfig()
 -- 
 2.11.0.rc2.dirty
 
