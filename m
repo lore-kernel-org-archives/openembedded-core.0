@@ -1,46 +1,49 @@
 Return-Path: <liu.ming50@gmail.com>
-Received: from mail-wr0-f181.google.com (mail-wr0-f181.google.com
-	[209.85.128.181])
-	by mail.openembedded.org (Postfix) with ESMTP id B9FA277AA8
+Received: from mail-wr0-f193.google.com (mail-wr0-f193.google.com
+	[209.85.128.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 2D2F577CB4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Apr 2017 12:09:50 +0000 (UTC)
-Received: by mail-wr0-f181.google.com with SMTP id t20so58690855wra.1
+	Thu,  6 Apr 2017 12:09:54 +0000 (UTC)
+Received: by mail-wr0-f193.google.com with SMTP id g19so10823591wrb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 06 Apr 2017 05:09:52 -0700 (PDT)
+	Thu, 06 Apr 2017 05:09:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=oYzIxOjqJ9mtz/HFeP8sgaVeXC11y2kNq01ciTLj/JM=;
-	b=JSXX6WqjdbYrExLNRd+zY1FtTN0zmvXQIll2LkzRhVJB1iW+e+DBSRgrGYmg5mSzDo
-	aGc7wDst6zA9QCU7Vm3eJ+aQGzxIuR2PKAphs0slia3SIsb4hPEsFPgSbh4NnK6LNe8m
-	BhwHPRjYdpTnBxXPwuxTYq0PQ1CnGv6vwmbEE8fykW21LTNaC4tsCbm66yd0dkhuRr6w
-	QSrj2/HSuwjdjnTqx68NnpKwdKPrZgMUFAwydmReNlh3BWfZIuhGin1qxiXcvMcF41Y9
-	OJ+9+8iWoDmEmIH/sr9z+1QxNAZkkHqtIV13S77cCuePSAfN96lh5wWagVFtqLoiYL85
-	isZw==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=N53acnO1DfU0nRR7EAbj7hXyrFlIuJPV6F5napwAIYs=;
+	b=utmbP+qXpCxwguO1r080BS0ppHBTNdHtYUJfMULIXATb17bLTBj84cLtV8FWnfO9+J
+	cP5KIGFEDPkcBnZijDcDEwSNQvf8CnI0Tvigx9qLpmzTqbrGQ0p3U1LJMGUjRgyPmYpf
+	crO+zeXaOx9oL3M5bEfNdvwD8lP48bsuO6uWKrF2FOMhnA7rnwbUq6pPnli8mpa/WIaY
+	b15lX5ypqCXLECckERv6AU6NJ8mccKB6QlAjK8YZ6w3aElPmNnkgs9xr6iCYB7YOm/bO
+	ffHz/spkYxsuxWXdVJtXJiAh9qwOn6W1xV8OB766qyI2bvz41vjh8kNwJkizR0hJ3YK2
+	oTnQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=oYzIxOjqJ9mtz/HFeP8sgaVeXC11y2kNq01ciTLj/JM=;
-	b=WFNx0tbcq9D5y9zlKtcKdBP4ueYQOl+BsfpVZnxQqnvArwuArha9Xc3tI/F2wz7DVN
-	ky/qxA6TOSfg7NOGL+zeKLQ4dwWUCSPdsf3Nl4GAxtXZ+WrYL4DVoYnpJHLTDJjRIo5V
-	5vLjguEflkf0XPagp5ryC4L0lZmHk4TEx0tqQfLXclA5p3SP3goxAkOmiTZQXKdXhVa/
-	+Y6FIPB10ZJfd6It9IqILQ32sqOeDjQFq+U04yuh1sxP+1jMtd0EJf0gHTn4NO8nyMWQ
-	BEKUjby/0c0zfDI84BkjCrfm6fnsEJmqNUDF0MANjZbzNfvkHHQfE1qkaeH257AK9wVu
-	nmRg==
-X-Gm-Message-State: AN3rC/6CLoyRKvktl9xrqI4ZTpMVnQAt0jgukyW0eBTHZ3FwwRFcYeqnjiabuSeJP4M1lg==
-X-Received: by 10.223.139.22 with SMTP id n22mr1766545wra.38.1491480591618;
-	Thu, 06 Apr 2017 05:09:51 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=N53acnO1DfU0nRR7EAbj7hXyrFlIuJPV6F5napwAIYs=;
+	b=bInbw+lDdycwcMcEVX1Y6niDB+DvGPHzjeM7DzEUjH0HmVARaJpklen+jtMPk3qBxp
+	R8P+YkHBDsLYWKT5tgcm7jgq0XCGgwVe46bEu5e+vyaQ+BKhD+zK5TAGUzbMCZQG41ag
+	V7VmcasBZn64MjShAuT3HbpPJsC0xuG3MrdciT0yY0A82fLxGHNrxwuWoHMnzEkRtrEW
+	OFT/z/DRCoVqBMT65W3C9kBinoqQd6HASOHC4R3jXAI70mogCiYeTQnovoCTM/Yredhr
+	VmU6B6xgl/E24WasFnHs2qMkui88dgUy/dbIlLIZ4UU10WN2cMcv4HW2mcVYC3lvCPdu
+	rzCg==
+X-Gm-Message-State: AFeK/H0pc6ZtbcXVbYjyFdYDxRFTsZ0CkeZda4CgTRqSIGF7kPI3MWV/SIESak9JPOwgPQ==
+X-Received: by 10.28.51.140 with SMTP id z134mr24872978wmz.55.1491480595949;
+	Thu, 06 Apr 2017 05:09:55 -0700 (PDT)
 Received: from peterliu-Precision-M4800.emea.group.atlascopco.com
 	([106.116.224.167]) by smtp.gmail.com with ESMTPSA id
-	m7sm26221884wmi.34.2017.04.06.05.09.49
+	m7sm26221884wmi.34.2017.04.06.05.09.53
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 06 Apr 2017 05:09:50 -0700 (PDT)
+	Thu, 06 Apr 2017 05:09:55 -0700 (PDT)
 From: liu.ming50@gmail.com
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  6 Apr 2017 14:09:40 +0200
-Message-Id: <1491480584-9725-1-git-send-email-liu.ming50@gmail.com>
+Date: Thu,  6 Apr 2017 14:09:41 +0200
+Message-Id: <1491480584-9725-2-git-send-email-liu.ming50@gmail.com>
 X-Mailer: git-send-email 2.7.4
-Cc: Ming Liu <liu.ming50@gmail.com>
-Subject: [PATCH 0/4] Fix some incorrect TARGET_-* flags
+In-Reply-To: <1491480584-9725-1-git-send-email-liu.ming50@gmail.com>
+References: <1491480584-9725-1-git-send-email-liu.ming50@gmail.com>
+Cc: Ming Liu <peter.x.liu@external.atlascopco.com>
+Subject: [PATCH 1/4] cross.bbclass: override TARGET_* flags
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,32 +56,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Apr 2017 12:09:51 -0000
+X-List-Received-Date: Thu, 06 Apr 2017 12:09:55 -0000
 
-From: Ming Liu <liu.ming50@gmail.com>
+From: Ming Liu <peter.x.liu@external.atlascopco.com>
 
-I had found a lot of churn in sysroots when multiple MACHINEs are
-sharing a same build folder, which is the case in my company, after
-digging into it, I found it's caused by the TARGET_-* flags, they
-are exported but not in use at all, they should be replaced by
-particular flags for cross,crosssdk,nativesdk,cross-canadian, native
-class does not need that because it's already done in:
+Some TARGET_* flags are being exported in bitbake.conf currently, so
+they are impacting all the tasks of a cross recipe even they are not
+in use at all.
 
-commit 05a70ac30b37cab0952f1b9df501993a9dec70da:
-[ native.bbclass: Override TARGET_ flags too ]
+This can lead a lot of churn when the cross sysroot are shared by
+machines while they have defined different TARGET_* flags.
 
-Ming Liu (4):
-  cross.bbclass: override TARGET_* flags
-  crosssdk.bbclass: override TARGET_* flags
-  nativesdk.bbclass: override TARGET_* flags
-  cross-canadian.bbclass: override TARGET_* flags
+And sometimes it even causes "Taskhash mismatch" errors.
 
- meta/classes/cross-canadian.bbclass | 5 +++++
- meta/classes/cross.bbclass          | 5 +++++
- meta/classes/crosssdk.bbclass       | 5 +++++
- meta/classes/nativesdk.bbclass      | 4 ++++
- 4 files changed, 19 insertions(+)
+Fix it by overriding with BUILD_* flags.
 
+Signed-off-by: Ming Liu <peter.x.liu@external.atlascopco.com>
+---
+ meta/classes/cross.bbclass | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/meta/classes/cross.bbclass b/meta/classes/cross.bbclass
+index 2602153..8757303 100644
+--- a/meta/classes/cross.bbclass
++++ b/meta/classes/cross.bbclass
+@@ -28,6 +28,11 @@ MULTIMACH_TARGET_SYS = "${BUILD_ARCH}${BUILD_VENDOR}-${BUILD_OS}"
+ export PKG_CONFIG_DIR = "${exec_prefix}/lib/pkgconfig"
+ export PKG_CONFIG_SYSROOT_DIR = ""
+ 
++TARGET_CPPFLAGS = "${BUILD_CPPFLAGS}"
++TARGET_CFLAGS = "${BUILD_CFLAGS}"
++TARGET_CXXFLAGS = "${BUILD_CXXFLAGS}"
++TARGET_LDFLAGS = "${BUILD_LDFLAGS}"
++
+ CPPFLAGS = "${BUILD_CPPFLAGS}"
+ CFLAGS = "${BUILD_CFLAGS}"
+ CXXFLAGS = "${BUILD_CFLAGS}"
 -- 
 2.7.4
 
