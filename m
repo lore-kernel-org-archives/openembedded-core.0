@@ -1,31 +1,30 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 1415577A0F
+	by mail.openembedded.org (Postfix) with ESMTP id A908A77C17
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Apr 2017 11:39:23 +0000 (UTC)
+	Thu,  6 Apr 2017 11:55:51 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTP id v36BdMEX003582; 
-	Thu, 6 Apr 2017 12:39:22 +0100
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTP id v36Btl73006246; 
+	Thu, 6 Apr 2017 12:55:50 +0100
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id sAATjJ4m9OKR; Thu,  6 Apr 2017 12:39:22 +0100 (BST)
+	with LMTP id zAkUBHM1GYft; Thu,  6 Apr 2017 12:55:50 +0100 (BST)
 Received: from hex ([192.168.3.34]) (authenticated bits=0)
 	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	v36BYqYK003360
+	v36Bce1G003515
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Thu, 6 Apr 2017 12:34:53 +0100
-Message-ID: <1491478492.17200.32.camel@linuxfoundation.org>
+	verify=NOT); Thu, 6 Apr 2017 12:38:41 +0100
+Message-ID: <1491478720.17200.35.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Dmitry Rozhkov <dmitry.rozhkov@linux.intel.com>,
-	openembedded-core@lists.openembedded.org
-Date: Thu, 06 Apr 2017 12:34:52 +0100
-In-Reply-To: <1491457693.3938.15.camel@linux.intel.com>
-References: <20170406050744.26573-1-dmitry.rozhkov@linux.intel.com>
-	<20170406053203.6646.56257@do.openembedded.org>
-	<1491457693.3938.15.camel@linux.intel.com>
+To: Romain Perier <romain.perier@collabora.com>, liezhi.yang@windriver.com
+Date: Thu, 06 Apr 2017 12:38:40 +0100
+In-Reply-To: <20170405150521.19160-2-romain.perier@collabora.com>
+References: <20170405150521.19160-1-romain.perier@collabora.com>
+	<20170405150521.19160-2-romain.perier@collabora.com>
 X-Mailer: Evolution 3.18.5.2-0ubuntu3.1 
 Mime-Version: 1.0
-Subject: =?UTF-8?B?UmU6IOKclyBwYXRjaHRlc3Q6IGZhaWx1cmUgZm9yIHB5dGhvbjM6IGZpeCBydW4tdGltZSBkZXBzIGZvciBjb3JlIHB5dGhvbjMgbGlicmFyaWVzIChyZXYyKQ==?=
+Cc: yocto@yoctoproject.org, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/2] logrotate: Bump to 3.11.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,47 +37,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Apr 2017 11:39:25 -0000
+X-List-Received-Date: Thu, 06 Apr 2017 11:55:52 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-On Thu, 2017-04-06 at 08:48 +0300, Dmitry Rozhkov wrote:
-> On Thu, 2017-04-06 at 05:32 +0000, Patchwork wrote:
-> > 
-> > == Series Details ==
-> > 
-> > Series: python3: fix run-time deps for core python3 libraries
-> > (rev2)
-> > Revision: 2
-> > URL   : https://patchwork.openembedded.org/series/6164/
-> > State : failure
-> > 
-> > == Summary ==
-> > 
-> > 
-> > Thank you for submitting this patch series to OpenEmbedded Core.
-> > This
-> > is
-> > an automated response. Several tests have been executed on the
-> > proposed
-> > series by patchtest resulting in the following failures:
-> > 
-> > 
-> > 
-> > * Issue             Series does not apply on top of target branch
-> > [test_series_merge_on_head] 
-> >   Suggested fix    Rebase your series on top of targeted branch
-> >   Targeted branch  master (currently at 3a1cce6591)
-> So was my master at 3a1cce6591 when I submitted the patch (and still
-> is). And I believe the first version had no problems with applying it
-> too.
+On Wed, 2017-04-05 at 17:05 +0200, Romain Perier wrote:
+> This commit updates the recipe to the last upstream tag. Then, as the
+> tarball no longer contains the pre-generated Makefile, inherit from
+> autotools
+> 
+> [...]
 
-If you take your patch from the mailing list, it doesn't apply as there
-was line wrapping that occurred. I was able to fix it and make it apply
-though (so no need to resend).
+> -PACKAGECONFIG ?= "${@bb.utils.filter('DISTRO_FEATURES', 'acl
+> selinux', d)}"
+> +PACKAGECONFIG ?= "\
+> +    ${@bb.utils.contains('DISTRO_FEATURES', 'acl', 'acl', '', d)} \
+> +    ${@bb.utils.contains('DISTRO_FEATURES', 'selinux', 'selinux',
+> '', d)} \
+> +"
+
+I'm not sure the above should be there, it reverts someone else's
+change?
+
+I am a little nervous of taking this at this point in the release
+too...
 
 Cheers,
 
 Richard
-
 
