@@ -1,29 +1,49 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 7091E71DD7
+Return-Path: <jussi.kukkonen@intel.com>
+Received: from mail-yb0-f181.google.com (mail-yb0-f181.google.com
+	[209.85.213.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 5F0AD77A8A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Apr 2017 10:26:28 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v36AQR2j009464
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Thu, 6 Apr 2017 03:26:27 -0700
-Received: from [128.224.162.160] (128.224.162.160) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.294.0;
-	Thu, 6 Apr 2017 03:26:26 -0700
-To: brian avery <brian.avery@intel.com>, Richard Purdie
-	<richard.purdie@linuxfoundation.org>
-References: <cover.1491344268.git.brian.avery@intel.com>
-	<c9e2f951c2e2bc367fa6bff0daf039f00503c846.1491344268.git.brian.avery@intel.com>
-From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <d9a240d6-4539-dba8-2d09-eba0270a4269@windriver.com>
-Date: Thu, 6 Apr 2017 18:26:25 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.2.0
+	Thu,  6 Apr 2017 10:56:13 +0000 (UTC)
+Received: by mail-yb0-f181.google.com with SMTP id l201so9520526ybf.0
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 06 Apr 2017 03:56:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=p1H8GhwG3sbXl3E+7stQ7tK++NuE1OgG8F/hAFP5ais=;
+	b=qA48n4MGFpzO7YJ/SFgG11ppRJs/HwIE7T5Kqu0IUFLHq0RArJSXvUcduuPW2soZVa
+	kWDYVqie7ktD84L9UDsXQBFECMJ/593iUcyTa1kAqPaGsMb4VAu+9NRpLoFfACWh2J1p
+	3TtIheX4D0eQZ146YTsQwhAykmZFDnuPqLSgoQlzmJsU3MT0zPUR0hXIACPkqV4hR3Ey
+	4YVtvvT7w4s1mSzNhmzPSBypcWXXF0TwbBFtgWJuBRphlpLdZKNNIm8cXzNbakxcaSn+
+	9jkEKEywb973BrHWG8R+9Vyqhr10MLTQaKb2BNZMNSgtPI1gQwYeuCz5/1H/v7S/LdUY
+	eEAw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=p1H8GhwG3sbXl3E+7stQ7tK++NuE1OgG8F/hAFP5ais=;
+	b=a8CzUd7+w/I1hLxjOUJKF2QxtIAgTXPcI3WoV1W2hAJKgCCrF+r3MQ1llbWsHDooQC
+	GJ/un6/j8+/sC/lyzzvrB19Fb+5VVivw41xsbkJfTNPe4vtqz2/At1aHYE0mE1QTayUY
+	mMLb+4cl2a9YR4YYo38DSPFzMcyOmZCX3nBz+n2O2LPDi/64ke8JuJ+otkEzb1zPQnBm
+	nvOtxBtHWZi5sijSX3X9qoNs42DS59Dlbi7Bb5MXEJJxY5lyc9abXKqIX3DzmV4YhHql
+	pCSsIj34triBIuzSiSz3dPeXK1Wf1VR8+WpklpJjqD7nbJJ5l3+vcbu6DLejIeaoL+K6
+	FUwQ==
+X-Gm-Message-State: AFeK/H0tXx7adBMGG8zpUQLAXfNPgi7x+V2aPZIrNrkTDVY1f+W64mB0QAeBtlPrjc1phzWSLzOLa3oXLylQFqZo
+X-Received: by 10.37.170.3 with SMTP id s3mr16685568ybi.189.1491476174261;
+	Thu, 06 Apr 2017 03:56:14 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <c9e2f951c2e2bc367fa6bff0daf039f00503c846.1491344268.git.brian.avery@intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/2] scripts: change way we find native tools (pseudo)
+Received: by 10.129.81.136 with HTTP; Thu, 6 Apr 2017 03:55:43 -0700 (PDT)
+In-Reply-To: <2234508.nmKqqo84gx@crde-port-20.cahors.local>
+References: <20170123135916.4618-1-freesilicon@gmail.com>
+	<CAHiDW_GH-WhDow0+nP-JnTq1kUKqfBmtS__BuqfUSuroNvsawg@mail.gmail.com>
+	<2234508.nmKqqo84gx@crde-port-20.cahors.local>
+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+Date: Thu, 6 Apr 2017 13:55:43 +0300
+Message-ID: <CAHiDW_FWnBo8vsQ_OTwHYDJmMDXfH1b+6UkTjWf1=qK9QiYWLg@mail.gmail.com>
+To: David Vincent <freesilicon@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] openssl: Fix symlink creation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,289 +56,113 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Apr 2017 10:26:29 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 06 Apr 2017 10:56:14 -0000
+Content-Type: multipart/alternative; boundary=94eb2c19d5dc8eed91054c7d5bfb
 
-Hi Brian and RP,
+--94eb2c19d5dc8eed91054c7d5bfb
+Content-Type: text/plain; charset=UTF-8
 
-This patch can't fix the problem of scripts/oe-run-native, it only can
-run the native tools which is depended by meta-ide-support, for example:
-
-$ bitbake bmap-tools-native meta-ide-support
-$ oe-run-native bmaptool --help # exmaple from dev-manual-start.xml
-
-Error: Unable to find 'bmaptool' in native sysroot
-
-I think that we need consider the patch that I had sent before:
-
-   git://git.openembedded.org/openembedded-core-contrib rbt/rssfix
-   http://cgit.openembedded.org/openembedded-core-contrib/log/?h=rbt/rssfix
-
-Robert Yang (1):
-   oe-find-native-sysroot: work with RSS
-
-
-Subject: [PATCH 1/1] oe-find-native-sysroot: work with RSS
-
-The generic STAGING_DIR_NATIVE is gone since RSS, so when find
-OECORE_NATIVE_SYSROOT, the user has to specify which recipe's
-STAGING_DIR_NATIVE will be used as OECORE_NATIVE_SYSROOT.
-
-* The usage is changed from ". oe-find-native-sysroot" to
-   ". oe-find-native-sysroot <recipe>".
-* The oe-run-native's usage has changed from
-   "oe-run-native tool" to "oe-run-native native-recipe tool".
-
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
-  scripts/oe-find-native-sysroot | 56 ++++++++++++++++++++++++++++--------------
-  scripts/oe-run-native          | 15 +++++++----
-  scripts/runqemu-export-rootfs  |  2 +-
-  scripts/runqemu-extract-sdk    |  2 +-
-  4 files changed, 49 insertions(+), 26 deletions(-)
-
-diff --git a/scripts/oe-find-native-sysroot b/scripts/oe-find-native-sysroot
-index 3f4c29da8a..59fe3f3118 100755
---- a/scripts/oe-find-native-sysroot
-+++ b/scripts/oe-find-native-sysroot
-@@ -9,7 +9,7 @@
-  # it, e.g:
-  #
-  # SYSROOT_SETUP_SCRIPT=`which oe-find-native-sysroot`
--# . $SYSROOT_SETUP_SCRIPT
-+# . $SYSROOT_SETUP_SCRIPT <recipe>
-  #
-  # This script will terminate execution of your calling program unless
-  # you set a variable $SKIP_STRICT_SYSROOT_CHECK to a non-empty string
-@@ -30,8 +30,8 @@
-  # with this program; if not, write to the Free Software Foundation, Inc.,
-  # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-
--if [ "$1" = '--help' -o "$1" = '-h' ] ; then
--    echo 'Usage: oe-find-native-sysroot [-h|--help]'
-+if [ "$1" = '--help' -o "$1" = '-h' -o $# -ne 1 ] ; then
-+    echo 'Usage: oe-find-native-sysroot <recipe> [-h|--help]'
-      echo ''
-      echo 'OpenEmbedded find-native-sysroot - helper script to set'
-      echo 'environment variables OECORE_NATIVE_SYSROOT and PSEUDO'
-@@ -39,11 +39,31 @@ if [ "$1" = '--help' -o "$1" = '-h' ] ; then
-      echo 'executable binary'
-      echo ''
-      echo 'options:'
-+    echo '  recipe              its STAGING_DIR_NATIVE is used as native sysroot'
-      echo '  -h, --help          show this help message and exit'
-      echo ''
-      exit 2
-  fi
-
-+# Global vars
-+BITBAKE_E=""
-+OECORE_NATIVE_SYSROOT=""
-+
-+set_oe_native_sysroot(){
-+    echo "Running bitbake -e $1"
-+    BITBAKE_E="`bitbake -e $1`"
-+    OECORE_NATIVE_SYSROOT=`echo "$BITBAKE_E" | grep ^STAGING_DIR_NATIVE | cut 
--d '"' -f2`
-+
-+    if [ "x$OECORE_NATIVE_SYSROOT" = "x" ]; then
-+        # This indicates that there was an error running bitbake -e that
-+        # the user needs to be informed of
-+        echo "There was an error running bitbake to determine STAGING_DIR_NATIVE"
-+        echo "Here is the output from bitbake -e $1"
-+        echo "$BITBAKE_E"
-+        exit 1
-+    fi
-+}
-+
-  if [ "x$OECORE_NATIVE_SYSROOT" = "x" ]; then
-      BITBAKE=`which bitbake 2> /dev/null`
-      if [ "x$BITBAKE" != "x" ]; then
-@@ -54,10 +74,10 @@ if [ "x$OECORE_NATIVE_SYSROOT" = "x" ]; then
-                  exit 1
-              fi
-              touch conf/sanity.conf
--            OECORE_NATIVE_SYSROOT=`bitbake -e meta-ide-support | grep 
-^RECIPE_SYSROOT_NATIVE | cut -d '"' -f2`
-+            set_oe_native_sysroot $1
-              rm -f conf/sanity.conf
-          else
--            OECORE_NATIVE_SYSROOT=`bitbake -e meta-ide-support | grep 
-^RECIPE_SYSROOT_NATIVE | cut -d '"' -f2`
-+            set_oe_native_sysroot $1
-          fi
-      else
-          echo "Error: Unable to locate bitbake command."
-@@ -69,21 +89,11 @@ if [ "x$OECORE_NATIVE_SYSROOT" = "x" ]; then
-      fi
-  fi
-
--if [ "x$OECORE_NATIVE_SYSROOT" = "x" ]; then
--    # This indicates that there was an error running bitbake -e that
--    # the user needs to be informed of
--    echo "There was an error running bitbake to determine RECIPE_SYSROOT_NATIVE"
--    echo "Here is the output from bitbake -e"
--    bitbake -e
--    exit 1
--fi
--
--# Set up pseudo command
--if [ ! -e "$OECORE_NATIVE_SYSROOT/usr/bin/pseudo" ]; then
--    echo "Error: Unable to find pseudo binary in $OECORE_NATIVE_SYSROOT/usr/bin/"
-+if [ ! -e "$OECORE_NATIVE_SYSROOT/" ]; then
-+    echo "Error: $OECORE_NATIVE_SYSROOT doesn't exist."
-
-      if [ "x$OECORE_DISTRO_VERSION" = "x" ]; then
--        echo "Have you run 'bitbake meta-ide-support'?"
-+        echo "Have you run 'bitbake $1 -caddto_recipe_sysroot'?"
-      else
-          echo "This shouldn't happen - something is wrong with your toolchain 
-installation"
-      fi
-@@ -92,4 +102,12 @@ if [ ! -e "$OECORE_NATIVE_SYSROOT/usr/bin/pseudo" ]; then
-          exit 1
-      fi
-  fi
--PSEUDO="$OECORE_NATIVE_SYSROOT/usr/bin/pseudo"
-+
-+# Set up pseudo command
-+pseudo="$OECORE_NATIVE_SYSROOT/usr/bin/pseudo"
-+if [ -e "$pseudo" ]; then
-+    echo "PSEUDO=$pseudo"
-+    PSEUDO="$pseudo"
-+else
-+    echo "PSEUDO $pseudo is not found."
-+fi
-diff --git a/scripts/oe-run-native b/scripts/oe-run-native
-index f2453e705a..de3c02ed34 100755
---- a/scripts/oe-run-native
-+++ b/scripts/oe-run-native
-@@ -22,34 +22,39 @@
-  #
-
-  if [ $# -lt 1 -o "$1" = '--help' -o "$1" = '-h' ] ; then
--    echo 'oe-run-native: error: the following arguments are required: <native 
-tool>'
--    echo 'Usage: oe-run-native tool [parameters]'
-+    echo 'oe-run-native: error: the following arguments are required: <native 
-recipe> <native tool>'
-+    echo 'Usage: oe-run-native native-recipe tool [parameters]'
-      echo ''
-      echo 'OpenEmbedded run-native - runs native tools'
-      echo ''
-      echo 'arguments:'
-+    echo '  native-recipe       The recipe which provoides tool'
-      echo '  tool                Native tool to run'
-      echo ''
-      exit 2
-  fi
-
-+native_recipe="$1"
-+tool="$2"
-+shift
-+
-  SYSROOT_SETUP_SCRIPT=`which oe-find-native-sysroot 2> /dev/null`
-  if [ -z "$SYSROOT_SETUP_SCRIPT" ]; then
-          echo "Error: Unable to find oe-find-native-sysroot script"
-          exit 1
-  fi
--. $SYSROOT_SETUP_SCRIPT
-+. $SYSROOT_SETUP_SCRIPT $native_recipe
-
-  OLD_PATH=$PATH
-
-  # look for a tool only in native sysroot
- 
-PATH=$OECORE_NATIVE_SYSROOT/usr/bin:$OECORE_NATIVE_SYSROOT/bin:$OECORE_NATIVE_SYSROOT/usr/sbin:$OECORE_NATIVE_SYSROOT/sbin
--tool=`/usr/bin/which $1 2>/dev/null`
-+tool=`/usr/bin/which $tool 2>/dev/null`
-
-  if [ -n "$tool" ] ; then
-      # add old path to allow usage of host tools
-      PATH=$PATH:$OLD_PATH $@
-  else
--    echo "Error: Unable to find '$1' in native sysroot"
-+    echo "Error: Unable to find '$tool' in $PATH"
-      exit 1
-  fi
-diff --git a/scripts/runqemu-export-rootfs b/scripts/runqemu-export-rootfs
-index 7ebc07194d..c7992d8223 100755
---- a/scripts/runqemu-export-rootfs
-+++ b/scripts/runqemu-export-rootfs
-@@ -44,7 +44,7 @@ if [ -z "$SYSROOT_SETUP_SCRIPT" ]; then
-  	echo "Did you forget to source your build environment setup script?"
-  	exit 1
-  fi
--. $SYSROOT_SETUP_SCRIPT
-+. $SYSROOT_SETUP_SCRIPT meta-ide-support
-
-  if [ ! -e "$OECORE_NATIVE_SYSROOT/usr/bin/unfsd" ]; then
-  	echo "Error: Unable to find unfsd binary in $OECORE_NATIVE_SYSROOT/usr/bin/"
-diff --git a/scripts/runqemu-extract-sdk b/scripts/runqemu-extract-sdk
-index 32ddd485b6..2a0dd50e0e 100755
---- a/scripts/runqemu-extract-sdk
-+++ b/scripts/runqemu-extract-sdk
-@@ -35,7 +35,7 @@ if [ -z "$SYSROOT_SETUP_SCRIPT" ]; then
-      echo "Did you forget to source your build system environment setup script?"
-      exit 1
-  fi
--. $SYSROOT_SETUP_SCRIPT
-+. $SYSROOT_SETUP_SCRIPT meta-ide-support
-  PSEUDO_OPTS="-P $OECORE_NATIVE_SYSROOT/usr"
-
-  ROOTFS_TARBALL=$1
-
-
-// Robert
-
-On 04/05/2017 06:22 AM, brian avery wrote:
-> oe-find-native-sysroot: Recipe Specific Sysroots have eliminated the
-> large STAGING_DIR_NATIVE. Now, we will rely on the meta-ide-support
-> sysroot that is what was populating the large STAGING_DIR_NATIVE in
-> previous versions anyway. We now look for RECIPE_SYSROOT_NATIVE.
+On 6 April 2017 at 12:23, David Vincent <freesilicon@gmail.com> wrote:
 >
-> [YOCTO #11119]
+> On mercredi 5 avril 2017 09:30:52 CEST Jussi Kukkonen wrote:
+> > This apparently breaks key generation with openssl-native because the
+file
+> > doesn't exist.
 >
-> Signed-off-by: brian avery <brian.avery@intel.com>
-> ---
->  scripts/oe-find-native-sysroot | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
+> Looking at the recipe right now, I understand why key generation is
+broken for
+> native build (I should have been more careful). I see two ways of fixing
+it :
+>         - either recreate the symlink in do_install_append_class_native
+>         - or simply modifiyng the OPENSSL_CONF variable in the same task.
 >
-> diff --git a/scripts/oe-find-native-sysroot b/scripts/oe-find-native-sysroot
-> index 13a5c46..3f4c29d 100755
-> --- a/scripts/oe-find-native-sysroot
-> +++ b/scripts/oe-find-native-sysroot
-> @@ -2,7 +2,7 @@
->  #
->  # Find a native sysroot to use - either from an in-tree OE build or
->  # from a toolchain installation. It then ensures the variable
-> -# $OECORE_NATIVE_SYSROOT is set to the sysroot's base directory, and sets
-> +# $OECORE_NATIVE_SYSROOT is set to the sysroot's base directory, and sets
->  # $PSEUDO to the path of the pseudo binary.
->  #
->  # This script is intended to be run within other scripts by source'ing
-> @@ -54,10 +54,10 @@ if [ "x$OECORE_NATIVE_SYSROOT" = "x" ]; then
->                  exit 1
->              fi
->              touch conf/sanity.conf
-> -            OECORE_NATIVE_SYSROOT=`bitbake -e | grep ^STAGING_DIR_NATIVE | cut -d '"' -f2`
-> +            OECORE_NATIVE_SYSROOT=`bitbake -e meta-ide-support | grep ^RECIPE_SYSROOT_NATIVE | cut -d '"' -f2`
->              rm -f conf/sanity.conf
->          else
-> -            OECORE_NATIVE_SYSROOT=`bitbake -e | grep ^STAGING_DIR_NATIVE | cut -d '"' -f2`
-> +            OECORE_NATIVE_SYSROOT=`bitbake -e meta-ide-support | grep ^RECIPE_SYSROOT_NATIVE | cut -d '"' -f2`
->          fi
->      else
->          echo "Error: Unable to locate bitbake command."
-> @@ -72,7 +72,7 @@ fi
->  if [ "x$OECORE_NATIVE_SYSROOT" = "x" ]; then
->      # This indicates that there was an error running bitbake -e that
->      # the user needs to be informed of
-> -    echo "There was an error running bitbake to determine STAGING_DIR_NATIVE"
-> +    echo "There was an error running bitbake to determine RECIPE_SYSROOT_NATIVE"
->      echo "Here is the output from bitbake -e"
->      bitbake -e
->      exit 1
+> >
+> > I can fix it by adding one more complication to the recipe (will send a
+> > patch) but I don't think the current solution is all that great: I've
+been
+> > looking at this patch for a while now and still don't really understand
+why
+> > it is needed and how these different packages interact. I'm sure it
+makes
+> > sense when you look at the other recipe but ... isn't it a bad sign that
+> > that context seems to be needed?
 >
+> OK, I will provide some context because maybe my approach was wrong. In
+some
+> of my builds, I require some images to have a very specific configuration
+to
+> make OpenSSL use engines. My idea was to provide a package for this task
+since
+> the default file can not be overridden (and in fact shouldn't be for the
+native
+> build).
 
+
+So previously openssl-conf package included etc/ssl/openssl.cnf and the
+symlink ${libdir}/ssl/openssl.conf. Nothing RDEPENDS on this package (but
+libcrypto RRECOMMENDS it).
+
+After your patch the actual configuration file is still installed. In a
+postinst
+  * ${libdir}/ssl/openssl.conf is removed if it exists (why? If it's for
+upgrading, then this should happen in a prerm or postrm)
+  * the symlink ${libdir}/ssl/openssl.conf is created
+
+My confusion is this: how does the above solve the problem you describe? If
+you've managed to use RCONFLICTS to prevent the configuration package from
+getting included in the image, why are changes to the package needed?
+
+
+
+Some alternative solutions to your problem I think might work:
+* openssl_%.bbappend with a do_install_append() that simply copies your
+conf file over the one from upstream recipe. No extra packages needed
+* BAD_RECOMMENDATIONS or PACKAGE_EXCLUDE to prevent openssl-conf from
+getting included in your image, then adding your own package with your
+configuration (does not work for dpkg I think)
+
+Jussi
+
+--94eb2c19d5dc8eed91054c7d5bfb
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">On 6 April 2017 at 12:23, David Vincent &lt;<a href=3D"mai=
+lto:freesilicon@gmail.com">freesilicon@gmail.com</a>&gt; wrote:<br>&gt;<br>=
+&gt; On mercredi 5 avril 2017 09:30:52 CEST Jussi Kukkonen wrote:<br>&gt; &=
+gt; This apparently breaks key generation with openssl-native because the f=
+ile<br>&gt; &gt; doesn&#39;t exist.<br>&gt;<br>&gt; Looking at the recipe r=
+ight now, I understand why key generation is broken for<br>&gt; native buil=
+d (I should have been more careful). I see two ways of fixing it :<br>&gt; =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 - either recreate the symlink in do_install_app=
+end_class_native<br>&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 - or simply modifiyng =
+the OPENSSL_CONF variable in the same task.<br>&gt;<br>&gt; &gt;<br>&gt; &g=
+t; I can fix it by adding one more complication to the recipe (will send a<=
+br>&gt; &gt; patch) but I don&#39;t think the current solution is all that =
+great: I&#39;ve been<br>&gt; &gt; looking at this patch for a while now and=
+ still don&#39;t really understand why<br>&gt; &gt; it is needed and how th=
+ese different packages interact. I&#39;m sure it makes<br>&gt; &gt; sense w=
+hen you look at the other recipe but ... isn&#39;t it a bad sign that<br>&g=
+t; &gt; that context seems to be needed?<br>&gt;<br>&gt; OK, I will provide=
+ some context because maybe my approach was wrong. In some<br>&gt; of my bu=
+ilds, I require some images to have a very specific configuration to<br>&gt=
+; make OpenSSL use engines. My idea was to provide a package for this task =
+since<br>&gt; the default file can not be overridden (and in fact shouldn&#=
+39;t be for the native<br>&gt; build).<br><br><br>So previously openssl-con=
+f package included etc/ssl/openssl.cnf and the symlink ${libdir}/ssl/openss=
+l.conf. Nothing RDEPENDS on this package (but libcrypto RRECOMMENDS it). <b=
+r><br>After your patch the actual configuration file is still installed. In=
+ a postinst<br>=C2=A0 * ${libdir}/ssl/openssl.conf is removed if it exists =
+(why? If it&#39;s for upgrading, then this should happen in a prerm or post=
+rm)<br>=C2=A0 * the symlink ${libdir}/ssl/openssl.conf is created<div><br>M=
+y confusion is this: how does the above solve the problem you describe? If =
+you&#39;ve managed to use RCONFLICTS to prevent the configuration package f=
+rom getting included in the image, why are changes to the package needed?<b=
+r><br><br><br>Some alternative solutions to your problem I think might work=
+:<br>* openssl_%.bbappend with a do_install_append() that simply copies you=
+r conf file over the one from upstream recipe. No extra packages needed<br>=
+* BAD_RECOMMENDATIONS or PACKAGE_EXCLUDE to prevent openssl-conf from getti=
+ng included in your image, then adding your own package with your configura=
+tion (does not work for dpkg I think)<br><br>Jussi</div></div>
+
+--94eb2c19d5dc8eed91054c7d5bfb--
