@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id A8BA577A3B
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id AD9F377A45
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Apr 2017 10:05:57 +0000 (UTC)
+	Thu,  6 Apr 2017 10:06:00 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v36A5w4L008542
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v36A5xPK009102
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 6 Apr 2017 03:05:58 -0700 (PDT)
+	Thu, 6 Apr 2017 03:06:01 -0700
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
-	Thu, 6 Apr 2017 03:05:57 -0700
+	Thu, 6 Apr 2017 03:05:58 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 6 Apr 2017 03:05:50 -0700
-Message-ID: <c5114b95af33f1ffc19c7c3c52c45f9c0549ac56.1491473008.git.liezhi.yang@windriver.com>
+Date: Thu, 6 Apr 2017 03:05:51 -0700
+Message-ID: <5202440801102f06224b3e7f2beda88364edd7ad.1491473008.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.11.0.rc2.dirty
+MIME-Version: 1.0
 In-Reply-To: <cover.1491473008.git.liezhi.yang@windriver.com>
 References: <cover.1491473008.git.liezhi.yang@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 1/7] groff: replace "perl -w" with "use warnings"
+Subject: [PATCH 2/7] mc: replace "perl -w" with "use warnings"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,8 +33,9 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Apr 2017 10:05:57 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 06 Apr 2017 10:06:00 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
 The shebang's max length is usually 128 as defined in
 /usr/include/linux/binfmts.h:
@@ -50,21 +51,21 @@ So replace "perl -w" with "use warnings" to make it work.
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- .../0001-replace-perl-w-with-use-warnings.patch    | 102 +++++++++++++++++++++
- meta/recipes-extended/groff/groff_1.22.3.bb        |   3 +
- 2 files changed, 105 insertions(+)
- create mode 100644 meta/recipes-extended/groff/groff-1.22.3/0001-replace-perl-w-with-use-warnings.patch
+ .../0001-mc-replace-perl-w-with-use-warnings.patch | 129 +++++++++++++++++++++
+ meta/recipes-extended/mc/mc_4.8.18.bb              |   3 +
+ 2 files changed, 132 insertions(+)
+ create mode 100644 meta/recipes-extended/mc/files/0001-mc-replace-perl-w-with-use-warnings.patch
 
-diff --git a/meta/recipes-extended/groff/groff-1.22.3/0001-replace-perl-w-with-use-warnings.patch b/meta/recipes-extended/groff/groff-1.22.3/0001-replace-perl-w-with-use-warnings.patch
+diff --git a/meta/recipes-extended/mc/files/0001-mc-replace-perl-w-with-use-warnings.patch b/meta/recipes-extended/mc/files/0001-mc-replace-perl-w-with-use-warnings.patch
 new file mode 100644
-index 0000000000..f1db5b0653
+index 0000000000..bf8037cd28
 --- /dev/null
-+++ b/meta/recipes-extended/groff/groff-1.22.3/0001-replace-perl-w-with-use-warnings.patch
-@@ -0,0 +1,102 @@
-+From 5b574542070db286c89b3827e8f15ed4b3b39034 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-extended/mc/files/0001-mc-replace-perl-w-with-use-warnings.patch
+@@ -0,0 +1,129 @@
++From cdc7c278212ae836eecb4cc9d42c29443cc128a0 Mon Sep 17 00:00:00 2001
 +From: Robert Yang <liezhi.yang@windriver.com>
-+Date: Thu, 6 Apr 2017 01:46:00 -0700
-+Subject: [PATCH] replace "perl -w" with "use warnings"
++Date: Thu, 6 Apr 2017 02:24:28 -0700
++Subject: [PATCH] mc: replace "perl -w" with "use warnings"
 +
 +The shebang's max length is usually 128 as defined in
 +/usr/include/linux/binfmts.h:
@@ -78,112 +79,139 @@ index 0000000000..f1db5b0653
 +
 +So replace "perl -w" with "use warnings" to make it work.
 +
++The man2hlp.in already has "use warnings;", so just remove '-w' is OK.
++
 +Upstream-Status: Pending
 +
 +Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 +---
-+ font/devpdf/util/BuildFoundries.pl | 3 ++-
-+ src/devices/gropdf/gropdf.pl       | 3 ++-
-+ src/devices/gropdf/pdfmom.pl       | 3 ++-
-+ src/utils/afmtodit/afmtodit.pl     | 3 ++-
-+ 4 files changed, 8 insertions(+), 4 deletions(-)
++ src/man2hlp/man2hlp.in           | 2 +-
++ src/vfs/extfs/helpers/a+.in      | 4 +++-
++ src/vfs/extfs/helpers/mailfs.in  | 3 ++-
++ src/vfs/extfs/helpers/patchfs.in | 3 ++-
++ src/vfs/extfs/helpers/ulib.in    | 4 +++-
++ src/vfs/extfs/helpers/uzip.in    | 3 ++-
++ 6 files changed, 13 insertions(+), 6 deletions(-)
 +
-+diff --git a/font/devpdf/util/BuildFoundries.pl b/font/devpdf/util/BuildFoundries.pl
-+index 39f2f0d..a2bfd8e 100644
-+--- a/font/devpdf/util/BuildFoundries.pl
-++++ b/font/devpdf/util/BuildFoundries.pl
++diff --git a/src/man2hlp/man2hlp.in b/src/man2hlp/man2hlp.in
++index f095830..558a674 100644
++--- a/src/man2hlp/man2hlp.in
+++++ b/src/man2hlp/man2hlp.in
 +@@ -1,4 +1,4 @@
-+-#!/usr/bin/perl -w
-++#!/usr/bin/perl
++-#! @PERL@ -w
+++#! @PERL@
 + #
-+ #   BuildFoundries   : Given a Foundry file generate groff and download files
-+ #   Deri James       : Monday 07 Feb 2011
-+@@ -22,6 +22,7 @@
-+ # along with this program. If not, see <http://www.gnu.org/licenses/>.
++ #  Man page to help file converter
++ #  Copyright (C) 1994, 1995, 1998, 2000, 2001, 2002, 2003, 2004, 2005,
++diff --git a/src/vfs/extfs/helpers/a+.in b/src/vfs/extfs/helpers/a+.in
++index 579441c..fe446f4 100644
++--- a/src/vfs/extfs/helpers/a+.in
+++++ b/src/vfs/extfs/helpers/a+.in
++@@ -1,4 +1,4 @@
++-#! @PERL@ -w
+++#! @PERL@
++ #
++ # External filesystem for mc, using mtools
++ # Written Ludek Brukner <lubr@barco.cz>, 1997
++@@ -9,6 +9,8 @@
 + 
++ # These mtools components must be in PATH for this to work
++ 
+++use warnings;
+++
++ sub quote {
++     $_ = shift(@_);
++     s/([^\w\/.+-])/\\$1/g;
++diff --git a/src/vfs/extfs/helpers/mailfs.in b/src/vfs/extfs/helpers/mailfs.in
++index e9455be..059f41f 100644
++--- a/src/vfs/extfs/helpers/mailfs.in
+++++ b/src/vfs/extfs/helpers/mailfs.in
++@@ -1,6 +1,7 @@
++-#! @PERL@ -w
+++#! @PERL@
++ 
++ use bytes;
+++use warnings;
++ 
++ # MC extfs for (possibly compressed) Berkeley style mailbox files
++ # Peter Daum <gator@cs.tu-berlin.de> (Jan 1998, mc-4.1.24)
++diff --git a/src/vfs/extfs/helpers/patchfs.in b/src/vfs/extfs/helpers/patchfs.in
++index ef407de..3ad4b53 100644
++--- a/src/vfs/extfs/helpers/patchfs.in
+++++ b/src/vfs/extfs/helpers/patchfs.in
++@@ -1,4 +1,4 @@
++-#! @PERL@ -w
+++#! @PERL@
++ #
++ # Written by Adam Byrtek <alpha@debian.org>, 2002
++ # Rewritten by David Sterba <dave@jikos.cz>, 2009
++@@ -9,6 +9,7 @@
++ 
++ use bytes;
++ use strict;
+++use warnings;
++ use POSIX;
++ use File::Temp 'tempfile';
++ 
++diff --git a/src/vfs/extfs/helpers/ulib.in b/src/vfs/extfs/helpers/ulib.in
++index 418611f..82c7ccf 100644
++--- a/src/vfs/extfs/helpers/ulib.in
+++++ b/src/vfs/extfs/helpers/ulib.in
++@@ -1,9 +1,11 @@
++-#! @PERL@ -w
+++#! @PERL@
++ #
++ # VFS to manage the gputils archives.
++ # Written by Molnár Károly (proton7@freemail.hu) 2012
++ #
++ 
+++use warnings;
+++
++ my %month = ('jan' => '01', 'feb' => '02', 'mar' => '03',
++              'apr' => '04', 'may' => '05', 'jun' => '06',
++              'jul' => '07', 'aug' => '08', 'sep' => '09',
++diff --git a/src/vfs/extfs/helpers/uzip.in b/src/vfs/extfs/helpers/uzip.in
++index b1c4f90..c8eb335 100644
++--- a/src/vfs/extfs/helpers/uzip.in
+++++ b/src/vfs/extfs/helpers/uzip.in
++@@ -1,4 +1,4 @@
++-#! @PERL@ -w
+++#! @PERL@
++ #
++ # zip file archive Virtual File System for Midnight Commander
++ # Version 1.4.0 (2001-08-07).
++@@ -9,6 +9,7 @@
++ use POSIX;
++ use File::Basename;
 + use strict;
 ++use warnings;
 + 
-+ my $where=shift||'';
-+ my $devps=shift||'../devps';
-+diff --git a/src/devices/gropdf/gropdf.pl b/src/devices/gropdf/gropdf.pl
-+index 035d123..b933b32 100644
-+--- a/src/devices/gropdf/gropdf.pl
-++++ b/src/devices/gropdf/gropdf.pl
-+@@ -1,4 +1,4 @@
-+-#!@PERL@ -w
-++#!@PERL@
 + #
-+ #	gropdf		: PDF post processor for groff
-+ #
-+@@ -21,6 +21,7 @@
-+ # along with this program. If not, see <http://www.gnu.org/licenses/>.
-+ 
-+ use strict;
-++use warnings;
-+ use Getopt::Long qw(:config bundling);
-+ use Compress::Zlib;
-+ 
-+diff --git a/src/devices/gropdf/pdfmom.pl b/src/devices/gropdf/pdfmom.pl
-+index beec820..4b46ea4 100644
-+--- a/src/devices/gropdf/pdfmom.pl
-++++ b/src/devices/gropdf/pdfmom.pl
-+@@ -1,4 +1,4 @@
-+-#!@PERL@ -w
-++#!@PERL@
-+ #
-+ #	pdfmom		: Frontend to run groff -mom to produce PDFs
-+ #	Deri James	: Friday 16 Mar 2012
-+@@ -24,6 +24,7 @@
-+ # along with this program. If not, see <http://www.gnu.org/licenses/>.
-+ 
-+ use strict;
-++use warnings;
-+ use File::Temp qw/tempfile/;
-+ my @cmd;
-+ my $dev='pdf';
-+diff --git a/src/utils/afmtodit/afmtodit.pl b/src/utils/afmtodit/afmtodit.pl
-+index 4f2ce83..5c078ff 100644
-+--- a/src/utils/afmtodit/afmtodit.pl
-++++ b/src/utils/afmtodit/afmtodit.pl
-+@@ -1,4 +1,4 @@
-+-#! /usr/bin/perl -w
-++#! /usr/bin/perl
-+ # -*- Perl -*-
-+ # Copyright (C) 1989-2014  Free Software Foundation, Inc.
-+ #      Written by James Clark (jjc@jclark.com)
-+@@ -19,6 +19,7 @@
-+ # along with this program. If not, see <http://www.gnu.org/licenses/>.
-+ 
-+ use strict;
-++use warnings;
-+ 
-+ @afmtodit.tables@
-+ 
++ # Configuration options
 +-- 
 +2.10.2
 +
-diff --git a/meta/recipes-extended/groff/groff_1.22.3.bb b/meta/recipes-extended/groff/groff_1.22.3.bb
-index dd241f3f84..7472f59825 100644
---- a/meta/recipes-extended/groff/groff_1.22.3.bb
-+++ b/meta/recipes-extended/groff/groff_1.22.3.bb
-@@ -10,6 +10,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
- SRC_URI = "${GNU_MIRROR}/groff/groff-${PV}.tar.gz \
- 	file://groff-1.22.2-correct-man.local-install-path.patch \
- 	file://0001-Unset-need_charset_alias-when-building-for-musl.patch \
-+	file://0001-replace-perl-w-with-use-warnings.patch \
- "
+diff --git a/meta/recipes-extended/mc/mc_4.8.18.bb b/meta/recipes-extended/mc/mc_4.8.18.bb
+index 78abb275ba..17f3f73af7 100644
+--- a/meta/recipes-extended/mc/mc_4.8.18.bb
++++ b/meta/recipes-extended/mc/mc_4.8.18.bb
+@@ -7,6 +7,7 @@ DEPENDS = "ncurses glib-2.0 util-linux"
+ RDEPENDS_${PN} = "ncurses-terminfo"
  
- SRC_URI[md5sum] = "cc825fa64bc7306a885f2fb2268d3ec5"
-@@ -24,6 +25,8 @@ inherit autotools texinfo
- EXTRA_OECONF = "--without-x"
- PARALLEL_MAKE = ""
+ SRC_URI = "http://www.midnight-commander.org/downloads/${BPN}-${PV}.tar.bz2 \
++           file://0001-mc-replace-perl-w-with-use-warnings.patch \
+            "
+ SRC_URI[md5sum] = "cc56f0c9abd63c4caa3636bba3a08bfb"
+ SRC_URI[sha256sum] = "5b591e10dcbea95233434da40cdad4663d360229adf89826576c319667c103cb"
+@@ -22,6 +23,8 @@ PACKAGECONFIG[sftp] = "--enable-vfs-sftp,--disable-vfs-sftp,libssh2,"
+ 
+ EXTRA_OECONF = "--with-screen=ncurses --without-gpm-mouse --without-x"
  
 +CACHED_CONFIGUREVARS += "ac_cv_path_PERL='/usr/bin/env perl'"
 +
- do_configure_prepend() {
- 	if [ "${BUILD_SYS}" != "${HOST_SYS}" ]; then
- 		sed -i \
+ do_install_append () {
+ 	sed -i -e '1s,#!.*perl,#!${bindir}/env perl,' ${D}${libexecdir}/mc/extfs.d/*
+ 	sed -i -e '1s,#!.*python,#!${bindir}/env python,' ${D}${libexecdir}/mc/extfs.d/*
 -- 
 2.11.0.rc2.dirty
 
