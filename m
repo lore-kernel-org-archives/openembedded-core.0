@@ -1,18 +1,53 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 8EB16775FD;
-	Thu,  6 Apr 2017 09:02:02 +0000 (UTC)
+Return-Path: <freesilicon@gmail.com>
+Received: from mail-wr0-f176.google.com (mail-wr0-f176.google.com
+	[209.85.128.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 441A877A53
+	for <openembedded-core@lists.openembedded.org>;
+	Thu,  6 Apr 2017 09:23:08 +0000 (UTC)
+Received: by mail-wr0-f176.google.com with SMTP id o21so24052219wrb.2
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 06 Apr 2017 02:23:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=eouTkkFcvHjN/PvBxZjw2uNZqsS0AhmjCdoGty/h6D4=;
+	b=knE+tPADgvDeUCgbDmBZvDtu1CsvAwXbMEZdzXYOHtEifKaYUeV0vyHgJ+FtGTCutk
+	W5qbDJbmJ/C/0I8Ufvf7U50e/xgJdtNFMylkdqOVig840+qIYv+s4oJsiQ3J5OYbTVMD
+	NgIoyXwfxhRXyW+3P346hwJ+LX3mc2m9TAywwjqRsuWgIz8iWoi0wsOlP+uK6eEa4e40
+	Xjolm2JGdp8YT2XUBKKsfy58M02bAZ2zDnOX1tC43ehu2+lisjsz08t76mdSEP6isdHA
+	qOznoQDVcjXzcrcCc6zsHMBVPuRBibrV61GqL0osxy7dgoBzEOx4pwWHqCUjnJF3p7un
+	i7wA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=eouTkkFcvHjN/PvBxZjw2uNZqsS0AhmjCdoGty/h6D4=;
+	b=ZjMihX1WRiz5TbIw+7iBwjhOeQfEW/s8bVuEmgGVcg8785Mu5xkV/ssvBsxJcLw5nJ
+	F/IcPr7Vum16I6M1/2NmvDtW4tcZRCQCvWl0IWIuy+9J0K5PbNcqx82eWdCr+hxmgzXq
+	sIXg/VuGc0AqGDkj8qVnooaZ/MFPAGHtbOtg/FSTMTWQYl3NUyJivRcpMHLyoJGgdDcD
+	IdJz3hqjjjbk18wMKCoQe3UgksIZy+56Fdtxv+iXdDrzMt/C/O2JmH9/YEf1M8BbtuDe
+	K5+3bKHlHvRJ+j3rbfYitOL6J2CJGwIbhfWktwgFVoMgvVwRHxNrlkEgMK84S59A2NDE
+	/1Dg==
+X-Gm-Message-State: AN3rC/6j8wZ0h9/WKzEAwoF5QskJOToRC3O/Y2+fjpSMBoBXCxJbLDrO
+	wMLaRTjrpsTtpDua
+X-Received: by 10.28.191.75 with SMTP id p72mr3859111wmf.136.1491470589696;
+	Thu, 06 Apr 2017 02:23:09 -0700 (PDT)
+Received: from crde-port-20.cahors.local ([185.47.80.46])
+	by smtp.gmail.com with ESMTPSA id
+	o15sm1341214wra.61.2017.04.06.02.23.09
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 06 Apr 2017 02:23:09 -0700 (PDT)
+From: David Vincent <freesilicon@gmail.com>
+To: Jussi Kukkonen <jussi.kukkonen@intel.com>
+Date: Thu, 06 Apr 2017 11:23:02 +0200
+Message-ID: <2234508.nmKqqo84gx@crde-port-20.cahors.local>
+In-Reply-To: <CAHiDW_GH-WhDow0+nP-JnTq1kUKqfBmtS__BuqfUSuroNvsawg@mail.gmail.com>
+References: <20170123135916.4618-1-freesilicon@gmail.com>
+	<CAHiDW_GH-WhDow0+nP-JnTq1kUKqfBmtS__BuqfUSuroNvsawg@mail.gmail.com>
 MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: yin.thong.choong@intel.com
-Date: Thu, 06 Apr 2017 09:02:04 -0000
-Message-ID: <20170406090204.6645.42480@do.openembedded.org>
-References: <1491467730-8418-1-git-send-email-yin.thong.choong@intel.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <1491467730-8418-1-git-send-email-yin.thong.choong@intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgUmVtb3ZlIGFsbCB1c2Ugb2YgZmVkb3JhaG9zdGVkIFNSQ19VUkkgW1lPQ1RPICMxMTIyNl0gKHJldjMp?=
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] openssl: Fix symlink creation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,41 +60,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Apr 2017 09:02:03 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 06 Apr 2017 09:23:09 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="UTF-8"
 
-== Series Details ==
+On mercredi 5 avril 2017 09:30:52 CEST Jussi Kukkonen wrote:
+> This apparently breaks key generation with openssl-native because the file
+> doesn't exist.
 
-Series: Remove all use of fedorahosted SRC_URI [YOCTO #11226] (rev3)
-Revision: 3
-URL   : https://patchwork.openembedded.org/series/6116/
-State : failure
+Looking at the recipe right now, I understand why key generation is broken for 
+native build (I should have been more careful). I see two ways of fixing it :
+	- either recreate the symlink in do_install_append_class_native
+	- or simply modifiyng the OPENSSL_CONF variable in the same task.
 
-== Summary ==
+> 
+> I can fix it by adding one more complication to the recipe (will send a
+> patch) but I don't think the current solution is all that great: I've been
+> looking at this patch for a while now and still don't really understand why
+> it is needed and how these different packages interact. I'm sure it makes
+> sense when you look at the other recipe but ... isn't it a bad sign that
+> that context seems to be needed?
 
+OK, I will provide some context because maybe my approach was wrong. In some 
+of my builds, I require some images to have a very specific configuration to 
+make OpenSSL use engines. My idea was to provide a package for this task since 
+the default file can not be overridden (and in fact shouldn't be for the native 
+build). This way, using RCONFLICTS I can provide a new configuration package 
+for these specific builds while maintaining the default behavior for all 
+others.
 
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
+> 
+> Jussi
+> 
 
-
-
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  master (currently at 3a1cce6591)
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
----
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
-
+David
 
