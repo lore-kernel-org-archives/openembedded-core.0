@@ -1,45 +1,29 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wr0-f175.google.com (mail-wr0-f175.google.com
-	[209.85.128.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 1A97877A8A
+Return-Path: <rpurdie@rpsys.net>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 294DB6093B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Apr 2017 11:02:27 +0000 (UTC)
-Received: by mail-wr0-f175.google.com with SMTP id g19so11935469wrb.0
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 06 Apr 2017 04:02:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=96x07rmwXIgEzyFrOUlDhbhuODTh1VRGwUXloUbmKhc=;
-	b=UHMf9yBjMbn1nHSCCaVwJ72q+NMzwm3YXqj46hpNK39xsIS/sQedFoisRj9GwvipYJ
-	bjNyWWRdOxTU09xVR6/w1uTXk5Cv+cYswDIXJ/fShrJQn6bd045H4eHNpJuuwqdW74dP
-	N5Oy2R19omO0wHtI5fqUR4JC/9E9JfGAv4gRaRcSsJVdJE/AAbKYrdD8/wkabclmC5yx
-	+0JR/0lWRa9IgprE1K/uHXcOC9VaHzks/tXceIsEjSiM9DGUkGwoB85x+KX74sCgZZRB
-	of75IRcDe0jKCjmFw4MRlzZFHBHdKtBobNz6aAfz7ilg1b5sBeZcx73C9lwo20kRD8Er
-	2Mug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=96x07rmwXIgEzyFrOUlDhbhuODTh1VRGwUXloUbmKhc=;
-	b=NIsezzcLrOx+FG5pCU3wMNZ7P+fo57KQf+C2KFaL70iquj1rTwy+xElR8ecW6LqAfE
-	M3oqYhJKfCbIwUQED3h6+IIMJ9B17XLm4i7v1Nsyfxllc1cBX8gV/nBcRPNyobkHyUmw
-	i8Ids/H/XaHrK0ui8/ZNTazvje/DyyeqHMaGoK3O1ZJsmW46ybZI5JGsMwNtcAmhL8uU
-	9hph0TzLFulHxuOCamtJ2gFAE8bFwrQMtMdEOuOO73Tpuda12xBfb6JYUZadOk8pLvIf
-	DLNadd31w1oyyvRl+Z+E2JdxG0N32YArH/yGQfl09tZE5S8QfgpGDBuSjbxlAqTC2KzH
-	stpw==
-X-Gm-Message-State: AFeK/H2CIyqsNkCSg4w1Io1uNzm8DfwziOkuMlBrewhH+/fSmYWv7f3F040y2ZqlSXupmw==
-X-Received: by 10.223.150.149 with SMTP id u21mr10309671wrb.195.1491476548678; 
-	Thu, 06 Apr 2017 04:02:28 -0700 (PDT)
-Received: from localhost ([217.30.68.212]) by smtp.gmail.com with ESMTPSA id
-	t68sm1678871wrc.55.2017.04.06.04.02.27
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 06 Apr 2017 04:02:27 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  6 Apr 2017 13:02:27 +0200
-Message-Id: <20170406110227.11809-1-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.12.2
-Subject: [PATCH] eudev: set LGPL-2.1+ for libudev package
+	Thu,  6 Apr 2017 11:18:12 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTP id v36BI96B001950; 
+	Thu, 6 Apr 2017 12:18:10 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id uQg-LFasbuvC; Thu,  6 Apr 2017 12:18:10 +0100 (BST)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	v36BD67I001593
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
+	verify=NOT); Thu, 6 Apr 2017 12:13:07 +0100
+Message-ID: <1491477186.17200.31.camel@rpsys.net>
+From: Richard Purdie <rpurdie@rpsys.net>
+To: Ed Bartosh <ed.bartosh@linux.intel.com>,
+	openembedded-core@lists.openembedded.org
+Date: Thu, 06 Apr 2017 12:13:06 +0100
+In-Reply-To: <1491304245-7194-1-git-send-email-ed.bartosh@linux.intel.com>
+References: <1491304245-7194-1-git-send-email-ed.bartosh@linux.intel.com>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.1 
+Mime-Version: 1.0
+Subject: Re: [PATCH] oe-selftest: test wic sparse_copy API
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,27 +36,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Apr 2017 11:02:28 -0000
+X-List-Received-Date: Thu, 06 Apr 2017 11:18:13 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/recipes-core/udev/eudev_3.2.1.bb | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+On Tue, 2017-04-04 at 14:10 +0300, Ed Bartosh wrote:
+> Added new parameter 'api' to sparse_copy function to specify
+> underlying filemap API to use. By default sparse_copy will
+> try both available APIs.
+> 
+> Added test case for sparse_copy to wic test suite.
+> 
+> Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+> ---
+>  meta/lib/oeqa/selftest/wic.py | 26 ++++++++++++++++++++++++++
+>  scripts/lib/wic/filemap.py    |  6 ++++--
+>  2 files changed, 30 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-core/udev/eudev_3.2.1.bb b/meta/recipes-core/udev/eudev_3.2.1.bb
-index 4a1a26aade..bdfb5441ad 100644
---- a/meta/recipes-core/udev/eudev_3.2.1.bb
-+++ b/meta/recipes-core/udev/eudev_3.2.1.bb
-@@ -1,6 +1,7 @@
- SUMMARY = "eudev is a fork of systemd's udev"
- HOMEPAGE = "https://wiki.gentoo.org/wiki/Eudev"
--LICENSE = "GPLv2.0+"
-+LICENSE = "GPLv2.0+ & LGPL-2.1+"
-+LICENSE_libudev = "LGPL-2.1+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
- 
- DEPENDS = "glib-2.0 glib-2.0-native gperf-native kmod libxslt-native util-linux"
--- 
-2.12.2
+This failed on the autobuilder:
 
+https://autobuilder.yocto.io/builders/nightly-oe-selftest/builds/244/steps/Running%20oe-selftest/logs/stdio
+
+Cheers,
+
+Richard
 
