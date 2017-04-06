@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id E438A77A45
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 3DFA777A45
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Apr 2017 10:06:00 +0000 (UTC)
+	Thu,  6 Apr 2017 10:06:01 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v36A62VX005961
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v36A62GT008545
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 6 Apr 2017 03:06:02 -0700 (PDT)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
-	Thu, 6 Apr 2017 03:06:01 -0700
+	Thu, 6 Apr 2017 03:06:02 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 6 Apr 2017 03:05:52 -0700
-Message-ID: <27460152f939c5ce3efed43063b2b378e58857de.1491473008.git.liezhi.yang@windriver.com>
+Date: Thu, 6 Apr 2017 03:05:53 -0700
+Message-ID: <6570d607adb2b74df311dcc5fc4c97b08cd8fd48.1491473008.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.11.0.rc2.dirty
 In-Reply-To: <cover.1491473008.git.liezhi.yang@windriver.com>
 References: <cover.1491473008.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 3/7] valgrind: set ac_cv_path_PERL to /usr/bin/env perl
+Subject: [PATCH 4/7] m4: do_configure: fix "Argument list too long"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,32 +36,30 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Thu, 06 Apr 2017 10:06:01 -0000
 Content-Type: text/plain
 
-The shebang's max length is usually 128 as defined in
-/usr/include/linux/binfmts.h:
-  #define BINPRM_BUF_SIZE 128
+Fixed when len(TMPDIR) =  410:
+Can't exec "/bin/sh": Argument list too long at /usr/lib/perl/5.18/IO/File.pm line 65.
 
-So there would be errors when /path/to/hosttools/perl is longer than 128.
-
-Set ac_cv_path_PERL to "/usr/bin/env perl" to fix the problem.
+This is becuase it has a lot of m4 files, use relative path for them
+can fix the problem.
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/recipes-devtools/valgrind/valgrind_3.12.0.bb | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/recipes-devtools/m4/m4-1.4.18.inc | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/meta/recipes-devtools/valgrind/valgrind_3.12.0.bb b/meta/recipes-devtools/valgrind/valgrind_3.12.0.bb
-index a4a3e72ecd..62a96354cd 100644
---- a/meta/recipes-devtools/valgrind/valgrind_3.12.0.bb
-+++ b/meta/recipes-devtools/valgrind/valgrind_3.12.0.bb
-@@ -56,6 +56,8 @@ EXTRA_OECONF_append_arm = " --host=armv7${HOST_VENDOR}-${HOST_OS}"
+diff --git a/meta/recipes-devtools/m4/m4-1.4.18.inc b/meta/recipes-devtools/m4/m4-1.4.18.inc
+index 5652b74308..d7c8648577 100644
+--- a/meta/recipes-devtools/m4/m4-1.4.18.inc
++++ b/meta/recipes-devtools/m4/m4-1.4.18.inc
+@@ -15,5 +15,8 @@ SRC_URI_append_class-target = "\
+            file://0001-Unset-need_charset_alias-when-building-for-musl.patch \
+ 	   "
  
- EXTRA_OEMAKE = "-w"
- 
-+CACHED_CONFIGUREVARS += "ac_cv_path_PERL='/usr/bin/env perl'"
++# Fix "Argument list too long" error when len(TMPDIR) = 410
++acpaths = "-I ./m4"
 +
- # valgrind likes to control its own optimisation flags. It generally defaults
- # to -O2 but uses -O0 for some specific test apps etc. Passing our own flags
- # (via CFLAGS) means we interfere with that. Only pass DEBUG_FLAGS to it
+ SRC_URI[md5sum] = "a077779db287adf4e12a035029002d28"
+ SRC_URI[sha256sum] = "ab2633921a5cd38e48797bf5521ad259bdc4b979078034a3b790d7fec5493fab"
 -- 
 2.11.0.rc2.dirty
 
