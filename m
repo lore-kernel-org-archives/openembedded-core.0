@@ -1,53 +1,24 @@
-Return-Path: <freesilicon@gmail.com>
-Received: from mail-wr0-f176.google.com (mail-wr0-f176.google.com
-	[209.85.128.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 441A877A53
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 0814877A3B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Apr 2017 09:23:08 +0000 (UTC)
-Received: by mail-wr0-f176.google.com with SMTP id o21so24052219wrb.2
+	Thu,  6 Apr 2017 10:05:56 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v36A5vEw005950
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 06 Apr 2017 02:23:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=eouTkkFcvHjN/PvBxZjw2uNZqsS0AhmjCdoGty/h6D4=;
-	b=knE+tPADgvDeUCgbDmBZvDtu1CsvAwXbMEZdzXYOHtEifKaYUeV0vyHgJ+FtGTCutk
-	W5qbDJbmJ/C/0I8Ufvf7U50e/xgJdtNFMylkdqOVig840+qIYv+s4oJsiQ3J5OYbTVMD
-	NgIoyXwfxhRXyW+3P346hwJ+LX3mc2m9TAywwjqRsuWgIz8iWoi0wsOlP+uK6eEa4e40
-	Xjolm2JGdp8YT2XUBKKsfy58M02bAZ2zDnOX1tC43ehu2+lisjsz08t76mdSEP6isdHA
-	qOznoQDVcjXzcrcCc6zsHMBVPuRBibrV61GqL0osxy7dgoBzEOx4pwWHqCUjnJF3p7un
-	i7wA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=eouTkkFcvHjN/PvBxZjw2uNZqsS0AhmjCdoGty/h6D4=;
-	b=ZjMihX1WRiz5TbIw+7iBwjhOeQfEW/s8bVuEmgGVcg8785Mu5xkV/ssvBsxJcLw5nJ
-	F/IcPr7Vum16I6M1/2NmvDtW4tcZRCQCvWl0IWIuy+9J0K5PbNcqx82eWdCr+hxmgzXq
-	sIXg/VuGc0AqGDkj8qVnooaZ/MFPAGHtbOtg/FSTMTWQYl3NUyJivRcpMHLyoJGgdDcD
-	IdJz3hqjjjbk18wMKCoQe3UgksIZy+56Fdtxv+iXdDrzMt/C/O2JmH9/YEf1M8BbtuDe
-	K5+3bKHlHvRJ+j3rbfYitOL6J2CJGwIbhfWktwgFVoMgvVwRHxNrlkEgMK84S59A2NDE
-	/1Dg==
-X-Gm-Message-State: AN3rC/6j8wZ0h9/WKzEAwoF5QskJOToRC3O/Y2+fjpSMBoBXCxJbLDrO
-	wMLaRTjrpsTtpDua
-X-Received: by 10.28.191.75 with SMTP id p72mr3859111wmf.136.1491470589696;
-	Thu, 06 Apr 2017 02:23:09 -0700 (PDT)
-Received: from crde-port-20.cahors.local ([185.47.80.46])
-	by smtp.gmail.com with ESMTPSA id
-	o15sm1341214wra.61.2017.04.06.02.23.09
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 06 Apr 2017 02:23:09 -0700 (PDT)
-From: David Vincent <freesilicon@gmail.com>
-To: Jussi Kukkonen <jussi.kukkonen@intel.com>
-Date: Thu, 06 Apr 2017 11:23:02 +0200
-Message-ID: <2234508.nmKqqo84gx@crde-port-20.cahors.local>
-In-Reply-To: <CAHiDW_GH-WhDow0+nP-JnTq1kUKqfBmtS__BuqfUSuroNvsawg@mail.gmail.com>
-References: <20170123135916.4618-1-freesilicon@gmail.com>
-	<CAHiDW_GH-WhDow0+nP-JnTq1kUKqfBmtS__BuqfUSuroNvsawg@mail.gmail.com>
+	Thu, 6 Apr 2017 03:05:57 -0700 (PDT)
+Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
+	Thu, 6 Apr 2017 03:05:56 -0700
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 6 Apr 2017 03:05:49 -0700
+Message-ID: <cover.1491473008.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 2.11.0.rc2.dirty
 MIME-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] openssl: Fix symlink creation
+Subject: [PATCH 0/7 V2] fixes for building in long path (length = 410)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,38 +31,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Apr 2017 09:23:09 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 06 Apr 2017 10:05:57 -0000
+Content-Type: text/plain
 
-On mercredi 5 avril 2017 09:30:52 CEST Jussi Kukkonen wrote:
-> This apparently breaks key generation with openssl-native because the file
-> doesn't exist.
+* V2:
+  Use '/usr/bin/env foo' rather than /usr/bin/foo or /bin/foo as shebang.
 
-Looking at the recipe right now, I understand why key generation is broken for 
-native build (I should have been more careful). I see two ways of fixing it :
-	- either recreate the symlink in do_install_append_class_native
-	- or simply modifiyng the OPENSSL_CONF variable in the same task.
+// Robert
 
-> 
-> I can fix it by adding one more complication to the recipe (will send a
-> patch) but I don't think the current solution is all that great: I've been
-> looking at this patch for a while now and still don't really understand why
-> it is needed and how these different packages interact. I'm sure it makes
-> sense when you look at the other recipe but ... isn't it a bad sign that
-> that context seems to be needed?
+The following changes since commit 901659a51cd53625a93f57a9c5865e90a07ec09d:
 
-OK, I will provide some context because maybe my approach was wrong. In some 
-of my builds, I require some images to have a very specific configuration to 
-make OpenSSL use engines. My idea was to provide a package for this task since 
-the default file can not be overridden (and in fact shouldn't be for the native 
-build). This way, using RCONFLICTS I can provide a new configuration package 
-for these specific builds while maintaining the default behavior for all 
-others.
+  oeqa/runtime/utils/targetbuildproject: use parent classes defaults tmpdir (2017-04-06 10:13:34 +0100)
 
-> 
-> Jussi
-> 
+are available in the git repository at:
 
-David
+  git://git.openembedded.org/openembedded-core-contrib rbt/long
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=rbt/long
+
+Robert Yang (7):
+  groff: replace "perl -w" with "use warnings"
+  mc: replace "perl -w" with "use warnings"
+  valgrind: set ac_cv_path_PERL to /usr/bin/env perl
+  m4: do_configure: fix "Argument list too long"
+  guile: do_configure: fix "Argument list too long"
+  autogen-native: fix POSIX_SHELL and perl
+  kmod: set ac_cv_path_DOLT_BASH to /usr/bin/env bash
+
+ .../autogen/autogen-native_5.18.12.bb              |   3 +
+ ...2-autoopts-mk-tpl-config.sh-fix-perl-path.patch |  32 +++++
+ meta/recipes-devtools/guile/guile_2.0.14.bb        |   3 +
+ meta/recipes-devtools/m4/m4-1.4.18.inc             |   3 +
+ meta/recipes-devtools/valgrind/valgrind_3.12.0.bb  |   2 +
+ .../0001-replace-perl-w-with-use-warnings.patch    | 102 ++++++++++++++++
+ meta/recipes-extended/groff/groff_1.22.3.bb        |   3 +
+ .../0001-mc-replace-perl-w-with-use-warnings.patch | 129 +++++++++++++++++++++
+ meta/recipes-extended/mc/mc_4.8.18.bb              |   3 +
+ meta/recipes-kernel/kmod/kmod.inc                  |   2 +
+ 10 files changed, 282 insertions(+)
+ create mode 100644 meta/recipes-devtools/autogen/autogen/0002-autoopts-mk-tpl-config.sh-fix-perl-path.patch
+ create mode 100644 meta/recipes-extended/groff/groff-1.22.3/0001-replace-perl-w-with-use-warnings.patch
+ create mode 100644 meta/recipes-extended/mc/files/0001-mc-replace-perl-w-with-use-warnings.patch
+
+-- 
+2.11.0.rc2.dirty
+
 
