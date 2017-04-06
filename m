@@ -1,24 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id B9F4172F50
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 3C74F72F50
 	for <openembedded-core@lists.openembedded.org>;
 	Thu,  6 Apr 2017 06:41:38 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v366fdrw005385
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v366fe0V007032
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 5 Apr 2017 23:41:39 -0700 (PDT)
+	Wed, 5 Apr 2017 23:41:40 -0700 (PDT)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
-	Wed, 5 Apr 2017 23:41:38 -0700
+	Wed, 5 Apr 2017 23:41:39 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 5 Apr 2017 23:41:32 -0700
-Message-ID: <cover.1491460816.git.liezhi.yang@windriver.com>
+Date: Wed, 5 Apr 2017 23:41:33 -0700
+Message-ID: <c95b247813033fe4c45fa8603d8002ef1f2ef916.1491460816.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.11.0.rc2.dirty
+In-Reply-To: <cover.1491460816.git.liezhi.yang@windriver.com>
+References: <cover.1491460816.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/6] fixes for runqemu
+Subject: [PATCH 1/6] runqemu: fix 2 typos
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,27 +36,36 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Thu, 06 Apr 2017 06:41:39 -0000
 Content-Type: text/plain
 
-The following changes since commit 3a1cce659156ef2654a55a6e3c6922fa2dc780e4:
+* "is it" -> "it is"
+* Remove "<image>.qemuboot.conf =" in the error message which looked strange.
 
-  glibc: fix nativesdk ldd RTLDLIST (2017-04-05 23:22:06 +0100)
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
+ scripts/runqemu | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib rbt/qemu
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=rbt/qemu
-
-Robert Yang (6):
-  runqemu: fix 2 typos
-  runqemu: support env vars explicitly
-  runqemu: use self.rootfs to replace self.nfs_dir
-  runqemu: run without arguments
-  runqemu: use realpath for imgdir
-  runqemu: do not rely on grepping images
-
- meta/classes/qemuboot.bbclass |   3 +
- scripts/runqemu               | 130 +++++++++++++++++++++++-------------------
- 2 files changed, 75 insertions(+), 58 deletions(-)
-
+diff --git a/scripts/runqemu b/scripts/runqemu
+index 23c9efbae2..251f5f7e94 100755
+--- a/scripts/runqemu
++++ b/scripts/runqemu
+@@ -421,7 +421,7 @@ class BaseConfig(object):
+             elif arg.startswith('ovmf'):
+                 self.ovmf_bios.append(arg)
+             else:
+-                # At last, assume is it the MACHINE
++                # At last, assume it is the MACHINE
+                 if (not unknown_arg) or unknown_arg == arg:
+                     unknown_arg = arg
+                 else:
+@@ -677,7 +677,7 @@ class BaseConfig(object):
+             return
+ 
+         if not os.path.exists(self.qemuboot):
+-            raise Exception("Failed to find <image>.qemuboot.conf = %s (wrong image name or BSP does not support running under qemu?)." % self.qemuboot)
++            raise Exception("Failed to find %s (wrong image name or BSP does not support running under qemu?)." % self.qemuboot)
+ 
+         logger.info('CONFFILE: %s' % self.qemuboot)
+ 
 -- 
 2.11.0.rc2.dirty
 
