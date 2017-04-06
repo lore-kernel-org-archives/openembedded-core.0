@@ -1,46 +1,46 @@
-Return-Path: <spopovyc@cisco.com>
-Received: from aer-iport-4.cisco.com (aer-iport-4.cisco.com [173.38.203.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 39A8F77CCA
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-wr0-f193.google.com (mail-wr0-f193.google.com
+	[209.85.128.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 8042077CD0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Apr 2017 13:34:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=cisco.com; i=@cisco.com; l=4197; q=dns/txt; s=iport;
-	t=1491485661; x=1492695261;
-	h=subject:to:references:cc:from:message-id:date:
-	mime-version:in-reply-to:content-transfer-encoding;
-	bh=upMBGb49ZPMivZ6yVnot47vUDCudbfY6gOoX9YhEUd4=;
-	b=k3RyStKAttyS5RsXdq+CAKvlhswbadfExumuOS71kt0axJ9PMiWmCBKG
-	EPJV24EjPcAHovm3D900xBBddIHSakxWT5NH0pZLHbZQd5KistdRMMJ49
-	Ml0K+bZoJYhwaeJp1iCgWZ9z4IT6nNjmrV4SHXZkFjADlijwvtpOT8hF0 Y=;
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-Anti-Spam-Result: =?us-ascii?q?A0BXAwDlQuZY/xbLJq1PDBkBAQEBAQEBA?=
-	=?us-ascii?q?QEBAQcBAQEBAYQ1gQuIKoVLc5BKhicGjyiCDyaFfAKEBBgBAgEBAQEBAQFrKIU?=
-	=?us-ascii?q?VAQEBAQIBBBkDBBECPQUFCwsRAwECBCgDKhMSCBMEAgIBAYl9BQgOqQgMgiWKa?=
-	=?us-ascii?q?AEBAQEBAQEBAQEBAQEBASMTeYVCggWBQYEqhCMBAoM3gl4FkGWFOIZWhn6LVYF?=
-	=?us-ascii?q?+VY5qiF6LGh84gQU7IBWFUoFNPQMyhyIoghUBAQE?=
-X-IronPort-AV: E=Sophos;i="5.37,159,1488844800"; d="scan'208";a="653794466"
-Received: from aer-iport-nat.cisco.com (HELO aer-core-3.cisco.com)
-	([173.38.203.22])
-	by aer-iport-4.cisco.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	06 Apr 2017 13:34:19 +0000
-Received: from tuxracer.local (dhcp-10-61-103-7.cisco.com [10.61.103.7])
-	(authenticated bits=0)
-	by aer-core-3.cisco.com (8.14.5/8.14.5) with ESMTP id v36DYIq4014700
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Thu, 6 Apr 2017 13:34:19 GMT
-To: openembedded-core@lists.openembedded.org
-References: <e1eee1aa56e1dc59a55a9cac25a00a1ea2f9375e.1490727568.git.spopovyc@cisco.com>
-From: Serhii Popovych <spopovyc@cisco.com>
-Message-ID: <a21a63b8-e901-c2ad-e866-ed6ab3c123c8@cisco.com>
-Date: Thu, 6 Apr 2017 16:34:17 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.8.0
+	Thu,  6 Apr 2017 13:51:16 +0000 (UTC)
+Received: by mail-wr0-f193.google.com with SMTP id o21so6486830wrb.3
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 06 Apr 2017 06:51:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=68TWnKRyIj2fXV7GRQjIXw7/73gPTUlpon99TuPR1QE=;
+	b=sdBUx3TWvMxGlrsK3+udf8qwXpjlfLtXWJcFCq1kPIJbFoMaHRqeBvdWkd39df/gkr
+	0L/OG6IzxJe3IIbhgRiB7N8hjr2fuKHZUr6YKI15vy7xeWeT/GSjk+IPOIt8oNDlAHAb
+	WyOScfFlaPngpl97n1f0M3VumHSqZfRB4yRScebFfDME4rTM5vLQxo7tResNgR9/es1T
+	UbQa9IESZFfG+eKetFFmJdUlxhbnagON1aHGSRbSbjiS7hhuCb9eBti7L4rZFkP+H/S5
+	xz76D/2OvLrYNTVL8Wob6nhxmNDsJSJZ5SzirhlQ08V/rsm01JQm0p7eP0+bd5yPYE/y
+	E2sQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=68TWnKRyIj2fXV7GRQjIXw7/73gPTUlpon99TuPR1QE=;
+	b=Z0tHjgCPv6ZBS70iw1IPEK5Hu930xV5vggfYtbKJQlS/8jbQ2/2YccN7bXMBSTZAf9
+	/Ggbow4yvXqSI4Bf/EUNRcEvod1IHmkEgHYEcxCte3xqnRoGfGyd4tJwNuWAecq4NHIw
+	ynHO5abdYj/rdD2WALm4lZ4FadWS6XFk1voZv7rBGYKZM2jlVpkePnvVwWeGkXAQRw8Q
+	9J84Lm/xrpaWm1JaPDhjzvLDyUUQJ2mYmvk/SMLHQuh+9v2aHd8zRJn/M/Cy9jRDjR6K
+	sCOjYaWvfSo/KPu0bpIq2aW4fYDRmL9CjokUaPVM736zg9r5e+vfL0dTVT9fXN+LNhVv
+	KFwA==
+X-Gm-Message-State: AN3rC/5sRjUPBMKCZtTmWzOZdiyQH/y0ARpQsR0rpSe5T5i58TycVkD2TzGCeid2hNLDT1TD+TxtqHtIetpPnQ==
+X-Received: by 10.223.179.24 with SMTP id j24mr244995wrd.172.1491486677916;
+	Thu, 06 Apr 2017 06:51:17 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <e1eee1aa56e1dc59a55a9cac25a00a1ea2f9375e.1490727568.git.spopovyc@cisco.com>
-X-Auto-Response-Suppress: DR, OOF, AutoReply
-X-Authenticated-User: spopovyc
-Cc: XE-Linux <xe-linux-external@cisco.com>
-Subject: Re: [PATCH] ca-certificates: Fix symlinks to the certificates in nativesdk
+Received: by 10.80.180.162 with HTTP; Thu, 6 Apr 2017 06:50:47 -0700 (PDT)
+In-Reply-To: <cover.1491484515.git.joshua.g.lock@intel.com>
+References: <cover.1491484515.git.joshua.g.lock@intel.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 6 Apr 2017 06:50:47 -0700
+Message-ID: <CAMKF1sq7VfdNAJG60Ls6aoQOW2YvHztNqk_z8JwVWO=m1LpkKQ@mail.gmail.com>
+To: Joshua Lock <joshua.g.lock@intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/2] Fixes for building on Fedora 26 (Alpha)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,101 +53,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Apr 2017 13:34:20 -0000
-Content-Type: text/plain; charset=windows-1251
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 06 Apr 2017 13:51:18 -0000
+Content-Type: text/plain; charset=UTF-8
 
+On Thu, Apr 6, 2017 at 6:23 AM, Joshua Lock <joshua.g.lock@intel.com> wrote:
+> As Fedora 26 has a new gcc [1] and a new system pkg-config implementation [2] I
+> wanted to do some testing on that host OS so that we might be able to get some
+> fixes in before Pyro/2.3 is released.
+>
+> The following series were the only changes required to start building (I have
+> tested core-image-minimal, core-image-base and core-image-sato) on Fedora 26.
 
-Ping.
+gcc patch looks fine to me.
 
-Any further comments on this change?
+>
+> 1. https://fedoraproject.org/wiki/Changes/GCC7
+> 2. https://fedoraproject.org/wiki/Changes/pkgconf_as_system_pkg-config_implementation
 
-I covered at least one additional use case not covered by
-generic symlink-relative.py call at post stage:
+I think we should think about making pkgconf as default too for OE in
+next release cycle.
 
-It is buildtools-tarball, where may add ca-certificates to use with
-curl.
-
-Change is simple: we create relative symlinks in update-ca-certificates
-to ensure we always point to right data in SDK/buildtools-tarball.
-
-Thanks,
-Serhii
-
-> Symlinks to certificates in buildtools-tarball at /etc/ssl/certs
-> installed with absolute pathes making these sumlinks pointing
-> outside of toolchain to the host system locations.
-> 
-> These locations may not contain some certificates (thus link to
-> the certificate in toolchain is broken) or host system
-> certificate may be revoked by CRL or outdated.
-> 
-> Since this change seems non intrusive for target package apply
-> patch for all builds.
-> 
-> Cc: XE-Linux <xe-linux-external@cisco.com>
-> Signed-off-by: Serhii Popovych <spopovyc@cisco.com>
-> ---
->  ...ertificates-Use-relative-paths-when-linki.patch | 38 ++++++++++++++++++++++
->  .../ca-certificates/ca-certificates_20161130.bb    |  1 +
->  2 files changed, 39 insertions(+)
->  create mode 100644 meta/recipes-support/ca-certificates/ca-certificates/0003-update-ca-certificates-Use-relative-paths-when-linki.patch
-> 
-> diff --git a/meta/recipes-support/ca-certificates/ca-certificates/0003-update-ca-certificates-Use-relative-paths-when-linki.patch b/meta/recipes-support/ca-certificates/ca-certificates/0003-update-ca-certificates-Use-relative-paths-when-linki.patch
-> new file mode 100644
-> index 0000000..8666e30
-> --- /dev/null
-> +++ b/meta/recipes-support/ca-certificates/ca-certificates/0003-update-ca-certificates-Use-relative-paths-when-linki.patch
-> @@ -0,0 +1,38 @@
-> +From 912e7be8e7151bd4a2feed6d34f927d42b12bb7e Mon Sep 17 00:00:00 2001
-> +From: Serhii Popovych <spopovyc@cisco.com>
-> +Date: Wed, 16 Dec 2015 16:48:03 +0200
-> +Subject: [PATCH] update-ca-certificates: Use relative paths when linking certs
-> +
-> +Creating links in $ETCCERTSDIR (/etc/ssl/certs) with absolute
-> +path could broke paths to the certificates in toolchains by
-> +pointing to the outside of toolchain root directory. These
-> +absolute paths may not exist in the host system or contain
-> +certificates older than provided within toolchain.
-> +
-> +Use absolute pathes when creating symbolic links to the
-> +certificates to ensure we always pointing to the toolchain
-> +provied certificates.
-> +
-> +Upstream-Status: Pending
-> +
-> +Signed-off-by: Serhii Popovych <spopovyc@cisco.com>
-> +---
-> + sbin/update-ca-certificates | 2 +-
-> + 1 file changed, 1 insertion(+), 1 deletion(-)
-> +
-> +diff --git a/sbin/update-ca-certificates b/sbin/update-ca-certificates
-> +index 3a5ffd3..cb3c1f1 100755
-> +--- a/sbin/update-ca-certificates
-> ++++ b/sbin/update-ca-certificates
-> +@@ -94,7 +94,7 @@ add() {
-> +                                                   -e 's/,/_/g').pem"
-> +   if ! test -e "$PEM" || [ "$(readlink "$PEM")" != "${CERT##$SYSROOT}" ]
-> +   then
-> +-    ln -sf "${CERT##$SYSROOT}" "$PEM"
-> ++    ln -sf "$(echo "${ETCCERTSDIR##$SYSROOT}" | sed -e 's/\/[^/]\+/..\//g')${CERT##$SYSROOT/}" "$PEM"
-> +     echo "+$PEM" >> "$ADDED"
-> +   fi
-> +   # Add trailing newline to certificate, if it is missing (#635570)
-> +-- 
-> +2.3.0
-> +
-> diff --git a/meta/recipes-support/ca-certificates/ca-certificates_20161130.bb b/meta/recipes-support/ca-certificates/ca-certificates_20161130.bb
-> index 42088b9..e6e17de 100644
-> --- a/meta/recipes-support/ca-certificates/ca-certificates_20161130.bb
-> +++ b/meta/recipes-support/ca-certificates/ca-certificates_20161130.bb
-> @@ -17,6 +17,7 @@ SRCREV = "61b70a1007dc269d56881a0d480fc841daacc77c"
->  
->  SRC_URI = "git://anonscm.debian.org/collab-maint/ca-certificates.git \
->             file://0002-update-ca-certificates-use-SYSROOT.patch \
-> +           file://0003-update-ca-certificates-Use-relative-paths-when-linki.patch \
->             file://0001-update-ca-certificates-don-t-use-Debianisms-in-run-p.patch \
->             file://update-ca-certificates-support-Toybox.patch \
->             file://default-sysroot.patch \
-> 
+>
+> The following changes since commit 633ad6c9f436f5d2b6ee1a005b697661a054a394:
+>
+>   oeqa/runtime/utils/targetbuildproject: use parent classes defaults tmpdir (2017-04-06 10:13:39 +0100)
+>
+> are available in the git repository at:
+>
+>   git://git.yoctoproject.org/poky-contrib joshuagl/fedora26
+>   http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=joshuagl/fedora26
+>
+> Joshua Lock (2):
+>   elfutils: fix building elfutils-native with GCC7
+>   gcc-6.3: backport fix of check for empty string in ubsan.c
+>
+>  .../elfutils-0.168/Fix_one_GCC7_warning.patch      | 44 ++++++++++++++++++++++
+>  .../elfutils/elfutils-0.168/fallthrough.patch      | 36 ++++++++++++++++++
+>  meta/recipes-devtools/elfutils/elfutils_0.168.bb   |  3 ++
+>  meta/recipes-devtools/gcc/gcc-6.3.inc              |  1 +
+>  .../gcc/gcc-6.3/ubsan-fix-check-empty-string.patch | 28 ++++++++++++++
+>  5 files changed, 112 insertions(+)
+>  create mode 100644 meta/recipes-devtools/elfutils/elfutils-0.168/Fix_one_GCC7_warning.patch
+>  create mode 100644 meta/recipes-devtools/elfutils/elfutils-0.168/fallthrough.patch
+>  create mode 100644 meta/recipes-devtools/gcc/gcc-6.3/ubsan-fix-check-empty-string.patch
+>
+> --
+> 2.9.3
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
