@@ -1,29 +1,18 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 4093777E4A
-	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Apr 2017 21:55:54 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTP id v37Ltqeu005412; 
-	Fri, 7 Apr 2017 22:55:52 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id hfhthm-V1E-3; Fri,  7 Apr 2017 22:55:52 +0100 (BST)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	v37LlaDS004856
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Fri, 7 Apr 2017 22:47:37 +0100
-Message-ID: <1491601656.17200.104.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Jussi Kukkonen <jussi.kukkonen@intel.com>,
-	openembedded-core@lists.openembedded.org
-Date: Fri, 07 Apr 2017 22:47:36 +0100
-In-Reply-To: <cover.1491483222.git.jussi.kukkonen@intel.com>
-References: <cover.1491483222.git.jussi.kukkonen@intel.com>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.1 
-Mime-Version: 1.0
-Subject: Re: [PATCH 0/4] Use fixed DISTRO_FEATURES for native
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 9F20177E3B;
+	Fri,  7 Apr 2017 22:02:53 +0000 (UTC)
+MIME-Version: 1.0
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Marek Vasut <marex@denx.de>
+Date: Fri, 07 Apr 2017 22:02:55 -0000
+Message-ID: <20170407220255.6646.49394@do.openembedded.org>
+References: <20170407215501.31916-1-marex@denx.de>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <20170407215501.31916-1-marex@denx.de>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgbHNiOiBSZW1vdmUgYmFzaGlzbXMgZnJvbSB0aGUgcmMuZCBmdW5jdGlvbnMgKHJldjIp?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,34 +25,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Apr 2017 21:55:55 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 07 Apr 2017 22:02:53 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-On Fri, 2017-04-07 at 09:08 +0300, Jussi Kukkonen wrote:
-> Avoid signifant native task churn when DISTRO_FEATURES is changed
-> by defining a fixed DISTRO_FEATURES value (default is "") for native
-> recipes.
-> 
-> The xorg changes are all removals of x11 requirements (that were not
-> real) from recipes that have native versions.
-> 
-> I added a configuration default in bitbake.conf, let me know if this
-> is not a good place.
-> 
-> This seems to work fine (tested multiple different images) but I am
-> not really sure how to test it further... Suggestions are welcome, as
-> are results from autobuilder. 
+== Series Details ==
 
-Close, but:
+Series: lsb: Remove bashisms from the rc.d functions (rev2)
+Revision: 2
+URL   : https://patchwork.openembedded.org/series/6209/
+State : failure
 
-https://autobuilder.yocto.io/builders/nightly-no-x11/builds/225/steps/BuildImages/logs/stdio
+== Summary ==
 
-:/
 
-Cheers,
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
 
-Richard
 
+
+* Issue             Added patch file is missing Upstream-Status in the header [test_upstream_status_presence] 
+  Suggested fix    Add Upstream-Status: <status> to the header of meta/recipes-extended/lsb/lsbinitscripts/0002-rc.d-Remove-bashism-from-functions.patch (possible values: Pending, Submitted, Accepted, Backport, Denied, Inappropriate)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
+---
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
