@@ -1,26 +1,35 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 1992577D86
+Return-Path: <joshua.g.lock@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id D12B777D94
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Apr 2017 09:47:23 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v379lOrv025429
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 7 Apr 2017 02:47:24 -0700 (PDT)
-Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
-	Fri, 7 Apr 2017 02:47:23 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 7 Apr 2017 02:47:15 -0700
-Message-ID: <0d80053ad554b8c5eee2fe12b7ef01ea9c71996d.1491557671.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 2.11.0.rc2.dirty
-In-Reply-To: <cover.1491557671.git.liezhi.yang@windriver.com>
-References: <cover.1491557671.git.liezhi.yang@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 8/8] runqemu: make use of two new vars
+	Fri,  7 Apr 2017 10:06:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+	d=intel.com; i=@intel.com; q=dns/txt; s=intel;
+	t=1491559620; x=1523095620;
+	h=message-id:subject:from:to:cc:date:in-reply-to:
+	references:mime-version:content-transfer-encoding;
+	bh=3B1FVjI8DhmoEUSxJU6k3+Oj/TSShNBhJ2KQHQ3/ie8=;
+	b=RliAkVeTYHil5QrDme3jv/2i1YNEyQ9vrnQhltbkP2tt7aho4XdBdWer
+	Yo5aeLvGcuWvDBXCpJXezXTETzVn1w==;
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	07 Apr 2017 03:06:57 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.37,164,1488873600"; d="scan'208";a="1132509389"
+Received: from jlock-mobl1.ger.corp.intel.com ([10.252.6.1])
+	by fmsmga001.fm.intel.com with ESMTP; 07 Apr 2017 03:06:56 -0700
+Message-ID: <1491559615.3478.1.camel@linux.intel.com>
+From: Joshua Lock <joshua.g.lock@linux.intel.com>
+To: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 07 Apr 2017 11:06:55 +0100
+In-Reply-To: <CAMKF1sq7VfdNAJG60Ls6aoQOW2YvHztNqk_z8JwVWO=m1LpkKQ@mail.gmail.com>
+References: <cover.1491484515.git.joshua.g.lock@intel.com>
+	<CAMKF1sq7VfdNAJG60Ls6aoQOW2YvHztNqk_z8JwVWO=m1LpkKQ@mail.gmail.com>
+X-Mailer: Evolution 3.22.6 (3.22.6-2.fc25) 
+Mime-Version: 1.0
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/2] Fixes for building on Fedora 26 (Alpha)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,52 +42,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Apr 2017 09:47:23 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 07 Apr 2017 10:06:59 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: Chen Qi <Qi.Chen@windriver.com>
+On Thu, 2017-04-06 at 06:50 -0700, Khem Raj wrote:
+> On Thu, Apr 6, 2017 at 6:23 AM, Joshua Lock <joshua.g.lock@intel.com>
+> wrote:
+> > As Fedora 26 has a new gcc [1] and a new system pkg-config
+> > implementation [2] I
+> > wanted to do some testing on that host OS so that we might be able
+> > to get some
+> > fixes in before Pyro/2.3 is released.
+> > 
+> > The following series were the only changes required to start
+> > building (I have
+> > tested core-image-minimal, core-image-base and core-image-sato) on
+> > Fedora 26.
+> 
+> gcc patch looks fine to me.
 
-Make use of STAGING_DIR_TUNCTL_NATIVE and STAGING_DIR_QEMU_BINDIR_NATIVE
-to run correctly. In this way, runqemu would still work when 'rm_work'
-is enabled.
+Thanks for the review.
 
-[YOCTO #11266]
-[YOCTO #11193]
+> > 
+> > 1. https://fedoraproject.org/wiki/Changes/GCC7
+> > 2. https://fedoraproject.org/wiki/Changes/pkgconf_as_system_pkg-con
+> > fig_implementation
+> 
+> I think we should think about making pkgconf as default too for OE in
+> next release cycle.
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- scripts/runqemu | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
+I've filed that as a 2.4 enhancement bug:
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=11308
 
-diff --git a/scripts/runqemu b/scripts/runqemu
-index 5b5d56b9ef..e741dfe05d 100755
---- a/scripts/runqemu
-+++ b/scripts/runqemu
-@@ -920,7 +920,10 @@ class BaseConfig(object):
-             gid = os.getgid()
-             uid = os.getuid()
-             logger.info("Setting up tap interface under sudo")
--            cmd = 'sudo %s %s %s %s' % (self.qemuifup, uid, gid, self.get('STAGING_DIR_NATIVE'))
-+            if os.path.exists(self.get('STAGING_DIR_TUNCTL_NATIVE')):
-+                cmd = 'sudo %s %s %s %s' % (self.qemuifup, uid, gid, self.get('STAGING_DIR_TUNCTL_NATIVE'))
-+            else:
-+                cmd = 'sudo %s %s %s %s' % (self.qemuifup, uid, gid, self.get('STAGING_DIR_NATIVE'))
-             tap = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE).stdout.read().decode('utf-8').rstrip('\n')
-             lockfile = os.path.join(lockdir, tap)
-             self.lock = lockfile + '.lock'
-@@ -1056,7 +1059,10 @@ class BaseConfig(object):
-         if not qemu_system:
-             raise Exception("Failed to boot, QB_SYSTEM_NAME is NULL!")
- 
--        qemu_bin = '%s/%s' % (self.get('STAGING_BINDIR_NATIVE'), qemu_system)
-+        if os.path.exists(self.get('STAGING_DIR_QEMU_BINDIR_NATIVE')):
-+            qemu_bin = '%s/%s' % (self.get('STAGING_DIR_QEMU_BINDIR_NATIVE'), qemu_system)
-+        else:
-+            qemu_bin = '%s/%s' % (self.get('STAGING_BINDIR_NATIVE'), qemu_system)
- 
-         # It is possible to have qemu-native in ASSUME_PROVIDED, and it won't
-         # find QEMU in sysroot, it needs to use host's qemu.
--- 
-2.11.0.rc2.dirty
-
+Joshua
 
