@@ -1,22 +1,22 @@
 Return-Path: <wei.tee.ng@intel.com>
 Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id 8D2C777DB2
+	by mail.openembedded.org (Postfix) with ESMTP id C689E77DB6
 	for <openembedded-core@lists.openembedded.org>;
 	Fri,  7 Apr 2017 10:57:38 +0000 (UTC)
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
 	by orsmga105.jf.intel.com with ESMTP; 07 Apr 2017 03:57:38 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.37,164,1488873600"; d="scan'208";a="86340529"
+X-IronPort-AV: E=Sophos;i="5.37,164,1488873600"; d="scan'208";a="86340528"
 Received: from platypus.jf.intel.com ([10.54.77.139])
 	by fmsmga006.fm.intel.com with ESMTP; 07 Apr 2017 03:57:38 -0700
 From: wei.tee.ng@intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  7 Apr 2017 03:57:36 -0700
-Message-Id: <1491562656-111303-4-git-send-email-wei.tee.ng@intel.com>
+Date: Fri,  7 Apr 2017 03:57:35 -0700
+Message-Id: <1491562656-111303-3-git-send-email-wei.tee.ng@intel.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1491562656-111303-1-git-send-email-wei.tee.ng@intel.com>
 References: <1491562656-111303-1-git-send-email-wei.tee.ng@intel.com>
-Subject: [PATCH v2 3/3] linux-firmware: Fix build failure when update SRCREV to latest HEAD
+Subject: [PATCH v2 2/3] linux-firmware: Set the license for carl9170 to GPLv2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,71 +31,90 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 07 Apr 2017 10:57:40 -0000
 
-From: "Chang, Rebecca Swee Fun" <rebecca.swee.fun.chang@intel.com>
+From: "Ng, Wei Tee" <wei.tee.ng@intel.com>
 
-When we update the SRCREV to latest, we will encouter the following
-bitbake error.
+linux-firmwara-carl9170 was set to a wrong license string.
+Carl9170 firmware is bounded by GPLv2 via code inspection on
+linux firmware source tree. Hence we include GPLv2 in LICENSE
+field and set carl9170 firmware to the correct license.
 
-Build error message:
-| Requires(rpmlib): rpmlib(CompressedFileNames) <= 3.0.4-1 rpmlib(PayloadFilesHavePrefix) <= 4.0-1
-| error: Arch dependent binaries in noarch package
-|
-|
-| RPM build errors:
-|     Missing build-id in /home/phoongst/work2/test00/tmp/work/all-poky-linux/linux-firmware/1_0.0+gitAUTOINC+44d8e8d4fd-r0/package/lib/firmware/netronome/nic_AMDA0081-0001_1x40.nffw
-|     Missing build-id in /home/phoongst/work2/test00/tmp/work/all-poky-linux/linux-firmware/1_0.0+gitAUTOINC+44d8e8d4fd-r0/package/lib/firmware/netronome/nic_AMDA0099-0001_2x25.nffw
-|     Missing build-id in /home/phoongst/work2/test00/tmp/work/all-poky-linux/linux-firmware/1_0.0+gitAUTOINC+44d8e8d4fd-r0/package/lib/firmware/netronome/nic_AMDA0097-0001_8x10.nffw
-|     Missing build-id in /home/phoongst/work2/test00/tmp/work/all-poky-linux/linux-firmware/1_0.0+gitAUTOINC+44d8e8d4fd-r0/package/lib/firmware/netronome/nic_AMDA0081-0001_4x10.nffw
-|     Missing build-id in /home/phoongst/work2/test00/tmp/work/all-poky-linux/linux-firmware/1_0.0+gitAUTOINC+44d8e8d4fd-r0/package/lib/firmware/netronome/nic_AMDA0097-0001_4x10_1x40.nffw
-|     Missing build-id in /home/phoongst/work2/test00/tmp/work/all-poky-linux/linux-firmware/1_0.0+gitAUTOINC+44d8e8d4fd-r0/package/lib/firmware/netronome/nic_AMDA0099-0001_2x10.nffw
-|     Missing build-id in /home/phoongst/work2/test00/tmp/work/all-poky-linux/linux-firmware/1_0.0+gitAUTOINC+44d8e8d4fd-r0/package/lib/firmware/netronome/nic_AMDA0097-0001_2x40.nffw
-|     Missing build-id in /home/phoongst/work2/test00/tmp/work/all-poky-linux/linux-firmware/1_0.0+gitAUTOINC+44d8e8d4fd-r0/package/lib/firmware/netronome/nic_AMDA0096-0001_2x10.nffw
-|     Deprecated external dependency generator is used!
-|     Arch dependent binaries in noarch package
-| WARNING: exit code 1 from a shell command.
+[YOCTO #11090]
 
-This is due to netronome firmware is not included in noarch package.
-Hence we removed the netronome firmware before it is packaged,
-until the rpm issue is resolved.
-
-Signed-off-by: Chang, Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>
 Signed-off-by: Ng, Wei Tee <wei.tee.ng@intel.com>
 ---
- meta/recipes-kernel/linux-firmware/linux-firmware_git.bb | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ .../linux-firmware/linux-firmware_git.bb            | 21 ++++++++++++++++-----
+ 1 file changed, 16 insertions(+), 5 deletions(-)
 
 diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-index 9497531..3eb3bce 100644
+index be82a63..9497531 100644
 --- a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
 +++ b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-@@ -112,7 +112,7 @@ LIC_FILES_CHKSUM = "\
-     file://LICENCE.xc4000;md5=0ff51d2dc49fce04814c9155081092f0 \
-     file://LICENCE.xc5000;md5=1e170c13175323c32c7f4d0998d53f66 \
-     file://LICENCE.xc5000c;md5=12b02efa3049db65d524aeb418dd87ca \
--    file://WHENCE;md5=4c56371b1c0d9e75f7620563c652b566 \
-+    file://WHENCE;md5=ad12d0618287e8c10ae3da05fa0edcfb \
+@@ -19,6 +19,7 @@ LICENSE = "\
+     & Firmware-ene_firmware \
+     & Firmware-fw_sst_0f28 \
+     & Firmware-go7007 \
++    & Firmware-GPL-2 \
+     & Firmware-hfi1_firmware \
+     & Firmware-i2400m \
+     & Firmware-i915 \
+@@ -75,6 +76,7 @@ LIC_FILES_CHKSUM = "\
+     file://LICENCE.ene_firmware;md5=ed67f0f62f8f798130c296720b7d3921 \
+     file://LICENCE.fw_sst_0f28;md5=6353931c988ad52818ae733ac61cd293 \
+     file://LICENCE.go7007;md5=c0bb9f6aaaba55b0529ee9b30aa66beb \
++    file://GPL-2;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+     file://LICENSE.hfi1_firmware;md5=5e7b6e586ce7339d12689e49931ad444 \
+     file://LICENCE.i2400m;md5=14b901969e23c41881327c0d9e4b7d36 \
+     file://LICENSE.i915;md5=2b0b2e0d20984affd4490ba2cba02570 \
+@@ -132,6 +134,7 @@ NO_GENERIC_LICENSE[Firmware-e100] = "LICENCE.e100"
+ NO_GENERIC_LICENSE[Firmware-ene_firmware] = "LICENCE.ene_firmware"
+ NO_GENERIC_LICENSE[Firmware-fw_sst_0f28] = "LICENCE.fw_sst_0f28"
+ NO_GENERIC_LICENSE[Firmware-go7007] = "LICENCE.go7007"
++NO_GENERIC_LICENSE[Firmware-GPL-2] = "GPL-2"
+ NO_GENERIC_LICENSE[Firmware-hfi1_firmware] = "LICENSE.hfi1_firmware"
+ NO_GENERIC_LICENSE[Firmware-i2400m] = "LICENCE.i2400m"
+ NO_GENERIC_LICENSE[Firmware-i915] = "LICENSE.i915"
+@@ -223,7 +226,8 @@ PACKAGES =+ "${PN}-ralink-license ${PN}-ralink \
+              ${PN}-vt6656-license ${PN}-vt6656 \
+              ${PN}-rtl-license ${PN}-rtl8188 ${PN}-rtl8192cu ${PN}-rtl8192ce ${PN}-rtl8192su ${PN}-rtl8723 ${PN}-rtl8821 \
+              ${PN}-broadcom-license ${PN}-bcm4329 ${PN}-bcm4330 ${PN}-bcm4334 ${PN}-bcm43340 ${PN}-bcm4339 ${PN}-bcm43430 ${PN}-bcm4354 \
+-             ${PN}-atheros-license ${PN}-ar9170 ${PN}-carl9170 ${PN}-ath6k ${PN}-ath9k \
++             ${PN}-atheros-license ${PN}-ar9170 ${PN}-ath6k ${PN}-ath9k \
++             ${PN}-GPL-2-license ${PN}-carl9170 \
+              ${PN}-ar3k-license  ${PN}-ar3k  ${PN}-ath10k-license  ${PN}-ath10k  \
+              \
+              ${PN}-iwlwifi-license ${PN}-iwlwifi \
+@@ -253,9 +257,6 @@ FILES_${PN}-atheros-license = "${nonarch_base_libdir}/firmware/LICENCE.atheros_f
+ FILES_${PN}-ar9170 = " \
+   ${nonarch_base_libdir}/firmware/ar9170*.fw \
+ "
+-FILES_${PN}-carl9170 = " \
+-  ${nonarch_base_libdir}/firmware/carl9170*.fw \
+-"
+ FILES_${PN}-ath6k = " \
+   ${nonarch_base_libdir}/firmware/ath6k \
+ "
+@@ -269,10 +270,20 @@ FILES_${PN}-ath9k = " \
  "
  
- # These are not common licenses, set NO_GENERIC_LICENSE for them
-@@ -172,7 +172,7 @@ NO_GENERIC_LICENSE[Firmware-xc5000] = "LICENCE.xc5000"
- NO_GENERIC_LICENSE[Firmware-xc5000c] = "LICENCE.xc5000c"
- NO_GENERIC_LICENSE[WHENCE] = "WHENCE"
+ RDEPENDS_${PN}-ar9170 += "${PN}-atheros-license"
+-RDEPENDS_${PN}-carl9170 += "${PN}-atheros-license"
+ RDEPENDS_${PN}-ath6k += "${PN}-atheros-license"
+ RDEPENDS_${PN}-ath9k += "${PN}-atheros-license"
  
--SRCREV = "a4dde74b504522d239e8521617b53b03f393ed6a"
-+SRCREV = "b14134583c2a15d4404695f72cb523daedb877ab"
- PE = "1"
- PV = "0.0+git${SRCPV}"
- 
-@@ -216,6 +216,9 @@ do_install() {
- 
-         # Copy the iwlwifi ucode
-         cp ${WORKDIR}/iwlwifi-8000C-19.ucode ${D}${nonarch_base_libdir}/firmware/
++# For carl9170
++LICENSE_${PN}-carl9170 = "Firmware-GPL-2"
++LICENSE_${PN}-GPL-2-license = "Firmware-GPL-2"
 +
-+	# TODO: Remove netronome firmware until RPM packaging issue is resolved
-+	rm -r ${D}${nonarch_base_libdir}/firmware/netronome/
- }
- 
- 
++FILES_${PN}-GPL-2-license = "${nonarch_base_libdir}/firmware/GPL-2"
++FILES_${PN}-carl9170 = " \
++  ${nonarch_base_libdir}/firmware/carl9170*.fw \
++"
++
++RDEPENDS_${PN}-carl9170 += "${PN}-GPL-2-license"
++
+ # For QualCommAthos
+ LICENSE_${PN}-ar3k = "Firmware-qualcommAthos_ar3k"
+ LICENSE_${PN}-ar3k-license = "Firmware-qualcommAthos_ar3k"
 -- 
 2.7.4
 
