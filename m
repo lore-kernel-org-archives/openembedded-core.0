@@ -1,28 +1,32 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 00F6F77D73
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 5737D77D49
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Apr 2017 07:50:09 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTP id v377o9HY025219; 
-	Fri, 7 Apr 2017 08:50:09 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id Xi-qEPpzm-_b; Fri,  7 Apr 2017 08:50:09 +0100 (BST)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	v377m6SX025168
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Fri, 7 Apr 2017 08:48:07 +0100
-Message-ID: <1491551286.17200.87.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: liu.ming50@gmail.com, openembedded-core@lists.openembedded.org
-Date: Fri, 07 Apr 2017 08:48:06 +0100
-In-Reply-To: <1491480584-9725-1-git-send-email-liu.ming50@gmail.com>
-References: <1491480584-9725-1-git-send-email-liu.ming50@gmail.com>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.1 
-Mime-Version: 1.0
-Subject: Re: [PATCH 0/4] Fix some incorrect TARGET_-* flags
+	Fri,  7 Apr 2017 08:04:18 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v3784Is5001721
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Fri, 7 Apr 2017 01:04:18 -0700 (PDT)
+Received: from [128.224.162.201] (128.224.162.201) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.294.0;
+	Fri, 7 Apr 2017 01:04:17 -0700
+To: Richard Purdie <richard.purdie@linuxfoundation.org>, Nathan Rossi
+	<nathan@nathanrossi.com>
+References: <cover.1490850708.git.Qi.Chen@windriver.com>
+	<d6b2737e706f743644df63f21a8f061b9e2f83c7.1490850708.git.Qi.Chen@windriver.com>
+	<CA+aJhH1JjWONYpOFi8S4QsDzUdfoPSJS_0FZf=5dQTm-O_4wEQ@mail.gmail.com>
+	<1491391320.17200.8.camel@linuxfoundation.org>
+From: ChenQi <Qi.Chen@windriver.com>
+Message-ID: <e60723a0-a6f4-3dd7-a53c-044bf0f7c62b@windriver.com>
+Date: Fri, 7 Apr 2017 16:05:45 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.4.0
+MIME-Version: 1.0
+In-Reply-To: <1491391320.17200.8.camel@linuxfoundation.org>
+X-Originating-IP: [128.224.162.201]
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] image.inc/qemu.inc: preserve directories to be used by runqemu
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,42 +39,97 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Apr 2017 07:50:10 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 07 Apr 2017 08:04:20 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Thu, 2017-04-06 at 14:09 +0200, liu.ming50@gmail.com wrote:
-> From: Ming Liu <liu.ming50@gmail.com>
-> 
-> I had found a lot of churn in sysroots when multiple MACHINEs are
-> sharing a same build folder, which is the case in my company, after
-> digging into it, I found it's caused by the TARGET_-* flags, they
-> are exported but not in use at all, they should be replaced by
-> particular flags for cross,crosssdk,nativesdk,cross-canadian, native
-> class does not need that because it's already done in:
-> 
-> commit 05a70ac30b37cab0952f1b9df501993a9dec70da:
-> [ native.bbclass: Override TARGET_ flags too ]
+On 04/05/2017 07:22 PM, Richard Purdie wrote:
+> On Wed, 2017-04-05 at 20:06 +1000, Nathan Rossi wrote:
+>> On 30 March 2017 at 15:12, Chen Qi <Qi.Chen@windriver.com> wrote:
+>>> The 'recipe-sysroot' and 'recipe-sysroot-native' directories need
+>>> to
+>>> be preserved for runqemu to work correctly. Otherwise, when
+>>> 'rm_work'
+>>> is enabled, these directories are removed, thus causing errors when
+>>> using runqemu .
+>>>
+>>> [YOCTO #11266]
+>>> [YOCTO #11193]
+>>>
+>>> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+>>> ---
+>>>   meta/classes/image.bbclass         | 1 +
+>>>   meta/conf/machine/include/qemu.inc | 3 +++
+>>>   2 files changed, 4 insertions(+)
+>>>
+>>> diff --git a/meta/classes/image.bbclass
+>>> b/meta/classes/image.bbclass
+>>> index 405fd73..cac3a5f 100644
+>>> --- a/meta/classes/image.bbclass
+>>> +++ b/meta/classes/image.bbclass
+>>> @@ -8,6 +8,7 @@ inherit ${SDKEXTCLASS}
+>>>   TOOLCHAIN_TARGET_TASK += "${PACKAGE_INSTALL}"
+>>>   TOOLCHAIN_TARGET_TASK_ATTEMPTONLY +=
+>>> "${PACKAGE_INSTALL_ATTEMPTONLY}"
+>>>   POPULATE_SDK_POST_TARGET_COMMAND += "rootfs_sysroot_relativelinks;
+>>> "
+>>> +RM_WORK_EXCLUDE_ITEMS_append = " ${IMAGE_RM_WORK_EXCLUDE_ITEMS}"
+>>>
+>>>   LICENSE = "MIT"
+>>>   PACKAGES = ""
+>>> diff --git a/meta/conf/machine/include/qemu.inc
+>>> b/meta/conf/machine/include/qemu.inc
+>>> index 0e4103b..8345c08 100644
+>>> --- a/meta/conf/machine/include/qemu.inc
+>>> +++ b/meta/conf/machine/include/qemu.inc
+>>> @@ -29,3 +29,6 @@ KERNEL_FEATURES_append_pn-linux-yocto = "
+>>> features/nfsd/nfsd-enable.scc"
+>>>   MACHINE_EXTRA_RRECOMMENDS += "rng-tools"
+>>>
+>>>   IMAGE_CLASSES += "qemuboot"
+>>> +
+>>> +# These two directories need to be preserved for runqemu to work
+>>> well
+>>> +IMAGE_RM_WORK_EXCLUDE_ITEMS = "recipe-sysroot recipe-sysroot-
+>>> native"
+>> Should this be setup by qemuboot.bbclass instead, so that it applies
+>> to any image/machine (even those that do not use qemu.inc) that is
+>> intended to be used by runqemu?
+> I'm trying to decide what the best approach here is. I'm thinking it
+> might be better to:
+>
+> a) make qemu builds depend on qemu-helper-native
+> b) make that preserve its native sysroot (not the target one).
+> c) have runqemu look at qemu-helper-native
+>
+> I think that should solve problems and work better than the above?
+>
+> Cheers,
+>
+> Richard
+>
+Hi Richard,
 
-Whilst I understand why you want to do this, unfortunately these change
-did break our automated tests, e.g.:
+I've sent out a new patch series. The solution is a little bit different 
+from the above.
 
-https://autobuilder.yocto.io/builders/nightly-x86-lsb/builds/232/steps/BuildImages/logs/stdio
-https://autobuilder.yocto.io/builders/nightly-arm/builds/281/steps/BuildImages/logs/stdio
+As 'tunctl' is from qemu-helper-native, and 'qemu-xxx' is from 
+qemu-native, I choose to have runqemu look at things under 
+sysroots-components. The STAGING_DIR_NATIVE and STAGING_BINDIR_NATIVE 
+logic is still preserved so that runqemu still works well in SDK.
 
-I think roughly what happened is that binutils-native was built on a
-machine which doesn't default to PIC (providing libiberty), then
-prelink-native was attempted on a machine that does. The result is the
-error you see.
+I've used the following test cases for testing.
 
-Previously this happened to work since enough target flags leaked into
-the native ones to avoid the problem. After your change it breaks.
-We're going to have to look into and fix this before I can merge these
-changes...
+1) runqemu + rm_work
 
-Cheers,
+2) oe-selftest -r runqemu
 
-Richard
+3) runqemu + SDK
 
+4) runqemu + Ext SDK
+
+Best Regards,
+
+Chen Qi
 
 
