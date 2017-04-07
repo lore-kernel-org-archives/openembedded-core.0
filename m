@@ -1,22 +1,39 @@
-Return-Path: <wei.tee.ng@intel.com>
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id C689E77DB6
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 356BF77D9F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Apr 2017 10:57:38 +0000 (UTC)
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-	by orsmga105.jf.intel.com with ESMTP; 07 Apr 2017 03:57:38 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.37,164,1488873600"; d="scan'208";a="86340528"
-Received: from platypus.jf.intel.com ([10.54.77.139])
-	by fmsmga006.fm.intel.com with ESMTP; 07 Apr 2017 03:57:38 -0700
-From: wei.tee.ng@intel.com
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  7 Apr 2017 03:57:35 -0700
-Message-Id: <1491562656-111303-3-git-send-email-wei.tee.ng@intel.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1491562656-111303-1-git-send-email-wei.tee.ng@intel.com>
-References: <1491562656-111303-1-git-send-email-wei.tee.ng@intel.com>
-Subject: [PATCH v2 2/3] linux-firmware: Set the license for carl9170 to GPLv2
+	Fri,  7 Apr 2017 11:03:40 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTP id v37B3Zw0010058; 
+	Fri, 7 Apr 2017 12:03:35 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id EafiMSzpkL_R; Fri,  7 Apr 2017 12:03:35 +0100 (BST)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	v37AvwmX008943
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
+	verify=NOT); Fri, 7 Apr 2017 11:57:59 +0100
+Message-ID: <1491562678.17200.91.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: "Choong, Yin Thong" <yin.thong.choong@intel.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Date: Fri, 07 Apr 2017 11:57:58 +0100
+In-Reply-To: <CF0C948DE8E2634BB64BF489FF9EF7E7CB2F5A@PGSMSX105.gar.corp.intel.com>
+References: <1491467730-8418-1-git-send-email-yin.thong.choong@intel.com>
+	<1491467730-8418-5-git-send-email-yin.thong.choong@intel.com>
+	<1491550600.17200.82.camel@linuxfoundation.org>
+	<CF0C948DE8E2634BB64BF489FF9EF7E7CB2F5A@PGSMSX105.gar.corp.intel.com>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.1 
+Mime-Version: 1.0
+Cc: "Phoong, Stanley Cheong Kwan" <stanley.cheong.kwan.phoong@intel.com>, "Khor,
+	Chin Kooi" <chin.kooi.khor@intel.com>, "Gan,
+	Yau Wai" <yau.wai.gan@intel.com>, "Ang,
+	Chin Huat" <chin.huat.ang@intel.com>, "Tan,
+	Shen Joon" <shen.joon.tan@intel.com>, "Ng,
+	Wei Tee" <wei.tee.ng@intel.com>, "Yeoh, Ee Peng" <ee.peng.yeoh@intel.com>
+Subject: Re: [PATCH v3 4/8] logrotate: replace fedorahosted.org SRC_URI with github.com source
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,93 +46,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Apr 2017 10:57:40 -0000
+X-List-Received-Date: Fri, 07 Apr 2017 11:03:41 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: "Ng, Wei Tee" <wei.tee.ng@intel.com>
+On Fri, 2017-04-07 at 09:10 +0000, Choong, Yin Thong wrote:
+> Is wired. I bitbake successful on my machine. bitbake logrotate
+> -ccleanall and bitbake logrotate.
+> In this case, I should submit my entire patch or only resubmit this
+> patch [PATCH v3 4/8] with cover letter?
 
-linux-firmwara-carl9170 was set to a wrong license string.
-Carl9170 firmware is bounded by GPLv2 via code inspection on
-linux firmware source tree. Hence we include GPLv2 in LICENSE
-field and set carl9170 firmware to the correct license.
+Please send just this patch. If you setup a multiconfig configuration
+and then "bitbake lib32-logrotate" you'd see this error.
 
-[YOCTO #11090]
+You can see the configuration the autobuilder used here:
+https://autobuilder.yocto.io/builders/nightly-world/builds/214/steps/CreateAutoConf/logs/stdio
+for that world build for example.
 
-Signed-off-by: Ng, Wei Tee <wei.tee.ng@intel.com>
----
- .../linux-firmware/linux-firmware_git.bb            | 21 ++++++++++++++++-----
- 1 file changed, 16 insertions(+), 5 deletions(-)
+Cheers,
 
-diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-index be82a63..9497531 100644
---- a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-+++ b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-@@ -19,6 +19,7 @@ LICENSE = "\
-     & Firmware-ene_firmware \
-     & Firmware-fw_sst_0f28 \
-     & Firmware-go7007 \
-+    & Firmware-GPL-2 \
-     & Firmware-hfi1_firmware \
-     & Firmware-i2400m \
-     & Firmware-i915 \
-@@ -75,6 +76,7 @@ LIC_FILES_CHKSUM = "\
-     file://LICENCE.ene_firmware;md5=ed67f0f62f8f798130c296720b7d3921 \
-     file://LICENCE.fw_sst_0f28;md5=6353931c988ad52818ae733ac61cd293 \
-     file://LICENCE.go7007;md5=c0bb9f6aaaba55b0529ee9b30aa66beb \
-+    file://GPL-2;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
-     file://LICENSE.hfi1_firmware;md5=5e7b6e586ce7339d12689e49931ad444 \
-     file://LICENCE.i2400m;md5=14b901969e23c41881327c0d9e4b7d36 \
-     file://LICENSE.i915;md5=2b0b2e0d20984affd4490ba2cba02570 \
-@@ -132,6 +134,7 @@ NO_GENERIC_LICENSE[Firmware-e100] = "LICENCE.e100"
- NO_GENERIC_LICENSE[Firmware-ene_firmware] = "LICENCE.ene_firmware"
- NO_GENERIC_LICENSE[Firmware-fw_sst_0f28] = "LICENCE.fw_sst_0f28"
- NO_GENERIC_LICENSE[Firmware-go7007] = "LICENCE.go7007"
-+NO_GENERIC_LICENSE[Firmware-GPL-2] = "GPL-2"
- NO_GENERIC_LICENSE[Firmware-hfi1_firmware] = "LICENSE.hfi1_firmware"
- NO_GENERIC_LICENSE[Firmware-i2400m] = "LICENCE.i2400m"
- NO_GENERIC_LICENSE[Firmware-i915] = "LICENSE.i915"
-@@ -223,7 +226,8 @@ PACKAGES =+ "${PN}-ralink-license ${PN}-ralink \
-              ${PN}-vt6656-license ${PN}-vt6656 \
-              ${PN}-rtl-license ${PN}-rtl8188 ${PN}-rtl8192cu ${PN}-rtl8192ce ${PN}-rtl8192su ${PN}-rtl8723 ${PN}-rtl8821 \
-              ${PN}-broadcom-license ${PN}-bcm4329 ${PN}-bcm4330 ${PN}-bcm4334 ${PN}-bcm43340 ${PN}-bcm4339 ${PN}-bcm43430 ${PN}-bcm4354 \
--             ${PN}-atheros-license ${PN}-ar9170 ${PN}-carl9170 ${PN}-ath6k ${PN}-ath9k \
-+             ${PN}-atheros-license ${PN}-ar9170 ${PN}-ath6k ${PN}-ath9k \
-+             ${PN}-GPL-2-license ${PN}-carl9170 \
-              ${PN}-ar3k-license  ${PN}-ar3k  ${PN}-ath10k-license  ${PN}-ath10k  \
-              \
-              ${PN}-iwlwifi-license ${PN}-iwlwifi \
-@@ -253,9 +257,6 @@ FILES_${PN}-atheros-license = "${nonarch_base_libdir}/firmware/LICENCE.atheros_f
- FILES_${PN}-ar9170 = " \
-   ${nonarch_base_libdir}/firmware/ar9170*.fw \
- "
--FILES_${PN}-carl9170 = " \
--  ${nonarch_base_libdir}/firmware/carl9170*.fw \
--"
- FILES_${PN}-ath6k = " \
-   ${nonarch_base_libdir}/firmware/ath6k \
- "
-@@ -269,10 +270,20 @@ FILES_${PN}-ath9k = " \
- "
- 
- RDEPENDS_${PN}-ar9170 += "${PN}-atheros-license"
--RDEPENDS_${PN}-carl9170 += "${PN}-atheros-license"
- RDEPENDS_${PN}-ath6k += "${PN}-atheros-license"
- RDEPENDS_${PN}-ath9k += "${PN}-atheros-license"
- 
-+# For carl9170
-+LICENSE_${PN}-carl9170 = "Firmware-GPL-2"
-+LICENSE_${PN}-GPL-2-license = "Firmware-GPL-2"
-+
-+FILES_${PN}-GPL-2-license = "${nonarch_base_libdir}/firmware/GPL-2"
-+FILES_${PN}-carl9170 = " \
-+  ${nonarch_base_libdir}/firmware/carl9170*.fw \
-+"
-+
-+RDEPENDS_${PN}-carl9170 += "${PN}-GPL-2-license"
-+
- # For QualCommAthos
- LICENSE_${PN}-ar3k = "Firmware-qualcommAthos_ar3k"
- LICENSE_${PN}-ar3k-license = "Firmware-qualcommAthos_ar3k"
--- 
-2.7.4
-
+Richard
 
