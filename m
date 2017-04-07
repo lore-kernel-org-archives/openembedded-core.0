@@ -1,23 +1,33 @@
 Return-Path: <jussi.kukkonen@intel.com>
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 5D62977D20
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 4608D77D70
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Apr 2017 06:09:28 +0000 (UTC)
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-	by fmsmga105.fm.intel.com with ESMTP; 06 Apr 2017 23:09:30 -0700
+	Fri,  7 Apr 2017 06:09:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+	d=intel.com; i=@intel.com; q=dns/txt; s=intel;
+	t=1491545382; x=1523081382;
+	h=from:to:cc:subject:date:message-id:in-reply-to: references;
+	bh=2PauwGYisoG7Xg3PRC905M4eUW+U3ZJri6sY1iwhT3s=;
+	b=eIwlPtQMGJAf67mnDCekJ3HNdOQ7ggld4p0sYDRYLDBN3h2jVlDSmELa
+	OjbZILVHESWhYOg7Psscd+SyRF0Rmg==;
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	06 Apr 2017 23:09:41 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.37,163,1488873600"; d="scan'208";a="85788776"
+X-IronPort-AV: E=Sophos;i="5.37,163,1488873600"; d="scan'208";a="1132428018"
 Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga005.fm.intel.com with ESMTP; 06 Apr 2017 23:09:30 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 06 Apr 2017 23:09:41 -0700
 Received: from theory.fi.intel.com (theory.fi.intel.com [10.237.72.53])
-	by linux.intel.com (Postfix) with ESMTP id 9DA256A4080;
-	Thu,  6 Apr 2017 23:09:20 -0700 (PDT)
+	by linux.intel.com (Postfix) with ESMTP id DFF206A4080;
+	Thu,  6 Apr 2017 23:09:31 -0700 (PDT)
 From: Jussi Kukkonen <jussi.kukkonen@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  7 Apr 2017 09:08:53 +0300
-Message-Id: <cover.1491483222.git.jussi.kukkonen@intel.com>
+Date: Fri,  7 Apr 2017 09:09:33 +0300
+Message-Id: <dfedca71b6debe323a679e497dc5f35b637a4929.1491483222.git.jussi.kukkonen@intel.com>
 X-Mailer: git-send-email 2.1.4
-Subject: [PATCH 0/4] Use fixed DISTRO_FEATURES for native
+In-Reply-To: <cover.1491483222.git.jussi.kukkonen@intel.com>
+References: <cover.1491483222.git.jussi.kukkonen@intel.com>
+Subject: [PATCH 1/4] mkfontdir: Remove x11 requirement
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,50 +40,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Apr 2017 06:09:29 -0000
+X-List-Received-Date: Fri, 07 Apr 2017 06:09:40 -0000
 
-Avoid signifant native task churn when DISTRO_FEATURES is changed
-by defining a fixed DISTRO_FEATURES value (default is "") for native
-recipes.
+Build does not need libx11, so also does not need the distro feature.
 
-The xorg changes are all removals of x11 requirements (that were not
-real) from recipes that have native versions.
+Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+---
+ meta/recipes-graphics/xorg-app/mkfontdir_1.0.7.bb | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-I added a configuration default in bitbake.conf, let me know if this
-is not a good place.
-
-This seems to work fine (tested multiple different images) but I am
-not really sure how to test it further... Suggestions are welcome, as
-are results from autobuilder. 
-
-
-Thanks,
-  Jussi
-
-
-
-The following changes since commit 633ad6c9f436f5d2b6ee1a005b697661a054a394:
-
-  oeqa/runtime/utils/targetbuildproject: use parent classes defaults tmpdir (2017-04-06 10:13:39 +0100)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib jku/native-distro-features
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=jku/native-distro-features
-
-Jussi Kukkonen (4):
-  mkfontdir: Remove x11 requirement
-  mkfontscale: Remove x11 requirement
-  xorg-font-common.inc: Remove x11 requirement
-  native.bbclass: Use fixed DISTRO_FEATURES
-
- meta/classes/native.bbclass                          | 12 ++++++++----
- meta/conf/bitbake.conf                               |  2 ++
- meta/recipes-graphics/xorg-app/mkfontdir_1.0.7.bb    |  4 ++++
- meta/recipes-graphics/xorg-app/mkfontscale_1.1.2.bb  |  3 +++
- meta/recipes-graphics/xorg-font/xorg-font-common.inc |  3 ---
- 5 files changed, 17 insertions(+), 7 deletions(-)
-
+diff --git a/meta/recipes-graphics/xorg-app/mkfontdir_1.0.7.bb b/meta/recipes-graphics/xorg-app/mkfontdir_1.0.7.bb
+index a453e24..371d9a1 100644
+--- a/meta/recipes-graphics/xorg-app/mkfontdir_1.0.7.bb
++++ b/meta/recipes-graphics/xorg-app/mkfontdir_1.0.7.bb
+@@ -11,6 +11,10 @@ files."
+ PE = "1"
+ PR = "${INC_PR}.0"
+ 
++# We don't actually need x11 as xorg-app-common claims
++DEPENDS = "util-macros-native"
++REQUIRED_DISTRO_FEATURES = ""
++
+ RDEPENDS_${PN} += "mkfontscale"
+ RDEPENDS_${PN}_class-native += "mkfontscale-native"
+ 
 -- 
 2.1.4
 
