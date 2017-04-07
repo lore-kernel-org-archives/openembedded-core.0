@@ -1,33 +1,53 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 1DA8172F3A
+Return-Path: <freesilicon@gmail.com>
+Received: from mail-wr0-f195.google.com (mail-wr0-f195.google.com
+	[209.85.128.195])
+	by mail.openembedded.org (Postfix) with ESMTP id CCEF577D86
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Apr 2017 12:19:07 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTP id v37CIgYf015625; 
-	Fri, 7 Apr 2017 13:19:03 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id Qmo3CYfghTlC; Fri,  7 Apr 2017 13:19:03 +0100 (BST)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	v37CDVwD015091
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Fri, 7 Apr 2017 13:13:32 +0100
-Message-ID: <1491567211.17200.93.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Jussi Kukkonen <jussi.kukkonen@intel.com>
-Date: Fri, 07 Apr 2017 13:13:31 +0100
-In-Reply-To: <CAHiDW_FHTmqsBjCpUR7m0JMh6+iyPO=Gbh8eLcoy5YLgCO+dvQ@mail.gmail.com>
-References: <cover.1491483222.git.jussi.kukkonen@intel.com>
-	<d071facbbdbb48f34e0f0d9500872349c1130a9a.1491483222.git.jussi.kukkonen@intel.com>
-	<1491553733.17200.89.camel@linuxfoundation.org>
-	<CAHiDW_FHTmqsBjCpUR7m0JMh6+iyPO=Gbh8eLcoy5YLgCO+dvQ@mail.gmail.com>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.1 
-Mime-Version: 1.0
+	Fri,  7 Apr 2017 12:27:46 +0000 (UTC)
+Received: by mail-wr0-f195.google.com with SMTP id o21so14510629wrb.3
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 07 Apr 2017 05:27:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=eQKXJf5sQK+weTWd+7gUvobovNB383FihPe97xqXHSo=;
+	b=BspNgureFBWj7OPKptBxGBasP4QLjI9Ldb40uxZxNeGEAP3hc3lHHpizk8WJLcSgqm
+	sFS2ckvpVqmqVv39Wryt5ajpALmMHZL+9edhE78BF3+TUcZKXB+xd+xATwpnHuaK2THp
+	FuA8m/uwb3F/rjPpYocDQk0NBueXLRRCRiFUdjmG/LTOOv5d/95ShvgYGOU6WcSUHSoQ
+	CftvP+3NL5bbOultHW5fV5B9SiD+5hUJ+oqBI+PnAqYa4S5HBpz+hz4tvdVQFm/LJNg3
+	kFsWGESdoCGhcZjwTprUqWC8rHmLTiIJpo9SzK4eV7lIs9ySValOZaxypQCscJvqdc1F
+	orfA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=eQKXJf5sQK+weTWd+7gUvobovNB383FihPe97xqXHSo=;
+	b=JbWkz6EcBoU0SKVk3KgdDdR93Nfy94zC7l3mCjBoFa4/nKTRhfKFSOpy7kreSJJ8ey
+	zBoWK/XSN/14JcaD4u3G+9fmKWbsGthU8dsIEasYTzuDyWM2ee+4s/2OFzVvOHeG+2Ee
+	rkn1JC6fXB/kM49ixyBYzaAv/JUv0eCvu0hEsLuDNUqhBBXAOS/W7flkH6u1Zbv5HSA8
+	AOMUvUkGpM/3lnKK0HNaHexQJl59WX0FbvszANhuPDma+obCejiD+l6yBQmxdI9ujpz0
+	PEDDefd6SmldkKuRwEqRLp7Sa8bFlWIxhs4teJINOqmvncXPtFbAHAzHhivAVQlJ2OCB
+	k/zg==
+X-Gm-Message-State: AFeK/H19jsCheo6Oy8MN9U40D2huHdbgmhCgCMfRO0fK25ghQeDVO5yBLO/PjEMLQLfbcw==
+X-Received: by 10.28.167.216 with SMTP id q207mr24952893wme.134.1491568067560; 
+	Fri, 07 Apr 2017 05:27:47 -0700 (PDT)
+Received: from crde-port-20.cahors.local ([185.47.80.46])
+	by smtp.gmail.com with ESMTPSA id
+	t85sm6125119wmt.23.2017.04.07.05.27.46
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 07 Apr 2017 05:27:47 -0700 (PDT)
+From: David Vincent <freesilicon@gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Date: Fri, 07 Apr 2017 14:27:45 +0200
+Message-ID: <3319701.6ygbhHyYrO@crde-port-20.cahors.local>
+In-Reply-To: <CA+chaQdGcpevoyue494P0FkYp_C8dt4fbZ3CLoza7sVHoRSWjg@mail.gmail.com>
+References: <20170123135916.4618-1-freesilicon@gmail.com>
+	<CAHiDW_FWnBo8vsQ_OTwHYDJmMDXfH1b+6UkTjWf1=qK9QiYWLg@mail.gmail.com>
+	<CA+chaQdGcpevoyue494P0FkYp_C8dt4fbZ3CLoza7sVHoRSWjg@mail.gmail.com>
+MIME-Version: 1.0
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 4/4] native.bbclass: Use fixed DISTRO_FEATURES
+Subject: Re: [PATCH] openssl: Fix symlink creation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,121 +60,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Apr 2017 12:19:09 -0000
+X-List-Received-Date: Fri, 07 Apr 2017 12:27:47 -0000
+Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
 
-On Fri, 2017-04-07 at 14:59 +0300, Jussi Kukkonen wrote:
-> On 7 April 2017 at 11:28, Richard Purdie <richard.purdie@linuxfoundat
-> ion.org> wrote:
-> > On Fri, 2017-04-07 at 09:09 +0300, Jussi Kukkonen wrote:
-> > > There seems to be no advantage to letting distro features affect
-> > > native builds. There is a significant disadvantage: a change to
-> > > DISTRO_FEATURES will trigger a lot of unnecessary native tasks.
-> > In a
-> > > test like this:
-> > >   $ bitbake core-image-minimal
-> > >   # append " systemd" to DISTRO_FEATURES
-> > >   $ bitbake core-image-minimal
-> > > The latter build takes 44 minutes (28%) of cpu-time less with
-> > this
-> > > patch (skipping 135 native tasks). Sadly wall clock time was not
-> > > affected as glibc remains the bottleneck.
-> > >
-> > > Set DISTRO_FEATURES to a fixed value for native recipes to avoid
-> > the
-> > > unnecessary tasks: currently the default value is empty.
-> > >
-> > > Do the variable setting in native_virtclass_handler() because
-> > > otherwise
-> > > it could still be overridden by appends and the feature
-> > backfilling.
-> > > Shuffle the early returns so DISTRO_FEATURES gets set as long as
-> > > the packagename ends with "-native".
-> > >
-> > > Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
-> > > ---
-> > >  meta/classes/native.bbclass | 12 ++++++++----
-> > >  meta/conf/bitbake.conf      |  2 ++
-> > >  2 files changed, 10 insertions(+), 4 deletions(-)
-> > >
-> > > diff --git a/meta/classes/native.bbclass
-> > > b/meta/classes/native.bbclass
-> > > index 1919fbc..fbca4c6 100644
-> > > --- a/meta/classes/native.bbclass
-> > > +++ b/meta/classes/native.bbclass
-> > > @@ -121,14 +121,18 @@ PATH_prepend = "${COREBASE}/scripts/native-
-> > > intercept:"
-> > >  SSTATE_SCAN_CMD ?= "${SSTATE_SCAN_CMD_NATIVE}"
-> > >  
-> > >  python native_virtclass_handler () {
-> > > -    classextend = e.data.getVar('BBCLASSEXTEND') or ""
-> > > -    if "native" not in classextend:
-> > > -        return
-> > > -
-> > >      pn = e.data.getVar("PN")
-> > >      if not pn.endswith("-native"):
-> > >          return
-> > >  
-> > > +    # Set features here to prevent appends and distro features
-> > > backfill
-> > > +    # from modifying native distro features
-> > > +    d.setVar("DISTRO_FEATURES", "${NATIVE_DISTRO_FEATURES}")
-> > > +
-> > > +    classextend = e.data.getVar('BBCLASSEXTEND') or ""
-> > > +    if "native" not in classextend:
-> > > +        return
-> > > +
-> > >      def map_dependencies(varname, d, suffix = ""):
-> > >          if suffix:
-> > >              varname = varname + "_" + suffix
-> > > diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-> > > index 5e98d45..78a3470 100644
-> > > --- a/meta/conf/bitbake.conf
-> > > +++ b/meta/conf/bitbake.conf
-> > > @@ -789,6 +789,8 @@ MACHINE_ESSENTIAL_EXTRA_RRECOMMENDS ?= ""
-> > >  EXTRA_IMAGE_FEATURES ??= ""
-> > >  IMAGE_FEATURES += "${EXTRA_IMAGE_FEATURES}"
-> > >  
-> > > +NATIVE_DISTRO_FEATURES ?= ""
-> > > +
-> > >  DISTRO_FEATURES_BACKFILL = "pulseaudio sysvinit bluez5 gobject-
-> > > introspection-data ldconfig"
-> > >  MACHINE_FEATURES_BACKFILL = "rtc qemu-usermode"
-> > 
-> > Thanks for working on this, looks good.
-> > 
-> > Most native variables are called XXX_NATIVE, not NATIVE_XXX so we
-> > might
-> > want to make this match?
-> Will do.
->  
-> > Also, one question. Does this have any effect on qemu-native? Does
-> > qemu-native need/use x11 today?
-> qemu itself does not use anything x11 since last year and the default
-> native packageconfig is already not
-> dependent on distro features.
+On jeudi 6 avril 2017 15:03:36 CEST Martin Jansa wrote:
+> I still don't understand why not use standard update-alternatives and
+> install another package with your favorite openssl.conf which has higher
+> ALTERNATIVE_PRIORITY.
+
+Why not, but maybe this https://bugzilla.yoctoproject.org/show_bug.cgi?
+id=10777 can be a stopper since libcrypto RRECOMMENDS openssl-conf
+
+> This way u-a will switch to new config even when you just install the
+> package which require it on the target later and will switch back to
+> default openssl.conf when the alternative package with config file is
+> uninstalled.
 > 
-> Now that you mentioned I had a closer look at qemu & SDL:
->  * qemu-native doesn't build with "sdl" by default, but someone might
-> change that of course 
->  * If that happens (and libsdl-native is not in ASSUME_PROVIDED),
-> libsdl is built and by default depends on libx11
-> I completely expected this to fail now (without x11 in distro
-> features) but it actually builds just fine. It turns out that a
-> clever Burton has tweaked 
-> REQUIRED_DISTRO_FEATURES_class-native for some X libraries for
-> exactly this purpose already.
+> On Thu, Apr 6, 2017 at 12:55 PM, Jussi Kukkonen <jussi.kukkonen@intel.com>
+>> So previously openssl-conf package included etc/ssl/openssl.cnf and the
+>> symlink ${libdir}/ssl/openssl.conf.
 
-Right, we actually have a commented section for sdl and qemu in our
-local.conf.sample so we do need to test and figure this piece out.
+The symlink is not inside openssl-conf package but rather inside openssl.
 
-Would we want to put x11 in the default native distro flags to avoid
-some of the other issues above?
+>> Nothing RDEPENDS on this package (but
+>> libcrypto RRECOMMENDS it).
+>> 
+>> After your patch the actual configuration file is still installed. In a
+>> postinst
+>> 
+>>   * ${libdir}/ssl/openssl.conf is removed if it exists (why? If it's for
+>> upgrading, then this should happen in a prerm or postrm)
+>>   * the symlink ${libdir}/ssl/openssl.conf is created
+>> 
+>> My confusion is this: how does the above solve the problem you describe?
+>> If you've managed to use RCONFLICTS to prevent the configuration package
+>> from getting included in the image, why are changes to the package needed?
+>> 
 
-Cheers,
+To avoid creation of the symlink inside openssl package. But I agree for the 
+postrm/prerm tasks instead of postinst.
 
-Richard
+>> 
+>> Some alternative solutions to your problem I think might work:
+>> * openssl_%.bbappend with a do_install_append() that simply copies your
+>> conf file over the one from upstream recipe. No extra packages needed
+>> * BAD_RECOMMENDATIONS or PACKAGE_EXCLUDE to prevent openssl-conf from
+>> getting included in your image, then adding your own package with your
+>> configuration (does not work for dpkg I think)
+>> 
 
+I could consider this if the patch gets reverted, but I still prefer using 
+extra packages. It's easier this way to know which configuration has been 
+applied (but update-alternatives could work too).
 
+TBH, I say that because I've submitted a similar series of patches for openssh 
+based on the same principle. I think my main problem is the handling of 
+configuration files at build time. This holds especially true for read-only 
+rootfs where these files must be available at build time. Is there guidelines 
+for that ?
+
+>> Jussi
+>> 
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+David
 
