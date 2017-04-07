@@ -1,33 +1,55 @@
-Return-Path: <jussi.kukkonen@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 4AD2277D70
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-it0-f49.google.com (mail-it0-f49.google.com
+	[209.85.214.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 35C7A77D6F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Apr 2017 06:09:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-	d=intel.com; i=@intel.com; q=dns/txt; s=intel;
-	t=1491545386; x=1523081386;
-	h=from:to:cc:subject:date:message-id:in-reply-to: references;
-	bh=RcbJ0YCtl8rsunu3VqGpYwr4c/t0PQH0Oo1yEF5ltIA=;
-	b=Wol/lBIOCWo9dKOx2YgQUwU3uW1LQkiRCjC38JKX07fNnktX4OUcZNj8
-	EyFRLOaLt52ol+Y/fFXDNRJwoYX7PQ==;
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	06 Apr 2017 23:09:45 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.37,163,1488873600"; d="scan'208";a="85788862"
-Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga005.fm.intel.com with ESMTP; 06 Apr 2017 23:09:45 -0700
-Received: from theory.fi.intel.com (theory.fi.intel.com [10.237.72.53])
-	by linux.intel.com (Postfix) with ESMTP id F41126A4080;
-	Thu,  6 Apr 2017 23:09:35 -0700 (PDT)
-From: Jussi Kukkonen <jussi.kukkonen@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  7 Apr 2017 09:09:36 +0300
-Message-Id: <d071facbbdbb48f34e0f0d9500872349c1130a9a.1491483222.git.jussi.kukkonen@intel.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <cover.1491483222.git.jussi.kukkonen@intel.com>
-References: <cover.1491483222.git.jussi.kukkonen@intel.com>
-Subject: [PATCH 4/4] native.bbclass: Use fixed DISTRO_FEATURES
+	Fri,  7 Apr 2017 06:41:29 +0000 (UTC)
+Received: by mail-it0-f49.google.com with SMTP id y18so38305073itc.1
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 06 Apr 2017 23:41:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:organization:mime-version:content-transfer-encoding;
+	bh=yWtYkzynKjs6m5nNY21gbdHo0e1sQpKxrwVMwI9UAP0=;
+	b=BN2NpJTsN/z/WLODp7G6aMYuypQSG0dVnkYbp76UrllaVkHWoAxXoF64mSyDXyefQk
+	sH+d8cM7YganhfKYpSVZgAkiMnFr/xbGSK/MSYXlYxrau5w/ggtrsmWwTaO/KZpNS9uf
+	NlQS/PlCzdLckkM2D2vQexc7aqMTrvcAj7TPos9Z3/gCIl/QrHTgBOZe8UgbyzcufBPH
+	D8l4DtYFesONoTOIus0YZfAqFv4pnE8xkaMbd7tn6S5ZYIcCFCVuAuOHR8fgZRwH1EXX
+	deQGwV4kN4Za3Tvlzh0HTLv7W/3MHjCjnwj9RCFm5J2dcq9dBAMk3Qql/1I8LqBS3fGr
+	s07w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:organization:mime-version:content-transfer-encoding;
+	bh=yWtYkzynKjs6m5nNY21gbdHo0e1sQpKxrwVMwI9UAP0=;
+	b=S8//ZHdjU35UeTAj5Vcoyev/B8D16044D4sKyl2Gt05gLauJmqbOcGDmEtgd/rrZrM
+	bqTHFyzJOrtCv5O5eOKUWYUUR2pwFsRNxZcHSARv0DJPhMjSiJZCf5J9KCU5FdrbEThb
+	V7Pnl9A7cP3jgjZQA4tLQx8RCHW5sm9eQ0VReqZc39rukTak8FqzVMtbga5JyAdv4hMs
+	y0JmPaxaJO2eKN91Pc9SX5DPjhR9Ce3oAs2HchXu2v2J2mqw2yhgrqeGlE/Mq9xQNgOp
+	cd1gJFcjVF8T7/pkfaP7bBNBUL/v1H+ppDQYPJO5BIfiO+j/0370Rpsg+MwuVdNAeRad
+	h47g==
+X-Gm-Message-State: AFeK/H3ITPaQ0p2aPHQ6yCmbTQFVClde7fwIQ4gpSO7u/RlqHXZ8bzb0XXNmVwTijczsAYS+
+X-Received: by 10.36.70.210 with SMTP id j201mr29369824itb.109.1491547291386; 
+	Thu, 06 Apr 2017 23:41:31 -0700 (PDT)
+Received: from pohly-mobl1 (p5DE8EAD9.dip0.t-ipconnect.de. [93.232.234.217])
+	by smtp.gmail.com with ESMTPSA id
+	n73sm2087578ioe.10.2017.04.06.23.41.29
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 06 Apr 2017 23:41:30 -0700 (PDT)
+Message-ID: <1491547287.10884.57.camel@intel.com>
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+Date: Fri, 07 Apr 2017 08:41:27 +0200
+In-Reply-To: <5236508.TZczFS0D24@peggleto-mobl.ger.corp.intel.com>
+References: <cover.3970fab18c2598adf378d62e8fcba4ca004fbd13.1491399200.git-series.patrick.ohly@intel.com>
+	<ddd6caf52e347f925286bfe9e37b894996037679.1491399200.git-series.patrick.ohly@intel.com>
+	<5236508.TZczFS0D24@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
+X-Mailer: Evolution 3.12.9-1+b1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 2/3] yocto-compat-layer: limit report of signature changes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,74 +62,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Apr 2017 06:09:44 -0000
+X-List-Received-Date: Fri, 07 Apr 2017 06:41:31 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-There seems to be no advantage to letting distro features affect
-native builds. There is a significant disadvantage: a change to
-DISTRO_FEATURES will trigger a lot of unnecessary native tasks. In a
-test like this:
-  $ bitbake core-image-minimal
-  # append " systemd" to DISTRO_FEATURES
-  $ bitbake core-image-minimal
-The latter build takes 44 minutes (28%) of cpu-time less with this
-patch (skipping 135 native tasks). Sadly wall clock time was not
-affected as glibc remains the bottleneck.
+On Fri, 2017-04-07 at 08:38 +1200, Paul Eggleton wrote:
+> On Thursday, 6 April 2017 1:36:05 AM NZST you wrote:
+> >    AssertionError: False is not true : Layer meta-xxxx changed 120
+> > signatures, initial differences (first hash without, second with layer):
+> 
+> BTW, rather than self.assertTrue(False, ... ) you can just use self.fail(...) 
+> and then you avoid this ugly "False is not True" bit.
 
-Set DISTRO_FEATURES to a fixed value for native recipes to avoid the
-unnecessary tasks: currently the default value is empty.
+I suspected that there must be something like that when changing the
+message, but then was too lazy to look it up - thanks for pointing it
+out ;-}
 
-Do the variable setting in native_virtclass_handler() because otherwise
-it could still be overridden by appends and the feature backfilling.
-Shuffle the early returns so DISTRO_FEATURES gets set as long as
-the packagename ends with "-native".
+I'll change that in a V2.
 
-Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
----
- meta/classes/native.bbclass | 12 ++++++++----
- meta/conf/bitbake.conf      |  2 ++
- 2 files changed, 10 insertions(+), 4 deletions(-)
-
-diff --git a/meta/classes/native.bbclass b/meta/classes/native.bbclass
-index 1919fbc..fbca4c6 100644
---- a/meta/classes/native.bbclass
-+++ b/meta/classes/native.bbclass
-@@ -121,14 +121,18 @@ PATH_prepend = "${COREBASE}/scripts/native-intercept:"
- SSTATE_SCAN_CMD ?= "${SSTATE_SCAN_CMD_NATIVE}"
- 
- python native_virtclass_handler () {
--    classextend = e.data.getVar('BBCLASSEXTEND') or ""
--    if "native" not in classextend:
--        return
--
-     pn = e.data.getVar("PN")
-     if not pn.endswith("-native"):
-         return
- 
-+    # Set features here to prevent appends and distro features backfill
-+    # from modifying native distro features
-+    d.setVar("DISTRO_FEATURES", "${NATIVE_DISTRO_FEATURES}")
-+
-+    classextend = e.data.getVar('BBCLASSEXTEND') or ""
-+    if "native" not in classextend:
-+        return
-+
-     def map_dependencies(varname, d, suffix = ""):
-         if suffix:
-             varname = varname + "_" + suffix
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 5e98d45..78a3470 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -789,6 +789,8 @@ MACHINE_ESSENTIAL_EXTRA_RRECOMMENDS ?= ""
- EXTRA_IMAGE_FEATURES ??= ""
- IMAGE_FEATURES += "${EXTRA_IMAGE_FEATURES}"
- 
-+NATIVE_DISTRO_FEATURES ?= ""
-+
- DISTRO_FEATURES_BACKFILL = "pulseaudio sysvinit bluez5 gobject-introspection-data ldconfig"
- MACHINE_FEATURES_BACKFILL = "rtc qemu-usermode"
- 
 -- 
-2.1.4
+Best Regards, Patrick Ohly
+
+The content of this message is my personal opinion only and although
+I am an employee of Intel, the statements I make here in no way
+represent Intel's position on the issue, nor am I authorized to speak
+on behalf of Intel on this matter.
+
+
 
 
