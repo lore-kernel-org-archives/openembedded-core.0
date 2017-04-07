@@ -1,39 +1,34 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 356BF77D9F
+Return-Path: <maxin.john@intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id D750C77D94
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Apr 2017 11:03:40 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTP id v37B3Zw0010058; 
-	Fri, 7 Apr 2017 12:03:35 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id EafiMSzpkL_R; Fri,  7 Apr 2017 12:03:35 +0100 (BST)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	v37AvwmX008943
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Fri, 7 Apr 2017 11:57:59 +0100
-Message-ID: <1491562678.17200.91.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: "Choong, Yin Thong" <yin.thong.choong@intel.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Date: Fri, 07 Apr 2017 11:57:58 +0100
-In-Reply-To: <CF0C948DE8E2634BB64BF489FF9EF7E7CB2F5A@PGSMSX105.gar.corp.intel.com>
-References: <1491467730-8418-1-git-send-email-yin.thong.choong@intel.com>
-	<1491467730-8418-5-git-send-email-yin.thong.choong@intel.com>
-	<1491550600.17200.82.camel@linuxfoundation.org>
-	<CF0C948DE8E2634BB64BF489FF9EF7E7CB2F5A@PGSMSX105.gar.corp.intel.com>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.1 
-Mime-Version: 1.0
-Cc: "Phoong, Stanley Cheong Kwan" <stanley.cheong.kwan.phoong@intel.com>, "Khor,
-	Chin Kooi" <chin.kooi.khor@intel.com>, "Gan,
-	Yau Wai" <yau.wai.gan@intel.com>, "Ang,
-	Chin Huat" <chin.huat.ang@intel.com>, "Tan,
-	Shen Joon" <shen.joon.tan@intel.com>, "Ng,
-	Wei Tee" <wei.tee.ng@intel.com>, "Yeoh, Ee Peng" <ee.peng.yeoh@intel.com>
-Subject: Re: [PATCH v3 4/8] logrotate: replace fedorahosted.org SRC_URI with github.com source
+	Fri,  7 Apr 2017 11:41:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+	d=intel.com; i=@intel.com; q=dns/txt; s=intel;
+	t=1491565284; x=1523101284;
+	h=date:from:to:cc:subject:message-id:references:
+	mime-version:content-transfer-encoding:in-reply-to;
+	bh=PcfYb7LmiguuxKGVfyk9gnPbujDF+Onqv25N30InK4g=;
+	b=ABWqCxZOg/Ae2V6scr2KKAPlTjKLtn9a7tjyqCc3Y2cltSfvWuksPufo
+	bEEnSV1oKCi8tUrwp4Hw/k5sdzbDUQ==;
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	07 Apr 2017 04:41:23 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.37,164,1488873600"; d="scan'208";a="953336900"
+Received: from mbabyjoh-desk.fi.intel.com (HELO
+	mbabyjoh-desk.ger.corp.intel.com) ([10.237.72.71])
+	by orsmga003.jf.intel.com with ESMTP; 07 Apr 2017 04:41:21 -0700
+Date: Fri, 7 Apr 2017 14:41:16 +0300
+From: "Maxin B. John" <maxin.john@intel.com>
+To: wei.tee.ng@intel.com
+Message-ID: <20170407114115.GA22696@mbabyjoh-desk.ger.corp.intel.com>
+References: <1491562656-111303-1-git-send-email-wei.tee.ng@intel.com>
+MIME-Version: 1.0
+In-Reply-To: <1491562656-111303-1-git-send-email-wei.tee.ng@intel.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v2 0/3][YOCTO #11090] Set linux-firmware to correct license
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,24 +41,118 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Apr 2017 11:03:41 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 07 Apr 2017 11:41:24 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, 2017-04-07 at 09:10 +0000, Choong, Yin Thong wrote:
-> Is wired. I bitbake successful on my machine. bitbake logrotate
-> -ccleanall and bitbake logrotate.
-> In this case, I should submit my entire patch or only resubmit this
-> patch [PATCH v3 4/8] with cover letter?
+Hi,
 
-Please send just this patch. If you setup a multiconfig configuration
-and then "bitbake lib32-logrotate" you'd see this error.
+On Fri, Apr 07, 2017 at 03:57:33AM -0700, wei.tee.ng@intel.com wrote:
+> From: "Ng, Wei Tee" <wei.tee.ng@intel.com>
+>=20
+> These patches is to update the SRCREV of linux-firmware to the latest HEA=
+D and set thelicense file explicitly for linux-firmware-carl9170 to GPL-2.
+> =20
+> The SRCREV for linux-firmware was updated to the latest in order to inclu=
+de the GPL-2 license file. The netronome firmware was removed until rpm pac=
+kaging issue is resolved.
+> =20
+> This configuration are build and tested.
+> =20
+> Please review and provide feedback if you have any.
 
-You can see the configuration the autobuilder used here:
-https://autobuilder.yocto.io/builders/nightly-world/builds/214/steps/CreateAutoConf/logs/stdio
-for that world build for example.
+ipk packaging also seems to have some troubles with this modification.
+Failed in my setup as below:
 
-Cheers,
+ERROR: linux-firmware-1_0.0+gitAUTOINC+b14134583c-r0 do_package_write_ipk: =
+Error executing a python function in exec_python_func() autogenerated:
 
-Richard
+The stack trace of python calls that resulted in this exception/failure was:
+File: 'exec_python_func() autogenerated', lineno: 2, function: <module>
+0001:
+*** 0002:do_package_ipk(d)
+0003:
+File: '/home/maxin/poky/meta/classes/package_ipk.bbclass', lineno: 228, fun=
+ction: do_package_ipk
+0224:            conffiles.close()
+0225:
+0226:        os.chdir(basedir)
+0227:        subprocess.check_output("PATH=3D\"%s\" %s %s %s" % (localdata.=
+getVar("PATH"),
+ *** 0228:                                                          d.getVa=
+r("OPKGBUILDCMD"), pkg, pkgoutdir), shell=3DTrue)
+0229:
+0230:        if d.getVar('IPK_SIGN_PACKAGES') =3D=3D '1':
+0231:            ipkver =3D "%s-%s" % (d.getVar('PKGV'), d.getVar('PKGR'))
+0232:            ipk_to_sign =3D "%s/%s_%s_%s.ipk" % (pkgoutdir, pkgname, i=
+pkver, d.getVar('PACKAGE_ARCH'))
+File: '/usr/lib64/python3.4/subprocess.py', lineno: 620, function: check_ou=
+tput
+0616:            process.wait()
+0617:            raise
+0618:        retcode =3D process.poll()
+0619:        if retcode:
+*** 0620:            raise CalledProcessError(retcode, process.args, output=
+=3Doutput)
+0621:    return output
+0622:
+0623:
+0624:def list2cmdline(seq):
+Exception: subprocess.CalledProcessError: Command 'PATH=3D"/home/maxin/poky=
+/build/tmp/sysroots-uninative/x86_64-linux/usr/bin:/home/maxin/poky/scripts=
+:/home/maxin/poky/build/tmp/work/all-poky-linux/linux-firmware/1_0.0+gitAUT=
+OINC+b14134583c-r0/recipe-sysroot-native/usr/bin/allarch-poky-linux:/home/m=
+axin/poky/build/tmp/work/all-poky-linux/linux-firmware/1_0.0+gitAUTOINC+b14=
+134583c-r0/recipe-sysroot/usr/bin/crossscripts:/home/maxin/poky/build/tmp/w=
+ork/all-poky-linux/linux-firmware/1_0.0+gitAUTOINC+b14134583c-r0/recipe-sys=
+root-native/usr/sbin:/home/maxin/poky/build/tmp/work/all-poky-linux/linux-f=
+irmware/1_0.0+gitAUTOINC+b14134583c-r0/recipe-sysroot-native/usr/bin:/home/=
+maxin/poky/build/tmp/work/all-poky-linux/linux-firmware/1_0.0+gitAUTOINC+b1=
+4134583c-r0/recipe-sysroot-native/sbin:/home/maxin/poky/build/tmp/work/all-=
+poky-linux/linux-firmware/1_0.0+gitAUTOINC+b14134583c-r0/recipe-sysroot-nat=
+ive/bin:/home/maxin/poky/bitbake/bin:/home/maxin/poky/build/tmp/hosttools" =
+opkg-build linux-firmware-GPL-2-license /home/maxin/poky/build/tmp/work/all=
+-poky-linux/linux-firmware/1_0.0+gitAUTOINC+b14134583c-r0/deploy-ipks/all' =
+returned non-zero exit status 1
+
+Subprocess output:
+linux-firmware-GPL-2-license
+
+ERROR: linux-firmware-1_0.0+gitAUTOINC+b14134583c-r0 do_package_write_ipk: =
+Function failed: do_package_ipk
+ERROR: Logfile of failure stored in: /home/maxin/poky/build/tmp/work/all-po=
+ky-linux/linux-firmware/1_0.0+gitAUTOINC+b14134583c-r0/temp/log.do_package_=
+write_ipk.32268
+ERROR: Task (/home/maxin/poky/meta/recipes-kernel/linux-firmware/linux-firm=
+ware_git.bb:do_package_write_ipk) failed with exit code '1'
+NOTE: Tasks Summary: Attempted 349 tasks of which 348 didn't need to be rer=
+un and 1 failed.
+Summary: 1 task failed:
+/home/maxin/poky/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb:d=
+o_package_write_ipk
+
+> Thanks.
+> =20
+> Regards,
+>=20
+> Wei Tee
+>=20
+>=20
+> Chang, Rebecca Swee Fun (1):
+>   linux-firmware: Fix build failure when update SRCREV to latest HEAD
+>=20
+> Ng, Wei Tee (2):
+>   linux-firmware: update to revision a4dde74b
+>   linux-firmware: Set the license for carl9170 to GPLv2
+>=20
+>  .../linux-firmware/linux-firmware_git.bb           | 40 ++++++++++++++--=
+------
+>  1 file changed, 25 insertions(+), 15 deletions(-)
+>=20
+> --=20
+> 2.7.4
+
+Best Regards,
+Maxin
 
