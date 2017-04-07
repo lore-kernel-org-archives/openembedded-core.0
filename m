@@ -1,55 +1,29 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-it0-f49.google.com (mail-it0-f49.google.com
-	[209.85.214.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 35C7A77D6F
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 0F2AC77D0E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Apr 2017 06:41:29 +0000 (UTC)
-Received: by mail-it0-f49.google.com with SMTP id y18so38305073itc.1
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 06 Apr 2017 23:41:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:organization:mime-version:content-transfer-encoding;
-	bh=yWtYkzynKjs6m5nNY21gbdHo0e1sQpKxrwVMwI9UAP0=;
-	b=BN2NpJTsN/z/WLODp7G6aMYuypQSG0dVnkYbp76UrllaVkHWoAxXoF64mSyDXyefQk
-	sH+d8cM7YganhfKYpSVZgAkiMnFr/xbGSK/MSYXlYxrau5w/ggtrsmWwTaO/KZpNS9uf
-	NlQS/PlCzdLckkM2D2vQexc7aqMTrvcAj7TPos9Z3/gCIl/QrHTgBOZe8UgbyzcufBPH
-	D8l4DtYFesONoTOIus0YZfAqFv4pnE8xkaMbd7tn6S5ZYIcCFCVuAuOHR8fgZRwH1EXX
-	deQGwV4kN4Za3Tvlzh0HTLv7W/3MHjCjnwj9RCFm5J2dcq9dBAMk3Qql/1I8LqBS3fGr
-	s07w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:organization:mime-version:content-transfer-encoding;
-	bh=yWtYkzynKjs6m5nNY21gbdHo0e1sQpKxrwVMwI9UAP0=;
-	b=S8//ZHdjU35UeTAj5Vcoyev/B8D16044D4sKyl2Gt05gLauJmqbOcGDmEtgd/rrZrM
-	bqTHFyzJOrtCv5O5eOKUWYUUR2pwFsRNxZcHSARv0DJPhMjSiJZCf5J9KCU5FdrbEThb
-	V7Pnl9A7cP3jgjZQA4tLQx8RCHW5sm9eQ0VReqZc39rukTak8FqzVMtbga5JyAdv4hMs
-	y0JmPaxaJO2eKN91Pc9SX5DPjhR9Ce3oAs2HchXu2v2J2mqw2yhgrqeGlE/Mq9xQNgOp
-	cd1gJFcjVF8T7/pkfaP7bBNBUL/v1H+ppDQYPJO5BIfiO+j/0370Rpsg+MwuVdNAeRad
-	h47g==
-X-Gm-Message-State: AFeK/H3ITPaQ0p2aPHQ6yCmbTQFVClde7fwIQ4gpSO7u/RlqHXZ8bzb0XXNmVwTijczsAYS+
-X-Received: by 10.36.70.210 with SMTP id j201mr29369824itb.109.1491547291386; 
-	Thu, 06 Apr 2017 23:41:31 -0700 (PDT)
-Received: from pohly-mobl1 (p5DE8EAD9.dip0.t-ipconnect.de. [93.232.234.217])
-	by smtp.gmail.com with ESMTPSA id
-	n73sm2087578ioe.10.2017.04.06.23.41.29
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 06 Apr 2017 23:41:30 -0700 (PDT)
-Message-ID: <1491547287.10884.57.camel@intel.com>
-From: Patrick Ohly <patrick.ohly@intel.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Date: Fri, 07 Apr 2017 08:41:27 +0200
-In-Reply-To: <5236508.TZczFS0D24@peggleto-mobl.ger.corp.intel.com>
-References: <cover.3970fab18c2598adf378d62e8fcba4ca004fbd13.1491399200.git-series.patrick.ohly@intel.com>
-	<ddd6caf52e347f925286bfe9e37b894996037679.1491399200.git-series.patrick.ohly@intel.com>
-	<5236508.TZczFS0D24@peggleto-mobl.ger.corp.intel.com>
-Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
-X-Mailer: Evolution 3.12.9-1+b1 
+	Fri,  7 Apr 2017 07:47:56 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTP id v377lrrA024807; 
+	Fri, 7 Apr 2017 08:47:54 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id 9qj5D82Q0jMy; Fri,  7 Apr 2017 08:47:54 +0100 (BST)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	v377ahIB023873
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
+	verify=NOT); Fri, 7 Apr 2017 08:36:44 +0100
+Message-ID: <1491550603.17200.83.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Dmitry Rozhkov <dmitry.rozhkov@linux.intel.com>,
+	openembedded-core@lists.openembedded.org
+Date: Fri, 07 Apr 2017 08:36:43 +0100
+In-Reply-To: <20170405070120.11459-1-dmitry.rozhkov@linux.intel.com>
+References: <20170405070120.11459-1-dmitry.rozhkov@linux.intel.com>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.1 
 Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/3] yocto-compat-layer: limit report of signature changes
+Subject: Re: [PATCH] python-pycurl: create python3-pycurl recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,32 +36,141 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Apr 2017 06:41:31 -0000
+X-List-Received-Date: Fri, 07 Apr 2017 07:47:57 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Fri, 2017-04-07 at 08:38 +1200, Paul Eggleton wrote:
-> On Thursday, 6 April 2017 1:36:05 AM NZST you wrote:
-> >    AssertionError: False is not true : Layer meta-xxxx changed 120
-> > signatures, initial differences (first hash without, second with layer):
+On Wed, 2017-04-05 at 10:01 +0300, Dmitry Rozhkov wrote:
+> The python-pycurl recipe can be used with python2 only even
+> though python3 is officially supported by upstream.
 > 
-> BTW, rather than self.assertTrue(False, ... ) you can just use self.fail(...) 
-> and then you avoid this ugly "False is not True" bit.
+> Create python3-pycurl recipe enabling the pycurl module for
+> python3.
 
-I suspected that there must be something like that when changing the
-message, but then was too lazy to look it up - thanks for pointing it
-out ;-}
+This failed autobuilder tests:
 
-I'll change that in a V2.
-
--- 
-Best Regards, Patrick Ohly
-
-The content of this message is my personal opinion only and although
-I am an employee of Intel, the statements I make here in no way
-represent Intel's position on the issue, nor am I authorized to speak
-on behalf of Intel on this matter.
+https://autobuilder.yocto.io/builders/nightly-world-lsb/builds/214/step
+s/BuildImages/logs/stdio
 
 
 
+> Signed-off-by: Dmitry Rozhkov <dmitry.rozhkov@linux.intel.com>
+> ---
+>  meta/recipes-devtools/python/python-pycurl.inc     | 31
+> +++++++++++++++++++++
+>  .../python/python-pycurl_7.21.5.bb                 | 32 +-----------
+> ----------
+>  .../python/python3-pycurl_7.21.5.bb                |  5 ++++
+>  3 files changed, 37 insertions(+), 31 deletions(-)
+>  create mode 100644 meta/recipes-devtools/python/python-pycurl.inc
+>  create mode 100644 meta/recipes-devtools/python/python3-
+> pycurl_7.21.5.bb
+> 
+> diff --git a/meta/recipes-devtools/python/python-pycurl.inc
+> b/meta/recipes-devtools/python/python-pycurl.inc
+> new file mode 100644
+> index 0000000..d26318b
+> --- /dev/null
+> +++ b/meta/recipes-devtools/python/python-pycurl.inc
+> @@ -0,0 +1,31 @@
+> +SUMMARY = "Python bindings for libcurl"
+> +HOMEPAGE = "http://pycurl.sourceforge.net/"
+> +SECTION = "devel/python"
+> +LICENSE = "LGPLv2.1+ | MIT"
+> +LIC_FILES_CHKSUM =
+> "file://README.rst;beginline=166;endline=182;md5=a84a1caa65b89d4584b6
+> 93d3680062fb \
+> +                    file://COPYING-
+> LGPL;md5=3579a9fd0221d49a237aaa33492f988c \
+> +                    file://COPYING-
+> MIT;md5=b7e434aeb228ed731c00bcf177e79b19"
+> +
+> +DEPENDS = "curl ${PYTHON_PN}"
+> +RDEPENDS_${PN} = "${PYTHON_PN}-core curl"
+> +SRCNAME = "pycurl"
+> +
+> +SRC_URI = "\
+> +  http://${SRCNAME}.sourceforge.net/download/${SRCNAME}-
+> ${PV}.tar.gz;name=archive \
+> +  file://no-static-link.patch \
+> +"
+> +
+> +SRC_URI[archive.md5sum] = "bca7bf47320082588db544ced2ba8717"
+> +SRC_URI[archive.sha256sum] =
+> "8a1e0eb55573388275a1d6c2534ca4cfca5d7fa772b99b505c08fa149b27aed0"
+> +S = "${WORKDIR}/${SRCNAME}-${PV}"
+> +
+> +BBCLASSEXTEND = "native"
+> +
+> +# Ensure the docstrings are generated as make clean will remove them
+> +do_compile_prepend() {
+> +	${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN}
+> setup.py docstrings
+> +}
+> +
+> +do_install_append() {
+> +	rm -rf ${D}${datadir}/share
+> +}
+> diff --git a/meta/recipes-devtools/python/python-pycurl_7.21.5.bb
+> b/meta/recipes-devtools/python/python-pycurl_7.21.5.bb
+> index 7b41f6d..eb70cea 100644
+> --- a/meta/recipes-devtools/python/python-pycurl_7.21.5.bb
+> +++ b/meta/recipes-devtools/python/python-pycurl_7.21.5.bb
+> @@ -1,33 +1,3 @@
+> -SUMMARY = "Python bindings for libcurl"
+> -HOMEPAGE = "http://pycurl.sourceforge.net/"
+> -SECTION = "devel/python"
+> -LICENSE = "LGPLv2.1+ | MIT"
+> -LIC_FILES_CHKSUM =
+> "file://README.rst;beginline=166;endline=182;md5=a84a1caa65b89d4584b6
+> 93d3680062fb \
+> -                    file://COPYING-
+> LGPL;md5=3579a9fd0221d49a237aaa33492f988c \
+> -                    file://COPYING-
+> MIT;md5=b7e434aeb228ed731c00bcf177e79b19"
+> -
+> -DEPENDS = "curl python"
+> -RDEPENDS_${PN} = "python-core curl"
+> -SRCNAME = "pycurl"
+> -
+> -SRC_URI = "\
+> -  http://${SRCNAME}.sourceforge.net/download/${SRCNAME}-
+> ${PV}.tar.gz;name=archive \
+> -  file://no-static-link.patch \
+> -"
+> -
+> -SRC_URI[archive.md5sum] = "bca7bf47320082588db544ced2ba8717"
+> -SRC_URI[archive.sha256sum] =
+> "8a1e0eb55573388275a1d6c2534ca4cfca5d7fa772b99b505c08fa149b27aed0"
+> -S = "${WORKDIR}/${SRCNAME}-${PV}"
+> +require python-pycurl.inc
+>  
+>  inherit distutils
+> -
+> -BBCLASSEXTEND = "native"
+> -
+> -# Ensure the docstrings are generated as make clean will remove them
+> -do_compile_prepend() {
+> -	${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN}
+> setup.py docstrings
+> -}
+> -
+> -do_install_append() {
+> -	rm -rf ${D}${datadir}/share
+> -}
+> diff --git a/meta/recipes-devtools/python/python3-pycurl_7.21.5.bb
+> b/meta/recipes-devtools/python/python3-pycurl_7.21.5.bb
+> new file mode 100644
+> index 0000000..5d11192
+> --- /dev/null
+> +++ b/meta/recipes-devtools/python/python3-pycurl_7.21.5.bb
+> @@ -0,0 +1,5 @@
+> +FILESEXTRAPATHS_prepend := "${THISDIR}/python-pycurl:"
+> +
+> +require python-pycurl.inc
+> +
+> +inherit distutils3
+> -- 
+> 2.9.3
+> 
 
