@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 5A8E177D86
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 96C4177D86
 	for <openembedded-core@lists.openembedded.org>;
 	Fri,  7 Apr 2017 09:47:18 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v379lJYp021184
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v379lINJ025416
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 7 Apr 2017 02:47:19 -0700 (PDT)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
-	Fri, 7 Apr 2017 02:47:19 -0700
+	Fri, 7 Apr 2017 02:47:18 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 7 Apr 2017 02:47:10 -0700
-Message-ID: <3f59992cb5ae0df978ed378d56bc11fa83f4ad43.1491557671.git.liezhi.yang@windriver.com>
+Date: Fri, 7 Apr 2017 02:47:09 -0700
+Message-ID: <1eb0d4a15c13ef2b61b1abf913e75eed676120f2.1491557671.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.11.0.rc2.dirty
 In-Reply-To: <cover.1491557671.git.liezhi.yang@windriver.com>
 References: <cover.1491557671.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 3/8] runqemu: use self.rootfs to replace self.nfs_dir
+Subject: [PATCH 2/8] runqemu: support env vars explicitly
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,112 +36,156 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Fri, 07 Apr 2017 09:47:18 -0000
 Content-Type: text/plain
 
-We can use self.rootfs as self.nfs_dir when self.fstype is nfs, this can
-reduce the code's complexity and we can re-use the code of checking
-ROOTFS conflictions.
+Use self.env_vars to support get vars from environment explicity. The
+MACHINE, ROOTFS and KERNEL was supported by shell based runqemu, and
+the help text says support them from env vars, so add them back.
+
+[YOCTO #11141]
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- scripts/runqemu | 28 +++++++++++++---------------
- 1 file changed, 13 insertions(+), 15 deletions(-)
+ scripts/runqemu | 71 ++++++++++++++++++++++++++++++++++-----------------------
+ 1 file changed, 42 insertions(+), 29 deletions(-)
 
 diff --git a/scripts/runqemu b/scripts/runqemu
-index ddbff4b221..7e7a6b4915 100755
+index 251f5f7e94..ddbff4b221 100755
 --- a/scripts/runqemu
 +++ b/scripts/runqemu
-@@ -178,7 +178,6 @@ class BaseConfig(object):
+@@ -163,12 +163,18 @@ def check_free_port(host, port):
+ 
+ class BaseConfig(object):
+     def __init__(self):
+-        # Vars can be merged with .qemuboot.conf, use a dict to manage them.
+-        self.d = {
+-            'MACHINE': '',
+-            'DEPLOY_DIR_IMAGE': '',
+-            'QB_KERNEL_ROOT': '/dev/vda',
+-        }
++        # The self.d saved vars from self.set(), part of them are from qemuboot.conf
++        self.d = {'QB_KERNEL_ROOT': '/dev/vda'}
++
++        # Supported env vars, add it here if a var can be got from env,
++        # and don't use os.getenv in the code.
++        self.env_vars = ('MACHINE',
++                        'ROOTFS',
++                        'KERNEL',
++                        'DEPLOY_DIR_IMAGE',
++                        'OE_TMPDIR',
++                        'OECORE_NATIVE_SYSROOT',
++                        )
  
          self.qemu_opt = ''
          self.qemu_opt_script = ''
--        self.nfs_dir = ''
-         self.clean_nfs_dir = False
-         self.nfs_server = ''
-         self.rootfs = ''
-@@ -284,12 +283,11 @@ class BaseConfig(object):
- 
-     def check_arg_nfs(self, p):
-         if os.path.isdir(p):
--            self.nfs_dir = p
-+            self.rootfs = p
+@@ -238,6 +244,8 @@ class BaseConfig(object):
+     def get(self, key):
+         if key in self.d:
+             return self.d.get(key)
++        elif os.getenv(key):
++            return os.getenv(key)
          else:
-             m = re.match('(.*):(.*)', p)
-             self.nfs_server = m.group(1)
--            self.nfs_dir = m.group(2)
--        self.rootfs = ""
-+            self.rootfs = m.group(2)
-         self.check_arg_fstype('nfs')
+             return ''
  
-     def check_arg_path(self, p):
-@@ -759,7 +757,7 @@ class BaseConfig(object):
-         print('MACHINE: [%s]' % self.get('MACHINE'))
-         print('FSTYPE: [%s]' % self.fstype)
-         if self.fstype  == 'nfs':
--            print('NFS_DIR: [%s]' % self.nfs_dir)
-+            print('NFS_DIR: [%s]' % self.rootfs)
-         else:
-             print('ROOTFS: [%s]' % self.rootfs)
-         if self.ovmf_bios:
-@@ -804,13 +802,13 @@ class BaseConfig(object):
+@@ -338,10 +346,13 @@ class BaseConfig(object):
  
-         self.unfs_opts="nfsvers=3,port=%s,mountprog=%s,nfsprog=%s,udp,mountport=%s" % (nfsd_port, mountd_rpcport, nfsd_rpcport, mountd_port)
+     def check_arg_machine(self, arg):
+         """Check whether it is a machine"""
+-        if self.get('MACHINE') and self.get('MACHINE') != arg or re.search('/', arg):
+-            raise Exception("Unknown arg: %s" % arg)
+-        elif self.get('MACHINE') == arg:
++        if self.get('MACHINE') == arg:
+             return
++        elif self.get('MACHINE') and self.get('MACHINE') != arg:
++            raise Exception("Maybe conflicted MACHINE: %s vs %s" % (self.get('MACHINE'), arg))
++        elif re.search('/', arg):
++            raise Exception("Unknown arg: %s" % arg)
++
+         logger.info('Assuming MACHINE = %s' % arg)
  
--        # Extract .tar.bz2 or .tar.bz if no self.nfs_dir
--        if not self.nfs_dir:
-+        # Extract .tar.bz2 or .tar.bz if no nfs dir
-+        if not (self.rootfs and os.path.isdir(self.rootfs)):
-             src_prefix = '%s/%s' % (self.get('DEPLOY_DIR_IMAGE'), self.get('IMAGE_LINK_NAME'))
-             dest = "%s-nfsroot" % src_prefix
-             if os.path.exists('%s.pseudo_state' % dest):
-                 logger.info('Use %s as NFS_DIR' % dest)
--                self.nfs_dir = dest
-+                self.rootfs = dest
+         # if we're running under testimage, or similarly as a child
+@@ -350,14 +361,14 @@ class BaseConfig(object):
+         # FIXME: testimage.bbclass exports these two variables into env,
+         # are there other scenarios in which we need to support being
+         # invoked by bitbake?
+-        deploy = os.environ.get('DEPLOY_DIR_IMAGE')
+-        bbchild = deploy and os.environ.get('OE_TMPDIR')
++        deploy = self.get('DEPLOY_DIR_IMAGE')
++        bbchild = deploy and self.get('OE_TMPDIR')
+         if bbchild:
+             self.set_machine_deploy_dir(arg, deploy)
+             return
+         # also check whether we're running under a sourced toolchain
+         # environment file
+-        if os.environ.get('OECORE_NATIVE_SYSROOT'):
++        if self.get('OECORE_NATIVE_SYSROOT'):
+             self.set("MACHINE", arg)
+             return
+ 
+@@ -430,20 +441,15 @@ class BaseConfig(object):
+         if unknown_arg:
+             if self.get('MACHINE') == unknown_arg:
+                 return
+-            if not self.get('DEPLOY_DIR_IMAGE'):
+-                # Trying to get DEPLOY_DIR_IMAGE from env.
+-                p = os.getenv('DEPLOY_DIR_IMAGE')
+-                if p and self.is_deploy_dir_image(p):
+-                    machine = os.path.basename(p)
+-                    if unknown_arg == machine:
+-                        self.set_machine_deploy_dir(machine, p)
+-                        return
+-                    else:
+-                        logger.info('DEPLOY_DIR_IMAGE: %s' % p)
+-                        self.set("DEPLOY_DIR_IMAGE", p)
++            if self.get('DEPLOY_DIR_IMAGE'):
++                machine = os.path.basename(self.get('DEPLOY_DIR_IMAGE'))
++                if unknown_arg == machine:
++                    self.set("MACHINE", machine)
++                    return
++
+             self.check_arg_machine(unknown_arg)
+ 
+-        if not (self.get('MACHINE') or self.get('DEPLOY_DIR_IMAGE')):
++        if not self.get('DEPLOY_DIR_IMAGE'):
+             self.load_bitbake_env()
+             s = re.search('^DEPLOY_DIR_IMAGE="(.*)"', self.bitbake_e, re.M)
+             if s:
+@@ -505,7 +511,16 @@ class BaseConfig(object):
+     def check_rootfs(self):
+         """Check and set rootfs"""
+ 
+-        if self.fstype == 'nfs' or self.fstype == "none":
++        if self.fstype == "none":
++            return
++
++        if self.get('ROOTFS'):
++            if not self.rootfs:
++                self.rootfs = self.get('ROOTFS')
++            elif self.get('ROOTFS') != self.rootfs:
++                raise Exception("Maybe conflicted ROOTFS: %s vs %s" % (self.get('ROOTFS'), self.rootfs))
++
++        if self.fstype == 'nfs':
+             return
+ 
+         if self.rootfs and not os.path.exists(self.rootfs):
+@@ -642,8 +657,6 @@ class BaseConfig(object):
+         if not self.qemuboot:
+             if self.get('DEPLOY_DIR_IMAGE'):
+                 deploy_dir_image = self.get('DEPLOY_DIR_IMAGE')
+-            elif os.getenv('DEPLOY_DIR_IMAGE'):
+-                deploy_dir_image = os.getenv('DEPLOY_DIR_IMAGE')
              else:
-                 src = ""
-                 src1 = '%s.tar.bz2' % src_prefix
-@@ -827,10 +825,10 @@ class BaseConfig(object):
-                 if subprocess.call(cmd, shell=True) != 0:
-                     raise Exception('Failed to run %s' % cmd)
-                 self.clean_nfs_dir = True
--                self.nfs_dir = dest
-+                self.rootfs = dest
- 
-         # Start the userspace NFS server
--        cmd = 'runqemu-export-rootfs start %s' % self.nfs_dir
-+        cmd = 'runqemu-export-rootfs start %s' % self.rootfs
-         logger.info('Running %s...' % cmd)
-         if subprocess.call(cmd, shell=True) != 0:
-             raise Exception('Failed to run %s' % cmd)
-@@ -1001,7 +999,7 @@ class BaseConfig(object):
- 
-         if self.fstype == 'nfs':
-             self.rootfs_options = ''
--            k_root = '/dev/nfs nfsroot=%s:%s,%s' % (self.nfs_server, self.nfs_dir, self.unfs_opts)
-+            k_root = '/dev/nfs nfsroot=%s:%s,%s' % (self.nfs_server, self.rootfs, self.unfs_opts)
-             self.kernel_cmdline = 'root=%s rw highres=off' % k_root
- 
-         if self.fstype == 'none':
-@@ -1147,7 +1145,7 @@ class BaseConfig(object):
- 
-         if self.nfs_running:
-             logger.info("Shutting down the userspace NFS server...")
--            cmd = "runqemu-export-rootfs stop %s" % self.nfs_dir
-+            cmd = "runqemu-export-rootfs stop %s" % self.rootfs
-             logger.info('Running %s' % cmd)
-             subprocess.call(cmd, shell=True)
- 
-@@ -1156,9 +1154,9 @@ class BaseConfig(object):
-             subprocess.call(cmd, shell=True)
- 
-         if self.clean_nfs_dir:
--            logger.info('Removing %s' % self.nfs_dir)
--            shutil.rmtree(self.nfs_dir)
--            shutil.rmtree('%s.pseudo_state' % self.nfs_dir)
-+            logger.info('Removing %s' % self.rootfs)
-+            shutil.rmtree(self.rootfs)
-+            shutil.rmtree('%s.pseudo_state' % self.rootfs)
- 
-     def load_bitbake_env(self, mach=None):
-         if self.bitbake_e:
+                 logger.info("Can't find qemuboot conf file, DEPLOY_DIR_IMAGE is NULL!")
+                 return
+@@ -720,8 +733,8 @@ class BaseConfig(object):
+                 # be able to call `bitbake -e`, then try:
+                 # - get OE_TMPDIR from environment and guess paths based on it
+                 # - get OECORE_NATIVE_SYSROOT from environment (for sdk)
+-                tmpdir = os.environ.get('OE_TMPDIR', None)
+-                oecore_native_sysroot = os.environ.get('OECORE_NATIVE_SYSROOT', None)
++                tmpdir = self.get('OE_TMPDIR', None)
++                oecore_native_sysroot = self.get('OECORE_NATIVE_SYSROOT', None)
+                 if tmpdir:
+                     logger.info('Setting STAGING_DIR_NATIVE and STAGING_BINDIR_NATIVE relative to OE_TMPDIR (%s)' % tmpdir)
+                     hostos, _, _, _, machine = os.uname()
 -- 
 2.11.0.rc2.dirty
 
