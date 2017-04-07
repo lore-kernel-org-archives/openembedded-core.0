@@ -1,31 +1,23 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 14FE977D44
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	by mail.openembedded.org (Postfix) with ESMTP id 2003077D25
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Apr 2017 03:18:41 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v373IdN0006652
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 6 Apr 2017 20:18:39 -0700 (PDT)
-Received: from [128.224.162.160] (128.224.162.160) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.294.0;
-	Thu, 6 Apr 2017 20:18:39 -0700
-To: Brian Avery <avery.brian@gmail.com>
-References: <cover.1491344268.git.brian.avery@intel.com>
-	<c9e2f951c2e2bc367fa6bff0daf039f00503c846.1491344268.git.brian.avery@intel.com>
-	<d9a240d6-4539-dba8-2d09-eba0270a4269@windriver.com>
-	<CAKV_0eiiZXz+kXe+p3+TGWif+jaEkhvoa9J4pbvfBGejS8roRQ@mail.gmail.com>
-From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <f29e7e69-4f1d-bde8-f4d1-7da42c8a3632@windriver.com>
-Date: Fri, 7 Apr 2017 11:18:37 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.2.0
-MIME-Version: 1.0
-In-Reply-To: <CAKV_0eiiZXz+kXe+p3+TGWif+jaEkhvoa9J4pbvfBGejS8roRQ@mail.gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] scripts: change way we find native tools (pseudo)
+	Fri,  7 Apr 2017 04:57:30 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga105.jf.intel.com with ESMTP; 06 Apr 2017 21:57:31 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.37,162,1488873600"; d="scan'208";a="1132406859"
+Received: from anatara2-mobl2.gar.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com.fritz.box) ([10.255.141.179])
+	by fmsmga001.fm.intel.com with ESMTP; 06 Apr 2017 21:57:29 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  7 Apr 2017 16:57:18 +1200
+Message-Id: <17a069a55a17282fbbad85b8b2bf1f2027b126d4.1491540566.git.paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 2.9.3
+In-Reply-To: <cover.1491540566.git.paul.eggleton@linux.intel.com>
+References: <cover.1491540566.git.paul.eggleton@linux.intel.com>
+Subject: [PATCH 1/6] buildhistory-diff: operate from buildhistory directory
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,404 +30,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Apr 2017 03:18:42 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 07 Apr 2017 04:57:31 -0000
 
+If the cwd is named "buildhistory" and the user hasn't specified an
+alternative path on the command line, then assume that the current
+directory is the buildhistory directory. This makes it easier to run
+buildhistory-diff and also interact with the buildhistory git repository
+as you no longer have to jump into the buildhistory directory and up to
+the parent again when doing so.
 
+Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+---
+ scripts/buildhistory-diff | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-On 04/07/2017 10:48 AM, Brian Avery wrote:
-> Hi Robert,
->
-> I was definitely looking at only the extract-rootfs issue and didn't remember
-> seeing your above patch.  I agree that we need a broader solution than the one I
-> did. I tried applying yours but had some issues. Your patch did fix the
-> runqemu-extract-rootfs, but not when I had INHERIT+= " rm_work ".  Also, I had
-> trouble running the oe-run-native script. It seems like the help is reversed
-> from what order it is expecting?  I may be missing something, it's getting late;
-> but I'll look at it tomoro and see if I can't expand on your patch for a more
-> generic solution. Issues from the run below.
-> ty,
-> b
-> an intel employee
->
->
-> $ bitbake bmap-tools-native -caddto_recipe_sysroot
->
-> $ oe-run-native bmap-tools-native bmaptool
+diff --git a/scripts/buildhistory-diff b/scripts/buildhistory-diff
+index d8ca12d..e03ccc5 100755
+--- a/scripts/buildhistory-diff
++++ b/scripts/buildhistory-diff
+@@ -46,6 +46,11 @@ def main():
+         sys.exit(1)
+ 
+     if not os.path.exists(options.buildhistory_dir):
++        if options.buildhistory_dir == 'buildhistory/':
++            cwd = os.getcwd()
++            if os.path.basename(cwd) == 'buildhistory':
++                options.buildhistory_dir = cwd
++    if not os.path.exists(options.buildhistory_dir):
+         sys.stderr.write('Buildhistory directory "%s" does not exist\n\n' % options.buildhistory_dir)
+         parser.print_help()
+         sys.exit(1)
+-- 
+2.9.3
 
-That's odd, it is the right order as the help text shows, it works well for me.
-Maybe he/you can try to add "set -x" in the recipe to see what happend.
-
-$ bitbake bmap-tools-native -caddto_recipe_sysroot
-$ oe-run-native bmap-tools-native bmaptool
-Running bitbake -e bmap-tools-native
-PSEUDO 
-/buildarea/lyang1/test_q2/tmp/work/x86_64-linux/bmap-tools-native/3.2-r0/recipe-sysroot-native/usr/bin/pseudo 
-is not found.
-usage: bmaptool [-h] [--version] [-q] [-d] {create,copy} ...
-bmaptool: error: too few arguments
-
-// Robert
-
->
-> Running bitbake -e bmaptool
->
-> ERROR: Nothing PROVIDES 'bmaptool'. Close matches:
->
->   bmap-tools
->
->   mtools
->
-> There was an error running bitbake to determine STAGING_DIR_NATIVE
->
-> Here is the output from bitbake -e bmaptool
->
-> WARNING: Host distribution "ubuntu-14.04" has not been validated with this
-> version of the build system; you may possibly experience unexpected failures. It
-> is recommended that you use a tested distribution. Loading cache...done. Loaded
-> 1299 entries from dependency cache. Summary: There was 1 WARNING message shown.
-> Summary: There was 1 ERROR message shown, returning a non-zero exit code.
->
-> $ oe-run-native bmaptool bmap-tools-native
->
-> Running bitbake -e bmap-tools-native
->
-> PSEUDO
-> …/tmp/work/x86_64-linux/bmap-tools-native/3.2-r0/recipe-sysroot-native/usr/bin/pseudo
-> is not found.
->
-> Error: Unable to find '' in
-> .../tmp/work/x86_64-linux/bmap-tools-native/3.2-r0/recipe-sysroot-native/usr/bin:.../tmp/work/x86_64-linux/bmap-tools-native/3.2-r0/recipe-sysroot-native/bin:.../tmp/work/x86_64-linux/bmap-tools-native/3.2-r0/recipe-sysroot-native/usr/sbin:.../tmp/work/x86_64-linux/bmap-tools-native/3.2-r0/recipe-sysroot-native/sbin
->
-> bavery@bavery-WS-DESK:...$ oe-run-native
->
-> oe-run-native: error: the following arguments are required: <native recipe>
-> <native tool>
->
-> Usage: oe-run-native native-recipe tool [parameters]
->
->
-> OpenEmbedded run-native - runs native tools
->
->
-> arguments:
->
->   native-recipe       The recipe which provoides tool
->
->   tool                Native tool to run
->
->
->
->
-> On Thu, Apr 6, 2017 at 3:26 AM, Robert Yang <liezhi.yang@windriver.com
-> <mailto:liezhi.yang@windriver.com>> wrote:
->
->     Hi Brian and RP,
->
->     This patch can't fix the problem of scripts/oe-run-native, it only can
->     run the native tools which is depended by meta-ide-support, for example:
->
->     $ bitbake bmap-tools-native meta-ide-support
->     $ oe-run-native bmaptool --help # exmaple from dev-manual-start.xml
->
->     Error: Unable to find 'bmaptool' in native sysroot
->
->     I think that we need consider the patch that I had sent before:
->
->       git://git.openembedded.org/openembedded-core-contrib
->     <http://git.openembedded.org/openembedded-core-contrib> rbt/rssfix
->       http://cgit.openembedded.org/openembedded-core-contrib/log/?h=rbt/rssfix
->     <http://cgit.openembedded.org/openembedded-core-contrib/log/?h=rbt/rssfix>
->
->     Robert Yang (1):
->       oe-find-native-sysroot: work with RSS
->
->
->     Subject: [PATCH 1/1] oe-find-native-sysroot: work with RSS
->
->     The generic STAGING_DIR_NATIVE is gone since RSS, so when find
->     OECORE_NATIVE_SYSROOT, the user has to specify which recipe's
->     STAGING_DIR_NATIVE will be used as OECORE_NATIVE_SYSROOT.
->
->     * The usage is changed from ". oe-find-native-sysroot" to
->       ". oe-find-native-sysroot <recipe>".
->     * The oe-run-native's usage has changed from
->       "oe-run-native tool" to "oe-run-native native-recipe tool".
->
->     Signed-off-by: Robert Yang <liezhi.yang@windriver.com
->     <mailto:liezhi.yang@windriver.com>>
->     ---
->      scripts/oe-find-native-sysroot | 56 ++++++++++++++++++++++++++++--------------
->      scripts/oe-run-native          | 15 +++++++----
->      scripts/runqemu-export-rootfs  |  2 +-
->      scripts/runqemu-extract-sdk    |  2 +-
->      4 files changed, 49 insertions(+), 26 deletions(-)
->
->     diff --git a/scripts/oe-find-native-sysroot b/scripts/oe-find-native-sysroot
->     index 3f4c29da8a..59fe3f3118 100755
->     --- a/scripts/oe-find-native-sysroot
->     +++ b/scripts/oe-find-native-sysroot
->     @@ -9,7 +9,7 @@
->      # it, e.g:
->      #
->      # SYSROOT_SETUP_SCRIPT=`which oe-find-native-sysroot`
->     -# . $SYSROOT_SETUP_SCRIPT
->     +# . $SYSROOT_SETUP_SCRIPT <recipe>
->      #
->      # This script will terminate execution of your calling program unless
->      # you set a variable $SKIP_STRICT_SYSROOT_CHECK to a non-empty string
->     @@ -30,8 +30,8 @@
->      # with this program; if not, write to the Free Software Foundation, Inc.,
->      # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
->
->     -if [ "$1" = '--help' -o "$1" = '-h' ] ; then
->     -    echo 'Usage: oe-find-native-sysroot [-h|--help]'
->     +if [ "$1" = '--help' -o "$1" = '-h' -o $# -ne 1 ] ; then
->     +    echo 'Usage: oe-find-native-sysroot <recipe> [-h|--help]'
->          echo ''
->          echo 'OpenEmbedded find-native-sysroot - helper script to set'
->          echo 'environment variables OECORE_NATIVE_SYSROOT and PSEUDO'
->     @@ -39,11 +39,31 @@ if [ "$1" = '--help' -o "$1" = '-h' ] ; then
->          echo 'executable binary'
->          echo ''
->          echo 'options:'
->     +    echo '  recipe              its STAGING_DIR_NATIVE is used as native
->     sysroot'
->          echo '  -h, --help          show this help message and exit'
->          echo ''
->          exit 2
->      fi
->
->     +# Global vars
->     +BITBAKE_E=""
->     +OECORE_NATIVE_SYSROOT=""
->     +
->     +set_oe_native_sysroot(){
->     +    echo "Running bitbake -e $1"
->     +    BITBAKE_E="`bitbake -e $1`"
->     +    OECORE_NATIVE_SYSROOT=`echo "$BITBAKE_E" | grep ^STAGING_DIR_NATIVE |
->     cut -d '"' -f2`
->     +
->     +    if [ "x$OECORE_NATIVE_SYSROOT" = "x" ]; then
->     +        # This indicates that there was an error running bitbake -e that
->     +        # the user needs to be informed of
->     +        echo "There was an error running bitbake to determine
->     STAGING_DIR_NATIVE"
->     +        echo "Here is the output from bitbake -e $1"
->     +        echo "$BITBAKE_E"
->     +        exit 1
->     +    fi
->     +}
->     +
->      if [ "x$OECORE_NATIVE_SYSROOT" = "x" ]; then
->          BITBAKE=`which bitbake 2> /dev/null`
->          if [ "x$BITBAKE" != "x" ]; then
->     @@ -54,10 +74,10 @@ if [ "x$OECORE_NATIVE_SYSROOT" = "x" ]; then
->                      exit 1
->                  fi
->                  touch conf/sanity.conf
->     -            OECORE_NATIVE_SYSROOT=`bitbake -e meta-ide-support | grep
->     ^RECIPE_SYSROOT_NATIVE | cut -d '"' -f2`
->     +            set_oe_native_sysroot $1
->                  rm -f conf/sanity.conf
->              else
->     -            OECORE_NATIVE_SYSROOT=`bitbake -e meta-ide-support | grep
->     ^RECIPE_SYSROOT_NATIVE | cut -d '"' -f2`
->     +            set_oe_native_sysroot $1
->              fi
->          else
->              echo "Error: Unable to locate bitbake command."
->     @@ -69,21 +89,11 @@ if [ "x$OECORE_NATIVE_SYSROOT" = "x" ]; then
->          fi
->      fi
->
->     -if [ "x$OECORE_NATIVE_SYSROOT" = "x" ]; then
->     -    # This indicates that there was an error running bitbake -e that
->     -    # the user needs to be informed of
->     -    echo "There was an error running bitbake to determine
->     RECIPE_SYSROOT_NATIVE"
->     -    echo "Here is the output from bitbake -e"
->     -    bitbake -e
->     -    exit 1
->     -fi
->     -
->     -# Set up pseudo command
->     -if [ ! -e "$OECORE_NATIVE_SYSROOT/usr/bin/pseudo" ]; then
->     -    echo "Error: Unable to find pseudo binary in
->     $OECORE_NATIVE_SYSROOT/usr/bin/"
->     +if [ ! -e "$OECORE_NATIVE_SYSROOT/" ]; then
->     +    echo "Error: $OECORE_NATIVE_SYSROOT doesn't exist."
->
->          if [ "x$OECORE_DISTRO_VERSION" = "x" ]; then
->     -        echo "Have you run 'bitbake meta-ide-support'?"
->     +        echo "Have you run 'bitbake $1 -caddto_recipe_sysroot'?"
->          else
->              echo "This shouldn't happen - something is wrong with your
->     toolchain installation"
->          fi
->     @@ -92,4 +102,12 @@ if [ ! -e "$OECORE_NATIVE_SYSROOT/usr/bin/pseudo" ]; then
->              exit 1
->          fi
->      fi
->     -PSEUDO="$OECORE_NATIVE_SYSROOT/usr/bin/pseudo"
->     +
->     +# Set up pseudo command
->     +pseudo="$OECORE_NATIVE_SYSROOT/usr/bin/pseudo"
->     +if [ -e "$pseudo" ]; then
->     +    echo "PSEUDO=$pseudo"
->     +    PSEUDO="$pseudo"
->     +else
->     +    echo "PSEUDO $pseudo is not found."
->     +fi
->     diff --git a/scripts/oe-run-native b/scripts/oe-run-native
->     index f2453e705a..de3c02ed34 100755
->     --- a/scripts/oe-run-native
->     +++ b/scripts/oe-run-native
->     @@ -22,34 +22,39 @@
->      #
->
->      if [ $# -lt 1 -o "$1" = '--help' -o "$1" = '-h' ] ; then
->     -    echo 'oe-run-native: error: the following arguments are required:
->     <native tool>'
->     -    echo 'Usage: oe-run-native tool [parameters]'
->     +    echo 'oe-run-native: error: the following arguments are required:
->     <native recipe> <native tool>'
->     +    echo 'Usage: oe-run-native native-recipe tool [parameters]'
->          echo ''
->          echo 'OpenEmbedded run-native - runs native tools'
->          echo ''
->          echo 'arguments:'
->     +    echo '  native-recipe       The recipe which provoides tool'
->          echo '  tool                Native tool to run'
->          echo ''
->          exit 2
->      fi
->
->     +native_recipe="$1"
->     +tool="$2"
->     +shift
->     +
->      SYSROOT_SETUP_SCRIPT=`which oe-find-native-sysroot 2> /dev/null`
->      if [ -z "$SYSROOT_SETUP_SCRIPT" ]; then
->              echo "Error: Unable to find oe-find-native-sysroot script"
->              exit 1
->      fi
->     -. $SYSROOT_SETUP_SCRIPT
->     +. $SYSROOT_SETUP_SCRIPT $native_recipe
->
->      OLD_PATH=$PATH
->
->      # look for a tool only in native sysroot
->
->     PATH=$OECORE_NATIVE_SYSROOT/usr/bin:$OECORE_NATIVE_SYSROOT/bin:$OECORE_NATIVE_SYSROOT/usr/sbin:$OECORE_NATIVE_SYSROOT/sbin
->     -tool=`/usr/bin/which $1 2>/dev/null`
->     +tool=`/usr/bin/which $tool 2>/dev/null`
->
->      if [ -n "$tool" ] ; then
->          # add old path to allow usage of host tools
->          PATH=$PATH:$OLD_PATH $@
->      else
->     -    echo "Error: Unable to find '$1' in native sysroot"
->     +    echo "Error: Unable to find '$tool' in $PATH"
->          exit 1
->      fi
->     diff --git a/scripts/runqemu-export-rootfs b/scripts/runqemu-export-rootfs
->     index 7ebc07194d..c7992d8223 100755
->     --- a/scripts/runqemu-export-rootfs
->     +++ b/scripts/runqemu-export-rootfs
->     @@ -44,7 +44,7 @@ if [ -z "$SYSROOT_SETUP_SCRIPT" ]; then
->             echo "Did you forget to source your build environment setup script?"
->             exit 1
->      fi
->     -. $SYSROOT_SETUP_SCRIPT
->     +. $SYSROOT_SETUP_SCRIPT meta-ide-support
->
->      if [ ! -e "$OECORE_NATIVE_SYSROOT/usr/bin/unfsd" ]; then
->             echo "Error: Unable to find unfsd binary in
->     $OECORE_NATIVE_SYSROOT/usr/bin/"
->     diff --git a/scripts/runqemu-extract-sdk b/scripts/runqemu-extract-sdk
->     index 32ddd485b6..2a0dd50e0e 100755
->     --- a/scripts/runqemu-extract-sdk
->     +++ b/scripts/runqemu-extract-sdk
->     @@ -35,7 +35,7 @@ if [ -z "$SYSROOT_SETUP_SCRIPT" ]; then
->          echo "Did you forget to source your build system environment setup script?"
->          exit 1
->      fi
->     -. $SYSROOT_SETUP_SCRIPT
->     +. $SYSROOT_SETUP_SCRIPT meta-ide-support
->      PSEUDO_OPTS="-P $OECORE_NATIVE_SYSROOT/usr"
->
->      ROOTFS_TARBALL=$1
->
->
->     // Robert
->
->
->     On 04/05/2017 06:22 AM, brian avery wrote:
->
->         oe-find-native-sysroot: Recipe Specific Sysroots have eliminated the
->         large STAGING_DIR_NATIVE. Now, we will rely on the meta-ide-support
->         sysroot that is what was populating the large STAGING_DIR_NATIVE in
->         previous versions anyway. We now look for RECIPE_SYSROOT_NATIVE.
->
->         [YOCTO #11119]
->
->         Signed-off-by: brian avery <brian.avery@intel.com
->         <mailto:brian.avery@intel.com>>
->         ---
->          scripts/oe-find-native-sysroot | 8 ++++----
->          1 file changed, 4 insertions(+), 4 deletions(-)
->
->         diff --git a/scripts/oe-find-native-sysroot b/scripts/oe-find-native-sysroot
->         index 13a5c46..3f4c29d 100755
->         --- a/scripts/oe-find-native-sysroot
->         +++ b/scripts/oe-find-native-sysroot
->         @@ -2,7 +2,7 @@
->          #
->          # Find a native sysroot to use - either from an in-tree OE build or
->          # from a toolchain installation. It then ensures the variable
->         -# $OECORE_NATIVE_SYSROOT is set to the sysroot's base directory, and sets
->         +# $OECORE_NATIVE_SYSROOT is set to the sysroot's base directory, and sets
->          # $PSEUDO to the path of the pseudo binary.
->          #
->          # This script is intended to be run within other scripts by source'ing
->         @@ -54,10 +54,10 @@ if [ "x$OECORE_NATIVE_SYSROOT" = "x" ]; then
->                          exit 1
->                      fi
->                      touch conf/sanity.conf
->         -            OECORE_NATIVE_SYSROOT=`bitbake -e | grep
->         ^STAGING_DIR_NATIVE | cut -d '"' -f2`
->         +            OECORE_NATIVE_SYSROOT=`bitbake -e meta-ide-support | grep
->         ^RECIPE_SYSROOT_NATIVE | cut -d '"' -f2`
->                      rm -f conf/sanity.conf
->                  else
->         -            OECORE_NATIVE_SYSROOT=`bitbake -e | grep
->         ^STAGING_DIR_NATIVE | cut -d '"' -f2`
->         +            OECORE_NATIVE_SYSROOT=`bitbake -e meta-ide-support | grep
->         ^RECIPE_SYSROOT_NATIVE | cut -d '"' -f2`
->                  fi
->              else
->                  echo "Error: Unable to locate bitbake command."
->         @@ -72,7 +72,7 @@ fi
->          if [ "x$OECORE_NATIVE_SYSROOT" = "x" ]; then
->              # This indicates that there was an error running bitbake -e that
->              # the user needs to be informed of
->         -    echo "There was an error running bitbake to determine
->         STAGING_DIR_NATIVE"
->         +    echo "There was an error running bitbake to determine
->         RECIPE_SYSROOT_NATIVE"
->              echo "Here is the output from bitbake -e"
->              bitbake -e
->              exit 1
->
->     --
->     _______________________________________________
->     Openembedded-core mailing list
->     Openembedded-core@lists.openembedded.org
->     <mailto:Openembedded-core@lists.openembedded.org>
->     http://lists.openembedded.org/mailman/listinfo/openembedded-core
->     <http://lists.openembedded.org/mailman/listinfo/openembedded-core>
->
->
 
