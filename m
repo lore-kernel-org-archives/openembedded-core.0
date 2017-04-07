@@ -1,31 +1,31 @@
 Return-Path: <markus.lehtonen@linux.intel.com>
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 2F18477DBE
+	by mail.openembedded.org (Postfix) with ESMTP id 27CD077DB2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Apr 2017 11:51:44 +0000 (UTC)
+	Fri,  7 Apr 2017 11:51:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
 	d=intel.com; i=@intel.com; q=dns/txt; s=intel;
-	t=1491565906; x=1523101906;
+	t=1491565907; x=1523101907;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=unRBJEG4POvvgq28oTbhcly2Yj2ILYxofFXyeFAKjac=;
-	b=e7o75RK9jHXTx1iykob4KMAzXuq8Xuw2N+DMwr8DXHnFmDe/A153tHNH
-	s9zr8rdmriN+NMe4TXiY2x6w/yUE8A==;
+	bh=oRFQgQKJeOExvbWI5gK2KMzQg8o6jA7fb4H01PQc8Lo=;
+	b=bgztoZasuy10v0dMOSj5BFbX6Bo5wDQJqF6BCdKJBreh1e6oJXewVm49
+	waI8J6NMytpJITX55dfZlKwgKg0OHg==;
 Received: from fmsmga005.fm.intel.com ([10.253.24.32])
 	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	07 Apr 2017 04:51:45 -0700
+	07 Apr 2017 04:51:46 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.37,164,1488873600"; d="scan'208";a="85948613"
+X-IronPort-AV: E=Sophos;i="5.37,164,1488873600"; d="scan'208";a="85948626"
 Received: from cleane-mobl1.ger.corp.intel.com (HELO
 	mqz-osx-suse64.fi.intel.com) ([10.252.10.237])
-	by fmsmga005.fm.intel.com with ESMTP; 07 Apr 2017 04:51:45 -0700
+	by fmsmga005.fm.intel.com with ESMTP; 07 Apr 2017 04:51:46 -0700
 From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  7 Apr 2017 14:51:40 +0300
-Message-Id: <20170407115141.2564-3-markus.lehtonen@linux.intel.com>
+Date: Fri,  7 Apr 2017 14:51:41 +0300
+Message-Id: <20170407115141.2564-4-markus.lehtonen@linux.intel.com>
 X-Mailer: git-send-email 2.12.0
 In-Reply-To: <20170407115141.2564-1-markus.lehtonen@linux.intel.com>
 References: <20170407115141.2564-1-markus.lehtonen@linux.intel.com>
-Subject: [PATCH 2/3] oe-build-perf-report-email.py: use proper fallback email address
+Subject: [PATCH 3/3] scripts/oe-build-perf-report: improve guessing of args
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,38 +38,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Apr 2017 11:51:44 -0000
+X-List-Received-Date: Fri, 07 Apr 2017 11:51:45 -0000
 
-Use properly formatted fallback email address instead of just the
-username.
+Search remote branches, too, when finding the latest commit.
 
 Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
 ---
- scripts/contrib/oe-build-perf-report-email.py | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ scripts/oe-build-perf-report | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/scripts/contrib/oe-build-perf-report-email.py b/scripts/contrib/oe-build-perf-report-email.py
-index 81b58ab020..055a7b12cf 100755
---- a/scripts/contrib/oe-build-perf-report-email.py
-+++ b/scripts/contrib/oe-build-perf-report-email.py
-@@ -21,6 +21,7 @@ import pwd
- import re
- import shutil
- import smtplib
-+import socket
- import subprocess
- import sys
- import tempfile
-@@ -211,7 +212,8 @@ def send_email(text_fn, html_fn, subject, recipients):
-         raise ReportError("Neither plain text nor html body specified")
- 
-     full_name = pwd.getpwuid(os.getuid()).pw_gecos.split(',')[0]
--    email = os.environ.get('EMAIL', os.getlogin())
-+    email = os.environ.get('EMAIL',
-+                           '{}@{}'.format(os.getlogin(), socket.getfqdn()))
-     msg['From'] = "{} <{}>".format(full_name, email)
-     msg['To'] = ', '.join(recipients)
-     msg['Subject'] = subject
+diff --git a/scripts/oe-build-perf-report b/scripts/oe-build-perf-report
+index 6f2db49d5c..ced5ff2e12 100755
+--- a/scripts/oe-build-perf-report
++++ b/scripts/oe-build-perf-report
+@@ -380,7 +380,7 @@ def auto_args(repo, args):
+     """Guess arguments, if not defined by the user"""
+     # Get the latest commit in the repo
+     log.debug("Guessing arguments from the latest commit")
+-    msg = repo.run_cmd(['log', '-1', '--branches', '--format=%b'])
++    msg = repo.run_cmd(['log', '-1', '--branches', '--remotes', '--format=%b'])
+     for line in msg.splitlines():
+         split = line.split(':', 1)
+         if len(split) != 2:
 -- 
 2.12.0
 
