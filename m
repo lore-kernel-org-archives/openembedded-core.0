@@ -1,28 +1,46 @@
-Return-Path: <dmitry.rozhkov@linux.intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 9B7A777A93
+Return-Path: <kergoth@gmail.com>
+Received: from mail-oi0-f50.google.com (mail-oi0-f50.google.com
+	[209.85.218.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 29A0F77CEF
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Apr 2017 13:14:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-	d=intel.com; i=@intel.com; q=dns/txt; s=intel;
-	t=1491570890; x=1523106890;
-	h=from:to:cc:subject:date:message-id;
-	bh=/eQ+LNsLojGNiIz7oo9nceIXAduuZffqVHoHGyveJR8=;
-	b=NPov0btjUezXSLy5hqemdObEnHTQewM9+onQFqApRvkPEZBc68pCI2m8
-	F13oRjkb2TW74L9KpKcJW4rbtaq4qA==;
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	07 Apr 2017 06:14:49 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.37,165,1488873600"; d="scan'208";a="245852313"
-Received: from drozhkov-desk.fi.intel.com ([10.237.72.60])
-	by fmsmga004.fm.intel.com with ESMTP; 07 Apr 2017 06:14:48 -0700
-From: Dmitry Rozhkov <dmitry.rozhkov@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  7 Apr 2017 16:14:16 +0300
-Message-Id: <20170407131416.5329-1-dmitry.rozhkov@linux.intel.com>
-X-Mailer: git-send-email 2.9.3
-Subject: [PATCH v2] python-pycurl: create python3-pycurl recipe
+	Fri,  7 Apr 2017 14:02:34 +0000 (UTC)
+Received: by mail-oi0-f50.google.com with SMTP id b187so86961383oif.0
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 07 Apr 2017 07:02:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=xVka36NDZBARPvinbXymM1FK8YC+H4/LLP014hqTbxM=;
+	b=PeUCpvbg9YRDQadExB/H5p2ndp5c97ROtx3gPCc+5U0zdI4oxQXwdo8mcPz2wjLbsM
+	Gr7x5XKdHsLjat8jDGsBTrmhxLJfEca5ybygsLr9dEjGCmVjDbxggoE+6FicFObx3lPp
+	ub1F4W+zqbNdZkcB6JFtxgRNJYkD25+TyxpGduJJwWn88EyVft6ckenXL96LHIZmTgfu
+	seENBQjVu3+j5VcFBL3XP5raViW9NiNgoKwIl22OnLb+BXyIRbfCjdLyzctlGLv9zwz4
+	2jWiG1UV0dKsKUobxZepdLYuctpNnvpq5t9AzeIFd/ZPhQTVEDF0u8LwWdz7YOHzpKa6
+	Ay1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=xVka36NDZBARPvinbXymM1FK8YC+H4/LLP014hqTbxM=;
+	b=MDsGSsDRKn4r6U3MpwRFG/GmrGMpgdvmVRUoN3pSVms+Kgc3c/kKu+I5q39E/ss2OQ
+	VoVdJgVg2un15PYQKKPbdrkd4ha7HADKHsfAyDph/K2rbdnMyG4SjZEuM6+Uj8XkgaUj
+	2g+WL562cKhF5xKE3ATHstN6rz7PRi8paNapuDoahclB66h8idq1Yw2EmLIhKDJBblRe
+	MudgnDicRFUqf+chcaeGnxSoQOk9DAIaCq3xso7QSZEOnr5w67TqZbIDBVrnYEYy+HhY
+	hVXDX0KERR6+RmENZ8DZ3U5iTEC3VaIdQlcLeovUo6zhgTkyz+SOAJol38HgdOsj+NVg
+	83Nw==
+X-Gm-Message-State: AFeK/H16+GvZVFtG6rlxVNh69zvoBH1SQuwKd6CXtGHiPblDSNESnXt/Jwf1J1jWRSNLlg/OAJ3GCBHesLotUw==
+X-Received: by 10.202.64.195 with SMTP id n186mr18888435oia.125.1491573756177; 
+	Fri, 07 Apr 2017 07:02:36 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.157.33.197 with HTTP; Fri, 7 Apr 2017 07:02:15 -0700 (PDT)
+In-Reply-To: <cover.1491484515.git.joshua.g.lock@intel.com>
+References: <cover.1491484515.git.joshua.g.lock@intel.com>
+From: Christopher Larson <kergoth@gmail.com>
+Date: Fri, 7 Apr 2017 07:02:15 -0700
+Message-ID: <CABcZANnLVci9_USGAYj7F7Fg3-+Z_08ySHa-YwSuGWBGsXXoKg@mail.gmail.com>
+To: Joshua Lock <joshua.g.lock@intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/2] Fixes for building on Fedora 26 (Alpha)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,129 +53,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Apr 2017 13:14:50 -0000
+X-List-Received-Date: Fri, 07 Apr 2017 14:02:35 -0000
+Content-Type: multipart/alternative; boundary=001a113dd1e6e4b392054c941319
 
-The python-pycurl recipe can be used with python2 only even
-though python3 is officially supported by upstream.
+--001a113dd1e6e4b392054c941319
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Create python3-pycurl recipe enabling the pycurl module for
-python3.
+On Thu, Apr 6, 2017 at 6:23 AM, Joshua Lock <joshua.g.lock@intel.com> wrote=
+:
 
-Signed-off-by: Dmitry Rozhkov <dmitry.rozhkov@linux.intel.com>
----
-
-Changes in v2:
-- redefine SECURITY_CFLAGS for python3-pycurl to drop PIE cflag.
-  Otherwise poky-lsb builds fail.
-
- meta/conf/distro/include/security_flags.inc        |  1 +
- meta/recipes-devtools/python/python-pycurl.inc     | 31 +++++++++++++++++++++
- .../python/python-pycurl_7.21.5.bb                 | 32 +---------------------
- .../python/python3-pycurl_7.21.5.bb                |  5 ++++
- 4 files changed, 38 insertions(+), 31 deletions(-)
- create mode 100644 meta/recipes-devtools/python/python-pycurl.inc
- create mode 100644 meta/recipes-devtools/python/python3-pycurl_7.21.5.bb
-
-diff --git a/meta/conf/distro/include/security_flags.inc b/meta/conf/distro/include/security_flags.inc
-index 6df1842..e162abe 100644
---- a/meta/conf/distro/include/security_flags.inc
-+++ b/meta/conf/distro/include/security_flags.inc
-@@ -76,6 +76,7 @@ SECURITY_CFLAGS_pn-python-pycurl = "${SECURITY_NO_PIE_CFLAGS}"
- SECURITY_CFLAGS_pn-python-numpy = "${SECURITY_NO_PIE_CFLAGS}"
- SECURITY_CFLAGS_pn-python3-numpy = "${SECURITY_NO_PIE_CFLAGS}"
- SECURITY_CFLAGS_pn-python3-pycairo = "${SECURITY_NO_PIE_CFLAGS}"
-+SECURITY_CFLAGS_pn-python3-pycurl = "${SECURITY_NO_PIE_CFLAGS}"
- SECURITY_CFLAGS_pn-python3-pygpgme = "${SECURITY_NO_PIE_CFLAGS}"
- SECURITY_CFLAGS_pn-python3 = "${SECURITY_NO_PIE_CFLAGS}"
- SECURITY_CFLAGS_pn-syslinux = "${SECURITY_NO_PIE_CFLAGS}"
-diff --git a/meta/recipes-devtools/python/python-pycurl.inc b/meta/recipes-devtools/python/python-pycurl.inc
-new file mode 100644
-index 0000000..d26318b
---- /dev/null
-+++ b/meta/recipes-devtools/python/python-pycurl.inc
-@@ -0,0 +1,31 @@
-+SUMMARY = "Python bindings for libcurl"
-+HOMEPAGE = "http://pycurl.sourceforge.net/"
-+SECTION = "devel/python"
-+LICENSE = "LGPLv2.1+ | MIT"
-+LIC_FILES_CHKSUM = "file://README.rst;beginline=166;endline=182;md5=a84a1caa65b89d4584b693d3680062fb \
-+                    file://COPYING-LGPL;md5=3579a9fd0221d49a237aaa33492f988c \
-+                    file://COPYING-MIT;md5=b7e434aeb228ed731c00bcf177e79b19"
-+
-+DEPENDS = "curl ${PYTHON_PN}"
-+RDEPENDS_${PN} = "${PYTHON_PN}-core curl"
-+SRCNAME = "pycurl"
-+
-+SRC_URI = "\
-+  http://${SRCNAME}.sourceforge.net/download/${SRCNAME}-${PV}.tar.gz;name=archive \
-+  file://no-static-link.patch \
-+"
-+
-+SRC_URI[archive.md5sum] = "bca7bf47320082588db544ced2ba8717"
-+SRC_URI[archive.sha256sum] = "8a1e0eb55573388275a1d6c2534ca4cfca5d7fa772b99b505c08fa149b27aed0"
-+S = "${WORKDIR}/${SRCNAME}-${PV}"
-+
-+BBCLASSEXTEND = "native"
-+
-+# Ensure the docstrings are generated as make clean will remove them
-+do_compile_prepend() {
-+	${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN} setup.py docstrings
-+}
-+
-+do_install_append() {
-+	rm -rf ${D}${datadir}/share
-+}
-diff --git a/meta/recipes-devtools/python/python-pycurl_7.21.5.bb b/meta/recipes-devtools/python/python-pycurl_7.21.5.bb
-index 7b41f6d..eb70cea 100644
---- a/meta/recipes-devtools/python/python-pycurl_7.21.5.bb
-+++ b/meta/recipes-devtools/python/python-pycurl_7.21.5.bb
-@@ -1,33 +1,3 @@
--SUMMARY = "Python bindings for libcurl"
--HOMEPAGE = "http://pycurl.sourceforge.net/"
--SECTION = "devel/python"
--LICENSE = "LGPLv2.1+ | MIT"
--LIC_FILES_CHKSUM = "file://README.rst;beginline=166;endline=182;md5=a84a1caa65b89d4584b693d3680062fb \
--                    file://COPYING-LGPL;md5=3579a9fd0221d49a237aaa33492f988c \
--                    file://COPYING-MIT;md5=b7e434aeb228ed731c00bcf177e79b19"
--
--DEPENDS = "curl python"
--RDEPENDS_${PN} = "python-core curl"
--SRCNAME = "pycurl"
--
--SRC_URI = "\
--  http://${SRCNAME}.sourceforge.net/download/${SRCNAME}-${PV}.tar.gz;name=archive \
--  file://no-static-link.patch \
--"
--
--SRC_URI[archive.md5sum] = "bca7bf47320082588db544ced2ba8717"
--SRC_URI[archive.sha256sum] = "8a1e0eb55573388275a1d6c2534ca4cfca5d7fa772b99b505c08fa149b27aed0"
--S = "${WORKDIR}/${SRCNAME}-${PV}"
-+require python-pycurl.inc
- 
- inherit distutils
--
--BBCLASSEXTEND = "native"
--
--# Ensure the docstrings are generated as make clean will remove them
--do_compile_prepend() {
--	${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN} setup.py docstrings
--}
--
--do_install_append() {
--	rm -rf ${D}${datadir}/share
--}
-diff --git a/meta/recipes-devtools/python/python3-pycurl_7.21.5.bb b/meta/recipes-devtools/python/python3-pycurl_7.21.5.bb
-new file mode 100644
-index 0000000..5d11192
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-pycurl_7.21.5.bb
-@@ -0,0 +1,5 @@
-+FILESEXTRAPATHS_prepend := "${THISDIR}/python-pycurl:"
-+
-+require python-pycurl.inc
-+
-+inherit distutils3
--- 
-2.9.3
+> As Fedora 26 has a new gcc [1] and a new system pkg-config implementation
+> [2] I
+> wanted to do some testing on that host OS so that we might be able to get
+> some
+> fixes in before Pyro/2.3 is released.
+>
+> The following series were the only changes required to start building (I
+> have
+> tested core-image-minimal, core-image-base and core-image-sato) on Fedora
+> 26.
+>
+> 1. https://fedoraproject.org/wiki/Changes/GCC7
+> 2. https://fedoraproject.org/wiki/Changes/pkgconf_as_system_pkg-config_
+> implementation
 
 
+Quite interesting. I started poking at pkgconf a while back =E2=80=94
+https://github.com/kergoth/meta-kergoth-wip/tree/master/meta-pkgconf.
+--=20
+Christopher Larson
+kergoth at gmail dot com
+Founder - BitBake, OpenEmbedded, OpenZaurus
+Senior Software Engineer, Mentor Graphics
+
+--001a113dd1e6e4b392054c941319
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
+te">On Thu, Apr 6, 2017 at 6:23 AM, Joshua Lock <span dir=3D"ltr">&lt;<a hr=
+ef=3D"mailto:joshua.g.lock@intel.com" target=3D"_blank">joshua.g.lock@intel=
+.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"ma=
+rgin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-style:solid;border=
+-left-color:rgb(204,204,204);padding-left:1ex">As Fedora 26 has a new gcc [=
+1] and a new system pkg-config implementation [2] I<br>
+wanted to do some testing on that host OS so that we might be able to get s=
+ome<br>
+fixes in before Pyro/2.3 is released.<br>
+<br>
+The following series were the only changes required to start building (I ha=
+ve<br>
+tested core-image-minimal, core-image-base and core-image-sato) on Fedora 2=
+6.<br>
+<br>
+1. <a href=3D"https://fedoraproject.org/wiki/Changes/GCC7" rel=3D"noreferre=
+r" target=3D"_blank">https://fedoraproject.org/<wbr>wiki/Changes/GCC7</a><b=
+r>
+2. <a href=3D"https://fedoraproject.org/wiki/Changes/pkgconf_as_system_pkg-=
+config_implementation" rel=3D"noreferrer" target=3D"_blank">https://fedorap=
+roject.org/<wbr>wiki/Changes/pkgconf_as_<wbr>system_pkg-config_<wbr>impleme=
+ntation</a></blockquote><div><br></div><div>Quite interesting. I started po=
+king at pkgconf a while back =E2=80=94 <a href=3D"https://github.com/kergot=
+h/meta-kergoth-wip/tree/master/meta-pkgconf">https://github.com/kergoth/met=
+a-kergoth-wip/tree/master/meta-pkgconf</a>.</div></div>-- <br><div class=3D=
+"gmail_signature"><div dir=3D"ltr"><div><div dir=3D"ltr">Christopher Larson=
+<br>kergoth at gmail dot com<br>Founder - BitBake, OpenEmbedded, OpenZaurus=
+<br>Senior Software Engineer, Mentor Graphics</div></div></div></div>
+</div></div>
+
+--001a113dd1e6e4b392054c941319--
