@@ -1,34 +1,31 @@
-Return-Path: <maxin.john@intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id D750C77D94
+Return-Path: <markus.lehtonen@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 313DF77DBC
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Apr 2017 11:41:22 +0000 (UTC)
+	Fri,  7 Apr 2017 11:51:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
 	d=intel.com; i=@intel.com; q=dns/txt; s=intel;
-	t=1491565284; x=1523101284;
-	h=date:from:to:cc:subject:message-id:references:
-	mime-version:content-transfer-encoding:in-reply-to;
-	bh=PcfYb7LmiguuxKGVfyk9gnPbujDF+Onqv25N30InK4g=;
-	b=ABWqCxZOg/Ae2V6scr2KKAPlTjKLtn9a7tjyqCc3Y2cltSfvWuksPufo
-	bEEnSV1oKCi8tUrwp4Hw/k5sdzbDUQ==;
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	07 Apr 2017 04:41:23 -0700
+	t=1491565905; x=1523101905;
+	h=from:to:subject:date:message-id:in-reply-to:references;
+	bh=9eeZp7yY4YvIK6IvhZ9uKON9nGyTvkmSgBzNnfCtJTk=;
+	b=tiKtEi8cAvUglMxjYrMg4fLDSUUZNO5vqwayEKI8jnnoYoz4Ytpuvttf
+	gppXRfYc74tUThNGAFj5flkBPA42bA==;
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	07 Apr 2017 04:51:44 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.37,164,1488873600"; d="scan'208";a="953336900"
-Received: from mbabyjoh-desk.fi.intel.com (HELO
-	mbabyjoh-desk.ger.corp.intel.com) ([10.237.72.71])
-	by orsmga003.jf.intel.com with ESMTP; 07 Apr 2017 04:41:21 -0700
-Date: Fri, 7 Apr 2017 14:41:16 +0300
-From: "Maxin B. John" <maxin.john@intel.com>
-To: wei.tee.ng@intel.com
-Message-ID: <20170407114115.GA22696@mbabyjoh-desk.ger.corp.intel.com>
-References: <1491562656-111303-1-git-send-email-wei.tee.ng@intel.com>
-MIME-Version: 1.0
-In-Reply-To: <1491562656-111303-1-git-send-email-wei.tee.ng@intel.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2 0/3][YOCTO #11090] Set linux-firmware to correct license
+X-IronPort-AV: E=Sophos;i="5.37,164,1488873600"; d="scan'208";a="85948596"
+Received: from cleane-mobl1.ger.corp.intel.com (HELO
+	mqz-osx-suse64.fi.intel.com) ([10.252.10.237])
+	by fmsmga005.fm.intel.com with ESMTP; 07 Apr 2017 04:51:44 -0700
+From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  7 Apr 2017 14:51:39 +0300
+Message-Id: <20170407115141.2564-2-markus.lehtonen@linux.intel.com>
+X-Mailer: git-send-email 2.12.0
+In-Reply-To: <20170407115141.2564-1-markus.lehtonen@linux.intel.com>
+References: <20170407115141.2564-1-markus.lehtonen@linux.intel.com>
+Subject: [PATCH 1/3] build-perf-test-wrapper.sh: support extra args for email script
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,118 +38,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Apr 2017 11:41:24 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 07 Apr 2017 11:51:44 -0000
 
-Hi,
+Make it possible to provide (extra) command line arguments to the
+oe-build-perf-test-email script via a new environment variable
+OE_BUILD_PERF_REPORT_EMAIL_EXTRA_ARGS.
 
-On Fri, Apr 07, 2017 at 03:57:33AM -0700, wei.tee.ng@intel.com wrote:
-> From: "Ng, Wei Tee" <wei.tee.ng@intel.com>
->=20
-> These patches is to update the SRCREV of linux-firmware to the latest HEA=
-D and set thelicense file explicitly for linux-firmware-carl9170 to GPL-2.
-> =20
-> The SRCREV for linux-firmware was updated to the latest in order to inclu=
-de the GPL-2 license file. The netronome firmware was removed until rpm pac=
-kaging issue is resolved.
-> =20
-> This configuration are build and tested.
-> =20
-> Please review and provide feedback if you have any.
+Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+---
+ scripts/contrib/build-perf-test-wrapper.sh | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-ipk packaging also seems to have some troubles with this modification.
-Failed in my setup as below:
+diff --git a/scripts/contrib/build-perf-test-wrapper.sh b/scripts/contrib/build-perf-test-wrapper.sh
+index 49bc298c5b..3da32532be 100755
+--- a/scripts/contrib/build-perf-test-wrapper.sh
++++ b/scripts/contrib/build-perf-test-wrapper.sh
+@@ -193,7 +193,7 @@ if [ -n "$results_repo" ]; then
+         os_name=`get_os_release_var PRETTY_NAME`
+         oe-build-perf-report -r "$results_repo" > report.txt
+         oe-build-perf-report -r "$results_repo" --html > report.html
+-        "$script_dir"/oe-build-perf-report-email.py --to "$email_to" --subject "Build Perf Test Report for $os_name" --text report.txt --html report.html
++        "$script_dir"/oe-build-perf-report-email.py --to "$email_to" --subject "Build Perf Test Report for $os_name" --text report.txt --html report.html "${OE_BUILD_PERF_REPORT_EMAIL_EXTRA_ARGS[@]}"
+     fi
+ fi
+ 
+-- 
+2.12.0
 
-ERROR: linux-firmware-1_0.0+gitAUTOINC+b14134583c-r0 do_package_write_ipk: =
-Error executing a python function in exec_python_func() autogenerated:
-
-The stack trace of python calls that resulted in this exception/failure was:
-File: 'exec_python_func() autogenerated', lineno: 2, function: <module>
-0001:
-*** 0002:do_package_ipk(d)
-0003:
-File: '/home/maxin/poky/meta/classes/package_ipk.bbclass', lineno: 228, fun=
-ction: do_package_ipk
-0224:            conffiles.close()
-0225:
-0226:        os.chdir(basedir)
-0227:        subprocess.check_output("PATH=3D\"%s\" %s %s %s" % (localdata.=
-getVar("PATH"),
- *** 0228:                                                          d.getVa=
-r("OPKGBUILDCMD"), pkg, pkgoutdir), shell=3DTrue)
-0229:
-0230:        if d.getVar('IPK_SIGN_PACKAGES') =3D=3D '1':
-0231:            ipkver =3D "%s-%s" % (d.getVar('PKGV'), d.getVar('PKGR'))
-0232:            ipk_to_sign =3D "%s/%s_%s_%s.ipk" % (pkgoutdir, pkgname, i=
-pkver, d.getVar('PACKAGE_ARCH'))
-File: '/usr/lib64/python3.4/subprocess.py', lineno: 620, function: check_ou=
-tput
-0616:            process.wait()
-0617:            raise
-0618:        retcode =3D process.poll()
-0619:        if retcode:
-*** 0620:            raise CalledProcessError(retcode, process.args, output=
-=3Doutput)
-0621:    return output
-0622:
-0623:
-0624:def list2cmdline(seq):
-Exception: subprocess.CalledProcessError: Command 'PATH=3D"/home/maxin/poky=
-/build/tmp/sysroots-uninative/x86_64-linux/usr/bin:/home/maxin/poky/scripts=
-:/home/maxin/poky/build/tmp/work/all-poky-linux/linux-firmware/1_0.0+gitAUT=
-OINC+b14134583c-r0/recipe-sysroot-native/usr/bin/allarch-poky-linux:/home/m=
-axin/poky/build/tmp/work/all-poky-linux/linux-firmware/1_0.0+gitAUTOINC+b14=
-134583c-r0/recipe-sysroot/usr/bin/crossscripts:/home/maxin/poky/build/tmp/w=
-ork/all-poky-linux/linux-firmware/1_0.0+gitAUTOINC+b14134583c-r0/recipe-sys=
-root-native/usr/sbin:/home/maxin/poky/build/tmp/work/all-poky-linux/linux-f=
-irmware/1_0.0+gitAUTOINC+b14134583c-r0/recipe-sysroot-native/usr/bin:/home/=
-maxin/poky/build/tmp/work/all-poky-linux/linux-firmware/1_0.0+gitAUTOINC+b1=
-4134583c-r0/recipe-sysroot-native/sbin:/home/maxin/poky/build/tmp/work/all-=
-poky-linux/linux-firmware/1_0.0+gitAUTOINC+b14134583c-r0/recipe-sysroot-nat=
-ive/bin:/home/maxin/poky/bitbake/bin:/home/maxin/poky/build/tmp/hosttools" =
-opkg-build linux-firmware-GPL-2-license /home/maxin/poky/build/tmp/work/all=
--poky-linux/linux-firmware/1_0.0+gitAUTOINC+b14134583c-r0/deploy-ipks/all' =
-returned non-zero exit status 1
-
-Subprocess output:
-linux-firmware-GPL-2-license
-
-ERROR: linux-firmware-1_0.0+gitAUTOINC+b14134583c-r0 do_package_write_ipk: =
-Function failed: do_package_ipk
-ERROR: Logfile of failure stored in: /home/maxin/poky/build/tmp/work/all-po=
-ky-linux/linux-firmware/1_0.0+gitAUTOINC+b14134583c-r0/temp/log.do_package_=
-write_ipk.32268
-ERROR: Task (/home/maxin/poky/meta/recipes-kernel/linux-firmware/linux-firm=
-ware_git.bb:do_package_write_ipk) failed with exit code '1'
-NOTE: Tasks Summary: Attempted 349 tasks of which 348 didn't need to be rer=
-un and 1 failed.
-Summary: 1 task failed:
-/home/maxin/poky/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb:d=
-o_package_write_ipk
-
-> Thanks.
-> =20
-> Regards,
->=20
-> Wei Tee
->=20
->=20
-> Chang, Rebecca Swee Fun (1):
->   linux-firmware: Fix build failure when update SRCREV to latest HEAD
->=20
-> Ng, Wei Tee (2):
->   linux-firmware: update to revision a4dde74b
->   linux-firmware: Set the license for carl9170 to GPLv2
->=20
->  .../linux-firmware/linux-firmware_git.bb           | 40 ++++++++++++++--=
-------
->  1 file changed, 25 insertions(+), 15 deletions(-)
->=20
-> --=20
-> 2.7.4
-
-Best Regards,
-Maxin
 
