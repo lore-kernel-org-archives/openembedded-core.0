@@ -1,26 +1,30 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 854F177D91
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id E363577D0C
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Apr 2017 08:04:30 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v3784TqY009933
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 7 Apr 2017 01:04:30 -0700
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.201) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.294.0; Fri, 7 Apr 2017 01:04:28 -0700
-From: Chen Qi <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 7 Apr 2017 16:05:55 +0800
-Message-ID: <440e9625305d6c7754989876848c107364e07761.1491551982.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1491551982.git.Qi.Chen@windriver.com>
-References: <cover.1491551982.git.Qi.Chen@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 2/2] runqemu: make use of two new vars
+	Fri,  7 Apr 2017 08:59:47 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTP id v378xhUU031255; 
+	Fri, 7 Apr 2017 09:59:44 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id BeHp4vcFXsTS; Fri,  7 Apr 2017 09:59:44 +0100 (BST)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	v378Sr9O028821
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
+	verify=NOT); Fri, 7 Apr 2017 09:28:54 +0100
+Message-ID: <1491553733.17200.89.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Jussi Kukkonen <jussi.kukkonen@intel.com>,
+	openembedded-core@lists.openembedded.org
+Date: Fri, 07 Apr 2017 09:28:53 +0100
+In-Reply-To: <d071facbbdbb48f34e0f0d9500872349c1130a9a.1491483222.git.jussi.kukkonen@intel.com>
+References: <cover.1491483222.git.jussi.kukkonen@intel.com>
+	<d071facbbdbb48f34e0f0d9500872349c1130a9a.1491483222.git.jussi.kukkonen@intel.com>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.1 
+Mime-Version: 1.0
+Subject: Re: [PATCH 4/4] native.bbclass: Use fixed DISTRO_FEATURES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,50 +37,90 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Apr 2017 08:04:30 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 07 Apr 2017 08:59:48 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Make use of STAGING_DIR_TUNCTL_NATIVE and STAGING_DIR_QEMU_BINDIR_NATIVE
-to run correctly. In this way, runqemu would still work when 'rm_work'
-is enabled.
+On Fri, 2017-04-07 at 09:09 +0300, Jussi Kukkonen wrote:
+> There seems to be no advantage to letting distro features affect
+> native builds. There is a significant disadvantage: a change to
+> DISTRO_FEATURES will trigger a lot of unnecessary native tasks. In a
+> test like this:
+>   $ bitbake core-image-minimal
+>   # append " systemd" to DISTRO_FEATURES
+>   $ bitbake core-image-minimal
+> The latter build takes 44 minutes (28%) of cpu-time less with this
+> patch (skipping 135 native tasks). Sadly wall clock time was not
+> affected as glibc remains the bottleneck.
+> 
+> Set DISTRO_FEATURES to a fixed value for native recipes to avoid the
+> unnecessary tasks: currently the default value is empty.
+> 
+> Do the variable setting in native_virtclass_handler() because
+> otherwise
+> it could still be overridden by appends and the feature backfilling.
+> Shuffle the early returns so DISTRO_FEATURES gets set as long as
+> the packagename ends with "-native".
+> 
+> Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+> ---
+>  meta/classes/native.bbclass | 12 ++++++++----
+>  meta/conf/bitbake.conf      |  2 ++
+>  2 files changed, 10 insertions(+), 4 deletions(-)
+> 
+> diff --git a/meta/classes/native.bbclass
+> b/meta/classes/native.bbclass
+> index 1919fbc..fbca4c6 100644
+> --- a/meta/classes/native.bbclass
+> +++ b/meta/classes/native.bbclass
+> @@ -121,14 +121,18 @@ PATH_prepend = "${COREBASE}/scripts/native-
+> intercept:"
+>  SSTATE_SCAN_CMD ?= "${SSTATE_SCAN_CMD_NATIVE}"
+>  
+>  python native_virtclass_handler () {
+> -    classextend = e.data.getVar('BBCLASSEXTEND') or ""
+> -    if "native" not in classextend:
+> -        return
+> -
+>      pn = e.data.getVar("PN")
+>      if not pn.endswith("-native"):
+>          return
+>  
+> +    # Set features here to prevent appends and distro features
+> backfill
+> +    # from modifying native distro features
+> +    d.setVar("DISTRO_FEATURES", "${NATIVE_DISTRO_FEATURES}")
+> +
+> +    classextend = e.data.getVar('BBCLASSEXTEND') or ""
+> +    if "native" not in classextend:
+> +        return
+> +
+>      def map_dependencies(varname, d, suffix = ""):
+>          if suffix:
+>              varname = varname + "_" + suffix
+> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+> index 5e98d45..78a3470 100644
+> --- a/meta/conf/bitbake.conf
+> +++ b/meta/conf/bitbake.conf
+> @@ -789,6 +789,8 @@ MACHINE_ESSENTIAL_EXTRA_RRECOMMENDS ?= ""
+>  EXTRA_IMAGE_FEATURES ??= ""
+>  IMAGE_FEATURES += "${EXTRA_IMAGE_FEATURES}"
+>  
+> +NATIVE_DISTRO_FEATURES ?= ""
+> +
+>  DISTRO_FEATURES_BACKFILL = "pulseaudio sysvinit bluez5 gobject-
+> introspection-data ldconfig"
+>  MACHINE_FEATURES_BACKFILL = "rtc qemu-usermode"
 
-[YOCTO #11266]
-[YOCTO #11193]
+Thanks for working on this, looks good.
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- scripts/runqemu | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
+Most native variables are called XXX_NATIVE, not NATIVE_XXX so we might
+want to make this match?
 
-diff --git a/scripts/runqemu b/scripts/runqemu
-index 23c9efb..cde9ae5 100755
---- a/scripts/runqemu
-+++ b/scripts/runqemu
-@@ -908,7 +908,10 @@ class BaseConfig(object):
-             gid = os.getgid()
-             uid = os.getuid()
-             logger.info("Setting up tap interface under sudo")
--            cmd = 'sudo %s %s %s %s' % (self.qemuifup, uid, gid, self.get('STAGING_DIR_NATIVE'))
-+            if os.path.exists(self.get('STAGING_DIR_TUNCTL_NATIVE')):
-+                cmd = 'sudo %s %s %s %s' % (self.qemuifup, uid, gid, self.get('STAGING_DIR_TUNCTL_NATIVE'))
-+            else:
-+                cmd = 'sudo %s %s %s %s' % (self.qemuifup, uid, gid, self.get('STAGING_DIR_NATIVE'))
-             tap = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE).stdout.read().decode('utf-8').rstrip('\n')
-             lockfile = os.path.join(lockdir, tap)
-             self.lock = lockfile + '.lock'
-@@ -1041,7 +1044,10 @@ class BaseConfig(object):
-         if not qemu_system:
-             raise Exception("Failed to boot, QB_SYSTEM_NAME is NULL!")
- 
--        qemu_bin = '%s/%s' % (self.get('STAGING_BINDIR_NATIVE'), qemu_system)
-+        if os.path.exists(self.get('STAGING_DIR_QEMU_BINDIR_NATIVE')):
-+            qemu_bin = '%s/%s' % (self.get('STAGING_DIR_QEMU_BINDIR_NATIVE'), qemu_system)
-+        else:
-+            qemu_bin = '%s/%s' % (self.get('STAGING_BINDIR_NATIVE'), qemu_system)
- 
-         # It is possible to have qemu-native in ASSUME_PROVIDED, and it won't
-         # find QEMU in sysroot, it needs to use host's qemu.
--- 
-1.9.1
+Also, one question. Does this have any effect on qemu-native? Does
+qemu-native need/use x11 today?
 
+Cheers,
+
+Richard
 
