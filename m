@@ -1,49 +1,53 @@
-Return-Path: <alistair23@gmail.com>
-Received: from mail-oi0-f66.google.com (mail-oi0-f66.google.com
-	[209.85.218.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 9797F77DE5
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pg0-f65.google.com (mail-pg0-f65.google.com [74.125.83.65])
+	by mail.openembedded.org (Postfix) with ESMTP id D27AE77DFF
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Apr 2017 17:00:07 +0000 (UTC)
-Received: by mail-oi0-f66.google.com with SMTP id g204so2802324oib.2
+	Fri,  7 Apr 2017 17:00:13 +0000 (UTC)
+Received: by mail-pg0-f65.google.com with SMTP id g2so16708332pge.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 07 Apr 2017 10:00:08 -0700 (PDT)
+	Fri, 07 Apr 2017 10:00:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc;
-	bh=s6Zt9ScMpIR9FCbH3I3w9YHGT8emmm2+y63epy5H5cw=;
-	b=Dl9KU6q213IdQcpuh6FAl2tOF54oPVQxQHYe+MA7HPCIySDtGf4PkrqO0Gnl3bEnVj
-	kGAvuoUGEwwm8Fqbx2D5tLxTEj+wKTt8xz9IRorLK1dfCY2YxkCBPIbAPe3gegMcBMto
-	6+6HLo0em61ZY6NglXiOzwwv0eCocWQiQFFBWVKYKjqqtN2XMaSfRUkVDc1szh7ab0Gk
-	TNXL5tTAaWpINhWligw9UEOLufd3qro9ZW4H9RUv9d6fGLORFhvGptQm0PbXOj9xALvq
-	wl+ni4zPE/ZK3+P+8l9jW/26KlbxC7DYXXhh2iPF66iDJtu+SRkP8M9wYjJd+yS7LA3t
-	vhtA==
+	h=subject:to:references:from:message-id:date:user-agent:mime-version
+	:in-reply-to:content-transfer-encoding;
+	bh=5mEa+9fhOX8mPA0tTTazzOKbqELynYLhqii3UG3IZ/0=;
+	b=A5L2eo/jXpnp/IeDeSsftKqJd6DipZb3ruR5x3HXIKRy5o3T97F4eGg6n8H+FCXZ5V
+	zpp7sGhpd81kn23dqxYKW2OKOmmzg1bYD/e0JD7wrXX6bkqJMODTy3ky/kVjb0+VxCXZ
+	FwwLfFFAWRo0ixuG4jWXT2Lf64nsEp8OwBXCv33O2cYQOGO9aAkhpt1rjhn7wGTBwWdC
+	aJQRQrsIQWAcdh8cLtScpNK+yxIABgCF7y0/XERxFvrEfJIXcwWV4EfGOLLb1r0C2Ljs
+	lQm8EYvxJYS8Kyu63FnDW6S3ko0rU//XOAtLERBymapOQWJHOwbTL+Oo66l71n0VMNWe
+	YLJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
-	:date:message-id:subject:to:cc;
-	bh=s6Zt9ScMpIR9FCbH3I3w9YHGT8emmm2+y63epy5H5cw=;
-	b=ihzPUJYcQMYvJpKf9U0ZKVrlXavh2fUgr2aogyLYKo9lOOLf19ZnlgY7YzLUsmePZN
-	pUfxWK1gxmvAF9FGAmcjz5qEsUToR8unh7WtGmDOp+eIckfX3Xw7WpbpOGh80CDxghhe
-	bKjELG5O87K4LItihzeM49zTham+WDo+seppWqTMdblXRsFX37Ud1PddHyUMWIeQqZNa
-	ozY6v64wTwjgg2anlPRLNPkKUf/SSDskcR64MPMa87FKdU/OTgsjX4jYqCouL4cj30ec
-	Xt22qfXztKqCjtMK6egGc2pJCjeMQBwLx7Tp0tD7pVzvzHbhEjGUs82ecAf4hytd9J+j
-	HMmg==
-X-Gm-Message-State: AFeK/H1SWGuqFTk18TciKqMUYlUKvsS7SH7q+SfF2Rq4S2HcfmFPySWQrRiDb3kT4om+FonUoEuMJs3BQ1uuXw==
-X-Received: by 10.202.8.7 with SMTP id 7mr21546032oii.68.1491584408461; Fri,
-	07 Apr 2017 10:00:08 -0700 (PDT)
+	h=x-gm-message-state:subject:to:references:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding;
+	bh=5mEa+9fhOX8mPA0tTTazzOKbqELynYLhqii3UG3IZ/0=;
+	b=CO7lN8FNsCB/739PdkA4PrWJAr0OBcUoS4EoLDokRn7ov0PNqzGSU0+qG8Yc/f0SdC
+	RCK4MJQB07XFXxjCp+SEHhq3WepmvaydRPpSph+10p4u7k8Bg85aSxNgr8n3UtLVGaP9
+	SusgtqTKDaBMKMD43MPzOhRyFHqca2ghPDdNNYsmKuHEI8mThiwAer2Br/Jbe3PePCWj
+	lTE7ELPAaPDQSITGn6xtQgCoL+VvOPut5/5Z/INoV/x69svwOCCzg/TxdaKcS0/TlNfI
+	3qYmYo4UexVp3lvQ2kmp20XVp6335bzgiowJvOB32PJU9zAAQXTM8p6bneeaiBeaOTwH
+	SCxg==
+X-Gm-Message-State: AFeK/H0bViEDaAKm8BbbIED5rwbHtQkbIEPf4HaTKDPwpEaIZL/8RTxELZiUwDyBlO3GkA==
+X-Received: by 10.98.42.14 with SMTP id q14mr10461975pfq.229.1491584415122;
+	Fri, 07 Apr 2017 10:00:15 -0700 (PDT)
+Received: from ?IPv6:2601:202:4001:9ea0:e3df:bf0a:9f90:498e?
+	([2601:202:4001:9ea0:e3df:bf0a:9f90:498e])
+	by smtp.gmail.com with ESMTPSA id
+	t15sm10678859pfl.25.2017.04.07.10.00.14
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 07 Apr 2017 10:00:14 -0700 (PDT)
+To: Paul Eggleton <paul.eggleton@linux.intel.com>,
+	openembedded-core@lists.openembedded.org
+References: <cover.1491532173.git.paul.eggleton@linux.intel.com>
+	<4edc896d0720c9d8fb9677c01c98af89d6b94950.1491532173.git.paul.eggleton@linux.intel.com>
+From: akuster808 <akuster808@gmail.com>
+Message-ID: <d2926502-8ad2-8b47-d693-0afc3d8bf39f@gmail.com>
+Date: Fri, 7 Apr 2017 10:00:13 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.8.0
 MIME-Version: 1.0
-Sender: alistair23@gmail.com
-Received: by 10.182.2.34 with HTTP; Fri, 7 Apr 2017 09:59:38 -0700 (PDT)
-In-Reply-To: <CAKmqyKM-wvykD1R+nyyCMjictWhLYRuOXYW1wmPPKrtVLyu9hw@mail.gmail.com>
-References: <20170324203858.27464-1-alistair.francis@xilinx.com>
-	<CAKmqyKM-wvykD1R+nyyCMjictWhLYRuOXYW1wmPPKrtVLyu9hw@mail.gmail.com>
-From: Alistair Francis <alistair.francis@xilinx.com>
-Date: Fri, 7 Apr 2017 09:59:38 -0700
-X-Google-Sender-Auth: Qe2zpe_sytACcPp7kuQmkEUpxoE
-Message-ID: <CAKmqyKOBYFdMWK5qG5UWJGRscrjX_c0S3JM6-DLFrwPXx8rXVw@mail.gmail.com>
-To: Alistair Francis <alistair.francis@xilinx.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2 1/2] runqemu: Automatically add a TFTP directory for slirp boot
+In-Reply-To: <4edc896d0720c9d8fb9677c01c98af89d6b94950.1491532173.git.paul.eggleton@linux.intel.com>
+Subject: Re: [morty][PATCH 1/1] packagegroup-core-standalone-sdk-target: add libssp
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,46 +60,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Apr 2017 17:00:07 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 07 Apr 2017 17:00:13 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, Mar 31, 2017 at 10:07 AM, Alistair Francis <alistair23@gmail.com> wrote:
-> On Fri, Mar 24, 2017 at 1:38 PM, Alistair Francis
-> <alistair.francis@xilinx.com> wrote:
->> When booting QEMU with slirp networking we want to use QEMUs TFTP server
->> to make the images in deploy accessible to the guest.
->>
->> Signed-off-by: Alistair Francis <alistair.francis@xilinx.com>
+
+
+On 04/06/2017 07:38 PM, Paul Eggleton wrote:
+> If you want to be able to use -fstack-protector then you need the
+> runtime support - you can either write this yourself or use libssp
+> supplied with GCC. If you're using GCC then it seems likely that you'd
+> just be using libssp, so include in the SDK by default; however use
+> RRECOMMENDS just in case it's been disabled or you aren't using GCC.
 >
-> Ping?
-
-Ping^2
-
-I received comments on the second patch, but nothing on this one.
-
-Thanks,
-
-Alistair
-
+> (From OE-Core rev: 6c990655e35bb3a14d59555662ec5802c9980028)
 >
->> ---
->>  scripts/runqemu | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/scripts/runqemu b/scripts/runqemu
->> index 23c9efb..f76d976 100755
->> --- a/scripts/runqemu
->> +++ b/scripts/runqemu
->> @@ -832,7 +832,7 @@ class BaseConfig(object):
->>          self.kernel_cmdline_script += ' ip=dhcp'
->>          # Port mapping
->>          hostfwd = ",hostfwd=tcp::2222-:22,hostfwd=tcp::2323-:23"
->> -        qb_slirp_opt_default = "-netdev user,id=net0%s" % hostfwd
->> +        qb_slirp_opt_default = "-netdev user,id=net0%s,tftp=%s" % (hostfwd, self.get('DEPLOY_DIR_IMAGE'))
->>          qb_slirp_opt = self.get('QB_SLIRP_OPT') or qb_slirp_opt_default
->>          # Figure out the port
->>          ports = re.findall('hostfwd=[^-]*:([0-9]+)-[^,-]*', qb_slirp_opt)
->> --
->> 2.9.3
->>
+> Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+
+great. will pull in. thanks,
+Armin
+> ---
+>   .../packagegroups/packagegroup-core-standalone-sdk-target.bb         | 5 +++++
+>   1 file changed, 5 insertions(+)
+>
+> diff --git a/meta/recipes-core/packagegroups/packagegroup-core-standalone-sdk-target.bb b/meta/recipes-core/packagegroups/packagegroup-core-standalone-sdk-target.bb
+> index 274e11a..43fc599 100644
+> --- a/meta/recipes-core/packagegroups/packagegroup-core-standalone-sdk-target.bb
+> +++ b/meta/recipes-core/packagegroups/packagegroup-core-standalone-sdk-target.bb
+> @@ -12,3 +12,8 @@ RDEPENDS_${PN} = "\
+>       libstdc++-dev \
+>       ${LIBC_DEPENDENCIES} \
+>       "
+> +
+> +RRECOMMENDS_${PN} = "\
+> +    libssp \
+> +    libssp-dev \
+> +    "
+
 
