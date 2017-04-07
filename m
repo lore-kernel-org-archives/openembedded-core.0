@@ -1,51 +1,56 @@
-Return-Path: <jussi.kukkonen@intel.com>
-Received: from mail-yw0-f175.google.com (mail-yw0-f175.google.com
-	[209.85.161.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 8565B77D83
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wr0-f196.google.com (mail-wr0-f196.google.com
+	[209.85.128.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 868F877D83
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Apr 2017 13:06:52 +0000 (UTC)
-Received: by mail-yw0-f175.google.com with SMTP id d191so34172487ywe.2
+	Fri,  7 Apr 2017 13:09:46 +0000 (UTC)
+Received: by mail-wr0-f196.google.com with SMTP id o21so14829502wrb.3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 07 Apr 2017 06:06:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=HHvTfyajWshlrXFNBYX8lDnjnBMIcSkwMbGM/o76OYw=;
-	b=sSwg10liGwwtyl5PDqRUIJVaaGy99zhkpW020IVGH0de2VOwjg/gp1tNj+Mp3xcV3P
-	y8KKNvyAN4FjxQyfjIl7qvSF/c1b5S5MGwPdlsWQUSXqpD/hYF+COEYjRdIOiPSvWyni
-	Mu4Zsgc/8JiysUSfrDq7gk76mZr9wpbPU9KGQjMQMLdQPWiXQphcfNg7H+tUfOPRSVN2
-	gNJUjNN5ojPlZGhtPrG1KXlfCisMl3pNZWVPV22VJsgYJUn7+B0ApvPbXvI42beVKCjO
-	q8TNg8r9ykNdP6rwId8dRSwZbPdRic2YC7DiHo4qzsoif8cbfmC1l4LKAU3Y88/0oBQD
-	ERSA==
+	Fri, 07 Apr 2017 06:09:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=7+KgNjm7fFzMGb1M6ZpVqFdn7ec+bu8Iu20RPHH0KKQ=;
+	b=KAIxYIv+0jGNPWEePyn/VjTb1SHVjlDbgP2KO40Naydo+I3ao9XSAAFcVznO5MEXoJ
+	JVnCmdeOELp5t6hiPczAlV5rEqdMMzj0/rcY6Bw+F9Rfg1nfN8Qf3Iv5oYSn2NseOTkG
+	e6OFMc3TMz8muJHGTwatkWkxQuup4Kpb9t0so0wMBItW8AgILa2wue02E8iUMn7L2xNC
+	kiqxC0YfNJE0PuI6lZyIl5WJBf8VQM1Kgx2EN46To6H+uQs4pDOh14+zSwyL8mF/gTAv
+	iRobk1q2JpCVGf9sLCcEnNX0HCOfTMfBXQ5Wn5rocEjeXKUrBkpNgWaBdSPLMDk9B6AM
+	+omg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=HHvTfyajWshlrXFNBYX8lDnjnBMIcSkwMbGM/o76OYw=;
-	b=HJtZFFrCJAO8TPNgFsI5R3RPENUYLxOTVvRvQ6D+PHSKEen+IUj7y9Nwo5zcAogpKC
-	dbaXULFftW0NF6DtgjTUElCj5rYFC02uhuHzck9HD8QuVE9FNh7zd5h+vbSIg4YE7HVv
-	B5SyV83CiCk6sCFvvdsCNq78O8dZno7zCT55UzMh+RZ1+fYeXmvf+RaHgOFKobrv7mX0
-	IiqTbpu54ust1ELqrY4bfyfjqm6rkYfp9pLj1yC7dGt5GabxVCXG/PtiYWhQcNdMoO0y
-	tVHyMt5Q9QwzZUT4rZ+EnVRAgyX/MAdFcb+2y8orYfMzoX8lkAHW6Tji23pUldrN3OdS
-	73Ew==
-X-Gm-Message-State: AFeK/H2+iL0uzKxley9BsXukJr63QrYLpgPk+HbSblS1H2zPsyHA5rksTRQbp6ODFPIfljmMXL0PhCxv0VF43h1g
-X-Received: by 10.129.182.101 with SMTP id h37mr25631550ywk.177.1491570413868; 
-	Fri, 07 Apr 2017 06:06:53 -0700 (PDT)
+	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=7+KgNjm7fFzMGb1M6ZpVqFdn7ec+bu8Iu20RPHH0KKQ=;
+	b=L5flxpVqbTiViFaDfi5ZZi1LOgpA3rOv8dBy4CXyZPhbEyfpm/RjQvoUBjvRA8z9A2
+	L1l7Uta5ZZDlTztpMIRIrf2VM6TmPI1S0oPrwUOsHoLXj6xVZKjoI2W+WwFlYrZuOOHD
+	/12AzOTCJbDUlVFPINSKpnho4IzBuhYr4lE1dN34/mzqVT29wRVAfLx/iP+QyeNdUkUA
+	2vx7l9h9PV+RoBw7PjATIfbWxKImIW3d8ByD9Cs7z8Z8TLhJIjRrtqDtRVrQwSqozjG7
+	koRdtLWljlQyYxiimLUnWYP8IukjrCE3+/TcbLOD2VYVuNGRz7PkIsfohEo6bYaQlj7R
+	fyaw==
+X-Gm-Message-State: AN3rC/5OEHU1YNZlQjvNXTw6eJkn4mXNmKd3fqsrkjv2wO97fM3roYgW
+	KqCzMR+3GfzsTQ==
+X-Received: by 10.28.22.1 with SMTP id 1mr9024740wmw.127.1491570587183;
+	Fri, 07 Apr 2017 06:09:47 -0700 (PDT)
+Received: from localhost ([217.30.68.212]) by smtp.gmail.com with ESMTPSA id
+	l41sm5968575wrl.59.2017.04.07.06.09.45
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Fri, 07 Apr 2017 06:09:45 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Fri, 7 Apr 2017 15:09:46 +0200
+To: David Vincent <freesilicon@gmail.com>
+Message-ID: <20170407130946.GA3022@jama>
+References: <20170123135916.4618-1-freesilicon@gmail.com>
+	<CAHiDW_FWnBo8vsQ_OTwHYDJmMDXfH1b+6UkTjWf1=qK9QiYWLg@mail.gmail.com>
+	<CA+chaQdGcpevoyue494P0FkYp_C8dt4fbZ3CLoza7sVHoRSWjg@mail.gmail.com>
+	<3319701.6ygbhHyYrO@crde-port-20.cahors.local>
 MIME-Version: 1.0
-Received: by 10.129.81.136 with HTTP; Fri, 7 Apr 2017 06:06:23 -0700 (PDT)
-In-Reply-To: <1491567211.17200.93.camel@linuxfoundation.org>
-References: <cover.1491483222.git.jussi.kukkonen@intel.com>
-	<d071facbbdbb48f34e0f0d9500872349c1130a9a.1491483222.git.jussi.kukkonen@intel.com>
-	<1491553733.17200.89.camel@linuxfoundation.org>
-	<CAHiDW_FHTmqsBjCpUR7m0JMh6+iyPO=Gbh8eLcoy5YLgCO+dvQ@mail.gmail.com>
-	<1491567211.17200.93.camel@linuxfoundation.org>
-From: Jussi Kukkonen <jussi.kukkonen@intel.com>
-Date: Fri, 7 Apr 2017 16:06:23 +0300
-Message-ID: <CAHiDW_ErPqGxdAu3bwc-ymXnYYcihHYA2qv0SKzoT=CKrZOx1g@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
+In-Reply-To: <3319701.6ygbhHyYrO@crde-port-20.cahors.local>
+User-Agent: Mutt/1.8.0 (2017-02-23)
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 4/4] native.bbclass: Use fixed DISTRO_FEATURES
+Subject: Re: [PATCH] openssl: Fix symlink creation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,74 +63,111 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Apr 2017 13:06:54 -0000
-Content-Type: multipart/alternative; boundary=f403045d20caad2eb2054c934c5b
+X-List-Received-Date: Fri, 07 Apr 2017 13:09:46 -0000
+X-Groupsio-MsgNum: 95981
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="opJtzjQTFsWo+cga"
+Content-Disposition: inline
 
---f403045d20caad2eb2054c934c5b
-Content-Type: text/plain; charset=UTF-8
-
-On 7 April 2017 at 15:13, Richard Purdie <richard.purdie@linuxfoundation.org>
-wrote:
-> > > Also, one question. Does this have any effect on qemu-native? Does
-> > > qemu-native need/use x11 today?
-> > qemu itself does not use anything x11 since last year and the default
-> > native packageconfig is already not
-> > dependent on distro features.
-> >
-> > Now that you mentioned I had a closer look at qemu & SDL:
-> >  * qemu-native doesn't build with "sdl" by default, but someone might
-> > change that of course
-> >  * If that happens (and libsdl-native is not in ASSUME_PROVIDED),
-> > libsdl is built and by default depends on libx11
-> > I completely expected this to fail now (without x11 in distro
-> > features) but it actually builds just fine. It turns out that a
-> > clever Burton has tweaked
-> > REQUIRED_DISTRO_FEATURES_class-native for some X libraries for
-> > exactly this purpose already.
->
-> Right, we actually have a commented section for sdl and qemu in our
-> local.conf.sample so we do need to test and figure this piece out.
->
-> Would we want to put x11 in the default native distro flags to avoid
-> some of the other issues above?
-
-
-I don't see issues that need fixing right now: libx11-native and some other
-native X libraries build just fine without "x11" feature because of the
-tweaks I mentioned. So building libsdl-native with "x11" packageconfig
-works.
-
-Did I miss something else?
-
-Jussi
-
---f403045d20caad2eb2054c934c5b
-Content-Type: text/html; charset=UTF-8
+--opJtzjQTFsWo+cga
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">On 7 April 2017 at 15:13, Richard Purdie &lt;<a href=3D"ma=
-ilto:richard.purdie@linuxfoundation.org">richard.purdie@linuxfoundation.org=
-</a>&gt; wrote:<br>&gt; &gt; &gt; Also, one question. Does this have any ef=
-fect on qemu-native? Does<br>&gt; &gt; &gt; qemu-native need/use x11 today?=
-<br>&gt; &gt; qemu itself does not use anything x11 since last year and the=
- default<br>&gt; &gt; native packageconfig is already not<br>&gt; &gt; depe=
-ndent on distro features.<br>&gt; &gt;<br>&gt; &gt; Now that you mentioned =
-I had a closer look at qemu &amp; SDL:<br>&gt; &gt; =C2=A0* qemu-native doe=
-sn&#39;t build with &quot;sdl&quot; by default, but someone might<br>&gt; &=
-gt; change that of course <br>&gt; &gt; =C2=A0* If that happens (and libsdl=
--native is not in ASSUME_PROVIDED),<br>&gt; &gt; libsdl is built and by def=
-ault depends on libx11<br>&gt; &gt; I completely expected this to fail now =
-(without x11 in distro<br>&gt; &gt; features) but it actually builds just f=
-ine. It turns out that a<br>&gt; &gt; clever Burton has tweaked <br>&gt; &g=
-t; REQUIRED_DISTRO_FEATURES_class-native for some X libraries for<br>&gt; &=
-gt; exactly this purpose already.<br>&gt;<br>&gt; Right, we actually have a=
- commented section for sdl and qemu in our<br>&gt; local.conf.sample so we =
-do need to test and figure this piece out.<br>&gt;<br>&gt; Would we want to=
- put x11 in the default native distro flags to avoid<br>&gt; some of the ot=
-her issues above?<br><br><br><div>I don&#39;t see issues that need fixing r=
-ight now: libx11-native and some other native X libraries build just fine w=
-ithout &quot;x11&quot; feature because of the tweaks I mentioned. So buildi=
-ng libsdl-native with &quot;x11&quot; packageconfig works.<br><br>Did I mis=
-s something else?<br><br>Jussi</div></div>
+On Fri, Apr 07, 2017 at 02:27:45PM +0200, David Vincent wrote:
+> On jeudi 6 avril 2017 15:03:36 CEST Martin Jansa wrote:
+> > I still don't understand why not use standard update-alternatives and
+> > install another package with your favorite openssl.conf which has higher
+> > ALTERNATIVE_PRIORITY.
+>=20
+> Why not, but maybe this https://bugzilla.yoctoproject.org/show_bug.cgi?
+> id=3D10777 can be a stopper since libcrypto RRECOMMENDS openssl-conf
 
---f403045d20caad2eb2054c934c5b--
+Why would it be a stopper? With u-a you can have any number of the u-a
+alternative providers installed in the image at the same time.
+
+> > This way u-a will switch to new config even when you just install the
+> > package which require it on the target later and will switch back to
+> > default openssl.conf when the alternative package with config file is
+> > uninstalled.
+> >=20
+> > On Thu, Apr 6, 2017 at 12:55 PM, Jussi Kukkonen <jussi.kukkonen@intel.c=
+om>
+> >> So previously openssl-conf package included etc/ssl/openssl.cnf and the
+> >> symlink ${libdir}/ssl/openssl.conf.
+>=20
+> The symlink is not inside openssl-conf package but rather inside openssl.
+>=20
+> >> Nothing RDEPENDS on this package (but
+> >> libcrypto RRECOMMENDS it).
+> >>=20
+> >> After your patch the actual configuration file is still installed. In a
+> >> postinst
+> >>=20
+> >>   * ${libdir}/ssl/openssl.conf is removed if it exists (why? If it's f=
+or
+> >> upgrading, then this should happen in a prerm or postrm)
+> >>   * the symlink ${libdir}/ssl/openssl.conf is created
+> >>=20
+> >> My confusion is this: how does the above solve the problem you describ=
+e?
+> >> If you've managed to use RCONFLICTS to prevent the configuration packa=
+ge
+> >> from getting included in the image, why are changes to the package nee=
+ded?
+> >>=20
+>=20
+> To avoid creation of the symlink inside openssl package. But I agree for =
+the=20
+> postrm/prerm tasks instead of postinst.
+>=20
+> >>=20
+> >> Some alternative solutions to your problem I think might work:
+> >> * openssl_%.bbappend with a do_install_append() that simply copies your
+> >> conf file over the one from upstream recipe. No extra packages needed
+> >> * BAD_RECOMMENDATIONS or PACKAGE_EXCLUDE to prevent openssl-conf from
+> >> getting included in your image, then adding your own package with your
+> >> configuration (does not work for dpkg I think)
+> >>=20
+>=20
+> I could consider this if the patch gets reverted, but I still prefer usin=
+g=20
+> extra packages. It's easier this way to know which configuration has been=
+=20
+> applied (but update-alternatives could work too).
+>=20
+> TBH, I say that because I've submitted a similar series of patches for op=
+enssh=20
+> based on the same principle. I think my main problem is the handling of=
+=20
+> configuration files at build time. This holds especially true for read-on=
+ly=20
+> rootfs where these files must be available at build time. Is there guidel=
+ines=20
+> for that ?
+>=20
+> >> Jussi
+> >>=20
+> >> --
+> >> _______________________________________________
+> >> Openembedded-core mailing list
+> >> Openembedded-core@lists.openembedded.org
+> >> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>=20
+> David
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--opJtzjQTFsWo+cga
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EARECAB0WIQRU+ejDffEzV2Je2oc3VSO3ZXaAHAUCWOePmgAKCRA3VSO3ZXaA
+HL94AJoCit/9EAmLZNXh497JHm5YCOggggCdHbZz2ATKpgy5Z/68JCgsrnNlNb4=
+=ixeL
+-----END PGP SIGNATURE-----
+
+--opJtzjQTFsWo+cga--
