@@ -1,29 +1,28 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 9344D77D72
+	by mail.openembedded.org (Postfix) with ESMTP id 00F6F77D73
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Apr 2017 07:48:01 +0000 (UTC)
+	Fri,  7 Apr 2017 07:50:09 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTP id v377lrrI024807; 
-	Fri, 7 Apr 2017 08:47:58 +0100
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTP id v377o9HY025219; 
+	Fri, 7 Apr 2017 08:50:09 +0100
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id PZPQBwhixSYo; Fri,  7 Apr 2017 08:47:58 +0100 (BST)
+	with LMTP id Xi-qEPpzm-_b; Fri,  7 Apr 2017 08:50:09 +0100 (BST)
 Received: from hex ([192.168.3.34]) (authenticated bits=0)
 	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	v377aenC023867
+	v377m6SX025168
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Fri, 7 Apr 2017 08:36:41 +0100
-Message-ID: <1491550600.17200.82.camel@linuxfoundation.org>
+	verify=NOT); Fri, 7 Apr 2017 08:48:07 +0100
+Message-ID: <1491551286.17200.87.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: yin.thong.choong@intel.com, openembedded-core@lists.openembedded.org
-Date: Fri, 07 Apr 2017 08:36:40 +0100
-In-Reply-To: <1491467730-8418-5-git-send-email-yin.thong.choong@intel.com>
-References: <1491467730-8418-1-git-send-email-yin.thong.choong@intel.com>
-	<1491467730-8418-5-git-send-email-yin.thong.choong@intel.com>
+To: liu.ming50@gmail.com, openembedded-core@lists.openembedded.org
+Date: Fri, 07 Apr 2017 08:48:06 +0100
+In-Reply-To: <1491480584-9725-1-git-send-email-liu.ming50@gmail.com>
+References: <1491480584-9725-1-git-send-email-liu.ming50@gmail.com>
 X-Mailer: Evolution 3.18.5.2-0ubuntu3.1 
 Mime-Version: 1.0
-Subject: Re: [PATCH v3 4/8] logrotate: replace fedorahosted.org SRC_URI with github.com source
+Subject: Re: [PATCH 0/4] Fix some incorrect TARGET_-* flags
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,82 +35,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Apr 2017 07:48:02 -0000
+X-List-Received-Date: Fri, 07 Apr 2017 07:50:10 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-On Thu, 2017-04-06 at 01:35 -0700, yin.thong.choong@intel.com wrote:
-> From: Choong YinThong <yin.thong.choong@intel.com>
+On Thu, 2017-04-06 at 14:09 +0200, liu.ming50@gmail.com wrote:
+> From: Ming Liu <liu.ming50@gmail.com>
 > 
-> fedorahosted.org was retired on March 1st, 2017. This is to
-> update the SRC_URI to point to github.com.
+> I had found a lot of churn in sysroots when multiple MACHINEs are
+> sharing a same build folder, which is the case in my company, after
+> digging into it, I found it's caused by the TARGET_-* flags, they
+> are exported but not in use at all, they should be replaced by
+> particular flags for cross,crosssdk,nativesdk,cross-canadian, native
+> class does not need that because it's already done in:
 > 
-> [YOCTO #11226]
-> 
-> Signed-off-by: Choong YinThong <yin.thong.choong@intel.com>
+> commit 05a70ac30b37cab0952f1b9df501993a9dec70da:
+> [ native.bbclass: Override TARGET_ flags too ]
 
-This failed autobuilder testing in multilib builds:
+Whilst I understand why you want to do this, unfortunately these change
+did break our automated tests, e.g.:
 
-https://autobuilder.yocto.io/builders/nightly-world-lsb/builds/214/steps/BuildImages/logs/stdio
-https://autobuilder.yocto.io/builders/nightly-world/builds/214/steps/BuildImages/logs/stdio
+https://autobuilder.yocto.io/builders/nightly-x86-lsb/builds/232/steps/BuildImages/logs/stdio
+https://autobuilder.yocto.io/builders/nightly-arm/builds/281/steps/BuildImages/logs/stdio
 
-Probably you need ${BPN}, not ${PN}.
+I think roughly what happened is that binutils-native was built on a
+machine which doesn't default to PIC (providing libiberty), then
+prelink-native was attempted on a machine that does. The result is the
+error you see.
 
->  meta/recipes-extended/logrotate/logrotate_3.9.1.bb | 19
-> +++++++++++++++----
->  1 file changed, 15 insertions(+), 4 deletions(-)
-> 
-> diff --git a/meta/recipes-extended/logrotate/logrotate_3.9.1.bb
-> b/meta/recipes-extended/logrotate/logrotate_3.9.1.bb
-> index 9c2dfe0..5cbd9ff 100644
-> --- a/meta/recipes-extended/logrotate/logrotate_3.9.1.bb
-> +++ b/meta/recipes-extended/logrotate/logrotate_3.9.1.bb
-> @@ -1,6 +1,6 @@
->  SUMMARY = "Rotates, compresses, removes and mails system log files"
->  SECTION = "console/utils"
-> -HOMEPAGE = "https://fedorahosted.org/logrotate/"
-> +HOMEPAGE = "https://github.com/logrotate/logrotate/issues"
->  LICENSE = "GPLv2"
->  
->  # TODO: logrotate 3.8.8 adds autotools/automake support, update
-> recipe to use it.
-> @@ -10,14 +10,25 @@ DEPENDS="coreutils popt"
->  
->  LIC_FILES_CHKSUM =
-> "file://COPYING;md5=18810669f13b87348459e611d31ab760"
->  
-> -SRC_URI = "https://fedorahosted.org/releases/l/o/logrotate/logrotate
-> -${PV}.tar.gz \
-> +# When updating logrotate to latest upstream, SRC_URI should point
-> to
-> +# a proper release tarball from https://github.com/logrotate/logrota
-> te/releases
-> +# and we have to take the snapshot for now because there is no such
-> +# tarball available for 3.9.1.
-> +
-> +S = "${WORKDIR}/${PN}-r3-9-1"
-> +
-> +UPSTREAM_CHECK_URI = "https://github.com/${PN}/${PN}/releases"
-> +
-> +SRC_URI = "https://github.com/${PN}/${PN}/archive/r3-9-1.tar.gz \
->             file://act-as-mv-when-rotate.patch \
->             file://update-the-manual.patch \
->             file://disable-check-different-filesystems.patch \
->              "
->  
-> -SRC_URI[md5sum] = "4492b145b6d542e4a2f41e77fa199ab0"
-> -SRC_URI[sha256sum] =
-> "022769e3288c80981559a8421703c88e8438b447235e36dd3c8e97cd94c52545"
-> +# Checksum changed due to tarball source folder changes in upstream
-> +			
-> +SRC_URI[md5sum] = "8572b7c2cf9ade09a8a8e10098500fb3"
-> +SRC_URI[sha256sum] =
-> "5bf8e478c428e7744fefa465118f8296e7e771c981fb6dffb7527856a0ea3617"
->  
->  PACKAGECONFIG ?= "${@bb.utils.filter('DISTRO_FEATURES', 'acl
-> selinux', d)}"
->  
-> -- 
-> 2.7.4
-> 
+Previously this happened to work since enough target flags leaked into
+the native ones to avoid the problem. After your change it breaks.
+We're going to have to look into and fix this before I can merge these
+changes...
+
+Cheers,
+
+Richard
+
+
 
