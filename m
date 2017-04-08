@@ -1,31 +1,46 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 804776011C
+Return-Path: <liu.ming50@gmail.com>
+Received: from mail-wr0-f196.google.com (mail-wr0-f196.google.com
+	[209.85.128.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 0F42177DA2
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  8 Apr 2017 14:28:50 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTP id v38ESlNA016863; 
-	Sat, 8 Apr 2017 15:28:47 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id UZI3WMnbYsaN; Sat,  8 Apr 2017 15:28:47 +0100 (BST)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	v38EOnwK016513
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Sat, 8 Apr 2017 15:24:50 +0100
-Message-ID: <1491661489.17200.111.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Robert Yang <liezhi.yang@windriver.com>,
-	openembedded-core@lists.openembedded.org
-Date: Sat, 08 Apr 2017 15:24:49 +0100
-In-Reply-To: <9f6d9252c6eb66b5f2c01ba34366424591d032bb.1491557671.git.liezhi.yang@windriver.com>
-References: <cover.1491557671.git.liezhi.yang@windriver.com>
-	<9f6d9252c6eb66b5f2c01ba34366424591d032bb.1491557671.git.liezhi.yang@windriver.com>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.1 
-Mime-Version: 1.0
-Cc: "Bartosh, Eduard" <eduard.bartosh@intel.com>
-Subject: Re: [PATCH 6/8] runqemu: do not rely on grepping images
+	Sat,  8 Apr 2017 16:43:52 +0000 (UTC)
+Received: by mail-wr0-f196.google.com with SMTP id t20so23890398wra.2
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 08 Apr 2017 09:43:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=nl0H9EU1RWyUpJRrGwIbWKR9qQNdECzhjPQ+xvlaAPs=;
+	b=Ol0JxGIE9XNDj0a1cvrA83uWIyjqwrvG26c2/qcvYFSwG5P3a11lRRJbiVoLuC2tvI
+	5cwJjawlilvJFPP8TQsJSgwtuUFgozX8HKSaJ7nDX6mSEqM6RW/y6PG7DHJj20nHprKv
+	6M4VQfHf9T+pwzLLSKSaGfa1qvbnlRaF/kgWRZAgPevIcyN0T9Z2HKHXVFueYAbkvEaw
+	jO9z1e1K86PWHUUXKv/UnzrrD07gyEXmI72qXzKlXDkLysUMo+DsNdM6L4gT3RVMWEbH
+	sDVRL4w5ofLg0owwDdrmVtQFE6SOY9e/vPAKBWZ0+gFWC4u7n8cUsvCTys+TxfAWOuI5
+	vifg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=nl0H9EU1RWyUpJRrGwIbWKR9qQNdECzhjPQ+xvlaAPs=;
+	b=QJHISmIwya6yPuWXnxEAqwsfx+IoiXIOIrGMv9OkupHFjDLFHZbnz5GyRNczFeMK9K
+	Hk0S231jKz2sAhV9hUpCflW8VKcOH11GnZHchT5plfudpF9NqQPqG98miAPBuafLgVxQ
+	VQSvnKMagUw0pG60IVwKQIBOeNTW4mQ96BOgvxQeb5A/trH1vRNkkhLdUNDkWlzU6o2j
+	mAvtyH62O/4DAMcjnukT1NDwyLg90niGrZDA+RAwOvZVIGc4wjWBvVFlBvJKjBNBPKoL
+	n7tOSowgfdPKiyXW2GeF6wxzr4uvm6zJT/IlFkyuVMIa8LGEsCrYoUHtykkDm80sL1sV
+	qOag==
+X-Gm-Message-State: AFeK/H08CmvY9/0Int2bKfa7FBtua3baRjfZ1FyEXv8p+5vRoSRrBhyo5ITPi3hLtv0kNA==
+X-Received: by 10.223.141.214 with SMTP id o80mr22250016wrb.110.1491669833634; 
+	Sat, 08 Apr 2017 09:43:53 -0700 (PDT)
+Received: from peterliu-Precision-M4800.emea.group.atlascopco.com
+	([106.116.224.167]) by smtp.gmail.com with ESMTPSA id
+	t16sm10441914wra.44.2017.04.08.09.43.51
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Sat, 08 Apr 2017 09:43:52 -0700 (PDT)
+From: liu.ming50@gmail.com
+To: openembedded-core@lists.openembedded.org
+Date: Sat,  8 Apr 2017 18:43:43 +0200
+Message-Id: <1491669825-17958-1-git-send-email-liu.ming50@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Cc: Ming Liu <liu.ming50@gmail.com>
+Subject: [PATCH V6 0/2] Fix some issues of kernel/image recipes (initramfs bundled kernel packaging)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,38 +53,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 08 Apr 2017 14:28:52 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Sat, 08 Apr 2017 16:43:53 -0000
 
-On Fri, 2017-04-07 at 02:47 -0700, Robert Yang wrote:
-> Fixed when the image is large and not enough memory:
->   grep: memory exhausted
->   Aborted
-> 
-> [YOCTO #11073]
-> 
-> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-> ---
->  meta/classes/qemuboot.bbclass |  3 +++
->  scripts/runqemu               | 19 +++++++++++--------
->  2 files changed, 14 insertions(+), 8 deletions(-)
+From: Ming Liu <liu.ming50@gmail.com>
 
-This breaks oe-selftest:
+Changes in patch set V6:
+1 Change "d.getVar('KERNEL_PRIORITY')" > "d.getVar('KERNEL_PRIORITY', False)"
+  to avoid running into a "basehash value changed" error, which is caused by
+  KERNEL_VERSION is extracted from kernel headers at run time.
 
-https://autobuilder.yocto.io/builders/nightly-oe-selftest/builds/248/steps/Running%20oe-selftest/logs/stdio
+Ming Liu (2):
+  image.bbclass: remove initramfs bundle related code
+  kernel-initramfs: add recipe
 
-Perhaps not all the failures but certainly:
-wic.Wic.test_rawcopy_plugin_qemu
-wic.Wic.test_qemu_efi
-wic.Wic.test_qemu
+ meta/classes/image.bbclass                    | 13 ----
+ meta/recipes-kernel/linux/kernel-initramfs.bb | 95 +++++++++++++++++++++++++++
+ 2 files changed, 95 insertions(+), 13 deletions(-)
+ create mode 100644 meta/recipes-kernel/linux/kernel-initramfs.bb
 
-We see intermittent failures on these tests anyway and I think you're
-onto the right track with a potential fix though.
-
-Cheers,
-
-Richard
-
+-- 
+2.7.4
 
 
