@@ -1,20 +1,30 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id 169AB719C4
+Return-Path: <richard@rpsys.net>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id F197677BD3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Apr 2017 19:17:19 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga104.jf.intel.com with ESMTP; 10 Apr 2017 12:17:21 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.37,182,1488873600"; d="scan'208";a="954418852"
-Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by orsmga003.jf.intel.com with ESMTP; 10 Apr 2017 12:17:19 -0700
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+	Mon, 10 Apr 2017 19:24:29 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTP id v3AJOTcM004736; 
+	Mon, 10 Apr 2017 20:24:29 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id vyFU2_rq45bU; Mon, 10 Apr 2017 20:24:29 +0100 (BST)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	v3AJAPvs003936
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
+	verify=NOT); Mon, 10 Apr 2017 20:10:26 +0100
+Received: from richard by hex with local (Exim 4.86_2)
+	(envelope-from <richard@rpsys.net>)
+	id 1cxehl-0001H2-OV; Mon, 10 Apr 2017 20:10:25 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 10 Apr 2017 22:16:51 +0300
-Message-Id: <20170410191651.8128-1-alexander.kanavin@linux.intel.com>
-X-Mailer: git-send-email 2.11.0
-Subject: [PATCHv2] openssl: fix the reference to native perl in ptests
+Date: Mon, 10 Apr 2017 20:10:24 +0100
+Message-Id: <1491851424-4848-3-git-send-email-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1491851424-4848-1-git-send-email-richard.purdie@linuxfoundation.org>
+References: <1491851424-4848-1-git-send-email-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 3/3] staging: Fix sysroot problem with populate_sysroot dependencies on do_fetch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,33 +37,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Apr 2017 19:17:20 -0000
+X-List-Received-Date: Mon, 10 Apr 2017 19:24:31 -0000
 
-This was causing a couple of ptest failures.
+Dependencies on svn:// urls were failing as the cleandirs on do_fetch was destroying
+any sysroot setup by the extend_recipe_sysroot function.
 
-[YOCTO #10840]
+Add code so that if the task do_fetch, we move the cleandirs to the extend_recipe_sysroot
+task else we'd wipe out the sysroot we just created.
 
-Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+This allows fetcher do_populate_sysroot dependencies to work correctly again.
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-connectivity/openssl/openssl.inc | 4 ++++
- 1 file changed, 4 insertions(+)
+ meta/classes/staging.bbclass | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/meta/recipes-connectivity/openssl/openssl.inc b/meta/recipes-connectivity/openssl/openssl.inc
-index 481a4445605..c721d8c570d 100644
---- a/meta/recipes-connectivity/openssl/openssl.inc
-+++ b/meta/recipes-connectivity/openssl/openssl.inc
-@@ -205,6 +205,10 @@ do_install () {
- 
- do_install_ptest () {
- 	cp -r -L Makefile.org Makefile test ${D}${PTEST_PATH}
-+
-+        # Replace the path to native perl with the path to target perl
-+        sed -i 's,^PERL=.*,PERL=${bindir}/perl,' ${D}${PTEST_PATH}/Makefile
-+
- 	cp Configure config e_os.h ${D}${PTEST_PATH}
- 	cp -r -L include ${D}${PTEST_PATH}
- 	ln -sf ${libdir}/libcrypto.a ${D}${PTEST_PATH}
+diff --git a/meta/classes/staging.bbclass b/meta/classes/staging.bbclass
+index 27fcd1e..c50abd0 100644
+--- a/meta/classes/staging.bbclass
++++ b/meta/classes/staging.bbclass
+@@ -647,6 +647,11 @@ python staging_taskhandler() {
+         deps = d.getVarFlag(task, "depends")
+         if deps and "populate_sysroot" in deps:
+             d.appendVarFlag(task, "prefuncs", " extend_recipe_sysroot")
++        # If this is do_fetch, we need to move the cleandirs above to the extend_recipe_sysroot task
++        # else we'd wipe out the sysroot we just created.
++        if task == "do_fetch":
++            d.setVarFlag("extend_recipe_sysroot", "cleandirs", d.getVarFlag(task, "cleandirs"))
++            d.delVarFlag(task, "cleandirs")
+ }
+ staging_taskhandler[eventmask] = "bb.event.RecipeTaskPreProcess"
+ addhandler staging_taskhandler
 -- 
-2.11.0
+2.7.4
 
 
