@@ -1,50 +1,29 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f194.google.com (mail-pf0-f194.google.com
-	[209.85.192.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 577FE72F54
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id ABA0477BDB
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Apr 2017 19:57:06 +0000 (UTC)
-Received: by mail-pf0-f194.google.com with SMTP id c198so7674222pfc.0
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Apr 2017 12:57:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:references:from:message-id:date:user-agent:mime-version
-	:in-reply-to; bh=KBAswOkRloIc6uheVmKUzFOfXEghs+hH0ktPt5TNd1g=;
-	b=VYxwjQXio/pWksEwg5x8kAMrsMSVQgtjh91wdG0RA/rv8rLVdKGsc+nD/x9zw+ZvPj
-	N+q1Zj4AFAjT5+Mk4xYM4U8QjqamPTACKKOMcsntFXc6CqmgVuEV8SiKkkIJJSnN6KEx
-	ThK4KUpLkl2zpMrkyJG0E9gn7WkGE+uYFUZutX+D4TsphHkwtcxm6Qmc4NoDuS+O+ALT
-	Gx9VcNUUkhuU0pqC5f7twq9aTfK8dpKljl65bVXgNV2TQQvIv4zTOIefQn+T34g1+23m
-	m0asi+SQNjooQVOvSQCZLRm2+w8/aLzS8PEbU6l93YUsPROWajmym/Dl7w9DIn4W0FQH
-	epCg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to;
-	bh=KBAswOkRloIc6uheVmKUzFOfXEghs+hH0ktPt5TNd1g=;
-	b=PVG3UhrAiUwJFIVfJiN6K+I3CzXdqDtOdPDx/dpeUkM3woQkJluiBApy1gnTu1PFaS
-	i3wbuQ9OcPlfpPArAFz0qbcS6ngs9kJW2MRdI/H+62Ea9ASVlDvzpLGau31Si0cUW0sJ
-	niZxeX8TEwkVB+dwRSS/cRN0j4HC9miW7QxnS4wAN3D5God2auQlGzEBdTvvTSEdvcQk
-	kBsj6bp8aDglcJB5C57d28BlG5CLcZx7GMdhKC/FVYzILhzAFDM3OGxpc1GrpMPQ65Mb
-	MO2GWCH3EBUYldbTfJxyl9Kaeq/rv63TntqVknTD7FpG8pUPABmnnVWIvKNWGIblJtLP
-	8ghw==
-X-Gm-Message-State: AFeK/H1poWEkYm6BSdwS5Vl/I5FpLKesDS1M6Uwl06yGbcHt2wKSG/wELTzOcv8Uys+1pQ==
-X-Received: by 10.84.178.131 with SMTP id z3mr37492701plb.139.1491854228533;
-	Mon, 10 Apr 2017 12:57:08 -0700 (PDT)
-Received: from CACSVMO-14452.local ([2601:646:8882:b8c:a551:b153:de27:f516])
-	by smtp.gmail.com with ESMTPSA id y6sm1073458pfa.83.2017.04.10.12.57.06
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 10 Apr 2017 12:57:07 -0700 (PDT)
-To: Saul Wold <sgw@linux.intel.com>, openembedded-core@lists.openembedded.org,
-	richard.purdie@linuxfoundation.org
-References: <1491839910-31562-1-git-send-email-sgw@linux.intel.com>
-From: Khem Raj <raj.khem@gmail.com>
-Message-ID: <4c539d8a-083f-b0d2-4343-ece7ae066991@gmail.com>
-Date: Mon, 10 Apr 2017 12:57:06 -0700
+	Mon, 10 Apr 2017 20:17:53 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v3AKHs32011417
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 10 Apr 2017 13:17:54 -0700 (PDT)
+Received: from soho-mhatle-m.local (172.25.36.229) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
+	Mon, 10 Apr 2017 13:17:53 -0700
+References: <CAEg-Je8BnTDr6BxLOUBO3Y5a+yKjggk=cLSY7n-Aeq61GMVmTQ@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>, Neal Gompa <ngompa13@gmail.com>
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+X-Forwarded-Message-Id: <CAEg-Je8BnTDr6BxLOUBO3Y5a+yKjggk=cLSY7n-Aeq61GMVmTQ@mail.gmail.com>
+Message-ID: <1301981f-af40-612f-a383-5feb2886e33e@windriver.com>
+Date: Mon, 10 Apr 2017 15:17:53 -0500
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:45.0)
 	Gecko/20100101 Thunderbird/45.8.0
 MIME-Version: 1.0
-In-Reply-To: <1491839910-31562-1-git-send-email-sgw@linux.intel.com>
-Subject: Re: [PATCH] gnu-efi: copy header files for x32 build
+In-Reply-To: <CAEg-Je8BnTDr6BxLOUBO3Y5a+yKjggk=cLSY7n-Aeq61GMVmTQ@mail.gmail.com>
+Subject: About misappropriation of one of my patches in OpenEmbedded
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,81 +36,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Apr 2017 19:57:07 -0000
-X-Groupsio-MsgNum: 96062
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature";
-	boundary="mNf18QsmWlqI8pbDAoAeImSfB5orA6mFL"
+X-List-Received-Date: Mon, 10 Apr 2017 20:17:55 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
---mNf18QsmWlqI8pbDAoAeImSfB5orA6mFL
-Content-Type: multipart/mixed; boundary="Pm1QSebSVhHwn9FrcxbrHW7FOwlrQ2iWu";
- protected-headers="v1"
-From: Khem Raj <raj.khem@gmail.com>
-To: Saul Wold <sgw@linux.intel.com>,
- openembedded-core@lists.openembedded.org, richard.purdie@linuxfoundation.org
-Message-ID: <4c539d8a-083f-b0d2-4343-ece7ae066991@gmail.com>
-Subject: Re: [OE-core] [PATCH] gnu-efi: copy header files for x32 build
-References: <1491839910-31562-1-git-send-email-sgw@linux.intel.com>
-In-Reply-To: <1491839910-31562-1-git-send-email-sgw@linux.intel.com>
-
---Pm1QSebSVhHwn9FrcxbrHW7FOwlrQ2iWu
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: quoted-printable
+Neal attempted to send this directly to the list, but he is not subscribed.  For
+an issue such as this, he also should not be required to subscribe to get this
+corrected.
 
 
+-------- Forwarded Message --------
+Subject: About misappropriation of one of my patches in OpenEmbedded
+Date: Mon, 10 Apr 2017 16:13:57 -0400
+From: Neal Gompa <ngompa13@gmail.com>
+To: openembedded-core@lists.openembedded.org
+CC: richard.purdie@linuxfoundation.org, Mark Hatle <mark.hatle@windriver.com>
 
-On 4/10/17 8:58 AM, Saul Wold wrote:
-> Gnu-efi needs to be build for 64bit since it is a boot time tool. It
-> needs these 2 headers to be in 64 bit versions, we can use the existing=
+Hello all,
 
-> 32bit ones as there is not really any difference.
->=20
-> [YOCTO #11051]
->=20
-> Signed-off-by: Saul Wold <sgw@linux.intel.com>
-> ---
->  meta/recipes-bsp/gnu-efi/gnu-efi_3.0.5.bb | 5 +++++
->  1 file changed, 5 insertions(+)
->=20
-> diff --git a/meta/recipes-bsp/gnu-efi/gnu-efi_3.0.5.bb b/meta/recipes-b=
-sp/gnu-efi/gnu-efi_3.0.5.bb
-> index f46381d..6f235b7 100644
-> --- a/meta/recipes-bsp/gnu-efi/gnu-efi_3.0.5.bb
-> +++ b/meta/recipes-bsp/gnu-efi/gnu-efi_3.0.5.bb
-> @@ -24,6 +24,11 @@ SRC_URI[sha256sum] =3D "bd8fcd5914f18fc0e4ba948ab03b=
-00013e528504f529c60739b748f6ef
->  COMPATIBLE_HOST =3D "(x86_64.*|i.86.*|aarch64.*|arm.*)-linux"
->  COMPATIBLE_HOST_armv4 =3D 'null'
-> =20
-> +do_configure_linux-gnux32_prepend() {
-> +	cp ${STAGING_INCDIR}/gnu/stubs-x32.h ${STAGING_INCDIR}/gnu/stubs-64.h=
+Recently, I started poking around with Yocto/OE stuff (specifically
+around the RPM stack) and I noticed that one of my patches was pulled
+into OpenEmbedded, specifically my patch for making libsolv compile
+against musl[1]. I wrote that to make DNF work on a musl-based RPM
+based Linux distribution (Unity Linux) two years ago. I'm certainly
+happy to see my patch used in OpenEmbedded, but I am very displeased
+with how it was handled.
 
-> +	cp ${STAGING_INCDIR}/bits/long-double-32.h ${STAGING_INCDIR}/bits/lon=
-g-double-64.h
-> +}
-> +
-making long-double-32.h pretend long-double-64.h seems wrong to me. but
-if you were to do that then symlinking might be better
+Contrary to the Commit Patch Message Guidelines[2], someone added a
+Signed-off-by line for me that I did not approve. No one ever asked me
+about it, and I never even knew about this patch being in OE until a
+couple of weeks ago.
 
->  def gnu_efi_arch(d):
->      import re
->      tarch =3D d.getVar("TARGET_ARCH")
->=20
+To add insult to injury, when the patch was refreshed for libsolv
+0.6.24, the attribution of my authorship was completely removed[3]. As
+a Git formatted patch, it is very easy to preserve the original
+attribution, and I'm extremely upset and disappointed that a
+professional project like OpenEmbedded permitted this.
 
+Nearly all the Free and Open Source Software work I do is in my
+limited spare time (I don't do any FOSS work for a living), and it's
+heartbreaking to see people take my work and re-attribute it to
+themselves, or say things on my behalf that I certainly did not say.
 
---Pm1QSebSVhHwn9FrcxbrHW7FOwlrQ2iWu--
+I would greatly appreciate this being corrected immediately.
 
---mNf18QsmWlqI8pbDAoAeImSfB5orA6mFL
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
+Thanks in advance,
+Neal Gompa
 
------BEGIN PGP SIGNATURE-----
-Comment: GPGTools - https://gpgtools.org
+[1]:
+https://github.com/openembedded/openembedded-core/commit/dcc5d6bc2e3e5848f36fe1001b8cb65576047b7d
 
-iEYEARECAAYFAljr45IACgkQuwUzVZGdMxRmPACfXFOKaNqZg2CKc/ATx6zVYRr6
-HqgAn0jTRChxIJ/BSk5AuV8JJyRWythr
-=if6f
------END PGP SIGNATURE-----
+[2]: http://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
 
---mNf18QsmWlqI8pbDAoAeImSfB5orA6mFL--
+[3]:
+https://github.com/openembedded/openembedded-core/commit/60d6c0018c6855e669ced66c420b761d9e7ddd78
+
+-- 
+真実はいつも一つ！/ Always, there's only one truth!
+
