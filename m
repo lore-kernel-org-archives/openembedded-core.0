@@ -1,38 +1,38 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 4B8946FF84
+Return-Path: <marc.ferland@gmail.com>
+Received: from mail-io0-f196.google.com (mail-io0-f196.google.com
+	[209.85.223.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 1E37371A6B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Apr 2017 18:38:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-	d=intel.com; i=@intel.com; q=dns/txt; s=intel;
-	t=1491849532; x=1523385532;
-	h=date:from:to:subject:message-id:reply-to:mime-version;
-	bh=c8oLlMIUaoQsB569NhXgttwck/qZAmF6zsE1aCYXvXk=;
-	b=ZY9GdISUkVI7KLNdUVRrV06/yDFZDeU51q5BP316YFM/uoA80QACihy9
-	29vmY8CKWMlJd5F89vh3u9r60PaNng==;
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	10 Apr 2017 11:38:51 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.37,182,1488873600"; d="scan'208";a="1153977433"
-Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga002.fm.intel.com with ESMTP; 10 Apr 2017 11:38:51 -0700
-Received: from linux.intel.com (vmed.fi.intel.com [10.237.72.38])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by linux.intel.com (Postfix) with ESMTP id 6786A6A4080
+	Mon, 10 Apr 2017 19:02:46 +0000 (UTC)
+Received: by mail-io0-f196.google.com with SMTP id w130so7304052iow.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Apr 2017 11:38:41 -0700 (PDT)
-Date: Mon, 10 Apr 2017 21:26:23 +0300
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Message-ID: <20170410182623.GA24948@linux.intel.com>
-Reply-To: ed.bartosh@linux.intel.com
-MIME-Version: 1.0
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: [PATCH 6/6] runqemu: do not rely on grepping images
+	Mon, 10 Apr 2017 12:02:48 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=qjsOaTzbQ76luqdYu9K+Bhil3AT4LlaS0Dcl7+TEoFg=;
+	b=DIwUkIF2GNm3PM1kCVaCQ3jpnLf6JVUaFjQHl1SQitRgeqbCci4zxKB2ccUpyPk+wX
+	slL1b+dpd5nbfQ5ogjOhw7v2jj3jnO3vFnslCCME+3tqXbqR3MMfTD694a/3ZN5pE39E
+	xByk4kC/wC381T3RUr3amKcahwJ86ouuJtVDJS5a1EDCL5sAO7ah8sRm7pRnsaQXdJmX
+	6Q6m6LD8znOgW3w7acAwunFhvPK9zBkhAUZNHTfLpJCRU7iXqoZ+Cy7Z2wY8FzA2AqjD
+	KqpS7OHtb03m8i+OH/8HW1nz43qaUVKRIilsoPtSxcGfRRymjM9tp5vzA+QhmVEChJ1V
+	Nqfw==
+X-Gm-Message-State: AN3rC/7n1JLu2VKh38QXzyOYxhEyBvGT72Rm0YGmnZQrJCAZ0i7OkCOs
+	A7nR12IaZ8Y2yQ==
+X-Received: by 10.36.86.2 with SMTP id o2mr13602662itb.10.1491850967191;
+	Mon, 10 Apr 2017 12:02:47 -0700 (PDT)
+Received: from marc-desktop.AMOTUS.local
+	(modemcable182.194-37-24.static.videotron.ca. [24.37.194.182])
+	by smtp.gmail.com with ESMTPSA id
+	e191sm3938556ita.9.2017.04.10.12.02.46
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 10 Apr 2017 12:02:46 -0700 (PDT)
+From: Marc Ferland <ferlandm@amotus.ca>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 10 Apr 2017 15:02:36 -0400
+Message-Id: <1491850956-12248-1-git-send-email-ferlandm@amotus.ca>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH] bluez5: Upgrade 5.43 -> 5.44
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,71 +45,137 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Apr 2017 18:38:50 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Mon, 10 Apr 2017 19:02:48 -0000
 
-Hi,
+Mostly fixes to BLE.
 
-This patch breaks wic test_qemu test case. The reason is that it runs qemu with
--drive if=none command line option. Changing it to -drive if=virtio should fix the issue.
+Also in this commit:
 
-stty: standard input: Inappropriate ioctl for device
-runqemu - INFO - Running /bin/ip link...
-runqemu - INFO - Acquiring lockfile /tmp/qemu-tap-locks/tap0.lock...
-runqemu - INFO - Using preconfigured tap device tap0
-runqemu - INFO - If this is not intended, touch
-/tmp/qemu-tap-locks/tap0.skip to make runqemu skip tap0.
-runqemu - INFO - Network configuration:
-192.168.7.2::192.168.7.1:255.255.255.0
-runqemu - INFO - Using scsi drive
-runqemu - INFO - Running ldd
-/home/ed/git/yocto/poky/build/tmp/work/qemux86_64-poky-linux/wic-image-minimal/1.0-r0/recipe-sysroot-native/usr/bin/qemu-system-x86_64...
-runqemu - INFO - Running
-/home/ed/git/yocto/poky/build/tmp/work/qemux86_64-poky-linux/wic-image-minimal/1.0-r0/recipe-sysroot-native/usr/bin/qemu-system-x86_64
--device virtio-net-pci,netdev=net0,mac=52:54:00:12:34:02 -netdev
-tap,id=net0,ifname=tap0,script=no,downscript=no -drive
-if=none,id=hd,file=/home/ed/git/yocto/poky/build/tmp/deploy/images/qemux86-64/wic-image-minimal-qemux86-64.wic,format=raw
--device virtio-scsi-pci,id=scsi -device scsi-hd,drive=hd -no-reboot -vga
-vmware -show-cursor -usb -usbdevice tablet -device virtio-rng-pci
--nographic -serial tcp:127.0.0.1:38144  -cpu core2duo -m 256 -serial
-tcp:127.0.0.1:33992 -snapshot 
-QEMU 2.8.0 monitor - type 'help' for more information
-(qemu) 
-Waiting at most 1000 seconds for login banner
-Connection from 127.0.0.1:51177
-Reached login banner
-Logged as root in serial console
-Stopping logging thread
-Stop event received
-Tearing down logging thread
-Sending SIGTERM to runqemu
-FAIL
+- Experimental tools are no longer experimental and are part of the
+  official tools.
+- Experimental was renamed to "testing" (hence the addition of the
+  "testing" pacakge config option).
+- Classic command line tools like hciattach, hciconfig are now enabled
+  by the "--enable-deprecated" configure option (enabled by default for
+  backward compatibility).
 
-======================================================================
-FAIL: test_qemu (oeqa.selftest.wic.Wic)
-Test wic-image-minimal under qemu
-----------------------------------------------------------------------
-Traceback (most recent call last):
-  File "/home/ed/git/yocto/poky/meta/lib/oeqa/utils/decorators.py", line
-109, in wrapped_f
-    return func(*args, **kwargs)
-  File "/home/ed/git/yocto/poky/meta/lib/oeqa/selftest/wic.py", line 57,
-in wrapped_f
-    return func(*args, **kwargs)
-  File "/home/ed/git/yocto/poky/meta/lib/oeqa/selftest/wic.py", line
-613, in test_qemu
-    self.assertEqual(output, '/dev/root /\r\n/dev/vda3 /mnt')
-AssertionError: '/dev/root /' != '/dev/root /\r\n/dev/vda3 /mnt'
-- /dev/root /
-+ /dev/root /
-/dev/vda3 /mnt
+Signed-off-by: Marc Ferland <ferlandm@amotus.ca>
+---
+ meta/recipes-connectivity/bluez5/bluez5.inc        |  9 ++++++---
+ .../bluez5/{bluez5_5.43.bb => bluez5_5.44.bb}      | 23 +++++++++++++++++-----
+ 2 files changed, 24 insertions(+), 8 deletions(-)
+ rename meta/recipes-connectivity/bluez5/{bluez5_5.43.bb => bluez5_5.44.bb} (64%)
 
+diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
+index ed75db2..76b87a2 100644
+--- a/meta/recipes-connectivity/bluez5/bluez5.inc
++++ b/meta/recipes-connectivity/bluez5/bluez5.inc
+@@ -14,8 +14,8 @@ RCONFLICTS_${PN} = "bluez4"
+ 
+ PACKAGECONFIG ??= "obex-profiles readline"
+ PACKAGECONFIG[obex-profiles] = "--enable-obex,--disable-obex,libical"
+-PACKAGECONFIG[experimental] = "--enable-experimental,--disable-experimental,"
+ PACKAGECONFIG[readline] = "--enable-client,--disable-client,readline,"
++PACKAGECONFIG[testing] = "--enable-testing,--disable-testing,,"
+ 
+ SRC_URI = "\
+     ${KERNELORG_MIRROR}/linux/bluetooth/bluez-${PV}.tar.xz \
+@@ -31,6 +31,7 @@ inherit autotools pkgconfig systemd update-rc.d distro_features_check ptest
+ 
+ EXTRA_OECONF = "\
+   --enable-tools \
++  --enable-deprecated \
+   --disable-cups \
+   --enable-test \
+   --enable-datafiles \
+@@ -41,10 +42,12 @@ EXTRA_OECONF = "\
+ # bluez5 builds a large number of useful utilities but does not
+ # install them.  Specify which ones we want put into ${PN}-noinst-tools.
+ NOINST_TOOLS_READLINE ??= ""
+-NOINST_TOOLS_EXPERIMENTAL ??= ""
++NOINST_TOOLS_TESTING ??= ""
++NOINST_TOOLS_BT ??= ""
+ NOINST_TOOLS = " \
+     ${@bb.utils.contains('PACKAGECONFIG', 'readline', '${NOINST_TOOLS_READLINE}', '', d)} \
+-    ${@bb.utils.contains('PACKAGECONFIG', 'experimental', '${NOINST_TOOLS_EXPERIMENTAL}', '', d)} \
++    ${@bb.utils.contains('PACKAGECONFIG', 'testing', '${NOINST_TOOLS_TESTING}', '', d)} \
++    ${NOINST_TOOLS_BT} \
+ "
+ 
+ do_install_append() {
+diff --git a/meta/recipes-connectivity/bluez5/bluez5_5.43.bb b/meta/recipes-connectivity/bluez5/bluez5_5.44.bb
+similarity index 64%
+rename from meta/recipes-connectivity/bluez5/bluez5_5.43.bb
+rename to meta/recipes-connectivity/bluez5/bluez5_5.44.bb
+index e10b82d..1095f88 100644
+--- a/meta/recipes-connectivity/bluez5/bluez5_5.43.bb
++++ b/meta/recipes-connectivity/bluez5/bluez5_5.44.bb
+@@ -2,8 +2,8 @@ require bluez5.inc
+ 
+ REQUIRED_DISTRO_FEATURES = "bluez5"
+ 
+-SRC_URI[md5sum] = "698def88df96840dfbb0858bb6d73350"
+-SRC_URI[sha256sum] = "16c9c05d2a1da644ce3570d975ada3643d2e60c007a955bac09c0a0efeb58d15"
++SRC_URI[md5sum] = "94273617129ced06612fcb9f5273d14c"
++SRC_URI[sha256sum] = "0c321e291f8b45e6a78e379dfe80592b65955a0f0ab191f1cca0edd8ec356c85"
+ 
+ # noinst programs in Makefile.tools that are conditional on READLINE
+ # support
+@@ -16,12 +16,13 @@ NOINST_TOOLS_READLINE ?= " \
+     tools/btmgmt \
+ "
+ 
+-# noinst programs in Makefile.tools that are conditional on EXPERIMENTAL
++# noinst programs in Makefile.tools that are conditional on TESTING
+ # support
+-NOINST_TOOLS_EXPERIMENTAL ?= " \
++NOINST_TOOLS_TESTING ?= " \
+     emulator/btvirt \
+     emulator/b1ee \
+     emulator/hfp \
++    peripheral/btsensor \
+     tools/3dsp \
+     tools/mgmt-tester \
+     tools/gap-tester \
+@@ -30,6 +31,13 @@ NOINST_TOOLS_EXPERIMENTAL ?= " \
+     tools/smp-tester \
+     tools/hci-tester \
+     tools/rfcomm-tester \
++    tools/bnep-tester \
++    tools/userchan-tester \
++"
++
++# noinst programs in Makefile.tools that are conditional on TOOLS
++# support
++NOINST_TOOLS_BT ?= " \
+     tools/bdaddr \
+     tools/avinfo \
+     tools/avtest \
+@@ -39,17 +47,22 @@ NOINST_TOOLS_EXPERIMENTAL ?= " \
+     tools/hcieventmask \
+     tools/hcisecfilter \
+     tools/btinfo \
+-    tools/btattach \
+     tools/btsnoop \
+     tools/btproxy \
+     tools/btiotest \
++    tools/bneptest \
+     tools/mcaptest \
+     tools/cltest \
+     tools/oobtest \
+     tools/seq2bseq \
++    tools/nokfw \
++    tools/create-image \
++    tools/eddystone \
+     tools/ibeacon \
+     tools/btgatt-client \
+     tools/btgatt-server \
++    tools/test-runner \
++    tools/check-selftest \
+     tools/gatt-service \
+     profiles/iap/iapd \
+ "
+-- 
+2.7.4
 
-----------------------------------------------------------------------
-Ran 1 test in 179.193s
-
---
-Regards,
-Ed
 
