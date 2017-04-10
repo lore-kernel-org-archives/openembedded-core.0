@@ -1,28 +1,52 @@
-Return-Path: <richard@rpsys.net>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id F0ABE72F54
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pf0-f196.google.com (mail-pf0-f196.google.com
+	[209.85.192.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 222E977BE0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Apr 2017 19:24:29 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTP id v3AJOTcN004736; 
-	Mon, 10 Apr 2017 20:24:29 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id UPNuOHQLoK3T; Mon, 10 Apr 2017 20:24:29 +0100 (BST)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	v3AJAPCm003934
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Mon, 10 Apr 2017 20:10:26 +0100
-Received: from richard by hex with local (Exim 4.86_2)
-	(envelope-from <richard@rpsys.net>)
-	id 1cxehl-0001Gu-ND; Mon, 10 Apr 2017 20:10:25 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 10 Apr 2017 20:10:22 +0100
-Message-Id: <1491851424-4848-1-git-send-email-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.7.4
-Subject: [PATCH 1/3] oeqa/selftest: Don't use cleanup-workdir
+	Mon, 10 Apr 2017 19:51:40 +0000 (UTC)
+Received: by mail-pf0-f196.google.com with SMTP id c198so7658834pfc.0
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 10 Apr 2017 12:51:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=subject:to:references:from:message-id:date:user-agent:mime-version
+	:in-reply-to; bh=GKSKCfI3GUEgktSs70+QI6Mg/JbMGMqkHVAQrc9sDBc=;
+	b=YJqMYYU/LoyZ4BJ+r+5x00qVtvKyZb9i7+awQZSPozbwkH6s6DlXlLYt/fEHLFLvGP
+	0dXBjsBBL/DtyEX4tf8g89QMJ3NPrk0AgFMGZV7NCjTVW7p8e3ne1xQ6BLx6WBF0jqd2
+	0PtVkPjujH7NLh6jtJEbD71GBw3X28qaT9D2+zNSLIK8ROquNwFW7oydZ2pn+O2Oxgnh
+	4D75rG7Ey9lts5mZYROTWsz+sQ09kdtc8YKGH0pqb+nyyxGrVAnr4mkHqd7rmqusVVX4
+	IJCoAhzgujIE1hH1eEqyVcsAz5o/vtgtRTfiSlYEWAG57iNNhsPrIPEDtjH8K5Zq/cGR
+	D2vg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:subject:to:references:from:message-id:date
+	:user-agent:mime-version:in-reply-to;
+	bh=GKSKCfI3GUEgktSs70+QI6Mg/JbMGMqkHVAQrc9sDBc=;
+	b=pK4YZz3kDfvf2Pisq4YHxecDQkxD96GsNrwz51dYTjkWMNzc7Tyh11yhJGSor9Fnqw
+	Mf8YpvyQV3li4EmhHODOT2DFLwf/ZoWB6CAv9iBBbRcGajvShAvcE7/cD7QAni5oiqqi
+	4d/koP7UBycT40dse6KicD7fbb5t1/b9W2QVW2c+0I3jvcRfU91xnojG6QYCe3mExvWn
+	QOAJvqyMKJENkXmLrDGoPo9zwmIGLdKUqbIFUP74JCyc3qmFkBMniJSApkWOZ/rVJQxZ
+	2nEXyWT7foi44KHyyc/gNcGaYqM1F6IGZHu4o267oiXjCQH0m4aGfdJNuKmI261w2xMo
+	QaAQ==
+X-Gm-Message-State: AFeK/H2KnsSSm3EgAhogy03GXABJKMhQyvhL94h1PZ4hBEXRGz9QAUf026L+PqSNWzCv/A==
+X-Received: by 10.98.78.7 with SMTP id c7mr57135474pfb.138.1491853901815;
+	Mon, 10 Apr 2017 12:51:41 -0700 (PDT)
+Received: from CACSVMO-14452.local ([2601:646:8882:b8c:a551:b153:de27:f516])
+	by smtp.gmail.com with ESMTPSA id
+	m194sm26231630pga.62.2017.04.10.12.51.40
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 10 Apr 2017 12:51:40 -0700 (PDT)
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	kai.kang@windriver.com, openembedded-core@lists.openembedded.org
+References: <20170410031440.32220-1-kai.kang@windriver.com>
+	<1491809280.17200.128.camel@linuxfoundation.org>
+From: Khem Raj <raj.khem@gmail.com>
+Message-ID: <c0e094a3-8959-e9e6-4c9a-c47a97996646@gmail.com>
+Date: Mon, 10 Apr 2017 12:51:38 -0700
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:45.0)
+	Gecko/20100101 Thunderbird/45.8.0
+MIME-Version: 1.0
+In-Reply-To: <1491809280.17200.128.camel@linuxfoundation.org>
+Subject: Re: [PATCH] libsdl2: disable check gcc -Wdeclaration-after-statement for ppc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,77 +59,142 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Apr 2017 19:24:31 -0000
+X-List-Received-Date: Mon, 10 Apr 2017 19:51:45 -0000
+X-Groupsio-MsgNum: 96060
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature";
+	boundary="eNIlWSPPt34foOelmH7gbcgJSGcUIgq2V"
 
-cleanup-workdir isn't a partcularly good way to attempt to cleanup after
-tests and in some cases is actively breaking the workdir. Whilst this is
-a bug in cleanup-workdir, I'd prefer it didn't break tests, particularly
-when as far as I can see, these calls are "belt and braces" and don't appear
-to serve a specific purpose. If this introduces bugs, we should fix this
-bugs.
+--eNIlWSPPt34foOelmH7gbcgJSGcUIgq2V
+Content-Type: multipart/mixed; boundary="t69vTCqf7nDDhA6bhexETqfKSnO3fwAX0";
+ protected-headers="v1"
+From: Khem Raj <raj.khem@gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+ kai.kang@windriver.com, openembedded-core@lists.openembedded.org
+Message-ID: <c0e094a3-8959-e9e6-4c9a-c47a97996646@gmail.com>
+Subject: Re: [OE-core] [PATCH] libsdl2: disable check gcc
+ -Wdeclaration-after-statement for ppc
+References: <20170410031440.32220-1-kai.kang@windriver.com>
+ <1491809280.17200.128.camel@linuxfoundation.org>
+In-Reply-To: <1491809280.17200.128.camel@linuxfoundation.org>
 
-For the purposes of history, binutils-cross-i586 gets run do_fetch to
-do_populate_sysroot by:
-
-$ oe-selftest -r devtool.DevtoolTests.test_devtool_virtual_kernel_modify
-
-then:
-
-$ oe-selftest -r oescripts.BuildhistoryDiffTests.test_buildhistory_diff
-
-wipes out the contents of tmp/work/x86_64-linux/binutils-cross-i586/2.28-r0/
-but does not wipe out the corresponding stamps, then:
-
-$ oe-selftest -r runtime-test.Postinst.test_postinst_rootfs_and_boot
-
-needs binutils-cross-i586:do_populate_lic and if and only if this is
-unavailable from sstate, it fails since it thinks the source is already
-unpacked when it isn't resulting in:
-
-WARNING: binutils-cross-i586-2.28-r0 do_populate_lic: Could not copy license file /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-oe-selftest/build/build/tmp/work/x86_64-linux/binutils-cross-i586/2.28-r0/git/COPYING3.LIB to /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-oe-selftest/build/build/tmp/work/x86_64-linux/binutils-cross-i586/2.28-r0/license-destdir/binutils-cross-i586/COPYING3.LIB: [Errno 2] No such file or directory: '/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-oe-selftest/build/build/tmp/work/x86_64-linux/binutils-cross-i586/2.28-r0/git/COPYING3.LIB'
-ERROR: binutils-cross-i586-2.28-r0 do_populate_lic: QA Issue: binutils-cross-i586: LIC_FILES_CHKSUM points to an invalid file: /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-oe-selftest/build/build/tmp/work/x86_64-linux/binutils-cross-i586/2.28-r0/git/COPYING3 [license-checksum]
-
-and similar errors.
-
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/lib/oeqa/selftest/buildoptions.py | 2 --
- meta/lib/oeqa/selftest/oescripts.py    | 1 -
- 2 files changed, 3 deletions(-)
-
-diff --git a/meta/lib/oeqa/selftest/buildoptions.py b/meta/lib/oeqa/selftest/buildoptions.py
-index d155f64..a6e0203 100644
---- a/meta/lib/oeqa/selftest/buildoptions.py
-+++ b/meta/lib/oeqa/selftest/buildoptions.py
-@@ -163,7 +163,6 @@ class BuildhistoryTests(BuildhistoryBase):
- 
-     @testcase(294)
-     def test_buildhistory_buildtime_pr_backwards(self):
--        self.add_command_to_tearDown('cleanup-workdir')
-         target = 'xcursor-transparent-theme'
-         error = "ERROR:.*QA Issue: Package version for package %s went backwards which would break package feeds from (.*-r1.* to .*-r0.*)" % target
-         self.run_buildhistory_operation(target, target_config="PR = \"r1\"", change_bh_location=True)
-@@ -175,7 +174,6 @@ class ArchiverTest(oeSelfTest):
-         """
-         Test for archiving the work directory and exporting the source files.
-         """
--        self.add_command_to_tearDown('cleanup-workdir')
-         self.write_config("INHERIT += \"archiver\"\nARCHIVER_MODE[src] = \"original\"\nARCHIVER_MODE[srpm] = \"1\"")
-         res = bitbake("xcursor-transparent-theme", ignore_status=True)
-         self.assertEqual(res.status, 0, "\nCouldn't build xcursortransparenttheme.\nbitbake output %s" % res.output)
-diff --git a/meta/lib/oeqa/selftest/oescripts.py b/meta/lib/oeqa/selftest/oescripts.py
-index baf3b6a..c2e2b45 100644
---- a/meta/lib/oeqa/selftest/oescripts.py
-+++ b/meta/lib/oeqa/selftest/oescripts.py
-@@ -41,7 +41,6 @@ class BuildhistoryDiffTests(BuildhistoryBase):
- 
-     @testcase(295)
-     def test_buildhistory_diff(self):
--        self.add_command_to_tearDown('cleanup-workdir')
-         target = 'xcursor-transparent-theme'
-         self.run_buildhistory_operation(target, target_config="PR = \"r1\"", change_bh_location=True)
-         self.run_buildhistory_operation(target, target_config="PR = \"r0\"", change_bh_location=False, expect_error=True)
--- 
-2.7.4
+--t69vTCqf7nDDhA6bhexETqfKSnO3fwAX0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
 
+
+On 4/10/17 12:28 AM, Richard Purdie wrote:
+> On Mon, 2017-04-10 at 11:14 +0800, kai.kang@windriver.com wrote:
+>> From: Kai Kang <kai.kang@windriver.com>
+>>
+>> Disable check gcc option -Wdeclaration-after-statement for powerpc
+>> and
+>> powerpc64 which causes compile failures:
+>>
+>>>
+>>>   CC     build/SDL_blit_N.lo
+>>> .../tmp/work/ppc7400-wrs-linux/libsdl2/2.0.5-r0/SDL2-
+>>> 2.0.5/src/video/SDL_blit_N.c: In function 'calc_swizzle32':
+>>> .../tmp/work/ppc7400-wrs-linux/libsdl2/2.0.5-r0/SDL2-
+>>> 2.0.5/src/video/SDL_blit_N.c:127:5: error: ISO C90 forbids
+>>> mixed declarations and code [-Werror=3Ddeclaration-after-statement]
+>>>      const vector unsigned char plus =3D VECUINT8_LITERAL(0x00, 0x00,=
+
+>>> 0x00, 0x00,
+>>>      ^~~~~
+>> Signed-off-by: Kai Kang <kai.kang@windriver.com>
+>> ---
+>>  ...able-check-gcc-Wdeclaration-after-statement.patch | 20
+>> ++++++++++++++++++++
+>>  meta/recipes-graphics/libsdl2/libsdl2_2.0.5.bb       |  2 ++
+>>  2 files changed, 22 insertions(+)
+>>  create mode 100644 meta/recipes-graphics/libsdl2/libsdl2/disable-
+>> check-gcc-Wdeclaration-after-statement.patch
+>>
+>> diff --git a/meta/recipes-graphics/libsdl2/libsdl2/disable-check-gcc-
+>> Wdeclaration-after-statement.patch b/meta/recipes-
+>> graphics/libsdl2/libsdl2/disable-check-gcc-Wdeclaration-after-
+>> statement.patch
+>> new file mode 100644
+>> index 0000000..ad48af7
+>> --- /dev/null
+>> +++ b/meta/recipes-graphics/libsdl2/libsdl2/disable-check-gcc-
+>> Wdeclaration-after-statement.patch
+>> @@ -0,0 +1,20 @@
+>> +Upstream-Status: Inappropriate [disable feature]
+>=20
+> Given upstream explicitly enable this warning and the issue looks to be=
+
+> in their code, surely upstream would want to fix this.
+>=20
+> Also, would it not be easier to patch the code and fix this than
+> disabling the warning?
+
+yes, I think it should be fixed in code unless we know that this warning
+is being wrongly generated for ppc64
+
+>=20
+> Cheers,
+>=20
+> Richard
+>=20
+>=20
+>> +Disable check gcc option -Wdeclaration-after-statement for powerpc
+>> and
+>> +powerpc64 which causes compile failures.
+>> +
+>> +Signed-off-by: Kai Kang <kai.kang@windriver.com>
+>> +---
+>> +diff --git a/configure.in b/configure.in
+>> +index e2ddc9c..73b10f5 100644
+>> +--- a/configure.in
+>> ++++ b/configure.in
+>> +@@ -2950,7 +2950,7 @@ case "$host" in
+>> +             *-*-minix*)         ARCH=3Dminix ;;
+>> +         esac
+>> +         CheckVisibilityHidden
+>> +-        CheckDeclarationAfterStatement
+>> ++#        CheckDeclarationAfterStatement
+>> +         CheckDummyVideo
+>> +         CheckDiskAudio
+>> +         CheckDummyAudio
+>> diff --git a/meta/recipes-graphics/libsdl2/libsdl2_2.0.5.bb
+>> b/meta/recipes-graphics/libsdl2/libsdl2_2.0.5.bb
+>> index d747cf1..33963c1 100644
+>> --- a/meta/recipes-graphics/libsdl2/libsdl2_2.0.5.bb
+>> +++ b/meta/recipes-graphics/libsdl2/libsdl2_2.0.5.bb
+>> @@ -20,6 +20,8 @@ SRC_URI =3D " \
+>>      file://0001-prepend-our-sysroot-path-so-that-make-finds-our-
+>> wayl.patch \
+>>      file://0002-Avoid-finding-build-host-s-wayland-scanner.patch \
+>>  "
+>> +SRC_URI_append_powerpc =3D " file://disable-check-gcc-Wdeclaration-
+>> after-statement.patch"
+>> +SRC_URI_append_powerpc64 =3D " file://disable-check-gcc-Wdeclaration-=
+
+>> after-statement.patch"
+>> =20
+>>  S =3D "${WORKDIR}/SDL2-${PV}"
+>> =20
+>> --=20
+>> 2.10.1
+>>
+
+
+--t69vTCqf7nDDhA6bhexETqfKSnO3fwAX0--
+
+--eNIlWSPPt34foOelmH7gbcgJSGcUIgq2V
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+Comment: GPGTools - https://gpgtools.org
+
+iEYEARECAAYFAljr4koACgkQuwUzVZGdMxSNaQCffG1SpYYuUe9YjgoB434VX00M
+3J0An2G6nffEqn0G8ITTrBi6CQYOyWgi
+=mQ2B
+-----END PGP SIGNATURE-----
+
+--eNIlWSPPt34foOelmH7gbcgJSGcUIgq2V--
