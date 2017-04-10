@@ -1,45 +1,54 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-qt0-f182.google.com (mail-qt0-f182.google.com
-	[209.85.216.182])
-	by mail.openembedded.org (Postfix) with ESMTP id A3C3877D45
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-io0-f180.google.com (mail-io0-f180.google.com
+	[209.85.223.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 3103E71DA5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Apr 2017 13:16:12 +0000 (UTC)
-Received: by mail-qt0-f182.google.com with SMTP id v3so54254766qtd.3
+	Mon, 10 Apr 2017 14:44:08 +0000 (UTC)
+Received: by mail-io0-f180.google.com with SMTP id a103so33335190ioj.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Apr 2017 06:16:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=0KHCVQK5qHUjtkhX9vo/eKKBakmOgfC6xxL0U4GRWWY=;
-	b=jLwgGy7znam0NTJKHmu971dx/u653jWHuOTmk2KRllrVWxJNFmgTIV75bOcKwwCpyZ
-	izXrhpcmgmZrLHqn7BDIB/Cd2eRD7YoNNpEqYBmI7vmlOHLF+csMopRwjFq+1V/H3XAI
-	9ovzLbGLRhRqB3w/wOSGh5xLizKyJZp7GtAu3sOnktMrnBDHRasX3Tfmw0IJWxA7flu0
-	5x87ULXt8BwCAlkCFw6xwhGxHWgXDiv+9sXg5FqYKD5IhxYOc4mSMrtB25F9K5KOHF8K
-	6J1KqklOHKcTDiIlZ8tUkFIJMti0dVDNqfDs/uU6Jx+91jk/O7/yDVyhVW7gnQdL+zC4
-	Phyg==
+	Mon, 10 Apr 2017 07:44:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:organization:mime-version:content-transfer-encoding;
+	bh=2pfBCOd9O8kbDLIBc+z8mCM49dSX+or+qeBiUIzh/iw=;
+	b=FMXj6jtM5E7XPmaF18a/+9umJNYX/8TecHb2gcp56kAKiW602SFKrkE3OEBRNxESXV
+	Uc6sXQfSvAIwillFDhPZLpW7fA2kJtGy9+8YeGdRH4XjNKxDUeKCwQdw2RIIeMrt6T5o
+	4c9qWalmgxdibTIN+fJFfHQT008rp5YHtBujsnVxgp8GAWdMbcDa7YRb32gMfmFXMKnc
+	j6+Ot/QCWyWmulJcKYdOMY4ghCaqobSfpPgHkyXankMiSDpUpymz3nKqQIKWZBrq7mSA
+	NNHL9pLgYw0WFLpLwibT5RTawKd/LjTmcXbbZtSfG2Ed8tK6WHuLzW8m5oUMnhn7cqVn
+	wtug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=0KHCVQK5qHUjtkhX9vo/eKKBakmOgfC6xxL0U4GRWWY=;
-	b=OmEXMvTptZUQCL9yrxtVEGl1KKyCOPGJki26VauY73aEBev66vytSW6y4+1oyFoqwA
-	CRBUHJc8noAB1AkG8vFF+Ku7IhV4dF5Q69fnruPeRNPcWfMltiJ0KJzfPgsxS09XO3zs
-	Dy9RTKRb41jk2YiPqF/0KfXibcB2oypyxYgsDNpRvAcECWR1XntIE61Xqhud4zmZnTXT
-	QQ9YQMdRInfYn4Sw97eS0C4uJ8WZ5XM6HJUTsvHH00cuuD6Re7rW/TecpHM6fWjaU+vv
-	wrUqQAE0vyKQEk8Nao27gjHWTY5xjgqB1hBPzfeViJk4C1t29MAZK7veSZlBdFX3RLz4
-	dRuA==
-X-Gm-Message-State: AN3rC/5slI4cRrEa6VDv5SThsfSt/1l4qgOYn9OG2If9UhqSEWeVaEC8Djvxhtuauh8X7KFjWY0gp+x6SpVuUQ==
-X-Received: by 10.237.47.194 with SMTP id m60mr15148736qtd.9.1491830173098;
-	Mon, 10 Apr 2017 06:16:13 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.12.163.69 with HTTP; Mon, 10 Apr 2017 06:16:12 -0700 (PDT)
-In-Reply-To: <1491829792.10884.115.camel@intel.com>
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:organization:mime-version:content-transfer-encoding;
+	bh=2pfBCOd9O8kbDLIBc+z8mCM49dSX+or+qeBiUIzh/iw=;
+	b=hrNGJ6Ar9H9nBIvWXhVniDHnpF7I+jhKZM/Iu4EbnvFxbFtlCk6SBxIHw60byrymyt
+	96S+EeEfXHd2QwuXjzPny3eHZlya8ZgbEvsc9shvLpQ9YEtT062j+THRrTSK/VlRKZhS
+	pAHPWiCg2rA9pqjWagG+r3gsYK8fhN/PaK97DDIz8Qx/shFBx+qv2p00lGSN37D0FSyA
+	34rWK5kGuVJbKk9Www4xDxEbOFQf5VYEw+AB1SWUKzEIQuVwFlXudF9rP5GHAh+sMJpa
+	MVwETi368joTjH3DAJy2LBlcEEhcct7xgNVtnD/BvWumK9EZTpNnsAOi1xNDNi2hag3N
+	7Sjw==
+X-Gm-Message-State: AFeK/H1oI3yS15rGHHc4D88co/+UUa1e/GMv9pFNaFWRtI6uGxlfzgLKTkTfMo5zVoNM6hEt
+X-Received: by 10.107.147.67 with SMTP id v64mr57522972iod.120.1491835449532; 
+	Mon, 10 Apr 2017 07:44:09 -0700 (PDT)
+Received: from pohly-mobl1 (p57A56DBC.dip0.t-ipconnect.de. [87.165.109.188])
+	by smtp.gmail.com with ESMTPSA id
+	x78sm3654043iod.31.2017.04.10.07.44.06
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 10 Apr 2017 07:44:07 -0700 (PDT)
+Message-ID: <1491835445.10884.142.camel@intel.com>
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Mon, 10 Apr 2017 16:44:05 +0200
+In-Reply-To: <CADkTA4NkqkDvhBSArQ6_6uz7Syb0sL21Vg1brnEArD9y1rATag@mail.gmail.com>
 References: <1491828558.10884.112.camel@intel.com>
 	<CADkTA4PQHE0w9=kvr5EyeQvG-Vm8SPQFh9NqM2Jofp_Ec99fKA@mail.gmail.com>
 	<1491829792.10884.115.camel@intel.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Mon, 10 Apr 2017 09:16:12 -0400
-Message-ID: <CADkTA4NkqkDvhBSArQ6_6uz7Syb0sL21Vg1brnEArD9y1rATag@mail.gmail.com>
-To: Patrick Ohly <patrick.ohly@intel.com>
+	<CADkTA4NkqkDvhBSArQ6_6uz7Syb0sL21Vg1brnEArD9y1rATag@mail.gmail.com>
+Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
+X-Mailer: Evolution 3.12.9-1+b1 
+Mime-Version: 1.0
 Cc: OpenEmbedded <openembedded-core@lists.openembedded.org>
 Subject: Re: go-cross: incorrect dependency on tune-specific libgcc
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -54,159 +63,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Apr 2017 13:16:12 -0000
-Content-Type: multipart/alternative; boundary=94eb2c12555c886bb0054ccfc7b6
+X-List-Received-Date: Mon, 10 Apr 2017 14:44:09 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---94eb2c12555c886bb0054ccfc7b6
-Content-Type: text/plain; charset=UTF-8
+On Mon, 2017-04-10 at 09:16 -0400, Bruce Ashfield wrote:
 
-On Mon, Apr 10, 2017 at 9:09 AM, Patrick Ohly <patrick.ohly@intel.com>
-wrote:
+> Either way, I still have a problem when changes like this merge into
+> oe-core and I never know exactly when .. until I get the email of
+> people telling me that things are broken in meta-virt :D
 
-> On Mon, 2017-04-10 at 08:59 -0400, Bruce Ashfield wrote:
-> >
-> >
-> > On Mon, Apr 10, 2017 at 8:49 AM, Patrick Ohly <patrick.ohly@intel.com>
-> > wrote:
-> [...]
-> >         diff --git a/meta/classes/go.bbclass b/meta/classes/go.bbclass
-> >         index 85f71a2e9a6..ac41c80d377 100644
-> >         --- a/meta/classes/go.bbclass
-> >         +++ b/meta/classes/go.bbclass
-> >         @@ -26,7 +26,7 @@ export CGO_CPPFLAGS = "${TARGET_CPPFLAGS}"
-> >          export CGO_CXXFLAGS = "${TARGET_CC_ARCH}${TOOLCHAIN_OPTIONS}
-> >         ${TARGET_CXXFLAGS}"
-> >          export CGO_LDFLAGS = "${TARGET_CC_ARCH}${TOOLCHAIN_OPTIONS}
-> >         ${TARGET_LDFLAGS}"
-> >
-> >         -DEPENDS += "go-cross-${TARGET_ARCH}"
-> >         +DEPENDS += "go-cross-${TUNE_PKGARCH}"
-> >          DEPENDS_class-native += "go-native"
-> >
-> >          FILES_${PN}-staticdev += "${GOSRC_FINAL}/${GO_IMPORT}"
-> [...]
->
-> > This requires any layers with existing DEPENDS on go-cross-${TARGET}
-> > to be updated,
->
-> "inherit go" hides that detail, so only recipes which depend on
-> go-cross-${TARGET_ARCH} directly instead of using go.bbclass need to be
-> updated (and perhaps should be changed to use go.bbclass instead?).
->
-
-True!
-
-I don't universally use the go bbclass in oe-core, since my recipes all
-predate
-it by a significant amount.
-
-Either way, I still have a problem when changes like this merge into
-oe-core and
-I never know exactly when .. until I get the email of people telling me
-that things
-are broken in meta-virt :D
-
-Bruce
-
-
->
-> But I'm not a go expert, so let's hear from those first ;-}
->
-> --
-> Best Regards, Patrick Ohly
->
-> The content of this message is my personal opinion only and although
-> I am an employee of Intel, the statements I make here in no way
-> represent Intel's position on the issue, nor am I authorized to speak
-> on behalf of Intel on this matter.
->
->
->
->
+I'm not sure how to solve this. Now that you mentioned it, I can keep an
+eye on it and sent a separate warning once it enters master, but usually
+a patch submitter doesn't even get a notification himself that something
+was merged.
 
 
 -- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await thee
-at its end"
+Best Regards, Patrick Ohly
 
---94eb2c12555c886bb0054ccfc7b6
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+The content of this message is my personal opinion only and although
+I am an employee of Intel, the statements I make here in no way
+represent Intel's position on the issue, nor am I authorized to speak
+on behalf of Intel on this matter.
 
-<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
-te">On Mon, Apr 10, 2017 at 9:09 AM, Patrick Ohly <span dir=3D"ltr">&lt;<a =
-href=3D"mailto:patrick.ohly@intel.com" target=3D"_blank">patrick.ohly@intel=
-.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"ma=
-rgin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><span class=3D=
-"">On Mon, 2017-04-10 at 08:59 -0400, Bruce Ashfield wrote:<br>
-&gt;<br>
-&gt;<br>
-&gt; On Mon, Apr 10, 2017 at 8:49 AM, Patrick Ohly &lt;<a href=3D"mailto:pa=
-trick.ohly@intel.com">patrick.ohly@intel.com</a>&gt;<br>
-&gt; wrote:<br>
-</span>[...]<br>
-<span class=3D"">&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0diff --git a/meta/cl=
-asses/go.bbclass b/meta/classes/go.bbclass<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0index 85f71a2e9a6..ac41c80d377 100644=
-<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0--- a/meta/classes/go.bbclass<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0+++ b/meta/classes/go.bbclass<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0@@ -26,7 +26,7 @@ export CGO_CPPFLAGS=
- =3D &quot;${TARGET_CPPFLAGS}&quot;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 export CGO_CXXFLAGS =3D &quot;${TARG=
-ET_CC_ARCH}${TOOLCHAIN_<wbr>OPTIONS}<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0${TARGET_CXXFLAGS}&quot;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 export CGO_LDFLAGS =3D &quot;${TARGE=
-T_CC_ARCH}${TOOLCHAIN_<wbr>OPTIONS}<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0${TARGET_LDFLAGS}&quot;<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-DEPENDS +=3D &quot;go-cross-${TARGET=
-_ARCH}&quot;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0+DEPENDS +=3D &quot;go-cross-${TUNE_P=
-KGARCH}&quot;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 DEPENDS_class-native +=3D &quot;go-n=
-ative&quot;<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 FILES_${PN}-staticdev +=3D &quot;${G=
-OSRC_FINAL}/${GO_IMPORT}&quot;<br>
-</span>[...]<br>
-<span class=3D""><br>
-&gt; This requires any layers with existing DEPENDS on go-cross-${TARGET}<b=
-r>
-&gt; to be updated,<br>
-<br>
-</span>&quot;inherit go&quot; hides that detail, so only recipes which depe=
-nd on<br>
-go-cross-${TARGET_ARCH} directly instead of using go.bbclass need to be<br>
-updated (and perhaps should be changed to use go.bbclass instead?).<br></bl=
-ockquote><br></div><div class=3D"gmail_quote">True!<br><br></div><div class=
-=3D"gmail_quote">I don&#39;t universally use the go bbclass in oe-core, sin=
-ce my recipes all predate<br></div><div class=3D"gmail_quote">it by a signi=
-ficant amount.<br><br></div><div class=3D"gmail_quote">Either way, I still =
-have a problem when changes like this merge into oe-core and<br></div><div =
-class=3D"gmail_quote">I never know exactly when .. until I get the email of=
- people telling me that things<br></div><div class=3D"gmail_quote">are brok=
-en in meta-virt :D<br><br></div><div class=3D"gmail_quote">Bruce<br></div><=
-div class=3D"gmail_quote"><div>=C2=A0</div><blockquote class=3D"gmail_quote=
-" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
-<br>
-But I&#39;m not a go expert, so let&#39;s hear from those first ;-}<br>
-<div class=3D"HOEnZb"><div class=3D"h5"><br>
---<br>
-Best Regards, Patrick Ohly<br>
-<br>
-The content of this message is my personal opinion only and although<br>
-I am an employee of Intel, the statements I make here in no way<br>
-represent Intel&#39;s position on the issue, nor am I authorized to speak<b=
-r>
-on behalf of Intel on this matter.<br>
-<br>
-<br>
-<br>
-</div></div></blockquote></div><br><br clear=3D"all"><br>-- <br><div class=
-=3D"gmail_signature" data-smartmail=3D"gmail_signature">&quot;Thou shalt no=
-t follow the NULL pointer, for chaos and madness await thee at its end&quot=
-;</div>
-</div></div>
 
---94eb2c12555c886bb0054ccfc7b6--
+
+
