@@ -1,28 +1,29 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 5FCDC77C73
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 2E92177CEE
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Apr 2017 06:01:04 +0000 (UTC)
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by fmsmga105.fm.intel.com with ESMTP; 10 Apr 2017 23:01:06 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.37,184,1488873600"; d="scan'208";a="247091965"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by fmsmga004.fm.intel.com with ESMTP; 10 Apr 2017 23:01:04 -0700
-To: Mark Hatle <mark.hatle@windriver.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>, Neal Gompa <ngompa13@gmail.com>
-References: <CAEg-Je8BnTDr6BxLOUBO3Y5a+yKjggk=cLSY7n-Aeq61GMVmTQ@mail.gmail.com>
-	<1301981f-af40-612f-a383-5feb2886e33e@windriver.com>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <515d3bc5-5ac7-3278-fdce-fd014e7784aa@linux.intel.com>
-Date: Tue, 11 Apr 2017 09:00:40 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.8.0
-MIME-Version: 1.0
-In-Reply-To: <1301981f-af40-612f-a383-5feb2886e33e@windriver.com>
-Subject: Re: About misappropriation of one of my patches in OpenEmbedded
+	Tue, 11 Apr 2017 06:11:05 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTP id v3B6B6RG010745; 
+	Tue, 11 Apr 2017 07:11:06 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id r-emOXuBDLYG; Tue, 11 Apr 2017 07:11:06 +0100 (BST)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	v3AMAOBZ017804
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
+	verify=NOT); Mon, 10 Apr 2017 23:10:26 +0100
+Message-ID: <1491862224.6264.0.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Yuanjie Huang <yuanjie.huang@windriver.com>,
+	openembedded-core@lists.openembedded.org
+Date: Mon, 10 Apr 2017 23:10:24 +0100
+In-Reply-To: <20170410103425.333195-1-yuanjie.huang@windriver.com>
+References: <20170410103425.333195-1-yuanjie.huang@windriver.com>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.1 
+Mime-Version: 1.0
+Subject: Re: [PATCH] binutils: Fix CVE-2017-6965 and CVE-2017-6966
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,19 +36,17 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Apr 2017 06:01:06 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
+X-List-Received-Date: Tue, 11 Apr 2017 06:11:06 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 04/10/2017 11:17 PM, Mark Hatle wrote:
+On Mon, 2017-04-10 at 03:34 -0700, Yuanjie Huang wrote:
+> meta/recipes-devtools/binutils/binutils-2.27.inc
 
-> Nearly all the Free and Open Source Software work I do is in my
-> limited spare time (I don't do any FOSS work for a living), and it's
-> heartbreaking to see people take my work and re-attribute it to
-> themselves, or say things on my behalf that I certainly did not say.
+Given master contains 2.28, I don't think this patch was based on or
+tested against master?
 
-Neal, no one deliberately tried to strip you of your credit; it was an 
-honest mistake, and I assure you we correct these things quickly.
+Cheers,
 
-Alex
+Richard
 
