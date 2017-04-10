@@ -1,47 +1,30 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-io0-f174.google.com (mail-io0-f174.google.com
-	[209.85.223.174])
-	by mail.openembedded.org (Postfix) with ESMTP id A6C9F71AB8
+Return-Path: <huangqy.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
+	by mail.openembedded.org (Postfix) with ESMTP id 7558872F21
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Apr 2017 08:28:17 +0000 (UTC)
-Received: by mail-io0-f174.google.com with SMTP id a103so21550948ioj.1
+	Mon, 10 Apr 2017 08:55:37 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.22,518,1449504000"; d="scan'208";a="17553366"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 10 Apr 2017 16:55:32 +0800
+Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
+	by cn.fujitsu.com (Postfix) with ESMTP id D1173467021F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Apr 2017 01:28:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id;
-	bh=psKxSWkkmBWmq2TgYLR/ldIHkYCnyvLNSQxTw+OpB0Y=;
-	b=ICaAewwTq3648HE6HnH5QIF1EsN94xnz/pXpwMUSTlWaUWT0tjdqaFEQtz6sMJqc0i
-	LMNc8GJBFqtNUD77IVTagP9iFI3vkyDLbxI3dGPi8YZGQpTlwiGZgwO7yC06Dte1SuKV
-	5MXCZbr2x26cY4YNhSKvpyh6oPOzGqjvk9VgbKgwsmcem5pK8woCBGbdS+suUzK9t/du
-	rOmVm/hQep9JfoevSBrxQZ3F4tc9A1zvPJHSA0sx7DOubOaRpmFbkdDqk+JC1F2QT4Ms
-	DsVDOEhsnT+nfaM3oPW0fkCko7/rMiHs3S0xf7lMAFLFYl06u+zmQi1d7brjG6nkTq/v
-	9tXw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=psKxSWkkmBWmq2TgYLR/ldIHkYCnyvLNSQxTw+OpB0Y=;
-	b=Mpo0361j7oGZQsSIe2MkbKHRAH7c+ItPf3dp1BoptYDVpKCMxCzzZOwFAoy4Xjd/+Z
-	VRJHzpDI0VTdnzmGzgz9CsNP6dr523ifdY5bTBPmALFn6B+bZb4mMuI4DTItmlj9YYFY
-	IEFDW0/xgtC0N9hZ9tl8W2As9X9pTh9JJkc8HupDS2roDtSqrYenqIdE33oFHoR71pSt
-	EthOyclFGH45mzWLPzYHAx4iwwo7rSRF/t7cp5YoEu09tzwwUkyqonaDt92u5/oHInhI
-	lU6EJZfTYweTVUyfiCnXx/vwrqAejH9ZSfYhqHzrSaITghG+g+4alGXY4o0NKfOyXRiW
-	iCYw==
-X-Gm-Message-State: AN3rC/76DrVwj/82NRJ/VsvqTRBuQb8kdAZy9toPStO1+ZHgPWCA1VGQ
-	HH1+cQd1UQ3JuwKJ
-X-Received: by 10.36.22.85 with SMTP id a82mr10860407ita.83.1491812898778;
-	Mon, 10 Apr 2017 01:28:18 -0700 (PDT)
-Received: from pohly-desktop.fritz.box (p57A56DBC.dip0.t-ipconnect.de.
-	[87.165.109.188]) by smtp.gmail.com with ESMTPSA id
-	s40sm3293706ite.18.2017.04.10.01.28.16
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 10 Apr 2017 01:28:17 -0700 (PDT)
-From: Patrick Ohly <patrick.ohly@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 10 Apr 2017 10:28:12 +0200
-Message-Id: <23948bfefea60d0e7e7289cb07f5362e9fd9f0fd.1491812847.git-series.patrick.ohly@intel.com>
-X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] buildhistory.bbclass: do not influence sstate of do_rootfs
+	Mon, 10 Apr 2017 16:55:28 +0800 (CST)
+Received: from localhost.localdomain (10.167.226.81) by
+	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.319.2; Mon, 10 Apr 2017 16:55:32 +0800
+From: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 10 Apr 2017 16:55:30 +0800
+Message-ID: <1491814530-913-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 2.7.4
+MIME-Version: 1.0
+X-Originating-IP: [10.167.226.81]
+X-yoursite-MailScanner-ID: D1173467021F.A3F67
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: huangqy.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [PATCH] at-spi2-atk : 2.22.0 -> 2.24.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,47 +37,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Apr 2017 08:28:20 -0000
+X-List-Received-Date: Mon, 10 Apr 2017 08:55:39 -0000
+Content-Type: text/plain
 
-Enabling or disabling buildhistory caused a rebuild of images, which
-is undesirable. For example, it prevented image reuse from a main
-build with buildhistory in a following oe-selftest where buildhistory
-must be disabled.
+Upgrade at-spi2-atk from 2.22.0 to 2.24.0.
 
-The reason are the additional ROOTFS_POSTUNINSTALL_COMMAND and
-ROOTFS_POSTUNINSTALL_COMMAND entries. Those need to be excluded both
-via vardepvalueexclude and vardepsexclude.
-
-Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
+Signed-off-by: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
 ---
- meta/classes/buildhistory.bbclass | 12 ++++++++----
- 1 file changed, 8 insertions(+), 4 deletions(-)
+ .../atk/{at-spi2-atk_2.22.0.bb => at-spi2-atk_2.24.0.bb}              | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-support/atk/{at-spi2-atk_2.22.0.bb => at-spi2-atk_2.24.0.bb} (81%)
 
-diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
-index 109b375..eea1e72 100644
---- a/meta/classes/buildhistory.bbclass
-+++ b/meta/classes/buildhistory.bbclass
-@@ -579,10 +579,14 @@ python buildhistory_get_extra_sdkinfo() {
+diff --git a/meta/recipes-support/atk/at-spi2-atk_2.22.0.bb b/meta/recipes-support/atk/at-spi2-atk_2.24.0.bb
+similarity index 81%
+rename from meta/recipes-support/atk/at-spi2-atk_2.22.0.bb
+rename to meta/recipes-support/atk/at-spi2-atk_2.24.0.bb
+index 58edb6e..98a1c9c 100644
+--- a/meta/recipes-support/atk/at-spi2-atk_2.22.0.bb
++++ b/meta/recipes-support/atk/at-spi2-atk_2.24.0.bb
+@@ -5,8 +5,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=e9f288ba982d60518f375b5898283886"
+ MAJ_VER = "${@oe.utils.trim_version("${PV}", 2)}"
  
- # By using ROOTFS_POSTUNINSTALL_COMMAND we get in after uninstallation of
- # unneeded packages but before the removal of packaging files
--ROOTFS_POSTUNINSTALL_COMMAND += " buildhistory_list_installed_image ;\
--                                buildhistory_get_image_installed ; "
--
--IMAGE_POSTPROCESS_COMMAND += " buildhistory_get_imageinfo ; "
-+ROOTFS_POSTUNINSTALL_COMMAND += "buildhistory_list_installed_image ;"
-+ROOTFS_POSTUNINSTALL_COMMAND += "buildhistory_get_image_installed ;"
-+ROOTFS_POSTUNINSTALL_COMMAND[vardepvalueexclude] .= "| buildhistory_list_installed_image ;| buildhistory_get_image_installed ;"
-+ROOTFS_POSTUNINSTALL_COMMAND[vardepsexclude] += "buildhistory_list_installed_image buildhistory_get_image_installed"
-+
-+IMAGE_POSTPROCESS_COMMAND += "buildhistory_get_imageinfo ;"
-+IMAGE_POSTPROCESS_COMMAND[vardepvalueexclude] .= "| buildhistory_get_imageinfo ;"
-+IMAGE_POSTPROCESS_COMMAND[vardepsexclude] += "buildhistory_get_imageinfo"
+ SRC_URI = "${GNOME_MIRROR}/${BPN}/${MAJ_VER}/${BPN}-${PV}.tar.xz"
+-SRC_URI[md5sum] = "aa62aed21b8e03dc44ab81ae49d893ca"
+-SRC_URI[sha256sum] = "e8bdedbeb873eb229eb08c88e11d07713ec25ae175251648ad1a9da6c21113c1"
++SRC_URI[md5sum] = "984f27528b0e3ec1f153a901cd4fe497"
++SRC_URI[sha256sum] = "022d68497c05cc65ba7cd2b166132de9a160c8d90e9200b5faa473ef7e784c61"
  
- # We want these to be the last run so that we get called after complementary package installation
- POPULATE_SDK_POST_TARGET_COMMAND_append = " buildhistory_list_installed_sdk_target;"
-
-base-commit: d68a86d87aa017dd0fecb0f626d22711efefcd3f
+ DEPENDS = "dbus glib-2.0 glib-2.0-native atk at-spi2-core"
+ 
 -- 
-git-series 0.9.1
+2.7.4
+
+
+
 
