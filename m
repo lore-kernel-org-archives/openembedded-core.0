@@ -1,47 +1,18 @@
-Return-Path: <pbarker@toganlabs.com>
-X-Greylist: delayed 602 seconds by postgrey-1.34 at layers.openembedded.org;
-	Mon, 10 Apr 2017 09:30:53 UTC
-Received: from catfish.ash.relay.mailchannels.net
-	(catfish.ash.relay.mailchannels.net [23.83.222.32])
-	by mail.openembedded.org (Postfix) with ESMTP id F182C77D77
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Apr 2017 09:30:52 +0000 (UTC)
-Received: from relay.mailchannels.net (localhost [127.0.0.1])
-	by relay.mailchannels.net (Postfix) with ESMTP id D914B7C39D9;
-	Mon, 10 Apr 2017 09:12:28 +0000 (UTC)
-Received: from hp181.hostpapa.com (unknown [100.96.135.247])
-	by relay.mailchannels.net (Postfix) with ESMTPA id 5666C7C39C9;
-	Mon, 10 Apr 2017 09:12:28 +0000 (UTC)
-X-Sender-Id: hostpapa|x-authuser|pbarker@toganlabs.com
-Received: from hp181.hostpapa.com (hp181.hostpapa.com [172.20.61.168])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384)
-	by 0.0.0.0:2500 (trex/5.7.37); Mon, 10 Apr 2017 09:12:28 +0000
-X-MC-Relay: Neutral
-X-MailChannels-SenderId: hostpapa|x-authuser|pbarker@toganlabs.com
-X-MailChannels-Auth-Id: hostpapa
-X-Reaction-Hook: 738d11f6513849d4_1491815548680_2654852109
-X-MC-Loop-Signature: 1491815548680:1237321895
-X-MC-Ingress-Time: 1491815548680
-Received: from cpc116908-shep14-2-0-cust920.8-3.cable.virginm.net
-	([82.34.23.153]:16279 helo=host0.betafive.co.uk)
-	by hp181.hostpapa.com with esmtpsa
-	(TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256) (Exim 4.87)
-	(envelope-from <pbarker@toganlabs.com>)
-	id 1cxVN1-000m3m-Uv; Mon, 10 Apr 2017 11:12:25 +0200
-Date: Mon, 10 Apr 2017 10:12:20 +0100
-From: Paul Barker <pbarker@toganlabs.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Message-ID: <20170410101220.614ee044@host0.betafive.co.uk>
-In-Reply-To: <CAJTo0Lac+CqnXxzJoanw9iAQii_oeeKum1ebkFCT+3ExJVhAMQ@mail.gmail.com>
-References: <20170402213135.21193-1-pbarker@toganlabs.com>
-	<CAJTo0Lac+CqnXxzJoanw9iAQii_oeeKum1ebkFCT+3ExJVhAMQ@mail.gmail.com>
-Organization: =?UTF-8?B?VG9nw6Fu?= Labs
-X-Mailer: Claws Mail 3.14.1 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 06D5E77D7A;
+	Mon, 10 Apr 2017 09:32:04 +0000 (UTC)
 MIME-Version: 1.0
-X-OutGoing-Spam-Status: No, score=5.0
-X-AuthUser: pbarker@toganlabs.com
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] ethtool: Switch to download mirror
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: ian.arkver.dev@gmail.com
+Date: Mon, 10 Apr 2017 09:32:05 -0000
+Message-ID: <20170410093205.6646.54788@do.openembedded.org>
+References: <43e32eb47bcfe881ebf814a259cef24b58fa61ad.1491815602.git.ian.dev@arkver.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <43e32eb47bcfe881ebf814a259cef24b58fa61ad.1491815602.git.ian.dev@arkver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgU3BsaXQgZmVlZF9hcmNocyBpbnRvIHdvcmRzIGZvciBSUE0gcmVwbyBVUklz?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,36 +25,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Apr 2017 09:31:12 -0000
-Content-Type: text/plain; charset=US-ASCII
+X-List-Received-Date: Mon, 10 Apr 2017 09:32:04 -0000
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
-On Mon, 3 Apr 2017 09:57:15 +0100
-"Burton, Ross" <ross.burton@intel.com> wrote:
+== Series Details ==
 
-> On 2 April 2017 at 22:31, Paul Barker <pbarker@toganlabs.com> wrote:
-> 
-> > The md5sum & sha256sum for ethtool-4.8.tar.gz have changed upstream :(
-> >  
-> 
-> Have you verified with upstream that they haven't been compromised?
-> 
-> Ross
+Series: Split feed_archs into words for RPM repo URIs
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/6258/
+State : failure
 
-Now verified with upstream:
+== Summary ==
 
-On Wed, 5 Apr 2017 10:00:04 -0400
-"John W. Linville" <linville@tuxdriver.com> wrote:
 
-> Yes, the .tar.gz file got regenerated locally as I was tinkering with
-> the release scripts that I inherited from the former ethtool maintainer,
-> and the regenerated .tar.gz file got uploaded. The newly updated one
-> is properly signed and the signature is there to verify. (Note that
-> the signature is against the .tar file and not the .tar.gz file.)
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
 
-Looks like this has already been merged to master anyway but good to
-have that confirmation.
 
-Cheers,
-Paul
+
+* Patch            Split feed_archs into words for RPM repo URIs
+ Issue             Shortlog does not follow expected format [test_shortlog_format] 
+  Suggested fix    Commit shortlog (first line of commit message) should follow the format "<target>: <summary>"
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
+---
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+
 
