@@ -1,31 +1,30 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 2EF4360069
+Return-Path: <anibal.limon@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id C211560069
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Apr 2017 17:04:49 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTP id v3AH4eEG019814; 
-	Mon, 10 Apr 2017 18:04:45 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id g436X3t7EQut; Mon, 10 Apr 2017 18:04:45 +0100 (BST)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	v3AGrsmg017921
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Mon, 10 Apr 2017 17:53:55 +0100
-Message-ID: <1491843234.783.2.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Robert Yang <liezhi.yang@windriver.com>,
-	openembedded-core@lists.openembedded.org
-Date: Mon, 10 Apr 2017 17:53:54 +0100
-In-Reply-To: <af3b44b2cc2be0771d70599286fa55d6ec3629bf.1491557671.git.liezhi.yang@windriver.com>
-References: <cover.1491557671.git.liezhi.yang@windriver.com>
-	<af3b44b2cc2be0771d70599286fa55d6ec3629bf.1491557671.git.liezhi.yang@windriver.com>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.1 
-Mime-Version: 1.0
-Cc: "Bartosh, Eduard" <eduard.bartosh@intel.com>
-Subject: Re: [PATCH 7/8] qemuboot.bbclass: add two vars for use by runqemu
+	Mon, 10 Apr 2017 17:10:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+	d=intel.com; i=@intel.com; q=dns/txt; s=intel;
+	t=1491844255; x=1523380255;
+	h=from:to:cc:subject:date:message-id:mime-version:
+	content-transfer-encoding;
+	bh=TboRC74mTOWMDC6l/y633RiBFYXi2JyHN1ujUUWZQEg=;
+	b=eV5fhKwZH/Ofr8SQLkmszeASfi5aKQ0mU6FnFGuHqLXWzujxg/AYSe7r
+	98L5zXW2+xfbRuTiMYJvz2mK65RSDw==;
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	10 Apr 2017 10:10:51 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.37,182,1488873600"; d="scan'208";a="85686460"
+Received: from alimonb-mobl1.zpn.intel.com ([10.219.128.122])
+	by orsmga005.jf.intel.com with ESMTP; 10 Apr 2017 10:10:50 -0700
+From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 10 Apr 2017 12:15:03 -0500
+Message-Id: <1491844503-9312-1-git-send-email-anibal.limon@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+MIME-Version: 1.0
+Subject: [PATCH] ptest-runner: Upgrade to minor version 2.0.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,64 +37,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Apr 2017 17:04:49 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 10 Apr 2017 17:10:55 -0000
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On Fri, 2017-04-07 at 02:47 -0700, Robert Yang wrote:
-> From: Chen Qi <Qi.Chen@windriver.com>
-> 
-> Add STAGING_DIR_TUNCTL_NATIVE and STAGING_DIR_QEMU_BINDIR_NATIVE so
-> that
-> runqemu could find 'tunctl' and 'qemu-xxx' binaries to run correctly.
-> 
-> [YOCTO #11266]
-> [YOCTO #11193]
-> 
-> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+To fix a problem when print ERROR after a ptest timeout, this
+causes the user confusion about if a test ends or not.
 
-Hi Robert/Qi,
+[YOCTO #10842]
 
-Unfortunately this can't work as we can't use binaries directly from
-the sysroot-components directory if they link to any libraries. tunctl
-is ok but qemu links against libfdt.so.1 which isn't there. If the
-system has its own copy, it may happen to work by luck but if it
-doesn't, or the system version is incompatible we'd see failures.
+Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
+---
+ .../ptest-runner/{ptest-runner_2.0.bb => ptest-runner_2.0.2.bb}       | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-support/ptest-runner/{ptest-runner_2.0.bb => ptest-runner_2.0.2.bb} (89%)
 
-So I'm afraid we need to find a different solution.
+diff --git a/meta/recipes-support/ptest-runner/ptest-runner_2.0.bb b/meta/recipes-support/ptest-runner/ptest-runner_2.0.2.bb
+similarity index 89%
+rename from meta/recipes-support/ptest-runner/ptest-runner_2.0.bb
+rename to meta/recipes-support/ptest-runner/ptest-runner_2.0.2.bb
+index 9d45513..a3e9a7e 100644
+--- a/meta/recipes-support/ptest-runner/ptest-runner_2.0.bb
++++ b/meta/recipes-support/ptest-runner/ptest-runner_2.0.2.bb
+@@ -7,8 +7,8 @@ HOMEPAGE = "http://git.yoctoproject.org/cgit/cgit.cgi/ptest-runner2/about/"
+ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=751419260aa954499f7abaabaa882bbe"
+ 
+-SRCREV = "e2aa4256745377b784c8691f546041b59f6e046b"
+-PV = "2.0.1+git${SRCPV}"
++SRCREV = "6d2872116cd9d6e1617a768f9d72bbf091489b2d"
++PV = "2.0.2+git${SRCPV}"
+ 
+ SRC_URI = "git://git.yoctoproject.org/ptest-runner2"
+ S = "${WORKDIR}/git"
+-- 
+2.1.4
 
-Cheers,
-
-Richard
-
->  meta/classes/qemuboot.bbclass | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
-> 
-> diff --git a/meta/classes/qemuboot.bbclass
-> b/meta/classes/qemuboot.bbclass
-> index 2870388dfb..ac52ef295e 100644
-> --- a/meta/classes/qemuboot.bbclass
-> +++ b/meta/classes/qemuboot.bbclass
-> @@ -70,12 +70,15 @@ QB_DRIVE_TYPE ?= "/dev/sd"
->  # Create qemuboot.conf
->  addtask do_write_qemuboot_conf after do_rootfs before do_image
->  IMGDEPLOYDIR ?= "${WORKDIR}/deploy-${PN}-image-complete"
-> +STAGING_DIR_TUNCTL_NATIVE = "${STAGING_DIR}-
-> components/${BUILD_ARCH}/qemu-helper-native"
-> +STAGING_DIR_QEMU_BINDIR_NATIVE = "${STAGING_DIR}-
-> components/${BUILD_ARCH}/qemu-native/usr/bin"
->  
->  def qemuboot_vars(d):
->      build_vars = ['MACHINE', 'TUNE_ARCH', 'DEPLOY_DIR_IMAGE',
->                  'KERNEL_IMAGETYPE', 'IMAGE_NAME', 'IMAGE_LINK_NAME',
->                  'STAGING_DIR_NATIVE', 'STAGING_BINDIR_NATIVE',
-> -                'STAGING_DIR_HOST']
-> +                'STAGING_DIR_HOST', 'STAGING_DIR_TUNCTL_NATIVE',
-> +                'STAGING_DIR_QEMU_BINDIR_NATIVE']
->      return build_vars + [k for k in d.keys() if k.startswith('QB_')]
->  
->  do_write_qemuboot_conf[vardeps] += "${@' '.join(qemuboot_vars(d))}"
-> -- 
-> 2.11.0.rc2.dirty
-> 
 
