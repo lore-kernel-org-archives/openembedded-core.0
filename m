@@ -1,32 +1,23 @@
-Return-Path: <maxin.john@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id AB35D77D0A
+Return-Path: <jussi.kukkonen@intel.com>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 6069377D0A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Apr 2017 10:47:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-	d=intel.com; i=@intel.com; q=dns/txt; s=intel;
-	t=1491907676; x=1523443676; h=from:to:subject:date:message-id;
-	bh=kc/PFvtnfkpzoAYLEsWh2uexQ0oUqw2X1shjKqPGyC0=;
-	b=Gk9ws+lQWjqijmtqBMpe/hbZi2VnB8BpxsBZNog3JrdnmhocKcg95Y6l
-	FNA9Gy0T8VNidlV+OyieybGgsCXg/A==;
+	Tue, 11 Apr 2017 10:55:20 +0000 (UTC)
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	11 Apr 2017 03:47:55 -0700
+	by fmsmga105.fm.intel.com with ESMTP; 11 Apr 2017 03:55:22 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.37,185,1488873600"; d="scan'208";a="844503918"
+X-IronPort-AV: E=Sophos;i="5.37,185,1488873600"; d="scan'208";a="844505871"
 Received: from linux.intel.com ([10.54.29.200])
-	by FMSMGA003.fm.intel.com with ESMTP; 11 Apr 2017 03:47:55 -0700
-Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
-	[10.237.72.71])
-	by linux.intel.com (Postfix) with ESMTP id 8E6546A4006
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Apr 2017 03:47:45 -0700 (PDT)
-From: "Maxin B. John" <maxin.john@intel.com>
+	by FMSMGA003.fm.intel.com with ESMTP; 11 Apr 2017 03:55:21 -0700
+Received: from theory.fi.intel.com (theory.fi.intel.com [10.237.72.53])
+	by linux.intel.com (Postfix) with ESMTP id CEB3D6A4006;
+	Tue, 11 Apr 2017 03:55:11 -0700 (PDT)
+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 11 Apr 2017 13:47:52 +0300
-Message-Id: <1491907672-363-1-git-send-email-maxin.john@intel.com>
-X-Mailer: git-send-email 2.4.0
-Subject: [PATCH v2] ed: update SRC_URI to yoctoproject mirror
+Date: Tue, 11 Apr 2017 13:55:14 +0300
+Message-Id: <cover.1491907553.git.jussi.kukkonen@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCHv2 0/4] Use fixed DISTRO_FEATURES for native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,34 +30,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Apr 2017 10:47:54 -0000
+X-List-Received-Date: Tue, 11 Apr 2017 10:55:22 -0000
 
-Upstream has removed the 1.14.1 release from ftp.gnu.org and
-moved to the latest 1.14.2. Since we don't want to upgrade at
-this point of time, temporarily move the SRC_URI to yoctoproject
-mirror.
+Avoid signifant native task churn when DISTRO_FEATURES is changed
+by defining (almost) fixed DISTRO_FEATURES for native recipes.
 
-Signed-off-by: Maxin B. John <maxin.john@intel.com>
----
- meta/recipes-extended/ed/ed_1.14.1.bb | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+The DISTRO_FEATURES_FILTER_NATIVE variable lists the features that do
+change based on DISTRO_FEATURES: currently the default value is
+"api-documentation".
 
-diff --git a/meta/recipes-extended/ed/ed_1.14.1.bb b/meta/recipes-extended/ed/ed_1.14.1.bb
-index 5d89a87..7e6bde4 100644
---- a/meta/recipes-extended/ed/ed_1.14.1.bb
-+++ b/meta/recipes-extended/ed/ed_1.14.1.bb
-@@ -11,7 +11,9 @@ SECTION = "base"
- # LSB states that ed should be in /bin/
- bindir = "${base_bindir}"
- 
--SRC_URI = "${GNU_MIRROR}/ed/ed-${PV}.tar.lz"
-+# Upstream regularly removes previous releases from https://ftp.gnu.org/gnu/ed/
-+SRC_URI = "http://downloads.yoctoproject.org/mirror/sources/${BP}.tar.lz"
-+UPSTREAM_CHECK_URI = "${GNU_MIRROR}/ed/"
- 
- SRC_URI[md5sum] = "7f4a54fa7f366479f03654b8af645fd0"
- SRC_URI[sha256sum] = "ffb97eb8f2a2b5a71a9b97e3872adce953aa1b8958e04c5b7bf11d556f32552a"
+Changes since V1:
+* Add DISTRO_FEATURES_FILTER_NATIVE instead of just a fixed list
+* Use DISTRO_FEATURES_FILTER_NATIVE ?= "api-documentation": this is
+  required for gtk-doc to work (and we don't want to enable it for
+  all builds because of extensive dependencies)
+* Only remove "x11" from required features for native x font tools:
+  otherwise a non-x11 world build fails
+
+
+Thanks,
+ Jussi
+
+The following changes since commit 0793c758b15e5007b4dd4b146987a0e74d6f6cba:
+
+  Revert "staging: Fix sysroot problem with populate_sysroot dependencies on do_fetch" (2017-04-11 00:57:03 +0100)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib jku/native-distro-features
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=jku/native-distro-features
+
+Jussi Kukkonen (4):
+  mkfontdir: Remove x11 requirement for -native
+  mkfontscale: Remove x11 requirement for -native
+  xorg-font-common.inc: Remove x11 requirement for -native
+  native.bbclass: Use fixed DISTRO_FEATURES
+
+ meta/classes/native.bbclass                          | 13 +++++++++----
+ meta/conf/bitbake.conf                               |  4 ++++
+ meta/recipes-graphics/xorg-app/mkfontdir_1.0.7.bb    |  3 +++
+ meta/recipes-graphics/xorg-app/mkfontscale_1.1.2.bb  |  2 ++
+ meta/recipes-graphics/xorg-font/xorg-font-common.inc |  1 +
+ 5 files changed, 19 insertions(+), 4 deletions(-)
+
 -- 
-2.4.0
+2.1.4
 
 
