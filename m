@@ -1,33 +1,25 @@
 Return-Path: <jussi.kukkonen@intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 8F87677D19
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 7895A77D19
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Apr 2017 10:55:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-	d=intel.com; i=@intel.com; q=dns/txt; s=intel;
-	t=1491908132; x=1523444132;
-	h=from:to:cc:subject:date:message-id:in-reply-to: references;
-	bh=r79FJL30Qgd+s3yH3LArzYOwi9jbuo00KOSEqNKlrNo=;
-	b=mLpC0VgfwE5VbIJzKQTwzj6sZo7krJac0KGrlsIVlmwTeMfVsa4eIW0v
-	swzU2AONzPRmUeyMHW7H75ShwnWMhQ==;
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	11 Apr 2017 03:55:31 -0700
+	Tue, 11 Apr 2017 10:55:30 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga105.fm.intel.com with ESMTP; 11 Apr 2017 03:55:32 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.37,185,1488873600"; d="scan'208";a="87690532"
+X-IronPort-AV: E=Sophos;i="5.37,185,1488873600"; d="scan'208";a="1154304285"
 Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga006.fm.intel.com with ESMTP; 11 Apr 2017 03:55:31 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 11 Apr 2017 03:55:32 -0700
 Received: from theory.fi.intel.com (theory.fi.intel.com [10.237.72.53])
-	by linux.intel.com (Postfix) with ESMTP id 3172A6A4006;
-	Tue, 11 Apr 2017 03:55:20 -0700 (PDT)
+	by linux.intel.com (Postfix) with ESMTP id 895586A4006;
+	Tue, 11 Apr 2017 03:55:22 -0700 (PDT)
 From: Jussi Kukkonen <jussi.kukkonen@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 11 Apr 2017 13:55:21 +0300
-Message-Id: <ef69698dcd1f7b0c1003de2da961bbd8a7686557.1491907553.git.jussi.kukkonen@intel.com>
+Date: Tue, 11 Apr 2017 13:55:22 +0300
+Message-Id: <4aa441aa78d3d1ba2fb27b559a97e2afa433aa1f.1491907553.git.jussi.kukkonen@intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1491907553.git.jussi.kukkonen@intel.com>
 References: <cover.1491907553.git.jussi.kukkonen@intel.com>
-Subject: [PATCHv2 1/4] mkfontdir: Remove x11 requirement for -native
+Subject: [PATCHv2 2/4] mkfontscale: Remove x11 requirement for -native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,27 +34,26 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 11 Apr 2017 10:55:31 -0000
 
-Make sure we can build native tools without "x11" in features.
+Make sure we can build native tools without "x11" feature.
 
 Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
 ---
- meta/recipes-graphics/xorg-app/mkfontdir_1.0.7.bb | 3 +++
- 1 file changed, 3 insertions(+)
+ meta/recipes-graphics/xorg-app/mkfontscale_1.1.2.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-graphics/xorg-app/mkfontdir_1.0.7.bb b/meta/recipes-graphics/xorg-app/mkfontdir_1.0.7.bb
-index a453e24..737bc9d 100644
---- a/meta/recipes-graphics/xorg-app/mkfontdir_1.0.7.bb
-+++ b/meta/recipes-graphics/xorg-app/mkfontdir_1.0.7.bb
-@@ -11,6 +11,9 @@ files."
- PE = "1"
- PR = "${INC_PR}.0"
+diff --git a/meta/recipes-graphics/xorg-app/mkfontscale_1.1.2.bb b/meta/recipes-graphics/xorg-app/mkfontscale_1.1.2.bb
+index 31cf186..d1aa9b3 100644
+--- a/meta/recipes-graphics/xorg-app/mkfontscale_1.1.2.bb
++++ b/meta/recipes-graphics/xorg-app/mkfontscale_1.1.2.bb
+@@ -10,6 +10,8 @@ is used by the mkfontdir program."
  
-+DEPENDS = "util-macros-native"
+ DEPENDS = "util-macros-native zlib libfontenc freetype xproto"
+ 
 +REQUIRED_DISTRO_FEATURES_class-native = ""
 +
- RDEPENDS_${PN} += "mkfontscale"
- RDEPENDS_${PN}_class-native += "mkfontscale-native"
+ BBCLASSEXTEND = "native"
  
+ LIC_FILES_CHKSUM = "file://COPYING;md5=2e0d129d05305176d1a790e0ac1acb7f"
 -- 
 2.1.4
 
