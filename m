@@ -1,25 +1,47 @@
-Return-Path: <Li.Zhou@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 84E7277CD7
+Return-Path: <rebecca.swee.fun.chang@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id DCF7377CD7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Apr 2017 08:04:29 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v3B84UDl010470
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Apr 2017 01:04:30 -0700
-Received: from pek-lpggp2.wrs.com (128.224.153.75) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server (TLS) id 14.3.294.0;
-	Tue, 11 Apr 2017 01:04:29 -0700
-From: Li Zhou <li.zhou@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 11 Apr 2017 16:03:48 +0800
-Message-ID: <1491897828-50233-1-git-send-email-li.zhou@windriver.com>
-X-Mailer: git-send-email 1.9.1
+	Tue, 11 Apr 2017 08:09:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+	d=intel.com; i=@intel.com; q=dns/txt; s=intel;
+	t=1491898167; x=1523434167;
+	h=from:to:cc:subject:date:message-id:references:
+	in-reply-to:mime-version;
+	bh=HgRvtvwShEpaVBfCyUSRbL2UW7X2kvRJMnCguL3T4Go=;
+	b=tfYmfxVYGRaLFFeGe8CV/A0zLT2fDNYBKpAuHPDefCT/7kMrnJA1sNAy
+	oUaUFLjfZ4bB4h04xR0+Zgabc2jGkQ==;
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	11 Apr 2017 01:09:26 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.37,184,1488873600"; d="scan'208,217";a="85979612"
+Received: from pgsmsx107.gar.corp.intel.com ([10.221.44.105])
+	by orsmga005.jf.intel.com with ESMTP; 11 Apr 2017 01:09:24 -0700
+Received: from pgsmsx103.gar.corp.intel.com ([169.254.2.175]) by
+	PGSMSX107.gar.corp.intel.com ([169.254.7.32]) with mapi id
+	14.03.0319.002; Tue, 11 Apr 2017 16:09:23 +0800
+From: "Chang, Rebecca Swee Fun" <rebecca.swee.fun.chang@intel.com>
+To: "Kukkonen, Jussi" <jussi.kukkonen@intel.com>, "John, Maxin"
+	<maxin.john@intel.com>
+Thread-Topic: [OE-core] [PATCH] ed: update to 1.14.2
+Thread-Index: AQHSspJADnDWChsHc0y3ed+PQOwvf6G/R1YAgACIrDA=
+Date: Tue, 11 Apr 2017 08:09:23 +0000
+Message-ID: <50B33AC5ED75F74F991980326F1C438D194EE79F@PGSMSX103.gar.corp.intel.com>
+References: <1491894357-128763-1-git-send-email-rebecca.swee.fun.chang@intel.com>
+	<CAHiDW_F8U+ho73BV8k7cXbJ0tqufEGR9LVqNDBveTZhLDZsq=w@mail.gmail.com>
+In-Reply-To: <CAHiDW_F8U+ho73BV8k7cXbJ0tqufEGR9LVqNDBveTZhLDZsq=w@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-version: 10.0.102.7
+dlp-reaction: no-action
+x-originating-ip: [172.30.20.205]
 MIME-Version: 1.0
-X-Originating-IP: [128.224.153.75]
-Subject: [PATCH] python2/3: Remove building host path from packages
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] ed: update to 1.14.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,57 +54,201 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Apr 2017 08:04:30 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 11 Apr 2017 08:09:26 -0000
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_50B33AC5ED75F74F991980326F1C438D194EE79FPGSMSX103garcor_"
 
-Remove building host related path from python2 and python3 packages.
+--_000_50B33AC5ED75F74F991980326F1C438D194EE79FPGSMSX103garcor_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Signed-off-by: Li Zhou <li.zhou@windriver.com>
----
- meta/recipes-devtools/python/python3_3.5.2.bb | 8 +++++++-
- meta/recipes-devtools/python/python_2.7.13.bb | 6 ++++++
- 2 files changed, 13 insertions(+), 1 deletion(-)
+VGhhbmtzIEp1c3NpLCBSaWNoYXJkIHdhcyBzdWdnZXN0aW5nIHRvIGFkZCBhIG5vdGUgaW4gdGhl
+IHJlY2lwZSBhYm91dCB1cHN0cmVhbSByZWd1bGFybHkgcmVtb3ZpbmcgcmVsZWFzZXMuIFNob3Vs
+ZCBJIHB1c2ggYSBWMj8gSXMgTWF4aW0gd29ya2luZyBvbiBpdD8NCg0KUmViZWNjYQ0KDQpGcm9t
+OiBKdXNzaSBLdWtrb25lbiBbbWFpbHRvOmp1c3NpLmt1a2tvbmVuQGludGVsLmNvbV0NClNlbnQ6
+IFR1ZXNkYXksIEFwcmlsIDExLCAyMDE3IDM6NTggUE0NClRvOiBDaGFuZywgUmViZWNjYSBTd2Vl
+IEZ1biA8cmViZWNjYS5zd2VlLmZ1bi5jaGFuZ0BpbnRlbC5jb20+DQpDYzogUGF0Y2hlcyBhbmQg
+ZGlzY3Vzc2lvbnMgYWJvdXQgdGhlIG9lLWNvcmUgbGF5ZXIgPG9wZW5lbWJlZGRlZC1jb3JlQGxp
+c3RzLm9wZW5lbWJlZGRlZC5vcmc+DQpTdWJqZWN0OiBSZTogW09FLWNvcmVdIFtQQVRDSF0gZWQ6
+IHVwZGF0ZSB0byAxLjE0LjINCg0KT24gMTEgQXByaWwgMjAxNyBhdCAxMDowNSwgPHJlYmVjY2Eu
+c3dlZS5mdW4uY2hhbmdAaW50ZWwuY29tPG1haWx0bzpyZWJlY2NhLnN3ZWUuZnVuLmNoYW5nQGlu
+dGVsLmNvbT4+IHdyb3RlOg0KRnJvbTogIkNoYW5nLCBSZWJlY2NhIFN3ZWUgRnVuIiA8cmViZWNj
+YS5zd2VlLmZ1bi5jaGFuZ0BpbnRlbC5jb208bWFpbHRvOnJlYmVjY2Euc3dlZS5mdW4uY2hhbmdA
+aW50ZWwuY29tPj4NCg0KVGhlIHByZXZpb3VzIHZlcnNpb24gb2YgZWQtMS4xNC4xIG5vIGxvbmdl
+ciBleGlzdCBpbiB1cHN0cmVhbSBzb3VyY2UNCmFyY2hpdmUgYXQgaHR0cHM6Ly9mdHAuZ251Lm9y
+Zy9nbnUvZWQvLiBVcHN0cmVhbSB2ZXJzaW9uIHdhcyBiZWluZw0KcmVwbGFjZWQgYnkgYSBicmFu
+ZCBuZXcgdmVyc2lvbi4NCg0KRmVhdHVyZSBmcmVlemUgaXMgaW4gZWZmZWN0OiB2ZXJzaW9uIHVw
+Z3JhZGVzIHNob3VsZCBlaXRoZXIgd2FpdCB1bnRpbCBhZnRlciByZWxlYXNlIG9yIGNvbWUgd2l0
+aCBhIHZlcnkgZ29vZCByZWFzb24uDQoNCk1heGluIHNlbnQgYSBwYXRjaCBlYXJsaWVyIHRvIHVz
+ZSB0aGUgeW9jdG8gbWlycm9yIGFzIFNSQ19VUkk6IG5vdCBpZGVhbCBidXQgcHJvYmFibHkgdGhl
+IGJlc3Qgd2UgY2FuIGRvIGlmIHVwc3RyZWFtIHJlYWxseSB3YW50cyB0byBkZWxldGUgb2xkIHJl
+bGVhc2VzLi4uDQoNCkNoZWVycywNCiAgSnVzc2kNCg0KDQpVcGRhdGVkIHZlcnNpb24gdG8gYnVp
+bGQgYW5kIHRhcmJhbGwgY2hlY2tzdW1zLg0KDQpbWU9DVE8gIzExMzIyXQ0KDQpTaWduZWQtb2Zm
+LWJ5OiBDaGFuZywgUmViZWNjYSBTd2VlIEZ1biA8cmViZWNjYS5zd2VlLmZ1bi5jaGFuZ0BpbnRl
+bC5jb208bWFpbHRvOnJlYmVjY2Euc3dlZS5mdW4uY2hhbmdAaW50ZWwuY29tPj4NCi0tLQ0KIG1l
+dGEvcmVjaXBlcy1leHRlbmRlZC9lZC97ZWRfMS4xNC4xLmJiPGh0dHA6Ly9lZF8xLjE0LjEuYmI+
+ID0+IGVkXzEuMTQuMi5iYjxodHRwOi8vZWRfMS4xNC4yLmJiPn0gfCA0ICsrLS0NCiAxIGZpbGUg
+Y2hhbmdlZCwgMiBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQ0KIHJlbmFtZSBtZXRhL3Jl
+Y2lwZXMtZXh0ZW5kZWQvZWQve2VkXzEuMTQuMS5iYjxodHRwOi8vZWRfMS4xNC4xLmJiPiA9PiBl
+ZF8xLjE0LjIuYmI8aHR0cDovL2VkXzEuMTQuMi5iYj59ICg4NCUpDQoNCmRpZmYgLS1naXQgYS9t
+ZXRhL3JlY2lwZXMtZXh0ZW5kZWQvZWQvZWRfMS4xNC4xLmJiPGh0dHA6Ly9lZF8xLjE0LjEuYmI+
+IGIvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2VkL2VkXzEuMTQuMi5iYjxodHRwOi8vZWRfMS4xNC4y
+LmJiPg0Kc2ltaWxhcml0eSBpbmRleCA4NCUNCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1leHRl
+bmRlZC9lZC9lZF8xLjE0LjEuYmI8aHR0cDovL2VkXzEuMTQuMS5iYj4NCnJlbmFtZSB0byBtZXRh
+L3JlY2lwZXMtZXh0ZW5kZWQvZWQvZWRfMS4xNC4yLmJiPGh0dHA6Ly9lZF8xLjE0LjIuYmI+DQpp
+bmRleCA1ZDg5YTg3Li44Y2Q5MzkyIDEwMDY0NA0KLS0tIGEvbWV0YS9yZWNpcGVzLWV4dGVuZGVk
+L2VkL2VkXzEuMTQuMS5iYjxodHRwOi8vZWRfMS4xNC4xLmJiPg0KKysrIGIvbWV0YS9yZWNpcGVz
+LWV4dGVuZGVkL2VkL2VkXzEuMTQuMi5iYjxodHRwOi8vZWRfMS4xNC4yLmJiPg0KQEAgLTEzLDgg
+KzEzLDggQEAgYmluZGlyID0gIiR7YmFzZV9iaW5kaXJ9Ig0KDQogU1JDX1VSSSA9ICIke0dOVV9N
+SVJST1J9L2VkL2VkLSR7UFZ9LnRhci5seiINCg0KLVNSQ19VUklbbWQ1c3VtXSA9ICI3ZjRhNTRm
+YTdmMzY2NDc5ZjAzNjU0YjhhZjY0NWZkMCINCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiZmZiOTdl
+YjhmMmEyYjVhNzFhOWI5N2UzODcyYWRjZTk1M2FhMWI4OTU4ZTA0YzViN2JmMTFkNTU2ZjMyNTUy
+YSINCitTUkNfVVJJW21kNXN1bV0gPSAiMjczZDA0Nzc4YjJhNTFmN2MzY2JmY2QyMDAxODc2YmYi
+DQorU1JDX1VSSVtzaGEyNTZzdW1dID0gImY1Nzk2MmJhOTMwZDcwZDAyZmM3MWQ2YmU1YzVmMjM0
+NmIxNjk5MmE0NTVhYjljNDNiZTcwNjFkZWM5ODEwZGIiDQoNCiBFWFRSQV9PRU1BS0UgPSAiLWUg
+TUFLRUZMQUdTPSINCg0KLS0NCjIuNy40DQoNCi0tDQpfX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fXw0KT3BlbmVtYmVkZGVkLWNvcmUgbWFpbGluZyBsaXN0DQpP
+cGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnPG1haWx0bzpPcGVuZW1iZWRk
+ZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnPg0KaHR0cDovL2xpc3RzLm9wZW5lbWJlZGRl
+ZC5vcmcvbWFpbG1hbi9saXN0aW5mby9vcGVuZW1iZWRkZWQtY29yZQ0KDQo=
 
-diff --git a/meta/recipes-devtools/python/python3_3.5.2.bb b/meta/recipes-devtools/python/python3_3.5.2.bb
-index 2ff7c9e..ca8dfe3 100644
---- a/meta/recipes-devtools/python/python3_3.5.2.bb
-+++ b/meta/recipes-devtools/python/python3_3.5.2.bb
-@@ -185,9 +185,15 @@ py_package_preprocess () {
- 	install -m 0644 ${B}/Makefile.orig ${PKGD}/${libdir}/python${PYTHON_MAJMIN}/config-${PYTHON_MAJMIN}${PYTHON_ABI}/Makefile
- 	# Remove references to buildmachine paths in target Makefile and _sysconfigdata
- 	sed -i -e 's:--sysroot=${STAGING_DIR_TARGET}::g' -e s:'--with-libtool-sysroot=${STAGING_DIR_TARGET}'::g \
-+		-e 's:${STAGING_DIR}/${MACHINE}${datadir}/pkgconfig:${datadir}/pkgconfig:g' \
-+		-e 's:${STAGING_DIR_NATIVE}::g' \
-+		-e 's:${STAGING_DIR_HOST}::g' \
-+		-e 's:${WORKDIR}::g' \
-+		-e 's:${TMPDIR}::g' \
- 		${PKGD}/${libdir}/python${PYTHON_MAJMIN}/config/Makefile \
- 		${PKGD}/${libdir}/python${PYTHON_MAJMIN}/config-${PYTHON_MAJMIN}${PYTHON_ABI}/Makefile \
--		${PKGD}/${libdir}/python${PYTHON_MAJMIN}/_sysconfigdata.py
-+		${PKGD}/${libdir}/python${PYTHON_MAJMIN}/_sysconfigdata.py \
-+		${PKGD}/${bindir}/python${PYTHON_MAJMIN}${PYTHON_ABI}-config
- }
- 
- require python-${PYTHON_MAJMIN}-manifest.inc
-diff --git a/meta/recipes-devtools/python/python_2.7.13.bb b/meta/recipes-devtools/python/python_2.7.13.bb
-index 4ef9952..b4bde5f 100644
---- a/meta/recipes-devtools/python/python_2.7.13.bb
-+++ b/meta/recipes-devtools/python/python_2.7.13.bb
-@@ -131,7 +131,13 @@ py_package_preprocess () {
- 
- 	# Remove references to buildmachine paths in target Makefile and _sysconfigdata
- 	sed -i -e 's:--sysroot=${STAGING_DIR_TARGET}::g' -e s:'--with-libtool-sysroot=${STAGING_DIR_TARGET}'::g \
-+		-e 's:${STAGING_DIR}/${MACHINE}${datadir}/pkgconfig:${datadir}/pkgconfig:g' \
-+		-e 's:${STAGING_DIR_NATIVE}::g' \
-+		-e 's:${STAGING_DIR_HOST}::g' \
-+		-e 's:${WORKDIR}::g' \
-+		-e 's:${TMPDIR}::g' \
- 		${PKGD}/${libdir}/python${PYTHON_MAJMIN}/config/Makefile \
-+		${PKGD}/${libdir}/python${PYTHON_MAJMIN}/config/config.c \
- 		${PKGD}/${libdir}/python${PYTHON_MAJMIN}/_sysconfigdata.py
-     python -m py_compile ${PKGD}/${libdir}/python${PYTHON_MAJMIN}/_sysconfigdata.py
- }
--- 
-1.9.1
+--_000_50B33AC5ED75F74F991980326F1C438D194EE79FPGSMSX103garcor_
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: base64
 
+PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
+bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
+YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
+cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
+VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
+Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
+ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
+PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
+U2ltU3VuOw0KCXBhbm9zZS0xOjIgMSA2IDAgMyAxIDEgMSAxIDE7fQ0KQGZvbnQtZmFjZQ0KCXtm
+b250LWZhbWlseToiQ2FtYnJpYSBNYXRoIjsNCglwYW5vc2UtMToyIDQgNSAzIDUgNCA2IDMgMiA0
+O30NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6Q2FsaWJyaTsNCglwYW5vc2UtMToyIDE1IDUg
+MiAyIDIgNCAzIDIgNDt9DQpAZm9udC1mYWNlDQoJe2ZvbnQtZmFtaWx5OiJcQFNpbVN1biI7DQoJ
+cGFub3NlLTE6MiAxIDYgMCAzIDEgMSAxIDEgMTt9DQovKiBTdHlsZSBEZWZpbml0aW9ucyAqLw0K
+cC5Nc29Ob3JtYWwsIGxpLk1zb05vcm1hbCwgZGl2Lk1zb05vcm1hbA0KCXttYXJnaW46MGluOw0K
+CW1hcmdpbi1ib3R0b206LjAwMDFwdDsNCglmb250LXNpemU6MTIuMHB0Ow0KCWZvbnQtZmFtaWx5
+OiJUaW1lcyBOZXcgUm9tYW4iLHNlcmlmO30NCmE6bGluaywgc3Bhbi5Nc29IeXBlcmxpbmsNCgl7
+bXNvLXN0eWxlLXByaW9yaXR5Ojk5Ow0KCWNvbG9yOmJsdWU7DQoJdGV4dC1kZWNvcmF0aW9uOnVu
+ZGVybGluZTt9DQphOnZpc2l0ZWQsIHNwYW4uTXNvSHlwZXJsaW5rRm9sbG93ZWQNCgl7bXNvLXN0
+eWxlLXByaW9yaXR5Ojk5Ow0KCWNvbG9yOnB1cnBsZTsNCgl0ZXh0LWRlY29yYXRpb246dW5kZXJs
+aW5lO30NCnNwYW4uaG9lbnpiDQoJe21zby1zdHlsZS1uYW1lOmhvZW56Yjt9DQpzcGFuLkVtYWls
+U3R5bGUxOA0KCXttc28tc3R5bGUtdHlwZTpwZXJzb25hbC1yZXBseTsNCglmb250LWZhbWlseToi
+Q2FsaWJyaSIsc2Fucy1zZXJpZjsNCgljb2xvcjojMUY0OTdEO30NCi5Nc29DaHBEZWZhdWx0DQoJ
+e21zby1zdHlsZS10eXBlOmV4cG9ydC1vbmx5O30NCkBwYWdlIFdvcmRTZWN0aW9uMQ0KCXtzaXpl
+OjguNWluIDExLjBpbjsNCgltYXJnaW46MS4waW4gMS4waW4gMS4waW4gMS4waW47fQ0KZGl2Lldv
+cmRTZWN0aW9uMQ0KCXtwYWdlOldvcmRTZWN0aW9uMTt9DQotLT48L3N0eWxlPjwhLS1baWYgZ3Rl
+IG1zbyA5XT48eG1sPg0KPG86c2hhcGVkZWZhdWx0cyB2OmV4dD0iZWRpdCIgc3BpZG1heD0iMTAy
+NiIgLz4NCjwveG1sPjwhW2VuZGlmXS0tPjwhLS1baWYgZ3RlIG1zbyA5XT48eG1sPg0KPG86c2hh
+cGVsYXlvdXQgdjpleHQ9ImVkaXQiPg0KPG86aWRtYXAgdjpleHQ9ImVkaXQiIGRhdGE9IjEiIC8+
+DQo8L286c2hhcGVsYXlvdXQ+PC94bWw+PCFbZW5kaWZdLS0+DQo8L2hlYWQ+DQo8Ym9keSBsYW5n
+PSJFTi1VUyIgbGluaz0iYmx1ZSIgdmxpbms9InB1cnBsZSI+DQo8ZGl2IGNsYXNzPSJXb3JkU2Vj
+dGlvbjEiPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4w
+cHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OyxzYW5zLXNlcmlmO2NvbG9yOiMxRjQ5
+N0QiPlRoYW5rcyBKdXNzaSwgUmljaGFyZCB3YXMgc3VnZ2VzdGluZyB0byBhZGQgYSBub3RlIGlu
+IHRoZSByZWNpcGUgYWJvdXQgdXBzdHJlYW0gcmVndWxhcmx5IHJlbW92aW5nIHJlbGVhc2VzLiBT
+aG91bGQgSSBwdXNoIGEgVjI/IElzIE1heGltIHdvcmtpbmcgb24gaXQ/PG86cD48L286cD48L3Nw
+YW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4w
+cHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OyxzYW5zLXNlcmlmO2NvbG9yOiMxRjQ5
+N0QiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxh
+IG5hbWU9Il9NYWlsRW5kQ29tcG9zZSI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9u
+dC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OyxzYW5zLXNlcmlmO2NvbG9yOiMxRjQ5N0QiPlJl
+YmVjY2E8bzpwPjwvbzpwPjwvc3Bhbj48L2E+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNw
+YW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90
+OyxzYW5zLXNlcmlmO2NvbG9yOiMxRjQ5N0QiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4N
+CjxkaXY+DQo8ZGl2IHN0eWxlPSJib3JkZXI6bm9uZTtib3JkZXItdG9wOnNvbGlkICNFMUUxRTEg
+MS4wcHQ7cGFkZGluZzozLjBwdCAwaW4gMGluIDBpbiI+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48
+Yj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJp
+JnF1b3Q7LHNhbnMtc2VyaWYiPkZyb206PC9zcGFuPjwvYj48c3BhbiBzdHlsZT0iZm9udC1zaXpl
+OjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWYiPiBKdXNz
+aSBLdWtrb25lbiBbbWFpbHRvOmp1c3NpLmt1a2tvbmVuQGludGVsLmNvbV0NCjxicj4NCjxiPlNl
+bnQ6PC9iPiBUdWVzZGF5LCBBcHJpbCAxMSwgMjAxNyAzOjU4IFBNPGJyPg0KPGI+VG86PC9iPiBD
+aGFuZywgUmViZWNjYSBTd2VlIEZ1biAmbHQ7cmViZWNjYS5zd2VlLmZ1bi5jaGFuZ0BpbnRlbC5j
+b20mZ3Q7PGJyPg0KPGI+Q2M6PC9iPiBQYXRjaGVzIGFuZCBkaXNjdXNzaW9ucyBhYm91dCB0aGUg
+b2UtY29yZSBsYXllciAmbHQ7b3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9y
+ZyZndDs8YnI+DQo8Yj5TdWJqZWN0OjwvYj4gUmU6IFtPRS1jb3JlXSBbUEFUQ0hdIGVkOiB1cGRh
+dGUgdG8gMS4xNC4yPG86cD48L286cD48L3NwYW4+PC9wPg0KPC9kaXY+DQo8L2Rpdj4NCjxwIGNs
+YXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPGRpdj4NCjxwIGNsYXNzPSJN
+c29Ob3JtYWwiPk9uIDExIEFwcmlsIDIwMTcgYXQgMTA6MDUsICZsdDs8YSBocmVmPSJtYWlsdG86
+cmViZWNjYS5zd2VlLmZ1bi5jaGFuZ0BpbnRlbC5jb20iIHRhcmdldD0iX2JsYW5rIj5yZWJlY2Nh
+LnN3ZWUuZnVuLmNoYW5nQGludGVsLmNvbTwvYT4mZ3Q7IHdyb3RlOjxvOnA+PC9vOnA+PC9wPg0K
+PGJsb2NrcXVvdGUgc3R5bGU9ImJvcmRlcjpub25lO2JvcmRlci1sZWZ0OnNvbGlkICNDQ0NDQ0Mg
+MS4wcHQ7cGFkZGluZzowaW4gMGluIDBpbiA2LjBwdDttYXJnaW4tbGVmdDo0LjhwdDttYXJnaW4t
+cmlnaHQ6MGluIj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPkZyb206ICZxdW90O0NoYW5nLCBSZWJl
+Y2NhIFN3ZWUgRnVuJnF1b3Q7ICZsdDs8YSBocmVmPSJtYWlsdG86cmViZWNjYS5zd2VlLmZ1bi5j
+aGFuZ0BpbnRlbC5jb20iPnJlYmVjY2Euc3dlZS5mdW4uY2hhbmdAaW50ZWwuY29tPC9hPiZndDs8
+YnI+DQo8YnI+DQpUaGUgcHJldmlvdXMgdmVyc2lvbiBvZiBlZC0xLjE0LjEgbm8gbG9uZ2VyIGV4
+aXN0IGluIHVwc3RyZWFtIHNvdXJjZTxicj4NCmFyY2hpdmUgYXQgPGEgaHJlZj0iaHR0cHM6Ly9m
+dHAuZ251Lm9yZy9nbnUvZWQvIiB0YXJnZXQ9Il9ibGFuayI+aHR0cHM6Ly9mdHAuZ251Lm9yZy9n
+bnUvZWQvPC9hPi4gVXBzdHJlYW0gdmVyc2lvbiB3YXMgYmVpbmc8YnI+DQpyZXBsYWNlZCBieSBh
+IGJyYW5kIG5ldyB2ZXJzaW9uLjxvOnA+PC9vOnA+PC9wPg0KPC9ibG9ja3F1b3RlPg0KPGRpdj4N
+CjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2
+Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+RmVhdHVyZSBmcmVlemUgaXMgaW4gZWZmZWN0OiB2ZXJz
+aW9uIHVwZ3JhZGVzIHNob3VsZCBlaXRoZXIgd2FpdCB1bnRpbCBhZnRlciByZWxlYXNlIG9yIGNv
+bWUgd2l0aCBhIHZlcnkgZ29vZCByZWFzb24uPG86cD48L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+
+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRp
+dj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPk1heGluIHNlbnQgYSBwYXRjaCBlYXJsaWVyIHRvIHVz
+ZSB0aGUgeW9jdG8gbWlycm9yIGFzIFNSQ19VUkk6IG5vdCBpZGVhbCBidXQgcHJvYmFibHkgdGhl
+IGJlc3Qgd2UgY2FuIGRvIGlmIHVwc3RyZWFtIHJlYWxseSB3YW50cyB0byBkZWxldGUgb2xkIHJl
+bGVhc2VzLi4uPG86cD48L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9y
+bWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29O
+b3JtYWwiPkNoZWVycyw8bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJN
+c29Ob3JtYWwiPiZuYnNwOyBKdXNzaTxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAg
+Y2xhc3M9Ik1zb05vcm1hbCI+PG86cD4mbmJzcDs8L286cD48L3A+DQo8L2Rpdj4NCjxibG9ja3F1
+b3RlIHN0eWxlPSJib3JkZXI6bm9uZTtib3JkZXItbGVmdDpzb2xpZCAjQ0NDQ0NDIDEuMHB0O3Bh
+ZGRpbmc6MGluIDBpbiAwaW4gNi4wcHQ7bWFyZ2luLWxlZnQ6NC44cHQ7bWFyZ2luLXJpZ2h0OjBp
+biI+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48YnI+DQpVcGRhdGVkIHZlcnNpb24gdG8gYnVpbGQg
+YW5kIHRhcmJhbGwgY2hlY2tzdW1zLjxicj4NCjxicj4NCltZT0NUTyAjMTEzMjJdPGJyPg0KPGJy
+Pg0KU2lnbmVkLW9mZi1ieTogQ2hhbmcsIFJlYmVjY2EgU3dlZSBGdW4gJmx0OzxhIGhyZWY9Im1h
+aWx0bzpyZWJlY2NhLnN3ZWUuZnVuLmNoYW5nQGludGVsLmNvbSI+cmViZWNjYS5zd2VlLmZ1bi5j
+aGFuZ0BpbnRlbC5jb208L2E+Jmd0Ozxicj4NCi0tLTxicj4NCiZuYnNwO21ldGEvcmVjaXBlcy1l
+eHRlbmRlZC9lZC97PGEgaHJlZj0iaHR0cDovL2VkXzEuMTQuMS5iYiIgdGFyZ2V0PSJfYmxhbmsi
+PmVkXzEuMTQuMS5iYjwvYT4gPSZndDsNCjxhIGhyZWY9Imh0dHA6Ly9lZF8xLjE0LjIuYmIiIHRh
+cmdldD0iX2JsYW5rIj5lZF8xLjE0LjIuYmI8L2E+fSB8IDQgJiM0MzsmIzQzOy0tPGJyPg0KJm5i
+c3A7MSBmaWxlIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygmIzQzOyksIDIgZGVsZXRpb25zKC0pPGJy
+Pg0KJm5ic3A7cmVuYW1lIG1ldGEvcmVjaXBlcy1leHRlbmRlZC9lZC97PGEgaHJlZj0iaHR0cDov
+L2VkXzEuMTQuMS5iYiIgdGFyZ2V0PSJfYmxhbmsiPmVkXzEuMTQuMS5iYjwvYT4gPSZndDsNCjxh
+IGhyZWY9Imh0dHA6Ly9lZF8xLjE0LjIuYmIiIHRhcmdldD0iX2JsYW5rIj5lZF8xLjE0LjIuYmI8
+L2E+fSAoODQlKTxicj4NCjxicj4NCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQv
+ZWQvPGEgaHJlZj0iaHR0cDovL2VkXzEuMTQuMS5iYiIgdGFyZ2V0PSJfYmxhbmsiPmVkXzEuMTQu
+MS5iYjwvYT4gYi9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvZWQvPGEgaHJlZj0iaHR0cDovL2VkXzEu
+MTQuMi5iYiIgdGFyZ2V0PSJfYmxhbmsiPmVkXzEuMTQuMi5iYjwvYT48YnI+DQpzaW1pbGFyaXR5
+IGluZGV4IDg0JTxicj4NCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1leHRlbmRlZC9lZC88YSBo
+cmVmPSJodHRwOi8vZWRfMS4xNC4xLmJiIiB0YXJnZXQ9Il9ibGFuayI+ZWRfMS4xNC4xLmJiPC9h
+Pjxicj4NCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZXh0ZW5kZWQvZWQvPGEgaHJlZj0iaHR0cDov
+L2VkXzEuMTQuMi5iYiIgdGFyZ2V0PSJfYmxhbmsiPmVkXzEuMTQuMi5iYjwvYT48YnI+DQppbmRl
+eCA1ZDg5YTg3Li44Y2Q5MzkyIDEwMDY0NDxicj4NCi0tLSBhL21ldGEvcmVjaXBlcy1leHRlbmRl
+ZC9lZC88YSBocmVmPSJodHRwOi8vZWRfMS4xNC4xLmJiIiB0YXJnZXQ9Il9ibGFuayI+ZWRfMS4x
+NC4xLmJiPC9hPjxicj4NCiYjNDM7JiM0MzsmIzQzOyBiL21ldGEvcmVjaXBlcy1leHRlbmRlZC9l
+ZC88YSBocmVmPSJodHRwOi8vZWRfMS4xNC4yLmJiIiB0YXJnZXQ9Il9ibGFuayI+ZWRfMS4xNC4y
+LmJiPC9hPjxicj4NCkBAIC0xMyw4ICYjNDM7MTMsOCBAQCBiaW5kaXIgPSAmcXVvdDske2Jhc2Vf
+YmluZGlyfSZxdW90Ozxicj4NCjxicj4NCiZuYnNwO1NSQ19VUkkgPSAmcXVvdDske0dOVV9NSVJS
+T1J9L2VkL2VkLSR7UFZ9LnRhci5seiZxdW90Ozxicj4NCjxicj4NCi1TUkNfVVJJW21kNXN1bV0g
+PSAmcXVvdDs3ZjRhNTRmYTdmMzY2NDc5ZjAzNjU0YjhhZjY0NWZkMCZxdW90Ozxicj4NCi1TUkNf
+VVJJW3NoYTI1NnN1bV0gPSAmcXVvdDtmZmI5N2ViOGYyYTJiNWE3MWE5Yjk3ZTM4NzJhZGNlOTUz
+YWExYjg5NThlMDRjNWI3YmYxMWQ1NTZmMzI1NTJhJnF1b3Q7PGJyPg0KJiM0MztTUkNfVVJJW21k
+NXN1bV0gPSAmcXVvdDsyNzNkMDQ3NzhiMmE1MWY3YzNjYmZjZDIwMDE4NzZiZiZxdW90Ozxicj4N
+CiYjNDM7U1JDX1VSSVtzaGEyNTZzdW1dID0gJnF1b3Q7ZjU3OTYyYmE5MzBkNzBkMDJmYzcxZDZi
+ZTVjNWYyMzQ2YjE2OTkyYTQ1NWFiOWM0M2JlNzA2MWRlYzk4MTBkYiZxdW90Ozxicj4NCjxicj4N
+CiZuYnNwO0VYVFJBX09FTUFLRSA9ICZxdW90Oy1lIE1BS0VGTEFHUz0mcXVvdDs8YnI+DQo8c3Bh
+biBzdHlsZT0iY29sb3I6Izg4ODg4OCI+PGJyPg0KPHNwYW4gY2xhc3M9ImhvZW56YiI+LS08L3Nw
+YW4+PGJyPg0KPHNwYW4gY2xhc3M9ImhvZW56YiI+Mi43LjQ8L3NwYW4+PGJyPg0KPGJyPg0KPHNw
+YW4gY2xhc3M9ImhvZW56YiI+LS08L3NwYW4+PGJyPg0KPHNwYW4gY2xhc3M9ImhvZW56YiI+X19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX188L3NwYW4+PGJyPg0K
+PHNwYW4gY2xhc3M9ImhvZW56YiI+T3BlbmVtYmVkZGVkLWNvcmUgbWFpbGluZyBsaXN0PC9zcGFu
+Pjxicj4NCjxzcGFuIGNsYXNzPSJob2VuemIiPjxhIGhyZWY9Im1haWx0bzpPcGVuZW1iZWRkZWQt
+Y29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnIj5PcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVu
+ZW1iZWRkZWQub3JnPC9hPjwvc3Bhbj48YnI+DQo8c3BhbiBjbGFzcz0iaG9lbnpiIj48YSBocmVm
+PSJodHRwOi8vbGlzdHMub3BlbmVtYmVkZGVkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL29wZW5lbWJl
+ZGRlZC1jb3JlIiB0YXJnZXQ9Il9ibGFuayI+aHR0cDovL2xpc3RzLm9wZW5lbWJlZGRlZC5vcmcv
+bWFpbG1hbi9saXN0aW5mby9vcGVuZW1iZWRkZWQtY29yZTwvYT48L3NwYW4+PC9zcGFuPjxvOnA+
+PC9vOnA+PC9wPg0KPC9ibG9ja3F1b3RlPg0KPC9kaXY+DQo8ZGl2IHN0eWxlPSJib3JkZXI6bm9u
+ZTtib3JkZXItbGVmdDpzb2xpZCBibHVlIDEuNXB0O3BhZGRpbmc6MGluIDBpbiAwaW4gNC4wcHQi
+Pg0KPGRpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwv
+cD4NCjwvZGl2Pg0KPC9kaXY+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9ib2R5Pg0KPC9odG1sPg0K
 
+--_000_50B33AC5ED75F74F991980326F1C438D194EE79FPGSMSX103garcor_--
