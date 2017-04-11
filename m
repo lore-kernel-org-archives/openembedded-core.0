@@ -1,31 +1,48 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id EE2C177CE3
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 8D51C77CE4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Apr 2017 18:12:05 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v3BIC55Z010254
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 11 Apr 2017 11:12:05 -0700 (PDT)
-Received: from soho-mhatle-m.local (172.25.36.229) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
-	Tue, 11 Apr 2017 11:12:04 -0700
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	<openembedded-core@lists.openembedded.org>
-References: <cover.a248491aa166631c9f866a7a8314fe9f92a1420b.1491922350.git-series.patrick.ohly@intel.com>
-	<5a067d85afa569bc5b03df89acdb5914ccd86764.1491922350.git-series.patrick.ohly@intel.com>
-	<97be7aaf-58b0-05a2-b352-942cd82aca01@windriver.com>
-	<1491931143.12091.34.camel@linuxfoundation.org>
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-Message-ID: <3b1ff3b4-b992-5500-d29d-57580a8a17f3@windriver.com>
-Date: Tue, 11 Apr 2017 13:12:04 -0500
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:45.0)
-	Gecko/20100101 Thunderbird/45.8.0
+	Tue, 11 Apr 2017 18:22:52 +0000 (UTC)
+Received: by mail-wm0-f66.google.com with SMTP id q125so1870389wmd.3
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 11 Apr 2017 11:22:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=SU4j6CLySEsWYbFhRnAXLSF0W+j1IS4rUJOaVe9k5Tc=;
+	b=QtErTdtMUVVr/7EHLnkjE+P8kiKHFfBp0oMqQ8O7kY3lgEZZBiA59DrjAloaAyuh3f
+	QcAEAFq15FUXX5hftA2gC6K8jZ8Y5G4/HPsGgq2VGvWSwxmG2uk09xyXTIB7pcd4O/gu
+	oYNRmwYSE+u+xqW9QI0O5eo4GVLWtGK8uQizOvurqZYBNs0a/zGDGuNv77QxRwYzX1F4
+	yhT4in5EhKDIXxDdZRWJsTSzVhRP/B3vID5oz3YU8kXT+EOBO6A7Bjwm4jvKZdsmosh2
+	nrvifOa4gKvGLa0PhGOvRxzDGRAO5O5bsy9idE/GfM3kpvAxIVnS/kr2qUFiM3TTr5pk
+	ZFpQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=SU4j6CLySEsWYbFhRnAXLSF0W+j1IS4rUJOaVe9k5Tc=;
+	b=N3b7ViA+nNHavUHjpTVfuDikBBCMylwxmRLz0wgS0MWk81KDgKvomWuQOrK5HIFI7l
+	fjOejEWzjZP+TmNEEJp0AvtBMLDGMMa4ALKUiBjg3EEmc5UVJpv4teDLBj5S7VgHOfbq
+	x41h86GrJFPT4Bbe/I0fYnR8XjdgcwhKoGvAT6a4ex1ukVmPDhIuUVJz9Unj+2bJrFUH
+	9uO+NzcAziFE3ylmdHL6F41GewevNvt72IZQw7/kP3gNZajzByfULzNOT5WT7oNsNNve
+	QSsTGOgHdqLDkCI0pRJhP/cscwJTMVTuTXdMduRpQusn367zi505XfVE8bFa5OgPQXim
+	1ZrA==
+X-Gm-Message-State: AN3rC/7XfmxI1VcoFvtH/O/3H2Y1fFjdR/uJhg7jP7OI26MJY6LiqoBb
+	TBmgukNmZfX4E6yFvWooa5E1b8wb6Q==
+X-Received: by 10.28.234.205 with SMTP id g74mr16771483wmi.13.1491934973139;
+	Tue, 11 Apr 2017 11:22:53 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <1491931143.12091.34.camel@linuxfoundation.org>
-Subject: Re: [PATCH v3 2/8] gdb-cross: avoid tune specific paths
+Received: by 10.80.180.141 with HTTP; Tue, 11 Apr 2017 11:22:22 -0700 (PDT)
+In-Reply-To: <1491929824.12091.28.camel@linuxfoundation.org>
+References: <1491828558.10884.112.camel@intel.com>
+	<1491928471.10884.196.camel@intel.com>
+	<CAMKF1srOa1mWXXRvF9_EXrUFiy43_K4kAC4i9aYdpsm2hTJQNw@mail.gmail.com>
+	<1491929824.12091.28.camel@linuxfoundation.org>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 11 Apr 2017 11:22:22 -0700
+Message-ID: <CAMKF1sqoRngayscmJ39BkrK9E0hVdiDJi-VZ-8TgYephTOAuMA@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: OpenEmbedded <openembedded-core@lists.openembedded.org>
+Subject: Re: go-cross: incorrect dependency on tune-specific libgcc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,47 +55,116 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Apr 2017 18:12:06 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 11 Apr 2017 18:22:53 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 4/11/17 12:19 PM, Richard Purdie wrote:
-> On Tue, 2017-04-11 at 10:16 -0500, Mark Hatle wrote:
->> On 4/11/17 9:56 AM, Patrick Ohly wrote:
->>>
->>> gdb-cross used to be specific to the tune flags, but isn't
->>> anymore. Therefore it is enough to use TARGET_SYS instead of
->>> TUNE_PKGARCH to create a unique path.
->> Are you sure about this.  On non-intel architectures, it used to be
->> VERY common
->> that the specific instruction set for a process was programmed into
->> gdb.
->>
->> Sometimes the user could (after loading gdb) change the instructions,
->> but this
->> was an aweful user experience.
->>
->> Good example of this would be Power, e500, etc.  The instruction sets
->> are not
->> actually compatible with each other, so GDB needs to know the
->> specific
->> instruction in order to work.
-> 
-> This may or may not be an issue with gdb however I'd note that we only
-> build one gdb-cross regardless, we don't configure it with any target
-> tune specifics and the gdb we build for the sdk is built similarly. So
-> if it is an issue, its not one we've had reported to us and we don't
-> configure gdb in any target specific way so this patch should be
-> safe...
+On Tue, Apr 11, 2017 at 9:57 AM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> On Tue, 2017-04-11 at 09:39 -0700, Khem Raj wrote:
+>> On Tue, Apr 11, 2017 at 9:34 AM, Patrick Ohly <patrick.ohly@intel.com
+>> > wrote:
+>> >
+>> > On Mon, 2017-04-10 at 14:49 +0200, Patrick Ohly wrote:
+>> > >
+>> > > Hello!
+>> > >
+>> > > I'm currently extending the yocto-compat-layer.py so that it can
+>> > > detect
+>> > > invalid signature changes when changing MACHINE. go-cross-x86_64
+>> > > shows
+>> > > up as broken when comparing signatures for MACHINE=intel-corei7-
+>> > > 64 and
+>> > > MACHINE=qemux86-64.
+>> > >
+>> > > Both machines share the same go-cross-x86_64, but that DEPENDS on
+>> > > libgcc:
+>> > >
+>> > > meta/recipes-devtools/go/go.inc:# libgcc is required for the
+>> > > target specific libraries to build properly
+>> > > meta/recipes-devtools/go/go.inc:DEPENDS += "go-bootstrap-native
+>> > > libgcc"
+>> > >
+>> > > And libgcc itself depends on the tune flags for the target
+>> > > architecture
+>> > > and thus is different for these two machines:
+>> > >
+>> > > $ bitbake-diffsigs -t go-cross-x86_64 do_prepare_recipe_sysroot
+>> > > -s 563f419e3854c2351e2cbbf33a9025f6
+>> > > 64e378fd9853a6cd6a4e7f684f52d2fc
+>> > > Hash for dependent task gcc/libgcc_6.3.bb.do_populate_sysroot
+>> > > changed from afb6b55c0e2b7d2e816b3d2d214a7326 to
+>> > > 208fac5ae428b07a4aa491b130879e4a
+>> > >   Hash for dependent task gcc/libgcc_6.3.bb.do_multilib_install
+>> > > changed from 596e1612d7b84b7a9c1b409ee78cca89 to
+>> > > d41e2e835d0abe7646e53e3d63ce00cd
+>> > >     Hash for dependent task gcc/libgcc_6.3.bb.do_install changed
+>> > > from 9ca4126c69fcceb410253a0603c3d76b to
+>> > > cb0c49687a91ea17f1027c6394baacab
+>> > >       Hash for dependent task gcc/libgcc_6.3.bb.do_compile
+>> > > changed from ab80902424c73af49257cc3f6fe049aa to
+>> > > 436f978a703476968bd5ae1c1915ee5a
+>> > >         Hash for dependent task gcc/libgcc_6.3.bb.do_configure
+>> > > changed from eb0c36d87f32ce1ceb7d1e42609578fb to
+>> > > f62c98806faf3a28c2144919b89d3460
+>> > >           Hash for dependent task
+>> > > gcc/libgcc_6.3.bb.do_prepare_recipe_sysroot changed from
+>> > > b037b950e346bef71a4f8fd2c6a2195c to
+>> > > d4564b5730941279392932e3c670a5a5
+>> > >             Hash for dependent task gcc/libgcc_6.3.bb.do_fetch
+>> > > changed from e64cd9e029ed63ba3a09e5fe085b7057 to
+>> > > ea4d3f9d10544219ceb8591d5a5a4041
+>> > >               basehash changed from
+>> > > 8744593af2eddb60244788f2b9476e2d to
+>> > > dabeb22478ef501e35311af75119a2cf
+>> > >               Variable TUNE_CCARGS value changed:
+>> > >               " -m64 [--march=corei7 -mtune=corei7-] {+-
+>> > > march=core2 -mtune=core2 -msse3+} -mfpmath=sse [--msse4.2-]"
+>> > >
+>> > > Does this fix look correct? It turns go-cross into a package that
+>> > > is
+>> > > specific to the tune flags for the target.
+>> > [...]
+>> >
+>> > >
+>> > > The alternative would be to drop the libgcc dependency, but I
+>> > > have no
+>> > > idea whether that would work at all.
+>> > Besides Bruce who pointed out the implications on recipes depending
+>> > on
+>> > go-cross-${TARGET_ARCH}, Richard also had concerns about making go-
+>> > cross
+>> > tune-specific, so I ended up testing the libgcc removal approach.
+>> > It
+>> > happened to build okay, so the patch that I ended up proposing (see
+>> > "go-cross: avoid libgcc dependency") just removes libgcc from
+>> > DEPENDS
+>> > for go-cross.
+>> >
+>> > I need to revise the method how its done (i.e. not with
+>> > DEPENDS_remove),
+>> > but besides that, can anyone explain whether such a change might
+>> > hit
+>> > some problems somewhere? Khem?
+>> >
+>> I think TUNE_PKGARCH is the granularity it needs for setting GOARM
+>> anyway. It should be fine to change it.
+>
+> Once we go down the TUNE_PKGARCH route we probably won't get back. I'm
+> reluctant to give up on this quite so easily since having common tools
+> make a lot of sense from a build time perspective (and we already have
+> fun with testing and the time it takes).
+>
+> We could make arm append a v7 to PN in the v7 case and only have two go
+> compilers on arm to address the GOARM issue...
 
-As long as the set processor is docuemnted (gdb docs, not OE/YP) and works.  I'm
-fine with this explanation.
+I think thats fine, we can also treat default as v7 and leave v5 as it
+is, there may not be anyone using go on v5 on oe
 
---Mark
-
+>
 > Cheers,
-> 
+>
 > Richard
-> 
-
+>
+>
+>
 
