@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 2F17A77CEE
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 8D37377CF3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Apr 2017 09:21:35 +0000 (UTC)
+	Tue, 11 Apr 2017 09:21:36 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v3B9Lbua028334
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v3B9Lcou003227
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Apr 2017 02:21:37 -0700 (PDT)
+	Tue, 11 Apr 2017 02:21:38 -0700 (PDT)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
-	Tue, 11 Apr 2017 02:21:36 -0700
+	Tue, 11 Apr 2017 02:21:37 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 11 Apr 2017 02:21:30 -0700
-Message-ID: <2f158465f49798552c61d96c7b8275ea4b168e93.1491902179.git.liezhi.yang@windriver.com>
+Date: Tue, 11 Apr 2017 02:21:31 -0700
+Message-ID: <87655ede020d5bc2b8cec3addaad6f0a8336b859.1491902179.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.11.0.rc2.dirty
 In-Reply-To: <cover.1491902179.git.liezhi.yang@windriver.com>
 References: <cover.1491902179.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 6/7] wic-image-minimal.wks: vda -> sda
+Subject: [PATCH 7/7] qemux86-directdisk.wks: vda -> sda
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,27 +43,20 @@ replace vda in the test case.
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta-selftest/recipes-test/images/wic-image-minimal.wks | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ scripts/lib/wic/canned-wks/qemux86-directdisk.wks | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta-selftest/recipes-test/images/wic-image-minimal.wks b/meta-selftest/recipes-test/images/wic-image-minimal.wks
-index d55075d503..3e08cf4e43 100644
---- a/meta-selftest/recipes-test/images/wic-image-minimal.wks
-+++ b/meta-selftest/recipes-test/images/wic-image-minimal.wks
-@@ -2,9 +2,9 @@
- # long-description: This image contains boot partition and 3 rootfs partitions
- # created from core-image-minimal and wic-image-minimal image recipes.
+diff --git a/scripts/lib/wic/canned-wks/qemux86-directdisk.wks b/scripts/lib/wic/canned-wks/qemux86-directdisk.wks
+index a6518a0f45..db30bbced0 100644
+--- a/scripts/lib/wic/canned-wks/qemux86-directdisk.wks
++++ b/scripts/lib/wic/canned-wks/qemux86-directdisk.wks
+@@ -4,5 +4,5 @@
  
--part /boot --source bootimg-pcbios --ondisk vda --label boot --active --align 1024
--part / --source rootfs --ondisk vda --fstype=ext4 --label platform --align 1024 --use-uuid
--part /mnt --source rootfs --rootfs-dir=core-image-minimal --ondisk vda --fstype=ext4 --label core --align 1024
--part backup --source rootfs --rootfs-dir=wic-image-minimal --ondisk vda --fstype=ext4 --label backup --align 1024
-+part /boot --source bootimg-pcbios --ondisk sda --label boot --active --align 1024
-+part / --source rootfs --ondisk sda --fstype=ext4 --label platform --align 1024 --use-uuid
-+part /mnt --source rootfs --rootfs-dir=core-image-minimal --ondisk sda --fstype=ext4 --label core --align 1024
-+part backup --source rootfs --rootfs-dir=wic-image-minimal --ondisk sda --fstype=ext4 --label backup --align 1024
+ include common.wks.inc
  
- bootloader --ptable gpt --timeout=0  --append="rootwait console=tty0"
+-bootloader  --timeout=0  --append="vga=0 uvesafb.mode_option=640x480-32 root=/dev/vda2 rw mem=256M ip=192.168.7.2::192.168.7.1:255.255.255.0 oprofile.timer=1 rootfstype=ext4 "
++bootloader  --timeout=0  --append="vga=0 uvesafb.mode_option=640x480-32 root=/dev/sda2 rw mem=256M ip=192.168.7.2::192.168.7.1:255.255.255.0 oprofile.timer=1 rootfstype=ext4 "
+ 
 -- 
 2.11.0.rc2.dirty
 
