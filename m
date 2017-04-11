@@ -1,28 +1,46 @@
-Return-Path: <richard@rpsys.net>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id D343B77BE9
+Return-Path: <ian.arkver.dev@gmail.com>
+Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
+	by mail.openembedded.org (Postfix) with ESMTP id B1A8177BE9
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Apr 2017 13:20:04 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTP id v3BDJwrY015439; 
-	Tue, 11 Apr 2017 14:20:03 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 50T7w0vjqq_b; Tue, 11 Apr 2017 14:20:03 +0100 (BST)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	v3BDAp0Q014808
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Tue, 11 Apr 2017 14:10:52 +0100
-Received: from richard by hex with local (Exim 4.86_2)
-	(envelope-from <richard@rpsys.net>)
-	id 1cxvZL-0007g2-Dc; Tue, 11 Apr 2017 14:10:51 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+	Tue, 11 Apr 2017 13:25:50 +0000 (UTC)
+Received: by mail-wm0-f66.google.com with SMTP id o81so219663wmb.0
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 11 Apr 2017 06:25:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:subject:date:message-id;
+	bh=wfDcE696ptwI8DWBdJd3Phy7vPgF+lEmZnAU7dfE4cw=;
+	b=VLfHpMcQZN5N2HVlUpwzRmcllW31hwojg4sLqjjZI5gIxGsPM2znE+3Ie62d5u09zR
+	/+aqjIGg0lLRej+DDzXYVn3B9mY9giSCsLdyrk08/ABjHYxfnZRLI0gogj85VCBDEC1y
+	qBGp3790PLRprEwHpfwKG/iL6ShDcDkwGvE1pOrKiUNAEboKwp8Xv335WYjX2PdIP24q
+	1unbroobV+uNN/IYkyolWDwmn6SCYWb8pa8tTWsaIxoYa70NoNW83gZoMyXVSqNI+kAr
+	QeT1LD9gCmX7+e99OHwmpHqV2aDixki9VmrHuo+zu7fQ6u2SIzZG9bteIB6H/JGBqf+G
+	w6tQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=wfDcE696ptwI8DWBdJd3Phy7vPgF+lEmZnAU7dfE4cw=;
+	b=dPs/jj2Pe07v8aYaZsUGQZ/iBXqeHulz6+qvEyq818Y3Va4E/LNpqU+WWXpRiQDfgx
+	nJWEBC3l2l17XP/DN/O16TXcm+SVHtiwP13BdZRDc3ZdpdaPJebbthOjBdNsQW6L46KB
+	xnegHtodFHTjxoyhDkZbzNx5Xy8ZXTgxrcuERgqLqL9WjgY9vs8bipMXeWqzMYryYpRf
+	VQe5wEAQ7NHfNQJ9LRv4QgxAEpV1CmCvjgwuo5iBL9hpRmAjRPC+mAU1RFfHmb+Df0dO
+	SqYqIuk0w/w3NIgoAdeJzpLulR4KZwG6v7DQO0Wh5RnJiZtJS1m5YyQDZpswA35Lg4yf
+	TshQ==
+X-Gm-Message-State: AN3rC/5vsw+ZrAdL7JmHXOTmDv20/cHINJCstr+I2bJPvS1HAZDSzSFo
+	Xb+YYe3sQB4GNbB+
+X-Received: by 10.28.57.138 with SMTP id g132mr5128008wma.92.1491917151093;
+	Tue, 11 Apr 2017 06:25:51 -0700 (PDT)
+Received: from devmjo0.home (host86-154-139-143.range86-154.btcentralplus.com.
+	[86.154.139.143]) by smtp.gmail.com with ESMTPSA id
+	y190sm2490494wmy.15.2017.04.11.06.25.50
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 11 Apr 2017 06:25:50 -0700 (PDT)
+From: "Ian.Arkver" <ian.arkver.dev@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 11 Apr 2017 14:10:50 +0100
-Message-Id: <1491916250-29472-1-git-send-email-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.7.4
-Subject: [PATCH] data_smart: Ensure _remove operations on newly set variables are cleared
+Date: Tue, 11 Apr 2017 14:25:39 +0100
+Message-Id: <92a9dfaf31a7cda2e31d6ad659c24dfbced3bd6f.1491842639.git.ian.arkver.dev@gmail.com>
+X-Mailer: git-send-email 2.12.1
+Subject: [PATCH] package_manager.py: Add a name for the generated dnf repo.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,53 +53,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Apr 2017 13:20:05 -0000
+X-List-Received-Date: Tue, 11 Apr 2017 13:25:55 -0000
 
-We clear append/prepend on newly set variables, we should also clear
-remove operations. If we don't do this, there is no way we can actually
-delete a remove operation. Bitbake internally uses parsing=True to avoid
-these side effects when making its own internal calls.
+This adds repo_name as the name, which is the same as the
+repo ID and hence a bit pointless, but it stops dnf from
+complaining that the repo doesn't have a configured name.
 
-Also add a testcase to bitbake-selftest to ensure we remain consistent going
-forward from here.
-
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Ian.Arkver <ian.arkver.dev@gmail.com>
 ---
- lib/bb/data_smart.py | 2 ++
- lib/bb/tests/data.py | 6 ++++++
- 2 files changed, 8 insertions(+)
+ meta/lib/oe/package_manager.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/lib/bb/data_smart.py b/lib/bb/data_smart.py
-index d6dd698..7dc1c68 100644
---- a/lib/bb/data_smart.py
-+++ b/lib/bb/data_smart.py
-@@ -546,6 +546,8 @@ class DataSmart(MutableMapping):
-                 del self.dict[var]["_append"]
-             if "_prepend" in self.dict[var]:
-                 del self.dict[var]["_prepend"]
-+            if "_remove" in self.dict[var]:
-+                del self.dict[var]["_remove"]
-             if var in self.overridedata:
-                 active = []
-                 self.need_overrides()
-diff --git a/lib/bb/tests/data.py b/lib/bb/tests/data.py
-index fe947f5..a4a9dd3 100644
---- a/lib/bb/tests/data.py
-+++ b/lib/bb/tests/data.py
-@@ -283,6 +283,12 @@ class TestConcatOverride(unittest.TestCase):
-         self.d.setVar("TEST_remove", "val")
-         self.assertEqual(self.d.getVar("TEST"), "bar")
+diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
+index 23bf51f168..5a189cff97 100644
+--- a/meta/lib/oe/package_manager.py
++++ b/meta/lib/oe/package_manager.py
+@@ -555,7 +555,7 @@ class RpmPM(PackageManager):
+                 repo_uris = [uri + "/" + arch for arch in feed_archs.split()]
+             else:
+                 repo_uris = [uri]
+-            open(oe.path.join(self.target_rootfs, "etc", "yum.repos.d", repo_name + ".repo"), 'w').write("[%s]\nbaseurl=%s\n" % (repo_name, " ".join(repo_uris)))
++            open(oe.path.join(self.target_rootfs, "etc", "yum.repos.d", repo_name + ".repo"), 'w').write("[%s]\nname=%s\nbaseurl=%s\n" % (repo_name, repo_name, " ".join(repo_uris)))
  
-+    def test_remove_cleared(self):
-+        self.d.setVar("TEST", "${VAL} ${BAR}")
-+        self.d.setVar("TEST_remove", "val")
-+        self.d.setVar("TEST", "${VAL} ${BAR}")
-+        self.assertEqual(self.d.getVar("TEST"), "val bar")
-+
-     # Ensure the value is unchanged if we have an inactive remove override
-     # (including that whitespace is preserved)
-     def test_remove_inactive_override(self):
+     def _prepare_pkg_transaction(self):
+         os.environ['D'] = self.target_rootfs
 -- 
-2.7.4
+2.12.1
 
 
