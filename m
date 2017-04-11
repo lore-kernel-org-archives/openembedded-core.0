@@ -1,23 +1,18 @@
-Return-Path: <dv@pseudoterminal.org>
-Received: from ptmx.org (ptmx.org [178.63.28.110])
-	by mail.openembedded.org (Postfix) with ESMTP id EA13B77CD7
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Apr 2017 08:30:50 +0000 (UTC)
-Received: from [172.16.1.14] (62-178-118-86.cable.dynamic.surfer.at
-	[62.178.118.86]) by ptmx.org (Postfix) with ESMTPSA id 6787E1FE1D
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Apr 2017 10:30:51 +0200 (CEST)
-To: openembedded-core@lists.openembedded.org
-References: <1491897285-6179-1-git-send-email-dv@pseudoterminal.org>
-	<8d9c24ce-6a90-e080-dbe9-b3edba59aac4@linux.intel.com>
-From: Carlos Rafael Giani <dv@pseudoterminal.org>
-Message-ID: <77e0f2a1-520d-5a0d-b1c0-d231622cfe79@pseudoterminal.org>
-Date: Tue, 11 Apr 2017 10:30:51 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.8.0
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id A241A77D04;
+	Tue, 11 Apr 2017 08:32:18 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <8d9c24ce-6a90-e080-dbe9-b3edba59aac4@linux.intel.com>
-Subject: Re: [PATCH] kmscube: add recipe
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Carlos Rafael Giani <dv@pseudoterminal.org>
+Date: Tue, 11 Apr 2017 08:32:20 -0000
+Message-ID: <20170411083220.6645.78178@do.openembedded.org>
+References: <1491898315-7457-1-git-send-email-dv@pseudoterminal.org>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <1491898315-7457-1-git-send-email-dv@pseudoterminal.org>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgZ3N0cmVhbWVyMS4wLXBsdWdpbnMtYmFkOiBVcGRhdGUgcGFja2FnZWNvbmZpZ3MgYW5kIGNvbmZpZyBmbGFncyAocmV2Mik=?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,24 +25,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Apr 2017 08:30:52 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
+X-List-Received-Date: Tue, 11 Apr 2017 08:32:18 -0000
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
-On 2017-04-11 10:26, Alexander Kanavin wrote:
-> On 04/11/2017 10:54 AM, Carlos Rafael Giani wrote:
->> This is a useful tool to test KMS and GBM-based EGL & OpenGL ES drawing
->
-> Sorry, but the bar for adding recipes to oe-core is higher than a 
-> single all-purpose word 'useful'. Useful to whom? What does the tool 
-> do? Is it essential for making an embedded system? You really should 
-> write a (much) longer commit message, for a start.
->
-> Alex
->
+== Series Details ==
 
-Well it is sort of an equivalent of glxgears for checking whether or not 
-GBM-based rendering actually works. We have piglit for testing, eglinfo 
-for getting information about the EGL & GLES support, and kmscube also 
-adds a visual output to see that rendering actually behaves nicely.
+Series: gstreamer1.0-plugins-bad: Update packageconfigs and config flags (rev2)
+Revision: 2
+URL   : https://patchwork.openembedded.org/series/6284/
+State : failure
+
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             Added patch file is missing Upstream-Status in the header [test_upstream_status_presence] 
+  Suggested fix    Add Upstream-Status: <status> to the header of meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/0001-v4l2object-Also-add-videometa-if-there-is-padding-to.patch (possible values: Pending, Submitted, Accepted, Backport, Denied, Inappropriate)
+
+* Issue             A patch file has been added, but does not have a Signed-off-by tag [test_signed_off_by_presence] 
+  Suggested fix    Sign off the added patch file (meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/0001-v4l2object-Also-add-videometa-if-there-is-padding-to.patch)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
+---
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+
 
