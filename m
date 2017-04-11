@@ -1,36 +1,32 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 8085177D08
+Return-Path: <maxin.john@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id AB35D77D0A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Apr 2017 10:25:47 +0000 (UTC)
+	Tue, 11 Apr 2017 10:47:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
 	d=intel.com; i=@intel.com; q=dns/txt; s=intel;
-	t=1491906350; x=1523442350;
-	h=subject:to:references:cc:from:message-id:date:
-	mime-version:in-reply-to:content-transfer-encoding;
-	bh=mZP9Iik4Yq1i6+c4gdE3R1B6WB3e/DFx8B8Z4sx/l5c=;
-	b=Wx7Di4LbopyOYInYp+8rYQj84sfOjbyg9gJz1AMLYIJNWik9+r6BnE60
-	RqVQdcXpVcKZ5PNdiuIULYX3/eMLNQ==;
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	11 Apr 2017 03:25:49 -0700
+	t=1491907676; x=1523443676; h=from:to:subject:date:message-id;
+	bh=kc/PFvtnfkpzoAYLEsWh2uexQ0oUqw2X1shjKqPGyC0=;
+	b=Gk9ws+lQWjqijmtqBMpe/hbZi2VnB8BpxsBZNog3JrdnmhocKcg95Y6l
+	FNA9Gy0T8VNidlV+OyieybGgsCXg/A==;
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	11 Apr 2017 03:47:55 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.37,185,1488873600"; d="scan'208";a="86019163"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by orsmga005.jf.intel.com with ESMTP; 11 Apr 2017 03:25:48 -0700
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-References: <20170411092243.12262-1-alexander.kanavin@linux.intel.com>
-	<1636904.5z37o6m8AP@peggleto-mobl.ger.corp.intel.com>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <8c478a3d-e1cd-d46f-a5d3-434492520342@linux.intel.com>
-Date: Tue, 11 Apr 2017 13:25:23 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.8.0
-MIME-Version: 1.0
-In-Reply-To: <1636904.5z37o6m8AP@peggleto-mobl.ger.corp.intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] libsolv: correctly attribute musl fixing patches
+X-IronPort-AV: E=Sophos;i="5.37,185,1488873600"; d="scan'208";a="844503918"
+Received: from linux.intel.com ([10.54.29.200])
+	by FMSMGA003.fm.intel.com with ESMTP; 11 Apr 2017 03:47:55 -0700
+Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
+	[10.237.72.71])
+	by linux.intel.com (Postfix) with ESMTP id 8E6546A4006
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 11 Apr 2017 03:47:45 -0700 (PDT)
+From: "Maxin B. John" <maxin.john@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 11 Apr 2017 13:47:52 +0300
+Message-Id: <1491907672-363-1-git-send-email-maxin.john@intel.com>
+X-Mailer: git-send-email 2.4.0
+Subject: [PATCH v2] ed: update SRC_URI to yoctoproject mirror
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,21 +39,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Apr 2017 10:25:48 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 11 Apr 2017 10:47:54 -0000
 
-On 04/11/2017 01:15 PM, Paul Eggleton wrote:
-> On Tuesday, 11 April 2017 9:22:43 PM NZST Alexander Kanavin wrote:
->> Also, they were previously squashed into a single patch; restore
->> the original two-patch arrangement.
->
-> Didn't Mark H just send a patch to fix this?
+Upstream has removed the 1.14.1 release from ftp.gnu.org and
+moved to the latest 1.14.2. Since we don't want to upgrade at
+this point of time, temporarily move the SRC_URI to yoctoproject
+mirror.
 
-Mark's patch incorrectly changes the recipe patch so that it doesn't 
-apply to upstream source anymore (the stuff in CMakeLists.txt, I think).
+Signed-off-by: Maxin B. John <maxin.john@intel.com>
+---
+ meta/recipes-extended/ed/ed_1.14.1.bb | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-
-Alex
+diff --git a/meta/recipes-extended/ed/ed_1.14.1.bb b/meta/recipes-extended/ed/ed_1.14.1.bb
+index 5d89a87..7e6bde4 100644
+--- a/meta/recipes-extended/ed/ed_1.14.1.bb
++++ b/meta/recipes-extended/ed/ed_1.14.1.bb
+@@ -11,7 +11,9 @@ SECTION = "base"
+ # LSB states that ed should be in /bin/
+ bindir = "${base_bindir}"
+ 
+-SRC_URI = "${GNU_MIRROR}/ed/ed-${PV}.tar.lz"
++# Upstream regularly removes previous releases from https://ftp.gnu.org/gnu/ed/
++SRC_URI = "http://downloads.yoctoproject.org/mirror/sources/${BP}.tar.lz"
++UPSTREAM_CHECK_URI = "${GNU_MIRROR}/ed/"
+ 
+ SRC_URI[md5sum] = "7f4a54fa7f366479f03654b8af645fd0"
+ SRC_URI[sha256sum] = "ffb97eb8f2a2b5a71a9b97e3872adce953aa1b8958e04c5b7bf11d556f32552a"
+-- 
+2.4.0
 
 
