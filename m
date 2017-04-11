@@ -1,30 +1,23 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 775E471CAA
+Return-Path: <jussi.kukkonen@intel.com>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 3BFFD77C04
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Apr 2017 14:21:36 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v3BELbHv022527
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Apr 2017 07:21:38 -0700 (PDT)
-Received: from soho-mhatle-m.local (172.25.36.229) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
-	Tue, 11 Apr 2017 07:21:37 -0700
-To: <openembedded-core@lists.openembedded.org>
-References: <CAEg-Je8BnTDr6BxLOUBO3Y5a+yKjggk=cLSY7n-Aeq61GMVmTQ@mail.gmail.com>
-	<1301981f-af40-612f-a383-5feb2886e33e@windriver.com>
-	<CAHUNapShkap-XagZvEu8=r_21QRX9TiEtV9XwL6gox4SrNohXQ@mail.gmail.com>
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-Message-ID: <5731b9a7-3b04-651c-3f9c-74d0ca5d637d@windriver.com>
-Date: Tue, 11 Apr 2017 09:21:36 -0500
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:45.0)
-	Gecko/20100101 Thunderbird/45.8.0
-MIME-Version: 1.0
-In-Reply-To: <CAHUNapShkap-XagZvEu8=r_21QRX9TiEtV9XwL6gox4SrNohXQ@mail.gmail.com>
-Subject: Re: About misappropriation of one of my patches in OpenEmbedded
+	Tue, 11 Apr 2017 14:35:42 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga105.fm.intel.com with ESMTP; 11 Apr 2017 07:35:39 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.37,185,1488873600"; d="scan'208";a="72575837"
+Received: from linux.intel.com ([10.54.29.200])
+	by orsmga002.jf.intel.com with ESMTP; 11 Apr 2017 07:35:36 -0700
+Received: from theory.fi.intel.com (theory.fi.intel.com [10.237.72.53])
+	by linux.intel.com (Postfix) with ESMTP id C04B56A4006;
+	Tue, 11 Apr 2017 07:35:26 -0700 (PDT)
+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 11 Apr 2017 17:35:29 +0300
+Message-Id: <cover.1491920909.git.jussi.kukkonen@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCHv3 0/1] Use fixed DISTRO_FEATURES for native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,30 +30,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Apr 2017 14:21:37 -0000
-Content-Type: text/plain; charset="windows-1252"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 11 Apr 2017 14:35:43 -0000
 
-On 4/10/17 8:19 PM, Trevor Woerner wrote:
-> First and foremost, yes a patch from Neal was mishandled. However, I
-> think the dial went up to 11 on this one a bit too quickly.
-> 
-> As far as I can tell Neal's attribution still appears in the
-> 0001-Add-fallback-fopencookie-implementation.patch file. All that
-> happened was that an extraneous "com>" was removed from the email
-> address so it is now valid. The line was modified, not removed.
-> 
+Avoid signifant native task churn when DISTRO_FEATURES is changed
+by defining (almost) fixed DISTRO_FEATURES for native recipes.
 
-The issue wasn't that, it was that the 'Signed-off-by: ...' line was added to
-the original patch without asking Neal.  It's not permitted to add someone elses
-Signed-off-by line without their permission.
+Add DISTRO_FEATURES_FILTER_NATIVE and DISTRO_FEATURES_NATIVE to
+limit the changes to DISTRO_FEATURES when building native recipes.
 
-Also the attribution at the top of the file (originally there in the first
-version) was removed in a later version.
 
-These items combined are what triggered the issue.  It was unclear Neal authored
-the original version of the patch.  It was unclear that it was modified.  It
-looked like Neal consented to the sign-off-by line.
+Changes since V3:
+* Use both DISTRO_FEATURES_FILTER_NATIVE (from v2) and
+  DISTRO_FEATURES_NATIVE (from v1): see commit message for details
+* Do the same thing for nativesdk
+* Remove the x11 patches and solve the problem by always adding
+  x11 to DISTRO_FEATURES_NATIVE and DISTRO_FEATURES_NATIVESDK
+  (so it's used even when target DISTRO_FEATURES does not have it)
 
---Mark
+
+Thanks,
+  Jussi
+
+The following changes since commit 0793c758b15e5007b4dd4b146987a0e74d6f6cba:
+
+  Revert "staging: Fix sysroot problem with populate_sysroot dependencies on do_fetch" (2017-04-11 00:57:03 +0100)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib jku/native-distro-features
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=jku/native-distro-features
+
+Jussi Kukkonen (1):
+  native/nativesdk: Use fixed DISTRO_FEATURES
+
+ meta/classes/native.bbclass    | 14 ++++++++++----
+ meta/classes/nativesdk.bbclass |  6 ++++++
+ meta/conf/bitbake.conf         |  9 +++++++++
+ 3 files changed, 25 insertions(+), 4 deletions(-)
+
+-- 
+2.1.4
+
 
