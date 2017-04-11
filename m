@@ -1,29 +1,28 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id F3E7877BF3
+Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 539DE77C17
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Apr 2017 15:16:36 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v3BFGbQO006484
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Apr 2017 08:16:37 -0700 (PDT)
-Received: from soho-mhatle-m.local (172.25.36.229) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
-	Tue, 11 Apr 2017 08:16:37 -0700
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.a248491aa166631c9f866a7a8314fe9f92a1420b.1491922350.git-series.patrick.ohly@intel.com>
-	<5a067d85afa569bc5b03df89acdb5914ccd86764.1491922350.git-series.patrick.ohly@intel.com>
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-Message-ID: <97be7aaf-58b0-05a2-b352-942cd82aca01@windriver.com>
-Date: Tue, 11 Apr 2017 10:16:36 -0500
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:45.0)
-	Gecko/20100101 Thunderbird/45.8.0
-MIME-Version: 1.0
-In-Reply-To: <5a067d85afa569bc5b03df89acdb5914ccd86764.1491922350.git-series.patrick.ohly@intel.com>
-Subject: Re: [PATCH v3 2/8] gdb-cross: avoid tune specific paths
+	Tue, 11 Apr 2017 15:26:09 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	11 Apr 2017 08:26:11 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.37,186,1488873600"; d="scan'208";a="844589989"
+Received: from lsandov1-mobl2.zpn.intel.com ([10.219.128.141])
+	by FMSMGA003.fm.intel.com with ESMTP; 11 Apr 2017 08:26:10 -0700
+Message-ID: <1491924825.26377.2.camel@linux.intel.com>
+From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+To: Jussi Kukkonen <jussi.kukkonen@intel.com>
+Date: Tue, 11 Apr 2017 10:33:45 -0500
+In-Reply-To: <CAHiDW_EOoUVr0E_J2Lr-Bp+j8o=gdhrhce9OP9fpr0x7wakKFQ@mail.gmail.com>
+References: <1491898315-7457-1-git-send-email-dv@pseudoterminal.org>
+	<20170411083220.6645.78178@do.openembedded.org>
+	<CAHiDW_EOoUVr0E_J2Lr-Bp+j8o=gdhrhce9OP9fpr0x7wakKFQ@mail.gmail.com>
+X-Mailer: Evolution 3.12.9-1+b1 
+Mime-Version: 1.0
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: =?UTF-8?B?UmU6IOKclyBwYXRjaHRlc3Q6IGZhaWx1cmUgZm9yIGdzdHJlYW1lcjEuMC1wbHVnaW5zLWJhZDogVXBkYXRlIHBhY2thZ2Vjb25maWdzIGFuZCBjb25maWcgZmxhZ3MgKHJldjIp?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,47 +35,17 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Apr 2017 15:16:39 -0000
-Content-Type: text/plain; charset="windows-1252"
+X-List-Received-Date: Tue, 11 Apr 2017 15:26:14 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 4/11/17 9:56 AM, Patrick Ohly wrote:
-> gdb-cross used to be specific to the tune flags, but isn't
-> anymore. Therefore it is enough to use TARGET_SYS instead of
-> TUNE_PKGARCH to create a unique path.
-
-Are you sure about this.  On non-intel architectures, it used to be VERY common
-that the specific instruction set for a process was programmed into gdb.
-
-Sometimes the user could (after loading gdb) change the instructions, but this
-was an aweful user experience.
-
-Good example of this would be Power, e500, etc.  The instruction sets are not
-actually compatible with each other, so GDB needs to know the specific
-instruction in order to work.
-
---Mark
-
-> Fixes a sstate signature difference that was found via
-> yocto-compat-layer.py's test_machine_signatures check. In practice it
-> probably showed up as unnecessarily rebuilding gdb-cross when
-> switching between machines like intel-corei7-64 and qemux86-64.
+On Tue, 2017-04-11 at 11:44 +0300, Jussi Kukkonen wrote:
+> CCing Leo for patchwork issue (is that correct?)
 > 
-> Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
-> ---
->  meta/recipes-devtools/gdb/gdb-cross.inc | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/meta/recipes-devtools/gdb/gdb-cross.inc b/meta/recipes-devtools/gdb/gdb-cross.inc
-> index a34223e..d92f31f 100644
-> --- a/meta/recipes-devtools/gdb/gdb-cross.inc
-> +++ b/meta/recipes-devtools/gdb/gdb-cross.inc
-> @@ -24,4 +24,4 @@ BPN = "gdb"
->  inherit cross
->  inherit gettext
->  
-> -datadir .= "/gdb-${TUNE_PKGARCH}${TARGET_VENDOR}-${TARGET_OS}"
-> +datadir .= "/gdb-${TARGET_SYS}${TARGET_VENDOR}-${TARGET_OS}"
-> 
+> O
+
+it is not, those two strings are missing in the corresponding patch.
+
+
 
 
