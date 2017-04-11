@@ -1,49 +1,49 @@
 Return-Path: <patrick.ohly@intel.com>
-Received: from mail-io0-f175.google.com (mail-io0-f175.google.com
-	[209.85.223.175])
-	by mail.openembedded.org (Postfix) with ESMTP id E703477CF3
+Received: from mail-io0-f176.google.com (mail-io0-f176.google.com
+	[209.85.223.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 65AD177CF3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Apr 2017 18:38:57 +0000 (UTC)
-Received: by mail-io0-f175.google.com with SMTP id a103so13841533ioj.1
+	Tue, 11 Apr 2017 18:39:00 +0000 (UTC)
+Received: by mail-io0-f176.google.com with SMTP id t68so15800476iof.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Apr 2017 11:38:59 -0700 (PDT)
+	Tue, 11 Apr 2017 11:39:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=nhRhRw5tGkigmhWbB9niun2L4bRJell1f10buTnB4qs=;
-	b=SS3G9dp6DP4vUfj2RUCjBgOj5SOSbVWDiZRfuPq3nv17oBsOAWyygGkaIwA14dwItb
-	Aqs2nnhvSYCA1MKYtklcoMGfSWYj6457GBsJkkdv4+IgKI/Bvl6+ui+Zy1NPe74lQbpV
-	jokw120VkVGlxGyMiRRbz5K17mPkO4656UYfCmThE9hjmFMSXclvA1+YFm1ccUoQIpZq
-	lPjuRkbUJmdvxJh4Mr7g1rVlwOf/eG/4Lk21i3xdDZ6hg7VNhK/FC9zZeRkUoJm9hu9c
-	cipU0cDkSyXLdqcUoeoa4Uc107qabqv+UMJCDu9+BfonyDJbxeQN4HbsOaCn+NoZvk4+
-	vEYg==
+	bh=OfqoJ2rdY++6YsyDZfCK9bzkAAAH9Zenm21lDbw049Q=;
+	b=c52RCmRSZPkDVI1yGQRe0BOWfRmLcqZZPeQZCkEM1rNmrDU+pcPIMzPUfN2USx8tSk
+	dYIBXRxsEFSnM35JL0BcVyCKbtWsZ+3BYZ7KJO2UAInwt6LqxBG4k8azY+L42rGtvSHj
+	LVd+DKgDhgZHIRrRalMXCGJkjd9VbXc+jey2Fvin3Dw1u4QrMsWHxLMq18HXqFmF7lsO
+	+GZyAW6j/aOELzOtN+VBQiDQedrNYKFkjUutRG8npHKboZXiXUBp4d1rBmkofDY+sfZn
+	pR6ziVIvyUnz4eMBvjY7FBuCFJ3Q1nyaTkOfkOqsfToAdrCnfnpJBwoqp1OzOIRTPcAY
+	Iz/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=nhRhRw5tGkigmhWbB9niun2L4bRJell1f10buTnB4qs=;
-	b=m77ecTp6TI6Sw/mKm7wlDSsCy/M/Em2ZzeFo5G/OQNSi2SQT+g4yNzmmbjaAHrTpRP
-	DSf1FFrgOcQ+1+U5qL2xeOlVuYrZQVgpRC6FxhCgqzaAqUHTIMBoax5/USsvQXXNA+5s
-	PbdrrM8OV5R7rFnpM6BSQ63CWT0kWiIhBeYBv06vZPo+s5jrTfKv8xhuSgGhSIlZuC3E
-	eoFqeT0C+6ZoGuwOnabZEi+2HsevcTucZPHxi0TDQbc+d9geifVOA6S4yYRqbz4QlYO+
-	SbRNFxT8mNjp7X/Wioh4sMGt6zqaucrm3wdYM0SqXasBQCv0tIMe2Wv5XQ7qmcQkjvGz
-	HGhQ==
-X-Gm-Message-State: AN3rC/7KsEgpXlgAiww8BIGenvZ16jBHlYU3EoGO88HViWy68fPntsQwHIi3WHnE2oZ4JA7e
-X-Received: by 10.107.138.151 with SMTP id c23mr14144415ioj.235.1491935938841; 
-	Tue, 11 Apr 2017 11:38:58 -0700 (PDT)
+	bh=OfqoJ2rdY++6YsyDZfCK9bzkAAAH9Zenm21lDbw049Q=;
+	b=iwwdps8DL0NSdDaFElE6qZGJBsTnSpUDnFoTR8BC8aZf8/Lz8tg/qJMuY4iZOP2qYD
+	Sl2HGfVmr+GO/FpqjP/UGLacuhizmM1hwo3XzzRDGsOsKRxDV+hLsCcbN+px5KFaaLFs
+	QIrMCqM0E4W9y0Nn1GyBRaLzgQGr3XvdNLRsUuwyK8EIjEwvbEtDtsdcGXZXg6M4iiDu
+	cril0yuuyaOE4gCY2SIrHqDyigfPyXOgr48cpeTZnInuU+Pkwn5pD+s3eL/gS0s8RwpW
+	pQzPtMa47dBa8cX8wJfgglArSGhbgACdpRkCel1sf9He4uayzRHggenF6DJBg/YfwMlB
+	ZoTA==
+X-Gm-Message-State: AN3rC/6DBaslS710rcPUeV60fHoMX9UPS6MBXppLTTUm/567EdA4jw3/TJf9EDI2dXC+F5A2
+X-Received: by 10.36.66.141 with SMTP id i135mr18714705itb.86.1491935941930;
+	Tue, 11 Apr 2017 11:39:01 -0700 (PDT)
 Received: from pohly-desktop.fritz.box (p5DE8D3A2.dip0.t-ipconnect.de.
 	[93.232.211.162]) by smtp.gmail.com with ESMTPSA id
-	m63sm8260499ioa.15.2017.04.11.11.38.56
+	m63sm8260499ioa.15.2017.04.11.11.38.59
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 11 Apr 2017 11:38:57 -0700 (PDT)
+	Tue, 11 Apr 2017 11:39:00 -0700 (PDT)
 From: Patrick Ohly <patrick.ohly@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 11 Apr 2017 20:38:37 +0200
-Message-Id: <13c39e0231235f3f65f97a1849d8ebfd50d9eabf.1491935802.git-series.patrick.ohly@intel.com>
+Date: Tue, 11 Apr 2017 20:38:38 +0200
+Message-Id: <0be05c5deaf639ea2e38d828ac75d3380b3a19ad.1491935802.git-series.patrick.ohly@intel.com>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <cover.cb646ccab623b83f4d64996b56617990d731e820.1491935802.git-series.patrick.ohly@intel.com>
 References: <cover.cb646ccab623b83f4d64996b56617990d731e820.1491935802.git-series.patrick.ohly@intel.com>
-Subject: [PATCH v4 2/8] gdb-cross: avoid tune specific paths
+Subject: [PATCH v4 3/8] recipes/*-cross recipes: ignore TARGET_ARCH sstate hash
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,32 +56,87 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Apr 2017 18:38:58 -0000
+X-List-Received-Date: Tue, 11 Apr 2017 18:39:01 -0000
 
-gdb-cross used to be specific to the tune flags, but isn't
-anymore. Therefore it is enough to use TARGET_SYS instead of
-TUNE_PKGARCH to create a unique path.
+"yocto-compat-layer.py --machines" showed that shared packages like
+gcc-cross-powerpc64 have a sstate signature that depends on
+TUNEFLAGS. As a result, there are unnecessary rebuilds and potential
+conflicts in a multiconfig.
 
-Fixes a sstate signature difference that was found via
-yocto-compat-layer.py's test_machine_signatures check. In practice it
-probably showed up as unnecessarily rebuilding gdb-cross when
-switching between machines like intel-corei7-64 and qemux86-64.
+That's due to the way how TARGET_ARCH is set. Richard Purdie suggested
+setting TARGET_ARCH[vardepvalue] as fix, which works. It would be
+shorter to do that in cross.bbclass instead of repeating the relevant
+line in different recipes, but Richard was concerned about potential
+side-effects in other usages of cross.bbclass.
+
+TARGET_GOARM as used in go.inc is still causing signature differences
+for go-cross-powerpc64 and machines b4420qds-64b and p5020ds-64b. This
+needs further investigation.
 
 Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
 ---
- meta/recipes-devtools/gdb/gdb-cross.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-devtools/binutils/binutils-cross.inc | 3 +++
+ meta/recipes-devtools/gcc/gcc-cross.inc           | 3 +++
+ meta/recipes-devtools/gdb/gdb-cross.inc           | 3 +++
+ meta/recipes-devtools/go/go-cross.inc             | 3 +++
+ 4 files changed, 12 insertions(+)
 
+diff --git a/meta/recipes-devtools/binutils/binutils-cross.inc b/meta/recipes-devtools/binutils/binutils-cross.inc
+index 5e6f468..02ec891 100644
+--- a/meta/recipes-devtools/binutils/binutils-cross.inc
++++ b/meta/recipes-devtools/binutils/binutils-cross.inc
+@@ -4,6 +4,9 @@ PROVIDES = "virtual/${TARGET_PREFIX}binutils"
+ PN = "binutils-cross-${TARGET_ARCH}"
+ BPN = "binutils"
+ 
++# Ignore how TARGET_ARCH is computed.
++TARGET_ARCH[vardepvalue] = "${TARGET_ARCH}"
++
+ INHIBIT_DEFAULT_DEPS = "1"
+ INHIBIT_AUTOTOOLS_DEPS = "1"
+ 
+diff --git a/meta/recipes-devtools/gcc/gcc-cross.inc b/meta/recipes-devtools/gcc/gcc-cross.inc
+index bb5f7a0..c5c1645 100644
+--- a/meta/recipes-devtools/gcc/gcc-cross.inc
++++ b/meta/recipes-devtools/gcc/gcc-cross.inc
+@@ -11,6 +11,9 @@ python () {
+ 
+ PN = "gcc-cross-${TARGET_ARCH}"
+ 
++# Ignore how TARGET_ARCH is computed.
++TARGET_ARCH[vardepvalue] = "${TARGET_ARCH}"
++
+ require gcc-configure-common.inc
+ 
+ # While we want the 'gnu' hash style, we explicitly set it to sysv here to
 diff --git a/meta/recipes-devtools/gdb/gdb-cross.inc b/meta/recipes-devtools/gdb/gdb-cross.inc
-index a34223e..d92f31f 100644
+index d92f31f..ebe329f 100644
 --- a/meta/recipes-devtools/gdb/gdb-cross.inc
 +++ b/meta/recipes-devtools/gdb/gdb-cross.inc
-@@ -24,4 +24,4 @@ BPN = "gdb"
+@@ -21,6 +21,9 @@ GDBPROPREFIX = ""
+ PN = "gdb-cross-${TARGET_ARCH}"
+ BPN = "gdb"
+ 
++# Ignore how TARGET_ARCH is computed.
++TARGET_ARCH[vardepvalue] = "${TARGET_ARCH}"
++
  inherit cross
  inherit gettext
  
--datadir .= "/gdb-${TUNE_PKGARCH}${TARGET_VENDOR}-${TARGET_OS}"
-+datadir .= "/gdb-${TARGET_SYS}${TARGET_VENDOR}-${TARGET_OS}"
+diff --git a/meta/recipes-devtools/go/go-cross.inc b/meta/recipes-devtools/go/go-cross.inc
+index 68f5efd..93206a5 100644
+--- a/meta/recipes-devtools/go/go-cross.inc
++++ b/meta/recipes-devtools/go/go-cross.inc
+@@ -4,6 +4,9 @@ DEPENDS += "gcc-cross-${TARGET_ARCH}"
+ 
+ PN = "go-cross-${TARGET_ARCH}"
+ 
++# Ignore how TARGET_ARCH is computed.
++TARGET_ARCH[vardepvalue] = "${TARGET_ARCH}"
++
+ FILESEXTRAPATHS =. "${FILE_DIRNAME}/go-cross:"
+ 
+ GOROOT_FINAL = "${libdir}/go"
 -- 
 git-series 0.9.1
 
