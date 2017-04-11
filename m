@@ -1,31 +1,30 @@
-Return-Path: <Qi.Chen@windriver.com>
+Return-Path: <Kai.Kang@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id DD51577CD1
+	by mail.openembedded.org (Postfix) with ESMTP id C143877CDA
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Apr 2017 02:28:26 +0000 (UTC)
+	Tue, 11 Apr 2017 02:46:57 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v3B2SQf3000952
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v3B2ksUR000994
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 10 Apr 2017 19:28:27 -0700 (PDT)
-Received: from [128.224.162.201] (128.224.162.201) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.294.0;
-	Mon, 10 Apr 2017 19:28:25 -0700
-To: Richard Purdie <richard.purdie@linuxfoundation.org>, Robert Yang
-	<liezhi.yang@windriver.com>, <openembedded-core@lists.openembedded.org>
-References: <cover.1491557671.git.liezhi.yang@windriver.com>
-	<af3b44b2cc2be0771d70599286fa55d6ec3629bf.1491557671.git.liezhi.yang@windriver.com>
-	<1491843234.783.2.camel@linuxfoundation.org>
-From: ChenQi <Qi.Chen@windriver.com>
-Message-ID: <05b9de85-5165-604f-041e-23df352343c3@windriver.com>
-Date: Tue, 11 Apr 2017 10:29:59 +0800
+	Mon, 10 Apr 2017 19:46:54 -0700 (PDT)
+Received: from [128.224.162.185] (128.224.162.185) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
+	Mon, 10 Apr 2017 19:46:53 -0700
+To: Khem Raj <raj.khem@gmail.com>, Richard Purdie
+	<richard.purdie@linuxfoundation.org>,
+	<openembedded-core@lists.openembedded.org>
+References: <20170410031440.32220-1-kai.kang@windriver.com>
+	<1491809280.17200.128.camel@linuxfoundation.org>
+	<c0e094a3-8959-e9e6-4c9a-c47a97996646@gmail.com>
+From: Kang Kai <Kai.Kang@windriver.com>
+Message-ID: <3d68078e-c9c6-1934-be98-000a047088ab@windriver.com>
+Date: Tue, 11 Apr 2017 10:46:17 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.4.0
+	Thunderbird/45.8.0
 MIME-Version: 1.0
-In-Reply-To: <1491843234.783.2.camel@linuxfoundation.org>
-X-Originating-IP: [128.224.162.201]
-Cc: "Bartosh, Eduard" <eduard.bartosh@intel.com>
-Subject: Re: [PATCH 7/8] qemuboot.bbclass: add two vars for use by runqemu
+In-Reply-To: <c0e094a3-8959-e9e6-4c9a-c47a97996646@gmail.com>
+Subject: Re: [PATCH] libsdl2: disable check gcc -Wdeclaration-after-statement for ppc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,78 +37,114 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Apr 2017 02:28:29 -0000
+X-List-Received-Date: Tue, 11 Apr 2017 02:46:58 -0000
 Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 04/11/2017 12:53 AM, Richard Purdie wrote:
-> On Fri, 2017-04-07 at 02:47 -0700, Robert Yang wrote:
->> From: Chen Qi <Qi.Chen@windriver.com>
+On 2017年04月11日 03:51, Khem Raj wrote:
+>
+> On 4/10/17 12:28 AM, Richard Purdie wrote:
+>> On Mon, 2017-04-10 at 11:14 +0800, kai.kang@windriver.com wrote:
+>>> From: Kai Kang <kai.kang@windriver.com>
+>>>
+>>> Disable check gcc option -Wdeclaration-after-statement for powerpc
+>>> and
+>>> powerpc64 which causes compile failures:
+>>>
+>>>>    CC     build/SDL_blit_N.lo
+>>>> .../tmp/work/ppc7400-wrs-linux/libsdl2/2.0.5-r0/SDL2-
+>>>> 2.0.5/src/video/SDL_blit_N.c: In function 'calc_swizzle32':
+>>>> .../tmp/work/ppc7400-wrs-linux/libsdl2/2.0.5-r0/SDL2-
+>>>> 2.0.5/src/video/SDL_blit_N.c:127:5: error: ISO C90 forbids
+>>>> mixed declarations and code [-Werror=declaration-after-statement]
+>>>>       const vector unsigned char plus = VECUINT8_LITERAL(0x00, 0x00,
+>>>> 0x00, 0x00,
+>>>>       ^~~~~
+>>> Signed-off-by: Kai Kang <kai.kang@windriver.com>
+>>> ---
+>>>   ...able-check-gcc-Wdeclaration-after-statement.patch | 20
+>>> ++++++++++++++++++++
+>>>   meta/recipes-graphics/libsdl2/libsdl2_2.0.5.bb       |  2 ++
+>>>   2 files changed, 22 insertions(+)
+>>>   create mode 100644 meta/recipes-graphics/libsdl2/libsdl2/disable-
+>>> check-gcc-Wdeclaration-after-statement.patch
+>>>
+>>> diff --git a/meta/recipes-graphics/libsdl2/libsdl2/disable-check-gcc-
+>>> Wdeclaration-after-statement.patch b/meta/recipes-
+>>> graphics/libsdl2/libsdl2/disable-check-gcc-Wdeclaration-after-
+>>> statement.patch
+>>> new file mode 100644
+>>> index 0000000..ad48af7
+>>> --- /dev/null
+>>> +++ b/meta/recipes-graphics/libsdl2/libsdl2/disable-check-gcc-
+>>> Wdeclaration-after-statement.patch
+>>> @@ -0,0 +1,20 @@
+>>> +Upstream-Status: Inappropriate [disable feature]
+>> Given upstream explicitly enable this warning and the issue looks to be
+>> in their code, surely upstream would want to fix this.
 >>
->> Add STAGING_DIR_TUNCTL_NATIVE and STAGING_DIR_QEMU_BINDIR_NATIVE so
->> that
->> runqemu could find 'tunctl' and 'qemu-xxx' binaries to run correctly.
->>
->> [YOCTO #11266]
->> [YOCTO #11193]
->>
->> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-> Hi Robert/Qi,
->
-> Unfortunately this can't work as we can't use binaries directly from
-> the sysroot-components directory if they link to any libraries. tunctl
-> is ok but qemu links against libfdt.so.1 which isn't there. If the
-> system has its own copy, it may happen to work by luck but if it
-> doesn't, or the system version is incompatible we'd see failures.
->
-> So I'm afraid we need to find a different solution.
->
-> Cheers,
->
-> Richard
->
+>> Also, would it not be easier to patch the code and fix this than
+>> disabling the warning?
+> yes, I think it should be fixed in code unless we know that this warning
+> is being wrongly generated for ppc64
 
-Thanks for pointing that out.
-I'm thinking about still just preserving recipe-sysroot-native of image 
-as the solution, because this directory seems to be the only one which 
-have both 'qemu-xxx' from qemu-native and 'tunctl' from 
-qemu-native-helper. What do you think?
+I suppose this a gcc bug about powerpc/ppc64. gcc 6 uses default 
+'-std=gnu11' to compile but it stills fails with 'ISO C90 forbids...'.
+Compare to x86, it also compiles with -Wdeclaration-after-statement and 
+-Werror=declaration-after-statement too but succeeds.
 
-P.S. I noticed that Ed also sent out a patch using this solution. The 
-patch title is "image.bbclass: prevent rm_work to remove native RSS".
 
-Best Regards,
-Chen Qi
-
->>   meta/classes/qemuboot.bbclass | 5 ++++-
->>   1 file changed, 4 insertions(+), 1 deletion(-)
+Regards,
+Kai
+>
+>> Cheers,
 >>
->> diff --git a/meta/classes/qemuboot.bbclass
->> b/meta/classes/qemuboot.bbclass
->> index 2870388dfb..ac52ef295e 100644
->> --- a/meta/classes/qemuboot.bbclass
->> +++ b/meta/classes/qemuboot.bbclass
->> @@ -70,12 +70,15 @@ QB_DRIVE_TYPE ?= "/dev/sd"
->>   # Create qemuboot.conf
->>   addtask do_write_qemuboot_conf after do_rootfs before do_image
->>   IMGDEPLOYDIR ?= "${WORKDIR}/deploy-${PN}-image-complete"
->> +STAGING_DIR_TUNCTL_NATIVE = "${STAGING_DIR}-
->> components/${BUILD_ARCH}/qemu-helper-native"
->> +STAGING_DIR_QEMU_BINDIR_NATIVE = "${STAGING_DIR}-
->> components/${BUILD_ARCH}/qemu-native/usr/bin"
->>   
->>   def qemuboot_vars(d):
->>       build_vars = ['MACHINE', 'TUNE_ARCH', 'DEPLOY_DIR_IMAGE',
->>                   'KERNEL_IMAGETYPE', 'IMAGE_NAME', 'IMAGE_LINK_NAME',
->>                   'STAGING_DIR_NATIVE', 'STAGING_BINDIR_NATIVE',
->> -                'STAGING_DIR_HOST']
->> +                'STAGING_DIR_HOST', 'STAGING_DIR_TUNCTL_NATIVE',
->> +                'STAGING_DIR_QEMU_BINDIR_NATIVE']
->>       return build_vars + [k for k in d.keys() if k.startswith('QB_')]
->>   
->>   do_write_qemuboot_conf[vardeps] += "${@' '.join(qemuboot_vars(d))}"
->> -- 
->> 2.11.0.rc2.dirty
+>> Richard
 >>
+>>
+>>> +Disable check gcc option -Wdeclaration-after-statement for powerpc
+>>> and
+>>> +powerpc64 which causes compile failures.
+>>> +
+>>> +Signed-off-by: Kai Kang <kai.kang@windriver.com>
+>>> +---
+>>> +diff --git a/configure.in b/configure.in
+>>> +index e2ddc9c..73b10f5 100644
+>>> +--- a/configure.in
+>>> ++++ b/configure.in
+>>> +@@ -2950,7 +2950,7 @@ case "$host" in
+>>> +             *-*-minix*)         ARCH=minix ;;
+>>> +         esac
+>>> +         CheckVisibilityHidden
+>>> +-        CheckDeclarationAfterStatement
+>>> ++#        CheckDeclarationAfterStatement
+>>> +         CheckDummyVideo
+>>> +         CheckDiskAudio
+>>> +         CheckDummyAudio
+>>> diff --git a/meta/recipes-graphics/libsdl2/libsdl2_2.0.5.bb
+>>> b/meta/recipes-graphics/libsdl2/libsdl2_2.0.5.bb
+>>> index d747cf1..33963c1 100644
+>>> --- a/meta/recipes-graphics/libsdl2/libsdl2_2.0.5.bb
+>>> +++ b/meta/recipes-graphics/libsdl2/libsdl2_2.0.5.bb
+>>> @@ -20,6 +20,8 @@ SRC_URI = " \
+>>>       file://0001-prepend-our-sysroot-path-so-that-make-finds-our-
+>>> wayl.patch \
+>>>       file://0002-Avoid-finding-build-host-s-wayland-scanner.patch \
+>>>   "
+>>> +SRC_URI_append_powerpc = " file://disable-check-gcc-Wdeclaration-
+>>> after-statement.patch"
+>>> +SRC_URI_append_powerpc64 = " file://disable-check-gcc-Wdeclaration-
+>>> after-statement.patch"
+>>>   
+>>>   S = "${WORKDIR}/SDL2-${PV}"
+>>>   
+>>> -- 
+>>> 2.10.1
+>>>
+
+
+-- 
+Regards,
+Neil | Kai Kang
 
 
