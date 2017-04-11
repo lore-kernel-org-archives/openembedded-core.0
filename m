@@ -1,50 +1,50 @@
 Return-Path: <patrick.ohly@intel.com>
-Received: from mail-oi0-f49.google.com (mail-oi0-f49.google.com
-	[209.85.218.49])
-	by mail.openembedded.org (Postfix) with ESMTP id AA85477C04
+Received: from mail-io0-f170.google.com (mail-io0-f170.google.com
+	[209.85.223.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 0618E77BF0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Apr 2017 14:57:09 +0000 (UTC)
-Received: by mail-oi0-f49.google.com with SMTP id f22so56303702oib.2
+	Tue, 11 Apr 2017 14:57:12 +0000 (UTC)
+Received: by mail-io0-f170.google.com with SMTP id t68so6260182iof.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Apr 2017 07:57:11 -0700 (PDT)
+	Tue, 11 Apr 2017 07:57:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=q0K23lSotkgSnbHhe/i5EDAYoEewEcAmbvqAnBuiuo8=;
-	b=uVhZfQEZMu/QmqLQtQosubX/iiHgLTW45XE7PKtIE1pJJdrkxXb+c7pHTl4eabMSSc
-	2WqXyeu17K229rhEuClRpYOBXczMs85sh7Dveyu8LhCBQxAbl82HLVfRGgnPl8Rx9LDc
-	h0BGlkk9igBa0iqyGDgFZ1MOT1RpRa5I9/3TpPLu5/q49YqeCm5pra+JSqFZhbldbW8i
-	qQQRQau8Q3TOkvrAk5Sj/NrYaopQ0zY+zs/Uetp/QHQj+QRIqyJDplvgRvmHaTUd3Dw+
-	nYLtSDOQCOQGFsi72ndu6X4VUpfGi+6hUu4PRhP4h9VaRu7LwcNrZuP2XDnmPRTUiOYT
-	4yqA==
+	bh=nhRhRw5tGkigmhWbB9niun2L4bRJell1f10buTnB4qs=;
+	b=fDeURYXLPGoYYpM3bh7qmUpSrgIMWIwUnuKFjvzQCNNJCgr1hHuVACyqcNFLS9PThR
+	ilQ95h+EeyERFar7MKA93r1KIIssvnHySNvc5sLFRTfGsZDRfC5LUYlYEkE5GzHTGnAA
+	Nit03oEK5j8ItDZu1EoJIqcx6PrqLz7WMPE83R54GKmUd3hnn8W3FSGkSZ1A1u+r6g7e
+	CZillxX3TqrhYe7v8t1PQO9qJYsEYoBNST2ndxnaLyt2I/s+F5eAQe5XdyixrDtulr+N
+	ino5Yo0WPvtqtX5IZ4+qEjc2Bj2xPg1dEMTkxgRleAAknDkT1WMYlmdRG5toRh06VhNL
+	TLJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=q0K23lSotkgSnbHhe/i5EDAYoEewEcAmbvqAnBuiuo8=;
-	b=YS9sHeL/gFlj1bSKuVTiOj+3oN5jt0nMiKka/5BL3mgugjeq/xJViGTvxOktkyYsjr
-	AO2neDrAMG/7sBEwWz6OYeZxRkK5EfN+aRPCbZj4KXdGCv0W7Ro263ZeGw/P333TzBrX
-	zOxaSq+KioM9T3VvJaN6ExNWiHHAn099cTfBSfu18wxXojgQiZV1jY1V8LUvMxyEBNV2
-	lOppG6pI6RB8BpSDx8edqSVStOIH3alWOxztJ9aGoUA92nzYsWntQGziDgDAjwIPHgmI
-	hU5zId5JF/MO6TWUzc2TqJC8GlN5VXXdaRlUPh9TLEwlnT2DramdWieVRt6lbjKFaibe
-	iZWQ==
-X-Gm-Message-State: AN3rC/7oYA9TgQc66uscUG21BCX3MvwBdS4dYrbX1yXTRTHx+s2jWeaW
-	H0Fw0met33JOvAWN+lw=
-X-Received: by 10.36.33.67 with SMTP id e64mr16357526ita.42.1491922630452;
-	Tue, 11 Apr 2017 07:57:10 -0700 (PDT)
+	bh=nhRhRw5tGkigmhWbB9niun2L4bRJell1f10buTnB4qs=;
+	b=C9xPp5aXdvfLYWiGlHHlZ67dWH8SMJPFxiphv+y2jB6Le2i5q4zWgGCkoms5O9TU9c
+	9p0j+OuSFmKYHwjQkECs761EegPWPIb4bYbG/9qibe8dJtS6m3+NATKUDnbBPa1GMT9V
+	818Q0TUgINa7k+NjEcPNOzrzLi0NIs2DeQgZjHMkoOZpnkSGT/Fw69TL8F2G62+akjV1
+	EHiJ7ctECfWPozOj16MrT6qm7PHblKk9SoI0kPyARZKM6xSNMz9Ozhqva2D2kdiGDipQ
+	73xqdJyUfjFYKu0boop9ydj8JRRWhxnt+o2h5SJ2qzYWcGpMVqG7dUvRBgWfP41pK3mm
+	V7hg==
+X-Gm-Message-State: AN3rC/4OZdGVimyyInV1wp0Z1FcW+a7QNq5JnMt6k+kmEzpkUKwpKYrX
+	rKuUIzu1zRnfksH5HHw=
+X-Received: by 10.36.65.148 with SMTP id b20mr17592153itd.59.1491922633544;
+	Tue, 11 Apr 2017 07:57:13 -0700 (PDT)
 Received: from pohly-desktop.fritz.box (p5DE8D3A2.dip0.t-ipconnect.de.
 	[93.232.211.162])
-	by smtp.gmail.com with ESMTPSA id 71sm8025298iof.29.2017.04.11.07.57.08
+	by smtp.gmail.com with ESMTPSA id 71sm8025298iof.29.2017.04.11.07.57.11
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 11 Apr 2017 07:57:09 -0700 (PDT)
+	Tue, 11 Apr 2017 07:57:12 -0700 (PDT)
 From: Patrick Ohly <patrick.ohly@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 11 Apr 2017 16:56:54 +0200
-Message-Id: <639e9c496d4dbe799e4246477d6bcc9348a5a3be.1491922350.git-series.patrick.ohly@intel.com>
+Date: Tue, 11 Apr 2017 16:56:55 +0200
+Message-Id: <5a067d85afa569bc5b03df89acdb5914ccd86764.1491922350.git-series.patrick.ohly@intel.com>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <cover.a248491aa166631c9f866a7a8314fe9f92a1420b.1491922350.git-series.patrick.ohly@intel.com>
 References: <cover.a248491aa166631c9f866a7a8314fe9f92a1420b.1491922350.git-series.patrick.ohly@intel.com>
-Subject: [PATCH v3 1/8] go-cross: avoid libgcc dependency
+Subject: [PATCH v3 2/8] gdb-cross: avoid tune specific paths
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,41 +57,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Apr 2017 14:57:09 -0000
+X-List-Received-Date: Tue, 11 Apr 2017 14:57:13 -0000
 
-libgcc gets compiled differently depending on the tune flags for the
-target. That dependency would make go-cross also tune specific and
-prevent sharing it between different machines using the same
-architecture.
+gdb-cross used to be specific to the tune flags, but isn't
+anymore. Therefore it is enough to use TARGET_SYS instead of
+TUNE_PKGARCH to create a unique path.
 
-For example, MACHINE=intel-corei7-64 and MACHINE=qemux86-64 shared the
-same go-cross-x86_64, but compiled libgcc differently.
-
-The libgcc dependency gets inherited from go.inc, but does not seem to
-be necessary for go-cross (compiling go-helloworld still succeeds).
-The dependency is left in go.inc just in case that it is relevant for
-the various on-target recipes which inherit that.
+Fixes a sstate signature difference that was found via
+yocto-compat-layer.py's test_machine_signatures check. In practice it
+probably showed up as unnecessarily rebuilding gdb-cross when
+switching between machines like intel-corei7-64 and qemux86-64.
 
 Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
 ---
- meta/recipes-devtools/go/go-cross.inc | 4 ++++
- 1 file changed, 4 insertions(+)
+ meta/recipes-devtools/gdb/gdb-cross.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/go/go-cross.inc b/meta/recipes-devtools/go/go-cross.inc
-index 68f5efd..9b49738 100644
---- a/meta/recipes-devtools/go/go-cross.inc
-+++ b/meta/recipes-devtools/go/go-cross.inc
-@@ -4,6 +4,10 @@ DEPENDS += "gcc-cross-${TARGET_ARCH}"
+diff --git a/meta/recipes-devtools/gdb/gdb-cross.inc b/meta/recipes-devtools/gdb/gdb-cross.inc
+index a34223e..d92f31f 100644
+--- a/meta/recipes-devtools/gdb/gdb-cross.inc
++++ b/meta/recipes-devtools/gdb/gdb-cross.inc
+@@ -24,4 +24,4 @@ BPN = "gdb"
+ inherit cross
+ inherit gettext
  
- PN = "go-cross-${TARGET_ARCH}"
- 
-+# go-cross is built once per target architecture, and thus must not
-+# depend on the tune-specific libgcc.
-+DEPENDS_remove = "libgcc"
-+
- FILESEXTRAPATHS =. "${FILE_DIRNAME}/go-cross:"
- 
- GOROOT_FINAL = "${libdir}/go"
+-datadir .= "/gdb-${TUNE_PKGARCH}${TARGET_VENDOR}-${TARGET_OS}"
++datadir .= "/gdb-${TARGET_SYS}${TARGET_VENDOR}-${TARGET_OS}"
 -- 
 git-series 0.9.1
 
