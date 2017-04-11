@@ -1,18 +1,18 @@
 Return-Path: <patchwork@patchwork.openembedded.org>
 Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 9AB2F77BE9;
-	Tue, 11 Apr 2017 13:31:58 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id 9520577BE9;
+	Tue, 11 Apr 2017 13:31:59 +0000 (UTC)
 MIME-Version: 1.0
 From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Date: Tue, 11 Apr 2017 13:32:00 -0000
-Message-ID: <20170411133200.6646.77968@do.openembedded.org>
-References: <1491916250-29472-1-git-send-email-richard.purdie@linuxfoundation.org>
+To: ian.arkver.dev@gmail.com
+Date: Tue, 11 Apr 2017 13:32:01 -0000
+Message-ID: <20170411133201.6648.38744@do.openembedded.org>
+References: <92a9dfaf31a7cda2e31d6ad659c24dfbced3bd6f.1491842639.git.ian.arkver.dev@gmail.com>
 Reply-To: openembedded-core@lists.openembedded.org
 X-Patchwork-Hint: ignore
-In-Reply-To: <1491916250-29472-1-git-send-email-richard.purdie@linuxfoundation.org>
+In-Reply-To: <92a9dfaf31a7cda2e31d6ad659c24dfbced3bd6f.1491842639.git.ian.arkver.dev@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgZGF0YV9zbWFydDogRW5zdXJlIF9yZW1vdmUgb3BlcmF0aW9ucyBvbiBuZXdseSBzZXQgdmFyaWFibGVzIGFyZSBjbGVhcmVk?=
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgcGFja2FnZV9tYW5hZ2VyLnB5OiBBZGQgYSBuYW1lIGZvciB0aGUgZ2VuZXJhdGVkIGRuZiByZXBvLg==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,9 +31,9 @@ Content-Transfer-Encoding: 7bit
 
 == Series Details ==
 
-Series: data_smart: Ensure _remove operations on newly set variables are cleared
+Series: package_manager.py: Add a name for the generated dnf repo.
 Revision: 1
-URL   : https://patchwork.openembedded.org/series/6295/
+URL   : https://patchwork.openembedded.org/series/6296/
 State : failure
 
 == Summary ==
@@ -48,10 +48,6 @@ series by patchtest resulting in the following failures:
 * Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
   Suggested fix    Rebase your series on top of targeted branch
   Targeted branch  master (currently at ec2931852b)
-
-* Issue             Series sent to the wrong mailing list [test_target_mailing_list] 
-  Suggested fix    Send the series again to the correct mailing list (ML)
-  Suggested ML     bitbake-devel@lists.openembedded.org [http://git.openembedded.org/bitbake/]
 
 
 
