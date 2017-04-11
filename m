@@ -1,54 +1,56 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
-	by mail.openembedded.org (Postfix) with ESMTP id A99C977C20
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-io0-f181.google.com (mail-io0-f181.google.com
+	[209.85.223.181])
+	by mail.openembedded.org (Postfix) with ESMTP id ECD6977C20
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Apr 2017 16:22:51 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bes.se.axis.com (Postfix) with ESMTP id 2CE812E258;
-	Tue, 11 Apr 2017 18:22:52 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
-Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id Y5bmGp7HXFW6; Tue, 11 Apr 2017 18:22:50 +0200 (CEST)
-Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
-	by bes.se.axis.com (Postfix) with ESMTPS id C643D2E0DA;
-	Tue, 11 Apr 2017 18:22:50 +0200 (CEST)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id B61EC1A060;
-	Tue, 11 Apr 2017 18:22:50 +0200 (CEST)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id AB2E61A05B;
-	Tue, 11 Apr 2017 18:22:50 +0200 (CEST)
-Received: from thoth.se.axis.com (unknown [10.0.2.173])
-	by boulder02.se.axis.com (Postfix) with ESMTP;
-	Tue, 11 Apr 2017 18:22:50 +0200 (CEST)
-Received: from XBOX02.axis.com (xbox02.axis.com [10.0.5.16])
-	by thoth.se.axis.com (Postfix) with ESMTP id 9F6103090;
-	Tue, 11 Apr 2017 18:22:50 +0200 (CEST)
-Received: from XBOX02.axis.com (10.0.5.16) by XBOX02.axis.com (10.0.5.16) with
-	Microsoft SMTP Server (TLS) id 15.0.1210.3;
-	Tue, 11 Apr 2017 18:22:50 +0200
-Received: from XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776]) by
-	XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776%21]) with mapi id
-	15.00.1210.000; Tue, 11 Apr 2017 18:22:50 +0200
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>, openembedded-core
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] M4 rc1 build prerequisites
-Thread-Index: AQHSsrT70tt+a8I9EUuBwCNihu76xKHAWKew
-Date: Tue, 11 Apr 2017 16:22:50 +0000
-Message-ID: <4be35b51250c406b8d3073250b4a04d6@XBOX02.axis.com>
-References: <1491909040.12091.11.camel@linuxfoundation.org>
-In-Reply-To: <1491909040.12091.11.camel@linuxfoundation.org>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.60]
-MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-Subject: Re: M4 rc1 build prerequisites
+	Tue, 11 Apr 2017 16:29:03 +0000 (UTC)
+Received: by mail-io0-f181.google.com with SMTP id l7so8121255ioe.3
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 11 Apr 2017 09:29:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:organization:mime-version:content-transfer-encoding;
+	bh=AM52T5dVbCjTaPEoDQXLaAtm4ptkbw44lrm1Z8d6KKg=;
+	b=y4gleHZHj+klh3Sw2WdsKmu3V4t3uQHB6IXUTVV0EUKMtbSQco03scpkp0poVj2qUL
+	TMSBLVA34PXhp3N2SZY2M+sVHpCSAoNdq4Wz3WRRbC8To38hggqegIyWEK4uEAi/qCJT
+	gNTvUsxDssnaKKxp0wZYtyhPRi1zXZvOiNUQ05vIuKDVcgLycR2kqKHwUKnqqS+p32Ss
+	1t/NM7450oByBepwye3CJ30uJjAvV+DW0FQ6otLHBt3pJ9iVbX3T7+lcftjShSVqq938
+	TTgA7pI4+F3vq6gSfjfR+QwdpD2T7U3ws44Cq5a7sPLj7BW1Xes7TadxHW0JzBVcuht1
+	Y/7A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:organization:mime-version:content-transfer-encoding;
+	bh=AM52T5dVbCjTaPEoDQXLaAtm4ptkbw44lrm1Z8d6KKg=;
+	b=YoSQowqLCsizlCPbAdNhISTIY+bcDSS3nslrhTzzpRqExskYZ6SPRlG8X2O/xwCiWm
+	BZUrXIgJ2xM0yWtMvJhbGrrbZ936/EO3CsEslY1GjHhAdONZcmEl96eIcZwIilOKae5h
+	krAhGpo5LrqqzkQPhl8VTq8qtC4bDrdI9kmicEeYk8uCVr5eDMDOHiseqiaDyYBxini4
+	t3xDdPn0U+eAS73Epv4K5WM6Zkcq0412Qqwxba0K2vZyea1E/dn+3z8YcGLJ/ce3/OMX
+	MRc4HqKVj1QgqZaHA2d89+ci4y1BNu+EO1CpyJOq/evQydxjBPV61pSKt9+UcGbtQNHs
+	7quQ==
+X-Gm-Message-State: AN3rC/7sPkpVPsx23eIhlA2f94W1yCS3eOpaNmCj6Gr71hPeFYt91tK4XQpsUsGx8DFHHhVK
+X-Received: by 10.36.175.28 with SMTP id t28mr13849587ite.119.1491928144519;
+	Tue, 11 Apr 2017 09:29:04 -0700 (PDT)
+Received: from pohly-mobl1 (p5DE8D3A2.dip0.t-ipconnect.de. [93.232.211.162])
+	by smtp.gmail.com with ESMTPSA id
+	189sm1096599itx.25.2017.04.11.09.29.02
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 11 Apr 2017 09:29:03 -0700 (PDT)
+Message-ID: <1491928140.10884.191.camel@intel.com>
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: Mark Hatle <mark.hatle@windriver.com>, Richard Purdie
+	<richard.purdie@intel.com>
+Date: Tue, 11 Apr 2017 18:29:00 +0200
+In-Reply-To: <97be7aaf-58b0-05a2-b352-942cd82aca01@windriver.com>
+References: <cover.a248491aa166631c9f866a7a8314fe9f92a1420b.1491922350.git-series.patrick.ohly@intel.com>
+	<5a067d85afa569bc5b03df89acdb5914ccd86764.1491922350.git-series.patrick.ohly@intel.com>
+	<97be7aaf-58b0-05a2-b352-942cd82aca01@windriver.com>
+Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
+X-Mailer: Evolution 3.12.9-1+b1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v3 2/8] gdb-cross: avoid tune specific paths
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,37 +63,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Apr 2017 16:22:52 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Tue, 11 Apr 2017 16:29:05 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBvcGVuZW1iZWRkZWQtY29yZS1i
-b3VuY2VzQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gW21haWx0bzpvcGVuZW1iZWRkZWQtY29y
-ZS1ib3VuY2VzQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmddIE9uIEJlaGFsZiBPZg0KPiBSaWNoYXJk
-IFB1cmRpZQ0KPiBTZW50OiBkZW4gMTEgYXByaWwgMjAxNyAxMzoxMQ0KPiBUbzogb3BlbmVtYmVk
-ZGVkLWNvcmUgPG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+DQo+IFN1
-YmplY3Q6IFtPRS1jb3JlXSBNNCByYzEgYnVpbGQgcHJlcmVxdWlzaXRlcw0KPiANCj4gSSBqdXN0
-IHdhbnRlZCB0byBnaXZlIHBlb3BsZSBhbiBpZGVhIG9mIHdoZXJlIHdlJ3JlIGF0IHdpdGggMi4z
-LiBJJ20NCj4gYXdhcmUgb2YgYW5kIHdvdWxkIGxpa2UgdG8gc2VlIHRoZSBmb2xsb3dpbmcgaXNz
-dWVzIGZpeGVkOg0KPiANCj4gYSkgcnVucWVtdSBhbmQgb3RoZXIgdG9vbHMgZmFpbGluZyBpbiB2
-YXJpb3VzIGNpcmN1bXN0YW5jZXMgZHVlIHRvIFJTUy4NCj4gDQo+IGIpIERJU1RST19GRUFUVVJF
-UyBjb250YW1pbmF0aW5nIG5hdGl2ZS9uYXRpdmVzZGsgYnVpbGRzLCB3ZSBuZWVkDQo+IMKgIMKg
-c2VwYXJhdGUgY29uZmlndXJhdGlvbiBvZiB0aGVzZS4NCj4gDQo+IGMpIFBhdHJpY2sgaGFzIGZv
-dW5kIHNvbWUgdGFzayBjaGVja3N1bSBjaGFuZ2VzIHdoaWNoIGFyZSBjb25jZXJuaW5nDQo+IMKg
-IMKgYW5kIHdlIG5lZWQgdG8gbG9vayBpbnRvLg0KPiANCj4gSWYgYW55b25lIGhhcyBvdGhlciB0
-aGluZ3MgdGhleSdyZSBleHBlY3RpbmcgdG8gc2VlIGluIDIuMyBhbmQgd2hpY2gNCj4gYXJlbid0
-IGluIG1hc3Rlci1uZXh0LCB5b3UgbWlnaHQgd2FudCB0byBtZW50aW9uIHRoZW0uDQo+IA0KPiBJ
-J20gbWVhbnQgdG8gYmUgdHJ5aW5nIHRvIHRha2Ugc29tZSB2YWNhdGlvbiB3aGljaCByZWFsbHkg
-aXNuJ3Qgd29ya2luZw0KPiBvdXQgOiguDQo+IA0KPiBDaGVlcnMsDQo+IA0KPiBSaWNoYXJkDQoN
-CkF0IGxlYXN0IGZvciB1cywgd2hvIGhhdmUgYSBsb3Qgb2YgcmVjaXBlcyB0aGF0IGNyZWF0ZSB1
-c2Vycy9ncm91cHMsIGEgZml4IA0KZm9yIGh0dHBzOi8vYnVnemlsbGEueW9jdG9wcm9qZWN0Lm9y
-Zy9zaG93X2J1Zy5jZ2k/aWQ9MTExMjQgaXMgbmVlZGVkLg0KDQpDdXJyZW50bHksIGlmIGFueXRo
-aW5nIGhhcHBlbnMgdG8gaW52YWxpZGF0ZXMgYmFzZS1wYXNzd2Qgd2l0aG91dCBhbHNvIA0KaW52
-YWxpZGF0aW5nIGV2ZXJ5dGhpbmcgZWxzZSwgd2UgZW5kIHVwIGluIGEgc2l0dWF0aW9uIHdoZXJl
-IGV2ZXJ5IG90aGVyIA0KcmVjaXBlIGZhaWxzIGFuZCB0aGUgb25seSAoc2ltcGxlKSBzb2x1dGlv
-biBpcyB0byByZW1vdmUgdG1wIGFuZCBzdGFydCANCm92ZXIuIFdoaWNoIGF0IGxlYXN0IHRvIG1l
-IGlzIG5vdCB2ZXJ5IG5pY2UgdG8gdGhlIHVzZXIuLi4NCg0KSSBnb3Qgc29tZSB0aXBzIGZyb20g
-UlAgYW5kIEkgaG9wZSBJIGNhbiB3b3JrIG9uIHRoaXMgYW5kIGZpbmQgYSBzb2x1dGlvbiANCmlu
-IHRpbWUgZm9yIDIuMy4NCg0KLy9QZXRlcg0KDQo=
+On Tue, 2017-04-11 at 10:16 -0500, Mark Hatle wrote:
+> On 4/11/17 9:56 AM, Patrick Ohly wrote:
+> > gdb-cross used to be specific to the tune flags, but isn't
+> > anymore. Therefore it is enough to use TARGET_SYS instead of
+> > TUNE_PKGARCH to create a unique path.
+> 
+> Are you sure about this.
+
+It's what Richard told me and he proposed this fix (forgot to mention
+that), so ultimately this is a question for him.
+
+>   On non-intel architectures, it used to be VERY common
+> that the specific instruction set for a process was programmed into gdb.
+
+I'm not seeing anything in gdb-cross where that happens. The TUNEFLAGS
+dependency was just for the datadir, not for anything else that might
+configure the instruction set.
+
+-- 
+Best Regards, Patrick Ohly
+
+The content of this message is my personal opinion only and although
+I am an employee of Intel, the statements I make here in no way
+represent Intel's position on the issue, nor am I authorized to speak
+on behalf of Intel on this matter.
+
+
+
 
