@@ -1,56 +1,55 @@
 Return-Path: <patrick.ohly@intel.com>
-Received: from mail-io0-f175.google.com (mail-io0-f175.google.com
-	[209.85.223.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 2EC3D77CF3
+Received: from mail-io0-f174.google.com (mail-io0-f174.google.com
+	[209.85.223.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 899BA77CE8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Apr 2017 18:26:55 +0000 (UTC)
-Received: by mail-io0-f175.google.com with SMTP id r16so11570757ioi.2
+	Tue, 11 Apr 2017 18:28:43 +0000 (UTC)
+Received: by mail-io0-f174.google.com with SMTP id r16so11633221ioi.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Apr 2017 11:26:57 -0700 (PDT)
+	Tue, 11 Apr 2017 11:28:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=message-id:subject:from:to:cc:date:in-reply-to:references
 	:organization:mime-version:content-transfer-encoding;
-	bh=yKM4e/dFBk6vulQ09Tqmo9D3S9kQbPTqizowLG+aSkA=;
-	b=A/xArxK9c7Gpv8/GE9xzohSSDh5+dkAtH0cDJYz1Xc2eh7VWHnajdIGgS9tZPGkljM
-	GIiGNyCzXYf16DsV645y4Vh/kB8OWwqm1GSLGDU/8MtX4N3MXOCCtJQ5/hw2hClfBiB8
-	4Xx7gv/0yGIyOywHNWkeEb0WI7K/vYnfhlLtYkI1oPBIoLL+bgxn+ws/maoR/ERYPzA+
-	UR9wFp/AAkiTFIvoEj2jLROWFW/nFf6VbgrqaH/hjxDJwejfNR9JJkwsqIMAJfS8CTKw
-	0m4JopeibP8PAUr+w1BWwCD/3OTMGViGQeZBg9P7CT835tzjJFeUR44fx8w4IB4entGr
-	HUSg==
+	bh=jc+Hbm4G7lSoPXEEqrnbMDQ252OsiR8VIeSfQr2hFeQ=;
+	b=kSK2SMyoEJ17YQ8Y6Om/+9qRf75/o82dBjpP1WiO2Foo6dNnr0x2xKj7L2u5sSxR7s
+	R6Law7BJHXI92ilP4NKcACLS5EMRoOzSfsFTdzzQkqN3Hb/jKRlnRFPfHGo+IGvnkBlS
+	VI+a7vX3jiTykxLIX6u/hRgtASpPk1QuduQzvwnB4ycCMOUqde+Vj4dFu6vROJ7/HDnw
+	1j5hoq1ptwA0Tsaj5TQwM4ruCmTNuLl0dWGT2dn8p63UKP7Tsw7419WWyvf2RCPBNZPe
+	gL6WTeiyXB6NS8R/XL1kVYO8/ga9kPj3snHQ95dxSQpVqIYudlm/bVeMiU9DaAHgEBVX
+	ldeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
 	:references:organization:mime-version:content-transfer-encoding;
-	bh=yKM4e/dFBk6vulQ09Tqmo9D3S9kQbPTqizowLG+aSkA=;
-	b=U/EAGSpVJOaU8uBUAQmlj7Cm+RVraGxYwT9sUhcSgr49/AxgpNn9kzugr7aaFvL9VS
-	JaXYaFvzMWE36E8JX491OIQwK6G0Yye6PB7R+q8iyevTWrKai0eeehgkzLBNGpWEVTsE
-	NRzU1q9vF2xfBLOuSpNFaTGgGhptXkCjxouBNiYK9zQ8HOOQcUnhlYHTJ+bKbzPgtxo/
-	qmyatJdmcwFGtvgnPXge1tVOF63kiLhZWBHar5JPDDAHRV4JBpiqv42nuA5d7s1egG97
-	omfCxOJ1mdiUGFSAAdEY/dmwwgbjVfJB9z5Ep1F/dbZ/WFOtXFCzp+riTjTzoJb3bmrq
-	ntXw==
-X-Gm-Message-State: AN3rC/7hRf83G37WwWJJbsGA5lpYdSwj+XahisqBhi+/AiKdmvOPzWE2fMz9HFM0/KLi1JoU
-X-Received: by 10.36.123.16 with SMTP id q16mr18687492itc.52.1491935216782;
-	Tue, 11 Apr 2017 11:26:56 -0700 (PDT)
+	bh=jc+Hbm4G7lSoPXEEqrnbMDQ252OsiR8VIeSfQr2hFeQ=;
+	b=FTQpYrCrbg86Tf1j2ffUiJfwOS6qXYAfyN+IY4Lh0u1gbOJk5HIqpNaNi6gkXsmQEo
+	sZYZnt3YOfYyF4K8UZoQwr/JD0jFXOt//a+ooBHDGMUOHXJTsdhFZgDV4S89zZh/YOdK
+	gSxiN6Mxc6cS8QMPq1vLhvdz5VTrHJgR6MZputpnon1hQd9YIPPmoRHrBj93Bq3Gkhq6
+	Em3Gan4x/gVRotIxiho+JTelRZZhx3/kACHo0W0+b7aChYxyo+qgvhqWiRM4gq4IYZYg
+	9f3KfRZ7VYxasS2a2NMTERu+5tDaJb+tnE4tN3yfqwqowYgR/0LbA54LG84Fj5cuhOLx
+	avcg==
+X-Gm-Message-State: AN3rC/4pm0tnb5Wg32t8bDfSTl1eGpw0A9GHtZJiZC2SIOrQzkj24jyKwbFn+ImFUPMFOqK4
+X-Received: by 10.36.12.65 with SMTP id 62mr10120866itn.16.1491935325432;
+	Tue, 11 Apr 2017 11:28:45 -0700 (PDT)
 Received: from pohly-mobl1 (p5DE8D3A2.dip0.t-ipconnect.de. [93.232.211.162])
-	by smtp.gmail.com with ESMTPSA id 9sm1242365itm.6.2017.04.11.11.26.54
+	by smtp.gmail.com with ESMTPSA id
+	m133sm1947983ioe.61.2017.04.11.11.28.42
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 11 Apr 2017 11:26:55 -0700 (PDT)
-Message-ID: <1491935213.10884.208.camel@intel.com>
+	Tue, 11 Apr 2017 11:28:43 -0700 (PDT)
+Message-ID: <1491935320.10884.209.camel@intel.com>
 From: Patrick Ohly <patrick.ohly@intel.com>
-To: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 11 Apr 2017 20:26:53 +0200
-In-Reply-To: <CAMKF1sqjTfvVuQp=MLP82G=WYPg7LJ0OJ=SgMJb8dsd9TxDiKg@mail.gmail.com>
-References: <1491828558.10884.112.camel@intel.com>
-	<1491928471.10884.196.camel@intel.com>
-	<CAMKF1srOa1mWXXRvF9_EXrUFiy43_K4kAC4i9aYdpsm2hTJQNw@mail.gmail.com>
-	<1491929552.10884.199.camel@intel.com>
-	<CAMKF1sqjTfvVuQp=MLP82G=WYPg7LJ0OJ=SgMJb8dsd9TxDiKg@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Date: Tue, 11 Apr 2017 20:28:40 +0200
+In-Reply-To: <1491935153.12091.37.camel@linuxfoundation.org>
+References: <cover.a248491aa166631c9f866a7a8314fe9f92a1420b.1491922350.git-series.patrick.ohly@intel.com>
+	<c647b8b4229e8862b8066f52aaefee133a65e6ee.1491922350.git-series.patrick.ohly@intel.com>
+	<1491935153.12091.37.camel@linuxfoundation.org>
 Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
 X-Mailer: Evolution 3.12.9-1+b1 
 Mime-Version: 1.0
-Cc: OpenEmbedded <openembedded-core@lists.openembedded.org>
-Subject: Re: go-cross: incorrect dependency on tune-specific libgcc
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v3 3/8] -cross recipes: ignore TARGET_ARCH sstate hash
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,36 +62,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Apr 2017 18:26:56 -0000
+X-List-Received-Date: Tue, 11 Apr 2017 18:28:44 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Tue, 2017-04-11 at 10:01 -0700, Khem Raj wrote:
-> On Tue, Apr 11, 2017 at 9:52 AM, Patrick Ohly <patrick.ohly@intel.com> wrote:
-> > On Tue, 2017-04-11 at 09:39 -0700, Khem Raj wrote:
-> >> I think TUNE_PKGARCH is the granularity it needs for setting GOARM
-> >> anyway.
-> >
-> > So you are saying the patch that I had proposed initially in this mail
-> > thread (go-cross-${TARGET_ARCH} -> go-cross-${TUNE_PKGARCH}) is the
-> > right solution?
+On Tue, 2017-04-11 at 19:25 +0100, Richard Purdie wrote:
+> I'd tweak the subject line to recipes/*-cross:
 > 
-> no, dependency on libgcc should be removed from go cross if possible.
-> Its similar to gcc in that regard.
+> On Tue, 2017-04-11 at 16:56 +0200, Patrick Ohly wrote:
+> > "yocto-compat-layer.py --machines" showed that shared packages like
+> > gcc-cross-powerpc64 have a sstate signature that depends on
+> > TUNEFLAGS. As a result, there are unnecessary rebuilds and potential
+> > conflicts in a multiconfig.
+> > 
+> > That's due to the way how TARGET_ARCH is set. Richard Purdie
+> > suggested
+> > setting TARGET_ARCH[vardepvalue] as fix, which works. It would be
+> > shorter to do that in cross.inc instead of repeating the relevant
+> > line
+> > in different recipes, but Richard was concerned about potential
+> > side-effects in other usages of cross.inc.
+> 
+> s/cross.inc/cross.bbclass/g
 
-Good that I asked, because I understood "TUNE_PKGARCH is the granularity
-it needs" as the exact opposite ;-}
-
-The "if possible" part is where it gets tricky. There's this comment
-next to the DEPENDS saying "libgcc is required for the target specific
-libraries to build properly" and I simply have no idea how obviously
-it'll break when removing the dependency in go-cross.
-
-Anyway, I'll proceed down that route by rewriting the go.inc. Note that
-Richard correctly pointed out that the inclusion of go-1.8.bb in
-go-cross-1.8.bb isn't particularly clean, making such a change a bit
-more complicated. But I don't want to move content around too much just
-for this, so I'll leave the cleanup to the go maintainers.
+Okay, will do both as part of V4.
 
 -- 
 Best Regards, Patrick Ohly
