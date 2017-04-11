@@ -1,18 +1,46 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 69A2577CE8;
-	Tue, 11 Apr 2017 18:31:58 +0000 (UTC)
-MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Ed Bartosh <ed.bartosh@linux.intel.com>
-Date: Tue, 11 Apr 2017 18:32:00 -0000
-Message-ID: <20170411183200.6647.60395@do.openembedded.org>
-References: <1491934292-32582-1-git-send-email-ed.bartosh@linux.intel.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <1491934292-32582-1-git-send-email-ed.bartosh@linux.intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3Igd2ljLWltYWdlLW1pbmltYWw6IHN0b3AgdXNpbmcgY29yZS1pbWFnZS1taW5pbWFs?=
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-io0-f182.google.com (mail-io0-f182.google.com
+	[209.85.223.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 9775B77CEF
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 11 Apr 2017 18:38:51 +0000 (UTC)
+Received: by mail-io0-f182.google.com with SMTP id l7so12806014ioe.3
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 11 Apr 2017 11:38:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id;
+	bh=1NJHxDxHD9ZdlpXiMLTHxRh9+VeEYpRXkwWmgeeKGSk=;
+	b=vAcQq2/3zdM6zKthavECkmMfCGcUk9sDZCV/EDEZeAkfz0t3jT9u7Zby2aIHuQbxbM
+	EkO5ghOBO4/xYQeDhVkKdI0yJbJ1V/3ec4oJMOU81w0N0HZYlS9C0nNFAlJhe9SJ8rrD
+	BoxQCkjHo6W5tWgQmPWQcdZtZ7BlvuWGDExIYHr8jTclGkUAvE8galyqm/jmHV8YkIlw
+	Eo+nOY0Lq7B5wTTiUI79OzfVW+MIhARO9q93e9JtG6wETj1lW2AMtx0aBQ1YtBYuHXdc
+	vb5PyNJ1P+nXogofB3xwzWa3ZbmGqEvu24rYo/jYtkDO0CS3Ldm9Nh0nyJin8G6WYgEz
+	hyRQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=1NJHxDxHD9ZdlpXiMLTHxRh9+VeEYpRXkwWmgeeKGSk=;
+	b=Cm2KE086MxYzbH2nzoA4JY0UA9MmT17BMNX53VT7cQvJhLcCzabrbcjSqb1+gY9AkP
+	r1dICgd2sCXO2t3cN6U3IWoRyJ5G0WxbLbYR4k/HDIgdvoaE22DFT9/oqOmpGkw7K44m
+	jfBXbKdokqczm54dXhWVkdl13FMKxyL6jD9Yd9Ekfj0bdyfOISCdndJUQSv8jxtIO5m7
+	CSnoN1kCli1G3aDpR1e5OYET0yRTpHu0s1w8rrusOUkmUBZqhQuNhkIPHuOO+pMaWque
+	BlWIHx1/ZFj1oHOjQDq2iWo2ODYPcBEzu5a8xzKK2FwED9nqcXmFJL2n/yPQ7W12gRkI
+	RRJA==
+X-Gm-Message-State: AN3rC/623zNUAPftUC9NdsoZ6cCvXtPUcWyfGIxp/le/YGVhbCQY7++LB/Tgy7jOzfgyOhK1
+X-Received: by 10.107.178.129 with SMTP id b123mr21453901iof.50.1491935932513; 
+	Tue, 11 Apr 2017 11:38:52 -0700 (PDT)
+Received: from pohly-desktop.fritz.box (p5DE8D3A2.dip0.t-ipconnect.de.
+	[93.232.211.162]) by smtp.gmail.com with ESMTPSA id
+	m63sm8260499ioa.15.2017.04.11.11.38.50
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 11 Apr 2017 11:38:51 -0700 (PDT)
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 11 Apr 2017 20:38:35 +0200
+Message-Id: <cover.cb646ccab623b83f4d64996b56617990d731e820.1491935802.git-series.patrick.ohly@intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH v4 0/8] yocto-compat-layer: bitbake-diffsigs support + per machine checks + OE-core fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,41 +53,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Apr 2017 18:31:59 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 11 Apr 2017 18:38:51 -0000
 
-== Series Details ==
+Manually calling bitbake-diffsigs is cumbersome and doesn't work in a CI
+environment, so now the test itself does it for test_signatures.
 
-Series: wic-image-minimal: stop using core-image-minimal
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/6302/
-State : failure
+Regarding the BSP example that I ended up using: it actually was one
+of the better BSP layers and only had one problem in a "bitbake world"
+build instead of several as in other BSP layers.
 
-== Summary ==
+All pre-requisites in bitbake and OE-core are merged and no further
+work is planned, so this patch series could be merged now after
+reviewing the changes.
 
+The OE-core fixes are included here because they were developed in
+parallel to enhancing the tool which found them. They probably should
+be merged sooner.
 
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
+V2: - use self.fail() instead of self.assertTrue(False, ...)
+    - test_machine_signatures check (work in progress)
+V3: - rebased onto master where some yocto-compat-layer enhancements were already merged
+    - added OE-core fixes for issues found by the per-machine signature comparison
+    - finished test_machine_signatures (shorter output, explanations
+      on how to run bitbake-diffsigs, end report with one bitbake-diffsigs invocation)
+    - allow "bitbake -S none world" to fail during test_machine_signatures,
+      report such failures in a separate test_machine_world
+V4: - avoid DEPENDS_remove for go-cross
+    - commit message spelling fixes
 
+Patrick Ohly (8):
+  go-cross: avoid libgcc dependency
+  gdb-cross: avoid tune specific paths
+  recipes/*-cross recipes: ignore TARGET_ARCH sstate hash
+  yocto-compat-layer: include bitbake-diffsigs output
+  yocto-compat-layer: also determine tune flags for each task
+  yocto-compat-layer: add --additional-layers
+  yocto-compat-layer: test signature differences when setting MACHINE
+  yocto-compat-layer: better handling of per-machine world build breakage
 
+ meta/recipes-devtools/binutils/binutils-cross.inc |   3 +-
+ meta/recipes-devtools/gcc/gcc-cross.inc           |   3 +-
+ meta/recipes-devtools/gdb/gdb-cross.inc           |   5 +-
+ meta/recipes-devtools/go/go-cross.inc             |   3 +-
+ meta/recipes-devtools/go/go.inc                   |  11 +-
+ scripts/lib/compatlayer/__init__.py               |  32 +-
+ scripts/lib/compatlayer/cases/bsp.py              | 204 ++++++++++++++-
+ scripts/lib/compatlayer/cases/common.py           |  16 +-
+ scripts/yocto-compat-layer.py                     |  29 +-
+ 9 files changed, 293 insertions(+), 13 deletions(-)
 
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  master (currently at 210c518ba8)
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
----
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
-
+base-commit: ec2931852b2a097c9c8cb0d7288f5ca1d79f401c
+-- 
+git-series 0.9.1
 
