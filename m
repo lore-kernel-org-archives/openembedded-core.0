@@ -1,30 +1,28 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id C143877CDA
+Return-Path: <Li.Zhou@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 504D877C78
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Apr 2017 02:46:57 +0000 (UTC)
+	Tue, 11 Apr 2017 05:31:35 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v3B2ksUR000994
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v3B5VZGR025165
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 10 Apr 2017 19:46:54 -0700 (PDT)
-Received: from [128.224.162.185] (128.224.162.185) by ALA-HCA.corp.ad.wrs.com
+	Mon, 10 Apr 2017 22:31:35 -0700 (PDT)
+Received: from [128.224.162.243] (128.224.162.243) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
-	Mon, 10 Apr 2017 19:46:53 -0700
-To: Khem Raj <raj.khem@gmail.com>, Richard Purdie
-	<richard.purdie@linuxfoundation.org>,
-	<openembedded-core@lists.openembedded.org>
-References: <20170410031440.32220-1-kai.kang@windriver.com>
-	<1491809280.17200.128.camel@linuxfoundation.org>
-	<c0e094a3-8959-e9e6-4c9a-c47a97996646@gmail.com>
-From: Kang Kai <Kai.Kang@windriver.com>
-Message-ID: <3d68078e-c9c6-1934-be98-000a047088ab@windriver.com>
-Date: Tue, 11 Apr 2017 10:46:17 +0800
+	Mon, 10 Apr 2017 22:31:34 -0700
+References: <c2d859ac-be14-3464-2df2-090f72a02b76@windriver.com>
+To: <richard.purdie@linuxfoundation.org>, Patches and discussions about the
+	oe-core layer <openembedded-core@lists.openembedded.org>
+From: "Zhou, Li" <li.zhou@windriver.com>
+X-Forwarded-Message-Id: <c2d859ac-be14-3464-2df2-090f72a02b76@windriver.com>
+Message-ID: <93eb1af8-d13b-e283-003c-409d2938c781@windriver.com>
+Date: Tue, 11 Apr 2017 13:31:08 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.8.0
+	Thunderbird/45.2.0
 MIME-Version: 1.0
-In-Reply-To: <c0e094a3-8959-e9e6-4c9a-c47a97996646@gmail.com>
-Subject: Re: [PATCH] libsdl2: disable check gcc -Wdeclaration-after-statement for ppc
+In-Reply-To: <c2d859ac-be14-3464-2df2-090f72a02b76@windriver.com>
+Subject: [PATCH V2] python2/3: Move config/Makefile from core package to dev package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,114 +35,916 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Apr 2017 02:46:58 -0000
+X-List-Received-Date: Tue, 11 Apr 2017 05:31:37 -0000
+X-Groupsio-MsgNum: 96082
+Content-Type: multipart/mixed; boundary="------------3644CED74B315CB538347C83"
+
+--------------3644CED74B315CB538347C83
+Content-Type: multipart/alternative;
+	boundary="------------35A957EC26AE26B50AEF3E5C"
+
+--------------35A957EC26AE26B50AEF3E5C
 Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-On 2017年04月11日 03:51, Khem Raj wrote:
+Hi, Richard:
+
+          From the mails I received, I think you have merged the 1st 
+version of this patch, while I have sent out the 2nd version for fixing 
+the issue mentioned by Jussi .
+
+I just sent this patch in an accessory, because there are lines which 
+are too long to pass the auto tests (but they shouldn't be changed).
+
+So, please take a look at my 2nd patch in the *accessory*. Thank you.
+
+
+
+-------- Forwarded Message --------
+Subject: 	[OE-core] [PATCH V2] python2/3: Move config/Makefile from core 
+package to dev package
+Date: 	Mon, 10 Apr 2017 17:25:10 +0800
+From: 	Zhou, Li <li.zhou@windriver.com>
+To: 	Patches and discussions about the oe-core layer 
+<openembedded-core@lists.openembedded.org>
+
+
+
+         Here is the 2nd version for this patch. Still send it in an 
+accessory.
+
+         @Jussi: Thank you for the reminding.
+
+
+On 04/10/2017 04:08 PM, Jussi Kukkonen wrote:
+> On 10 April 2017 at 10:10, Li Zhou <li.zhou@windriver.com 
+> <mailto:li.zhou@windriver.com>> wrote:
 >
-> On 4/10/17 12:28 AM, Richard Purdie wrote:
->> On Mon, 2017-04-10 at 11:14 +0800, kai.kang@windriver.com wrote:
->>> From: Kai Kang <kai.kang@windriver.com>
->>>
->>> Disable check gcc option -Wdeclaration-after-statement for powerpc
->>> and
->>> powerpc64 which causes compile failures:
->>>
->>>>    CC     build/SDL_blit_N.lo
->>>> .../tmp/work/ppc7400-wrs-linux/libsdl2/2.0.5-r0/SDL2-
->>>> 2.0.5/src/video/SDL_blit_N.c: In function 'calc_swizzle32':
->>>> .../tmp/work/ppc7400-wrs-linux/libsdl2/2.0.5-r0/SDL2-
->>>> 2.0.5/src/video/SDL_blit_N.c:127:5: error: ISO C90 forbids
->>>> mixed declarations and code [-Werror=declaration-after-statement]
->>>>       const vector unsigned char plus = VECUINT8_LITERAL(0x00, 0x00,
->>>> 0x00, 0x00,
->>>>       ^~~~~
->>> Signed-off-by: Kai Kang <kai.kang@windriver.com>
->>> ---
->>>   ...able-check-gcc-Wdeclaration-after-statement.patch | 20
->>> ++++++++++++++++++++
->>>   meta/recipes-graphics/libsdl2/libsdl2_2.0.5.bb       |  2 ++
->>>   2 files changed, 22 insertions(+)
->>>   create mode 100644 meta/recipes-graphics/libsdl2/libsdl2/disable-
->>> check-gcc-Wdeclaration-after-statement.patch
->>>
->>> diff --git a/meta/recipes-graphics/libsdl2/libsdl2/disable-check-gcc-
->>> Wdeclaration-after-statement.patch b/meta/recipes-
->>> graphics/libsdl2/libsdl2/disable-check-gcc-Wdeclaration-after-
->>> statement.patch
->>> new file mode 100644
->>> index 0000000..ad48af7
->>> --- /dev/null
->>> +++ b/meta/recipes-graphics/libsdl2/libsdl2/disable-check-gcc-
->>> Wdeclaration-after-statement.patch
->>> @@ -0,0 +1,20 @@
->>> +Upstream-Status: Inappropriate [disable feature]
->> Given upstream explicitly enable this warning and the issue looks to be
->> in their code, surely upstream would want to fix this.
->>
->> Also, would it not be easier to patch the code and fix this than
->> disabling the warning?
-> yes, I think it should be fixed in code unless we know that this warning
-> is being wrongly generated for ppc64
-
-I suppose this a gcc bug about powerpc/ppc64. gcc 6 uses default 
-'-std=gnu11' to compile but it stills fails with 'ISO C90 forbids...'.
-Compare to x86, it also compiles with -Wdeclaration-after-statement and 
--Werror=declaration-after-statement too but succeeds.
-
-
-Regards,
-Kai
+>     Move config/Makefile in libdir from core package to dev package for
+>     python, because it is only needed in development process.
 >
->> Cheers,
->>
->> Richard
->>
->>
->>> +Disable check gcc option -Wdeclaration-after-statement for powerpc
->>> and
->>> +powerpc64 which causes compile failures.
->>> +
->>> +Signed-off-by: Kai Kang <kai.kang@windriver.com>
->>> +---
->>> +diff --git a/configure.in b/configure.in
->>> +index e2ddc9c..73b10f5 100644
->>> +--- a/configure.in
->>> ++++ b/configure.in
->>> +@@ -2950,7 +2950,7 @@ case "$host" in
->>> +             *-*-minix*)         ARCH=minix ;;
->>> +         esac
->>> +         CheckVisibilityHidden
->>> +-        CheckDeclarationAfterStatement
->>> ++#        CheckDeclarationAfterStatement
->>> +         CheckDummyVideo
->>> +         CheckDiskAudio
->>> +         CheckDummyAudio
->>> diff --git a/meta/recipes-graphics/libsdl2/libsdl2_2.0.5.bb
->>> b/meta/recipes-graphics/libsdl2/libsdl2_2.0.5.bb
->>> index d747cf1..33963c1 100644
->>> --- a/meta/recipes-graphics/libsdl2/libsdl2_2.0.5.bb
->>> +++ b/meta/recipes-graphics/libsdl2/libsdl2_2.0.5.bb
->>> @@ -20,6 +20,8 @@ SRC_URI = " \
->>>       file://0001-prepend-our-sysroot-path-so-that-make-finds-our-
->>> wayl.patch \
->>>       file://0002-Avoid-finding-build-host-s-wayland-scanner.patch \
->>>   "
->>> +SRC_URI_append_powerpc = " file://disable-check-gcc-Wdeclaration-
->>> after-statement.patch"
->>> +SRC_URI_append_powerpc64 = " file://disable-check-gcc-Wdeclaration-
->>> after-statement.patch"
->>>   
->>>   S = "${WORKDIR}/SDL2-${PV}"
->>>   
->>> -- 
->>> 2.10.1
->>>
-
+>     Signed-off-by: Li Zhou <li.zhou@windriver.com
+>     <mailto:li.zhou@windriver.com>>
+>     ---
+>      meta/recipes-devtools/python/python-2.7-manifest.inc | 4 ++--
+>      meta/recipes-devtools/python/python-3.5-manifest.inc | 4 ++--
+>
+>
+> These are generated files (see comments in the beginning of the 
+> files). You should modify the generators, run them to re-generate 
+> these files, and then send all the changes.
+>
+> Thanks,
+>   Jussi
+>
+>      2 files changed, 4 insertions(+), 4 deletions(-)
+>
+>     diff --git a/meta/recipes-devtools/python/python-2.7-manifest.inc
+>     b/meta/recipes-devtools/python/python-2.7-manifest.inc
+>     index 413405a..7ed254b 100644
+>     --- a/meta/recipes-devtools/python/python-2.7-manifest.inc
+>     +++ b/meta/recipes-devtools/python/python-2.7-manifest.inc
+>     @@ -46,7 +46,7 @@
+>     FILES_${PN}-contextlib="${libdir}/python${PYTHON_MAJMIN}/contextlib.*
+>     "
+>
+>      SUMMARY_${PN}-core="Python interpreter and core modules"
+>      RDEPENDS_${PN}-core="${PN}-lang ${PN}-re"
+>     -FILES_${PN}-core="${libdir}/python2.7/__future__.*
+>     ${libdir}/python2.7/_abcoll.* ${libdir}/python2.7/abc.*
+>     ${libdir}/python2.7/ast.* ${libdir}/python2.7/copy.*
+>     ${libdir}/python2.7/copy_reg.* ${libdir}/python2.7/ConfigParser.*
+>     ${libdir}/python2.7/genericpath.* ${libdir}/python2.7/getopt.*
+>     ${libdir}/python2.7/linecache.* ${libdir}/python2.7/new.*
+>     ${libdir}/python2.7/os.* ${libdir}/python2.7/posixpath.*
+>     ${libdir}/python2.7/struct.* ${libdir}/python2.7/warnings.*
+>     ${libdir}/python2.7/site.* ${libdir}/python2.7/stat.*
+>     ${libdir}/python2.7/UserDict.* ${libdir}/python2.7/UserList.*
+>     ${libdir}/python2.7/UserString.*
+>     ${libdir}/python2.7/lib-dynload/binascii.so
+>     ${libdir}/python2.7/lib-dynload/_struct.so
+>     ${libdir}/python2.7/lib-dynload/time.so
+>     ${libdir}/python2.7/lib-dynload/xreadlines.so
+>     ${libdir}/python2.7/types.* ${libdir}/python2.7/platform.*
+>     ${bindir}/python* ${libdir}/python2.7/_weakrefset.*
+>     ${libdir}/python2.7/sysconfig.*
+>     ${libdir}/python2.7/_sysconfigdata.* ${libdir}/python2.7/con
+>      fig/Makefile ${includedir}/python${PYTHON_MAJMIN}/pyconfig*.h
+>     ${libdir}/python${PYTHON_MAJMIN}/sitecustomize.py "
+>     +FILES_${PN}-core="${libdir}/python2.7/__future__.*
+>     ${libdir}/python2.7/_abcoll.* ${libdir}/python2.7/abc.*
+>     ${libdir}/python2.7/ast.* ${libdir}/python2.7/copy.*
+>     ${libdir}/python2.7/copy_reg.* ${libdir}/python2.7/ConfigParser.*
+>     ${libdir}/python2.7/genericpath.* ${libdir}/python2.7/getopt.*
+>     ${libdir}/python2.7/linecache.* ${libdir}/python2.7/new.*
+>     ${libdir}/python2.7/os.* ${libdir}/python2.7/posixpath.*
+>     ${libdir}/python2.7/struct.* ${libdir}/python2.7/warnings.*
+>     ${libdir}/python2.7/site.* ${libdir}/python2.7/stat.*
+>     ${libdir}/python2.7/UserDict.* ${libdir}/python2.7/UserList.*
+>     ${libdir}/python2.7/UserString.*
+>     ${libdir}/python2.7/lib-dynload/binascii.so
+>     ${libdir}/python2.7/lib-dynload/_struct.so
+>     ${libdir}/python2.7/lib-dynload/time.so
+>     ${libdir}/python2.7/lib-dynload/xreadlines.so
+>     ${libdir}/python2.7/types.* ${libdir}/python2.7/platform.*
+>     ${bindir}/python* ${libdir}/python2.7/_weakrefset.*
+>     ${libdir}/python2.7/sysconfig.*
+>     ${libdir}/python2.7/_sysconfigdata.* ${includedir}/python${P
+>      YTHON_MAJMIN}/pyconfig*.h
+>     ${libdir}/python${PYTHON_MAJMIN}/sitecustomize.py "
+>
+>      SUMMARY_${PN}-crypt="Python basic cryptographic and hashing support"
+>      RDEPENDS_${PN}-crypt="${PN}-core"
+>     @@ -74,7 +74,7 @@ FILES_${PN}-debugger="${libdir}/python2.7/bdb.*
+>     ${libdir}/python2.7/pdb.* "
+>
+>      SUMMARY_${PN}-dev="Python development package"
+>      RDEPENDS_${PN}-dev="${PN}-core"
+>     -FILES_${PN}-dev="${includedir} ${libdir}/lib*${SOLIBSDEV}
+>     ${libdir}/*.la ${libdir}/*.a ${libdir}/*.o ${libdir}/pkgconfig
+>     ${base_libdir}/*.a ${base_libdir}/*.o ${datadir}/aclocal
+>     ${datadir}/pkgconfig "
+>     +FILES_${PN}-dev="${includedir} ${libdir}/lib*${SOLIBSDEV}
+>     ${libdir}/*.la ${libdir}/*.a ${libdir}/*.o ${libdir}/pkgconfig
+>     ${base_libdir}/*.a ${base_libdir}/*.o ${datadir}/aclocal
+>     ${datadir}/pkgconfig ${libdir}/python2.7/config/Makefile "
+>
+>      SUMMARY_${PN}-difflib="Python helpers for computing deltas
+>     between objects"
+>      RDEPENDS_${PN}-difflib="${PN}-lang ${PN}-re"
+>     diff --git a/meta/recipes-devtools/python/python-3.5-manifest.inc
+>     b/meta/recipes-devtools/python/python-3.5-manifest.inc
+>     index 55bcc4b..b78158e 100644
+>     --- a/meta/recipes-devtools/python/python-3.5-manifest.inc
+>     +++ b/meta/recipes-devtools/python/python-3.5-manifest.inc
+>     @@ -38,7 +38,7 @@
+>     FILES_${PN}-compression="${libdir}/python3.5/gzip.*
+>     ${libdir}/python3.5/__pycach
+>
+>      SUMMARY_${PN}-core="Python interpreter and core modules"
+>      RDEPENDS_${PN}-core="${PN}-lang ${PN}-re ${PN}-reprlib
+>     ${PN}-codecs ${PN}-io ${PN}-math"
+>     -FILES_${PN}-core="${libdir}/python3.5/__future__.*
+>     ${libdir}/python3.5/__pycache__/__future__.*
+>     ${libdir}/python3.5/_abcoll.*
+>     ${libdir}/python3.5/__pycache__/_abcoll.*
+>     ${libdir}/python3.5/abc.* ${libdir}/python3.5/__pycache__/abc.*
+>     ${libdir}/python3.5/ast.* ${libdir}/python3.5/__pycache__/ast.*
+>     ${libdir}/python3.5/copy.* ${libdir}/python3.5/__pycache__/copy.*
+>     ${libdir}/python3.5/copyreg.*
+>     ${libdir}/python3.5/__pycache__/copyreg.*
+>     ${libdir}/python3.5/configparser.*
+>     ${libdir}/python3.5/__pycache__/configparser.*
+>     ${libdir}/python3.5/genericpath.*
+>     ${libdir}/python3.5/__pycache__/genericpath.*
+>     ${libdir}/python3.5/getopt.*
+>     ${libdir}/python3.5/__pycache__/getopt.*
+>     ${libdir}/python3.5/linecache.*
+>     ${libdir}/python3.5/__pycache__/linecache.*
+>     ${libdir}/python3.5/new.* ${libdir}/python3.5/__pycache__/new.*
+>     ${libdir}/python3.5/os.* ${libdir}/python3.5/__pycache__/os.*
+>     ${libdir}/python3.5/posixpath.*
+>     ${libdir}/python3.5/__pycache__/posixpath.*
+>     ${libdir}/python3.5/struct.* ${libdir}/python
+>      3.5/__pycache__/struct.* ${libdir}/python3.5/warnings.*
+>     ${libdir}/python3.5/__pycache__/warnings.*
+>     ${libdir}/python3.5/site.* ${libdir}/python3.5/__pycache__/site.*
+>     ${libdir}/python3.5/stat.* ${libdir}/python3.5/__pycache__/stat.*
+>     ${libdir}/python3.5/UserDict.*
+>     ${libdir}/python3.5/__pycache__/UserDict.*
+>     ${libdir}/python3.5/UserList.*
+>     ${libdir}/python3.5/__pycache__/UserList.*
+>     ${libdir}/python3.5/UserString.*
+>     ${libdir}/python3.5/__pycache__/UserString.*
+>     ${libdir}/python3.5/lib-dynload/binascii.*.so
+>     ${libdir}/python3.5/lib-dynload/__pycache__/binascii.*.so
+>     ${libdir}/python3.5/lib-dynload/_struct.*.so
+>     ${libdir}/python3.5/lib-dynload/__pycache__/_struct.*.so
+>     ${libdir}/python3.5/lib-dynload/time.*.so
+>     ${libdir}/python3.5/lib-dynload/__pycache__/time.*.so
+>     ${libdir}/python3.5/lib-dynload/xreadlines.*.so
+>     ${libdir}/python3.5/lib-dynload/__pycache__/xreadlines.*.so
+>     ${libdir}/python3.5/types.*
+>     ${libdir}/python3.5/__pycache__/types.*
+>     ${libdir}/python3.5/platform.* ${libdir}/python3.5/__p
+>      ycache__/platform.* ${bindir}/python*
+>     ${libdir}/python3.5/_weakrefset.*
+>     ${libdir}/python3.5/__pycache__/_weakrefset.*
+>     ${libdir}/python3.5/sysconfig.*
+>     ${libdir}/python3.5/__pycache__/sysconfig.*
+>     ${libdir}/python3.5/_sysconfigdata.*
+>     ${libdir}/python3.5/__pycache__/_sysconfigdata.*
+>     ${libdir}/python3.5/config/Makefile
+>     ${libdir}/python3.5/config/Makefile/__pycache__
+>     ${includedir}/python${PYTHON_BINABI}/pyconfig*.h
+>     ${libdir}/python${PYTHON_MAJMIN}/collections
+>     ${libdir}/python${PYTHON_MAJMIN}/_collections_abc.*
+>     ${libdir}/python${PYTHON_MAJMIN}/_sitebuiltins.*
+>     ${libdir}/python${PYTHON_MAJMIN}/sitecustomize.py "
+>     +FILES_${PN}-core="${libdir}/python3.5/__future__.*
+>     ${libdir}/python3.5/__pycache__/__future__.*
+>     ${libdir}/python3.5/_abcoll.*
+>     ${libdir}/python3.5/__pycache__/_abcoll.*
+>     ${libdir}/python3.5/abc.* ${libdir}/python3.5/__pycache__/abc.*
+>     ${libdir}/python3.5/ast.* ${libdir}/python3.5/__pycache__/ast.*
+>     ${libdir}/python3.5/copy.* ${libdir}/python3.5/__pycache__/copy.*
+>     ${libdir}/python3.5/copyreg.*
+>     ${libdir}/python3.5/__pycache__/copyreg.*
+>     ${libdir}/python3.5/configparser.*
+>     ${libdir}/python3.5/__pycache__/configparser.*
+>     ${libdir}/python3.5/genericpath.*
+>     ${libdir}/python3.5/__pycache__/genericpath.*
+>     ${libdir}/python3.5/getopt.*
+>     ${libdir}/python3.5/__pycache__/getopt.*
+>     ${libdir}/python3.5/linecache.*
+>     ${libdir}/python3.5/__pycache__/linecache.*
+>     ${libdir}/python3.5/new.* ${libdir}/python3.5/__pycache__/new.*
+>     ${libdir}/python3.5/os.* ${libdir}/python3.5/__pycache__/os.*
+>     ${libdir}/python3.5/posixpath.*
+>     ${libdir}/python3.5/__pycache__/posixpath.*
+>     ${libdir}/python3.5/struct.* ${libdir}/python
+>      3.5/__pycache__/struct.* ${libdir}/python3.5/warnings.*
+>     ${libdir}/python3.5/__pycache__/warnings.*
+>     ${libdir}/python3.5/site.* ${libdir}/python3.5/__pycache__/site.*
+>     ${libdir}/python3.5/stat.* ${libdir}/python3.5/__pycache__/stat.*
+>     ${libdir}/python3.5/UserDict.*
+>     ${libdir}/python3.5/__pycache__/UserDict.*
+>     ${libdir}/python3.5/UserList.*
+>     ${libdir}/python3.5/__pycache__/UserList.*
+>     ${libdir}/python3.5/UserString.*
+>     ${libdir}/python3.5/__pycache__/UserString.*
+>     ${libdir}/python3.5/lib-dynload/binascii.*.so
+>     ${libdir}/python3.5/lib-dynload/__pycache__/binascii.*.so
+>     ${libdir}/python3.5/lib-dynload/_struct.*.so
+>     ${libdir}/python3.5/lib-dynload/__pycache__/_struct.*.so
+>     ${libdir}/python3.5/lib-dynload/time.*.so
+>     ${libdir}/python3.5/lib-dynload/__pycache__/time.*.so
+>     ${libdir}/python3.5/lib-dynload/xreadlines.*.so
+>     ${libdir}/python3.5/lib-dynload/__pycache__/xreadlines.*.so
+>     ${libdir}/python3.5/types.*
+>     ${libdir}/python3.5/__pycache__/types.*
+>     ${libdir}/python3.5/platform.* ${libdir}/python3.5/__p
+>      ycache__/platform.* ${bindir}/python*
+>     ${libdir}/python3.5/_weakrefset.*
+>     ${libdir}/python3.5/__pycache__/_weakrefset.*
+>     ${libdir}/python3.5/sysconfig.*
+>     ${libdir}/python3.5/__pycache__/sysconfig.*
+>     ${libdir}/python3.5/_sysconfigdata.*
+>     ${libdir}/python3.5/__pycache__/_sysconfigdata.*
+>     ${libdir}/python3.5/config/Makefile/__pycache__
+>     ${includedir}/python${PYTHON_BINABI}/pyconfig*.h
+>     ${libdir}/python${PYTHON_MAJMIN}/collections
+>     ${libdir}/python${PYTHON_MAJMIN}/_collections_abc.*
+>     ${libdir}/python${PYTHON_MAJMIN}/_sitebuiltins.*
+>     ${libdir}/python${PYTHON_MAJMIN}/sitecustomize.py "
+>
+>      SUMMARY_${PN}-crypt="Python basic cryptographic and hashing support"
+>      RDEPENDS_${PN}-crypt="${PN}-core"
+>     @@ -66,7 +66,7 @@ FILES_${PN}-debugger="${libdir}/python3.5/bdb.*
+>     ${libdir}/python3.5/__pycache__/
+>
+>      SUMMARY_${PN}-dev="Python development package"
+>      RDEPENDS_${PN}-dev="${PN}-core"
+>     -FILES_${PN}-dev="${includedir} ${libdir}/lib*${SOLIBSDEV}
+>     ${libdir}/*.la ${libdir}/*.a ${libdir}/*.o ${libdir}/pkgconfig
+>     ${base_libdir}/*.a ${base_libdir}/*.o ${datadir}/aclocal
+>     ${datadir}/pkgconfig "
+>     +FILES_${PN}-dev="${includedir} ${libdir}/lib*${SOLIBSDEV}
+>     ${libdir}/*.la ${libdir}/*.a ${libdir}/*.o ${libdir}/pkgconfig
+>     ${base_libdir}/*.a ${base_libdir}/*.o ${datadir}/aclocal
+>     ${datadir}/pkgconfig ${libdir}/python3.5/config/Makefile "
+>
+>      SUMMARY_${PN}-difflib="Python helpers for computing deltas
+>     between objects"
+>      RDEPENDS_${PN}-difflib="${PN}-lang ${PN}-re"
+>     --
+>     1.9.1
+>
+>     --
+>     _______________________________________________
+>     Openembedded-core mailing list
+>     Openembedded-core@lists.openembedded.org
+>     <mailto:Openembedded-core@lists.openembedded.org>
+>     http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>     <http://lists.openembedded.org/mailman/listinfo/openembedded-core>
+>
+>
 
 -- 
-Regards,
-Neil | Kai Kang
+Best Regards!
+Zhou Li
+Phone number: 86-10-84778511
 
 
+--------------35A957EC26AE26B50AEF3E5C
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  </head>
+  <body bgcolor="#FFFFFF" text="#000000">
+    <p>Hi, Richard:</p>
+    <p>         From the mails I received, I think you have merged the
+      1st version of this patch, while I have sent out the 2nd version
+      for fixing the issue mentioned by Jussi .</p>
+    <p>I just sent this patch in an accessory, because there are lines
+      which are too long to pass the auto tests (but they shouldn't be
+      changed).</p>
+    <p>So, please take a look at my 2nd patch in the <b>accessory</b>.
+      Thank you.<br>
+    </p>
+    <div class="moz-forward-container"><br>
+      <br>
+      -------- Forwarded Message --------
+      <table class="moz-email-headers-table" border="0" cellpadding="0"
+        cellspacing="0">
+        <tbody>
+          <tr>
+            <th nowrap="nowrap" valign="BASELINE" align="RIGHT">Subject:
+            </th>
+            <td>[OE-core] [PATCH V2] python2/3: Move config/Makefile
+              from core package to dev package</td>
+          </tr>
+          <tr>
+            <th nowrap="nowrap" valign="BASELINE" align="RIGHT">Date: </th>
+            <td>Mon, 10 Apr 2017 17:25:10 +0800</td>
+          </tr>
+          <tr>
+            <th nowrap="nowrap" valign="BASELINE" align="RIGHT">From: </th>
+            <td>Zhou, Li <a class="moz-txt-link-rfc2396E" href="mailto:li.zhou@windriver.com">&lt;li.zhou@windriver.com&gt;</a></td>
+          </tr>
+          <tr>
+            <th nowrap="nowrap" valign="BASELINE" align="RIGHT">To: </th>
+            <td>Patches and discussions about the oe-core layer
+              <a class="moz-txt-link-rfc2396E" href="mailto:openembedded-core@lists.openembedded.org">&lt;openembedded-core@lists.openembedded.org&gt;</a></td>
+          </tr>
+        </tbody>
+      </table>
+      <br>
+      <br>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <p>        Here is the 2nd version for this patch. Still send it
+        in an accessory.</p>
+      <p>        @Jussi: Thank you for the reminding.<br>
+      </p>
+      <br>
+      <div class="moz-cite-prefix">On 04/10/2017 04:08 PM, Jussi
+        Kukkonen wrote:<br>
+      </div>
+      <blockquote
+cite="mid:CAHiDW_HBcmoztK4s-+mALN_kKnEidWmpsRSZiCDdhoihAa+0sg@mail.gmail.com"
+        type="cite">
+        <div dir="ltr">
+          <div class="gmail_extra">
+            <div class="gmail_quote">On 10 April 2017 at 10:10, Li Zhou
+              <span dir="ltr">&lt;<a moz-do-not-send="true"
+                  href="mailto:li.zhou@windriver.com" target="_blank">li.zhou@windriver.com</a>&gt;</span>
+              wrote:<br>
+              <blockquote class="gmail_quote" style="margin:0 0 0
+                .8ex;border-left:1px #ccc solid;padding-left:1ex">Move
+                config/Makefile in libdir from core package to dev
+                package for<br>
+                python, because it is only needed in development
+                process.<br>
+                <br>
+                Signed-off-by: Li Zhou &lt;<a moz-do-not-send="true"
+                  href="mailto:li.zhou@windriver.com">li.zhou@windriver.com</a>&gt;<br>
+                ---<br>
+                 meta/recipes-devtools/python/<wbr>python-2.7-manifest.inc
+                | 4 ++--<br>
+                 meta/recipes-devtools/python/<wbr>python-3.5-manifest.inc
+                | 4 ++--<br>
+              </blockquote>
+              <div><br>
+              </div>
+              <div>These are generated files (see comments in the
+                beginning of the files). You should modify the
+                generators, run them to re-generate these files, and
+                then send all the changes.<br>
+              </div>
+              <div><br>
+              </div>
+              <div>Thanks,</div>
+              <div>  Jussi</div>
+              <div><br>
+              </div>
+              <div> </div>
+              <blockquote class="gmail_quote" style="margin:0 0 0
+                .8ex;border-left:1px #ccc solid;padding-left:1ex">  2
+                files changed, 4 insertions(+), 4 deletions(-)<br>
+                <br>
+                diff --git a/meta/recipes-devtools/<wbr>python/python-2.7-manifest.inc
+                b/meta/recipes-devtools/<wbr>python/python-2.7-manifest.inc<br>
+                index 413405a..7ed254b 100644<br>
+                --- a/meta/recipes-devtools/<wbr>python/python-2.7-manifest.inc<br>
+                +++ b/meta/recipes-devtools/<wbr>python/python-2.7-manifest.inc<br>
+                @@ -46,7 +46,7 @@ FILES_${PN}-contextlib="${<wbr>libdir}/python${PYTHON_MAJMIN}<wbr>/contextlib.*
+                "<br>
+                <br>
+                 SUMMARY_${PN}-core="Python interpreter and core
+                modules"<br>
+                 RDEPENDS_${PN}-core="${PN}-<wbr>lang ${PN}-re"<br>
+                -FILES_${PN}-core="${libdir}/<wbr>python2.7/__future__.*
+                ${libdir}/python2.7/_abcoll.* ${libdir}/python2.7/abc.*
+                ${libdir}/python2.7/ast.* ${libdir}/python2.7/copy.*
+                ${libdir}/python2.7/copy_reg.* ${libdir}/python2.7/<wbr>ConfigParser.*
+                ${libdir}/python2.7/<wbr>genericpath.*
+                ${libdir}/python2.7/getopt.*
+                ${libdir}/python2.7/linecache.<wbr>*
+                ${libdir}/python2.7/new.* ${libdir}/python2.7/os.*
+                ${libdir}/python2.7/posixpath.<wbr>*
+                ${libdir}/python2.7/struct.*
+                ${libdir}/python2.7/warnings.*
+                ${libdir}/python2.7/site.* ${libdir}/python2.7/stat.*
+                ${libdir}/python2.7/UserDict.*
+                ${libdir}/python2.7/UserList.* ${libdir}/python2.7/<wbr>UserString.*
+                ${libdir}/python2.7/lib-<wbr>dynload/binascii.so
+                ${libdir}/python2.7/lib-<wbr>dynload/_struct.so
+                ${libdir}/python2.7/lib-<wbr>dynload/time.so
+                ${libdir}/python2.7/lib-<wbr>dynload/xreadlines.so
+                ${libdir}/python2.7/types.*
+                ${libdir}/python2.7/platform.* ${bindir}/python*
+                ${libdir}/python2.7/_<wbr>weakrefset.*
+                ${libdir}/python2.7/sysconfig.<wbr>*
+                ${libdir}/python2.7/_<wbr>sysconfigdata.*
+                ${libdir}/python2.7/con<br>
+                 fig/Makefile ${includedir}/python${PYTHON_<wbr>MAJMIN}/pyconfig*.h
+                ${libdir}/python${PYTHON_<wbr>MAJMIN}/sitecustomize.py "<br>
+                +FILES_${PN}-core="${libdir}/<wbr>python2.7/__future__.*
+                ${libdir}/python2.7/_abcoll.* ${libdir}/python2.7/abc.*
+                ${libdir}/python2.7/ast.* ${libdir}/python2.7/copy.*
+                ${libdir}/python2.7/copy_reg.* ${libdir}/python2.7/<wbr>ConfigParser.*
+                ${libdir}/python2.7/<wbr>genericpath.*
+                ${libdir}/python2.7/getopt.*
+                ${libdir}/python2.7/linecache.<wbr>*
+                ${libdir}/python2.7/new.* ${libdir}/python2.7/os.*
+                ${libdir}/python2.7/posixpath.<wbr>*
+                ${libdir}/python2.7/struct.*
+                ${libdir}/python2.7/warnings.*
+                ${libdir}/python2.7/site.* ${libdir}/python2.7/stat.*
+                ${libdir}/python2.7/UserDict.*
+                ${libdir}/python2.7/UserList.* ${libdir}/python2.7/<wbr>UserString.*
+                ${libdir}/python2.7/lib-<wbr>dynload/binascii.so
+                ${libdir}/python2.7/lib-<wbr>dynload/_struct.so
+                ${libdir}/python2.7/lib-<wbr>dynload/time.so
+                ${libdir}/python2.7/lib-<wbr>dynload/xreadlines.so
+                ${libdir}/python2.7/types.*
+                ${libdir}/python2.7/platform.* ${bindir}/python*
+                ${libdir}/python2.7/_<wbr>weakrefset.*
+                ${libdir}/python2.7/sysconfig.<wbr>*
+                ${libdir}/python2.7/_<wbr>sysconfigdata.*
+                ${includedir}/python${P<br>
+                 YTHON_MAJMIN}/pyconfig*.h ${libdir}/python${PYTHON_<wbr>MAJMIN}/sitecustomize.py
+                "<br>
+                <br>
+                 SUMMARY_${PN}-crypt="Python basic cryptographic and
+                hashing support"<br>
+                 RDEPENDS_${PN}-crypt="${PN}-<wbr>core"<br>
+                @@ -74,7 +74,7 @@ FILES_${PN}-debugger="${<wbr>libdir}/python2.7/bdb.*
+                ${libdir}/python2.7/pdb.* "<br>
+                <br>
+                 SUMMARY_${PN}-dev="Python development package"<br>
+                 RDEPENDS_${PN}-dev="${PN}-<wbr>core"<br>
+                -FILES_${PN}-dev="${<wbr>includedir}
+                ${libdir}/lib*${SOLIBSDEV} ${libdir}/*.la ${libdir}/*.a
+                ${libdir}/*.o ${libdir}/pkgconfig ${base_libdir}/*.a
+                ${base_libdir}/*.o ${datadir}/aclocal
+                ${datadir}/pkgconfig "<br>
+                +FILES_${PN}-dev="${<wbr>includedir}
+                ${libdir}/lib*${SOLIBSDEV} ${libdir}/*.la ${libdir}/*.a
+                ${libdir}/*.o ${libdir}/pkgconfig ${base_libdir}/*.a
+                ${base_libdir}/*.o ${datadir}/aclocal
+                ${datadir}/pkgconfig ${libdir}/python2.7/config/<wbr>Makefile
+                "<br>
+                <br>
+                 SUMMARY_${PN}-difflib="Python helpers for computing
+                deltas between objects"<br>
+                 RDEPENDS_${PN}-difflib="${PN}-<wbr>lang ${PN}-re"<br>
+                diff --git a/meta/recipes-devtools/<wbr>python/python-3.5-manifest.inc
+                b/meta/recipes-devtools/<wbr>python/python-3.5-manifest.inc<br>
+                index 55bcc4b..b78158e 100644<br>
+                --- a/meta/recipes-devtools/<wbr>python/python-3.5-manifest.inc<br>
+                +++ b/meta/recipes-devtools/<wbr>python/python-3.5-manifest.inc<br>
+                @@ -38,7 +38,7 @@ FILES_${PN}-compression="${<wbr>libdir}/python3.5/gzip.*
+                ${libdir}/python3.5/__pycach<br>
+                <br>
+                 SUMMARY_${PN}-core="Python interpreter and core
+                modules"<br>
+                 RDEPENDS_${PN}-core="${PN}-<wbr>lang ${PN}-re
+                ${PN}-reprlib ${PN}-codecs ${PN}-io ${PN}-math"<br>
+                -FILES_${PN}-core="${libdir}/<wbr>python3.5/__future__.*
+                ${libdir}/python3.5/__pycache_<wbr>_/__future__.*
+                ${libdir}/python3.5/_abcoll.*
+                ${libdir}/python3.5/__pycache_<wbr>_/_abcoll.*
+                ${libdir}/python3.5/abc.* ${libdir}/python3.5/__pycache_<wbr>_/abc.*
+                ${libdir}/python3.5/ast.* ${libdir}/python3.5/__pycache_<wbr>_/ast.*
+                ${libdir}/python3.5/copy.*
+                ${libdir}/python3.5/__pycache_<wbr>_/copy.*
+                ${libdir}/python3.5/copyreg.*
+                ${libdir}/python3.5/__pycache_<wbr>_/copyreg.*
+                ${libdir}/python3.5/<wbr>configparser.*
+                ${libdir}/python3.5/__pycache_<wbr>_/configparser.*
+                ${libdir}/python3.5/<wbr>genericpath.*
+                ${libdir}/python3.5/__pycache_<wbr>_/genericpath.*
+                ${libdir}/python3.5/getopt.*
+                ${libdir}/python3.5/__pycache_<wbr>_/getopt.*
+                ${libdir}/python3.5/linecache.<wbr>*
+                ${libdir}/python3.5/__pycache_<wbr>_/linecache.*
+                ${libdir}/python3.5/new.* ${libdir}/python3.5/__pycache_<wbr>_/new.*
+                ${libdir}/python3.5/os.* ${libdir}/python3.5/__pycache_<wbr>_/os.*
+                ${libdir}/python3.5/posixpath.<wbr>*
+                ${libdir}/python3.5/__pycache_<wbr>_/posixpath.*
+                ${libdir}/python3.5/struct.* ${libdir}/python<br>
+                 3.5/__pycache__/struct.* ${libdir}/python3.5/warnings.*
+                ${libdir}/python3.5/__pycache_<wbr>_/warnings.*
+                ${libdir}/python3.5/site.*
+                ${libdir}/python3.5/__pycache_<wbr>_/site.*
+                ${libdir}/python3.5/stat.*
+                ${libdir}/python3.5/__pycache_<wbr>_/stat.*
+                ${libdir}/python3.5/UserDict.*
+                ${libdir}/python3.5/__pycache_<wbr>_/UserDict.*
+                ${libdir}/python3.5/UserList.*
+                ${libdir}/python3.5/__pycache_<wbr>_/UserList.*
+                ${libdir}/python3.5/<wbr>UserString.*
+                ${libdir}/python3.5/__pycache_<wbr>_/UserString.*
+                ${libdir}/python3.5/lib-<wbr>dynload/binascii.*.so
+                ${libdir}/python3.5/lib-<wbr>dynload/__pycache__/binascii.*<wbr>.so
+                ${libdir}/python3.5/lib-<wbr>dynload/_struct.*.so
+                ${libdir}/python3.5/lib-<wbr>dynload/__pycache__/_struct.*.<wbr>so
+                ${libdir}/python3.5/lib-<wbr>dynload/time.*.so
+                ${libdir}/python3.5/lib-<wbr>dynload/__pycache__/time.*.so
+                ${libdir}/python3.5/lib-<wbr>dynload/xreadlines.*.so
+                ${libdir}/python3.5/lib-<wbr>dynload/__pycache__/<wbr>xreadlines.*.so
+                ${libdir}/python3.5/types.*
+                ${libdir}/python3.5/__pycache_<wbr>_/types.*
+                ${libdir}/python3.5/platform.* ${libdir}/python3.5/__p<br>
+                 ycache__/platform.* ${bindir}/python*
+                ${libdir}/python3.5/_<wbr>weakrefset.*
+                ${libdir}/python3.5/__pycache_<wbr>_/_weakrefset.*
+                ${libdir}/python3.5/sysconfig.<wbr>*
+                ${libdir}/python3.5/__pycache_<wbr>_/sysconfig.*
+                ${libdir}/python3.5/_<wbr>sysconfigdata.*
+                ${libdir}/python3.5/__pycache_<wbr>_/_sysconfigdata.*
+                ${libdir}/python3.5/config/<wbr>Makefile
+                ${libdir}/python3.5/config/<wbr>Makefile/__pycache__
+                ${includedir}/python${PYTHON_<wbr>BINABI}/pyconfig*.h
+                ${libdir}/python${PYTHON_<wbr>MAJMIN}/collections
+                ${libdir}/python${PYTHON_<wbr>MAJMIN}/_collections_abc.*
+                ${libdir}/python${PYTHON_<wbr>MAJMIN}/_sitebuiltins.*
+                ${libdir}/python${PYTHON_<wbr>MAJMIN}/sitecustomize.py "<br>
+                +FILES_${PN}-core="${libdir}/<wbr>python3.5/__future__.*
+                ${libdir}/python3.5/__pycache_<wbr>_/__future__.*
+                ${libdir}/python3.5/_abcoll.*
+                ${libdir}/python3.5/__pycache_<wbr>_/_abcoll.*
+                ${libdir}/python3.5/abc.* ${libdir}/python3.5/__pycache_<wbr>_/abc.*
+                ${libdir}/python3.5/ast.* ${libdir}/python3.5/__pycache_<wbr>_/ast.*
+                ${libdir}/python3.5/copy.*
+                ${libdir}/python3.5/__pycache_<wbr>_/copy.*
+                ${libdir}/python3.5/copyreg.*
+                ${libdir}/python3.5/__pycache_<wbr>_/copyreg.*
+                ${libdir}/python3.5/<wbr>configparser.*
+                ${libdir}/python3.5/__pycache_<wbr>_/configparser.*
+                ${libdir}/python3.5/<wbr>genericpath.*
+                ${libdir}/python3.5/__pycache_<wbr>_/genericpath.*
+                ${libdir}/python3.5/getopt.*
+                ${libdir}/python3.5/__pycache_<wbr>_/getopt.*
+                ${libdir}/python3.5/linecache.<wbr>*
+                ${libdir}/python3.5/__pycache_<wbr>_/linecache.*
+                ${libdir}/python3.5/new.* ${libdir}/python3.5/__pycache_<wbr>_/new.*
+                ${libdir}/python3.5/os.* ${libdir}/python3.5/__pycache_<wbr>_/os.*
+                ${libdir}/python3.5/posixpath.<wbr>*
+                ${libdir}/python3.5/__pycache_<wbr>_/posixpath.*
+                ${libdir}/python3.5/struct.* ${libdir}/python<br>
+                 3.5/__pycache__/struct.* ${libdir}/python3.5/warnings.*
+                ${libdir}/python3.5/__pycache_<wbr>_/warnings.*
+                ${libdir}/python3.5/site.*
+                ${libdir}/python3.5/__pycache_<wbr>_/site.*
+                ${libdir}/python3.5/stat.*
+                ${libdir}/python3.5/__pycache_<wbr>_/stat.*
+                ${libdir}/python3.5/UserDict.*
+                ${libdir}/python3.5/__pycache_<wbr>_/UserDict.*
+                ${libdir}/python3.5/UserList.*
+                ${libdir}/python3.5/__pycache_<wbr>_/UserList.*
+                ${libdir}/python3.5/<wbr>UserString.*
+                ${libdir}/python3.5/__pycache_<wbr>_/UserString.*
+                ${libdir}/python3.5/lib-<wbr>dynload/binascii.*.so
+                ${libdir}/python3.5/lib-<wbr>dynload/__pycache__/binascii.*<wbr>.so
+                ${libdir}/python3.5/lib-<wbr>dynload/_struct.*.so
+                ${libdir}/python3.5/lib-<wbr>dynload/__pycache__/_struct.*.<wbr>so
+                ${libdir}/python3.5/lib-<wbr>dynload/time.*.so
+                ${libdir}/python3.5/lib-<wbr>dynload/__pycache__/time.*.so
+                ${libdir}/python3.5/lib-<wbr>dynload/xreadlines.*.so
+                ${libdir}/python3.5/lib-<wbr>dynload/__pycache__/<wbr>xreadlines.*.so
+                ${libdir}/python3.5/types.*
+                ${libdir}/python3.5/__pycache_<wbr>_/types.*
+                ${libdir}/python3.5/platform.* ${libdir}/python3.5/__p<br>
+                 ycache__/platform.* ${bindir}/python*
+                ${libdir}/python3.5/_<wbr>weakrefset.*
+                ${libdir}/python3.5/__pycache_<wbr>_/_weakrefset.*
+                ${libdir}/python3.5/sysconfig.<wbr>*
+                ${libdir}/python3.5/__pycache_<wbr>_/sysconfig.*
+                ${libdir}/python3.5/_<wbr>sysconfigdata.*
+                ${libdir}/python3.5/__pycache_<wbr>_/_sysconfigdata.*
+                ${libdir}/python3.5/config/<wbr>Makefile/__pycache__
+                ${includedir}/python${PYTHON_<wbr>BINABI}/pyconfig*.h
+                ${libdir}/python${PYTHON_<wbr>MAJMIN}/collections
+                ${libdir}/python${PYTHON_<wbr>MAJMIN}/_collections_abc.*
+                ${libdir}/python${PYTHON_<wbr>MAJMIN}/_sitebuiltins.*
+                ${libdir}/python${PYTHON_<wbr>MAJMIN}/sitecustomize.py "<br>
+                <br>
+                 SUMMARY_${PN}-crypt="Python basic cryptographic and
+                hashing support"<br>
+                 RDEPENDS_${PN}-crypt="${PN}-<wbr>core"<br>
+                @@ -66,7 +66,7 @@ FILES_${PN}-debugger="${<wbr>libdir}/python3.5/bdb.*
+                ${libdir}/python3.5/__pycache_<wbr>_/<br>
+                <br>
+                 SUMMARY_${PN}-dev="Python development package"<br>
+                 RDEPENDS_${PN}-dev="${PN}-<wbr>core"<br>
+                -FILES_${PN}-dev="${<wbr>includedir}
+                ${libdir}/lib*${SOLIBSDEV} ${libdir}/*.la ${libdir}/*.a
+                ${libdir}/*.o ${libdir}/pkgconfig ${base_libdir}/*.a
+                ${base_libdir}/*.o ${datadir}/aclocal
+                ${datadir}/pkgconfig "<br>
+                +FILES_${PN}-dev="${<wbr>includedir}
+                ${libdir}/lib*${SOLIBSDEV} ${libdir}/*.la ${libdir}/*.a
+                ${libdir}/*.o ${libdir}/pkgconfig ${base_libdir}/*.a
+                ${base_libdir}/*.o ${datadir}/aclocal
+                ${datadir}/pkgconfig ${libdir}/python3.5/config/<wbr>Makefile
+                "<br>
+                <br>
+                 SUMMARY_${PN}-difflib="Python helpers for computing
+                deltas between objects"<br>
+                 RDEPENDS_${PN}-difflib="${PN}-<wbr>lang ${PN}-re"<br>
+                <span class="HOEnZb"><font color="#888888">--<br>
+                    1.9.1<br>
+                    <br>
+                    --<br>
+                    ______________________________<wbr>_________________<br>
+                    Openembedded-core mailing list<br>
+                    <a moz-do-not-send="true"
+                      href="mailto:Openembedded-core@lists.openembedded.org">Openembedded-core@lists.<wbr>openembedded.org</a><br>
+                    <a moz-do-not-send="true"
+                      href="http://lists.openembedded.org/mailman/listinfo/openembedded-core"
+                      rel="noreferrer" target="_blank">http://lists.openembedded.org/<wbr>mailman/listinfo/openembedded-<wbr>core</a><br>
+                  </font></span></blockquote>
+            </div>
+            <br>
+          </div>
+        </div>
+      </blockquote>
+      <br>
+      <pre class="moz-signature" cols="72">-- 
+Best Regards!
+Zhou Li
+Phone number: 86-10-84778511</pre>
+    </div>
+  </body>
+</html>
+
+--------------35A957EC26AE26B50AEF3E5C--
+
+--------------3644CED74B315CB538347C83
+Content-Type: text/x-diff;
+	name="0001-python2-3-Move-config-Makefile-from-core-package-to-.patch"
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: attachment;
+	filename*0="0001-python2-3-Move-config-Makefile-from-core-package-to-.pa";
+	filename*1="tch"
+
+From d8cd3fdc1ecace00d1de113ee0f3cd1901538c05 Mon Sep 17 00:00:00 2001
+From: Li Zhou <li.zhou@windriver.com>
+Date: Mon, 10 Apr 2017 02:08:19 -0700
+Subject: [PATCH] python2/3: Move config/Makefile from core package to dev
+ package
+
+Move config/Makefile in libdir from core package to dev package for
+python, because it is only needed in development process.
+
+Signed-off-by: Li Zhou <li.zhou@windriver.com>
+---
+ meta/recipes-devtools/python/python-2.7-manifest.inc | 4 ++--
+ meta/recipes-devtools/python/python-3.5-manifest.inc | 4 ++--
+ scripts/contrib/python/generate-manifest-2.7.py      | 5 +++--
+ scripts/contrib/python/generate-manifest-3.5.py      | 5 +++--
+ 4 files changed, 10 insertions(+), 8 deletions(-)
+
+diff --git a/meta/recipes-devtools/python/python-2.7-manifest.inc b/meta/re=
+cipes-devtools/python/python-2.7-manifest.inc
+index 413405ae9a..7ed254bbd6 100644
+--- a/meta/recipes-devtools/python/python-2.7-manifest.inc
++++ b/meta/recipes-devtools/python/python-2.7-manifest.inc
+@@ -46,7 +46,7 @@ FILES_${PN}-contextlib=3D"${libdir}/python${PYTHON_MAJMIN=
+}/contextlib.* "
+=20
+ SUMMARY_${PN}-core=3D"Python interpreter and core modules"
+ RDEPENDS_${PN}-core=3D"${PN}-lang ${PN}-re"
+-FILES_${PN}-core=3D"${libdir}/python2.7/__future__.* ${libdir}/python2.7/_=
+abcoll.* ${libdir}/python2.7/abc.* ${libdir}/python2.7/ast.* ${libdir}/pyth=
+on2.7/copy.* ${libdir}/python2.7/copy_reg.* ${libdir}/python2.7/ConfigParse=
+r.* ${libdir}/python2.7/genericpath.* ${libdir}/python2.7/getopt.* ${libdir=
+}/python2.7/linecache.* ${libdir}/python2.7/new.* ${libdir}/python2.7/os.* =
+${libdir}/python2.7/posixpath.* ${libdir}/python2.7/struct.* ${libdir}/pyth=
+on2.7/warnings.* ${libdir}/python2.7/site.* ${libdir}/python2.7/stat.* ${li=
+bdir}/python2.7/UserDict.* ${libdir}/python2.7/UserList.* ${libdir}/python2=
+.7/UserString.* ${libdir}/python2.7/lib-dynload/binascii.so ${libdir}/pytho=
+n2.7/lib-dynload/_struct.so ${libdir}/python2.7/lib-dynload/time.so ${libdi=
+r}/python2.7/lib-dynload/xreadlines.so ${libdir}/python2.7/types.* ${libdir=
+}/python2.7/platform.* ${bindir}/python* ${libdir}/python2.7/_weakrefset.* =
+${libdir}/python2.7/sysconfig.* ${libdir}/python2.7/_sysconfigdata.* ${libd=
+ir}/python2.7/config/Makefile ${includedir}/python${PYTHON_MAJMIN}/pyconfig=
+*.h ${libdir}/python${PYTHON_MAJMIN}/sitecustomize.py "
++FILES_${PN}-core=3D"${libdir}/python2.7/__future__.* ${libdir}/python2.7/_=
+abcoll.* ${libdir}/python2.7/abc.* ${libdir}/python2.7/ast.* ${libdir}/pyth=
+on2.7/copy.* ${libdir}/python2.7/copy_reg.* ${libdir}/python2.7/ConfigParse=
+r.* ${libdir}/python2.7/genericpath.* ${libdir}/python2.7/getopt.* ${libdir=
+}/python2.7/linecache.* ${libdir}/python2.7/new.* ${libdir}/python2.7/os.* =
+${libdir}/python2.7/posixpath.* ${libdir}/python2.7/struct.* ${libdir}/pyth=
+on2.7/warnings.* ${libdir}/python2.7/site.* ${libdir}/python2.7/stat.* ${li=
+bdir}/python2.7/UserDict.* ${libdir}/python2.7/UserList.* ${libdir}/python2=
+.7/UserString.* ${libdir}/python2.7/lib-dynload/binascii.so ${libdir}/pytho=
+n2.7/lib-dynload/_struct.so ${libdir}/python2.7/lib-dynload/time.so ${libdi=
+r}/python2.7/lib-dynload/xreadlines.so ${libdir}/python2.7/types.* ${libdir=
+}/python2.7/platform.* ${bindir}/python* ${libdir}/python2.7/_weakrefset.* =
+${libdir}/python2.7/sysconfig.* ${libdir}/python2.7/_sysconfigdata.* ${incl=
+udedir}/python${PYTHON_MAJMIN}/pyconfig*.h ${libdir}/python${PYTHON_MAJMIN}=
+/sitecustomize.py "
+=20
+ SUMMARY_${PN}-crypt=3D"Python basic cryptographic and hashing support"
+ RDEPENDS_${PN}-crypt=3D"${PN}-core"
+@@ -74,7 +74,7 @@ FILES_${PN}-debugger=3D"${libdir}/python2.7/bdb.* ${libdi=
+r}/python2.7/pdb.* "
+=20
+ SUMMARY_${PN}-dev=3D"Python development package"
+ RDEPENDS_${PN}-dev=3D"${PN}-core"
+-FILES_${PN}-dev=3D"${includedir} ${libdir}/lib*${SOLIBSDEV} ${libdir}/*.la=
+ ${libdir}/*.a ${libdir}/*.o ${libdir}/pkgconfig ${base_libdir}/*.a ${base_=
+libdir}/*.o ${datadir}/aclocal ${datadir}/pkgconfig "
++FILES_${PN}-dev=3D"${includedir} ${libdir}/lib*${SOLIBSDEV} ${libdir}/*.la=
+ ${libdir}/*.a ${libdir}/*.o ${libdir}/pkgconfig ${base_libdir}/*.a ${base_=
+libdir}/*.o ${datadir}/aclocal ${datadir}/pkgconfig ${libdir}/python2.7/con=
+fig/Makefile "
+=20
+ SUMMARY_${PN}-difflib=3D"Python helpers for computing deltas between objec=
+ts"
+ RDEPENDS_${PN}-difflib=3D"${PN}-lang ${PN}-re"
+diff --git a/meta/recipes-devtools/python/python-3.5-manifest.inc b/meta/re=
+cipes-devtools/python/python-3.5-manifest.inc
+index 55bcc4b6da..be61519053 100644
+--- a/meta/recipes-devtools/python/python-3.5-manifest.inc
++++ b/meta/recipes-devtools/python/python-3.5-manifest.inc
+@@ -38,7 +38,7 @@ FILES_${PN}-compression=3D"${libdir}/python3.5/gzip.* ${l=
+ibdir}/python3.5/__pycach
+=20
+ SUMMARY_${PN}-core=3D"Python interpreter and core modules"
+ RDEPENDS_${PN}-core=3D"${PN}-lang ${PN}-re ${PN}-reprlib ${PN}-codecs ${PN=
+}-io ${PN}-math"
+-FILES_${PN}-core=3D"${libdir}/python3.5/__future__.* ${libdir}/python3.5/_=
+_pycache__/__future__.* ${libdir}/python3.5/_abcoll.* ${libdir}/python3.5/_=
+_pycache__/_abcoll.* ${libdir}/python3.5/abc.* ${libdir}/python3.5/__pycach=
+e__/abc.* ${libdir}/python3.5/ast.* ${libdir}/python3.5/__pycache__/ast.* $=
+{libdir}/python3.5/copy.* ${libdir}/python3.5/__pycache__/copy.* ${libdir}/=
+python3.5/copyreg.* ${libdir}/python3.5/__pycache__/copyreg.* ${libdir}/pyt=
+hon3.5/configparser.* ${libdir}/python3.5/__pycache__/configparser.* ${libd=
+ir}/python3.5/genericpath.* ${libdir}/python3.5/__pycache__/genericpath.* $=
+{libdir}/python3.5/getopt.* ${libdir}/python3.5/__pycache__/getopt.* ${libd=
+ir}/python3.5/linecache.* ${libdir}/python3.5/__pycache__/linecache.* ${lib=
+dir}/python3.5/new.* ${libdir}/python3.5/__pycache__/new.* ${libdir}/python=
+3.5/os.* ${libdir}/python3.5/__pycache__/os.* ${libdir}/python3.5/posixpath=
+.* ${libdir}/python3.5/__pycache__/posixpath.* ${libdir}/python3.5/struct.*=
+ ${libdir}/python3.5/__pycache__/struct.* ${libdir}/python3.5/warnings.* ${=
+libdir}/python3.5/__pycache__/warnings.* ${libdir}/python3.5/site.* ${libdi=
+r}/python3.5/__pycache__/site.* ${libdir}/python3.5/stat.* ${libdir}/python=
+3.5/__pycache__/stat.* ${libdir}/python3.5/UserDict.* ${libdir}/python3.5/_=
+_pycache__/UserDict.* ${libdir}/python3.5/UserList.* ${libdir}/python3.5/__=
+pycache__/UserList.* ${libdir}/python3.5/UserString.* ${libdir}/python3.5/_=
+_pycache__/UserString.* ${libdir}/python3.5/lib-dynload/binascii.*.so ${lib=
+dir}/python3.5/lib-dynload/__pycache__/binascii.*.so ${libdir}/python3.5/li=
+b-dynload/_struct.*.so ${libdir}/python3.5/lib-dynload/__pycache__/_struct.=
+*.so ${libdir}/python3.5/lib-dynload/time.*.so ${libdir}/python3.5/lib-dynl=
+oad/__pycache__/time.*.so ${libdir}/python3.5/lib-dynload/xreadlines.*.so $=
+{libdir}/python3.5/lib-dynload/__pycache__/xreadlines.*.so ${libdir}/python=
+3.5/types.* ${libdir}/python3.5/__pycache__/types.* ${libdir}/python3.5/pla=
+tform.* ${libdir}/python3.5/__pycache__/platform.* ${bindir}/python* ${libd=
+ir}/python3.5/_weakrefset.* ${libdir}/python3.5/__pycache__/_weakrefset.* $=
+{libdir}/python3.5/sysconfig.* ${libdir}/python3.5/__pycache__/sysconfig.* =
+${libdir}/python3.5/_sysconfigdata.* ${libdir}/python3.5/__pycache__/_sysco=
+nfigdata.* ${libdir}/python3.5/config/Makefile ${libdir}/python3.5/config/M=
+akefile/__pycache__ ${includedir}/python${PYTHON_BINABI}/pyconfig*.h ${libd=
+ir}/python${PYTHON_MAJMIN}/collections ${libdir}/python${PYTHON_MAJMIN}/_co=
+llections_abc.* ${libdir}/python${PYTHON_MAJMIN}/_sitebuiltins.* ${libdir}/=
+python${PYTHON_MAJMIN}/sitecustomize.py "
++FILES_${PN}-core=3D"${libdir}/python3.5/__future__.* ${libdir}/python3.5/_=
+_pycache__/__future__.* ${libdir}/python3.5/_abcoll.* ${libdir}/python3.5/_=
+_pycache__/_abcoll.* ${libdir}/python3.5/abc.* ${libdir}/python3.5/__pycach=
+e__/abc.* ${libdir}/python3.5/ast.* ${libdir}/python3.5/__pycache__/ast.* $=
+{libdir}/python3.5/copy.* ${libdir}/python3.5/__pycache__/copy.* ${libdir}/=
+python3.5/copyreg.* ${libdir}/python3.5/__pycache__/copyreg.* ${libdir}/pyt=
+hon3.5/configparser.* ${libdir}/python3.5/__pycache__/configparser.* ${libd=
+ir}/python3.5/genericpath.* ${libdir}/python3.5/__pycache__/genericpath.* $=
+{libdir}/python3.5/getopt.* ${libdir}/python3.5/__pycache__/getopt.* ${libd=
+ir}/python3.5/linecache.* ${libdir}/python3.5/__pycache__/linecache.* ${lib=
+dir}/python3.5/new.* ${libdir}/python3.5/__pycache__/new.* ${libdir}/python=
+3.5/os.* ${libdir}/python3.5/__pycache__/os.* ${libdir}/python3.5/posixpath=
+.* ${libdir}/python3.5/__pycache__/posixpath.* ${libdir}/python3.5/struct.*=
+ ${libdir}/python3.5/__pycache__/struct.* ${libdir}/python3.5/warnings.* ${=
+libdir}/python3.5/__pycache__/warnings.* ${libdir}/python3.5/site.* ${libdi=
+r}/python3.5/__pycache__/site.* ${libdir}/python3.5/stat.* ${libdir}/python=
+3.5/__pycache__/stat.* ${libdir}/python3.5/UserDict.* ${libdir}/python3.5/_=
+_pycache__/UserDict.* ${libdir}/python3.5/UserList.* ${libdir}/python3.5/__=
+pycache__/UserList.* ${libdir}/python3.5/UserString.* ${libdir}/python3.5/_=
+_pycache__/UserString.* ${libdir}/python3.5/lib-dynload/binascii.*.so ${lib=
+dir}/python3.5/lib-dynload/__pycache__/binascii.*.so ${libdir}/python3.5/li=
+b-dynload/_struct.*.so ${libdir}/python3.5/lib-dynload/__pycache__/_struct.=
+*.so ${libdir}/python3.5/lib-dynload/time.*.so ${libdir}/python3.5/lib-dynl=
+oad/__pycache__/time.*.so ${libdir}/python3.5/lib-dynload/xreadlines.*.so $=
+{libdir}/python3.5/lib-dynload/__pycache__/xreadlines.*.so ${libdir}/python=
+3.5/types.* ${libdir}/python3.5/__pycache__/types.* ${libdir}/python3.5/pla=
+tform.* ${libdir}/python3.5/__pycache__/platform.* ${bindir}/python* ${libd=
+ir}/python3.5/_weakrefset.* ${libdir}/python3.5/__pycache__/_weakrefset.* $=
+{libdir}/python3.5/sysconfig.* ${libdir}/python3.5/__pycache__/sysconfig.* =
+${libdir}/python3.5/_sysconfigdata.* ${libdir}/python3.5/__pycache__/_sysco=
+nfigdata.* ${includedir}/python${PYTHON_BINABI}/pyconfig*.h ${libdir}/pytho=
+n${PYTHON_MAJMIN}/collections ${libdir}/python${PYTHON_MAJMIN}/_collections=
+_abc.* ${libdir}/python${PYTHON_MAJMIN}/_sitebuiltins.* ${libdir}/python${P=
+YTHON_MAJMIN}/sitecustomize.py "
+=20
+ SUMMARY_${PN}-crypt=3D"Python basic cryptographic and hashing support"
+ RDEPENDS_${PN}-crypt=3D"${PN}-core"
+@@ -66,7 +66,7 @@ FILES_${PN}-debugger=3D"${libdir}/python3.5/bdb.* ${libdi=
+r}/python3.5/__pycache__/
+=20
+ SUMMARY_${PN}-dev=3D"Python development package"
+ RDEPENDS_${PN}-dev=3D"${PN}-core"
+-FILES_${PN}-dev=3D"${includedir} ${libdir}/lib*${SOLIBSDEV} ${libdir}/*.la=
+ ${libdir}/*.a ${libdir}/*.o ${libdir}/pkgconfig ${base_libdir}/*.a ${base_=
+libdir}/*.o ${datadir}/aclocal ${datadir}/pkgconfig "
++FILES_${PN}-dev=3D"${includedir} ${libdir}/lib*${SOLIBSDEV} ${libdir}/*.la=
+ ${libdir}/*.a ${libdir}/*.o ${libdir}/pkgconfig ${base_libdir}/*.a ${base_=
+libdir}/*.o ${datadir}/aclocal ${datadir}/pkgconfig ${libdir}/python3.5/con=
+fig/Makefile ${libdir}/python3.5/config/Makefile/__pycache__ "
+=20
+ SUMMARY_${PN}-difflib=3D"Python helpers for computing deltas between objec=
+ts"
+ RDEPENDS_${PN}-difflib=3D"${PN}-lang ${PN}-re"
+diff --git a/scripts/contrib/python/generate-manifest-2.7.py b/scripts/cont=
+rib/python/generate-manifest-2.7.py
+index 5504b62271..8c3655d395 100755
+--- a/scripts/contrib/python/generate-manifest-2.7.py
++++ b/scripts/contrib/python/generate-manifest-2.7.py
+@@ -193,7 +193,7 @@ if __name__ =3D=3D "__main__":
+     "UserDict.* UserList.* UserString.* " +
+     "lib-dynload/binascii.so lib-dynload/_struct.so lib-dynload/time.so " =
++
+     "lib-dynload/xreadlines.so types.* platform.* ${bindir}/python* "  +
+-    "_weakrefset.* sysconfig.* _sysconfigdata.* config/Makefile " +
++    "_weakrefset.* sysconfig.* _sysconfigdata.* " +
+     "${includedir}/python${PYTHON_MAJMIN}/pyconfig*.h " +
+     "${libdir}/python${PYTHON_MAJMIN}/sitecustomize.py ")
+=20
+@@ -207,7 +207,8 @@ if __name__ =3D=3D "__main__":
+     "${base_libdir}/*.a " +
+     "${base_libdir}/*.o " +
+     "${datadir}/aclocal " +
+-    "${datadir}/pkgconfig " )
++    "${datadir}/pkgconfig " +
++    "config/Makefile ")
+=20
+     m.addPackage( "${PN}-2to3", "Python automated Python 2 to 3 code trans=
+lator", "${PN}-core",
+     "${bindir}/2to3 lib2to3" ) # package
+diff --git a/scripts/contrib/python/generate-manifest-3.5.py b/scripts/cont=
+rib/python/generate-manifest-3.5.py
+index 386bdfcefd..5725c6da59 100755
+--- a/scripts/contrib/python/generate-manifest-3.5.py
++++ b/scripts/contrib/python/generate-manifest-3.5.py
+@@ -206,7 +206,7 @@ if __name__ =3D=3D "__main__":
+     "UserDict.* UserList.* UserString.* " +
+     "lib-dynload/binascii.*.so lib-dynload/_struct.*.so lib-dynload/time.*=
+.so " +
+     "lib-dynload/xreadlines.*.so types.* platform.* ${bindir}/python* "  +=
+=20
+-    "_weakrefset.* sysconfig.* _sysconfigdata.* config/Makefile " +
++    "_weakrefset.* sysconfig.* _sysconfigdata.* " +
+     "${includedir}/python${PYTHON_BINABI}/pyconfig*.h " +
+     "${libdir}/python${PYTHON_MAJMIN}/collections " +
+     "${libdir}/python${PYTHON_MAJMIN}/_collections_abc.* " +
+@@ -223,7 +223,8 @@ if __name__ =3D=3D "__main__":
+     "${base_libdir}/*.a " +
+     "${base_libdir}/*.o " +
+     "${datadir}/aclocal " +
+-    "${datadir}/pkgconfig " )
++    "${datadir}/pkgconfig " +
++    "config/Makefile ")
+=20
+     m.addPackage( "${PN}-2to3", "Python automated Python 2 to 3 code trans=
+lator", "${PN}-core",
+     "lib2to3" ) # package
+--=20
+2.11.0
+
+
+
+--------------3644CED74B315CB538347C83--
