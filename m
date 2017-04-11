@@ -1,50 +1,49 @@
 Return-Path: <patrick.ohly@intel.com>
-Received: from mail-io0-f177.google.com (mail-io0-f177.google.com
-	[209.85.223.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 718BE77BF0
+Received: from mail-io0-f174.google.com (mail-io0-f174.google.com
+	[209.85.223.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 4476A77BF0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Apr 2017 14:57:19 +0000 (UTC)
-Received: by mail-io0-f177.google.com with SMTP id a103so5192383ioj.1
+	Tue, 11 Apr 2017 14:57:20 +0000 (UTC)
+Received: by mail-io0-f174.google.com with SMTP id t68so6266686iof.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Apr 2017 07:57:21 -0700 (PDT)
+	Tue, 11 Apr 2017 07:57:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=LP4LS6fhYGdF3udrh9C1i4Lj/9bvVh7jvucx/9dVB6k=;
-	b=HN00imDGHz5FUyrXnHUnEBuFMzm1LDFeYy4YU2p/bKaY9MB5CROGk4lZ9nk4OBcDEs
-	m4uYRDSXvEknMlTkelaS/zpI+NeANcjQvYk1DslrDF4DGrdvGiFNKrGb0Q1VjtV2n/3q
-	E8seEAbLOTRolCcOdatzq5cHwXkpQrblWn25s4UBZWRZ8CZzNG0vtWThLtVUEzX+/gJ3
-	1gooz7J2gibB4lyZYIAMJ9rr+F1jotDJA/7O04DVoHoUVDGHqVDIjEyEUAmc/hB3f+TV
-	J8eme2aCx7zqfbcE6rzLwkOrZXriV6rpegCpJ1jnIlWHGCCPfUMGqgOYZ8gZTMYmqZCr
-	LqQg==
+	bh=Fv8j0TK1z4QTu+eJR4uvJwPCnuahMCkjFwfilzNig/0=;
+	b=GtTl38OWQxkHOulWgRDtdOzeTmkZPkIHAhHUq7JkF89JR/ha9OPqM6omRYQeknxldD
+	KSH385dd9H5L3o+yjDIF+52oU+ijxhxh6VY7MB2rE+Y4CeTWMdENEdu7tohVX4m3zUy2
+	3UGtwerXMoqCXsKqDSzEmzLlBXWQrMybKz6p8PlFfO4Yu/aL/BhO8f7naz/y3H+5uF2X
+	pDLcJoAWYuxFOvbMKRbt1wleaRV55958LnDHnKteHj8YhgWy/YUJ7+cUhRnM6fPnQkiP
+	wHPsmP4rA2yYlBphYaV4UHVrIaHKsM7dcMZTZKR1QZ2aRz0P8kpFo3YCaPAnzM+bQ3kZ
+	zotA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=LP4LS6fhYGdF3udrh9C1i4Lj/9bvVh7jvucx/9dVB6k=;
-	b=KiOCot6Vji04+r2UbdIXxek/TS91RfQU7zFfbSVDVXGKcGTB2+ZDWolT/SoS6Aw3Yr
-	/ICh2eAw07s+66eNv1S0fVPxV/xy1Q3CkGx4AUY3Xj19LCOda+qNWNTbYruzXgMw6r/p
-	JBmNJxtpyc/ViVX3sgoG7Az78ktN8l0s8rctB1Y7dIx0AZAfXQaW3JO6SbflxrHsfX81
-	XaGc7vahGORo2glpr4s3jBzHlCzj2WdeQsYh0IRz15CLMJGtay9ZpKKFKtiUW5194LiY
-	gdFV2QZK2qk7lMeJgIR5/Q2rcrRalcgJBsVN1rGy6JTVsB5So3ZvCjhlna1PDq1GwxM/
-	WDGw==
-X-Gm-Message-State: AN3rC/7N6xAMSLUBWoIs7/ADGuzd93YNX7uhXePgT+mDyffZYfLxV+Ke
-	ATkzMKYmS9asQTtdXIk=
-X-Received: by 10.36.47.142 with SMTP id j136mr17590799itj.29.1491922639166;
-	Tue, 11 Apr 2017 07:57:19 -0700 (PDT)
+	bh=Fv8j0TK1z4QTu+eJR4uvJwPCnuahMCkjFwfilzNig/0=;
+	b=PBG0LUO76Kgip/nM/9WLXPODes7VrnLAO3yk1FWaiB0RdmajdW9EJwmPzj4S2dZGIH
+	UzwieMvISAdZ3ydK744Y4fRvh8LGTi8ioqPOErcb3R2pMKGppo83av2oz6Kto5Cdyqk9
+	/FjmfnPVsFut5qRo69/fIJu0kBUwcooXS0kqAyxdBipARaVUH671W96Uvsdej8jjpe/j
+	ty3p0+/2gy1aFc+bv7TOBNt3ligi6oXNgqbAEX7O6kcBnKL0EHEBxrHvHwVT6TqfR3Qj
+	GxsUSL9UstSlFVf9SJIx2hnk9rZP6mi2LNeJxlVwrOSApJ9Dg8LqoHXCWkSmObe33hVa
+	7dVQ==
+X-Gm-Message-State: AFeK/H3QFR99NL9Uslb81ki8N6FX3iwCebrxLLij/rVyme9v6YdnBErtdg82OyI9k5ocWxRu
+X-Received: by 10.107.21.193 with SMTP id 184mr54146022iov.116.1491922642000; 
+	Tue, 11 Apr 2017 07:57:22 -0700 (PDT)
 Received: from pohly-desktop.fritz.box (p5DE8D3A2.dip0.t-ipconnect.de.
 	[93.232.211.162])
-	by smtp.gmail.com with ESMTPSA id 71sm8025298iof.29.2017.04.11.07.57.17
+	by smtp.gmail.com with ESMTPSA id 71sm8025298iof.29.2017.04.11.07.57.20
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 11 Apr 2017 07:57:18 -0700 (PDT)
+	Tue, 11 Apr 2017 07:57:21 -0700 (PDT)
 From: Patrick Ohly <patrick.ohly@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 11 Apr 2017 16:56:57 +0200
-Message-Id: <ca4db4d697218007fb9258590b9f745abb4b3072.1491922350.git-series.patrick.ohly@intel.com>
+Date: Tue, 11 Apr 2017 16:56:58 +0200
+Message-Id: <755903b6567497871a7f796a1e753f2270687d72.1491922350.git-series.patrick.ohly@intel.com>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <cover.a248491aa166631c9f866a7a8314fe9f92a1420b.1491922350.git-series.patrick.ohly@intel.com>
 References: <cover.a248491aa166631c9f866a7a8314fe9f92a1420b.1491922350.git-series.patrick.ohly@intel.com>
-Subject: [PATCH v3 4/8] yocto-compat-layer: include bitbake-diffsigs output
+Subject: [PATCH v3 5/8] yocto-compat-layer: also determine tune flags for each task
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,71 +56,87 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Apr 2017 14:57:19 -0000
+X-List-Received-Date: Tue, 11 Apr 2017 14:57:21 -0000
 
-After filtering out potential false positives, it becomes feasible to
-include the output of bitbake-diffsigs for those tasks which
-definitely have a change.
-
-Depends on bitbake-diffsigs with the "--signature" parameter.
-
-Enhanced output now is:
-
-   AssertionError: False is not true : Layer meta-xxxx changed 120 signatures, initial differences (first hash without, second with layer):
-      gstreamer1.0-plugins-base:do_fetch: 76973f19f2e30d282152bdd7e4efe5bb -> e6e7c6fa9f2bd59d7d8d107f7c6ca1ac
-         Task dependencies changed from:
-         ['PV', 'SRCREV', 'SRC_URI', 'SRC_URI[md5sum]', 'SRC_URI[sha256sum]', 'base_do_fetch']
-         to:
-         ['GST_IMX_PATCHES_TO_APPEND', 'PV', 'SRCREV', 'SRC_URI', 'SRC_URI[md5sum]', 'SRC_URI[sha256sum]', 'base_do_fetch']
-         basehash changed from d679d30bd1ea41c56e57419b57587f3c to 090a79b45f5fa26d10f9d34e2ed7a1e6
-            List of dependencies for variable SRC_URI changed from '{'PV', 'SRC_URI[md5sum]', 'SRC_URI[sha256sum]'}' to '{'GST_IMX_PATCHES_TO_APPEND', 'PV', 'SRC_URI[md5sum]', 'SRC_URI[sha256sum]'}'
-         changed items: {'GST_IMX_PATCHES_TO_APPEND'}
-         Dependency on variable GST_IMX_PATCHES_TO_APPEND was added
-         Variable SRC_URI value changed:
-         "     http://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-base-${PV}.tar.xz     file://get-caps-from-src-pad-when-query-caps.patch     file://0003-ssaparse-enhance-SSA-text-lines-parsing.patch     file://0004-subparse-set-need_segment-after-sink-pad-received-GS.patch     file://encodebin-Need-more-buffers-in-output-queue-for-bett.patch     file://make-gio_unix_2_0-dependency-configurable.patch     file://0001-introspection.m4-prefix-pkgconfig-paths-with-PKG_CON.patch     file://0001-Makefile.am-don-t-hardcode-libtool-name-when-running.patch     file://0002-Makefile.am-prefix-calls-to-pkg-config-with-PKG_CONF.patch     file://0003-riff-add-missing-include-directories-when-calling-in.patch     file://0004-rtsp-drop-incorrect-reference-to-gstreamer-sdp-in-Ma.patch [--] {+${GST_IMX_PATCHES_TO_APPEND}+}"
-
-      pulseaudio:do_install: 6bb6fe23e11a6d5fef9c3a25e73e4f9c -> 3f54ea75673a792e307197cfa6ef2694
-         basehash changed from ac4efcfa783bd04a5a98a2c38719aedd to 37679d99623a37c8df955da3a01415a5
-         Variable do_install value changed:
-         @@ -1,3 +1,7 @@
-              autotools_do_install
-           	install -d ${D}${sysconfdir}/default/volatiles
-          	install -m 0644 ${WORKDIR}/volatiles.04_pulse  ${D}${sysconfdir}/default/volatiles/volatiles.04_pulse
-         +    if [ -e "${WORKDIR}/daemon.conf" ] && [ -e "${WORKDIR}/default.pa" ]; then
-         +        install -m 0644 ${WORKDIR}/daemon.conf ${D}${sysconfdir}/pulse/daemon.conf
-         +        install -m 0644 ${WORKDIR}/default.pa ${D}${sysconfdir}/pulse/default.pa
-         +    fi
-
-[YOCTO #11161]
+locked-sigs.inc groups tasks according to their tune flags (allarch,
+i586, etc.). Also retrieve that information while getting signatures,
+it will be needed to determine when setting a machine changes tasks
+that aren't machine-specific.
 
 Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
 ---
- scripts/lib/compatlayer/cases/common.py | 14 +++++++++++++-
- 1 file changed, 13 insertions(+), 1 deletion(-)
+ scripts/lib/compatlayer/__init__.py     |  9 ++++++++-
+ scripts/lib/compatlayer/cases/common.py |  2 +-
+ scripts/yocto-compat-layer.py           |  2 +-
+ 3 files changed, 10 insertions(+), 3 deletions(-)
 
+diff --git a/scripts/lib/compatlayer/__init__.py b/scripts/lib/compatlayer/__init__.py
+index b46527a..6130b85 100644
+--- a/scripts/lib/compatlayer/__init__.py
++++ b/scripts/lib/compatlayer/__init__.py
+@@ -224,6 +224,7 @@ def get_signatures(builddir, failsafe=False):
+     exclude_recipes = ('meta-world-pkgdata',)
+ 
+     sigs = {}
++    tune2tasks = {}
+ 
+     cmd = 'bitbake '
+     if failsafe:
+@@ -234,9 +235,14 @@ def get_signatures(builddir, failsafe=False):
+     sigs_file = os.path.join(builddir, 'locked-sigs.inc')
+ 
+     sig_regex = re.compile("^(?P<task>.*:.*):(?P<hash>.*) .$")
++    tune_regex = re.compile("(^|\s)SIGGEN_LOCKEDSIGS_t-(?P<tune>\S*)\s*=\s*")
++    current_tune = None
+     with open(sigs_file, 'r') as f:
+         for line in f.readlines():
+             line = line.strip()
++            t = tune_regex.search(line)
++            if t:
++                current_tune = t.group('tune')
+             s = sig_regex.match(line)
+             if s:
+                 exclude = False
+@@ -249,11 +255,12 @@ def get_signatures(builddir, failsafe=False):
+                     continue
+ 
+                 sigs[s.group('task')] = s.group('hash')
++                tune2tasks.setdefault(current_tune, []).append(s.group('task'))
+ 
+     if not sigs:
+         raise RuntimeError('Can\'t load signatures from %s' % sigs_file)
+ 
+-    return sigs
++    return (sigs, tune2tasks)
+ 
+ def get_depgraph(targets=['world']):
+     '''
 diff --git a/scripts/lib/compatlayer/cases/common.py b/scripts/lib/compatlayer/cases/common.py
-index b91da9b..a4c2a51 100644
+index a4c2a51..8eeada9 100644
 --- a/scripts/lib/compatlayer/cases/common.py
 +++ b/scripts/lib/compatlayer/cases/common.py
-@@ -75,5 +75,17 @@ class CommonCompatLayer(OECompatLayerTestCase):
-             msg.append('Layer %s changed %d signatures, initial differences (first hash without, second with layer):' %
-                        (self.tc.layer['name'], len(sig_diff)))
-             for diff in sorted(sig_diff_filtered):
-+                recipe, taskname = diff[0].rsplit(':', 1)
-+                cmd = 'bitbake-diffsigs --task %s %s --signature %s %s' % \
-+                      (recipe, taskname, diff[1], diff[2])
-                 msg.append('   %s: %s -> %s' % diff)
--            self.assertTrue(False, '\n'.join(msg))
-+                msg.append('      %s' % cmd)
-+                try:
-+                    output = check_command('Determining signature difference failed.',
-+                                           cmd).decode('utf-8')
-+                except RuntimeError as error:
-+                    output = str(error)
-+                if output:
-+                    msg.extend(['      ' + line for line in output.splitlines()])
-+                    msg.append('')
-+            self.fail('\n'.join(msg))
+@@ -33,7 +33,7 @@ class CommonCompatLayer(OECompatLayerTestCase):
+ 
+         # task -> (old signature, new signature)
+         sig_diff = {}
+-        curr_sigs = get_signatures(self.td['builddir'], failsafe=True)
++        curr_sigs, _ = get_signatures(self.td['builddir'], failsafe=True)
+         for task in self.td['sigs']:
+             if task in curr_sigs and \
+                self.td['sigs'][task] != curr_sigs[task]:
+diff --git a/scripts/yocto-compat-layer.py b/scripts/yocto-compat-layer.py
+index 22c0c2d..2ebddb6 100755
+--- a/scripts/yocto-compat-layer.py
++++ b/scripts/yocto-compat-layer.py
+@@ -139,7 +139,7 @@ def main():
+         td['bbvars'] = get_bb_vars()
+         logger.info('Getting initial signatures ...')
+         td['builddir'] = builddir
+-        td['sigs'] = get_signatures(td['builddir'])
++        td['sigs'], td['tunetasks'] = get_signatures(td['builddir'])
+ 
+         if not add_layer(bblayersconf, layer, dep_layers, logger):
+             logger.info('Skipping %s ???.' % layer['name'])
 -- 
 git-series 0.9.1
 
