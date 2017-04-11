@@ -1,54 +1,47 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-io0-f172.google.com (mail-io0-f172.google.com
-	[209.85.223.172])
-	by mail.openembedded.org (Postfix) with ESMTP id A9AB377C3B
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 5933C77C37
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Apr 2017 16:52:35 +0000 (UTC)
-Received: by mail-io0-f172.google.com with SMTP id l7so8985624ioe.3
+	Tue, 11 Apr 2017 16:57:29 +0000 (UTC)
+Received: by mail-wm0-f67.google.com with SMTP id o81so1407337wmb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Apr 2017 09:52:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:organization:mime-version:content-transfer-encoding;
-	bh=soHxGfP8qBAg5ECumKPL/fRSqhKlZlll0XD5n6Qe7PI=;
-	b=PUyw7dsddm3MyV2DZbia9aPWx+E+qXJjMxm7D3lUm9f/ZlxLwkFYGzsIU/HQZj07lO
-	8xehx+7xat8UqE4/Rxmld0yOVN0oasCyNVWBL4yA8vKmhgZEIb+hnCHZ9fMWOacdVlof
-	Jbjw5YhrgsTI8tFTW4tAneS6qEbcfXyOIGwBnvmU9tHrEG9QYz3tkIlno547Sdx9u/He
-	6phaVhmx2hOzkXmlPPW7FSrEIctrBqqWrS0tn7jkKcsl1/Vk9auoaZ3EVV8ZURbqZPjh
-	Zjxro95+0zczH4qTESHWciaFXM/HEoTmkqa2Y/5VRDXWVS6h995G5O5DcKhfruJ7BYvD
-	AenQ==
+	Tue, 11 Apr 2017 09:57:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=RZegCJ9KnxOLajx4tN0ZnkaLGMQlSVIPNLJ/2Dv+TEs=;
+	b=uxqO/YxJL/P54hyOhxy+wqOC6Wf46ttWSdh7Pn+SfW2RoSPYkw34oHVqImzVKdewmQ
+	HH4EpxfBx+25LLNubP+RDMKKtXqihiz3aITJJqd9Xzbtbv2FDxW9Zd7d6XEJKJIRcOix
+	eqgZJz35RGrJdduz7TzzD6JhFXOmQ33h1RzIvE259itnavUnj7gxx5lD2EbZLwb9usMa
+	T0h4ibeX4yzFsorRRj21CR7uVdz9i4mYchlDho+lK7a7ZL5tBYF73JY2O3tc66ujo/+m
+	1P/dGHHJzm5P2DVYS8EoaoRUS3hgQswcNoxiyvUuGL5s9JRWNfqz9Wtjf3KU77u0hdv/
+	7PWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:organization:mime-version:content-transfer-encoding;
-	bh=soHxGfP8qBAg5ECumKPL/fRSqhKlZlll0XD5n6Qe7PI=;
-	b=oCa/PVkcnohsAeazQA/PX7vgAR3evDnv6FDkhP8KGYnUaT/FR60VkTLbpwMTEYEd2d
-	phPCBP8F+leUZYeJLkPFeoZVRzYUGyNtBi369jypm7HV7r2keqkjD7KNhngqAD8fLRnE
-	Y8oZObNZ1XNXszrWiuhtgSK8X+Przk5jOqa+C2as3sy9SDHPXFV/UBR3MQ7T8SYFV10f
-	bKsKAtKG/1JYCb1V9oCW3h+GmCJKH/YmlUICwZpU/Sb2AqD4sF6UiXcQncIrlPIX/JCS
-	XbyeRLaxJOP5xLWdGPYUAewRx4gbvFjby/pbyFkMdM1kTgNVDOWEUlySrIpHDisGHNaG
-	0v2Q==
-X-Gm-Message-State: AFeK/H1k3puKGCDj7sloyqSiMLES437C4qm52eo6XRx4/W4ZdokEXzKSK/mgpJwaZ9VQk1EO
-X-Received: by 10.107.181.87 with SMTP id e84mr59029955iof.156.1491929556546; 
-	Tue, 11 Apr 2017 09:52:36 -0700 (PDT)
-Received: from pohly-mobl1 (p5DE8D3A2.dip0.t-ipconnect.de. [93.232.211.162])
-	by smtp.gmail.com with ESMTPSA id 9sm1127103itm.12.2017.04.11.09.52.34
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 11 Apr 2017 09:52:35 -0700 (PDT)
-Message-ID: <1491929552.10884.199.camel@intel.com>
-From: Patrick Ohly <patrick.ohly@intel.com>
-To: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 11 Apr 2017 18:52:32 +0200
-In-Reply-To: <CAMKF1srOa1mWXXRvF9_EXrUFiy43_K4kAC4i9aYdpsm2hTJQNw@mail.gmail.com>
-References: <1491828558.10884.112.camel@intel.com>
-	<1491928471.10884.196.camel@intel.com>
-	<CAMKF1srOa1mWXXRvF9_EXrUFiy43_K4kAC4i9aYdpsm2hTJQNw@mail.gmail.com>
-Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
-X-Mailer: Evolution 3.12.9-1+b1 
-Mime-Version: 1.0
-Cc: OpenEmbedded <openembedded-core@lists.openembedded.org>
-Subject: Re: go-cross: incorrect dependency on tune-specific libgcc
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=RZegCJ9KnxOLajx4tN0ZnkaLGMQlSVIPNLJ/2Dv+TEs=;
+	b=XVVypOGny1rY+63MuBNROT4Df2FKB16xjig9zT6DxemeByp4iaDowbJN7JbmQ5KCd4
+	Ecarfq99FucyfHZXzvM91bY+VGmeuOZlABrTpOkAfy8vfTFXZ7BJ/pfUznPNCPrHoZDy
+	wjbbxfw5fGNmrPmQGRlSaAhsNrH8hmkzJ3VtuJ6pvUJ687UK/wLDDLLgNAKU0wIRVr02
+	LGYWh+YErWESbnhHmI0nlLY6CNP34jS6FUIA8tq2om+a+DZiYod1ujrJYwOzTW1K0etT
+	+0dPVGsk1hICtJhyoCnYbK2Iz/AcUx2CvR4Vdo11UvAVJOyKT9y6+aoZCvZT2Pu19mp/
+	45JQ==
+X-Gm-Message-State: AN3rC/7Yz4sGrbpqJIvijGNT/6NZSN0QAFN50VX1bZLNKqx8pAkHH1xlxWVav19et5MnHob7wgrjEF1r0tJq8A==
+X-Received: by 10.28.69.68 with SMTP id s65mr15761137wma.13.1491929849902;
+	Tue, 11 Apr 2017 09:57:29 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.80.180.141 with HTTP; Tue, 11 Apr 2017 09:56:59 -0700 (PDT)
+In-Reply-To: <97be7aaf-58b0-05a2-b352-942cd82aca01@windriver.com>
+References: <cover.a248491aa166631c9f866a7a8314fe9f92a1420b.1491922350.git-series.patrick.ohly@intel.com>
+	<5a067d85afa569bc5b03df89acdb5914ccd86764.1491922350.git-series.patrick.ohly@intel.com>
+	<97be7aaf-58b0-05a2-b352-942cd82aca01@windriver.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 11 Apr 2017 09:56:59 -0700
+Message-ID: <CAMKF1soHs+EAqyhmD4y=BuRizF-tVunUWnjs4a3a8qe8Oq3Oig@mail.gmail.com>
+To: Mark Hatle <mark.hatle@windriver.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v3 2/8] gdb-cross: avoid tune specific paths
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,79 +54,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Apr 2017 16:52:35 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 11 Apr 2017 16:57:30 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Tue, 2017-04-11 at 09:39 -0700, Khem Raj wrote:
-> On Tue, Apr 11, 2017 at 9:34 AM, Patrick Ohly <patrick.ohly@intel.com> wrote:
-> > On Mon, 2017-04-10 at 14:49 +0200, Patrick Ohly wrote:
-> >> Hello!
-> >>
-> >> I'm currently extending the yocto-compat-layer.py so that it can detect
-> >> invalid signature changes when changing MACHINE. go-cross-x86_64 shows
-> >> up as broken when comparing signatures for MACHINE=intel-corei7-64 and
-> >> MACHINE=qemux86-64.
-> >>
-> >> Both machines share the same go-cross-x86_64, but that DEPENDS on
-> >> libgcc:
-> >>
-> >> meta/recipes-devtools/go/go.inc:# libgcc is required for the target specific libraries to build properly
-> >> meta/recipes-devtools/go/go.inc:DEPENDS += "go-bootstrap-native libgcc"
-> >>
-> >> And libgcc itself depends on the tune flags for the target architecture
-> >> and thus is different for these two machines:
-> >>
-> >> $ bitbake-diffsigs -t go-cross-x86_64 do_prepare_recipe_sysroot -s 563f419e3854c2351e2cbbf33a9025f6 64e378fd9853a6cd6a4e7f684f52d2fc
-> >> Hash for dependent task gcc/libgcc_6.3.bb.do_populate_sysroot changed from afb6b55c0e2b7d2e816b3d2d214a7326 to 208fac5ae428b07a4aa491b130879e4a
-> >>   Hash for dependent task gcc/libgcc_6.3.bb.do_multilib_install changed from 596e1612d7b84b7a9c1b409ee78cca89 to d41e2e835d0abe7646e53e3d63ce00cd
-> >>     Hash for dependent task gcc/libgcc_6.3.bb.do_install changed from 9ca4126c69fcceb410253a0603c3d76b to cb0c49687a91ea17f1027c6394baacab
-> >>       Hash for dependent task gcc/libgcc_6.3.bb.do_compile changed from ab80902424c73af49257cc3f6fe049aa to 436f978a703476968bd5ae1c1915ee5a
-> >>         Hash for dependent task gcc/libgcc_6.3.bb.do_configure changed from eb0c36d87f32ce1ceb7d1e42609578fb to f62c98806faf3a28c2144919b89d3460
-> >>           Hash for dependent task gcc/libgcc_6.3.bb.do_prepare_recipe_sysroot changed from b037b950e346bef71a4f8fd2c6a2195c to d4564b5730941279392932e3c670a5a5
-> >>             Hash for dependent task gcc/libgcc_6.3.bb.do_fetch changed from e64cd9e029ed63ba3a09e5fe085b7057 to ea4d3f9d10544219ceb8591d5a5a4041
-> >>               basehash changed from 8744593af2eddb60244788f2b9476e2d to dabeb22478ef501e35311af75119a2cf
-> >>               Variable TUNE_CCARGS value changed:
-> >>               " -m64 [--march=corei7 -mtune=corei7-] {+-march=core2 -mtune=core2 -msse3+} -mfpmath=sse [--msse4.2-]"
-> >>
-> >> Does this fix look correct? It turns go-cross into a package that is
-> >> specific to the tune flags for the target.
-> >
-> > [...]
-> >
-> >> The alternative would be to drop the libgcc dependency, but I have no
-> >> idea whether that would work at all.
-> >
-> > Besides Bruce who pointed out the implications on recipes depending on
-> > go-cross-${TARGET_ARCH}, Richard also had concerns about making go-cross
-> > tune-specific, so I ended up testing the libgcc removal approach. It
-> > happened to build okay, so the patch that I ended up proposing (see
-> > "go-cross: avoid libgcc dependency") just removes libgcc from DEPENDS
-> > for go-cross.
-> >
-> > I need to revise the method how its done (i.e. not with DEPENDS_remove),
-> > but besides that, can anyone explain whether such a change might hit
-> > some problems somewhere? Khem?
-> >
-> 
-> I think TUNE_PKGARCH is the granularity it needs for setting GOARM
-> anyway.
+On Tue, Apr 11, 2017 at 8:16 AM, Mark Hatle <mark.hatle@windriver.com> wrote:
+> On 4/11/17 9:56 AM, Patrick Ohly wrote:
+>> gdb-cross used to be specific to the tune flags, but isn't
+>> anymore. Therefore it is enough to use TARGET_SYS instead of
+>> TUNE_PKGARCH to create a unique path.
+>
+> Are you sure about this.  On non-intel architectures, it used to be VERY common
+> that the specific instruction set for a process was programmed into gdb.
+>
+> Sometimes the user could (after loading gdb) change the instructions, but this
+> was an aweful user experience.
+>
+> Good example of this would be Power, e500, etc.  The instruction sets are not
+> actually compatible with each other, so GDB needs to know the specific
+> instruction in order to work.
 
-So you are saying the patch that I had proposed initially in this mail
-thread (go-cross-${TARGET_ARCH} -> go-cross-${TUNE_PKGARCH}) is the
-right solution?
+if its mainly disassembly and opcodes if we compile bfd to support
+them then gdb should be able to use it.  you can use something like
 
-Just want to be absolutely sure, there's not much time to resolve this
-for 2.3.
+(gdb) set processor
 
--- 
-Best Regards, Patrick Ohly
+to tune it to specific one
 
-The content of this message is my personal opinion only and although
-I am an employee of Intel, the statements I make here in no way
-represent Intel's position on the issue, nor am I authorized to speak
-on behalf of Intel on this matter.
-
-
-
+>
+> --Mark
+>
+>> Fixes a sstate signature difference that was found via
+>> yocto-compat-layer.py's test_machine_signatures check. In practice it
+>> probably showed up as unnecessarily rebuilding gdb-cross when
+>> switching between machines like intel-corei7-64 and qemux86-64.
+>>
+>> Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
+>> ---
+>>  meta/recipes-devtools/gdb/gdb-cross.inc | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/meta/recipes-devtools/gdb/gdb-cross.inc b/meta/recipes-devtools/gdb/gdb-cross.inc
+>> index a34223e..d92f31f 100644
+>> --- a/meta/recipes-devtools/gdb/gdb-cross.inc
+>> +++ b/meta/recipes-devtools/gdb/gdb-cross.inc
+>> @@ -24,4 +24,4 @@ BPN = "gdb"
+>>  inherit cross
+>>  inherit gettext
+>>
+>> -datadir .= "/gdb-${TUNE_PKGARCH}${TARGET_VENDOR}-${TARGET_OS}"
+>> +datadir .= "/gdb-${TARGET_SYS}${TARGET_VENDOR}-${TARGET_OS}"
+>>
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
