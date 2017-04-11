@@ -1,47 +1,26 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f50.google.com (mail-wm0-f50.google.com [74.125.82.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 30A0565D00
+Return-Path: <Yuanjie.Huang@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 45CEC65D00
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Apr 2017 06:52:08 +0000 (UTC)
-Received: by mail-wm0-f50.google.com with SMTP id t189so53324616wmt.1
+	Tue, 11 Apr 2017 07:00:24 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v3B70PH2008848
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Apr 2017 23:52:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=Etx+HzFxIr9OZqbLpKd0LK4yhEUtdrYN7bua6yMilB4=;
-	b=iMEU8L+9/rO7cvVfBxsBf4AxpT5iN0xD2t/3p146CX7q+SVJfuWP1KwnLj6sE+7Aak
-	efip9rs08iQ9H8bY5/2vauzwIukxesFbMmHSTLdf/xrsLpmnt027CdbHzcx65eJ/DcAB
-	e7CLj7Mi73uz8LMkNCxPfv54HcLN0za96fit4AQKHAmThnRd0Wma+hCFFGWd1Icba18M
-	aEzsFqAQdFpkknfvbia5KkL1XeMnLsf+WZ8mKNIH0tUyiXxiMgOn1SN3ld4RwlFWNa7h
-	dx1+k/wsMtQM9hXuLaRIYtkn+FKJfaus6SsuJz7sCdi/6fkBqXK8gvuiLeVQXq7UUB60
-	ACLA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=Etx+HzFxIr9OZqbLpKd0LK4yhEUtdrYN7bua6yMilB4=;
-	b=jgo6vYIK65VRP7qqrKcEwAeSXE5GMY4PbbF3Lu1webI9Q2JYPmDI9MFcTSHQFUzfXE
-	FnNkG9jjX0vI4txGzZJ8MtSC1B4NJ63x7gkRaK3z9e15U23TcVKLG3iwQyfky9uN8WkV
-	k8QNw521sCLcu2NMm0Rv2sOk58u5LKYoj3YMBxPD/eXp9uEPq7RIli+rJoTFkymcoSvE
-	9JIcbrU+SN9sSAOfNcCimX1zkqy4ThyeEVkSaTcqkMwajJDFytm0LPBUoc8sqMrRLUVx
-	yvlxPoUMrpb9DU7W95Q6N7+61GYVVIo5UabvYdqhKajK2XCDeTHQXCPQ5T2WVjLcEHe4
-	Fp/A==
-X-Gm-Message-State: AN3rC/4i0TuP6/t7HFwZzpi1A//fft8f1BNcl/S+TzxFl5GFPXXNKXo3
-	sZfg/ebJDI9+75eO+5qXYYOAC6Rfnw==
-X-Received: by 10.28.175.209 with SMTP id y200mr6096837wme.81.1491893529106;
-	Mon, 10 Apr 2017 23:52:09 -0700 (PDT)
+	Tue, 11 Apr 2017 00:00:25 -0700
+Received: from ala-lpd-susbld2.wrs.com (147.11.105.122) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.294.0; Tue, 11 Apr 2017 00:00:24 -0700
+From: Yuanjie Huang <yuanjie.huang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 11 Apr 2017 00:00:24 -0700
+Message-ID: <20170411070024.305499-1-yuanjie.huang@windriver.com>
+X-Mailer: git-send-email 2.11.0
+In-Reply-To: <79336d8d-845d-b4ef-7eb5-acc8f10f675d@windriver.com>
+References: <79336d8d-845d-b4ef-7eb5-acc8f10f675d@windriver.com>
 MIME-Version: 1.0
-Received: by 10.80.148.54 with HTTP; Mon, 10 Apr 2017 23:52:08 -0700 (PDT)
-In-Reply-To: <20170411013850.GA25337@linux-uys3>
-References: <20170411013850.GA25337@linux-uys3>
-From: Martin Jansa <martin.jansa@gmail.com>
-Date: Tue, 11 Apr 2017 08:52:08 +0200
-Message-ID: <CA+chaQcT7jApSyB4SqwPhsn+Pn_XTbryPT0FQZ_ST0OKDTH5xA@mail.gmail.com>
-To: Trevor Woerner <twoerner@gmail.com>
-Cc: Drew Moseley <drew_moseley@mentor.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: having llvm available for gallium
+Subject: [PATCH V2] binutils: Fix CVE-2017-6965 and CVE-2017-6966
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,75 +33,436 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Apr 2017 06:52:10 -0000
-Content-Type: multipart/alternative; boundary=001a11444820d87add054cde87f9
+X-List-Received-Date: Tue, 11 Apr 2017 07:00:25 -0000
+Content-Type: text/plain
 
---001a11444820d87add054cde87f9
-Content-Type: text/plain; charset=UTF-8
+Backport upstream commit to address vulnerabilities:
 
-Check this:
+CVE: CVE-2017-6965
+[BZ 21137] -- https://sourceware.org/bugzilla/show_bug.cgi?id=21137
 
-http://lists.openembedded.org/pipermail/openembedded-core/2017-April/135050.html
+Fix readelf writing to illegal addresses whilst processing corrupt input
+files containing symbol-difference relocations.
 
-On Tue, Apr 11, 2017 at 3:38 AM, Trevor Woerner <twoerner@gmail.com> wrote:
+	PR binutils/21137
+	* readelf.c (target_specific_reloc_handling): Add end parameter.
+	Check for buffer overflow before writing relocated values.
+	(apply_relocations): Pass end to target_specific_reloc_handling.
 
-> I think this might be a casualty of RSS, but when trying to build mesa for
-> the
-> gizmo2 I get:
->
->         | checking for wayland-scanner... no
->         | checking for XCB_DRI2... yes
->         | checking for x86_64-oe-linux-llvm-config... no
->         | checking for llvm-config... no
->         | checking for RADEON... yes
->         | configure: error: LLVM is required to build Gallium R300 on x86
-> and x86_64
->
-> There already is a dependency on llvm${MESA_LLVM_RELEASE} so I'm not sure
-> what
-> magic is required to make llvm-config available.
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
+CVE: CVE-2017-6966
+[BZ 21139] -- https://sourceware.org/bugzilla/show_bug.cgi?id=21139
 
---001a11444820d87add054cde87f9
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Fix read-after-free error in readelf when processing multiple, relocated
+sections in an MSP430 binary.
 
-<div dir=3D"ltr">Check this:<div><br></div><div><a href=3D"http://lists.ope=
-nembedded.org/pipermail/openembedded-core/2017-April/135050.html">http://li=
-sts.openembedded.org/pipermail/openembedded-core/2017-April/135050.html</a>=
-<br></div></div><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">O=
-n Tue, Apr 11, 2017 at 3:38 AM, Trevor Woerner <span dir=3D"ltr">&lt;<a hre=
-f=3D"mailto:twoerner@gmail.com" target=3D"_blank">twoerner@gmail.com</a>&gt=
-;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 =
-.8ex;border-left:1px #ccc solid;padding-left:1ex">I think this might be a c=
-asualty of RSS, but when trying to build mesa for the<br>
-gizmo2 I get:<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 | checking for wayland-scanner... no<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 | checking for XCB_DRI2... yes<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 | checking for x86_64-oe-linux-llvm-config... n=
-o<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 | checking for llvm-config... no<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 | checking for RADEON... yes<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 | configure: error: LLVM is required to build G=
-allium R300 on x86 and x86_64<br>
-<br>
-There already is a dependency on llvm${MESA_LLVM_RELEASE} so I&#39;m not su=
-re what<br>
-magic is required to make llvm-config available.<br>
-<span class=3D"HOEnZb"><font color=3D"#888888">--<br>
-______________________________<wbr>_________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
-re@lists.<wbr>openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
-ailman/listinfo/openembedded-<wbr>core</a><br>
-</font></span></blockquote></div><br></div>
+	PR binutils/21139
+	* readelf.c (target_specific_reloc_handling): Add num_syms
+	parameter.  Check for symbol table overflow before accessing
+	symbol value.  If reloc pointer is NULL, discard all saved state.
+	(apply_relocations): Pass num_syms to target_specific_reloc_handling.
+	Call target_specific_reloc_handling with a NULL reloc pointer
+	after processing all of the relocs.
 
---001a11444820d87add054cde87f9--
+Signed-off-by: Yuanjie Huang <yuanjie.huang@windriver.com>
+---
+ meta/recipes-devtools/binutils/binutils-2.28.inc   |   2 +
+ .../binutils/binutils/CVE-2017-6965.patch          | 124 +++++++++++
+ .../binutils/binutils/CVE-2017-6966.patch          | 241 +++++++++++++++++++++
+ 3 files changed, 367 insertions(+)
+ create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2017-6965.patch
+ create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2017-6966.patch
+
+diff --git a/meta/recipes-devtools/binutils/binutils-2.28.inc b/meta/recipes-devtools/binutils/binutils-2.28.inc
+index 76b81b04ca..7585da1ca9 100644
+--- a/meta/recipes-devtools/binutils/binutils-2.28.inc
++++ b/meta/recipes-devtools/binutils/binutils-2.28.inc
+@@ -35,6 +35,8 @@ SRC_URI = "\
+      file://0014-fix-the-incorrect-assembling-for-ppc-wait-mnemonic.patch \
+      file://0015-sync-with-OE-libtool-changes.patch \
+      file://0016-Detect-64-bit-MIPS-targets.patch \
++     file://CVE-2017-6965.patch \
++     file://CVE-2017-6966.patch \
+ "
+ S  = "${WORKDIR}/git"
+ 
+diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2017-6965.patch b/meta/recipes-devtools/binutils/binutils/CVE-2017-6965.patch
+new file mode 100644
+index 0000000000..1334c9444d
+--- /dev/null
++++ b/meta/recipes-devtools/binutils/binutils/CVE-2017-6965.patch
+@@ -0,0 +1,124 @@
++From bdc5166c274b842f83f8328e7cfaaf80fd29934e Mon Sep 17 00:00:00 2001
++From: Nick Clifton <nickc@redhat.com>
++Date: Mon, 13 Feb 2017 13:08:32 +0000
++Subject: [PATCH 1/2] Fix readelf writing to illegal addresses whilst
++ processing corrupt input files containing symbol-difference relocations.
++
++	PR binutils/21137
++	* readelf.c (target_specific_reloc_handling): Add end parameter.
++	Check for buffer overflow before writing relocated values.
++	(apply_relocations): Pass end to target_specific_reloc_handling.
++
++(cherry pick from commit 03f7786e2f440b9892b1c34a58fb26222ce1b493)
++Upstream-Status: Backport [master]
++CVE: CVE-2017-6965
++
++Signed-off-by: Yuanjie Huang <yuanjie.huang@windriver.com>
++---
++ binutils/ChangeLog |  7 +++++++
++ binutils/readelf.c | 30 +++++++++++++++++++++++++-----
++ 2 files changed, 32 insertions(+), 5 deletions(-)
++
++diff --git a/binutils/ChangeLog b/binutils/ChangeLog
++index f21867f98c..e789a3b99b 100644
++--- a/binutils/ChangeLog
+++++ b/binutils/ChangeLog
++@@ -1,3 +1,10 @@
+++2017-02-13  Nick Clifton  <nickc@redhat.com>
+++
+++	PR binutils/21137
+++	* readelf.c (target_specific_reloc_handling): Add end parameter.
+++	Check for buffer overflow before writing relocated values.
+++	(apply_relocations): Pass end to target_specific_reloc_handling.
+++
++ 2017-03-02  Tristan Gingold  <gingold@adacore.com>
++ 
++ 	* configure: Regenerate.
++diff --git a/binutils/readelf.c b/binutils/readelf.c
++index b5f577f5a1..8cdaae3b8c 100644
++--- a/binutils/readelf.c
+++++ b/binutils/readelf.c
++@@ -11585,6 +11585,7 @@ process_syminfo (FILE * file ATTRIBUTE_UNUSED)
++ static bfd_boolean
++ target_specific_reloc_handling (Elf_Internal_Rela * reloc,
++ 				unsigned char *     start,
+++				unsigned char *     end,
++ 				Elf_Internal_Sym *  symtab)
++ {
++   unsigned int reloc_type = get_reloc_type (reloc->r_info);
++@@ -11625,13 +11626,19 @@ target_specific_reloc_handling (Elf_Internal_Rela * reloc,
++ 	  handle_sym_diff:
++ 	    if (saved_sym != NULL)
++ 	      {
+++		int reloc_size = reloc_type == 1 ? 4 : 2;
++ 		bfd_vma value;
++ 
++ 		value = reloc->r_addend
++ 		  + (symtab[get_reloc_symindex (reloc->r_info)].st_value
++ 		     - saved_sym->st_value);
++ 
++-		byte_put (start + reloc->r_offset, value, reloc_type == 1 ? 4 : 2);
+++		if (start + reloc->r_offset + reloc_size >= end)
+++		  /* PR 21137 */
+++		  error (_("MSP430 sym diff reloc writes past end of section (%p vs %p)\n"),
+++			 start + reloc->r_offset + reloc_size, end);
+++		else
+++		  byte_put (start + reloc->r_offset, value, reloc_size);
++ 
++ 		saved_sym = NULL;
++ 		return TRUE;
++@@ -11662,13 +11669,18 @@ target_specific_reloc_handling (Elf_Internal_Rela * reloc,
++ 	  case 2: /* R_MN10300_16 */
++ 	    if (saved_sym != NULL)
++ 	      {
+++		int reloc_size = reloc_type == 1 ? 4 : 2;
++ 		bfd_vma value;
++ 
++ 		value = reloc->r_addend
++ 		  + (symtab[get_reloc_symindex (reloc->r_info)].st_value
++ 		     - saved_sym->st_value);
++ 
++-		byte_put (start + reloc->r_offset, value, reloc_type == 1 ? 4 : 2);
+++		if (start + reloc->r_offset + reloc_size >= end)
+++		  error (_("MN10300 sym diff reloc writes past end of section (%p vs %p)\n"),
+++			 start + reloc->r_offset + reloc_size, end);
+++		else
+++		  byte_put (start + reloc->r_offset, value, reloc_size);
++ 
++ 		saved_sym = NULL;
++ 		return TRUE;
++@@ -11703,12 +11715,20 @@ target_specific_reloc_handling (Elf_Internal_Rela * reloc,
++ 	    break;
++ 
++ 	  case 0x41: /* R_RL78_ABS32.  */
++-	    byte_put (start + reloc->r_offset, value, 4);
+++	    if (start + reloc->r_offset + 4 >= end)
+++	      error (_("RL78 sym diff reloc writes past end of section (%p vs %p)\n"),
+++		     start + reloc->r_offset + 2, end);
+++	    else
+++	      byte_put (start + reloc->r_offset, value, 4);
++ 	    value = 0;
++ 	    return TRUE;
++ 
++ 	  case 0x43: /* R_RL78_ABS16.  */
++-	    byte_put (start + reloc->r_offset, value, 2);
+++	    if (start + reloc->r_offset + 2 >= end)
+++	      error (_("RL78 sym diff reloc writes past end of section (%p vs %p)\n"),
+++		     start + reloc->r_offset + 2, end);
+++	    else
+++	      byte_put (start + reloc->r_offset, value, 2);
++ 	    value = 0;
++ 	    return TRUE;
++ 
++@@ -12325,7 +12345,7 @@ apply_relocations (void *                     file,
++ 
++ 	  reloc_type = get_reloc_type (rp->r_info);
++ 
++-	  if (target_specific_reloc_handling (rp, start, symtab))
+++	  if (target_specific_reloc_handling (rp, start, end, symtab))
++ 	    continue;
++ 	  else if (is_none_reloc (reloc_type))
++ 	    continue;
++-- 
++2.11.0
++
+diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2017-6966.patch b/meta/recipes-devtools/binutils/binutils/CVE-2017-6966.patch
+new file mode 100644
+index 0000000000..dd58df5fbf
+--- /dev/null
++++ b/meta/recipes-devtools/binutils/binutils/CVE-2017-6966.patch
+@@ -0,0 +1,241 @@
++From 383ec757d27652448d1511169e1133f486abf54f Mon Sep 17 00:00:00 2001
++From: Nick Clifton <nickc@redhat.com>
++Date: Mon, 13 Feb 2017 14:03:22 +0000
++Subject: [PATCH] Fix read-after-free error in readelf when processing
++ multiple, relocated sections in an MSP430 binary.
++
++	PR binutils/21139
++	* readelf.c (target_specific_reloc_handling): Add num_syms
++	parameter.  Check for symbol table overflow before accessing
++	symbol value.  If reloc pointer is NULL, discard all saved state.
++	(apply_relocations): Pass num_syms to target_specific_reloc_handling.
++	Call target_specific_reloc_handling with a NULL reloc pointer
++	after processing all of the relocs.
++
++(cherry pick from commit f84ce13b6708801ca1d6289b7c4003e2f5a6d7f9)
++Upstream-Status: Backport [master]
++CVE: CVE-2017-6966
++
++Signed-off-by: Yuanjie Huang <yuanjie.huang@windriver.com>
++---
++ binutils/ChangeLog |  10 +++++
++ binutils/readelf.c | 109 +++++++++++++++++++++++++++++++++++++++++------------
++ 2 files changed, 94 insertions(+), 25 deletions(-)
++
++diff --git a/binutils/ChangeLog b/binutils/ChangeLog
++index e789a3b99b..bd63c8a0d8 100644
++--- a/binutils/ChangeLog
+++++ b/binutils/ChangeLog
++@@ -1,5 +1,15 @@
++ 2017-02-13  Nick Clifton  <nickc@redhat.com>
++ 
+++	PR binutils/21139
+++	* readelf.c (target_specific_reloc_handling): Add num_syms
+++	parameter.  Check for symbol table overflow before accessing
+++	symbol value.  If reloc pointer is NULL, discard all saved state.
+++	(apply_relocations): Pass num_syms to target_specific_reloc_handling.
+++	Call target_specific_reloc_handling with a NULL reloc pointer
+++	after processing all of the relocs.
+++
+++2017-02-13  Nick Clifton  <nickc@redhat.com>
+++
++ 	PR binutils/21137
++ 	* readelf.c (target_specific_reloc_handling): Add end parameter.
++ 	Check for buffer overflow before writing relocated values.
++diff --git a/binutils/readelf.c b/binutils/readelf.c
++index 8cdaae3b8c..7c158c6342 100644
++--- a/binutils/readelf.c
+++++ b/binutils/readelf.c
++@@ -11580,15 +11580,27 @@ process_syminfo (FILE * file ATTRIBUTE_UNUSED)
++ 
++ /* Check to see if the given reloc needs to be handled in a target specific
++    manner.  If so then process the reloc and return TRUE otherwise return
++-   FALSE.  */
+++   FALSE.
+++
+++   If called with reloc == NULL, then this is a signal that reloc processing
+++   for the current section has finished, and any saved state should be
+++   discarded.  */
++ 
++ static bfd_boolean
++ target_specific_reloc_handling (Elf_Internal_Rela * reloc,
++ 				unsigned char *     start,
++ 				unsigned char *     end,
++-				Elf_Internal_Sym *  symtab)
+++				Elf_Internal_Sym *  symtab,
+++				unsigned long       num_syms)
++ {
++-  unsigned int reloc_type = get_reloc_type (reloc->r_info);
+++  unsigned int reloc_type = 0;
+++  unsigned long sym_index = 0;
+++
+++  if (reloc)
+++    {
+++      reloc_type = get_reloc_type (reloc->r_info);
+++      sym_index = get_reloc_symindex (reloc->r_info);
+++    }
++ 
++   switch (elf_header.e_machine)
++     {
++@@ -11597,6 +11609,12 @@ target_specific_reloc_handling (Elf_Internal_Rela * reloc,
++       {
++ 	static Elf_Internal_Sym * saved_sym = NULL;
++ 
+++	if (reloc == NULL)
+++	  {
+++	    saved_sym = NULL;
+++	    return TRUE;
+++	  }
+++
++ 	switch (reloc_type)
++ 	  {
++ 	  case 10: /* R_MSP430_SYM_DIFF */
++@@ -11604,7 +11622,12 @@ target_specific_reloc_handling (Elf_Internal_Rela * reloc,
++ 	      break;
++ 	    /* Fall through.  */
++ 	  case 21: /* R_MSP430X_SYM_DIFF */
++-	    saved_sym = symtab + get_reloc_symindex (reloc->r_info);
+++	    /* PR 21139.  */
+++	    if (sym_index >= num_syms)
+++	      error (_("MSP430 SYM_DIFF reloc contains invalid symbol index %lu\n"),
+++		     sym_index);
+++	    else
+++	      saved_sym = symtab + sym_index;
++ 	    return TRUE;
++ 
++ 	  case 1: /* R_MSP430_32 or R_MSP430_ABS32 */
++@@ -11629,16 +11652,21 @@ target_specific_reloc_handling (Elf_Internal_Rela * reloc,
++ 		int reloc_size = reloc_type == 1 ? 4 : 2;
++ 		bfd_vma value;
++ 
++-		value = reloc->r_addend
++-		  + (symtab[get_reloc_symindex (reloc->r_info)].st_value
++-		     - saved_sym->st_value);
++-
++-		if (start + reloc->r_offset + reloc_size >= end)
++-		  /* PR 21137 */
++-		  error (_("MSP430 sym diff reloc writes past end of section (%p vs %p)\n"),
++-			 start + reloc->r_offset + reloc_size, end);
+++		if (sym_index >= num_syms)
+++		  error (_("MSP430 reloc contains invalid symbol index %lu\n"),
+++			 sym_index);
++ 		else
++-		  byte_put (start + reloc->r_offset, value, reloc_size);
+++		  {
+++		    value = reloc->r_addend + (symtab[sym_index].st_value
+++					       - saved_sym->st_value);
+++
+++		    if (start + reloc->r_offset + reloc_size >= end)
+++		      /* PR 21137 */
+++		      error (_("MSP430 sym diff reloc writes past end of section (%p vs %p)\n"),
+++			     start + reloc->r_offset + reloc_size, end);
+++		    else
+++		      byte_put (start + reloc->r_offset, value, reloc_size);
+++		  }
++ 
++ 		saved_sym = NULL;
++ 		return TRUE;
++@@ -11658,13 +11686,24 @@ target_specific_reloc_handling (Elf_Internal_Rela * reloc,
++       {
++ 	static Elf_Internal_Sym * saved_sym = NULL;
++ 
+++	if (reloc == NULL)
+++	  {
+++	    saved_sym = NULL;
+++	    return TRUE;
+++	  }
+++
++ 	switch (reloc_type)
++ 	  {
++ 	  case 34: /* R_MN10300_ALIGN */
++ 	    return TRUE;
++ 	  case 33: /* R_MN10300_SYM_DIFF */
++-	    saved_sym = symtab + get_reloc_symindex (reloc->r_info);
+++	    if (sym_index >= num_syms)
+++	      error (_("MN10300_SYM_DIFF reloc contains invalid symbol index %lu\n"),
+++		     sym_index);
+++	    else
+++	      saved_sym = symtab + sym_index;
++ 	    return TRUE;
+++
++ 	  case 1: /* R_MN10300_32 */
++ 	  case 2: /* R_MN10300_16 */
++ 	    if (saved_sym != NULL)
++@@ -11672,15 +11711,20 @@ target_specific_reloc_handling (Elf_Internal_Rela * reloc,
++ 		int reloc_size = reloc_type == 1 ? 4 : 2;
++ 		bfd_vma value;
++ 
++-		value = reloc->r_addend
++-		  + (symtab[get_reloc_symindex (reloc->r_info)].st_value
++-		     - saved_sym->st_value);
++-
++-		if (start + reloc->r_offset + reloc_size >= end)
++-		  error (_("MN10300 sym diff reloc writes past end of section (%p vs %p)\n"),
++-			 start + reloc->r_offset + reloc_size, end);
+++		if (sym_index >= num_syms)
+++		  error (_("MN10300 reloc contains invalid symbol index %lu\n"),
+++			 sym_index);
++ 		else
++-		  byte_put (start + reloc->r_offset, value, reloc_size);
+++		  {
+++		    value = reloc->r_addend + (symtab[sym_index].st_value
+++					       - saved_sym->st_value);
+++
+++		    if (start + reloc->r_offset + reloc_size >= end)
+++		      error (_("MN10300 sym diff reloc writes past end of section (%p vs %p)\n"),
+++			     start + reloc->r_offset + reloc_size, end);
+++		    else
+++		      byte_put (start + reloc->r_offset, value, reloc_size);
+++		  }
++ 
++ 		saved_sym = NULL;
++ 		return TRUE;
++@@ -11700,12 +11744,24 @@ target_specific_reloc_handling (Elf_Internal_Rela * reloc,
++ 	static bfd_vma saved_sym2 = 0;
++ 	static bfd_vma value;
++ 
+++	if (reloc == NULL)
+++	  {
+++	    saved_sym1 = saved_sym2 = 0;
+++	    return TRUE;
+++	  }
+++
++ 	switch (reloc_type)
++ 	  {
++ 	  case 0x80: /* R_RL78_SYM.  */
++ 	    saved_sym1 = saved_sym2;
++-	    saved_sym2 = symtab[get_reloc_symindex (reloc->r_info)].st_value;
++-	    saved_sym2 += reloc->r_addend;
+++	    if (sym_index >= num_syms)
+++	      error (_("RL78_SYM reloc contains invalid symbol index %lu\n"),
+++		     sym_index);
+++	    else
+++	      {
+++		saved_sym2 = symtab[sym_index].st_value;
+++		saved_sym2 += reloc->r_addend;
+++	      }
++ 	    return TRUE;
++ 
++ 	  case 0x83: /* R_RL78_OPsub.  */
++@@ -12345,7 +12401,7 @@ apply_relocations (void *                     file,
++ 
++ 	  reloc_type = get_reloc_type (rp->r_info);
++ 
++-	  if (target_specific_reloc_handling (rp, start, end, symtab))
+++	  if (target_specific_reloc_handling (rp, start, end, symtab, num_syms))
++ 	    continue;
++ 	  else if (is_none_reloc (reloc_type))
++ 	    continue;
++@@ -12441,6 +12497,9 @@ apply_relocations (void *                     file,
++ 	}
++ 
++       free (symtab);
+++      /* Let the target specific reloc processing code know that
+++	 we have finished with these relocs.  */
+++      target_specific_reloc_handling (NULL, NULL, NULL, NULL, 0);
++ 
++       if (relocs_return)
++ 	{
++-- 
++2.11.0
++
+-- 
+2.11.0
+
+
