@@ -1,25 +1,31 @@
-Return-Path: <maxin.john@intel.com>
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id F0A9677BE2
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 2FA3A77BE2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Apr 2017 08:13:42 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga104.jf.intel.com with ESMTP; 11 Apr 2017 01:13:44 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.37,184,1488873600"; d="scan'208";a="72453467"
-Received: from mbabyjoh-desk.fi.intel.com (HELO
-	mbabyjoh-desk.ger.corp.intel.com) ([10.237.72.71])
-	by orsmga002.jf.intel.com with ESMTP; 11 Apr 2017 01:13:43 -0700
-Date: Tue, 11 Apr 2017 11:13:45 +0300
-From: "Maxin B. John" <maxin.john@intel.com>
-To: Mark Hatle <mark.hatle@windriver.com>
-Message-ID: <20170411081344.GA16630@mbabyjoh-desk.ger.corp.intel.com>
-References: <20170410205828.93764-1-mark.hatle@windriver.com>
-MIME-Version: 1.0
-In-Reply-To: <20170410205828.93764-1-mark.hatle@windriver.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/1] Restore proper attributions to libsolv patch
+	Tue, 11 Apr 2017 08:16:18 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTP id v3B8GH8k018242; 
+	Tue, 11 Apr 2017 09:16:19 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id KR4Wq1RV7C2h; Tue, 11 Apr 2017 09:16:19 +0100 (BST)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	v3B7SGtd014712
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
+	verify=NOT); Tue, 11 Apr 2017 08:28:17 +0100
+Message-ID: <1491895696.12091.6.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Yuanjie Huang <yuanjie.huang@windriver.com>,
+	openembedded-core@lists.openembedded.org
+Date: Tue, 11 Apr 2017 08:28:16 +0100
+In-Reply-To: <79336d8d-845d-b4ef-7eb5-acc8f10f675d@windriver.com>
+References: <20170410103425.333195-1-yuanjie.huang@windriver.com>
+	<1491862224.6264.0.camel@linuxfoundation.org>
+	<79336d8d-845d-b4ef-7eb5-acc8f10f675d@windriver.com>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.1 
+Mime-Version: 1.0
+Subject: Re: [PATCH] binutils: Fix CVE-2017-6965 and CVE-2017-6966
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,43 +38,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Apr 2017 08:13:43 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Tue, 11 Apr 2017 08:16:21 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hi Mark,
+On Tue, 2017-04-11 at 14:18 +0800, Yuanjie Huang wrote:
+> 
+> On 04/11/2017 06:10 AM, Richard Purdie wrote:
+> > 
+> > On Mon, 2017-04-10 at 03:34 -0700, Yuanjie Huang wrote:
+> > > 
+> > > meta/recipes-devtools/binutils/binutils-2.27.inc
+> > Given master contains 2.28, I don't think this patch was based on
+> > or
+> > tested against master?
+> Not yet, I will work on that, and will send the patch for master
+> later. 
+> Our current product is based on Morty, so I fixed it first.
 
-On Mon, Apr 10, 2017 at 03:58:27PM -0500, Mark Hatle wrote:
-> 
-> Per the email: http://lists.openembedded.org/pipermail/openembedded-core/2017-April/135460.html
-> 
-> Neal's attribution to the original code was lost.  In addition the original
-> two patches were squashed together.  This was not indicated in any change
-> information.  Again, making it unclear the proper history of the patches.
+If a patch is against morty, you need to say that when you post it.
 
-My apologies to Neal. I thought preserving the signed-off-by and link to github was
-a way to credit the original author, which is technically not correct. 
+The patch will not be accepted until master has the issue resolved. 
 
-> The associated change has no technical content change to the patches, it
-> is purely cosmetic.  The attempt is to restore the original unmodified
-> patches, including all attributions.  Maxim's patch to the if clause
-> in one hunk was then restored on top.
-> 
-> Let me know if there are any questions or concerns with this set.
-> 
-> (Note, Neal has not provided a signed-off-by line, which is his right as
-> an external author.  Since I modified the code, I did not add Maxim's either
-> as I do not have the right to add a signed-off-by line by someone else
-> without their express permission.)
-> 
-> Mark Hatle (1):
->   libsolve: 0001-Add-fallback-fopencookie-implementation.patch fix
->     attribution
-> 
->  ...1-Add-fallback-fopencookie-implementation.patch | 186 +++++++++++++++++----
->  1 file changed, 150 insertions(+), 36 deletions(-)
->
+If the issue isn't present in master, you should mention that.
 
-Best Regards,
-Maxin
+Cheers,
+
+Richard
 
