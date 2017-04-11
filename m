@@ -1,50 +1,30 @@
-Return-Path: <nathan@nathanrossi.com>
-Received: from mail-pf0-f194.google.com (mail-pf0-f194.google.com
-	[209.85.192.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 7938771CAA
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 775E471CAA
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Apr 2017 14:21:35 +0000 (UTC)
-Received: by mail-pf0-f194.google.com with SMTP id i5so10865710pfc.3
+	Tue, 11 Apr 2017 14:21:36 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v3BELbHv022527
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Apr 2017 07:21:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=nathanrossi.com; s=google;
-	h=date:message-id:from:to:cc:subject:mime-version
-	:content-transfer-encoding;
-	bh=C4Er7jwTmid1hE0FkyWfaZk4z5Qa8ifFNX8YP0nSeHM=;
-	b=Y1kbg4jF5Ezf8YLsRZWNJDKsGT7N1IZHo5i80zklcn3r4MgwEMvlFjLskSDhoD/9YU
-	PmUr0tMffmGxNr3QVL0yp7yu80v8s6HBY0qtLoWcNRvvp6ues2wuWZURm0TS9b8X4SU+
-	S+YDZHb0S0oYuu5uyp/K3zjZy7e3cTupsGbkp4+gKIVHrwbWxS1dionu0yNeAtEZats8
-	pRvWrFZcOi3D5mSiAGwqsNB2ocIqmCArMO1aiFAEw/yxIRPfHh1Ot0sJL0IL8OfBcjI+
-	U/wZ+7yu5U2KX9wFiiXyMwA1WCZhybug7hIH0+Yr+8c80mkSdZaZIsl8r/Px8LI5odfN
-	GmyA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:message-id:from:to:cc:subject:mime-version
-	:content-transfer-encoding;
-	bh=C4Er7jwTmid1hE0FkyWfaZk4z5Qa8ifFNX8YP0nSeHM=;
-	b=D1jTkDqHvfvmv2x6EekRXchvZOWh90hu3tRRC8SYZjK9eHDAlFTmVG8AYKSFfhFxjZ
-	rT7LXveBRct42JGID6O/PgcXCBATgKgqbLD38VvtmwGETurC8BKFIl5O8IFI7JelAwaa
-	b2V8BogJbyS15TfVhxtqBWxsFUa+W01WtPb3sru2Nex4s+ZHjMXbppiNBhCK2/X/Rbtg
-	AEaJF5lDBaqJaKxDLPwdPF7R4AETTWIGNejgdcw9/rlJdQEQKzwZM9K2Xt0SuavdLtYu
-	7WUs0bHPUhViZDM7W5fU6sYBzOt8ob9vqGhLa3c+DRHAkHnOfLOGZ2rIO/fXm40FT+fh
-	Wtzg==
-X-Gm-Message-State: AFeK/H0L4UGZ/+ondrxyRGJgbmKp/af8H1tXyr8l8bEZG0TtOtpHpcpipksh2TvJvIX8sA==
-X-Received: by 10.98.67.89 with SMTP id q86mr59012489pfa.237.1491920496687;
-	Tue, 11 Apr 2017 07:21:36 -0700 (PDT)
-Received: from [127.0.1.1] (CPE-123-211-196-155.lnse4.woo.bigpond.net.au.
-	[123.211.196.155]) by smtp.gmail.com with ESMTPSA id
-	f84sm31075248pfa.127.2017.04.11.07.21.34
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 11 Apr 2017 07:21:36 -0700 (PDT)
-Date: Wed, 12 Apr 2017 00:21:26 +1000
-Message-Id: <20170411142126.8557-1-nathan@nathanrossi.com>
-From: Nathan Rossi <nathan@nathanrossi.com>
-To: openembedded-core@lists.openembedded.org
+	Tue, 11 Apr 2017 07:21:38 -0700 (PDT)
+Received: from soho-mhatle-m.local (172.25.36.229) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
+	Tue, 11 Apr 2017 07:21:37 -0700
+To: <openembedded-core@lists.openembedded.org>
+References: <CAEg-Je8BnTDr6BxLOUBO3Y5a+yKjggk=cLSY7n-Aeq61GMVmTQ@mail.gmail.com>
+	<1301981f-af40-612f-a383-5feb2886e33e@windriver.com>
+	<CAHUNapShkap-XagZvEu8=r_21QRX9TiEtV9XwL6gox4SrNohXQ@mail.gmail.com>
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+Message-ID: <5731b9a7-3b04-651c-3f9c-74d0ca5d637d@windriver.com>
+Date: Tue, 11 Apr 2017 09:21:36 -0500
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:45.0)
+	Gecko/20100101 Thunderbird/45.8.0
 MIME-Version: 1.0
-Cc: Cristian Ionescu-Idbohrn <cristian.ionescu-idbohrn@axis.com>,
-	Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-Subject: [PATCH] busybox: In defconfig enable ASH_CMDCMD for built-in 'command'
+In-Reply-To: <CAHUNapShkap-XagZvEu8=r_21QRX9TiEtV9XwL6gox4SrNohXQ@mail.gmail.com>
+Subject: Re: About misappropriation of one of my patches in OpenEmbedded
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,42 +37,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Apr 2017 14:21:35 -0000
-Content-Type: text/plain; charset="utf-8"
+X-List-Received-Date: Tue, 11 Apr 2017 14:21:37 -0000
+Content-Type: text/plain; charset="windows-1252"
 Content-Transfer-Encoding: 7bit
 
-It is common for *ash shells to have 'command' available as a built-in
-function. POSIX 2008 also documents the availability of this command.
+On 4/10/17 8:19 PM, Trevor Woerner wrote:
+> First and foremost, yes a patch from Neal was mishandled. However, I
+> think the dial went up to 11 on this one a bit too quickly.
+> 
+> As far as I can tell Neal's attribution still appears in the
+> 0001-Add-fallback-fopencookie-implementation.patch file. All that
+> happened was that an extraneous "com>" was removed from the email
+> address so it is now valid. The line was modified, not removed.
+> 
 
-Additionally the /etc/profile of base-files requires this command to be
-available as of commit e77cdb7611 ("base-files: profile: Do not assume
-that the tty command exists"). If it is not available the following
-message is output during login on a image using busybox.
+The issue wasn't that, it was that the 'Signed-off-by: ...' line was added to
+the original patch without asking Neal.  It's not permitted to add someone elses
+Signed-off-by line without their permission.
 
-    -sh: command: not found
+Also the attribution at the top of the file (originally there in the first
+version) was removed in a later version.
 
-It however should be noted that tcsh and csh do not provide 'command'
-(built-in or otherwise).
+These items combined are what triggered the issue.  It was unclear Neal authored
+the original version of the patch.  It was unclear that it was modified.  It
+looked like Neal consented to the sign-off-by line.
 
-Signed-off-by: Nathan Rossi <nathan@nathanrossi.com>
----
- meta/recipes-core/busybox/busybox/defconfig | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/recipes-core/busybox/busybox/defconfig b/meta/recipes-core/busybox/busybox/defconfig
-index f649738120..8803b52ac6 100644
---- a/meta/recipes-core/busybox/busybox/defconfig
-+++ b/meta/recipes-core/busybox/busybox/defconfig
-@@ -1014,7 +1014,7 @@ CONFIG_ASH_BUILTIN_ECHO=y
- CONFIG_ASH_BUILTIN_PRINTF=y
- CONFIG_ASH_BUILTIN_TEST=y
- CONFIG_ASH_HELP=y
--# CONFIG_ASH_CMDCMD is not set
-+CONFIG_ASH_CMDCMD=y
- # CONFIG_ASH_MAIL is not set
- CONFIG_ASH_OPTIMIZE_FOR_SIZE=y
- # CONFIG_ASH_RANDOM_SUPPORT is not set
--- 
-2.11.0
-
+--Mark
 
