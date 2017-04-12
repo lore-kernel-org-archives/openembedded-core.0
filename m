@@ -1,22 +1,20 @@
-Return-Path: <brian.avery@intel.com>
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 2301E77D42
+Return-Path: <edwin.plauchu.camacho@linux.intel.com>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	by mail.openembedded.org (Postfix) with ESMTP id 4DBE277D36
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Apr 2017 21:26:27 +0000 (UTC)
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-	by fmsmga105.fm.intel.com with ESMTP; 12 Apr 2017 14:26:28 -0700
+	Wed, 12 Apr 2017 22:19:04 +0000 (UTC)
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+	by orsmga105.jf.intel.com with ESMTP; 12 Apr 2017 15:19:05 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.37,191,1488873600"; d="scan'208";a="76695875"
-Received: from bavery-ws-desk.jf.intel.com ([10.54.74.5])
-	by orsmga004.jf.intel.com with ESMTP; 12 Apr 2017 14:26:27 -0700
-From: brian avery <brian.avery@intel.com>
+X-IronPort-AV: E=Sophos;i="5.37,191,1488873600"; d="scan'208";a="88411917"
+Received: from pianodaemon-contraption.zpn.intel.com ([10.219.128.39])
+	by fmsmga006.fm.intel.com with ESMTP; 12 Apr 2017 15:19:04 -0700
+From: Edwin Plauchu <edwin.plauchu.camacho@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 12 Apr 2017 14:29:14 -0700
-Message-Id: <0dec41045ce26c98e153889351188b994669ffce.1492031994.git.brian.avery@intel.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1492031994.git.brian.avery@intel.com>
-References: <cover.1492031994.git.brian.avery@intel.com>
-Subject: [PATCH 4/4] oe-run-native: explicitly use bash
+Date: Wed, 12 Apr 2017 17:21:21 -0500
+Message-Id: <1492035681-28564-1-git-send-email-edwin.plauchu.camacho@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] python3-git: upgrade from 2.1.1 to 2.1.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,28 +27,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Apr 2017 21:26:28 -0000
+X-List-Received-Date: Wed, 12 Apr 2017 22:19:18 -0000
 
-This script sources another script (oe-find-native-sysroot) with
-arguments.  It was using /bin/sh. Sourcing with arguments works only in
-bash so it was failing in dash.  This commit makes it dash proof.
+This is a minimal update for git module of python 3
 
-Signed-off-by: brian avery <brian.avery@intel.com>
+Signed-off-by: Edwin Plauchu <edwin.plauchu.camacho@linux.intel.com>
 ---
- scripts/oe-run-native | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-devtools/python/python-git.inc                           | 4 ++--
+ .../python/{python3-git_2.1.1.bb => python3-git_2.1.3.bb}             | 0
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/python/{python3-git_2.1.1.bb => python3-git_2.1.3.bb} (100%)
 
-diff --git a/scripts/oe-run-native b/scripts/oe-run-native
-index de3c02e..12f7ce6 100755
---- a/scripts/oe-run-native
-+++ b/scripts/oe-run-native
-@@ -1,4 +1,4 @@
--#!/bin/sh
-+#!/bin/bash
- #
- # Copyright (c) 2016,  Intel Corporation.
- # All Rights Reserved
+diff --git a/meta/recipes-devtools/python/python-git.inc b/meta/recipes-devtools/python/python-git.inc
+index feddf27..825e795d9 100644
+--- a/meta/recipes-devtools/python/python-git.inc
++++ b/meta/recipes-devtools/python/python-git.inc
+@@ -10,8 +10,8 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=8b8d26c37c1d5a04f9b0186edbebc183"
+ 
+ SRC_URI = "https://files.pythonhosted.org/packages/source/G/GitPython/GitPython-${PV}.tar.gz"
+ 
+-SRC_URI[md5sum] = "77f8339e68dedb6d7c4e26371a588ed9"
+-SRC_URI[sha256sum] = "e96f8e953cf9fee0a7599fc587667591328760b6341a0081ef311a942fc96204"
++SRC_URI[md5sum] = "6cd18008c03a767740f3bf6d89ef79bc"
++SRC_URI[sha256sum] = "3826185b11e1fc372e7d31251e9b65e11ccb7c27f82c771d619048bdb5b66c81"
+ 
+ UPSTREAM_CHECK_URI = "https://pypi.python.org/pypi/GitPython/"
+ UPSTREAM_CHECK_REGEX = "/GitPython/(?P<pver>(\d+[\.\-_]*)+)"
+diff --git a/meta/recipes-devtools/python/python3-git_2.1.1.bb b/meta/recipes-devtools/python/python3-git_2.1.3.bb
+similarity index 100%
+rename from meta/recipes-devtools/python/python3-git_2.1.1.bb
+rename to meta/recipes-devtools/python/python3-git_2.1.3.bb
 -- 
-1.9.1
+2.1.4
 
 
