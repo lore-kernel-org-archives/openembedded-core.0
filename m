@@ -1,49 +1,21 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-io0-f181.google.com (mail-io0-f181.google.com
-	[209.85.223.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 001F877CA1
+Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 1FEDA77CD4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Apr 2017 15:44:41 +0000 (UTC)
-Received: by mail-io0-f181.google.com with SMTP id l7so45412661ioe.3
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Apr 2017 08:44:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=aYW7ZhbKjgaykEAkQKzw5UMQHuo6qffx815Xs4VWP8w=;
-	b=rW/xyHYzJ68v6fqZtLZeBJaXylB3VHuo2+ePVXqzq1gDzDvjyPlVTyWoc4r9CHtZBw
-	qCPXxPhT2ONuY4ssx8PR1l5tmtsJqzx0gOE1JtMfZ9crBazJPEqggZFtgjze5aPHLgEU
-	3alV67dG1C/LPOeptSGn152XMytosp8r7p1qyEHtzyaUkPvI5M4SFBHcnn5Yg6sOIAHT
-	eojyG1ECB8WFJCxUPZpDF+DwPNvluBRW0NqBcYewBo6WCDgc174fAaqCHz0Q275ZV8hZ
-	BE/LCkiEevxOJJFl2cG6UJRnISdXMLyq68T9FA1eZYZckLkrbNe4EO0IJbdlvTSw9Kae
-	Pmvw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=aYW7ZhbKjgaykEAkQKzw5UMQHuo6qffx815Xs4VWP8w=;
-	b=ASJ2SZGdPgoMaWYGfrupDwMfqavyY1SYCjie/eKqJ50/TD4PxGlbCxLKewYNW8t/Fv
-	XpQArR92YbUijEj9/94ecjZbNK7/mu/6EfysNkuhZJUiWbh2rMDYcBzmtnAEgMGz36Zu
-	KKbtht6zTpGEXfAqy6K2NGwlThCyIdAFRFVLAimNSIAnQluioRt/5+k2oCCZjzeK07ma
-	AdS3wZkE25u6FGJL847t7uoS6oZFs8E2pj5ohWglMXZlxyHct3B3i/WiGv6z7Ybr/Li9
-	Sx2DaN+7QoUtQ4FZKbDvHethsB0oI9zc/Nuu7WDEj1SjAuKT1ZK2NlffKL6MOM5CzXgE
-	x6Ow==
-X-Gm-Message-State: AFeK/H01NeG6jxasVmov7p+j2ttrsGNKo9FCo/CeYuJsy7Pnx8wCbsHjrc0H4ZyTWaBxamuu
-X-Received: by 10.107.12.40 with SMTP id w40mr62875954ioi.209.1492011883038;
-	Wed, 12 Apr 2017 08:44:43 -0700 (PDT)
-Received: from pohly-desktop.fritz.box (p5DE8D306.dip0.t-ipconnect.de.
-	[93.232.211.6]) by smtp.gmail.com with ESMTPSA id
-	b126sm9618243ioa.55.2017.04.12.08.44.40
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 12 Apr 2017 08:44:42 -0700 (PDT)
-From: Patrick Ohly <patrick.ohly@intel.com>
+	Wed, 12 Apr 2017 16:13:31 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	12 Apr 2017 09:13:32 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.37,191,1488873600"; d="scan'208";a="845002604"
+Received: from yctb05.ostc.intel.com ([10.54.69.59])
+	by FMSMGA003.fm.intel.com with ESMTP; 12 Apr 2017 09:13:32 -0700
+From: leonardo.sandoval.gonzalez@linux.intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 12 Apr 2017 17:44:26 +0200
-Message-Id: <c8ce3be9e0da39f6d30e15855fba4d7417ab09c8.1492011846.git-series.patrick.ohly@intel.com>
-X-Mailer: git-send-email 2.11.0
-In-Reply-To: <cover.7122c18ef0bab2b3b9f6f6b36f28f806943eab82.1492011846.git-series.patrick.ohly@intel.com>
-References: <cover.7122c18ef0bab2b3b9f6f6b36f28f806943eab82.1492011846.git-series.patrick.ohly@intel.com>
-Subject: [PATCH v5 2/2] yocto-compat-layer: better handling of per-machine world build breakage
+Date: Wed, 12 Apr 2017 09:12:07 -0700
+Message-Id: <20170412161207.41184-1-leonardo.sandoval.gonzalez@linux.intel.com>
+X-Mailer: git-send-email 2.10.2
+Subject: [PATCH] oeqa/core/runner: Append PID in the test result folder name
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,96 +28,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Apr 2017 15:44:42 -0000
+X-List-Received-Date: Wed, 12 Apr 2017 16:13:32 -0000
 
-It is fairly common that BSP layers enable recipes when choosing
-machines from that layer without checking whether the recipe actually
-builds in the current distro. That breaks "bitbake world", retrieving
-signatures and thus the test_machine_signatures test.
+From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
 
-It's better to let that test continue with the signatures that can be
-retrieved and report the broken world build separately. Right now, the
-new test_machine_world iterates over all machines. More elegant and
-useful in combination with a (currently missing) selection of which
-tests to run would be to generate one test instance per machine. But that
-is not straightforward and has to wait.
+It was found a case (see the bugzilla entry) where two runners were running at the same
+second, creating identical test result folders, so one of them (the second runner)
+was not able to create the folder because the other has already created it,
+raising the following exception (many text was removed from log)
 
-The "-k" argument alone was not enough to proceed despite failures,
-because bitbake then still returns a non-zero exit code. The existance
-of the output file is taken as sign that the bitbake execution managed
-was not fatally broken.
+NOTE: Executing RunQueue Tasks
+NOTE: Running task 1 of 2 (/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-mips/build/meta/recipes-core/images/core-image-minimal.bb:do_testsdkext)
+NOTE: Running task 2 of 2 (/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-mips/build/meta/recipes-sato/images/core-image-sato.bb:do_testsdkext)
+NOTE: recipe core-image-sato-1.0-r0: task do_testsdkext: Started
+NOTE: recipe core-image-minimal-1.0-r0: task do_testsdkext: Started
+.
+.
+The stack trace of python calls that resulted in this exception/failure was:
+File: 'exec_python_func() autogenerated', lineno: 2, function: <module>
+     0001:
+ *** 0002:do_testsdkext(d)
+     0003:
+File: '/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-mips/build/meta/classes/testsdk.bbclass', lineno: 188, function: do_testsdkext
+     0184:
+     0185:testsdkext_main[vardepsexclude] =+ "BB_ORIGENV"
+     0186:
+     0187:python do_testsdkext() {
+ *** 0188:    testsdkext_main(d)
+     0189:}
+     0190:addtask testsdkext
+     0191:do_testsdkext[nostamp] = "1"
+     0192:
+File: '/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-mips/build/meta/classes/testsdk.bbclass', lineno: 171, function: testsdkext_main
+     0167:        except Exception as e:
+     0168:            import traceback
+     0169:            bb.fatal("Loading tests failed:\n%s" % traceback.format_exc())
+     0170:
+ *** 0171:        result = tc.runTests()
+.
+.
+File: '/usr/lib64/python3.5/os.py', lineno: 241, function: makedirs
+     0237:            cdir = bytes(curdir, 'ASCII')
+     0238:        if tail == cdir:           # xxx/newdir/. exists if xxx/newdir exists
+     0239:            return
+     0240:    try:
+ *** 0241:        mkdir(name, mode)
+     0242:    except OSError:
+     0243:        # Cannot rely on checking for EEXIST, since the operating system
+     0244:        # could give priority to other errors like EACCES or EROFS
+     0245:        if not exist_ok or not path.isdir(name):
+Exception: FileExistsError: [Errno 17] File exists: '/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-mips/build/build/TestResults_20170409130114'
 
-Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
+[YOCTO #11318]
+
+Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
 ---
- scripts/lib/compatlayer/__init__.py  | 16 ++++++++++++++--
- scripts/lib/compatlayer/cases/bsp.py | 26 ++++++++++++++++++++++++++
- 2 files changed, 40 insertions(+), 2 deletions(-)
+ meta/lib/oeqa/core/runner.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/scripts/lib/compatlayer/__init__.py b/scripts/lib/compatlayer/__init__.py
-index 0d6f4e9..e35f8c0 100644
---- a/scripts/lib/compatlayer/__init__.py
-+++ b/scripts/lib/compatlayer/__init__.py
-@@ -233,9 +233,21 @@ def get_signatures(builddir, failsafe=False, machine=None):
-     if failsafe:
-         cmd += '-k '
-     cmd += '-S none world'
--    check_command('Generating signatures failed. This might be due to some parse error and/or general layer incompatibilities.',
--                  cmd)
-     sigs_file = os.path.join(builddir, 'locked-sigs.inc')
-+    if os.path.exists(sigs_file):
-+        os.unlink(sigs_file)
-+    try:
-+        check_command('Generating signatures failed. This might be due to some parse error and/or general layer incompatibilities.',
-+                      cmd)
-+    except RuntimeError as ex:
-+        if failsafe and os.path.exists(sigs_file):
-+            # Ignore the error here. Most likely some recipes active
-+            # in a world build lack some dependencies. There is a
-+            # separate test_machine_world_build which exposes the
-+            # failure.
-+            pass
-+        else:
-+            raise
+diff --git a/meta/lib/oeqa/core/runner.py b/meta/lib/oeqa/core/runner.py
+index 0f158c3..44ffecb 100644
+--- a/meta/lib/oeqa/core/runner.py
++++ b/meta/lib/oeqa/core/runner.py
+@@ -52,7 +52,7 @@ class OETestRunner(_TestRunner):
+         if xmlEnabled:
+             if not kwargs.get('output'):
+                 kwargs['output'] = os.path.join(os.getcwd(),
+-                        'TestResults_%s' % time.strftime("%Y%m%d%H%M%S"))
++                        'TestResults_%s_%s' % (time.strftime("%Y%m%d%H%M%S"), os.getpid()))
  
-     sig_regex = re.compile("^(?P<task>.*:.*):(?P<hash>.*) .$")
-     tune_regex = re.compile("(^|\s)SIGGEN_LOCKEDSIGS_t-(?P<tune>\S*)\s*=\s*")
-diff --git a/scripts/lib/compatlayer/cases/bsp.py b/scripts/lib/compatlayer/cases/bsp.py
-index 9025675..43efae4 100644
---- a/scripts/lib/compatlayer/cases/bsp.py
-+++ b/scripts/lib/compatlayer/cases/bsp.py
-@@ -25,6 +25,32 @@ class BSPCompatLayer(OECompatLayerTestCase):
-                 msg="Layer %s modified machine %s -> %s" % \
-                     (self.tc.layer['name'], self.td['bbvars']['MACHINE'], machine))
- 
-+
-+    def test_machine_world(self):
-+        '''
-+        "bitbake world" is expected to work regardless which machine is selected.
-+        BSP layers sometimes break that by enabling a recipe for a certain machine
-+        without checking whether that recipe actually can be built in the current
-+        distro configuration (for example, OpenGL might not enabled).
-+
-+        This test iterates over all machines. It would be nicer to instantiate
-+        it once per machine. It merely checks for errors during parse
-+        time. It does not actually attempt to build anything.
-+        '''
-+
-+        if not self.td['machines']:
-+            self.skipTest('No machines set with --machines.')
-+        msg = []
-+        for machine in self.td['machines']:
-+            # In contrast to test_machine_signatures() below, errors are fatal here.
-+            try:
-+                get_signatures(self.td['builddir'], failsafe=False, machine=machine)
-+            except RuntimeError as ex:
-+                msg.append(str(ex))
-+        if msg:
-+            msg.insert(0, 'The following machines broke a world build:')
-+            self.fail('\n'.join(msg))
-+
-     def test_machine_signatures(self):
-         '''
-         Selecting a machine may only affect the signature of tasks that are specific
+         super(OETestRunner, self).__init__(*args, **kwargs)
+         self.tc = tc
 -- 
-git-series 0.9.1
+2.10.2
+
 
