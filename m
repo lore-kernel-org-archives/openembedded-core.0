@@ -1,24 +1,47 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 69C3C77D25
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-oi0-f48.google.com (mail-oi0-f48.google.com
+	[209.85.218.48])
+	by mail.openembedded.org (Postfix) with ESMTP id ED44D77CD3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Apr 2017 15:25:20 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	v3CFPFEf020683
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Wed, 12 Apr 2017 16:25:16 +0100
-Message-ID: <1492010715.26846.1.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: wei.tee.ng@intel.com, openembedded-core@lists.openembedded.org
-Date: Wed, 12 Apr 2017 16:25:15 +0100
-In-Reply-To: <1491789524-26109-1-git-send-email-wei.tee.ng@intel.com>
-References: <1491789524-26109-1-git-send-email-wei.tee.ng@intel.com>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.1 
-Mime-Version: 1.0
-X-Virus-Scanned: clamav-milter 0.99.2 at dan
-X-Virus-Status: Clean
-Subject: Re: [PATCH v3 0/3] Set linux-firmware to correct license
+	Wed, 12 Apr 2017 15:44:32 +0000 (UTC)
+Received: by mail-oi0-f48.google.com with SMTP id b187so36499425oif.0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 12 Apr 2017 08:44:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id;
+	bh=fw8UUW9gKiKbOvOwakMqi3imMvRwJrtJvdPnY+KiEAk=;
+	b=XR+rHPFiX78lAXnlaJrPAk2Vs4bpPMbkZjIXOcD6EgamD4v8dS/8XOaw8zPQPaGkWe
+	ooqFm9bKDGO+8v+tC5lOihE9JAm9Yv8phwOvOa4HvVy/WLcrqu96CW1YWao5H5ZAjsRS
+	GJL3z7hLDZpecmovp7QSJdAh2zFEYNQDuGVYnXp48GSGvnAXAFIy1gITCnSfHQ2h4OOR
+	9SKZi1TIU8ApmImLGf0l9BrtocAFTCwECtJxWKvxFSkUJp3G0U2wEHLWN7h9NVR9Tntr
+	jAyLtncKh69J+yQMyRhsXLVeCH/544ZjQVhPF9Ds9wdq4x8CZWDNMbQJHWDdkJDQCcJy
+	lVFA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=fw8UUW9gKiKbOvOwakMqi3imMvRwJrtJvdPnY+KiEAk=;
+	b=l9WeuOxhKA+M9o8OASCgquojnF07G1MtO9AyJFaWYaTp/lEOnulKjV52VHWIfBIev0
+	oSs6SNkZTIgmBXhqbJ1n/froJjWY+vMP7567jz4ii0kCqDO9hnV1dkmCTU67k0Jxle+W
+	ZkXnHzRjtCzApkL2TrC0wJn1ySF6nrbxa2/d4URCRr5ucCFntNJpTYDVhovCCebtpURj
+	CTzFrd9Nc0nI+TYIoenwVgsTjPIqTvmZpdSU7HDLuKGqskaMYIPQd3T2mG6/FV4zgCaX
+	QUf77mjQqCRQ2U8KVxvZ0X+riBHLU6Sb56JliIVyM9Ur2qGM62HccVD2GgUsN0Dedmwi
+	Bb4Q==
+X-Gm-Message-State: AN3rC/46OaExUnSDgF/HsSF+vng0Xjjm+mF8x4gB6gPczQeQF8Jy3YNb
+	is20ffK+lQBEaaBM
+X-Received: by 10.36.67.135 with SMTP id s129mr23349266itb.36.1492011873774;
+	Wed, 12 Apr 2017 08:44:33 -0700 (PDT)
+Received: from pohly-desktop.fritz.box (p5DE8D306.dip0.t-ipconnect.de.
+	[93.232.211.6]) by smtp.gmail.com with ESMTPSA id
+	b126sm9618243ioa.55.2017.04.12.08.44.30
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 12 Apr 2017 08:44:32 -0700 (PDT)
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 12 Apr 2017 17:44:24 +0200
+Message-Id: <cover.7122c18ef0bab2b3b9f6f6b36f28f806943eab82.1492011846.git-series.patrick.ohly@intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH v5 0/2] yocto-compat-layer: per machine checks
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,38 +54,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Apr 2017 15:25:22 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 12 Apr 2017 15:44:33 -0000
 
-On Sun, 2017-04-09 at 18:58 -0700, wei.tee.ng@intel.com wrote:
-> From: "Ng, Wei Tee" <wei.tee.ng@intel.com>
-> 
-> This is the revised version to fix the ipk packaging error as below:
-> ERROR: linux-firmware-1_0.0+gitAUTOINC+b14134583c-r0
-> do_package_write_ipk: Function failed: do_package_ipk
-> 
-> These patches is to update the SRCREV of linux-firmware to the latest
-> HEAD
-> and set the license file explicitly for linux-firmware-carl9170 to
-> GPL-2.
-> This also targeted to solve the Bugzilla ID 11090.
-> 
-> The SRCREV for linux-firmware was updated to the latest in order to
-> include the GPL-2 license file. The netronome firmware was removed
-> until rpm packaging issue is resolved.
->  
-> This configuration are build and tested for ipk, rpm and deb
-> packaging.
->  
-> Please review and provide feedback if you have any.
+It is important to test with real MACHINE values, otherwise changes
+introduced by layers only when their machines are selected wouldn't
+show up. The new test_machine_signatures and test_machine_world tests
+cover two aspects of that (signature differences and world build
+failures).
 
-We can't upgrade this recipe at this point in the release unless there
-is a pressing reason to. You don't list any reason at all for the
-upgrade here so I can only assume there isn't one. This patch and the
-ones that depend on it will therefore have to wait for 2.4.
+V2: - use self.fail() instead of self.assertTrue(False, ...)
+    - test_machine_signatures check (work in progress)
+V3: - rebased onto master where some yocto-compat-layer enhancements were already merged
+    - added OE-core fixes for issues found by the per-machine signature comparison
+    - finished test_machine_signatures (shorter output, explanations
+      on how to run bitbake-diffsigs, end report with one bitbake-diffsigs invocation)
+    - allow "bitbake -S none world" to fail during test_machine_signatures,
+      report such failures in a separate test_machine_world
+V4: - avoid DEPENDS_remove for go-cross
+    - commit message spelling fixes
+V5: - rebased after preceeding patches were merged
+    - generate task list dynamically based on depgraph instead of hard-coding it
 
-Cheers,
+Patrick Ohly (2):
+  yocto-compat-layer: test signature differences when setting MACHINE
+  yocto-compat-layer: better handling of per-machine world build breakage
 
-Richard
+ scripts/lib/compatlayer/__init__.py  |  23 +++-
+ scripts/lib/compatlayer/cases/bsp.py | 180 +++++++++++++++++++++++++++-
+ scripts/yocto-compat-layer.py        |   3 +-
+ 3 files changed, 201 insertions(+), 5 deletions(-)
+
+base-commit: e41c90b852167bbcb434da57b84280e855acae33
+-- 
+git-series 0.9.1
 
