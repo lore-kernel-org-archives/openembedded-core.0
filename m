@@ -1,47 +1,50 @@
 Return-Path: <patrick.ohly@intel.com>
-Received: from mail-oi0-f48.google.com (mail-oi0-f48.google.com
-	[209.85.218.48])
-	by mail.openembedded.org (Postfix) with ESMTP id ED44D77CD3
+Received: from mail-io0-f176.google.com (mail-io0-f176.google.com
+	[209.85.223.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 448C777D2F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Apr 2017 15:44:32 +0000 (UTC)
-Received: by mail-oi0-f48.google.com with SMTP id b187so36499425oif.0
+	Wed, 12 Apr 2017 15:44:38 +0000 (UTC)
+Received: by mail-io0-f176.google.com with SMTP id a103so46931594ioj.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Apr 2017 08:44:34 -0700 (PDT)
+	Wed, 12 Apr 2017 08:44:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id;
-	bh=fw8UUW9gKiKbOvOwakMqi3imMvRwJrtJvdPnY+KiEAk=;
-	b=XR+rHPFiX78lAXnlaJrPAk2Vs4bpPMbkZjIXOcD6EgamD4v8dS/8XOaw8zPQPaGkWe
-	ooqFm9bKDGO+8v+tC5lOihE9JAm9Yv8phwOvOa4HvVy/WLcrqu96CW1YWao5H5ZAjsRS
-	GJL3z7hLDZpecmovp7QSJdAh2zFEYNQDuGVYnXp48GSGvnAXAFIy1gITCnSfHQ2h4OOR
-	9SKZi1TIU8ApmImLGf0l9BrtocAFTCwECtJxWKvxFSkUJp3G0U2wEHLWN7h9NVR9Tntr
-	jAyLtncKh69J+yQMyRhsXLVeCH/544ZjQVhPF9Ds9wdq4x8CZWDNMbQJHWDdkJDQCcJy
-	lVFA==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=KGacYVVkb1slTYTrcgWCSkyne1iVWhyBINZPiVPmjZk=;
+	b=0RX6QEnR6CkDk1hlYMhEBEcjr0j2PrGdVQNoneUUrQbbL7xc7GMQABC3wnI7ARqxZZ
+	T02QSp3u8dvpnPGPgdv+pwgeT0OECnb+X9jmg9Mhm60quAddQ1vdcGxdQkqhSDW3dei7
+	i3UOaWhhnCWliWE1lMHfWEVYaTGbATIHB/kAt+rW3tY3pu2N8nerY/KDqPykWuzSkovQ
+	+iWD7+Ulp5oWalHEj0Rre9s+PEDHJ4l69oi2EiKwavYQ83MoPO64SAyOkDIsowc/7ZA4
+	svn3gnUqmorhHK29lFmBnKORqDmWT7AiL/sdP6dW0ooCTRiSeTVhK+5i3Z7AO1/lqb5n
+	zhFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=fw8UUW9gKiKbOvOwakMqi3imMvRwJrtJvdPnY+KiEAk=;
-	b=l9WeuOxhKA+M9o8OASCgquojnF07G1MtO9AyJFaWYaTp/lEOnulKjV52VHWIfBIev0
-	oSs6SNkZTIgmBXhqbJ1n/froJjWY+vMP7567jz4ii0kCqDO9hnV1dkmCTU67k0Jxle+W
-	ZkXnHzRjtCzApkL2TrC0wJn1ySF6nrbxa2/d4URCRr5ucCFntNJpTYDVhovCCebtpURj
-	CTzFrd9Nc0nI+TYIoenwVgsTjPIqTvmZpdSU7HDLuKGqskaMYIPQd3T2mG6/FV4zgCaX
-	QUf77mjQqCRQ2U8KVxvZ0X+riBHLU6Sb56JliIVyM9Ur2qGM62HccVD2GgUsN0Dedmwi
-	Bb4Q==
-X-Gm-Message-State: AN3rC/46OaExUnSDgF/HsSF+vng0Xjjm+mF8x4gB6gPczQeQF8Jy3YNb
-	is20ffK+lQBEaaBM
-X-Received: by 10.36.67.135 with SMTP id s129mr23349266itb.36.1492011873774;
-	Wed, 12 Apr 2017 08:44:33 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=KGacYVVkb1slTYTrcgWCSkyne1iVWhyBINZPiVPmjZk=;
+	b=eQQIrhpeIt3JEFR/hYa+jEGUE6IsFD2AT35+ujiN4/B3ekz15iXP2a/AKDE1qHarDa
+	rm2G0t4RuttN8AWe5vDIkw8E6eJuENIv9pe4XLipgv12hmBQr/XM1LkHwHnK/tzQyoGR
+	dBAjh9SwsdkpVvcf+Ad5LAhTT6ly0ko+fVPL+zZQTnKECG8/fFzuNTkWPmJB6r1hBgmH
+	8KS0DLuoe9fAZE9QmfQg/vLhcjOaj0gOBP4JqAChl/RmLq0YFZ2Sj0bXtaFdeIcTeBKp
+	G39JtaBQPB/ZGVZ6R0zQP5NJbbDg4QTABJqQBUccquPsSFXMz0h8Oro3NpauVu9CTF7M
+	5bLA==
+X-Gm-Message-State: AN3rC/79n8DigDAKXP4qDs3xRvQlNh2CQuFpRW6mqvGXpEstf77wvRdv
+	5Xtc+XTpUbpz2KZJtuY=
+X-Received: by 10.36.9.17 with SMTP id 17mr23139392itm.79.1492011879732;
+	Wed, 12 Apr 2017 08:44:39 -0700 (PDT)
 Received: from pohly-desktop.fritz.box (p5DE8D306.dip0.t-ipconnect.de.
 	[93.232.211.6]) by smtp.gmail.com with ESMTPSA id
-	b126sm9618243ioa.55.2017.04.12.08.44.30
+	b126sm9618243ioa.55.2017.04.12.08.44.37
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 12 Apr 2017 08:44:32 -0700 (PDT)
+	Wed, 12 Apr 2017 08:44:38 -0700 (PDT)
 From: Patrick Ohly <patrick.ohly@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 12 Apr 2017 17:44:24 +0200
-Message-Id: <cover.7122c18ef0bab2b3b9f6f6b36f28f806943eab82.1492011846.git-series.patrick.ohly@intel.com>
+Date: Wed, 12 Apr 2017 17:44:25 +0200
+Message-Id: <b26a04e063723c9e9db7dec274ef77dac83565cf.1492011846.git-series.patrick.ohly@intel.com>
 X-Mailer: git-send-email 2.11.0
-Subject: [PATCH v5 0/2] yocto-compat-layer: per machine checks
+In-Reply-To: <cover.7122c18ef0bab2b3b9f6f6b36f28f806943eab82.1492011846.git-series.patrick.ohly@intel.com>
+References: <cover.7122c18ef0bab2b3b9f6f6b36f28f806943eab82.1492011846.git-series.patrick.ohly@intel.com>
+Subject: [PATCH v5 1/2] yocto-compat-layer: test signature differences when setting MACHINE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,37 +57,255 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Apr 2017 15:44:33 -0000
+X-List-Received-Date: Wed, 12 Apr 2017 15:44:39 -0000
 
-It is important to test with real MACHINE values, otherwise changes
-introduced by layers only when their machines are selected wouldn't
-show up. The new test_machine_signatures and test_machine_world tests
-cover two aspects of that (signature differences and world build
-failures).
+Selecting a machine is only allowed to affect the signature of tasks
+that are specific to that machine. In other words, when MACHINE=A and
+MACHINE=B share a recipe foo and the output of foo, then both machine
+configurations must build foo in exactly the same way. Otherwise it is
+not possible to use both machines in the same distribution.
 
-V2: - use self.fail() instead of self.assertTrue(False, ...)
-    - test_machine_signatures check (work in progress)
-V3: - rebased onto master where some yocto-compat-layer enhancements were already merged
-    - added OE-core fixes for issues found by the per-machine signature comparison
-    - finished test_machine_signatures (shorter output, explanations
-      on how to run bitbake-diffsigs, end report with one bitbake-diffsigs invocation)
-    - allow "bitbake -S none world" to fail during test_machine_signatures,
-      report such failures in a separate test_machine_world
-V4: - avoid DEPENDS_remove for go-cross
-    - commit message spelling fixes
-V5: - rebased after preceeding patches were merged
-    - generate task list dynamically based on depgraph instead of hard-coding it
+This criteria can only be tested by testing different machines in combination,
+i.e. one main layer, potentially several additional BSP layers and an explicit
+choice of machines:
+yocto-compat-layer --additional-layers .../meta-intel --machines intel-corei7-64 imx6slevk -- .../meta-freescale
 
-Patrick Ohly (2):
-  yocto-compat-layer: test signature differences when setting MACHINE
-  yocto-compat-layer: better handling of per-machine world build breakage
+To simplify the analysis and limit the amount of output, mismatches
+are sorted by task order such that tasks that run first are also
+reported first. Following tasks for the same recipe and set of
+machines then get pruned, because they are likely to be different
+because of the underlying task (same approach as in
+test_signatures). The difference here is that we get information about
+all machines. The task order in the base configuration serves as
+heuristic for sorting that merged list.
 
- scripts/lib/compatlayer/__init__.py  |  23 +++-
- scripts/lib/compatlayer/cases/bsp.py | 180 +++++++++++++++++++++++++++-
+The test has already found issues in go-cross (depended on
+tune-specific libgcc) and gdb-cross (had a tune-specific path
+unnecessarily), so it is also useful to uncover issues that are not
+caused by the BSP layer itself.
+
+Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
+---
+ scripts/lib/compatlayer/__init__.py  |   7 +-
+ scripts/lib/compatlayer/cases/bsp.py | 154 +++++++++++++++++++++++++++-
  scripts/yocto-compat-layer.py        |   3 +-
- 3 files changed, 201 insertions(+), 5 deletions(-)
+ 3 files changed, 161 insertions(+), 3 deletions(-)
 
-base-commit: e41c90b852167bbcb434da57b84280e855acae33
+diff --git a/scripts/lib/compatlayer/__init__.py b/scripts/lib/compatlayer/__init__.py
+index 6130b85..0d6f4e9 100644
+--- a/scripts/lib/compatlayer/__init__.py
++++ b/scripts/lib/compatlayer/__init__.py
+@@ -215,7 +215,7 @@ def check_command(error_msg, cmd):
+         raise RuntimeError(msg)
+     return output
+ 
+-def get_signatures(builddir, failsafe=False):
++def get_signatures(builddir, failsafe=False, machine=None):
+     import re
+ 
+     # some recipes needs to be excluded like meta-world-pkgdata
+@@ -226,7 +226,10 @@ def get_signatures(builddir, failsafe=False):
+     sigs = {}
+     tune2tasks = {}
+ 
+-    cmd = 'bitbake '
++    cmd = ''
++    if machine:
++        cmd += 'MACHINE=%s ' % machine
++    cmd += 'bitbake '
+     if failsafe:
+         cmd += '-k '
+     cmd += '-S none world'
+diff --git a/scripts/lib/compatlayer/cases/bsp.py b/scripts/lib/compatlayer/cases/bsp.py
+index 5d9bf93..9025675 100644
+--- a/scripts/lib/compatlayer/cases/bsp.py
++++ b/scripts/lib/compatlayer/cases/bsp.py
+@@ -3,7 +3,7 @@
+ 
+ import unittest
+ 
+-from compatlayer import LayerType
++from compatlayer import LayerType, get_signatures, check_command, get_depgraph
+ from compatlayer.case import OECompatLayerTestCase
+ 
+ class BSPCompatLayer(OECompatLayerTestCase):
+@@ -24,3 +24,155 @@ class BSPCompatLayer(OECompatLayerTestCase):
+         self.assertEqual(self.td['bbvars']['MACHINE'], machine,
+                 msg="Layer %s modified machine %s -> %s" % \
+                     (self.tc.layer['name'], self.td['bbvars']['MACHINE'], machine))
++
++    def test_machine_signatures(self):
++        '''
++        Selecting a machine may only affect the signature of tasks that are specific
++        to that machine. In other words, when MACHINE=A and MACHINE=B share a recipe
++        foo and the output of foo, then both machine configurations must build foo
++        in exactly the same way. Otherwise it is not possible to use both machines
++        in the same distribution.
++
++        This criteria can only be tested by testing different machines in combination,
++        i.e. one main layer, potentially several additional BSP layers and an explicit
++        choice of machines:
++        yocto-compat-layer --additional-layers .../meta-intel --machines intel-corei7-64 imx6slevk -- .../meta-freescale
++        '''
++
++        if not self.td['machines']:
++            self.skipTest('No machines set with --machines.')
++
++        # Collect signatures for all machines that we are testing
++        # and merge that into a hash:
++        # tune -> task -> signature -> list of machines with that combination
++        #
++        # It is an error if any tune/task pair has more than one signature,
++        # because that implies that the machines that caused those different
++        # signatures do not agree on how to execute the task.
++        tunes = {}
++        # Preserve ordering of machines as chosen by the user.
++        for machine in self.td['machines']:
++            curr_sigs, tune2tasks = get_signatures(self.td['builddir'], failsafe=True, machine=machine)
++            # Invert the tune -> [tasks] mapping.
++            tasks2tune = {}
++            for tune, tasks in tune2tasks.items():
++                for task in tasks:
++                    tasks2tune[task] = tune
++            for task, sighash in curr_sigs.items():
++                tunes.setdefault(tasks2tune[task], {}).setdefault(task, {}).setdefault(sighash, []).append(machine)
++
++        msg = []
++        pruned = 0
++        last_line_key = None
++        # do_fetch, do_unpack, ..., do_build
++        taskname_list = []
++        if tunes:
++            # The output below is most useful when we start with tasks that are at
++            # the bottom of the dependency chain, i.e. those that run first. If
++            # those tasks differ, the rest also does.
++            #
++            # To get an ordering of tasks, we do a topological sort of the entire
++            # depgraph for the base configuration, then on-the-fly flatten that list by stripping
++            # out the recipe names and removing duplicates. The base configuration
++            # is not necessarily representative, but should be close enough. Tasks
++            # that were not encountered get a default priority.
++            depgraph = get_depgraph()
++            depends = depgraph['tdepends']
++            WHITE = 1
++            GRAY = 2
++            BLACK = 3
++            color = {}
++            found = set()
++            def visit(task):
++                color[task] = GRAY
++                for dep in depends.get(task, ()):
++                    if color.setdefault(dep, WHITE) == WHITE:
++                        visit(dep)
++                color[task] = BLACK
++                pn, taskname = task.rsplit('.', 1)
++                if taskname not in found:
++                    taskname_list.append(taskname)
++                    found.add(taskname)
++            for task in depends.keys():
++                if color.setdefault(task, WHITE) == WHITE:
++                    visit(task)
++
++        taskname_order = dict([(task, index) for index, task in enumerate(taskname_list) ])
++        def task_key(task):
++            pn, taskname = task.rsplit(':', 1)
++            return (pn, taskname_order.get(taskname, len(taskname_list)), taskname)
++
++        for tune in sorted(tunes.keys()):
++            tasks = tunes[tune]
++            # As for test_signatures it would be nicer to sort tasks
++            # by dependencies here, but that is harder because we have
++            # to report on tasks from different machines, which might
++            # have different dependencies. We resort to pruning the
++            # output by reporting only one task per recipe if the set
++            # of machines matches.
++            #
++            # "bitbake-diffsigs -t -s" is intelligent enough to print
++            # diffs recursively, so often it does not matter that much
++            # if we don't pick the underlying difference
++            # here. However, sometimes recursion fails
++            # (https://bugzilla.yoctoproject.org/show_bug.cgi?id=6428).
++            #
++            # To mitigate that a bit, we use a hard-coded ordering of
++            # tasks that represents how they normally run and prefer
++            # to print the ones that run first.
++            for task in sorted(tasks.keys(), key=task_key):
++                signatures = tasks[task]
++                # do_build can be ignored: it is know to have
++                # different signatures in some cases, for example in
++                # the allarch ca-certificates due to RDEPENDS=openssl.
++                # That particular dependency is whitelisted via
++                # SIGGEN_EXCLUDE_SAFE_RECIPE_DEPS, but still shows up
++                # in the sstate signature hash because filtering it
++                # out would be hard and running do_build multiple
++                # times doesn't really matter.
++                if len(signatures.keys()) > 1 and \
++                   not task.endswith(':do_build'):
++                    # Error!
++                    #
++                    # Sort signatures by machines, because the hex values don't mean anything.
++                    # => all-arch adwaita-icon-theme:do_build: 1234... (beaglebone, qemux86) != abcdf... (qemux86-64)
++                    #
++                    # Skip the line if it is covered already by the predecessor (same pn, same sets of machines).
++                    pn, taskname = task.rsplit(':', 1)
++                    next_line_key = (pn, sorted(signatures.values()))
++                    if next_line_key != last_line_key:
++                        line = '   %s %s: ' % (tune, task)
++                        line += ' != '.join(['%s (%s)' % (signature, ', '.join([m for m in signatures[signature]])) for
++                                             signature in sorted(signatures.keys(), key=lambda s: signatures[s])])
++                        last_line_key = next_line_key
++                        msg.append(line)
++                        # Randomly pick two mismatched signatures and remember how to invoke
++                        # bitbake-diffsigs for them.
++                        iterator = iter(signatures.items())
++                        a = next(iterator)
++                        b = next(iterator)
++                        diffsig_machines = '(%s) != (%s)' % (', '.join(a[1]), ', '.join(b[1]))
++                        diffsig_params = '-t %s %s -s %s %s' % (pn, taskname, a[0], b[0])
++                    else:
++                        pruned += 1
++
++        if msg:
++            msg.insert(0, 'The machines have conflicting signatures for some shared tasks:')
++            if pruned > 0:
++                msg.append('')
++                msg.append('%d tasks where not listed because some other task of the recipe already differed.' % pruned)
++                msg.append('It is likely that differences from different recipes also have the same root cause.')
++            msg.append('')
++            # Explain how to investigate...
++            msg.append('To investigate, run bitbake-diffsigs -t recipename taskname -s fromsig tosig.')
++            cmd = 'bitbake-diffsigs %s' % diffsig_params
++            msg.append('Example: %s in the last line' % diffsig_machines)
++            msg.append('Command: %s' % cmd)
++            # ... and actually do it automatically for that example, but without aborting
++            # when that fails.
++            try:
++                output = check_command('Comparing signatures failed.', cmd).decode('utf-8')
++            except RuntimeError as ex:
++                output = str(ex)
++            msg.extend(['   ' + line for line in output.splitlines()])
++            self.fail('\n'.join(msg))
+diff --git a/scripts/yocto-compat-layer.py b/scripts/yocto-compat-layer.py
+index daf3a6a..0d5700b 100755
+--- a/scripts/yocto-compat-layer.py
++++ b/scripts/yocto-compat-layer.py
+@@ -49,6 +49,8 @@ def main():
+             help='File to output log (optional)', action='store')
+     parser.add_argument('--dependency', nargs="+",
+             help='Layers to process for dependencies', action='store')
++    parser.add_argument('--machines', nargs="+",
++            help='List of MACHINEs to be used during testing', action='store')
+     parser.add_argument('--additional-layers', nargs="+",
+             help='List of additional layers to add during testing', action='store')
+     parser.add_argument('-n', '--no-auto', help='Disable auto layer discovery',
+@@ -162,6 +164,7 @@ def main():
+         logger.info('Getting initial signatures ...')
+         td['builddir'] = builddir
+         td['sigs'], td['tunetasks'] = get_signatures(td['builddir'])
++        td['machines'] = args.machines
+ 
+         if not add_layer(bblayersconf, layer, dep_layers, logger):
+             logger.info('Skipping %s ???.' % layer['name'])
 -- 
 git-series 0.9.1
 
