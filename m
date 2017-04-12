@@ -1,26 +1,27 @@
 Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id 7768577D43
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 459A777D51
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 12 Apr 2017 20:54:06 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga105.jf.intel.com with ESMTP; 12 Apr 2017 13:54:07 -0700
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	12 Apr 2017 13:54:05 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.37,191,1488873600"; d="scan'208";a="845097148"
+X-IronPort-AV: E=Sophos;i="5.37,191,1488873600"; d="scan'208";a="1118751501"
 Received: from linux.intel.com ([10.54.29.200])
-	by FMSMGA003.fm.intel.com with ESMTP; 12 Apr 2017 13:54:07 -0700
+	by orsmga001.jf.intel.com with ESMTP; 12 Apr 2017 13:54:05 -0700
 Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
-	by linux.intel.com (Postfix) with ESMTP id 86B776A4080
+	by linux.intel.com (Postfix) with ESMTP id 42DA66A4080
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Apr 2017 13:53:57 -0700 (PDT)
+	Wed, 12 Apr 2017 13:53:55 -0700 (PDT)
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 12 Apr 2017 23:41:00 +0300
-Message-Id: <8993f2b4fdf35ae16ef96551440c7e54f76136b9.1492029084.git.ed.bartosh@linux.intel.com>
+Date: Wed, 12 Apr 2017 23:40:58 +0300
+Message-Id: <37196dc09488e5610d3b5253d6bfdbb2a367342f.1492029084.git.ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1492029084.git.ed.bartosh@linux.intel.com>
 References: <cover.1492029084.git.ed.bartosh@linux.intel.com>
-Subject: [PATCH 5/5] qemuboot: write native sysroot of qemu-helper into qemuboot.conf
+Subject: [PATCH 3/5] runqemu: add bindir_native property
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,45 +34,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Apr 2017 20:54:06 -0000
+X-List-Received-Date: Wed, 12 Apr 2017 20:54:07 -0000
 
-Native sysroot of qemu-helper contains all required tools
-(qemu-system and tunctl atm) for runqemu to work. It's not
-removed by rm_dir and should always exist. It makes sense
-to write it into qemuboot.conf to make runqemu to use it
-as a default directory for native tools.
+Isolated logic of getting path to native bin directory in
+new bindir_native property method.
 
-This should also speed up runqemu as it doesn't need to run
-to run 'bitbake qemu-helper -e' to get its native sysroot.
-
-[YOCTO #11266]
-[YOCTO #11193]
+This property is going to be used to obtain location of
+qemu-sytem and tunctl.
 
 Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 ---
- meta/classes/qemuboot.bbclass | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+ scripts/runqemu | 37 ++++++++++++++++++++++++-------------
+ 1 file changed, 24 insertions(+), 13 deletions(-)
 
-diff --git a/meta/classes/qemuboot.bbclass b/meta/classes/qemuboot.bbclass
-index 2870388..cc5314e 100644
---- a/meta/classes/qemuboot.bbclass
-+++ b/meta/classes/qemuboot.bbclass
-@@ -87,7 +87,14 @@ python do_write_qemuboot_conf() {
-     cf = configparser.ConfigParser()
-     cf.add_section('config_bsp')
-     for k in qemuboot_vars(d):
--        cf.set('config_bsp', k, '%s' % d.getVar(k))
-+        # qemu-helper-native sysroot is not removed by rm_work and
-+        # contains all tools required by runqemu
-+        if k == 'STAGING_BINDIR_NATIVE':
-+            val = os.path.join(d.getVar('BASE_WORKDIR'), d.getVar('BUILD_SYS'),
-+                               'qemu-helper-native/1.0-r1/recipe-sysroot-native/usr/bin/')
-+        else:
-+            val = d.getVar(k)
-+        cf.set('config_bsp', k, '%s' % val)
+diff --git a/scripts/runqemu b/scripts/runqemu
+index a8bb9eb..6cdedd8 100755
+--- a/scripts/runqemu
++++ b/scripts/runqemu
+@@ -721,7 +721,7 @@ class BaseConfig(object):
+                 self.load_bitbake_env()
  
-     # QB_DEFAULT_KERNEL's value of KERNEL_IMAGETYPE is the name of a symlink
-     # to the kernel file, which hinders relocatability of the qb conf.
+             if self.bitbake_e:
+-                native_vars = ['STAGING_DIR_NATIVE', 'STAGING_BINDIR_NATIVE']
++                native_vars = ['STAGING_DIR_NATIVE']
+                 for nv in native_vars:
+                     s = re.search('^%s="(.*)"' % nv, self.bitbake_e, re.M)
+                     if s and s.group(1) != self.get(nv):
+@@ -1056,18 +1056,7 @@ class BaseConfig(object):
+         if not qemu_system:
+             raise Exception("Failed to boot, QB_SYSTEM_NAME is NULL!")
+ 
+-        cmd = 'bitbake qemu-helper-native -e'
+-        logger.info('Running %s...' % cmd)
+-        out = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
+-        out = out.stdout.read().decode('utf-8')
+-
+-        match = re.search('^STAGING_BINDIR_NATIVE="(.*)"', out, re.M)
+-        if match:
+-            bindir_native  = match.group(1)
+-        else:
+-            raise Exception("Can't find STAGING_BINDIR_NATIVE in '%s' output" % cmd)
+-
+-        qemu_bin = '%s/%s' % (bindir_native, qemu_system)
++        qemu_bin = '%s/%s' % (self.bindir_native, qemu_system)
+ 
+         # It is possible to have qemu-native in ASSUME_PROVIDED, and it won't
+         # find QEMU in sysroot, it needs to use host's qemu.
+@@ -1196,6 +1185,28 @@ class BaseConfig(object):
+             self.bitbake_e = ''
+             logger.warn("Couldn't run 'bitbake -e' to gather environment information:\n%s" % err.output.decode('utf-8'))
+ 
++    @property
++    def bindir_native(self):
++        result = self.get('STAGING_BINDIR_NATIVE')
++        if result and os.path.exists(result):
++            return result
++
++        cmd = 'bitbake qemu-helper-native -e'
++        logger.info('Running %s...' % cmd)
++        out = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
++        out = out.stdout.read().decode('utf-8')
++
++        match = re.search('^STAGING_BINDIR_NATIVE="(.*)"', out, re.M)
++        if match:
++            result = match.group(1)
++            if os.path.exists(result):
++                self.set('STAGING_BINDIR_NATIVE', result)
++                return result
++            raise Exception("Native sysroot directory %s doesn't exist" % result)
++        else:
++            raise Exception("Can't find STAGING_BINDIR_NATIVE in '%s' output" % cmd)
++
++
+ def main():
+     if "help" in sys.argv or '-h' in sys.argv or '--help' in sys.argv:
+         print_usage()
 -- 
 2.1.4
 
