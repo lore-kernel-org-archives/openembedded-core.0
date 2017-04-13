@@ -1,55 +1,22 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
-	by mail.openembedded.org (Postfix) with ESMTP id 12EE077E1B
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 7B02577D88
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Apr 2017 12:23:59 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bes.se.axis.com (Postfix) with ESMTP id DEC8D2E2C2
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Apr 2017 14:24:00 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
-Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id UMP59ybTxPzZ
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Apr 2017 14:23:59 +0200 (CEST)
-Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
-	by bes.se.axis.com (Postfix) with ESMTPS id 42F592E5A1
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Apr 2017 14:23:59 +0200 (CEST)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 327F31E081
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Apr 2017 14:23:59 +0200 (CEST)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 27CF01E083
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Apr 2017 14:23:59 +0200 (CEST)
-Received: from seth.se.axis.com (unknown [10.0.2.172])
-	by boulder03.se.axis.com (Postfix) with ESMTP
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Apr 2017 14:23:59 +0200 (CEST)
-Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
-	by seth.se.axis.com (Postfix) with ESMTP id 1C7C73206
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Apr 2017 14:23:59 +0200 (CEST)
-Received: from saur-2.se.axis.com (localhost [127.0.0.1])
-	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id v3DCNxJq013628
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Apr 2017 14:23:59 +0200
-Received: (from pkj@localhost)
-	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id v3DCNxEQ013627
-	for openembedded-core@lists.openembedded.org;
-	Thu, 13 Apr 2017 14:23:59 +0200
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+	Thu, 13 Apr 2017 12:28:09 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	13 Apr 2017 05:28:11 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.37,194,1488873600"; d="scan'208";a="845454146"
+Received: from tranm-mobl.ccr.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com.fritz.box) ([10.255.175.125])
+	by FMSMGA003.fm.intel.com with ESMTP; 13 Apr 2017 05:28:09 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 13 Apr 2017 14:23:57 +0200
-Message-Id: <376f2a8be2bdd923d633fbcacaaa93bda3da06b4.1492086158.git.pkj@axis.com>
-X-Mailer: git-send-email 2.12.0
-In-Reply-To: <cover.1492086158.git.pkj@axis.com>
-References: <cover.1492086158.git.pkj@axis.com>
-X-TM-AS-GCONF: 00
-Subject: [PATCH 1/1] base-files: profile: Avoid using "command" to determine if programs exist
+Date: Fri, 14 Apr 2017 00:28:03 +1200
+Message-Id: <cover.1492086458.git.paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 2.9.3
+Subject: [PATCH 0/3] devtool extract/modify fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,44 +29,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Apr 2017 12:24:00 -0000
+X-List-Received-Date: Thu, 13 Apr 2017 12:28:10 -0000
 
-Since the existence of "command" in itself is not guaranteed, using it
-to determine if other executables exist is mote. Instead just run the
-executables and let the shell determine if they exist. By piping stderr
-to /dev/null we avoid unnecessary warnings in case they do not exist.
+The following changes since commit 334020a800434d20e7c3312890a2baca295c41c7:
 
-Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
----
- meta/recipes-core/base-files/base-files/profile | 14 ++++++--------
- 1 file changed, 6 insertions(+), 8 deletions(-)
+  oe-run-native: explicitly use bash (2017-04-13 10:52:54 +0100)
 
-diff --git a/meta/recipes-core/base-files/base-files/profile b/meta/recipes-core/base-files/base-files/profile
-index ceaf15f799..e05c8840db 100644
---- a/meta/recipes-core/base-files/base-files/profile
-+++ b/meta/recipes-core/base-files/base-files/profile
-@@ -22,14 +22,12 @@ if [ -d /etc/profile.d ]; then
- 	unset i
- fi
- 
--if command -v resize >/dev/null && command -v tty >/dev/null; then
--	# Make sure we are on a serial console (i.e. the device used starts with
--	# /dev/tty[A-z]), otherwise we confuse e.g. the eclipse launcher which
--	# tries do use ssh
--	case $(tty) in
--		/dev/tty[A-z]*) resize >/dev/null;;
--	esac
--fi
-+# Make sure we are on a serial console (i.e. the device used starts with
-+# /dev/tty[A-z]), otherwise we confuse e.g. the eclipse launcher which tries do
-+# use ssh
-+case $(tty 2>/dev/null) in
-+	/dev/tty[A-z]*) resize >/dev/null 2>&1;;
-+esac
- 
- export PATH PS1 OPIEDIR QPEDIR QTDIR EDITOR TERM
- 
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib paule/devtool26
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=paule/devtool26
+
+Paul Eggleton (3):
+  devtool: modify: add --keep-temp option for debugging
+  devtool: extract: fix handling of failed tasks
+  devtool: extract: drop erroneous bb.event.TaskSucceeded
+
+ scripts/lib/devtool/standard.py | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
+
 -- 
-2.12.0
+2.9.3
 
 
