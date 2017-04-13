@@ -1,29 +1,21 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id DE39377D90
+Return-Path: <rebecca.swee.fun.chang@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id E614A77D7A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Apr 2017 08:59:38 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v3D8xctO028639
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 13 Apr 2017 01:59:38 -0700 (PDT)
-Received: from [128.224.162.160] (128.224.162.160) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.294.0;
-	Thu, 13 Apr 2017 01:59:37 -0700
-To: Patrick Ohly <patrick.ohly@intel.com>
-References: <cover.1491902179.git.liezhi.yang@windriver.com>
-	<902f18e3b4520021f20feaf3522ba6a52cbc9031.1491902179.git.liezhi.yang@windriver.com>
-	<1492073188.27604.46.camel@intel.com>
-From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <38c7721e-9d95-05cd-b1cd-72099a986560@windriver.com>
-Date: Thu, 13 Apr 2017 16:59:36 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.2.0
-MIME-Version: 1.0
-In-Reply-To: <1492073188.27604.46.camel@intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 4/7] runqemu: do not rely on grepping images
+	Thu, 13 Apr 2017 09:11:09 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	13 Apr 2017 02:11:10 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.37,194,1488873600"; d="scan'208";a="1155289635"
+Received: from rebeccas.png.intel.com ([172.30.199.118])
+	by fmsmga002.fm.intel.com with ESMTP; 13 Apr 2017 02:11:10 -0700
+From: Rebecca Chang Swee Fun <rebecca.swee.fun.chang@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 13 Apr 2017 17:11:18 +0800
+Message-Id: <1492074678-128188-1-git-send-email-rebecca.swee.fun.chang@intel.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH] ghostscript: separate objarch.h based on architecture
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,93 +28,89 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Apr 2017 08:59:39 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 13 Apr 2017 09:11:10 -0000
 
-Hi Patrick,
+From: "Chang, Rebecca Swee Fun" <rebecca.swee.fun.chang@intel.com>
 
-On 04/13/2017 04:46 PM, Patrick Ohly wrote:
-> On Tue, 2017-04-11 at 02:21 -0700, Robert Yang wrote:
->> Fixed when the image is large and not enough memory:
->>   grep: memory exhausted
->>   Aborted
->>
->> [YOCTO #11073]
->>
->> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
->> ---
->>  meta/classes/qemuboot.bbclass |  3 +++
->>  scripts/runqemu               | 19 +++++++++++--------
->>  2 files changed, 14 insertions(+), 8 deletions(-)
->>
->> diff --git a/meta/classes/qemuboot.bbclass b/meta/classes/qemuboot.bbclass
->> index 3ca97cad4c..2870388dfb 100644
->> --- a/meta/classes/qemuboot.bbclass
->> +++ b/meta/classes/qemuboot.bbclass
->> @@ -64,6 +64,9 @@ QB_DEFAULT_FSTYPE ?= "ext4"
->>  QB_OPT_APPEND ?= "-show-cursor"
->>  QB_NETWORK_DEVICE ?= "-device virtio-net-pci,netdev=net0,mac=@MAC@"
->>
->> +# This should be kept align with ROOT_VM
->> +QB_DRIVE_TYPE ?= "/dev/sd"
->
-> Now that I am faced with the problem of selecting virtio I'm starting to
-> wonder how to do that.
->
-> Our refkit image doesn't expect the image on a particular drive, using
-> PARTUUID instead to find it. But when running under qemu, it would be
-> nice to use virtio for performance reasons... if the kernel supports it.
-> But that's not something that the image recipe or even the distro should
-> make assumptions about.
->
-> It seems safer to let the machine configuration which chooses the kernel
-> also set QB_DRIVE_TYPE, but with ?= so that it can still be changed
-> elsewhere. In that case, we would need:
->
-> qemuboot.bbclass: QB_DRIVE_TYPE ??= "/dev/sd"
-> qemuboot-intel.inc (from meta-intel): QB_DRIVE_TYPE ?= "/dev/vd"
-> distro, local or image (optional): QB_DRIVE_TYPE = "/dev/..."
+The following warning occurs when building with meta-zephyr
+with MACHINE set to arduino-101-sss:
 
-The "??=" is not needed, just "?=" in qemuboot.bbclass is OK, we have
-"?=" in other bbclass, too, and they can be overrided as expected.
-For example:
+WARNING: /srv/sdc/builds/11319/meta/recipes-extended/ghostscript/ghostscript_9.20.bb: Unable to get checksum for ghostscript SRC_URI entry objarch.h: file could not be found
 
-qemuboot-intel.inc (from meta-intel): QB_DRIVE_TYPE ?= "/dev/vd"
+This is due to the the TUNE_FEATURES for meta-zephyr is not available
+and cause bitbake unable to locate the correct config file during
+recipe parse.
 
-Then it would be vd, and if you set = /dev/hd in local.conf, the it would
-be /dev/hd.
+This will introduce a new variable ${ARCHFILE} to segregate objarch.h
+based on architecture. For the architecture that are not listed, recipe
+shall not parsed with objarch.h and shall not introduce warnings.
 
->
->> +                elif self.get('QB_DRIVE_TYPE'):
->> +                    drive_type = self.get('QB_DRIVE_TYPE')
->> +                    if drive_type.startswith("/dev/sd"):
->>                          logger.info('Using scsi drive')
->>                          vm_drive = '-drive if=none,id=hd,file=%s,format=%s -device virtio-scsi-pci,id=scsi -device scsi-hd,drive=hd' \
->>                                         % (self.rootfs, rootfs_format)
->> -                    elif subprocess.call(cmd2, shell=True) == 0:
->> +                    elif drive_type.startswith("/dev/hd"):
->>                          logger.info('Using ide drive')
->>                          vm_drive = "%s,format=%s" % (self.rootfs, rootfs_format)
->>                      else:
->> -                        logger.warn("Can't detect drive type %s" % self.rootfs)
->> -                        logger.warn('Trying to use virtio block drive')
->> -                        vm_drive = '-drive if=virtio,file=%s,format=%s' % (self.rootfs, rootfs_format)
->> +                        logger.warn("Unknown QB_DRIVE_TYPE: %s" % drive_type)
->> +
->> +                if not vm_drive:
->> +                    logger.warn("Failed to figure out drive type, consider define or fix QB_DRIVE_TYPE")
->> +                    logger.warn('Trying to use virtio block drive')
->> +                    vm_drive = '-drive if=virtio,file=%s,format=%s' % (self.rootfs, rootfs_format)
->
-> Here "/dev/sd" should be treated as an explicit selection of virtio,
-> without triggering warnings.
+[YOCTO #11344]
 
-Did you mean /dev/vd ? If yes, I'm fine with that.
+Signed-off-by: Chang, Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>
+---
+ .../ghostscript/ghostscript_9.20.bb                | 38 +++++++++++++++++++++-
+ 1 file changed, 37 insertions(+), 1 deletion(-)
 
-// Robert
+diff --git a/meta/recipes-extended/ghostscript/ghostscript_9.20.bb b/meta/recipes-extended/ghostscript/ghostscript_9.20.bb
+index e8fc5df..163f06a 100644
+--- a/meta/recipes-extended/ghostscript/ghostscript_9.20.bb
++++ b/meta/recipes-extended/ghostscript/ghostscript_9.20.bb
+@@ -29,9 +29,9 @@ SRC_URI_BASE = "https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/d
+ SRC_URI = "${SRC_URI_BASE} \
+            file://ghostscript-9.02-prevent_recompiling.patch \
+            file://ghostscript-9.02-genarch.patch \
+-           file://objarch.h \
+            file://cups-no-gcrypt.patch \
+            file://CVE-2017-7207.patch \
++           ${ARCHFILE} \
+            "
+ 
+ SRC_URI_class-native = "${SRC_URI_BASE} \
+@@ -42,6 +42,42 @@ SRC_URI_class-native = "${SRC_URI_BASE} \
+ SRC_URI[md5sum] = "93c5987cd3ab341108be1ebbaadc24fe"
+ SRC_URI[sha256sum] = "949b64b46ecf8906db54a94ecf83ab97534ebf946f770d3c3f283cb469cb6e14"
+ 
++ARCHFILE ?= ""
++
++ARCHFILE_aarch64 = "file://objarch.h"
++
++ARCHFILE_arm = "file://objarch.h"
++
++ARCHFILE_armeb = "file://objarch.h"
++
++ARCHFILE_i586 = "file://objarch.h"
++
++ARCHFILE_i686 = "file://objarch.h"
++
++ARCHFILE_microblazeeb = "file://objarch.h"
++
++ARCHFILE_microblazeel = "file://objarch.h"
++
++ARCHFILE_mipsarchn32eb = "file://objarch.h"
++
++ARCHFILE_mipsarchn32el = "file://objarch.h"
++
++ARCHFILE_mipsarchn64eb = "file://objarch.h"
++
++ARCHFILE_mipsarchn64el = "file://objarch.h"
++
++ARCHFILE_mipsarcho32eb = "file://objarch.h"
++
++ARCHFILE_mipsarcho32el = "file://objarch.h"
++
++ARCHFILE_nios2 = "file://objarch.h"
++
++ARCHFILE_powerpc = "file://objarch.h"
++
++ARCHFILE_powerpc64 = "file://objarch.h"
++
++ARCHFILE_x86-64 = "file://objarch.h"
++
+ EXTRA_OECONF = "--without-x --with-system-libtiff --without-jbig2dec \
+                 --with-fontpath=${datadir}/fonts \
+                 --without-libidn --with-cups-serverbin=${exec_prefix}/lib/cups \
+-- 
+2.7.4
 
->
-> I'll send a patch for both if there are no objections.
->
 
