@@ -1,24 +1,55 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id EDFFB77D88
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
+	by mail.openembedded.org (Postfix) with ESMTP id DD9CD77D90
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Apr 2017 12:28:15 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	13 Apr 2017 05:28:17 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.37,194,1488873600"; d="scan'208";a="845454164"
-Received: from tranm-mobl.ccr.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com.fritz.box) ([10.255.175.125])
-	by FMSMGA003.fm.intel.com with ESMTP; 13 Apr 2017 05:28:15 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
+	Thu, 13 Apr 2017 12:30:06 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bes.se.axis.com (Postfix) with ESMTP id 52C6C2E5C1
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 13 Apr 2017 14:30:06 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
+Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP id tA56Pgzx9Qok
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 13 Apr 2017 14:30:05 +0200 (CEST)
+Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
+	by bes.se.axis.com (Postfix) with ESMTPS id 9A8F32E5C0
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 13 Apr 2017 14:30:05 +0200 (CEST)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 859951E08A
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 13 Apr 2017 14:30:05 +0200 (CEST)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 7B06B1E083
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 13 Apr 2017 14:30:05 +0200 (CEST)
+Received: from seth.se.axis.com (unknown [10.0.2.172])
+	by boulder03.se.axis.com (Postfix) with ESMTP
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 13 Apr 2017 14:30:05 +0200 (CEST)
+Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
+	by seth.se.axis.com (Postfix) with ESMTP id 6F36A320D
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 13 Apr 2017 14:30:05 +0200 (CEST)
+Received: from saur-2.se.axis.com (localhost [127.0.0.1])
+	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id v3DCU5ip016073
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 13 Apr 2017 14:30:05 +0200
+Received: (from pkj@localhost)
+	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id v3DCU5dG016066
+	for openembedded-core@lists.openembedded.org;
+	Thu, 13 Apr 2017 14:30:05 +0200
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 14 Apr 2017 00:28:06 +1200
-Message-Id: <3542d868bf888db6595c211aaea6b49a398ba509.1492086458.git.paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 2.9.3
-In-Reply-To: <cover.1492086458.git.paul.eggleton@linux.intel.com>
-References: <cover.1492086458.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 3/3] devtool: extract: drop erroneous bb.event.TaskSucceeded
+Date: Thu, 13 Apr 2017 14:30:04 +0200
+Message-Id: <0991deba9e90e3c32f8566fdfc758cb88790bde4.1492086566.git.pkj@axis.com>
+X-Mailer: git-send-email 2.12.0
+In-Reply-To: <cover.1492086566.git.pkj@axis.com>
+References: <cover.1492086566.git.pkj@axis.com>
+X-TM-AS-GCONF: 00
+Subject: [PATCHv2 1/1] base-files: profile: Avoid using "command" to determine if programs exist
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,30 +62,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Apr 2017 12:28:16 -0000
+X-List-Received-Date: Thu, 13 Apr 2017 12:30:07 -0000
 
-This is a non-existent event - we already have the actual
-bb.build.TaskSucceeded further down in the list hence why it wasn't
-noticed earlier.
+Since the existence of "command" in itself is not guaranteed, using it
+to determine if other executables exist is moot. Instead just run the
+executables and let the shell determine if they exist. By piping stderr
+to /dev/null we avoid unnecessary warnings in case they do not exist.
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 ---
- scripts/lib/devtool/standard.py | 1 -
- 1 file changed, 1 deletion(-)
+ meta/recipes-core/base-files/base-files/profile | 14 ++++++--------
+ 1 file changed, 6 insertions(+), 8 deletions(-)
 
-diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard.py
-index c3b65fb..5ff1e23 100644
---- a/scripts/lib/devtool/standard.py
-+++ b/scripts/lib/devtool/standard.py
-@@ -530,7 +530,6 @@ def _extract_source(srctree, keep_temp, devbranch, sync, d, tinfoil):
+diff --git a/meta/recipes-core/base-files/base-files/profile b/meta/recipes-core/base-files/base-files/profile
+index ceaf15f799..e05c8840db 100644
+--- a/meta/recipes-core/base-files/base-files/profile
++++ b/meta/recipes-core/base-files/base-files/profile
+@@ -22,14 +22,12 @@ if [ -d /etc/profile.d ]; then
+ 	unset i
+ fi
  
-         tinfoil.set_event_mask(['bb.event.BuildStarted',
-                                 'bb.event.BuildCompleted',
--                                'bb.event.TaskStarted',
-                                 'logging.LogRecord',
-                                 'bb.command.CommandCompleted',
-                                 'bb.command.CommandFailed',
+-if command -v resize >/dev/null && command -v tty >/dev/null; then
+-	# Make sure we are on a serial console (i.e. the device used starts with
+-	# /dev/tty[A-z]), otherwise we confuse e.g. the eclipse launcher which
+-	# tries do use ssh
+-	case $(tty) in
+-		/dev/tty[A-z]*) resize >/dev/null;;
+-	esac
+-fi
++# Make sure we are on a serial console (i.e. the device used starts with
++# /dev/tty[A-z]), otherwise we confuse e.g. the eclipse launcher which tries do
++# use ssh
++case $(tty 2>/dev/null) in
++	/dev/tty[A-z]*) resize >/dev/null 2>&1;;
++esac
+ 
+ export PATH PS1 OPIEDIR QPEDIR QTDIR EDITOR TERM
+ 
 -- 
-2.9.3
+2.12.0
 
 
