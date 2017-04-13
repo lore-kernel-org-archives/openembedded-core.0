@@ -1,54 +1,52 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-io0-f169.google.com (mail-io0-f169.google.com
-	[209.85.223.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 7F6BA72F05
+Return-Path: <phil@advancedtelematic.com>
+Received: from mail-wm0-f41.google.com (mail-wm0-f41.google.com [74.125.82.41])
+	by mail.openembedded.org (Postfix) with ESMTP id C059877B14
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Apr 2017 06:34:07 +0000 (UTC)
-Received: by mail-io0-f169.google.com with SMTP id a103so69399177ioj.1
+	Thu, 13 Apr 2017 06:53:19 +0000 (UTC)
+Received: by mail-wm0-f41.google.com with SMTP id w64so104205455wma.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Apr 2017 23:34:09 -0700 (PDT)
+	Wed, 12 Apr 2017 23:53:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:organization:mime-version:content-transfer-encoding;
-	bh=Yftpzt45C30u7n7/O+rpf3udaJAmDLMKQd1bO8lN1LI=;
-	b=weIe6glYmdI4j7nrRCK+PbGqq9NW91WTKQuF35JKGUCnz96zWCJHle04VMsUXB2LS3
-	CatYZO4famzc7tvJLQdT2rUWLE8/tx+zQQsSQ1yn1LbjKBv/fsh8HwozXg4CTrDh0ZeP
-	sWA7zSnelEUN3+FY082QKgBH37nAX3OdmMxODSF2+VwzLO+a0gswJmOeEvsxm0sRQhEd
-	JMnj8Wm+Y6gWufiqHZokbDgQBWVTuvFnd54e9pj6OePI3TlhCnM5j1pwWdAhcY++KZqn
-	+ISHv69LnVwbCF3l7umSJP0KBeuRlV4LPYpCjOkPeNbuo1YKUfQnKeq5Sms73dcEnFPM
-	0L6Q==
+	d=advancedtelematic.com; s=google;
+	h=subject:to:references:from:organization:message-id:date:user-agent
+	:mime-version:in-reply-to:content-transfer-encoding;
+	bh=z+TY3m9Z0B54HUfaYD1aGQi9d4RGXePmHNLY4k7pMz4=;
+	b=pi8F+bm6JSiMFWm3PLWtDn9fXmeHCeT785rsJbS5tNzsjCmd9WD+WaTt0twyV2z18d
+	Ona+B1wgorPbQ767sILPlFoUq7QquqrJxEl0ptDS0HyGvVxhVJIW/B+s9bSSRI2Kng4r
+	fu5Eki6XF3r5eRpQT5lgboJFAn/TWAaKyPm2w=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:organization:mime-version:content-transfer-encoding;
-	bh=Yftpzt45C30u7n7/O+rpf3udaJAmDLMKQd1bO8lN1LI=;
-	b=s6eYc5MOMzrlJMTWnN1ai2ANM9xrAYcjxYAT5ASgpzkXuuGUeGBLW7Mb8Nb5pid5dx
-	dhxMaJE8OgttIIy1aGoRKN69xMqyuH4ip4k4HmVRcbJigCKGWnrCgLz36v6lykwIWQxL
-	Rhomvm0nK9yaLp9mfnu/8bSpWhe4WNYeKZhC/vourp665nKjkeQ/U41/PWdG33GGvtBF
-	p0Mj6lXwIduqjycL4LuxPLbttn+Vuswuuw8L2KO+Mja0JqqSWdOSFv1pwUeDVl/V+X0Q
-	KWH0IL68zyt6vx+/nvNKuBxtcqZQVDdfu7ImaVJYl0xDLQlUGBzb17PEV4DSkWdOJf6a
-	Jwfg==
-X-Gm-Message-State: AN3rC/5VRoG7M8nbWU1LVFmQ+42csIUf8zUNY2V9x4RJRlrWGJLjcsNa
-	79mMI0Zv/eECDWCa
-X-Received: by 10.107.198.80 with SMTP id w77mr1704938iof.121.1492065248914;
-	Wed, 12 Apr 2017 23:34:08 -0700 (PDT)
-Received: from pohly-mobl1 (p5DE8C73A.dip0.t-ipconnect.de. [93.232.199.58])
-	by smtp.gmail.com with ESMTPSA id
-	g69sm3576920itg.17.2017.04.12.23.34.07
+	h=x-gm-message-state:subject:to:references:from:organization
+	:message-id:date:user-agent:mime-version:in-reply-to
+	:content-transfer-encoding;
+	bh=z+TY3m9Z0B54HUfaYD1aGQi9d4RGXePmHNLY4k7pMz4=;
+	b=dAdrN38PEsG1A2t/PD4AIojt+4o52wO5cVbszUKlSxwpBDnG70LXLue0jYTbElorSh
+	k1COvfC1ISfGU5z058is1YTs74mSEhxMYfRyT1HKwZwlqVykU+Mn8/Cyn6aZ3buMzvKs
+	YoYDHMI6Ow51A4bUoNprgNHTt8FYUSnnj3JgiBtmf3+K/T8dAlXppRGdiXdlExfbyG8R
+	hne077mLPYwfPN97EdytQjU+LQSLzgGarBSKVKPpCA/JEcQi7mBqbBO8ZjnHrDadpPa5
+	BJ+JGJ/9N51DxI88OnVar8n1pOPLJ0SBPywx2TFUi3HfJIvgYQBHs8P1t6TBqWVBIqu/
+	2Rrw==
+X-Gm-Message-State: AN3rC/6MSpBjLLQ/7MvYtGwdCwAmv9yywytKO6D113UgPajFOibR1/4w
+	6HiULtd7ZTJ826KpbvU=
+X-Received: by 10.28.159.136 with SMTP id i130mr1630411wme.29.1492066399733;
+	Wed, 12 Apr 2017 23:53:19 -0700 (PDT)
+Received: from [192.168.1.93] (p57bf9f95.dip0.t-ipconnect.de. [87.191.159.149])
+	by smtp.googlemail.com with ESMTPSA id
+	k43sm28375367wrk.42.2017.04.12.23.53.18
+	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 12 Apr 2017 23:34:08 -0700 (PDT)
-Message-ID: <1492065245.27604.45.camel@intel.com>
-From: Patrick Ohly <patrick.ohly@intel.com>
-To: "thilo.cestonaro@ts.fujitsu.com" <thilo.cestonaro@ts.fujitsu.com>
-Date: Thu, 13 Apr 2017 08:34:05 +0200
-In-Reply-To: <1492004877.5507.2.camel@ts.fujitsu.com>
+	Wed, 12 Apr 2017 23:53:19 -0700 (PDT)
+To: openembedded-core@lists.openembedded.org
 References: <1492004877.5507.2.camel@ts.fujitsu.com>
-Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
-X-Mailer: Evolution 3.12.9-1+b1 
-Mime-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
+	<1492065245.27604.45.camel@intel.com>
+From: Phil Wise <phil@advancedtelematic.com>
+Organization: ATS Advanced Telematic Systems GmbH
+Message-ID: <1f6dd187-6d8a-d266-e3fb-620c1f723485@advancedtelematic.com>
+Date: Thu, 13 Apr 2017 08:53:18 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.8.0
+MIME-Version: 1.0
+In-Reply-To: <1492065245.27604.45.camel@intel.com>
 Subject: Re: Using boost-program-options and native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -62,49 +60,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Apr 2017 06:34:08 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 13 Apr 2017 06:53:21 -0000
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 8bit
 
-On Wed, 2017-04-12 at 13:47 +0000, thilo.cestonaro@ts.fujitsu.com wrote:
-> Hey all!
+
+On 13.04.2017 08:34, Patrick Ohly wrote:
+> On Wed, 2017-04-12 at 13:47 +0000, thilo.cestonaro@ts.fujitsu.com wrote:
+>> I want to build a tool which makes use of boost-program-options lib. As long as I compile for the target, all is fine, but when I add
+>>> BBCLASSEXTEND += "native"
+>> to my recipe, I a bitbake error "Nothing Provides" ... :(
+>>
+>>> ERROR: Required build target 'mytool-native' has no buildable providers.
+>>> Missing or unbuildable dependency chain was: ['mytool-native', 'boost-program-options-native']
+>>
+>> In the recipe I just depend on boost and RDEPEND on boost-program-options:
+>>> DEPENDS = "boost"
+>>> RDEPENDS_${PN} = "boost-program-options"
+>>
+>> Is something wrong with this? Why is there a package
+>> boost-program-options but no boost-program-options-native, altough
+>> boost-native exists and the libboost-program-options.so is installed
+>> into the
+>> native sysroot. (I can compile flawlessly without the RDEPENDS line.)
 > 
-> I want to build a tool which makes use of boost-program-options lib. As long as I compile for the target, all is fine, but when I add
-> > BBCLASSEXTEND += "native"
-> to my recipe, I a bitbake error "Nothing Provides" ... :(
+> Native and nativesdk flavors don't have packages, so RDEPENDS only works
+> when depending on ${PN}-native (but not for ${PN}-native-some-package). 
 > 
-> > ERROR: Required build target 'mytool-native' has no buildable providers.
-> > Missing or unbuildable dependency chain was: ['mytool-native', 'boost-program-options-native']
+> Try:
 > 
-> In the recipe I just depend on boost and RDEPEND on boost-program-options:
-> > DEPENDS = "boost"
-> > RDEPENDS_${PN} = "boost-program-options"
+> DEPENDS = "boost"
+> RDEPENDS_${PN}_class-target = "boost-program-options"
 > 
-> Is something wrong with this? Why is there a package
-> boost-program-options but no boost-program-options-native, altough
-> boost-native exists and the libboost-program-options.so is installed
-> into the
-> native sysroot. (I can compile flawlessly without the RDEPENDS line.)
+> "boost" already is a dependency via DEPENDS, so you shouldn't need an
+> RDEPENDS for it in the native case.
 
-Native and nativesdk flavors don't have packages, so RDEPENDS only works
-when depending on ${PN}-native (but not for ${PN}-native-some-package). 
+The following worked for me when building a native recipe that depends
+on Boost Program Options:
 
-Try:
+https://github.com/advancedtelematic/meta-updater/blob/morty/recipes-sota/sota-tools/sota-tools_git.bb
 
-DEPENDS = "boost"
-RDEPENDS_${PN}_class-target = "boost-program-options"
+  inherit cmake
+  DEPENDS = "boost ..."
+  BBCLASSEXTEND = "native"
 
-"boost" already is a dependency via DEPENDS, so you shouldn't need an
-RDEPENDS for it in the native case.
+I'm no OE expect, so I won't claim this it is right answer, but it does
+at least build.
 
+Cheers,
+
+Phil
 -- 
-Best Regards, Patrick Ohly
-
-The content of this message is my personal opinion only and although
-I am an employee of Intel, the statements I make here in no way
-represent Intel's position on the issue, nor am I authorized to speak
-on behalf of Intel on this matter.
-
-
-
+Phil Wise, ATS Advanced Telematic Systems GmbH
+Kantstrasse 162, 10623 Berlin
+Managing Directors: Dirk Pöschl, Armin G. Schmidt
+Register Court: HRB 151501 B, Amtsgericht Charlottenburg
 
