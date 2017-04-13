@@ -1,20 +1,26 @@
-Return-Path: <mikko.ylinen@linux.intel.com>
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	by mail.openembedded.org (Postfix) with ESMTP id A5CF177A8A
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id B55E877A8A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Apr 2017 10:09:03 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga105.fm.intel.com with ESMTP; 13 Apr 2017 03:09:04 -0700
+	Thu, 13 Apr 2017 10:16:04 +0000 (UTC)
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	13 Apr 2017 03:16:05 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.37,194,1488873600"; d="scan'208";a="1155306868"
-Received: from summit.tm.intel.com ([10.237.55.181])
-	by fmsmga002.fm.intel.com with ESMTP; 13 Apr 2017 03:09:03 -0700
-From: Mikko Ylinen <mikko.ylinen@linux.intel.com>
+X-IronPort-AV: E=Sophos;i="5.37,194,1488873600"; d="scan'208";a="86971439"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by orsmga005.jf.intel.com with ESMTP; 13 Apr 2017 03:16:04 -0700
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 13 Apr 2017 13:09:07 +0300
-Message-Id: <20170413100907.11140-1-mikko.ylinen@linux.intel.com>
-X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] classes/populate_sdk_ext: reset TCLIBCAPPEND to get consistent TMPDIR
+References: <20170413083344.22737-1-dmitry.rozhkov@linux.intel.com>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <85c346c4-f6d6-c853-bfc5-0daa64ea2db8@linux.intel.com>
+Date: Thu, 13 Apr 2017 13:15:42 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.8.0
+MIME-Version: 1.0
+In-Reply-To: <20170413083344.22737-1-dmitry.rozhkov@linux.intel.com>
+Subject: Re: [PATCH] python: make python2 and python3 alternatives to python
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,47 +33,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Apr 2017 10:09:03 -0000
+X-List-Received-Date: Thu, 13 Apr 2017 10:16:04 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
-populate_sdk_ext sets TMPDIR to a known static value with '/tmp' directory
-name and that name is hard coded in a few places (e.g., in
-meta-environment-extsdk.bb that writes the eSDK environment variables).
+On 04/13/2017 11:33 AM, Dmitry Rozhkov wrote:
+> If only python3 is installed on an image nothing provides
+> /usr/bin/python even though many scripts compatible with
+> both python2 and python3 just state `#!/usr/bin/env python`
+> in their shebang line.
+>
+> Make python and python3 recipes provide alternatives for
+> /usr/bin/python and /usr/bin/python-config. By default
+> python2 has higher priority over python3.
 
-Distros that do not reset TCLIBCAPPEND (poky does) end up getting
-TMPDIR = /tmp-${TCLIBCAPPEND} via defaultsetup.conf and that breaks
-the functionality in eSDK that expects everything is in /tmp.
+This runs against upstream recommendation and common distro practice. 
+And it will break scripts that have not been ported to Python 3. Please 
+fix the scripts instead to refer to python 3 whenever possible.
 
-To get TMPDIR consistent, we also need to reset TCLIBCAPPEND in
-populate_sdk_ext.bbclass.
-
-Fixes: [YOCTO #11298]
-
-Signed-off-by: Mikko Ylinen <mikko.ylinen@linux.intel.com>
----
- meta/classes/populate_sdk_ext.bbclass | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/meta/classes/populate_sdk_ext.bbclass b/meta/classes/populate_sdk_ext.bbclass
-index db822bf771..21fd122468 100644
---- a/meta/classes/populate_sdk_ext.bbclass
-+++ b/meta/classes/populate_sdk_ext.bbclass
-@@ -114,6 +114,7 @@ def create_filtered_tasklist(d, sdkbasepath, tasklistfile, conf_initpath):
-             f.write('SSTATE_MIRRORS_forcevariable = ""\n')
-             # Ensure TMPDIR is the default so that clean_esdk_builddir() can delete it
-             f.write('TMPDIR_forcevariable = "${TOPDIR}/tmp"\n')
-+            f.write('TCLIBCAPPEND_forcevariable = ""\n')
-             # Drop uninative if the build isn't using it (or else NATIVELSBSTRING will
-             # be different and we won't be able to find our native sstate)
-             if not bb.data.inherits_class('uninative', d):
-@@ -289,6 +290,7 @@ python copy_buildsystem () {
-             f.write('\n')
- 
-             f.write('TMPDIR = "${TOPDIR}/tmp"\n')
-+            f.write('TCLIBCAPPEND = ""\n')
-             f.write('DL_DIR = "${TOPDIR}/downloads"\n')
- 
-             f.write('INHERIT += "%s"\n' % 'uninative')
--- 
-2.11.0
+Alex
 
 
