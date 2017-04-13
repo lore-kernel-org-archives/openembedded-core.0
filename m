@@ -1,51 +1,17 @@
-Return-Path: <jussi.kukkonen@intel.com>
-Received: from mail-yw0-f181.google.com (mail-yw0-f181.google.com
-	[209.85.161.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 9293E77D3A
+Return-Path: <romain.perier@collabora.com>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+	by mail.openembedded.org (Postfix) with ESMTP id AC76077CEF
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Apr 2017 07:41:29 +0000 (UTC)
-Received: by mail-yw0-f181.google.com with SMTP id v207so6456056ywc.2
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Apr 2017 00:41:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=GJXtw43gxW/VQt2yeX2/Pg67DwOqRiOJkjXCDwyOjo8=;
-	b=FhOihfM+1onV2cJ5n8IJ678IimWbjdUn6gvT5mO/Hz/b62Ne43d26mx9dKVpdCdyP2
-	NOm9PlUFisaHLwwySVmuWCsZvoWt8h2PKaVRUm/8LXw3Fp2MmG8B22T8gObDffMvoNlL
-	1/n1SXzmNUKgkGwGErdSBM3WuC5/h0L+/iLymEO8IUWwCLYgWJf4MQKfzncQro1a2QhH
-	V+F9oeFMxwWaqDcBxRhkqgsOoGc4uCIt+KD/0Wnz0M2OM3sx1xGE617gixlJ7SXzSiAb
-	u37jg3I4zqKAqhfi+syUBQO4zLBZnu47peGM8GJnJ7ybbcxI957MmwtFvv1yoE7Y5Ayo
-	V8/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=GJXtw43gxW/VQt2yeX2/Pg67DwOqRiOJkjXCDwyOjo8=;
-	b=QGrpuFi4piCf7Oh8x5kVzVlh3imu7X8eo9Pq+wfdG8z0IKxtixPduk35d8fFqlgn4K
-	FFFpTEk8iRv34BRZl2wR2fZ2HEGwwS2sx67XUjR+gs4VVYaghU+boipLmvF+Lu+1ZpXf
-	0yKmTzASfZUFXCJQFXr0pAIAEp9adbxSshVFJhCafu80GUAcf3cc6jVpAe4K4sCvbWQ1
-	2IcymWI9Rez8LiI5D+CgP0CqPfoAnA6bWNUC83EmXtLXm8dL28dzY6Q7V/OjCuUbIgz7
-	7tTvT2NZ1ithk+8EulnDhW5U+Io8oGLCfgj8ClB4m6iZ0nx7WKgwNUdRWW3F4S3HMI/O
-	Vpsg==
-X-Gm-Message-State: AN3rC/4gx+pSU7nZ5JGVUHuqXSRhUHCgjeWSIh727BigIV2pr6Z4Ord7
-	DM+eG9SXD1qVazMnq+nRlHCI3tQ7UOd2
-X-Received: by 10.129.172.99 with SMTP id z35mr1131572ywj.177.1492069290464;
-	Thu, 13 Apr 2017 00:41:30 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.129.121.75 with HTTP; Thu, 13 Apr 2017 00:41:00 -0700 (PDT)
-In-Reply-To: <a274ed9b-010d-f890-2c3c-064e6e1bbcc2@linux.intel.com>
-References: <1491994341-28659-1-git-send-email-zhixiong.chi@windriver.com>
-	<CAHiDW_E2xCAED+8kCde3w3sNyFZa5w-96VfN-+kbd0+4HjmiEQ@mail.gmail.com>
-	<58EEE028.5000606@windriver.com>
-	<a274ed9b-010d-f890-2c3c-064e6e1bbcc2@linux.intel.com>
-From: Jussi Kukkonen <jussi.kukkonen@intel.com>
-Date: Thu, 13 Apr 2017 10:41:00 +0300
-Message-ID: <CAHiDW_GAbFnDivfNvTYGKoUDd5fiyo4yeP4gYiG7aMpMr1nGFw@mail.gmail.com>
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gnome-common: add EXTRA_OECONF "--with-autoconf-archive"
+	Thu, 13 Apr 2017 07:43:11 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(Authenticated sender: rperier) with ESMTPSA id F31DE26181E
+From: Romain Perier <romain.perier@collabora.com>
+To: liezhi.yang@windriver.com
+Date: Thu, 13 Apr 2017 09:42:50 +0200
+Message-Id: <20170413074250.12957-1-romain.perier@collabora.com>
+X-Mailer: git-send-email 2.9.3
+Cc: yocto@yoctoproject.org, openembedded-core@lists.openembedded.org
+Subject: [PATCH v3] logrotate: Add systemd support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,81 +24,113 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Apr 2017 07:41:29 -0000
-Content-Type: multipart/alternative; boundary=f403045f0a480a3b0b054d0774bd
+X-List-Received-Date: Thu, 13 Apr 2017 07:43:12 -0000
 
---f403045f0a480a3b0b054d0774bd
-Content-Type: text/plain; charset=UTF-8
+Currently, this recipe only supports daily scheduling via a cron job.
+This commit adds support for systemd in the recipe, with the
+corresponding services backported from upstream. When the distro feature
+is enabled the systemd variant will be used. The timer granularity and
+its accuracy are also configurable.
 
-On 13 April 2017 at 08:02, Alexander Kanavin <
-alexander.kanavin@linux.intel.com> wrote:
+Signed-off-by: Romain Perier <romain.perier@collabora.com>
+---
 
-> On 04/13/2017 05:19 AM, Zhixiong Chi wrote:
->
->> autoconf-archive is not in oe-core, is it?
->>>
->>>
->> Yes,it is.
->> As Alex said, it shouldn't depend the recipe from the other layers.
->> I will try to move autoconf-archive into oe-core next step.
->>
->
-> First research other ways to fix the issue please; we try to avoid
-> unnecessary bloat in oe-core.
->
-> For example, how about deleting the conflicting macros from
-> autoconf-archive, and making it depend on gnome-common? Or researching if
-> we can get rid of gnome-common altogether in oe-core.
->
+Changes in v3:
+- After a discussion with RP, that's preferable to integrate systemd support
+in the recipe of logrotate 3.9. QA testing will be passed on it, then we will
+see if this patch can be merged or delayed to master-next.
+- I have backported systemd service and timer from upstream directly
+- The bump to 3.11 will wait
 
-I had a quick look at this. We have three recipes in oe-core that "need"
-gnome-common (python3-pygobject, gnome-desktop3, matchbox-desktop). The
-only meaningful usage of gnome-common in their configure.ac's is
-GNOME_COMPILE_WARNINGS().
+ .../logrotate/logrotate/logrotate.service          | 10 ++++++++
+ .../logrotate/logrotate/logrotate.timer            | 10 ++++++++
+ meta/recipes-extended/logrotate/logrotate_3.9.1.bb | 27 ++++++++++++++++++++--
+ 3 files changed, 45 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-extended/logrotate/logrotate/logrotate.service
+ create mode 100644 meta/recipes-extended/logrotate/logrotate/logrotate.timer
 
-with this in mind I would not object to just the original patch with the
-autoconf-archive dependency removed. However, it would be nice to build
-test the meta-openembedded recipes that depend on gnome-common (and add a
-dependency to autoconf-archive to the recipes that seem to need it).
+diff --git a/meta/recipes-extended/logrotate/logrotate/logrotate.service b/meta/recipes-extended/logrotate/logrotate/logrotate.service
+new file mode 100644
+index 0000000..cf8d3f4
+--- /dev/null
++++ b/meta/recipes-extended/logrotate/logrotate/logrotate.service
+@@ -0,0 +1,10 @@
++[Unit]
++Description=Rotate log files
++ConditionACPower=true
++
++[Service]
++Type=oneshot
++ExecStart=/usr/sbin/logrotate /etc/logrotate.conf
++Nice=19
++IOSchedulingClass=best-effort
++IOSchedulingPriority=7
+diff --git a/meta/recipes-extended/logrotate/logrotate/logrotate.timer b/meta/recipes-extended/logrotate/logrotate/logrotate.timer
+new file mode 100644
+index 0000000..297c2e4
+--- /dev/null
++++ b/meta/recipes-extended/logrotate/logrotate/logrotate.timer
+@@ -0,0 +1,10 @@
++[Unit]
++Description=Periodic rotation of log files
++
++[Timer]
++OnCalendar=daily
++AccuracySec=12h
++Persistent=true
++
++[Install]
++WantedBy=timers.target
+diff --git a/meta/recipes-extended/logrotate/logrotate_3.9.1.bb b/meta/recipes-extended/logrotate/logrotate_3.9.1.bb
+index c938d9f..2c254e8 100644
+--- a/meta/recipes-extended/logrotate/logrotate_3.9.1.bb
++++ b/meta/recipes-extended/logrotate/logrotate_3.9.1.bb
+@@ -23,6 +23,8 @@ SRC_URI = "https://github.com/${BPN}/${BPN}/archive/r3-9-1.tar.gz \
+            file://act-as-mv-when-rotate.patch \
+            file://update-the-manual.patch \
+            file://disable-check-different-filesystems.patch \
++           ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'file://logrotate.service', '', d)} \
++           ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'file://logrotate.timer', '', d)} \
+             "
+ 
+ SRC_URI[md5sum] = "8572b7c2cf9ade09a8a8e10098500fb3"
+@@ -58,12 +60,33 @@ do_compile_prepend() {
+     rm -f ${B}/.depend
+ }
+ 
++inherit systemd
++
++SYSTEMD_AUTO_ENABLE = "disable"
++SYSTEMD_SERVICE_${PN} = "\
++    ${PN}.service \
++    ${PN}.timer \
++"
++
++LOGROTATE_SYSTEMD_TIMER_BASIS ?= "daily"
++LOGROTATE_SYSTEMD_TIMER_ACCURACY ?= "12h"
++
+ do_install(){
+     oe_runmake install DESTDIR=${D} PREFIX=${D} MANDIR=${mandir}
+     mkdir -p ${D}${sysconfdir}/logrotate.d
+-    mkdir -p ${D}${sysconfdir}/cron.daily
+     mkdir -p ${D}${localstatedir}/lib
+     install -p -m 644 examples/logrotate-default ${D}${sysconfdir}/logrotate.conf
+-    install -p -m 755 examples/logrotate.cron ${D}${sysconfdir}/cron.daily/logrotate
+     touch ${D}${localstatedir}/lib/logrotate.status
++
++    # Install systemd unit files
++    if [ "${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'systemd', '', d)}" = "systemd" ]; then
++        install -d ${D}${systemd_system_unitdir}
++        install -m 0644 ${WORKDIR}/logrotate.service ${D}${systemd_system_unitdir}/logrotate.service
++        install -m 0644 ${WORKDIR}/logrotate.timer ${D}${systemd_system_unitdir}/logrotate.timer
++        sed -i -e 's,OnCalendar=.*$,OnCalendar=${LOGROTATE_SYSTEMD_TIMER_BASIS},g' ${D}${systemd_system_unitdir}/logrotate.timer
++        sed -i -e 's,AccuracySec=.*$,AccuracySec=${LOGROTATE_SYSTEMD_TIMER_ACCURACY},g' ${D}${systemd_system_unitdir}/logrotate.timer
++    else
++        mkdir -p ${D}${sysconfdir}/cron.daily
++        install -p -m 0755 examples/logrotate.cron ${D}${sysconfdir}/cron.daily/logrotate
++    fi
+ }
+-- 
+2.9.3
 
-Jussi
 
---f403045f0a480a3b0b054d0774bd
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_quote">On 1=
-3 April 2017 at 08:02, Alexander Kanavin <span dir=3D"ltr">&lt;<a href=3D"m=
-ailto:alexander.kanavin@linux.intel.com" target=3D"_blank">alexander.kanavi=
-n@linux.intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote=
-" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><=
-span class=3D"">On 04/13/2017 05:19 AM, Zhixiong Chi wrote:<br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex"><blockquote class=3D"gmail_quote" style=3D"m=
-argin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
-autoconf-archive is not in oe-core, is it?<br>
-<br>
-</blockquote>
-<br>
-Yes,it is.<br>
-As Alex said, it shouldn&#39;t depend the recipe from the other layers.<br>
-I will try to move autoconf-archive into oe-core next step.<br>
-</blockquote>
-<br></span>
-First research other ways to fix the issue please; we try to avoid unnecess=
-ary bloat in oe-core.<br>
-<br>
-For example, how about deleting the conflicting macros from autoconf-archiv=
-e, and making it depend on gnome-common? Or researching if we can get rid o=
-f gnome-common altogether in oe-core.<br></blockquote><div><br></div><div>I=
- had a quick look at this. We have three recipes in oe-core that &quot;need=
-&quot; gnome-common (python3-pygobject, gnome-desktop3, matchbox-desktop). =
-The only meaningful usage of gnome-common in their <a href=3D"http://config=
-ure.ac">configure.ac</a>&#39;s is GNOME_COMPILE_WARNINGS().</div><div><br><=
-/div><div>with this in mind I would not object to just the original patch w=
-ith the autoconf-archive dependency removed. However, it would be nice to b=
-uild test the meta-openembedded recipes that depend on gnome-common (and ad=
-d a dependency to autoconf-archive to the recipes that seem to need it).=C2=
-=A0</div><div><br></div><div>Jussi</div></div></div></div>
-
---f403045f0a480a3b0b054d0774bd--
