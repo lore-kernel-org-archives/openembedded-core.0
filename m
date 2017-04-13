@@ -1,56 +1,46 @@
-Return-Path: <fabio.berton@ossystems.com.br>
-Received: from mail-qt0-f193.google.com (mail-qt0-f193.google.com
-	[209.85.216.193])
-	by mail.openembedded.org (Postfix) with ESMTP id A0DDD77E4C
+Return-Path: <ian.arkver.dev@gmail.com>
+Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 9D2F877E44
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Apr 2017 14:38:21 +0000 (UTC)
-Received: by mail-qt0-f193.google.com with SMTP id c45so8132273qtb.0
+	Thu, 13 Apr 2017 14:42:37 +0000 (UTC)
+Received: by mail-wm0-f67.google.com with SMTP id q125so12959173wmd.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Apr 2017 07:38:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=subject:to:references:from:organization:message-id:date:user-agent
-	:mime-version:in-reply-to:content-transfer-encoding;
-	bh=Jrx+CPxu7kh6Ppq1WHZyQFCyd3l6FPmiQttzIwBFqfo=;
-	b=BSc/ekAUe0OGU8QE4pDiTagP1+6hOV+K/f+77ihLfahEUFXy9PUAeBrdlN4GDzkWKz
-	Xl9ZljgkgjRPvZDY9vQI2eINf8T4VIe6SChcS9K8Kh2CceEIkZ+tyTjgAzH8kqeX2ZM/
-	cQ+sKt3a66mzfewTngBCt0y+ROoTcGPbXqJp0BNaeayMsV/ui8jliWBBPPzOESorpuP/
-	lJV0Pbj4sCxy/qedWD1PJRartJLdJ8TAnsIBuPMnGy7Qr1t3K7vvwBaDASAb8gxMBIdG
-	4cumfi0M8NLabHkLxw/gITVhofgoSpEDOZyq5YuZkdmmN3wqfgpxVtfCw4Oht70/aTX2
-	AUnQ==
+	Thu, 13 Apr 2017 07:42:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:subject:date:message-id;
+	bh=BZorwYoufdIcI/0oQXDyuBCp6dzagKqNYCPQXKEhLWw=;
+	b=XCymr117HpCgAixjkmWg95BJj2zeRQaZrgXGqME0MjtG+K5QCjrhyI/ekQc3hfPo6b
+	VmS0FodBwjfk+rOQEq52QnseuJiZqh6LqI7j7eqAYxRBSSwXy/pgz1DZ7XVSEbv9ShDn
+	Kr/3QJfQhGIIU5B44DUy6Hu2XTHApQ+ri2Cn1rbMzfsb5gQqAawZi+l5OXJ2PKuiNGDy
+	bTsejIDKyVkdMRqMsYPbUVIuSbWHI2THLz6GYivdoSic5HVvxyzQPFKOc0PyvDn0+gX5
+	HzKo5lgjmtwonvTYbIPlmRsN6YbBzug60FDMbqw9KVIzpmDs+26/D4BwazoOhZISvkXA
+	fD/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:references:from:organization
-	:message-id:date:user-agent:mime-version:in-reply-to
-	:content-transfer-encoding;
-	bh=Jrx+CPxu7kh6Ppq1WHZyQFCyd3l6FPmiQttzIwBFqfo=;
-	b=WpuyhNsc61i67dt2JkjlfVfyj1ZJdOemKv2Hc1Npd3PMayLj0jtnzpxXepUKk25e0k
-	cDCmE+CooiFsSuvuakq0KVlWcFZJKuKnLr92G1utshYX6DthRK/CPvQzKK4u8QqELhgE
-	RNIDqzW4wzM5KHD0Sz5M6kmWYMU/A6VQKqBmEMen3YEL6kSuKoizX45F6fcvrh2XOiVR
-	FGcyidtyO/DyuvJGggQ8Et/GC3GugRx4irQh7ZdLs0Hqp5CYRbmvE7VBkK3xgf1VNvK7
-	mM+IiK/CVrp9+TkumDJy2SiNg+4FT+0uBUdkDzMqLID/2Z/AMcHYo8M0bsEW5+l1sJvM
-	Rt2w==
-X-Gm-Message-State: AN3rC/5mxiM6cFq1DU1hmI/qTyVK/CyqkGINEAk4FXN3LQ4d8o23gfUG
-	u+ow/D01Q2RWBnaf6js=
-X-Received: by 10.237.50.197 with SMTP id z63mr2931041qtd.48.1492094302204;
-	Thu, 13 Apr 2017 07:38:22 -0700 (PDT)
-Received: from [10.5.3.6] ([189.114.111.135]) by smtp.gmail.com with ESMTPSA id
-	w51sm11939918qtb.13.2017.04.13.07.38.19
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=BZorwYoufdIcI/0oQXDyuBCp6dzagKqNYCPQXKEhLWw=;
+	b=dmeV7leMV1eCFPxqA9bz4igVDEK66OuFbnVM6LdcktGjcJ2CtsceHhV13O927s5E3z
+	pHvh/axPHG0GbXLm1QLSkt/sqOCIKFSpneIQ+fmRPH3gM7dFktiJQ5zCwz3m1OrmuvdN
+	fx4ybzc/Waak+W/hy3HdtnGylqsqOHnjvt/EwVzJk57N5hqMafibpDNY60mX5DtiIFF6
+	MkE3buAoOphoXE6C5bujKMA4utetzVMn6LWyHhgKvBAsj4inXDLKqmX1KHpUIlmNqVjC
+	Tv8MMRneRhBsg8NIx05VOZCO0egAfOCkyK2pnsUOUXYYH9BFlbQskd1KoHq6wlGjTA4e
+	dH3A==
+X-Gm-Message-State: AN3rC/5U++UgOzTc3z7c17e0OoKHT5Gc5sTeKD2w9Wr9dl3HbHKItmzx
+	qF4OZCWGX4W3cRAU
+X-Received: by 10.28.203.132 with SMTP id b126mr26181766wmg.90.1492094558173; 
+	Thu, 13 Apr 2017 07:42:38 -0700 (PDT)
+Received: from devmjo0.home (host86-154-139-143.range86-154.btcentralplus.com.
+	[86.154.139.143]) by smtp.gmail.com with ESMTPSA id
+	y63sm2908307wme.31.2017.04.13.07.42.37
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 13 Apr 2017 07:38:21 -0700 (PDT)
+	Thu, 13 Apr 2017 07:42:37 -0700 (PDT)
+From: "Ian.Arkver" <ian.arkver.dev@gmail.com>
 To: openembedded-core@lists.openembedded.org
-References: <20170405120916.17095-1-fabio.berton@ossystems.com.br>
-	<20170405120916.17095-2-fabio.berton@ossystems.com.br>
-From: Fabio Berton <fabio.berton@ossystems.com.br>
-Organization: OS Systems
-Message-ID: <bcdeb3c2-ec45-760d-dd5d-e62cd55b8b89@ossystems.com.br>
-Date: Thu, 13 Apr 2017 11:38:17 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.8.0
-MIME-Version: 1.0
-In-Reply-To: <20170405120916.17095-2-fabio.berton@ossystems.com.br>
-Subject: Re: [PATCH 2/2] openssh: Use systemd-tmpfiles to create volatiles files and dirs
+Date: Thu, 13 Apr 2017 15:42:36 +0100
+Message-Id: <a96e2f342990f92ddc1a530ee748d6e8d078d654.1492094274.git.ian.arkver.dev@gmail.com>
+X-Mailer: git-send-email 2.12.1
+Subject: [PATCH] package_manager.py: Generate separate repo entries per arch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,92 +53,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Apr 2017 14:38:21 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 13 Apr 2017 14:42:38 -0000
 
-ping
+dnf requires a serparate repo for each architecture. This patch
+writes one config file per PACKAGE_FEED_URIS entry with an entry
+for each architecture, if any.
 
-On 04/05/2017 09:09 AM, Fabio Berton wrote:
-> Volatiles files are installed in different locations depending on
-> distro feature update-rc.d or systemd. For update-rc.d volatiles
-> configuration files are installed in /etc/default/volatiles and
-> for systemd in /etc/tmpfiles.d/. So, we need to install volatiles
-> files in correct location depending on what distro feature is used.
->
-> Signed-off-by: Fabio Berton <fabio.berton@ossystems.com.br>
-> ---
->  .../openssh/openssh/sshd.tmpfiles.d                |  2 ++
->  meta/recipes-connectivity/openssh/openssh_7.4p1.bb | 27 +++++++++++++---------
->  2 files changed, 18 insertions(+), 11 deletions(-)
->  create mode 100644 meta/recipes-connectivity/openssh/openssh/sshd.tmpfiles.d
->
-> diff --git a/meta/recipes-connectivity/openssh/openssh/sshd.tmpfiles.d b/meta/recipes-connectivity/openssh/openssh/sshd.tmpfiles.d
-> new file mode 100644
-> index 0000000000..a2ae06ad94
-> --- /dev/null
-> +++ b/meta/recipes-connectivity/openssh/openssh/sshd.tmpfiles.d
-> @@ -0,0 +1,2 @@
-> +d /var/run/sshd     0755    root    root    -   -
-> +f /var/log/lastlog  0644    root    root    -   -
-> diff --git a/meta/recipes-connectivity/openssh/openssh_7.4p1.bb b/meta/recipes-connectivity/openssh/openssh_7.4p1.bb
-> index c8093d4e2b..eff83de135 100644
-> --- a/meta/recipes-connectivity/openssh/openssh_7.4p1.bb
-> +++ b/meta/recipes-connectivity/openssh/openssh_7.4p1.bb
-> @@ -20,6 +20,7 @@ SRC_URI = "http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar
->             file://sshd@.service \
->             file://sshdgenkeys.service \
->             file://volatiles.99_sshd \
-> +           file://sshd.tmpfiles.d \
->             file://add-test-support-for-busybox.patch \
->             file://run-ptest \
->             file://openssh-7.1p1-conditional-compile-des-in-cipher.patch \
-> @@ -104,8 +105,7 @@ do_install_append () {
->  	install -m 0755 ${WORKDIR}/init ${D}${sysconfdir}/init.d/sshd
->  	rm -f ${D}${bindir}/slogin ${D}${datadir}/Ssh.bin
->  	rmdir ${D}${localstatedir}/run/sshd ${D}${localstatedir}/run ${D}${localstatedir}
-> -	install -d ${D}/${sysconfdir}/default/volatiles
-> -	install -m 644 ${WORKDIR}/volatiles.99_sshd ${D}/${sysconfdir}/default/volatiles/99_sshd
-> +
->  	install -m 0755 ${S}/contrib/ssh-copy-id ${D}${bindir}
->
->  	# Create config files for read-only rootfs
-> @@ -117,14 +117,19 @@ do_install_append () {
->  	echo "HostKey /var/run/ssh/ssh_host_ecdsa_key" >> ${D}${sysconfdir}/ssh/sshd_config_readonly
->  	echo "HostKey /var/run/ssh/ssh_host_ed25519_key" >> ${D}${sysconfdir}/ssh/sshd_config_readonly
->
-> -	install -d ${D}${systemd_unitdir}/system
-> -	install -c -m 0644 ${WORKDIR}/sshd.socket ${D}${systemd_unitdir}/system
-> -	install -c -m 0644 ${WORKDIR}/sshd@.service ${D}${systemd_unitdir}/system
-> -	install -c -m 0644 ${WORKDIR}/sshdgenkeys.service ${D}${systemd_unitdir}/system
-> -	sed -i -e 's,@BASE_BINDIR@,${base_bindir},g' \
-> -		-e 's,@SBINDIR@,${sbindir},g' \
-> -		-e 's,@BINDIR@,${bindir},g' \
-> -		${D}${systemd_unitdir}/system/sshd.socket ${D}${systemd_unitdir}/system/*.service
-> +	if ${@bb.utils.contains('DISTRO_FEATURES','systemd','true','false',d)}; then
-> +		install -d ${D}${systemd_unitdir}/system
-> +		install -c -m 0644 ${WORKDIR}/sshd.socket ${D}${systemd_unitdir}/system
-> +		install -c -m 0644 ${WORKDIR}/sshd@.service ${D}${systemd_unitdir}/system
-> +		install -c -m 0644 ${WORKDIR}/sshdgenkeys.service ${D}${systemd_unitdir}/system
-> +		sed -i -e 's,@BASE_BINDIR@,${base_bindir},g' \
-> +			-e 's,@SBINDIR@,${sbindir},g' \
-> +			-e 's,@BINDIR@,${bindir},g' \
-> +			${D}${systemd_unitdir}/system/sshd.socket ${D}${systemd_unitdir}/system/*.service
-> +		install -Dm 0644 ${WORKDIR}/sshd.tmpfiles.d ${D}${sysconfdir}/tmpfiles.d/sshd.conf
-> +	else
-> +		install -Dm 0644 ${WORKDIR}/volatiles.99_sshd ${D}/${sysconfdir}/default/volatiles/99_sshd
-> +	fi
->  }
->
->  do_install_ptest () {
-> @@ -138,7 +143,7 @@ PACKAGES =+ "${PN}-keygen ${PN}-scp ${PN}-ssh ${PN}-sshd ${PN}-sftp ${PN}-misc $
->  FILES_${PN}-scp = "${bindir}/scp.${BPN}"
->  FILES_${PN}-ssh = "${bindir}/ssh.${BPN} ${sysconfdir}/ssh/ssh_config"
->  FILES_${PN}-sshd = "${sbindir}/sshd ${sysconfdir}/init.d/sshd ${systemd_unitdir}/system"
-> -FILES_${PN}-sshd += "${sysconfdir}/ssh/moduli ${sysconfdir}/ssh/sshd_config ${sysconfdir}/ssh/sshd_config_readonly ${sysconfdir}/default/volatiles/99_sshd ${sysconfdir}/pam.d/sshd"
-> +FILES_${PN}-sshd += "${sysconfdir}/ssh/moduli ${sysconfdir}/ssh/sshd_config ${sysconfdir}/ssh/sshd_config_readonly ${sysconfdir}/default/volatiles/99_sshd ${sysconfdir}/pam.d/sshd ${sysconfdir}/tmpfiles.d/sshd.conf"
->  FILES_${PN}-sftp = "${bindir}/sftp"
->  FILES_${PN}-sftp-server = "${libexecdir}/sftp-server"
->  FILES_${PN}-misc = "${bindir}/ssh* ${libexecdir}/ssh*"
->
+It also uses a space separated version of the repo id as the repo
+name instead of just the id again.
+
+Signed-off-by: Ian.Arkver <ian.arkver.dev@gmail.com>
+---
+ meta/lib/oe/package_manager.py | 15 +++++++++++----
+ 1 file changed, 11 insertions(+), 4 deletions(-)
+
+diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
+index 5a189cff97..60d6e52a58 100644
+--- a/meta/lib/oe/package_manager.py
++++ b/meta/lib/oe/package_manager.py
+@@ -550,12 +550,19 @@ class RpmPM(PackageManager):
+         bb.utils.mkdirhier(oe.path.join(self.target_rootfs, "etc", "yum.repos.d"))
+         remote_uris = self.construct_uris(feed_uris.split(), feed_base_paths.split())
+         for uri in remote_uris:
+-            repo_name = "oe-remote-repo" + "-".join(urlparse(uri).path.split("/"))
++            repo_base = "oe-remote-repo" + "-".join(urlparse(uri).path.split("/"))
+             if feed_archs is not None:
+-                repo_uris = [uri + "/" + arch for arch in feed_archs.split()]
++                for arch in feed_archs.split():
++                    repo_uri = uri + "/" + arch
++                    repo_id   = "oe-remote-repo"  + "-".join(urlparse(repo_uri).path.split("/"))
++                    repo_name = "OE Remote Repo:" + " ".join(urlparse(repo_uri).path.split("/"))
++                    open(oe.path.join(self.target_rootfs, "etc", "yum.repos.d", repo_base + ".repo"), 'a').write(
++                             "[%s]\nname=%s\nbaseurl=%s\n\n" % (repo_id, repo_name, repo_uri))
+             else:
+-                repo_uris = [uri]
+-            open(oe.path.join(self.target_rootfs, "etc", "yum.repos.d", repo_name + ".repo"), 'w').write("[%s]\nname=%s\nbaseurl=%s\n" % (repo_name, repo_name, " ".join(repo_uris)))
++                repo_name = "OE Remote Repo:" + " ".join(urlparse(uri).path.split("/"))
++                repo_uri = uri
++                open(oe.path.join(self.target_rootfs, "etc", "yum.repos.d", repo_base + ".repo"), 'w').write(
++                             "[%s]\nname=%s\nbaseurl=%s\n" % (repo_base, repo_name, repo_uri))
+ 
+     def _prepare_pkg_transaction(self):
+         os.environ['D'] = self.target_rootfs
+-- 
+2.12.1
+
 
