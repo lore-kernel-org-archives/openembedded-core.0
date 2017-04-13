@@ -1,53 +1,55 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qt0-f170.google.com (mail-qt0-f170.google.com
-	[209.85.216.170])
-	by mail.openembedded.org (Postfix) with ESMTP id CC70677E1D
+Return-Path: <fabio.berton@ossystems.com.br>
+Received: from mail-qt0-f194.google.com (mail-qt0-f194.google.com
+	[209.85.216.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 9132D77E44
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Apr 2017 14:12:00 +0000 (UTC)
-Received: by mail-qt0-f170.google.com with SMTP id v3so46588248qtd.3
+	Thu, 13 Apr 2017 14:38:05 +0000 (UTC)
+Received: by mail-qt0-f194.google.com with SMTP id o36so8111985qtb.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Apr 2017 07:12:02 -0700 (PDT)
+	Thu, 13 Apr 2017 07:38:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=UwQbh8yOS+sjt3q/P1GvWddDI204YumJTBLW7kXONnY=;
-	b=lxSki4Ngx+aOiMLn7yBtjzNoMKwqmVkoocw/2JfV3dBXBKr4dSyfEG5DbjhpSzKVca
-	en2qu9ifLln7khD5NRJa791dLltYAizjVhB03OVQc8w4wDO4L/IeO3C6lU0+xX0j8+BL
-	f9w7kyXp4xGDM0jS0sPqGL+qEUQPf9RVeL54h6v5CfK+VL9y0d7YcHLkh9bhPi82RlfH
-	IM3PbIPJzTnLTSbf2cUj8XVIOtY4w302huww1cZGhsa7Y4aC5iJSvcMFTq51PuaN6Z2A
-	/ONLEClPB1zjrtVz7eFm6CYshFTcFp85pPeg0VgqpiU4ZNQjdoi4DXnvEJxtHWQca77B
-	pdHA==
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=subject:to:references:from:organization:message-id:date:user-agent
+	:mime-version:in-reply-to:content-transfer-encoding;
+	bh=McRTWn+uJnJU/WY6uPS8PXekJO5lpRkUggvUyAnCgj8=;
+	b=iJJ8+0bXrcgJxTZULmrfXfv+Qy8ZeBmGpFY6ojGMFhttfbcf86P/DxMGYr71uc14ui
+	vHKris/kFzLNdr6BA6ClerMCcp6HSZ5YRm0n7oI0af3S2XU80bYupAPAvgAx84Xx3VAT
+	CYELvXBHJftSDBmR4hFlySFQTjQ7gzVOvWSjPweq/5EhPB/3inGz9IUQFTSxuZweVRQu
+	NwwfjWBosLb5d3P/eU0/Q7aKhojGWxqqMd9aQ/R/8TbTslCu1qLce3PGH+FkkEm0J42/
+	3b499wXP+si0yFDEqNnI5OwNMb+ZD4dmvWkV6h4C4JlnioxCVe8n9Aa2ahFwp3SqnUzp
+	/hzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=UwQbh8yOS+sjt3q/P1GvWddDI204YumJTBLW7kXONnY=;
-	b=OSjyomv3f2RDgTcmdFpR6Jd0kypkfxZ2Fwhgv7YtpRZmcl9KU0H7d+9B9RAhuvPMZu
-	KsM+TNoOvxqN1UhJeaDozu3UZU8zPQwaX3v8gMrMpsVx0qOBvGUHKMOR57PylJiHeSHe
-	l2KvWsb4RaSO691cNbnfHGy/r2gE1F5MGQzhwmnprp/+ZfKyGf83hawPW49iYQZ8H9vD
-	tdf2BaqZxLXwzf5v2odFoXtcQrWqUq3ARYQ9/CJyuFk17niT97DyerdNWbafk7RxXEep
-	brrlPI0UYS0eZn6d2nu4Q2gto6jUkO4jW4RM7sElp/mKnMri/z6eDM7WnFjBHxYL84AF
-	Okrg==
-X-Gm-Message-State: AN3rC/4EMl2Aeat6F21k4hSUwE/ScZ0XdcJp35KQz4s+EDL41mrrVu2F
-	O3dC6+f8ptP+3lEExQH1sdp04k29DEy0
-X-Received: by 10.200.3.105 with SMTP id w41mr2638573qtg.188.1492092721756;
-	Thu, 13 Apr 2017 07:12:01 -0700 (PDT)
+	h=x-gm-message-state:subject:to:references:from:organization
+	:message-id:date:user-agent:mime-version:in-reply-to
+	:content-transfer-encoding;
+	bh=McRTWn+uJnJU/WY6uPS8PXekJO5lpRkUggvUyAnCgj8=;
+	b=SotZcxxdWHXLJXN4wOrJypjGpp5C8QIPIh76nzodAk1ZR6EjWXxGX87euiPe6+O22r
+	eIR4uH6zPZ7znUhsJC62EVFDccq/aN5EzoWzTXoWyD3s1hb7M89SADdbCBDv55LOc375
+	jfQY+IqQDRpQned9Mf5gye6AQg/DUaRrb3beagwdruOZfrYxjui372yMfPaV13Hx64Sl
+	XmL/m0WNAe9r0nq+GLR64wIg4Hvsko6KK9AFjOCD0GM2dgOrJFI2uB5BRAYdQzIzLCK2
+	W8xPmdQiIZloY4DUDqVWlB77GI6k1Aeyi562+P4O3UVT5iKyfM8eqR8FM54BXew/ayJj
+	ritw==
+X-Gm-Message-State: AN3rC/54JnhXHEu07Vft607KucVI45+jBgajtxxWCuAE5y5IBs71X3AT
+	Gzajg9Fv/Sglo4/YMZM=
+X-Received: by 10.237.59.198 with SMTP id s6mr2718394qte.126.1492094286215;
+	Thu, 13 Apr 2017 07:38:06 -0700 (PDT)
+Received: from [10.5.3.6] ([189.114.111.135]) by smtp.gmail.com with ESMTPSA id
+	127sm15842411qkf.64.2017.04.13.07.38.03
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 13 Apr 2017 07:38:05 -0700 (PDT)
+To: openembedded-core@lists.openembedded.org
+References: <20170405120916.17095-1-fabio.berton@ossystems.com.br>
+From: Fabio Berton <fabio.berton@ossystems.com.br>
+Organization: OS Systems
+Message-ID: <3dc24028-e55b-8a62-c10c-d370cffcf37c@ossystems.com.br>
+Date: Thu, 13 Apr 2017 11:37:59 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.8.0
 MIME-Version: 1.0
-Received: by 10.140.22.166 with HTTP; Thu, 13 Apr 2017 07:11:41 -0700 (PDT)
-In-Reply-To: <20170412063847.GA3855@jama>
-References: <20170411013850.GA25337@linux-uys3>
-	<CA+chaQcT7jApSyB4SqwPhsn+Pn_XTbryPT0FQZ_ST0OKDTH5xA@mail.gmail.com>
-	<CAHUNapQdr_o_F7DbjNkmOYLXiMnntZJEKgw0+HVncMs6kC-Pmg@mail.gmail.com>
-	<20170412063847.GA3855@jama>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 13 Apr 2017 15:11:41 +0100
-Message-ID: <CAJTo0Lb1fMwBcn7=1yM8WB9qYQPBvkUgimVNtEvRt0M3FDs4Xg@mail.gmail.com>
-To: Trevor Woerner <twoerner@gmail.com>, Martin Jansa <martin.jansa@gmail.com>,
-	Khem Raj <raj.khem@gmail.com>
-Cc: Drew Moseley <drew_moseley@mentor.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: having llvm available for gallium
+In-Reply-To: <20170405120916.17095-1-fabio.berton@ossystems.com.br>
+Subject: Re: [PATCH 1/2] wpa-supplicant: Use systemd-tmpfiles to create volatiles files and dirs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,45 +62,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Apr 2017 14:12:02 -0000
-Content-Type: multipart/alternative; boundary=f4030435cf58a715f9054d0ce80f
+X-List-Received-Date: Thu, 13 Apr 2017 14:38:06 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
---f4030435cf58a715f9054d0ce80f
-Content-Type: text/plain; charset=UTF-8
+ping
 
-On 12 April 2017 at 07:38, Martin Jansa <martin.jansa@gmail.com> wrote:
-
-> I don't use meta-clang to check where does it install the llvm-config
-> scripts if it's different location than what we have in meta-oe or not,
-> but I assume khem was testing his mesa change with meta-clang's llvm.
+On 04/05/2017 09:09 AM, Fabio Berton wrote:
+> Volatiles files are installed in different locations depending on
+> distro feature update-rc.d or systemd. For update-rc.d volatiles
+> configuration files are installed in /etc/default/volatiles and
+> for systemd in /etc/tmpfiles.d/. So, we need to install volatiles
+> files in correct location depending on what distro feature is used.
+>
+> Signed-off-by: Fabio Berton <fabio.berton@ossystems.com.br>
+> ---
+>  .../wpa-supplicant/wpa-supplicant/wpa_supplicant.tmpfiles.d       | 1 +
+>  meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.6.bb    | 8 +++++---
+>  2 files changed, 6 insertions(+), 3 deletions(-)
+>  create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/wpa_supplicant.tmpfiles.d
+>
+> diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/wpa_supplicant.tmpfiles.d b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/wpa_supplicant.tmpfiles.d
+> new file mode 100644
+> index 0000000000..5b27498b8e
+> --- /dev/null
+> +++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/wpa_supplicant.tmpfiles.d
+> @@ -0,0 +1 @@
+> +d /var/run/wpa_supplicant   0700    root    root    -   -
+> diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.6.bb b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.6.bb
+> index 146bccfaa7..ff4ad34d51 100644
+> --- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.6.bb
+> +++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.6.bb
+> @@ -24,6 +24,7 @@ SRC_URI = "http://w1.fi/releases/wpa_supplicant-${PV}.tar.gz  \
+>             file://wpa_supplicant.conf \
+>             file://wpa_supplicant.conf-sane \
+>             file://99_wpa_supplicant \
+> +           file://wpa_supplicant.tmpfiles.d \
+>            "
+>  SRC_URI[md5sum] = "091569eb4440b7d7f2b4276dbfc03c3c"
+>  SRC_URI[sha256sum] = "b4936d34c4e6cdd44954beba74296d964bc2c9668ecaa5255e499636fe2b1450"
+> @@ -93,10 +94,11 @@ do_install () {
+>  	if ${@bb.utils.contains('DISTRO_FEATURES','systemd','true','false',d)}; then
+>  		install -d ${D}/${systemd_unitdir}/system
+>  		install -m 644 ${S}/wpa_supplicant/systemd/*.service ${D}/${systemd_unitdir}/system
+> +		install -Dm 0644 ${WORKDIR}/wpa_supplicant.tmpfiles.d ${D}${sysconfdir}/tmpfiles.d/wpa_supplicant.conf
+> +	else
+> +		install -d ${D}/etc/default/volatiles
+> +		install -m 0644 ${WORKDIR}/99_wpa_supplicant ${D}/etc/default/volatiles
+>  	fi
+> -
+> -	install -d ${D}/etc/default/volatiles
+> -	install -m 0644 ${WORKDIR}/99_wpa_supplicant ${D}/etc/default/volatiles
+>  }
+>
+>  pkg_postinst_wpa-supplicant () {
 >
 
-Trevor, what layer were you getting llvm from?  Khem's fix looks good from
-a "stop host contamination" point of view, so we either need to fix
-meta-something or mesa very soon as oe-core is very close to the final RC
-builds.
-
-Ross
-
---f4030435cf58a715f9054d0ce80f
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 12 April 2017 at 07:38, Martin Jansa <span dir=3D"ltr">&lt;<a href=3D"ma=
-ilto:martin.jansa@gmail.com" target=3D"_blank">martin.jansa@gmail.com</a>&g=
-t;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0=
- .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":5hu" class=
-=3D"a3s aXjCH m15b611a98c971e4d">I don&#39;t use meta-clang to check where =
-does it install the <span class=3D"il">llvm</span>-config<br>
-scripts if it&#39;s different location than what we have in meta-oe or not,=
-<br>
-but I assume khem was testing his mesa change with meta-clang&#39;s <span c=
-lass=3D"il">llvm</span>.<br></div></blockquote></div><br>Trevor, what layer=
- were you getting llvm from?=C2=A0 Khem&#39;s fix looks good from a &quot;s=
-top host contamination&quot; point of view, so we either need to fix meta-s=
-omething or mesa very soon as oe-core is very close to the final RC builds.=
-</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross<=
-/div></div>
-
---f4030435cf58a715f9054d0ce80f--
