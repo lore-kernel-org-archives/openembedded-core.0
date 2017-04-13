@@ -1,47 +1,47 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f54.google.com (mail-wm0-f54.google.com [74.125.82.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 94B7577E5F;
-	Thu, 13 Apr 2017 16:35:08 +0000 (UTC)
-Received: by mail-wm0-f54.google.com with SMTP id t189so51050580wmt.1;
-	Thu, 13 Apr 2017 09:35:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:date:to:subject:message-id:mime-version:content-disposition
-	:user-agent; bh=/Pi1OdNHseff1UdCygpW9TjBKwl0wIJjYEvKNYmdD74=;
-	b=N2TKQkCLJloZFwhLuTZNKopQ32Q/teJ7+cpwnYunuIkoQFjQ6voNvT5xJvU6UUsGpe
-	AL7VyX51SG60ocpiAH8aTIPJBKMAb6SNStaMYftTOSfVYawIbsiyIgCS6hShxMfxVWoe
-	bf8IUnH9zMGUIbBRjAf4Oqa1PG9l7PgUg2Q8Yj2UKVd9uY1cEhloOrSdbTD4INUIrqNq
-	E040lo7dwSgvn4wliIkQ/GIdC1RsKw251FsaAXL1+qa02BFB5I/IlP18wDOlBlweRoPX
-	R6W1VX7Dgv+1N6SVC9+dR/CvpiR47izmhUv/sJmfLOYu5AZ1zVlh2Fv4vKEabOy8ZdBG
-	LINw==
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-io0-f170.google.com (mail-io0-f170.google.com
+	[209.85.223.170])
+	by mail.openembedded.org (Postfix) with ESMTP id E84EF77BE1
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 13 Apr 2017 20:32:58 +0000 (UTC)
+Received: by mail-io0-f170.google.com with SMTP id a103so94624912ioj.1
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 13 Apr 2017 13:33:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id;
+	bh=NHOg9vbvH7WBFg2GgOubiI9yHKlPKcwrMd0oQJabFqI=;
+	b=E6u9Pbga6ErUFnCBn1M6OPmiAPFE6iga3HX/0lgG0a19bJKyUkl+FF1ok0sxLZb+rs
+	+x78j7uxA43fMZ3+WO8s5c+90/zlQoRcd5AE3NjilbrNBr10BledDq4fDZP+H7jXLzms
+	gO3YLnhpx8081irzM/X+VfuPhBvZgkwhIjpAo5DFQX4/e7XAYvg4bimFys6ijNipNRWy
+	heFTaLzJCrjPcfATBSqbqCKBsNpmBynJ6iK/QXkkJmPT0cI72B3cB87ozl5tiSdqoCBd
+	fYmVUj1cqOhK6kXX/fAqlWnX8ngre9kOpXkRK2dybVo4NBjWXEH915kWAMLomPQwK/IZ
+	iJdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:date:to:subject:message-id:mime-version
-	:content-disposition:user-agent;
-	bh=/Pi1OdNHseff1UdCygpW9TjBKwl0wIJjYEvKNYmdD74=;
-	b=MX9umuhAX1GQKydsmNwlMypUZfdwVXlMe8KRbTEGSK0r6jvS7apMizoIamdkqyLK7J
-	lrXIUX2jG1dVMdldcjFjN39cWIDkHYeoTIso4XucsUjxkrK3hriO2GYijCmeM2IzG9I5
-	6dPq6YDNuyEhOg64yZdXhjVtTbgrD8q1Coi0RVKzCfnzBZqIzbpaRR7wgqkSREMXrGjP
-	mmE21z9skJy7C/Iv+iKApWwGPER/vwMfj0HHd38d8mBEtfZhkLAa5LN7ib+oCIhZRpr5
-	8Gg2T1d1dvpG78OyWnSpa77LtBfQTe/VVfgBf4V5EYrO/l0IP4jwtcmfxG7p0w5I18pl
-	gStQ==
-X-Gm-Message-State: AN3rC/5Akbe86pNhldPMdG2VIfaf17GWB0snaJOe+mfY87YsYvVvNJlb
-	6WGNEYnG12r2eIyU
-X-Received: by 10.28.90.66 with SMTP id o63mr4224583wmb.97.1492101309594;
-	Thu, 13 Apr 2017 09:35:09 -0700 (PDT)
-Received: from localhost ([217.30.68.212]) by smtp.gmail.com with ESMTPSA id
-	i21sm2835202wrc.50.2017.04.13.09.35.08
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 13 Apr 2017 09:35:08 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Thu, 13 Apr 2017 16:35:08 +0200
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>, 
-	openembedded-devel <openembedded-devel@lists.openembedded.org>
-Message-ID: <20170413143508.GA5138@jama>
-MIME-Version: 1.0
-User-Agent: Mutt/1.8.0 (2017-02-23)
-Subject: State of bitbake world, Failed tasks 2017-04-12
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=NHOg9vbvH7WBFg2GgOubiI9yHKlPKcwrMd0oQJabFqI=;
+	b=TdeGRYJVRqZ6blUBeVtvQSxbbZHkWPOpN7YUYkUA3O+uvotHznBIMX+eyR/Zrf2g7C
+	RrU0mnEasUiDyIoEebJKuImY/j2ZNHuNE/bC6Qs+4sxoU6IJSB2AyERemtrwzkkdCZOE
+	oFtouyUpEJrLpvbNuqLlkealqPrgkf58ZFbtEQsrthNLtD0/+3DEPstW3PrcTOX5sghC
+	zYrcULI7G2Kizh9hMk0q0lojG8vLEWR56lyN0m69PYzNJiu3j5iIvd4xrB72iCG+HerH
+	nm2IrSIWP28dOPMULiV5K6xDz2pvb/usmiwL83QHPQ3Px5HPDG00Ow2U5rhWij45hvIr
+	Yq5Q==
+X-Gm-Message-State: AN3rC/69ZHFF4I0jXb3K5v8k9gJTjP18MS/csiNYykwI6zryLmdnsJDl
+	rRwRZ/0LzDMMWfXQ
+X-Received: by 10.107.140.10 with SMTP id o10mr6342426iod.139.1492115579683;
+	Thu, 13 Apr 2017 13:32:59 -0700 (PDT)
+Received: from pohly-desktop.fritz.box (p5DE8C73A.dip0.t-ipconnect.de.
+	[93.232.199.58])
+	by smtp.gmail.com with ESMTPSA id h71sm78194ioe.9.2017.04.13.13.32.57
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 13 Apr 2017 13:32:58 -0700 (PDT)
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 13 Apr 2017 22:32:51 +0200
+Message-Id: <20170413203251.1915-1-patrick.ohly@intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH] runqemu: support virtio drive type
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,126 +54,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Apr 2017 16:35:10 -0000
-X-Groupsio-MsgNum: 96292
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="fdj2RfSjLxBAspz7"
-Content-Disposition: inline
+X-List-Received-Date: Thu, 13 Apr 2017 20:32:59 -0000
 
---fdj2RfSjLxBAspz7
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Setting QB_DRIVE_TYPE=/dev/vd selects virtio without triggering any
+warnings. Previously, that was only possible by setting an unknown
+value and relying on the fallback to virtio, which caused some
+warnings to be printed.
 
-=3D=3D Number of issues - stats =3D=3D
-{| class=3D'wikitable'
-!|Date		     !!colspan=3D'3'|Failed tasks			    !!colspan=3D'6'|Failed depe=
-ncencies			 !!|Signatures		  !!colspan=3D'14'|QA !!Comment
-|-
-||		||qemuarm	||qemux86	||qemux86_64	||qemuarm||max||min	||qemux86||max||mi=
-n	||all 	||already-stripped	||libdir	||textrel	||build-deps	||file-rdeps	||=
-version-going-backwards	||host-user-contaminated	||installed-vs-shipped	||u=
-nknown-configure-option	||symlink-to-sysroot	||invalid-pkgconfig	||pkgname	=
-||ldflags	||compile-host-path	||=09
-|-
-||2017-04-12	||2	||3	||2	||N/A	||N/A	||N/A	||N/A	||N/A	||N/A	||0	||0		||0		=
-||4		||0		||0		||0		||0		||0		||0		||0		||0		||0		||0		||0		||=09
-|}
+Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
+---
+ scripts/runqemu | 15 +++++++++------
+ 1 file changed, 9 insertions(+), 6 deletions(-)
 
-http://www.openembedded.org/wiki/Bitbake_World_Status
-
-=3D=3D Failed tasks 2017-04-12 =3D=3D
-
-INFO: jenkins-job.sh-1.8.20 Complete log available at http://logs.nslu2-lin=
-ux.org/buildlogs/oe/world/pyro/log.report.20170413_063321.log
-
-=3D=3D=3D common (1) =3D=3D=3D
-    * meta-openembedded/meta-networking/recipes-support/tinyproxy/tinyproxy=
-_1.8.4.bb:do_compile
-
-=3D=3D=3D common-x86 (0) =3D=3D=3D
-
-=3D=3D=3D qemuarm (1) =3D=3D=3D
-    * virtual:native:meta-openembedded/meta-oe/recipes-support/uim/uim_1.8.=
-6.bb:do_install
-
-=3D=3D=3D qemux86 (2) =3D=3D=3D
-    * meta-openembedded/meta-initramfs/recipes-devtools/klibc/klibc_2.0.4.b=
-b:do_compile
-    * meta-openembedded/meta-oe/recipes-support/dstat/dstat_0.7.3.bb:do_com=
-pile
-
-=3D=3D=3D qemux86_64 (0) =3D=3D=3D
-
-=3D=3D=3D Number of failed tasks (7) =3D=3D=3D
-{| class=3Dwikitable
-|-
-|| qemuarm 	|| 2	 || http://logs.nslu2-linux.org/buildlogs/oe/world/pyro/lo=
-g.world.qemuarm.20170411_001604.log/ || http://errors.yoctoproject.org/Erro=
-rs/Build/36038/
-|-
-|| qemux86 	|| 3	 || http://logs.nslu2-linux.org/buildlogs/oe/world/pyro/lo=
-g.world.qemux86.20170411_001605.log/ || http://errors.yoctoproject.org/Erro=
-rs/Build/36040/
-|-
-|| qemux86_64 	|| 2	 || http://logs.nslu2-linux.org/buildlogs/oe/world/pyro=
-/log.world.qemux86-64.20170412_024831.log/ || http://errors.yoctoproject.or=
-g/Errors/Build/36126/
-|}
-
-=3D=3D=3D PNBLACKLISTs (442) =3D=3D=3D
-
-=3D=3D=3D QA issues (4) =3D=3D=3D
-{| class=3Dwikitable
-!| Count		||Issue
-|-
-||0	||already-stripped
-|-
-||0	||build-deps
-|-
-||0	||compile-host-path
-|-
-||0	||file-rdeps
-|-
-||0	||host-user-contaminated
-|-
-||0	||installed-vs-shipped
-|-
-||0	||invalid-pkgconfig
-|-
-||0	||ldflags
-|-
-||0	||libdir
-|-
-||0	||pkgname
-|-
-||0	||symlink-to-sysroot
-|-
-||0	||unknown-configure-option
-|-
-||0	||version-going-backwards
-|-
-||4	||textrel
-|}
+diff --git a/scripts/runqemu b/scripts/runqemu
+index 5b5d56b9ef4..a536ff17c07 100755
+--- a/scripts/runqemu
++++ b/scripts/runqemu
+@@ -992,12 +992,15 @@ class BaseConfig(object):
+                         logger.info('Using ide drive')
+                         vm_drive = "%s,format=%s" % (self.rootfs, rootfs_format)
+                     else:
+-                        logger.warn("Unknown QB_DRIVE_TYPE: %s" % drive_type)
+-
+-                if not vm_drive:
+-                    logger.warn("Failed to figure out drive type, consider define or fix QB_DRIVE_TYPE")
+-                    logger.warn('Trying to use virtio block drive')
+-                    vm_drive = '-drive if=virtio,file=%s,format=%s' % (self.rootfs, rootfs_format)
++                        # virtio might have been selected explicitly (just use it), or
++                        # is used as fallback (then warn about that).
++                        if not drive_type.startswith("/dev/vd"):
++                            logger.warn("Unknown QB_DRIVE_TYPE: %s" % drive_type)
++                            logger.warn("Failed to figure out drive type, consider define or fix QB_DRIVE_TYPE")
++                            logger.warn('Trying to use virtio block drive')
++                        vm_drive = '-drive if=virtio,file=%s,format=%s' % (self.rootfs, rootfs_format)
++
++                # All branches above set vm_drive.
+                 self.rootfs_options = '%s -no-reboot' % vm_drive
+             self.kernel_cmdline = 'root=%s rw highres=off' % (self.get('QB_KERNEL_ROOT'))
+ 
+-- 
+2.11.0
 
 
-
-=3D=3D=3D Incorrect PACKAGE_ARCH or sstate signatures (0) =3D=3D=3D
-
-Complete log: http://logs.nslu2-linux.org/buildlogs/oe/world/pyro/log.signa=
-tures.20170411_230634.log/
-
-No issues detected
-
---fdj2RfSjLxBAspz7
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iF0EARECAB0WIQRU+ejDffEzV2Je2oc3VSO3ZXaAHAUCWO+MmwAKCRA3VSO3ZXaA
-HEbwAKCwD11MRg2NpM2NdbNzlG8ASwlQpwCgjGDxRXS31hNvHeZWTtC0u5WuRFQ=
-=smYR
------END PGP SIGNATURE-----
-
---fdj2RfSjLxBAspz7--
