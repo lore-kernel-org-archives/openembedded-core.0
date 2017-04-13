@@ -1,47 +1,55 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wr0-f170.google.com (mail-wr0-f170.google.com
-	[209.85.128.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 3ECCC77E3E
+Received: from mail-qt0-f178.google.com (mail-qt0-f178.google.com
+	[209.85.216.178])
+	by mail.openembedded.org (Postfix) with ESMTP id B8ADA77E3E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Apr 2017 22:31:28 +0000 (UTC)
-Received: by mail-wr0-f170.google.com with SMTP id l28so43225630wre.0
+	Thu, 13 Apr 2017 22:34:03 +0000 (UTC)
+Received: by mail-qt0-f178.google.com with SMTP id v3so56385808qtd.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Apr 2017 15:31:30 -0700 (PDT)
+	Thu, 13 Apr 2017 15:34:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=voOo+DBv7LRZxfoYdYBbirm/f70XSeCw1zIvqySYk2k=;
-	b=c2VfDJeK0xK+t8miHRCTm5JbB2rusqxJ2+BJinME7lCIf9IoQXi4/rlrnxCxA5kFQt
-	zM+JSe788qDcbbWWBgYHsr7L09TT7p0GIhKZBeVCEkfxdfF8b3mbGtSk4D0NESTFQ1QZ
-	3FETCOkAeAbY6sAQNkCQDh2Yw2ldK+/6brcY7iWWlpQChuARWKh6JpTXRehMcSsDgmUi
-	AynVesukTniKYjPopnulYJ8FjhGEKwmOnwJqOek37lfb4Ct3gBYdI+/sQ0P+5oHuh48o
-	bDptCf2ngQrNAaNfcUfEz73WSnfEXHq9Z1yNN1SsUg1MzZZKwO5pDFDVn3a+PNfOJaff
-	4RMA==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=eUY7ef2k9wyJlrMja/61miXvROLAeb6ZBmE/HkGV9kU=;
+	b=VPEtlP0+YMQxNrxBFKBPiRmmxd1L91xxtgeEuHUwCQp+J5X2mSNuaDaR0jqCGEKqGe
+	SGUhV4gOUNTm2uA9qYMdqoeQKDHjwcCGiYN5dMuc4InqoBH3OGjxwwqHJCuXZ6KX8+iv
+	38sh2J1sTJ3uDymy5bu3jrA2PzxqDDPFiDVyJwTYcdviiuvQIyZJi4YtHXc848kdFt6I
+	afRl96DWpz3HHLLgarLhlbQFCQllB2UUzSl1eE3wKW1ZBGjwIFg33jB7OzRz/EsdasCI
+	3yVThntuvdk/U7ss6FVBHgYhxqUQUsdyRJK/AhSB+C8VJHiZIydmb6sZHzPCkkafpm8I
+	lvGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=voOo+DBv7LRZxfoYdYBbirm/f70XSeCw1zIvqySYk2k=;
-	b=JyXO2eJDQ4p5ryoQ4veuTLL/U4GKNm6SqPth3IPyU9iRKNLFfKjTxhU2s7sWHd+w7Q
-	pS4Boed2QYOE7WitTlmdkXITOBbwOt1oeJG4Xy018KbQ0y8p1zyTCj4cNNkmKbQeKH5d
-	2E2ODi6/SuxrOtmhlzlVZr/x5C5FTWWJTTzrFv7Fr74RyNNUpb+yuHViKYnShFLhP/uj
-	5akZphQnRWK1auAFQiCZOvZyzf4bN/paW0+Bwv5bPXi8nrxWStCOA8QEXBk3gVLOK/DF
-	P2R9cJt3LY3XcRvgCeKr9JEpRW2sFH8mYRszpG2SF3aqeOkQK0McKs8l4FRuZB+31/B0
-	ubFg==
-X-Gm-Message-State: AN3rC/5iLDI4AYtidQp+SWGrhctz7dPDXWa0CS/OTTphdGPI7Gpz4asN
-	Gy/Ej9h2Iq61UfYAJ5o=
-X-Received: by 10.223.176.202 with SMTP id j10mr5292351wra.10.1492122689739;
-	Thu, 13 Apr 2017 15:31:29 -0700 (PDT)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id s82sm440460wmb.33.2017.04.13.15.31.28
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 13 Apr 2017 15:31:29 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 13 Apr 2017 23:31:27 +0100
-Message-Id: <1492122687-30687-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.8.1
-Subject: [PATCH] Revert "dnf: remove systemd units in nativesdk builds"
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=eUY7ef2k9wyJlrMja/61miXvROLAeb6ZBmE/HkGV9kU=;
+	b=lWHm2YxMYEVVXDUgvNDL/hGVaQj1Ws3ONZUXPDLH2CaX+f8yjmTDA8cJDI3gN6NGtT
+	bc8iLBjrDGnxWb0mALW+BvQ49t1YWvTW24TQYC8hmjyvBRyF40gAxjRol0K9B5XQoSrr
+	T2+S2+JJAQz5yA1Eg4We0Jdr1eDA9KdzfVccQT260H28HMMIh0GSSijmUkyTalHVBSd6
+	qJchM1EtkC5B+5Xw2bTf9mzK7WJHkDfP3XHPFlbnagHiXD/gCD1DWk0zZy9bNV0Abrud
+	irgtbRRgPOVi3p3MfcDaIvPkIm6TVQLH2ez/SItBKrfVIlPXRGS7Xk0eQKF0IzI1LCWo
+	L8ow==
+X-Gm-Message-State: AN3rC/6LgZfi57cjcDCEhP3IVe1cHQpWihk/MOGG9NaVrFCuNDGvi7bm
+	sWC7OhHWnPpYwGNwi/8xCe1lXVGhYsbG
+X-Received: by 10.237.34.250 with SMTP id q55mr4876320qtc.144.1492122844566;
+	Thu, 13 Apr 2017 15:34:04 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.22.166 with HTTP; Thu, 13 Apr 2017 15:33:44 -0700 (PDT)
+In-Reply-To: <CALbNGRRQevSS6-abd8NP-JCyD26kJ=XT8yd5RVR1nTa6jfL0jw@mail.gmail.com>
+References: <20170413154453.24792-1-schnitzeltony@googlemail.com>
+	<CABcZANnmLud2YgBd8nrNMzNrBGXULfhqs0rYg9YqTAi74T6kpw@mail.gmail.com>
+	<CA+chaQf+NQpGT9s8P8rgYShP0un+=A5BYRO1rY71whE5ZntSrw@mail.gmail.com>
+	<CALbNGRRoXXroY1_Kxc-2uunttn3dN+K4t68WWb1m0WwMvnrUBg@mail.gmail.com>
+	<CAJTo0La4Uf5VWhz0Ou7_MH2AYFnBPs2OObt-FAkKJuYhJE49KQ@mail.gmail.com>
+	<CALbNGRSe-WDecX=v+uj=PCnGe6hTTJ7J2MK4j3=ynF=mkbLZmA@mail.gmail.com>
+	<CAJ86T=VN2mDsMSA4O_AjB+6rg12-SPmh=Go6ZsjNu3cLpLxY7w@mail.gmail.com>
+	<CALbNGRRQevSS6-abd8NP-JCyD26kJ=XT8yd5RVR1nTa6jfL0jw@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 13 Apr 2017 23:33:44 +0100
+Message-ID: <CAJTo0LZMbPCs-g0PeLdJcNrj7B_O8CF82JvafTsHGJXPahghXw@mail.gmail.com>
+To: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] bitbake.conf: add unzip to HOSTTOOLS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,36 +62,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Apr 2017 22:31:29 -0000
+X-List-Received-Date: Thu, 13 Apr 2017 22:34:04 -0000
+Content-Type: multipart/alternative; boundary=001a113eea5a1cad8d054d13ec59
 
-nativesdk builds now control the DISTRO_FEATURES (oe-core 731744) so this
-workaround is no longer required.
+--001a113eea5a1cad8d054d13ec59
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-This reverts commit 415b72ffcbd26e5f3664370d8b2a9b8105fb6342.
+On 13 April 2017 at 22:09, Andreas M=C3=BCller <schnitzeltony@googlemail.co=
+m>
+wrote:
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-devtools/dnf/dnf_git.bb | 6 ------
- 1 file changed, 6 deletions(-)
+> > base.bbclass doesn't test for .7z extensions, so won't detect this
+> > dependency either.
+> >
+> Correct - but note that 7z extractor p7zip-native is not (yet) in oe-core=
+.
+>
 
-diff --git a/meta/recipes-devtools/dnf/dnf_git.bb b/meta/recipes-devtools/dnf/dnf_git.bb
-index 1194928..9f814fb 100644
---- a/meta/recipes-devtools/dnf/dnf_git.bb
-+++ b/meta/recipes-devtools/dnf/dnf_git.bb
-@@ -42,12 +42,6 @@ do_install_append_class-native() {
-                 RPM_NO_CHROOT_FOR_SCRIPTS=1
- }
- 
--# If the distro uses systemd then these won't be deleted by systemd.bbclass
--do_install_append_class-nativesdk() {
--    rm -rf ${D}/${systemd_unitdir}
--    rmdir --ignore-fail-on-non-empty ${D}${nonarch_base_libdir}
--}
--
- SYSTEMD_SERVICE_${PN} = "dnf-makecache.service dnf-makecache.timer \
-                          dnf-automatic-download.service dnf-automatic-download.timer \
-                          dnf-automatic-install.service dnf-automatic-install.timer \
--- 
-2.8.1
+There's plenty of prior for base.bbclass supporting extractors/fetchers
+that are not in oe-core, so a quick patch to fix this would be totally
+acceptable.
 
+Ross
 
+--001a113eea5a1cad8d054d13ec59
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 13 April 2017 at 22:09, Andreas M=C3=BCller <span dir=3D"ltr">&lt;<a hre=
+f=3D"mailto:schnitzeltony@googlemail.com" target=3D"_blank">schnitzeltony@g=
+ooglemail.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" st=
+yle=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><span=
+ class=3D"">&gt; base.bbclass doesn&#39;t test for .7z extensions, so won&#=
+39;t detect this<br>
+&gt; dependency either.<br>
+&gt;<br>
+</span>Correct - but note that 7z extractor p7zip-native is not (yet) in oe=
+-core.<br></blockquote><div><br></div><div>There&#39;s plenty of prior for =
+base.bbclass supporting extractors/fetchers that are not in oe-core, so a q=
+uick patch to fix this would be totally acceptable.</div><div><br></div><di=
+v>Ross=C2=A0</div></div><br></div></div>
+
+--001a113eea5a1cad8d054d13ec59--
