@@ -1,23 +1,23 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 07E0B771D7
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id DE39377D90
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Apr 2017 08:59:31 +0000 (UTC)
+	Thu, 13 Apr 2017 08:59:38 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v3D8xUfG019689
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v3D8xctO028639
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 13 Apr 2017 01:59:31 -0700 (PDT)
+	Thu, 13 Apr 2017 01:59:38 -0700 (PDT)
 Received: from [128.224.162.160] (128.224.162.160) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.40) with Microsoft SMTP Server id 14.3.294.0;
-	Thu, 13 Apr 2017 01:59:29 -0700
+	Thu, 13 Apr 2017 01:59:37 -0700
 To: Patrick Ohly <patrick.ohly@intel.com>
 References: <cover.1491902179.git.liezhi.yang@windriver.com>
 	<902f18e3b4520021f20feaf3522ba6a52cbc9031.1491902179.git.liezhi.yang@windriver.com>
 	<1492073188.27604.46.camel@intel.com>
 From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <9b2b9be1-26a3-0002-2ff0-8dfd91abaec8@windriver.com>
-Date: Thu, 13 Apr 2017 16:59:28 +0800
+Message-ID: <38c7721e-9d95-05cd-b1cd-72099a986560@windriver.com>
+Date: Thu, 13 Apr 2017 16:59:36 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
 	Thunderbird/45.2.0
 MIME-Version: 1.0
@@ -36,7 +36,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Apr 2017 08:59:32 -0000
+X-List-Received-Date: Thu, 13 Apr 2017 08:59:39 -0000
 Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 
@@ -92,8 +92,6 @@ qemuboot-intel.inc (from meta-intel): QB_DRIVE_TYPE ?= "/dev/vd"
 
 Then it would be vd, and if you set = /dev/hd in local.conf, the it would
 be /dev/hd.
-
-// Robert
 
 >
 >> +                elif self.get('QB_DRIVE_TYPE'):
