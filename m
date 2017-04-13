@@ -1,27 +1,53 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 5712E77A8A
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
+	by mail.openembedded.org (Postfix) with ESMTP id 1201D77D88
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Apr 2017 10:19:04 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	13 Apr 2017 03:19:06 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.37,194,1488873600"; d="scan'208";a="845420585"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by FMSMGA003.fm.intel.com with ESMTP; 13 Apr 2017 03:19:04 -0700
+	Thu, 13 Apr 2017 12:23:59 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bes.se.axis.com (Postfix) with ESMTP id E9C492E5A2
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 13 Apr 2017 14:23:59 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
+Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP id obyqS19AtNW8
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 13 Apr 2017 14:23:59 +0200 (CEST)
+Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
+	by bes.se.axis.com (Postfix) with ESMTPS id 35F962E2C2
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 13 Apr 2017 14:23:59 +0200 (CEST)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 20AEA1E082
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 13 Apr 2017 14:23:59 +0200 (CEST)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 15F7D1E081
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 13 Apr 2017 14:23:59 +0200 (CEST)
+Received: from seth.se.axis.com (unknown [10.0.2.172])
+	by boulder03.se.axis.com (Postfix) with ESMTP
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 13 Apr 2017 14:23:59 +0200 (CEST)
+Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
+	by seth.se.axis.com (Postfix) with ESMTP id 09FAE3206
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 13 Apr 2017 14:23:59 +0200 (CEST)
+Received: from saur-2.se.axis.com (localhost [127.0.0.1])
+	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id v3DCNwsx013623
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 13 Apr 2017 14:23:58 +0200
+Received: (from pkj@localhost)
+	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id v3DCNwmN013622
+	for openembedded-core@lists.openembedded.org;
+	Thu, 13 Apr 2017 14:23:58 +0200
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 To: openembedded-core@lists.openembedded.org
-References: <20170413083344.22737-1-dmitry.rozhkov@linux.intel.com>
-	<85c346c4-f6d6-c853-bfc5-0daa64ea2db8@linux.intel.com>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <e2a6b8d9-5c53-29c2-0ee2-810e83fefc86@linux.intel.com>
-Date: Thu, 13 Apr 2017 13:18:42 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.8.0
-MIME-Version: 1.0
-In-Reply-To: <85c346c4-f6d6-c853-bfc5-0daa64ea2db8@linux.intel.com>
-Subject: Re: [PATCH] python: make python2 and python3 alternatives to python
+Date: Thu, 13 Apr 2017 14:23:56 +0200
+Message-Id: <cover.1492086158.git.pkj@axis.com>
+X-Mailer: git-send-email 2.12.0
+X-TM-AS-GCONF: 00
+Subject: [PATCH 0/1] Do not use command in profile
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,29 +60,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Apr 2017 10:19:05 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 13 Apr 2017 12:24:00 -0000
 
-On 04/13/2017 01:15 PM, Alexander Kanavin wrote:
-> On 04/13/2017 11:33 AM, Dmitry Rozhkov wrote:
->> If only python3 is installed on an image nothing provides
->> /usr/bin/python even though many scripts compatible with
->> both python2 and python3 just state `#!/usr/bin/env python`
->> in their shebang line.
->>
->> Make python and python3 recipes provide alternatives for
->> /usr/bin/python and /usr/bin/python-config. By default
->> python2 has higher priority over python3.
->
-> This runs against upstream recommendation and common distro practice.
-> And it will break scripts that have not been ported to Python 3. Please
-> fix the scripts instead to refer to python 3 whenever possible.
+Since we apparently cannot rely on the command utility to always
+exist, it is better to avoid using it in the profile script. Rather
+than using command to detect if tty and resize exist (which obviously
+will not work if command itself does not exist), just call them
+directly while piping any output for stderr to /dev/null. This should
+actually be a little bit more efficient in the case that they do
+exist, and the same in the case that they do not exist.
 
-Also, if there are scripts on the image that refer to 'python', yet 
-python 2.7 is not installed into the image, that's a missing RDEPENDS in 
-the scripts recipe.
+I leave to you to decide whether you want to revert commit e41c90b852
+that enabled the command utility in busybox or not.
 
-Alex
+//Peter
+
+The following changes since commit fe47bff64b17562593c620d2daf748735bb5c3d6:
+
+  linux-yocto: Update genericx86* SRCREVs for linux-yocto 4.10 (2017-04-13 10:54:37 +0100)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib pkj/profile_without_command
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=pkj/profile_without_command
+
+Peter Kjellerstedt (1):
+  base-files: profile: Avoid using "command" to determine if programs
+    exist
+
+ meta/recipes-core/base-files/base-files/profile | 14 ++++++--------
+ 1 file changed, 6 insertions(+), 8 deletions(-)
+
+-- 
+2.12.0
 
 
