@@ -1,53 +1,57 @@
 Return-Path: <peter.kjellerstedt@axis.com>
 Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
-	by mail.openembedded.org (Postfix) with ESMTP id DE97477DFF
+	by mail.openembedded.org (Postfix) with ESMTP id D6DFF77DFF
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Apr 2017 12:30:06 +0000 (UTC)
+	Thu, 13 Apr 2017 12:35:30 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by bes.se.axis.com (Postfix) with ESMTP id 49A422E5C3
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Apr 2017 14:30:07 +0200 (CEST)
+	by bes.se.axis.com (Postfix) with ESMTP id 87F952E5D0;
+	Thu, 13 Apr 2017 14:35:31 +0200 (CEST)
 X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
 Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
 	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id kh2DCdduOQE8
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Apr 2017 14:30:05 +0200 (CEST)
-Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
-	by bes.se.axis.com (Postfix) with ESMTPS id 82A012E5B7
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Apr 2017 14:30:05 +0200 (CEST)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 6A7E31E089
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Apr 2017 14:30:05 +0200 (CEST)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 5F9851E083
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Apr 2017 14:30:05 +0200 (CEST)
-Received: from thoth.se.axis.com (unknown [10.0.2.173])
-	by boulder03.se.axis.com (Postfix) with ESMTP
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Apr 2017 14:30:05 +0200 (CEST)
-Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
-	by thoth.se.axis.com (Postfix) with ESMTP id 539FB32BB
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Apr 2017 14:30:05 +0200 (CEST)
-Received: from saur-2.se.axis.com (localhost [127.0.0.1])
-	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id v3DCU5vA016060
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Apr 2017 14:30:05 +0200
-Received: (from pkj@localhost)
-	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id v3DCU51H016059
-	for openembedded-core@lists.openembedded.org;
-	Thu, 13 Apr 2017 14:30:05 +0200
+	port 10024)
+	with LMTP id rMFn+lZrTZZR; Thu, 13 Apr 2017 14:35:30 +0200 (CEST)
+Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
+	by bes.se.axis.com (Postfix) with ESMTPS id 133142E5CF;
+	Thu, 13 Apr 2017 14:35:30 +0200 (CEST)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 031501A066;
+	Thu, 13 Apr 2017 14:35:30 +0200 (CEST)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id E9A9E1A064;
+	Thu, 13 Apr 2017 14:35:29 +0200 (CEST)
+Received: from seth.se.axis.com (unknown [10.0.2.172])
+	by boulder02.se.axis.com (Postfix) with ESMTP;
+	Thu, 13 Apr 2017 14:35:29 +0200 (CEST)
+Received: from XBOX03.axis.com (xbox03.axis.com [10.0.5.17])
+	by seth.se.axis.com (Postfix) with ESMTP id DDBD73210;
+	Thu, 13 Apr 2017 14:35:29 +0200 (CEST)
+Received: from XBOX02.axis.com (10.0.5.16) by XBOX03.axis.com (10.0.5.17) with
+	Microsoft SMTP Server (TLS) id 15.0.1210.3;
+	Thu, 13 Apr 2017 14:35:29 +0200
+Received: from XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776]) by
+	XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776%21]) with mapi id
+	15.00.1210.000; Thu, 13 Apr 2017 14:35:29 +0200
 From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 13 Apr 2017 14:30:03 +0200
-Message-Id: <cover.1492086566.git.pkj@axis.com>
-X-Mailer: git-send-email 2.12.0
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+Thread-Topic: [OE-core] [PATCH 3/3] devtool: extract: drop erroneous
+	bb.event.TaskSucceeded
+Thread-Index: AQHStFF2A1Pcgw4h8UOjkjSyjfNxQqHDO82Q
+Date: Thu, 13 Apr 2017 12:35:29 +0000
+Message-ID: <744e147709714db5841c35720c153b19@XBOX02.axis.com>
+References: <cover.1492086458.git.paul.eggleton@linux.intel.com>
+	<3542d868bf888db6595c211aaea6b49a398ba509.1492086458.git.paul.eggleton@linux.intel.com>
+In-Reply-To: <3542d868bf888db6595c211aaea6b49a398ba509.1492086458.git.paul.eggleton@linux.intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.60]
+MIME-Version: 1.0
 X-TM-AS-GCONF: 00
-Subject: [PATCHv2 0/1] Do not use command in profile
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 3/3] devtool: extract: drop erroneous	bb.event.TaskSucceeded
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,40 +64,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Apr 2017 12:30:07 -0000
+X-List-Received-Date: Thu, 13 Apr 2017 12:35:31 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-Since we apparently cannot rely on the command utility to always
-exist, it is better to avoid using it in the profile script. Rather
-than using command to detect if tty and resize exist (which obviously
-will not work if command itself does not exist), just call them
-directly while piping any output for stderr to /dev/null. This should
-actually be a little bit more efficient in the case that they do
-exist, and the same in the case that they do not exist.
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org
+> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
+> Paul Eggleton
+> Sent: den 13 april 2017 14:28
+> To: openembedded-core@lists.openembedded.org
+> Subject: [OE-core] [PATCH 3/3] devtool: extract: drop erroneous
+> bb.event.TaskSucceeded
 
-I leave to you to decide whether you want to revert commit e41c90b852
-that enabled the command utility in busybox or not.
+Correct "bb.event.TaskSucceeded" to "bb.event.TaskStarted" in the subject.
 
-PATCHv2: Correct a typo in the commit message
+> This is a non-existent event - we already have the actual
+> bb.build.TaskSucceeded further down in the list hence why it wasn't
+> noticed earlier.
+>=20
+> Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+> ---
+>  scripts/lib/devtool/standard.py | 1 -
+>  1 file changed, 1 deletion(-)
+>=20
+> diff --git a/scripts/lib/devtool/standard.py
+> b/scripts/lib/devtool/standard.py
+> index c3b65fb..5ff1e23 100644
+> --- a/scripts/lib/devtool/standard.py
+> +++ b/scripts/lib/devtool/standard.py
+> @@ -530,7 +530,6 @@ def _extract_source(srctree, keep_temp, devbranch,
+> sync, d, tinfoil):
+>=20
+>          tinfoil.set_event_mask(['bb.event.BuildStarted',
+>                                  'bb.event.BuildCompleted',
+> -                                'bb.event.TaskStarted',
+>                                  'logging.LogRecord',
+>                                  'bb.command.CommandCompleted',
+>                                  'bb.command.CommandFailed',
+> --
+> 2.9.3
 
 //Peter
-
-The following changes since commit fe47bff64b17562593c620d2daf748735bb5c3d6:
-
-  linux-yocto: Update genericx86* SRCREVs for linux-yocto 4.10 (2017-04-13 10:54:37 +0100)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib pkj/profile_without_command
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=pkj/profile_without_command
-
-Peter Kjellerstedt (1):
-  base-files: profile: Avoid using "command" to determine if programs
-    exist
-
- meta/recipes-core/base-files/base-files/profile | 14 ++++++--------
- 1 file changed, 6 insertions(+), 8 deletions(-)
-
--- 
-2.12.0
 
 
