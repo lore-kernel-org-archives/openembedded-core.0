@@ -1,47 +1,53 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-io0-f170.google.com (mail-io0-f170.google.com
-	[209.85.223.170])
-	by mail.openembedded.org (Postfix) with ESMTP id E84EF77BE1
+Return-Path: <schnitzeltony@googlemail.com>
+Received: from mail-ua0-f169.google.com (mail-ua0-f169.google.com
+	[209.85.217.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 32D4C77E76
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Apr 2017 20:32:58 +0000 (UTC)
-Received: by mail-io0-f170.google.com with SMTP id a103so94624912ioj.1
+	Thu, 13 Apr 2017 20:34:26 +0000 (UTC)
+Received: by mail-ua0-f169.google.com with SMTP id q26so39653767uaa.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Apr 2017 13:33:00 -0700 (PDT)
+	Thu, 13 Apr 2017 13:34:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id;
-	bh=NHOg9vbvH7WBFg2GgOubiI9yHKlPKcwrMd0oQJabFqI=;
-	b=E6u9Pbga6ErUFnCBn1M6OPmiAPFE6iga3HX/0lgG0a19bJKyUkl+FF1ok0sxLZb+rs
-	+x78j7uxA43fMZ3+WO8s5c+90/zlQoRcd5AE3NjilbrNBr10BledDq4fDZP+H7jXLzms
-	gO3YLnhpx8081irzM/X+VfuPhBvZgkwhIjpAo5DFQX4/e7XAYvg4bimFys6ijNipNRWy
-	heFTaLzJCrjPcfATBSqbqCKBsNpmBynJ6iK/QXkkJmPT0cI72B3cB87ozl5tiSdqoCBd
-	fYmVUj1cqOhK6kXX/fAqlWnX8ngre9kOpXkRK2dybVo4NBjWXEH915kWAMLomPQwK/IZ
-	iJdw==
+	d=googlemail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=HoeYNDD4O1ZOp574GfwdEMQvHkgswQQzHXKMzmniwJU=;
+	b=h4sNIgbQMhTffK/Am8swiXQYS6OXZnkC42+AOmW8wKq+NE0eXAmUvE6Id4Xo435Jas
+	rv3AtB6pRUSlaloVibbrvIC/8P7vO4Xosxbjo3EHbA7wK6HSC7acyY3D4aWwIoupgYL1
+	xZhdajrc2ZYxnNyZpiAsQECz2IxzrmasOdRlg18xM/GGl+KF4s4ry7+s+BI2UDSQ6DCc
+	mgU9dQ0RSCFTcZ6NuHQxv7cre3kCzODRg3uCQNSbqqmmyQXMfm3Ba4qbHbtwqulYaD09
+	+gcyCobMeN4KKIHySjJ8nFjscT346iqfoFxSfQcA+wzz/JPz5fdLAsJ26o588sdfgMHz
+	r6mA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=NHOg9vbvH7WBFg2GgOubiI9yHKlPKcwrMd0oQJabFqI=;
-	b=TdeGRYJVRqZ6blUBeVtvQSxbbZHkWPOpN7YUYkUA3O+uvotHznBIMX+eyR/Zrf2g7C
-	RrU0mnEasUiDyIoEebJKuImY/j2ZNHuNE/bC6Qs+4sxoU6IJSB2AyERemtrwzkkdCZOE
-	oFtouyUpEJrLpvbNuqLlkealqPrgkf58ZFbtEQsrthNLtD0/+3DEPstW3PrcTOX5sghC
-	zYrcULI7G2Kizh9hMk0q0lojG8vLEWR56lyN0m69PYzNJiu3j5iIvd4xrB72iCG+HerH
-	nm2IrSIWP28dOPMULiV5K6xDz2pvb/usmiwL83QHPQ3Px5HPDG00Ow2U5rhWij45hvIr
-	Yq5Q==
-X-Gm-Message-State: AN3rC/69ZHFF4I0jXb3K5v8k9gJTjP18MS/csiNYykwI6zryLmdnsJDl
-	rRwRZ/0LzDMMWfXQ
-X-Received: by 10.107.140.10 with SMTP id o10mr6342426iod.139.1492115579683;
-	Thu, 13 Apr 2017 13:32:59 -0700 (PDT)
-Received: from pohly-desktop.fritz.box (p5DE8C73A.dip0.t-ipconnect.de.
-	[93.232.199.58])
-	by smtp.gmail.com with ESMTPSA id h71sm78194ioe.9.2017.04.13.13.32.57
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 13 Apr 2017 13:32:58 -0700 (PDT)
-From: Patrick Ohly <patrick.ohly@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 13 Apr 2017 22:32:51 +0200
-Message-Id: <20170413203251.1915-1-patrick.ohly@intel.com>
-X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] runqemu: support virtio drive type
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=HoeYNDD4O1ZOp574GfwdEMQvHkgswQQzHXKMzmniwJU=;
+	b=OPG3g58NC0dfy8sk0nL9aDh2PojpaVHDlsFlvm/NoWHF05L1f8DLy4ca1CTVqgG8vf
+	bKvj0t1CkbdC4zIsxnhWe+9Jm+HgkF/XAyItkTEvV610+NemUGFx3yY2sckhZxM6a0zw
+	HH1qi4uGijR01XSek5mbqBy8Bjzi8wE0Cz7hM7X/20G6NBVP+BHy/YtP1K8CatHKr0Vj
+	0LHFCA4AhlC16JE+ZSOn/enhAqGByxn7RWZcwujFsz6JR3AQQ4sGjoaSogayLsDUYo5X
+	3SV5cIqnIsiGxck/ygaLfyil6furtSNRey/FYYQtaz1nAyEQ5FcAdv/rDzJR/NpgiXIO
+	uuEQ==
+X-Gm-Message-State: AN3rC/5BTWGO9iM+dxZkfgazReV9tIC0uqqI100vNfiFAYebS3fjhU/x
+	E+z4vrpfUJSvHpoJd7uxpDyWKbuQXg==
+X-Received: by 10.176.25.18 with SMTP id v18mr2312178uag.81.1492115667670;
+	Thu, 13 Apr 2017 13:34:27 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.176.81.53 with HTTP; Thu, 13 Apr 2017 13:34:27 -0700 (PDT)
+In-Reply-To: <CAJTo0La4Uf5VWhz0Ou7_MH2AYFnBPs2OObt-FAkKJuYhJE49KQ@mail.gmail.com>
+References: <20170413154453.24792-1-schnitzeltony@googlemail.com>
+	<CABcZANnmLud2YgBd8nrNMzNrBGXULfhqs0rYg9YqTAi74T6kpw@mail.gmail.com>
+	<CA+chaQf+NQpGT9s8P8rgYShP0un+=A5BYRO1rY71whE5ZntSrw@mail.gmail.com>
+	<CALbNGRRoXXroY1_Kxc-2uunttn3dN+K4t68WWb1m0WwMvnrUBg@mail.gmail.com>
+	<CAJTo0La4Uf5VWhz0Ou7_MH2AYFnBPs2OObt-FAkKJuYhJE49KQ@mail.gmail.com>
+From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
+Date: Thu, 13 Apr 2017 22:34:27 +0200
+Message-ID: <CALbNGRSe-WDecX=v+uj=PCnGe6hTTJ7J2MK4j3=ynF=mkbLZmA@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] bitbake.conf: add unzip to HOSTTOOLS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,45 +60,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Apr 2017 20:32:59 -0000
+X-List-Received-Date: Thu, 13 Apr 2017 20:34:27 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Setting QB_DRIVE_TYPE=/dev/vd selects virtio without triggering any
-warnings. Previously, that was only possible by setting an unknown
-value and relying on the fallback to virtio, which caused some
-warnings to be printed.
+On Thu, Apr 13, 2017 at 5:57 PM, Burton, Ross <ross.burton@intel.com> wrote=
+:
+>
+> On 13 April 2017 at 16:53, Andreas M=C3=BCller <schnitzeltony@googlemail.=
+com>
+> wrote:
+>>
+>> OK - but why do I see this error in do_unpack?
+>
+>
+> What recipe and task?
+>
+> Ross
+>
+It is not that simple and it drives me mad (as usual :)
 
-Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
----
- scripts/runqemu | 15 +++++++++------
- 1 file changed, 9 insertions(+), 6 deletions(-)
+Failing recipes were [1-2]. They failed in task (do_)unpack.
 
-diff --git a/scripts/runqemu b/scripts/runqemu
-index 5b5d56b9ef4..a536ff17c07 100755
---- a/scripts/runqemu
-+++ b/scripts/runqemu
-@@ -992,12 +992,15 @@ class BaseConfig(object):
-                         logger.info('Using ide drive')
-                         vm_drive = "%s,format=%s" % (self.rootfs, rootfs_format)
-                     else:
--                        logger.warn("Unknown QB_DRIVE_TYPE: %s" % drive_type)
--
--                if not vm_drive:
--                    logger.warn("Failed to figure out drive type, consider define or fix QB_DRIVE_TYPE")
--                    logger.warn('Trying to use virtio block drive')
--                    vm_drive = '-drive if=virtio,file=%s,format=%s' % (self.rootfs, rootfs_format)
-+                        # virtio might have been selected explicitly (just use it), or
-+                        # is used as fallback (then warn about that).
-+                        if not drive_type.startswith("/dev/vd"):
-+                            logger.warn("Unknown QB_DRIVE_TYPE: %s" % drive_type)
-+                            logger.warn("Failed to figure out drive type, consider define or fix QB_DRIVE_TYPE")
-+                            logger.warn('Trying to use virtio block drive')
-+                        vm_drive = '-drive if=virtio,file=%s,format=%s' % (self.rootfs, rootfs_format)
-+
-+                # All branches above set vm_drive.
-                 self.rootfs_options = '%s -no-reboot' % vm_drive
-             self.kernel_cmdline = 'root=%s rw highres=off' % (self.get('QB_KERNEL_ROOT'))
- 
--- 
-2.11.0
+For unknown reasons case [1] (polyphone) works fine now. OK - I pulled
+oe-core again (40 commits) - this is what I usually do when things
+fail but I cannot see what commit has mended the issue for case [1].
 
+Case [2] could be fixed by
+do_unpack[depends] +=3D "p7zip-native:do_populate_sysroot"
+
+So I hope my do_unpack trouble is gone. Thanks for taking care and
+ignore the patch I sent.
+
+Andreas
+
+[1] https://github.com/schnitzeltony/meta-qt5-extra/blob/master/recipes-mis=
+c/recipes-multimedia/polyphone/polyphone_1.8.bb
+[2] https://github.com/schnitzeltony/meta-retro/blob/master/recipes-games/d=
+xx-rebirth/d1x-rebirth_v0.58.1.bb
 
