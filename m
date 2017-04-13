@@ -1,48 +1,52 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qt0-f182.google.com (mail-qt0-f182.google.com
-	[209.85.216.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 2425577E44
+Return-Path: <schnitzeltony@googlemail.com>
+Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 28BBE77E4E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Apr 2017 14:48:01 +0000 (UTC)
-Received: by mail-qt0-f182.google.com with SMTP id n46so47523466qta.2
+	Thu, 13 Apr 2017 15:45:27 +0000 (UTC)
+Received: by mail-wm0-f65.google.com with SMTP id d79so13315774wmi.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Apr 2017 07:48:03 -0700 (PDT)
+	Thu, 13 Apr 2017 08:45:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=eLTMJZ0N2OGi1VLCRHRK0jPa9zu3G4Qfz2uXd4aKKjo=;
-	b=d9pp5WqF2ItMxNGEIfOtqiHjHUNQ4veG+xQVWngJhjvldEd6xLqiEwexM4sOwnFSFg
-	IorweqGvY6MfnGfBNjfMr2ewKKcrTE8Zalh2v1PHq8duCgWqxRvKOwsFWdITOeGgzA3t
-	KlR9cwym0SZhIt7UhA5zAbDI84e9PIqY0eYBivxpfV/uAvOt8gj2vTnkG/C4wWc3E2I7
-	CNcH/8Noc0owxGZUsgKt15LgKJlDWIRgwDy4yb/AzJXm6UQ2pYF7OmSuJK/JTtyPV6QJ
-	tIsTnMkf54WkY+ID+pMmG/JRfUjzdXTu+MWKaGi1DBnIOfqAcv8nvoac8UVle1Ki4Wk2
-	7X+A==
+	d=googlemail.com; s=20161025;
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=p44W75BTECCD+ZA/+uxJXoeRdmGaUfejML2F4rltrYE=;
+	b=J433SkMchXgrHJAxjzyoSwdWiWfsod6hMC1PD3ezyUjmIU0TvfGHVKkXmrQu0xgOQD
+	WEVGCc88xKQROqZhS+MHsxWh1Y0Ys3YMryDsTm4vhh06ojQDJp5d8a0xL6wkVFAUEJKG
+	tH4qy0SIOuwxbx6wzAcM4ENp8IFsRUXRKxsWHIo3KcboLW7pEyBU4GX6S2jACAzmIrHS
+	vl7JhcEZ0sOkImAwk3fG101SwE+81Kaylql9r1bENDG9/R8Qqi98Uy4QnUf1CNnJtV6I
+	URl6a46WCHXlz+Semoq9kWuEopJM9fkXY7e9M4CzP7oPJuy5X+yvoUZxefDK6rxaBpkW
+	Mq1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=eLTMJZ0N2OGi1VLCRHRK0jPa9zu3G4Qfz2uXd4aKKjo=;
-	b=GAI1uWtSJ4afHJT5eIa32awGF3uSuG8WgI2qKHJt1I6xrEK3v0kbuXyYsPP9vIl+co
-	f6nHhl5ETZn2aC/xM9gOoSsacB2DIQavwfij9kJJylo1vWFZ8j7RQkwnqvSq7uvW1L/u
-	C/7Bc5mZiSgYhufMRnIdRZCZuI0BfbjjefJufKzXMexu759wchylk+quuBZWNufLeRX+
-	l/W/U7wcBRnojhqFZw4Tl8y9NRdrvvsF9YoDiovvnxGs4waToryAJBMgJloJFBCVbvnT
-	vBz9gm2laZNZxVbNA5571ICd2ruvrB0yJ8I1BgQQETTGDqjqZnCexuBhx3EYzy3477Q/
-	avQg==
-X-Gm-Message-State: AN3rC/5fi5L55vmicE3gXReVa2MtCFWw9Za+TRG6BUkD2wjFSwYqy9rE
-	FCw6pK7M05wXyQlb5wY8k9v0l1y/kZrZ
-X-Received: by 10.200.3.105 with SMTP id w41mr2794357qtg.188.1492094882918;
-	Thu, 13 Apr 2017 07:48:02 -0700 (PDT)
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=p44W75BTECCD+ZA/+uxJXoeRdmGaUfejML2F4rltrYE=;
+	b=sh+0FB7L9H+wU+0b4WGdl8o0AnEbOHXa1eHYUBkM90o1E4cVD4ALH9vGB+BLhsr0vf
+	etiM1EdOQzz9FRRAWek+NR4XCCkU9vgWxVO7QixwxJVlczYMGexXYjFwyk/5lnkTciha
+	O5IzB/iZ0PE43FmZzlqehJqoHLRqLboep4UzzYIBZrNGP/la/kZD9tNb4ZB1RV5CYLrg
+	2mqJ4gS6WtrA58E9j0A7PrNotD7fVnqETqbslvfZ9qnx0uLPptum7eiFSyOAG9U5J3nD
+	a5M9Mus/yxsfk9BhwpTg/ehxg2Y74InTFEccyLO0AKPA03Vh2qAlYzFdpXSn5MAGb2x4
+	IvKA==
+X-Gm-Message-State: AN3rC/4Qf4OebiPkTomanytU0Bw4KLG81uogeVEkdw1VpacwFjn7Qw5c
+	flMCDXeOODusVsYH
+X-Received: by 10.28.198.10 with SMTP id w10mr3828060wmf.1.1492098328401;
+	Thu, 13 Apr 2017 08:45:28 -0700 (PDT)
+Received: from PC192-168-2-116.speedport.ip
+	(p20030046E911F1051E6F65FFFE3E7F61.dip0.t-ipconnect.de.
+	[2003:46:e911:f105:1e6f:65ff:fe3e:7f61])
+	by smtp.googlemail.com with ESMTPSA id
+	w52sm30049522wrc.14.2017.04.13.08.45.27
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 13 Apr 2017 08:45:27 -0700 (PDT)
+From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@googlemail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 13 Apr 2017 17:44:53 +0200
+Message-Id: <20170413154453.24792-1-schnitzeltony@googlemail.com>
+X-Mailer: git-send-email 2.9.3
 MIME-Version: 1.0
-Received: by 10.140.22.166 with HTTP; Thu, 13 Apr 2017 07:47:42 -0700 (PDT)
-In-Reply-To: <85c346c4-f6d6-c853-bfc5-0daa64ea2db8@linux.intel.com>
-References: <20170413083344.22737-1-dmitry.rozhkov@linux.intel.com>
-	<85c346c4-f6d6-c853-bfc5-0daa64ea2db8@linux.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 13 Apr 2017 15:47:42 +0100
-Message-ID: <CAJTo0LYA8nsexqtfwz4bbOYA1HtnRDxCcKGZE8Jz+m+=tOcTdA@mail.gmail.com>
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] python: make python2 and python3 alternatives to python
+Subject: [PATCH] bitbake.conf: add unzip to HOSTTOOLS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,40 +59,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Apr 2017 14:48:02 -0000
-Content-Type: multipart/alternative; boundary=f4030435cf5877c54a054d0d693b
-
---f4030435cf5877c54a054d0d693b
+X-List-Received-Date: Thu, 13 Apr 2017 15:45:30 -0000
 Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On 13 April 2017 at 11:15, Alexander Kanavin <
-alexander.kanavin@linux.intel.com> wrote:
+fixes do_unpack for *.zip-files:
 
-> This runs against upstream recommendation and common distro practice. And
-> it will break scripts that have not been ported to Python 3. Please fix the
-> scripts instead to refer to python 3 whenever possible.
->
+| /bin/sh: unzip: command not found
 
-Agreed.  If a script uses /usr/bin/python and gets py3, 99% of the time
-you'll get errors.
+Signed-off-by: Andreas Müller <schnitzeltony@googlemail.com>
+---
+ meta/conf/bitbake.conf | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Ross
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index af3937a..1ea0dea 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -461,7 +461,7 @@ HOSTTOOLS += " \
+     mktemp mv nm objcopy objdump od patch perl pod2man printf pwd python \
+     python2.7 python3 ranlib readelf readlink rm rmdir rpcgen sed sh sleep \
+     sort split stat strings strip tail tar tee test touch tr true uname uniq \
+-    wc wget which xargs \
++    unzip wc wget which xargs \
+ "
+ 
+ # Tools needed to run testimage runtime image testing
+-- 
+2.9.3
 
---f4030435cf5877c54a054d0d693b
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 13 April 2017 at 11:15, Alexander Kanavin <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:alexander.kanavin@linux.intel.com" target=3D"_blank">alexander.k=
-anavin@linux.intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_=
-quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1=
-ex"><div id=3D":5tq" class=3D"a3s aXjCH m15b66d0a9c7997f2">This runs agains=
-t upstream recommendation and common distro practice. And it will break scr=
-ipts that have not been ported to Python 3. Please fix the scripts instead =
-to refer to python 3 whenever possible.<br></div></blockquote></div><br>Agr=
-eed.=C2=A0 If a script uses /usr/bin/python and gets py3, 99% of the time y=
-ou&#39;ll get errors.</div><div class=3D"gmail_extra"><br></div><div class=
-=3D"gmail_extra">Ross</div></div>
-
---f4030435cf5877c54a054d0d693b--
