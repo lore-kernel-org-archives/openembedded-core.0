@@ -1,55 +1,53 @@
 Return-Path: <peter.kjellerstedt@axis.com>
 Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
-	by mail.openembedded.org (Postfix) with ESMTP id DD9CD77D90
+	by mail.openembedded.org (Postfix) with ESMTP id DE97477DFF
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 13 Apr 2017 12:30:06 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by bes.se.axis.com (Postfix) with ESMTP id 52C6C2E5C1
+	by bes.se.axis.com (Postfix) with ESMTP id 49A422E5C3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Apr 2017 14:30:06 +0200 (CEST)
+	Thu, 13 Apr 2017 14:30:07 +0200 (CEST)
 X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
 Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
 	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id tA56Pgzx9Qok
+	port 10024) with LMTP id kh2DCdduOQE8
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 13 Apr 2017 14:30:05 +0200 (CEST)
 Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
-	by bes.se.axis.com (Postfix) with ESMTPS id 9A8F32E5C0
+	by bes.se.axis.com (Postfix) with ESMTPS id 82A012E5B7
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 13 Apr 2017 14:30:05 +0200 (CEST)
 Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 859951E08A
+	by IMSVA (Postfix) with ESMTP id 6A7E31E089
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 13 Apr 2017 14:30:05 +0200 (CEST)
 Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 7B06B1E083
+	by IMSVA (Postfix) with ESMTP id 5F9851E083
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 13 Apr 2017 14:30:05 +0200 (CEST)
-Received: from seth.se.axis.com (unknown [10.0.2.172])
+Received: from thoth.se.axis.com (unknown [10.0.2.173])
 	by boulder03.se.axis.com (Postfix) with ESMTP
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 13 Apr 2017 14:30:05 +0200 (CEST)
 Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
-	by seth.se.axis.com (Postfix) with ESMTP id 6F36A320D
+	by thoth.se.axis.com (Postfix) with ESMTP id 539FB32BB
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 13 Apr 2017 14:30:05 +0200 (CEST)
 Received: from saur-2.se.axis.com (localhost [127.0.0.1])
-	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id v3DCU5ip016073
+	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id v3DCU5vA016060
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 13 Apr 2017 14:30:05 +0200
 Received: (from pkj@localhost)
-	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id v3DCU5dG016066
+	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id v3DCU51H016059
 	for openembedded-core@lists.openembedded.org;
 	Thu, 13 Apr 2017 14:30:05 +0200
 From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 13 Apr 2017 14:30:04 +0200
-Message-Id: <0991deba9e90e3c32f8566fdfc758cb88790bde4.1492086566.git.pkj@axis.com>
+Date: Thu, 13 Apr 2017 14:30:03 +0200
+Message-Id: <cover.1492086566.git.pkj@axis.com>
 X-Mailer: git-send-email 2.12.0
-In-Reply-To: <cover.1492086566.git.pkj@axis.com>
-References: <cover.1492086566.git.pkj@axis.com>
 X-TM-AS-GCONF: 00
-Subject: [PATCHv2 1/1] base-files: profile: Avoid using "command" to determine if programs exist
+Subject: [PATCHv2 0/1] Do not use command in profile
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,41 +62,37 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 13 Apr 2017 12:30:07 -0000
 
-Since the existence of "command" in itself is not guaranteed, using it
-to determine if other executables exist is moot. Instead just run the
-executables and let the shell determine if they exist. By piping stderr
-to /dev/null we avoid unnecessary warnings in case they do not exist.
+Since we apparently cannot rely on the command utility to always
+exist, it is better to avoid using it in the profile script. Rather
+than using command to detect if tty and resize exist (which obviously
+will not work if command itself does not exist), just call them
+directly while piping any output for stderr to /dev/null. This should
+actually be a little bit more efficient in the case that they do
+exist, and the same in the case that they do not exist.
 
-Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
----
+I leave to you to decide whether you want to revert commit e41c90b852
+that enabled the command utility in busybox or not.
+
+PATCHv2: Correct a typo in the commit message
+
+//Peter
+
+The following changes since commit fe47bff64b17562593c620d2daf748735bb5c3d6:
+
+  linux-yocto: Update genericx86* SRCREVs for linux-yocto 4.10 (2017-04-13 10:54:37 +0100)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib pkj/profile_without_command
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=pkj/profile_without_command
+
+Peter Kjellerstedt (1):
+  base-files: profile: Avoid using "command" to determine if programs
+    exist
+
  meta/recipes-core/base-files/base-files/profile | 14 ++++++--------
  1 file changed, 6 insertions(+), 8 deletions(-)
 
-diff --git a/meta/recipes-core/base-files/base-files/profile b/meta/recipes-core/base-files/base-files/profile
-index ceaf15f799..e05c8840db 100644
---- a/meta/recipes-core/base-files/base-files/profile
-+++ b/meta/recipes-core/base-files/base-files/profile
-@@ -22,14 +22,12 @@ if [ -d /etc/profile.d ]; then
- 	unset i
- fi
- 
--if command -v resize >/dev/null && command -v tty >/dev/null; then
--	# Make sure we are on a serial console (i.e. the device used starts with
--	# /dev/tty[A-z]), otherwise we confuse e.g. the eclipse launcher which
--	# tries do use ssh
--	case $(tty) in
--		/dev/tty[A-z]*) resize >/dev/null;;
--	esac
--fi
-+# Make sure we are on a serial console (i.e. the device used starts with
-+# /dev/tty[A-z]), otherwise we confuse e.g. the eclipse launcher which tries do
-+# use ssh
-+case $(tty 2>/dev/null) in
-+	/dev/tty[A-z]*) resize >/dev/null 2>&1;;
-+esac
- 
- export PATH PS1 OPIEDIR QPEDIR QTDIR EDITOR TERM
- 
 -- 
 2.12.0
 
