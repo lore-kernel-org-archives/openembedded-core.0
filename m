@@ -1,24 +1,24 @@
 Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id C116077E20
+	by mail.openembedded.org (Postfix) with ESMTP id CCCD177E25
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Apr 2017 12:28:11 +0000 (UTC)
+	Thu, 13 Apr 2017 12:28:13 +0000 (UTC)
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
 	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	13 Apr 2017 05:28:13 -0700
+	13 Apr 2017 05:28:15 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.37,194,1488873600"; d="scan'208";a="845454153"
+X-IronPort-AV: E=Sophos;i="5.37,194,1488873600"; d="scan'208";a="845454157"
 Received: from tranm-mobl.ccr.corp.intel.com (HELO
 	peggleto-mobl.ger.corp.intel.com.fritz.box) ([10.255.175.125])
-	by FMSMGA003.fm.intel.com with ESMTP; 13 Apr 2017 05:28:11 -0700
+	by FMSMGA003.fm.intel.com with ESMTP; 13 Apr 2017 05:28:13 -0700
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 14 Apr 2017 00:28:04 +1200
-Message-Id: <3003597a57f08ebc6bdf443a405734f5dd33f280.1492086458.git.paul.eggleton@linux.intel.com>
+Date: Fri, 14 Apr 2017 00:28:05 +1200
+Message-Id: <0a1164ab1a1cb70e38d6211f71f446353de630dd.1492086458.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 2.9.3
 In-Reply-To: <cover.1492086458.git.paul.eggleton@linux.intel.com>
 References: <cover.1492086458.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 1/3] devtool: modify: add --keep-temp option for debugging
+Subject: [PATCH 2/3] devtool: extract: fix handling of failed tasks
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,39 +31,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Apr 2017 12:28:12 -0000
+X-List-Received-Date: Thu, 13 Apr 2017 12:28:14 -0000
 
-Most of the other extract-based commands have this option but oddly I
-left it out for modify - I guess because if I was debugging an issue here
-I just used devtool extract to do so, but there's no reason why we can't
-have it here and it is useful.
+If a task such as do_fetch fails when we're extracting source for a
+recipe (within devtool modify / upgrade / extract / sync) then we should
+naturally stop processing instead of blundering on; in order to do that
+we need to be listening for the TaskFailed event. Thanks to Richard
+Purdie for noticing and fixing this.
 
 Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 ---
- scripts/lib/devtool/standard.py | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ scripts/lib/devtool/standard.py | 3 +++
+ 1 file changed, 3 insertions(+)
 
 diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard.py
-index 1e84ae4..34525b4 100644
+index 34525b4..c3b65fb 100644
 --- a/scripts/lib/devtool/standard.py
 +++ b/scripts/lib/devtool/standard.py
-@@ -791,7 +791,7 @@ def modify(args, config, basepath, workspace):
-         initial_rev = None
-         commits = []
-         if not args.no_extract:
--            initial_rev = _extract_source(srctree, False, args.branch, False, rd, tinfoil)
-+            initial_rev = _extract_source(srctree, args.keep_temp, args.branch, False, rd, tinfoil)
-             if not initial_rev:
-                 return 1
-             logger.info('Source tree extracted to %s' % srctree)
-@@ -1851,6 +1851,7 @@ def register_commands(subparsers, context):
-     group.add_argument('--same-dir', '-s', help='Build in same directory as source', action="store_true")
-     group.add_argument('--no-same-dir', help='Force build in a separate build directory', action="store_true")
-     parser_modify.add_argument('--branch', '-b', default="devtool", help='Name for development branch to checkout (when not using -n/--no-extract) (default "%(default)s")')
-+    parser_modify.add_argument('--keep-temp', help='Keep temporary directory (for debugging)', action="store_true")
-     parser_modify.set_defaults(func=modify)
+@@ -536,6 +536,7 @@ def _extract_source(srctree, keep_temp, devbranch, sync, d, tinfoil):
+                                 'bb.command.CommandFailed',
+                                 'bb.build.TaskStarted',
+                                 'bb.build.TaskSucceeded',
++                                'bb.build.TaskFailed',
+                                 'bb.build.TaskFailedSilent'])
  
-     parser_extract = subparsers.add_parser('extract', help='Extract the source for an existing recipe',
+         def runtask(target, task):
+@@ -547,6 +548,8 @@ def _extract_source(srctree, keep_temp, devbranch, sync, d, tinfoil):
+                             break
+                         elif isinstance(event, bb.command.CommandFailed):
+                             raise DevtoolError('Task do_%s failed: %s' % (task, event.error))
++                        elif isinstance(event, bb.build.TaskFailed):
++                            raise DevtoolError('Task do_%s failed' % task)
+                         elif isinstance(event, bb.build.TaskStarted):
+                             logger.info('Executing %s...' % event._task)
+                         elif isinstance(event, logging.LogRecord):
 -- 
 2.9.3
 
