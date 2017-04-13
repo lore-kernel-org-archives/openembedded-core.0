@@ -1,53 +1,27 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-io0-f175.google.com (mail-io0-f175.google.com
-	[209.85.223.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 8B76277CD4
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 07E0B771D7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Apr 2017 08:46:32 +0000 (UTC)
-Received: by mail-io0-f175.google.com with SMTP id l7so70587978ioe.3
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Apr 2017 01:46:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:organization:mime-version:content-transfer-encoding;
-	bh=Q+uLpTCFew4R2Mxa7vRrc+9lDB1P/noI27Z3RqxRh04=;
-	b=0cLsnBcwTdWd59pC40mzj4ZLka/pmf5V3y/E7yY5MJfc7/DBaxACefo0vLzBF6tXLE
-	Z62pWEyyLBWK0CQEU7i3SJko6VscBZAdpLJvM40toAbixSV8wjfkqR7yagd1+ILC/nA9
-	/j9NhnJpwagqFVstIXpCyRbEP562vJvDdHEc5QNkTDf3IBdTj98/UPS41z7QU8EnItEg
-	PURGZZRitIl32WPO/b1sXSskRGfjsI6PJEqPgTJVL2MtJa/5QX8TTWD9yId9FLeas1vZ
-	HWNZmXmK/thmTXCy1Za9IVoE+BAF/fEyPBO1l3R3+Ah9z3kdUt6CZmLzhWHEY7O5saWh
-	w3Rw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:organization:mime-version:content-transfer-encoding;
-	bh=Q+uLpTCFew4R2Mxa7vRrc+9lDB1P/noI27Z3RqxRh04=;
-	b=Agod+cdngI7u9Z+y8DycpHIYkK0pVRF89ISwMdmVRFApK2o8B7vSchpGia6eJWoA7u
-	S/+4INmHsS8XaZ8w0Zl0ghrk3Snp7ShplcBC75dP1t7k0lx5x6/M+uCtNKAtyEuSaU/m
-	2eEF2AZjRpL4ZjMuW8Jt3Xqh+UEq4gzd8n6F1diwQ1/eLnY7DEy1WlWIB2UzieZn9BeT
-	jxcZIRH84n2Vq7IvoGOHreIj37Ht2+iHChBQQwxQH35UNdu2lH64Nt1tvyDOsrZn2lbR
-	TeT9SijXw9DhnXmA1G0qroWImYqPcz7PyiaNhOcWlg+3+W6tdhFl3Jwl62hezXNUwmYu
-	g9wA==
-X-Gm-Message-State: AN3rC/44yDieZqKQZGkxAxjXU3jU5A6KeppKhBOJjw2a/45WHK4Rfl5k
-	8EYss0XQ+5NMTk6d
-X-Received: by 10.107.153.9 with SMTP id b9mr2388153ioe.200.1492073193396;
-	Thu, 13 Apr 2017 01:46:33 -0700 (PDT)
-Received: from pohly-mobl1 (p5DE8C73A.dip0.t-ipconnect.de. [93.232.199.58])
-	by smtp.gmail.com with ESMTPSA id
-	j130sm9463034ioj.19.2017.04.13.01.46.30
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 13 Apr 2017 01:46:32 -0700 (PDT)
-Message-ID: <1492073188.27604.46.camel@intel.com>
-From: Patrick Ohly <patrick.ohly@intel.com>
-To: Robert Yang <liezhi.yang@windriver.com>
-Date: Thu, 13 Apr 2017 10:46:28 +0200
-In-Reply-To: <902f18e3b4520021f20feaf3522ba6a52cbc9031.1491902179.git.liezhi.yang@windriver.com>
+	Thu, 13 Apr 2017 08:59:31 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v3D8xUfG019689
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 13 Apr 2017 01:59:31 -0700 (PDT)
+Received: from [128.224.162.160] (128.224.162.160) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.294.0;
+	Thu, 13 Apr 2017 01:59:29 -0700
+To: Patrick Ohly <patrick.ohly@intel.com>
 References: <cover.1491902179.git.liezhi.yang@windriver.com>
 	<902f18e3b4520021f20feaf3522ba6a52cbc9031.1491902179.git.liezhi.yang@windriver.com>
-Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
-X-Mailer: Evolution 3.12.9-1+b1 
-Mime-Version: 1.0
+	<1492073188.27604.46.camel@intel.com>
+From: Robert Yang <liezhi.yang@windriver.com>
+Message-ID: <9b2b9be1-26a3-0002-2ff0-8dfd91abaec8@windriver.com>
+Date: Thu, 13 Apr 2017 16:59:28 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.2.0
+MIME-Version: 1.0
+In-Reply-To: <1492073188.27604.46.camel@intel.com>
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH 4/7] runqemu: do not rely on grepping images
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -62,85 +36,95 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Apr 2017 08:46:32 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 13 Apr 2017 08:59:32 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Tue, 2017-04-11 at 02:21 -0700, Robert Yang wrote:
-> Fixed when the image is large and not enough memory:
->   grep: memory exhausted
->   Aborted
-> 
-> [YOCTO #11073]
-> 
-> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-> ---
->  meta/classes/qemuboot.bbclass |  3 +++
->  scripts/runqemu               | 19 +++++++++++--------
->  2 files changed, 14 insertions(+), 8 deletions(-)
-> 
-> diff --git a/meta/classes/qemuboot.bbclass b/meta/classes/qemuboot.bbclass
-> index 3ca97cad4c..2870388dfb 100644
-> --- a/meta/classes/qemuboot.bbclass
-> +++ b/meta/classes/qemuboot.bbclass
-> @@ -64,6 +64,9 @@ QB_DEFAULT_FSTYPE ?= "ext4"
->  QB_OPT_APPEND ?= "-show-cursor"
->  QB_NETWORK_DEVICE ?= "-device virtio-net-pci,netdev=net0,mac=@MAC@"
->  
-> +# This should be kept align with ROOT_VM
-> +QB_DRIVE_TYPE ?= "/dev/sd"
+Hi Patrick,
 
-Now that I am faced with the problem of selecting virtio I'm starting to
-wonder how to do that.
+On 04/13/2017 04:46 PM, Patrick Ohly wrote:
+> On Tue, 2017-04-11 at 02:21 -0700, Robert Yang wrote:
+>> Fixed when the image is large and not enough memory:
+>>   grep: memory exhausted
+>>   Aborted
+>>
+>> [YOCTO #11073]
+>>
+>> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+>> ---
+>>  meta/classes/qemuboot.bbclass |  3 +++
+>>  scripts/runqemu               | 19 +++++++++++--------
+>>  2 files changed, 14 insertions(+), 8 deletions(-)
+>>
+>> diff --git a/meta/classes/qemuboot.bbclass b/meta/classes/qemuboot.bbclass
+>> index 3ca97cad4c..2870388dfb 100644
+>> --- a/meta/classes/qemuboot.bbclass
+>> +++ b/meta/classes/qemuboot.bbclass
+>> @@ -64,6 +64,9 @@ QB_DEFAULT_FSTYPE ?= "ext4"
+>>  QB_OPT_APPEND ?= "-show-cursor"
+>>  QB_NETWORK_DEVICE ?= "-device virtio-net-pci,netdev=net0,mac=@MAC@"
+>>
+>> +# This should be kept align with ROOT_VM
+>> +QB_DRIVE_TYPE ?= "/dev/sd"
+>
+> Now that I am faced with the problem of selecting virtio I'm starting to
+> wonder how to do that.
+>
+> Our refkit image doesn't expect the image on a particular drive, using
+> PARTUUID instead to find it. But when running under qemu, it would be
+> nice to use virtio for performance reasons... if the kernel supports it.
+> But that's not something that the image recipe or even the distro should
+> make assumptions about.
+>
+> It seems safer to let the machine configuration which chooses the kernel
+> also set QB_DRIVE_TYPE, but with ?= so that it can still be changed
+> elsewhere. In that case, we would need:
+>
+> qemuboot.bbclass: QB_DRIVE_TYPE ??= "/dev/sd"
+> qemuboot-intel.inc (from meta-intel): QB_DRIVE_TYPE ?= "/dev/vd"
+> distro, local or image (optional): QB_DRIVE_TYPE = "/dev/..."
 
-Our refkit image doesn't expect the image on a particular drive, using
-PARTUUID instead to find it. But when running under qemu, it would be
-nice to use virtio for performance reasons... if the kernel supports it.
-But that's not something that the image recipe or even the distro should
-make assumptions about.
+The "??=" is not needed, just "?=" in qemuboot.bbclass is OK, we have
+"?=" in other bbclass, too, and they can be overrided as expected.
+For example:
 
-It seems safer to let the machine configuration which chooses the kernel
-also set QB_DRIVE_TYPE, but with ?= so that it can still be changed
-elsewhere. In that case, we would need:
-
-qemuboot.bbclass: QB_DRIVE_TYPE ??= "/dev/sd"
 qemuboot-intel.inc (from meta-intel): QB_DRIVE_TYPE ?= "/dev/vd"
-distro, local or image (optional): QB_DRIVE_TYPE = "/dev/..."
 
-> +                elif self.get('QB_DRIVE_TYPE'):
-> +                    drive_type = self.get('QB_DRIVE_TYPE')
-> +                    if drive_type.startswith("/dev/sd"):
->                          logger.info('Using scsi drive')
->                          vm_drive = '-drive if=none,id=hd,file=%s,format=%s -device virtio-scsi-pci,id=scsi -device scsi-hd,drive=hd' \
->                                         % (self.rootfs, rootfs_format)
-> -                    elif subprocess.call(cmd2, shell=True) == 0:
-> +                    elif drive_type.startswith("/dev/hd"):
->                          logger.info('Using ide drive')
->                          vm_drive = "%s,format=%s" % (self.rootfs, rootfs_format)
->                      else:
-> -                        logger.warn("Can't detect drive type %s" % self.rootfs)
-> -                        logger.warn('Trying to use virtio block drive')
-> -                        vm_drive = '-drive if=virtio,file=%s,format=%s' % (self.rootfs, rootfs_format)
-> +                        logger.warn("Unknown QB_DRIVE_TYPE: %s" % drive_type)
-> +
-> +                if not vm_drive:
-> +                    logger.warn("Failed to figure out drive type, consider define or fix QB_DRIVE_TYPE")
-> +                    logger.warn('Trying to use virtio block drive')
-> +                    vm_drive = '-drive if=virtio,file=%s,format=%s' % (self.rootfs, rootfs_format)
+Then it would be vd, and if you set = /dev/hd in local.conf, the it would
+be /dev/hd.
 
-Here "/dev/sd" should be treated as an explicit selection of virtio,
-without triggering warnings.
+// Robert
 
-I'll send a patch for both if there are no objections.
+>
+>> +                elif self.get('QB_DRIVE_TYPE'):
+>> +                    drive_type = self.get('QB_DRIVE_TYPE')
+>> +                    if drive_type.startswith("/dev/sd"):
+>>                          logger.info('Using scsi drive')
+>>                          vm_drive = '-drive if=none,id=hd,file=%s,format=%s -device virtio-scsi-pci,id=scsi -device scsi-hd,drive=hd' \
+>>                                         % (self.rootfs, rootfs_format)
+>> -                    elif subprocess.call(cmd2, shell=True) == 0:
+>> +                    elif drive_type.startswith("/dev/hd"):
+>>                          logger.info('Using ide drive')
+>>                          vm_drive = "%s,format=%s" % (self.rootfs, rootfs_format)
+>>                      else:
+>> -                        logger.warn("Can't detect drive type %s" % self.rootfs)
+>> -                        logger.warn('Trying to use virtio block drive')
+>> -                        vm_drive = '-drive if=virtio,file=%s,format=%s' % (self.rootfs, rootfs_format)
+>> +                        logger.warn("Unknown QB_DRIVE_TYPE: %s" % drive_type)
+>> +
+>> +                if not vm_drive:
+>> +                    logger.warn("Failed to figure out drive type, consider define or fix QB_DRIVE_TYPE")
+>> +                    logger.warn('Trying to use virtio block drive')
+>> +                    vm_drive = '-drive if=virtio,file=%s,format=%s' % (self.rootfs, rootfs_format)
+>
+> Here "/dev/sd" should be treated as an explicit selection of virtio,
+> without triggering warnings.
 
--- 
-Best Regards, Patrick Ohly
+Did you mean /dev/vd ? If yes, I'm fine with that.
 
-The content of this message is my personal opinion only and although
-I am an employee of Intel, the statements I make here in no way
-represent Intel's position on the issue, nor am I authorized to speak
-on behalf of Intel on this matter.
+// Robert
 
-
-
+>
+> I'll send a patch for both if there are no objections.
+>
 
