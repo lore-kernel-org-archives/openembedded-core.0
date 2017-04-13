@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 9477977A8A
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 552F177DB1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Apr 2017 09:57:27 +0000 (UTC)
+	Thu, 13 Apr 2017 09:57:28 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v3D9vS8Y029136
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v3D9vTjK024685
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Apr 2017 02:57:28 -0700 (PDT)
+	Thu, 13 Apr 2017 02:57:29 -0700
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
 	Thu, 13 Apr 2017 02:57:28 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 13 Apr 2017 02:57:24 -0700
-Message-ID: <1c6d599efff7bd0ce95ba7790bc66e9d0498591b.1492077359.git.liezhi.yang@windriver.com>
+Date: Thu, 13 Apr 2017 02:57:25 -0700
+Message-ID: <8dda2297e14acc1d586c4e5f1195846f14eb4a52.1492077359.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.10.2
 In-Reply-To: <cover.1492077359.git.liezhi.yang@windriver.com>
 References: <cover.1492077359.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 2/4] apt: fix libdir path for apt.systemd.daily
+Subject: [PATCH 3/4] autogen: update libopts.m4's patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,44 +33,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Apr 2017 09:57:27 -0000
+X-List-Received-Date: Thu, 13 Apr 2017 09:57:28 -0000
 Content-Type: text/plain
 
-It should be ${libdir} rather than /usr/lib, otherwise it would fail
-when multilib:
-
-MACHINE = "qemux86-64"
-require conf/multilib.conf
-MULTILIBS = "multilib:lib32"
-DEFAULTTUNE_virtclass-multilib-lib32 = "x86"
-
-$ bitbake apt
-[snip]
-install: target /path/to/apt/1.2.12-r0/image/usr/lib/apt is not a directory: No such file or directory
-[snip]
+Use 'test -n "$POSIX_SHELL"' rather than 'test -x "$POSIX_SHELL"' so
+that 'POSIX_SHELL = "/usr/bin/env sh"' can work.
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/recipes-devtools/apt/apt-package.inc | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ .../0001-config-libopts.m4-regenerate-it-from-config-libopts..patch     | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/apt/apt-package.inc b/meta/recipes-devtools/apt/apt-package.inc
-index 839d58e..6a01f99 100644
---- a/meta/recipes-devtools/apt/apt-package.inc
-+++ b/meta/recipes-devtools/apt/apt-package.inc
-@@ -83,9 +83,11 @@ do_install () {
- 	install -m 0644 include/apt-pkg/*.h ${D}${includedir}/apt-pkg/
- 
- 	install -d ${D}${systemd_unitdir}/system/
--	install -m 0644 ${S}/debian/apt.systemd.daily ${D}/usr/lib/apt/
-+	install -m 0644 ${S}/debian/apt.systemd.daily ${D}${libdir}/apt/
- 	install -m 0644 ${S}/debian/apt-daily.service ${D}${systemd_unitdir}/system/
-+	sed -i 's#/usr/lib/apt/#${libdir}/apt/#g' ${D}${systemd_unitdir}/system/apt-daily.service
- 	install -m 0644 ${S}/debian/apt-daily.timer ${D}${systemd_unitdir}/system/
- 	install -d ${D}${sysconfdir}/cron.daily/
- 	install -m 0755 ${S}/debian/apt.apt-compat.cron.daily ${D}${sysconfdir}/cron.daily/
-+	sed -i 's#/usr/lib/apt/#${libdir}/apt/#g' ${D}${sysconfdir}/cron.daily/apt.apt-compat.cron.daily
- }
+diff --git a/meta/recipes-devtools/autogen/autogen/0001-config-libopts.m4-regenerate-it-from-config-libopts..patch b/meta/recipes-devtools/autogen/autogen/0001-config-libopts.m4-regenerate-it-from-config-libopts..patch
+index a14018e..e247594 100644
+--- a/meta/recipes-devtools/autogen/autogen/0001-config-libopts.m4-regenerate-it-from-config-libopts..patch
++++ b/meta/recipes-devtools/autogen/autogen/0001-config-libopts.m4-regenerate-it-from-config-libopts..patch
+@@ -30,7 +30,7 @@ index c7ba4f3..51e6a39 100644
+    AC_PROG_SED
+    [while :
+    do
+-+      test -x "$POSIX_SHELL" && break
+++      test -n "$POSIX_SHELL" && break
+        POSIX_SHELL=`which bash`
+        test -x "$POSIX_SHELL" && break
+        POSIX_SHELL=`which dash`
 -- 
 2.10.2
 
