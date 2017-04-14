@@ -1,18 +1,30 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 009BF77E7E;
-	Fri, 14 Apr 2017 03:01:57 +0000 (UTC)
+Return-Path: <huangqy.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
+	by mail.openembedded.org (Postfix) with ESMTP id 0261177E30
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 14 Apr 2017 05:20:21 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.22,518,1449504000"; d="scan'208";a="17738304"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 14 Apr 2017 13:20:17 +0800
+Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
+	by cn.fujitsu.com (Postfix) with ESMTP id E290447CE23B
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 14 Apr 2017 13:20:19 +0800 (CST)
+Received: from localhost.localdomain (10.167.226.81) by
+	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.319.2; Fri, 14 Apr 2017 13:20:18 +0800
+From: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 14 Apr 2017 13:20:01 +0800
+Message-ID: <1492147201-4374-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-Date: Fri, 14 Apr 2017 03:01:59 -0000
-Message-ID: <20170414030159.6645.82343@do.openembedded.org>
-References: <cover.1492135840.git.pkj@axis.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <cover.1492135840.git.pkj@axis.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgQWxsb3cgcG9zdGluc3QgZnVuY3Rpb25zIHRvIGJlIHZlcmJvc2U=?=
+X-Originating-IP: [10.167.226.81]
+X-yoursite-MailScanner-ID: E290447CE23B.A5AB7
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: huangqy.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [PATCH v2] byacc: 20161202 -> 20170201
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,41 +37,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Apr 2017 03:01:58 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 14 Apr 2017 05:20:23 -0000
+Content-Type: text/plain
 
-== Series Details ==
+1)Upgrade byacc from 20161202 to 20170201.
+2)License checksum changed,since the copyright years were updated.
 
-Series: Allow postinst functions to be verbose
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/6370/
-State : failure
-
-== Summary ==
-
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  master (currently at 334020a800)
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
+Signed-off-by: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
 ---
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+ .../recipes-extended/byacc/{byacc_20161202.bb => byacc_20170201.bb} | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-extended/byacc/{byacc_20161202.bb => byacc_20170201.bb} (58%)
+
+diff --git a/meta/recipes-extended/byacc/byacc_20161202.bb b/meta/recipes-extended/byacc/byacc_20170201.bb
+similarity index 58%
+rename from meta/recipes-extended/byacc/byacc_20161202.bb
+rename to meta/recipes-extended/byacc/byacc_20170201.bb
+index 755f8ab..702c4c9 100644
+--- a/meta/recipes-extended/byacc/byacc_20161202.bb
++++ b/meta/recipes-extended/byacc/byacc_20170201.bb
+@@ -4,9 +4,9 @@
+ # Setting to PD as this is what the upstream has it as.
+ 
+ LICENSE = "PD"
+-LIC_FILES_CHKSUM = "file://package/debian/copyright;md5=74533d32ffd38bca4cbf1f1305f8bc60"
++LIC_FILES_CHKSUM = "file://package/debian/copyright;md5=9176bfb16dab43ebcb8e50d9ee9550b6"
+ require byacc.inc
+ 
++SRC_URI[md5sum] = "4bb274bbd7b648d4251c2b9ca36ed0c9"
++SRC_URI[sha256sum] = "90b768d177f91204e6e7cef226ae1dc7cac831b625774cebd3e233a917754f91"
+ 
+-SRC_URI[md5sum] = "48ef38447f2cc864c70ef864b26cf817"
+-SRC_URI[sha256sum] = "30dc58cfcdb708eea7ba022db29b41d2d392f20727491b956954366f2f2117f0"
+-- 
+2.7.4
+
+
 
 
