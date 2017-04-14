@@ -1,47 +1,30 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f181.google.com (mail-qk0-f181.google.com
-	[209.85.220.181])
-	by mail.openembedded.org (Postfix) with ESMTP id F39D477E1B
+Return-Path: <huangqy.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
+	by mail.openembedded.org (Postfix) with ESMTP id 54A0171D42
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Apr 2017 23:00:01 +0000 (UTC)
-Received: by mail-qk0-f181.google.com with SMTP id p68so59287804qke.1
+	Fri, 14 Apr 2017 02:05:22 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.22,518,1449504000"; d="scan'208";a="17730202"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 14 Apr 2017 10:05:16 +0800
+Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
+	by cn.fujitsu.com (Postfix) with ESMTP id AC51947CE222
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Apr 2017 16:00:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=sgoq/P0nCYxFZDWjhJPSThYT8f3XbliXBBC20iFq7MY=;
-	b=bC/X+K6gvUU6qubofH7F2WkmV/KB6vX85ZEK7N+xtsM6igyeU05i4PyFv3GMvrBuiP
-	iBbVEiIH5rC1hEipf4lROJ+ADFitcaheITKtXTruUKqn1sZFl1NlEnht1neOFYRxgclo
-	2oS3HDL73z8h0hVL/puKESa509NFK9KN93J831ooefz5cyPMVl8jGeWqy3Ez5vnwXGQN
-	YuYidtjgkKt+w2T9QmIveTUjHbDem+QDY3Z52qAboIg/J+WsaxouQpBRIlxQh66EvAxU
-	hIvT2FN8kwAOcX8LEOMy2jC+tiFZ9nHJFnz9jwBthA4X31qLlbcWnXtU+hnGOoYlAudS
-	OnNQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=sgoq/P0nCYxFZDWjhJPSThYT8f3XbliXBBC20iFq7MY=;
-	b=fsM9DStEGUTOHDsBbk4MYirfsTp0mYlHSmXUKjiGjypVv9hRpic9N07YQVlMKHxk0o
-	YCLj+JBrPxrQ2mqKQRKUcwqrwibWWn9zXYzynMjM2nC6bNWOup6v3Ksssx+cQM8/6urB
-	nhRrlyhnDw4j2eRkWQVWIa5rNX0p6bnY1wcK/Fwjz7gJwuYYACFB7/JmlXYOzCM+WKO8
-	tRYdUCh7Agua38UP5CI87hz7kaJGp/i2bf/f4cJmV9MEEr15Kj3WPVH7sIACt4jZM0IA
-	3AqFl7WKA/HXtIuZi2ZNHN9i0BsALJ8cBjM8ZRnCJYHVCl2QQaQNqrhDWuhrfzw7dTVN
-	TgdA==
-X-Gm-Message-State: AN3rC/5bZY4RH9JRDtqCFLJya6QvCxvmsa0W0aMVkwWHcZPypOVM9QBO
-	IbOT/K0PPnFgjsr8kQtVP3vjejHdVbLL
-X-Received: by 10.55.212.220 with SMTP id s89mr5082681qks.121.1492124402921;
-	Thu, 13 Apr 2017 16:00:02 -0700 (PDT)
+	Fri, 14 Apr 2017 10:05:14 +0800 (CST)
+Received: from localhost.localdomain (10.167.226.81) by
+	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.319.2; Fri, 14 Apr 2017 10:05:13 +0800
+From: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 14 Apr 2017 10:04:56 +0800
+Message-ID: <1492135496-4096-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Received: by 10.140.22.166 with HTTP; Thu, 13 Apr 2017 15:59:42 -0700 (PDT)
-In-Reply-To: <1492060363-2607-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
-References: <1492060363-2607-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 13 Apr 2017 23:59:42 +0100
-Message-ID: <CAJTo0Lbxobv-vRWwXLPxm-E67k_8B-VshdmBKSdE1Awqa-Fk6A@mail.gmail.com>
-To: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] byacc: 20161202 -> 20170201
+X-Originating-IP: [10.167.226.81]
+X-yoursite-MailScanner-ID: AC51947CE222.A511F
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: huangqy.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [PATCH] gdk-pixbuf:2.36.5 -> 2.36.6
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,39 +37,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Apr 2017 23:00:02 -0000
-Content-Type: multipart/alternative; boundary=001a1146cbd4ff4799054d14489c
+X-List-Received-Date: Fri, 14 Apr 2017 02:05:24 -0000
+Content-Type: text/plain
 
---001a1146cbd4ff4799054d14489c
-Content-Type: text/plain; charset=UTF-8
+Upgrade gdk-pixbuf from 2.36.5 to 2.36.6.
 
-On 13 April 2017 at 06:12, Huang Qiyu <huangqy.fnst@cn.fujitsu.com> wrote:
+Signed-off-by: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
+---
+ .../gdk-pixbuf/{gdk-pixbuf_2.36.5.bb => gdk-pixbuf_2.36.6.bb}        | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+ rename meta/recipes-gnome/gdk-pixbuf/{gdk-pixbuf_2.36.5.bb => gdk-pixbuf_2.36.6.bb} (96%)
 
-> -LIC_FILES_CHKSUM = "file://package/debian/copyright;md5=
-> 74533d32ffd38bca4cbf1f1305f8bc60"
-> +LIC_FILES_CHKSUM = "file://package/debian/copyright;md5=
-> 9176bfb16dab43ebcb8e50d9ee9550b6"
->
+diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.36.5.bb b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.36.6.bb
+similarity index 96%
+rename from meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.36.5.bb
+rename to meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.36.6.bb
+index 7da6d16..8ea2ea6 100644
+--- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.36.5.bb
++++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.36.6.bb
+@@ -19,8 +19,9 @@ SRC_URI = "${GNOME_MIRROR}/${BPN}/${MAJ_VER}/${BPN}-${PV}.tar.xz \
+            file://fatal-loader.patch \
+            file://0001-Work-around-thumbnailer-cross-compile-failure.patch \
+            "
+-SRC_URI[md5sum] = "0173fd5c11a5d2030d09201090636477"
+-SRC_URI[sha256sum] = "7ace06170291a1f21771552768bace072ecdea9bd4a02f7658939b9a314c40fc"
++
++SRC_URI[md5sum] = "5dd53760750670d27c194ff6ace7eb51"
++SRC_URI[sha256sum] = "455eb90c09ed1b71f95f3ebfe1c904c206727e0eeb34fc94e5aaf944663a820c"
+ 
+ inherit autotools pkgconfig gettext pixbufcache ptest-gnome upstream-version-is-even gobject-introspection gtk-doc lib_package
+ 
+-- 
+2.7.4
 
-Always explain why the license checksum needed changing.
 
-Ross
 
---001a1146cbd4ff4799054d14489c
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 13 April 2017 at 06:12, Huang Qiyu <span dir=3D"ltr">&lt;<a href=3D"mail=
-to:huangqy.fnst@cn.fujitsu.com" target=3D"_blank">huangqy.fnst@cn.fujitsu.c=
-om</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"marg=
-in:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":1ek"=
- class=3D"a3s aXjCH m15b65bb200a084d2">-LIC_FILES_CHKSUM =3D &quot;file://p=
-ackage/debian/<wbr>copyright;md5=3D<wbr>74533d32ffd38bca4cbf1f1305f8bc<wbr>=
-60&quot;<br>
-+LIC_FILES_CHKSUM =3D &quot;file://package/debian/<wbr>copyright;md5=3D<wbr=
->9176bfb16dab43ebcb8e50d9ee9550<wbr>b6&quot;<br></div></blockquote><div><br=
-></div><div>Always explain why the license checksum needed changing.</div><=
-div><br></div><div>Ross=C2=A0</div></div></div></div>
-
---001a1146cbd4ff4799054d14489c--
