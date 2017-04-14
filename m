@@ -1,26 +1,28 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 259FB77E7F
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id B84BA77E76
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Apr 2017 09:22:28 +0000 (UTC)
+	Fri, 14 Apr 2017 09:36:13 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v3E9MRfF026275
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Apr 2017 02:22:29 -0700
-Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
-	Fri, 14 Apr 2017 02:22:26 -0700
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v3E9aEvj017891
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Fri, 14 Apr 2017 02:36:14 -0700 (PDT)
+Received: from [128.224.162.160] (128.224.162.160) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.294.0;
+	Fri, 14 Apr 2017 02:36:13 -0700
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <cover.1492077359.git.liezhi.yang@windriver.com>
+	<8dda2297e14acc1d586c4e5f1195846f14eb4a52.1492077359.git.liezhi.yang@windriver.com>
 From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 14 Apr 2017 02:22:25 -0700
-Message-ID: <e697053add75e554ed67c2745aa41a6b69481112.1492161522.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 2.10.2
-In-Reply-To: <cover.1492161522.git.liezhi.yang@windriver.com>
-References: <cover.1492161522.git.liezhi.yang@windriver.com>
+Message-ID: <443ecb8b-6a1d-9d98-7633-25ae7404fd27@windriver.com>
+Date: Fri, 14 Apr 2017 17:36:12 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.2.0
 MIME-Version: 1.0
-Subject: [PATCH 1/1] oe-run-native: print more error messages
+In-Reply-To: <8dda2297e14acc1d586c4e5f1195846f14eb4a52.1492077359.git.liezhi.yang@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 3/4] autogen: update libopts.m4's patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,68 +35,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Apr 2017 09:22:29 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 14 Apr 2017 09:36:14 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Fixed:
-$ bitbake bmap-tools-native -ccleansstate && bitbake bmap-tools-native && oe-run-native bmap-tools-native bmaptool --help
-[snip]
-Error: Unable to find '' in <PATH>
-[snip]
+Hi RP,
 
-Note the blank '' word, it was because "tools" was overrided, now fix it.
+I found that others are merged except this one, do you have any
+comments on it, please ?
 
-And also check whether the recipe is a native one or not.
+// Robert
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- scripts/oe-run-native | 14 +++++++++++---
- 1 file changed, 11 insertions(+), 3 deletions(-)
-
-diff --git a/scripts/oe-run-native b/scripts/oe-run-native
-index 12f7ce6..1131122 100755
---- a/scripts/oe-run-native
-+++ b/scripts/oe-run-native
-@@ -22,7 +22,7 @@
- #
- 
- if [ $# -lt 1 -o "$1" = '--help' -o "$1" = '-h' ] ; then
--    echo 'oe-run-native: error: the following arguments are required: <native recipe> <native tool>'
-+    echo 'oe-run-native: the following arguments are required: <native recipe> <native tool>'
-     echo 'Usage: oe-run-native native-recipe tool [parameters]'
-     echo ''
-     echo 'OpenEmbedded run-native - runs native tools'
-@@ -36,6 +36,13 @@ fi
- 
- native_recipe="$1"
- tool="$2"
-+
-+if [ "${native_recipe%-native}" = "$native_recipe" ]; then
-+    echo Error: $native_recipe is not a native recipe
-+    echo Error: Use \"oe-run-native -h\" for help
-+    exit 1
-+fi
-+
- shift
- 
- SYSROOT_SETUP_SCRIPT=`which oe-find-native-sysroot 2> /dev/null`
-@@ -49,12 +56,13 @@ OLD_PATH=$PATH
- 
- # look for a tool only in native sysroot
- PATH=$OECORE_NATIVE_SYSROOT/usr/bin:$OECORE_NATIVE_SYSROOT/bin:$OECORE_NATIVE_SYSROOT/usr/sbin:$OECORE_NATIVE_SYSROOT/sbin
--tool=`/usr/bin/which $tool 2>/dev/null`
-+tool_find=`/usr/bin/which $tool 2>/dev/null`
- 
--if [ -n "$tool" ] ; then
-+if [ -n "$tool_find" ] ; then
-     # add old path to allow usage of host tools
-     PATH=$PATH:$OLD_PATH $@
- else
-     echo "Error: Unable to find '$tool' in $PATH"
-+    echo "Error: Have you run 'bitbake $native_recipe -caddto_recipe_sysroot'?"
-     exit 1
- fi
--- 
-2.10.2
-
+On 04/13/2017 05:57 PM, Robert Yang wrote:
+> Use 'test -n "$POSIX_SHELL"' rather than 'test -x "$POSIX_SHELL"' so
+> that 'POSIX_SHELL = "/usr/bin/env sh"' can work.
+>
+> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+> ---
+>  .../0001-config-libopts.m4-regenerate-it-from-config-libopts..patch     | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-devtools/autogen/autogen/0001-config-libopts.m4-regenerate-it-from-config-libopts..patch b/meta/recipes-devtools/autogen/autogen/0001-config-libopts.m4-regenerate-it-from-config-libopts..patch
+> index a14018e..e247594 100644
+> --- a/meta/recipes-devtools/autogen/autogen/0001-config-libopts.m4-regenerate-it-from-config-libopts..patch
+> +++ b/meta/recipes-devtools/autogen/autogen/0001-config-libopts.m4-regenerate-it-from-config-libopts..patch
+> @@ -30,7 +30,7 @@ index c7ba4f3..51e6a39 100644
+>     AC_PROG_SED
+>     [while :
+>     do
+> -+      test -x "$POSIX_SHELL" && break
+> ++      test -n "$POSIX_SHELL" && break
+>         POSIX_SHELL=`which bash`
+>         test -x "$POSIX_SHELL" && break
+>         POSIX_SHELL=`which dash`
+>
 
