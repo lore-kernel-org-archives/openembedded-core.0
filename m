@@ -1,59 +1,41 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 6C3A772FB0
+Return-Path: <prvs=1277e14ec7=michael.davis@essvote.com>
+X-Greylist: delayed 901 seconds by postgrey-1.34 at layers.openembedded.org;
+	Fri, 14 Apr 2017 17:04:35 UTC
+Received: from mail1.essvote.com (mail1.essvote.com [66.37.226.19])
+	by mail.openembedded.org (Postfix) with ESMTP id 98BEF71D60
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Apr 2017 13:10:55 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id 95AC61849C;
-	Fri, 14 Apr 2017 15:10:56 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id diMb7K20NU2c; Fri, 14 Apr 2017 15:10:55 +0200 (CEST)
-Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
-	by bastet.se.axis.com (Postfix) with ESMTPS id A9E8518494;
-	Fri, 14 Apr 2017 15:10:55 +0200 (CEST)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 81F321E0A9;
-	Fri, 14 Apr 2017 15:10:55 +0200 (CEST)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 701951E0A8;
-	Fri, 14 Apr 2017 15:10:55 +0200 (CEST)
-Received: from seth.se.axis.com (unknown [10.0.2.172])
-	by boulder03.se.axis.com (Postfix) with ESMTP;
-	Fri, 14 Apr 2017 15:10:55 +0200 (CEST)
-Received: from XBOX03.axis.com (xbox03.axis.com [10.0.5.17])
-	by seth.se.axis.com (Postfix) with ESMTP id 63FAB3337;
-	Fri, 14 Apr 2017 15:10:55 +0200 (CEST)
-Received: from xbox11.axis.com (10.0.5.25) by XBOX03.axis.com (10.0.5.17) with
-	Microsoft SMTP Server (TLS) id 15.0.1210.3;
-	Fri, 14 Apr 2017 15:10:55 +0200
-Received: from XBOX02.axis.com (10.0.5.16) by xbox11.axis.com (10.0.5.25) with
-	Microsoft SMTP Server (TLS) id 15.0.1210.3;
-	Fri, 14 Apr 2017 15:10:54 +0200
-Received: from XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776]) by
-	XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776%21]) with mapi id
-	15.00.1210.000; Fri, 14 Apr 2017 15:10:54 +0200
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	"openembedded-core@lists.openembedded.org"
+	Fri, 14 Apr 2017 17:04:35 +0000 (UTC)
+X-AuditID: 0a000213-badff70000000cd7-af-58f0fd9b7ee5
+Received: from ESS-EX01.essvote.corp.local (Unknown_Domain [172.16.110.40])
+	by mail1.essvote.com (Symantec Messaging Gateway) with SMTP id
+	CB.FA.03287.B9DF0F85; Fri, 14 Apr 2017 11:49:34 -0500 (CDT)
+Received: from ESS-EX01.essvote.corp.local ([::1]) by
+	ESS-EX01.essvote.corp.local ([::1]) with mapi id 14.03.0301.000;
+	Fri, 14 Apr 2017 11:49:31 -0500
+From: "Davis, Michael" <michael.davis@essvote.com>
+To: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH 0/2] Allow postinst functions to be verbose
-Thread-Index: AQHStMh5RV6HuEdQtkWfsQ1O7YYyl6HEbOsAgABpZkA=
-Date: Fri, 14 Apr 2017 13:10:54 +0000
-Message-ID: <5d709f7eb9fa49fd89cd95818ddf4018@XBOX02.axis.com>
-References: <cover.1492135840.git.pkj@axis.com>
-	<1492159760.19076.10.camel@linuxfoundation.org>
-In-Reply-To: <1492159760.19076.10.camel@linuxfoundation.org>
+Thread-Topic: Handling of users in multiple recipes.
+Thread-Index: AdK1PxWWSCa1wwjvQtySgGBeAPCedw==
+Date: Fri, 14 Apr 2017 16:49:30 +0000
+Message-ID: <655290B7709079438B7932553958E60D16D199CA@ESS-EX01.essvote.corp.local>
 Accept-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.60]
+x-originating-ip: [10.1.20.77]
 MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-Subject: Re: [PATCH 0/2] Allow postinst functions to be verbose
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrELMWRmVeSWpSXmKPExsWyRiBPQ3fe3w8RBrencVjc+fmO3YHR49zG
+	FYwBjFHcNkmJJWXBmel5+nYJ3BmLv/9kK/gkVbHmyQymBsb54l2MnBwSAiYSnYvms3UxcnEI
+	CZxglNh67RuUM4tR4tbiXawgVWwCRhLnrm9iBLFFBKIlls6Yyd7FyMEhLKAv8bnVDSJsInH7
+	2AsWCFtP4sOaJ2wgJSwCqhJ3VtmDhHkFgiRWXXvCDGIzCohJfD+1hgnEZhYQl7j1ZD4TxD0C
+	Ekv2nGeGsEUlXj7+xwphy0m8a2pjhajPl/j84TI7xExBiZMzn7BMYBSchWTULCRls5CULWBk
+	XsUomJuYmWOol1pcXJZfkqqXnJ+7iREYklwMTMI7GOdMsT3EKMDBqMTDe+H4hwgh1sSy4src
+	Q4zSHCxK4rxnOYIjhATSE0tSs1NTC1KL4otKc1KLDzEycXAeYpTg4JISKU7NS0ktSiwtyYgH
+	BX58MTD0pRoYORJncEZttVZccLPjSIYNj8nXh69Ou/1+zVsQlPRIemJvXEBkxLSH7Pf4vt1Y
+	Yh7jwLix4ZiCWEEy44aUo3N03ZPVjjwJftP1/MvFL6UOEe6PmN9ylN3Mn7nj+75WRb7TG44e
+	LrV2Tb5k0eJnLa56o1rE6KXBiu4/b75kvX1sWOHkn3q/5MMvJZbijERDLeai4kQAhs5S1EUC
+	AAA=
+Subject: Handling of users in multiple recipes.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -66,37 +48,106 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Apr 2017 13:10:58 -0000
+X-List-Received-Date: Fri, 14 Apr 2017 17:04:36 -0000
 Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/alternative;
+	boundary="_000_655290B7709079438B7932553958E60D16D199CAESSEX01essvotec_"
 
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBSaWNoYXJkIFB1cmRpZSBbbWFp
-bHRvOnJpY2hhcmQucHVyZGllQGxpbnV4Zm91bmRhdGlvbi5vcmddDQo+IFNlbnQ6IGRlbiAxNCBh
-cHJpbCAyMDE3IDEwOjQ5DQo+IFRvOiBQZXRlciBLamVsbGVyc3RlZHQgPHBldGVyLmtqZWxsZXJz
-dGVkdEBheGlzLmNvbT47IG9wZW5lbWJlZGRlZC0NCj4gY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQu
-b3JnDQo+IFN1YmplY3Q6IFJlOiBbT0UtY29yZV0gW1BBVENIIDAvMl0gQWxsb3cgcG9zdGluc3Qg
-ZnVuY3Rpb25zIHRvIGJlDQo+IHZlcmJvc2UNCj4gDQo+IE9uIEZyaSwgMjAxNy0wNC0xNCBhdCAw
-NDozOSArMDIwMCwgUGV0ZXIgS2plbGxlcnN0ZWR0IHdyb3RlOg0KPiA+IFRoaXMgZW5hYmxlcyB0
-cmFjaW5nIG9mIHRoZSBwb3N0aW5zdCBmdW5jdGlvbnMgY3JlYXRlZCBpbiBiYXNlLXBhc3N3ZA0K
-PiA+IGFuZCB1c2VyYWRkLmJiY2xhc3MgaWYgQkJfVkVSQk9TRV9MT0dTIGlzIGVuYWJsZWQuIEkg
-Zm91bmQgdGhpcw0KPiA+IGV4dHJlbWVseSB1c2VmdWwgZHVyaW5nIHZlcmlmaWNhdGlvbiBvZiB0
-aGUgdXNlcmFkZCBmdW5jdGlvbmFsaXR5LA0KPiA+IGVzcGVjaWFsbHkgYXMgdGhlcmUgb3RoZXJ3
-aXNlIGlzIGFic29sdXRlbHkgbm90aGluZyBpbiB0aGUgbG9ncyBvZg0KPiA+IHdoeQ0KPiA+IGEg
-ZmFpbHVyZSBpbiBhIHBvc3RpbnN0IGZ1bmN0aW9uIGhhcHBlbmVkLg0KPiA+DQo+ID4gSSBhbHNv
-IHNpbXBsaWZpZWQgdXNlcmFkZF9zeXNyb290X3NzdGF0ZSgpIGJ5IG9ubHkgaGF2aW5nIHRoZSBj
-b2RlIHRvDQo+ID4gY3JlYXRlIHRoZSBwb3N0aW5zdCBmaWxlcyBvbmNlLg0KPiA+DQo+ID4gRmVl
-bCBmcmVlIHRvIHNxdWFzaCB0aGVzZSBjb21taXRzIHdpdGggdGhlICJiYXNlLXBhc3N3ZC91c2Vy
-YWRkOg0KPiA+IFZhcmlvdXMgaW1wcm92ZW1lbnRzIHRvIHVzZXJhZGQgd2l0aCBSU1MiIGNvbW1p
-dCBpZiB5b3UgcHJlZmVyLg0KPiANCj4gSSdtIGFmcmFpZCBJIGNhbid0IHRha2UgdGhlc2Ugc2lu
-Y2UgdGhlc2Ugc2NyaXB0cyBnZXQgd3JpdHRlbiBpbnRvIHRoZQ0KPiBzc3RhdGUgb2JqZWN0cyBm
-b3IgdGhlIHJlY2lwZXMgaW4gcXVlc3Rpb24gYW5kIHRoaXMgd291bGQgbWFrZSB0aGUNCj4gc3N0
-YXRlIGNoYW5nZSBkZXBlbmRpbmcgb24gdGhlIHBhcmFtZXRlcnMgeW91IGNhbGwgYml0YmFrZSB3
-aXRoLiBJDQo+IHRoaW5rIHdlJ2QgYm90aCBhZ3JlZSB0aGF0IGlzIHVuZGVzaXJhYmxlLg0KDQpC
-b3RoZXIuIERpZCBub3QgdGhpbmsgb2YgdGhhdCAoSSBhbSBzbyB1c2VkIHRvIGhhdmluZyBpdCBl
-bmFibGVkIGluIGFsbCBteSANCmJ1aWxkcykuDQoNCj4gTm90IHN1cmUgd2hhdCB3ZSBjYW4gZG8g
-YnV0IHRoaXMgbmVlZHMgbW9yZSB0aG91Z2h0Lg0KDQpZZWFoLCBpdCB3b3VsZCBiZSBncmVhdCBp
-ZiB0aGUgb3V0cHV0IGZyb20gdGhlIHBvc3RpbnN0IHNjcmlwdHMgd2FzIGFjdHVhbGx5DQpjYXB0
-dXJlZC4gQnV0IHdlIGNhbiB0aGluayBvZiB0aGF0IGZvciAyLjQuDQoNCj4gQ2hlZXJzLA0KPiAN
-Cj4gUmljaGFyZA0KDQovL1BldGVyDQo=
+--_000_655290B7709079438B7932553958E60D16D199CAESSEX01essvotec_
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
+I have a user that is added in a recipe using inherit useradd.
+Previously in Morty I was able to include that recipe as a dependency to ot=
+her recipes and chown files to that user during do_install.
+In checking at master in prep for 2.3 I noticed those recipes no longer wor=
+k stating the user is invalid.
+
+Is there a new mechanism in place to handle this use case or am I going to =
+have to find some sort of other work around?
+
+Thanks,
+Mike
+
+
+
+
+--_000_655290B7709079438B7932553958E60D16D199CAESSEX01essvotec_
+Content-Type: text/html; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
+osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:x=3D"urn:schemas-microsoft-com:office:excel" xmlns:m=3D"http://schema=
+s.microsoft.com/office/2004/12/omml" xmlns=3D"http://www.w3.org/TR/REC-html=
+40">
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
+>
+<meta name=3D"Generator" content=3D"Microsoft Word 12 (filtered medium)">
+<style>
+<!--
+ /* Font Definitions */
+ @font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+ /* Style Definitions */
+ p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0in;
+	margin-bottom:.0001pt;
+	font-size:11.0pt;
+	font-family:"Calibri","sans-serif";}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:blue;
+	text-decoration:underline;}
+a:visited, span.MsoHyperlinkFollowed
+	{mso-style-priority:99;
+	color:purple;
+	text-decoration:underline;}
+span.EmailStyle17
+	{mso-style-type:personal-compose;
+	font-family:"Calibri","sans-serif";
+	color:windowtext;}
+.MsoChpDefault
+	{mso-style-type:export-only;}
+@page Section1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;}
+div.Section1
+	{page:Section1;}
+-->
+</style><!--[if gte mso 9]><xml>
+ <o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+ <o:shapelayout v:ext=3D"edit">
+  <o:idmap v:ext=3D"edit" data=3D"1" />
+ </o:shapelayout></xml><![endif]-->
+</head>
+<body lang=3D"EN-US" link=3D"blue" vlink=3D"purple">
+<div class=3D"Section1">
+<p class=3D"MsoNormal">I have a user that is added in a recipe using inheri=
+t useradd.<o:p></o:p></p>
+<p class=3D"MsoNormal">Previously in Morty I was able to include that recip=
+e as a dependency to other recipes and chown files to that user during do_i=
+nstall.<o:p></o:p></p>
+<p class=3D"MsoNormal">In checking at master in prep for 2.3 I noticed thos=
+e recipes no longer work stating the user is invalid.<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">Is there a new mechanism in place to handle this use=
+ case or am I going to have to find some sort of other work around?<o:p></o=
+:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">Thanks,<o:p></o:p></p>
+<p class=3D"MsoNormal">Mike<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+</div>
+</body>
+</html>
+
+--_000_655290B7709079438B7932553958E60D16D199CAESSEX01essvotec_--
