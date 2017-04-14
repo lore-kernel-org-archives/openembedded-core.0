@@ -1,30 +1,56 @@
-Return-Path: <huangqy.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 54A0171D42
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
+	by mail.openembedded.org (Postfix) with ESMTP id 2C04777D6B
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Apr 2017 02:05:22 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.22,518,1449504000"; d="scan'208";a="17730202"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 14 Apr 2017 10:05:16 +0800
-Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
-	by cn.fujitsu.com (Postfix) with ESMTP id AC51947CE222
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Apr 2017 10:05:14 +0800 (CST)
-Received: from localhost.localdomain (10.167.226.81) by
-	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.319.2; Fri, 14 Apr 2017 10:05:13 +0800
-From: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 14 Apr 2017 10:04:56 +0800
-Message-ID: <1492135496-4096-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 2.7.4
+	Fri, 14 Apr 2017 02:39:40 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bes.se.axis.com (Postfix) with ESMTP id 631272E64E;
+	Fri, 14 Apr 2017 04:39:39 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
+Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024)
+	with LMTP id trB4a+q4RjkQ; Fri, 14 Apr 2017 04:39:38 +0200 (CEST)
+Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
+	by bes.se.axis.com (Postfix) with ESMTPS id 4CA552E64C;
+	Fri, 14 Apr 2017 04:39:38 +0200 (CEST)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 2B3CE1A064;
+	Fri, 14 Apr 2017 04:39:38 +0200 (CEST)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 1DCDC1A061;
+	Fri, 14 Apr 2017 04:39:38 +0200 (CEST)
+Received: from seth.se.axis.com (unknown [10.0.2.172])
+	by boulder02.se.axis.com (Postfix) with ESMTP;
+	Fri, 14 Apr 2017 04:39:38 +0200 (CEST)
+Received: from XBOX03.axis.com (xbox03.axis.com [10.0.5.17])
+	by seth.se.axis.com (Postfix) with ESMTP id 0FC7B329B;
+	Fri, 14 Apr 2017 04:39:38 +0200 (CEST)
+Received: from XBOX02.axis.com (10.0.5.16) by XBOX03.axis.com (10.0.5.17) with
+	Microsoft SMTP Server (TLS) id 15.0.1210.3;
+	Fri, 14 Apr 2017 04:39:37 +0200
+Received: from XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776]) by
+	XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776%21]) with mapi id
+	15.00.1210.000; Fri, 14 Apr 2017 04:39:37 +0200
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Thread-Topic: [OE-core] [PATCH] base-passwd/useradd: Various improvements to
+	useradd with RSS
+Thread-Index: AQHSs7tnSXRSGl6QR0m6EXfMPInqEqHEIgFQ
+Date: Fri, 14 Apr 2017 02:39:37 +0000
+Message-ID: <94259cfb17bc467485c33003af4a4925@XBOX02.axis.com>
+References: <1492022024-30940-1-git-send-email-richard.purdie@linuxfoundation.org>
+In-Reply-To: <1492022024-30940-1-git-send-email-richard.purdie@linuxfoundation.org>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.60]
 MIME-Version: 1.0
-X-Originating-IP: [10.167.226.81]
-X-yoursite-MailScanner-ID: AC51947CE222.A511F
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: huangqy.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Subject: [PATCH] gdk-pixbuf:2.36.5 -> 2.36.6
+X-TM-AS-GCONF: 00
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] base-passwd/useradd: Various improvements to	useradd with RSS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,39 +63,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Apr 2017 02:05:24 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 14 Apr 2017 02:39:41 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-Upgrade gdk-pixbuf from 2.36.5 to 2.36.6.
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org
+> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
+> Richard Purdie
+> Sent: den 12 april 2017 20:34
+> To: openembedded-core@lists.openembedded.org
+> Subject: [OE-core] [PATCH] base-passwd/useradd: Various improvements to
+> useradd with RSS
+>=20
+> Currently there are multiple issues with useradd:
+>=20
+> * If base-passwd rebuilds, it wipes out recipe specific user/group additi=
+ons
+>   to sysroots and causes errors
+> * If recipe A adds a user and recipe B depends on A, it can't see any of =
+the
+>   users/groups A adds.
+>=20
+> This patch changes base-passwd so it always works as a postinst script
+> within the sysroot and copies in the master files, then runs any
+> postinst-useradd-* scripts afterwards to add additional user/groups.
+>=20
+> The postinst-useradd-* scripts are tweaked so that if /etc/passwd doesn't=
+ exist
+> they just exit, knowning they'll be executed later.
+>=20
+> There is a problem where if recipe A adds a user an recipe B depends on A=
+ but
+> doesn't care about users, it may not have a dependency on the useradd/gro=
+upadd
+> tools which would therefore not be available in B's sysroot. We therefore=
+ also
+> tweak postinst-useradd-* scripts so that if the tools aren't present we s=
+imply
+> don't add users. If you need the users, you add a dependency on the tools=
+ in the
+> recipe and they'll be added.
+>=20
+> We add postinst-* to SSTATE_SCAN_FILES since almost any postinst script o=
+f this
+> kind is going to need relocation help.
+>=20
+> We also ensure that the postinst-useradd script is written into the sstat=
+e
+> object as the current script was only being added in a recipe local way.
+>=20
+> Thanks to Peter Kjellerstedt <pkj@axis.com> for some pieces of this
+> patch.
+>=20
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Signed-off-by: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
----
- .../gdk-pixbuf/{gdk-pixbuf_2.36.5.bb => gdk-pixbuf_2.36.6.bb}        | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
- rename meta/recipes-gnome/gdk-pixbuf/{gdk-pixbuf_2.36.5.bb => gdk-pixbuf_2.36.6.bb} (96%)
+I have tested this now, and it seems to be doing what is expected.=20
 
-diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.36.5.bb b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.36.6.bb
-similarity index 96%
-rename from meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.36.5.bb
-rename to meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.36.6.bb
-index 7da6d16..8ea2ea6 100644
---- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.36.5.bb
-+++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.36.6.bb
-@@ -19,8 +19,9 @@ SRC_URI = "${GNOME_MIRROR}/${BPN}/${MAJ_VER}/${BPN}-${PV}.tar.xz \
-            file://fatal-loader.patch \
-            file://0001-Work-around-thumbnailer-cross-compile-failure.patch \
-            "
--SRC_URI[md5sum] = "0173fd5c11a5d2030d09201090636477"
--SRC_URI[sha256sum] = "7ace06170291a1f21771552768bace072ecdea9bd4a02f7658939b9a314c40fc"
-+
-+SRC_URI[md5sum] = "5dd53760750670d27c194ff6ace7eb51"
-+SRC_URI[sha256sum] = "455eb90c09ed1b71f95f3ebfe1c904c206727e0eeb34fc94e5aaf944663a820c"
- 
- inherit autotools pkgconfig gettext pixbufcache ptest-gnome upstream-version-is-even gobject-introspection gtk-doc lib_package
- 
--- 
-2.7.4
+However, during my testing I stumbled upon a bug in pseudo which caused=20
+bash to segmentation fault. It was triggered by how the postinst-useradd=20
+scripts are called from the postinst-base-passwd script. Seebs and I=20
+debugged this and eventually found a solution which is now available as=20
+commit b6b68db896 in git://git.yoctoproject.org/pseudo. This must be=20
+fixed in OE-Core, either as a backport patch or by using an updated=20
+version of pseudo.=20
 
+I also made some improvements to the debuggability of the postinst=20
+scripts. I will send that as a separate patch set.
 
+//Peter
 
 
