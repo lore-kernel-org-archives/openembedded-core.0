@@ -1,24 +1,27 @@
-Return-Path: <Catalin.Enache@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id E71DD77C17
+Return-Path: <richard@rpsys.net>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 8847177E43
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Apr 2017 08:44:42 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v3E8igVN003375
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Apr 2017 01:44:43 -0700 (PDT)
-Received: from no3.corp.ad.wrs.com (128.224.125.152) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.294.0; Fri, 14 Apr 2017 01:44:42 -0700
-From: Catalin Enache <catalin.enache@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 14 Apr 2017 11:43:32 +0300
-Message-ID: <1492159412-18864-1-git-send-email-catalin.enache@windriver.com>
+	Fri, 14 Apr 2017 08:46:21 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	v3E8kJNk019165
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
+	verify=NOT); Fri, 14 Apr 2017 09:46:20 +0100
+Received: from richard by hex with local (Exim 4.86_2)
+	(envelope-from <richard@rpsys.net>)
+	id 1cywrz-0000em-O5; Fri, 14 Apr 2017 09:46:19 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 14 Apr 2017 09:46:18 +0100
+Message-Id: <1492159578-2483-1-git-send-email-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.7.4
-MIME-Version: 1.0
-Subject: [PATCH] libxml2: CVE-2016-9318
+X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.11
+	(dan.rpsys.net [192.168.3.1]);
+	Fri, 14 Apr 2017 09:46:20 +0100 (BST)
+X-Virus-Scanned: clamav-milter 0.99.2 at dan
+X-Virus-Status: Clean
+Subject: [PATCH] populate_sdk_ext: Add do_addto_recipe_sysroot to BB_SETSCENE_ENFORCE_WHITELIST
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,254 +34,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Apr 2017 08:44:43 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 14 Apr 2017 08:46:27 -0000
 
-libxml2 2.9.4 and earlier, as used in XMLSec 1.2.23 and earlier
-and other products, does not offer a flag directly indicating that
-the current document may be read but other files may not be opened,
-which makes it easier for remote attackers to conduct XML External
-Entity (XXE) attacks via a crafted document.
+Without this, eSDK builds are failing due to qemu-helper-native's dependency on this
+task. It makes sense to allow this to execute in eSDK contexts (its a non-sstate task
+intentionally).
 
-Reference:
-http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-9318
-
-Upstream patch:
-https://git.gnome.org/browse/libxml2/commit/?id=2304078555896cf1638c628f50326aeef6f0e0d0
-
-Signed-off-by: Catalin Enache <catalin.enache@windriver.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- .../libxml/libxml2/CVE-2016-9318.patch             | 207 +++++++++++++++++++++
- meta/recipes-core/libxml/libxml2_2.9.4.bb          |   1 +
- 2 files changed, 208 insertions(+)
- create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2016-9318.patch
+ meta/classes/populate_sdk_ext.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/libxml/libxml2/CVE-2016-9318.patch b/meta/recipes-core/libxml/libxml2/CVE-2016-9318.patch
-new file mode 100644
-index 0000000..3581ab8
---- /dev/null
-+++ b/meta/recipes-core/libxml/libxml2/CVE-2016-9318.patch
-@@ -0,0 +1,207 @@
-+From 7fa1cd31552d52d50a9101f07c816ff6dd2d9f19 Mon Sep 17 00:00:00 2001
-+From: Doran Moppert <dmoppert@redhat.com>
-+Date: Fri, 7 Apr 2017 16:45:56 +0200
-+Subject: [PATCH] Add an XML_PARSE_NOXXE flag to block all entities loading
-+ even local
-+
-+For https://bugzilla.gnome.org/show_bug.cgi?id=772726
-+
-+* include/libxml/parser.h: Add a new parser flag XML_PARSE_NOXXE
-+* elfgcchack.h, xmlIO.h, xmlIO.c: associated loading routine
-+* include/libxml/xmlerror.h: new error raised
-+* xmllint.c: adds --noxxe flag to activate the option
-+
-+Upstream-Status: Backport
-+CVE: CVE-2016-9318
-+
-+Signed-off-by: Catalin Enache <catalin.enache@windriver.com>
-+---
-+ elfgcchack.h              | 10 ++++++++++
-+ include/libxml/parser.h   |  3 ++-
-+ include/libxml/xmlIO.h    |  8 ++++++++
-+ include/libxml/xmlerror.h |  1 +
-+ parser.c                  |  4 ++++
-+ xmlIO.c                   | 40 +++++++++++++++++++++++++++++++++++-----
-+ xmllint.c                 |  5 +++++
-+ 7 files changed, 65 insertions(+), 6 deletions(-)
-+
-+diff --git a/elfgcchack.h b/elfgcchack.h
-+index 8c52884..1b81dcd 100644
-+--- a/elfgcchack.h
-++++ b/elfgcchack.h
-+@@ -6547,6 +6547,16 @@ extern __typeof (xmlNoNetExternalEntityLoader) xmlNoNetExternalEntityLoader__int
-+ #endif
-+ #endif
-+ 
-++#ifdef bottom_xmlIO
-++#undef xmlNoXxeExternalEntityLoader
-++extern __typeof (xmlNoXxeExternalEntityLoader) xmlNoXxeExternalEntityLoader __attribute((alias("xmlNoXxeExternalEntityLoader__internal_alias")));
-++#else
-++#ifndef xmlNoXxeExternalEntityLoader
-++extern __typeof (xmlNoXxeExternalEntityLoader) xmlNoXxeExternalEntityLoader__internal_alias __attribute((visibility("hidden")));
-++#define xmlNoXxeExternalEntityLoader xmlNoXxeExternalEntityLoader__internal_alias
-++#endif
-++#endif
-++
-+ #ifdef bottom_tree
-+ #undef xmlNodeAddContent
-+ extern __typeof (xmlNodeAddContent) xmlNodeAddContent __attribute((alias("xmlNodeAddContent__internal_alias")));
-+diff --git a/include/libxml/parser.h b/include/libxml/parser.h
-+index 47fbec0..63ca1b9 100644
-+--- a/include/libxml/parser.h
-++++ b/include/libxml/parser.h
-+@@ -1111,7 +1111,8 @@ typedef enum {
-+     XML_PARSE_HUGE      = 1<<19,/* relax any hardcoded limit from the parser */
-+     XML_PARSE_OLDSAX    = 1<<20,/* parse using SAX2 interface before 2.7.0 */
-+     XML_PARSE_IGNORE_ENC= 1<<21,/* ignore internal document encoding hint */
-+-    XML_PARSE_BIG_LINES = 1<<22 /* Store big lines numbers in text PSVI field */
-++    XML_PARSE_BIG_LINES = 1<<22,/* Store big lines numbers in text PSVI field */
-++    XML_PARSE_NOXXE	= 1<<23 /* Forbid any external entity loading */
-+ } xmlParserOption;
-+ 
-+ XMLPUBFUN void XMLCALL
-+diff --git a/include/libxml/xmlIO.h b/include/libxml/xmlIO.h
-+index 3e41744..8d3fdef 100644
-+--- a/include/libxml/xmlIO.h
-++++ b/include/libxml/xmlIO.h
-+@@ -300,6 +300,14 @@ XMLPUBFUN xmlParserInputPtr XMLCALL
-+ 					 xmlParserCtxtPtr ctxt);
-+ 
-+ /*
-++ * A predefined entity loader external entity expansion
-++ */
-++XMLPUBFUN xmlParserInputPtr XMLCALL
-++	xmlNoXxeExternalEntityLoader	(const char *URL,
-++					 const char *ID,
-++					 xmlParserCtxtPtr ctxt);
-++
-++/*
-+  * xmlNormalizeWindowsPath is obsolete, don't use it.
-+  * Check xmlCanonicPath in uri.h for a better alternative.
-+  */
-+diff --git a/include/libxml/xmlerror.h b/include/libxml/xmlerror.h
-+index 037c16d..3036062 100644
-+--- a/include/libxml/xmlerror.h
-++++ b/include/libxml/xmlerror.h
-+@@ -470,6 +470,7 @@ typedef enum {
-+     XML_IO_EADDRINUSE, /* 1554 */
-+     XML_IO_EALREADY, /* 1555 */
-+     XML_IO_EAFNOSUPPORT, /* 1556 */
-++    XML_IO_ILLEGAL_XXE, /* 1557 */
-+     XML_XINCLUDE_RECURSION=1600,
-+     XML_XINCLUDE_PARSE_VALUE, /* 1601 */
-+     XML_XINCLUDE_ENTITY_DEF_MISMATCH, /* 1602 */
-+diff --git a/parser.c b/parser.c
-+index 53a6b7f..609a270 100644
-+--- a/parser.c
-++++ b/parser.c
-+@@ -15350,6 +15350,10 @@ xmlCtxtUseOptionsInternal(xmlParserCtxtPtr ctxt, int options, const char *encodi
-+ 	ctxt->options |= XML_PARSE_NONET;
-+         options -= XML_PARSE_NONET;
-+     }
-++    if (options & XML_PARSE_NOXXE) {
-++	ctxt->options |= XML_PARSE_NOXXE;
-++        options -= XML_PARSE_NOXXE;
-++    }
-+     if (options & XML_PARSE_COMPACT) {
-+ 	ctxt->options |= XML_PARSE_COMPACT;
-+         options -= XML_PARSE_COMPACT;
-+diff --git a/xmlIO.c b/xmlIO.c
-+index 1a79c09..304f822 100644
-+--- a/xmlIO.c
-++++ b/xmlIO.c
-+@@ -210,6 +210,7 @@ static const char *IOerr[] = {
-+     "adddress in use",		/* EADDRINUSE */
-+     "already in use",		/* EALREADY */
-+     "unknown address familly",	/* EAFNOSUPPORT */
-++    "Attempt to load external entity %s", /* XML_IO_ILLEGAL_XXE */
-+ };
-+ 
-+ #if defined(_WIN32) || defined (__DJGPP__) && !defined (__CYGWIN__)
-+@@ -4053,13 +4054,22 @@ xmlDefaultExternalEntityLoader(const char *URL, const char *ID,
-+     xmlGenericError(xmlGenericErrorContext,
-+                     "xmlDefaultExternalEntityLoader(%s, xxx)\n", URL);
-+ #endif
-+-    if ((ctxt != NULL) && (ctxt->options & XML_PARSE_NONET)) {
-++    if (ctxt != NULL) {
-+         int options = ctxt->options;
-+ 
-+-	ctxt->options -= XML_PARSE_NONET;
-+-        ret = xmlNoNetExternalEntityLoader(URL, ID, ctxt);
-+-	ctxt->options = options;
-+-	return(ret);
-++        if (options & XML_PARSE_NOXXE) {
-++            ctxt->options -= XML_PARSE_NOXXE;
-++            ret = xmlNoXxeExternalEntityLoader(URL, ID, ctxt);
-++            ctxt->options = options;
-++            return(ret);
-++        }
-++ 
-++        if (options & XML_PARSE_NONET) {
-++            ctxt->options -= XML_PARSE_NONET;
-++            ret = xmlNoNetExternalEntityLoader(URL, ID, ctxt);
-++            ctxt->options = options;
-++            return(ret);
-++        }
-+     }
-+ #ifdef LIBXML_CATALOG_ENABLED
-+     resource = xmlResolveResourceFromCatalog(URL, ID, ctxt);
-+@@ -4160,6 +4170,13 @@ xmlNoNetExternalEntityLoader(const char *URL, const char *ID,
-+     xmlParserInputPtr input = NULL;
-+     xmlChar *resource = NULL;
-+ 
-++    if (ctxt == NULL) {
-++        return(NULL);
-++    }
-++    if (ctxt->input_id == 1) {
-++        return xmlDefaultExternalEntityLoader((const char *) URL, ID, ctxt);
-++    }
-++
-+ #ifdef LIBXML_CATALOG_ENABLED
-+     resource = xmlResolveResourceFromCatalog(URL, ID, ctxt);
-+ #endif
-+@@ -4182,5 +4199,18 @@ xmlNoNetExternalEntityLoader(const char *URL, const char *ID,
-+     return(input);
-+ }
-+ 
-++xmlParserInputPtr
-++xmlNoXxeExternalEntityLoader(const char *URL, const char *ID,
-++                          xmlParserCtxtPtr ctxt) {
-++    if (ctxt == NULL) {
-++        return(NULL);
-++    }
-++    if (ctxt->input_id == 1) {
-++        return xmlDefaultExternalEntityLoader((const char *) URL, ID, ctxt);
-++    }
-++    xmlIOErr(XML_IO_ILLEGAL_XXE, (const char *) URL);
-++    return(NULL);
-++}
-++
-+ #define bottom_xmlIO
-+ #include "elfgcchack.h"
-+diff --git a/xmllint.c b/xmllint.c
-+index 67f7adb..d9368c1 100644
-+--- a/xmllint.c
-++++ b/xmllint.c
-+@@ -3019,6 +3019,7 @@ static void usage(const char *name) {
-+     printf("\t--path 'paths': provide a set of paths for resources\n");
-+     printf("\t--load-trace : print trace of all external entities loaded\n");
-+     printf("\t--nonet : refuse to fetch DTDs or entities over network\n");
-++    printf("\t--noxxe : forbid any external entity loading\n");
-+     printf("\t--nocompact : do not generate compact text nodes\n");
-+     printf("\t--htmlout : output results as HTML\n");
-+     printf("\t--nowrap : do not put HTML doc wrapper\n");
-+@@ -3461,6 +3462,10 @@ main(int argc, char **argv) {
-+                    (!strcmp(argv[i], "--nonet"))) {
-+ 	    options |= XML_PARSE_NONET;
-+ 	    xmlSetExternalEntityLoader(xmlNoNetExternalEntityLoader);
-++        } else if ((!strcmp(argv[i], "-noxxe")) ||
-++                   (!strcmp(argv[i], "--noxxe"))) {
-++	    options |= XML_PARSE_NOXXE;
-++	    xmlSetExternalEntityLoader(xmlNoXxeExternalEntityLoader);
-+         } else if ((!strcmp(argv[i], "-nocompact")) ||
-+                    (!strcmp(argv[i], "--nocompact"))) {
-+ 	    options &= ~XML_PARSE_COMPACT;
-+-- 
-+2.10.2
-+
-diff --git a/meta/recipes-core/libxml/libxml2_2.9.4.bb b/meta/recipes-core/libxml/libxml2_2.9.4.bb
-index 0c3d683..7d0e121 100644
---- a/meta/recipes-core/libxml/libxml2_2.9.4.bb
-+++ b/meta/recipes-core/libxml/libxml2_2.9.4.bb
-@@ -23,6 +23,7 @@ SRC_URI = "ftp://xmlsoft.org/libxml2/libxml2-${PV}.tar.gz;name=libtar \
-            file://libxml2-CVE-2016-5131.patch \
-            file://libxml2-CVE-2016-4658.patch \
-            file://libxml2-fix_NULL_pointer_derefs.patch \
-+           file://CVE-2016-9318.patch \
-           "
+diff --git a/meta/classes/populate_sdk_ext.bbclass b/meta/classes/populate_sdk_ext.bbclass
+index 21fd122..3e1858c 100644
+--- a/meta/classes/populate_sdk_ext.bbclass
++++ b/meta/classes/populate_sdk_ext.bbclass
+@@ -314,7 +314,7 @@ python copy_buildsystem () {
+             f.write('SIGGEN_LOCKEDSIGS_TASKSIG_CHECK = "warn"\n\n')
  
- SRC_URI[libtar.md5sum] = "ae249165c173b1ff386ee8ad676815f5"
+             # Set up whitelist for run on install
+-            f.write('BB_SETSCENE_ENFORCE_WHITELIST = "%:* *:do_shared_workdir *:do_rm_work wic-tools:*"\n\n')
++            f.write('BB_SETSCENE_ENFORCE_WHITELIST = "%:* *:do_shared_workdir *:do_rm_work wic-tools:* *:do_addto_recipe_sysroot"\n\n')
+ 
+             # Hide the config information from bitbake output (since it's fixed within the SDK)
+             f.write('BUILDCFG_HEADER = ""\n\n')
 -- 
-2.10.2
+2.7.4
 
 
