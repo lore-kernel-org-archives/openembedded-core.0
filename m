@@ -1,27 +1,28 @@
-Return-Path: <richard@rpsys.net>
+Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 8847177E43
+	by mail.openembedded.org (Postfix) with ESMTP id F136577E43
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Apr 2017 08:46:21 +0000 (UTC)
+	Fri, 14 Apr 2017 08:49:24 +0000 (UTC)
 Received: from hex ([192.168.3.34]) (authenticated bits=0)
 	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	v3E8kJNk019165
+	v3E8nKik019455
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Fri, 14 Apr 2017 09:46:20 +0100
-Received: from richard by hex with local (Exim 4.86_2)
-	(envelope-from <richard@rpsys.net>)
-	id 1cywrz-0000em-O5; Fri, 14 Apr 2017 09:46:19 +0100
+	verify=NOT); Fri, 14 Apr 2017 09:49:21 +0100
+Message-ID: <1492159760.19076.10.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 14 Apr 2017 09:46:18 +0100
-Message-Id: <1492159578-2483-1-git-send-email-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.7.4
+To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
+	openembedded-core@lists.openembedded.org
+Date: Fri, 14 Apr 2017 09:49:20 +0100
+In-Reply-To: <cover.1492135840.git.pkj@axis.com>
+References: <cover.1492135840.git.pkj@axis.com>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.1 
+Mime-Version: 1.0
 X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.11
 	(dan.rpsys.net [192.168.3.1]);
-	Fri, 14 Apr 2017 09:46:20 +0100 (BST)
+	Fri, 14 Apr 2017 09:49:21 +0100 (BST)
 X-Virus-Scanned: clamav-milter 0.99.2 at dan
 X-Virus-Status: Clean
-Subject: [PATCH] populate_sdk_ext: Add do_addto_recipe_sysroot to BB_SETSCENE_ENFORCE_WHITELIST
+Subject: Re: [PATCH 0/2] Allow postinst functions to be verbose
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,31 +35,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Apr 2017 08:46:27 -0000
+X-List-Received-Date: Fri, 14 Apr 2017 08:49:25 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Without this, eSDK builds are failing due to qemu-helper-native's dependency on this
-task. It makes sense to allow this to execute in eSDK contexts (its a non-sstate task
-intentionally).
+On Fri, 2017-04-14 at 04:39 +0200, Peter Kjellerstedt wrote:
+> This enables tracing of the postinst functions created in base-passwd
+> and useradd.bbclass if BB_VERBOSE_LOGS is enabled. I found this
+> extremely useful during verification of the useradd functionality,
+> especially as there otherwise is absolutely nothing in the logs of
+> why
+> a failure in a postinst function happened.
+> 
+> I also simplified useradd_sysroot_sstate() by only having the code to
+> create the postinst files once.
+> 
+> Feel free to squash these commits with the "base-passwd/useradd:
+> Various improvements to useradd with RSS" commit if you prefer.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/classes/populate_sdk_ext.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I'm afraid I can't take these since these scripts get written into the
+sstate objects for the recipes in question and this would make the
+sstate change depending on the parameters you call bitbake with. I
+think we'd both agree that is undesirable.
 
-diff --git a/meta/classes/populate_sdk_ext.bbclass b/meta/classes/populate_sdk_ext.bbclass
-index 21fd122..3e1858c 100644
---- a/meta/classes/populate_sdk_ext.bbclass
-+++ b/meta/classes/populate_sdk_ext.bbclass
-@@ -314,7 +314,7 @@ python copy_buildsystem () {
-             f.write('SIGGEN_LOCKEDSIGS_TASKSIG_CHECK = "warn"\n\n')
- 
-             # Set up whitelist for run on install
--            f.write('BB_SETSCENE_ENFORCE_WHITELIST = "%:* *:do_shared_workdir *:do_rm_work wic-tools:*"\n\n')
-+            f.write('BB_SETSCENE_ENFORCE_WHITELIST = "%:* *:do_shared_workdir *:do_rm_work wic-tools:* *:do_addto_recipe_sysroot"\n\n')
- 
-             # Hide the config information from bitbake output (since it's fixed within the SDK)
-             f.write('BUILDCFG_HEADER = ""\n\n')
--- 
-2.7.4
+Not sure what we can do but this needs more thought.
+
+Cheers,
+
+Richard
+
+
+
 
 
