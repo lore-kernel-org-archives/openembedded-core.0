@@ -1,25 +1,47 @@
-Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id A3E7D71A81
+Return-Path: <twoerner@gmail.com>
+Received: from mail-it0-f65.google.com (mail-it0-f65.google.com
+	[209.85.214.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 767A96FEF5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Apr 2017 18:13:02 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga105.jf.intel.com with ESMTP; 14 Apr 2017 11:13:04 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.37,199,1488873600"; d="scan'208";a="1155992220"
-Received: from lsandov1-mobl2.zpn.intel.com ([10.219.128.126])
-	by fmsmga002.fm.intel.com with ESMTP; 14 Apr 2017 11:13:03 -0700
-Message-ID: <1492194041.27873.4.camel@linux.intel.com>
-From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
-To: Mark Hatle <mark.hatle@windriver.com>
-Date: Fri, 14 Apr 2017 13:20:41 -0500
-In-Reply-To: <7b44de40-fe30-474b-620f-4efec4bf5cac@windriver.com>
-References: <655290B7709079438B7932553958E60D16D199CA@ESS-EX01.essvote.corp.local>
-	<7b44de40-fe30-474b-620f-4efec4bf5cac@windriver.com>
-X-Mailer: Evolution 3.12.9-1+b1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: Handling of users in multiple recipes.
+	Sat, 15 Apr 2017 22:44:18 +0000 (UTC)
+Received: by mail-it0-f65.google.com with SMTP id e132so2113708ite.2
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 15 Apr 2017 15:44:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:subject:date:message-id;
+	bh=ZYlZh4kgScBT6MnEeZxJGfChKLwL55qwLaXBPPHWr/A=;
+	b=M4ardu2uatULHV9Ig334vJn3BHpDNIgBMi0dHVZyfe8r8rurltOZxuWqClcSIAnPnf
+	oAstHJSIcK1A/WXcAk+2qXWF2mRn1S8vP0J2y1fWp3AoySMIWQ0XOisnK90TZF7CuAAm
+	dxZ+vuv7fvTTD3HXqhUo1rUzZcmgUCcBfmJ7T8NOnfTzDgEDtwy+v6lFr5pR3+E7smTF
+	LHlaNrzT3YRFS7Dm2umZmb81VVj3LRr/7gzLycdKqorL35W8HzHEN/a0uqWTWQCe3517
+	lRRq+Z80jTf6H7AguugKbV5vKyToGpTuf9QU2ONwBirOfmC2q9kClvLs7bUDHUj2QvKU
+	H8gg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=ZYlZh4kgScBT6MnEeZxJGfChKLwL55qwLaXBPPHWr/A=;
+	b=CIWdSI4Q1qgOCS60uIu2X8vLEVq+KrciVwlkoHE2SBdSvqbU/8BkJEXkU5W1ZYA4Ma
+	8jh+NS7oMjF/Gtb3CujbTnvQY2SvozXNK6j2zJNXtG9oONBNYeeCjij8YCyHP2KfiyqT
+	f4vyPocn8jr2lN+Vxt5iBS1Yz8KFCKJ2Ouhw+fopd29TOXgzQaEz3FzOhzx/5Xolwqy1
+	dcqR0BR0qalMgcmfqgppK9O1X366REtK2ORKP4YhNmhnjEseMLZrMIj6Htrz+vt6ZIKU
+	GALEXFAJX4PDLMHTK4FB4k0in2h2QTjWS3wc7Km1ICZ+yyMKQLrCqXB98LIzzNxg4JDJ
+	m3cg==
+X-Gm-Message-State: AN3rC/704+avf3WwHMv9D5HApAvAATnMYu5+qX0qA5qXeCQ0Xc05/VNr
+	Ivwb+n7oXhX5g2B46Qg=
+X-Received: by 10.36.103.215 with SMTP id u206mr3437930itc.6.1492296259308;
+	Sat, 15 Apr 2017 15:44:19 -0700 (PDT)
+Received: from linux-uys3.suse (69-165-142-50.dsl.teksavvy.com.
+	[69.165.142.50])
+	by smtp.gmail.com with ESMTPSA id r24sm777354ioe.1.2017.04.15.15.44.18
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Sat, 15 Apr 2017 15:44:18 -0700 (PDT)
+From: Trevor Woerner <twoerner@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sat, 15 Apr 2017 18:44:05 -0400
+Message-Id: <20170415224405.14893-1-twoerner@gmail.com>
+X-Mailer: git-send-email 2.12.0.rc1.48.g076c053
+Subject: [PATCH] mesa-demos: add glut dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,59 +54,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Apr 2017 18:13:04 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 15 Apr 2017 22:44:18 -0000
 
-On Fri, 2017-04-14 at 12:52 -0500, Mark Hatle wrote:
-> On 4/14/17 11:49 AM, Davis, Michael wrote:
-> > I have a user that is added in a recipe using inherit useradd.
-> > 
-> > Previously in Morty I was able to include that recipe as a dependency to other
-> > recipes and chown files to that user during do_install.
-> > 
-> > In checking at master in prep for 2.3 I noticed those recipes no longer work
-> > stating the user is invalid.
-> > 
-> 
-> A patch for this issue was added yesterday to oe-core.  I'm not sure if it has
-> been merged to master, but should be soon if it has not already been.
-> 
-> Search the list archives for "base-passwd/useradd: Various improvements to
-> useradd with RSS".
+If the user wants to enable the 'glut' PACKAGECONFIG for mesa-demos, freeglut
+is required to provide the dependency before the demos can be compiled.
 
-Right, in the other hand, the scenario  you are indicating is basically
-the same as described in bug 7724
-(https://bugzilla.yoctoproject.org/show_bug.cgi?id=7724)
+NOTE! this is a cross-layer dependency (freeglut is currently only available
+in meta-oe). However 'glut' is not a default PACKAGECONFIG (so this is
+allowed).
 
-and confirmed that the patch worked.
+Signed-off-by: Trevor Woerner <twoerner@gmail.com>
+---
+ meta/recipes-graphics/mesa/mesa-demos_8.3.0.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Leo
-
-
-
-> 
-> --Mark
-> 
-> > 
-> > Is there a new mechanism in place to handle this use case or am I going to have
-> > to find some sort of other work around?
-> > 
-> >  
-> > 
-> > Thanks,
-> > 
-> > Mike
-> > 
-> >  
-> > 
-> >  
-> > 
-> >  
-> > 
-> > 
-> > 
-> 
-
+diff --git a/meta/recipes-graphics/mesa/mesa-demos_8.3.0.bb b/meta/recipes-graphics/mesa/mesa-demos_8.3.0.bb
+index e80d1e8acb..e43b9effba 100644
+--- a/meta/recipes-graphics/mesa/mesa-demos_8.3.0.bb
++++ b/meta/recipes-graphics/mesa/mesa-demos_8.3.0.bb
+@@ -40,7 +40,7 @@ PACKAGECONFIG[freetype2] = "--enable-freetype2,--disable-freetype2,freetype"
+ PACKAGECONFIG[gbm] = "--enable-gbm,--disable-gbm,virtual/libgl"
+ PACKAGECONFIG[gles1] = "--enable-gles1,--disable-gles1,virtual/libgles1"
+ PACKAGECONFIG[gles2] = "--enable-gles2,--disable-gles2,virtual/libgles2"
+-PACKAGECONFIG[glut] = "--with-glut=${STAGING_EXECPREFIXDIR},--without-glut,"
++PACKAGECONFIG[glut] = "--with-glut=${STAGING_EXECPREFIXDIR},--without-glut,freeglut"
+ PACKAGECONFIG[osmesa] = "--enable-osmesa,--disable-osmesa,"
+ PACKAGECONFIG[vg] = "--enable-vg,--disable-vg,virtual/libopenvg"
+ PACKAGECONFIG[wayland] = "--enable-wayland,--disable-wayland,virtual/libgl wayland"
+-- 
+2.12.0.rc1.48.g076c053
 
 
