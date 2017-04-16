@@ -1,52 +1,42 @@
-Return-Path: <twoerner@gmail.com>
-Received: from mail-ua0-f171.google.com (mail-ua0-f171.google.com
-	[209.85.217.171])
-	by mail.openembedded.org (Postfix) with ESMTP id DEC4A77E05
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 15 Apr 2017 22:53:44 +0000 (UTC)
-Received: by mail-ua0-f171.google.com with SMTP id h2so32725816uaa.1
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 15 Apr 2017 15:53:46 -0700 (PDT)
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-wm0-f51.google.com (mail-wm0-f51.google.com [74.125.82.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 044EC719E2;
+	Sun, 16 Apr 2017 15:50:31 +0000 (UTC)
+Received: by mail-wm0-f51.google.com with SMTP id u2so20322360wmu.0;
+	Sun, 16 Apr 2017 08:50:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=2ZqpliE69DuUrt0cxibnP/OI1tqiAnzbj4JSy85LE5o=;
-	b=MOxeYfswVKiuiqhOFQdGkVRLqmp1zdnVwKN34dfAK2p5dpWT+BDNb868khbMN1NPjY
-	D3W1j2vJAviSsdcQm9RYppifJwEFzvhB45s4ljSc+HMxM5qxMtC2+ba9Y+arxQZAo9NA
-	gtRssEd03jzwn4pwOs6pSrTy/vXCE1pTZx+ugU3T8uutSWXLIYOM8NxooawLa10A/Rrw
-	VMLWVi9Oo859bw5poZxTC+uqryBGuPT0/1ohgiP/F9ye9lCcH1k0Aom44cyaUMNZ4J9K
-	0kwhh57J3fL5mHMl3dewAPveH6dQUu9XJRJWHjpmazJchxzGabP9eNvDCerWX87ldCag
-	4NQg==
+	h=mime-version:from:date:message-id:subject:to;
+	bh=QEZ38AeGrYkkudOXGnXcvl7HKGC8rGUq2bApDEreXCI=;
+	b=qhoZLEbDgbdvSiLMxmXKe8EcWVth8sXQxENtpftpzIkG9m7V86WdUvL0K1n+ipy75W
+	HoZyi7gFuDkJ9R4mjN3XYsTL/8MQZ0b0otyilvNBpKC9ne5a2wEG2xGBUh21aL+7Jg1g
+	502mEHjGma8vm4eeIDhS8evyCbdT4/HfuRlw7jaP1u/JnOwukytkZZN81RiNXcwD3qz0
+	2nle6fXvTOrWS9YpIB78TMm2ZOLsIezAULwWwiQMb2hAmOeDGiUkZ4FANZdqO59acoQz
+	cc6KXjgTyDl/7kCM2BEmJfH2NVlW6U9kuEl1HTSqYqIMWhXarTZwCpwOFM8MtBzs0Ahx
+	JevQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=2ZqpliE69DuUrt0cxibnP/OI1tqiAnzbj4JSy85LE5o=;
-	b=KdK2iaRh335HbI6d5U3rUi4L/V+fViKQD1q/q6gR/Z1ZcBYzHITPGy/icaIyDAbFj7
-	1krhWAQEfssrRftPQ9eT2doHdViHrONiiSzB6bUTRwP+oymog6wfQ9/vhFKhy5wW15lb
-	dVc5QHna8KP2HCm6Q/K3bpCT67bPMhVqPeX8/F0ZHZTB5xaq5FHdviEy0b7XobuL8V0L
-	w1zKrKPF6WdnToeGG9o40Mejwxla5T0S+zqTnoX7MX5Kd4EtOJQhwj3MpAPtbzeYDeUC
-	jV6xrWY1v/jH1kqwElpJaa260mUd4+yq6jksVt96/TerFT6SBPKBj3M4R3xaa79MBeRZ
-	JDSw==
-X-Gm-Message-State: AN3rC/6RxndL107f4RK7BYjWPxb2+lKqEVcoMevlvCHw4eY+uhb1UmA4
-	NazkkNmKH5Aptjn+/ZYxEBT4lJkqTA==
-X-Received: by 10.176.9.196 with SMTP id e4mr1019831uah.34.1492296825688; Sat,
-	15 Apr 2017 15:53:45 -0700 (PDT)
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+	bh=QEZ38AeGrYkkudOXGnXcvl7HKGC8rGUq2bApDEreXCI=;
+	b=hjoCIuOzfklRCHNkFWQPC3ouO3f+JItphicHNzEH3Z4NxBuRMKyCsUJ/0Pwb0564At
+	VfL/T25X+NORkGTr4CJHbZ+jzADzdmA7i76bXEg7X/kGdc14LwTb5cRZL/A4Xo/Cm8iM
+	NeIN+/QJ0UAahu/NBBxTUkuj3NmtFGQnsrj6hdQ3U0ZCavvWvJOvi8HeoT4nHzx5wPVy
+	K2+Y2N1CCm+nzPO3Pcd6OIqNwGDRKkS9OCuKZkFDBTNLdp3PgrLwNmJBKyumLp6z97Y8
+	1tQSw74+EqwBAFc0YjYja2snZjcebc4j3alIjf3Bhb94nILUV3xwswtUDrqwV+h6X3ja
+	iTlg==
+X-Gm-Message-State: AN3rC/7XMDEkzP6iHKo78fTrz22P04ATLOolkSqRz9/YM5GtuZkMhbFu
+	//Pe50iLHaLZo1z4/MXxh9j6X0CB9A==
+X-Received: by 10.28.153.194 with SMTP id b185mr5804592wme.101.1492357832446; 
+	Sun, 16 Apr 2017 08:50:32 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.103.30.70 with HTTP; Sat, 15 Apr 2017 15:53:45 -0700 (PDT)
-In-Reply-To: <CAJTo0Lb1fMwBcn7=1yM8WB9qYQPBvkUgimVNtEvRt0M3FDs4Xg@mail.gmail.com>
-References: <20170411013850.GA25337@linux-uys3>
-	<CA+chaQcT7jApSyB4SqwPhsn+Pn_XTbryPT0FQZ_ST0OKDTH5xA@mail.gmail.com>
-	<CAHUNapQdr_o_F7DbjNkmOYLXiMnntZJEKgw0+HVncMs6kC-Pmg@mail.gmail.com>
-	<20170412063847.GA3855@jama>
-	<CAJTo0Lb1fMwBcn7=1yM8WB9qYQPBvkUgimVNtEvRt0M3FDs4Xg@mail.gmail.com>
-From: Trevor Woerner <twoerner@gmail.com>
-Date: Sat, 15 Apr 2017 18:53:45 -0400
-Message-ID: <CAHUNapT3bJEMaDM89qAoqO6KRgxUH+180=UAO_Tc3WZO1p8Cmw@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>,
-	Drew Moseley <drew_moseley@mentor.com>
-Subject: Re: having llvm available for gallium
+Received: by 10.80.180.141 with HTTP; Sun, 16 Apr 2017 08:50:01 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+Date: Sun, 16 Apr 2017 08:50:01 -0700
+Message-ID: <CAMKF1spGM+kugUDOB4kF7NAgSCt9vCw8GFT0nLKFRd2tHei=pw@mail.gmail.com>
+To: openembeded-devel <Openembedded-devel@lists.openembedded.org>, 
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>, 
+	"yocto@yoctoproject.org" <yocto@yoctoproject.org>
+Subject: [RFT] gcc7 and glibc-2.26 recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,20 +49,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 15 Apr 2017 22:53:45 -0000
+X-List-Received-Date: Sun, 16 Apr 2017 15:50:32 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On Thu, Apr 13, 2017 at 10:11 AM, Burton, Ross <ross.burton@intel.com> wrote:
-> Trevor, what layer were you getting llvm from?  Khem's fix looks good from a
-> "stop host contamination" point of view, so we either need to fix
-> meta-something or mesa very soon as oe-core is very close to the final RC
-> builds.
+Hello All
 
-meta-amd
-http://git.yoctoproject.org/cgit/cgit.cgi/meta-amd/tree/common/recipes-core/llvm
-MACHINE: steppeeagle
+I have put together recipes for upcoming gcc-7 major release as well
+as glibc 2.26 release, which we would target for next release ( 2.4 )
 
-The mentor people fixed things up in meta-amd, so it looks like this
-was a localized thing:
-http://git.yoctoproject.org/cgit/cgit.cgi/meta-amd/diff/common/recipes-graphics/mesa/mesa_git.bbappend
+There are several changes in gcc-7 which will need fixing packages. If you have
+time to spare feel free to give it a shot and send fixes for the packages or bug
+reports. Below are commits you can cherry-pick independently.
+
+gcc7 -  http://git.openembedded.org/openembedded-core-contrib/commit/?h=kraj/gcc7&id=9562231d6a37ea9c59086927bf0c854fd40b29cd
+
+glib-2.26 - http://git.openembedded.org/openembedded-core-contrib/commit/?h=kraj/glibc-2.26&id=6e91059d3f6ca0f4468ff59a2c7449be301ee100
+
+Refer to
+
+https://gcc.gnu.org/gcc-7/porting_to.html
+
+For porting issues with gcc7
+
+Cheers
+-Khem
 
