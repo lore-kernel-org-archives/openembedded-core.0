@@ -1,42 +1,28 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-wm0-f51.google.com (mail-wm0-f51.google.com [74.125.82.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 044EC719E2;
-	Sun, 16 Apr 2017 15:50:31 +0000 (UTC)
-Received: by mail-wm0-f51.google.com with SMTP id u2so20322360wmu.0;
-	Sun, 16 Apr 2017 08:50:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:from:date:message-id:subject:to;
-	bh=QEZ38AeGrYkkudOXGnXcvl7HKGC8rGUq2bApDEreXCI=;
-	b=qhoZLEbDgbdvSiLMxmXKe8EcWVth8sXQxENtpftpzIkG9m7V86WdUvL0K1n+ipy75W
-	HoZyi7gFuDkJ9R4mjN3XYsTL/8MQZ0b0otyilvNBpKC9ne5a2wEG2xGBUh21aL+7Jg1g
-	502mEHjGma8vm4eeIDhS8evyCbdT4/HfuRlw7jaP1u/JnOwukytkZZN81RiNXcwD3qz0
-	2nle6fXvTOrWS9YpIB78TMm2ZOLsIezAULwWwiQMb2hAmOeDGiUkZ4FANZdqO59acoQz
-	cc6KXjgTyDl/7kCM2BEmJfH2NVlW6U9kuEl1HTSqYqIMWhXarTZwCpwOFM8MtBzs0Ahx
-	JevQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-	bh=QEZ38AeGrYkkudOXGnXcvl7HKGC8rGUq2bApDEreXCI=;
-	b=hjoCIuOzfklRCHNkFWQPC3ouO3f+JItphicHNzEH3Z4NxBuRMKyCsUJ/0Pwb0564At
-	VfL/T25X+NORkGTr4CJHbZ+jzADzdmA7i76bXEg7X/kGdc14LwTb5cRZL/A4Xo/Cm8iM
-	NeIN+/QJ0UAahu/NBBxTUkuj3NmtFGQnsrj6hdQ3U0ZCavvWvJOvi8HeoT4nHzx5wPVy
-	K2+Y2N1CCm+nzPO3Pcd6OIqNwGDRKkS9OCuKZkFDBTNLdp3PgrLwNmJBKyumLp6z97Y8
-	1tQSw74+EqwBAFc0YjYja2snZjcebc4j3alIjf3Bhb94nILUV3xwswtUDrqwV+h6X3ja
-	iTlg==
-X-Gm-Message-State: AN3rC/7XMDEkzP6iHKo78fTrz22P04ATLOolkSqRz9/YM5GtuZkMhbFu
-	//Pe50iLHaLZo1z4/MXxh9j6X0CB9A==
-X-Received: by 10.28.153.194 with SMTP id b185mr5804592wme.101.1492357832446; 
-	Sun, 16 Apr 2017 08:50:32 -0700 (PDT)
+Return-Path: <Dengke.Du@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 743AC71A88
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 17 Apr 2017 04:37:22 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v3H4bNBA005734
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 16 Apr 2017 21:37:23 -0700 (PDT)
+Received: from [128.224.162.189] (128.224.162.189) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.294.0;
+	Sun, 16 Apr 2017 21:37:22 -0700
+To: <openembedded-core@lists.openembedded.org>
+References: <1491876119-195521-1-git-send-email-dengke.du@windriver.com>
+From: Dengke Du <dengke.du@windriver.com>
+Message-ID: <2f2ca19a-5af9-aa71-23bc-c2d30ea43445@windriver.com>
+Date: Mon, 17 Apr 2017 12:37:20 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.8.0
 MIME-Version: 1.0
-Received: by 10.80.180.141 with HTTP; Sun, 16 Apr 2017 08:50:01 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-Date: Sun, 16 Apr 2017 08:50:01 -0700
-Message-ID: <CAMKF1spGM+kugUDOB4kF7NAgSCt9vCw8GFT0nLKFRd2tHei=pw@mail.gmail.com>
-To: openembeded-devel <Openembedded-devel@lists.openembedded.org>, 
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>, 
-	"yocto@yoctoproject.org" <yocto@yoctoproject.org>
-Subject: [RFT] gcc7 and glibc-2.26 recipes
+In-Reply-To: <1491876119-195521-1-git-send-email-dengke.du@windriver.com>
+X-Originating-IP: [128.224.162.189]
+Subject: Re: [PATCH] openssh: upgrade to 7.5p1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,28 +35,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 16 Apr 2017 15:50:32 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 17 Apr 2017 04:37:29 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Hello All
+Ping.
 
-I have put together recipes for upcoming gcc-7 major release as well
-as glibc 2.26 release, which we would target for next release ( 2.4 )
 
-There are several changes in gcc-7 which will need fixing packages. If you have
-time to spare feel free to give it a shot and send fixes for the packages or bug
-reports. Below are commits you can cherry-pick independently.
+On 2017年04月11日 10:01, Dengke Du wrote:
+> Signed-off-by: Dengke Du <dengke.du@windriver.com>
+> ---
+>   .../openssh/{openssh_7.4p1.bb => openssh_7.5p1.bb}                    | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
+>   rename meta/recipes-connectivity/openssh/{openssh_7.4p1.bb => openssh_7.5p1.bb} (97%)
+>
+> diff --git a/meta/recipes-connectivity/openssh/openssh_7.4p1.bb b/meta/recipes-connectivity/openssh/openssh_7.5p1.bb
+> similarity index 97%
+> rename from meta/recipes-connectivity/openssh/openssh_7.4p1.bb
+> rename to meta/recipes-connectivity/openssh/openssh_7.5p1.bb
+> index c8093d4..5b96745 100644
+> --- a/meta/recipes-connectivity/openssh/openssh_7.4p1.bb
+> +++ b/meta/recipes-connectivity/openssh/openssh_7.5p1.bb
+> @@ -29,8 +29,8 @@ SRC_URI = "http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar
+>   
+>   PAM_SRC_URI = "file://sshd"
+>   
+> -SRC_URI[md5sum] = "b2db2a83caf66a208bb78d6d287cdaa3"
+> -SRC_URI[sha256sum] = "1b1fc4a14e2024293181924ed24872e6f2e06293f3e8926a376b8aec481f19d1"
+> +SRC_URI[md5sum] = "652fdc7d8392f112bef11cacf7e69e23"
+> +SRC_URI[sha256sum] = "9846e3c5fab9f0547400b4d2c017992f914222b3fd1f8eee6c7dc6bc5e59f9f0"
+>   
+>   inherit useradd update-rc.d update-alternatives systemd
+>   
 
-gcc7 -  http://git.openembedded.org/openembedded-core-contrib/commit/?h=kraj/gcc7&id=9562231d6a37ea9c59086927bf0c854fd40b29cd
-
-glib-2.26 - http://git.openembedded.org/openembedded-core-contrib/commit/?h=kraj/glibc-2.26&id=6e91059d3f6ca0f4468ff59a2c7449be301ee100
-
-Refer to
-
-https://gcc.gnu.org/gcc-7/porting_to.html
-
-For porting issues with gcc7
-
-Cheers
--Khem
 
