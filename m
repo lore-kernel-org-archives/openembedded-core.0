@@ -1,30 +1,24 @@
-Return-Path: <Dengke.Du@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 08CA571D9D
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id BEC7571A37
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Apr 2017 06:46:03 +0000 (UTC)
+	Mon, 17 Apr 2017 07:54:28 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v3H6k3dW011380
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sun, 16 Apr 2017 23:46:03 -0700 (PDT)
-Received: from [128.224.162.189] (128.224.162.189) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.294.0;
-	Sun, 16 Apr 2017 23:46:02 -0700
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	<openembedded-core@lists.openembedded.org>
-References: <1491876119-195521-1-git-send-email-dengke.du@windriver.com>
-	<2f2ca19a-5af9-aa71-23bc-c2d30ea43445@windriver.com>
-	<1492411399.19076.58.camel@linuxfoundation.org>
-From: Dengke Du <dengke.du@windriver.com>
-Message-ID: <12aa5141-c094-e5c0-83c8-c6f96766c653@windriver.com>
-Date: Mon, 17 Apr 2017 14:45:59 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.8.0
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v3H7sTMi020096
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 17 Apr 2017 00:54:29 -0700
+Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
+	Mon, 17 Apr 2017 00:54:28 -0700
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 17 Apr 2017 00:54:27 -0700
+Message-ID: <20170417075428.31171-1-liezhi.yang@windriver.com>
+X-Mailer: git-send-email 2.10.2
 MIME-Version: 1.0
-In-Reply-To: <1492411399.19076.58.camel@linuxfoundation.org>
-X-Originating-IP: [128.224.162.189]
-Subject: Re: [PATCH] openssh: upgrade to 7.5p1
+Subject: [meta-gplv2] [PATCH] ayer.conf: add dl layer to LAYERRECOMMENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,24 +31,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Apr 2017 06:46:04 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 17 Apr 2017 07:54:29 -0000
+Content-Type: text/plain
 
-Sorry for my rude.
+Hello,
 
+This is a Wind River specific patch and not generally applicable, but I
+still have to send it to mailing list according yocto compliance:
 
-On 2017年04月17日 14:43, Richard Purdie wrote:
-> On Mon, 2017-04-17 at 12:37 +0800, Dengke Du wrote:
->> Ping.
-> We do not take upgrades after feature freeze when we're stabilising
-> unless there is a pressing reason to do so. Your commit messages makes
-> no mention of any pressing reason.
->
-> Cheers,
->
-> Richard
->
->
+https://www.yoctoproject.org/webform/yocto-project-compatible-registration
+
+// Robert
+
+Robert Yang (1):
+  layer.conf: add dl layer to LAYERRECOMMENDS
+
+ conf/layer.conf | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+-- 
+2.10.2
 
 
