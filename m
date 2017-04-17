@@ -1,38 +1,41 @@
 Return-Path: <marc.ferland@gmail.com>
-Received: from mail-qk0-f177.google.com (mail-qk0-f177.google.com
-	[209.85.220.177])
-	by mail.openembedded.org (Postfix) with ESMTP id CB13971B86
+Received: from mail-qk0-f194.google.com (mail-qk0-f194.google.com
+	[209.85.220.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 797CF71D42
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 17 Apr 2017 13:39:26 +0000 (UTC)
-Received: by mail-qk0-f177.google.com with SMTP id p68so104578359qke.1
+Received: by mail-qk0-f194.google.com with SMTP id p68so19367563qke.1
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 17 Apr 2017 06:39:28 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=6L7eDjuXBMfyjdWDWy7Nb9yUfKNhXM+mDX/DXT9lwWY=;
-	b=l14sClXBFblFuMPVZ081jPLigiMHERRJ5ltpT/H+359hadvVoh5OSX+R338bk3lXZZ
-	+lpGe0APhiOla7AvRhA1X38Eg3LFPhzjWv0dZqi+8z3ovSQqCSWyOS4AtoZ3IKmIGZOv
-	5bDfZbPCeBYyF9LZo5CCxLSjS2pHfWqIP6Zr9DQ77OdF67aeJ4qVjS1h/87GIVVtdNOg
-	wQ4l0cUb7uA6MM7xb0IAPv5ssUMoAb/W1k+AADI6V7xWpa+GucFyoVEy42QObaGs2RXq
-	FteyT5i1XKU+Nm4fymkgXIHNA2vVP0fEaEh0p0hYQ4iU7G1EB6F4dXFDHtuEN3OxwGQt
-	wLdQ==
-X-Gm-Message-State: AN3rC/4LPu5TUQDifUIxdj74J0ERAOVzPoQH1eEdwiC46E19T2IhkqQ9
-	phL2saZdzybY4U+d
-X-Received: by 10.55.103.199 with SMTP id b190mr8366210qkc.90.1492436367637;
-	Mon, 17 Apr 2017 06:39:27 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=8EjVLQZ4gsLQXb33fp94gRAIUCao9s4WpNmL1lQj9is=;
+	b=C9/sDCPGvhAzvRfZAQqU72cw8BdiMqRYm4Jh0jOY42x99e4l2PM9RJmZp3MSh6HEIH
+	DmXtSjFCq1D6QLNA5htiQ4xU96qIi3yYFEQxosP+n/eO1Pe2hVuVG1TW8oa8VLuWPkBq
+	/iLQ5KcHzrZ37l/HukY6ok00u9OoKuSd6IoVfyRiZV7Gwq/CfXuaHmpUyM2/XwylvKsG
+	dtH5ILyd/Orksxe2oLJjDy7fK2OyStw3UP42fR8tRttOing9A9to1QwVPdAFetG5Q9zH
+	ZYTAZXo4tEXXFMsu+S9fGY5jBPMOWnaNlpxW4iCfEvzVw/mkL6fiiBA5KBU77T9ujKci
+	MCkw==
+X-Gm-Message-State: AN3rC/6m91oW520R1OcHfDp6//B5glirCrl2GS0CJYAyhUZmY+GFsoPB
+	c0ZVc2mUTd5+Bw==
+X-Received: by 10.55.73.6 with SMTP id w6mr8195136qka.153.1492436368295;
+	Mon, 17 Apr 2017 06:39:28 -0700 (PDT)
 Received: from marc-desktop.AMOTUS.local
 	(modemcable182.194-37-24.static.videotron.ca. [24.37.194.182])
 	by smtp.gmail.com with ESMTPSA id
-	r24sm7257707qkl.54.2017.04.17.06.39.26
+	r24sm7257707qkl.54.2017.04.17.06.39.27
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
 	Mon, 17 Apr 2017 06:39:27 -0700 (PDT)
 From: Marc Ferland <ferlandm@amotus.ca>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 17 Apr 2017 09:38:50 -0400
-Message-Id: <1492436338-32048-1-git-send-email-ferlandm@amotus.ca>
+Date: Mon, 17 Apr 2017 09:38:51 -0400
+Message-Id: <1492436338-32048-2-git-send-email-ferlandm@amotus.ca>
 X-Mailer: git-send-email 2.7.4
-Subject: [PATCHv2 0/8] bluez: upgrade and refactoring
+In-Reply-To: <1492436338-32048-1-git-send-email-ferlandm@amotus.ca>
+References: <1492436338-32048-1-git-send-email-ferlandm@amotus.ca>
+Subject: [PATCHv2 1/8] bluez5: Upgrade 5.43 -> 5.44
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,36 +50,200 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 17 Apr 2017 13:39:27 -0000
 
-This patch series:
+New feautures/fixes in this version:
 
-* upgrades to version 5.44
-* renames variables and configure options to better reflect bluez options
-* adds midi, cups and systemd as PACKAGECONFIG options
-* removes references from files that are no longer part of bluez
-* cleanups tabs/spaces usage
+* fixes to BLE
+* a new midi plugin
+* support for single-mode controllers w/o public address
+* most of the experimental tools have been promoted and are now part of
+  the official tools
+* 'experimental' has been renamed to 'testing' (hence the addition of
+  the 'testing' package config option)
+* classic command line tools like hciattach and hciconfig are now enabled
+  by the "--enable-deprecated" configure option (enabled by default for
+  backward compatibility).
 
-Please drop the changes from my previous patch:
-https://patchwork.openembedded.org/patch/138995/
-
-Regards,
-
-Marc Ferland (8):
-  bluez5: Upgrade 5.43 -> 5.44
-  bluez5: remove libasound-module references
-  bluez5: add PACKAGECONFIG option for midi
-  bluez5: add PACKAGECONFIG option for systemd
-  bluez5: add PACKAGECONFIG option for cups
-  bluez5: do not install audio.conf
-  bluez5: cleanup tabs and spaces
-  bluez5: rename "readline" config option to "client"
-
- meta/recipes-connectivity/bluez5/bluez5.inc     | 92 +++++++++++++------------
- meta/recipes-connectivity/bluez5/bluez5_5.43.bb | 55 ---------------
- meta/recipes-connectivity/bluez5/bluez5_5.44.bb | 68 ++++++++++++++++++
- 3 files changed, 115 insertions(+), 100 deletions(-)
+Signed-off-by: Marc Ferland <ferlandm@amotus.ca>
+---
+ meta/recipes-connectivity/bluez5/bluez5.inc     |  9 ++--
+ meta/recipes-connectivity/bluez5/bluez5_5.43.bb | 55 --------------------
+ meta/recipes-connectivity/bluez5/bluez5_5.44.bb | 68 +++++++++++++++++++++++++
+ 3 files changed, 74 insertions(+), 58 deletions(-)
  delete mode 100644 meta/recipes-connectivity/bluez5/bluez5_5.43.bb
  create mode 100644 meta/recipes-connectivity/bluez5/bluez5_5.44.bb
 
+diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
+index ed75db2..11cf8fb 100644
+--- a/meta/recipes-connectivity/bluez5/bluez5.inc
++++ b/meta/recipes-connectivity/bluez5/bluez5.inc
+@@ -14,8 +14,8 @@ RCONFLICTS_${PN} = "bluez4"
+ 
+ PACKAGECONFIG ??= "obex-profiles readline"
+ PACKAGECONFIG[obex-profiles] = "--enable-obex,--disable-obex,libical"
+-PACKAGECONFIG[experimental] = "--enable-experimental,--disable-experimental,"
+ PACKAGECONFIG[readline] = "--enable-client,--disable-client,readline,"
++PACKAGECONFIG[testing] = "--enable-testing,--disable-testing"
+ 
+ SRC_URI = "\
+     ${KERNELORG_MIRROR}/linux/bluetooth/bluez-${PV}.tar.xz \
+@@ -31,6 +31,7 @@ inherit autotools pkgconfig systemd update-rc.d distro_features_check ptest
+ 
+ EXTRA_OECONF = "\
+   --enable-tools \
++  --enable-deprecated \
+   --disable-cups \
+   --enable-test \
+   --enable-datafiles \
+@@ -41,10 +42,12 @@ EXTRA_OECONF = "\
+ # bluez5 builds a large number of useful utilities but does not
+ # install them.  Specify which ones we want put into ${PN}-noinst-tools.
+ NOINST_TOOLS_READLINE ??= ""
+-NOINST_TOOLS_EXPERIMENTAL ??= ""
++NOINST_TOOLS_TESTING ??= ""
++NOINST_TOOLS_BT ??= ""
+ NOINST_TOOLS = " \
+     ${@bb.utils.contains('PACKAGECONFIG', 'readline', '${NOINST_TOOLS_READLINE}', '', d)} \
+-    ${@bb.utils.contains('PACKAGECONFIG', 'experimental', '${NOINST_TOOLS_EXPERIMENTAL}', '', d)} \
++    ${@bb.utils.contains('PACKAGECONFIG', 'testing', '${NOINST_TOOLS_TESTING}', '', d)} \
++    ${NOINST_TOOLS_BT} \
+ "
+ 
+ do_install_append() {
+diff --git a/meta/recipes-connectivity/bluez5/bluez5_5.43.bb b/meta/recipes-connectivity/bluez5/bluez5_5.43.bb
+deleted file mode 100644
+index e10b82d..0000000
+--- a/meta/recipes-connectivity/bluez5/bluez5_5.43.bb
++++ /dev/null
+@@ -1,55 +0,0 @@
+-require bluez5.inc
+-
+-REQUIRED_DISTRO_FEATURES = "bluez5"
+-
+-SRC_URI[md5sum] = "698def88df96840dfbb0858bb6d73350"
+-SRC_URI[sha256sum] = "16c9c05d2a1da644ce3570d975ada3643d2e60c007a955bac09c0a0efeb58d15"
+-
+-# noinst programs in Makefile.tools that are conditional on READLINE
+-# support
+-NOINST_TOOLS_READLINE ?= " \
+-    attrib/gatttool \
+-    tools/obex-client-tool \
+-    tools/obex-server-tool \
+-    tools/bluetooth-player \
+-    tools/obexctl \
+-    tools/btmgmt \
+-"
+-
+-# noinst programs in Makefile.tools that are conditional on EXPERIMENTAL
+-# support
+-NOINST_TOOLS_EXPERIMENTAL ?= " \
+-    emulator/btvirt \
+-    emulator/b1ee \
+-    emulator/hfp \
+-    tools/3dsp \
+-    tools/mgmt-tester \
+-    tools/gap-tester \
+-    tools/l2cap-tester \
+-    tools/sco-tester \
+-    tools/smp-tester \
+-    tools/hci-tester \
+-    tools/rfcomm-tester \
+-    tools/bdaddr \
+-    tools/avinfo \
+-    tools/avtest \
+-    tools/scotest \
+-    tools/amptest \
+-    tools/hwdb \
+-    tools/hcieventmask \
+-    tools/hcisecfilter \
+-    tools/btinfo \
+-    tools/btattach \
+-    tools/btsnoop \
+-    tools/btproxy \
+-    tools/btiotest \
+-    tools/mcaptest \
+-    tools/cltest \
+-    tools/oobtest \
+-    tools/seq2bseq \
+-    tools/ibeacon \
+-    tools/btgatt-client \
+-    tools/btgatt-server \
+-    tools/gatt-service \
+-    profiles/iap/iapd \
+-"
+diff --git a/meta/recipes-connectivity/bluez5/bluez5_5.44.bb b/meta/recipes-connectivity/bluez5/bluez5_5.44.bb
+new file mode 100644
+index 0000000..1095f88
+--- /dev/null
++++ b/meta/recipes-connectivity/bluez5/bluez5_5.44.bb
+@@ -0,0 +1,68 @@
++require bluez5.inc
++
++REQUIRED_DISTRO_FEATURES = "bluez5"
++
++SRC_URI[md5sum] = "94273617129ced06612fcb9f5273d14c"
++SRC_URI[sha256sum] = "0c321e291f8b45e6a78e379dfe80592b65955a0f0ab191f1cca0edd8ec356c85"
++
++# noinst programs in Makefile.tools that are conditional on READLINE
++# support
++NOINST_TOOLS_READLINE ?= " \
++    attrib/gatttool \
++    tools/obex-client-tool \
++    tools/obex-server-tool \
++    tools/bluetooth-player \
++    tools/obexctl \
++    tools/btmgmt \
++"
++
++# noinst programs in Makefile.tools that are conditional on TESTING
++# support
++NOINST_TOOLS_TESTING ?= " \
++    emulator/btvirt \
++    emulator/b1ee \
++    emulator/hfp \
++    peripheral/btsensor \
++    tools/3dsp \
++    tools/mgmt-tester \
++    tools/gap-tester \
++    tools/l2cap-tester \
++    tools/sco-tester \
++    tools/smp-tester \
++    tools/hci-tester \
++    tools/rfcomm-tester \
++    tools/bnep-tester \
++    tools/userchan-tester \
++"
++
++# noinst programs in Makefile.tools that are conditional on TOOLS
++# support
++NOINST_TOOLS_BT ?= " \
++    tools/bdaddr \
++    tools/avinfo \
++    tools/avtest \
++    tools/scotest \
++    tools/amptest \
++    tools/hwdb \
++    tools/hcieventmask \
++    tools/hcisecfilter \
++    tools/btinfo \
++    tools/btsnoop \
++    tools/btproxy \
++    tools/btiotest \
++    tools/bneptest \
++    tools/mcaptest \
++    tools/cltest \
++    tools/oobtest \
++    tools/seq2bseq \
++    tools/nokfw \
++    tools/create-image \
++    tools/eddystone \
++    tools/ibeacon \
++    tools/btgatt-client \
++    tools/btgatt-server \
++    tools/test-runner \
++    tools/check-selftest \
++    tools/gatt-service \
++    profiles/iap/iapd \
++"
 -- 
 2.7.4
 
