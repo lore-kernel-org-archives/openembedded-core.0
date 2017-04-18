@@ -1,47 +1,52 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f43.google.com (mail-wm0-f43.google.com [74.125.82.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 42CF571C42
+Received: from mail-qt0-f182.google.com (mail-qt0-f182.google.com
+	[209.85.216.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 4C49C71C56
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Apr 2017 15:22:40 +0000 (UTC)
-Received: by mail-wm0-f43.google.com with SMTP id r190so84813wme.1
+	Tue, 18 Apr 2017 15:26:46 +0000 (UTC)
+Received: by mail-qt0-f182.google.com with SMTP id m36so128138778qtb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Apr 2017 08:22:42 -0700 (PDT)
+	Tue, 18 Apr 2017 08:26:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=llN0r2HK/P7RWQoV/PnOju1EhY55lO5n/Joosk+PKg4=;
-	b=pNMSlJEo4kBxwiuIajjdMkFEPa/e3l7b1yej/3z5e9Pf7XbvsnDxm5Fv8PGh3yfW57
-	32ODzFQzNRbTD43Zpeq5DDHU9f6kyoFFiE2F1zEDgTJfny6YpaqRaucKrrE8ERfqbtlx
-	pShOEiKTdo/i0csiIWHuet2k+tflFXl5sC+1eSmFdX1vFYe8zkFaC/NuI5JXN9Y7372z
-	z1yfxYsAsKDc0K3Hf7zSc/q7sSFCJ1HRUOdb6EvdCDqz1yYRh2C6Z63KO9Bq8Ldxfb7z
-	Mqb732Xo7HScOLtmTpMLaQPxO85cd9N/qhNFaac1uDebA1LQoeAFgghVpR+Sk6Ddyp8L
-	c8Eg==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=+tZTYD3Mvqw7T+2NbL7DC0Cjm2pKzslL2QPH+mudcho=;
+	b=JQIBbrNbS+NqsdPcpqS9EpMFzu9orcxEU0FN5nW8vu55WfGlcKQgzU6Ge/0R7AFSoP
+	T34GuEpO1g8qJ54qJq0WMR7BwmDA9y/o4enaxuf1b4tQNge1+KjN5Cf2+iayUwXA0jR1
+	cH9/AqC3YmK3Kqa1esSFprnkxtlNJlMo+6VnW1zWZsejjkgw1TyVFNZiNbhVLf9pQi/2
+	NT7qMbv0JlXvlzPuGxaJxZuwDeezniqlE0SQdHOoutKyKM6+LnZSszTLSg6tvUKrLGgf
+	Rs2Iojz//NYHYh+2FfrhzlqqJl/k+GMy06/ubIWgQs55Np2w/tAVR/Lcz/XFGgzDQBgK
+	2sKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=llN0r2HK/P7RWQoV/PnOju1EhY55lO5n/Joosk+PKg4=;
-	b=BOnJmlkp8hGndjBAxsTxNdnDU/51qGKN6byRS56u/B6xAFzpsufh33DnVcBiY+9CfI
-	n4uXxjlEuR8W5aaFV86yKutqYmwk7tl4TGS/b7wegIhJZQYvW50oqq/TBhZCmwk9a2PZ
-	A5u0Den3cWIl5sj48RvSYmW1pZw2X8N3RY68I4vYVXFvRPho+Qf3+ozMQHD6krEmWYM7
-	FBvnrVxaCC57cn7H6UMCgukK3HOvW1HpziA1hMAn6HLT0iZaAFZ/jjdAo1q2uIvBTtrn
-	8H3UAUV/Nb53xrgSpe/i6Hw3XnypEmB3iQN1+aqWatTShtu3GB1BC8E1WiWUW92Cg4Q8
-	oRbg==
-X-Gm-Message-State: AN3rC/78H+R7HzKSYEfeooxRj+SD7IWhQwStEKOiiBwgZbNN9fgwVxiV
-	pKArWDQsbHiOuofdk2s=
-X-Received: by 10.28.238.9 with SMTP id m9mr2651710wmh.72.1492528961532;
-	Tue, 18 Apr 2017 08:22:41 -0700 (PDT)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id
-	v14sm15352320wmv.24.2017.04.18.08.22.40
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 18 Apr 2017 08:22:41 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 18 Apr 2017 16:22:39 +0100
-Message-Id: <1492528959-5665-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.8.1
-Subject: [PATCH] package_manager: don't race on a file when installing complementary packages
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=+tZTYD3Mvqw7T+2NbL7DC0Cjm2pKzslL2QPH+mudcho=;
+	b=Nxm5ZQQD6mPUOrrWPjZ8UigzbYTZeH91N6mWQWpEji9gpr8Y7lwzpqdse88AKKrtab
+	+7EfmOCEnMAEhOahfxLC3RaM1qubbYV9pXbzCnzzHEobW9JmexIDTodVCreR48x4cX9l
+	9LMyhFQITO/Xg45Fb681j/cPKrhOECL+Ijgk9FhR8TVFfJBJga7JwEfdnDnKbstLPE8q
+	94HJtQbsDB11aCbUVXcnTwoUK9kgIuZKVzAT2KJ16839m2g/6cpKODWNcLrqnX3Emm8V
+	l0PPxR+BX1JzfwqSLeGeR2J08ls2wtyYpwfMvDy5L2dLX4AGcuwnnaJkA/2cUhuAXFaP
+	519g==
+X-Gm-Message-State: AN3rC/6v/d+l1TaBtTDu0Q+nmUdXzIhyt6x4Lcv50GBV0apS+Wis+DXv
+	y/UuYLatY6UAGGRPkp0yOjSQqZQYx6dw
+X-Received: by 10.200.42.238 with SMTP id c43mr2594149qta.144.1492529207892;
+	Tue, 18 Apr 2017 08:26:47 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.22.166 with HTTP; Tue, 18 Apr 2017 08:26:27 -0700 (PDT)
+In-Reply-To: <CAHiDW_GAbFnDivfNvTYGKoUDd5fiyo4yeP4gYiG7aMpMr1nGFw@mail.gmail.com>
+References: <1491994341-28659-1-git-send-email-zhixiong.chi@windriver.com>
+	<CAHiDW_E2xCAED+8kCde3w3sNyFZa5w-96VfN-+kbd0+4HjmiEQ@mail.gmail.com>
+	<58EEE028.5000606@windriver.com>
+	<a274ed9b-010d-f890-2c3c-064e6e1bbcc2@linux.intel.com>
+	<CAHiDW_GAbFnDivfNvTYGKoUDd5fiyo4yeP4gYiG7aMpMr1nGFw@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 18 Apr 2017 16:26:27 +0100
+Message-ID: <CAJTo0Lbrax_TaVWcXXZqiiEkSXJPUtCxKC_vuOz3h+s1VBp_7A@mail.gmail.com>
+To: Jussi Kukkonen <jussi.kukkonen@intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] gnome-common: add EXTRA_OECONF "--with-autoconf-archive"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,90 +59,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Apr 2017 15:22:42 -0000
+X-List-Received-Date: Tue, 18 Apr 2017 15:26:48 -0000
+Content-Type: multipart/alternative; boundary=001a113f40e440f32d054d72892b
 
-PackageManager.install_complementary() uses WORKDIR/installed_pkgs.txt as a
-temporary file but if two tasks are executing for the same recipe which uses
-this file (e.g. bitbake my-image my-image:do_populate_sdk) then it's possible
-for the file to be overwritten or deleted.
+--001a113f40e440f32d054d72892b
+Content-Type: text/plain; charset=UTF-8
 
-Instead of using a static filename, use tempfile to generate a unique name and
-ensure it is cleaned up when finished.
+On 13 April 2017 at 08:41, Jussi Kukkonen <jussi.kukkonen@intel.com> wrote:
 
-Also move the glob generation/expansion earlier in the function as if there are
-no globs to install, we don't need to generate a package list.
+> I had a quick look at this. We have three recipes in oe-core that "need"
+> gnome-common (python3-pygobject, gnome-desktop3, matchbox-desktop). The
+> only meaningful usage of gnome-common in their configure.ac's is
+> GNOME_COMPILE_WARNINGS().
+>
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/lib/oe/package_manager.py | 47 ++++++++++++++++++++----------------------
- 1 file changed, 22 insertions(+), 25 deletions(-)
+FWIW I patched matchbox-desktop in February but never submitted the srcrev
+bump.  Now I wish I did...
 
-diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
-index 60d6e52..f7190cf 100644
---- a/meta/lib/oe/package_manager.py
-+++ b/meta/lib/oe/package_manager.py
-@@ -377,15 +377,6 @@ class PackageManager(object, metaclass=ABCMeta):
-     installation
-     """
-     def install_complementary(self, globs=None):
--        # we need to write the list of installed packages to a file because the
--        # oe-pkgdata-util reads it from a file
--        installed_pkgs_file = os.path.join(self.d.getVar('WORKDIR'),
--                                           "installed_pkgs.txt")
--        with open(installed_pkgs_file, "w+") as installed_pkgs:
--            pkgs = self.list_installed()
--            output = oe.utils.format_pkg_list(pkgs, "arch")
--            installed_pkgs.write(output)
--
-         if globs is None:
-             globs = self.d.getVar('IMAGE_INSTALL_COMPLEMENTARY')
-             split_linguas = set()
-@@ -402,22 +393,28 @@ class PackageManager(object, metaclass=ABCMeta):
-         if globs is None:
-             return
- 
--        cmd = [bb.utils.which(os.getenv('PATH'), "oe-pkgdata-util"),
--               "-p", self.d.getVar('PKGDATA_DIR'), "glob", installed_pkgs_file,
--               globs]
--        exclude = self.d.getVar('PACKAGE_EXCLUDE_COMPLEMENTARY')
--        if exclude:
--            cmd.extend(['--exclude=' + '|'.join(exclude.split())])
--        try:
--            bb.note("Installing complementary packages ...")
--            bb.note('Running %s' % cmd)
--            complementary_pkgs = subprocess.check_output(cmd, stderr=subprocess.STDOUT).decode("utf-8")
--        except subprocess.CalledProcessError as e:
--            bb.fatal("Could not compute complementary packages list. Command "
--                     "'%s' returned %d:\n%s" %
--                     (' '.join(cmd), e.returncode, e.output.decode("utf-8")))
--        self.install(complementary_pkgs.split(), attempt_only=True)
--        os.remove(installed_pkgs_file)
-+        # we need to write the list of installed packages to a file because the
-+        # oe-pkgdata-util reads it from a file
-+        with tempfile.NamedTemporaryFile(mode="w+", prefix="installed-pkgs") as installed_pkgs:
-+            pkgs = self.list_installed()
-+            output = oe.utils.format_pkg_list(pkgs, "arch")
-+            installed_pkgs.write(output)
-+
-+            cmd = [bb.utils.which(os.getenv('PATH'), "oe-pkgdata-util"),
-+                   "-p", self.d.getVar('PKGDATA_DIR'), "glob", installed_pkgs.name,
-+                   globs]
-+            exclude = self.d.getVar('PACKAGE_EXCLUDE_COMPLEMENTARY')
-+            if exclude:
-+                cmd.extend(['--exclude=' + '|'.join(exclude.split())])
-+            try:
-+                bb.note("Installing complementary packages ...")
-+                bb.note('Running %s' % cmd)
-+                complementary_pkgs = subprocess.check_output(cmd, stderr=subprocess.STDOUT).decode("utf-8")
-+            except subprocess.CalledProcessError as e:
-+                bb.fatal("Could not compute complementary packages list. Command "
-+                         "'%s' returned %d:\n%s" %
-+                         (' '.join(cmd), e.returncode, e.output.decode("utf-8")))
-+            self.install(complementary_pkgs.split(), attempt_only=True)
- 
-     def deploy_dir_lock(self):
-         if self.deploy_dir is None:
--- 
-2.8.1
+Ross
 
+--001a113f40e440f32d054d72892b
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 13 April 2017 at 08:41, Jussi Kukkonen <span dir=3D"ltr">&lt;<a href=3D"=
+mailto:jussi.kukkonen@intel.com" target=3D"_blank">jussi.kukkonen@intel.com=
+</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin=
+:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div>I had a quick=
+ look at this. We have three recipes in oe-core that &quot;need&quot; gnome=
+-common (python3-pygobject, gnome-desktop3, matchbox-desktop). The only mea=
+ningful usage of gnome-common in their <a href=3D"http://configure.ac" targ=
+et=3D"_blank">configure.ac</a>&#39;s is GNOME_COMPILE_WARNINGS().</div><div=
+></div></blockquote></div><br>FWIW I patched matchbox-desktop in February b=
+ut never submitted the srcrev bump.=C2=A0 Now I wish I did...</div><div cla=
+ss=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+
+--001a113f40e440f32d054d72892b--
