@@ -1,26 +1,31 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id D1B7A71AD4
+Return-Path: <dmitry.rozhkov@linux.intel.com>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 20DB871AD1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Apr 2017 08:33:22 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v3I8XMxk001565
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Apr 2017 01:33:23 -0700 (PDT)
-Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
-	Tue, 18 Apr 2017 01:33:22 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 18 Apr 2017 01:33:20 -0700
-Message-ID: <d1812ddb571443f56260e0a81567cc1165941fe0.1492504368.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 2.10.2
-In-Reply-To: <cover.1492504368.git.liezhi.yang@windriver.com>
-References: <cover.1492504368.git.liezhi.yang@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 1/1] acl: fix race issue when do_compile
+	Tue, 18 Apr 2017 08:44:32 +0000 (UTC)
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+	by fmsmga105.fm.intel.com with ESMTP; 18 Apr 2017 01:44:33 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.37,218,1488873600"; d="scan'208";a="91135229"
+Received: from linux.intel.com ([10.54.29.200])
+	by fmsmga006.fm.intel.com with ESMTP; 18 Apr 2017 01:44:33 -0700
+Received: from drozhkov-desk.fi.intel.com (drozhkov-desk.fi.intel.com
+	[10.237.72.60])
+	by linux.intel.com (Postfix) with ESMTP id 3DD636A4006;
+	Tue, 18 Apr 2017 01:44:22 -0700 (PDT)
+Message-ID: <1492505071.7102.5.camel@linux.intel.com>
+From: Dmitry Rozhkov <dmitry.rozhkov@linux.intel.com>
+To: "Burton, Ross" <ross.burton@intel.com>, Alexander Kanavin
+	<alexander.kanavin@linux.intel.com>
+Date: Tue, 18 Apr 2017 11:44:31 +0300
+In-Reply-To: <CAJTo0LYA8nsexqtfwz4bbOYA1HtnRDxCcKGZE8Jz+m+=tOcTdA@mail.gmail.com>
+References: <20170413083344.22737-1-dmitry.rozhkov@linux.intel.com>
+	<85c346c4-f6d6-c853-bfc5-0daa64ea2db8@linux.intel.com>
+	<CAJTo0LYA8nsexqtfwz4bbOYA1HtnRDxCcKGZE8Jz+m+=tOcTdA@mail.gmail.com>
+X-Mailer: Evolution 3.22.6 (3.22.6-1.fc25) 
+Mime-Version: 1.0
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] python: make python2 and python3 alternatives to python
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,114 +38,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Apr 2017 08:33:23 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 18 Apr 2017 08:44:33 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Fixed race issue:
- In file included from acl_copy_entry.c:22:0:
- libacl.h:19:21: fatal error: sys/acl.h: No such file or directory
-  #include <sys/acl.h>
+On Thu, 2017-04-13 at 15:47 +0100, Burton, Ross wrote:
+> 
+> On 13 April 2017 at 11:15, Alexander Kanavin <alexander.kanavin@linux
+> .intel.com> wrote:
+> > This runs against upstream recommendation and common distro
+> > practice. And it will break scripts that have not been ported to
+> > Python 3. Please fix the scripts instead to refer to python 3
+> > whenever possible.
+> > 
+> 
+> Agreed.  If a script uses /usr/bin/python and gets py3, 99% of the
+> time you'll get errors.
 
-[snip]
+I've just checked PEP-349. It recommends that
 
- compilation terminated.
- acl_get_file.c:27:24: fatal error: acl/libacl.h: No such file or directory
-  #include <acl/libacl.h>
-                         ^
+"- The more general python command should be installed whenever any
+version of Python 2 is installed and should invoke the same version of
+Python as the python2 command (however, note that some distributions
+have already chosen to have python implement the python3 command; see
+the Rationale and Migration Notes below)."
 
-The acl.h is in "include" directory, and include/Makefile creates
-symlink "sys" and "acl" poinst to current dirctory:
-$ ls include/ -l
-acl -> .
-sys -> .
+The proposed patch doesn't violate this recommendation, because
+"whenever" Python 2 is installed the python command still invokes
+python2.
 
-So if "libacl" target runs before "include", the error would happen
-since no "acl" or "sys" directory.
+Also, there are other recommendations like
 
-Let libacl depend on include can fix the problem.
+"- In order to tolerate differences across platforms, all new code that
+needs to invoke the Python interpreter should not specify python , but
+rather should specify either python2 or python3 (or the more specific
+python2.x and python3.x versions; see the Migration Notes ). This
+distinction should be made in shebangs, when invoking from a shell
+script, when invoking via the system() call, or when invoking in any
+other context.
+- One exception to this is scripts that are deliberately written to be
+source compatible with both Python 2.x and 3.x. Such scripts may
+continue to use python on their shebang line without affecting their
+portability."
 
-[YOCTO #11349]
+If I understood correctly OE-core is not a distribution, but a tool to
+create "a custom one". I would rather allow people to create
+distributions where python3 is the default like in Arch Linux.
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- .../Makefile-libacl-should-depend-on-include.patch | 51 ++++++++++++++++++++++
- meta/recipes-support/attr/acl_2.2.52.bb            |  4 +-
- 2 files changed, 54 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-support/attr/acl/Makefile-libacl-should-depend-on-include.patch
-
-diff --git a/meta/recipes-support/attr/acl/Makefile-libacl-should-depend-on-include.patch b/meta/recipes-support/attr/acl/Makefile-libacl-should-depend-on-include.patch
-new file mode 100644
-index 0000000..4c7cba3
---- /dev/null
-+++ b/meta/recipes-support/attr/acl/Makefile-libacl-should-depend-on-include.patch
-@@ -0,0 +1,51 @@
-+From d82457ce5ca7455e336da5e244d95f90e52aaef8 Mon Sep 17 00:00:00 2001
-+From: Robert Yang <liezhi.yang@windriver.com>
-+Date: Tue, 18 Apr 2017 01:17:26 -0700
-+Subject: [PATCH] Makefile: libacl should depend on include
-+
-+Fixed race issue:
-+ In file included from acl_copy_entry.c:22:0:
-+ libacl.h:19:21: fatal error: sys/acl.h: No such file or directory
-+  #include <sys/acl.h>
-+
-+[snip]
-+
-+ compilation terminated.
-+ acl_get_file.c:27:24: fatal error: acl/libacl.h: No such file or directory
-+  #include <acl/libacl.h>
-+                         ^
-+
-+The acl.h is in "include" directory, and include/Makefile creates
-+symlink "sys" and "acl" poinst to current dirctory:
-+$ ls include/ -l
-+acl -> .
-+sys -> .
-+
-+So if "libacl" target runs before "include", the error would happen
-+since no "acl" or "sys" directory.
-+
-+Let libacl depend on include can fix the problem.
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-+---
-+ Makefile | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/Makefile b/Makefile
-+index dce32d3..8a79379 100644
-+--- a/Makefile
-++++ b/Makefile
-+@@ -48,7 +48,7 @@ else
-+ endif
-+ 
-+ # tool/lib dependencies
-+-libacl: libmisc
-++libacl: include libmisc
-+ getfacl setfacl chacl: libacl
-+ 
-+ ifeq ($(HAVE_BUILDDEFS), yes)
-+-- 
-+2.10.2
-+
-diff --git a/meta/recipes-support/attr/acl_2.2.52.bb b/meta/recipes-support/attr/acl_2.2.52.bb
-index 9ab5853..306c7b5 100644
---- a/meta/recipes-support/attr/acl_2.2.52.bb
-+++ b/meta/recipes-support/attr/acl_2.2.52.bb
-@@ -16,7 +16,9 @@ SRC_URI = "${SAVANNAH_GNU_MIRROR}/acl/${BP}.src.tar.gz \
-            file://acl-fix-the-order-of-expected-output-of-getfacl.patch \
-            file://test-fix-insufficient-quoting-of.patch \
-            file://test-fixups-on-SELinux-machines-for-root-testcases.patch \
--           file://test-fix-directory-permissions.patch"
-+           file://test-fix-directory-permissions.patch \
-+           file://Makefile-libacl-should-depend-on-include.patch \
-+"
- 
- SRC_URI[md5sum] = "a61415312426e9c2212bd7dc7929abda"
- SRC_URI[sha256sum] = "179074bb0580c06c4b4137be4c5a92a701583277967acdb5546043c7874e0d23"
--- 
-2.10.2
-
+BR,
+Dmitry
 
