@@ -1,41 +1,41 @@
 Return-Path: <marc.ferland@gmail.com>
-Received: from mail-io0-f195.google.com (mail-io0-f195.google.com
-	[209.85.223.195])
-	by mail.openembedded.org (Postfix) with ESMTP id D391F71C72
+Received: from mail-io0-f194.google.com (mail-io0-f194.google.com
+	[209.85.223.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 55FAB71C72
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Apr 2017 13:20:28 +0000 (UTC)
-Received: by mail-io0-f195.google.com with SMTP id d203so30827381iof.2
+	Tue, 18 Apr 2017 13:20:29 +0000 (UTC)
+Received: by mail-io0-f194.google.com with SMTP id x86so32990197ioe.3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Apr 2017 06:20:30 -0700 (PDT)
+	Tue, 18 Apr 2017 06:20:31 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=q5+uHatciTe+VGvEI/a+VHJNnGJmaNVmR08ZYhnmZ/Y=;
-	b=LL3JsDveTvPpXIJ8H462Hz+mgO9Kjy9dkhbTaA9ImE9it+HQ7RAfvJLGF9fFDPaLa5
-	TfTtpfnARTjAUQE5If/qxDZR4rBJBX/TjyoVbmEr+8LNGiGbGIPeoKsiPoTEhcLOZj+2
-	wcmTnyVXewLJTNqtH5p7czcWR2IHvUNS+2XztrBe30uSN34esdAresmwraVpfR5onIzi
-	1CbwnLEn+MB/jlZhK+UObdtIO36Aji+E5pPAGrZaKPz8HBImY/0xwxU5xAqqtO1DGuzd
-	NP5+17/6/2c6KyDo8RnWtN/WzNk3WnTb6bafP0VtjvZt7WaUA/Gfd0YgX02erI5hc2+h
-	mW+w==
-X-Gm-Message-State: AN3rC/4Oy0n5w1aRi4pJLAd5ihWwPr8C8UmMJlQgck2Pjkicp14GvYH7
-	mgV61QEU63GfMQ==
-X-Received: by 10.36.94.138 with SMTP id h132mr14692266itb.104.1492521629900; 
-	Tue, 18 Apr 2017 06:20:29 -0700 (PDT)
+	bh=ahN0plfS332klbmBv2+IEwuIPrU4NN93fWVDIRM9HLM=;
+	b=UBHZa76mYLtvcI/MeFTVToNwEEonnAGZBmVGmjIJANM8Z+86DC/nxl15Q0MVRv9AHh
+	+Vn3bphBGpPJM+WfEMcJwH0ZcwUoYNpv49WC8hpZZ3n5iQEu7t6N3h2A4+ERfr91xZkX
+	43Zao37XSj9onwZgr3ii2Dv+owcabD5zhWmLUZmP9lakMwkNZ99yBFqWkAnCrHC3bAzR
+	hPt+A8vDedqXEhZkcbsiGpPvK6tS3mv2fHVI0+LtORLZ2wZ3r+aFoKT+0JsE89BgyAr3
+	x1au+VmOEynOCRcC5QiEePs0KLVpEJixw9oezeXrfxpqxAffU07ozrJ0J50P2uLnPSqN
+	4bhg==
+X-Gm-Message-State: AN3rC/7ymyeQH19EzlaLN4RwzhBSirz1I+czyOsz3FQpszNY/tyJHaYQ
+	a8DeUwj2O/N0sc3T
+X-Received: by 10.36.156.2 with SMTP id b2mr13394383ite.4.1492521630667;
+	Tue, 18 Apr 2017 06:20:30 -0700 (PDT)
 Received: from marc-desktop.AMOTUS.local
 	(modemcable182.194-37-24.static.videotron.ca. [24.37.194.182])
 	by smtp.gmail.com with ESMTPSA id
 	m124sm4879865itd.3.2017.04.18.06.20.29
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 18 Apr 2017 06:20:29 -0700 (PDT)
+	Tue, 18 Apr 2017 06:20:30 -0700 (PDT)
 From: Marc Ferland <ferlandm@amotus.ca>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 18 Apr 2017 09:20:05 -0400
-Message-Id: <1492521609-26624-5-git-send-email-ferlandm@amotus.ca>
+Date: Tue, 18 Apr 2017 09:20:06 -0400
+Message-Id: <1492521609-26624-6-git-send-email-ferlandm@amotus.ca>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1492521609-26624-1-git-send-email-ferlandm@amotus.ca>
 References: <1492521609-26624-1-git-send-email-ferlandm@amotus.ca>
-Subject: [PATCHv3 4/8] bluez5: add PACKAGECONFIG option for systemd
+Subject: [PATCHv3 5/8] bluez5: add PACKAGECONFIG option for cups
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,35 +52,42 @@ X-List-Received-Date: Tue, 18 Apr 2017 13:20:29 -0000
 
 Signed-off-by: Marc Ferland <ferlandm@amotus.ca>
 ---
- meta/recipes-connectivity/bluez5/bluez5.inc | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-connectivity/bluez5/bluez5.inc | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
 diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
-index 687656e..71a5016 100644
+index 71a5016..c8a240f 100644
 --- a/meta/recipes-connectivity/bluez5/bluez5.inc
 +++ b/meta/recipes-connectivity/bluez5/bluez5.inc
-@@ -12,11 +12,12 @@ RPROVIDES_${PN} += "bluez-hcidump"
- 
- RCONFLICTS_${PN} = "bluez4"
- 
--PACKAGECONFIG ??= "obex-profiles readline"
-+PACKAGECONFIG ??= "obex-profiles readline ${@bb.utils.filter('DISTRO_FEATURES', 'systemd', d)}"
- PACKAGECONFIG[obex-profiles] = "--enable-obex,--disable-obex,libical"
- PACKAGECONFIG[readline] = "--enable-client,--disable-client,readline,"
+@@ -18,6 +18,7 @@ PACKAGECONFIG[readline] = "--enable-client,--disable-client,readline,"
  PACKAGECONFIG[testing] = "--enable-testing,--disable-testing"
  PACKAGECONFIG[midi] = "--enable-midi,--disable-midi,alsa-lib"
-+PACKAGECONFIG[systemd] = "--enable-systemd,--disable-systemd"
+ PACKAGECONFIG[systemd] = "--enable-systemd,--disable-systemd"
++PACKAGECONFIG[cups] = "--enable-cups,--disable-cups,,cups"
  
  SRC_URI = "\
      ${KERNELORG_MIRROR}/linux/bluetooth/bluez-${PV}.tar.xz \
-@@ -36,7 +37,6 @@ EXTRA_OECONF = "\
-   --disable-cups \
+@@ -34,7 +35,6 @@ inherit autotools pkgconfig systemd update-rc.d distro_features_check ptest
+ EXTRA_OECONF = "\
+   --enable-tools \
+   --enable-deprecated \
+-  --disable-cups \
    --enable-test \
    --enable-datafiles \
--  ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', '--enable-systemd', '--disable-systemd', d)} \
    --enable-library \
- "
+@@ -82,7 +82,11 @@ do_install_append() {
  
+ PACKAGES =+ "${PN}-testtools ${PN}-obex ${PN}-noinst-tools"
+ 
+-FILES_${PN} += "${libdir}/bluetooth/plugins/*.so ${systemd_unitdir}/ ${datadir}/dbus-1"
++FILES_${PN} += " \
++    ${libdir}/bluetooth/plugins/*.so \
++    ${systemd_unitdir}/ ${datadir}/dbus-1 \
++    ${libdir}/cups \
++"
+ FILES_${PN}-dev += "\
+   ${libdir}/bluetooth/plugins/*.la \
+ "
 -- 
 2.7.4
 
