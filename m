@@ -1,24 +1,27 @@
-Return-Path: <jussi.kukkonen@intel.com>
+Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id 8E35371AD1
+	by mail.openembedded.org (Postfix) with ESMTP id F1D1171AB4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Apr 2017 10:08:53 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga105.jf.intel.com with ESMTP; 18 Apr 2017 03:08:54 -0700
+	Tue, 18 Apr 2017 10:16:56 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga105.jf.intel.com with ESMTP; 18 Apr 2017 03:16:57 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.37,218,1488873600"; d="scan'208";a="1137109651"
-Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga001.fm.intel.com with ESMTP; 18 Apr 2017 03:08:54 -0700
-Received: from theory.fi.intel.com (theory.fi.intel.com [10.237.72.53])
-	by linux.intel.com (Postfix) with ESMTP id 924596A4006;
-	Tue, 18 Apr 2017 03:08:42 -0700 (PDT)
-From: Jussi Kukkonen <jussi.kukkonen@intel.com>
-To: openembedded-core@lists.openembedded.org,
-	freesilicon@gmail.com
-Date: Tue, 18 Apr 2017 13:08:43 +0300
-Message-Id: <1492510123-21370-1-git-send-email-jussi.kukkonen@intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] Revert "openssl: Fix symlink creation"
+X-IronPort-AV: E=Sophos;i="5.37,218,1488873600"; d="scan'208";a="1120676314"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by orsmga001.jf.intel.com with ESMTP; 18 Apr 2017 03:16:56 -0700
+To: openembedded-core@lists.openembedded.org, peter.kjellerstedt@axis.com
+References: <cover.1492135840.git.pkj@axis.com>
+	<1492159760.19076.10.camel@linuxfoundation.org>
+	<5d709f7eb9fa49fd89cd95818ddf4018@XBOX02.axis.com>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <cb98dab5-e932-a66a-311e-7aa5b2484652@linux.intel.com>
+Date: Tue, 18 Apr 2017 13:16:39 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.8.0
+MIME-Version: 1.0
+In-Reply-To: <5d709f7eb9fa49fd89cd95818ddf4018@XBOX02.axis.com>
+Subject: Re: [PATCH 0/2] Allow postinst functions to be verbose
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,55 +34,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Apr 2017 10:08:54 -0000
+X-List-Received-Date: Tue, 18 Apr 2017 10:16:58 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
-This reverts commit 991620f3962a9917fa99abb5582f4b72ebd42a3d.
+On 04/14/2017 04:10 PM, Peter Kjellerstedt wrote:
+>> I'm afraid I can't take these since these scripts get written into the
+>> sstate objects for the recipes in question and this would make the
+>> sstate change depending on the parameters you call bitbake with. I
+>> think we'd both agree that is undesirable.
+>
+> Bother. Did not think of that (I am so used to having it enabled in all my
+> builds).
+>
+>> Not sure what we can do but this needs more thought.
+>
+> Yeah, it would be great if the output from the postinst scripts was actually
+> captured. But we can think of that for 2.4.
 
-The commit breaks openssl-native (you can no longer generate keys
-because it can't find the configuration file). Also the idea that we
-would install configuration files normally but then add the symlinks
-pointing to them in a postinstall feels wrong.
+Are you using rpm? If you are, we already have ROOTFS_RPM_DEBUG variable 
+which, if enabled, directs rpm to output a lot more to the log.do_rootfs 
+than it normally would. Can you switch it on in your local.conf and see 
+if you get what you need?
 
-Fixes [YOCTO #11296]. The bug contains an alternative fix but I'm
-sending a revert as I cannot fully understand the motive of the
-original patch. See also discussion in
-http://lists.openembedded.org/pipermail/openembedded-core/2017-April/135176.html
+If the log still isn't verbose enough, please write a comment to this bug:
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=11096
 
-Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
----
- meta/recipes-connectivity/openssl/openssl.inc | 13 +------------
- 1 file changed, 1 insertion(+), 12 deletions(-)
+explaining what kind of output from rpm would be useful to have, and we 
+can patch rpm to do that.
 
-diff --git a/meta/recipes-connectivity/openssl/openssl.inc b/meta/recipes-connectivity/openssl/openssl.inc
-index c721d8c..8f2a797 100644
---- a/meta/recipes-connectivity/openssl/openssl.inc
-+++ b/meta/recipes-connectivity/openssl/openssl.inc
-@@ -201,6 +201,7 @@ do_install () {
- 	   ${D}${sysconfdir}/ssl/
- 	ln -sf ${sysconfdir}/ssl/certs ${D}${libdir}/ssl/certs
- 	ln -sf ${sysconfdir}/ssl/private ${D}${libdir}/ssl/private
-+	ln -sf ${sysconfdir}/ssl/openssl.cnf ${D}${libdir}/ssl/openssl.cnf
- }
- 
- do_install_ptest () {
-@@ -248,16 +249,4 @@ do_install_append_class-native() {
- 	    OPENSSL_ENGINES=${libdir}/ssl/engines
- }
- 
--pkg_postinst_openssl-conf () {
--#!/bin/sh
--if [ -e $D${libdir}/ssl/openssl.cnf ]; then
--	rm -f $D${libdir}/ssl/openssl.cnf
--fi
--
--# If openssl-conf is installed before openssl, we must ensure that the symlink
--# destination exists
--mkdir -p $D${libdir}/ssl/
--ln -s ${sysconfdir}/ssl/openssl.cnf $D${libdir}/ssl/openssl.cnf
--}
--
- BBCLASSEXTEND = "native nativesdk"
--- 
-2.1.4
 
+Alex
 
