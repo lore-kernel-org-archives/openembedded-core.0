@@ -1,44 +1,24 @@
-Return-Path: <michael.thalmeier@hale.at>
-X-Greylist: delayed 377 seconds by postgrey-1.34 at layers.openembedded.org;
-	Tue, 18 Apr 2017 08:10:32 UTC
-Received: from gw.hale.at (gw.hale.at [89.26.116.210])
-	by mail.openembedded.org (Postfix) with ESMTP id 647A16067D
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id E0EF760720
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Apr 2017 08:10:32 +0000 (UTC)
-X-HALE-Mailborder-Watermark: 1493107442.96972@pHzQgiVxfvkqW3VdVo61FQ
-X-HALE-Mailborder-From: michael.thalmeier@hale.at
-X-HALE-Mailborder-SpamCheck: not spam,
-	SpamAssassin (nicht zwischen gespeichert, Wertung=-2.898,
-	benoetigt 3, autolearn=not spam, ALL_TRUSTED -1.00, BAYES_00 -1.90,
-	SURBL_BLOCKED 0.00, URIBL_BLOCKED 0.00)
-X-HALE-Mailborder-IP-Protocol: IPv4
-X-HALE-Mailborder: Found to be clean
-X-HALE-Mailborder-ID: 230552C3563.A5F55
-X-HALE-Mailborder-Information: Please contact your admin for more information
-Received: from mail.hale (mail.hale [192.168.100.5])
-	by gw.hale.at (Postfix) with ESMTP id 230552C3563;
-	Tue, 18 Apr 2017 10:04:02 +0200 (CEST)
-Received: from mail.hale (localhost.localdomain [127.0.0.1])
-	by mail.hale (Postfix) with ESMTP id 19A82667177;
-	Tue, 18 Apr 2017 10:04:02 +0200 (CEST)
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.hale (Postfix) with ESMTP id 0E58F66632A;
-	Tue, 18 Apr 2017 10:04:02 +0200 (CEST)
-Received: from mail.hale ([127.0.0.1])
-	by localhost (mail.hale [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id FA-ChpojL7QJ; Tue, 18 Apr 2017 10:04:02 +0200 (CEST)
-Received: from entw49.hale (entw49.hale [192.168.100.117])
-	by mail.hale (Postfix) with ESMTPSA id F051366042C;
-	Tue, 18 Apr 2017 10:04:01 +0200 (CEST)
-From: Michael Thalmeier <michael.thalmeier@hale.at>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Message-ID: <861a3584-1fc0-11a2-35e8-7ca81d2e25b2@hale.at>
-Date: Tue, 18 Apr 2017 10:03:44 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.0
+	Tue, 18 Apr 2017 08:33:21 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v3I8XLMu022126
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 18 Apr 2017 01:33:22 -0700
+Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
+	Tue, 18 Apr 2017 01:33:20 -0700
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 18 Apr 2017 01:33:19 -0700
+Message-ID: <cover.1492504368.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 2.10.2
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: kernel.bbclass auto PR generation
+Subject: [PATCH 0/1] acl: fix race issue when do_compile
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,49 +31,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Apr 2017 08:10:32 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 18 Apr 2017 08:33:22 -0000
+Content-Type: text/plain
 
-Hi,
+The following changes since commit ba2884f6ad3a4e746fc80cbd707f83fa8abd4210:
 
-In our build environment we have a buildbot building nightly
-clean builds of our images and a PRSERV instance managing the
-auto PR generation.
+  oe-run-native: print more error messages (2017-04-14 10:26:10 +0100)
 
-With this setup we encountered the problem, that on each build
-the kernel PR is incremented by 3, even if nothing has changed,
-so the PR should be equal to the last value.
+are available in the git repository at:
 
-After investigating I found that currently the kernel bbclass
-will call package_get_auto_pr three times (do_package, do_install,
-do_deploy). As the package_get_auto_pr function uses the BB_TASKHASH
-variable, that is different for each of these tasks,
-on each call the PR is incremented by 1.
+  git://git.openembedded.org/openembedded-core-contrib rbt/acl
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=rbt/acl
 
-This has two different effects:
-1. The kernel and modules image in the deploy directory do not
-   have the same PR as the kernel package itself.
-2. Each time a clean build of the kernel is performed, the PR
-   is incremented by three instead of staying at the previous value.
+Robert Yang (1):
+  acl: fix race issue when do_compile
 
-I found that this was introduced with commit:
-1392f95 kernel.bbclass: Ensure we have correct version information in dep=
-loy data
+ .../Makefile-libacl-should-depend-on-include.patch | 51 ++++++++++++++++++++++
+ meta/recipes-support/attr/acl_2.2.52.bb            |  4 +-
+ 2 files changed, 54 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-support/attr/acl/Makefile-libacl-should-depend-on-include.patch
 
-How can this behaviour be fixed?
+-- 
+2.10.2
 
-Best regards,
-Michael
---=20
-
-Michael Thalmeier
-(Development)
-HALE electronic GmbH
-Eugen-M=C3=BCller-Stra=C3=9Fe 18, 5020 Salzburg, Austria
-Tel: +43 (662) 439011 0
-Fax: +43 (662) 439011 9
-michael.thalmeier@hale.at
-Firmenbuchnummer: FN 66801m HG Salzburg
 
