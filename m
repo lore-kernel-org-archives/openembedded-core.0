@@ -1,51 +1,21 @@
-Return-Path: <alistair23@gmail.com>
-Received: from mail-oi0-f66.google.com (mail-oi0-f66.google.com
-	[209.85.218.66])
-	by mail.openembedded.org (Postfix) with ESMTP id B2D2F71BE5
+Return-Path: <anibal.limon@linux.intel.com>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id D153D71B86
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Apr 2017 21:08:32 +0000 (UTC)
-Received: by mail-oi0-f66.google.com with SMTP id g11so1010391oib.2
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Apr 2017 14:08:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc;
-	bh=la8yzwKcFI3GNlqwe1Gi2SKKb9aV1VEy3hwSGJW9XDc=;
-	b=DR9u7PJ5lDXXw8oIZTwGucgLKVtgZq/S81i8jtijJHntDv0eiRelCGWuhn7Z5J1U25
-	Ti7xdLWKFY4NxmPecC67kPVMDOh5eENCJHTPyk4Pb8UA8U9AQIRwMoWZN7NJJ203MBZD
-	a0480iQt4xswt2NUgO0XQav9ovunUJl80mOnUXEKb25t41U2pgS3zpWS8UWdTkv77/Lr
-	dfpqdvlNaYeghjoOZYgnYA5EnUbzH94l3YI/ItHKP7fTcXva16bhhu0eQSjfSgJQeHWD
-	kKFw1UQW6aJtLvq8ZQlp+oQ9Oh9LZPShgXh95YzvgihZQ3Wm1bcid+aCn6BNXKzKZKY+
-	todw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
-	:date:message-id:subject:to:cc;
-	bh=la8yzwKcFI3GNlqwe1Gi2SKKb9aV1VEy3hwSGJW9XDc=;
-	b=LInvgzz4irjsHzKTiqgT6xgbB7CzfFVwIpo+tfuG9l59CQ0HcO27u7nuYa3u8mekdu
-	3V5gXvAReq8Z2q70puOwn33VUvQZk6jf/nXyP/zFeTzB492BMZUwj/j0+vF0ajT4xWo3
-	WOvUPUSnsqMOwnVGPrOIk+vPBtces8+tD3+WMzM/MgLNrmkUNpbm0VNZjnipU0S3O7OE
-	RDIPdEQjiRxK3QM0vw3ChchUNs8ywvZhLUdTMgsDfAyI/+qEZIjnSDlZ/tTHGvtI/TFU
-	qA2P2njL0L5TqnRkS0mBcAdwOUC/sE+esyq6IYPQ/+gJwgL2WrQiQjenDWsvV4G9YC12
-	71Ew==
-X-Gm-Message-State: AN3rC/73lrLuTnL9yzOCiYHzMVRi9Uaxwt9lc9MQrKNPfNde3AEbFbWy
-	1vROBtGKyyJJqHACrfeGexRaqSRQfg==
-X-Received: by 10.157.58.4 with SMTP id j4mr7937237otc.109.1492549713666; Tue,
-	18 Apr 2017 14:08:33 -0700 (PDT)
+	Tue, 18 Apr 2017 22:17:38 +0000 (UTC)
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+	by fmsmga105.fm.intel.com with ESMTP; 18 Apr 2017 15:17:39 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.37,219,1488873600"; d="scan'208";a="91069402"
+Received: from alimonb-mobl1.zpn.intel.com ([10.219.128.141])
+	by fmsmga005.fm.intel.com with ESMTP; 18 Apr 2017 15:17:38 -0700
+From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 18 Apr 2017 17:22:02 -0500
+Message-Id: <1492554122-29692-1-git-send-email-anibal.limon@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
 MIME-Version: 1.0
-Sender: alistair23@gmail.com
-Received: by 10.182.44.229 with HTTP; Tue, 18 Apr 2017 14:08:03 -0700 (PDT)
-In-Reply-To: <CAKmqyKOBYFdMWK5qG5UWJGRscrjX_c0S3JM6-DLFrwPXx8rXVw@mail.gmail.com>
-References: <20170324203858.27464-1-alistair.francis@xilinx.com>
-	<CAKmqyKM-wvykD1R+nyyCMjictWhLYRuOXYW1wmPPKrtVLyu9hw@mail.gmail.com>
-	<CAKmqyKOBYFdMWK5qG5UWJGRscrjX_c0S3JM6-DLFrwPXx8rXVw@mail.gmail.com>
-From: Alistair Francis <alistair.francis@xilinx.com>
-Date: Tue, 18 Apr 2017 14:08:03 -0700
-X-Google-Sender-Auth: vbMIAB7SANXLfLQzi8MDsE_QNFk
-Message-ID: <CAKmqyKPPkvF-9e_HyAG1rg=vynYQMAQLRz1a-jqTVgS4BdwoVQ@mail.gmail.com>
-To: Alistair Francis <alistair.francis@xilinx.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2 1/2] runqemu: Automatically add a TFTP directory for slirp boot
+Subject: [PATCH] package_rpm.bbclass: Dosen't filter Conflicts if found in Provides
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,51 +28,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Apr 2017 21:08:33 -0000
+X-List-Received-Date: Tue, 18 Apr 2017 22:17:39 -0000
 Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Fri, Apr 7, 2017 at 9:59 AM, Alistair Francis
-<alistair.francis@xilinx.com> wrote:
-> On Fri, Mar 31, 2017 at 10:07 AM, Alistair Francis <alistair23@gmail.com> wrote:
->> On Fri, Mar 24, 2017 at 1:38 PM, Alistair Francis
->> <alistair.francis@xilinx.com> wrote:
->>> When booting QEMU with slirp networking we want to use QEMUs TFTP server
->>> to make the images in deploy accessible to the guest.
->>>
->>> Signed-off-by: Alistair Francis <alistair.francis@xilinx.com>
->>
->> Ping?
->
-> Ping^2
->
-> I received comments on the second patch, but nothing on this one.
+This filter was add to make compilence with debian packaging but in
+package_deb.bbclass is allowed to have the same values in Conflicts and
+Provides.
 
-Ping^3
+With this filtering errors in recipe meta-data are hidden and could end
+on install two packages that conflicts [2].
 
->
-> Thanks,
->
-> Alistair
->
->>
->>> ---
->>>  scripts/runqemu | 2 +-
->>>  1 file changed, 1 insertion(+), 1 deletion(-)
->>>
->>> diff --git a/scripts/runqemu b/scripts/runqemu
->>> index 23c9efb..f76d976 100755
->>> --- a/scripts/runqemu
->>> +++ b/scripts/runqemu
->>> @@ -832,7 +832,7 @@ class BaseConfig(object):
->>>          self.kernel_cmdline_script += ' ip=dhcp'
->>>          # Port mapping
->>>          hostfwd = ",hostfwd=tcp::2222-:22,hostfwd=tcp::2323-:23"
->>> -        qb_slirp_opt_default = "-netdev user,id=net0%s" % hostfwd
->>> +        qb_slirp_opt_default = "-netdev user,id=net0%s,tftp=%s" % (hostfwd, self.get('DEPLOY_DIR_IMAGE'))
->>>          qb_slirp_opt = self.get('QB_SLIRP_OPT') or qb_slirp_opt_default
->>>          # Figure out the port
->>>          ports = re.findall('hostfwd=[^-]*:([0-9]+)-[^,-]*', qb_slirp_opt)
->>> --
->>> 2.9.3
->>>
+Reviewing the RPM spec from Fedora doesn't have anything that denies to
+use the both Conflicts and Provides with the same value [3], also in
+debian manual section 7.6.2 of [4] this behaviour is allowed to force
+the removal of the conflicted package and RPM is compilence with this
+behaviour after remove the filtering this is seen [5].
+
+[1]
+http://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/?id=4b611b66743a5ec220aef34d796af63029bb5fd9
+[2] https://bugzilla.yoctoproject.org/show_bug.cgi?id=9349#c9
+[3]
+https://docs.fedoraproject.org/en-US/Fedora_Draft_Documentation/0.1/html/RPM_Guide/ch-advanced-packaging.html
+[4] https://www.debian.org/doc/debian-policy/ch-relationships.html
+[5] https://bugzilla.yoctoproject.org/show_bug.cgi?id=9349#c12
+
+Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
+---
+ meta/classes/package_rpm.bbclass | 26 --------------------------
+ 1 file changed, 26 deletions(-)
+
+diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
+index 07ab5cd..084546f 100644
+--- a/meta/classes/package_rpm.bbclass
++++ b/meta/classes/package_rpm.bbclass
+@@ -433,19 +433,6 @@ python write_specfile () {
+         print_deps(splitrsuggests,  "Suggests", spec_preamble_bottom, d)
+         print_deps(splitrprovides,  "Provides", spec_preamble_bottom, d)
+         print_deps(splitrobsoletes, "Obsoletes", spec_preamble_bottom, d)
+-
+-        # conflicts can not be in a provide!  We will need to filter it.
+-        if splitrconflicts:
+-            depends_dict = bb.utils.explode_dep_versions2(splitrconflicts)
+-            newdeps_dict = {}
+-            for dep in depends_dict:
+-                if dep not in splitrprovides:
+-                    newdeps_dict[dep] = depends_dict[dep]
+-            if newdeps_dict:
+-                splitrconflicts = bb.utils.join_deps(newdeps_dict)
+-            else:
+-                splitrconflicts = ""
+-
+         print_deps(splitrconflicts,  "Conflicts", spec_preamble_bottom, d)
+ 
+         spec_preamble_bottom.append('')
+@@ -541,19 +528,6 @@ python write_specfile () {
+     print_deps(srcrsuggests, "Suggests", spec_preamble_top, d)
+     print_deps(srcrprovides + (" /bin/sh" if srcname.startswith("nativesdk-") else ""), "Provides", spec_preamble_top, d)
+     print_deps(srcrobsoletes, "Obsoletes", spec_preamble_top, d)
+-    
+-    # conflicts can not be in a provide!  We will need to filter it.
+-    if srcrconflicts:
+-        depends_dict = bb.utils.explode_dep_versions2(srcrconflicts)
+-        newdeps_dict = {}
+-        for dep in depends_dict:
+-            if dep not in srcrprovides:
+-                newdeps_dict[dep] = depends_dict[dep]
+-        if newdeps_dict:
+-            srcrconflicts = bb.utils.join_deps(newdeps_dict)
+-        else:
+-            srcrconflicts = ""
+-
+     print_deps(srcrconflicts, "Conflicts", spec_preamble_top, d)
+ 
+     spec_preamble_top.append('')
+-- 
+2.1.4
+
 
