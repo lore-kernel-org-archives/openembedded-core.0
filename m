@@ -1,18 +1,48 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 961B371B29;
-	Tue, 18 Apr 2017 14:01:56 +0000 (UTC)
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qt0-f175.google.com (mail-qt0-f175.google.com
+	[209.85.216.175])
+	by mail.openembedded.org (Postfix) with ESMTP id C463971C7A
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 18 Apr 2017 14:15:04 +0000 (UTC)
+Received: by mail-qt0-f175.google.com with SMTP id g60so60178359qtd.3
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 18 Apr 2017 07:15:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=TEkON2bodX6VxttkhgXQ/EnL2D/5onxtAFENZ1BQpXo=;
+	b=TaHFTAcwkyCMseXgVjLal1rbuUgZwJ06JTeM6tj6B6enHS20XgAOQTR5cCkjl8lLtJ
+	bONUfb4UwhvbKZKNd7HtLR+eu27UtsyYAFTH/oERu2kdFlFKbhmzrvVrzTH+ULD6Bbmj
+	gEGd+FLXFfZyr1N5jM4xyoYFSAMDDo/ceZ8z8HlpQOveqddDjX1uraqz/bsRHZXgprdK
+	S83MTEnU8Tvx6nNbm25hbKhuZ/VdMhEcniItCZNTCTHWxMU/MeOL4EH4ie0vX3bWopjB
+	Wc6BCnNo1fKh1YMfeEdSd4BuXU1u+L0B9XTwIGz8HgJhqYkWHAGep37OZCzXrilLkX1T
+	NvsA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=TEkON2bodX6VxttkhgXQ/EnL2D/5onxtAFENZ1BQpXo=;
+	b=jOImNoBUwe7JsAoNkCShRNpxwPxZzNsTvXbLSwCYpeLFaXE1r42lovk386jWOts4ol
+	/PST35slSHkpN82ZXXQ8bBSIv5BOMgA0gBKcJ0MZCL+T9FP23y5Bg4l+GR1+HB0+trtz
+	KpYPj7zblTLJ0eqTg4Pq1ww/2cAse70WkSaXvgw6MGo7fuOgewGXLoLwB4P2Y5kM5Toa
+	DFuaWnemYXGIFN4s29VdFHSliePgYpCQWjUtgIXScW5P42weMw1v03e2z9P8f3UDeq8m
+	qyKYr2ADztDH7PkRHQPHAu21I+JAj8lvPihiEdNk0z3Vv6WKodLOasWgbg5SCNFLELo1
+	8QEA==
+X-Gm-Message-State: AN3rC/4ynl/8Lcmcv0iJ08x2WB+X86HpjszYaU2dekbVXla79SAY38w/
+	zQ1ZcrKPQoI7kCUcx5lELz+6FyuSWoHG
+X-Received: by 10.200.3.105 with SMTP id w41mr13432313qtg.188.1492524905822;
+	Tue, 18 Apr 2017 07:15:05 -0700 (PDT)
 MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: jobol@nonadev.net
-Date: Tue, 18 Apr 2017 14:01:58 -0000
-Message-ID: <20170418140158.26292.21609@do.openembedded.org>
-References: <20170418133318.10870-1-jobol@nonadev.net>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <20170418133318.10870-1-jobol@nonadev.net>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgbGlibWljcm9odHRwZDogdXBkYXRlIHRvIHZlcnNpb24gMC45LjUz?=
+Received: by 10.140.22.166 with HTTP; Tue, 18 Apr 2017 07:14:45 -0700 (PDT)
+In-Reply-To: <1492521609-26624-9-git-send-email-ferlandm@amotus.ca>
+References: <1492521609-26624-1-git-send-email-ferlandm@amotus.ca>
+	<1492521609-26624-9-git-send-email-ferlandm@amotus.ca>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 18 Apr 2017 15:14:45 +0100
+Message-ID: <CAJTo0LbOKpaYit0Zmex3QcPJfA5rC9WjkS0=X4xZzyZwBDo8cQ@mail.gmail.com>
+To: Marc Ferland <ferlandm@amotus.ca>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCHv3 8/8] bluez5: rename "readline" config option to "client"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,45 +55,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Apr 2017 14:01:57 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 18 Apr 2017 14:15:05 -0000
+Content-Type: multipart/alternative; boundary=f4030435cf58d48994054d718826
 
-== Series Details ==
+--f4030435cf58d48994054d718826
+Content-Type: text/plain; charset=UTF-8
 
-Series: libmicrohttpd: update to version 0.9.53
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/6399/
-State : failure
+On 18 April 2017 at 14:20, Marc Ferland <ferlandm@amotus.ca> wrote:
 
-== Summary ==
+> The configure option is "enable-client" not "enable-readline" (the
+> latter does exists and is automatically enabled when enable-client is
+> passed).
+>
 
+The point of this was to remove dependencies on the GPLv3 readline library,
+so this explicitly is readline-using-clients not all clients.
 
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
+Ross
 
+--f4030435cf58d48994054d718826
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 18 April 2017 at 14:20, Marc Ferland <span dir=3D"ltr">&lt;<a href=3D"ma=
+ilto:ferlandm@amotus.ca" target=3D"_blank">ferlandm@amotus.ca</a>&gt;</span=
+> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bo=
+rder-left:1px #ccc solid;padding-left:1ex"><div id=3D":35s" class=3D"a3s aX=
+jCH m15b813a3c12ea62d">The configure option is &quot;enable-client&quot; no=
+t &quot;enable-readline&quot; (the<br>
+latter does exists and is automatically enabled when enable-client is<br>
+passed).<br></div></blockquote></div><br>The point of this was to remove de=
+pendencies on the GPLv3 readline library, so this explicitly is readline-us=
+ing-clients not all clients.</div><div class=3D"gmail_extra"><br></div><div=
+ class=3D"gmail_extra">Ross</div></div>
 
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  master (currently at ba2884f6ad)
-
-* Issue             Series sent to the wrong mailing list [test_target_mailing_list] 
-  Suggested fix    Send the series again to the correct mailing list (ML)
-  Suggested ML     openembedded-devel@lists.openembedded.org [http://git.openembedded.org/meta-openembedded/]
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
----
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
-
-
+--f4030435cf58d48994054d718826--
