@@ -1,47 +1,51 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f175.google.com (mail-qk0-f175.google.com
-	[209.85.220.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 6ECC971CA3
+Return-Path: <alistair23@gmail.com>
+Received: from mail-oi0-f66.google.com (mail-oi0-f66.google.com
+	[209.85.218.66])
+	by mail.openembedded.org (Postfix) with ESMTP id B2D2F71BE5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Apr 2017 20:30:28 +0000 (UTC)
-Received: by mail-qk0-f175.google.com with SMTP id d131so4119744qkc.3
+	Tue, 18 Apr 2017 21:08:32 +0000 (UTC)
+Received: by mail-oi0-f66.google.com with SMTP id g11so1010391oib.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Apr 2017 13:30:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=HuZBrQVkRAKX3PK+XHqFaNWzpwX+dalZxN8iXZj3n5w=;
-	b=RmzFbCgmgTATOAbx5Ovrj6tQw5M0o4SNnYfbjKy3CK+ahz/GZTA4nqsZgfO3Fsig9N
-	4uc5qwaq/9JsMcpmcujkhtrMMEQxDmPWrAAObrCuNN0/0X6mSoWCpx2sVfGiW9UMQoWV
-	CjSeweis5NDjuu87xseg/0jSg44Tz7Dre+Hyl2s1iirDQfDK8rFi+8QpTT2IbEx/mkh4
-	/uFB95li8QzJXR5vJ8nukDvzT+TZd4Ej378D3+CyDu3pb5KvfHidBgBqKkAtY8gvJnKW
-	kw5EkEiyDVkfIy0LmkvSio+GHsCsJhz6g5VPEHecNyJ+XaC1JPo+hi5blGKNWtjic74F
-	98Jw==
+	Tue, 18 Apr 2017 14:08:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:sender:in-reply-to:references:from:date:message-id
+	:subject:to:cc;
+	bh=la8yzwKcFI3GNlqwe1Gi2SKKb9aV1VEy3hwSGJW9XDc=;
+	b=DR9u7PJ5lDXXw8oIZTwGucgLKVtgZq/S81i8jtijJHntDv0eiRelCGWuhn7Z5J1U25
+	Ti7xdLWKFY4NxmPecC67kPVMDOh5eENCJHTPyk4Pb8UA8U9AQIRwMoWZN7NJJ203MBZD
+	a0480iQt4xswt2NUgO0XQav9ovunUJl80mOnUXEKb25t41U2pgS3zpWS8UWdTkv77/Lr
+	dfpqdvlNaYeghjoOZYgnYA5EnUbzH94l3YI/ItHKP7fTcXva16bhhu0eQSjfSgJQeHWD
+	kKFw1UQW6aJtLvq8ZQlp+oQ9Oh9LZPShgXh95YzvgihZQ3Wm1bcid+aCn6BNXKzKZKY+
+	todw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=HuZBrQVkRAKX3PK+XHqFaNWzpwX+dalZxN8iXZj3n5w=;
-	b=NsXzWID2TT8v3HZXg0iSqZZ/WPt9GQ9pDjU7z4AFJTpA82tsoKDQyvWt9fk5rlIcKj
-	PD6N1H9rRfz1Euv8LmdA8Fa2fdnGpN2os4YfiVMmd9XB3ud8Jw3LILKgXq30/5OBkaPT
-	bjqupsARTnwtTdocbU0c6j1fdgKDWzRdfQ/u44t3M8pK9wBFGvpESseYOSxk+MJLUhji
-	NzuCvUq1a1Ycfryyf5PPukrUGMvJ1JTrFbszBF+mSuvSNx8A+WHKrBDKh9gfhepAhjBn
-	hRJa9LMIgCCjmuhK3c83/xsEO+4c0PBGRN7YivF8G0mMz5ifBYd0/aAgDq+bXqywAKKp
-	2XwQ==
-X-Gm-Message-State: AN3rC/6SW7Qr9zevlKg7S3Uc62GKIUyP7nmaq2KVbJkLEl3NUMrkIF+1
-	hq0nNzAmAwUdWe8KcNHJFqYePvi3ntLR
-X-Received: by 10.55.18.91 with SMTP id c88mr16643502qkh.3.1492547428490; Tue,
-	18 Apr 2017 13:30:28 -0700 (PDT)
+	h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
+	:date:message-id:subject:to:cc;
+	bh=la8yzwKcFI3GNlqwe1Gi2SKKb9aV1VEy3hwSGJW9XDc=;
+	b=LInvgzz4irjsHzKTiqgT6xgbB7CzfFVwIpo+tfuG9l59CQ0HcO27u7nuYa3u8mekdu
+	3V5gXvAReq8Z2q70puOwn33VUvQZk6jf/nXyP/zFeTzB492BMZUwj/j0+vF0ajT4xWo3
+	WOvUPUSnsqMOwnVGPrOIk+vPBtces8+tD3+WMzM/MgLNrmkUNpbm0VNZjnipU0S3O7OE
+	RDIPdEQjiRxK3QM0vw3ChchUNs8ywvZhLUdTMgsDfAyI/+qEZIjnSDlZ/tTHGvtI/TFU
+	qA2P2njL0L5TqnRkS0mBcAdwOUC/sE+esyq6IYPQ/+gJwgL2WrQiQjenDWsvV4G9YC12
+	71Ew==
+X-Gm-Message-State: AN3rC/73lrLuTnL9yzOCiYHzMVRi9Uaxwt9lc9MQrKNPfNde3AEbFbWy
+	1vROBtGKyyJJqHACrfeGexRaqSRQfg==
+X-Received: by 10.157.58.4 with SMTP id j4mr7937237otc.109.1492549713666; Tue,
+	18 Apr 2017 14:08:33 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.140.22.166 with HTTP; Tue, 18 Apr 2017 13:30:08 -0700 (PDT)
-In-Reply-To: <20170418192820.27256-1-twoerner@gmail.com>
-References: <20170418192820.27256-1-twoerner@gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 18 Apr 2017 21:30:08 +0100
-Message-ID: <CAJTo0Lbhos-V4tGZy0E+5+ys2YYFLPSx-2FSJrQLjX2XOaAY9w@mail.gmail.com>
-To: Trevor Woerner <twoerner@gmail.com>
+Sender: alistair23@gmail.com
+Received: by 10.182.44.229 with HTTP; Tue, 18 Apr 2017 14:08:03 -0700 (PDT)
+In-Reply-To: <CAKmqyKOBYFdMWK5qG5UWJGRscrjX_c0S3JM6-DLFrwPXx8rXVw@mail.gmail.com>
+References: <20170324203858.27464-1-alistair.francis@xilinx.com>
+	<CAKmqyKM-wvykD1R+nyyCMjictWhLYRuOXYW1wmPPKrtVLyu9hw@mail.gmail.com>
+	<CAKmqyKOBYFdMWK5qG5UWJGRscrjX_c0S3JM6-DLFrwPXx8rXVw@mail.gmail.com>
+From: Alistair Francis <alistair.francis@xilinx.com>
+Date: Tue, 18 Apr 2017 14:08:03 -0700
+X-Google-Sender-Auth: vbMIAB7SANXLfLQzi8MDsE_QNFk
+Message-ID: <CAKmqyKPPkvF-9e_HyAG1rg=vynYQMAQLRz1a-jqTVgS4BdwoVQ@mail.gmail.com>
+To: Alistair Francis <alistair.francis@xilinx.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gtk+3: libgl has multiple providers
+Subject: Re: [PATCH v2 1/2] runqemu: Automatically add a TFTP directory for slirp boot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,39 +58,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Apr 2017 20:30:29 -0000
-Content-Type: multipart/alternative; boundary=001a11473eca493172054d76c740
-
---001a11473eca493172054d76c740
+X-List-Received-Date: Tue, 18 Apr 2017 21:08:33 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On 18 April 2017 at 20:28, Trevor Woerner <twoerner@gmail.com> wrote:
-
-> -PACKAGECONFIG[glx] = "--enable-glx,--disable-glx,,libgl"
-> +PACKAGECONFIG[glx] = "--enable-glx,--disable-glx,,virtual/libgl"
+On Fri, Apr 7, 2017 at 9:59 AM, Alistair Francis
+<alistair.francis@xilinx.com> wrote:
+> On Fri, Mar 31, 2017 at 10:07 AM, Alistair Francis <alistair23@gmail.com> wrote:
+>> On Fri, Mar 24, 2017 at 1:38 PM, Alistair Francis
+>> <alistair.francis@xilinx.com> wrote:
+>>> When booting QEMU with slirp networking we want to use QEMUs TFTP server
+>>> to make the images in deploy accessible to the guest.
+>>>
+>>> Signed-off-by: Alistair Francis <alistair.francis@xilinx.com>
+>>
+>> Ping?
 >
+> Ping^2
+>
+> I received comments on the second patch, but nothing on this one.
 
-That's the runtime dependency not build time, so virtual/libgl is wrong.
-Mesa for example generates packages called libgl-mesa that RPROVIDES libgl
-and libgl1.
+Ping^3
 
-Ross
+>
+> Thanks,
+>
+> Alistair
+>
+>>
+>>> ---
+>>>  scripts/runqemu | 2 +-
+>>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>>
+>>> diff --git a/scripts/runqemu b/scripts/runqemu
+>>> index 23c9efb..f76d976 100755
+>>> --- a/scripts/runqemu
+>>> +++ b/scripts/runqemu
+>>> @@ -832,7 +832,7 @@ class BaseConfig(object):
+>>>          self.kernel_cmdline_script += ' ip=dhcp'
+>>>          # Port mapping
+>>>          hostfwd = ",hostfwd=tcp::2222-:22,hostfwd=tcp::2323-:23"
+>>> -        qb_slirp_opt_default = "-netdev user,id=net0%s" % hostfwd
+>>> +        qb_slirp_opt_default = "-netdev user,id=net0%s,tftp=%s" % (hostfwd, self.get('DEPLOY_DIR_IMAGE'))
+>>>          qb_slirp_opt = self.get('QB_SLIRP_OPT') or qb_slirp_opt_default
+>>>          # Figure out the port
+>>>          ports = re.findall('hostfwd=[^-]*:([0-9]+)-[^,-]*', qb_slirp_opt)
+>>> --
+>>> 2.9.3
+>>>
 
---001a11473eca493172054d76c740
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 18 April 2017 at 20:28, Trevor Woerner <span dir=3D"ltr">&lt;<a href=3D"=
-mailto:twoerner@gmail.com" target=3D"_blank">twoerner@gmail.com</a>&gt;</sp=
-an> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;=
-border-left:1px #ccc solid;padding-left:1ex"><div id=3D":u0" class=3D"a3s a=
-XjCH m15b8289fb761c032">-PACKAGECONFIG[glx] =3D &quot;--enable-glx,--disabl=
-e-glx,,<wbr>libgl&quot;<br>
-+PACKAGECONFIG[glx] =3D &quot;--enable-glx,--disable-glx,,<wbr>virtual/libg=
-l&quot;<br></div></blockquote></div><br>That&#39;s the runtime dependency n=
-ot build time, so virtual/libgl is wrong.=C2=A0 Mesa for example generates =
-packages called libgl-mesa that RPROVIDES libgl and libgl1.</div><div class=
-=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
-
---001a11473eca493172054d76c740--
