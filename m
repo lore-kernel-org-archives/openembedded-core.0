@@ -1,43 +1,46 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-wm0-f51.google.com (mail-wm0-f51.google.com [74.125.82.51])
-	by mail.openembedded.org (Postfix) with ESMTP id E68C971B13
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qt0-f181.google.com (mail-qt0-f181.google.com
+	[209.85.216.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 0A54A71CB3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Apr 2017 18:53:34 +0000 (UTC)
-Received: by mail-wm0-f51.google.com with SMTP id y18so14545860wmh.0
+	Tue, 18 Apr 2017 19:17:35 +0000 (UTC)
+Received: by mail-qt0-f181.google.com with SMTP id g60so2264802qtd.3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Apr 2017 11:53:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	Tue, 18 Apr 2017 12:17:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=yMAfVodnWRK4ljl2SBLo936Zk5fBTqht+r23c7pdT8w=;
-	b=rmQs0ywFIQgLvgflHH2YbPzNLVQjWmTQYPvS9dD0LgxNBpFknsjsGBFocGsVKS6rSN
-	FGK3sq7zYHRk4Hop1ggHhh2VAio/Z5XnQQX8l4hdLJ41fInY2Ea677HP2Kz6F6sxWcqP
-	Al3ur6PMya4ogHCH5oKKQeliJr2hR3jFLPNX6PxTEHM/9neWHmgl26snyTNfM0mYsJw2
-	mDo1HSQ8ar8gW2DOpeXILA6Bpr3WjyqAcaw7y7T5WZ/U6IrKabXockg0+hU/PD8zIMZQ
-	nkhtktvlSWfw4Z3s2EKwIp+QqiOotKxfLivWr2P32QGXuQ1AZrw9aHScn0AYovSmpgl0
-	jPhg==
+	:cc; bh=/50ZkSAtrlfKqGG4yJJBg8g0/NHT3PrXeXqdMuu3b6U=;
+	b=WSd0yRt+HZtKyDgkwFkUbcnPGueU4U6QKRdcKVtIVSc5WElhsfcGmEyXq9iX/87o+V
+	sGuJNz3FWzVWi/QWdFDurivYxEDegAUvHLl6Kme0Z8IEQLaDgbaf8tanH3mLwlladhhW
+	qV1qIGGFm076SBqnRVNxuQOcYuZox2RfmAeIwCRLro/CDu4hYF9EbmvP3RnBweTPvagS
+	B5uh5U22oaIeCGvRVxXYiOu5Jp8FDOrowOytP3dyZVJMmBqgv6yWg7izQdJvC4UDwYM8
+	v7KFC5xyv5PGCzRntjvOgC7ZZfVzxZpOrv/jT6piu9ps0KtmG1GQlJWRIRI86ul4UXhj
+	rIsA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=yMAfVodnWRK4ljl2SBLo936Zk5fBTqht+r23c7pdT8w=;
-	b=PIIrQxTiXya/hTEMVdQB9NC11PHJXoEMWopOHfUNPpqulDp1PmJv5fMqfHbhOtRz6G
-	x9zTY0aYRDPqw4Qn5+1YKOlD/BrsF5X4F3dJSjcuiGBzKYYT3QiEfwKOD5IaP2CgIrbV
-	TttVTPxrgfqUfO+SiLZeCN2rhAb4O+qN4xEhyqhsPkhLs157/Rs+HV7w38TWpZreOAyD
-	0nXCxLcnPdUxwsgXhN/CfZNULuXWItSjkEkUZH7hf3EMgtnpIce/XJacgDJJC+erGFvE
-	YNO0lfTZk+j1276CmnBt4C2VMqt42Couqnilcaa1r6XmioSW05hioWFSrohi0A2D00Ny
-	BL1g==
-X-Gm-Message-State: AN3rC/5csyPytGv2+IIgqxBFNhcBKlFSU2SgbL90cBGAklLRwsaPszb8
-	S+jMy6LbaSraV4V9c2zcADl4OS2fTQ==
-X-Received: by 10.28.87.70 with SMTP id l67mr13711220wmb.37.1492541615407;
-	Tue, 18 Apr 2017 11:53:35 -0700 (PDT)
+	bh=/50ZkSAtrlfKqGG4yJJBg8g0/NHT3PrXeXqdMuu3b6U=;
+	b=Gp+kmEN8aoZUdfG+7tqcjFWGuqI7FeqjpPJ4BhTC4mWn3OidjkCNmcnF2fPkFeFWMQ
+	fl/K1THOrUFah2MxApEcnyldLUSQAjJwTirgZ8OusRTIdJjCC2QtDs4ofiuNlN7F8+zZ
+	T+cOLQbIBylcUNjLAwjzmLgl5YOMqwEQ/JbNOdsGzBHBlsBszVthkPvNF/c2smQdAc3i
+	uBsv8PBCMRIdiJNjQoJdgopM0Cmvc9BQYRXeYV+5FMdvroqnRAy/pP1QaUbbgIJSUzBZ
+	4x9jrLikMWzQVI0H0HqOjd3nZU8O7X4HsuIG5qxEJunWH34GeIoFmR2l5vKf6fO9JB59
+	iidw==
+X-Gm-Message-State: AN3rC/5cD3EQXjFGKaxC2cF/af4HzxnVAUGuSoceNo7urRoy58Tw73N3
+	EjIWDe7Nn7zIYT7btmrGLhWGyMuwMsWg
+X-Received: by 10.200.46.26 with SMTP id r26mr16856480qta.197.1492543056688;
+	Tue, 18 Apr 2017 12:17:36 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.80.180.141 with HTTP; Tue, 18 Apr 2017 11:53:04 -0700 (PDT)
-In-Reply-To: <1492527724-26361-1-git-send-email-bkylerussell@gmail.com>
+Received: by 10.140.22.166 with HTTP; Tue, 18 Apr 2017 12:17:16 -0700 (PDT)
+In-Reply-To: <CAMKF1soMAfgVG78+dywZ5nAnmAfi0-6hnUjC+MohWHm7JsBuUw@mail.gmail.com>
 References: <1492527724-26361-1-git-send-email-bkylerussell@gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 18 Apr 2017 11:53:04 -0700
-Message-ID: <CAMKF1soMAfgVG78+dywZ5nAnmAfi0-6hnUjC+MohWHm7JsBuUw@mail.gmail.com>
-To: Kyle Russell <bkylerussell@gmail.com>
+	<CAMKF1soMAfgVG78+dywZ5nAnmAfi0-6hnUjC+MohWHm7JsBuUw@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 18 Apr 2017 20:17:16 +0100
+Message-ID: <CAJTo0LYr9XCsG0yFAYeLmQtnc0n99w0dULWdz01J+kLWSp90uQ@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] cmake.bbclass: Set CMAKE_CROSSCOMPILING correctly
@@ -53,43 +56,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Apr 2017 18:53:35 -0000
+X-List-Received-Date: Tue, 18 Apr 2017 19:17:36 -0000
+Content-Type: multipart/alternative; boundary=001a114708ccb4d165054d75c270
+
+--001a114708ccb4d165054d75c270
 Content-Type: text/plain; charset=UTF-8
 
-On Tue, Apr 18, 2017 at 8:02 AM, Kyle Russell <bkylerussell@gmail.com> wrote:
-> If CMAKE_SYSTEM_NAME is defined, CMake assumes we're cross-compiling,
-> which is not necessarily the case.
-> ---
->  meta/classes/cmake.bbclass | 4 ++++
->  1 file changed, 4 insertions(+)
->
-> diff --git a/meta/classes/cmake.bbclass b/meta/classes/cmake.bbclass
-> index 9e74599..2dbaa8c 100644
-> --- a/meta/classes/cmake.bbclass
-> +++ b/meta/classes/cmake.bbclass
-> @@ -42,9 +42,13 @@ def map_target_arch_to_uname_arch(target_arch):
->      return target_arch
->
->  cmake_do_generate_toolchain_file() {
-> +       if [ "${BUILD_SYS}" == "${HOST_SYS}" ]; then
+On 18 April 2017 at 19:53, Khem Raj <raj.khem@gmail.com> wrote:
 
-dont use == here that will make it bash specific.
-
-> +           CMAKE_CROSSCOMPILING="set( CMAKE_CROSSCOMPILING FALSE )"
-> +       fi
->         cat > ${WORKDIR}/toolchain.cmake <<EOF
->  # CMake system name must be something like "Linux".
->  # This is important for cross-compiling.
-> +${CMAKE_CROSSCOMPILING}
->  set( CMAKE_SYSTEM_NAME `echo ${TARGET_OS} | sed -e 's/^./\u&/' -e 's/^\(Linux\).*/\1/'` )
->  set( CMAKE_SYSTEM_PROCESSOR ${@map_target_arch_to_uname_arch(d.getVar('TARGET_ARCH'))} )
->  set( CMAKE_C_COMPILER ${OECMAKE_C_COMPILER} )
-> --
-> 2.7.4
+> dont use == here that will make it bash specific.
 >
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
+Well spotted Khem.  I've merged this into my staging branch with the test
+changed to = for POSIXness.
+
+Thanks,
+Ross
+
+--001a114708ccb4d165054d75c270
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 18 April 2017 at 19:53, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"mailto=
+:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</span> wr=
+ote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border=
+-left:1px #ccc solid;padding-left:1ex"><div id=3D":1rr" class=3D"a3s aXjCH =
+m15b826a1c6fa7980">dont use =3D=3D here that will make it bash specific.<di=
+v class=3D"yj6qo ajU"><div id=3D":1q8" class=3D"ajR" tabindex=3D"0"></div><=
+/div></div></blockquote></div><br>Well spotted Khem.=C2=A0 I&#39;ve merged =
+this into my staging branch with the test changed to =3D for POSIXness.</di=
+v><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Thanks,</=
+div><div class=3D"gmail_extra">Ross</div></div>
+
+--001a114708ccb4d165054d75c270--
