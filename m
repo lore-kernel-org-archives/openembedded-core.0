@@ -1,47 +1,64 @@
-Return-Path: <oleksandr.poznyak@gmail.com>
-Received: from mail-qk0-f193.google.com (mail-qk0-f193.google.com
-	[209.85.220.193])
-	by mail.openembedded.org (Postfix) with ESMTP id A11D471AD1
+Return-Path: <anders@chargestorm.se>
+Received: from mail-lf0-f46.google.com (mail-lf0-f46.google.com
+	[209.85.215.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 6B55671AD4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Apr 2017 08:53:35 +0000 (UTC)
-Received: by mail-qk0-f193.google.com with SMTP id p68so22786490qke.1
+	Tue, 18 Apr 2017 09:05:54 +0000 (UTC)
+Received: by mail-lf0-f46.google.com with SMTP id c80so26926102lfh.3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Apr 2017 01:53:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=eyw7qvoy0iIm1sjh0cOCJmXt9UL8Tm+ax8icjvFtM5o=;
-	b=hVZB+RbiuA6J2tePHaZkWbNwcWZwlTrFsN7eIIoTFLCO3bfFhnAWCoarXz7yc1+Dxj
-	O0/w2K2AHbzEublCCugZOh0oJndyr4kgHx5zEesfPQXiHBouQL3aajWuOisWacZbOf6u
-	K91Zbp64jFxjjmE2npH2jemcPmaWGImFXBmgyTZRR2Ztqu2nYty+IUyi1VoQrb/zf2cZ
-	p0LKsCngxXx0kDS8JPhIBES4ydqt8wWK+kj1MuEXJ/VCViQaGjvzf5Z1vX2TrQYoe6CT
-	c+RJPvY8cA0Ef0m+BY3wOGm14fAiGO1Ly/hNRMCHNqOOMxp4YeMxlJyl8fGD93P6O95a
-	pmLg==
+	Tue, 18 Apr 2017 02:05:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=chargestorm-se.20150623.gappssmtp.com; s=20150623;
+	h=date:from:to:cc:subject:message-id:mail-followup-to:references
+	:mime-version:content-disposition:in-reply-to:organization
+	:user-agent; bh=FmR7juI7AIjtaiUEZm64XQldCg1C+GQVkpOzeYW2wFI=;
+	b=LWEnYjSYC+A8+LvJks9Kk2NGXMHQhljWT/nhL2QkPITGXD3iSM4kkHRJdgRSuaL4o/
+	Hek/ZeoBuvKYXOTfZxoXGe8vArtGz2CHbbU4jt3DesiTMSy419XLVsRtVkSlsvTYnDgy
+	KrvIuHLBVcZXmzC2gxEiyTmEvvLnmVDir83nuWzwOsTe65N97hb7dHc5izlQYmetRd5d
+	WozDSNX3FBl/BPlXEBMkFq3ZeoWN7ZYEzEjnfT9goXwlPTUd9OfHPfh+6p2+O0OpvZzo
+	p3Rvjf/mQ17KG6NNiHXVHv08YTkj3EepX7jbIC3x5WKgEW66Zijr2SXfwIoIJ44Ajz9F
+	z+mA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=eyw7qvoy0iIm1sjh0cOCJmXt9UL8Tm+ax8icjvFtM5o=;
-	b=X3r5gycOJfLP66tuuXUonQr9KNN33bapLK1SsMcuBYO5aRJOkcrg+8rifmO2HbDc47
-	HiqnB9CNdfoDH/h8m9ZIBSjY9NGQRs6BqdEiS6p3CACbO+BtrF/zKZv3NMdgGT3PoTFI
-	KtP5aKVvLgXRPvixjk34qkvG9hk6snndDaBuh6oH/YlW2nOy+MFVL+e3njM4VyTR3vDZ
-	pHOOpC8e8fbLF/bMbalAMpclyL35lkhFs0bAqM0Hx47wgQPBMDJ99nU4gavEfa+ogoy8
-	CkxCM2s+f7x9w7U39nnZPffKeLvsRg/5Yh+//TwPHLXetGuuL7bRPC2DPTeNSPaw7OZ1
-	HtHg==
-X-Gm-Message-State: AN3rC/7zhaa9WrFISvLw6oKShpSD1G6AKqb9gTyuTWanSX2xbNVvpKCn
-	ZTyXS6CQvAKkYA==
-X-Received: by 10.55.217.71 with SMTP id u68mr11535170qki.272.1492505617465;
-	Tue, 18 Apr 2017 01:53:37 -0700 (PDT)
-Received: from kev-poznyak-lx.Nominal.local ([195.33.116.220])
-	by smtp.gmail.com with ESMTPSA id
-	c18sm9121369qkj.33.2017.04.18.01.53.36
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 18 Apr 2017 01:53:37 -0700 (PDT)
-From: Oleksandr Poznyak <oleksandr.poznyak@gmail.com>
-To: yocto@yoctoproject.org,
+	h=x-gm-message-state:date:from:to:cc:subject:message-id
+	:mail-followup-to:references:mime-version:content-disposition
+	:in-reply-to:organization:user-agent;
+	bh=FmR7juI7AIjtaiUEZm64XQldCg1C+GQVkpOzeYW2wFI=;
+	b=by/dbt923+TOhyPeumBtpCDbZ2IQ3/JjwlRQ9KnpSmmWKghIgeq0FJ+wTCXvBwrMwq
+	+5cUrqHE9IK8uqm5lZGJt6oxl1byn/PDkmksdwfZIdEUzK62HMpesltbATkpiUaKPwGf
+	Gu8wTVeajbqsxogYJt16V8uDmhxk98UnStAaRocH1lmphhv+2UxyFwjWlnOXV+lBpzv6
+	Yw7dntGbZ20IizD1TU+eDD7hmJmMJ6dII7OPTwr9mdsbEgjDrK9cV5XsnqT8Rbh+Sf9U
+	9hL4vh0FLP5U2W8s+iJj6LWGWYALmDD8p5Wt4ChRNqrBv348twiFf1QiKKul5x0VUQwN
+	8p+Q==
+X-Gm-Message-State: AN3rC/4NlVhPohg68W5XjskYtfNxoX1d6jxl079L10ZCfdVcLw+AMGlJ
+	eGpxHuDB4mNvXA==
+X-Received: by 10.25.204.67 with SMTP id c64mr4138759lfg.107.1492506355681;
+	Tue, 18 Apr 2017 02:05:55 -0700 (PDT)
+Received: from ad.chargestorm.se (194-237-220-218.customer.telia.com.
+	[194.237.220.218]) by smtp.gmail.com with ESMTPSA id
+	u194sm2419939lff.48.2017.04.18.02.05.54
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Tue, 18 Apr 2017 02:05:54 -0700 (PDT)
+Date: Tue, 18 Apr 2017 11:05:53 +0200
+From: Anders Darander <anders@chargestorm.se>
+To: Robert Yang <liezhi.yang@windriver.com>
+Message-ID: <20170418090553.djkvtl7kqrqjcnmd@ad.chargestorm.se>
+Mail-Followup-To: Robert Yang <liezhi.yang@windriver.com>,
+	"Burton, Ross" <ross.burton@intel.com>,
 	openembedded-core@lists.openembedded.org
-Date: Tue, 18 Apr 2017 11:53:30 +0300
-Message-Id: <1492505610-7939-1-git-send-email-oleksandr.poznyak@gmail.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] package.bbclass: Changed PACKAGESPLITFUNCS execution order
+References: <20170417075428.31171-1-liezhi.yang@windriver.com>
+	<20170417080155.6649.98000@do.openembedded.org>
+	<f714e4d3-5554-0db0-9198-217a5c2faaa6@windriver.com>
+MIME-Version: 1.0
+In-Reply-To: <f714e4d3-5554-0db0-9198-217a5c2faaa6@windriver.com>
+X-Accept-Language: sv, en, de
+X-GPG-Fingerprint: 5AF0 B2E9 78FE 9D75 D110  6F8F 3E31 84D7 920E 938C
+X-GPG-Key-Id: 0x920E938C
+X-GPG-Keyserver: hkp://keys.gnupg.net
+Organization: ChargeStorm AB
+User-Agent: NeoMutt/20170306 (1.8.0)
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?UmU6IOKclyBwYXRjaHRlc3Q6IGZhaWx1cmUgZm9yIGxheWVyLmNvbmY6IGFkZCBkbCBsYXllciB0byBMQVlFUlJFQ09NTUVORFM=?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,37 +71,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Apr 2017 08:53:36 -0000
+X-List-Received-Date: Tue, 18 Apr 2017 09:05:55 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Fixes [YOCTO #11343]
+Hi Robert,
 
-I've added runtime PACKAGESPLITFUNCS value modification in
-the context of do_package() function so that
-populate_packages_updatealternatives function is allways
-executed before populate_packages_updatercd
+* Robert Yang <liezhi.yang@windriver.com> [170417 10:14]:
+> Where should we send meta-gplv2's patch, please ?
 
-Signed-off-by: Oleksandr Poznyak <oleksandr.poznyak@gmail.com>
----
- meta/classes/package.bbclass | 5 +++++
- 1 file changed, 5 insertions(+)
+According to
+http://git.yoctoproject.org/cgit/cgit.cgi/meta-gplv2/tree/README,
+patches should be sent to yocto@lists.yoctoproject.org.
 
-diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-index cc466bd..149a185 100644
---- a/meta/classes/package.bbclass
-+++ b/meta/classes/package.bbclass
-@@ -2110,6 +2110,11 @@ python do_package () {
- 
-     cpath = oe.cachedpath.CachedPath()
- 
-+    # modify PACKAGESPLITFUNCS order
-+    if "populate_packages_updatealternatives" in d.getVar("PACKAGESPLITFUNCS", True):
-+        d.setVar("PACKAGESPLITFUNCS", "populate_packages_updatealternatives %s" \
-+        % d.getVar("PACKAGESPLITFUNCS", True).replace("populate_packages_updatealternatives", ""))
-+
-     for f in (d.getVar('PACKAGESPLITFUNCS') or '').split():
-         bb.build.exec_func(f, d)
- 
+Cheers,
+Anders
+
+> On 04/17/2017 04:01 PM, Patchwork wrote:
+> > == Series Details ==
+
+> > Series: layer.conf: add dl layer to LAYERRECOMMENDS
+> > Revision: 1
+> > URL   : https://patchwork.openembedded.org/series/6384/
+> > State : failure
+
+> > == Summary ==
+
+
+> > Thank you for submitting this patch series to OpenEmbedded Core. This is
+> > an automated response. Several tests have been executed on the proposed
+> > series by patchtest resulting in the following failures:
+
+
+
+> > * Issue             Series does not apply on top of target branch [test_series_merge_on_head]
+> >   Suggested fix    Rebase your series on top of targeted branch
+> >   Targeted branch  master (currently at ba2884f6ad)
+
+> > * Issue             Series sent to the wrong mailing list [test_target_mailing_list]
+> >   Suggested fix    Send the series again to the correct mailing list (ML)
+> >   Suggested ML     bitbake-devel@lists.openembedded.org [http://git.openembedded.org/bitbake/]
+
+
+
+> > If you believe any of these test results are incorrect, please reply to the
+> > mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+> > Otherwise we would appreciate you correcting the issues and submitting a new
+> > version of the patchset if applicable. Please ensure you add/increment the
+> > version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+> > [PATCH v3] -> ...).
+
+> > ---
+> > Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+> > Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 -- 
-2.1.4
-
+Anders Darander, Senior System Architect
+ChargeStorm AB / eStorm AB
 
