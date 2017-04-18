@@ -1,46 +1,40 @@
-Return-Path: <twoerner@gmail.com>
-Received: from mail-io0-f194.google.com (mail-io0-f194.google.com
-	[209.85.223.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 63990601A5
+Return-Path: <prvs=628173e6b9=michael.davis@essvote.com>
+Received: from mail1.essvote.com (mail1.essvote.com [66.37.226.19])
+	by mail.openembedded.org (Postfix) with ESMTP id C14DB71CB4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Apr 2017 19:28:29 +0000 (UTC)
-Received: by mail-io0-f194.google.com with SMTP id h41so1261052ioi.1
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Apr 2017 12:28:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id;
-	bh=72gnI6YNRmpRlZDrfnirJCtBDhvF2kwZzjptyR9XpJs=;
-	b=BmyC7M7jh2GEu/YkGUeGaVOyz/yaRuAm/6P7whnym34Z7CoqFCW2+72o2EppUvR5JG
-	+PSV1Y9QTvy0QdKm+zv+TssID/a7r19w14SFFK11h7saQ6fABYQFpNrkByiNenlRZIo/
-	DEVvxwhNI2niXDbiAPPvWTjUXCoCGI3zwHluLCAnaiXwnIm7mdAGTAYvYmWLFh9VrGKG
-	0suHWjEdDwzOLyQ7reur610P6ZiHJfzS45c0fTL33LI+YMXXFSnL/Qsc4C0DXqZeX8YC
-	5WmtU2jg8XT+FBIkSjZUegpfJgBmagOX1B7C9zzHUyalrgYjkiSz+q+HJFvW0LW2UqKw
-	qlxg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=72gnI6YNRmpRlZDrfnirJCtBDhvF2kwZzjptyR9XpJs=;
-	b=tbMkezGwO/kgi5uXfCgfRVNcKYY09m+C77MGIZ0wGCoHh3/dnkpBXv76AUGwXrEfnv
-	q4dT97RURmkr0UOmstMimZUhALkvIQOjNicppINYYlDdGsISjFzVvp+L6vWEmB2mQ0CC
-	wMmRVA3aQ4AN64jKMh22LiftidJYxGGMH6cyyGFzU9+YVPwXgWf6wJ4muaAyAKyWbQlc
-	Agw0KjXmNG028KDOgdFV2xcjZPBODG2bxw9KyhP9JBLzmpDr7kce+jNjx64IIroMabMo
-	eEvVigqsN2m3n8aG639sExtcyX45kAzevA63Q1f+KX7xr0K7sBIWSQTR16Ge1JgWCUCU
-	z0YA==
-X-Gm-Message-State: AN3rC/5N9kuQePwP2IBU9w7wNKVDeFisRW2nMSk9fc0oDCHlHOe6SFaN
-	+pGVXSuPSTt4nMJ8MEE=
-X-Received: by 10.107.182.70 with SMTP id g67mr16918150iof.120.1492543711159; 
-	Tue, 18 Apr 2017 12:28:31 -0700 (PDT)
-Received: from linux-uys3.suse ([108.161.123.115])
-	by smtp.gmail.com with ESMTPSA id l63sm221081ioe.38.2017.04.18.12.28.30
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 18 Apr 2017 12:28:30 -0700 (PDT)
-From: Trevor Woerner <twoerner@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 18 Apr 2017 15:28:20 -0400
-Message-Id: <20170418192820.27256-1-twoerner@gmail.com>
-X-Mailer: git-send-email 2.12.0.rc1.48.g076c053
-Subject: [PATCH] gtk+3: libgl has multiple providers
+	Tue, 18 Apr 2017 19:57:09 +0000 (UTC)
+X-AuditID: 0a000213-badff70000000cd7-36-58f66f924d62
+Received: from ESS-EX01.essvote.corp.local (Unknown_Domain [172.16.110.40])
+	by mail1.essvote.com (Symantec Messaging Gateway) with SMTP id
+	1D.04.03287.29F66F85; Tue, 18 Apr 2017 14:57:09 -0500 (CDT)
+Received: from ESS-EX01.essvote.corp.local ([::1]) by
+	ESS-EX01.essvote.corp.local ([::1]) with mapi id 14.03.0301.000;
+	Tue, 18 Apr 2017 14:57:06 -0500
+From: "Davis, Michael" <michael.davis@essvote.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core][morty][PATCH] logrotate: replace fedorahosted.org
+	SRC_URI with github.com source
+Thread-Index: AQHSuH309tfNOc0hmEqrrDh4BkWKtA==
+Date: Tue, 18 Apr 2017 19:57:05 +0000
+Message-ID: <20170418195705.9691-1-michael.davis@essvote.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.1.20.66]
+MIME-Version: 1.0
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrNLMWRmVeSWpSXmKPExsWyRiBPQ3dq/rcIg3dz2Czu/HzHbvHj2URW
+	i4UvFzI5MHss3vOSyWP/3DXsHuc2rmAMYI7itklKLCkLzkzP07dL4M5YvfQUU8EvoYpfp44x
+	NzAuFehi5OSQEDCRmLh+OnsXIxeHkMAJRon1bbuYIJxZjBKnly1kAqliEzCSOHd9EyOILSIQ
+	LbF0xkx2EJtZIF3iae9yNhBbWCBVYs+dicwQNVkSh1c+Z+1i5ACy9SQ+vGQBCbMIqEocujaB
+	FcTmFbCVmP19M1icUUBM4vupNUwQI8Ulbj2ZzwRxnIDEkj3nmSFsUYmXj/+xQthyEuvenYSq
+	15O4MXUKG4StLbFs4WtmiPmCEidnPmGZwCg8C8nYWUhaZiFpmYWkZQEjyypGwdzEzBxDvdTi
+	4rL8klS95PzcTYzAKOBiYBLewThniu0hRgEORiUe3gs6XyOEWBPLiitzDzFKc7AoifOe5QiO
+	EBJITyxJzU5NLUgtii8qzUktPsTIxMF5iFGCg0tKpDg1LyW1KLG0JCMeFEPxxcAokmpgXPeO
+	7YuzNavevTdH1c80PBFr//5+XUyTcpuv0DNLaxZh16JNWZc0HI5/y/NaNrXlCNupi3efvp08
+	i+k+Z1Sg/KrM5kuCRaHqH81MUrc1dLhIinzl1r6xaPHylUwpy0x/Ch100z6btyl7cXo5Y52/
+	/USPf1MmvH/3V+lCxIe2cjWzhf/X/H7dr8RSnJFoqMVcVJwIAIo/XIN+AgAA
+Subject: [morty][PATCH] logrotate: replace fedorahosted.org SRC_URI with github.com source
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,30 +47,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Apr 2017 19:28:31 -0000
+X-List-Received-Date: Tue, 18 Apr 2017 19:57:11 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
-The libgl can be satisfied by a set of libgl providers, therefore set the
-dependency to virtual/libgl.
+From: Choong YinThong <yin.thong.choong@intel.com>
 
-Signed-off-by: Trevor Woerner <twoerner@gmail.com>
+fedorahosted.org was retired on March 1st, 2017. This is to
+update the SRC_URI to point to github.com.
+Update the ${PN} to ${BPN} in order to pass the autobuilder
+mulitlib enable configuration.
+
+[YOCTO #11226]
+
+Signed-off-by: Choong YinThong <yin.thong.choong@intel.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-gnome/gtk+/gtk+3.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-extended/logrotate/logrotate_3.9.1.bb | 17 +++++++++++++----
+ 1 file changed, 13 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-gnome/gtk+/gtk+3.inc b/meta/recipes-gnome/gtk+/gtk+3.inc
-index 27da844fea..c430aecde2 100644
---- a/meta/recipes-gnome/gtk+/gtk+3.inc
-+++ b/meta/recipes-gnome/gtk+/gtk+3.inc
-@@ -46,7 +46,7 @@ PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'opengl wayland x11', d
- PACKAGECONFIG[x11] = "--enable-x11-backend,--disable-x11-backend,at-spi2-atk fontconfig libx11 libxext libxcursor libxi libxdamage libxrandr libxrender libxcomposite libxfixes"
- # this is provided by oe-core patch that removes epoxy/gl dependency from a X11 build
- PACKAGECONFIG[opengl] = "--enable-opengl,--disable-opengl,libepoxy"
--PACKAGECONFIG[glx] = "--enable-glx,--disable-glx,,libgl"
-+PACKAGECONFIG[glx] = "--enable-glx,--disable-glx,,virtual/libgl"
- PACKAGECONFIG[wayland] = "--enable-wayland-backend,--disable-wayland-backend,wayland wayland-protocols libxkbcommon virtual/mesa wayland-native"
- 
- do_install_append() {
--- 
-2.12.0.rc1.48.g076c053
-
+diff --git a/meta/recipes-extended/logrotate/logrotate_3.9.1.bb b/meta/reci=
+pes-extended/logrotate/logrotate_3.9.1.bb
+index 5f1a601..5bd3381 100644
+--- a/meta/recipes-extended/logrotate/logrotate_3.9.1.bb
++++ b/meta/recipes-extended/logrotate/logrotate_3.9.1.bb
+@@ -1,6 +1,6 @@
+ SUMMARY =3D "Rotates, compresses, removes and mails system log files"
+ SECTION =3D "console/utils"
+-HOMEPAGE =3D "https://fedorahosted.org/logrotate/"
++HOMEPAGE =3D "https://github.com/logrotate/logrotate/issues"
+ LICENSE =3D "GPLv2"
+=20
+ # TODO: logrotate 3.8.8 adds autotools/automake support, update recipe to =
+use it.
+@@ -10,14 +10,23 @@ DEPENDS=3D"coreutils popt"
+=20
+ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D18810669f13b87348459e611d31ab76=
+0"
+=20
+-SRC_URI =3D "https://fedorahosted.org/releases/l/o/logrotate/logrotate-${P=
+V}.tar.gz \
++# When updating logrotate to latest upstream, SRC_URI should point to
++# a proper release tarball from https://github.com/logrotate/logrotate/rel=
+eases
++# and we have to take the snapshot for now because there is no such
++# tarball available for 3.9.1.
++
++S =3D "${WORKDIR}/${BPN}-r3-9-1"
++
++UPSTREAM_CHECK_URI =3D "https://github.com/${BPN}/${BPN}/releases"
++
++SRC_URI =3D "https://github.com/${BPN}/${BPN}/archive/r3-9-1.tar.gz \
+            file://act-as-mv-when-rotate.patch \
+            file://update-the-manual.patch \
+            file://disable-check-different-filesystems.patch \
+             "
+=20
+-SRC_URI[md5sum] =3D "4492b145b6d542e4a2f41e77fa199ab0"
+-SRC_URI[sha256sum] =3D "022769e3288c80981559a8421703c88e8438b447235e36dd3c=
+8e97cd94c52545"
++SRC_URI[md5sum] =3D "8572b7c2cf9ade09a8a8e10098500fb3"
++SRC_URI[sha256sum] =3D "5bf8e478c428e7744fefa465118f8296e7e771c981fb6dffb7=
+527856a0ea3617"
+=20
+ PACKAGECONFIG ?=3D "\
+     ${@bb.utils.contains('DISTRO_FEATURES', 'acl', 'acl', '', d)} \
+--=20
+2.9.3
 
