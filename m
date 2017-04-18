@@ -1,31 +1,47 @@
-Return-Path: <dmitry.rozhkov@linux.intel.com>
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 20DB871AD1
+Return-Path: <oleksandr.poznyak@gmail.com>
+Received: from mail-qk0-f193.google.com (mail-qk0-f193.google.com
+	[209.85.220.193])
+	by mail.openembedded.org (Postfix) with ESMTP id A11D471AD1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Apr 2017 08:44:32 +0000 (UTC)
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-	by fmsmga105.fm.intel.com with ESMTP; 18 Apr 2017 01:44:33 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.37,218,1488873600"; d="scan'208";a="91135229"
-Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga006.fm.intel.com with ESMTP; 18 Apr 2017 01:44:33 -0700
-Received: from drozhkov-desk.fi.intel.com (drozhkov-desk.fi.intel.com
-	[10.237.72.60])
-	by linux.intel.com (Postfix) with ESMTP id 3DD636A4006;
-	Tue, 18 Apr 2017 01:44:22 -0700 (PDT)
-Message-ID: <1492505071.7102.5.camel@linux.intel.com>
-From: Dmitry Rozhkov <dmitry.rozhkov@linux.intel.com>
-To: "Burton, Ross" <ross.burton@intel.com>, Alexander Kanavin
-	<alexander.kanavin@linux.intel.com>
-Date: Tue, 18 Apr 2017 11:44:31 +0300
-In-Reply-To: <CAJTo0LYA8nsexqtfwz4bbOYA1HtnRDxCcKGZE8Jz+m+=tOcTdA@mail.gmail.com>
-References: <20170413083344.22737-1-dmitry.rozhkov@linux.intel.com>
-	<85c346c4-f6d6-c853-bfc5-0daa64ea2db8@linux.intel.com>
-	<CAJTo0LYA8nsexqtfwz4bbOYA1HtnRDxCcKGZE8Jz+m+=tOcTdA@mail.gmail.com>
-X-Mailer: Evolution 3.22.6 (3.22.6-1.fc25) 
-Mime-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] python: make python2 and python3 alternatives to python
+	Tue, 18 Apr 2017 08:53:35 +0000 (UTC)
+Received: by mail-qk0-f193.google.com with SMTP id p68so22786490qke.1
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 18 Apr 2017 01:53:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=eyw7qvoy0iIm1sjh0cOCJmXt9UL8Tm+ax8icjvFtM5o=;
+	b=hVZB+RbiuA6J2tePHaZkWbNwcWZwlTrFsN7eIIoTFLCO3bfFhnAWCoarXz7yc1+Dxj
+	O0/w2K2AHbzEublCCugZOh0oJndyr4kgHx5zEesfPQXiHBouQL3aajWuOisWacZbOf6u
+	K91Zbp64jFxjjmE2npH2jemcPmaWGImFXBmgyTZRR2Ztqu2nYty+IUyi1VoQrb/zf2cZ
+	p0LKsCngxXx0kDS8JPhIBES4ydqt8wWK+kj1MuEXJ/VCViQaGjvzf5Z1vX2TrQYoe6CT
+	c+RJPvY8cA0Ef0m+BY3wOGm14fAiGO1Ly/hNRMCHNqOOMxp4YeMxlJyl8fGD93P6O95a
+	pmLg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=eyw7qvoy0iIm1sjh0cOCJmXt9UL8Tm+ax8icjvFtM5o=;
+	b=X3r5gycOJfLP66tuuXUonQr9KNN33bapLK1SsMcuBYO5aRJOkcrg+8rifmO2HbDc47
+	HiqnB9CNdfoDH/h8m9ZIBSjY9NGQRs6BqdEiS6p3CACbO+BtrF/zKZv3NMdgGT3PoTFI
+	KtP5aKVvLgXRPvixjk34qkvG9hk6snndDaBuh6oH/YlW2nOy+MFVL+e3njM4VyTR3vDZ
+	pHOOpC8e8fbLF/bMbalAMpclyL35lkhFs0bAqM0Hx47wgQPBMDJ99nU4gavEfa+ogoy8
+	CkxCM2s+f7x9w7U39nnZPffKeLvsRg/5Yh+//TwPHLXetGuuL7bRPC2DPTeNSPaw7OZ1
+	HtHg==
+X-Gm-Message-State: AN3rC/7zhaa9WrFISvLw6oKShpSD1G6AKqb9gTyuTWanSX2xbNVvpKCn
+	ZTyXS6CQvAKkYA==
+X-Received: by 10.55.217.71 with SMTP id u68mr11535170qki.272.1492505617465;
+	Tue, 18 Apr 2017 01:53:37 -0700 (PDT)
+Received: from kev-poznyak-lx.Nominal.local ([195.33.116.220])
+	by smtp.gmail.com with ESMTPSA id
+	c18sm9121369qkj.33.2017.04.18.01.53.36
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 18 Apr 2017 01:53:37 -0700 (PDT)
+From: Oleksandr Poznyak <oleksandr.poznyak@gmail.com>
+To: yocto@yoctoproject.org,
+	openembedded-core@lists.openembedded.org
+Date: Tue, 18 Apr 2017 11:53:30 +0300
+Message-Id: <1492505610-7939-1-git-send-email-oleksandr.poznyak@gmail.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] package.bbclass: Changed PACKAGESPLITFUNCS execution order
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,53 +54,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Apr 2017 08:44:33 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 18 Apr 2017 08:53:36 -0000
 
-On Thu, 2017-04-13 at 15:47 +0100, Burton, Ross wrote:
-> 
-> On 13 April 2017 at 11:15, Alexander Kanavin <alexander.kanavin@linux
-> .intel.com> wrote:
-> > This runs against upstream recommendation and common distro
-> > practice. And it will break scripts that have not been ported to
-> > Python 3. Please fix the scripts instead to refer to python 3
-> > whenever possible.
-> > 
-> 
-> Agreed.  If a script uses /usr/bin/python and gets py3, 99% of the
-> time you'll get errors.
+Fixes [YOCTO #11343]
 
-I've just checked PEP-349. It recommends that
+I've added runtime PACKAGESPLITFUNCS value modification in
+the context of do_package() function so that
+populate_packages_updatealternatives function is allways
+executed before populate_packages_updatercd
 
-"- The more general python command should be installed whenever any
-version of Python 2 is installed and should invoke the same version of
-Python as the python2 command (however, note that some distributions
-have already chosen to have python implement the python3 command; see
-the Rationale and Migration Notes below)."
+Signed-off-by: Oleksandr Poznyak <oleksandr.poznyak@gmail.com>
+---
+ meta/classes/package.bbclass | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-The proposed patch doesn't violate this recommendation, because
-"whenever" Python 2 is installed the python command still invokes
-python2.
+diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+index cc466bd..149a185 100644
+--- a/meta/classes/package.bbclass
++++ b/meta/classes/package.bbclass
+@@ -2110,6 +2110,11 @@ python do_package () {
+ 
+     cpath = oe.cachedpath.CachedPath()
+ 
++    # modify PACKAGESPLITFUNCS order
++    if "populate_packages_updatealternatives" in d.getVar("PACKAGESPLITFUNCS", True):
++        d.setVar("PACKAGESPLITFUNCS", "populate_packages_updatealternatives %s" \
++        % d.getVar("PACKAGESPLITFUNCS", True).replace("populate_packages_updatealternatives", ""))
++
+     for f in (d.getVar('PACKAGESPLITFUNCS') or '').split():
+         bb.build.exec_func(f, d)
+ 
+-- 
+2.1.4
 
-Also, there are other recommendations like
-
-"- In order to tolerate differences across platforms, all new code that
-needs to invoke the Python interpreter should not specify python , but
-rather should specify either python2 or python3 (or the more specific
-python2.x and python3.x versions; see the Migration Notes ). This
-distinction should be made in shebangs, when invoking from a shell
-script, when invoking via the system() call, or when invoking in any
-other context.
-- One exception to this is scripts that are deliberately written to be
-source compatible with both Python 2.x and 3.x. Such scripts may
-continue to use python on their shebang line without affecting their
-portability."
-
-If I understood correctly OE-core is not a distribution, but a tool to
-create "a custom one". I would rather allow people to create
-distributions where python3 is the default like in Arch Linux.
-
-BR,
-Dmitry
 
