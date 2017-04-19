@@ -1,28 +1,52 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 9BDB671AB7
+Return-Path: <krussell7711@gmail.com>
+Received: from mail-qt0-f182.google.com (mail-qt0-f182.google.com
+	[209.85.216.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 0161F71A99
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Apr 2017 02:55:41 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v3J2tfAU002658
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 18 Apr 2017 19:55:41 -0700 (PDT)
-Received: from [128.224.162.185] (128.224.162.185) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
-	Tue, 18 Apr 2017 19:55:40 -0700
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <20170410031440.32220-1-kai.kang@windriver.com>
-	<CAJTo0Lb9cc3wnpM=8up0OsCmrKyGVKSgv9seg-uFJD47nNu4gA@mail.gmail.com>
-From: Kang Kai <Kai.Kang@windriver.com>
-Message-ID: <d25fa306-8a1d-0659-847d-65fe02bb48db@windriver.com>
-Date: Wed, 19 Apr 2017 10:54:42 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.8.0
+	Wed, 19 Apr 2017 03:45:24 +0000 (UTC)
+Received: by mail-qt0-f182.google.com with SMTP id g60so9886184qtd.3
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 18 Apr 2017 20:45:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:sender:in-reply-to:references:from:date:message-id
+	:subject:to:cc;
+	bh=dZ7zg+VPelwDp/Jac/9otVDP8hDQL7nO9u6UJGnZTKg=;
+	b=R4OPuj7DymDW+3p552NzKggA/I6AREHOLorl8ZwGlH+whTyTvNN/StSG+Y1kZsWhfw
+	QhE8JRkLHge0Yb5YU6G0PAFZMCXJglQbnGGJftr1KgDHzKgaTt0AlrH8++2GqVpMESny
+	hlJPCzs7SWfMcg6QeAnjlTqV+9GLCp4Evt1wW1zAQiJ64xN4TAuZHgSoKPuYN8u+YUVI
+	e8G78JJcoonqwH+SY81wPdH6HYIHhkB34uPaxLpli4LRjoaSMI7PUz0j6sG7nC6cZ5FL
+	/ZfmRprYxBz8ag6WIS5pZM2Qj8ftq+fhlP/3PYQ2SJttdrPj1Fvmejba4Pr8mV6Idii0
+	B/MQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
+	:date:message-id:subject:to:cc;
+	bh=dZ7zg+VPelwDp/Jac/9otVDP8hDQL7nO9u6UJGnZTKg=;
+	b=OkeBVvqpiLS7pOgwzW8bx3A/3KRzmLs54W92STpIsAwK3terdcj+RE7wbQRnz5WERx
+	Olloif4JVEQU8O26TfM5j494Inc4PAv6ZYIJxOFu0bC0DhPsBexz2w/cvf3xf3ieIMoE
+	pATe4Yp/aG7Vjhlhglc8e0J2ec+KqjFEi/UrzCR9Nsv9Vdp7m1/b2q/GoIEJ53i8HWQB
+	1gYz6KJnWgciD/623klaKpvs0LR8iujsT6vQR9S46hIA/ccYIaHFG9HbFR94gyhek9Ys
+	jO/3vIqHYJdpOFgsh/NRwXg9q8y/JKis4fvS5bitfLvAarK5Zvv1mQWUZ9dw02Zfk51F
+	x3fQ==
+X-Gm-Message-State: AN3rC/74IFJhEGbEM0adctAY74AJZtDgd/cYSEA+ivxDOvEJgwSSECxw
+	+UTKZxksPS9QDYB0f6Wwbn8+OgUUTw==
+X-Received: by 10.200.49.61 with SMTP id g58mr648597qtb.151.1492573525931;
+	Tue, 18 Apr 2017 20:45:25 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0Lb9cc3wnpM=8up0OsCmrKyGVKSgv9seg-uFJD47nNu4gA@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] libsdl2: disable check gcc -Wdeclaration-after-statement for ppc
+Sender: krussell7711@gmail.com
+Received: by 10.12.151.137 with HTTP; Tue, 18 Apr 2017 20:45:05 -0700 (PDT)
+In-Reply-To: <CAJTo0LYr9XCsG0yFAYeLmQtnc0n99w0dULWdz01J+kLWSp90uQ@mail.gmail.com>
+References: <1492527724-26361-1-git-send-email-bkylerussell@gmail.com>
+	<CAMKF1soMAfgVG78+dywZ5nAnmAfi0-6hnUjC+MohWHm7JsBuUw@mail.gmail.com>
+	<CAJTo0LYr9XCsG0yFAYeLmQtnc0n99w0dULWdz01J+kLWSp90uQ@mail.gmail.com>
+From: Kyle Russell <bkylerussell@gmail.com>
+Date: Tue, 18 Apr 2017 23:45:05 -0400
+X-Google-Sender-Auth: ZOGhkRPhgItgEbDEC02thtTVfv4
+Message-ID: <CAFrQVPMr9Y8WB1HsvRWMEALD03qraOzVeKaW78FRbaE-444f=w@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] cmake.bbclass: Set CMAKE_CROSSCOMPILING correctly
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,114 +59,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Apr 2017 02:55:41 -0000
-Content-Type: multipart/alternative;
-	boundary="------------5F5997DAE67AAE8A6901FC22"
+X-List-Received-Date: Wed, 19 Apr 2017 03:45:25 -0000
+Content-Type: multipart/alternative; boundary=001a11405d0ad07c85054d7cdac8
 
---------------5F5997DAE67AAE8A6901FC22
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+--001a11405d0ad07c85054d7cdac8
+Content-Type: text/plain; charset=UTF-8
 
-On 2017年04月18日 23:30, Burton, Ross wrote:
->
-> On 10 April 2017 at 04:14, <kai.kang@windriver.com 
-> <mailto:kai.kang@windriver.com>> wrote:
->
->     |   CC     build/SDL_blit_N.lo
->     |
->     .../tmp/work/ppc7400-wrs-linux/libsdl2/2.0.5-r0/SDL2-2.0.5/src/video/SDL_blit_N.c:
->     In function 'calc_swizzle32':
->     |
->     .../tmp/work/ppc7400-wrs-linux/libsdl2/2.0.5-r0/SDL2-2.0.5/src/video/SDL_blit_N.c:127:5:
->     error: ISO C90 forbids
->     | mixed declarations and code [-Werror=declaration-after-statement]
->     |      const vector unsigned char plus = VECUINT8_LITERAL(0x00,
->     0x00, 0x00, 0x00,
->     |      ^~~~~
->
->
-> Upstream has already fixed this: 
-> http://hg.libsdl.org/SDL/rev/5184186d4366.
+Thank you.  Do I need to submit an amended patch to the mailing list, or
+will your fixup get merged in from your staging branch pending no problems?
 
-Thanks, Ross. I'll send a review request for it.
-
-
---Kai
+On Tue, Apr 18, 2017 at 3:17 PM, Burton, Ross <ross.burton@intel.com> wrote:
 
 >
+> On 18 April 2017 at 19:53, Khem Raj <raj.khem@gmail.com> wrote:
+>
+>> dont use == here that will make it bash specific.
+>>
+>
+> Well spotted Khem.  I've merged this into my staging branch with the test
+> changed to = for POSIXness.
+>
+> Thanks,
 > Ross
+>
 
+--001a11405d0ad07c85054d7cdac8
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
--- 
-Regards,
-Neil | Kai Kang
+<div dir=3D"ltr">Thank you.=C2=A0 Do I need to submit an amended patch to t=
+he mailing list, or will your fixup get merged in from your staging branch =
+pending no problems?</div><div class=3D"gmail_extra"><br><div class=3D"gmai=
+l_quote">On Tue, Apr 18, 2017 at 3:17 PM, Burton, Ross <span dir=3D"ltr">&l=
+t;<a href=3D"mailto:ross.burton@intel.com" target=3D"_blank">ross.burton@in=
+tel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D=
+"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div dir=3D=
+"ltr"><div class=3D"gmail_extra"><span class=3D""><br><div class=3D"gmail_q=
+uote">On 18 April 2017 at 19:53, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"=
+mailto:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</sp=
+an> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;=
+border-left:1px #ccc solid;padding-left:1ex"><div id=3D"m_-1401236897100699=
+610:1rr" class=3D"m_-1401236897100699610a3s m_-1401236897100699610aXjCH m_-=
+1401236897100699610m15b826a1c6fa7980">dont use =3D=3D here that will make i=
+t bash specific.<div class=3D"m_-1401236897100699610yj6qo m_-14012368971006=
+99610ajU"><div id=3D"m_-1401236897100699610:1q8" class=3D"m_-14012368971006=
+99610ajR"></div></div></div></blockquote></div><br></span>Well spotted Khem=
+.=C2=A0 I&#39;ve merged this into my staging branch with the test changed t=
+o =3D for POSIXness.</div><div class=3D"gmail_extra"><br></div><div class=
+=3D"gmail_extra">Thanks,</div><div class=3D"gmail_extra">Ross</div></div>
+</blockquote></div><br></div>
 
-
---------------5F5997DAE67AAE8A6901FC22
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-  </head>
-  <body bgcolor="#FFFFFF" text="#000000">
-    <div class="moz-cite-prefix">On 2017年04月18日 23:30, Burton, Ross
-      wrote:<br>
-    </div>
-    <blockquote
-cite="mid:CAJTo0Lb9cc3wnpM=8up0OsCmrKyGVKSgv9seg-uFJD47nNu4gA@mail.gmail.com"
-      type="cite">
-      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-      <div dir="ltr">
-        <div class="gmail_extra"><br>
-          <div class="gmail_quote">On 10 April 2017 at 04:14, <span
-              dir="ltr">&lt;<a moz-do-not-send="true"
-                href="mailto:kai.kang@windriver.com" target="_blank">kai.kang@windriver.com</a>&gt;</span>
-            wrote:<br>
-            <blockquote class="gmail_quote" style="margin:0px 0px 0px
-0.8ex;border-left-width:1px;border-left-style:solid;border-left-color:rgb(204,204,204);padding-left:1ex">
-              <div id="gmail-:f4" class="gmail-a3s gmail-aXjCH
-                gmail-m15b55dd39685d96b">|   CC     build/SDL_blit_N.lo<br>
-                | .../tmp/work/ppc7400-wrs-<wbr>linux/libsdl2/2.0.5-r0/SDL2-2.<wbr>0.5/src/video/SDL_blit_N.c:
-                In function 'calc_swizzle32':<br>
-                | .../tmp/work/ppc7400-wrs-<wbr>linux/libsdl2/2.0.5-r0/SDL2-2.<wbr>0.5/src/video/SDL_blit_N.c:<wbr>127:5:
-                error: ISO C90 forbids<br>
-                | mixed declarations and code
-                [-Werror=declaration-after-<wbr>statement]<br>
-                |      const vector unsigned char plus =
-                VECUINT8_LITERAL(0x00, 0x00, 0x00, 0x00,<br>
-                |      ^~~~~</div>
-            </blockquote>
-          </div>
-          <br>
-          Upstream has already fixed this: <a moz-do-not-send="true"
-            href="http://hg.libsdl.org/SDL/rev/5184186d4366">http://hg.libsdl.org/SDL/rev/5184186d4366</a>.<br>
-        </div>
-      </div>
-    </blockquote>
-    <br>
-    Thanks, Ross. I'll send a review request for it.<br>
-    <br>
-    <br>
-    --Kai<br>
-    <br>
-    <blockquote
-cite="mid:CAJTo0Lb9cc3wnpM=8up0OsCmrKyGVKSgv9seg-uFJD47nNu4gA@mail.gmail.com"
-      type="cite">
-      <div dir="ltr">
-        <div class="gmail_extra"><br>
-        </div>
-        <div class="gmail_extra">Ross</div>
-      </div>
-    </blockquote>
-    <br>
-    <p><br>
-    </p>
-    <pre class="moz-signature" cols="72">-- 
-Regards,
-Neil | Kai Kang</pre>
-  </body>
-</html>
-
---------------5F5997DAE67AAE8A6901FC22--
+--001a11405d0ad07c85054d7cdac8--
