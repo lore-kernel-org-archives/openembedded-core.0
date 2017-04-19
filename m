@@ -1,51 +1,50 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qt0-f178.google.com (mail-qt0-f178.google.com
-	[209.85.216.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 65FD171A36
+Return-Path: <freesilicon@gmail.com>
+Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
+	by mail.openembedded.org (Postfix) with ESMTP id C1FD371A1A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Apr 2017 08:19:38 +0000 (UTC)
-Received: by mail-qt0-f178.google.com with SMTP id g60so13173976qtd.3
+	Wed, 19 Apr 2017 08:27:57 +0000 (UTC)
+Received: by mail-wm0-f67.google.com with SMTP id z129so3583327wmb.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Apr 2017 01:19:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=vQiX60KVSvg5+89ibWmJMNsbGwBNCd3yxtyFcLZdBoI=;
-	b=jm8+HsEPTonyUijeami0EtRKahM2DAfp8L9U6aMWqtRKsIl2a7DM7pWou20GLbGeXl
-	VJ0Y7+PlIq/IjGgN00tNh9ZAqOWar8efJLIike3HSMsVO/68b5XwU01srkNDabmiWsTP
-	bmP2LTm7tFdhaY+3mIJ9JZ1i3Rie1YRTqz4+VMQYyBky/hhM0nzjTaqL9oHht6kOyImN
-	jpy1FlVoGEsHvIcInh78XTjvDTHESbwgIaXiYosOvRE8YNNYnQ+ZRnyRjDsuj8whUTUA
-	T0mvwqaD66QyZ4MhjnLqr+3aOaXjLgqdRMnKVbOGFXn0gy+Okh8zFlukWrt6yfx42UOs
-	fKew==
+	Wed, 19 Apr 2017 01:27:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=LWlFtS4PV7lcTIl5yHlZtJUHkrpUb+OzxpTzM9kBBnE=;
+	b=IIyMIbkAk0t2Jgv71s4/XKPVT8GzphMcGqbR0UrMS05DTTScwUPXkpEUpIg38g99mY
+	q/XXEE/csU9+IXEhKV4s0dqseWRTQSffD6ydReqmH5v34YMy1EpXjiFBbzL76ubgDKXI
+	rDFGThjSTxjf2LlrTfaQdgFi5euDbb/+FH9ZGy+fnmtB0aPD+pXb4sKZxokusCQ+Ts8L
+	XMW/LIhF2A/IwSLQLT+kV92ojSdgiY3lSPg+616DKE55by3QptVTbA6B/kt/K45Gvudz
+	J4ktv8d/0sYLb566xRoSy6mrRShcAk9700JqAouu3q8h2CTjUGSVAU5ImP2JApTMDkKX
+	FLTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=vQiX60KVSvg5+89ibWmJMNsbGwBNCd3yxtyFcLZdBoI=;
-	b=cd1MMDgKeyiRZ+IRwYjZH231mjykUYyJhL2Y5O8zTO3/JfdmfMbtr9TAjamSPg5rsG
-	scxAlhAVX1F87nZzuRbkEPgNl8zKIel2tvmS4AVu5ACklrc2ZpIjWxq+ug+BmNPM76FI
-	N+xa2Of2FP6NCaSmR9wrgv5i5XN2ty8BB+PLmUQnnUr1C1WD1LtGtcrh/ih4r/lRKErL
-	ogkbmmZzrE/3M0Js4Iaa+pbPy+MwUxjXjHp1Gxt53D1YjOgWA61B1xHHDtrqh/YxxT5f
-	GPQxFJizFr1BHdXw392/eivuvIDwuGUgKaZ9GaQB0RRlHGHftokOr4Pv5Y5PqlpSHNUj
-	Uf+A==
-X-Gm-Message-State: AN3rC/6bnSQjHyPvFRfkGnFAtXewYbGxHMxln6qYCqT4qgbzSD6CrBgz
-	tUHnqiNSFZpQ6OthCW223mjMdEt3DCKx
-X-Received: by 10.200.3.105 with SMTP id w41mr1261920qtg.188.1492589980246;
-	Wed, 19 Apr 2017 01:19:40 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=LWlFtS4PV7lcTIl5yHlZtJUHkrpUb+OzxpTzM9kBBnE=;
+	b=C/1nrdnYMYJcWj3JPka4Tzr9o1YGwPhM3+/CGymhQwUwnQNZZLV0I6oCBGNtP9oFkj
+	3IdQSY1ywxLgMelVPmWRjEBxGnT10cKzJk2GuTSJEOJ43gllDFXhVRlJ3Wzw41/Rk7vL
+	TwhSjsmlDIfVO9j81Rgy2R2aoLYRz1wH8OmIUvEnpWw7G21euwk7ft+G66tBVcWOgDeq
+	VrLI+mcCU2GDjqcEdQ8FnDhQznbevhJK7QI+2sW2yyLJju9N4HVC2052txwFAFsjMrv2
+	KhrVHojkwIZDF6EiEHQATFwg+6AjXwg7Sn3YZXOKKd0h2E90bXIinCemadkFoFQ9e/pa
+	v7TQ==
+X-Gm-Message-State: AN3rC/6dR/RXMSHLOjyl5k/063Fljg+OgbXs654X1/9Z0JLmbMKYYtW7
+	LzoesjhjOx20PQ==
+X-Received: by 10.28.55.3 with SMTP id e3mr17631755wma.15.1492590478319;
+	Wed, 19 Apr 2017 01:27:58 -0700 (PDT)
+Received: from crde-port-20.cahors.local ([185.47.80.46])
+	by smtp.gmail.com with ESMTPSA id a5sm2743648wma.28.2017.04.19.01.27.56
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 19 Apr 2017 01:27:57 -0700 (PDT)
+From: David Vincent <freesilicon@gmail.com>
+To: Jussi Kukkonen <jussi.kukkonen@intel.com>
+Date: Wed, 19 Apr 2017 10:27:50 +0200
+Message-ID: <2335903.2zueHJxyF0@crde-port-20.cahors.local>
+In-Reply-To: <CAHiDW_EQL63FQt7t8fETRZkx0sVjNs-as5Y+qexN48CtCUS5MQ@mail.gmail.com>
+References: <20170123135916.4618-1-freesilicon@gmail.com>
+	<CAHiDW_EQL63FQt7t8fETRZkx0sVjNs-as5Y+qexN48CtCUS5MQ@mail.gmail.com>
 MIME-Version: 1.0
-Received: by 10.140.22.166 with HTTP; Wed, 19 Apr 2017 01:19:19 -0700 (PDT)
-In-Reply-To: <CAFrQVPMr9Y8WB1HsvRWMEALD03qraOzVeKaW78FRbaE-444f=w@mail.gmail.com>
-References: <1492527724-26361-1-git-send-email-bkylerussell@gmail.com>
-	<CAMKF1soMAfgVG78+dywZ5nAnmAfi0-6hnUjC+MohWHm7JsBuUw@mail.gmail.com>
-	<CAJTo0LYr9XCsG0yFAYeLmQtnc0n99w0dULWdz01J+kLWSp90uQ@mail.gmail.com>
-	<CAFrQVPMr9Y8WB1HsvRWMEALD03qraOzVeKaW78FRbaE-444f=w@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 19 Apr 2017 09:19:19 +0100
-Message-ID: <CAJTo0LbytKqx1jK_R3GTYtkH3HQggP1V9wdcvpT4QFYJdz_PZw@mail.gmail.com>
-To: Kyle Russell <bkylerussell@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] cmake.bbclass: Set CMAKE_CROSSCOMPILING correctly
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] openssl: Fix symlink creation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,34 +57,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Apr 2017 08:19:39 -0000
-Content-Type: multipart/alternative; boundary=f4030435cf58917565054d80afa9
+X-List-Received-Date: Wed, 19 Apr 2017 08:27:58 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="UTF-8"
 
---f4030435cf58917565054d80afa9
-Content-Type: text/plain; charset=UTF-8
+On jeudi 13 avril 2017 10:05:29 CEST Jussi Kukkonen wrote:
+> Hi David,
+> 
+> Just a heads-up: I will propose a revert of this patch this week unless
+> better ideas come up in the mean time.
+Sorry, I've been away last week so didn't have time to respond to your 
+previous mails. I've seen the revert proposal but I think I could provide some 
+heads-up to find a better solution to deal with my problem after the revert.
+> 
+> I get that you have an actual problem you're solving but I don't think
+> postinstall is a correct solution. I'm sorry I don't have an alternative
+> solution ready for you: if you share your other configuration recipe and
+> explain how you use the two, maybe we can figure something out.
+This is my other recipe that installs the alternative configuration:
 
-On 19 April 2017 at 04:45, Kyle Russell <bkylerussell@gmail.com> wrote:
+FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
 
-> Thank you.  Do I need to submit an amended patch to the mailing list, or
-> will your fixup get merged in from your staging branch pending no problems?
->
+SRC_URI += "file://openssl-hwengine.cnf"
 
-Don't worry about it, I've fixed it.
+do_install_append () {
+    install -m 0644 ${WORKDIR}/openssl-hwengine.cnf ${D}${sysconfdir}/ssl/
+}
 
-Ross
+PACKAGES =+ "${PN}-conf-hwengine"
 
---f4030435cf58917565054d80afa9
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+FILES_${PN}-conf-hwengine = "${sysconfdir}/ssl/openssl-hwengine.cnf"
+CONFFILES_${PN}-conf-hwengine = "${sysconfdir}/ssl/openssl-hwengine.cnf"
+RPROVIDES_${PN}-conf-hwengine += "${PN}-conf"
+RCONFLICTS_${PN}-conf-hwengine += "${PN}-conf"
+RREPLACES_${PN}-conf-hwengine += "${PN}-conf"
+RDEPENDS_${PN}-conf-hwengine = "libp11-engine"
+RDEPENDS_${PN}-conf-hwengine_class-native = ""
+RDEPENDS_${PN}-conf-hwengine_class-nativesdk = ""
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 19 April 2017 at 04:45, Kyle Russell <span dir=3D"ltr">&lt;<a href=3D"ma=
-ilto:bkylerussell@gmail.com" target=3D"_blank">bkylerussell@gmail.com</a>&g=
-t;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0=
- .8ex;border-left:1px #ccc solid;padding-left:1ex"><div dir=3D"ltr">Thank y=
-ou.=C2=A0 Do I need to submit an amended patch to the mailing list, or will=
- your fixup get merged in from your staging branch pending no problems?</di=
-v></blockquote><div><br></div><div>Don&#39;t worry about it, I&#39;ve fixed=
- it.</div><div><br></div><div>Ross=C2=A0</div></div><br></div></div>
+pkg_postinst_${PN}-conf-hwengine () {
+#!/bin/sh
+if [ -e $D${libdir}/ssl/openssl.cnf ]; then
+    rm -f $D${libdir}/ssl/openssl.cnf
+fi
 
---f4030435cf58917565054d80afa9--
+# If openssl-conf is installed before openssl, we must ensure that the symlink
+# destination exists
+mkdir -p $D${libdir}/ssl/
+ln -s ${sysconfdir}/ssl/openssl-hwengine.cnf $D${libdir}/ssl/openssl.cnf
+}
+
+
+The package is then chosen during image creation based on some 
+MACHINE_FEATURES, i.e. if the machine provides a crypto accelerator to use 
+instead of relying on software implementations. I hope that these new details 
+will help you understand what I was trying to achieve.
+
+> 
+> Jussi
+> 
+
+David
+
