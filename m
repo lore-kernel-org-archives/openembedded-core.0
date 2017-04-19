@@ -1,26 +1,51 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 93B3871A54
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qt0-f178.google.com (mail-qt0-f178.google.com
+	[209.85.216.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 65FD171A36
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Apr 2017 07:06:15 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v3J76De2022806
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Wed, 19 Apr 2017 00:06:15 -0700
-Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.294.0; Wed, 19 Apr 2017 00:06:12 -0700
-From: <kai.kang@windriver.com>
-To: <ross.burton@intel.com>
-Date: Wed, 19 Apr 2017 15:03:57 +0800
-Message-ID: <2489d6cd0d9212b4d970cdc9f7839c8448ca8ac7.1492583858.git.kai.kang@windriver.com>
-X-Mailer: git-send-email 2.10.1
-In-Reply-To: <cover.1492583858.git.kai.kang@windriver.com>
-References: <cover.1492583858.git.kai.kang@windriver.com>
+	Wed, 19 Apr 2017 08:19:38 +0000 (UTC)
+Received: by mail-qt0-f178.google.com with SMTP id g60so13173976qtd.3
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 19 Apr 2017 01:19:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=vQiX60KVSvg5+89ibWmJMNsbGwBNCd3yxtyFcLZdBoI=;
+	b=jm8+HsEPTonyUijeami0EtRKahM2DAfp8L9U6aMWqtRKsIl2a7DM7pWou20GLbGeXl
+	VJ0Y7+PlIq/IjGgN00tNh9ZAqOWar8efJLIike3HSMsVO/68b5XwU01srkNDabmiWsTP
+	bmP2LTm7tFdhaY+3mIJ9JZ1i3Rie1YRTqz4+VMQYyBky/hhM0nzjTaqL9oHht6kOyImN
+	jpy1FlVoGEsHvIcInh78XTjvDTHESbwgIaXiYosOvRE8YNNYnQ+ZRnyRjDsuj8whUTUA
+	T0mvwqaD66QyZ4MhjnLqr+3aOaXjLgqdRMnKVbOGFXn0gy+Okh8zFlukWrt6yfx42UOs
+	fKew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=vQiX60KVSvg5+89ibWmJMNsbGwBNCd3yxtyFcLZdBoI=;
+	b=cd1MMDgKeyiRZ+IRwYjZH231mjykUYyJhL2Y5O8zTO3/JfdmfMbtr9TAjamSPg5rsG
+	scxAlhAVX1F87nZzuRbkEPgNl8zKIel2tvmS4AVu5ACklrc2ZpIjWxq+ug+BmNPM76FI
+	N+xa2Of2FP6NCaSmR9wrgv5i5XN2ty8BB+PLmUQnnUr1C1WD1LtGtcrh/ih4r/lRKErL
+	ogkbmmZzrE/3M0Js4Iaa+pbPy+MwUxjXjHp1Gxt53D1YjOgWA61B1xHHDtrqh/YxxT5f
+	GPQxFJizFr1BHdXw392/eivuvIDwuGUgKaZ9GaQB0RRlHGHftokOr4Pv5Y5PqlpSHNUj
+	Uf+A==
+X-Gm-Message-State: AN3rC/6bnSQjHyPvFRfkGnFAtXewYbGxHMxln6qYCqT4qgbzSD6CrBgz
+	tUHnqiNSFZpQ6OthCW223mjMdEt3DCKx
+X-Received: by 10.200.3.105 with SMTP id w41mr1261920qtg.188.1492589980246;
+	Wed, 19 Apr 2017 01:19:40 -0700 (PDT)
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/1] libsdl2: fix build failures on powerpc
+Received: by 10.140.22.166 with HTTP; Wed, 19 Apr 2017 01:19:19 -0700 (PDT)
+In-Reply-To: <CAFrQVPMr9Y8WB1HsvRWMEALD03qraOzVeKaW78FRbaE-444f=w@mail.gmail.com>
+References: <1492527724-26361-1-git-send-email-bkylerussell@gmail.com>
+	<CAMKF1soMAfgVG78+dywZ5nAnmAfi0-6hnUjC+MohWHm7JsBuUw@mail.gmail.com>
+	<CAJTo0LYr9XCsG0yFAYeLmQtnc0n99w0dULWdz01J+kLWSp90uQ@mail.gmail.com>
+	<CAFrQVPMr9Y8WB1HsvRWMEALD03qraOzVeKaW78FRbaE-444f=w@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 19 Apr 2017 09:19:19 +0100
+Message-ID: <CAJTo0LbytKqx1jK_R3GTYtkH3HQggP1V9wdcvpT4QFYJdz_PZw@mail.gmail.com>
+To: Kyle Russell <bkylerussell@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] cmake.bbclass: Set CMAKE_CROSSCOMPILING correctly
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,89 +58,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Apr 2017 07:06:15 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 19 Apr 2017 08:19:39 -0000
+Content-Type: multipart/alternative; boundary=f4030435cf58917565054d80afa9
 
-From: Kai Kang <kai.kang@windriver.com>
+--f4030435cf58917565054d80afa9
+Content-Type: text/plain; charset=UTF-8
 
-Backport patch from upstream to fix build failures on ppc and ppc64.
+On 19 April 2017 at 04:45, Kyle Russell <bkylerussell@gmail.com> wrote:
 
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
----
- .../libsdl2/libsdl2/fix-build-failure-on-ppc.patch | 50 ++++++++++++++++++++++
- meta/recipes-graphics/libsdl2/libsdl2_2.0.5.bb     |  1 +
- 2 files changed, 51 insertions(+)
- create mode 100644 meta/recipes-graphics/libsdl2/libsdl2/fix-build-failure-on-ppc.patch
+> Thank you.  Do I need to submit an amended patch to the mailing list, or
+> will your fixup get merged in from your staging branch pending no problems?
+>
 
-diff --git a/meta/recipes-graphics/libsdl2/libsdl2/fix-build-failure-on-ppc.patch b/meta/recipes-graphics/libsdl2/libsdl2/fix-build-failure-on-ppc.patch
-new file mode 100644
-index 0000000..1520bcf
---- /dev/null
-+++ b/meta/recipes-graphics/libsdl2/libsdl2/fix-build-failure-on-ppc.patch
-@@ -0,0 +1,50 @@
-+Upstream-Status: Backport [https://hg.libsdl.org/SDL/rev/5184186d4366]
-+
-+Backport patch from upstream to fix build failures on ppc and ppc64.
-+
-+Signed-off-by: Kai Kang <kai.kang@windriver.com>
-+---
-+# HG changeset patch
-+# User Sam Lantinga <slouken@libsdl.org>
-+# Date 1477159315 25200
-+# Node ID 5184186d4366169617b434f5b71c618a7035cde4
-+# Parent  71d4148e32de5088c4bc2f04c1e5ded647a2bf82
-+Fixed bug 3466 - Can't build 2.0.5 on ppc64
-+
-+/home/fedora/SDL2-2.0.5/src/video/SDL_blit_N.c: In function 'calc_swizzle32':
-+/home/fedora/SDL2-2.0.5/src/video/SDL_blit_N.c:127:5: error: ISO C90 forbids mixed declarations and code [-Werror=declaration-after-statement]
-+     const vector unsigned char plus = VECUINT8_LITERAL(0x00, 0x00, 0x00, 0x00,
-+     ^
-+
-+diff -r 71d4148e32de -r 5184186d4366 src/video/SDL_blit_N.c
-+--- a/src/video/SDL_blit_N.c	Wed Oct 19 21:22:42 2016 -0700
-++++ b/src/video/SDL_blit_N.c	Sat Oct 22 11:01:55 2016 -0700
-+@@ -118,12 +118,6 @@
-+         16, 8, 0, 24,
-+         0, NULL
-+     };
-+-    if (!srcfmt) {
-+-        srcfmt = &default_pixel_format;
-+-    }
-+-    if (!dstfmt) {
-+-        dstfmt = &default_pixel_format;
-+-    }
-+     const vector unsigned char plus = VECUINT8_LITERAL(0x00, 0x00, 0x00, 0x00,
-+                                                        0x04, 0x04, 0x04, 0x04,
-+                                                        0x08, 0x08, 0x08, 0x08,
-+@@ -136,6 +130,14 @@
-+     Uint32 gmask = RESHIFT(srcfmt->Gshift) << (dstfmt->Gshift);
-+     Uint32 bmask = RESHIFT(srcfmt->Bshift) << (dstfmt->Bshift);
-+     Uint32 amask;
-++
-++    if (!srcfmt) {
-++        srcfmt = &default_pixel_format;
-++    }
-++    if (!dstfmt) {
-++        dstfmt = &default_pixel_format;
-++    }
-++
-+     /* Use zero for alpha if either surface doesn't have alpha */
-+     if (dstfmt->Amask) {
-+         amask =
-+
-diff --git a/meta/recipes-graphics/libsdl2/libsdl2_2.0.5.bb b/meta/recipes-graphics/libsdl2/libsdl2_2.0.5.bb
-index d747cf1..12d3aaf 100644
---- a/meta/recipes-graphics/libsdl2/libsdl2_2.0.5.bb
-+++ b/meta/recipes-graphics/libsdl2/libsdl2_2.0.5.bb
-@@ -19,6 +19,7 @@ SRC_URI = " \
-     file://linkage.patch \
-     file://0001-prepend-our-sysroot-path-so-that-make-finds-our-wayl.patch \
-     file://0002-Avoid-finding-build-host-s-wayland-scanner.patch \
-+    file://fix-build-failure-on-ppc.patch \
- "
- 
- S = "${WORKDIR}/SDL2-${PV}"
--- 
-2.10.1
+Don't worry about it, I've fixed it.
 
+Ross
 
+--f4030435cf58917565054d80afa9
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 19 April 2017 at 04:45, Kyle Russell <span dir=3D"ltr">&lt;<a href=3D"ma=
+ilto:bkylerussell@gmail.com" target=3D"_blank">bkylerussell@gmail.com</a>&g=
+t;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0=
+ .8ex;border-left:1px #ccc solid;padding-left:1ex"><div dir=3D"ltr">Thank y=
+ou.=C2=A0 Do I need to submit an amended patch to the mailing list, or will=
+ your fixup get merged in from your staging branch pending no problems?</di=
+v></blockquote><div><br></div><div>Don&#39;t worry about it, I&#39;ve fixed=
+ it.</div><div><br></div><div>Ross=C2=A0</div></div><br></div></div>
+
+--f4030435cf58917565054d80afa9--
