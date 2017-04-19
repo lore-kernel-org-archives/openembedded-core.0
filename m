@@ -1,35 +1,46 @@
-Return-Path: <Jackie.Huang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id C436271ADA
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pf0-f195.google.com (mail-pf0-f195.google.com
+	[209.85.192.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 8769171AB8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Apr 2017 01:23:17 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v3J1NHa5002072
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed, 19 Apr 2017 01:58:52 +0000 (UTC)
+Received: by mail-pf0-f195.google.com with SMTP id v14so370322pfd.3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Apr 2017 18:23:18 -0700 (PDT)
-Received: from ALA-MBC.corp.ad.wrs.com ([fe80::fcbe:9b7:1141:89a1]) by
-	ALA-HCB.corp.ad.wrs.com ([147.11.189.41]) with mapi id 14.03.0294.000;
-	Tue, 18 Apr 2017 18:23:02 -0700
-From: "Huang, Jie (Jackie)" <Jackie.Huang@windriver.com>
-To: "BURTON, ROSS" <ross.burton@intel.com>
-Thread-Topic: [OE-core] [PATCH] ltp: fix an incorrect macro checking
-Thread-Index: AQHSQgzec4AyRA4fdkawmPtgLNOU0qHLw0vggACD5YCAAIuPsA==
-Date: Wed, 19 Apr 2017 01:23:01 +0000
-Message-ID: <1B858668EC6A94408DCA5225FDFA85AA014B7251B7@ALA-MBC.corp.ad.wrs.com>
-References: <20161119021100.29350-1-jackie.huang@windriver.com>
-	<1B858668EC6A94408DCA5225FDFA85AA014B722147@ALA-MBC.corp.ad.wrs.com>
-	<CAJTo0LZSOGEZLYrfe_vy0nC2nG59+9_PzBU681Y=FyujyvGo8Q@mail.gmail.com>
-In-Reply-To: <CAJTo0LZSOGEZLYrfe_vy0nC2nG59+9_PzBU681Y=FyujyvGo8Q@mail.gmail.com>
-Accept-Language: en-US, zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [128.224.176.111]
-MIME-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] ltp: fix an incorrect macro checking
+	Tue, 18 Apr 2017 18:58:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=WCpHuLMJlmw7V14yFW3h8zPtIDkVqLar98QYN10KXBY=;
+	b=GMh6Ds95ctiEcVHj5k3Q6jpC5SdCqsrwwNu7PiWm4ew9HTPYOLc7SIyWUFDWee2fs4
+	Ny7P4+F9ZR+lGkSf4Yghkb/gSPAYS78xOqXzxi63H0I+3otifDT+5FuWdHN2fU173uE5
+	PwKa//5SfzuOey2jO+s1qpxIz0nhAZ3bez8TJqAH1+1Iiwi1gSK3DeLGyW9pF4caBZo8
+	l9j5TD0y9f8CYHT7bXS9XZK9BjbYBw3/Yl2E/xpnfIlZ9joo03n7nrD/QQ8h93bGeQBF
+	O88K0Tz47CyvE0vWuwo0aIJXd1muOv/dCnwSigKveaqG0qXYeoWDdLAY9E1NrD8WWdl1
+	i0oQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=WCpHuLMJlmw7V14yFW3h8zPtIDkVqLar98QYN10KXBY=;
+	b=Bzj9lQ1D/Wnoo6EAxEU8qcNBZzAzpCjV3kNF8QMzG64uum/tuub0JnynC40kBL6ZkF
+	ii4/Qn3wXinVWUc0O87/Sn7XvbGTAtc/cfTez4q2pXbfC3WlVe2ZaL2r1w2vFb0+Ltt/
+	PtVnvrNE8VvVMYUS6e/3uVG3+zMy38fIJ/LKbJ0xv8RBmj5p4PjXa6XSHtQlbwUmtTar
+	SZzTbN2AbbWfZk6pkyGA7SOsk46uLUyBGMXq7sZapuFfghOsDK9tWQEf5jxxqr0epwu8
+	pgvQLYb/S4HzsNjTDhBuzUbPPSjRFonxRpRxPiGZTMoupN2erTLdK2dmI7hBAo2a18Hp
+	LQMQ==
+X-Gm-Message-State: AN3rC/53Y3NpRwIOeX2OgzfxTxAbOhe2n/nJua2UYOpSKFIJgfaR90Tu
+	7ObyUNFyB05MmA==
+X-Received: by 10.99.56.90 with SMTP id h26mr475035pgn.43.1492567133251;
+	Tue, 18 Apr 2017 18:58:53 -0700 (PDT)
+Received: from localhost.localdomain (c-76-102-32-192.hsd1.ca.comcast.net.
+	[76.102.32.192]) by smtp.gmail.com with ESMTPSA id
+	a190sm787128pgc.60.2017.04.18.18.58.51
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 18 Apr 2017 18:58:51 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 18 Apr 2017 18:58:35 -0700
+Message-Id: <20170419015839.1294-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.12.2
+Subject: [PATCH 1/5] libtirpc: Backport fixes from 1.0.2rc3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,100 +53,934 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Apr 2017 01:23:20 -0000
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_1B858668EC6A94408DCA5225FDFA85AA014B7251B7ALAMBCcorpadw_"
+X-List-Received-Date: Wed, 19 Apr 2017 01:58:55 -0000
 
---_000_1B858668EC6A94408DCA5225FDFA85AA014B7251B7ALAMBCcorpadw_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+These fixes are needed for it to work with gcc7
 
-R290IGl0LCB0aGFua3MhDQoNClRoYW5rcywNCkphY2tpZQ0KDQpGcm9tOiBCdXJ0b24sIFJvc3Mg
-W21haWx0bzpyb3NzLmJ1cnRvbkBpbnRlbC5jb21dDQpTZW50OiBUdWVzZGF5LCBBcHJpbCAxOCwg
-MjAxNyAxODowMw0KVG86IEh1YW5nLCBKaWUgKEphY2tpZSkNCkNjOiBvcGVuZW1iZWRkZWQtY29y
-ZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQpTdWJqZWN0OiBSZTogW09FLWNvcmVdIFtQQVRDSF0g
-bHRwOiBmaXggYW4gaW5jb3JyZWN0IG1hY3JvIGNoZWNraW5nDQoNCg0KT24gMTggQXByaWwgMjAx
-NyBhdCAxMDoxMiwgSHVhbmcsIEppZSAoSmFja2llKSA8SmFja2llLkh1YW5nQHdpbmRyaXZlci5j
-b208bWFpbHRvOkphY2tpZS5IdWFuZ0B3aW5kcml2ZXIuY29tPj4gd3JvdGU6DQpJdCdzIG5vdCBt
-ZXJnZWQgeWV0LCBhbmQgSSBkb24ndCBzZWUgYW55IHJlamVjdGlvbiBvbiBpdC4NCg0KU2xpcHBl
-ZCB0aHJvdWdoIHRoZSBuZXQsIHdlJ3JlIHZlcnkgY2xvc2UgdG8gTTQgc28gdGhpcyBtYXkgbm90
-IG1ha2UgaXQgaW50byAyLjMgYnV0IGlmIG5vdCBpdCBjYW4gYmUgYmFja3BvcnRlZC4NCg0KUm9z
-cw0K
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ ...d-missing-rwlock_unlocks-in-xprt_register.patch |  62 --
+ .../libtirpc/libtirpc/libtirpc-1.0.2-rc3.patch     | 743 +++++++++++++++++++++
+ .../libtirpc/remove-des-functionality.patch        |  39 +-
+ meta/recipes-extended/libtirpc/libtirpc_1.0.1.bb   |   4 +-
+ 4 files changed, 762 insertions(+), 86 deletions(-)
+ delete mode 100644 meta/recipes-extended/libtirpc/libtirpc/0001-Add-missing-rwlock_unlocks-in-xprt_register.patch
+ create mode 100644 meta/recipes-extended/libtirpc/libtirpc/libtirpc-1.0.2-rc3.patch
 
---_000_1B858668EC6A94408DCA5225FDFA85AA014B7251B7ALAMBCcorpadw_
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: base64
+diff --git a/meta/recipes-extended/libtirpc/libtirpc/0001-Add-missing-rwlock_unlocks-in-xprt_register.patch b/meta/recipes-extended/libtirpc/libtirpc/0001-Add-missing-rwlock_unlocks-in-xprt_register.patch
+deleted file mode 100644
+index 50613ba3123..00000000000
+--- a/meta/recipes-extended/libtirpc/libtirpc/0001-Add-missing-rwlock_unlocks-in-xprt_register.patch
++++ /dev/null
+@@ -1,62 +0,0 @@
+-Subject: [PATCH] Add missing rwlock_unlocks in xprt_register
+-
+-It looks like in b2c9430f46c4ac848957fb8adaac176a3f6ac03f when svc_run
+-switched to poll, an early return was added, but the rwlock was not
+-unlocked.
+-
+-I observed that rpcbind built against libtirpc-1.0.1 would handle only
+-one request before hanging, and tracked it down to a missing
+-rwlock_unlock here.
+-
+-Fixes: b2c9430f46c4 ('Use poll() instead of select() in svc_run()')
+-
+-Upstream-Status: Backport
+-
+-Signed-off-by: Michael Forney <mforney@mforney.org>
+-Signed-off-by: Steve Dickson <steved@redhat.com>
+-Signed-off-by: Maxin B. John <maxin.john@intel.com>
+----
+- src/svc.c | 7 ++++---
+- 1 file changed, 4 insertions(+), 3 deletions(-)
+-
+-diff --git a/src/svc.c b/src/svc.c
+-index 9c41445..b59467b 100644
+---- a/src/svc.c
+-+++ b/src/svc.c
+-@@ -99,7 +99,7 @@ xprt_register (xprt)
+-     {
+-       __svc_xports = (SVCXPRT **) calloc (_rpc_dtablesize(), sizeof (SVCXPRT *));
+-       if (__svc_xports == NULL)
+--	return;
+-+            goto unlock;
+-     }
+-   if (sock < _rpc_dtablesize())
+-     {
+-@@ -120,14 +120,14 @@ xprt_register (xprt)
+-             svc_pollfd[i].fd = sock;
+-             svc_pollfd[i].events = (POLLIN | POLLPRI |
+-                                     POLLRDNORM | POLLRDBAND);
+--            return;
+-+            goto unlock;
+-           }
+- 
+-       new_svc_pollfd = (struct pollfd *) realloc (svc_pollfd,
+-                                                   sizeof (struct pollfd)
+-                                                   * (svc_max_pollfd + 1));
+-       if (new_svc_pollfd == NULL) /* Out of memory */
+--        return;
+-+        goto unlock;
+-       svc_pollfd = new_svc_pollfd;
+-       ++svc_max_pollfd;
+- 
+-@@ -135,6 +135,7 @@ xprt_register (xprt)
+-       svc_pollfd[svc_max_pollfd - 1].events = (POLLIN | POLLPRI |
+-                                                POLLRDNORM | POLLRDBAND);
+-     }
+-+unlock:
+-   rwlock_unlock (&svc_fd_lock);
+- }
+- 
+--- 
+-2.5.3
+-
+diff --git a/meta/recipes-extended/libtirpc/libtirpc/libtirpc-1.0.2-rc3.patch b/meta/recipes-extended/libtirpc/libtirpc/libtirpc-1.0.2-rc3.patch
+new file mode 100644
+index 00000000000..113dabe13b7
+--- /dev/null
++++ b/meta/recipes-extended/libtirpc/libtirpc/libtirpc-1.0.2-rc3.patch
+@@ -0,0 +1,743 @@
++Backport the 1.0.2 RC3 changes, this fixes issues with gcc7
++
++Upstream-Status: Backport
++
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++
++diff --git a/src/Makefile.am b/src/Makefile.am
++index e4ed8aa..fba2aa4 100644
++--- a/src/Makefile.am
+++++ b/src/Makefile.am
++@@ -24,7 +24,7 @@ libtirpc_la_SOURCES = auth_none.c auth_unix.c authunix_prot.c bindresvport.c cln
++         rpcb_st_xdr.c svc.c svc_auth.c svc_dg.c svc_auth_unix.c svc_auth_none.c \
++ 	svc_auth_des.c \
++         svc_generic.c svc_raw.c svc_run.c svc_simple.c svc_vc.c getpeereid.c \
++-        auth_time.c auth_des.c authdes_prot.c debug.c
+++        auth_time.c auth_des.c authdes_prot.c debug.c des_crypt.c des_impl.c
++ 
++ ## XDR
++ libtirpc_la_SOURCES += xdr.c xdr_rec.c xdr_array.c xdr_float.c xdr_mem.c xdr_reference.c xdr_stdio.c xdr_sizeof.c
++diff --git a/src/auth_des.c b/src/auth_des.c
++index 4d3639e..af2f61f 100644
++--- a/src/auth_des.c
+++++ b/src/auth_des.c
++@@ -46,8 +46,8 @@
++ #include <rpc/clnt.h>
++ #include <rpc/xdr.h>
++ #include <sys/socket.h>
++-#undef NIS
++-#include <rpcsvc/nis.h>
+++
+++#include "nis.h"
++ 
++ #if defined(LIBC_SCCS) && !defined(lint)
++ #endif
++diff --git a/src/auth_gss.c b/src/auth_gss.c
++index 9b88c38..5959893 100644
++--- a/src/auth_gss.c
+++++ b/src/auth_gss.c
++@@ -526,6 +526,14 @@ _rpc_gss_refresh(AUTH *auth, rpc_gss_options_ret_t *options_ret)
++ 			     gr.gr_major != GSS_S_CONTINUE_NEEDED)) {
++ 				options_ret->major_status = gr.gr_major;
++ 				options_ret->minor_status = gr.gr_minor;
+++				if (call_stat != RPC_SUCCESS) {
+++					struct rpc_err err;
+++					clnt_geterr(gd->clnt, &err);
+++					LIBTIRPC_DEBUG(1, ("authgss_refresh: %s errno: %s",
+++						clnt_sperrno(call_stat), strerror(err.re_errno)));
+++				} else
+++					gss_log_status("authgss_refresh:", 
+++						gr.gr_major, gr.gr_minor);
++ 				return FALSE;
++ 			}
++ 
++diff --git a/src/auth_time.c b/src/auth_time.c
++index 10e58eb..7f83ab4 100644
++--- a/src/auth_time.c
+++++ b/src/auth_time.c
++@@ -44,8 +44,8 @@
++ #include <rpc/rpcb_prot.h>
++ //#include <clnt_soc.h>
++ #include <sys/select.h>
++-#undef NIS
++-#include <rpcsvc/nis.h>
+++
+++#include "nis.h"
++ 
++ 
++ #ifdef TESTING
++diff --git a/src/des_impl.c b/src/des_impl.c
++index c5b7ed6..9dbccaf 100644
++--- a/src/des_impl.c
+++++ b/src/des_impl.c
++@@ -6,7 +6,8 @@
++ /* see <http://www.gnu.org/licenses/> to obtain a copy.  */
++ #include <string.h>
++ #include <stdint.h>
++-#include <rpc/rpc_des.h>
+++#include <sys/types.h>
+++#include <rpc/des.h>
++ 
++ 
++ static const uint32_t des_SPtrans[8][64] =
++diff --git a/src/getpublickey.c b/src/getpublickey.c
++index 764a5f9..8cf4dc2 100644
++--- a/src/getpublickey.c
+++++ b/src/getpublickey.c
++@@ -38,8 +38,10 @@
++ #include <pwd.h>
++ #include <rpc/rpc.h>
++ #include <rpc/key_prot.h>
+++#ifdef YP
++ #include <rpcsvc/yp_prot.h>
++ #include <rpcsvc/ypclnt.h>
+++#endif
++ #include <string.h>
++ #include <stdlib.h>
++ 
++diff --git a/src/nis.h b/src/nis.h
++new file mode 100644
++index 0000000..588c041
++--- /dev/null
+++++ b/src/nis.h
++@@ -0,0 +1,70 @@
+++/*
+++ * Copyright (c) 2010, Oracle America, Inc.
+++ *
+++ * Redistribution and use in source and binary forms, with or without
+++ * modification, are permitted provided that the following conditions are
+++ * met:
+++ *
+++ *     * Redistributions of source code must retain the above copyright
+++ *       notice, this list of conditions and the following disclaimer.
+++ *     * Redistributions in binary form must reproduce the above
+++ *       copyright notice, this list of conditions and the following
+++ *       disclaimer in the documentation and/or other materials
+++ *       provided with the distribution.
+++ *     * Neither the name of the "Oracle America, Inc." nor the names of its
+++ *       contributors may be used to endorse or promote products derived
+++ *       from this software without specific prior written permission.
+++ *
+++ *   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+++ *   "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+++ *   LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
+++ *   FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
+++ *   COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
+++ *   INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+++ *   DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
+++ *   GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+++ *   INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+++ *   WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+++ *   NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+++ *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+++ */
+++
+++#ifndef _INTERNAL_NIS_H
+++#define _INTERNAL_NIS_H 1
+++
+++/*  This file only contains the definition of nis_server, to be
+++    able to compile libtirpc without the need to have a glibc
+++    with sunrpc or a libnsl already installed. */
+++
+++#define NIS_PK_NONE 0
+++
+++struct nis_attr {
+++	char *zattr_ndx;
+++	struct {
+++		u_int zattr_val_len;
+++		char *zattr_val_val;
+++	} zattr_val;
+++};
+++typedef struct nis_attr nis_attr;
+++
+++typedef char *nis_name;
+++
+++struct endpoint {
+++	char *uaddr;
+++	char *family;
+++	char *proto;
+++};
+++typedef struct endpoint endpoint;
+++
+++struct nis_server {
+++	nis_name name;
+++	struct {
+++		u_int ep_len;
+++		endpoint *ep_val;
+++	} ep;
+++	uint32_t key_type;
+++	netobj pkey;
+++};
+++typedef struct nis_server nis_server;
+++
+++#endif /* ! _INTERNAL_NIS_H */
++diff --git a/src/rpc_dtablesize.c b/src/rpc_dtablesize.c
++index 13d320c..3fe503a 100644
++--- a/src/rpc_dtablesize.c
+++++ b/src/rpc_dtablesize.c
++@@ -27,22 +27,14 @@
++  */
++ 
++ #include <unistd.h>
++-
++ #include <sys/select.h>
++-
++-int _rpc_dtablesize(void);	/* XXX */
+++#include <rpc/clnt.h>
+++#include <rpc/rpc_com.h>
++ 
++ /*
++  * Cache the result of getdtablesize(), so we don't have to do an
++  * expensive system call every time.
++  */
++-/*
++- * XXX In FreeBSD 2.x, you can have the maximum number of open file
++- * descriptors be greater than FD_SETSIZE (which us 256 by default).
++- *
++- * Since old programs tend to use this call to determine the first arg
++- * for _select(), having this return > FD_SETSIZE is a Bad Idea(TM)!
++- */
++ int
++ _rpc_dtablesize(void)
++ {
++diff --git a/src/rpc_soc.c b/src/rpc_soc.c
++index 1ec7b3f..ed0892a 100644
++--- a/src/rpc_soc.c
+++++ b/src/rpc_soc.c
++@@ -61,8 +61,8 @@
++ #include <string.h>
++ #include <unistd.h>
++ #include <fcntl.h>
++-#include <rpcsvc/nis.h>
++ 
+++#include "nis.h"
++ #include "rpc_com.h"
++ 
++ extern mutex_t	rpcsoc_lock;
++diff --git a/src/rtime.c b/src/rtime.c
++index c34e0af..b642840 100644
++--- a/src/rtime.c
+++++ b/src/rtime.c
++@@ -46,6 +46,7 @@
++ #include <unistd.h>
++ #include <errno.h>
++ #include <sys/types.h>
+++#include <sys/poll.h>
++ #include <sys/socket.h>
++ #include <sys/time.h>
++ #include <netinet/in.h>
++@@ -67,7 +68,8 @@ rtime(addrp, timep, timeout)
++ 	struct timeval *timeout;
++ {
++ 	int s;
++-	fd_set readfds;
+++	struct pollfd fd;
+++	int milliseconds;
++ 	int res;
++ 	unsigned long thetime;
++ 	struct sockaddr_in from;
++@@ -94,31 +96,32 @@ rtime(addrp, timep, timeout)
++ 	addrp->sin_port = serv->s_port;
++ 
++ 	if (type == SOCK_DGRAM) {
++-		res = sendto(s, (char *)&thetime, sizeof(thetime), 0, 
+++		res = sendto(s, (char *)&thetime, sizeof(thetime), 0,
++ 			     (struct sockaddr *)addrp, sizeof(*addrp));
++ 		if (res < 0) {
++ 			do_close(s);
++-			return(-1);	
+++			return(-1);
++ 		}
++-		do {
++-			FD_ZERO(&readfds);
++-			FD_SET(s, &readfds);
++-			res = select(_rpc_dtablesize(), &readfds,
++-				     (fd_set *)NULL, (fd_set *)NULL, timeout);
++-		} while (res < 0 && errno == EINTR);
+++
+++		milliseconds = (timeout->tv_sec * 1000) + (timeout->tv_usec / 1000);
+++		fd.fd = s;
+++		fd.events = POLLIN;
+++		do
+++		  res = poll (&fd, 1, milliseconds);
+++		while (res < 0 && errno == EINTR);
++ 		if (res <= 0) {
++ 			if (res == 0) {
++ 				errno = ETIMEDOUT;
++ 			}
++ 			do_close(s);
++-			return(-1);	
+++			return(-1);
++ 		}
++ 		fromlen = sizeof(from);
++-		res = recvfrom(s, (char *)&thetime, sizeof(thetime), 0, 
+++		res = recvfrom(s, (char *)&thetime, sizeof(thetime), 0,
++ 			       (struct sockaddr *)&from, &fromlen);
++ 		do_close(s);
++ 		if (res < 0) {
++-			return(-1);	
+++			return(-1);
++ 		}
++ 	} else {
++ 		if (connect(s, (struct sockaddr *)addrp, sizeof(*addrp)) < 0) {
++diff --git a/src/svc.c b/src/svc.c
++index 9c41445..b59467b 100644
++--- a/src/svc.c
+++++ b/src/svc.c
++@@ -99,7 +99,7 @@ xprt_register (xprt)
++     {
++       __svc_xports = (SVCXPRT **) calloc (_rpc_dtablesize(), sizeof (SVCXPRT *));
++       if (__svc_xports == NULL)
++-	return;
+++            goto unlock;
++     }
++   if (sock < _rpc_dtablesize())
++     {
++@@ -120,14 +120,14 @@ xprt_register (xprt)
++             svc_pollfd[i].fd = sock;
++             svc_pollfd[i].events = (POLLIN | POLLPRI |
++                                     POLLRDNORM | POLLRDBAND);
++-            return;
+++            goto unlock;
++           }
++ 
++       new_svc_pollfd = (struct pollfd *) realloc (svc_pollfd,
++                                                   sizeof (struct pollfd)
++                                                   * (svc_max_pollfd + 1));
++       if (new_svc_pollfd == NULL) /* Out of memory */
++-        return;
+++        goto unlock;
++       svc_pollfd = new_svc_pollfd;
++       ++svc_max_pollfd;
++ 
++@@ -135,6 +135,7 @@ xprt_register (xprt)
++       svc_pollfd[svc_max_pollfd - 1].events = (POLLIN | POLLPRI |
++                                                POLLRDNORM | POLLRDBAND);
++     }
+++unlock:
++   rwlock_unlock (&svc_fd_lock);
++ }
++ 
++diff --git a/src/svc_auth_des.c b/src/svc_auth_des.c
++index 5bc264c..2e90146 100644
++--- a/src/svc_auth_des.c
+++++ b/src/svc_auth_des.c
++@@ -86,13 +86,13 @@ static struct cache_entry *authdes_cache/* [AUTHDES_CACHESZ] */;
++ static short *authdes_lru/* [AUTHDES_CACHESZ] */;
++ 
++ static void cache_init();	/* initialize the cache */
++-static short cache_spot();	/* find an entry in the cache */
++-static void cache_ref(/*short sid*/);	/* note that sid was ref'd */
+++static short cache_spot(des_block *key, char *name, struct timeval *timestamp);  /* find an entry in the cache */
+++static void cache_ref(short sid);	/* note that sid was ref'd */
++ 
++-static void invalidate();	/* invalidate entry in cache */
+++static void invalidate(char *cred);	/* invalidate entry in cache */
++ 
++ /*
++- * cache statistics 
+++ * cache statistics
++  */
++ static struct {
++ 	u_long ncachehits;	/* times cache hit, and is not replay */
++diff --git a/src/svc_auth_gss.c b/src/svc_auth_gss.c
++index b6aa407..bece46a 100644
++--- a/src/svc_auth_gss.c
+++++ b/src/svc_auth_gss.c
++@@ -129,6 +129,8 @@ struct svc_rpc_gss_data {
++ 	((struct svc_rpc_gss_data *)(auth)->svc_ah_private)
++ 
++ /* Global server credentials. */
+++static u_int		_svcauth_req_time = 0;
+++static gss_OID_set_desc	_svcauth_oid_set = {1, GSS_C_NULL_OID };
++ static gss_cred_id_t	_svcauth_gss_creds;
++ static gss_name_t	_svcauth_gss_name = GSS_C_NO_NAME;
++ static char *		_svcauth_svc_name = NULL;
++@@ -167,6 +169,7 @@ svcauth_gss_import_name(char *service)
++ 	gss_name_t	name;
++ 	gss_buffer_desc	namebuf;
++ 	OM_uint32	maj_stat, min_stat;
+++	bool_t		result;
++ 
++ 	gss_log_debug("in svcauth_gss_import_name()");
++ 
++@@ -181,22 +184,21 @@ svcauth_gss_import_name(char *service)
++ 			maj_stat, min_stat);
++ 		return (FALSE);
++ 	}
++-	if (svcauth_gss_set_svc_name(name) != TRUE) {
++-		gss_release_name(&min_stat, &name);
++-		return (FALSE);
++-	}
++-	return (TRUE);
+++	result = svcauth_gss_set_svc_name(name);
+++	gss_release_name(&min_stat, &name);
+++	return result;
++ }
++ 
++ static bool_t
++-svcauth_gss_acquire_cred(u_int req_time, gss_OID_set_desc *oid_set)
+++svcauth_gss_acquire_cred(void)
++ {
++ 	OM_uint32	maj_stat, min_stat;
++ 
++ 	gss_log_debug("in svcauth_gss_acquire_cred()");
++ 
++-	maj_stat = gss_acquire_cred(&min_stat, _svcauth_gss_name, req_time,
++-				    oid_set, GSS_C_ACCEPT,
+++	maj_stat = gss_acquire_cred(&min_stat, _svcauth_gss_name,
+++				    _svcauth_req_time, &_svcauth_oid_set,
+++				    GSS_C_ACCEPT,
++ 				    &_svcauth_gss_creds, NULL, NULL);
++ 
++ 	if (maj_stat != GSS_S_COMPLETE) {
++@@ -300,6 +302,8 @@ svcauth_gss_accept_sec_context(struct svc_req *rqst,
++ 					      NULL,
++ 					      &gd->deleg);
++ 
+++	xdr_free((xdrproc_t)xdr_rpc_gss_init_args, (caddr_t)&recv_tok);
+++
++ 	if (gr->gr_major != GSS_S_COMPLETE &&
++ 	    gr->gr_major != GSS_S_CONTINUE_NEEDED) {
++ 		gss_log_status("svcauth_gss_accept_sec_context: accept_sec_context",
++@@ -352,8 +356,11 @@ svcauth_gss_accept_sec_context(struct svc_req *rqst,
++ 			return (FALSE);
++ 
++ 		rqst->rq_xprt->xp_verf.oa_flavor = RPCSEC_GSS;
++-		rqst->rq_xprt->xp_verf.oa_base = checksum.value;
+++		memcpy(rqst->rq_xprt->xp_verf.oa_base, checksum.value,
+++			checksum.length);
++ 		rqst->rq_xprt->xp_verf.oa_length = checksum.length;
+++
+++		gss_release_buffer(&min_stat, &checksum);
++ 	}
++ 	return (TRUE);
++ }
++@@ -435,10 +442,13 @@ svcauth_gss_nextverf(struct svc_req *rqst, u_int num)
++ 			maj_stat, min_stat);
++ 		return (FALSE);
++ 	}
+++
++ 	rqst->rq_xprt->xp_verf.oa_flavor = RPCSEC_GSS;
++-	rqst->rq_xprt->xp_verf.oa_base = (caddr_t)checksum.value;
+++	memcpy(rqst->rq_xprt->xp_verf.oa_base, checksum.value, checksum.length);
++ 	rqst->rq_xprt->xp_verf.oa_length = (u_int)checksum.length;
++ 
+++	gss_release_buffer(&min_stat, &checksum);
+++
++ 	return (TRUE);
++ }
++ 
++@@ -568,6 +578,8 @@ _svcauth_gss(struct svc_req *rqst, struct rpc_msg *msg, bool_t *no_dispatch)
++ 	gss_qop_t		 qop;
++ 	struct svcauth_gss_cache_entry **ce;
++ 	time_t			 now;
+++	enum auth_stat		 result = AUTH_OK;
+++	OM_uint32		 min_stat;
++ 
++ 	gss_log_debug("in svcauth_gss()");
++ 
++@@ -621,19 +633,25 @@ _svcauth_gss(struct svc_req *rqst, struct rpc_msg *msg, bool_t *no_dispatch)
++ 	XDR_DESTROY(&xdrs);
++ 
++ 	/* Check version. */
++-	if (gc->gc_v != RPCSEC_GSS_VERSION)
++-		return (AUTH_BADCRED);
+++	if (gc->gc_v != RPCSEC_GSS_VERSION) {
+++		result = AUTH_BADCRED;
+++		goto out;
+++	}
++ 
++ 	/* Check RPCSEC_GSS service. */
++ 	if (gc->gc_svc != RPCSEC_GSS_SVC_NONE &&
++ 	    gc->gc_svc != RPCSEC_GSS_SVC_INTEGRITY &&
++-	    gc->gc_svc != RPCSEC_GSS_SVC_PRIVACY)
++-		return (AUTH_BADCRED);
+++	    gc->gc_svc != RPCSEC_GSS_SVC_PRIVACY) {
+++		result = AUTH_BADCRED;
+++		goto out;
+++	}
++ 
++ 	/* Check sequence number. */
++ 	if (gd->established) {
++-		if (gc->gc_seq > MAXSEQ)
++-			return (RPCSEC_GSS_CTXPROBLEM);
+++		if (gc->gc_seq > MAXSEQ) {
+++			result = RPCSEC_GSS_CTXPROBLEM;
+++			goto out;
+++		}
++ 
++ 		if ((offset = gd->seqlast - gc->gc_seq) < 0) {
++ 			gd->seqlast = gc->gc_seq;
++@@ -643,7 +661,8 @@ _svcauth_gss(struct svc_req *rqst, struct rpc_msg *msg, bool_t *no_dispatch)
++ 		}
++ 		else if (offset >= gd->win || (gd->seqmask & (1 << offset))) {
++ 			*no_dispatch = 1;
++-			return (RPCSEC_GSS_CTXPROBLEM);
+++			result = RPCSEC_GSS_CTXPROBLEM;
+++			goto out;
++ 		}
++ 		gd->seq = gc->gc_seq;
++ 		gd->seqmask |= (1 << offset);
++@@ -654,35 +673,52 @@ _svcauth_gss(struct svc_req *rqst, struct rpc_msg *msg, bool_t *no_dispatch)
++ 		rqst->rq_svcname = (char *)gd->ctx;
++ 	}
++ 
+++	rqst->rq_xprt->xp_verf.oa_base = msg->rm_call.cb_verf.oa_base;
+++
++ 	/* Handle RPCSEC_GSS control procedure. */
++ 	switch (gc->gc_proc) {
++ 
++ 	case RPCSEC_GSS_INIT:
++ 	case RPCSEC_GSS_CONTINUE_INIT:
++-		if (rqst->rq_proc != NULLPROC)
++-			return (AUTH_FAILED);		/* XXX ? */
+++		if (rqst->rq_proc != NULLPROC) {
+++			result = AUTH_FAILED;		/* XXX ? */
+++			break;
+++		}
++ 
++ 		if (_svcauth_gss_name == GSS_C_NO_NAME) {
++-			if (!svcauth_gss_import_name("nfs"))
++-				return (AUTH_FAILED);
+++			if (!svcauth_gss_import_name("nfs")) {
+++				result = AUTH_FAILED;
+++				break;
+++			}
++ 		}
++ 
++-		if (!svcauth_gss_acquire_cred(0, GSS_C_NULL_OID_SET))
++-			return (AUTH_FAILED);
+++		if (!svcauth_gss_acquire_cred()) {
+++			result = AUTH_FAILED;
+++			break;
+++		}
++ 
++-		if (!svcauth_gss_accept_sec_context(rqst, &gr))
++-			return (AUTH_REJECTEDCRED);
+++		if (!svcauth_gss_accept_sec_context(rqst, &gr)) {
+++			result = AUTH_REJECTEDCRED;
+++			break;
+++		}
++ 
++-		if (!svcauth_gss_nextverf(rqst, htonl(gr.gr_win)))
++-			return (AUTH_FAILED);
+++		if (!svcauth_gss_nextverf(rqst, htonl(gr.gr_win))) {
+++			result = AUTH_FAILED;
+++			break;
+++		}
++ 
++ 		*no_dispatch = TRUE;
++ 
++ 		call_stat = svc_sendreply(rqst->rq_xprt, 
++ 			(xdrproc_t)xdr_rpc_gss_init_res, (caddr_t)&gr);
++ 
++-		if (!call_stat)
++-			return (AUTH_FAILED);
+++		gss_release_buffer(&min_stat, &gr.gr_token);
+++		free(gr.gr_ctx.value);
+++
+++		if (!call_stat) {
+++			result = AUTH_FAILED;
+++			break;
+++		}
++ 
++ 		if (gr.gr_major == GSS_S_COMPLETE)
++ 			gd->established = TRUE;
++@@ -690,27 +726,37 @@ _svcauth_gss(struct svc_req *rqst, struct rpc_msg *msg, bool_t *no_dispatch)
++ 		break;
++ 
++ 	case RPCSEC_GSS_DATA:
++-		if (!svcauth_gss_validate(gd, msg, &qop))
++-			return (RPCSEC_GSS_CREDPROBLEM);
+++		if (!svcauth_gss_validate(gd, msg, &qop)) {
+++			result = RPCSEC_GSS_CREDPROBLEM;
+++			break;
+++		}
++ 
++-		if (!svcauth_gss_nextverf(rqst, htonl(gc->gc_seq)))
++-			return (AUTH_FAILED);
+++		if (!svcauth_gss_nextverf(rqst, htonl(gc->gc_seq))) {
+++			result = AUTH_FAILED;
+++			break;
+++		}
++ 
++ 		if (!gd->callback_done) {
++ 			gd->callback_done = TRUE;
++ 			gd->sec.qop = qop;
++ 			(void)rpc_gss_num_to_qop(gd->rcred.mechanism,
++ 						gd->sec.qop, &gd->rcred.qop);
++-			if (!svcauth_gss_callback(rqst, gd))
++-				return (AUTH_REJECTEDCRED);
+++			if (!svcauth_gss_callback(rqst, gd)) {
+++				result = AUTH_REJECTEDCRED;
+++				break;
+++			}
++ 		}
++ 
++ 		if (gd->locked) {
++ 			if (gd->rcred.service !=
++-					_rpc_gss_svc_to_service(gc->gc_svc))
++-				return (AUTH_FAILED);
++-			if (gd->sec.qop != qop)
++-				return (AUTH_BADVERF);
+++					_rpc_gss_svc_to_service(gc->gc_svc)) {
+++				result = AUTH_FAILED;
+++				break;
+++			}
+++			if (gd->sec.qop != qop) {
+++				result = AUTH_BADVERF;
+++				break;
+++			}
++ 		}
++ 
++ 		if (gd->sec.qop != qop) {
++@@ -724,17 +770,25 @@ _svcauth_gss(struct svc_req *rqst, struct rpc_msg *msg, bool_t *no_dispatch)
++ 		break;
++ 
++ 	case RPCSEC_GSS_DESTROY:
++-		if (rqst->rq_proc != NULLPROC)
++-			return (AUTH_FAILED);		/* XXX ? */
+++		if (rqst->rq_proc != NULLPROC) {
+++			result = AUTH_FAILED;		/* XXX ? */
+++			break;
+++		}
++ 
++-		if (!svcauth_gss_validate(gd, msg, &qop))
++-			return (RPCSEC_GSS_CREDPROBLEM);
+++		if (!svcauth_gss_validate(gd, msg, &qop)) {
+++			result = RPCSEC_GSS_CREDPROBLEM;
+++			break;
+++		}
++ 
++-		if (!svcauth_gss_nextverf(rqst, htonl(gc->gc_seq)))
++-			return (AUTH_FAILED);
+++		if (!svcauth_gss_nextverf(rqst, htonl(gc->gc_seq))) {
+++			result = AUTH_FAILED;
+++			break;
+++		}
++ 
++-		if (!svcauth_gss_release_cred())
++-			return (AUTH_FAILED);
+++		if (!svcauth_gss_release_cred()) {
+++			result = AUTH_FAILED;
+++			break;
+++		}
++ 
++ 		SVCAUTH_DESTROY(&SVC_XP_AUTH(rqst->rq_xprt));
++ 		SVC_XP_AUTH(rqst->rq_xprt).svc_ah_ops = svc_auth_none.svc_ah_ops;
++@@ -743,10 +797,12 @@ _svcauth_gss(struct svc_req *rqst, struct rpc_msg *msg, bool_t *no_dispatch)
++ 		break;
++ 
++ 	default:
++-		return (AUTH_REJECTEDCRED);
+++		result = AUTH_REJECTEDCRED;
++ 		break;
++ 	}
++-	return (AUTH_OK);
+++out:
+++	xdr_free((xdrproc_t)xdr_rpc_gss_cred, (caddr_t)gc);
+++	return result;
++ }
++ 
++ static bool_t
++@@ -890,7 +946,6 @@ bool_t
++ rpc_gss_set_svc_name(char *principal, char *mechanism, u_int req_time,
++ 		u_int UNUSED(program), u_int UNUSED(version))
++ {
++-	gss_OID_set_desc oid_set;
++ 	rpc_gss_OID oid;
++ 	char *save;
++ 
++@@ -902,14 +957,13 @@ rpc_gss_set_svc_name(char *principal, char *mechanism, u_int req_time,
++ 
++ 	if (!rpc_gss_mech_to_oid(mechanism, &oid))
++ 		goto out_err;
++-	oid_set.count = 1;
++-	oid_set.elements = (gss_OID)oid;
++ 
++ 	if (!svcauth_gss_import_name(principal))
++ 		goto out_err;
++-	if (!svcauth_gss_acquire_cred(req_time, &oid_set))
++-		goto out_err;
++ 
+++	_svcauth_req_time = req_time;
+++	_svcauth_oid_set.count = 1;
+++	_svcauth_oid_set.elements = (gss_OID)oid;
++ 	free(_svcauth_svc_name);
++ 	_svcauth_svc_name = save;
++ 	return TRUE;
++diff --git a/src/svc_vc.c b/src/svc_vc.c
++index 6ae613d..97a76a3 100644
++--- a/src/svc_vc.c
+++++ b/src/svc_vc.c
++@@ -270,14 +270,8 @@ makefd_xprt(fd, sendsize, recvsize)
++ 	struct cf_conn *cd;
++ 	const char *netid;
++ 	struct __rpc_sockinfo si;
++- 
++-	assert(fd != -1);
++ 
++-        if (fd >= FD_SETSIZE) {
++-                warnx("svc_vc: makefd_xprt: fd too high\n");
++-                xprt = NULL;
++-                goto done;
++-        }
+++	assert(fd != -1);
++ 
++ 	xprt = mem_alloc(sizeof(SVCXPRT));
++ 	if (xprt == NULL) {
++@@ -338,22 +332,10 @@ rendezvous_request(xprt, msg)
++ 	r = (struct cf_rendezvous *)xprt->xp_p1;
++ again:
++ 	len = sizeof addr;
++-	if ((sock = accept(xprt->xp_fd, (struct sockaddr *)(void *)&addr,
++-	    &len)) < 0) {
+++	sock = accept(xprt->xp_fd, (struct sockaddr *)(void *)&addr, &len);
+++	if (sock < 0) {
++ 		if (errno == EINTR)
++ 			goto again;
++-
++-		if (errno == EMFILE || errno == ENFILE) {
++-		  /* If there are no file descriptors available, then accept will fail.
++-		     We want to delay here so the connection request can be dequeued;
++-		     otherwise we can bounce between polling and accepting, never
++-		     giving the request a chance to dequeue and eating an enormous
++-		     amount of cpu time in svc_run if we're polling on many file
++-		     descriptors.  */
++-		        struct timespec ts = { .tv_sec = 0, .tv_nsec = 50000000 };
++-                        nanosleep (&ts, NULL);
++-			goto again;
++-		}
++ 		return (FALSE);
++ 	}
++ 	/*
++diff --git a/tirpc/rpc/des.h b/tirpc/rpc/des.h
++index d2881ad..018aa48 100644
++--- a/tirpc/rpc/des.h
+++++ b/tirpc/rpc/des.h
++@@ -82,6 +82,6 @@ struct desparams {
++ /*
++  * Software DES.
++  */
++-extern int _des_crypt( char *, int, struct desparams * );
+++extern int _des_crypt( char *, unsigned, struct desparams * );
++ 
++ #endif
++diff --git a/tirpc/rpc/rpcent.h b/tirpc/rpc/rpcent.h
++index 147f909..e07503c 100644
++--- a/tirpc/rpc/rpcent.h
+++++ b/tirpc/rpc/rpcent.h
++@@ -60,10 +60,11 @@ struct rpcent {
++ extern struct rpcent *getrpcbyname(const char *);
++ extern struct rpcent *getrpcbynumber(int);
++ extern struct rpcent *getrpcent(void);
++-#endif
++ 
++ extern void setrpcent(int);
++ extern void endrpcent(void);
+++#endif
+++
++ #ifdef __cplusplus
++ }
++ #endif
+diff --git a/meta/recipes-extended/libtirpc/libtirpc/remove-des-functionality.patch b/meta/recipes-extended/libtirpc/libtirpc/remove-des-functionality.patch
+index 512e93497d6..31e97744cbb 100644
+--- a/meta/recipes-extended/libtirpc/libtirpc/remove-des-functionality.patch
++++ b/meta/recipes-extended/libtirpc/libtirpc/remove-des-functionality.patch
+@@ -6,21 +6,22 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+ Signed-off-by: Thomas Petazzoni <thomas.petazzoni@free-electrons.com>
+ Signed-off-by: Maxin B. John <maxin.john@intel.com>
+ ---
+-diff -Naur libtirpc-1.0.1-orig/src/Makefile.am libtirpc-1.0.1/src/Makefile.am
+---- libtirpc-1.0.1-orig/src/Makefile.am	2015-10-30 17:15:14.000000000 +0200
+-+++ libtirpc-1.0.1/src/Makefile.am	2015-12-21 15:56:17.094702429 +0200
+-@@ -22,9 +22,8 @@
++Index: libtirpc-1.0.1/src/Makefile.am
++===================================================================
++--- libtirpc-1.0.1.orig/src/Makefile.am
+++++ libtirpc-1.0.1/src/Makefile.am
++@@ -22,9 +22,8 @@ libtirpc_la_SOURCES = auth_none.c auth_u
+          pmap_prot.c pmap_prot2.c pmap_rmt.c rpc_prot.c rpc_commondata.c \
+          rpc_callmsg.c rpc_generic.c rpc_soc.c rpcb_clnt.c rpcb_prot.c \
+          rpcb_st_xdr.c svc.c svc_auth.c svc_dg.c svc_auth_unix.c svc_auth_none.c \
+ -	svc_auth_des.c \
+          svc_generic.c svc_raw.c svc_run.c svc_simple.c svc_vc.c getpeereid.c \
+--        auth_time.c auth_des.c authdes_prot.c debug.c
++-        auth_time.c auth_des.c authdes_prot.c debug.c des_crypt.c des_impl.c
+ +        debug.c
+  
+  ## XDR
+  libtirpc_la_SOURCES += xdr.c xdr_rec.c xdr_array.c xdr_float.c xdr_mem.c xdr_reference.c xdr_stdio.c xdr_sizeof.c
+-@@ -41,8 +40,8 @@
++@@ -41,8 +40,8 @@ if GSS
+      libtirpc_la_CFLAGS = -DHAVE_RPCSEC_GSS $(GSSAPI_CFLAGS)
+  endif
+  
+@@ -31,18 +32,11 @@ diff -Naur libtirpc-1.0.1-orig/src/Makefile.am libtirpc-1.0.1/src/Makefile.am
+  
+  CLEANFILES	       = cscope.* *~
+  DISTCLEANFILES	       = Makefile.in
+-diff -Naur libtirpc-1.0.1-orig/src/rpc_soc.c libtirpc-1.0.1/src/rpc_soc.c
+---- libtirpc-1.0.1-orig/src/rpc_soc.c	2015-10-30 17:15:14.000000000 +0200
+-+++ libtirpc-1.0.1/src/rpc_soc.c	2015-12-21 15:56:17.095702416 +0200
+-@@ -61,7 +61,6 @@
+- #include <string.h>
+- #include <unistd.h>
+- #include <fcntl.h>
+--#include <rpcsvc/nis.h>
+- 
+- #include "rpc_com.h"
+- 
+-@@ -522,86 +521,6 @@
++Index: libtirpc-1.0.1/src/rpc_soc.c
++===================================================================
++--- libtirpc-1.0.1.orig/src/rpc_soc.c
+++++ libtirpc-1.0.1/src/rpc_soc.c
++@@ -522,86 +522,6 @@ clnt_broadcast(prog, vers, proc, xargs,
+  }
+  
+  /*
+@@ -129,10 +123,11 @@ diff -Naur libtirpc-1.0.1-orig/src/rpc_soc.c libtirpc-1.0.1/src/rpc_soc.c
+   * Create a client handle for a unix connection. Obsoleted by clnt_vc_create()
+   */
+  CLIENT *
+-diff -Naur libtirpc-1.0.1-orig/src/svc_auth.c libtirpc-1.0.1/src/svc_auth.c
+---- libtirpc-1.0.1-orig/src/svc_auth.c	2015-10-30 17:15:14.000000000 +0200
+-+++ libtirpc-1.0.1/src/svc_auth.c	2015-12-21 15:56:17.095702416 +0200
+-@@ -114,9 +114,6 @@
++Index: libtirpc-1.0.1/src/svc_auth.c
++===================================================================
++--- libtirpc-1.0.1.orig/src/svc_auth.c
+++++ libtirpc-1.0.1/src/svc_auth.c
++@@ -114,9 +114,6 @@ _gss_authenticate(rqst, msg, no_dispatch
+  	case AUTH_SHORT:
+  		dummy = _svcauth_short(rqst, msg);
+  		return (dummy);
+diff --git a/meta/recipes-extended/libtirpc/libtirpc_1.0.1.bb b/meta/recipes-extended/libtirpc/libtirpc_1.0.1.bb
+index e321d479ecf..8ba547506bf 100644
+--- a/meta/recipes-extended/libtirpc/libtirpc_1.0.1.bb
++++ b/meta/recipes-extended/libtirpc/libtirpc_1.0.1.bb
+@@ -11,8 +11,8 @@ PROVIDES = "virtual/librpc"
+ 
+ SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/${BP}.tar.bz2;name=libtirpc \
+            ${GENTOO_MIRROR}/${BPN}-glibc-nfs.tar.xz;name=glibc-nfs \
++           file://libtirpc-1.0.2-rc3.patch \
+            file://libtirpc-0.2.1-fortify.patch \
+-           file://0001-Add-missing-rwlock_unlocks-in-xprt_register.patch \
+           "
+ 
+ SRC_URI_append_libc-uclibc = " file://remove-des-functionality.patch \
+@@ -32,7 +32,7 @@ inherit autotools pkgconfig
+ EXTRA_OECONF = "--disable-gssapi"
+ 
+ do_configure_prepend () {
+-        cp -r ${S}/../tirpc ${S}
++        cp -r ${WORKDIR}/tirpc ${S}
+ }
+ 
+ do_install_append() {
+-- 
+2.12.2
 
-PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
-bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
-YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
-cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
-VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
-Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
-ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTQgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
-PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
-5a6L5L2TOw0KCXBhbm9zZS0xOjIgMSA2IDAgMyAxIDEgMSAxIDE7fQ0KQGZvbnQtZmFjZQ0KCXtm
-b250LWZhbWlseTrlrovkvZM7DQoJcGFub3NlLTE6MiAxIDYgMCAzIDEgMSAxIDEgMTt9DQpAZm9u
-dC1mYWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIgMiAyIDQg
-MyAyIDQ7fQ0KQGZvbnQtZmFjZQ0KCXtmb250LWZhbWlseTpUYWhvbWE7DQoJcGFub3NlLTE6MiAx
-MSA2IDQgMyA1IDQgNCAyIDQ7fQ0KQGZvbnQtZmFjZQ0KCXtmb250LWZhbWlseToiXEDlrovkvZMi
-Ow0KCXBhbm9zZS0xOjIgMSA2IDAgMyAxIDEgMSAxIDE7fQ0KLyogU3R5bGUgRGVmaW5pdGlvbnMg
-Ki8NCnAuTXNvTm9ybWFsLCBsaS5Nc29Ob3JtYWwsIGRpdi5Nc29Ob3JtYWwNCgl7bWFyZ2luOjBp
-bjsNCgltYXJnaW4tYm90dG9tOi4wMDAxcHQ7DQoJZm9udC1zaXplOjEyLjBwdDsNCglmb250LWZh
-bWlseToiVGltZXMgTmV3IFJvbWFuIiwic2VyaWYiO30NCmE6bGluaywgc3Bhbi5Nc29IeXBlcmxp
-bmsNCgl7bXNvLXN0eWxlLXByaW9yaXR5Ojk5Ow0KCWNvbG9yOmJsdWU7DQoJdGV4dC1kZWNvcmF0
-aW9uOnVuZGVybGluZTt9DQphOnZpc2l0ZWQsIHNwYW4uTXNvSHlwZXJsaW5rRm9sbG93ZWQNCgl7
-bXNvLXN0eWxlLXByaW9yaXR5Ojk5Ow0KCWNvbG9yOnB1cnBsZTsNCgl0ZXh0LWRlY29yYXRpb246
-dW5kZXJsaW5lO30NCnNwYW4uRW1haWxTdHlsZTE3DQoJe21zby1zdHlsZS10eXBlOnBlcnNvbmFs
-LXJlcGx5Ow0KCWZvbnQtZmFtaWx5OiJDYWxpYnJpIiwic2Fucy1zZXJpZiI7DQoJY29sb3I6IzFG
-NDk3RDt9DQouTXNvQ2hwRGVmYXVsdA0KCXttc28tc3R5bGUtdHlwZTpleHBvcnQtb25seTsNCglm
-b250LWZhbWlseToiQ2FsaWJyaSIsInNhbnMtc2VyaWYiO30NCkBwYWdlIFdvcmRTZWN0aW9uMQ0K
-CXtzaXplOjguNWluIDExLjBpbjsNCgltYXJnaW46MS4waW4gMS4yNWluIDEuMGluIDEuMjVpbjt9
-DQpkaXYuV29yZFNlY3Rpb24xDQoJe3BhZ2U6V29yZFNlY3Rpb24xO30NCi0tPjwvc3R5bGU+PCEt
-LVtpZiBndGUgbXNvIDldPjx4bWw+DQo8bzpzaGFwZWRlZmF1bHRzIHY6ZXh0PSJlZGl0IiBzcGlk
-bWF4PSIxMDI2IiAvPg0KPC94bWw+PCFbZW5kaWZdLS0+PCEtLVtpZiBndGUgbXNvIDldPjx4bWw+
-DQo8bzpzaGFwZWxheW91dCB2OmV4dD0iZWRpdCI+DQo8bzppZG1hcCB2OmV4dD0iZWRpdCIgZGF0
-YT0iMSIgLz4NCjwvbzpzaGFwZWxheW91dD48L3htbD48IVtlbmRpZl0tLT4NCjwvaGVhZD4NCjxi
-b2R5IGxhbmc9IkVOLVVTIiBsaW5rPSJibHVlIiB2bGluaz0icHVycGxlIj4NCjxkaXYgY2xhc3M9
-IldvcmRTZWN0aW9uMSI+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1z
-aXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LCZxdW90O3NhbnMtc2Vy
-aWYmcXVvdDs7Y29sb3I6IzFGNDk3RCI+R290IGl0LCB0aGFua3MhPG86cD48L286cD48L3NwYW4+
-PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7
-Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7O2Nv
-bG9yOiMxRjQ5N0QiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29O
-b3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0Nh
-bGlicmkmcXVvdDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90Oztjb2xvcjojMUY0OTdEIj5UaGFua3Ms
-PG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9
-ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OywmcXVvdDtz
-YW5zLXNlcmlmJnF1b3Q7O2NvbG9yOiMxRjQ5N0QiPkphY2tpZTxvOnA+PC9vOnA+PC9zcGFuPjwv
-cD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2Zv
-bnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90Oztjb2xv
-cjojMUY0OTdEIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8ZGl2IHN0eWxlPSJib3Jk
-ZXI6bm9uZTtib3JkZXItbGVmdDpzb2xpZCBibHVlIDEuNXB0O3BhZGRpbmc6MGluIDBpbiAwaW4g
-NC4wcHQiPg0KPGRpdj4NCjxkaXYgc3R5bGU9ImJvcmRlcjpub25lO2JvcmRlci10b3A6c29saWQg
-I0I1QzRERiAxLjBwdDtwYWRkaW5nOjMuMHB0IDBpbiAwaW4gMGluIj4NCjxwIGNsYXNzPSJNc29O
-b3JtYWwiPjxiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTAuMHB0O2ZvbnQtZmFtaWx5OiZxdW90
-O1RhaG9tYSZxdW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7Ij5Gcm9tOjwvc3Bhbj48L2I+PHNw
-YW4gc3R5bGU9ImZvbnQtc2l6ZToxMC4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7VGFob21hJnF1b3Q7
-LCZxdW90O3NhbnMtc2VyaWYmcXVvdDsiPiBCdXJ0b24sIFJvc3MgW21haWx0bzpyb3NzLmJ1cnRv
-bkBpbnRlbC5jb21dDQo8YnI+DQo8Yj5TZW50OjwvYj4gVHVlc2RheSwgQXByaWwgMTgsIDIwMTcg
-MTg6MDM8YnI+DQo8Yj5Ubzo8L2I+IEh1YW5nLCBKaWUgKEphY2tpZSk8YnI+DQo8Yj5DYzo8L2I+
-IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc8YnI+DQo8Yj5TdWJqZWN0
-OjwvYj4gUmU6IFtPRS1jb3JlXSBbUEFUQ0hdIGx0cDogZml4IGFuIGluY29ycmVjdCBtYWNybyBj
-aGVja2luZzxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjwvZGl2Pg0KPC9kaXY+DQo8cCBjbGFzcz0i
-TXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjxkaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9
-Ik1zb05vcm1hbCI+PG86cD4mbmJzcDs8L286cD48L3A+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05v
-cm1hbCI+T24gMTggQXByaWwgMjAxNyBhdCAxMDoxMiwgSHVhbmcsIEppZSAoSmFja2llKSAmbHQ7
-PGEgaHJlZj0ibWFpbHRvOkphY2tpZS5IdWFuZ0B3aW5kcml2ZXIuY29tIiB0YXJnZXQ9Il9ibGFu
-ayI+SmFja2llLkh1YW5nQHdpbmRyaXZlci5jb208L2E+Jmd0OyB3cm90ZTo8bzpwPjwvbzpwPjwv
-cD4NCjxkaXYgaWQ9Ijo4dSI+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj5JdCdzIG5vdCBtZXJnZWQg
-eWV0LCBhbmQgSSBkb24ndCBzZWUgYW55IHJlamVjdGlvbiBvbiBpdC48bzpwPjwvbzpwPjwvcD4N
-CjwvZGl2Pg0KPC9kaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48YnI+DQpTbGlwcGVkIHRocm91
-Z2ggdGhlIG5ldCwgd2UncmUgdmVyeSBjbG9zZSB0byBNNCBzbyB0aGlzIG1heSBub3QgbWFrZSBp
-dCBpbnRvIDIuMyBidXQgaWYgbm90IGl0IGNhbiBiZSBiYWNrcG9ydGVkLjxvOnA+PC9vOnA+PC9w
-Pg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PG86cD4mbmJzcDs8L286cD48
-L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj5Sb3NzPG86cD48L286cD48
-L3A+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9kaXY+DQo8L2Rpdj4NCjwvYm9keT4NCjwvaHRtbD4NCg==
 
---_000_1B858668EC6A94408DCA5225FDFA85AA014B7251B7ALAMBCcorpadw_--
