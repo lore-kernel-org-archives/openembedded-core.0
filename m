@@ -1,25 +1,24 @@
-Return-Path: <andrej.valek@siemens.com>
-Received: from david.siemens.de (david.siemens.de [192.35.17.14])
-	by mail.openembedded.org (Postfix) with ESMTP id DDE1671AD5
+Return-Path: <jussi.kukkonen@intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 66F4171BFC
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Apr 2017 13:14:36 +0000 (UTC)
-Received: from mail3.siemens.de (mail3.siemens.de [139.25.208.14])
-	by david.siemens.de (8.15.2/8.15.2) with ESMTPS id v3JDEM1J005583
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Apr 2017 15:14:22 +0200
-Received: from dev.sbt.siemens.com ([163.242.52.173])
-	by mail3.siemens.de (8.15.2/8.15.2) with ESMTP id v3JDELE1015663;
-	Wed, 19 Apr 2017 15:14:21 +0200
-Received: from dev.sbt.siemens.com (localhost [127.0.0.1])
-	by dev.sbt.siemens.com (Postfix) with ESMTP id 6B70E3E72;
-	Wed, 19 Apr 2017 15:14:21 +0200 (CEST)
-From: Andrej Valek <andrej.valek@siemens.com>
+	Wed, 19 Apr 2017 13:26:33 +0000 (UTC)
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	19 Apr 2017 06:26:35 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.37,221,1488873600"; d="scan'208";a="91344538"
+Received: from linux.intel.com ([10.54.29.200])
+	by fmsmga005.fm.intel.com with ESMTP; 19 Apr 2017 06:26:34 -0700
+Received: from theory.fi.intel.com (theory.fi.intel.com [10.237.72.53])
+	by linux.intel.com (Postfix) with ESMTP id 46C096A4006;
+	Wed, 19 Apr 2017 06:26:23 -0700 (PDT)
+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 19 Apr 2017 15:13:55 +0200
-Message-Id: <1492607635-31569-1-git-send-email-andrej.valek@siemens.com>
+Date: Wed, 19 Apr 2017 16:25:57 +0300
+Message-Id: <1492608357-18045-1-git-send-email-jussi.kukkonen@intel.com>
 X-Mailer: git-send-email 2.1.4
-Subject: [morty] glibc: Security fix CVE-2016-6323
+Subject: [PATCH] package_manager.py: Reverse rpm arch order
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,76 +31,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Apr 2017 13:14:37 -0000
+X-List-Received-Date: Wed, 19 Apr 2017 13:26:36 -0000
 
-arm: mark __startcontext as .cantunwind, GNU
+The architecture list used by dnf/libsolv was in the wrong order.
+As a result, the images were built with wrong and unpredictable
+packages.
 
-CVE: CVE-2016-6323
-Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
-Signed-off-by: Pascal Bach <pascal.bach@siemens.com>
+$ MACHINE=intel-corei7-64 bitbake core-image-sato
+$ MACHINE=qemux86-64 bitbake core-image-sato
+$ MACHINE=intel-corei7-64 bitbake -ccleansstate core-image-sato
+$ MACHINE=intel-corei7-64 bitbake core-image-sato
+
+The first image had 0 core2_64 packages in it, but the last one had
+583 core2_64 packages (which were built for the qemu image in
+between).
+
+Reverse the arch order in etc/dnf/vars/arch.
+
+Fixes [YOCTO #11384].
+
+Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
 ---
- meta/recipes-core/glibc/glibc/CVE-2016-6323.patch | 39 +++++++++++++++++++++++
- meta/recipes-core/glibc/glibc_2.24.bb             |  1 +
- 2 files changed, 40 insertions(+)
- create mode 100644 meta/recipes-core/glibc/glibc/CVE-2016-6323.patch
 
-diff --git a/meta/recipes-core/glibc/glibc/CVE-2016-6323.patch b/meta/recipes-core/glibc/glibc/CVE-2016-6323.patch
-new file mode 100644
-index 0000000..f9b9fa5
---- /dev/null
-+++ b/meta/recipes-core/glibc/glibc/CVE-2016-6323.patch
-@@ -0,0 +1,39 @@
-+glibc-2.24: Fix CVE-2016-6323
-+
-+[No upstream tracking] -- https://sourceware.org/bugzilla/show_bug.cgi?id=20435
-+
-+arm: mark __startcontext as .cantunwind, GNU
-+
-+Glibc bug where the makecontext function would create
-+an execution context which is incompatible with the unwinder,
-+causing it to hang when the generation of a backtrace is attempted.
-+
-+Upstream-Status: Backport [https://sourceware.org/git/gitweb.cgi?p=glibc.git;h=9e2ff6c9cc54c0b4402b8d49e4abe7000fde7617]
-+CVE: CVE-2016-6323
-+Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
-+Signed-off-by: Pascal Bach <pascal.bach@siemens.com>
-+
-+diff --git a/sysdeps/unix/sysv/linux/arm/setcontext.S b/sysdeps/unix/sysv/linux/arm/setcontext.S
-+index 603e508..d1f168f 100644
-+--- a/sysdeps/unix/sysv/linux/arm/setcontext.S
-++++ b/sysdeps/unix/sysv/linux/arm/setcontext.S
-+@@ -86,12 +86,19 @@ weak_alias(__setcontext, setcontext)
-+ 
-+ 	/* Called when a makecontext() context returns.  Start the
-+ 	   context in R4 or fall through to exit().  */
-++	/* Unwind descriptors are looked up based on PC - 2, so we have to
-++	   make sure to mark the instruction preceding the __startcontext
-++	   label as .cantunwind.  */
-++	.fnstart
-++	.cantunwind
-++	nop
-+ ENTRY(__startcontext)
-+ 	movs    r0, r4
-+ 	bne     PLTJMP(__setcontext)
-+ 
-+ 	@ New context was 0 - exit
-+ 	b       PLTJMP(HIDDEN_JUMPTARGET(exit))
-++	.fnend
-+ END(__startcontext)
-+ 
-+ #ifdef PIC
-diff --git a/meta/recipes-core/glibc/glibc_2.24.bb b/meta/recipes-core/glibc/glibc_2.24.bb
-index f5a21b2..bce06c7 100644
---- a/meta/recipes-core/glibc/glibc_2.24.bb
-+++ b/meta/recipes-core/glibc/glibc_2.24.bb
-@@ -37,6 +37,7 @@ SRC_URI = "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
-            file://0024-eglibc-Forward-port-cross-locale-generation-support.patch \
-            file://0025-Define-DUMMY_LOCALE_T-if-not-defined.patch \
-            file://0026-build_local_scope.patch \
-+           file://CVE-2016-6323.patch \
- "
+The fix was suggested by Kanavin. It works correctly in my tests but
+obviously there is potential to break things for rpm builds here.
+
+Thanks,
+  Jussi
+
+
+
+ meta/lib/oe/package_manager.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
+index f7190cf..f1b65bd 100644
+--- a/meta/lib/oe/package_manager.py
++++ b/meta/lib/oe/package_manager.py
+@@ -489,7 +489,7 @@ class RpmPM(PackageManager):
  
- SRC_URI += "\
+     def _configure_dnf(self):
+         # libsolv handles 'noarch' internally, we don't need to specify it explicitly
+-        archs = [i for i in self.archs.split() if i not in ["any", "all", "noarch"]]
++        archs = [i for i in reversed(self.archs.split()) if i not in ["any", "all", "noarch"]]
+         # This prevents accidental matching against libsolv's built-in policies
+         if len(archs) <= 1:
+             archs = archs + ["bogusarch"]
 -- 
 2.1.4
 
