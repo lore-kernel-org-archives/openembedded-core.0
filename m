@@ -1,22 +1,21 @@
 Return-Path: <anibal.limon@linux.intel.com>
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id 057C8719B3
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by mail.openembedded.org (Postfix) with ESMTP id 5DF75719AF
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Apr 2017 21:25:42 +0000 (UTC)
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-	by orsmga105.jf.intel.com with ESMTP; 19 Apr 2017 14:25:43 -0700
+	Wed, 19 Apr 2017 21:27:05 +0000 (UTC)
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+	by orsmga104.jf.intel.com with ESMTP; 19 Apr 2017 14:27:07 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.37,222,1488873600"; d="scan'208";a="91528953"
+X-IronPort-AV: E=Sophos;i="5.37,222,1488873600"; d="scan'208";a="91870867"
 Received: from alimonb-mobl1.zpn.intel.com ([10.219.128.141])
-	by fmsmga005.fm.intel.com with ESMTP; 19 Apr 2017 14:25:42 -0700
+	by fmsmga006.fm.intel.com with ESMTP; 19 Apr 2017 14:27:05 -0700
 From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 19 Apr 2017 16:30:06 -0500
-Message-Id: <1492637407-15757-1-git-send-email-anibal.limon@linux.intel.com>
+Date: Wed, 19 Apr 2017 16:31:28 -0500
+Message-Id: <1492637489-15852-1-git-send-email-anibal.limon@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 MIME-Version: 1.0
-Cc: richerd.purdie@linuxfoundation.com, flavio.santes@intel.com,
-	saul.wold@intel.com
+Cc: flavio.santes@intel.com, saul.wold@intel.com
 Subject: [PATCH 1/2] Revert "kexec-tools: Remove unused patch"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -30,7 +29,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Apr 2017 21:25:44 -0000
+X-List-Received-Date: Wed, 19 Apr 2017 21:27:07 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
