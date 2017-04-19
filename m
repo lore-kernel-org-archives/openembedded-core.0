@@ -1,25 +1,25 @@
 Return-Path: <andrej.valek@siemens.com>
-Received: from thoth.sbs.de (thoth.sbs.de [192.35.17.2])
-	by mail.openembedded.org (Postfix) with ESMTP id 1221171AD9
+Received: from david.siemens.de (david.siemens.de [192.35.17.14])
+	by mail.openembedded.org (Postfix) with ESMTP id DDE1671AD5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Apr 2017 13:05:33 +0000 (UTC)
-Received: from mail2.siemens.de (mail2.siemens.de [139.25.208.11])
-	by thoth.sbs.de (8.15.2/8.15.2) with ESMTPS id v3JD5XBS018638
+	Wed, 19 Apr 2017 13:14:36 +0000 (UTC)
+Received: from mail3.siemens.de (mail3.siemens.de [139.25.208.14])
+	by david.siemens.de (8.15.2/8.15.2) with ESMTPS id v3JDEM1J005583
 	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Apr 2017 15:05:33 +0200
+	Wed, 19 Apr 2017 15:14:22 +0200
 Received: from dev.sbt.siemens.com ([163.242.52.173])
-	by mail2.siemens.de (8.15.2/8.15.2) with ESMTP id v3JD5Xa9009012;
-	Wed, 19 Apr 2017 15:05:33 +0200
+	by mail3.siemens.de (8.15.2/8.15.2) with ESMTP id v3JDELE1015663;
+	Wed, 19 Apr 2017 15:14:21 +0200
 Received: from dev.sbt.siemens.com (localhost [127.0.0.1])
-	by dev.sbt.siemens.com (Postfix) with ESMTP id 5D40C3E72;
-	Wed, 19 Apr 2017 15:05:32 +0200 (CEST)
+	by dev.sbt.siemens.com (Postfix) with ESMTP id 6B70E3E72;
+	Wed, 19 Apr 2017 15:14:21 +0200 (CEST)
 From: Andrej Valek <andrej.valek@siemens.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 19 Apr 2017 15:04:59 +0200
-Message-Id: <1492607099-30951-1-git-send-email-andrej.valek@siemens.com>
+Date: Wed, 19 Apr 2017 15:13:55 +0200
+Message-Id: <1492607635-31569-1-git-send-email-andrej.valek@siemens.com>
 X-Mailer: git-send-email 2.1.4
-Subject: [krogoth] glibc: Security fix CVE-2016-6323
+Subject: [morty] glibc: Security fix CVE-2016-6323
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,7 +32,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Apr 2017 13:05:34 -0000
+X-List-Received-Date: Wed, 19 Apr 2017 13:14:37 -0000
 
 arm: mark __startcontext as .cantunwind, GNU
 
@@ -41,7 +41,7 @@ Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
 Signed-off-by: Pascal Bach <pascal.bach@siemens.com>
 ---
  meta/recipes-core/glibc/glibc/CVE-2016-6323.patch | 39 +++++++++++++++++++++++
- meta/recipes-core/glibc/glibc_2.23.bb             |  1 +
+ meta/recipes-core/glibc/glibc_2.24.bb             |  1 +
  2 files changed, 40 insertions(+)
  create mode 100644 meta/recipes-core/glibc/glibc/CVE-2016-6323.patch
 
@@ -90,14 +90,14 @@ index 0000000..f9b9fa5
 + END(__startcontext)
 + 
 + #ifdef PIC
-diff --git a/meta/recipes-core/glibc/glibc_2.23.bb b/meta/recipes-core/glibc/glibc_2.23.bb
-index 85b5215..3844587 100644
---- a/meta/recipes-core/glibc/glibc_2.23.bb
-+++ b/meta/recipes-core/glibc/glibc_2.23.bb
-@@ -41,6 +41,7 @@ SRC_URI = "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
-            file://CVE-2016-1234.patch \
-            file://CVE-2016-3075.patch \
-            file://CVE-2016-5417.patch \
+diff --git a/meta/recipes-core/glibc/glibc_2.24.bb b/meta/recipes-core/glibc/glibc_2.24.bb
+index f5a21b2..bce06c7 100644
+--- a/meta/recipes-core/glibc/glibc_2.24.bb
++++ b/meta/recipes-core/glibc/glibc_2.24.bb
+@@ -37,6 +37,7 @@ SRC_URI = "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
+            file://0024-eglibc-Forward-port-cross-locale-generation-support.patch \
+            file://0025-Define-DUMMY_LOCALE_T-if-not-defined.patch \
+            file://0026-build_local_scope.patch \
 +           file://CVE-2016-6323.patch \
  "
  
