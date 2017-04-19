@@ -1,23 +1,23 @@
 Return-Path: <brian.avery@intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 78EA071C7A
+	by mail.openembedded.org (Postfix) with ESMTP id 8EDAA71C54
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 19 Apr 2017 19:46:15 +0000 (UTC)
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
 	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
 	19 Apr 2017 12:46:16 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.37,222,1488873600"; d="scan'208";a="76410978"
+X-IronPort-AV: E=Sophos;i="5.37,222,1488873600"; d="scan'208";a="76410979"
 Received: from bavery-ws-desk.jf.intel.com ([10.54.74.5])
 	by orsmga002.jf.intel.com with ESMTP; 19 Apr 2017 12:46:16 -0700
 From: brian avery <brian.avery@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 19 Apr 2017 12:49:02 -0700
-Message-Id: <aa964cc32c1285466bca7a952e4c173b644e19c5.1492631156.git.brian.avery@intel.com>
+Date: Wed, 19 Apr 2017 12:49:03 -0700
+Message-Id: <662f8c98f7fd4a5c6117f7cb63e3f04ef8cf357c.1492631156.git.brian.avery@intel.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1492631156.git.brian.avery@intel.com>
 References: <cover.1492631156.git.brian.avery@intel.com>
-Subject: [PATCH 1/3] meta: add search, replace strings to export2json
+Subject: [PATCH 2/3] rootfs-postcommands.bbclass: save relative paths
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,44 +32,58 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 19 Apr 2017 19:46:15 -0000
 
-We want to be able to save relative paths so that we can relocate the
-deploy dir images and kernels, yet still have qemu and testimage work
-correctly.  This extends export2json with 2 named arguments so a
-search/replace operation can be done to remove the leading path.
+We pass the TOPDIR to do a search/replace in export2json so that we save
+relative paths in the testdata.json file rather than absolute paths.
+This is to allow the images and kernels to be relocated yet still allow
+testimage to work.
 
 [YOCTO #11375]
 
 Signed-off-by: brian avery <brian.avery@intel.com>
 ---
- meta/lib/oe/data.py | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ meta/classes/rootfs-postcommands.bbclass | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-diff --git a/meta/lib/oe/data.py b/meta/lib/oe/data.py
-index 80bba2b..b8901e6 100644
---- a/meta/lib/oe/data.py
-+++ b/meta/lib/oe/data.py
-@@ -17,7 +17,7 @@ def typed_value(key, d):
-     except (TypeError, ValueError) as exc:
-         bb.msg.fatal("Data", "%s: %s" % (key, str(exc)))
+diff --git a/meta/classes/rootfs-postcommands.bbclass b/meta/classes/rootfs-postcommands.bbclass
+index c42829d..498174a 100644
+--- a/meta/classes/rootfs-postcommands.bbclass
++++ b/meta/classes/rootfs-postcommands.bbclass
+@@ -132,7 +132,7 @@ zap_empty_root_password () {
+ 	if [ -e ${IMAGE_ROOTFS}/etc/passwd ]; then
+ 		sed -i 's%^root::%root:*:%' ${IMAGE_ROOTFS}/etc/passwd
+ 	fi
+-} 
++}
  
--def export2json(d, json_file, expand=True):
-+def export2json(d, json_file, expand=True, searchString="",replaceString=""):
-     data2export = {}
-     keys2export = []
+ #
+ # allow dropbear/openssh to accept root logins and logins from accounts with an empty password string
+@@ -243,7 +243,7 @@ python write_image_manifest () {
+         os.symlink(os.path.basename(manifest_name), manifest_link)
+ }
  
-@@ -37,9 +37,11 @@ def export2json(d, json_file, expand=True):
+-# Can be use to create /etc/timestamp during image construction to give a reasonably 
++# Can be use to create /etc/timestamp during image construction to give a reasonably
+ # sane default time setting
+ rootfs_update_timestamp () {
+ 	date -u +%4Y%2m%2d%2H%2M%2S >${IMAGE_ROOTFS}/etc/timestamp
+@@ -286,6 +286,7 @@ rootfs_sysroot_relativelinks () {
+ 	sysroot-relativelinks.py ${SDK_OUTPUT}/${SDKTARGETSYSROOT}
+ }
  
-     for key in keys2export:
-         try:
--            data2export[key] = d.getVar(key, expand)
-+            data2export[key] = d.getVar(key, expand).replace(searchString,replaceString)
-         except bb.data_smart.ExpansionError:
-             data2export[key] = ''
-+        except AttributeError:
-+            pass
++
+ # Generated test data json file
+ python write_image_test_data() {
+     from oe.data import export2json
+@@ -294,7 +295,8 @@ python write_image_test_data() {
+     testdata_link = "%s/%s.testdata.json" % (d.getVar('DEPLOY_DIR_IMAGE'), d.getVar('IMAGE_LINK_NAME'))
  
-     with open(json_file, "w") as f:
-         json.dump(data2export, f, skipkeys=True, indent=4, sort_keys=True)
+     bb.utils.mkdirhier(os.path.dirname(testdata))
+-    export2json(d, testdata)
++    searchString = "%s/"%(d.getVar("TOPDIR")).replace("//","/")
++    export2json(d, testdata,searchString=searchString,replaceString="")
+ 
+     if os.path.lexists(testdata_link):
+        os.remove(testdata_link)
 -- 
 1.9.1
 
