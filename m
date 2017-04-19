@@ -1,47 +1,50 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-wm0-f43.google.com (mail-wm0-f43.google.com [74.125.82.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 8192B71BEE
+Received: from mail-wr0-f193.google.com (mail-wr0-f193.google.com
+	[209.85.128.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 99F4E71BE5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Apr 2017 16:26:11 +0000 (UTC)
-Received: by mail-wm0-f43.google.com with SMTP id w64so84666750wma.0
+	Wed, 19 Apr 2017 16:34:39 +0000 (UTC)
+Received: by mail-wr0-f193.google.com with SMTP id o21so3923294wrb.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Apr 2017 09:26:12 -0700 (PDT)
+	Wed, 19 Apr 2017 09:34:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=iPh2V+kouX1C6Ffh6Jjb6xgCtYsFcgnPf3Qh0k0ZULE=;
-	b=CTreEIo2kQZPvNVs/auhMQhzwRJCI46gaqHn/ECHArG4c54Hqx0jt17tu0oXx+3lnp
-	HEkizc7kDUIYrX6yl5BoB8EWlRztRFyNUIQDSPnc1xNtOYa3Dqk+KAPhgJ13joMHnuZQ
-	4q149eLQuRPhnfx0CXDI5/ysSipjjjcIWQLoX+CEkrcibebP1bGflGQQfIoAqTD7bxg2
-	HDPKCxdFQhpkmYGmDwTuqI8sp+6kICJRkLvW4YY70cDnHTynGQfosWDbBCndwiU4PXm1
-	n4y9HEYdTg8sgKcASz/VjYsoZgYm2iXSyvGwVV022/GujyUnyqbIxsQHdbbU/lLXj8Xj
-	+k2g==
+	:cc:content-transfer-encoding;
+	bh=sjIh806QxbwISGspMgUZX3eEbzX+jEAqI8dg+Hd6X68=;
+	b=vJ8EVgPA8S7oFzRrv0wK7X/rqktIMitjVgau2B+pAKd3mHziT8sSOmqMMi0DOfXBTJ
+	ek6Fa/t2OEy8EavOz98U6mX+q4QOo/KoBA3w83czC0lzj3H5W4cMr0c0FS+OWoaf6PZP
+	tfF/IhvPNHub7Y0N9BsCyjnfiQCMI3sJZ9dI/DinH58zwsMGZhGHnoqylaA/9E3iFX0o
+	DoKhToTaOmN3JislCTk+7k27YFY8af3yYLl4AP6wo/sCWd81HkAn/frQ7Rq+nNgW+fNs
+	4f2JgoWXSJSfvD/9AG4UWHjZg0pexvFTgmMs/EqoggnubUX1TjgbIIEw6Iv5w5AiSYaA
+	29Qw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=iPh2V+kouX1C6Ffh6Jjb6xgCtYsFcgnPf3Qh0k0ZULE=;
-	b=Tc0QbDPanVMW3u1Y+EUwEzIRreVbQmAMKjfwPQFDc/i/nzRL9YRo1WZ2gcoWdjbdfh
-	bSCkUNGjiHhthLtPoB7um+nie36m0QWVffhZngLBIiu1EPZBucLZIcfcF0C+Nl8IAkmY
-	ioeEp8nN/dObVnpfeTRGwwaueC26goBQydR+DiwBFIX/dellCAjHxtZQBdYTWmHUExud
-	k8GBgnGrL2Rh4KhEaSEPcTXf6y0xAuiA7WkjRwKhv/QMI0EHJHWzvHpIl//Wd8LxUVCv
-	3teUbnEvmgCT+8U99KwBGR+Cj7U3jN/9tHZFt+UgumDnQot+l6jJTrpAL9fyZs62ou3v
-	RnfQ==
-X-Gm-Message-State: AN3rC/5t+aCxYzgL3cEgAUNNWL6e03vEsy9ePssB372ouV1ngVBkWFQo
-	7ICoxZnPhBpkpfrSaHYlpvKxq+NnQg==
-X-Received: by 10.28.87.70 with SMTP id l67mr17632772wmb.37.1492619171827;
-	Wed, 19 Apr 2017 09:26:11 -0700 (PDT)
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=sjIh806QxbwISGspMgUZX3eEbzX+jEAqI8dg+Hd6X68=;
+	b=hG9+tHTZiJo3WDiIfyhjCNs9z2UK5rCnxN7RxtlVO4Zji+NrIJLr3sz4iYsxQ7NJ5Y
+	h/LaRsELItg3LaYeE1C3yTufz2hAHLJ3vHzFeluAraOWJYVTF9JFhSf3TXPM45AunFLT
+	c2E4B+9jOG92FONprEfk8HYHSJ2ZkowAA5urHT58qjxC0DYiYeP+1o/MvOoyRABD3F/u
+	HKEyI9lxXBoMrOkGsFXWuxubblhGjlaaNUcn+Yk3ei7MNDRf8UAQiY8W1/RXngqpUI+W
+	cfv9NM25glB/vnIloigJxH/aqLD/s5/pcdavif93jhqDMR7lctp6eeAqsN7QMLmIpZX9
+	lHZw==
+X-Gm-Message-State: AN3rC/4d04emLO60uNBjqUpYLNg9aO3ojkcMAAPiwqWTe6hmT8wjF/6O
+	IuAXEYJhotzDrTj6CBcTBihrrP55SQ==
+X-Received: by 10.223.138.152 with SMTP id y24mr3691467wry.26.1492619680264;
+	Wed, 19 Apr 2017 09:34:40 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.80.180.141 with HTTP; Wed, 19 Apr 2017 09:25:41 -0700 (PDT)
-In-Reply-To: <CAJTo0LandPvX8nK+oPW0vj8DSC+jU7mBEZc+LEE4uq3TmkubHw@mail.gmail.com>
+Received: by 10.80.180.141 with HTTP; Wed, 19 Apr 2017 09:34:09 -0700 (PDT)
+In-Reply-To: <1492592243.15070.1.camel@andred.net>
 References: <20170419015839.1294-1-raj.khem@gmail.com>
-	<20170419015839.1294-2-raj.khem@gmail.com>
-	<CAJTo0LandPvX8nK+oPW0vj8DSC+jU7mBEZc+LEE4uq3TmkubHw@mail.gmail.com>
+	<20170419015839.1294-3-raj.khem@gmail.com>
+	<1492592243.15070.1.camel@andred.net>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 19 Apr 2017 09:25:41 -0700
-Message-ID: <CAMKF1spCN1u2cWm9V4VHStu7Btj=34JTSqvTbNWXPsb3r99JBA@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/5] libtirpc: Expose key_secretkey_is_set API
+Date: Wed, 19 Apr 2017 09:34:09 -0700
+Message-ID: <CAMKF1soi+coTExmRNkvFU_5s3o3eEJBUDqN07RbQJLoD-xHGsA@mail.gmail.com>
+To: =?UTF-8?Q?Andr=C3=A9_Draszik?= <git@andred.net>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 3/5] libtirpc: Enable des APIs for musl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,22 +57,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Apr 2017 16:26:11 -0000
+X-List-Received-Date: Wed, 19 Apr 2017 16:34:40 -0000
 Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Apr 19, 2017 at 1:52 AM, Burton, Ross <ross.burton@intel.com> wrote:
->
-> On 19 April 2017 at 02:58, Khem Raj <raj.khem@gmail.com> wrote:
+On Wed, Apr 19, 2017 at 1:57 AM, Andr=C3=A9 Draszik <git@andred.net> wrote:
+> On Tue, 2017-04-18 at 18:58 -0700, Khem Raj wrote:
+>> Use memset() API instead of __bzero()
+>> Drop the patch removing des_* functions for musl
 >>
->> +-    key_secret_is_set;
->> ++    key_secretkey_is_set;
+>> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+>> ---
+>>  .../0001-replace-__bzero-with-memset-API.patch     |  28 +++++
+>>  .../libtirpc/remove-des-functionality.patch        | 139 --------------=
+--
+>> -----
+>>  meta/recipes-extended/libtirpc/libtirpc_1.0.1.bb   |   5 +-
+>>  3 files changed, 31 insertions(+), 141 deletions(-)
+>>  create mode 100644 meta/recipes-extended/libtirpc/libtirpc/0001-replace=
+-
+>> __bzero-with-memset-API.patch
+>>  delete mode 100644 meta/recipes-extended/libtirpc/libtirpc/remove-des-
+>> functionality.patch
+>>
+>> [...]
+>>
+>>
+>>  SRC_URI_append_libc-uclibc =3D " file://remove-des-functionality.patch =
+\
 >
->
-> This removes key_secret_is_set, was this a typo upstream or a mistake in the
-> patch?
+> This patch is being removed with this change, and so uclibc builds will
+> fail.
 
-key_secret_is_set is a typo in libtirpc map file which is fixed here.
+yes I know. one should move it to bbappend in own layer if using uclibc.
+
+ Is it time to remove all remaining references to uclibc?
+
+Probably.
 
 >
-> Ross
+> Cheers,
+> Andre'
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
