@@ -1,37 +1,45 @@
-Return-Path: <maxin.john@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 4974B71B2F;
-	Wed, 19 Apr 2017 09:18:31 +0000 (UTC)
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	19 Apr 2017 02:18:32 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.37,220,1488873600"; d="scan'208,217";a="78779914"
-Received: from irsmsx151.ger.corp.intel.com ([163.33.192.59])
-	by orsmga004.jf.intel.com with ESMTP; 19 Apr 2017 02:18:31 -0700
-Received: from irsmsx103.ger.corp.intel.com ([169.254.3.241]) by
-	IRSMSX151.ger.corp.intel.com ([169.254.4.123]) with mapi id
-	14.03.0319.002; Wed, 19 Apr 2017 10:18:30 +0100
-From: "John, Maxin" <maxin.john@intel.com>
-To: Weng Josn <sadlife1990@gmail.com>, "yocto@yoctoproject.org"
-	<yocto@yoctoproject.org>, "openembedded-devel@lists.openembedded.org"
-	<openembedded-devel@lists.openembedded.org>, "Patches and discussions about
-	the oe-core layer" <openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] Yocto cups serial port support
-Thread-Index: AQHSuD7R/0vR0n3jPkKiVLBWFpevBqHMagjw
-Date: Wed, 19 Apr 2017 09:18:29 +0000
-Message-ID: <61C0517EAD808B429A1DE2DD9164D40030F88502@IRSMSX103.ger.corp.intel.com>
-References: <CAAHuHfyWegZ3OYy97i_+r1DXQ0v_YsozhV7VLeqwepiUWnZ1kg@mail.gmail.com>
-In-Reply-To: <CAAHuHfyWegZ3OYy97i_+r1DXQ0v_YsozhV7VLeqwepiUWnZ1kg@mail.gmail.com>
-Accept-Language: fi-FI, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-version: 10.0.102.7
-dlp-reaction: no-action
-x-originating-ip: [163.33.239.180]
+Return-Path: <Gabriel.Ionescu@enea.com>
+X-Greylist: delayed 866 seconds by postgrey-1.34 at layers.openembedded.org;
+	Wed, 19 Apr 2017 09:40:02 UTC
+Received: from smtp-out10.electric.net (smtp-out10.electric.net
+	[185.38.180.36])
+	by mail.openembedded.org (Postfix) with ESMTP id 01E2571B13
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 19 Apr 2017 09:40:02 +0000 (UTC)
+Received: from 1d0lrk-000868-Uj by out10a.electric.net with emc1-ok (Exim 4.87)
+	(envelope-from <Gabriel.Ionescu@enea.com>) id 1d0lrk-00086i-VQ
+	for openembedded-core@lists.openembedded.org;
+	Wed, 19 Apr 2017 02:25:36 -0700
+Received: by emcmailer; Wed, 19 Apr 2017 02:25:36 -0700
+Received: from [192.36.1.72] (helo=mx-3.enea.com)
+	by out10a.electric.net with esmtps (TLSv1:ECDHE-RSA-AES256-SHA:256)
+	(Exim 4.87) (envelope-from <Gabriel.Ionescu@enea.com>)
+	id 1d0lrk-000868-Uj for openembedded-core@lists.openembedded.org;
+	Wed, 19 Apr 2017 02:25:36 -0700
+Received: from sestofb11.enea.se (172.21.3.152) by smtp.enea.com
+	(172.21.1.208) with Microsoft SMTP Server id 14.3.319.2;
+	Wed, 19 Apr 2017 11:25:27 +0200
+Received: by sestofb11.enea.se (Postfix, from userid 4567)	id 40E8C44041B;
+	Wed, 19 Apr 2017 11:25:27 +0200 (CEST)
+From: Gabriel Ionescu <gabriel.ionescu@enea.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 19 Apr 2017 11:25:19 +0200
+Message-ID: <1492593919-35164-1-git-send-email-gabriel.ionescu@enea.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Subject: Re: Yocto cups serial port support
+Received-SPF: None (SESTOEX08.enea.se: gabriel.ionescu@enea.com does not
+	designate permitted sender hosts)
+X-Outbound-IP: 192.36.1.72
+X-Env-From: Gabriel.Ionescu@enea.com
+X-Proto: esmtps
+X-Revdns: mx-3.enea.com
+X-HELO: mx-3.enea.com
+X-TLS: TLSv1:ECDHE-RSA-AES256-SHA:256
+X-Authenticated_ID: 
+X-PolicySMART: 6551647
+X-Virus-Status: Scanned by VirusSMART (c)
+X-Virus-Status: Scanned by VirusSMART (s)
+Subject: [meta-oe][PATCH 1/1] autogen-native: Set POSIX_SHELL to /bin/sh
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,108 +52,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Apr 2017 09:18:32 -0000
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_61C0517EAD808B429A1DE2DD9164D40030F88502IRSMSX103gercor_"
+X-List-Received-Date: Wed, 19 Apr 2017 09:40:04 -0000
+Content-Type: text/plain
 
---_000_61C0517EAD808B429A1DE2DD9164D40030F88502IRSMSX103gercor_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Setting POSIX_SHELL to "/usr/bin/env sh" fails when tested in
+libopts.m4 with test -x "$POSIX_SHELL".
 
-SGksDQoNCkdlbmVyYWxseSwgY3VwcyBzZXJpYWwgYmFja2VuZCBpcyBzdXBwb3J0ZWQgYnkg4oCc
-Y3Vwcy1maWx0ZXLigJ0gcGFja2FnZS4gWW91IGNhbiBmaW5kIHRoYXQgcGFja2FnZSBpbiB0aGUg
-4oCcbWV0YS1wcmludGluZ+KAnSBsYXllcjoNCmh0dHBzOi8vZ2l0aHViLmNvbS9yb3NzYnVydG9u
-L21ldGEtcHJpbnRpbmcNCg0KSG9wZSB0aGlzIGhlbHBzLA0KTWF4aW4NCg0KDQpGcm9tOiBvcGVu
-ZW1iZWRkZWQtY29yZS1ib3VuY2VzQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcgW21haWx0bzpvcGVu
-ZW1iZWRkZWQtY29yZS1ib3VuY2VzQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmddIE9uIEJlaGFsZiBP
-ZiBXZW5nIEpvc24NClNlbnQ6IFR1ZXNkYXksIEFwcmlsIDE4LCAyMDE3IDM6MjUgUE0NClRvOiB5
-b2N0b0B5b2N0b3Byb2plY3Qub3JnOyBvcGVuZW1iZWRkZWQtZGV2ZWxAbGlzdHMub3BlbmVtYmVk
-ZGVkLm9yZzsgUGF0Y2hlcyBhbmQgZGlzY3Vzc2lvbnMgYWJvdXQgdGhlIG9lLWNvcmUgbGF5ZXIg
-PG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+DQpTdWJqZWN0OiBbT0Ut
-Y29yZV0gWW9jdG8gY3VwcyBzZXJpYWwgcG9ydCBzdXBwb3J0DQoNCkhlbGxvLA0KDQoNCkkgY2hl
-Y2tlZCAvdXNyL2xpYi9jdXBzL2JhY2tlbmQgbm90IGluY2x1ZWQgInNlcmlhbCIgYmFja2VuZC4N
-CkhvdyBjYW4gZW5hYmxlIGN1cHMgc2VyaWFsIHBvcnQgPw0KDQoNCg0KVGhhbmtzLg0K
+This patch sets the POSIX_SHELL variable to "/bin/sh".
 
---_000_61C0517EAD808B429A1DE2DD9164D40030F88502IRSMSX103gercor_
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: base64
+Signed-off-by: Gabriel Ionescu <gabriel.ionescu@enea.com>
+---
+ meta/recipes-devtools/autogen/autogen-native_5.18.12.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
-bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
-YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
-cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
-VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
-Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
-ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
-PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
-IkNhbWJyaWEgTWF0aCI7DQoJcGFub3NlLTE6MiA0IDUgMyA1IDQgNiAzIDIgNDt9DQpAZm9udC1m
-YWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIgMiAyIDQgMyAy
-IDQ7fQ0KLyogU3R5bGUgRGVmaW5pdGlvbnMgKi8NCnAuTXNvTm9ybWFsLCBsaS5Nc29Ob3JtYWws
-IGRpdi5Nc29Ob3JtYWwNCgl7bWFyZ2luOjBjbTsNCgltYXJnaW4tYm90dG9tOi4wMDAxcHQ7DQoJ
-Zm9udC1zaXplOjEyLjBwdDsNCglmb250LWZhbWlseToiVGltZXMgTmV3IFJvbWFuIixzZXJpZjt9
-DQphOmxpbmssIHNwYW4uTXNvSHlwZXJsaW5rDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsNCglj
-b2xvcjojMDU2M0MxOw0KCXRleHQtZGVjb3JhdGlvbjp1bmRlcmxpbmU7fQ0KYTp2aXNpdGVkLCBz
-cGFuLk1zb0h5cGVybGlua0ZvbGxvd2VkDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsNCgljb2xv
-cjojOTU0RjcyOw0KCXRleHQtZGVjb3JhdGlvbjp1bmRlcmxpbmU7fQ0Kc3Bhbi5FbWFpbFN0eWxl
-MTcNCgl7bXNvLXN0eWxlLXR5cGU6cGVyc29uYWwtcmVwbHk7DQoJZm9udC1mYW1pbHk6IkNhbGli
-cmkiLHNhbnMtc2VyaWY7DQoJY29sb3I6IzFGNDk3RDt9DQouTXNvQ2hwRGVmYXVsdA0KCXttc28t
-c3R5bGUtdHlwZTpleHBvcnQtb25seTsNCglmb250LWZhbWlseToiQ2FsaWJyaSIsc2Fucy1zZXJp
-Zjt9DQpAcGFnZSBXb3JkU2VjdGlvbjENCgl7c2l6ZTo2MTIuMHB0IDc5Mi4wcHQ7DQoJbWFyZ2lu
-OjcyLjBwdCA3Mi4wcHQgNzIuMHB0IDcyLjBwdDt9DQpkaXYuV29yZFNlY3Rpb24xDQoJe3BhZ2U6
-V29yZFNlY3Rpb24xO30NCi0tPjwvc3R5bGU+PCEtLVtpZiBndGUgbXNvIDldPjx4bWw+DQo8bzpz
-aGFwZWRlZmF1bHRzIHY6ZXh0PSJlZGl0IiBzcGlkbWF4PSIxMDI2IiAvPg0KPC94bWw+PCFbZW5k
-aWZdLS0+PCEtLVtpZiBndGUgbXNvIDldPjx4bWw+DQo8bzpzaGFwZWxheW91dCB2OmV4dD0iZWRp
-dCI+DQo8bzppZG1hcCB2OmV4dD0iZWRpdCIgZGF0YT0iMSIgLz4NCjwvbzpzaGFwZWxheW91dD48
-L3htbD48IVtlbmRpZl0tLT4NCjwvaGVhZD4NCjxib2R5IGxhbmc9IkVOLVVTIiBsaW5rPSIjMDU2
-M0MxIiB2bGluaz0iIzk1NEY3MiI+DQo8ZGl2IGNsYXNzPSJXb3JkU2VjdGlvbjEiPg0KPHAgY2xh
-c3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6
-JnF1b3Q7Q2FsaWJyaSZxdW90OyxzYW5zLXNlcmlmO2NvbG9yOiMxRjQ5N0QiPkhpLDxvOnA+PC9v
-OnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNp
-emU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJpZjtjb2xv
-cjojMUY0OTdEIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9y
-bWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxp
-YnJpJnF1b3Q7LHNhbnMtc2VyaWY7Y29sb3I6IzFGNDk3RCI+R2VuZXJhbGx5LCBjdXBzIHNlcmlh
-bCBiYWNrZW5kIGlzIHN1cHBvcnRlZCBieSDigJxjdXBzLWZpbHRlcuKAnSBwYWNrYWdlLiBZb3Ug
-Y2FuIGZpbmQgdGhhdCBwYWNrYWdlIGluIHRoZSDigJxtZXRhLXByaW50aW5n4oCdIGxheWVyOjxv
-OnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJm
-b250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJp
-Zjtjb2xvcjojMUY0OTdEIj48YSBocmVmPSJodHRwczovL2dpdGh1Yi5jb20vcm9zc2J1cnRvbi9t
-ZXRhLXByaW50aW5nIj5odHRwczovL2dpdGh1Yi5jb20vcm9zc2J1cnRvbi9tZXRhLXByaW50aW5n
-PC9hPjxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0
-eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fu
-cy1zZXJpZjtjb2xvcjojMUY0OTdEIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8cCBj
-bGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWls
-eTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWY7Y29sb3I6IzFGNDk3RCI+SG9wZSB0aGlz
-IGhlbHBzLDxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFu
-IHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDss
-c2Fucy1zZXJpZjtjb2xvcjojMUY0OTdEIj5NYXhpbjxicj4NCjxicj4NCjxvOnA+PC9vOnA+PC9z
-cGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxhIG5hbWU9Il9NYWlsRW5kQ29tcG9zZSI+
-PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZx
-dW90OyxzYW5zLXNlcmlmO2NvbG9yOiMxRjQ5N0QiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwv
-YT48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48Yj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjEx
-LjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWYiPkZyb206PC9z
-cGFuPjwvYj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtD
-YWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWYiPiBvcGVuZW1iZWRkZWQtY29yZS1ib3VuY2VzQGxpc3Rz
-Lm9wZW5lbWJlZGRlZC5vcmcgW21haWx0bzpvcGVuZW1iZWRkZWQtY29yZS1ib3VuY2VzQGxpc3Rz
-Lm9wZW5lbWJlZGRlZC5vcmddDQo8Yj5PbiBCZWhhbGYgT2YgPC9iPldlbmcgSm9zbjxicj4NCjxi
-PlNlbnQ6PC9iPiBUdWVzZGF5LCBBcHJpbCAxOCwgMjAxNyAzOjI1IFBNPGJyPg0KPGI+VG86PC9i
-PiB5b2N0b0B5b2N0b3Byb2plY3Qub3JnOyBvcGVuZW1iZWRkZWQtZGV2ZWxAbGlzdHMub3BlbmVt
-YmVkZGVkLm9yZzsgUGF0Y2hlcyBhbmQgZGlzY3Vzc2lvbnMgYWJvdXQgdGhlIG9lLWNvcmUgbGF5
-ZXIgJmx0O29wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcmZ3Q7PGJyPg0K
-PGI+U3ViamVjdDo8L2I+IFtPRS1jb3JlXSBZb2N0byBjdXBzIHNlcmlhbCBwb3J0IHN1cHBvcnQ8
-bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwv
-bzpwPjwvcD4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj5IZWxsbyw8bzpwPjwvbzpwPjwv
-cD4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjwv
-ZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0K
-PC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+SSBjaGVja2VkJm5ic3A7L3Vzci9s
-aWIvY3Vwcy9iYWNrZW5kIG5vdCBpbmNsdWVkICZxdW90O3NlcmlhbCZxdW90OyBiYWNrZW5kLjxv
-OnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+SG93IGNh
-biBlbmFibGUgY3VwcyBzZXJpYWwgcG9ydCA/PG86cD48L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+
-DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRp
-dj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPC9kaXY+DQo8
-ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PG86cD4mbmJzcDs8L286cD48L3A+DQo8L2Rpdj4N
-CjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj5UaGFua3MuPG86cD48L286cD48L3A+DQo8L2Rp
-dj4NCjwvZGl2Pg0KPC9kaXY+DQo8L2JvZHk+DQo8L2h0bWw+DQo=
+diff --git a/meta/recipes-devtools/autogen/autogen-native_5.18.12.bb b/meta/recipes-devtools/autogen/autogen-native_5.18.12.bb
+index 853477c..9be03fc 100644
+--- a/meta/recipes-devtools/autogen/autogen-native_5.18.12.bb
++++ b/meta/recipes-devtools/autogen/autogen-native_5.18.12.bb
+@@ -31,7 +31,7 @@ inherit autotools texinfo native pkgconfig
+ export GUILE_LOAD_PATH = "${STAGING_DATADIR_NATIVE}/guile/2.0"
+ export GUILE_LOAD_COMPILED_PATH = "${STAGING_LIBDIR_NATIVE}/guile/2.0/ccache"
 
---_000_61C0517EAD808B429A1DE2DD9164D40030F88502IRSMSX103gercor_--
+-export POSIX_SHELL = "/usr/bin/env sh"
++export POSIX_SHELL = "/bin/sh"
+
+ do_install_append () {
+ 	create_wrapper ${D}/${bindir}/autogen \
+--
+2.7.4
+
+
