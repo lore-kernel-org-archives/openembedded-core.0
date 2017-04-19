@@ -1,18 +1,21 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id A340F7198D;
-	Wed, 19 Apr 2017 18:31:55 +0000 (UTC)
-MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Gordon Lack <gordon.lack@dsl.pipex.com>
-Date: Wed, 19 Apr 2017 18:31:57 -0000
-Message-ID: <20170419183157.26295.30795@do.openembedded.org>
-References: <1492625431-5515-1-git-send-email-gordon.lack@dsl.pipex.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <1492625431-5515-1-git-send-email-gordon.lack@dsl.pipex.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgQWRkIGZpbGVzIHZpYSB1cGxvYWQ=?=
+Return-Path: <brian.avery@intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id 53E5671C54
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 19 Apr 2017 19:46:13 +0000 (UTC)
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	19 Apr 2017 12:46:15 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.37,222,1488873600"; d="scan'208";a="78950565"
+Received: from bavery-ws-desk.jf.intel.com ([10.54.74.5])
+	by orsmga004.jf.intel.com with ESMTP; 19 Apr 2017 12:46:14 -0700
+From: brian avery <brian.avery@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 19 Apr 2017 12:49:01 -0700
+Message-Id: <cover.1492631156.git.brian.avery@intel.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH 0/3] meta: save relative paths to qemuboot.conf and testdata.json
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,45 +28,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Apr 2017 18:31:55 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 19 Apr 2017 19:46:14 -0000
 
-== Series Details ==
+This patch set changes the behaviour to save relative paths instead of absolute paths into the qemuboot.conf and the testdata.json files.
+A sed test verified that this seems to work without complication. If certain variables, need to be excluded from this relative path fix, that can be
+done with subsequent patches.
 
-Series: Add files via upload
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/6421/
-State : failure
+This is to fix YOCTO #11375 https://bugzilla.yoctoproject.org/show_bug.cgi?id=11375
 
-== Summary ==
+-brian
 
+The following changes since commit 1423508b29fc557d8a1305f39c33de33e28d9003:
 
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
+  bitbake: bitbake: Update version to 1.34.0 for stable release (2017-04-19 10:42:12 +0100)
 
+are available in the git repository at:
 
+  git://git.yoctoproject.org/poky-contrib bavery/poky/relpath_11375
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=bavery/poky/relpath_11375
 
-* Patch            Add files via upload
- Issue             Shortlog does not follow expected format [test_shortlog_format] 
-  Suggested fix    Commit shortlog (first line of commit message) should follow the format "<target>: <summary>"
+brian avery (3):
+  meta: add search,replace strings to export2json
+  rootfs-postcommands.bbclass: save relative paths
+  qemuboot.bbclass: save relative paths in conf file
 
-* Patch            Add files via upload
- Issue             Patch is missing Signed-off-by [test_signed_off_by_presence] 
-  Suggested fix    Sign off the patch (either manually or with "git commit --amend -s")
+ meta/classes/qemuboot.bbclass            | 7 +++++++
+ meta/classes/rootfs-postcommands.bbclass | 8 +++++---
+ meta/lib/oe/data.py                      | 6 ++++--
+ 3 files changed, 16 insertions(+), 5 deletions(-)
 
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
----
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
-
+--
+1.9.1
 
