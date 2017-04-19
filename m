@@ -1,52 +1,25 @@
-Return-Path: <freesilicon@gmail.com>
-Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
-	by mail.openembedded.org (Postfix) with ESMTP id E85D271AD9
+Return-Path: <andrej.valek@siemens.com>
+Received: from thoth.sbs.de (thoth.sbs.de [192.35.17.2])
+	by mail.openembedded.org (Postfix) with ESMTP id 1221171AD9
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Apr 2017 13:03:44 +0000 (UTC)
-Received: by mail-wm0-f67.google.com with SMTP id z129so4884372wmb.1
+	Wed, 19 Apr 2017 13:05:33 +0000 (UTC)
+Received: from mail2.siemens.de (mail2.siemens.de [139.25.208.11])
+	by thoth.sbs.de (8.15.2/8.15.2) with ESMTPS id v3JD5XBS018638
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Apr 2017 06:03:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=O7e2FrMcDL3qCLw94Mvmv21fuCd2UEN9Egn4ueUIOyQ=;
-	b=Es2innl5UNciAzYyFDS+nJR3OujkS1PPMO/RoXCmKNra3eKOiCK2gl94tf0AsifWn6
-	AYgFauDpeB+AJ8NIcNwdhXaeyj3zOK2DhhwzHG/yhycjLeFnsaBxAUdgKKHfbK49ldMQ
-	LL/C3g/TFWNxhmfSeJVRfpSEovUv01/OdclFxCMzWuRwkFL7Q/8HPq0qToIwTglZZ2Pg
-	akEOx4A+2LhgpeGRFATk2k/PUgmqM7d9oQHZ2rAxdbnR+B2JFjB22Ro1t4EQDyzm/cyv
-	+OvnCtTRARzVkOXXGBpb7Qqt0+BZGARjd9eW8iHh7f6fDEK71hkpWB/D716TZQzXTc7I
-	8N7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=O7e2FrMcDL3qCLw94Mvmv21fuCd2UEN9Egn4ueUIOyQ=;
-	b=os4m89v2VISvEdTy/O0n3cVp1aZW+kZyfjm8YQfKmICjQHW4itRVlPPe2zUyCUQP+q
-	UDYHncSetwpmW19OwsFKUFG/yDf/gdSJMqI4j1DnA5RWGZuUNTDjEmFg9JcrTJp2oWg1
-	HOgeQ4Yh3GUwpFVh599DdnDJFzKFAkM9TSwhPBJWLAv6AD1OfLyv8MoBSWgFtNx2WKE1
-	11cyvVKkPseFy8H+eBMqvpe8HoWa6eMtoZralfFKtB7NbrlZlBeksBUdzeWxgjXZ9aSb
-	USXd7Z4TYsVWucsJc6ad9iQ6Pcr/TV3zr112wvzvAdTuAkRZQFJ5aS3XdkTz9gA2sLxn
-	dd8Q==
-X-Gm-Message-State: AN3rC/58svHukfy6r3wGpyQOwMekimlS0/wYx15vJQEOW8UBm/MPq/iX
-	RFnZdQfLjFl2W3ed
-X-Received: by 10.28.54.7 with SMTP id d7mr17182951wma.114.1492607025650;
-	Wed, 19 Apr 2017 06:03:45 -0700 (PDT)
-Received: from crde-port-20.cahors.local ([185.47.80.46])
-	by smtp.gmail.com with ESMTPSA id
-	k45sm3277918wrk.15.2017.04.19.06.03.45
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 19 Apr 2017 06:03:45 -0700 (PDT)
-From: David Vincent <freesilicon@gmail.com>
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Date: Wed, 19 Apr 2017 15:03:42 +0200
-Message-ID: <5023360.N8L8OyXh3V@crde-port-20.cahors.local>
-In-Reply-To: <64f205a9-74d2-1161-14f1-5ed03298f350@linux.intel.com>
-References: <20170123135916.4618-1-freesilicon@gmail.com>
-	<6366113.GnGklEYiun@crde-port-20.cahors.local>
-	<64f205a9-74d2-1161-14f1-5ed03298f350@linux.intel.com>
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] openssl: Fix symlink creation
+	Wed, 19 Apr 2017 15:05:33 +0200
+Received: from dev.sbt.siemens.com ([163.242.52.173])
+	by mail2.siemens.de (8.15.2/8.15.2) with ESMTP id v3JD5Xa9009012;
+	Wed, 19 Apr 2017 15:05:33 +0200
+Received: from dev.sbt.siemens.com (localhost [127.0.0.1])
+	by dev.sbt.siemens.com (Postfix) with ESMTP id 5D40C3E72;
+	Wed, 19 Apr 2017 15:05:32 +0200 (CEST)
+From: Andrej Valek <andrej.valek@siemens.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 19 Apr 2017 15:04:59 +0200
+Message-Id: <1492607099-30951-1-git-send-email-andrej.valek@siemens.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [krogoth] glibc: Security fix CVE-2016-6323
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,40 +32,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Apr 2017 13:03:45 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 19 Apr 2017 13:05:34 -0000
 
-On mercredi 19 avril 2017 13:57:40 CEST Alexander Kanavin wrote:
-> On 04/19/2017 02:53 PM, David Vincent wrote:
-> >> This kind of thing is better done via ROOTFS_POSTPROCESS_COMMAND, I
-> >> think. Look for examples in rootfs-postcommands.bbclass.
-> > 
-> > The problem of ROOTFS_POSTPROCESS_COMMAND is that it is a one shot
-> > function
-> > that is run at image creation. In my case, I must be able to upgrade the
-> > package over time via package management tools. Sorry for not bringing
-> > that up before.
-> 
-> What is it in the openssl config file that must be managed via package
-> updates?
-The problem is that I must be able to manage the configuration of a machine 
-without physical intervention and only via package upgrades. A new 
-configuration can be applied simply by incrementing the PR of a configuration 
-package.
+arm: mark __startcontext as .cantunwind, GNU
 
-But maybe this is a use case only needed by me and I should manage it in my 
-own specific layer ?
+CVE: CVE-2016-6323
+Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
+Signed-off-by: Pascal Bach <pascal.bach@siemens.com>
+---
+ meta/recipes-core/glibc/glibc/CVE-2016-6323.patch | 39 +++++++++++++++++++++++
+ meta/recipes-core/glibc/glibc_2.23.bb             |  1 +
+ 2 files changed, 40 insertions(+)
+ create mode 100644 meta/recipes-core/glibc/glibc/CVE-2016-6323.patch
 
-Now that I think of it, I have the same kind of problem for all machine 
-specific configurations. For now, I just replace the PACKAGE_ARCH in my BSP 
-layer with a machine specific one to indicate that a package contains a 
-configuration valid only for a specific machine. Maybe, in a future release, it 
-should be desirable to create -conf packages based on the CONFFILES variable ? 
-I don't know if it's a good idea, but maybe I could bring that up on the 
-architecture mailing list ?
-> 
-> Alex
+diff --git a/meta/recipes-core/glibc/glibc/CVE-2016-6323.patch b/meta/recipes-core/glibc/glibc/CVE-2016-6323.patch
+new file mode 100644
+index 0000000..f9b9fa5
+--- /dev/null
++++ b/meta/recipes-core/glibc/glibc/CVE-2016-6323.patch
+@@ -0,0 +1,39 @@
++glibc-2.24: Fix CVE-2016-6323
++
++[No upstream tracking] -- https://sourceware.org/bugzilla/show_bug.cgi?id=20435
++
++arm: mark __startcontext as .cantunwind, GNU
++
++Glibc bug where the makecontext function would create
++an execution context which is incompatible with the unwinder,
++causing it to hang when the generation of a backtrace is attempted.
++
++Upstream-Status: Backport [https://sourceware.org/git/gitweb.cgi?p=glibc.git;h=9e2ff6c9cc54c0b4402b8d49e4abe7000fde7617]
++CVE: CVE-2016-6323
++Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
++Signed-off-by: Pascal Bach <pascal.bach@siemens.com>
++
++diff --git a/sysdeps/unix/sysv/linux/arm/setcontext.S b/sysdeps/unix/sysv/linux/arm/setcontext.S
++index 603e508..d1f168f 100644
++--- a/sysdeps/unix/sysv/linux/arm/setcontext.S
+++++ b/sysdeps/unix/sysv/linux/arm/setcontext.S
++@@ -86,12 +86,19 @@ weak_alias(__setcontext, setcontext)
++ 
++ 	/* Called when a makecontext() context returns.  Start the
++ 	   context in R4 or fall through to exit().  */
+++	/* Unwind descriptors are looked up based on PC - 2, so we have to
+++	   make sure to mark the instruction preceding the __startcontext
+++	   label as .cantunwind.  */
+++	.fnstart
+++	.cantunwind
+++	nop
++ ENTRY(__startcontext)
++ 	movs    r0, r4
++ 	bne     PLTJMP(__setcontext)
++ 
++ 	@ New context was 0 - exit
++ 	b       PLTJMP(HIDDEN_JUMPTARGET(exit))
+++	.fnend
++ END(__startcontext)
++ 
++ #ifdef PIC
+diff --git a/meta/recipes-core/glibc/glibc_2.23.bb b/meta/recipes-core/glibc/glibc_2.23.bb
+index 85b5215..3844587 100644
+--- a/meta/recipes-core/glibc/glibc_2.23.bb
++++ b/meta/recipes-core/glibc/glibc_2.23.bb
+@@ -41,6 +41,7 @@ SRC_URI = "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
+            file://CVE-2016-1234.patch \
+            file://CVE-2016-3075.patch \
+            file://CVE-2016-5417.patch \
++           file://CVE-2016-6323.patch \
+ "
+ 
+ SRC_URI += "\
+-- 
+2.1.4
 
-David
 
