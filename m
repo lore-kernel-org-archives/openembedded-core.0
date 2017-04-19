@@ -1,21 +1,35 @@
-Return-Path: <anibal.limon@linux.intel.com>
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	by mail.openembedded.org (Postfix) with ESMTP id D153D71B86
+Return-Path: <Jackie.Huang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id C436271ADA
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Apr 2017 22:17:38 +0000 (UTC)
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-	by fmsmga105.fm.intel.com with ESMTP; 18 Apr 2017 15:17:39 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.37,219,1488873600"; d="scan'208";a="91069402"
-Received: from alimonb-mobl1.zpn.intel.com ([10.219.128.141])
-	by fmsmga005.fm.intel.com with ESMTP; 18 Apr 2017 15:17:38 -0700
-From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 18 Apr 2017 17:22:02 -0500
-Message-Id: <1492554122-29692-1-git-send-email-anibal.limon@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
+	Wed, 19 Apr 2017 01:23:17 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v3J1NHa5002072
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 18 Apr 2017 18:23:18 -0700 (PDT)
+Received: from ALA-MBC.corp.ad.wrs.com ([fe80::fcbe:9b7:1141:89a1]) by
+	ALA-HCB.corp.ad.wrs.com ([147.11.189.41]) with mapi id 14.03.0294.000;
+	Tue, 18 Apr 2017 18:23:02 -0700
+From: "Huang, Jie (Jackie)" <Jackie.Huang@windriver.com>
+To: "BURTON, ROSS" <ross.burton@intel.com>
+Thread-Topic: [OE-core] [PATCH] ltp: fix an incorrect macro checking
+Thread-Index: AQHSQgzec4AyRA4fdkawmPtgLNOU0qHLw0vggACD5YCAAIuPsA==
+Date: Wed, 19 Apr 2017 01:23:01 +0000
+Message-ID: <1B858668EC6A94408DCA5225FDFA85AA014B7251B7@ALA-MBC.corp.ad.wrs.com>
+References: <20161119021100.29350-1-jackie.huang@windriver.com>
+	<1B858668EC6A94408DCA5225FDFA85AA014B722147@ALA-MBC.corp.ad.wrs.com>
+	<CAJTo0LZSOGEZLYrfe_vy0nC2nG59+9_PzBU681Y=FyujyvGo8Q@mail.gmail.com>
+In-Reply-To: <CAJTo0LZSOGEZLYrfe_vy0nC2nG59+9_PzBU681Y=FyujyvGo8Q@mail.gmail.com>
+Accept-Language: en-US, zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [128.224.176.111]
 MIME-Version: 1.0
-Subject: [PATCH] package_rpm.bbclass: Dosen't filter Conflicts if found in Provides
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] ltp: fix an incorrect macro checking
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,81 +42,100 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Apr 2017 22:17:39 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 19 Apr 2017 01:23:20 -0000
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_1B858668EC6A94408DCA5225FDFA85AA014B7251B7ALAMBCcorpadw_"
 
-This filter was add to make compilence with debian packaging but in
-package_deb.bbclass is allowed to have the same values in Conflicts and
-Provides.
+--_000_1B858668EC6A94408DCA5225FDFA85AA014B7251B7ALAMBCcorpadw_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-With this filtering errors in recipe meta-data are hidden and could end
-on install two packages that conflicts [2].
+R290IGl0LCB0aGFua3MhDQoNClRoYW5rcywNCkphY2tpZQ0KDQpGcm9tOiBCdXJ0b24sIFJvc3Mg
+W21haWx0bzpyb3NzLmJ1cnRvbkBpbnRlbC5jb21dDQpTZW50OiBUdWVzZGF5LCBBcHJpbCAxOCwg
+MjAxNyAxODowMw0KVG86IEh1YW5nLCBKaWUgKEphY2tpZSkNCkNjOiBvcGVuZW1iZWRkZWQtY29y
+ZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQpTdWJqZWN0OiBSZTogW09FLWNvcmVdIFtQQVRDSF0g
+bHRwOiBmaXggYW4gaW5jb3JyZWN0IG1hY3JvIGNoZWNraW5nDQoNCg0KT24gMTggQXByaWwgMjAx
+NyBhdCAxMDoxMiwgSHVhbmcsIEppZSAoSmFja2llKSA8SmFja2llLkh1YW5nQHdpbmRyaXZlci5j
+b208bWFpbHRvOkphY2tpZS5IdWFuZ0B3aW5kcml2ZXIuY29tPj4gd3JvdGU6DQpJdCdzIG5vdCBt
+ZXJnZWQgeWV0LCBhbmQgSSBkb24ndCBzZWUgYW55IHJlamVjdGlvbiBvbiBpdC4NCg0KU2xpcHBl
+ZCB0aHJvdWdoIHRoZSBuZXQsIHdlJ3JlIHZlcnkgY2xvc2UgdG8gTTQgc28gdGhpcyBtYXkgbm90
+IG1ha2UgaXQgaW50byAyLjMgYnV0IGlmIG5vdCBpdCBjYW4gYmUgYmFja3BvcnRlZC4NCg0KUm9z
+cw0K
 
-Reviewing the RPM spec from Fedora doesn't have anything that denies to
-use the both Conflicts and Provides with the same value [3], also in
-debian manual section 7.6.2 of [4] this behaviour is allowed to force
-the removal of the conflicted package and RPM is compilence with this
-behaviour after remove the filtering this is seen [5].
+--_000_1B858668EC6A94408DCA5225FDFA85AA014B7251B7ALAMBCcorpadw_
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-[1]
-http://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/?id=4b611b66743a5ec220aef34d796af63029bb5fd9
-[2] https://bugzilla.yoctoproject.org/show_bug.cgi?id=9349#c9
-[3]
-https://docs.fedoraproject.org/en-US/Fedora_Draft_Documentation/0.1/html/RPM_Guide/ch-advanced-packaging.html
-[4] https://www.debian.org/doc/debian-policy/ch-relationships.html
-[5] https://bugzilla.yoctoproject.org/show_bug.cgi?id=9349#c12
+PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
+bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
+YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
+cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
+VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
+Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
+ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTQgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
+PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
+5a6L5L2TOw0KCXBhbm9zZS0xOjIgMSA2IDAgMyAxIDEgMSAxIDE7fQ0KQGZvbnQtZmFjZQ0KCXtm
+b250LWZhbWlseTrlrovkvZM7DQoJcGFub3NlLTE6MiAxIDYgMCAzIDEgMSAxIDEgMTt9DQpAZm9u
+dC1mYWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIgMiAyIDQg
+MyAyIDQ7fQ0KQGZvbnQtZmFjZQ0KCXtmb250LWZhbWlseTpUYWhvbWE7DQoJcGFub3NlLTE6MiAx
+MSA2IDQgMyA1IDQgNCAyIDQ7fQ0KQGZvbnQtZmFjZQ0KCXtmb250LWZhbWlseToiXEDlrovkvZMi
+Ow0KCXBhbm9zZS0xOjIgMSA2IDAgMyAxIDEgMSAxIDE7fQ0KLyogU3R5bGUgRGVmaW5pdGlvbnMg
+Ki8NCnAuTXNvTm9ybWFsLCBsaS5Nc29Ob3JtYWwsIGRpdi5Nc29Ob3JtYWwNCgl7bWFyZ2luOjBp
+bjsNCgltYXJnaW4tYm90dG9tOi4wMDAxcHQ7DQoJZm9udC1zaXplOjEyLjBwdDsNCglmb250LWZh
+bWlseToiVGltZXMgTmV3IFJvbWFuIiwic2VyaWYiO30NCmE6bGluaywgc3Bhbi5Nc29IeXBlcmxp
+bmsNCgl7bXNvLXN0eWxlLXByaW9yaXR5Ojk5Ow0KCWNvbG9yOmJsdWU7DQoJdGV4dC1kZWNvcmF0
+aW9uOnVuZGVybGluZTt9DQphOnZpc2l0ZWQsIHNwYW4uTXNvSHlwZXJsaW5rRm9sbG93ZWQNCgl7
+bXNvLXN0eWxlLXByaW9yaXR5Ojk5Ow0KCWNvbG9yOnB1cnBsZTsNCgl0ZXh0LWRlY29yYXRpb246
+dW5kZXJsaW5lO30NCnNwYW4uRW1haWxTdHlsZTE3DQoJe21zby1zdHlsZS10eXBlOnBlcnNvbmFs
+LXJlcGx5Ow0KCWZvbnQtZmFtaWx5OiJDYWxpYnJpIiwic2Fucy1zZXJpZiI7DQoJY29sb3I6IzFG
+NDk3RDt9DQouTXNvQ2hwRGVmYXVsdA0KCXttc28tc3R5bGUtdHlwZTpleHBvcnQtb25seTsNCglm
+b250LWZhbWlseToiQ2FsaWJyaSIsInNhbnMtc2VyaWYiO30NCkBwYWdlIFdvcmRTZWN0aW9uMQ0K
+CXtzaXplOjguNWluIDExLjBpbjsNCgltYXJnaW46MS4waW4gMS4yNWluIDEuMGluIDEuMjVpbjt9
+DQpkaXYuV29yZFNlY3Rpb24xDQoJe3BhZ2U6V29yZFNlY3Rpb24xO30NCi0tPjwvc3R5bGU+PCEt
+LVtpZiBndGUgbXNvIDldPjx4bWw+DQo8bzpzaGFwZWRlZmF1bHRzIHY6ZXh0PSJlZGl0IiBzcGlk
+bWF4PSIxMDI2IiAvPg0KPC94bWw+PCFbZW5kaWZdLS0+PCEtLVtpZiBndGUgbXNvIDldPjx4bWw+
+DQo8bzpzaGFwZWxheW91dCB2OmV4dD0iZWRpdCI+DQo8bzppZG1hcCB2OmV4dD0iZWRpdCIgZGF0
+YT0iMSIgLz4NCjwvbzpzaGFwZWxheW91dD48L3htbD48IVtlbmRpZl0tLT4NCjwvaGVhZD4NCjxi
+b2R5IGxhbmc9IkVOLVVTIiBsaW5rPSJibHVlIiB2bGluaz0icHVycGxlIj4NCjxkaXYgY2xhc3M9
+IldvcmRTZWN0aW9uMSI+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1z
+aXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LCZxdW90O3NhbnMtc2Vy
+aWYmcXVvdDs7Y29sb3I6IzFGNDk3RCI+R290IGl0LCB0aGFua3MhPG86cD48L286cD48L3NwYW4+
+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7
+Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7O2Nv
+bG9yOiMxRjQ5N0QiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29O
+b3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0Nh
+bGlicmkmcXVvdDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90Oztjb2xvcjojMUY0OTdEIj5UaGFua3Ms
+PG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9
+ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OywmcXVvdDtz
+YW5zLXNlcmlmJnF1b3Q7O2NvbG9yOiMxRjQ5N0QiPkphY2tpZTxvOnA+PC9vOnA+PC9zcGFuPjwv
+cD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2Zv
+bnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90Oztjb2xv
+cjojMUY0OTdEIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8ZGl2IHN0eWxlPSJib3Jk
+ZXI6bm9uZTtib3JkZXItbGVmdDpzb2xpZCBibHVlIDEuNXB0O3BhZGRpbmc6MGluIDBpbiAwaW4g
+NC4wcHQiPg0KPGRpdj4NCjxkaXYgc3R5bGU9ImJvcmRlcjpub25lO2JvcmRlci10b3A6c29saWQg
+I0I1QzRERiAxLjBwdDtwYWRkaW5nOjMuMHB0IDBpbiAwaW4gMGluIj4NCjxwIGNsYXNzPSJNc29O
+b3JtYWwiPjxiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTAuMHB0O2ZvbnQtZmFtaWx5OiZxdW90
+O1RhaG9tYSZxdW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7Ij5Gcm9tOjwvc3Bhbj48L2I+PHNw
+YW4gc3R5bGU9ImZvbnQtc2l6ZToxMC4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7VGFob21hJnF1b3Q7
+LCZxdW90O3NhbnMtc2VyaWYmcXVvdDsiPiBCdXJ0b24sIFJvc3MgW21haWx0bzpyb3NzLmJ1cnRv
+bkBpbnRlbC5jb21dDQo8YnI+DQo8Yj5TZW50OjwvYj4gVHVlc2RheSwgQXByaWwgMTgsIDIwMTcg
+MTg6MDM8YnI+DQo8Yj5Ubzo8L2I+IEh1YW5nLCBKaWUgKEphY2tpZSk8YnI+DQo8Yj5DYzo8L2I+
+IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc8YnI+DQo8Yj5TdWJqZWN0
+OjwvYj4gUmU6IFtPRS1jb3JlXSBbUEFUQ0hdIGx0cDogZml4IGFuIGluY29ycmVjdCBtYWNybyBj
+aGVja2luZzxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjwvZGl2Pg0KPC9kaXY+DQo8cCBjbGFzcz0i
+TXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjxkaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9
+Ik1zb05vcm1hbCI+PG86cD4mbmJzcDs8L286cD48L3A+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05v
+cm1hbCI+T24gMTggQXByaWwgMjAxNyBhdCAxMDoxMiwgSHVhbmcsIEppZSAoSmFja2llKSAmbHQ7
+PGEgaHJlZj0ibWFpbHRvOkphY2tpZS5IdWFuZ0B3aW5kcml2ZXIuY29tIiB0YXJnZXQ9Il9ibGFu
+ayI+SmFja2llLkh1YW5nQHdpbmRyaXZlci5jb208L2E+Jmd0OyB3cm90ZTo8bzpwPjwvbzpwPjwv
+cD4NCjxkaXYgaWQ9Ijo4dSI+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj5JdCdzIG5vdCBtZXJnZWQg
+eWV0LCBhbmQgSSBkb24ndCBzZWUgYW55IHJlamVjdGlvbiBvbiBpdC48bzpwPjwvbzpwPjwvcD4N
+CjwvZGl2Pg0KPC9kaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48YnI+DQpTbGlwcGVkIHRocm91
+Z2ggdGhlIG5ldCwgd2UncmUgdmVyeSBjbG9zZSB0byBNNCBzbyB0aGlzIG1heSBub3QgbWFrZSBp
+dCBpbnRvIDIuMyBidXQgaWYgbm90IGl0IGNhbiBiZSBiYWNrcG9ydGVkLjxvOnA+PC9vOnA+PC9w
+Pg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PG86cD4mbmJzcDs8L286cD48
+L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj5Sb3NzPG86cD48L286cD48
+L3A+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9kaXY+DQo8L2Rpdj4NCjwvYm9keT4NCjwvaHRtbD4NCg==
 
-Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
----
- meta/classes/package_rpm.bbclass | 26 --------------------------
- 1 file changed, 26 deletions(-)
-
-diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
-index 07ab5cd..084546f 100644
---- a/meta/classes/package_rpm.bbclass
-+++ b/meta/classes/package_rpm.bbclass
-@@ -433,19 +433,6 @@ python write_specfile () {
-         print_deps(splitrsuggests,  "Suggests", spec_preamble_bottom, d)
-         print_deps(splitrprovides,  "Provides", spec_preamble_bottom, d)
-         print_deps(splitrobsoletes, "Obsoletes", spec_preamble_bottom, d)
--
--        # conflicts can not be in a provide!  We will need to filter it.
--        if splitrconflicts:
--            depends_dict = bb.utils.explode_dep_versions2(splitrconflicts)
--            newdeps_dict = {}
--            for dep in depends_dict:
--                if dep not in splitrprovides:
--                    newdeps_dict[dep] = depends_dict[dep]
--            if newdeps_dict:
--                splitrconflicts = bb.utils.join_deps(newdeps_dict)
--            else:
--                splitrconflicts = ""
--
-         print_deps(splitrconflicts,  "Conflicts", spec_preamble_bottom, d)
- 
-         spec_preamble_bottom.append('')
-@@ -541,19 +528,6 @@ python write_specfile () {
-     print_deps(srcrsuggests, "Suggests", spec_preamble_top, d)
-     print_deps(srcrprovides + (" /bin/sh" if srcname.startswith("nativesdk-") else ""), "Provides", spec_preamble_top, d)
-     print_deps(srcrobsoletes, "Obsoletes", spec_preamble_top, d)
--    
--    # conflicts can not be in a provide!  We will need to filter it.
--    if srcrconflicts:
--        depends_dict = bb.utils.explode_dep_versions2(srcrconflicts)
--        newdeps_dict = {}
--        for dep in depends_dict:
--            if dep not in srcrprovides:
--                newdeps_dict[dep] = depends_dict[dep]
--        if newdeps_dict:
--            srcrconflicts = bb.utils.join_deps(newdeps_dict)
--        else:
--            srcrconflicts = ""
--
-     print_deps(srcrconflicts, "Conflicts", spec_preamble_top, d)
- 
-     spec_preamble_top.append('')
--- 
-2.1.4
-
-
+--_000_1B858668EC6A94408DCA5225FDFA85AA014B7251B7ALAMBCcorpadw_--
