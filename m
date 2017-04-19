@@ -1,22 +1,24 @@
 Return-Path: <anibal.limon@linux.intel.com>
 Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id 5DF75719AF
+	by mail.openembedded.org (Postfix) with ESMTP id AD0A6719AF
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Apr 2017 21:27:05 +0000 (UTC)
+	Wed, 19 Apr 2017 21:27:07 +0000 (UTC)
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-	by orsmga104.jf.intel.com with ESMTP; 19 Apr 2017 14:27:07 -0700
+	by orsmga104.jf.intel.com with ESMTP; 19 Apr 2017 14:27:09 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.37,222,1488873600"; d="scan'208";a="91870867"
+X-IronPort-AV: E=Sophos;i="5.37,222,1488873600"; d="scan'208";a="91870875"
 Received: from alimonb-mobl1.zpn.intel.com ([10.219.128.141])
-	by fmsmga006.fm.intel.com with ESMTP; 19 Apr 2017 14:27:05 -0700
+	by fmsmga006.fm.intel.com with ESMTP; 19 Apr 2017 14:27:07 -0700
 From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 19 Apr 2017 16:31:28 -0500
-Message-Id: <1492637489-15852-1-git-send-email-anibal.limon@linux.intel.com>
+Date: Wed, 19 Apr 2017 16:31:29 -0500
+Message-Id: <1492637489-15852-2-git-send-email-anibal.limon@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
+In-Reply-To: <1492637489-15852-1-git-send-email-anibal.limon@linux.intel.com>
+References: <1492637489-15852-1-git-send-email-anibal.limon@linux.intel.com>
 MIME-Version: 1.0
 Cc: flavio.santes@intel.com, saul.wold@intel.com
-Subject: [PATCH 1/2] Revert "kexec-tools: Remove unused patch"
+Subject: [PATCH 2/2] kexec-tools: Add again the x32 patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,108 +35,39 @@ X-List-Received-Date: Wed, 19 Apr 2017 21:27:07 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-This reverts commit ec1f1c4abe1d40708fefd56f01c58fff38f28960.
+kexec-tools upstream previously integrated the patch into master rev
+587778e24c9 but for a bug report it was remove [1][2], after an intensive
+testing on OpenSUSE 13.1 64 bits and in poky variants: qemux86 [3],
+qemux86-64-x32 [4] and generix86-64 (minnow) [5] it worked.
+
+I think that the upstream revert was due to some integration issue while
+testing into OpenSUSE [2], i will try to push again to upstream.
+
+[1] http://lists.infradead.org/pipermail/kexec/2015-March/013482.html
+[2] https://github.com/horms/kexec-tools/commit/5041d45b1c6b66a0e6c48f6121c24cd9be506c68
+[3] https://bugzilla.yoctoproject.org/show_bug.cgi?id=11050#c3
+[4] https://bugzilla.yoctoproject.org/show_bug.cgi?id=11050#c4
+[5] https://bugzilla.yoctoproject.org/show_bug.cgi?id=11050#c4
+
+[YOCTO #11050]
 
 Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
 ---
- .../kexec/kexec-tools/kexec-x32.patch              | 88 ++++++++++++++++++++++
- 1 file changed, 88 insertions(+)
- create mode 100644 meta/recipes-kernel/kexec/kexec-tools/kexec-x32.patch
+ meta/recipes-kernel/kexec/kexec-tools_2.0.14.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-kernel/kexec/kexec-tools/kexec-x32.patch b/meta/recipes-kernel/kexec/kexec-tools/kexec-x32.patch
-new file mode 100644
-index 0000000..26d18eb
---- /dev/null
-+++ b/meta/recipes-kernel/kexec/kexec-tools/kexec-x32.patch
-@@ -0,0 +1,88 @@
-+x86_64: Add support to build kexec-tools with x32 ABI
-+
-+Summary of changes,
-+
-+configure.ac: Add test for detect x32 ABI.
-+purgatory/arch/x86_64/Makefile: Not use mcmodel large when
-+	x32 ABI is set.
-+kexec/arch/x86_64/kexec-elf-rel-x86_64.c: When x32 ABI is set
-+	use ELFCLASS32 instead of ELFCLASS64.
-+kexec/kexec-syscall.h: Add correct syscall number for x32 ABI.
-+
-+Upstream-Status: Submitted
-+
-+Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
-+Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
-+
-+---
-+ configure.ac                             | 9 +++++++++
-+ kexec/arch/x86_64/kexec-elf-rel-x86_64.c | 4 ++++
-+ kexec/kexec-syscall.h                    | 4 ++++
-+ purgatory/arch/x86_64/Makefile           | 4 +++-
-+ 4 files changed, 20 insertions(+), 1 deletion(-)
-+
-+Index: kexec-tools-2.0.10/configure.ac
-+===================================================================
-+--- kexec-tools-2.0.10.orig/configure.ac
-++++ kexec-tools-2.0.10/configure.ac
-+@@ -56,6 +56,15 @@ case $target_cpu in
-+ 		;;
-+ 	ia64|x86_64|alpha|m68k )
-+ 		ARCH="$target_cpu"
-++
-++		dnl ---Test for x32 ABI in x86_64
-++		if test "x$ARCH" = "xx86_64" ; then
-++			AC_EGREP_CPP(x32_test,
-++			[#if defined(__x86_64__) && defined (__ILP32__)
-++				x32_test
-++			#endif
-++			], SUBARCH='x32', SUBARCH='64')
-++		fi
-+ 		;;
-+ 	* )
-+ 		AC_MSG_ERROR([unsupported architecture $target_cpu])
-+Index: kexec-tools-2.0.10/kexec/arch/x86_64/kexec-elf-rel-x86_64.c
-+===================================================================
-+--- kexec-tools-2.0.10.orig/kexec/arch/x86_64/kexec-elf-rel-x86_64.c
-++++ kexec-tools-2.0.10/kexec/arch/x86_64/kexec-elf-rel-x86_64.c
-+@@ -8,7 +8,11 @@ int machine_verify_elf_rel(struct mem_eh
-+ 	if (ehdr->ei_data != ELFDATA2LSB) {
-+ 		return 0;
-+ 	}
-++#ifdef __ILP32__
-++	if (ehdr->ei_class != ELFCLASS32) {
-++#else
-+ 	if (ehdr->ei_class != ELFCLASS64) {
-++#endif
-+ 		return 0;
-+ 	}
-+ 	if (ehdr->e_machine != EM_X86_64) {
-+Index: kexec-tools-2.0.10/kexec/kexec-syscall.h
-+===================================================================
-+--- kexec-tools-2.0.10.orig/kexec/kexec-syscall.h
-++++ kexec-tools-2.0.10/kexec/kexec-syscall.h
-+@@ -31,8 +31,12 @@
-+ #define __NR_kexec_load		268
-+ #endif
-+ #ifdef __x86_64__
-++#ifdef __ILP32__
-++#define __NR_kexec_load		528
-++#else
-+ #define __NR_kexec_load		246
-+ #endif
-++#endif
-+ #ifdef __s390x__
-+ #define __NR_kexec_load		277
-+ #endif
-+Index: kexec-tools-2.0.10/purgatory/arch/x86_64/Makefile
-+===================================================================
-+--- kexec-tools-2.0.10.orig/purgatory/arch/x86_64/Makefile
-++++ kexec-tools-2.0.10/purgatory/arch/x86_64/Makefile
-+@@ -23,4 +23,6 @@ x86_64_PURGATORY_SRCS += purgatory/arch/
-+ x86_64_PURGATORY_SRCS += purgatory/arch/i386/vga.c
-+ x86_64_PURGATORY_SRCS += purgatory/arch/i386/pic.c
-+ 
-+-x86_64_PURGATORY_EXTRA_CFLAGS = -mcmodel=large
-++ifeq ($(SUBARCH),64)
-++        x86_64_PURGATORY_EXTRA_CFLAGS = -mcmodel=large
-++endif
+diff --git a/meta/recipes-kernel/kexec/kexec-tools_2.0.14.bb b/meta/recipes-kernel/kexec/kexec-tools_2.0.14.bb
+index 1062457..90d5985 100644
+--- a/meta/recipes-kernel/kexec/kexec-tools_2.0.14.bb
++++ b/meta/recipes-kernel/kexec/kexec-tools_2.0.14.bb
+@@ -18,6 +18,7 @@ SRC_URI += "${KERNELORG_MIRROR}/linux/utils/kernel/kexec/kexec-tools-${PV}.tar.g
+             file://0010-kexec-ARM-Fix-add_buffer_phys_virt-align-issue.patch \
+             file://0001-x86-x86_64-Fix-format-warning-with-die.patch \
+             file://0002-ppc-Fix-format-warning-with-die.patch \
++            file://kexec-x32.patch \
+          "
+ 
+ SRC_URI[md5sum] = "b2b2c5e6b29d467d6e99d587fb6b7cf5"
 -- 
 2.1.4
 
