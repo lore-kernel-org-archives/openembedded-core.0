@@ -1,23 +1,23 @@
 Return-Path: <brian.avery@intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 8EDAA71C54
+	by mail.openembedded.org (Postfix) with ESMTP id A4ACC71C72
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 19 Apr 2017 19:46:15 +0000 (UTC)
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
 	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
 	19 Apr 2017 12:46:16 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.37,222,1488873600"; d="scan'208";a="76410979"
+X-IronPort-AV: E=Sophos;i="5.37,222,1488873600"; d="scan'208";a="76410982"
 Received: from bavery-ws-desk.jf.intel.com ([10.54.74.5])
 	by orsmga002.jf.intel.com with ESMTP; 19 Apr 2017 12:46:16 -0700
 From: brian avery <brian.avery@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 19 Apr 2017 12:49:03 -0700
-Message-Id: <662f8c98f7fd4a5c6117f7cb63e3f04ef8cf357c.1492631156.git.brian.avery@intel.com>
+Date: Wed, 19 Apr 2017 12:49:04 -0700
+Message-Id: <d82c57b76da9eb71b7713e22c72f46190a01b28c.1492631156.git.brian.avery@intel.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1492631156.git.brian.avery@intel.com>
 References: <cover.1492631156.git.brian.avery@intel.com>
-Subject: [PATCH 2/3] rootfs-postcommands.bbclass: save relative paths
+Subject: [PATCH 3/3] qemuboot.bbclass: save relative paths in conf file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,58 +32,49 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 19 Apr 2017 19:46:15 -0000
 
-We pass the TOPDIR to do a search/replace in export2json so that we save
-relative paths in the testdata.json file rather than absolute paths.
-This is to allow the images and kernels to be relocated yet still allow
-testimage to work.
+This saves relative paths in the qemuboot.conf file instead of absolute
+paths. This is to allow the images and kernels to be relocated and still
+have the testimage and runqemu work.
 
 [YOCTO #11375]
 
 Signed-off-by: brian avery <brian.avery@intel.com>
 ---
- meta/classes/rootfs-postcommands.bbclass | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+ meta/classes/qemuboot.bbclass | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/meta/classes/rootfs-postcommands.bbclass b/meta/classes/rootfs-postcommands.bbclass
-index c42829d..498174a 100644
---- a/meta/classes/rootfs-postcommands.bbclass
-+++ b/meta/classes/rootfs-postcommands.bbclass
-@@ -132,7 +132,7 @@ zap_empty_root_password () {
- 	if [ -e ${IMAGE_ROOTFS}/etc/passwd ]; then
- 		sed -i 's%^root::%root:*:%' ${IMAGE_ROOTFS}/etc/passwd
- 	fi
--} 
-+}
+diff --git a/meta/classes/qemuboot.bbclass b/meta/classes/qemuboot.bbclass
+index cc5314e..86b3060 100644
+--- a/meta/classes/qemuboot.bbclass
++++ b/meta/classes/qemuboot.bbclass
+@@ -84,6 +84,7 @@ python do_write_qemuboot_conf() {
  
- #
- # allow dropbear/openssh to accept root logins and logins from accounts with an empty password string
-@@ -243,7 +243,7 @@ python write_image_manifest () {
-         os.symlink(os.path.basename(manifest_name), manifest_link)
- }
+     qemuboot = "%s/%s.qemuboot.conf" % (d.getVar('IMGDEPLOYDIR'), d.getVar('IMAGE_NAME'))
+     qemuboot_link = "%s/%s.qemuboot.conf" % (d.getVar('IMGDEPLOYDIR'), d.getVar('IMAGE_LINK_NAME'))
++    topdir="%s/"%(d.getVar('TOPDIR')).replace("//","/")
+     cf = configparser.ConfigParser()
+     cf.add_section('config_bsp')
+     for k in qemuboot_vars(d):
+@@ -94,6 +95,9 @@ python do_write_qemuboot_conf() {
+                                'qemu-helper-native/1.0-r1/recipe-sysroot-native/usr/bin/')
+         else:
+             val = d.getVar(k)
++        # we only want to write out relative paths so that we can relocate images
++        # and still run them
++        val=val.replace(topdir,"")
+         cf.set('config_bsp', k, '%s' % val)
  
--# Can be use to create /etc/timestamp during image construction to give a reasonably 
-+# Can be use to create /etc/timestamp during image construction to give a reasonably
- # sane default time setting
- rootfs_update_timestamp () {
- 	date -u +%4Y%2m%2d%2H%2M%2S >${IMAGE_ROOTFS}/etc/timestamp
-@@ -286,6 +286,7 @@ rootfs_sysroot_relativelinks () {
- 	sysroot-relativelinks.py ${SDK_OUTPUT}/${SDKTARGETSYSROOT}
- }
+     # QB_DEFAULT_KERNEL's value of KERNEL_IMAGETYPE is the name of a symlink
+@@ -101,6 +105,9 @@ python do_write_qemuboot_conf() {
+     # Read the link and replace it with the full filename of the target.
+     kernel_link = os.path.join(d.getVar('DEPLOY_DIR_IMAGE'), d.getVar('QB_DEFAULT_KERNEL'))
+     kernel = os.path.realpath(kernel_link)
++    # we only want to write out relative paths so that we can relocate images
++    # and still run them
++    kernel=kernel.replace(topdir,"")
+     cf.set('config_bsp', 'QB_DEFAULT_KERNEL', kernel)
  
-+
- # Generated test data json file
- python write_image_test_data() {
-     from oe.data import export2json
-@@ -294,7 +295,8 @@ python write_image_test_data() {
-     testdata_link = "%s/%s.testdata.json" % (d.getVar('DEPLOY_DIR_IMAGE'), d.getVar('IMAGE_LINK_NAME'))
- 
-     bb.utils.mkdirhier(os.path.dirname(testdata))
--    export2json(d, testdata)
-+    searchString = "%s/"%(d.getVar("TOPDIR")).replace("//","/")
-+    export2json(d, testdata,searchString=searchString,replaceString="")
- 
-     if os.path.lexists(testdata_link):
-        os.remove(testdata_link)
+     bb.utils.mkdirhier(os.path.dirname(qemuboot))
 -- 
 1.9.1
 
