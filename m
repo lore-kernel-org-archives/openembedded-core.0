@@ -1,49 +1,31 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qt0-f179.google.com (mail-qt0-f179.google.com
-	[209.85.216.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 1002671A21
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id C39C571AD9
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Apr 2017 12:54:09 +0000 (UTC)
-Received: by mail-qt0-f179.google.com with SMTP id c45so17863001qtb.1
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Apr 2017 05:54:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=Fe9QORUKRzve5CoV1pMV+ejqTvBssjttWZyvuGBxJ2I=;
-	b=SgHYvUK6742Q5YZvs+P8SLd6QqA5WOE16T/25k5Lvo8d4+ELRE7Xnmm058Ngr3Qrmh
-	m/M7bNatCB/ff+dy5qI0Im68qjJDzvw4WfTH9buyZ+on2h6RGz8u3rTEg6jY53biVR/d
-	aAxMGa5TxSD9qE/Mllwx9KoF3l8AYwykXj+zrKJ32VF0pSkGY9dnd9V1f9tI7uBasNfM
-	9sJWLg/7IOg50zq3QFiINEqIMRvaPLZqtPdfiIPVSYhCnbU5eITzqYtQ58GT5W/frnth
-	YbvzUfIr2iSDZnBCU3xhQvtiejunTKV7Pu4J0AU0kd5H2VycuVSXm71UdZrhXfbV6wO5
-	VC0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=Fe9QORUKRzve5CoV1pMV+ejqTvBssjttWZyvuGBxJ2I=;
-	b=AsyPhsDwgvgxYOK2x1UVVjDF+NAdzXTFoIGxAJ2C7Hupu8WTdE2Fn5drfSTZyco0XQ
-	PewbyKOuPzY/1Zbd16p7R6ulEkdvULlggc53qpiDQhFWcPzq4+g4eRFZhNTk1XhEnmfl
-	ILOwkt/1xVHFhqGwD6KCIULexw2GCJc4OOzFUlDzKM0sJS7oSy4xzicL6uUm53Ym19fi
-	DirNUFa0J+9U1E5MiIM+gIRXdG+nUEMi6es27qlrw6dTM/HzU1iNObN14vdB+UlhEjYe
-	sdk8nStyHWEBQ+psEqFOOoJGNjco2FpCuYw+0SeIgQ0vSvU5H3YG3mnOD6fIZaGj8e9B
-	cAqQ==
-X-Gm-Message-State: AN3rC/6Mdtuw7x/r8kSgTx6JFh0KammxBl+/OWlRbPsWjlnpAJX5WKOw
-	kcCkXx6QJLoYS6hEAsVejPmaycBvJcBW
-X-Received: by 10.200.46.26 with SMTP id r26mr2526807qta.197.1492606450735;
-	Wed, 19 Apr 2017 05:54:10 -0700 (PDT)
+	Wed, 19 Apr 2017 12:56:24 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	19 Apr 2017 05:56:25 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.37,221,1488873600"; d="scan'208";a="1158242842"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by fmsmga002.fm.intel.com with ESMTP; 19 Apr 2017 05:56:24 -0700
+To: David Vincent <freesilicon@gmail.com>,
+	openembedded-core@lists.openembedded.org
+References: <20170123135916.4618-1-freesilicon@gmail.com>
+	<2335903.2zueHJxyF0@crde-port-20.cahors.local>
+	<41b8c861-c67c-7ed8-b13d-a54f8c5c232f@linux.intel.com>
+	<6366113.GnGklEYiun@crde-port-20.cahors.local>
+	<64f205a9-74d2-1161-14f1-5ed03298f350@linux.intel.com>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <bc76e312-73dd-65bc-37f1-e529f8d311ad@linux.intel.com>
+Date: Wed, 19 Apr 2017 15:56:08 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.8.0
 MIME-Version: 1.0
-Received: by 10.140.22.166 with HTTP; Wed, 19 Apr 2017 05:53:50 -0700 (PDT)
-In-Reply-To: <1492592243.15070.1.camel@andred.net>
-References: <20170419015839.1294-1-raj.khem@gmail.com>
-	<20170419015839.1294-3-raj.khem@gmail.com>
-	<1492592243.15070.1.camel@andred.net>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 19 Apr 2017 13:53:50 +0100
-Message-ID: <CAJTo0LYTyUeF_1-eAU_LaC5X8mtaU7dbGDeB7bCief4JbS3-5Q@mail.gmail.com>
-To: =?UTF-8?Q?Andr=C3=A9_Draszik?= <git@andred.net>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/5] libtirpc: Enable des APIs for musl
+In-Reply-To: <64f205a9-74d2-1161-14f1-5ed03298f350@linux.intel.com>
+Subject: Re: [PATCH] openssl: Fix symlink creation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,36 +38,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Apr 2017 12:54:10 -0000
-Content-Type: multipart/alternative; boundary=001a114708cc493d7a054d848584
+X-List-Received-Date: Wed, 19 Apr 2017 12:56:27 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
---001a114708cc493d7a054d848584
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-On 19 April 2017 at 09:57, Andr=C3=A9 Draszik <git@andred.net> wrote:
-
-> This patch is being removed with this change, and so uclibc builds will
-> fail. Is it time to remove all remaining references to uclibc?
+On 04/19/2017 02:57 PM, Alexander Kanavin wrote:
+> On 04/19/2017 02:53 PM, David Vincent wrote:
 >
+>>> This kind of thing is better done via ROOTFS_POSTPROCESS_COMMAND, I
+>>> think. Look for examples in rootfs-postcommands.bbclass.
+>>
+>> The problem of ROOTFS_POSTPROCESS_COMMAND is that it is a one shot
+>> function
+>> that is run at image creation. In my case, I must be able to upgrade the
+>> package over time via package management tools. Sorry for not bringing
+>> that up
+>> before.
+>
+> What is it in the openssl config file that must be managed via package
+> updates?
 
-Yes!
+I mean, if you need to perform a customization to openssl.cnf, why not 
+patch it in the source tree via openssl.bbappend?
 
-Ross
 
---001a114708cc493d7a054d848584
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Alex
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 19 April 2017 at 09:57, Andr=C3=A9 Draszik <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:git@andred.net" target=3D"_blank">git@andred.net</a>&gt;</span> =
-wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bord=
-er-left:1px #ccc solid;padding-left:1ex"><div id=3D":5bd" class=3D"a3s aXjC=
-H m15b856e9bc741164">This patch is being removed with this change, and so u=
-clibc builds will<br>
-fail. Is it time to remove all remaining references to uclibc?<br></div></b=
-lockquote></div><br>Yes!</div><div class=3D"gmail_extra"><br></div><div cla=
-ss=3D"gmail_extra">Ross</div></div>
 
---001a114708cc493d7a054d848584--
