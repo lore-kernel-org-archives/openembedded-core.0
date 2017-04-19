@@ -1,46 +1,28 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-yb0-f178.google.com (mail-yb0-f178.google.com
-	[209.85.213.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 23CB071BA8
+Return-Path: <gordon.lack@dsl.pipex.com>
+X-Greylist: delayed 490 seconds by postgrey-1.34 at layers.openembedded.org;
+	Wed, 19 Apr 2017 18:18:56 UTC
+Received: from mk-outbound-1.mail.uk.tiscali.com (smtp-out-mk-1.talktalk.net
+	[212.74.114.9])
+	by mail.openembedded.org (Postfix) with ESMTP id BAB6F719AC
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Apr 2017 16:46:00 +0000 (UTC)
-Received: by mail-yb0-f178.google.com with SMTP id 6so6922815ybq.2
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Apr 2017 09:46:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=fawjihrnCS8dPLqtwm5+wsi0u6zGDAPau2r3nfUhXK0=;
-	b=s/AjOcW/o3mOb5o4MNiXhjeJlKMxCPV4S/jgkFsxWzwqjchESEfT88n8PF166/JDkB
-	w+W8G5FjTqXOayj61Pacqkmu5eksBGQB/617ITdjH+PPR8Ytc2VX3xzCMyHTAXyopLRh
-	Vbm4oinlF2StaG7dZcSuysc/mn5SfEPXT8Jeqps98Mgts91Y6j3r3PeKZy5rlir2FsBX
-	Ogcb9G8/JtU3wZTmAy9SSBn75EnNIH0VijJ6n0xzfbxP53yAPNvQKUWjS3DO26dngyq0
-	6KIFM6Hpw7tevQA+XIzUPZydlOppeS66D6FiO2uXKoRtSy5lm0cPmxtnPWJpFPwa3wU6
-	FdJg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=fawjihrnCS8dPLqtwm5+wsi0u6zGDAPau2r3nfUhXK0=;
-	b=Ys6hbwjDF0hlZopXIE70uZ/kFkNutZ3oB+RqPdl8CAbYK03hiTCn202vtx8tCqVL96
-	5NQvXv907LmFEnGIitFKWgYSxP2JjL9Z7VnGrUdk4ypcdG+oQ8djZyWB3kGo9QnW228Y
-	aCeP43PNFJ0XJfmWj66VjsaCF4ixDFQ5QqQnBqax3WrEYUKOL+Hoo/mgw57qZp7vNEWF
-	KBgqoI9v3CF38By0fxYrhwuMeu08x5RInZsDraQ/lJjsl5L2kKRDgBZz+P4TY8fHSAo1
-	dD50eIaLYlvwCnAfj0jDxTbKSudMN99a83zHh3v/toRcYhzmdcMiKkxaNvWWdB0AmeNj
-	2M1Q==
-X-Gm-Message-State: AN3rC/5ocrynjhAbbXIeD4A+/ilo5pQFB31vzSsmbEOVSk0iYk/bX//V
-	iXum807HzL4jog==
-X-Received: by 10.98.202.149 with SMTP id y21mr3870616pfk.225.1492620362147;
-	Wed, 19 Apr 2017 09:46:02 -0700 (PDT)
-Received: from localhost.localdomain (c-76-102-32-192.hsd1.ca.comcast.net.
-	[76.102.32.192]) by smtp.gmail.com with ESMTPSA id
-	a190sm5602948pgc.60.2017.04.19.09.46.00
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 19 Apr 2017 09:46:00 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
+	Wed, 19 Apr 2017 18:18:56 +0000 (UTC)
+Received: from parent.lacknet ([2.96.246.162]) by smtp.talktalk.net with SMTP
+	id 0u2edIBc1GpV60u2sdw7VV; Wed, 19 Apr 2017 19:09:38 +0100
+X-Originating-IP: [2.96.246.162]
+X-Spam: 0
+X-OAuthority: v=2.2 cv=GK5KKaFK c=1 sm=1 tr=0 a=t/Q46d21BiBJ3qyeBz4f7Q==:117
+	a=t/Q46d21BiBJ3qyeBz4f7Q==:17 a=FrvpURYbAAAA:8 a=UJ5Y5Z__AAAA:8
+	a=JwLDqlGP4vU130QbBUsA:9 a=q9XAqBm_DPlNHEqhwt7j:22
+	a=-nuATAkMhhWPdIrRzIKU:22
+From: Gordon Lack <gordon.lack@dsl.pipex.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 19 Apr 2017 09:45:45 -0700
-Message-Id: <20170419164545.11017-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.12.2
-Subject: [PATCH V2 2/5] libtirpc: Expose key_secretkey_is_set API
+Date: Wed, 19 Apr 2017 19:10:31 +0100
+Message-Id: <1492625431-5515-1-git-send-email-gordon.lack@dsl.pipex.com>
+X-Mailer: git-send-email 2.7.4
+X-CMAE-Envelope: MS4wfAHzz58LBLJM7adUW8WpdN+cqoVypHePIxngqV+/W5tBGa3HYwpZSW0wvFHuB6LNArgcttZguFt2Yqp9ncKMcfSNQf26fIRRmyKfPbTMe1S3xknrCMhy
+	+E93RRoVj+tnIDXIbYbvYbVagj0f/dk/E0YXKgiXFTKdoA5R57sAwtaR6Iq0KbkIEQAVoH26xbcVtrEd8dwj3ezgk4yeKNuDksK6psf1lOiTEutDfEpHPbyW
+	KtMbNyryT0kYI2rlWCWG7g==
+Subject: [PATCH] Add files via upload
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,63 +35,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Apr 2017 16:46:01 -0000
+X-List-Received-Date: Wed, 19 Apr 2017 18:18:57 -0000
 
-libnsl needs this API
+From: original-birdman <gordon.lack@dsl.pipex.com>
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+The built curl is used during the builds, and any download using an https link (e.g. from github) requires the certificates, so these must be installed before curl is available.
+(Actually, absolute links get installed, so you also need to be using a build system with the relevant certs in place but this will be true).
+This was breaking stb-kodi builds on openViX.
 ---
-- v1 -> v2
-- Document the change in the patch a bit more with upstream references
+ meta/recipes-support/curl/curl_7.53.1.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
- .../libtirpc/export_key_secretkey_is_set.patch     | 24 ++++++++++++++++++++++
- meta/recipes-extended/libtirpc/libtirpc_1.0.1.bb   |  1 +
- 2 files changed, 25 insertions(+)
- create mode 100644 meta/recipes-extended/libtirpc/libtirpc/export_key_secretkey_is_set.patch
-
-diff --git a/meta/recipes-extended/libtirpc/libtirpc/export_key_secretkey_is_set.patch b/meta/recipes-extended/libtirpc/libtirpc/export_key_secretkey_is_set.patch
-new file mode 100644
-index 00000000000..a276ba27a59
---- /dev/null
-+++ b/meta/recipes-extended/libtirpc/libtirpc/export_key_secretkey_is_set.patch
-@@ -0,0 +1,24 @@
-+Add key_secretkey_is_set to exported symbols map
-+
-+key_secret_is_set is a typo in libtirpc map
-+Patch taken from
-+
-+https://sourceforge.net/p/libtirpc/discussion/637321/thread/fd73d431/
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+
-+Index: libtirpc-1.0.1/src/libtirpc.map
-+===================================================================
-+--- libtirpc-1.0.1.orig/src/libtirpc.map
-++++ libtirpc-1.0.1/src/libtirpc.map
-+@@ -298,7 +298,7 @@ TIRPC_0.3.2 {
-+     key_gendes;
-+     key_get_conv;
-+     key_setsecret;
-+-    key_secret_is_set;
-++    key_secretkey_is_set;
-+     key_setnet;
-+     netname2host;
-+     netname2user;
-diff --git a/meta/recipes-extended/libtirpc/libtirpc_1.0.1.bb b/meta/recipes-extended/libtirpc/libtirpc_1.0.1.bb
-index 8ba547506bf..b96abc4d57e 100644
---- a/meta/recipes-extended/libtirpc/libtirpc_1.0.1.bb
-+++ b/meta/recipes-extended/libtirpc/libtirpc_1.0.1.bb
-@@ -13,6 +13,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/${BP}.tar.bz2;name=libtirpc \
-            ${GENTOO_MIRROR}/${BPN}-glibc-nfs.tar.xz;name=glibc-nfs \
-            file://libtirpc-1.0.2-rc3.patch \
-            file://libtirpc-0.2.1-fortify.patch \
-+           file://export_key_secretkey_is_set.patch \
-           "
+diff --git a/meta/recipes-support/curl/curl_7.53.1.bb b/meta/recipes-support/curl/curl_7.53.1.bb
+index bc78ffb..c953591 100644
+--- a/meta/recipes-support/curl/curl_7.53.1.bb
++++ b/meta/recipes-support/curl/curl_7.53.1.bb
+@@ -9,6 +9,8 @@ SRC_URI = "http://curl.haxx.se/download/curl-${PV}.tar.bz2 \
+            file://0001-replace-krb5-config-with-pkg-config.patch \
+ "
  
- SRC_URI_append_libc-uclibc = " file://remove-des-functionality.patch \
++DEPENDS = "ca-certificates"
++
+ # curl likes to set -g0 in CFLAGS, so we stop it
+ # from mucking around with debug options
+ #
 -- 
-2.12.2
+2.7.4
 
 
