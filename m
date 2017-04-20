@@ -1,22 +1,24 @@
 Return-Path: <gernot.hillier@siemens.com>
-Received: from goliath.siemens.de (goliath.siemens.de [192.35.17.28])
-	by mail.openembedded.org (Postfix) with ESMTP id 9D83D77980
+Received: from gecko.sbs.de (gecko.sbs.de [194.138.37.40])
+	by mail.openembedded.org (Postfix) with ESMTP id A5EB377980
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Apr 2017 19:08:34 +0000 (UTC)
+	Thu, 20 Apr 2017 19:09:34 +0000 (UTC)
 Received: from mail1.sbs.de (mail1.sbs.de [192.129.41.35])
-	by goliath.siemens.de (8.15.2/8.15.2) with ESMTPS id v3KJ8YPi011322
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK); 
-	Thu, 20 Apr 2017 21:08:34 +0200
+	by gecko.sbs.de (8.15.2/8.15.2) with ESMTPS id v3KJ9YjP015651
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 20 Apr 2017 21:09:34 +0200
 Received: from linux-mf4q.internal.hillier.de.hillier.de ([146.254.78.32])
-	by mail1.sbs.de (8.15.2/8.15.2) with ESMTP id v3KJ8Yug007889;
-	Thu, 20 Apr 2017 21:08:34 +0200
+	by mail1.sbs.de (8.15.2/8.15.2) with ESMTP id v3KJ8Yuh007889;
+	Thu, 20 Apr 2017 21:09:34 +0200
 From: Gernot Hillier <gernot.hillier@siemens.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 20 Apr 2017 21:08:13 +0200
-Message-Id: <20170420190815.15000-1-gernot.hillier@siemens.com>
+Date: Thu, 20 Apr 2017 21:08:14 +0200
+Message-Id: <20170420190815.15000-2-gernot.hillier@siemens.com>
 X-Mailer: git-send-email 2.12.0
-Cc: eugene.tarassov@xilinx.com
-Subject: [PATCH v3 0/2] tcf-agent: fix CDT target debugging
+In-Reply-To: <20170420190815.15000-1-gernot.hillier@siemens.com>
+References: <20170420190815.15000-1-gernot.hillier@siemens.com>
+Subject: [PATCH v3 1/2] tcf-agent: fix machine setting for arm64 build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,35 +31,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Apr 2017 19:08:35 -0000
+X-List-Received-Date: Thu, 20 Apr 2017 19:09:35 -0000
 
-Default recipe for tcf-agent disabled a number of features because of
-historic build problems on ARM dating back to tcf-agent 0.0+svnr1855
-(from 2011). We re-enable them for all archs besides mips. For arm64,
-we additionally need to fix MACHINE setting to make those features
-compile again.
+tcf-agent uses "a64", not "aarch64", see agent/Makefile.inc. This fix
+allows to re-enable features like SERVICE_Breakpoints and SERVICE_
+MemoryMap on arm64.
 
-Without those features, target debugging using Eclipse Neon and CDT
-with TCF 1.4 plugin didn't work in our tests. This is the default
-debugging mode in the Xilinx Vivado SDK.
+Signed-off-by: Gernot Hillier <gernot.hillier@siemens.com>
+---
+ meta/recipes-devtools/tcf-agent/tcf-agent_git.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Series history:
-v1: enable default tcf-agent features on all archs, sent to Poky ML
-v2: address build break on mips and arm64, thx to Richard Purdie for 
-    pointing me to this!
-v3: Sent using git-send-email to fix line wrapping (sorry!)
-
---
-Gernot Hillier
-Siemens AG, Corporate Competence Center Embedded Linux
-
-Gernot Hillier (2):
-  tcf-agent: fix machine setting for arm64 build
-  tcf-agent: enable default target debugging features
-
- meta/recipes-devtools/tcf-agent/tcf-agent_git.bb | 12 +++++++-----
- 1 file changed, 7 insertions(+), 5 deletions(-)
-
+diff --git a/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb b/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
+index e5e41f148e..cd0081ac16 100644
+--- a/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
++++ b/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
+@@ -30,7 +30,7 @@ INITSCRIPT_NAME = "tcf-agent"
+ INITSCRIPT_PARAMS = "start 99 3 5 . stop 20 0 1 2 6 ."
+ 
+ # mangling needed for make
+-MAKE_ARCH = "`echo ${TARGET_ARCH} | sed s,i.86,i686,`"
++MAKE_ARCH = "`echo ${TARGET_ARCH} | sed s,i.86,i686, | sed s,aarch64,a64,`"
+ MAKE_OS = "`echo ${TARGET_OS} | sed s,^linux.*,GNU/Linux,`"
+ 
+ EXTRA_OEMAKE = "MACHINE=${MAKE_ARCH} OPSYS=${MAKE_OS} 'CC=${CC}' 'AR=${AR}'"
 -- 
 2.12.0
 
