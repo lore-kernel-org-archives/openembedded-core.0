@@ -1,24 +1,27 @@
-Return-Path: <Zhixiong.Chi@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id BCD3371984
+Return-Path: <gernot.hillier@siemens.com>
+X-Greylist: delayed 548 seconds by postgrey-1.34 at layers.openembedded.org;
+	Thu, 20 Apr 2017 08:15:58 UTC
+Received: from david.siemens.de (david.siemens.de [192.35.17.14])
+	by mail.openembedded.org (Postfix) with ESMTP id 969A173081
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Apr 2017 07:05:29 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v3K75UmP004823
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu, 20 Apr 2017 08:15:57 +0000 (UTC)
+Received: from mail1.sbs.de (mail1.sbs.de [192.129.41.35])
+	by david.siemens.de (8.15.2/8.15.2) with ESMTPS id v3K86mil016480
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Apr 2017 00:05:30 -0700 (PDT)
-Received: from pek-lpggp2.wrs.com (128.224.153.75) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
-	Thu, 20 Apr 2017 00:05:29 -0700
-From: Zhixiong Chi <zhixiong.chi@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 20 Apr 2017 15:04:54 +0800
-Message-ID: <1492671894-114741-1-git-send-email-zhixiong.chi@windriver.com>
-X-Mailer: git-send-email 1.9.1
+	Thu, 20 Apr 2017 10:06:48 +0200
+Received: from linux-mf4q.internal.hillier.de ([146.254.78.32])
+	by mail1.sbs.de (8.15.2/8.15.2) with ESMTP id v3K86l2Z023143
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 20 Apr 2017 10:06:47 +0200
+From: Gernot Hillier <gernot.hillier@siemens.com>
+To: openembedded-core@lists.openembedded.org
+Message-ID: <c2cca2c5-c122-e738-0008-4ff3119259bb@siemens.com>
+Date: Thu, 20 Apr 2017 10:06:48 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.8.0
 MIME-Version: 1.0
-Subject: [PATCH v2] bash: CVE-2016-0634
+Subject: [PATCH v2 0/2] tcf-agent: fix CDT target debugging
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,44 +34,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Apr 2017 07:05:30 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 20 Apr 2017 08:15:59 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 
-A vulnerability was found in a way bash expands the $HOSTNAME.
-Injecting the hostname with malicious code would cause it to run
-each time bash expanded \h in the prompt string.
+Default recipe for tcf-agent disabled a number of features because of
+historic build problems on ARM dating back to tcf-agent 0.0+svnr1855
+(from 2011). We re-enable them for all archs besides mips. For arm64,
+we additionally need to fix MACHINE setting to make those features
+compile again.
 
-Porting patch from <https://ftp.gnu.org/gnu/bash/bash-4.3-patches/
-bash43-047> to solve CVE-2016-0634
+Without those features, target debugging using Eclipse Neon and CDT
+with TCF 1.4 plugin didn't work in our tests. This is the default
+debugging mode in the Xilinx Vivado SDK.
 
-CVE: CVE-2016-0634
+This series contains updated version of patch to address mips and arm64
+issues, thx to Richard Purdie for pointing me to this! Patch v1 was
+sent to poky ML in error.
 
-Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
----
- meta/recipes-extended/bash/bash_4.3.30.bb | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/meta/recipes-extended/bash/bash_4.3.30.bb b/meta/recipes-extended/bash/bash_4.3.30.bb
-index e398e87..b40059f 100644
---- a/meta/recipes-extended/bash/bash_4.3.30.bb
-+++ b/meta/recipes-extended/bash/bash_4.3.30.bb
-@@ -21,6 +21,7 @@ SRC_URI = "${GNU_MIRROR}/bash/${BP}.tar.gz;name=tarball \
-            ${GNU_MIRROR}/bash/bash-4.3-patches/bash43-044;apply=yes;striplevel=0;name=patch044 \
-            ${GNU_MIRROR}/bash/bash-4.3-patches/bash43-045;apply=yes;striplevel=0;name=patch045 \
-            ${GNU_MIRROR}/bash/bash-4.3-patches/bash43-046;apply=yes;striplevel=0;name=patch046 \
-+           ${GNU_MIRROR}/bash/bash-4.3-patches/bash43-047;apply=yes;striplevel=0;name=patch047 \
-            file://execute_cmd.patch;striplevel=0 \
-            file://mkbuiltins_have_stringize.patch \
-            file://build-tests.patch \
-@@ -68,5 +69,7 @@ SRC_URI[patch045.md5sum] = "4473244ca5abfd4b018ea26dc73e7412"
- SRC_URI[patch045.sha256sum] = "ba6ec3978e9eaa1eb3fabdaf3cc6fdf8c4606ac1c599faaeb4e2d69864150023"
- SRC_URI[patch046.md5sum] = "7e5fb09991c077076b86e0e057798913"
- SRC_URI[patch046.sha256sum] = "b3b456a6b690cd293353f17e22d92a202b3c8bce587ae5f2667c20c9ab6f688f"
-+SRC_URI[patch047.md5sum] = "8483153bad1a6f52cadc3bd9a8df7835"
-+SRC_URI[patch047.sha256sum] = "c69248de7e78ba6b92f118fe1ef47bc86479d5040fe0b1f908ace1c9e3c67c4a"
- 
- BBCLASSEXTEND = "nativesdk"
--- 
-1.9.1
-
+--
+Gernot Hillier
+Siemens AG, Corporate Competence Center Embedded Linux
 
