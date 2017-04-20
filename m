@@ -1,50 +1,48 @@
-Return-Path: <twoerner@gmail.com>
-Received: from mail-ua0-f179.google.com (mail-ua0-f179.google.com
-	[209.85.217.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 233C2773B9;
-	Thu, 20 Apr 2017 15:00:14 +0000 (UTC)
-Received: by mail-ua0-f179.google.com with SMTP id j59so9858858uad.0;
-	Thu, 20 Apr 2017 08:00:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f181.google.com (mail-qk0-f181.google.com
+	[209.85.220.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 3C06A72F21
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 20 Apr 2017 15:53:01 +0000 (UTC)
+Received: by mail-qk0-f181.google.com with SMTP id y63so19808173qkd.1
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 20 Apr 2017 08:53:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=p1kIFA3oK+uM5+9GQQ+PbLG3P0VzrgkpP+KtaHBhKXI=;
-	b=aTWO/OVPrs/1AAApWPijPHsQecDRuT+7SSGao9nfS3PapelwLmohsX7zsPPCDWgBKT
-	Rc2rhbh1XIMJ59XpKHUuGcqggcZ5IMea8OsaYpd9uNA/lsGWVp/GopO56iRoFJSYLbsu
-	ZSaSt7i9xYxFoqi0wpHAe2XAdB5JJkKw8V+1/hwuOPSQmVBCk4FpfOr5sg1jBtK64z1m
-	DGE7AGWrFtyShXGaAkH1c74JS9vqRtIg0e2Z3akXZcAzrLmAexcZ0zHEQcBr8/uA5x3w
-	oxRaoveswNSatsg3MvxCzZ8C/XyX+qzqFvT0hxN45+ZSqURkkbm/wnsnJCAx5AbqToiy
-	oPVQ==
+	:cc; bh=2a+LgcDS6VSR2UTZh1pHEYXXU9w+j+3GKO/brRwVMNY=;
+	b=n/wPdWMq9ByQmJWh9V8JyHqUaaOxrdNwuEviQ26TYU4qSxHE7b8Z4ldr4noaOSMhCt
+	JtCAAr5S4DRh0pwERxbMMEvgyc7S2+UBsg58Mv/KtQLqg4Vs+S7PS+5I+fnFzIMKraI0
+	4LASrlM9b1BQ9X6p5YigA22FXXVX6NKye+IPan/DAiIWu2Vh/iQ4ScvvQK3jg1ohGqog
+	ShDI8CN0A+qycM2UaOOTU1cqgDbz1KnLn+RkVpj6EFQtU8xk6EhyOxiBSDCh2awcSgyd
+	d6lwlTpKm3v/1MJZT4aV05u95TukugZW1nwCM2pRHqMos3szSaQMJFZKGNTcdVnLCo1d
+	j9QQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=p1kIFA3oK+uM5+9GQQ+PbLG3P0VzrgkpP+KtaHBhKXI=;
-	b=gtiOI75SuoyBoir/n3EU9CGmEqtouom8WeGgOD9IcdC6oYPujhZJSa8msDe+3d3DZ9
-	irmKuYN20b29UVpa9vJRrTumJduUhSgPuTVYQSTG9U3bpNFlF1TGJFFo/c0S+FpiOXxT
-	9rZyhtU5Zz5QUyer4tU7WUR5Fjj09sChejwta0m4sdDy9ACqzBuYg9fLMaoR28uhdqaC
-	lRzUCH6F1+SVq/vKaYP6Ml6Qe1PNnUdFqGKC+v/8btwhrh6sJ8eaFaSg0ioEy06kxoEw
-	kMJSijplAPqRyocXQrKxPHSljfkim4I26zwgcsaMOv2dXFY6y7hPN2nm+vPqMGir2Ix+
-	jrDA==
-X-Gm-Message-State: AN3rC/4XnqZtPPJwR2DfOkbYj2z+3RZkRKvzLOaNyG/36x8U0CgC+OYd
-	M0oqLF2bV3tvRfeiRKNNl02JcjOtgQ==
-X-Received: by 10.31.171.88 with SMTP id u85mr3327346vke.22.1492700416013;
-	Thu, 20 Apr 2017 08:00:16 -0700 (PDT)
+	bh=2a+LgcDS6VSR2UTZh1pHEYXXU9w+j+3GKO/brRwVMNY=;
+	b=DPc/+YOGpYRec/h2TAJgTPIz0mP3g23OGeDzTOL4LI9aXCulxul5eOup6yIKW7bo1l
+	PLoAmG4TV28CiAzyuKe8jWVpIqOIXotpaYNRGEABdfwAhp9oJBJXEAqrioOjad31jh6F
+	vtCwCxof9SM8JgYV4FrUC3ZxaNT/86oZHwS4DQK/uzRj+z93Kbfe6qPiqE3LzKzEjesX
+	dVhY20SXEzPHrZuc7Km1mGhZ4ScdBqi3ALy3XVxsmb0Ql+ivvlbgwo2SFi7tzWSnLRZT
+	EtGo3apxMhj+BBZd8YjkTEFQ6DAwsUirraNM1UfIJr12/WA2mnETNoKS4NO9hbhC0CGD
+	D5CQ==
+X-Gm-Message-State: AN3rC/65rWOdofB4V3vj0PNOCUFhK9iBv4fk6dznBklu7s4rNxaCYdve
+	WolrkvaPy+O9zSMS+tEbWbRlFcyoNBfS
+X-Received: by 10.55.93.193 with SMTP id r184mr7955595qkb.221.1492703583245;
+	Thu, 20 Apr 2017 08:53:03 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.103.30.70 with HTTP; Thu, 20 Apr 2017 08:00:15 -0700 (PDT)
-In-Reply-To: <51e8d1d4-d6cb-dcb0-32f0-42df0738ce70@mentor.com>
-References: <527be78e-ad75-2221-06e8-18814bf55857@mentor.com>
-	<51e8d1d4-d6cb-dcb0-32f0-42df0738ce70@mentor.com>
-From: Trevor Woerner <twoerner@gmail.com>
-Date: Thu, 20 Apr 2017 11:00:15 -0400
-Message-ID: <CAHUNapRdwgYWF9yZmiLxPJg24C+R8vkii9v9oqoqVYVcWX6sLA@mail.gmail.com>
-To: Sean Hudson <sean_hudson@mentor.com>
-Cc: "openembedded-members@lists.openembedded.org"
-	<openembedded-members@lists.openembedded.org>, openembedded-architecture
-	<openembedded-architecture@lists.openembedded.org>,
-	"openembedded-devel@lists.openembedded.org"
-	<openembedded-devel@lists.openembedded.org>,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: OpenEmbedded 2017 General Meeting
+Received: by 10.140.22.166 with HTTP; Thu, 20 Apr 2017 08:52:42 -0700 (PDT)
+In-Reply-To: <603b4ff2-3bdd-4987-a4d5-5d79155db477@siemens.com>
+References: <c2cca2c5-c122-e738-0008-4ff3119259bb@siemens.com>
+	<603b4ff2-3bdd-4987-a4d5-5d79155db477@siemens.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 20 Apr 2017 16:52:42 +0100
+Message-ID: <CAJTo0LYpPHETuBbBpR0ObEngGzaN4RzzK0bKrYBExKKOCFTC3A@mail.gmail.com>
+To: Gernot Hillier <gernot.hillier@siemens.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2] tcf-agent: fix machine setting for arm64 build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,15 +55,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Apr 2017 15:00:15 -0000
+X-List-Received-Date: Thu, 20 Apr 2017 15:53:02 -0000
+Content-Type: multipart/alternative; boundary=001a114ed8eed5bdd3054d9b2294
+
+--001a114ed8eed5bdd3054d9b2294
 Content-Type: text/plain; charset=UTF-8
 
-On Thu, Apr 20, 2017 at 10:58 AM, Sean Hudson <sean_hudson@mentor.com> wrote:
-> I found an updated list of access numbers that include several country
-> specific toll-free numbers for the teleconference.  I've updated the
-> wiki page with the details.  I also setup a #oe-meeting IRC channel that
-> we can use as a back channel before and during the meeting.
+On 20 April 2017 at 09:15, Gernot Hillier <gernot.hillier@siemens.com>
+wrote:
 
+>  EXTRA_OEMAKE = "MACHINE=${MAKE_ARCH} OPSYS=${MAKE_OS} 'CC=${CC}'
+> 'AR=${AR}'"
+>
 
-Excellent! Thank you :-)
+Please use git-send-email to submit patches, because this line arrived
+wrapped when it shouldn't be which meant the patch had to be applied
+manually.
 
+Ross
+
+--001a114ed8eed5bdd3054d9b2294
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 20 April 2017 at 09:15, Gernot Hillier <span dir=3D"ltr">&lt;<a href=3D"=
+mailto:gernot.hillier@siemens.com" target=3D"_blank">gernot.hillier@siemens=
+.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"ma=
+rgin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":2j=
+u" class=3D"a3s aXjCH m15b8a7efd2c1442e">=C2=A0EXTRA_OEMAKE =3D &quot;MACHI=
+NE=3D${MAKE_ARCH} OPSYS=3D${MAKE_OS} &#39;CC=3D${CC}&#39;<br>
+&#39;AR=3D${AR}&#39;&quot;<br></div></blockquote><div><br></div><div>Please=
+ use git-send-email to submit patches, because this line arrived wrapped wh=
+en it shouldn&#39;t be which meant the patch had to be applied manually.</d=
+iv><div><br></div><div>Ross</div></div><br></div></div>
+
+--001a114ed8eed5bdd3054d9b2294--
