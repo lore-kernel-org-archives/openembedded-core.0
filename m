@@ -1,29 +1,18 @@
-Return-Path: <gernot.hillier@siemens.com>
-X-Greylist: delayed 1076 seconds by postgrey-1.34 at layers.openembedded.org;
-	Thu, 20 Apr 2017 08:33:25 UTC
-Received: from lizzard.sbs.de (lizzard.sbs.de [194.138.37.39])
-	by mail.openembedded.org (Postfix) with ESMTP id BCCF871D31
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Apr 2017 08:33:25 +0000 (UTC)
-Received: from mail1.sbs.de (mail1.sbs.de [192.129.41.35])
-	by lizzard.sbs.de (8.15.2/8.15.2) with ESMTPS id v3K8FP2x001967
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Apr 2017 10:15:25 +0200
-Received: from linux-mf4q.internal.hillier.de ([146.254.78.32])
-	by mail1.sbs.de (8.15.2/8.15.2) with ESMTP id v3K8FOG1019232
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Apr 2017 10:15:24 +0200
-To: openembedded-core@lists.openembedded.org
-References: <c2cca2c5-c122-e738-0008-4ff3119259bb@siemens.com>
-From: Gernot Hillier <gernot.hillier@siemens.com>
-Message-ID: <603b4ff2-3bdd-4987-a4d5-5d79155db477@siemens.com>
-Date: Thu, 20 Apr 2017 10:15:24 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.8.0
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id C552172F89;
+	Thu, 20 Apr 2017 09:01:54 +0000 (UTC)
 MIME-Version: 1.0
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Gernot Hillier <gernot.hillier@siemens.com>
+Date: Thu, 20 Apr 2017 09:01:56 -0000
+Message-ID: <20170420090156.26296.30783@do.openembedded.org>
+References: <c2cca2c5-c122-e738-0008-4ff3119259bb@siemens.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
 In-Reply-To: <c2cca2c5-c122-e738-0008-4ff3119259bb@siemens.com>
-Subject: [PATCH 1/2] tcf-agent: fix machine setting for arm64 build
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgdGNmLWFnZW50OiBmaXggQ0RUIHRhcmdldCBkZWJ1Z2dpbmc=?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,35 +25,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Apr 2017 08:33:26 -0000
-Content-Type: text/plain; charset=utf-8
+X-List-Received-Date: Thu, 20 Apr 2017 09:01:55 -0000
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
+== Series Details ==
 
-tcf-agent uses "a64", not "aarch64", see agent/Makefile.inc. This fix
-allows to re-enable features like SERVICE_Breakpoints and SERVICE_
-MemoryMap on arm64.
+Series: tcf-agent: fix CDT target debugging
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/6436/
+State : failure
 
-Signed-off-by: Gernot Hillier <gernot.hillier@siemens.com>
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at 0126fe8934)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- meta/recipes-devtools/tcf-agent/tcf-agent_git.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
-diff --git a/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
-b/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
-index e5e41f148e..cd0081ac16 100644
---- a/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
-+++ b/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
-@@ -30,7 +30,7 @@ INITSCRIPT_NAME = "tcf-agent"
- INITSCRIPT_PARAMS = "start 99 3 5 . stop 20 0 1 2 6 ."
-
- # mangling needed for make
--MAKE_ARCH = "`echo ${TARGET_ARCH} | sed s,i.86,i686,`"
-+MAKE_ARCH = "`echo ${TARGET_ARCH} | sed s,i.86,i686, | sed s,aarch64,a64,`"
- MAKE_OS = "`echo ${TARGET_OS} | sed s,^linux.*,GNU/Linux,`"
-
- EXTRA_OEMAKE = "MACHINE=${MAKE_ARCH} OPSYS=${MAKE_OS} 'CC=${CC}'
-'AR=${AR}'"
--- 
-2.12.0
 
