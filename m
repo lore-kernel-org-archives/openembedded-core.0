@@ -1,55 +1,23 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 3CB1A72F39
+Return-Path: <jussi.kukkonen@intel.com>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 4E34172F4E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Apr 2017 13:03:52 +0000 (UTC)
-Received: by mail-wm0-f66.google.com with SMTP id o81so10694803wmb.0
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Apr 2017 06:03:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=WAQslSHI10JeqrGCbiXG8jb1wuXx5C11Q7e4WubKT0Y=;
-	b=c9eEZ4VcGLWZUc+BEQjOPRUoKjB4hh+7JVzOwWwuZRTlkthVLYrrclGiHo877TnI9N
-	7uDiLXbOFJhjI4YyplFQudgxB3aB82GPKXoU9GhAnTt/WZS53dEeaBpTFcJzYYlqBOJQ
-	lq/bjEG4KKAOg24Un0xe92sUBKmZwFuYGhQsGHfxF72hKvumVf43VPB9SkQEeZk6CA2V
-	Wb3QeAz1PTLVAA9HNxKY+pN1iZ/vGyWLNw1KZPHnJa8+uKqJJS5SjW/hzSvEg69v1wwv
-	0LOl1oCaZ2MFMLGy4lWaQShr/FreOJKHovUY1VHHWBINh6ksqEnVGCTZJ7wEatWrlPkT
-	HN4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=WAQslSHI10JeqrGCbiXG8jb1wuXx5C11Q7e4WubKT0Y=;
-	b=eV0bWMW7rqDCMTnhkYZe8mVsaDF1h6Ch7b0cYz3ChWxXBECnHEgBNbbHF7JGP3qdV7
-	nsxiDGMrUTaX0E9mr2NSOp6aCCCRBdsV3u1/tv0nrzX4ONtMSR+exrxDTX8GqIp5jHQY
-	p7hBEsr+xNHqlPz/Za6RUcwt8cfDFqsyHrwXTq4YV7mPwaN2rOAILFdoUsWqp714Mc6x
-	r8B6ld9R8XjRx6CTDnxG1CbVGXWx6SXOPeqtcWA2/c4qaVQn7nojiXOenQ8WJRa5UNES
-	5rhuCJrxDfQFRBWsfWtsleml+r+nQtqEyQDpX1XMPqBcn3eLBWyae0nr1Wdaa6PICOrq
-	0AJg==
-X-Gm-Message-State: AN3rC/7hZE7TUr/ze5J7FWupQa5dpfK65UUPhKL41Q44TAr8vCTr/ZgJ
-	Gm8NrSpk7TnZbw==
-X-Received: by 10.28.93.13 with SMTP id r13mr2994511wmb.136.1492693433762;
-	Thu, 20 Apr 2017 06:03:53 -0700 (PDT)
-Received: from localhost ([217.30.68.212]) by smtp.gmail.com with ESMTPSA id
-	z38sm7571752wrc.36.2017.04.20.06.03.52
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 20 Apr 2017 06:03:52 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Thu, 20 Apr 2017 15:04:00 +0200
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <20170420130400.GC3059@jama>
-References: <20170123135916.4618-1-freesilicon@gmail.com>
-	<6366113.GnGklEYiun@crde-port-20.cahors.local>
-	<64f205a9-74d2-1161-14f1-5ed03298f350@linux.intel.com>
-	<5023360.N8L8OyXh3V@crde-port-20.cahors.local>
-	<d67f6cb5-482e-9e3f-bde5-4284e8eeb31b@linux.intel.com>
-MIME-Version: 1.0
-In-Reply-To: <d67f6cb5-482e-9e3f-bde5-4284e8eeb31b@linux.intel.com>
-User-Agent: Mutt/1.8.1 (2017-04-11)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] openssl: Fix symlink creation
+	Thu, 20 Apr 2017 13:32:24 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga105.fm.intel.com with ESMTP; 20 Apr 2017 06:32:26 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.37,225,1488873600"; d="scan'208";a="1138115770"
+Received: from linux.intel.com ([10.54.29.200])
+	by fmsmga001.fm.intel.com with ESMTP; 20 Apr 2017 06:32:26 -0700
+Received: from theory.fi.intel.com (theory.fi.intel.com [10.237.72.53])
+	by linux.intel.com (Postfix) with ESMTP id 6DCCC6A4080;
+	Thu, 20 Apr 2017 06:32:14 -0700 (PDT)
+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 20 Apr 2017 16:32:19 +0300
+Message-Id: <1492695139-21316-1-git-send-email-jussi.kukkonen@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] openssl: Bump SONAME to match the ABI
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,83 +30,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Apr 2017 13:03:53 -0000
-X-Groupsio-MsgNum: 96483
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="hYooF8G/hrfVAmum"
-Content-Disposition: inline
+X-List-Received-Date: Thu, 20 Apr 2017 13:32:25 -0000
 
---hYooF8G/hrfVAmum
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Commit 7933fbbc637 "Security fix Drown via 1.0.2g update" included
+a version-script change from Debian that was an ABI change. It did
+not include the soname change that Debian did so we have been calling
+our ABI 1.0.0 but it really matches what others call 1.0.2.
 
-On Thu, Apr 20, 2017 at 03:37:24PM +0300, Alexander Kanavin wrote:
-> On 04/19/2017 04:03 PM, David Vincent wrote:
-> > The problem is that I must be able to manage the configuration of a mac=
-hine
-> > without physical intervention and only via package upgrades. A new
-> > configuration can be applied simply by incrementing the PR of a configu=
-ration
-> > package.
-> >
-> > But maybe this is a use case only needed by me and I should manage it i=
-n my
-> > own specific layer ?
-> >
-> > Now that I think of it, I have the same kind of problem for all machine
-> > specific configurations. For now, I just replace the PACKAGE_ARCH in my=
- BSP
-> > layer with a machine specific one to indicate that a package contains a
-> > configuration valid only for a specific machine. Maybe, in a future rel=
-ease, it
-> > should be desirable to create -conf packages based on the CONFFILES var=
-iable ?
-> > I don't know if it's a good idea, but maybe I could bring that up on the
-> > architecture mailing list ?
->=20
-> By all means please do so. Yocto lacks a solution for configuration=20
-> management, and this was discussed some time ago, although I cannot=20
-> anymore find where it happened. Mark, do you remember?
+Bump SONAME to match the ABI. In practice this changes both libcrypto
+and libssl sonames from 1.0.0 to 1.0.2.
 
-I still haven't seen any argument why not use u-a like for any other
-alternative files.
+For background: Upstream does not do sonames so these are set by
+distros. In this case the ABI changes based on a build time
+configuration! Debian took the ABI changing configuration and bumped
+soname but e.g. Ubuntu kept the deprecated API and just made it not
+work, keeping soname. So both have same version of openssl but support
+different ABI (and expose different SONAME).
 
-All you have to do is create openssl bbappend (this part might be
-integrated into oe-core):
+Fixes [YOCTO #11396].
 
-inherit update-alternatives
-ALTERNATIVE_${PN} =3D "openssl-cnf"
-ALTERNATIVE_LINK_NAME[openssl-cnf] =3D "${sysconfdir}/ssl/openssl.cnf"
-ALTERNATIVE_PRIORITY[openssl-cnf] ?=3D "1"
+Thanks to Alexander Larsson et al for detective work.
 
-And then in your recipe which provides alternative config add similar
-fragment:
+Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+---
+ .../openssl/openssl/debian1.0.2/soname.patch                | 13 +++++++++++++
+ meta/recipes-connectivity/openssl/openssl_1.0.2k.bb         |  1 +
+ 2 files changed, 14 insertions(+)
+ create mode 100644 meta/recipes-connectivity/openssl/openssl/debian1.0.2/soname.patch
 
-inherit update-alternatives
-ALTERNATIVE_${PN} =3D "openssl-cnf"
-ALTERNATIVE_LINK_NAME[openssl-cnf] =3D "${sysconfdir}/ssl/openssl.cnf"
-ALTERNATIVE_PRIORITY[openssl-cnf] ?=3D "10"
+diff --git a/meta/recipes-connectivity/openssl/openssl/debian1.0.2/soname.patch b/meta/recipes-connectivity/openssl/openssl/debian1.0.2/soname.patch
+new file mode 100644
+index 0000000..f9cdfec
+--- /dev/null
++++ b/meta/recipes-connectivity/openssl/openssl/debian1.0.2/soname.patch
+@@ -0,0 +1,13 @@
++Index: openssl-1.0.2d/crypto/opensslv.h
++===================================================================
++--- openssl-1.0.2d.orig/crypto/opensslv.h
+++++ openssl-1.0.2d/crypto/opensslv.h
++@@ -88,7 +88,7 @@ extern "C" {
++  * should only keep the versions that are binary compatible with the current.
++  */
++ # define SHLIB_VERSION_HISTORY ""
++-# define SHLIB_VERSION_NUMBER "1.0.0"
+++# define SHLIB_VERSION_NUMBER "1.0.2"
++ 
++ 
++ #ifdef  __cplusplus
+diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.2k.bb b/meta/recipes-connectivity/openssl/openssl_1.0.2k.bb
+index 1c104142..83d1a50 100644
+--- a/meta/recipes-connectivity/openssl/openssl_1.0.2k.bb
++++ b/meta/recipes-connectivity/openssl/openssl_1.0.2k.bb
+@@ -30,6 +30,7 @@ SRC_URI += "file://find.pl;subdir=${BP}/util/ \
+             file://debian/no-symbolic.patch \
+             file://debian/pic.patch \
+             file://debian1.0.2/version-script.patch \
++            file://debian1.0.2/soname.patch \
+             file://openssl_fix_for_x32.patch \
+             file://fix-cipher-des-ede3-cfb1.patch \
+             file://openssl-avoid-NULL-pointer-dereference-in-EVP_DigestInit_ex.patch \
+-- 
+2.1.4
 
-And that's it. We're using this for last 4 years since:
-https://github.com/openwebos/meta-webos/commit/b13980be3f28bf60582ec3f691e3=
-92db03942e21
-and it worked fine until this oe-core change was merged (and I had to
-undo it in the same bbappend).
 
-Regards,
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---hYooF8G/hrfVAmum
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iF0EARECAB0WIQRU+ejDffEzV2Je2oc3VSO3ZXaAHAUCWPixvwAKCRA3VSO3ZXaA
-HItvAJ9PU6/1tjp9rGN/uX/em8dY42vFZACgjdx6ifLn3XobRM5/FppEt+dA5Pk=
-=WGX8
------END PGP SIGNATURE-----
-
---hYooF8G/hrfVAmum--
