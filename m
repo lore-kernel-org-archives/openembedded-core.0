@@ -1,21 +1,21 @@
 Return-Path: <gernot.hillier@siemens.com>
-Received: from david.siemens.de (david.siemens.de [192.35.17.14])
-	by mail.openembedded.org (Postfix) with ESMTP id 2F86672001
+Received: from goliath.siemens.de (goliath.siemens.de [192.35.17.28])
+	by mail.openembedded.org (Postfix) with ESMTP id 9D83D77980
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Apr 2017 19:06:53 +0000 (UTC)
-Received: from mail2.sbs.de (mail2.sbs.de [192.129.41.66])
-	by david.siemens.de (8.15.2/8.15.2) with ESMTPS id v3KJ6rkX018701
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Apr 2017 21:06:53 +0200
+	Thu, 20 Apr 2017 19:08:34 +0000 (UTC)
+Received: from mail1.sbs.de (mail1.sbs.de [192.129.41.35])
+	by goliath.siemens.de (8.15.2/8.15.2) with ESMTPS id v3KJ8YPi011322
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK); 
+	Thu, 20 Apr 2017 21:08:34 +0200
 Received: from linux-mf4q.internal.hillier.de.hillier.de ([146.254.78.32])
-	by mail2.sbs.de (8.15.2/8.15.2) with ESMTP id v3KJ6rCC003654;
-	Thu, 20 Apr 2017 21:06:53 +0200
+	by mail1.sbs.de (8.15.2/8.15.2) with ESMTP id v3KJ8Yug007889;
+	Thu, 20 Apr 2017 21:08:34 +0200
 From: Gernot Hillier <gernot.hillier@siemens.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 20 Apr 2017 21:06:40 +0200
-Message-Id: <20170420190642.14868-1-gernot.hillier@siemens.com>
+Date: Thu, 20 Apr 2017 21:08:13 +0200
+Message-Id: <20170420190815.15000-1-gernot.hillier@siemens.com>
 X-Mailer: git-send-email 2.12.0
+Cc: eugene.tarassov@xilinx.com
 Subject: [PATCH v3 0/2] tcf-agent: fix CDT target debugging
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -29,7 +29,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Apr 2017 19:06:54 -0000
+X-List-Received-Date: Thu, 20 Apr 2017 19:08:35 -0000
 
 Default recipe for tcf-agent disabled a number of features because of
 historic build problems on ARM dating back to tcf-agent 0.0+svnr1855
