@@ -1,27 +1,27 @@
 Return-Path: <gernot.hillier@siemens.com>
-X-Greylist: delayed 548 seconds by postgrey-1.34 at layers.openembedded.org;
-	Thu, 20 Apr 2017 08:15:58 UTC
 Received: from david.siemens.de (david.siemens.de [192.35.17.14])
-	by mail.openembedded.org (Postfix) with ESMTP id 969A173081
+	by mail.openembedded.org (Postfix) with ESMTP id E5DF971D31
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Apr 2017 08:15:57 +0000 (UTC)
+	Thu, 20 Apr 2017 08:16:58 +0000 (UTC)
 Received: from mail1.sbs.de (mail1.sbs.de [192.129.41.35])
-	by david.siemens.de (8.15.2/8.15.2) with ESMTPS id v3K86mil016480
+	by david.siemens.de (8.15.2/8.15.2) with ESMTPS id v3K8Gx6L030656
 	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Apr 2017 10:06:48 +0200
+	Thu, 20 Apr 2017 10:16:59 +0200
 Received: from linux-mf4q.internal.hillier.de ([146.254.78.32])
-	by mail1.sbs.de (8.15.2/8.15.2) with ESMTP id v3K86l2Z023143
+	by mail1.sbs.de (8.15.2/8.15.2) with ESMTP id v3K8GxbP023946
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Apr 2017 10:06:47 +0200
-From: Gernot Hillier <gernot.hillier@siemens.com>
+	Thu, 20 Apr 2017 10:16:59 +0200
 To: openembedded-core@lists.openembedded.org
-Message-ID: <c2cca2c5-c122-e738-0008-4ff3119259bb@siemens.com>
-Date: Thu, 20 Apr 2017 10:06:48 +0200
+References: <c2cca2c5-c122-e738-0008-4ff3119259bb@siemens.com>
+From: Gernot Hillier <gernot.hillier@siemens.com>
+Message-ID: <b7eebe9d-03fa-85a5-b4c1-9d6d993bd61b@siemens.com>
+Date: Thu, 20 Apr 2017 10:16:59 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
 	Thunderbird/45.8.0
 MIME-Version: 1.0
-Subject: [PATCH v2 0/2] tcf-agent: fix CDT target debugging
+In-Reply-To: <c2cca2c5-c122-e738-0008-4ff3119259bb@siemens.com>
+Subject: [PATCH 2/2] tcf-agent: enable default target debugging features
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,25 +34,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Apr 2017 08:15:59 -0000
+X-List-Received-Date: Thu, 20 Apr 2017 08:16:59 -0000
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 
-Default recipe for tcf-agent disabled a number of features because of
-historic build problems on ARM dating back to tcf-agent 0.0+svnr1855
-(from 2011). We re-enable them for all archs besides mips. For arm64,
-we additionally need to fix MACHINE setting to make those features
-compile again.
 
-Without those features, target debugging using Eclipse Neon and CDT
-with TCF 1.4 plugin didn't work in our tests. This is the default
-debugging mode in the Xilinx Vivado SDK.
+A number of features were disabled in OE due to historic problems
+on ARM. In tcf-agent 1.4, they compile cleanly on all architectures
+besides mips. These features are required for target debugging with
+Eclipse Neon, CDT and TCF plugins - for example used by Xilinx Vivado
+SDK 2016.4.
 
-This series contains updated version of patch to address mips and arm64
-issues, thx to Richard Purdie for pointing me to this! Patch v1 was
-sent to poky ML in error.
+For MIPS, at least re-enable SERVICE_Symbols and SERVICE_LineNumbers
+which compile cleanly.
 
---
-Gernot Hillier
-Siemens AG, Corporate Competence Center Embedded Linux
+Signed-off-by: Gernot Hillier <gernot.hillier@siemens.com>
+Signed-off-by: Tim Offermann <tim.offermann@siemens.com>
+---
+ meta/recipes-devtools/tcf-agent/tcf-agent_git.bb | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
+
+diff --git a/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb b/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
+index cd0081ac16..eb18a925d0 100644
+--- a/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
++++ b/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
+@@ -35,11 +35,13 @@ MAKE_OS = "`echo ${TARGET_OS} | sed s,^linux.*,GNU/Linux,`"
+ 
+ EXTRA_OEMAKE = "MACHINE=${MAKE_ARCH} OPSYS=${MAKE_OS} 'CC=${CC}' 'AR=${AR}'"
+ 
+-# They don't build on ARM and we don't need them actually.
+-CFLAGS += "-DSERVICE_RunControl=0 -DSERVICE_Breakpoints=0 \
++# They don't build on mips
++CFLAGS_mips_append = "-DSERVICE_RunControl=0 -DSERVICE_Breakpoints=0 \
+     -DSERVICE_Memory=0 -DSERVICE_Registers=0 -DSERVICE_MemoryMap=0 \
+-    -DSERVICE_StackTrace=0 -DSERVICE_Symbols=0 -DSERVICE_LineNumbers=0 \
+-    -DSERVICE_Expressions=0"
++    -DSERVICE_StackTrace=0 -DSERVICE_Expressions=0"
++CFLAGS_mips64_append = "-DSERVICE_RunControl=0 -DSERVICE_Breakpoints=0 \
++    -DSERVICE_Memory=0 -DSERVICE_Registers=0 -DSERVICE_MemoryMap=0 \
++    -DSERVICE_StackTrace=0 -DSERVICE_Expressions=0"
+ 
+ do_install() {
+ 	oe_runmake install INSTALLROOT=${D}
+-- 
+2.12.0
 
