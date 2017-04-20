@@ -1,46 +1,45 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qt0-f173.google.com (mail-qt0-f173.google.com
-	[209.85.216.173])
-	by mail.openembedded.org (Postfix) with ESMTP id B998E71DB8
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-wm0-f47.google.com (mail-wm0-f47.google.com [74.125.82.47])
+	by mail.openembedded.org (Postfix) with ESMTP id A4DBF605C2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Apr 2017 21:30:20 +0000 (UTC)
-Received: by mail-qt0-f173.google.com with SMTP id y33so56543162qta.2
+	Thu, 20 Apr 2017 21:33:13 +0000 (UTC)
+Received: by mail-wm0-f47.google.com with SMTP id r190so3136915wme.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Apr 2017 14:30:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	Thu, 20 Apr 2017 14:33:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=EO8NKztausimkEtVf5S/Pm96Y570d/1G4v8SyCLLoRk=;
-	b=WCyTVsCu1WtKDo/I1fIb82YR8iHrmfL4cGcS0UI2zXyt8T2LLZWk+CvQj33U6iwJR8
-	DoNOIg+T93pBUG9Y20edegssmhgWJtp177C7bg+HRhXRIKuxO3qvNJIZl7syl18d7BsF
-	gYLuqguQQGtaDNaLOZ/eK8s3fMQ92Oyv3M5NTL0JecI530Av9n9RFKO+YBO4N5jcsf1r
-	mjg+1/YXL1g1rI2vc6K8eBSwvWkzt5W+QTlwN0GJzV540hCUjZ9Nehwb31IMVbClUZS0
-	ehTcV+A7Y2sEJWXqUTodWemUitKtVbxuaGJf8upjmQp7vEKG0eDsVJXJx6/2z08IXoDt
-	t6ug==
+	:cc; bh=UjHv5fv3nJpMBNQfGODj8OBar2+PI1Kc3KDuSsAP53Q=;
+	b=enWGX629bbkt455nblGIK2nedTuahVQGJhC7KZY7zJdM8iV5S5Ofc+I2lIZykSQ0Mm
+	vUzbSzC23loVWXlcxbvnzaU8GZAS0lT6vt/herCQZA0Qx5o+B4wH9kDKXYeGwY6JmRem
+	ufbVezJy0GAycMs9tmp2l15BHMW9cmkjItPgdLToL3oNw9HD2Np47rsh6p9pDoQLE5Az
+	/cy26mRdiHcN2ybVjPWRaJJbSP3L9dmQL+jV/wVfBR2FNthTHqrSMZYGACjx3nvx8hp7
+	0YlwUPqm7nFqtGdaxN++r5fNjvZNKqW/jRh63r2oC60521UCNCOVzQMjrwHdrzA8Vh6k
+	5h5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=EO8NKztausimkEtVf5S/Pm96Y570d/1G4v8SyCLLoRk=;
-	b=Pf4gjeWGYTo26nTMLlGwdP6OuWhUdVFhpLK/4DdpDp4jyVy7GutQ9zxkJnNwyd9zD3
-	WRrXxcgkVmKY2swO63r1K/r6giA6AY3to3o+W95ZTPUjW5siyM0n/QF25ZSsFXraf5K5
-	QAkMAAeThD3SSd8mBB5D+SeJXrN3P5N8lT7scY6RGkljEcb0tqY9l148gom3EgcToRqJ
-	T/Yg6lrVHOgw/ew2lQkRH9gV545TAb4f1LyYrtm+wrTEZ4a+i1wEnZUQau8ujjOmcL6b
-	aeHSimt8HLuhVaGJ6gGZN2V668WJzrhvCDKYoD+Jvz1BWjM/53tq0nyC5UPycxyuRVw1
-	wbXA==
-X-Gm-Message-State: AN3rC/4Bionhc4aM8eH2ujQBPX5E9GNlPs38UWSS8ZLYNmDsW8DQcIxi
-	69mnzFzbdH4kUAEG/Bneoi54QqIKqMqy
-X-Received: by 10.200.34.242 with SMTP id g47mr10059389qta.109.1492723821702; 
-	Thu, 20 Apr 2017 14:30:21 -0700 (PDT)
+	bh=UjHv5fv3nJpMBNQfGODj8OBar2+PI1Kc3KDuSsAP53Q=;
+	b=FfMXhqComhp8wXu4KWAzoZfka1yaWwJxxP7St+gkANr+bDBQ6sQylbDlg/9lkE494B
+	W7F+L1dlMlI0x7Y2Vo++G2tPCsNYEDTXlFffDZY/SmRXPh3W+3kmnlaZeHda/hWYXu1Z
+	Rv2FFebI3DaQ7ei+Thp4//LuPEbjBqWuPGDozL9frPt6UGRc/I9rhDRSUTpy7VInXfqQ
+	M9kzvIpWIAjpDmiVWckWPC04E3nxA2/RpnL0nOR7MMu7O2PO2DSa8/9UpHVyxesH2Q5q
+	oJxKKS03IFucXIpR195H5srNy6XSGicTpd6PXc66A8cfrA+aCnSnkrLvLnWMnEZL4Saf
+	bGtg==
+X-Gm-Message-State: AN3rC/64IhBAwNVjAbtybXVR7y6plrzNtevJaUtPJ2FiCiyhnKirVhs8
+	8mOcy73suzoV8lmKM2w2FNpfXBUCGA==
+X-Received: by 10.28.87.70 with SMTP id l67mr4875146wmb.37.1492723994293; Thu,
+	20 Apr 2017 14:33:14 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.140.22.166 with HTTP; Thu, 20 Apr 2017 14:30:01 -0700 (PDT)
-In-Reply-To: <20170420182028.31964-3-raj.khem@gmail.com>
+Received: by 10.80.180.141 with HTTP; Thu, 20 Apr 2017 14:32:43 -0700 (PDT)
+In-Reply-To: <CAJTo0Lb+0MeDwtN7OmeXAOOgdXvLRwoi6otefAcBWEjAaO-RRg@mail.gmail.com>
 References: <20170420182028.31964-1-raj.khem@gmail.com>
 	<20170420182028.31964-3-raj.khem@gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 20 Apr 2017 22:30:01 +0100
-Message-ID: <CAJTo0Lb+0MeDwtN7OmeXAOOgdXvLRwoi6otefAcBWEjAaO-RRg@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
+	<CAJTo0Lb+0MeDwtN7OmeXAOOgdXvLRwoi6otefAcBWEjAaO-RRg@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 20 Apr 2017 14:32:43 -0700
+Message-ID: <CAMKF1sqwg42RoLuojZmwd1SrVJZoymUu_ygLYyztsK3KMg=m3Q@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 3/5] bitbake.conf: Add pr to list of hosttools
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -55,33 +54,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Apr 2017 21:30:21 -0000
-Content-Type: multipart/alternative; boundary=001a114037d4240486054d9fd912
-
---001a114037d4240486054d9fd912
+X-List-Received-Date: Thu, 20 Apr 2017 21:33:14 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On 20 April 2017 at 19:20, Khem Raj <raj.khem@gmail.com> wrote:
-
-> pr is used by gstreamer1.0-libav during configure
+On Thu, Apr 20, 2017 at 2:30 PM, Burton, Ross <ross.burton@intel.com> wrote:
+>
+> On 20 April 2017 at 19:20, Khem Raj <raj.khem@gmail.com> wrote:
+>>
+>> pr is used by gstreamer1.0-libav during configure
+>
+>
+> So how does this work at the moment, or what's the problem with it failing?
 >
 
-So how does this work at the moment, or what's the problem with it failing?
+I build for rpi3 may be thats why you are not seeing it.
 
-Ross
+> Ross
 
---001a114037d4240486054d9fd912
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 20 April 2017 at 19:20, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"mailto=
-:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</span> wr=
-ote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border=
--left:1px #ccc solid;padding-left:1ex"><div id=3D":21d" class=3D"a3s aXjCH =
-m15b8c9987a37e9b1">pr is used by gstreamer1.0-libav during configure<br></d=
-iv></blockquote></div><br>So how does this work at the moment, or what&#39;=
-s the problem with it failing?</div><div class=3D"gmail_extra"><br></div><d=
-iv class=3D"gmail_extra">Ross</div></div>
-
---001a114037d4240486054d9fd912--
