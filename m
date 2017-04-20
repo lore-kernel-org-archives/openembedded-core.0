@@ -1,31 +1,53 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id AC7F172F39
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 3CB1A72F39
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Apr 2017 12:56:40 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v3KCuc6q022545
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 20 Apr 2017 05:56:38 -0700 (PDT)
-Received: from soho-mhatle-m.local (172.25.36.230) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
-	Thu, 20 Apr 2017 05:56:38 -0700
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>, David Vincent
-	<freesilicon@gmail.com>
+	Thu, 20 Apr 2017 13:03:52 +0000 (UTC)
+Received: by mail-wm0-f66.google.com with SMTP id o81so10694803wmb.0
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 20 Apr 2017 06:03:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=WAQslSHI10JeqrGCbiXG8jb1wuXx5C11Q7e4WubKT0Y=;
+	b=c9eEZ4VcGLWZUc+BEQjOPRUoKjB4hh+7JVzOwWwuZRTlkthVLYrrclGiHo877TnI9N
+	7uDiLXbOFJhjI4YyplFQudgxB3aB82GPKXoU9GhAnTt/WZS53dEeaBpTFcJzYYlqBOJQ
+	lq/bjEG4KKAOg24Un0xe92sUBKmZwFuYGhQsGHfxF72hKvumVf43VPB9SkQEeZk6CA2V
+	Wb3QeAz1PTLVAA9HNxKY+pN1iZ/vGyWLNw1KZPHnJa8+uKqJJS5SjW/hzSvEg69v1wwv
+	0LOl1oCaZ2MFMLGy4lWaQShr/FreOJKHovUY1VHHWBINh6ksqEnVGCTZJ7wEatWrlPkT
+	HN4A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=WAQslSHI10JeqrGCbiXG8jb1wuXx5C11Q7e4WubKT0Y=;
+	b=eV0bWMW7rqDCMTnhkYZe8mVsaDF1h6Ch7b0cYz3ChWxXBECnHEgBNbbHF7JGP3qdV7
+	nsxiDGMrUTaX0E9mr2NSOp6aCCCRBdsV3u1/tv0nrzX4ONtMSR+exrxDTX8GqIp5jHQY
+	p7hBEsr+xNHqlPz/Za6RUcwt8cfDFqsyHrwXTq4YV7mPwaN2rOAILFdoUsWqp714Mc6x
+	r8B6ld9R8XjRx6CTDnxG1CbVGXWx6SXOPeqtcWA2/c4qaVQn7nojiXOenQ8WJRa5UNES
+	5rhuCJrxDfQFRBWsfWtsleml+r+nQtqEyQDpX1XMPqBcn3eLBWyae0nr1Wdaa6PICOrq
+	0AJg==
+X-Gm-Message-State: AN3rC/7hZE7TUr/ze5J7FWupQa5dpfK65UUPhKL41Q44TAr8vCTr/ZgJ
+	Gm8NrSpk7TnZbw==
+X-Received: by 10.28.93.13 with SMTP id r13mr2994511wmb.136.1492693433762;
+	Thu, 20 Apr 2017 06:03:53 -0700 (PDT)
+Received: from localhost ([217.30.68.212]) by smtp.gmail.com with ESMTPSA id
+	z38sm7571752wrc.36.2017.04.20.06.03.52
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Thu, 20 Apr 2017 06:03:52 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Thu, 20 Apr 2017 15:04:00 +0200
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <20170420130400.GC3059@jama>
 References: <20170123135916.4618-1-freesilicon@gmail.com>
 	<6366113.GnGklEYiun@crde-port-20.cahors.local>
 	<64f205a9-74d2-1161-14f1-5ed03298f350@linux.intel.com>
 	<5023360.N8L8OyXh3V@crde-port-20.cahors.local>
 	<d67f6cb5-482e-9e3f-bde5-4284e8eeb31b@linux.intel.com>
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-Message-ID: <0e06aa5c-c46b-dd81-281f-dec04653d042@windriver.com>
-Date: Thu, 20 Apr 2017 07:56:37 -0500
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:45.0)
-	Gecko/20100101 Thunderbird/45.8.0
 MIME-Version: 1.0
 In-Reply-To: <d67f6cb5-482e-9e3f-bde5-4284e8eeb31b@linux.intel.com>
+User-Agent: Mutt/1.8.1 (2017-04-11)
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH] openssl: Fix symlink creation
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -40,56 +62,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Apr 2017 12:56:42 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 20 Apr 2017 13:03:53 -0000
+X-Groupsio-MsgNum: 96483
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="hYooF8G/hrfVAmum"
+Content-Disposition: inline
 
-On 4/20/17 7:37 AM, Alexander Kanavin wrote:
+--hYooF8G/hrfVAmum
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Thu, Apr 20, 2017 at 03:37:24PM +0300, Alexander Kanavin wrote:
 > On 04/19/2017 04:03 PM, David Vincent wrote:
->> The problem is that I must be able to manage the configuration of a machine
->> without physical intervention and only via package upgrades. A new
->> configuration can be applied simply by incrementing the PR of a configuration
->> package.
->>
->> But maybe this is a use case only needed by me and I should manage it in my
->> own specific layer ?
->>
->> Now that I think of it, I have the same kind of problem for all machine
->> specific configurations. For now, I just replace the PACKAGE_ARCH in my BSP
->> layer with a machine specific one to indicate that a package contains a
->> configuration valid only for a specific machine. Maybe, in a future release, it
->> should be desirable to create -conf packages based on the CONFFILES variable ?
->> I don't know if it's a good idea, but maybe I could bring that up on the
->> architecture mailing list ?
-> 
-> By all means please do so. Yocto lacks a solution for configuration 
-> management, and this was discussed some time ago, although I cannot 
+> > The problem is that I must be able to manage the configuration of a mac=
+hine
+> > without physical intervention and only via package upgrades. A new
+> > configuration can be applied simply by incrementing the PR of a configu=
+ration
+> > package.
+> >
+> > But maybe this is a use case only needed by me and I should manage it i=
+n my
+> > own specific layer ?
+> >
+> > Now that I think of it, I have the same kind of problem for all machine
+> > specific configurations. For now, I just replace the PACKAGE_ARCH in my=
+ BSP
+> > layer with a machine specific one to indicate that a package contains a
+> > configuration valid only for a specific machine. Maybe, in a future rel=
+ease, it
+> > should be desirable to create -conf packages based on the CONFFILES var=
+iable ?
+> > I don't know if it's a good idea, but maybe I could bring that up on the
+> > architecture mailing list ?
+>=20
+> By all means please do so. Yocto lacks a solution for configuration=20
+> management, and this was discussed some time ago, although I cannot=20
 > anymore find where it happened. Mark, do you remember?
-> 
 
-I don't remember anything specific about the configuration management, just that
-we discussed it.  Sorry.
+I still haven't seen any argument why not use u-a like for any other
+alternative files.
 
-I do know that this is an issue, and what we've said in the past was create a
-.bbappend, set PACKAGE_ARCH to MACHINE_ARCH, add your machine specific
-configuration to the package.
+All you have to do is create openssl bbappend (this part might be
+integrated into oe-core):
 
-Down side of this is that if only the configuration file is different then you
-now have a separate binary specific to that machine -- wasted space on a feed
-server.
+inherit update-alternatives
+ALTERNATIVE_${PN} =3D "openssl-cnf"
+ALTERNATIVE_LINK_NAME[openssl-cnf] =3D "${sysconfdir}/ssl/openssl.cnf"
+ALTERNATIVE_PRIORITY[openssl-cnf] ?=3D "1"
 
-The other alternative I know of is to use the rootfs post scripting and replace
-the conf files with the ones specific to that -build-.  This is similar to a
-manufacturing step in a traditional ODM/OEM relationship.
+And then in your recipe which provides alternative config add similar
+fragment:
 
-At least with RPM, if the CONFFILES are set right, any configurations set this
-way should NOT be overridden on a target upgrade.
+inherit update-alternatives
+ALTERNATIVE_${PN} =3D "openssl-cnf"
+ALTERNATIVE_LINK_NAME[openssl-cnf] =3D "${sysconfdir}/ssl/openssl.cnf"
+ALTERNATIVE_PRIORITY[openssl-cnf] ?=3D "10"
 
-(and any CONFFILE entries not set right are bugs IMHO...)
+And that's it. We're using this for last 4 years since:
+https://github.com/openwebos/meta-webos/commit/b13980be3f28bf60582ec3f691e3=
+92db03942e21
+and it worked fine until this oe-core change was merged (and I had to
+undo it in the same bbappend).
 
---Mark
+Regards,
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
-> Alex
-> 
+--hYooF8G/hrfVAmum
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
+-----BEGIN PGP SIGNATURE-----
 
+iF0EARECAB0WIQRU+ejDffEzV2Je2oc3VSO3ZXaAHAUCWPixvwAKCRA3VSO3ZXaA
+HItvAJ9PU6/1tjp9rGN/uX/em8dY42vFZACgjdx6ifLn3XobRM5/FppEt+dA5Pk=
+=WGX8
+-----END PGP SIGNATURE-----
+
+--hYooF8G/hrfVAmum--
