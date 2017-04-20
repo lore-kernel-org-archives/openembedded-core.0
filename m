@@ -1,42 +1,30 @@
-Return-Path: <koenraad.verheyden@gmail.com>
-Received: from mail-oi0-f48.google.com (mail-oi0-f48.google.com
-	[209.85.218.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 8622773124
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 38A097311B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Apr 2017 12:25:19 +0000 (UTC)
-Received: by mail-oi0-f48.google.com with SMTP id y11so16396292oie.0
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Apr 2017 05:25:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:from:date:message-id:subject:to;
-	bh=P+dDvA4fRm+Fzh3kKkQr70VqNuRltO3jNF9hBY7aT6g=;
-	b=TQciurAcOeonlJHGpzNCVUyuDRZADxMGlf8yPYFWskJPd0gS5Zo2Kiy/c93D5NG6tM
-	/gc1z7qZFoDY9xGEgnbChvwVrLq1TiQT26OWy6+2VVRfMae7WVsYUjl56AQ27rSHE0Em
-	sNH7NVQY7SmzQmfk8nhnvakNO3ZYV24Q489m9iYRmyhSzb0C0VZnsyU96v5OQI9TK1XR
-	Mic7cwHP8iasPrQL190DEnY9qlOErjklnZJSGFHoCItXXDu5djeEyohgx33TBrs51Hwy
-	N6eeS4r8hfC9/WtC1wMBgyhXjVX7W7VqlnnsoeqB37vp2LP3jzgK1ehjQyGTQNwYQiOG
-	E+kg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-	bh=P+dDvA4fRm+Fzh3kKkQr70VqNuRltO3jNF9hBY7aT6g=;
-	b=YbBcpZRgU6zMX8ZSntxRwr/CVVn9RzPmlz0DDhxkjW4dKT1rQWXi2CHWxj8ffIVdNs
-	Z6/EKFlvGElYJ6lSNPROcMjfi6q4XomA4PDvFYwBNy4IvgPOJuF12BQpP1JmMDFV8mVL
-	jDyrjcE0XnSjE6K/XCJfy3kDtROUvR75pYw69d804MWSb/1l93lhshpTgKh5jaz5j44Z
-	i1ERWTYHQ+OBpOqMXpiw6Ab+FVEMGj6XhopOmfc9X+Gp06b9rE5hl6XYElpgdYwPELTx
-	AmnaXjJnvxjaUB+CZuWmrLDiT/u1sY5m8wXulqcs1628ZQehMzK4dE19mkk91u3qzLi6
-	Kp2Q==
-X-Gm-Message-State: AN3rC/51AaJ4NTQiS7QAfvS7EICE5cj4UpM7OnkqW4ssH34eaSRGEuqI
-	idgE1U0a46p/S/UXn2bvBxQ/pcbFd6PvFco=
-X-Received: by 10.202.175.23 with SMTP id y23mr4016107oie.155.1492691120075;
-	Thu, 20 Apr 2017 05:25:20 -0700 (PDT)
+	Thu, 20 Apr 2017 12:37:39 +0000 (UTC)
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	20 Apr 2017 05:37:40 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.37,225,1488873600"; d="scan'208";a="90158046"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by orsmga005.jf.intel.com with ESMTP; 20 Apr 2017 05:37:39 -0700
+To: David Vincent <freesilicon@gmail.com>
+References: <20170123135916.4618-1-freesilicon@gmail.com>
+	<6366113.GnGklEYiun@crde-port-20.cahors.local>
+	<64f205a9-74d2-1161-14f1-5ed03298f350@linux.intel.com>
+	<5023360.N8L8OyXh3V@crde-port-20.cahors.local>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <d67f6cb5-482e-9e3f-bde5-4284e8eeb31b@linux.intel.com>
+Date: Thu, 20 Apr 2017 15:37:24 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.8.0
 MIME-Version: 1.0
-Received: by 10.157.25.232 with HTTP; Thu, 20 Apr 2017 05:25:19 -0700 (PDT)
-From: Koenraad Verheyden <koenraad.verheyden@gmail.com>
-Date: Thu, 20 Apr 2017 14:25:19 +0200
-Message-ID: <CA+rFJSHcJbmnrtA0jqXXscj7LpV3GR6EcGeBWCGdSPbZeES+SA@mail.gmail.com>
-To: openembedded-core@lists.openembedded.org
-Subject: PulseAudio with WebRTC echo cancellation (aec): support for webrtc-audio-processing package
+In-Reply-To: <5023360.N8L8OyXh3V@crde-port-20.cahors.local>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] openssl: Fix symlink creation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,44 +37,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Apr 2017 12:25:19 -0000
-Content-Type: multipart/alternative; boundary=001a113ce6b0f8b884054d983ba7
+X-List-Received-Date: Thu, 20 Apr 2017 12:37:40 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
---001a113ce6b0f8b884054d983ba7
-Content-Type: text/plain; charset=UTF-8
+On 04/19/2017 04:03 PM, David Vincent wrote:
+> The problem is that I must be able to manage the configuration of a machine
+> without physical intervention and only via package upgrades. A new
+> configuration can be applied simply by incrementing the PR of a configuration
+> package.
+>
+> But maybe this is a use case only needed by me and I should manage it in my
+> own specific layer ?
+>
+> Now that I think of it, I have the same kind of problem for all machine
+> specific configurations. For now, I just replace the PACKAGE_ARCH in my BSP
+> layer with a machine specific one to indicate that a package contains a
+> configuration valid only for a specific machine. Maybe, in a future release, it
+> should be desirable to create -conf packages based on the CONFFILES variable ?
+> I don't know if it's a good idea, but maybe I could bring that up on the
+> architecture mailing list ?
 
-Hey all,
+By all means please do so. Yocto lacks a solution for configuration 
+management, and this was discussed some time ago, although I cannot 
+anymore find where it happened. Mark, do you remember?
 
-I want to use PulseAudio with WebRTC echo cancellation. Enabling this
-depends on the webrtc-audio-processing library [1].
-In an earlier message to this list [2] it was decided to add the
-configuration option to the pulseaudio recipe, although the
-webrtc-audio-processing package isn't implemented yet in OE-core
 
-Is there any progress on this?
+Alex
 
-With kind regards,
-Koenraad
 
-[1]:
-https://www.freedesktop.org/software/pulseaudio/webrtc-audio-processing/
-[2]:
-http://lists.openembedded.org/pipermail/openembedded-core/2016-July/124131.html
-
---001a113ce6b0f8b884054d983ba7
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Hey all,<br><br>I want to use PulseAudio with WebRTC echo =
-cancellation. Enabling this<br>depends on the webrtc-audio-processing libra=
-ry [1].<br>In an earlier message to this list [2] it was decided to add the=
-<br>configuration option to the pulseaudio recipe, although the<br>webrtc-a=
-udio-processing package isn&#39;t implemented yet in OE-core<br><br>Is ther=
-e any progress on this?<br><br>With kind regards,<br>Koenraad<br><br>[1]: <=
-a href=3D"https://www.freedesktop.org/software/pulseaudio/webrtc-audio-proc=
-essing/">https://www.freedesktop.org/software/pulseaudio/webrtc-audio-proce=
-ssing/</a><br>[2]: <a href=3D"http://lists.openembedded.org/pipermail/opene=
-mbedded-core/2016-July/124131.html">http://lists.openembedded.org/pipermail=
-/openembedded-core/2016-July/124131.html</a></div>
-
---001a113ce6b0f8b884054d983ba7--
