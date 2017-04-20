@@ -1,18 +1,24 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 2F17471984;
-	Thu, 20 Apr 2017 07:01:57 +0000 (UTC)
+Return-Path: <Zhixiong.Chi@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id BCD3371984
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 20 Apr 2017 07:05:29 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v3K75UmP004823
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 20 Apr 2017 00:05:30 -0700 (PDT)
+Received: from pek-lpggp2.wrs.com (128.224.153.75) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
+	Thu, 20 Apr 2017 00:05:29 -0700
+From: Zhixiong Chi <zhixiong.chi@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 20 Apr 2017 15:04:54 +0800
+Message-ID: <1492671894-114741-1-git-send-email-zhixiong.chi@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Zhixiong Chi <zhixiong.chi@windriver.com>
-Date: Thu, 20 Apr 2017 07:01:59 -0000
-Message-ID: <20170420070159.26295.66747@do.openembedded.org>
-References: <1492670335-245540-1-git-send-email-zhixiong.chi@windriver.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <1492670335-245540-1-git-send-email-zhixiong.chi@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgYmFzaDogQ1ZFLTIwMTYtMDYzNA==?=
+Subject: [PATCH v2] bash: CVE-2016-0634
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,41 +31,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Apr 2017 07:01:57 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 20 Apr 2017 07:05:30 -0000
+Content-Type: text/plain
 
-== Series Details ==
+A vulnerability was found in a way bash expands the $HOSTNAME.
+Injecting the hostname with malicious code would cause it to run
+each time bash expanded \h in the prompt string.
 
-Series: bash: CVE-2016-0634
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/6434/
-State : failure
+Porting patch from <https://ftp.gnu.org/gnu/bash/bash-4.3-patches/
+bash43-047> to solve CVE-2016-0634
 
-== Summary ==
+CVE: CVE-2016-0634
 
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Patch            bash: CVE-2016-0634
- Issue             Missing or incorrectly formatted CVE tag in included patch file [test_cve_tag_format] 
-  Suggested fix    Correct or include the CVE tag on cve patch with format: "CVE: CVE-YYYY-XXXX"
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
+Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
 ---
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+ meta/recipes-extended/bash/bash_4.3.30.bb | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/meta/recipes-extended/bash/bash_4.3.30.bb b/meta/recipes-extended/bash/bash_4.3.30.bb
+index e398e87..b40059f 100644
+--- a/meta/recipes-extended/bash/bash_4.3.30.bb
++++ b/meta/recipes-extended/bash/bash_4.3.30.bb
+@@ -21,6 +21,7 @@ SRC_URI = "${GNU_MIRROR}/bash/${BP}.tar.gz;name=tarball \
+            ${GNU_MIRROR}/bash/bash-4.3-patches/bash43-044;apply=yes;striplevel=0;name=patch044 \
+            ${GNU_MIRROR}/bash/bash-4.3-patches/bash43-045;apply=yes;striplevel=0;name=patch045 \
+            ${GNU_MIRROR}/bash/bash-4.3-patches/bash43-046;apply=yes;striplevel=0;name=patch046 \
++           ${GNU_MIRROR}/bash/bash-4.3-patches/bash43-047;apply=yes;striplevel=0;name=patch047 \
+            file://execute_cmd.patch;striplevel=0 \
+            file://mkbuiltins_have_stringize.patch \
+            file://build-tests.patch \
+@@ -68,5 +69,7 @@ SRC_URI[patch045.md5sum] = "4473244ca5abfd4b018ea26dc73e7412"
+ SRC_URI[patch045.sha256sum] = "ba6ec3978e9eaa1eb3fabdaf3cc6fdf8c4606ac1c599faaeb4e2d69864150023"
+ SRC_URI[patch046.md5sum] = "7e5fb09991c077076b86e0e057798913"
+ SRC_URI[patch046.sha256sum] = "b3b456a6b690cd293353f17e22d92a202b3c8bce587ae5f2667c20c9ab6f688f"
++SRC_URI[patch047.md5sum] = "8483153bad1a6f52cadc3bd9a8df7835"
++SRC_URI[patch047.sha256sum] = "c69248de7e78ba6b92f118fe1ef47bc86479d5040fe0b1f908ace1c9e3c67c4a"
+ 
+ BBCLASSEXTEND = "nativesdk"
+-- 
+1.9.1
 
 
