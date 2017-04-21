@@ -1,21 +1,43 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 4261177A3D
+Return-Path: <tanuk@iki.fi>
+Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com
+	[66.111.4.25])
+	by mail.openembedded.org (Postfix) with ESMTP id 66BE3605BF
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Apr 2017 08:55:51 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	21 Apr 2017 01:55:51 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.37,229,1488873600"; d="scan'208";a="1122052354"
-Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by orsmga001.jf.intel.com with ESMTP; 21 Apr 2017 01:55:50 -0700
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+	Fri, 21 Apr 2017 09:53:52 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailout.nyi.internal (Postfix) with ESMTP id D46D520A0C
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 21 Apr 2017 05:53:53 -0400 (EDT)
+Received: from frontend2 ([10.202.2.161])
+	by compute5.internal (MEProxy); Fri, 21 Apr 2017 05:53:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=content-transfer-encoding:content-type
+	:date:from:in-reply-to:message-id:mime-version:references
+	:subject:to:x-me-sender:x-me-sender:x-sasl-enc:x-sasl-enc; s=
+	fm1; bh=Fq4oyc0W1AtxBfc6d7ATS7p1jHMoW9xsovrPnJ3bttQ=; b=e2FcNlwT
+	vO8X8nDAdL/4c5rOfiENc7RMu55+q54q1XRq8BnqPdztlV7fDdycjGOGngdd2lpT
+	+aEhNK8t0xJeW44UXF0Nd4tGtxJNT1T/wSYSJ1kcilCKKXabTUqtkhXiFbt/15NT
+	vziq5g58MsZ5/XXJ7GVx9i2Y+zGV8jYehhHAEs5GTRYX+EUaqln+RUcn5Ljnerp2
+	77XK3bgXBRJlz9TkW39vgP0fPnV5QfOFrvPmfOCIFMYzBgfJx7MvfB0mkdU1faBy
+	woiQY2iYX0z9KHA619F9CWypuph+qSvL1WWwaR6GQBwgkOVhHsiHrzX2MDToKIrS
+	PY8GiguxgyrVWw==
+X-ME-Sender: <xms:sdb5WEM_pBPRvzOv5xptTjy8kFvIAcKYyXOc-W9mxa-zNGZOSJ-Mwg>
+X-Sasl-enc: AYJp4KoTof4UlxwaSNjdleEqXe15ZJXb/51lA0g3D4w0 1492768433
+Received: from laptop (unknown [192.40.95.18])
+	by mail.messagingengine.com (Postfix) with ESMTPA id 4BF2D240AE
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 21 Apr 2017 05:53:53 -0400 (EDT)
+Message-ID: <1492768432.2475.1.camel@iki.fi>
+From: Tanu Kaskinen <tanuk@iki.fi>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 21 Apr 2017 11:55:32 +0300
-Message-Id: <20170421085532.5242-1-alexander.kanavin@linux.intel.com>
-X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] rpm: properly relocate additional native tools
+Date: Fri, 21 Apr 2017 12:53:52 +0300
+In-Reply-To: <CA+rFJSHDqvsg23XXSQfk0XUpj+0bmcULM_EjddD0NwS9ZZC37Q@mail.gmail.com>
+References: <CA+rFJSHcJbmnrtA0jqXXscj7LpV3GR6EcGeBWCGdSPbZeES+SA@mail.gmail.com>
+	<1492694665.22019.2.camel@iki.fi>
+	<CA+rFJSHDqvsg23XXSQfk0XUpj+0bmcULM_EjddD0NwS9ZZC37Q@mail.gmail.com>
+X-Mailer: Evolution 3.22.6-1 
+Mime-Version: 1.0
+Subject: Re: PulseAudio with WebRTC echo cancellation (aec): support for webrtc-audio-processing package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,60 +50,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Apr 2017 08:55:52 -0000
+X-List-Received-Date: Fri, 21 Apr 2017 09:53:53 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-These tools are not currently used for anything, but we should
-still provide working versions of them.
+On Thu, 2017-04-20 at 22:14 +0200, Koenraad Verheyden wrote:
+> I am not familiar with the organization of the various recipes. I
+> mentioned oe-core since the original message was posted there.
+> Meta-oe seems more suitable indeed.
+> 
+> How much work would it be to make a recipe for this?
+> I need it for a short-term project and am not in a position to further
+> support it afterwards.
 
-[YOCTO #11400]
+Writing the recipe should be fairly simple. I can do that at some
+point, but if you want it fast, write the recipe yourself. I volunteer
+to maintain it.
 
-Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
----
- meta/recipes-devtools/rpm/rpm_git.bb | 30 ++++++++++++++++++++++++++++++
- 1 file changed, 30 insertions(+)
-
-diff --git a/meta/recipes-devtools/rpm/rpm_git.bb b/meta/recipes-devtools/rpm/rpm_git.bb
-index 96f71d5bb57..f31932ef55a 100644
---- a/meta/recipes-devtools/rpm/rpm_git.bb
-+++ b/meta/recipes-devtools/rpm/rpm_git.bb
-@@ -90,6 +90,36 @@ do_install_append_class-native() {
-                 RPM_ETCCONFIGDIR=${STAGING_DIR_NATIVE} \
-                 MAGIC=${STAGING_DIR_NATIVE}${datadir_native}/misc/magic.mgc \
-                 RPM_NO_CHROOT_FOR_SCRIPTS=1
-+
-+        create_wrapper ${D}/${bindir}/rpm2archive \
-+                RPM_CONFIGDIR=${STAGING_LIBDIR_NATIVE}/rpm \
-+                RPM_ETCCONFIGDIR=${STAGING_DIR_NATIVE} \
-+                MAGIC=${STAGING_DIR_NATIVE}${datadir_native}/misc/magic.mgc \
-+                RPM_NO_CHROOT_FOR_SCRIPTS=1
-+
-+        create_wrapper ${D}/${bindir}/rpm2cpio \
-+                RPM_CONFIGDIR=${STAGING_LIBDIR_NATIVE}/rpm \
-+                RPM_ETCCONFIGDIR=${STAGING_DIR_NATIVE} \
-+                MAGIC=${STAGING_DIR_NATIVE}${datadir_native}/misc/magic.mgc \
-+                RPM_NO_CHROOT_FOR_SCRIPTS=1
-+
-+        create_wrapper ${D}/${bindir}/rpmdb \
-+                RPM_CONFIGDIR=${STAGING_LIBDIR_NATIVE}/rpm \
-+                RPM_ETCCONFIGDIR=${STAGING_DIR_NATIVE} \
-+                MAGIC=${STAGING_DIR_NATIVE}${datadir_native}/misc/magic.mgc \
-+                RPM_NO_CHROOT_FOR_SCRIPTS=1
-+
-+        create_wrapper ${D}/${bindir}/rpmgraph \
-+                RPM_CONFIGDIR=${STAGING_LIBDIR_NATIVE}/rpm \
-+                RPM_ETCCONFIGDIR=${STAGING_DIR_NATIVE} \
-+                MAGIC=${STAGING_DIR_NATIVE}${datadir_native}/misc/magic.mgc \
-+                RPM_NO_CHROOT_FOR_SCRIPTS=1
-+
-+        create_wrapper ${D}/${bindir}/rpmspec \
-+                RPM_CONFIGDIR=${STAGING_LIBDIR_NATIVE}/rpm \
-+                RPM_ETCCONFIGDIR=${STAGING_DIR_NATIVE} \
-+                MAGIC=${STAGING_DIR_NATIVE}${datadir_native}/misc/magic.mgc \
-+                RPM_NO_CHROOT_FOR_SCRIPTS=1
- }
- 
- 
 -- 
-2.11.0
+Tanu
 
+https://www.patreon.com/tanuk
 
