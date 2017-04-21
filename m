@@ -1,25 +1,18 @@
-Return-Path: <andrej.valek@siemens.com>
-Received: from thoth.sbs.de (thoth.sbs.de [192.35.17.2])
-	by mail.openembedded.org (Postfix) with ESMTP id E4B8377A50
+Return-Path: <obi@opendreambox.org>
+X-Greylist: delayed 303 seconds by postgrey-1.34 at layers.openembedded.org;
+	Fri, 21 Apr 2017 10:44:57 UTC
+Received: from mail.saftware.de (mail.saftware.de [83.141.3.46])
+	by mail.openembedded.org (Postfix) with ESMTP id A2E6077A50
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Apr 2017 10:37:48 +0000 (UTC)
-Received: from mail1.siemens.de (mail1.siemens.de [139.23.33.14])
-	by thoth.sbs.de (8.15.2/8.15.2) with ESMTPS id v3LAbn1B023526
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Apr 2017 12:37:49 +0200
-Received: from dev.sbt.siemens.com ([163.242.52.173])
-	by mail1.siemens.de (8.15.2/8.15.2) with ESMTP id v3LAbncx013673;
-	Fri, 21 Apr 2017 12:37:49 +0200
-Received: from dev.sbt.siemens.com (localhost [127.0.0.1])
-	by dev.sbt.siemens.com (Postfix) with ESMTP id 0DFB73E73;
-	Fri, 21 Apr 2017 12:37:49 +0200 (CEST)
-From: Andrej Valek <andrej.valek@siemens.com>
+	Fri, 21 Apr 2017 10:44:57 +0000 (UTC)
+Received: by p910.zcs.saftware.de (Postfix, from userid 1000)
+	id 00B28AD0070B; Fri, 21 Apr 2017 12:39:51 +0200 (CEST)
+From: Andreas Oberritter <obi@opendreambox.org>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 21 Apr 2017 12:37:46 +0200
-Message-Id: <1492771066-9051-1-git-send-email-andrej.valek@siemens.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH][morty] glibc: Security fix CVE-2016-6323
+Date: Fri, 21 Apr 2017 12:39:51 +0200
+Message-Id: <1492771191-4445-1-git-send-email-obi@opendreambox.org>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH] Revert "kernel: Fix symlinks"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,77 +25,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Apr 2017 10:37:50 -0000
+X-List-Received-Date: Fri, 21 Apr 2017 10:44:57 -0000
 
-arm: mark __startcontext as .cantunwind, GNU
+This reverts commit c7bc46b9bc29dd0953ab8d63b50fa105bb66892e.
 
-CVE: CVE-2016-6323
-Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
-Signed-off-by: Pascal Bach <pascal.bach@siemens.com>
+It broke dpkg's update-alternatives, which requires absolute paths.
+
+| update-alternatives: error: alternative path is not absolute as it should be
+
+Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
 ---
- meta/recipes-core/glibc/glibc/CVE-2016-6323.patch | 39 +++++++++++++++++++++++
- meta/recipes-core/glibc/glibc_2.24.bb             |  1 +
- 2 files changed, 40 insertions(+)
- create mode 100644 meta/recipes-core/glibc/glibc/CVE-2016-6323.patch
+ meta/classes/kernel.bbclass             | 6 +++---
+ meta/recipes-kernel/linux/linux-dtb.inc | 4 ++--
+ 2 files changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/meta/recipes-core/glibc/glibc/CVE-2016-6323.patch b/meta/recipes-core/glibc/glibc/CVE-2016-6323.patch
-new file mode 100644
-index 0000000..f9b9fa5
---- /dev/null
-+++ b/meta/recipes-core/glibc/glibc/CVE-2016-6323.patch
-@@ -0,0 +1,39 @@
-+glibc-2.24: Fix CVE-2016-6323
-+
-+[No upstream tracking] -- https://sourceware.org/bugzilla/show_bug.cgi?id=20435
-+
-+arm: mark __startcontext as .cantunwind, GNU
-+
-+Glibc bug where the makecontext function would create
-+an execution context which is incompatible with the unwinder,
-+causing it to hang when the generation of a backtrace is attempted.
-+
-+Upstream-Status: Backport [https://sourceware.org/git/gitweb.cgi?p=glibc.git;h=9e2ff6c9cc54c0b4402b8d49e4abe7000fde7617]
-+CVE: CVE-2016-6323
-+Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
-+Signed-off-by: Pascal Bach <pascal.bach@siemens.com>
-+
-+diff --git a/sysdeps/unix/sysv/linux/arm/setcontext.S b/sysdeps/unix/sysv/linux/arm/setcontext.S
-+index 603e508..d1f168f 100644
-+--- a/sysdeps/unix/sysv/linux/arm/setcontext.S
-++++ b/sysdeps/unix/sysv/linux/arm/setcontext.S
-+@@ -86,12 +86,19 @@ weak_alias(__setcontext, setcontext)
-+ 
-+ 	/* Called when a makecontext() context returns.  Start the
-+ 	   context in R4 or fall through to exit().  */
-++	/* Unwind descriptors are looked up based on PC - 2, so we have to
-++	   make sure to mark the instruction preceding the __startcontext
-++	   label as .cantunwind.  */
-++	.fnstart
-++	.cantunwind
-++	nop
-+ ENTRY(__startcontext)
-+ 	movs    r0, r4
-+ 	bne     PLTJMP(__setcontext)
-+ 
-+ 	@ New context was 0 - exit
-+ 	b       PLTJMP(HIDDEN_JUMPTARGET(exit))
-++	.fnend
-+ END(__startcontext)
-+ 
-+ #ifdef PIC
-diff --git a/meta/recipes-core/glibc/glibc_2.24.bb b/meta/recipes-core/glibc/glibc_2.24.bb
-index f5a21b2..bce06c7 100644
---- a/meta/recipes-core/glibc/glibc_2.24.bb
-+++ b/meta/recipes-core/glibc/glibc_2.24.bb
-@@ -37,6 +37,7 @@ SRC_URI = "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
-            file://0024-eglibc-Forward-port-cross-locale-generation-support.patch \
-            file://0025-Define-DUMMY_LOCALE_T-if-not-defined.patch \
-            file://0026-build_local_scope.patch \
-+           file://CVE-2016-6323.patch \
- "
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index 12a748d..8cf357f 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -49,11 +49,10 @@ python __anonymous () {
  
- SRC_URI += "\
+     for type in types.split():
+         typelower = type.lower()
+-        imagedest = d.getVar('KERNEL_IMAGEDEST')
+ 
+         d.appendVar('PACKAGES', ' ' + 'kernel-image-' + typelower)
+ 
+-        d.setVar('FILES_kernel-image-' + typelower, '/' + imagedest + '/' + type + '-${KERNEL_VERSION_NAME}')
++        d.setVar('FILES_kernel-image-' + typelower, '/boot/' + type + '-${KERNEL_VERSION_NAME}')
+ 
+         d.appendVar('RDEPENDS_kernel-image', ' ' + 'kernel-image-' + typelower)
+ 
+@@ -61,8 +60,9 @@ python __anonymous () {
+ 
+         d.setVar('ALLOW_EMPTY_kernel-image-' + typelower, '1')
+ 
++        imagedest = d.getVar('KERNEL_IMAGEDEST')
+         priority = d.getVar('KERNEL_PRIORITY')
+-        postinst = '#!/bin/sh\n' + 'update-alternatives --install /' + imagedest + '/' + type + ' ' + type + ' ' + type + '-${KERNEL_VERSION_NAME} ' + priority + ' || true' + '\n'
++        postinst = '#!/bin/sh\n' + 'update-alternatives --install /' + imagedest + '/' + type + ' ' + type + ' ' + '/' + imagedest + '/' + type + '-${KERNEL_VERSION_NAME} ' + priority + ' || true' + '\n'
+         d.setVar('pkg_postinst_kernel-image-' + typelower, postinst)
+ 
+         postrm = '#!/bin/sh\n' + 'update-alternatives --remove' + ' ' + type + ' ' + type + '-${KERNEL_VERSION_NAME} || true' + '\n'
+diff --git a/meta/recipes-kernel/linux/linux-dtb.inc b/meta/recipes-kernel/linux/linux-dtb.inc
+index 22e374f..41aad7c 100644
+--- a/meta/recipes-kernel/linux/linux-dtb.inc
++++ b/meta/recipes-kernel/linux/linux-dtb.inc
+@@ -63,7 +63,7 @@ pkg_postinst_kernel-devicetree () {
+ 			DTB_EXT=${DTB##*.}
+ 			DTB_BASE_NAME=`basename ${DTB} ."${DTB_EXT}"`
+ 			DTB_SYMLINK_NAME=`echo ${symlink_name} | sed "s/${MACHINE}/${DTB_BASE_NAME}/g"`
+-			update-alternatives --install /${KERNEL_IMAGEDEST}/${DTB_BASE_NAME}.${DTB_EXT} ${DTB_BASE_NAME}.${DTB_EXT} devicetree-${DTB_SYMLINK_NAME}.${DTB_EXT} ${KERNEL_PRIORITY} || true
++			update-alternatives --install /${KERNEL_IMAGEDEST}/${DTB_BASE_NAME}.${DTB_EXT} ${DTB_BASE_NAME}.${DTB_EXT} /boot/devicetree-${DTB_SYMLINK_NAME}.${DTB_EXT} ${KERNEL_PRIORITY} || true
+ 		done
+ 	done
+ }
+@@ -76,7 +76,7 @@ pkg_postrm_kernel-devicetree () {
+ 			DTB_EXT=${DTB##*.}
+ 			DTB_BASE_NAME=`basename ${DTB} ."${DTB_EXT}"`
+ 			DTB_SYMLINK_NAME=`echo ${symlink_name} | sed "s/${MACHINE}/${DTB_BASE_NAME}/g"`
+-			update-alternatives --remove ${DTB_BASE_NAME}.${DTB_EXT} devicetree-${DTB_SYMLINK_NAME}.${DTB_EXT} ${KERNEL_PRIORITY} || true
++			update-alternatives --remove ${DTB_BASE_NAME}.${DTB_EXT} /boot/devicetree-${DTB_SYMLINK_NAME}.${DTB_EXT} ${KERNEL_PRIORITY} || true
+ 		done
+ 	done
+ }
 -- 
-2.1.4
+2.7.4
 
 
