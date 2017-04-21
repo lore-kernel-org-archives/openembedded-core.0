@@ -1,53 +1,49 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-io0-f193.google.com (mail-io0-f193.google.com
-	[209.85.223.193])
-	by mail.openembedded.org (Postfix) with ESMTP id D168277BB4
+Return-Path: <andrea.adami@gmail.com>
+Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 663A3606B2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Apr 2017 21:10:15 +0000 (UTC)
-Received: by mail-io0-f193.google.com with SMTP id h41so34499756ioi.1
+	Fri, 21 Apr 2017 22:04:33 +0000 (UTC)
+Received: by mail-wm0-f67.google.com with SMTP id u65so7138924wmu.3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Apr 2017 14:10:17 -0700 (PDT)
+	Fri, 21 Apr 2017 15:04:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:references:from:message-id:date:user-agent:mime-version
-	:in-reply-to:content-transfer-encoding;
-	bh=8FkIHaaYg6fEFue59AoV+95qCQleOfLhiP4ul7Jfwm4=;
-	b=nk0XimNiIi2PEMi8Qfpg0iGwMqheoJ8pgJJYlzo8X2iRxlTMcS//wumVy2vnnkkI/s
-	4bJQJEscnPSFgHkZqVrhHserr6ykmt7ofxJpNF9GPFIygMt+3V+eARtmb+nafLahVDxa
-	7jrH2dFmDrovp6RCci6ObqsVYBj2DpneVGfm8soE17vUvs0rPOFYj9DBZRNkzPbcli3C
-	gb6qcCMccMXeP4Cs4ucUD0YJIvRdyH8mumJOMmzq5TlFCrmSmV2y+daX0BS6lWv1WkPV
-	t6bIQp+zMmJ58PfUM8JK8LdQqlJZ1G/aVVIOghZM7tpg+DJIAx2NsgMLFftU/m8gzI9W
-	k7+g==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=ckT2XsWoh+4oPhzcWfTA9Xhvblx3gHdO+qxRwFBlJos=;
+	b=EAu3yGkQJAwN/wv2RvQqvmQ7IMFNMqNQU6sixdHzKki2cP4/OHigkRmGQ6WQkkIifc
+	Qj1eTEqim0ErX5blbSiv+BDeXAojb3l+ljckfcOCD7+KGdLXaDso05VLuck4fOt5kGWN
+	BI3ZF1BcpEnVgfcylkz7iv0LIgpI3hubVDFoWvC0m630LWwptFnPZd8yxk/h4d5uyhcp
+	r7lVssyFJWQ1LOYcaEgr+RJ4lYxlGOwgEZ1l0+HYUVSYArgnZow6Q7ZB80BiUsN9jws0
+	VRsXAZKtVFjJ1maTIRtPpdJJ553K4oKkaTu90wRPvU9VsARkjw7XZP+tUiRO6tJI8VuM
+	uz8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding;
-	bh=8FkIHaaYg6fEFue59AoV+95qCQleOfLhiP4ul7Jfwm4=;
-	b=QiAS61x1RrB/cJekxbJZqeEP/nimmriBFu9RHv2I6x4tr3v3jeKDII6yfNqZmR/dIX
-	0Rmfhl0oKkGzEMbRlUKADKgsybS0uDw3yU1tdFpe/sY2wesCabFI3Mv0JLvJBglgQwfD
-	xgmOya+r8jjXhtVdCkfAER+zY0JZtLlLeEmuqFoLEMX0ba4MESxiD7VTCn5ythZRik5N
-	DGgWsLUBZ+0klA3rxkmJ0J81YO3zK3HEgdGKx8NCuHY0/aobL0p+OAXtrt23XAaT5rgj
-	JHYeMK/5WfMLPursgJ5G46yKCOVJQTD189xs/TyHCxj/+tZyWZkfIR7GSd75MDO3Jys8
-	r6fQ==
-X-Gm-Message-State: AN3rC/4j2mbNcko9OvxfOULiUxyIFEHRVm+eFz62/UL3XF2J9WCc524o
-	FgM4BpZLlC4rEq7j
-X-Received: by 10.98.112.134 with SMTP id l128mr14274487pfc.110.1492809016336; 
-	Fri, 21 Apr 2017 14:10:16 -0700 (PDT)
-Received: from Akusters-laptop.local ([2601:202:4001:9ea0:54cb:4fab:7f49:513a])
-	by smtp.googlemail.com with ESMTPSA id
-	b77sm17670948pfe.39.2017.04.21.14.10.15
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 21 Apr 2017 14:10:15 -0700 (PDT)
-To: openembedded-core@lists.openembedded.org
-References: <1492771066-9051-1-git-send-email-andrej.valek@siemens.com>
-From: akuster808 <akuster808@gmail.com>
-Message-ID: <1e25144c-3a2b-a0de-1c28-7a1cd2597bed@gmail.com>
-Date: Fri, 21 Apr 2017 14:10:14 -0700
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:45.0)
-	Gecko/20100101 Thunderbird/45.8.0
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=ckT2XsWoh+4oPhzcWfTA9Xhvblx3gHdO+qxRwFBlJos=;
+	b=tHRi5lRm7bL/LaL8kBVQDJWvurkdJ98b0QdBNQnTzeL3X/ngIfO9HGUtU+WMEafiIY
+	tgr6prGY4EGNQF3T6cW/7E/GDytNWG2suxRIofxupUnRsTCoCeQvv5HRBOssLInpO/9M
+	cRYMujJAuuOiWm8GufiJH9wSv5F7iqbID+pwp0uIpxqIvKqd8jBUYllCbvnv0h6XITmI
+	sThItXUkTAdYrwfK0+ZjdcA8WMc3Acc/Qr9vBxgW2oJytwwOvwiOzL/9nBKn///bJJvE
+	h0QZaO4GgeDIr1UtQdSF69VtQSOhhV0eCrKeCcf+yYsrnpx5UjHbMDILBKSFkBxOLUau
+	Ilyg==
+X-Gm-Message-State: AN3rC/5FxK4qErotFgmAoFyLEIXrW6D3uZJ9Uvhd0yUR4LI2kZLqOX2U
+	oEBcGKMhO1CKAR3t5f7fcImV34isUQ==
+X-Received: by 10.28.31.200 with SMTP id f191mr551849wmf.63.1492812274552;
+	Fri, 21 Apr 2017 15:04:34 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <1492771066-9051-1-git-send-email-andrej.valek@siemens.com>
-Subject: Re: [PATCH][morty] glibc: Security fix CVE-2016-6323
+Received: by 10.80.150.196 with HTTP; Fri, 21 Apr 2017 15:04:34 -0700 (PDT)
+In-Reply-To: <20170421144817.66c189b6@t510.zcs.saftware.de>
+References: <1492771191-4445-1-git-send-email-obi@opendreambox.org>
+	<CAAQYJAs_8am0azk+0_3MNvwrNU6WiX2_5HgH0ouwWdyK6F8rAA@mail.gmail.com>
+	<20170421133034.59e68228@t510.zcs.saftware.de>
+	<CAKRNOGyKJ5_W5Ws0Q7E2Nm9d8SV6bTZzXac2K6uEexE7567UjA@mail.gmail.com>
+	<20170421144817.66c189b6@t510.zcs.saftware.de>
+From: Andrea Adami <andrea.adami@gmail.com>
+Date: Sat, 22 Apr 2017 00:04:34 +0200
+Message-ID: <CAAQYJAuZtXMhZ4FniXEkLXJK8-ZT6RRs-AYTJXtu6L5jPC_TwQ@mail.gmail.com>
+To: Andreas Oberritter <obi@opendreambox.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] Revert "kernel: Fix symlinks"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,83 +56,143 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Apr 2017 21:10:16 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 21 Apr 2017 22:04:34 -0000
+Content-Type: multipart/alternative; boundary=001a114b2e80575222054db471e5
 
-On 4/21/17 3:37 AM, Andrej Valek wrote:
-> arm: mark __startcontext as .cantunwind, GNU
+--001a114b2e80575222054db471e5
+Content-Type: text/plain; charset=UTF-8
+
+On Fri, Apr 21, 2017 at 2:48 PM, Andreas Oberritter <obi@opendreambox.org>
+wrote:
+> On Fri, 21 Apr 2017 14:37:36 +0200
+> David Vincent <freesilicon@gmail.com> wrote:
 >
-> CVE: CVE-2016-6323
-> Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
-> Signed-off-by: Pascal Bach <pascal.bach@siemens.com>
-
-what is different about this one and the one sent on the 19th?
-
--armin
-> ---
->  meta/recipes-core/glibc/glibc/CVE-2016-6323.patch | 39 +++++++++++++++++++++++
->  meta/recipes-core/glibc/glibc_2.24.bb             |  1 +
->  2 files changed, 40 insertions(+)
->  create mode 100644 meta/recipes-core/glibc/glibc/CVE-2016-6323.patch
+>> On 2017-04-21 13:30 GMT+02:00 Andreas Oberritter <obi@opendreambox.org>:
+>> > On Fri, 21 Apr 2017 13:02:51 +0200
+>> > Andrea Adami <andrea.adami@gmail.com> wrote:
+>> >
+>> >> On Fri, Apr 21, 2017 at 12:39 PM, Andreas Oberritter
+>> >> <obi@opendreambox.org> wrote:
+>> >> > This reverts commit c7bc46b9bc29dd0953ab8d63b50fa105bb66892e.
+>> >> >
+>> >> > It broke dpkg's update-alternatives, which requires absolute paths.
+>> >>
+>> >> This is really uncommon.
+>> >
+>> > Actually it's not. Try it on any Debian or Ubuntu system.
+>> >
+>> >> I had already expressed my negative opinion about absolute paths for
+kernel [1].
+>> >> Personally, I had to patch the bootloader (kexecboot).
+>>
+>> Same here, that's why I submitted it in the first place. Didn't
+>> thought that would break dpkg...
+>>
+>> >>
+>> >> So please try some workaround instead of changing it back.
+>> >
+>> > Well, there's no workaround. Other than opkg's update-alternatives,
+dpkg's maintains
+>> > an alternatives database in /etc/alternatives, so the symlink is going
+to point to
+>> > an absolute path outside of /boot anyway.
+>>
+>> The problem is that, for bootloaders, it is not always possible to
+>> mount the rootfs. So, it must only rely on information in the boot
+>> partition that can be mounted anywhere.
 >
-> diff --git a/meta/recipes-core/glibc/glibc/CVE-2016-6323.patch b/meta/recipes-core/glibc/glibc/CVE-2016-6323.patch
-> new file mode 100644
-> index 0000000..f9b9fa5
-> --- /dev/null
-> +++ b/meta/recipes-core/glibc/glibc/CVE-2016-6323.patch
-> @@ -0,0 +1,39 @@
-> +glibc-2.24: Fix CVE-2016-6323
-> +
-> +[No upstream tracking] -- https://sourceware.org/bugzilla/show_bug.cgi?id=20435
-> +
-> +arm: mark __startcontext as .cantunwind, GNU
-> +
-> +Glibc bug where the makecontext function would create
-> +an execution context which is incompatible with the unwinder,
-> +causing it to hang when the generation of a backtrace is attempted.
-> +
-> +Upstream-Status: Backport [https://sourceware.org/git/gitweb.cgi?p=glibc.git;h=9e2ff6c9cc54c0b4402b8d49e4abe7000fde7617]
-> +CVE: CVE-2016-6323
-> +Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
-> +Signed-off-by: Pascal Bach <pascal.bach@siemens.com>
-> +
-> +diff --git a/sysdeps/unix/sysv/linux/arm/setcontext.S b/sysdeps/unix/sysv/linux/arm/setcontext.S
-> +index 603e508..d1f168f 100644
-> +--- a/sysdeps/unix/sysv/linux/arm/setcontext.S
-> ++++ b/sysdeps/unix/sysv/linux/arm/setcontext.S
-> +@@ -86,12 +86,19 @@ weak_alias(__setcontext, setcontext)
-> + 
-> + 	/* Called when a makecontext() context returns.  Start the
-> + 	   context in R4 or fall through to exit().  */
-> ++	/* Unwind descriptors are looked up based on PC - 2, so we have to
-> ++	   make sure to mark the instruction preceding the __startcontext
-> ++	   label as .cantunwind.  */
-> ++	.fnstart
-> ++	.cantunwind
-> ++	nop
-> + ENTRY(__startcontext)
-> + 	movs    r0, r4
-> + 	bne     PLTJMP(__setcontext)
-> + 
-> + 	@ New context was 0 - exit
-> + 	b       PLTJMP(HIDDEN_JUMPTARGET(exit))
-> ++	.fnend
-> + END(__startcontext)
-> + 
-> + #ifdef PIC
-> diff --git a/meta/recipes-core/glibc/glibc_2.24.bb b/meta/recipes-core/glibc/glibc_2.24.bb
-> index f5a21b2..bce06c7 100644
-> --- a/meta/recipes-core/glibc/glibc_2.24.bb
-> +++ b/meta/recipes-core/glibc/glibc_2.24.bb
-> @@ -37,6 +37,7 @@ SRC_URI = "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
->             file://0024-eglibc-Forward-port-cross-locale-generation-support.patch \
->             file://0025-Define-DUMMY_LOCALE_T-if-not-defined.patch \
->             file://0026-build_local_scope.patch \
-> +           file://CVE-2016-6323.patch \
->  "
->  
->  SRC_URI += "\
+> I understand the problem the patch tried to address.
+>
+> Those bootloaders don't find the kernel by chance. The name of the image
+> is usually set in the environment. You can update the environment in
+postinst-
+> scripts or just change the name of the kernel image to match the
+bootloader's
+> expectations, just to name some alternatives.
+>
+>> >
+>> > To fix your problem, kernel.bbclass should be changed to not use
+update-alternatives
+>> > at all. But it's definitely wrong to break the original u-a by using
+invalid command-
+>> > line arguments.
+>> >
+>>
+>> And reverting this patch breaks boot for those who rely on a relative
+>> symlink ; that is also wrong.
+>
+> Yes. However, I'd argue that a regression is worse than a problem that
+> persisted for years.
 
+We lived for years with the relative symlink.
 
+Then  78ee4d8  broke the bootloaders in 2014
+Finally it was reverted end 2016 and now it is under review again...ouch
 
+What broke what?
+
+My point is, while I had the sources and could modify and reflash the
+bootloader, the same is not valid for many people.
+
+Anyway, I have found out that there was a workaround to allow boot from NFS:
+
++ROOTFS_POSTPROCESS_COMMAND += "make_zimage_symlink_relative;"
+
+Cheers
+Andrea
+
+--001a114b2e80575222054db471e5
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><br><br>On Fri, Apr 21, 2017 at 2:48 PM, Andreas Oberritte=
+r &lt;<a href=3D"mailto:obi@opendreambox.org">obi@opendreambox.org</a>&gt; =
+wrote:<br>&gt; On Fri, 21 Apr 2017 14:37:36 +0200<br>&gt; David Vincent &lt=
+;<a href=3D"mailto:freesilicon@gmail.com">freesilicon@gmail.com</a>&gt; wro=
+te:<br>&gt;<br>&gt;&gt; On 2017-04-21 13:30 GMT+02:00 Andreas Oberritter &l=
+t;<a href=3D"mailto:obi@opendreambox.org">obi@opendreambox.org</a>&gt;:<br>=
+&gt;&gt; &gt; On Fri, 21 Apr 2017 13:02:51 +0200<br>&gt;&gt; &gt; Andrea Ad=
+ami &lt;<a href=3D"mailto:andrea.adami@gmail.com">andrea.adami@gmail.com</a=
+>&gt; wrote:<br>&gt;&gt; &gt;<br>&gt;&gt; &gt;&gt; On Fri, Apr 21, 2017 at =
+12:39 PM, Andreas Oberritter<br>&gt;&gt; &gt;&gt; &lt;<a href=3D"mailto:obi=
+@opendreambox.org">obi@opendreambox.org</a>&gt; wrote:<br>&gt;&gt; &gt;&gt;=
+ &gt; This reverts commit c7bc46b9bc29dd0953ab8d63b50fa105bb66892e.<br>&gt;=
+&gt; &gt;&gt; &gt;<br>&gt;&gt; &gt;&gt; &gt; It broke dpkg&#39;s update-alt=
+ernatives, which requires absolute paths.<br>&gt;&gt; &gt;&gt;<br>&gt;&gt; =
+&gt;&gt; This is really uncommon.<br>&gt;&gt; &gt;<br>&gt;&gt; &gt; Actuall=
+y it&#39;s not. Try it on any Debian or Ubuntu system.<br>&gt;&gt; &gt;<br>=
+&gt;&gt; &gt;&gt; I had already expressed my negative opinion about absolut=
+e paths for kernel [1].<br>&gt;&gt; &gt;&gt; Personally, I had to patch the=
+ bootloader (kexecboot).<br>&gt;&gt;<br>&gt;&gt; Same here, that&#39;s why =
+I submitted it in the first place. Didn&#39;t<br>&gt;&gt; thought that woul=
+d break dpkg...<br>&gt;&gt;<br>&gt;&gt; &gt;&gt;<br>&gt;&gt; &gt;&gt; So pl=
+ease try some workaround instead of changing it back.<br>&gt;&gt; &gt;<br>&=
+gt;&gt; &gt; Well, there&#39;s no workaround. Other than opkg&#39;s update-=
+alternatives, dpkg&#39;s maintains<br>&gt;&gt; &gt; an alternatives databas=
+e in /etc/alternatives, so the symlink is going to point to<br>&gt;&gt; &gt=
+; an absolute path outside of /boot anyway.<br>&gt;&gt;<br>&gt;&gt; The pro=
+blem is that, for bootloaders, it is not always possible to<br>&gt;&gt; mou=
+nt the rootfs. So, it must only rely on information in the boot<br>&gt;&gt;=
+ partition that can be mounted anywhere.<br>&gt;<br>&gt; I understand the p=
+roblem the patch tried to address.<br>&gt;<br>&gt; Those bootloaders don&#3=
+9;t find the kernel by chance. The name of the image<br>&gt; is usually set=
+ in the environment. You can update the environment in postinst-<br>&gt; sc=
+ripts or just change the name of the kernel image to match the bootloader&#=
+39;s<br>&gt; expectations, just to name some alternatives.<br>&gt;<br>&gt;&=
+gt; &gt;<br>&gt;&gt; &gt; To fix your problem, kernel.bbclass should be cha=
+nged to not use update-alternatives<br>&gt;&gt; &gt; at all. But it&#39;s d=
+efinitely wrong to break the original u-a by using invalid command-<br>&gt;=
+&gt; &gt; line arguments.<br>&gt;&gt; &gt;<br>&gt;&gt;<br>&gt;&gt; And reve=
+rting this patch breaks boot for those who rely on a relative<br>&gt;&gt; s=
+ymlink ; that is also wrong.<br>&gt;<br>&gt; Yes. However, I&#39;d argue th=
+at a regression is worse than a problem that<br>&gt; persisted for years.<b=
+r><br>We lived for years with the relative symlink.<br><br>Then =C2=A078ee4=
+d8 =C2=A0broke the bootloaders in 2014<br>Finally it was reverted end 2016 =
+and now it is under review again...ouch<br><br>What broke what?<br><br>My p=
+oint is, while I had the sources and could modify and reflash the bootloade=
+r, the same is not valid for many people.<br><br>Anyway, I have found out t=
+hat there was a workaround to allow boot from NFS:<br><br>+ROOTFS_POSTPROCE=
+SS_COMMAND +=3D &quot;make_zimage_symlink_relative;&quot;<br><br>Cheers<br>=
+Andrea<br><br></div>
+
+--001a114b2e80575222054db471e5--
