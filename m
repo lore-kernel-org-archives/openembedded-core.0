@@ -1,45 +1,51 @@
-Return-Path: <h4nn35.work@gmail.com>
-Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
-	by mail.openembedded.org (Postfix) with ESMTP id D28D577A2E
+Return-Path: <freesilicon@gmail.com>
+Received: from mail-qk0-f169.google.com (mail-qk0-f169.google.com
+	[209.85.220.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 51F1C779CA
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Apr 2017 07:48:32 +0000 (UTC)
-Received: by mail-wm0-f65.google.com with SMTP id u65so3264008wmu.3
+	Fri, 21 Apr 2017 07:55:24 +0000 (UTC)
+Received: by mail-qk0-f169.google.com with SMTP id f133so66109427qke.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Apr 2017 00:48:34 -0700 (PDT)
+	Fri, 21 Apr 2017 00:55:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=Tqh0K4C8RZ6Wd7+/rtg+j0eXJTBryEj1NtpfOqVH0SY=;
-	b=k94Gp0bAKOmbeCFxD0RSJddDHB1VWf7BjbvW09Ayz++7beDaXaYmsBUZLi1uqrPrM0
-	JcSrWneMi9mpC2PWgSEClAJnJjiTZaZJVXeA0EGZvuq0wcu/90+3V8rWLKk1kLqmL6gf
-	La+c2+XRfiGElk0hKqXwbRt2QIbQz1bkUJeEcwX8iv8nyjID3qbHkN7Fkin2NlcMW3pD
-	6hezx6nLkvE+WG37o3HtnGGZZU18FICR4EX5RVL/a4+S7w61wXCF77OypU+tElj2F+3J
-	pPkV6vL2P2dbKPJ77z4YzMoQp840riu4AmVgJVP6fB5171gckk8UrEIyu2ar3LD0JhVO
-	NfYg==
+	:cc; bh=fUQvwacOBcLLqRbj9B21qxQWUTTs20kT1Azl0Y9iRMo=;
+	b=QQ8IahyPqDp7qBxaQlwLpUxpi0LUbi6QhArS9lS4oqAidv+l96susef+jS71aTymez
+	bzxtODZiAJFlKbVuQn7Vw16IF+l+NHydQ69lZ921IowrQAJYKJWpxFOWteiGmoYu5O8L
+	Mr1g0mRLa6KoaiE0NfXPt+vr98amC6Q3gmmevgpC97FGI+1OZmKBixzrOAy+j8cP171H
+	9iFbA905TGcX0IXaH1Zkq5Q6ArzzK6jrK03ZdC8uQj2ns9c/02t9ZM4LNEHc3lKtzSlF
+	hg/j+NVbrLNuYDJk9WdC9hL6DMVyXPioaf0a2dBVbAXIHCKCVQgerqkP1AhTGeLX3Gu5
+	iDow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=Tqh0K4C8RZ6Wd7+/rtg+j0eXJTBryEj1NtpfOqVH0SY=;
-	b=MY/Vt9297/IHmKXRwOCsbkh/MXdWNGSmrz65T/euOo0gG1GHZ5qlXfhK//h517v4gE
-	6++K8iYefW+wc4cvdQbpuZwc8UYw65YqrmB5l7vM/9YtQpIrdJ7YjUHboI/ALIHpKXHn
-	MAep3eEVAKOVnyxVaXfmpEOtoGIhY57OtLREBITeYpK7A2sMmlFx/c2DaR8vQlBsssLa
-	Pc/03GIMXXly7fv6KtFApkFKSWHINQ0umXA6A25UyigdPVLipLPAXmhc3m1UPu5ny6HL
-	7QHDtZuiFHs5cL9pBl71Ayir9jJCHbd4HUqIjnWPOBWllbEdbS02Qceb8/oqb7BMQZ2W
-	bzEg==
-X-Gm-Message-State: AN3rC/7FIx+V0uYsmMphXwLQrzSTp/9iKyvy8rUHB8t+Wuy4xtWQJ5Zk
-	Nyfds1I/Mk3AvrNsdfkgvhUSq0asOA==
-X-Received: by 10.28.51.9 with SMTP id z9mr6512824wmz.77.1492760913160; Fri,
-	21 Apr 2017 00:48:33 -0700 (PDT)
+	bh=fUQvwacOBcLLqRbj9B21qxQWUTTs20kT1Azl0Y9iRMo=;
+	b=Fmk3JJ0rmEwk/hKO1NqIix67MJUrZlzAiDVFsZ4WIir7ABPTmuK15T/GcLN8ipIFWx
+	R3X+rr8gMVLRo5LNBIeaVrMMHNTX6joBjpWf8C7T1ufS41BETSUdqf8kA2VuYRyov8JZ
+	CEPsoIYUYYP44nhjN/1pNFF2imFWr0pNvPtkE4nt6Q9rJz/N/twyhHCzIKOgFCyLtAZ+
+	24Ts2PS2UGW9RHSz8Az/ho0cL27fCOe0GFw+zMf2Xrd87K7njjq61qdjnl5egHDF3cUJ
+	mfnUTTQwO//1McsTr8Wl0wUY5IlyB2h1F4zyQQRxK1DYQ4goVbkb8zrXbfEGcoelt8u0
+	m4iw==
+X-Gm-Message-State: AN3rC/7gNWED28zqkcBtyL3jyUMS8X9h4KkJGy9SxfhwtthfWCGoo+5k
+	3Tiyk+rwWcc1HXWPEeKJ6ehnINRINA==
+X-Received: by 10.55.12.14 with SMTP id 14mr11540972qkm.249.1492761326192;
+	Fri, 21 Apr 2017 00:55:26 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.28.24.20 with HTTP; Fri, 21 Apr 2017 00:48:32 -0700 (PDT)
-In-Reply-To: <cover.1492086566.git.pkj@axis.com>
-References: <cover.1492086566.git.pkj@axis.com>
-From: Johannes Pointner <h4nn35.work@gmail.com>
-Date: Fri, 21 Apr 2017 09:48:32 +0200
-Message-ID: <CAHvQdo3GZAKsES13uh4byUQnKX-TZHwNSrXU4G1ez7XibJh4zA@mail.gmail.com>
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+Received: by 10.12.152.220 with HTTP; Fri, 21 Apr 2017 00:55:25 -0700 (PDT)
+In-Reply-To: <20170420130400.GC3059@jama>
+References: <20170123135916.4618-1-freesilicon@gmail.com>
+	<6366113.GnGklEYiun@crde-port-20.cahors.local>
+	<64f205a9-74d2-1161-14f1-5ed03298f350@linux.intel.com>
+	<5023360.N8L8OyXh3V@crde-port-20.cahors.local>
+	<d67f6cb5-482e-9e3f-bde5-4284e8eeb31b@linux.intel.com>
+	<20170420130400.GC3059@jama>
+From: David Vincent <freesilicon@gmail.com>
+Date: Fri, 21 Apr 2017 09:55:25 +0200
+Message-ID: <CAKRNOGyCF7v02NQR0xX4jSTPiCi0Qh5ODX_GS4q8Dy4z_S8Atw@mail.gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCHv2 0/1] Do not use command in profile
+Subject: Re: [PATCH] openssl: Fix symlink creation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,55 +58,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Apr 2017 07:48:33 -0000
+X-List-Received-Date: Fri, 21 Apr 2017 07:55:26 -0000
 Content-Type: text/plain; charset=UTF-8
 
-Will this patch get merge?
-Or do we have to include 'command' from now on? As this commit
-"busybox: In defconfig enable ASH_CMDCMD for built-in 'command'"
-suggests?
+On 2017-04-20 15:04 GMT+02:00 Martin Jansa <martin.jansa@gmail.com>:
+> On Thu, Apr 20, 2017 at 03:37:24PM +0300, Alexander Kanavin wrote:
+>> On 04/19/2017 04:03 PM, David Vincent wrote:
+>> > The problem is that I must be able to manage the configuration of a machine
+>> > without physical intervention and only via package upgrades. A new
+>> > configuration can be applied simply by incrementing the PR of a configuration
+>> > package.
+>> >
+>> > But maybe this is a use case only needed by me and I should manage it in my
+>> > own specific layer ?
+>> >
+>> > Now that I think of it, I have the same kind of problem for all machine
+>> > specific configurations. For now, I just replace the PACKAGE_ARCH in my BSP
+>> > layer with a machine specific one to indicate that a package contains a
+>> > configuration valid only for a specific machine. Maybe, in a future release, it
+>> > should be desirable to create -conf packages based on the CONFFILES variable ?
+>> > I don't know if it's a good idea, but maybe I could bring that up on the
+>> > architecture mailing list ?
+>>
+>> By all means please do so. Yocto lacks a solution for configuration
+>> management, and this was discussed some time ago, although I cannot
+>> anymore find where it happened. Mark, do you remember?
 
-Thanks,
-Hannes
+Yes I'll bring that up on the architecture mailing list to gather some advices.
 
-2017-04-13 14:30 GMT+02:00 Peter Kjellerstedt <peter.kjellerstedt@axis.com>:
-> Since we apparently cannot rely on the command utility to always
-> exist, it is better to avoid using it in the profile script. Rather
-> than using command to detect if tty and resize exist (which obviously
-> will not work if command itself does not exist), just call them
-> directly while piping any output for stderr to /dev/null. This should
-> actually be a little bit more efficient in the case that they do
-> exist, and the same in the case that they do not exist.
 >
-> I leave to you to decide whether you want to revert commit e41c90b852
-> that enabled the command utility in busybox or not.
+> I still haven't seen any argument why not use u-a like for any other
+> alternative files.
+
+I don't really have an argument, it's just that it feels wrong to me to manage
+configuration files via update-alternatives. Just like it did for
+initscripts. I agree that
+it works, until some corner cases reveal problems.
+(see https://bugzilla.yoctoproject.org/show_bug.cgi?id=10433)
+
 >
-> PATCHv2: Correct a typo in the commit message
+> All you have to do is create openssl bbappend (this part might be
+> integrated into oe-core):
 >
-> //Peter
+> inherit update-alternatives
+> ALTERNATIVE_${PN} = "openssl-cnf"
+> ALTERNATIVE_LINK_NAME[openssl-cnf] = "${sysconfdir}/ssl/openssl.cnf"
+> ALTERNATIVE_PRIORITY[openssl-cnf] ?= "1"
 >
-> The following changes since commit fe47bff64b17562593c620d2daf748735bb5c3d6:
+> And then in your recipe which provides alternative config add similar
+> fragment:
 >
->   linux-yocto: Update genericx86* SRCREVs for linux-yocto 4.10 (2017-04-13 10:54:37 +0100)
+> inherit update-alternatives
+> ALTERNATIVE_${PN} = "openssl-cnf"
+> ALTERNATIVE_LINK_NAME[openssl-cnf] = "${sysconfdir}/ssl/openssl.cnf"
+> ALTERNATIVE_PRIORITY[openssl-cnf] ?= "10"
 >
-> are available in the git repository at:
+> And that's it. We're using this for last 4 years since:
+> https://github.com/openwebos/meta-webos/commit/b13980be3f28bf60582ec3f691e392db03942e21
+> and it worked fine until this oe-core change was merged (and I had to
+> undo it in the same bbappend).
+
+OTOH, I could also append the install task for my target. There are
+many solutions to
+this problem, but I think that like it was said before, the main one
+is handling properly the
+configuration and provide a way to override it in BSP or distro layers.
+
 >
->   git://git.yoctoproject.org/poky-contrib pkj/profile_without_command
->   http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=pkj/profile_without_command
->
-> Peter Kjellerstedt (1):
->   base-files: profile: Avoid using "command" to determine if programs
->     exist
->
->  meta/recipes-core/base-files/base-files/profile | 14 ++++++--------
->  1 file changed, 6 insertions(+), 8 deletions(-)
->
+> Regards,
 > --
-> 2.12.0
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+David
 
