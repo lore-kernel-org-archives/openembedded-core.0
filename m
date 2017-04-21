@@ -1,42 +1,51 @@
-Return-Path: <andreas.reichel@tngtech.com>
-Received: from proxy.tng.vnc.biz (zimbra-vnc.tngtech.com [83.144.240.98])
-	by mail.openembedded.org (Postfix) with ESMTP id 64CC677AA9
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qt0-f174.google.com (mail-qt0-f174.google.com
+	[209.85.216.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 81C6A71AB5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Apr 2017 12:16:16 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by proxy.tng.vnc.biz (Postfix) with ESMTP id 3C9CE1E1A42;
-	Fri, 21 Apr 2017 14:10:22 +0200 (CEST)
-X-Spam-Flag: NO
-X-Spam-Score: -1.5
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.5 tagged_above=-10 required=5
-	tests=[ALL_TRUSTED=-1, BAYES_00=-0.5, LOCAL_FROM_TNG=-0.001,
-	URIBL_BLOCKED=0.001] autolearn=ham autolearn_force=no
-Received: from proxy.tng.vnc.biz ([127.0.0.1])
-	by localhost (proxy.tng.vnc.biz [127.0.0.1]) (amavisd-new, port 10032)
-	with ESMTP id SjEhsp1K1pfV; Fri, 21 Apr 2017 14:10:21 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-	by proxy.tng.vnc.biz (Postfix) with ESMTP id CFE701E1A37;
-	Fri, 21 Apr 2017 14:10:17 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at 
-Received: from proxy.tng.vnc.biz ([127.0.0.1])
-	by localhost (proxy.tng.vnc.biz [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id Begbgq9jdhrn; Fri, 21 Apr 2017 14:10:17 +0200 (CEST)
-Received: from localhost.localdomain (p578a821c.dip0.t-ipconnect.de
-	[87.138.130.28])
-	by proxy.tng.vnc.biz (Postfix) with ESMTPSA id E42F71E1A49;
-	Fri, 21 Apr 2017 14:10:14 +0200 (CEST)
-From: "Andreas J. Reichel" <andreas.reichel@tngtech.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 21 Apr 2017 14:11:41 +0200
-Message-Id: <20170421121145.9797-2-andreas.reichel@tngtech.com>
-X-Mailer: git-send-email 2.12.2
-In-Reply-To: <20170421121145.9797-1-andreas.reichel@tngtech.com>
-References: <20170421121145.9797-1-andreas.reichel@tngtech.com>
-Cc: Jan Kiszka <jan.kiszka@siemens.com>,
-	Daniel Wagner <daniel.wagner@siemens.com>,
-	Andreas Reichel <andreas.reichel.ext@siemens.com>
-Subject: [wic patch 1/5] wic: Catch errors during image files clean-up
+	Fri, 21 Apr 2017 12:18:23 +0000 (UTC)
+Received: by mail-qt0-f174.google.com with SMTP id g60so68099720qtd.3
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 21 Apr 2017 05:18:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=W5mN2pLeS27hxgYuOK2yV7X2P+iwiV6/DN6Kg439/yM=;
+	b=AOt8oumUK7Gzsjrj0KJHZcYX/idDpHS2sQJGS5Bk1fCdys9vpCx6mDgzcGh4Sc/o9Q
+	7O5AQLEQuyzzwhbRQjNTVHuex1rNmXYVTVQBgk8jPNIkO5Pa/rouVvXR2OLqpQ4LGz8H
+	vXotfb703gp45lwxHZdXz6smI/I+sLTrJMYA4dNBHyvOzlEAreYASfLfLIRwNvZ8re7O
+	ydbfhd+nN9Ew9T3NVNQfC92R+DZ5/HKEa+kgSmfm571uH2KlztEFMS869jPvmPutpD/9
+	ZaG1kKHukbyHHhxg8AuJq23Gu1qOLH4VMRQnzlN4HDeg75uGSf5IkwRxBqTGFp6LRlzu
+	KTCg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=W5mN2pLeS27hxgYuOK2yV7X2P+iwiV6/DN6Kg439/yM=;
+	b=qYsn/6KYEvHgxRNLazzaPCCNX28k4MtL7Glvx77bVoLEMN/ZEMhtATkuopzUv153qy
+	OQYg2md/8XcZRgP3Y6s63y9ebt9cfPSMqRMc2VjPuyQOPJ0aqW46B8EZEeMEq1gLmjta
+	k+5dM/AXp22zCiKTHmQtIy2PdR+5qkIIDg5ViQHjKrxvcJj8vNU0e8L+Qm4HmClrnKYP
+	1z/AOxRtTNwQd/K6DPvMH/IyxykMeaGK5DKuy6V3QMDPqqwbcQiTC30wugSScEiDayms
+	/UB50FBEV0+GfwdTPqQymcs5PKNjQKWn/1VWgf7GDoTsxIO21mr/Oj4iXiJZTWTvMIPC
+	9z7g==
+X-Gm-Message-State: AN3rC/5V+9huSvPf+wY9TElkqivFweamXteZaPpoxBn0OIOH/4SQmIU2
+	iD89RZMcdJ6nfUK+ntfqRe71Py3kBVAU
+X-Received: by 10.200.46.26 with SMTP id r26mr14019044qta.197.1492777104367;
+	Fri, 21 Apr 2017 05:18:24 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.22.166 with HTTP; Fri, 21 Apr 2017 05:18:03 -0700 (PDT)
+In-Reply-To: <3f5a2d43-819b-230b-534c-89d304f7f5c8@linuxfoundation.org>
+References: <4130d91cdc58431bbea8292c7cc30498@XBOX02.axis.com>
+	<CAJTo0LbNUuNXdnXw3QRU+LfSfHSNa4PcWPRhe0B2N0RVhH68Xw@mail.gmail.com>
+	<3f5a2d43-819b-230b-534c-89d304f7f5c8@linuxfoundation.org>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 21 Apr 2017 13:18:03 +0100
+Message-ID: <CAJTo0LbAkYAWO1UqXJf3kyK36VU10ZoimCcHpoJAXxcerM02DQ@mail.gmail.com>
+To: Michael Halstead <mhalstead@linuxfoundation.org>
+Cc: Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Building logrotate for older releases is broken
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,38 +58,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Apr 2017 12:16:16 -0000
+X-List-Received-Date: Fri, 21 Apr 2017 12:18:24 -0000
+Content-Type: multipart/alternative; boundary=001a114708cc08f6b4054dac41aa
 
-Handle exception if a file could not be deleted during clean-up of
-unwanted files, thus preventing a failure of wic in this case.
+--001a114708cc08f6b4054dac41aa
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Andreas Reichel <andreas.reichel.ext@siemens.com>
-Signed-off-by: Jan Kiszka <jan.kiszka@siemens.com>
-Signed-off-by: Daniel Wagner <daniel.wagner@siemens.com>
+On 20 April 2017 at 17:48, Michael Halstead <mhalstead@linuxfoundation.org>
+wrote:
 
----
- scripts/lib/wic/plugins/imager/direct.py | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+> I've restored "4492b145b6d542e4a2f41e77fa199ab0  logrotate-3.9.1.tar.gz"
+> on downloads.yoctoproject.org and set it so it can't be overwritten.
+>
+> Please let me know if anything else is required.
+>
 
-diff --git a/scripts/lib/wic/plugins/imager/direct.py b/scripts/lib/wic/plugins/imager/direct.py
-index f2e6127331..d6b47ff0bb 100644
---- a/scripts/lib/wic/plugins/imager/direct.py
-+++ b/scripts/lib/wic/plugins/imager/direct.py
-@@ -541,7 +541,12 @@ class PartitionedImage():
-     def cleanup(self):
-         # remove partition images
-         for image in set(self.partimages):
--            os.remove(image)
-+            try:
-+                os.remove(image)
-+            except IOError as e:
-+                logger.warning(
-+                    "Could not delete file. {0}: I/O error ({1}): {2}\n".format(
-+                    image, e.errno, e.strerror))
- 
-     def assemble(self):
-         logger.debug("Installing partitions")
--- 
-2.11.0
+Thanks Michael!
 
+Ross
 
+--001a114708cc08f6b4054dac41aa
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 20 April 2017 at 17:48, Michael Halstead <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:mhalstead@linuxfoundation.org" target=3D"_blank">mhalstead@linux=
+foundation.org</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" s=
+tyle=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div=
+ text=3D"#000000" bgcolor=3D"#FFFFFF">I&#39;ve restored &quot;<wbr>4492b145=
+b6d542e4a2f41e77fa199a<wbr>b0=C2=A0
+    logrotate-3.9.1.tar.gz&quot; on <a href=3D"http://downloads.yoctoprojec=
+t.org" target=3D"_blank">downloads.yoctoproject.org</a> and set it so
+    it can&#39;t be overwritten. <br>
+    <br>
+    Please let me know if anything else is required.</div></blockquote></di=
+v><br>Thanks Michael!</div><div class=3D"gmail_extra"><br></div><div class=
+=3D"gmail_extra">Ross</div></div>
+
+--001a114708cc08f6b4054dac41aa--
