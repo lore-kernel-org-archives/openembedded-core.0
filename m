@@ -1,48 +1,54 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f169.google.com (mail-qk0-f169.google.com
-	[209.85.220.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 5EA6977A9D
+Return-Path: <akuster808@gmail.com>
+Received: from mail-io0-f195.google.com (mail-io0-f195.google.com
+	[209.85.223.195])
+	by mail.openembedded.org (Postfix) with ESMTP id CC01B71996
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Apr 2017 15:33:52 +0000 (UTC)
-Received: by mail-qk0-f169.google.com with SMTP id d80so9915845qke.3
+	Fri, 21 Apr 2017 15:56:12 +0000 (UTC)
+Received: by mail-io0-f195.google.com with SMTP id d203so31817830iof.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Apr 2017 08:33:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=vaf5KIBak/jlQjEfgaZH8SpVuPis4drIFhkh0vdkx+0=;
-	b=C+SaIhwd0Zq9J2aql9O5Kzhb3cTZMVjwazpGCpaFKFZPhNSXgT/0RU8AdcwmuXV9ek
-	AIiqPocwpnd8zA++KkMJUmBbFDwoliX2MpvR+bhy/U4FOL/PCI8ocHd23ml8A3CJVCkK
-	arB3fXAZpchMryjBwmWrs4evcWY4zqz3NEUDb3OhxOhniJoIWtFmavrYxevmo3fLqDRZ
-	DCpX7dgs5x8JT/z+qDhm4ivC0Kuf2HD5B4zTQ9rxFdoXJiw8uOazog4Su8JTC+b8r26G
-	XcJBhPXimmhhsRwrqhdqbS9A3BRmVXtAEd5aqR7qU1cnVWvB9G5LGJylQXbljaD4xxs/
-	DwsA==
+	Fri, 21 Apr 2017 08:56:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=subject:to:references:from:message-id:date:user-agent:mime-version
+	:in-reply-to; bh=EFZ5X3iMi831Bv49FwXsLIQCit4L9680pMG5CqwiJKI=;
+	b=cAZK/pfvbmhxo/4C6Gqg7t4byHMdgVaYR796CNjHuF9V7mpAZV3NkhKpKLiJEHlc+3
+	pawPhkoyIQAmTHcciOed03HoAuyvx/YusgwHjKPBYAMbYGmIPTznn0Nio74GSqAyaqvM
+	c5BLf4YEiQBLNBpQX1Mn0Mc5yln/rciNKIrdavE7kYieBqWtHfj2c9nRoRtX4OgXqCcj
+	W4UwH/Xvju3wtMtyQ+WOr/kSUPVyNYVwGZXTLENYuWfhO9uwMEM1BQe2JKkKoyOMJ7q6
+	UOzwdHbVWfheMqyh74kNJBTquzmsRYG59hgzk9W0ykxp/C8FtHHzsshHC7gharvkPRP0
+	ZBJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=vaf5KIBak/jlQjEfgaZH8SpVuPis4drIFhkh0vdkx+0=;
-	b=XOqOoOO+NJNZL1bO2ccWEfYC9+uK49ZLsy2O2vY10D2nE1Nyp42gEoX1mM1pULzrYy
-	KeGWTOlEI40xTaBa600tfdR31WSh7em8Cs2FMa5KMGbUf9sHGU8NQmtbUOU8nH4vkHmp
-	1RkJj95eE359hPIS2QdbsumpURLtrROlcy865la2tO1LzO7K+abWr/vevXe1ZGhGq75I
-	tYVXOD3n58GamhjyfQ0z0eRjtCINctCYy3cYPWCs5KZB/QFl0xCE7glI9jKMddbQ7T0x
-	jFAT0E8Bp2yAeWWTFHef0YXDcwWLEUDfn8H+y51k5sDp8xuQBVNnq6Wf7GW6bIxzV7ia
-	oiaw==
-X-Gm-Message-State: AN3rC/7xIBZyWUZK9UIDG+lo2gu2t1yBoXjUSD4HVemPzyOeYFaFf54l
-	Qnr5y655hqVzpN/O1NxFfPy1R3LL3RAN
-X-Received: by 10.55.115.65 with SMTP id o62mr13238650qkc.26.1492788833420;
-	Fri, 21 Apr 2017 08:33:53 -0700 (PDT)
+	h=x-gm-message-state:subject:to:references:from:message-id:date
+	:user-agent:mime-version:in-reply-to;
+	bh=EFZ5X3iMi831Bv49FwXsLIQCit4L9680pMG5CqwiJKI=;
+	b=ReKceJxvYBVz2DlgzPjlXCZ1febhvhIrKFoPMBXi5ejQWI23b1cHpYlD2c/EDIA3tf
+	Ys04DQm+CUxRbnVNjdGh2mzLD45tUnw72Crp9tZpr6kMmU6pzGD+NjhYQKMTN3xxl0wc
+	gX29Dkf0aO7KbyWWjYhkX2RjrN5X3k4CXV6EWOZWk6uTlC8O6qQ1uEZVCB2UN31TYDFS
+	FU8aKALQvCQHqIF7zTi0S1kL9w2ooiEIvGL3sYWSoFcKjLkzpkj4ZqlyMqa56aTJ4hY5
+	e15d9aGfJ3ibr70efrEs5D7f3fYuf1JyVh8KW8NwZ+MbBMHPkyZbE1/pbaumrmt4UCgM
+	q3OA==
+X-Gm-Message-State: AN3rC/4G8IlNSu7o5ZEIrOuJCWDcXWeaFGJIiSGr9+lm6RBrXwdnJ6xF
+	pnGEzFhhttUo3A==
+X-Received: by 10.98.72.144 with SMTP id q16mr13321060pfi.152.1492790173484;
+	Fri, 21 Apr 2017 08:56:13 -0700 (PDT)
+Received: from ?IPv6:2601:202:4001:9ea0:e3df:bf0a:9f90:498e?
+	([2601:202:4001:9ea0:e3df:bf0a:9f90:498e])
+	by smtp.gmail.com with ESMTPSA id
+	y202sm1832111pfb.15.2017.04.21.08.56.12
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 21 Apr 2017 08:56:13 -0700 (PDT)
+To: Martin Jansa <martin.jansa@gmail.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <CA+chaQdQz3==KgsjLby6Bx1NgnzhXKXQcvCY5pufr5gLeqMqtQ@mail.gmail.com>
+From: akuster808 <akuster808@gmail.com>
+Message-ID: <bd7ec72b-fe78-65bd-7d25-65e51a0aa30e@gmail.com>
+Date: Fri, 21 Apr 2017 08:55:55 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.8.0
 MIME-Version: 1.0
-Received: by 10.140.22.166 with HTTP; Fri, 21 Apr 2017 08:33:33 -0700 (PDT)
-In-Reply-To: <1492521609-26624-3-git-send-email-ferlandm@amotus.ca>
-References: <1492521609-26624-1-git-send-email-ferlandm@amotus.ca>
-	<1492521609-26624-3-git-send-email-ferlandm@amotus.ca>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 21 Apr 2017 16:33:33 +0100
-Message-ID: <CAJTo0LY+Yw9K2W+ZJ3uLNDurBCLd9xV8huoBLwcNZQG=SEd5WQ@mail.gmail.com>
-To: Marc Ferland <ferlandm@amotus.ca>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCHv3 2/8] bluez5: remove libasound-module references
+In-Reply-To: <CA+chaQdQz3==KgsjLby6Bx1NgnzhXKXQcvCY5pufr5gLeqMqtQ@mail.gmail.com>
+Subject: Re: linux-yocto.do_validate_branches failing since last oe-core update
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,44 +61,101 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Apr 2017 15:33:53 -0000
-Content-Type: multipart/alternative; boundary=001a114fdea2245a03054daefc67
+X-List-Received-Date: Fri, 21 Apr 2017 15:56:20 -0000
+Content-Type: multipart/alternative;
+	boundary="------------60B7F15A680198F7E23201FD"
 
---001a114fdea2245a03054daefc67
-Content-Type: text/plain; charset=UTF-8
+--------------60B7F15A680198F7E23201FD
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On 18 April 2017 at 14:20, Marc Ferland <ferlandm@amotus.ca> wrote:
 
-> -PACKAGES =+ "libasound-module-bluez ${PN}-testtools ${PN}-obex
-> ${PN}-noinst-tools"
-> +PACKAGES =+ "${PN}-testtools ${PN}-obex ${PN}-noinst-tools"
+
+On 04/21/2017 01:36 AM, Martin Jansa wrote:
+> Anyone else seeing this as well?
+
+yes
+
+- armin
+> I've updated to oe-core commit:
+> c6cd5865b6914521a841ae0c9f4e2bcda99beff2
+> from some revision maybe 20-40 commits older and now I'm seeing:
+> ERROR: linux-yocto-1_4.10.9+gitAUTOINC+ad2e885015_fe0fb8da3d-r0 do_validate_branches: Function failed: do_validate_branches (log file is located at linux-yocto/1_4.10.9+gitAUTOINC+ad2e885015_fe0fb8da3d-r0/temp/log.do_validate_branches.5385)
+> ERROR: Logfile of failure stored in: linux-yocto/1_4.10.9+gitAUTOINC+ad2e885015_fe0fb8da3d-r0/temp/log.do_validate_branches.5385
+> Log data follows:
+> | DEBUG: Executing shell function do_validate_branches
+> | HEAD is now at fe0fb8d Merge tag 'v4.10.9' into standard/base
+> | mkdir: cannot create directory ‘.’: File exists
+> |
+> | [ERROR] Can't find patch dir at ./patches/standard/base
+> | usage: kgit s2q
+> | WARNING: exit code 1 from a shell command.
+> | ERROR: Function failed: do_validate_branches (log file is located at linux-yocto/1_4.10.9+gitAUTOINC+ad2e885015_fe0fb8da3d-r0/temp/log.do_validate_branches.5385)
+> NOTE: recipe linux-yocto-1_4.10.9+gitAUTOINC+ad2e885015_fe0fb8da3d-r0: task do_validate_branches: Failed
+> ERROR: Task (oe-core/meta/recipes-kernel/linux/linux-yocto_4.10.bb:do_validate_branches) failed with exit code '1'
+>
 >
 
-packagegroup-base still refers to this package though:
 
-  - nothing provides libasound-module-bluez needed by
-packagegroup-base-bluetooth-1.0-r83.0.qemux86_64
+--------------60B7F15A680198F7E23201FD
+Content-Type: text/html; charset=windows-1252
+Content-Transfer-Encoding: 8bit
 
-Ross
+<html>
+  <head>
+    <meta content="text/html; charset=windows-1252"
+      http-equiv="Content-Type">
+  </head>
+  <body bgcolor="#FFFFFF" text="#000000">
+    <p><br>
+    </p>
+    <br>
+    <div class="moz-cite-prefix">On 04/21/2017 01:36 AM, Martin Jansa
+      wrote:<br>
+    </div>
+    <blockquote
+cite="mid:CA+chaQdQz3==KgsjLby6Bx1NgnzhXKXQcvCY5pufr5gLeqMqtQ@mail.gmail.com"
+      type="cite">
+      <div dir="ltr">
+        <pre class="gmail-console-output" style="box-sizing:border-box;white-space:pre-wrap;word-wrap:break-word;margin-top:0px;margin-bottom:0px;color:rgb(51,51,51);font-size:14px">Anyone else seeing this as well?</pre>
+      </div>
+    </blockquote>
+    <br>
+    yes<br>
+    <br>
+    - armin<br>
+    <blockquote
+cite="mid:CA+chaQdQz3==KgsjLby6Bx1NgnzhXKXQcvCY5pufr5gLeqMqtQ@mail.gmail.com"
+      type="cite">
+      <div dir="ltr">
+        <pre class="gmail-console-output" style="box-sizing:border-box;white-space:pre-wrap;word-wrap:break-word;margin-top:0px;margin-bottom:0px;color:rgb(51,51,51);font-size:14px">
+</pre>
+        <pre class="gmail-console-output" style="box-sizing:border-box;white-space:pre-wrap;word-wrap:break-word;margin-top:0px;margin-bottom:0px;color:rgb(51,51,51);font-size:14px">I've updated to oe-core commit:</pre>
+        <pre class="gmail-console-output" style="box-sizing:border-box;word-wrap:break-word;margin-top:0px;margin-bottom:0px"><font color="#333333"><span style="font-size:14px;white-space:pre-wrap">c6cd5865b6914521a841ae0c9f4e2bcda99beff2
+</span></font></pre>
+        <pre class="gmail-console-output" style="box-sizing:border-box;word-wrap:break-word;margin-top:0px;margin-bottom:0px"><font color="#333333"><span style="font-size:14px;white-space:pre-wrap">from some revision maybe 20-40 commits older and now I'm seeing:</span></font></pre>
+        <pre class="gmail-console-output" style="box-sizing:border-box;white-space:pre-wrap;word-wrap:break-word;margin-top:0px;margin-bottom:0px;color:rgb(51,51,51);font-size:14px">
+</pre>
+        <pre class="gmail-console-output" style="box-sizing:border-box;white-space:pre-wrap;word-wrap:break-word;margin-top:0px;margin-bottom:0px;color:rgb(51,51,51);font-size:14px">ERROR: linux-yocto-1_4.10.9+gitAUTOINC+ad2e885015_fe0fb8da3d-r0 do_validate_branches: Function failed: do_validate_branches (log file is located at linux-yocto/1_4.10.9+gitAUTOINC+ad2e885015_fe0fb8da3d-r0/temp/log.do_validate_branches.5385)
+ERROR: Logfile of failure stored in: linux-yocto/1_4.10.9+gitAUTOINC+ad2e885015_fe0fb8da3d-r0/temp/log.do_validate_branches.5385
+Log data follows:
+| DEBUG: Executing shell function do_validate_branches
+| HEAD is now at fe0fb8d Merge tag 'v4.10.9' into standard/base
+| mkdir: cannot create directory ‘.’: File exists
+| 
+| [ERROR] Can't find patch dir at ./patches/standard/base
+| usage: kgit s2q
+| WARNING: exit code 1 from a shell command.
+| ERROR: Function failed: do_validate_branches (log file is located at linux-yocto/1_4.10.9+gitAUTOINC+ad2e885015_fe0fb8da3d-r0/temp/log.do_validate_branches.5385)
+NOTE: recipe linux-yocto-1_4.10.9+gitAUTOINC+ad2e885015_fe0fb8da3d-r0: task do_validate_branches: Failed
+ERROR: Task (oe-core/meta/recipes-kernel/linux/linux-yocto_4.10.bb:do_validate_branches) failed with exit code '1'</pre>
+      </div>
+      <br>
+      <fieldset class="mimeAttachmentHeader"></fieldset>
+      <br>
+    </blockquote>
+    <br>
+  </body>
+</html>
 
---001a114fdea2245a03054daefc67
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 18 April 2017 at 14:20, Marc Ferland <span dir=3D"ltr">&lt;<a href=3D"ma=
-ilto:ferlandm@amotus.ca" target=3D"_blank">ferlandm@amotus.ca</a>&gt;</span=
-> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0=
-.8ex;border-left-width:1px;border-left-style:solid;border-left-color:rgb(20=
-4,204,204);padding-left:1ex"><div id=3D"gmail-:1xb" class=3D"gmail-a3s gmai=
-l-aXjCH gmail-m15b8139e06b17090">-PACKAGES =3D+ &quot;libasound-module-<spa=
-n class=3D"gmail-il">bluez</span> ${PN}-testtools ${PN}-obex ${PN}-noinst-t=
-ools&quot;<br>
-+PACKAGES =3D+ &quot;${PN}-testtools ${PN}-obex ${PN}-noinst-tools&quot;<br=
-></div></blockquote></div><div class=3D"gmail_extra"><br></div>packagegroup=
--base still refers to this package though:</div><div class=3D"gmail_extra">=
-<br>=C2=A0 - nothing provides libasound-module-bluez needed by packagegroup=
--base-bluetooth-1.0-r83.0.qemux86_64</div><div class=3D"gmail_extra"><br></=
-div><div class=3D"gmail_extra">Ross</div></div>
-
---001a114fdea2245a03054daefc67--
+--------------60B7F15A680198F7E23201FD--
