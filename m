@@ -1,23 +1,35 @@
-Return-Path: <california.l.sullivan@intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 37D7F77BFF
+Return-Path: <denis@denix.org>
+Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.17])
+	by mail.openembedded.org (Postfix) with ESMTP id 6D98A6059E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Apr 2017 22:18:38 +0000 (UTC)
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	21 Apr 2017 15:18:37 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.37,231,1488873600"; d="scan'208";a="90798088"
-Received: from clsulliv.jf.intel.com ([10.7.201.36])
-	by orsmga005.jf.intel.com with ESMTP; 21 Apr 2017 15:18:37 -0700
-From: California Sullivan <california.l.sullivan@intel.com>
+	Fri, 21 Apr 2017 23:18:23 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by mailout4.zoneedit.com (Postfix) with ESMTP id 623F420BA6
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 21 Apr 2017 23:18:24 +0000 (UTC)
+Received: from mailout4.zoneedit.com ([127.0.0.1])
+	by localhost (zmo03-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
+	port 10024) with ESMTP id UQkPUxn03Xyt
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 21 Apr 2017 23:18:24 +0000 (UTC)
+Received: from mail.denix.org (pool-100-15-85-143.washdc.fios.verizon.net
+	[100.15.85.143])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 49FC020174
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 21 Apr 2017 23:18:24 +0000 (UTC)
+Received: by mail.denix.org (Postfix, from userid 1000)
+	id BDD8116246E; Fri, 21 Apr 2017 19:18:23 -0400 (EDT)
+Date: Fri, 21 Apr 2017 19:18:23 -0400
+From: Denys Dmytriyenko <denis@denix.org>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 21 Apr 2017 15:18:36 -0700
-Message-Id: <1492813116-26583-2-git-send-email-california.l.sullivan@intel.com>
-X-Mailer: git-send-email 2.5.5
-In-Reply-To: <1492813116-26583-1-git-send-email-california.l.sullivan@intel.com>
-References: <1492813116-26583-1-git-send-email-california.l.sullivan@intel.com>
-Subject: [PATCH 2/2] parselogs: whitelist failed to enable keyboard error on intel-corei7-64
+Message-ID: <20170421231816.GC20419@denix.org>
+References: <1490031500-38242-1-git-send-email-denis@denix.org>
+MIME-Version: 1.0
+In-Reply-To: <1490031500-38242-1-git-send-email-denis@denix.org>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Subject: Re: [morty][PATCH] sstate.bbclass: update .siginfo atime
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,34 +42,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Apr 2017 22:18:38 -0000
+X-List-Received-Date: Fri, 21 Apr 2017 23:18:24 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-This error is seen on the Braswell RVP platform we have been using for
-testing. The error is caused by atkbd.c keyboard driver, which is only
-for AT and PS/2 keyboards. I tested a PS/2 keyboard with the board,
-which worked fine, and the board does not have a separate AT connector,
-so this error won't cause any functional issues.
+Ping. It's been over a month now...
 
-[YOCTO #10110].
 
-Signed-off-by: California Sullivan <california.l.sullivan@intel.com>
----
- meta/lib/oeqa/runtime/cases/parselogs.py | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/meta/lib/oeqa/runtime/cases/parselogs.py b/meta/lib/oeqa/runtime/cases/parselogs.py
-index 8a9231f..c4d347d 100644
---- a/meta/lib/oeqa/runtime/cases/parselogs.py
-+++ b/meta/lib/oeqa/runtime/cases/parselogs.py
-@@ -152,6 +152,7 @@ ignore_errors = {
-         'Bluetooth: hci0: Setting Intel event mask failed',
-         'ttyS2 - failed to request DMA',
-         'Bluetooth: hci0: Failed to send firmware data (-38)',
-+        'atkbd serio0: Failed to enable keyboard on isa0060/serio0',
-         ] + x86_common,
-     'crownbay' : x86_common,
-     'genericx86' : x86_common,
--- 
-2.5.5
-
+On Mon, Mar 20, 2017 at 01:38:20PM -0400, Denys Dmytriyenko wrote:
+> From: Ed Bartosh <ed.bartosh@linux.intel.com>
+> 
+> .siginfo files are not being accessed from local or NFS-mounted
+> sstate mirrors when sstate package is installed, so their atime
+> is not updated. If sstate mirror is cleaned based on access time,
+> they get deleted, even though they are still being used.
+> 
+> Updated atime of .siginfo symlinks with 'touch -a'. This command
+> dereferences symlinks pointing to the local mirror and updates
+> atime of the .siginfo file on the mirror.
+> 
+> [YOCTO #10857]
+> 
+> Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
+> Signed-off-by: Denys Dmytriyenko <denys@ti.com>
+> ---
+>  meta/classes/sstate.bbclass | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
+> index 8643f3d..4fdfcc8 100644
+> --- a/meta/classes/sstate.bbclass
+> +++ b/meta/classes/sstate.bbclass
+> @@ -724,6 +724,8 @@ python sstate_sign_package () {
+>  #
+>  sstate_unpack_package () {
+>  	tar -xvzf ${SSTATE_PKG}
+> +	# update .siginfo atime on local/NFS mirror
+> +	[ -h ${SSTATE_PKG}.siginfo ] && touch -a ${SSTATE_PKG}.siginfo
+>  	# Use "! -w ||" to return true for read only files
+>  	[ ! -w ${SSTATE_PKG} ] || touch --no-dereference ${SSTATE_PKG}
+>  	[ ! -w ${SSTATE_PKG}.sig ] || [ ! -e ${SSTATE_PKG}.sig ] || touch --no-dereference ${SSTATE_PKG}.sig
+> -- 
+> 2.7.4
+> 
+> -- 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
