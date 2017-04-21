@@ -1,22 +1,22 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	by mail.openembedded.org (Postfix) with ESMTP id DB7A177BFD
+	by mail.openembedded.org (Postfix) with ESMTP id CEED577BDB
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Apr 2017 12:40:24 +0000 (UTC)
+	Fri, 21 Apr 2017 12:40:25 +0000 (UTC)
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by fmsmga105.fm.intel.com with ESMTP; 21 Apr 2017 05:40:26 -0700
+	by fmsmga105.fm.intel.com with ESMTP; 21 Apr 2017 05:40:27 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.37,229,1488873600"; d="scan'208";a="251889266"
+X-IronPort-AV: E=Sophos;i="5.37,229,1488873600"; d="scan'208";a="251889269"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by fmsmga004.fm.intel.com with ESMTP; 21 Apr 2017 05:40:25 -0700
+	by fmsmga004.fm.intel.com with ESMTP; 21 Apr 2017 05:40:26 -0700
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 21 Apr 2017 15:39:57 +0300
-Message-Id: <eae311eeb072d7636dc574bdbb40172b0c3e6f8e.1492777818.git.alexander.kanavin@linux.intel.com>
+Date: Fri, 21 Apr 2017 15:39:58 +0300
+Message-Id: <35c3567755dc869ea0f7f8d2b5f55288104e9541.1492777818.git.alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <cover.1492777818.git.alexander.kanavin@linux.intel.com>
 References: <cover.1492777818.git.alexander.kanavin@linux.intel.com>
-Subject: [PATCH 06/11] dnf: update to 2.3.0
+Subject: [PATCH 07/11] python3-pygpgme: remove the recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,162 +29,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Apr 2017 12:40:25 -0000
+X-List-Received-Date: Fri, 21 Apr 2017 12:40:26 -0000
 
-Drop dependency on pygpgme, replace it with gpgme's own bindings.
-
-Add a patch that fixes an upstream regression.
+It was required only by dnf, which has switched to official gpgme bindings.
+pygpgme itself is old and unmaintaned.
 
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- ...er-check-of-releasever-when-using-install.patch | 105 +++++++++++++++++++++
- meta/recipes-devtools/dnf/dnf_git.bb               |   9 +-
- 2 files changed, 110 insertions(+), 4 deletions(-)
- create mode 100644 meta/recipes-devtools/dnf/dnf/0001-Revert-proper-check-of-releasever-when-using-install.patch
+ meta/recipes-devtools/python/python3-pygpgme_0.3.bb | 18 ------------------
+ 1 file changed, 18 deletions(-)
+ delete mode 100644 meta/recipes-devtools/python/python3-pygpgme_0.3.bb
 
-diff --git a/meta/recipes-devtools/dnf/dnf/0001-Revert-proper-check-of-releasever-when-using-install.patch b/meta/recipes-devtools/dnf/dnf/0001-Revert-proper-check-of-releasever-when-using-install.patch
-new file mode 100644
-index 00000000000..879ecfa30d7
---- /dev/null
-+++ b/meta/recipes-devtools/dnf/dnf/0001-Revert-proper-check-of-releasever-when-using-install.patch
-@@ -0,0 +1,105 @@
-+From 8cd0503612573c455f34db74cd1c2216ed25b69c Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex.kanavin@gmail.com>
-+Date: Wed, 12 Apr 2017 15:42:06 +0300
-+Subject: [PATCH] Revert "proper check of releasever, when using installroot
-+ (RhBug:1417542)"
-+
-+This reverts commit 3ddf684b7c67a2b384aa99dde53d8a43218f2e68, as it's causing
-+breakage when installing packages into a pristin rootfs. Upstream has been notified:
-+https://bugzilla.redhat.com/show_bug.cgi?id=1441636
-+
-+Upstream-Status: Inappropriate [pending proper fix]
-+Signed-off-by: Alex Kanavin <alex.kanavin@gmail.com>
-+---
-+ dnf/rpm/__init__.py | 59 +++++++++++++++++++++++++----------------------------
-+ doc/command_ref.rst |  3 +--
-+ 2 files changed, 29 insertions(+), 33 deletions(-)
-+
-+diff --git a/dnf/rpm/__init__.py b/dnf/rpm/__init__.py
-+index 5976acd6..1d50e6a0 100644
-+--- a/dnf/rpm/__init__.py
-++++ b/dnf/rpm/__init__.py
-+@@ -30,38 +30,35 @@ def detect_releasever(installroot):
-+     # :api
-+     """Calculate the release version for the system."""
-+ 
-+-    # if installroot is empty dir releasever is None,
-+-    # that's why releasever is checked from '/'
-+-    for root in [installroot, "/"]:
-+-        ts = transaction.initReadOnlyTransaction(root=root)
-+-        ts.pushVSFlags(~(rpm._RPMVSF_NOSIGNATURES | rpm._RPMVSF_NODIGESTS))
-+-        for distroverpkg in dnf.const.DISTROVERPKG:
-+-            try:
-+-                idx = ts.dbMatch('provides', distroverpkg)
-+-            except (TypeError, rpm.error) as e:
-+-                raise dnf.exceptions.Error('Error: %s' % str(e))
-+-            if not len(idx):
-+-                continue
-+-            try:
-+-                hdr = next(idx)
-+-            except StopIteration:
-+-                msg = 'Error: rpmdb failed to list provides. Try: rpm --rebuilddb'
-+-                raise dnf.exceptions.Error(msg)
-+-            releasever = hdr['version']
-+-            try:
-+-                off = hdr[rpm.RPMTAG_PROVIDENAME].index(distroverpkg)
-+-                flag = hdr[rpm.RPMTAG_PROVIDEFLAGS][off]
-+-                ver = hdr[rpm.RPMTAG_PROVIDEVERSION][off]
-+-                if flag == rpm.RPMSENSE_EQUAL and ver:
-+-                    if hdr['name'] != distroverpkg:
-+-                        # override the package version
-+-                        releasever = ver
-+-            except (ValueError, KeyError, IndexError):
-+-                pass
-++    ts = transaction.initReadOnlyTransaction(root=installroot)
-++    ts.pushVSFlags(~(rpm._RPMVSF_NOSIGNATURES | rpm._RPMVSF_NODIGESTS))
-++    for distroverpkg in dnf.const.DISTROVERPKG:
-++        try:
-++            idx = ts.dbMatch('provides', distroverpkg)
-++        except (TypeError, rpm.error) as e:
-++            raise dnf.exceptions.Error('Error: %s' % str(e))
-++        if not len(idx):
-++            continue
-++        try:
-++            hdr = next(idx)
-++        except StopIteration:
-++            msg = 'Error: rpmdb failed to list provides. Try: rpm --rebuilddb'
-++            raise dnf.exceptions.Error(msg)
-++        releasever = hdr['version']
-++        try:
-++            off = hdr[rpm.RPMTAG_PROVIDENAME].index(distroverpkg)
-++            flag = hdr[rpm.RPMTAG_PROVIDEFLAGS][off]
-++            ver = hdr[rpm.RPMTAG_PROVIDEVERSION][off]
-++            if flag == rpm.RPMSENSE_EQUAL and ver:
-++                if hdr['name'] != distroverpkg:
-++                    # override the package version
-++                    releasever = ver
-++        except (ValueError, KeyError, IndexError):
-++            pass
-+ 
-+-            if is_py3bytes(releasever):
-+-                releasever = str(releasever, "utf-8")
-+-            return releasever
-++        if is_py3bytes(releasever):
-++            releasever = str(releasever, "utf-8")
-++        return releasever
-+     return None
-+ 
-+ 
-+diff --git a/doc/command_ref.rst b/doc/command_ref.rst
-+index 77e885ab..3dd451b5 100644
-+--- a/doc/command_ref.rst
-++++ b/doc/command_ref.rst
-+@@ -205,8 +205,7 @@ Options
-+  Note: You may also want to use the command-line option
-+  ``--releasever=<release>`` when creating the installroot otherwise the
-+  *$releasever* value is taken from the rpmdb within the installroot (and thus
-+- it is empty at time of creation and *$releasever* is taken from rpmdb using
-+- installroot=/).
-++ it is empty at time of creation, the transaction will fail).
-+  The new installroot path at time of creation do not contain *repository*,
-+  *releasever*, and *dnf.conf* file.
-+ 
-+-- 
-+2.11.0
-+
-diff --git a/meta/recipes-devtools/dnf/dnf_git.bb b/meta/recipes-devtools/dnf/dnf_git.bb
-index 9f814fb211a..62c7127ac85 100644
---- a/meta/recipes-devtools/dnf/dnf_git.bb
-+++ b/meta/recipes-devtools/dnf/dnf_git.bb
-@@ -10,22 +10,23 @@ SRC_URI = "git://github.com/rpm-software-management/dnf.git \
-            file://0001-Do-not-prepend-installroot-to-logdir.patch \
-            file://0001-Do-not-hardcode-etc-and-systemd-unit-directories.patch \
-            file://0001-Corretly-install-tmpfiles.d-configuration.patch \
-+           file://0001-Revert-proper-check-of-releasever-when-using-install.patch \
-            "
- 
--PV = "2.0.0+git${SRCPV}"
--SRCREV = "f0093d672d3069cfee8447973ae70ef615fd8886"
-+PV = "2.3.0"
-+SRCREV = "242079563b54b4714c889fd4ee32e8dd9960f3b8"
- 
- S = "${WORKDIR}/git"
- 
- inherit cmake gettext bash-completion distutils3-base systemd
- 
--DEPENDS += "libdnf librepo libcomps python3-pygpgme python3-iniparse"
-+DEPENDS += "libdnf librepo libcomps python3-iniparse"
- 
- # manpages generation requires http://www.sphinx-doc.org/
- EXTRA_OECMAKE = " -DWITH_MAN=0 -DPYTHON_INSTALL_DIR=${PYTHON_SITEPACKAGES_DIR} -DPYTHON_DESIRED=3"
- 
- BBCLASSEXTEND = "native nativesdk"
--RDEPENDS_${PN}_class-target += "python3-core python3-codecs python3-netclient python3-email python3-threading python3-distutils librepo python3-shell python3-subprocess libcomps libdnf python3-sqlite3 python3-compression python3-pygpgme python3-rpm python3-iniparse python3-json python3-importlib python3-curses python3-argparse python3-misc"
-+RDEPENDS_${PN}_class-target += "python3-core python3-codecs python3-netclient python3-email python3-threading python3-distutils librepo python3-shell python3-subprocess libcomps libdnf python3-sqlite3 python3-compression python3-rpm python3-iniparse python3-json python3-importlib python3-curses python3-argparse python3-misc python3-gpg"
- 
- # Create a symlink called 'dnf' as 'make install' does not do it, but
- # .spec file in dnf source tree does (and then Fedora and dnf documentation
+diff --git a/meta/recipes-devtools/python/python3-pygpgme_0.3.bb b/meta/recipes-devtools/python/python3-pygpgme_0.3.bb
+deleted file mode 100644
+index 495f677cfa2..00000000000
+--- a/meta/recipes-devtools/python/python3-pygpgme_0.3.bb
++++ /dev/null
+@@ -1,18 +0,0 @@
+-SUMMARY = "A Python module for working with OpenPGP messages"
+-HOMEPAGE = "https://launchpad.net/pygpgme"
+-LICENSE = "LGPLv2.1"
+-LIC_FILES_CHKSUM = "file://README;md5=2dc15a76acf01e126188c8de634ae4b3"
+-
+-SRC_URI = "https://launchpad.net/pygpgme/trunk/${PV}/+download/pygpgme-${PV}.tar.gz"
+-SRC_URI[md5sum] = "d38355af73f0352cde3d410b25f34fd0"
+-SRC_URI[sha256sum] = "5fd887c407015296a8fd3f4b867fe0fcca3179de97ccde90449853a3dfb802e1"
+-
+-S = "${WORKDIR}/pygpgme-${PV}"
+-
+-inherit distutils3
+-
+-DEPENDS = "gpgme python3"
+-
+-RDEPENDS_${PN} += "python3-core"
+-
+-BBCLASSEXTEND = "native nativesdk"
 -- 
 2.11.0
 
