@@ -1,43 +1,25 @@
-Return-Path: <tanuk@iki.fi>
-Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com
-	[66.111.4.25])
-	by mail.openembedded.org (Postfix) with ESMTP id 66BE3605BF
+Return-Path: <andrej.valek@siemens.com>
+Received: from thoth.sbs.de (thoth.sbs.de [192.35.17.2])
+	by mail.openembedded.org (Postfix) with ESMTP id 7B08560102
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Apr 2017 09:53:52 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailout.nyi.internal (Postfix) with ESMTP id D46D520A0C
+	Fri, 21 Apr 2017 10:37:20 +0000 (UTC)
+Received: from mail3.siemens.de (mail3.siemens.de [139.25.208.14])
+	by thoth.sbs.de (8.15.2/8.15.2) with ESMTPS id v3LAbGme022045
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Apr 2017 05:53:53 -0400 (EDT)
-Received: from frontend2 ([10.202.2.161])
-	by compute5.internal (MEProxy); Fri, 21 Apr 2017 05:53:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=content-transfer-encoding:content-type
-	:date:from:in-reply-to:message-id:mime-version:references
-	:subject:to:x-me-sender:x-me-sender:x-sasl-enc:x-sasl-enc; s=
-	fm1; bh=Fq4oyc0W1AtxBfc6d7ATS7p1jHMoW9xsovrPnJ3bttQ=; b=e2FcNlwT
-	vO8X8nDAdL/4c5rOfiENc7RMu55+q54q1XRq8BnqPdztlV7fDdycjGOGngdd2lpT
-	+aEhNK8t0xJeW44UXF0Nd4tGtxJNT1T/wSYSJ1kcilCKKXabTUqtkhXiFbt/15NT
-	vziq5g58MsZ5/XXJ7GVx9i2Y+zGV8jYehhHAEs5GTRYX+EUaqln+RUcn5Ljnerp2
-	77XK3bgXBRJlz9TkW39vgP0fPnV5QfOFrvPmfOCIFMYzBgfJx7MvfB0mkdU1faBy
-	woiQY2iYX0z9KHA619F9CWypuph+qSvL1WWwaR6GQBwgkOVhHsiHrzX2MDToKIrS
-	PY8GiguxgyrVWw==
-X-ME-Sender: <xms:sdb5WEM_pBPRvzOv5xptTjy8kFvIAcKYyXOc-W9mxa-zNGZOSJ-Mwg>
-X-Sasl-enc: AYJp4KoTof4UlxwaSNjdleEqXe15ZJXb/51lA0g3D4w0 1492768433
-Received: from laptop (unknown [192.40.95.18])
-	by mail.messagingengine.com (Postfix) with ESMTPA id 4BF2D240AE
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Apr 2017 05:53:53 -0400 (EDT)
-Message-ID: <1492768432.2475.1.camel@iki.fi>
-From: Tanu Kaskinen <tanuk@iki.fi>
+	Fri, 21 Apr 2017 12:37:16 +0200
+Received: from dev.sbt.siemens.com ([163.242.52.173])
+	by mail3.siemens.de (8.15.2/8.15.2) with ESMTP id v3LAbGaR003977;
+	Fri, 21 Apr 2017 12:37:16 +0200
+Received: from dev.sbt.siemens.com (localhost [127.0.0.1])
+	by dev.sbt.siemens.com (Postfix) with ESMTP id A9E943E73;
+	Fri, 21 Apr 2017 12:37:15 +0200 (CEST)
+From: Andrej Valek <andrej.valek@siemens.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 21 Apr 2017 12:53:52 +0300
-In-Reply-To: <CA+rFJSHDqvsg23XXSQfk0XUpj+0bmcULM_EjddD0NwS9ZZC37Q@mail.gmail.com>
-References: <CA+rFJSHcJbmnrtA0jqXXscj7LpV3GR6EcGeBWCGdSPbZeES+SA@mail.gmail.com>
-	<1492694665.22019.2.camel@iki.fi>
-	<CA+rFJSHDqvsg23XXSQfk0XUpj+0bmcULM_EjddD0NwS9ZZC37Q@mail.gmail.com>
-X-Mailer: Evolution 3.22.6-1 
-Mime-Version: 1.0
-Subject: Re: PulseAudio with WebRTC echo cancellation (aec): support for webrtc-audio-processing package
+Date: Fri, 21 Apr 2017 12:37:03 +0200
+Message-Id: <1492771023-8995-1-git-send-email-andrej.valek@siemens.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH][krogoth] glibc: Security fix CVE-2016-6323
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,25 +32,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Apr 2017 09:53:53 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 21 Apr 2017 10:37:25 -0000
 
-On Thu, 2017-04-20 at 22:14 +0200, Koenraad Verheyden wrote:
-> I am not familiar with the organization of the various recipes. I
-> mentioned oe-core since the original message was posted there.
-> Meta-oe seems more suitable indeed.
-> 
-> How much work would it be to make a recipe for this?
-> I need it for a short-term project and am not in a position to further
-> support it afterwards.
+arm: mark __startcontext as .cantunwind, GNU
 
-Writing the recipe should be fairly simple. I can do that at some
-point, but if you want it fast, write the recipe yourself. I volunteer
-to maintain it.
+CVE: CVE-2016-6323
+Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
+Signed-off-by: Pascal Bach <pascal.bach@siemens.com>
+---
+ meta/recipes-core/glibc/glibc/CVE-2016-6323.patch | 39 +++++++++++++++++++++++
+ meta/recipes-core/glibc/glibc_2.23.bb             |  1 +
+ 2 files changed, 40 insertions(+)
+ create mode 100644 meta/recipes-core/glibc/glibc/CVE-2016-6323.patch
 
+diff --git a/meta/recipes-core/glibc/glibc/CVE-2016-6323.patch b/meta/recipes-core/glibc/glibc/CVE-2016-6323.patch
+new file mode 100644
+index 0000000..f9b9fa5
+--- /dev/null
++++ b/meta/recipes-core/glibc/glibc/CVE-2016-6323.patch
+@@ -0,0 +1,39 @@
++glibc-2.24: Fix CVE-2016-6323
++
++[No upstream tracking] -- https://sourceware.org/bugzilla/show_bug.cgi?id=20435
++
++arm: mark __startcontext as .cantunwind, GNU
++
++Glibc bug where the makecontext function would create
++an execution context which is incompatible with the unwinder,
++causing it to hang when the generation of a backtrace is attempted.
++
++Upstream-Status: Backport [https://sourceware.org/git/gitweb.cgi?p=glibc.git;h=9e2ff6c9cc54c0b4402b8d49e4abe7000fde7617]
++CVE: CVE-2016-6323
++Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
++Signed-off-by: Pascal Bach <pascal.bach@siemens.com>
++
++diff --git a/sysdeps/unix/sysv/linux/arm/setcontext.S b/sysdeps/unix/sysv/linux/arm/setcontext.S
++index 603e508..d1f168f 100644
++--- a/sysdeps/unix/sysv/linux/arm/setcontext.S
+++++ b/sysdeps/unix/sysv/linux/arm/setcontext.S
++@@ -86,12 +86,19 @@ weak_alias(__setcontext, setcontext)
++ 
++ 	/* Called when a makecontext() context returns.  Start the
++ 	   context in R4 or fall through to exit().  */
+++	/* Unwind descriptors are looked up based on PC - 2, so we have to
+++	   make sure to mark the instruction preceding the __startcontext
+++	   label as .cantunwind.  */
+++	.fnstart
+++	.cantunwind
+++	nop
++ ENTRY(__startcontext)
++ 	movs    r0, r4
++ 	bne     PLTJMP(__setcontext)
++ 
++ 	@ New context was 0 - exit
++ 	b       PLTJMP(HIDDEN_JUMPTARGET(exit))
+++	.fnend
++ END(__startcontext)
++ 
++ #ifdef PIC
+diff --git a/meta/recipes-core/glibc/glibc_2.23.bb b/meta/recipes-core/glibc/glibc_2.23.bb
+index 85b5215..3844587 100644
+--- a/meta/recipes-core/glibc/glibc_2.23.bb
++++ b/meta/recipes-core/glibc/glibc_2.23.bb
+@@ -41,6 +41,7 @@ SRC_URI = "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
+            file://CVE-2016-1234.patch \
+            file://CVE-2016-3075.patch \
+            file://CVE-2016-5417.patch \
++           file://CVE-2016-6323.patch \
+ "
+ 
+ SRC_URI += "\
 -- 
-Tanu
+2.1.4
 
-https://www.patreon.com/tanuk
 
