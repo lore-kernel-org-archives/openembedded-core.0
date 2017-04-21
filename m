@@ -1,22 +1,22 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	by mail.openembedded.org (Postfix) with ESMTP id E3A1977BE1
+	by mail.openembedded.org (Postfix) with ESMTP id DB7A177BFD
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Apr 2017 12:40:23 +0000 (UTC)
+	Fri, 21 Apr 2017 12:40:24 +0000 (UTC)
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by fmsmga105.fm.intel.com with ESMTP; 21 Apr 2017 05:40:25 -0700
+	by fmsmga105.fm.intel.com with ESMTP; 21 Apr 2017 05:40:26 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.37,229,1488873600"; d="scan'208";a="251889263"
+X-IronPort-AV: E=Sophos;i="5.37,229,1488873600"; d="scan'208";a="251889266"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by fmsmga004.fm.intel.com with ESMTP; 21 Apr 2017 05:40:24 -0700
+	by fmsmga004.fm.intel.com with ESMTP; 21 Apr 2017 05:40:25 -0700
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 21 Apr 2017 15:39:56 +0300
-Message-Id: <05619651d9fa71ba4504c85fd450001f7092f0af.1492777818.git.alexander.kanavin@linux.intel.com>
+Date: Fri, 21 Apr 2017 15:39:57 +0300
+Message-Id: <eae311eeb072d7636dc574bdbb40172b0c3e6f8e.1492777818.git.alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <cover.1492777818.git.alexander.kanavin@linux.intel.com>
 References: <cover.1492777818.git.alexander.kanavin@linux.intel.com>
-Subject: [PATCH 05/11] libdnf: update to 0.8.1
+Subject: [PATCH 06/11] dnf: update to 2.3.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,114 +29,162 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Apr 2017 12:40:24 -0000
+X-List-Received-Date: Fri, 21 Apr 2017 12:40:25 -0000
 
-Rebase the patches.
+Drop dependency on pygpgme, replace it with gpgme's own bindings.
+
+Add a patch that fixes an upstream regression.
 
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- ...parameters-for-both-libsolv-and-libsolvext-libdn.patch | 13 +++++++------
- ...libsolv-variables-with-pkg-config-cmake-s-own-mo.patch | 15 ++++++++-------
- meta/recipes-devtools/libdnf/libdnf_git.bb                |  4 ++--
- 3 files changed, 17 insertions(+), 15 deletions(-)
+ ...er-check-of-releasever-when-using-install.patch | 105 +++++++++++++++++++++
+ meta/recipes-devtools/dnf/dnf_git.bb               |   9 +-
+ 2 files changed, 110 insertions(+), 4 deletions(-)
+ create mode 100644 meta/recipes-devtools/dnf/dnf/0001-Revert-proper-check-of-releasever-when-using-install.patch
 
-diff --git a/meta/recipes-devtools/libdnf/libdnf/0001-Get-parameters-for-both-libsolv-and-libsolvext-libdn.patch b/meta/recipes-devtools/libdnf/libdnf/0001-Get-parameters-for-both-libsolv-and-libsolvext-libdn.patch
-index 954add6e738..77b20c2734d 100644
---- a/meta/recipes-devtools/libdnf/libdnf/0001-Get-parameters-for-both-libsolv-and-libsolvext-libdn.patch
-+++ b/meta/recipes-devtools/libdnf/libdnf/0001-Get-parameters-for-both-libsolv-and-libsolvext-libdn.patch
-@@ -1,28 +1,29 @@
--From 5958b151a4dbb89114e90c971a34b74f873b7beb Mon Sep 17 00:00:00 2001
-+From 3012a93745223751cc979e3770207a09a075bec6 Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Tue, 7 Feb 2017 12:16:03 +0200
--Subject: [PATCH] Get parameters for both libsolv and libsolvext (libdnf is
-+Subject: [PATCH 5/5] Get parameters for both libsolv and libsolvext (libdnf is
-  using both)
- 
- Upstream-Status: Pending [depends on whether https://github.com/openSUSE/libsolv/pull/177 is accepted]
- Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+diff --git a/meta/recipes-devtools/dnf/dnf/0001-Revert-proper-check-of-releasever-when-using-install.patch b/meta/recipes-devtools/dnf/dnf/0001-Revert-proper-check-of-releasever-when-using-install.patch
+new file mode 100644
+index 00000000000..879ecfa30d7
+--- /dev/null
++++ b/meta/recipes-devtools/dnf/dnf/0001-Revert-proper-check-of-releasever-when-using-install.patch
+@@ -0,0 +1,105 @@
++From 8cd0503612573c455f34db74cd1c2216ed25b69c Mon Sep 17 00:00:00 2001
++From: Alexander Kanavin <alex.kanavin@gmail.com>
++Date: Wed, 12 Apr 2017 15:42:06 +0300
++Subject: [PATCH] Revert "proper check of releasever, when using installroot
++ (RhBug:1417542)"
 +
- ---
-  CMakeLists.txt | 2 +-
-  1 file changed, 1 insertion(+), 1 deletion(-)
- 
- diff --git a/CMakeLists.txt b/CMakeLists.txt
--index b531da1..e512da0 100644
-+index 8b2ab9a..e2d33d7 100644
- --- a/CMakeLists.txt
- +++ b/CMakeLists.txt
--@@ -28,7 +28,7 @@ find_package (PkgConfig REQUIRED)
-+@@ -29,7 +29,7 @@ find_package (PkgConfig REQUIRED)
-  SET (CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/modules)
-  PKG_CHECK_MODULES(GLIB gio-unix-2.0>=2.44.0 REQUIRED)
-  FIND_LIBRARY (RPMDB_LIBRARY NAMES rpmdb)
- -PKG_CHECK_MODULES (LIBSOLV REQUIRED libsolv)
- +PKG_CHECK_MODULES (LIBSOLV REQUIRED libsolv libsolvext)
-  set(LIBSOLV_LIBRARY ${LIBSOLV_LIBRARIES})
-- pkg_check_modules (CHECK REQUIRED check)
-- pkg_check_modules (REPO REQUIRED librepo)
-+ if (ENABLE_RHSM_SUPPORT)
-+     pkg_check_modules (RHSM REQUIRED librhsm)
- -- 
- 2.11.0
- 
-diff --git a/meta/recipes-devtools/libdnf/libdnf/0004-Set-libsolv-variables-with-pkg-config-cmake-s-own-mo.patch b/meta/recipes-devtools/libdnf/libdnf/0004-Set-libsolv-variables-with-pkg-config-cmake-s-own-mo.patch
-index 931959b5f38..fc3b048b7d9 100644
---- a/meta/recipes-devtools/libdnf/libdnf/0004-Set-libsolv-variables-with-pkg-config-cmake-s-own-mo.patch
-+++ b/meta/recipes-devtools/libdnf/libdnf/0004-Set-libsolv-variables-with-pkg-config-cmake-s-own-mo.patch
-@@ -1,29 +1,30 @@
--From 6d2718b925453f9a6915001f489606eb8e4086c8 Mon Sep 17 00:00:00 2001
-+From 55cbe6f40fe0836385e1a7241ec811cbe99e5840 Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Fri, 30 Dec 2016 18:24:50 +0200
--Subject: [PATCH 4/4] Set libsolv variables with pkg-config (cmake's own module
-+Subject: [PATCH 4/5] Set libsolv variables with pkg-config (cmake's own module
-  doesn't work properly).
- 
- Upstream-Status: Pending
- Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
++This reverts commit 3ddf684b7c67a2b384aa99dde53d8a43218f2e68, as it's causing
++breakage when installing packages into a pristin rootfs. Upstream has been notified:
++https://bugzilla.redhat.com/show_bug.cgi?id=1441636
 +
- ---
-  CMakeLists.txt | 3 ++-
-  1 file changed, 2 insertions(+), 1 deletion(-)
- 
- diff --git a/CMakeLists.txt b/CMakeLists.txt
--index 8edb627..b531da1 100644
-+index a75df04..8b2ab9a 100644
- --- a/CMakeLists.txt
- +++ b/CMakeLists.txt
--@@ -28,7 +28,8 @@ find_package (PkgConfig REQUIRED)
-+@@ -29,7 +29,8 @@ find_package (PkgConfig REQUIRED)
-  SET (CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/modules)
-  PKG_CHECK_MODULES(GLIB gio-unix-2.0>=2.44.0 REQUIRED)
-  FIND_LIBRARY (RPMDB_LIBRARY NAMES rpmdb)
- -find_package (LibSolv 0.6.21 REQUIRED COMPONENTS ext)
- +PKG_CHECK_MODULES (LIBSOLV REQUIRED libsolv)
- +set(LIBSOLV_LIBRARY ${LIBSOLV_LIBRARIES})
-- pkg_check_modules (CHECK REQUIRED check)
-- pkg_check_modules (REPO REQUIRED librepo)
-- FIND_PROGRAM (VALGRIND_PROGRAM NAMES valgrind PATH /usr/bin /usr/local/bin)
-+ if (ENABLE_RHSM_SUPPORT)
-+     pkg_check_modules (RHSM REQUIRED librhsm)
-+     include_directories (${RHSM_INCLUDE_DIRS})
- -- 
- 2.11.0
- 
-diff --git a/meta/recipes-devtools/libdnf/libdnf_git.bb b/meta/recipes-devtools/libdnf/libdnf_git.bb
-index ef28611f8a0..2acbd89659a 100644
---- a/meta/recipes-devtools/libdnf/libdnf_git.bb
-+++ b/meta/recipes-devtools/libdnf/libdnf_git.bb
-@@ -10,8 +10,8 @@ SRC_URI = "git://github.com/rpm-software-management/libdnf \
-            file://0001-Get-parameters-for-both-libsolv-and-libsolvext-libdn.patch \
++Upstream-Status: Inappropriate [pending proper fix]
++Signed-off-by: Alex Kanavin <alex.kanavin@gmail.com>
++---
++ dnf/rpm/__init__.py | 59 +++++++++++++++++++++++++----------------------------
++ doc/command_ref.rst |  3 +--
++ 2 files changed, 29 insertions(+), 33 deletions(-)
++
++diff --git a/dnf/rpm/__init__.py b/dnf/rpm/__init__.py
++index 5976acd6..1d50e6a0 100644
++--- a/dnf/rpm/__init__.py
+++++ b/dnf/rpm/__init__.py
++@@ -30,38 +30,35 @@ def detect_releasever(installroot):
++     # :api
++     """Calculate the release version for the system."""
++ 
++-    # if installroot is empty dir releasever is None,
++-    # that's why releasever is checked from '/'
++-    for root in [installroot, "/"]:
++-        ts = transaction.initReadOnlyTransaction(root=root)
++-        ts.pushVSFlags(~(rpm._RPMVSF_NOSIGNATURES | rpm._RPMVSF_NODIGESTS))
++-        for distroverpkg in dnf.const.DISTROVERPKG:
++-            try:
++-                idx = ts.dbMatch('provides', distroverpkg)
++-            except (TypeError, rpm.error) as e:
++-                raise dnf.exceptions.Error('Error: %s' % str(e))
++-            if not len(idx):
++-                continue
++-            try:
++-                hdr = next(idx)
++-            except StopIteration:
++-                msg = 'Error: rpmdb failed to list provides. Try: rpm --rebuilddb'
++-                raise dnf.exceptions.Error(msg)
++-            releasever = hdr['version']
++-            try:
++-                off = hdr[rpm.RPMTAG_PROVIDENAME].index(distroverpkg)
++-                flag = hdr[rpm.RPMTAG_PROVIDEFLAGS][off]
++-                ver = hdr[rpm.RPMTAG_PROVIDEVERSION][off]
++-                if flag == rpm.RPMSENSE_EQUAL and ver:
++-                    if hdr['name'] != distroverpkg:
++-                        # override the package version
++-                        releasever = ver
++-            except (ValueError, KeyError, IndexError):
++-                pass
+++    ts = transaction.initReadOnlyTransaction(root=installroot)
+++    ts.pushVSFlags(~(rpm._RPMVSF_NOSIGNATURES | rpm._RPMVSF_NODIGESTS))
+++    for distroverpkg in dnf.const.DISTROVERPKG:
+++        try:
+++            idx = ts.dbMatch('provides', distroverpkg)
+++        except (TypeError, rpm.error) as e:
+++            raise dnf.exceptions.Error('Error: %s' % str(e))
+++        if not len(idx):
+++            continue
+++        try:
+++            hdr = next(idx)
+++        except StopIteration:
+++            msg = 'Error: rpmdb failed to list provides. Try: rpm --rebuilddb'
+++            raise dnf.exceptions.Error(msg)
+++        releasever = hdr['version']
+++        try:
+++            off = hdr[rpm.RPMTAG_PROVIDENAME].index(distroverpkg)
+++            flag = hdr[rpm.RPMTAG_PROVIDEFLAGS][off]
+++            ver = hdr[rpm.RPMTAG_PROVIDEVERSION][off]
+++            if flag == rpm.RPMSENSE_EQUAL and ver:
+++                if hdr['name'] != distroverpkg:
+++                    # override the package version
+++                    releasever = ver
+++        except (ValueError, KeyError, IndexError):
+++            pass
++ 
++-            if is_py3bytes(releasever):
++-                releasever = str(releasever, "utf-8")
++-            return releasever
+++        if is_py3bytes(releasever):
+++            releasever = str(releasever, "utf-8")
+++        return releasever
++     return None
++ 
++ 
++diff --git a/doc/command_ref.rst b/doc/command_ref.rst
++index 77e885ab..3dd451b5 100644
++--- a/doc/command_ref.rst
+++++ b/doc/command_ref.rst
++@@ -205,8 +205,7 @@ Options
++  Note: You may also want to use the command-line option
++  ``--releasever=<release>`` when creating the installroot otherwise the
++  *$releasever* value is taken from the rpmdb within the installroot (and thus
++- it is empty at time of creation and *$releasever* is taken from rpmdb using
++- installroot=/).
+++ it is empty at time of creation, the transaction will fail).
++  The new installroot path at time of creation do not contain *repository*,
++  *releasever*, and *dnf.conf* file.
++ 
++-- 
++2.11.0
++
+diff --git a/meta/recipes-devtools/dnf/dnf_git.bb b/meta/recipes-devtools/dnf/dnf_git.bb
+index 9f814fb211a..62c7127ac85 100644
+--- a/meta/recipes-devtools/dnf/dnf_git.bb
++++ b/meta/recipes-devtools/dnf/dnf_git.bb
+@@ -10,22 +10,23 @@ SRC_URI = "git://github.com/rpm-software-management/dnf.git \
+            file://0001-Do-not-prepend-installroot-to-logdir.patch \
+            file://0001-Do-not-hardcode-etc-and-systemd-unit-directories.patch \
+            file://0001-Corretly-install-tmpfiles.d-configuration.patch \
++           file://0001-Revert-proper-check-of-releasever-when-using-install.patch \
             "
  
--PV = "0.2.3+git${SRCPV}"
--SRCREV = "367545629cc01a8e622890d89bd13d062ce60d7b"
-+PV = "0.8.1"
-+SRCREV = "233287f4f80e24a917d5f6a26967f54080ffa255"
+-PV = "2.0.0+git${SRCPV}"
+-SRCREV = "f0093d672d3069cfee8447973ae70ef615fd8886"
++PV = "2.3.0"
++SRCREV = "242079563b54b4714c889fd4ee32e8dd9960f3b8"
  
  S = "${WORKDIR}/git"
  
+ inherit cmake gettext bash-completion distutils3-base systemd
+ 
+-DEPENDS += "libdnf librepo libcomps python3-pygpgme python3-iniparse"
++DEPENDS += "libdnf librepo libcomps python3-iniparse"
+ 
+ # manpages generation requires http://www.sphinx-doc.org/
+ EXTRA_OECMAKE = " -DWITH_MAN=0 -DPYTHON_INSTALL_DIR=${PYTHON_SITEPACKAGES_DIR} -DPYTHON_DESIRED=3"
+ 
+ BBCLASSEXTEND = "native nativesdk"
+-RDEPENDS_${PN}_class-target += "python3-core python3-codecs python3-netclient python3-email python3-threading python3-distutils librepo python3-shell python3-subprocess libcomps libdnf python3-sqlite3 python3-compression python3-pygpgme python3-rpm python3-iniparse python3-json python3-importlib python3-curses python3-argparse python3-misc"
++RDEPENDS_${PN}_class-target += "python3-core python3-codecs python3-netclient python3-email python3-threading python3-distutils librepo python3-shell python3-subprocess libcomps libdnf python3-sqlite3 python3-compression python3-rpm python3-iniparse python3-json python3-importlib python3-curses python3-argparse python3-misc python3-gpg"
+ 
+ # Create a symlink called 'dnf' as 'make install' does not do it, but
+ # .spec file in dnf source tree does (and then Fedora and dnf documentation
 -- 
 2.11.0
 
