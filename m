@@ -1,22 +1,22 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	by mail.openembedded.org (Postfix) with ESMTP id C962377BD3
+	by mail.openembedded.org (Postfix) with ESMTP id C03F577AA3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Apr 2017 12:40:26 +0000 (UTC)
+	Fri, 21 Apr 2017 12:40:27 +0000 (UTC)
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by fmsmga105.fm.intel.com with ESMTP; 21 Apr 2017 05:40:28 -0700
+	by fmsmga105.fm.intel.com with ESMTP; 21 Apr 2017 05:40:29 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.37,229,1488873600"; d="scan'208";a="251889272"
+X-IronPort-AV: E=Sophos;i="5.37,229,1488873600"; d="scan'208";a="251889280"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by fmsmga004.fm.intel.com with ESMTP; 21 Apr 2017 05:40:27 -0700
+	by fmsmga004.fm.intel.com with ESMTP; 21 Apr 2017 05:40:28 -0700
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 21 Apr 2017 15:39:59 +0300
-Message-Id: <f48b227d578d9b712347d7329714105a33e54bd8.1492777818.git.alexander.kanavin@linux.intel.com>
+Date: Fri, 21 Apr 2017 15:40:00 +0300
+Message-Id: <0b1303a0844ebbcc66e39e74c608063b7f047810.1492777818.git.alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <cover.1492777818.git.alexander.kanavin@linux.intel.com>
 References: <cover.1492777818.git.alexander.kanavin@linux.intel.com>
-Subject: [PATCH 08/11] libunwind: update to 1.2
+Subject: [PATCH 09/11] acpica: fix upstream version check
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,59 +31,36 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 21 Apr 2017 12:40:27 -0000
 
-Switch to using tarballs as git is unreliable (not responding right now).
-
-LICENSE file is gone; COPYING has an additional line on top with
-copyright attribution, the license text that follows has not changed.
-
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- meta/recipes-support/libunwind/libunwind.inc                     | 2 +-
- .../libunwind/{libunwind_git.bb => libunwind_1.2.bb}             | 9 +++------
- 2 files changed, 4 insertions(+), 7 deletions(-)
- rename meta/recipes-support/libunwind/{libunwind_git.bb => libunwind_1.2.bb} (81%)
+ meta/recipes-extended/acpica/acpica_20150515.bb    | 1 +
+ meta/recipes-extended/acpica/acpitests_20140828.bb | 1 +
+ 2 files changed, 2 insertions(+)
 
-diff --git a/meta/recipes-support/libunwind/libunwind.inc b/meta/recipes-support/libunwind/libunwind.inc
-index e4ae8df278f..4f64ad7f875 100644
---- a/meta/recipes-support/libunwind/libunwind.inc
-+++ b/meta/recipes-support/libunwind/libunwind.inc
-@@ -2,7 +2,7 @@ SUMMARY = "Library for obtaining the call-chain of a program"
- DESCRIPTION = "a portable and efficient C programming interface (API) to determine the call-chain of a program"
- HOMEPAGE = "http://www.nongnu.org/libunwind"
- LICENSE = "MIT"
--LIC_FILES_CHKSUM = "file://LICENSE;md5=3fced11d6df719b47505837a51c16ae5"
-+LIC_FILES_CHKSUM = "file://COPYING;beginline=3;md5=3fced11d6df719b47505837a51c16ae5"
- DEPENDS += "libatomic-ops"
+diff --git a/meta/recipes-extended/acpica/acpica_20150515.bb b/meta/recipes-extended/acpica/acpica_20150515.bb
+index b55f353241d..1326ebd59ec 100644
+--- a/meta/recipes-extended/acpica/acpica_20150515.bb
++++ b/meta/recipes-extended/acpica/acpica_20150515.bb
+@@ -23,6 +23,7 @@ SRC_URI = "https://acpica.org/sites/acpica/files/acpica-unix2-${PV}.tar.gz \
+     "
+ SRC_URI[md5sum] = "2bc4a7ccc82de9df9fa964f784ecb29c"
+ SRC_URI[sha256sum] = "61204ec56d71bc9bfa2ee2ade4c66f7e8541772ac72ef8ccc20b3f339cc96374"
++UPSTREAM_CHECK_URI = "https://acpica.org/downloads"
  
- inherit autotools
-diff --git a/meta/recipes-support/libunwind/libunwind_git.bb b/meta/recipes-support/libunwind/libunwind_1.2.bb
-similarity index 81%
-rename from meta/recipes-support/libunwind/libunwind_git.bb
-rename to meta/recipes-support/libunwind/libunwind_1.2.bb
-index b637c5c4482..a398d332e2c 100644
---- a/meta/recipes-support/libunwind/libunwind_git.bb
-+++ b/meta/recipes-support/libunwind/libunwind_1.2.bb
-@@ -1,10 +1,9 @@
- require libunwind.inc
+ S = "${WORKDIR}/acpica-unix2-${PV}"
  
--PV = "1.1+git${SRCPV}"
-+SRC_URI[md5sum] = "eefcb5d7f78fdc8f1ed172a26ea4202f"
-+SRC_URI[sha256sum] = "1de38ffbdc88bd694d10081865871cd2bfbb02ad8ef9e1606aee18d65532b992"
+diff --git a/meta/recipes-extended/acpica/acpitests_20140828.bb b/meta/recipes-extended/acpica/acpitests_20140828.bb
+index 409da5ccc41..45ac157e9a7 100644
+--- a/meta/recipes-extended/acpica/acpitests_20140828.bb
++++ b/meta/recipes-extended/acpica/acpitests_20140828.bb
+@@ -15,6 +15,7 @@ SRC_URI[acpitests.md5sum] = "db9d6fdaa8e3eb101d700ee5ba4938ed"
+ SRC_URI[acpitests.sha256sum] = "e576c74bf1bf1c9f7348bf9419e05c8acfece7105abcdc052e66670c7af2cf00"
+ SRC_URI[acpica.md5sum] = "6f05f0d10166a1b1ff6107f3d1cdf1e5"
+ SRC_URI[acpica.sha256sum] = "01d8867656c5ba41dec307c4383ce676196ad4281ac2c9dec9f5be5fac6d888e"
++UPSTREAM_CHECK_URI = "https://acpica.org/downloads"
  
--SRCREV = "bc8698fd7ed13a629a8ec3cb2a89bd74f9d8b5c0"
--
--SRC_URI = "git://git.sv.gnu.org/libunwind.git \
-+SRC_URI = "http://download.savannah.nongnu.org/releases/libunwind/libunwind-${PV}.tar.gz \
-            file://Add-AO_REQUIRE_CAS-to-fix-build-on-ARM-v6.patch \
-            file://0001-backtrace-Use-only-with-glibc-and-uclibc.patch \
-            file://0001-x86-Stub-out-x86_local_resume.patch \
-@@ -25,6 +24,4 @@ ARM_INSTRUCTION_SET_armv5 = "arm"
- SECURITY_CFLAGS_remove_aarch64 = "-fpie"
- SECURITY_CFLAGS_append_aarch64 = " -fPIE"
+ S = "${WORKDIR}/acpitests-unix-${PV}"
  
--S = "${WORKDIR}/git"
--
- LDFLAGS += "-Wl,-z,relro,-z,now ${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-gold', ' -fuse-ld=bfd ', '', d)}"
 -- 
 2.11.0
 
