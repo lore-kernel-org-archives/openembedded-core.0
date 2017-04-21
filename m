@@ -1,24 +1,48 @@
-Return-Path: <Catalin.Enache@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 0B8556093F
+Return-Path: <oleksandr.kravchuk@pelagicore.com>
+Received: from mail-lf0-f46.google.com (mail-lf0-f46.google.com
+	[209.85.215.46])
+	by mail.openembedded.org (Postfix) with ESMTP id CEE71779F8
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Apr 2017 12:05:30 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v3LC5UXR004660
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Fri, 21 Apr 2017 12:13:10 +0000 (UTC)
+Received: by mail-lf0-f46.google.com with SMTP id t144so43900055lff.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Apr 2017 05:05:31 -0700 (PDT)
-Received: from no3.corp.ad.wrs.com (128.224.125.152) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.294.0; Fri, 21 Apr 2017 05:05:30 -0700
-From: Catalin Enache <catalin.enache@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 21 Apr 2017 15:04:17 +0300
-Message-ID: <1492776257-25263-1-git-send-email-catalin.enache@windriver.com>
+	Fri, 21 Apr 2017 05:13:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=pelagicore-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id;
+	bh=5+d8wr+Zw4rTMtJkSnIOLu+mtdD5Obglt2Nlu9Dllzw=;
+	b=DswjW6HdOHI0adBhVcbkj8OfNFlvIpZ0+F2UYASZYMb8owO7kYaNoBhPkOZzyWI/Mp
+	1ARbvF945aSudlNCTEqVeHVWd9no0CWaFDyBVSQYFhH+0RxApu2hA5/0ttlgUu6iLe+H
+	txsSteCEVR9wcDidTqzlz1E0NL+iPdAMn+tpRnz75txRKLFugeftSRRPugadO2koU4+B
+	TlOhCrXw9t9hymHvT0zN0TnbxDffEff6RsUX0aLFZg8jPzpz9Mf1WZ9i3V4NHmxhHSA/
+	xJKrlpr1QQOm2Lg8A+aQQdi/Exu12Vq59c4NArTqCXvsxE9sK8OTGvdGoTwYArx1NkWr
+	CApg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=5+d8wr+Zw4rTMtJkSnIOLu+mtdD5Obglt2Nlu9Dllzw=;
+	b=HEFcefVehoAhiuELLCiqKBUn02fBgJ3P3f0yfaOw4lNrcVh63KjKN1yEts0frh6jLm
+	L+cr3aVI2gLqTzD8F59kKPirWxqGZjAUVxkdzB+JcQmzRO+JPluk3Lz3/nd/Ls9q/uxl
+	VXycYHhgor/5NPWtBKwC3rVbRNH0qmI70RE2sE4/9SUGZ3jx9Nn7fyfY7SVqlF2r0rbK
+	oY8deceFzXpIqOZ+3cAZjHaAIks5FPa9YKjtOLBc9o3/hBZ/SZSe8U7EWmbhUcyuJuUA
+	Aq2Bny05lYhJgT+AERHE2cLlw3TnC3gizZhk+R3wde1Ya99Dm4pYw8Qm5F5fYrDcCccq
+	LAKw==
+X-Gm-Message-State: AN3rC/6ZBRWj53MuDywALhJH28lNEBLVeAU0fYljzztNHcByJb1P7dYs
+	T0MLIAHlEKEa78oF
+X-Received: by 10.25.193.207 with SMTP id r198mr4611595lff.62.1492776791300;
+	Fri, 21 Apr 2017 05:13:11 -0700 (PDT)
+Received: from stout.office.pelagicore.net ([83.218.80.243])
+	by smtp.gmail.com with ESMTPSA id
+	p188sm1561036lfe.11.2017.04.21.05.13.09
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 21 Apr 2017 05:13:10 -0700 (PDT)
+From: Oleksandr Kravchuk <oleksandr.kravchuk@pelagicore.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 21 Apr 2017 14:12:33 +0200
+Message-Id: <1492776753-6784-1-git-send-email-oleksandr.kravchuk@pelagicore.com>
 X-Mailer: git-send-email 2.7.4
-MIME-Version: 1.0
-Subject: [PATCH] ghostscript : CVE-2016-10219, CVE-2016-10220, CVE-2017-5951
+Cc: Oleksandr Kravchuk <oleksandr.kravchuk@pelagicore.com>
+Subject: [PATCH] curl: upgrade to 7.54.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,224 +55,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Apr 2017 12:05:32 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 21 Apr 2017 12:13:12 -0000
 
-The intersect function in base/gxfill.c in Artifex Software, Inc. Ghostscript
-9.20 allows remote attackers to cause a denial of service (divide-by-zero
-error and application crash) via a crafted file.
-
-The gs_makewordimagedevice function in base/gsdevmem.c in Artifex Software, Inc.
-Ghostscript 9.20 allows remote attackers to cause a denial of service (NULL
-pointer dereference and application crash) via a crafted file that is
-mishandled in the PDF Transparency module.
-
-The mem_get_bits_rectangle function in base/gdevmem.c in Artifex Software, Inc.
-Ghostscript 9.20 allows remote attackers to cause a denial of service (NULL
-pointer dereference and application crash) via a crafted file.
-
-References:
-http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-10219
-http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-10220
-http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2017-5951
-
-Upstream patches:
-http://git.ghostscript.com/?p=ghostpdl.git;h=4bef1a1d32e29b68855616020dbff574b9cda08f
-http://git.ghostscript.com/?p=ghostpdl.git;h=daf85701dab05f17e924a48a81edc9195b4a04e8
-http://git.ghostscript.com/?p=ghostpdl.git;h=bfa6b2ecbe48edc69a7d9d22a12419aed25960b8
-
-Signed-off-by: Catalin Enache <catalin.enache@windriver.com>
+Signed-off-by: Oleksandr Kravchuk <oleksandr.kravchuk@pelagicore.com>
 ---
- .../ghostscript/ghostscript/CVE-2016-10219.patch   | 49 +++++++++++++++++++
- .../ghostscript/ghostscript/CVE-2016-10220.patch   | 55 ++++++++++++++++++++++
- .../ghostscript/ghostscript/CVE-2017-5951.patch    | 44 +++++++++++++++++
- .../ghostscript/ghostscript_9.20.bb                |  3 ++
- 4 files changed, 151 insertions(+)
- create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2016-10219.patch
- create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2016-10220.patch
- create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2017-5951.patch
+ meta/recipes-support/curl/{curl_7.53.1.bb => curl_7.54.0.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-support/curl/{curl_7.53.1.bb => curl_7.54.0.bb} (94%)
 
-diff --git a/meta/recipes-extended/ghostscript/ghostscript/CVE-2016-10219.patch b/meta/recipes-extended/ghostscript/ghostscript/CVE-2016-10219.patch
-new file mode 100644
-index 0000000..574abe0
---- /dev/null
-+++ b/meta/recipes-extended/ghostscript/ghostscript/CVE-2016-10219.patch
-@@ -0,0 +1,49 @@
-+From 4bef1a1d32e29b68855616020dbff574b9cda08f Mon Sep 17 00:00:00 2001
-+From: Robin Watts <Robin.Watts@artifex.com>
-+Date: Thu, 29 Dec 2016 15:57:43 +0000
-+Subject: [PATCH] Bug 697453: Avoid divide by 0 in scan conversion code.
-+
-+Arithmetic overflow due to extreme values in the scan conversion
-+code can cause a division by 0.
-+
-+Avoid this with a simple extra check.
-+
-+  dx_old=cf814d81
-+  endp->x_next=b0e859b9
-+  alp->x_next=8069a73a
-+
-+leads to dx_den = 0
-+
-+Upstream-Status: Backport
-+CVE: CVE-2016-10219
-+
-+Signed-off-by: Catalin Enache <catalin.enache@windriver.com>
-+---
-+ base/gxfill.c | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
-+
-+diff --git a/base/gxfill.c b/base/gxfill.c
-+index 99196c0..2f81bb0 100644
-+--- a/base/gxfill.c
-++++ b/base/gxfill.c
-+@@ -1741,7 +1741,7 @@ intersect(active_line *endp, active_line *alp, fixed y, fixed y1, fixed *p_y_new
-+     fixed dx_old = alp->x_current - endp->x_current;
-+     fixed dx_den = dx_old + endp->x_next - alp->x_next;
-+ 
-+-    if (dx_den <= dx_old)
-++    if (dx_den <= dx_old || dx_den == 0)
-+         return false; /* Intersection isn't possible. */
-+     dy = y1 - y;
-+     if_debug3('F', "[F]cross: dy=%g, dx_old=%g, dx_new=%g\n",
-+@@ -1750,7 +1750,7 @@ intersect(active_line *endp, active_line *alp, fixed y, fixed y1, fixed *p_y_new
-+     /* Do the computation in single precision */
-+     /* if the values are small enough. */
-+     y_new =
-+-        ((dy | dx_old) < 1L << (size_of(fixed) * 4 - 1) ?
-++        (((ufixed)(dy | dx_old)) < (1L << (size_of(fixed) * 4 - 1)) ?
-+          dy * dx_old / dx_den :
-+          (INCR_EXPR(mq_cross), fixed_mult_quo(dy, dx_old, dx_den)))
-+         + y;
-+-- 
-+2.10.2
-+
-diff --git a/meta/recipes-extended/ghostscript/ghostscript/CVE-2016-10220.patch b/meta/recipes-extended/ghostscript/ghostscript/CVE-2016-10220.patch
-new file mode 100644
-index 0000000..5e1e8ba
---- /dev/null
-+++ b/meta/recipes-extended/ghostscript/ghostscript/CVE-2016-10220.patch
-@@ -0,0 +1,55 @@
-+From daf85701dab05f17e924a48a81edc9195b4a04e8 Mon Sep 17 00:00:00 2001
-+From: Ken Sharp <ken.sharp@artifex.com>
-+Date: Wed, 21 Dec 2016 16:54:14 +0000
-+Subject: [PATCH] fix crash with bad data supplied to makeimagedevice
-+
-+Bug #697450 "Null pointer dereference in gx_device_finalize()"
-+
-+The problem here is that the code to finalise a device unconditionally
-+frees the icc_struct member of the device structure. However this
-+particular (weird) device is not setup as a normal device, probably
-+because its very, very ancient. Its possible for the initialisation
-+of the device to abort with an error before calling gs_make_mem_device()
-+which is where the icc_struct member gets allocated (or set to NULL).
-+
-+If that happens, then the cleanup code tries to free the device, which
-+calls finalize() which tries to free a garbage pointer.
-+
-+Setting the device memory to 0x00 after we allocate it means that the
-+icc_struct member will be NULL< and our memory manager allows for that
-+happily enough, which avoids the problem.
-+
-+Upstream-Status: Backport
-+CVE: CVE-2016-10220
-+
-+Signed-off-by: Catalin Enache <catalin.enache@windriver.com>
-+---
-+ base/gsdevmem.c | 12 ++++++++++++
-+ 1 file changed, 12 insertions(+)
-+
-+diff --git a/base/gsdevmem.c b/base/gsdevmem.c
-+index 97b9cf4..fe75bcc 100644
-+--- a/base/gsdevmem.c
-++++ b/base/gsdevmem.c
-+@@ -225,6 +225,18 @@ gs_makewordimagedevice(gx_device ** pnew_dev, const gs_matrix * pmat,
-+ 
-+     if (pnew == 0)
-+         return_error(gs_error_VMerror);
-++
-++    /* Bug #697450 "Null pointer dereference in gx_device_finalize()"
-++     * If we have incorrect data passed to gs_initialise_wordimagedevice() then the
-++     * initialisation will fail, crucially it will fail *before* it calls
-++     * gs_make_mem_device() which initialises the device. This means that the
-++     * icc_struct member will be uninitialsed, but the device finalise method
-++     * will unconditionally free that memory. Since its a garbage pointer, bad things happen.
-++     * Apparently we do still need makeimagedevice to be available from
-++     * PostScript, so in here just zero the device memory, which means that
-++     * the finalise routine won't have a problem.
-++     */
-++    memset(pnew, 0x00, st_device_memory.ssize);
-+     code = gs_initialize_wordimagedevice(pnew, pmat, width, height,
-+                                          colors, num_colors, word_oriented,
-+                                          page_device, mem);
-+-- 
-+2.10.2
-+
-diff --git a/meta/recipes-extended/ghostscript/ghostscript/CVE-2017-5951.patch b/meta/recipes-extended/ghostscript/ghostscript/CVE-2017-5951.patch
-new file mode 100644
-index 0000000..62cc134
---- /dev/null
-+++ b/meta/recipes-extended/ghostscript/ghostscript/CVE-2017-5951.patch
-@@ -0,0 +1,44 @@
-+From bfa6b2ecbe48edc69a7d9d22a12419aed25960b8 Mon Sep 17 00:00:00 2001
-+From: Chris Liddell <chris.liddell@artifex.com>
-+Date: Thu, 6 Apr 2017 16:44:54 +0100
-+Subject: [PATCH] Bug 697548: use the correct param list enumerator
-+
-+When we encountered dictionary in a ref_param_list, we were using the enumerator
-+for the "parent" param_list, rather than the enumerator for the param_list
-+we just created for the dictionary. That parent was usually the stack
-+list enumerator, and caused a segfault.
-+
-+Using the correct enumerator works better.
-+
-+Upstream-Status: Backport
-+CVE: CVE-2017-5951
-+
-+Signed-off-by: Catalin Enache <catalin.enache@windriver.com>
-+---
-+ psi/iparam.c | 7 ++++---
-+ 1 file changed, 4 insertions(+), 3 deletions(-)
-+
-+diff --git a/psi/iparam.c b/psi/iparam.c
-+index 4e63b6d..b2fa85f 100644
-+--- a/psi/iparam.c
-++++ b/psi/iparam.c
-+@@ -770,12 +770,13 @@ ref_param_read_typed(gs_param_list * plist, gs_param_name pkey,
-+                 gs_param_enumerator_t enumr;
-+                 gs_param_key_t key;
-+                 ref_type keytype;
-++                dict_param_list *dlist = (dict_param_list *) pvalue->value.d.list;
-+ 
-+                 param_init_enumerator(&enumr);
-+-                if (!(*((iparam_list *) plist)->enumerate)
-+-                    ((iparam_list *) pvalue->value.d.list, &enumr, &key, &keytype)
-++                if (!(*(dlist->enumerate))
-++                    ((iparam_list *) dlist, &enumr, &key, &keytype)
-+                     && keytype == t_integer) {
-+-                    ((dict_param_list *) pvalue->value.d.list)->int_keys = 1;
-++                    dlist->int_keys = 1;
-+                     pvalue->type = gs_param_type_dict_int_keys;
-+                 }
-+             }
-+-- 
-+2.10.2
-+
-diff --git a/meta/recipes-extended/ghostscript/ghostscript_9.20.bb b/meta/recipes-extended/ghostscript/ghostscript_9.20.bb
-index e8fc5df..3c8a2e6 100644
---- a/meta/recipes-extended/ghostscript/ghostscript_9.20.bb
-+++ b/meta/recipes-extended/ghostscript/ghostscript_9.20.bb
-@@ -32,6 +32,9 @@ SRC_URI = "${SRC_URI_BASE} \
-            file://objarch.h \
-            file://cups-no-gcrypt.patch \
-            file://CVE-2017-7207.patch \
-+           file://CVE-2016-10219.patch \
-+           file://CVE-2016-10220.patch \
-+           file://CVE-2017-5951.patch \
-            "
+diff --git a/meta/recipes-support/curl/curl_7.53.1.bb b/meta/recipes-support/curl/curl_7.54.0.bb
+similarity index 94%
+rename from meta/recipes-support/curl/curl_7.53.1.bb
+rename to meta/recipes-support/curl/curl_7.54.0.bb
+index bc78ffb..ce5ca37 100644
+--- a/meta/recipes-support/curl/curl_7.53.1.bb
++++ b/meta/recipes-support/curl/curl_7.54.0.bb
+@@ -14,8 +14,8 @@ SRC_URI = "http://curl.haxx.se/download/curl-${PV}.tar.bz2 \
+ #
+ SRC_URI += " file://configure_ac.patch"
  
- SRC_URI_class-native = "${SRC_URI_BASE} \
+-SRC_URI[md5sum] = "fb1f03a142236840c1a77c035fa4c542"
+-SRC_URI[sha256sum] = "1c7207c06d75e9136a944a2e0528337ce76f15b9ec9ae4bb30d703b59bf530e8"
++SRC_URI[md5sum] = "89bb7ba87384dfbf4f1a3f953da42458"
++SRC_URI[sha256sum] = "f50ebaf43c507fa7cc32be4b8108fa8bbd0f5022e90794388f3c7694a302ff06"
+ 
+ CVE_PRODUCT = "libcurl"
+ inherit autotools pkgconfig binconfig multilib_header
 -- 
-2.10.2
+2.7.4
 
 
