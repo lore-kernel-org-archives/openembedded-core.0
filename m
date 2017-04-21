@@ -1,49 +1,53 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-it0-f47.google.com (mail-it0-f47.google.com
-	[209.85.214.47])
-	by mail.openembedded.org (Postfix) with ESMTP id D59BE77BB4
+Return-Path: <akuster808@gmail.com>
+Received: from mail-io0-f193.google.com (mail-io0-f193.google.com
+	[209.85.223.193])
+	by mail.openembedded.org (Postfix) with ESMTP id D168277BB4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Apr 2017 21:09:58 +0000 (UTC)
-Received: by mail-it0-f47.google.com with SMTP id a140so768605ita.0
+	Fri, 21 Apr 2017 21:10:15 +0000 (UTC)
+Received: by mail-io0-f193.google.com with SMTP id h41so34499756ioi.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Apr 2017 14:10:00 -0700 (PDT)
+	Fri, 21 Apr 2017 14:10:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=2qy4Go8EhJSTBgjjaPsNVx4pq7wnIGaDP5qBgupKPmM=;
-	b=HF7WcLuN8SO0ZRhtmOcUbWwLnjxNb/VDXYu2wrpYDgN1Hihe8gPoliVdpXjV41HpSG
-	9fY1mkRlCE1nvPQxfyye26vdbDerg9UYc8cCaxer7l9GFAjbe8OiwhHhYb9icG8zsWIV
-	1zJMBl/ohT/Y/8rp8IeG13HqKusBLmPla3EMoScHrppBDuoL2D9yXnvj345Ppvck7xI6
-	6MvfJc9e0nEuJxft9BcJYb3CFRVvGjdl0oxhdF3OG/ja1C/44uHCsi64mei8xPm8oYBh
-	BbmwsQtZ8qz9mzLRXDtFNPwUp156/EFET+/bTZuPSkoXBymNoCjWHev+AvyVXxNQXQNy
-	G66Q==
+	h=subject:to:references:from:message-id:date:user-agent:mime-version
+	:in-reply-to:content-transfer-encoding;
+	bh=8FkIHaaYg6fEFue59AoV+95qCQleOfLhiP4ul7Jfwm4=;
+	b=nk0XimNiIi2PEMi8Qfpg0iGwMqheoJ8pgJJYlzo8X2iRxlTMcS//wumVy2vnnkkI/s
+	4bJQJEscnPSFgHkZqVrhHserr6ykmt7ofxJpNF9GPFIygMt+3V+eARtmb+nafLahVDxa
+	7jrH2dFmDrovp6RCci6ObqsVYBj2DpneVGfm8soE17vUvs0rPOFYj9DBZRNkzPbcli3C
+	gb6qcCMccMXeP4Cs4ucUD0YJIvRdyH8mumJOMmzq5TlFCrmSmV2y+daX0BS6lWv1WkPV
+	t6bIQp+zMmJ58PfUM8JK8LdQqlJZ1G/aVVIOghZM7tpg+DJIAx2NsgMLFftU/m8gzI9W
+	k7+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=2qy4Go8EhJSTBgjjaPsNVx4pq7wnIGaDP5qBgupKPmM=;
-	b=e5EaWCHw2kgWZuedqm6lPzlomvN3f4JSoj9hx4yu8gK4Xpd7vBZzNQwKjMzV/YLHjI
-	RQXRRnqE/qO6ZUAG1T7+dItf/Wx+5hS1kATh6z1LGGTmh60UxynjgEYpz91E9KvKsMG4
-	VpJpAaSXP44AJXcyIdIb2dDBC72a5R+4Xp9jq0z0lWura24r/DZojVZPv+esxLyRDi28
-	DsesUc6V+R98qdhzcJA8QFPPOYBRUwd746PI/tzbqT2HkuZxCxOvdHtA/RZZ7dfY/0ax
-	jpg+Lj5xjosvBdk2EfajHTPiveZwEMDyyHlZet22M1fakiwgGM90yjXYquYjoYEo8Dsm
-	GOTg==
-X-Gm-Message-State: AN3rC/6O2xXw3QkDPvTjH2Q7yc7fMaOSLwHsb7/kJRbSgVokyT6VBKVN
-	lOCdSbAEf/yfXw==
-X-Received: by 10.99.153.9 with SMTP id d9mr14104394pge.214.1492808999871;
-	Fri, 21 Apr 2017 14:09:59 -0700 (PDT)
-Received: from localhost.localdomain (c-76-102-32-192.hsd1.ca.comcast.net.
-	[76.102.32.192]) by smtp.gmail.com with ESMTPSA id
-	o10sm17709954pgc.18.2017.04.21.14.09.58
+	h=x-gm-message-state:subject:to:references:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding;
+	bh=8FkIHaaYg6fEFue59AoV+95qCQleOfLhiP4ul7Jfwm4=;
+	b=QiAS61x1RrB/cJekxbJZqeEP/nimmriBFu9RHv2I6x4tr3v3jeKDII6yfNqZmR/dIX
+	0Rmfhl0oKkGzEMbRlUKADKgsybS0uDw3yU1tdFpe/sY2wesCabFI3Mv0JLvJBglgQwfD
+	xgmOya+r8jjXhtVdCkfAER+zY0JZtLlLeEmuqFoLEMX0ba4MESxiD7VTCn5ythZRik5N
+	DGgWsLUBZ+0klA3rxkmJ0J81YO3zK3HEgdGKx8NCuHY0/aobL0p+OAXtrt23XAaT5rgj
+	JHYeMK/5WfMLPursgJ5G46yKCOVJQTD189xs/TyHCxj/+tZyWZkfIR7GSd75MDO3Jys8
+	r6fQ==
+X-Gm-Message-State: AN3rC/4j2mbNcko9OvxfOULiUxyIFEHRVm+eFz62/UL3XF2J9WCc524o
+	FgM4BpZLlC4rEq7j
+X-Received: by 10.98.112.134 with SMTP id l128mr14274487pfc.110.1492809016336; 
+	Fri, 21 Apr 2017 14:10:16 -0700 (PDT)
+Received: from Akusters-laptop.local ([2601:202:4001:9ea0:54cb:4fab:7f49:513a])
+	by smtp.googlemail.com with ESMTPSA id
+	b77sm17670948pfe.39.2017.04.21.14.10.15
+	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 21 Apr 2017 14:09:58 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
+	Fri, 21 Apr 2017 14:10:15 -0700 (PDT)
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 21 Apr 2017 14:09:48 -0700
-Message-Id: <20170421210948.2656-2-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.12.2
-In-Reply-To: <20170421210948.2656-1-raj.khem@gmail.com>
-References: <20170421210948.2656-1-raj.khem@gmail.com>
-Subject: [PATCH 2/2] ovmf: Fix build with gcc7
+References: <1492771066-9051-1-git-send-email-andrej.valek@siemens.com>
+From: akuster808 <akuster808@gmail.com>
+Message-ID: <1e25144c-3a2b-a0de-1c28-7a1cd2597bed@gmail.com>
+Date: Fri, 21 Apr 2017 14:10:14 -0700
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:45.0)
+	Gecko/20100101 Thunderbird/45.8.0
+MIME-Version: 1.0
+In-Reply-To: <1492771066-9051-1-git-send-email-andrej.valek@siemens.com>
+Subject: Re: [PATCH][morty] glibc: Security fix CVE-2016-6323
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,81 +60,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Apr 2017 21:09:59 -0000
+X-List-Received-Date: Fri, 21 Apr 2017 21:10:16 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 
-backport a patch which fixing warnings with gcc7
+On 4/21/17 3:37 AM, Andrej Valek wrote:
+> arm: mark __startcontext as .cantunwind, GNU
+>
+> CVE: CVE-2016-6323
+> Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
+> Signed-off-by: Pascal Bach <pascal.bach@siemens.com>
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- ...g-UefiHiiLib-Fix-incorrect-comparison-exp.patch | 45 ++++++++++++++++++++++
- meta/recipes-core/ovmf/ovmf_git.bb                 |  1 +
- 2 files changed, 46 insertions(+)
- create mode 100644 meta/recipes-core/ovmf/ovmf/0001-MdeModulePkg-UefiHiiLib-Fix-incorrect-comparison-exp.patch
+what is different about this one and the one sent on the 19th?
 
-diff --git a/meta/recipes-core/ovmf/ovmf/0001-MdeModulePkg-UefiHiiLib-Fix-incorrect-comparison-exp.patch b/meta/recipes-core/ovmf/ovmf/0001-MdeModulePkg-UefiHiiLib-Fix-incorrect-comparison-exp.patch
-new file mode 100644
-index 00000000000..0529a27b168
---- /dev/null
-+++ b/meta/recipes-core/ovmf/ovmf/0001-MdeModulePkg-UefiHiiLib-Fix-incorrect-comparison-exp.patch
-@@ -0,0 +1,45 @@
-+From 73692710d50da1f421b0e6ddff784ca3135389b3 Mon Sep 17 00:00:00 2001
-+From: Dandan Bi <dandan.bi@intel.com>
-+Date: Sat, 1 Apr 2017 10:31:14 +0800
-+Subject: [PATCH] MdeModulePkg/UefiHiiLib:Fix incorrect comparison expression
-+
-+Fix the incorrect comparison between pointer and constant zero character.
-+
-+https://bugzilla.tianocore.org/show_bug.cgi?id=416
-+
-+V2: The pointer StringPtr points to a string returned
-+by ExtractConfig/ExportConfig, if it is NULL, function
-+InternalHiiIfrValueAction will return FALSE. So in
-+current usage model, the StringPtr can not be NULL before
-+using it, so we can add ASSERT here.
-+
-+Cc: Eric Dong <eric.dong@intel.com>
-+Cc: Liming Gao <liming.gao@intel.com>
-+Contributed-under: TianoCore Contribution Agreement 1.0
-+Signed-off-by: Dandan Bi <dandan.bi@intel.com>
-+Reviewed-by: Eric Dong <eric.dong@intel.com>
-+---
-+Upstream-Status: Backport
-+
-+ MdeModulePkg/Library/UefiHiiLib/HiiLib.c | 5 +++--
-+ 1 file changed, 3 insertions(+), 2 deletions(-)
-+
-+diff --git a/MdeModulePkg/Library/UefiHiiLib/HiiLib.c b/MdeModulePkg/Library/UefiHiiLib/HiiLib.c
-+index 8579501..46ca7bc 100644
-+--- a/MdeModulePkg/Library/UefiHiiLib/HiiLib.c
-++++ b/MdeModulePkg/Library/UefiHiiLib/HiiLib.c
-+@@ -2180,8 +2180,9 @@ InternalHiiIfrValueAction (
-+   }
-+   
-+   StringPtr = ConfigAltResp;
-+-  
-+-  while (StringPtr != L'\0') {
-++  ASSERT (StringPtr != NULL);
-++
-++  while (*StringPtr != L'\0') {
-+     //
-+     // 1. Find <ConfigHdr> GUID=...&NAME=...&PATH=...
-+     //
-+-- 
-+1.9.1
-+
-diff --git a/meta/recipes-core/ovmf/ovmf_git.bb b/meta/recipes-core/ovmf/ovmf_git.bb
-index 73fdfc6239e..9d988e9d414 100644
---- a/meta/recipes-core/ovmf/ovmf_git.bb
-+++ b/meta/recipes-core/ovmf/ovmf_git.bb
-@@ -14,6 +14,7 @@ SRC_URI = "git://github.com/tianocore/edk2.git;branch=master \
- 	file://0002-ovmf-update-path-to-native-BaseTools.patch \
- 	file://0003-BaseTools-makefile-adjust-to-build-in-under-bitbake.patch \
- 	file://VfrCompile-increase-path-length-limit.patch \
-+        file://0001-MdeModulePkg-UefiHiiLib-Fix-incorrect-comparison-exp.patch \
-         "
- 
- SRC_URI_append_class-target = " \
--- 
-2.12.2
+-armin
+> ---
+>  meta/recipes-core/glibc/glibc/CVE-2016-6323.patch | 39 +++++++++++++++++++++++
+>  meta/recipes-core/glibc/glibc_2.24.bb             |  1 +
+>  2 files changed, 40 insertions(+)
+>  create mode 100644 meta/recipes-core/glibc/glibc/CVE-2016-6323.patch
+>
+> diff --git a/meta/recipes-core/glibc/glibc/CVE-2016-6323.patch b/meta/recipes-core/glibc/glibc/CVE-2016-6323.patch
+> new file mode 100644
+> index 0000000..f9b9fa5
+> --- /dev/null
+> +++ b/meta/recipes-core/glibc/glibc/CVE-2016-6323.patch
+> @@ -0,0 +1,39 @@
+> +glibc-2.24: Fix CVE-2016-6323
+> +
+> +[No upstream tracking] -- https://sourceware.org/bugzilla/show_bug.cgi?id=20435
+> +
+> +arm: mark __startcontext as .cantunwind, GNU
+> +
+> +Glibc bug where the makecontext function would create
+> +an execution context which is incompatible with the unwinder,
+> +causing it to hang when the generation of a backtrace is attempted.
+> +
+> +Upstream-Status: Backport [https://sourceware.org/git/gitweb.cgi?p=glibc.git;h=9e2ff6c9cc54c0b4402b8d49e4abe7000fde7617]
+> +CVE: CVE-2016-6323
+> +Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
+> +Signed-off-by: Pascal Bach <pascal.bach@siemens.com>
+> +
+> +diff --git a/sysdeps/unix/sysv/linux/arm/setcontext.S b/sysdeps/unix/sysv/linux/arm/setcontext.S
+> +index 603e508..d1f168f 100644
+> +--- a/sysdeps/unix/sysv/linux/arm/setcontext.S
+> ++++ b/sysdeps/unix/sysv/linux/arm/setcontext.S
+> +@@ -86,12 +86,19 @@ weak_alias(__setcontext, setcontext)
+> + 
+> + 	/* Called when a makecontext() context returns.  Start the
+> + 	   context in R4 or fall through to exit().  */
+> ++	/* Unwind descriptors are looked up based on PC - 2, so we have to
+> ++	   make sure to mark the instruction preceding the __startcontext
+> ++	   label as .cantunwind.  */
+> ++	.fnstart
+> ++	.cantunwind
+> ++	nop
+> + ENTRY(__startcontext)
+> + 	movs    r0, r4
+> + 	bne     PLTJMP(__setcontext)
+> + 
+> + 	@ New context was 0 - exit
+> + 	b       PLTJMP(HIDDEN_JUMPTARGET(exit))
+> ++	.fnend
+> + END(__startcontext)
+> + 
+> + #ifdef PIC
+> diff --git a/meta/recipes-core/glibc/glibc_2.24.bb b/meta/recipes-core/glibc/glibc_2.24.bb
+> index f5a21b2..bce06c7 100644
+> --- a/meta/recipes-core/glibc/glibc_2.24.bb
+> +++ b/meta/recipes-core/glibc/glibc_2.24.bb
+> @@ -37,6 +37,7 @@ SRC_URI = "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
+>             file://0024-eglibc-Forward-port-cross-locale-generation-support.patch \
+>             file://0025-Define-DUMMY_LOCALE_T-if-not-defined.patch \
+>             file://0026-build_local_scope.patch \
+> +           file://CVE-2016-6323.patch \
+>  "
+>  
+>  SRC_URI += "\
+
 
 
