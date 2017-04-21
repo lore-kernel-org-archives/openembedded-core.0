@@ -1,18 +1,41 @@
-Return-Path: <obi@opendreambox.org>
-X-Greylist: delayed 303 seconds by postgrey-1.34 at layers.openembedded.org;
-	Fri, 21 Apr 2017 10:44:57 UTC
-Received: from mail.saftware.de (mail.saftware.de [83.141.3.46])
-	by mail.openembedded.org (Postfix) with ESMTP id A2E6077A50
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Apr 2017 10:44:57 +0000 (UTC)
-Received: by p910.zcs.saftware.de (Postfix, from userid 1000)
-	id 00B28AD0070B; Fri, 21 Apr 2017 12:39:51 +0200 (CEST)
-From: Andreas Oberritter <obi@opendreambox.org>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 21 Apr 2017 12:39:51 +0200
-Message-Id: <1492771191-4445-1-git-send-email-obi@opendreambox.org>
-X-Mailer: git-send-email 2.7.4
-Subject: [PATCH] Revert "kernel: Fix symlinks"
+Return-Path: <freesilicon@gmail.com>
+Received: from mail-qk0-f171.google.com (mail-qk0-f171.google.com
+	[209.85.220.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 92F6377A8A;
+	Fri, 21 Apr 2017 10:49:37 +0000 (UTC)
+Received: by mail-qk0-f171.google.com with SMTP id y63so38431090qkd.1;
+	Fri, 21 Apr 2017 03:49:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:from:date:message-id:subject:to:cc;
+	bh=3u0U5Piy+ZEI/El7KOyGSrMrZHE5jwf9mCYsimzSMNs=;
+	b=K5g+YAlmkm5A9LDIfZVRPZ2Z/ygBHk133nPvssN0nP/njtxLtSz5GzbYZAZpto+BAf
+	VLbRbm7Ye2spk8MZmqCaBwTUw8cGeC3YQg8G5gXWY1ng8Mmv/IgQK1Bb42fIbmktkDfv
+	hoekBaSbbX+ZoPZaxWlvbfnC4A3+AI5JJrzcqkNbnVLRzzP8nJSBrdUO9VHnUvPrUXDs
+	8MTae+tAjkUKWpkwoQ20d+j5stz7kCYVATXobp9744zQD4HA73KDLyK9Nkt79VoAigzh
+	HH6Z3VW16QnsfLYLKyj/qqHo8017QOZbtaS6zvPwrSzEjslfA5KayeAf4/5w6FKwWsUs
+	gyTA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+	bh=3u0U5Piy+ZEI/El7KOyGSrMrZHE5jwf9mCYsimzSMNs=;
+	b=c/ifP3bAD52zyFoes2ijBA/p+QhPaGluSW+ZaNDewmQrbMur5jZfqnKZ5T5hJHngfE
+	84CRVlOq1Ap54GfUgYnKd8S1HJRIxvWcBrmDQG98em8uR/Df3TcBrR5zFISIIPxNxj0H
+	6BehRigtOJhJo/v93Y86J85DWW3bd2xbWR6eput8YwwAtVPr9HcQiEwH9R+3dUCWwHvu
+	jZhwq+aPnHJfoZ7MQHmSTmKPgMyEw8b8arz2UNTwsoIAJuixcbN0DKfqicoqskO3yo2v
+	PUybFo93rTgM42UyYq/6T5y7ULYGDxkKaMkO3JUmfwkivCExnMi9FudDoyJmscjUNacD
+	i/QA==
+X-Gm-Message-State: AN3rC/4Csst2Pz5X/DpmJmNe5V9MMfO1okZJLCa1iC5q1wIZuDtJVXMe
+	yCJgPBUHQCMEdA/T3U6Hf3LsEmxy6pDL
+X-Received: by 10.55.12.14 with SMTP id 14mr12090919qkm.249.1492771779198;
+	Fri, 21 Apr 2017 03:49:39 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.12.152.220 with HTTP; Fri, 21 Apr 2017 03:49:38 -0700 (PDT)
+From: David Vincent <freesilicon@gmail.com>
+Date: Fri, 21 Apr 2017 12:49:38 +0200
+Message-ID: <CAKRNOGxS5k4DSs3LwEDiUNJEcFAAX1LQeN6EUHuppB7Ak7rFEw@mail.gmail.com>
+To: openembedded-architecture@lists.openembedded.org
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: [RFC] Handling configuration files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,71 +48,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Apr 2017 10:44:57 -0000
+X-List-Received-Date: Fri, 21 Apr 2017 10:49:39 -0000
+Content-Type: text/plain; charset=UTF-8
 
-This reverts commit c7bc46b9bc29dd0953ab8d63b50fa105bb66892e.
+Following this thread on OE-Core
+(http://lists.openembedded.org/pipermail/openembedded-core/2017-April/135812.html),
+the subject of handling configuration files for a machine just got
+back. It seems there already was a discussion around it but I couldn't
+find it. I know that 2.3 has now hit 'feature-freeze' status but I try
+to gather some ideas for maybe an implementation in 2.4.
 
-It broke dpkg's update-alternatives, which requires absolute paths.
+Simply put, the problem is this:
+I want to
+  - Override a configuration file in a package
+  - Make the configuration machine-specific
+  - Upgrade the configuration during package upgrade without human interaction
 
-| update-alternatives: error: alternative path is not absolute as it should be
+For now, one way to do this is to append the recipe and to replace the
+PACKAGE_ARCH with MACHINE_ARCH. The downside of this approach is that
+a package is created for each machine on package repositories where
+only the configuration is modified.
 
-Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
----
- meta/classes/kernel.bbclass             | 6 +++---
- meta/recipes-kernel/linux/linux-dtb.inc | 4 ++--
- 2 files changed, 5 insertions(+), 5 deletions(-)
+Another way is to modify the file in ROOTFS_POSTPROCESS_COMMAND. The
+downside is that depending on the packager, it would either not
+survive the package upgrade or not be upgradable.
 
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index 12a748d..8cf357f 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -49,11 +49,10 @@ python __anonymous () {
- 
-     for type in types.split():
-         typelower = type.lower()
--        imagedest = d.getVar('KERNEL_IMAGEDEST')
- 
-         d.appendVar('PACKAGES', ' ' + 'kernel-image-' + typelower)
- 
--        d.setVar('FILES_kernel-image-' + typelower, '/' + imagedest + '/' + type + '-${KERNEL_VERSION_NAME}')
-+        d.setVar('FILES_kernel-image-' + typelower, '/boot/' + type + '-${KERNEL_VERSION_NAME}')
- 
-         d.appendVar('RDEPENDS_kernel-image', ' ' + 'kernel-image-' + typelower)
- 
-@@ -61,8 +60,9 @@ python __anonymous () {
- 
-         d.setVar('ALLOW_EMPTY_kernel-image-' + typelower, '1')
- 
-+        imagedest = d.getVar('KERNEL_IMAGEDEST')
-         priority = d.getVar('KERNEL_PRIORITY')
--        postinst = '#!/bin/sh\n' + 'update-alternatives --install /' + imagedest + '/' + type + ' ' + type + ' ' + type + '-${KERNEL_VERSION_NAME} ' + priority + ' || true' + '\n'
-+        postinst = '#!/bin/sh\n' + 'update-alternatives --install /' + imagedest + '/' + type + ' ' + type + ' ' + '/' + imagedest + '/' + type + '-${KERNEL_VERSION_NAME} ' + priority + ' || true' + '\n'
-         d.setVar('pkg_postinst_kernel-image-' + typelower, postinst)
- 
-         postrm = '#!/bin/sh\n' + 'update-alternatives --remove' + ' ' + type + ' ' + type + '-${KERNEL_VERSION_NAME} || true' + '\n'
-diff --git a/meta/recipes-kernel/linux/linux-dtb.inc b/meta/recipes-kernel/linux/linux-dtb.inc
-index 22e374f..41aad7c 100644
---- a/meta/recipes-kernel/linux/linux-dtb.inc
-+++ b/meta/recipes-kernel/linux/linux-dtb.inc
-@@ -63,7 +63,7 @@ pkg_postinst_kernel-devicetree () {
- 			DTB_EXT=${DTB##*.}
- 			DTB_BASE_NAME=`basename ${DTB} ."${DTB_EXT}"`
- 			DTB_SYMLINK_NAME=`echo ${symlink_name} | sed "s/${MACHINE}/${DTB_BASE_NAME}/g"`
--			update-alternatives --install /${KERNEL_IMAGEDEST}/${DTB_BASE_NAME}.${DTB_EXT} ${DTB_BASE_NAME}.${DTB_EXT} devicetree-${DTB_SYMLINK_NAME}.${DTB_EXT} ${KERNEL_PRIORITY} || true
-+			update-alternatives --install /${KERNEL_IMAGEDEST}/${DTB_BASE_NAME}.${DTB_EXT} ${DTB_BASE_NAME}.${DTB_EXT} /boot/devicetree-${DTB_SYMLINK_NAME}.${DTB_EXT} ${KERNEL_PRIORITY} || true
- 		done
- 	done
- }
-@@ -76,7 +76,7 @@ pkg_postrm_kernel-devicetree () {
- 			DTB_EXT=${DTB##*.}
- 			DTB_BASE_NAME=`basename ${DTB} ."${DTB_EXT}"`
- 			DTB_SYMLINK_NAME=`echo ${symlink_name} | sed "s/${MACHINE}/${DTB_BASE_NAME}/g"`
--			update-alternatives --remove ${DTB_BASE_NAME}.${DTB_EXT} devicetree-${DTB_SYMLINK_NAME}.${DTB_EXT} ${KERNEL_PRIORITY} || true
-+			update-alternatives --remove ${DTB_BASE_NAME}.${DTB_EXT} /boot/devicetree-${DTB_SYMLINK_NAME}.${DTB_EXT} ${KERNEL_PRIORITY} || true
- 		done
- 	done
- }
--- 
-2.7.4
+The last way would be to use update-alternatives, but IMHO it does
+feel weird. Another downside would be the need to modify all recipes
+to mark the configurations as alternatives.
 
+My idea was the following. Maybe we could rely on the CONFFILES
+variable to create a -conf package (like -dbg/-dev/-staticdev). If
+possible, this package only should be marked as MACHINE_ARCH. This
+could happen behind the scenes in package.bbclass. The only problem I
+see for now is how to identify that the configuration file has been
+overridden in a machine-specific recipe (SRC_URI or other variable ?).
+Do you think it is feasible or am I missing something ? I could
+proceed to implement that kind of behavior but I would like to know
+beforehand if there are other things I should take into account.
+
+Thanks,
+David
 
