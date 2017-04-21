@@ -1,48 +1,42 @@
-Return-Path: <oleksandr.kravchuk@pelagicore.com>
-Received: from mail-lf0-f46.google.com (mail-lf0-f46.google.com
-	[209.85.215.46])
-	by mail.openembedded.org (Postfix) with ESMTP id CEE71779F8
+Return-Path: <andreas.reichel@tngtech.com>
+Received: from proxy.tng.vnc.biz (zimbra-vnc.tngtech.com [83.144.240.98])
+	by mail.openembedded.org (Postfix) with ESMTP id 82AAA779F8
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Apr 2017 12:13:10 +0000 (UTC)
-Received: by mail-lf0-f46.google.com with SMTP id t144so43900055lff.1
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Apr 2017 05:13:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=pelagicore-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id;
-	bh=5+d8wr+Zw4rTMtJkSnIOLu+mtdD5Obglt2Nlu9Dllzw=;
-	b=DswjW6HdOHI0adBhVcbkj8OfNFlvIpZ0+F2UYASZYMb8owO7kYaNoBhPkOZzyWI/Mp
-	1ARbvF945aSudlNCTEqVeHVWd9no0CWaFDyBVSQYFhH+0RxApu2hA5/0ttlgUu6iLe+H
-	txsSteCEVR9wcDidTqzlz1E0NL+iPdAMn+tpRnz75txRKLFugeftSRRPugadO2koU4+B
-	TlOhCrXw9t9hymHvT0zN0TnbxDffEff6RsUX0aLFZg8jPzpz9Mf1WZ9i3V4NHmxhHSA/
-	xJKrlpr1QQOm2Lg8A+aQQdi/Exu12Vq59c4NArTqCXvsxE9sK8OTGvdGoTwYArx1NkWr
-	CApg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=5+d8wr+Zw4rTMtJkSnIOLu+mtdD5Obglt2Nlu9Dllzw=;
-	b=HEFcefVehoAhiuELLCiqKBUn02fBgJ3P3f0yfaOw4lNrcVh63KjKN1yEts0frh6jLm
-	L+cr3aVI2gLqTzD8F59kKPirWxqGZjAUVxkdzB+JcQmzRO+JPluk3Lz3/nd/Ls9q/uxl
-	VXycYHhgor/5NPWtBKwC3rVbRNH0qmI70RE2sE4/9SUGZ3jx9Nn7fyfY7SVqlF2r0rbK
-	oY8deceFzXpIqOZ+3cAZjHaAIks5FPa9YKjtOLBc9o3/hBZ/SZSe8U7EWmbhUcyuJuUA
-	Aq2Bny05lYhJgT+AERHE2cLlw3TnC3gizZhk+R3wde1Ya99Dm4pYw8Qm5F5fYrDcCccq
-	LAKw==
-X-Gm-Message-State: AN3rC/6ZBRWj53MuDywALhJH28lNEBLVeAU0fYljzztNHcByJb1P7dYs
-	T0MLIAHlEKEa78oF
-X-Received: by 10.25.193.207 with SMTP id r198mr4611595lff.62.1492776791300;
-	Fri, 21 Apr 2017 05:13:11 -0700 (PDT)
-Received: from stout.office.pelagicore.net ([83.218.80.243])
-	by smtp.gmail.com with ESMTPSA id
-	p188sm1561036lfe.11.2017.04.21.05.13.09
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 21 Apr 2017 05:13:10 -0700 (PDT)
-From: Oleksandr Kravchuk <oleksandr.kravchuk@pelagicore.com>
+	Fri, 21 Apr 2017 12:16:15 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by proxy.tng.vnc.biz (Postfix) with ESMTP id C3DF41E1A2D;
+	Fri, 21 Apr 2017 14:10:23 +0200 (CEST)
+X-Spam-Flag: NO
+X-Spam-Score: -1.5
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.5 tagged_above=-10 required=5
+	tests=[ALL_TRUSTED=-1, BAYES_00=-0.5, LOCAL_FROM_TNG=-0.001,
+	URIBL_BLOCKED=0.001] autolearn=ham autolearn_force=no
+Received: from proxy.tng.vnc.biz ([127.0.0.1])
+	by localhost (proxy.tng.vnc.biz [127.0.0.1]) (amavisd-new, port 10032)
+	with ESMTP id 1_17lnUSABnY; Fri, 21 Apr 2017 14:10:22 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+	by proxy.tng.vnc.biz (Postfix) with ESMTP id 4619E1E1A3F;
+	Fri, 21 Apr 2017 14:10:22 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at 
+Received: from proxy.tng.vnc.biz ([127.0.0.1])
+	by localhost (proxy.tng.vnc.biz [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id Fl3q5jC-CgUj; Fri, 21 Apr 2017 14:10:22 +0200 (CEST)
+Received: from localhost.localdomain (p578a821c.dip0.t-ipconnect.de
+	[87.138.130.28])
+	by proxy.tng.vnc.biz (Postfix) with ESMTPSA id 289C61E1A35;
+	Fri, 21 Apr 2017 14:10:21 +0200 (CEST)
+From: "Andreas J. Reichel" <andreas.reichel@tngtech.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 21 Apr 2017 14:12:33 +0200
-Message-Id: <1492776753-6784-1-git-send-email-oleksandr.kravchuk@pelagicore.com>
-X-Mailer: git-send-email 2.7.4
-Cc: Oleksandr Kravchuk <oleksandr.kravchuk@pelagicore.com>
-Subject: [PATCH] curl: upgrade to 7.54.0
+Date: Fri, 21 Apr 2017 14:11:45 +0200
+Message-Id: <20170421121145.9797-6-andreas.reichel@tngtech.com>
+X-Mailer: git-send-email 2.12.2
+In-Reply-To: <20170421121145.9797-1-andreas.reichel@tngtech.com>
+References: <20170421121145.9797-1-andreas.reichel@tngtech.com>
+Cc: Jan Kiszka <jan.kiszka@siemens.com>,
+	Daniel Wagner <daniel.wagner@siemens.com>,
+	Andreas Reichel <andreas.reichel.ext@siemens.com>
+Subject: [wic patch 5/5] wic: Use enum like dicts for string constants
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,33 +49,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Apr 2017 12:13:12 -0000
+X-List-Received-Date: Fri, 21 Apr 2017 12:16:16 -0000
 
-Signed-off-by: Oleksandr Kravchuk <oleksandr.kravchuk@pelagicore.com>
+To increase code maintainability, use dictionaries
+as enum-like container for parameter string comparisons.
+
+Signed-off-by: Andreas Reichel <andreas.reichel.ext@siemens.com>
+Signed-off-by: Jan Kiszka <jan.kiszka@siemens.com>
+Signed-off-by: Daniel Wagner <daniel.wagner@siemens.com>
+
 ---
- meta/recipes-support/curl/{curl_7.53.1.bb => curl_7.54.0.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-support/curl/{curl_7.53.1.bb => curl_7.54.0.bb} (94%)
+ scripts/lib/wic/engine.py | 16 +++++++++++++---
+ 1 file changed, 13 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-support/curl/curl_7.53.1.bb b/meta/recipes-support/curl/curl_7.54.0.bb
-similarity index 94%
-rename from meta/recipes-support/curl/curl_7.53.1.bb
-rename to meta/recipes-support/curl/curl_7.54.0.bb
-index bc78ffb..ce5ca37 100644
---- a/meta/recipes-support/curl/curl_7.53.1.bb
-+++ b/meta/recipes-support/curl/curl_7.54.0.bb
-@@ -14,8 +14,8 @@ SRC_URI = "http://curl.haxx.se/download/curl-${PV}.tar.bz2 \
- #
- SRC_URI += " file://configure_ac.patch"
+diff --git a/scripts/lib/wic/engine.py b/scripts/lib/wic/engine.py
+index 647358287f..1428a73ba8 100644
+--- a/scripts/lib/wic/engine.py
++++ b/scripts/lib/wic/engine.py
+@@ -35,6 +35,16 @@ from wic import WicError
+ from wic.pluginbase import PluginMgr
+ from wic.utils.misc import get_bitbake_var
  
--SRC_URI[md5sum] = "fb1f03a142236840c1a77c035fa4c542"
--SRC_URI[sha256sum] = "1c7207c06d75e9136a944a2e0528337ce76f15b9ec9ae4bb30d703b59bf530e8"
-+SRC_URI[md5sum] = "89bb7ba87384dfbf4f1a3f953da42458"
-+SRC_URI[sha256sum] = "f50ebaf43c507fa7cc32be4b8108fa8bbd0f5022e90794388f3c7694a302ff06"
++class StrEnum(dict):
++    __getattr__ = dict.get
++
++ListType = StrEnum({
++    'LIST_IMAGES': "images",
++    'LIST_SRC_PLUGINS': "source-plugins" })
++
++HelpArg = StrEnum({
++    'HELP': "help" })
++
+ logger = logging.getLogger('wic')
  
- CVE_PRODUCT = "libcurl"
- inherit autotools pkgconfig binconfig multilib_header
+ def verify_build_env():
+@@ -204,14 +214,14 @@ def wic_list(args, scripts_path):
+     if args.list_type is None:
+         return False
+ 
+-    if args.list_type == "images":
++    if args.list_type == ListType.LIST_IMAGES:
+ 
+         list_canned_images(scripts_path)
+         return True
+-    elif args.list_type == "source-plugins":
++    elif args.list_type == ListType.LIST_SRC_PLUGINS:
+         list_source_plugins()
+         return True
+-    elif len(args.help_for) == 1 and args.help_for[0] == 'help':
++    elif len(args.help_for) == 1 and args.help_for[0] == HelpArg.HELP:
+         wks_file = args.list_type
+         fullpath = find_canned_image(scripts_path, wks_file)
+         if not fullpath:
 -- 
-2.7.4
+2.11.0
 
 
