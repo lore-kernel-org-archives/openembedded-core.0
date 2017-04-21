@@ -1,35 +1,30 @@
-Return-Path: <obi@opendreambox.org>
-Received: from mail.dream-property.net (mail.dream-property.net
-	[82.149.226.172])
-	by mail.openembedded.org (Postfix) with ESMTP id B607477AF0
+Return-Path: <dmitry.rozhkov@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 3F6BA77BC1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Apr 2017 12:48:19 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.dream-property.net (Postfix) with ESMTP id 172FC31E61E9;
-	Fri, 21 Apr 2017 14:48:21 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
-Received: from mail.dream-property.net ([127.0.0.1])
-	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id MEtJ1JZX4iVC; Fri, 21 Apr 2017 14:48:18 +0200 (CEST)
-Received: from t510.zcs.saftware.de (p57A6179E.dip0.t-ipconnect.de
-	[87.166.23.158])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by mail.dream-property.net (Postfix) with ESMTPSA id 1E1AD31E61CC;
-	Fri, 21 Apr 2017 14:48:18 +0200 (CEST)
-Date: Fri, 21 Apr 2017 14:48:17 +0200
-From: Andreas Oberritter <obi@opendreambox.org>
-To: David Vincent <freesilicon@gmail.com>
-Message-ID: <20170421144817.66c189b6@t510.zcs.saftware.de>
-In-Reply-To: <CAKRNOGyKJ5_W5Ws0Q7E2Nm9d8SV6bTZzXac2K6uEexE7567UjA@mail.gmail.com>
-References: <1492771191-4445-1-git-send-email-obi@opendreambox.org>
-	<CAAQYJAs_8am0azk+0_3MNvwrNU6WiX2_5HgH0ouwWdyK6F8rAA@mail.gmail.com>
-	<20170421133034.59e68228@t510.zcs.saftware.de>
-	<CAKRNOGyKJ5_W5Ws0Q7E2Nm9d8SV6bTZzXac2K6uEexE7567UjA@mail.gmail.com>
-MIME-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] Revert "kernel: Fix symlinks"
+	Fri, 21 Apr 2017 13:30:42 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	21 Apr 2017 06:30:44 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.37,230,1488873600"; d="scan'208";a="1122122792"
+Received: from linux.intel.com ([10.54.29.200])
+	by orsmga001.jf.intel.com with ESMTP; 21 Apr 2017 06:30:44 -0700
+Received: from drozhkov-desk.fi.intel.com (drozhkov-desk.fi.intel.com
+	[10.237.72.60])
+	by linux.intel.com (Postfix) with ESMTP id 7242A6A4006;
+	Fri, 21 Apr 2017 06:30:32 -0700 (PDT)
+Message-ID: <1492781442.7102.13.camel@linux.intel.com>
+From: Dmitry Rozhkov <dmitry.rozhkov@linux.intel.com>
+To: Andreas Oberritter <obi@opendreambox.org>
+Date: Fri, 21 Apr 2017 16:30:42 +0300
+In-Reply-To: <20170421133747.4ba6e331@t510.zcs.saftware.de>
+References: <20170421082534.30675-1-dmitry.rozhkov@linux.intel.com>
+	<20170421133747.4ba6e331@t510.zcs.saftware.de>
+X-Mailer: Evolution 3.22.6 (3.22.6-1.fc25) 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] connman: fix race condition with systemd-udev
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,63 +37,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Apr 2017 12:48:24 -0000
-Content-Type: text/plain; charset=US-ASCII
+X-List-Received-Date: Fri, 21 Apr 2017 13:30:43 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Fri, 21 Apr 2017 14:37:36 +0200
-David Vincent <freesilicon@gmail.com> wrote:
-
-> On 2017-04-21 13:30 GMT+02:00 Andreas Oberritter <obi@opendreambox.org>:
-> > On Fri, 21 Apr 2017 13:02:51 +0200
-> > Andrea Adami <andrea.adami@gmail.com> wrote:
-> >  
-> >> On Fri, Apr 21, 2017 at 12:39 PM, Andreas Oberritter
-> >> <obi@opendreambox.org> wrote:  
-> >> > This reverts commit c7bc46b9bc29dd0953ab8d63b50fa105bb66892e.
-> >> >
-> >> > It broke dpkg's update-alternatives, which requires absolute paths.  
-> >>
-> >> This is really uncommon.  
-> >
-> > Actually it's not. Try it on any Debian or Ubuntu system.
-> >  
-> >> I had already expressed my negative opinion about absolute paths for kernel [1].
-> >> Personally, I had to patch the bootloader (kexecboot).  
+On Fri, 2017-04-21 at 13:37 +0200, Andreas Oberritter wrote:
+> On Fri, 21 Apr 2017 11:25:34 +0300
+> Dmitry Rozhkov <dmitry.rozhkov@linux.intel.com> wrote:
 > 
-> Same here, that's why I submitted it in the first place. Didn't
-> thought that would break dpkg...
+> > When a new USB network interface is plugged in systemd
+> > fails to rename the new interface (ethX) to a predictable
+> > name [1] because connman locks it first.
+> > 
+> > The proposed solution is to blacklist unpredictable names
+> > in connman in case systemd is used as an init system.
+> > Also add a fix to connman that makes it to re-evaluate
+> > a known but blacklisted ethernet interface for enabling
+> > after it has got renamed.
 > 
-> >>
-> >> So please try some workaround instead of changing it back.  
-> >
-> > Well, there's no workaround. Other than opkg's update-alternatives, dpkg's maintains
-> > an alternatives database in /etc/alternatives, so the symlink is going to point to
-> > an absolute path outside of /boot anyway.  
-> 
-> The problem is that, for bootloaders, it is not always possible to
-> mount the rootfs. So, it must only rely on information in the boot
-> partition that can be mounted anywhere.
+> Doesn't this break networking for everybody not using these
+> "predictable" names?
 
-I understand the problem the patch tried to address.
+Right, it does if systemd is configured not to use them. Though the
+systemd recipe doesn't have such configuration option.
+Also it might break if net.ifnames=0 is put in the kernel cmdline.
 
-Those bootloaders don't find the kernel by chance. The name of the image
-is usually set in the environment. You can update the environment in postinst-
-scripts or just change the name of the kernel image to match the bootloader's
-expectations, just to name some alternatives.
-
-> >
-> > To fix your problem, kernel.bbclass should be changed to not use update-alternatives
-> > at all. But it's definitely wrong to break the original u-a by using invalid command-
-> > line arguments.
-> >  
-> 
-> And reverting this patch breaks boot for those who rely on a relative
-> symlink ; that is also wrong.
-
-Yes. However, I'd argue that a regression is worse than a problem that
-persisted for years.
-
-Regards,
-Andreas
+BR,
+Dmitry
 
