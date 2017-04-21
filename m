@@ -1,51 +1,20 @@
-Return-Path: <freesilicon@gmail.com>
-Received: from mail-qk0-f169.google.com (mail-qk0-f169.google.com
-	[209.85.220.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 51F1C779CA
+Return-Path: <dmitry.rozhkov@linux.intel.com>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 1F8B160111
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Apr 2017 07:55:24 +0000 (UTC)
-Received: by mail-qk0-f169.google.com with SMTP id f133so66109427qke.2
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Apr 2017 00:55:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=fUQvwacOBcLLqRbj9B21qxQWUTTs20kT1Azl0Y9iRMo=;
-	b=QQ8IahyPqDp7qBxaQlwLpUxpi0LUbi6QhArS9lS4oqAidv+l96susef+jS71aTymez
-	bzxtODZiAJFlKbVuQn7Vw16IF+l+NHydQ69lZ921IowrQAJYKJWpxFOWteiGmoYu5O8L
-	Mr1g0mRLa6KoaiE0NfXPt+vr98amC6Q3gmmevgpC97FGI+1OZmKBixzrOAy+j8cP171H
-	9iFbA905TGcX0IXaH1Zkq5Q6ArzzK6jrK03ZdC8uQj2ns9c/02t9ZM4LNEHc3lKtzSlF
-	hg/j+NVbrLNuYDJk9WdC9hL6DMVyXPioaf0a2dBVbAXIHCKCVQgerqkP1AhTGeLX3Gu5
-	iDow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=fUQvwacOBcLLqRbj9B21qxQWUTTs20kT1Azl0Y9iRMo=;
-	b=Fmk3JJ0rmEwk/hKO1NqIix67MJUrZlzAiDVFsZ4WIir7ABPTmuK15T/GcLN8ipIFWx
-	R3X+rr8gMVLRo5LNBIeaVrMMHNTX6joBjpWf8C7T1ufS41BETSUdqf8kA2VuYRyov8JZ
-	CEPsoIYUYYP44nhjN/1pNFF2imFWr0pNvPtkE4nt6Q9rJz/N/twyhHCzIKOgFCyLtAZ+
-	24Ts2PS2UGW9RHSz8Az/ho0cL27fCOe0GFw+zMf2Xrd87K7njjq61qdjnl5egHDF3cUJ
-	mfnUTTQwO//1McsTr8Wl0wUY5IlyB2h1F4zyQQRxK1DYQ4goVbkb8zrXbfEGcoelt8u0
-	m4iw==
-X-Gm-Message-State: AN3rC/7gNWED28zqkcBtyL3jyUMS8X9h4KkJGy9SxfhwtthfWCGoo+5k
-	3Tiyk+rwWcc1HXWPEeKJ6ehnINRINA==
-X-Received: by 10.55.12.14 with SMTP id 14mr11540972qkm.249.1492761326192;
-	Fri, 21 Apr 2017 00:55:26 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.12.152.220 with HTTP; Fri, 21 Apr 2017 00:55:25 -0700 (PDT)
-In-Reply-To: <20170420130400.GC3059@jama>
-References: <20170123135916.4618-1-freesilicon@gmail.com>
-	<6366113.GnGklEYiun@crde-port-20.cahors.local>
-	<64f205a9-74d2-1161-14f1-5ed03298f350@linux.intel.com>
-	<5023360.N8L8OyXh3V@crde-port-20.cahors.local>
-	<d67f6cb5-482e-9e3f-bde5-4284e8eeb31b@linux.intel.com>
-	<20170420130400.GC3059@jama>
-From: David Vincent <freesilicon@gmail.com>
-Date: Fri, 21 Apr 2017 09:55:25 +0200
-Message-ID: <CAKRNOGyCF7v02NQR0xX4jSTPiCi0Qh5ODX_GS4q8Dy4z_S8Atw@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] openssl: Fix symlink creation
+	Fri, 21 Apr 2017 08:32:22 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga105.fm.intel.com with ESMTP; 21 Apr 2017 01:32:23 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.37,229,1488873600"; d="scan'208";a="959510397"
+Received: from drozhkov-desk.fi.intel.com ([10.237.72.60])
+	by orsmga003.jf.intel.com with ESMTP; 21 Apr 2017 01:32:22 -0700
+From: Dmitry Rozhkov <dmitry.rozhkov@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 21 Apr 2017 11:25:34 +0300
+Message-Id: <20170421082534.30675-1-dmitry.rozhkov@linux.intel.com>
+X-Mailer: git-send-email 2.9.3
+Subject: [PATCH] connman: fix race condition with systemd-udev
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,76 +27,117 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Apr 2017 07:55:26 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 21 Apr 2017 08:32:23 -0000
 
-On 2017-04-20 15:04 GMT+02:00 Martin Jansa <martin.jansa@gmail.com>:
-> On Thu, Apr 20, 2017 at 03:37:24PM +0300, Alexander Kanavin wrote:
->> On 04/19/2017 04:03 PM, David Vincent wrote:
->> > The problem is that I must be able to manage the configuration of a machine
->> > without physical intervention and only via package upgrades. A new
->> > configuration can be applied simply by incrementing the PR of a configuration
->> > package.
->> >
->> > But maybe this is a use case only needed by me and I should manage it in my
->> > own specific layer ?
->> >
->> > Now that I think of it, I have the same kind of problem for all machine
->> > specific configurations. For now, I just replace the PACKAGE_ARCH in my BSP
->> > layer with a machine specific one to indicate that a package contains a
->> > configuration valid only for a specific machine. Maybe, in a future release, it
->> > should be desirable to create -conf packages based on the CONFFILES variable ?
->> > I don't know if it's a good idea, but maybe I could bring that up on the
->> > architecture mailing list ?
->>
->> By all means please do so. Yocto lacks a solution for configuration
->> management, and this was discussed some time ago, although I cannot
->> anymore find where it happened. Mark, do you remember?
+When a new USB network interface is plugged in systemd
+fails to rename the new interface (ethX) to a predictable
+name [1] because connman locks it first.
 
-Yes I'll bring that up on the architecture mailing list to gather some advices.
+The proposed solution is to blacklist unpredictable names
+in connman in case systemd is used as an init system.
+Also add a fix to connman that makes it to re-evaluate
+a known but blacklisted ethernet interface for enabling
+after it has got renamed.
 
->
-> I still haven't seen any argument why not use u-a like for any other
-> alternative files.
+Fixes [YOCTO #11341]
 
-I don't really have an argument, it's just that it feels wrong to me to manage
-configuration files via update-alternatives. Just like it did for
-initscripts. I agree that
-it works, until some corner cases reveal problems.
-(see https://bugzilla.yoctoproject.org/show_bug.cgi?id=10433)
+[1] https://www.freedesktop.org/wiki/Software/systemd/PredictableNetworkInterfaceNames/
 
->
-> All you have to do is create openssl bbappend (this part might be
-> integrated into oe-core):
->
-> inherit update-alternatives
-> ALTERNATIVE_${PN} = "openssl-cnf"
-> ALTERNATIVE_LINK_NAME[openssl-cnf] = "${sysconfdir}/ssl/openssl.cnf"
-> ALTERNATIVE_PRIORITY[openssl-cnf] ?= "1"
->
-> And then in your recipe which provides alternative config add similar
-> fragment:
->
-> inherit update-alternatives
-> ALTERNATIVE_${PN} = "openssl-cnf"
-> ALTERNATIVE_LINK_NAME[openssl-cnf] = "${sysconfdir}/ssl/openssl.cnf"
-> ALTERNATIVE_PRIORITY[openssl-cnf] ?= "10"
->
-> And that's it. We're using this for last 4 years since:
-> https://github.com/openwebos/meta-webos/commit/b13980be3f28bf60582ec3f691e392db03942e21
-> and it worked fine until this oe-core change was merged (and I had to
-> undo it in the same bbappend).
+Signed-off-by: Dmitry Rozhkov <dmitry.rozhkov@linux.intel.com>
+---
+ ...try-to-add-ether-interface-after-renaming.patch | 42 ++++++++++++++++++++++
+ .../recipes-connectivity/connman/connman/main.conf |  2 ++
+ meta/recipes-connectivity/connman/connman_1.33.bb  | 10 ++++++
+ 3 files changed, 54 insertions(+)
+ create mode 100644 meta/recipes-connectivity/connman/connman/0001-rtnl-retry-to-add-ether-interface-after-renaming.patch
+ create mode 100644 meta/recipes-connectivity/connman/connman/main.conf
 
-OTOH, I could also append the install task for my target. There are
-many solutions to
-this problem, but I think that like it was said before, the main one
-is handling properly the
-configuration and provide a way to override it in BSP or distro layers.
+diff --git a/meta/recipes-connectivity/connman/connman/0001-rtnl-retry-to-add-ether-interface-after-renaming.patch b/meta/recipes-connectivity/connman/connman/0001-rtnl-retry-to-add-ether-interface-after-renaming.patch
+new file mode 100644
+index 0000000..e5f4360
+--- /dev/null
++++ b/meta/recipes-connectivity/connman/connman/0001-rtnl-retry-to-add-ether-interface-after-renaming.patch
+@@ -0,0 +1,42 @@
++From d92e713e112e48cb4434f1c67b97e6507a7cf9e8 Mon Sep 17 00:00:00 2001
++From: Dmitry Rozhkov <dmitry.rozhkov@linux.intel.com>
++Date: Thu, 20 Apr 2017 15:54:29 +0300
++Subject: [PATCH] rtnl: retry to add ether interface after renaming
++
++If eth* interfaces are blacklisted to avoid a race condition
++where connman may access an interface before systemd/udev can
++change it to use a predictable interface name then it's impossible
++to re-activate it under a new predictable name because an existing
++interface is considered to be already added to the technology.
++
++Once blacklisted an interface is not re-evaluated under a new name.
++
++This patch allows to re-evaluate an interface known to connman for
++adding it to the ethernet technology in case it's name has changed.
++E.g. after unplugging a cable and plugging it back.
++
++Upstream-Status: Submitted [https://lists.01.org/pipermail/connman/2017-April/021790.html]
++
++Signed-off-by: Dmitry Rozhkov <dmitry.rozhkov@linux.intel.com>
++---
++ src/rtnl.c | 4 +++-
++ 1 file changed, 3 insertions(+), 1 deletion(-)
++
++diff --git a/src/rtnl.c b/src/rtnl.c
++index d1b851f..19a999c 100644
++--- a/src/rtnl.c
+++++ b/src/rtnl.c
++@@ -469,7 +469,9 @@ static void process_newlink(unsigned short type, int index, unsigned flags,
++ 
++ 		if (type == ARPHRD_ETHER)
++ 			read_uevent(interface);
++-	} else
+++	} else if (type == ARPHRD_ETHER && interface->device_type == CONNMAN_DEVICE_TYPE_UNKNOWN)
+++		read_uevent(interface);
+++	else
++ 		interface = NULL;
++ 
++ 	for (list = rtnl_list; list; list = list->next) {
++-- 
++2.9.3
++
+diff --git a/meta/recipes-connectivity/connman/connman/main.conf b/meta/recipes-connectivity/connman/connman/main.conf
+new file mode 100644
+index 0000000..fcd6ca0
+--- /dev/null
++++ b/meta/recipes-connectivity/connman/connman/main.conf
+@@ -0,0 +1,2 @@
++[General]
++NetworkInterfaceBlacklist=vmnet,vboxnet,virbr,ifb,docker,veth,eth,wlan
+diff --git a/meta/recipes-connectivity/connman/connman_1.33.bb b/meta/recipes-connectivity/connman/connman_1.33.bb
+index 4129b05..02247cb 100644
+--- a/meta/recipes-connectivity/connman/connman_1.33.bb
++++ b/meta/recipes-connectivity/connman/connman_1.33.bb
+@@ -1,5 +1,7 @@
+ require connman.inc
+ 
++OVERRIDES_append = "${@bb.utils.contains('DISTRO_FEATURES', 'systemd', ':systemd', '', d)}"
++
+ SRC_URI  = "${KERNELORG_MIRROR}/linux/network/${BPN}/${BP}.tar.xz \
+             file://0001-plugin.h-Change-visibility-to-default-for-debug-symb.patch \
+             file://connman \
+@@ -9,8 +11,16 @@ SRC_URI  = "${KERNELORG_MIRROR}/linux/network/${BPN}/${BP}.tar.xz \
+             "
+ SRC_URI_append_libc-musl = " file://0002-resolve-musl-does-not-implement-res_ninit.patch \
+                              file://0001-Fix-compile-on-musl-with-kernel-4.9-headers.patch"
++SRC_URI_append_systemd = "   file://0001-rtnl-retry-to-add-ether-interface-after-renaming.patch \
++                             file://main.conf"
++
+ 
+ SRC_URI[md5sum] = "c51903fd3e7a6a371d12ac5d72a1fa01"
+ SRC_URI[sha256sum] = "bc8946036fa70124d663136f9f6b6238d897ca482782df907b07a428b09df5a0"
+ 
++do_install_append_systemd() {
++    install -d ${D}${sysconfdir}/connman
++    install -m 0644 ${WORKDIR}/main.conf ${D}${sysconfdir}/connman/main.conf
++}
++
+ RRECOMMENDS_${PN} = "connman-conf"
+-- 
+2.9.3
 
->
-> Regards,
-> --
-> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
-David
 
