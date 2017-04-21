@@ -1,50 +1,25 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f182.google.com (mail-qk0-f182.google.com
-	[209.85.220.182])
-	by mail.openembedded.org (Postfix) with ESMTP id A6FFA60111
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by mail.openembedded.org (Postfix) with ESMTP id E032060017
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 23 Apr 2017 22:04:47 +0000 (UTC)
-Received: by mail-qk0-f182.google.com with SMTP id f76so24232083qke.2
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 23 Apr 2017 15:04:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=23X4LwhXHaiv5x1KYaf8bGtKH7UD7A1MfEZYIqN/lvg=;
-	b=VyIvsrIpTncmKc9M5b7ZSRQ+7B/tLWap3zv2oHJ4NeuGaPwIXpDRwOddC1HlNpd3+d
-	8/rMV6jJzQvXt0S2NpDo5i6Qv+QR3kzLiUKp7Js7X9jCEaHQ4Akb6omgvKzMx3Iw5wWX
-	FdnKuSEi720SN4HZSn8n/qmJWEt3bOHWEQhMsZXrPf0fNwPdRBKiRUwDzdVAYyOb+XJq
-	Gxkmow/fr5/LqPFUt8Qdb6XQe0rKQOfIqDQlGa3Az35sVo6xRRknethW59P1iUBqBdkq
-	FqJKA7CM38tcmw6aeFSGt29DuV9iVeydlErj59EuF64ArcXMj2uZPS35CJjkZ8DU/WZ3
-	O9tA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=23X4LwhXHaiv5x1KYaf8bGtKH7UD7A1MfEZYIqN/lvg=;
-	b=HiGTUbLipK8e568uax+uz2JPrlxdFQDde/rZgQJoseb0Bw8QX0ilj4M8Ih1jI8p/9Q
-	wgWdUKcf/6zhyp449mrm42/mmibc6w0ngBj8z4/IcJVsSH8vMIHBej7t+XGpNPhakrVM
-	6Y+MKn6YoCZoobxTBwBjkG+vUyZ5TlteHTU2ZERQpKhEwNV/mpUHcCvU0X7gNoPksYmD
-	3DBEMAUVy5iuuMmbcCWbhCNQtW8GgEvj0VFtS+xP4N4ySTT8OYtpp4YeBkHH4tG4PFGt
-	tFnsyrid+wPvlMhKYdSg+w1tzd6yn/6BR3nnT6oxbFffPGbk0vS5jWmfMMm6DwjKVrUl
-	PLvQ==
-X-Gm-Message-State: AN3rC/5cQHnybRc5GsmALWPmozSUfztt4/BVngFcIW+hj/5uqF3Lpkpj
-	I3cA+bGgZKF53qO+Es+5LOTzdkAZEuNF
-X-Received: by 10.55.115.65 with SMTP id o62mr22087191qkc.26.1492985088526;
-	Sun, 23 Apr 2017 15:04:48 -0700 (PDT)
+	Sun, 23 Apr 2017 22:43:05 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga104.jf.intel.com with ESMTP; 23 Apr 2017 15:43:06 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.37,241,1488873600"; d="scan'208";a="1139229841"
+Received: from engkeeng-mobl.gar.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.255.175.234])
+	by fmsmga001.fm.intel.com with ESMTP; 23 Apr 2017 15:43:04 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: "Robert P. J. Day" <rpjday@crashcourse.ca>
+Date: Fri, 21 Apr 2017 15:19:49 +1200
+Message-ID: <6850343.uvLpTthIP9@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+In-Reply-To: <alpine.LFD.2.20.1703090635210.18662@uk63952.mitel.com>
+References: <alpine.LFD.2.20.1703090635210.18662@uk63952.mitel.com>
 MIME-Version: 1.0
-Received: by 10.140.22.166 with HTTP; Sun, 23 Apr 2017 15:04:28 -0700 (PDT)
-In-Reply-To: <CAMKF1spGM+kugUDOB4kF7NAgSCt9vCw8GFT0nLKFRd2tHei=pw@mail.gmail.com>
-References: <CAMKF1spGM+kugUDOB4kF7NAgSCt9vCw8GFT0nLKFRd2tHei=pw@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Sun, 23 Apr 2017 23:04:28 +0100
-Message-ID: <CAJTo0La0mtVGyLysCnqi9EQmT+4L1eYRxgE-TV=3Va45jnt=Xg@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
-	openembeded-devel <Openembedded-devel@lists.openembedded.org>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [RFT] gcc7 and glibc-2.26 recipes
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: does "devtool add" no longer calculate the recipe name?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,52 +32,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 23 Apr 2017 22:04:48 -0000
-Content-Type: multipart/alternative; boundary=001a114fdea2db9a0a054ddcadec
+X-List-Received-Date: Sun, 23 Apr 2017 22:43:11 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
---001a114fdea2db9a0a054ddcadec
-Content-Type: text/plain; charset=UTF-8
+Hi Robert,
 
-On 16 April 2017 at 16:50, Khem Raj <raj.khem@gmail.com> wrote:
+Sorry I missed dealing with this last month, but I did just remember it and 
+Trevor Woerner just helped me track down your post again. 
 
-> I have put together recipes for upcoming gcc-7 major release as well
-> as glibc 2.26 release, which we would target for next release ( 2.4 )
->
+On Friday, 10 March 2017 12:40:24 AM NZST Robert P. J. Day wrote:
+>   hoping it's not something silly i did but, recently, i used devtool
+> add to create a recipe for mod_auth_tkt from the github repo. i didn't
+> specify the recipe name, just used:
+> 
+>   $ devtool add https://github.com/gavincarr/mod_auth_tkt.git
+> 
+> which seemed to work fine in that it figured out that the recipe name
+> would be mod-auth-tkt and created the directories by that name.
+> 
+>   i just did it again, and now the name is left as '%{name}',
+> suggesting that devtool is no longer determining what the recipe name
+> should be.
+> 
+>   if i specify the recipe name explicitly:
+> 
+> $ devtool add mod-auth-tkt https://github.com/gavincarr/mod_auth_tkt.git
+> 
+> then it works fine. but i'm sure i previously didn't need to do
+> that. has the behaviour of devtool changed in that respect?
 
-I threw these at the autobuilder and the errors are starting to appear:
+In this specific example the erroneous %{name} is being picked up from a spec 
+file contained in the source. I can't explain why the behaviour would have 
+changed, since the code handling this isn't especially new and neither is the 
+spec file, and it ought to be deterministic. I've added some code to ignore 
+any values extracted from spec files containing unexpanded macros such as this 
+one (though I think this is a particularly unusual spec file, most define a 
+literal name within Name: without using any macros). I'll also add something 
+to take the name from the repository if there isn't any other indicator, since 
+I think that's a reasonable fallback. At this stage in the release those fixes 
+will probably wait until 2.4 however.
 
-http://errors.yoctoproject.org/Errors/Latest/?filter=
-eddf6362e17899113f10cf53ed0db8a4b13ff3fc&type=commit
+Cheers,
+Paul
 
-Repeated diffutils and rpcbind failures, but linux-yocto and grub too (I
-have your grub fix already).
+-- 
 
-Ross
+Paul Eggleton
+Intel Open Source Technology Centre
 
---001a114fdea2db9a0a054ddcadec
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 16 April 2017 at 16:50, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"mailto=
-:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</span> wr=
-ote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex=
-;border-left-width:1px;border-left-style:solid;border-left-color:rgb(204,20=
-4,204);padding-left:1ex"><div id=3D"gmail-m_8714932811043796775gmail-:2du" =
-class=3D"gmail-m_8714932811043796775gmail-a3s gmail-m_8714932811043796775gm=
-ail-aXjCH gmail-m_8714932811043796775gmail-m15b77762b05f0bdb">I have put to=
-gether recipes for upcoming <span class=3D"gmail-m_8714932811043796775gmail=
--il">gcc</span>-7 major release as well<br>
-as glibc 2.26 release, which we would target for next release ( 2.4 )<br></=
-div></blockquote></div><br>I threw these at the autobuilder and the errors =
-are starting to appear:</div><div class=3D"gmail_extra"><br></div><div clas=
-s=3D"gmail_extra"><a href=3D"http://errors.yoctoproject.org/Errors/Latest/?=
-filter=3Deddf6362e17899113f10cf53ed0db8a4b13ff3fc&amp;type=3Dcommit" target=
-=3D"_blank">http://errors.yoctoproject.<wbr>org/Errors/Latest/?filter=3D<wb=
-r>eddf6362e17899113f10cf53ed0db8<wbr>a4b13ff3fc&amp;type=3Dcommit</a><br></=
-div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Repeate=
-d diffutils and rpcbind failures, but linux-yocto and grub too (I have your=
- grub fix already).</div><div class=3D"gmail_extra"><br></div><div class=3D=
-"gmail_extra">Ross</div></div>
-
---001a114fdea2db9a0a054ddcadec--
