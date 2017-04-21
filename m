@@ -1,48 +1,24 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 570F1600B3
+Return-Path: <Dengke.Du@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 848486FEF5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Apr 2017 01:29:16 +0000 (UTC)
-Received: by mail-wm0-f66.google.com with SMTP id z129so1961973wmb.1
+	Fri, 21 Apr 2017 04:15:54 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v3L4Ft0m029168
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Apr 2017 18:29:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=Wqo2SUtaRpQXMOKvtWb3zr6Z8PvTQdbBu7fVd0WU15I=;
-	b=rJnT0WuQ8tRw6hb9rv2sgiSaZ1LymNRg43SDXyyWExb6qTg0pI7jCfegvo8Jz5QGs5
-	UE28ICLrwB7Eg7burV5UwrEKYkNiny6Yky6iO8Q6KTlC68Dk4iFX70vHpVASjujTNK36
-	F6xdx3whJNxFqHrT1XuA73aC8gTD2v7HISNqvjsgHVm0tj9Sxxb0f3q9OOUpdXVT+XoF
-	rGDGS//fI9JluzLt1b9OHSqApAt5GVBOhhLBviRiVFpsq9ZhO9VWvEKjBCt30X6393mu
-	vrF5udD7HdOnUFm3ljS/HllPP7nT4m5gTmtWSRtrRIQ3bfrg8vLisoXQoYrr6DgCl2Av
-	tw/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=Wqo2SUtaRpQXMOKvtWb3zr6Z8PvTQdbBu7fVd0WU15I=;
-	b=Rt1madLSTfg0UiV5M9Ya/tXT1eQ7z+LPPD2H3tEojvaoFwZwunfGKKXiSo3BicgD02
-	tJ2YvJ4ieiBrws7DlWa6s5s0QBG/q7HLfPBRJcOvts+Bq6P8gA94m/st82wbDI96+vr8
-	zNLirP/Uy7fGfmduOmX+hCTDnS2VcZMiaAmrNhGdK3CmZMEQok55TKFT76SYoAzkS7py
-	I31ac0VNputquk2YwkQbP05788tRFe1g0nAP0WKC0cJ0VrP66vX81pu0tp0Xjpja2fjT
-	NjS/3vWJtYnZPdqJkBO4PRmGS9tFKhR6NSwP7BZKjNdgy9wfBY/dR1UKxewBFid/nH5y
-	DKbg==
-X-Gm-Message-State: AN3rC/5a2/m+VF+Uwb/MCRekPlrIHEcqVgG9BA6W6mFFeJ9ddrH0IhdQ
-	4eExDAcQpdSUvq3Le5fdQCKeLiUHow==
-X-Received: by 10.28.56.1 with SMTP id f1mr6121020wma.20.1492738156775; Thu,
-	20 Apr 2017 18:29:16 -0700 (PDT)
+	Thu, 20 Apr 2017 21:15:55 -0700 (PDT)
+Received: from pek-ddu-u1642.wrs.com (128.224.162.189) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.294.0; Thu, 20 Apr 2017 21:15:56 -0700
+From: Dengke Du <dengke.du@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 21 Apr 2017 12:15:52 +0800
+Message-ID: <cover.1492745551.git.dengke.du@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Received: by 10.223.172.100 with HTTP; Thu, 20 Apr 2017 18:29:15 -0700 (PDT)
-In-Reply-To: <CAMKF1sp0sq=4FVLkgvfSi=v6wVpxSPLDZYpr_OS2WRJeZ7mK6Q@mail.gmail.com>
-References: <20170420182028.31964-1-raj.khem@gmail.com>
-	<20170420182028.31964-2-raj.khem@gmail.com>
-	<CAJ86T=WTg5=tPSbH1BjVDiP2MgyhntbfCzQwyLCtkZXETojptQ@mail.gmail.com>
-	<CAMKF1sp0sq=4FVLkgvfSi=v6wVpxSPLDZYpr_OS2WRJeZ7mK6Q@mail.gmail.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-Date: Thu, 20 Apr 2017 18:29:15 -0700
-Message-ID: <CAJ86T=U1+KbW__rmQXNwDqD8dPiFWyUtXf2W48breiPHv=y9yQ@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/5] valgrind: Fix arm build with gcc7
+Subject: [PATCH 0/1] lsbtest: add option --ignoreos to rpm install command
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,184 +31,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Apr 2017 01:29:16 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 21 Apr 2017 04:15:57 -0000
+Content-Type: text/plain
 
-On Thu, Apr 20, 2017 at 6:06 PM, Khem Raj <raj.khem@gmail.com> wrote:
-> On Thu, Apr 20, 2017 at 5:56 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
->> On Thu, Apr 20, 2017 at 11:20 AM, Khem Raj <raj.khem@gmail.com> wrote:
->>> Signed-off-by: Khem Raj <raj.khem@gmail.com>
->>> ---
->>>  ...rop-setting-mcpu-to-cortex-a8-on-arm-arch.patch | 108 +++++++++++++++++++++
->>>  meta/recipes-devtools/valgrind/valgrind_3.12.0.bb  |   3 +-
->>>  2 files changed, 110 insertions(+), 1 deletion(-)
->>>  create mode 100644 meta/recipes-devtools/valgrind/valgrind/0001-makefiles-Drop-setting-mcpu-to-cortex-a8-on-arm-arch.patch
->>>
->>> diff --git a/meta/recipes-devtools/valgrind/valgrind/0001-makefiles-Drop-setting-mcpu-to-cortex-a8-on-arm-arch.patch b/meta/recipes-devtools/valgrind/valgrind/0001-makefiles-Drop-setting-mcpu-to-cortex-a8-on-arm-arch.patch
->>> new file mode 100644
->>> index 00000000000..9f1da7bac68
->>> --- /dev/null
->>> +++ b/meta/recipes-devtools/valgrind/valgrind/0001-makefiles-Drop-setting-mcpu-to-cortex-a8-on-arm-arch.patch
->>> @@ -0,0 +1,108 @@
->>> +From 715cf122388f3527afa5649cebf9f1522c240693 Mon Sep 17 00:00:00 2001
->>> +From: Khem Raj <raj.khem@gmail.com>
->>> +Date: Thu, 20 Apr 2017 10:11:16 -0700
->>> +Subject: [PATCH] makefiles: Drop setting -mcpu to cortex-a8 on arm
->>> + architecture
->>> +
->>> +We can not assume that all arches armv7+ are cortex-a8 only
->>> +it fails to build for rpi which is armv7ve based (cortex-a8) cpu
->>> +implementation.
->>> +Fixes
->>> +| cc1: warning: switch -mcpu=cortex-a8 conflicts with -march=armv7ve switch
->>
->> The valgrind tests are built for fixed CPU targets which are known to
->> support the instructions being tested (since those instructions may
->> not be supported by the target CPU which valgrind itself is being
->> built for).
->>
->> It may be safer to add -march=armv7a to the -mcpu=cortex-a8 tests (and
->> ensure that -march=armv7ve doesn't leak through) rather than remove
->> -mcpu=cortex-a8.
->
-> OE always passes mcpu flags, therefore it wont be an issue unless you
-> are saying thats not the case.
+The following changes since commit 55a53f53263ff4bf7bd6d0c454c464e595e11e4c:
 
-OE won't pass an -mcpu flag for generic DEFAULTTUNE values such as "armv7athf".
+  build-appliance-image: Update to master head revision (2017-04-20 08:16:46 +0100)
 
-> For upstreaming it might be OK, but I
-> think this will need a different for upstreaming since it should
-> configure mcpu/march based on some configure input or some such
-> instead of hardcoding it.
+are available in the git repository at:
 
-For the ../tests/... Makefiles, the mcpu/march flags should absolutely
-be hardcoded. e.g. the test for "idiv" should always be built in
-exactly the same way, regardless of whether or not the target arch you
-configure and build valgrind itself for is armv7ve.
+  https://github.com/DengkeDu/openembedded-core.git dengke/LSB_Test
+  https://github.com//tree/dengke/LSB_Test
 
->>
->> See the comments in:
->>
->>   http://git.openembedded.org/openembedded-core/commit/?id=3e94af90d90f6db6bab66ae87a47b31f3a0474f6
->>
->> The change to the toplevel Makefile.all.am looks OK.
->>
->>> +Upstream-Status: Pending
->>> +
->>> +Signed-off-by: Khem Raj <raj.khem@gmail.com>
->>> +---
->>> + Makefile.all.am            |  6 +++---
->>> + helgrind/tests/Makefile.am |  6 +++---
->>> + none/tests/arm/Makefile.am | 18 +++++++++---------
->>> + 3 files changed, 15 insertions(+), 15 deletions(-)
->>> +
->>> +diff --git a/Makefile.all.am b/Makefile.all.am
->>> +index 02059a3..c7c4700 100644
->>> +--- a/Makefile.all.am
->>> ++++ b/Makefile.all.am
->>> +@@ -197,11 +197,11 @@ AM_CCASFLAGS_PPC64LE_LINUX  = @FLAG_M64@ -g
->>> +
->>> + AM_FLAG_M3264_ARM_LINUX   = @FLAG_M32@
->>> + AM_CFLAGS_ARM_LINUX       = @FLAG_M32@ \
->>> +-                              $(AM_CFLAGS_BASE) -marm -mcpu=cortex-a8
->>> ++                              $(AM_CFLAGS_BASE) -marm
->>> + AM_CFLAGS_PSO_ARM_LINUX   = @FLAG_M32@ $(AM_CFLAGS_BASE) \
->>> +-                              -marm -mcpu=cortex-a8 $(AM_CFLAGS_PSO_BASE)
->>> ++                              -marm $(AM_CFLAGS_PSO_BASE)
->>> + AM_CCASFLAGS_ARM_LINUX    = @FLAG_M32@ \
->>> +-                              -marm -mcpu=cortex-a8 -g
->>> ++                              -marm -g
->>> +
->>> + AM_FLAG_M3264_ARM64_LINUX = @FLAG_M64@
->>> + AM_CFLAGS_ARM64_LINUX     = @FLAG_M64@ $(AM_CFLAGS_BASE)
->>> +diff --git a/helgrind/tests/Makefile.am b/helgrind/tests/Makefile.am
->>> +index df82169..07eb66a 100644
->>> +--- a/helgrind/tests/Makefile.am
->>> ++++ b/helgrind/tests/Makefile.am
->>> +@@ -189,9 +189,9 @@ if ! VGCONF_PLATFORMS_INCLUDE_X86_DARWIN
->>> + endif
->>> +
->>> + if VGCONF_PLATFORMS_INCLUDE_ARM_LINUX
->>> +-annotate_hbefore_CFLAGS = $(AM_CFLAGS) -mcpu=cortex-a8
->>> +-tc07_hbl1_CFLAGS        = $(AM_CFLAGS) -mcpu=cortex-a8
->>> +-tc08_hbl2_CFLAGS        = $(AM_CFLAGS) -mcpu=cortex-a8
->>> ++annotate_hbefore_CFLAGS = $(AM_CFLAGS)
->>> ++tc07_hbl1_CFLAGS        = $(AM_CFLAGS)
->>> ++tc08_hbl2_CFLAGS        = $(AM_CFLAGS)
->>> + else
->>> + annotate_hbefore_CFLAGS = $(AM_CFLAGS)
->>> + tc07_hbl1_CFLAGS        = $(AM_CFLAGS)
->>> +diff --git a/none/tests/arm/Makefile.am b/none/tests/arm/Makefile.am
->>> +index 024eb6d..ccecb90 100644
->>> +--- a/none/tests/arm/Makefile.am
->>> ++++ b/none/tests/arm/Makefile.am
->>> +@@ -52,10 +52,10 @@ allexec_CFLAGS             = $(AM_CFLAGS) @FLAG_W_NO_NONNULL@
->>> + # need special helping w.r.t -mfpu and -mfloat-abi, though.
->>> + # Also force -O0 since -O takes hundreds of MB of memory
->>> + # for v6intThumb.c.
->>> +-v6intARM_CFLAGS   = $(AM_CFLAGS) -g -O0 -mcpu=cortex-a8 -marm
->>> +-v6intThumb_CFLAGS = $(AM_CFLAGS) -g -O0 -mcpu=cortex-a8 -mthumb
->>> ++v6intARM_CFLAGS   = $(AM_CFLAGS) -g -O0 -marm
->>> ++v6intThumb_CFLAGS = $(AM_CFLAGS) -g -O0 -mthumb
->>> +
->>> +-v6media_CFLAGS    = $(AM_CFLAGS) -g -O0 -mcpu=cortex-a8 -mthumb
->>> ++v6media_CFLAGS    = $(AM_CFLAGS) -g -O0 -mthumb
->>> +
->>> + v8crypto_a_CFLAGS = $(AM_CFLAGS) -g -O0 -mfpu=crypto-neon-fp-armv8 -marm
->>> + v8crypto_t_CFLAGS = $(AM_CFLAGS) -g -O0 -mfpu=crypto-neon-fp-armv8 -mthumb
->>> +@@ -65,23 +65,23 @@ v8memory_a_CFLAGS = $(AM_CFLAGS) -g -O0 \
->>> + v8memory_t_CFLAGS = $(AM_CFLAGS) -g -O0 \
->>> +                       -march=armv8-a -mfpu=crypto-neon-fp-armv8 -mthumb
->>> +
->>> +-vfp_CFLAGS        = $(AM_CFLAGS) -g -O0 -mcpu=cortex-a8 \
->>> ++vfp_CFLAGS        = $(AM_CFLAGS) -g -O0 \
->>> +                       -mfpu=neon \
->>> +                       -mthumb
->>> +
->>> +
->>> +-neon128_CFLAGS    = $(AM_CFLAGS) -g -O0 -mcpu=cortex-a8 \
->>> ++neon128_CFLAGS    = $(AM_CFLAGS) -g -O0 \
->>> +                       -mfpu=neon \
->>> +                       -mthumb
->>> +
->>> +-neon64_CFLAGS     = $(AM_CFLAGS) -g -O0 -mcpu=cortex-a8 \
->>> ++neon64_CFLAGS     = $(AM_CFLAGS) -g -O0 \
->>> +                       -mfpu=neon \
->>> +                       -mthumb
->>> +
->>> + intdiv_CFLAGS   = $(AM_CFLAGS) -g -march=armv7ve -mcpu=cortex-a15 -mthumb
->>> +-ldrt_CFLAGS     = $(AM_CFLAGS) -g -mcpu=cortex-a8 -mthumb
->>> +-ldrt_arm_CFLAGS         = $(AM_CFLAGS) -g -mcpu=cortex-a8 -marm
->>> ++ldrt_CFLAGS     = $(AM_CFLAGS) -g -mthumb
->>> ++ldrt_arm_CFLAGS         = $(AM_CFLAGS) -g -marm
->>> +
->>> +-vcvt_fixed_float_VFP_CFLAGS = $(AM_CFLAGS) -g -mcpu=cortex-a8 -mfpu=vfpv3
->>> ++vcvt_fixed_float_VFP_CFLAGS = $(AM_CFLAGS) -g -mfpu=vfpv3
->>> +
->>> + vfpv4_fma_CFLAGS  = $(AM_CFLAGS) -g -O0 -march=armv7ve -mcpu=cortex-a15 -mfpu=vfpv4 -marm
->>> +--
->>> +2.12.2
->>> +
->>> diff --git a/meta/recipes-devtools/valgrind/valgrind_3.12.0.bb b/meta/recipes-devtools/valgrind/valgrind_3.12.0.bb
->>> index 62a96354cd0..a07c8767ce3 100644
->>> --- a/meta/recipes-devtools/valgrind/valgrind_3.12.0.bb
->>> +++ b/meta/recipes-devtools/valgrind/valgrind_3.12.0.bb
->>> @@ -23,7 +23,8 @@ SRC_URI = "http://www.valgrind.org/downloads/valgrind-${PV}.tar.bz2 \
->>>             file://use-appropriate-march-mcpu-mfpu-for-ARM-test-apps.patch \
->>>             file://avoid-neon-for-targets-which-don-t-support-it.patch \
->>>             file://valgrind-make-ld-XXX.so-strlen-intercept-optional.patch \
->>> -"
->>> +           file://0001-makefiles-Drop-setting-mcpu-to-cortex-a8-on-arm-arch.patch \
->>> +           "
->>>  SRC_URI_append_libc-musl = "\
->>>             file://0001-fix-build-for-musl-targets.patch \
->>>  "
->>> --
->>> 2.12.2
->>>
->>> --
->>> _______________________________________________
->>> Openembedded-core mailing list
->>> Openembedded-core@lists.openembedded.org
->>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Dengke Du (1):
+  lsbtest: add option --ignoreos to rpm install command
+
+ meta/recipes-extended/lsb/lsbtest/LSB_Test.sh | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+-- 
+2.7.4
+
 
