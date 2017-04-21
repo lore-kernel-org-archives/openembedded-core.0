@@ -1,33 +1,32 @@
 Return-Path: <obi@opendreambox.org>
 Received: from mail.dream-property.net (mail.dream-property.net
 	[82.149.226.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 5728B605BE
+	by mail.openembedded.org (Postfix) with ESMTP id 6AED177A88
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Apr 2017 11:30:38 +0000 (UTC)
+	Fri, 21 Apr 2017 11:37:50 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by mail.dream-property.net (Postfix) with ESMTP id CBB8331E61D0;
-	Fri, 21 Apr 2017 13:30:37 +0200 (CEST)
+	by mail.dream-property.net (Postfix) with ESMTP id D121F31E60C9;
+	Fri, 21 Apr 2017 13:37:51 +0200 (CEST)
 X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
 Received: from mail.dream-property.net ([127.0.0.1])
 	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
 	port 10024)
-	with LMTP id SOJk_Qbf4VT8; Fri, 21 Apr 2017 13:30:35 +0200 (CEST)
+	with LMTP id Edn0fb_AXErG; Fri, 21 Apr 2017 13:37:48 +0200 (CEST)
 Received: from t510.zcs.saftware.de (p57A6179E.dip0.t-ipconnect.de
 	[87.166.23.158])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by mail.dream-property.net (Postfix) with ESMTPSA id E42B731E56BC;
-	Fri, 21 Apr 2017 13:30:34 +0200 (CEST)
-Date: Fri, 21 Apr 2017 13:30:34 +0200
+	by mail.dream-property.net (Postfix) with ESMTPSA id 3172B31E5C07;
+	Fri, 21 Apr 2017 13:37:47 +0200 (CEST)
+Date: Fri, 21 Apr 2017 13:37:47 +0200
 From: Andreas Oberritter <obi@opendreambox.org>
-To: Andrea Adami <andrea.adami@gmail.com>
-Message-ID: <20170421133034.59e68228@t510.zcs.saftware.de>
-In-Reply-To: <CAAQYJAs_8am0azk+0_3MNvwrNU6WiX2_5HgH0ouwWdyK6F8rAA@mail.gmail.com>
-References: <1492771191-4445-1-git-send-email-obi@opendreambox.org>
-	<CAAQYJAs_8am0azk+0_3MNvwrNU6WiX2_5HgH0ouwWdyK6F8rAA@mail.gmail.com>
+To: Dmitry Rozhkov <dmitry.rozhkov@linux.intel.com>
+Message-ID: <20170421133747.4ba6e331@t510.zcs.saftware.de>
+In-Reply-To: <20170421082534.30675-1-dmitry.rozhkov@linux.intel.com>
+References: <20170421082534.30675-1-dmitry.rozhkov@linux.intel.com>
 MIME-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] Revert "kernel: Fix symlinks"
+Subject: Re: [PATCH] connman: fix race condition with systemd-udev
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,111 +39,128 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Apr 2017 11:30:38 -0000
+X-List-Received-Date: Fri, 21 Apr 2017 11:37:51 -0000
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Fri, 21 Apr 2017 13:02:51 +0200
-Andrea Adami <andrea.adami@gmail.com> wrote:
+On Fri, 21 Apr 2017 11:25:34 +0300
+Dmitry Rozhkov <dmitry.rozhkov@linux.intel.com> wrote:
 
-> On Fri, Apr 21, 2017 at 12:39 PM, Andreas Oberritter
-> <obi@opendreambox.org> wrote:
-> > This reverts commit c7bc46b9bc29dd0953ab8d63b50fa105bb66892e.
-> >
-> > It broke dpkg's update-alternatives, which requires absolute paths.  
+> When a new USB network interface is plugged in systemd
+> fails to rename the new interface (ethX) to a predictable
+> name [1] because connman locks it first.
 > 
-> This is really uncommon.
+> The proposed solution is to blacklist unpredictable names
+> in connman in case systemd is used as an init system.
+> Also add a fix to connman that makes it to re-evaluate
+> a known but blacklisted ethernet interface for enabling
+> after it has got renamed.
 
-Actually it's not. Try it on any Debian or Ubuntu system.
-
-> I had already expressed my negative opinion about absolute paths for kernel [1].
-> Personally, I had to patch the bootloader (kexecboot).
-> 
-> So please try some workaround instead of changing it back.
-
-Well, there's no workaround. Other than opkg's update-alternatives, dpkg's maintains
-an alternatives database in /etc/alternatives, so the symlink is going to point to
-an absolute path outside of /boot anyway.
-
-To fix your problem, kernel.bbclass should be changed to not use update-alternatives
-at all. But it's definitely wrong to break the original u-a by using invalid command-
-line arguments.
+Doesn't this break networking for everybody not using these
+"predictable" names?
 
 Regards,
 Andreas
 
 
-> Cheers
-> Andrea
 > 
-> [1] http://lists.openembedded.org/pipermail/openembedded-core/2014-July/093988.html
+> Fixes [YOCTO #11341]
 > 
-> >
-> > | update-alternatives: error: alternative path is not absolute as it should be
-> >
-> > Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
-> > ---
-> >  meta/classes/kernel.bbclass             | 6 +++---
-> >  meta/recipes-kernel/linux/linux-dtb.inc | 4 ++--
-> >  2 files changed, 5 insertions(+), 5 deletions(-)
-> >
-> > diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-> > index 12a748d..8cf357f 100644
-> > --- a/meta/classes/kernel.bbclass
-> > +++ b/meta/classes/kernel.bbclass
-> > @@ -49,11 +49,10 @@ python __anonymous () {
-> >
-> >      for type in types.split():
-> >          typelower = type.lower()
-> > -        imagedest = d.getVar('KERNEL_IMAGEDEST')
-> >
-> >          d.appendVar('PACKAGES', ' ' + 'kernel-image-' + typelower)
-> >
-> > -        d.setVar('FILES_kernel-image-' + typelower, '/' + imagedest + '/' + type + '-${KERNEL_VERSION_NAME}')
-> > +        d.setVar('FILES_kernel-image-' + typelower, '/boot/' + type + '-${KERNEL_VERSION_NAME}')
-> >
-> >          d.appendVar('RDEPENDS_kernel-image', ' ' + 'kernel-image-' + typelower)
-> >
-> > @@ -61,8 +60,9 @@ python __anonymous () {
-> >
-> >          d.setVar('ALLOW_EMPTY_kernel-image-' + typelower, '1')
-> >
-> > +        imagedest = d.getVar('KERNEL_IMAGEDEST')
-> >          priority = d.getVar('KERNEL_PRIORITY')
-> > -        postinst = '#!/bin/sh\n' + 'update-alternatives --install /' + imagedest + '/' + type + ' ' + type + ' ' + type + '-${KERNEL_VERSION_NAME} ' + priority + ' || true' + '\n'
-> > +        postinst = '#!/bin/sh\n' + 'update-alternatives --install /' + imagedest + '/' + type + ' ' + type + ' ' + '/' + imagedest + '/' + type + '-${KERNEL_VERSION_NAME} ' + priority + ' || true' + '\n'
-> >          d.setVar('pkg_postinst_kernel-image-' + typelower, postinst)
-> >
-> >          postrm = '#!/bin/sh\n' + 'update-alternatives --remove' + ' ' + type + ' ' + type + '-${KERNEL_VERSION_NAME} || true' + '\n'
-> > diff --git a/meta/recipes-kernel/linux/linux-dtb.inc b/meta/recipes-kernel/linux/linux-dtb.inc
-> > index 22e374f..41aad7c 100644
-> > --- a/meta/recipes-kernel/linux/linux-dtb.inc
-> > +++ b/meta/recipes-kernel/linux/linux-dtb.inc
-> > @@ -63,7 +63,7 @@ pkg_postinst_kernel-devicetree () {
-> >                         DTB_EXT=${DTB##*.}
-> >                         DTB_BASE_NAME=`basename ${DTB} ."${DTB_EXT}"`
-> >                         DTB_SYMLINK_NAME=`echo ${symlink_name} | sed "s/${MACHINE}/${DTB_BASE_NAME}/g"`
-> > -                       update-alternatives --install /${KERNEL_IMAGEDEST}/${DTB_BASE_NAME}.${DTB_EXT} ${DTB_BASE_NAME}.${DTB_EXT} devicetree-${DTB_SYMLINK_NAME}.${DTB_EXT} ${KERNEL_PRIORITY} || true
-> > +                       update-alternatives --install /${KERNEL_IMAGEDEST}/${DTB_BASE_NAME}.${DTB_EXT} ${DTB_BASE_NAME}.${DTB_EXT} /boot/devicetree-${DTB_SYMLINK_NAME}.${DTB_EXT} ${KERNEL_PRIORITY} || true
-> >                 done
-> >         done
-> >  }
-> > @@ -76,7 +76,7 @@ pkg_postrm_kernel-devicetree () {
-> >                         DTB_EXT=${DTB##*.}
-> >                         DTB_BASE_NAME=`basename ${DTB} ."${DTB_EXT}"`
-> >                         DTB_SYMLINK_NAME=`echo ${symlink_name} | sed "s/${MACHINE}/${DTB_BASE_NAME}/g"`
-> > -                       update-alternatives --remove ${DTB_BASE_NAME}.${DTB_EXT} devicetree-${DTB_SYMLINK_NAME}.${DTB_EXT} ${KERNEL_PRIORITY} || true
-> > +                       update-alternatives --remove ${DTB_BASE_NAME}.${DTB_EXT} /boot/devicetree-${DTB_SYMLINK_NAME}.${DTB_EXT} ${KERNEL_PRIORITY} || true
-> >                 done
-> >         done
-> >  }
-> > --
-> > 2.7.4
-> >
-> > --
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.openembedded.org/mailman/listinfo/openembedded-core  
+> [1] https://www.freedesktop.org/wiki/Software/systemd/PredictableNetworkInterfaceNames/
+> 
+> Signed-off-by: Dmitry Rozhkov <dmitry.rozhkov@linux.intel.com>
+> ---
+>  ...try-to-add-ether-interface-after-renaming.patch | 42 ++++++++++++++++++++++
+>  .../recipes-connectivity/connman/connman/main.conf |  2 ++
+>  meta/recipes-connectivity/connman/connman_1.33.bb  | 10 ++++++
+>  3 files changed, 54 insertions(+)
+>  create mode 100644 meta/recipes-connectivity/connman/connman/0001-rtnl-retry-to-add-ether-interface-after-renaming.patch
+>  create mode 100644 meta/recipes-connectivity/connman/connman/main.conf
+> 
+> diff --git a/meta/recipes-connectivity/connman/connman/0001-rtnl-retry-to-add-ether-interface-after-renaming.patch b/meta/recipes-connectivity/connman/connman/0001-rtnl-retry-to-add-ether-interface-after-renaming.patch
+> new file mode 100644
+> index 0000000..e5f4360
+> --- /dev/null
+> +++ b/meta/recipes-connectivity/connman/connman/0001-rtnl-retry-to-add-ether-interface-after-renaming.patch
+> @@ -0,0 +1,42 @@
+> +From d92e713e112e48cb4434f1c67b97e6507a7cf9e8 Mon Sep 17 00:00:00 2001
+> +From: Dmitry Rozhkov <dmitry.rozhkov@linux.intel.com>
+> +Date: Thu, 20 Apr 2017 15:54:29 +0300
+> +Subject: [PATCH] rtnl: retry to add ether interface after renaming
+> +
+> +If eth* interfaces are blacklisted to avoid a race condition
+> +where connman may access an interface before systemd/udev can
+> +change it to use a predictable interface name then it's impossible
+> +to re-activate it under a new predictable name because an existing
+> +interface is considered to be already added to the technology.
+> +
+> +Once blacklisted an interface is not re-evaluated under a new name.
+> +
+> +This patch allows to re-evaluate an interface known to connman for
+> +adding it to the ethernet technology in case it's name has changed.
+> +E.g. after unplugging a cable and plugging it back.
+> +
+> +Upstream-Status: Submitted [https://lists.01.org/pipermail/connman/2017-April/021790.html]
+> +
+> +Signed-off-by: Dmitry Rozhkov <dmitry.rozhkov@linux.intel.com>
+> +---
+> + src/rtnl.c | 4 +++-
+> + 1 file changed, 3 insertions(+), 1 deletion(-)
+> +
+> +diff --git a/src/rtnl.c b/src/rtnl.c
+> +index d1b851f..19a999c 100644
+> +--- a/src/rtnl.c
+> ++++ b/src/rtnl.c
+> +@@ -469,7 +469,9 @@ static void process_newlink(unsigned short type, int index, unsigned flags,
+> + 
+> + 		if (type == ARPHRD_ETHER)
+> + 			read_uevent(interface);
+> +-	} else
+> ++	} else if (type == ARPHRD_ETHER && interface->device_type == CONNMAN_DEVICE_TYPE_UNKNOWN)
+> ++		read_uevent(interface);
+> ++	else
+> + 		interface = NULL;
+> + 
+> + 	for (list = rtnl_list; list; list = list->next) {
+> +-- 
+> +2.9.3
+> +
+> diff --git a/meta/recipes-connectivity/connman/connman/main.conf b/meta/recipes-connectivity/connman/connman/main.conf
+> new file mode 100644
+> index 0000000..fcd6ca0
+> --- /dev/null
+> +++ b/meta/recipes-connectivity/connman/connman/main.conf
+> @@ -0,0 +1,2 @@
+> +[General]
+> +NetworkInterfaceBlacklist=vmnet,vboxnet,virbr,ifb,docker,veth,eth,wlan
+> diff --git a/meta/recipes-connectivity/connman/connman_1.33.bb b/meta/recipes-connectivity/connman/connman_1.33.bb
+> index 4129b05..02247cb 100644
+> --- a/meta/recipes-connectivity/connman/connman_1.33.bb
+> +++ b/meta/recipes-connectivity/connman/connman_1.33.bb
+> @@ -1,5 +1,7 @@
+>  require connman.inc
+>  
+> +OVERRIDES_append = "${@bb.utils.contains('DISTRO_FEATURES', 'systemd', ':systemd', '', d)}"
+> +
+>  SRC_URI  = "${KERNELORG_MIRROR}/linux/network/${BPN}/${BP}.tar.xz \
+>              file://0001-plugin.h-Change-visibility-to-default-for-debug-symb.patch \
+>              file://connman \
+> @@ -9,8 +11,16 @@ SRC_URI  = "${KERNELORG_MIRROR}/linux/network/${BPN}/${BP}.tar.xz \
+>              "
+>  SRC_URI_append_libc-musl = " file://0002-resolve-musl-does-not-implement-res_ninit.patch \
+>                               file://0001-Fix-compile-on-musl-with-kernel-4.9-headers.patch"
+> +SRC_URI_append_systemd = "   file://0001-rtnl-retry-to-add-ether-interface-after-renaming.patch \
+> +                             file://main.conf"
+> +
+>  
+>  SRC_URI[md5sum] = "c51903fd3e7a6a371d12ac5d72a1fa01"
+>  SRC_URI[sha256sum] = "bc8946036fa70124d663136f9f6b6238d897ca482782df907b07a428b09df5a0"
+>  
+> +do_install_append_systemd() {
+> +    install -d ${D}${sysconfdir}/connman
+> +    install -m 0644 ${WORKDIR}/main.conf ${D}${sysconfdir}/connman/main.conf
+> +}
+> +
+>  RRECOMMENDS_${PN} = "connman-conf"
 
 
