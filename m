@@ -1,35 +1,24 @@
-Return-Path: <denis@denix.org>
-Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.17])
-	by mail.openembedded.org (Postfix) with ESMTP id 6D98A6059E
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 1EF3660248
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Apr 2017 23:18:23 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mailout4.zoneedit.com (Postfix) with ESMTP id 623F420BA6
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Apr 2017 23:18:24 +0000 (UTC)
-Received: from mailout4.zoneedit.com ([127.0.0.1])
-	by localhost (zmo03-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
-	port 10024) with ESMTP id UQkPUxn03Xyt
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Apr 2017 23:18:24 +0000 (UTC)
-Received: from mail.denix.org (pool-100-15-85-143.washdc.fios.verizon.net
-	[100.15.85.143])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 49FC020174
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Apr 2017 23:18:24 +0000 (UTC)
-Received: by mail.denix.org (Postfix, from userid 1000)
-	id BDD8116246E; Fri, 21 Apr 2017 19:18:23 -0400 (EDT)
-Date: Fri, 21 Apr 2017 19:18:23 -0400
-From: Denys Dmytriyenko <denis@denix.org>
-To: openembedded-core@lists.openembedded.org
-Message-ID: <20170421231816.GC20419@denix.org>
-References: <1490031500-38242-1-git-send-email-denis@denix.org>
+	Sat, 22 Apr 2017 04:36:02 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v3M4a1nY026398
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Fri, 21 Apr 2017 21:36:02 -0700
+Received: from yow-bashfiel-d4.wrs.com (128.224.56.94) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.294.0; Fri, 21 Apr 2017 21:36:01 -0700
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+To: <richard.purdie@linuxfoundation.org>
+Date: Sat, 22 Apr 2017 00:36:00 -0400
+Message-ID: <1492835760-32583-1-git-send-email-bruce.ashfield@windriver.com>
+X-Mailer: git-send-email 2.5.0
 MIME-Version: 1.0
-In-Reply-To: <1490031500-38242-1-git-send-email-denis@denix.org>
-User-Agent: Mutt/1.5.20 (2009-06-14)
-Subject: Re: [morty][PATCH] sstate.bbclass: update .siginfo atime
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH] kernel-yocto/kern-tools: fix do_validate_branches clean stage
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,53 +31,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Apr 2017 23:18:24 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Sat, 22 Apr 2017 04:36:04 -0000
+Content-Type: text/plain
 
-Ping. It's been over a month now...
+It was reported that do_validate_branches was failing with the following
+error:
 
+  Log data follows:
+  | DEBUG: Executing shell function do_validate_branches
+  | HEAD is now at fe0fb8d Merge tag 'v4.10.9' into standard/base
+  | mkdir: cannot create directory .: File exists
+  |
+  | [ERROR] Can't find patch dir at ./patches/standard/base
+  | usage: kgit s2q
+  | WARNING: exit code 1 from a shell command.
+  | ERROR: Function failed: do_validate_branches
 
-On Mon, Mar 20, 2017 at 01:38:20PM -0400, Denys Dmytriyenko wrote:
-> From: Ed Bartosh <ed.bartosh@linux.intel.com>
-> 
-> .siginfo files are not being accessed from local or NFS-mounted
-> sstate mirrors when sstate package is installed, so their atime
-> is not updated. If sstate mirror is cleaned based on access time,
-> they get deleted, even though they are still being used.
-> 
-> Updated atime of .siginfo symlinks with 'touch -a'. This command
-> dereferences symlinks pointing to the local mirror and updates
-> atime of the .siginfo file on the mirror.
-> 
-> [YOCTO #10857]
-> 
-> Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
-> Signed-off-by: Denys Dmytriyenko <denys@ti.com>
-> ---
->  meta/classes/sstate.bbclass | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-> index 8643f3d..4fdfcc8 100644
-> --- a/meta/classes/sstate.bbclass
-> +++ b/meta/classes/sstate.bbclass
-> @@ -724,6 +724,8 @@ python sstate_sign_package () {
->  #
->  sstate_unpack_package () {
->  	tar -xvzf ${SSTATE_PKG}
-> +	# update .siginfo atime on local/NFS mirror
-> +	[ -h ${SSTATE_PKG}.siginfo ] && touch -a ${SSTATE_PKG}.siginfo
->  	# Use "! -w ||" to return true for read only files
->  	[ ! -w ${SSTATE_PKG} ] || touch --no-dereference ${SSTATE_PKG}
->  	[ ! -w ${SSTATE_PKG}.sig ] || [ ! -e ${SSTATE_PKG}.sig ] || touch --no-dereference ${SSTATE_PKG}.sig
-> -- 
-> 2.7.4
-> 
-> -- 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+This was triggered by the execution of 'kgit-s2q --clean' after forcing
+the SRCREV to something other than the tip of the branch. --clean is
+being run to remove any sentinel files from previous kernel builds to
+ensure that the tree is in a consistent state.
+
+There were two bugs, --clean was being executed and not exiting the
+script as it was supposed to. Hence validation for applying patches
+was done, and threw the error that eventually makes it to the console.
+
+And the second bug is that since do_validate_branches actually calls
+kgit-s2q --clean, the dependency on kern-tools-native needs to be on
+that function (versus do_kernel_metadata which runs later).
+
+With the tweaked kern-tool + the dependency fix, we no longer see this
+error.
+
+Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+---
+ meta/classes/kernel-yocto.bbclass                       | 2 +-
+ meta/recipes-kernel/kern-tools/kern-tools-native_git.bb | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yocto.bbclass
+index 0330270d3fea..96c06ef5d68e 100644
+--- a/meta/classes/kernel-yocto.bbclass
++++ b/meta/classes/kernel-yocto.bbclass
+@@ -254,7 +254,7 @@ do_kernel_checkout[dirs] = "${S}"
+ 
+ addtask kernel_checkout before do_kernel_metadata after do_unpack
+ addtask kernel_metadata after do_validate_branches do_unpack before do_patch
+-do_kernel_metadata[depends] = "kern-tools-native:do_populate_sysroot"
++do_validate_branches[depends] = "kern-tools-native:do_populate_sysroot"
+ 
+ do_kernel_configme[dirs] += "${S} ${B}"
+ do_kernel_configme() {
+diff --git a/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb b/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
+index 03f8ce3cc253..5e65469a69ca 100644
+--- a/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
++++ b/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
+@@ -4,7 +4,7 @@ LIC_FILES_CHKSUM = "file://git/tools/kgit;beginline=5;endline=9;md5=a6c2fa8aef1b
+ 
+ DEPENDS = "git-native"
+ 
+-SRCREV = "5deada879404820db146685729e89ba0887fc0ee"
++SRCREV = "bd7447cd6274d764a129dcdc246cdbfd8c47b991"
+ PR = "r12"
+ PV = "0.2+git${SRCPV}"
+ 
+-- 
+2.5.0
+
 
