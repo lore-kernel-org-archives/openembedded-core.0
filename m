@@ -1,46 +1,48 @@
-Return-Path: <liu.ming50@gmail.com>
-Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 36993606D0
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f176.google.com (mail-qk0-f176.google.com
+	[209.85.220.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 5D77D6FFA1
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 23 Apr 2017 09:23:58 +0000 (UTC)
-Received: by mail-wm0-f68.google.com with SMTP id z129so12004949wmb.1
+	Sun, 23 Apr 2017 19:58:06 +0000 (UTC)
+Received: by mail-qk0-f176.google.com with SMTP id h123so17780792qke.0
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 23 Apr 2017 02:24:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=i5ATl2rhesPCByC3OIjPIJTQNpHubapJeve2xIz8ujo=;
-	b=TmAGoLfbVQpyTQYY/lq7SkjHq5VRGvBKlNS3rsXa4+cq3/jJAROjIEjI9NcuJjOfbv
-	hlUd8pax8rEDuTFs4wPpnzkRDJ4htBBAE/qZ/obXGHgyhPmTMyXTwFjUtqLPYXbC/DQ9
-	MVzqP4ZwFXcSu9QEKOdx0QO6F4BeZF0xUrTZaI+1q8HZq33U8mv/Bnkym/6TlO6I+s/V
-	PqCgd8y9wPz0ipLac5NbtSNTaQD/NbmWDBFXL84FRV7WE/INmJ2+eqVlu6ouSLVHXXW3
-	8BVEvpzLCcfiXDW7/FaPQVwt6HOX3nRd4PHvtbf9/MI3/jY/0osQ2DApVri9Zeyx0Gng
-	oHGA==
+	Sun, 23 Apr 2017 12:58:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=QlYD4Apox6LEcYDC0vyToYXLRvtW7R5J5TmPQM/F6gY=;
+	b=xWrnoZ9JMVtYTv1nOkiUsJy6OsL+gopj5VLZXqN2lSMeQS70+yD7oHJh2rzkTBWnUs
+	18PEzTBqYOsLAUbHDuxoVmeTyGCv+cHkn4Nz0DJB3Fgm+p8NHK0ZjImWrMDhteVKHuuv
+	prCPGkVMBj8C1ryNoJzPT7n259ip915t2Meb8RvOwp9IzCNoevFogOf6CkQMA3lSS1rL
+	CDhKzMOdH3B+dbta7E7VfcAfKHsYWEJuj5/VKHyK6TTGaGJRASClsfmttYKuFbcQMjm1
+	O5cbnjxcHOb+kVg7wxSGxSLXDOWeObk3Qk4e6GWoLboPajWARX9VoVVfE5xCehPzR9r1
+	z4lQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=i5ATl2rhesPCByC3OIjPIJTQNpHubapJeve2xIz8ujo=;
-	b=NL8p3coSWE1+YLFNKiJgBlacs9+gkzdUwDiSqFAss/Np8gxTa19NIZP/mM4uv0ZUXI
-	DUkbGPtz6BJzVe+qtHM7q0sACSnwjGr6DZvzWYOot/0/BFaIAuh2MqOo5LkHTINcwFXa
-	kCYo8VAkTl4wrrlsi6ad0T3UEusKzCmxIaMqTK0Dx00L/0BKpgj3GwZ/EYOPCcYRGSyG
-	ydgzleFsGEdBal+Eru4CprKUKd5BFJUE+vr4NrQckORwVWC/gaeSlUCHZ9MVlGqBrXrk
-	toAqRiYOH/Rzd4y86SmNLhTTIW0R8KEu3YdmUMwqDS1jrxEbQMaGp07DGjec1c1nifhT
-	dlyQ==
-X-Gm-Message-State: AN3rC/7yLiUXAeyj2dMxNfD0Nc+2fTVpsTm/iOr6qOnRWryc1srL5wJ1
-	xRg8NrEjJFiHGDcM
-X-Received: by 10.80.146.25 with SMTP id i25mr110760eda.18.1492939439633;
-	Sun, 23 Apr 2017 02:23:59 -0700 (PDT)
-Received: from peterliu-Precision-M4800.emea.group.atlascopco.com
-	([106.116.223.154]) by smtp.gmail.com with ESMTPSA id
-	b45sm2455961edb.36.2017.04.23.02.23.25
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 23 Apr 2017 02:23:59 -0700 (PDT)
-From: liu.ming50@gmail.com
-To: openembedded-core@lists.openembedded.org
-Date: Sun, 23 Apr 2017 11:22:59 +0200
-Message-Id: <1492939379-23498-1-git-send-email-liu.ming50@gmail.com>
-X-Mailer: git-send-email 2.7.4
-Cc: Ming Liu <peter.x.liu@external.atlascopco.com>
-Subject: [PATCH] classes/image_live: allow different filesystems to be used for live images
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=QlYD4Apox6LEcYDC0vyToYXLRvtW7R5J5TmPQM/F6gY=;
+	b=ku2iE7mRN14fagFJhwpQjGSVLQJzkbZSARjvrkw41HBN1qbfeP8Ae+SVzGADSFmxm9
+	oS1PW/brSC/SkhNvLZeBFDX/NPrBIGJfMSg1PM2YNW6lV7v/1cAt7D+dXRwomIU5AW0q
+	MyKyb7Dl15EC+meVl194kyBYvBcYjpaiYeWiMRUzluMi0eLxKVkSQdpl8+ztongtwNUg
+	91MlZ/7bTJ+KiwHxSKFS7thbOntcrHhyeEE72A6oWYpP3ZbqoXe/JALcleBd2vJjrbXb
+	ATYO+D1SlCD429at/fiqYFz276i5QHqpj2uuV3mK8RVsqhm62R0B3sxc/kbPNiFvxs1I
+	xZkw==
+X-Gm-Message-State: AN3rC/5nU2CaJlmMFIo0aV2l5mm0nEAMA5QLQaBtY1+LVLRxIUHVjWMq
+	xyuBlQC1bekCW+B9JG/ovdq0uy5kF++R3mI=
+X-Received: by 10.55.214.208 with SMTP id p77mr23960794qkl.121.1492977487776; 
+	Sun, 23 Apr 2017 12:58:07 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.22.166 with HTTP; Sun, 23 Apr 2017 12:57:47 -0700 (PDT)
+In-Reply-To: <41eab4c3d1f37b4dc2614de0a5654590dd7bc4b8.1492777818.git.alexander.kanavin@linux.intel.com>
+References: <cover.1492777818.git.alexander.kanavin@linux.intel.com>
+	<41eab4c3d1f37b4dc2614de0a5654590dd7bc4b8.1492777818.git.alexander.kanavin@linux.intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Sun, 23 Apr 2017 20:57:47 +0100
+Message-ID: <CAJTo0Lax=yRbSPo4pdp1we2RjVWSQNXXB65gdniLYz4Y1aJNQQ@mail.gmail.com>
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 11/11] oe-selftest: add a test for upstream version check regressions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,54 +55,90 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 23 Apr 2017 09:23:59 -0000
+X-List-Received-Date: Sun, 23 Apr 2017 19:58:08 -0000
+Content-Type: multipart/alternative; boundary=001a1149d4f8d1221a054ddae868
 
-From: Ming Liu <peter.x.liu@external.atlascopco.com>
+--001a1149d4f8d1221a054ddae868
+Content-Type: text/plain; charset=UTF-8
 
-The idea is copied from commit df0b217f3df2c36a32e5c4afaec36a28bfc77bbb:
-[ classes/image_vm: allow different filesystems to be used for VM images ]
+On 21 April 2017 at 13:40, Alexander Kanavin <
+alexander.kanavin@linux.intel.com> wrote:
 
-The same logic should apply to image_live.bbclass, to allow other
-filesystems to be used vs just ext4. The default value of ext4 is kept
-so there is no functional change unless LIVE_ROOTFS_TYPE is set in the
-inherting recipe.
+> The test runs an upstream version check, and then compares the
+> list of recipes that failed the check (i.e. those where latest
+> upstream version could not be established) against the list of
+> known-broken upstreams. Mismatches either way (upstream check failed,
+> recipe not in the exception list, or upstream check worked,
+> recipe in exception list) fail the test.
+>
 
-Signed-off-by: Ming Liu <peter.x.liu@external.atlascopco.com>
----
- meta/classes/image-live.bbclass | 11 ++++++-----
- 1 file changed, 6 insertions(+), 5 deletions(-)
+This fails on the autobuilder:
 
-diff --git a/meta/classes/image-live.bbclass b/meta/classes/image-live.bbclass
-index a3d1b4e..3a6e5f0 100644
---- a/meta/classes/image-live.bbclass
-+++ b/meta/classes/image-live.bbclass
-@@ -34,7 +34,7 @@ do_bootimg[depends] += "dosfstools-native:do_populate_sysroot \
-                         ${MLPREFIX}syslinux:do_populate_sysroot \
-                         syslinux-native:do_populate_sysroot \
-                         ${@oe.utils.ifelse(d.getVar('COMPRESSISO', False),'zisofs-tools-native:do_populate_sysroot','')} \
--                        ${PN}:do_image_ext4 \
-+                        ${PN}:do_image_${LIVE_ROOTFS_TYPE} \
-                         "
- 
- 
-@@ -43,11 +43,12 @@ ROOT_LIVE ?= "root=/dev/ram0"
- INITRD_IMAGE_LIVE ?= "core-image-minimal-initramfs"
- INITRD_LIVE ?= "${DEPLOY_DIR_IMAGE}/${INITRD_IMAGE_LIVE}-${MACHINE}.cpio.gz"
- 
--ROOTFS ?= "${IMGDEPLOYDIR}/${IMAGE_LINK_NAME}.ext4"
-+LIVE_ROOTFS_TYPE ?= "ext4"
-+ROOTFS ?= "${IMGDEPLOYDIR}/${IMAGE_LINK_NAME}.${LIVE_ROOTFS_TYPE}"
- 
--IMAGE_TYPEDEP_live = "ext4"
--IMAGE_TYPEDEP_iso = "ext4"
--IMAGE_TYPEDEP_hddimg = "ext4"
-+IMAGE_TYPEDEP_live = "${LIVE_ROOTFS_TYPE}"
-+IMAGE_TYPEDEP_iso = "${LIVE_ROOTFS_TYPE}"
-+IMAGE_TYPEDEP_hddimg = "${LIVE_ROOTFS_TYPE}"
- IMAGE_TYPES_MASKED += "live hddimg iso"
- 
- python() {
--- 
-2.7.4
+FAIL [335.522s]: test_checkpkg (oeqa.selftest.distrodata.Distrodata)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File
+"/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-oe-selftest/build/meta/lib/oeqa/selftest/distrodata.py",
+line 41, in test_checkpkg
+    self.assertTrue(len(regressed_failures) == 0 and
+len(regressed_successes) == 0, msg)
+AssertionError: False is not true :
+The following packages failed upstream version checks. Please fix them
+using UPSTREAM_CHECK_URI/UPSTREAM_CHECK_REGEX
+(when using tarballs) or UPSTREAM_CHECK_GITTAGREGEX (when using git). If an
+upstream version check cannot be performed
+(for example, if upstream does not use git tags), you can add the package
+to list of exceptions in
+meta-selftest/files/distrodata/checkpkg_exceptions.
+kmscube
+bmap-tools
+libcap-ng
+boost
+The following packages have been checked successfully for upstream versions
+(or they no longer exist in oe-core),
+but are in the exceptions list in
+meta-selftest/files/distrodata/checkpkg_exceptions. Please remove them from
+that list.
+x264
 
 
+Ross
+
+--001a1149d4f8d1221a054ddae868
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 21 April 2017 at 13:40, Alexander Kanavin <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:alexander.kanavin@linux.intel.com" target=3D"_blank">alexander.k=
+anavin@linux.intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_=
+quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-=
+style:solid;border-left-color:rgb(204,204,204);padding-left:1ex"><div id=3D=
+"gmail-:488" class=3D"gmail-a3s gmail-aXjCH gmail-m15b9088321639b46">The <s=
+pan class=3D"gmail-il">test</span> runs an upstream version check, and then=
+ compares the<br>
+list of recipes that failed the check (i.e. those where latest<br>
+upstream version could not be established) against the list of<br>
+known-broken upstreams. Mismatches either way (upstream check failed,<br>
+recipe not in the exception list, or upstream check worked,<br>
+recipe in exception list) fail the <span class=3D"gmail-il">test</span>.</d=
+iv></blockquote></div><br>This fails on the autobuilder:</div><div class=3D=
+"gmail_extra"><br></div>FAIL [335.522s]: test_checkpkg (oeqa.selftest.distr=
+odata.Distrodata)<br>------------------------------------------------------=
+----------------<br>Traceback (most recent call last):<br>=C2=A0 File &quot=
+;/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-oe-selftest/build/m=
+eta/lib/oeqa/selftest/distrodata.py&quot;, line 41, in test_checkpkg<br>=C2=
+=A0 =C2=A0 self.assertTrue(len(regressed_failures) =3D=3D 0 and len(regress=
+ed_successes) =3D=3D 0, msg)<br>AssertionError: False is not true : <br>The=
+ following packages failed upstream version checks. Please fix them using U=
+PSTREAM_CHECK_URI/UPSTREAM_CHECK_REGEX<br>(when using tarballs) or UPSTREAM=
+_CHECK_GITTAGREGEX (when using git). If an upstream version check cannot be=
+ performed<br>(for example, if upstream does not use git tags), you can add=
+ the package to list of exceptions in<br>meta-selftest/files/distrodata/che=
+ckpkg_exceptions.<br>kmscube<br>bmap-tools<br>libcap-ng<br>boost<br>The fol=
+lowing packages have been checked successfully for upstream versions (or th=
+ey no longer exist in oe-core),<br>but are in the exceptions list in meta-s=
+elftest/files/distrodata/checkpkg_exceptions. Please remove them from that =
+list.<br>x264<br><br><br>Ross</div>
+
+--001a1149d4f8d1221a054ddae868--
