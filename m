@@ -1,51 +1,50 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qt0-f169.google.com (mail-qt0-f169.google.com
-	[209.85.216.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 5627F6FFA1
+Received: from mail-qk0-f182.google.com (mail-qk0-f182.google.com
+	[209.85.220.182])
+	by mail.openembedded.org (Postfix) with ESMTP id A6FFA60111
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 23 Apr 2017 19:59:04 +0000 (UTC)
-Received: by mail-qt0-f169.google.com with SMTP id c45so100064838qtb.1
+	Sun, 23 Apr 2017 22:04:47 +0000 (UTC)
+Received: by mail-qk0-f182.google.com with SMTP id f76so24232083qke.2
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 23 Apr 2017 12:59:05 -0700 (PDT)
+	Sun, 23 Apr 2017 15:04:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=j3i+yX+IO0s9yQF1PtaLnhekAG0IBr9hSDiKk/GQXas=;
-	b=jjR8Sfx5ypPVKt369X0Idc5NQ5Izu7smzvdqhSWrYDNigDfZq4vUFGseGK9V0IIt/Y
-	GbUeyIpGnkhve6Prjic/pSB6/HV/5okQYc3ngcnrbsCQkF6h8vN8Axg2IA3ezY66RTlw
-	gq/qhT+Y1oChbhfGysvbxit/gdHXNdSddDSzfjXYgFIJsFvaqWk1xcjHNHuRib1G0Iy5
-	ro5OaVqizNOBNoRdzWU4ldsxZY/DudeqbtXypAKmJtewYOp3X9uTV3C7r0Rt7aSUJ1yd
-	vCuvWk2SkgGUvAQqm9WN1GtZBiNfYSknkkLs2ryDXsGtcTJTDYi0Su5vIVh/1O16225q
-	VUuw==
+	:cc; bh=23X4LwhXHaiv5x1KYaf8bGtKH7UD7A1MfEZYIqN/lvg=;
+	b=VyIvsrIpTncmKc9M5b7ZSRQ+7B/tLWap3zv2oHJ4NeuGaPwIXpDRwOddC1HlNpd3+d
+	8/rMV6jJzQvXt0S2NpDo5i6Qv+QR3kzLiUKp7Js7X9jCEaHQ4Akb6omgvKzMx3Iw5wWX
+	FdnKuSEi720SN4HZSn8n/qmJWEt3bOHWEQhMsZXrPf0fNwPdRBKiRUwDzdVAYyOb+XJq
+	Gxkmow/fr5/LqPFUt8Qdb6XQe0rKQOfIqDQlGa3Az35sVo6xRRknethW59P1iUBqBdkq
+	FqJKA7CM38tcmw6aeFSGt29DuV9iVeydlErj59EuF64ArcXMj2uZPS35CJjkZ8DU/WZ3
+	O9tA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=j3i+yX+IO0s9yQF1PtaLnhekAG0IBr9hSDiKk/GQXas=;
-	b=SrBjS6mNTUZZLyTJdMhDW+wClgHq7s+EJ6/UyYgoIqs/EcXsjy3AO96LiP64PebehY
-	qZ5sSKBt2gxeX4kkLCTVxRSfrSMNJ6pr1ekzzvubvGcTsPBZkCPSJ/RrtINjiKIWh4uO
-	uqoEL25ooL2qMv8K/1by/xqyfxhnmTwi5bm8brdKSMyjO/HlqdH3stfGRbVGE7d7Rgoy
-	EYi4Vuf4fFkc05oK83gCHkQiNXlhCkLDmqvEdTTQDTZ4alPuYod+U1gYX00S9OjMzkVT
-	w7bBKkEG/tKOuSlphaDvyzVc5M14EEovb49JcUVyWbdcnYNzW8v4AW7iF7QcZWbw6Q9k
-	oB0g==
-X-Gm-Message-State: AN3rC/5NMobAarrl187yGg+b8UrUXyxzbwSfmQGjtl4vhxpSZGpjBkec
-	TbHoUrO5qXt+E3hTJIQ/1xMbicVt8hX2
-X-Received: by 10.200.56.56 with SMTP id q53mr24788497qtb.105.1492977545344;
-	Sun, 23 Apr 2017 12:59:05 -0700 (PDT)
+	bh=23X4LwhXHaiv5x1KYaf8bGtKH7UD7A1MfEZYIqN/lvg=;
+	b=HiGTUbLipK8e568uax+uz2JPrlxdFQDde/rZgQJoseb0Bw8QX0ilj4M8Ih1jI8p/9Q
+	wgWdUKcf/6zhyp449mrm42/mmibc6w0ngBj8z4/IcJVsSH8vMIHBej7t+XGpNPhakrVM
+	6Y+MKn6YoCZoobxTBwBjkG+vUyZ5TlteHTU2ZERQpKhEwNV/mpUHcCvU0X7gNoPksYmD
+	3DBEMAUVy5iuuMmbcCWbhCNQtW8GgEvj0VFtS+xP4N4ySTT8OYtpp4YeBkHH4tG4PFGt
+	tFnsyrid+wPvlMhKYdSg+w1tzd6yn/6BR3nnT6oxbFffPGbk0vS5jWmfMMm6DwjKVrUl
+	PLvQ==
+X-Gm-Message-State: AN3rC/5cQHnybRc5GsmALWPmozSUfztt4/BVngFcIW+hj/5uqF3Lpkpj
+	I3cA+bGgZKF53qO+Es+5LOTzdkAZEuNF
+X-Received: by 10.55.115.65 with SMTP id o62mr22087191qkc.26.1492985088526;
+	Sun, 23 Apr 2017 15:04:48 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.140.22.166 with HTTP; Sun, 23 Apr 2017 12:58:44 -0700 (PDT)
-In-Reply-To: <20170421121145.9797-3-andreas.reichel@tngtech.com>
-References: <20170421121145.9797-1-andreas.reichel@tngtech.com>
-	<20170421121145.9797-3-andreas.reichel@tngtech.com>
+Received: by 10.140.22.166 with HTTP; Sun, 23 Apr 2017 15:04:28 -0700 (PDT)
+In-Reply-To: <CAMKF1spGM+kugUDOB4kF7NAgSCt9vCw8GFT0nLKFRd2tHei=pw@mail.gmail.com>
+References: <CAMKF1spGM+kugUDOB4kF7NAgSCt9vCw8GFT0nLKFRd2tHei=pw@mail.gmail.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Sun, 23 Apr 2017 20:58:44 +0100
-Message-ID: <CAJTo0LaJWXe_QfhbOi-Xi9WPYpwgL0Z59=A+PLy-TJRLf+fu5A@mail.gmail.com>
-To: "Andreas J. Reichel" <andreas.reichel@tngtech.com>
-Cc: Jan Kiszka <jan.kiszka@siemens.com>,
-	Andreas Reichel <andreas.reichel.ext@siemens.com>,
-	Daniel Wagner <daniel.wagner@siemens.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [wic patch 2/5] wic: Use argparse instead of optparse
+Date: Sun, 23 Apr 2017 23:04:28 +0100
+Message-ID: <CAJTo0La0mtVGyLysCnqi9EQmT+4L1eYRxgE-TV=3Va45jnt=Xg@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
+	openembeded-devel <Openembedded-devel@lists.openembedded.org>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [RFT] gcc7 and glibc-2.26 recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,68 +57,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 23 Apr 2017 19:59:04 -0000
-Content-Type: multipart/alternative; boundary=001a1137aca23f8dc5054ddaec69
+X-List-Received-Date: Sun, 23 Apr 2017 22:04:48 -0000
+Content-Type: multipart/alternative; boundary=001a114fdea2db9a0a054ddcadec
 
---001a1137aca23f8dc5054ddaec69
+--001a114fdea2db9a0a054ddcadec
 Content-Type: text/plain; charset=UTF-8
 
-On 21 April 2017 at 13:11, Andreas J. Reichel <andreas.reichel@tngtech.com>
-wrote:
+On 16 April 2017 at 16:50, Khem Raj <raj.khem@gmail.com> wrote:
 
-> * optparse is deprecated and will not be developed further
->     (see: https://docs.python.org/2/library/optparse.html)
-> * argparse supports subcommands, which simplifies definition of
->     arguments and options
-> * reimplement help mechanism through sub-subcommands
+> I have put together recipes for upcoming gcc-7 major release as well
+> as glibc 2.26 release, which we would target for next release ( 2.4 )
 >
 
-This results in a behaviour change and breaks the selftest:
+I threw these at the autobuilder and the errors are starting to appear:
 
-FAIL [0.535s]: test_unsupported_subcommand (oeqa.selftest.wic.Wic)
-----------------------------------------------------------------------
-Traceback (most recent call last):
-  File
-"/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-oe-selftest/build/meta/lib/oeqa/utils/decorators.py",
-line 109, in wrapped_f
-    return func(*args, **kwargs)
-  File
-"/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-oe-selftest/build/meta/lib/oeqa/selftest/wic.py",
-line 163, in test_unsupported_subcommand
-    ignore_status=True).status)
-AssertionError: 1 != 2
+http://errors.yoctoproject.org/Errors/Latest/?filter=
+eddf6362e17899113f10cf53ed0db8a4b13ff3fc&type=commit
+
+Repeated diffutils and rpcbind failures, but linux-yocto and grub too (I
+have your grub fix already).
 
 Ross
 
---001a1137aca23f8dc5054ddaec69
+--001a114fdea2db9a0a054ddcadec
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 21 April 2017 at 13:11, Andreas J. Reichel <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:andreas.reichel@tngtech.com" target=3D"_blank">andreas.reichel@t=
-ngtech.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-style:solid;=
-border-left-color:rgb(204,204,204);padding-left:1ex"><div id=3D"gmail-:4np"=
- class=3D"gmail-a3s gmail-aXjCH gmail-m15b9071e308bf2ce">* optparse is depr=
-ecated and will not be developed further<br>
-=C2=A0 =C2=A0 (see: <a href=3D"https://docs.python.org/2/library/optparse.h=
-tml" rel=3D"noreferrer" target=3D"_blank">https://docs.python.org/2/<wbr>li=
-brary/optparse.html</a>)<br>
-* argparse supports <span class=3D"gmail-il">subcommands</span>, which simp=
-lifies definition of<br>
-=C2=A0 =C2=A0 arguments and options<br>
-* reimplement help mechanism through <span class=3D"gmail-il">sub</span>-<s=
-pan class=3D"gmail-il">subcommands</span></div></blockquote></div><br>This =
-results in a behaviour change and breaks the selftest:</div><br>FAIL [0.535=
-s]: test_unsupported_subcommand (oeqa.selftest.wic.Wic)<br>----------------=
-------------------------------------------------------<br>Traceback (most r=
-ecent call last):<br>=C2=A0 File &quot;/home/pokybuild/yocto-autobuilder/yo=
-cto-worker/nightly-oe-selftest/build/meta/lib/oeqa/utils/decorators.py&quot=
-;, line 109, in wrapped_f<br>=C2=A0 =C2=A0 return func(*args, **kwargs)<br>=
-=C2=A0 File &quot;/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-oe=
--selftest/build/meta/lib/oeqa/selftest/wic.py&quot;, line 163, in test_unsu=
-pported_subcommand<br>=C2=A0 =C2=A0 ignore_status=3DTrue).status)<br>Assert=
-ionError: 1 !=3D 2<br><br>Ross</div>
+On 16 April 2017 at 16:50, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"mailto=
+:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</span> wr=
+ote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex=
+;border-left-width:1px;border-left-style:solid;border-left-color:rgb(204,20=
+4,204);padding-left:1ex"><div id=3D"gmail-m_8714932811043796775gmail-:2du" =
+class=3D"gmail-m_8714932811043796775gmail-a3s gmail-m_8714932811043796775gm=
+ail-aXjCH gmail-m_8714932811043796775gmail-m15b77762b05f0bdb">I have put to=
+gether recipes for upcoming <span class=3D"gmail-m_8714932811043796775gmail=
+-il">gcc</span>-7 major release as well<br>
+as glibc 2.26 release, which we would target for next release ( 2.4 )<br></=
+div></blockquote></div><br>I threw these at the autobuilder and the errors =
+are starting to appear:</div><div class=3D"gmail_extra"><br></div><div clas=
+s=3D"gmail_extra"><a href=3D"http://errors.yoctoproject.org/Errors/Latest/?=
+filter=3Deddf6362e17899113f10cf53ed0db8a4b13ff3fc&amp;type=3Dcommit" target=
+=3D"_blank">http://errors.yoctoproject.<wbr>org/Errors/Latest/?filter=3D<wb=
+r>eddf6362e17899113f10cf53ed0db8<wbr>a4b13ff3fc&amp;type=3Dcommit</a><br></=
+div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Repeate=
+d diffutils and rpcbind failures, but linux-yocto and grub too (I have your=
+ grub fix already).</div><div class=3D"gmail_extra"><br></div><div class=3D=
+"gmail_extra">Ross</div></div>
 
---001a1137aca23f8dc5054ddaec69--
+--001a114fdea2db9a0a054ddcadec--
