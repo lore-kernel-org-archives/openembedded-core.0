@@ -1,30 +1,50 @@
-Return-Path: <huangqy.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 619DA60620
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Apr 2017 02:12:51 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.22,518,1449504000"; d="scan'208";a="18070130"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 24 Apr 2017 10:12:47 +0800
-Received: from G08CNEXCHPEKD02.g08.fujitsu.local (unknown [10.167.33.83])
-	by cn.fujitsu.com (Postfix) with ESMTP id C3D8047E6346
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Apr 2017 10:12:46 +0800 (CST)
-Received: from localhost.localdomain (10.167.226.81) by
-	G08CNEXCHPEKD02.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.319.2; Mon, 24 Apr 2017 10:12:52 +0800
-From: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 24 Apr 2017 10:12:34 +0800
-Message-ID: <1492999954-21326-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 2.7.4
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-wr0-f178.google.com (mail-wr0-f178.google.com
+	[209.85.128.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 2D26C6FF7F;
+	Mon, 24 Apr 2017 02:52:35 +0000 (UTC)
+Received: by mail-wr0-f178.google.com with SMTP id z52so41930016wrc.2;
+	Sun, 23 Apr 2017 19:52:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=s67uu77a0t16WgqUDQmX20U0LEfcYsxoqeA1J6G2dSI=;
+	b=Yr6J1rJumD8bt5yPJ9sbHCbHGUnhn75WfySI1Cau3ypKJFmuYTTDvcN5shQikjyYZD
+	06wuRuzkj4UPCSV50bPClpCbA6E9db3SXRw2F/ZlcDsTAFvlSB+kWqQEhRC7VtkDzeQN
+	hYdAJ58Lu7gDqqQzhfz3cxH9VyuhTa1KovvhMMMkCqUKvo1rsHiAMfW+mKUSdw9/KksW
+	9+YnJx4ArEu1CemXunFUmIx51IPWCTQDi7ATWOVmKSHlZbtnuVTN+muKgFyopULd1TkB
+	eBp3jnR/k7vmHCGyhBmb7+rcYNGLCeEqcd/1lqGGJMf3m7tCj0m9J9wjy0ZNlrRrysrM
+	MgfQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=s67uu77a0t16WgqUDQmX20U0LEfcYsxoqeA1J6G2dSI=;
+	b=MEr8HfqObJny0kULsUfpKlgH2yUvEEB10a9thFaFr4t4wcrrv0ywEvcPN/CPSns46z
+	G6Vc4ZIwUH+OOTFz6bwNQZiLPoBVPEApCTZs/EKZjDYqz97I/T0RLjfLD14uHVRW5Jh8
+	xvblHB8YRp79J7+SMkst/fwUCIK5hkVca2LwEPz/VOdNpcBLxRJzW5AXBhPO9nlX+zeX
+	eQeg9YkVIY9Tq0ZsMs8+xK+TWtFpY+VoaaSlPCrThGTKOiDR4uaPsDAR+A0dj3vmpVJO
+	xay4DfZECAnFzLSIZbOl9TQckVX74LPDZRbBNRdChBGwwYXD9hxm3qe5TKLOF6ywHcGP
+	6WQA==
+X-Gm-Message-State: AN3rC/6dltYegKNLuWvWh5puJT2GyzoMv35mZkF0aDLwjqs/8BUh70TA
+	MqPsCvnZkcQOn0XY4UuCzebUnrPBVw==
+X-Received: by 10.223.139.146 with SMTP id o18mr3646891wra.175.1493002356349; 
+	Sun, 23 Apr 2017 19:52:36 -0700 (PDT)
 MIME-Version: 1.0
-X-Originating-IP: [10.167.226.81]
-X-yoursite-MailScanner-ID: C3D8047E6346.A79BE
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: huangqy.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Subject: [PATCH] gperf: 3.0.4 -> 3.1
+Received: by 10.80.180.141 with HTTP; Sun, 23 Apr 2017 19:52:05 -0700 (PDT)
+In-Reply-To: <CADkTA4OgpwhRtmR4+4kurnhBUQoap3E3kKoRTe4fNMBFOEp8hw@mail.gmail.com>
+References: <CAMKF1spGM+kugUDOB4kF7NAgSCt9vCw8GFT0nLKFRd2tHei=pw@mail.gmail.com>
+	<CAJTo0La0mtVGyLysCnqi9EQmT+4L1eYRxgE-TV=3Va45jnt=Xg@mail.gmail.com>
+	<CADkTA4MjffrJ13GxaEAQusEU10jj0dUcUsyea36Y2gCy7HCVmA@mail.gmail.com>
+	<CADkTA4OgpwhRtmR4+4kurnhBUQoap3E3kKoRTe4fNMBFOEp8hw@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Sun, 23 Apr 2017 19:52:05 -0700
+Message-ID: <CAMKF1spOfQgu0qish5uwBfFeX7t1b=11DvfiKBfrYEG2zvJxsw@mail.gmail.com>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Cc: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>,
+	openembeded-devel <Openembedded-devel@lists.openembedded.org>
+Subject: Re: [oe] [RFT] gcc7 and glibc-2.26 recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,44 +57,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Apr 2017 02:12:54 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 24 Apr 2017 02:52:37 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Upgrade gperf from 3.0.4 to 3.1.
+On Sun, Apr 23, 2017 at 5:31 PM, Bruce Ashfield
+<bruce.ashfield@gmail.com> wrote:
+>
+>
+> On Sun, Apr 23, 2017 at 8:30 PM, Bruce Ashfield <bruce.ashfield@gmail.com>
+> wrote:
+>>
+>>
+>>
+>> On Sun, Apr 23, 2017 at 6:04 PM, Burton, Ross <ross.burton@intel.com>
+>> wrote:
+>>>
+>>> On 16 April 2017 at 16:50, Khem Raj <raj.khem@gmail.com> wrote:
+>>>
+>>> > I have put together recipes for upcoming gcc-7 major release as well
+>>> > as glibc 2.26 release, which we would target for next release ( 2.4 )
+>>> >
+>>>
+>>> I threw these at the autobuilder and the errors are starting to appear:
+>>>
+>>> http://errors.yoctoproject.org/Errors/Latest/?filter=
+>>> eddf6362e17899113f10cf53ed0db8a4b13ff3fc&type=commit
+>>>
+>>> Repeated diffutils and rpcbind failures, but linux-yocto and grub too (I
+>>> have your grub fix already).
+>>
+>>
+>> I wasn't able to bring up the linux-yocto one .. but the 4.10 linux Yocto
+>> should be at a high enough stable
+>> release to build with gcc7. So if there's a direct link to that error, I
+>> can take a closer look.
+>
+>
+> And sure enough, after I sent that the error page with linux-yocto finally
+> wheezed in.
+>
+> I see that it was the 4.1 kernel, which is expected to fail. I haven't
+> looked into backporting gcc7 fixes
+> that far, but if there's demand, it is something we can consider/look into.
+>
 
-Signed-off-by: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
----
- meta/recipes-extended/gperf/gperf_3.0.4.bb | 5 -----
- meta/recipes-extended/gperf/gperf_3.1.bb   | 5 +++++
- 2 files changed, 5 insertions(+), 5 deletions(-)
- delete mode 100644 meta/recipes-extended/gperf/gperf_3.0.4.bb
- create mode 100644 meta/recipes-extended/gperf/gperf_3.1.bb
-
-diff --git a/meta/recipes-extended/gperf/gperf_3.0.4.bb b/meta/recipes-extended/gperf/gperf_3.0.4.bb
-deleted file mode 100644
-index 64003fc..0000000
---- a/meta/recipes-extended/gperf/gperf_3.0.4.bb
-+++ /dev/null
-@@ -1,5 +0,0 @@
--require gperf.inc
--
--
--SRC_URI[md5sum] = "c1f1db32fb6598d6a93e6e88796a8632"
--SRC_URI[sha256sum] = "767112a204407e62dbc3106647cf839ed544f3cf5d0f0523aaa2508623aad63e"
-diff --git a/meta/recipes-extended/gperf/gperf_3.1.bb b/meta/recipes-extended/gperf/gperf_3.1.bb
-new file mode 100644
-index 0000000..942820b
---- /dev/null
-+++ b/meta/recipes-extended/gperf/gperf_3.1.bb
-@@ -0,0 +1,5 @@
-+require gperf.inc
-+
-+
-+SRC_URI[md5sum] = "9e251c0a618ad0824b51117d5d9db87e"
-+SRC_URI[sha256sum] = "588546b945bba4b70b6a3a616e80b4ab466e3f33024a352fc2198112cdbb3ae2"
--- 
-2.7.4
-
-
-
+I think we will need them on 4.1 too but lets wait for gkh to apply them first.
 
