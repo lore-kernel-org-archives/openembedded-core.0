@@ -1,30 +1,51 @@
-Return-Path: <huangqy.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
-	by mail.openembedded.org (Postfix) with ESMTP id B22D871B9E
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Apr 2017 07:58:52 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.22,518,1449504000"; d="scan'208";a="18082820"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 24 Apr 2017 15:58:54 +0800
-Received: from G08CNEXCHPEKD02.g08.fujitsu.local (unknown [10.167.33.83])
-	by cn.fujitsu.com (Postfix) with ESMTP id E943947CE24C
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Apr 2017 15:58:52 +0800 (CST)
-Received: from localhost.localdomain (10.167.226.81) by
-	G08CNEXCHPEKD02.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.319.2; Mon, 24 Apr 2017 15:58:59 +0800
-From: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 24 Apr 2017 15:58:43 +0800
-Message-ID: <1493020723-49403-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 2.7.4
+Return-Path: <freesilicon@gmail.com>
+Received: from mail-wr0-f195.google.com (mail-wr0-f195.google.com
+	[209.85.128.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 2410571DDA;
+	Mon, 24 Apr 2017 08:28:29 +0000 (UTC)
+Received: by mail-wr0-f195.google.com with SMTP id g12so1571546wrg.2;
+	Mon, 24 Apr 2017 01:28:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=EQlwxA2xEBe5S/5z/kvpuHHBu8t4qiun8WUjjpoYIjs=;
+	b=Hwee4KXmjOegmCU7uThKyutqNDsOB0NqIrpRNfAFMF9gKFtA2w59pa4NVZkW+zvKMS
+	9S9Ee7A6AC98rYjIHRV3gDIc3bM/KGUFVDt2ZPmZPZDgfocQ1wv/uKpG6ENGLKHJWMup
+	mVBaiLHzBR94svmJ/tU7RgPHICZkdygYbx8BfMTJAAxp204hL3IcKsxuDI3EtS9O/NTm
+	VpQNGoTurFhhgS2dHDXX9G9F/qZMVMvymIxdfhspB5sP4ASmsY0vg6CFoA+PyFZT9uLF
+	BxP1tcKsh8+d/ig9FSqSqh8UBOoezEFg5Mmht3RH42VoCoDeV9DkWXq/twv0jaLBIR92
+	XhSA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=EQlwxA2xEBe5S/5z/kvpuHHBu8t4qiun8WUjjpoYIjs=;
+	b=NardZ/kyxprLX0dp2kZj1PrQC1aDN12WOpLFpXq5Ahf8LAcJQBlgtx8n2AEgLk9qKz
+	cyOHqUH2tRBWX8iqqBhRGHbGGm6Pvc6gxW7ORFqwKBmWKGXyeFmaYEwPeaXbPzEOenPD
+	Jfwbg0q7E/0dgk6QLeg8OaamIC+ic+dwt2olO4WbMjPXr5mjkugL/yOrrK+zp0MTBt8K
+	NhDdxUbg69p2nIsMI27d1y9HJSNwkS9qqDM46+SwLXwIxUpl2vc2f4N463RkzGdvHHM9
+	WhFprMOCLzTXbQHBwM9QVYGzsXu0BwFpnmhhjjeKHU+2jrj0i7C6wjPviNJAPp1SzR6z
+	A+RA==
+X-Gm-Message-State: AN3rC/68A8PZaxz7aNNOar/2mQuptSgmWdA2fWqm8pMxhIOcql5vsYjx
+	VpvoG1RP0JfJeLXc
+X-Received: by 10.223.134.145 with SMTP id 17mr5418911wrx.130.1493022510746;
+	Mon, 24 Apr 2017 01:28:30 -0700 (PDT)
+Received: from crde-port-20.cahors.local ([185.47.80.46])
+	by smtp.gmail.com with ESMTPSA id
+	l133sm4125086wmf.17.2017.04.24.01.28.29
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 24 Apr 2017 01:28:30 -0700 (PDT)
+From: David Vincent <freesilicon@gmail.com>
+To: Mark Hatle <mark.hatle@windriver.com>
+Date: Mon, 24 Apr 2017 10:28:29 +0200
+Message-ID: <1523059.SyPMOEkr8G@crde-port-20.cahors.local>
+In-Reply-To: <b5136884-3fa1-eb65-c55f-fadc11c81e56@windriver.com>
+References: <CAKRNOGxS5k4DSs3LwEDiUNJEcFAAX1LQeN6EUHuppB7Ak7rFEw@mail.gmail.com>
+	<b5136884-3fa1-eb65-c55f-fadc11c81e56@windriver.com>
 MIME-Version: 1.0
-X-Originating-IP: [10.167.226.81]
-X-yoursite-MailScanner-ID: E943947CE24C.A6D46
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: huangqy.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Subject: [PATCH] libgpg-error: 1.26 -> 1.27
+Cc: openembedded-architecture@lists.openembedded.org,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [Openembedded-architecture] [RFC] Handling configuration files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,48 +58,107 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Apr 2017 07:58:54 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 24 Apr 2017 08:28:30 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="UTF-8"
 
-1) Upgrade libgpg-error from 1.26 to 1.27.
-2) One file's LIC_FILES_CHKSUM checksums changed (src/gpg-error.h.in),but LICENSE remains the same.
+On vendredi 21 avril 2017 15:41:58 CEST Mark Hatle wrote:
+> On 4/21/17 5:49 AM, David Vincent wrote:
+> > Following this thread on OE-Core
+> > (http://lists.openembedded.org/pipermail/openembedded-core/2017-April/1358
+> > 12.html), the subject of handling configuration files for a machine just
+> > got back. It seems there already was a discussion around it but I
+> > couldn't find it. I know that 2.3 has now hit 'feature-freeze' status but
+> > I try to gather some ideas for maybe an implementation in 2.4.
+> > 
+> > Simply put, the problem is this:
+> > I want to
+> > 
+> >   - Override a configuration file in a package
+> >   - Make the configuration machine-specific
+> >   - Upgrade the configuration during package upgrade without human
+> >   interaction> 
+> > For now, one way to do this is to append the recipe and to replace the
+> > PACKAGE_ARCH with MACHINE_ARCH. The downside of this approach is that
+> > a package is created for each machine on package repositories where
+> > only the configuration is modified.
+> > 
+> > Another way is to modify the file in ROOTFS_POSTPROCESS_COMMAND. The
+> > downside is that depending on the packager, it would either not
+> > survive the package upgrade or not be upgradable.
+> 
+> Update is potentially an issue..  but not surviving a package upgrade means
+> we've got a recipe/package manager bug to deal with.
+> 
+> If the configuration items are properly specified, then a package upgrade
+> should NOT destroy custom configurations... if it does, I consider this a
+> bug.
+I agree, package managers are smart when it comes to configuration and should 
+not boldly override a custom configuration.
 
-Signed-off-by: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
----
- .../libgpg-error/{libgpg-error_1.26.bb => libgpg-error_1.27.bb}     | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-support/libgpg-error/{libgpg-error_1.26.bb => libgpg-error_1.27.bb} (88%)
+The other issue is that there are some cases where the configuration must be 
+destroyed at package installation (remember that I want the package upgrade to 
+be without human interaction) and that is, AFAIK, impossible with a 
+postcommand (could work with a postinstall task though but it requires more 
+work on the recipe side especially during package upgrades).
+> > The last way would be to use update-alternatives, but IMHO it does
+> > feel weird. Another downside would be the need to modify all recipes
+> > to mark the configurations as alternatives.
+> > 
+> > My idea was the following. Maybe we could rely on the CONFFILES
+> > variable to create a -conf package (like -dbg/-dev/-staticdev). If
+> > possible, this package only should be marked as MACHINE_ARCH. This
+> > could happen behind the scenes in package.bbclass. The only problem I
+> > see for now is how to identify that the configuration file has been
+> > overridden in a machine-specific recipe (SRC_URI or other variable ?).
+> > Do you think it is feasible or am I missing something ? I could
+> > proceed to implement that kind of behavior but I would like to know
+> > beforehand if there are other things I should take into account.
+> 
+> Unfortunately RPM does not permit generating a single package with multiple
+> architectures.
+> 
+> Also if even a piece of the constructed system is MACHINE specific, then
+> usually all of it has to be rebuilt from source -- which would overwrite
+> previous versions in the feeds.
+Too bad, but this was cherry-on-top. We lived with this restriction until now 
+so we could live a little longer with it, right ? Anyway, storage is cheap and 
+compile time is a no-blocker ?
+> 
+> I agree the update-alternatives feels 'strange', because it effectively
+> preserves the original and provides the 'custom' at the same time.. but
+> functionally it will work fine.
+> 
+> The other option is to go through the system and construct new 'conf'
+> packages (to be used as dependencies for the runtime) for packages that
+> typically get configured....
+> 
+> I'd almost suggest that a hybrid approach to this might be appropriate.
+> 
+> Use the update-alternatives method for items that are not commonly modified
+> in deployment...
+Problem is 'How to define commonly modified ?' . Given the number of recipes and 
+use-case scenarios, that's pretty impossible to say ?
+> then use a "new" conf recipe for each item that is
+> typically modified.  (I'm worried this will add additional overhead to
+> recipe upgrades and such, so I'm not convinced a conf recipe is actually a
+> sustainable idea here.)
+I wasn't thinking of creating a conf recipe, just a conf package. That is much 
+less work overhead. And to identify recipes that adds configuration elements, I 
+thought of creating a CONFOVERRIDE variable that could be used like 
+NOAUTOPACKAGEDEBUG (the name is just a suggestion) to mark recipes that 
+overrides configuration files. This way, BSP layers could simply provide their 
+own configuration and distro layers could still work the same way.
+> 
+> --Mark
+> 
+> > Thanks,
+> > David
+> > _______________________________________________
+> > Openembedded-architecture mailing list
+> > Openembedded-architecture@lists.openembedded.org
+> > http://lists.openembedded.org/mailman/listinfo/openembedded-architecture
 
-diff --git a/meta/recipes-support/libgpg-error/libgpg-error_1.26.bb b/meta/recipes-support/libgpg-error/libgpg-error_1.27.bb
-similarity index 88%
-rename from meta/recipes-support/libgpg-error/libgpg-error_1.26.bb
-rename to meta/recipes-support/libgpg-error/libgpg-error_1.27.bb
-index 090db1b..4f919a0 100644
---- a/meta/recipes-support/libgpg-error/libgpg-error_1.26.bb
-+++ b/meta/recipes-support/libgpg-error/libgpg-error_1.27.bb
-@@ -5,7 +5,7 @@ BUGTRACKER = "https://bugs.g10code.com/gnupg/index"
- LICENSE = "GPLv2+ & LGPLv2.1+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
-                     file://COPYING.LIB;md5=2d5025d4aa3495befef8f17206a5b0a1 \
--                    file://src/gpg-error.h.in;endline=23;md5=64af9846baaf852793fd3a5af393acbf \
-+                    file://src/gpg-error.h.in;endline=23;md5=beae1e44d8d5c265d194760276033a7c \
-                     file://src/init.c;endline=20;md5=872b2389fe9bae7ffb80d2b91225afbc"
- 
- 
-@@ -16,8 +16,8 @@ SRC_URI = "${GNUPG_MIRROR}/libgpg-error/libgpg-error-${PV}.tar.bz2 \
-            file://pkgconfig.patch \
- 	  "
- 
--SRC_URI[md5sum] = "97456709dbbcbb69354317ffe3e347cd"
--SRC_URI[sha256sum] = "4c4bcbc90116932e3acd37b37812d8653b1b189c1904985898e860af818aee69"
-+SRC_URI[md5sum] = "5217ef3e76a7275a2a3b569a12ddc989"
-+SRC_URI[sha256sum] = "4f93aac6fecb7da2b92871bb9ee33032be6a87b174f54abf8ddf0911a22d29d2"
- PR = "r1"
- 
- BINCONFIG = "${bindir}/gpg-error-config"
--- 
-2.7.4
-
-
-
+--
+David
 
