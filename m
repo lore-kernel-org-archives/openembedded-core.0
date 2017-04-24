@@ -1,38 +1,33 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 773C372FBF
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Apr 2017 21:27:14 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	v3OLR8Bs001253
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Mon, 24 Apr 2017 22:27:09 +0100
-Message-ID: <1493069228.19076.121.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Bruce Ashfield <bruce.ashfield@gmail.com>, Martin Jansa
-	<martin.jansa@gmail.com>, Ross Burton <ross.burton@intel.com>, akuster808
-	<akuster808@gmail.com>
-Date: Mon, 24 Apr 2017 22:27:08 +0100
-In-Reply-To: <CADkTA4PGVyJ+b2S_77yJS6f0f3osM-yYonE55Khjk-k0oF-j-Q@mail.gmail.com>
-References: <CA+chaQdQz3==KgsjLby6Bx1NgnzhXKXQcvCY5pufr5gLeqMqtQ@mail.gmail.com>
-	<bd7ec72b-fe78-65bd-7d25-65e51a0aa30e@gmail.com>
-	<CADkTA4MQ0CToP1h_s5muJt8v-bNuCr9wtD4t+sfq9ThsZZ-AWg@mail.gmail.com>
-	<CADkTA4M6OS+sxsueSzdokxuo+AaTTjYrir0uPPazWsMP5dpxFg@mail.gmail.com>
-	<CADkTA4P43BsLYpdDR0r7eAGkEc97hB-pQyf431-Nrtb8YUOUeg@mail.gmail.com>
-	<CA+chaQeT4kDPVi4TvUaUuHzfVdDAuEtOqOMByi=vb6Onri=nqA@mail.gmail.com>
-	<CADkTA4Nm71DESZodfrGKH1bqLT0o2MSn7nmgcFtkLJu57kk_=A@mail.gmail.com>
-	<CADkTA4PGVyJ+b2S_77yJS6f0f3osM-yYonE55Khjk-k0oF-j-Q@mail.gmail.com>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.1 
-Mime-Version: 1.0
-X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.11
-	(dan.rpsys.net [192.168.3.1]);
-	Mon, 24 Apr 2017 22:27:09 +0100 (BST)
-X-Virus-Scanned: clamav-milter 0.99.2 at dan
-X-Virus-Status: Clean
-Cc: Patches and discussions about the oe-core layer
+Return-Path: <Nathan_Lynch@mentor.com>
+Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
+	by mail.openembedded.org (Postfix) with ESMTP id A514E72F3D;
+	Mon, 24 Apr 2017 22:00:11 +0000 (UTC)
+Received: from svr-orw-mbx-02.mgc.mentorg.com ([147.34.90.202])
+	by relay1.mentorg.com with esmtp 
+	id 1d2m1k-0002ll-NC from Nathan_Lynch@mentor.com ;
+	Mon, 24 Apr 2017 15:00:12 -0700
+Received: from localhost (147.34.91.1) by svr-orw-mbx-02.mgc.mentorg.com
+	(147.34.90.202) with Microsoft SMTP Server (TLS) id 15.0.1210.3;
+	Mon, 24 Apr 2017 15:00:10 -0700
+From: Nathan Lynch <nathan_lynch@mentor.com>
+To: "Burton, Ross" <ross.burton@intel.com>, Khem Raj <raj.khem@gmail.com>,
+	Bruce Ashfield <bruce.ashfield@gmail.com>
+In-Reply-To: <CAJTo0La+bGDBuJ42yVy79hW2iN3ZhpeyjXrhUApLn-PAi6PYBw@mail.gmail.com>
+References: <CAMKF1spGM+kugUDOB4kF7NAgSCt9vCw8GFT0nLKFRd2tHei=pw@mail.gmail.com>
+	<CAJTo0La0mtVGyLysCnqi9EQmT+4L1eYRxgE-TV=3Va45jnt=Xg@mail.gmail.com>
+	<CAMKF1sqfvtQPWN5Yuz3RPYkXpneS+XWcYmit_=bcvKGo3_hx8w@mail.gmail.com>
+	<CAJTo0LakaSZhJodT2KQx6u0TEaBL5Ruig3oOdfrtCzQUf1cxXg@mail.gmail.com>
+	<CAJTo0La+bGDBuJ42yVy79hW2iN3ZhpeyjXrhUApLn-PAi6PYBw@mail.gmail.com>
+Date: Mon, 24 Apr 2017 17:00:07 -0500
+Message-ID: <87a875qxeg.fsf@largeson.i-did-not-set--mail-host-address--so-tickle-me>
+MIME-Version: 1.0
+X-ClientProxiedBy: svr-orw-mbx-02.mgc.mentorg.com (147.34.90.202) To
+	svr-orw-mbx-02.mgc.mentorg.com (147.34.90.202)
+Cc: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
+	openembeded-devel <Openembedded-devel@lists.openembedded.org>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: linux-yocto.do_validate_branches failing since last oe-core update
+Subject: Re: [yocto] [RFT] gcc7 and glibc-2.26 recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,57 +40,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Apr 2017 21:27:16 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 24 Apr 2017 22:00:12 -0000
+Content-Type: text/plain
 
-On Mon, 2017-04-24 at 15:56 -0400, Bruce Ashfield wrote:
-> 
-> 
-> On Mon, Apr 24, 2017 at 9:54 AM, Bruce Ashfield <bruce.ashfield@gmail
-> .com> wrote:
-> > 
-> > 
-> > On Mon, Apr 24, 2017 at 9:39 AM, Martin Jansa <martin.jansa@gmail.c
-> > om> wrote:
-> > > I'm still seeing this with your "kernel-yocto/kern-tools: fix
-> > > do_validate_branches clean stage" patch applied:
-> > > 
-> > > 
-> > > | DEBUG: Executing shell function do_patch
-> > > | ERROR: Could not apply patches for qemux86.
-> > > | ERROR: Patch failures can be resolved in the linux source
-> > > directory work-shared/qemux86/kernel-source)
-> > > | 
-> > > | [ERROR] Can't find patch dir at .kernel-meta/
-> > > | usage: kgit s2q
-> > > | ERROR: Function failed: do_patch (log file is located at linux-
-> > > yocto/1_4.10.9+gitAUTOINC+ad2e885015_fe0fb8da3d-
-> > > r0/temp/log.do_patch.44497)
-> > > NOTE: recipe linux-yocto-
-> > > 1_4.10.9+gitAUTOINC+ad2e885015_fe0fb8da3d-r0: task do_patch:
-> > > Failed
-> > > 
-> > Well bugger.
-> > 
-> > I'll start another set of builds.
-> > 
-> I had this on a build loop all day without any luck. I also enlisted
-> a few others around the office
-> to build master and see if they could cause an issue .. again, no
-> luck.
-> 
-> Richard/Ross: are you seeing this same thing on the autobuilder ?
-> 
-> There's some incantation or config that I'm missing, I assume this is
-> a straight qemux86 config
-> with a bitbake of something like core-image-minimal ?
+"Burton, Ross" <ross.burton@intel.com> writes:
 
-We're not seeing this on the autobuilders. I do suspect something in
-the handling of extra patches or cfg fragments from SRC_URI if I had to
-guess. That certainly was the trigger last time I saw this.
+> On 24 April 2017 at 10:09, Burton, Ross <ross.burton@intel.com> wrote:
+>
+>> All merged, I'll fire in a moment.
+>>
+>
+> lttng-modules fails:
+>
+> In function 'lib_ring_buffer_align',
+>     inlined from 'lib_ring_buffer_try_reserve' at
+> TOPDIR/tmp/work/qemumips-poky-linux/lttng-modules/2.9.1-r0/lttng-modules-2.9.1/lib/ringbuffer/frontend_api.h:118:3,
+>     inlined from 'lib_ring_buffer_reserve' at
+> TOPDIR/tmp/work/qemumips-poky-linux/lttng-modules/2.9.1-r0/lttng-modules-2.9.1/lib/ringbuffer/frontend_api.h:179:6,
+>     inlined from 'lttng_event_reserve' at
+> TOPDIR/tmp/work/qemumips-poky-linux/lttng-modules/2.9.1-r0/lttng-modules-2.9.1/lttng-ring-buffer-metadata-client.h:317:6:
+> TOPDIR/tmp/work-shared/qemumips/kernel-source/include/linux/compiler.h:518:38:
+> error: call to '__compiletime_assert_269' declared with attribute error:
+> BUILD_BUG_ON failed: (size_of_type) == 0 || ((size_of_type) &
+> ((size_of_type) - 1))
+>   _compiletime_assert(condition, msg, __compiletime_assert_, __LINE__)
+>                                       ^
+>
+> Suggestions welcome :)
 
-Cheers,
 
-Richard
+Does adding this patch to lttng-modules work around it?
+
+
+diff --git a/lib/align.h b/lib/align.h
+index 5b91ae87410b..5e134cd485fe 100644
+--- a/lib/align.h
++++ b/lib/align.h
+@@ -48,7 +48,7 @@
+  */
+ #define offset_align(align_drift, alignment)				       \
+ 	({								       \
+-		BUILD_RUNTIME_BUG_ON((alignment) == 0			       \
++		BUG_ON((alignment) == 0					       \
+ 				   || ((alignment) & ((alignment) - 1)));      \
+ 		(((alignment) - (align_drift)) & ((alignment) - 1));	       \
+ 	})
+@@ -63,7 +63,7 @@
+  */
+ #define offset_align_floor(align_drift, alignment)			       \
+ 	({								       \
+-		BUILD_RUNTIME_BUG_ON((alignment) == 0			       \
++		BUG_ON((alignment) == 0					       \
+ 				   || ((alignment) & ((alignment) - 1)));      \
+ 		(((align_drift) - (alignment)) & ((alignment) - 1));	       \
+ 	})
 
