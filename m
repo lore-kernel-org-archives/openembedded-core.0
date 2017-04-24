@@ -1,23 +1,21 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 2B0B277A6B
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 6B3A777AA3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Apr 2017 13:16:06 +0000 (UTC)
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	24 Apr 2017 06:16:07 -0700
+	Mon, 24 Apr 2017 13:16:34 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	24 Apr 2017 06:16:36 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.37,244,1488873600"; d="scan'208";a="93097217"
+X-IronPort-AV: E=Sophos;i="5.37,244,1488873600"; d="scan'208";a="1160222960"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by fmsmga005.fm.intel.com with ESMTP; 24 Apr 2017 06:16:06 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 24 Apr 2017 06:16:35 -0700
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 24 Apr 2017 16:15:51 +0300
-Message-Id: <20170424131551.2212-4-alexander.kanavin@linux.intel.com>
+Date: Mon, 24 Apr 2017 16:16:20 +0300
+Message-Id: <20170424131620.2306-1-alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.11.0
-In-Reply-To: <20170424131551.2212-1-alexander.kanavin@linux.intel.com>
-References: <20170424131551.2212-1-alexander.kanavin@linux.intel.com>
-Subject: [PATCH 4/4] linux-libc-headers: fix upstream version check
+Subject: [PATCHv2] oe-selftest: add a test for upstream version check regressions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,25 +28,107 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Apr 2017 13:16:07 -0000
+X-List-Received-Date: Mon, 24 Apr 2017 13:16:36 -0000
+
+The test runs an upstream version check, and then compares the
+list of recipes that failed the check (i.e. those where latest
+upstream version could not be established) against the list of
+known-broken upstreams. Mismatches either way (upstream check failed,
+recipe not in the exception list, or upstream check worked,
+recipe in exception list) fail the test.
+
+[YOCTO #11031]
 
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc | 1 +
- 1 file changed, 1 insertion(+)
+ meta-selftest/files/distrodata/checkpkg_exceptions | 28 +++++++++++++++
+ meta/lib/oeqa/selftest/distrodata.py               | 42 ++++++++++++++++++++++
+ 2 files changed, 70 insertions(+)
+ create mode 100644 meta-selftest/files/distrodata/checkpkg_exceptions
+ create mode 100644 meta/lib/oeqa/selftest/distrodata.py
 
-diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc
-index 1b0174193f1..1657df6e921 100644
---- a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc
-+++ b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc
-@@ -47,6 +47,7 @@ inherit kernel-arch pkgconfig multilib_header
- KORG_ARCHIVE_COMPRESSION ?= "xz"
- 
- SRC_URI = "${KERNELORG_MIRROR}/linux/kernel/v${HEADER_FETCH_VER}/linux-${PV}.tar.${KORG_ARCHIVE_COMPRESSION}"
-+UPSTREAM_CHECK_URI = "https://www.kernel.org/"
- 
- S = "${WORKDIR}/linux-${PV}"
- 
+diff --git a/meta-selftest/files/distrodata/checkpkg_exceptions b/meta-selftest/files/distrodata/checkpkg_exceptions
+new file mode 100644
+index 00000000000..9431d15d45c
+--- /dev/null
++++ b/meta-selftest/files/distrodata/checkpkg_exceptions
+@@ -0,0 +1,28 @@
++build-compare
++calibrateproto
++dbus-wait
++distcc
++fstests
++gnu-config
++gst-player
++kmscube
++libfakekey
++libxcalibrate
++linux-firmware
++lsb
++mailx
++mmc-utils
++ovmf
++piglit
++psplash
++puzzles
++rpm
++squashfs-tools
++tcf-agent
++unzip
++update-rc.d
++x264
++xcursor-transparent-theme
++xinetd
++xvideo-tests
++zip
+diff --git a/meta/lib/oeqa/selftest/distrodata.py b/meta/lib/oeqa/selftest/distrodata.py
+new file mode 100644
+index 00000000000..47fdebfee56
+--- /dev/null
++++ b/meta/lib/oeqa/selftest/distrodata.py
+@@ -0,0 +1,42 @@
++from oeqa.selftest.base import oeSelfTest
++from oeqa.utils.commands import runCmd, bitbake, get_bb_var, get_bb_vars
++from oeqa.utils.decorators import testcase
++from oeqa.utils.ftools import write_file
++
++class Distrodata(oeSelfTest):
++
++    @classmethod
++    def setUpClass(cls):
++        pass
++
++    def test_checkpkg(self):
++        """
++        Summary:     Test that upstream version checks do not regress
++        Expected:    Upstream version checks should succeed except for the recipes listed in the exception list.
++        Product:     oe-core
++        Author:      Alexander Kanavin <alexander.kanavin@intel.com>
++        """
++        feature = 'INHERIT += "distrodata"\n'
++        feature += 'LICENSE_FLAGS_WHITELIST += " commercial"\n'
++
++        self.write_config(feature)
++        bitbake('-c checkpkg world')
++        checkpkg_result = open(os.path.join(get_bb_var("LOG_DIR"), "checkpkg.csv")).readlines()[1:]
++        exceptions = [exc.strip() for exc in open(os.path.join(self.testlayer_path, 'files', 'distrodata', "checkpkg_exceptions")).readlines()]
++        failed_upstream_checks = [pkg_data[0] for pkg_data in [pkg_line.split('\t') for pkg_line in checkpkg_result] if pkg_data[11] == '']
++        regressed_failures = set(failed_upstream_checks) - set(exceptions)
++        regressed_successes = set(exceptions) - set(failed_upstream_checks)
++        msg = ""
++        if len(regressed_failures) > 0:
++            msg = msg + """
++The following packages failed upstream version checks. Please fix them using UPSTREAM_CHECK_URI/UPSTREAM_CHECK_REGEX
++(when using tarballs) or UPSTREAM_CHECK_GITTAGREGEX (when using git). If an upstream version check cannot be performed
++(for example, if upstream does not use git tags), you can add the package to list of exceptions in
++meta-selftest/files/distrodata/checkpkg_exceptions.
++""" + "\n".join(regressed_failures)
++        if len(regressed_successes) > 0:
++            msg = msg + """
++The following packages have been checked successfully for upstream versions (or they no longer exist in oe-core),
++but are in the exceptions list in meta-selftest/files/distrodata/checkpkg_exceptions. Please remove them from that list.
++""" + "\n".join(regressed_successes)
++        self.assertTrue(len(regressed_failures) == 0 and len(regressed_successes) == 0, msg)
 -- 
 2.11.0
 
