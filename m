@@ -1,47 +1,54 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f45.google.com (mail-wm0-f45.google.com [74.125.82.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 0E0E777AB5
+Received: from mail-qt0-f179.google.com (mail-qt0-f179.google.com
+	[209.85.216.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 1EBB66069C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Apr 2017 15:19:09 +0000 (UTC)
-Received: by mail-wm0-f45.google.com with SMTP id r190so71192903wme.1
+	Mon, 24 Apr 2017 15:54:45 +0000 (UTC)
+Received: by mail-qt0-f179.google.com with SMTP id y33so117381405qta.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Apr 2017 08:19:11 -0700 (PDT)
+	Mon, 24 Apr 2017 08:54:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=boohbsA2fR8Pi07rToIXS9m185JD9EFCS9hbE+Hp/T0=;
-	b=1jCEcrbEwc/6FVVdd+zz0R+9KocDSm3cXWxSaUkmvrgI61gecm9QF/wBuOeRF8n4Ws
-	9Wut3GxWsq/e67gxjztlgiDvv8qrjM2Ik9Mkz/kEVjHqs0UVfM3v4SGyywDQSxXDksrG
-	3ebJYs475KpCSjalDyIRFFkZQ/aqLP8Kiy8zY0ijHedbwZF4nymYpoaQo4WBJ4NMO3qi
-	GIgZqhXbS/Pz29ezxdS/qJjZ1+I6BHWsMjNF8f5rwpMf5J7uMSe7r+CZDOmpDPiBySZb
-	/Jxr4WRZPzclQhxPG1h/Ubd8ATxfKmFQ2n1/lA24OGRtUHeyin7uF+wwcK4U6aE7DRAE
-	LJLA==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=lMahNAxLvL2TYgy0fW6XJxtIUkOicu+q92hldmsbRco=;
+	b=mDZigjGapeGcRtPOFCPu1+fJI0EKoSiQoe3KbqKHeIPM/dkahdrbxsxhKedA7ckkiP
+	3Tm4OzaLRcK/HEAwCrHlZLiv6raa/FEWNIoXS/qkPguOeec1gmKjQM4pRT57WVXY4vo7
+	WuGUUsC2Q5vwpVdWsS3KYDBpoV12EuJvthcbkx+Fe6gdMkJ7X+dTXnzC6MUKjdJhQ9mZ
+	TmoYuApa84SK2npNcpXoofsyjVbSRI4BePrHuKNUAk0m3LDQFULmJfINuTS5SzreuPc+
+	ybRb81Fie9qeYy6fnqQtM8T5vvFovXTnWjLi18jKRiCDIcOpBcPXD/LOuWPnV9C7Ct5c
+	45ng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=boohbsA2fR8Pi07rToIXS9m185JD9EFCS9hbE+Hp/T0=;
-	b=EoqORpIZw/q1A4D3RMxwk8/ee2CAa5BdEuEoxhUxk3JGzEHkt1XjpEe5deHDkieORJ
-	zJSZLOSC6FFY6XeQ9j0TkwrcwE7ggs0TfidrIaM+GhFuh0XZFoY25RDSylnlH6Q6IEEh
-	PPxaE8VrUJgmK9uFsCUGXQuah7lg6YAWV6FnHnXtK/oWWHCqiUWenqn2prGDLWwueGer
-	aDHs2RzYoJaD4UqhC2GwE8nKOHF0c40GJWH8JoHXODQ8dJmHj5lRvmZf4PU8OEVRTh7K
-	3PelrtM6KakVjCy3XNNQKAa1RgQPUaM0rS1BBBDm5cLmdO842ouK6ymnyfn1q/vFbxfd
-	4YWA==
-X-Gm-Message-State: AN3rC/7NQNY1+rWFQF5XrQqGCGGS6cDtuD/t4GQ9+5Zqt6IGUev+TzW5
-	uZY5HATXc9BSPIgfXRw=
-X-Received: by 10.28.182.134 with SMTP id g128mr9735749wmf.22.1493047150143;
-	Mon, 24 Apr 2017 08:19:10 -0700 (PDT)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id
-	e129sm918595wma.13.2017.04.24.08.19.09
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 24 Apr 2017 08:19:09 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 24 Apr 2017 16:19:07 +0100
-Message-Id: <1493047147-2163-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.8.1
-Subject: [PATCH] python3: add python3 metapackage
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=lMahNAxLvL2TYgy0fW6XJxtIUkOicu+q92hldmsbRco=;
+	b=DtjMk3gmQEmNbViTp2MTWvjdsXRe248cxZcXINvBFfHs6xTL1T4V8zC3MQAKLtn6z1
+	A3sIu4zACrHh5MYxnHcf9mnQQ1WFR5f+UnHV9k1njl6R0fV79Ewd0KCr1PHK7mUa4ETo
+	GPrJ5gdS6ve3t4n4of6cL4DffuRcs/p1YEeGS8/mwDKawL35FYUSOtE58zcDjQt4qO6h
+	K4RwwKtE8ObD0Cxcsc7IC8SvbroHwKuUx5q2eHEScElbcb+siDwfov4oru49TQ+VsqlA
+	8fQ86Pc/yEtHSZYbCBIm9z7VlJcTVPCOshIxmP8trozPJhJyBuHC4tujT/MITN3PH8fo
+	3bHg==
+X-Gm-Message-State: AN3rC/7JA4Z4N3X4Y/yMcHq/FsZRUCd4Yp8j5tk/owJgubOxJQnewtN8
+	4TLt7jM+mCe2jr7GhTJF2ETG5FBnURrI
+X-Received: by 10.200.34.242 with SMTP id g47mr25803914qta.109.1493049287100; 
+	Mon, 24 Apr 2017 08:54:47 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.22.166 with HTTP; Mon, 24 Apr 2017 08:54:26 -0700 (PDT)
+In-Reply-To: <CAJTo0LaWkRxjaF4j1HHhUqFDYYTmGADTuiLo8zqPwR+wKSbY2A@mail.gmail.com>
+References: <CAMKF1spGM+kugUDOB4kF7NAgSCt9vCw8GFT0nLKFRd2tHei=pw@mail.gmail.com>
+	<CAJTo0La0mtVGyLysCnqi9EQmT+4L1eYRxgE-TV=3Va45jnt=Xg@mail.gmail.com>
+	<CAMKF1sqfvtQPWN5Yuz3RPYkXpneS+XWcYmit_=bcvKGo3_hx8w@mail.gmail.com>
+	<CAJTo0LakaSZhJodT2KQx6u0TEaBL5Ruig3oOdfrtCzQUf1cxXg@mail.gmail.com>
+	<CAJTo0LaWkRxjaF4j1HHhUqFDYYTmGADTuiLo8zqPwR+wKSbY2A@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 24 Apr 2017 16:54:26 +0100
+Message-ID: <CAJTo0LZJSZ-UJc7zTyYNf3YYKFD3mu=-zprQroZwxB1SZBQ+Bg@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
+	openembeded-devel <Openembedded-devel@lists.openembedded.org>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [RFT] gcc7 and glibc-2.26 recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,37 +61,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Apr 2017 15:19:10 -0000
+X-List-Received-Date: Mon, 24 Apr 2017 15:54:46 -0000
+Content-Type: multipart/alternative; boundary=001a114037d463e2f5054deba011
 
-Many new users add "python3" to their image using IMAGE_INSTALL and are then
-surprised that they can't import any of the standard library. This is because we
-split up the standard library into a number of packages, and python3-core (the
-interpreter and essential modules only) RPROVIDES 'python3'.
+--001a114037d463e2f5054deba011
+Content-Type: text/plain; charset=UTF-8
 
-Solve this by moving the RPROVIDES of 'python3' to python3-modules, so that the
-entire Python standard library is installed.
+On 24 April 2017 at 10:47, Burton, Ross <ross.burton@intel.com> wrote:
 
-[ YOCTO #11182 ]
+> The updated glibc recipe doesn't appear to be very happy:
+> https://autobuilder.yocto.io/builders/buildtools/
+> builds/240/steps/BuildImages/logs/stdio
+>
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-devtools/python/python3_3.5.2.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Note that every nativesdk-glibc build is failing like this, so that's SDKs
+broken.
 
-diff --git a/meta/recipes-devtools/python/python3_3.5.2.bb b/meta/recipes-devtools/python/python3_3.5.2.bb
-index 2ff7c9e..7f2bc71 100644
---- a/meta/recipes-devtools/python/python3_3.5.2.bb
-+++ b/meta/recipes-devtools/python/python3_3.5.2.bb
-@@ -193,7 +193,7 @@ py_package_preprocess () {
- require python-${PYTHON_MAJMIN}-manifest.inc
- 
- # manual dependency additions
--RPROVIDES_${PN}-core = "${PN}"
-+RPROVIDES_${PN}-modules = "${PN}"
- RRECOMMENDS_${PN}-core = "${PN}-readline"
- RRECOMMENDS_${PN}-crypt = "openssl"
- RRECOMMENDS_${PN}-crypt_class-nativesdk = "nativesdk-openssl"
--- 
-2.8.1
+Ross
 
+--001a114037d463e2f5054deba011
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 24 April 2017 at 10:47, Burton, Ross <span dir=3D"ltr">&lt;<a href=3D"ma=
+ilto:ross.burton@intel.com" target=3D"_blank">ross.burton@intel.com</a>&gt;=
+</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .=
+8ex;border-left:1px #ccc solid;padding-left:1ex"><div class=3D"gmail_extra"=
+>The updated glibc recipe doesn&#39;t appear to be very happy:=C2=A0<a href=
+=3D"https://autobuilder.yocto.io/builders/buildtools/builds/240/steps/Build=
+Images/logs/stdio" target=3D"_blank">https://autobuilder.<wbr>yocto.io/buil=
+ders/buildtools/<wbr>builds/240/steps/BuildImages/<wbr>logs/stdio</a></div>=
+</blockquote><div><br></div><div>Note that every nativesdk-glibc build is f=
+ailing like this, so that&#39;s SDKs broken.</div><div><br></div><div>Ross<=
+/div></div></div></div>
+
+--001a114037d463e2f5054deba011--
