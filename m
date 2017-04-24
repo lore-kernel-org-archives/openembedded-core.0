@@ -1,54 +1,49 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qt0-f179.google.com (mail-qt0-f179.google.com
-	[209.85.216.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 1EBB66069C
+Return-Path: <twoerner@gmail.com>
+Received: from mail-vk0-f48.google.com (mail-vk0-f48.google.com
+	[209.85.213.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 739EF71CE7
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Apr 2017 15:54:45 +0000 (UTC)
-Received: by mail-qt0-f179.google.com with SMTP id y33so117381405qta.2
+	Mon, 24 Apr 2017 16:05:07 +0000 (UTC)
+Received: by mail-vk0-f48.google.com with SMTP id k4so38810011vki.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Apr 2017 08:54:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	Mon, 24 Apr 2017 09:05:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=lMahNAxLvL2TYgy0fW6XJxtIUkOicu+q92hldmsbRco=;
-	b=mDZigjGapeGcRtPOFCPu1+fJI0EKoSiQoe3KbqKHeIPM/dkahdrbxsxhKedA7ckkiP
-	3Tm4OzaLRcK/HEAwCrHlZLiv6raa/FEWNIoXS/qkPguOeec1gmKjQM4pRT57WVXY4vo7
-	WuGUUsC2Q5vwpVdWsS3KYDBpoV12EuJvthcbkx+Fe6gdMkJ7X+dTXnzC6MUKjdJhQ9mZ
-	TmoYuApa84SK2npNcpXoofsyjVbSRI4BePrHuKNUAk0m3LDQFULmJfINuTS5SzreuPc+
-	ybRb81Fie9qeYy6fnqQtM8T5vvFovXTnWjLi18jKRiCDIcOpBcPXD/LOuWPnV9C7Ct5c
-	45ng==
+	:cc; bh=34/8GRtzzv81alICMkxAat8owfu4l6YhMIJyMXOwPnY=;
+	b=J9muBMi+SL1qWVzzVUfhjmGkiFXLeio+Y9Mv5AxWPDWk0f75vgCxVcxF2sglZu0QE8
+	VzW9iYpqPOOcW3MgIw3D1lF1S0XaOutN1nuEWKDKl6amqSWFuK7givoEEhy6VQtUCSfk
+	qd7kDX9xqjSZ3MPpBZORKWvDKL9KmgkzaYZg7Ou+rMs6p0iv0q424R1VAZfl80h0TiFb
+	e81LFwI4R3ENriqrjTlxTjpCiBWpjFe6Wd/pXIxkR7Vix52XpDGsKrjoOnNiwzj7/T1P
+	BcC6ndv139asznFz02MQXS/NFEDOjrGWta64UHZqmSDViKBFRP/xaFRtMTS9rN5iBw7f
+	If9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=lMahNAxLvL2TYgy0fW6XJxtIUkOicu+q92hldmsbRco=;
-	b=DtjMk3gmQEmNbViTp2MTWvjdsXRe248cxZcXINvBFfHs6xTL1T4V8zC3MQAKLtn6z1
-	A3sIu4zACrHh5MYxnHcf9mnQQ1WFR5f+UnHV9k1njl6R0fV79Ewd0KCr1PHK7mUa4ETo
-	GPrJ5gdS6ve3t4n4of6cL4DffuRcs/p1YEeGS8/mwDKawL35FYUSOtE58zcDjQt4qO6h
-	K4RwwKtE8ObD0Cxcsc7IC8SvbroHwKuUx5q2eHEScElbcb+siDwfov4oru49TQ+VsqlA
-	8fQ86Pc/yEtHSZYbCBIm9z7VlJcTVPCOshIxmP8trozPJhJyBuHC4tujT/MITN3PH8fo
-	3bHg==
-X-Gm-Message-State: AN3rC/7JA4Z4N3X4Y/yMcHq/FsZRUCd4Yp8j5tk/owJgubOxJQnewtN8
-	4TLt7jM+mCe2jr7GhTJF2ETG5FBnURrI
-X-Received: by 10.200.34.242 with SMTP id g47mr25803914qta.109.1493049287100; 
-	Mon, 24 Apr 2017 08:54:47 -0700 (PDT)
+	bh=34/8GRtzzv81alICMkxAat8owfu4l6YhMIJyMXOwPnY=;
+	b=ooLvI9SUE/vn/2b2urfP+ujG1sdxc+BC5p+nRtv+2lUbWhk2Fd17q4iHaH8Y0Xcg5Z
+	wfMCuDLds9nN5QT6ZrwA0xfGeE71Q6U2rTXmNVrh+qAmv0Y/PA2knzbguWRbxyxAt24m
+	MGypo0DqUO+XlXzrHwB0mz2Hn6iFZv4OGe0XYmE9DCv3pTkRZ57A9OEwPezEQZkcfb2F
+	0GRodBizeXmU8J/bQr3YWOZNC9N9D1DuxdbZJ+T1AwXQ4xBhREPwht1e1y+O7qTZzeNI
+	AFIaPyrs9exQ9A+Zv+bkxlfkFvDwUSJe407lFUT790uiK9TC6v0hMkTQ+g48Qy1O3s6U
+	/49A==
+X-Gm-Message-State: AN3rC/4iIe1xF5Y18Df6B2vp73hXvOBQPsBWpjxFCv8CqOKwVzs9CM46
+	i3+q0JlsZzVQ4y2Hncl7CMdFVmID0g==
+X-Received: by 10.31.242.69 with SMTP id q66mr3169279vkh.53.1493049908268;
+	Mon, 24 Apr 2017 09:05:08 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.140.22.166 with HTTP; Mon, 24 Apr 2017 08:54:26 -0700 (PDT)
-In-Reply-To: <CAJTo0LaWkRxjaF4j1HHhUqFDYYTmGADTuiLo8zqPwR+wKSbY2A@mail.gmail.com>
-References: <CAMKF1spGM+kugUDOB4kF7NAgSCt9vCw8GFT0nLKFRd2tHei=pw@mail.gmail.com>
-	<CAJTo0La0mtVGyLysCnqi9EQmT+4L1eYRxgE-TV=3Va45jnt=Xg@mail.gmail.com>
-	<CAMKF1sqfvtQPWN5Yuz3RPYkXpneS+XWcYmit_=bcvKGo3_hx8w@mail.gmail.com>
-	<CAJTo0LakaSZhJodT2KQx6u0TEaBL5Ruig3oOdfrtCzQUf1cxXg@mail.gmail.com>
-	<CAJTo0LaWkRxjaF4j1HHhUqFDYYTmGADTuiLo8zqPwR+wKSbY2A@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 24 Apr 2017 16:54:26 +0100
-Message-ID: <CAJTo0LZJSZ-UJc7zTyYNf3YYKFD3mu=-zprQroZwxB1SZBQ+Bg@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
-	openembeded-devel <Openembedded-devel@lists.openembedded.org>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [RFT] gcc7 and glibc-2.26 recipes
+Received: by 10.103.67.65 with HTTP; Mon, 24 Apr 2017 09:05:07 -0700 (PDT)
+In-Reply-To: <CAJTo0LbgWj0uz8XrB5ofGOCs6FTtACE4g4vbXxVSrGu-yN6pQw@mail.gmail.com>
+References: <CALxi_JEEcpVbqSuaUbqd-GrNw7jdn2JU196tofw3jYHtowhMGw@mail.gmail.com>
+	<CAJTo0LbK23V+To_EhP_jOT89a5Uz+TPSqaiCax-tGXz5HyZ2qg@mail.gmail.com>
+	<CALxi_JE_6qJVza0p825Ooe3YgZn89af3Cuxbpp0g=TydJtgOpA@mail.gmail.com>
+	<CAJTo0LbgWj0uz8XrB5ofGOCs6FTtACE4g4vbXxVSrGu-yN6pQw@mail.gmail.com>
+From: Trevor Woerner <twoerner@gmail.com>
+Date: Mon, 24 Apr 2017 12:05:07 -0400
+Message-ID: <CAHUNapT-aiuWn5GZ=LvdunfGoODChH9U767aHCZyt9mdrB0k5Q@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: Add LAPACK/ATLAS/BLAS library to OE-CORE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,39 +56,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Apr 2017 15:54:46 -0000
-Content-Type: multipart/alternative; boundary=001a114037d463e2f5054deba011
-
---001a114037d463e2f5054deba011
+X-List-Received-Date: Mon, 24 Apr 2017 16:05:08 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On 24 April 2017 at 10:47, Burton, Ross <ross.burton@intel.com> wrote:
-
-> The updated glibc recipe doesn't appear to be very happy:
-> https://autobuilder.yocto.io/builders/buildtools/
-> builds/240/steps/BuildImages/logs/stdio
+On Mon, Apr 24, 2017 at 10:32 AM, Burton, Ross <ross.burton@intel.com> wrote:
 >
+> On 24 April 2017 at 15:29, david bensoussan <minipada@gmail.com> wrote:
+>>
+>> I'm going to make some tests if it's possible and if performance is good
+>> doing so. If not, from what I understand, the PR will probably be refused?
+>
+>
+> For oe-core, yes.  There are other layers, such as meta-oe, but I'd actually
+> suggest as you'll be shipping binaries in the layer that you write your own
+> layer and publish it.
 
-Note that every nativesdk-glibc build is failing like this, so that's SDKs
-broken.
 
-Ross
+Or meta-ros?
+https://layers.openembedded.org/layerindex/branch/master/layer/meta-ros/
 
---001a114037d463e2f5054deba011
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 24 April 2017 at 10:47, Burton, Ross <span dir=3D"ltr">&lt;<a href=3D"ma=
-ilto:ross.burton@intel.com" target=3D"_blank">ross.burton@intel.com</a>&gt;=
-</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .=
-8ex;border-left:1px #ccc solid;padding-left:1ex"><div class=3D"gmail_extra"=
->The updated glibc recipe doesn&#39;t appear to be very happy:=C2=A0<a href=
-=3D"https://autobuilder.yocto.io/builders/buildtools/builds/240/steps/Build=
-Images/logs/stdio" target=3D"_blank">https://autobuilder.<wbr>yocto.io/buil=
-ders/buildtools/<wbr>builds/240/steps/BuildImages/<wbr>logs/stdio</a></div>=
-</blockquote><div><br></div><div>Note that every nativesdk-glibc build is f=
-ailing like this, so that&#39;s SDKs broken.</div><div><br></div><div>Ross<=
-/div></div></div></div>
-
---001a114037d463e2f5054deba011--
