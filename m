@@ -1,55 +1,51 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pf0-f194.google.com (mail-pf0-f194.google.com
-	[209.85.192.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 91C7A71CE7
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Apr 2017 16:08:56 +0000 (UTC)
-Received: by mail-pf0-f194.google.com with SMTP id a188so4803208pfa.2
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Apr 2017 09:08:57 -0700 (PDT)
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
+	by mail.openembedded.org (Postfix) with ESMTP id B27AB77ACB;
+	Mon, 24 Apr 2017 16:10:41 +0000 (UTC)
+Received: by mail-wm0-f65.google.com with SMTP id y10so7382225wmh.0;
+	Mon, 24 Apr 2017 09:10:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:references:from:message-id:date:user-agent:mime-version
-	:in-reply-to:content-transfer-encoding;
-	bh=B75U/jSmZjt+3NaVeyZdHQDdfpJn4Fs+lsiATQueKuo=;
-	b=i3kzAaMvM4hfeVMhm/XEuQF6+obaMDIyhogcLosxNJevlHfi7IUN5E+yW2a1iMb2+B
-	pAS/WvQmYbogYCLsSDXMLigjTGO2Pxtl0ge6+ljylUs6Nwnu7FcbHYV7CvWJyrxFa4Bk
-	E4wGl7EO32WjAvojFwJcx4yvOzNx+e10v52zmN61qG1wjB++EEIyIXqCYBIVNj0C7EyJ
-	VJEilBGr7Snnyh1MBkrrsrSvJZGya+AnXx/s7n1HeYMmaPPNCrLcECx1Q3VKq3+nNzeR
-	WpASwJO32zYogpAnkvsWSrT3HuTnxOVtfPiQ7bUjwNAq2qsNG/eB3llIRNP+LUnKfZN9
-	+yAg==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=3lTFvUMUkRxYYPIvTjWkm5ncz01s6svRETXIlx9LZvE=;
+	b=sbd1zSqvGMU0230B3GbDzDuJMGpbLhSrLGyoopjgc+m48TY7oioOzOj9ODzRsqsPh+
+	OIslTXTxWbEoLRsUZKkTREMzN7IZcBVtVAHzsddg5u5Ree6gbLIcD76XIyeArzaXZvpE
+	/okzz5++R4Jb8vRF5p5+HFEasl4NBc9ZFNPt/D8h1yT1VGu97rSFYT7ZODg9Y1qi4Uvt
+	emqjJ2fzHWlUUM7D+dJhL5W2QCqtxTos4nbVC+AD7vYNn6Sl6AyvkkdKV9diyEZQPfPS
+	5Eu1ynOlTMKuG971EZ31ZMnHRScZBmE6URX8xqYJ7I+/WO+r1uyIK2Fvf6pw5acKtgnL
+	kp6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding;
-	bh=B75U/jSmZjt+3NaVeyZdHQDdfpJn4Fs+lsiATQueKuo=;
-	b=JzkaXZ8L49UvybOADl3zC7C5HUBwmDsSfKXq/EdjqoCY+Dog4a/rXeZX7mvN43EPvr
-	kYHIkeO0AM6PxQLKVq8KJCfpaq9FwupwfgMB20vOlCNVqW3LhAT8AP5iRhPn0m41ggGh
-	nHBp540afqiwy4IrPmMFZZPGeyYOe5zMdhRMBAUq3Biqt1DPdGSDLVlFZ/32WqCNmITg
-	vk1DyIyCEBVPh75UOTisEohNt32e6TIMs5xMOHNeK1I76Rb/apQ3LKBohP8DNqsofYJB
-	k2saK/ATaETJdGHkesncFUwTgqyyV0gE2rCATIbTIoNW6Ly3/ZcBdcY+Ac/4FUACgyei
-	kSEw==
-X-Gm-Message-State: AN3rC/7qlOOBOWu4xkPA6+xJQK+8G3RxEDJUIvfdVx+Z5Zjz2MOil4Yj
-	xfFJAChVsHI7BM2107Q=
-X-Received: by 10.84.179.99 with SMTP id a90mr33807674plc.26.1493050137281;
-	Mon, 24 Apr 2017 09:08:57 -0700 (PDT)
-Received: from ?IPv6:2601:202:4001:9ea0:e3df:bf0a:9f90:498e?
-	([2601:202:4001:9ea0:e3df:bf0a:9f90:498e])
-	by smtp.gmail.com with ESMTPSA id
-	73sm31797173pfj.31.2017.04.24.09.08.56
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 24 Apr 2017 09:08:56 -0700 (PDT)
-To: openembedded-core@lists.openembedded.org
-References: <1490031500-38242-1-git-send-email-denis@denix.org>
-	<20170421231816.GC20419@denix.org>
-From: akuster808 <akuster808@gmail.com>
-Message-ID: <0fa0e630-137b-73ba-f212-0049b92e5199@gmail.com>
-Date: Mon, 24 Apr 2017 09:08:55 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.8.0
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=3lTFvUMUkRxYYPIvTjWkm5ncz01s6svRETXIlx9LZvE=;
+	b=rGOvq93oJ2H2B2h/mEjUCY70uLNa1Gd0oElNFZE4Vs5pYqUiJvwE27aRTx06inENCt
+	C54gFQ6Z5cVY0DqspZkNQvDfinL6/x6yilxmJOiAVJASFMLbIDdc5Gj1Zvb6NWpvVsAx
+	YvyPmhEt7nSMFkYYCTxbLqVqFy2YYr27EPKidAPUpgZXlG0ApZFFuY3wuZoO8AG/oFz5
+	hOyYmsiXMxqWWP3t1y311tiRB4TFMUIdhAjSJmtxnedI+qRpPqgwT7O3VyzABshRMvh6
+	h8igcsf7OqGNxltLAP/G4appPuR2gBPEsghdANxJ91w3EHb375+NRwR9fDTJXeA1VBjl
+	gvjg==
+X-Gm-Message-State: AN3rC/52SZVJKKqJ4tb79hrhCJvx9ind6hhOjsTidnVK1214NnS5M6/n
+	YfBwzLGH5ezMI9nt/EcWLEbsknsFsQ==
+X-Received: by 10.80.178.228 with SMTP id p91mr1654343edd.131.1493050242763;
+	Mon, 24 Apr 2017 09:10:42 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20170421231816.GC20419@denix.org>
-Subject: Re: [morty][PATCH] sstate.bbclass: update .siginfo atime
+Received: by 10.80.180.141 with HTTP; Mon, 24 Apr 2017 09:10:12 -0700 (PDT)
+In-Reply-To: <CAJTo0LZJSZ-UJc7zTyYNf3YYKFD3mu=-zprQroZwxB1SZBQ+Bg@mail.gmail.com>
+References: <CAMKF1spGM+kugUDOB4kF7NAgSCt9vCw8GFT0nLKFRd2tHei=pw@mail.gmail.com>
+	<CAJTo0La0mtVGyLysCnqi9EQmT+4L1eYRxgE-TV=3Va45jnt=Xg@mail.gmail.com>
+	<CAMKF1sqfvtQPWN5Yuz3RPYkXpneS+XWcYmit_=bcvKGo3_hx8w@mail.gmail.com>
+	<CAJTo0LakaSZhJodT2KQx6u0TEaBL5Ruig3oOdfrtCzQUf1cxXg@mail.gmail.com>
+	<CAJTo0LaWkRxjaF4j1HHhUqFDYYTmGADTuiLo8zqPwR+wKSbY2A@mail.gmail.com>
+	<CAJTo0LZJSZ-UJc7zTyYNf3YYKFD3mu=-zprQroZwxB1SZBQ+Bg@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 24 Apr 2017 09:10:12 -0700
+Message-ID: <CAMKF1spRYm9yYhOVzOcA+5BPjATW_gLZfKmBCkZgj0MKZX=YmA@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
+	openembeded-devel <Openembedded-devel@lists.openembedded.org>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [RFT] gcc7 and glibc-2.26 recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,61 +58,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Apr 2017 16:08:56 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 24 Apr 2017 16:10:50 -0000
+Content-Type: text/plain; charset=UTF-8
 
-
-
-On 04/21/2017 04:18 PM, Denys Dmytriyenko wrote:
-> Ping. It's been over a month now...
-its in my stagging since 4/1.  The AB has been failing with my current 
-changes.
-
-- armin
+On Mon, Apr 24, 2017 at 8:54 AM, Burton, Ross <ross.burton@intel.com> wrote:
+>
+> On 24 April 2017 at 10:47, Burton, Ross <ross.burton@intel.com> wrote:
+>>
+>> The updated glibc recipe doesn't appear to be very happy:
+>> https://autobuilder.yocto.io/builders/buildtools/builds/240/steps/BuildImages/logs/stdio
 >
 >
-> On Mon, Mar 20, 2017 at 01:38:20PM -0400, Denys Dmytriyenko wrote:
->> From: Ed Bartosh <ed.bartosh@linux.intel.com>
->>
->> .siginfo files are not being accessed from local or NFS-mounted
->> sstate mirrors when sstate package is installed, so their atime
->> is not updated. If sstate mirror is cleaned based on access time,
->> they get deleted, even though they are still being used.
->>
->> Updated atime of .siginfo symlinks with 'touch -a'. This command
->> dereferences symlinks pointing to the local mirror and updates
->> atime of the .siginfo file on the mirror.
->>
->> [YOCTO #10857]
->>
->> Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
->> Signed-off-by: Ross Burton <ross.burton@intel.com>
->> Signed-off-by: Denys Dmytriyenko <denys@ti.com>
->> ---
->>   meta/classes/sstate.bbclass | 2 ++
->>   1 file changed, 2 insertions(+)
->>
->> diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
->> index 8643f3d..4fdfcc8 100644
->> --- a/meta/classes/sstate.bbclass
->> +++ b/meta/classes/sstate.bbclass
->> @@ -724,6 +724,8 @@ python sstate_sign_package () {
->>   #
->>   sstate_unpack_package () {
->>   	tar -xvzf ${SSTATE_PKG}
->> +	# update .siginfo atime on local/NFS mirror
->> +	[ -h ${SSTATE_PKG}.siginfo ] && touch -a ${SSTATE_PKG}.siginfo
->>   	# Use "! -w ||" to return true for read only files
->>   	[ ! -w ${SSTATE_PKG} ] || touch --no-dereference ${SSTATE_PKG}
->>   	[ ! -w ${SSTATE_PKG}.sig ] || [ ! -e ${SSTATE_PKG}.sig ] || touch --no-dereference ${SSTATE_PKG}.sig
->> -- 
->> 2.7.4
->>
->> -- 
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> Note that every nativesdk-glibc build is failing like this, so that's SDKs
+> broken.
 
+thanks, yes I haven't been testing SDK yet, whats the gcc version on
+your build host ?
+
+>
+> Ross
 
