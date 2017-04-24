@@ -1,37 +1,51 @@
-Return-Path: <andrej.valek@siemens.com>
-Received: from thoth.sbs.de (thoth.sbs.de [192.35.17.2])
-	by mail.openembedded.org (Postfix) with ESMTP id 3923571DDE
+Return-Path: <freesilicon@gmail.com>
+Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 56E8E71B9E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Apr 2017 06:41:41 +0000 (UTC)
-Received: from mail1.siemens.de (mail1.siemens.de [139.23.33.14])
-	by thoth.sbs.de (8.15.2/8.15.2) with ESMTPS id v3O6fbFd031235
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK); 
-	Mon, 24 Apr 2017 08:41:37 +0200
-Received: from ATVIES991UGMSX.ww300.siemens.net
-	(atvies991ugmsx.ww300.siemens.net [158.226.163.37])
-	by mail1.siemens.de (8.15.2/8.15.2) with ESMTPS id v3O6fX9A008190
-	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=OK);
-	Mon, 24 Apr 2017 08:41:37 +0200
-Received: from ATNETS9912WMSX.ww300.siemens.net ([169.254.10.23]) by
-	ATVIES991UGMSX.ww300.siemens.net ([158.226.163.37]) with mapi id
-	14.03.0339.000; Mon, 24 Apr 2017 08:41:36 +0200
-From: "Valek, Andrej" <andrej.valek@siemens.com>
-To: akuster808 <akuster808@gmail.com>
-Thread-Topic: [OE-core] [PATCH][morty] glibc: Security fix CVE-2016-6323
-Thread-Index: AQHSuuO9ZilRPfUAIEOE7aNxIRYE2KHUEu6Q
-Date: Mon, 24 Apr 2017 06:41:36 +0000
-Message-ID: <D55698ECEC159B488D62A508E18D7FEC0147B8D2@ATNETS9912WMSX.ww300.siemens.net>
-References: <1492771066-9051-1-git-send-email-andrej.valek@siemens.com>
-	<1e25144c-3a2b-a0de-1c28-7a1cd2597bed@gmail.com>
-In-Reply-To: <1e25144c-3a2b-a0de-1c28-7a1cd2597bed@gmail.com>
-Accept-Language: en-US, de-AT
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [158.226.163.18]
+	Mon, 24 Apr 2017 07:44:46 +0000 (UTC)
+Received: by mail-wm0-f67.google.com with SMTP id z129so15258072wmb.1
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 24 Apr 2017 00:44:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=OSD7wOhk4l5F0MGHAK2qsYd9WQkQhWDpmmEQuyhJIGY=;
+	b=g1YkyaZ/4EvpAbELOyBxhQo+vegYml1mk6cCcWImHz8o91Kp+Wf68Fh/vkhTRYo+1c
+	PGZJlGFaqhV/3DftDXq6gYGcCrrh0nE3Xi2z+pSCwQX0fVvAU7k42VMoIdC9ChaZZs+A
+	YDzHGtuwLKQS2o8ICQ3BCn2p7kgRhpIp8A7D4aGQHOwV74GzcgO938hGee+7KS/eYkEH
+	Ff89SEYCGNmMvsEzDq0l+LBOuZPfR5Mp1nckLd3csvz/lL1BvYx4oYkx/bOX387GI3Av
+	EW4CeC2keaK2CY1h+i7C3lA0Vmnjs39VJGYBB72z0v7hBwrehLA3DGdS5LMFn2QIa4kA
+	pL5Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=OSD7wOhk4l5F0MGHAK2qsYd9WQkQhWDpmmEQuyhJIGY=;
+	b=OAfZ7BpiGEcgzqFCzGPEA7LvA+S1T/bmxGRZ2jOdaxuTJtiauVXRoDAKuddyVEyd0d
+	KsegSrP0F/Qq9k/cJtZJiw7QF+zbHAj4RKVXVvT1+mLuZ4zT1fuwJlMbBm7qrj5tPBoc
+	MxdHxCzMS0tLjHr37RdYG8VPWNkpzaknH3Ah1UnGrL5vCis3+GyQnM3vjnh2EwY1o20t
+	1668Wq1uXvBQw7C/7A5/G9Dl+LQ1vzmihih1MOhiR9EFm2mY+yohRk/zZij72hOQjdjh
+	JZTVYMu2TI8zu5gHk0tWap/Vg/iyInSf5hZHDAWd6Pql6JBwmgJf5ex9FCXVy2gkxcw2
+	p3ig==
+X-Gm-Message-State: AN3rC/5FKIhHmAG+Ot3JMyarboanvCnw3byd9+ktL/diDe5ZB+yQLgtR
+	A94GuGvImN4r1g==
+X-Received: by 10.28.226.11 with SMTP id z11mr8335098wmg.91.1493019887798;
+	Mon, 24 Apr 2017 00:44:47 -0700 (PDT)
+Received: from crde-port-20.cahors.local ([185.47.80.46])
+	by smtp.gmail.com with ESMTPSA id s81sm664703wms.6.2017.04.24.00.44.46
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 24 Apr 2017 00:44:47 -0700 (PDT)
+From: David Vincent <freesilicon@gmail.com>
+To: Andrea Adami <andrea.adami@gmail.com>
+Date: Mon, 24 Apr 2017 09:44:45 +0200
+Message-ID: <1860443.iW1fikDZVJ@crde-port-20.cahors.local>
+In-Reply-To: <CAAQYJAuZtXMhZ4FniXEkLXJK8-ZT6RRs-AYTJXtu6L5jPC_TwQ@mail.gmail.com>
+References: <1492771191-4445-1-git-send-email-obi@opendreambox.org>
+	<20170421144817.66c189b6@t510.zcs.saftware.de>
+	<CAAQYJAuZtXMhZ4FniXEkLXJK8-ZT6RRs-AYTJXtu6L5jPC_TwQ@mail.gmail.com>
 MIME-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH][morty] glibc: Security fix CVE-2016-6323
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] Revert "kernel: Fix symlinks"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,111 +58,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Apr 2017 06:41:43 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 24 Apr 2017 07:44:47 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Armin,
+On samedi 22 avril 2017 00:04:34 CEST Andrea Adami wrote:
+> 
+> We lived for years with the relative symlink.
+> 
+> Then  78ee4d8  broke the bootloaders in 2014
+> Finally it was reverted end 2016 and now it is under review again...ouch
+> 
+> What broke what?
+> 
+> My point is, while I had the sources and could modify and reflash the
+> bootloader, the same is not valid for many people.
+> 
+> Anyway, I have found out that there was a workaround to allow boot from NFS:
+> 
+> +ROOTFS_POSTPROCESS_COMMAND += "make_zimage_symlink_relative;"
 
-Patches http://lists.openembedded.org/pipermail/openembedded-core/2017-Apri=
-l/135828.html and http://lists.openembedded.org/pipermail/openembedded-core=
-/2017-April/135829.html are the same.=20
-I have resubmitted them, because "[PATCH]" was missing message header. I do=
-n't know, if the word is required... (Patchwork didn't show them).
+This works at image level, it is not package upgrade safe. IMHO, the symlinks 
+must be relative (like every other distro) and therefore should not be 
+maintained with update-alternatives (postinstall task should use plain 'ln')
 
-Andrej
+> 
+> Cheers
+> Andrea
 
-> On 4/21/17 09:10 PM, akuster808 wrote:=20
-> what is different about this one and the one sent on the 19th?
-
-> -armin
-
->On 4/21/17 3:37 AM, Andrej Valek wrote:
-> arm: mark __startcontext as .cantunwind, GNU
->
-> CVE: CVE-2016-6323
-> Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
-> Signed-off-by: Pascal Bach <pascal.bach@siemens.com>
-
-> ---
->  meta/recipes-core/glibc/glibc/CVE-2016-6323.patch | 39 +++++++++++++++++=
-++++++
->  meta/recipes-core/glibc/glibc_2.24.bb             |  1 +
->  2 files changed, 40 insertions(+)
->  create mode 100644 meta/recipes-core/glibc/glibc/CVE-2016-6323.patch
->
-> diff --git a/meta/recipes-core/glibc/glibc/CVE-2016-6323.patch=20
-> b/meta/recipes-core/glibc/glibc/CVE-2016-6323.patch
-> new file mode 100644
-> index 0000000..f9b9fa5
-> --- /dev/null
-> +++ b/meta/recipes-core/glibc/glibc/CVE-2016-6323.patch
-> @@ -0,0 +1,39 @@
-> +glibc-2.24: Fix CVE-2016-6323
-> +
-> +[No upstream tracking] --=20
-> +https://sourceware.org/bugzilla/show_bug.cgi?id=3D20435
-> +
-> +arm: mark __startcontext as .cantunwind, GNU
-> +
-> +Glibc bug where the makecontext function would create an execution=20
-> +context which is incompatible with the unwinder, causing it to hang=20
-> +when the generation of a backtrace is attempted.
-> +
-> +Upstream-Status: Backport=20
-> +[https://sourceware.org/git/gitweb.cgi?p=3Dglibc.git;h=3D9e2ff6c9cc54c0b=
-4
-> +402b8d49e4abe7000fde7617]
-> +CVE: CVE-2016-6323
-> +Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
-> +Signed-off-by: Pascal Bach <pascal.bach@siemens.com>
-> +
-> +diff --git a/sysdeps/unix/sysv/linux/arm/setcontext.S=20
-> +b/sysdeps/unix/sysv/linux/arm/setcontext.S
-> +index 603e508..d1f168f 100644
-> +--- a/sysdeps/unix/sysv/linux/arm/setcontext.S
-> ++++ b/sysdeps/unix/sysv/linux/arm/setcontext.S
-> +@@ -86,12 +86,19 @@ weak_alias(__setcontext, setcontext)
-> +=20
-> + 	/* Called when a makecontext() context returns.  Start the
-> + 	   context in R4 or fall through to exit().  */
-> ++	/* Unwind descriptors are looked up based on PC - 2, so we have to
-> ++	   make sure to mark the instruction preceding the __startcontext
-> ++	   label as .cantunwind.  */
-> ++	.fnstart
-> ++	.cantunwind
-> ++	nop
-> + ENTRY(__startcontext)
-> + 	movs    r0, r4
-> + 	bne     PLTJMP(__setcontext)
-> +=20
-> + 	@ New context was 0 - exit
-> + 	b       PLTJMP(HIDDEN_JUMPTARGET(exit))
-> ++	.fnend
-> + END(__startcontext)
-> +=20
-> + #ifdef PIC
-> diff --git a/meta/recipes-core/glibc/glibc_2.24.bb=20
-> b/meta/recipes-core/glibc/glibc_2.24.bb
-> index f5a21b2..bce06c7 100644
-> --- a/meta/recipes-core/glibc/glibc_2.24.bb
-> +++ b/meta/recipes-core/glibc/glibc_2.24.bb
-> @@ -37,6 +37,7 @@ SRC_URI =3D "${GLIBC_GIT_URI};branch=3D${SRCBRANCH};nam=
-e=3Dglibc \
->             file://0024-eglibc-Forward-port-cross-locale-generation-suppo=
-rt.patch \
->             file://0025-Define-DUMMY_LOCALE_T-if-not-defined.patch \
->             file://0026-build_local_scope.patch \
-> +           file://CVE-2016-6323.patch \
->  "
-> =20
->  SRC_URI +=3D "\
-
-
---
-_______________________________________________
-Openembedded-core mailing list
-Openembedded-core@lists.openembedded.org
-http://lists.openembedded.org/mailman/listinfo/openembedded-core
+David
 
