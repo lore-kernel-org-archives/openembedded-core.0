@@ -1,47 +1,47 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f51.google.com (mail-wm0-f51.google.com [74.125.82.51])
-	by mail.openembedded.org (Postfix) with ESMTP id DF25265D00
+Received: from mail-qk0-f178.google.com (mail-qk0-f178.google.com
+	[209.85.220.178])
+	by mail.openembedded.org (Postfix) with ESMTP id A634E77A6B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Apr 2017 09:24:50 +0000 (UTC)
-Received: by mail-wm0-f51.google.com with SMTP id w64so56413139wma.0
+	Mon, 24 Apr 2017 09:28:43 +0000 (UTC)
+Received: by mail-qk0-f178.google.com with SMTP id u75so14766147qka.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Apr 2017 02:24:52 -0700 (PDT)
+	Mon, 24 Apr 2017 02:28:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=vu9xesWYfo1BMcdVOYhDUwA6fVd0oQrC/0ZLMQzJbfI=;
-	b=1Y+kHkxj8Edj1XpZMEXaSi0tgasYGkdZWuQ0VzgniiM2H9v0Jnt3FolyWSy+IM3JXR
-	ZO3DEt/M32DlHPkF7P0DKQlzbVRj0CNfQTL4Mse6mk8VhCEtklyDeMJBzPMYeYTdAbhY
-	OpgG77+7FtcGOkN55R0Q2AOgt7QwaHG3YM/Ieorx58pjNY6T6/TTFSnQP6hC3hPQJftD
-	eEaTyeNV+vxG4HAnQ2L81BYDgNWXcPL9V4JdqOsnGSg863T2AdZDZZll8COb9opp0Hks
-	w75rj6Dxuo42DPB3JTQN78bZucczDV5fixmOX4RgzGjCyC4hPylUT9j4qI2MDCBoVhYZ
-	DeuQ==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=S5ZZiETMLyOexHSc7FpUTq03b8hh7Pm4A7crO25o9uc=;
+	b=IJewKg1f2VQIqbQDLOw9NnhUxDuyF7WuzfmxJ0t7UBMN6mRJjqHgrOdCm12l0MhLbI
+	U/7VGLiaRWotf7MBXQnGYS+PizmiTtE/S75EhBuKOmTjJP8kCzM9Tys2U1AQowlsm5ao
+	QEIpB5JfrmTOGYIhoPGsoaCYu2Hoy7TzyGkJtYFcmalVcGlbb7J3iU5tj7TcU41mxNe0
+	8dwzZIoM3Y92E/Fjb7Mq0K0DZzVNgDYmi0TsOQRysRoVKZUOu9/uJdtG9uFeI9K+OUpf
+	8Gs+iKspMN2wM0HxPn4e+L6pW2k/KNf9wIA8eAysfodJPKYwcLdsf1o4cq9JL79XTlmZ
+	85kQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=vu9xesWYfo1BMcdVOYhDUwA6fVd0oQrC/0ZLMQzJbfI=;
-	b=KbvzkASMBz9tshwkS/abVGdkizUjiFbn9wRUKab7fR2iDaZmeR4SO+0XbeLw4RH8Yy
-	1JfOFuc06T0UKJmLsx13Tj/zXxJF67Df0B9DoykZWwSWa5p0wwtZOIZWEvd3NEEb6F3Q
-	aW95eFNL0ybJ+Ir/B+OWXSK6+4EdtLvWcVa6ybc+lKD0Yj1mHQIrJa3GiXOJuDnoFElV
-	KvU9Mp7ouJWNByHJpWFesZxPniJXnq6UBY2uiacsIsRBPvSe7LkFbtMUodPbxIMyK4xI
-	8tQdVkgOoNBVbtCEmm/9oOh9dLCKYNbUn0Gl3LWAD1k8u0IgMAegOGMCZIev/sCllxpO
-	oLnQ==
-X-Gm-Message-State: AN3rC/6YmSnvze/LPo5+B+LIwyj/E4b7ybz1mYZokVPF2t9LpU6dOS6A
-	IxpQTdK0q4virvqDt28=
-X-Received: by 10.28.4.142 with SMTP id 136mr9195917wme.89.1493025891558;
-	Mon, 24 Apr 2017 02:24:51 -0700 (PDT)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id
-	33sm21752272wrd.40.2017.04.24.02.24.50
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 24 Apr 2017 02:24:51 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 24 Apr 2017 10:24:49 +0100
-Message-Id: <1493025889-8761-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.8.1
-Subject: [PATCH] selftest/bbtests: improve download rename test
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=S5ZZiETMLyOexHSc7FpUTq03b8hh7Pm4A7crO25o9uc=;
+	b=ukRioOOUihj8sxGQw7jjOoca1hmTid0WTh2owzGXEkgu+yjQhmcDAlfYNoEodjuwKg
+	8Uw+0u5l2h6T+F7KUEiAVAPL6SiFuOSzUopaLi7Ymf7ZhuoJduRPorSEdSVeznKtuEo/
+	iSU9Lj+EATXoKydX+6Usw4LjSnhpREl2VTb8vjPVb/s/jsRDXHM7kDU/nJfT0EvLI/4+
+	aOnQMQ587RiFQm/sOg3rijTDhINYsKRVkgGC65+OZ83KJP8N+l4oCAv6oGTsUVV2y+k3
+	1Ue/E0dJtNYx3uylJQxqoTYAgEqzFb7G7PjbGw5jfIDbJ9UFtJxhyNWtnmy9ZXAIqXKB
+	q1Nw==
+X-Gm-Message-State: AN3rC/61Q9NI8UjMj2cjUGPBXddVggWiM8HSId4bq7RzIMelWWSrrZxY
+	PxO8em6imswE39ZFIP11MzKcdH3if5KU
+X-Received: by 10.55.17.224 with SMTP id 93mr22007070qkr.244.1493026125390;
+	Mon, 24 Apr 2017 02:28:45 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.22.166 with HTTP; Mon, 24 Apr 2017 02:28:24 -0700 (PDT)
+In-Reply-To: <1493020723-49403-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
+References: <1493020723-49403-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 24 Apr 2017 10:28:24 +0100
+Message-ID: <CAJTo0LbryERzUb_ZRcJgOFSP7zKMos8iqYAfymRvDrDn9n_hfg@mail.gmail.com>
+To: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] libgpg-error: 1.26 -> 1.27
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,42 +54,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Apr 2017 09:24:51 -0000
+X-List-Received-Date: Mon, 24 Apr 2017 09:28:45 -0000
+Content-Type: multipart/alternative; boundary=001a1135cbccd83cdd054de63bd4
 
-This test was assuming the format of SRC_URI so broke when SRC_URI was changed.
-Fix the test by hardcoding a complete SRC_URI instead of appending and hoping
-for the best.
+--001a1135cbccd83cdd054de63bd4
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/lib/oeqa/selftest/bbtests.py | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+On 24 April 2017 at 08:58, Huang Qiyu <huangqy.fnst@cn.fujitsu.com> wrote:
 
-diff --git a/meta/lib/oeqa/selftest/bbtests.py b/meta/lib/oeqa/selftest/bbtests.py
-index d073433..46e09f5 100644
---- a/meta/lib/oeqa/selftest/bbtests.py
-+++ b/meta/lib/oeqa/selftest/bbtests.py
-@@ -151,15 +151,16 @@ doesn't exist, yet fetcher didn't report any error. bitbake output: %s" % result
- 
-     @testcase(171)
-     def test_rename_downloaded_file(self):
-+        # TODO unique dldir instead of using cleanall
-+        # TODO: need to set sstatedir?
-         self.write_config("""DL_DIR = \"${TOPDIR}/download-selftest\"
- SSTATE_DIR = \"${TOPDIR}/download-selftest\"
- """)
-         self.track_for_cleanup(os.path.join(self.builddir, "download-selftest"))
- 
--        data = 'SRC_URI_append = ";downloadfilename=test-aspell.tar.gz"'
-+        data = 'SRC_URI = "${GNU_MIRROR}/aspell/aspell-${PV}.tar.gz;downloadfilename=test-aspell.tar.gz"'
-         self.write_recipeinc('aspell', data)
--        bitbake('-ccleanall aspell')
--        result = bitbake('-c fetch aspell', ignore_status=True)
-+        result = bitbake('-f -c fetch aspell', ignore_status=True)
-         self.delete_recipeinc('aspell')
-         self.assertEqual(result.status, 0, msg = "Couldn't fetch aspell. %s" % result.output)
-         dl_dir = get_bb_var("DL_DIR")
--- 
-2.8.1
+>  PR = "r1"
+>
 
+As you're doing a version upgrade, the PR assignment can be deleted (r0 is
+default).
 
+Ross
+
+--001a1135cbccd83cdd054de63bd4
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 24 April 2017 at 08:58, Huang Qiyu <span dir=3D"ltr">&lt;<a href=3D"mail=
+to:huangqy.fnst@cn.fujitsu.com" target=3D"_blank">huangqy.fnst@cn.fujitsu.c=
+om</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"marg=
+in:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":492"=
+ class=3D"a3s aXjCH m15b9ef90756e5662">=C2=A0PR =3D &quot;r1&quot;<br></div=
+></blockquote></div><br>As you&#39;re doing a version upgrade, the PR assig=
+nment can be deleted (r0 is default).</div><div class=3D"gmail_extra"><br><=
+/div><div class=3D"gmail_extra">Ross</div></div>
+
+--001a1135cbccd83cdd054de63bd4--
