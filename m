@@ -1,55 +1,38 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f181.google.com (mail-qk0-f181.google.com
-	[209.85.220.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 756AB71AD4
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 32B2273126
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Apr 2017 10:19:54 +0000 (UTC)
-Received: by mail-qk0-f181.google.com with SMTP id f76so60082697qke.2
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Apr 2017 03:19:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=21bcXolbetpb64iJK2lJArjcgrTc0M7V+oFpjaOm4Pw=;
-	b=Y+nDJdVvmpGopqHUyMuLJoT+xl0mW3WKmjW0mVesRQGN3jBe9QvIGEjwqW6OI1mOqa
-	LoqgQN5LnK3FhWuJcCqS+D3HoYq7n18CjAvWwW45Sr8kriUi3qJo/tphN/8S87RcLW1x
-	xsaUawJLcTlmARfyZcueaNo+XvQmL23c0yjJvCbsdOn6uxCZFN5ffxMliqJAUhlDVMWe
-	N7dtfmLOvLNbgBX0S92j+9aagg6mOlO62zFx+rUrldI25o3FfGaB/o2FI25g/DKfaC2f
-	YYg3FrTZilfFeOO8oKMtPvdypN3xK4kYewThCjqg15niOCX7Vh8IrIxAE4EqitBjz0LM
-	0v+g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=21bcXolbetpb64iJK2lJArjcgrTc0M7V+oFpjaOm4Pw=;
-	b=HkCmB75XI8dzwTbyg9tNIt9Ml8qhsuWk2Epw8PSMIPU0B3lGMgMlmAp/wz9jkIZPik
-	ic9dg84HzwwiH9+sr+J3eVot0VeNBzfjz9fApqjFw2GbPBc4quebpXF6YaSQtkSJFuNs
-	yLCtxppBD8JZ6ptNpqA2aNS//a/Zs0e01FElYrbTtAgpwKyypB9uMUg82IkGYN1yH4U+
-	s1Cg5Hcn3nKgVfpeoc5ZlcMLI01wcHk3z8uVxPxMyVjDi/RRdY/mmGwr20ChQpN7TWpJ
-	xHA0HxMRlhmr3S4DELaIWpYtcUQNwadJDxQqw04Kb3WpZz3wwafYLeu2lM5NLbitzWft
-	s2ag==
-X-Gm-Message-State: AN3rC/41zz+lr+zMRJRb3jkkfys9cejOlznNbxYXwEGSnxFlByYl3KqG
-	ZLm/aJCLZN/JvaWC7QYDXvJ4kIQk2sT8
-X-Received: by 10.55.17.224 with SMTP id 93mr27151963qkr.244.1493115595424;
-	Tue, 25 Apr 2017 03:19:55 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.22.166 with HTTP; Tue, 25 Apr 2017 03:19:34 -0700 (PDT)
-In-Reply-To: <87a875qxeg.fsf@largeson.i-did-not-set--mail-host-address--so-tickle-me>
-References: <CAMKF1spGM+kugUDOB4kF7NAgSCt9vCw8GFT0nLKFRd2tHei=pw@mail.gmail.com>
-	<CAJTo0La0mtVGyLysCnqi9EQmT+4L1eYRxgE-TV=3Va45jnt=Xg@mail.gmail.com>
-	<CAMKF1sqfvtQPWN5Yuz3RPYkXpneS+XWcYmit_=bcvKGo3_hx8w@mail.gmail.com>
-	<CAJTo0LakaSZhJodT2KQx6u0TEaBL5Ruig3oOdfrtCzQUf1cxXg@mail.gmail.com>
-	<CAJTo0La+bGDBuJ42yVy79hW2iN3ZhpeyjXrhUApLn-PAi6PYBw@mail.gmail.com>
-	<87a875qxeg.fsf@largeson.i-did-not-set--mail-host-address--so-tickle-me>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 25 Apr 2017 11:19:34 +0100
-Message-ID: <CAJTo0LaLOhPcz8DYQ4wGzVXrP7Qs_Fa7jgrx76wCDAuR8eoWfQ@mail.gmail.com>
-To: Nathan Lynch <nathan_lynch@mentor.com>
-Cc: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>,
-	openembeded-devel <Openembedded-devel@lists.openembedded.org>
-Subject: Re: [yocto] [RFT] gcc7 and glibc-2.26 recipes
+	Tue, 25 Apr 2017 13:09:46 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	v3PD9euT024978
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
+	verify=NOT); Tue, 25 Apr 2017 14:09:41 +0100
+Message-ID: <1493125780.19076.132.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Tue, 25 Apr 2017 14:09:40 +0100
+In-Reply-To: <CADkTA4M1m5RLNXyRjyyybD+jNzZbQqkrW+SDtjHu3dP28rb-aA@mail.gmail.com>
+References: <CA+chaQdQz3==KgsjLby6Bx1NgnzhXKXQcvCY5pufr5gLeqMqtQ@mail.gmail.com>
+	<bd7ec72b-fe78-65bd-7d25-65e51a0aa30e@gmail.com>
+	<CADkTA4MQ0CToP1h_s5muJt8v-bNuCr9wtD4t+sfq9ThsZZ-AWg@mail.gmail.com>
+	<CADkTA4M6OS+sxsueSzdokxuo+AaTTjYrir0uPPazWsMP5dpxFg@mail.gmail.com>
+	<CADkTA4P43BsLYpdDR0r7eAGkEc97hB-pQyf431-Nrtb8YUOUeg@mail.gmail.com>
+	<CA+chaQeT4kDPVi4TvUaUuHzfVdDAuEtOqOMByi=vb6Onri=nqA@mail.gmail.com>
+	<CADkTA4Nm71DESZodfrGKH1bqLT0o2MSn7nmgcFtkLJu57kk_=A@mail.gmail.com>
+	<CADkTA4PGVyJ+b2S_77yJS6f0f3osM-yYonE55Khjk-k0oF-j-Q@mail.gmail.com>
+	<1493069228.19076.121.camel@linuxfoundation.org>
+	<CADkTA4M1m5RLNXyRjyyybD+jNzZbQqkrW+SDtjHu3dP28rb-aA@mail.gmail.com>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.1 
+Mime-Version: 1.0
+X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.11
+	(dan.rpsys.net [192.168.3.1]);
+	Tue, 25 Apr 2017 14:09:41 +0100 (BST)
+X-Virus-Scanned: clamav-milter 0.99.2 at dan
+X-Virus-Status: Clean
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: linux-yocto.do_validate_branches failing since last oe-core update
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,37 +45,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Apr 2017 10:19:54 -0000
-Content-Type: multipart/alternative; boundary=001a1135cbccac9a6f054dfb10c7
+X-List-Received-Date: Tue, 25 Apr 2017 13:09:47 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
---001a1135cbccac9a6f054dfb10c7
-Content-Type: text/plain; charset=UTF-8
+On Mon, 2017-04-24 at 21:06 -0400, Bruce Ashfield wrote:
+> On Mon, Apr 24, 2017 at 5:27 PM, Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+> > On Mon, 2017-04-24 at 15:56 -0400, Bruce Ashfield wrote:
+> > >
+> > >
+> > > On Mon, Apr 24, 2017 at 9:54 AM, Bruce Ashfield <bruce.ashfield@g
+> > mail
+> > > .com> wrote:
+> > > >
+> > > >
+> > > > On Mon, Apr 24, 2017 at 9:39 AM, Martin Jansa <martin.jansa@gma
+> > il.c
+> > > > om> wrote:
+> > 
+> > >
+> > > Richard/Ross: are you seeing this same thing on the autobuilder ?
+> > >
+> > > There's some incantation or config that I'm missing, I assume
+> > this is
+> > > a straight qemux86 config
+> > > with a bitbake of something like core-image-minimal ?
+> > 
+> > We're not seeing this on the autobuilders. I do suspect something
+> > in
+> > the handling of extra patches or cfg fragments from SRC_URI if I
+> > had to
+> > guess. That certainly was the trigger last time I saw this.
+> Yah, that's the kicker, I'm still carrying your patch for binfmt_elf,
+> and I added two of my own
+> + config fragments, and I can't trigger anything.
 
-On 24 April 2017 at 23:00, Nathan Lynch <nathan_lynch@mentor.com> wrote:
+I managed to reproduce breakage. With master and my separate patch in
+SRC_URI:
 
-> Does adding this patch to lttng-modules work around it?
->
+$ bitbake linux-yocto
+$ bitbake linux-yocto -c kernel_checkout -f
+$ bitbake linux-yocto
 
-Yes, it fixes the build here.  I'll throw it at the autobuilder now, can
-you send a patch with a commit message that isn't "someone told me to try
-this"? :)
+ERROR: linux-yocto-4.10.9+gitAUTOINC+ad2e885015_fe0fb8da3d-r0 do_validate_branches: Function failed: do_validate_branches (log file is located at /media/build1/poky/build/tmp/work/qemux86_64-poky-linux/linux-yocto/4.10.9+gitAUTOINC+ad2e885015_fe0fb8da3d-r0/temp/log.do_validate_branches.116726)
+ERROR: Logfile of failure stored in: /media/build1/poky/build/tmp/work/qemux86_64-poky-linux/linux-yocto/4.10.9+gitAUTOINC+ad2e885015_fe0fb8da3d-r0/temp/log.do_validate_branches.116726
+Log data follows:
+| DEBUG: Executing shell function do_validate_branches
+| HEAD is now at fe0fb8d Merge tag 'v4.10.9' into standard/base
+| 1493125671.284715: mkdir: cannot create directory ‘.’: File exists
+| 1493125671.370592:
+| 1493125671.3742917: [ERROR] Can't find patch dir at ./patches/standard/base
+| 1493125671.3742917: usage: kgit s2q
+| 1493125671.3743172: WARNING: exit code 1 from a shell command.
+| 1493125671.3745801: ERROR: Function failed: do_validate_branches (log file is located at /media/build1/poky/build/tmp/work/qemux86_64-poky-linux/linux-yocto/4.10.9+gitAUTOINC+ad2e885015_fe0fb8da3d-r0/temp/log.do_validate_branches.116726)
 
-Ross
+Cheers,
 
---001a1135cbccac9a6f054dfb10c7
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Richard
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 24 April 2017 at 23:00, Nathan Lynch <span dir=3D"ltr">&lt;<a href=3D"ma=
-ilto:nathan_lynch@mentor.com" target=3D"_blank">nathan_lynch@mentor.com</a>=
-&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0=
- 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":4eq" class=
-=3D"a3s aXjCH m15ba1fae39ac5632">Does adding this patch to <span class=3D"i=
-l">lttng</span>-<span class=3D"il">modules</span> work around it?<br></div>=
-</blockquote></div><br>Yes, it fixes the build here.=C2=A0 I&#39;ll throw i=
-t at the autobuilder now, can you send a patch with a commit message that i=
-sn&#39;t &quot;someone told me to try this&quot;? :)</div><div class=3D"gma=
-il_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
 
---001a1135cbccac9a6f054dfb10c7--
+
+
