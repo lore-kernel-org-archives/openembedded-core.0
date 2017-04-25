@@ -1,29 +1,21 @@
-Return-Path: <gernot.hillier@siemens.com>
-Received: from david.siemens.de (david.siemens.de [192.35.17.14])
-	by mail.openembedded.org (Postfix) with ESMTP id E44FF77AB7
+Return-Path: <dmitry.rozhkov@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id CC66F71C90
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Apr 2017 06:13:36 +0000 (UTC)
-Received: from mail2.sbs.de (mail2.sbs.de [192.129.41.66])
-	by david.siemens.de (8.15.2/8.15.2) with ESMTPS id v3P6DXOD007288
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK); 
-	Tue, 25 Apr 2017 08:13:33 +0200
-Received: from linux-mf4q.internal.hillier.de ([146.254.78.56])
-	by mail2.sbs.de (8.15.2/8.15.2) with ESMTP id v3P6DWpS023425;
-	Tue, 25 Apr 2017 08:13:32 +0200
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <20170420190815.15000-1-gernot.hillier@siemens.com>
-	<20170420190815.15000-3-gernot.hillier@siemens.com>
-	<CAJTo0LYSrvNfA290aqFP1Wv2CUbxgf9JBAx-wpFkYduqYGNxyg@mail.gmail.com>
-From: Gernot Hillier <gernot.hillier@siemens.com>
-Message-ID: <d2f083da-ab0a-864c-cc3c-680c392e19da@siemens.com>
-Date: Tue, 25 Apr 2017 08:13:32 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.8.0
-MIME-Version: 1.0
-In-Reply-To: <CAJTo0LYSrvNfA290aqFP1Wv2CUbxgf9JBAx-wpFkYduqYGNxyg@mail.gmail.com>
-Cc: Tim Offermann <tim.offermann@siemens.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v3 2/2] tcf-agent: enable default target debugging features
+	Tue, 25 Apr 2017 08:51:20 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	25 Apr 2017 01:51:21 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.37,248,1488873600"; d="scan'208";a="960778691"
+Received: from drozhkov-desk.fi.intel.com ([10.237.72.60])
+	by orsmga003.jf.intel.com with ESMTP; 25 Apr 2017 01:51:19 -0700
+From: Dmitry Rozhkov <dmitry.rozhkov@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 25 Apr 2017 11:48:55 +0300
+Message-Id: <20170425084855.27154-1-dmitry.rozhkov@linux.intel.com>
+X-Mailer: git-send-email 2.9.3
+Subject: [PATCH v2] connman: fix race condition with systemd-udev
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,38 +28,99 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Apr 2017 06:13:37 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 25 Apr 2017 08:51:21 -0000
 
-On 21.04.2017 18:39, Burton, Ross wrote:
-> 
-> On 20 April 2017 at 20:08, Gernot Hillier <gernot.hillier@siemens.com
-> <mailto:gernot.hillier@siemens.com>> wrote:
-> 
->     A number of features were disabled in OE due to historic problems
->     on ARM. In tcf-agent 1.4, they compile cleanly on all architectures
->     besides mips. These features are required for target debugging with
->     Eclipse Neon, CDT and TCF plugins - for example used by Xilinx Vivado
->     SDK 2016.4.
-> 
-> 
-> Would this be responsible for this failure under musl on the autobuilder:
-> 
-> system/GNU/Linux/tcf/context-linux.c:490:10: error: variable 'cmd' has
-> initializer but incomplete type
->      enum __ptrace_request cmd = PTRACE_SINGLESTEP;
->           ^~~~~~~~~~~~~~~~
+When a new USB network interface is plugged in systemd
+fails to rename the new interface (ethX) to a predictable
+name [1] because connman locks it first.
 
-Thanks to pointing me to this!
+Add a fix to connman that makes it to re-evaluate
+a known but blacklisted ethernet interface for enabling
+after it has got renamed.
 
-Looks like we need to disable the advanced tcf-agent features for musl
-again as it seems to lack the necessary ptrace header.
+Still a user has to blacklist the unpredictable names in
+connman herself in order to avoid the race condition.
+We cannot blacklist the names by default because there
+are cases when one might want to use systemd, but to
+disable systemd's predictable names feature.
 
-I'll double-check other builders and post an updated patch series soon.
+Fixes [YOCTO #11341]
 
+[1] https://www.freedesktop.org/wiki/Software/systemd/PredictableNetworkInterfaceNames/
+
+Signed-off-by: Dmitry Rozhkov <dmitry.rozhkov@linux.intel.com>
+---
+
+Changes in v2:
+ - do not blacklist unpredictable network interface names by default
+   if systemd is in use.
+
+ ...try-to-add-ether-interface-after-renaming.patch | 42 ++++++++++++++++++++++
+ meta/recipes-connectivity/connman/connman_1.33.bb  |  1 +
+ 2 files changed, 43 insertions(+)
+ create mode 100644 meta/recipes-connectivity/connman/connman/0001-rtnl-retry-to-add-ether-interface-after-renaming.patch
+
+diff --git a/meta/recipes-connectivity/connman/connman/0001-rtnl-retry-to-add-ether-interface-after-renaming.patch b/meta/recipes-connectivity/connman/connman/0001-rtnl-retry-to-add-ether-interface-after-renaming.patch
+new file mode 100644
+index 0000000..1806b70
+--- /dev/null
++++ b/meta/recipes-connectivity/connman/connman/0001-rtnl-retry-to-add-ether-interface-after-renaming.patch
+@@ -0,0 +1,42 @@
++From d92e713e112e48cb4434f1c67b97e6507a7cf9e8 Mon Sep 17 00:00:00 2001
++From: Dmitry Rozhkov <dmitry.rozhkov@linux.intel.com>
++Date: Thu, 20 Apr 2017 15:54:29 +0300
++Subject: [PATCH] rtnl: retry to add ether interface after renaming
++
++If eth* interfaces are blacklisted to avoid a race condition
++where connman may access an interface before systemd/udev can
++change it to use a predictable interface name then it's impossible
++to re-activate it under a new predictable name because an existing
++interface is considered to be already added to the technology.
++
++Once blacklisted an interface is not re-evaluated under a new name.
++
++This patch allows to re-evaluate an interface known to connman for
++adding it to the ethernet technology in case it's name has changed.
++E.g. after unplugging a cable and plugging it back.
++
++Upstream-Status: Accepted [https://git.kernel.org/pub/scm/network/connman/connman.git/commit/?id=d81f21e32562c83e2a0bdf77e91158c9b3c5945a]
++
++Signed-off-by: Dmitry Rozhkov <dmitry.rozhkov@linux.intel.com>
++---
++ src/rtnl.c | 4 +++-
++ 1 file changed, 3 insertions(+), 1 deletion(-)
++
++diff --git a/src/rtnl.c b/src/rtnl.c
++index d1b851f..19a999c 100644
++--- a/src/rtnl.c
+++++ b/src/rtnl.c
++@@ -469,7 +469,9 @@ static void process_newlink(unsigned short type, int index, unsigned flags,
++ 
++ 		if (type == ARPHRD_ETHER)
++ 			read_uevent(interface);
++-	} else
+++	} else if (type == ARPHRD_ETHER && interface->device_type == CONNMAN_DEVICE_TYPE_UNKNOWN)
+++		read_uevent(interface);
+++	else
++ 		interface = NULL;
++ 
++ 	for (list = rtnl_list; list; list = list->next) {
++-- 
++2.9.3
++
+diff --git a/meta/recipes-connectivity/connman/connman_1.33.bb b/meta/recipes-connectivity/connman/connman_1.33.bb
+index 4129b05..56a4711 100644
+--- a/meta/recipes-connectivity/connman/connman_1.33.bb
++++ b/meta/recipes-connectivity/connman/connman_1.33.bb
+@@ -6,6 +6,7 @@ SRC_URI  = "${KERNELORG_MIRROR}/linux/network/${BPN}/${BP}.tar.xz \
+             file://no-version-scripts.patch \
+             file://includes.patch \
+             file://0003-stats-Fix-bad-file-descriptor-initialisation.patch \
++            file://0001-rtnl-retry-to-add-ether-interface-after-renaming.patch \
+             "
+ SRC_URI_append_libc-musl = " file://0002-resolve-musl-does-not-implement-res_ninit.patch \
+                              file://0001-Fix-compile-on-musl-with-kernel-4.9-headers.patch"
 -- 
-Gernot
-Siemens AG, Corporate Competence Center Embedded Linux
+2.9.3
 
 
