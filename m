@@ -1,21 +1,55 @@
-Return-Path: <dmitry.rozhkov@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id CC66F71C90
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f181.google.com (mail-qk0-f181.google.com
+	[209.85.220.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 756AB71AD4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Apr 2017 08:51:20 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	25 Apr 2017 01:51:21 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.37,248,1488873600"; d="scan'208";a="960778691"
-Received: from drozhkov-desk.fi.intel.com ([10.237.72.60])
-	by orsmga003.jf.intel.com with ESMTP; 25 Apr 2017 01:51:19 -0700
-From: Dmitry Rozhkov <dmitry.rozhkov@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 25 Apr 2017 11:48:55 +0300
-Message-Id: <20170425084855.27154-1-dmitry.rozhkov@linux.intel.com>
-X-Mailer: git-send-email 2.9.3
-Subject: [PATCH v2] connman: fix race condition with systemd-udev
+	Tue, 25 Apr 2017 10:19:54 +0000 (UTC)
+Received: by mail-qk0-f181.google.com with SMTP id f76so60082697qke.2
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 25 Apr 2017 03:19:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=21bcXolbetpb64iJK2lJArjcgrTc0M7V+oFpjaOm4Pw=;
+	b=Y+nDJdVvmpGopqHUyMuLJoT+xl0mW3WKmjW0mVesRQGN3jBe9QvIGEjwqW6OI1mOqa
+	LoqgQN5LnK3FhWuJcCqS+D3HoYq7n18CjAvWwW45Sr8kriUi3qJo/tphN/8S87RcLW1x
+	xsaUawJLcTlmARfyZcueaNo+XvQmL23c0yjJvCbsdOn6uxCZFN5ffxMliqJAUhlDVMWe
+	N7dtfmLOvLNbgBX0S92j+9aagg6mOlO62zFx+rUrldI25o3FfGaB/o2FI25g/DKfaC2f
+	YYg3FrTZilfFeOO8oKMtPvdypN3xK4kYewThCjqg15niOCX7Vh8IrIxAE4EqitBjz0LM
+	0v+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=21bcXolbetpb64iJK2lJArjcgrTc0M7V+oFpjaOm4Pw=;
+	b=HkCmB75XI8dzwTbyg9tNIt9Ml8qhsuWk2Epw8PSMIPU0B3lGMgMlmAp/wz9jkIZPik
+	ic9dg84HzwwiH9+sr+J3eVot0VeNBzfjz9fApqjFw2GbPBc4quebpXF6YaSQtkSJFuNs
+	yLCtxppBD8JZ6ptNpqA2aNS//a/Zs0e01FElYrbTtAgpwKyypB9uMUg82IkGYN1yH4U+
+	s1Cg5Hcn3nKgVfpeoc5ZlcMLI01wcHk3z8uVxPxMyVjDi/RRdY/mmGwr20ChQpN7TWpJ
+	xHA0HxMRlhmr3S4DELaIWpYtcUQNwadJDxQqw04Kb3WpZz3wwafYLeu2lM5NLbitzWft
+	s2ag==
+X-Gm-Message-State: AN3rC/41zz+lr+zMRJRb3jkkfys9cejOlznNbxYXwEGSnxFlByYl3KqG
+	ZLm/aJCLZN/JvaWC7QYDXvJ4kIQk2sT8
+X-Received: by 10.55.17.224 with SMTP id 93mr27151963qkr.244.1493115595424;
+	Tue, 25 Apr 2017 03:19:55 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.22.166 with HTTP; Tue, 25 Apr 2017 03:19:34 -0700 (PDT)
+In-Reply-To: <87a875qxeg.fsf@largeson.i-did-not-set--mail-host-address--so-tickle-me>
+References: <CAMKF1spGM+kugUDOB4kF7NAgSCt9vCw8GFT0nLKFRd2tHei=pw@mail.gmail.com>
+	<CAJTo0La0mtVGyLysCnqi9EQmT+4L1eYRxgE-TV=3Va45jnt=Xg@mail.gmail.com>
+	<CAMKF1sqfvtQPWN5Yuz3RPYkXpneS+XWcYmit_=bcvKGo3_hx8w@mail.gmail.com>
+	<CAJTo0LakaSZhJodT2KQx6u0TEaBL5Ruig3oOdfrtCzQUf1cxXg@mail.gmail.com>
+	<CAJTo0La+bGDBuJ42yVy79hW2iN3ZhpeyjXrhUApLn-PAi6PYBw@mail.gmail.com>
+	<87a875qxeg.fsf@largeson.i-did-not-set--mail-host-address--so-tickle-me>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 25 Apr 2017 11:19:34 +0100
+Message-ID: <CAJTo0LaLOhPcz8DYQ4wGzVXrP7Qs_Fa7jgrx76wCDAuR8eoWfQ@mail.gmail.com>
+To: Nathan Lynch <nathan_lynch@mentor.com>
+Cc: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>,
+	openembeded-devel <Openembedded-devel@lists.openembedded.org>
+Subject: Re: [yocto] [RFT] gcc7 and glibc-2.26 recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,99 +62,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Apr 2017 08:51:21 -0000
+X-List-Received-Date: Tue, 25 Apr 2017 10:19:54 -0000
+Content-Type: multipart/alternative; boundary=001a1135cbccac9a6f054dfb10c7
 
-When a new USB network interface is plugged in systemd
-fails to rename the new interface (ethX) to a predictable
-name [1] because connman locks it first.
+--001a1135cbccac9a6f054dfb10c7
+Content-Type: text/plain; charset=UTF-8
 
-Add a fix to connman that makes it to re-evaluate
-a known but blacklisted ethernet interface for enabling
-after it has got renamed.
+On 24 April 2017 at 23:00, Nathan Lynch <nathan_lynch@mentor.com> wrote:
 
-Still a user has to blacklist the unpredictable names in
-connman herself in order to avoid the race condition.
-We cannot blacklist the names by default because there
-are cases when one might want to use systemd, but to
-disable systemd's predictable names feature.
+> Does adding this patch to lttng-modules work around it?
+>
 
-Fixes [YOCTO #11341]
+Yes, it fixes the build here.  I'll throw it at the autobuilder now, can
+you send a patch with a commit message that isn't "someone told me to try
+this"? :)
 
-[1] https://www.freedesktop.org/wiki/Software/systemd/PredictableNetworkInterfaceNames/
+Ross
 
-Signed-off-by: Dmitry Rozhkov <dmitry.rozhkov@linux.intel.com>
----
+--001a1135cbccac9a6f054dfb10c7
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Changes in v2:
- - do not blacklist unpredictable network interface names by default
-   if systemd is in use.
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 24 April 2017 at 23:00, Nathan Lynch <span dir=3D"ltr">&lt;<a href=3D"ma=
+ilto:nathan_lynch@mentor.com" target=3D"_blank">nathan_lynch@mentor.com</a>=
+&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0=
+ 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":4eq" class=
+=3D"a3s aXjCH m15ba1fae39ac5632">Does adding this patch to <span class=3D"i=
+l">lttng</span>-<span class=3D"il">modules</span> work around it?<br></div>=
+</blockquote></div><br>Yes, it fixes the build here.=C2=A0 I&#39;ll throw i=
+t at the autobuilder now, can you send a patch with a commit message that i=
+sn&#39;t &quot;someone told me to try this&quot;? :)</div><div class=3D"gma=
+il_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
 
- ...try-to-add-ether-interface-after-renaming.patch | 42 ++++++++++++++++++++++
- meta/recipes-connectivity/connman/connman_1.33.bb  |  1 +
- 2 files changed, 43 insertions(+)
- create mode 100644 meta/recipes-connectivity/connman/connman/0001-rtnl-retry-to-add-ether-interface-after-renaming.patch
-
-diff --git a/meta/recipes-connectivity/connman/connman/0001-rtnl-retry-to-add-ether-interface-after-renaming.patch b/meta/recipes-connectivity/connman/connman/0001-rtnl-retry-to-add-ether-interface-after-renaming.patch
-new file mode 100644
-index 0000000..1806b70
---- /dev/null
-+++ b/meta/recipes-connectivity/connman/connman/0001-rtnl-retry-to-add-ether-interface-after-renaming.patch
-@@ -0,0 +1,42 @@
-+From d92e713e112e48cb4434f1c67b97e6507a7cf9e8 Mon Sep 17 00:00:00 2001
-+From: Dmitry Rozhkov <dmitry.rozhkov@linux.intel.com>
-+Date: Thu, 20 Apr 2017 15:54:29 +0300
-+Subject: [PATCH] rtnl: retry to add ether interface after renaming
-+
-+If eth* interfaces are blacklisted to avoid a race condition
-+where connman may access an interface before systemd/udev can
-+change it to use a predictable interface name then it's impossible
-+to re-activate it under a new predictable name because an existing
-+interface is considered to be already added to the technology.
-+
-+Once blacklisted an interface is not re-evaluated under a new name.
-+
-+This patch allows to re-evaluate an interface known to connman for
-+adding it to the ethernet technology in case it's name has changed.
-+E.g. after unplugging a cable and plugging it back.
-+
-+Upstream-Status: Accepted [https://git.kernel.org/pub/scm/network/connman/connman.git/commit/?id=d81f21e32562c83e2a0bdf77e91158c9b3c5945a]
-+
-+Signed-off-by: Dmitry Rozhkov <dmitry.rozhkov@linux.intel.com>
-+---
-+ src/rtnl.c | 4 +++-
-+ 1 file changed, 3 insertions(+), 1 deletion(-)
-+
-+diff --git a/src/rtnl.c b/src/rtnl.c
-+index d1b851f..19a999c 100644
-+--- a/src/rtnl.c
-++++ b/src/rtnl.c
-+@@ -469,7 +469,9 @@ static void process_newlink(unsigned short type, int index, unsigned flags,
-+ 
-+ 		if (type == ARPHRD_ETHER)
-+ 			read_uevent(interface);
-+-	} else
-++	} else if (type == ARPHRD_ETHER && interface->device_type == CONNMAN_DEVICE_TYPE_UNKNOWN)
-++		read_uevent(interface);
-++	else
-+ 		interface = NULL;
-+ 
-+ 	for (list = rtnl_list; list; list = list->next) {
-+-- 
-+2.9.3
-+
-diff --git a/meta/recipes-connectivity/connman/connman_1.33.bb b/meta/recipes-connectivity/connman/connman_1.33.bb
-index 4129b05..56a4711 100644
---- a/meta/recipes-connectivity/connman/connman_1.33.bb
-+++ b/meta/recipes-connectivity/connman/connman_1.33.bb
-@@ -6,6 +6,7 @@ SRC_URI  = "${KERNELORG_MIRROR}/linux/network/${BPN}/${BP}.tar.xz \
-             file://no-version-scripts.patch \
-             file://includes.patch \
-             file://0003-stats-Fix-bad-file-descriptor-initialisation.patch \
-+            file://0001-rtnl-retry-to-add-ether-interface-after-renaming.patch \
-             "
- SRC_URI_append_libc-musl = " file://0002-resolve-musl-does-not-implement-res_ninit.patch \
-                              file://0001-Fix-compile-on-musl-with-kernel-4.9-headers.patch"
--- 
-2.9.3
-
-
+--001a1135cbccac9a6f054dfb10c7--
