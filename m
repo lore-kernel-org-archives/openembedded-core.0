@@ -1,41 +1,41 @@
 Return-Path: <marc.ferland@gmail.com>
-Received: from mail-qt0-f196.google.com (mail-qt0-f196.google.com
-	[209.85.216.196])
-	by mail.openembedded.org (Postfix) with ESMTP id B863772F9C
+Received: from mail-qt0-f195.google.com (mail-qt0-f195.google.com
+	[209.85.216.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 56FC972F9C
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 25 Apr 2017 14:48:55 +0000 (UTC)
-Received: by mail-qt0-f196.google.com with SMTP id y33so25338518qta.1
+Received: by mail-qt0-f195.google.com with SMTP id y33so25338622qta.1
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 25 Apr 2017 07:48:57 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=8EjVLQZ4gsLQXb33fp94gRAIUCao9s4WpNmL1lQj9is=;
-	b=DL18BsBoOfiPJv/2Wy1Z9HKq4hNpoZcDe5oNSG8TxDQqCFBaCdlSa7hwwgkTdgcvjb
-	BRNKc1XjR1uKcUxkz8FxAXzOTCRQmXzWCAAXFESOO6RJUH7yCRqx3n/AbrF6e7VqwyrF
-	mwmUxfZtn83oXvZIOtRjb+wcGQzj1Igt9tKxzHSXcm6lR9mkdKqrGeQh54nOZuRdDSON
-	tNLaccLC4NpPgB//rPxJLwWVFkdoY4/o5TnnD34RWofaL/2aaSdxmrN5LA72oJNg7ZjR
-	lWCYY38s6b6uhMqP4dGZLwbfeH80NE8WvJIC80hue0rYtgCCD0Vk1swGMIhwMrI8qvuD
-	JnTA==
-X-Gm-Message-State: AN3rC/6BHI1wXEaluEfaQTITMbEhaiZjCNkIWyk7KRu8z4fkmy/ytVIH
-	D31wUQYxrldMqA==
-X-Received: by 10.200.54.218 with SMTP id b26mr34450010qtc.8.1493131736605;
-	Tue, 25 Apr 2017 07:48:56 -0700 (PDT)
+	bh=IruT3kef6ybWu3COryINkECnIQ4u/fUaiMSUJlfN0pY=;
+	b=UM4mFYUYYcBgvTUlAm9w7TEZpcSzFEwsRhCiJHucIPOxfFq5rMmmCdKdK1yCyqAvYD
+	75F2gnT1HpnNbBVUQBVqsDa6s6aJzP7CoH/7sqmnNhWSwmezcqUt8XO4+0NEWV8PEufC
+	1svUU0OGim5wuqlclR/Eo2vQKBRPyP+nrCMywayGgwOaRwf+sBvzyVrcAF4u3b3xa8H4
+	hzoZyleWK3JmIag822ua+Tt6xQXNk1cMviY6V9lUOPufowM8IZtXHq6UiY4NDRGbIXXX
+	8dGHOrKJbf9CTq/UzoCj4a9SV875jXr3STni4uDjKESNCRoY9/x6qNqPE0Q/l3FaW2mk
+	+dAg==
+X-Gm-Message-State: AN3rC/6IljWA/RH0XPiz5JRYgWNavbUKbZ/Q3JYLFfyxzCeMBT6GUrLt
+	Ii5b7rbqY4OioA==
+X-Received: by 10.200.49.61 with SMTP id g58mr33935233qtb.151.1493131737342;
+	Tue, 25 Apr 2017 07:48:57 -0700 (PDT)
 Received: from marc-desktop.AMOTUS.local
 	(modemcable182.194-37-24.static.videotron.ca. [24.37.194.182])
 	by smtp.gmail.com with ESMTPSA id
-	s10sm15188330qke.53.2017.04.25.07.48.55
+	s10sm15188330qke.53.2017.04.25.07.48.56
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
 	Tue, 25 Apr 2017 07:48:56 -0700 (PDT)
 From: Marc Ferland <ferlandm@amotus.ca>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 25 Apr 2017 10:48:34 -0400
-Message-Id: <1493131720-19456-2-git-send-email-ferlandm@amotus.ca>
+Date: Tue, 25 Apr 2017 10:48:35 -0400
+Message-Id: <1493131720-19456-3-git-send-email-ferlandm@amotus.ca>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1493131720-19456-1-git-send-email-ferlandm@amotus.ca>
 References: <1493131720-19456-1-git-send-email-ferlandm@amotus.ca>
-Subject: [PATCHv4 1/7] bluez5: Upgrade 5.43 -> 5.44
+Subject: [PATCHv4 2/7] bluez5: remove libasound-module references
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,202 +48,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Apr 2017 14:48:55 -0000
+X-List-Received-Date: Tue, 25 Apr 2017 14:48:56 -0000
 
-New feautures/fixes in this version:
-
-* fixes to BLE
-* a new midi plugin
-* support for single-mode controllers w/o public address
-* most of the experimental tools have been promoted and are now part of
-  the official tools
-* 'experimental' has been renamed to 'testing' (hence the addition of
-  the 'testing' package config option)
-* classic command line tools like hciattach and hciconfig are now enabled
-  by the "--enable-deprecated" configure option (enabled by default for
-  backward compatibility).
+Cleanup references to libasound-module since this code has been
+completly removed from Bluez.
 
 Signed-off-by: Marc Ferland <ferlandm@amotus.ca>
 ---
- meta/recipes-connectivity/bluez5/bluez5.inc     |  9 ++--
- meta/recipes-connectivity/bluez5/bluez5_5.43.bb | 55 --------------------
- meta/recipes-connectivity/bluez5/bluez5_5.44.bb | 68 +++++++++++++++++++++++++
- 3 files changed, 74 insertions(+), 58 deletions(-)
- delete mode 100644 meta/recipes-connectivity/bluez5/bluez5_5.43.bb
- create mode 100644 meta/recipes-connectivity/bluez5/bluez5_5.44.bb
+ meta/conf/distro/include/default-providers.inc       | 1 -
+ meta/recipes-connectivity/bluez5/bluez5.inc          | 5 +----
+ meta/recipes-core/packagegroups/packagegroup-base.bb | 2 +-
+ 3 files changed, 2 insertions(+), 6 deletions(-)
 
+diff --git a/meta/conf/distro/include/default-providers.inc b/meta/conf/distro/include/default-providers.inc
+index ece4d8b..e1cb2f9 100644
+--- a/meta/conf/distro/include/default-providers.inc
++++ b/meta/conf/distro/include/default-providers.inc
+@@ -46,7 +46,6 @@ PREFERRED_PROVIDER_nativesdk-opkg ?= "nativesdk-opkg"
+ PREFERRED_PROVIDER_console-tools ?= "kbd"
+ PREFERRED_PROVIDER_gzip-native ?= "pigz-native"
+ PREFERRED_PROVIDER_udev ?= "${@bb.utils.contains('DISTRO_FEATURES','systemd','systemd','eudev',d)}"
+-PREFERRED_RPROVIDER_libasound-module-bluez ?= "${@bb.utils.contains('DISTRO_FEATURES','bluetooth bluez5','bluez5','bluez4',d)}"
+ PREFERRED_RPROVIDER_bluez-hcidump ?= "${@bb.utils.contains('DISTRO_FEATURES','bluetooth bluez5','bluez5','bluez-hcidump',d)}"
+ # Alternative is ltp-ddt in meta-oe: meta-oe/recipes-devtools/ltp-ddt/ltp-ddt_0.0.4.bb
+ PREFERRED_PROVIDER_ltp ?= "ltp"
 diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
-index ed75db2..11cf8fb 100644
+index 11cf8fb..4244fc8 100644
 --- a/meta/recipes-connectivity/bluez5/bluez5.inc
 +++ b/meta/recipes-connectivity/bluez5/bluez5.inc
-@@ -14,8 +14,8 @@ RCONFLICTS_${PN} = "bluez4"
+@@ -79,14 +79,11 @@ do_install_append() {
+         sed -i -e '1s,#!.*python.*,#!${bindir}/python3,' ${D}${libdir}/bluez/test/*
+ }
  
- PACKAGECONFIG ??= "obex-profiles readline"
- PACKAGECONFIG[obex-profiles] = "--enable-obex,--disable-obex,libical"
--PACKAGECONFIG[experimental] = "--enable-experimental,--disable-experimental,"
- PACKAGECONFIG[readline] = "--enable-client,--disable-client,readline,"
-+PACKAGECONFIG[testing] = "--enable-testing,--disable-testing"
+-ALLOW_EMPTY_libasound-module-bluez = "1"
+-PACKAGES =+ "libasound-module-bluez ${PN}-testtools ${PN}-obex ${PN}-noinst-tools"
++PACKAGES =+ "${PN}-testtools ${PN}-obex ${PN}-noinst-tools"
  
- SRC_URI = "\
-     ${KERNELORG_MIRROR}/linux/bluetooth/bluez-${PV}.tar.xz \
-@@ -31,6 +31,7 @@ inherit autotools pkgconfig systemd update-rc.d distro_features_check ptest
- 
- EXTRA_OECONF = "\
-   --enable-tools \
-+  --enable-deprecated \
-   --disable-cups \
-   --enable-test \
-   --enable-datafiles \
-@@ -41,10 +42,12 @@ EXTRA_OECONF = "\
- # bluez5 builds a large number of useful utilities but does not
- # install them.  Specify which ones we want put into ${PN}-noinst-tools.
- NOINST_TOOLS_READLINE ??= ""
--NOINST_TOOLS_EXPERIMENTAL ??= ""
-+NOINST_TOOLS_TESTING ??= ""
-+NOINST_TOOLS_BT ??= ""
- NOINST_TOOLS = " \
-     ${@bb.utils.contains('PACKAGECONFIG', 'readline', '${NOINST_TOOLS_READLINE}', '', d)} \
--    ${@bb.utils.contains('PACKAGECONFIG', 'experimental', '${NOINST_TOOLS_EXPERIMENTAL}', '', d)} \
-+    ${@bb.utils.contains('PACKAGECONFIG', 'testing', '${NOINST_TOOLS_TESTING}', '', d)} \
-+    ${NOINST_TOOLS_BT} \
+-FILES_libasound-module-bluez = "${libdir}/alsa-lib/lib*.so ${datadir}/alsa"
+ FILES_${PN} += "${libdir}/bluetooth/plugins/*.so ${systemd_unitdir}/ ${datadir}/dbus-1"
+ FILES_${PN}-dev += "\
+   ${libdir}/bluetooth/plugins/*.la \
+-  ${libdir}/alsa-lib/*.la \
  "
  
- do_install_append() {
-diff --git a/meta/recipes-connectivity/bluez5/bluez5_5.43.bb b/meta/recipes-connectivity/bluez5/bluez5_5.43.bb
-deleted file mode 100644
-index e10b82d..0000000
---- a/meta/recipes-connectivity/bluez5/bluez5_5.43.bb
-+++ /dev/null
-@@ -1,55 +0,0 @@
--require bluez5.inc
--
--REQUIRED_DISTRO_FEATURES = "bluez5"
--
--SRC_URI[md5sum] = "698def88df96840dfbb0858bb6d73350"
--SRC_URI[sha256sum] = "16c9c05d2a1da644ce3570d975ada3643d2e60c007a955bac09c0a0efeb58d15"
--
--# noinst programs in Makefile.tools that are conditional on READLINE
--# support
--NOINST_TOOLS_READLINE ?= " \
--    attrib/gatttool \
--    tools/obex-client-tool \
--    tools/obex-server-tool \
--    tools/bluetooth-player \
--    tools/obexctl \
--    tools/btmgmt \
--"
--
--# noinst programs in Makefile.tools that are conditional on EXPERIMENTAL
--# support
--NOINST_TOOLS_EXPERIMENTAL ?= " \
--    emulator/btvirt \
--    emulator/b1ee \
--    emulator/hfp \
--    tools/3dsp \
--    tools/mgmt-tester \
--    tools/gap-tester \
--    tools/l2cap-tester \
--    tools/sco-tester \
--    tools/smp-tester \
--    tools/hci-tester \
--    tools/rfcomm-tester \
--    tools/bdaddr \
--    tools/avinfo \
--    tools/avtest \
--    tools/scotest \
--    tools/amptest \
--    tools/hwdb \
--    tools/hcieventmask \
--    tools/hcisecfilter \
--    tools/btinfo \
--    tools/btattach \
--    tools/btsnoop \
--    tools/btproxy \
--    tools/btiotest \
--    tools/mcaptest \
--    tools/cltest \
--    tools/oobtest \
--    tools/seq2bseq \
--    tools/ibeacon \
--    tools/btgatt-client \
--    tools/btgatt-server \
--    tools/gatt-service \
--    profiles/iap/iapd \
--"
-diff --git a/meta/recipes-connectivity/bluez5/bluez5_5.44.bb b/meta/recipes-connectivity/bluez5/bluez5_5.44.bb
-new file mode 100644
-index 0000000..1095f88
---- /dev/null
-+++ b/meta/recipes-connectivity/bluez5/bluez5_5.44.bb
-@@ -0,0 +1,68 @@
-+require bluez5.inc
-+
-+REQUIRED_DISTRO_FEATURES = "bluez5"
-+
-+SRC_URI[md5sum] = "94273617129ced06612fcb9f5273d14c"
-+SRC_URI[sha256sum] = "0c321e291f8b45e6a78e379dfe80592b65955a0f0ab191f1cca0edd8ec356c85"
-+
-+# noinst programs in Makefile.tools that are conditional on READLINE
-+# support
-+NOINST_TOOLS_READLINE ?= " \
-+    attrib/gatttool \
-+    tools/obex-client-tool \
-+    tools/obex-server-tool \
-+    tools/bluetooth-player \
-+    tools/obexctl \
-+    tools/btmgmt \
-+"
-+
-+# noinst programs in Makefile.tools that are conditional on TESTING
-+# support
-+NOINST_TOOLS_TESTING ?= " \
-+    emulator/btvirt \
-+    emulator/b1ee \
-+    emulator/hfp \
-+    peripheral/btsensor \
-+    tools/3dsp \
-+    tools/mgmt-tester \
-+    tools/gap-tester \
-+    tools/l2cap-tester \
-+    tools/sco-tester \
-+    tools/smp-tester \
-+    tools/hci-tester \
-+    tools/rfcomm-tester \
-+    tools/bnep-tester \
-+    tools/userchan-tester \
-+"
-+
-+# noinst programs in Makefile.tools that are conditional on TOOLS
-+# support
-+NOINST_TOOLS_BT ?= " \
-+    tools/bdaddr \
-+    tools/avinfo \
-+    tools/avtest \
-+    tools/scotest \
-+    tools/amptest \
-+    tools/hwdb \
-+    tools/hcieventmask \
-+    tools/hcisecfilter \
-+    tools/btinfo \
-+    tools/btsnoop \
-+    tools/btproxy \
-+    tools/btiotest \
-+    tools/bneptest \
-+    tools/mcaptest \
-+    tools/cltest \
-+    tools/oobtest \
-+    tools/seq2bseq \
-+    tools/nokfw \
-+    tools/create-image \
-+    tools/eddystone \
-+    tools/ibeacon \
-+    tools/btgatt-client \
-+    tools/btgatt-server \
-+    tools/test-runner \
-+    tools/check-selftest \
-+    tools/gatt-service \
-+    profiles/iap/iapd \
-+"
+ FILES_${PN}-obex = "${libexecdir}/bluetooth/obexd \
+diff --git a/meta/recipes-core/packagegroups/packagegroup-base.bb b/meta/recipes-core/packagegroups/packagegroup-base.bb
+index 0069e3e..f9e6e2e 100644
+--- a/meta/recipes-core/packagegroups/packagegroup-base.bb
++++ b/meta/recipes-core/packagegroups/packagegroup-base.bb
+@@ -204,7 +204,7 @@ RRECOMMENDS_packagegroup-base-pcmcia = "\
+ SUMMARY_packagegroup-base-bluetooth = "Bluetooth support"
+ RDEPENDS_packagegroup-base-bluetooth = "\
+     ${BLUEZ} \
+-    ${@bb.utils.contains('COMBINED_FEATURES', 'alsa', 'libasound-module-bluez', '',d)} \
++    ${@bb.utils.contains('COMBINED_FEATURES', 'alsa', bb.utils.contains('BLUEZ', 'bluez4', 'libasound-module-bluez', '', d), '',d)} \
+     "
+ 
+ RRECOMMENDS_packagegroup-base-bluetooth = "\
 -- 
 2.7.4
 
