@@ -1,52 +1,25 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
-	by mail.openembedded.org (Postfix) with ESMTP id D53F2779CA
+Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id AD8EA7770D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Apr 2017 15:13:34 +0000 (UTC)
-Received: by mail-wm0-f66.google.com with SMTP id d79so25835725wmi.2
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Apr 2017 08:13:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=FD708juLZLWgRPQLf3so6Zv9X7WrWSI+fSy9ILGiMg0=;
-	b=m4WkpSSETf39A2T5tAAKx7pGv9GaKNJVuTsNSKc9vCskNl8/o/WjovCaSyEDFsw8Ph
-	Y/2nq8OJimILHPyNFFxnk3SQLVrNcY6tZshuEpeJKzrMSm44A0etTLVKLF9h7QECv9Uo
-	ilfMZDJC/P+OlmD6+RSwLSm3IjW4U/gfPFXxe6oxuxZKdk7d/woXwbSs37gWDlX7NCh2
-	BaiO/vnE1AyzTn9ko8x6VfOQ16y9AmCZAS0zjfL5O6Bg7de2Jrv3hgucDQHrJ/SToLBg
-	EfBIbmgDa3PodkOt2MaTVfIMxwhqiNFH4fAwVmmAf/QKSZdOggkKbrO7YmxnHB9DIY/9
-	Kcmg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=FD708juLZLWgRPQLf3so6Zv9X7WrWSI+fSy9ILGiMg0=;
-	b=g7b2Xl3bVBkn11/Z/W99nAYNowJDPSLXhMJM1wcr6vzSoNOLeoGrU8o36WLaql6IVF
-	HtmYgLZ1mW/VkMI4J/kQbhFahdqOYBMDptLlV/h6qDRvhJHSG4RGWZJX6LScguRBCqrP
-	sV1SjoxOnRlaI2HezkP8m2s42L14OyaddLthBZZ66YC7aeMIRVGt2SFb1SiQlpxA81as
-	5OadyO7+smW6SEoON7SqTgjRWcE1V2PeVn5ljoIF3E6i3wc0mnUGN3a1XeJhqXFhceoN
-	5MbF1ly2Q6+A7bJCODWnt60C6Jk4sRLRTqbOHyci5VLcWocCV+mD9jMrtSwil6VmmhbM
-	jbZA==
-X-Gm-Message-State: AN3rC/4YCcyaaqEM04/hCX1TJ8UoB5OvjtwUHQQCgcH6OLSJakK6jRiW
-	2MDFgSogfTqM6bXB
-X-Received: by 10.28.111.213 with SMTP id c82mr2305277wmi.11.1493133215547;
-	Tue, 25 Apr 2017 08:13:35 -0700 (PDT)
-Received: from localhost ([217.30.68.212]) by smtp.gmail.com with ESMTPSA id
-	92sm26570636wra.18.2017.04.25.08.13.34
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Tue, 25 Apr 2017 08:13:34 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Tue, 25 Apr 2017 17:13:50 +0200
-To: Marc Ferland <ferlandm@amotus.ca>
-Message-ID: <20170425151350.GC28641@jama>
-References: <1493131720-19456-1-git-send-email-ferlandm@amotus.ca>
-	<1493131720-19456-5-git-send-email-ferlandm@amotus.ca>
-MIME-Version: 1.0
-In-Reply-To: <1493131720-19456-5-git-send-email-ferlandm@amotus.ca>
-User-Agent: Mutt/1.8.2 (2017-04-18)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCHv4 4/7] bluez5: add PACKAGECONFIG option for systemd
+	Tue, 25 Apr 2017 15:58:22 +0000 (UTC)
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	25 Apr 2017 08:58:23 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.37,250,1488873600"; d="scan'208";a="93632752"
+Received: from lsandov1-mobl2.zpn.intel.com ([10.219.128.119])
+	by fmsmga005.fm.intel.com with ESMTP; 25 Apr 2017 08:58:22 -0700
+Message-ID: <1493136369.1798.26.camel@linux.intel.com>
+From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 25 Apr 2017 11:06:09 -0500
+In-Reply-To: <20170420010154.26296.84391@do.openembedded.org>
+References: <1492649254-29363-1-git-send-email-armccurdy@gmail.com>
+	<20170420010154.26296.84391@do.openembedded.org>
+X-Mailer: Evolution 3.12.9-1+b1 
+Mime-Version: 1.0
+Subject: =?UTF-8?B?UmU6IOKclyBwYXRjaHRlc3Q6IGZhaWx1cmUgZm9yIGJ1c3lib3g6IGZpeCB0eXBvIGluIENWRS0yMDE2LTIxNDdfMi5wYXRjaCBVcHN0cmVhbS1TdGF0dXMgdGFn?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,76 +32,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Apr 2017 15:13:35 -0000
-X-Groupsio-MsgNum: 96673
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="i7F3eY7HS/tUJxUd"
-Content-Disposition: inline
+X-List-Received-Date: Tue, 25 Apr 2017 15:58:24 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---i7F3eY7HS/tUJxUd
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Thu, 2017-04-20 at 01:01 +0000, Patchwork wrote:
+> == Series Details ==
+> 
+> Series: busybox: fix typo in CVE-2016-2147_2.patch Upstream-Status tag
+> Revision: 1
+> URL   : https://patchwork.openembedded.org/series/6429/
+> State : failure
+> 
+> == Summary ==
+> 
+> 
+> Thank you for submitting this patch series to OpenEmbedded Core. This is
+> an automated response. Several tests have been executed on the proposed
+> series by patchtest resulting in the following failures:
+> 
+> 
+> 
+> * Patch            busybox: fix typo in CVE-2016-2147_2.patch Upstream-Status tag
+>  Issue             Missing or incorrectly formatted CVE tag in commit message [test_cve_presence_in_commit_message] 
+>   Suggested fix    Include a "CVE-xxxx-xxxx" tag in the commit message
 
-On Tue, Apr 25, 2017 at 10:48:37AM -0400, Marc Ferland wrote:
-> Signed-off-by: Marc Ferland <ferlandm@amotus.ca>
+Andre,
+
+there is no need to send a second revision due to the above patchtest
+issue. The system detected the CVE on shortlog thus triggering the check
+on the commit message, but for this case there is no need. Will fix
+this.
+
+Leo
+
+> 
+> 
+> 
+> If you believe any of these test results are incorrect, please reply to the
+> mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+> Otherwise we would appreciate you correcting the issues and submitting a new
+> version of the patchset if applicable. Please ensure you add/increment the
+> version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+> [PATCH v3] -> ...).
+> 
 > ---
->  meta/recipes-connectivity/bluez5/bluez5.inc | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->=20
-> diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-c=
-onnectivity/bluez5/bluez5.inc
-> index 687656e..71a5016 100644
-> --- a/meta/recipes-connectivity/bluez5/bluez5.inc
-> +++ b/meta/recipes-connectivity/bluez5/bluez5.inc
-> @@ -12,11 +12,12 @@ RPROVIDES_${PN} +=3D "bluez-hcidump"
-> =20
->  RCONFLICTS_${PN} =3D "bluez4"
-> =20
-> -PACKAGECONFIG ??=3D "obex-profiles readline"
-> +PACKAGECONFIG ??=3D "obex-profiles readline ${@bb.utils.filter('DISTRO_F=
-EATURES', 'systemd', d)}"
->  PACKAGECONFIG[obex-profiles] =3D "--enable-obex,--disable-obex,libical"
->  PACKAGECONFIG[readline] =3D "--enable-client,--disable-client,readline,"
->  PACKAGECONFIG[testing] =3D "--enable-testing,--disable-testing"
->  PACKAGECONFIG[midi] =3D "--enable-midi,--disable-midi,alsa-lib"
-> +PACKAGECONFIG[systemd] =3D "--enable-systemd,--disable-systemd"
-> =20
->  SRC_URI =3D "\
->      ${KERNELORG_MIRROR}/linux/bluetooth/bluez-${PV}.tar.xz \
-> @@ -36,7 +37,6 @@ EXTRA_OECONF =3D "\
->    --disable-cups \
->    --enable-test \
->    --enable-datafiles \
-> -  ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', '--enable-systemd',=
- '--disable-systemd', d)} \
+> Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+> Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+> 
 
-Why not use just the options from PACKAGECONFIG?
 
->    --enable-library \
->  "
-> =20
-> --=20
-> 2.7.4
->=20
-> --=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---i7F3eY7HS/tUJxUd
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iF0EARECAB0WIQRU+ejDffEzV2Je2oc3VSO3ZXaAHAUCWP9nrQAKCRA3VSO3ZXaA
-HPwHAJ90i5lzWR7eikTscbPOKXxkdlk1mwCfebI9It+t+dCfWQuEuny8Ib9vbDU=
-=I246
------END PGP SIGNATURE-----
-
---i7F3eY7HS/tUJxUd--
