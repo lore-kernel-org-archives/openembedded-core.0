@@ -1,24 +1,24 @@
 Return-Path: <juro.bystricky@intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id C20AF779C9
+	by mail.openembedded.org (Postfix) with ESMTP id CD9BC779BD
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 25 Apr 2017 18:14:22 +0000 (UTC)
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
 	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
 	25 Apr 2017 11:14:13 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.37,250,1488873600"; d="scan'208";a="960974563"
+X-IronPort-AV: E=Sophos;i="5.37,250,1488873600"; d="scan'208";a="960974569"
 Received: from juro-precision-t5610.jf.intel.com ([10.7.198.53])
 	by orsmga003.jf.intel.com with ESMTP; 25 Apr 2017 11:14:13 -0700
 From: Juro Bystricky <juro.bystricky@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 25 Apr 2017 11:14:06 -0700
-Message-Id: <1493144048-12455-3-git-send-email-juro.bystricky@intel.com>
+Date: Tue, 25 Apr 2017 11:14:08 -0700
+Message-Id: <1493144048-12455-5-git-send-email-juro.bystricky@intel.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1493144048-12455-1-git-send-email-juro.bystricky@intel.com>
 References: <1493144048-12455-1-git-send-email-juro.bystricky@intel.com>
 Cc: jurobystricky@hotmail.com
-Subject: [PATCH 2/4] base.bbclass: initial support for binary reproducibility
+Subject: [PATCH 4/4] rootfs-postcommands.bbclass: support binary reproducibility
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,148 +33,71 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 25 Apr 2017 18:14:23 -0000
 
-Conditionally set some environment variables in order to achieve
-improved binary reproducibility. Providing BUILD_REPRODUCIBLE_BINARIES is
-set to "1", we set the following environment variables:
+Conditionally support binary reproducibility of rootfs images.
+If BUILD_REPRODUCIBLE_BINARIES = 1 then:
 
-export PYTHONHASHSEED=0
-export PERL_HASH_SEED=0
-export TZ="UTC"
+1. set /etc/timestamp to a reproducible value
+2. set /etc/version to a reproducible value
 
-We also export and set SOURCE_DATE_EPOCH. The value for this variable
-is obtained after source code for a recipe has been unpacked, but before it is
-patched. If the code comes from a GIT repo, we get the timestamp from the top
-commit. (This usually corresponds to the mktime of "changelog".)
-Otherwise we go through all files and get the timestamp from the youngest
-one. We create a timestamp for each recipe. The timestamp is stored in the file
-'src_date_epoch.txt'. Later on, each task reads this file and sets SOURCE_DATE_EPOCH
-based on the value found in the file.
+The value for /etc/version is modified in a designated catch-all
+post-rootfs function "rootfs_reproducible". This function is expected
+to provide additional functionality to improve the determinism based
+on future needs
 
-[YOCTO#11178]
-[YOCTO#11179]
+[YOCTO#11176]
 
 Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
 ---
- meta/classes/base.bbclass | 82 +++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 82 insertions(+)
+ meta/classes/rootfs-postcommands.bbclass | 18 ++++++++++++++++--
+ 1 file changed, 16 insertions(+), 2 deletions(-)
 
-diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
-index e29821f..f2b2d97 100644
---- a/meta/classes/base.bbclass
-+++ b/meta/classes/base.bbclass
-@@ -10,6 +10,52 @@ inherit utility-tasks
- inherit metadata_scm
- inherit logging
+diff --git a/meta/classes/rootfs-postcommands.bbclass b/meta/classes/rootfs-postcommands.bbclass
+index 498174a..be1e8dd 100644
+--- a/meta/classes/rootfs-postcommands.bbclass
++++ b/meta/classes/rootfs-postcommands.bbclass
+@@ -28,6 +28,8 @@ ROOTFS_POSTPROCESS_COMMAND += '${@bb.utils.contains("DISTRO_FEATURES", "systemd"
  
-+def get_git_src_date_epoch(d, path):
-+    import subprocess
-+    saved_cwd = os.getcwd()
-+    os.chdir(path)
-+    src_date_epoch = int(subprocess.check_output(['git','log','-1','--pretty=%ct']))
-+    os.chdir(saved_cwd)
-+    return src_date_epoch
-+
-+def create_src_date_epoch_stamp(d):
-+    if d.getVar('BUILD_REPRODUCIBLE_BINARIES') == '1':
-+        path = d.getVar('S')
-+        src_date_epoch = 0
-+        filename_dbg = None
-+
-+        if path.endswith('/git'):
-+            src_date_epoch = get_git_src_date_epoch(d, path)
-+        else:
-+            exclude = set(["temp", "licenses", "patches", "recipe-sysroot-native", "recipe-sysroot" ])
-+            for root, dirs, files in os.walk(path, topdown=True):
-+                dirs[:] = [d for d in dirs if d not in exclude]
-+                if root.endswith('/git'):
-+                    src_date_epoch = get_git_src_date_epoch(d, root)
-+                    break
-+
-+                for fname in files:
-+                    filename = os.path.join(root, fname)
-+                    try:
-+                        mtime = int(os.path.getmtime(filename))
-+                    except:
-+                        mtime = 0
-+                    if mtime > src_date_epoch:
-+                        src_date_epoch = mtime
-+                        filename_dbg = filename
-+
-+        # Most likely an empty folder
-+        if src_date_epoch == 0:
-+            bb.warn("Unable to determine src_date_epoch! path:%s" % path)
-+
-+        f = open(os.path.join(path,'src_date_epoch.txt'), 'w')
-+        f.write(str(src_date_epoch))
-+        f.close()
-+
-+        if filename_dbg != None:
-+            bb.debug(1," src_date_epoch %d derived from: %s" % (src_date_epoch, filename_dbg))
-+
-+
- OE_IMPORTS += "os sys time oe.path oe.utils oe.types oe.package oe.packagegroup oe.sstatesig oe.lsb oe.cachedpath oe.license"
- OE_IMPORTS[type] = "list"
+ ROOTFS_POSTPROCESS_COMMAND += 'empty_var_volatile;'
  
-@@ -173,6 +219,7 @@ python base_do_unpack() {
-     try:
-         fetcher = bb.fetch2.Fetch(src_uri, d)
-         fetcher.unpack(d.getVar('WORKDIR'))
-+        create_src_date_epoch_stamp(d)
-     except bb.fetch2.BBFetchException as e:
-         bb.fatal(str(e))
- }
-@@ -383,9 +430,43 @@ def set_packagetriplet(d):
- 
-     settriplet(d, "PKGMLTRIPLETS", archs, tos, tvs)
- 
++ROOTFS_POSTPROCESS_COMMAND += 'rootfs_reproducible;'
 +
-+export PYTHONHASHSEED
-+export PERL_HASH_SEED
-+export SOURCE_DATE_EPOCH
-+
-+BB_HASHBASE_WHITELIST += "SOURCE_DATE_EPOCH PYTHONHASHSEED PERL_HASH_SEED "
-+
- python () {
-     import string, re
- 
-+    # Create reproducible_environment
-+
-+    if d.getVar('BUILD_REPRODUCIBLE_BINARIES') == '1':
-+        import subprocess
-+        d.setVar('PYTHONHASHSEED', '0')
-+        d.setVar('PERL_HASH_SEED', '0')
-+        d.setVar('TZ', 'UTC')
-+
-+        path = d.getVar('S')
-+        epochfile = os.path.join(path,'src_date_epoch.txt')
-+        if os.path.isfile(epochfile):
-+            f = open(epochfile, 'r')
-+            src_date_epoch = f.read()
-+            f.close()
-+            bb.debug(1, "src_date_epoch stamp found ---> stamp %s" % src_date_epoch)
-+            d.setVar('SOURCE_DATE_EPOCH', src_date_epoch)
-+        else:
-+            bb.debug(1, "src_date_epoch stamp not found.")
-+            d.setVar('SOURCE_DATE_EPOCH', '0')
-+    else:
-+        if 'PYTHONHASHSEED' in os.environ:
-+            del os.environ['PYTHONHASHSEED']
-+        if 'PERL_HASH_SEED' in os.environ:
-+            del os.environ['PERL_HASH_SEED']
-+        if 'SOURCE_DATE_EPOCH' in os.environ:
-+            del os.environ['SOURCE_DATE_EPOCH']
-+
-     # Handle PACKAGECONFIG
-     #
-     # These take the form:
-@@ -678,6 +759,7 @@ python () {
-             bb.warn("Recipe %s is marked as only being architecture specific but seems to have machine specific packages?! The recipe may as well mark itself as machine specific directly." % d.getVar("PN"))
+ # Disable DNS lookups, the SSH_DISABLE_DNS_LOOKUP can be overridden to allow
+ # distros to choose not to take this change
+ SSH_DISABLE_DNS_LOOKUP ?= " ssh_disable_dns_lookup ; "
+@@ -246,7 +248,12 @@ python write_image_manifest () {
+ # Can be use to create /etc/timestamp during image construction to give a reasonably
+ # sane default time setting
+ rootfs_update_timestamp () {
+-	date -u +%4Y%2m%2d%2H%2M%2S >${IMAGE_ROOTFS}/etc/timestamp
++	if [ "$BUILD_REPRODUCIBLE_BINARIES" = "1" ]; then
++		bbnote " rootfs_update_timestamp: BUILD_REPRODUCIBLE_BINARIES..."
++		git log -1 --pretty=%cd --date=format:%4Y%2m%2d%2H%2M%2S >${IMAGE_ROOTFS}/etc/timestamp
++	else
++		date -u +%4Y%2m%2d%2H%2M%2S >${IMAGE_ROOTFS}/etc/timestamp
++	fi
  }
  
+ # Prevent X from being started
+@@ -286,7 +293,6 @@ rootfs_sysroot_relativelinks () {
+ 	sysroot-relativelinks.py ${SDK_OUTPUT}/${SDKTARGETSYSROOT}
+ }
+ 
+-
+ # Generated test data json file
+ python write_image_test_data() {
+     from oe.data import export2json
+@@ -302,3 +308,11 @@ python write_image_test_data() {
+        os.remove(testdata_link)
+     os.symlink(os.path.basename(testdata), testdata_link)
+ }
 +
- addtask cleansstate after do_clean
- python do_cleansstate() {
-         sstate_clean_cachefiles(d)
++# Perform any additional adjustments needed to make rootf binary reproducible
++rootfs_reproducible () {
++	if [ "$BUILD_REPRODUCIBLE_BINARIES" = "1" ]; then
++		bbnote " rootfs_reproducible: set /etc/version..."
++		git log -1 --pretty=%cd --date=format:%4Y%2m%2d%2H%2M%2S >${IMAGE_ROOTFS}/etc/version
++	fi
++}
 -- 
 2.7.4
 
