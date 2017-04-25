@@ -1,24 +1,24 @@
 Return-Path: <juro.bystricky@intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id AD58772F5A
+	by mail.openembedded.org (Postfix) with ESMTP id C20AF779C9
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 25 Apr 2017 18:14:22 +0000 (UTC)
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
 	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
 	25 Apr 2017 11:14:13 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.37,250,1488873600"; d="scan'208";a="960974567"
+X-IronPort-AV: E=Sophos;i="5.37,250,1488873600"; d="scan'208";a="960974563"
 Received: from juro-precision-t5610.jf.intel.com ([10.7.198.53])
 	by orsmga003.jf.intel.com with ESMTP; 25 Apr 2017 11:14:13 -0700
 From: Juro Bystricky <juro.bystricky@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 25 Apr 2017 11:14:07 -0700
-Message-Id: <1493144048-12455-4-git-send-email-juro.bystricky@intel.com>
+Date: Tue, 25 Apr 2017 11:14:06 -0700
+Message-Id: <1493144048-12455-3-git-send-email-juro.bystricky@intel.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1493144048-12455-1-git-send-email-juro.bystricky@intel.com>
 References: <1493144048-12455-1-git-send-email-juro.bystricky@intel.com>
 Cc: jurobystricky@hotmail.com
-Subject: [PATCH 3/4] image-preling.bbclass: support binary reproducibility
+Subject: [PATCH 2/4] base.bbclass: initial support for binary reproducibility
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,40 +31,150 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Apr 2017 18:14:22 -0000
+X-List-Received-Date: Tue, 25 Apr 2017 18:14:23 -0000
 
-Conditionally support binary reproducibility in built images.
-If BUILD_REPRODUCIBLE_BINARIES = 1 then:
+Conditionally set some environment variables in order to achieve
+improved binary reproducibility. Providing BUILD_REPRODUCIBLE_BINARIES is
+set to "1", we set the following environment variables:
 
-1. Do not randomize library addresses
-2. Set/export PRELINK_TIMESTAMP to a reproducible value.
-   The value is derived from the top git commit.
+export PYTHONHASHSEED=0
+export PERL_HASH_SEED=0
+export TZ="UTC"
+
+We also export and set SOURCE_DATE_EPOCH. The value for this variable
+is obtained after source code for a recipe has been unpacked, but before it is
+patched. If the code comes from a GIT repo, we get the timestamp from the top
+commit. (This usually corresponds to the mktime of "changelog".)
+Otherwise we go through all files and get the timestamp from the youngest
+one. We create a timestamp for each recipe. The timestamp is stored in the file
+'src_date_epoch.txt'. Later on, each task reads this file and sets SOURCE_DATE_EPOCH
+based on the value found in the file.
+
+[YOCTO#11178]
+[YOCTO#11179]
 
 Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
 ---
- meta/classes/image-prelink.bbclass | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+ meta/classes/base.bbclass | 82 +++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 82 insertions(+)
 
-diff --git a/meta/classes/image-prelink.bbclass b/meta/classes/image-prelink.bbclass
-index 4157df0..78ef65a 100644
---- a/meta/classes/image-prelink.bbclass
-+++ b/meta/classes/image-prelink.bbclass
-@@ -36,7 +36,14 @@ prelink_image () {
- 	dynamic_loader=$(linuxloader)
+diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+index e29821f..f2b2d97 100644
+--- a/meta/classes/base.bbclass
++++ b/meta/classes/base.bbclass
+@@ -10,6 +10,52 @@ inherit utility-tasks
+ inherit metadata_scm
+ inherit logging
  
- 	# prelink!
--	${STAGING_SBINDIR_NATIVE}/prelink --root ${IMAGE_ROOTFS} -amR -N -c ${sysconfdir}/prelink.conf --dynamic-linker $dynamic_loader
-+	if [ "$BUILD_REPRODUCIBLE_BINARIES" = "1" ]; then
-+		bbnote " prelink: BUILD_REPRODUCIBLE_BINARIES..."
-+		# SOURCE_DATE_EPOCH is 0 (no soure files), so get the timestamp from GIT repo...
-+		export PRELINK_TIMESTAMP=`git log -1 --pretty=%ct `
-+		${STAGING_SBINDIR_NATIVE}/prelink --root ${IMAGE_ROOTFS} -am -N -c ${sysconfdir}/prelink.conf --dynamic-linker $dynamic_loader
-+	else
-+		${STAGING_SBINDIR_NATIVE}/prelink --root ${IMAGE_ROOTFS} -amR -N -c ${sysconfdir}/prelink.conf --dynamic-linker $dynamic_loader
-+	fi
++def get_git_src_date_epoch(d, path):
++    import subprocess
++    saved_cwd = os.getcwd()
++    os.chdir(path)
++    src_date_epoch = int(subprocess.check_output(['git','log','-1','--pretty=%ct']))
++    os.chdir(saved_cwd)
++    return src_date_epoch
++
++def create_src_date_epoch_stamp(d):
++    if d.getVar('BUILD_REPRODUCIBLE_BINARIES') == '1':
++        path = d.getVar('S')
++        src_date_epoch = 0
++        filename_dbg = None
++
++        if path.endswith('/git'):
++            src_date_epoch = get_git_src_date_epoch(d, path)
++        else:
++            exclude = set(["temp", "licenses", "patches", "recipe-sysroot-native", "recipe-sysroot" ])
++            for root, dirs, files in os.walk(path, topdown=True):
++                dirs[:] = [d for d in dirs if d not in exclude]
++                if root.endswith('/git'):
++                    src_date_epoch = get_git_src_date_epoch(d, root)
++                    break
++
++                for fname in files:
++                    filename = os.path.join(root, fname)
++                    try:
++                        mtime = int(os.path.getmtime(filename))
++                    except:
++                        mtime = 0
++                    if mtime > src_date_epoch:
++                        src_date_epoch = mtime
++                        filename_dbg = filename
++
++        # Most likely an empty folder
++        if src_date_epoch == 0:
++            bb.warn("Unable to determine src_date_epoch! path:%s" % path)
++
++        f = open(os.path.join(path,'src_date_epoch.txt'), 'w')
++        f.write(str(src_date_epoch))
++        f.close()
++
++        if filename_dbg != None:
++            bb.debug(1," src_date_epoch %d derived from: %s" % (src_date_epoch, filename_dbg))
++
++
+ OE_IMPORTS += "os sys time oe.path oe.utils oe.types oe.package oe.packagegroup oe.sstatesig oe.lsb oe.cachedpath oe.license"
+ OE_IMPORTS[type] = "list"
  
- 	# Remove the prelink.conf if we had to add it.
- 	if [ "$dummy_prelink_conf" = "true" ]; then
+@@ -173,6 +219,7 @@ python base_do_unpack() {
+     try:
+         fetcher = bb.fetch2.Fetch(src_uri, d)
+         fetcher.unpack(d.getVar('WORKDIR'))
++        create_src_date_epoch_stamp(d)
+     except bb.fetch2.BBFetchException as e:
+         bb.fatal(str(e))
+ }
+@@ -383,9 +430,43 @@ def set_packagetriplet(d):
+ 
+     settriplet(d, "PKGMLTRIPLETS", archs, tos, tvs)
+ 
++
++export PYTHONHASHSEED
++export PERL_HASH_SEED
++export SOURCE_DATE_EPOCH
++
++BB_HASHBASE_WHITELIST += "SOURCE_DATE_EPOCH PYTHONHASHSEED PERL_HASH_SEED "
++
+ python () {
+     import string, re
+ 
++    # Create reproducible_environment
++
++    if d.getVar('BUILD_REPRODUCIBLE_BINARIES') == '1':
++        import subprocess
++        d.setVar('PYTHONHASHSEED', '0')
++        d.setVar('PERL_HASH_SEED', '0')
++        d.setVar('TZ', 'UTC')
++
++        path = d.getVar('S')
++        epochfile = os.path.join(path,'src_date_epoch.txt')
++        if os.path.isfile(epochfile):
++            f = open(epochfile, 'r')
++            src_date_epoch = f.read()
++            f.close()
++            bb.debug(1, "src_date_epoch stamp found ---> stamp %s" % src_date_epoch)
++            d.setVar('SOURCE_DATE_EPOCH', src_date_epoch)
++        else:
++            bb.debug(1, "src_date_epoch stamp not found.")
++            d.setVar('SOURCE_DATE_EPOCH', '0')
++    else:
++        if 'PYTHONHASHSEED' in os.environ:
++            del os.environ['PYTHONHASHSEED']
++        if 'PERL_HASH_SEED' in os.environ:
++            del os.environ['PERL_HASH_SEED']
++        if 'SOURCE_DATE_EPOCH' in os.environ:
++            del os.environ['SOURCE_DATE_EPOCH']
++
+     # Handle PACKAGECONFIG
+     #
+     # These take the form:
+@@ -678,6 +759,7 @@ python () {
+             bb.warn("Recipe %s is marked as only being architecture specific but seems to have machine specific packages?! The recipe may as well mark itself as machine specific directly." % d.getVar("PN"))
+ }
+ 
++
+ addtask cleansstate after do_clean
+ python do_cleansstate() {
+         sstate_clean_cachefiles(d)
 -- 
 2.7.4
 
