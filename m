@@ -1,41 +1,52 @@
-Return-Path: <marc.ferland@gmail.com>
-Received: from mail-qk0-f195.google.com (mail-qk0-f195.google.com
-	[209.85.220.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 569C7778D8
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
+	by mail.openembedded.org (Postfix) with ESMTP id D53F2779CA
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Apr 2017 14:49:00 +0000 (UTC)
-Received: by mail-qk0-f195.google.com with SMTP id a19so8078901qkg.2
+	Tue, 25 Apr 2017 15:13:34 +0000 (UTC)
+Received: by mail-wm0-f66.google.com with SMTP id d79so25835725wmi.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Apr 2017 07:49:01 -0700 (PDT)
+	Tue, 25 Apr 2017 08:13:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=FD708juLZLWgRPQLf3so6Zv9X7WrWSI+fSy9ILGiMg0=;
+	b=m4WkpSSETf39A2T5tAAKx7pGv9GaKNJVuTsNSKc9vCskNl8/o/WjovCaSyEDFsw8Ph
+	Y/2nq8OJimILHPyNFFxnk3SQLVrNcY6tZshuEpeJKzrMSm44A0etTLVKLF9h7QECv9Uo
+	ilfMZDJC/P+OlmD6+RSwLSm3IjW4U/gfPFXxe6oxuxZKdk7d/woXwbSs37gWDlX7NCh2
+	BaiO/vnE1AyzTn9ko8x6VfOQ16y9AmCZAS0zjfL5O6Bg7de2Jrv3hgucDQHrJ/SToLBg
+	EfBIbmgDa3PodkOt2MaTVfIMxwhqiNFH4fAwVmmAf/QKSZdOggkKbrO7YmxnHB9DIY/9
+	Kcmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=3DDE6ssioOU+PXpZT/3Jeh8XaSMJozY2IKpdzRUz5dE=;
-	b=TRzwXnzo15h5akxmETbHRqAgXItnM48k+1qnWh8TRqP7J+QGsst1K9oVCCapXK5128
-	IZEZ4JtWTuaskidD6zH6vC4EfNtGcloZxtnZKh6cjrpP6SYkirTs6vQDfqxnP48f+L+z
-	+6yG8ADvkneP99eG/tW9mMLpY/cqDl5tgIZ0PM/2WE98VFGZDJhqSiP7oCBKvmnqcKhR
-	uVoSXaYvccb9BN9zX45lMndD2WB50YMin22JVIJxfDz/YASzWLRNnH5EruiTXN8eow11
-	Ch8E5HJN0PjKYUGhu488BbRR6wLeohBb3i0zTun8wXxl/I3+K+LZrPFWiAT1ku+cSUfn
-	t29g==
-X-Gm-Message-State: AN3rC/7/HCOATG1VMq5yQUYusEAxyGlUa5prak4aJzGOf70Hwu1PsRfN
-	nDz8o6CuUMYmLw==
-X-Received: by 10.55.75.75 with SMTP id y72mr2350469qka.36.1493131741523;
-	Tue, 25 Apr 2017 07:49:01 -0700 (PDT)
-Received: from marc-desktop.AMOTUS.local
-	(modemcable182.194-37-24.static.videotron.ca. [24.37.194.182])
-	by smtp.gmail.com with ESMTPSA id
-	s10sm15188330qke.53.2017.04.25.07.49.00
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 25 Apr 2017 07:49:01 -0700 (PDT)
-From: Marc Ferland <ferlandm@amotus.ca>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 25 Apr 2017 10:48:40 -0400
-Message-Id: <1493131720-19456-8-git-send-email-ferlandm@amotus.ca>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1493131720-19456-1-git-send-email-ferlandm@amotus.ca>
+	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=FD708juLZLWgRPQLf3so6Zv9X7WrWSI+fSy9ILGiMg0=;
+	b=g7b2Xl3bVBkn11/Z/W99nAYNowJDPSLXhMJM1wcr6vzSoNOLeoGrU8o36WLaql6IVF
+	HtmYgLZ1mW/VkMI4J/kQbhFahdqOYBMDptLlV/h6qDRvhJHSG4RGWZJX6LScguRBCqrP
+	sV1SjoxOnRlaI2HezkP8m2s42L14OyaddLthBZZ66YC7aeMIRVGt2SFb1SiQlpxA81as
+	5OadyO7+smW6SEoON7SqTgjRWcE1V2PeVn5ljoIF3E6i3wc0mnUGN3a1XeJhqXFhceoN
+	5MbF1ly2Q6+A7bJCODWnt60C6Jk4sRLRTqbOHyci5VLcWocCV+mD9jMrtSwil6VmmhbM
+	jbZA==
+X-Gm-Message-State: AN3rC/4YCcyaaqEM04/hCX1TJ8UoB5OvjtwUHQQCgcH6OLSJakK6jRiW
+	2MDFgSogfTqM6bXB
+X-Received: by 10.28.111.213 with SMTP id c82mr2305277wmi.11.1493133215547;
+	Tue, 25 Apr 2017 08:13:35 -0700 (PDT)
+Received: from localhost ([217.30.68.212]) by smtp.gmail.com with ESMTPSA id
+	92sm26570636wra.18.2017.04.25.08.13.34
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Tue, 25 Apr 2017 08:13:34 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Tue, 25 Apr 2017 17:13:50 +0200
+To: Marc Ferland <ferlandm@amotus.ca>
+Message-ID: <20170425151350.GC28641@jama>
 References: <1493131720-19456-1-git-send-email-ferlandm@amotus.ca>
-Subject: [PATCHv4 7/7] bluez5: cleanup tabs and spaces
+	<1493131720-19456-5-git-send-email-ferlandm@amotus.ca>
+MIME-Version: 1.0
+In-Reply-To: <1493131720-19456-5-git-send-email-ferlandm@amotus.ca>
+User-Agent: Mutt/1.8.2 (2017-04-18)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCHv4 4/7] bluez5: add PACKAGECONFIG option for systemd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,78 +59,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Apr 2017 14:49:00 -0000
+X-List-Received-Date: Tue, 25 Apr 2017 15:13:35 -0000
+X-Groupsio-MsgNum: 96673
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="i7F3eY7HS/tUJxUd"
+Content-Disposition: inline
 
-Signed-off-by: Marc Ferland <ferlandm@amotus.ca>
----
- meta/recipes-connectivity/bluez5/bluez5.inc | 30 ++++++++++++++---------------
- 1 file changed, 15 insertions(+), 15 deletions(-)
+--i7F3eY7HS/tUJxUd
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
-index 47d8f22..01ade7d 100644
---- a/meta/recipes-connectivity/bluez5/bluez5.inc
-+++ b/meta/recipes-connectivity/bluez5/bluez5.inc
-@@ -57,24 +57,24 @@ do_install_append() {
- 
- 	install -d ${D}${sysconfdir}/bluetooth/
- 	if [ -f ${S}/profiles/network/network.conf ]; then
--	    install -m 0644 ${S}/profiles/network/network.conf ${D}/${sysconfdir}/bluetooth/
-+		install -m 0644 ${S}/profiles/network/network.conf ${D}/${sysconfdir}/bluetooth/
- 	fi
- 	if [ -f ${S}/profiles/input/input.conf ]; then
--	    install -m 0644 ${S}/profiles/input/input.conf ${D}/${sysconfdir}/bluetooth/
-+		install -m 0644 ${S}/profiles/input/input.conf ${D}/${sysconfdir}/bluetooth/
- 	fi
- 
--  if [ -f ${D}/${sysconfdir}/init.d/bluetooth ]; then
--    sed -i -e 's#@LIBEXECDIR@#${libexecdir}#g' ${D}/${sysconfdir}/init.d/bluetooth
--  fi
-+	if [ -f ${D}/${sysconfdir}/init.d/bluetooth ]; then
-+		sed -i -e 's#@LIBEXECDIR@#${libexecdir}#g' ${D}/${sysconfdir}/init.d/bluetooth
-+	fi
- 
- 	# Install desired tools that upstream leaves in build area
--        for f in ${NOINST_TOOLS} ; do
--	    install -m 755 ${B}/$f ${D}/${bindir}
-+	for f in ${NOINST_TOOLS} ; do
-+		install -m 755 ${B}/$f ${D}/${bindir}
- 	done
- 
--        # Patch python tools to use Python 3; they should be source compatible, but
--        # still refer to Python 2 in the shebang
--        sed -i -e '1s,#!.*python.*,#!${bindir}/python3,' ${D}${libdir}/bluez/test/*
-+	# Patch python tools to use Python 3; they should be source compatible, but
-+	# still refer to Python 2 in the shebang
-+	sed -i -e '1s,#!.*python.*,#!${bindir}/python3,' ${D}${libdir}/bluez/test/*
- }
- 
- PACKAGES =+ "${PN}-testtools ${PN}-obex ${PN}-noinst-tools"
-@@ -84,8 +84,8 @@ FILES_${PN} += " \
-     ${systemd_unitdir}/ ${datadir}/dbus-1 \
-     ${libdir}/cups \
- "
--FILES_${PN}-dev += "\
--  ${libdir}/bluetooth/plugins/*.la \
-+FILES_${PN}-dev += " \
-+    ${libdir}/bluetooth/plugins/*.la \
- "
- 
- FILES_${PN}-obex = "${libexecdir}/bluetooth/obexd \
-@@ -115,10 +115,10 @@ INITSCRIPT_NAME_${PN} = "bluetooth"
- EXCLUDE_FROM_WORLD = "1"
- 
- do_compile_ptest() {
--        oe_runmake buildtests
-+	oe_runmake buildtests
- }
- 
- do_install_ptest() {
--        cp -r ${B}/unit/ ${D}${PTEST_PATH}
--        rm -f ${D}${PTEST_PATH}/unit/*.o
-+	cp -r ${B}/unit/ ${D}${PTEST_PATH}
-+	rm -f ${D}${PTEST_PATH}/unit/*.o
- }
--- 
-2.7.4
+On Tue, Apr 25, 2017 at 10:48:37AM -0400, Marc Ferland wrote:
+> Signed-off-by: Marc Ferland <ferlandm@amotus.ca>
+> ---
+>  meta/recipes-connectivity/bluez5/bluez5.inc | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-c=
+onnectivity/bluez5/bluez5.inc
+> index 687656e..71a5016 100644
+> --- a/meta/recipes-connectivity/bluez5/bluez5.inc
+> +++ b/meta/recipes-connectivity/bluez5/bluez5.inc
+> @@ -12,11 +12,12 @@ RPROVIDES_${PN} +=3D "bluez-hcidump"
+> =20
+>  RCONFLICTS_${PN} =3D "bluez4"
+> =20
+> -PACKAGECONFIG ??=3D "obex-profiles readline"
+> +PACKAGECONFIG ??=3D "obex-profiles readline ${@bb.utils.filter('DISTRO_F=
+EATURES', 'systemd', d)}"
+>  PACKAGECONFIG[obex-profiles] =3D "--enable-obex,--disable-obex,libical"
+>  PACKAGECONFIG[readline] =3D "--enable-client,--disable-client,readline,"
+>  PACKAGECONFIG[testing] =3D "--enable-testing,--disable-testing"
+>  PACKAGECONFIG[midi] =3D "--enable-midi,--disable-midi,alsa-lib"
+> +PACKAGECONFIG[systemd] =3D "--enable-systemd,--disable-systemd"
+> =20
+>  SRC_URI =3D "\
+>      ${KERNELORG_MIRROR}/linux/bluetooth/bluez-${PV}.tar.xz \
+> @@ -36,7 +37,6 @@ EXTRA_OECONF =3D "\
+>    --disable-cups \
+>    --enable-test \
+>    --enable-datafiles \
+> -  ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', '--enable-systemd',=
+ '--disable-systemd', d)} \
 
+Why not use just the options from PACKAGECONFIG?
 
+>    --enable-library \
+>  "
+> =20
+> --=20
+> 2.7.4
+>=20
+> --=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--i7F3eY7HS/tUJxUd
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EARECAB0WIQRU+ejDffEzV2Je2oc3VSO3ZXaAHAUCWP9nrQAKCRA3VSO3ZXaA
+HPwHAJ90i5lzWR7eikTscbPOKXxkdlk1mwCfebI9It+t+dCfWQuEuny8Ib9vbDU=
+=I246
+-----END PGP SIGNATURE-----
+
+--i7F3eY7HS/tUJxUd--
