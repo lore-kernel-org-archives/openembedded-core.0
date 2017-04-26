@@ -1,26 +1,32 @@
 Return-Path: <juro.bystricky@intel.com>
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id DF27B77BD3
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 957C8779DC
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Apr 2017 16:27:40 +0000 (UTC)
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-	by orsmga105.jf.intel.com with ESMTP; 26 Apr 2017 09:27:41 -0700
+	Wed, 26 Apr 2017 16:43:52 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	26 Apr 2017 09:43:54 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.37,255,1488873600"; d="scan'208";a="81096578"
+X-IronPort-AV: E=Sophos;i="5.37,255,1488873600"; d="scan'208";a="1140486116"
 Received: from orsmsx108.amr.corp.intel.com ([10.22.240.6])
-	by orsmga004.jf.intel.com with ESMTP; 26 Apr 2017 09:27:41 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 26 Apr 2017 09:43:53 -0700
+Received: from orsmsx113.amr.corp.intel.com (10.22.240.9) by
+	ORSMSX108.amr.corp.intel.com (10.22.240.6) with Microsoft SMTP Server
+	(TLS) id 14.3.319.2; Wed, 26 Apr 2017 09:43:53 -0700
 Received: from orsmsx112.amr.corp.intel.com ([169.254.3.213]) by
-	ORSMSX108.amr.corp.intel.com ([169.254.2.95]) with mapi id
-	14.03.0319.002; Wed, 26 Apr 2017 09:27:41 -0700
+	ORSMSX113.amr.corp.intel.com ([169.254.9.59]) with mapi id
+	14.03.0319.002; Wed, 26 Apr 2017 09:43:53 -0700
 From: "Bystricky, Juro" <juro.bystricky@intel.com>
-To: Trevor Woerner <twoerner@gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
 Thread-Topic: [OE-core] [PATCH 0/4] Reproducible binaries
-Thread-Index: AQHSve/H0RnFKsoUjUy3r4mWvWsL7aHXLvuAgACoUwA=
-Date: Wed, 26 Apr 2017 16:27:40 +0000
-Message-ID: <6E51916E4A1F32428260031F4C7CD2B61194DCB0@ORSMSX112.amr.corp.intel.com>
+Thread-Index: AQHSve/H0RnFKsoUjUy3r4mWvWsL7aHW3z0A//+V67OAAUWMAIAAHehw
+Date: Wed, 26 Apr 2017 16:43:52 +0000
+Message-ID: <6E51916E4A1F32428260031F4C7CD2B61194DCC6@ORSMSX112.amr.corp.intel.com>
 References: <1493144048-12455-1-git-send-email-juro.bystricky@intel.com>
-	<CAHUNapRY94uC0W2Z0Y3GCfMSer5HjOW9AWoe_vc3m3MarxG+0A@mail.gmail.com>
-In-Reply-To: <CAHUNapRY94uC0W2Z0Y3GCfMSer5HjOW9AWoe_vc3m3MarxG+0A@mail.gmail.com>
+	<CA+chaQfX1iYsYwqx4CMKuADmW75_VZStzZpdE-hw=ahtsDvdwg@mail.gmail.com>
+	<6E51916E4A1F32428260031F4C7CD2B61194BE74@ORSMSX112.amr.corp.intel.com>
+	<20170426074212.GB3258@jama>
+In-Reply-To: <20170426074212.GB3258@jama>
 Accept-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
@@ -42,27 +48,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Apr 2017 16:27:41 -0000
+X-List-Received-Date: Wed, 26 Apr 2017 16:43:53 -0000
 Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-Q29uc2Vuc3VzIGlzIGFsd2F5cyBhIGdvb2QgdGhpbmcuDQpUaGUgdXNlciBjYW4gb3ZlcnJpZGUg
-dGhlIGRlZmF1bHQgYnkgZXhwbGljaXRseSBzcGVjaWZ5aW5nIChmb3IgZXhhbXBsZSBpbiBsb2Nh
-bC5jb25mKQ0KQlVJTERfUkVQUk9EVUNJQkxFX0JJTkFSSUVTPSIxIg0Kb3INCkJVSUxEX1JFUFJP
-RFVDSUJMRV9CSU5BUklFUz0iMCINCg0KPiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBG
-cm9tOiBUcmV2b3IgV29lcm5lciBbbWFpbHRvOnR3b2VybmVyQGdtYWlsLmNvbV0NCj4gU2VudDog
-VHVlc2RheSwgQXByaWwgMjUsIDIwMTcgNDoyMiBQTQ0KPiBUbzogQnlzdHJpY2t5LCBKdXJvIDxq
-dXJvLmJ5c3RyaWNreUBpbnRlbC5jb20+DQo+IENjOiBQYXRjaGVzIGFuZCBkaXNjdXNzaW9ucyBh
-Ym91dCB0aGUgb2UtY29yZSBsYXllciA8b3BlbmVtYmVkZGVkLQ0KPiBjb3JlQGxpc3RzLm9wZW5l
-bWJlZGRlZC5vcmc+OyBqdXJvYnlzdHJpY2t5QGhvdG1haWwuY29tDQo+IFN1YmplY3Q6IFJlOiBb
-T0UtY29yZV0gW1BBVENIIDAvNF0gUmVwcm9kdWNpYmxlIGJpbmFyaWVzDQo+IA0KPiBPbiBUdWUs
-IEFwciAyNSwgMjAxNyBhdCAyOjE0IFBNLCBKdXJvIEJ5c3RyaWNreQ0KPiA8anVyby5ieXN0cmlj
-a3lAaW50ZWwuY29tPiB3cm90ZToNCj4gPiBUaGUgdmFyaWFibGUgZGVmYXVsdHMgdG8gIjAiIChk
-byBub3QNCj4gPiBidWlsZCByZXByb2R1Y2libGUgYmluYXJpZXMpIGluIG9yZGVyIHRvIG1pbmlt
-aXplIGFueSBwb3RlbnRpYWwNCj4gPiByZWdyZXNzaW9ucy4gKE9uY2UgdGhlIHJlcHJvZHVjaWJs
-ZSBiaW5hcmllcyBjb2RlIGlzIG1hdHVyZSBlbm91Z2gsDQo+ID4gaXQgY2FuIGJlIHNldCB0byAi
-MSIuKQ0KPiANCj4gTXkgZ3Vlc3MgaXMgdGhhdCBwZW9wbGUgd291bGQgcHJlZmVyIHNlY3VyaXR5
-IG92ZXIgcmVwcm9kdWNpYmlsaXR5Lg0KPiBNYXliZSB3ZSBuZWVkIG1vcmUgY29uc2Vuc3VzIGZv
-ciB0aGUgZGVmYXVsdCB2YWx1ZSBnb2luZyBmb3J3YXJkPw0K
+
+> But not for 2 different builds with slightly modified metadata (e.g.
+> just because top commit is different in whatever build repository you're
+> running from even when it doesn't have any effect in your image), right?
+>=20
+
+This may be addressed in the future. Presently, the goal is to ensure that =
+if we
+use identical repositories we get identical results. This should not depend
+on the time/date, build folder or even Linux distro. By identical results
+I mean binary identical comparison of the resulting "deploy" folders.
+(images, packages, licenses). So for example, there should be no binary dif=
+ferences=20
+between the two images of core-image-minimal.rootfs.ext4.
+In your case (slightly different repos), the difference would be presented=
+=20
+as different time stamps for /etc/version and /etc/timestamp only.
+
+
+> So it doesn't fix the files-in-image.txt differences as described in:
+> https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D5866
+>=20
+
+Eventually it will. There is still ways to go and this patch set is just th=
+e first
+kick at the can.
+
+
 
