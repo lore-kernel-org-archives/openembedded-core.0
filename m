@@ -1,51 +1,23 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg0-f67.google.com (mail-pg0-f67.google.com [74.125.83.67])
-	by mail.openembedded.org (Postfix) with ESMTP id C98CE71A91
+Return-Path: <jussi.kukkonen@intel.com>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	by mail.openembedded.org (Postfix) with ESMTP id C3FAC6093E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Apr 2017 23:53:33 +0000 (UTC)
-Received: by mail-pg0-f67.google.com with SMTP id v1so6834597pgv.3
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Apr 2017 16:53:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:references:from:message-id:date:user-agent:mime-version
-	:in-reply-to; bh=q/Ky55sH5tiLZYGz6zMuvjHOmXtF4G6a3fxhNR9j0U4=;
-	b=WpiTDcJZa86eGf6CwqwOsSG7eybzTFqTnyjuNfukGW2J/4IowQhPgcpFDKO9iPZiPL
-	FZ2Mnl4ENUc5GCeCo73P6H4xx3+V/2R8PhCX7TZ6RmLgy5KG2gqHaoz6mUueRK8P99Sv
-	8sLya2nQ1YKNvQEDKfzV4SpHDkLbN7c3f4VGR1VEse5lIZcXMKA2PUSKJGlSLO72D08F
-	L69y2wY4+dD4MYzoW0+ahmwJASN7aa0ZQ0hKuYI2krwu8J5n8gcgHSDpOAPGs8AarMT7
-	fLFRA8gdAlthRiqTh9+5lspts2lSjT6IuMuS1hNoclyS0jPGP/+YTGQahpVW6g5oRn6H
-	JWZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to;
-	bh=q/Ky55sH5tiLZYGz6zMuvjHOmXtF4G6a3fxhNR9j0U4=;
-	b=o1MsT5Ue6AHl39cpXf/3T8Xi1cfZ4mmdBD7ThPduE9IMa7pULqApmLUeMzEokMylX3
-	0n6RsJFJp485fpZ5bxjYIaIMUC4XcnE7ZRlNPmh4UYouZBVx67rP2KSmi26t+CoiZnqM
-	TXxzPxUk7bvmPx7NdBljhFLAtMJiNllkfjIJsXAUvExNiHXAZm9UEenDtx7m79Jzxj2f
-	yJW6ksHq5ioqCGesUYLxbRS4noXQUtCFYWV5RoQnXoa6OiPLe4qQyGNjIla4ykjbpjm0
-	yYRfQCadjI9sA13yTZ1kzt5mCI4QbJyXWipTfr0/8n0bfqGzjV5/hSNz656rAG72uxmU
-	pZsg==
-X-Gm-Message-State: AN3rC/4qN5jLJD/lsGC50xydoKCca5ajLZJZAkAWAKHungzdHdXL0LJP
-	gFDetjmg268riQ==
-X-Received: by 10.99.117.19 with SMTP id q19mr24923349pgc.106.1493164414605;
-	Tue, 25 Apr 2017 16:53:34 -0700 (PDT)
-Received: from CACSVMO-14452.local ([2601:646:8882:b8c:d876:38a0:5ac:19e6])
-	by smtp.gmail.com with ESMTPSA id
-	u15sm20932612pgc.66.2017.04.25.16.53.32
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 25 Apr 2017 16:53:33 -0700 (PDT)
-To: Nathan Lynch <nathan_lynch@mentor.com>,
-	openembedded-core@lists.openembedded.org
-References: <20170425223355.13155-1-nathan_lynch@mentor.com>
-From: Khem Raj <raj.khem@gmail.com>
-Message-ID: <2d8db75b-1ca7-8480-a125-fa0eff48d899@gmail.com>
-Date: Tue, 25 Apr 2017 16:53:26 -0700
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:52.0)
-	Gecko/20100101 Thunderbird/52.0.1
-MIME-Version: 1.0
-In-Reply-To: <20170425223355.13155-1-nathan_lynch@mentor.com>
-Subject: Re: [PATCH] lttng-modules: work around GCC 7 changes
+	Wed, 26 Apr 2017 07:01:47 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by orsmga105.jf.intel.com with ESMTP; 26 Apr 2017 00:01:49 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.37,253,1488873600"; d="scan'208";a="1161072659"
+Received: from linux.intel.com ([10.54.29.200])
+	by fmsmga002.fm.intel.com with ESMTP; 26 Apr 2017 00:01:48 -0700
+Received: from theory.fi.intel.com (theory.fi.intel.com [10.237.72.53])
+	by linux.intel.com (Postfix) with ESMTP id 7BFBE6A4006;
+	Wed, 26 Apr 2017 00:01:36 -0700 (PDT)
+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 26 Apr 2017 10:01:42 +0300
+Message-Id: <1493190102-1662-1-git-send-email-jussi.kukkonen@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] gstreamer1.0-vaapi: Fix playback breaking bug
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,136 +30,99 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Apr 2017 23:53:34 -0000
-X-Groupsio-MsgNum: 96692
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature";
-	boundary="xIOq6pIE6NTjK5a1JmpgE2F9pQo0Cl3RK"
+X-List-Received-Date: Wed, 26 Apr 2017 07:01:49 -0000
 
---xIOq6pIE6NTjK5a1JmpgE2F9pQo0Cl3RK
-Content-Type: multipart/mixed; boundary="WwX2XGsF3qJAocUx1wQQm45sQI5hkg9gF";
- protected-headers="v1"
-From: Khem Raj <raj.khem@gmail.com>
-To: Nathan Lynch <nathan_lynch@mentor.com>,
- openembedded-core@lists.openembedded.org
-Message-ID: <2d8db75b-1ca7-8480-a125-fa0eff48d899@gmail.com>
-Subject: Re: [PATCH] lttng-modules: work around GCC 7 changes
-References: <20170425223355.13155-1-nathan_lynch@mentor.com>
-In-Reply-To: <20170425223355.13155-1-nathan_lynch@mentor.com>
+gstreamer-vaapi fails to play files with specific frame sizes
+because of buffer allocation issues. Fix is a backport.
 
---WwX2XGsF3qJAocUx1wQQm45sQI5hkg9gF
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Fixes [YOCTO #11311].
 
+Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+---
+ ...ideobufferpool-create-allocator-if-needed.patch | 61 ++++++++++++++++++++++
+ .../gstreamer/gstreamer1.0-vaapi_1.10.4.bb         |  2 +
+ 2 files changed, 63 insertions(+)
+ create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer-vaapi/vaapivideobufferpool-create-allocator-if-needed.patch
 
-
-On 4/25/17 3:33 PM, Nathan Lynch wrote:
-> Avoid using LTTng's BUILD_RUNTIME_BUG_ON macro, as it appears to run
-> into a similar problem as Linux experienced with __builtin_constant_p
-> and dead code elimination.
->=20
-
-Thanks for contributing. this patch looks ok to me.
-
-> Signed-off-by: Nathan Lynch <nathan_lynch@mentor.com>
-> ---
->  .../BUILD_RUNTIME_BUG_ON-vs-gcc7.patch             | 43 ++++++++++++++=
-++++++++
->  meta/recipes-kernel/lttng/lttng-modules_2.9.1.bb   |  3 +-
->  2 files changed, 45 insertions(+), 1 deletion(-)
->  create mode 100644 meta/recipes-kernel/lttng/lttng-modules/BUILD_RUNTI=
-ME_BUG_ON-vs-gcc7.patch
->=20
-> diff --git a/meta/recipes-kernel/lttng/lttng-modules/BUILD_RUNTIME_BUG_=
-ON-vs-gcc7.patch b/meta/recipes-kernel/lttng/lttng-modules/BUILD_RUNTIME_=
-BUG_ON-vs-gcc7.patch
-> new file mode 100644
-> index 000000000000..76063607a831
-> --- /dev/null
-> +++ b/meta/recipes-kernel/lttng/lttng-modules/BUILD_RUNTIME_BUG_ON-vs-g=
-cc7.patch
-> @@ -0,0 +1,43 @@
-> +From ab07574ef90fa510f293c37897d577066a88fe0d Mon Sep 17 00:00:00 2001=
-
-> +From: Nathan Lynch <nathan_lynch@mentor.com>
-> +Date: Tue, 25 Apr 2017 16:26:57 -0500
-> +Subject: [PATCH] BUILD_RUNTIME_BUG_ON vs gcc7
-> +
-> +Avoid using LTTng's BUILD_RUNTIME_BUG_ON macro, as it appears to run
-> +into a similar problem as Linux experienced with ilog2.
-> +
-> +See:
-> +https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/com=
-mit/?id=3D474c90156c8dcc2fa815e6716cc9394d7930cb9c
-> +https://gcc.gnu.org/bugzilla/show_bug.cgi?id=3D72785
-> +
-> +Upstream-Status: Pending
-> +Signed-off-by: Nathan Lynch <nathan_lynch@mentor.com>
-> +---
-> + lib/align.h | 4 ++--
-> + 1 file changed, 2 insertions(+), 2 deletions(-)
-> +
-> +diff --git a/lib/align.h b/lib/align.h
-> +index 5b91ae87410b..5e134cd485fe 100644
-> +--- a/lib/align.h
-> ++++ b/lib/align.h
-> +@@ -48,7 +48,7 @@
-> +  */
-> + #define offset_align(align_drift, alignment)				       \
-> + 	({								       \
-> +-		BUILD_RUNTIME_BUG_ON((alignment) =3D=3D 0			       \
-> ++		BUG_ON((alignment) =3D=3D 0					       \
-> + 				   || ((alignment) & ((alignment) - 1)));      \
-> + 		(((alignment) - (align_drift)) & ((alignment) - 1));	       \
-> + 	})
-> +@@ -63,7 +63,7 @@
-> +  */
-> + #define offset_align_floor(align_drift, alignment)			       \
-> + 	({								       \
-> +-		BUILD_RUNTIME_BUG_ON((alignment) =3D=3D 0			       \
-> ++		BUG_ON((alignment) =3D=3D 0					       \
-> + 				   || ((alignment) & ((alignment) - 1)));      \
-> + 		(((align_drift) - (alignment)) & ((alignment) - 1));	       \
-> + 	})
-> +--=20
-> +2.9.3
-> +
-> diff --git a/meta/recipes-kernel/lttng/lttng-modules_2.9.1.bb b/meta/re=
-cipes-kernel/lttng/lttng-modules_2.9.1.bb
-> index abff79d06f26..b48f9cff9a78 100644
-> --- a/meta/recipes-kernel/lttng/lttng-modules_2.9.1.bb
-> +++ b/meta/recipes-kernel/lttng/lttng-modules_2.9.1.bb
-> @@ -11,7 +11,8 @@ inherit module
->  COMPATIBLE_HOST =3D '(x86_64|i.86|powerpc|aarch64|mips|nios2|arm).*-li=
-nux'
-> =20
->  SRC_URI =3D "https://lttng.org/files/${BPN}/${BPN}-${PV}.tar.bz2 \
-> -           file://Makefile-Do-not-fail-if-CONFIG_TRACEPOINTS-is-not-en=
-=2Epatch"
-> +           file://Makefile-Do-not-fail-if-CONFIG_TRACEPOINTS-is-not-en=
-=2Epatch \
-> +           file://BUILD_RUNTIME_BUG_ON-vs-gcc7.patch"
-> =20
->  SRC_URI[md5sum] =3D "5a16bca52233cc2bdff572b1120a88f6"
->  SRC_URI[sha256sum] =3D "62078fe3254ca65969db4b72e59042cd797dbf2740848f=
-8f82384877ae460d54"
->=20
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer-vaapi/vaapivideobufferpool-create-allocator-if-needed.patch b/meta/recipes-multimedia/gstreamer/gstreamer-vaapi/vaapivideobufferpool-create-allocator-if-needed.patch
+new file mode 100644
+index 0000000..f666adc
+--- /dev/null
++++ b/meta/recipes-multimedia/gstreamer/gstreamer-vaapi/vaapivideobufferpool-create-allocator-if-needed.patch
+@@ -0,0 +1,61 @@
++Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
++Upstream-Status: Backport [commit 59a731be6b in '1.10' branch]
++
++
++From 02a6002c3a80b3a5301c0943b1a1518bbdf439fc Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?V=C3=ADctor=20Manuel=20J=C3=A1quez=20Leal?=
++ <vjaquez@igalia.com>
++Date: Fri, 21 Apr 2017 19:07:18 +0200
++Subject: [PATCH] vaapivideobufferpool: create allocator if needed
++
++Backport to branch 1.10
++
++Sometimes a video decoder could set different buffer pool
++configurations, because their frame size changes. In this case we
++did not reconfigure the allocator.
++
++This patch enables this use case, creating a new allocator inside
++the VAAPI buffer pool if the caps changed, if it is not dmabuf-based.
++If so, it is just reconfigured, since it doesn't have a surface pool.
++
++https://bugzilla.gnome.org/show_bug.cgi?id=781577
++---
++ gst/vaapi/gstvaapivideobufferpool.c | 21 +++++++++++++++++++++
++ 1 file changed, 21 insertions(+)
++
++diff --git a/gst/vaapi/gstvaapivideobufferpool.c b/gst/vaapi/gstvaapivideobufferpool.c
++index a3b9223f..9a50614b 100644
++--- a/gst/vaapi/gstvaapivideobufferpool.c
+++++ b/gst/vaapi/gstvaapivideobufferpool.c
++@@ -159,6 +159,27 @@ gst_vaapi_video_buffer_pool_set_config (GstBufferPool * pool,
++     gst_object_replace ((GstObject **) & priv->allocator, NULL);
++   priv->video_info = new_vip;
++ 
+++  {
+++    guint surface_alloc_flags;
+++    gboolean vinfo_changed = FALSE;
+++
+++    if (allocator) {
+++      const GstVideoInfo *alloc_vinfo =
+++          gst_allocator_get_vaapi_video_info (allocator, &surface_alloc_flags);
+++      vinfo_changed = gst_video_info_changed (alloc_vinfo, &new_vip);
+++    }
+++
+++    if (vinfo_changed && allocator && priv->use_dmabuf_memory) {
+++      gst_allocator_set_vaapi_video_info (allocator, &new_vip,
+++          surface_alloc_flags);
+++    } else if (!priv->use_dmabuf_memory && (vinfo_changed || !allocator)) {
+++      /* let's destroy the other allocator and create a new one */
+++      allocator = gst_vaapi_video_allocator_new (priv->display, &new_vip,
+++          surface_alloc_flags);
+++      gst_buffer_pool_config_set_allocator (config, allocator, NULL);
+++    }
+++  }
+++
++   if (!gst_buffer_pool_config_has_option (config,
++           GST_BUFFER_POOL_OPTION_VAAPI_VIDEO_META))
++     goto error_no_vaapi_video_meta_option;
++-- 
++2.11.0
++
++
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.10.4.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.10.4.bb
+index c4a884d..44c66de 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.10.4.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.10.4.bb
+@@ -2,4 +2,6 @@ require gstreamer1.0-vaapi.inc
+ SRC_URI[md5sum] = "318af17f906637570b61dd7be9b5581d"
+ SRC_URI[sha256sum] = "03e690621594d9f9495d86c7dac8b8590b3a150462770ed070dc76f66a70de75"
+ 
++SRC_URI += "file://vaapivideobufferpool-create-allocator-if-needed.patch"
++
+ DEPENDS += "gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-bad"
+-- 
+2.1.4
 
 
---WwX2XGsF3qJAocUx1wQQm45sQI5hkg9gF--
-
---xIOq6pIE6NTjK5a1JmpgE2F9pQo0Cl3RK
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-Comment: GPGTools - https://gpgtools.org
-
-iEYEARECAAYFAlj/4XsACgkQuwUzVZGdMxSb6wCfbC89hmO+N9u/JkvRKH5vGCly
-TekAnRyHy+KLOyIO4NRJaPgihXdAcYhZ
-=/F0X
------END PGP SIGNATURE-----
-
---xIOq6pIE6NTjK5a1JmpgE2F9pQo0Cl3RK--
