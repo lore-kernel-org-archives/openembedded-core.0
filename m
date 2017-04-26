@@ -1,23 +1,25 @@
 Return-Path: <gernot.hillier@siemens.com>
-Received: from lizzard.sbs.de (lizzard.sbs.de [194.138.37.39])
-	by mail.openembedded.org (Postfix) with ESMTP id 629B277CC1
+Received: from david.siemens.de (david.siemens.de [192.35.17.14])
+	by mail.openembedded.org (Postfix) with ESMTP id 90C5F77CB4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Apr 2017 10:57:53 +0000 (UTC)
+	Wed, 26 Apr 2017 10:57:58 +0000 (UTC)
 Received: from mail1.sbs.de (mail1.sbs.de [192.129.41.35])
-	by lizzard.sbs.de (8.15.2/8.15.2) with ESMTPS id v3QAvr9M002374
+	by david.siemens.de (8.15.2/8.15.2) with ESMTPS id v3QAvxb0030721
 	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK); 
-	Wed, 26 Apr 2017 12:57:54 +0200
+	Wed, 26 Apr 2017 12:57:59 +0200
 Received: from linux-mf4q.internal.hillier.net (md1jennc.ww002.siemens.net
 	[139.25.68.7] (may be forged))
-	by mail1.sbs.de (8.15.2/8.15.2) with ESMTP id v3QAvrTS026631;
-	Wed, 26 Apr 2017 12:57:53 +0200
+	by mail1.sbs.de (8.15.2/8.15.2) with ESMTP id v3QAvrTT026631;
+	Wed, 26 Apr 2017 12:57:58 +0200
 From: Gernot Hillier <gernot.hillier@siemens.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 26 Apr 2017 12:57:43 +0200
-Message-Id: <20170426105745.8551-1-gernot.hillier@siemens.com>
+Date: Wed, 26 Apr 2017 12:57:44 +0200
+Message-Id: <20170426105745.8551-2-gernot.hillier@siemens.com>
 X-Mailer: git-send-email 2.12.0
+In-Reply-To: <20170426105745.8551-1-gernot.hillier@siemens.com>
+References: <20170426105745.8551-1-gernot.hillier@siemens.com>
 Cc: eugene.tarassov@xilinx.com
-Subject: [PATCH v4 0/2] tcf-agent: fix target debugging with Eclipse CDT
+Subject: [PATCH v4 1/2] tcf-agent: fix machine setting for arm64 build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,39 +32,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Apr 2017 10:57:56 -0000
+X-List-Received-Date: Wed, 26 Apr 2017 10:58:01 -0000
 
-Default recipe for tcf-agent disabled a number of features because of
-historic build problems on ARM dating back to tcf-agent 0.0+svnr1855
-(from 2011). We re-enable them for all archs besides mips and libc-musl.
-For arm64, we additionally need to fix MACHINE setting to make those
-features compile again.
+tcf-agent uses "a64", not "aarch64", see agent/Makefile.inc. This fix
+allows to re-enable features like SERVICE_Breakpoints and SERVICE_
+MemoryMap on arm64.
 
-Without those features, target debugging using Eclipse Neon and CDT
-with TCF 1.4 plugin didn't work in our tests. This is the default
-debugging mode in the Xilinx Vivado SDK.
+Signed-off-by: Gernot Hillier <gernot.hillier@siemens.com>
+Acked-by: Eugene Tarassov <eugene.tarassov@xilinx.com>
+---
+ meta/recipes-devtools/tcf-agent/tcf-agent_git.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Thanks to Eugene, main TCF developer, for reviewing the patches!
-
-Series history:
-v1: enable default tcf-agent features on all archs, sent to Poky ML
-v2: address build break on mips and arm64, thx to Richard Purdie for 
-    pointing me to this!
-v3: Sent using git-send-email to fix line wrapping (sorry!)
-v4: address build break on libc-musl, thx to Ross Burton for the hint
-
---
-Gernot Hillier
-Siemens AG, Corporate Competence Center Embedded Linux
-
-
-Gernot Hillier (2):
-  tcf-agent: fix machine setting for arm64 build
-  tcf-agent: enable default target debugging features
-
- meta/recipes-devtools/tcf-agent/tcf-agent_git.bb | 15 ++++++++++-----
- 1 file changed, 10 insertions(+), 5 deletions(-)
-
+diff --git a/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb b/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
+index e5e41f148e..cd0081ac16 100644
+--- a/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
++++ b/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
+@@ -30,7 +30,7 @@ INITSCRIPT_NAME = "tcf-agent"
+ INITSCRIPT_PARAMS = "start 99 3 5 . stop 20 0 1 2 6 ."
+ 
+ # mangling needed for make
+-MAKE_ARCH = "`echo ${TARGET_ARCH} | sed s,i.86,i686,`"
++MAKE_ARCH = "`echo ${TARGET_ARCH} | sed s,i.86,i686, | sed s,aarch64,a64,`"
+ MAKE_OS = "`echo ${TARGET_OS} | sed s,^linux.*,GNU/Linux,`"
+ 
+ EXTRA_OEMAKE = "MACHINE=${MAKE_ARCH} OPSYS=${MAKE_OS} 'CC=${CC}' 'AR=${AR}'"
 -- 
 2.12.0
 
