@@ -1,53 +1,41 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qt0-f170.google.com (mail-qt0-f170.google.com
-	[209.85.216.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 8862677C39
+Return-Path: <sbabic@denx.de>
+X-Greylist: delayed 565 seconds by postgrey-1.34 at layers.openembedded.org;
+	Wed, 26 Apr 2017 13:30:19 UTC
+Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
+	by mail.openembedded.org (Postfix) with ESMTP id 16BB871C7B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Apr 2017 13:04:03 +0000 (UTC)
-Received: by mail-qt0-f170.google.com with SMTP id c45so164906321qtb.1
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Apr 2017 06:04:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=7/aAOYB2hzqhiyihKod79jMjI9pn6L2EW/6Gh1VL7hY=;
-	b=j/yphKItREbh2JfWDaoWyf4VQQpFzMYqiT0bu7wtN5ekX5F/73K1vmSdjPFQEcSTZR
-	iSH97AaXDazlHgGIYLzCz2S6q4aHp0UixNldhC99k7x057/UThDf/g/vY8ouvbDYp0rz
-	G48JeYNm8fKGuZUGLRYD/gE7JV3y4haslGoTZZS6F7h606SDoYydCwlchGpL3zcQbV+S
-	okc5gH0AtuUm5P1qWxZ4RuWIuu12Yj7JPx6fPZkKt5hIWQ9hmwGblqRLgJON4gOz0tuu
-	AV+jvXSBfpDO73rLJEZ+RjnpSdQdH4QYUBvHDKXGoSQ49MaEKqC3gH/GyduNPIKde2wu
-	Gx2g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=7/aAOYB2hzqhiyihKod79jMjI9pn6L2EW/6Gh1VL7hY=;
-	b=FdFajrTB4Bv+L2IOOJGO2arxderq7OtTlVmLTDiObA8Pqn+Q/VKCHbOdEQ4/TyAyjP
-	zbOflnnWJ87nw2puSqClk8BleZwM+zBSI/XYyyOEy2l4LDN6Xwu9lT8Ebm2jb1g60Eg3
-	ajW9Dbo7rThLv4r7FJYaOIDh6AIDXoa9ZxKeQn9OyQusO6g2KV7lds5ssR/wOPvroVNo
-	U3srK5Ah56FOyl4NanCxaK4Q3l1xuU6EBswRmqFcbOeTdS/0YMqFY8BkGCd31PD9biH8
-	zNoodHrLOeqxCxB/jCQHeHtB9OGilZaJSXcufV8ZGJhnr0/bzDZlueizh95Lrf8vx/2i
-	mpvQ==
-X-Gm-Message-State: AN3rC/4ZVoIe3tkbKkiCwyuXF1Nt3A8j18nJL1EsGW47fWdFM0kp0u46
-	doD3OnjjJCfGS45kg0j67QWEbPV/raw3
-X-Received: by 10.200.46.26 with SMTP id r26mr39282550qta.197.1493211844453;
-	Wed, 26 Apr 2017 06:04:04 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.22.166 with HTTP; Wed, 26 Apr 2017 06:03:43 -0700 (PDT)
-In-Reply-To: <20170426103415.GA4637@tng>
-References: <20170421121145.9797-1-andreas.reichel@tngtech.com>
-	<20170421121145.9797-3-andreas.reichel@tngtech.com>
-	<CAJTo0LaJWXe_QfhbOi-Xi9WPYpwgL0Z59=A+PLy-TJRLf+fu5A@mail.gmail.com>
-	<20170426103415.GA4637@tng>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 26 Apr 2017 14:03:43 +0100
-Message-ID: <CAJTo0LbOktwwffU12DB1B1VNtv=gNDXVr7Q_vOh-5jkeWeYmDg@mail.gmail.com>
-To: Andreas Reichel <Andreas.Reichel@tngtech.com>
-Cc: Jan Kiszka <jan.kiszka@siemens.com>,
-	Andreas Reichel <andreas.reichel.ext@siemens.com>,
-	Daniel Wagner <daniel.wagner@siemens.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [wic patch 2/5] wic: Use argparse instead of optparse
+	Wed, 26 Apr 2017 13:30:19 +0000 (UTC)
+Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
+	by mail-out.m-online.net (Postfix) with ESMTP id 3wCggq3FDnz1rG7B;
+	Wed, 26 Apr 2017 15:20:55 +0200 (CEST)
+Received: from localhost (dynscan01.mnet-online.de [192.168.6.70])
+	by mail.m-online.net (Postfix) with ESMTP id 3wCggq2p16z3hhWY;
+	Wed, 26 Apr 2017 15:20:55 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at mnet-online.de
+Received: from mail.mnet-online.de ([192.168.8.182])
+	by localhost (dynscan01.mail.m-online.net [192.168.6.70]) (amavisd-new,
+	port 10024)
+	with ESMTP id oiIvOZ8PmIuL; Wed, 26 Apr 2017 15:20:54 +0200 (CEST)
+Received: from babic.homelinux.org (host-88-217-136-221.customer.m-online.net
+	[88.217.136.221]) by mail.mnet-online.de (Postfix) with ESMTP;
+	Wed, 26 Apr 2017 15:20:54 +0200 (CEST)
+Received: from localhost (mail.babic.homelinux.org [127.0.0.1])
+	by babic.homelinux.org (Postfix) with ESMTP id 282834540436;
+	Wed, 26 Apr 2017 15:20:54 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at babic.homelinux.org
+Received: from babic.homelinux.org ([127.0.0.1])
+	by localhost (mail.babic.homelinux.org [127.0.0.1]) (amavisd-new,
+	port 10024)
+	with ESMTP id gPQzzQk_8CUu; Wed, 26 Apr 2017 15:20:51 +0200 (CEST)
+Received: from papero.fritz.box (papero.fritz.box [192.168.178.132])
+	by babic.homelinux.org (Postfix) with ESMTP id 84435454028E;
+	Wed, 26 Apr 2017 15:20:51 +0200 (CEST)
+From: Stefano Babic <sbabic@denx.de>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 26 Apr 2017 15:19:57 +0200
+Message-Id: <1493212797-10326-1-git-send-email-sbabic@denx.de>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH] kernel-yocto: run make config for KBUILD_DEFCONFIG
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,46 +48,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Apr 2017 13:04:04 -0000
-Content-Type: multipart/alternative; boundary=001a114708cc90422c054e117946
+X-List-Received-Date: Wed, 26 Apr 2017 13:30:20 -0000
 
---001a114708cc90422c054e117946
-Content-Type: text/plain; charset=UTF-8
+In case the defconfig was created with "make savedefconfig", it is not
+enough to copy it to defconfig as it is done now. In fact, running make
+${KBUILD_DEFCONFIG}, as usually when building the kernel outside poky,
+does much more and the resulting .config file is different as the starting one.
+The file generated by "make savedefconfig" contains in most cases a
+subset of all options that are required for the kernel, and other
+options are inserted automatically when make is called.
 
-On 26 April 2017 at 11:34, Andreas Reichel <Andreas.Reichel@tngtech.com>
-wrote:
+Signed-off-by: Stefano Babic <sbabic@denx.de>
+---
+ meta/classes/kernel-yocto.bbclass | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-> - Change the code to keep current return values / behavior
-> - Adapt the unit test to fit the new code
-> - Write a less complex patch for just adding the option
->   "--keep-partition-images" without migration to argparse
->
+diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yocto.bbclass
+index 0330270..27ff8b7 100644
+--- a/meta/classes/kernel-yocto.bbclass
++++ b/meta/classes/kernel-yocto.bbclass
+@@ -109,7 +109,8 @@ do_kernel_metadata() {
+ 					bbwarn "defconfig detected in WORKDIR. ${KBUILD_DEFCONFIG} skipped"
+ 				fi
+ 			else
+-				cp -f ${S}/arch/${ARCH}/configs/${KBUILD_DEFCONFIG} ${WORKDIR}/defconfig
++                                oe_runmake -C ${S} O=${B} ${KBUILD_DEFCONFIG}
++                                mv ${B}/.config ${WORKDIR}/defconfig
+ 				sccs="${WORKDIR}/defconfig"
+ 			fi
+ 		else
+-- 
+2.7.4
 
-It looks like the exit 2 is deeply nested into the argparse code, so I
-guess the test should be updated.  The test could be made more resilient by
-checking that the output wasn't 0 instead of was 1.
 
-Ross
-
---001a114708cc90422c054e117946
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 26 April 2017 at 11:34, Andreas Reichel <span dir=3D"ltr">&lt;<a href=3D=
-"mailto:Andreas.Reichel@tngtech.com" target=3D"_blank">Andreas.Reichel@tngt=
-ech.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D=
-"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D"=
-m_431930197207790266:zk" class=3D"m_431930197207790266a3s m_431930197207790=
-266aXjCH m_431930197207790266m15ba9d21cc8fe7ac">- Change the code to keep c=
-urrent return values / behavior<br>
-- Adapt the unit test to fit the new code<br>
-- Write a less complex patch for just adding the option<br>
-=C2=A0 &quot;--keep-partition-images&quot; without migration to argparse<br=
-></div></blockquote></div><br>It looks like the exit 2 is deeply nested int=
-o the argparse code, so I guess the test should be updated.=C2=A0 The test =
-could be made more resilient by checking that the output wasn&#39;t 0 inste=
-ad of was 1.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_=
-extra">Ross</div></div>
-
---001a114708cc90422c054e117946--
