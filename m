@@ -1,50 +1,43 @@
-Return-Path: <twoerner@gmail.com>
-Received: from mail-it0-f48.google.com (mail-it0-f48.google.com
-	[209.85.214.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 700AC77D28
+Return-Path: <prvs=82899d44bb=michael.davis@essvote.com>
+Received: from mail1.essvote.com (mail1.essvote.com [66.37.226.19])
+	by mail.openembedded.org (Postfix) with ESMTP id 728DC77D24
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Apr 2017 19:28:18 +0000 (UTC)
-Received: by mail-it0-f48.google.com with SMTP id 70so777702ita.0
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Apr 2017 12:28:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=pkVGQPnIC+YE9Cks/f8EMQRHrpui0GFTUfAnOfSFBFk=;
-	b=GeGCLVXQmiqOo6gXyy4h+nkpjqvmDb0ynX99QwPCHk56mpK2Glq2uV016g/CMMaJ2b
-	tfv1dY6CLVLqWa2+AXrta8wLTW8fTNnKFtX/vA0XsXgevo6W0IZZuoqh9Y5olJgG7QI5
-	futBYGgz2DACWsEtL//jhVV/JREVF9ESoPbvq8br1sr6dH05SfpWXvuM7pTxYx045H3j
-	qdvLWU6P1lv64YqlaAyQSJHBNHCQdPliIE1pS9eqJsntdy4uL1t01Qj7WJlNCGSz38C2
-	mk9C1IbzMA/9utRkFRGa1z/krqMbhKstIA/dpws9pyLmttUWhdpdkyFVhZrliVdddIVy
-	E0vQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=pkVGQPnIC+YE9Cks/f8EMQRHrpui0GFTUfAnOfSFBFk=;
-	b=U8C7zrubTABfrMXVFtpzfcKd4V4dooVC5gpOat+b4cnovgIPQHK79I+8aBw3V4I5my
-	oHPEyhyJpTWAltXQJv7HBqC+4dJCKM9e03svCCEBqqhhKcA6J3hk6FlWy4P7eak+2YCV
-	LfKzYIUHmfEuJdcN0OqwA89lYPvuek9y50uangswoxOo0wOMUC/hiOUQ5jcYTf0BREP9
-	cEqMppOfoJeX2DCimD4Nsavl+9dASNcf33nCMbdryu2sJRMm4WsPLeIEFolQ6aCvNSmo
-	KIwEc0y5LAVvijulrMKVLUipDyH2jIvBW1bpAxoPe6RxyAg2j7UjE42bNeKxHWT2nU0X
-	j6pg==
-X-Gm-Message-State: AN3rC/6EsJX1/5fQYxXznyEmK8VZsj+GO8aurFzf0BfoEWYNtGNPzXxn
-	5UvwC6emfafv9w==
-X-Received: by 10.36.225.13 with SMTP id n13mr12319172ith.85.1493234899486;
-	Wed, 26 Apr 2017 12:28:19 -0700 (PDT)
-Received: from linux-uys3 ([206.248.190.95]) by smtp.gmail.com with ESMTPSA id
-	o67sm2405169ito.14.2017.04.26.12.28.17
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 26 Apr 2017 12:28:18 -0700 (PDT)
-Date: Wed, 26 Apr 2017 15:28:15 -0400
-From: Trevor Woerner <twoerner@gmail.com>
-To: "Davis, Michael" <michael.davis@essvote.com>
-Message-ID: <20170426192815.GA2366@linux-uys3>
+	Wed, 26 Apr 2017 19:43:57 +0000 (UTC)
+X-AuditID: 0a000213-a3dff70000000e18-1d-5900f87a1ed2
+Received: from ESS-EX01.essvote.corp.local (Unknown_Domain [172.16.110.40])
+	by mail1.essvote.com (Symantec Messaging Gateway) with SMTP id
+	6B.5D.03608.A78F0095; Wed, 26 Apr 2017 14:43:57 -0500 (CDT)
+Received: from ESS-EX01.essvote.corp.local ([::1]) by
+	ESS-EX01.essvote.corp.local ([::1]) with mapi id 14.03.0301.000;
+	Wed, 26 Apr 2017 14:43:53 -0500
+From: "Davis, Michael" <michael.davis@essvote.com>
+To: Trevor Woerner <twoerner@gmail.com>
+Thread-Topic: [OE-core] Broken NPM builds
+Thread-Index: AdK+plfbZy9DvttbRuelzkiHuV3MxwARtEOAAApK2hA=
+Date: Wed, 26 Apr 2017 19:43:53 +0000
+Message-ID: <655290B7709079438B7932553958E60D16D23E17@ESS-EX01.essvote.corp.local>
 References: <655290B7709079438B7932553958E60D16D23684@ESS-EX01.essvote.corp.local>
+	<20170426192815.GA2366@linux-uys3>
+In-Reply-To: <20170426192815.GA2366@linux-uys3>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.1.20.77]
 MIME-Version: 1.0
-In-Reply-To: <655290B7709079438B7932553958E60D16D23684@ESS-EX01.essvote.corp.local>
-User-Agent: Mutt/1.6.0 (2016-04-01)
-Cc: ilkka.myller@nodefield.com, "openembedded-core@lists.openembedded.org"
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFmpikeLIzCtJLcpLzFFi42JZI5CnoVv7gyHS4OxmVYv7sx8wWdz5+Y7d
+	4s6LT0wOzB47Z91l9zi3cQWjx44bu1gCmKO4bZISS8qCM9Pz9O0SuDPWr7vDXLBLomLu+VbW
+	BsYX4l2MnBwSAiYS8xbcYAexhQROMEr0ncjuYuQCsmcxSvzZdI0VJMEmYCRx7vomRhBbREBd
+	ounWDWaQImaBGYwSb1ZtZAJJCAtoSPz+1sQCUaQp0TZ3K1SDlcShxhNgcRYBVYl96xeB2bwC
+	QRK7fvWwQGwul+jYvQGsnlNAX+Jix1o2EJtRQEzi+6k1YPOZBcQlbj2ZzwRxtYDEkj3nmSFs
+	UYmXj/+xQthyEu+a2oBsDqB6TYn1u/QhWhUlpnQ/ZIdYKyhxcuYTlgmMorOQTJ2F0DELSccs
+	JB0LGFlWMQrmJmbmGOqlFheX5Zek6iXn525iBMYMFwOT8A7GOVNsDzEKcDAq8fAGePyPEGJN
+	LCuuzD3EKM3BoiTOe5YjOEJIID2xJDU7NbUgtSi+qDQntfgQIxMH5yFGCQ4uKZHi1LyU1KLE
+	0pKMeFDExRcDY06qgdF94gfT1+WtK+JkHVY9N+C+/3FO+0Gu36eYk2wkPrbH6GX92NZ7ybk5
+	d/6d8rdOBYf/q5xpnrNPocJB6O7vZduO+nkITqkqO3hYeaWuTd2026vv5ouI7dg+81b7zy4z
+	mUOHqo64fD6adVwoOXb+nC1sc12m+GrfEF8urtFyqk/N5J+skZajtqsSS3FGoqEWc1FxIgDU
+	EQbelQIAAA==
+Cc: "ilkka.myller@nodefield.com" <ilkka.myller@nodefield.com>,
+	"openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: Broken NPM builds
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -59,31 +52,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Apr 2017 19:28:19 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-List-Received-Date: Wed, 26 Apr 2017 19:43:58 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On Wed 2017-04-26 @ 04:01:20 PM, Davis, Michael wrote:
-> I have a simple grunt-cli recipe using inherit npm.
-> On master branch it appears to be broken and unable to find the registry.  Same recipe on Morty branch works fine.
-> I looked through the mailing list and didn't see anyone else seeing this issue.
-
-There's been quite a bit of churn on master this cycle, it's not too
-surprising master is struggling. Any chance you can share your recipe; or a
-stripped-down, "example.com" version of your recipe so others can take a look?
-
-> On a related side note I have recipes working for node 6.10.2.
-
-You have a grunt-cli recipe working on master with node 6%?
-
-> Is there a reason we are staying on the 4.x series now that 6 is LTS?
-
-I'm guessing nobody got around to noticing the switch. I guess we could
-cherry-pick node-6% from
-https://layers.openembedded.org/layerindex/branch/master/layer/meta-nodejs/
-
-Ideally we'd either merge all/most of
-https://layers.openembedded.org/layerindex/branch/master/layer/meta-nodejs/
-into oecore, or remove what's in oecore and tell people to use the external
-layer. Why does oe-core have some, but not all, node support?
+TXkgcmVjaXBlIHdhcyBqdXN0IGFuIGF1dG9nZW5lcmF0ZWQgcmVjaXBlIGZyb20gZGV2dG9vbC4g
+IA0KSSBwdWxsIHRoaXMgZ3J1bnQgcmVjaXBlIG91dCBvZiB0aGUgbWFpbGluZyBsaXN0IGFzIG9u
+ZSB0aGF0IHdvcmtlZCBwcmV2aW91c2x5IGFuZCBpdCBoYXMgdGhlIHNhbWUgaXNzdWUuDQoNClNV
+TU1BUlkgPSAiR3J1bnQuanMgY29tbWFuZCBsaW5lIHdyYXBwZXIiDQpIT01FUEFHRSA9ICJodHRw
+Oi8vZ3J1bnRqcy5jb20vIg0KU0VDVElPTiA9ICJqcy9kZXZlbCINCkxJQ0VOU0UgPSAiTUlUIg0K
+TElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vUkVBRE1FLm1kO21kNT1hMjRjYzc4OGFiNzI2ZTYx
+NWFhNWJmMDE2OGM1ZDc3ZCINClNSQ19VUkkgPSAibnBtOi8vcmVnaXN0cnkubnBtanMub3JnO25h
+bWU9JHtQTn07dmVyc2lvbj0ke1BWfSIgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICANCmluaGVyaXQgbnBtDQoNClRoZSA2JSByZWNpcGUgaGFz
+IHRoZSBzYW1lIHByb2JsZW0gb24gbWFzdGVyLCBidXQgd29ya3MgZmluZSBpbiBtb3J0eS4gIEkg
+Y2FuIHBvc3QgaXQgYXMgYSBwYXRjaCBhZnRlciBJIGNhbiBmdWxseSB0ZXN0IGl0IGFnYWluLg0K
+DQpUaGUgZXh0ZXJuYWwgbWV0YS1ub2RlanMgbGF5ZXIgaXMgbm90IGNvbXBhdGlibGUgd2l0aCB0
+aGUgbnBtLmJiY2xhc3MgZmV0Y2hlci4gIEkgaGF2ZSBhIHBhdGNoIGluIHRvIGZpeCB0aGF0LCBi
+dXQgSSBhbSB3YWl0aW5nIGZvciBpdCB0byBiZSBpbnRlZ3JhdGVkLg0KDQoNCi0tLS0tT3JpZ2lu
+YWwgTWVzc2FnZS0tLS0tDQpGcm9tOiBUcmV2b3IgV29lcm5lciBbbWFpbHRvOnR3b2VybmVyQGdt
+YWlsLmNvbV0gDQpTZW50OiBXZWRuZXNkYXksIEFwcmlsIDI2LCAyMDE3IDI6MjggUE0NClRvOiBE
+YXZpcywgTWljaGFlbA0KQ2M6IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5v
+cmc7IGlsa2thLm15bGxlckBub2RlZmllbGQuY29tDQpTdWJqZWN0OiBSZTogW09FLWNvcmVdIEJy
+b2tlbiBOUE0gYnVpbGRzDQoNCk9uIFdlZCAyMDE3LTA0LTI2IEAgMDQ6MDE6MjAgUE0sIERhdmlz
+LCBNaWNoYWVsIHdyb3RlOg0KPiBJIGhhdmUgYSBzaW1wbGUgZ3J1bnQtY2xpIHJlY2lwZSB1c2lu
+ZyBpbmhlcml0IG5wbS4NCj4gT24gbWFzdGVyIGJyYW5jaCBpdCBhcHBlYXJzIHRvIGJlIGJyb2tl
+biBhbmQgdW5hYmxlIHRvIGZpbmQgdGhlIHJlZ2lzdHJ5LiAgU2FtZSByZWNpcGUgb24gTW9ydHkg
+YnJhbmNoIHdvcmtzIGZpbmUuDQo+IEkgbG9va2VkIHRocm91Z2ggdGhlIG1haWxpbmcgbGlzdCBh
+bmQgZGlkbid0IHNlZSBhbnlvbmUgZWxzZSBzZWVpbmcgdGhpcyBpc3N1ZS4NCg0KVGhlcmUncyBi
+ZWVuIHF1aXRlIGEgYml0IG9mIGNodXJuIG9uIG1hc3RlciB0aGlzIGN5Y2xlLCBpdCdzIG5vdCB0
+b28NCnN1cnByaXNpbmcgbWFzdGVyIGlzIHN0cnVnZ2xpbmcuIEFueSBjaGFuY2UgeW91IGNhbiBz
+aGFyZSB5b3VyIHJlY2lwZTsgb3IgYQ0Kc3RyaXBwZWQtZG93biwgImV4YW1wbGUuY29tIiB2ZXJz
+aW9uIG9mIHlvdXIgcmVjaXBlIHNvIG90aGVycyBjYW4gdGFrZSBhIGxvb2s/DQoNCj4gT24gYSBy
+ZWxhdGVkIHNpZGUgbm90ZSBJIGhhdmUgcmVjaXBlcyB3b3JraW5nIGZvciBub2RlIDYuMTAuMi4N
+Cg0KWW91IGhhdmUgYSBncnVudC1jbGkgcmVjaXBlIHdvcmtpbmcgb24gbWFzdGVyIHdpdGggbm9k
+ZSA2JT8NCg0KPiBJcyB0aGVyZSBhIHJlYXNvbiB3ZSBhcmUgc3RheWluZyBvbiB0aGUgNC54IHNl
+cmllcyBub3cgdGhhdCA2IGlzIExUUz8NCg0KSSdtIGd1ZXNzaW5nIG5vYm9keSBnb3QgYXJvdW5k
+IHRvIG5vdGljaW5nIHRoZSBzd2l0Y2guIEkgZ3Vlc3Mgd2UgY291bGQNCmNoZXJyeS1waWNrIG5v
+ZGUtNiUgZnJvbQ0KaHR0cHM6Ly9sYXllcnMub3BlbmVtYmVkZGVkLm9yZy9sYXllcmluZGV4L2Jy
+YW5jaC9tYXN0ZXIvbGF5ZXIvbWV0YS1ub2RlanMvDQoNCklkZWFsbHkgd2UnZCBlaXRoZXIgbWVy
+Z2UgYWxsL21vc3Qgb2YNCmh0dHBzOi8vbGF5ZXJzLm9wZW5lbWJlZGRlZC5vcmcvbGF5ZXJpbmRl
+eC9icmFuY2gvbWFzdGVyL2xheWVyL21ldGEtbm9kZWpzLw0KaW50byBvZWNvcmUsIG9yIHJlbW92
+ZSB3aGF0J3MgaW4gb2Vjb3JlIGFuZCB0ZWxsIHBlb3BsZSB0byB1c2UgdGhlIGV4dGVybmFsDQps
+YXllci4gV2h5IGRvZXMgb2UtY29yZSBoYXZlIHNvbWUsIGJ1dCBub3QgYWxsLCBub2RlIHN1cHBv
+cnQ/DQo=
 
