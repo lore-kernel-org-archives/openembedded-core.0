@@ -1,30 +1,56 @@
-Return-Path: <huangqy.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
-	by mail.openembedded.org (Postfix) with ESMTP id DFB5477BCE
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-io0-f181.google.com (mail-io0-f181.google.com
+	[209.85.223.181])
+	by mail.openembedded.org (Postfix) with ESMTP id B3C4677B95
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Apr 2017 07:23:06 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.22,518,1449504000"; d="scan'208";a="18172945"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 26 Apr 2017 15:23:04 +0800
-Received: from G08CNEXCHPEKD02.g08.fujitsu.local (unknown [10.167.33.83])
-	by cn.fujitsu.com (Postfix) with ESMTP id ADD2747E6346
+	Wed, 26 Apr 2017 07:25:22 +0000 (UTC)
+Received: by mail-io0-f181.google.com with SMTP id r16so224748973ioi.2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Apr 2017 15:22:58 +0800 (CST)
-Received: from localhost.localdomain (10.167.226.81) by
-	G08CNEXCHPEKD02.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.319.2; Wed, 26 Apr 2017 15:22:58 +0800
-From: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 26 Apr 2017 15:22:34 +0800
-Message-ID: <1493191354-11520-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 2.7.4
-MIME-Version: 1.0
-X-Originating-IP: [10.167.226.81]
-X-yoursite-MailScanner-ID: ADD2747E6346.A6C7C
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: huangqy.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Subject: [PATCH v2] libgpg-error: 1.26 -> 1.27
+	Wed, 26 Apr 2017 00:25:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:organization:mime-version:content-transfer-encoding;
+	bh=gCsPmMVKpmjHzEISTzEHGME5cHuyfAXgXvaGu1eZdy4=;
+	b=T3DrktkX+58Dommrj0aS8lQrenKthdiqk8t/HxdR20fmQjLiUPPWJBGY8YaKVRnQEC
+	CcFK2ELzy7W2CIn8S1uMm+/AP5/Og30pShsk8ibfvV2g645t9ZF0RbirxvkltN+KIA2B
+	CuupgzRpv5oAA5Ln7X9OETdjED6ry9yQS3Lj17Z+5IWBRyV3ox1hzjKRKNZECC1X3LgO
+	22XTDBgImzXwgXMfK33Cc7GWrMUqijNPsPZw9PtV0ouJEdgxF2Bs8RGYsb/3/RqWJ9Mm
+	t1rVpRonENl9wtiGWmuFN4dItsbEyrr+HbzYw0E0CkTw2tKCqzzJ7UxbcOPjSgbjQPLL
+	LVaw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:organization:mime-version:content-transfer-encoding;
+	bh=gCsPmMVKpmjHzEISTzEHGME5cHuyfAXgXvaGu1eZdy4=;
+	b=H/pa7FeRLeY6UhSbfQhc/4EMVya1rjIYFgLnMCelEpft7bk7qkfO+kgpaKT9ubegR6
+	VqoUQJMxNUHTIaC8/Pw/sft7QvzwIvM2CUDxENbXhh+u2tQnmtTTKUi4i6gOCZWgcQNT
+	ZXNqUbxoFBS4qBDK93qpwsRAhuKJxX+3Im5iJDxeWgCLIAC9/bHko3qftnokYzZtYLst
+	sYZZMWwM9PXV4AhdCnaYj6Moh2mupwPq3+A1IdKP1+rdZgd19vNnXoYpb2FGTCSZ7jG6
+	2g+dav14+CP50FVrX99qMW1hR9IsB7lxKo+lpt8YEVb4o095k/dDKZdOxN6hU10jjEcu
+	gp7g==
+X-Gm-Message-State: AN3rC/7kz1pkm+AhuEZqXh5KHAwX9YmfNmDICrctqFNilpb81NmM+v/v
+	qaqAJIZzR1R45esG
+X-Received: by 10.107.170.163 with SMTP id g35mr20172689ioj.101.1493191523571; 
+	Wed, 26 Apr 2017 00:25:23 -0700 (PDT)
+Received: from pohly-mobl1 (p5DE8E485.dip0.t-ipconnect.de. [93.232.228.133])
+	by smtp.gmail.com with ESMTPSA id
+	l136sm3195124itb.15.2017.04.26.00.25.21
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 26 Apr 2017 00:25:22 -0700 (PDT)
+Message-ID: <1493191519.4241.34.camel@intel.com>
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: Trevor Woerner <twoerner@gmail.com>
+Date: Wed, 26 Apr 2017 09:25:19 +0200
+In-Reply-To: <CAHUNapRY94uC0W2Z0Y3GCfMSer5HjOW9AWoe_vc3m3MarxG+0A@mail.gmail.com>
+References: <1493144048-12455-1-git-send-email-juro.bystricky@intel.com>
+	<CAHUNapRY94uC0W2Z0Y3GCfMSer5HjOW9AWoe_vc3m3MarxG+0A@mail.gmail.com>
+Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
+X-Mailer: Evolution 3.12.9-1+b1 
+Mime-Version: 1.0
+Cc: jurobystricky@hotmail.com, Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/4] Reproducible binaries
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,49 +63,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Apr 2017 07:23:08 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 26 Apr 2017 07:25:22 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-1) Upgrade libgpg-error from 1.26 to 1.27.
-2) One file's LIC_FILES_CHKSUM checksums changed (src/gpg-error.h.in),but LICENSE remains the same.
-3) Delete PR assignmen,since the version is upgraded.
+On Tue, 2017-04-25 at 19:22 -0400, Trevor Woerner wrote:
+> On Tue, Apr 25, 2017 at 2:14 PM, Juro Bystricky
+> <juro.bystricky@intel.com> wrote:
+> > The variable defaults to "0" (do not
+> > build reproducible binaries) in order to minimize any potential
+> > regressions. (Once the reproducible binaries code is mature enough,
+> > it can be set to "1".)
+> 
+> My guess is that people would prefer security over reproducibility.
 
-Signed-off-by: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
----
- .../libgpg-error/{libgpg-error_1.26.bb => libgpg-error_1.27.bb}    | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
- rename meta/recipes-support/libgpg-error/{libgpg-error_1.26.bb => libgpg-error_1.27.bb} (88%)
+When all machines targeted by an attack run the same build, they also
+share the same seeds, regardless whether that build was reproducible or
+not. In that case it doesn't matter, the attack method and complexity
+would be the same with or without reproducibility.
 
-diff --git a/meta/recipes-support/libgpg-error/libgpg-error_1.26.bb b/meta/recipes-support/libgpg-error/libgpg-error_1.27.bb
-similarity index 88%
-rename from meta/recipes-support/libgpg-error/libgpg-error_1.26.bb
-rename to meta/recipes-support/libgpg-error/libgpg-error_1.27.bb
-index 090db1b..b2e2d50 100644
---- a/meta/recipes-support/libgpg-error/libgpg-error_1.26.bb
-+++ b/meta/recipes-support/libgpg-error/libgpg-error_1.27.bb
-@@ -5,7 +5,7 @@ BUGTRACKER = "https://bugs.g10code.com/gnupg/index"
- LICENSE = "GPLv2+ & LGPLv2.1+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
-                     file://COPYING.LIB;md5=2d5025d4aa3495befef8f17206a5b0a1 \
--                    file://src/gpg-error.h.in;endline=23;md5=64af9846baaf852793fd3a5af393acbf \
-+                    file://src/gpg-error.h.in;endline=23;md5=beae1e44d8d5c265d194760276033a7c \
-                     file://src/init.c;endline=20;md5=872b2389fe9bae7ffb80d2b91225afbc"
- 
- 
-@@ -16,9 +16,8 @@ SRC_URI = "${GNUPG_MIRROR}/libgpg-error/libgpg-error-${PV}.tar.bz2 \
-            file://pkgconfig.patch \
- 	  "
- 
--SRC_URI[md5sum] = "97456709dbbcbb69354317ffe3e347cd"
--SRC_URI[sha256sum] = "4c4bcbc90116932e3acd37b37812d8653b1b189c1904985898e860af818aee69"
--PR = "r1"
-+SRC_URI[md5sum] = "5217ef3e76a7275a2a3b569a12ddc989"
-+SRC_URI[sha256sum] = "4f93aac6fecb7da2b92871bb9ee33032be6a87b174f54abf8ddf0911a22d29d2"
- 
- BINCONFIG = "${bindir}/gpg-error-config"
- 
+It gets a bit harder when targeting multiple different OS builds, but
+relying on randomness in the build as a defense against attacks isn't
+particularly secure.
+
+If people prefer security, they shouldn't use prelinking and ensure that
+the machines comes up with good, per-machine entropy for the random
+number generation that needs to happen on the machine.
+
+How much does reproducibility then still matter? I suspect not that
+much.
+
+> Maybe we need more consensus for the default value going forward?
+
+Yes, it's worth considering.
+
 -- 
-2.7.4
+Best Regards, Patrick Ohly
+
+The content of this message is my personal opinion only and although
+I am an employee of Intel, the statements I make here in no way
+represent Intel's position on the issue, nor am I authorized to speak
+on behalf of Intel on this matter.
 
 
 
