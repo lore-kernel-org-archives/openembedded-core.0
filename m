@@ -1,58 +1,52 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 3475872F2D
+Return-Path: <twoerner@gmail.com>
+Received: from mail-it0-f48.google.com (mail-it0-f48.google.com
+	[209.85.214.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 700AC77D28
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Apr 2017 18:32:48 +0000 (UTC)
-Received: by mail-wm0-f66.google.com with SMTP id u65so3432743wmu.3
+	Wed, 26 Apr 2017 19:28:18 +0000 (UTC)
+Received: by mail-it0-f48.google.com with SMTP id 70so777702ita.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Apr 2017 11:32:50 -0700 (PDT)
+	Wed, 26 Apr 2017 12:28:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:date:to:cc:subject:message-id:references:mime-version
+	h=date:from:to:cc:subject:message-id:references:mime-version
 	:content-disposition:in-reply-to:user-agent;
-	bh=I28Aij8/TxJA8ICEXLNXFxOvduOrh4NfllGAHo3DLTE=;
-	b=l0ODnEUodfM/cSF54H6HJSFm4FQYpnlzik2xTmZvNUB2dZ4cVTdCpHzEcn0j8Qxxzz
-	I7stEROEvhvFXiwaZT0Y10mQOCrmJPfTePozGwqG5eW083ftgy04WGCk142e+m+nHGTp
-	jkj+iqhlWKe/03lwQhbthVtzPzqhocuTc07SymZ/OXC9uDD1uVRvB40Jhuq+89THbdyo
-	dokclHuqn5gia+bWE6NyXdSFrtE2X2jSj2fPer7CHivlXTySrhxP1vCfOU8YIkEMeLDx
-	pP5+a5FF7XQTQ6yq++d2sQQBQkWWacYTOHWU0ZnwQIfMd2MFtoXzv23w3LJ4nq25+VbV
-	tBPw==
+	bh=pkVGQPnIC+YE9Cks/f8EMQRHrpui0GFTUfAnOfSFBFk=;
+	b=GeGCLVXQmiqOo6gXyy4h+nkpjqvmDb0ynX99QwPCHk56mpK2Glq2uV016g/CMMaJ2b
+	tfv1dY6CLVLqWa2+AXrta8wLTW8fTNnKFtX/vA0XsXgevo6W0IZZuoqh9Y5olJgG7QI5
+	futBYGgz2DACWsEtL//jhVV/JREVF9ESoPbvq8br1sr6dH05SfpWXvuM7pTxYx045H3j
+	qdvLWU6P1lv64YqlaAyQSJHBNHCQdPliIE1pS9eqJsntdy4uL1t01Qj7WJlNCGSz38C2
+	mk9C1IbzMA/9utRkFRGa1z/krqMbhKstIA/dpws9pyLmttUWhdpdkyFVhZrliVdddIVy
+	E0vQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
+	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
 	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=I28Aij8/TxJA8ICEXLNXFxOvduOrh4NfllGAHo3DLTE=;
-	b=kOqVn/5sGoEuISbwuLO+Xpod740wPfiQgdXhgbCcn8m4SMW37OAbtEyrCLV/OyRWHT
-	jBca9HCcZAGMUjsBsc9bfg/7DRlgL+9ImuVDzZGzsr/tkglVmXn/mpETJoUSEROSvEhk
-	4AJGlidA+/fyLM56q1jOMaDM3Q1My839FWgM9gHY6Vp0HnFL/w1vZiZRSFULwXBgf7as
-	keVOzKhASewqFWZGwVcJbP1/rV0Dpw5vmJEpkjL7/RBABF77VvuhhNDuYwq1S0hmoKy8
-	VWnVOlbmGFMcjSePfnVQH523QMXWTOuXOI9hDXN5jnyhMQAlowVoxYYJNmAkpprbumWa
-	FfIw==
-X-Gm-Message-State: AN3rC/62uyikJsQ2zYQs+ldZq3OmP+eKerULU6xwXuYAfV9i6sRsKskw
-	TNyoJHwAWfZeXA==
-X-Received: by 10.28.94.194 with SMTP id s185mr1863818wmb.103.1493231569727;
-	Wed, 26 Apr 2017 11:32:49 -0700 (PDT)
-Received: from localhost ([217.30.68.212])
-	by smtp.gmail.com with ESMTPSA id u88sm41756wrc.20.2017.04.26.11.32.48
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 26 Apr 2017 11:32:48 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Wed, 26 Apr 2017 20:33:06 +0200
-To: "Bystricky, Juro" <juro.bystricky@intel.com>
-Message-ID: <20170426183306.GF3258@jama>
-References: <1493144048-12455-1-git-send-email-juro.bystricky@intel.com>
-	<CA+chaQfX1iYsYwqx4CMKuADmW75_VZStzZpdE-hw=ahtsDvdwg@mail.gmail.com>
-	<6E51916E4A1F32428260031F4C7CD2B61194BE74@ORSMSX112.amr.corp.intel.com>
-	<20170426074212.GB3258@jama>
-	<6E51916E4A1F32428260031F4C7CD2B61194DCC6@ORSMSX112.amr.corp.intel.com>
-	<CA+chaQe4o+LKRV5voXOhoPoWEGjx2cmXedsagmQEgouAP6jMvQ@mail.gmail.com>
+	bh=pkVGQPnIC+YE9Cks/f8EMQRHrpui0GFTUfAnOfSFBFk=;
+	b=U8C7zrubTABfrMXVFtpzfcKd4V4dooVC5gpOat+b4cnovgIPQHK79I+8aBw3V4I5my
+	oHPEyhyJpTWAltXQJv7HBqC+4dJCKM9e03svCCEBqqhhKcA6J3hk6FlWy4P7eak+2YCV
+	LfKzYIUHmfEuJdcN0OqwA89lYPvuek9y50uangswoxOo0wOMUC/hiOUQ5jcYTf0BREP9
+	cEqMppOfoJeX2DCimD4Nsavl+9dASNcf33nCMbdryu2sJRMm4WsPLeIEFolQ6aCvNSmo
+	KIwEc0y5LAVvijulrMKVLUipDyH2jIvBW1bpAxoPe6RxyAg2j7UjE42bNeKxHWT2nU0X
+	j6pg==
+X-Gm-Message-State: AN3rC/6EsJX1/5fQYxXznyEmK8VZsj+GO8aurFzf0BfoEWYNtGNPzXxn
+	5UvwC6emfafv9w==
+X-Received: by 10.36.225.13 with SMTP id n13mr12319172ith.85.1493234899486;
+	Wed, 26 Apr 2017 12:28:19 -0700 (PDT)
+Received: from linux-uys3 ([206.248.190.95]) by smtp.gmail.com with ESMTPSA id
+	o67sm2405169ito.14.2017.04.26.12.28.17
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 26 Apr 2017 12:28:18 -0700 (PDT)
+Date: Wed, 26 Apr 2017 15:28:15 -0400
+From: Trevor Woerner <twoerner@gmail.com>
+To: "Davis, Michael" <michael.davis@essvote.com>
+Message-ID: <20170426192815.GA2366@linux-uys3>
+References: <655290B7709079438B7932553958E60D16D23684@ESS-EX01.essvote.corp.local>
 MIME-Version: 1.0
-In-Reply-To: <CA+chaQe4o+LKRV5voXOhoPoWEGjx2cmXedsagmQEgouAP6jMvQ@mail.gmail.com>
-User-Agent: Mutt/1.8.2 (2017-04-18)
-Cc: "jurobystricky@hotmail.com" <jurobystricky@hotmail.com>,
-	Patches and discussions about the oe-core layer
+In-Reply-To: <655290B7709079438B7932553958E60D16D23684@ESS-EX01.essvote.corp.local>
+User-Agent: Mutt/1.6.0 (2016-04-01)
+Cc: ilkka.myller@nodefield.com, "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/4] Reproducible binaries
+Subject: Re: Broken NPM builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -65,87 +59,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Apr 2017 18:32:49 -0000
-X-Groupsio-MsgNum: 96724
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="rWhLK7VZz0iBluhq"
+X-List-Received-Date: Wed, 26 Apr 2017 19:28:19 -0000
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 
---rWhLK7VZz0iBluhq
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Wed 2017-04-26 @ 04:01:20 PM, Davis, Michael wrote:
+> I have a simple grunt-cli recipe using inherit npm.
+> On master branch it appears to be broken and unable to find the registry.  Same recipe on Morty branch works fine.
+> I looked through the mailing list and didn't see anyone else seeing this issue.
 
-On Wed, Apr 26, 2017 at 07:52:02PM +0200, Martin Jansa wrote:
-> What about passing the seed value (currently created based on last commit
-> in repo you're building from - which doesn't need to be oe-core repository
-> right?) to make it easier for people to pass whatever value works for the=
-m?
-> even some constant value in DISTRO config.
+There's been quite a bit of churn on master this cycle, it's not too
+surprising master is struggling. Any chance you can share your recipe; or a
+stripped-down, "example.com" version of your recipe so others can take a look?
 
-It looks like some words disappeared when I clicked the send button.
-Well I don't have any buttons in mutt so that might be the reason.
+> On a related side note I have recipes working for node 6.10.2.
 
-I wasnted to say "passing the seed value" through some separate variable
-which is easy to override from somewhere else.
+You have a grunt-cli recipe working on master with node 6%?
 
-e.g.
-export PRELINK_TIMESTAMP=3D`git log -1 --pretty=3D%ct `
+> Is there a reason we are staying on the 4.x series now that 6 is LTS?
 
-in image-prelink.bbclass:prelink_image() is a bit difficult to override.
+I'm guessing nobody got around to noticing the switch. I guess we could
+cherry-pick node-6% from
+https://layers.openembedded.org/layerindex/branch/master/layer/meta-nodejs/
 
->=20
-> On Wed, Apr 26, 2017 at 6:43 PM, Bystricky, Juro <juro.bystricky@intel.co=
-m>
-> wrote:
->=20
-> >
-> > > But not for 2 different builds with slightly modified metadata (e.g.
-> > > just because top commit is different in whatever build repository you=
-'re
-> > > running from even when it doesn't have any effect in your image), rig=
-ht?
-> > >
-> >
-> > This may be addressed in the future. Presently, the goal is to ensure t=
-hat
-> > if we
-> > use identical repositories we get identical results. This should not de=
-pend
-> > on the time/date, build folder or even Linux distro. By identical resul=
-ts
-> > I mean binary identical comparison of the resulting "deploy" folders.
-> > (images, packages, licenses). So for example, there should be no binary
-> > differences
-> > between the two images of core-image-minimal.rootfs.ext4.
-> > In your case (slightly different repos), the difference would be presen=
-ted
-> > as different time stamps for /etc/version and /etc/timestamp only.
-> >
-> >
-> > > So it doesn't fix the files-in-image.txt differences as described in:
-> > > https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D5866
-> > >
-> >
-> > Eventually it will. There is still ways to go and this patch set is just
-> > the first
-> > kick at the can.
-> >
-> >
-> >
+Ideally we'd either merge all/most of
+https://layers.openembedded.org/layerindex/branch/master/layer/meta-nodejs/
+into oecore, or remove what's in oecore and tell people to use the external
+layer. Why does oe-core have some, but not all, node support?
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---rWhLK7VZz0iBluhq
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iF0EARECAB0WIQRU+ejDffEzV2Je2oc3VSO3ZXaAHAUCWQDn4gAKCRA3VSO3ZXaA
-HHO/AJ4836VQgLtSNCsBH5+APWJXkxwJrwCePkna97idR5Hz5zMQtlLIQt1jqsY=
-=xWby
------END PGP SIGNATURE-----
-
---rWhLK7VZz0iBluhq--
