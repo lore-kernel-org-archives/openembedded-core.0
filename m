@@ -1,40 +1,39 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qt0-f182.google.com (mail-qt0-f182.google.com
-	[209.85.216.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 6BE0377CE4
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-qk0-f171.google.com (mail-qk0-f171.google.com
+	[209.85.220.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 26A0677C17
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Apr 2017 12:25:46 +0000 (UTC)
-Received: by mail-qt0-f182.google.com with SMTP id c45so163997224qtb.1
+	Wed, 26 Apr 2017 12:45:49 +0000 (UTC)
+Received: by mail-qk0-f171.google.com with SMTP id h123so85175051qke.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Apr 2017 05:25:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	Wed, 26 Apr 2017 05:45:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=QNunvFc/bwdEKScbFYCSI2uWnUC5x1uIb5NJKSV2JEI=;
-	b=SRXOGlWfOeUc/L1ke4S7YNdk7h8YWaelmA8o3J/OrqPxJmnDZT5X6ZRyFnzXmHPHgK
-	Ux90DhKHPBcxyp22yFjnFxYYvIWC53M+ByyjcQDK48+E5gjx1e3LGau1rDU5iL2ky+K3
-	cOqpw0YKocp7GlZloGFjbqJs87EPEUR1kwhScOM7rOOopaA6QySh+/KHHZ4QA6jZO7O7
-	PgwH8KutAHSRtBNS4SqVJ+5i35XaPtmFpg2kaJRcBKwo1yzwfmpGuIafAe9m1At95NjE
-	koLOCVVyeiBPrPizqWUTzJmeYABqfH2zj9xVI7hhbAXa0avPz5gL26UTDRrcnqPr/j3w
-	Y36g==
+	:cc; bh=VfjfSznjiEvibNcW4BfiqBNtDSJmWvYqEsZzgcaob04=;
+	b=jeKu3qd4LNWQKvI6idskX9uhqsefHP+1mwa19+iKykLKmITaG/0Df7MTpvqmNzzV/a
+	mEQLnDRaO5HnxyT/vX9wCvVHW/gzKKeTd35sN9P4TuaTnJOYb8nVpxOR4BvqQLm3Af8h
+	fFZ2cE2ftOV9Rc+xWLCI6DztQPOo4UC8RvzZwMx/mCTviVL1Crh/uIYuFYawfcyNWkTL
+	ThnToZ66JGTNuRjjZn38qHCNlIKBQ2SPwPlsXg8z0g+B7OsppF63N4bk0tbJCDnxxyPB
+	drW5X5TMTQJQJqfv3Pc/BeUEwRvaAtvGJkuL7/X+ozWt5YoiNVWeSFJjw73PW80Eaxkd
+	8+vw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=QNunvFc/bwdEKScbFYCSI2uWnUC5x1uIb5NJKSV2JEI=;
-	b=itQ63Eo5M6c3xzLlFNot4qFVGBoV4iHZOr0EMOagXy/245PbyLSrpRsAW7YOBKoTkk
-	OKU6p1tDdvitLVrk+0W7Nsb/hY6GQogg/afcMnL/4hbct0cFQFaHsh/Ve13d4cnxew4/
-	5Zqe2zGZB1d01aE3Fzdsd3fbX0MKG1lwAq8KBe36NJbSLaZL0Daxbv4Qe+bP7J+x9mlJ
-	CfP+ha0tALI72RdTUsPq+qHBwz+tEwEELLQ7uJ43MJV0SU9oWc3zhekUnXTl0fLfTtfb
-	JH8Twoi/PAMjKYxhzueU/Wk6dkKSjUqkcoFFhjdgFj4cz9rsO2tQhSadoRkh4JuNP9jR
-	Gh9A==
-X-Gm-Message-State: AN3rC/5Obm4UMQWc3OlTLFTjYTaB43CVdiO1axPjH4cwh7tlJwy98Ejy
-	jxUl5AnrlpXngRuB5qpJUYoNAMwYe+YV
-X-Received: by 10.200.41.108 with SMTP id z41mr34607685qtz.68.1493209547147;
-	Wed, 26 Apr 2017 05:25:47 -0700 (PDT)
+	bh=VfjfSznjiEvibNcW4BfiqBNtDSJmWvYqEsZzgcaob04=;
+	b=OQ1iEZ/4SiqV1IZk7AE3I0w4yHMONAInkQGwV2rxKLX+pBHEcLXHUEZTkkFoLnuGK8
+	juIQC3ODIf8tP7k9d5TjZbfaEzQFpQKFSYVmV2bCw+qJh5IrLnFqQvz+nXDTxbvtM0JI
+	zVoJgjM+RIGB3GenvdSUqlvis0Q8PkXPPMhVlOiJs359jiJDr9jNZ6RHzH/piHQO9Wl8
+	ddNwoIPmwOoLMDewF+jYGTWifM7ju3Uqrz0Dn26fWx9/VlXHqkKDzoE/RPFxnHTqpNJJ
+	aadNL0Q5gfap0uBnxXd/cKH8FvhwaIaziHN4MdY2S65fmMpVWEgUk+orZXy89BqhMECI
+	a4pQ==
+X-Gm-Message-State: AN3rC/7ZYiRE18rPQqTM630/y3dPpUfOmhYBARO60hpUpZ2BY+Rxc4Io
+	snSryuGAiOwMVIBwd0MBZaEo8bbjyA==
+X-Received: by 10.55.42.220 with SMTP id q89mr28644452qkq.211.1493210750821;
+	Wed, 26 Apr 2017 05:45:50 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.140.22.166 with HTTP; Wed, 26 Apr 2017 05:25:26 -0700 (PDT)
-In-Reply-To: <CADkTA4P88ijjCGQ_GEU=4k==zsVQWpLoYW4U6h6YzQ1iYB_i4Q@mail.gmail.com>
+Received: by 10.12.145.143 with HTTP; Wed, 26 Apr 2017 05:45:50 -0700 (PDT)
+In-Reply-To: <CAJTo0LYpWjCCkq_m66VQhOMgSZGGo+Q7_NuZdru1tohWY4cW2A@mail.gmail.com>
 References: <CA+chaQdQz3==KgsjLby6Bx1NgnzhXKXQcvCY5pufr5gLeqMqtQ@mail.gmail.com>
 	<bd7ec72b-fe78-65bd-7d25-65e51a0aa30e@gmail.com>
 	<CADkTA4MQ0CToP1h_s5muJt8v-bNuCr9wtD4t+sfq9ThsZZ-AWg@mail.gmail.com>
@@ -47,10 +46,11 @@ References: <CA+chaQdQz3==KgsjLby6Bx1NgnzhXKXQcvCY5pufr5gLeqMqtQ@mail.gmail.com>
 	<CADkTA4M1m5RLNXyRjyyybD+jNzZbQqkrW+SDtjHu3dP28rb-aA@mail.gmail.com>
 	<1493125780.19076.132.camel@linuxfoundation.org>
 	<CADkTA4P88ijjCGQ_GEU=4k==zsVQWpLoYW4U6h6YzQ1iYB_i4Q@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 26 Apr 2017 13:25:26 +0100
-Message-ID: <CAJTo0LYpWjCCkq_m66VQhOMgSZGGo+Q7_NuZdru1tohWY4cW2A@mail.gmail.com>
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
+	<CAJTo0LYpWjCCkq_m66VQhOMgSZGGo+Q7_NuZdru1tohWY4cW2A@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Wed, 26 Apr 2017 08:45:50 -0400
+Message-ID: <CADkTA4PSsEdfsWEpVeoMSJEyfLgaU-sdGgzso4+swTHp0_nutA@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: linux-yocto.do_validate_branches failing since last oe-core update
@@ -66,180 +66,229 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Apr 2017 12:25:46 -0000
-Content-Type: multipart/alternative; boundary=001a11405e8aa217e4054e10f0e6
+X-List-Received-Date: Wed, 26 Apr 2017 12:45:50 -0000
+Content-Type: multipart/alternative; boundary=001a1147b09e60aab5054e1138f6
 
---001a11405e8aa217e4054e10f0e6
+--001a1147b09e60aab5054e1138f6
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-Not sure if it's related to this problem, but this happened in selftest
-last night:
+On Wed, Apr 26, 2017 at 8:25 AM, Burton, Ross <ross.burton@intel.com> wrote=
+:
 
-Log data follows:
-| DEBUG: Executing shell function do_kernel_metadata
-| ERROR: Could not generate configuration queue for qemux86.
-|
-/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-oe-selftest/build/bu=
-ild/tmp/work/qemux86-poky-linux/linux-yocto/4.10.9+git999-r0/temp/run.do_ke=
-rnel_metadata.37215:
-line 190: spp: command not found
+> Not sure if it's related to this problem, but this happened in selftest
+> last night:
+>
+> Log data follows:
+> | DEBUG: Executing shell function do_kernel_metadata
+> | ERROR: Could not generate configuration queue for qemux86.
+> | /home/pokybuild/yocto-autobuilder/yocto-worker/
+> nightly-oe-selftest/build/build/tmp/work/qemux86-poky-
+> linux/linux-yocto/4.10.9+git999-r0/temp/run.do_kernel_metadata.37215:
+> line 190: spp: command not found
+>
+> | /home/pokybuild/yocto-autobuilder/yocto-worker/
+> nightly-oe-selftest/build/build/tmp/work/qemux86-poky-
+> linux/linux-yocto/4.10.9+git999-r0/temp/run.do_kernel_metadata.37215:
+> line 191: kgit: command not found
+>
+> | /home/pokybuild/yocto-autobuilder/yocto-worker/
+> nightly-oe-selftest/build/build/tmp/work/qemux86-poky-
+> linux/linux-yocto/4.10.9+git999-r0/temp/run.do_kernel_metadata.37215:
+> line 197: scc: command not found
+>
+> | ERROR: Function failed: do_kernel_metadata (log file is located at
+> /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-oe-selftest/build/
+> build/tmp/work/qemux86-poky-linux/linux-yocto/4.10.9+
+> git999-r0/temp/log.do_kernel_metadata.37215)
+>
 
-|
-/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-oe-selftest/build/bu=
-ild/tmp/work/qemux86-poky-linux/linux-yocto/4.10.9+git999-r0/temp/run.do_ke=
-rnel_metadata.37215:
-line 191: kgit: command not found
 
-|
-/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-oe-selftest/build/bu=
-ild/tmp/work/qemux86-poky-linux/linux-yocto/4.10.9+git999-r0/temp/run.do_ke=
-rnel_metadata.37215:
-line 197: scc: command not found
+Not related to the patching error, but related to my change where I modifie=
+d
+the native depends.  For whatever reason that ran before the
+do_validate_branches,
+which is what pulls in the dependency.
 
-| ERROR: Function failed: do_kernel_metadata (log file is located at
-/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-oe-selftest/build/bu=
-ild/tmp/work/qemux86-poky-linux/linux-yocto/4.10.9+git999-r0/temp/log.do_ke=
-rnel_metadata.37215)
+I can't think of how that could happen, but there seems to be some tasks
+that are now racing.
 
-Ross
+I'll revisit the patch and put the dependency in both places just to be
+sure.
 
-On 25 April 2017 at 14:17, Bruce Ashfield <bruce.ashfield@gmail.com> wrote:
+Bruce
+
 
 >
 >
-> On Tue, Apr 25, 2017 at 9:09 AM, Richard Purdie <
-> richard.purdie@linuxfoundation.org> wrote:
+> Ross
 >
->> On Mon, 2017-04-24 at 21:06 -0400, Bruce Ashfield wrote:
->> > On Mon, Apr 24, 2017 at 5:27 PM, Richard Purdie
->> > <richard.purdie@linuxfoundation.org> wrote:
->> > > On Mon, 2017-04-24 at 15:56 -0400, Bruce Ashfield wrote:
->> > > >
->> > > >
->> > > > On Mon, Apr 24, 2017 at 9:54 AM, Bruce Ashfield <bruce.ashfield@g
->> > > mail
->> > > > .com> wrote:
->> > > > >
->> > > > >
->> > > > > On Mon, Apr 24, 2017 at 9:39 AM, Martin Jansa <martin.jansa@gma
->> > > il.c
->> > > > > om> wrote:
->> > >
->> > > >
->> > > > Richard/Ross: are you seeing this same thing on the autobuilder ?
->> > > >
->> > > > There's some incantation or config that I'm missing, I assume
->> > > this is
->> > > > a straight qemux86 config
->> > > > with a bitbake of something like core-image-minimal ?
->> > >
->> > > We're not seeing this on the autobuilders. I do suspect something
->> > > in
->> > > the handling of extra patches or cfg fragments from SRC_URI if I
->> > > had to
->> > > guess. That certainly was the trigger last time I saw this.
->> > Yah, that's the kicker, I'm still carrying your patch for binfmt_elf,
->> > and I added two of my own
->> > + config fragments, and I can't trigger anything.
->>
->> I managed to reproduce breakage. With master and my separate patch in
->> SRC_URI:
+> On 25 April 2017 at 14:17, Bruce Ashfield <bruce.ashfield@gmail.com>
+> wrote:
+>
 >>
 >>
-> This particular issue should be fixed with with patch I sent, late Friday
-> night:
->
-> [OE-core] [PATCH] kernel-yocto/kern-tools: fix do_validate_branches clean
-> stage
->
-> Martin applied it to his builds and is still seeing an issue in the actua=
-l
-> patching phase.
-> I'm currently not able to reproduce it.
->
-> If you do have that patch applied, I'm definitely interested. If you
-> don't, and have two
-> minutes to re-run with that applied .. I'd be interested to hear if the
-> build works after
-> that.
->
-> Cheers,
->
-> Bruce
->
-> $ bitbake linux-yocto
->> $ bitbake linux-yocto -c kernel_checkout -f
->> $ bitbake linux-yocto
+>> On Tue, Apr 25, 2017 at 9:09 AM, Richard Purdie <
+>> richard.purdie@linuxfoundation.org> wrote:
 >>
->> ERROR: linux-yocto-4.10.9+gitAUTOINC+ad2e885015_fe0fb8da3d-r0
->> do_validate_branches: Function failed: do_validate_branches (log file is
->> located at /media/build1/poky/build/tmp/work/qemux86_64-poky-linux/linu
->> x-yocto/4.10.9+gitAUTOINC+ad2e885015_fe0fb8da3d-r0/temp/log.
->> do_validate_branches.116726)
->> ERROR: Logfile of failure stored in: /media/build1/poky/build/tmp/w
->> ork/qemux86_64-poky-linux/linux-yocto/4.10.9+gitAUTOINC+ad2e
->> 885015_fe0fb8da3d-r0/temp/log.do_validate_branches.116726
->> Log data follows:
->> | DEBUG: Executing shell function do_validate_branches
->> | HEAD is now at fe0fb8d Merge tag 'v4.10.9' into standard/base
->> | 1493125671.284715: mkdir: cannot create directory =E2=80=98.=E2=80=99:=
- File exists
->> | 1493125671.370592:
->> | 1493125671.3742917: [ERROR] Can't find patch dir at
->> ./patches/standard/base
->> | 1493125671.3742917: usage: kgit s2q
->> | 1493125671.3743172: WARNING: exit code 1 from a shell command.
->> | 1493125671.3745801: ERROR: Function failed: do_validate_branches (log
->> file is located at /media/build1/poky/build/tmp/w
->> ork/qemux86_64-poky-linux/linux-yocto/4.10.9+gitAUTOINC+ad2e
->> 885015_fe0fb8da3d-r0/temp/log.do_validate_branches.116726)
+>>> On Mon, 2017-04-24 at 21:06 -0400, Bruce Ashfield wrote:
+>>> > On Mon, Apr 24, 2017 at 5:27 PM, Richard Purdie
+>>> > <richard.purdie@linuxfoundation.org> wrote:
+>>> > > On Mon, 2017-04-24 at 15:56 -0400, Bruce Ashfield wrote:
+>>> > > >
+>>> > > >
+>>> > > > On Mon, Apr 24, 2017 at 9:54 AM, Bruce Ashfield <bruce.ashfield@g
+>>> > > mail
+>>> > > > .com> wrote:
+>>> > > > >
+>>> > > > >
+>>> > > > > On Mon, Apr 24, 2017 at 9:39 AM, Martin Jansa <martin.jansa@gma
+>>> > > il.c
+>>> > > > > om> wrote:
+>>> > >
+>>> > > >
+>>> > > > Richard/Ross: are you seeing this same thing on the autobuilder ?
+>>> > > >
+>>> > > > There's some incantation or config that I'm missing, I assume
+>>> > > this is
+>>> > > > a straight qemux86 config
+>>> > > > with a bitbake of something like core-image-minimal ?
+>>> > >
+>>> > > We're not seeing this on the autobuilders. I do suspect something
+>>> > > in
+>>> > > the handling of extra patches or cfg fragments from SRC_URI if I
+>>> > > had to
+>>> > > guess. That certainly was the trigger last time I saw this.
+>>> > Yah, that's the kicker, I'm still carrying your patch for binfmt_elf,
+>>> > and I added two of my own
+>>> > + config fragments, and I can't trigger anything.
+>>>
+>>> I managed to reproduce breakage. With master and my separate patch in
+>>> SRC_URI:
+>>>
+>>>
+>> This particular issue should be fixed with with patch I sent, late Frida=
+y
+>> night:
+>>
+>> [OE-core] [PATCH] kernel-yocto/kern-tools: fix do_validate_branches clea=
+n
+>> stage
+>>
+>> Martin applied it to his builds and is still seeing an issue in the
+>> actual patching phase.
+>> I'm currently not able to reproduce it.
+>>
+>> If you do have that patch applied, I'm definitely interested. If you
+>> don't, and have two
+>> minutes to re-run with that applied .. I'd be interested to hear if the
+>> build works after
+>> that.
 >>
 >> Cheers,
 >>
->> Richard
+>> Bruce
+>>
+>> $ bitbake linux-yocto
+>>> $ bitbake linux-yocto -c kernel_checkout -f
+>>> $ bitbake linux-yocto
+>>>
+>>> ERROR: linux-yocto-4.10.9+gitAUTOINC+ad2e885015_fe0fb8da3d-r0
+>>> do_validate_branches: Function failed: do_validate_branches (log file i=
+s
+>>> located at /media/build1/poky/build/tmp/work/qemux86_64-poky-linux/linu
+>>> x-yocto/4.10.9+gitAUTOINC+ad2e885015_fe0fb8da3d-r0/temp/log.
+>>> do_validate_branches.116726)
+>>> ERROR: Logfile of failure stored in: /media/build1/poky/build/tmp/w
+>>> ork/qemux86_64-poky-linux/linux-yocto/4.10.9+gitAUTOINC+ad2e
+>>> 885015_fe0fb8da3d-r0/temp/log.do_validate_branches.116726
+>>> Log data follows:
+>>> | DEBUG: Executing shell function do_validate_branches
+>>> | HEAD is now at fe0fb8d Merge tag 'v4.10.9' into standard/base
+>>> | 1493125671.284715: mkdir: cannot create directory =E2=80=98.=E2=80=99=
+: File exists
+>>> | 1493125671.370592:
+>>> | 1493125671.3742917: [ERROR] Can't find patch dir at
+>>> ./patches/standard/base
+>>> | 1493125671.3742917: usage: kgit s2q
+>>> | 1493125671.3743172: WARNING: exit code 1 from a shell command.
+>>> | 1493125671.3745801: ERROR: Function failed: do_validate_branches (log
+>>> file is located at /media/build1/poky/build/tmp/w
+>>> ork/qemux86_64-poky-linux/linux-yocto/4.10.9+gitAUTOINC+ad2e
+>>> 885015_fe0fb8da3d-r0/temp/log.do_validate_branches.116726)
+>>>
+>>> Cheers,
+>>>
+>>> Richard
+>>>
+>>>
+>>>
+>>>
 >>
 >>
->>
+>> --
+>> "Thou shalt not follow the NULL pointer, for chaos and madness await the=
+e
+>> at its end"
 >>
 >
->
-> --
-> "Thou shalt not follow the NULL pointer, for chaos and madness await thee
-> at its end"
 >
 
---001a11405e8aa217e4054e10f0e6
+
+--=20
+"Thou shalt not follow the NULL pointer, for chaos and madness await thee
+at its end"
+
+--001a1147b09e60aab5054e1138f6
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">Not sure if it&#39;s related to this problem, but this hap=
-pened in selftest last night:<br><br>Log data follows:<br>| DEBUG: Executin=
-g shell function do_kernel_metadata<br>| ERROR: Could not generate configur=
-ation queue for qemux86.<br>| /home/pokybuild/yocto-autobuilder/yocto-worke=
-r/nightly-oe-selftest/build/build/tmp/work/qemux86-poky-linux/linux-yocto/4=
-.10.9+git999-r0/temp/run.do_kernel_metadata.37215: line 190: spp: command n=
-ot found<div><br>| /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-o=
-e-selftest/build/build/tmp/work/qemux86-poky-linux/linux-yocto/4.10.9+git99=
-9-r0/temp/run.do_kernel_metadata.37215: line 191: kgit: command not found</=
-div><div><br>| /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-oe-se=
-lftest/build/build/tmp/work/qemux86-poky-linux/linux-yocto/4.10.9+git999-r0=
-/temp/run.do_kernel_metadata.37215: line 197: scc: command not found</div><=
-div><br>| ERROR: Function failed: do_kernel_metadata (log file is located a=
-t /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-oe-selftest/build/=
-build/tmp/work/qemux86-poky-linux/linux-yocto/4.10.9+git999-r0/temp/log.do_=
-kernel_metadata.37215)<br><br></div><div>Ross</div></div><div class=3D"gmai=
-l_extra"><br><div class=3D"gmail_quote">On 25 April 2017 at 14:17, Bruce As=
-hfield <span dir=3D"ltr">&lt;<a href=3D"mailto:bruce.ashfield@gmail.com" ta=
-rget=3D"_blank">bruce.ashfield@gmail.com</a>&gt;</span> wrote:<br><blockquo=
-te class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc so=
-lid;padding-left:1ex"><div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><=
-div class=3D"gmail_quote"><div><div class=3D"h5">On Tue, Apr 25, 2017 at 9:=
-09 AM, Richard Purdie <span dir=3D"ltr">&lt;<a href=3D"mailto:richard.purdi=
-e@linuxfoundation.org" target=3D"_blank">richard.purdie@linuxfoundatio<wbr>=
-n.org</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"m=
-argin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left=
-:1ex"><span>On Mon, 2017-04-24 at 21:06 -0400, Bruce Ashfield wrote:<br>
+<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
+te">On Wed, Apr 26, 2017 at 8:25 AM, Burton, Ross <span dir=3D"ltr">&lt;<a =
+href=3D"mailto:ross.burton@intel.com" target=3D"_blank">ross.burton@intel.c=
+om</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"marg=
+in:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div dir=3D"ltr"=
+>Not sure if it&#39;s related to this problem, but this happened in selftes=
+t last night:<br><br>Log data follows:<br>| DEBUG: Executing shell function=
+ do_kernel_metadata<br>| ERROR: Could not generate configuration queue for =
+qemux86.<br>| /home/pokybuild/yocto-<wbr>autobuilder/yocto-worker/<wbr>nigh=
+tly-oe-selftest/build/<wbr>build/tmp/work/qemux86-poky-<wbr>linux/linux-yoc=
+to/4.10.9+<wbr>git999-r0/temp/run.do_kernel_<wbr>metadata.37215: line 190: =
+spp: command not found<div><br>| /home/pokybuild/yocto-<wbr>autobuilder/yoc=
+to-worker/<wbr>nightly-oe-selftest/build/<wbr>build/tmp/work/qemux86-poky-<=
+wbr>linux/linux-yocto/4.10.9+<wbr>git999-r0/temp/run.do_kernel_<wbr>metadat=
+a.37215: line 191: kgit: command not found</div><div><br>| /home/pokybuild/=
+yocto-<wbr>autobuilder/yocto-worker/<wbr>nightly-oe-selftest/build/<wbr>bui=
+ld/tmp/work/qemux86-poky-<wbr>linux/linux-yocto/4.10.9+<wbr>git999-r0/temp/=
+run.do_kernel_<wbr>metadata.37215: line 197: scc: command not found</div><d=
+iv><br>| ERROR: Function failed: do_kernel_metadata (log file is located at=
+ /home/pokybuild/yocto-<wbr>autobuilder/yocto-worker/<wbr>nightly-oe-selfte=
+st/build/<wbr>build/tmp/work/qemux86-poky-<wbr>linux/linux-yocto/4.10.9+<wb=
+r>git999-r0/temp/log.do_kernel_<wbr>metadata.37215)</div></div></blockquote=
+><div><br></div><div><br></div><div>Not related to the patching error, but =
+related to my change where I modified</div><div>the native depends.=C2=A0 F=
+or whatever reason that ran before the do_validate_branches,</div><div>whic=
+h is what pulls in the dependency.</div><div><br></div><div>I can&#39;t thi=
+nk of how that could happen, but there seems to be some tasks that are now =
+racing.</div><div><br></div><div>I&#39;ll revisit the patch and put the dep=
+endency in both places just to be sure.</div><div><br></div><div>Bruce</div=
+><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .=
+8ex;border-left:1px #ccc solid;padding-left:1ex"><div dir=3D"ltr"><div><spa=
+n class=3D"HOEnZb"><font color=3D"#888888"><br><br></font></span></div><spa=
+n class=3D"HOEnZb"><font color=3D"#888888"><div>Ross</div></font></span></d=
+iv><div class=3D"HOEnZb"><div class=3D"h5"><div class=3D"gmail_extra"><br><=
+div class=3D"gmail_quote">On 25 April 2017 at 14:17, Bruce Ashfield <span d=
+ir=3D"ltr">&lt;<a href=3D"mailto:bruce.ashfield@gmail.com" target=3D"_blank=
+">bruce.ashfield@gmail.com</a>&gt;</span> wrote:<br><blockquote class=3D"gm=
+ail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-le=
+ft:1ex"><div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"g=
+mail_quote"><div><div class=3D"m_-4198958585454020572h5">On Tue, Apr 25, 20=
+17 at 9:09 AM, Richard Purdie <span dir=3D"ltr">&lt;<a href=3D"mailto:richa=
+rd.purdie@linuxfoundation.org" target=3D"_blank">richard.purdie@linuxfounda=
+tio<wbr>n.org</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" st=
+yle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padd=
+ing-left:1ex"><span>On Mon, 2017-04-24 at 21:06 -0400, Bruce Ashfield wrote=
+:<br>
 &gt; On Mon, Apr 24, 2017 at 5:27 PM, Richard Purdie<br>
 &gt; &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org" target=3D"_b=
 lank">richard.purdie@linuxfoundatio<wbr>n.org</a>&gt; wrote:<br>
@@ -291,9 +340,9 @@ rrently not able to reproduce it.</div><div><br></div><div>If you do have t=
 hat patch applied, I&#39;m definitely interested. If you don&#39;t, and hav=
 e two</div><div>minutes to re-run with that applied .. I&#39;d be intereste=
 d to hear if the build works after</div><div>that.</div><div><br></div><div=
->Cheers,</div><div><br></div><div>Bruce</div><span class=3D""><div><br></di=
-v><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;borde=
-r-left:1px solid rgb(204,204,204);padding-left:1ex">
+>Cheers,</div><div><br></div><div>Bruce</div><span><div><br></div><blockquo=
+te class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px =
+solid rgb(204,204,204);padding-left:1ex">
 $ bitbake linux-yocto<br>
 $ bitbake linux-yocto -c kernel_checkout -f<br>
 $ bitbake linux-yocto<br>
@@ -327,11 +376,16 @@ Richard<br>
 <br>
 <br>
 <br>
-</blockquote></span></div><br><br clear=3D"all"><span class=3D""><div><br><=
-/div>-- <br><div class=3D"m_-249460446374544245gmail-m_1060650381739365254g=
-mail_signature">&quot;Thou shalt not follow the NULL pointer, for chaos and=
- madness await thee at its end&quot;</div>
+</blockquote></span></div><br><br clear=3D"all"><span><div><br></div>-- <br=
+><div class=3D"m_-4198958585454020572m_-249460446374544245gmail-m_106065038=
+1739365254gmail_signature">&quot;Thou shalt not follow the NULL pointer, fo=
+r chaos and madness await thee at its end&quot;</div>
 </span></div></div>
 </blockquote></div><br></div>
+</div></div></blockquote></div><br><br clear=3D"all"><div><br></div>-- <br>=
+<div class=3D"gmail_signature" data-smartmail=3D"gmail_signature">&quot;Tho=
+u shalt not follow the NULL pointer, for chaos and madness await thee at it=
+s end&quot;</div>
+</div></div>
 
---001a11405e8aa217e4054e10f0e6--
+--001a1147b09e60aab5054e1138f6--
