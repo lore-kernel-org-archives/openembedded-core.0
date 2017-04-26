@@ -1,57 +1,50 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f178.google.com (mail-qk0-f178.google.com
-	[209.85.220.178])
-	by mail.openembedded.org (Postfix) with ESMTP id ED13177C90
+Received: from mail-qk0-f169.google.com (mail-qk0-f169.google.com
+	[209.85.220.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 6D0FC779C3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Apr 2017 09:44:46 +0000 (UTC)
-Received: by mail-qk0-f178.google.com with SMTP id f76so87246563qke.2
+	Wed, 26 Apr 2017 10:02:37 +0000 (UTC)
+Received: by mail-qk0-f169.google.com with SMTP id u75so70180916qka.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Apr 2017 02:44:48 -0700 (PDT)
+	Wed, 26 Apr 2017 03:02:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=CfMxsqaV9qEOqfZ+h5ZF8I8DruD1SPrYRcg0hHwClvc=;
-	b=1C3uRmV3Q75XH6N0LafUZD1VIxRmmj+sSkbuwEusLgIkASLUWpOsDaZq6tX09KmzMa
-	q/2w78/3toWpz6h+2jtTFZfL67kfef1fnfqOjy3yziLU2psB3JRRYxkbTKz94mm43z6x
-	xyC0AwxMvKnVM1M4phWwFB2iOmSgb7kB3/NdslxTjcQ457IfCwKr3TX37rA+Uq2sgyOt
-	SPbk6lEqAmUQ6eRffSPztuxpITnjmSkqtvkrUobgNAwRXiw143tEMiacKjb1WrwSeLMJ
-	T38ZO7aCRr5Yi+bofOVk9CkZmjYQQ4M1ZqtjaDNydLms0Jw/iL9t9j8hNWOhJtBgVOeC
-	S5yw==
+	:cc; bh=Kp+I7NYxGQgEFlwk7XE+pBHAXqrPtZx40Bnal8+LMt4=;
+	b=QG8wAfWsMBOuMpICguUv+vOBPZQl+h6a9W0InT98LWxnf7/tBFThcDCWhEBp10pSfs
+	Nhhor3/EDs4rKKk/G6IUno4bVbZq6nn32rIzZL4xAgKipr+p3X0xJ5hpcZlxexF1QD4b
+	wy5hfrMul8+XpKtRX0O2BVguCM33uCGmbUGGpc/ODcwrFC/f1Nn1bBif6PIz0tvJFSfF
+	SIyIvaVHDrkFIglCT9ze3HseqcQKBGnLXMdqKHqiHrb58XZAuTTLsIGq4HDFxFfV5pKD
+	MDrz+7AeQnXgZUqJ0y5HYOF7oHL+jsoiRyPM03OUsgFQV4KJHLPyotGkpOORAR4czvAN
+	EDTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=CfMxsqaV9qEOqfZ+h5ZF8I8DruD1SPrYRcg0hHwClvc=;
-	b=n4Cnd1pMettShhHa/n1mmPXVzLMfAJ19s9EipfMTSHQRHq5mU/zq2WR1FotJEaR7na
-	660goafvsGLpMRLqMWPJPgs41IQUrevm6W17KLC2UnU+xJ5GgvwItTLPKQ57DpIS9QIM
-	4Rp6BlPa7j6X29ZkOH1YqPp05xQCd6f0Qr9a7jS0MPMrjtEbwlSbHVvVsDE4SOESgsUH
-	6XgdJvf//Af6CRZ8mQUWW/K7P/w5i0zPAGXT6z7ZUrJMU97IAoShD4xBK+uLxj/ZY9oF
-	uw7CW1gZtdknNvP8jCr/yeO8NsXbdsICOz6ESi4GZzZWQNi7L8GfW3jK7k5uZwt0MMKV
-	TvSw==
-X-Gm-Message-State: AN3rC/7UCbyhZDSN9A0EUgbwWKBk2CRpHI/sC35xgiaGpbWQJ/5FxGZc
-	2TfF6BwzpVVvsaNdd2rHuDuIn550LO2I
-X-Received: by 10.55.17.224 with SMTP id 93mr32046749qkr.244.1493199887516;
-	Wed, 26 Apr 2017 02:44:47 -0700 (PDT)
+	bh=Kp+I7NYxGQgEFlwk7XE+pBHAXqrPtZx40Bnal8+LMt4=;
+	b=b7PTCiCzZDgUGfbPjhFGWAKxnqfpSR6I8D8h8TsrY1JL179yjTAncWKkRN7McVoygh
+	7m+ITgyfmppypZDuVt1NzsmRUeJyLYQxKgckl9nfK0sbqOAV5TDuWsU5N9PfFpKdQ1lx
+	XIWvkqlbRMreEoAM4wjigRnwMtRKbYh4koTjuz3BS4AroUvVLmyj9ZK5f3YViwHcozhF
+	tVCnJNOgQyzavHDSKKJbLn+PfHF5ziv+l25f+DtdwNkaJgJ1Zn+TWVgqEjGG4LXMCHk1
+	bnrn+XbkNoDrWvpNv69kpCi4bBJqtxxHsyVDTDS1hhGkPjmCFWU40hVO+bCCqJB9tEum
+	kpvA==
+X-Gm-Message-State: AN3rC/4wsnzatEJHmq6z0j47wXTBojOcMvO63tsGjREQxuNSdZQeoSFd
+	h95A533z0Ba7PwA3zLja6kl27ODKqeBz
+X-Received: by 10.55.214.208 with SMTP id p77mr37430625qkl.121.1493200959276; 
+	Wed, 26 Apr 2017 03:02:39 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.140.22.166 with HTTP; Wed, 26 Apr 2017 02:44:27 -0700 (PDT)
-In-Reply-To: <87fugwyv28.fsf@largeson.i-did-not-set--mail-host-address--so-tickle-me>
-References: <CAMKF1spGM+kugUDOB4kF7NAgSCt9vCw8GFT0nLKFRd2tHei=pw@mail.gmail.com>
-	<CAJTo0La0mtVGyLysCnqi9EQmT+4L1eYRxgE-TV=3Va45jnt=Xg@mail.gmail.com>
-	<CAMKF1sqfvtQPWN5Yuz3RPYkXpneS+XWcYmit_=bcvKGo3_hx8w@mail.gmail.com>
-	<CAJTo0LakaSZhJodT2KQx6u0TEaBL5Ruig3oOdfrtCzQUf1cxXg@mail.gmail.com>
-	<CAJTo0La+bGDBuJ42yVy79hW2iN3ZhpeyjXrhUApLn-PAi6PYBw@mail.gmail.com>
-	<87a875qxeg.fsf@largeson.i-did-not-set--mail-host-address--so-tickle-me>
-	<CAJTo0LaLOhPcz8DYQ4wGzVXrP7Qs_Fa7jgrx76wCDAuR8eoWfQ@mail.gmail.com>
-	<87fugwyv28.fsf@largeson.i-did-not-set--mail-host-address--so-tickle-me>
+Received: by 10.140.22.166 with HTTP; Wed, 26 Apr 2017 03:02:18 -0700 (PDT)
+In-Reply-To: <CAJ86T=WFN3wnnpjhw4qdvqT_hn6A1Jaq_U0uk5bVUXR9omy93Q@mail.gmail.com>
+References: <20170421210948.2656-1-raj.khem@gmail.com>
+	<CAJTo0LYL1QxkdLi6y=DKe7mMoHF8U34ZDzNbUKY1+or1xxrWyw@mail.gmail.com>
+	<CAMKF1srYE2zaO3WGxqRExpx10zkyC8Gb+OnQ76TD8zt0Uam7yw@mail.gmail.com>
+	<CAJ86T=WFN3wnnpjhw4qdvqT_hn6A1Jaq_U0uk5bVUXR9omy93Q@mail.gmail.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 26 Apr 2017 10:44:27 +0100
-Message-ID: <CAJTo0LY=s+q9oC6ep=aD8W29U6L4kdnQQchg3OKbM6EhH7tniQ@mail.gmail.com>
-To: Nathan Lynch <nathan_lynch@mentor.com>
-Cc: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>,
-	openembeded-devel <Openembedded-devel@lists.openembedded.org>
-Subject: Re: [yocto] [RFT] gcc7 and glibc-2.26 recipes
+Date: Wed, 26 Apr 2017 11:02:18 +0100
+Message-ID: <CAJTo0LZ0De7zWQzgxEap1bAqK1htAjuMDqRWN9JbP30RTqfg2A@mail.gmail.com>
+To: Andre McCurdy <armccurdy@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2] grub: Fix build with gcc7
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,37 +57,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Apr 2017 09:44:47 -0000
-Content-Type: multipart/alternative; boundary=001a1135cbccdfe1f9054e0eb0f7
+X-List-Received-Date: Wed, 26 Apr 2017 10:02:38 -0000
+Content-Type: multipart/alternative; boundary=001a1149d4f8c1a9a5054e0ef001
 
---001a1135cbccdfe1f9054e0eb0f7
+--001a1149d4f8c1a9a5054e0ef001
 Content-Type: text/plain; charset=UTF-8
 
-On 25 April 2017 at 23:35, Nathan Lynch <nathan_lynch@mentor.com> wrote:
+On 25 April 2017 at 23:17, Andre McCurdy <armccurdy@gmail.com> wrote:
 
-> Done:
-> http://lists.openembedded.org/pipermail/openembedded-core/
-> 2017-April/136086.html
+> The 2.02 release seems to be almost ready:
 >
+>   http://git.savannah.gnu.org/cgit/grub.git/commit/?id=
+> e54c99aaff5e5f6f5d3b06028506c57e66d8ef77
 
-Thanks!
+
+Awesome.  Would there be an objection to consolidating the recipes down to
+a single 2.02 in master?
 
 Ross
 
---001a1135cbccdfe1f9054e0eb0f7
+--001a1149d4f8c1a9a5054e0ef001
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 25 April 2017 at 23:35, Nathan Lynch <span dir=3D"ltr">&lt;<a href=3D"ma=
-ilto:nathan_lynch@mentor.com" target=3D"_blank">nathan_lynch@mentor.com</a>=
-&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0=
- 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":485" class=
-=3D"a3s aXjCH m15ba741bfe161812">Done:<br>
-<a href=3D"http://lists.openembedded.org/pipermail/openembedded-core/2017-A=
-pril/136086.html" rel=3D"noreferrer" target=3D"_blank">http://lists.openemb=
-edded.org/<wbr>pipermail/openembedded-core/<wbr>2017-April/136086.html</a><=
-/div></blockquote></div><br>Thanks!</div><div class=3D"gmail_extra"><br></d=
-iv><div class=3D"gmail_extra">Ross</div></div>
+<div dir=3D"ltr">On 25 April 2017 at 23:17, Andre McCurdy <span dir=3D"ltr"=
+>&lt;<a href=3D"mailto:armccurdy@gmail.com" target=3D"_blank">armccurdy@gma=
+il.com</a>&gt;</span> wrote:<br><div class=3D"gmail_extra"><div class=3D"gm=
+ail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bor=
+der-left:1px #ccc solid;padding-left:1ex"><div class=3D"HOEnZb"><div class=
+=3D"h5"><span style=3D"color:rgb(34,34,34)">The 2.02 release seems to be al=
+most ready:</span><br></div></div>
+<br>
+=C2=A0 <a href=3D"http://git.savannah.gnu.org/cgit/grub.git/commit/?id=3De5=
+4c99aaff5e5f6f5d3b06028506c57e66d8ef77" rel=3D"noreferrer" target=3D"_blank=
+">http://git.savannah.gnu.org/<wbr>cgit/grub.git/commit/?id=3D<wbr>e54c99aa=
+ff5e5f6f5d3b06028506c5<wbr>7e66d8ef77</a></blockquote><div><br></div><div>A=
+wesome.=C2=A0 Would there be an objection to consolidating the recipes down=
+ to a single 2.02 in master?</div><div><br></div><div>Ross=C2=A0</div></div=
+></div></div>
 
---001a1135cbccdfe1f9054e0eb0f7--
+--001a1149d4f8c1a9a5054e0ef001--
