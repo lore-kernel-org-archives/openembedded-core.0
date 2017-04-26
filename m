@@ -1,45 +1,23 @@
-Return-Path: <Andreas.Reichel@tngtech.com>
-Received: from proxy.tng.vnc.biz (zimbra-vnc.tngtech.com [83.144.240.98])
-	by mail.openembedded.org (Postfix) with ESMTP id D725E77CCA
+Return-Path: <gernot.hillier@siemens.com>
+Received: from lizzard.sbs.de (lizzard.sbs.de [194.138.37.39])
+	by mail.openembedded.org (Postfix) with ESMTP id 629B277CC1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Apr 2017 10:32:28 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by proxy.tng.vnc.biz (Postfix) with ESMTP id 37BE51E199C;
-	Wed, 26 Apr 2017 12:32:28 +0200 (CEST)
-X-Spam-Flag: NO
-X-Spam-Score: -1.5
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.5 tagged_above=-10 required=5
-	tests=[ALL_TRUSTED=-1, BAYES_00=-0.5, LOCAL_FROM_TNG=-0.001,
-	URIBL_BLOCKED=0.001] autolearn=ham autolearn_force=no
-Received: from proxy.tng.vnc.biz ([127.0.0.1])
-	by localhost (proxy.tng.vnc.biz [127.0.0.1]) (amavisd-new, port 10032)
-	with ESMTP id eBDhPf9DdOc0; Wed, 26 Apr 2017 12:32:27 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-	by proxy.tng.vnc.biz (Postfix) with ESMTP id 362AF1E19AF;
-	Wed, 26 Apr 2017 12:32:27 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at 
-Received: from proxy.tng.vnc.biz ([127.0.0.1])
-	by localhost (proxy.tng.vnc.biz [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id wj5g-4nydC2Z; Wed, 26 Apr 2017 12:32:27 +0200 (CEST)
-Received: from localhost (p578a821c.dip0.t-ipconnect.de [87.138.130.28])
-	by proxy.tng.vnc.biz (Postfix) with ESMTPSA id D64501E199C;
-	Wed, 26 Apr 2017 12:32:26 +0200 (CEST)
-Date: Wed, 26 Apr 2017 12:34:15 +0200
-From: Andreas Reichel <Andreas.Reichel@tngtech.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Message-ID: <20170426103415.GA4637@tng>
-References: <20170421121145.9797-1-andreas.reichel@tngtech.com>
-	<20170421121145.9797-3-andreas.reichel@tngtech.com>
-	<CAJTo0LaJWXe_QfhbOi-Xi9WPYpwgL0Z59=A+PLy-TJRLf+fu5A@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <CAJTo0LaJWXe_QfhbOi-Xi9WPYpwgL0Z59=A+PLy-TJRLf+fu5A@mail.gmail.com>
-User-Agent: Mutt/1.8.0 (2017-02-23)
-Cc: Jan Kiszka <jan.kiszka@siemens.com>,
-	Andreas Reichel <andreas.reichel.ext@siemens.com>,
-	Daniel Wagner <daniel.wagner@siemens.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [wic patch 2/5] wic: Use argparse instead of optparse
+	Wed, 26 Apr 2017 10:57:53 +0000 (UTC)
+Received: from mail1.sbs.de (mail1.sbs.de [192.129.41.35])
+	by lizzard.sbs.de (8.15.2/8.15.2) with ESMTPS id v3QAvr9M002374
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK); 
+	Wed, 26 Apr 2017 12:57:54 +0200
+Received: from linux-mf4q.internal.hillier.net (md1jennc.ww002.siemens.net
+	[139.25.68.7] (may be forged))
+	by mail1.sbs.de (8.15.2/8.15.2) with ESMTP id v3QAvrTS026631;
+	Wed, 26 Apr 2017 12:57:53 +0200
+From: Gernot Hillier <gernot.hillier@siemens.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 26 Apr 2017 12:57:43 +0200
+Message-Id: <20170426105745.8551-1-gernot.hillier@siemens.com>
+X-Mailer: git-send-email 2.12.0
+Cc: eugene.tarassov@xilinx.com
+Subject: [PATCH v4 0/2] tcf-agent: fix target debugging with Eclipse CDT
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,65 +30,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Apr 2017 10:32:30 -0000
-Content-Type: text/plain; charset=iso-8859-1
-Content-Description: message
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 26 Apr 2017 10:57:56 -0000
 
-On Sun, Apr 23, 2017 at 08:58:44PM +0100, Burton, Ross wrote:
+Default recipe for tcf-agent disabled a number of features because of
+historic build problems on ARM dating back to tcf-agent 0.0+svnr1855
+(from 2011). We re-enable them for all archs besides mips and libc-musl.
+For arm64, we additionally need to fix MACHINE setting to make those
+features compile again.
 
->=20
-> On 21 April 2017 at 13:11, Andreas J. Reichel <andreas.reichel@tngtech.=
-com>
-> wrote:
->=20
->     * optparse is deprecated and will not be developed further
->     =A0 =A0 (see: https://docs.python.org/2/library/optparse.html)
->     * argparse supports subcommands, which simplifies definition of
->     =A0 =A0 arguments and options
->     * reimplement help mechanism through sub-subcommands
->=20
->=20
-> This results in a behaviour change and breaks the selftest:
->=20
-> FAIL [0.535s]: test_unsupported_subcommand (oeqa.selftest.wic.Wic)
-> ----------------------------------------------------------------------
-> Traceback (most recent call last):
-> =A0 File "/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-oe-sel=
-ftest/
-> build/meta/lib/oeqa/utils/decorators.py", line 109, in wrapped_f
-> =A0 =A0 return func(*args, **kwargs)
-> =A0 File "/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-oe-sel=
-ftest/
-> build/meta/lib/oeqa/selftest/wic.py", line 163, in test_unsupported_sub=
-command
-> =A0 =A0 ignore_status=3DTrue).status)
-> AssertionError: 1 !=3D 2
->=20
-Dear Ross,
+Without those features, target debugging using Eclipse Neon and CDT
+with TCF 1.4 plugin didn't work in our tests. This is the default
+debugging mode in the Xilinx Vivado SDK.
 
-I see three possible strategies in fixing this problem:
-- Change the code to keep current return values / behavior
-- Adapt the unit test to fit the new code
-- Write a less complex patch for just adding the option
-  "--keep-partition-images" without migration to argparse
+Thanks to Eugene, main TCF developer, for reviewing the patches!
 
-Which way would you prefer it?
+Series history:
+v1: enable default tcf-agent features on all archs, sent to Poky ML
+v2: address build break on mips and arm64, thx to Richard Purdie for 
+    pointing me to this!
+v3: Sent using git-send-email to fix line wrapping (sorry!)
+v4: address build break on libc-musl, thx to Ross Burton for the hint
 
-Andreas
+--
+Gernot Hillier
+Siemens AG, Corporate Competence Center Embedded Linux
 
-> Ross
 
---=20
-Andreas Reichel=20
-Dipl.-Phys. (Univ.)=20
-Software Consultant
+Gernot Hillier (2):
+  tcf-agent: fix machine setting for arm64 build
+  tcf-agent: enable default target debugging features
 
-Andreas.Reichel@tngtech.com=20
-+49-174-3180074
+ meta/recipes-devtools/tcf-agent/tcf-agent_git.bb | 15 ++++++++++-----
+ 1 file changed, 10 insertions(+), 5 deletions(-)
 
-TNG Technology Consulting GmbH, Betastr. 13a, 85774 Unterf=F6hring
-Gesch=E4ftsf=FChrer: Henrik Klagges, Christoph Stock, Dr. Robert Dahlke
-Sitz: Unterf=F6hring * Amtsgericht M=FCnchen * HRB 135082
+-- 
+2.12.0
+
 
