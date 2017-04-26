@@ -1,45 +1,57 @@
-Return-Path: <freesilicon@gmail.com>
-Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 8703D601A5
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f178.google.com (mail-qk0-f178.google.com
+	[209.85.220.178])
+	by mail.openembedded.org (Postfix) with ESMTP id ED13177C90
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Apr 2017 09:31:25 +0000 (UTC)
-Received: by mail-wm0-f67.google.com with SMTP id z129so31643617wmb.1
+	Wed, 26 Apr 2017 09:44:46 +0000 (UTC)
+Received: by mail-qk0-f178.google.com with SMTP id f76so87246563qke.2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Apr 2017 02:31:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=0X6Hn/v2LPuJasu9cyn7EREgstc56tp1cCLWhaLV/Gk=;
-	b=uw6vcjzFuI+4XfRgHih7QVVT74UsoEad97wi+8gA6DrZiU4RMX3jauazDTy4EiQSN+
-	A7uIMESKSvkSMRvKOcb7u5IdskBWcTWeX0VjRnVhfTwe0w7iZ8DWcdwBdLSZ/z1rRYoq
-	ugi0KPiZvVMDDD+FQco0MuH7Z8qAK/liYvkV2zPcSWI2TRycrh46jS47pZ7MSaEF6EQX
-	oPmV1PO0cEruzd58jY0KUEJeazz/dK4oYzwtT1q73dVYax6GL/j2kjAcglZVJK3yzqze
-	T6TitazIlU+k8Lu3ZNFvhZQ7fEB3hGkI7jNsvn/uZprjM36DPVia2yQcprZJnUtCn4lv
-	IAag==
+	Wed, 26 Apr 2017 02:44:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=CfMxsqaV9qEOqfZ+h5ZF8I8DruD1SPrYRcg0hHwClvc=;
+	b=1C3uRmV3Q75XH6N0LafUZD1VIxRmmj+sSkbuwEusLgIkASLUWpOsDaZq6tX09KmzMa
+	q/2w78/3toWpz6h+2jtTFZfL67kfef1fnfqOjy3yziLU2psB3JRRYxkbTKz94mm43z6x
+	xyC0AwxMvKnVM1M4phWwFB2iOmSgb7kB3/NdslxTjcQ457IfCwKr3TX37rA+Uq2sgyOt
+	SPbk6lEqAmUQ6eRffSPztuxpITnjmSkqtvkrUobgNAwRXiw143tEMiacKjb1WrwSeLMJ
+	T38ZO7aCRr5Yi+bofOVk9CkZmjYQQ4M1ZqtjaDNydLms0Jw/iL9t9j8hNWOhJtBgVOeC
+	S5yw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=0X6Hn/v2LPuJasu9cyn7EREgstc56tp1cCLWhaLV/Gk=;
-	b=qkv0391KpPrMwoBsgbCtirr5MzqONl8gZwUPR0vvKu1+6NkURAlDlGVwZyMqqaOw6p
-	w0e0wJri4MF1s+gUBJLsjXWGwPH1x75H8YrEc1MNesASrDZjCu4zo5QH3hZOKIYWhdUc
-	984VpU7sCv1EuuNzR1rFYXdzS/Nfo9LH52FrJc+/hbr4Jc8YA7Rvqwn9QlAOtRZhQsIM
-	B/0ydF7deyLezdtXq8m7VTbUvj/HhCokIjji6DZmcfmoY6wZ4A1iL6aMXHKIudEg1+aK
-	79h/w0916K1JpTFaBcckh4+ZeUY3BI0qqnpumiZhv3hvNENs+A+tKwedlGl2Ioi/4RS2
-	wVJw==
-X-Gm-Message-State: AN3rC/54Iku7JrthhN4YDdatOfYUJDpwZI6KjB5H74HmkU5BRO7efeUa
-	dKKsnGnELGa7UA==
-X-Received: by 10.28.54.7 with SMTP id d7mr4650248wma.114.1493199086239;
-	Wed, 26 Apr 2017 02:31:26 -0700 (PDT)
-Received: from crde-port-20.cahors.local ([185.47.80.46])
-	by smtp.gmail.com with ESMTPSA id
-	y190sm5709969wmy.15.2017.04.26.02.31.25
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 26 Apr 2017 02:31:25 -0700 (PDT)
-From: David Vincent <freesilicon@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 26 Apr 2017 11:30:39 +0200
-Message-Id: <20170426093039.16450-1-freesilicon@gmail.com>
-X-Mailer: git-send-email 2.12.2
-Subject: [PATCH] image.bbclass: Set ROOTFS_RO_UNNEEDED correctly
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=CfMxsqaV9qEOqfZ+h5ZF8I8DruD1SPrYRcg0hHwClvc=;
+	b=n4Cnd1pMettShhHa/n1mmPXVzLMfAJ19s9EipfMTSHQRHq5mU/zq2WR1FotJEaR7na
+	660goafvsGLpMRLqMWPJPgs41IQUrevm6W17KLC2UnU+xJ5GgvwItTLPKQ57DpIS9QIM
+	4Rp6BlPa7j6X29ZkOH1YqPp05xQCd6f0Qr9a7jS0MPMrjtEbwlSbHVvVsDE4SOESgsUH
+	6XgdJvf//Af6CRZ8mQUWW/K7P/w5i0zPAGXT6z7ZUrJMU97IAoShD4xBK+uLxj/ZY9oF
+	uw7CW1gZtdknNvP8jCr/yeO8NsXbdsICOz6ESi4GZzZWQNi7L8GfW3jK7k5uZwt0MMKV
+	TvSw==
+X-Gm-Message-State: AN3rC/7UCbyhZDSN9A0EUgbwWKBk2CRpHI/sC35xgiaGpbWQJ/5FxGZc
+	2TfF6BwzpVVvsaNdd2rHuDuIn550LO2I
+X-Received: by 10.55.17.224 with SMTP id 93mr32046749qkr.244.1493199887516;
+	Wed, 26 Apr 2017 02:44:47 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.22.166 with HTTP; Wed, 26 Apr 2017 02:44:27 -0700 (PDT)
+In-Reply-To: <87fugwyv28.fsf@largeson.i-did-not-set--mail-host-address--so-tickle-me>
+References: <CAMKF1spGM+kugUDOB4kF7NAgSCt9vCw8GFT0nLKFRd2tHei=pw@mail.gmail.com>
+	<CAJTo0La0mtVGyLysCnqi9EQmT+4L1eYRxgE-TV=3Va45jnt=Xg@mail.gmail.com>
+	<CAMKF1sqfvtQPWN5Yuz3RPYkXpneS+XWcYmit_=bcvKGo3_hx8w@mail.gmail.com>
+	<CAJTo0LakaSZhJodT2KQx6u0TEaBL5Ruig3oOdfrtCzQUf1cxXg@mail.gmail.com>
+	<CAJTo0La+bGDBuJ42yVy79hW2iN3ZhpeyjXrhUApLn-PAi6PYBw@mail.gmail.com>
+	<87a875qxeg.fsf@largeson.i-did-not-set--mail-host-address--so-tickle-me>
+	<CAJTo0LaLOhPcz8DYQ4wGzVXrP7Qs_Fa7jgrx76wCDAuR8eoWfQ@mail.gmail.com>
+	<87fugwyv28.fsf@largeson.i-did-not-set--mail-host-address--so-tickle-me>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 26 Apr 2017 10:44:27 +0100
+Message-ID: <CAJTo0LY=s+q9oC6ep=aD8W29U6L4kdnQQchg3OKbM6EhH7tniQ@mail.gmail.com>
+To: Nathan Lynch <nathan_lynch@mentor.com>
+Cc: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>,
+	openembeded-devel <Openembedded-devel@lists.openembedded.org>
+Subject: Re: [yocto] [RFT] gcc7 and glibc-2.26 recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,30 +64,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Apr 2017 09:31:26 -0000
+X-List-Received-Date: Wed, 26 Apr 2017 09:44:47 -0000
+Content-Type: multipart/alternative; boundary=001a1135cbccdfe1f9054e0eb0f7
 
-Use a weak assignment for ROOTFS_RO_UNNEEDED to let users define their
-own list overriding defaults.
+--001a1135cbccdfe1f9054e0eb0f7
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: David Vincent <freesilicon@gmail.com>
----
- meta/classes/image.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On 25 April 2017 at 23:35, Nathan Lynch <nathan_lynch@mentor.com> wrote:
 
-diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index 405fd73c04..58cd608d14 100644
---- a/meta/classes/image.bbclass
-+++ b/meta/classes/image.bbclass
-@@ -33,7 +33,7 @@ ROOTFS_BOOTSTRAP_INSTALL = "run-postinsts"
- 
- # These packages will be removed from a read-only rootfs after all other
- # packages have been installed
--ROOTFS_RO_UNNEEDED = "update-rc.d base-passwd shadow ${VIRTUAL-RUNTIME_update-alternatives} ${ROOTFS_BOOTSTRAP_INSTALL}"
-+ROOTFS_RO_UNNEEDED ??= "update-rc.d base-passwd shadow ${VIRTUAL-RUNTIME_update-alternatives} ${ROOTFS_BOOTSTRAP_INSTALL}"
- 
- # packages to install from features
- FEATURE_INSTALL = "${@' '.join(oe.packagegroup.required_packages(oe.data.typed_value('IMAGE_FEATURES', d), d))}"
--- 
-2.12.2
+> Done:
+> http://lists.openembedded.org/pipermail/openembedded-core/
+> 2017-April/136086.html
+>
 
+Thanks!
 
+Ross
+
+--001a1135cbccdfe1f9054e0eb0f7
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 25 April 2017 at 23:35, Nathan Lynch <span dir=3D"ltr">&lt;<a href=3D"ma=
+ilto:nathan_lynch@mentor.com" target=3D"_blank">nathan_lynch@mentor.com</a>=
+&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0=
+ 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":485" class=
+=3D"a3s aXjCH m15ba741bfe161812">Done:<br>
+<a href=3D"http://lists.openembedded.org/pipermail/openembedded-core/2017-A=
+pril/136086.html" rel=3D"noreferrer" target=3D"_blank">http://lists.openemb=
+edded.org/<wbr>pipermail/openembedded-core/<wbr>2017-April/136086.html</a><=
+/div></blockquote></div><br>Thanks!</div><div class=3D"gmail_extra"><br></d=
+iv><div class=3D"gmail_extra">Ross</div></div>
+
+--001a1135cbccdfe1f9054e0eb0f7--
