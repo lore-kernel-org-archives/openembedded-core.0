@@ -1,41 +1,47 @@
-Return-Path: <sbabic@denx.de>
-X-Greylist: delayed 565 seconds by postgrey-1.34 at layers.openembedded.org;
-	Wed, 26 Apr 2017 13:30:19 UTC
-Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
-	by mail.openembedded.org (Postfix) with ESMTP id 16BB871C7B
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-qt0-f195.google.com (mail-qt0-f195.google.com
+	[209.85.216.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 1557A77C72
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Apr 2017 13:30:19 +0000 (UTC)
-Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
-	by mail-out.m-online.net (Postfix) with ESMTP id 3wCggq3FDnz1rG7B;
-	Wed, 26 Apr 2017 15:20:55 +0200 (CEST)
-Received: from localhost (dynscan01.mnet-online.de [192.168.6.70])
-	by mail.m-online.net (Postfix) with ESMTP id 3wCggq2p16z3hhWY;
-	Wed, 26 Apr 2017 15:20:55 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at mnet-online.de
-Received: from mail.mnet-online.de ([192.168.8.182])
-	by localhost (dynscan01.mail.m-online.net [192.168.6.70]) (amavisd-new,
-	port 10024)
-	with ESMTP id oiIvOZ8PmIuL; Wed, 26 Apr 2017 15:20:54 +0200 (CEST)
-Received: from babic.homelinux.org (host-88-217-136-221.customer.m-online.net
-	[88.217.136.221]) by mail.mnet-online.de (Postfix) with ESMTP;
-	Wed, 26 Apr 2017 15:20:54 +0200 (CEST)
-Received: from localhost (mail.babic.homelinux.org [127.0.0.1])
-	by babic.homelinux.org (Postfix) with ESMTP id 282834540436;
-	Wed, 26 Apr 2017 15:20:54 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at babic.homelinux.org
-Received: from babic.homelinux.org ([127.0.0.1])
-	by localhost (mail.babic.homelinux.org [127.0.0.1]) (amavisd-new,
-	port 10024)
-	with ESMTP id gPQzzQk_8CUu; Wed, 26 Apr 2017 15:20:51 +0200 (CEST)
-Received: from papero.fritz.box (papero.fritz.box [192.168.178.132])
-	by babic.homelinux.org (Postfix) with ESMTP id 84435454028E;
-	Wed, 26 Apr 2017 15:20:51 +0200 (CEST)
-From: Stefano Babic <sbabic@denx.de>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 26 Apr 2017 15:19:57 +0200
-Message-Id: <1493212797-10326-1-git-send-email-sbabic@denx.de>
-X-Mailer: git-send-email 2.7.4
-Subject: [PATCH] kernel-yocto: run make config for KBUILD_DEFCONFIG
+	Wed, 26 Apr 2017 13:56:01 +0000 (UTC)
+Received: by mail-qt0-f195.google.com with SMTP id o36so165796qtb.2
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 26 Apr 2017 06:56:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=hWv6zGIMjcDMwPpGUdIxe/7Wev8w71oid6JW5oBmwfA=;
+	b=V77Rw/zY0js5d9oWZkMk+IKIZombie5l+pYFtTWqPEb9qHdG0oLqRV5YO5CoiEPU3H
+	/i7BsyJksdUvOylSn1Tu1McNrh4C5WoKyRLk4GbqZwES3UP8Kq8GhXH0m+fVO8Dg6GSo
+	amAlQ7LPshpb8W4oSdlbLHiw5h8DwacuwtenSvMpy7O9Tuju8og6AA0n1rz2ynSWMTgZ
+	vBl1PjlUjyly3hlB9mHiIP6GVn/8GQoDU/vUJso3Px1dyPIDseKYo7LwLnuffdlm/E8d
+	TRXT4DuZqTP6pQuazsi01lKXYrd7HWzBNfxdaXWcDMZRyUUI/qiuteDXO9Cri4kNKKi8
+	GR+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=hWv6zGIMjcDMwPpGUdIxe/7Wev8w71oid6JW5oBmwfA=;
+	b=HWa+KnbMW56WLRQ148Qh9dmWkwKY0Evn3AQEgR11Vk9531Ju6U+BDUr/TyoKh//Cta
+	WIaOrReKqdvYUjxR52ajydZGJXqf8jpuaiKTqTYGz7QQ1O78kN1sdYpgFqLUrl8VSpHf
+	MeNDpBV3yr0uhNCSb0bzGVdD1SLqcZgfu1BFmmEUt4yvtKb22rWA5gcXkJGmB52+mWNJ
+	4+mK30lGmC1U2gHUDyj+ns1r2cMKWRlsv3bslGSCVeyCNbprfA2RJF/n3M+ef626/YXY
+	eAO0GLWDya11CqjO3vt1LcNxiVP4oOtxdOi1pD6ItmK2gftBp/G64UwHOeVJ3KxYFKAo
+	R+lw==
+X-Gm-Message-State: AN3rC/4u3jz/nuTT5m/WS0D26P7FL1sSr3cvzZsc4f/r1ClbGAPf5PvN
+	jr5pvDImwvESpHeMV9kWPuUOlf9/ZQ==
+X-Received: by 10.237.35.162 with SMTP id j31mr35539601qtc.117.1493214962807; 
+	Wed, 26 Apr 2017 06:56:02 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.12.145.143 with HTTP; Wed, 26 Apr 2017 06:56:02 -0700 (PDT)
+In-Reply-To: <1493212797-10326-1-git-send-email-sbabic@denx.de>
+References: <1493212797-10326-1-git-send-email-sbabic@denx.de>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Wed, 26 Apr 2017 09:56:02 -0400
+Message-ID: <CADkTA4O20RFW1Ju-V4=cpngXgGaTEZ2z1EUC6SiVRfb2fG7pYw@mail.gmail.com>
+To: Stefano Babic <sbabic@denx.de>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] kernel-yocto: run make config for KBUILD_DEFCONFIG
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,36 +54,148 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Apr 2017 13:30:20 -0000
+X-List-Received-Date: Wed, 26 Apr 2017 13:56:02 -0000
+Content-Type: multipart/alternative; boundary=001a113e7f546e78cf054e1233ab
 
-In case the defconfig was created with "make savedefconfig", it is not
-enough to copy it to defconfig as it is done now. In fact, running make
-${KBUILD_DEFCONFIG}, as usually when building the kernel outside poky,
-does much more and the resulting .config file is different as the starting one.
-The file generated by "make savedefconfig" contains in most cases a
-subset of all options that are required for the kernel, and other
-options are inserted automatically when make is called.
+--001a113e7f546e78cf054e1233ab
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Stefano Babic <sbabic@denx.de>
----
- meta/classes/kernel-yocto.bbclass | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+On Wed, Apr 26, 2017 at 9:19 AM, Stefano Babic <sbabic@denx.de> wrote:
 
-diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yocto.bbclass
-index 0330270..27ff8b7 100644
---- a/meta/classes/kernel-yocto.bbclass
-+++ b/meta/classes/kernel-yocto.bbclass
-@@ -109,7 +109,8 @@ do_kernel_metadata() {
- 					bbwarn "defconfig detected in WORKDIR. ${KBUILD_DEFCONFIG} skipped"
- 				fi
- 			else
--				cp -f ${S}/arch/${ARCH}/configs/${KBUILD_DEFCONFIG} ${WORKDIR}/defconfig
-+                                oe_runmake -C ${S} O=${B} ${KBUILD_DEFCONFIG}
-+                                mv ${B}/.config ${WORKDIR}/defconfig
- 				sccs="${WORKDIR}/defconfig"
- 			fi
- 		else
+> In case the defconfig was created with "make savedefconfig", it is not
+> enough to copy it to defconfig as it is done now. In fact, running make
+> ${KBUILD_DEFCONFIG}, as usually when building the kernel outside poky,
+> does much more and the resulting .config file is different as the starting
+> one.
+> The file generated by "make savedefconfig" contains in most cases a
+> subset of all options that are required for the kernel, and other
+> options are inserted automatically when make is called.
+>
+> Signed-off-by: Stefano Babic <sbabic@denx.de>
+> ---
+>  meta/classes/kernel-yocto.bbclass | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+>
+> diff --git a/meta/classes/kernel-yocto.bbclass
+> b/meta/classes/kernel-yocto.bbclass
+> index 0330270..27ff8b7 100644
+> --- a/meta/classes/kernel-yocto.bbclass
+> +++ b/meta/classes/kernel-yocto.bbclass
+> @@ -109,7 +109,8 @@ do_kernel_metadata() {
+>                                         bbwarn "defconfig detected in
+> WORKDIR. ${KBUILD_DEFCONFIG} skipped"
+>                                 fi
+>                         else
+> -                               cp -f ${S}/arch/${ARCH}/configs/${KBUILD_DEFCONFIG}
+> ${WORKDIR}/defconfig
+> +                                oe_runmake -C ${S} O=${B}
+> ${KBUILD_DEFCONFIG}
+>
+
+
+This would need to be a different mode in the configuration task, not here.
+This routine only gathers inputs, and doesn't process them.
+
+I have an open bug for this, and a WIP patch that will go out early in the
+2.4 release cycle.
+
+Bruce
+
+
+> +                                mv ${B}/.config ${WORKDIR}/defconfig
+>                                 sccs="${WORKDIR}/defconfig"
+>                         fi
+>                 else
+> --
+> 2.7.4
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+
+
+
 -- 
-2.7.4
+"Thou shalt not follow the NULL pointer, for chaos and madness await thee
+at its end"
 
+--001a113e7f546e78cf054e1233ab
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
+te">On Wed, Apr 26, 2017 at 9:19 AM, Stefano Babic <span dir=3D"ltr">&lt;<a=
+ href=3D"mailto:sbabic@denx.de" target=3D"_blank">sbabic@denx.de</a>&gt;</s=
+pan> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex=
+;border-left:1px #ccc solid;padding-left:1ex">In case the defconfig was cre=
+ated with &quot;make savedefconfig&quot;, it is not<br>
+enough to copy it to defconfig as it is done now. In fact, running make<br>
+${KBUILD_DEFCONFIG}, as usually when building the kernel outside poky,<br>
+does much more and the resulting .config file is different as the starting =
+one.<br>
+The file generated by &quot;make savedefconfig&quot; contains in most cases=
+ a<br>
+subset of all options that are required for the kernel, and other<br>
+options are inserted automatically when make is called.<br>
+<br>
+Signed-off-by: Stefano Babic &lt;<a href=3D"mailto:sbabic@denx.de">sbabic@d=
+enx.de</a>&gt;<br>
+---<br>
+=C2=A0meta/classes/kernel-yocto.<wbr>bbclass | 3 ++-<br>
+=C2=A01 file changed, 2 insertions(+), 1 deletion(-)<br>
+<br>
+diff --git a/meta/classes/kernel-yocto.<wbr>bbclass b/meta/classes/kernel-y=
+octo.<wbr>bbclass<br>
+index 0330270..27ff8b7 100644<br>
+--- a/meta/classes/kernel-yocto.<wbr>bbclass<br>
++++ b/meta/classes/kernel-yocto.<wbr>bbclass<br>
+@@ -109,7 +109,8 @@ do_kernel_metadata() {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bbwarn &=
+quot;defconfig detected in WORKDIR. ${KBUILD_DEFCONFIG} skipped&quot;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 fi<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 else<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0cp -f ${S}/arch/${ARCH}/configs/${<wb=
+r>KBUILD_DEFCONFIG} ${WORKDIR}/defconfig<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 oe_runmake -C ${S} O=3D${B} ${KBUILD=
+_DEFCONFIG}<br></blockquote><div><br></div><div><br></div><div>This would n=
+eed to be a different mode in the configuration task, not here.</div><div>T=
+his routine only gathers inputs, and doesn&#39;t process them.</div><div><b=
+r></div><div>I have an open bug for this, and a WIP patch that will go out =
+early in the</div><div>2.4 release cycle.</div><div><br></div><div>Bruce</d=
+iv><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0=
+ .8ex;border-left:1px #ccc solid;padding-left:1ex">
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 mv ${B}/.config ${WORKDIR}/defconfig=
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 sccs=3D&quot;${WORKDIR}/defconfig&qu=
+ot;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 fi<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 else<br>
+<span class=3D"HOEnZb"><font color=3D"#888888">--<br>
+2.7.4<br>
+<br>
+--<br>
+______________________________<wbr>_________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
+re@lists.<wbr>openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
+ailman/listinfo/openembedded-<wbr>core</a><br>
+</font></span></blockquote></div><br><br clear=3D"all"><div><br></div>-- <b=
+r><div class=3D"gmail_signature" data-smartmail=3D"gmail_signature">&quot;T=
+hou shalt not follow the NULL pointer, for chaos and madness await thee at =
+its end&quot;</div>
+</div></div>
+
+--001a113e7f546e78cf054e1233ab--
