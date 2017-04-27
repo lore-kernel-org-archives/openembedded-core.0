@@ -1,23 +1,23 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id EF97B77D62
+	by mail.openembedded.org (Postfix) with ESMTP id E717577D20
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Apr 2017 14:28:34 +0000 (UTC)
+	Thu, 27 Apr 2017 14:28:35 +0000 (UTC)
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
 	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	27 Apr 2017 07:28:36 -0700
+	27 Apr 2017 07:28:37 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.37,384,1488873600"; d="scan'208";a="94884629"
+X-IronPort-AV: E=Sophos;i="5.37,384,1488873600"; d="scan'208";a="94884637"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by fmsmga006.fm.intel.com with ESMTP; 27 Apr 2017 07:28:35 -0700
+	by fmsmga006.fm.intel.com with ESMTP; 27 Apr 2017 07:28:36 -0700
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 27 Apr 2017 17:28:11 +0300
-Message-Id: <7c37b80082b49e30a8088e3ee1a4c1a3cf0ea54b.1493302527.git.alexander.kanavin@linux.intel.com>
+Date: Thu, 27 Apr 2017 17:28:12 +0300
+Message-Id: <1066239e93ba1338f54fb556be993908b6e5957e.1493302527.git.alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <cover.1493302527.git.alexander.kanavin@linux.intel.com>
 References: <cover.1493302527.git.alexander.kanavin@linux.intel.com>
-Subject: [PATCH 12/13] parted: move test helper scripts to Python 3
+Subject: [PATCH 13/13] kconfig-frontends: update to 4.10.0.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,83 +30,112 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Apr 2017 14:28:35 -0000
+X-List-Received-Date: Thu, 27 Apr 2017 14:28:36 -0000
+
+Add a couple of patches:
+- move python script to use Python 3
+- fix .pc file installation path
 
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- ...-helper-scripts-used-only-in-tests-to-Pyt.patch | 44 ++++++++++++++++++++++
- meta/recipes-extended/parted/parted_3.2.bb         |  3 +-
- 2 files changed, 46 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-extended/parted/files/0001-Move-python-helper-scripts-used-only-in-tests-to-Pyt.patch
+ .../files/0001-Fix-installation-of-.pc-files.patch | 29 ++++++++++++++++++++++
+ ...Switch-utils-kconfig-diff-to-use-Python-3.patch | 26 +++++++++++++++++++
+ ...s_3.12.0.0.bb => kconfig-frontends_4.10.0.1.bb} |  8 +++---
+ 3 files changed, 60 insertions(+), 3 deletions(-)
+ create mode 100644 meta/recipes-devtools/kconfig-frontends/files/0001-Fix-installation-of-.pc-files.patch
+ create mode 100644 meta/recipes-devtools/kconfig-frontends/files/0001-Switch-utils-kconfig-diff-to-use-Python-3.patch
+ rename meta/recipes-devtools/kconfig-frontends/{kconfig-frontends_3.12.0.0.bb => kconfig-frontends_4.10.0.1.bb} (80%)
 
-diff --git a/meta/recipes-extended/parted/files/0001-Move-python-helper-scripts-used-only-in-tests-to-Pyt.patch b/meta/recipes-extended/parted/files/0001-Move-python-helper-scripts-used-only-in-tests-to-Pyt.patch
+diff --git a/meta/recipes-devtools/kconfig-frontends/files/0001-Fix-installation-of-.pc-files.patch b/meta/recipes-devtools/kconfig-frontends/files/0001-Fix-installation-of-.pc-files.patch
 new file mode 100644
-index 00000000000..428b14ed5e0
+index 00000000000..e9195a0afcd
 --- /dev/null
-+++ b/meta/recipes-extended/parted/files/0001-Move-python-helper-scripts-used-only-in-tests-to-Pyt.patch
-@@ -0,0 +1,44 @@
-+From 6e82af54714392dcdf74a8aedaae7de7d0af1080 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-devtools/kconfig-frontends/files/0001-Fix-installation-of-.pc-files.patch
+@@ -0,0 +1,29 @@
++From 80c16b1f39402e8ce33600e5f297920a6d603090 Mon Sep 17 00:00:00 2001
 +From: Alexander Kanavin <alex.kanavin@gmail.com>
-+Date: Thu, 27 Apr 2017 16:37:24 +0300
-+Subject: [PATCH] Move python helper scripts (used only in tests) to Python 3
++Date: Thu, 27 Apr 2017 16:57:06 +0300
++Subject: [PATCH] Fix installation of .pc files
++
++They go to prefix/pkgconfig/, not prefix/pkg-config.
 +
 +Upstream-Status: Pending
 +Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 +---
-+ tests/gpt-header-move | 2 +-
-+ tests/msdos-overlap   | 4 ++--
-+ 2 files changed, 3 insertions(+), 3 deletions(-)
++ Makefile.am | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
 +
-+diff --git a/tests/gpt-header-move b/tests/gpt-header-move
-+index 05cdc65..3cbcb7e 100755
-+--- a/tests/gpt-header-move
-++++ b/tests/gpt-header-move
-+@@ -1,4 +1,4 @@
-+-#!/usr/bin/python
-++#!/usr/bin/env python3
++diff --git a/Makefile.am b/Makefile.am
++index 058690a..f9e9b7b 100644
++--- a/Makefile.am
+++++ b/Makefile.am
++@@ -107,7 +107,7 @@ EXTRA_DIST += \
++ 	libs/parser/yconf.y.patch
 + 
-+ # open img file, subtract 33 from altlba address, and move the last 33 sectors
-+ # back by 33 sectors
-+diff --git a/tests/msdos-overlap b/tests/msdos-overlap
-+index 5bddfb0..3de7d2e 100755
-+--- a/tests/msdos-overlap
-++++ b/tests/msdos-overlap
-+@@ -1,4 +1,4 @@
-+-#!/usr/bin/python
-++#!/usr/bin/env python3
-+ """
-+     Write an overlapping partition to a msdos disk
-+ 
-+@@ -14,7 +14,7 @@ BAD_ENTRY = (0x72, 0xf5, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+ OFFSET = 0x1b8
-+ 
-+ if len(sys.argv) < 2:
-+-    print "%s: <image or device>"
-++    print("%s: <image or device>")
-+     sys.exit(1)
-+ 
-+ data = "".join(chr(c) for c in BAD_ENTRY)
++ # libs/parser/kconfig-parser.pc generated by AC_CONFIG_FILES in configure.ac
++-pkgconfigdir = $(libdir)/pkg-config
+++pkgconfigdir = $(libdir)/pkgconfig
++ pkgconfig_DATA = libs/parser/kconfig-parser.pc
++ DISTCLEANFILES += libs/parser/kconfig-parser.pc
++ EXTRA_DIST += libs/parser/kconfig-parser.pc.in
 +-- 
 +2.11.0
 +
-diff --git a/meta/recipes-extended/parted/parted_3.2.bb b/meta/recipes-extended/parted/parted_3.2.bb
-index 9ce2dfecd33..73548b77925 100644
---- a/meta/recipes-extended/parted/parted_3.2.bb
-+++ b/meta/recipes-extended/parted/parted_3.2.bb
-@@ -14,6 +14,7 @@ SRC_URI = "${GNU_MIRROR}/parted/parted-${PV}.tar.xz \
-            file://0001-Include-fcntl.h-in-platform_defs.h.patch \
-            file://0001-Unset-need_charset_alias-when-building-for-musl.patch \
-            file://0002-libparted_fs_resize-link-against-libuuid-explicitly-.patch \
-+           file://0001-Move-python-helper-scripts-used-only-in-tests-to-Pyt.patch \
- 	   file://parted-3.2-sysmacros.patch \
-            file://run-ptest \
-            file://Makefile \
-@@ -46,4 +47,4 @@ do_install_ptest() {
- 	sed -e 's| ../parted||' -i $t/tests/*.sh
- }
+diff --git a/meta/recipes-devtools/kconfig-frontends/files/0001-Switch-utils-kconfig-diff-to-use-Python-3.patch b/meta/recipes-devtools/kconfig-frontends/files/0001-Switch-utils-kconfig-diff-to-use-Python-3.patch
+new file mode 100644
+index 00000000000..b8f8904816a
+--- /dev/null
++++ b/meta/recipes-devtools/kconfig-frontends/files/0001-Switch-utils-kconfig-diff-to-use-Python-3.patch
+@@ -0,0 +1,26 @@
++From 3b9b0f82c33f793a14d44bf06b6c8136bc3fc4bf Mon Sep 17 00:00:00 2001
++From: Alexander Kanavin <alex.kanavin@gmail.com>
++Date: Thu, 27 Apr 2017 16:48:42 +0300
++Subject: [PATCH] Switch utils/kconfig-diff to use Python 3
++
++The script supports it, but continues to refer to 2.x in shebang.
++
++Upstream-Status: Pending
++Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
++---
++ utils/kconfig-diff | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/utils/kconfig-diff b/utils/kconfig-diff
++index 0db267d..19189f3 100755
++--- a/utils/kconfig-diff
+++++ b/utils/kconfig-diff
++@@ -1,4 +1,4 @@
++-#!/usr/bin/python
+++#!/usr/bin/env python3
++ #
++ # diffconfig - a tool to compare .config files.
++ #
++-- 
++2.11.0
++
+diff --git a/meta/recipes-devtools/kconfig-frontends/kconfig-frontends_3.12.0.0.bb b/meta/recipes-devtools/kconfig-frontends/kconfig-frontends_4.10.0.1.bb
+similarity index 80%
+rename from meta/recipes-devtools/kconfig-frontends/kconfig-frontends_3.12.0.0.bb
+rename to meta/recipes-devtools/kconfig-frontends/kconfig-frontends_4.10.0.1.bb
+index 4ca0e4da3ae..be90d6b8803 100644
+--- a/meta/recipes-devtools/kconfig-frontends/kconfig-frontends_3.12.0.0.bb
++++ b/meta/recipes-devtools/kconfig-frontends/kconfig-frontends_4.10.0.1.bb
+@@ -12,10 +12,12 @@ LICENSE = "GPL-2.0"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=9b8cf60ff39767ff04b671fca8302408"
+ SECTION = "devel"
+ DEPENDS += "ncurses flex bison gperf-native"
+-RDEPENDS_${PN} += "python bash"
+-SRC_URI = "git://ymorin.is-a-geek.org/kconfig-frontends"
++RDEPENDS_${PN} += "python3 bash"
++SRC_URI = "git://ymorin.is-a-geek.org/kconfig-frontends;branch=4.10.x \
++           file://0001-Fix-installation-of-.pc-files.patch \
++           file://0001-Switch-utils-kconfig-diff-to-use-Python-3.patch"
  
--RDEPENDS_${PN}-ptest = "bash coreutils perl util-linux-losetup python"
-+RDEPENDS_${PN}-ptest = "bash coreutils perl util-linux-losetup python3"
+-SRCREV = "75d35b172fc0f7b6620dd659af41f2ce04edc4e6"
++SRCREV = "f8ffe5e1c6f183cb7d5d515aa9381b7557de654e"
+ 
+ S = "${WORKDIR}/git"
+ 
 -- 
 2.11.0
 
