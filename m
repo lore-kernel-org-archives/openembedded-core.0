@@ -1,25 +1,30 @@
-Return-Path: <Nathan_Lynch@mentor.com>
-Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id 5FDC677D0C
+Return-Path: <huangqy.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
+	by mail.openembedded.org (Postfix) with ESMTP id 60D7177C72
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Apr 2017 21:54:04 +0000 (UTC)
-Received: from svr-orw-mbx-02.mgc.mentorg.com ([147.34.90.202])
-	by relay1.mentorg.com with esmtp 
-	id 1d3Usv-0002ni-W3 from Nathan_Lynch@mentor.com 
-	for openembedded-core@lists.openembedded.org;
-	Wed, 26 Apr 2017 14:54:06 -0700
-Received: from localhost (147.34.91.1) by svr-orw-mbx-02.mgc.mentorg.com
-	(147.34.90.202) with Microsoft SMTP Server (TLS) id 15.0.1210.3;
-	Wed, 26 Apr 2017 14:54:03 -0700
-From: Nathan Lynch <nathan_lynch@mentor.com>
+	Thu, 27 Apr 2017 01:47:20 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.22,518,1449504000"; d="scan'208";a="18208847"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 27 Apr 2017 09:47:19 +0800
+Received: from G08CNEXCHPEKD02.g08.fujitsu.local (unknown [10.167.33.83])
+	by cn.fujitsu.com (Postfix) with ESMTP id AB4C647CE222
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 27 Apr 2017 09:47:18 +0800 (CST)
+Received: from localhost.localdomain (10.167.226.81) by
+	G08CNEXCHPEKD02.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.319.2; Thu, 27 Apr 2017 09:47:18 +0800
+From: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 26 Apr 2017 16:54:01 -0500
-Message-ID: <20170426215401.35981-1-nathan_lynch@mentor.com>
-X-Mailer: git-send-email 2.9.3
+Date: Thu, 27 Apr 2017 09:46:54 +0800
+Message-ID: <1493257614-12832-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-X-ClientProxiedBy: svr-orw-mbx-03.mgc.mentorg.com (147.34.90.203) To
-	svr-orw-mbx-02.mgc.mentorg.com (147.34.90.202)
-Subject: [PATCH] lttng-modules: update to 2.9.2
+X-Originating-IP: [10.167.226.81]
+X-yoursite-MailScanner-ID: AB4C647CE222.A6394
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: huangqy.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [PATCH] dbus-test: 1.10.14 -> 1.10.18
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,36 +37,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Apr 2017 21:54:06 -0000
+X-List-Received-Date: Thu, 27 Apr 2017 01:47:22 -0000
 Content-Type: text/plain
 
-This version bump adds support for Linux 4.11.
+Upgrade dbus-test from 1.10.14 to 1.10.18.
 
-Signed-off-by: Nathan Lynch <nathan_lynch@mentor.com>
+Signed-off-by: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
 ---
- .../lttng/{lttng-modules_2.9.1.bb => lttng-modules_2.9.2.bb}          | 4 ++--
+ meta/recipes-core/dbus/{dbus-test_1.10.14.bb => dbus-test_1.10.18.bb} | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-kernel/lttng/{lttng-modules_2.9.1.bb => lttng-modules_2.9.2.bb} (89%)
+ rename meta/recipes-core/dbus/{dbus-test_1.10.14.bb => dbus-test_1.10.18.bb} (93%)
 
-diff --git a/meta/recipes-kernel/lttng/lttng-modules_2.9.1.bb b/meta/recipes-kernel/lttng/lttng-modules_2.9.2.bb
-similarity index 89%
-rename from meta/recipes-kernel/lttng/lttng-modules_2.9.1.bb
-rename to meta/recipes-kernel/lttng/lttng-modules_2.9.2.bb
-index abff79d06f26..50426a49abca 100644
---- a/meta/recipes-kernel/lttng/lttng-modules_2.9.1.bb
-+++ b/meta/recipes-kernel/lttng/lttng-modules_2.9.2.bb
-@@ -13,8 +13,8 @@ COMPATIBLE_HOST = '(x86_64|i.86|powerpc|aarch64|mips|nios2|arm).*-linux'
- SRC_URI = "https://lttng.org/files/${BPN}/${BPN}-${PV}.tar.bz2 \
-            file://Makefile-Do-not-fail-if-CONFIG_TRACEPOINTS-is-not-en.patch"
+diff --git a/meta/recipes-core/dbus/dbus-test_1.10.14.bb b/meta/recipes-core/dbus/dbus-test_1.10.18.bb
+similarity index 93%
+rename from meta/recipes-core/dbus/dbus-test_1.10.14.bb
+rename to meta/recipes-core/dbus/dbus-test_1.10.18.bb
+index 5394814..141baf2 100644
+--- a/meta/recipes-core/dbus/dbus-test_1.10.14.bb
++++ b/meta/recipes-core/dbus/dbus-test_1.10.18.bb
+@@ -17,8 +17,8 @@ SRC_URI = "http://dbus.freedesktop.org/releases/dbus/dbus-${PV}.tar.gz \
+            file://clear-guid_from_server-if-send_negotiate_unix_f.patch \
+            "
  
--SRC_URI[md5sum] = "5a16bca52233cc2bdff572b1120a88f6"
--SRC_URI[sha256sum] = "62078fe3254ca65969db4b72e59042cd797dbf2740848f8f82384877ae460d54"
-+SRC_URI[md5sum] = "6c02645c77fd4d6475a4f83bda1d75ff"
-+SRC_URI[sha256sum] = "9d70d54becd8c34c21eb0d5c1ffe6adadb6be5bec80b6667044c47dfd428dc66"
+-SRC_URI[md5sum] = "3f7b013ce8f641cd4c897acda0ef3467"
+-SRC_URI[sha256sum] = "23238f70353e38ce5ca183ebc9525c0d97ac00ef640ad29cf794782af6e6a083"
++SRC_URI[md5sum] = "1209c455598165a0c5263d4201894179"
++SRC_URI[sha256sum] = "6049ddd5f3f3e2618f615f1faeda0a115104423a7996b7aa73e2f36e38cc514a"
  
- export INSTALL_MOD_DIR="kernel/lttng-modules"
- 
+ S="${WORKDIR}/dbus-${PV}"
+ FILESEXTRAPATHS =. "${FILE_DIRNAME}/dbus:"
 -- 
-2.9.3
+2.7.4
+
+
 
 
