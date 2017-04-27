@@ -1,23 +1,23 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 14B6077D64
+	by mail.openembedded.org (Postfix) with ESMTP id 0DA2177D7A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Apr 2017 14:28:32 +0000 (UTC)
+	Thu, 27 Apr 2017 14:28:33 +0000 (UTC)
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
 	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	27 Apr 2017 07:28:33 -0700
+	27 Apr 2017 07:28:34 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.37,384,1488873600"; d="scan'208";a="94884590"
+X-IronPort-AV: E=Sophos;i="5.37,384,1488873600"; d="scan'208";a="94884614"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by fmsmga006.fm.intel.com with ESMTP; 27 Apr 2017 07:28:33 -0700
+	by fmsmga006.fm.intel.com with ESMTP; 27 Apr 2017 07:28:34 -0700
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 27 Apr 2017 17:28:08 +0300
-Message-Id: <2c3d44502565e7b0a17b028f08f67b402c16d80d.1493302527.git.alexander.kanavin@linux.intel.com>
+Date: Thu, 27 Apr 2017 17:28:09 +0300
+Message-Id: <4b72481c10b50f33073cda1a46ca45c07d1bd477.1493302527.git.alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <cover.1493302527.git.alexander.kanavin@linux.intel.com>
 References: <cover.1493302527.git.alexander.kanavin@linux.intel.com>
-Subject: [PATCH 09/13] python: remove unused 2.x versions of several packages
+Subject: [PATCH 10/13] opkg-utils: move to Python 3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,175 +30,165 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Apr 2017 14:28:32 -0000
+X-List-Received-Date: Thu, 27 Apr 2017 14:28:33 -0000
 
-Nothing is using them in oe-core or meta-oe layers (except python-six is used by
-and provided in meta-oe, so there was recipe duplication).
+The scripts were fixed to be compatible with py3 some time ago,
+but the shebang continued to refer to python 2.x.
 
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- meta/recipes-devtools/python/python-async_0.6.2.bb |  5 ----
- meta/recipes-devtools/python/python-git_2.1.1.bb   |  7 ------
- meta/recipes-devtools/python/python-gitdb_0.6.4.bb |  7 ------
- meta/recipes-devtools/python/python-mako_1.0.6.bb  | 17 -------------
- .../python/python-pexpect_4.2.1.bb                 | 28 ----------------------
- .../python/python-ptyprocess_0.5.1.bb              | 23 ------------------
- meta/recipes-devtools/python/python-six_1.10.0.bb  |  4 ----
- meta/recipes-devtools/python/python-smmap_0.9.0.bb |  5 ----
- 8 files changed, 96 deletions(-)
- delete mode 100644 meta/recipes-devtools/python/python-async_0.6.2.bb
- delete mode 100644 meta/recipes-devtools/python/python-git_2.1.1.bb
- delete mode 100644 meta/recipes-devtools/python/python-gitdb_0.6.4.bb
- delete mode 100644 meta/recipes-devtools/python/python-mako_1.0.6.bb
- delete mode 100644 meta/recipes-devtools/python/python-pexpect_4.2.1.bb
- delete mode 100644 meta/recipes-devtools/python/python-ptyprocess_0.5.1.bb
- delete mode 100644 meta/recipes-devtools/python/python-six_1.10.0.bb
- delete mode 100644 meta/recipes-devtools/python/python-smmap_0.9.0.bb
+ ...0001-Switch-all-scripts-to-use-Python-3.x.patch | 112 +++++++++++++++++++++
+ meta/recipes-devtools/opkg-utils/opkg-utils_git.bb |   5 +-
+ 2 files changed, 115 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-devtools/opkg-utils/opkg-utils/0001-Switch-all-scripts-to-use-Python-3.x.patch
 
-diff --git a/meta/recipes-devtools/python/python-async_0.6.2.bb b/meta/recipes-devtools/python/python-async_0.6.2.bb
-deleted file mode 100644
-index d855e42a79f..00000000000
---- a/meta/recipes-devtools/python/python-async_0.6.2.bb
-+++ /dev/null
-@@ -1,5 +0,0 @@
--require python-async.inc
--
--inherit setuptools
--
--RDEPENDS_${PN} += "python-threading python-lang"
-diff --git a/meta/recipes-devtools/python/python-git_2.1.1.bb b/meta/recipes-devtools/python/python-git_2.1.1.bb
-deleted file mode 100644
-index e49dbea544b..00000000000
---- a/meta/recipes-devtools/python/python-git_2.1.1.bb
-+++ /dev/null
-@@ -1,7 +0,0 @@
--require python-git.inc
--
--DEPENDS = "python-gitdb"
--
--inherit setuptools
--
--RDEPENDS_${PN} += "python-gitdb python-lang python-io python-shell python-math python-re python-subprocess python-stringold python-unixadmin"
-diff --git a/meta/recipes-devtools/python/python-gitdb_0.6.4.bb b/meta/recipes-devtools/python/python-gitdb_0.6.4.bb
-deleted file mode 100644
-index 17773957930..00000000000
---- a/meta/recipes-devtools/python/python-gitdb_0.6.4.bb
-+++ /dev/null
-@@ -1,7 +0,0 @@
--require python-gitdb.inc
--
--DEPENDS = "python-async python-smmap"
--
--inherit distutils
--
--RDEPENDS_${PN} += "python-smmap python-async python-mmap python-lang python-zlib python-io python-shell"
-diff --git a/meta/recipes-devtools/python/python-mako_1.0.6.bb b/meta/recipes-devtools/python/python-mako_1.0.6.bb
-deleted file mode 100644
-index 230044e1a25..00000000000
---- a/meta/recipes-devtools/python/python-mako_1.0.6.bb
-+++ /dev/null
-@@ -1,17 +0,0 @@
--require python-mako.inc
--
--inherit setuptools
--
--RDEPENDS_${PN} = "python-threading \
--                  python-netclient \
--                  python-html \
--"
--RDEPENDS_${PN}_class-native = ""
--
--BBCLASSEXTEND = "native nativesdk"
--
--# The same utility is packaged in python3-mako, so it would conflict
--do_install_append() {
--    rm -f ${D}${bindir}/mako-render
--    rmdir ${D}${bindir}
--}
-diff --git a/meta/recipes-devtools/python/python-pexpect_4.2.1.bb b/meta/recipes-devtools/python/python-pexpect_4.2.1.bb
-deleted file mode 100644
-index 1321797ef9c..00000000000
---- a/meta/recipes-devtools/python/python-pexpect_4.2.1.bb
-+++ /dev/null
-@@ -1,28 +0,0 @@
--SUMMARY = "A Pure Python Expect like Module for Python"
--HOMEPAGE = "http://pexpect.readthedocs.org/"
--SECTION = "devel/python"
--LICENSE = "ISC"
--LIC_FILES_CHKSUM = "file://LICENSE;md5=1c7a725251880af8c6a148181665385b"
--
--SRCNAME = "pexpect"
--
--SRC_URI = "https://files.pythonhosted.org/packages/source/p/${SRCNAME}/${SRCNAME}-${PV}.tar.gz"
--SRC_URI[md5sum] = "3694410001a99dff83f0b500a1ca1c95"
--SRC_URI[sha256sum] = "3d132465a75b57aa818341c6521392a06cc660feb3988d7f1074f39bd23c9a92"
--
--UPSTREAM_CHECK_URI = "https://pypi.python.org/pypi/pexpect"
--
--S = "${WORKDIR}/pexpect-${PV}"
--
--inherit setuptools
--
--RDEPENDS_${PN} = "\
--    python-core \
--    python-io \
--    python-terminal \
--    python-resource \
--    python-fcntl \
--    python-ptyprocess \
--"
--
--BBCLASSEXTEND = "native nativesdk"
-diff --git a/meta/recipes-devtools/python/python-ptyprocess_0.5.1.bb b/meta/recipes-devtools/python/python-ptyprocess_0.5.1.bb
-deleted file mode 100644
-index eed24ad2ecd..00000000000
---- a/meta/recipes-devtools/python/python-ptyprocess_0.5.1.bb
-+++ /dev/null
-@@ -1,23 +0,0 @@
--SUMMARY = "Run a subprocess in a pseudo terminal"
--HOMEPAGE = "http://ptyprocess.readthedocs.io/en/latest/"
--SECTION = "devel/python"
--LICENSE = "ISC"
--LIC_FILES_CHKSUM = "file://LICENSE;md5=cfdcd51fa7d5808da4e74346ee394490"
--
--SRCNAME = "ptyprocess"
--
--SRC_URI = "https://files.pythonhosted.org/packages/source/p/${SRCNAME}/${SRCNAME}-${PV}.tar.gz"
--SRC_URI[md5sum] = "94e537122914cc9ec9c1eadcd36e73a1"
--SRC_URI[sha256sum] = "0530ce63a9295bfae7bd06edc02b6aa935619f486f0f1dc0972f516265ee81a6"
--
--UPSTREAM_CHECK_URI = "https://pypi.python.org/pypi/ptyprocess"
--
--S = "${WORKDIR}/${SRCNAME}-${PV}"
--
--inherit setuptools
--
--RDEPENDS_${PN} = "\
--    python-core \
--"
--
--BBCLASSEXTEND = "native nativesdk"
-diff --git a/meta/recipes-devtools/python/python-six_1.10.0.bb b/meta/recipes-devtools/python/python-six_1.10.0.bb
-deleted file mode 100644
-index 4350485f734..00000000000
---- a/meta/recipes-devtools/python/python-six_1.10.0.bb
-+++ /dev/null
-@@ -1,4 +0,0 @@
--inherit setuptools
--require python-six.inc
--
--RDEPENDS_${PN} += "python-io"
-diff --git a/meta/recipes-devtools/python/python-smmap_0.9.0.bb b/meta/recipes-devtools/python/python-smmap_0.9.0.bb
-deleted file mode 100644
-index c118dd8d636..00000000000
---- a/meta/recipes-devtools/python/python-smmap_0.9.0.bb
-+++ /dev/null
-@@ -1,5 +0,0 @@
--require python-smmap.inc
--
--inherit setuptools
--
--RDEPENDS_${PN} += "python-codecs python-mmap python-lang"
+diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils/0001-Switch-all-scripts-to-use-Python-3.x.patch b/meta/recipes-devtools/opkg-utils/opkg-utils/0001-Switch-all-scripts-to-use-Python-3.x.patch
+new file mode 100644
+index 00000000000..c36ae2ffdac
+--- /dev/null
++++ b/meta/recipes-devtools/opkg-utils/opkg-utils/0001-Switch-all-scripts-to-use-Python-3.x.patch
+@@ -0,0 +1,112 @@
++From d42b23f4fb5d6bd58e92e995fe5befc76efbae0c Mon Sep 17 00:00:00 2001
++From: Alexander Kanavin <alex.kanavin@gmail.com>
++Date: Thu, 27 Apr 2017 15:47:58 +0300
++Subject: [PATCH] Switch all scripts to use Python 3.x
++
++Upstream-Status: Pending
++Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
++---
++ makePackage          | 2 +-
++ opkg-compare-indexes | 2 +-
++ opkg-graph-deps      | 2 +-
++ opkg-list-fields     | 2 +-
++ opkg-make-index      | 2 +-
++ opkg-show-deps       | 2 +-
++ opkg-unbuild         | 2 +-
++ opkg-update-index    | 2 +-
++ opkg.py              | 2 +-
++ 9 files changed, 9 insertions(+), 9 deletions(-)
++
++diff --git a/makePackage b/makePackage
++index 4bdfc56..02124dd 100755
++--- a/makePackage
+++++ b/makePackage
++@@ -1,4 +1,4 @@
++-#!/usr/bin/python
+++#!/usr/bin/env python3
++ 
++ # The general algorithm this program follows goes like this:
++ #   Run tar to extract control from control.tar.gz from the package.
++diff --git a/opkg-compare-indexes b/opkg-compare-indexes
++index b60d20a..80c1263 100755
++--- a/opkg-compare-indexes
+++++ b/opkg-compare-indexes
++@@ -1,4 +1,4 @@
++-#!/usr/bin/env python
+++#!/usr/bin/env python3
++ from __future__ import absolute_import
++ from __future__ import print_function
++ 
++diff --git a/opkg-graph-deps b/opkg-graph-deps
++index 6653fd5..f1e376a 100755
++--- a/opkg-graph-deps
+++++ b/opkg-graph-deps
++@@ -1,4 +1,4 @@
++-#!/usr/bin/env python
+++#!/usr/bin/env python3
++ from __future__ import absolute_import
++ from __future__ import print_function
++ 
++diff --git a/opkg-list-fields b/opkg-list-fields
++index c14a90f..24f7955 100755
++--- a/opkg-list-fields
+++++ b/opkg-list-fields
++@@ -1,4 +1,4 @@
++-#!/usr/bin/env python
+++#!/usr/bin/env python3
++ from __future__ import absolute_import
++ from __future__ import print_function
++ 
++diff --git a/opkg-make-index b/opkg-make-index
++index 3f757f6..2988f9f 100755
++--- a/opkg-make-index
+++++ b/opkg-make-index
++@@ -1,4 +1,4 @@
++-#!/usr/bin/env python
+++#!/usr/bin/env python3
++ from __future__ import absolute_import
++ from __future__ import print_function
++ 
++diff --git a/opkg-show-deps b/opkg-show-deps
++index 153f21e..4e18b4f 100755
++--- a/opkg-show-deps
+++++ b/opkg-show-deps
++@@ -1,4 +1,4 @@
++-#!/usr/bin/env python
+++#!/usr/bin/env python3
++ from __future__ import absolute_import
++ from __future__ import print_function
++ 
++diff --git a/opkg-unbuild b/opkg-unbuild
++index 4f36bec..57642c9 100755
++--- a/opkg-unbuild
+++++ b/opkg-unbuild
++@@ -1,4 +1,4 @@
++-#!/usr/bin/env python
+++#!/usr/bin/env python3
++ from __future__ import absolute_import
++ from __future__ import print_function
++ 
++diff --git a/opkg-update-index b/opkg-update-index
++index 341c1c2..7bff8a1 100755
++--- a/opkg-update-index
+++++ b/opkg-update-index
++@@ -1,4 +1,4 @@
++-#!/usr/bin/env python
+++#!/usr/bin/env python3
++ from __future__ import absolute_import
++ 
++ import sys, os
++diff --git a/opkg.py b/opkg.py
++index 2ecac8a..7e64de4 100644
++--- a/opkg.py
+++++ b/opkg.py
++@@ -1,4 +1,4 @@
++-#!/usr/bin/env python
+++#!/usr/bin/env python3
++ #   Copyright (C) 2001 Alexander S. Guy <a7r@andern.org>
++ #                      Andern Research Labs
++ #
++-- 
++2.11.0
++
+diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb b/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb
+index 9deea0f5e57..2460a26324f 100644
+--- a/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb
++++ b/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb
+@@ -4,13 +4,14 @@ SECTION = "base"
+ HOMEPAGE = "http://git.yoctoproject.org/cgit/cgit.cgi/opkg-utils"
+ LICENSE = "GPLv2+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
+-                    file://opkg.py;beginline=1;endline=18;md5=15917491ad6bf7acc666ca5f7cc1e083"
++                    file://opkg.py;beginline=2;endline=18;md5=63ce9e6bcc445181cd9e4baf4b4ccc35"
+ PROVIDES += "${@bb.utils.contains('PACKAGECONFIG', 'update-alternatives', 'virtual/update-alternatives', '', d)}"
+ 
+ SRCREV = "1a708fd73d10c2b7677dd4cc4e017746ebbb9166"
+ PV = "0.3.4+git${SRCPV}"
+ 
+ SRC_URI = "git://git.yoctoproject.org/opkg-utils \
++           file://0001-Switch-all-scripts-to-use-Python-3.x.patch \
+ "
+ SRC_URI_append_class-native = " file://tar_ignore_error.patch"
+ 
+@@ -18,7 +19,7 @@ S = "${WORKDIR}/git"
+ 
+ TARGET_CC_ARCH += "${LDFLAGS}"
+ 
+-PYTHONRDEPS = "python python-shell python-io python-math python-crypt python-logging python-fcntl python-subprocess python-pickle python-compression python-textutils python-stringold"
++PYTHONRDEPS = "python3 python3-shell python3-io python3-math python3-crypt python3-logging python3-fcntl python3-subprocess python3-pickle python3-compression python3-textutils python3-stringold"
+ PYTHONRDEPS_class-native = ""
+ 
+ PACKAGECONFIG = "python update-alternatives"
 -- 
 2.11.0
 
