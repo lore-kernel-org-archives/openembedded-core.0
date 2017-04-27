@@ -1,19 +1,18 @@
-Return-Path: <panagiotis.tamtamis@unify.com>
-X-Greylist: delayed 350 seconds by postgrey-1.34 at layers.openembedded.org;
-	Thu, 27 Apr 2017 17:19:17 UTC
-Received: from mx12.unify.com (mx12.unify.com [62.134.46.10])
-	by mail.openembedded.org (Postfix) with ESMTP id 7786B71C7B
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Apr 2017 17:19:17 +0000 (UTC)
-Received: from ubuntu500.ath.global-intra.net (unknown [172.25.14.167])
-	by mx12.unify.com (Server) with ESMTP id 1A6A623F047B;
-	Thu, 27 Apr 2017 19:13:28 +0200 (CEST)
-From: Panagiotis Tamtamis <panagiotis.tamtamis@unify.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 27 Apr 2017 19:56:18 +0300
-Message-Id: <1493312178-8328-1-git-send-email-panagiotis.tamtamis@unify.com>
-X-Mailer: git-send-email 1.9.1
-Subject: [PATCH] Check if /etc/fstab exists
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id DECD971AE4;
+	Thu, 27 Apr 2017 17:31:47 +0000 (UTC)
+MIME-Version: 1.0
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Panagiotis Tamtamis <panagiotis.tamtamis@unify.com>
+Date: Thu, 27 Apr 2017 17:31:49 -0000
+Message-ID: <20170427173149.26295.81168@do.openembedded.org>
+References: <1493312178-8328-1-git-send-email-panagiotis.tamtamis@unify.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <1493312178-8328-1-git-send-email-panagiotis.tamtamis@unify.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgQ2hlY2sgaWYgL2V0Yy9mc3RhYiBleGlzdHM=?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -26,32 +25,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Apr 2017 17:19:20 -0000
+X-List-Received-Date: Thu, 27 Apr 2017 17:31:48 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-Using "read-only-rootfs" feature in minimal or special
-purpose images (eg mounted images) makes build to fail
-because ${IMAGE_ROOTFS}/etc/fstab file does not exist.
+== Series Details ==
 
-Signed-off-by: Panagiotis Tamtamis <panagiotis.tamtamis@unify.com>
+Series: Check if /etc/fstab exists
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/6541/
+State : failure
+
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Patch            Check if /etc/fstab exists
+ Issue             Shortlog does not follow expected format [test_shortlog_format] 
+  Suggested fix    Commit shortlog (first line of commit message) should follow the format "<target>: <summary>"
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- meta/classes/rootfs-postcommands.bbclass | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/meta/classes/rootfs-postcommands.bbclass b/meta/classes/rootfs-postcommands.bbclass
-index 0c7ceea..4709369 100644
---- a/meta/classes/rootfs-postcommands.bbclass
-+++ b/meta/classes/rootfs-postcommands.bbclass
-@@ -64,7 +64,8 @@ systemd_create_users () {
- #
- read_only_rootfs_hook () {
- 	# Tweak the mount option and fs_passno for rootfs in fstab
--	sed -i -e '/^[#[:space:]]*\/dev\/root/{s/defaults/ro/;s/\([[:space:]]*[[:digit:]]\)\([[:space:]]*\)[[:digit:]]$/\1\20/}' ${IMAGE_ROOTFS}/etc/fstab
-+	if [ -f ${IMAGE_ROOTFS}/etc/fstab ]; then
-+		sed -i -e '/^[#[:space:]]*\/dev\/root/{s/defaults/ro/;s/\([[:space:]]*[[:digit:]]\)\([[:space:]]*\)[[:digit:]]$/\1\20/}' ${IMAGE_ROOTFS}/etc/fstab
- 
- 	# If we're using openssh and the /etc/ssh directory has no pre-generated keys,
- 	# we should configure openssh to use the configuration file /etc/ssh/sshd_config_readonly
--- 
-1.9.1
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
