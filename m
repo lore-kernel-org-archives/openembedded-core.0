@@ -1,47 +1,48 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 545B76AC3C
+Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
+	by mail.openembedded.org (Postfix) with ESMTP id A2A766AC3C
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Apr 2017 20:47:01 +0000 (UTC)
-Received: by mail-wm0-f65.google.com with SMTP id z129so7141703wmb.1
+	Thu, 27 Apr 2017 20:53:17 +0000 (UTC)
+Received: by mail-wm0-f67.google.com with SMTP id z129so7169661wmb.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Apr 2017 13:47:03 -0700 (PDT)
+	Thu, 27 Apr 2017 13:53:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=zbsQGlvszjEo1q6OnPw9OJ9HupiPLaH8FXvMtziCzVY=;
-	b=UfwhkPypGjyZP+uo88chgTX6SrwO5CE6p0QRMGY6+0djiE3lTdNQoIOoFnl9l6pepB
-	mp0KDdoKJK1byeWEmpL7zcvPKjRS/rr7Oy4QdHkUWrC39GFE756MqMYvDLx0jFiNrlAC
-	N/Ii7Gm54meX+gO73/1XuwfXcI77IgG5xnsYhKtXdvhQN9J5OL/kk6qOJu6TYua2Xxqf
-	tx0vtCXvqMufMC32hRlMfSf38rusOyMSIEv31329co0ihwxfmzqzCDeP2Bii2grOvKnm
-	Ck83vlZdlJxIY7VeEKi6rI+9SuR5Jrb8vw5LEFZYN8+FNyRaZdqH5yACqK8iDaNW0KUq
-	2sTQ==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=3dJhmr/Zlmga/0ZW8DCEa+gj44hwyxM5klgOf4DYaR8=;
+	b=pGWQQge6zlfeSujCMW5tBl2pHDWBrK4/jiDnymp/1mgCow9F5NQK8Jmf7+f875COhg
+	TDH09mLMglIWQZfWD6OeRqKwd8QclT3PB3QZwv3qJor0wQ7nZpgnSf2gDXw9mHyLg0KX
+	ZYhoRe1zPtEdCwVfxd0JVFWRXRRGnevdj0GKw0udn11DGR4hFpErf68kefj87VqOwrvD
+	Dv7VsiE+/tkgHKWQJxxnm7OKMHsJwAGer45uRd3BmX2dXrMO0m8IfC7HeuTMYmHW28O+
+	J6HZWDhRhQOd9nSyC1pXYG9hmgIBAYWo/0f3YumjyRtldERKGfg53P4aC3FBJrxqfcuY
+	Grig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=zbsQGlvszjEo1q6OnPw9OJ9HupiPLaH8FXvMtziCzVY=;
-	b=MbMfMZ8MDK/v+E0H9dXkI+LHMHyMkiziZpCkt8IaMs6g0ESaYLc8692hRVAWZROtG8
-	WYQp3IX3DXJrP4oKkEqXKKhUdgVb/7ydiaMA/yiOqCT2PCb+fMoWknydKXoItXZm+pqg
-	EiwY5TP7upc98bTkuZdWfMI8p6AVZK3eWdJf7ltcPj7rgWkYPk6FrD5gOf9Hk5U5hV+3
-	3YJGjDFjpAn9wrONjc9q/MQQu5FspSwHhlMABsfoPblnXMYIuNX9wtHgSG9kF7NDzaUT
-	WjLuotryixIalE90geN2txx8HJzwzJ2L2FbzrlxvziqD51Wr8i5Cnxd5RncJ9ADfCITC
-	KmFQ==
-X-Gm-Message-State: AN3rC/7PDTtQXZjuzq8Scqtops7DiiS3Rxc2Vz5QEgkZ4QBlGuIJMaw5
-	CRs96TeQQUmLciCX3Jw4a5yyfnPkYg==
-X-Received: by 10.80.149.203 with SMTP id x11mr6014034eda.181.1493326022955;
-	Thu, 27 Apr 2017 13:47:02 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.80.148.54 with HTTP; Thu, 27 Apr 2017 13:47:02 -0700 (PDT)
-In-Reply-To: <1489150711-1608-3-git-send-email-richard.purdie@linuxfoundation.org>
-References: <1489150711-1608-1-git-send-email-richard.purdie@linuxfoundation.org>
-	<1489150711-1608-3-git-send-email-richard.purdie@linuxfoundation.org>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=3dJhmr/Zlmga/0ZW8DCEa+gj44hwyxM5klgOf4DYaR8=;
+	b=ts5AGsunDwquPMPcZ6q81IaFOY4xvN3b+3FUewkEt5h0duvUFdc1CXEBDVC8/PkPRo
+	v2hi1/0cCYJgN3FFQbLgItnvOL3y7KmPbHgv1qSYKG+ZPix2pmEIwLedxBXR+sHM9Cuy
+	ATs3rplfIVEx1Z2atecyopiE/OkvsrbIXx3nghDECcU+2qmjY5b6vHxHjzCRNeq8z9Bl
+	8twWswzkFobSGglHJmk+7+J1rATjSMndtQ9FUUPCfdS83/B6fp3atMDQwasAwmKlnfsX
+	oVkfZKL4o+rPplMSb8zBB9ILHVasPA4Go1VXTUV1OHN2PiAN7deSB0Rg8orXvuq8SnN6
+	QPXg==
+X-Gm-Message-State: AN3rC/6LfaqepO09OZCJNyfo+QYkCj8xFmNIYOg7+dcYJlY/YOaBVrbn
+	6l9QuFyAvBtJ5g==
+X-Received: by 10.28.125.195 with SMTP id y186mr3508383wmc.32.1493326397899;
+	Thu, 27 Apr 2017 13:53:17 -0700 (PDT)
+Received: from localhost ([217.30.68.212])
+	by smtp.gmail.com with ESMTPSA id z84sm555847wmh.27.2017.04.27.13.53.16
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 27 Apr 2017 13:53:16 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
-Date: Thu, 27 Apr 2017 22:47:02 +0200
-Message-ID: <CA+chaQck0sU7Bcz5Hnr_34=PGsx4ngyQO+5w3dEu+xMm=G48BQ@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/3] runqemu-gen-tapdevs: Improve help text with an example
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 27 Apr 2017 22:53:35 +0200
+Message-Id: <20170427205335.26679-1-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.12.2
+In-Reply-To: <CA+chaQck0sU7Bcz5Hnr_34=PGsx4ngyQO+5w3dEu+xMm=G48BQ@mail.gmail.com>
+References: <CA+chaQck0sU7Bcz5Hnr_34=PGsx4ngyQO+5w3dEu+xMm=G48BQ@mail.gmail.com>
+Subject: [PATCH] runqemu-gen-tapdevs: fix runqemu-ifup script call
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,19 +55,11 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Apr 2017 20:47:02 -0000
-Content-Type: multipart/alternative; boundary=94eb2c0e4b6621d7db054e2c0fd6
+X-List-Received-Date: Thu, 27 Apr 2017 20:53:18 -0000
 
---94eb2c0e4b6621d7db054e2c0fd6
-Content-Type: text/plain; charset=UTF-8
+The tunctl binary is here:
 
-FWIW: I've tried to use runqemu for first time (using my own scripts until
-now).
-
-And this example doesn't work for me, the tunctl binary is here:
-
-OE @ /OE/openembedded-core # find
-/OE/build/oe-core/tmp-glibc/sysroots-components/x86_64/qemu-helper-native/
+OE @ /OE/openembedded-core # find /OE/build/oe-core/tmp-glibc/sysroots-components/x86_64/qemu-helper-native/
 /OE/build/oe-core/tmp-glibc/sysroots-components/x86_64/qemu-helper-native/
 /OE/build/oe-core/tmp-glibc/sysroots-components/x86_64/qemu-helper-native/sysroot-providers
 /OE/build/oe-core/tmp-glibc/sysroots-components/x86_64/qemu-helper-native/sysroot-providers/qemu-helper-native
@@ -76,23 +69,17 @@ OE @ /OE/openembedded-core # find
 
 But the script still complains that it cannot find tunctl:
 
-OE @ /OE/openembedded-core # ./scripts/runqemu-gen-tapdevs 1026 1026 4
-/OE/build/oe-core/tmp-glibc/sysroots-components/x86_64/qemu-helper-native/
+OE @ /OE/openembedded-core # ./scripts/runqemu-gen-tapdevs 1026 1026 4 /OE/build/oe-core/tmp-glibc/sysroots-components/x86_64/qemu-helper-native/
 Note: Destroying pre-existing tap interface tap0...
 TUNSETIFF: Device or resource busy
 Creating 4 tap devices for UID: 1026 GID: 1026...
 Creating tap0
-Error running tunctl: Error: Unable to find tunctl binary in
-'/OE/build/oe-core/tmp-glibc/sysroots-components/x86_64/qemu-helper-native/',
-please bitbake qemu-helper-native
+Error running tunctl: Error: Unable to find tunctl binary in '/OE/build/oe-core/tmp-glibc/sysroots-components/x86_64/qemu-helper-native/', please bitbake qemu-helper-native
 
-The message is actually from runqemu-ifup, which is called from
-runqemu-gen-tapdevs as:
-++ ./scripts/runqemu-ifup 1026 1026
-/OE/build/oe-core/tmp-glibc/sysroots-components/x86_64/qemu-helper-native/
+The message is actually from runqemu-ifup, which is called from runqemu-gen-tapdevs as:
+++ ./scripts/runqemu-ifup 1026 1026 /OE/build/oe-core/tmp-glibc/sysroots-components/x86_64/qemu-helper-native/
 
-But runqemu-ifup expects 3rd parameter to be STAGING_BINDIR_NATIVE directly
-not just SYSROOT dir
+But runqemu-ifup expects 3rd parameter to be STAGING_BINDIR_NATIVE directly not just SYSROOT dir
 STAGING_BINDIR_NATIVE=$3
 because tunctl is then used as:
 TUNCTL=$STAGING_BINDIR_NATIVE/tunctl
@@ -113,160 +100,107 @@ Date:   Wed Apr 12 23:40:59 2017 +0300
     Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
     Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Seemingly obvious fix would be to call runqemu-gen-tapdevs with path to
-STAGING_BINDIR_NATIVE in 4th parameter as well, but that won't work,
-because runqemu-gen-tapdevs checks for TUNCTL=$SYSROOT/usr/bin/tunctl
+Seemingly obvious fix would be to call runqemu-gen-tapdevs with path to STAGING_BINDIR_NATIVE in 4th parameter as well, but that won't work, because runqemu-gen-tapdevs checks for TUNCTL=$SYSROOT/usr/bin/tunctl
 
+OE @ /OE/openembedded-core # ./scripts/runqemu-gen-tapdevs 1026 1026 4 /OE/build/oe-core/tmp-glibc/sysroots-components/x86_64/qemu-helper-native/usr/bin/
+Error: /OE/build/oe-core/tmp-glibc/sysroots-components/x86_64/qemu-helper-native/usr/bin//usr/bin/tunctl is not an executable
+
+I've tested that with this change it can call tunctl:
 OE @ /OE/openembedded-core # ./scripts/runqemu-gen-tapdevs 1026 1026 4
-/OE/build/oe-core/tmp-glibc/sysroots-components/x86_64/qemu-helper-native/usr/bin/
-Error:
-/OE/build/oe-core/tmp-glibc/sysroots-components/x86_64/qemu-helper-native/usr/bin//usr/bin/tunctl
-is not an executable
+/OE/build/oe-core/tmp-glibc/sysroots-components/x86_64/qemu-helper-native/usr/bin
+Note: Destroying pre-existing tap interface tap0...
+TUNSETIFF: Device or resource busy
+Creating 4 tap devices for UID: 1026 GID: 1026...
+Creating tap0
+Creating tap1
+Creating tap2
+Creating tap3
+Note: For systems running NetworkManager, it's recommended
+Note: that the tap devices be set as unmanaged in the
+Note: NetworkManager.conf file. Add the following lines to
+Note: /etc/NetworkManager/NetworkManager.conf
+[keyfile]
+unmanaged-devices=interface-name:tap*
 
-I'm sending a fix for this, but as I said it's first time I've tried to use
-this, so maybe this all was supposed to work somehow differently - or it
-isn't tested at all as it is now.
+but runqemu itself still doesn't work for me:
+OE qemux86@ ~/build/oe-core $ runqemu
+runqemu - INFO - Running MACHINE=qemux86 bitbake -e...
+runqemu - INFO - Running ls -t /OE/build/oe-core/tmp-glibc/deploy/images/qemux86/*.qemuboot.conf...
+runqemu - INFO - CONFFILE: /OE/build/oe-core/tmp-glibc/deploy/images/qemux86/core-image-sato-qemux86-20170427174052.qemuboot.conf
+runqemu - INFO - Overriding conf file setting of STAGING_DIR_NATIVE to /OE/build/oe-core/tmp-glibc/work/i586-oe-linux/defaultpkgname/1.0-r0/recipe-sysroot-native from Bitbake environment
+runqemu - INFO - Continuing with the following parameters:
 
-Regards,
+KERNEL: [tmp-glibc/deploy/images/qemux86/bzImage--4.10.9+git0+ad2e885015_fe0fb8da3d-r0.2-qemux86-20170427085800.bin]
+MACHINE: [qemux86]
+FSTYPE: [ext4]
+ROOTFS: [tmp-glibc/deploy/images/qemux86/core-image-sato-qemux86-20170427174052.rootfs.ext4]
+CONFFILE: [/OE/build/oe-core/tmp-glibc/deploy/images/qemux86/core-image-sato-qemux86-20170427174052.qemuboot.conf]
 
-On Fri, Mar 10, 2017 at 1:58 PM, Richard Purdie <
-richard.purdie@linuxfoundation.org> wrote:
+runqemu - INFO - Running /bin/ip link...
+runqemu - INFO - Acquiring lockfile /tmp/qemu-tap-locks/tap0.lock...
+runqemu - INFO - Using preconfigured tap device tap0
+runqemu - INFO - If this is not intended, touch /tmp/qemu-tap-locks/tap0.skip to make runqemu skip tap0.
+runqemu - INFO - Network configuration: 192.168.7.2::192.168.7.1:255.255.255.0
+runqemu - INFO - Running ldd tmp-glibc/work/x86_64-linux/qemu-helper-native/1.0-r1/recipe-sysroot-native/usr/bin//qemu-system-i386...
+runqemu - INFO - Running tmp-glibc/work/x86_64-linux/qemu-helper-native/1.0-r1/recipe-sysroot-native/usr/bin//qemu-system-i386 -device virtio-net-pci,netdev=net0,mac=52:54:00:12:34:02 -netdev tap,id=net0,ifname=tap0,script=no,downscript=no -drive file=tmp-glibc/deploy/images/qemux86/core-image-sato-qemux86-20170427174052.rootfs.ext4,if=virtio,format=raw -vga vmware -show-cursor -usb -usbdevice tablet -device virtio-rng-pci   -cpu qemu32 -m 256 -serial mon:vc -serial null -kernel tmp-glibc/deploy/images/qemux86/bzImage--4.10.9+git0+ad2e885015_fe0fb8da3d-r0.2-qemux86-20170427085800.bin -append 'root=/dev/vda rw highres=off  mem=256M ip=192.168.7.2::192.168.7.1:255.255.255.0 vga=0 uvesafb.mode_option=640x480-32 oprofile.timer=1 uvesafb.task_timeout=-1 '
+qemu-system-i386: -netdev tap,id=net0,ifname=tap0,script=no,downscript=no: could not configure /dev/net/tun (tap0): Device or resource busy
+runqemu - INFO - Releasing lockfile for tap device 'tap0'
+Traceback (most recent call last):
+  File "/OE/build/oe-core/openembedded-core/scripts/runqemu", line 1235, in <module>
+    ret = main()
+  File "/OE/build/oe-core/openembedded-core/scripts/runqemu", line 1228, in main
+    config.start_qemu()
+  File "/OE/build/oe-core/openembedded-core/scripts/runqemu", line 1139, in start_qemu
+    raise Exception('Failed to run %s' % cmd)
+Exception: Failed to run tmp-glibc/work/x86_64-linux/qemu-helper-native/1.0-r1/recipe-sysroot-native/usr/bin//qemu-system-i386 -device virtio-net-pci,netdev=net0,mac=52:54:00:12:34:02 -netdev tap,id=net0,ifname=tap0,script=no,downscript=no -drive file=tmp-glibc/deploy/images/qemux86/core-image-sato-qemux86-20170427174052.rootfs.ext4,if=virtio,format=raw -vga vmware -show-cursor -usb -usbdevice tablet -device virtio-rng-pci   -cpu qemu32 -m 256 -serial mon:vc -serial null -kernel tmp-glibc/deploy/images/qemux86/bzImage--4.10.9+git0+ad2e885015_fe0fb8da3d-r0.2-qemux86-20170427085800.bin -append 'root=/dev/vda rw highres=off  mem=256M ip=192.168.7.2::192.168.7.1:255.255.255.0 vga=0 uvesafb.mode_option=640x480-32 oprofile.timer=1 uvesafb.task_timeout=-1 '
 
-> Figuring how the correct commandline isn't trivial, improve the help
-> text with RSS in mind.
->
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> ---
->  scripts/runqemu-gen-tapdevs | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/scripts/runqemu-gen-tapdevs b/scripts/runqemu-gen-tapdevs
-> index bfb60f4..9e5e5b9 100755
-> --- a/scripts/runqemu-gen-tapdevs
-> +++ b/scripts/runqemu-gen-tapdevs
-> @@ -28,6 +28,8 @@ usage() {
->         echo "Where <gid> is the numeric group id the tap devices will be
-> owned by"
->         echo "<num> is the number of tap devices to create (0 to remove
-> all)"
->         echo "<native-sysroot-basedir> is the path to the build system's
-> native sysroot"
-> +       echo "e.g. $ bitbake qemu-helper-native -c addto_recipe_sysroot"
-> +       echo "$ sudo $0 1000 1000 4 tmp/work/x86_64-linux/qemu-
-> helper-native/*/recipe-sysroot-native/"
->         exit 1
->  }
->
-> --
-> 2.7.4
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ scripts/runqemu-gen-tapdevs | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
---94eb2c0e4b6621d7db054e2c0fd6
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+diff --git a/scripts/runqemu-gen-tapdevs b/scripts/runqemu-gen-tapdevs
+index 49e1efce7c..11de318c1a 100755
+--- a/scripts/runqemu-gen-tapdevs
++++ b/scripts/runqemu-gen-tapdevs
+@@ -23,13 +23,13 @@
+ # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ 
+ usage() {
+-	echo "Usage: sudo $0 <uid> <gid> <num> <native-sysroot-basedir>"
++	echo "Usage: sudo $0 <uid> <gid> <num> <staging_bindir_native>"
+         echo "Where <uid> is the numeric user id the tap devices will be owned by"
+ 	echo "Where <gid> is the numeric group id the tap devices will be owned by"
+ 	echo "<num> is the number of tap devices to create (0 to remove all)"
+ 	echo "<native-sysroot-basedir> is the path to the build system's native sysroot"
+ 	echo "e.g. $ bitbake qemu-helper-native"
+-	echo "$ sudo $0 1000 1000 4 tmp/sysroots-components/x86_64/qemu-helper-native/"
++	echo "$ sudo $0 1000 1000 4 tmp/sysroots-components/x86_64/qemu-helper-native/usr/bin"
+ 	exit 1
+ }
+ 
+@@ -46,9 +46,9 @@ fi
+ TUID=$1
+ GID=$2
+ COUNT=$3
+-SYSROOT=$4
++STAGING_BINDIR_NATIVE=$4
+ 
+-TUNCTL=$SYSROOT/usr/bin/tunctl
++TUNCTL=$STAGING_BINDIR_NATIVE/tunctl
+ if [[ ! -x "$TUNCTL" || -d "$TUNCTL" ]]; then
+ 	echo "Error: $TUNCTL is not an executable"
+ 	usage
+@@ -87,7 +87,7 @@ if [ $COUNT -gt 0 ]; then
+ 	echo "Creating $COUNT tap devices for UID: $TUID GID: $GID..."
+ 	for ((index=0; index < $COUNT; index++)); do
+ 		echo "Creating tap$index"
+-		ifup=`$RUNQEMU_IFUP $TUID $GID $SYSROOT 2>&1`
++		ifup=`$RUNQEMU_IFUP $TUID $GID $STAGING_BINDIR_NATIVE 2>&1`
+ 		if [ $? -ne 0 ]; then
+ 			echo "Error running tunctl: $ifup"
+ 			exit 1
+-- 
+2.12.2
 
-<div dir=3D"ltr">FWIW: I&#39;ve tried to use runqemu for first time (using =
-my own scripts until now).<div><br></div><div>And this example doesn&#39;t =
-work for me, the tunctl binary is here:</div><div><br><div><div>OE @ /OE/op=
-enembedded-core # find /OE/build/oe-core/tmp-glibc/sysroots-components/x86_=
-64/qemu-helper-native/</div><div>/OE/build/oe-core/tmp-glibc/sysroots-compo=
-nents/x86_64/qemu-helper-native/</div><div>/OE/build/oe-core/tmp-glibc/sysr=
-oots-components/x86_64/qemu-helper-native/sysroot-providers</div><div>/OE/b=
-uild/oe-core/tmp-glibc/sysroots-components/x86_64/qemu-helper-native/sysroo=
-t-providers/qemu-helper-native</div><div>/OE/build/oe-core/tmp-glibc/sysroo=
-ts-components/x86_64/qemu-helper-native/usr</div><div>/OE/build/oe-core/tmp=
--glibc/sysroots-components/x86_64/qemu-helper-native/usr/bin</div><div>/OE/=
-build/oe-core/tmp-glibc/sysroots-components/x86_64/qemu-helper-native/usr/b=
-in/tunctl</div></div><div><br></div><div>But the script still complains tha=
-t it cannot find tunctl:</div><div><br></div><div><div>OE @ /OE/openembedde=
-d-core # ./scripts/runqemu-gen-tapdevs 1026 1026 4 /OE/build/oe-core/tmp-gl=
-ibc/sysroots-components/x86_64/qemu-helper-native/</div><div>Note: Destroyi=
-ng pre-existing tap interface tap0...</div><div>TUNSETIFF: Device or resour=
-ce busy</div><div>Creating 4 tap devices for UID: 1026 GID: 1026...</div><d=
-iv>Creating tap0</div><div>Error running tunctl: Error: Unable to find tunc=
-tl binary in &#39;/OE/build/oe-core/tmp-glibc/sysroots-components/x86_64/qe=
-mu-helper-native/&#39;, please bitbake qemu-helper-native</div></div></div>=
-<div><br></div><div>The message is actually from runqemu-ifup, which is cal=
-led from runqemu-gen-tapdevs as:</div><div>++ ./scripts/runqemu-ifup 1026 1=
-026 /OE/build/oe-core/tmp-glibc/sysroots-components/x86_64/qemu-helper-nati=
-ve/<br></div><div><br></div><div>But runqemu-ifup expects 3rd parameter to =
-be STAGING_BINDIR_NATIVE directly not just SYSROOT dir</div><div>STAGING_BI=
-NDIR_NATIVE=3D$3<br></div><div>because tunctl is then used as:</div><div>TU=
-NCTL=3D$STAGING_BINDIR_NATIVE/tunctl<br></div><div><br></div><div>It looks =
-like it got broken by:</div><div><div>commit cc5513bf7a6114e14bb307acb88a44=
-e9cf0aed8a</div><div>Author: Ed Bartosh &lt;<a href=3D"mailto:ed.bartosh@li=
-nux.intel.com">ed.bartosh@linux.intel.com</a>&gt;</div><div>Date: =C2=A0 We=
-d Apr 12 23:40:59 2017 +0300</div><div><br></div><div>=C2=A0 =C2=A0 runqemu=
-: use bindir_native property to run ifup/down scripts</div><div>=C2=A0 =C2=
-=A0=C2=A0</div><div>=C2=A0 =C2=A0 Used self.bindir_native to point out to t=
-he native sysroot</div><div>=C2=A0 =C2=A0 when running runqemu-ifup and run=
-qemu-ifdown scripts.</div><div>=C2=A0 =C2=A0=C2=A0</div><div>=C2=A0 =C2=A0 =
-[YOCTO #11266]</div><div>=C2=A0 =C2=A0 [YOCTO #11193]</div><div>=C2=A0 =C2=
-=A0=C2=A0</div><div>=C2=A0 =C2=A0 Signed-off-by: Ed Bartosh &lt;<a href=3D"=
-mailto:ed.bartosh@linux.intel.com">ed.bartosh@linux.intel.com</a>&gt;</div>=
-<div>=C2=A0 =C2=A0 Signed-off-by: Richard Purdie &lt;<a href=3D"mailto:rich=
-ard.purdie@linuxfoundation.org">richard.purdie@linuxfoundation.org</a>&gt;<=
-/div></div><div><br></div><div>Seemingly obvious fix would be to call runqe=
-mu-gen-tapdevs with path to STAGING_BINDIR_NATIVE in 4th parameter as well,=
- but that won&#39;t work, because runqemu-gen-tapdevs checks for TUNCTL=3D$=
-SYSROOT/usr/bin/tunctl</div><div><br></div><div><div>OE @ /OE/openembedded-=
-core # ./scripts/runqemu-gen-tapdevs 1026 1026 4 /OE/build/oe-core/tmp-glib=
-c/sysroots-components/x86_64/qemu-helper-native/usr/bin/</div><div>Error: /=
-OE/build/oe-core/tmp-glibc/sysroots-components/x86_64/qemu-helper-native/us=
-r/bin//usr/bin/tunctl is not an executable</div></div><div><br></div><div>I=
-&#39;m sending a fix for this, but as I said it&#39;s first time I&#39;ve t=
-ried to use this, so maybe this all was supposed to work somehow differentl=
-y - or it isn&#39;t tested at all as it is now.</div><div><br></div><div>Re=
-gards,</div></div><div class=3D"gmail_extra"><br><div class=3D"gmail_quote"=
->On Fri, Mar 10, 2017 at 1:58 PM, Richard Purdie <span dir=3D"ltr">&lt;<a h=
-ref=3D"mailto:richard.purdie@linuxfoundation.org" target=3D"_blank">richard=
-.purdie@linuxfoundation.org</a>&gt;</span> wrote:<br><blockquote class=3D"g=
-mail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-l=
-eft:1ex">Figuring how the correct commandline isn&#39;t trivial, improve th=
-e help<br>
-text with RSS in mind.<br>
-<br>
-Signed-off-by: Richard Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfou=
-ndation.org">richard.purdie@<wbr>linuxfoundation.org</a>&gt;<br>
----<br>
-=C2=A0scripts/runqemu-gen-tapdevs | 2 ++<br>
-=C2=A01 file changed, 2 insertions(+)<br>
-<br>
-diff --git a/scripts/runqemu-gen-tapdevs b/scripts/runqemu-gen-tapdevs<br>
-index bfb60f4..9e5e5b9 100755<br>
---- a/scripts/runqemu-gen-tapdevs<br>
-+++ b/scripts/runqemu-gen-tapdevs<br>
-@@ -28,6 +28,8 @@ usage() {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 echo &quot;Where &lt;gid&gt; is the numeric gro=
-up id the tap devices will be owned by&quot;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 echo &quot;&lt;num&gt; is the number of tap dev=
-ices to create (0 to remove all)&quot;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 echo &quot;&lt;native-sysroot-basedir&gt; is th=
-e path to the build system&#39;s native sysroot&quot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0echo &quot;e.g. $ bitbake qemu-helper-native -c=
- addto_recipe_sysroot&quot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0echo &quot;$ sudo $0 1000 1000 4 tmp/work/x86_6=
-4-linux/qemu-<wbr>helper-native/*/recipe-<wbr>sysroot-native/&quot;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 exit 1<br>
-=C2=A0}<br>
-<span class=3D"HOEnZb"><font color=3D"#888888"><br>
---<br>
-2.7.4<br>
-<br>
---<br>
-______________________________<wbr>_________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
-re@lists.<wbr>openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
-ailman/listinfo/openembedded-<wbr>core</a><br>
-</font></span></blockquote></div><br></div>
 
---94eb2c0e4b6621d7db054e2c0fd6--
