@@ -1,18 +1,44 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id C6F2D60043;
-	Thu, 27 Apr 2017 22:01:49 +0000 (UTC)
-MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Martin Jansa <martin.jansa@gmail.com>
-Date: Thu, 27 Apr 2017 22:01:51 -0000
-Message-ID: <20170427220151.26295.1794@do.openembedded.org>
-References: <20170427214937.30754-1-Martin.Jansa@gmail.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <20170427214937.30754-1-Martin.Jansa@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3Igdjg2ZCwgcWVtdWJvb3QteDg2LmluYzogdXNlIEtFUk5FTF9NT0RVTEVfQVVUT0xPQUQrS0VSTkVMX01PRFVMRV9QUk9CRUNPTkYgZm9yIHV2ZXNhZmIgaW5zdGVhZCBvZiBmYnNldHVwIGluaXQgc2NyaXB0?=
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-pg0-f65.google.com (mail-pg0-f65.google.com [74.125.83.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 6B49F77DD7
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 27 Apr 2017 23:50:34 +0000 (UTC)
+Received: by mail-pg0-f65.google.com with SMTP id v1so2593796pgv.3
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 27 Apr 2017 16:50:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=hIbgGI+XZ/hsFNWldRQsTQRry8DLx9vGXDj2tNmLP5g=;
+	b=m0IxjZ439xRo2fT3P6FfsR0VRBbaHi3W67vw2vhp2lSNMh4n2zCSQZs++6epwIAh4H
+	5rWsFoRVjRjXteCNnUYq5swnNmRFwKDKZNcGx1UvNVYogRqwxBHzwAIzvPveqpjQ4H07
+	PMmrKVNnsJ4PQVT3TINHmR8vGB1BNZ9f3Bsgm5gYJlFVJwLLTSIUMifO1FcKUkeLPxzr
+	Gki63TKi43Ee3cFfPit5h7ZGq7tjK9jxSdIh0GiCjOT1LJXnAVLWxxWJtjKfHqY6MFEk
+	Yo+yLeIL73l09OFXXeJgeSJDtAt92yeGg8IG8CndoUYSHdlGBvdbEs5lD7VXFcuCKL1F
+	hurg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=hIbgGI+XZ/hsFNWldRQsTQRry8DLx9vGXDj2tNmLP5g=;
+	b=Y6c24byzgqiw1FnQDrujFpHsL/kTvVGP8Mv6zGq96Q1bicXadpP9ADK2NJmqI2Gh8w
+	S4P2okHxe/gj41fSOfCmBtBhjOD45YWxNooEPZr/mgW4RfNZTy6PurhnWFy+i2cmBS50
+	/OtG679CRODU2lMFtv0TMmhUwLN0F6/EjWdAbfz9KuRDIOiQu6JuvV4Ou9LMC9rTiB3S
+	pY/StSaEe6mZliXzGr33i6T0VBVs0cXFAQgU77zpkUwE+CGxNCbuhJY/RGPQt2o+ONvY
+	SnA4CuYoXwLio4NToxoCpC/a9mYjNKbgbV3n3h7ZmPrY4HblKeUwoszllUo+CcxqVj3I
+	6WhQ==
+X-Gm-Message-State: AN3rC/5IeFEsNuJRZFEyEAmw8R1CycI+ksGiGMNVN3sjWVj3MnISgvfg
+	s0UTSBr4DH+s4A==
+X-Received: by 10.98.199.18 with SMTP id w18mr8899567pfg.209.1493337035430;
+	Thu, 27 Apr 2017 16:50:35 -0700 (PDT)
+Received: from e6520.guest-wifi.scl.liberty.com ([4.16.80.121])
+	by smtp.gmail.com with ESMTPSA id g7sm6840937pfe.6.2017.04.27.16.50.34
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 27 Apr 2017 16:50:34 -0700 (PDT)
+From: Andre McCurdy <armccurdy@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 27 Apr 2017 16:50:29 -0700
+Message-Id: <1493337029-22362-1-git-send-email-armccurdy@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH] cmake.bbclass: use weakest ??= assignment for default OECMAKE_SOURCEPATH
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,41 +51,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Apr 2017 22:01:49 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 27 Apr 2017 23:50:34 -0000
 
-== Series Details ==
+Make it slightly easier to support situations where the default path
+needs to be over-ridden more than once.
 
-Series: v86d, qemuboot-x86.inc: use KERNEL_MODULE_AUTOLOAD+KERNEL_MODULE_PROBECONF for uvesafb instead of fbsetup init script
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/6549/
-State : failure
-
-== Summary ==
-
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Patch            v86d, qemuboot-x86.inc: use KERNEL_MODULE_AUTOLOAD+KERNEL_MODULE_PROBECONF for uvesafb instead of fbsetup init script
- Issue             Commit shortlog is too long [test_shortlog_length] 
-  Suggested fix    Edit shortlog so that it is 90 characters or less (currently 117 characters)
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
+Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
 ---
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+ meta/classes/cmake.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/classes/cmake.bbclass b/meta/classes/cmake.bbclass
+index 3f67091..f58ad78 100644
+--- a/meta/classes/cmake.bbclass
++++ b/meta/classes/cmake.bbclass
+@@ -1,5 +1,5 @@
+ # Path to the CMake file to process.
+-OECMAKE_SOURCEPATH ?= "${S}"
++OECMAKE_SOURCEPATH ??= "${S}"
+ 
+ DEPENDS_prepend = "cmake-native "
+ B = "${WORKDIR}/build"
+-- 
+1.9.1
 
 
