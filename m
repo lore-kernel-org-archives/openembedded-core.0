@@ -1,24 +1,20 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 131376FEFA
+Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by mail.openembedded.org (Postfix) with ESMTP id E004865C8F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Apr 2017 19:40:55 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v3RJeuHT017793
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Apr 2017 12:40:56 -0700 (PDT)
-Received: from msp-lpggp1.wrs.com (172.25.34.110) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.294.0;
-	Thu, 27 Apr 2017 12:40:55 -0700
-From: Mark Hatle <mark.hatle@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 27 Apr 2017 14:41:04 -0500
-Message-ID: <1493322064-68129-1-git-send-email-mark.hatle@windriver.com>
-X-Mailer: git-send-email 1.8.3.1
-MIME-Version: 1.0
-Subject: [master & pyro][PATCH] useradd-statids.bbclass: Add support for -P / --clear-password option
+	Thu, 27 Apr 2017 20:36:39 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by orsmga104.jf.intel.com with ESMTP; 27 Apr 2017 13:36:40 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.37,385,1488873600"; d="scan'208";a="850564000"
+Received: from yctb05.ostc.intel.com ([10.54.69.59])
+	by FMSMGA003.fm.intel.com with ESMTP; 27 Apr 2017 13:36:40 -0700
+From: leonardo.sandoval.gonzalez@linux.intel.com
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 27 Apr 2017 13:36:23 -0700
+Message-Id: <20170427203623.32130-1-leonardo.sandoval.gonzalez@linux.intel.com>
+X-Mailer: git-send-email 2.12.0
+Subject: [PATCH] selftest/runtime-test: Split the config values
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,69 +27,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Apr 2017 19:40:56 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 27 Apr 2017 20:36:42 -0000
 
-The commit 31dee7946340bf0f1e94e4e714191d3d6ca3bf6a added a new useradd and
-groupadd option to specify a clear text password.  The parsing logic in the
-useradd-staticid class did not understand this new option.  If the
-meta-skeleton examples were run with the class enabled an error would be
-generated, as an example uses the -P option.
+From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
 
-Note, the code has a check that we do not attempt to set both a crypt and
-clear text password.  It is not allowed that these two options are set
-at the same time, so we prefer the crypt option if they happen to be.
+Split the configuration values (common and specific) so it is easier to read
+what goes into the config file. Also the specific configurations are
+set in every loop so these do not append on each iteration.
 
-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
 ---
- meta/classes/useradd-staticids.bbclass | 12 ++++++++++--
- 1 file changed, 10 insertions(+), 2 deletions(-)
+ meta/lib/oeqa/selftest/runtime-test.py | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
-diff --git a/meta/classes/useradd-staticids.bbclass b/meta/classes/useradd-staticids.bbclass
-index c156a12..2d282c0 100644
---- a/meta/classes/useradd-staticids.bbclass
-+++ b/meta/classes/useradd-staticids.bbclass
-@@ -77,6 +77,7 @@ def update_useradd_static_config(d):
-         parser.add_argument("-N", "--no-user-group", dest="user_group", help="do not create a group with the same name as the user", action="store_const", const=False)
-         parser.add_argument("-o", "--non-unique", help="allow to create users with duplicate (non-unique UID)", action="store_true")
-         parser.add_argument("-p", "--password", metavar="PASSWORD", help="encrypted password of the new account")
-+        parser.add_argument("-P", "--clear-password", metavar="CLEAR_PASSWORD", help="use this clear password for the new account")
-         parser.add_argument("-R", "--root", metavar="CHROOT_DIR", help="directory to chroot into")
-         parser.add_argument("-r", "--system", help="create a system account", action="store_true")
-         parser.add_argument("-s", "--shell", metavar="SHELL", help="login shell of the new account")
-@@ -195,7 +196,10 @@ def update_useradd_static_config(d):
-             newparam += ['', ' --no-create-home'][uaargs.create_home is False]
-             newparam += ['', ' --no-user-group'][uaargs.user_group is False]
-             newparam += ['', ' --non-unique'][uaargs.non_unique]
--            newparam += ['', ' --password %s' % uaargs.password][uaargs.password != None]
-+            if uaargs.password != None:
-+                newparam += ['', ' --password %s' % uaargs.password][uaargs.password != None]
-+            elif uaargs.clear_password:
-+                newparam += ['', ' --clear-password %s' % uaargs.clear_password][uaargs.clear_password != None]
-             newparam += ['', ' --root %s' % uaargs.root][uaargs.root != None]
-             newparam += ['', ' --system'][uaargs.system]
-             newparam += ['', ' --shell %s' % uaargs.shell][uaargs.shell != None]
-@@ -216,6 +220,7 @@ def update_useradd_static_config(d):
-         parser.add_argument("-K", "--key", metavar="KEY=VALUE", help="override /etc/login.defs defaults")
-         parser.add_argument("-o", "--non-unique", help="allow to create groups with duplicate (non-unique) GID", action="store_true")
-         parser.add_argument("-p", "--password", metavar="PASSWORD", help="use this encrypted password for the new group")
-+        parser.add_argument("-P", "--clear-password", metavar="CLEAR_PASSWORD", help="use this clear password for the new group")
-         parser.add_argument("-R", "--root", metavar="CHROOT_DIR", help="directory to chroot into")
-         parser.add_argument("-r", "--system", help="create a system account", action="store_true")
-         parser.add_argument("GROUP", help="Group name of the new group")
-@@ -277,7 +282,10 @@ def update_useradd_static_config(d):
-             newparam += ['', ' --gid %s' % gaargs.gid][gaargs.gid != None]
-             newparam += ['', ' --key %s' % gaargs.key][gaargs.key != None]
-             newparam += ['', ' --non-unique'][gaargs.non_unique]
--            newparam += ['', ' --password %s' % gaargs.password][gaargs.password != None]
-+            if gaargs.password != None:
-+                newparam += ['', ' --password %s' % gaargs.password][gaargs.password != None]
-+            elif gaargs.clear_password:
-+                newparam += ['', ' --clear-password %s' % gaargs.clear_password][gaargs.clear_password != None]
-             newparam += ['', ' --root %s' % gaargs.root][gaargs.root != None]
-             newparam += ['', ' --system'][gaargs.system]
-             newparam += ' %s' % gaargs.GROUP
+diff --git a/meta/lib/oeqa/selftest/runtime-test.py b/meta/lib/oeqa/selftest/runtime-test.py
+index e498d046cff..13a4c03a155 100644
+--- a/meta/lib/oeqa/selftest/runtime-test.py
++++ b/meta/lib/oeqa/selftest/runtime-test.py
+@@ -203,11 +203,12 @@ postinst-delayed-t \
+         rootfs_pkg = 'postinst-at-rootfs'
+         boot_pkg = 'postinst-delayed-a'
+         #Step 1
+-        features = 'MACHINE = "qemux86"\n'
+-        features += 'CORE_IMAGE_EXTRA_INSTALL += "%s %s "\n'% (rootfs_pkg, boot_pkg)
+-        features += 'IMAGE_FEATURES += "ssh-server-openssh"\n'
++        common_features = 'MACHINE = "qemux86"\n'
++        common_features += 'CORE_IMAGE_EXTRA_INSTALL += "%s %s "\n'% (rootfs_pkg, boot_pkg)
++        common_features += 'IMAGE_FEATURES += "ssh-server-openssh"\n'
+         for init_manager in ("sysvinit", "systemd"):
+             #for sysvinit no extra configuration is needed,
++            features = ''
+             if (init_manager is "systemd"):
+                 features += 'DISTRO_FEATURES_append = " systemd"\n'
+                 features += 'VIRTUAL-RUNTIME_init_manager = "systemd"\n'
+@@ -217,7 +218,7 @@ postinst-delayed-t \
+                             "package_deb package_rpm package_ipk",
+                             "package_ipk package_deb package_rpm"):
+                 features += 'PACKAGE_CLASSES = "%s"\n' % classes
+-                self.write_config(features)
++                self.write_config(common_features + features)
+ 
+                 #Step 2
+                 bitbake('core-image-minimal')
 -- 
-1.8.3.1
+2.12.0
 
 
