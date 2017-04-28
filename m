@@ -1,44 +1,25 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-pg0-f65.google.com (mail-pg0-f65.google.com [74.125.83.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 6B49F77DD7
+Return-Path: <jonathan.yong@intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id 4D8AE77AA3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Apr 2017 23:50:34 +0000 (UTC)
-Received: by mail-pg0-f65.google.com with SMTP id v1so2593796pgv.3
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Apr 2017 16:50:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=hIbgGI+XZ/hsFNWldRQsTQRry8DLx9vGXDj2tNmLP5g=;
-	b=m0IxjZ439xRo2fT3P6FfsR0VRBbaHi3W67vw2vhp2lSNMh4n2zCSQZs++6epwIAh4H
-	5rWsFoRVjRjXteCNnUYq5swnNmRFwKDKZNcGx1UvNVYogRqwxBHzwAIzvPveqpjQ4H07
-	PMmrKVNnsJ4PQVT3TINHmR8vGB1BNZ9f3Bsgm5gYJlFVJwLLTSIUMifO1FcKUkeLPxzr
-	Gki63TKi43Ee3cFfPit5h7ZGq7tjK9jxSdIh0GiCjOT1LJXnAVLWxxWJtjKfHqY6MFEk
-	Yo+yLeIL73l09OFXXeJgeSJDtAt92yeGg8IG8CndoUYSHdlGBvdbEs5lD7VXFcuCKL1F
-	hurg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=hIbgGI+XZ/hsFNWldRQsTQRry8DLx9vGXDj2tNmLP5g=;
-	b=Y6c24byzgqiw1FnQDrujFpHsL/kTvVGP8Mv6zGq96Q1bicXadpP9ADK2NJmqI2Gh8w
-	S4P2okHxe/gj41fSOfCmBtBhjOD45YWxNooEPZr/mgW4RfNZTy6PurhnWFy+i2cmBS50
-	/OtG679CRODU2lMFtv0TMmhUwLN0F6/EjWdAbfz9KuRDIOiQu6JuvV4Ou9LMC9rTiB3S
-	pY/StSaEe6mZliXzGr33i6T0VBVs0cXFAQgU77zpkUwE+CGxNCbuhJY/RGPQt2o+ONvY
-	SnA4CuYoXwLio4NToxoCpC/a9mYjNKbgbV3n3h7ZmPrY4HblKeUwoszllUo+CcxqVj3I
-	6WhQ==
-X-Gm-Message-State: AN3rC/5IeFEsNuJRZFEyEAmw8R1CycI+ksGiGMNVN3sjWVj3MnISgvfg
-	s0UTSBr4DH+s4A==
-X-Received: by 10.98.199.18 with SMTP id w18mr8899567pfg.209.1493337035430;
-	Thu, 27 Apr 2017 16:50:35 -0700 (PDT)
-Received: from e6520.guest-wifi.scl.liberty.com ([4.16.80.121])
-	by smtp.gmail.com with ESMTPSA id g7sm6840937pfe.6.2017.04.27.16.50.34
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 27 Apr 2017 16:50:34 -0700 (PDT)
-From: Andre McCurdy <armccurdy@gmail.com>
+	Fri, 28 Apr 2017 02:09:42 +0000 (UTC)
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	27 Apr 2017 19:09:43 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.37,386,1488873600"; 
+	d="txt'?scan'208";a="81611216"
+Received: from jyong2-mobl5.gar.corp.intel.com (HELO [172.30.66.60])
+	([172.30.66.60])
+	by orsmga004.jf.intel.com with ESMTP; 27 Apr 2017 19:09:43 -0700
+Message-ID: <5902A466.7020508@intel.com>
+Date: Fri, 28 Apr 2017 10:09:42 +0800
+From: "Yong, Jonathan" <jonathan.yong@intel.com>
+User-Agent: Mozilla/5.0 (Windows NT 6.3; Win64; x64;
+	rv:25.4) Gecko/20150524 FossaMail/25.1.5
+MIME-Version: 1.0
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 27 Apr 2017 16:50:29 -0700
-Message-Id: <1493337029-22362-1-git-send-email-armccurdy@gmail.com>
-X-Mailer: git-send-email 1.9.1
-Subject: [PATCH] cmake.bbclass: use weakest ??= assignment for default OECMAKE_SOURCEPATH
+Subject: [RFC] Hybrid live image?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,28 +32,87 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Apr 2017 23:50:34 -0000
+X-List-Received-Date: Fri, 28 Apr 2017 02:09:43 -0000
+X-Groupsio-MsgNum: 96773
+Content-Type: multipart/mixed; boundary="------------050404020300010408070202"
 
-Make it slightly easier to support situations where the default path
-needs to be over-ridden more than once.
+--------------050404020300010408070202
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
----
- meta/classes/cmake.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Hi,
 
-diff --git a/meta/classes/cmake.bbclass b/meta/classes/cmake.bbclass
-index 3f67091..f58ad78 100644
---- a/meta/classes/cmake.bbclass
-+++ b/meta/classes/cmake.bbclass
-@@ -1,5 +1,5 @@
- # Path to the CMake file to process.
--OECMAKE_SOURCEPATH ?= "${S}"
-+OECMAKE_SOURCEPATH ??= "${S}"
+Attached patch makes the init script attempt to find an writable image
+to use with Overlay/AUFS, and probably does so poorly.
+
+The idea is to eventually allow users to do a "RESET" option in case
+they mess up the system. The underlying image can be something read-only
+like cramfs or squashfs.
+
+Any comments or suggestions?
+
+--------------050404020300010408070202
+Content-Type: text/plain; charset=windows-1252;
+ name="init-live.txt"
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+ filename="init-live.txt"
+
+diff --git a/meta/recipes-core/initrdscripts/files/init-live.sh b/meta/recipes-core/initrdscripts/files/init-live.sh
+index 441b41c..35047c8 100644
+--- a/meta/recipes-core/initrdscripts/files/init-live.sh
++++ b/meta/recipes-core/initrdscripts/files/init-live.sh
+@@ -152,6 +152,25 @@ do
+   sleep 1
+ done
  
- DEPENDS_prepend = "cmake-native "
- B = "${WORKDIR}/build"
--- 
-1.9.1
++try_rw_image() {
++    for i in /run/media/$ROOT_DISK/$ISOLINUX/${ROOT_IMAGE}.rw; do
++        if [ -w $i ]; then
++            mount -o rw,loop,noatime,sync $i /rootfs.rw
++            if [ "$?" -ne 0 ]; then
++                break
++            fi
++            touch /rootfs.rw/.rwtest 2>/dev/null
++            if [ "$?" -ne 0 ]; then
++                break
++            fi
++            rm /rootfs.rw/.rwtest
++            return
++        fi
++     done
++     umount /rootfs.rw
++     mount -t tmpfs -o rw,noatime,mode=755 tmpfs /rootfs.rw
++}
++
+ # Try to mount the root image read-write and then boot it up.
+ # This function distinguishes between a read-only image and a read-write image.
+ # In the former case (typically an iso), it tries to make a union mount if possible.
+@@ -159,6 +178,7 @@ done
+ mount_and_boot() {
+     mkdir $ROOT_MOUNT
+     mknod /dev/loop0 b 7 0 2>/dev/null
++    mknod /dev/loop1 b 7 1 2>/dev/null
+ 
+     if ! mount -o rw,loop,noatime,nodiratime /run/media/$ROOT_DISK/$ISOLINUX/$ROOT_IMAGE $ROOT_MOUNT ; then
+ 	fatal "Could not mount rootfs image"
+@@ -187,7 +207,7 @@ mount_and_boot() {
+ 		rm -rf /rootfs.ro /rootfs.rw
+ 		fatal "Could not move rootfs mount point"
+ 	    else
+-		mount -t tmpfs -o rw,noatime,mode=755 tmpfs /rootfs.rw
++		try_rw_image
+ 		mkdir -p /rootfs.rw/upperdir /rootfs.rw/work
+ 		mount -t overlay overlay -o "lowerdir=/rootfs.ro,upperdir=/rootfs.rw/upperdir,workdir=/rootfs.rw/work" $ROOT_MOUNT
+ 		mkdir -p $ROOT_MOUNT/rootfs.ro $ROOT_MOUNT/rootfs.rw
+@@ -201,7 +221,7 @@ mount_and_boot() {
+ 		rm -rf /rootfs.ro /rootfs.rw
+ 		fatal "Could not move rootfs mount point"
+ 	    else
+-		mount -t tmpfs -o rw,noatime,mode=755 tmpfs /rootfs.rw
++		try_rw_image
+ 		mount -t aufs -o "dirs=/rootfs.rw=rw:/rootfs.ro=ro" aufs $ROOT_MOUNT
+ 		mkdir -p $ROOT_MOUNT/rootfs.ro $ROOT_MOUNT/rootfs.rw
+ 		mount --move /rootfs.ro $ROOT_MOUNT/rootfs.ro
 
-
+--------------050404020300010408070202--
