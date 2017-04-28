@@ -1,48 +1,55 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f181.google.com (mail-qk0-f181.google.com
-	[209.85.220.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 2040477EBC
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 3CFB577ECA
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Apr 2017 13:59:06 +0000 (UTC)
-Received: by mail-qk0-f181.google.com with SMTP id y63so53291274qkd.1
+	Fri, 28 Apr 2017 15:01:05 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id 8DEF01820D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Apr 2017 06:59:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=MPARQ32u4sBignRtSZ1HH1kiWOXdD/U0nWvNEPxdgF4=;
-	b=hCAaNNwKBZdaAat4b1GZ22Y4xCFpCizyMrpsNEouQ69sPTUwjUaXWEINFlMJA0cJNB
-	miy9s5kR4fGf2fRXr5+H+svftjONqXL6CkVWDA8e3gxZbOdBVEyrGxEF2ZApZ+ZK5bFd
-	NZYIy0F4rTBE1xYhstqWDGy/xg9xILjD4x0tk2VB2efrRZVRfgbfR3m8lHEYRwh46L7A
-	SSIWnGh7z+iN+qHVXFNOA0rbDj7VvGkwMxtZXMFNOEZbssddj16Q/VIRcJAeWynlI20Q
-	lcr/rv248qeJheHBxaRIEf5IJ3KgEB6QvyVWi3/gPDZX3mB3tdLZc6kGh1/qlgV2mUs2
-	V/WQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=MPARQ32u4sBignRtSZ1HH1kiWOXdD/U0nWvNEPxdgF4=;
-	b=FfPnqaMZlU0zrvL0KnYroVGtjhT6/EYSYD0HkKISKx2u0PmVcXQudFU7fKBQLfp/W6
-	OROnU4GMoSeEwyhThg8/UoJbDslo2s2tmlX7rUlniqX8Vgj+id3o9o3sqL6viwivN41J
-	2zyIk9tTgUyJXxm2Asda4fCpnPktYAP/jkhnyt0e5VI7FCB4XYu0cZtsXp3DJfHvkCQv
-	AbM/L4NxtiGps7cP/wrg1qHGBQ/WtncYvPFEstvU9ITjZJ010sg9PT7yYwxgSagesyuo
-	F4VTl7x3pOLXc4tWg+H91IatE2qvSqiPV5IHTsyy3gVu9tjynU0uYLzAQDODgR+HWWfS
-	wWYQ==
-X-Gm-Message-State: AN3rC/52kskVuTUY9H2xrtgFADJvaH0yA1Yp4rArPXBqdczN4dOIYL0B
-	wJICgO1JIlCbT/JVpDiIB++B+sjTCnAU
-X-Received: by 10.55.214.208 with SMTP id p77mr10697945qkl.121.1493387948089; 
-	Fri, 28 Apr 2017 06:59:08 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.22.166 with HTTP; Fri, 28 Apr 2017 06:58:47 -0700 (PDT)
-In-Reply-To: <1493385304.3156.5.camel@iki.fi>
-References: <1493307588-14557-1-git-send-email-ferlandm@amotus.ca>
-	<1493385304.3156.5.camel@iki.fi>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 28 Apr 2017 14:58:47 +0100
-Message-ID: <CAJTo0LZsEnqepWkqtEubN04A6+XYzcj+wpATT8jg20pGk1hF4w@mail.gmail.com>
-To: Tanu Kaskinen <tanuk@iki.fi>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] speex: upgrade 1.2rc2 -> 1.2.0
+	Fri, 28 Apr 2017 17:01:06 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP id ymktZ7K8fQkk
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 28 Apr 2017 17:01:05 +0200 (CEST)
+Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
+	by bastet.se.axis.com (Postfix) with ESMTPS id 7698F181DF
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 28 Apr 2017 17:01:05 +0200 (CEST)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 661201E099
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 28 Apr 2017 17:01:05 +0200 (CEST)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 5AFF61E097
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 28 Apr 2017 17:01:05 +0200 (CEST)
+Received: from seth.se.axis.com (unknown [10.0.2.172])
+	by boulder03.se.axis.com (Postfix) with ESMTP
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 28 Apr 2017 17:01:05 +0200 (CEST)
+Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
+	by seth.se.axis.com (Postfix) with ESMTP id 4F4C5217C
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 28 Apr 2017 17:01:05 +0200 (CEST)
+Received: from saur-2.se.axis.com (localhost [127.0.0.1])
+	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id v3SF15m9012828
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 28 Apr 2017 17:01:05 +0200
+Received: (from pkj@localhost)
+	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id v3SF15iM012827
+	for openembedded-core@lists.openembedded.org;
+	Fri, 28 Apr 2017 17:01:05 +0200
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 28 Apr 2017 17:01:02 +0200
+Message-Id: <8a430c9f93f00eed399175287be30cfcd0326cab.1493391620.git.pkj@axis.com>
+X-Mailer: git-send-email 2.12.0
+In-Reply-To: <cover.1493391620.git.pkj@axis.com>
+References: <cover.1493391620.git.pkj@axis.com>
+X-TM-AS-GCONF: 00
+Subject: [PATCH 2/2] sstate.bbclass, staging.bbclass: Handle HOSTTOOLS_DIR when restoring state
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,49 +62,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Apr 2017 13:59:07 -0000
-Content-Type: multipart/alternative; boundary=001a1149d4f8288d20054e3a7aa0
+X-List-Received-Date: Fri, 28 Apr 2017 15:01:07 -0000
 
---001a1149d4f8288d20054e3a7aa0
-Content-Type: text/plain; charset=UTF-8
+Paths to host tools that have been copied to ${HOSTTOOLS_DIR} may end
+up in the sstate cache. They thus need to be corrected when restoring
+from the sstate cache.
 
-On 28 April 2017 at 14:15, Tanu Kaskinen <tanuk@iki.fi> wrote:
+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+---
+ meta/classes/sstate.bbclass                         | 2 +-
+ meta/classes/staging.bbclass                        | 2 +-
+ meta/recipes-kernel/kmod/depmodwrapper-cross_1.0.bb | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-> Oh, I'm on speex-dev, and I missed the announcement of the new
-> version... The recipe reporting system didn't notice the new version
-> either, probably because it thought "1.2.0" is less than "1.2rc2". I
-> wonder if this will be a problem for package managers too...
->
+diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
+index e50a38597d..ddc442cdf9 100644
+--- a/meta/classes/sstate.bbclass
++++ b/meta/classes/sstate.bbclass
+@@ -54,7 +54,7 @@ SSTATEPOSTCREATEFUNCS = ""
+ SSTATEPREINSTFUNCS = ""
+ SSTATEPOSTUNPACKFUNCS = "sstate_hardcode_path_unpack"
+ SSTATEPOSTINSTFUNCS = ""
+-EXTRA_STAGING_FIXMES ?= ""
++EXTRA_STAGING_FIXMES ?= "HOSTTOOLS_DIR"
+ SSTATECLEANFUNCS = ""
+ 
+ # Check whether sstate exists for tasks that support sstate and are in the
+diff --git a/meta/classes/staging.bbclass b/meta/classes/staging.bbclass
+index 8bdb437a1f..4015dd754c 100644
+--- a/meta/classes/staging.bbclass
++++ b/meta/classes/staging.bbclass
+@@ -249,7 +249,7 @@ def staging_processfixme(fixme, target, recipesysroot, recipesysrootnative, d):
+     if not fixme:
+         return
+     cmd = "sed -e 's:^[^/]*/:%s/:g' %s | xargs sed -i -e 's:FIXMESTAGINGDIRTARGET:%s:g; s:FIXMESTAGINGDIRHOST:%s:g'" % (target, " ".join(fixme), recipesysroot, recipesysrootnative)
+-    for fixmevar in ['PKGDATA_DIR']:
++    for fixmevar in ['HOSTTOOLS_DIR', 'PKGDATA_DIR']:
+         fixme_path = d.getVar(fixmevar)
+         cmd += " -e 's:FIXME_%s:%s:g'" % (fixmevar, fixme_path)
+     bb.note(cmd)
+diff --git a/meta/recipes-kernel/kmod/depmodwrapper-cross_1.0.bb b/meta/recipes-kernel/kmod/depmodwrapper-cross_1.0.bb
+index 17a99a4afb..44d013f29d 100644
+--- a/meta/recipes-kernel/kmod/depmodwrapper-cross_1.0.bb
++++ b/meta/recipes-kernel/kmod/depmodwrapper-cross_1.0.bb
+@@ -9,7 +9,7 @@ PACKAGE_ARCH = "${MACHINE_ARCH}"
+ 
+ # We need the following for the sstate code to process the wrapper
+ SSTATE_SCAN_FILES += "depmodwrapper"
+-EXTRA_STAGING_FIXMES = "PKGDATA_DIR"
++EXTRA_STAGING_FIXMES += "PKGDATA_DIR"
+ 
+ do_populate_sysroot[depends] = ""
+ 
+-- 
+2.12.0
 
-dpkg thinks that 1.2rc2 is less than 1.2.0, I suspect the RRS doesn't use
-the same algorithm.  Not sure what opkg and dpkg think of it.
 
-(1.2rc2 was a badly chosen version for the recipe and we should have
-noticed)
-
-Ross
-
---001a1149d4f8288d20054e3a7aa0
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 28 April 2017 at 14:15, Tanu Kaskinen <span dir=3D"ltr">&lt;<a href=3D"m=
-ailto:tanuk@iki.fi" target=3D"_blank">tanuk@iki.fi</a>&gt;</span> wrote:<br=
-><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1=
-px #ccc solid;padding-left:1ex"><div id=3D":3iu" class=3D"a3s aXjCH m15bb4b=
-450c798970">Oh, I&#39;m on speex-dev, and I missed the announcement of the =
-new<br>
-version... The recipe reporting system didn&#39;t notice the new version<br=
->
-either, probably because it thought &quot;1.2.0&quot; is less than &quot;1.=
-2rc2&quot;. I<br>
-wonder if this will be a problem for package managers too...</div></blockqu=
-ote></div><br>dpkg thinks that 1.2rc2 is less than 1.2.0, I suspect the RRS=
- doesn&#39;t use the same algorithm.=C2=A0 Not sure what opkg and dpkg thin=
-k of it.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extr=
-a">(1.2rc2 was a badly chosen version for the recipe and we should have not=
-iced)</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">=
-Ross</div></div>
-
---001a1149d4f8288d20054e3a7aa0--
