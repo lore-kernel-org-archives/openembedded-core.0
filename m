@@ -1,53 +1,48 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id B409077ED2
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qt0-f177.google.com (mail-qt0-f177.google.com
+	[209.85.216.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 4A8C477ED3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Apr 2017 15:01:07 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id DEF95181DE
+	Fri, 28 Apr 2017 15:06:32 +0000 (UTC)
+Received: by mail-qt0-f177.google.com with SMTP id c45so52403577qtb.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Apr 2017 17:01:08 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id DFIn0PpMP21q
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Apr 2017 17:01:05 +0200 (CEST)
-Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
-	by bastet.se.axis.com (Postfix) with ESMTPS id 1823118114
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Apr 2017 17:01:05 +0200 (CEST)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id F28751E09B
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Apr 2017 17:01:04 +0200 (CEST)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id E687E1E099
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Apr 2017 17:01:04 +0200 (CEST)
-Received: from thoth.se.axis.com (unknown [10.0.2.173])
-	by boulder03.se.axis.com (Postfix) with ESMTP
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Apr 2017 17:01:04 +0200 (CEST)
-Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
-	by thoth.se.axis.com (Postfix) with ESMTP id DAF9A2222
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Apr 2017 17:01:04 +0200 (CEST)
-Received: from saur-2.se.axis.com (localhost [127.0.0.1])
-	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id v3SF14ER012819
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Apr 2017 17:01:04 +0200
-Received: (from pkj@localhost)
-	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id v3SF14Gs012818
-	for openembedded-core@lists.openembedded.org;
-	Fri, 28 Apr 2017 17:01:04 +0200
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 28 Apr 2017 17:01:00 +0200
-Message-Id: <cover.1493391620.git.pkj@axis.com>
-X-Mailer: git-send-email 2.12.0
-X-TM-AS-GCONF: 00
-Subject: [PATCH 0/2] Handle the hossttools directory when restoring from the sstate cache
+	Fri, 28 Apr 2017 08:06:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=jrGaD2MSnjviU856rL4SE0ZzWHvQCVynKB7OBOZuzc8=;
+	b=R8N9fiFhRHzwLlBd+oftBAGE8bUZiI4oiQmce9mZl609R0pDkoM+OIPjCuKWSwDD0n
+	dNVaswxjVh5994b4GcYU6ixqcuRIv7MdhxFkRRtc/UsBmp3tsmGYo6h/4RLErn09xgJr
+	FifNNqyPh4qK+5rvH0njOAEahUiLtIYJvjUsoje9bKau2FNVxHzZoDGsJ1jr82HuYssL
+	jo4vCfLKmb3ApCdgRnItT4uRJIjk0ObV7qFyHQHAMK16YIOvNb8G33z5jwyAX+ZEt+FD
+	Pzl4nviEHA0mSz5YjPXsgQJlUz6MQ/cXkn2qmvDfRh6Xao450usNa1dc3tWLq3CGeKT/
+	bkXg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=jrGaD2MSnjviU856rL4SE0ZzWHvQCVynKB7OBOZuzc8=;
+	b=IPS4FNDEfN4eZu31jrBcsXNobknVRZY3QPnYwoxhw5akHGBI3oxtd/pYTh1tuAeh2S
+	x4Pj36JDlJLWiPoxw39pZcpIcbJztPAcORGhsJR4Qz1zAEa24JTojknHYq62qmdVAwXQ
+	xVsacAQP9SDYTtplqG32Z0CZ/hM34R7pwB/o/1Ro3CCN0IG+5ZWjAXtAS+71JGcNdh3E
+	0s/U9Ol7Xcq1sP3Lox3wsFiQBIgrJ4S7fTmUBfflkhtuvDHojQ14/Ka1uY13k+orKllk
+	pOXwXCAgkiCZYgVBYTtRygTNIEVWpGMhQKHtKXm2r31qkue9RSeDjifhIuFSw/sjlNmn
+	IeDg==
+X-Gm-Message-State: AN3rC/7OHtIPaBae2HaHjs2bQMkHoxUeEYc7xJgpUauhHyhOEBmus1XZ
+	5rlT0hsgz81bhGWrE71HhAtB9ocjxeji
+X-Received: by 10.200.56.56 with SMTP id q53mr11244303qtb.105.1493391993634;
+	Fri, 28 Apr 2017 08:06:33 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.22.166 with HTTP; Fri, 28 Apr 2017 08:06:13 -0700 (PDT)
+In-Reply-To: <8a430c9f93f00eed399175287be30cfcd0326cab.1493391620.git.pkj@axis.com>
+References: <cover.1493391620.git.pkj@axis.com>
+	<8a430c9f93f00eed399175287be30cfcd0326cab.1493391620.git.pkj@axis.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 28 Apr 2017 16:06:13 +0100
+Message-ID: <CAJTo0LbdLc2OUFxY4N_sgVMVObiUzQFHaj6BD4idGsEiy7-2NQ@mail.gmail.com>
+To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/2] sstate.bbclass, staging.bbclass: Handle HOSTTOOLS_DIR when restoring state
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,47 +55,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Apr 2017 15:01:08 -0000
+X-List-Received-Date: Fri, 28 Apr 2017 15:06:34 -0000
+Content-Type: multipart/alternative; boundary=001a1137aca24a98e4054e3b6bba
 
-After the introduction of copying host tools to the build directory
-and cleaning out $PATH, we got a problem with one of our tools. It
-turned out that its configure.ac uses AC_PATH_PROG(PERL, perl) to
-locate the perl interpreter, and uses that on the shebang line of the
-installed tool. Previously it found /usr/bin/perl and used that, but
-now it will find ${TMPDIR}/hosttools/perl and use that instead, which
-means that if the tool is restored from the sstate cache in another
-build directory than where it originated from, the path will be wrong.
+--001a1137aca24a98e4054e3b6bba
+Content-Type: text/plain; charset=UTF-8
 
-These two patches adds a new variable (HOSTTOOLS_DIR) for the
-${TMPDIR}/hosttools directory, and then makes sure it is handled by
-the staging code so that any references to its value are properly
-corrected when restoring from the sstate cache.
+On 28 April 2017 at 16:01, Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+wrote:
 
-//Peter
+> -EXTRA_STAGING_FIXMES ?= ""
+> +EXTRA_STAGING_FIXMES ?= "HOSTTOOLS_DIR"
+>
 
-The following changes since commit 7a0e795373653886452a7a2992ced10080711c26:
+EXTRA and ?= suggests that this should remain "" and the HOSTTOOLS_DIR
+relocation is handled in another way, as other classes that have done
+="FOODIR" would override HOSTTOOLS_DIR.
 
-  build-appliance-image: Update to master head revision (2017-04-21 08:22:18 +0100)
+Ross
 
-are available in the git repository at:
+--001a1137aca24a98e4054e3b6bba
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-  git://git.yoctoproject.org/poky-contrib pkj/hosttools_dir
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=pkj/hosttools_dir
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 28 April 2017 at 16:01, Peter Kjellerstedt <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:peter.kjellerstedt@axis.com" target=3D"_blank">peter.kjellersted=
+t@axis.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=
+=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=
+=3D":42t" class=3D"a3s aXjCH m15bb516b996b3b6e">-EXTRA_STAGING_FIXMES ?=3D =
+&quot;&quot;<br>
++EXTRA_STAGING_FIXMES ?=3D &quot;HOSTTOOLS_DIR&quot;<br></div></blockquote>=
+</div><br>EXTRA and ?=3D suggests that this should remain &quot;&quot; and =
+the HOSTTOOLS_DIR relocation is handled in another way, as other classes th=
+at have done =3D&quot;FOODIR&quot; would override HOSTTOOLS_DIR.</div><div =
+class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
 
-Peter Kjellerstedt (2):
-  bitbake.conf: Add HOSTTOOLS_DIR for ${TMPDIR}/hosttools
-  sstate.bbclass, staging.bbclass: Handle HOSTTOOLS_DIR when restoring
-    state
-
- meta/classes/base.bbclass                           | 4 ++--
- meta/classes/sstate.bbclass                         | 2 +-
- meta/classes/staging.bbclass                        | 2 +-
- meta/conf/bitbake.conf                              | 3 +++
- meta/conf/layer.conf                                | 2 +-
- meta/recipes-kernel/kmod/depmodwrapper-cross_1.0.bb | 2 +-
- 6 files changed, 9 insertions(+), 6 deletions(-)
-
--- 
-2.12.0
-
-
+--001a1137aca24a98e4054e3b6bba--
