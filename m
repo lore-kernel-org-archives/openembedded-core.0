@@ -1,16 +1,52 @@
-Return-Path: <obi@opendreambox.org>
-Received: from mail.saftware.de (mail.saftware.de [83.141.3.46])
-	by mail.openembedded.org (Postfix) with ESMTP id DEE2C77E51
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qt0-f180.google.com (mail-qt0-f180.google.com
+	[209.85.216.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 7D08C77E4F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Apr 2017 18:38:23 +0000 (UTC)
-Received: by p910.zcs.saftware.de (Postfix, from userid 1000)
-	id 6A256AD01850; Fri, 28 Apr 2017 20:38:22 +0200 (CEST)
-From: Andreas Oberritter <obi@opendreambox.org>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 28 Apr 2017 20:38:21 +0200
-Message-Id: <1493404702-17520-1-git-send-email-obi@opendreambox.org>
-X-Mailer: git-send-email 2.7.4
-Subject: [PATCH 1/2] package_deb.bbclass: Fix multi-line package descriptions
+	Fri, 28 Apr 2017 19:28:25 +0000 (UTC)
+Received: by mail-qt0-f180.google.com with SMTP id g60so58225796qtd.3
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 28 Apr 2017 12:28:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=nsnRhwvzVb9GdmgY0iBfHOCepjgHLDxbjmXAWinLytA=;
+	b=QF6MLqs73PAqDBtHDvZ+tQYNYgBxe3jMkkGIiuGFXeSRBVGD1VRlfk4jiWFpWKBHxH
+	AMRobmqkcYfDSCdHiXr4tqDBUmgGmMnIIsoJBU2gAjEghkfNvRSIDhjPNgNYwPA/QIP/
+	7sAXOgZK3rWgwlc86H0xz+yxHPju+6QnlqC06Ahqw0fe92X7OGxO7MbeK9E53NJULT8T
+	P6zKN4mx6/jJio9y/ToVhKfUTDu015mt3V0URj5wSlO0DaxVn22NbhDoldR2Z479bBMG
+	Lau23Lk/Y43TLyv8se1DQm3RjNN1eysKxUnQkNc6pPXRHo1Y3eg1kqvX3nAsrcGk6oa6
+	YtjA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=nsnRhwvzVb9GdmgY0iBfHOCepjgHLDxbjmXAWinLytA=;
+	b=bouRpN55B0iHA4Rij1q/AbKnuFPTCZlDSrosurqIayagZranKPdTHdSV2qX+//1OUx
+	XlnPr/Fpr1DzEgbzANIyfszHh7zblgYAWole2eYEw8paVJz2zAhjn4xD139BUFo7gDja
+	dN96C7gV1/Gtdfbmrh4cK7awr45+aKaDdrc5MnjGsXkderbufFmnAX0UXoNxkxwQRURv
+	I0mt21BBL1A708U0W3Y1uvzXevJohL4oK6c1WB5+FgFPlEtwkPetSPiuDQFjiYI8GdX+
+	6i4W45XLly4PNsL9AZqoAmhvM91eEdOF2/5kn2OWH9ufB6bSEP453kIHNYDPw39gR0DD
+	CseA==
+X-Gm-Message-State: AN3rC/6VHSoiYVZ7qh4Wnu7+l00ZGSDiZUT89ejAFTvRrBXcvaltwokt
+	j229AlITIk5ASOSr1vHUawLVML47xQyv
+X-Received: by 10.200.34.162 with SMTP id f31mr12237286qta.65.1493407707236;
+	Fri, 28 Apr 2017 12:28:27 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.22.166 with HTTP; Fri, 28 Apr 2017 12:28:06 -0700 (PDT)
+In-Reply-To: <CAMRMzCA9gE7M1NGgkF=DpnHd4sAF3aAHo=guuhY7yEWQieYo4Q@mail.gmail.com>
+References: <1493307588-14557-1-git-send-email-ferlandm@amotus.ca>
+	<1493385304.3156.5.camel@iki.fi>
+	<CAJTo0LZsEnqepWkqtEubN04A6+XYzcj+wpATT8jg20pGk1hF4w@mail.gmail.com>
+	<CAJTo0LYbd9c=hAPRtQpLEpHPMnO-yoRFvvJ58-K+ZwWmVUiuMg@mail.gmail.com>
+	<CAMRMzCA9gE7M1NGgkF=DpnHd4sAF3aAHo=guuhY7yEWQieYo4Q@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 28 Apr 2017 20:28:06 +0100
+Message-ID: <CAJTo0LbAXpKARn+B27fWkbAH6MZ76J1G2QM0fGsrQaReONJ4SA@mail.gmail.com>
+To: Marc Ferland <ferlandm@amotus.ca>
+Cc: Tanu Kaskinen <tanuk@iki.fi>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] speex: upgrade 1.2rc2 -> 1.2.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -23,39 +59,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Apr 2017 18:38:24 -0000
+X-List-Received-Date: Fri, 28 Apr 2017 19:28:27 -0000
+Content-Type: multipart/alternative; boundary=001a114027ece523c4054e3f13d1
 
-In deb control files, each line of a long description starts with
-a single space. Empty lines are represented by a single space
-followed by a single full stop character.
+--001a114027ece523c4054e3f13d1
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
----
- Please note: As opkg uses the same format, I believe this to be broken in
- do_package_ipk, too, which generates '.' for empty lines instead of ' .'.
+On 28 April 2017 at 19:01, Marc Ferland <ferlandm@amotus.ca> wrote:
 
- Contrary to the removed comment, the use of textwrap.fill is pointless here.
+> Tested with opkg HEAD revision. I also tested with 0.3.0 but it seems the
+> 'compare-versions' command was broken...
+>
 
- meta/classes/package_deb.bbclass | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+Thanks for verifying.
 
-diff --git a/meta/classes/package_deb.bbclass b/meta/classes/package_deb.bbclass
-index 1f1bc81..3cd5efa 100644
---- a/meta/classes/package_deb.bbclass
-+++ b/meta/classes/package_deb.bbclass
-@@ -176,10 +176,7 @@ python do_package_deb () {
-                  if '\\n' in description:
-                      # Manually indent
-                      for t in description.split('\\n'):
--                         # We don't limit the width when manually indent, but we do
--                         # need the textwrap.fill() to set the initial_indent and
--                         # subsequent_indent, so set a large width
--                         ctrlfile.write('%s\n' % textwrap.fill(t, width=100000, initial_indent=' ', subsequent_indent=' '))
-+                         ctrlfile.write(' %s\n' % (t.strip() or '.'))
-                  else:
-                      # Auto indent
-                      ctrlfile.write('%s\n' % textwrap.fill(description.strip(), width=74, initial_indent=' ', subsequent_indent=' '))
--- 
-2.7.4
+Yes, it was.  I tried writing a test case for this last year, discovered
+that opkg had three commands to check version that behaved differently, and
+rpm5 had no programmatic way of accessing the comparison logic...
 
+Ross
 
+--001a114027ece523c4054e3f13d1
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 28 April 2017 at 19:01, Marc Ferland <span dir=3D"ltr">&lt;<a href=3D"ma=
+ilto:ferlandm@amotus.ca" target=3D"_blank">ferlandm@amotus.ca</a>&gt;</span=
+> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bo=
+rder-left:1px #ccc solid;padding-left:1ex">Tested with opkg HEAD revision. =
+I also tested with 0.3.0 but it seems the &#39;compare-versions&#39; comman=
+d was broken...<br></blockquote><div><br></div><div>Thanks for verifying.</=
+div><div><br></div><div>Yes, it was.=C2=A0 I tried writing a test case for =
+this last year, discovered that opkg had three commands to check version th=
+at behaved differently, and rpm5 had no programmatic way of accessing the c=
+omparison logic...</div><div><br></div><div>Ross</div></div></div></div>
+
+--001a114027ece523c4054e3f13d1--
