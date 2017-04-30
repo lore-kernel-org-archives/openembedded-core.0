@@ -1,60 +1,38 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id A083571B9C
+Return-Path: <jan.kiszka@web.de>
+X-Greylist: delayed 304 seconds by postgrey-1.34 at layers.openembedded.org;
+	Sun, 30 Apr 2017 15:33:13 UTC
+Received: from mout.web.de (mout.web.de [212.227.15.3])
+	by mail.openembedded.org (Postfix) with ESMTP id 7EE6977AB3
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 29 Apr 2017 18:07:58 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id 6EE8518288;
-	Sat, 29 Apr 2017 20:07:58 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id J6QqRzZ_OUhp; Sat, 29 Apr 2017 20:07:53 +0200 (CEST)
-Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
-	by bastet.se.axis.com (Postfix) with ESMTPS id AA45F18111;
-	Sat, 29 Apr 2017 20:07:53 +0200 (CEST)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 7FB291A058;
-	Sat, 29 Apr 2017 20:07:53 +0200 (CEST)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 6AFB01A040;
-	Sat, 29 Apr 2017 20:07:53 +0200 (CEST)
-Received: from thoth.se.axis.com (unknown [10.0.2.173])
-	by boulder02.se.axis.com (Postfix) with ESMTP;
-	Sat, 29 Apr 2017 20:07:53 +0200 (CEST)
-Received: from XBOX04.axis.com (xbox04.axis.com [10.0.5.18])
-	by thoth.se.axis.com (Postfix) with ESMTP id 5D2272384;
-	Sat, 29 Apr 2017 20:07:53 +0200 (CEST)
-Received: from xbox11.axis.com (10.0.5.25) by XBOX04.axis.com (10.0.5.18) with
-	Microsoft SMTP Server (TLS) id 15.0.1210.3;
-	Sat, 29 Apr 2017 20:07:53 +0200
-Received: from XBOX02.axis.com (10.0.5.16) by xbox11.axis.com (10.0.5.25) with
-	Microsoft SMTP Server (TLS) id 15.0.1210.3;
-	Sat, 29 Apr 2017 20:07:52 +0200
-Received: from XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776]) by
-	XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776%21]) with mapi id
-	15.00.1210.000; Sat, 29 Apr 2017 20:07:53 +0200
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH 0/2] Handle the hossttools directory when
-	restoring from the sstate cache
-Thread-Index: AQHSwMYhHhJ8zAKJ+EukMsd3gJwA+qHci6ow
-Date: Sat, 29 Apr 2017 18:07:52 +0000
-Message-ID: <8681b4fb223c4d4dbf3944533891f4b8@XBOX02.axis.com>
-References: <cover.1493391620.git.pkj@axis.com>
-	<1493455974.19076.167.camel@linuxfoundation.org>
-In-Reply-To: <1493455974.19076.167.camel@linuxfoundation.org>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.60]
+	Sun, 30 Apr 2017 15:33:12 +0000 (UTC)
+Received: from md1f2u6c.ww002.siemens.net ([95.157.57.47]) by smtp.web.de
+	(mrweb001 [213.165.67.108]) with ESMTPSA (Nemesis) id
+	0McneT-1dMnI83spd-00Ht56 for <openembedded-core@lists.openembedded.org>;
+	Sun, 30 Apr 2017 17:28:10 +0200
+To: openembedded-core@lists.openembedded.org
+From: Jan Kiszka <jan.kiszka@web.de>
+Message-ID: <3bd366a6-a31c-e4c8-688c-e24e84f1520c@web.de>
+Date: Sun, 30 Apr 2017 17:28:01 +0200
+User-Agent: Mozilla/5.0 (X11; U; Linux i686 (x86_64); de; rv:1.8.1.12)
+	Gecko/20080226 SUSE/2.0.0.12-1.1 Thunderbird/2.0.0.12 Mnenhy/0.7.5.666
 MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-Subject: Re: [PATCH 0/2] Handle the hossttools directory when restoring from the sstate cache
+X-Provags-ID: V03:K0:efBwaSJ1j5gH8RnkNEAiM2TqU2HSaWqOY43nqw8nxm6s6ZPFhzQ
+	3G6qHe0vMdgUPaWi0v98y256BefHDIncWi6JO+I9SWOpMBHR9rAdtXuZuZVnbpMgzaNkkvj
+	f4Rv4NHdqKHBLeSPtVVwUrXemcp65M11w22KgGywZ7b7qxx5w5oqkiMYnl06XSTVl8XDzsq
+	9ZlrcDhQ2MG/X2inbVrCg==
+X-UI-Out-Filterresults: notjunk:1;V01:K0:uJ9XPlOtfpo=:hKJb2t9EyB46U7Cnjjr0jv
+	asiPy/0rDAyJW4XjiA90ZTJ8NLRsdNkr1O3oSo3W1v440gGujDwsO6GYK4YqBzZJUQTgVqA7P
+	/msnVoQrJswq3HQ5zVtF4QvWREH4azhgnw7lk5svpEqukrPs1L4IPvEfFrramxl4ptxxI4B0P
+	5HdRe8rkONmFXdFdFoDX7MyALX9gDxjX0rIdV2O5zFpoTpnZYqZ/joPHE6G/9Qejnlnz2Ciez
+	BFiPDfMOT585DB4WUl4eU0Eb+xny4ZJ8Sxx/wUZXO3Ic+DzikHBwzuAu+HubcIp9VIfSehhE2
+	KFkzsz8LDzPkg6FHikqx7USXkkA7JeWrdN0sqDtJeQxICI/SrC1tZflRt9FMWoNC1MbvvvGal
+	Wtetc+Sq1CmKyeJsMmKH4nYWGL4IFvf7XDLxGDvcf5q3gs3WW8vCjYISNvByl8oaJurbvN7zI
+	XibEJLio6uuFhymSScJlwdTiaehMIaOvKALwHgif4xiKEqHsoTN0uej9kSsLYY8KmoAmMQ5n2
+	tpxeH/0o6OKgnWjf3u1FbHJqVczw5ZKH6lyOra/HcyBJqnDy2I8YK21Y4XySsePPZ4PzMhnSD
+	XaQw9fKckbp0KxFJzy5L71YqngVgIo2b0yIvl64cXL8kr9Tn2h16UUOXfqv4J2gj2D/Bdwbda
+	72yOHTwXOMKVwQeczxKXCK3qbO1LPpwoXM0Tfed2xYbYpuZ9oT4dVzXpSDjLvGrtRQpnBsNlp
+	UR/d8WhDcNfT3mm5S6TaCS+mmpRgz3pW1opSiV15MWXp2ALKGIb3nYUMQ5Y=
+Subject: [PATCH] tcf-agent: Fix daemon termination
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -67,155 +45,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 29 Apr 2017 18:08:00 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Sun, 30 Apr 2017 15:33:14 -0000
+X-Groupsio-MsgNum: 96793
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature";
+	boundary="w2pm1SW1FdaRKlH1CWxAIJt5rNf96PfR4"
+
+--w2pm1SW1FdaRKlH1CWxAIJt5rNf96PfR4
+Content-Type: multipart/mixed; boundary="bOlbUbfbDFTikPaoXgIa6TblwbRRnlhoX";
+ protected-headers="v1"
+From: Jan Kiszka <jan.kiszka@web.de>
+To: openembedded-core@lists.openembedded.org
+Message-ID: <3bd366a6-a31c-e4c8-688c-e24e84f1520c@web.de>
+Subject: [PATCH] tcf-agent: Fix daemon termination
+
+--bOlbUbfbDFTikPaoXgIa6TblwbRRnlhoX
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org
-> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
-> Richard Purdie
-> Sent: den 29 april 2017 10:53
-> To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>; openembedded-
-> core@lists.openembedded.org
-> Subject: Re: [OE-core] [PATCH 0/2] Handle the hossttools directory when
-> restoring from the sstate cache
->=20
-> On Fri, 2017-04-28 at 17:01 +0200, Peter Kjellerstedt wrote:
-> > After the introduction of copying host tools to the build directory
-> > and cleaning out $PATH, we got a problem with one of our tools. It
-> > turned out that its configure.ac uses AC_PATH_PROG(PERL, perl) to
-> > locate the perl interpreter, and uses that on the shebang line of the
-> > installed tool. Previously it found /usr/bin/perl and used that, but
-> > now it will find ${TMPDIR}/hosttools/perl and use that instead, which
-> > means that if the tool is restored from the sstate cache in another
-> > build directory than where it originated from, the path will be
-> > wrong.
-> >
-> > These two patches adds a new variable (HOSTTOOLS_DIR) for the
-> > ${TMPDIR}/hosttools directory, and then makes sure it is handled by
-> > the staging code so that any references to its value are properly
-> > corrected when restoring from the sstate cache.
->=20
-> I did mention on irc that I didn't really want to do this, I only
-> wanted to fix this issue on a case by case basis.
->=20
-> The reason is that we currently have pretty clean sstate files in this
-> regard, we haven't needed to do this. If we add this, we'll become
-> reliant on the fixups. The fixups are slow and ideally we want to pass
-> in correct paths in the first place if/as/where we can.
+From: Jan Kiszka <jan.kiszka@siemens.com>
 
-I am not sure how much my change will affect performance, but I think it=20
-should be negligible. It only adds one more regular expression to a sed=20
-command that would be run anyway. And all files (at least that I can see=20
-in my tmp/sysroot-components) that need to be fixed for HOSTTOOLS_DIR=20
-already need some other fixup so it does not add to the number of files=20
-needing to be fixed.
+The upstream init script uses SIGUSR2 to terminate that daemon because
+SIGTERM is ignored. As the killproc function does not support specifying
+a signal, switch to start-stop-daemon. Drop the retry loop because
+SIGUSR2 is lethal for agent.
 
-> So is there a way we can only do this if/as/where needed instead of
-> universally?
->=20
-> The performance overhead of fixups verses no fixups is significant.
->=20
-> Cheers,
->=20
-> Richard
+Signed-off-by: Jan Kiszka <jan.kiszka@siemens.com>
+---
+ meta/recipes-devtools/tcf-agent/tcf-agent/tcf-agent.init | 11 +---------=
+-
+ 1 file changed, 1 insertion(+), 10 deletions(-)
 
-This actually turned out much worse than I had first thought.
-
-When I examined what files had been modified in tmp/sysroot-components afte=
-r
-applying my change, the following files were listed:
-
-tmp/sysroots-components/mips32r2el-nf/libtool-cross/usr/bin/crossscripts/mi=
-psel-poky-linux-libtool:lt_truncate_bin=3D"FIXME_HOSTTOOLS_DIR/dd bs=3D4096=
- count=3D1"
-tmp/sysroots-components/mips32r2el-nf/python/usr/lib/python2.7/config/Makef=
-ile:INSTALL=3D FIXME_HOSTTOOLS_DIR/install -c
-tmp/sysroots-components/mips32r2el-nf/python/usr/lib/python2.7/config/Makef=
-ile:MKDIR_P=3D FIXME_HOSTTOOLS_DIR/mkdir -p
-tmp/sysroots-components/mips32r2el-nf/python3/usr/lib/python3.5/config-3.5m=
-/Makefile:INSTALL=3D   FIXME_HOSTTOOLS_DIR/install -c
-tmp/sysroots-components/mips32r2el-nf/python3/usr/lib/python3.5/config-3.5m=
-/Makefile:MKDIR_P=3D   FIXME_HOSTTOOLS_DIR/mkdir -p
-tmp/sysroots-components/mips32r2el-nf/python3/usr/lib/python3.5/config/Make=
-file:INSTALL=3D        FIXME_HOSTTOOLS_DIR/install -c
-tmp/sysroots-components/mips32r2el-nf/python3/usr/lib/python3.5/config/Make=
-file:MKDIR_P=3D        FIXME_HOSTTOOLS_DIR/mkdir -p
-tmp/sysroots-components/mips32r2el-nf/apache2/usr/share/apache2/build/confi=
-g_vars.mk:EGREP =3D FIXME_HOSTTOOLS_DIR/grep -E
-tmp/sysroots-components/mips32r2el-nf/apr/usr/share/build-1/libtool:lt_trun=
-cate_bin=3D"FIXME_HOSTTOOLS_DIR/dd bs=3D4096 count=3D1"
-
-So I guess there are potential problems with them. However, in addition to =
-the=20
-files listed above, all postinst-useradd-* scripts where also listed. That =
-is=20
-because they set up PATH like this:
-
-export PATH=3D"${BUILDDIR}/scripts:FIXMESTAGINGDIRTARGET-native/usr/bin/mip=
-sel-poky-linux:FIXMESTAGINGDIRTARGET/usr/bin/crossscripts:FIXMESTAGINGDIRTA=
-RGET-native/usr/sbin:FIXMESTAGINGDIRTARGET-native/usr/bin:FIXMESTAGINGDIRTA=
-RGET-native/sbin:FIXMESTAGINGDIRTARGET-native/bin:${BUILDDIR}/poky/bitbake/=
-bin:FIXME_HOSTTOOLS_DIR"
-
-[ I modified the line to use ${BUILDDIR} rather than the expanded value to
-  make it shorter in the mail. ]
-
-And sure enough, when I tested a build without my fixes where a recipe that=
+diff --git a/meta/recipes-devtools/tcf-agent/tcf-agent/tcf-agent.init b/m=
+eta/recipes-devtools/tcf-agent/tcf-agent/tcf-agent.init
+index 6303280aae..bd602c67cb 100755
+--- a/meta/recipes-devtools/tcf-agent/tcf-agent/tcf-agent.init
++++ b/meta/recipes-devtools/tcf-agent/tcf-agent/tcf-agent.init
+@@ -33,16 +33,7 @@ case "$1" in
 =20
-creates a user is restored from sstate to satisfy the dependencies of anoth=
-er=20
-recipe, and the hosttools path that is in the postinst-useradd script no=20
-longer exists, the script fails to create the user. But it does it silently=
-,=20
-without causing a build failure! And even if I add the -e option to sh for=
-=20
-these scripts they still do not fail, because the missing commands are call=
-ed=20
-from within if tests and thus do not trigger the shell to abort. This is ve=
-ry=20
-bad, and if at all possible should be fixed for Pyro before release, as it =
-may=20
-lead to very odd failures for anyone using recipes that create users/groups=
-.
-
-Another thing I noticed when looking at that PATH line, was the existence o=
-f=20
-FIXMESTAGINGDIRTARGET-native. Those should have been FIXMESTAGINGDIRHOST, b=
-ut=20
-I think the logic in sstate.bbclass is flawed as it only does that replacem=
-ent=20
-if native.bbclass or any cross*.bbclass has been inherited, but the native=
-=20
-paths can very well be used in a target recipe. It only happens to work bec=
-ause=20
-RECIPE_SYSROOT and RECIPE_SYSROOT_NATIVE are defined as:
-
-RECIPE_SYSROOT =3D "${WORKDIR}/recipe-sysroot"
-RECIPE_SYSROOT_NATIVE =3D "${WORKDIR}/recipe-sysroot-native"
-
-If RECIPE_SYSROOT_NATIVE instead had been defined as:
-
-RECIPE_SYSROOT_NATIVE =3D "${WORKDIR}/native-recipe-sysroot "
-
-I am sure we would have seen failures since the paths would no longer have=
-=20
-been fixed...
-
-I believe the sed expression used in sstate_hardcode_path() when cross.bbcl=
-ass=20
-or crosssdk.bbclass has been inherited should be used for all the cases, bu=
-t=20
-it needs to be corrected so that FIXMESTAGINGDIRHOST is searched for before=
-=20
-FIXMESTAGINGDIRTARGET, or it will never match. Fixing this is not critical =
-due=20
-to how RECIPE_SYSROOT and RECIPE_SYSROOT_NATIVE are defined, so fixing it c=
-an=20
-wait till after Pyro.
-
-//Peter
+     stop)
+         echo -n "Stopping $DAEMON_NAME: "
+-        count=3D0
+-        while [ -n "`/bin/pidof $DAEMON_PATH`" -a $count -lt 10 ] ; do
+-            killproc $DAEMON_PATH >& /dev/null
+-            sleep 1
+-            RETVAL=3D$?
+-            if [ $RETVAL !=3D 0 -o -n "`/bin/pidof $DAEMON_PATH`" ] ; th=
+en
+-                sleep 3
+-            fi
+-            count=3D`expr $count + 1`
+-        done
++        start-stop-daemon -K -q -x $DAEMON_PATH -s USR2
+         rm -f /var/lock/subsys/$DAEMON_NAME
+         if [ -n "`/bin/pidof $DAEMON_PATH`" ] ; then
+             echo "FAIL"
 
 
+--bOlbUbfbDFTikPaoXgIa6TblwbRRnlhoX--
+
+--w2pm1SW1FdaRKlH1CWxAIJt5rNf96PfR4
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iEYEARECAAYFAlkGAogACgkQitSsb3rl5xSI2wCg6RhDTZX8ux6bCS2MepCEb7IR
+aZAAoMqtMoFJBfkZte60mThQdHvSmoaL
+=Mon8
+-----END PGP SIGNATURE-----
+
+--w2pm1SW1FdaRKlH1CWxAIJt5rNf96PfR4--
