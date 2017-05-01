@@ -1,24 +1,20 @@
-Return-Path: <juro.bystricky@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 740F571DEE
+Return-Path: <brian.avery@intel.com>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	by mail.openembedded.org (Postfix) with ESMTP id 800C47197E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  1 May 2017 20:59:06 +0000 (UTC)
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	01 May 2017 13:59:07 -0700
+	Mon,  1 May 2017 21:56:07 +0000 (UTC)
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+	by orsmga105.jf.intel.com with ESMTP; 01 May 2017 14:56:09 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.37,401,1488873600"; d="scan'208";a="94327314"
-Received: from juro-precision-t5610.jf.intel.com ([10.7.198.53])
-	by orsmga005.jf.intel.com with ESMTP; 01 May 2017 13:59:06 -0700
-From: Juro Bystricky <juro.bystricky@intel.com>
+X-IronPort-AV: E=Sophos;i="5.37,401,1488873600"; d="scan'208";a="82650052"
+Received: from bavery-ws-desk.jf.intel.com ([10.54.74.5])
+	by orsmga004.jf.intel.com with ESMTP; 01 May 2017 14:56:09 -0700
+From: brian avery <brian.avery@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  1 May 2017 13:59:04 -0700
-Message-Id: <1493672344-21965-7-git-send-email-juro.bystricky@intel.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1493672344-21965-1-git-send-email-juro.bystricky@intel.com>
-References: <1493672344-21965-1-git-send-email-juro.bystricky@intel.com>
-Cc: jurobystricky@hotmail.com
-Subject: [PATCH v2 6/6] image.bbclass: support binary reproducibility
+Date: Mon,  1 May 2017 14:58:58 -0700
+Message-Id: <cover.1493674443.git.brian.avery@intel.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH 0/1] tcf-agent: add -USR2 to stop/kill initscript
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,43 +27,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 May 2017 20:59:06 -0000
+X-List-Received-Date: Mon, 01 May 2017 21:56:09 -0000
 
-Added a new task "reproducible_final_image_task".
-If binary reproducibility is desired ($BUILD_REPRODUCIBLE_BINARIES" = "1"),
-then recursivley modify mtimes of all files to a reproducible vale.
-The value is obtained via REPRODUCIBLE_TIMESTAMP_ROOTFS.
-This task is executed as the very last step in image creation, once all
-the files in the image have been finalized.
+This fixes the tcf-agent init script so /etc/init.d/tcf-agent stop works. It adds a -USR2 to the kill command like upstream does.
+-brian
 
-[YOCTO#11176]
 
-Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
----
- meta/classes/image.bbclass | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+The following changes since commit 381897c64069ea43d595380a3ae913bcc79cf7e1:
 
-diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index 405fd73..c311de5 100644
---- a/meta/classes/image.bbclass
-+++ b/meta/classes/image.bbclass
-@@ -617,3 +617,15 @@ do_bundle_initramfs () {
- 	:
- }
- addtask bundle_initramfs after do_image_complete
-+
-+reproducible_final_image_task () {
-+    if [ "$BUILD_REPRODUCIBLE_BINARIES" = "1" ]; then
-+        if [ "$REPRODUCIBLE_TIMESTAMP_ROOTFS" = "" ]; then
-+            REPRODUCIBLE_TIMESTAMP_ROOTFS=`git log -1 --pretty=%ct`
-+        fi
-+        # Set mtime of all files to a reproducible value
-+        bbnote "reproducible_final_image_task: mtime set to $REPRODUCIBLE_TIMESTAMP_ROOTFS"
-+        find  ${IMAGE_ROOTFS} -exec touch -h  --date=@$REPRODUCIBLE_TIMESTAMP_ROOTFS {} \;
-+    fi
-+}
-+IMAGE_PREPROCESS_COMMAND_append = " reproducible_final_image_task; "
--- 
-2.7.4
+  build-appliance-image: Update to master head revision (2017-05-01 08:56:47 +0100)
 
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib bavery/tcf-agent/10858
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=bavery/tcf-agent/10858
+
+brian avery (1):
+  tcf-agent: add -USR2 to stop/kill initscript
+
+ meta/recipes-devtools/tcf-agent/tcf-agent/tcf-agent.init | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+--
+1.9.1
 
