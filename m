@@ -1,24 +1,24 @@
 Return-Path: <juro.bystricky@intel.com>
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 54AD371DEC
+	by mail.openembedded.org (Postfix) with ESMTP id 39EE371DA5
 	for <openembedded-core@lists.openembedded.org>;
 	Mon,  1 May 2017 20:59:06 +0000 (UTC)
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
 	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
 	01 May 2017 13:59:06 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.37,401,1488873600"; d="scan'208";a="94327309"
+X-IronPort-AV: E=Sophos;i="5.37,401,1488873600"; d="scan'208";a="94327306"
 Received: from juro-precision-t5610.jf.intel.com ([10.7.198.53])
 	by orsmga005.jf.intel.com with ESMTP; 01 May 2017 13:59:06 -0700
 From: Juro Bystricky <juro.bystricky@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  1 May 2017 13:59:02 -0700
-Message-Id: <1493672344-21965-5-git-send-email-juro.bystricky@intel.com>
+Date: Mon,  1 May 2017 13:59:01 -0700
+Message-Id: <1493672344-21965-4-git-send-email-juro.bystricky@intel.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1493672344-21965-1-git-send-email-juro.bystricky@intel.com>
 References: <1493672344-21965-1-git-send-email-juro.bystricky@intel.com>
 Cc: jurobystricky@hotmail.com
-Subject: [PATCH v2 4/6] rootfs-postcommands.bbclass: support binary reproducibility
+Subject: [PATCH v2 3/6] image-prelink.bbclass: support binary reproducibility
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,78 +33,42 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 01 May 2017 20:59:06 -0000
 
-Conditionally support binary reproducibility of rootfs images.
+Conditionally support binary reproducibility in built images.
 If BUILD_REPRODUCIBLE_BINARIES = 1 then:
 
-1. set /etc/timestamp to a reproducible value
-2. set /etc/version to a reproducible value
-
-The reproducible value is taken from the variable REPRODUCIBLE_TIMESTAMP_ROOTFS.
-If the variable is not specified, the timestamp value is derived from
-the top git commit.
-
-[YOCTO#11176]
+1. Do not randomize library addresses
+2. Set/export PRELINK_TIMESTAMP to a reproducible value.
+   If REPRODUCIBLE_TIMESTAMP_IMAGE_PRELINK is specified, then the value will
+   be used. Otherwise the timestamp will be derived from the top git commit.
 
 Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
 ---
- meta/classes/rootfs-postcommands.bbclass | 24 +++++++++++++++++++++---
- 1 file changed, 21 insertions(+), 3 deletions(-)
+ meta/classes/image-prelink.bbclass | 12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
 
-diff --git a/meta/classes/rootfs-postcommands.bbclass b/meta/classes/rootfs-postcommands.bbclass
-index 498174a..072b43d 100644
---- a/meta/classes/rootfs-postcommands.bbclass
-+++ b/meta/classes/rootfs-postcommands.bbclass
-@@ -48,6 +48,7 @@ ROOTFS_POSTPROCESS_COMMAND_append_qemuall = "${SSH_DISABLE_DNS_LOOKUP}"
- SORT_PASSWD_POSTPROCESS_COMMAND ??= " sort_passwd; "
- python () {
-     d.appendVar('ROOTFS_POSTPROCESS_COMMAND', '${SORT_PASSWD_POSTPROCESS_COMMAND}')
-+    d.appendVar('ROOTFS_POSTPROCESS_COMMAND', 'rootfs_reproducible;')
- }
+diff --git a/meta/classes/image-prelink.bbclass b/meta/classes/image-prelink.bbclass
+index 4157df0..046660e 100644
+--- a/meta/classes/image-prelink.bbclass
++++ b/meta/classes/image-prelink.bbclass
+@@ -36,7 +36,17 @@ prelink_image () {
+ 	dynamic_loader=$(linuxloader)
  
- systemd_create_users () {
-@@ -243,10 +244,12 @@ python write_image_manifest () {
-         os.symlink(os.path.basename(manifest_name), manifest_link)
- }
- 
--# Can be use to create /etc/timestamp during image construction to give a reasonably
-+# Can be used to create /etc/timestamp during image construction to give a reasonably
- # sane default time setting
- rootfs_update_timestamp () {
--	date -u +%4Y%2m%2d%2H%2M%2S >${IMAGE_ROOTFS}/etc/timestamp
-+	if [ "$BUILD_REPRODUCIBLE_BINARIES" = "0" ]; then
-+		date -u +%4Y%2m%2d%2H%2M%2S >${IMAGE_ROOTFS}/etc/timestamp
-+	fi
- }
- 
- # Prevent X from being started
-@@ -286,7 +289,6 @@ rootfs_sysroot_relativelinks () {
- 	sysroot-relativelinks.py ${SDK_OUTPUT}/${SDKTARGETSYSROOT}
- }
- 
--
- # Generated test data json file
- python write_image_test_data() {
-     from oe.data import export2json
-@@ -302,3 +304,19 @@ python write_image_test_data() {
-        os.remove(testdata_link)
-     os.symlink(os.path.basename(testdata), testdata_link)
- }
-+
-+# Perform any additional adjustments needed to make rootf binary reproducible
-+rootfs_reproducible () {
+ 	# prelink!
+-	${STAGING_SBINDIR_NATIVE}/prelink --root ${IMAGE_ROOTFS} -amR -N -c ${sysconfdir}/prelink.conf --dynamic-linker $dynamic_loader
 +	if [ "$BUILD_REPRODUCIBLE_BINARIES" = "1" ]; then
-+		if [ "$REPRODUCIBLE_TIMESTAMP_ROOTFS" = "" ]; then
-+			REPRODUCIBLE_TIMESTAMP_ROOTFS=`git log -1 --pretty=%ct`
++		bbnote " prelink: BUILD_REPRODUCIBLE_BINARIES..."
++		if [ "$REPRODUCIBLE_TIMESTAMP_IMAGE_PRELINK" = "" ]; then
++			export PRELINK_TIMESTAMP=`git log -1 --pretty=%ct `
++		else
++			export PRELINK_TIMESTAMP=$REPRODUCIBLE_TIMESTAMP_IMAGE_PRELINK
 +		fi
-+
-+		# Convert UTC into %4Y%2m%2d%2H%2M%2S
-+		sformatted=`date -u -d @$REPRODUCIBLE_TIMESTAMP_ROOTFS +%4Y%2m%2d%2H%2M%2S`
-+		echo $sformatted > ${IMAGE_ROOTFS}/etc/version
-+		bbnote "rootfs_reproducible: set /etc/version to $sformatted"
-+		echo $sformatted > ${IMAGE_ROOTFS}/etc/timestamp
-+		bbnote "rootfs_reproducible: set /etc/timestamp to $sformatted"
++		${STAGING_SBINDIR_NATIVE}/prelink --root ${IMAGE_ROOTFS} -am -N -c ${sysconfdir}/prelink.conf --dynamic-linker $dynamic_loader
++	else
++		${STAGING_SBINDIR_NATIVE}/prelink --root ${IMAGE_ROOTFS} -amR -N -c ${sysconfdir}/prelink.conf --dynamic-linker $dynamic_loader
 +	fi
-+}
+ 
+ 	# Remove the prelink.conf if we had to add it.
+ 	if [ "$dummy_prelink_conf" = "true" ]; then
 -- 
 2.7.4
 
