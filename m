@@ -1,43 +1,39 @@
-Return-Path: <dev@codyps.com>
-Received: from mail-it0-f67.google.com (mail-it0-f67.google.com
-	[209.85.214.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 1AD4965D00
+Return-Path: <philip@balister.org>
+Received: from sanddollar.geekisp.com (sanddollar.geekisp.com
+	[216.168.135.167])
+	by mail.openembedded.org (Postfix) with ESMTP id CAA5A71DDA
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  1 May 2017 19:29:50 +0000 (UTC)
-Received: by mail-it0-f67.google.com with SMTP id z67so13155880itb.0
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 01 May 2017 12:29:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=codyps.com; s=google;
-	h=from:to:cc:subject:date:message-id;
-	bh=aacg7sYLlz1qvFlC0Xb8N0TZKfy9MGAQDOKwWzHg4zo=;
-	b=OyASxUoiad77zP9GBNID1dxnZN3kixvsGFMzcAR0loyATmdcqu8+/3/4Y1dA+xlBup
-	d7aRIZResBvPSXUYxCErIOfPUn+tzieqHd1YKdtMmLow+Ix3jogp7auZgOmfe0uAYp9q
-	Hm006XtJEKBLf0Q1Ugajoa+HFp+3zOg+YpzwU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=aacg7sYLlz1qvFlC0Xb8N0TZKfy9MGAQDOKwWzHg4zo=;
-	b=cOZgfyMKll3308YGN6NMEj+ONLIi1uTv67uM2MNRALYXpPGsslmjTmXsNeVZdWRonQ
-	GyxyFvb8VF8WcDlJ/rzOJNoRxr3AAaeKOm57/aZJAflUjw+nAkCr987xm+f5a1IxUz9t
-	SXY2Xk0U+co+VXwRFefbWwlmctjEQ13FSxgr1sNKTM6pqeUXgNj0I0PVEmSNevZieche
-	wxLSJdoVCnrWMP/uMCcTqXmRnZ0nBnMnxB5U0rgJsD6/l8WUIk7Q0YyoR4RfqHgQ4cIS
-	U4Nkl9iZ9GWe+zYro+e9vXnDMjsZey8k+odR2UZl5cen79wrPiyHBpbiRNaOrRFLgbA1
-	GeCQ==
-X-Gm-Message-State: AN3rC/7ZEu+fX+/+w+FJzIFVyH3n1B9KGn2zG/vReB9Hn0k5AiM/g4ST
-	MWJsmD90kVFELQ==
-X-Received: by 10.36.107.201 with SMTP id v192mr152853itc.3.1493666991528;
-	Mon, 01 May 2017 12:29:51 -0700 (PDT)
-Received: from localhost (static-72-74-84-52.bstnma.fios.verizon.net.
-	[72.74.84.52])
-	by smtp.gmail.com with ESMTPSA id n85sm6874515ioi.6.2017.05.01.12.29.50
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Mon, 01 May 2017 12:29:51 -0700 (PDT)
-From: Cody P Schafer <dev@codyps.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  1 May 2017 15:29:39 -0400
-Message-Id: <20170501192939.18046-1-dev@codyps.com>
-X-Mailer: git-send-email 2.12.2
-Subject: [PATCH] cmake: in SDK use OE env var to set default toolchain
+	Mon,  1 May 2017 19:30:40 +0000 (UTC)
+Received: (qmail 32272 invoked by uid 1003); 1 May 2017 19:30:41 -0000
+Received: from unknown (HELO ?192.168.11.142?)
+	(philip@opensdr.com@71.171.14.190)
+	by mail.geekisp.com with (DHE-RSA-AES128-SHA encrypted) SMTP;
+	1 May 2017 19:30:41 -0000
+To: Martin Jansa <martin.jansa@gmail.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <527be78e-ad75-2221-06e8-18814bf55857@mentor.com>
+	<CAK18fxHF1dPOAXSwFwtS0s_vaMo5--t4QS2dq8pBwbDPdFDmbw@mail.gmail.com>
+	<CAC+thW0rVtEFKKoJChwLjK-2=aMmZuW5vRufJ9iaFXJt6JiEAg@mail.gmail.com>
+	<1493635218.23535.34.camel@linuxfoundation.org>
+	<CAP71Wjwwp9ca=4_V-U1NpnX+=5x1V82DS18FkxPAaL9qYknVow@mail.gmail.com>
+	<1493638943.23535.36.camel@linuxfoundation.org>
+	<2b56f841-8c90-64b7-b6d3-cf0c157451be@balister.org>
+	<CA+chaQfvm5xdNEhF=v05VnUPiLZFea2pZkZakgmAF_mCF4v07w@mail.gmail.com>
+	<1493643311.23535.40.camel@linuxfoundation.org>
+	<20170501140706.GA2694@jama>
+From: Philip Balister <philip@balister.org>
+Message-ID: <8fc013aa-6e69-897d-6ceb-6a0735660627@balister.org>
+Date: Mon, 1 May 2017 15:30:36 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.8.0
+MIME-Version: 1.0
+In-Reply-To: <20170501140706.GA2694@jama>
+Cc: openembedded-members@lists.openembedded.org, openembedded-architecture
+	<openembedded-architecture@lists.openembedded.org>,
+	"openembedded-devel@lists.openembedded.org"
+	<openembedded-devel@lists.openembedded.org>,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [oe] [Openembedded-architecture] OpenEmbedded 2017 General Meeting
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,108 +46,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 May 2017 19:29:51 -0000
+X-List-Received-Date: Mon, 01 May 2017 19:30:41 -0000
+X-Groupsio-MsgNum: 96812
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature";
+	boundary="SlDTmo3f4E3iM2uC3tDR4CQ26FDrg6Up4"
 
-Patch the location in cmake where the toolchain file is loaded
-to use the (new) OE_CMAKE_TOOLCHAIN_FILE variable to select a default
-toolchain if no toolchain has been specified. The cmake alias is
-removed.
+--SlDTmo3f4E3iM2uC3tDR4CQ26FDrg6Up4
+Content-Type: multipart/mixed; boundary="hP63HilcQ46H2aOLUeor6pKQV9DBUEoJw";
+ protected-headers="v1"
+From: Philip Balister <philip@balister.org>
+To: Martin Jansa <martin.jansa@gmail.com>,
+ Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-members@lists.openembedded.org,
+ openembedded-architecture
+ <openembedded-architecture@lists.openembedded.org>,
+ "openembedded-devel@lists.openembedded.org"
+ <openembedded-devel@lists.openembedded.org>,
+ openembedded-core <openembedded-core@lists.openembedded.org>
+Message-ID: <8fc013aa-6e69-897d-6ceb-6a0735660627@balister.org>
+Subject: Re: [oe] [OE-core] [Openembedded-architecture] OpenEmbedded 2017
+ General Meeting
+References: <527be78e-ad75-2221-06e8-18814bf55857@mentor.com>
+ <CAK18fxHF1dPOAXSwFwtS0s_vaMo5--t4QS2dq8pBwbDPdFDmbw@mail.gmail.com>
+ <CAC+thW0rVtEFKKoJChwLjK-2=aMmZuW5vRufJ9iaFXJt6JiEAg@mail.gmail.com>
+ <1493635218.23535.34.camel@linuxfoundation.org>
+ <CAP71Wjwwp9ca=4_V-U1NpnX+=5x1V82DS18FkxPAaL9qYknVow@mail.gmail.com>
+ <1493638943.23535.36.camel@linuxfoundation.org>
+ <2b56f841-8c90-64b7-b6d3-cf0c157451be@balister.org>
+ <CA+chaQfvm5xdNEhF=v05VnUPiLZFea2pZkZakgmAF_mCF4v07w@mail.gmail.com>
+ <1493643311.23535.40.camel@linuxfoundation.org> <20170501140706.GA2694@jama>
+In-Reply-To: <20170501140706.GA2694@jama>
 
-The alternatives:
+--hP63HilcQ46H2aOLUeor6pKQV9DBUEoJw
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: quoted-printable
 
- - shell alias fails when cmake is called indirectly (ex: a makefile
-   managing several projects which calls cmake for some of them)
-   because aliases are not inherited
+On 05/01/2017 10:07 AM, Martin Jansa wrote:
+> On Mon, May 01, 2017 at 01:55:11PM +0100, Richard Purdie wrote:
+>> On Mon, 2017-05-01 at 13:59 +0200, Martin Jansa wrote:
+>>> I had to change the password on the login, but then it worked for me.=
 
- - wrapper script that unconditionally adds "-D..." breaks cmake's
-   build tests and many other things as it causes cmake to believe it
-   should be configuring things when it should not be. For example,
-   `cmake -DCMAKE_TOOLCHAIN_FILE=... --build .` does not work (note
-   that this also breaks people directly using `cmake --build .` with
-   the current alias).
+>>
+>> I think someone promoted you to an admin which is why its working for
+>> you...
+>=20
+> Yes I was after:
+> http://lists.openembedded.org/pipermail/openembedded-core/2017-April/13=
+6119.html
+>=20
+> but there were some more changes after that (which forced me to change
+> password to longer on today's login).
+>=20
+> Regards,
+>=20
 
-Signed-off-by: Cody P Schafer <dev@codyps.com>
----
- ...ineSystem-use-oe-environment-vars-to-load.patch | 45 ++++++++++++++++++++++
- .../cmake/cmake/environment.d-cmake.sh             |  2 +-
- meta/recipes-devtools/cmake/cmake_3.7.2.bb         |  4 +-
- 3 files changed, 49 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-devtools/cmake/cmake/0001-CMakeDetermineSystem-use-oe-environment-vars-to-load.patch
+Things should be back to normal now.
 
-diff --git a/meta/recipes-devtools/cmake/cmake/0001-CMakeDetermineSystem-use-oe-environment-vars-to-load.patch b/meta/recipes-devtools/cmake/cmake/0001-CMakeDetermineSystem-use-oe-environment-vars-to-load.patch
-new file mode 100644
-index 0000000000..a2332879cf
---- /dev/null
-+++ b/meta/recipes-devtools/cmake/cmake/0001-CMakeDetermineSystem-use-oe-environment-vars-to-load.patch
-@@ -0,0 +1,45 @@
-+From a42cfebcd6c684cccf8ad33e5bd5130f7cdba135 Mon Sep 17 00:00:00 2001
-+From: Cody P Schafer <dev@codyps.com>
-+Date: Thu, 27 Apr 2017 11:35:05 -0400
-+Subject: [PATCH] CMakeDetermineSystem: use oe environment vars to load default
-+ toolchain file in sdk
-+
-+Passing the toolchain by:
-+
-+ - shell aliases does not work if cmake is called by a script
-+ - unconditionally by a wrapper script causes cmake to believe it is
-+   configuring things when it is not (for example, `cmake --build` breaks).
-+
-+The OE_CMAKE_TOOLCHAIN_FILE variable is only used as a default if no
-+toolchain is explicitly specified.
-+
-+Setting the CMAKE_TOOLCHAIN_FILE cmake variable is marked as cached
-+because '-D' options are cache entries themselves.
-+
-+Upstream-Status: Inappropriate [oe-core specific]
-+Signed-off-by: Cody P Schafer <dev@codyps.com>
-+---
-+ Modules/CMakeDetermineSystem.cmake | 7 +++++++
-+ 1 file changed, 7 insertions(+)
-+
-+diff --git a/Modules/CMakeDetermineSystem.cmake b/Modules/CMakeDetermineSystem.cmake
-+index f34ec5d61..bcac3ef16 100644
-+--- a/Modules/CMakeDetermineSystem.cmake
-++++ b/Modules/CMakeDetermineSystem.cmake
-+@@ -74,6 +74,13 @@ else()
-+   endif()
-+ endif()
-+ 
-++if(NOT DEFINED CMAKE_TOOLCHAIN_FILE)
-++  if(DEFINED ENV{OE_CMAKE_TOOLCHAIN_FILE})
-++    set(CMAKE_TOOLCHAIN_FILE "$ENV{OE_CMAKE_TOOLCHAIN_FILE}" CACHE FILEPATH "toolchain file")
-++    message(STATUS "Toolchain file defaulted to '${CMAKE_TOOLCHAIN_FILE}'")
-++  endif()
-++endif()
-++
-+ # if a toolchain file is used, the user wants to cross compile.
-+ # in this case read the toolchain file and keep the CMAKE_HOST_SYSTEM_*
-+ # variables around so they can be used in CMakeLists.txt.
-+-- 
-+2.12.2
-+
-diff --git a/meta/recipes-devtools/cmake/cmake/environment.d-cmake.sh b/meta/recipes-devtools/cmake/cmake/environment.d-cmake.sh
-index 0eb56b66fa..64b6cf3c6a 100644
---- a/meta/recipes-devtools/cmake/cmake/environment.d-cmake.sh
-+++ b/meta/recipes-devtools/cmake/cmake/environment.d-cmake.sh
-@@ -1 +1 @@
--alias cmake="cmake -DCMAKE_TOOLCHAIN_FILE=$OECORE_NATIVE_SYSROOT/usr/share/cmake/OEToolchainConfig.cmake"
-+export OE_CMAKE_TOOLCHAIN_FILE="$OECORE_NATIVE_SYSROOT/usr/share/cmake/OEToolchainConfig.cmake"
-diff --git a/meta/recipes-devtools/cmake/cmake_3.7.2.bb b/meta/recipes-devtools/cmake/cmake_3.7.2.bb
-index f566a48cfb..1cb99869e6 100644
---- a/meta/recipes-devtools/cmake/cmake_3.7.2.bb
-+++ b/meta/recipes-devtools/cmake/cmake_3.7.2.bb
-@@ -6,7 +6,9 @@ DEPENDS += "curl expat zlib libarchive xz ncurses bzip2"
- 
- SRC_URI_append_class-nativesdk = " \
-     file://OEToolchainConfig.cmake \
--    file://environment.d-cmake.sh"
-+    file://environment.d-cmake.sh \
-+    file://0001-CMakeDetermineSystem-use-oe-environment-vars-to-load.patch \
-+"
- 
- # Strip ${prefix} from ${docdir}, set result into docdir_stripped
- python () {
--- 
-2.12.2
+Philip
 
 
+--hP63HilcQ46H2aOLUeor6pKQV9DBUEoJw--
+
+--SlDTmo3f4E3iM2uC3tDR4CQ26FDrg6Up4
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iQExBAEBCAAbBQJZB4zcFBxwaGlsaXBAYmFsaXN0ZXIub3JnAAoJEMDJd4rr0mer
+l7cH/2YUuIkj0OIskSWsX/hHtlIWK7giON+V299zZcXZ6PKLdVIuf2VQBsawJuXA
+FPtz4q7vTfZoBQndY2B2JzIhuqprhBwjsq8R5DgbA8JLfDOMkifVkkGP8g/U1hQ9
+fCO6KvhfAxCHaCifBEjxjqCX3p7HsVN/3s/LxpLi/weZaFjVAf98mjLLTdqLTyuD
+hYJuS339gcbEjV6AjyShuZTfXn3WOsrlj/3GyKmNC65F/VBNPH9pgP7mz3CC6vHP
+Wkr92G6MdgmsPHy00A+B503TEU6X5KXo97S8dBwOSfuTmjGJIV00SRqoP/sJOAHk
+y9AZpJKhoJ7EulxZZzb2c3M6sXE=
+=BJsm
+-----END PGP SIGNATURE-----
+
+--SlDTmo3f4E3iM2uC3tDR4CQ26FDrg6Up4--
