@@ -1,24 +1,24 @@
 Return-Path: <juro.bystricky@intel.com>
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 4B17071DE8
+	by mail.openembedded.org (Postfix) with ESMTP id 740F571DEE
 	for <openembedded-core@lists.openembedded.org>;
 	Mon,  1 May 2017 20:59:06 +0000 (UTC)
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
 	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	01 May 2017 13:59:06 -0700
+	01 May 2017 13:59:07 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.37,401,1488873600"; d="scan'208";a="94327302"
+X-IronPort-AV: E=Sophos;i="5.37,401,1488873600"; d="scan'208";a="94327314"
 Received: from juro-precision-t5610.jf.intel.com ([10.7.198.53])
 	by orsmga005.jf.intel.com with ESMTP; 01 May 2017 13:59:06 -0700
 From: Juro Bystricky <juro.bystricky@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  1 May 2017 13:59:00 -0700
-Message-Id: <1493672344-21965-3-git-send-email-juro.bystricky@intel.com>
+Date: Mon,  1 May 2017 13:59:04 -0700
+Message-Id: <1493672344-21965-7-git-send-email-juro.bystricky@intel.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1493672344-21965-1-git-send-email-juro.bystricky@intel.com>
 References: <1493672344-21965-1-git-send-email-juro.bystricky@intel.com>
 Cc: jurobystricky@hotmail.com
-Subject: [PATCH v2 2/6] base.bbclass: initial support for binary reproducibility
+Subject: [PATCH v2 6/6] image.bbclass: support binary reproducibility
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,148 +33,40 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 01 May 2017 20:59:06 -0000
 
-Conditionally set some environment variables in order to achieve
-improved binary reproducibility. Providing BUILD_REPRODUCIBLE_BINARIES is
-set to "1", we set the following environment variables:
+Added a new task "reproducible_final_image_task".
+If binary reproducibility is desired ($BUILD_REPRODUCIBLE_BINARIES" = "1"),
+then recursivley modify mtimes of all files to a reproducible vale.
+The value is obtained via REPRODUCIBLE_TIMESTAMP_ROOTFS.
+This task is executed as the very last step in image creation, once all
+the files in the image have been finalized.
 
-export PYTHONHASHSEED=0
-export PERL_HASH_SEED=0
-export TZ="UTC"
-
-We also export and set SOURCE_DATE_EPOCH. The value for this variable
-is obtained after source code for a recipe has been unpacked, but before it is
-patched. If the code comes from a GIT repo, we get the timestamp from the top
-commit. (This usually corresponds to the mktime of "changelog".)
-Otherwise we go through all files and get the timestamp from the youngest
-one. We create a timestamp for each recipe. The timestamp is stored in the file
-'src_date_epoch.txt'. Later on, each task reads this file and sets SOURCE_DATE_EPOCH
-based on the value found in the file.
-
-[YOCTO#11178]
-[YOCTO#11179]
+[YOCTO#11176]
 
 Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
 ---
- meta/classes/base.bbclass | 82 +++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 82 insertions(+)
+ meta/classes/image.bbclass | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
-index e29821f..f2b2d97 100644
---- a/meta/classes/base.bbclass
-+++ b/meta/classes/base.bbclass
-@@ -10,6 +10,52 @@ inherit utility-tasks
- inherit metadata_scm
- inherit logging
- 
-+def get_git_src_date_epoch(d, path):
-+    import subprocess
-+    saved_cwd = os.getcwd()
-+    os.chdir(path)
-+    src_date_epoch = int(subprocess.check_output(['git','log','-1','--pretty=%ct']))
-+    os.chdir(saved_cwd)
-+    return src_date_epoch
-+
-+def create_src_date_epoch_stamp(d):
-+    if d.getVar('BUILD_REPRODUCIBLE_BINARIES') == '1':
-+        path = d.getVar('S')
-+        src_date_epoch = 0
-+        filename_dbg = None
-+
-+        if path.endswith('/git'):
-+            src_date_epoch = get_git_src_date_epoch(d, path)
-+        else:
-+            exclude = set(["temp", "licenses", "patches", "recipe-sysroot-native", "recipe-sysroot" ])
-+            for root, dirs, files in os.walk(path, topdown=True):
-+                dirs[:] = [d for d in dirs if d not in exclude]
-+                if root.endswith('/git'):
-+                    src_date_epoch = get_git_src_date_epoch(d, root)
-+                    break
-+
-+                for fname in files:
-+                    filename = os.path.join(root, fname)
-+                    try:
-+                        mtime = int(os.path.getmtime(filename))
-+                    except:
-+                        mtime = 0
-+                    if mtime > src_date_epoch:
-+                        src_date_epoch = mtime
-+                        filename_dbg = filename
-+
-+        # Most likely an empty folder
-+        if src_date_epoch == 0:
-+            bb.warn("Unable to determine src_date_epoch! path:%s" % path)
-+
-+        f = open(os.path.join(path,'src_date_epoch.txt'), 'w')
-+        f.write(str(src_date_epoch))
-+        f.close()
-+
-+        if filename_dbg != None:
-+            bb.debug(1," src_date_epoch %d derived from: %s" % (src_date_epoch, filename_dbg))
-+
-+
- OE_IMPORTS += "os sys time oe.path oe.utils oe.types oe.package oe.packagegroup oe.sstatesig oe.lsb oe.cachedpath oe.license"
- OE_IMPORTS[type] = "list"
- 
-@@ -173,6 +219,7 @@ python base_do_unpack() {
-     try:
-         fetcher = bb.fetch2.Fetch(src_uri, d)
-         fetcher.unpack(d.getVar('WORKDIR'))
-+        create_src_date_epoch_stamp(d)
-     except bb.fetch2.BBFetchException as e:
-         bb.fatal(str(e))
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+index 405fd73..c311de5 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -617,3 +617,15 @@ do_bundle_initramfs () {
+ 	:
  }
-@@ -383,9 +430,43 @@ def set_packagetriplet(d):
- 
-     settriplet(d, "PKGMLTRIPLETS", archs, tos, tvs)
- 
+ addtask bundle_initramfs after do_image_complete
 +
-+export PYTHONHASHSEED
-+export PERL_HASH_SEED
-+export SOURCE_DATE_EPOCH
-+
-+BB_HASHBASE_WHITELIST += "SOURCE_DATE_EPOCH PYTHONHASHSEED PERL_HASH_SEED "
-+
- python () {
-     import string, re
- 
-+    # Create reproducible_environment
-+
-+    if d.getVar('BUILD_REPRODUCIBLE_BINARIES') == '1':
-+        import subprocess
-+        d.setVar('PYTHONHASHSEED', '0')
-+        d.setVar('PERL_HASH_SEED', '0')
-+        d.setVar('TZ', 'UTC')
-+
-+        path = d.getVar('S')
-+        epochfile = os.path.join(path,'src_date_epoch.txt')
-+        if os.path.isfile(epochfile):
-+            f = open(epochfile, 'r')
-+            src_date_epoch = f.read()
-+            f.close()
-+            bb.debug(1, "src_date_epoch stamp found ---> stamp %s" % src_date_epoch)
-+            d.setVar('SOURCE_DATE_EPOCH', src_date_epoch)
-+        else:
-+            bb.debug(1, "src_date_epoch stamp not found.")
-+            d.setVar('SOURCE_DATE_EPOCH', '0')
-+    else:
-+        if 'PYTHONHASHSEED' in os.environ:
-+            del os.environ['PYTHONHASHSEED']
-+        if 'PERL_HASH_SEED' in os.environ:
-+            del os.environ['PERL_HASH_SEED']
-+        if 'SOURCE_DATE_EPOCH' in os.environ:
-+            del os.environ['SOURCE_DATE_EPOCH']
-+
-     # Handle PACKAGECONFIG
-     #
-     # These take the form:
-@@ -678,6 +759,7 @@ python () {
-             bb.warn("Recipe %s is marked as only being architecture specific but seems to have machine specific packages?! The recipe may as well mark itself as machine specific directly." % d.getVar("PN"))
- }
- 
-+
- addtask cleansstate after do_clean
- python do_cleansstate() {
-         sstate_clean_cachefiles(d)
++reproducible_final_image_task () {
++    if [ "$BUILD_REPRODUCIBLE_BINARIES" = "1" ]; then
++        if [ "$REPRODUCIBLE_TIMESTAMP_ROOTFS" = "" ]; then
++            REPRODUCIBLE_TIMESTAMP_ROOTFS=`git log -1 --pretty=%ct`
++        fi
++        # Set mtime of all files to a reproducible value
++        bbnote "reproducible_final_image_task: mtime set to $REPRODUCIBLE_TIMESTAMP_ROOTFS"
++        find  ${IMAGE_ROOTFS} -exec touch -h  --date=@$REPRODUCIBLE_TIMESTAMP_ROOTFS {} \;
++    fi
++}
++IMAGE_PREPROCESS_COMMAND_append = " reproducible_final_image_task; "
 -- 
 2.7.4
 
