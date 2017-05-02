@@ -1,21 +1,23 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id D616371D81
+	by mail.openembedded.org (Postfix) with ESMTP id D5D8771D7E
 	for <openembedded-core@lists.openembedded.org>;
 	Tue,  2 May 2017 12:51:55 +0000 (UTC)
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
 	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	02 May 2017 05:51:56 -0700
+	02 May 2017 05:51:57 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.37,405,1488873600"; d="scan'208";a="1163544013"
+X-IronPort-AV: E=Sophos;i="5.37,405,1488873600"; d="scan'208";a="1163544021"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by fmsmga002.fm.intel.com with ESMTP; 02 May 2017 05:51:55 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 02 May 2017 05:51:56 -0700
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  2 May 2017 15:51:46 +0300
-Message-Id: <20170502125151.5095-1-alexander.kanavin@linux.intel.com>
+Date: Tue,  2 May 2017 15:51:47 +0300
+Message-Id: <20170502125151.5095-2-alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.11.0
-Subject: [PATCH 1/6] dtc: upgrade to 1.4.4
+In-Reply-To: <20170502125151.5095-1-alexander.kanavin@linux.intel.com>
+References: <20170502125151.5095-1-alexander.kanavin@linux.intel.com>
+Subject: [PATCH 2/6] iso-codes: upgrade to 3.75
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,26 +34,28 @@ X-List-Received-Date: Tue, 02 May 2017 12:51:56 -0000
 
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- meta/recipes-kernel/dtc/{dtc_1.4.2.bb => dtc_1.4.4.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-kernel/dtc/{dtc_1.4.2.bb => dtc_1.4.4.bb} (81%)
+ .../iso-codes/{iso-codes_3.74.bb => iso-codes_3.75.bb}                | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-support/iso-codes/{iso-codes_3.74.bb => iso-codes_3.75.bb} (76%)
 
-diff --git a/meta/recipes-kernel/dtc/dtc_1.4.2.bb b/meta/recipes-kernel/dtc/dtc_1.4.4.bb
-similarity index 81%
-rename from meta/recipes-kernel/dtc/dtc_1.4.2.bb
-rename to meta/recipes-kernel/dtc/dtc_1.4.4.bb
-index cc72adc6137..eadb7bab6f7 100644
---- a/meta/recipes-kernel/dtc/dtc_1.4.2.bb
-+++ b/meta/recipes-kernel/dtc/dtc_1.4.4.bb
-@@ -3,7 +3,7 @@ require dtc.inc
- LIC_FILES_CHKSUM = "file://GPL;md5=94d55d512a9ba36caa9b7df079bae19f \
- 		    file://libfdt/libfdt.h;beginline=3;endline=52;md5=fb360963151f8ec2d6c06b055bcbb68c"
+diff --git a/meta/recipes-support/iso-codes/iso-codes_3.74.bb b/meta/recipes-support/iso-codes/iso-codes_3.75.bb
+similarity index 76%
+rename from meta/recipes-support/iso-codes/iso-codes_3.74.bb
+rename to meta/recipes-support/iso-codes/iso-codes_3.75.bb
+index c436a1dd2bc..4f3d53c1736 100644
+--- a/meta/recipes-support/iso-codes/iso-codes_3.74.bb
++++ b/meta/recipes-support/iso-codes/iso-codes_3.75.bb
+@@ -3,8 +3,8 @@ LICENSE = "LGPLv2.1"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
  
--SRCREV = "ec02b34c05be04f249ffaaca4b666f5246877dea"
-+SRCREV = "558cd81bdd432769b59bff01240c44f82cfb1a9d"
+ SRC_URI = "https://pkg-isocodes.alioth.debian.org/downloads/iso-codes-${PV}.tar.xz"
+-SRC_URI[md5sum] = "d5448475d087756b78391b8c53c5b83a"
+-SRC_URI[sha256sum] = "21f4f3cea8fe09f5b53784522303a0e1e7d083964ecaf1c75b1441d4d9ec6aee"
++SRC_URI[md5sum] = "9ba173b69d4360003414f23837597a92"
++SRC_URI[sha256sum] = "7335e0301cd77cd4ee019bf5d3709aa79309d49dd66e85ba350caf67e00b00cd"
  
- S = "${WORKDIR}/git"
- 
+ # inherit gettext cannot be used, because it adds gettext-native to BASEDEPENDS which
+ # are inhibited by allarch
 -- 
 2.11.0
 
