@@ -1,47 +1,37 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
-	by mail.openembedded.org (Postfix) with ESMTP id B799B60778
+Return-Path: <juro.bystricky@intel.com>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by mail.openembedded.org (Postfix) with ESMTP id 88FE672F4F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 May 2017 00:31:35 +0000 (UTC)
-Received: by mail-wm0-f65.google.com with SMTP id y10so857149wmh.0
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 01 May 2017 17:31:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=abHiZs7CmkYe9dIlWWBBsShsKkmpjzgYr1EY2A1+Ecg=;
-	b=h+g1zkgCD8v3OF5Mwx/H0EbwG8J7SorJydQvCdfONRKe4UjaqHxgvOwGjf1U+4JSnp
-	itCMLUsqZoW64jH6Tv8ndmm13W3YtKJzAFa21ZeAWEt+nUQeS6/eM0huuqXIALyxg+CW
-	2RHb3oEaMdAY3YXhmqW1IVTZsSrAi3bt5qPUD31qAE7pQfsMZPbqSCPnZQB97E4GwMj/
-	4XiwowOWDkY62c2TFc7+fcaSieq1xSbmb3rUDPm3XQNIzfg5OHrraHLIPIjfo/FmBFUA
-	2NT+ZLXkXfrFIptENAD1wuPSB2f8B2zkcoIYXTqeJOI0Mu3lhLvfIUFdCZ/siGz7dhi3
-	Kbeg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=abHiZs7CmkYe9dIlWWBBsShsKkmpjzgYr1EY2A1+Ecg=;
-	b=Y2pl6BO+cgTUEyXzBtUFMDDOmQ4AZt06XOxQOsY/x8KJKt89NrMYEtX1Zeok4cIKDO
-	xGoqidTim2WZoUcCq1kXv1MoZhyzsx4YnmsTlJuZWlZ4VdsWf2fps0b+6FTnokmHm/LW
-	fe0x/2Ild3HMRe9d3lMA6nsxwkEybyzY2Wsh5Tu7vwIjxNDoe7N7q63LthXxjZWkZOgM
-	4zE03g5Pg1g7wD/b12JXLQokfN5uXCDKq+CtLMEHVRZc62mw8grX1uMzk3Flk/Sj2q/g
-	a0SvA31p3Lt73LUNEDavpds+NipEAQsuTwhWWkBV8ljz5e4FoXzjf3NzZB/S0z61SAc8
-	xvlg==
-X-Gm-Message-State: AN3rC/5Lp3c64Tv8A7eN1UyL+yaqRKhAAS4biHIxJu3P6GK1yjey6S1W
-	nM+Cu97zkcgNHPuvfPc7QlbkYWVEvw==
-X-Received: by 10.28.4.69 with SMTP id 66mr355080wme.65.1493685096572; Mon, 01
-	May 2017 17:31:36 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.223.172.100 with HTTP; Mon, 1 May 2017 17:31:35 -0700 (PDT)
-In-Reply-To: <1493672344-21965-6-git-send-email-juro.bystricky@intel.com>
+	Tue,  2 May 2017 00:35:35 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga104.jf.intel.com with ESMTP; 01 May 2017 17:35:36 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.37,402,1488873600"; d="scan'208";a="1125447120"
+Received: from orsmsx104.amr.corp.intel.com ([10.22.225.131])
+	by orsmga001.jf.intel.com with ESMTP; 01 May 2017 17:35:36 -0700
+Received: from orsmsx112.amr.corp.intel.com ([169.254.3.213]) by
+	ORSMSX104.amr.corp.intel.com ([169.254.4.196]) with mapi id
+	14.03.0319.002; Mon, 1 May 2017 17:35:36 -0700
+From: "Bystricky, Juro" <juro.bystricky@intel.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [PATCH v2 1/6] bitbake.conf: new variable
+	BUILD_REPRODUCIBLE_BINARIES
+Thread-Index: AQHSwr3GXhkyTfFYMkSrAJf6bt3+hqHgkOWA//+f5BE=
+Date: Tue, 2 May 2017 00:35:35 +0000
+Message-ID: <6E51916E4A1F32428260031F4C7CD2B611950590@ORSMSX112.amr.corp.intel.com>
 References: <1493672344-21965-1-git-send-email-juro.bystricky@intel.com>
-	<1493672344-21965-6-git-send-email-juro.bystricky@intel.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-Date: Mon, 1 May 2017 17:31:35 -0700
-Message-ID: <CAJ86T=UTvBSXmX4S9Fmt3+dPr7sY8U9DC-9SR4PKRS3gsTmURQ@mail.gmail.com>
-To: Juro Bystricky <juro.bystricky@intel.com>
-Cc: Juro Bystricky <jurobystricky@hotmail.com>,
-	OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2 5/6] busybox.inc: improve reproducibility
+	<1493672344-21965-2-git-send-email-juro.bystricky@intel.com>,
+	<1493680397.23535.47.camel@linuxfoundation.org>
+In-Reply-To: <1493680397.23535.47.camel@linuxfoundation.org>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.3.86.139]
+MIME-Version: 1.0
+Cc: "jurobystricky@hotmail.com" <jurobystricky@hotmail.com>
+Subject: Re: [PATCH v2 1/6] bitbake.conf: new variable BUILD_REPRODUCIBLE_BINARIES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,40 +44,93 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 May 2017 00:31:36 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 02 May 2017 00:35:36 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, May 1, 2017 at 1:59 PM, Juro Bystricky <juro.bystricky@intel.com> wrote:
-> For reproducible builds do not generate build timestamp as part of
-> the version string.
-
-Maybe just do that by default?
-
-> Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
-> ---
->  meta/recipes-core/busybox/busybox.inc | 3 +++
->  1 file changed, 3 insertions(+)
->
-> diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
-> index 375632d..3e991f9 100644
-> --- a/meta/recipes-core/busybox/busybox.inc
-> +++ b/meta/recipes-core/busybox/busybox.inc
-> @@ -138,6 +138,9 @@ do_configure () {
->
->  do_compile() {
->         unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS
-> +       if [ "$BUILD_REPRODUCIBLE_BINARIES" = "1" ]; then
-> +               export KCONFIG_NOTIMESTAMP=1
-> +       fi
->         if [ "${BUSYBOX_SPLIT_SUID}" = "1" -a x`grep "CONFIG_FEATURE_INDIVIDUAL=y" .config` = x ]; then
->         # split the .config into two parts, and make two busybox binaries
->                 if [ -e .config.orig ]; then
-> --
-> 2.7.4
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+I see your point. The original idea was to keep all related variables in on=
+e place. There is =0A=
+one variable ( BUILD_REPRODUCIBLE_BINARIES ) that I think should be global,=
+=0A=
+as it should be visible by all tasks (well, a lot of tasks). The rest can b=
+e moved to more appropriate places.=0A=
+=0A=
+=0A=
+________________________________________=0A=
+From: Richard Purdie [richard.purdie@linuxfoundation.org]=0A=
+Sent: Monday, May 01, 2017 4:13 PM=0A=
+To: Bystricky, Juro; openembedded-core@lists.openembedded.org=0A=
+Cc: joshua.g.lock@linux.intel.com; Burton, Ross; martin.jansa@gmail.com; ra=
+j.khem@gmail.com; jurobystricky@hotmail.com=0A=
+Subject: Re: [PATCH v2 1/6] bitbake.conf: new variable BUILD_REPRODUCIBLE_B=
+INARIES=0A=
+=0A=
+On Mon, 2017-05-01 at 13:58 -0700, Juro Bystricky wrote:=0A=
+> Building reproducible binaries may remove certain intentional=0A=
+> randomness intended for increased security. Hence, it is reasonable=0A=
+> to expect there will be cases where this is not desirable.=0A=
+> The user can select his/her preferences via the variable=0A=
+> BUILD_REPRODUCIBLE_BINARIES. The variable defaults to "0" (do not=0A=
+> build reproducible binaries) in order to minimize any potential=0A=
+> regressions. (Once the reproducible binaries code is mature enough,=0A=
+> it can be set to "1".)=0A=
+> If the variable BUILD_REPRODUCIBLE_BINARIES is set to "1",=0A=
+> timestamp values taken from additional variables will be optionally=0A=
+> used=0A=
+> when building binary reproducible images:=0A=
+>=0A=
+>     REPRODUCIBLE_TIMESTAMP_ROOTFS=0A=
+>         If the value is specified, all files mtime will be set to=0A=
+> this value.=0A=
+>         In addition, /etc/timestamp and /etc/version will both=0A=
+> contain the value.=0A=
+>         If no value is specified, timestamp will be derived from the=0A=
+> top git commit.=0A=
+>=0A=
+>     REPRODUCIBLE_TIMESTAMP_IMAGE_PRELINK=0A=
+>         Value passed via environment variable PRELINK_TIMESTAMP to=0A=
+> the prelink program.=0A=
+>         If the value is specified, the value will be used.=0A=
+>         If no value is specified, timestamp will be derived from the=0A=
+> top git commit.=0A=
+>=0A=
+> Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>=0A=
+> ---=0A=
+>  meta/conf/bitbake.conf | 11 +++++++++++=0A=
+>  1 file changed, 11 insertions(+)=0A=
+>=0A=
+> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf=0A=
+> index 227babd..6ce1a1a 100644=0A=
+> --- a/meta/conf/bitbake.conf=0A=
+> +++ b/meta/conf/bitbake.conf=0A=
+> @@ -859,3 +859,14 @@ BB_SIGNATURE_EXCLUDE_FLAGS ?=3D "doc deps depends=0A=
+> \=0A=
+>=0A=
+>  MLPREFIX ??=3D ""=0A=
+>  MULTILIB_VARIANTS ??=3D ""=0A=
+> +=0A=
+> +BUILD_REPRODUCIBLE_BINARIES ??=3D "0"=0A=
+> +BUILD_REPRODUCIBLE_BINARIES[export] =3D "1"=0A=
+> +=0A=
+> +# Unix timestamp=0A=
+> +REPRODUCIBLE_TIMESTAMP_ROOTFS ??=3D ""=0A=
+> +REPRODUCIBLE_TIMESTAMP_ROOTFS[export] =3D "1"=0A=
+> +=0A=
+> +# Unix timestamp=0A=
+> +REPRODUCIBLE_TIMESTAMP_IMAGE_PRELINK ??=3D ""=0A=
+> +REPRODUCIBLE_TIMESTAMP_IMAGE_PRELINK[export] =3D "1"=0A=
+=0A=
+Please don't add new global exports in bitbake.conf. Changing the value=0A=
+of this will cause everything to rebuild (e.g. recompile) since the=0A=
+exported environment goes to all tasks. We really don't want to do that=0A=
+if it only affects the image generation.=0A=
+=0A=
+I'll give this a bit more thought/review but wanted to comment on this=0A=
+whilst I see it/remember.=0A=
+=0A=
+Cheers,=0A=
+=0A=
+Richard=0A=
+=0A=
 
