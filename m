@@ -1,27 +1,45 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 9DDA671DA1
+Return-Path: <dev@codyps.com>
+Received: from mail-qt0-f170.google.com (mail-qt0-f170.google.com
+	[209.85.216.170])
+	by mail.openembedded.org (Postfix) with ESMTP id B791171D7F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 May 2017 14:52:24 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	02 May 2017 07:52:25 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.37,405,1488873600"; d="scan'208";a="852032953"
-Received: from linux.intel.com ([10.54.29.200])
-	by FMSMGA003.fm.intel.com with ESMTP; 02 May 2017 07:52:25 -0700
-Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
-	by linux.intel.com (Postfix) with ESMTP id 4236E6A4080
+	Tue,  2 May 2017 15:49:14 +0000 (UTC)
+Received: by mail-qt0-f170.google.com with SMTP id m36so115423334qtb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 May 2017 07:52:12 -0700 (PDT)
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  2 May 2017 17:38:20 +0300
-Message-Id: <cdb9e7aa493d9ed0eb6ffcec37d581ea928b5f2b.1493735327.git.ed.bartosh@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <cover.1493735327.git.ed.bartosh@linux.intel.com>
-References: <cover.1493735327.git.ed.bartosh@linux.intel.com>
-Subject: [PATCH 3/3] selftest: fix test_unsupported_subcommand test case
+	Tue, 02 May 2017 08:49:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=codyps.com; s=google;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=0dBM0+F84lSm0+JsX9nxpfBHBNIOXEvNv8V/F0l0AGw=;
+	b=REcYH+GR91ds2HUPPp49o9PQp7zLked2T5Ajt1lUoP+NP/lq+MA6SJRxQ4sNmfd9hV
+	3QIfFijfmdXAZ3lqpikGNib2dPUpzIE2eFdqYSP/huFZgHCfXUj5OYT/MYBDspgRH2rW
+	eKMjptYh7bD7Nf3TwVUC3a2m9RCo4O3OM1+HQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=0dBM0+F84lSm0+JsX9nxpfBHBNIOXEvNv8V/F0l0AGw=;
+	b=UpgXFfG3XOrnlJlfMsQ/FBxe4xAEgZ5CsODG3wOw1T6okGovhM4Thlj0/BRVEzqoTw
+	opAl4ivI0jxgRz2GaZXBsFWtzH9tEBFjiQyA4mK1eVMt1oSSVHHBCgLFX6c/wYoT0Hbo
+	t41xGv0N5qPCoq6n0XyEkaFCE1+x+VwdI03Gc7wMnHie1b0jXE/dAib3HmCgAKVLTzh1
+	MJoYaOKVB9olcHSj/jL59fto8EOa0ywWrZzRex0x68BYanu0vvEayjSJGcWl0e6aQoBs
+	S5/m1+m60pil7nz4fwHNHMckN6OtsT1qUC30WLlEWRnTw+IKndz9ud6TUZRsm3Q/HfkA
+	8CMQ==
+X-Gm-Message-State: AN3rC/5qwr6uHYpfAqDRozsx1g76lKuDnXLliTGoqUlEHuUv07UN2Wz9
+	Gx6AVOE2bg9kWrPCg3YWlFiv7dtwAw==
+X-Received: by 10.237.44.99 with SMTP id f90mr27312945qtd.24.1493740156287;
+	Tue, 02 May 2017 08:49:16 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.12.189.129 with HTTP; Tue, 2 May 2017 08:49:15 -0700 (PDT)
+X-Originating-IP: [72.74.84.52]
+In-Reply-To: <CAJ86T=X4VYZTkCmeF1tsoKbXxYGJO-i1VPfVa36K38S1Qf-+zw@mail.gmail.com>
+References: <20170501194223.16344-1-dev@codyps.com>
+	<CAJ86T=X4VYZTkCmeF1tsoKbXxYGJO-i1VPfVa36K38S1Qf-+zw@mail.gmail.com>
+From: Cody P Schafer <dev@codyps.com>
+Date: Tue, 2 May 2017 11:49:15 -0400
+Message-ID: <CAPoQQ-3T6tJSTzzrpf5pfn7RXzP6FEic-54VFVt+6L=ZF5BD=w@mail.gmail.com>
+To: Andre McCurdy <armccurdy@gmail.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] cmake.bbclass: use `cmake --build` to build & install
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,34 +52,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 May 2017 14:52:24 -0000
+X-List-Received-Date: Tue, 02 May 2017 15:49:16 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Fixed failure of test_unsupported_subcommand caused by
-switching to argparser by checking that parser returns
-non-zero return code.
+>>  do_compile[progress] = "percent"
+>>  cmake_do_compile()  {
+>> -       cd ${B}
+>
+> Removing the redundant "cd ${B}" should perhaps be a separate commit?
 
-[YOCTO #9636]
+I'm not really seeing that as useful, change right now can be viewed
+as "moves the ${B} from being in `cd` to being part of the command
+line for `cmake --build`". Is fairly straight forward because cmake
+requires a path be specified (where `make` makes it optional).
 
-Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
----
- meta/lib/oeqa/selftest/wic.py | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+>
+>> -       base_do_compile VERBOSE=1
+>> +       VERBOSE=1 cmake --build '${B}'
+>
+> This looks like it will cause parallel make and EXTRA_OEMAKE options
+> to be ignored?
 
-diff --git a/meta/lib/oeqa/selftest/wic.py b/meta/lib/oeqa/selftest/wic.py
-index 726af19..cdec80c 100644
---- a/meta/lib/oeqa/selftest/wic.py
-+++ b/meta/lib/oeqa/selftest/wic.py
-@@ -159,8 +159,7 @@ class Wic(oeSelfTest):
-     @testcase(1213)
-     def test_unsupported_subcommand(self):
-         """Test unsupported subcommand"""
--        self.assertEqual(1, runCmd('wic unsupported',
--                                   ignore_status=True).status)
-+        self.assertNotEqual(0, runCmd('wic unsupported', ignore_status=True).status)
- 
-     @testcase(1214)
-     def test_no_command(self):
--- 
-2.1.4
+That is a good point. I don't think EXTRA_OEMAKE should matter here
+too much as configuration for cmake-based builds all is read at
+configure time, but the ${PARALLEL_MAKE} flag is definitely an issue.
 
+Doing this could work:
+
+    VERBOSE=1 cmake --build '${B}' -- ${EXTRA_OEMAKE}
+
+(And similar for install)
+
+And for the case of `-jN` like flags, make & ninja happen to be
+compatible (they share a few other flags, like `-l` and `-n`.
+
+Another alternative is passing ${PARALLEL_MAKE} (and
+${PARALLEL_MAKEINST}) instead of directly using ${EXTRA_OEMAKE}.
+
+Also: I took a look at what else `run_oemake` is doing, and it
+contains some output printing (`bbnote`s the make command & `die`s on
+make failure), which could be added directly around the `cmake
+--build` invocations instead.
 
