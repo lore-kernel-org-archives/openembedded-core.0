@@ -1,27 +1,27 @@
 Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id BC52171DA1
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id 9DDA671DA1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 May 2017 14:52:19 +0000 (UTC)
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	02 May 2017 07:52:20 -0700
+	Tue,  2 May 2017 14:52:24 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	02 May 2017 07:52:25 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.37,405,1488873600"; d="scan'208";a="96663207"
+X-IronPort-AV: E=Sophos;i="5.37,405,1488873600"; d="scan'208";a="852032953"
 Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga006.fm.intel.com with ESMTP; 02 May 2017 07:52:20 -0700
+	by FMSMGA003.fm.intel.com with ESMTP; 02 May 2017 07:52:25 -0700
 Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
-	by linux.intel.com (Postfix) with ESMTP id 0FFBD6A4080
+	by linux.intel.com (Postfix) with ESMTP id 4236E6A4080
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 May 2017 07:52:06 -0700 (PDT)
+	Tue,  2 May 2017 07:52:12 -0700 (PDT)
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  2 May 2017 17:38:19 +0300
-Message-Id: <c2f0f8dd46e537dce13c64dab3c4b885859bb142.1493735327.git.ed.bartosh@linux.intel.com>
+Date: Tue,  2 May 2017 17:38:20 +0300
+Message-Id: <cdb9e7aa493d9ed0eb6ffcec37d581ea928b5f2b.1493735327.git.ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1493735327.git.ed.bartosh@linux.intel.com>
 References: <cover.1493735327.git.ed.bartosh@linux.intel.com>
-Subject: [PATCH 2/3] wic: Add missing text to usage and help strings
+Subject: [PATCH 3/3] selftest: fix test_unsupported_subcommand test case
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,37 +34,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 May 2017 14:52:19 -0000
+X-List-Received-Date: Tue, 02 May 2017 14:52:24 -0000
 
-From: "Andreas J. Reichel" <andreas.reichel@tngtech.com>
+Fixed failure of test_unsupported_subcommand caused by
+switching to argparser by checking that parser returns
+non-zero return code.
 
-Add missing parameters -c to and remove non-existent
-parameter -i from usage string for 'wic create'.
+[YOCTO #9636]
 
-Signed-off-by: Andreas Reichel <andreas.reichel.ext@siemens.com>
-Signed-off-by: Jan Kiszka <jan.kiszka@siemens.com>
-Signed-off-by: Daniel Wagner <daniel.wagner@siemens.com>
 Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 ---
- scripts/lib/wic/help.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/lib/oeqa/selftest/wic.py | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/scripts/lib/wic/help.py b/scripts/lib/wic/help.py
-index 74db05c..f9f7268 100644
---- a/scripts/lib/wic/help.py
-+++ b/scripts/lib/wic/help.py
-@@ -131,10 +131,10 @@ wic_create_usage = """
-  Create a new OpenEmbedded image
+diff --git a/meta/lib/oeqa/selftest/wic.py b/meta/lib/oeqa/selftest/wic.py
+index 726af19..cdec80c 100644
+--- a/meta/lib/oeqa/selftest/wic.py
++++ b/meta/lib/oeqa/selftest/wic.py
+@@ -159,8 +159,7 @@ class Wic(oeSelfTest):
+     @testcase(1213)
+     def test_unsupported_subcommand(self):
+         """Test unsupported subcommand"""
+-        self.assertEqual(1, runCmd('wic unsupported',
+-                                   ignore_status=True).status)
++        self.assertNotEqual(0, runCmd('wic unsupported', ignore_status=True).status)
  
-  usage: wic create <wks file or image name> [-o <DIRNAME> | --outdir <DIRNAME>]
--            [-i <JSON PROPERTY FILE> | --infile <JSON PROPERTY_FILE>]
-             [-e | --image-name] [-s, --skip-build-check] [-D, --debug]
-             [-r, --rootfs-dir] [-b, --bootimg-dir]
-             [-k, --kernel-dir] [-n, --native-sysroot] [-f, --build-rootfs]
-+            [-c, --compress-with] [-m, --bmap]
- 
-  This command creates an OpenEmbedded image based on the 'OE kickstart
-  commands' found in the <wks file>.
+     @testcase(1214)
+     def test_no_command(self):
 -- 
 2.1.4
 
