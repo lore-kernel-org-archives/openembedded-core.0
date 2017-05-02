@@ -1,36 +1,35 @@
 Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 3AED7773B9
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	by mail.openembedded.org (Postfix) with ESMTP id 5567A73128
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 May 2017 13:10:17 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	02 May 2017 06:10:19 -0700
+	Tue,  2 May 2017 13:50:01 +0000 (UTC)
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+	by orsmga105.jf.intel.com with ESMTP; 02 May 2017 06:50:03 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.37,405,1488873600"; d="scan'208";a="963447071"
+X-IronPort-AV: E=Sophos;i="5.37,405,1488873600"; d="scan'208";a="96270262"
 Received: from linux.intel.com ([10.54.29.200])
-	by orsmga003.jf.intel.com with ESMTP; 02 May 2017 06:10:18 -0700
+	by fmsmga005.fm.intel.com with ESMTP; 02 May 2017 06:50:02 -0700
 Received: from linux.intel.com (vmed.fi.intel.com [10.237.72.38])
 	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by linux.intel.com (Postfix) with ESMTP id AEA0C6A4006;
-	Tue,  2 May 2017 06:10:04 -0700 (PDT)
-Date: Tue, 2 May 2017 15:56:38 +0300
+	by linux.intel.com (Postfix) with ESMTP id A71C36A4006;
+	Tue,  2 May 2017 06:49:48 -0700 (PDT)
+Date: Tue, 2 May 2017 16:36:22 +0300
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: "Andreas J. Reichel" <andreas.reichel@tngtech.com>
-Message-ID: <20170502125638.GA17260@linux.intel.com>
+Message-ID: <20170502133622.GA29938@linux.intel.com>
 Reply-To: ed.bartosh@linux.intel.com
 References: <20170421121145.9797-1-andreas.reichel@tngtech.com>
-	<20170421121145.9797-2-andreas.reichel@tngtech.com>
+	<20170421121145.9797-6-andreas.reichel@tngtech.com>
 MIME-Version: 1.0
-In-Reply-To: <20170421121145.9797-2-andreas.reichel@tngtech.com>
+In-Reply-To: <20170421121145.9797-6-andreas.reichel@tngtech.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 User-Agent: Mutt/1.5.21 (2010-09-15)
 Cc: Jan Kiszka <jan.kiszka@siemens.com>,
 	Andreas Reichel <andreas.reichel.ext@siemens.com>,
 	Daniel Wagner <daniel.wagner@siemens.com>,
 	openembedded-core@lists.openembedded.org
-Subject: Re: [wic patch 1/5] wic: Catch errors during image files clean-up
+Subject: Re: [wic patch 5/5] wic: Use enum like dicts for string constants
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,53 +42,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 May 2017 13:10:19 -0000
+X-List-Received-Date: Tue, 02 May 2017 13:50:02 -0000
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-On Fri, Apr 21, 2017 at 02:11:41PM +0200, Andreas J. Reichel wrote:
-> Handle exception if a file could not be deleted during clean-up of
-> unwanted files, thus preventing a failure of wic in this case.
-
-Can you explain why partition images can't be deleted?
-As wic creates them it's not obvious why it can't remove them.
-
+On Fri, Apr 21, 2017 at 02:11:45PM +0200, Andreas J. Reichel wrote:
+> To increase code maintainability, use dictionaries
+> as enum-like container for parameter string comparisons.
+> 
 > Signed-off-by: Andreas Reichel <andreas.reichel.ext@siemens.com>
 > Signed-off-by: Jan Kiszka <jan.kiszka@siemens.com>
 > Signed-off-by: Daniel Wagner <daniel.wagner@siemens.com>
 > 
 > ---
->  scripts/lib/wic/plugins/imager/direct.py | 7 ++++++-
->  1 file changed, 6 insertions(+), 1 deletion(-)
+>  scripts/lib/wic/engine.py | 16 +++++++++++++---
+>  1 file changed, 13 insertions(+), 3 deletions(-)
 > 
-> diff --git a/scripts/lib/wic/plugins/imager/direct.py b/scripts/lib/wic/plugins/imager/direct.py
-> index f2e6127331..d6b47ff0bb 100644
-> --- a/scripts/lib/wic/plugins/imager/direct.py
-> +++ b/scripts/lib/wic/plugins/imager/direct.py
-> @@ -541,7 +541,12 @@ class PartitionedImage():
->      def cleanup(self):
->          # remove partition images
->          for image in set(self.partimages):
-> -            os.remove(image)
-> +            try:
-> +                os.remove(image)
-> +            except IOError as e:
-> +                logger.warning(
-> +                    "Could not delete file. {0}: I/O error ({1}): {2}\n".format(
-> +                    image, e.errno, e.strerror))
+> diff --git a/scripts/lib/wic/engine.py b/scripts/lib/wic/engine.py
+> index 647358287f..1428a73ba8 100644
+> --- a/scripts/lib/wic/engine.py
+> +++ b/scripts/lib/wic/engine.py
+> @@ -35,6 +35,16 @@ from wic import WicError
+>  from wic.pluginbase import PluginMgr
+>  from wic.utils.misc import get_bitbake_var
 >  
->      def assemble(self):
->          logger.debug("Installing partitions")
-> -- 
-> 2.11.0
-> 
-> -- 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> +class StrEnum(dict):
+> +    __getattr__ = dict.get
+> +
+> +ListType = StrEnum({
+> +    'LIST_IMAGES': "images",
+> +    'LIST_SRC_PLUGINS': "source-plugins" })
+> +
+> +HelpArg = StrEnum({
+> +    'HELP': "help" })
+> +
+>  logger = logging.getLogger('wic')
+>  
+>  def verify_build_env():
+> @@ -204,14 +214,14 @@ def wic_list(args, scripts_path):
+>      if args.list_type is None:
+>          return False
+>  
+> -    if args.list_type == "images":
+> +    if args.list_type == ListType.LIST_IMAGES:
+>  
+>          list_canned_images(scripts_path)
+>          return True
+> -    elif args.list_type == "source-plugins":
+> +    elif args.list_type == ListType.LIST_SRC_PLUGINS:
+>          list_source_plugins()
+>          return True
+> -    elif len(args.help_for) == 1 and args.help_for[0] == 'help':
+> +    elif len(args.help_for) == 1 and args.help_for[0] == HelpArg.HELP:
+>          wks_file = args.list_type
+>          fullpath = find_canned_image(scripts_path, wks_file)
+>          if not fullpath:
 
--- 
+I'm not sure if this increases maintainability, but it definitely increases code complexity and
+decreases readability. Can you explain the idea in a bit more detailed way?
+
 --
 Regards,
 Ed
