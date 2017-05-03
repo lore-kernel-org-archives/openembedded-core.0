@@ -1,57 +1,46 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-it0-f45.google.com (mail-it0-f45.google.com
-	[209.85.214.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 8C8CB71AFA
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qt0-f177.google.com (mail-qt0-f177.google.com
+	[209.85.216.177])
+	by mail.openembedded.org (Postfix) with ESMTP id C0B5671B57
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 May 2017 13:08:12 +0000 (UTC)
-Received: by mail-it0-f45.google.com with SMTP id x188so33567064itb.0
+	Wed,  3 May 2017 13:09:02 +0000 (UTC)
+Received: by mail-qt0-f177.google.com with SMTP id m36so136389233qtb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 03 May 2017 06:08:14 -0700 (PDT)
+	Wed, 03 May 2017 06:09:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:organization:mime-version:content-transfer-encoding;
-	bh=vpBeenLoptgehG/8uLL8+1Vrflr9GigdtrlGtDOsHKk=;
-	b=arK8qujuTmRmBLgofBWAhNypxGMp6difnKdUerOYQFRZJBTOcE2ABXb/BTdpiv9oaq
-	f6euhobCGKYWJc6KRrSMPIHTmPQWPmS8HHdZaAR7/oeaaH8BSEN6AhuSqvaImgJtjefY
-	C1nc7Mbtnp/9g6laThTKHe3m/jx8EDO68K7qS/OyMqOZlVgNoY2sK3wk9TzCaFk3zafD
-	2Dit9n6Ny0kuVRs2kaNpKQF5sSqySLDnQfShtKDEXudjT+3M3m5w+1X6+ub4alvKvFd8
-	obXQmv8zKHhpgf/xPCAYXiHnuP06qLX4GL5obQrcLSEHOyeaCGKSIeB8nisiAj5tvI+v
-	C+PA==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=f/hYf2k+xNFEZx4e+s75BJd7NY9mCc5/fbSFYpni0Lk=;
+	b=AKRkg789xEqJNm++kLbFYJAHZgsOeFfjVsxLM0cEZhszOr6fxwT7+158CzVg/GkFa2
+	6ejfFNAEf42/eTo/6rBslvHYbaP1Ij8FzSTOs8ksYRYfXdcppoisIwdmZ2Ip8IQ2gHeL
+	c0X8LM76c31S0U/MuqGW9Ppx+WfprSWMOxaOLi5yMb+fND8NHMeGfBYK3ZyFqF7jKkIH
+	e1zKzX+1p6dnRVDrIhuPRtMoFXuRhCBcUynCQunFr1OyHHPOV6yUhhIG0jvBD0JKuPBw
+	YML8a7FQVjPfvpKDYybgPMxJ8Fxtiyuk4AdZg5ax7CgYY0gnPrOdX25JBKNQZ1Hd7i1w
+	nbPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:organization:mime-version:content-transfer-encoding;
-	bh=vpBeenLoptgehG/8uLL8+1Vrflr9GigdtrlGtDOsHKk=;
-	b=l/fpoem9oRft5whennYjwgsgmrUsGUNG/xM4eKID46OP6EPply9DhXbZTDHDaVlFxb
-	hhfeNIGme2H0znUUNZn3JNayCG7TqdpwccKRfnrrRylg7wLPvYAtja2dT1G0DoEo/1nA
-	y/6toWXuX512q+IbUycfQFLNb8c92BUWB+L3ItyUYP/5apoA+ICT0/GzZzznhk2yl2JI
-	Vc18wK2gCqz34dWRJ4gvuTiqQLc9ZhZi9fufEwJoLkBxDbbWEXH5UOatrADXoWc30UAS
-	IX7ObqcMhYCVVicddlu0MW+0CQVlRVHJYkImNoy0TF0vmzznvM2WXTKQNwQo7lMrTqaR
-	wT/A==
-X-Gm-Message-State: AN3rC/7LzT3N8AVHPyr7F8PT8rgvVK+56CXe1u3dmWxBFn+iezTo9PK8
-	aTZj1hf6VMKOa8ls
-X-Received: by 10.36.112.200 with SMTP id f191mr461665itc.35.1493816894092;
-	Wed, 03 May 2017 06:08:14 -0700 (PDT)
-Received: from pohly-mobl1 (p5DE8CE40.dip0.t-ipconnect.de. [93.232.206.64])
-	by smtp.gmail.com with ESMTPSA id
-	b12sm1658262itb.23.2017.05.03.06.08.11
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 03 May 2017 06:08:12 -0700 (PDT)
-Message-ID: <1493816890.4241.259.camel@intel.com>
-From: Patrick Ohly <patrick.ohly@intel.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Date: Wed, 03 May 2017 15:08:10 +0200
-In-Reply-To: <1493816000.23535.73.camel@linuxfoundation.org>
-References: <aec82a5d8c1b622749a12bea2c478a8ff7f363b1.1493808889.git-series.patrick.ohly@intel.com>
-	<1493810039.23535.57.camel@linuxfoundation.org>
-	<1493812409.4241.247.camel@intel.com>
-	<CAJTo0LaHhRHzxmUaaF8MCHgKTvJPqKa0Q+rOjAd1vx4Ps0RE2Q@mail.gmail.com>
-	<1493813847.4241.251.camel@intel.com>
-	<1493816000.23535.73.camel@linuxfoundation.org>
-Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
-X-Mailer: Evolution 3.12.9-1+b1 
-Mime-Version: 1.0
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=f/hYf2k+xNFEZx4e+s75BJd7NY9mCc5/fbSFYpni0Lk=;
+	b=hLPWHgWmOaPxcZTNo+HohMPRDA5dA1YpNhRplERclFUY1nfp2nQSSHhCG+hOYMnJTe
+	qV839zcCGxZd5MsU8mHRU89oUQptvtDB6YIXv7vtgMP8Bp1gWZk1emik+rbs4Uq5/el0
+	sEj/sTlsmguKH9mET6YZW2B2w9ew50xBw8AVc/byYGxwzvNPzuuvWoEU1nNdgNvveerM
+	IM30vhbSgCJHaXRzQwrV1L9qLAhehY+Th1xSdG009teGDaRtigUFFBfeBGobGptQs/LN
+	zQr30eWDeZpmYRl4aCFEnbaG7CpphB8ONazvYyL2EBQ7M4sz7NiGN6IK+hpHr0ng4JP+
+	mt9w==
+X-Gm-Message-State: AN3rC/5tEw54vZXPBvB18AkDIcsIHuI42Q/LlayrnV1ydlXxy0B+7hz9
+	md/Z2+ezJO3btFwvQz3Iv6loGqYU1n+r
+X-Received: by 10.200.46.26 with SMTP id r26mr34040418qta.197.1493816943831;
+	Wed, 03 May 2017 06:09:03 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.34.136 with HTTP; Wed, 3 May 2017 06:08:43 -0700 (PDT)
+In-Reply-To: <bb19f2d1d316485322c8962224ddafdf20cb04bb.1493815193.git-series.patrick.ohly@intel.com>
+References: <1493813847.4241.251.camel@intel.com>
+	<bb19f2d1d316485322c8962224ddafdf20cb04bb.1493815193.git-series.patrick.ohly@intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 3 May 2017 14:08:43 +0100
+Message-ID: <CAJTo0LZNYYvckGiHC_ouva5f5WN-7YPmBfBWmgWinfmo4N7+AA@mail.gmail.com>
+To: Patrick Ohly <patrick.ohly@intel.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] QemuRunner: avoid tainting os.environ
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -66,32 +55,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 May 2017 13:08:14 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 03 May 2017 13:09:03 -0000
+Content-Type: multipart/alternative; boundary=001a114708cc4c0275054e9e5c7c
 
-On Wed, 2017-05-03 at 13:53 +0100, Richard Purdie wrote:
-> > Anyway, the variables weren't logged before either, so I'll just
-> keep
-> > that and change to passing an env dict.
-> 
-> You could pass in the specific env delta you want to the function and
-> leave launch to infill anything which isn't set?
+--001a114708cc4c0275054e9e5c7c
+Content-Type: text/plain; charset=UTF-8
 
-That behavior would then differ from how subprocess works and make it
-harder to remove variables from the os.environ. I don't find that
-appealing.
+On 3 May 2017 at 13:40, Patrick Ohly <patrick.ohly@intel.com> wrote:
 
-Forget that I ever brought up logging of env variables, okay? ;-}
+> +        env = dict(os.environ.items())
+>
 
--- 
-Best Regards, Patrick Ohly
+os.environ.copy() seems neater.
 
-The content of this message is my personal opinion only and although
-I am an employee of Intel, the statements I make here in no way
-represent Intel's position on the issue, nor am I authorized to speak
-on behalf of Intel on this matter.
+Ross
 
+--001a114708cc4c0275054e9e5c7c
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 3 May 2017 at 13:40, Patrick Ohly <span dir=3D"ltr">&lt;<a href=3D"mailt=
+o:patrick.ohly@intel.com" target=3D"_blank">patrick.ohly@intel.com</a>&gt;<=
+/span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8=
+ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":12e" class=3D"a=
+3s aXjCH m15bce544d7464e79">+=C2=A0 =C2=A0 =C2=A0 =C2=A0 env =3D dict(os.en=
+viron.items())<br></div></blockquote></div><br>os.environ.copy() seems neat=
+er.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ro=
+ss</div></div>
 
-
+--001a114708cc4c0275054e9e5c7c--
