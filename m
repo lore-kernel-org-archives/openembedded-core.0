@@ -1,26 +1,24 @@
-Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id 2E1ED601A4
+Return-Path: <pascal.bach@siemens.com>
+X-Greylist: delayed 2151 seconds by postgrey-1.34 at layers.openembedded.org;
+	Wed, 03 May 2017 16:04:35 UTC
+Received: from thoth.sbs.de (thoth.sbs.de [192.35.17.2])
+	by mail.openembedded.org (Postfix) with ESMTP id 1103260721
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 May 2017 15:34:51 +0000 (UTC)
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-	by orsmga105.jf.intel.com with ESMTP; 03 May 2017 08:34:53 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.38,284,1491289200"; d="scan'208";a="96775387"
-Received: from lsandov1-mobl2.zpn.intel.com ([10.219.128.119])
-	by fmsmga005.fm.intel.com with ESMTP; 03 May 2017 08:34:52 -0700
-Message-ID: <1493826165.1761.15.camel@linux.intel.com>
-From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
-To: niko.mauno@vaisala.com
-Date: Wed, 03 May 2017 10:42:45 -0500
-In-Reply-To: <968159e5-5987-e42c-54e6-e2ac43d033dd@vaisala.com>
-References: <1493807968-4697-1-git-send-email-niko.mauno@vaisala.com>
-	<1493824168.1761.12.camel@linux.intel.com>
-	<968159e5-5987-e42c-54e6-e2ac43d033dd@vaisala.com>
-X-Mailer: Evolution 3.12.9-1+b1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] Allow overriding environment specific SPDX variables
+	Wed,  3 May 2017 16:04:35 +0000 (UTC)
+Received: from mail2.siemens.de (mail2.siemens.de [139.25.208.11])
+	by thoth.sbs.de (8.15.2/8.15.2) with ESMTPS id v43FSifd004320
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 3 May 2017 17:28:44 +0200
+Received: from dev.sbt.siemens.com ([139.16.73.94])
+	by mail2.siemens.de (8.15.2/8.15.2) with ESMTP id v43FSi3X021400;
+	Wed, 3 May 2017 17:28:44 +0200
+From: Pascal Bach <pascal.bach@siemens.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  3 May 2017 17:28:40 +0200
+Message-Id: <1493825320-356-1-git-send-email-pascal.bach@siemens.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] image.bbclass: allow override of image LICENSE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,95 +31,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 May 2017 15:34:52 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 03 May 2017 16:04:36 -0000
 
-On Wed, 2017-05-03 at 15:30 +0000, niko.mauno@vaisala.com wrote:
-> 
-> On 03.05.2017 18:09, Leonardo Sandoval wrote:
-> > On Wed, 2017-05-03 at 10:39 +0000, niko.mauno@vaisala.com wrote:
-> >> Change certain variable assignments from 'hard' (=) to 'soft' (?=) so that
-> >> suitable permutations of values for these variables can be assigned eg. in
-> >> custom meta layers. Otherwise eg. fossology server is limited to run on same
-> >> machine as bitbake, and generated SPDX files are placed into home directory
-> >> path of a custom luser account.
-> >>
-> >> Signed-off-by: Niko Mauno <niko.mauno@vaisala.com>
-> >> ---
-> >>  meta/conf/licenses.conf | 12 +++++++-----
-> >>  1 file changed, 7 insertions(+), 5 deletions(-)
-> >>
-> >> diff --git a/meta/conf/licenses.conf b/meta/conf/licenses.conf
-> >> index d210a0e..fcaec1b 100644
-> >> --- a/meta/conf/licenses.conf
-> >> +++ b/meta/conf/licenses.conf
-> >> @@ -123,7 +123,9 @@ SPDXLICENSEMAP[SGIv1] = "SGI-1"
-> >>
-> >>  ## SPDX temporary directory
-> >>  SPDX_TEMP_DIR = "${WORKDIR}/spdx_temp"
-> >> -SPDX_MANIFEST_DIR = "/home/yocto/fossology_scans"
-> >> +
-> >> +## Output directory for generated SPDX files
-> >> +SPDX_MANIFEST_DIR ?= "/home/yocto/fossology_scans"
-> >
-> > not sure if this is right, but shouldn't be SPDX_MANIFEST_DIR ?=
-> > "${SPDX_TEMP_DIR}/fossology_scans' so this way we do not rely on a
-> > yocto's home folder?
+Currently the LICENSE of every image is hard set to MIT.
+This allows this to be overriden in derived images.
 
-a single series with two patches would make more sense in my opinion
-because these are two logical changes in the same area.
+Signed-off-by: Pascal Bach <pascal.bach@siemens.com>
+---
+ meta/classes/image.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> >
-> > Leo
-> >
-> 
-> That would seem like a more feasible default. Is this something that 
-> should be addressed now in this patch, or in another (later) changeset?
-> 
-> >>
-> >>  ## SPDX Format info
-> >>  SPDX_VERSION = "SPDX-1.1"
-> >> @@ -142,7 +144,7 @@ DATA_LICENSE = "CC0-1.0"
-> >>  #   information.
-> >>  #
-> >>
-> >> -FOSS_NO_COPYRIGHT = "true"
-> >> +FOSS_NO_COPYRIGHT ?= "true"
-> >>
-> >>  # A option defined as[FOSS_RECURSIVE_UNPACK] in ./meta/conf/licenses.conf. is
-> >>  # used to control if FOSSology server need recursively unpack tar.gz file which
-> >> @@ -156,7 +158,7 @@ FOSS_NO_COPYRIGHT = "true"
-> >>  #    FOSSology server recursively unpack components.
-> >>  #
-> >>
-> >> -FOSS_RECURSIVE_UNPACK = "false"
-> >> +FOSS_RECURSIVE_UNPACK ?= "false"
-> >>
-> >>  # An option defined as [FOSS_FULL_SPDX] in ./meta/conf/licenses.conf is used to
-> >>  # control what kind of SPDX output to get from the FOSSology server.
-> >> @@ -171,7 +173,7 @@ FOSS_RECURSIVE_UNPACK = "false"
-> >>  #   license tags in the report will be "NOASSERTION"
-> >>  #
-> >>
-> >> -FOSS_FULL_SPDX = "true"
-> >> +FOSS_FULL_SPDX ?= "true"
-> >>
-> >>  # FOSSologySPDX instance server. http://localhost/repo is the default
-> >>  # installation location for FOSSology.
-> >> @@ -180,7 +182,7 @@ FOSS_FULL_SPDX = "true"
-> >>  #   https://github.com/spdx-tools/fossology-spdx/wiki/Fossology-SPDX-Web-API
-> >>  #
-> >>
-> >> -FOSS_BASE_URL = "http://localhost/repo/?mod=spdx_license_once"
-> >> +FOSS_BASE_URL ?= "http://localhost/repo/?mod=spdx_license_once"
-> >>  FOSS_SERVER = "${FOSS_BASE_URL}&fullSPDXFlag=${FOSS_FULL_SPDX}&noCopyright=${FOSS_NO_COPYRIGHT}&recursiveUnpack=${FOSS_RECURSIVE_UNPACK}"
-> >>
-> >>  FOSS_WGET_FLAGS = "-qO - --no-check-certificate --timeout=0"
-> >> --
-> >> 2.1.4
-> >
-> >
-
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+index 405fd73..0fc8752 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -9,7 +9,7 @@ TOOLCHAIN_TARGET_TASK += "${PACKAGE_INSTALL}"
+ TOOLCHAIN_TARGET_TASK_ATTEMPTONLY += "${PACKAGE_INSTALL_ATTEMPTONLY}"
+ POPULATE_SDK_POST_TARGET_COMMAND += "rootfs_sysroot_relativelinks; "
+ 
+-LICENSE = "MIT"
++LICENSE ?= "MIT"
+ PACKAGES = ""
+ DEPENDS += "${MLPREFIX}qemuwrapper-cross depmodwrapper-cross"
+ RDEPENDS += "${PACKAGE_INSTALL} ${LINGUAS_INSTALL}"
+-- 
+2.1.4
 
 
