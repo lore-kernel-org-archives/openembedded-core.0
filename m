@@ -1,48 +1,21 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qt0-f177.google.com (mail-qt0-f177.google.com
-	[209.85.216.177])
-	by mail.openembedded.org (Postfix) with ESMTP id C0B5671B57
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 25D8E71AFA
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 May 2017 13:09:02 +0000 (UTC)
-Received: by mail-qt0-f177.google.com with SMTP id m36so136389233qtb.0
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 03 May 2017 06:09:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=f/hYf2k+xNFEZx4e+s75BJd7NY9mCc5/fbSFYpni0Lk=;
-	b=AKRkg789xEqJNm++kLbFYJAHZgsOeFfjVsxLM0cEZhszOr6fxwT7+158CzVg/GkFa2
-	6ejfFNAEf42/eTo/6rBslvHYbaP1Ij8FzSTOs8ksYRYfXdcppoisIwdmZ2Ip8IQ2gHeL
-	c0X8LM76c31S0U/MuqGW9Ppx+WfprSWMOxaOLi5yMb+fND8NHMeGfBYK3ZyFqF7jKkIH
-	e1zKzX+1p6dnRVDrIhuPRtMoFXuRhCBcUynCQunFr1OyHHPOV6yUhhIG0jvBD0JKuPBw
-	YML8a7FQVjPfvpKDYybgPMxJ8Fxtiyuk4AdZg5ax7CgYY0gnPrOdX25JBKNQZ1Hd7i1w
-	nbPg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=f/hYf2k+xNFEZx4e+s75BJd7NY9mCc5/fbSFYpni0Lk=;
-	b=hLPWHgWmOaPxcZTNo+HohMPRDA5dA1YpNhRplERclFUY1nfp2nQSSHhCG+hOYMnJTe
-	qV839zcCGxZd5MsU8mHRU89oUQptvtDB6YIXv7vtgMP8Bp1gWZk1emik+rbs4Uq5/el0
-	sEj/sTlsmguKH9mET6YZW2B2w9ew50xBw8AVc/byYGxwzvNPzuuvWoEU1nNdgNvveerM
-	IM30vhbSgCJHaXRzQwrV1L9qLAhehY+Th1xSdG009teGDaRtigUFFBfeBGobGptQs/LN
-	zQr30eWDeZpmYRl4aCFEnbaG7CpphB8ONazvYyL2EBQ7M4sz7NiGN6IK+hpHr0ng4JP+
-	mt9w==
-X-Gm-Message-State: AN3rC/5tEw54vZXPBvB18AkDIcsIHuI42Q/LlayrnV1ydlXxy0B+7hz9
-	md/Z2+ezJO3btFwvQz3Iv6loGqYU1n+r
-X-Received: by 10.200.46.26 with SMTP id r26mr34040418qta.197.1493816943831;
-	Wed, 03 May 2017 06:09:03 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.34.136 with HTTP; Wed, 3 May 2017 06:08:43 -0700 (PDT)
-In-Reply-To: <bb19f2d1d316485322c8962224ddafdf20cb04bb.1493815193.git-series.patrick.ohly@intel.com>
-References: <1493813847.4241.251.camel@intel.com>
-	<bb19f2d1d316485322c8962224ddafdf20cb04bb.1493815193.git-series.patrick.ohly@intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 3 May 2017 14:08:43 +0100
-Message-ID: <CAJTo0LZNYYvckGiHC_ouva5f5WN-7YPmBfBWmgWinfmo4N7+AA@mail.gmail.com>
-To: Patrick Ohly <patrick.ohly@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] QemuRunner: avoid tainting os.environ
+	Wed,  3 May 2017 13:11:58 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	03 May 2017 06:11:59 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.38,284,1491289200"; d="scan'208";a="81964830"
+Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
+	by orsmga002.jf.intel.com with ESMTP; 03 May 2017 06:11:58 -0700
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  3 May 2017 16:11:49 +0300
+Message-Id: <20170503131153.1780-1-alexander.kanavin@linux.intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH 1/5] liberation-fonts: update to 2.00.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,33 +28,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 May 2017 13:09:03 -0000
-Content-Type: multipart/alternative; boundary=001a114708cc4c0275054e9e5c7c
+X-List-Received-Date: Wed, 03 May 2017 13:12:00 -0000
 
---001a114708cc4c0275054e9e5c7c
-Content-Type: text/plain; charset=UTF-8
+'fontforge issue' was actually a non-issue; fontforge is required only
+when building ttf fonts from sfd source. We took prebuilt ttf fonts
+when using 1.04 version, and can do the same thing with 2.00.1 version,
+it's just that the tarball name for prebuilt fonts has slightly changed
+and no one noticed somehow.
 
-On 3 May 2017 at 13:40, Patrick Ohly <patrick.ohly@intel.com> wrote:
+License has changed from GPLv2 to Open Font License v.1.1
 
-> +        env = dict(os.environ.items())
->
+Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+---
+ meta/conf/distro/include/default-versions.inc           |  3 ---
+ ...eration-fonts_1.04.bb => liberation-fonts_2.00.1.bb} | 17 ++++++++---------
+ 2 files changed, 8 insertions(+), 12 deletions(-)
+ rename meta/recipes-graphics/ttf-fonts/{liberation-fonts_1.04.bb => liberation-fonts_2.00.1.bb} (67%)
 
-os.environ.copy() seems neater.
+diff --git a/meta/conf/distro/include/default-versions.inc b/meta/conf/distro/include/default-versions.inc
+index d976508ff51..a6f331350eb 100644
+--- a/meta/conf/distro/include/default-versions.inc
++++ b/meta/conf/distro/include/default-versions.inc
+@@ -2,6 +2,3 @@
+ # Default preferred versions
+ #
+ 
+-# Force the older version of liberation-fonts until we fix the fontforge issue
+-PREFERRED_VERSION_liberation-fonts ?= "1.04"
+-
+diff --git a/meta/recipes-graphics/ttf-fonts/liberation-fonts_1.04.bb b/meta/recipes-graphics/ttf-fonts/liberation-fonts_2.00.1.bb
+similarity index 67%
+rename from meta/recipes-graphics/ttf-fonts/liberation-fonts_1.04.bb
+rename to meta/recipes-graphics/ttf-fonts/liberation-fonts_2.00.1.bb
+index 74212e7e5ed..412da48725e 100644
+--- a/meta/recipes-graphics/ttf-fonts/liberation-fonts_1.04.bb
++++ b/meta/recipes-graphics/ttf-fonts/liberation-fonts_2.00.1.bb
+@@ -5,23 +5,22 @@ Arial, Times New Roman, Courier New."
+ HOMEPAGE = "https://releases.pagure.org/liberation-fonts/"
+ BUGTRACKER = "https://bugzilla.redhat.com/"
+ 
+-RECIPE_NO_UPDATE_REASON = "2.x depends on fontforge package, which is not yet provided in oe-core"
+-
+ SECTION = "x11/fonts"
+-LICENSE = "GPLv2"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"
+-PR = "r4"
++LICENSE = "OFL-1.1"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=f96db970a9a46c5369142b99f530366b"
+ PE = "1"
+ 
+ inherit allarch fontcache
+ 
+ FONT_PACKAGES = "${PN}"
+ 
+-SRC_URI = "https://releases.pagure.org/liberation-fonts/liberation-fonts-${PV}.tar.gz \
++SRC_URI = "https://releases.pagure.org/liberation-fonts/liberation-fonts-ttf-${PV}.tar.gz \
+            file://30-liberation-aliases.conf"
+ 
+-SRC_URI[md5sum] = "4846797ef0fc70b0cbaede2514677c58"
+-SRC_URI[sha256sum] = "0e0d0957c85b758561a3d4aef4ebcd2c39959e5328429d96ae106249d83531a1"
++S = "${WORKDIR}/liberation-fonts-ttf-${PV}"
++
++SRC_URI[md5sum] = "5c781723a0d9ed6188960defba8e91cf"
++SRC_URI[sha256sum] = "7890278a6cd17873c57d9cd785c2d230d9abdea837e96516019c5885dd271504"
+ 
+ do_install () {
+ 	install -d ${D}${datadir}/fonts/ttf/
+@@ -33,7 +32,7 @@ do_install () {
+ 	install -m 0644 ${WORKDIR}/30-liberation-aliases.conf ${D}${sysconfdir}/fonts/conf.d/
+ 
+ 	install -d ${D}${prefix}/share/doc/${BPN}/
+-	install -m 0644 License.txt ${D}${datadir}/doc/${BPN}/
++	install -m 0644 LICENSE ${D}${datadir}/doc/${BPN}/
+ }
+ 
+ PACKAGES = "${PN}"
+-- 
+2.11.0
 
-Ross
 
---001a114708cc4c0275054e9e5c7c
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 3 May 2017 at 13:40, Patrick Ohly <span dir=3D"ltr">&lt;<a href=3D"mailt=
-o:patrick.ohly@intel.com" target=3D"_blank">patrick.ohly@intel.com</a>&gt;<=
-/span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8=
-ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":12e" class=3D"a=
-3s aXjCH m15bce544d7464e79">+=C2=A0 =C2=A0 =C2=A0 =C2=A0 env =3D dict(os.en=
-viron.items())<br></div></blockquote></div><br>os.environ.copy() seems neat=
-er.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ro=
-ss</div></div>
-
---001a114708cc4c0275054e9e5c7c--
