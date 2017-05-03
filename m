@@ -1,37 +1,50 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id 43A7671A82
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-it0-f49.google.com (mail-it0-f49.google.com
+	[209.85.214.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 0DAE871AD5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 May 2017 12:31:43 +0000 (UTC)
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-	by orsmga105.jf.intel.com with ESMTP; 03 May 2017 05:31:45 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.38,283,1491289200"; d="scan'208";a="95029045"
-Received: from linux.intel.com ([10.54.29.200])
-	by orsmga005.jf.intel.com with ESMTP; 03 May 2017 05:31:45 -0700
-Received: from linux.intel.com (vmed.fi.intel.com [10.237.72.38])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by linux.intel.com (Postfix) with ESMTP id 298CD6A4080;
-	Wed,  3 May 2017 05:31:30 -0700 (PDT)
-Date: Wed, 3 May 2017 15:18:02 +0300
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
-To: Andreas Reichel <Andreas.Reichel@tngtech.com>
-Message-ID: <20170503121802.GA21326@linux.intel.com>
-Reply-To: ed.bartosh@linux.intel.com
-References: <20170421121145.9797-1-andreas.reichel@tngtech.com>
-	<20170421121145.9797-6-andreas.reichel@tngtech.com>
-	<20170502133622.GA29938@linux.intel.com>
-	<20170503084745.GB1431@tng>
-MIME-Version: 1.0
-In-Reply-To: <20170503084745.GB1431@tng>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: Jan Kiszka <jan.kiszka@siemens.com>,
-	Andreas Reichel <andreas.reichel.ext@siemens.com>,
-	Daniel Wagner <daniel.wagner@siemens.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [wic patch 5/5] wic: Use enum like dicts for string constants
+	Wed,  3 May 2017 12:40:55 +0000 (UTC)
+Received: by mail-it0-f49.google.com with SMTP id c15so66136965ith.0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 03 May 2017 05:40:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=yQS2gnA8MDZQiSKPjzzG/6p8yJQVtPwTVL0bBgFKdic=;
+	b=ZgE0kHtXdvjvaomgQTgu4c5NVZJVeHTwJunsCiIQiHwDXfvaUKFqz+Fw1rIPooqZc4
+	5t7bCnPgHkfHv0pvHybgkc9FVKx416wMfI2SActYTixBXIi6OPv4XYLC41B72c6F9dNR
+	6LiMUtzgiDdBuXdzH5WaJvUPh4USc/jHlgiz60gMTc0kOM6Fge0VzaGK5hui89JsqVup
+	bcUEx2fTybNcaGgoSC46HLsD+i1i2BI3pSPDqtILrww9ildjivbXIUrsc7qS8yUgEAem
+	x7dzdLwhL99QwwpNJ6FSjpdLwF0jbktCBhrh+b4b8wSH51NZvwVt/AirD4ZtFJ6S9mqm
+	pQ0Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=yQS2gnA8MDZQiSKPjzzG/6p8yJQVtPwTVL0bBgFKdic=;
+	b=BCxwiDU1ZfbCuGmEn/nH5XCbi7J17Rh/Jct7njF1pMqkGr3ZIgfrlE4W0bkf+TDQrw
+	hEjCUPvVv5U2/sWy59O5petEMVmctPfIbI8JoaD18EJmlidWQJwBMHNT0tj8zHi4ZCgq
+	PjqVIPvr9KJrwquIM8Sav1P/z+o59R9fJL/f/NPaxBr/2CTvW/r8+UloT+T6bi5cE7dD
+	psF5KOx38MK/VBbiA8Zm0jYlmhU1lnkl4zG5AvqaBY3Rn9bbbbEBb6A8DoShAzJNgRg6
+	5wOFD0dCUSVdD/t1OCQWXjoMEo0USycm7iT/+WOqWNggWDFqD0VnMQaHSUMw0INGivoU
+	mGag==
+X-Gm-Message-State: AN3rC/7yrJQNHApm8wSIWbwCcLuIb3EwSEfWfVnaMRH16Vlm4Li+d+Ls
+	GRG4ivpa9lctnd5w
+X-Received: by 10.36.14.15 with SMTP id 15mr322023ite.100.1493815256913;
+	Wed, 03 May 2017 05:40:56 -0700 (PDT)
+Received: from pohly-desktop.fritz.box (p5DE8CE40.dip0.t-ipconnect.de.
+	[93.232.206.64]) by smtp.gmail.com with ESMTPSA id
+	u133sm9048309iod.21.2017.05.03.05.40.54
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 03 May 2017 05:40:55 -0700 (PDT)
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  3 May 2017 14:40:49 +0200
+Message-Id: <bb19f2d1d316485322c8962224ddafdf20cb04bb.1493815193.git-series.patrick.ohly@intel.com>
+X-Mailer: git-send-email 2.11.0
+In-Reply-To: <1493813847.4241.251.camel@intel.com>
+References: <1493813847.4241.251.camel@intel.com>
+Subject: [PATCH] QemuRunner: avoid tainting os.environ
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,81 +57,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 May 2017 12:31:44 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Wed, 03 May 2017 12:40:56 -0000
 
-On Wed, May 03, 2017 at 10:47:45AM +0200, Andreas Reichel wrote:
-> On Tue, May 02, 2017 at 04:36:22PM +0300, Ed Bartosh wrote:
-> > On Fri, Apr 21, 2017 at 02:11:45PM +0200, Andreas J. Reichel wrote:
-> > > To increase code maintainability, use dictionaries
-> > > as enum-like container for parameter string comparisons.
-> > > 
-> > > Signed-off-by: Andreas Reichel <andreas.reichel.ext@siemens.com>
-> > > Signed-off-by: Jan Kiszka <jan.kiszka@siemens.com>
-> > > Signed-off-by: Daniel Wagner <daniel.wagner@siemens.com>
-> > > 
-> > > ---
-> > >  scripts/lib/wic/engine.py | 16 +++++++++++++---
-> > >  1 file changed, 13 insertions(+), 3 deletions(-)
-> > > 
-> > > diff --git a/scripts/lib/wic/engine.py b/scripts/lib/wic/engine.py
-> > > index 647358287f..1428a73ba8 100644
-> > > --- a/scripts/lib/wic/engine.py
-> > > +++ b/scripts/lib/wic/engine.py
-> > > @@ -35,6 +35,16 @@ from wic import WicError
-> > >  from wic.pluginbase import PluginMgr
-> > >  from wic.utils.misc import get_bitbake_var
-> > >  
-> > > +class StrEnum(dict):
-> > > +    __getattr__ = dict.get
-> > > +
-> > > +ListType = StrEnum({
-> > > +    'LIST_IMAGES': "images",
-> > > +    'LIST_SRC_PLUGINS': "source-plugins" })
-> > > +
-> > > +HelpArg = StrEnum({
-> > > +    'HELP': "help" })
-> > > +
-> > >  logger = logging.getLogger('wic')
-> > >  
-> > >  def verify_build_env():
-> > > @@ -204,14 +214,14 @@ def wic_list(args, scripts_path):
-> > >      if args.list_type is None:
-> > >          return False
-> > >  
-> > > -    if args.list_type == "images":
-> > > +    if args.list_type == ListType.LIST_IMAGES:
-> > >  
-> > >          list_canned_images(scripts_path)
-> > >          return True
-> > > -    elif args.list_type == "source-plugins":
-> > > +    elif args.list_type == ListType.LIST_SRC_PLUGINS:
-> > >          list_source_plugins()
-> > >          return True
-> > > -    elif len(args.help_for) == 1 and args.help_for[0] == 'help':
-> > > +    elif len(args.help_for) == 1 and args.help_for[0] == HelpArg.HELP:
-> > >          wks_file = args.list_type
-> > >          fullpath = find_canned_image(scripts_path, wks_file)
-> > >          if not fullpath:
-> > 
-> > I'm not sure if this increases maintainability, but it definitely increases code complexity and
-> > decreases readability. Can you explain the idea in a bit more detailed way?
-> > 
-> In general, if string constants are used as keys, it is better do define them as
-> constants. Maintainability increases because if you have to change them,
-> you only change them in one place. You have a central place for this
-> definition and not scattered them all over the code. That's the idea.
->
+That a utility function permanently changes the process environment is
+bad style and leads to subtle, hard to debug problems.
 
-Not sure I'm convinced. From my point of view this patch changes quite
-simple and readable code to something more complex and less readable for
-no visible reason.
+For example, we had one oe-selftest which used runqemu() with an
+override for DEPLOY_DIR_IMAGE. Another test then just called runCmd()
+and ended up passing the wrong DEPLOY_DIR_IMAGE set earlier in
+os.environ.
 
-If I have to change 'images' or 'source-plugins'(why would I want to do that?)
-I'd just go and change them in one place as they're not used anywhere else.
+The approach used here is to pass the desired environment dict to the
+launch() method as a new, optional parameter, which then gets passed
+on to subproject.Popen(). The modified env variables do not get
+logged, as before.
 
---
-Regards,
-Ed
+[YOCTO #11443]
+
+Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
+---
+ meta/lib/oeqa/utils/qemurunner.py | 15 ++++++++-------
+ 1 file changed, 8 insertions(+), 7 deletions(-)
+
+diff --git a/meta/lib/oeqa/utils/qemurunner.py b/meta/lib/oeqa/utils/qemurunner.py
+index ba44b96..b06ccc8 100644
+--- a/meta/lib/oeqa/utils/qemurunner.py
++++ b/meta/lib/oeqa/utils/qemurunner.py
+@@ -98,11 +98,12 @@ class QemuRunner:
+                 raise SystemExit
+ 
+     def start(self, qemuparams = None, get_ip = True, extra_bootparams = None, runqemuparams='', launch_cmd=None, discard_writes=True):
++        env = dict(os.environ.items())
+         if self.display:
+-            os.environ["DISPLAY"] = self.display
++            env["DISPLAY"] = self.display
+             # Set this flag so that Qemu doesn't do any grabs as SDL grabs
+             # interact badly with screensavers.
+-            os.environ["QEMU_DONT_GRAB"] = "1"
++            env["QEMU_DONT_GRAB"] = "1"
+         if not os.path.exists(self.rootfs):
+             logger.error("Invalid rootfs %s" % self.rootfs)
+             return False
+@@ -110,12 +111,12 @@ class QemuRunner:
+             logger.error("Invalid TMPDIR path %s" % self.tmpdir)
+             return False
+         else:
+-            os.environ["OE_TMPDIR"] = self.tmpdir
++            env["OE_TMPDIR"] = self.tmpdir
+         if not os.path.exists(self.deploy_dir_image):
+             logger.error("Invalid DEPLOY_DIR_IMAGE path %s" % self.deploy_dir_image)
+             return False
+         else:
+-            os.environ["DEPLOY_DIR_IMAGE"] = self.deploy_dir_image
++            env["DEPLOY_DIR_IMAGE"] = self.deploy_dir_image
+ 
+         if not launch_cmd:
+             launch_cmd = 'runqemu %s %s ' % ('snapshot' if discard_writes else '', runqemuparams)
+@@ -128,9 +129,9 @@ class QemuRunner:
+                 launch_cmd += ' nographic'
+             launch_cmd += ' %s %s' % (self.machine, self.rootfs)
+ 
+-        return self.launch(launch_cmd, qemuparams=qemuparams, get_ip=get_ip, extra_bootparams=extra_bootparams)
++        return self.launch(launch_cmd, qemuparams=qemuparams, get_ip=get_ip, extra_bootparams=extra_bootparams, env=env)
+ 
+-    def launch(self, launch_cmd, get_ip = True, qemuparams = None, extra_bootparams = None):
++    def launch(self, launch_cmd, get_ip = True, qemuparams = None, extra_bootparams = None, env = None):
+         try:
+             threadsock, threadport = self.create_socket()
+             self.server_socket, self.serverport = self.create_socket()
+@@ -157,7 +158,7 @@ class QemuRunner:
+         # blocking at the end of the runqemu script when using this within
+         # oe-selftest (this makes stty error out immediately). There ought
+         # to be a proper fix but this will suffice for now.
+-        self.runqemu = subprocess.Popen(launch_cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, stdin=subprocess.PIPE, preexec_fn=os.setpgrp)
++        self.runqemu = subprocess.Popen(launch_cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, stdin=subprocess.PIPE, preexec_fn=os.setpgrp, env=env)
+         output = self.runqemu.stdout
+ 
+         #
+
+base-commit: ba2884f6ad3a4e746fc80cbd707f83fa8abd4210
+-- 
+git-series 0.9.1
 
