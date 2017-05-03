@@ -1,47 +1,54 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qt0-f175.google.com (mail-qt0-f175.google.com
-	[209.85.216.175])
-	by mail.openembedded.org (Postfix) with ESMTP id A45C671A62
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-io0-f182.google.com (mail-io0-f182.google.com
+	[209.85.223.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 95EEF60110
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 May 2017 12:00:52 +0000 (UTC)
-Received: by mail-qt0-f175.google.com with SMTP id m36so134799583qtb.0
+	Wed,  3 May 2017 12:17:30 +0000 (UTC)
+Received: by mail-io0-f182.google.com with SMTP id k91so10823624ioi.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 03 May 2017 05:00:54 -0700 (PDT)
+	Wed, 03 May 2017 05:17:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=QqM71pvzI8fH+gYcldMzxtUwJF0O9yr4ultI/jqHB+Q=;
-	b=WR6CHcTlf9ntXJoybH4NIkWo7TlvssVXg4HGGoPKnK1UEG3povA6PRXJFK4fb4VAcg
-	Xf13zxFETB673wmXhQQA8TO9EDamNLpEpHsARGYxh6m/yO7Cz5+VvJhwwNnFS7EvRu+6
-	9oMlXSTc5V59yBC00VbCIRZWGV4XgNPmGmJv/QJJdpNsxHxknIRAvejMl8SDKWu3Ldvm
-	NHDRICBfwV7EjT+Be/WiwVen+qdjUdssvu1DD/A8v/ifnDQLVicWza6+U7ms30TVykOU
-	JfVgOhcTCGMPFXBqxypboFcSm0wJYoNfL1uEUIy5bQ4QvlnbBJ0zl4X3ZeQ3eOeOUo+n
-	fE+g==
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:organization:mime-version:content-transfer-encoding;
+	bh=jPjxuKHna0sD2E7rsPWFA7mFOphb5X4UgWQZAkr4P+U=;
+	b=IGPild8YJNDVcJeX73aPdKRrxZU9Kn6EcDFqDYPHrspLAb4XE2+T0NQwl3xdqFxHs5
+	2QhPxk3sg03OgEVC4B0mGQx1BSYsxBDDMMwZiXv6x4odJpxNCt29o10QAH8qdxtlEI5V
+	WR0Tz5aR7He/tJE/lDbdrwPs2Ja2TglEAsn9rArLpej3AImksxmcPR/jr7QIVqN9EMfT
+	UadBZKL3Eq2VX2K0fZy9GOYhJbk2GIiDxI0oNl3Kpd52vsa3DqOhw5gitGdVBvl3O7Ar
+	ukCIv4y+rAXY+VdCmP3gGPnHG7bQqJQMtU98yaYR+D/FojUaYm6UERDhRFzRjUoRIGsN
+	zgvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=QqM71pvzI8fH+gYcldMzxtUwJF0O9yr4ultI/jqHB+Q=;
-	b=Xf9VXMVIst/UVgwzsxZlS0V5K2CE9sT26jDU3oxjCuAo3ZBT1eiXzDr+8fv1LSy6AO
-	GG6NfYAZka6VQXsgcxzPmMY1+QAvrbjcS/YyPLmX0bb8sFYchcToTl5WL9DG3oz/fOw0
-	Bugs3Fc83fNDUEZLAXuJgcgkQWiFwFkoqCq3bahgOoI2APZlucsS2f46BFeFkCidPhk+
-	wr1Rd+3R0LMEJ321mwr/xqub7AhhGHFARSQPx2E9K0v0Jhpbi5GuNMm24iWZeJca5CO1
-	aNnkG7yh8WDpCOxuw3uWoJQfU1K8rgv2nkEMBCknZ+8XdkD75ZPhyfgx96+NPBBkIXLP
-	Jd2A==
-X-Gm-Message-State: AN3rC/7jGksFroqns9Sf+gPjAPweNUJ1jcAGNsRYPP/mIaVM36ykFV5b
-	sQDKFe0RvLtaTNaaPeUZkF9py/JkD8Vt
-X-Received: by 10.200.42.238 with SMTP id c43mr31995500qta.144.1493812853964; 
-	Wed, 03 May 2017 05:00:53 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.34.136 with HTTP; Wed, 3 May 2017 05:00:33 -0700 (PDT)
-In-Reply-To: <1493812409.4241.247.camel@intel.com>
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:organization:mime-version:content-transfer-encoding;
+	bh=jPjxuKHna0sD2E7rsPWFA7mFOphb5X4UgWQZAkr4P+U=;
+	b=OJNIX6ndujlhJsbN43R3xoc+GoLOgjJv/0FJtmLvETo9e5xzQOv/TIxes0Y12tipr3
+	RVIZDd/3kNwSfE0m5UtNZBHsKElrGkuR1tx8EnFj2TpVpehV00XPgYSzwgfC1f34ZwVv
+	mpowJJKiaxLOqGV89yVBgfwyclfUbdSFPq999XvczQFOmN6vKOud5VieyWv0jUDXuJ2m
+	2Gvexl4xMATJrIAxji2xKFMvBBicKIOLGfyspJvoCsohrgHoPPHkU0nQx5yh2kjo1SNC
+	Guf0/5wAKENrFwOyCo99A8wVIWXG3bDvmWxe293jry6vLOB+dpk5Mg4Ayp36MUsvXiUI
+	+utg==
+X-Gm-Message-State: AN3rC/7uPJswJ7+XOSAG1LRw3PerRBx6yRMZt8k9NViatn2cqUA4/rcK
+	O7VQNPxXLOn6MW2C
+X-Received: by 10.107.129.85 with SMTP id c82mr7197492iod.92.1493813851542;
+	Wed, 03 May 2017 05:17:31 -0700 (PDT)
+Received: from pohly-mobl1 (p5DE8CE40.dip0.t-ipconnect.de. [93.232.206.64])
+	by smtp.gmail.com with ESMTPSA id j5sm2372552iti.20.2017.05.03.05.17.29
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 03 May 2017 05:17:30 -0700 (PDT)
+Message-ID: <1493813847.4241.251.camel@intel.com>
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 03 May 2017 14:17:27 +0200
+In-Reply-To: <CAJTo0LaHhRHzxmUaaF8MCHgKTvJPqKa0Q+rOjAd1vx4Ps0RE2Q@mail.gmail.com>
 References: <aec82a5d8c1b622749a12bea2c478a8ff7f363b1.1493808889.git-series.patrick.ohly@intel.com>
 	<1493810039.23535.57.camel@linuxfoundation.org>
 	<1493812409.4241.247.camel@intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 3 May 2017 13:00:33 +0100
-Message-ID: <CAJTo0LaHhRHzxmUaaF8MCHgKTvJPqKa0Q+rOjAd1vx4Ps0RE2Q@mail.gmail.com>
-To: Patrick Ohly <patrick.ohly@intel.com>
+	<CAJTo0LaHhRHzxmUaaF8MCHgKTvJPqKa0Q+rOjAd1vx4Ps0RE2Q@mail.gmail.com>
+Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
+X-Mailer: Evolution 3.12.9-1+b1 
+Mime-Version: 1.0
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] QemuRunner: avoid tainting os.environ
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -56,39 +63,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 May 2017 12:00:54 -0000
-Content-Type: multipart/alternative; boundary=001a113f40e486a9be054e9d68f8
+X-List-Received-Date: Wed, 03 May 2017 12:17:30 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---001a113f40e486a9be054e9d68f8
-Content-Type: text/plain; charset=UTF-8
+On Wed, 2017-05-03 at 13:00 +0100, Burton, Ross wrote:
+> 
+> On 3 May 2017 at 12:53, Patrick Ohly <patrick.ohly@intel.com> wrote:
+>         Then it wouldn't get logged. Not a particularly strong
+>         argument, though.
+>         If that's preferred, I can change the implementation.
+>         
+> 
+> 
+> I prefer the clarity of copying os.environ and adding to it over
+> running env, especially as you have whitespace/quoting to deal with.
+> The variables added to the environment could easily be logged
+> separately, surely?
 
-On 3 May 2017 at 12:53, Patrick Ohly <patrick.ohly@intel.com> wrote:
+They could be logged in start(), but at the moment the logging is in
+launch(), and if we keep the semantic the same as in subprocess.Popen()
+(i.e. caller provides entire environment), then that logging doesn't
+know which env variables might be worth logging.
 
-> Then it wouldn't get logged. Not a particularly strong argument, though.
-> If that's preferred, I can change the implementation.
->
+Anyway, the variables weren't logged before either, so I'll just keep
+that and change to passing an env dict.
 
-I prefer the clarity of copying os.environ and adding to it over running
-env, especially as you have whitespace/quoting to deal with.  The variables
-added to the environment could easily be logged separately, surely?
+-- 
+Best Regards, Patrick Ohly
 
-Ross
+The content of this message is my personal opinion only and although
+I am an employee of Intel, the statements I make here in no way
+represent Intel's position on the issue, nor am I authorized to speak
+on behalf of Intel on this matter.
 
---001a113f40e486a9be054e9d68f8
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 3 May 2017 at 12:53, Patrick Ohly <span dir=3D"ltr">&lt;<a href=3D"mailt=
-o:patrick.ohly@intel.com" target=3D"_blank">patrick.ohly@intel.com</a>&gt;<=
-/span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8=
-ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":kz" class=3D"a3=
-s aXjCH m15bce296cff19087">Then it wouldn&#39;t get logged. Not a particula=
-rly strong argument, though.<br>
-If that&#39;s preferred, I can change the implementation.<br></div></blockq=
-uote><div><br></div><div>I prefer the clarity of copying os.environ and add=
-ing to it over running env, especially as you have whitespace/quoting to de=
-al with.=C2=A0 The variables added to the environment could easily be logge=
-d separately, surely?</div><div><br></div><div>Ross</div></div></div></div>
 
---001a113f40e486a9be054e9d68f8--
+
