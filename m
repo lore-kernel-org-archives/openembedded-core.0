@@ -1,29 +1,22 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 8D8DE60603
+Return-Path: <rebecca.swee.fun.chang@intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 99AA171C9F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 May 2017 07:01:03 +0000 (UTC)
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	03 May 2017 00:01:04 -0700
+	Wed,  3 May 2017 08:23:38 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	03 May 2017 01:23:40 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.38,283,1491289200"; d="scan'208";a="96603471"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by fmsmga005.fm.intel.com with ESMTP; 03 May 2017 00:01:03 -0700
-To: Tomas Novotny <tomas@novotny.cz>
-References: <20170502125151.5095-1-alexander.kanavin@linux.intel.com>
-	<20170502125151.5095-6-alexander.kanavin@linux.intel.com>
-	<20170502185052.0e094df2@tomas.local.tbs-biometrics.cz>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <7fc9874e-0a6e-6054-74dd-e2bbdd515966@linux.intel.com>
-Date: Wed, 3 May 2017 10:01:03 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.8.0
-MIME-Version: 1.0
-In-Reply-To: <20170502185052.0e094df2@tomas.local.tbs-biometrics.cz>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 6/6] mobile-broadband-provider-info: upgrade to 20170310
+X-IronPort-AV: E=Sophos;i="5.38,283,1491289200"; d="scan'208";a="963809417"
+Received: from rebeccas.png.intel.com ([172.30.199.118])
+	by orsmga003.jf.intel.com with ESMTP; 03 May 2017 01:23:38 -0700
+From: rebecca.swee.fun.chang@intel.com
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  3 May 2017 16:23:48 +0800
+Message-Id: <1493799829-96908-1-git-send-email-rebecca.swee.fun.chang@intel.com>
+X-Mailer: git-send-email 2.7.4
+Cc: saul.wold@intel.com
+Subject: [PATCH] ghostscript: fix warnings when building for arduino-101-sss
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,17 +29,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 May 2017 07:01:03 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 03 May 2017 08:23:40 -0000
 
-On 05/02/2017 07:50 PM, Tomas Novotny wrote:
-> this package contains platform independent xml and dtd only. So I guess that
-> allarch class can be inherited. Does it makes sense to create a separate patch or
-> is it better to squash it here?
+From: Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>
 
-A separate patch is better - feel free to send one and take the credit :)
+Hi,
 
-Alex
+The following warning occurs when building zephyr with arduino-101-sss.
+
+WARNING: /srv/sdc/builds/11319/meta/recipes-extended/ghostscript/ghostscript_9.20.bb: Unable to get checksum for ghostscript SRC_URI entry objarch.h: file could not be found
+
+This can be reproduced with meta-zephyr and MACHINE=arduino-101-sss,
+it also needs a clean tmp, because the warning comes during initial parse.
+
+This is due to the the TARGET_ARCH = "arc" for meta-zephyr is not
+supported by ghostscript and causing bitbake unable to locate the
+correct config file during recipe parse.
+
+Adding an anonymous python checker in recipe to raise a SkipRecipe
+exception if it is not one of the supported architectures.
+
+Thanks and regards,
+Rebecca
+
+Chang Rebecca Swee Fun (1):
+  ghostscript: check for incompatible TARGET_ARCH
+
+ meta/recipes-extended/ghostscript/ghostscript_9.20.bb | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+-- 
+2.7.4
 
 
