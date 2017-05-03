@@ -1,65 +1,47 @@
-Return-Path: <niko.mauno@vaisala.com>
-X-Greylist: delayed 601 seconds by postgrey-1.34 at layers.openembedded.org;
-	Wed, 03 May 2017 10:49:49 UTC
-Received: from hel-mailgw-01.vaisala.com (hel-mailgw-01.vaisala.com
-	[193.143.230.17])
-	by mail.openembedded.org (Postfix) with ESMTP id B2B43719FA
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-io0-f171.google.com (mail-io0-f171.google.com
+	[209.85.223.171])
+	by mail.openembedded.org (Postfix) with ESMTP id C9C8F719FA
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 May 2017 10:49:49 +0000 (UTC)
-IronPort-PHdr: =?us-ascii?q?9a23=3A64x/NBUZn3e/ponZBpb8Gypiit3V8LGtZVwlr6E/?=
-	=?us-ascii?q?grcLSJyIuqrYbB2Dt8tkgFKBZ4jH8fUM07OQ6PG+HzFRqszQ+Fk5M7V0Hycfjs?=
-	=?us-ascii?q?sXmwFySOWkMmbcaMDQUiohAc5ZX0Vk9XzoeWJcGcL5ekGA6ibqtW1aFRrwLxd6?=
-	=?us-ascii?q?KfroEYDOkcu3y/qy+5rOaAlUmTaxe71/IRG3oAnLtsQbhYRuJrg1xxDUvnZGZu?=
-	=?us-ascii?q?NayH9yK1mOhRj8/MCw/JBi8yRUpf0s8tNLXLv5caolU7FWFSwqPG8p6sLlsxnD?=
-	=?us-ascii?q?VhaP6WAHUmoKiBpIAhPK4w/8U5zsryb1rOt92C2dPc3rUbA5XCmp4ql3RBP0ji?=
-	=?us-ascii?q?oMKjg0+3zVhMNtlqJWuBKvqQJizY7Ibo+bN/t+cb/Sc9wVXmdBQt9RWjZdDo+g?=
-	=?us-ascii?q?c4cDEuwMNvtYoYnnoFsOqAOzCA6qBOPuyT9IgWX63agg3OQ8FwHG2xctH8wUv3?=
-	=?us-ascii?q?TVt9X6LqMSXvqvwKbUyjXDaupb1DHg44bGdRAhpOuDXbN2ccfJ1UYvEAXFjluK?=
-	=?us-ascii?q?pYzkJDOZzusNs2mH7+pgSOKgkHQrpB12ojiqwMonl4rHhpoNx1zZ9yh13pw5Kc?=
-	=?us-ascii?q?O3RUJhfNKoCp9duzyCO4drQM4uXXtktDg1x7EcuJO2czIGxIk5yxPcc/CHfZaH?=
-	=?us-ascii?q?7xH/WOuUJDp1hHZod6+iixu37ESv0O/xW8yq31lXrCdFnNzBum4Q2BDO6MWKTO?=
-	=?us-ascii?q?Z28F271jaVzQ/T7/lJIUUzlaXGNZEs2qUwlp8PsUTbGS/2hVn2gLeWdko6/uio?=
-	=?us-ascii?q?7PzqbLfpqJGaLoN6hQDxP7oslMCmHeg0LxICUHSc+eSmzL3v51P5T69Ljv0tiK?=
-	=?us-ascii?q?bZtIrVKd4Hqa6+Bg9Zyocj6xChADe6yNkUgHsKIExfdB6ZgIXlIUzCLOr8APui?=
-	=?us-ascii?q?m1islS1kx/HCPr3vGJXNKX3Dna/nfbZ86E5czxA/zdVF6JJJDLEBJ+n+WlHru9?=
-	=?us-ascii?q?zZFR82KQi0zPz9BNph0YMeXHqDArWFP6PKrV+I+uUvLvGLZI8Npjn9LeYq5/v1?=
-	=?us-ascii?q?gnAnhFASYLem0oYOZH+kGfRmOVuWbGHogtcACmcKohE+QPbtiF2aTzFTYWi9X6?=
-	=?us-ascii?q?cn6T4lFY2pEJnMSZ23jLyGxie7Ec4eWmcTXleUHHHlco+JV/sBZGeZJdVsujgF?=
-	=?us-ascii?q?TqS6DYg52BejsQX3x7ZqIqzT4CJO5rz5090gs+vSlhZ08DVpCcO1zWiMVGhwly?=
-	=?us-ascii?q?UDQDpgj/M3mlB01lrWifswuPdfD9EGv/4=3D?=
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-Anti-Spam-Result: =?us-ascii?q?A2GDAQAcswlZ/1sBGKxcHAEBBAEBCgEBF?=
-	=?us-ascii?q?wEBBAEBCgEBhAyBDAeNeadBgUxDLoV2hSMYAQEBAQEBAQEBAQECgRCCMyALBEY?=
-	=?us-ascii?q?pLwEBAQEBAQEBAQEBAQEBARoCDYFdEgE1SycEDgWKL7JJinIBAQEBAQUBAQEBA?=
-	=?us-ascii?q?QEBHAWIPYdaDlUNhRkFkFiNA4cbi3uRWgKUNB+BQ2+HSnaGISqBBoENAQEB?=
-X-IPAS-Result: =?us-ascii?q?A2GDAQAcswlZ/1sBGKxcHAEBBAEBCgEBFwEBBAEBCgEBhAy?=
-	=?us-ascii?q?BDAeNeadBgUxDLoV2hSMYAQEBAQEBAQEBAQECgRCCMyALBEYpLwEBAQEBAQEBA?=
-	=?us-ascii?q?QEBAQEBARoCDYFdEgE1SycEDgWKL7JJinIBAQEBAQUBAQEBAQEBHAWIPYdaDlU?=
-	=?us-ascii?q?NhRkFkFiNA4cbi3uRWgKUNB+BQ2+HSnaGISqBBoENAQEB?=
-X-IronPort-AV: E=Sophos;i="5.38,283,1491253200"; d="scan'208";a="40528117"
-Received: from hel-exch-01.corp.vaisala.com ([172.24.1.91])
-	by hel-mailgw-01.vaisala.com with ESMTP/TLS/AES256-SHA;
-	03 May 2017 13:39:48 +0300
-Received: from HEL-EXCH-02.corp.vaisala.com (172.24.1.85) by
-	HEL-EXCH-01.corp.vaisala.com (172.24.1.91) with Microsoft SMTP Server
-	(TLS) id 15.0.1210.3; Wed, 3 May 2017 13:39:47 +0300
-Received: from HEL-EXCH-02.corp.vaisala.com ([fe80::59d1:1a7:ed7f:2d17]) by
-	HEL-EXCH-02.corp.vaisala.com ([fe80::59d1:1a7:ed7f:2d17%14]) with mapi
-	id 15.00.1210.000; Wed, 3 May 2017 13:39:47 +0300
-From: <niko.mauno@vaisala.com>
-To: <openembedded-core@lists.openembedded.org>
-Thread-Topic: [PATCH] Allow overriding environment specific SPDX variables
-Thread-Index: AQHSw/mWLE6QUEh+wUW6n2xCpu4qSA==
-Date: Wed, 3 May 2017 10:39:47 +0000
-Message-ID: <1493807968-4697-1-git-send-email-niko.mauno@vaisala.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [172.24.64.128]
-MIME-Version: 1.0
-Subject: [PATCH] Allow overriding environment specific SPDX variables
+	Wed,  3 May 2017 10:56:23 +0000 (UTC)
+Received: by mail-io0-f171.google.com with SMTP id r16so182457701ioi.2
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 03 May 2017 03:56:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id;
+	bh=hC56YFl14rZwN4uSsiY7BLbBTf+Ty8guR/xvfA3ARmo=;
+	b=zeJYiYjqNFmUecYp/QzuJAQEUnee/QcdLDmqM3o0cEwDPAqXAQxGQJG6pzqE/vRD3P
+	m5vjJZjYYBOMj/+/T5IQpTXdoZ21kxiSkAxfWtPK8y5TGDOtvsjL/nDkbpXjOddRNkOi
+	JAhnT2MeUCG4AOJmRN5Vck8OlkwPLNpLRyIBBP1I1Z33KRfSaOJhYORrvVTNRzzq3zQ9
+	w7enUpY3RGkXuxD8vLwqNmPO/DE6EM9zO7RR0YL7KUwz25Z21M+UFQjziB1yLoOvb9R6
+	wPucggnP9GYUN8+dcVz8u39R9GpkCwcN24nMdNhKoXb6gtAnrf1A7bAQ6v3hCZfSS9Cm
+	owYw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=hC56YFl14rZwN4uSsiY7BLbBTf+Ty8guR/xvfA3ARmo=;
+	b=GNBSW/CSSKTmXVrx03wp4RwUKwFFjMWsigQ8RGuGEIiSBG8vaIRCeb5N+PKa5hgRWR
+	6vTuTnKmedV3+QnhxqN0BphGUYQui+2GFSJtkwyWpbov+6EgfdCxh8xgWDggNNBkATFR
+	2WJ/MEkKCijE0d1Qa4kx0bF8QhcK5LtClxKatuSjxloDw9T324GYf4VJPmY1Z7mFuX1s
+	4RbytftdUc4v06+crbUUTCEtH4FESO8lBCa+jXgWVUst1NYM3DT7RzjMBZDrZFsyDyFO
+	gTwtboVERKdSFrx7MNa9dLciHKMsvJrAQD3YfEAODpnmvMgjpo11KZ9Zt5il8MveFS9r
+	b1Hg==
+X-Gm-Message-State: AN3rC/6fcokQbcH1L9ZHx8RadTeL0rEOOgU5FFjFjBgMrYri/RBjVHfM
+	Qk55Zkw/iddPAJSn
+X-Received: by 10.107.160.77 with SMTP id j74mr30916289ioe.58.1493808985287;
+	Wed, 03 May 2017 03:56:25 -0700 (PDT)
+Received: from pohly-desktop.fritz.box (p5DE8CE40.dip0.t-ipconnect.de.
+	[93.232.206.64])
+	by smtp.gmail.com with ESMTPSA id u191sm34480ita.15.2017.05.03.03.56.23
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 03 May 2017 03:56:24 -0700 (PDT)
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  3 May 2017 12:56:19 +0200
+Message-Id: <aec82a5d8c1b622749a12bea2c478a8ff7f363b1.1493808889.git-series.patrick.ohly@intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH] QemuRunner: avoid tainting os.environ
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -72,80 +54,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 May 2017 10:49:50 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 03 May 2017 10:56:33 -0000
 
-Change certain variable assignments from 'hard' (=3D) to 'soft' (?=3D) so t=
-hat
-suitable permutations of values for these variables can be assigned eg. in
-custom meta layers. Otherwise eg. fossology server is limited to run on sam=
-e
-machine as bitbake, and generated SPDX files are placed into home directory
-path of a custom luser account.
+That a utility function permanently changes the process environment is
+bad style and leads to subtle, hard to debug problems.
 
-Signed-off-by: Niko Mauno <niko.mauno@vaisala.com>
+For example, we had one oe-selftest which used runqemu() with an
+override for DEPLOY_DIR_IMAGE. Another test then just called runCmd()
+and ended up passing the wrong DEPLOY_DIR_IMAGE set earlier in
+os.environ.
+
+The approach used here is to extend the launch command such that 'env'
+sets the environment variables. The specific values here should be
+safe to use this way, even without extra quoting. This approach is
+simple and has the advantage that the existing log.info('launchcmd=')
+output includes the environment variables.
+
+A more complex approach would be to pass a modified environment hash
+to the subprocess module.
+
+[YOCTO #11443]
+
+Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
 ---
- meta/conf/licenses.conf | 12 +++++++-----
- 1 file changed, 7 insertions(+), 5 deletions(-)
+ meta/lib/oeqa/utils/qemurunner.py | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
 
-diff --git a/meta/conf/licenses.conf b/meta/conf/licenses.conf
-index d210a0e..fcaec1b 100644
---- a/meta/conf/licenses.conf
-+++ b/meta/conf/licenses.conf
-@@ -123,7 +123,9 @@ SPDXLICENSEMAP[SGIv1] =3D "SGI-1"
-=20
- ## SPDX temporary directory
- SPDX_TEMP_DIR =3D "${WORKDIR}/spdx_temp"
--SPDX_MANIFEST_DIR =3D "/home/yocto/fossology_scans"
+diff --git a/meta/lib/oeqa/utils/qemurunner.py b/meta/lib/oeqa/utils/qemurunner.py
+index ba44b96..c543797 100644
+--- a/meta/lib/oeqa/utils/qemurunner.py
++++ b/meta/lib/oeqa/utils/qemurunner.py
+@@ -98,11 +98,12 @@ class QemuRunner:
+                 raise SystemExit
+ 
+     def start(self, qemuparams = None, get_ip = True, extra_bootparams = None, runqemuparams='', launch_cmd=None, discard_writes=True):
++        env = []
+         if self.display:
+-            os.environ["DISPLAY"] = self.display
++            env.append("DISPLAY=" + self.display)
+             # Set this flag so that Qemu doesn't do any grabs as SDL grabs
+             # interact badly with screensavers.
+-            os.environ["QEMU_DONT_GRAB"] = "1"
++            env.append("QEMU_DONT_GRAB=1")
+         if not os.path.exists(self.rootfs):
+             logger.error("Invalid rootfs %s" % self.rootfs)
+             return False
+@@ -110,12 +111,12 @@ class QemuRunner:
+             logger.error("Invalid TMPDIR path %s" % self.tmpdir)
+             return False
+         else:
+-            os.environ["OE_TMPDIR"] = self.tmpdir
++            env.append("OE_TMPDIR=" + self.tmpdir)
+         if not os.path.exists(self.deploy_dir_image):
+             logger.error("Invalid DEPLOY_DIR_IMAGE path %s" % self.deploy_dir_image)
+             return False
+         else:
+-            os.environ["DEPLOY_DIR_IMAGE"] = self.deploy_dir_image
++            env.append("DEPLOY_DIR_IMAGE=" + self.deploy_dir_image)
+ 
+         if not launch_cmd:
+             launch_cmd = 'runqemu %s %s ' % ('snapshot' if discard_writes else '', runqemuparams)
+@@ -128,6 +129,9 @@ class QemuRunner:
+                 launch_cmd += ' nographic'
+             launch_cmd += ' %s %s' % (self.machine, self.rootfs)
+ 
++        if env:
++            launch_cmd = 'env %s %s' % (' '.join(env), launch_cmd)
 +
-+## Output directory for generated SPDX files
-+SPDX_MANIFEST_DIR ?=3D "/home/yocto/fossology_scans"
-=20
- ## SPDX Format info
- SPDX_VERSION =3D "SPDX-1.1"
-@@ -142,7 +144,7 @@ DATA_LICENSE =3D "CC0-1.0"
- #   information.
- #
-=20
--FOSS_NO_COPYRIGHT =3D "true"
-+FOSS_NO_COPYRIGHT ?=3D "true"
-=20
- # A option defined as[FOSS_RECURSIVE_UNPACK] in ./meta/conf/licenses.conf.=
- is
- # used to control if FOSSology server need recursively unpack tar.gz file =
-which
-@@ -156,7 +158,7 @@ FOSS_NO_COPYRIGHT =3D "true"
- #    FOSSology server recursively unpack components.
- #
-=20
--FOSS_RECURSIVE_UNPACK =3D "false"
-+FOSS_RECURSIVE_UNPACK ?=3D "false"
-=20
- # An option defined as [FOSS_FULL_SPDX] in ./meta/conf/licenses.conf is us=
-ed to
- # control what kind of SPDX output to get from the FOSSology server.
-@@ -171,7 +173,7 @@ FOSS_RECURSIVE_UNPACK =3D "false"
- #   license tags in the report will be "NOASSERTION"
- #
-=20
--FOSS_FULL_SPDX =3D "true"
-+FOSS_FULL_SPDX ?=3D "true"
-=20
- # FOSSologySPDX instance server. http://localhost/repo is the default
- # installation location for FOSSology.
-@@ -180,7 +182,7 @@ FOSS_FULL_SPDX =3D "true"
- #   https://github.com/spdx-tools/fossology-spdx/wiki/Fossology-SPDX-Web-A=
-PI
- #
-=20
--FOSS_BASE_URL =3D "http://localhost/repo/?mod=3Dspdx_license_once"
-+FOSS_BASE_URL ?=3D "http://localhost/repo/?mod=3Dspdx_license_once"
- FOSS_SERVER =3D "${FOSS_BASE_URL}&fullSPDXFlag=3D${FOSS_FULL_SPDX}&noCopyr=
-ight=3D${FOSS_NO_COPYRIGHT}&recursiveUnpack=3D${FOSS_RECURSIVE_UNPACK}"
-=20
- FOSS_WGET_FLAGS =3D "-qO - --no-check-certificate --timeout=3D0"
---=20
-2.1.4
+         return self.launch(launch_cmd, qemuparams=qemuparams, get_ip=get_ip, extra_bootparams=extra_bootparams)
+ 
+     def launch(self, launch_cmd, get_ip = True, qemuparams = None, extra_bootparams = None):
+
+base-commit: ba2884f6ad3a4e746fc80cbd707f83fa8abd4210
+-- 
+git-series 0.9.1
 
