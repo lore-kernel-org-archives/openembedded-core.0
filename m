@@ -1,21 +1,31 @@
-Return-Path: <markus.lehtonen@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 8789471A3A
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 872DA72F59
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 May 2017 09:01:30 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	04 May 2017 02:01:32 -0700
+	Thu,  4 May 2017 09:18:47 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	04 May 2017 02:18:48 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.38,287,1491289200"; d="scan'208";a="1126344792"
-Received: from marquiz.fi.intel.com ([10.237.72.155])
-	by orsmga001.jf.intel.com with ESMTP; 04 May 2017 02:01:31 -0700
-From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  4 May 2017 12:01:30 +0300
-Message-Id: <20170504090130.28944-1-markus.lehtonen@linux.intel.com>
-X-Mailer: git-send-email 2.12.0
-Subject: [PATCH] build-perf-test-wrapper.sh: support uploading test reports
+X-IronPort-AV: E=Sophos;i="5.38,287,1491289200"; d="scan'208";a="82383079"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by orsmga002.jf.intel.com with ESMTP; 04 May 2017 02:18:47 -0700
+To: "Burton, Ross" <ross.burton@intel.com>,
+	Max Krummenacher <max.oss.09@gmail.com>
+References: <20170503131153.1780-1-alexander.kanavin@linux.intel.com>
+	<20170503131153.1780-3-alexander.kanavin@linux.intel.com>
+	<1493836892.2405.4.camel@gmail.com>
+	<CAJTo0LZ3O5au502TRqVUZY_gCT4r_9X-2Jtk+_-3o=u5j2UASg@mail.gmail.com>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <cf767fe3-3c98-f32b-d27c-3f63b924ab7f@linux.intel.com>
+Date: Thu, 4 May 2017 12:18:48 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.8.0
+MIME-Version: 1.0
+In-Reply-To: <CAJTo0LZ3O5au502TRqVUZY_gCT4r_9X-2Jtk+_-3o=u5j2UASg@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 3/5] libpng12: remove the recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,91 +38,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 May 2017 09:01:31 -0000
+X-List-Received-Date: Thu, 04 May 2017 09:18:49 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Implement new '-R' command line option for specifying an rsync
-destination where to upload test reports.
+On 05/03/2017 09:58 PM, Burton, Ross wrote:
+>
+>     > It was only in oe-core because of LSB; let's remove it. Current libpng is 1.6.x.
+>
+>     This will break at least meta-openembedded glmark2 and glcompbench.
+>
+>
+> Then meta-oe can continue to host libpng12.
 
-[YOCTO #5049]
+I actually think allowing those recipes to fail and blacklisting them is 
+better. Moving libpng12 to meta-oe is the lazy way out; the proper way 
+to deal with such regressions is to look at the actual recipes, what 
+they do, why they need such an old version of libpng, and whether they 
+should be updated or removed from meta-oe altogether. The only way to 
+get people to do this real maintenance work is to break the build for 
+them, sadly. I cannot take on maintaining things in meta-oe in this way, 
+I have to draw the line somewhere, and this is it.
 
-Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
----
- scripts/contrib/build-perf-test-wrapper.sh | 30 +++++++++++++++++++++++++-----
- 1 file changed, 25 insertions(+), 5 deletions(-)
-
-diff --git a/scripts/contrib/build-perf-test-wrapper.sh b/scripts/contrib/build-perf-test-wrapper.sh
-index 3da32532be..19bee1dd03 100755
---- a/scripts/contrib/build-perf-test-wrapper.sh
-+++ b/scripts/contrib/build-perf-test-wrapper.sh
-@@ -35,6 +35,7 @@ Optional arguments:
-   -C GIT_REPO       commit results into Git
-   -E EMAIL_ADDR     send email report
-   -P GIT_REMOTE     push results to a remote Git repository
-+  -R DEST           rsync reports to a remote destination
-   -w WORK_DIR       work dir for this script
-                     (default: GIT_TOP_DIR/build-perf-test)
-   -x                create xml report (instead of json)
-@@ -50,7 +51,7 @@ get_os_release_var () {
- commitish=""
- oe_build_perf_test_extra_opts=()
- oe_git_archive_extra_opts=()
--while getopts "ha:c:C:E:P:w:x" opt; do
-+while getopts "ha:c:C:E:P:R:w:x" opt; do
-     case $opt in
-         h)  usage
-             exit 0
-@@ -65,6 +66,8 @@ while getopts "ha:c:C:E:P:w:x" opt; do
-             ;;
-         P)  oe_git_archive_extra_opts+=("--push" "$OPTARG")
-             ;;
-+        R)  rsync_dst="$OPTARG"
-+            ;;
-         w)  base_dir=`realpath -s "$OPTARG"`
-             ;;
-         x)  oe_build_perf_test_extra_opts+=("--xml")
-@@ -132,6 +135,11 @@ if [ -n "$commitish" ]; then
-     git reset --hard $commit > /dev/null
- fi
- 
-+# Determine name of the current branch
-+branch=`git symbolic-ref HEAD 2> /dev/null`
-+# Strip refs/heads/
-+branch=${branch:11}
-+
- # Setup build environment
- if [ -z "$base_dir" ]; then
-     base_dir="$git_topdir/build-perf-test"
-@@ -187,13 +195,25 @@ if [ -n "$results_repo" ]; then
-         "${oe_git_archive_extra_opts[@]}" \
-         "$results_dir"
- 
-+    # Generate test reports
-+    sanitized_branch=`echo $branch | tr / _`
-+    report_txt=`hostname`_${sanitized_branch}_${machine}.txt
-+    report_html=`hostname`_${sanitized_branch}_${machine}.html
-+    echo -e "\nGenerating test report"
-+    oe-build-perf-report -r "$results_repo" > $report_txt
-+    oe-build-perf-report -r "$results_repo" --html > $report_html
-+
-     # Send email report
-     if [ -n "$email_to" ]; then
--        echo -e "\nEmailing test report"
-+        echo "Emailing test report"
-         os_name=`get_os_release_var PRETTY_NAME`
--        oe-build-perf-report -r "$results_repo" > report.txt
--        oe-build-perf-report -r "$results_repo" --html > report.html
--        "$script_dir"/oe-build-perf-report-email.py --to "$email_to" --subject "Build Perf Test Report for $os_name" --text report.txt --html report.html "${OE_BUILD_PERF_REPORT_EMAIL_EXTRA_ARGS[@]}"
-+        "$script_dir"/oe-build-perf-report-email.py --to "$email_to" --subject "Build Perf Test Report for $os_name" --text $report_txt --html $report_html "${OE_BUILD_PERF_REPORT_EMAIL_EXTRA_ARGS[@]}"
-+    fi
-+
-+    # Upload report files, unless we're on detached head
-+    if [ -n "$rsync_dst" -a -n "$branch" ]; then
-+        echo "Uploading test report"
-+        rsync $report_txt $report_html $rsync_dst
-     fi
- fi
- 
--- 
-2.12.0
+Alex
 
 
