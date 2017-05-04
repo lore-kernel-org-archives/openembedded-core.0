@@ -1,25 +1,32 @@
-Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 8787377C28
+Return-Path: <obi@opendreambox.org>
+Received: from mail.dream-property.net (mail.dream-property.net
+	[82.149.226.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 4707577D11
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 May 2017 17:18:49 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga105.fm.intel.com with ESMTP; 04 May 2017 10:18:50 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.38,287,1491289200"; d="scan'208";a="1126485510"
-Received: from lsandov1-mobl2.zpn.intel.com ([10.219.128.119])
-	by orsmga001.jf.intel.com with ESMTP; 04 May 2017 10:18:49 -0700
-Message-ID: <1493918803.1761.53.camel@linux.intel.com>
-From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 04 May 2017 12:26:43 -0500
-In-Reply-To: <CAJTo0LbVxh8udLko405=dm9G1o20rXpSsP_ohWcB3SpvEYo5PQ@mail.gmail.com>
-References: <20170502173735.11700-1-leonardo.sandoval.gonzalez@linux.intel.com>
-	<CAJTo0LbVxh8udLko405=dm9G1o20rXpSsP_ohWcB3SpvEYo5PQ@mail.gmail.com>
-X-Mailer: Evolution 3.12.9-1+b1 
-Mime-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] scripts/oe-selftest: avoid deprecated imp.reload function
+	Thu,  4 May 2017 17:31:14 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.dream-property.net (Postfix) with ESMTP id 86A3B3200084;
+	Thu,  4 May 2017 19:31:14 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
+Received: from mail.dream-property.net ([127.0.0.1])
+	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
+	port 10024)
+	with LMTP id CkJqBiOllNt8; Thu,  4 May 2017 19:31:12 +0200 (CEST)
+Received: from t510.zcs.saftware.de (p57A61F97.dip0.t-ipconnect.de
+	[87.166.31.151])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by mail.dream-property.net (Postfix) with ESMTPSA id 930633200083;
+	Thu,  4 May 2017 19:31:11 +0200 (CEST)
+Date: Thu, 4 May 2017 19:31:10 +0200
+From: Andreas Oberritter <obi@opendreambox.org>
+To: Chunrong Guo <B40290@freescale.com>
+Message-ID: <20170504193110.541fedce@t510.zcs.saftware.de>
+In-Reply-To: <1493888920-6154-1-git-send-email-B40290@freescale.com>
+References: <1493888920-6154-1-git-send-email-B40290@freescale.com>
+MIME-Version: 1.0
+Cc: chunrong.guo@nxp.com, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] kernel-fitimage: fix ${KERNEL_DEVICETREE} includes subdirectory issue.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,39 +39,102 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 May 2017 17:18:50 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 04 May 2017 17:31:18 -0000
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Thu, 2017-05-04 at 17:41 +0100, Burton, Ross wrote:
-> 
-> On 2 May 2017 at 18:37, <leonardo.sandoval.gonzalez@linux.intel.com>
-> wrote:
->         As explained in [1], the module function imp.reload has been
->         deprecated for
->         importlib.reload, so use the latter instead.
->         
-> 
-> $ oe-selftest -r package
-> 2017-05-04 17:40:10,352 - selftest - INFO - Running bitbake -e to get
-> BBPATH
-> Traceback (most recent call last):
->   File "/home/ross/Yocto/poky/scripts/oe-selftest", line 806, in
-> <module>
->     ret = main()
->   File "/home/ross/Yocto/poky/scripts/oe-selftest", line 500, in main
->     importlib.reload(oeqa.selftest)
-> UnboundLocalError: local variable 'importlib' referenced before
-> assignment
-> 
-I saw the error also. The strange thing is that the import importlib has
-global scope but the interpreter does not have it visible at the 'main'
-function. any idea? will send a v2 once I figure out the latter.
+On Thu, 4 May 2017 17:08:40 +0800
+Chunrong Guo <B40290@freescale.com> wrote:
 
-Leo
-
+> From: Chunrong Guo <chunrong.guo@nxp.com>
 > 
-> Ross
+>     * For example:
+>       KERNEL_DEVICETREE ?= "freescale/fsl-ls1046a-rdb.dtb"
+> 
+>       ${DTB}= "freescale/fsl-ls1046a-rdb.dtb"
+> 
+>       but only the dtb name should be used.
+> 
+>     * Support "ext2.gz " filesystems
+> 
+>     * Support mutiple KERNEL_IMAGETYPE
+>       For example:
+>        KERNEL_IMAGETYPE = "Image"  or  KERNEL_IMAGETYPE = "zImage"
+> 
+> Signed-off-by: Chunrong Guo <chunrong.guo@nxp.com>
+> ---
+>  meta/classes/kernel-fitimage.bbclass | 11 +++++++----
+>  1 file changed, 7 insertions(+), 4 deletions(-)
+> 
+> diff --git a/meta/classes/kernel-fitimage.bbclass b/meta/classes/kernel-fitimage.bbclass
+> index 2630b47..33b477f 100644
+> --- a/meta/classes/kernel-fitimage.bbclass
+> +++ b/meta/classes/kernel-fitimage.bbclass
+> @@ -10,7 +10,7 @@ python __anonymous () {
+>          if d.getVar("UBOOT_ARCH") == "x86":
+>              replacementtype = "bzImage"
+>          else:
+> -            replacementtype = "zImage"
+> +            replacementtype = d.getVar("KERNEL_IMAGETYPE")
 
+I'm not sure whether the KERNEL_IMAGETYPES variable needs to get considered, too.
+
+>  
+>  	# Override KERNEL_IMAGETYPE_FOR_MAKE variable, which is internal
+>  	# to kernel.bbclass . We have to override it, since we pack zImage
+> @@ -233,6 +233,7 @@ EOF
+>  # $4 ... ramdisk ID
+>  # $5 ... config ID
+>  # $6 ... default flag
+> +# $7 ... DTB image path 
+>  fitimage_emit_section_config() {
+>  
+>  	conf_csum="sha1"
+> @@ -346,13 +347,14 @@ fitimage_assemble() {
+>  				bbwarn "${DTB} contains the full path to the the dts file, but only the dtb name should be used."
+>  				DTB=`basename ${DTB} | sed 's,\.dts$,.dtb,g'`
+>  			fi
+> +                        DTBNAME=`basename ${DTB}`
+>  			DTB_PATH="arch/${ARCH}/boot/dts/${DTB}"
+>  			if [ ! -e "${DTB_PATH}" ]; then
+>  				DTB_PATH="arch/${ARCH}/boot/${DTB}"
+>  			fi
+
+How about replacing the lines above with DTB_PATH=`find arch/${ARCH}/boot -name "${DTB}"`
+or a similar construct?
+
+This would work with KERNEL_DEVICETREE ?= "fsl-ls1046a-rdb.dtb", which would
+also match the make target IIRC.
+
+Regards,
+Andreas
+
+
+>  
+>  			DTBS="${DTBS} ${DTB}"
+> -			fitimage_emit_section_dtb ${1} ${DTB} ${DTB_PATH}
+> +			fitimage_emit_section_dtb ${1} ${DTBNAME} ${DTB_PATH}
+>  		done
+>  	fi
+>  
+> @@ -369,7 +371,7 @@ fitimage_assemble() {
+>  	#
+>  	if [ "x${ramdiskcount}" = "x1" ] ; then
+>  		# Find and use the first initramfs image archive type we find
+> -		for img in cpio.lz4 cpio.lzo cpio.lzma cpio.xz cpio.gz cpio; do
+> +		for img in cpio.lz4 cpio.lzo cpio.lzma cpio.xz cpio.gz cpio ext2.gz; do
+>  			initramfs_path="${DEPLOY_DIR_IMAGE}/${INITRAMFS_IMAGE_NAME}.${img}"
+>  			echo "Using $initramfs_path"
+>  			if [ -e "${initramfs_path}" ]; then
+> @@ -395,7 +397,8 @@ fitimage_assemble() {
+>  	if [ -n "${DTBS}" ]; then
+>  		i=1
+>  		for DTB in ${DTBS}; do
+> -			fitimage_emit_section_config ${1} "${kernelcount}" "${DTB}" "${ramdiskcount}" "${setupcount}" "`expr ${i} = ${dtbcount}`"
+> +                        DTBNAME=`basename ${DTB}`
+> +			fitimage_emit_section_config ${1} "${kernelcount}" "${DTBNAME}" "${ramdiskcount}" "${setupcount}" "`expr ${i} = ${dtbcount}` "${DTB}""
+>  			i=`expr ${i} + 1`
+>  		done
+>  	fi
 
 
