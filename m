@@ -1,53 +1,21 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 08548774EA
+Return-Path: <markus.lehtonen@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 8789471A3A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 May 2017 08:46:26 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id 790C518488;
-	Thu,  4 May 2017 10:46:26 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id F7Y7zJYfPHwi; Thu,  4 May 2017 10:46:24 +0200 (CEST)
-Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
-	by bastet.se.axis.com (Postfix) with ESMTPS id CEE941847A;
-	Thu,  4 May 2017 10:46:24 +0200 (CEST)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 60A9A1A092;
-	Thu,  4 May 2017 10:46:24 +0200 (CEST)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 499551A091;
-	Thu,  4 May 2017 10:46:24 +0200 (CEST)
-Received: from thoth.se.axis.com (unknown [10.0.2.173])
-	by boulder02.se.axis.com (Postfix) with ESMTP;
-	Thu,  4 May 2017 10:46:24 +0200 (CEST)
-Received: from XBOX02.axis.com (xbox02.axis.com [10.0.5.16])
-	by thoth.se.axis.com (Postfix) with ESMTP id 3A68C284D;
-	Thu,  4 May 2017 10:46:24 +0200 (CEST)
-Received: from XBOX02.axis.com (10.0.5.16) by XBOX02.axis.com (10.0.5.16) with
-	Microsoft SMTP Server (TLS) id 15.0.1210.3;
-	Thu, 4 May 2017 10:46:24 +0200
-Received: from XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776]) by
-	XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776%21]) with mapi id
-	15.00.1210.000; Thu, 4 May 2017 10:46:24 +0200
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Thread-Topic: Regression with RPM4 and unversioned DSOs
-Thread-Index: AdLEsoPKOyEk7xv/RUaij3j/OAHacQ==
-Date: Thu, 4 May 2017 08:46:24 +0000
-Message-ID: <c70316f009e94504b29ff2b9d177dd33@XBOX02.axis.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.60]
-MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-Cc: "OE Core \(openembedded-core@lists.openembedded.org\)"
-	<openembedded-core@lists.openembedded.org>
-Subject: Regression with RPM4 and unversioned DSOs
+	Thu,  4 May 2017 09:01:30 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	04 May 2017 02:01:32 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.38,287,1491289200"; d="scan'208";a="1126344792"
+Received: from marquiz.fi.intel.com ([10.237.72.155])
+	by orsmga001.jf.intel.com with ESMTP; 04 May 2017 02:01:31 -0700
+From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  4 May 2017 12:01:30 +0300
+Message-Id: <20170504090130.28944-1-markus.lehtonen@linux.intel.com>
+X-Mailer: git-send-email 2.12.0
+Subject: [PATCH] build-perf-test-wrapper.sh: support uploading test reports
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,60 +28,91 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 May 2017 08:46:27 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 04 May 2017 09:01:31 -0000
 
-There seems to be a serious regression with the introduction of RPM4=20
-and packages that install unversioned DSOs. We unfortunately have a=20
-lot of those, and after building one of our products with Pyro it is=20
-now missing almost 80 packages due to missing generated runtime=20
-dependencies.=20
+Implement new '-R' command line option for specifying an rsync
+destination where to upload test reports.
 
-Previously the RPMs had dependencies on the required DSOs, but that=20
-no longer seems to be the case, and there are only dependencies on=20
-the packages providing the DSOs.
+[YOCTO #5049]
 
-Here is an example for one of our packages. First the output from=20
-rpm -q --requires for the package built with Pyro:
+Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+---
+ scripts/contrib/build-perf-test-wrapper.sh | 30 +++++++++++++++++++++++++-----
+ 1 file changed, 25 insertions(+), 5 deletions(-)
 
-$  rpm -q --requires -p tmp/deploy/rpm/mips32r2el_nf/apta-utility-1.3.0-r0.=
-10.mips32r2el_nf.rpm
-libc6 >=3D 2.25
-rpmlib(CompressedFileNames) <=3D 3.0.4-1
-rpmlib(PayloadFilesHavePrefix) <=3D 4.0-1
-
-And then the output for the same package built with Morty:
-
-$ rpm -q  --requires -p tmp/deploy/rpm/mips32r2el_nf/apta-utility-1.3.0-r0.=
-2.mips32r2el_nf.rpm
-ld.so.1
-ld.so.1(GLIBC_2.4)
-libapta.so
-libc.so.6
-libc.so.6(GLIBC_2.0)
-libc.so.6(GLIBC_2.2)
-libc.so.6(GLIBC_2.3)
-libc.so.6(GLIBC_2.3.4)
-libc.so.6(GLIBC_2.4)
-libc.so.6(GLIBC_2.7)
-libc6 >=3D 2.24
-libubihelper.so
-
-Please note the lack of dependencies on libapta and libubihelper in=20
-the package built with Pyro.
-
-Since I would very much like to avoid having to add explicit runtime=20
-dependencies for all those dependencies that were previously automatically=
-=20
-detected, which would be a nightmare, I am now looking for any help as to=20
-where to find the code that adds the dependencies on the packages providing=
-=20
-DSOs and to see if it is possible to change it to also detect dependencies=
-=20
-on unversioned DSOs.
-
-//Peter
+diff --git a/scripts/contrib/build-perf-test-wrapper.sh b/scripts/contrib/build-perf-test-wrapper.sh
+index 3da32532be..19bee1dd03 100755
+--- a/scripts/contrib/build-perf-test-wrapper.sh
++++ b/scripts/contrib/build-perf-test-wrapper.sh
+@@ -35,6 +35,7 @@ Optional arguments:
+   -C GIT_REPO       commit results into Git
+   -E EMAIL_ADDR     send email report
+   -P GIT_REMOTE     push results to a remote Git repository
++  -R DEST           rsync reports to a remote destination
+   -w WORK_DIR       work dir for this script
+                     (default: GIT_TOP_DIR/build-perf-test)
+   -x                create xml report (instead of json)
+@@ -50,7 +51,7 @@ get_os_release_var () {
+ commitish=""
+ oe_build_perf_test_extra_opts=()
+ oe_git_archive_extra_opts=()
+-while getopts "ha:c:C:E:P:w:x" opt; do
++while getopts "ha:c:C:E:P:R:w:x" opt; do
+     case $opt in
+         h)  usage
+             exit 0
+@@ -65,6 +66,8 @@ while getopts "ha:c:C:E:P:w:x" opt; do
+             ;;
+         P)  oe_git_archive_extra_opts+=("--push" "$OPTARG")
+             ;;
++        R)  rsync_dst="$OPTARG"
++            ;;
+         w)  base_dir=`realpath -s "$OPTARG"`
+             ;;
+         x)  oe_build_perf_test_extra_opts+=("--xml")
+@@ -132,6 +135,11 @@ if [ -n "$commitish" ]; then
+     git reset --hard $commit > /dev/null
+ fi
+ 
++# Determine name of the current branch
++branch=`git symbolic-ref HEAD 2> /dev/null`
++# Strip refs/heads/
++branch=${branch:11}
++
+ # Setup build environment
+ if [ -z "$base_dir" ]; then
+     base_dir="$git_topdir/build-perf-test"
+@@ -187,13 +195,25 @@ if [ -n "$results_repo" ]; then
+         "${oe_git_archive_extra_opts[@]}" \
+         "$results_dir"
+ 
++    # Generate test reports
++    sanitized_branch=`echo $branch | tr / _`
++    report_txt=`hostname`_${sanitized_branch}_${machine}.txt
++    report_html=`hostname`_${sanitized_branch}_${machine}.html
++    echo -e "\nGenerating test report"
++    oe-build-perf-report -r "$results_repo" > $report_txt
++    oe-build-perf-report -r "$results_repo" --html > $report_html
++
+     # Send email report
+     if [ -n "$email_to" ]; then
+-        echo -e "\nEmailing test report"
++        echo "Emailing test report"
+         os_name=`get_os_release_var PRETTY_NAME`
+-        oe-build-perf-report -r "$results_repo" > report.txt
+-        oe-build-perf-report -r "$results_repo" --html > report.html
+-        "$script_dir"/oe-build-perf-report-email.py --to "$email_to" --subject "Build Perf Test Report for $os_name" --text report.txt --html report.html "${OE_BUILD_PERF_REPORT_EMAIL_EXTRA_ARGS[@]}"
++        "$script_dir"/oe-build-perf-report-email.py --to "$email_to" --subject "Build Perf Test Report for $os_name" --text $report_txt --html $report_html "${OE_BUILD_PERF_REPORT_EMAIL_EXTRA_ARGS[@]}"
++    fi
++
++    # Upload report files, unless we're on detached head
++    if [ -n "$rsync_dst" -a -n "$branch" ]; then
++        echo "Uploading test report"
++        rsync $report_txt $report_html $rsync_dst
+     fi
+ fi
+ 
+-- 
+2.12.0
 
 
