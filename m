@@ -1,28 +1,47 @@
-Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 03E7877C8D
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f180.google.com (mail-qk0-f180.google.com
+	[209.85.220.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 9E19377CF1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 May 2017 15:29:02 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	04 May 2017 08:29:03 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.38,287,1491289200"; d="scan'208";a="1126444764"
-Received: from lsandov1-mobl2.zpn.intel.com ([10.219.128.119])
-	by orsmga001.jf.intel.com with ESMTP; 04 May 2017 08:29:02 -0700
-Message-ID: <1493912216.1761.40.camel@linux.intel.com>
-From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Date: Thu, 04 May 2017 10:36:56 -0500
-In-Reply-To: <2764166.Tu3B0AapLd@peggleto-mobl.ger.corp.intel.com>
-References: <20170503131153.1780-1-alexander.kanavin@linux.intel.com>
-	<2897866.bodmxEm400@peggleto-mobl.ger.corp.intel.com>
-	<24ebf3f4-9855-8aea-7019-3951973d37e1@linux.intel.com>
-	<2764166.Tu3B0AapLd@peggleto-mobl.ger.corp.intel.com>
-X-Mailer: Evolution 3.12.9-1+b1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?UmU6IOKclyBwYXRjaHRlc3Q6IGZhaWx1cmUgZm9yICJsaWJlcmF0aW9uLWZvbnRzOiB1cGRhdGUgdG8gMi4uLi4iIGFuZCA0IG1vcmU=?=
+	Thu,  4 May 2017 16:41:56 +0000 (UTC)
+Received: by mail-qk0-f180.google.com with SMTP id n4so15787788qkc.0
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 04 May 2017 09:41:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=PXHDiellCrqj4UBFsAwif0UAgiGx44yvSmEHgtebUIs=;
+	b=YXIOQHGixLW8eNZ7WI4m+6M9aT5AH2IoqbwPUvTxA0JBj4Y6QheoH/z3P8md28BeZg
+	CKN5Vc1VlYEa78gAQdY6BA7vbwCLZzC+kVMwEvHHO6M6QVqykHByYCArlwzf9s731xv/
+	ShycNgaCohOIiMUQKgat/LmQuAaMatSfX2OuQxoZZ1qI71YKNAOHHJgI1GLGyJ4qEoCq
+	TqRuyi+QRauFzIOScAJ9PrOIPezqnXHMm5qr4NGNnNcLkBTgvAmNuK1RCLHnfc5HjUPA
+	tywxkD2/BxICOzsygPfj+YwTVjA9jb2EWJENBT1ydOlM4IHd8W+8XF10XM167VbIMCa9
+	6kng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=PXHDiellCrqj4UBFsAwif0UAgiGx44yvSmEHgtebUIs=;
+	b=JuUd+s31E2ayVA9P+LvC3v+TKi2bpSg6Xj+7E10DgY6XObBKbimsPPNt2vopHA5tai
+	640/1Jm8BuysOO6g3FUsJvBohpPAKVxV+t4rEV8WCmAyxALyVO5fbEUXsdjTlYkrBWSb
+	SUevJki3QIfSdahLbRJoTPpiNHZLZJ2QvKK/4NcceM2mBi3cQAs1xvcvlREgTxvGw/D3
+	CxMLCtEQuQanZGPYnoNIqySu73K4CyDe40Wib1sEg3mx0KtZCh+wDQ66OeJuEWKgyNKO
+	cmdGwMU3FxtIOezovGv1FBrgRfzq1qa3Wv2YBev4QbRwDcRmXAbVvNqiseX3IrkrDWgS
+	m/GQ==
+X-Gm-Message-State: AN3rC/4PNl0qgthLUwn7gmTkqgFeeLWyZwnHhi+/ARLCzfJm6NSfduF0
+	aOnnynbVRa/AzjFwN3DVyZn/YCXfQP6g4hc=
+X-Received: by 10.55.75.75 with SMTP id y72mr9870019qka.36.1493916117169; Thu,
+	04 May 2017 09:41:57 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.34.136 with HTTP; Thu, 4 May 2017 09:41:36 -0700 (PDT)
+In-Reply-To: <20170502173735.11700-1-leonardo.sandoval.gonzalez@linux.intel.com>
+References: <20170502173735.11700-1-leonardo.sandoval.gonzalez@linux.intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 4 May 2017 17:41:36 +0100
+Message-ID: <CAJTo0LbVxh8udLko405=dm9G1o20rXpSsP_ohWcB3SpvEYo5PQ@mail.gmail.com>
+To: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] scripts/oe-selftest: avoid deprecated imp.reload function
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,83 +54,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 May 2017 15:29:03 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 04 May 2017 16:41:56 -0000
+Content-Type: multipart/alternative; boundary=001a114a6abe7d0d88054eb573ae
 
-On Thu, 2017-05-04 at 22:07 +1200, Paul Eggleton wrote:
-> Hi Alex,
-> 
-> On Thursday, 4 May 2017 9:33:02 PM NZST Alexander Kanavin wrote:
-> > On 05/04/2017 12:43 AM, Paul Eggleton wrote:
-> > > On Thursday, 4 May 2017 1:31:52 AM NZST Patchwork wrote:
-> > >> * Issue             Series sent to the wrong mailing list
-> > > [test_target_mailing_list]
-> > >>   Suggested fix    Send the series again to the correct mailing list (ML)
-> > >>   Suggested ML     poky@yoctoproject.org [http://git.yoctoproject.org/
-> cgit/
-> > > cgit.cgi/poky/]
-> > >
-> > > Leo - looks like this is another false positive.
-> > 
-> > Actually, no - one of the patches accidentally included a file from 
-> > meta-poky. Still, could be reported better:
-> > 
-> > 1) Should refer to a specific patch where the issue is
-> > 2) Should, if possible, refer to specific files in the patch that are 
-> > causing the problem.
-> 
+--001a114a6abe7d0d88054eb573ae
+Content-Type: text/plain; charset=UTF-8
 
-yes, I realized that and try to make it better with:
+On 2 May 2017 at 18:37, <leonardo.sandoval.gonzalez@linux.intel.com> wrote:
 
-http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe/commit/?id=d1841aa2d19c6576d84c461656043d0b49ee689e
+> As explained in [1], the module function imp.reload has been deprecated for
+> importlib.reload, so use the latter instead.
+>
 
-Due to the nature of the objects being used, the easiest is to provide
-the patch's path, so point 2 is covered, not 1.
+$ oe-selftest -r package
+2017-05-04 17:40:10,352 - selftest - INFO - Running bitbake -e to get BBPATH
+Traceback (most recent call last):
+  File "/home/ross/Yocto/poky/scripts/oe-selftest", line 806, in <module>
+    ret = main()
+  File "/home/ross/Yocto/poky/scripts/oe-selftest", line 500, in main
+    importlib.reload(oeqa.selftest)
+UnboundLocalError: local variable 'importlib' referenced before assignment
 
+Ross
 
-> Right, agreed on both counts. I guess we were trying to catch the more common 
-> case of people sending entire patchsets to the wrong list.
+--001a114a6abe7d0d88054eb573ae
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 2 May 2017 at 18:37,  <span dir=3D"ltr">&lt;<a href=3D"mailto:leonardo.s=
+andoval.gonzalez@linux.intel.com" target=3D"_blank">leonardo.sandoval.gonza=
+lez@linux.intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quo=
+te" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-sty=
+le:solid;border-left-color:rgb(204,204,204);padding-left:1ex"><div id=3D"gm=
+ail-:25v" class=3D"gmail-a3s gmail-aXjCH gmail-m15bca3e3c35f861d">As explai=
+ned in [1], the module function imp.reload has been deprecated for<br>
+<span class=3D"gmail-il">importlib</span>.reload, so use the latter instead=
+.<br></div></blockquote></div><br><div class=3D"gmail_extra">$ oe-selftest =
+-r package</div><div class=3D"gmail_extra">2017-05-04 17:40:10,352 - selfte=
+st - INFO - Running bitbake -e to get BBPATH</div><div class=3D"gmail_extra=
+">Traceback (most recent call last):</div><div class=3D"gmail_extra">=C2=A0=
+ File &quot;/home/ross/Yocto/poky/scripts/oe-selftest&quot;, line 806, in &=
+lt;module&gt;</div><div class=3D"gmail_extra">=C2=A0 =C2=A0 ret =3D main()<=
+/div><div class=3D"gmail_extra">=C2=A0 File &quot;/home/ross/Yocto/poky/scr=
+ipts/oe-selftest&quot;, line 500, in main</div><div class=3D"gmail_extra">=
+=C2=A0 =C2=A0 importlib.reload(oeqa.selftest)</div><div class=3D"gmail_extr=
+a">UnboundLocalError: local variable &#39;importlib&#39; referenced before =
+assignment</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_ex=
+tra">Ross</div></div></div>
 
-> 
-> > 3) The problem is not the wrong mailing list, the problem is that the 
-> > patch should be splitted up and sent to several lists :)
-> 
-> The question is can an automated tool tell the difference? I guess even if it 
-> can't though we can be honest about that in the message i.e. "Wrong mailing 
-> list, or incorrectly split patch" or something like that.
-
-agree on the proposed message. I change it.
-
-> 
-> > In general, why run these checks after the patches have been already 
-> > posted for review? That is adding unnecessary friction. Why not have 
-> > them as a git hook, that is run locally when making the commit?
-> 
-> The original idea was that the tests could also be run from your local machine 
-> (could easily be as a git hook), and whilst it's not as easy as I might have 
-> liked it is doable - however even if it were much easier, we have to be 
-> realistic and acknowledge that most people still won't do it.
-> 
-
-I proposed the following script:
-
-http://lists.openembedded.org/pipermail/openembedded-core/2017-February/132592.html
-
-which basically takes patches from master to current branch HEAD and
-iterates on each one (not yet merged on master). Once script is run,
-results are in console then developer can iterate on the series in case
-of failures.
-
-
-> Cheers,
-> Paul
-> 
-> -- 
-> 
-> Paul Eggleton
-> Intel Open Source Technology Centre
-
-
-
+--001a114a6abe7d0d88054eb573ae--
