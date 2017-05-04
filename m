@@ -1,43 +1,46 @@
 Return-Path: <dev@codyps.com>
-Received: from mail-it0-f67.google.com (mail-it0-f67.google.com
-	[209.85.214.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 5FB5C77C31
+Received: from mail-io0-f193.google.com (mail-io0-f193.google.com
+	[209.85.223.193])
+	by mail.openembedded.org (Postfix) with ESMTP id B362077C3C
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 May 2017 17:50:44 +0000 (UTC)
-Received: by mail-it0-f67.google.com with SMTP id 131so2551146itz.2
+	Thu,  4 May 2017 17:50:51 +0000 (UTC)
+Received: by mail-io0-f193.google.com with SMTP id x86so5340521ioe.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 04 May 2017 10:50:46 -0700 (PDT)
+	Thu, 04 May 2017 10:50:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=codyps.com; s=google;
-	h=from:to:cc:subject:date:message-id;
-	bh=uM0kUUpk5Z3RGbOo6qpYWlWp8O16ZXt2ufEqjHZ5Rhw=;
-	b=dWhPayeOJuS8rYl5Tz/x6SC7C4HugjtiwcsuBGsMq4Aqouiq4x20Li0xfwsgwaCOLV
-	O/pPktFf89U5ZxgMwA2alc0x5ogK/KLMcoWyYClNKE6xp/ZQ50vjldhOwPYghJOCjSUB
-	uou4opfsQliY+hEO//PNDWFWCfZda5WHKxYSo=
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=EwGVcolRP+cYWuVzqAd/sCCwe4ib7vsrdYX1bdysIcQ=;
+	b=JozK6BcNjjeZTd5p301Xm1IPULDj8lk14kAX12Rr5xsyc7pvY4GDJnXm3qFVN7c1MM
+	F5cP0i1x3gvBQc7KnW4+kAbE82qubqaf7pO6nuhIvhyWciEEueOPyuGDxQnaA0v2z8xX
+	G+mWimsqbkhzITNAjWJruHBbX8C+lfSHMKLAs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=uM0kUUpk5Z3RGbOo6qpYWlWp8O16ZXt2ufEqjHZ5Rhw=;
-	b=se7LwC7U3vWWyRwDxixYB2MnyT7BbQXQUMc43p23ras0TmdhE8Sowhbq3QB6n/P+UO
-	KCRpYRpNwen9Kvt43uaNNyAyNPvesHPyq42fyOmAnG6fEAQilEdypOAmxzWwiFwv0mNt
-	jy+hFnXlGGgArt7AzkCRdzAW1cJoBvwjDWQVbrDMvgopAFhxrj9QLdbYK5e00DECNnFa
-	rxbG38K7MQOafT9RK5ChrX0qELe5Qi8o035Xs1zQw3R+UrBh9KIQsHQrcqJI36PAKjpQ
-	fuPiv9z5FLbiyAlrnZzW9Gtoe0ak8BRzBLkX1VQ1BmdkTlR6xgd79NFPltn3AnmgeLXT
-	1hpg==
-X-Gm-Message-State: AN3rC/4/HIC63f/A23gCqbRFPeEzNA/S1jgI/Pj+3XaXIr++rfSKyLPp
-	ih9JmMrsQlPdtw==
-X-Received: by 10.36.173.70 with SMTP id a6mr3611035itj.110.1493920246256;
-	Thu, 04 May 2017 10:50:46 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=EwGVcolRP+cYWuVzqAd/sCCwe4ib7vsrdYX1bdysIcQ=;
+	b=BYCBVmsb4/JTXouMQOCYu9Vexgg571TnOkQGPUENJhh8qW+p33qQMzpg/if1KT7lL4
+	w0wiHRMr9P2Ez6+t3ZeCyRkTnQri/sssPCoIDzf5vJXaUvx7s81FxrCzZ1CbtjOMP/Uj
+	8zLKldNLX65xXg/EQXZ2qQBMUcozpfOz9dolUTyrtRc0hK+s/POOlVyp3wJbLhtKb66Z
+	3D+EZEYZZv+J7mkNUr5Y7JkpE6cIRwASbTmBXdyCwsjvgGI5jgpMHcqfwXYIgcDY8jX0
+	sVxMo9rk4LUylH+IFECxUSc73fidTea77G5/nzsxPklEqGXq4ogM3rl0JgilQIlBYRle
+	/7xg==
+X-Gm-Message-State: AN3rC/57qRUI9B9QoORQifLxIwC4FFlK+ZK5TNqgQ0rT70EVvNt7zA7P
+	sNdzumG3qG1Vjw==
+X-Received: by 10.107.59.20 with SMTP id i20mr39244411ioa.75.1493920252575;
+	Thu, 04 May 2017 10:50:52 -0700 (PDT)
 Received: from localhost (static-72-74-84-52.bstnma.fios.verizon.net.
 	[72.74.84.52]) by smtp.gmail.com with ESMTPSA id
-	u187sm687459ita.27.2017.05.04.10.50.45
+	v130sm777776itv.19.2017.05.04.10.50.52
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 04 May 2017 10:50:45 -0700 (PDT)
+	Thu, 04 May 2017 10:50:52 -0700 (PDT)
 From: Cody P Schafer <dev@codyps.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  4 May 2017 13:50:41 -0400
-Message-Id: <20170504175042.3164-1-dev@codyps.com>
+Date: Thu,  4 May 2017 13:50:42 -0400
+Message-Id: <20170504175042.3164-2-dev@codyps.com>
 X-Mailer: git-send-email 2.12.2
-Subject: [PATCH v2 1/2] cmake.bbclass: remove unneded cd ${B}
+In-Reply-To: <20170504175042.3164-1-dev@codyps.com>
+References: <20170504175042.3164-1-dev@codyps.com>
+Subject: [PATCH v2 2/2] cmake.bbclass: use `cmake --build` to build & install
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,34 +53,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 May 2017 17:50:45 -0000
+X-List-Received-Date: Thu, 04 May 2017 17:50:51 -0000
 
-The default dir for do_compile & do_configure is already ${B}, no need
-to cd (other than broken appends)
+Rather than presuming `make` is the generator, use cmake's generic
+`cmake --build` feature (which knows to call the appropriate generator).
+
+Both DESTDIR and VERBOSE still behave as intended when used as
+environment variables instead of make variable-arguments.
+
+As cmake-based builds don't do any configuration with `make`
+invocations, we only pass `PARALLEL_MAKE{,INST}` (via a
+EXTRA_OECMAKE_BUILD variable) to the underlying build tool. Make &
+ninja support the same `-j N` option (and a few others), so this does
+happen to work for both.
+
+This makes it more straight forward for others to select other cmake
+generators (many folks have been reaching for `ninja` lately).
 
 CC: Andre McCurdy <armccurdy@gmail.com>
 Signed-off-by: Cody P Schafer <dev@codyps.com>
 ---
- meta/classes/cmake.bbclass | 2 --
- 1 file changed, 2 deletions(-)
+ meta/classes/cmake.bbclass | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
 diff --git a/meta/classes/cmake.bbclass b/meta/classes/cmake.bbclass
-index 12df617ad8..8b5f18d8e0 100644
+index 8b5f18d8e0..ac2c1519b0 100644
 --- a/meta/classes/cmake.bbclass
 +++ b/meta/classes/cmake.bbclass
-@@ -135,12 +135,10 @@ cmake_do_configure() {
+@@ -31,6 +31,9 @@ OECMAKE_FIND_ROOT_PATH_MODE_PROGRAM_class-native = "BOTH"
+ 
+ EXTRA_OECMAKE_append = " ${PACKAGECONFIG_CONFARGS}"
+ 
++EXTRA_OECMAKE_BUILD_prepend_task-compile = "${PARALLEL_MAKE} "
++EXTRA_OECMAKE_BUILD_prepend_task-install = "${PARALLEL_MAKEINST} "
++
+ # CMake expects target architectures in the format of uname(2),
+ # which do not always match TARGET_ARCH, so all the necessary
+ # conversions should happen here.
+@@ -135,11 +138,13 @@ cmake_do_configure() {
  
  do_compile[progress] = "percent"
  cmake_do_compile()  {
--	cd ${B}
- 	base_do_compile VERBOSE=1
+-	base_do_compile VERBOSE=1
++	bbnote VERBOSE=1 cmake --build '${B}' -- ${EXTRA_OECMAKE_BUILD}
++	VERBOSE=1 cmake --build '${B}' -- ${EXTRA_OECMAKE_BUILD}
  }
  
  cmake_do_install() {
--	cd ${B}
- 	oe_runmake 'DESTDIR=${D}' install
+-	oe_runmake 'DESTDIR=${D}' install
++	bbnote DESTDIR='${D}' cmake --build '${B}' --target install -- ${EXTRA_OECMAKE_BUILD}
++	DESTDIR='${D}' cmake --build '${B}' --target install -- ${EXTRA_OECMAKE_BUILD}
  }
  
+ EXPORT_FUNCTIONS do_configure do_compile do_install do_generate_toolchain_file
 -- 
 2.12.2
 
