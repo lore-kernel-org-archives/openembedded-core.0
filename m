@@ -1,41 +1,57 @@
-Return-Path: <minipada@gmail.com>
-Received: from mail-vk0-f43.google.com (mail-vk0-f43.google.com
-	[209.85.213.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 27DE177D24
+Return-Path: <max.oss.09@gmail.com>
+Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
+	by mail.openembedded.org (Postfix) with ESMTP id CEAE77017D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 May 2017 19:10:24 +0000 (UTC)
-Received: by mail-vk0-f43.google.com with SMTP id y190so14038092vkc.1
+	Thu,  4 May 2017 23:48:13 +0000 (UTC)
+Received: by mail-wm0-f68.google.com with SMTP id d79so6568132wmi.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 04 May 2017 12:10:26 -0700 (PDT)
+	Thu, 04 May 2017 16:48:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:from:date:message-id:subject:to;
-	bh=Xhb87FP7Q2RIxXkBEGBXaXU6tkGaMpExzbdzNEt8mxQ=;
-	b=b1oiCFUsM3fwXMwW1eID3WuC3rVKQtnXnyaTRz11v4SrNMoTTnTmrgUNDkmkdzkMkR
-	HWZc142Y+EUv5h/c7TX8xSCSqjbZU0xa2U0uS2ptcuJEmFQpdv1lFIqgQQBTTI5ZIVVy
-	8a9j+BLIm+wOUukI/amQoI67h35W9y2/ateGPlk0XjCIjNKnHhvF6WpRYgjFwn1QIw0q
-	zd1dsdnN3fwZ034eH+tyCn3mRivoljN6DOpIGRIyUeYj4NqYxZrIpPajdU87rzRiN2G3
-	ADwe3/eo1OlVCxnbLV5qESaYQ1gq1P7xA8NAj3PkTQ7EECU1xvo8h6NbqWMNp335yzJd
-	ecIg==
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=2JFbrEPSMsATW6pKLFfyMHCrHZXp3Y+JOJw3OEvuYlA=;
+	b=N9as255iYV1D0cPyr5mzJHTHwvf/mC/wBa9tBfrjjweiwg2pxveg/pCc/RJfJSJ1y+
+	M4uL/4LdXNs66X8woWc8yA5GBWpbfWeJeD/AVE52FYWJ3avIvuicrOeOqrzTXlAyAoga
+	e0kfg+TblUUBbsrNBqwCNDxdAIp0m9M4cV01sXv3uJJ6XAKHWVG/aElU082QGv88MeiL
+	DWJiRdmQMD5IUxYWIa3ZQVHzSQq9WqhSUT70Epd9hs8BAGPwvZROK4LQxnLsYRNL+zZC
+	W3viLBoYI/NpLQvm48UloI+8TKYVVzR5D1NEGh3ZvUg9jcNrh/A8Ruzkd9Xp9+TB8U/8
+	941w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-	bh=Xhb87FP7Q2RIxXkBEGBXaXU6tkGaMpExzbdzNEt8mxQ=;
-	b=LpBatlMHTiYLIADr2YSanJ0k+PrK/WjNVeQXse2xo8S8IJ1eNebCp4q98HCZPsahQ8
-	ah3vUsm5bgun6UReaKD+yyqUuHhaoIVtHNbvrrgOSJYqYHVohO+M/o73whPCO8rREAWd
-	CEIEq3EQrromvPyL/mwo7RBQ6lQciDrWx1R3FiPjzErgScj/9CygPD0UaKm0qjkHo06S
-	dQghx/DM23HVRKbIJpOUIIGqUILLfg7SzsJlfpv0apYgWmrElfAdUwID+Wc3mPE9123+
-	4am6cWgBrN/NVhWQ9g79WLzZqqkKrxNxS4AZ3Ws26kZ0kedNA2N4vy8TsypOKW5cIRjq
-	dqLA==
-X-Gm-Message-State: AN3rC/6BeRkWRJpO5ANG9qtJ8ZBiwM3AsMX5tst5QkrijPycLQjUOr3j
-	YwsTuGcWjwlSU8neKiGJk+oHGdFhwB82
-X-Received: by 10.31.58.132 with SMTP id h126mr21813754vka.90.1493925025550;
-	Thu, 04 May 2017 12:10:25 -0700 (PDT)
-MIME-Version: 1.0
-From: david bensoussan <minipada@gmail.com>
-Date: Thu, 04 May 2017 19:10:14 +0000
-Message-ID: <CALxi_JEBWB_HWTioz0UsNKOKMfB6i5ddyci1oD9p5G_8AGE9eg@mail.gmail.com>
-To: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Opencv 3.2 with python2
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=2JFbrEPSMsATW6pKLFfyMHCrHZXp3Y+JOJw3OEvuYlA=;
+	b=Gsh1S2vqMYlsRcQp9CKpnCh9fMr/P1ybv455PnWYXBcwHPAqWM4j/ut+03PnQ7P2P2
+	LpWTj03L+Z1HiyuOLwVIwqlxM2jAxMiCThFTEBTPwL/Q8CBixUI5jewNg/qWO9HV1wkd
+	Tqo1vVzDhQpXIfq1eCyfqaow2IOReO6nwHmG97I/8Wjj7p8hU50GPww6I2F56LnRkUVt
+	1gzvvBbcN81QctY/q+DN/coCJI1rtMn+8IAS5adqJOFxkJfV5v9oS5Wwl+id0a4BFJqd
+	wL2pMiwsfgJNWL9mxGoTIzGE6xkt229LZ8Dl/O1I78+dyHpEonmX97edKCYd0NitOnNV
+	ZXNQ==
+X-Gm-Message-State: AN3rC/4PaCgNAxfyuWUHfjnvSyhRmoWV9TLHbOvGkuoMxOsLEWwGs+Sc
+	ciCDr/2blAF4ag==
+X-Received: by 10.80.153.194 with SMTP id n2mr31521425edb.42.1493941694407;
+	Thu, 04 May 2017 16:48:14 -0700 (PDT)
+Received: from Saturn.local.all (138-14-48-195.pool.dsl-net.ch.
+	[195.48.14.138])
+	by smtp.gmail.com with ESMTPSA id 41sm993224eds.66.2017.05.04.16.48.13
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 04 May 2017 16:48:13 -0700 (PDT)
+Message-ID: <1493941692.3022.18.camel@gmail.com>
+From: Max Krummenacher <max.oss.09@gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>, Alexander Kanavin
+	<alexander.kanavin@linux.intel.com>
+Date: Fri, 05 May 2017 01:48:12 +0200
+In-Reply-To: <CAJTo0LYDLu5zPf1EKrJKS-Hw-C=MumF8QXej_+i958AyWqy4CA@mail.gmail.com>
+References: <20170503131153.1780-1-alexander.kanavin@linux.intel.com>
+	<20170503131153.1780-3-alexander.kanavin@linux.intel.com>
+	<1493836892.2405.4.camel@gmail.com>
+	<CAJTo0LZ3O5au502TRqVUZY_gCT4r_9X-2Jtk+_-3o=u5j2UASg@mail.gmail.com>
+	<cf767fe3-3c98-f32b-d27c-3f63b924ab7f@linux.intel.com>
+	<CAJTo0LYDLu5zPf1EKrJKS-Hw-C=MumF8QXej_+i958AyWqy4CA@mail.gmail.com>
+X-Mailer: Evolution 3.16.5 
+Mime-Version: 1.0
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 3/5] libpng12: remove the recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,79 +64,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 May 2017 19:10:25 -0000
-Content-Type: multipart/alternative; boundary=001a11433490784cd5054eb7866c
+X-List-Received-Date: Thu, 04 May 2017 23:48:15 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---001a11433490784cd5054eb7866c
-Content-Type: text/plain; charset=UTF-8
+Am Donnerstag, den 04.05.2017, 10:54 +0100 schrieb Burton, Ross:
+> On 4 May 2017 at 10:18, Alexander Kanavin <alexander.kanavin@linux.intel.com
+> > wrote:
+> 
+> > Then meta-oe can continue to host libpng12.
+> > > 
+> > 
+> > I actually think allowing those recipes to fail and blacklisting them is
+> > better. Moving libpng12 to meta-oe is the lazy way out; the proper way to
+> > deal with such regressions is to look at the actual recipes, what they do,
+> > why they need such an old version of libpng, and whether they should be
+> > updated or removed from meta-oe altogether. The only way to get people to
+> > do this real maintenance work is to break the build for them, sadly. I
+> > cannot take on maintaining things in meta-oe in this way, I have to draw
+> > the line somewhere, and this is it.
+> > 
 
-Here is a patch that starts using python3 by default on opencv:
-https://github.com/openembedded/meta-openembedded/commit/f66aa42d9e6204ad3f5af05faf1abec652f7ac1e
+My concern at the moment is that anything removed now from oe-core will also be removed
+in oe-core pyro in the foreseeable future but the fix or relocation in meta-xyz will
+take time.
 
-I have tried using python2 by setting up:
+Around the release of morty the same happened with libwnck3 which then made morty fail for
+anyone using libwnck3.
 
-PACKAGECONFIG_append = "python2"
-PACKAGECONFIG_remove = "python3"
+> 
+> For what it's worth, glmark2 was fixed in 2014:
+> https://github.com/glmark2/glmark2/commit/499aa81a68fb4c8aac1c80f0d6a4cce05941c4cc
+> 
+> glcompbench appears to be a fork of glmark, so the same fix should be
+> trivial to apply.
 
-Without success since this commit. Am I missing something?
--- 
+I agree that the it is an easy fix for glmark2 and probably not that hard with glcompbench,
+nonetheless its sometimes nice to get a head start before things break.
 
-*David bensoussan*
-Roboticist / Embedded Software Engineer
-------------------------------
+Max
 
-*Synapticon* | Robotic Control Systems
-Mobile: 004915779804515 / 0033659971070
+> Ross
 
---001a11433490784cd5054eb7866c
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><br>Here is a patch that starts using python3 by default o=
-n opencv:=C2=A0<a href=3D"https://github.com/openembedded/meta-openembedded=
-/commit/f66aa42d9e6204ad3f5af05faf1abec652f7ac1e">https://github.com/openem=
-bedded/meta-openembedded/commit/f66aa42d9e6204ad3f5af05faf1abec652f7ac1e</a=
-><div><br></div><div><p style=3D"box-sizing:border-box;margin-bottom:16px;c=
-olor:rgb(36,41,46);font-family:-apple-system,blinkmacsystemfont,&quot;segoe=
- ui&quot;,helvetica,arial,sans-serif,&quot;apple color emoji&quot;,&quot;se=
-goe ui emoji&quot;,&quot;segoe ui symbol&quot;;font-size:14px;margin-top:0p=
-x">I have tried using python2 by setting up:</p><pre style=3D"box-sizing:bo=
-rder-box;font-family:sfmono-regular,consolas,&quot;liberation mono&quot;,me=
-nlo,courier,monospace;font-size:11.9px;margin-top:0px;margin-bottom:16px;fo=
-nt-stretch:normal;line-height:1.45;word-wrap:normal;padding:16px;overflow:a=
-uto;background-color:rgb(246,248,250);border-radius:3px;color:rgb(36,41,46)=
-"><code style=3D"box-sizing:border-box;font-family:sfmono-regular,consolas,=
-&quot;liberation mono&quot;,menlo,courier,monospace;font-size:11.9px;paddin=
-g:0px;margin:0px;background:transparent;border-radius:3px;word-break:normal=
-;border:0px;display:inline;overflow:visible;line-height:inherit;word-wrap:n=
-ormal">PACKAGECONFIG_append =3D &quot;python2&quot;
-PACKAGECONFIG_remove =3D &quot;python3&quot;
-</code></pre><p style=3D"box-sizing:border-box;margin-top:0px;color:rgb(36,=
-41,46);font-family:-apple-system,blinkmacsystemfont,&quot;segoe ui&quot;,he=
-lvetica,arial,sans-serif,&quot;apple color emoji&quot;,&quot;segoe ui emoji=
-&quot;,&quot;segoe ui symbol&quot;;font-size:14px;margin-bottom:0px">Withou=
-t success since this commit. Am I missing something?</p></div></div><div di=
-r=3D"ltr">-- <br></div><div data-smartmail=3D"gmail_signature"><div dir=3D"=
-ltr"><p id=3D"inbox-inbox-inbox-inbox-inbox-person-name" style=3D"box-sizin=
-g:border-box;font-family:arial,helvetica,sans-serif;font-size:13.3333px;col=
-or:rgb(0,0,0);padding:0px;margin:1em 0px"><strong style=3D"box-sizing:borde=
-r-box">David bensoussan</strong><br style=3D"box-sizing:border-box">Robotic=
-ist / Embedded Software Engineer</p><hr style=3D"box-sizing:border-box;marg=
-in:0px;padding:0px;height:1px;background:rgb(229,27,65);border:none;color:r=
-gb(17,17,17);font-family:arial,helvetica,sans-serif;font-size:13.3333px"><p=
- id=3D"inbox-inbox-inbox-inbox-inbox-tag-line" style=3D"box-sizing:border-b=
-ox;font-family:arial,helvetica,sans-serif;font-size:12pt;color:rgb(0,0,0);p=
-adding:0px;margin:1em 0px"><strong style=3D"box-sizing:border-box">Synaptic=
-on</strong><span class=3D"inbox-inbox-inbox-inbox-inbox-Apple-converted-spa=
-ce">=C2=A0</span>| Robotic Control Systems</p><table cellpadding=3D"0" cell=
-spacing=3D"0" style=3D"box-sizing:border-box;font-family:arial,helvetica,sa=
-ns-serif;font-size:13.3333px;color:rgb(17,17,17);padding:0px"><tbody style=
-=3D"box-sizing:border-box"><tr style=3D"box-sizing:border-box"><td style=3D=
-"box-sizing:border-box;color:rgb(0,0,0);padding:0px 15px 3px 0px">Mobile:</=
-td><td style=3D"box-sizing:border-box;color:rgb(0,0,0);padding:0px 15px 3px=
- 0px">004915779804515 / 0033659971070<br></td></tr><tr style=3D"box-sizing:=
-border-box"><td style=3D"box-sizing:border-box;color:rgb(0,0,0);padding:0px=
- 15px 3px 0px"><br></td><td style=3D"box-sizing:border-box;color:rgb(0,0,0)=
-;padding:0px 15px 3px 0px"><br></td></tr></tbody></table></div></div>
-
---001a11433490784cd5054eb7866c--
