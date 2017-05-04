@@ -1,48 +1,33 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qt0-f174.google.com (mail-qt0-f174.google.com
-	[209.85.216.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 3A17577AB3
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 2FE9077CD5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 May 2017 13:14:22 +0000 (UTC)
-Received: by mail-qt0-f174.google.com with SMTP id n4so9510159qte.2
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 04 May 2017 06:14:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=M5OsTESnTyTCzmKtV5PURsAfrzh9gN0oDdJ+O5LsllM=;
-	b=meSKSrWT3d0VrxMI9ebGFDt5v6nXUUNBLijxeNUHmrQwjsshP51VPua4IypbybduhB
-	lORezvJYYuICXoU4gG5WwjNFykHtMMGE3TwVzHCRRfzipCyU66fT9Vx6qWThzt6V2B8C
-	wOB6QFj8C3WpY5pWF97cN7xeDCn+IFiXQSKCKiYCic8TjT3urjjJh6s9CKVPZvc5XZC6
-	BNQSbkjTz16dfO+GLqAJMPtoC42rfJe1o2NGSJTxNmk8gAzhwDF01tis7zWsUcbxiswt
-	ibMnLv1gDgcYTwMRJXcM375ykmaDU1eLmJVSsPgPHaIWLwcXCDDt+aR4gYZuqj4/zvNX
-	+cjw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=M5OsTESnTyTCzmKtV5PURsAfrzh9gN0oDdJ+O5LsllM=;
-	b=K0q4fpawtiWfmLbu15jwNHiVlvftLL8LUZe5m/bqMIno3ms0QLFmgijO2WQjwmyeal
-	CkY4FSuWTceZ1SB6YFmacAg3TNHuRh20nAJmpKGD5i/RUjyXYiP/aC5rie70ifPBc0IA
-	jgVk8spcc+IPqx8+gBYlqBPxPucu40/zsxC878ZYvcWS7+uFh8sL8x0mOPgejOOTJjW5
-	TUvRIZK8Gc5iuvY3NKEYJOKHtXRcCESGI/9hmEnWhXLnVADso1oD4Rhv4CZY0oNszb/0
-	9rB3cHzdt0kRcvJtB2AtIIitHraP5A9VfOSZEC2QDOABfzsR/6eqAipPlYEdWrffzu5I
-	auuw==
-X-Gm-Message-State: AN3rC/754WQKhf2WTja2Ua82l9uhg2yLx/aC+7u0GfSH3eQfox+l5ODi
-	xpflwSY9Hqfm63brF+MOYUdmIOSg4QcEawk=
-X-Received: by 10.200.41.108 with SMTP id z41mr35177246qtz.68.1493903663861;
-	Thu, 04 May 2017 06:14:23 -0700 (PDT)
+	Thu,  4 May 2017 14:31:24 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v44EVGJX003726
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 4 May 2017 07:31:16 -0700 (PDT)
+Received: from soho-mhatle-m.local (172.25.36.230) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
+	Thu, 4 May 2017 07:31:16 -0700
+To: Martin Jansa <martin.jansa@gmail.com>, Peter Kjellerstedt
+	<peter.kjellerstedt@axis.com>
+References: <c70316f009e94504b29ff2b9d177dd33@XBOX02.axis.com>
+	<b5e9622b-3b01-a793-21ea-b15ea730e8bd@linux.intel.com>
+	<e361d15615e24c2eb9cc5b799bcfe834@XBOX02.axis.com>
+	<CA+chaQdNVsBGQquX-KSUmHB9aOTDSc2awgS4rSMndMQwR+JvhQ@mail.gmail.com>
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+Message-ID: <90a886fc-2d96-5a8c-7d3c-42b97169870c@windriver.com>
+Date: Thu, 4 May 2017 09:31:15 -0500
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:45.0)
+	Gecko/20100101 Thunderbird/45.8.0
 MIME-Version: 1.0
-Received: by 10.140.34.136 with HTTP; Thu, 4 May 2017 06:14:03 -0700 (PDT)
-In-Reply-To: <1491077204-30363-1-git-send-email-akuster808@gmail.com>
-References: <1491077204-30363-1-git-send-email-akuster808@gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 4 May 2017 14:14:03 +0100
-Message-ID: <CAJTo0LZRaHO=t746fXgF5=PpNhxuUqyWTybW8GgtvCyrAG3djA@mail.gmail.com>
-To: Armin Kuster <akuster808@gmail.com>
-Cc: Armin Kuster <akuster@mvista.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] lz4: update to lastest 1.7.4
+In-Reply-To: <CA+chaQdNVsBGQquX-KSUmHB9aOTDSc2awgS4rSMndMQwR+JvhQ@mail.gmail.com>
+Cc: "OE Core \(openembedded-core@lists.openembedded.org\)"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Regression with RPM4 and unversioned DSOs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,43 +40,113 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 May 2017 13:14:23 -0000
-Content-Type: multipart/alternative; boundary=001a11405e8a36ae22054eb28dcb
+X-List-Received-Date: Thu, 04 May 2017 14:31:29 -0000
+Content-Type: text/plain; charset="windows-1252"
+Content-Transfer-Encoding: 7bit
 
---001a11405e8a36ae22054eb28dcb
-Content-Type: text/plain; charset=UTF-8
+On 5/4/17 6:34 AM, Martin Jansa wrote:
+> You might want to check the output of package_do_shlibs function
+> in meta/classes/package.bbclass in case it's already missing there.
 
-On 1 April 2017 at 21:06, Armin Kuster <akuster808@gmail.com> wrote:
+I'm pretty sure this was generated in the older case in the "package_do_filedeps".
 
-> +RDEPENDS_${PN}-ptest += "make python3"
->
+The system ran rpmdeps, which collected the individual file dependencies.  These
+were collected into 'FILERPROVIDES_file_pkg' and 'FILERDEPENDS_file_pkg'.  The
+package manager could then choose to collect them or ignore them.  RPM5 work
+collected these.
 
-Annoying this causes:
 
-packages/corei7-64-poky-linux/lz4/lz4-dev: RRECOMMENDS: added "python3-dev
-make-dev"
+Looking at the the latest, that function is still present.  So investigating if
+the contents of the FILERPROVIDES and FILERDEPENDS is correct or not is where I
+would start.
 
-I wonder if theres a way to filter those out...
 
-Ross
+Then look at where the spec file is generated and such.  Those items should be
+used there as well.
 
---001a11405e8a36ae22054eb28dcb
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+--Mark
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 1 April 2017 at 21:06, Armin Kuster <span dir=3D"ltr">&lt;<a href=3D"mai=
-lto:akuster808@gmail.com" target=3D"_blank">akuster808@gmail.com</a>&gt;</s=
-pan> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0p=
-x 0.8ex;border-left-width:1px;border-left-style:solid;border-left-color:rgb=
-(204,204,204);padding-left:1ex"><div id=3D"gmail-:3qz" class=3D"gmail-a3s g=
-mail-aXjCH gmail-m15b2b2152ac4f75e">+RDEPENDS_${PN}-ptest +=3D &quot;make p=
-ython3&quot;<br></div></blockquote></div><br></div><div class=3D"gmail_extr=
-a">Annoying this causes:</div><div class=3D"gmail_extra"><br></div><div cla=
-ss=3D"gmail_extra">packages/corei7-64-poky-linux/lz4/lz4-dev: RRECOMMENDS: =
-added &quot;python3-dev make-dev&quot;<br></div><div class=3D"gmail_extra">=
-<br></div><div class=3D"gmail_extra">I wonder if theres a way to filter tho=
-se out...</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_ext=
-ra">Ross</div></div>
 
---001a11405e8a36ae22054eb28dcb--
+> On Thu, May 4, 2017 at 1:30 PM, Peter Kjellerstedt <peter.kjellerstedt@axis.com
+> <mailto:peter.kjellerstedt@axis.com>> wrote:
+> 
+>     > -----Original Message-----
+>     > From: Alexander Kanavin [mailto:alexander.kanavin@linux.intel.com
+>     <mailto:alexander.kanavin@linux.intel.com>]
+>     > Sent: den 4 maj 2017 11:54
+>     > To: Peter Kjellerstedt <peter.kjellerstedt@axis.com
+>     <mailto:peter.kjellerstedt@axis.com>>
+>     > Cc: OE Core (openembedded-core@lists.openembedded.org
+>     <mailto:openembedded-core@lists.openembedded.org>) <openembedded-
+>     > core@lists.openembedded.org <mailto:core@lists.openembedded.org>>
+>     > Subject: Re: Regression with RPM4 and unversioned DSOs
+>     >
+>     > On 05/04/2017 11:46 AM, Peter Kjellerstedt wrote:
+>     > > Since I would very much like to avoid having to add explicit runtime
+>     > > dependencies for all those dependencies that were previously
+>     > automatically
+>     > > detected, which would be a nightmare, I am now looking for any help
+>     > as to
+>     > > where to find the code that adds the dependencies on the packages
+>     > providing
+>     > > DSOs and to see if it is possible to change it to also detect
+>     > dependencies
+>     > > on unversioned DSOs.
+>     >
+>     > I'm not sure such implicit dependency detection at rpm generation point
+>     > is guaranteed to work in the first place. Don't we have a package_qa
+>     > check for this that should be failing? Can you publish a minimal layer
+>     > so I can reproduce locally?
+>     >
+>     > If you want to poke in rpm4 source, I think grepping for
+>     > use_internal_dependency_generator is a good starting point.
+> 
+>     I was more thinking of the code in OE-core that generates the list of
+>     Requires that goes into the spec file. The matching sections from the
+>     spec files for the apta-utility package that I used as example in my
+>     first mail are (for Pyro):
+> 
+>     Requires: libc6 >= 2.25
+> 
+>     and (for Morty):
+> 
+>     Requires: ld.so.1
+>     Requires: ld.so.1(GLIBC_2.4)
+>     Requires: libapta.so
+>     Requires: libc.so.6
+>     Requires: libc.so.6(GLIBC_2.0)
+>     Requires: libc.so.6(GLIBC_2.2)
+>     Requires: libc.so.6(GLIBC_2.3)
+>     Requires: libc.so.6(GLIBC_2.3.4)
+>     Requires: libc.so.6(GLIBC_2.4)
+>     Requires: libc.so.6(GLIBC_2.7)
+>     Requires: libc6 >= 2.24
+>     Requires: libubihelper.so
+>     Provides: elf(buildid) = 097a4862c4d6275838e8eb5759501630b7913485
+> 
+>     So I think it is quite obvious that something has changed in OE-core in
+>     how these lists are generated... It is also apparent that the problem
+>     with lack of dependencies on packages with unversioned DSOs was already
+>     present in Morty. However, since it was hidden by the direct dependencies
+>     on the DSOs it was not apparent before.
+> 
+>     Does RPM4 support dependencies on DSOs, or was that an RPM5 feature?
+>     If RPM4 supports it, why was it removed when dnf was introduced?
+> 
+>     > Alex
+> 
+>     //Peter
+> 
+>     --
+>     _______________________________________________
+>     Openembedded-core mailing list
+>     Openembedded-core@lists.openembedded.org
+>     <mailto:Openembedded-core@lists.openembedded.org>
+>     http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>     <http://lists.openembedded.org/mailman/listinfo/openembedded-core>
+> 
+> 
+> 
+> 
+
+
