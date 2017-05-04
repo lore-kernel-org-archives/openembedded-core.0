@@ -1,47 +1,28 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-it0-f42.google.com (mail-it0-f42.google.com
-	[209.85.214.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 1406877CAE
+Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 03E7877C8D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 May 2017 14:42:57 +0000 (UTC)
-Received: by mail-it0-f42.google.com with SMTP id c15so19990142ith.0
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 04 May 2017 07:42:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id;
-	bh=mN3SP2D3ipusgHKJgGtzJGxwFTD9BQGd+Zg2rBmSS54=;
-	b=PepQMEKklqi7CUWMe8roQPSKs9aXi7V+KjJV3ZOmZdZ/SCbOkvC+2zqgoq8ZkKz3bj
-	WU83d/mjsTJOZGt3XIofaecCDXXhOAgfxRZafU5so3EX/J47cm1wZwQ3qZYh7bgId3T6
-	Ca20g8+pw8+PCQCLnreCPuZB2yimSPOdJFR7XGY9HXZ+LJavvjsVCvACO+W8oH8Bhq4t
-	ckX0T61j5DtMnekmizYL86CRShA0dQjgkuYoxXoDBbXoSKWAW3Fd8XgsISkN5R8SqcGD
-	g1szv0sNrvGuyrq2AbsCdFrhr2qU9vtkTPH4RQoH73ad/H4M3pTgj1FcGrA9X1ikb5tF
-	XAUA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=mN3SP2D3ipusgHKJgGtzJGxwFTD9BQGd+Zg2rBmSS54=;
-	b=scKjzoJZPBfyBtD/pcBsEJYhh1PZuPeMGWWiyZYq8bYaYjIuq8b1y0nSoRwnxlWaA8
-	5Wf/kK/wP4uBvTp2N24TYOlwSNeWeGQt5koPSU4ognz+7saOYPLDHcfu8ABpc/l+AsZx
-	euNph3FbSEjoLMjK67RDMu0DALv1rvFasZ9I8uxN5NewSd377BNxxHQYhPJzxDuOju6g
-	EpvOQMcstU/xMamZLzK8cwYn80QmLbit4YPsvdFAXVfc0rWpytW1rqTsZQkhlmhld/Yf
-	jcl4XrM7t7l5jPX/KBSdZ3ciAms21xUmM5al5CcE8454favvGdZswUvw51XYTOk2KESK
-	pYUw==
-X-Gm-Message-State: AN3rC/5325z05ZgdFRUztPuikByQUxXrq3lDWdgIVpf6s3LV77nYd8SO
-	X3M0ZjIai/wqZOJC
-X-Received: by 10.36.249.72 with SMTP id l69mr2332507ith.119.1493908978939;
-	Thu, 04 May 2017 07:42:58 -0700 (PDT)
-Received: from pohly-desktop.fritz.box (p5DE8D263.dip0.t-ipconnect.de.
-	[93.232.210.99]) by smtp.gmail.com with ESMTPSA id
-	l140sm532924itl.21.2017.05.04.07.42.57
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 04 May 2017 07:42:58 -0700 (PDT)
-From: Patrick Ohly <patrick.ohly@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  4 May 2017 16:42:41 +0200
-Message-Id: <a85768a79daa9697edd8938553490cd9450fbd3f.1493908921.git-series.patrick.ohly@intel.com>
-X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] archiver.bbclass: enhance do_ar_recipe task signature
+	Thu,  4 May 2017 15:29:02 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	04 May 2017 08:29:03 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.38,287,1491289200"; d="scan'208";a="1126444764"
+Received: from lsandov1-mobl2.zpn.intel.com ([10.219.128.119])
+	by orsmga001.jf.intel.com with ESMTP; 04 May 2017 08:29:02 -0700
+Message-ID: <1493912216.1761.40.camel@linux.intel.com>
+From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+Date: Thu, 04 May 2017 10:36:56 -0500
+In-Reply-To: <2764166.Tu3B0AapLd@peggleto-mobl.ger.corp.intel.com>
+References: <20170503131153.1780-1-alexander.kanavin@linux.intel.com>
+	<2897866.bodmxEm400@peggleto-mobl.ger.corp.intel.com>
+	<24ebf3f4-9855-8aea-7019-3951973d37e1@linux.intel.com>
+	<2764166.Tu3B0AapLd@peggleto-mobl.ger.corp.intel.com>
+X-Mailer: Evolution 3.12.9-1+b1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?UmU6IOKclyBwYXRjaHRlc3Q6IGZhaWx1cmUgZm9yICJsaWJlcmF0aW9uLWZvbnRzOiB1cGRhdGUgdG8gMi4uLi4iIGFuZCA0IG1vcmU=?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,56 +35,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 May 2017 14:42:58 -0000
+X-List-Received-Date: Thu, 04 May 2017 15:29:03 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Previously, do_ar_recipe ran again unnecessarily when adding or
-removing classes like buildhistory.bbclass, because that changes the
-BBINCLUDED variable which do_ar_recipe uses to find .bbappend files.
+On Thu, 2017-05-04 at 22:07 +1200, Paul Eggleton wrote:
+> Hi Alex,
+> 
+> On Thursday, 4 May 2017 9:33:02 PM NZST Alexander Kanavin wrote:
+> > On 05/04/2017 12:43 AM, Paul Eggleton wrote:
+> > > On Thursday, 4 May 2017 1:31:52 AM NZST Patchwork wrote:
+> > >> * Issue             Series sent to the wrong mailing list
+> > > [test_target_mailing_list]
+> > >>   Suggested fix    Send the series again to the correct mailing list (ML)
+> > >>   Suggested ML     poky@yoctoproject.org [http://git.yoctoproject.org/
+> cgit/
+> > > cgit.cgi/poky/]
+> > >
+> > > Leo - looks like this is another false positive.
+> > 
+> > Actually, no - one of the patches accidentally included a file from 
+> > meta-poky. Still, could be reported better:
+> > 
+> > 1) Should refer to a specific patch where the issue is
+> > 2) Should, if possible, refer to specific files in the patch that are 
+> > causing the problem.
+> 
 
-This is both extra work and also sometimes triggered "basehash
-changed" errors (seen under oe-selftest, which adds machine.inc and
-bblayers.inc) because BBINCLUDED is special and does not cause
-the basehash to be recalculated.
+yes, I realized that and try to make it better with:
 
-The file *content* already was not considered in the task signature,
-instead relying indirectly on PF (which includes the revision assigned
-by a PR server) to ensure that a new versioned source archive gets
-created each time there is a rebuild.
+http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe/commit/?id=d1841aa2d19c6576d84c461656043d0b49ee689e
 
-Therefore it makes sense to use the same mechanism and also ignore the
-file *list*, i.e. exclude BBINCLUDED from the task signature.
+Due to the nature of the objects being used, the easiest is to provide
+the patch's path, so point 2 is covered, not 1.
 
-Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
----
- meta/classes/archiver.bbclass | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
 
-diff --git a/meta/classes/archiver.bbclass b/meta/classes/archiver.bbclass
-index 2c04557..82751c1 100644
---- a/meta/classes/archiver.bbclass
-+++ b/meta/classes/archiver.bbclass
-@@ -330,6 +330,19 @@ python do_unpack_and_patch() {
-         bb.utils.remove(src_orig, recurse=True)
- }
- 
-+# BBINCLUDED is special (excluded from basehash signature
-+# calculation). Using it in a task signature can cause "basehash
-+# changed" errors.
-+#
-+# Depending on BBINCLUDED also causes do_ar_recipe to run again
-+# for unrelated changes, like adding or removing buildhistory.bbclass.
-+#
-+# For these reasons we ignore the dependency completely. The versioning
-+# of the output file ensures that we create it each time the recipe
-+# gets rebuilt, at least as long as a PR server is used. We also rely
-+# on that mechanism to catch changes in the file content, because the
-+# file content is not part of of the task signature either.
-+do_ar_recipe[vardepsexclude] += "BBINCLUDED"
- python do_ar_recipe () {
-     """
-     archive the recipe, including .bb and .inc.
+> Right, agreed on both counts. I guess we were trying to catch the more common 
+> case of people sending entire patchsets to the wrong list.
 
-base-commit: 93c7e01fce95fb42074c5b7b283438ba7d1f6147
--- 
-git-series 0.9.1
+
+> 
+> > 3) The problem is not the wrong mailing list, the problem is that the 
+> > patch should be splitted up and sent to several lists :)
+> 
+> The question is can an automated tool tell the difference? I guess even if it 
+> can't though we can be honest about that in the message i.e. "Wrong mailing 
+> list, or incorrectly split patch" or something like that.
+
+agree on the proposed message. I change it.
+
+> 
+> > In general, why run these checks after the patches have been already 
+> > posted for review? That is adding unnecessary friction. Why not have 
+> > them as a git hook, that is run locally when making the commit?
+> 
+> The original idea was that the tests could also be run from your local machine 
+> (could easily be as a git hook), and whilst it's not as easy as I might have 
+> liked it is doable - however even if it were much easier, we have to be 
+> realistic and acknowledge that most people still won't do it.
+> 
+
+I proposed the following script:
+
+http://lists.openembedded.org/pipermail/openembedded-core/2017-February/132592.html
+
+which basically takes patches from master to current branch HEAD and
+iterates on each one (not yet merged on master). Once script is run,
+results are in console then developer can iterate on the series in case
+of failures.
+
+
+> Cheers,
+> Paul
+> 
+> -- 
+> 
+> Paul Eggleton
+> Intel Open Source Technology Centre
+
+
 
