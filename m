@@ -1,32 +1,47 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 6D8E3719B2
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-it0-f42.google.com (mail-it0-f42.google.com
+	[209.85.214.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 1406877CAE
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 May 2017 14:35:53 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v44EZtZV004613
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu,  4 May 2017 14:42:57 +0000 (UTC)
+Received: by mail-it0-f42.google.com with SMTP id c15so19990142ith.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 4 May 2017 07:35:55 -0700 (PDT)
-Received: from soho-mhatle-m.local (172.25.36.230) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
-	Thu, 4 May 2017 07:35:54 -0700
-To: <openembedded-core@lists.openembedded.org>
-References: <c70316f009e94504b29ff2b9d177dd33@XBOX02.axis.com>
-	<b5e9622b-3b01-a793-21ea-b15ea730e8bd@linux.intel.com>
-	<e361d15615e24c2eb9cc5b799bcfe834@XBOX02.axis.com>
-	<CA+chaQdNVsBGQquX-KSUmHB9aOTDSc2awgS4rSMndMQwR+JvhQ@mail.gmail.com>
-	<90a886fc-2d96-5a8c-7d3c-42b97169870c@windriver.com>
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-Message-ID: <dbe8730e-9919-1c60-2ca0-21c939496e42@windriver.com>
-Date: Thu, 4 May 2017 09:35:54 -0500
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:45.0)
-	Gecko/20100101 Thunderbird/45.8.0
-MIME-Version: 1.0
-In-Reply-To: <90a886fc-2d96-5a8c-7d3c-42b97169870c@windriver.com>
-Subject: Re: Regression with RPM4 and unversioned DSOs
+	Thu, 04 May 2017 07:42:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id;
+	bh=mN3SP2D3ipusgHKJgGtzJGxwFTD9BQGd+Zg2rBmSS54=;
+	b=PepQMEKklqi7CUWMe8roQPSKs9aXi7V+KjJV3ZOmZdZ/SCbOkvC+2zqgoq8ZkKz3bj
+	WU83d/mjsTJOZGt3XIofaecCDXXhOAgfxRZafU5so3EX/J47cm1wZwQ3qZYh7bgId3T6
+	Ca20g8+pw8+PCQCLnreCPuZB2yimSPOdJFR7XGY9HXZ+LJavvjsVCvACO+W8oH8Bhq4t
+	ckX0T61j5DtMnekmizYL86CRShA0dQjgkuYoxXoDBbXoSKWAW3Fd8XgsISkN5R8SqcGD
+	g1szv0sNrvGuyrq2AbsCdFrhr2qU9vtkTPH4RQoH73ad/H4M3pTgj1FcGrA9X1ikb5tF
+	XAUA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=mN3SP2D3ipusgHKJgGtzJGxwFTD9BQGd+Zg2rBmSS54=;
+	b=scKjzoJZPBfyBtD/pcBsEJYhh1PZuPeMGWWiyZYq8bYaYjIuq8b1y0nSoRwnxlWaA8
+	5Wf/kK/wP4uBvTp2N24TYOlwSNeWeGQt5koPSU4ognz+7saOYPLDHcfu8ABpc/l+AsZx
+	euNph3FbSEjoLMjK67RDMu0DALv1rvFasZ9I8uxN5NewSd377BNxxHQYhPJzxDuOju6g
+	EpvOQMcstU/xMamZLzK8cwYn80QmLbit4YPsvdFAXVfc0rWpytW1rqTsZQkhlmhld/Yf
+	jcl4XrM7t7l5jPX/KBSdZ3ciAms21xUmM5al5CcE8454favvGdZswUvw51XYTOk2KESK
+	pYUw==
+X-Gm-Message-State: AN3rC/5325z05ZgdFRUztPuikByQUxXrq3lDWdgIVpf6s3LV77nYd8SO
+	X3M0ZjIai/wqZOJC
+X-Received: by 10.36.249.72 with SMTP id l69mr2332507ith.119.1493908978939;
+	Thu, 04 May 2017 07:42:58 -0700 (PDT)
+Received: from pohly-desktop.fritz.box (p5DE8D263.dip0.t-ipconnect.de.
+	[93.232.210.99]) by smtp.gmail.com with ESMTPSA id
+	l140sm532924itl.21.2017.05.04.07.42.57
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 04 May 2017 07:42:58 -0700 (PDT)
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  4 May 2017 16:42:41 +0200
+Message-Id: <a85768a79daa9697edd8938553490cd9450fbd3f.1493908921.git-series.patrick.ohly@intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH] archiver.bbclass: enhance do_ar_recipe task signature
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,160 +54,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 May 2017 14:35:54 -0000
-Content-Type: text/plain; charset="windows-1252"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 04 May 2017 14:42:58 -0000
 
-On 5/4/17 9:31 AM, Mark Hatle wrote:
-> On 5/4/17 6:34 AM, Martin Jansa wrote:
->> You might want to check the output of package_do_shlibs function
->> in meta/classes/package.bbclass in case it's already missing there.
-> 
-> I'm pretty sure this was generated in the older case in the "package_do_filedeps".
-> 
-> The system ran rpmdeps, which collected the individual file dependencies.  These
-> were collected into 'FILERPROVIDES_file_pkg' and 'FILERDEPENDS_file_pkg'.  The
-> package manager could then choose to collect them or ignore them.  RPM5 work
-> collected these.
-> 
-> 
-> Looking at the the latest, that function is still present.  So investigating if
-> the contents of the FILERPROVIDES and FILERDEPENDS is correct or not is where I
-> would start.
-> 
-> 
-> Then look at where the spec file is generated and such.  Those items should be
-> used there as well.
+Previously, do_ar_recipe ran again unnecessarily when adding or
+removing classes like buildhistory.bbclass, because that changes the
+BBINCLUDED variable which do_ar_recipe uses to find .bbappend files.
 
-Found where they are used in the spec file generated, package_rpm.bbclass:
+This is both extra work and also sometimes triggered "basehash
+changed" errors (seen under oe-selftest, which adds machine.inc and
+bblayers.inc) because BBINCLUDED is special and does not cause
+the basehash to be recalculated.
 
-    def dump_filerdeps(varname, outfile, d):
-        outfile.write("#!/usr/bin/env python\n\n")
-        outfile.write("# Dependency table\n")
-        outfile.write('deps = {\n')
-        for pkg in packages.split():
-            dependsflist_key = 'FILE' + varname + 'FLIST' + "_" + pkg
-            dependsflist = (d.getVar(dependsflist_key, True) or "")
-            for dfile in dependsflist.split():
-                key = "FILE" + varname + "_" + dfile + "_" + pkg
-                depends_dict = bb.utils.explode_dep_versions(d.getVar(key, True)
-or "")
-                file = dfile.replace("@underscore@", "_")
-                file = file.replace("@closebrace@", "]")
-                file = file.replace("@openbrace@", "[")
-                file = file.replace("@tab@", "\t")
-                file = file.replace("@space@", " ")
-                file = file.replace("@at@", "@")
-                outfile.write('"' + pkgd + file + '" : "')
-...
-        outfile.write("import sys\n")
-        outfile.write("while 1:\n")
-        outfile.write("\tline = sys.stdin.readline().strip()\n")
-        outfile.write("\tif not line:\n")
-        outfile.write("\t\tsys.exit(0)\n")
-        outfile.write("\tif line in deps:\n")
-        outfile.write("\t\tprint(deps[line] + '\\n')\n")
+The file *content* already was not considered in the task signature,
+instead relying indirectly on PF (which includes the revision assigned
+by a PR server) to ensure that a new versioned source archive gets
+created each time there is a rebuild.
 
-What this function does is emulate the -external- (not internal) RPM dependency
-generation API.  So when RPM itself runs, it will query this generate script
-asking it for the dependencies of select files.  It will then return the
-dependencies specific to those files.
+Therefore it makes sense to use the same mechanism and also ignore the
+file *list*, i.e. exclude BBINCLUDED from the task signature.
 
-So either rpm (4) is not asking the dependency generation script for the
-dependencies properly -- or the contents of the script are simply wrong or
-incomplete.
+Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
+---
+ meta/classes/archiver.bbclass | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-I'd still start with rpmdeps, but inside RPM itself (during packaging)
-"use_internal_dependency_generator" should be off.. it needs to run the external
-script.
+diff --git a/meta/classes/archiver.bbclass b/meta/classes/archiver.bbclass
+index 2c04557..82751c1 100644
+--- a/meta/classes/archiver.bbclass
++++ b/meta/classes/archiver.bbclass
+@@ -330,6 +330,19 @@ python do_unpack_and_patch() {
+         bb.utils.remove(src_orig, recurse=True)
+ }
+ 
++# BBINCLUDED is special (excluded from basehash signature
++# calculation). Using it in a task signature can cause "basehash
++# changed" errors.
++#
++# Depending on BBINCLUDED also causes do_ar_recipe to run again
++# for unrelated changes, like adding or removing buildhistory.bbclass.
++#
++# For these reasons we ignore the dependency completely. The versioning
++# of the output file ensures that we create it each time the recipe
++# gets rebuilt, at least as long as a PR server is used. We also rely
++# on that mechanism to catch changes in the file content, because the
++# file content is not part of of the task signature either.
++do_ar_recipe[vardepsexclude] += "BBINCLUDED"
+ python do_ar_recipe () {
+     """
+     archive the recipe, including .bb and .inc.
 
---Mark
-
-> 
-> --Mark
-> 
-> 
->> On Thu, May 4, 2017 at 1:30 PM, Peter Kjellerstedt <peter.kjellerstedt@axis.com
->> <mailto:peter.kjellerstedt@axis.com>> wrote:
->>
->>     > -----Original Message-----
->>     > From: Alexander Kanavin [mailto:alexander.kanavin@linux.intel.com
->>     <mailto:alexander.kanavin@linux.intel.com>]
->>     > Sent: den 4 maj 2017 11:54
->>     > To: Peter Kjellerstedt <peter.kjellerstedt@axis.com
->>     <mailto:peter.kjellerstedt@axis.com>>
->>     > Cc: OE Core (openembedded-core@lists.openembedded.org
->>     <mailto:openembedded-core@lists.openembedded.org>) <openembedded-
->>     > core@lists.openembedded.org <mailto:core@lists.openembedded.org>>
->>     > Subject: Re: Regression with RPM4 and unversioned DSOs
->>     >
->>     > On 05/04/2017 11:46 AM, Peter Kjellerstedt wrote:
->>     > > Since I would very much like to avoid having to add explicit runtime
->>     > > dependencies for all those dependencies that were previously
->>     > automatically
->>     > > detected, which would be a nightmare, I am now looking for any help
->>     > as to
->>     > > where to find the code that adds the dependencies on the packages
->>     > providing
->>     > > DSOs and to see if it is possible to change it to also detect
->>     > dependencies
->>     > > on unversioned DSOs.
->>     >
->>     > I'm not sure such implicit dependency detection at rpm generation point
->>     > is guaranteed to work in the first place. Don't we have a package_qa
->>     > check for this that should be failing? Can you publish a minimal layer
->>     > so I can reproduce locally?
->>     >
->>     > If you want to poke in rpm4 source, I think grepping for
->>     > use_internal_dependency_generator is a good starting point.
->>
->>     I was more thinking of the code in OE-core that generates the list of
->>     Requires that goes into the spec file. The matching sections from the
->>     spec files for the apta-utility package that I used as example in my
->>     first mail are (for Pyro):
->>
->>     Requires: libc6 >= 2.25
->>
->>     and (for Morty):
->>
->>     Requires: ld.so.1
->>     Requires: ld.so.1(GLIBC_2.4)
->>     Requires: libapta.so
->>     Requires: libc.so.6
->>     Requires: libc.so.6(GLIBC_2.0)
->>     Requires: libc.so.6(GLIBC_2.2)
->>     Requires: libc.so.6(GLIBC_2.3)
->>     Requires: libc.so.6(GLIBC_2.3.4)
->>     Requires: libc.so.6(GLIBC_2.4)
->>     Requires: libc.so.6(GLIBC_2.7)
->>     Requires: libc6 >= 2.24
->>     Requires: libubihelper.so
->>     Provides: elf(buildid) = 097a4862c4d6275838e8eb5759501630b7913485
->>
->>     So I think it is quite obvious that something has changed in OE-core in
->>     how these lists are generated... It is also apparent that the problem
->>     with lack of dependencies on packages with unversioned DSOs was already
->>     present in Morty. However, since it was hidden by the direct dependencies
->>     on the DSOs it was not apparent before.
->>
->>     Does RPM4 support dependencies on DSOs, or was that an RPM5 feature?
->>     If RPM4 supports it, why was it removed when dnf was introduced?
->>
->>     > Alex
->>
->>     //Peter
->>
->>     --
->>     _______________________________________________
->>     Openembedded-core mailing list
->>     Openembedded-core@lists.openembedded.org
->>     <mailto:Openembedded-core@lists.openembedded.org>
->>     http://lists.openembedded.org/mailman/listinfo/openembedded-core
->>     <http://lists.openembedded.org/mailman/listinfo/openembedded-core>
->>
->>
->>
->>
-> 
-
+base-commit: 93c7e01fce95fb42074c5b7b283438ba7d1f6147
+-- 
+git-series 0.9.1
 
