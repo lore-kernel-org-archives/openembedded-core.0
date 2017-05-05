@@ -1,47 +1,47 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f46.google.com (mail-wm0-f46.google.com [74.125.82.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 4B50177D67
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-it0-f50.google.com (mail-it0-f50.google.com
+	[209.85.214.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 02B5477D85
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 May 2017 10:25:13 +0000 (UTC)
-Received: by mail-wm0-f46.google.com with SMTP id u65so19769469wmu.1
+	Fri,  5 May 2017 10:25:29 +0000 (UTC)
+Received: by mail-it0-f50.google.com with SMTP id w68so1144631itc.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 05 May 2017 03:25:15 -0700 (PDT)
+	Fri, 05 May 2017 03:25:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=2LXDT+/TXJghc9/qet+CiJeJJdnec8KbPAXibNkgSr4=;
-	b=0DDxn8I/std6Z/3i/DwJBskgw8moHyXKw+vqx3TgpcDld40a2JsMJAdk5x6un9DqJ9
-	1CK8TBGnlS9VIFt0RtMUR+WWgBIQXnDl7aI+XPyTMChoJtnqBZSxqy6hF/7+DejIb7N0
-	A26V1wtmTmXNVvj5gPMBo2xFn+faCLvWC20FMe4HozyJJaYuGQLrpxmKctEw8ko0UjGM
-	XQ/5ul0w2l7IX0FbrSTzC10b7NlRWZB14Bk2ONQxOzmL3ehOrAUhHvhl8QJtXsiCIO/c
-	HxOqr950V5KEpQL+lXhDPbC74jJ9R5l5mzC2bj7hSdlaAFJoHT82XxaXFRdz0Ha77lfX
-	tQPA==
+	h=from:to:cc:subject:date:message-id;
+	bh=yJZTbyvM8wjB+qckMYnkfIctiYfwm29Bfy1Dzis+wtw=;
+	b=F9fQ/ZCIlKhtTMxsdzmNugSl2QwmXrrdgaC8a45ClOeVFB9qjjQ6A4Xm8YxeRimnUK
+	i6hSqEv1HXj5UW/WR3bgL1+odnw81steEpfxyIyzTKUd5+1fXluPuGLvQUWZ0s0ejfkC
+	WB+FqQUftLsiAWehYIqJwuPcCBOSKeKD+TJg9IHaPIhnFXc5VrrRgcG27RXjxsyFOtho
+	1rnN2Z7OIOHKdhmlM4Ck6ipwYU9RMX91/wUD4taRZSj5ddat73tJRZ98K9XBJmJogrbh
+	qNU0PEMOHf6xPxyiyakInFeX5a3CADV+h6MdeijoHYLTwgFZbLzPvHZyEqHKg3zMEcG6
+	tXvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=2LXDT+/TXJghc9/qet+CiJeJJdnec8KbPAXibNkgSr4=;
-	b=GrWRcBdZ629mAy3L64LKVTRPuTZ0PwXLx3lthrDs9C6nUGjO9HqmF1E3rgkcbRsyP+
-	lyvTrkhecAIGcYOyEXYqod+6MoUMy8u/vF3Em6cfmBbg/dLoPDM+vRId1tMqjCOHUDBO
-	BVxLx0UTSoDAQ1KnIC03LDkjXTtP/5CYiJnHMln49vpDNHrHNO39m10UIog8bu+ufiJJ
-	x8MUbYkNDHtQi+BWDL6Bvp9ErgfXUjLuKGbeE5yqjgSqCOsIi6OMISTaJao+QUkx7+Pi
-	P49CrcFN2FnysswZTKZGCK0Rbldb8NjylRjZ18cos3dJ889GY5KapQ3zfK86GPjzr4cT
-	QU8Q==
-X-Gm-Message-State: AN3rC/46QU0glMpQaOVeByjEM/I7RH9TbQfvIL5OkNFbb4Iikpz/gU0Z
-	GlVjVSIMGokTszhjb2M=
-X-Received: by 10.28.13.66 with SMTP id 63mr4760060wmn.2.1493979914719;
-	Fri, 05 May 2017 03:25:14 -0700 (PDT)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id
-	x17sm4213524wrd.63.2017.05.05.03.25.13
-	for <openembedded-core@lists.openembedded.org>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=yJZTbyvM8wjB+qckMYnkfIctiYfwm29Bfy1Dzis+wtw=;
+	b=T1XBREgqtBdr8XK6Dh2j6w9Klx03f8/dmKjMEcoqBNAVh2VRlhU7cjZb6iWX1jZ0tP
+	Itq2sT33vQc8YO9TvzNhcL1PVe4SYy6ZzrOyEODgcVyhLMQE3HadmOX2TG10p1PBJWVO
+	X5oP5+KNgvwHfp34IWsxbAJM+EUbrUvSU0IMxE3fUt4lvu8FdMj4hcnP/0yPkI9VcJ55
+	Xvutw6N3XZ7M6xzUI3HbFvmxMF8Q/BcomzvnPfJ1cwGDNs7zxuFYum62vXFdezuyNL6L
+	1YYMWPCA0dTihnL9nIjJL+yid4jjeTgIRg0kPZoJfDbcVpgKUi7YP2t6YX7eDd23eBRj
+	Vs7w==
+X-Gm-Message-State: AN3rC/6PFabtJLguQqvc22g7aexxBRDLAOb/urY3sA1+jlHvo03devqO
+	qqyXXmruT+3y2fKu
+X-Received: by 10.36.123.137 with SMTP id q131mr8060710itc.23.1493979930890;
+	Fri, 05 May 2017 03:25:30 -0700 (PDT)
+Received: from pohly-desktop.fritz.box (p5DE8E982.dip0.t-ipconnect.de.
+	[93.232.233.130])
+	by smtp.gmail.com with ESMTPSA id m41sm786759iti.0.2017.05.05.03.25.28
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 05 May 2017 03:25:14 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
+	Fri, 05 May 2017 03:25:29 -0700 (PDT)
+From: Patrick Ohly <patrick.ohly@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  5 May 2017 11:25:12 +0100
-Message-Id: <1493979912-9339-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.8.1
-Subject: [PATCH] oeqa/selftest: add test for package manager version comparison
+Date: Fri,  5 May 2017 12:25:23 +0200
+Message-Id: <cover.56e4687985cb836a3bd5be5472b8e1f028840858.1493979782.git-series.patrick.ohly@intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH 0/2] archiver.bbclass enhancements
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,107 +54,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 May 2017 10:25:14 -0000
+X-List-Received-Date: Fri, 05 May 2017 10:25:30 -0000
 
-This test case verifies that opkg, dpkg, and rpm all have the same behaviour for
-version ordering, specifically the behaviour of ~ which should be sorting
-*before* nothing:
+I just wanted to fix Yocto #11441, but then ran into three other
+issues. So it goes...
 
-  1.0 < 2.0~pre < 2.0 < 2.0-fix
+I tried whether adding archiver.bbclass after a kernel build leads to
+different source archives, but at least in my experiment it
+didn't. It's still probably better to avoid that, just to be on the
+safe side.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/lib/oeqa/selftest/package.py | 80 +++++++++++++++++++++++++++++++++++++++
- 1 file changed, 80 insertions(+)
- create mode 100644 meta/lib/oeqa/selftest/package.py
+Patrick Ohly (2):
+  archiver.bbclass: various fixes for original+diff mode
+  archiver.bbclass: do not cause kernel rebuilds
 
-diff --git a/meta/lib/oeqa/selftest/package.py b/meta/lib/oeqa/selftest/package.py
-new file mode 100644
-index 0000000..95125f2
---- /dev/null
-+++ b/meta/lib/oeqa/selftest/package.py
-@@ -0,0 +1,80 @@
-+from oeqa.selftest.base import oeSelfTest
-+from oeqa.utils.commands import bitbake, get_bb_vars
-+import subprocess, os
-+import oe.path
-+
-+class VersionOrdering(oeSelfTest):
-+    # version1, version2, sort order
-+    tests = (
-+        ("1.0", "1.0", 0),
-+        ("1.0", "2.0", -1),
-+        ("2.0", "1.0", 1),
-+        ("2.0-rc", "2.0", 1),
-+        ("2.0~rc", "2.0", -1),
-+        ("1.2rc2", "1.2.0", -1)
-+        )
-+
-+    @classmethod
-+    def setUpClass(cls):
-+        # Build the tools we need and populate a sysroot
-+        bitbake("dpkg-native opkg-native rpm-native python3-native")
-+        bitbake("build-sysroots -c build_native_sysroot")
-+
-+        # Get the paths so we can point into the sysroot correctly
-+        vars = get_bb_vars(["STAGING_DIR", "BUILD_ARCH", "bindir_native", "libdir_native"])
-+        cls.staging = oe.path.join(vars["STAGING_DIR"], vars["BUILD_ARCH"])
-+        cls.bindir = oe.path.join(cls.staging, vars["bindir_native"])
-+        cls.libdir = oe.path.join(cls.staging, vars["libdir_native"])
-+
-+    def setUp(self):
-+        # Just for convenience
-+        self.staging = type(self).staging
-+        self.bindir = type(self).bindir
-+        self.libdir = type(self).libdir
-+
-+    def test_dpkg(self):
-+        for ver1, ver2, sort in self.tests:
-+            op = { -1: "<<", 0: "=", 1: ">>" }[sort]
-+            status = subprocess.call((oe.path.join(self.bindir, "dpkg"), "--compare-versions", ver1, op, ver2))
-+            self.assertEqual(status, 0, "%s %s %s failed" % (ver1, op, ver2))
-+
-+            # Now do it again but with incorrect operations
-+            op = { -1: ">>", 0: ">>", 1: "<<" }[sort]
-+            status = subprocess.call((oe.path.join(self.bindir, "dpkg"), "--compare-versions", ver1, op, ver2))
-+            self.assertNotEqual(status, 0, "%s %s %s failed" % (ver1, op, ver2))
-+
-+            # Now do it again but with incorrect operations
-+            op = { -1: "=", 0: "<<", 1: "=" }[sort]
-+            status = subprocess.call((oe.path.join(self.bindir, "dpkg"), "--compare-versions", ver1, op, ver2))
-+            self.assertNotEqual(status, 0, "%s %s %s failed" % (ver1, op, ver2))
-+
-+    def test_opkg(self):
-+        for ver1, ver2, sort in self.tests:
-+            op = { -1: "<<", 0: "=", 1: ">>" }[sort]
-+            status = subprocess.call((oe.path.join(self.bindir, "opkg"), "compare-versions", ver1, op, ver2))
-+            self.assertEqual(status, 0, "%s %s %s failed" % (ver1, op, ver2))
-+
-+            # Now do it again but with incorrect operations
-+            op = { -1: ">>", 0: ">>", 1: "<<" }[sort]
-+            status = subprocess.call((oe.path.join(self.bindir, "opkg"), "compare-versions", ver1, op, ver2))
-+            self.assertNotEqual(status, 0, "%s %s %s failed" % (ver1, op, ver2))
-+
-+            # Now do it again but with incorrect operations
-+            op = { -1: "=", 0: "<<", 1: "=" }[sort]
-+            status = subprocess.call((oe.path.join(self.bindir, "opkg"), "compare-versions", ver1, op, ver2))
-+            self.assertNotEqual(status, 0, "%s %s %s failed" % (ver1, op, ver2))
-+
-+    def test_rpm(self):
-+        # Need to tell the Python bindings where to find its configuration
-+        env = os.environ.copy()
-+        env["RPM_CONFIGDIR"] = oe.path.join(self.libdir, "rpm")
-+
-+        for ver1, ver2, sort in self.tests:
-+            # The only way to test rpm is via the Python module, so we need to
-+            # execute python3-native.  labelCompare returns -1/0/1 (like strcmp)
-+            # so add 100 and use that as the exit code.
-+            command = (oe.path.join(self.bindir, "python3-native", "python3"), "-c",
-+                       "import sys, rpm; v1=(None, \"%s\", None); v2=(None, \"%s\", None); sys.exit(rpm.labelCompare(v1, v2) + 100)" % (ver1, ver2))
-+            status = subprocess.call(command, env=env)
-+            self.assertIn(status, (99, 100, 101))
-+            self.assertEqual(status - 100, sort, "%s %s (%d) failed" % (ver1, ver2, sort))
+ meta/classes/archiver.bbclass | 25 +++++++++++++++++++------
+ meta/lib/oe/sstatesig.py      |  6 +++++-
+ 2 files changed, 24 insertions(+), 7 deletions(-)
+
+base-commit: a85768a79daa9697edd8938553490cd9450fbd3f
 -- 
-2.8.1
-
+git-series 0.9.1
 
