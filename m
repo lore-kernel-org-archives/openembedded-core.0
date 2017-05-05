@@ -1,37 +1,31 @@
 Return-Path: <stefan.wiehler@missinglinkelectronics.com>
 Received: from smtp.missinglinkelectronics.com
 	(smtp.missinglinkelectronics.com [5.9.234.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 4139F77E09
+	by mail.openembedded.org (Postfix) with ESMTP id B464477E10
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 May 2017 14:45:46 +0000 (UTC)
+	Fri,  5 May 2017 15:01:31 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp.missinglinkelectronics.com (Postfix) with ESMTP id A13FEE015C; 
-	Fri,  5 May 2017 16:45:47 +0200 (CEST)
+	by smtp.missinglinkelectronics.com (Postfix) with ESMTP id F3A33E015C
+	for <openembedded-core@lists.openembedded.org>;
+	Fri,  5 May 2017 17:01:32 +0200 (CEST)
 X-Virus-Scanned: Debian amavisd-new at missinglinkelectronics.com
 Received: from smtp.missinglinkelectronics.com ([127.0.0.1])
 	by localhost (mail.missinglinkelectronics.com [127.0.0.1]) (amavisd-new,
 	port 10024)
-	with ESMTP id HeQiW3HGLSLB; Fri,  5 May 2017 16:45:47 +0200 (CEST)
-Received: from [10.89.231.22] (p4FE1E831.dip0.t-ipconnect.de [79.225.232.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128
-	bits)) (No client certificate requested)
-	(Authenticated sender: stefan)
-	by smtp.missinglinkelectronics.com (Postfix) with ESMTPSA id 1387BE005A;
-	Fri,  5 May 2017 16:45:47 +0200 (CEST)
-To: Andre McCurdy <armccurdy@gmail.com>
-References: <20170503161317.16784-1-stefan.wiehler@missinglinkelectronics.com>
-	<CAJ86T=ULob-3w572btu9UuVxDU1TxNc=jYNkfY7kewVCirxx8w@mail.gmail.com>
+	with ESMTP id symJxm7AVAKi; Fri,  5 May 2017 17:01:32 +0200 (CEST)
+Received: from beutel.mle (p4FE1E831.dip0.t-ipconnect.de [79.225.232.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+	(No client certificate requested) (Authenticated sender: stefan)
+	by smtp.missinglinkelectronics.com (Postfix) with ESMTPSA id 24FE2E005A;
+	Fri,  5 May 2017 17:01:28 +0200 (CEST)
 From: Stefan Wiehler <stefan.wiehler@missinglinkelectronics.com>
-Organization: Missing Link Electronics
-Message-ID: <0777a834-3055-2f1d-b6b7-1dcb0d4b58f8@missinglinkelectronics.com>
-Date: Fri, 5 May 2017 16:45:44 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.5.1
-MIME-Version: 1.0
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  5 May 2017 17:01:06 +0200
+Message-Id: <1493996466-26026-1-git-send-email-stefan.wiehler@missinglinkelectronics.com>
+X-Mailer: git-send-email 1.9.1
 In-Reply-To: <CAJ86T=ULob-3w572btu9UuVxDU1TxNc=jYNkfY7kewVCirxx8w@mail.gmail.com>
-Cc: ulrich.langenbach@missinglinkelectronics.com,
-	OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] module.bbclass: Add devshell support
+References: <CAJ86T=ULob-3w572btu9UuVxDU1TxNc=jYNkfY7kewVCirxx8w@mail.gmail.com>
+Subject: [PATCH] module.bbclass: Add devshell support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,28 +38,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 May 2017 14:45:48 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 05 May 2017 15:01:33 -0000
 
- >> diff --git a/meta/classes/module.bbclass b/meta/classes/module.bbclass
- >> index 802476bc7a..9b019513ae 100644
- >> --- a/meta/classes/module.bbclass
- >> +++ b/meta/classes/module.bbclass
- >> @@ -1,6 +1,7 @@
- >>  inherit module-base kernel-module-split pkgconfig
- >>
- >>  addtask make_scripts after do_prepare_recipe_sysroot before do_compile
- >> +addtask make_scripts after do_prepare_recipe_sysroot before do_devshell
- >
- > For normal recipes, devshell doesn't care about any build dependencies
- > (and so runs very quickly if you just need to refresh a patch etc). If
- > you need a devshell which is able to build something then the normal
- > way would be to manually run the configure or compile task before the
- > devshell task.
- >
- > I'm not sure of kernel modules are a special enough case to do things
- > differently and add build dependencies to the devshell task?
+Adds development shell support for out-of-tree kernel modules by reproducing
+the build environment of the compile task.
 
-I agree, I couldn't find any other class having devshell task dependencies.
+Signed-off-by: Stefan Wiehler <stefan.wiehler@missinglinkelectronics.com>
+---
+
+Change: Remove devshell task dependency
+
+ meta/classes/module.bbclass | 20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)
+
+diff --git a/meta/classes/module.bbclass b/meta/classes/module.bbclass
+index 802476b..391776d 100644
+--- a/meta/classes/module.bbclass
++++ b/meta/classes/module.bbclass
+@@ -18,6 +18,26 @@ python __anonymous () {
+     d.setVar('KBUILD_EXTRA_SYMBOLS', " ".join(extra_symbols))
+ }
+ 
++python do_devshell_prepend () {
++    os.environ['CFLAGS'] = ''
++    os.environ['CPPFLAGS'] = ''
++    os.environ['CXXFLAGS'] = ''
++    os.environ['LDFLAGS'] = ''
++
++    os.environ['KERNEL_PATH'] = d.getVar('STAGING_KERNEL_DIR')
++    os.environ['KERNEL_SRC'] = d.getVar('STAGING_KERNEL_DIR')
++    os.environ['KERNEL_VERSION'] = d.getVar('KERNEL_VERSION')
++    os.environ['CC'] = d.getVar('KERNEL_CC')
++    os.environ['LD'] = d.getVar('KERNEL_LD')
++    os.environ['AR'] = d.getVar('KERNEL_AR')
++    os.environ['O'] = d.getVar('STAGING_KERNEL_BUILDDIR')
++    kbuild_extra_symbols = d.getVar('KBUILD_EXTRA_SYMBOLS')
++    if kbuild_extra_symbols:
++        os.environ['KBUILD_EXTRA_SYMBOLS'] = kbuild_extra_symbols
++    else:
++        os.environ['KBUILD_EXTRA_SYMBOLS'] = ''
++}
++
+ module_do_compile() {
+ 	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS
+ 	oe_runmake KERNEL_PATH=${STAGING_KERNEL_DIR}   \
+-- 
+1.9.1
+
 
