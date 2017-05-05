@@ -1,53 +1,62 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-io0-f179.google.com (mail-io0-f179.google.com
-	[209.85.223.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 5662A77D88
+Return-Path: <niko.mauno@vaisala.com>
+Received: from hel-mailgw-01.vaisala.com (hel-mailgw-01.vaisala.com
+	[193.143.230.17])
+	by mail.openembedded.org (Postfix) with ESMTP id 5F74777D85
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 May 2017 10:25:36 +0000 (UTC)
-Received: by mail-io0-f179.google.com with SMTP id f102so2436678ioi.2
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 05 May 2017 03:25:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:in-reply-to:references;
-	bh=k6wTkcCiqUiDuDHI5Z5iDjRDrcA9sE0m0QQBnY7WDtU=;
-	b=T26ZE7wWbsFfep+rHomTx4QKWKLY865rADLITuB3JQCz9Gzw1EadUT8WevYxJqRslJ
-	iQJ8oTjl+Jujn1W6EfzjvkMdY5uRGW0MCt3jN0IgC2XFYFPE8ez70BARzYo66A8GzB/E
-	CQ5zg9CQOzVNO+9Gea0YB6MLJlHPhOoCQAsxywJpSGXzcOz230fyqnDOMxwYzPFk+eBz
-	6HksrcXhvRMeoIqPODxULaSlW4TtzRDNWaRR0vJhrySqslmo5UDX8toqm9tp8/vGccuW
-	Q7Le7yTi84mAIwv3v7FXhwTEcuZNAkl5WnEglnTosxYt0A84Uqf3ri3iX6M5yGjOS/pw
-	yp1A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:in-reply-to:references;
-	bh=k6wTkcCiqUiDuDHI5Z5iDjRDrcA9sE0m0QQBnY7WDtU=;
-	b=t/gmO6XZopYsBwZymBqTZS5ss8rpD1sO7AqvLGIo7zymYCAQ27f0hcOCVI3U00NNnM
-	lmf8ZhKMITneICOsjBZsPNJ2yaaXade7pIJsfFhJGT6lYVVyrZDbzeO1kF9x8tfC+fRn
-	1JMFl4uhTYJvT3pSIRr2kn8u5ljWK7AhObxiSP6y2o+doaT8+penUMtQbMO/Mg1oFCvP
-	+UXjNS7gLanJXgEZj0+EjAohLvYXQF0CfFIPRbxuBCH9I9NIj4htYGf873u92SgqMCpU
-	mtf4lyDrBnUuV3SfTyOo62QZhvzEpCcDiJfhLvMhyEEiwGLiS3PT1JQlFq40lEplqlsG
-	m/wA==
-X-Gm-Message-State: AN3rC/7zYwuByJiCv+WZpno63HQ3BPjvhCHdPsj0QHhRRS30GznkISTr
-	0Hsefs+mf5ZP6I5Q
-X-Received: by 10.107.142.198 with SMTP id q189mr53842538iod.49.1493979938235; 
-	Fri, 05 May 2017 03:25:38 -0700 (PDT)
-Received: from pohly-desktop.fritz.box (p5DE8E982.dip0.t-ipconnect.de.
-	[93.232.233.130])
-	by smtp.gmail.com with ESMTPSA id m41sm786759iti.0.2017.05.05.03.25.36
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 05 May 2017 03:25:37 -0700 (PDT)
-From: Patrick Ohly <patrick.ohly@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  5 May 2017 12:25:25 +0200
-Message-Id: <3271b1e944d47cf8e40dec219925959fe06b5981.1493979782.git-series.patrick.ohly@intel.com>
-X-Mailer: git-send-email 2.11.0
-In-Reply-To: <cover.56e4687985cb836a3bd5be5472b8e1f028840858.1493979782.git-series.patrick.ohly@intel.com>
-References: <cover.56e4687985cb836a3bd5be5472b8e1f028840858.1493979782.git-series.patrick.ohly@intel.com>
-In-Reply-To: <cover.56e4687985cb836a3bd5be5472b8e1f028840858.1493979782.git-series.patrick.ohly@intel.com>
-References: <cover.56e4687985cb836a3bd5be5472b8e1f028840858.1493979782.git-series.patrick.ohly@intel.com>
-Subject: [PATCH 2/2] archiver.bbclass: do not cause kernel rebuilds
+	Fri,  5 May 2017 10:37:53 +0000 (UTC)
+IronPort-PHdr: =?us-ascii?q?9a23=3Ahn265RCHdZ9FwoXwg5HAUyQJP3N1i/DPJgcQr6Af?=
+	=?us-ascii?q?oPdwSPT/p8bcNUDSrc9gkEXOFd2CrakV1ayI7+u6CCQp2tWoiDg6aptCVhsI24?=
+	=?us-ascii?q?09vjcLJ4q7M3D9N+PgdCcgHc5PBxdP9nC/NlVJSo6lPwWB6nK94iQPFRrhKAF7?=
+	=?us-ascii?q?Ovr6GpLIj8Swyuu+54Dfbx9GiTe5YL5+NhS7oAreusUIhYZpN7o8xAbOrnZUYe?=
+	=?us-ascii?q?pd2HlmJUiUnxby58ew+IBs/iFNsP8/9MBOTLv3cb0gQbNXEDopPWY15Nb2tRbY?=
+	=?us-ascii?q?VguA+mEcUmQNnRVWBQXO8Qz3UY3wsiv+sep9xTWaMMjrRr06RTiu86FmQwLuhS?=
+	=?us-ascii?q?waNTA27XvXh9RwgqxFvRyhuxJxzY3VYI6JO/RxcbjQfc8DRWdbQspdSzBNDp66?=
+	=?us-ascii?q?YoASD+QBJ+FYr4zlqlYJqxu+BAqsBOT1xj9NnHD2wKs60+M6HAHYxgMgHskOv2?=
+	=?us-ascii?q?7QrNrvLqsdTee1zKzRwDjFcvhY2i/95ZDVfh0jv/2AR6x8fMXLxUUyDQ/IjVSd?=
+	=?us-ascii?q?pZT4Mz6XyOgBqXaX4uV6We+uhGMrsRx9riasy8s0hInGmIEYxkzB+Ch8wIs4Ic?=
+	=?us-ascii?q?C3RFN+bNK5CpRdtSSXOJVrTc4gTWFlvTg2xaAbtZO5eiUB1Y4pyATFa/OddoiF?=
+	=?us-ascii?q?+hfjVOGMLjhmnH9lY7e/hwqq8Uin1+38StG40FZUoSpBldnBrnID2RPV5MSeRf?=
+	=?us-ascii?q?Vy/1ms1zSW2wzP5OxIO1w7la3BK5452LIwiIAcsUXYHiDsnEX5lrWaeVkj+uit?=
+	=?us-ascii?q?8+jnY7PmqYGAN4Jslw3zMLoiltahDek3KAQCQnKX9Oe92bH7+E32WrRKjvk4kq?=
+	=?us-ascii?q?nDt5DaINwWpqi4Aw9W1YYv8RO/AC270NQemnkKN0xFdwiGj4jyIV7OJOr3Ae2j?=
+	=?us-ascii?q?jFSrlTdn3+rGMaH5ApXRMnjDl6/sfbFl60FCzgo809Vf6IlKBb4cPf38RFL+uM?=
+	=?us-ascii?q?XEAR8+KQy73f3qCNF81oMFRWKPGbWVMKTKsVCW4OIgPeyMa5QLtzngNvcq+ePh?=
+	=?us-ascii?q?gWU+mV8Hcqn6lacQPSS/BvlgLkCTbHbgj9tEGmAQsyI6Tff2kxuFSTNVanO4Uq?=
+	=?us-ascii?q?4w6z19D5ipW9TtXIeo1eiH3SS8WJhfe2ZBIk6FEGzhc4zCUPAJPnHBavR9myAJ?=
+	=?us-ascii?q?AODyA7Qq0guj4Vf3?=
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-Anti-Spam-Result: =?us-ascii?q?A2GAAQBFVQxZ/1YBGKxcHAEBBAEBCgEBF?=
+	=?us-ascii?q?wEBBAEBCgEBhR+NeadHgg+GJIUHGAEBAQEBAQEBAQEBAoEQgjMgg0ISAYEAJwQ?=
+	=?us-ascii?q?OvXWKZQEBAQEGAQEBASSIPYhKhRkFkFyNE5MZgWoBj3uUNx+BQ2+HTYhegQ0BA?=
+	=?us-ascii?q?QE?=
+X-IPAS-Result: =?us-ascii?q?A2GAAQBFVQxZ/1YBGKxcHAEBBAEBCgEBFwEBBAEBCgEBhR+?=
+	=?us-ascii?q?NeadHgg+GJIUHGAEBAQEBAQEBAQEBAoEQgjMgg0ISAYEAJwQOvXWKZQEBAQEGA?=
+	=?us-ascii?q?QEBASSIPYhKhRkFkFyNE5MZgWoBj3uUNx+BQ2+HTYhegQ0BAQE?=
+X-IronPort-AV: E=Sophos;i="5.38,292,1491253200"; d="scan'208";a="40630366"
+Received: from hel-exch-03.corp.vaisala.com ([172.24.1.86])
+	by hel-mailgw-01.vaisala.com with ESMTP/TLS/AES256-SHA;
+	05 May 2017 13:37:53 +0300
+Received: from HEL-EXCH-02.corp.vaisala.com (172.24.1.85) by
+	HEL-EXCH-03.corp.vaisala.com (172.24.1.86) with Microsoft SMTP Server
+	(TLS) id 15.0.1210.3; Fri, 5 May 2017 13:37:53 +0300
+Received: from HEL-EXCH-02.corp.vaisala.com ([fe80::59d1:1a7:ed7f:2d17]) by
+	HEL-EXCH-02.corp.vaisala.com ([fe80::59d1:1a7:ed7f:2d17%14]) with mapi
+	id 15.00.1210.000; Fri, 5 May 2017 13:37:53 +0300
+From: <niko.mauno@vaisala.com>
+To: <openembedded-core@lists.openembedded.org>
+Thread-Topic: [PATCH v3 0/2] licenses.conf: less environment-specific variables
+Thread-Index: AQHSxYumWKo/uE4EpE6rnHY8bS5Qgg==
+Date: Fri, 5 May 2017 10:37:52 +0000
+Message-ID: <1493980660-9291-1-git-send-email-niko.mauno@vaisala.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [172.24.64.128]
+MIME-Version: 1.0
+Cc: niko.mauno@vaisala.com
+Subject: [PATCH v3 0/2] licenses.conf: less environment-specific variables
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,66 +69,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 May 2017 10:25:37 -0000
+X-List-Received-Date: Fri, 05 May 2017 10:37:55 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
-Adding or removing archiver.bbclass from a build configuration causes
-rebuilds of linux-yocto-based kernels because of the
-do_kernel_configme->do_unpack_and_patch task dependency.
+Change certain SPDX variables to be less environment specific by default.
 
-This particular dependency can be ignored for the do_kernel_configme
-sstate signature calculcation. Idea for the fix from Richard Purdie.
+Niko Mauno (2):
+  licenses.conf: stop relying on specific user's home directory
+  licenses.conf: Allow overriding environment specific SPDX variables
 
-Note that building the kernel and adding archiver.bbclass later to
-archive sources leads to do_unpack_and_patch running after
-do_kernel_configme (because that already ran in the first build),
-which might be problematic. This is independent of the change here.
+ meta/conf/licenses.conf | 12 +++++++-----
+ 1 file changed, 7 insertions(+), 5 deletions(-)
 
-The use case in YOCTO #11441 is to removed archiver.bbclass between a
-production build with archiving enabled and builds via oe-selftests
-without archiving. That direction is fine.
-
-Fixes: YOCTO #11441
-
-Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
----
- meta/classes/archiver.bbclass | 5 ++++-
- meta/lib/oe/sstatesig.py      | 6 +++++-
- 2 files changed, 9 insertions(+), 2 deletions(-)
-
-diff --git a/meta/classes/archiver.bbclass b/meta/classes/archiver.bbclass
-index ea00ab3..647d2cf 100644
---- a/meta/classes/archiver.bbclass
-+++ b/meta/classes/archiver.bbclass
-@@ -442,7 +442,10 @@ do_deploy_all_archives() {
- }
- 
- python () {
--    # Add tasks in the correct order, specifically for linux-yocto to avoid race condition
-+    # Add tasks in the correct order, specifically for linux-yocto to avoid race condition.
-+    # sstatesig.py:sstate_rundepfilter has special support that excludes this dependency
-+    # so that do_kernel_configme does not need to run again when do_unpack_and_patch
-+    # gets added or removed (by adding or removing archiver.bbclass).
-     if bb.data.inherits_class('kernel-yocto', d):
-         bb.build.addtask('do_kernel_configme', 'do_configure', 'do_unpack_and_patch', d)
- }
-diff --git a/meta/lib/oe/sstatesig.py b/meta/lib/oe/sstatesig.py
-index f087a01..b8dd4c8 100644
---- a/meta/lib/oe/sstatesig.py
-+++ b/meta/lib/oe/sstatesig.py
-@@ -20,8 +20,12 @@ def sstate_rundepfilter(siggen, fn, recipename, task, dep, depname, dataCache):
-     def isImage(fn):
-         return "/image.bbclass" in " ".join(dataCache.inherits[fn])
- 
--    # Always include our own inter-task dependencies
-+    # (Almost) always include our own inter-task dependencies.
-+    # The exception is the special do_kernel_configme->do_unpack_and_patch
-+    # dependency from archiver.bbclass.
-     if recipename == depname:
-+        if task == "do_kernel_configme" and dep.endswith(".do_unpack_and_patch"):
-+            return False
-         return True
- 
-     # Quilt (patch application) changing isn't likely to affect anything
--- 
-git-series 0.9.1
+--=20
+2.1.4
 
