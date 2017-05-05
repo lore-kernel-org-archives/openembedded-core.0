@@ -1,21 +1,23 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 3D61877D55
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id ECFE377D55
 	for <openembedded-core@lists.openembedded.org>;
 	Fri,  5 May 2017 14:10:27 +0000 (UTC)
 Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	05 May 2017 07:10:27 -0700
+	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	05 May 2017 07:10:28 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.38,292,1491289200"; d="scan'208";a="97700159"
+X-IronPort-AV: E=Sophos;i="5.38,292,1491289200"; d="scan'208";a="97700171"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by fmsmga005.fm.intel.com with ESMTP; 05 May 2017 07:10:25 -0700
+	by fmsmga005.fm.intel.com with ESMTP; 05 May 2017 07:10:27 -0700
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  5 May 2017 17:10:22 +0300
-Message-Id: <20170505141027.8381-1-alexander.kanavin@linux.intel.com>
+Date: Fri,  5 May 2017 17:10:24 +0300
+Message-Id: <20170505141027.8381-3-alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.11.0
-Subject: [PATCHv2 1/6] liberation-fonts: update to 2.00.1
+In-Reply-To: <20170505141027.8381-1-alexander.kanavin@linux.intel.com>
+References: <20170505141027.8381-1-alexander.kanavin@linux.intel.com>
+Subject: [PATCHv2 3/6] libpng12: remove the recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,81 +30,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 May 2017 14:10:28 -0000
+X-List-Received-Date: Fri, 05 May 2017 14:10:29 -0000
 
-'fontforge issue' was actually a non-issue; fontforge is required only
-when building ttf fonts from sfd source. We took prebuilt ttf fonts
-when using 1.04 version, and can do the same thing with 2.00.1 version,
-it's just that the tarball name for prebuilt fonts has slightly changed
-and no one noticed somehow.
-
-License has changed from GPLv2 to Open Font License v.1.1
+It was only in oe-core because of LSB; let's remove it. Current libpng is 1.6.x.
 
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- meta/conf/distro/include/default-versions.inc           |  3 ---
- ...eration-fonts_1.04.bb => liberation-fonts_2.00.1.bb} | 17 ++++++++---------
- 2 files changed, 8 insertions(+), 12 deletions(-)
- rename meta/recipes-graphics/ttf-fonts/{liberation-fonts_1.04.bb => liberation-fonts_2.00.1.bb} (67%)
+ .../packagegroups/packagegroup-core-lsb.bb         |  1 -
+ meta/recipes-lsb4/libpng/libpng12_1.2.57.bb        | 36 ----------------------
+ 2 files changed, 37 deletions(-)
+ delete mode 100644 meta/recipes-lsb4/libpng/libpng12_1.2.57.bb
 
-diff --git a/meta/conf/distro/include/default-versions.inc b/meta/conf/distro/include/default-versions.inc
-index d976508ff51..a6f331350eb 100644
---- a/meta/conf/distro/include/default-versions.inc
-+++ b/meta/conf/distro/include/default-versions.inc
-@@ -2,6 +2,3 @@
- # Default preferred versions
- #
+diff --git a/meta/recipes-extended/packagegroups/packagegroup-core-lsb.bb b/meta/recipes-extended/packagegroups/packagegroup-core-lsb.bb
+index 61b35e68921..a6fb3023052 100644
+--- a/meta/recipes-extended/packagegroups/packagegroup-core-lsb.bb
++++ b/meta/recipes-extended/packagegroups/packagegroup-core-lsb.bb
+@@ -177,7 +177,6 @@ RDEPENDS_packagegroup-core-lsb-core = "\
+     ncurses \
+     zlib \
+     nspr \
+-    libpng12 \
+     nss \
+ "
  
--# Force the older version of liberation-fonts until we fix the fontforge issue
--PREFERRED_VERSION_liberation-fonts ?= "1.04"
+diff --git a/meta/recipes-lsb4/libpng/libpng12_1.2.57.bb b/meta/recipes-lsb4/libpng/libpng12_1.2.57.bb
+deleted file mode 100644
+index 9f74f5fdb5a..00000000000
+--- a/meta/recipes-lsb4/libpng/libpng12_1.2.57.bb
++++ /dev/null
+@@ -1,36 +0,0 @@
+-SUMMARY = "PNG image format decoding library"
+-HOMEPAGE = "http://www.libpng.org/"
+-SECTION = "libs"
+-LICENSE = "Libpng"
+-LIC_FILES_CHKSUM = "file://LICENSE;md5=597b8a91994a3e27ae6aa79bf02677d9 \
+-                    file://png.h;beginline=19;endline=109;md5=166406397718925b660f0033f7558ef7"
+-DEPENDS = "zlib"
 -
-diff --git a/meta/recipes-graphics/ttf-fonts/liberation-fonts_1.04.bb b/meta/recipes-graphics/ttf-fonts/liberation-fonts_2.00.1.bb
-similarity index 67%
-rename from meta/recipes-graphics/ttf-fonts/liberation-fonts_1.04.bb
-rename to meta/recipes-graphics/ttf-fonts/liberation-fonts_2.00.1.bb
-index 74212e7e5ed..412da48725e 100644
---- a/meta/recipes-graphics/ttf-fonts/liberation-fonts_1.04.bb
-+++ b/meta/recipes-graphics/ttf-fonts/liberation-fonts_2.00.1.bb
-@@ -5,23 +5,22 @@ Arial, Times New Roman, Courier New."
- HOMEPAGE = "https://releases.pagure.org/liberation-fonts/"
- BUGTRACKER = "https://bugzilla.redhat.com/"
- 
--RECIPE_NO_UPDATE_REASON = "2.x depends on fontforge package, which is not yet provided in oe-core"
+-PN = "libpng12"
+-S = "${WORKDIR}/libpng-${PV}"
 -
- SECTION = "x11/fonts"
--LICENSE = "GPLv2"
--LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"
--PR = "r4"
-+LICENSE = "OFL-1.1"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=f96db970a9a46c5369142b99f530366b"
- PE = "1"
- 
- inherit allarch fontcache
- 
- FONT_PACKAGES = "${PN}"
- 
--SRC_URI = "https://releases.pagure.org/liberation-fonts/liberation-fonts-${PV}.tar.gz \
-+SRC_URI = "https://releases.pagure.org/liberation-fonts/liberation-fonts-ttf-${PV}.tar.gz \
-            file://30-liberation-aliases.conf"
- 
--SRC_URI[md5sum] = "4846797ef0fc70b0cbaede2514677c58"
--SRC_URI[sha256sum] = "0e0d0957c85b758561a3d4aef4ebcd2c39959e5328429d96ae106249d83531a1"
-+S = "${WORKDIR}/liberation-fonts-ttf-${PV}"
-+
-+SRC_URI[md5sum] = "5c781723a0d9ed6188960defba8e91cf"
-+SRC_URI[sha256sum] = "7890278a6cd17873c57d9cd785c2d230d9abdea837e96516019c5885dd271504"
- 
- do_install () {
- 	install -d ${D}${datadir}/fonts/ttf/
-@@ -33,7 +32,7 @@ do_install () {
- 	install -m 0644 ${WORKDIR}/30-liberation-aliases.conf ${D}${sysconfdir}/fonts/conf.d/
- 
- 	install -d ${D}${prefix}/share/doc/${BPN}/
--	install -m 0644 License.txt ${D}${datadir}/doc/${BPN}/
-+	install -m 0644 LICENSE ${D}${datadir}/doc/${BPN}/
- }
- 
- PACKAGES = "${PN}"
+-SRC_URI = "${GENTOO_MIRROR}/libpng-${PV}.tar.xz"
+-
+-SRC_URI[md5sum] = "307052e5e8af97b82b17b64fb1b3677a"
+-SRC_URI[sha256sum] = "0f4620e11fa283fedafb474427c8e96bf149511a1804bdc47350963ae5cf54d8"
+-
+-UPSTREAM_CHECK_URI = "http://sourceforge.net/projects/libpng/files/libpng12/"
+-UPSTREAM_CHECK_REGEX = "/libpng12/(?P<pver>(\d+[\.\-_]*)+)/"
+-
+-BINCONFIG_GLOB = "${PN}-config"
+-
+-inherit autotools binconfig pkgconfig
+-
+-do_install_append() {
+-	# The follow link files link to corresponding png12*.h and libpng12* files
+-	# They conflict with higher verison, so drop them
+-	rm ${D}/${includedir}/png.h
+-	rm ${D}/${includedir}/pngconf.h
+-
+-	rm ${D}/${libdir}/libpng.la
+-	rm ${D}/${libdir}/libpng.so
+-	rm ${D}/${libdir}/libpng.a || true
+-	rm ${D}/${libdir}/pkgconfig/libpng.pc
+-
+-	rm ${D}/${bindir}/libpng-config
+-}
 -- 
 2.11.0
 
