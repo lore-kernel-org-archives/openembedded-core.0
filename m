@@ -1,31 +1,22 @@
-Return-Path: <stefan.wiehler@missinglinkelectronics.com>
-Received: from smtp.missinglinkelectronics.com
-	(smtp.missinglinkelectronics.com [5.9.234.182])
-	by mail.openembedded.org (Postfix) with ESMTP id B464477E10
+Return-Path: <jose.perez.carranza@linux.intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id CB51F77DC7
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 May 2017 15:01:31 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by smtp.missinglinkelectronics.com (Postfix) with ESMTP id F3A33E015C
-	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 May 2017 17:01:32 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at missinglinkelectronics.com
-Received: from smtp.missinglinkelectronics.com ([127.0.0.1])
-	by localhost (mail.missinglinkelectronics.com [127.0.0.1]) (amavisd-new,
-	port 10024)
-	with ESMTP id symJxm7AVAKi; Fri,  5 May 2017 17:01:32 +0200 (CEST)
-Received: from beutel.mle (p4FE1E831.dip0.t-ipconnect.de [79.225.232.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
-	(No client certificate requested) (Authenticated sender: stefan)
-	by smtp.missinglinkelectronics.com (Postfix) with ESMTPSA id 24FE2E005A;
-	Fri,  5 May 2017 17:01:28 +0200 (CEST)
-From: Stefan Wiehler <stefan.wiehler@missinglinkelectronics.com>
+	Fri,  5 May 2017 16:02:55 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	05 May 2017 09:02:56 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.38,293,1491289200"; d="scan'208";a="83060659"
+Received: from yctb06.ostc.intel.com ([10.54.69.60])
+	by orsmga002.jf.intel.com with ESMTP; 05 May 2017 09:02:56 -0700
+From: jose.perez.carranza@linux.intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  5 May 2017 17:01:06 +0200
-Message-Id: <1493996466-26026-1-git-send-email-stefan.wiehler@missinglinkelectronics.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <CAJ86T=ULob-3w572btu9UuVxDU1TxNc=jYNkfY7kewVCirxx8w@mail.gmail.com>
-References: <CAJ86T=ULob-3w572btu9UuVxDU1TxNc=jYNkfY7kewVCirxx8w@mail.gmail.com>
-Subject: [PATCH] module.bbclass: Add devshell support
+Date: Fri,  5 May 2017 09:02:54 -0700
+Message-Id: <20170505160254.6558-1-jose.perez.carranza@linux.intel.com>
+X-Mailer: git-send-email 2.12.0
+MIME-Version: 1.0
+Subject: [PATCH] selftest/devtool: Modify test to use default config
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,51 +29,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 May 2017 15:01:33 -0000
+X-List-Received-Date: Fri, 05 May 2017 16:02:55 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Adds development shell support for out-of-tree kernel modules by reproducing
-the build environment of the compile task.
+From: Jose Perez Carranza <jose.perez.carranza@linux.intel.com>
 
-Signed-off-by: Stefan Wiehler <stefan.wiehler@missinglinkelectronics.com>
+Modify “test_devtool_virtual_kernel_modify” to be executed with default
+configuration defined on oe-selftest test suite. A shorter string was
+added to the the header file to avoid overlapped sections when building
+kernel for qemux86-64.
+
+[Yocto #11300]
+
+Signed-off-by: Jose Perez Carranza <jose.perez.carranza@linux.intel.com>
 ---
+ meta/lib/oeqa/selftest/devtool.py | 10 +++-------
+ 1 file changed, 3 insertions(+), 7 deletions(-)
 
-Change: Remove devshell task dependency
-
- meta/classes/module.bbclass | 20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
-
-diff --git a/meta/classes/module.bbclass b/meta/classes/module.bbclass
-index 802476b..391776d 100644
---- a/meta/classes/module.bbclass
-+++ b/meta/classes/module.bbclass
-@@ -18,6 +18,26 @@ python __anonymous () {
-     d.setVar('KBUILD_EXTRA_SYMBOLS', " ".join(extra_symbols))
- }
+diff --git a/meta/lib/oeqa/selftest/devtool.py b/meta/lib/oeqa/selftest/devtool.py
+index 8e7642c32b6..6d70399584b 100644
+--- a/meta/lib/oeqa/selftest/devtool.py
++++ b/meta/lib/oeqa/selftest/devtool.py
+@@ -1632,10 +1632,6 @@ class DevtoolTests(DevtoolBase):
+                          and modification to the source and configurations are reflected
+                          when building the kernel.
+          """
+-        #Set machine to qemxu86 to be able to modify the kernel and
+-        #verify the modification.
+-        features = 'MACHINE = "qemux86"\n'
+-        self.write_config(features)
+         kernel_provider = get_bb_var('PREFERRED_PROVIDER_virtual/kernel')
+         # Clean up the enviroment
+         bitbake('%s -c clean' % kernel_provider)
+@@ -1673,10 +1669,10 @@ class DevtoolTests(DevtoolBase):
+         kernelfile = os.path.join(get_bb_var('KBUILD_OUTPUT', kernel_provider), 'vmlinux')
+         self.assertTrue(os.path.exists(kernelfile),'Kernel was not build correctly')
  
-+python do_devshell_prepend () {
-+    os.environ['CFLAGS'] = ''
-+    os.environ['CPPFLAGS'] = ''
-+    os.environ['CXXFLAGS'] = ''
-+    os.environ['LDFLAGS'] = ''
-+
-+    os.environ['KERNEL_PATH'] = d.getVar('STAGING_KERNEL_DIR')
-+    os.environ['KERNEL_SRC'] = d.getVar('STAGING_KERNEL_DIR')
-+    os.environ['KERNEL_VERSION'] = d.getVar('KERNEL_VERSION')
-+    os.environ['CC'] = d.getVar('KERNEL_CC')
-+    os.environ['LD'] = d.getVar('KERNEL_LD')
-+    os.environ['AR'] = d.getVar('KERNEL_AR')
-+    os.environ['O'] = d.getVar('STAGING_KERNEL_BUILDDIR')
-+    kbuild_extra_symbols = d.getVar('KBUILD_EXTRA_SYMBOLS')
-+    if kbuild_extra_symbols:
-+        os.environ['KBUILD_EXTRA_SYMBOLS'] = kbuild_extra_symbols
-+    else:
-+        os.environ['KBUILD_EXTRA_SYMBOLS'] = ''
-+}
-+
- module_do_compile() {
- 	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS
- 	oe_runmake KERNEL_PATH=${STAGING_KERNEL_DIR}   \
+-        #Modify the kernel source, this is specific for qemux86
++        #Modify the kernel source
+         modfile = os.path.join(tempdir,'arch/x86/boot/header.S')
+-        modstring = "use a boot loader - Devtool kernel testing"
+-        modapplied = runCmd("sed -i 's/boot loader/%s/' %s" % (modstring, modfile))
++        modstring = "Use a boot loader. Devtool testing."
++        modapplied = runCmd("sed -i 's/Use a boot loader./%s/' %s" % (modstring, modfile))
+         self.assertEqual(0,modapplied.status,'Modification to %s on kernel source failed' % modfile)
+         #Modify the configuration
+         codeconfigfile = os.path.join(tempdir,'.config.new')
 -- 
-1.9.1
+2.12.0
 
 
