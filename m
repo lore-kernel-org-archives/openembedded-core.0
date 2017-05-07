@@ -1,39 +1,27 @@
-Return-Path: <amarnath.valluri@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 1540F601F6
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 0F6506069C
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  7 May 2017 18:45:01 +0000 (UTC)
+	Sun,  7 May 2017 23:46:57 +0000 (UTC)
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	07 May 2017 11:45:02 -0700
+	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	07 May 2017 16:46:58 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.38,305,1491289200"; d="scan'208";a="83761615"
-Received: from irsmsx106.ger.corp.intel.com ([163.33.3.31])
-	by orsmga002.jf.intel.com with ESMTP; 07 May 2017 11:45:02 -0700
-Received: from irsmsx110.ger.corp.intel.com ([169.254.15.151]) by
-	IRSMSX106.ger.corp.intel.com ([169.254.8.202]) with mapi id
-	14.03.0319.002; Sun, 7 May 2017 19:45:01 +0100
-From: "Valluri, Amarnath" <amarnath.valluri@intel.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH] cross.bbclass: Preserve the bitbake
-	configuration
-Thread-Index: AQHSxaEkfpzdDN0JQkqsE3IIc8T2RKHpNdmw
-Date: Sun, 7 May 2017 18:45:01 +0000
-Message-ID: <D3C33C4430ACA6488F343D1125FCCECC382BCB8B@irsmsx110.ger.corp.intel.com>
-References: <1493985795-7748-1-git-send-email-amarnath.valluri@intel.com>
-	<1493989815.23535.152.camel@linuxfoundation.org>
-In-Reply-To: <1493989815.23535.152.camel@linuxfoundation.org>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-version: 10.0.102.7
-dlp-reaction: no-action
-x-originating-ip: [163.33.239.182]
+X-IronPort-AV: E=Sophos;i="5.38,306,1491289200"; d="scan'208";a="83814112"
+Received: from ttan4-mobl2.gar.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.255.175.195])
+	by orsmga002.jf.intel.com with ESMTP; 07 May 2017 16:46:56 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 08 May 2017 11:46:53 +1200
+Message-ID: <1653892.zkUvk3PjUG@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+In-Reply-To: <1bed7e63-2374-21b5-e090-e3b111086ae9@linux.intel.com>
+References: <20170503131153.1780-1-alexander.kanavin@linux.intel.com>
+	<1493941692.3022.18.camel@gmail.com>
+	<1bed7e63-2374-21b5-e090-e3b111086ae9@linux.intel.com>
 MIME-Version: 1.0
-Subject: Re: [PATCH] cross.bbclass: Preserve the bitbake configuration
+Subject: Re: [PATCH 3/5] libpng12: remove the recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,54 +34,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 07 May 2017 18:45:02 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Sun, 07 May 2017 23:46:59 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogUmljaGFyZCBQdXJkaWUg
-W21haWx0bzpyaWNoYXJkLnB1cmRpZUBsaW51eGZvdW5kYXRpb24ub3JnXQ0KPiBTZW50OiBGcmlk
-YXksIE1heSA1LCAyMDE3IDQ6MTAgUE0NCj4gVG86IFZhbGx1cmksIEFtYXJuYXRoIDxhbWFybmF0
-aC52YWxsdXJpQGludGVsLmNvbT47IG9wZW5lbWJlZGRlZC0NCj4gY29yZUBsaXN0cy5vcGVuZW1i
-ZWRkZWQub3JnDQo+IFN1YmplY3Q6IFJlOiBbT0UtY29yZV0gW1BBVENIXSBjcm9zcy5iYmNsYXNz
-OiBQcmVzZXJ2ZSB0aGUgYml0YmFrZQ0KPiBjb25maWd1cmF0aW9uDQo+IA0KPiBPbiBGcmksIDIw
-MTctMDUtMDUgYXQgMTU6MDMgKzAzMDAsIEFtYXJuYXRoIFZhbGx1cmkgd3JvdGU6DQo+ID4gV2hp
-bGUgcHJlcGFyaW5nIHRhcmdldF9saWJkaXIgYW5kIHRhcmdldF9iYXNlX2xpYmRpciB3ZSBzaG91
-bGQNCj4gPiBwcmVzZXJ2ZSB0aGUgYml0YmFrZSBjb25maWd1cmF0aW9uIHVzZWQgZm9yICdiYXNl
-X2xpYmRpcicgYW5kICdsaWJkaXInDQo+ID4gaW5zdGVhZCBvZiBhc3N1bWluZyAke2Jhc2V8ZXhl
-Y31fcHJlZml4LyR7YmFzZWxpYn0sIHdoaWNoIGlzIG5vdCB0cnVlDQo+ID4gaW4gY2FzZSBvZiBt
-ZXJnZWQgJy91c3InLg0KPiA+DQo+ID4gU2lnbmVkLW9mZi1ieTogQW1hcm5hdGggVmFsbHVyaSA8
-YW1hcm5hdGgudmFsbHVyaUBpbnRlbC5jb20+DQo+ID4gLS0tDQo+ID4gwqBtZXRhL2NsYXNzZXMv
-Y3Jvc3MuYmJjbGFzcyB8IDYgKysrKy0tDQo+ID4gwqAxIGZpbGUgY2hhbmdlZCwgNCBpbnNlcnRp
-b25zKCspLCAyIGRlbGV0aW9ucygtKQ0KPiA+DQo+ID4gZGlmZiAtLWdpdCBhL21ldGEvY2xhc3Nl
-cy9jcm9zcy5iYmNsYXNzIGIvbWV0YS9jbGFzc2VzL2Nyb3NzLmJiY2xhc3MNCj4gPiBpbmRleCA4
-NzU3MzAzLi4wMTk1YjI2IDEwMDY0NA0KPiA+IC0tLSBhL21ldGEvY2xhc3Nlcy9jcm9zcy5iYmNs
-YXNzDQo+ID4gKysrIGIvbWV0YS9jbGFzc2VzL2Nyb3NzLmJiY2xhc3MNCj4gPiBAQCAtNTMsOCAr
-NTMsMTAgQEAgU1NUQVRFX1NDQU5fQ01EID89DQo+ICIke1NTVEFURV9TQ0FOX0NNRF9OQVRJVkV9
-Ig0KPiA+IMKgdGFyZ2V0X2Jhc2VfcHJlZml4IDo9ICIke2Jhc2VfcHJlZml4fSINCj4gPiDCoHRh
-cmdldF9wcmVmaXggOj0gIiR7cHJlZml4fSINCj4gPiDCoHRhcmdldF9leGVjX3ByZWZpeCA6PSAi
-JHtleGVjX3ByZWZpeH0iDQo+ID4gLXRhcmdldF9iYXNlX2xpYmRpciA9ICIke3RhcmdldF9iYXNl
-X3ByZWZpeH0vJHtiYXNlbGlifSINCj4gPiAtdGFyZ2V0X2xpYmRpciA9ICIke3RhcmdldF9leGVj
-X3ByZWZpeH0vJHtiYXNlbGlifSINCj4gPiArYmFzZV9saWJkaXJfc3VmZml4IDo9ICIke0BiYXNl
-X2xpYmRpci5zcGxpdChiYXNlX3ByZWZpeClbMV0gaWYNCj4gPiBiYXNlX3ByZWZpeCAhPSAiIiBl
-bHNlIGJhc2VfbGliZGlyfSINCj4gPiArbGliZGlyX3N1ZmZpeCA6PSAiJHtAbGliZGlyLnNwbGl0
-KGV4ZWNfcHJlZml4KVsxXSBpZiBleGVjX3ByZWZpeCAhPQ0KPiA+ICIiIGVsc2UgbGliZGlyfSIN
-Cj4gPiArdGFyZ2V0X2Jhc2VfbGliZGlyID0gIiR7dGFyZ2V0X2Jhc2VfcHJlZml4fSR7YmFzZV9s
-aWJkaXJfc3VmZml4fSINCj4gPiArdGFyZ2V0X2xpYmRpciA9ICIke3RhcmdldF9leGVjX3ByZWZp
-eH0ke2xpYmRpcl9zdWZmaXh9Ig0KPiA+IMKgdGFyZ2V0X2luY2x1ZGVkaXIgOj0gIiR7aW5jbHVk
-ZWRpcn0iDQo+IA0KPiBJIHRoaW5rIGJvdGggUm9zcyBhbmQgbXlzZWxmIGhhdmUgZmFpcmx5IHN0
-cm9uZyByZXNlcnZhdGlvbnMgYWJvdXQgbWFraW5nDQo+IGNvcmUgY2xhc3MgZmlsZXMgcHJhY3Rp
-Y2FsbHkgdW5yZWFkYWJsZSBpbiBwdXJzdWl0IG9mIHRoaXMgIm1lcmdlZCB1c3IiIGdvYWwuDQo+
-IA0KPiBXaHkgY2FuJ3QgeW91IHNpbXBseSBhZGQgYSBjb25mL2Rpc3Ryby9pbmNsdWRlL21lcmdl
-ZHVzci5pbmMgd2hpY2ggZG9lcw0KPiBzb21ldGhpbmcgbGlrZToNCj4gDQo+IHRhcmdldF9iYXNl
-X2xpYmRpcl9jbGFzcy1jcm9zcyA9ICJ4eHgiDQo+IA0KPiA/DQo+IA0KPiBZb3UnZCB0aGVuIGhh
-dmUgYSBzaW5nbGUgaW5jbHVkZSBmaWxlIHdoaWNoIGFueW9uZSB3YW50aW5nIHRvIGRvIHRoaXMg
-Y2FuDQo+IHNlbGVjdCByYXRoZXIgdGhhbiBjb21wbGljYXRpbmcgZmlsZXMgd2hpY2ggcmVhbGx5
-IGRvbid0IG5lZWQgbW9yZQ0KPiBjb21wbGljYXRpb24uDQpXZSBhcmUgdXNpbmcgdGhlIHNpbWls
-YXIgY3VzdG9tIGNvbmZpZ3VyYXRpb24gZm9yIGFjaGlldmluZyBtZXJnZWQgL3VzciwgYnV0IGZl
-bHQgbGlrZSByZWZlcnJpbmcgYSB1bmRvY3VtZW50ZWQgY2xhc3MgdmFyaWFibGUodGFyZ2V0X2Jh
-c2VfbGliZGlyKSBpbiBkaXN0cm8gY29uZmlndXJhdGlvbiBpcyBub3QgcmlnaHQuDQoNCkFuZCB0
-aGlzIGZpeCBpcyBub3Qgb25seSBsaW1pdGVkIHRvIG1lcmdlZCB1c3IsIGNyb3NzLmJiY2xhc3Mg
-aXMgbm90IHJlc3BlY3RpbmcgdGhlIG1vZGlmaWVkIGJpdGJha2UgY29uZmlndXJhdGlvbihiYXNl
-X2xpYmRpcikuIA0KDQotIEFtYXJuYXRoDQo=
+On Friday, 5 May 2017 9:16:09 PM NZST Alexander Kanavin wrote:
+> On 05/05/2017 02:48 AM, Max Krummenacher wrote:
+> > Around the release of morty the same happened with libwnck3 which then
+> > made morty fail for anyone using libwnck3.
+> 
+> We probably should have a section in the release notes that lists 
+> removed recipes. There are more layers than meta-oe, obviously they 
+> can't be all fixed in sync with oe-core.
+
+We have a migration section of the YP reference manual [1], which is linked
+from the release notes. I strongly recommend reading this on every major
+release upgrade, as it should cover changes that you need to adapt your
+recipes/configuration to.
+
+That said, there are some limitations of this currently:
+
+1) We (and I say "we", it's often me supplying Scott with the information)
+usually only get to writing it towards the end of the release cycle, so if
+you're following master then you won't get much out of this, but then again if
+you're following master you should probably expect to have to deal with
+the bleeding edge. There is a wiki page [2] where we are supposed to be
+adding items as we go along during the cycle, and we did do a few during
+2.3 but there were still quite a number of things that were missing and
+lots of details that needed to be added.
+
+2) There may be upstream changes that we pick up as a result of recipe
+upgrades that could cause issues for someone (depending on what you're
+actually building, of course). We don't really have a way of easily tracking
+these at the moment; unfortunately every upstream reports their changes
+differently.
+
+Cheers,
+Paul
+
+[1] http://www.yoctoproject.org/docs/latest/ref-manual/ref-manual.html#moving-to-the-yocto-project-2.3-release
+
+[2] https://wiki.yoctoproject.org/wiki/FutureMigrationGuide
+
+-- 
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
