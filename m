@@ -1,54 +1,24 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-it0-f42.google.com (mail-it0-f42.google.com
-	[209.85.214.42])
-	by mail.openembedded.org (Postfix) with ESMTP id AD76665CBF
+Return-Path: <Catalin.Enache@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id A751660068
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  8 May 2017 13:36:19 +0000 (UTC)
-Received: by mail-it0-f42.google.com with SMTP id x188so37895058itb.0
+	Mon,  8 May 2017 13:44:24 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v48DiP8C014865
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 08 May 2017 06:36:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:organization:mime-version:content-transfer-encoding;
-	bh=4vXQ3hbpLcaMZSsVgqCxFgufJyKBAzs+i3l+GLLM6cY=;
-	b=SYKYX7e3yjSqHJM2pgTGlZw2o0RUcK4AJQTDg1WUUn81cLwnG0kscf2+G7ogfRf82n
-	uiRQsm8N6nkG56wkogvWRGP9Y31NhrxCh0sAnPICLQBeWW75KufAK+pe3kTCOP5n0WxA
-	1oVW0VxZCy6qxCIUejKWb6llkD+B8pJ2I7BG5LSpWN5iUlkLYV06y38D7veL1Zh7ZNYy
-	NDwbnvQOh6okp1g6PXR2/itASaIVOKXLQ6p4k+JRQWALAJguT5TVH9OWtWigQiyisBF2
-	ab3FXJGMudiS8LuE7gEt18Jg1fQQ/RjscZm/ba9K45f20ySVV2/ZrqmF8KrJDlg7eTUz
-	diGQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:organization:mime-version:content-transfer-encoding;
-	bh=4vXQ3hbpLcaMZSsVgqCxFgufJyKBAzs+i3l+GLLM6cY=;
-	b=jq/RfzkwQ5YQF5M0uWjFXUWgRtlnUpMxi8Ln4rOfFkh4Fy+I1T4BR6O0t6gOtAZUGr
-	/IxZzQDz9EDqAl5joFWRvvT6ZUsoN72uAP3gKrXZ87ncfQMStDLW2CkatqdiTS997lBc
-	bbAiSl/LQAYSSNvPnKWg/vORKHtwR/xUUjaGUcOWv6AbzYT+lDHibEKcEDM6oUSfY5Ec
-	5jROq5w1BI8JlhXQeXqBxEukZARGB8Ov9z7qZnkcvPdP3NMDy1nhDUTNOyC/233acwek
-	3lcrEoUzdPn6ja1aLUi+93/Os/b+zyL50FR8MD7vvO/12AFkGljPMK1O8L5JUnirTPWX
-	kTCQ==
-X-Gm-Message-State: AN3rC/78YKjmHi5bkM53mrWbexKV5aTfcjYVUAAwinqEq3Wfja8yljk+
-	aXAenqwYoWQpmIxQ
-X-Received: by 10.36.32.138 with SMTP id t132mr19603561itt.89.1494250580388;
-	Mon, 08 May 2017 06:36:20 -0700 (PDT)
-Received: from pohly-mobl1 (p5DE8D834.dip0.t-ipconnect.de. [93.232.216.52])
-	by smtp.gmail.com with ESMTPSA id
-	w130sm4516267ita.20.2017.05.08.06.36.17
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 08 May 2017 06:36:18 -0700 (PDT)
-Message-ID: <1494250575.4241.328.camel@intel.com>
-From: Patrick Ohly <patrick.ohly@intel.com>
-To: =?ISO-8859-1?Q?An=EDbal_Lim=F3n?= <anibal.limon@linux.intel.com>
-Date: Mon, 08 May 2017 15:36:15 +0200
-In-Reply-To: <1487625169-22282-1-git-send-email-anibal.limon@linux.intel.com>
-References: <1487625169-22282-1-git-send-email-anibal.limon@linux.intel.com>
-Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
-X-Mailer: Evolution 3.12.9-1+b1 
-Mime-Version: 1.0
-Cc: yocto@yoctoproject.org, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCHv2] yocto-compat-layer.py: Add script to YP Compatible Layer validation
+	Mon, 8 May 2017 06:44:25 -0700 (PDT)
+Received: from no3.corp.ad.wrs.com (128.224.125.152) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.294.0; Mon, 8 May 2017 06:44:24 -0700
+From: Catalin Enache <catalin.enache@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 8 May 2017 16:42:59 +0300
+Message-ID: <1494250979-24800-1-git-send-email-catalin.enache@windriver.com>
+X-Mailer: git-send-email 2.7.4
+MIME-Version: 1.0
+Subject: [PATCH] ghostscript: CVE-2016-8602, CVE-2017-7975
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,32 +31,145 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 May 2017 13:36:19 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 08 May 2017 13:44:24 -0000
+Content-Type: text/plain
 
-On Mon, 2017-02-20 at 15:12 -0600, Aníbal Limón wrote:
-> +    try:
-> +        ldata = bb.parse.handle(lconf, ldata, include=True)
-> +    except BaseException as exc:
-> +        raise LayerError(exc)
+The .sethalftone5 function in psi/zht2.c in Ghostscript before 9.21 allows remote
+attackers to cause a denial of service (application crash) or possibly execute
+arbitrary code via a crafted Postscript document that calls .sethalftone5 with an
+empty operand stack.
 
-Anibal, where is this LayerError class in compatlayer/__init__.py
-supposed to come from? It doesn't get imported, leading to:
+Artifex jbig2dec 0.13, as used in Ghostscript, allows out-of-bounds writes because
+of an integer overflow in the jbig2_build_huffman_table function in jbig2_huffman.c
+during operations on a crafted JBIG2 file, leading to a denial of service (application
+crash) or possibly execution of arbitrary code.
 
-  File
-"/fast/work/intel-iot-refkit/openembedded-core/scripts/lib/compatlayer/__init__.py", line 45, in _get_layer_collections
-    raise LayerError(exc)
-NameError: name 'LayerError' is not defined
+References:
+https://nvd.nist.gov/vuln/detail/CVE-2016-8602
+https://nvd.nist.gov/vuln/detail/CVE-2017-7975
 
+Upstream patches:
+http://git.ghostscript.com/?p=ghostpdl.git;a=commitdiff;h=f5c7555c303
+http://git.ghostscript.com/?p=ghostpdl.git;a=commitdiff;h=5e57e483298
+
+Signed-off-by: Catalin Enache <catalin.enache@windriver.com>
+---
+ .../ghostscript/ghostscript/CVE-2016-8602.patch    | 47 ++++++++++++++++++++++
+ .../ghostscript/ghostscript/CVE-2017-7975.patch    | 36 +++++++++++++++++
+ .../ghostscript/ghostscript_9.20.bb                |  2 +
+ 3 files changed, 85 insertions(+)
+ create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2016-8602.patch
+ create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2017-7975.patch
+
+diff --git a/meta/recipes-extended/ghostscript/ghostscript/CVE-2016-8602.patch b/meta/recipes-extended/ghostscript/ghostscript/CVE-2016-8602.patch
+new file mode 100644
+index 0000000..e58567c
+--- /dev/null
++++ b/meta/recipes-extended/ghostscript/ghostscript/CVE-2016-8602.patch
+@@ -0,0 +1,47 @@
++From f5c7555c30393e64ec1f5ab0dfae5b55b3b3fc78 Mon Sep 17 00:00:00 2001
++From: Chris Liddell <chris.liddell@artifex.com>
++Date: Sat, 8 Oct 2016 16:10:27 +0100
++Subject: [PATCH] Bug 697203: check for sufficient params in .sethalftone5
++
++and param types
++
++Upstream-Status: Backport
++CVE: CVE-2016-8602
++
++Signed-off-by: Catalin Enache <catalin.enache@windriver.com>
++---
++ psi/zht2.c | 12 ++++++++++--
++ 1 file changed, 10 insertions(+), 2 deletions(-)
++
++diff --git a/psi/zht2.c b/psi/zht2.c
++index fb4a264..dfa27a4 100644
++--- a/psi/zht2.c
+++++ b/psi/zht2.c
++@@ -82,14 +82,22 @@ zsethalftone5(i_ctx_t *i_ctx_p)
++     gs_memory_t *mem;
++     uint edepth = ref_stack_count(&e_stack);
++     int npop = 2;
++-    int dict_enum = dict_first(op);
+++    int dict_enum;
++     ref rvalue[2];
++     int cname, colorant_number;
++     byte * pname;
++     uint name_size;
++     int halftonetype, type = 0;
++     gs_gstate *pgs = igs;
++-    int space_index = r_space_index(op - 1);
+++    int space_index;
+++
+++    if (ref_stack_count(&o_stack) < 2)
+++        return_error(gs_error_stackunderflow);
+++    check_type(*op, t_dictionary);
+++    check_type(*(op - 1), t_dictionary);
+++
+++    dict_enum = dict_first(op);
+++    space_index = r_space_index(op - 1);
++ 
++     mem = (gs_memory_t *) idmemory->spaces_indexed[space_index];
++ 
++-- 
++2.10.2
++
+diff --git a/meta/recipes-extended/ghostscript/ghostscript/CVE-2017-7975.patch b/meta/recipes-extended/ghostscript/ghostscript/CVE-2017-7975.patch
+new file mode 100644
+index 0000000..d0886c9
+--- /dev/null
++++ b/meta/recipes-extended/ghostscript/ghostscript/CVE-2017-7975.patch
+@@ -0,0 +1,36 @@
++From 5e57e483298dae8b8d4ec9aab37a526736ac2e97 Mon Sep 17 00:00:00 2001
++From: Shailesh Mistry <shailesh.mistry@hotmail.co.uk>
++Date: Wed, 26 Apr 2017 22:12:14 +0100
++Subject: [PATCH] Bug 697693: Prevent SEGV due to integer overflow.
++
++While building a Huffman table, the start and end points were susceptible
++to integer overflow.
++
++Thank you to Jiaqi for finding this issue and suggesting a patch.
++
++Upstream-Status: Backport
++CVE: CVE-2017-7975
++
++Signed-off-by: Catalin Enache <catalin.enache@windriver.com>
++---
++ jbig2dec/jbig2_huffman.c | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/jbig2dec/jbig2_huffman.c b/jbig2dec/jbig2_huffman.c
++index 511e461..b4189a1 100644
++--- a/jbig2dec/jbig2_huffman.c
+++++ b/jbig2dec/jbig2_huffman.c
++@@ -421,8 +421,8 @@ jbig2_build_huffman_table(Jbig2Ctx *ctx, const Jbig2HuffmanParams *params)
++ 
++             if (PREFLEN == CURLEN) {
++                 int RANGELEN = lines[CURTEMP].RANGELEN;
++-                int start_j = CURCODE << shift;
++-                int end_j = (CURCODE + 1) << shift;
+++                uint32_t start_j = CURCODE << shift;
+++                uint32_t end_j = (CURCODE + 1) << shift;
++                 byte eflags = 0;
++ 
++                 if (end_j > max_j) {
++-- 
++2.10.2
++
+diff --git a/meta/recipes-extended/ghostscript/ghostscript_9.20.bb b/meta/recipes-extended/ghostscript/ghostscript_9.20.bb
+index 3c8a2e6..87a7a55 100644
+--- a/meta/recipes-extended/ghostscript/ghostscript_9.20.bb
++++ b/meta/recipes-extended/ghostscript/ghostscript_9.20.bb
+@@ -35,6 +35,8 @@ SRC_URI = "${SRC_URI_BASE} \
+            file://CVE-2016-10219.patch \
+            file://CVE-2016-10220.patch \
+            file://CVE-2017-5951.patch \
++           file://CVE-2016-8602.patch \
++           file://CVE-2017-7975.patch \
+            "
+ 
+ SRC_URI_class-native = "${SRC_URI_BASE} \
 -- 
-Best Regards, Patrick Ohly
-
-The content of this message is my personal opinion only and although
-I am an employee of Intel, the statements I make here in no way
-represent Intel's position on the issue, nor am I authorized to speak
-on behalf of Intel on this matter.
-
-
+2.10.2
 
 
