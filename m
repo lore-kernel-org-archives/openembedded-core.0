@@ -1,30 +1,47 @@
-Return-Path: <huangqy.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 9DFCC6FEFA
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qt0-f169.google.com (mail-qt0-f169.google.com
+	[209.85.216.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 9CAA665CB6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  8 May 2017 09:39:32 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.22,518,1449504000"; d="scan'208";a="18590770"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 08 May 2017 17:39:28 +0800
-Received: from G08CNEXCHPEKD02.g08.fujitsu.local (unknown [10.167.33.83])
-	by cn.fujitsu.com (Postfix) with ESMTP id 022D547C6789
+	Mon,  8 May 2017 10:03:48 +0000 (UTC)
+Received: by mail-qt0-f169.google.com with SMTP id m91so45243096qte.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  8 May 2017 17:39:28 +0800 (CST)
-Received: from localhost.localdomain (10.167.226.81) by
-	G08CNEXCHPEKD02.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.319.2; Mon, 8 May 2017 17:39:31 +0800
-From: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 8 May 2017 17:39:17 +0800
-Message-ID: <1494236357-904-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 2.7.4
+	Mon, 08 May 2017 03:03:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=hIe+PGnASNhB6kx9s78Cs0DZDg8rgFaQoRhoYcXuCWQ=;
+	b=fdr8dTStSH/Hi/Om0ond1T2aONTCkVQpSzMvo2wl2P/Alom9YBzwt+vmJELI+JAuS7
+	iT+6vXnYfteDETRtQBOIy+NXzIyO6Rki2JepPS1X8O7JQi8erKNmicQO4M3Z30ejaG6i
+	sPLWT8WWEf+vG7mGSH45K2E17BCQ312UImMBjeIu47l2p1R2OoVmmoP9uRHwPl80J79J
+	B+GxUOK7V0oVDCl8muvbgI56WUW7oEL1VKISwA6i2tV/KT93dbYo8ENxb1K4ix2x+iVO
+	h0tOFEW+bF55EJKqVks+TU4Yel6++1m+Cptx50Q8HtOM6vjdhBwk7PCG+XwKg1K5JkYq
+	NA2w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=hIe+PGnASNhB6kx9s78Cs0DZDg8rgFaQoRhoYcXuCWQ=;
+	b=cG+VIBVasDremU0mO3YZmTAwT/3VTEH+4MOohTu3memxE8kuRAV3FASrEjG2H82vi6
+	lmvf7707WE/jihdulFeXwQSgd6gJ6ABY58zYq11svWCFhyzz6auzMicNDH98n1CIayot
+	InU/fg2UCA5dmQ0KzkcypKK0TWzV0COAvr/fRVwzpPlf5DEuKsW/4fUKPid/RF8z1nAw
+	7nvLkEGZdOwgHXOmnpJuhxnm3UWkkWq2yalwJ5ENZtQGqzcmuJ8ppYTs8QL6G5+cehOC
+	iIL2rqq+ggQF0zGPNc1pLYud/LHl/9RMbrDu515k2s756MgmEXXiLmRiH0S2VTuNcg5R
+	FJKw==
+X-Gm-Message-State: AODbwcC+j7J92E6fhXg5H7Gv4NBIwrHYRy7ZH/omtY61dg1AFIEWK2oK
+	DvkQF7UDXJm7j5uTx1jjE599Rxl+WqDb
+X-Received: by 10.200.34.242 with SMTP id g47mr13116650qta.109.1494237830129; 
+	Mon, 08 May 2017 03:03:50 -0700 (PDT)
 MIME-Version: 1.0
-X-Originating-IP: [10.167.226.81]
-X-yoursite-MailScanner-ID: 022D547C6789.A58A0
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: huangqy.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Subject: [PATCH] libnl: 3.2.29 -> 3.3.0
+Received: by 10.140.34.136 with HTTP; Mon, 8 May 2017 03:03:29 -0700 (PDT)
+In-Reply-To: <1494238535-8323-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+References: <1494238535-8323-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 8 May 2017 11:03:29 +0100
+Message-ID: <CAJTo0LYkJ03+j6pPuGDbVjdKe4zMwWY0X0M8WXKm3vUtOrXYtg@mail.gmail.com>
+To: zhengrq <zhengrq.fnst@cn.fujitsu.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [jethro] [PATCH] rpm: Fix the Bug of SRPM String error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,88 +54,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 May 2017 09:39:34 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 08 May 2017 10:03:50 -0000
+Content-Type: multipart/alternative; boundary=001a114037d41341da054f005bd0
 
-1) Upgrade libnl from 3.2.29 to 3.3.0.
-2) Delete patch "fix-pktloc_syntax_h-race.patch", since it is integrated upstream.
+--001a114037d41341da054f005bd0
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
----
- .../libnl/libnl/fix-pktloc_syntax_h-race.patch     | 36 ----------------------
- .../libnl/{libnl_3.2.29.bb => libnl_3.3.0.bb}      |  5 ++-
- 2 files changed, 2 insertions(+), 39 deletions(-)
- delete mode 100644 meta/recipes-support/libnl/libnl/fix-pktloc_syntax_h-race.patch
- rename meta/recipes-support/libnl/{libnl_3.2.29.bb => libnl_3.3.0.bb} (88%)
+On 8 May 2017 at 11:15, zhengrq <zhengrq.fnst@cn.fujitsu.com> wrote:
 
-diff --git a/meta/recipes-support/libnl/libnl/fix-pktloc_syntax_h-race.patch b/meta/recipes-support/libnl/libnl/fix-pktloc_syntax_h-race.patch
-deleted file mode 100644
-index 79aa0bd..0000000
---- a/meta/recipes-support/libnl/libnl/fix-pktloc_syntax_h-race.patch
-+++ /dev/null
-@@ -1,36 +0,0 @@
--Upstream-Status: Inappropriate [configuration]
--
--libnl has progressed to 0.3.2 and there does not appear to be any
--"make -j" issues with this build after my limited testing on that
--newer version so we can assume this issue is fixed upstream
--
--Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
--
--Index: libnl-3.2.25/lib/Makefile.am
--===================================================================
----- libnl-3.2.25.orig/lib/Makefile.am
--+++ libnl-3.2.25/lib/Makefile.am
--@@ -46,9 +46,12 @@ CLEANFILES = \
-- 
-- # Hack to avoid using ylwrap. It does not function correctly in combination
-- # with --header-file=
--+route/pktloc.lo: route/pktloc_syntax.h route/pktloc_grammar.h
--+route/pktloc_grammar.h: route/pktloc_grammar.c
-- route/pktloc_grammar.c: route/pktloc_grammar.l
-- 	$(AM_V_GEN) $(MKDIR_P) route; $(FLEX) --header-file=route/pktloc_grammar.h $(LFLAGS) -o $@ $^
-- 
--+route/pktloc_syntax.h: route/pktloc_syntax.c
-- route/pktloc_syntax.c: route/pktloc_syntax.y
-- 	$(AM_V_GEN) $(MKDIR_P) route; $(YACC) -d $(YFLAGS) -o $@ $^
-- 
--@@ -102,7 +105,9 @@ BUILT_SOURCES = \
-- 	route/cls/ematch_grammar.c \
-- 	route/cls/ematch_syntax.c \
-- 	route/pktloc_grammar.c \
---	route/pktloc_syntax.c
--+   route/pktloc_syntax.c \
--+   route/pktloc_syntax.h \
--+   route/pktloc_grammar.h
-- 
-- EXTRA_DIST = \
-- 	route/pktloc_grammar.l \
-diff --git a/meta/recipes-support/libnl/libnl_3.2.29.bb b/meta/recipes-support/libnl/libnl_3.3.0.bb
-similarity index 88%
-rename from meta/recipes-support/libnl/libnl_3.2.29.bb
-rename to meta/recipes-support/libnl/libnl_3.3.0.bb
-index 7d4839b..6111864 100644
---- a/meta/recipes-support/libnl/libnl_3.2.29.bb
-+++ b/meta/recipes-support/libnl/libnl_3.3.0.bb
-@@ -10,13 +10,12 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
- DEPENDS = "flex-native bison-native"
- 
- SRC_URI = "https://github.com/thom311/${BPN}/releases/download/${BPN}${@d.getVar('PV').replace('.','_')}/${BP}.tar.gz \
--           file://fix-pktloc_syntax_h-race.patch \
-            file://fix-pc-file.patch \
- "
- UPSTREAM_CHECK_URI = "https://github.com/thom311/${BPN}/releases"
- 
--SRC_URI[md5sum] = "a8ba62a5c4f883f4e493a46d1f3733fe"
--SRC_URI[sha256sum] = "0beb593dc6abfffa18a5c787b27884979c1b7e7f1fd468c801e3cc938a685922"
-+SRC_URI[md5sum] = "ab3ef137cad95bdda5ff0ffa5175dfa5"
-+SRC_URI[sha256sum] = "705468b5ae4cd1eb099d2d1c476d6a3abe519bc2810becf12fb1e32de1e074e4"
- 
- inherit autotools pkgconfig
- 
--- 
-2.7.4
+> Add a patch 0001-Fix-the-Bug-of-SRPM-String-error.patch to fix SRPM bug
+>
+> When use bitbake to build a SRPM package, some sections of SRPM can't be
+> displayed normally.
+>
 
+Does this occur in master/pyro?
 
+Ross
 
+--001a114037d41341da054f005bd0
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 8 May 2017 at 11:15, zhengrq <span dir=3D"ltr">&lt;<a href=3D"mailto:zhe=
+ngrq.fnst@cn.fujitsu.com" target=3D"_blank">zhengrq.fnst@cn.fujitsu.com</a>=
+&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0=
+ 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":5on" class=
+=3D"a3s aXjCH m15be5b016b562cd2">Add a patch 0001-Fix-the-Bug-of-SRPM-<wbr>=
+String-error.patch to fix SRPM bug<br>
+<br>
+When use bitbake to build a SRPM package, some sections of SRPM can&#39;t b=
+e displayed normally.<br></div></blockquote></div><br>Does this occur in ma=
+ster/pyro?</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_ex=
+tra">Ross</div></div>
+
+--001a114037d41341da054f005bd0--
