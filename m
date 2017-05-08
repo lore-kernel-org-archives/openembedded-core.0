@@ -1,24 +1,22 @@
-Return-Path: <Catalin.Enache@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id A751660068
+Return-Path: <sgw@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id C5E8C719C0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  8 May 2017 13:44:24 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v48DiP8C014865
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 8 May 2017 06:44:25 -0700 (PDT)
-Received: from no3.corp.ad.wrs.com (128.224.125.152) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.294.0; Mon, 8 May 2017 06:44:24 -0700
-From: Catalin Enache <catalin.enache@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 8 May 2017 16:42:59 +0300
-Message-ID: <1494250979-24800-1-git-send-email-catalin.enache@windriver.com>
+	Mon,  8 May 2017 14:47:32 +0000 (UTC)
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	08 May 2017 07:47:33 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.38,309,1491289200"; d="scan'208";a="97069091"
+Received: from swold-mobl2.amr.corp.intel.com ([10.255.140.209])
+	by orsmga005.jf.intel.com with ESMTP; 08 May 2017 07:47:31 -0700
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org,
+	richard.purdie@linuxfoundation.org
+Date: Mon,  8 May 2017 22:47:22 +0800
+Message-Id: <1494254846-9382-1-git-send-email-sgw@linux.intel.com>
 X-Mailer: git-send-email 2.7.4
-MIME-Version: 1.0
-Subject: [PATCH] ghostscript: CVE-2016-8602, CVE-2017-7975
+Subject: [PATCH 0/4] Packages updates
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,145 +29,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 May 2017 13:44:24 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 08 May 2017 14:47:32 -0000
 
-The .sethalftone5 function in psi/zht2.c in Ghostscript before 9.21 allows remote
-attackers to cause a denial of service (application crash) or possibly execute
-arbitrary code via a crafted Postscript document that calls .sethalftone5 with an
-empty operand stack.
+Ross, Richard:
 
-Artifex jbig2dec 0.13, as used in Ghostscript, allows out-of-bounds writes because
-of an integer overflow in the jbig2_build_huffman_table function in jbig2_huffman.c
-during operations on a crafted JBIG2 file, leading to a denial of service (application
-crash) or possibly execution of arbitrary code.
+Here is a small set of tested package updates
 
-References:
-https://nvd.nist.gov/vuln/detail/CVE-2016-8602
-https://nvd.nist.gov/vuln/detail/CVE-2017-7975
+Sau!
 
-Upstream patches:
-http://git.ghostscript.com/?p=ghostpdl.git;a=commitdiff;h=f5c7555c303
-http://git.ghostscript.com/?p=ghostpdl.git;a=commitdiff;h=5e57e483298
+Chin Huat Ang (1):
+  nspr: upgrade recipe to version 4.14
 
-Signed-off-by: Catalin Enache <catalin.enache@windriver.com>
----
- .../ghostscript/ghostscript/CVE-2016-8602.patch    | 47 ++++++++++++++++++++++
- .../ghostscript/ghostscript/CVE-2017-7975.patch    | 36 +++++++++++++++++
- .../ghostscript/ghostscript_9.20.bb                |  2 +
- 3 files changed, 85 insertions(+)
- create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2016-8602.patch
- create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2017-7975.patch
+Choong YinThong (1):
+  gnupg: upgrade from 2.1.18 to 2.1.20
 
-diff --git a/meta/recipes-extended/ghostscript/ghostscript/CVE-2016-8602.patch b/meta/recipes-extended/ghostscript/ghostscript/CVE-2016-8602.patch
-new file mode 100644
-index 0000000..e58567c
---- /dev/null
-+++ b/meta/recipes-extended/ghostscript/ghostscript/CVE-2016-8602.patch
-@@ -0,0 +1,47 @@
-+From f5c7555c30393e64ec1f5ab0dfae5b55b3b3fc78 Mon Sep 17 00:00:00 2001
-+From: Chris Liddell <chris.liddell@artifex.com>
-+Date: Sat, 8 Oct 2016 16:10:27 +0100
-+Subject: [PATCH] Bug 697203: check for sufficient params in .sethalftone5
-+
-+and param types
-+
-+Upstream-Status: Backport
-+CVE: CVE-2016-8602
-+
-+Signed-off-by: Catalin Enache <catalin.enache@windriver.com>
-+---
-+ psi/zht2.c | 12 ++++++++++--
-+ 1 file changed, 10 insertions(+), 2 deletions(-)
-+
-+diff --git a/psi/zht2.c b/psi/zht2.c
-+index fb4a264..dfa27a4 100644
-+--- a/psi/zht2.c
-++++ b/psi/zht2.c
-+@@ -82,14 +82,22 @@ zsethalftone5(i_ctx_t *i_ctx_p)
-+     gs_memory_t *mem;
-+     uint edepth = ref_stack_count(&e_stack);
-+     int npop = 2;
-+-    int dict_enum = dict_first(op);
-++    int dict_enum;
-+     ref rvalue[2];
-+     int cname, colorant_number;
-+     byte * pname;
-+     uint name_size;
-+     int halftonetype, type = 0;
-+     gs_gstate *pgs = igs;
-+-    int space_index = r_space_index(op - 1);
-++    int space_index;
-++
-++    if (ref_stack_count(&o_stack) < 2)
-++        return_error(gs_error_stackunderflow);
-++    check_type(*op, t_dictionary);
-++    check_type(*(op - 1), t_dictionary);
-++
-++    dict_enum = dict_first(op);
-++    space_index = r_space_index(op - 1);
-+ 
-+     mem = (gs_memory_t *) idmemory->spaces_indexed[space_index];
-+ 
-+-- 
-+2.10.2
-+
-diff --git a/meta/recipes-extended/ghostscript/ghostscript/CVE-2017-7975.patch b/meta/recipes-extended/ghostscript/ghostscript/CVE-2017-7975.patch
-new file mode 100644
-index 0000000..d0886c9
---- /dev/null
-+++ b/meta/recipes-extended/ghostscript/ghostscript/CVE-2017-7975.patch
-@@ -0,0 +1,36 @@
-+From 5e57e483298dae8b8d4ec9aab37a526736ac2e97 Mon Sep 17 00:00:00 2001
-+From: Shailesh Mistry <shailesh.mistry@hotmail.co.uk>
-+Date: Wed, 26 Apr 2017 22:12:14 +0100
-+Subject: [PATCH] Bug 697693: Prevent SEGV due to integer overflow.
-+
-+While building a Huffman table, the start and end points were susceptible
-+to integer overflow.
-+
-+Thank you to Jiaqi for finding this issue and suggesting a patch.
-+
-+Upstream-Status: Backport
-+CVE: CVE-2017-7975
-+
-+Signed-off-by: Catalin Enache <catalin.enache@windriver.com>
-+---
-+ jbig2dec/jbig2_huffman.c | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
-+
-+diff --git a/jbig2dec/jbig2_huffman.c b/jbig2dec/jbig2_huffman.c
-+index 511e461..b4189a1 100644
-+--- a/jbig2dec/jbig2_huffman.c
-++++ b/jbig2dec/jbig2_huffman.c
-+@@ -421,8 +421,8 @@ jbig2_build_huffman_table(Jbig2Ctx *ctx, const Jbig2HuffmanParams *params)
-+ 
-+             if (PREFLEN == CURLEN) {
-+                 int RANGELEN = lines[CURTEMP].RANGELEN;
-+-                int start_j = CURCODE << shift;
-+-                int end_j = (CURCODE + 1) << shift;
-++                uint32_t start_j = CURCODE << shift;
-++                uint32_t end_j = (CURCODE + 1) << shift;
-+                 byte eflags = 0;
-+ 
-+                 if (end_j > max_j) {
-+-- 
-+2.10.2
-+
-diff --git a/meta/recipes-extended/ghostscript/ghostscript_9.20.bb b/meta/recipes-extended/ghostscript/ghostscript_9.20.bb
-index 3c8a2e6..87a7a55 100644
---- a/meta/recipes-extended/ghostscript/ghostscript_9.20.bb
-+++ b/meta/recipes-extended/ghostscript/ghostscript_9.20.bb
-@@ -35,6 +35,8 @@ SRC_URI = "${SRC_URI_BASE} \
-            file://CVE-2016-10219.patch \
-            file://CVE-2016-10220.patch \
-            file://CVE-2017-5951.patch \
-+           file://CVE-2016-8602.patch \
-+           file://CVE-2017-7975.patch \
-            "
- 
- SRC_URI_class-native = "${SRC_URI_BASE} \
+Gan, Yau Wai (1):
+  mc: Upgrade from 4.8.18 to 4.8.19
+
+Yeoh Ee Peng (1):
+  man-pages: upgrade from 4.09 to 4.10
+
+ .../man-pages/{man-pages_4.09.bb => man-pages_4.10.bb}                | 4 ++--
+ meta/recipes-extended/mc/{mc_4.8.18.bb => mc_4.8.19.bb}               | 4 ++--
+ meta/recipes-support/gnupg/{gnupg_2.1.18.bb => gnupg_2.1.20.bb}       | 4 ++--
+ meta/recipes-support/nspr/{nspr_4.13.1.bb => nspr_4.14.bb}            | 4 ++--
+ 4 files changed, 8 insertions(+), 8 deletions(-)
+ rename meta/recipes-extended/man-pages/{man-pages_4.09.bb => man-pages_4.10.bb} (86%)
+ rename meta/recipes-extended/mc/{mc_4.8.18.bb => mc_4.8.19.bb} (94%)
+ rename meta/recipes-support/gnupg/{gnupg_2.1.18.bb => gnupg_2.1.20.bb} (90%)
+ rename meta/recipes-support/nspr/{nspr_4.13.1.bb => nspr_4.14.bb} (96%)
+
 -- 
-2.10.2
+2.7.4
 
 
