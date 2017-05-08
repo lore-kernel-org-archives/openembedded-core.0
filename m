@@ -1,49 +1,54 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f181.google.com (mail-qk0-f181.google.com
-	[209.85.220.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 2CA9971C7E
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-it0-f42.google.com (mail-it0-f42.google.com
+	[209.85.214.42])
+	by mail.openembedded.org (Postfix) with ESMTP id AD76665CBF
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  8 May 2017 12:16:56 +0000 (UTC)
-Received: by mail-qk0-f181.google.com with SMTP id u75so49564174qka.3
+	Mon,  8 May 2017 13:36:19 +0000 (UTC)
+Received: by mail-it0-f42.google.com with SMTP id x188so37895058itb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 08 May 2017 05:16:58 -0700 (PDT)
+	Mon, 08 May 2017 06:36:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=lMI6jWlF+jQugyys3ChPBa2D7ov4iiGJEXzh1U4p8lc=;
-	b=hs3Ewp1JLKUs3WNRj5Hrja8ybf/DbXdsY3I1IqMGeAT1pOi+S9kEpIiFBNP9yGS+ha
-	hPLX/2foCHeXZSNnUzsX7SgiC6wOXq3AOjpdRgN9CRNu6eZiZjzxKIUhGXmu5ja71KJW
-	qhrjPGehrL7KeQ7qNwTC47HqyPxZTVNdQXCvGpqFdyCK0gXvTo88T3hdDmue/u9DM8bW
-	O72bKs45GJpqZ2fTHSdlpHDld2o0w1+UfzKcsf7NGHGm0P6V+rEl5DDVBMLVgpYb2mGG
-	zydDoZ5cDVGZTkJVB7JIMWGMmG/3JsgP0+EbVLsQyvad6bzBaMbJfG8ApECe6Y36T1hw
-	86iw==
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:organization:mime-version:content-transfer-encoding;
+	bh=4vXQ3hbpLcaMZSsVgqCxFgufJyKBAzs+i3l+GLLM6cY=;
+	b=SYKYX7e3yjSqHJM2pgTGlZw2o0RUcK4AJQTDg1WUUn81cLwnG0kscf2+G7ogfRf82n
+	uiRQsm8N6nkG56wkogvWRGP9Y31NhrxCh0sAnPICLQBeWW75KufAK+pe3kTCOP5n0WxA
+	1oVW0VxZCy6qxCIUejKWb6llkD+B8pJ2I7BG5LSpWN5iUlkLYV06y38D7veL1Zh7ZNYy
+	NDwbnvQOh6okp1g6PXR2/itASaIVOKXLQ6p4k+JRQWALAJguT5TVH9OWtWigQiyisBF2
+	ab3FXJGMudiS8LuE7gEt18Jg1fQQ/RjscZm/ba9K45f20ySVV2/ZrqmF8KrJDlg7eTUz
+	diGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=lMI6jWlF+jQugyys3ChPBa2D7ov4iiGJEXzh1U4p8lc=;
-	b=CYbDSRTXXVuerebtEiFW+mKR89J98gJLccOJiAJcqY8ydzv6WLG7ALkYcL9Q5GLcrw
-	fj14GXnW58P+9GDUXQmWQ/e7KtowcrHQjaFEJWTzZ+QPqsbbKmnMAIDAjEJ4FiN5pglW
-	P2ozNP6q2MsGvQSy7LASn40ZX42zRhe0mOwo6RH0eCWMFEhuLK72zT+d35/hRUeqo2r8
-	jhS9ToOPeRWkmV/pRgJGIvnARH4wi4VcFzCAw01Np84lYDQ545hot3Ni+7cYdFTqj+WA
-	O2dO7+oqvkFctx6JWhDPS/09UfCh+WWHRAjmVsiRqEJFZYBcT1d+3OxojqTUA6j1bR5P
-	pBwg==
-X-Gm-Message-State: AN3rC/4VbipPYeRjRAS8VDHNobLDGX0Qed9O4dj8cfvTGWCxagCKNk5H
-	j8OwqMvejl72b76/We9cYZFu/3Ua+NJf
-X-Received: by 10.55.214.208 with SMTP id p77mr26657741qkl.121.1494245817476; 
-	Mon, 08 May 2017 05:16:57 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.34.136 with HTTP; Mon, 8 May 2017 05:16:37 -0700 (PDT)
-In-Reply-To: <20170508121643.GA7360@mbabyjoh-desk.ger.corp.intel.com>
-References: <1494244017-3933-1-git-send-email-maxin.john@intel.com>
-	<CAJTo0LZfcvtMKTXbpjVp9v14SOsFLbQZEXKCV_gdJ5ddzkg-wA@mail.gmail.com>
-	<20170508121643.GA7360@mbabyjoh-desk.ger.corp.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 8 May 2017 13:16:37 +0100
-Message-ID: <CAJTo0LZR9m4VrHk_g7jZeRcb0vdViWvZqystMG58R9B4=GYvXA@mail.gmail.com>
-To: "Maxin B. John" <maxin.john@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] connman: upgrade to 1.34
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:organization:mime-version:content-transfer-encoding;
+	bh=4vXQ3hbpLcaMZSsVgqCxFgufJyKBAzs+i3l+GLLM6cY=;
+	b=jq/RfzkwQ5YQF5M0uWjFXUWgRtlnUpMxi8Ln4rOfFkh4Fy+I1T4BR6O0t6gOtAZUGr
+	/IxZzQDz9EDqAl5joFWRvvT6ZUsoN72uAP3gKrXZ87ncfQMStDLW2CkatqdiTS997lBc
+	bbAiSl/LQAYSSNvPnKWg/vORKHtwR/xUUjaGUcOWv6AbzYT+lDHibEKcEDM6oUSfY5Ec
+	5jROq5w1BI8JlhXQeXqBxEukZARGB8Ov9z7qZnkcvPdP3NMDy1nhDUTNOyC/233acwek
+	3lcrEoUzdPn6ja1aLUi+93/Os/b+zyL50FR8MD7vvO/12AFkGljPMK1O8L5JUnirTPWX
+	kTCQ==
+X-Gm-Message-State: AN3rC/78YKjmHi5bkM53mrWbexKV5aTfcjYVUAAwinqEq3Wfja8yljk+
+	aXAenqwYoWQpmIxQ
+X-Received: by 10.36.32.138 with SMTP id t132mr19603561itt.89.1494250580388;
+	Mon, 08 May 2017 06:36:20 -0700 (PDT)
+Received: from pohly-mobl1 (p5DE8D834.dip0.t-ipconnect.de. [93.232.216.52])
+	by smtp.gmail.com with ESMTPSA id
+	w130sm4516267ita.20.2017.05.08.06.36.17
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 08 May 2017 06:36:18 -0700 (PDT)
+Message-ID: <1494250575.4241.328.camel@intel.com>
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: =?ISO-8859-1?Q?An=EDbal_Lim=F3n?= <anibal.limon@linux.intel.com>
+Date: Mon, 08 May 2017 15:36:15 +0200
+In-Reply-To: <1487625169-22282-1-git-send-email-anibal.limon@linux.intel.com>
+References: <1487625169-22282-1-git-send-email-anibal.limon@linux.intel.com>
+Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
+X-Mailer: Evolution 3.12.9-1+b1 
+Mime-Version: 1.0
+Cc: yocto@yoctoproject.org, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCHv2] yocto-compat-layer.py: Add script to YP Compatible Layer validation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,38 +61,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 May 2017 12:16:57 -0000
-Content-Type: multipart/alternative; boundary=001a1149d4f82881d1054f02370a
+X-List-Received-Date: Mon, 08 May 2017 13:36:19 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
---001a1149d4f82881d1054f02370a
-Content-Type: text/plain; charset=UTF-8
+On Mon, 2017-02-20 at 15:12 -0600, Aníbal Limón wrote:
+> +    try:
+> +        ldata = bb.parse.handle(lconf, ldata, include=True)
+> +    except BaseException as exc:
+> +        raise LayerError(exc)
 
-On 8 May 2017 at 13:16, Maxin B. John <maxin.john@intel.com> wrote:
+Anibal, where is this LayerError class in compatlayer/__init__.py
+supposed to come from? It doesn't get imported, leading to:
 
-> In that case, build fails with " Xtables library is required".
->
-> We have provided "iptables" as the default choice in PACKAGECONFIG though.
->
+  File
+"/fast/work/intel-iot-refkit/openembedded-core/scripts/lib/compatlayer/__init__.py", line 45, in _get_layer_collections
+    raise LayerError(exc)
+NameError: name 'LayerError' is not defined
 
-Cool, as long as it fails in a deterministic way. :)
+-- 
+Best Regards, Patrick Ohly
 
-Ross
+The content of this message is my personal opinion only and although
+I am an employee of Intel, the statements I make here in no way
+represent Intel's position on the issue, nor am I authorized to speak
+on behalf of Intel on this matter.
 
---001a1149d4f82881d1054f02370a
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 8 May 2017 at 13:16, Maxin B. John <span dir=3D"ltr">&lt;<a href=3D"mail=
-to:maxin.john@intel.com" target=3D"_blank">maxin.john@intel.com</a>&gt;</sp=
-an> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;=
-border-left:1px #ccc solid;padding-left:1ex"><div id=3D":kz" class=3D"a3s a=
-XjCH m15be7fcc85ba990d">In that case, build fails with &quot; Xtables libra=
-ry is required&quot;.<br>
-<br>
-We have provided &quot;iptables&quot; as the default choice in PACKAGECONFI=
-G though.<br></div></blockquote></div><br>Cool, as long as it fails in a de=
-terministic way. :)</div><div class=3D"gmail_extra"><br></div><div class=3D=
-"gmail_extra">Ross</div></div>
 
---001a1149d4f82881d1054f02370a--
+
