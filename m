@@ -1,47 +1,47 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qt0-f173.google.com (mail-qt0-f173.google.com
-	[209.85.216.173])
-	by mail.openembedded.org (Postfix) with ESMTP id E364F605FE
+Received: from mail-wr0-f176.google.com (mail-wr0-f176.google.com
+	[209.85.128.176])
+	by mail.openembedded.org (Postfix) with ESMTP id D792B719B8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 May 2017 13:19:01 +0000 (UTC)
-Received: by mail-qt0-f173.google.com with SMTP id m91so112141qte.3
+	Tue,  9 May 2017 14:34:51 +0000 (UTC)
+Received: by mail-wr0-f176.google.com with SMTP id l9so1711146wre.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 09 May 2017 06:19:03 -0700 (PDT)
+	Tue, 09 May 2017 07:34:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=c4Vzu4/nI+gc9LlkbisBHUMj/zX6uJ2nx8CCC0AM8VQ=;
-	b=Sb1B9j2aml0SxnVqr8woylIK4VyWNf5lr8legzqTY/9jmdRsHm9WWJpSucBPuBW2cT
-	+1hbMGxllzC1AP5+Ci9LarmZ+I2LnjZWILCoLk0rgBecc6GhQuCpB/diTfAtPYe7CTtj
-	jwnCOegCm7kBdQyUT3SGJUdYZL6/be4T98V2F6HA+18A0GxnNe2v5+ZVhQb65iI57z0D
-	M3yrel2+loZNgo/mtFo23gzFXJIEOguHJhrUyJjBLqRhJmtudqJex8Ly5AjnFUGf4VtD
-	ZYiO3cIF7YnvUGWRAts8OJzkafh8U0L63bngWU37FecHtQel2JWmQx5SfDhX1p8XA/Dv
-	0FoQ==
+	h=from:to:subject:date:message-id;
+	bh=2W8gMQs5PsmMMZ0gfEJds2CIjNdKzswVCWV8oIUKHy0=;
+	b=wx3drG4FBDnKmTCMv7hGQQpYb2oKb+NQ62xfuL5bSMfbJiLrst8QfrvbufkyzGjLU/
+	WEf5OX1p1gr7RCWaw5JWCOSKzG4onustY/0c3UYwYyqbbJ9V3Gc8YH0PTXkXvEvfL4HY
+	gLG2M8R/t7N9vOa/nx53ZN0Tg2BAci8CBV5NBfwm+iomuT78+EGNL3cp65nz+zz/s6bX
+	ERE23lJIWolvWTBfWir4949nrGnGmqDe6DOHGypycPwAwhvXyIfeISRPNU9FYWquLm2N
+	UFoMs/7cuSTN0PrP7f+kVRsJvC/6xvwUMnp5swcPfVSGqivz+D3R3ezl1huRVG7MZy5z
+	GHLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=c4Vzu4/nI+gc9LlkbisBHUMj/zX6uJ2nx8CCC0AM8VQ=;
-	b=Ws+W4A3DcNaEzXkCVlV2CUGH80EP3MwPrK0qBrT8jWqUghp/I42iBQIwytya8VkEOI
-	t2UfZLowFIdeW4OmTUBDPRS1TqosdDQZ2+5PGQ4zh7sd/a9cwj/9rnSDhJSF8a0r7gRi
-	iLRFRmhW3CRxc3sqEvMITNOaJEKlyHFp2sMzuzkHpboUDc/8k1AoOfG2Q0EHX4c3OSQZ
-	Z7RSzqzb21W5a2jxkn9O4rya9Ty5XGj3AV5bxMiotl8Sc2WwUSzUI47gegqihRE1/lVG
-	bXB+8d1INeEIXG/tM1FqPG7Q+VWGHSAAnzEkAuHOq+mKVHpbgsOBx5FodhDho2KFsN8q
-	k6eA==
-X-Gm-Message-State: AODbwcASFwaNDLc92BoCh/A09yFed1WnApneDXsx0VVPk3qvhIGTBxM1
-	XE4wKIZqwbKJnik4dB02mPNKkAHcd6h2
-X-Received: by 10.200.42.238 with SMTP id c43mr32492qta.144.1494335942586;
-	Tue, 09 May 2017 06:19:02 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.34.136 with HTTP; Tue, 9 May 2017 06:18:42 -0700 (PDT)
-In-Reply-To: <1494236357-904-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
-References: <1494236357-904-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 9 May 2017 14:18:42 +0100
-Message-ID: <CAJTo0LawDD1aJZG7ymjBQ0S8fxBMaQPUVwP7hQMCK4o9=+nokA@mail.gmail.com>
-To: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] libnl: 3.2.29 -> 3.3.0
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=2W8gMQs5PsmMMZ0gfEJds2CIjNdKzswVCWV8oIUKHy0=;
+	b=HJZF6QoQ/2CdfAV4jkjLu615/jt0151t29TR53RUHWu376ZuOCPgHquvCXR7+Jukw2
+	7aYS3wVPmxHLVK7f+SRg7bI18cpJwng5NPlf8U01MFe/Wh8pWqjfAMVHVNlTfF5uXybM
+	tN59gRv9lFA5ynq0phsROByawD3YB0w/IUXmcz0kG97src795+t53eusuW7Hz/6exzIj
+	FY0ra1FGiF6niB6tT9aXyP2tWMt1llxBH44nmhB4gZVQRgjgr4Z2xRKdv2u9CU4nCq80
+	jGPgJA8E3Tg8/itQ4TCFm5f4gKuBBQgzlqBl6IZ3qCWYGqgzXtuCF7hQUH1EDVLwFBg2
+	mXBA==
+X-Gm-Message-State: AODbwcDhfixdgFFrpAXWM/M5091N5nh4M9HtOyS8XlXibPzAe7WCC4PZ
+	ORUh0ylqVupExdi+NnI=
+X-Received: by 10.28.113.73 with SMTP id m70mr385178wmc.12.1494340491828;
+	Tue, 09 May 2017 07:34:51 -0700 (PDT)
+Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id 8sm50592wrb.55.2017.05.09.07.34.51
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 09 May 2017 07:34:51 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  9 May 2017 15:34:48 +0100
+Message-Id: <1494340488-19285-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.8.1
+Subject: [PATCH] kconfig-frontends: fix build race
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,63 +54,94 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 May 2017 13:19:03 -0000
-Content-Type: multipart/alternative; boundary=001a113f40e4088eb7054f1733f1
+X-List-Received-Date: Tue, 09 May 2017 14:34:52 -0000
 
---001a113f40e4088eb7054f1733f1
-Content-Type: text/plain; charset=UTF-8
+In parallel builds utils/kconfig-tweak may be written to before utils/ exists,
+so add a mkdir.
 
-On 8 May 2017 at 10:39, Huang Qiyu <huangqy.fnst@cn.fujitsu.com> wrote:
->
-> 1) Upgrade libnl from 3.2.29 to 3.3.0.
-> 2) Delete patch "fix-pktloc_syntax_h-race.patch", since it is integrated
-upstream.
+Also mark the pkgconfig patch as Submitted as I sent that upstream at the same
+time.
+
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ .../files/0001-Fix-installation-of-.pc-files.patch |  3 +-
+ .../kconfig-frontends/files/missing-mkdir.patch    | 33 ++++++++++++++++++++++
+ .../kconfig-frontends_4.10.0.1.bb                  |  3 +-
+ 3 files changed, 36 insertions(+), 3 deletions(-)
+ create mode 100644 meta/recipes-devtools/kconfig-frontends/files/missing-mkdir.patch
+
+diff --git a/meta/recipes-devtools/kconfig-frontends/files/0001-Fix-installation-of-.pc-files.patch b/meta/recipes-devtools/kconfig-frontends/files/0001-Fix-installation-of-.pc-files.patch
+index e9195a0..57ea42e 100644
+--- a/meta/recipes-devtools/kconfig-frontends/files/0001-Fix-installation-of-.pc-files.patch
++++ b/meta/recipes-devtools/kconfig-frontends/files/0001-Fix-installation-of-.pc-files.patch
+@@ -5,7 +5,7 @@ Subject: [PATCH] Fix installation of .pc files
+ 
+ They go to prefix/pkgconfig/, not prefix/pkg-config.
+ 
+-Upstream-Status: Pending
++Upstream-Status: Submitted
+ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+ ---
+  Makefile.am | 2 +-
+@@ -26,4 +26,3 @@ index 058690a..f9e9b7b 100644
+  EXTRA_DIST += libs/parser/kconfig-parser.pc.in
+ -- 
+ 2.11.0
+-
+diff --git a/meta/recipes-devtools/kconfig-frontends/files/missing-mkdir.patch b/meta/recipes-devtools/kconfig-frontends/files/missing-mkdir.patch
+new file mode 100644
+index 0000000..a06a547
+--- /dev/null
++++ b/meta/recipes-devtools/kconfig-frontends/files/missing-mkdir.patch
+@@ -0,0 +1,33 @@
++Upstream-Status: Submitted
++Signed-off-by: Ross Burton <ross.burton@intel.com>
++
++From ca05ee2fb6db5b3b1edc16dba6150a2c6078a6cf Mon Sep 17 00:00:00 2001
++From: Ross Burton <ross.burton@intel.com>
++Date: Tue, 9 May 2017 15:30:00 +0100
++Subject: [PATCH] Makefile: ensure utils/ exists before writing to it
++
++Since utils/ was changed to not build recursively it's possible that in
++out-of-tree builds the utils/ directory hasn't been created when Make runs the
++utils/kconfig-tweak target which tries to write to file inside utils/.
++
++To ensure this can work, mkdir the directory.
++
++Signed-off-by: Ross Burton <ross.burton@intel.com>
++---
++ Makefile.am | 1 +
++ 1 file changed, 1 insertion(+)
++
++diff --git a/Makefile.am b/Makefile.am
++index c8e96ef..1baa110 100644
++--- a/Makefile.am
+++++ b/Makefile.am
++@@ -348,6 +348,7 @@ EXTRA_DIST += \
++ 	utils/kconfig-tweak.in.patch
++ 
++ utils/kconfig-tweak: utils/kconfig-tweak.in
+++	$(MKDIR_P) $(@D)
++ 	$(AM_V_GEN)$(SED) -e "s/@CONFIG_@/$(config_prefix)/g" \
++ 		$< >$@
++ 	@chmod +x $@
++-- 
++2.8.1
+diff --git a/meta/recipes-devtools/kconfig-frontends/kconfig-frontends_4.10.0.1.bb b/meta/recipes-devtools/kconfig-frontends/kconfig-frontends_4.10.0.1.bb
+index be90d6b..d427e98 100644
+--- a/meta/recipes-devtools/kconfig-frontends/kconfig-frontends_4.10.0.1.bb
++++ b/meta/recipes-devtools/kconfig-frontends/kconfig-frontends_4.10.0.1.bb
+@@ -15,7 +15,8 @@ DEPENDS += "ncurses flex bison gperf-native"
+ RDEPENDS_${PN} += "python3 bash"
+ SRC_URI = "git://ymorin.is-a-geek.org/kconfig-frontends;branch=4.10.x \
+            file://0001-Fix-installation-of-.pc-files.patch \
+-           file://0001-Switch-utils-kconfig-diff-to-use-Python-3.patch"
++           file://0001-Switch-utils-kconfig-diff-to-use-Python-3.patch \
++           file://missing-mkdir.patch"
+ 
+ SRCREV = "f8ffe5e1c6f183cb7d5d515aa9381b7557de654e"
+ 
+-- 
+2.8.1
 
 
-Breaks under musl:
-
-In file included from ../libnl-3.3.0/include/linux-private/linux/ipv6.h:5:0,
-                 from ../libnl-3.3.0/include/netlink-private/netlink.h:54,
-                 from ../libnl-3.3.0/lib/nl.c:28:
-../libnl-3.3.0/include/linux-private/linux/in6.h:32:8: error: redefinition
-of 'struct in6_addr'
- struct in6_addr {
-        ^~~~~~~~
-
-In file included from
-TOPDIR/tmp/work/i586-poky-linux-musl/libnl/1_3.3.0-r0/recipe-sysroot/usr/include/arpa/inet.h:9:0,
-                 from ../libnl-3.3.0/include/netlink-private/netlink.h:32,
-                 from ../libnl-3.3.0/lib/nl.c:28:
-TOPDIR/tmp/work/i586-poky-linux-musl/libnl/1_3.3.0-r0/recipe-sysroot/usr/include/netinet/in.h:23:8:
-note: originally defined here
- struct in6_addr {
-        ^~~~~~~~
-
-Ross
-
---001a113f40e4088eb7054f1733f1
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"></div><br>On 8 May 2017 at 10:3=
-9, Huang Qiyu &lt;<a href=3D"mailto:huangqy.fnst@cn.fujitsu.com">huangqy.fn=
-st@cn.fujitsu.com</a>&gt; wrote:<br>&gt;<br>&gt; 1) Upgrade libnl from 3.2.=
-29 to 3.3.0.<br>&gt; 2) Delete patch &quot;fix-pktloc_syntax_h-race.patch&q=
-uot;, since it is integrated upstream.<br><br><br>Breaks under musl:<br><br=
->In file included from ../libnl-3.3.0/include/linux-private/linux/ipv6.h:5:=
-0,<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0from ..=
-/libnl-3.3.0/include/netlink-private/netlink.h:54,<br>=C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0from ../libnl-3.3.0/lib/nl.c:28:<b=
-r>../libnl-3.3.0/include/linux-private/linux/in6.h:32:8: error: redefinitio=
-n of &#39;struct in6_addr&#39;<br>=C2=A0struct in6_addr {<br>=C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 ^~~~~~~~<br><br>In file included from TOPDIR/tmp/work/i586-po=
-ky-linux-musl/libnl/1_3.3.0-r0/recipe-sysroot/usr/include/arpa/inet.h:9:0,<=
-br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0from ../li=
-bnl-3.3.0/include/netlink-private/netlink.h:32,<br>=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0from ../libnl-3.3.0/lib/nl.c:28:<br>T=
-OPDIR/tmp/work/i586-poky-linux-musl/libnl/1_3.3.0-r0/recipe-sysroot/usr/inc=
-lude/netinet/in.h:23:8: note: originally defined here<br>=C2=A0struct in6_a=
-ddr {<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 ^~~~~~~~<br><div><br></div><div>Ross</=
-div></div>
-
---001a113f40e4088eb7054f1733f1--
