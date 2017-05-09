@@ -1,32 +1,24 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 4661471957
+Return-Path: <Mark.Asselstine@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 7DFA271957
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 May 2017 20:39:51 +0000 (UTC)
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-	by fmsmga105.fm.intel.com with ESMTP; 09 May 2017 13:39:52 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.38,316,1491289200"; d="scan'208";a="97735520"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by orsmga005.jf.intel.com with ESMTP; 09 May 2017 13:39:51 -0700
-To: Khem Raj <raj.khem@gmail.com>, "Burton, Ross" <ross.burton@intel.com>
-References: <1494240698452.53619@mentor.com>
-	<CAHiDW_GPTu0WcuNd143TaBsD=8hiv6SPowWHcBF_0h8DG1x+fw@mail.gmail.com>
-	<16a6f453-9856-36c0-e160-036d23e98111@linux.intel.com>
-	<19161543.bPvO6Cp06Y@peggleto-mobl.ger.corp.intel.com>
-	<CAJTo0LZ2vUt4y4YByOEJwW-6ctS_HTKJJbNTGx_yisiwsGTUDQ@mail.gmail.com>
-	<CAMKF1sqNov69Q+AQVRqTaseODJ4_jHKNPB1LDNL0bX2qb+DyqA@mail.gmail.com>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <cad9898d-2994-5643-0917-81d2b2a917eb@linux.intel.com>
-Date: Tue, 9 May 2017 23:39:58 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.8.0
+	Tue,  9 May 2017 20:51:47 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v49Kpm9O011867
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 9 May 2017 13:51:48 -0700
+Received: from yow-dellw-ma.wrs.com (128.224.56.18) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
+	Tue, 9 May 2017 13:51:47 -0700
+From: Mark Asselstine <mark.asselstine@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 9 May 2017 16:51:37 -0400
+Message-ID: <1494363097-28532-1-git-send-email-mark.asselstine@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-In-Reply-To: <CAMKF1sqNov69Q+AQVRqTaseODJ4_jHKNPB1LDNL0bX2qb+DyqA@mail.gmail.com>
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: GUI based images
+Subject: [meta-oe][resend][PATCH] sysstat: fixup pkg_postinst to allow SYSTEMD_AUTO_ENABLE to work
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,32 +31,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 May 2017 20:39:54 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 09 May 2017 20:51:49 -0000
+Content-Type: text/plain
 
-On 05/09/2017 11:19 PM, Khem Raj wrote:
-> I think we should always intend to align the reference stack with
-> whats commonly used in
-> userbases we target to address with project, we will not be serving
-> the project goals and its username if we
-> trim down to packages which are just used for reference, if majority of the
-> community we intend to address uses QT or any other stack for that matter
-> then we should align our requirements accordingly which will be mutually
-> beneficial IMO
+The logic added to the pkg_postinst in commit 6bf82c26f953 has the
+side effect of rendering SYSTEMD_AUTO_ENABLE ineffective. The systemd
+service will not be configured as 'enabled' either offline(do_rootfs)
+or during first boot. Since the volatiles, as used, in the
+pkg_postinst are unused with systemd we can simply skip the
+pkg_postinst when not using sysvinit.
 
-I strongly disagree. Oe-core is not a Greatest Embedded Hits collection 
-or any kind of 'reference stack', and decisions on what goes into it 
-should not be based on how popular it is. If you do this, you risk 
-overextending the layer, and ending up not doing a particularly good job 
-on any of the things it tries to do. It's best to allow other layers to 
-flourish, let the domain specialists do their job and decide for 
-themselves how they want to do things, and have a curated list of layers 
-that are known to be high quality and approved by Yocto Project.
+Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
+---
+ meta/recipes-extended/sysstat/sysstat.inc | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-If you want qt5, use meta-qt5 and meta-b2qt, both made by people who 
-actually develop the Qt stack itself. End of story.
-
-Alex
+diff --git a/meta/recipes-extended/sysstat/sysstat.inc b/meta/recipes-extended/sysstat/sysstat.inc
+index bb5629d..fce2804 100644
+--- a/meta/recipes-extended/sysstat/sysstat.inc
++++ b/meta/recipes-extended/sysstat/sysstat.inc
+@@ -42,7 +42,9 @@ do_install() {
+ 	sed -i -e 's#@LIBDIR@#${libdir}#g' ${D}${systemd_unitdir}/system/sysstat.service
+ }
+ 
+-pkg_postinst_${PN} () {
++OVERRIDES_append = "${@bb.utils.contains('DISTRO_FEATURES', 'sysvinit', ':sysvinit', '', d)}"
++
++pkg_postinst_${PN}_sysvinit () {
+         if [ -n "$D" ]; then
+                 exit 0
+         fi
+-- 
+2.7.4
 
 
