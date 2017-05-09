@@ -1,27 +1,31 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id D8A48719A5
+Return-Path: <denis@denix.org>
+Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.17])
+	by mail.openembedded.org (Postfix) with ESMTP id DCCC460017
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 May 2017 18:05:14 +0000 (UTC)
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-	by orsmga105.jf.intel.com with ESMTP; 09 May 2017 11:05:15 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.38,315,1491289200"; d="scan'208";a="85414389"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by orsmga004.jf.intel.com with ESMTP; 09 May 2017 11:05:14 -0700
-To: "Maxin B. John" <maxin.john@intel.com>,
-	openembedded-core@lists.openembedded.org
-References: <1494346762-7270-1-git-send-email-maxin.john@intel.com>
-	<1494346762-7270-2-git-send-email-maxin.john@intel.com>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <3bcd82f1-0989-d9ad-1369-b09f7b89be2a@linux.intel.com>
-Date: Tue, 9 May 2017 21:05:21 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.8.0
-MIME-Version: 1.0
-In-Reply-To: <1494346762-7270-2-git-send-email-maxin.john@intel.com>
-Subject: Re: [PATCH 2/3] DEBIAN_MIRROR: switch from ftp to http
+	Tue,  9 May 2017 19:31:56 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by mailout4.zoneedit.com (Postfix) with ESMTP id 6284A208E0;
+	Tue,  9 May 2017 19:31:57 +0000 (UTC)
+Received: from mailout4.zoneedit.com ([127.0.0.1])
+	by localhost (zmo03-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
+	port 10024)
+	with ESMTP id xtvG2W5k6Mde; Tue,  9 May 2017 19:31:57 +0000 (UTC)
+Received: from mail.denix.org (pool-100-15-85-143.washdc.fios.verizon.net
+	[100.15.85.143])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 3EAAD20873;
+	Tue,  9 May 2017 19:31:56 +0000 (UTC)
+Received: from gimli.denix (gimli [192.168.0.6])
+	by mail.denix.org (Postfix) with ESMTP id B77C31624B1;
+	Tue,  9 May 2017 15:31:55 -0400 (EDT)
+From: Denys Dmytriyenko <denis@denix.org>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  9 May 2017 15:31:54 -0400
+Message-Id: <1494358314-53536-1-git-send-email-denis@denix.org>
+X-Mailer: git-send-email 2.7.4
+Cc: Denys Dmytriyenko <denys@ti.com>
+Subject: [PATCH] python3-nose: rename ${bindir}/nosetests into ${bindir}/nosetests3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,16 +38,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 May 2017 18:05:15 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 09 May 2017 19:31:57 -0000
 
-On 05/09/2017 07:19 PM, Maxin B. John wrote:
-> All public-facing debian.org FTP services will be shut down on November 1, 2017
-> The mirrors should just be accessed using HTTP instead.
+From: Denys Dmytriyenko <denys@ti.com>
 
-Let's discourage the use of ftp in recipes in general; it's a 1970s relic.
+This resolves a conflict when both python-nose and python3-nose are pulled
+into an image and try to install ${bindir}/nosetests binary.
 
+This matches with how other distros are solving this problem, e.g. Debian:
+https://packages.debian.org/jessie/all/python3-nose/filelist
 
-Alex
+Also, other packages like python3-setuptools are already doing the same with
+their binaries.
+
+Signed-off-by: Denys Dmytriyenko <denys@ti.com>
+---
+ meta/recipes-devtools/python/python3-nose_1.3.7.bb | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/meta/recipes-devtools/python/python3-nose_1.3.7.bb b/meta/recipes-devtools/python/python3-nose_1.3.7.bb
+index 99bba44..1e2ff74 100644
+--- a/meta/recipes-devtools/python/python3-nose_1.3.7.bb
++++ b/meta/recipes-devtools/python/python3-nose_1.3.7.bb
+@@ -17,6 +17,10 @@ S = "${WORKDIR}/nose-${PV}"
+ 
+ inherit setuptools3
+ 
++do_install_append() {
++    mv ${D}${bindir}/nosetests ${D}${bindir}/nosetests3
++}
++
+ RDEPENDS_${PN}_class-target = "\
+   python3-unittest \
+   "
+-- 
+2.7.4
+
 
