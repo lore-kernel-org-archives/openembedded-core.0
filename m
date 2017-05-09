@@ -1,34 +1,30 @@
-Return-Path: <obi@opendreambox.org>
-Received: from mail.dream-property.net (mail.dream-property.net
-	[82.149.226.172])
-	by mail.openembedded.org (Postfix) with ESMTP id AD1FC71B04
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 2406671B04
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 May 2017 09:22:09 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.dream-property.net (Postfix) with ESMTP id 5611132005BC;
-	Tue,  9 May 2017 11:22:10 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
-Received: from mail.dream-property.net ([127.0.0.1])
-	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id ybSvHmnlpGxc; Tue,  9 May 2017 11:22:08 +0200 (CEST)
-Received: from t510.zcs.saftware.de (p57A61F97.dip0.t-ipconnect.de
-	[87.166.31.151])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by mail.dream-property.net (Postfix) with ESMTPSA id 012EC32005D2;
-	Tue,  9 May 2017 11:22:07 +0200 (CEST)
-Date: Tue, 9 May 2017 11:22:07 +0200
-From: Andreas Oberritter <obi@opendreambox.org>
-To: openembedded-core@lists.openembedded.org, Jussi Kukkonen
-	<jussi.kukkonen@intel.com>
-Message-ID: <20170509112207.0cd65f2d@t510.zcs.saftware.de>
-In-Reply-To: <20170130232002.4088d7d3@t510.zcs.saftware.de>
-References: <1480508551-26893-1-git-send-email-obi@opendreambox.org>
-	<1480508551-26893-2-git-send-email-obi@opendreambox.org>
-	<20170130232002.4088d7d3@t510.zcs.saftware.de>
+	Tue,  9 May 2017 09:23:03 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v499N4Av012317
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 9 May 2017 02:23:04 -0700 (PDT)
+Received: from [128.224.162.201] (128.224.162.201) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.294.0;
+	Tue, 9 May 2017 02:23:03 -0700
+To: Joshua Lock <joshua.g.lock@linux.intel.com>,
+	<openembedded-core@lists.openembedded.org>
+References: <cover.1494321164.git.Qi.Chen@windriver.com>
+	<ecb02fcc0cbe4c1ea8967c80b9d1e6d14586ed2e.1494321164.git.Qi.Chen@windriver.com>
+	<1494321448.10021.1.camel@linux.intel.com>
+From: ChenQi <Qi.Chen@windriver.com>
+Message-ID: <bbc28376-35a7-5e77-8abc-0d67d9f05516@windriver.com>
+Date: Tue, 9 May 2017 17:25:19 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.4.0
 MIME-Version: 1.0
-Subject: Re: [PATCH 2/2] connman: enable connman-wait-online.service
+In-Reply-To: <1494321448.10021.1.camel@linux.intel.com>
+X-Originating-IP: [128.224.162.201]
+Subject: Re: [PATCH 1/1] cve-check.bbclass: make warning contain CVE IDs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,40 +37,97 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 May 2017 09:22:09 -0000
-Content-Type: text/plain; charset=US-ASCII
+X-List-Received-Date: Tue, 09 May 2017 09:23:04 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-Ping, again, for this very simple patch.
+On 05/09/2017 05:17 PM, Joshua Lock wrote:
+> On Tue, 2017-05-09 at 17:13 +0800, Chen Qi wrote:
+>> When warning users about unpatched CVE, we'd better put CVE IDs into
+>> the warning message, so that it would be more straight forward for
+>> the
+>> user to know which CVEs are not patched.
+>>
+>> So instead of:
+>>    WARNING: gnutls-3.5.9-r0 do_cve_check: Found unpatched CVE, for
+>> more information check /path/to/workdir/cve/cve.log.
+>> We should have:
+>>    WARNING: gnutls-3.5.9-r0 do_cve_check: Found unpatched CVE (CVE-
+>> 2017-7869), for more information check /path/to/workdir/cve/cve.log.
+>>
+>> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+>> ---
+>>   meta/classes/cve-check.bbclass | 11 +++++++----
+>>   1 file changed, 7 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-
+>> check.bbclass
+>> index 0e4294f..496d744 100644
+>> --- a/meta/classes/cve-check.bbclass
+>> +++ b/meta/classes/cve-check.bbclass
+>> @@ -234,7 +234,8 @@ def cve_write_data(d, patched, unpatched,
+>> cve_data):
+>>       cve_file = d.getVar("CVE_CHECK_LOCAL_FILE")
+>>       nvd_link = "https://web.nvd.nist.gov/view/vuln/detail?vulnId="
+>>       write_string = ""
+>> -    first_alert = True
+>> +    has_unpatched_cve = False
+>> +    unpatched_cves = []
+>>       bb.utils.mkdirhier(d.getVar("CVE_CHECK_LOCAL_DIR"))
+>>   
+>>       for cve in sorted(cve_data):
+>> @@ -244,15 +245,17 @@ def cve_write_data(d, patched, unpatched,
+>> cve_data):
+>>           if cve in patched:
+>>               write_string += "CVE STATUS: Patched\n"
+>>           else:
+>> +            unpatched_cves.append(cve)
+>>               write_string += "CVE STATUS: Unpatched\n"
+>> -            if first_alert:
+>> -                bb.warn("Found unpatched CVE, for more information
+>> check %s" % cve_file)
+>> -                first_alert = False
+>> +            has_unpatched_cve = True
+>>           write_string += "CVE SUMMARY: %s\n" %
+>> cve_data[cve]["summary"]
+>>           write_string += "CVSS v2 BASE SCORE: %s\n" %
+>> cve_data[cve]["score"]
+>>           write_string += "VECTOR: %s\n" % cve_data[cve]["vector"]
+>>           write_string += "MORE INFORMATION: %s%s\n\n" % (nvd_link,
+>> cve)
+>>   
+>> +    if has_unpatched_cve:
+> There's no need for the has_unpatched_cve variable, you can just test
+> whether the unpatched_cves list is empty:
+>
+>>>> foo = []
+>>>> bar = [1, 2, 3]
+>>>> if foo:
+> ...   print("foo")
+> ...
+>>>> if bar:
+> ...   print("bar")
+> ...
+> bar
+>
+> Your conditional can just be:
+>
+>    + if unpatched_cve:
 
-On Mon, 30 Jan 2017 23:20:02 +0100
-Andreas Oberritter <obi@opendreambox.org> wrote:
+Thanks a lot.
+I'll send out V2.
 
-> Ping.
-> 
-> On Wed, 30 Nov 2016 13:22:31 +0100
-> Andreas Oberritter <obi@opendreambox.org> wrote:
-> 
-> > Fixes network mounts on boot.
-> > 
-> > Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
-> > ---
-> >  meta/recipes-connectivity/connman/connman.inc | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/meta/recipes-connectivity/connman/connman.inc b/meta/recipes-connectivity/connman/connman.inc
-> > index 091e402..0480257 100644
-> > --- a/meta/recipes-connectivity/connman/connman.inc
-> > +++ b/meta/recipes-connectivity/connman/connman.inc
-> > @@ -56,7 +56,7 @@ PACKAGECONFIG[wispr] = "--enable-wispr,--disable-wispr,gnutls,"
-> >  INITSCRIPT_NAME = "connman"
-> >  INITSCRIPT_PARAMS = "start 05 5 2 3 . stop 22 0 1 6 ."
-> >  
-> > -SYSTEMD_PACKAGES = "${PN} ${PN}-vpn"
-> > +SYSTEMD_PACKAGES = "${PN} ${PN}-vpn ${PN}-wait-online"
-> >  SYSTEMD_SERVICE_${PN} = "connman.service"
-> >  SYSTEMD_SERVICE_${PN}-vpn = "connman-vpn.service"
-> >  SYSTEMD_SERVICE_${PN}-wait-online = "connman-wait-online.service"  
-> 
+Best Regards,
+Chen Qi
+
+>> +        bb.warn("Found unpatched CVE (%s), for more information
+>> check %s" % (" ".join(unpatched_cves),cve_file))
+>> +
+>>       with open(cve_file, "w") as f:
+>>           bb.note("Writing file %s with CVE information" % cve_file)
+>>           f.write(write_string)
+>> -- 
+>> 1.9.1
+>>
 
 
