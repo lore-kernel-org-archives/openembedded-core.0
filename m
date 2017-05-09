@@ -1,63 +1,49 @@
-Return-Path: <prvs=03027b71a8=mike.looijmans@topicproducts.com>
-X-Greylist: delayed 1740 seconds by postgrey-1.34 at layers.openembedded.org;
-	Tue, 09 May 2017 11:46:40 UTC
-Received: from mx5-04.smtp.antispamcloud.com (mx5-04.smtp.antispamcloud.com
-	[95.211.112.140])
-	by mail.openembedded.org (Postfix) with ESMTP id BB0A9601D4
+Return-Path: <koenraad.verheyden@gmail.com>
+Received: from mail-oi0-f46.google.com (mail-oi0-f46.google.com
+	[209.85.218.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 1EB9D6093A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 May 2017 11:46:40 +0000 (UTC)
-Received: from [37.74.225.130] (helo=TOP-EX01.TOPIC.LOCAL)
-	by mx5.antispamcloud.com with esmtps (TLSv1:ECDHE-RSA-AES128-SHA:128)
-	(Exim 4.86) (envelope-from <mike.looijmans@topicproducts.com>)
-	id 1d8398-0005tb-2z; Tue, 09 May 2017 13:17:39 +0200
-Received: from [192.168.80.121] (192.168.80.121) by webmail.topic.nl
-	(192.168.10.102) with Microsoft SMTP Server id 14.3.224.2;
-	Tue, 9 May 2017 13:17:36 +0200
-To: Alex J Lennon <ajlennon@dynamicdevices.co.uk>, Alexander Kanavin
-	<alexander.kanavin@linux.intel.com>, Paul Eggleton
-	<paul.eggleton@linux.intel.com>
-References: <1494240698452.53619@mentor.com>
-	<CAHiDW_GPTu0WcuNd143TaBsD=8hiv6SPowWHcBF_0h8DG1x+fw@mail.gmail.com>
-	<16a6f453-9856-36c0-e160-036d23e98111@linux.intel.com>
-	<19161543.bPvO6Cp06Y@peggleto-mobl.ger.corp.intel.com>
-	<be95c443-df9a-2c9a-394b-4b02c8710fdc@linux.intel.com>
-	<931ee9bc-a5cb-fcc2-278b-20a07731524d@dynamicdevices.co.uk>
-From: Mike Looijmans <mike.looijmans@topic.nl>
-Organization: TOPIC
-Message-ID: <9797fef2-fbec-2c90-aeb1-6af3f6c6e872@topic.nl>
-Date: Tue, 9 May 2017 13:17:35 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.8.0
+	Tue,  9 May 2017 11:59:18 +0000 (UTC)
+Received: by mail-oi0-f46.google.com with SMTP id w10so83888909oif.0
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 09 May 2017 04:59:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=RfHJkHjZR7usPoigiHnDK4n2pSUrrDUbUmGa3t8YYP8=;
+	b=TkLodJuF9k+tHFD1ryBCytK8Xzpk0ffIe/IN/WmMzIiZ0OcW8GnzFGm8mQ2jZdsO9o
+	xeI/+8ffehVZnREWcjSLwHeGFoEzekokzcRFq5owF7XNKUYKbhuehwk8uBK+dFR6GdZa
+	9vQs2R3QrsM7DqPX7mOl6g2umKYUZpF/L0mkFK2LSSW7gYqVl8XUxiLdUtgmIwPRSImM
+	f+mPah1zbAJFsqL6IoPufYU9gTeypZ8tWYy6lUmE8KIhjuyPXWNRN/Boo5AWFrHiPvqX
+	mkEZ3UASbn9nJiLYaQXCmwHzi/E/pnq+YfJ7wIx1aVleWgejhx8tnI0jXNI7s0MC/lIH
+	bgEQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=RfHJkHjZR7usPoigiHnDK4n2pSUrrDUbUmGa3t8YYP8=;
+	b=lO4o0NzRFPa9A0iAeKBAN76Fun8R4L0ucmmFIP/mJCHUrX4BGSOuOpw+4QPwgpmkd6
+	TTLi3VUljEiim3RniGUKdX9RlTe8XSAgvx1iYEpzUt9I+o9hjjcl1IAKNhsnXGDKYbr8
+	nmdvzrYA8huzPxEzQhppBcqM0Oy3w0WjjpnkbTRsDgwwIKpKgwz3CIBt9AlL1yNFQ+n1
+	u+zZO6ZS6BGtAkwtaG7dw66SAgVYBNTLTmsvR7URgSIMeo9t1/EFHxYAZAKrLO1YygX9
+	Y1lOSwbvU4B5VK3wPnlGqa3ucfzWSIrjd3Z4XXtfdcGK7Vlrr6G8Dpai/d7dDv1z25rr
+	27CA==
+X-Gm-Message-State: AN3rC/6RA61KzpyNKrBWs5zBwl7b+CpQNHweCleHhwJh8LA87j87bnFv
+	FloCR+W0UaAYS3fpzroogt3gOQmJgA==
+X-Received: by 10.157.39.98 with SMTP id r89mr26295933ota.11.1494331159780;
+	Tue, 09 May 2017 04:59:19 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <931ee9bc-a5cb-fcc2-278b-20a07731524d@dynamicdevices.co.uk>
-X-Originating-IP: [192.168.80.121]
-X-EXCLAIMER-MD-CONFIG: 9833cda7-5b21-4d34-9a38-8d025ddc3664
-X-EXCLAIMER-MD-BIFURCATION-INSTANCE: 0
-X-Originating-IP: 37.74.225.130
-X-SpamExperts-Domain: topic.nl
-X-SpamExperts-Username: 37.74.225.128/28
-Authentication-Results: antispamcloud.com;
-	auth=pass smtp.auth=37.74.225.128/28@topic.nl
-X-SpamExperts-Outgoing-Class: ham
-X-SpamExperts-Outgoing-Evidence: Combined (0.04)
-X-Recommended-Action: accept
-X-Filter-ID: s0sct1PQhAABKnZB5plbIbbvfIHzQjPVmPLZeVYSu3xU9luQrU+8/8qthi+0Jd/W/95+6ZE6dI+d
-	FNTaLLKrTD4PkK8WOoKuw32u9iEtZmisSr42qUwvK7U11fJ5smF5bE7GwnNXTE7JFCR1ojdwNNn9
-	LhPPIi0ypM2ge3Yu7Cv69sjEWyk4vRF+vWqM7NxoDtR/uP9bQ5OkftjMyOwihGbjO41FyBEqIaDu
-	dcVplPGNaieKxw/vh63RdlaW2Zj1hcQD6Dxo9kokFZNwiacNPxeTCKssqlJePCDBHWfCYUvWOATT
-	vnG+QUCcfrSs6FZc7tZ3vKwSN7Mv0HNteAusUZ8BuYwGqmI8Tx/Ism0pnCcmlWACu0WC7nIKSPYV
-	aBAANeo6Hr4UJMIZEVOGlXeApA3I626B4k1VCg2pmPRu/ts3ecKi5EKZCMssQlII7x2c97BGTJrx
-	4C8BwCS2BVEwlL3upx1n/FUf/NwbTI+uRoXlWvXEyVXmV1DcCGMoc6ig/SVaKi0jvtxxX4zA29pu
-	2ONYQFX+rhdRbxagFZk9QeU7sEKSfUWHty4XO0JvVoTKUz0sPgnpAk2KA2vJwMd1uVp/3TgIM4oj
-	TBFr687rGjvGLWY+MgHYxfRtKtuAsj1l++DuIQUs/5JJj4C/n4CILo0QSzGNvD+RngRrZomAbi+I
-	zFFbdmFRdTAoG6SY1sg8lojo5GHljHjgfMGosEgAyTQB58XtL2OmUgcwtsJrsd9thWJcDArBQLlQ
-	+zm4f1mvd1VPQgOyF0VU5Apg2BGZWSIpkk35MI9DVHxM/A6I+CNS1Nm6pU9u31tgNDkS3Qq/R1+9
-	aoDA/mNiPKpJYUKtLTZXPpdyX61x7CIxR1L10qle3o0H/nKqsejvGSuYtCPX+amuZtD/P1OB/Eee
-	XCZHa74WGRgNu2VOWvP88pa4rWdmraJGWVbN0zdCh+St1HowDNDT1fCR6/ycarktyDip8z7uHMR7
-	LB7NDR0Uo7QTLRHEXBJQSj18P7PHF7+bvoivFHi62c+876oxtBi6kxxY9w==
-X-Report-Abuse-To: spam@quarantine2.antispamcloud.com
+Received: by 10.157.25.196 with HTTP; Tue, 9 May 2017 04:59:19 -0700 (PDT)
+In-Reply-To: <1492768432.2475.1.camel@iki.fi>
+References: <CA+rFJSHcJbmnrtA0jqXXscj7LpV3GR6EcGeBWCGdSPbZeES+SA@mail.gmail.com>
+	<1492694665.22019.2.camel@iki.fi>
+	<CA+rFJSHDqvsg23XXSQfk0XUpj+0bmcULM_EjddD0NwS9ZZC37Q@mail.gmail.com>
+	<1492768432.2475.1.camel@iki.fi>
+From: Koenraad Verheyden <koenraad.verheyden@gmail.com>
+Date: Tue, 9 May 2017 13:59:19 +0200
+Message-ID: <CA+rFJSGHBiVAwPqF9bqJQV=0wh+6DT5rdK-6V3TuZCg2qRYp=Q@mail.gmail.com>
+To: Tanu Kaskinen <tanuk@iki.fi>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: GUI based images
+Subject: Re: PulseAudio with WebRTC echo cancellation (aec): support for webrtc-audio-processing package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -70,78 +56,123 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 May 2017 11:46:41 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
+X-List-Received-Date: Tue, 09 May 2017 11:59:20 -0000
+Content-Type: multipart/alternative; boundary=001a113ce6c2f4a5a7054f16153e
+
+--001a113ce6c2f4a5a7054f16153e
+Content-Type: text/plain; charset=UTF-8
+
+Hi Tanu,
+
+I've written a script myself, referencing how other scripts did this. Was
+indeed not so hard.
+This is the first time writing such a script so I can't guarantee
+everything is correct or the right way to do (especially the license
+stuff). But this works for me.
+
+You can do with this script as you want.
+
+With kind regards,
+Koenraad
+
+The script:
+==========
+DESCRIPTION = "This is meant to be a more Linux packaging friendly copy of
+the AudioProcessing module from the WebRTC project."
+HOMEPAGE = "
+https://www.freedesktop.org/software/pulseaudio/webrtc-audio-processing/"
+LICENSE = "BSD-3-Clause"
+LIC_FILES_CHKSUM = "file://COPYING;md5=da08a38a32a340c5d91e13ee86a118f2"
+
+SRC_URI = "http://freedesktop.org/software/pulseaudio/${BPN}/${BP}.tar.xz"
+SRC_URI[md5sum] = "336ae032f608e65808ac577cde0ab72c"
+SRC_URI[sha256sum] =
+"756e291d4f557d88cd50c4fe3b8454ec238362d22cedb3e6173240d90f0a80fa"
+
+inherit autotools
+==========
+
+On 21 April 2017 at 11:53, Tanu Kaskinen <tanuk@iki.fi> wrote:
+
+> On Thu, 2017-04-20 at 22:14 +0200, Koenraad Verheyden wrote:
+> > I am not familiar with the organization of the various recipes. I
+> > mentioned oe-core since the original message was posted there.
+> > Meta-oe seems more suitable indeed.
+> >
+> > How much work would it be to make a recipe for this?
+> > I need it for a short-term project and am not in a position to further
+> > support it afterwards.
+>
+> Writing the recipe should be fairly simple. I can do that at some
+> point, but if you want it fast, write the recipe yourself. I volunteer
+> to maintain it.
+>
+> --
+> Tanu
+>
+> https://www.patreon.com/tanuk
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+
+--001a113ce6c2f4a5a7054f16153e
+Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-=EF=BB=BFOn 09-05-17 10:44, Alex J Lennon wrote:
+<div dir=3D"ltr"><div><div><div><div><div>Hi Tanu,<br><br></div>I&#39;ve wr=
+itten a script myself, referencing how other scripts did this. Was indeed n=
+ot so hard.<br></div>This is the first time writing such a script so I can&=
+#39;t guarantee everything is correct or the right way to do (especially th=
+e license stuff). But this works for me.<br><br></div><div>You can do with =
+this script as you want.<br></div><div><br></div>With kind regards,<br></di=
+v>Koenraad<br><br></div>The script:<br>=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<br>DE=
+SCRIPTION =3D &quot;This is meant to be a more Linux packaging friendly cop=
+y of the AudioProcessing module from the WebRTC project.&quot;<br>HOMEPAGE =
+=3D &quot;<a href=3D"https://www.freedesktop.org/software/pulseaudio/webrtc=
+-audio-processing/">https://www.freedesktop.org/software/pulseaudio/webrtc-=
+audio-processing/</a>&quot;<br>LICENSE =3D &quot;BSD-3-Clause&quot;<br>LIC_=
+FILES_CHKSUM =3D &quot;file://COPYING;md5=3Dda08a38a32a340c5d91e13ee86a118f=
+2&quot;<br><br>SRC_URI =3D &quot;<a href=3D"http://freedesktop.org/software=
+/pulseaudio/${BPN}/${BP}.tar.xz">http://freedesktop.org/software/pulseaudio=
+/${BPN}/${BP}.tar.xz</a>&quot;<br>SRC_URI[md5sum] =3D &quot;336ae032f608e65=
+808ac577cde0ab72c&quot;<br>SRC_URI[sha256sum] =3D &quot;756e291d4f557d88cd5=
+0c4fe3b8454ec238362d22cedb3e6173240d90f0a80fa&quot;<br><br>inherit autotool=
+s<br>=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<br></div><div class=3D"gmail_extra"><br=
+><div class=3D"gmail_quote">On 21 April 2017 at 11:53, Tanu Kaskinen <span =
+dir=3D"ltr">&lt;<a href=3D"mailto:tanuk@iki.fi" target=3D"_blank">tanuk@iki=
+.fi</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"mar=
+gin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><span class=3D"=
+">On Thu, 2017-04-20 at 22:14 +0200, Koenraad Verheyden wrote:<br>
+&gt; I am not familiar with the organization of the various recipes. I<br>
+&gt; mentioned oe-core since the original message was posted there.<br>
+&gt; Meta-oe seems more suitable indeed.<br>
+&gt;<br>
+&gt; How much work would it be to make a recipe for this?<br>
+&gt; I need it for a short-term project and am not in a position to further=
+<br>
+&gt; support it afterwards.<br>
+<br>
+</span>Writing the recipe should be fairly simple. I can do that at some<br=
 >
->
-> On 09/05/17 09:05, Alexander Kanavin wrote:
->> On 05/09/2017 01:15 AM, Paul Eggleton wrote:
->>>> LXDE in particular is Gtk2 based, it's no longer being developed, and
->>>> has been superseded by LXQt. So it's a non-starter (and so is LXQt,
->>>> which should be clear from its name :).
->>>
->>> FWIW I think this is a little short-sighted. Why are we ruling out Qt e=
-xactly?
->>
->> We would first have to agree that Qt5 belongs in oe-core with appropriat=
-e
->> level of maintenance and QA, and that it's okay to add half an hour or m=
-ore
->> to the building time of a standard GUI image.
->>
->> From the screenshots of LxQT, it looks like yet another Win95 clone mean=
-t
->> strictly for desktop use that would certainly scale poorly to small
->> resolution screens. Who would be the target audience for it in the embed=
-ded
->> space? For the purposes of 'engineering UI', Sato is fine, and we don't =
-need
->> something else.
->>
->> Alex
->
-> fwiw. I would love to be able to develop devices like those pictured belo=
-w,
-> which I believe are based on Qt for Device Creation.
->
-> https://d33sqmjvzgs8hq.cloudfront.net/wp-content/uploads/2014/08/devices.=
-png
+point, but if you want it fast, write the recipe yourself. I volunteer<br>
+to maintain it.<br>
+<span class=3D"HOEnZb"><font color=3D"#888888"><br>
+--<br>
+Tanu<br>
+<br>
+<a href=3D"https://www.patreon.com/tanuk" rel=3D"noreferrer" target=3D"_bla=
+nk">https://www.patreon.com/tanuk</a><br>
+--<br>
+______________________________<wbr>_________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
+re@lists.<wbr>openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
+ailman/listinfo/openembedded-<wbr>core</a><br>
+</font></span></blockquote></div><br></div>
 
-Things like that can be cooked up in OE using just meta-qt4 (or 5, but have=
-n't=20
-tried yet) and a main application recipe (just a QT project that you develo=
-p=20
-on your desktop) that inherits qt4e.
-
-Qt doesn't need X11, saving big on build and boot time.
-
-A Zynq demo running QT on a plain framebuffer boots in about 7 seconds (fro=
-m=20
-NOR flash) into the fully functional GUI, on a 10" touch panel, and all of =
-it=20
-fits in about 20MB flash storage.
-
-
-
-Kind regards,
-
-Mike Looijmans
-System Expert
-
-TOPIC Products
-Materiaalweg 4, NL-5681 RJ Best
-Postbus 440, NL-5680 AK Best
-Telefoon: +31 (0) 499 33 69 79
-E-mail: mike.looijmans@topicproducts.com
-Website: www.topicproducts.com
-
-Please consider the environment before printing this e-mail
-
-
-
-
-
-
+--001a113ce6c2f4a5a7054f16153e--
