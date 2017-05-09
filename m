@@ -1,30 +1,30 @@
 Return-Path: <huangqy.fnst@cn.fujitsu.com>
 Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 655B671A39
+	by mail.openembedded.org (Postfix) with ESMTP id 45D1471ACC
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 May 2017 02:34:10 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.22,518,1449504000"; d="scan'208";a="18622461"
+	Tue,  9 May 2017 02:39:08 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.22,518,1449504000"; d="scan'208";a="18622700"
 Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 09 May 2017 10:34:11 +0800
+	by heian.cn.fujitsu.com with ESMTP; 09 May 2017 10:39:09 +0800
 Received: from G08CNEXCHPEKD02.g08.fujitsu.local (unknown [10.167.33.83])
-	by cn.fujitsu.com (Postfix) with ESMTP id EEA1947C677F
+	by cn.fujitsu.com (Postfix) with ESMTP id 636F647C6770
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 May 2017 10:34:08 +0800 (CST)
+	Tue,  9 May 2017 10:39:07 +0800 (CST)
 Received: from localhost.localdomain (10.167.226.81) by
 	G08CNEXCHPEKD02.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.319.2; Tue, 9 May 2017 10:34:08 +0800
+	Server (TLS) id 14.3.319.2; Tue, 9 May 2017 10:39:06 +0800
 From: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 9 May 2017 10:34:18 +0800
-Message-ID: <1494297258-15742-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
+Date: Tue, 9 May 2017 10:39:17 +0800
+Message-ID: <1494297557-17469-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
 X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
 X-Originating-IP: [10.167.226.81]
-X-yoursite-MailScanner-ID: EEA1947C677F.AA908
+X-yoursite-MailScanner-ID: 636F647C6770.A72CD
 X-yoursite-MailScanner: Found to be clean
 X-yoursite-MailScanner-From: huangqy.fnst@cn.fujitsu.com
 X-Spam-Status: No
-Subject: [PATCH] libpng: 1.6.28 -> 1.6.29
+Subject: [PATCH] libpthread-stubs: 0.3 -> 0.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,43 +37,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 May 2017 02:34:12 -0000
+X-List-Received-Date: Tue, 09 May 2017 02:39:09 -0000
 Content-Type: text/plain
 
-1) Upgrade libpng from 1.6.28 to 1.6.29.
-2) License checksum changed,since the copyright date and contributing authors were updated.
+Upgrade libpthread-stubs from 0.3 to 0.4.
 
 Signed-off-by: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
 ---
- .../libpng/{libpng_1.6.28.bb => libpng_1.6.29.bb}                 | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
- rename meta/recipes-multimedia/libpng/{libpng_1.6.28.bb => libpng_1.6.29.bb} (67%)
+ .../xorg-lib/{libpthread-stubs_0.3.bb => libpthread-stubs_0.4.bb}     | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/xorg-lib/{libpthread-stubs_0.3.bb => libpthread-stubs_0.4.bb} (84%)
 
-diff --git a/meta/recipes-multimedia/libpng/libpng_1.6.28.bb b/meta/recipes-multimedia/libpng/libpng_1.6.29.bb
-similarity index 67%
-rename from meta/recipes-multimedia/libpng/libpng_1.6.28.bb
-rename to meta/recipes-multimedia/libpng/libpng_1.6.29.bb
-index 9cb2967..8a3056e 100644
---- a/meta/recipes-multimedia/libpng/libpng_1.6.28.bb
-+++ b/meta/recipes-multimedia/libpng/libpng_1.6.29.bb
-@@ -2,14 +2,14 @@ SUMMARY = "PNG image format decoding library"
- HOMEPAGE = "http://www.libpng.org/"
- SECTION = "libs"
- LICENSE = "Libpng"
--LIC_FILES_CHKSUM = "file://LICENSE;md5=67d8837410863f9821bbd606536f0329 \
--                    file://png.h;endline=144;md5=abfa0497feb393b5842d3d82c1009520"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=f9acafc1325f8f8da80aeee94dbc1bda \
-+                    file://png.h;endline=144;md5=0b2aa20c7ff55d9411108317df8ff0c9"
- DEPENDS = "zlib"
+diff --git a/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.3.bb b/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.4.bb
+similarity index 84%
+rename from meta/recipes-graphics/xorg-lib/libpthread-stubs_0.3.bb
+rename to meta/recipes-graphics/xorg-lib/libpthread-stubs_0.4.bb
+index 5514c7f..a699841 100644
+--- a/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.3.bb
++++ b/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.4.bb
+@@ -14,8 +14,8 @@ ALLOW_EMPTY_${PN} = "1"
  
- SRC_URI = "${GENTOO_MIRROR}/libpng-${PV}.tar.xz \
-           "
--SRC_URI[md5sum] = "425354f86c392318d31aedca71019372"
--SRC_URI[sha256sum] = "d8d3ec9de6b5db740fefac702c37ffcf96ae46cb17c18c1544635a3852f78f7a"
-+SRC_URI[md5sum] = "3245dbd76ea91e1437507357b858ec97"
-+SRC_URI[sha256sum] = "4245b684e8fe829ebb76186327bb37ce5a639938b219882b53d64bd3cfc5f239"
+ SRC_URI = "http://xcb.freedesktop.org/dist/libpthread-stubs-${PV}.tar.bz2"
  
- BINCONFIG = "${bindir}/libpng-config ${bindir}/libpng16-config"
+-SRC_URI[md5sum] = "e8fa31b42e13f87e8f5a7a2b731db7ee"
+-SRC_URI[sha256sum] = "35b6d54e3cc6f3ba28061da81af64b9a92b7b757319098172488a660e3d87299"
++SRC_URI[md5sum] = "48c1544854a94db0e51499cc3afd797f"
++SRC_URI[sha256sum] = "e4d05911a3165d3b18321cc067fdd2f023f06436e391c6a28dff618a78d2e733"
+ 
+ inherit autotools pkgconfig
  
 -- 
 2.7.4
