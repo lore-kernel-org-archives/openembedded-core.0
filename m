@@ -1,26 +1,33 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 529DF71B40
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id AB08F71B32
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 May 2017 09:29:19 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v499TLLa013169
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 9 May 2017 02:29:21 -0700 (PDT)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.201) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.294.0; Tue, 9 May 2017 02:29:20 -0700
-From: Chen Qi <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 9 May 2017 17:31:36 +0800
-Message-ID: <364cb4905d949355da99a54b7cb6cd8788bbb9a2.1494322236.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1494322236.git.Qi.Chen@windriver.com>
-References: <cover.1494322236.git.Qi.Chen@windriver.com>
+	Tue,  9 May 2017 09:30:07 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	09 May 2017 02:30:08 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.38,313,1491289200"; d="scan'208";a="966204496"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by orsmga003.jf.intel.com with ESMTP; 09 May 2017 02:30:07 -0700
+To: Ian Arkver <ian.arkver.dev@gmail.com>,
+	openembedded-core@lists.openembedded.org
+References: <1494240698452.53619@mentor.com>
+	<CAHiDW_GPTu0WcuNd143TaBsD=8hiv6SPowWHcBF_0h8DG1x+fw@mail.gmail.com>
+	<16a6f453-9856-36c0-e160-036d23e98111@linux.intel.com>
+	<19161543.bPvO6Cp06Y@peggleto-mobl.ger.corp.intel.com>
+	<be95c443-df9a-2c9a-394b-4b02c8710fdc@linux.intel.com>
+	<931ee9bc-a5cb-fcc2-278b-20a07731524d@dynamicdevices.co.uk>
+	<70344400-e36e-497e-e061-56821561c353@gmail.com>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <19df6b88-60e2-a188-550a-ac333ac153d7@linux.intel.com>
+Date: Tue, 9 May 2017 12:30:13 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.8.0
 MIME-Version: 1.0
-Subject: [PATCH V2 1/1] cve-check.bbclass: make warning contain CVE IDs
+In-Reply-To: <70344400-e36e-497e-e061-56821561c353@gmail.com>
+Subject: Re: GUI based images
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,57 +40,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 May 2017 09:29:20 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 09 May 2017 09:30:07 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
-When warning users about unpatched CVE, we'd better put CVE IDs into
-the warning message, so that it would be more straight forward for the
-user to know which CVEs are not patched.
+On 05/09/2017 12:18 PM, Ian Arkver wrote:
+> They have their own meta-b2qt layer for that. See "Embedded
+> documentation" and "Building Your Own Embedded Linux Image" from that
+> page.
+>
+> It's not an OE-core thing, imho.
 
-So instead of:
-  WARNING: gnutls-3.5.9-r0 do_cve_check: Found unpatched CVE, for more information check /path/to/workdir/cve/cve.log.
-We should have:
-  WARNING: gnutls-3.5.9-r0 do_cve_check: Found unpatched CVE (CVE-2017-7869), for more information check /path/to/workdir/cve/cve.log.
+I digged a bit deeper, and meta-b2qt is in fact open source:
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- meta/classes/cve-check.bbclass | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+http://code.qt.io/cgit/yocto/meta-boot2qt.git/tree/README
 
-diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.bbclass
-index 0e4294f..3a9e227 100644
---- a/meta/classes/cve-check.bbclass
-+++ b/meta/classes/cve-check.bbclass
-@@ -234,7 +234,7 @@ def cve_write_data(d, patched, unpatched, cve_data):
-     cve_file = d.getVar("CVE_CHECK_LOCAL_FILE")
-     nvd_link = "https://web.nvd.nist.gov/view/vuln/detail?vulnId="
-     write_string = ""
--    first_alert = True
-+    unpatched_cves = []
-     bb.utils.mkdirhier(d.getVar("CVE_CHECK_LOCAL_DIR"))
- 
-     for cve in sorted(cve_data):
-@@ -244,15 +244,16 @@ def cve_write_data(d, patched, unpatched, cve_data):
-         if cve in patched:
-             write_string += "CVE STATUS: Patched\n"
-         else:
-+            unpatched_cves.append(cve)
-             write_string += "CVE STATUS: Unpatched\n"
--            if first_alert:
--                bb.warn("Found unpatched CVE, for more information check %s" % cve_file)
--                first_alert = False
-         write_string += "CVE SUMMARY: %s\n" % cve_data[cve]["summary"]
-         write_string += "CVSS v2 BASE SCORE: %s\n" % cve_data[cve]["score"]
-         write_string += "VECTOR: %s\n" % cve_data[cve]["vector"]
-         write_string += "MORE INFORMATION: %s%s\n\n" % (nvd_link, cve)
- 
-+    if unpatched_cves:
-+        bb.warn("Found unpatched CVE (%s), for more information check %s" % (" ".join(unpatched_cves),cve_file))
-+
-     with open(cve_file, "w") as f:
-         bb.note("Writing file %s with CVE information" % cve_file)
-         f.write(write_string)
--- 
-1.9.1
+"Boot to Qt (b2qt) is the reference distro used in Qt for Device 
+Creation [1]. It combines Poky, meta-qt5 and various BSP meta layers to 
+provide an integrated solution for building device images and toolchains 
+with the latest Qt version."
 
+Seriously, for those who say that qt5 should be in oe.core - this does 
+the job far better than oe-core ever would.
+
+Alex
 
