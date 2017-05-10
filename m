@@ -1,54 +1,48 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 0271071B04
+Return-Path: <prvs=330334169f=michael.davis@essvote.com>
+Received: from mail1.essvote.com (mail1.essvote.com [66.37.226.19])
+	by mail.openembedded.org (Postfix) with ESMTP id 83BFE71ADA
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 May 2017 21:08:55 +0000 (UTC)
-Received: by mail-wm0-f66.google.com with SMTP id v4so2550395wmb.2
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 May 2017 14:08:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=cBDEOnlTYqC2oCNerkse3zwfIkiNOuUb59YskCHZML8=;
-	b=rPcde4PUrOpEsbct3BU4vRmyeX+V0+Zo9wT/rxYZrhLrmASM3UILVLgw9bfwH8ykdl
-	VNmDpWngFv12X9Ew/xVsLmeNQhVrVyhKRu8/pNn1/C72l4rhZx0n3K6wTBx3FJLM0gcu
-	tElu9SIxtLsGsK+2drNDnBJpg2ZuC5yZlcjV9x6fFiiva1S7YvLA+KnRcLFF0XSskiv4
-	ZU5HSIUqd2o4dEHgmIF+WsTqW4Ztk4f5ZnmpmTWJ/48lXewXu9gSfLBxIKNMnZBD+TyK
-	Qw9JX4WoVEpmoqYEpZQUYU8Qq7YQcti/Ci+dP9d0fFKVO6Z/a2tz6Z5+IarJDimBgSff
-	5iIQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=cBDEOnlTYqC2oCNerkse3zwfIkiNOuUb59YskCHZML8=;
-	b=qvI78ql8Ui6ye0fthNZjAd0EjekiZdGhDzIt5dNbg4/Zt70FtBnU1OoD8Hk+d9R1D1
-	VRGNFaL6HkzP0s3sjXIyd/EWzpyMu22RCaKgohDL3u5EzvS4bpFe5RwyLcc4vi5V8q14
-	IfyQ/EhZx7E2PonF6tQXXxs5fN0zZ0xGRfoyGHMV3AghdNoIsYQymkmv3W1YZyWHKBZ6
-	HXk6LLx9iFwMX8dj0LKv4g+nCmNrTYzE2yJR4+2cfe+Owdurrnj31Xd0ZHWrjcj7DQm3
-	Zf6S/Zlh2yYAz1+3ftWwvBo48iRZiIs0HbRg3HWR3GTr7Hi3iap+gWX7mzehdfUmkeox
-	ptdA==
-X-Gm-Message-State: AODbwcAFCes61WOXqmatIEJiJdhZwsLb+e4qMK6CZMmw7oVXUz/E7Hu8
-	ixP8rJkXm20yoEBnBPWiSS+JHCwU8w==
-X-Received: by 10.80.182.50 with SMTP id b47mr5879679ede.123.1494450536903;
-	Wed, 10 May 2017 14:08:56 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.80.195.143 with HTTP; Wed, 10 May 2017 14:08:26 -0700 (PDT)
-In-Reply-To: <655290B7709079438B7932553958E60D16D2C9F2@ESS-EX01.essvote.corp.local>
-References: <cover.1494425038.git.alexander.kanavin@linux.intel.com>
-	<655290B7709079438B7932553958E60D16D2C5FA@ESS-EX01.essvote.corp.local>
-	<7f60f107-1157-3991-b5bc-0fa4564e6905@linux.intel.com>
-	<655290B7709079438B7932553958E60D16D2C67F@ESS-EX01.essvote.corp.local>
-	<6f1e8992-7469-12bc-1307-2a9d0ca7d61e@linux.intel.com>
-	<811d49ba-ac83-5a52-6687-e3447d06659b@mlbassoc.com>
-	<abc26baf-5417-7565-cb69-08aff5559e95@linux.intel.com>
-	<CAMKF1sqvc3YsrMNxkyv1ZHXF82Uy1hYRUL4sduaayYcf1Le5_g@mail.gmail.com>
-	<655290B7709079438B7932553958E60D16D2C9F2@ESS-EX01.essvote.corp.local>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 10 May 2017 14:08:26 -0700
-Message-ID: <CAMKF1sr8ZypyM4mk=s1-W9oajRr952x7iVe9L8eDu-Hddthzpg@mail.gmail.com>
-To: "Davis, Michael" <michael.davis@essvote.com>
-Cc: Gary Thomas <gary@mlbassoc.com>, "openembedded-core@lists.openembedded.org"
+	Wed, 10 May 2017 22:33:28 +0000 (UTC)
+X-AuditID: 0a000213-dcfff7000000261c-5f-591395366eac
+Received: from ESS-EX01.essvote.corp.local (Unknown_Domain [172.16.110.40])
+	by mail1.essvote.com (Symantec Messaging Gateway) with SMTP id
+	64.9F.09756.63593195; Wed, 10 May 2017 17:33:29 -0500 (CDT)
+Received: from ESS-EX01.essvote.corp.local ([::1]) by
+	ESS-EX01.essvote.corp.local ([::1]) with mapi id 14.03.0301.000;
+	Wed, 10 May 2017 17:33:26 -0500
+From: "Davis, Michael" <michael.davis@essvote.com>
+To: "Davis, Michael" <michael.davis@essvote.com>,
+	"openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [RFC PATCH 00/10] Add openssl 1.1
+Thread-Topic: [OE-CORE][morty]NPM and BB_NO_NETWORK
+Thread-Index: AdLJxj1Obgqj+er6SPqlR+8N61A7sQAFwu6w
+Date: Wed, 10 May 2017 22:33:26 +0000
+Message-ID: <655290B7709079438B7932553958E60D16D2CAD4@ESS-EX01.essvote.corp.local>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-cr-hashedpuzzle: A6GD BoKk CHV/ C8Xg E5Rt GUpU GYPt HuIs H7nP ICEn IXLh
+	IlvN IyzP Kq7P LleV MbE1; 1;
+	bwBwAGUAbgBlAG0AYgBlAGQAZABlAGQALQBjAG8AcgBlAEAAbABpAHMAdABzAC4AbwBwAGUAbgBlAG0AYgBlAGQAZABlAGQALgBvAHIAZwA=;
+	Sosha1_v1; 7; {E969F1EC-B239-4319-B69B-E6739FD21257};
+	bQBpAGMAaABhAGUAbAAuAGQAYQB2AGkAcwBAAGUAcwBzAHYAbwB0AGUALgBjAG8AbQA=;
+	Wed, 10 May 2017 22:33:23 GMT;
+	UgBFADoAIABbAE8ARQAtAEMATwBSAEUAXQBbAG0AbwByAHQAeQBdAE4AUABNACAAYQBuAGQAIABCAEIAXwBOAE8AXwBOAEUAVABXAE8AUgBLAA==
+x-cr-puzzleid: {E969F1EC-B239-4319-B69B-E6739FD21257}
+x-originating-ip: [10.1.20.77]
+MIME-Version: 1.0
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrNLMWRmVeSWpSXmKPExsWyRiBPQ9dyqnCkwc81zBZ3fr5jd2D0OLdx
+	BWMAYxS3TVJiSVlwZnqevl0Cd8ahl70sBQ99KxqnT2RvYJzk0sXIySEhYCKx/M5R1i5GLg4h
+	gROMEl1vr0M5sxglTv84zwJSxSZgJHHu+iZGkISIQDejxPXmX0xdjBwcwkCJXe+ZQUwRAWOJ
+	M/viQcpFgKI33i5mArFZBFQlFv9pArN5BYIkvu7bxAxiMwqISXw/tQYsziwgLnHryXwmiIME
+	JJbsOc8MYYtKvHz8D+weCYEHzBKHjl1hAdklIWAq8bwlB6JGTuJdUxsrxJx8iRNnN7FB7BKU
+	ODnzCcsERuFZSFbMQlI2C0nZAkbmVYyCuYmZOYZ6qcXFZfklqXrJ+bmbGIFBzMXAJLyDcc4U
+	20OMAhyMSjy8F/iEI4VYE8uKK3MPMUpzsCiJ8z5byRwpJJCeWJKanZpakFoUX1Sak1p8iJGJ
+	g/MQowQHl5RIcWpeSmpRYmlJRjwoVuKLgdEi1cDYl7T50pmjn1tmCZcX96+2sI3OzA9I4Hte
+	bT+Bx31b+IfotYlxTh6PImu7J7OJGN7oONl7h8HXYWbg+h+2qg+4c+JWX3r2I1FaYpnw/6IJ
+	3JlxZ2xm7DN8cb2ky+UsV+OdAMsVdw7NkOESfLtqwemYbXXnAo0cPO98Kl+8wst8Ke+ElYsy
+	pvYrsRRnJBpqMRcVJwIAa+ULDF4CAAA=
+Subject: Re: [morty]NPM and BB_NO_NETWORK
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,76 +55,237 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 May 2017 21:08:57 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 10 May 2017 22:33:30 -0000
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_655290B7709079438B7932553958E60D16D2CAD4ESSEX01essvotec_"
 
-On Wed, May 10, 2017 at 1:48 PM, Davis, Michael
-<michael.davis@essvote.com> wrote:
-> I think most of the major distros have either switched or are in the process
-> this year.
->
+--_000_655290B7709079438B7932553958E60D16D2CAD4ESSEX01essvotec_
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-are there some info on the policy decisions of other distros ?
-we should try to follow the suite then
+I created a fix for this, but I don't know enough about the architecture / =
+language to say if it is a good fix or an ugly hack.
+Any help or suggestion would be great thanks.
 
->
->
->
->
->
->
-> From: openembedded-core-bounces@lists.openembedded.org
-> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of Khem
-> Raj
-> Sent: Wednesday, May 10, 2017 3:36 PM
-> To: Alexander Kanavin; Gary Thomas; openembedded-core@lists.openembedded.org
-> Subject: Re: [OE-core] [RFC PATCH 00/10] Add openssl 1.1
->
->
->
->
->
-> On Wed, May 10, 2017 at 12:34 PM Alexander Kanavin
-> <alexander.kanavin@linux.intel.com> wrote:
->
-> On 05/10/2017 09:56 PM, Gary Thomas wrote:
->> Why not do this in a "softer" way - make the new 1.1 package have the
->> obscured name (and not be preferred by default)?  That way existing
->> uses of the older 1.0 package can continue but users can migrate to
->> 1.1 as they see fit?
->
-> I have an answer which you might not particularly like. But here goes:
->
-> What will actually happen is that no one will do anything to port their
-> stuff until it's time to remove 1.0 because upstream has EOLd it. And
-> then there'll still be complaints that more time is needed for the
-> transition. I'd like to gently push people to plan this transition
-> already now - and it's as gentle as it can be: if you pull from master
-> and your things no longer build, make one simple change and they will.
-> It's part and parcel of being on the bleeding edge, or rebasing to the
-> new yocto release: not everything works exactly as before, and most
-> components are newer and different and not always fully compatible.
->
->
->
->
->
-> It is a cross distro item really we should find out what other Linux
-> distributions are doing about it moving forward unless major distros also
-> have same policy there won't be much momentum this would gain among the
-> packages ecosystems this could also help in sharing the porting burden
->
->
->
-> The other reason is that it's more work for me: I would have to update
-> everything in oe-core to use the new recipe, instead of fixing just a
-> few recipes that need to stay with 1.0. And then again the same thing
-> will happen when 1.2 is out.
->
-> Alex
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
+diff --git a/bitbake/lib/bb/fetch2/__init__.py b/bitbake/lib/bb/fetch2/__in=
+it__.py
+index cd7362c..c5ab459 100644
+--- a/bitbake/lib/bb/fetch2/__init__.py
++++ b/bitbake/lib/bb/fetch2/__init__.py
+@@ -393,7 +393,8 @@ def decodeurl(url):
+                     raise MalformedUrl(url, "The URL: '%s' is invalid: par=
+ameter %s does not specify a value (missing '=3D')" % (url, s))
+                 s1, s2 =3D s.split('=3D')
+                 p[s1] =3D s2
+-
++                if type =3D=3D 'npm' and s1 =3D=3D 'name':
++                    path =3D '/' + s2
+     return type, host, urllib.parse.unquote(path), user, pswd, p
+
+---
+Mike
+
+
+From: Davis, Michael
+Sent: Wednesday, May 10, 2017 2:47 PM
+To: 'openembedded-core@lists.openembedded.org'
+Subject: [OE-CORE][morty]NPM and BB_NO_NETWORK
+
+I am having an issue with npm sources and BB_GENERATE_MIRROR_TARBALLS.
+The tarballs generate fine, but then when you try to use them with prefetch=
+ only or no network the system won't find them.
+It then tries to download them.   Tried it both on morty and master with th=
+e same issue.
+
+This is my first real python experience, but I think I got it tracked down =
+to uri_replace.
+
+Example debug line of a working git replace vs a non working npm one.
+
+DEBUG: For url ['git', 'git.yoctoproject.org', '/psplash', '', '', OrderedD=
+ict()] comparing ['git', '.*', '/.*', '', '', OrderedDict()] to ['file', ''=
+, '/build/downloads/', '', '', OrderedDict()]
+DEBUG: For url git://git.yoctoproject.org/psplash returning file:///build/d=
+ownloads/git2_git.yoctoproject.org.psplash.tar.gz<file:///\\build\downloads=
+\git2_git.yoctoproject.org.psplash.tar.gz>
+
+DEBUG: For url ['npm', 'registry.npmjs.org', '', '', '', OrderedDict([('nam=
+e', 'nopt'), ('version', '3.0.6'), ('subdir', 'node_modules/nopt')])] compa=
+ring ['npm', '.*', '/.*', '', '', OrderedDict()] to ['file', '', '/build/do=
+wnloads/', '', '', OrderedDict()]
+
+Don't know if maybe the OrderedDict vs the path is causing the issue or not=
+.
+
+
+--_000_655290B7709079438B7932553958E60D16D2CAD4ESSEX01essvotec_
+Content-Type: text/html; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
+osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:x=3D"urn:schemas-microsoft-com:office:excel" xmlns:m=3D"http://schema=
+s.microsoft.com/office/2004/12/omml" xmlns=3D"http://www.w3.org/TR/REC-html=
+40">
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
+>
+<meta name=3D"Generator" content=3D"Microsoft Word 12 (filtered medium)">
+<style>
+<!--
+ /* Font Definitions */
+ @font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+@font-face
+	{font-family:Tahoma;
+	panose-1:2 11 6 4 3 5 4 4 2 4;}
+ /* Style Definitions */
+ p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0in;
+	margin-bottom:.0001pt;
+	font-size:11.0pt;
+	font-family:"Calibri","sans-serif";}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:blue;
+	text-decoration:underline;}
+a:visited, span.MsoHyperlinkFollowed
+	{mso-style-priority:99;
+	color:purple;
+	text-decoration:underline;}
+span.EmailStyle17
+	{mso-style-type:personal;
+	font-family:"Calibri","sans-serif";
+	color:windowtext;}
+span.EmailStyle18
+	{mso-style-type:personal-reply;
+	font-family:"Calibri","sans-serif";
+	color:#1F497D;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-size:10.0pt;}
+@page Section1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;}
+div.Section1
+	{page:Section1;}
+-->
+</style><!--[if gte mso 9]><xml>
+ <o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+ <o:shapelayout v:ext=3D"edit">
+  <o:idmap v:ext=3D"edit" data=3D"1" />
+ </o:shapelayout></xml><![endif]-->
+</head>
+<body lang=3D"EN-US" link=3D"blue" vlink=3D"purple">
+<div class=3D"Section1">
+<p class=3D"MsoNormal"><span style=3D"color:#1F497D">I created a fix for th=
+is, but I don&#8217;t know enough about the architecture / language to say =
+if it is a good fix or an ugly hack.<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"color:#1F497D">Any help or suggestion=
+ would be great thanks.<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"color:#1F497D"><o:p>&nbsp;</o:p></spa=
+n></p>
+<p class=3D"MsoNormal"><span style=3D"color:#1F497D"><o:p>&nbsp;</o:p></spa=
+n></p>
+<p class=3D"MsoNormal"><span style=3D"color:#1F497D">diff --git a/bitbake/l=
+ib/bb/fetch2/__init__.py b/bitbake/lib/bb/fetch2/__init__.py<o:p></o:p></sp=
+an></p>
+<p class=3D"MsoNormal"><span style=3D"color:#1F497D">index cd7362c..c5ab459=
+ 100644<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"color:#1F497D">--- a/bitbake/lib/bb/f=
+etch2/__init__.py<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"color:#1F497D">&#43;&#43;&#43; b/bitb=
+ake/lib/bb/fetch2/__init__.py<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"color:#1F497D">@@ -393,7 &#43;393,8 @=
+@ def decodeurl(url):<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"color:#1F497D">&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; raise MalformedUrl(url, &quot;The URL: '%s' is inva=
+lid: parameter %s does not specify a value (missing '=3D')&quot; % (url, s)=
+)<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"color:#1F497D">&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =
+s1, s2 =3D s.split('=3D')<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"color:#1F497D">&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =
+p[s1] =3D s2<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"color:#1F497D">-<o:p></o:p></span></p=
+>
+<p class=3D"MsoNormal"><span style=3D"color:#1F497D">&#43;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; i=
+f type =3D=3D 'npm' and s1 =3D=3D 'name':<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"color:#1F497D">&#43;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp; path =3D '/' &#43; s2<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"color:#1F497D">&nbsp;&nbsp;&nbsp;&nbs=
+p; return type, host, urllib.parse.unquote(path), user, pswd, p<o:p></o:p><=
+/span></p>
+<p class=3D"MsoNormal"><span style=3D"color:#1F497D"><o:p>&nbsp;</o:p></spa=
+n></p>
+<p class=3D"MsoNormal"><span style=3D"color:#1F497D">---<o:p></o:p></span><=
+/p>
+<p class=3D"MsoNormal"><span style=3D"color:#1F497D">Mike<o:p></o:p></span>=
+</p>
+<p class=3D"MsoNormal"><span style=3D"color:#1F497D"><o:p>&nbsp;</o:p></spa=
+n></p>
+<p class=3D"MsoNormal"><span style=3D"color:#1F497D"><o:p>&nbsp;</o:p></spa=
+n></p>
+<div>
+<div style=3D"border:none;border-top:solid #B5C4DF 1.0pt;padding:3.0pt 0in =
+0in 0in">
+<p class=3D"MsoNormal"><b><span style=3D"font-size:10.0pt;font-family:&quot=
+;Tahoma&quot;,&quot;sans-serif&quot;">From:</span></b><span style=3D"font-s=
+ize:10.0pt;font-family:&quot;Tahoma&quot;,&quot;sans-serif&quot;"> Davis, M=
+ichael
+<br>
+<b>Sent:</b> Wednesday, May 10, 2017 2:47 PM<br>
+<b>To:</b> 'openembedded-core@lists.openembedded.org'<br>
+<b>Subject:</b> [OE-CORE][morty]NPM and BB_NO_NETWORK<o:p></o:p></span></p>
+</div>
+</div>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">I am having an issue with npm sources and BB_GENERAT=
+E_MIRROR_TARBALLS.<o:p></o:p></p>
+<p class=3D"MsoNormal">The tarballs generate fine, but then when you try to=
+ use them with prefetch only or no network the system won&#8217;t find them=
+.<o:p></o:p></p>
+<p class=3D"MsoNormal">It then tries to download them.&nbsp;&nbsp; Tried it=
+ both on morty and master with the same issue.<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">This is my first real python experience, but I think=
+ I got it tracked down to uri_replace.<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">Example debug line of a working git replace vs a non=
+ working npm one.<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">DEBUG: For url ['git', 'git.yoctoproject.org', '/psp=
+lash', '', '', OrderedDict()] comparing ['git', '.*', '/.*', '', '', Ordere=
+dDict()] to ['file', '', '/build/downloads/', '', '', OrderedDict()]<o:p></=
+o:p></p>
+<p class=3D"MsoNormal">DEBUG: For url git://git.yoctoproject.org/psplash re=
+turning <a href=3D"file:///\\build\downloads\git2_git.yoctoproject.org.pspl=
+ash.tar.gz">
+file:///build/downloads/git2_git.yoctoproject.org.psplash.tar.gz</a><o:p></=
+o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">DEBUG: For url ['npm', 'registry.npmjs.org', '', '',=
+ '', OrderedDict([('name', 'nopt'), ('version', '3.0.6'), ('subdir', 'node_=
+modules/nopt')])] comparing ['npm', '.*', '/.*', '', '', OrderedDict()] to =
+['file', '', '/build/downloads/',
+ '', '', OrderedDict()]<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">Don&#8217;t know if maybe the OrderedDict vs the pat=
+h is causing the issue or not.<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+</div>
+</body>
+</html>
+
+--_000_655290B7709079438B7932553958E60D16D2CAD4ESSEX01essvotec_--
