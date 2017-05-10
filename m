@@ -1,24 +1,24 @@
-Return-Path: <Zhenbo.Gao@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 6F29F6E5FC
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by mail.openembedded.org (Postfix) with ESMTP id 45CE06AC4B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 May 2017 07:51:04 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v4A7p3Ka023471
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 10 May 2017 00:51:04 -0700 (PDT)
-Received: from pek-lpggp2.wrs.com (128.224.153.75) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.294.0;
-	Wed, 10 May 2017 00:51:02 -0700
-From: Zhenbo Gao <zhenbo.gao@windriver.com>
-To: <richard.purdie@linuxfoundation.org>,
-	<openembedded-core@lists.openembedded.org>
-Date: Wed, 10 May 2017 15:50:26 +0800
-Message-ID: <1494402626-214700-1-git-send-email-zhenbo.gao@windriver.com>
-X-Mailer: git-send-email 1.9.1
-MIME-Version: 1.0
-Subject: [PATCH] archiver: avoid archiving source for glibc-locale
+	Wed, 10 May 2017 08:27:18 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga104.jf.intel.com with ESMTP; 10 May 2017 01:27:19 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.38,318,1491289200"; d="scan'208";a="1128530701"
+Received: from linux.intel.com ([10.54.29.200])
+	by orsmga001.jf.intel.com with ESMTP; 10 May 2017 01:27:19 -0700
+Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
+	by linux.intel.com (Postfix) with ESMTP id 563746A4006
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 10 May 2017 01:27:05 -0700 (PDT)
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 10 May 2017 11:05:07 +0300
+Message-Id: <cover.1494402710.git.ed.bartosh@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH 0/4] #10073: generic EFI for wic
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,35 +31,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 May 2017 07:51:06 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 10 May 2017 08:27:20 -0000
 
-Avoid archiving source for glibc-locale as its tasks
-do_fetch do_unpack and do_patch have already been deleted.
+Hi,
 
-Signed-off-by: Zhenbo Gao <zhenbo.gao@windriver.com>
----
- meta/classes/archiver.bbclass | 6 ++++++
- 1 file changed, 6 insertions(+)
+This patchset is an implementation of generic EFI approach for wic images.
 
-diff --git a/meta/classes/archiver.bbclass b/meta/classes/archiver.bbclass
-index 2c04557..89a8fb3 100644
---- a/meta/classes/archiver.bbclass
-+++ b/meta/classes/archiver.bbclass
-@@ -67,6 +67,12 @@ python () {
-     else:
-         bb.debug(1, 'archiver: %s is included: %s' % (pn, reason))
- 
-+
-+    # glibc-locale: do_fetch, do_unpack and do_patch tasks have been deleted,
-+    # so avoid archiving source here.
-+    if pn.startswith('glibc-locale'):
-+        return
-+
-     # We just archive gcc-source for all the gcc related recipes
-     if d.getVar('BPN') in ['gcc', 'libgcc'] \
-             and not pn.startswith('gcc-source'):
--- 
-1.9.1
+Instead of introducing yet another wic plugin it uses existing APIs from
+EFI_PROVIDER classes to populate ${WORKDIR}/bootfs directory with EFI artifacts
+and bootloader configuration. This directory can be used by wic rootfs plugin
+to put into boot partition of the image.
+
+Example kickstart file and 2 test cases were added to wic test suite to better
+illustrate the approach.
+
+I personally like this approach much better than duplicating oe image creation
+functionality in wic plugins. This way we can have the code in one place and
+bootloaders can be configured the same way for oe and wic images.
+
+The following changes since commit cdb9e7aa493d9ed0eb6ffcec37d581ea928b5f2b:
+
+  selftest: fix test_unsupported_subcommand test case (2017-05-02 17:24:23 +0300)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib ed/wic/wip
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=ed/wic/wip
+
+Ed Bartosh (4):
+  efi: add efi_bootfs_populate API
+  timage_types_wic: add do_populate_bootfs task
+  image_types_wic: merged 2 tasks
+  oe-selftest: add wic tests for generic EFI
+
+ meta-selftest/wic/test_generic_efi.wks.in |  9 ++++
+ meta/classes/grub-efi.bbclass             |  6 +++
+ meta/classes/image_types_wic.bbclass      | 83 +++++++++++++++++++++++--------
+ meta/classes/systemd-boot.bbclass         |  6 +++
+ meta/lib/oeqa/selftest/wic.py             | 36 ++++++++++++++
+ 5 files changed, 118 insertions(+), 22 deletions(-)
+ create mode 100644 meta-selftest/wic/test_generic_efi.wks.in
+
+--
+Regards,
+Ed
 
 
