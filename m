@@ -1,21 +1,61 @@
-Return-Path: <joshua.g.lock@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 2969371A2D
+Return-Path: <anders@chargestorm.se>
+Received: from mail-yw0-f174.google.com (mail-yw0-f174.google.com
+	[209.85.161.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 3D24065D35
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 May 2017 12:47:41 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	10 May 2017 05:47:42 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.38,319,1491289200"; d="scan'208";a="1128606855"
-Received: from jlock-mobl1.ger.corp.intel.com ([10.252.14.126])
-	by orsmga001.jf.intel.com with ESMTP; 10 May 2017 05:47:41 -0700
-From: Joshua Lock <joshua.g.lock@intel.com>
+	Wed, 10 May 2017 13:20:57 +0000 (UTC)
+Received: by mail-yw0-f174.google.com with SMTP id b68so15295221ywe.3
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 10 May 2017 06:20:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=chargestorm-se.20150623.gappssmtp.com; s=20150623;
+	h=date:from:to:subject:message-id:mail-followup-to:references
+	:mime-version:content-disposition:in-reply-to:organization
+	:user-agent; bh=bkTOwAwinyAy1zPcp56HId/B/ZUkYqCK/EY7C79UyKg=;
+	b=0dVaDM13nl1TPrKEgGftL59xQdRpzY8Ez0N1X00MvvBu9jwy0OWgbMHgZ3uWo6ImZK
+	3QuCslWwwMS87twBTfiWRs4r4rD+c6PDgvo0t0z6FQcMubPQMNECJS2nfpFCfMwsVSPE
+	II7T47HL7P8xUvCiVqcsdVlVpPVi6vqf0YrPif6NgubHFbIhk3y0ObhkflM2JQZCFKGG
+	zbkevwYCzZ83A8b6jR9PwVF14aA7xdVFMiWdcwbz3sGIU9eXPJPt0u6GH81Pou46fzmu
+	2bGllwNBUjxUus7gpV0GgI2DVKezZjBtrXndhYH6oIa2owqa3786ua0W+EnkDK+Y8+h0
+	6gDw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:date:from:to:subject:message-id:mail-followup-to
+	:references:mime-version:content-disposition:in-reply-to
+	:organization:user-agent;
+	bh=bkTOwAwinyAy1zPcp56HId/B/ZUkYqCK/EY7C79UyKg=;
+	b=ikyiE5HAdyXGV7HUOOiRWW2y3WIusX0ZhZJwEjUCslffLCVXbUCn++yuRQV07yZbsj
+	YUYPLsgA704ZkXLtkQQqubO6mdLg+akhmH3/7fHLNAQKwOtIguggZhxdUtxD6w8kfkoB
+	hPUj4qDUGXP9ukYPVNjH0cMtJR+m5QcXaNRTKSk74fpWSga8vmW8ATwESGYY5yu9Qtu7
+	msneJOjkfWYshXNM6Ksry9sWujemBFL6v2O8/fjXqd4iIYX3K0aajfVcPmNZ3Ji2Oq80
+	wLPXazZRCDLbycguwxvI4kP/HUnfBM4K86tCXjwUms/icSBZg6XBTEPuz7UEdDgEioCn
+	Ml8w==
+X-Gm-Message-State: AODbwcApYlaEhCIeQ2xkf6H3INDuNNm0pyo3SwSAcpuC0Zy6R5nIsNQU
+	+iiT3WYUwaVNPFuyIr8=
+X-Received: by 10.25.43.1 with SMTP id r1mr3056719lfr.89.1494422458721;
+	Wed, 10 May 2017 06:20:58 -0700 (PDT)
+Received: from ad.chargestorm.se (194-237-220-218.customer.telia.com.
+	[194.237.220.218])
+	by smtp.gmail.com with ESMTPSA id 2sm550826lju.0.2017.05.10.06.20.57
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Wed, 10 May 2017 06:20:57 -0700 (PDT)
+Date: Wed, 10 May 2017 15:20:55 +0200
+From: Anders Darander <anders@chargestorm.se>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 10 May 2017 13:47:37 +0100
-Message-Id: <20170510124737.32035-1-joshua.g.lock@intel.com>
-X-Mailer: git-send-email 2.9.3
-Subject: [morty] sanity.bbclass: fix logging of an error
+Message-ID: <20170510132055.hnr22ktoy74xlw33@ad.chargestorm.se>
+Mail-Followup-To: openembedded-core@lists.openembedded.org
+References: <1494406033-28833-1-git-send-email-B40290@freescale.com>
+	<1494406033-28833-3-git-send-email-B40290@freescale.com>
+MIME-Version: 1.0
+In-Reply-To: <1494406033-28833-3-git-send-email-B40290@freescale.com>
+X-Accept-Language: sv, en, de
+X-GPG-Fingerprint: 5AF0 B2E9 78FE 9D75 D110  6F8F 3E31 84D7 920E 938C
+X-GPG-Key-Id: 0x920E938C
+X-GPG-Keyserver: hkp://keys.gnupg.net
+Organization: ChargeStorm AB
+User-Agent: NeoMutt/20170306 (1.8.0)
+Subject: Re: [PATCH 3/3] kernel-fitimage: fix KERNEL_DEVICETREE includes subdirectory issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,37 +68,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 May 2017 12:47:42 -0000
+X-List-Received-Date: Wed, 10 May 2017 13:20:59 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+* Chunrong Guo <B40290@freescale.com> [170510 11:02]:
 
-Fixes a crash in exception handler. All bb logging functions need an
-string instances as arguments.
+> From: Chunrong Guo <chunrong.guo@nxp.com>
 
-(From OE-Core master rev: 62b521722ae72bc87d599719b400dab771154fa7)
+>     * For example:
+>       KERNEL_DEVICETREE ?= "freescale/fsl-ls1046a-rdb.dtb"
 
-Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
-Signed-off-by: Ross Burton <ross.burton@intel.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-Signed-off-by: Joshua Lock <joshua.g.lock@intel.com>
----
- meta/classes/sanity.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+>       ${DTB}= "freescale/fsl-ls1046a-rdb.dtb"
 
-diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
-index 7682ffb..9db3f1d 100644
---- a/meta/classes/sanity.bbclass
-+++ b/meta/classes/sanity.bbclass
-@@ -565,7 +565,7 @@ def sanity_check_conffiles(d):
-             try:
-                 bb.build.exec_func(func, d, pythonexception=True)
-             except NotImplementedError as e:
--                bb.fatal(e)
-+                bb.fatal(str(e))
-             d.setVar("BB_INVALIDCONF", True)
- 
- def sanity_handle_abichanges(status, d):
+Why not just change the definition above?
+
+Curious, as that would've been the easiest and quickest solution.
+
+Is the current definition necessary in some other way?
+
+Cheers,
+Anders
+
+>       but only fsl-ls1046a-rdb.dtb  should be used in fit-image.its
+
+> -			DTB_PATH="arch/${ARCH}/boot/dts/${DTB}"
+> +                          
+> +			DTB=`basename ${DTB}`
+> +                        DTB_PATH=`find arch/${ARCH}/boot -name "${DTB}"`
+> + 
+
+
 -- 
-2.9.3
-
+Anders Darander, Senior System Architect
+ChargeStorm AB / eStorm AB
 
