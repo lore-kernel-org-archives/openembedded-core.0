@@ -1,31 +1,21 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id E9FCB60107
+Return-Path: <jose.perez.carranza@linux.intel.com>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by mail.openembedded.org (Postfix) with ESMTP id 67C3160107
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 May 2017 19:34:07 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	10 May 2017 12:34:08 -0700
+	Wed, 10 May 2017 19:36:49 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga104.jf.intel.com with ESMTP; 10 May 2017 12:36:51 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.38,320,1491289200"; d="scan'208";a="85259117"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by orsmga002.jf.intel.com with ESMTP; 10 May 2017 12:34:05 -0700
-To: Gary Thomas <gary@mlbassoc.com>, openembedded-core@lists.openembedded.org
-References: <cover.1494425038.git.alexander.kanavin@linux.intel.com>
-	<655290B7709079438B7932553958E60D16D2C5FA@ESS-EX01.essvote.corp.local>
-	<7f60f107-1157-3991-b5bc-0fa4564e6905@linux.intel.com>
-	<655290B7709079438B7932553958E60D16D2C67F@ESS-EX01.essvote.corp.local>
-	<6f1e8992-7469-12bc-1307-2a9d0ca7d61e@linux.intel.com>
-	<811d49ba-ac83-5a52-6687-e3447d06659b@mlbassoc.com>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <abc26baf-5417-7565-cb69-08aff5559e95@linux.intel.com>
-Date: Wed, 10 May 2017 22:34:13 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.8.0
+X-IronPort-AV: E=Sophos;i="5.38,320,1491289200"; d="scan'208";a="1128732069"
+Received: from jgperezc-mobl1.zpn.intel.com ([10.219.4.33])
+	by orsmga001.jf.intel.com with ESMTP; 10 May 2017 12:36:50 -0700
+From: jose.perez.carranza@linux.intel.com
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 10 May 2017 14:38:09 -0500
+Message-Id: <20170510193809.2356-1-jose.perez.carranza@linux.intel.com>
+X-Mailer: git-send-email 2.11.0
 MIME-Version: 1.0
-In-Reply-To: <811d49ba-ac83-5a52-6687-e3447d06659b@mlbassoc.com>
-Subject: Re: [RFC PATCH 00/10] Add openssl 1.1
+Subject: [PATCH] runtime/dnf: Add new dnf test cases
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,32 +28,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 May 2017 19:34:08 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 10 May 2017 19:36:50 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On 05/10/2017 09:56 PM, Gary Thomas wrote:
-> Why not do this in a "softer" way - make the new 1.1 package have the
-> obscured name (and not be preferred by default)?  That way existing
-> uses of the older 1.0 package can continue but users can migrate to
-> 1.1 as they see fit?
+From: Jose Perez Carranza <jose.perez.carranza@linux.intel.com>
 
-I have an answer which you might not particularly like. But here goes:
+Add test cases to test “exclude” and “installroot“ options, also modify
+the logic of filtering packages on the feed to have all the packages
+needed by the tests.
 
-What will actually happen is that no one will do anything to port their 
-stuff until it's time to remove 1.0 because upstream has EOLd it. And 
-then there'll still be complaints that more time is needed for the 
-transition. I'd like to gently push people to plan this transition 
-already now - and it's as gentle as it can be: if you pull from master 
-and your things no longer build, make one simple change and they will. 
-It's part and parcel of being on the bleeding edge, or rebasing to the 
-new yocto release: not everything works exactly as before, and most 
-components are newer and different and not always fully compatible.
+[YOCTO #10744]
 
-The other reason is that it's more work for me: I would have to update 
-everything in oe-core to use the new recipe, instead of fixing just a 
-few recipes that need to stay with 1.0. And then again the same thing 
-will happen when 1.2 is out.
+Signed-off-by: Jose Perez Carranza <jose.perez.carranza@linux.intel.com>
+---
+ meta/classes/testimage.bbclass     | 11 ++++++++---
+ meta/lib/oeqa/runtime/cases/dnf.py | 16 +++++++++++++++-
+ 2 files changed, 23 insertions(+), 4 deletions(-)
 
-Alex
+diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.bbclass
+index fb214604a97..2ae2eed053c 100644
+--- a/meta/classes/testimage.bbclass
++++ b/meta/classes/testimage.bbclass
+@@ -329,6 +329,7 @@ def create_index(arg):
+     return None
+ 
+ def create_rpm_index(d):
++    import glob
+     # Index RPMs
+     rpm_createrepo = bb.utils.which(os.getenv('PATH'), "createrepo_c")
+     index_cmds = []
+@@ -345,9 +346,13 @@ def create_rpm_index(d):
+         lf = bb.utils.lockfile(lockfilename, False)
+         oe.path.copyhardlinktree(rpm_dir, idx_path)
+         # Full indexes overload a 256MB image so reduce the number of rpms
+-        # in the feed. Filter to r* since we use the run-postinst packages and
+-        # this leaves some allarch and machine arch packages too.
+-        bb.utils.remove(idx_path + "*/[a-qs-z]*.rpm")
++        # in the feed by filtering to specific packages needed by the tests.
++        package_list = glob.glob(idx_path + "*/*.rpm")
++
++        for pkg in package_list:
++            if not os.path.basename(pkg).startswith(("rpm", "run-postinsts", "busybox", "bash", "update-alternatives", "libc6")):
++                bb.utils.remove(pkg)
++
+         bb.utils.unlockfile(lf)
+         cmd = '%s --update -q %s' % (rpm_createrepo, idx_path)
+ 
+diff --git a/meta/lib/oeqa/runtime/cases/dnf.py b/meta/lib/oeqa/runtime/cases/dnf.py
+index 2f87296b4e0..4ca4850ed1d 100644
+--- a/meta/lib/oeqa/runtime/cases/dnf.py
++++ b/meta/lib/oeqa/runtime/cases/dnf.py
+@@ -120,4 +120,18 @@ class DnfRepoTest(DnfTest):
+     def test_dnf_reinstall(self):
+         self.dnf_with_repo('reinstall -y run-postinsts-dev')
+ 
+-
++    @OETestDepends(['dnf.DnfRepoTest.test_dnf_makecache'])
++    @OETestID(1771)
++    def test_dnf_installroot(self):
++        rootpath = '/home/root/chroot/test'
++        self.dnf_with_repo('install --installroot=%s --allowerasing -v -y busybox run-postinsts' % rootpath)
++        status, output = self.target.run('test -e %s/var/cache/dnf' % rootpath, 1500)
++        self.assertEqual(0, status, output)
++
++    @OETestDepends(['dnf.DnfRepoTest.test_dnf_reinstall'])
++    @OETestID(1772)
++    def test_dnf_exclude(self):
++        excludepkg = 'run-postinsts-dev'
++        self.dnf_with_repo('remove -y run-postinsts')
++        self.dnf_with_repo('install -y --exclude=%s run-postinsts' % excludepkg)
++        self.dnf('list %s' % excludepkg, 1)
+-- 
+2.11.0
+
 
