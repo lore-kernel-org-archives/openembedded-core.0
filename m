@@ -1,27 +1,24 @@
-Return-Path: <philip@balister.org>
-Received: from starfish.geekisp.com (starfish.geekisp.com [216.168.135.166])
-	by mail.openembedded.org (Postfix) with ESMTP id 2333F6FF69
+Return-Path: <Jackie.Huang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id ECAF171A76
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 May 2017 22:27:08 +0000 (UTC)
-Received: (qmail 1838 invoked by uid 1003); 9 May 2017 22:27:09 -0000
-Received: from unknown (HELO ?10.50.10.213?) (philip@opensdr.com@69.7.123.146)
-	by mail.geekisp.com with (DHE-RSA-AES128-SHA encrypted) SMTP;
-	9 May 2017 22:27:09 -0000
-To: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	Alexander Kanavin <alexander.kanavin@linux.intel.com>
-References: <1494240698452.53619@mentor.com>
-	<CAMKF1sqNov69Q+AQVRqTaseODJ4_jHKNPB1LDNL0bX2qb+DyqA@mail.gmail.com>
-	<cad9898d-2994-5643-0917-81d2b2a917eb@linux.intel.com>
-	<9228554.pYdVeCRJpP@peggleto-mobl.ger.corp.intel.com>
-From: Philip Balister <philip@balister.org>
-Message-ID: <f6488f5e-2b4d-eb51-3ca1-02db36780e0a@balister.org>
-Date: Tue, 9 May 2017 16:27:07 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.8.0
+	Wed, 10 May 2017 06:29:12 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v4A6TDI0011425
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 9 May 2017 23:29:13 -0700 (PDT)
+Received: from pek-hostel-deb01.wrs.com (128.224.153.151) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.294.0; Tue, 9 May 2017 23:29:12 -0700
+From: <jackie.huang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 10 May 2017 14:29:11 +0800
+Message-ID: <20170510062911.24305-1-jackie.huang@windriver.com>
+X-Mailer: git-send-email 2.11.0
 MIME-Version: 1.0
-In-Reply-To: <9228554.pYdVeCRJpP@peggleto-mobl.ger.corp.intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: GUI based images
+Subject: [PATCH] icu: Use LARGE_BUFFER_MAX_SIZE for cmd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,58 +31,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 May 2017 22:27:10 -0000
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 10 May 2017 06:29:13 -0000
+Content-Type: text/plain
 
-On 05/09/2017 03:03 PM, Paul Eggleton wrote:
-> On Wednesday, 10 May 2017 8:39:58 AM NZST Alexander Kanavin wrote:
->> On 05/09/2017 11:19 PM, Khem Raj wrote:
->>> I think we should always intend to align the reference stack with
->>> whats commonly used in
->>> userbases we target to address with project, we will not be serving
->>> the project goals and its username if we
->>> trim down to packages which are just used for reference, if majority of
->>> the community we intend to address uses QT or any other stack for that
->>> matter then we should align our requirements accordingly which will be
->>> mutually beneficial IMO
->>
->> I strongly disagree. Oe-core is not a Greatest Embedded Hits collection 
->> or any kind of 'reference stack', and decisions on what goes into it 
->> should not be based on how popular it is. 
-> 
-> A number of things have been added to OE-Core because they are widely used, so 
-> I don't think that's true. However, that doesn't mean that would be used as a 
-> justification to add Qt5. I'm not even convinced we would need to add Qt5 to 
-> OE-Core in order to use it as part of a reference UI - the key requirement 
-> would be for us to commit to being part of its testing and maintenance, 
-> everything else is just logistics.
-> 
->> If you do this, you risk overextending the layer, and ending up not doing a
->> particularly good job on any of the things it tries to do. It's best to
->> allow other layers to  flourish, let the domain specialists do their job and
->> decide for themselves how they want to do things, and have a curated list of
->> layers that are known to be high quality and approved by Yocto Project.
->>
->> If you want qt5, use meta-qt5 and meta-b2qt, both made by people who 
->> actually develop the Qt stack itself. End of story.
-> 
-> Your opinion is noted. My opinion is that we ought to be providing a good 
-> reference that can be used as a basis for real products (regardless of whether 
-> whatever direction we choose to go is Qt-based or not) - the rest of our stack 
-> *is* used that way, after all. We regularly get comments about how Sato isn't 
-> suitable as such a basis, so the expectation is there. I don't think adding 
-> Wayland support alone will answer that.
+From: Jackie Huang <jackie.huang@windriver.com>
 
-Does anyone currently ship a real product based on sato?
+The previous patch used LARGE_BUFFER_MAX_SIZE instead
+of SMALL_BUFFER_MAX_SIZE for cmd in function pkg_installLibrary,
+which only fixed some of the cases when the command line
+is too long, some other cases indicate that the
+LARGE_BUFFER_MAX_SIZE is also needed in pkg_installCommonMode
+and pkg_installFileMode to avoid overflow:
 
-Yes, I am aware that sato works for testing gui stuff, just trying to
-understand if it is used beyond that.
+| *** buffer overflow detected ***: ../bin/pkgdata terminated
 
-Philip
+Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
+---
+ .../icu/icu/icu-pkgdata-large-cmd.patch            | 28 ++++++++++++++++++----
+ 1 file changed, 24 insertions(+), 4 deletions(-)
 
-> 
-> Cheers,
-> Paul
-> 
+diff --git a/meta/recipes-support/icu/icu/icu-pkgdata-large-cmd.patch b/meta/recipes-support/icu/icu/icu-pkgdata-large-cmd.patch
+index 6e40659227f..e758a623ef4 100644
+--- a/meta/recipes-support/icu/icu/icu-pkgdata-large-cmd.patch
++++ b/meta/recipes-support/icu/icu/icu-pkgdata-large-cmd.patch
+@@ -8,14 +8,16 @@ LARGE_BUFFER_MAX_SIZE.
+ Upstream-Status: Pending
+ 
+ Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
++Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
+ ---
+- tools/pkgdata/pkgdata.cpp |    2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
++ tools/pkgdata/pkgdata.cpp | 6 +++---
++ 1 file changed, 3 insertions(+), 3 deletions(-)
+ 
+ diff --git a/tools/pkgdata/pkgdata.cpp b/tools/pkgdata/pkgdata.cpp
++index 60167dd..506dd32 100644
+ --- a/tools/pkgdata/pkgdata.cpp
+ +++ b/tools/pkgdata/pkgdata.cpp
+-@@ -1019,7 +1019,7 @@ normal_symlink_mode:
++@@ -1084,7 +1084,7 @@ normal_symlink_mode:
+  
+  static int32_t pkg_installLibrary(const char *installDir, const char *targetDir, UBool noVersion) {
+      int32_t result = 0;
+@@ -24,6 +26,24 @@ diff --git a/tools/pkgdata/pkgdata.cpp b/tools/pkgdata/pkgdata.cpp
+  
+      sprintf(cmd, "cd %s && %s %s %s%s%s",
+              targetDir,
++@@ -1152,7 +1152,7 @@ static int32_t pkg_installLibrary(const char *installDir, const char *targetDir,
++ 
++ static int32_t pkg_installCommonMode(const char *installDir, const char *fileName) {
++     int32_t result = 0;
++-    char cmd[SMALL_BUFFER_MAX_SIZE] = "";
+++    char cmd[LARGE_BUFFER_MAX_SIZE] = "";
++ 
++     if (!T_FileStream_file_exists(installDir)) {
++         UErrorCode status = U_ZERO_ERROR;
++@@ -1184,7 +1184,7 @@ static int32_t pkg_installCommonMode(const char *installDir, const char *fileNam
++ #endif
++ static int32_t pkg_installFileMode(const char *installDir, const char *srcDir, const char *fileListName) {
++     int32_t result = 0;
++-    char cmd[SMALL_BUFFER_MAX_SIZE] = "";
+++    char cmd[LARGE_BUFFER_MAX_SIZE] = "";
++ 
++     if (!T_FileStream_file_exists(installDir)) {
++         UErrorCode status = U_ZERO_ERROR;
+ -- 
+-1.7.10.4
++1.9.1
+ 
+-- 
+2.11.0
+
 
