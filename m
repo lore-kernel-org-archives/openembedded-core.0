@@ -1,21 +1,23 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id D55F771A2D
+	by mail.openembedded.org (Postfix) with ESMTP id 8779A71A2D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 May 2017 09:35:23 +0000 (UTC)
+	Wed, 10 May 2017 09:35:24 +0000 (UTC)
 Received: from orsmga004.jf.intel.com ([10.7.209.38])
 	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	10 May 2017 02:35:25 -0700
+	10 May 2017 02:35:26 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.38,318,1491289200"; d="scan'208";a="85649660"
+X-IronPort-AV: E=Sophos;i="5.38,318,1491289200"; d="scan'208";a="85649662"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by orsmga004.jf.intel.com with ESMTP; 10 May 2017 02:35:24 -0700
+	by orsmga004.jf.intel.com with ESMTP; 10 May 2017 02:35:25 -0700
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 10 May 2017 12:35:19 +0300
-Message-Id: <20170510093529.6651-1-alexander.kanavin@linux.intel.com>
+Date: Wed, 10 May 2017 12:35:20 +0300
+Message-Id: <20170510093529.6651-2-alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.11.0
-Subject: [PATCH 01/11] ffmpeg: update to 3.3
+In-Reply-To: <20170510093529.6651-1-alexander.kanavin@linux.intel.com>
+References: <20170510093529.6651-1-alexander.kanavin@linux.intel.com>
+Subject: [PATCH 02/11] trace-cmd: update to 2.6.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,50 +32,74 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 10 May 2017 09:35:24 -0000
 
---enabled-x11grab option has been removed upstream
-(and it was described as 'legacy' in the previous version)
+License change is due to update in FSF address.
+
+Library path needs to be specified in absolute form now.
+
+Remove bash completion file from kernelshark package as it will cause
+a conflict with trace-cmd package.
 
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- meta/recipes-multimedia/ffmpeg/{ffmpeg_3.2.4.bb => ffmpeg_3.3.bb} | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
- rename meta/recipes-multimedia/ffmpeg/{ffmpeg_3.2.4.bb => ffmpeg_3.3.bb} (95%)
+ meta/recipes-kernel/trace-cmd/kernelshark_git.bb | 3 ++-
+ meta/recipes-kernel/trace-cmd/trace-cmd.inc      | 4 ++--
+ meta/recipes-kernel/trace-cmd/trace-cmd_git.bb   | 4 ++--
+ 3 files changed, 6 insertions(+), 5 deletions(-)
 
-diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_3.2.4.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_3.3.bb
-similarity index 95%
-rename from meta/recipes-multimedia/ffmpeg/ffmpeg_3.2.4.bb
-rename to meta/recipes-multimedia/ffmpeg/ffmpeg_3.3.bb
-index 3216f8eb00e..c2b570e85cf 100644
---- a/meta/recipes-multimedia/ffmpeg/ffmpeg_3.2.4.bb
-+++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_3.3.bb
-@@ -26,8 +26,8 @@ LIC_FILES_CHKSUM = "file://COPYING.GPLv2;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
- SRC_URI = "https://www.ffmpeg.org/releases/${BP}.tar.xz \
-            file://mips64_cpu_detection.patch \
-           "
--SRC_URI[md5sum] = "39fd71024ac76ba35f04397021af5606"
--SRC_URI[sha256sum] = "6e38ff14f080c98b58cf5967573501b8cb586e3a173b591f3807d8f0660daf7a"
-+SRC_URI[md5sum] = "368f1fff4bdadaf2823934cc0aadd71d"
-+SRC_URI[sha256sum] = "599e7f7c017221c22011c4037b88bdcd1c47cd40c1e466838bc3c465f3e9569d"
+diff --git a/meta/recipes-kernel/trace-cmd/kernelshark_git.bb b/meta/recipes-kernel/trace-cmd/kernelshark_git.bb
+index 563182c89fe..9a5e8006c78 100644
+--- a/meta/recipes-kernel/trace-cmd/kernelshark_git.bb
++++ b/meta/recipes-kernel/trace-cmd/kernelshark_git.bb
+@@ -15,7 +15,7 @@ ANY_OF_DISTRO_FEATURES = "${GTK2DISTROFEATURES}"
+ EXTRA_OEMAKE = "\
+     'prefix=${prefix}' \
+     'bindir_relative=${@oe.path.relative(prefix, bindir)}' \
+-    'libdir=${@oe.path.relative(prefix, libdir)}' \
++    'libdir=${libdir}' \
+     NO_PYTHON=1 \
+     gui \
+ "
+@@ -28,5 +28,6 @@ do_install() {
+     oe_runmake DESTDIR="${D}" install_gui
+     rm ${D}${bindir}/trace-cmd
+     rm -rf ${D}${libdir}/trace-cmd
++    rm -rf ${D}${sysconfdir}/bash_completion.d/trace-cmd.bash
+     rmdir ${D}${libdir}
+ }
+diff --git a/meta/recipes-kernel/trace-cmd/trace-cmd.inc b/meta/recipes-kernel/trace-cmd/trace-cmd.inc
+index 3ad06fad81b..e0f6c3fba56 100644
+--- a/meta/recipes-kernel/trace-cmd/trace-cmd.inc
++++ b/meta/recipes-kernel/trace-cmd/trace-cmd.inc
+@@ -1,5 +1,5 @@
+-SRCREV = "9be5d74805830a291615f2f34a27c903f6a37b1e"
+-PV = "2.6"
++SRCREV = "021710e1073fe203341b427cd1a4bac577ec899c"
++PV = "2.6.1"
  
- # Build fails when thumb is enabled: https://bugzilla.yoctoproject.org/show_bug.cgi?id=7717
- ARM_INSTRUCTION_SET = "arm"
-@@ -42,7 +42,7 @@ inherit autotools pkgconfig
+ inherit pkgconfig
  
- PACKAGECONFIG ??= "avdevice avfilter avcodec avformat swresample swscale postproc \
-                    bzlib gpl lzma theora x264 \
--                   ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11 xv', '', d)}"
-+                   ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'xv', '', d)}"
+diff --git a/meta/recipes-kernel/trace-cmd/trace-cmd_git.bb b/meta/recipes-kernel/trace-cmd/trace-cmd_git.bb
+index dd9a8a0ded6..fa9ffa3dc8f 100644
+--- a/meta/recipes-kernel/trace-cmd/trace-cmd_git.bb
++++ b/meta/recipes-kernel/trace-cmd/trace-cmd_git.bb
+@@ -5,7 +5,7 @@ require trace-cmd.inc
  
- # libraries to build in addition to avutil
- PACKAGECONFIG[avdevice] = "--enable-avdevice,--disable-avdevice"
-@@ -69,7 +69,6 @@ PACKAGECONFIG[theora] = "--enable-libtheora,--disable-libtheora,libtheora"
- PACKAGECONFIG[vaapi] = "--enable-vaapi,--disable-vaapi,libva"
- PACKAGECONFIG[vdpau] = "--enable-vdpau,--disable-vdpau,libvdpau"
- PACKAGECONFIG[vpx] = "--enable-libvpx,--disable-libvpx,libvpx"
--PACKAGECONFIG[x11] = "--enable-x11grab,--disable-x11grab,virtual/libx11 libxfixes libxext xproto virtual/libsdl"
- PACKAGECONFIG[x264] = "--enable-libx264,--disable-libx264,x264"
- PACKAGECONFIG[xv] = "--enable-outdev=xv,--disable-outdev=xv,libxv"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe \
+                     file://trace-cmd.c;beginline=6;endline=8;md5=2c22c965a649ddd7973d7913c5634a5e \
+-                    file://COPYING.LIB;md5=bbb461211a33b134d42ed5ee802b37ff \
++                    file://COPYING.LIB;md5=edb195fe538e4552c1f6ca0fd7bf4f0a \
+                     file://trace-input.c;beginline=5;endline=8;md5=3ec82f43bbe0cfb5951ff414ef4d44d0 \
+ "
  
+@@ -17,7 +17,7 @@ EXTRA_OEMAKE = "\
+     'img_install=${datadir}/kernelshark/html/images' \
+     \
+     'bindir_relative=${@oe.path.relative(prefix, bindir)}' \
+-    'libdir=${@oe.path.relative(prefix, libdir)}' \
++    'libdir=${libdir}' \
+     \
+     NO_PYTHON=1 \
+ "
 -- 
 2.11.0
 
