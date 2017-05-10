@@ -1,48 +1,29 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f181.google.com (mail-qk0-f181.google.com
-	[209.85.220.181])
-	by mail.openembedded.org (Postfix) with ESMTP id ADFC571AB4
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id EC79F71AB5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 May 2017 11:04:00 +0000 (UTC)
-Received: by mail-qk0-f181.google.com with SMTP id k74so25134295qke.1
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 May 2017 04:04:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=7rL1GD/Z/rKzb/Ii4RD/rk12tfy4BteiEbzXHn1MDvg=;
-	b=mTeXi7h7BYI3o2gxIsSpqyn3mEKvPBbo2HZTNBNO4uOfdArkrENiZ5VLXDuXboAXjc
-	1iYISHAgRKTEw5hojL9oXwIFT32k6EcyuwNyYro+QRtCflS1xvvIVJFtF84i0g9Y0x65
-	IWAgnQh8d8CTte8j445aIjKylM+xteNqL0vFlSTr8MKNrSLBhJjnEIQZitSFbpF5oVx4
-	SuwxTdE4v0r3FqIQ/3hLM/MOE7tJNrj+k6tTuxxRgS897RguZ4cdsTN4tJNAAdguvvx0
-	SZErhwOkv4dBVr+IZpRV8QHCPsMUDa+BmjIC4MFR8+KibZIeoAOeoVV9CsZM0qdZCIA+
-	AH/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=7rL1GD/Z/rKzb/Ii4RD/rk12tfy4BteiEbzXHn1MDvg=;
-	b=Rw+2ROwbJXrGuEH3RtJxo5UO3pY7XHJpHysI9WxavQ1DHIGN+6bUI2oDy7SxPSHDy7
-	wxba5wZk6rpROFbxJrPbln4EfONh/WyrGbAhFqwORa6nAKKWyU15HzDgOvsexUE6+Re8
-	nsEt7H4gvqTpEfQ8OuUdGBMYyYUA2F2950LJLgCzK5VYrp1SGaWO6KT/O9E3YNIA6R3c
-	opXYgUqihrnsout5mJqmV6whiTZ7gqeamaGcb/O4nspV9stmBCh8PjrdA47jywBAGr6J
-	cpiAw8LMfBduihjBy6tzmyB8z/1VSv+2bVK0X87NgnBQ13Dq81dVySDeTuZXr9iJgGcq
-	gi/g==
-X-Gm-Message-State: AODbwcAWwOjOkGGblRjLiTXLEw8wpIyb4KY9KCfuHJiW2jfqQPbDri1A
-	RlHq2QzxqwWz9341C+j6bQtif9BJcLIm
-X-Received: by 10.55.187.1 with SMTP id l1mr5294383qkf.36.1494414241444; Wed,
-	10 May 2017 04:04:01 -0700 (PDT)
+	Wed, 10 May 2017 11:09:51 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga105.fm.intel.com with ESMTP; 10 May 2017 04:09:53 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.38,318,1491289200"; d="scan'208";a="966764436"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by orsmga003.jf.intel.com with ESMTP; 10 May 2017 04:09:51 -0700
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+References: <1494240698452.53619@mentor.com>
+	<9228554.pYdVeCRJpP@peggleto-mobl.ger.corp.intel.com>
+	<37bc3fea-105c-a22f-9386-0b0f440bd118@linux.intel.com>
+	<2037301.7Ncc1v2UnL@peggleto-mobl.ger.corp.intel.com>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <242ad7f7-4e04-7cac-fd3d-6fabd9b43c65@linux.intel.com>
+Date: Wed, 10 May 2017 14:09:59 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.8.0
 MIME-Version: 1.0
-Received: by 10.140.34.136 with HTTP; Wed, 10 May 2017 04:03:41 -0700 (PDT)
-In-Reply-To: <20170510093529.6651-4-alexander.kanavin@linux.intel.com>
-References: <20170510093529.6651-1-alexander.kanavin@linux.intel.com>
-	<20170510093529.6651-4-alexander.kanavin@linux.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 10 May 2017 12:03:41 +0100
-Message-ID: <CAJTo0Lbbi+TQ3NNidi__VnaHowe_dt1bh86kbX+GuDtCQ1_bBQ@mail.gmail.com>
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+In-Reply-To: <2037301.7Ncc1v2UnL@peggleto-mobl.ger.corp.intel.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 04/11] sysprof: update to 3.24.1
+Subject: Re: GUI based images
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,36 +36,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 May 2017 11:04:02 -0000
-Content-Type: multipart/alternative; boundary=94eb2c046c9202512e054f296ed7
+X-List-Received-Date: Wed, 10 May 2017 11:09:52 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
---94eb2c046c9202512e054f296ed7
-Content-Type: text/plain; charset=UTF-8
+On 05/10/2017 01:55 PM, Paul Eggleton wrote:
+> I make no secret of it - I am a Qt supporter. I'm willing to be convinced
+> that's not the right answer, though, if there are solid arguments. However, if
+> you'll excuse my paraphrasing, "it's not in OE-Core and can't be, therefore we
+> should just ignore it" isn't a case against it, it's a logistical issue. We
+> could easily get past that by bringing meta-qt5 into poky as we do with OE-
+> Core, or even just adding it to the build configuration as needed.
 
-On 10 May 2017 at 10:35, Alexander Kanavin <
-alexander.kanavin@linux.intel.com> wrote:
+That's not what I'm saying. I'm saying that for people who want a 
+'reference UI for real products' and have no problem with Qt, we should 
+officially endorse meta-b2qt.
 
-> +FILES_${PN} += "${datadir}/icons/ ${datadir}/appdata"
->
+Seriosuly. They have a wayland compositor, and an app launcher, and a 
+set of embedded-specific demos, and it's written and tested by 
+specialists with an explicit target of making it easy to make products. 
+And it's open source with optional commercial support. In that light, 
+there is no sense whatsoever in solving the same problem in oe-core, poorly.
 
-We're going to see this more often, so it's probably worth adding appdata
-to gnomebase.bbclass.
+> If we keep Sato effectively on life
+> support as we have done up until now, then it'll never get solved, and in the
+> mean time we are presenting something that is frankly woefully outdated which
+> we have to maintain entirely by ourselves.
 
-Ross
+Sato is not a reference UI, and has no pretensions of being that. It's 
+strictly an engineering UI, which is a different thing, and it's very 
+useful in that capacity.
 
---94eb2c046c9202512e054f296ed7
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Alex
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 10 May 2017 at 10:35, Alexander Kanavin <span dir=3D"ltr">&lt;<a href=3D=
-"mailto:alexander.kanavin@linux.intel.com" target=3D"_blank">alexander.kana=
-vin@linux.intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quo=
-te" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"=
-><div id=3D":1g9" class=3D"a3s aXjCH m15bf1b72ae25a884">+FILES_${PN} +=3D &=
-quot;${datadir}/icons/ ${datadir}/appdata&quot;<br></div></blockquote></div=
-><br>We&#39;re going to see this more often, so it&#39;s probably worth add=
-ing appdata to gnomebase.bbclass.</div><div class=3D"gmail_extra"><br></div=
-><div class=3D"gmail_extra">Ross</div></div>
 
---94eb2c046c9202512e054f296ed7--
