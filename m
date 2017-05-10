@@ -1,27 +1,27 @@
-Return-Path: <anibal.limon@linux.intel.com>
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id CAF8D71D31
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id 10E8760107
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 May 2017 19:48:08 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga104.jf.intel.com with ESMTP; 10 May 2017 12:48:10 -0700
+	Wed, 10 May 2017 19:52:06 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	10 May 2017 12:52:07 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.38,320,1491289200"; d="scan'208";a="1128735229"
-Received: from rnpawar-mobl3.amr.corp.intel.com (HELO
-	alimonb-mobl1.zpn.intel.com) ([10.254.59.138])
-	by orsmga001.jf.intel.com with ESMTP; 10 May 2017 12:48:09 -0700
-From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 10 May 2017 14:47:17 -0500
-Message-Id: <498a0a96a6d8c5a86e8032a160abfdb224fb6f38.1494445222.git.anibal.limon@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <cover.1494445222.git.anibal.limon@linux.intel.com>
-References: <cover.1494445222.git.anibal.limon@linux.intel.com>
-In-Reply-To: <cover.1494445222.git.anibal.limon@linux.intel.com>
-References: <cover.1494445222.git.anibal.limon@linux.intel.com>
+X-IronPort-AV: E=Sophos;i="5.38,320,1491289200"; d="scan'208";a="85264559"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by orsmga002.jf.intel.com with ESMTP; 10 May 2017 12:52:06 -0700
+To: jose.perez.carranza@linux.intel.com,
+	openembedded-core@lists.openembedded.org
+References: <20170510193809.2356-1-jose.perez.carranza@linux.intel.com>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <bd532acb-3dda-ac74-37d8-892fc797a407@linux.intel.com>
+Date: Wed, 10 May 2017 22:52:14 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.8.0
 MIME-Version: 1.0
-Cc: paul.eggleton@linux.intel.com, juan.m.cruz.alcaraz@intel.com
-Subject: [PATCH 17/17] oeqa/sdk: Enable usage of OEQA thread mode
+In-Reply-To: <20170510193809.2356-1-jose.perez.carranza@linux.intel.com>
+Subject: Re: [PATCH] runtime/dnf: Add new dnf test cases
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,62 +34,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 May 2017 19:48:09 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 10 May 2017 19:52:11 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-oeqa/sdk/context.py - Use OETestContextThreaded.
-classes/testsdk.bbclass - Enable bb event thread mode to avoid
-corrupt the PIPE when multiple threads writes.
+On 05/10/2017 10:38 PM, jose.perez.carranza@linux.intel.com wrote:
+> +    def test_dnf_installroot(self):
+> +        rootpath = '/home/root/chroot/test'
+> +        self.dnf_with_repo('install --installroot=%s --allowerasing -v -y busybox run-postinsts' % rootpath)
+> +        status, output = self.target.run('test -e %s/var/cache/dnf' % rootpath, 1500)
+> +        self.assertEqual(0, status, output)
 
-[YOCTO #11450]
+You could also check there that the files from installed packages are 
+indeed there (e.g. /home/root/chroot/test/bin/sh and such). Just in case. :)
 
-Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
----
- meta/classes/testsdk.bbclass | 4 ++++
- meta/lib/oeqa/sdk/context.py | 5 +++--
- 2 files changed, 7 insertions(+), 2 deletions(-)
+> +    def test_dnf_exclude(self):
+> +        excludepkg = 'run-postinsts-dev'
+> +        self.dnf_with_repo('remove -y run-postinsts')
+> +        self.dnf_with_repo('install -y --exclude=%s run-postinsts' % excludepkg)
+> +        self.dnf('list %s' % excludepkg, 1)
 
-diff --git a/meta/classes/testsdk.bbclass b/meta/classes/testsdk.bbclass
-index edea89c..8a9e680 100644
---- a/meta/classes/testsdk.bbclass
-+++ b/meta/classes/testsdk.bbclass
-@@ -24,6 +24,8 @@ def testsdk_main(d):
-     from oeqa.sdk.context import OESDKTestContext, OESDKTestContextExecutor
-     from oeqa.utils import make_logger_bitbake_compatible
- 
-+    bb.event.enable_threadlock()
-+
-     pn = d.getVar("PN")
-     logger = make_logger_bitbake_compatible(logging.getLogger("BitBake"))
- 
-@@ -97,6 +99,8 @@ def testsdkext_main(d):
-     from oeqa.utils import avoid_paths_in_environ, make_logger_bitbake_compatible, subprocesstweak
-     from oeqa.sdkext.context import OESDKExtTestContext, OESDKExtTestContextExecutor
- 
-+    bb.event.enable_threadlock()
-+
-     pn = d.getVar("PN")
-     logger = make_logger_bitbake_compatible(logging.getLogger("BitBake"))
- 
-diff --git a/meta/lib/oeqa/sdk/context.py b/meta/lib/oeqa/sdk/context.py
-index 82e4c19..b3d7c75 100644
---- a/meta/lib/oeqa/sdk/context.py
-+++ b/meta/lib/oeqa/sdk/context.py
-@@ -6,9 +6,10 @@ import sys
- import glob
- import re
- 
--from oeqa.core.context import OETestContext, OETestContextExecutor
-+from oeqa.core.context import OETestContextExecutor
-+from oeqa.core.threaded import OETestContextThreaded
- 
--class OESDKTestContext(OETestContext):
-+class OESDKTestContext(OETestContextThreaded):
-     sdk_files_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "files")
- 
-     def __init__(self, td=None, logger=None, sdk_dir=None, sdk_env=None,
--- 
-2.1.4
+How does this test work? I do not understand. First run-postinsts is 
+removed, then it is installed again with --exclude=run-postinsts-dev, 
+then we check that run-postinst-dev is not installed. Would it have been 
+installed without the --exclude option? Why, if we're only asking for 
+run-postinsts?
+
+If it would, should you test that it does indeed happen, to make sure 
+there is indeed a difference in the outcome when --exclude is present 
+and absent?
+
+Alex
 
 
