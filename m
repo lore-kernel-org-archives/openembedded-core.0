@@ -1,34 +1,27 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id A278560107
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 5AABF6FFD7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 May 2017 20:01:55 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga105.jf.intel.com with ESMTP; 10 May 2017 13:01:56 -0700
+	Wed, 10 May 2017 20:15:47 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga105.fm.intel.com with ESMTP; 10 May 2017 13:15:48 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.38,320,1491289200"; d="scan'208";a="1167340081"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by fmsmga002.fm.intel.com with ESMTP; 10 May 2017 13:01:53 -0700
-To: "Davis, Michael" <michael.davis@essvote.com>,
-	Gary Thomas <gary@mlbassoc.com>, "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1494425038.git.alexander.kanavin@linux.intel.com>
-	<655290B7709079438B7932553958E60D16D2C5FA@ESS-EX01.essvote.corp.local>
-	<7f60f107-1157-3991-b5bc-0fa4564e6905@linux.intel.com>
-	<655290B7709079438B7932553958E60D16D2C67F@ESS-EX01.essvote.corp.local>
-	<6f1e8992-7469-12bc-1307-2a9d0ca7d61e@linux.intel.com>
-	<811d49ba-ac83-5a52-6687-e3447d06659b@mlbassoc.com>
-	<abc26baf-5417-7565-cb69-08aff5559e95@linux.intel.com>
-	<655290B7709079438B7932553958E60D16D2C96C@ESS-EX01.essvote.corp.local>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <af13cada-23b5-4358-c3ce-0bd57c883f62@linux.intel.com>
-Date: Wed, 10 May 2017 23:02:01 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.8.0
+X-IronPort-AV: E=Sophos;i="5.38,320,1491289200"; d="scan'208";a="855297505"
+Received: from hklau-mobl1.gar.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.255.134.82])
+	by FMSMGA003.fm.intel.com with ESMTP; 10 May 2017 13:15:45 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Date: Thu, 11 May 2017 08:15:43 +1200
+Message-ID: <4437292.ZnTzh3sVdu@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+In-Reply-To: <242ad7f7-4e04-7cac-fd3d-6fabd9b43c65@linux.intel.com>
+References: <1494240698452.53619@mentor.com>
+	<2037301.7Ncc1v2UnL@peggleto-mobl.ger.corp.intel.com>
+	<242ad7f7-4e04-7cac-fd3d-6fabd9b43c65@linux.intel.com>
 MIME-Version: 1.0
-In-Reply-To: <655290B7709079438B7932553958E60D16D2C96C@ESS-EX01.essvote.corp.local>
-Subject: Re: [RFC PATCH 00/10] Add openssl 1.1
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: GUI based images
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,24 +34,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 May 2017 20:01:56 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 10 May 2017 20:15:49 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On 05/10/2017 10:53 PM, Davis, Michael wrote:
-> Could we offload the 1.0.2 supported recipes to something similar to meta-gplv2?
-> Then the rest of the Yocto world can move on and those that need 1.0.x can seek it out.
+On Wednesday, 10 May 2017 11:09:59 PM NZST Alexander Kanavin wrote:
+> On 05/10/2017 01:55 PM, Paul Eggleton wrote:
+> > I make no secret of it - I am a Qt supporter. I'm willing to be convinced
+> > that's not the right answer, though, if there are solid arguments.
+> > However, if you'll excuse my paraphrasing, "it's not in OE-Core and can't
+> > be, therefore we should just ignore it" isn't a case against it, it's a
+> > logistical issue. We could easily get past that by bringing meta-qt5 into
+> > poky as we do with OE-Core, or even just adding it to the build
+> > configuration as needed.
+> 
+> That's not what I'm saying. I'm saying that for people who want a 
+> 'reference UI for real products' and have no problem with Qt, we should 
+> officially endorse meta-b2qt.
+> 
+> Seriosuly. They have a wayland compositor, and an app launcher, and a 
+> set of embedded-specific demos, and it's written and tested by 
+> specialists with an explicit target of making it easy to make products. 
+> And it's open source with optional commercial support. In that light, 
+> there is no sense whatsoever in solving the same problem in oe-core, poorly.
 
-Maybe in 2019, when 1.0.2 will be reaching EOL, but definitely not now. 
-I don't think anyone will be happy if openssh (1.0 only for now) is 
-removed from oe-core, and everyone has to seek an additional layer to 
-keep that and other things running.
+If that works then great! By all means let's test it and endorse it. At the 
+moment we barely even acknowledge it's existence - it's not even in the layer 
+index (though that is generally up to the layer maintainer, we can certainly 
+encourage them to submit it.)
 
-1.0.2 is fully supported by upstream, and they will provide bugfixes for 
-another 2.5 years. There is nothing wrong with keeping it in oe-core, 
-unlike the gplv2 recipes which were both badly out of date and not 
-really getting tested.
+> > If we keep Sato effectively on life support as we have done up until now,
+> > then it'll never get solved, and in the mean time we are presenting
+> > something that is frankly woefully outdated which we have to maintain
+> > entirely by ourselves.
+> 
+> Sato is not a reference UI, and has no pretensions of being that. It's 
+> strictly an engineering UI, which is a different thing, and it's very 
+> useful in that capacity.
 
-Alex
+You and I might understand that, but someone coming to the project fresh 
+won't, mainly because we've never officially stated that anywhere. The only 
+mention of anything like it is in fact the opposite - in the development 
+manual we state "The Yocto Project ... also features the Sato reference User 
+Interface, which is optimized for stylus-driven, low-resolution screens.". 
+Granted, that statement is probably as old as Sato itself, but I think it 
+speaks to how organised our messaging is on this topic.
 
+Cheers,
+Paul
+
+-- 
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
