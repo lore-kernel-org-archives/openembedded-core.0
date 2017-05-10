@@ -1,19 +1,19 @@
 Return-Path: <anibal.limon@linux.intel.com>
 Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id 427FE71AD4
+	by mail.openembedded.org (Postfix) with ESMTP id 8D46F71AD9
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 May 2017 19:47:35 +0000 (UTC)
+	Wed, 10 May 2017 19:47:36 +0000 (UTC)
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga104.jf.intel.com with ESMTP; 10 May 2017 12:47:37 -0700
+	by orsmga104.jf.intel.com with ESMTP; 10 May 2017 12:47:38 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.38,320,1491289200"; d="scan'208";a="1128735052"
+X-IronPort-AV: E=Sophos;i="5.38,320,1491289200"; d="scan'208";a="1128735065"
 Received: from rnpawar-mobl3.amr.corp.intel.com (HELO
 	alimonb-mobl1.zpn.intel.com) ([10.254.59.138])
-	by orsmga001.jf.intel.com with ESMTP; 10 May 2017 12:47:30 -0700
+	by orsmga001.jf.intel.com with ESMTP; 10 May 2017 12:47:33 -0700
 From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 10 May 2017 14:47:02 -0500
-Message-Id: <ab56030be7608808598af8f7246a6d323f3d0e6a.1494445222.git.anibal.limon@linux.intel.com>
+Date: Wed, 10 May 2017 14:47:03 -0500
+Message-Id: <1540aee49bd60e5b4510ccb8ea4a3f0cb41ad4e0.1494445222.git.anibal.limon@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1494445222.git.anibal.limon@linux.intel.com>
 References: <cover.1494445222.git.anibal.limon@linux.intel.com>
@@ -21,7 +21,7 @@ In-Reply-To: <cover.1494445222.git.anibal.limon@linux.intel.com>
 References: <cover.1494445222.git.anibal.limon@linux.intel.com>
 MIME-Version: 1.0
 Cc: paul.eggleton@linux.intel.com, juan.m.cruz.alcaraz@intel.com
-Subject: [PATCH 02/17] oeqa/sdk/context.py: Import argparse_oe at OESDKTestContext.run method
+Subject: [PATCH 03/17] oeqa/sdk/context.py: Add return to OESDKTestContext.run() method
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,40 +34,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 May 2017 19:47:35 -0000
+X-List-Received-Date: Wed, 10 May 2017 19:47:36 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-This import was at level of OESDKTestContext.register_commands
-but OESDKTestContext.run method need it to raise exceptions.
+The run() methods of a OETestContext's are expected to return the
+results.
 
 Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
 ---
- meta/lib/oeqa/sdk/context.py | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/lib/oeqa/sdk/context.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/meta/lib/oeqa/sdk/context.py b/meta/lib/oeqa/sdk/context.py
-index 0189ed8..509d2b4 100644
+index 509d2b4..82e4c19 100644
 --- a/meta/lib/oeqa/sdk/context.py
 +++ b/meta/lib/oeqa/sdk/context.py
-@@ -44,8 +44,6 @@ class OESDKTestContextExecutor(OETestContextExecutor):
-     default_test_data = None
+@@ -128,6 +128,6 @@ class OESDKTestContextExecutor(OETestContextExecutor):
+                    "environment (%s) specified" % args.sdk_env, self.name)
  
-     def register_commands(self, logger, subparsers):
--        import argparse_oe
--
-         super(OESDKTestContextExecutor, self).register_commands(logger, subparsers)
+         self.sdk_env = sdk_envs[args.sdk_env]
+-        super(OESDKTestContextExecutor, self).run(logger, args)
++        return super(OESDKTestContextExecutor, self).run(logger, args)
  
-         sdk_group = self.parser.add_argument_group('sdk options')
-@@ -109,6 +107,8 @@ class OESDKTestContextExecutor(OETestContextExecutor):
-             log(env)
- 
-     def run(self, logger, args):
-+        import argparse_oe
-+
-         if not args.sdk_dir:
-             raise argparse_oe.ArgumentUsageError("No SDK directory "\
-                    "specified please do, --sdk-dir SDK_DIR", self.name)
+ _executor_class = OESDKTestContextExecutor
 -- 
 2.1.4
 
