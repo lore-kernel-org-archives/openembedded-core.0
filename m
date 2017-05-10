@@ -1,23 +1,22 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 01C4871AB8
+	by mail.openembedded.org (Postfix) with ESMTP id 252D171ADA
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 May 2017 14:13:21 +0000 (UTC)
+	Wed, 10 May 2017 14:13:23 +0000 (UTC)
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga105.fm.intel.com with ESMTP; 10 May 2017 07:13:23 -0700
+	by fmsmga105.fm.intel.com with ESMTP; 10 May 2017 07:13:24 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.38,319,1491289200"; d="scan'208";a="1167201638"
+X-IronPort-AV: E=Sophos;i="5.38,319,1491289200"; d="scan'208";a="1167201643"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by fmsmga002.fm.intel.com with ESMTP; 10 May 2017 07:13:22 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 10 May 2017 07:13:23 -0700
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 10 May 2017 17:13:19 +0300
-Message-Id: <f639ded0808f72a28e1197f36dff16bc40701a12.1494425038.git.alexander.kanavin@linux.intel.com>
+Date: Wed, 10 May 2017 17:13:20 +0300
+Message-Id: <de170926b5a6b1a68dae9cc21e26fdd50d5608bf.1494425038.git.alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.11.0
-MIME-Version: 1.0
 In-Reply-To: <cover.1494425038.git.alexander.kanavin@linux.intel.com>
 References: <cover.1494425038.git.alexander.kanavin@linux.intel.com>
-Subject: [RFC PATCH 01/10] python: update to 3.5.3
+Subject: [RFC PATCH 02/10] openssl: add a 1.1 version
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,940 +29,579 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 May 2017 14:13:22 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 10 May 2017 14:13:23 -0000
 
-Prior versions of python do not support openssl 1.1; updating to
-Python 3.6 on the other hand is a lot more involved, and so should
-be done by a specialist/maintainer.
+Existing openssl 1.0 recipe is renamed to openssl10; it will
+continue to be provided for as long as upstream supports it
+(and there are still several recipes which do not work with openssl
+1.1 due to API differences).
 
-LICENSE checksum change due to copyright years.
-
-Drop upstreamed python3-fix-CVE-2016-1000110.patch
-
-Rebase upstream-random-fixes.patch (taken from
-https://github.com/python/cpython/commit/ff558f5aba40bd173f336503def886a12f8db016 )
-
-Rebase 0001-Do-not-use-the-shell-version-of-python-config-that-w.patch
-
-Rebase 000-cross-compile.patch
+A few files (such as openssl binary) are no longer installed by openssl 1.0,
+because they clash with openssl 1.1.
 
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- ...on3-native_3.5.2.bb => python3-native_3.5.3.bb} |   8 +-
- ...the-shell-version-of-python-config-that-w.patch |  10 +-
- ...pile.patch => 0001-cross-compile-support.patch} |  56 ++--
- .../python3/python3-fix-CVE-2016-1000110.patch     | 148 -----------
- .../python/python3/upstream-random-fixes.patch     | 288 ++++++++++-----------
- .../python/{python3_3.5.2.bb => python3_3.5.3.bb}  |   9 +-
- 6 files changed, 180 insertions(+), 339 deletions(-)
- rename meta/recipes-devtools/python/{python3-native_3.5.2.bb => python3-native_3.5.3.bb} (90%)
- rename meta/recipes-devtools/python/python3/{000-cross-compile.patch => 0001-cross-compile-support.patch} (65%)
- delete mode 100644 meta/recipes-devtools/python/python3/python3-fix-CVE-2016-1000110.patch
- rename meta/recipes-devtools/python/{python3_3.5.2.bb => python3_3.5.3.bb} (96%)
+ meta/conf/distro/include/no-static-libs.inc        |   3 +
+ meta/conf/distro/include/security_flags.inc        |   2 +-
+ ...ve-test-that-requires-running-as-non-root.patch |  49 +++++++
+ ...1-Take-linking-flags-from-LDFLAGS-env-var.patch |  43 ++++++
+ .../recipes-connectivity/openssl/openssl/run-ptest |   4 +-
+ .../openssl/{openssl.inc => openssl10.inc}         |  14 +-
+ ...build-with-clang-using-external-assembler.patch |   0
+ .../{openssl => openssl10}/Makefiles-ptest.patch   |   0
+ .../Use-SHA256-not-MD5-as-default-digest.patch     |   0
+ .../configure-musl-target.patch                    |   0
+ .../{openssl => openssl10}/configure-targets.patch |   0
+ .../debian/c_rehash-compat.patch                   |   0
+ .../openssl/{openssl => openssl10}/debian/ca.patch |   0
+ .../debian/debian-targets.patch                    |   0
+ .../{openssl => openssl10}/debian/man-dir.patch    |   0
+ .../debian/man-section.patch                       |   0
+ .../{openssl => openssl10}/debian/no-rpath.patch   |   0
+ .../debian/no-symbolic.patch                       |   0
+ .../{openssl => openssl10}/debian/pic.patch        |   0
+ .../debian/version-script.patch                    |   0
+ .../debian1.0.2/block_digicert_malaysia.patch      |   0
+ .../debian1.0.2/block_diginotar.patch              |   0
+ .../debian1.0.2/version-script.patch               |   0
+ .../engines-install-in-libdir-ssl.patch            |   0
+ .../openssl/{openssl => openssl10}/find.pl         |   0
+ .../fix-cipher-des-ede3-cfb1.patch                 |   0
+ .../{openssl => openssl10}/oe-ldflags.patch        |   0
+ .../openssl-1.0.2a-x32-asm.patch                   |   0
+ ...-pointer-dereference-in-EVP_DigestInit_ex.patch |   0
+ .../{openssl => openssl10}/openssl-c_rehash.sh     |   0
+ .../openssl-fix-des.pod-error.patch                |   0
+ .../openssl-util-perlpath.pl-cwd.patch             |   0
+ .../openssl_fix_for_x32.patch                      |   0
+ .../openssl/{openssl => openssl10}/parallel.patch  |   0
+ .../{openssl => openssl10}/ptest-deps.patch        |   0
+ .../ptest_makefile_deps.patch                      |   0
+ .../openssl/openssl10/run-ptest                    |   2 +
+ .../{openssl => openssl10}/shared-libs.patch       |   0
+ .../{openssl_1.0.2k.bb => openssl10_1.0.2k.bb}     |   4 +-
+ .../recipes-connectivity/openssl/openssl_1.1.0e.bb | 146 +++++++++++++++++++++
+ 40 files changed, 261 insertions(+), 6 deletions(-)
+ create mode 100644 meta/recipes-connectivity/openssl/openssl/0001-Remove-test-that-requires-running-as-non-root.patch
+ create mode 100644 meta/recipes-connectivity/openssl/openssl/0001-Take-linking-flags-from-LDFLAGS-env-var.patch
+ mode change 100755 => 100644 meta/recipes-connectivity/openssl/openssl/run-ptest
+ rename meta/recipes-connectivity/openssl/{openssl.inc => openssl10.inc} (95%)
+ rename meta/recipes-connectivity/openssl/{openssl => openssl10}/0001-Fix-build-with-clang-using-external-assembler.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl => openssl10}/Makefiles-ptest.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl => openssl10}/Use-SHA256-not-MD5-as-default-digest.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl => openssl10}/configure-musl-target.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl => openssl10}/configure-targets.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl => openssl10}/debian/c_rehash-compat.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl => openssl10}/debian/ca.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl => openssl10}/debian/debian-targets.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl => openssl10}/debian/man-dir.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl => openssl10}/debian/man-section.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl => openssl10}/debian/no-rpath.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl => openssl10}/debian/no-symbolic.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl => openssl10}/debian/pic.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl => openssl10}/debian/version-script.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl => openssl10}/debian1.0.2/block_digicert_malaysia.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl => openssl10}/debian1.0.2/block_diginotar.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl => openssl10}/debian1.0.2/version-script.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl => openssl10}/engines-install-in-libdir-ssl.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl => openssl10}/find.pl (100%)
+ rename meta/recipes-connectivity/openssl/{openssl => openssl10}/fix-cipher-des-ede3-cfb1.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl => openssl10}/oe-ldflags.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl => openssl10}/openssl-1.0.2a-x32-asm.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl => openssl10}/openssl-avoid-NULL-pointer-dereference-in-EVP_DigestInit_ex.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl => openssl10}/openssl-c_rehash.sh (100%)
+ rename meta/recipes-connectivity/openssl/{openssl => openssl10}/openssl-fix-des.pod-error.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl => openssl10}/openssl-util-perlpath.pl-cwd.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl => openssl10}/openssl_fix_for_x32.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl => openssl10}/parallel.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl => openssl10}/ptest-deps.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl => openssl10}/ptest_makefile_deps.patch (100%)
+ create mode 100755 meta/recipes-connectivity/openssl/openssl10/run-ptest
+ rename meta/recipes-connectivity/openssl/{openssl => openssl10}/shared-libs.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl_1.0.2k.bb => openssl10_1.0.2k.bb} (97%)
+ create mode 100644 meta/recipes-connectivity/openssl/openssl_1.1.0e.bb
 
-diff --git a/meta/recipes-devtools/python/python3-native_3.5.2.bb b/meta/recipes-devtools/python/python3-native_3.5.3.bb
-similarity index 90%
-rename from meta/recipes-devtools/python/python3-native_3.5.2.bb
-rename to meta/recipes-devtools/python/python3-native_3.5.3.bb
-index edcf2244f57..250697fbbc9 100644
---- a/meta/recipes-devtools/python/python3-native_3.5.2.bb
-+++ b/meta/recipes-devtools/python/python3-native_3.5.3.bb
-@@ -7,7 +7,7 @@ DISTRO_SRC_URI_linuxstdbase = ""
- SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
- file://12-distutils-prefix-is-inside-staging-area.patch \
- file://python-config.patch \
--file://000-cross-compile.patch \
-+file://0001-cross-compile-support.patch \
- file://030-fixup-include-dirs.patch \
- file://070-dont-clean-ipkg-install.patch \
- file://080-distutils-dont_adjust_files.patch \
-@@ -26,10 +26,10 @@ file://setup.py-check-cross_compiling-when-get-FLAGS.patch \
- file://0001-Do-not-use-the-shell-version-of-python-config-that-w.patch \
- "
- 
--SRC_URI[md5sum] = "8906efbacfcdc7c3c9198aeefafd159e"  
--SRC_URI[sha256sum] = "0010f56100b9b74259ebcd5d4b295a32324b58b517403a10d1a2aa7cb22bca40" 
-+SRC_URI[md5sum] = "57d1f8bfbabf4f2500273fb0706e6f21"
-+SRC_URI[sha256sum] = "eefe2ad6575855423ab630f5b51a8ef6e5556f774584c06beab4926f930ddbb0"
- 
--LIC_FILES_CHKSUM = "file://LICENSE;md5=6b60258130e4ed10d3101517eb5b9385"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=b680ed99aa60d350c65a65914494207e"
- 
- # exclude pre-releases for both python 2.x and 3.x
- UPSTREAM_CHECK_REGEX = "[Pp]ython-(?P<pver>\d+(\.\d+)+).tar"
-diff --git a/meta/recipes-devtools/python/python3/0001-Do-not-use-the-shell-version-of-python-config-that-w.patch b/meta/recipes-devtools/python/python3/0001-Do-not-use-the-shell-version-of-python-config-that-w.patch
-index b7e0ac63544..8ea3f03fe03 100644
---- a/meta/recipes-devtools/python/python3/0001-Do-not-use-the-shell-version-of-python-config-that-w.patch
-+++ b/meta/recipes-devtools/python/python3/0001-Do-not-use-the-shell-version-of-python-config-that-w.patch
-@@ -1,4 +1,4 @@
--From 045c99b5f1eb6e4e0d8ad1ef9f0ba6574f738150 Mon Sep 17 00:00:00 2001
-+From 04df959365e2b54d7503edf0e5534ff094284f2d Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Fri, 23 Oct 2015 12:25:09 +0300
- Subject: [PATCH] Do not use the shell version of python-config that was
-@@ -14,13 +14,13 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-  1 file changed, 3 insertions(+), 6 deletions(-)
- 
- diff --git a/Makefile.pre.in b/Makefile.pre.in
--index d7fc9a0..47e60bc 100644
-+index 236f005..5c4337f 100644
- --- a/Makefile.pre.in
- +++ b/Makefile.pre.in
--@@ -1270,12 +1270,9 @@ python-config: $(srcdir)/Misc/python-config.in Misc/python-config.sh
-+@@ -1348,12 +1348,9 @@ python-config: $(srcdir)/Misc/python-config.in Misc/python-config.sh
-  	sed -e "s,@EXENAME@,$(BINDIR)/python$(LDVERSION)$(EXE)," < $(srcdir)/Misc/python-config.in >python-config.py
-  	# Replace makefile compat. variable references with shell script compat. ones; $(VAR) -> ${VAR}
-- 	sed -e 's,\$$(\([A-Za-z0-9_]*\)),\$$\{\1\},g' < Misc/python-config.sh >python-config
-+ 	LC_ALL=C sed -e 's,\$$(\([A-Za-z0-9_]*\)),\$$\{\1\},g' < Misc/python-config.sh >python-config
- -	# On Darwin, always use the python version of the script, the shell
- -	# version doesn't use the compiler customizations that are provided
- -	# in python (_osx_support.py).
-@@ -34,5 +34,5 @@ index d7fc9a0..47e60bc 100644
-  
-  # Install the include files
- -- 
--2.1.4
-+2.11.0
- 
-diff --git a/meta/recipes-devtools/python/python3/000-cross-compile.patch b/meta/recipes-devtools/python/python3/0001-cross-compile-support.patch
-similarity index 65%
-rename from meta/recipes-devtools/python/python3/000-cross-compile.patch
-rename to meta/recipes-devtools/python/python3/0001-cross-compile-support.patch
-index 2d822218f49..118d75ddc5a 100644
---- a/meta/recipes-devtools/python/python3/000-cross-compile.patch
-+++ b/meta/recipes-devtools/python/python3/0001-cross-compile-support.patch
-@@ -1,27 +1,32 @@
-+From 624c029abcc73c724020ccea9a2b4b5b5c00f2a6 Mon Sep 17 00:00:00 2001
+diff --git a/meta/conf/distro/include/no-static-libs.inc b/meta/conf/distro/include/no-static-libs.inc
+index f8d8c09cf0f..7c165c717fc 100644
+--- a/meta/conf/distro/include/no-static-libs.inc
++++ b/meta/conf/distro/include/no-static-libs.inc
+@@ -25,6 +25,9 @@ DISABLE_STATIC_pn-openjade-native = ""
+ DISABLE_STATIC_pn-openssl = ""
+ DISABLE_STATIC_pn-openssl-native = ""
+ DISABLE_STATIC_pn-nativesdk-openssl = ""
++DISABLE_STATIC_pn-openssl10 = ""
++DISABLE_STATIC_pn-openssl10-native = ""
++DISABLE_STATIC_pn-nativesdk-openssl10 = ""
+ # libssp-static-dev included in build-appliance
+ DISABLE_STATIC_pn-gcc-runtime = ""
+ # libusb1-native is used to build static dfu-util-native
+diff --git a/meta/conf/distro/include/security_flags.inc b/meta/conf/distro/include/security_flags.inc
+index e162abeb3d9..fe5ea264705 100644
+--- a/meta/conf/distro/include/security_flags.inc
++++ b/meta/conf/distro/include/security_flags.inc
+@@ -68,7 +68,7 @@ SECURITY_CFLAGS_pn-libpcre = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-libproxy = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-mesa = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-mesa-gl = "${SECURITY_NO_PIE_CFLAGS}"
+-SECURITY_CFLAGS_pn-openssl = "${SECURITY_NO_PIE_CFLAGS}"
++SECURITY_CFLAGS_pn-openssl10 = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-opensp = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-ppp = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-python = "${SECURITY_NO_PIE_CFLAGS}"
+diff --git a/meta/recipes-connectivity/openssl/openssl/0001-Remove-test-that-requires-running-as-non-root.patch b/meta/recipes-connectivity/openssl/openssl/0001-Remove-test-that-requires-running-as-non-root.patch
+new file mode 100644
+index 00000000000..736bb39acd1
+--- /dev/null
++++ b/meta/recipes-connectivity/openssl/openssl/0001-Remove-test-that-requires-running-as-non-root.patch
+@@ -0,0 +1,49 @@
++From 3fdb1e2a16ea405c6731447a8994f222808ef7e6 Mon Sep 17 00:00:00 2001
 +From: Alexander Kanavin <alex.kanavin@gmail.com>
-+Date: Fri, 31 Mar 2017 15:42:46 +0300
-+Subject: [PATCH] cross-compile support
++Date: Fri, 7 Apr 2017 18:01:52 +0300
++Subject: [PATCH] Remove test that requires running as non-root
 +
- We cross compile python. This patch uses tools from host/native
- python instead of in-tree tools
- 
- -Khem
- 
- Upstream-Status: Inappropriate[Configuration Specific]
--
++Upstream-Status: Inappropriate [oe-core specific]
 +Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
- ---
-- Makefile.pre.in |   25 +++++++++++++------------
-- 1 file changed, 13 insertions(+), 12 deletions(-)
-+ Makefile.pre.in | 14 ++++++++------
-+ 1 file changed, 8 insertions(+), 6 deletions(-)
- 
--Index: Python-3.5.2/Makefile.pre.in
--===================================================================
----- Python-3.5.2.orig/Makefile.pre.in
--+++ Python-3.5.2/Makefile.pre.in
--@@ -220,6 +220,7 @@ LIBOBJS=	@LIBOBJS@
-+diff --git a/Makefile.pre.in b/Makefile.pre.in
-+index a88b7d5..7cb8bb3 100644
-+--- a/Makefile.pre.in
-++++ b/Makefile.pre.in
-+@@ -221,6 +221,7 @@ LIBOBJS=	@LIBOBJS@
-  
-  PYTHON=		python$(EXE)
-  BUILDPYTHON=	python$(BUILDEXE)
--+HOSTPYTHON=	$(BUILDPYTHON)
-++HOSTPYTHON=    $(BUILDPYTHON)
-  
-- cross_compiling=@cross_compiling@
-+ PYTHON_FOR_GEN=@PYTHON_FOR_GEN@
-  PYTHON_FOR_BUILD=@PYTHON_FOR_BUILD@
--@@ -279,6 +280,7 @@ LIBFFI_INCLUDEDIR=	@LIBFFI_INCLUDEDIR@
-+@@ -280,6 +281,7 @@ LIBFFI_INCLUDEDIR=	@LIBFFI_INCLUDEDIR@
-  ##########################################################################
-  # Parser
-  PGEN=		Parser/pgen$(EXE)
-@@ -29,7 +34,7 @@ Index: Python-3.5.2/Makefile.pre.in
-  
-  PSRCS=		\
-  		Parser/acceler.c \
--@@ -509,7 +511,7 @@ build_all_generate_profile:
-+@@ -510,7 +512,7 @@ build_all_generate_profile:
-  
-  run_profile_task:
-  	: # FIXME: can't run for a cross build
-@@ -38,16 +43,16 @@ Index: Python-3.5.2/Makefile.pre.in
-  
-  build_all_merge_profile:
-  	$(LLVM_PROF_MERGER)
--@@ -792,7 +794,7 @@ $(GRAMMAR_H): $(GRAMMAR_INPUT) $(PGEN)
-+@@ -787,7 +789,7 @@ $(IO_OBJS): $(IO_H)
++---
++ test/recipes/40-test_rehash.t | 17 +----------------
++ 1 file changed, 1 insertion(+), 16 deletions(-)
++
++diff --git a/test/recipes/40-test_rehash.t b/test/recipes/40-test_rehash.t
++index f902c23..c7567c1 100644
++--- a/test/recipes/40-test_rehash.t
+++++ b/test/recipes/40-test_rehash.t
++@@ -23,7 +23,7 @@ setup("test_rehash");
++ plan skip_all => "test_rehash is not available on this platform"
++     unless run(app(["openssl", "rehash", "-help"]));
 + 
-+ $(GRAMMAR_H): @GENERATED_COMMENT@ $(GRAMMAR_INPUT) $(PGEN)
-  	@$(MKDIR_P) Include
-- 	# Avoid copying the file onto itself for an in-tree build
-- 	if test "$(cross_compiling)" != "yes"; then \
---		$(PGEN) $(GRAMMAR_INPUT) $(GRAMMAR_H) $(GRAMMAR_C); \
--+		$(HOSTPGEN) $(GRAMMAR_INPUT) $(GRAMMAR_H) $(GRAMMAR_C); \
-- 	else \
-- 		cp $(srcdir)/Include/graminit.h $(GRAMMAR_H).tmp; \
-- 		mv $(GRAMMAR_H).tmp $(GRAMMAR_H); \
--@@ -990,7 +992,7 @@ $(LIBRARY_OBJS) $(MODOBJS) Programs/pyth
-+-	$(PGEN) $(GRAMMAR_INPUT) $(GRAMMAR_H) $(GRAMMAR_C)
-++	$(HOSTPGEN) $(GRAMMAR_INPUT) $(GRAMMAR_H) $(GRAMMAR_C)
-+ $(GRAMMAR_C): @GENERATED_COMMENT@ $(GRAMMAR_H)
-+ 	touch $(GRAMMAR_C)
++-plan tests => 5;
+++plan tests => 3;
 + 
-+@@ -976,7 +978,7 @@ $(LIBRARY_OBJS) $(MODOBJS) Programs/python.o: $(PYTHON_HEADERS)
-  ######################################################################
-  
-  TESTOPTS=	$(EXTRATESTOPTS)
-@@ -56,7 +61,7 @@ Index: Python-3.5.2/Makefile.pre.in
-  TESTRUNNER=	$(TESTPYTHON) $(srcdir)/Tools/scripts/run_tests.py
-  TESTTIMEOUT=	3600
-  
--@@ -1481,7 +1483,7 @@ frameworkinstallstructure:	$(LDLIBRARY)
-+@@ -1468,7 +1470,7 @@ frameworkinstallstructure:	$(LDLIBRARY)
-  		fi; \
-  	done
-  	$(LN) -fsn include/python$(LDVERSION) $(DESTDIR)$(prefix)/Headers
-@@ -65,7 +70,7 @@ Index: Python-3.5.2/Makefile.pre.in
-  	$(LN) -fsn $(VERSION) $(DESTDIR)$(PYTHONFRAMEWORKINSTALLDIR)/Versions/Current
-  	$(LN) -fsn Versions/Current/$(PYTHONFRAMEWORK) $(DESTDIR)$(PYTHONFRAMEWORKINSTALLDIR)/$(PYTHONFRAMEWORK)
-  	$(LN) -fsn Versions/Current/Headers $(DESTDIR)$(PYTHONFRAMEWORKINSTALLDIR)/Headers
--@@ -1547,7 +1549,7 @@ config.status:	$(srcdir)/configure
-+@@ -1534,7 +1536,7 @@ config.status:	$(srcdir)/configure
-  
-  # Run reindent on the library
-  reindent:
-@@ -74,7 +79,7 @@ Index: Python-3.5.2/Makefile.pre.in
-  
-  # Rerun configure with the same options as it was run last time,
-  # provided the config.status script exists
--@@ -1683,7 +1685,7 @@ funny:
-+@@ -1674,7 +1676,7 @@ funny:
-  
-  # Perform some verification checks on any modified files.
-  patchcheck: all
-@@ -83,3 +88,6 @@ Index: Python-3.5.2/Makefile.pre.in
-  
-  # Dependencies
-  
++ indir "rehash.$$" => sub {
++     prepare();
++@@ -42,21 +42,6 @@ indir "rehash.$$" => sub {
++        'Testing rehash operations on empty directory');
++ }, create => 1, cleanup => 1;
++ 
++-indir "rehash.$$" => sub {
++-    prepare();
++-    chmod 0500, curdir();
++-  SKIP: {
++-      if (!ok(!open(FOO, ">unwritable.txt"),
++-              "Testing that we aren't running as a privileged user, such as root")) {
++-          close FOO;
++-          skip "It's pointless to run the next test as root", 1;
++-      }
++-      isnt(run(app(["openssl", "rehash", curdir()])), 1,
++-           'Testing rehash operations on readonly directory');
++-    }
++-    chmod 0700, curdir();       # make it writable again, so cleanup works
++-}, create => 1, cleanup => 1;
++-
++ sub prepare {
++     my @pemsourcefiles = sort glob(srctop_file('test', "*.pem"));
++     my @destfiles = ();
 +-- 
 +2.11.0
 +
-diff --git a/meta/recipes-devtools/python/python3/python3-fix-CVE-2016-1000110.patch b/meta/recipes-devtools/python/python3/python3-fix-CVE-2016-1000110.patch
-deleted file mode 100644
-index ab1b7230ea6..00000000000
---- a/meta/recipes-devtools/python/python3/python3-fix-CVE-2016-1000110.patch
-+++ /dev/null
-@@ -1,148 +0,0 @@
--From aab3e8c432b90508ac14755128f5a687be2fdf43 Mon Sep 17 00:00:00 2001
--From: Mingli Yu <Mingli.Yu@windriver.com>
--Date: Thu, 22 Sep 2016 16:39:49 +0800
--Subject: [PATCH] python3: fix CVE-2016-1000110
--MIME-Version: 1.0
--Content-Type: text/plain; charset=UTF-8
--Content-Transfer-Encoding: 8bit
--
--Ignore the HTTP_PROXY variable when REQUEST_METHOD environment is set, which
--indicates that the script is in CGI mode.
--
--Issue #27568 Reported and patch contributed by Rémi Rampin. [#27568]
--
--Backport patch from https://hg.python.org/cpython/rev/a0ac52ed8f79
--
--Upstream-Status: Backport
--CVE: CVE-2016-1000110
--Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
-----
-- Doc/howto/urllib2.rst          |  5 +++++
-- Doc/library/urllib.request.rst | 17 ++++++++++++++++-
-- Lib/test/test_urllib.py        | 14 +++++++++++++-
-- Lib/urllib/request.py          |  6 ++++++
-- Misc/NEWS                      |  4 ++++
-- 5 files changed, 44 insertions(+), 2 deletions(-)
--
--diff --git a/Doc/howto/urllib2.rst b/Doc/howto/urllib2.rst
--index 24a4156..d2c7991 100644
----- a/Doc/howto/urllib2.rst
--+++ b/Doc/howto/urllib2.rst
--@@ -538,6 +538,11 @@ setting up a `Basic Authentication`_ handler: ::
--     through a proxy.  However, this can be enabled by extending urllib.request as
--     shown in the recipe [#]_.
-- 
--+.. note::
--+
--+    ``HTTP_PROXY`` will be ignored if a variable ``REQUEST_METHOD`` is set; see
--+    the documentation on :func:`~urllib.request.getproxies`.
--+
-- 
-- Sockets and Layers
-- ==================
--diff --git a/Doc/library/urllib.request.rst b/Doc/library/urllib.request.rst
--index 1338906..1291aeb 100644
----- a/Doc/library/urllib.request.rst
--+++ b/Doc/library/urllib.request.rst
--@@ -173,6 +173,16 @@ The :mod:`urllib.request` module defines the following functions:
--    If both lowercase and uppercase environment variables exist (and disagree),
--    lowercase is preferred.
-- 
--+    .. note::
--+
--+       If the environment variable ``REQUEST_METHOD`` is set, which usually
--+       indicates your script is running in a CGI environment, the environment
--+       variable ``HTTP_PROXY`` (uppercase ``_PROXY``) will be ignored. This is
--+       because that variable can be injected by a client using the "Proxy:" HTTP
--+       header. If you need to use an HTTP proxy in a CGI environment, either use
--+       ``ProxyHandler`` explicitly, or make sure the variable name is in
--+       lowercase (or at least the ``_proxy`` suffix).
--+
-- 
-- The following classes are provided:
-- 
--@@ -280,6 +290,11 @@ The following classes are provided:
--    list of hostname suffixes, optionally with ``:port`` appended, for example
--    ``cern.ch,ncsa.uiuc.edu,some.host:8080``.
-- 
--+    .. note::
--+
--+       ``HTTP_PROXY`` will be ignored if a variable ``REQUEST_METHOD`` is set;
--+       see the documentation on :func:`~urllib.request.getproxies`.
--+
-- 
-- .. class:: HTTPPasswordMgr()
-- 
--@@ -1138,7 +1153,7 @@ the returned bytes object to string once it determines or guesses
-- the appropriate encoding.
-- 
-- The following W3C document, https://www.w3.org/International/O-charset\ , lists
---the various ways in which a (X)HTML or a XML document could have specified its
--+the various ways in which an (X)HTML or an XML document could have specified its
-- encoding information.
-- 
-- As the python.org website uses *utf-8* encoding as specified in its meta tag, we
--diff --git a/Lib/test/test_urllib.py b/Lib/test/test_urllib.py
--index 5d05f8d..247598a 100644
----- a/Lib/test/test_urllib.py
--+++ b/Lib/test/test_urllib.py
--@@ -1,4 +1,4 @@
---"""Regresssion tests for what was in Python 2's "urllib" module"""
--+"""Regression tests for what was in Python 2's "urllib" module"""
-- 
-- import urllib.parse
-- import urllib.request
--@@ -232,6 +232,18 @@ class ProxyTests(unittest.TestCase):
--         self.assertTrue(urllib.request.proxy_bypass_environment('anotherdomain.com:8888'))
--         self.assertTrue(urllib.request.proxy_bypass_environment('newdomain.com:1234'))
-- 
--+    def test_proxy_cgi_ignore(self):
--+        try:
--+            self.env.set('HTTP_PROXY', 'http://somewhere:3128')
--+            proxies = urllib.request.getproxies_environment()
--+            self.assertEqual('http://somewhere:3128', proxies['http'])
--+            self.env.set('REQUEST_METHOD', 'GET')
--+            proxies = urllib.request.getproxies_environment()
--+            self.assertNotIn('http', proxies)
--+        finally:
--+            self.env.unset('REQUEST_METHOD')
--+            self.env.unset('HTTP_PROXY')
--+
--     def test_proxy_bypass_environment_host_match(self):
--         bypass = urllib.request.proxy_bypass_environment
--         self.env.set('NO_PROXY',
--diff --git a/Lib/urllib/request.py b/Lib/urllib/request.py
--index 1731fe3..3be327d 100644
----- a/Lib/urllib/request.py
--+++ b/Lib/urllib/request.py
--@@ -2412,6 +2412,12 @@ def getproxies_environment():
--         name = name.lower()
--         if value and name[-6:] == '_proxy':
--             proxies[name[:-6]] = value
--+    # CVE-2016-1000110 - If we are running as CGI script, forget HTTP_PROXY
--+    # (non-all-lowercase) as it may be set from the web server by a "Proxy:"
--+    # header from the client
--+    # If "proxy" is lowercase, it will still be used thanks to the next block
--+    if 'REQUEST_METHOD' in os.environ:
--+        proxies.pop('http', None)
--     for name, value in os.environ.items():
--         if name[-6:] == '_proxy':
--             name = name.lower()
--diff --git a/Misc/NEWS b/Misc/NEWS
--index 4ad2551..2fcc95b 100644
----- a/Misc/NEWS
--+++ b/Misc/NEWS
--@@ -329,6 +329,10 @@ Library
-- - Issue #26644: Raise ValueError rather than SystemError when a negative
--   length is passed to SSLSocket.recv() or read().
-- 
--+- Issue #27568: Prevent HTTPoxy attack (CVE-2016-1000110). Ignore the
--+  HTTP_PROXY variable when REQUEST_METHOD environment is set, which indicates
--+  that the script is in CGI mode.
--+
-- - Issue #23804: Fix SSL recv(0) and read(0) methods to return zero bytes
--   instead of up to 1024.
-- 
---- 
--2.8.1
--
-diff --git a/meta/recipes-devtools/python/python3/upstream-random-fixes.patch b/meta/recipes-devtools/python/python3/upstream-random-fixes.patch
-index 0d9152ccd7c..9b40e8ac9ff 100644
---- a/meta/recipes-devtools/python/python3/upstream-random-fixes.patch
-+++ b/meta/recipes-devtools/python/python3/upstream-random-fixes.patch
-@@ -1,21 +1,7 @@
--This patch updates random.c to match upstream python's code at revision 
--8125d9a8152b. This addresses various issues around problems with glibc 2.24 
--and 2.25 such that python would fail to start with:
--
--[rpurdie@centos7 ~]$ /tmp/t2/sysroots/x86_64-pokysdk-linux/usr/bin/python3
--Fatal Python error: getentropy() failed
--Aborted
--
--(taken from our buildtools-tarball also breaks eSDK)
--
--Upstream-Status: Backport
--
--# HG changeset patch
--# User Victor Stinner <victor.stinner@gmail.com>
--# Date 1483957133 -3600
--# Node ID 8125d9a8152b79e712cb09c7094b9129b9bcea86
--# Parent  337461574c90281630751b6095c4e1baf380cf7d
--Issue #29157: Prefer getrandom() over getentropy()
-+From 035ba5da3e53e45c712b39fe1f6fb743e697c032 Mon Sep 17 00:00:00 2001
-+From: Victor Stinner <victor.stinner@gmail.com>
-+Date: Mon, 9 Jan 2017 11:18:53 +0100
-+Subject: [PATCH] Issue #29157: Prefer getrandom() over getentropy()
- 
- Copy and then adapt Python/random.c from default branch. Difference between 3.5
- and default branches:
-@@ -26,12 +12,17 @@ and default branches:
- * Python 3.5 has no _PyOS_URandomNonblock() function: _PyOS_URandom()
-   works in non-blocking mode on Python 3.5
- 
--RP 2017/1/22
-+Upstream-Status: Backport [https://github.com/python/cpython/commit/035ba5da3e53e45c712b39fe1f6fb743e697c032]
-+Signed-off-by: Alexander Kanavin <alexander.kanavin@intel.com>
+diff --git a/meta/recipes-connectivity/openssl/openssl/0001-Take-linking-flags-from-LDFLAGS-env-var.patch b/meta/recipes-connectivity/openssl/openssl/0001-Take-linking-flags-from-LDFLAGS-env-var.patch
+new file mode 100644
+index 00000000000..6ce4e47d712
+--- /dev/null
++++ b/meta/recipes-connectivity/openssl/openssl/0001-Take-linking-flags-from-LDFLAGS-env-var.patch
+@@ -0,0 +1,43 @@
++From 08face4353d80111973aba9c1304c92158cfad0e Mon Sep 17 00:00:00 2001
++From: Alexander Kanavin <alex.kanavin@gmail.com>
++Date: Tue, 28 Mar 2017 16:40:12 +0300
++Subject: [PATCH] Take linking flags from LDFLAGS env var
 +
++This fixes "No GNU_HASH in the elf binary" issues.
++
++Upstream-Status: Inappropriate [oe-core specific]
++Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 +---
-+ Python/random.c | 494 +++++++++++++++++++++++++++++++++-----------------------
-+ 1 file changed, 294 insertions(+), 200 deletions(-)
++ Configurations/unix-Makefile.tmpl | 2 +-
++ Configure                         | 2 +-
++ 2 files changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/Configurations/unix-Makefile.tmpl b/Configurations/unix-Makefile.tmpl
++index c029817..43b769b 100644
++--- a/Configurations/unix-Makefile.tmpl
+++++ b/Configurations/unix-Makefile.tmpl
++@@ -173,7 +173,7 @@ CROSS_COMPILE= {- $config{cross_compile_prefix} -}
++ CC= $(CROSS_COMPILE){- $target{cc} -}
++ CFLAGS={- our $cflags2 = join(" ",(map { "-D".$_} @{$target{defines}}, @{$config{defines}}),"-DOPENSSLDIR=\"\\\"\$(OPENSSLDIR)\\\"\"","-DENGINESDIR=\"\\\"\$(ENGINESDIR)\\\"\"") -} {- $target{cflags} -} {- $config{cflags} -}
++ CFLAGS_Q={- $cflags2 =~ s|([\\"])|\\$1|g; $cflags2 -} {- $config{cflags} -}
++-LDFLAGS= {- $target{lflags} -}
+++LDFLAGS= {- $target{lflags}." ".$ENV{'LDFLAGS'} -}
++ PLIB_LDFLAGS= {- $target{plib_lflags} -}
++ EX_LIBS= {- $target{ex_libs} -} {- $config{ex_libs} -}
++ LIB_CFLAGS={- $target{shared_cflag} || "" -}
++diff --git a/Configure b/Configure
++index aee7cc3..274d236 100755
++--- a/Configure
+++++ b/Configure
++@@ -979,7 +979,7 @@ $config{build_file} = $target{build_file};
++ $config{defines} = [];
++ $config{cflags} = "";
++ $config{ex_libs} = "";
++-$config{shared_ldflag} = "";
+++$config{shared_ldflag} = $ENV{'LDFLAGS'};
++ 
++ # Make sure build_scheme is consistent.
++ $target{build_scheme} = [ $target{build_scheme} ]
++-- 
++2.11.0
++
+diff --git a/meta/recipes-connectivity/openssl/openssl/run-ptest b/meta/recipes-connectivity/openssl/openssl/run-ptest
+old mode 100755
+new mode 100644
+index 3b20fce1ee9..65c6cc7b862
+--- a/meta/recipes-connectivity/openssl/openssl/run-ptest
++++ b/meta/recipes-connectivity/openssl/openssl/run-ptest
+@@ -1,2 +1,4 @@
+ #!/bin/sh
+-make -k runtest
++cd test
++OPENSSL_ENGINES=../engines BLDTOP=.. SRCTOP=.. perl run_tests.pl
++cd ..
+diff --git a/meta/recipes-connectivity/openssl/openssl.inc b/meta/recipes-connectivity/openssl/openssl10.inc
+similarity index 95%
+rename from meta/recipes-connectivity/openssl/openssl.inc
+rename to meta/recipes-connectivity/openssl/openssl10.inc
+index 8f2a797b89c..23b60c8bbf2 100644
+--- a/meta/recipes-connectivity/openssl/openssl.inc
++++ b/meta/recipes-connectivity/openssl/openssl10.inc
+@@ -37,8 +37,6 @@ FILES_${PN} =+ " ${libdir}/ssl/*"
+ FILES_${PN}-misc = "${libdir}/ssl/misc"
+ RDEPENDS_${PN}-misc = "${@bb.utils.filter('PACKAGECONFIG', 'perl', d)}"
  
--Index: Python-3.5.2/Python/random.c
--===================================================================
----- Python-3.5.2.orig/Python/random.c
--+++ Python-3.5.2/Python/random.c
-+diff --git a/Python/random.c b/Python/random.c
-+index d203939..31f61d0 100644
-+--- a/Python/random.c
-++++ b/Python/random.c
- @@ -1,6 +1,9 @@
-  #include "Python.h"
-  #ifdef MS_WINDOWS
-@@ -42,7 +33,7 @@ Index: Python-3.5.2/Python/random.c
-  #else
-  #  include <fcntl.h>
-  #  ifdef HAVE_SYS_STAT_H
--@@ -36,10 +39,9 @@ win32_urandom_init(int raise)
-+@@ -37,10 +40,9 @@ win32_urandom_init(int raise)
-      return 0;
-  
-  error:
-@@ -55,7 +46,7 @@ Index: Python-3.5.2/Python/random.c
-      return -1;
-  }
-  
--@@ -52,8 +54,9 @@ win32_urandom(unsigned char *buffer, Py_
-+@@ -53,8 +55,9 @@ win32_urandom(unsigned char *buffer, Py_ssize_t size, int raise)
-  
-      if (hCryptProv == 0)
-      {
-@@ -66,7 +57,7 @@ Index: Python-3.5.2/Python/random.c
-      }
-  
-      while (size > 0)
--@@ -62,11 +65,9 @@ win32_urandom(unsigned char *buffer, Py_
-+@@ -63,11 +66,9 @@ win32_urandom(unsigned char *buffer, Py_ssize_t size, int raise)
-          if (!CryptGenRandom(hCryptProv, (DWORD)chunk, buffer))
-          {
-              /* CryptGenRandom() failed */
-@@ -80,7 +71,7 @@ Index: Python-3.5.2/Python/random.c
-              return -1;
-          }
-          buffer += chunk;
--@@ -75,55 +76,29 @@ win32_urandom(unsigned char *buffer, Py_
-+@@ -76,58 +77,23 @@ win32_urandom(unsigned char *buffer, Py_ssize_t size, int raise)
-      return 0;
-  }
-  
-@@ -129,13 +120,19 @@ Index: Python-3.5.2/Python/random.c
-  #if defined(HAVE_GETRANDOM) || defined(HAVE_GETRANDOM_SYSCALL)
-  #define PY_GETRANDOM 1
-  
-+-/* Call getrandom()
- +/* Call getrandom() to get random bytes:
- +
--+   - Return 1 on success
-+    - Return 1 on success
-+-   - Return 0 if getrandom() syscall is not available (failed with ENOSYS or
-+-     EPERM) or if getrandom(GRND_NONBLOCK) failed with EAGAIN (system urandom
-+-     not initialized yet) and raise=0.
- +   - Return 0 if getrandom() is not available (failed with ENOSYS or EPERM),
- +     or if getrandom(GRND_NONBLOCK) failed with EAGAIN (system urandom not
- +     initialized yet).
--+   - Raise an exception (if raise is non-zero) and return -1 on error:
-+    - Raise an exception (if raise is non-zero) and return -1 on error:
-+-     getrandom() failed with EINTR and the Python signal handler raised an
-+-     exception, or getrandom() failed with a different error. */
- +     if getrandom() failed with EINTR, raise is non-zero and the Python signal
- +     handler raised an exception, or if getrandom() failed with a different
- +     error.
-@@ -144,26 +141,16 @@ Index: Python-3.5.2/Python/random.c
-  static int
-  py_getrandom(void *buffer, Py_ssize_t size, int raise)
-  {
---    /* Is getrandom() supported by the running kernel?
---     * Need Linux kernel 3.17 or newer, or Solaris 11.3 or newer */
--+    /* Is getrandom() supported by the running kernel? Set to 0 if getrandom()
--+       failed with ENOSYS or EPERM. Need Linux kernel 3.17 or newer, or Solaris
--+       11.3 or newer */
--     static int getrandom_works = 1;
-- 
--     /* getrandom() on Linux will block if called before the kernel has
--@@ -132,84 +107,165 @@ py_getrandom(void *buffer, Py_ssize_t si
-+@@ -142,16 +108,19 @@ py_getrandom(void *buffer, Py_ssize_t size, int raise)
-       * see https://bugs.python.org/issue26839. To avoid this, use the
-       * GRND_NONBLOCK flag. */
-      const int flags = GRND_NONBLOCK;
---    int n;
- +    char *dest;
--+    long n;
-+     long n;
-  
---    if (!getrandom_works)
--+    if (!getrandom_works) {
-+     if (!getrandom_works) {
-          return 0;
--+    }
-+     }
-  
- +    dest = buffer;
-      while (0 < size) {
-@@ -174,11 +161,8 @@ Index: Python-3.5.2/Python/random.c
- +           requested. */
-          n = Py_MIN(size, 1024);
-  #else
---        n = size;
--+        n = Py_MIN(size, LONG_MAX);
-- #endif
-- 
--         errno = 0;
-+         n = Py_MIN(size, LONG_MAX);
-+@@ -161,34 +130,35 @@ py_getrandom(void *buffer, Py_ssize_t size, int raise)
-  #ifdef HAVE_GETRANDOM
-          if (raise) {
-              Py_BEGIN_ALLOW_THREADS
-@@ -209,56 +193,45 @@ Index: Python-3.5.2/Python/random.c
-  #endif
-  
-          if (n < 0) {
---            if (errno == ENOSYS) {
-+-            /* ENOSYS: getrandom() syscall not supported by the kernel (but
-+-             * maybe supported by the host which built Python). EPERM:
-+-             * getrandom() syscall blocked by SECCOMP or something else. */
- +            /* ENOSYS: the syscall is not supported by the kernel.
- +               EPERM: the syscall is blocked by a security policy (ex: SECCOMP)
- +               or something else. */
--+            if (errno == ENOSYS || errno == EPERM) {
-+             if (errno == ENOSYS || errno == EPERM) {
-                  getrandom_works = 0;
-                  return 0;
-              }
- +
-              if (errno == EAGAIN) {
---                /* If we failed with EAGAIN, the entropy pool was
---                 * uninitialized. In this case, we return failure to fall
---                 * back to reading from /dev/urandom.
---                 *
---                 * Note: In this case the data read will not be random so
---                 * should not be used for cryptographic purposes. Retaining
---                 * the existing semantics for practical purposes. */
--+                /* getrandom(GRND_NONBLOCK) fails with EAGAIN if the system
--+                   urandom is not initialiazed yet. In this case, fall back on
--+                   reading from /dev/urandom.
--+
--+                   Note: In this case the data read will not be random so
--+                   should not be used for cryptographic purposes. Retaining
--+                   the existing semantics for practical purposes. */
--                 getrandom_works = 0;
--                 return 0;
-+                 /* getrandom(GRND_NONBLOCK) fails with EAGAIN if the system
-+                    urandom is not initialiazed yet. In this case, fall back on
-+@@ -202,169 +172,225 @@ py_getrandom(void *buffer, Py_ssize_t size, int raise)
-              }
-  
-              if (errno == EINTR) {
- -                if (PyErr_CheckSignals()) {
---                    if (!raise)
-+-                    if (!raise) {
- -                        Py_FatalError("getrandom() interrupted by a signal");
---                    return -1;
- +                if (raise) {
- +                    if (PyErr_CheckSignals()) {
- +                        return -1;
--+                    }
-+                     }
-+-                    return -1;
-                  }
-+ 
- -                /* retry getrandom() */
--+
- +                /* retry getrandom() if it was interrupted by a signal */
-                  continue;
-              }
-  
---            if (raise)
--+            if (raise) {
-+             if (raise) {
-                  PyErr_SetFromErrno(PyExc_OSError);
---            else
-+             }
-+-            else {
- -                Py_FatalError("getrandom() failed");
--+            }
-+-            }
-              return -1;
-          }
-  
-@@ -269,12 +242,19 @@ Index: Python-3.5.2/Python/random.c
-      return 1;
-  }
- -#endif
--+
-+ 
-+-static struct {
-+-    int fd;
-+-    dev_t st_dev;
-+-    ino_t st_ino;
-+-} urandom_cache = { -1 };
- +#elif defined(HAVE_GETENTROPY)
- +#define PY_GETENTROPY 1
--+
-+ 
- +/* Fill buffer with size pseudo-random bytes generated by getentropy():
--+
-+ 
-+-/* Read 'size' random bytes from py_getrandom(). Fall back on reading from
-+-   /dev/urandom if getrandom() is not available.
- +   - Return 1 on success
- +   - Return 0 if getentropy() syscall is not available (failed with ENOSYS or
- +     EPERM).
-@@ -282,25 +262,47 @@ Index: Python-3.5.2/Python/random.c
- +     if getentropy() failed with EINTR, raise is non-zero and the Python signal
- +     handler raised an exception, or if getentropy() failed with a different
- +     error.
--+
-+ 
-+-   Call Py_FatalError() on error. */
-+-static void
-+-dev_urandom_noraise(unsigned char *buffer, Py_ssize_t size)
- +   getentropy() is retried if it failed with EINTR: interrupted by a signal. */
- +static int
- +py_getentropy(char *buffer, Py_ssize_t size, int raise)
--+{
-+ {
-+-    int fd;
-+-    Py_ssize_t n;
- +    /* Is getentropy() supported by the running kernel? Set to 0 if
- +       getentropy() failed with ENOSYS or EPERM. */
- +    static int getentropy_works = 1;
--+
-+ 
-+-    assert (0 < size);
-+-
-+-#ifdef PY_GETRANDOM
-+-    if (py_getrandom(buffer, size, 0) == 1) {
-+-        return;
- +    if (!getentropy_works) {
- +        return 0;
--+    }
--+
-+     }
-+-    /* getrandom() failed with ENOSYS or EPERM,
-+-       fall back on reading /dev/urandom */
-+-#endif
-+ 
-+-    fd = _Py_open_noraise("/dev/urandom", O_RDONLY);
-+-    if (fd < 0) {
-+-        Py_FatalError("Failed to open /dev/urandom");
-+-    }
- +    while (size > 0) {
- +        /* getentropy() is limited to returning up to 256 bytes. Call it
- +           multiple times if more bytes are requested. */
- +        Py_ssize_t len = Py_MIN(size, 256);
- +        int res;
--+
-+ 
-+-    while (0 < size)
-+-    {
-+-        do {
-+-            n = read(fd, buffer, (size_t)size);
-+-        } while (n < 0 && errno == EINTR);
- +        if (raise) {
- +            Py_BEGIN_ALLOW_THREADS
- +            res = getentropy(buffer, len);
-@@ -309,7 +311,11 @@ Index: Python-3.5.2/Python/random.c
- +        else {
- +            res = getentropy(buffer, len);
- +        }
--+
-+ 
-+-        if (n <= 0) {
-+-            /* read() failed or returned 0 bytes */
-+-            Py_FatalError("Failed to read bytes from /dev/urandom");
-+-            break;
- +        if (res < 0) {
- +            /* ENOSYS: the syscall is not supported by the running kernel.
- +               EPERM: the syscall is blocked by a security policy (ex: SECCOMP)
-@@ -334,71 +340,44 @@ Index: Python-3.5.2/Python/random.c
- +                PyErr_SetFromErrno(PyExc_OSError);
- +            }
- +            return -1;
--+        }
-+         }
-+-        buffer += n;
-+-        size -= n;
- +
- +        buffer += len;
- +        size -= len;
--+    }
-+     }
-+-    close(fd);
- +    return 1;
--+}
-+ }
- +#endif /* defined(HAVE_GETENTROPY) && !defined(sun) */
--+
-  
-- static struct {
--     int fd;
--@@ -217,127 +273,123 @@ static struct {
--     ino_t st_ino;
-- } urandom_cache = { -1 };
-+-/* Read 'size' random bytes from py_getrandom(). Fall back on reading from
-+-   /dev/urandom if getrandom() is not available.
-  
-+-   Return 0 on success. Raise an exception and return -1 on error. */
-++static struct {
-++    int fd;
-++    dev_t st_dev;
-++    ino_t st_ino;
-++} urandom_cache = { -1 };
-++
- +/* Read random bytes from the /dev/urandom device:
-- 
---/* Read size bytes from /dev/urandom into buffer.
---   Call Py_FatalError() on error. */
---static void
---dev_urandom_noraise(unsigned char *buffer, Py_ssize_t size)
---{
---    int fd;
---    Py_ssize_t n;
-++
- +   - Return 0 on success
- +   - Raise an exception (if raise is non-zero) and return -1 on error
-- 
---    assert (0 < size);
-++
- +   Possible causes of errors:
-- 
---#ifdef PY_GETRANDOM
---    if (py_getrandom(buffer, size, 0) == 1)
---        return;
---    /* getrandom() is not supported by the running kernel, fall back
---     * on reading /dev/urandom */
---#endif
-++
- +   - open() failed with ENOENT, ENXIO, ENODEV, EACCES: the /dev/urandom device
- +     was not found. For example, it was removed manually or not exposed in a
- +     chroot or container.
- +   - open() failed with a different error
- +   - fstat() failed
- +   - read() failed or returned 0
-- 
---    fd = _Py_open_noraise("/dev/urandom", O_RDONLY);
---    if (fd < 0)
---        Py_FatalError("Failed to open /dev/urandom");
-++
- +   read() is retried if it failed with EINTR: interrupted by a signal.
-- 
---    while (0 < size)
---    {
---        do {
---            n = read(fd, buffer, (size_t)size);
---        } while (n < 0 && errno == EINTR);
---        if (n <= 0)
---        {
---            /* stop on error or if read(size) returned 0 */
---            Py_FatalError("Failed to read bytes from /dev/urandom");
---            break;
---        }
---        buffer += n;
---        size -= (Py_ssize_t)n;
---    }
---    close(fd);
---}
-++
- +   The file descriptor of the device is kept open between calls to avoid using
- +   many file descriptors when run in parallel from multiple threads:
- +   see the issue #18756.
-@@ -406,9 +385,7 @@ Index: Python-3.5.2/Python/random.c
- +   st_dev and st_ino fields of the file descriptor (from fstat()) are cached to
- +   check if the file descriptor was replaced by a different file (which is
- +   likely a bug in the application): see the issue #21207.
-- 
---/* Read size bytes from /dev/urandom into buffer.
---   Return 0 on success, raise an exception and return -1 on error. */
-++
- +   If the file descriptor was closed or replaced, open a new file descriptor
- +   but don't close the old file descriptor: it probably points to something
- +   important for some third-party code. */
-@@ -422,22 +399,24 @@ Index: Python-3.5.2/Python/random.c
- -#ifdef PY_GETRANDOM
- -    int res;
- -#endif
-- 
-+-
- -    if (size <= 0)
- -        return 0;
--+    if (raise) {
--+        struct _Py_stat_struct st;
-  
- -#ifdef PY_GETRANDOM
- -    res = py_getrandom(buffer, size, 1);
---    if (res < 0)
-+-    if (res < 0) {
- -        return -1;
---    if (res == 1)
-+-    }
-+-    if (res == 1) {
- -        return 0;
---    /* getrandom() is not supported by the running kernel, fall back
---     * on reading /dev/urandom */
-+-    }
-+-    /* getrandom() failed with ENOSYS or EPERM,
-+-       fall back on reading /dev/urandom */
- -#endif
---
-++    if (raise) {
-++        struct _Py_stat_struct st;
-+ 
- -    if (urandom_cache.fd >= 0) {
- -        /* Does the fd point to the same thing as before? (issue #21207) */
- -        if (_Py_fstat_noraise(urandom_cache.fd, &st)
-@@ -516,8 +495,9 @@ Index: Python-3.5.2/Python/random.c
-  
- -    do {
- -        n = _Py_read(fd, buffer, (size_t)size);
---        if (n == -1)
-+-        if (n == -1) {
- -            return -1;
-+-        }
- -        if (n == 0) {
- -            PyErr_Format(PyExc_RuntimeError,
- -                    "Failed to read %zi bytes from /dev/urandom",
-@@ -566,7 +546,7 @@ Index: Python-3.5.2/Python/random.c
-      return 0;
-  }
-  
--@@ -349,8 +401,8 @@ dev_urandom_close(void)
-+@@ -376,8 +402,8 @@ dev_urandom_close(void)
-          urandom_cache.fd = -1;
-      }
-  }
-@@ -576,7 +556,7 @@ Index: Python-3.5.2/Python/random.c
-  
-  /* Fill buffer with pseudo-random bytes generated by a linear congruent
-     generator (LCG):
--@@ -373,29 +425,98 @@ lcg_urandom(unsigned int x0, unsigned ch
-+@@ -400,31 +426,100 @@ lcg_urandom(unsigned int x0, unsigned char *buffer, size_t size)
-      }
-  }
-  
-@@ -661,7 +641,7 @@ Index: Python-3.5.2/Python/random.c
-  #else
- -    return dev_urandom_python((char*)buffer, size);
- +    res = py_getentropy(buffer, size, raise);
-- #endif
-++#endif
- +    if (res < 0) {
- +        return -1;
- +    }
-@@ -673,9 +653,9 @@ Index: Python-3.5.2/Python/random.c
- +#endif
- +
- +    return dev_urandom(buffer, size, raise);
--+#endif
--+}
--+
-+ #endif
-+ }
-+ 
- +/* Fill buffer with size pseudo-random bytes from the operating system random
- +   number generator (RNG). It is suitable for most cryptographic purposes
- +   except long living private keys for asymmetric encryption.
-@@ -685,10 +665,12 @@ Index: Python-3.5.2/Python/random.c
- +_PyOS_URandom(void *buffer, Py_ssize_t size)
- +{
- +    return pyurandom(buffer, size, 1);
-- }
-- 
-++}
-++
-  void
--@@ -436,13 +557,14 @@ _PyRandom_Init(void)
-+ _PyRandom_Init(void)
-+ {
-+@@ -463,13 +558,14 @@ _PyRandom_Init(void)
-          }
-      }
-      else {
-@@ -710,7 +692,7 @@ Index: Python-3.5.2/Python/random.c
-      }
-  }
-  
--@@ -454,8 +576,6 @@ _PyRandom_Fini(void)
-+@@ -481,8 +577,6 @@ _PyRandom_Fini(void)
-          CryptReleaseContext(hCryptProv, 0);
-          hCryptProv = 0;
-      }
-diff --git a/meta/recipes-devtools/python/python3_3.5.2.bb b/meta/recipes-devtools/python/python3_3.5.3.bb
-similarity index 96%
-rename from meta/recipes-devtools/python/python3_3.5.2.bb
-rename to meta/recipes-devtools/python/python3_3.5.3.bb
-index 2ff7c9e2780..79c2c519ff7 100644
---- a/meta/recipes-devtools/python/python3_3.5.2.bb
-+++ b/meta/recipes-devtools/python/python3_3.5.3.bb
-@@ -8,7 +8,7 @@ DISTRO_SRC_URI ?= "file://sitecustomize.py"
- DISTRO_SRC_URI_linuxstdbase = ""
- SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
- file://python-config.patch \
--file://000-cross-compile.patch \
-+file://0001-cross-compile-support.patch \
- file://030-fixup-include-dirs.patch \
- file://070-dont-clean-ipkg-install.patch \
- file://080-distutils-dont_adjust_files.patch \
-@@ -35,13 +35,12 @@ SRC_URI += "\
-             file://setup.py-check-cross_compiling-when-get-FLAGS.patch \
-             file://setup.py-find-libraries-in-staging-dirs.patch \
-             file://configure.ac-fix-LIBPL.patch \
--            file://python3-fix-CVE-2016-1000110.patch \
-             file://upstream-random-fixes.patch \
-            "
--SRC_URI[md5sum] = "8906efbacfcdc7c3c9198aeefafd159e"
--SRC_URI[sha256sum] = "0010f56100b9b74259ebcd5d4b295a32324b58b517403a10d1a2aa7cb22bca40"
-+SRC_URI[md5sum] = "57d1f8bfbabf4f2500273fb0706e6f21"
-+SRC_URI[sha256sum] = "eefe2ad6575855423ab630f5b51a8ef6e5556f774584c06beab4926f930ddbb0"
+-PROVIDES += "openssl10"
+-
+ # Add the openssl.cnf file to the openssl-conf package.  Make the libcrypto
+ # package RRECOMMENDS on this package.  This will enable the configuration
+ # file to be installed for both the base openssl package and the libcrypto
+@@ -250,3 +248,15 @@ do_install_append_class-native() {
+ }
  
--LIC_FILES_CHKSUM = "file://LICENSE;md5=6b60258130e4ed10d3101517eb5b9385"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=b680ed99aa60d350c65a65914494207e"
+ BBCLASSEXTEND = "native nativesdk"
++
++PACKAGE_PREPROCESS_FUNCS += "openssl_package_preprocess"
++
++openssl_package_preprocess () {
++        for file in `find ${PKGD} -name *.h -o -name *.pc -o -name *.so`; do
++                rm $file
++        done
++        rm ${PKGD}/usr/bin/openssl
++        rm ${PKGD}/usr/bin/c_rehash
++        rmdir ${PKGD}/usr/bin
++
++}
+diff --git a/meta/recipes-connectivity/openssl/openssl/0001-Fix-build-with-clang-using-external-assembler.patch b/meta/recipes-connectivity/openssl/openssl10/0001-Fix-build-with-clang-using-external-assembler.patch
+similarity index 100%
+rename from meta/recipes-connectivity/openssl/openssl/0001-Fix-build-with-clang-using-external-assembler.patch
+rename to meta/recipes-connectivity/openssl/openssl10/0001-Fix-build-with-clang-using-external-assembler.patch
+diff --git a/meta/recipes-connectivity/openssl/openssl/Makefiles-ptest.patch b/meta/recipes-connectivity/openssl/openssl10/Makefiles-ptest.patch
+similarity index 100%
+rename from meta/recipes-connectivity/openssl/openssl/Makefiles-ptest.patch
+rename to meta/recipes-connectivity/openssl/openssl10/Makefiles-ptest.patch
+diff --git a/meta/recipes-connectivity/openssl/openssl/Use-SHA256-not-MD5-as-default-digest.patch b/meta/recipes-connectivity/openssl/openssl10/Use-SHA256-not-MD5-as-default-digest.patch
+similarity index 100%
+rename from meta/recipes-connectivity/openssl/openssl/Use-SHA256-not-MD5-as-default-digest.patch
+rename to meta/recipes-connectivity/openssl/openssl10/Use-SHA256-not-MD5-as-default-digest.patch
+diff --git a/meta/recipes-connectivity/openssl/openssl/configure-musl-target.patch b/meta/recipes-connectivity/openssl/openssl10/configure-musl-target.patch
+similarity index 100%
+rename from meta/recipes-connectivity/openssl/openssl/configure-musl-target.patch
+rename to meta/recipes-connectivity/openssl/openssl10/configure-musl-target.patch
+diff --git a/meta/recipes-connectivity/openssl/openssl/configure-targets.patch b/meta/recipes-connectivity/openssl/openssl10/configure-targets.patch
+similarity index 100%
+rename from meta/recipes-connectivity/openssl/openssl/configure-targets.patch
+rename to meta/recipes-connectivity/openssl/openssl10/configure-targets.patch
+diff --git a/meta/recipes-connectivity/openssl/openssl/debian/c_rehash-compat.patch b/meta/recipes-connectivity/openssl/openssl10/debian/c_rehash-compat.patch
+similarity index 100%
+rename from meta/recipes-connectivity/openssl/openssl/debian/c_rehash-compat.patch
+rename to meta/recipes-connectivity/openssl/openssl10/debian/c_rehash-compat.patch
+diff --git a/meta/recipes-connectivity/openssl/openssl/debian/ca.patch b/meta/recipes-connectivity/openssl/openssl10/debian/ca.patch
+similarity index 100%
+rename from meta/recipes-connectivity/openssl/openssl/debian/ca.patch
+rename to meta/recipes-connectivity/openssl/openssl10/debian/ca.patch
+diff --git a/meta/recipes-connectivity/openssl/openssl/debian/debian-targets.patch b/meta/recipes-connectivity/openssl/openssl10/debian/debian-targets.patch
+similarity index 100%
+rename from meta/recipes-connectivity/openssl/openssl/debian/debian-targets.patch
+rename to meta/recipes-connectivity/openssl/openssl10/debian/debian-targets.patch
+diff --git a/meta/recipes-connectivity/openssl/openssl/debian/man-dir.patch b/meta/recipes-connectivity/openssl/openssl10/debian/man-dir.patch
+similarity index 100%
+rename from meta/recipes-connectivity/openssl/openssl/debian/man-dir.patch
+rename to meta/recipes-connectivity/openssl/openssl10/debian/man-dir.patch
+diff --git a/meta/recipes-connectivity/openssl/openssl/debian/man-section.patch b/meta/recipes-connectivity/openssl/openssl10/debian/man-section.patch
+similarity index 100%
+rename from meta/recipes-connectivity/openssl/openssl/debian/man-section.patch
+rename to meta/recipes-connectivity/openssl/openssl10/debian/man-section.patch
+diff --git a/meta/recipes-connectivity/openssl/openssl/debian/no-rpath.patch b/meta/recipes-connectivity/openssl/openssl10/debian/no-rpath.patch
+similarity index 100%
+rename from meta/recipes-connectivity/openssl/openssl/debian/no-rpath.patch
+rename to meta/recipes-connectivity/openssl/openssl10/debian/no-rpath.patch
+diff --git a/meta/recipes-connectivity/openssl/openssl/debian/no-symbolic.patch b/meta/recipes-connectivity/openssl/openssl10/debian/no-symbolic.patch
+similarity index 100%
+rename from meta/recipes-connectivity/openssl/openssl/debian/no-symbolic.patch
+rename to meta/recipes-connectivity/openssl/openssl10/debian/no-symbolic.patch
+diff --git a/meta/recipes-connectivity/openssl/openssl/debian/pic.patch b/meta/recipes-connectivity/openssl/openssl10/debian/pic.patch
+similarity index 100%
+rename from meta/recipes-connectivity/openssl/openssl/debian/pic.patch
+rename to meta/recipes-connectivity/openssl/openssl10/debian/pic.patch
+diff --git a/meta/recipes-connectivity/openssl/openssl/debian/version-script.patch b/meta/recipes-connectivity/openssl/openssl10/debian/version-script.patch
+similarity index 100%
+rename from meta/recipes-connectivity/openssl/openssl/debian/version-script.patch
+rename to meta/recipes-connectivity/openssl/openssl10/debian/version-script.patch
+diff --git a/meta/recipes-connectivity/openssl/openssl/debian1.0.2/block_digicert_malaysia.patch b/meta/recipes-connectivity/openssl/openssl10/debian1.0.2/block_digicert_malaysia.patch
+similarity index 100%
+rename from meta/recipes-connectivity/openssl/openssl/debian1.0.2/block_digicert_malaysia.patch
+rename to meta/recipes-connectivity/openssl/openssl10/debian1.0.2/block_digicert_malaysia.patch
+diff --git a/meta/recipes-connectivity/openssl/openssl/debian1.0.2/block_diginotar.patch b/meta/recipes-connectivity/openssl/openssl10/debian1.0.2/block_diginotar.patch
+similarity index 100%
+rename from meta/recipes-connectivity/openssl/openssl/debian1.0.2/block_diginotar.patch
+rename to meta/recipes-connectivity/openssl/openssl10/debian1.0.2/block_diginotar.patch
+diff --git a/meta/recipes-connectivity/openssl/openssl/debian1.0.2/version-script.patch b/meta/recipes-connectivity/openssl/openssl10/debian1.0.2/version-script.patch
+similarity index 100%
+rename from meta/recipes-connectivity/openssl/openssl/debian1.0.2/version-script.patch
+rename to meta/recipes-connectivity/openssl/openssl10/debian1.0.2/version-script.patch
+diff --git a/meta/recipes-connectivity/openssl/openssl/engines-install-in-libdir-ssl.patch b/meta/recipes-connectivity/openssl/openssl10/engines-install-in-libdir-ssl.patch
+similarity index 100%
+rename from meta/recipes-connectivity/openssl/openssl/engines-install-in-libdir-ssl.patch
+rename to meta/recipes-connectivity/openssl/openssl10/engines-install-in-libdir-ssl.patch
+diff --git a/meta/recipes-connectivity/openssl/openssl/find.pl b/meta/recipes-connectivity/openssl/openssl10/find.pl
+similarity index 100%
+rename from meta/recipes-connectivity/openssl/openssl/find.pl
+rename to meta/recipes-connectivity/openssl/openssl10/find.pl
+diff --git a/meta/recipes-connectivity/openssl/openssl/fix-cipher-des-ede3-cfb1.patch b/meta/recipes-connectivity/openssl/openssl10/fix-cipher-des-ede3-cfb1.patch
+similarity index 100%
+rename from meta/recipes-connectivity/openssl/openssl/fix-cipher-des-ede3-cfb1.patch
+rename to meta/recipes-connectivity/openssl/openssl10/fix-cipher-des-ede3-cfb1.patch
+diff --git a/meta/recipes-connectivity/openssl/openssl/oe-ldflags.patch b/meta/recipes-connectivity/openssl/openssl10/oe-ldflags.patch
+similarity index 100%
+rename from meta/recipes-connectivity/openssl/openssl/oe-ldflags.patch
+rename to meta/recipes-connectivity/openssl/openssl10/oe-ldflags.patch
+diff --git a/meta/recipes-connectivity/openssl/openssl/openssl-1.0.2a-x32-asm.patch b/meta/recipes-connectivity/openssl/openssl10/openssl-1.0.2a-x32-asm.patch
+similarity index 100%
+rename from meta/recipes-connectivity/openssl/openssl/openssl-1.0.2a-x32-asm.patch
+rename to meta/recipes-connectivity/openssl/openssl10/openssl-1.0.2a-x32-asm.patch
+diff --git a/meta/recipes-connectivity/openssl/openssl/openssl-avoid-NULL-pointer-dereference-in-EVP_DigestInit_ex.patch b/meta/recipes-connectivity/openssl/openssl10/openssl-avoid-NULL-pointer-dereference-in-EVP_DigestInit_ex.patch
+similarity index 100%
+rename from meta/recipes-connectivity/openssl/openssl/openssl-avoid-NULL-pointer-dereference-in-EVP_DigestInit_ex.patch
+rename to meta/recipes-connectivity/openssl/openssl10/openssl-avoid-NULL-pointer-dereference-in-EVP_DigestInit_ex.patch
+diff --git a/meta/recipes-connectivity/openssl/openssl/openssl-c_rehash.sh b/meta/recipes-connectivity/openssl/openssl10/openssl-c_rehash.sh
+similarity index 100%
+rename from meta/recipes-connectivity/openssl/openssl/openssl-c_rehash.sh
+rename to meta/recipes-connectivity/openssl/openssl10/openssl-c_rehash.sh
+diff --git a/meta/recipes-connectivity/openssl/openssl/openssl-fix-des.pod-error.patch b/meta/recipes-connectivity/openssl/openssl10/openssl-fix-des.pod-error.patch
+similarity index 100%
+rename from meta/recipes-connectivity/openssl/openssl/openssl-fix-des.pod-error.patch
+rename to meta/recipes-connectivity/openssl/openssl10/openssl-fix-des.pod-error.patch
+diff --git a/meta/recipes-connectivity/openssl/openssl/openssl-util-perlpath.pl-cwd.patch b/meta/recipes-connectivity/openssl/openssl10/openssl-util-perlpath.pl-cwd.patch
+similarity index 100%
+rename from meta/recipes-connectivity/openssl/openssl/openssl-util-perlpath.pl-cwd.patch
+rename to meta/recipes-connectivity/openssl/openssl10/openssl-util-perlpath.pl-cwd.patch
+diff --git a/meta/recipes-connectivity/openssl/openssl/openssl_fix_for_x32.patch b/meta/recipes-connectivity/openssl/openssl10/openssl_fix_for_x32.patch
+similarity index 100%
+rename from meta/recipes-connectivity/openssl/openssl/openssl_fix_for_x32.patch
+rename to meta/recipes-connectivity/openssl/openssl10/openssl_fix_for_x32.patch
+diff --git a/meta/recipes-connectivity/openssl/openssl/parallel.patch b/meta/recipes-connectivity/openssl/openssl10/parallel.patch
+similarity index 100%
+rename from meta/recipes-connectivity/openssl/openssl/parallel.patch
+rename to meta/recipes-connectivity/openssl/openssl10/parallel.patch
+diff --git a/meta/recipes-connectivity/openssl/openssl/ptest-deps.patch b/meta/recipes-connectivity/openssl/openssl10/ptest-deps.patch
+similarity index 100%
+rename from meta/recipes-connectivity/openssl/openssl/ptest-deps.patch
+rename to meta/recipes-connectivity/openssl/openssl10/ptest-deps.patch
+diff --git a/meta/recipes-connectivity/openssl/openssl/ptest_makefile_deps.patch b/meta/recipes-connectivity/openssl/openssl10/ptest_makefile_deps.patch
+similarity index 100%
+rename from meta/recipes-connectivity/openssl/openssl/ptest_makefile_deps.patch
+rename to meta/recipes-connectivity/openssl/openssl10/ptest_makefile_deps.patch
+diff --git a/meta/recipes-connectivity/openssl/openssl10/run-ptest b/meta/recipes-connectivity/openssl/openssl10/run-ptest
+new file mode 100755
+index 00000000000..3b20fce1ee9
+--- /dev/null
++++ b/meta/recipes-connectivity/openssl/openssl10/run-ptest
+@@ -0,0 +1,2 @@
++#!/bin/sh
++make -k runtest
+diff --git a/meta/recipes-connectivity/openssl/openssl/shared-libs.patch b/meta/recipes-connectivity/openssl/openssl10/shared-libs.patch
+similarity index 100%
+rename from meta/recipes-connectivity/openssl/openssl/shared-libs.patch
+rename to meta/recipes-connectivity/openssl/openssl10/shared-libs.patch
+diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.2k.bb b/meta/recipes-connectivity/openssl/openssl10_1.0.2k.bb
+similarity index 97%
+rename from meta/recipes-connectivity/openssl/openssl_1.0.2k.bb
+rename to meta/recipes-connectivity/openssl/openssl10_1.0.2k.bb
+index 83d1a500c23..271351f68d5 100644
+--- a/meta/recipes-connectivity/openssl/openssl_1.0.2k.bb
++++ b/meta/recipes-connectivity/openssl/openssl10_1.0.2k.bb
+@@ -1,4 +1,4 @@
+-require openssl.inc
++require openssl10.inc
  
- # exclude pre-releases for both python 2.x and 3.x
- UPSTREAM_CHECK_REGEX = "[Pp]ython-(?P<pver>\d+(\.\d+)+).tar"
+ # For target side versions of openssl enable support for OCF Linux driver
+ # if they are available.
+@@ -12,7 +12,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=27ffa5d74bb5a337056c14b2ef93fbf6"
+ export DIRS = "crypto ssl apps engines"
+ export OE_LDFLAGS="${LDFLAGS}"
+ 
+-SRC_URI += "file://find.pl;subdir=${BP}/util/ \
++SRC_URI += "file://find.pl;subdir=openssl-${PV}/util/ \
+             file://run-ptest \
+             file://openssl-c_rehash.sh \
+             file://configure-targets.patch \
+diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.0e.bb b/meta/recipes-connectivity/openssl/openssl_1.1.0e.bb
+new file mode 100644
+index 00000000000..236fe427744
+--- /dev/null
++++ b/meta/recipes-connectivity/openssl/openssl_1.1.0e.bb
+@@ -0,0 +1,146 @@
++SUMMARY = "Secure Socket Layer"
++DESCRIPTION = "Secure Socket Layer (SSL) binary and related cryptographic tools."
++HOMEPAGE = "http://www.openssl.org/"
++BUGTRACKER = "http://www.openssl.org/news/vulnerabilities.html"
++SECTION = "libs/network"
++
++# "openssl | SSLeay" dual license
++LICENSE = "openssl"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=2100bdc885ac4cdc9783c562639ddc1f"
++
++BBCLASSEXTEND = "native nativesdk"
++
++SRC_URI[md5sum] = "51c42d152122e474754aea96f66928c6"
++SRC_URI[sha256sum] = "57be8618979d80c910728cfc99369bf97b2a1abd8f366ab6ebdee8975ad3874c"
++
++SRC_URI = "http://www.openssl.org/source/openssl-${PV}.tar.gz \
++           file://run-ptest \
++           file://0001-Take-linking-flags-from-LDFLAGS-env-var.patch \
++           file://0001-Remove-test-that-requires-running-as-non-root.patch \
++          "
++
++S = "${WORKDIR}/openssl-${PV}"
++
++inherit lib_package multilib_header ptest
++
++do_configure () {
++	os=${HOST_OS}
++	case $os in
++	linux-uclibc |\
++	linux-uclibceabi |\
++	linux-gnueabi |\
++	linux-uclibcspe |\
++	linux-gnuspe |\
++	linux-musl*)
++		os=linux
++		;;
++		*)
++		;;
++	esac
++	target="$os-${HOST_ARCH}"
++	case $target in
++	linux-arm)
++		target=linux-armv4
++		;;
++	linux-armeb)
++		target=linux-armv4
++		;;
++	linux-aarch64*)
++		target=linux-aarch64
++		;;
++	linux-sh3)
++		target=linux-generic32
++		;;
++	linux-sh4)
++		target=linux-generic32
++		;;
++	linux-i486)
++		target=linux-elf
++		;;
++	linux-i586 | linux-viac3)
++		target=linux-elf
++		;;
++	linux-i686)
++		target=linux-elf
++		;;
++	linux-gnux32-x86_64)
++		target=linux-x32
++		;;
++	linux-gnu64-x86_64)
++		target=linux-x86_64
++		;;
++	linux-mips)
++                # specifying TARGET_CC_ARCH prevents openssl from (incorrectly) adding target architecture flags
++		target="linux-mips32 ${TARGET_CC_ARCH}"
++		;;
++	linux-mipsel)
++		target="linux-mips32 ${TARGET_CC_ARCH}"
++		;;
++        linux-gnun32-mips*)
++               target=linux-mips64
++                ;;
++        linux-*-mips64 | linux-mips64)
++               target=linux64-mips64
++                ;;
++        linux-*-mips64el | linux-mips64el)
++               target=linux64-mips64
++                ;;
++	linux-microblaze*|linux-nios2*)
++		target=linux-generic32
++		;;
++	linux-powerpc)
++		target=linux-ppc
++		;;
++	linux-powerpc64)
++		target=linux-ppc64
++		;;
++	linux-supersparc)
++		target=linux-sparcv9
++		;;
++	linux-sparc)
++		target=linux-sparcv9
++		;;
++	darwin-i386)
++		target=darwin-i386-cc
++		;;
++	esac
++        useprefix=${prefix}
++        if [ "x$useprefix" = "x" ]; then
++                useprefix=/
++        fi
++	perl ./Configure ${EXTRA_OECONF} --prefix=$useprefix --openssldir=${libdir}/ssl-1.1 --libdir=`basename ${libdir}` $target
++}
++
++#| engines/afalg/e_afalg.c: In function 'eventfd':
++#| engines/afalg/e_afalg.c:110:20: error: '__NR_eventfd' undeclared (first use in this function)
++#|      return syscall(__NR_eventfd, n);
++#|                     ^~~~~~~~~~~~
++EXTRA_OECONF_aarch64 += "no-afalgeng"
++
++#| ./libcrypto.so: undefined reference to `getcontext'
++#| ./libcrypto.so: undefined reference to `setcontext'
++#| ./libcrypto.so: undefined reference to `makecontext'
++EXTRA_OECONF_libc-musl += "-DOPENSSL_NO_ASYNC"
++
++do_install () {
++        oe_runmake DESTDIR="${D}" MANDIR="${mandir}" MANSUFFIX=ssl install
++        oe_multilib_header openssl/opensslconf.h
++}
++
++do_install_ptest() {
++        cp -r * ${D}${PTEST_PATH}
++
++        # Putting .so files in ptest package will mess up the dependencies of the main openssl package
++        # so we rename them to .so.ptest and patch the test accordingly
++        mv ${D}${PTEST_PATH}/libcrypto.so ${D}${PTEST_PATH}/libcrypto.so.ptest
++        mv ${D}${PTEST_PATH}/libssl.so ${D}${PTEST_PATH}/libssl.so.ptest
++        sed -i 's/$target{shared_extension_simple}/".so.ptest"/' ${D}${PTEST_PATH}/test/recipes/90-test_shlibload.t
++}
++
++RDEPENDS_${PN}-ptest += "perl-module-file-spec-functions"
++
++FILES_${PN} =+ " ${libdir}/ssl-1.1/*"
++
++PACKAGES =+ "${PN}-engines"
++FILES_${PN}-engines = "${libdir}/engines-1.1"
++
 -- 
 2.11.0
 
