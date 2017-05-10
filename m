@@ -1,61 +1,20 @@
-Return-Path: <anders@chargestorm.se>
-Received: from mail-yw0-f174.google.com (mail-yw0-f174.google.com
-	[209.85.161.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 3D24065D35
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id A70D871AB8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 May 2017 13:20:57 +0000 (UTC)
-Received: by mail-yw0-f174.google.com with SMTP id b68so15295221ywe.3
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 May 2017 06:20:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=chargestorm-se.20150623.gappssmtp.com; s=20150623;
-	h=date:from:to:subject:message-id:mail-followup-to:references
-	:mime-version:content-disposition:in-reply-to:organization
-	:user-agent; bh=bkTOwAwinyAy1zPcp56HId/B/ZUkYqCK/EY7C79UyKg=;
-	b=0dVaDM13nl1TPrKEgGftL59xQdRpzY8Ez0N1X00MvvBu9jwy0OWgbMHgZ3uWo6ImZK
-	3QuCslWwwMS87twBTfiWRs4r4rD+c6PDgvo0t0z6FQcMubPQMNECJS2nfpFCfMwsVSPE
-	II7T47HL7P8xUvCiVqcsdVlVpPVi6vqf0YrPif6NgubHFbIhk3y0ObhkflM2JQZCFKGG
-	zbkevwYCzZ83A8b6jR9PwVF14aA7xdVFMiWdcwbz3sGIU9eXPJPt0u6GH81Pou46fzmu
-	2bGllwNBUjxUus7gpV0GgI2DVKezZjBtrXndhYH6oIa2owqa3786ua0W+EnkDK+Y8+h0
-	6gDw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:from:to:subject:message-id:mail-followup-to
-	:references:mime-version:content-disposition:in-reply-to
-	:organization:user-agent;
-	bh=bkTOwAwinyAy1zPcp56HId/B/ZUkYqCK/EY7C79UyKg=;
-	b=ikyiE5HAdyXGV7HUOOiRWW2y3WIusX0ZhZJwEjUCslffLCVXbUCn++yuRQV07yZbsj
-	YUYPLsgA704ZkXLtkQQqubO6mdLg+akhmH3/7fHLNAQKwOtIguggZhxdUtxD6w8kfkoB
-	hPUj4qDUGXP9ukYPVNjH0cMtJR+m5QcXaNRTKSk74fpWSga8vmW8ATwESGYY5yu9Qtu7
-	msneJOjkfWYshXNM6Ksry9sWujemBFL6v2O8/fjXqd4iIYX3K0aajfVcPmNZ3Ji2Oq80
-	wLPXazZRCDLbycguwxvI4kP/HUnfBM4K86tCXjwUms/icSBZg6XBTEPuz7UEdDgEioCn
-	Ml8w==
-X-Gm-Message-State: AODbwcApYlaEhCIeQ2xkf6H3INDuNNm0pyo3SwSAcpuC0Zy6R5nIsNQU
-	+iiT3WYUwaVNPFuyIr8=
-X-Received: by 10.25.43.1 with SMTP id r1mr3056719lfr.89.1494422458721;
-	Wed, 10 May 2017 06:20:58 -0700 (PDT)
-Received: from ad.chargestorm.se (194-237-220-218.customer.telia.com.
-	[194.237.220.218])
-	by smtp.gmail.com with ESMTPSA id 2sm550826lju.0.2017.05.10.06.20.57
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 10 May 2017 06:20:57 -0700 (PDT)
-Date: Wed, 10 May 2017 15:20:55 +0200
-From: Anders Darander <anders@chargestorm.se>
+	Wed, 10 May 2017 14:13:21 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga105.fm.intel.com with ESMTP; 10 May 2017 07:13:22 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.38,319,1491289200"; d="scan'208";a="1167201632"
+Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
+	by fmsmga002.fm.intel.com with ESMTP; 10 May 2017 07:13:21 -0700
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Message-ID: <20170510132055.hnr22ktoy74xlw33@ad.chargestorm.se>
-Mail-Followup-To: openembedded-core@lists.openembedded.org
-References: <1494406033-28833-1-git-send-email-B40290@freescale.com>
-	<1494406033-28833-3-git-send-email-B40290@freescale.com>
-MIME-Version: 1.0
-In-Reply-To: <1494406033-28833-3-git-send-email-B40290@freescale.com>
-X-Accept-Language: sv, en, de
-X-GPG-Fingerprint: 5AF0 B2E9 78FE 9D75 D110  6F8F 3E31 84D7 920E 938C
-X-GPG-Key-Id: 0x920E938C
-X-GPG-Keyserver: hkp://keys.gnupg.net
-Organization: ChargeStorm AB
-User-Agent: NeoMutt/20170306 (1.8.0)
-Subject: Re: [PATCH 3/3] kernel-fitimage: fix KERNEL_DEVICETREE includes subdirectory issue
+Date: Wed, 10 May 2017 17:13:18 +0300
+Message-Id: <cover.1494425038.git.alexander.kanavin@linux.intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [RFC PATCH 00/10] Add openssl 1.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -68,38 +27,164 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 May 2017 13:20:59 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Wed, 10 May 2017 14:13:21 -0000
 
-* Chunrong Guo <B40290@freescale.com> [170510 11:02]:
+This patch series introduces the recipe for openssl 1.1 (openssl 1.0 is preserved
+but renamed to openssl10), and does a few necessary adjustmenets and updates to other
+recipes. The reason it's marked RFC is that there is one known remaining issue to
+resolve: specifically, u-boot needs to be ported to 1.1 before this series can be
+merged, otherwise there's a dependency conflict when building native u-boot. This
+should be resolved quite soon, but it isn't yet (as of u-boot v2017.05).
 
-> From: Chunrong Guo <chunrong.guo@nxp.com>
+Openssl 1.1 is an opt-out; it has the same recipe name as openssl 1.0 had, and so
+all dependencies are compiled with it by default. If there's an API issue, please
+fix it, or adjust the recipe to depend on 'openssl10' (which is a lesser solution,
+and subject to openssl 1.0 eventually being removed from oe-core).
 
->     * For example:
->       KERNEL_DEVICETREE ?= "freescale/fsl-ls1046a-rdb.dtb"
+Please review the following changes for suitability for inclusion. If you have
+any objections or suggestions for improvement, please respond to the patches. If
+you agree with the changes, please provide your Acked-by.
 
->       ${DTB}= "freescale/fsl-ls1046a-rdb.dtb"
+The following changes since commit 381897c64069ea43d595380a3ae913bcc79cf7e1:
 
-Why not just change the definition above?
+  build-appliance-image: Update to master head revision (2017-05-01 08:56:47 +0100)
 
-Curious, as that would've been the easiest and quickest solution.
+are available in the git repository at:
 
-Is the current definition necessary in some other way?
+  git://git.yoctoproject.org/poky-contrib akanavin/openssl-1.1
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=akanavin/openssl-1.1
 
-Cheers,
-Anders
+Alexander Kanavin (10):
+  python: update to 3.5.3
+  openssl: add a 1.1 version
+  u-boot-mkimage: depend on openssl 1.0
+  bind: fix upstream version check
+  bind: update to 9.10.5
+  openssh: depend on openssl 1.0
+  apr-util: add support for openssl 1.1 via backported patch
+  cryptodev-tests: depend on openssl 1.0
+  mailx: depend on openssl 1.0
+  gstreamer-plugins-bad: replace openssl dependency with nettle for hls
+    plugin
 
->       but only fsl-ls1046a-rdb.dtb  should be used in fit-image.its
-
-> -			DTB_PATH="arch/${ARCH}/boot/dts/${DTB}"
-> +                          
-> +			DTB=`basename ${DTB}`
-> +                        DTB_PATH=`find arch/${ARCH}/boot -name "${DTB}"`
-> + 
-
+ meta/conf/distro/include/no-static-libs.inc        |   3 +
+ meta/conf/distro/include/security_flags.inc        |   2 +-
+ meta/recipes-bsp/u-boot/u-boot-mkimage_2017.01.bb  |   2 +-
+ ...0001-build-use-pkg-config-to-find-libxml2.patch |  14 +-
+ ...=> 0001-confgen-don-t-build-unix.o-twice.patch} |  17 +-
+ .../bind/bind/CVE-2016-1285.patch                  | 154 ----------
+ .../bind/bind/CVE-2016-1286_1.patch                |  79 -----
+ .../bind/bind/CVE-2016-1286_2.patch                | 317 ---------------------
+ .../bind/bind/CVE-2016-2088.patch                  | 247 ----------------
+ .../bind/bind/CVE-2016-2775.patch                  |  90 ------
+ .../bind/bind/CVE-2016-2776.patch                  | 123 --------
+ .../bind/bind/mips1-not-support-opcode.diff        | 104 -------
+ .../bind/{bind_9.10.3-P3.bb => bind_9.10.5.bb}     |  27 +-
+ meta/recipes-connectivity/openssh/openssh_7.4p1.bb |   3 +-
+ ...ve-test-that-requires-running-as-non-root.patch |  49 ++++
+ ...1-Take-linking-flags-from-LDFLAGS-env-var.patch |  43 +++
+ .../recipes-connectivity/openssl/openssl/run-ptest |   4 +-
+ .../openssl/{openssl.inc => openssl10.inc}         |  14 +-
+ ...build-with-clang-using-external-assembler.patch |   0
+ .../{openssl => openssl10}/Makefiles-ptest.patch   |   0
+ .../Use-SHA256-not-MD5-as-default-digest.patch     |   0
+ .../configure-musl-target.patch                    |   0
+ .../{openssl => openssl10}/configure-targets.patch |   0
+ .../debian/c_rehash-compat.patch                   |   0
+ .../openssl/{openssl => openssl10}/debian/ca.patch |   0
+ .../debian/debian-targets.patch                    |   0
+ .../{openssl => openssl10}/debian/man-dir.patch    |   0
+ .../debian/man-section.patch                       |   0
+ .../{openssl => openssl10}/debian/no-rpath.patch   |   0
+ .../debian/no-symbolic.patch                       |   0
+ .../{openssl => openssl10}/debian/pic.patch        |   0
+ .../debian/version-script.patch                    |   0
+ .../debian1.0.2/block_digicert_malaysia.patch      |   0
+ .../debian1.0.2/block_diginotar.patch              |   0
+ .../debian1.0.2/version-script.patch               |   0
+ .../engines-install-in-libdir-ssl.patch            |   0
+ .../openssl/{openssl => openssl10}/find.pl         |   0
+ .../fix-cipher-des-ede3-cfb1.patch                 |   0
+ .../{openssl => openssl10}/oe-ldflags.patch        |   0
+ .../openssl-1.0.2a-x32-asm.patch                   |   0
+ ...-pointer-dereference-in-EVP_DigestInit_ex.patch |   0
+ .../{openssl => openssl10}/openssl-c_rehash.sh     |   0
+ .../openssl-fix-des.pod-error.patch                |   0
+ .../openssl-util-perlpath.pl-cwd.patch             |   0
+ .../openssl_fix_for_x32.patch                      |   0
+ .../openssl/{openssl => openssl10}/parallel.patch  |   0
+ .../{openssl => openssl10}/ptest-deps.patch        |   0
+ .../ptest_makefile_deps.patch                      |   0
+ .../openssl/openssl10/run-ptest                    |   2 +
+ .../{openssl => openssl10}/shared-libs.patch       |   0
+ .../{openssl_1.0.2k.bb => openssl10_1.0.2k.bb}     |   4 +-
+ .../recipes-connectivity/openssl/openssl_1.1.0e.bb | 146 ++++++++++
+ ...on3-native_3.5.2.bb => python3-native_3.5.3.bb} |   8 +-
+ ...the-shell-version-of-python-config-that-w.patch |  10 +-
+ ...pile.patch => 0001-cross-compile-support.patch} |  56 ++--
+ .../python3/python3-fix-CVE-2016-1000110.patch     | 148 ----------
+ .../python/python3/upstream-random-fixes.patch     | 288 +++++++++----------
+ .../python/{python3_3.5.2.bb => python3_3.5.3.bb}  |   9 +-
+ meta/recipes-extended/mailx/mailx_12.5-5.bb        |   2 +-
+ .../cryptodev/cryptodev-tests_1.8.bb               |   2 +-
+ .../gstreamer/gstreamer1.0-plugins-bad.inc         |   4 +-
+ .../recipes-support/apr/apr-util/openssl-1.1.patch | 253 ++++++++++++++++
+ meta/recipes-support/apr/apr-util_1.5.4.bb         |   1 +
+ 63 files changed, 732 insertions(+), 1493 deletions(-)
+ rename meta/recipes-connectivity/bind/bind/{bind-confgen-build-unix.o-once.patch => 0001-confgen-don-t-build-unix.o-twice.patch} (80%)
+ delete mode 100644 meta/recipes-connectivity/bind/bind/CVE-2016-1285.patch
+ delete mode 100644 meta/recipes-connectivity/bind/bind/CVE-2016-1286_1.patch
+ delete mode 100644 meta/recipes-connectivity/bind/bind/CVE-2016-1286_2.patch
+ delete mode 100644 meta/recipes-connectivity/bind/bind/CVE-2016-2088.patch
+ delete mode 100644 meta/recipes-connectivity/bind/bind/CVE-2016-2775.patch
+ delete mode 100644 meta/recipes-connectivity/bind/bind/CVE-2016-2776.patch
+ delete mode 100644 meta/recipes-connectivity/bind/bind/mips1-not-support-opcode.diff
+ rename meta/recipes-connectivity/bind/{bind_9.10.3-P3.bb => bind_9.10.5.bb} (82%)
+ create mode 100644 meta/recipes-connectivity/openssl/openssl/0001-Remove-test-that-requires-running-as-non-root.patch
+ create mode 100644 meta/recipes-connectivity/openssl/openssl/0001-Take-linking-flags-from-LDFLAGS-env-var.patch
+ mode change 100755 => 100644 meta/recipes-connectivity/openssl/openssl/run-ptest
+ rename meta/recipes-connectivity/openssl/{openssl.inc => openssl10.inc} (95%)
+ rename meta/recipes-connectivity/openssl/{openssl => openssl10}/0001-Fix-build-with-clang-using-external-assembler.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl => openssl10}/Makefiles-ptest.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl => openssl10}/Use-SHA256-not-MD5-as-default-digest.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl => openssl10}/configure-musl-target.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl => openssl10}/configure-targets.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl => openssl10}/debian/c_rehash-compat.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl => openssl10}/debian/ca.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl => openssl10}/debian/debian-targets.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl => openssl10}/debian/man-dir.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl => openssl10}/debian/man-section.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl => openssl10}/debian/no-rpath.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl => openssl10}/debian/no-symbolic.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl => openssl10}/debian/pic.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl => openssl10}/debian/version-script.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl => openssl10}/debian1.0.2/block_digicert_malaysia.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl => openssl10}/debian1.0.2/block_diginotar.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl => openssl10}/debian1.0.2/version-script.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl => openssl10}/engines-install-in-libdir-ssl.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl => openssl10}/find.pl (100%)
+ rename meta/recipes-connectivity/openssl/{openssl => openssl10}/fix-cipher-des-ede3-cfb1.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl => openssl10}/oe-ldflags.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl => openssl10}/openssl-1.0.2a-x32-asm.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl => openssl10}/openssl-avoid-NULL-pointer-dereference-in-EVP_DigestInit_ex.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl => openssl10}/openssl-c_rehash.sh (100%)
+ rename meta/recipes-connectivity/openssl/{openssl => openssl10}/openssl-fix-des.pod-error.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl => openssl10}/openssl-util-perlpath.pl-cwd.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl => openssl10}/openssl_fix_for_x32.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl => openssl10}/parallel.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl => openssl10}/ptest-deps.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl => openssl10}/ptest_makefile_deps.patch (100%)
+ create mode 100755 meta/recipes-connectivity/openssl/openssl10/run-ptest
+ rename meta/recipes-connectivity/openssl/{openssl => openssl10}/shared-libs.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl_1.0.2k.bb => openssl10_1.0.2k.bb} (97%)
+ create mode 100644 meta/recipes-connectivity/openssl/openssl_1.1.0e.bb
+ rename meta/recipes-devtools/python/{python3-native_3.5.2.bb => python3-native_3.5.3.bb} (90%)
+ rename meta/recipes-devtools/python/python3/{000-cross-compile.patch => 0001-cross-compile-support.patch} (65%)
+ delete mode 100644 meta/recipes-devtools/python/python3/python3-fix-CVE-2016-1000110.patch
+ rename meta/recipes-devtools/python/{python3_3.5.2.bb => python3_3.5.3.bb} (96%)
+ create mode 100644 meta/recipes-support/apr/apr-util/openssl-1.1.patch
 
 -- 
-Anders Darander, Senior System Architect
-ChargeStorm AB / eStorm AB
+2.11.0
+
 
