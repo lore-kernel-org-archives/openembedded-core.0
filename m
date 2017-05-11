@@ -1,30 +1,29 @@
-Return-Path: <huangqy.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
-	by mail.openembedded.org (Postfix) with ESMTP id ED9D360268
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	by mail.openembedded.org (Postfix) with ESMTP id 00DC360269
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 May 2017 01:21:22 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.22,518,1449504000"; d="scan'208";a="18713543"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 11 May 2017 09:21:20 +0800
-Received: from G08CNEXCHPEKD02.g08.fujitsu.local (unknown [10.167.33.83])
-	by cn.fujitsu.com (Postfix) with ESMTP id 35F1647E64CD
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 May 2017 09:21:18 +0800 (CST)
-Received: from localhost.localdomain (10.167.226.81) by
-	G08CNEXCHPEKD02.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.319.2; Thu, 11 May 2017 09:21:18 +0800
-From: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 11 May 2017 09:21:09 +0800
-Message-ID: <1494465669-61736-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 2.7.4
+	Thu, 11 May 2017 07:42:59 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga105.jf.intel.com with ESMTP; 11 May 2017 00:42:59 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.38,323,1491289200"; d="scan'208";a="1146514767"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by fmsmga001.fm.intel.com with ESMTP; 11 May 2017 00:42:58 -0700
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+References: <1494240698452.53619@mentor.com>
+	<2037301.7Ncc1v2UnL@peggleto-mobl.ger.corp.intel.com>
+	<242ad7f7-4e04-7cac-fd3d-6fabd9b43c65@linux.intel.com>
+	<4437292.ZnTzh3sVdu@peggleto-mobl.ger.corp.intel.com>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <328c7bab-3f03-32e8-d878-fb36772118a9@linux.intel.com>
+Date: Thu, 11 May 2017 10:43:07 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.8.0
 MIME-Version: 1.0
-X-Originating-IP: [10.167.226.81]
-X-yoursite-MailScanner-ID: 35F1647E64CD.A825A
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: huangqy.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Subject: [PATCH] libsndfile1: 1.0.27 -> 1.0.28
+In-Reply-To: <4437292.ZnTzh3sVdu@peggleto-mobl.ger.corp.intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: GUI based images
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,38 +36,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 May 2017 01:21:23 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 11 May 2017 07:43:00 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Upgrade libsndfile1 from 1.0.27 to 1.0.28.
+On 05/10/2017 11:15 PM, Paul Eggleton wrote:
+> If that works then great! By all means let's test it and endorse it. At the
+> moment we barely even acknowledge it's existence - it's not even in the layer
+> index (though that is generally up to the layer maintainer, we can certainly
+> encourage them to submit it.)
 
-Signed-off-by: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
----
- .../libsndfile/{libsndfile1_1.0.27.bb => libsndfile1_1.0.28.bb}       | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-multimedia/libsndfile/{libsndfile1_1.0.27.bb => libsndfile1_1.0.28.bb} (82%)
+Yes, should definitely be tried out. I have only looked at the contents 
+of the layer, and the overview part of the documentation, so I might 
+have a bit rosier picture of it :)
 
-diff --git a/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.27.bb b/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.28.bb
-similarity index 82%
-rename from meta/recipes-multimedia/libsndfile/libsndfile1_1.0.27.bb
-rename to meta/recipes-multimedia/libsndfile/libsndfile1_1.0.28.bb
-index 7a095b6..248b292 100644
---- a/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.27.bb
-+++ b/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.28.bb
-@@ -7,8 +7,8 @@ LICENSE = "LGPLv2.1"
- 
- SRC_URI = "http://www.mega-nerd.com/libsndfile/files/libsndfile-${PV}.tar.gz"
- 
--SRC_URI[md5sum] = "fd1d97c6077f03b5d984d7956ffedb7a"
--SRC_URI[sha256sum] = "a391952f27f4a92ceb2b4c06493ac107896ed6c76be9a613a4731f076d30fac0"
-+SRC_URI[md5sum] = "646b5f98ce89ac60cdb060fcd398247c"
-+SRC_URI[sha256sum] = "1ff33929f042fa333aed1e8923aa628c3ee9e1eb85512686c55092d1e5a9dfa9"
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=e77fe93202736b47c07035910f47974a"
- 
--- 
-2.7.4
+I'm not sure how much attention Qt wants to draw to it - they probably 
+want to lure people into commercial support contracts instead. However, 
+the layer *is* licensed under GPLv3, and it pulls all code from public 
+repos. And I can also imagine they could be quite happy to have Qt 
+designated the official reference UI in YP.
 
+> You and I might understand that, but someone coming to the project fresh
+> won't, mainly because we've never officially stated that anywhere. The only
+> mention of anything like it is in fact the opposite - in the development
+> manual we state "The Yocto Project ... also features the Sato reference User
+> Interface, which is optimized for stylus-driven, low-resolution screens.".
+> Granted, that statement is probably as old as Sato itself, but I think it
+> speaks to how organised our messaging is on this topic.
 
+Yes, in 2017 this statement should be changed to reflect reality.
+
+Alex
 
 
