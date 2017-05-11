@@ -1,29 +1,36 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id 00DC360269
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 13ED871B13
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 May 2017 07:42:59 +0000 (UTC)
+	Thu, 11 May 2017 07:44:15 +0000 (UTC)
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga105.jf.intel.com with ESMTP; 11 May 2017 00:42:59 -0700
+	by fmsmga105.fm.intel.com with ESMTP; 11 May 2017 00:44:17 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.38,323,1491289200"; d="scan'208";a="1146514767"
+X-IronPort-AV: E=Sophos;i="5.38,323,1491289200"; d="scan'208";a="1146515102"
 Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
 	([10.237.68.161])
-	by fmsmga001.fm.intel.com with ESMTP; 11 May 2017 00:42:58 -0700
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-References: <1494240698452.53619@mentor.com>
-	<2037301.7Ncc1v2UnL@peggleto-mobl.ger.corp.intel.com>
-	<242ad7f7-4e04-7cac-fd3d-6fabd9b43c65@linux.intel.com>
-	<4437292.ZnTzh3sVdu@peggleto-mobl.ger.corp.intel.com>
+	by fmsmga001.fm.intel.com with ESMTP; 11 May 2017 00:44:15 -0700
+To: Khem Raj <raj.khem@gmail.com>, "Davis, Michael" <michael.davis@essvote.com>
+References: <cover.1494425038.git.alexander.kanavin@linux.intel.com>
+	<655290B7709079438B7932553958E60D16D2C5FA@ESS-EX01.essvote.corp.local>
+	<7f60f107-1157-3991-b5bc-0fa4564e6905@linux.intel.com>
+	<655290B7709079438B7932553958E60D16D2C67F@ESS-EX01.essvote.corp.local>
+	<6f1e8992-7469-12bc-1307-2a9d0ca7d61e@linux.intel.com>
+	<811d49ba-ac83-5a52-6687-e3447d06659b@mlbassoc.com>
+	<abc26baf-5417-7565-cb69-08aff5559e95@linux.intel.com>
+	<CAMKF1sqvc3YsrMNxkyv1ZHXF82Uy1hYRUL4sduaayYcf1Le5_g@mail.gmail.com>
+	<655290B7709079438B7932553958E60D16D2C9F2@ESS-EX01.essvote.corp.local>
+	<CAMKF1sr8ZypyM4mk=s1-W9oajRr952x7iVe9L8eDu-Hddthzpg@mail.gmail.com>
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <328c7bab-3f03-32e8-d878-fb36772118a9@linux.intel.com>
-Date: Thu, 11 May 2017 10:43:07 +0300
+Message-ID: <8016a95d-823d-835f-6db9-230079ce5026@linux.intel.com>
+Date: Thu, 11 May 2017 10:44:24 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
 	Thunderbird/45.8.0
 MIME-Version: 1.0
-In-Reply-To: <4437292.ZnTzh3sVdu@peggleto-mobl.ger.corp.intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: GUI based images
+In-Reply-To: <CAMKF1sr8ZypyM4mk=s1-W9oajRr952x7iVe9L8eDu-Hddthzpg@mail.gmail.com>
+Cc: Gary Thomas <gary@mlbassoc.com>, "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [RFC PATCH 00/10] Add openssl 1.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,35 +43,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 May 2017 07:43:00 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
+X-List-Received-Date: Thu, 11 May 2017 07:44:16 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 05/10/2017 11:15 PM, Paul Eggleton wrote:
-> If that works then great! By all means let's test it and endorse it. At the
-> moment we barely even acknowledge it's existence - it's not even in the layer
-> index (though that is generally up to the layer maintainer, we can certainly
-> encourage them to submit it.)
+On 05/11/2017 12:08 AM, Khem Raj wrote:
+> On Wed, May 10, 2017 at 1:48 PM, Davis, Michael
+> <michael.davis@essvote.com> wrote:
+>> I think most of the major distros have either switched or are in the process
+>> this year.
+>>
+>
+> are there some info on the policy decisions of other distros ?
+> we should try to follow the suite then
 
-Yes, should definitely be tried out. I have only looked at the contents 
-of the layer, and the overview part of the documentation, so I might 
-have a bit rosier picture of it :)
-
-I'm not sure how much attention Qt wants to draw to it - they probably 
-want to lure people into commercial support contracts instead. However, 
-the layer *is* licensed under GPLv3, and it pulls all code from public 
-repos. And I can also imagine they could be quite happy to have Qt 
-designated the official reference UI in YP.
-
-> You and I might understand that, but someone coming to the project fresh
-> won't, mainly because we've never officially stated that anywhere. The only
-> mention of anything like it is in fact the opposite - in the development
-> manual we state "The Yocto Project ... also features the Sato reference User
-> Interface, which is optimized for stylus-driven, low-resolution screens.".
-> Granted, that statement is probably as old as Sato itself, but I think it
-> speaks to how organised our messaging is on this topic.
-
-Yes, in 2017 this statement should be changed to reflect reality.
+Both Fedora and Debian default to 1.1 in their upcoming versions. 1.0 is 
+provided only as a legacy package. So same as here.
 
 Alex
 
