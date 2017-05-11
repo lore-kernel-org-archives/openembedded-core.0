@@ -1,30 +1,44 @@
-Return-Path: <zhengrq.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
-	by mail.openembedded.org (Postfix) with ESMTP id BB18D71B87
+Return-Path: <tanuk@iki.fi>
+Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com
+	[66.111.4.28])
+	by mail.openembedded.org (Postfix) with ESMTP id A7CE060017
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 May 2017 08:22:58 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.22,518,1449504000"; d="scan'208";a="18731852"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 11 May 2017 16:22:54 +0800
-Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
-	by cn.fujitsu.com (Postfix) with ESMTP id 7AF9847C610C
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 May 2017 16:22:54 +0800 (CST)
-Received: from localhost.localdomain.localdomain (10.167.226.100) by
-	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.319.2; Thu, 11 May 2017 16:22:54 +0800
-From: zhengrq <zhengrq.fnst@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 11 May 2017 16:21:39 +0800
-Message-ID: <1494490899-110501-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
-MIME-Version: 1.0
-X-Originating-IP: [10.167.226.100]
-X-yoursite-MailScanner-ID: 7AF9847C610C.A87AC
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: zhengrq.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Subject: [PATCH] libunwind: 1.1 -> 1.2
+	Thu, 11 May 2017 08:42:11 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailout.nyi.internal (Postfix) with ESMTP id 5BBCB207BB;
+	Thu, 11 May 2017 04:42:12 -0400 (EDT)
+Received: from frontend1 ([10.202.2.160])
+	by compute5.internal (MEProxy); Thu, 11 May 2017 04:42:12 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:content-transfer-encoding:content-type
+	:date:from:in-reply-to:message-id:mime-version:references
+	:subject:to:x-me-sender:x-me-sender:x-sasl-enc:x-sasl-enc; s=
+	fm1; bh=FhMum5JGj6XevT2x770XP7N3Q0/v3kokAkuJkO3si64=; b=c0r9PR+f
+	3P/dVfWXirBWzEnOdIXafzULnXHgz9QyyMC/btpIUYRrhO03Ld3YpsF/pgrW5XEB
+	WIJcWJHa2XNecOB+9rprxwBf48ZF+7E/XUQdFIuEzx9nWpl9gW83AXjqGaJp8jzT
+	fCJdxYL2CxUajvKdN+6f86jZO/N1MpRLJxLgyB8dWM++8pdUTsPcHdu+g32jxMHk
+	aS5Wio92ikaDR6qKdj+HkHEjXZrywF3luFGMCASupBPXb+OYzXxjMOF+O4hh4E4M
+	NjKkj6DFIlFRUFEXZkyrVS7JFij9ANlqME5+O5Jg765JTbI5DzxnDK/vvcxPFhvj
+	lohVWnIV4PYqEA==
+X-ME-Sender: <xms:5CMUWVtTjnYHGvl2dWRauzCI_RLPcjeTj_f9pSxZqKyavvR4I87T3Q>
+X-Sasl-enc: dfw77297J9iUSh2t691ew8Fpjmay45n+vy3SP30DPEZT 1494492131
+Received: from laptop (unknown [192.40.95.28])
+	by mail.messagingengine.com (Postfix) with ESMTPA id AD6217E962;
+	Thu, 11 May 2017 04:42:11 -0400 (EDT)
+Message-ID: <1494492130.3018.1.camel@iki.fi>
+From: Tanu Kaskinen <tanuk@iki.fi>
+To: Koenraad Verheyden <koenraad.verheyden@gmail.com>
+Date: Thu, 11 May 2017 11:42:10 +0300
+In-Reply-To: <CA+rFJSGHBiVAwPqF9bqJQV=0wh+6DT5rdK-6V3TuZCg2qRYp=Q@mail.gmail.com>
+References: <CA+rFJSHcJbmnrtA0jqXXscj7LpV3GR6EcGeBWCGdSPbZeES+SA@mail.gmail.com>
+	<1492694665.22019.2.camel@iki.fi>
+	<CA+rFJSHDqvsg23XXSQfk0XUpj+0bmcULM_EjddD0NwS9ZZC37Q@mail.gmail.com>
+	<1492768432.2475.1.camel@iki.fi>
+	<CA+rFJSGHBiVAwPqF9bqJQV=0wh+6DT5rdK-6V3TuZCg2qRYp=Q@mail.gmail.com>
+X-Mailer: Evolution 3.22.6-1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: PulseAudio with WebRTC echo cancellation (aec): support for webrtc-audio-processing package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,34 +51,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 May 2017 08:22:59 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 11 May 2017 08:42:11 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Upgrade libunwind from 1.1 to 1.2.
+On Tue, 2017-05-09 at 13:59 +0200, Koenraad Verheyden wrote:
+> Hi Tanu,
+> 
+> I've written a script myself, referencing how other scripts did this. Was
+> indeed not so hard.
+> This is the first time writing such a script so I can't guarantee
+> everything is correct or the right way to do (especially the license
+> stuff). But this works for me.
+> 
+> You can do with this script as you want.
 
-Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
----
- meta/recipes-support/libunwind/libunwind_git.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Thanks! I already wrote a recipe myself, though. I haven't submitted it
+yet, because it doesn't build on mips (and probably not on mips64 or
+aarch64 either).
 
-diff --git a/meta/recipes-support/libunwind/libunwind_git.bb b/meta/recipes-support/libunwind/libunwind_git.bb
-index b637c5c..2c00f80 100644
---- a/meta/recipes-support/libunwind/libunwind_git.bb
-+++ b/meta/recipes-support/libunwind/libunwind_git.bb
-@@ -1,8 +1,8 @@
- require libunwind.inc
- 
--PV = "1.1+git${SRCPV}"
-+PV = "1.2+git${SRCPV}"
- 
--SRCREV = "bc8698fd7ed13a629a8ec3cb2a89bd74f9d8b5c0"
-+SRCREV = "0326f1048a0d75ea9498360f60a0c711cd190b7b"
- 
- SRC_URI = "git://git.sv.gnu.org/libunwind.git \
-            file://Add-AO_REQUIRE_CAS-to-fix-build-on-ARM-v6.patch \
 -- 
-2.7.4
+Tanu
 
-
-
+https://www.patreon.com/tanuk
 
