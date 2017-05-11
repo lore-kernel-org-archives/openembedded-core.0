@@ -1,36 +1,32 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 13ED871B13
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 1AD5D60269
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 May 2017 07:44:15 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga105.fm.intel.com with ESMTP; 11 May 2017 00:44:17 -0700
+	Thu, 11 May 2017 07:53:41 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	11 May 2017 00:53:42 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.38,323,1491289200"; d="scan'208";a="1146515102"
+X-IronPort-AV: E=Sophos;i="5.38,323,1491289200"; d="scan'208";a="1128911079"
 Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
 	([10.237.68.161])
-	by fmsmga001.fm.intel.com with ESMTP; 11 May 2017 00:44:15 -0700
-To: Khem Raj <raj.khem@gmail.com>, "Davis, Michael" <michael.davis@essvote.com>
-References: <cover.1494425038.git.alexander.kanavin@linux.intel.com>
-	<655290B7709079438B7932553958E60D16D2C5FA@ESS-EX01.essvote.corp.local>
-	<7f60f107-1157-3991-b5bc-0fa4564e6905@linux.intel.com>
-	<655290B7709079438B7932553958E60D16D2C67F@ESS-EX01.essvote.corp.local>
-	<6f1e8992-7469-12bc-1307-2a9d0ca7d61e@linux.intel.com>
-	<811d49ba-ac83-5a52-6687-e3447d06659b@mlbassoc.com>
-	<abc26baf-5417-7565-cb69-08aff5559e95@linux.intel.com>
-	<CAMKF1sqvc3YsrMNxkyv1ZHXF82Uy1hYRUL4sduaayYcf1Le5_g@mail.gmail.com>
-	<655290B7709079438B7932553958E60D16D2C9F2@ESS-EX01.essvote.corp.local>
-	<CAMKF1sr8ZypyM4mk=s1-W9oajRr952x7iVe9L8eDu-Hddthzpg@mail.gmail.com>
+	by orsmga001.jf.intel.com with ESMTP; 11 May 2017 00:53:41 -0700
+To: "Burton, Ross" <ross.burton@intel.com>,
+	Paul Eggleton <paul.eggleton@linux.intel.com>
+References: <1494240698452.53619@mentor.com>
+	<CAHiDW_GPTu0WcuNd143TaBsD=8hiv6SPowWHcBF_0h8DG1x+fw@mail.gmail.com>
+	<16a6f453-9856-36c0-e160-036d23e98111@linux.intel.com>
+	<19161543.bPvO6Cp06Y@peggleto-mobl.ger.corp.intel.com>
+	<CAJTo0LZ2vUt4y4YByOEJwW-6ctS_HTKJJbNTGx_yisiwsGTUDQ@mail.gmail.com>
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <8016a95d-823d-835f-6db9-230079ce5026@linux.intel.com>
-Date: Thu, 11 May 2017 10:44:24 +0300
+Message-ID: <63467164-76aa-2aa7-efab-ec82251b7aaf@linux.intel.com>
+Date: Thu, 11 May 2017 10:53:50 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
 	Thunderbird/45.8.0
 MIME-Version: 1.0
-In-Reply-To: <CAMKF1sr8ZypyM4mk=s1-W9oajRr952x7iVe9L8eDu-Hddthzpg@mail.gmail.com>
-Cc: Gary Thomas <gary@mlbassoc.com>, "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [RFC PATCH 00/10] Add openssl 1.1
+In-Reply-To: <CAJTo0LZ2vUt4y4YByOEJwW-6ctS_HTKJJbNTGx_yisiwsGTUDQ@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: GUI based images
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,23 +39,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 May 2017 07:44:16 -0000
+X-List-Received-Date: Thu, 11 May 2017 07:53:42 -0000
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 05/11/2017 12:08 AM, Khem Raj wrote:
-> On Wed, May 10, 2017 at 1:48 PM, Davis, Michael
-> <michael.davis@essvote.com> wrote:
->> I think most of the major distros have either switched or are in the process
->> this year.
->>
->
-> are there some info on the policy decisions of other distros ?
-> we should try to follow the suite then
+On 05/09/2017 12:24 PM, Burton, Ross wrote:
+> The development of Wayland does make the long-term prospect of Sato
+> interesting: do we port Sato to Wayland too, or keep the Wayland images
+> using the standard Weston demo shell?
 
-Both Fedora and Debian default to 1.1 in their upcoming versions. 1.0 is 
-provided only as a legacy package. So same as here.
+There is a third option: find a functional, pretty, lightweight wayland 
+shell, and provide that. I think the prime candidate for that at the 
+moment is Maynard, but it has its own issues, mainly that upstream isn't 
+really developing it anymore. Jussi is OOO this week, maybe he can add 
+his 2c a bit later.
+
+https://github.com/raspberrypi/maynard/wiki
+
 
 Alex
-
 
