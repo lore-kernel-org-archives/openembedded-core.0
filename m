@@ -1,32 +1,30 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 1AD5D60269
+Return-Path: <zhengrq.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
+	by mail.openembedded.org (Postfix) with ESMTP id BB18D71B87
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 May 2017 07:53:41 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	11 May 2017 00:53:42 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.38,323,1491289200"; d="scan'208";a="1128911079"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by orsmga001.jf.intel.com with ESMTP; 11 May 2017 00:53:41 -0700
-To: "Burton, Ross" <ross.burton@intel.com>,
-	Paul Eggleton <paul.eggleton@linux.intel.com>
-References: <1494240698452.53619@mentor.com>
-	<CAHiDW_GPTu0WcuNd143TaBsD=8hiv6SPowWHcBF_0h8DG1x+fw@mail.gmail.com>
-	<16a6f453-9856-36c0-e160-036d23e98111@linux.intel.com>
-	<19161543.bPvO6Cp06Y@peggleto-mobl.ger.corp.intel.com>
-	<CAJTo0LZ2vUt4y4YByOEJwW-6ctS_HTKJJbNTGx_yisiwsGTUDQ@mail.gmail.com>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <63467164-76aa-2aa7-efab-ec82251b7aaf@linux.intel.com>
-Date: Thu, 11 May 2017 10:53:50 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.8.0
+	Thu, 11 May 2017 08:22:58 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.22,518,1449504000"; d="scan'208";a="18731852"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 11 May 2017 16:22:54 +0800
+Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
+	by cn.fujitsu.com (Postfix) with ESMTP id 7AF9847C610C
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 11 May 2017 16:22:54 +0800 (CST)
+Received: from localhost.localdomain.localdomain (10.167.226.100) by
+	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.319.2; Thu, 11 May 2017 16:22:54 +0800
+From: zhengrq <zhengrq.fnst@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 11 May 2017 16:21:39 +0800
+Message-ID: <1494490899-110501-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0LZ2vUt4y4YByOEJwW-6ctS_HTKJJbNTGx_yisiwsGTUDQ@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: GUI based images
+X-Originating-IP: [10.167.226.100]
+X-yoursite-MailScanner-ID: 7AF9847C610C.A87AC
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: zhengrq.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [PATCH] libunwind: 1.1 -> 1.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,23 +37,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 May 2017 07:53:42 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 11 May 2017 08:22:59 -0000
+Content-Type: text/plain
 
-On 05/09/2017 12:24 PM, Burton, Ross wrote:
-> The development of Wayland does make the long-term prospect of Sato
-> interesting: do we port Sato to Wayland too, or keep the Wayland images
-> using the standard Weston demo shell?
+Upgrade libunwind from 1.1 to 1.2.
 
-There is a third option: find a functional, pretty, lightweight wayland 
-shell, and provide that. I think the prime candidate for that at the 
-moment is Maynard, but it has its own issues, mainly that upstream isn't 
-really developing it anymore. Jussi is OOO this week, maybe he can add 
-his 2c a bit later.
+Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
+---
+ meta/recipes-support/libunwind/libunwind_git.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-https://github.com/raspberrypi/maynard/wiki
+diff --git a/meta/recipes-support/libunwind/libunwind_git.bb b/meta/recipes-support/libunwind/libunwind_git.bb
+index b637c5c..2c00f80 100644
+--- a/meta/recipes-support/libunwind/libunwind_git.bb
++++ b/meta/recipes-support/libunwind/libunwind_git.bb
+@@ -1,8 +1,8 @@
+ require libunwind.inc
+ 
+-PV = "1.1+git${SRCPV}"
++PV = "1.2+git${SRCPV}"
+ 
+-SRCREV = "bc8698fd7ed13a629a8ec3cb2a89bd74f9d8b5c0"
++SRCREV = "0326f1048a0d75ea9498360f60a0c711cd190b7b"
+ 
+ SRC_URI = "git://git.sv.gnu.org/libunwind.git \
+            file://Add-AO_REQUIRE_CAS-to-fix-build-on-ARM-v6.patch \
+-- 
+2.7.4
 
 
-Alex
+
 
