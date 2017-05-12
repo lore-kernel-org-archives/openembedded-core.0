@@ -1,26 +1,48 @@
-Return-Path: <ml@embed.me.uk>
-X-Greylist: delayed 2041 seconds by postgrey-1.34 at layers.openembedded.org;
-	Fri, 12 May 2017 15:14:51 UTC
-Received: from owm.eumx.net (eumx.net [91.82.101.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 26EEB65D35
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f175.google.com (mail-qk0-f175.google.com
+	[209.85.220.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 040506FEFE
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 May 2017 15:14:51 +0000 (UTC)
-To: Denys Dmytriyenko <denis@denix.org>,
-	Belisko Marek <marek.belisko@gmail.com>
-References: <1494524580-21718-1-git-send-email-marek.belisko@open-nandra.com>
-	<20170511181928.GB28053@denix.org>
-	<CAAfyv35qUs=f3SPk=jNzwJOA+czWhT=3VQ0GKbjG7c2+z0Kv0A@mail.gmail.com>
-	<20170511222838.GE28053@denix.org>
-From: Jack Mitchell <ml@embed.me.uk>
-Message-ID: <0294f116-1611-c414-d5f8-fab410b35a9d@embed.me.uk>
-Date: Fri, 12 May 2017 15:40:48 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.1.0
+	Fri, 12 May 2017 15:43:31 +0000 (UTC)
+Received: by mail-qk0-f175.google.com with SMTP id k74so51040892qke.1
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 12 May 2017 08:43:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=VPnuSdme4fOI7FXnfBW+ixgS9FOVX2EWEd0qhU7IcnM=;
+	b=WC2QaEiY8hsYFKs7e0VST/NxFkRvVzV5xr7F3w974AyqBTysbE5bABlm8Um0UcIjIr
+	mO0qfmo7hvxkEkrqvwkerESLaiifmf5NY19byIG9JVTshC6iL9hXd7EOesmUG5j9ebH+
+	r7Zx2iw4G4pzLwRJLR6KnLm3ESylrP+sHgc5eqyZrljYYZvkhe/STGn28RtWovQ4j8oW
+	adbKe/4NLiLmx/xECA8WT1rqYh5wtgrHnBI2Kwj7HtYSTsbqcpJdXsH2/38U6MWI/N+Y
+	bRZ6rVBISyafoYY53BN/FKWw1FzfUTMcYa2qidAqdHlxTfSTbtpb1hYQVq+mGk7WONBP
+	rw3w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=VPnuSdme4fOI7FXnfBW+ixgS9FOVX2EWEd0qhU7IcnM=;
+	b=sOHiZdrLYKH8dQoOjPMKl9I/DxYu0cnpCkT0YYBVFltBstqgF/fc5ctIzA7APzLz41
+	KB+1HOqPOUjHddlmEnN7L6Oa9/oFvwjwHul/V3M0IeiP2hsIPNo7vcwDlrpYnemMsi5h
+	27q9ShL95l0/1ft5b7Fd6/UuaBQJ5c/xDNZiNLJfQ/z8g64berhmBeVNL4YNg988Q0ga
+	1JnvKhZKhDamK63he2hBdrF5rGS9Q+ucxhmYAh0yvbA1sWt3n8Sf8cqTFTYROCJpNPqi
+	PiOJ3ejlrLh/c7hmcVsu2HtNuEcO/RywNx+DPtpW09WYja465j9CrtmEAHSLLLbqxl8y
+	aK2Q==
+X-Gm-Message-State: AODbwcB5Y4bewMcZPe09OL6zEnTXc2SY5x3EM+M1bp/xsGVvzMe+8+RS
+	SIiosHyKGDgMwx3vLRmYW5q9Fg0uk8RT
+X-Received: by 10.55.111.71 with SMTP id k68mr4223542qkc.26.1494603812975;
+	Fri, 12 May 2017 08:43:32 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20170511222838.GE28053@denix.org>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] recipes-support: Add recipe for libgpiod
+Received: by 10.140.34.136 with HTTP; Fri, 12 May 2017 08:43:12 -0700 (PDT)
+In-Reply-To: <afd0b202d639dec70b5d9099736aa216f58e38c2.1494425038.git.alexander.kanavin@linux.intel.com>
+References: <cover.1494425038.git.alexander.kanavin@linux.intel.com>
+	<afd0b202d639dec70b5d9099736aa216f58e38c2.1494425038.git.alexander.kanavin@linux.intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 12 May 2017 16:43:12 +0100
+Message-ID: <CAJTo0Lbk3v06x8wNbXdjrJePi6jT6wp-98XQdnR-of83BfSfrw@mail.gmail.com>
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [RFC PATCH 05/10] bind: update to 9.10.5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,112 +55,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 12 May 2017 15:14:52 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+X-List-Received-Date: Fri, 12 May 2017 15:43:32 -0000
+Content-Type: multipart/alternative; boundary="94eb2c05c2d85a4a23054f5591f3"
 
-On 11/05/17 23:28, Denys Dmytriyenko wrote:
-> On Thu, May 11, 2017 at 08:50:09PM +0200, Belisko Marek wrote:
->> On Thu, May 11, 2017 at 8:19 PM, Denys Dmytriyenko <denis@denix.org> wrote:
->>> Not to derail your enthusiasm, but since this is being proposed for OE-Core,
->>> how is it better than libsoc by Jack Mitchell?
->> libsoc is fine but libgpiod will implement correctly gpio handling in
->> userspace as gpio sysfs is deprecated.
->> What is the problem to have libgpiod available for other potential
->> users? Thanks.
-> As far as I know, libsoc is still being actively supported and if there's an 
-> API change, it should be fixed in no time. That's why I'm copying Jack here, 
-> who is an active OE developer here.
+--94eb2c05c2d85a4a23054f5591f3
+Content-Type: text/plain; charset="UTF-8"
+
+On 10 May 2017 at 15:13, Alexander Kanavin <
+alexander.kanavin@linux.intel.com> wrote:
+
+> -LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=0a95f52a0ab6c5f52dedc9a45e7abb
+> 3f"
+> +LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=dba46507446198119bcde32a4feaab
+> 43"
 >
-> As of having an alternative for other potential users - there's nothing wrong 
-> with it. But, acceptance criteria into OE-Core is quite high, especially when 
-> there are alternative solutions already available. That's why I'm asking if 
-> it's any better than the other solution. In other words, why libgpiod should 
-> be accepted to OE-Core, but not libsoc? Maybe it should be submitted to 
-> meta-openembedded layer instead?
 
-I would agree that this should go in meta-oe.
+No explanation for this change.
 
-I haven't implemented the new ioctl interface yet in libsoc and there is
-no reason why there can't be two libraries with similar functionallity.
+Ross
 
-Cheers,
-Jack.
+--94eb2c05c2d85a4a23054f5591f3
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
->
->
->> More here: https://www.mail-archive.com/linux-kernel@vger.kernel.org/msg1392949.html
->>>
->>> On Thu, May 11, 2017 at 07:43:00PM +0200, Marek Belisko wrote:
->>>> libgpiod - C library and tools for interacting with the linux GPIO
->>>> character device
->>>>
->>>> Since linux 4.8 the GPIO sysfs interface is deprecated.
->>>> User space should use the character device instead.
->>>> This library encapsulates the ioctl calls and data structures behind a
->>>> straightforward API.
->>>>
->>>> Signed-off-by: Marek Belisko <marek.belisko@open-nandra.com>
->>>> ---
->>>>  meta/recipes-support/libgpiod/libgpiod_0.2.bb | 25 +++++++++++++++++++++++++
->>>>  1 file changed, 25 insertions(+)
->>>>  create mode 100644 meta/recipes-support/libgpiod/libgpiod_0.2.bb
->>>>
->>>> diff --git a/meta/recipes-support/libgpiod/libgpiod_0.2.bb b/meta/recipes-support/libgpiod/libgpiod_0.2.bb
->>>> new file mode 100644
->>>> index 0000000..fe2cd80
->>>> --- /dev/null
->>>> +++ b/meta/recipes-support/libgpiod/libgpiod_0.2.bb
->>>> @@ -0,0 +1,25 @@
->>>> +SUMMARY = "C library and tools for interacting with the linux GPIO character device"
->>>> +HOMEPAGE = "https://github.com/brgl/libgpiod"
->>>> +
->>>> +LICENSE = "LGPLv2.1+"
->>>> +LIC_FILES_CHKSUM = "file://COPYING;md5=2caced0b25dfefd4c601d92bd15116de"
->>>> +
->>>> +UPSTREAM_CHECK_URI = "https://github.com/brgl/libgpiod/releases"
->>>> +
->>>> +SRC_URI = "https://github.com/brgl/libgpiod/archive/v${PV}.tar.gz"
->>>> +
->>>> +SRC_URI[md5sum] = "e3430f35b6efa842693d659c0bfb7ad5"
->>>> +SRC_URI[sha256sum] = "de1947f3cb2cc4174364af430309fe6238976658575655bdbd76c60cffa7df92"
->>>> +
->>>> +inherit autotools pkgconfig
->>>> +
->>>> +# enable tools
->>>> +PACKAGECONFIG ?= "tools"
->>>> +
->>>> +PACKAGECONFIG[tests] = "--enable-tests,--disable-tests,kmod udev"
->>>> +PACKAGECONFIG[tools] = "--enable-tools,--disable-tools,"
->>>> +
->>>> +PACKAGES += " ${PN}-tools"
->>>> +
->>>> +FILES_${PN} = "${libdir}/*"
->>>> +FILES_${PN}-tools = "${bindir}/*"
->>>> --
->>>> 2.7.4
->>>>
->>>> --
->>>> _______________________________________________
->>>> Openembedded-core mailing list
->>>> Openembedded-core@lists.openembedded.org
->>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->> BR,
->>
->> marek
->>
->> -- 
->> as simple and primitive as possible
->> -------------------------------------------------
->> Marek Belisko - OPEN-NANDRA
->> Freelance Developer
->>
->> Ruska Nova Ves 219 | Presov, 08005 Slovak Republic
->> Tel: +421 915 052 184
->> skype: marekwhite
->> twitter: #opennandra
->> web: http://open-nandra.com
->>
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 10 May 2017 at 15:13, Alexander Kanavin <span dir=3D"ltr">&lt;<a href=3D=
+"mailto:alexander.kanavin@linux.intel.com" target=3D"_blank">alexander.kana=
+vin@linux.intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quo=
+te" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"=
+><div id=3D":1l2" class=3D"a3s aXjCH m15bf2b5f89748c58">-LIC_FILES_CHKSUM =
+=3D &quot;file://COPYRIGHT;md5=3D<wbr>0a95f52a0ab6c5f52dedc9a45e7abb<wbr>3f=
+&quot;<br>
++LIC_FILES_CHKSUM =3D &quot;file://COPYRIGHT;md5=3D<wbr>dba46507446198119bc=
+de32a4feaab<wbr>43&quot;<br></div></blockquote></div><br>No explanation for=
+ this change.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail=
+_extra">Ross</div></div>
 
-
+--94eb2c05c2d85a4a23054f5591f3--
