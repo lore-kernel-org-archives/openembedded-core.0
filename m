@@ -1,27 +1,27 @@
-Return-Path: <mikko.ylinen@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id A7D0071C42
+Return-Path: <richard@rpsys.net>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id D05D477A2D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 May 2017 07:51:22 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	12 May 2017 00:51:23 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.38,328,1491289200"; d="scan'208";a="1146957623"
-Received: from bdinkley-mobl.amr.corp.intel.com (HELO [10.252.8.149])
-	([10.252.8.149])
-	by fmsmga001.fm.intel.com with ESMTP; 12 May 2017 00:51:21 -0700
+	Fri, 12 May 2017 08:04:24 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	v4C84L0o027514
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
+	verify=NOT); Fri, 12 May 2017 09:04:22 +0100
+Received: from richard by hex with local (Exim 4.86_2)
+	(envelope-from <richard@rpsys.net>)
+	id 1d95Yj-0001PZ-CH; Fri, 12 May 2017 09:04:21 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-References: <cover.1494505033.git.ed.bartosh@linux.intel.com>
-	<20d8bc6e700a6acdb839015c5f2ce1a295a19e2a.1494505033.git.ed.bartosh@linux.intel.com>
-From: Mikko Ylinen <mikko.ylinen@linux.intel.com>
-Message-ID: <81e6f11f-12d7-926b-235f-bb98c9be304e@linux.intel.com>
-Date: Fri, 12 May 2017 10:51:20 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.8.0
-MIME-Version: 1.0
-In-Reply-To: <20d8bc6e700a6acdb839015c5f2ce1a295a19e2a.1494505033.git.ed.bartosh@linux.intel.com>
-Subject: Re: [PATCH v2 2/5] image_types_wic: add do_populate_bootfs task
+Date: Fri, 12 May 2017 09:04:19 +0100
+Message-Id: <1494576259-5387-1-git-send-email-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.7.4
+X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.11
+	(dan.rpsys.net [192.168.3.1]);
+	Fri, 12 May 2017 09:04:22 +0100 (BST)
+X-Virus-Scanned: clamav-milter 0.99.2 at dan
+X-Virus-Status: Clean
+Subject: [PATCH] base: Simplify BASEDEPENDS construction
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,28 +34,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 12 May 2017 07:51:23 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 12 May 2017 08:04:26 -0000
 
-Hi Ed,
+This code dates from distant times before we had class overrides.
+The comments are also rather stale. Rewrite this code using class
+overrides which makes it safer, more modern and more easily
+understandable.
 
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/classes/base.bbclass    | 21 +++++++--------------
+ meta/classes/gettext.bbclass |  2 +-
+ 2 files changed, 8 insertions(+), 15 deletions(-)
 
-On 11/05/17 15:21, Ed Bartosh wrote:
-> +        d.setVar("APPEND", "root=PARTUUID=%s" % partuuid)
-> +        bb.build.exec_func('build_efi_cfg', d)
+diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+index d95afb7..7892665 100644
+--- a/meta/classes/base.bbclass
++++ b/meta/classes/base.bbclass
+@@ -61,22 +61,15 @@ oe_runmake() {
+ 
+ 
+ def base_dep_prepend(d):
+-    #
+-    # Ideally this will check a flag so we will operate properly in
+-    # the case where host == build == target, for now we don't work in
+-    # that case though.
+-    #
++    if d.getVar('INHIBIT_DEFAULT_DEPS', False):
++        return ""
++    return "${BASE_DEFAULT_DEPS}"
+ 
+-    deps = ""
+-    # INHIBIT_DEFAULT_DEPS doesn't apply to the patch command.  Whether or  not
+-    # we need that built is the responsibility of the patch function / class, not
+-    # the application.
+-    if not d.getVar('INHIBIT_DEFAULT_DEPS', False):
+-        if (d.getVar('HOST_SYS') != d.getVar('BUILD_SYS')):
+-            deps += " virtual/${TARGET_PREFIX}gcc virtual/${TARGET_PREFIX}compilerlibs virtual/libc "
+-    return deps
++BASE_DEFAULT_DEPS = "virtual/${TARGET_PREFIX}gcc virtual/${TARGET_PREFIX}compilerlibs virtual/libc"
+ 
+-BASEDEPENDS = "${@base_dep_prepend(d)}"
++BASEDEPENDS = ""
++BASEDEPENDS_class-target = "${@base_dep_prepend(d)}"
++BASEDEPENDS_class-nativesdk = "${@base_dep_prepend(d)}"
+ 
+ DEPENDS_prepend="${BASEDEPENDS} "
+ 
+diff --git a/meta/classes/gettext.bbclass b/meta/classes/gettext.bbclass
+index 0be1424..d60a0c1 100644
+--- a/meta/classes/gettext.bbclass
++++ b/meta/classes/gettext.bbclass
+@@ -15,5 +15,5 @@ def gettext_oeconf(d):
+ 
+ DEPENDS_GETTEXT ??= "virtual/gettext gettext-native"
+ 
+-BASEDEPENDS =+ "${@gettext_dependencies(d)}"
++BASEDEPENDS_append = " ${@gettext_dependencies(d)}"
+ EXTRA_OECONF_append = " ${@gettext_oeconf(d)}"
+-- 
+2.7.4
 
-The rootfs wic allows you to build multiple rootfs'es in the image. With
-that, it'd be good to be able to set PARTUUIDs for each of the rootfs
-partitions and so that the bootloader LABELs give the options to boot
-from those.
-
-> +}
-> +
-> +addtask do_populate_bootfs after do_image before do_image_wic
-
-What if user needed the artifacts on rootfs too. For example IMAGE_ROOTFS
-could be used as is to prepare sw updates (meta-swupd or ostree).
-
--- Mikko
 
