@@ -1,30 +1,64 @@
-Return-Path: <zhengrq.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
-	by mail.openembedded.org (Postfix) with ESMTP id CF568600BB
+Return-Path: <anders@chargestorm.se>
+Received: from mail-wm0-f49.google.com (mail-wm0-f49.google.com [74.125.82.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 83DBB719B7
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 May 2017 02:12:22 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.22,518,1449504000"; d="scan'208";a="18768220"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 12 May 2017 10:12:17 +0800
-Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
-	by cn.fujitsu.com (Postfix) with ESMTP id 97FC947B0CB7
+	Fri, 12 May 2017 07:11:56 +0000 (UTC)
+Received: by mail-wm0-f49.google.com with SMTP id b84so11010895wmh.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 May 2017 10:12:16 +0800 (CST)
-Received: from localhost.localdomain.localdomain (10.167.226.100) by
-	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.319.2; Fri, 12 May 2017 10:12:14 +0800
-From: zhengrq <zhengrq.fnst@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 12 May 2017 10:11:11 +0800
-Message-ID: <1494555071-49386-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
+	Fri, 12 May 2017 00:11:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=chargestorm-se.20150623.gappssmtp.com; s=20150623;
+	h=date:from:to:subject:message-id:mail-followup-to:references
+	:mime-version:content-disposition:in-reply-to:organization
+	:user-agent; bh=h+g5T5gSHVSz6hFF14zBl1lNFkeCASgfpfylCdedjVw=;
+	b=0jywkojqZYiMuILLLcEa2bNxdTadgwtPiN70S+QagHsVh0ToMy5NCCxXdqX6pJcnYc
+	1H8R9jlaibbRCqmXUN0b+L57dhPRu5dLZNYxvl6eoYPv85OnPcglyovfU8Pq03bVAcwl
+	0LdljTPgYwmUbLNUSC2gB7/sbAtyqvae8LIogx+D5WICXgQpGL36Y6wIF/dYgQLRHu7F
+	jZrkBd2dNOplm7RH4XHEaD8GDm1U+NtWFsggxcboPeegq1SbP/vm+GlbNv+K1xN+Etc1
+	NnVAx1316i3ggo1/oI+gLBFtPGcfsg5sxIlJj3kgFkmzBZesjMpIFarlNXzppvPUIV6d
+	eotQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:date:from:to:subject:message-id:mail-followup-to
+	:references:mime-version:content-disposition:in-reply-to
+	:organization:user-agent;
+	bh=h+g5T5gSHVSz6hFF14zBl1lNFkeCASgfpfylCdedjVw=;
+	b=mHglkmLZc49CSWjwBMJWmfcUd07UbXPG+bfYVsndDbRYwLmzIG2CegiG1j4ibfmi+2
+	KPBelNaVkS5ob3cUfNfS8pbHHaG1ss5osG1vGaT6MNuiefbMZ1ugXXocu5ofnTRMrKdK
+	+E0eaXK/+wAR+T/0Md8+LcJZunncLHW6G/Cyc/evq1aBhQr6TRjnW6EnPcPToKZahuZN
+	ezpX4wYOLZ6eY8VlHq56AvQiwW8Z+/1cL4wseI6Le7AHn9N7xam/PJdpn1TS7xtUAOGj
+	Xv0YG01TOnhQ+w7DFJUrLbzvkRmTPav5Q+XOV6IhhGupBp05J2NjA61F82E0tIZY9CiA
+	TzYQ==
+X-Gm-Message-State: AODbwcDIR336dA8OiZDq1Tj3GAs9RPa3++VDSq6cj0f/kuA7h8TqZtc1
+	iZKdM9nafeA/KpdjB3k=
+X-Received: by 10.80.179.131 with SMTP id s3mr1942152edd.57.1494573115578;
+	Fri, 12 May 2017 00:11:55 -0700 (PDT)
+Received: from ad.chargestorm.se (194-237-220-218.customer.telia.com.
+	[194.237.220.218])
+	by smtp.gmail.com with ESMTPSA id f38sm862769edd.10.2017.05.12.00.11.54
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Fri, 12 May 2017 00:11:54 -0700 (PDT)
+Date: Fri, 12 May 2017 09:11:52 +0200
+From: Anders Darander <anders@chargestorm.se>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Message-ID: <20170512071152.ymakvgyczix7enxf@ad.chargestorm.se>
+Mail-Followup-To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+References: <1494406033-28833-1-git-send-email-B40290@freescale.com>
+	<1494406033-28833-3-git-send-email-B40290@freescale.com>
+	<20170510132055.hnr22ktoy74xlw33@ad.chargestorm.se>
+	<DB5PR0401MB18485FA0120D685F729EBDDB84ED0@DB5PR0401MB1848.eurprd04.prod.outlook.com>
 MIME-Version: 1.0
-X-Originating-IP: [10.167.226.100]
-X-yoursite-MailScanner-ID: 97FC947B0CB7.A80B6
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: zhengrq.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Subject: [PATCH] dtc: 1.4.2 -> 1.4.4
+In-Reply-To: <DB5PR0401MB18485FA0120D685F729EBDDB84ED0@DB5PR0401MB1848.eurprd04.prod.outlook.com>
+X-Accept-Language: sv, en, de
+X-GPG-Fingerprint: 5AF0 B2E9 78FE 9D75 D110  6F8F 3E31 84D7 920E 938C
+X-GPG-Key-Id: 0x920E938C
+X-GPG-Keyserver: hkp://keys.gnupg.net
+Organization: ChargeStorm AB
+User-Agent: NeoMutt/20170306 (1.8.0)
+Subject: Re: [PATCH 3/3] kernel-fitimage: fix KERNEL_DEVICETREE includes subdirectory issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,36 +71,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 12 May 2017 02:12:23 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 12 May 2017 07:11:57 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Upgrade dtc from 1.4.2 to 1.4.4.
+* C.R. Guo <chunrong.guo@nxp.com> [170511 06:08]:
 
-Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
----
- meta/recipes-kernel/dtc/{dtc_1.4.2.bb => dtc_1.4.4.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-kernel/dtc/{dtc_1.4.2.bb => dtc_1.4.4.bb} (81%)
+> Hello Anders Darander,
 
-diff --git a/meta/recipes-kernel/dtc/dtc_1.4.2.bb b/meta/recipes-kernel/dtc/dtc_1.4.4.bb
-similarity index 81%
-rename from meta/recipes-kernel/dtc/dtc_1.4.2.bb
-rename to meta/recipes-kernel/dtc/dtc_1.4.4.bb
-index cc72adc..eadb7ba 100644
---- a/meta/recipes-kernel/dtc/dtc_1.4.2.bb
-+++ b/meta/recipes-kernel/dtc/dtc_1.4.4.bb
-@@ -3,7 +3,7 @@ require dtc.inc
- LIC_FILES_CHKSUM = "file://GPL;md5=94d55d512a9ba36caa9b7df079bae19f \
- 		    file://libfdt/libfdt.h;beginline=3;endline=52;md5=fb360963151f8ec2d6c06b055bcbb68c"
- 
--SRCREV = "ec02b34c05be04f249ffaaca4b666f5246877dea"
-+SRCREV = "558cd81bdd432769b59bff01240c44f82cfb1a9d"
- 
- S = "${WORKDIR}/git"
- 
+> Thanks for your comments.
+
+
+> dtb inherit Linux-dtb (http://git.yoctoproject.org/cgit.cgi/poky/tree/meta/recipes-kernel/linux/linux-dtb.inc).
+
+> From: openembedded-core-bounces@lists.openembedded.org [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of Anders Darander
+> Sent: Wednesday, May 10, 2017 9:21 PM
+> To: openembedded-core@lists.openembedded.org
+> Subject: Re: [OE-core] [PATCH 3/3] kernel-fitimage: fix KERNEL_DEVICETREE includes subdirectory issue
+
+> * Chunrong Guo <B40290@freescale.com> [170510 11:02]:
+
+> > From: Chunrong Guo <chunrong.guo@nxp.com>
+
+> >     * For example:
+> >       KERNEL_DEVICETREE ?= "freescale/fsl-ls1046a-rdb.dtb"
+
+> >       ${DTB}= "freescale/fsl-ls1046a-rdb.dtb"
+
+Ah, what I didn't know, is that the dts-files in arch/arm64/boot/dts are
+located in subdirectories, as compared to arch/arm/boot/dts, which
+directly holds all the dts-files... That explains your problems.
+
+Cheers,
+Anders
+
 -- 
-2.7.4
-
-
-
+Anders Darander, Senior System Architect
+ChargeStorm AB / eStorm AB
 
