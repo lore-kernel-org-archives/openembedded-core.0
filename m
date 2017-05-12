@@ -1,40 +1,43 @@
-Return-Path: <marc.ferland@gmail.com>
-Received: from mail-qk0-f195.google.com (mail-qk0-f195.google.com
-	[209.85.220.195])
-	by mail.openembedded.org (Postfix) with ESMTP id BD45A77CEF
+Return-Path: <denis@denix.org>
+Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.17])
+	by mail.openembedded.org (Postfix) with ESMTP id 4BF6C60111
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 May 2017 18:10:44 +0000 (UTC)
-Received: by mail-qk0-f195.google.com with SMTP id u75so8801929qka.1
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 May 2017 11:10:46 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=Ox8MMTDfO7YtEFFKZxoqH14adQx46UWWS0hl6ojWupk=;
-	b=NuuHf/Gu55+qrZNWl1adnUVRet/IRuOgsvw9Ck5sBiIBJ4Pfiaxg5u+Q2kBVWkOcYz
-	okB9MvgBPKEx6GSo9EzP4YeyykyrXuJ6jMezbCApCOq/wjnIYhPMvSCWf6QYV/I4e6Rn
-	v0+t9Odl6XA51xS8vgtGJS57TwosXOFnFaZ+OQ9H1nAbM8mGCnh2/p4XY9g3IsMSWOt+
-	4O7H7oLWqSHteCdeqeU3NpDEm8l8ngY9ud0xE+OWgkqmCCWk0/prlpwMbQeH3xrFwFVr
-	VBpOt1AXQpbbSB9os3iRXJcNjkluSdFNMRSimRyXYToVcyXoTuEhYAWJH3OjRcwZInGM
-	U6ng==
-X-Gm-Message-State: AODbwcCYryZ+7RW4lqzX0/C0pX1keTYlnv43r6REVW7JVeAdWTy9GkL/
-	CFNPe4fICjpiTQ==
-X-Received: by 10.55.104.210 with SMTP id d201mr4940278qkc.22.1494612645358;
-	Fri, 12 May 2017 11:10:45 -0700 (PDT)
-Received: from marc-desktop.AMOTUS.local
-	(modemcable182.194-37-24.static.videotron.ca. [24.37.194.182])
-	by smtp.gmail.com with ESMTPSA id j4sm2752436qkd.19.2017.05.12.11.10.44
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 12 May 2017 11:10:44 -0700 (PDT)
-From: Marc Ferland <ferlandm@amotus.ca>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 12 May 2017 14:09:06 -0400
-Message-Id: <1494612546-2295-2-git-send-email-ferlandm@amotus.ca>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1494612546-2295-1-git-send-email-ferlandm@amotus.ca>
-References: <1494612546-2295-1-git-send-email-ferlandm@amotus.ca>
-Subject: [PATCHv2 2/2] nasm: upgrade 2.12.02 -> 2.13.01
+	Fri, 12 May 2017 18:15:10 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by mailout4.zoneedit.com (Postfix) with ESMTP id 7221520B86;
+	Fri, 12 May 2017 18:15:11 +0000 (UTC)
+Received: from mailout4.zoneedit.com ([127.0.0.1])
+	by localhost (zmo03-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
+	port 10024)
+	with ESMTP id Ok925wbvEsrE; Fri, 12 May 2017 18:15:11 +0000 (UTC)
+Received: from mail.denix.org (pool-100-15-85-143.washdc.fios.verizon.net
+	[100.15.85.143])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 38ED220069;
+	Fri, 12 May 2017 18:15:08 +0000 (UTC)
+Received: by mail.denix.org (Postfix, from userid 1000)
+	id BF9DD1624C1; Fri, 12 May 2017 14:15:07 -0400 (EDT)
+Date: Fri, 12 May 2017 14:15:07 -0400
+From: Denys Dmytriyenko <denis@denix.org>
+To: Khem Raj <raj.khem@gmail.com>
+Message-ID: <20170512181507.GJ28053@denix.org>
+References: <cover.1494425038.git.alexander.kanavin@linux.intel.com>
+	<655290B7709079438B7932553958E60D16D2C5FA@ESS-EX01.essvote.corp.local>
+	<7f60f107-1157-3991-b5bc-0fa4564e6905@linux.intel.com>
+	<655290B7709079438B7932553958E60D16D2C67F@ESS-EX01.essvote.corp.local>
+	<6f1e8992-7469-12bc-1307-2a9d0ca7d61e@linux.intel.com>
+	<811d49ba-ac83-5a52-6687-e3447d06659b@mlbassoc.com>
+	<abc26baf-5417-7565-cb69-08aff5559e95@linux.intel.com>
+	<CAMKF1sqvc3YsrMNxkyv1ZHXF82Uy1hYRUL4sduaayYcf1Le5_g@mail.gmail.com>
+	<655290B7709079438B7932553958E60D16D2C9F2@ESS-EX01.essvote.corp.local>
+	<CAMKF1sr8ZypyM4mk=s1-W9oajRr952x7iVe9L8eDu-Hddthzpg@mail.gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <CAMKF1sr8ZypyM4mk=s1-W9oajRr952x7iVe9L8eDu-Hddthzpg@mail.gmail.com>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>, Gary Thomas <gary@mlbassoc.com>
+Subject: Re: [RFC PATCH 00/10] Add openssl 1.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,36 +50,92 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 12 May 2017 18:10:44 -0000
+X-List-Received-Date: Fri, 12 May 2017 18:15:11 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Signed-off-by: Marc Ferland <ferlandm@amotus.ca>
----
- meta/recipes-devtools/nasm/{nasm_2.12.02.bb => nasm_2.13.01.bb} | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-devtools/nasm/{nasm_2.12.02.bb => nasm_2.13.01.bb} (77%)
+On Wed, May 10, 2017 at 02:08:26PM -0700, Khem Raj wrote:
+> On Wed, May 10, 2017 at 1:48 PM, Davis, Michael
+> <michael.davis@essvote.com> wrote:
+> > I think most of the major distros have either switched or are in the process
+> > this year.
+> >
+> 
+> are there some info on the policy decisions of other distros ?
+> we should try to follow the suite then
 
-diff --git a/meta/recipes-devtools/nasm/nasm_2.12.02.bb b/meta/recipes-devtools/nasm/nasm_2.13.01.bb
-similarity index 77%
-rename from meta/recipes-devtools/nasm/nasm_2.12.02.bb
-rename to meta/recipes-devtools/nasm/nasm_2.13.01.bb
-index 3280b84..b17bb53 100644
---- a/meta/recipes-devtools/nasm/nasm_2.12.02.bb
-+++ b/meta/recipes-devtools/nasm/nasm_2.13.01.bb
-@@ -3,10 +3,10 @@ SECTION = "devel"
- LICENSE = "BSD-2-Clause"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=90904486f8fbf1861cf42752e1a39efe"
- 
--SRC_URI = "http://www.nasm.us/pub/nasm/releasebuilds/${PV}/nasm-${PV}.tar.bz2 "
-+SRC_URI = "http://www.nasm.us/pub/nasm/releasebuilds/${PV}/nasm-${PV}.tar.xz"
- 
--SRC_URI[md5sum] = "d15843c3fb7db39af80571ee27ec6fad"
--SRC_URI[sha256sum] = "00b0891c678c065446ca59bcee64719d0096d54d6886e6e472aeee2e170ae324"
-+SRC_URI[md5sum] = "b3ae134bd1b5ead73d659286f568da95"
-+SRC_URI[sha256sum] = "aa0213008f0433ecbe07bb628506a5c4be8079be20fc3532a5031fd639db9a5e"
- 
- inherit autotools-brokensep
- 
+Khem,
+
+https://wiki.debian.org/OpenSSL-1.1
+
+Binary packages have X.Y version in the package name:
+libssl1.1_1.1.0c-2~bpo8+1_amd64.deb
+libssl1.0.0_1.0.2k-1~bpo8+1_amd64.deb
+
+As of OE, we've handled such updates with incompatible API in the past 
+similarly - gstreamer vs. gstreamer010
+
 -- 
-2.7.4
+Denys
 
+
+> > From: openembedded-core-bounces@lists.openembedded.org
+> > [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of Khem
+> > Raj
+> > Sent: Wednesday, May 10, 2017 3:36 PM
+> > To: Alexander Kanavin; Gary Thomas; openembedded-core@lists.openembedded.org
+> > Subject: Re: [OE-core] [RFC PATCH 00/10] Add openssl 1.1
+> >
+> >
+> >
+> >
+> >
+> > On Wed, May 10, 2017 at 12:34 PM Alexander Kanavin
+> > <alexander.kanavin@linux.intel.com> wrote:
+> >
+> > On 05/10/2017 09:56 PM, Gary Thomas wrote:
+> >> Why not do this in a "softer" way - make the new 1.1 package have the
+> >> obscured name (and not be preferred by default)?  That way existing
+> >> uses of the older 1.0 package can continue but users can migrate to
+> >> 1.1 as they see fit?
+> >
+> > I have an answer which you might not particularly like. But here goes:
+> >
+> > What will actually happen is that no one will do anything to port their
+> > stuff until it's time to remove 1.0 because upstream has EOLd it. And
+> > then there'll still be complaints that more time is needed for the
+> > transition. I'd like to gently push people to plan this transition
+> > already now - and it's as gentle as it can be: if you pull from master
+> > and your things no longer build, make one simple change and they will.
+> > It's part and parcel of being on the bleeding edge, or rebasing to the
+> > new yocto release: not everything works exactly as before, and most
+> > components are newer and different and not always fully compatible.
+> >
+> >
+> >
+> >
+> >
+> > It is a cross distro item really we should find out what other Linux
+> > distributions are doing about it moving forward unless major distros also
+> > have same policy there won't be much momentum this would gain among the
+> > packages ecosystems this could also help in sharing the porting burden
+> >
+> >
+> >
+> > The other reason is that it's more work for me: I would have to update
+> > everything in oe-core to use the new recipe, instead of fixing just a
+> > few recipes that need to stay with 1.0. And then again the same thing
+> > will happen when 1.2 is out.
+> >
+> > Alex
+> > --
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> -- 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
