@@ -1,37 +1,40 @@
 Return-Path: <marc.ferland@gmail.com>
-Received: from mail-qt0-f194.google.com (mail-qt0-f194.google.com
-	[209.85.216.194])
-	by mail.openembedded.org (Postfix) with ESMTP id A9D8D60750
+Received: from mail-qk0-f195.google.com (mail-qk0-f195.google.com
+	[209.85.220.195])
+	by mail.openembedded.org (Postfix) with ESMTP id BD45A77CEF
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 May 2017 18:10:43 +0000 (UTC)
-Received: by mail-qt0-f194.google.com with SMTP id r58so7728989qtb.2
+	Fri, 12 May 2017 18:10:44 +0000 (UTC)
+Received: by mail-qk0-f195.google.com with SMTP id u75so8801929qka.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 May 2017 11:10:45 -0700 (PDT)
+	Fri, 12 May 2017 11:10:46 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=jM5P2yQp/AD2lLHgNrUPqecPDE233GqAGDvGpfa4SwU=;
-	b=aEZf82iwtsQtPbTC1H5zrXMHcntaMvD3W6pb93Xzbz+opBinI9Li/Ua0PftxMangQV
-	TCUNW/ul0GyLZ7ZfBQLI4nlU3IKwKLNVX3SB6regO9dYLOJpjbqJkO7NtRl4tKaQKDjA
-	UAFR+fjmDh2zF9C0G76v6PJdng4flhXOxuJ/ZK0PpWWty9KOC8I5PpuA16xoNNJUkmIy
-	JWfuoPYkIOBv8U27DhH9IqH+Y991C1y30l7uHqzAc4KWI9CiW5fMMab3kc2VAdK+/75p
-	0qlLhPokIVlEJGGjOoellU55UiF4p/c3Ru4o19E00zR1U/Xotf8wGkYR7Cxawpfs1iZ9
-	sw7g==
-X-Gm-Message-State: AODbwcCk77pQXWEAGmn7TCS0nWbpS8a1037fyEbp3450RENq7gy9jBPc
-	5IYmdWM4AxIlsg==
-X-Received: by 10.200.46.7 with SMTP id r7mr4853052qta.209.1494612644571;
-	Fri, 12 May 2017 11:10:44 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=Ox8MMTDfO7YtEFFKZxoqH14adQx46UWWS0hl6ojWupk=;
+	b=NuuHf/Gu55+qrZNWl1adnUVRet/IRuOgsvw9Ck5sBiIBJ4Pfiaxg5u+Q2kBVWkOcYz
+	okB9MvgBPKEx6GSo9EzP4YeyykyrXuJ6jMezbCApCOq/wjnIYhPMvSCWf6QYV/I4e6Rn
+	v0+t9Odl6XA51xS8vgtGJS57TwosXOFnFaZ+OQ9H1nAbM8mGCnh2/p4XY9g3IsMSWOt+
+	4O7H7oLWqSHteCdeqeU3NpDEm8l8ngY9ud0xE+OWgkqmCCWk0/prlpwMbQeH3xrFwFVr
+	VBpOt1AXQpbbSB9os3iRXJcNjkluSdFNMRSimRyXYToVcyXoTuEhYAWJH3OjRcwZInGM
+	U6ng==
+X-Gm-Message-State: AODbwcCYryZ+7RW4lqzX0/C0pX1keTYlnv43r6REVW7JVeAdWTy9GkL/
+	CFNPe4fICjpiTQ==
+X-Received: by 10.55.104.210 with SMTP id d201mr4940278qkc.22.1494612645358;
+	Fri, 12 May 2017 11:10:45 -0700 (PDT)
 Received: from marc-desktop.AMOTUS.local
 	(modemcable182.194-37-24.static.videotron.ca. [24.37.194.182])
-	by smtp.gmail.com with ESMTPSA id j4sm2752436qkd.19.2017.05.12.11.10.43
+	by smtp.gmail.com with ESMTPSA id j4sm2752436qkd.19.2017.05.12.11.10.44
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 12 May 2017 11:10:43 -0700 (PDT)
+	Fri, 12 May 2017 11:10:44 -0700 (PDT)
 From: Marc Ferland <ferlandm@amotus.ca>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 12 May 2017 14:09:05 -0400
-Message-Id: <1494612546-2295-1-git-send-email-ferlandm@amotus.ca>
+Date: Fri, 12 May 2017 14:09:06 -0400
+Message-Id: <1494612546-2295-2-git-send-email-ferlandm@amotus.ca>
 X-Mailer: git-send-email 2.7.4
-Subject: [PATCHv2 1/2] pciutils: upgrade 3.5.2 -> 3.5.4
+In-Reply-To: <1494612546-2295-1-git-send-email-ferlandm@amotus.ca>
+References: <1494612546-2295-1-git-send-email-ferlandm@amotus.ca>
+Subject: [PATCHv2 2/2] nasm: upgrade 2.12.02 -> 2.13.01
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,47 +47,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 12 May 2017 18:10:43 -0000
-
-Upgrade to 3.5.4 and fix libkmod detection (was missing pkgconfig
-bbclass).
+X-List-Received-Date: Fri, 12 May 2017 18:10:44 -0000
 
 Signed-off-by: Marc Ferland <ferlandm@amotus.ca>
 ---
- .../pciutils/{pciutils_3.5.2.bb => pciutils_3.5.4.bb}          | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
- rename meta/recipes-bsp/pciutils/{pciutils_3.5.2.bb => pciutils_3.5.4.bb} (86%)
+ meta/recipes-devtools/nasm/{nasm_2.12.02.bb => nasm_2.13.01.bb} | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-devtools/nasm/{nasm_2.12.02.bb => nasm_2.13.01.bb} (77%)
 
-diff --git a/meta/recipes-bsp/pciutils/pciutils_3.5.2.bb b/meta/recipes-bsp/pciutils/pciutils_3.5.4.bb
-similarity index 86%
-rename from meta/recipes-bsp/pciutils/pciutils_3.5.2.bb
-rename to meta/recipes-bsp/pciutils/pciutils_3.5.4.bb
-index 9a7297e..0faa501 100644
---- a/meta/recipes-bsp/pciutils/pciutils_3.5.2.bb
-+++ b/meta/recipes-bsp/pciutils/pciutils_3.5.4.bb
-@@ -1,6 +1,6 @@
- SUMMARY = "PCI utilities"
--DESCRIPTION = 'The PCI Utilities package contains a library for portable access \
--to PCI bus configuration space and several utilities based on this library.'
-+DESCRIPTION = "The PCI Utilities package contains a library for portable access \
-+to PCI bus configuration space and several utilities based on this library."
- HOMEPAGE = "http://atrey.karlin.mff.cuni.cz/~mj/pciutils.shtml"
- SECTION = "console/utils"
+diff --git a/meta/recipes-devtools/nasm/nasm_2.12.02.bb b/meta/recipes-devtools/nasm/nasm_2.13.01.bb
+similarity index 77%
+rename from meta/recipes-devtools/nasm/nasm_2.12.02.bb
+rename to meta/recipes-devtools/nasm/nasm_2.13.01.bb
+index 3280b84..b17bb53 100644
+--- a/meta/recipes-devtools/nasm/nasm_2.12.02.bb
++++ b/meta/recipes-devtools/nasm/nasm_2.13.01.bb
+@@ -3,10 +3,10 @@ SECTION = "devel"
+ LICENSE = "BSD-2-Clause"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=90904486f8fbf1861cf42752e1a39efe"
  
-@@ -13,10 +13,10 @@ SRC_URI = "${KERNELORG_MIRROR}/software/utils/pciutils/pciutils-${PV}.tar.xz \
-            file://guess-fix.patch \
-            file://makefile.patch"
+-SRC_URI = "http://www.nasm.us/pub/nasm/releasebuilds/${PV}/nasm-${PV}.tar.bz2 "
++SRC_URI = "http://www.nasm.us/pub/nasm/releasebuilds/${PV}/nasm-${PV}.tar.xz"
  
--SRC_URI[md5sum] = "1bf5b068bd9f7512e8c68b060b25a1b2"
--SRC_URI[sha256sum] = "3a99141a9f40528d0a0035665a06dc37ddb1ae341658e51b50a76ecf86235efc"
-+SRC_URI[md5sum] = "e82537cd2194111c45fa7e684b52252e"
-+SRC_URI[sha256sum] = "64293c6ab9318c40ef262b76d87bd9097531759752bac556e50979b1e63cfe66"
+-SRC_URI[md5sum] = "d15843c3fb7db39af80571ee27ec6fad"
+-SRC_URI[sha256sum] = "00b0891c678c065446ca59bcee64719d0096d54d6886e6e472aeee2e170ae324"
++SRC_URI[md5sum] = "b3ae134bd1b5ead73d659286f568da95"
++SRC_URI[sha256sum] = "aa0213008f0433ecbe07bb628506a5c4be8079be20fc3532a5031fd639db9a5e"
  
--inherit multilib_header
-+inherit multilib_header pkgconfig
+ inherit autotools-brokensep
  
- PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'hwdb', '', d)}"
- PACKAGECONFIG[hwdb] = "HWDB=yes,HWDB=no,udev"
 -- 
 2.7.4
 
