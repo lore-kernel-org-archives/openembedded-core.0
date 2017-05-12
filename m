@@ -1,50 +1,50 @@
 Return-Path: <peter.kjellerstedt@axis.com>
 Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
-	by mail.openembedded.org (Postfix) with ESMTP id 48C1377B14
+	by mail.openembedded.org (Postfix) with ESMTP id 1C1E977B14
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 May 2017 10:04:46 +0000 (UTC)
+	Fri, 12 May 2017 10:05:42 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by bes.se.axis.com (Postfix) with ESMTP id 2409E2E561
+	by bes.se.axis.com (Postfix) with ESMTP id CFFF42E560
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 May 2017 12:04:48 +0200 (CEST)
+	Fri, 12 May 2017 12:05:43 +0200 (CEST)
 X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
 Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
 	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id 5QFXoCcGBgYq
+	port 10024) with LMTP id XWu16edWjrer
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 May 2017 12:04:46 +0200 (CEST)
-Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
-	by bes.se.axis.com (Postfix) with ESMTPS id D78BD2E560
+	Fri, 12 May 2017 12:05:42 +0200 (CEST)
+Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
+	by bes.se.axis.com (Postfix) with ESMTPS id 83A582E559
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 May 2017 12:04:46 +0200 (CEST)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id C192C1E06A
+	Fri, 12 May 2017 12:05:42 +0200 (CEST)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 6DE201A070
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 May 2017 12:04:46 +0200 (CEST)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id B0DDF1E064
+	Fri, 12 May 2017 12:05:42 +0200 (CEST)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 62E2A1A06F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 May 2017 12:04:46 +0200 (CEST)
+	Fri, 12 May 2017 12:05:42 +0200 (CEST)
 Received: from thoth.se.axis.com (unknown [10.0.2.173])
-	by boulder03.se.axis.com (Postfix) with ESMTP
+	by boulder02.se.axis.com (Postfix) with ESMTP
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 May 2017 12:04:46 +0200 (CEST)
+	Fri, 12 May 2017 12:05:42 +0200 (CEST)
 Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
-	by thoth.se.axis.com (Postfix) with ESMTP id A4C5B3142
+	by thoth.se.axis.com (Postfix) with ESMTP id 571E2314A
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 May 2017 12:04:46 +0200 (CEST)
+	Fri, 12 May 2017 12:05:42 +0200 (CEST)
 Received: from saur-2.se.axis.com (localhost [127.0.0.1])
-	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id v4CA4k3v018520
+	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id v4CA5gMZ018834
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 May 2017 12:04:46 +0200
+	Fri, 12 May 2017 12:05:42 +0200
 Received: (from pkj@localhost)
-	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id v4CA4kJ6018519
+	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id v4CA5gwr018833
 	for openembedded-core@lists.openembedded.org;
-	Fri, 12 May 2017 12:04:46 +0200
+	Fri, 12 May 2017 12:05:42 +0200
 From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 12 May 2017 12:04:45 +0200
-Message-Id: <20170512100445.18477-1-pkj@axis.com>
+Date: Fri, 12 May 2017 12:05:41 +0200
+Message-Id: <20170512100541.18793-1-pkj@axis.com>
 X-Mailer: git-send-email 2.12.0
 X-TM-AS-GCONF: 00
 Subject: [PATCHv2] useradd: Create lib/oe/useradd function library
@@ -60,17 +60,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 12 May 2017 10:04:47 -0000
+X-List-Received-Date: Fri, 12 May 2017 10:05:43 -0000
 
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
 The code in useradd-staticids is generally useful for user addition
 functionality but is not reusable in its current form. Refactor the
 code into a set of library functions.
+
+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+
 ---
 
-Needed to re-add an import of oe.useradd in useradd-staticids.bbclass
-that I had removed when I synchronized my and Richard's versions.
+And a third version to add the missing Signed-off-by line...
 
  meta/classes/useradd-staticids.bbclass | 72 ++++------------------------------
  meta/lib/oe/useradd.py                 | 68 ++++++++++++++++++++++++++++++++
