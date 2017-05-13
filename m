@@ -1,50 +1,48 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f171.google.com (mail-pf0-f171.google.com
-	[209.85.192.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 475F277D25
+Received: from mail-pf0-f194.google.com (mail-pf0-f194.google.com
+	[209.85.192.194])
+	by mail.openembedded.org (Postfix) with ESMTP id ABF9177D21
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 13 May 2017 02:59:50 +0000 (UTC)
-Received: by mail-pf0-f171.google.com with SMTP id m17so38115628pfg.3
+	Sat, 13 May 2017 02:59:51 +0000 (UTC)
+Received: by mail-pf0-f194.google.com with SMTP id a23so8879383pfe.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 May 2017 19:59:52 -0700 (PDT)
+	Fri, 12 May 2017 19:59:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=lKchD7I8VBbeYPpPfq/KFJbDtLgTnNYlDFCUZ4uu5ws=;
-	b=KnZaakI77o0wwpayBGdlIiBuj3BYRGe/5oPnpCPsXVPtOgrX8sl9RWcfQrFPG1nLZA
-	rprySo6t4xIYTUbMOIX8Pu1KSyNgJvrV1jgF6ObWTDXLIGHL8ZtNnJLv5vF/DuQNWXH9
-	jab2VrEtMUXD6cdUQWzp/30AlOg5gH38bV2y4jUsviAriROqcGp1yWlWkZvAzCZD9g+w
-	xsDmo4ncV8ug/76tLm/tzBYTCNwmi4MJ+QLN1uj7RY07J1mVThvTJNTLOj2TG83GgcWW
-	cFRmI0StmcoHK9+bsuu0Unrk4A0XKLfuFIljp/iYBcwv+v4eGEtMTQQNChMhUJ9gBKnV
-	2wWA==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=YC/+O+U7GuhJ5bPmFUEYuAGafouugVgCzaG6XjSxnhs=;
+	b=KfVWeRy6vnz9XI3nYiB3hmmYr916/fWYdA/x8WGc16z3cPJTvjJL/pmNynTx/F2gOy
+	EVCsVqYkcnlfr3MatqGFsrdV0lhOQPuwt8hqe+ELZHbcLjdNNEz1enwNOxTdAjfobYT9
+	aQ/nDA49q5aGl0tuztOVH/7Akgfk3Ll4vOrEmJuCVcUPzXll87t9wwXMVFNWB88J6Rxr
+	gN/AOT/t3RhG76bxDmfhN+dtu/Mts6UX7Tj2p7rZaEv7XZVMbCqVlYHJyA7F0JECIxB9
+	GurqFy+lWjVu5s9S0Cb99MxINuXveqvnHnIsm70QRb2z35GyI8EJNwmT6/BMexhdSN+h
+	Shdg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=lKchD7I8VBbeYPpPfq/KFJbDtLgTnNYlDFCUZ4uu5ws=;
-	b=SjbSplTfyc8sKM20ZRlJ5CgJpaN80LMnmc8XB7IAAPzrv8V82c7pUMhgN8TF0rhQhP
-	lxQF0rC51+euiY+N3HU2gN0aA0L6JAnchUDAOZONbznd/c9WuxlF/WdMnIetAv/CqRE2
-	ZhzBDtvLW2bDCsxGjlSHMv7COgG/VKxzZs6ASuGd3PGBy8hySHjRrRKxFN295PEHG+9a
-	djKFKxsQXBdqNXEvtWi1s4IYhUCbrTfdnXvKM6CR+M8sMMZiVesE499xYFtwd3ZVbCK0
-	7+eVoRLyINV937w/xjdJEtdhhPvVmkuGcEeraZZD8vRg7V6m2pv8Q5buW64ZJE1totSn
-	GIFg==
-X-Gm-Message-State: AODbwcBGbVYe7DCsY27hNG64k+c3I0lV4hQiDLHzOX0xGO9vnLJ3sUmR
-	6i8RluCM1n4My189
-X-Received: by 10.99.115.11 with SMTP id o11mr7441248pgc.10.1494644391451;
-	Fri, 12 May 2017 19:59:51 -0700 (PDT)
+	:references;
+	bh=YC/+O+U7GuhJ5bPmFUEYuAGafouugVgCzaG6XjSxnhs=;
+	b=ByoVWP69fa9RobaIJwSAfMAhZDgloLO/EFBnOHqzaeRb0qh4htRUhm70idkFnvC8y5
+	Djvyvq9JhwNV1O5DpSPutl8ToV7dXw/LTVtXai9ZTqOeCDNh6z6JTr3h+q5/7hezc16s
+	oUs8hWo4smKLCmWc/LdgUU+wRJtKTXvDa4bRJqg7Dn4+MgEP6+eotTn+FicBbI/xvF2k
+	SSXYgwGd5S6WWbrO73BYAJsVlWIlYkqPIudUumn7aCjvwt2BALL8G0sGryi029P6syBS
+	9apaUiAGo7vZCH2eEoZnC1JQFU/DqTYbXoJ4yqODThiCzR8IbHOvNfyb+KVtoPxmplsx
+	4DbA==
+X-Gm-Message-State: AODbwcA/7VJb4kjTGn9xJbrBcA4uBTcBwDoWht51w7pRXgmybV+sV4KQ
+	Qhr3p7ypnodJdQ==
+X-Received: by 10.99.39.194 with SMTP id n185mr7550164pgn.15.1494644393254;
+	Fri, 12 May 2017 19:59:53 -0700 (PDT)
 Received: from localhost.localdomain ([2601:646:8882:b8c::c232])
-	by smtp.gmail.com with ESMTPSA id q4sm4541134pgf.9.2017.05.12.19.59.49
+	by smtp.gmail.com with ESMTPSA id q4sm4541134pgf.9.2017.05.12.19.59.51
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 12 May 2017 19:59:50 -0700 (PDT)
+	Fri, 12 May 2017 19:59:51 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 12 May 2017 19:59:31 -0700
-Message-Id: <20170513025932.26254-6-raj.khem@gmail.com>
+Date: Fri, 12 May 2017 19:59:32 -0700
+Message-Id: <20170513025932.26254-7-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.13.0
 In-Reply-To: <20170513025932.26254-1-raj.khem@gmail.com>
 References: <20170513025932.26254-1-raj.khem@gmail.com>
-MIME-Version: 1.0
-Subject: [PATCH 6/7] libidn: Fix hardened build with musl
+Subject: [PATCH 7/7] linux-yocto_4.1.bb: Fix build with gcc7
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,219 +55,168 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 13 May 2017 02:59:50 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-
-Re-introduce the patch that was deemed to be not needed
-but it infact is still needed with musl
+X-List-Received-Date: Sat, 13 May 2017 02:59:51 -0000
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../libidn/0001-idn-format-security-warnings.patch | 181 +++++++++++++++++++++
- meta/recipes-extended/libidn/libidn_1.33.bb        |   1 +
- 2 files changed, 182 insertions(+)
- create mode 100644 meta/recipes-extended/libidn/libidn/0001-idn-format-security-warnings.patch
+ ...ve-up-on-gcc-ilog2-constant-optimizations.patch | 134 +++++++++++++++++++++
+ meta/recipes-kernel/linux/linux-yocto_4.1.bb       |   2 +
+ 2 files changed, 136 insertions(+)
+ create mode 100644 meta/recipes-kernel/linux/linux-yocto/0001-give-up-on-gcc-ilog2-constant-optimizations.patch
 
-diff --git a/meta/recipes-extended/libidn/libidn/0001-idn-format-security-warnings.patch b/meta/recipes-extended/libidn/libidn/0001-idn-format-security-warnings.patch
+diff --git a/meta/recipes-kernel/linux/linux-yocto/0001-give-up-on-gcc-ilog2-constant-optimizations.patch b/meta/recipes-kernel/linux/linux-yocto/0001-give-up-on-gcc-ilog2-constant-optimizations.patch
 new file mode 100644
-index 0000000000..5adc7d9fd9
+index 0000000000..35c4484f20
 --- /dev/null
-+++ b/meta/recipes-extended/libidn/libidn/0001-idn-format-security-warnings.patch
-@@ -0,0 +1,181 @@
-+From 82f98dcbc429bbe89a9837c533cbcbc02e77c790 Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <adraszik@tycoint.com>
-+Date: Tue, 28 Jun 2016 12:43:31 +0100
-+Subject: [PATCH] idn: fix printf() format security warnings
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
++++ b/meta/recipes-kernel/linux/linux-yocto/0001-give-up-on-gcc-ilog2-constant-optimizations.patch
+@@ -0,0 +1,134 @@
++From 273bf720b7acb5f808337fe57c5f400422a30051 Mon Sep 17 00:00:00 2001
++From: Linus Torvalds <torvalds@linux-foundation.org>
++Date: Thu, 2 Mar 2017 12:17:22 -0800
++Subject: [PATCH] give up on gcc ilog2() constant optimizations
 +
-+| ../../libidn-1.32/src/idn.c: In function 'main':
-+| ../../libidn-1.32/src/idn.c:172:7: error: format not a string literal and no format arguments [-Werror=format-security]
-+|        error (0, 0, _("only one of -s, -e, -d, -a, -u or -n can be specified"));
-+|        ^~~~~
-+| ../../libidn-1.32/src/idn.c:187:5: error: format not a string literal and no format arguments [-Werror=format-security]
-+|      fprintf (stderr, _("Type each input string on a line by itself, "
-+|      ^~~~~~~
-+| ../../libidn-1.32/src/idn.c:202:4: error: format not a string literal and no format arguments [-Werror=format-security]
-+|     error (EXIT_FAILURE, errno, _("input error"));
-+|     ^~~~~
-+| ../../libidn-1.32/src/idn.c:220:8: error: format not a string literal and no format arguments [-Werror=format-security]
-+|         _("could not convert from UTF-8 to UCS-4"));
-+|         ^
-+| ../../libidn-1.32/src/idn.c:245:8: error: format not a string literal and no format arguments [-Werror=format-security]
-+|         _("could not convert from UTF-8 to UCS-4"));
-+|         ^
-+| ../../libidn-1.32/src/idn.c:281:6: error: format not a string literal and no format arguments [-Werror=format-security]
-+|       _("could not convert from UTF-8 to UCS-4"));
-+|       ^
-+| ../../libidn-1.32/src/idn.c:340:6: error: format not a string literal and no format arguments [-Werror=format-security]
-+|       _("could not convert from UCS-4 to UTF-8"));
-+|       ^
-+| ../../libidn-1.32/src/idn.c:364:6: error: format not a string literal and no format arguments [-Werror=format-security]
-+|       _("could not convert from UCS-4 to UTF-8"));
-+|       ^
-+| ../../libidn-1.32/src/idn.c:442:8: error: format not a string literal and no format arguments [-Werror=format-security]
-+|         _("could not convert from UCS-4 to UTF-8"));
-+|         ^
-+| ../../libidn-1.32/src/idn.c:498:6: error: format not a string literal and no format arguments [-Werror=format-security]
-+|       _("could not convert from UTF-8 to UCS-4"));
-+|       ^
-+| ../../libidn-1.32/src/idn.c:527:5: error: format not a string literal and no format arguments [-Werror=format-security]
-+|      _("could not convert from UTF-8 to UCS-4"));
-+|      ^
-+| ../../libidn-1.32/src/idn.c:540:6: error: format not a string literal and no format arguments [-Werror=format-security]
-+|       error (EXIT_FAILURE, 0, _("could not do NFKC normalization"));
-+|       ^~~~~
-+| ../../libidn-1.32/src/idn.c:551:5: error: format not a string literal and no format arguments [-Werror=format-security]
-+|      _("could not convert from UTF-8 to UCS-4"));
-+|      ^
++commit 474c90156c8dcc2fa815e6716cc9394d7930cb9c upstream.
 +
-+Signed-off-by: André Draszik <adraszik@tycoint.com>
++gcc-7 has an "optimization" pass that completely screws up, and
++generates the code expansion for the (impossible) case of calling
++ilog2() with a zero constant, even when the code gcc compiles does not
++actually have a zero constant.
++
++And we try to generate a compile-time error for anybody doing ilog2() on
++a constant where that doesn't make sense (be it zero or negative).  So
++now gcc7 will fail the build due to our sanity checking, because it
++created that constant-zero case that didn't actually exist in the source
++code.
++
++There's a whole long discussion on the kernel mailing about how to work
++around this gcc bug.  The gcc people themselevs have discussed their
++"feature" in
++
++   https://gcc.gnu.org/bugzilla/show_bug.cgi?id=72785
++
++but it's all water under the bridge, because while it looked at one
++point like it would be solved by the time gcc7 was released, that was
++not to be.
++
++So now we have to deal with this compiler braindamage.
++
++And the only simple approach seems to be to just delete the code that
++tries to warn about bad uses of ilog2().
++
++So now "ilog2()" will just return 0 not just for the value 1, but for
++any non-positive value too.
++
++It's not like I can recall anybody having ever actually tried to use
++this function on any invalid value, but maybe the sanity check just
++meant that such code never made it out in public.
++
++Reported-by: Laura Abbott <labbott@redhat.com>
++Cc: John Stultz <john.stultz@linaro.org>,
++Cc: Thomas Gleixner <tglx@linutronix.de>
++Cc: Ard Biesheuvel <ard.biesheuvel@linaro.org>
++Signed-off-by: Linus Torvalds <torvalds@linux-foundation.org>
++Cc: Jiri Slaby <jslaby@suse.cz>
++Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
 +---
-+Upstream-Status: Pending
++Upstream-Status: Backport
 +
-+ src/idn.c | 27 ++++++++++++++-------------
-+ 1 file changed, 14 insertions(+), 13 deletions(-)
++ include/linux/log2.h       | 13 ++-----------
++ tools/include/linux/log2.h | 13 ++-----------
++ 2 files changed, 4 insertions(+), 22 deletions(-)
 +
-+diff --git a/src/idn.c b/src/idn.c
-+index be1c7d1..68e4291 100644
-+--- a/src/idn.c
-++++ b/src/idn.c
-+@@ -170,7 +170,7 @@ main (int argc, char *argv[])
-+       (args_info.idna_to_unicode_given ? 1 : 0) +
-+       (args_info.nfkc_given ? 1 : 0) != 1)
-+     {
-+-      error (0, 0, _("only one of -s, -e, -d, -a, -u or -n can be specified"));
-++      error (0, 0, "%s", _("only one of -s, -e, -d, -a, -u or -n can be specified"));
-+       usage (EXIT_FAILURE);
-+     }
++diff --git a/include/linux/log2.h b/include/linux/log2.h
++index fd7ff3d91e6a..f38fae23bdac 100644
++--- a/include/linux/log2.h
+++++ b/include/linux/log2.h
++@@ -16,12 +16,6 @@
++ #include <linux/bitops.h>
 + 
-+@@ -185,7 +185,7 @@ main (int argc, char *argv[])
-+   if (!args_info.quiet_given
-+       && args_info.inputs_num == 0
-+       && isatty (fileno (stdin)))
-+-    fprintf (stderr, _("Type each input string on a line by itself, "
-++    fprintf (stderr, "%s", _("Type each input string on a line by itself, "
-+ 		       "terminated by a newline character.\n"));
++ /*
++- * deal with unrepresentable constant logarithms
++- */
++-extern __attribute__((const, noreturn))
++-int ____ilog2_NaN(void);
++-
++-/*
++  * non-constant log of base 2 calculators
++  * - the arch may override these in asm/bitops.h if they can be implemented
++  *   more efficiently than using fls() and fls64()
++@@ -85,7 +79,7 @@ unsigned long __rounddown_pow_of_two(unsigned long n)
++ #define ilog2(n)				\
++ (						\
++ 	__builtin_constant_p(n) ? (		\
++-		(n) < 1 ? ____ilog2_NaN() :	\
+++		(n) < 2 ? 0 :			\
++ 		(n) & (1ULL << 63) ? 63 :	\
++ 		(n) & (1ULL << 62) ? 62 :	\
++ 		(n) & (1ULL << 61) ? 61 :	\
++@@ -148,10 +142,7 @@ unsigned long __rounddown_pow_of_two(unsigned long n)
++ 		(n) & (1ULL <<  4) ?  4 :	\
++ 		(n) & (1ULL <<  3) ?  3 :	\
++ 		(n) & (1ULL <<  2) ?  2 :	\
++-		(n) & (1ULL <<  1) ?  1 :	\
++-		(n) & (1ULL <<  0) ?  0 :	\
++-		____ilog2_NaN()			\
++-				   ) :		\
+++		1 ) :				\
++ 	(sizeof(n) <= 4) ?			\
++ 	__ilog2_u32(n) :			\
++ 	__ilog2_u64(n)				\
++diff --git a/tools/include/linux/log2.h b/tools/include/linux/log2.h
++index 41446668ccce..d5677d39c1e4 100644
++--- a/tools/include/linux/log2.h
+++++ b/tools/include/linux/log2.h
++@@ -13,12 +13,6 @@
++ #define _TOOLS_LINUX_LOG2_H
 + 
-+   do
-+@@ -197,7 +197,7 @@ main (int argc, char *argv[])
-+ 	  if (feof (stdin))
-+ 	    break;
-+ 
-+-	  error (EXIT_FAILURE, errno, _("input error"));
-++	  error (EXIT_FAILURE, errno, "%s", _("input error"));
-+ 	}
-+ 
-+       if (strlen (line) > 0)
-+@@ -215,7 +215,7 @@ main (int argc, char *argv[])
-+ 	  if (!q)
-+ 	    {
-+ 	      free (p);
-+-	      error (EXIT_FAILURE, 0,
-++	      error (EXIT_FAILURE, 0, "%s",
-+ 		     _("could not convert from UTF-8 to UCS-4"));
-+ 	    }
-+ 
-+@@ -240,7 +240,7 @@ main (int argc, char *argv[])
-+ 	  if (!q)
-+ 	    {
-+ 	      free (r);
-+-	      error (EXIT_FAILURE, 0,
-++	      error (EXIT_FAILURE, 0, "%s",
-+ 		     _("could not convert from UTF-8 to UCS-4"));
-+ 	    }
-+ 
-+@@ -277,7 +277,7 @@ main (int argc, char *argv[])
-+ 	  q = stringprep_utf8_to_ucs4 (p, -1, &len);
-+ 	  free (p);
-+ 	  if (!q)
-+-	    error (EXIT_FAILURE, 0,
-++	    error (EXIT_FAILURE, 0, "%s",
-+ 		   _("could not convert from UTF-8 to UCS-4"));
-+ 
-+ 	  if (args_info.debug_given)
-+@@ -336,7 +336,7 @@ main (int argc, char *argv[])
-+ 	  r = stringprep_ucs4_to_utf8 (q, -1, NULL, NULL);
-+ 	  free (q);
-+ 	  if (!r)
-+-	    error (EXIT_FAILURE, 0,
-++	    error (EXIT_FAILURE, 0, "%s",
-+ 		   _("could not convert from UCS-4 to UTF-8"));
-+ 
-+ 	  p = stringprep_utf8_to_locale (r);
-+@@ -360,7 +360,7 @@ main (int argc, char *argv[])
-+ 	  q = stringprep_utf8_to_ucs4 (p, -1, NULL);
-+ 	  free (p);
-+ 	  if (!q)
-+-	    error (EXIT_FAILURE, 0,
-++	    error (EXIT_FAILURE, 0, "%s",
-+ 		   _("could not convert from UCS-4 to UTF-8"));
-+ 
-+ 	  if (args_info.debug_given)
-+@@ -438,7 +438,7 @@ main (int argc, char *argv[])
-+ 	  if (!q)
-+ 	    {
-+ 	      free (p);
-+-	      error (EXIT_FAILURE, 0,
-++	      error (EXIT_FAILURE, 0, "%s",
-+ 		     _("could not convert from UCS-4 to UTF-8"));
-+ 	    }
-+ 
-+@@ -494,7 +494,7 @@ main (int argc, char *argv[])
-+ 	  r = stringprep_ucs4_to_utf8 (q, -1, NULL, NULL);
-+ 	  free (q);
-+ 	  if (!r)
-+-	    error (EXIT_FAILURE, 0,
-++	    error (EXIT_FAILURE, 0, "%s",
-+ 		   _("could not convert from UTF-8 to UCS-4"));
-+ 
-+ 	  p = stringprep_utf8_to_locale (r);
-+@@ -523,7 +523,7 @@ main (int argc, char *argv[])
-+ 	      if (!q)
-+ 		{
-+ 		  free (p);
-+-		  error (EXIT_FAILURE, 0,
-++		  error (EXIT_FAILURE, 0, "%s",
-+ 			 _("could not convert from UTF-8 to UCS-4"));
-+ 		}
-+ 
-+@@ -537,7 +537,8 @@ main (int argc, char *argv[])
-+ 	  r = stringprep_utf8_nfkc_normalize (p, -1);
-+ 	  free (p);
-+ 	  if (!r)
-+-	    error (EXIT_FAILURE, 0, _("could not do NFKC normalization"));
-++	    error (EXIT_FAILURE, 0, "%s",
-++		   _("could not do NFKC normalization"));
-+ 
-+ 	  if (args_info.debug_given)
-+ 	    {
-+@@ -547,7 +548,7 @@ main (int argc, char *argv[])
-+ 	      if (!q)
-+ 		{
-+ 		  free (r);
-+-		  error (EXIT_FAILURE, 0,
-++		  error (EXIT_FAILURE, 0, "%s",
-+ 			 _("could not convert from UTF-8 to UCS-4"));
-+ 		}
-+ 
++ /*
++- * deal with unrepresentable constant logarithms
++- */
++-extern __attribute__((const, noreturn))
++-int ____ilog2_NaN(void);
++-
++-/*
++  * non-constant log of base 2 calculators
++  * - the arch may override these in asm/bitops.h if they can be implemented
++  *   more efficiently than using fls() and fls64()
++@@ -78,7 +72,7 @@ unsigned long __rounddown_pow_of_two(unsigned long n)
++ #define ilog2(n)				\
++ (						\
++ 	__builtin_constant_p(n) ? (		\
++-		(n) < 1 ? ____ilog2_NaN() :	\
+++		(n) < 2 ? 0 :			\
++ 		(n) & (1ULL << 63) ? 63 :	\
++ 		(n) & (1ULL << 62) ? 62 :	\
++ 		(n) & (1ULL << 61) ? 61 :	\
++@@ -141,10 +135,7 @@ unsigned long __rounddown_pow_of_two(unsigned long n)
++ 		(n) & (1ULL <<  4) ?  4 :	\
++ 		(n) & (1ULL <<  3) ?  3 :	\
++ 		(n) & (1ULL <<  2) ?  2 :	\
++-		(n) & (1ULL <<  1) ?  1 :	\
++-		(n) & (1ULL <<  0) ?  0 :	\
++-		____ilog2_NaN()			\
++-				   ) :		\
+++		1 ) :				\
++ 	(sizeof(n) <= 4) ?			\
++ 	__ilog2_u32(n) :			\
++ 	__ilog2_u64(n)				\
 +-- 
-+2.8.1
++2.12.2
 +
-diff --git a/meta/recipes-extended/libidn/libidn_1.33.bb b/meta/recipes-extended/libidn/libidn_1.33.bb
-index 109cc7f3f5..9e8bdbae18 100644
---- a/meta/recipes-extended/libidn/libidn_1.33.bb
-+++ b/meta/recipes-extended/libidn/libidn_1.33.bb
-@@ -20,6 +20,7 @@ SRC_URI = "${GNU_MIRROR}/libidn/${BPN}-${PV}.tar.gz \
-            file://dont-depend-on-help2man.patch \
-            file://0001-idn-fix-printf-format-security-warnings.patch \
-            file://gcc7-compatibility.patch \
-+           file://0001-idn-format-security-warnings.patch \
- "
+diff --git a/meta/recipes-kernel/linux/linux-yocto_4.1.bb b/meta/recipes-kernel/linux/linux-yocto_4.1.bb
+index bf7f266ee6..f90d5159d5 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_4.1.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_4.1.bb
+@@ -24,6 +24,8 @@ SRCREV_meta ?= "7140ddb86e4b01529185e6d4a606001ad152b8f3"
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.1.git;name=machine;branch=${KBRANCH}; \
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.1;destsuffix=${KMETA}"
  
- SRC_URI[md5sum] = "a9aa7e003665de9c82bd3f9fc6ccf308"
++SRC_URI += "file://0001-give-up-on-gcc-ilog2-constant-optimizations.patch"
++
+ LINUX_VERSION ?= "4.1.38"
+ 
+ PV = "${LINUX_VERSION}+git${SRCPV}"
 -- 
 2.13.0
 
