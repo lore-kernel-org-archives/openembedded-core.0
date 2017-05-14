@@ -1,31 +1,50 @@
-Return-Path: <mac@mcrowe.com>
-Received: from avasout05.plus.net (avasout05.plus.net [84.93.230.250])
-	by mail.openembedded.org (Postfix) with ESMTP id 8E25560620
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pf0-f193.google.com (mail-pf0-f193.google.com
+	[209.85.192.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 319776010D
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 14 May 2017 09:07:39 +0000 (UTC)
-Received: from deneb ([80.229.24.9]) by avasout05 with smtp
-	id L97d1v0020BmcFC0197egB; Sun, 14 May 2017 10:07:40 +0100
-X-CM-Score: 0.00
-X-CNFS-Analysis: v=2.2 cv=Y+WIilWN c=1 sm=1 tr=0
-	a=E/9URZZQ5L3bK/voZ0g0HQ==:117 a=E/9URZZQ5L3bK/voZ0g0HQ==:17
-	a=kj9zAlcOel0A:10 a=tJ8p9aeEuA8A:10 a=elASCIoeAAAA:8 a=-An2I_7KAAAA:8
-	a=SiXVQ6FcJLq9sL2hWCMA:9 a=CjuIK1q_8ugA:10 a=UlySpbFP9e0eES3xxyTT:22
-	a=Sq34B_EcNBM9_nrAYB9S:22
-Received: from mac by deneb with local (Exim 4.84_2)
-	(envelope-from <mac@mcrowe.com>)
-	id 1d9pV3-0007oI-Ey; Sun, 14 May 2017 10:07:37 +0100
-Date: Sun, 14 May 2017 10:07:37 +0100
-From: Mike Crowe <mac@mcrowe.com>
-To: openembedded-core@lists.openembedded.org
-Message-ID: <20170514090737.GA29032@mcrowe.com>
-References: <1449401194-31567-1-git-send-email-paul.barker@commagility.com>
-	<20151215140434.75233de0@centos-7>
-	<20170508102903.GA9571@mcrowe.com>
+	Sun, 14 May 2017 14:46:11 +0000 (UTC)
+Received: by mail-pf0-f193.google.com with SMTP id w69so12608891pfk.1
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 14 May 2017 07:46:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=7KNCLcvTuBe2GA3JctU6PN0CBEB5G43YDhvz5Lm+UfI=;
+	b=fq0v10ENZ/MoxbG7F4Cc1IMEmAfeoYZbsWgEwGJCF2/YY3JR1AlVO7zS/TK91yjGU1
+	CO7aC+iSoMHBS326tnttAnQSH+Vs9wHuJURgLkQKAD/g/o3/uaYOgGhURItGZzom6zoO
+	Qn6nYkDgfqhOuVfIUI8oQxp/goIctgfq/2uzBS9kNsNzwKsBchXIPc+WK6dXAIIqT7Or
+	LKjnsV239cxjPtom79F9r4xCWgOPLJc10A8BXL1qiBgZQiE6UXESzliufB4/hGbWW7EZ
+	dPJ0qj9NO8nzgvrk/Uk0V6cNSEDWimuk1tCkpcbeXQKraLvRzNDo+b6SIOnkGjdTm25V
+	KsnA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=7KNCLcvTuBe2GA3JctU6PN0CBEB5G43YDhvz5Lm+UfI=;
+	b=gAT5RlkFMAUSXp2xX2iT50sJlxz1XSKrdF0t3VBMMqvu7nXhG0ChoDqEuGPRosUKW7
+	/Th0R7//xOo7vFai+d7oMfSKHIf694RoLei/tmf8HQx89mB42TGwLJpyO84yX14hWoId
+	qdh6dVZMWlo9gI0InHXLFCErAIQSdEUOfFu5XNRIVkly/r4pU3liM3Fsa5z6+WW925lb
+	dei9frOyUsdpQRkbmx7X+M63aTar5AAXxTEK3HFKgnfVLlUwYTlqJ9pTsFO3/ppZ5Ry6
+	q1nrBDXdFRrxRPSq2ppiFHptcFHSq8FKmIXRLN0lySC2hYSWntq4/tj0QB4RjqEuTxUc
+	6c3w==
+X-Gm-Message-State: AODbwcCIiAMvWohU/4bJq0Rx3EXIwUMqgtzrD5l7IPK9zKCWWgAX2kmT
+	Q1PQldpEgT92ew==
+X-Received: by 10.98.157.207 with SMTP id a76mr1684226pfk.17.1494773173178;
+	Sun, 14 May 2017 07:46:13 -0700 (PDT)
+Received: from pahoa2.hsd1.ca.comcast.net (c-76-20-92-207.hsd1.ca.comcast.net.
+	[76.20.92.207]) by smtp.gmail.com with ESMTPSA id
+	h15sm15724946pfk.120.2017.05.14.07.46.12
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Sun, 14 May 2017 07:46:12 -0700 (PDT)
+From: Armin Kuster <akuster808@gmail.com>
+To: akuster@mvista.com,
+	openembedded-core@lists.openembedded.org
+Date: Sun, 14 May 2017 07:45:20 -0700
+Message-Id: <cover.1494772869.git.akuster808@gmail.com>
+X-Mailer: git-send-email 2.5.0
 MIME-Version: 1.0
-In-Reply-To: <20170508102903.GA9571@mcrowe.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: Paul Barker <paul.barker@commagility.com>
-Subject: Re: [PATCH RFC] module.bbclass: Fix potential do_compile/do_make_scripts race condition
+Subject: [PATCH 00/49] for morty next
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,103 +57,204 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 14 May 2017 09:07:41 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Sun, 14 May 2017 14:46:12 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Tuesday 15 December 2015 at 14:04:34 +0000, Paul Barker wrote:
-> > On Sun, 6 Dec 2015 11:26:33 +0000
-> > Paul Barker <paul.barker@commagility.com> wrote:
-> > 
-> > > I ran into a race condition building multiple external modules against a 3.10.y
-> > > series kernel using the dylan branch of OpenEmbedded. This is difficult to
-> > > reproduce as it requires very specific timing: the do_make_scripts task for one
-> > > module was linking the modpost script whilst the do_compile task for another
-> > > module was attempting to use the modpost script. This resulted in a permission
-> > > error:
+Please consider these changes for the next Morty release 2.2.2.
+Clean AB build
 
-[snip]
+The following changes since commit 924e576b8930fd2268d85f0b151e5f68a3c2afce:
 
-> > > | /bin/sh: scripts/mod/modpost: Permission denied
+  bitbake: lib/bs4: Fix imports from html5lib >= 0.9999999/1.0b8 (2017-03-26 13:19:51 +0100)
 
-[snip]
+are available in the git repository at:
 
-On Monday 08 May 2017 at 11:29:03 +0100, Mike Crowe wrote:
-> We've started seeing the same symptom, but with a v3.14 kernel. We have
-> several recipes that build out-of-tree modules and I can see
-> do_make_scripts for one running at the same time as do_compile for the one
-> that fails.
-> 
-> If I try to reproduce the problem by hand, I cannot. However, I only see
-> modpost being compiled for one of the tasks in the logs.
-> 
-> I can't really explain why I see the problem with a newer kernel.
-> Regardless, it seems unwise to even attempt to run do_make_tasks and
-> do_compile in parallel.
-> 
-> It looks this patch was reviewed favourably, but doesn't seem to have made
-> it into master.
-> 
-> In the meantime, I'll try this patch and see if it makes the problem go
-> away for us.
+  git://git.yoctoproject.org/poky-contrib akuster/morty-next
+  http://git.yoctoproject.org/cgit.cgi//log/?h=akuster/morty-next
 
-The patch does seem to have resolved the problem, although there haven't
-yet been enough test runs to be completely sure.
+Anders Darander (1):
+  python-3-manifest: fix adding imp to importlib
 
-A complete copy of Paul Barker's original patch applied to master follows.
+Andre McCurdy (1):
+  image_types.bbclass: fix image dependency chain collection
 
-Mike.
+Andrej Valek (1):
+  busybox: Security fix CVE-2016-6301
 
---8<--
+Armin Kuster (4):
+  tzdata: update to 2016j
+  tzcode-native: update to 2016j
+  tzcode-native: update to 2017a
+  tzdata: update to 2017a
 
-From 4615110d4f5eb7925c280ed38789fb8aff44379f Mon Sep 17 00:00:00 2001
-From: Paul Barker <paul.barker@commagility.com>
-Date: Sun, 6 Dec 2015 11:26:34 +0000
-Subject: [PATCH] module.bbclass: Fix potential do_compile/do_make_scripts race
- condition
+Bruce Ashfield (9):
+  linux-yocto/4.4: update to v4.4.41
+  linux-yocto/4.8: -stable update to v4.8.17
+  linux-yocto/4.1: update to v4.1.37
+  linux-yocto/4.8: update to -rt10
+  linux-yocto/4.8: update to v4.8.18
+  linux-yocto/4.1: update to v4.1.38
+  linux-yocto/4.4: update to v4.4.53
+  linux-yocto/4.4: update to v4.4.56
+  linux-yocto/4.4: update to v4.4.60
 
-In the Linux 3.10.y series, repeatedly running 'make scripts' causes the modpost
-script to be rebuilt every time. This causes a potential race condition when
-building multiple external modules against a 3.10.y series kernel: one recipe
-may be running do_make_scripts and modifying modpost whilst another is running
-do_compile and using modpost. In my case this caused a permission error during
-do_compile for one recipe as modpost was not executable at the time it tried to
-run it.
+Catalin Enache (3):
+  libxml2: CVE-2016-9318
+  ghostscript: CVE-2017-7207
+  ghostscript : CVE-2016-10219, CVE-2016-10220, CVE-2017-5951
 
-In Linux 3.11 this was resolved and multiple invocations of 'make scripts' does
-not cause modpost to be rebuilt. However, there are still vendor kernels in use
-based on the 3.10.y series. Even on later kernel versions it would require more
-investigation to conclude that running 'make scripts' whilst also building an
-out-of-tree module is always safe. Therefore we should prevent do_make_scripts
-from running at the same time as do_compile.
+Choong YinThong (1):
+  logrotate: replace fedorahosted.org SRC_URI with github.com source
 
-A side effect of this is that only one out-of-tree module recipe can be running
-do_compile at any time. This may affect build time if multiple, large
-out-of-tree modules are being built but that should be rare and the impact on
-overall build time should be low.
+Daniel Díaz (1):
+  base-files: resize only serial tty's in profile
 
-Signed-off-by: Paul Barker <paul.barker@commagility.com>
-Tested-by: Mike Crowe <mac@mcrowe.com>
----
- meta/classes/module.bbclass | 4 ++++
- 1 file changed, 4 insertions(+)
+Daniel Schultz (2):
+  wic: filemap: Fixed spared_copy skip
+  wic: plugins: rawcopy: Fixed wrong variable type
 
-diff --git a/meta/classes/module.bbclass b/meta/classes/module.bbclass
-index 802476bc7a..1971f41156 100644
---- a/meta/classes/module.bbclass
-+++ b/meta/classes/module.bbclass
-@@ -4,6 +4,10 @@ addtask make_scripts after do_prepare_recipe_sysroot before do_compile
- do_make_scripts[lockfiles] = "${TMPDIR}/kernel-scripts.lock"
- do_make_scripts[depends] += "virtual/kernel:do_shared_workdir"
- 
-+# Ensure one recipe isn't running do_make_scripts whilst another is using those
-+# scripts in do_compile.
-+do_compile[lockfiles] = "${TMPDIR}/kernel-scripts.lock"
-+
- EXTRA_OEMAKE += "KERNEL_SRC=${STAGING_KERNEL_DIR}"
- 
- MODULES_INSTALL_TARGET ?= "modules_install"
+Ed Bartosh (1):
+  sstate.bbclass: update .siginfo atime
+
+Haiqing Bai (1):
+  busybox: ifupdown:pass interface device name for ipv6 route command
+
+Joe Slater (1):
+  volatile-binds: correct some errors reported by systemd
+
+Juro Bystricky (1):
+  sanity.bbclass: modify check for shell
+
+Jussi Kukkonen (3):
+  mkfontdir: Remove x11 requirement for -native
+  mkfontscale: Remove x11 requirement for -native
+  xorg-font-common.inc: Remove x11 requirement for -native
+
+Li Zhou (1):
+  bash: fix CVE-2016-9401
+
+Lukasz Nowak (1):
+  busybox: allow libiproute to handle table ids larger than 255
+
+Martin Balik (1):
+  busybox: Security fix BUG9071
+
+Martin Jansa (2):
+  package_manager.py: respect OPKGLIBDIR
+  rootfs.py: Respect OPKGLIBDIR variable
+
+Maxin John (1):
+  busybox: refresh the flock patch
+
+Patrick Ohly (1):
+  codeparser.py: support deeply nested tokens
+
+Randy Witt (1):
+  image_types.bbclass: IMAGE_TYPEDEP_ now adds deps for conversion types
+
+Richard Purdie (1):
+  tzcode-native: Set cc to ${CC}
+
+Robert Yang (2):
+  runqemu-export-rootfs: fix inconsistent var names
+  runqemu: support multiple qemus running when nfs
+
+Sona Sarmadi (1):
+  tar: CVE-2016-6321
+
+Sullivan, California L (1):
+  parselogs: Whitelist NUC6 firmware load error message on genericx86-64
+
+Yi Zhao (2):
+  bind: Security fix CVE-2016-8864
+  bind: Security fix CVE-2016-6170
+
+Yuanjie Huang (2):
+  binutils: Fix CVE-2017-6965 and CVE-2017-6966
+  glibc: Fix use after free in pthread_create()
+
+Zubair Lutfullah Kakakhel (2):
+  openssl: Add support for many MIPS configurations
+  gmp: Disable assembly for MIPS R6
+
+ bitbake/lib/bb/codeparser.py                       |   29 +-
+ meta/classes/image_types.bbclass                   |   16 +-
+ meta/classes/sanity.bbclass                        |    4 +-
+ meta/classes/sstate.bbclass                        |    2 +
+ meta/lib/oe/package_manager.py                     |   21 +-
+ meta/lib/oe/rootfs.py                              |    4 +-
+ meta/lib/oeqa/runtime/parselogs.py                 |    1 +
+ .../bind/bind/CVE-2016-6170.patch                  | 1090 ++++++++++++++++++++
+ .../bind/bind/CVE-2016-8864.patch                  |  219 ++++
+ meta/recipes-connectivity/bind/bind_9.10.3-P3.bb   |    2 +
+ meta/recipes-connectivity/openssl/openssl.inc      |   24 +-
+ meta/recipes-core/base-files/base-files/profile    |    2 +-
+ ...ss-interface-device-name-for-ipv6-route-c.patch |   52 +
+ ...e-the-behaviour-of-c-parameter-to-match-u.patch |   77 +-
+ ...biproute-handle-table-ids-larger-than-255.patch |  134 +++
+ .../busybox/BUG9071_buffer_overflow_arp.patch      |   53 +
+ .../busybox/busybox/CVE-2016-6301.patch            |   37 +
+ meta/recipes-core/busybox/busybox_1.24.1.bb        |    4 +
+ ...0116-Fix-use-after-free-in-pthread_create.patch |  668 ++++++++++++
+ meta/recipes-core/glibc/glibc_2.24.bb              |    1 +
+ .../libxml/libxml2/CVE-2016-9318.patch             |  207 ++++
+ meta/recipes-core/libxml/libxml2_2.9.4.bb          |    1 +
+ meta/recipes-core/volatile-binds/volatile-binds.bb |    9 +
+ meta/recipes-devtools/binutils/binutils-2.27.inc   |    2 +
+ .../binutils/binutils/CVE-2017-6965.patch          |  127 +++
+ .../binutils/binutils/CVE-2017-6966.patch          |  240 +++++
+ .../recipes-extended/bash/bash/CVE-2016-9401.patch |   50 +
+ meta/recipes-extended/bash/bash_4.3.30.bb          |    1 +
+ .../ghostscript/ghostscript/CVE-2016-10219.patch   |   49 +
+ .../ghostscript/ghostscript/CVE-2016-10220.patch   |   55 +
+ .../ghostscript/ghostscript/CVE-2017-5951.patch    |   44 +
+ .../ghostscript/ghostscript/CVE-2017-7207.patch    |   39 +
+ .../ghostscript/ghostscript_9.19.bb                |    4 +
+ meta/recipes-extended/logrotate/logrotate_3.9.1.bb |   17 +-
+ meta/recipes-extended/tar/tar/CVE-2016-6321.patch  |   66 ++
+ meta/recipes-extended/tar/tar_1.29.bb              |    1 +
+ ...code-native_2016i.bb => tzcode-native_2017a.bb} |   10 +-
+ .../tzdata/{tzdata_2016i.bb => tzdata_2017a.bb}    |    4 +-
+ meta/recipes-graphics/xorg-app/mkfontdir_1.0.7.bb  |    3 +
+ .../recipes-graphics/xorg-app/mkfontscale_1.1.2.bb |    2 +
+ .../xorg-font/xorg-font-common.inc                 |    1 +
+ meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb    |    6 +-
+ meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb    |    6 +-
+ meta/recipes-kernel/linux/linux-yocto-rt_4.8.bb    |    6 +-
+ meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb  |    6 +-
+ meta/recipes-kernel/linux/linux-yocto-tiny_4.4.bb  |    6 +-
+ meta/recipes-kernel/linux/linux-yocto-tiny_4.8.bb  |    6 +-
+ meta/recipes-kernel/linux/linux-yocto_4.1.bb       |   20 +-
+ meta/recipes-kernel/linux/linux-yocto_4.4.bb       |   20 +-
+ meta/recipes-kernel/linux/linux-yocto_4.8.bb       |   20 +-
+ meta/recipes-support/gmp/gmp_6.1.1.bb              |    1 +
+ scripts/contrib/python/generate-manifest-3.5.py    |    2 +-
+ scripts/lib/wic/filemap.py                         |    6 +-
+ scripts/lib/wic/plugins/source/rawcopy.py          |    2 +-
+ scripts/runqemu                                    |   57 +-
+ scripts/runqemu-export-rootfs                      |   21 +-
+ 56 files changed, 3385 insertions(+), 172 deletions(-)
+ create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2016-6170.patch
+ create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2016-8864.patch
+ create mode 100644 meta/recipes-core/busybox/busybox-1.24.1/ifupdown-pass-interface-device-name-for-ipv6-route-c.patch
+ create mode 100644 meta/recipes-core/busybox/busybox/0001-libiproute-handle-table-ids-larger-than-255.patch
+ create mode 100644 meta/recipes-core/busybox/busybox/BUG9071_buffer_overflow_arp.patch
+ create mode 100644 meta/recipes-core/busybox/busybox/CVE-2016-6301.patch
+ create mode 100644 meta/recipes-core/glibc/glibc/0028-Bug-20116-Fix-use-after-free-in-pthread_create.patch
+ create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2016-9318.patch
+ create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2017-6965.patch
+ create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2017-6966.patch
+ create mode 100644 meta/recipes-extended/bash/bash/CVE-2016-9401.patch
+ create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2016-10219.patch
+ create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2016-10220.patch
+ create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2017-5951.patch
+ create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2017-7207.patch
+ create mode 100644 meta/recipes-extended/tar/tar/CVE-2016-6321.patch
+ rename meta/recipes-extended/tzcode/{tzcode-native_2016i.bb => tzcode-native_2017a.bb} (67%)
+ rename meta/recipes-extended/tzdata/{tzdata_2016i.bb => tzdata_2017a.bb} (98%)
+
 -- 
-2.11.0
+2.5.0
 
 
