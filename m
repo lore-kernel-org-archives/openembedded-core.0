@@ -1,29 +1,26 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 3F07171C14
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 1110971CBF
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 May 2017 11:44:18 +0000 (UTC)
+	Mon, 15 May 2017 11:49:45 +0000 (UTC)
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	15 May 2017 04:44:19 -0700
+	by fmsmga105.fm.intel.com with ESMTP; 15 May 2017 04:49:47 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.38,344,1491289200"; d="scan'208";a="1147907670"
+X-IronPort-AV: E=Sophos;i="5.38,344,1491289200"; d="scan'208";a="1147909179"
 Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
 	([10.237.68.161])
-	by fmsmga001.fm.intel.com with ESMTP; 15 May 2017 04:44:18 -0700
-To: Yuqing Zhu <carol.zhu@nxp.com>
-References: <1494838358-28036-1-git-send-email-carol.zhu@nxp.com>
-	<CAHiDW_GksyO+YLMzejrL+9=tgw4wdAPrRjHf32h321fi=_F2ag@mail.gmail.com>
+	by fmsmga001.fm.intel.com with ESMTP; 15 May 2017 04:49:46 -0700
+To: openembedded-core@lists.openembedded.org,
+	"Ohly, Patrick" <patrick.ohly@intel.com>
+References: <9f9ebf2e1ba6eda48fb5e3f20d4ca5bbabe3dad4.1494837087.git-series.patrick.ohly@intel.com>
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <9678201e-569c-33dc-4844-8f249fa28780@linux.intel.com>
-Date: Mon, 15 May 2017 14:42:12 +0300
+Message-ID: <237a1d6e-7c01-2488-c6a2-e5d0c95aff53@linux.intel.com>
+Date: Mon, 15 May 2017 14:47:40 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
 	Thunderbird/45.8.0
 MIME-Version: 1.0
-In-Reply-To: <CAHiDW_GksyO+YLMzejrL+9=tgw4wdAPrRjHf32h321fi=_F2ag@mail.gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [poky][PATCH 0/6] Add patches for gstreamer1.0-plugins-bad V1.10.4
+In-Reply-To: <9f9ebf2e1ba6eda48fb5e3f20d4ca5bbabe3dad4.1494837087.git-series.patrick.ohly@intel.com>
+Subject: Re: [PATCH] manpages.bbclass: avoid QA warning when "manpages" feature not supported
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,21 +33,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 May 2017 11:44:19 -0000
+X-List-Received-Date: Mon, 15 May 2017 11:49:46 -0000
 Content-Type: text/plain; charset=windows-1252; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 05/15/2017 02:37 PM, Jussi Kukkonen wrote:
+On 05/15/2017 11:32 AM, Patrick Ohly wrote:
+> Activating API documentation with:
+>   INHERIT += "manpages"
+>   DISTRO_FEATURES_append = " api-documentation"
 
-> The patches could be considered for Pyro (not too fond of backported new
-> features though -- I don't think oe-core should normally do that).
+You do not need to add the first line at all, why are you doing it?
 
-Yes; you do need to explain why these are useful to oe-core users in 
-general.
-
-There's a ton of gstreamer bugfixes that can be backported in a similar 
-way, so why these and not the others?
-
+manpages is inherited on a per-recipe basis when the recipe itself 
+supports the manpages PACKAGECONFIG. This patch is unnecessary.
 
 Alex
+
 
