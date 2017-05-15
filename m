@@ -1,22 +1,26 @@
 Return-Path: <markus.lehtonen@linux.intel.com>
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 58D8371C14
+	by mail.openembedded.org (Postfix) with ESMTP id 2E26171C14
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 May 2017 11:18:46 +0000 (UTC)
+	Mon, 15 May 2017 11:18:47 +0000 (UTC)
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
 	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	15 May 2017 04:18:47 -0700
+	15 May 2017 04:18:49 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.38,344,1491289200"; d="scan'208";a="86877665"
+X-IronPort-AV: E=Sophos;i="5.38,344,1491289200"; d="scan'208";a="86877667"
 Received: from bkearns-mobl.ger.corp.intel.com (HELO
 	mqz-osx-suse64.fi.intel.com) ([10.252.10.90])
-	by orsmga002.jf.intel.com with ESMTP; 15 May 2017 04:18:46 -0700
+	by orsmga002.jf.intel.com with ESMTP; 15 May 2017 04:18:48 -0700
 From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 15 May 2017 14:18:40 +0300
-Message-Id: <cover.1494846894.git.markus.lehtonen@linux.intel.com>
+Date: Mon, 15 May 2017 14:18:41 +0300
+Message-Id: <ab059b5261963dde84033610955127c9407a3d62.1494846894.git.markus.lehtonen@linux.intel.com>
 X-Mailer: git-send-email 2.12.0
-Subject: [PATCH 0/5] Enhancements to build perf reporting
+In-Reply-To: <cover.1494846894.git.markus.lehtonen@linux.intel.com>
+References: <cover.1494846894.git.markus.lehtonen@linux.intel.com>
+In-Reply-To: <cover.1494846894.git.markus.lehtonen@linux.intel.com>
+References: <cover.1494846894.git.markus.lehtonen@linux.intel.com>
+Subject: [PATCH 1/5] oeqa.utils.git: use --verify in rev_parse()
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,34 +33,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 May 2017 11:18:47 -0000
+X-List-Received-Date: Mon, 15 May 2017 11:18:48 -0000
 
-This patchset contains a bug fix and two new features for the
-oe-build-perf-report script. There's also a patch to to the buildstats-diff
-script for analyzing the JSON-based buildstats from build performance test
-reports.
+We use rev-parse for turning git object names into SHA-1 and checking
+their existence. Using --verify option makes sure git-rev-parse does
+what we expect.
 
-The following changes since commit c59fa3bd71b42410bf032846ee8fdb6e6eb1b95c:
+Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+---
+ meta/lib/oeqa/utils/git.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-  python*-git: Upgrade to version 2.1.3 (2017-05-12 08:49:30 +0100)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib marquiz/fixes-11355
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=marquiz/fixes-11355
-
-Markus Lehtonen (5):
-  oeqa.utils.git: use --verify in rev_parse()
-  oe-build-perf-report: use correct x-axis max value in html charts
-  oe-build-perf-report: two verbosity levels for --list
-  oe-build-perf-report: implement --dump-buildstats
-  scripts/buildstats-diff: support optimized rusage values
-
- meta/lib/oeqa/utils/git.py   |  2 +-
- scripts/buildstats-diff      | 20 +++++++--
- scripts/oe-build-perf-report | 96 +++++++++++++++++++++++++++++++++++++-------
- 3 files changed, 99 insertions(+), 19 deletions(-)
-
+diff --git a/meta/lib/oeqa/utils/git.py b/meta/lib/oeqa/utils/git.py
+index e0cb3f0db2..757e3f0cbf 100644
+--- a/meta/lib/oeqa/utils/git.py
++++ b/meta/lib/oeqa/utils/git.py
+@@ -64,7 +64,7 @@ class GitRepo(object):
+     def rev_parse(self, revision):
+         """Do git rev-parse"""
+         try:
+-            return self.run_cmd(['rev-parse', revision])
++            return self.run_cmd(['rev-parse', '--verify', revision])
+         except GitError:
+             # Revision does not exist
+             return None
 -- 
 2.12.0
 
