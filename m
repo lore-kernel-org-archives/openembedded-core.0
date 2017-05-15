@@ -1,58 +1,52 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-io0-f178.google.com (mail-io0-f178.google.com
-	[209.85.223.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 6E4A671CA7
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qk0-f196.google.com (mail-qk0-f196.google.com
+	[209.85.220.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 88EAF71C84
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 May 2017 19:51:07 +0000 (UTC)
-Received: by mail-io0-f178.google.com with SMTP id f102so80464191ioi.2
+	Mon, 15 May 2017 20:26:27 +0000 (UTC)
+Received: by mail-qk0-f196.google.com with SMTP id k74so19421310qke.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 May 2017 12:51:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:organization:mime-version:content-transfer-encoding;
-	bh=5FIgoJu8yxEy3ljR0ch/kQ+V5ABRBQDKu97h65ENWr8=;
-	b=VR0vEVHWrFtAcu+g2y06CQZ74TmWpuC/3yalgC/qDwplhgXR/Rfrt5rTJ54djmBEPY
-	9LmdyHyOBViubYCMBhfJyb1cX47BfOS2nl1g7HABC6CjXhJERXveMJNV1UR+MyEvZynO
-	B6oHc9J3CrV4wa58tLJ5EEmsFnKxG5r3BEF16s7IOj+UR2WM3z1POsV7KKeysRB8BjmD
-	kd3bD6u7olFjaAiqTHNF/W8TO5HDJWNAZ6wuFJpJq0geBajwmxzVjp6kpVxadmPa/g7f
-	uOxWY2nzR2C7rD6CcAGoKwlm3f8c3ZoYwE1vVlp7uLAHDTn5Dc9xp8dENmyxaMSnKbyC
-	BrSg==
+	Mon, 15 May 2017 13:26:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=MiUqxmbEh8lndNlP4+1kXrP4Gf1tvf3D5RPyiW5ER/U=;
+	b=pIy+s+twQzuOzaQhg+82lVIXfE7mVAAeN+wfXzdeafeX8sOSWSSQn6sUzuhETl2xV2
+	efCi6F9BRGzwh8x9faxzpsLBmg8sBebLTtIjzJ66/srRLr8rWfd5x04mEMBXSnEIl+U0
+	ITKCmjNsg6T7Wgn4omOTz5ZXdu1QAH0qW9VxGxXrZpscS3754/4Zu0do90lzG4aQwrCP
+	BE//Hh7xjN+I2hqaZQEw1KLB2BulidpOckF5usualIkB5XLmz2Z3wP6AJIWP1jrxSoqk
+	PNY1tOLDP362+lLdW6Yn7715jX3fLPRhq9ac0+zFKJL9I1tOsywP6tLlCv2pg0IconJB
+	ktGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:organization:mime-version:content-transfer-encoding;
-	bh=5FIgoJu8yxEy3ljR0ch/kQ+V5ABRBQDKu97h65ENWr8=;
-	b=Jqdo/F2ocX450bLkaoiD3SHPXgVoUusCfgszzDU8gZkSWizFm3o2JeGGR4Inrhcmyc
-	OmPZsn+LHUFiUGKqILec0/OjkgJ/NLOhiDE2/Ty4dZOjb+iBb4cuizCj4AWTIoutsiGl
-	xI6xNj8eXXDn55l884AMA26J3uzYq2c1OMUwu+U59Lp58ypK//7/XaF7bghT1oe/I81Q
-	rfC8/J/rqdRuLJCQBUOj7Tse8T5ksBZBnGO5M1TdgR/HnUqBpJm4cAguMK8recKOI9RD
-	M+ZxEzonLr3IqBiQCg+UkSGhwKSGfpovy5mvrMSUaUXpE3UyCEUAt1sO4S9w5uGEJCZK
-	jl5A==
-X-Gm-Message-State: AODbwcBPBP8SzgCbiAYdAJgerAnwdkozoT/BgkYkc4Q9gzivthuBvw3I
-	wuaNj0Ru1xnAyCfR
-X-Received: by 10.107.20.206 with SMTP id 197mr6908272iou.226.1494877869471;
-	Mon, 15 May 2017 12:51:09 -0700 (PDT)
-Received: from pohly-mobl1 (p5DE8F79A.dip0.t-ipconnect.de. [93.232.247.154])
-	by smtp.gmail.com with ESMTPSA id
-	r189sm4999719ita.28.2017.05.15.12.51.07
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 15 May 2017 12:51:08 -0700 (PDT)
-Message-ID: <1494877866.1179.266.camel@intel.com>
-From: Patrick Ohly <patrick.ohly@intel.com>
-To: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 15 May 2017 21:51:06 +0200
-In-Reply-To: <CAMKF1srM6+insBEWhz2cZXMQyU-n+Qj5esoPx1GfEWB2We-y2g@mail.gmail.com>
-References: <1494607799-32105-1-git-send-email-anibal.limon@linux.intel.com>
-	<5247c79d-2131-0bff-8970-4c4bcef387a0@linux.intel.com>
-	<5919BDFD.5080308@linux.intel.com>
-	<CAMKF1srM6+insBEWhz2cZXMQyU-n+Qj5esoPx1GfEWB2We-y2g@mail.gmail.com>
-Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
-X-Mailer: Evolution 3.12.9-1+b1 
-Mime-Version: 1.0
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=MiUqxmbEh8lndNlP4+1kXrP4Gf1tvf3D5RPyiW5ER/U=;
+	b=WT/Znkif852zonj5DV7nWKFbNHJT1UHPm/shGCDkNbQFYeskLNFfZy31YSXJXDNGiA
+	PrV6fyPjn+NS4j3NCl8esPRP8FgpvUJvZA3kmZlD23sTxmyDYmaYV2v7kHzD4obOR2qt
+	fB7Wac6o8MKoKPl73S5D4h76/ukVrmiwqUvAgwD0aguKlnGzkLFkxHgSJJqqCOjhMulo
+	3CqNftwsO+2UVNdIfEZ3U3O6d5oCGaxll8sj6ZFaCuRD5qXvu8oa24eDNmcs5o4S2p87
+	VOuykRqG0cux3WNaf7b+tI8FlgS0qNScznLtZ4PJCJ3QEh6cGrotFbBR17II4rhBe7T6
+	87Lw==
+X-Gm-Message-State: AODbwcA4YmwN+rf4N6qDlysOCpzWBTFWYAxAiaXrqjUBuyDQ1J2odLeZ
+	g5owd4Y5Up/FhSgoRFYCElL1Z+M2ug==
+X-Received: by 10.80.178.228 with SMTP id p91mr6094473edd.131.1494879989108;
+	Mon, 15 May 2017 13:26:29 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.80.195.143 with HTTP; Mon, 15 May 2017 13:25:58 -0700 (PDT)
+In-Reply-To: <1494877678.1179.263.camel@intel.com>
+References: <cover.da0bfaf0b62cb1033573711fd83cf5251f8827f3.1494854721.git-series.patrick.ohly@intel.com>
+	<e03ca7d9d2d8b290fe306da077e0fc74a6916efd.1494854721.git-series.patrick.ohly@intel.com>
+	<CAMKF1spKnOnZfMoijNz5kQjE2=5OO3k4CUVK5d04id1B42JB2A@mail.gmail.com>
+	<1494875908.1179.254.camel@intel.com>
+	<CAMKF1srA7qkRJMtDgn6eNT8Fhs2dP6YUhJ3CMiNBFU+6ZdreZg@mail.gmail.com>
+	<1494877678.1179.263.camel@intel.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 15 May 2017 13:25:58 -0700
+Message-ID: <CAMKF1so9iLoMCs7Z0JtO9FEsg-bGpUUUrUH+FZP7YH+PHBs1qA@mail.gmail.com>
+To: Patrick Ohly <patrick.ohly@intel.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] qemu: Upgrade to 2.8.1.1
+Subject: Re: [RFC][PATCH 6/6] local.conf.sample: make debug-tweaks depend on IMAGE_MODE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -65,40 +59,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 May 2017 19:51:08 -0000
+X-List-Received-Date: Mon, 15 May 2017 20:26:30 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
 
-On Mon, 2017-05-15 at 08:47 -0700, Khem Raj wrote:
-> On Mon, May 15, 2017 at 7:41 AM, Aníbal Limón
-> <anibal.limon@linux.intel.com> wrote:
-> >> Upstream is already at 2.9, why this version?
-> >
-> > Patrick has a patches for enable TPM into QEMU 2.8.x line, but there
-> > apply into 2.9.x but the compile fails.
-> >
-> > I guess there's a need to work on those patches before 2.9.x upgrade.
-> >
-> 
-> its also easier to backport it to pyro since its fresh release. Eventually yes
-> 2.9 is going to come into master.
+On Mon, May 15, 2017 at 12:47 PM, Patrick Ohly <patrick.ohly@intel.com> wrote:
+> On Mon, 2017-05-15 at 12:34 -0700, Khem Raj wrote:
+>> On Mon, May 15, 2017 at 12:18 PM, Patrick Ohly <patrick.ohly@intel.com> wrote:
+>> > On Mon, 2017-05-15 at 08:50 -0700, Khem Raj wrote:
+>> >> On Mon, May 15, 2017 at 6:27 AM, Patrick Ohly <patrick.ohly@intel.com> wrote:
+>> >> > Enabling "debug-tweaks" unconditionally, even if it is only in the
+>> >> > local.conf.sample file, runs the risk of that getting used in
+>> >> > production images.
+>> >> >
+>> >> > By checking the per-image IMAGE_MODE, the debug tweaks only get
+>> >> > enabled for images not meant for production.
+>> >> >
+>> >> > Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
+>> >> > ---
+>> >> >  meta/conf/local.conf.sample | 5 +++--
+>> >> >  1 file changed, 3 insertions(+), 2 deletions(-)
+>> >> >
+>> >> > diff --git a/meta/conf/local.conf.sample b/meta/conf/local.conf.sample
+>> >> > index 85c5e21..edadbb7 100644
+>> >> > --- a/meta/conf/local.conf.sample
+>> >> > +++ b/meta/conf/local.conf.sample
+>> >> > @@ -114,8 +114,9 @@ PACKAGE_CLASSES ?= "package_ipk"
+>> >> >  #                     e.g. ssh root access has a blank password
+>> >> >  # There are other application targets that can be used here too, see
+>> >> >  # meta/classes/image.bbclass and meta/classes/core-image.bbclass for more details.
+>> >> > -# We default to enabling the debugging tweaks.
+>> >> > -EXTRA_IMAGE_FEATURES ?= "debug-tweaks"
+>> >> > +# We default to enabling the debugging tweaks unless an image is explicitly
+>> >> > +# requested to be built for production.
+>> >> > +EXTRA_IMAGE_FEATURES ?= "${@ '' if 'production' == d.getVar('IMAGE_MODE') else 'debug-tweaks'}"
+>> >>
+>> >> is IMAGE_MODE defined per image recipe ?
+>> >
+>> > Conceptually it is, although I guess it might get set globally in
+>> > practice.
+>> >
+>> > The class just defines the empty string (= no specific mode) as ??=
+>> > default. Then a distro's local.conf sample can define a weak ?= default,
+>> > probably "development" (similar to the current practice of enabling
+>> > debug-tweaks in local.conf.sample). Finally, specific image recipes
+>> > (like a core-image-minimal-development.bb which includes
+>> > core-image-minimal.bb) can force a fixed mode with
+>> > IMAGE_MODE_forcevariable = "development".
+>>
+>> People use same distro with two different images for production and
+>> devcelopment and conrols are inserted via IMAGE_FEATURES
+>> with this change once effectively needs two different distros for prod and dev
+>
+> Why that?
+>
+> The production image recipe "foobar-image-production.bb" can use
+> IMAGE_MODE_forcevariable = "production"
+> and the development image recipe "foobar-image-development.bb" can use
+> IMAGE_MODE_forcevariable = "development".
+>
+> Then whatever the user might configure in local.conf is ignored in favor
+> of the fixed recipe values. If there's a concern about using
+> _forcevariable: that could be addressed by configuring a global
+> IMAGE_MODE_DEFAULT ??= "" and an IMAGE_MODE ??= "${IMAGE_MODE_DEFAULT}"
+> in image-mode.bbclass and changing IMAGE_MODE_DEFAULT in distro or local
+> conf. Then individual recipes can set IMAGE_MODE =
+> "development/production" without having to fall back to _forcevariable.
+>
+> Or do you mean that there's just one image .bb and traditionally
+> IMAGE_FEATURES were changed to switch back and forth? The same works
+> with IMAGE_MODE. The advantage over enabling or disabling dangerous
+> IMAGE_FEATURES is that users of a distro don't need to know about them.
+> They get the guarantee that (for a responsible distro) the dangerous
+> once will not get enabled by default for IMAGE_MODE=development.
+>
 
-We are working on better patches for qemu master which make swtpm usable
-without being root. Those are under review on the qemu mailing list at
-the moment.
-
-The part of the code which gets touched by these patches hasn't changed
-much. It shouldn't be hard port either the current patches or the new
-ones, should that become necessary for 2.9.x.
-
--- 
-Best Regards, Patrick Ohly
-
-The content of this message is my personal opinion only and although
-I am an employee of Intel, the statements I make here in no way
-represent Intel's position on the issue, nor am I authorized to speak
-on behalf of Intel on this matter.
-
-
-
+IMAGE_MODE is a distro settings not image setting is that correct ?
 
