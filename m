@@ -1,29 +1,22 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id AF5B571CA7
+Return-Path: <markus.lehtonen@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 58D8371C14
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 May 2017 11:01:04 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	15 May 2017 04:01:06 -0700
+	Mon, 15 May 2017 11:18:46 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	15 May 2017 04:18:47 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.38,344,1491289200"; d="scan'208";a="1169327397"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by fmsmga002.fm.intel.com with ESMTP; 15 May 2017 04:01:05 -0700
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <cover.1494425038.git.alexander.kanavin@linux.intel.com>
-	<afd0b202d639dec70b5d9099736aa216f58e38c2.1494425038.git.alexander.kanavin@linux.intel.com>
-	<CAJTo0Lbk3v06x8wNbXdjrJePi6jT6wp-98XQdnR-of83BfSfrw@mail.gmail.com>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <116a3e24-c8e9-c4b2-0f08-aaac3758de98@linux.intel.com>
-Date: Mon, 15 May 2017 13:58:59 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.8.0
-MIME-Version: 1.0
-In-Reply-To: <CAJTo0Lbk3v06x8wNbXdjrJePi6jT6wp-98XQdnR-of83BfSfrw@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [RFC PATCH 05/10] bind: update to 9.10.5
+X-IronPort-AV: E=Sophos;i="5.38,344,1491289200"; d="scan'208";a="86877665"
+Received: from bkearns-mobl.ger.corp.intel.com (HELO
+	mqz-osx-suse64.fi.intel.com) ([10.252.10.90])
+	by orsmga002.jf.intel.com with ESMTP; 15 May 2017 04:18:46 -0700
+From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 15 May 2017 14:18:40 +0300
+Message-Id: <cover.1494846894.git.markus.lehtonen@linux.intel.com>
+X-Mailer: git-send-email 2.12.0
+Subject: [PATCH 0/5] Enhancements to build perf reporting
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,21 +29,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 May 2017 11:01:10 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 15 May 2017 11:18:47 -0000
 
-On 05/12/2017 06:43 PM, Burton, Ross wrote:
->     -LIC_FILES_CHKSUM =
->     "file://COPYRIGHT;md5=0a95f52a0ab6c5f52dedc9a45e7abb3f"
->     +LIC_FILES_CHKSUM =
->     "file://COPYRIGHT;md5=dba46507446198119bcde32a4feaab43"
->
->
-> No explanation for this change.
+This patchset contains a bug fix and two new features for the
+oe-build-perf-report script. There's also a patch to to the buildstats-diff
+script for analyzing the JSON-based buildstats from build performance test
+reports.
 
-Thanks, updated.
+The following changes since commit c59fa3bd71b42410bf032846ee8fdb6e6eb1b95c:
 
-Alex
+  python*-git: Upgrade to version 2.1.3 (2017-05-12 08:49:30 +0100)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib marquiz/fixes-11355
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=marquiz/fixes-11355
+
+Markus Lehtonen (5):
+  oeqa.utils.git: use --verify in rev_parse()
+  oe-build-perf-report: use correct x-axis max value in html charts
+  oe-build-perf-report: two verbosity levels for --list
+  oe-build-perf-report: implement --dump-buildstats
+  scripts/buildstats-diff: support optimized rusage values
+
+ meta/lib/oeqa/utils/git.py   |  2 +-
+ scripts/buildstats-diff      | 20 +++++++--
+ scripts/oe-build-perf-report | 96 +++++++++++++++++++++++++++++++++++++-------
+ 3 files changed, 99 insertions(+), 19 deletions(-)
+
+-- 
+2.12.0
 
 
