@@ -1,27 +1,26 @@
 Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 3EE2671E02
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 623C772F5F
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 15 May 2017 14:20:29 +0000 (UTC)
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	15 May 2017 07:20:31 -0700
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by fmsmga105.fm.intel.com with ESMTP; 15 May 2017 07:20:30 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.38,345,1491289200"; d="scan'208";a="100798363"
+X-IronPort-AV: E=Sophos;i="5.38,345,1491289200"; d="scan'208";a="261790822"
 Received: from linux.intel.com ([10.54.29.200])
-	by orsmga005.jf.intel.com with ESMTP; 15 May 2017 07:20:31 -0700
+	by fmsmga004.fm.intel.com with ESMTP; 15 May 2017 07:20:30 -0700
 Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
-	by linux.intel.com (Postfix) with ESMTP id 19BB56A4080
+	by linux.intel.com (Postfix) with ESMTP id F030B6A4080
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 May 2017 07:20:15 -0700 (PDT)
+	Mon, 15 May 2017 07:20:14 -0700 (PDT)
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 15 May 2017 16:57:37 +0300
-Message-Id: <61f0342f30e46160fd7f16095097d200a3482e09.1494856157.git.ed.bartosh@linux.intel.com>
+Date: Mon, 15 May 2017 16:57:36 +0300
+Message-Id: <323b2f9ad7b6e78adcd53465fc2bcbae7fba2f2d.1494856157.git.ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1494856157.git.ed.bartosh@linux.intel.com>
 References: <cover.1494856157.git.ed.bartosh@linux.intel.com>
-Subject: [PATCH 6/8] wic: add 'wic ls' command
+Subject: [PATCH 5/8] wic: add help and usage content for 'wic ls'
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,70 +35,92 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 15 May 2017 14:20:30 -0000
 
-Added empty 'wic ls' command that does nothing.
-The functionality will be added by the next commits.
+Added wic_ls_help and wic_ls_usage variables to
+help.py. These variables contain help content that
+will be used in 'wic ls help' and 'wic ls --help'
+output.
 
 Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 ---
- scripts/lib/wic/engine.py |  4 ++++
- scripts/wic               | 15 +++++++++++++++
- 2 files changed, 19 insertions(+)
+ scripts/lib/wic/help.py | 65 +++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 65 insertions(+)
 
-diff --git a/scripts/lib/wic/engine.py b/scripts/lib/wic/engine.py
-index 6473582..e58beb7 100644
---- a/scripts/lib/wic/engine.py
-+++ b/scripts/lib/wic/engine.py
-@@ -225,6 +225,10 @@ def wic_list(args, scripts_path):
+diff --git a/scripts/lib/wic/help.py b/scripts/lib/wic/help.py
+index f9f7268..bb3c749 100644
+--- a/scripts/lib/wic/help.py
++++ b/scripts/lib/wic/help.py
+@@ -284,6 +284,71 @@ DESCRIPTION
+     details.
+ """
  
-     return False
- 
-+def wic_ls(args, native_sysroot):
-+    """List contents of partitioned image or vfat partition."""
-+    pass
++wic_ls_usage = """
 +
- def find_canned(scripts_path, file_name):
-     """
-     Find a file either by its path or by name in the canned files dir.
-diff --git a/scripts/wic b/scripts/wic
-index 6c9a30d..4161f80 100755
---- a/scripts/wic
-+++ b/scripts/wic
-@@ -234,6 +234,14 @@ def wic_list_subcommand(args, usage_str):
-         raise WicError("Bad list arguments, exiting")
- 
- 
-+def wic_ls_subcommand(args, usage_str):
-+    """
-+    Command-line handling for list content of images.
-+    The real work is done by engine.wic_ls()
-+    """
-+    engine.wic_ls(args, args.native_sysroot)
++ List content of a partitioned image
++
++ usage: wic ls <image>[:<vfat partition>[<path>]] [--native-sysroot <path>]
++
++ This command  outputs either list of image partitions or directory contents
++ of vfat partitions.
++
++ See 'wic help ls' for more detailed instructions.
++
++"""
++
++wic_ls_help = """
++
++NAME
++    wic ls - List contents of partitioned image or vfat partitions
++
++SYNOPSIS
++    wic ls <image>
++    wic ls <image>:<vfat partition>
++    wic ls <image>:<vfat partition><path>
++    wic ls <image>:<vfat partition><path> --native-sysroot <path>
++
++DESCRIPTION
++    This command lists either partitions of the image or directory contents
++    of vfat partitions.
++
++    The first form it lists partitions of the image.
++    For example:
++        $ wic ls tmp/deploy/images/qemux86-64/core-image-minimal-qemux86-64.wic
++        Num     Start        End          Size      Fstype
++        1        1048576     24438783     23390208  fat16
++        2       25165824     50315263     25149440  ext4
++
++    Second and third form list directory content of vfat partition:
++        $ wic ls tmp/deploy/images/qemux86-64/core-image-minimal-qemux86-64.wic:1
++        Volume in drive : is boot
++         Volume Serial Number is 2DF2-5F02
++        Directory for ::/
++
++        efi          <DIR>     2017-05-11  10:54
++        startup  nsh        26 2017-05-11  10:54
++        vmlinuz        6922288 2017-05-11  10:54
++                3 files           6 922 314 bytes
++                                 15 818 752 bytes free
 +
 +
- def wic_help_subcommand(args, usage_str):
-     """
-     Command-line handling for help subcommand to keep the current
-@@ -266,6 +274,9 @@ helptopics = {
-     "create":    [wic_help_topic_subcommand,
-                   wic_help_topic_usage,
-                   hlp.wic_create_help],
-+    "ls":        [wic_help_topic_subcommand,
-+                  wic_help_topic_usage,
-+                  hlp.wic_ls_help],
-     "list":      [wic_help_topic_subcommand,
-                   wic_help_topic_usage,
-                   hlp.wic_list_help]
-@@ -359,6 +370,10 @@ subcommands = {
-                   hlp.wic_list_usage,
-                   hlp.wic_list_help,
-                   wic_init_parser_list],
-+    "ls":        [wic_ls_subcommand,
-+                  hlp.wic_ls_usage,
-+                  hlp.wic_ls_help,
-+                  wic_init_parser_ls],
-     "help":      [wic_help_subcommand,
-                   wic_help_topic_usage,
-                   hlp.wic_help_help,
++        $ wic ls tmp/deploy/images/qemux86-64/core-image-minimal-qemux86-64.wic:1/EFI/boot/
++        Volume in drive : is boot
++         Volume Serial Number is 2DF2-5F02
++        Directory for ::/EFI/boot
++
++        .            <DIR>     2017-05-11  10:54
++        ..           <DIR>     2017-05-11  10:54
++        grub     cfg       679 2017-05-11  10:54
++        bootx64  efi    571392 2017-05-11  10:54
++                4 files             572 071 bytes
++                                 15 818 752 bytes free
++
++    The -n option is used to specify the path to the native sysroot
++    containing the tools(parted and mtools) to use.
++
++"""
++
+ wic_plugins_help = """
+ 
+ NAME
 -- 
 2.1.4
 
