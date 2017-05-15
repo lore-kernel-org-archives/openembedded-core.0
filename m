@@ -1,38 +1,30 @@
-Return-Path: <Awais_Belal@mentor.com>
-Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id C798D71C14
+Return-Path: <huangqy.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
+	by mail.openembedded.org (Postfix) with ESMTP id 55CB16010B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 May 2017 09:01:24 +0000 (UTC)
-Received: from nat-ies.mentorg.com ([192.94.31.2]
-	helo=svr-ies-mbx-01.mgc.mentorg.com)
-	by relay1.mentorg.com with esmtp 
-	id 1dABsb-00030o-Qz from Awais_Belal@mentor.com ;
-	Mon, 15 May 2017 02:01:26 -0700
-Received: from SVR-IES-MBX-03.mgc.mentorg.com (139.181.222.3) by
-	svr-ies-mbx-01.mgc.mentorg.com (139.181.222.1) with Microsoft SMTP
-	Server (TLS) id 15.0.1210.3; Mon, 15 May 2017 10:01:22 +0100
-Received: from SVR-IES-MBX-03.mgc.mentorg.com ([fe80::1072:fb6e:87f1:ed17]) by
-	SVR-IES-MBX-03.mgc.mentorg.com ([fe80::1072:fb6e:87f1:ed17%22]) with
-	mapi id 15.00.1210.000; Mon, 15 May 2017 10:01:22 +0100
-From: "Belal, Awais" <Awais_Belal@mentor.com>
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH] autogen: fix autoopts script generation to
-	handle shebang
-Thread-Index: AQHSyyf1Z+lHkWIXCkGvAcE6jL5+q6Hwqu4AgARxwIk=
-Date: Mon, 15 May 2017 09:01:22 +0000
-Message-ID: <1494838882617.45509@mentor.com>
-References: <20170512135918.25150-1-awais_belal@mentor.com>,
-	<b3b3d45f-7209-2ba2-a299-5da723ea5008@linux.intel.com>
-In-Reply-To: <b3b3d45f-7209-2ba2-a299-5da723ea5008@linux.intel.com>
-Accept-Language: en-US, en-IE
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [137.202.0.87]
+	Mon, 15 May 2017 09:05:48 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.22,518,1449504000"; d="scan'208";a="18853532"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 15 May 2017 17:05:37 +0800
+Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
+	by cn.fujitsu.com (Postfix) with ESMTP id E537D47E64D0
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 15 May 2017 17:05:34 +0800 (CST)
+Received: from localhost.localdomain (10.167.226.81) by
+	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.319.2; Mon, 15 May 2017 17:05:41 +0800
+From: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 15 May 2017 17:05:16 +0800
+Message-ID: <1494839116-32279-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Subject: Re: [PATCH] autogen: fix autoopts script generation to handle shebang
+X-Originating-IP: [10.167.226.81]
+X-yoursite-MailScanner-ID: E537D47E64D0.A83D7
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: huangqy.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [PATCH v3] libnl: 3.2.29 -> 3.3.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,44 +37,158 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 May 2017 09:01:27 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 15 May 2017 09:05:50 -0000
+Content-Type: text/plain
 
-> Isn't this backwards? And why is PERL set twice in a row?=0A=
-=0A=
-Really did not get the first question. Regarding PERL being set twice, I am=
- just trying to manipulate it to the actual host binary, is there a better =
-way? 'which perl' or 'env perl' will only point to the symlink under HOSTTO=
-OLS.=0A=
-=0A=
-BR,=0A=
-Awais=0A=
-=0A=
-________________________________________=0A=
-From: openembedded-core-bounces@lists.openembedded.org <openembedded-core-b=
-ounces@lists.openembedded.org> on behalf of Alexander Kanavin <alexander.ka=
-navin@linux.intel.com>=0A=
-Sent: Friday, May 12, 2017 7:06 PM=0A=
-To: openembedded-core@lists.openembedded.org=0A=
-Subject: Re: [OE-core] [PATCH] autogen: fix autoopts script generation to h=
-andle shebang=0A=
-=0A=
-On 05/12/2017 04:59 PM, Awais Belal wrote:=0A=
-> +-        *perl ) echo '#!/usr/bin/env perl'=0A=
-> ++        *perl )  PERL=3D`which perl`=0A=
-> ++                 PERL=3D`readlink -f ${PERL}`=0A=
-> ++                 echo '#!' ${PERL}=0A=
-=0A=
-Isn't this backwards? And why is PERL set twice in a row?=0A=
-=0A=
-=0A=
-Alex=0A=
-=0A=
---=0A=
-_______________________________________________=0A=
-Openembedded-core mailing list=0A=
-Openembedded-core@lists.openembedded.org=0A=
-http://lists.openembedded.org/mailman/listinfo/openembedded-core=0A=
+1) Upgrade libnl from 3.2.29 to 3.3.0.
+2) Delete patch "fix-pktloc_syntax_h-race.patch", since it is  integrated upstream.
+3) Add patch "musl-header-conflict.patch" to fix musl compile error.
+
+Signed-off-by: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
+---
+ .../libnl/libnl/fix-pktloc_syntax_h-race.patch     | 36 -------------
+ .../libnl/libnl/musl-header-conflict.patch         | 59 ++++++++++++++++++++++
+ .../libnl/{libnl_3.2.29.bb => libnl_3.3.0.bb}      |  7 +--
+ 3 files changed, 63 insertions(+), 39 deletions(-)
+ delete mode 100644 meta/recipes-support/libnl/libnl/fix-pktloc_syntax_h-race.patch
+ create mode 100644 meta/recipes-support/libnl/libnl/musl-header-conflict.patch
+ rename meta/recipes-support/libnl/{libnl_3.2.29.bb => libnl_3.3.0.bb} (88%)
+
+diff --git a/meta/recipes-support/libnl/libnl/fix-pktloc_syntax_h-race.patch b/meta/recipes-support/libnl/libnl/fix-pktloc_syntax_h-race.patch
+deleted file mode 100644
+index 79aa0bd..0000000
+--- a/meta/recipes-support/libnl/libnl/fix-pktloc_syntax_h-race.patch
++++ /dev/null
+@@ -1,36 +0,0 @@
+-Upstream-Status: Inappropriate [configuration]
+-
+-libnl has progressed to 0.3.2 and there does not appear to be any
+-"make -j" issues with this build after my limited testing on that
+-newer version so we can assume this issue is fixed upstream
+-
+-Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
+-
+-Index: libnl-3.2.25/lib/Makefile.am
+-===================================================================
+---- libnl-3.2.25.orig/lib/Makefile.am
+-+++ libnl-3.2.25/lib/Makefile.am
+-@@ -46,9 +46,12 @@ CLEANFILES = \
+- 
+- # Hack to avoid using ylwrap. It does not function correctly in combination
+- # with --header-file=
+-+route/pktloc.lo: route/pktloc_syntax.h route/pktloc_grammar.h
+-+route/pktloc_grammar.h: route/pktloc_grammar.c
+- route/pktloc_grammar.c: route/pktloc_grammar.l
+- 	$(AM_V_GEN) $(MKDIR_P) route; $(FLEX) --header-file=route/pktloc_grammar.h $(LFLAGS) -o $@ $^
+- 
+-+route/pktloc_syntax.h: route/pktloc_syntax.c
+- route/pktloc_syntax.c: route/pktloc_syntax.y
+- 	$(AM_V_GEN) $(MKDIR_P) route; $(YACC) -d $(YFLAGS) -o $@ $^
+- 
+-@@ -102,7 +105,9 @@ BUILT_SOURCES = \
+- 	route/cls/ematch_grammar.c \
+- 	route/cls/ematch_syntax.c \
+- 	route/pktloc_grammar.c \
+--	route/pktloc_syntax.c
+-+   route/pktloc_syntax.c \
+-+   route/pktloc_syntax.h \
+-+   route/pktloc_grammar.h
+- 
+- EXTRA_DIST = \
+- 	route/pktloc_grammar.l \
+diff --git a/meta/recipes-support/libnl/libnl/musl-header-conflict.patch b/meta/recipes-support/libnl/libnl/musl-header-conflict.patch
+new file mode 100644
+index 0000000..5363685
+--- /dev/null
++++ b/meta/recipes-support/libnl/libnl/musl-header-conflict.patch
+@@ -0,0 +1,59 @@
++From fa1ecb21bd612c0f7c0bd380c15d058227451e4e Mon Sep 17 00:00:00 2001
++From: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
++Date: Tue, 16 May 2017 02:30:21 +0900
++Subject: [PATCH] Fix musl compile error like:
++
++In file included from ../libnl-3.3.0/include/linux-private/linux/ipv6.h:5:0,
++                 from ../libnl-3.3.0/include/netlink-private/netlink.h:54,
++                 from ../libnl-3.3.0/lib/nl.c:28:
++../libnl-3.3.0/include/linux-private/linux/in6.h:32:8: error:
++redefinition of 'struct in6_addr'
++ struct in6_addr {
++        ^~~~~~~~
++
++Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
++---
++ include/linux-private/linux/if_bridge.h | 1 -
++ include/linux-private/linux/ipv6.h      | 1 -
++ include/netlink-private/netlink.h       | 1 -
++ 3 files changed, 3 deletions(-)
++
++diff --git a/include/linux-private/linux/if_bridge.h b/include/linux-private/linux/if_bridge.h
++index f24050b..8f7490c 100644
++--- a/include/linux-private/linux/if_bridge.h
+++++ b/include/linux-private/linux/if_bridge.h
++@@ -15,7 +15,6 @@
++ 
++ #include <linux/types.h>
++ #include <linux/if_ether.h>
++-#include <linux/in6.h>
++ 
++ #define SYSFS_BRIDGE_ATTR	"bridge"
++ #define SYSFS_BRIDGE_FDB	"brforward"
++diff --git a/include/linux-private/linux/ipv6.h b/include/linux-private/linux/ipv6.h
++index e05e684..f16349d 100644
++--- a/include/linux-private/linux/ipv6.h
+++++ b/include/linux-private/linux/ipv6.h
++@@ -2,7 +2,6 @@
++ #define _IPV6_H
++ 
++ #include <asm/byteorder.h>
++-#include <linux/in6.h>
++ 
++ /* The latest drafts declared increase in minimal mtu up to 1280. */
++ 
++diff --git a/include/netlink-private/netlink.h b/include/netlink-private/netlink.h
++index dd07c10..25ee07f 100644
++--- a/include/netlink-private/netlink.h
+++++ b/include/netlink-private/netlink.h
++@@ -30,7 +30,6 @@
++ #include <limits.h>
++ #include <search.h>
++ 
++-#include <arpa/inet.h>
++ #include <netdb.h>
++ 
++ #include <defs.h>
++-- 
++2.7.4
++
+diff --git a/meta/recipes-support/libnl/libnl_3.2.29.bb b/meta/recipes-support/libnl/libnl_3.3.0.bb
+similarity index 88%
+rename from meta/recipes-support/libnl/libnl_3.2.29.bb
+rename to meta/recipes-support/libnl/libnl_3.3.0.bb
+index 7d4839b..9138aa8 100644
+--- a/meta/recipes-support/libnl/libnl_3.2.29.bb
++++ b/meta/recipes-support/libnl/libnl_3.3.0.bb
+@@ -10,13 +10,14 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
+ DEPENDS = "flex-native bison-native"
+ 
+ SRC_URI = "https://github.com/thom311/${BPN}/releases/download/${BPN}${@d.getVar('PV').replace('.','_')}/${BP}.tar.gz \
+-           file://fix-pktloc_syntax_h-race.patch \
+            file://fix-pc-file.patch \
+ "
+ UPSTREAM_CHECK_URI = "https://github.com/thom311/${BPN}/releases"
+ 
+-SRC_URI[md5sum] = "a8ba62a5c4f883f4e493a46d1f3733fe"
+-SRC_URI[sha256sum] = "0beb593dc6abfffa18a5c787b27884979c1b7e7f1fd468c801e3cc938a685922"
++SRC_URI_append_libc-musl = "file://musl-header-conflict.patch"
++
++SRC_URI[md5sum] = "ab3ef137cad95bdda5ff0ffa5175dfa5"
++SRC_URI[sha256sum] = "705468b5ae4cd1eb099d2d1c476d6a3abe519bc2810becf12fb1e32de1e074e4"
+ 
+ inherit autotools pkgconfig
+ 
+-- 
+2.7.4
+
+
+
 
