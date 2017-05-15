@@ -1,30 +1,26 @@
-Return-Path: <huangqy.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
-	by mail.openembedded.org (Postfix) with ESMTP id C42B26FFD3
+Return-Path: <petter@technux.se>
+X-Greylist: delayed 364 seconds by postgrey-1.34 at layers.openembedded.org;
+	Mon, 15 May 2017 04:23:27 UTC
+Received: from bin-vsp-out-02.atm.binero.net (vsp-unauthed02.binero.net
+	[195.74.38.227])
+	by mail.openembedded.org (Postfix) with ESMTP id AC68C6011B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 May 2017 03:21:01 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.22,518,1449504000"; d="scan'208";a="18839096"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 15 May 2017 11:20:52 +0800
-Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
-	by cn.fujitsu.com (Postfix) with ESMTP id 8B68A47E64CE
+	Mon, 15 May 2017 04:23:26 +0000 (UTC)
+X-Halon-ID: 61f4c48e-3925-11e7-b153-005056917f90
+Authorized-sender: petter@technux.se
+Received: from elxacs1nn72.localdomain (unknown [95.199.159.67])
+	by bin-vsp-out-02.atm.binero.net (Halon Mail Gateway) with ESMTPSA
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 May 2017 11:20:48 +0800 (CST)
-Received: from localhost.localdomain (10.167.226.81) by
-	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.319.2; Mon, 15 May 2017 11:20:54 +0800
-From: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 15 May 2017 11:20:27 +0800
-Message-ID: <1494818427-18931-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 2.7.4
+	Mon, 15 May 2017 06:17:17 +0200 (CEST)
+From: =?UTF-8?q?Petter=20Mab=C3=A4cker?= <petter@technux.se>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 15 May 2017 06:17:11 +0200
+Message-Id: <7c0aa8330757a50d9a69a4c23be83e4cc045566c.1494796923.git.petter@technux.se>
+X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1494796923.git.petter@technux.se>
+References: <cover.1494796923.git.petter@technux.se>
 MIME-Version: 1.0
-X-Originating-IP: [10.167.226.81]
-X-yoursite-MailScanner-ID: 8B68A47E64CE.A8F80
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: huangqy.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Subject: [PATCH] libnewt: 0.52.19 -> 0.52.20
+Subject: [PATCH v2 1/1] multilib.bbclass: fix faulty redefinition of STAGING_KERNEL_DIR
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,44 +33,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 May 2017 03:21:02 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 15 May 2017 04:23:28 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Upgrade libnewt from 0.52.19 to 0.52.20.
+Due to the problem fixed in
+'56c677a multilib: Move redefinition of STAGING_DIR_KERNEL'
+STAGING_KERNEL_DIR must be redefined for lib32 in multilib.bbclass.
+However this redefinition expanded STAGING_KERNEL_DIR to an absolute
+path. This unconsciously added the TMPDIR path in the sstate object,
+causing packages depended on STAGING_KERNEL_DIR being rebuild if the
+TMPDIR was changed.
 
-Signed-off-by: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
+Solve this by forcing the unexpanded TMPDIR variable to remain in the
+beginning of STAGING_DIR_KERNEL (as default). Since TMPDIR is included in
+BB_HASHBASE_WHITELIST, the sstate object will not be depended on the
+expanded path anymore.
+
+Signed-off-by: Petter Mabäcker <petter@technux.se>
 ---
- .../newt/{libnewt-python_0.52.19.bb => libnewt-python_0.52.20.bb}     | 0
- meta/recipes-extended/newt/{libnewt_0.52.19.bb => libnewt_0.52.20.bb} | 4 ++--
- 2 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-extended/newt/{libnewt-python_0.52.19.bb => libnewt-python_0.52.20.bb} (100%)
- rename meta/recipes-extended/newt/{libnewt_0.52.19.bb => libnewt_0.52.20.bb} (90%)
+ meta/classes/multilib.bbclass | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-extended/newt/libnewt-python_0.52.19.bb b/meta/recipes-extended/newt/libnewt-python_0.52.20.bb
-similarity index 100%
-rename from meta/recipes-extended/newt/libnewt-python_0.52.19.bb
-rename to meta/recipes-extended/newt/libnewt-python_0.52.20.bb
-diff --git a/meta/recipes-extended/newt/libnewt_0.52.19.bb b/meta/recipes-extended/newt/libnewt_0.52.20.bb
-similarity index 90%
-rename from meta/recipes-extended/newt/libnewt_0.52.19.bb
-rename to meta/recipes-extended/newt/libnewt_0.52.20.bb
-index de76ce2..65ce70c 100644
---- a/meta/recipes-extended/newt/libnewt_0.52.19.bb
-+++ b/meta/recipes-extended/newt/libnewt_0.52.20.bb
-@@ -25,8 +25,8 @@ SRC_URI = "https://releases.pagure.org/newt/newt-${PV}.tar.gz \
-            file://0001-detect-gold-as-GNU-linker-too.patch \
- "
+diff --git a/meta/classes/multilib.bbclass b/meta/classes/multilib.bbclass
+index ab04597..816f54e 100644
+--- a/meta/classes/multilib.bbclass
++++ b/meta/classes/multilib.bbclass
+@@ -4,7 +4,9 @@ python multilib_virtclass_handler () {
+     if cls != "multilib" or not variant:
+         return
  
--SRC_URI[md5sum] = "e4aa0f7943edd39c52481a87f68f412a"
--SRC_URI[sha256sum] = "08c0db56c21996af6a7cbab99491b774c6c09cef91cd9b03903c84634bff2e80"
-+SRC_URI[md5sum] = "70b288f821234593a8e7920e435b259b"
-+SRC_URI[sha256sum] = "8d66ba6beffc3f786d4ccfee9d2b43d93484680ef8db9397a4fb70b5adbb6dbc"
+-    e.data.setVar('STAGING_KERNEL_DIR', e.data.getVar('STAGING_KERNEL_DIR'))
++    localdata = bb.data.createCopy(e.data)
++    localdata.delVar('TMPDIR')
++    e.data.setVar('STAGING_KERNEL_DIR', localdata.getVar('STAGING_KERNEL_DIR'))
  
- S = "${WORKDIR}/newt-${PV}"
- 
+     # There should only be one kernel in multilib configs
+     # We also skip multilib setup for module packages.
 -- 
-2.7.4
-
-
+1.9.1
 
 
