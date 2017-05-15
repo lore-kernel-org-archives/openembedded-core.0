@@ -1,53 +1,24 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-io0-f170.google.com (mail-io0-f170.google.com
-	[209.85.223.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 7EEE872F28
+Return-Path: <jose.perez.carranza@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 2184F72F60
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 May 2017 13:27:26 +0000 (UTC)
-Received: by mail-io0-f170.google.com with SMTP id f102so72931439ioi.2
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 May 2017 06:27:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:in-reply-to:references;
-	bh=PYQqcbirqhtZ4VnkbeViom8nsJgpSpk649W5koOFDIU=;
-	b=tY0ZIOgSbhOJG16iGSu8cV6xea5aF3xKv94PJdSZsEzuCZP+J+7onxUQfZNEn42+TN
-	AOENXIAq2tBLw1SaeAv+Umchpq/iT1k7bMkm96EMTq490RXbhnpd7CgcHTMu3eaer0AL
-	lKTzNPYd+3jd72obu3jFpBZXP5CQdkc9XC7E1VSqDh8EJygNfpTfVaxoiVNJGVpeMmwS
-	JnA8PyBCwrUukNaGDVBgi6XwK+VpDr1q6NIrHgI8sOUcqo2moofUPLZ33QQgDiwFMyKI
-	IopAHw+qU6gLJk11JKD90Iln0IoxlyILnOjmjCQJEtDkqBP+SzizRXCx3lUpOVpMPetZ
-	Nz+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:in-reply-to:references;
-	bh=PYQqcbirqhtZ4VnkbeViom8nsJgpSpk649W5koOFDIU=;
-	b=QP5g4DdaLIC4FiZrdMA0+WNgGFUFc3gsPfj09vUAoWWVmlmTWo+5/4wVvDCAQeFumb
-	LGwF0TSQgq8xHGxm1BKJt0snz+C0uNsFdF/lQEZ62FSTzAkXNTbdrjQP3pV7PjZXnZmv
-	zN+bYhDvIHQZri5Ihf1ue3xol1pGhNwPhBn01QjGVYTEfSEjtJrrSmccjJ9yerD/ehpl
-	LvjKLbYn6geGdMtzd/gSYSIlof9cXGCGKRpIK6c3TqAdUv+/XABHeDwh3twBmRMESJyS
-	qzSqakgOtDvV6FRAobkKwhQnp5+vrwJ5tY8SRJZ6WiiCKrFV1Jqle5Gt8ssrlOG+Vp4u
-	I8mw==
-X-Gm-Message-State: AODbwcCn/s8fdvxUaEITs2xw871GruQgMYnTKw4/fualO1KGZmdhAVgz
-	h/RcqLq7jXoR8KnPb50=
-X-Received: by 10.107.11.137 with SMTP id 9mr5359861iol.86.1494854847359;
-	Mon, 15 May 2017 06:27:27 -0700 (PDT)
-Received: from pohly-desktop.fritz.box (p5DE8F79A.dip0.t-ipconnect.de.
-	[93.232.247.154])
-	by smtp.gmail.com with ESMTPSA id c7sm4537765itc.14.2017.05.15.06.27.25
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 15 May 2017 06:27:26 -0700 (PDT)
-From: Patrick Ohly <patrick.ohly@intel.com>
+	Mon, 15 May 2017 13:48:59 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	15 May 2017 06:49:00 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.38,345,1491289200"; d="scan'208";a="968555005"
+Received: from jgperezc-mobl1.zpn.intel.com ([10.219.4.33])
+	by orsmga003.jf.intel.com with ESMTP; 15 May 2017 06:49:00 -0700
+From: jose.perez.carranza@linux.intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 15 May 2017 15:27:03 +0200
-Message-Id: <e03ca7d9d2d8b290fe306da077e0fc74a6916efd.1494854721.git-series.patrick.ohly@intel.com>
+Date: Mon, 15 May 2017 08:50:23 -0500
+Message-Id: <20170515135023.4090-1-jose.perez.carranza@linux.intel.com>
 X-Mailer: git-send-email 2.11.0
-In-Reply-To: <cover.da0bfaf0b62cb1033573711fd83cf5251f8827f3.1494854721.git-series.patrick.ohly@intel.com>
-References: <cover.da0bfaf0b62cb1033573711fd83cf5251f8827f3.1494854721.git-series.patrick.ohly@intel.com>
-In-Reply-To: <cover.da0bfaf0b62cb1033573711fd83cf5251f8827f3.1494854721.git-series.patrick.ohly@intel.com>
-References: <cover.da0bfaf0b62cb1033573711fd83cf5251f8827f3.1494854721.git-series.patrick.ohly@intel.com>
-Subject: [RFC][PATCH 6/6] local.conf.sample: make debug-tweaks depend on IMAGE_MODE
+In-Reply-To: <a5c78ee6-8320-7508-18d1-16762bed364c@linux.intel.com>
+References: <a5c78ee6-8320-7508-18d1-16762bed364c@linux.intel.com>
+MIME-Version: 1.0
+Subject: [PATCH v3] runtime/dnf: Add new dnf test cases
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,36 +31,93 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 May 2017 13:27:26 -0000
+X-List-Received-Date: Mon, 15 May 2017 13:49:00 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Enabling "debug-tweaks" unconditionally, even if it is only in the
-local.conf.sample file, runs the risk of that getting used in
-production images.
+From: Jose Perez Carranza <jose.perez.carranza@linux.intel.com>
 
-By checking the per-image IMAGE_MODE, the debug tweaks only get
-enabled for images not meant for production.
+Add test cases to test “exclude” and “installroot“ options, also modify
+the logic of filtering packages on the feed to have all the packages
+needed by the tests.
 
-Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
+[YOCTO #10744]
+
+Signed-off-by: Jose Perez Carranza <jose.perez.carranza@linux.intel.com>
 ---
- meta/conf/local.conf.sample | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ meta/classes/testimage.bbclass     | 11 ++++++++---
+ meta/lib/oeqa/runtime/cases/dnf.py | 23 ++++++++++++++++++++++-
+ 2 files changed, 30 insertions(+), 4 deletions(-)
 
-diff --git a/meta/conf/local.conf.sample b/meta/conf/local.conf.sample
-index 85c5e21..edadbb7 100644
---- a/meta/conf/local.conf.sample
-+++ b/meta/conf/local.conf.sample
-@@ -114,8 +114,9 @@ PACKAGE_CLASSES ?= "package_ipk"
- #                     e.g. ssh root access has a blank password
- # There are other application targets that can be used here too, see
- # meta/classes/image.bbclass and meta/classes/core-image.bbclass for more details.
--# We default to enabling the debugging tweaks.
--EXTRA_IMAGE_FEATURES ?= "debug-tweaks"
-+# We default to enabling the debugging tweaks unless an image is explicitly
-+# requested to be built for production.
-+EXTRA_IMAGE_FEATURES ?= "${@ '' if 'production' == d.getVar('IMAGE_MODE') else 'debug-tweaks'}"
+diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.bbclass
+index fb214604a97..a0d07c9f003 100644
+--- a/meta/classes/testimage.bbclass
++++ b/meta/classes/testimage.bbclass
+@@ -329,6 +329,7 @@ def create_index(arg):
+     return None
  
- #
- # Additional image features
+ def create_rpm_index(d):
++    import glob
+     # Index RPMs
+     rpm_createrepo = bb.utils.which(os.getenv('PATH'), "createrepo_c")
+     index_cmds = []
+@@ -345,9 +346,13 @@ def create_rpm_index(d):
+         lf = bb.utils.lockfile(lockfilename, False)
+         oe.path.copyhardlinktree(rpm_dir, idx_path)
+         # Full indexes overload a 256MB image so reduce the number of rpms
+-        # in the feed. Filter to r* since we use the run-postinst packages and
+-        # this leaves some allarch and machine arch packages too.
+-        bb.utils.remove(idx_path + "*/[a-qs-z]*.rpm")
++        # in the feed by filtering to specific packages needed by the tests.
++        package_list = glob.glob(idx_path + "*/*.rpm")
++
++        for pkg in package_list:
++            if not os.path.basename(pkg).startswith(("rpm", "run-postinsts", "busybox", "bash", "update-alternatives", "libc6", "curl")):
++                bb.utils.remove(pkg)
++
+         bb.utils.unlockfile(lf)
+         cmd = '%s --update -q %s' % (rpm_createrepo, idx_path)
+ 
+diff --git a/meta/lib/oeqa/runtime/cases/dnf.py b/meta/lib/oeqa/runtime/cases/dnf.py
+index 2f87296b4e0..4f274d57f8d 100644
+--- a/meta/lib/oeqa/runtime/cases/dnf.py
++++ b/meta/lib/oeqa/runtime/cases/dnf.py
+@@ -74,7 +74,6 @@ class DnfRepoTest(DnfTest):
+     def test_dnf_makecache(self):
+         self.dnf_with_repo('makecache')
+ 
+-
+ # Does not work when repo is specified on the command line
+ #    @OETestDepends(['dnf.DnfRepoTest.test_dnf_makecache'])
+ #    def test_dnf_repolist(self):
+@@ -120,4 +119,26 @@ class DnfRepoTest(DnfTest):
+     def test_dnf_reinstall(self):
+         self.dnf_with_repo('reinstall -y run-postinsts-dev')
+ 
++    @OETestDepends(['dnf.DnfRepoTest.test_dnf_makecache'])
++    @OETestID(1771)
++    def test_dnf_installroot(self):
++        rootpath = '/home/root/chroot/test'
++        self.dnf_with_repo('install --installroot=%s --allowerasing -v -y busybox run-postinsts' % rootpath)
++        status, output = self.target.run('test -e %s/var/cache/dnf' % rootpath, 1500)
++        self.assertEqual(0, status, output)
++        status, output = self.target.run('test -e %s/bin/busybox' % rootpath, 1500)
++        self.assertEqual(0, status, output)
+ 
++    @OETestDepends(['dnf.DnfRepoTest.test_dnf_makecache'])
++    @OETestID(1772)
++    def test_dnf_exclude(self):
++        excludepkg = 'curl-dev'
++        if self.dnf('list curl %s' % excludepkg ,0):
++            self.dnf_with_repo('remove -y curl*')
++
++        self.dnf('list %s' % excludepkg, 1)
++        self.dnf_with_repo('install -y curl*')
++        self.dnf('list %s' % excludepkg, 0)
++        self.dnf_with_repo('remove -y curl*')
++        self.dnf_with_repo('install -y --exclude=%s curl*' % excludepkg)
++        self.dnf('list %s' % excludepkg, 1)
 -- 
-git-series 0.9.1
+2.11.0
+
 
