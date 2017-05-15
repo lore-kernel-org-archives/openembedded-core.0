@@ -1,48 +1,37 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qk0-f195.google.com (mail-qk0-f195.google.com
-	[209.85.220.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 385E172F60
+Return-Path: <denis@denix.org>
+Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.17])
+	by mail.openembedded.org (Postfix) with ESMTP id 004F171DC9
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 May 2017 15:59:05 +0000 (UTC)
-Received: by mail-qk0-f195.google.com with SMTP id k74so17980417qke.2
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 May 2017 08:59:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=nPVHj+GVyx3OJaX36KxPMkxhzpD7KY7TeDweumJ62ZM=;
-	b=MAm0cTIznuc7EllUt/rpFkn/eJluRKcM1kNj4kfatdlTVM7BYPYv2vAuCyK0SONchy
-	qo4zF+oPh0iRdoirsGj8aKpFXMaskQznWXNe2WfGSidmJCZb5SRRROaLwxRSrdYgae8X
-	Vnj8VAU7iYuQ+vQnKHnJL8au6fIUO7Hs/LpA3yqK4mml7MNrXk4xXO59239dQ7BxMPa6
-	4U7JesUhPoaVI8gXzDS4JXfQP6/CaBH8i5uoub4tbbhUb3vd7CHT7AvzaI3ZGGkEyH5J
-	KJSn/SAL6/oa7nEDVEDwrN1HOxT8JfPTFGPHT+4TMjM/d0OP+1lI3NdupKB4ayofxOpd
-	iHWA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=nPVHj+GVyx3OJaX36KxPMkxhzpD7KY7TeDweumJ62ZM=;
-	b=st0YmPbbXLGbSkhMjBbUehfBYtivXTdVvIhwUpvR0vMibeNi3eauVk27FE44ithhIQ
-	R/roKiYEwusgM9gh93iqNQp4aMAFTwhjcexZdSkMOKZOCaVx9X1VBEgIavTIVrr6E/ZL
-	lc+yLPqCmr/u+VHQpYxla2krFA9z7IKEluomO6nHTaOBxJ4fn9KUPeLB97f0eaceMg3g
-	rIr6z+GxOvgadXSA/WY2Ov4B0Dw2SXikoAUfFBwzxJiQMNzK9kIOAFCn6YRiiezaMCSV
-	lgeMtgaXhL3CuFTnqmQJ8+jbRQrEyzUv8quZp2xSGo2/ZAeqJ1tH7Bti/NYwwiFCzIgc
-	4qCw==
-X-Gm-Message-State: AODbwcAXRIqBr+G62tmPAZ05RDH1Vnh7Q0JR2y13efGXxlWbp1irip+J
-	3jcZ03cMr92NR4KqDrp73Wrb013/aQ==
-X-Received: by 10.80.182.35 with SMTP id b32mr5511207ede.123.1494863947039;
-	Mon, 15 May 2017 08:59:07 -0700 (PDT)
+	Mon, 15 May 2017 17:33:50 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by mailout4.zoneedit.com (Postfix) with ESMTP id E026120B7A;
+	Mon, 15 May 2017 17:33:51 +0000 (UTC)
+Received: from mailout4.zoneedit.com ([127.0.0.1])
+	by localhost (zmo03-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
+	port 10024)
+	with ESMTP id Kqbm6wrz61vy; Mon, 15 May 2017 17:33:51 +0000 (UTC)
+Received: from mail.denix.org (pool-100-15-85-143.washdc.fios.verizon.net
+	[100.15.85.143])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 7124820756;
+	Mon, 15 May 2017 17:33:49 +0000 (UTC)
+Received: by mail.denix.org (Postfix, from userid 1000)
+	id EDDAC1624C3; Mon, 15 May 2017 13:33:48 -0400 (EDT)
+Date: Mon, 15 May 2017 13:33:48 -0400
+From: Denys Dmytriyenko <denis@denix.org>
+To: "C.R. Guo" <chunrong.guo@nxp.com>
+Message-ID: <20170515173348.GK28053@denix.org>
+References: <1494406033-28833-1-git-send-email-B40290@freescale.com>
+	<1494406033-28833-3-git-send-email-B40290@freescale.com>
+	<20170512151226.GF28053@denix.org>
+	<DB5PR0401MB1848C8D63FF1C4CDB7AB366184E10@DB5PR0401MB1848.eurprd04.prod.outlook.com>
 MIME-Version: 1.0
-Received: by 10.80.195.143 with HTTP; Mon, 15 May 2017 08:58:36 -0700 (PDT)
-In-Reply-To: <CAHiDW_FuoagmNjK=XV3OeaYSq+AAR6NvcZ9RnKFabN0=DUFHGQ@mail.gmail.com>
-References: <1494839116-32279-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
-	<CAHiDW_FuoagmNjK=XV3OeaYSq+AAR6NvcZ9RnKFabN0=DUFHGQ@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 15 May 2017 08:58:36 -0700
-Message-ID: <CAMKF1spBOuOq0yvQ2v4GaKXX4b7mi+o+B26YaHPaK0jtP4kwXw@mail.gmail.com>
-To: Jussi Kukkonen <jussi.kukkonen@intel.com>
-Cc: Patches and discussions about the oe-core layer
+In-Reply-To: <DB5PR0401MB1848C8D63FF1C4CDB7AB366184E10@DB5PR0401MB1848.eurprd04.prod.outlook.com>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Cc: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v3] libnl: 3.2.29 -> 3.3.0
+Subject: Re: [PATCH 3/3] kernel-fitimage: fix KERNEL_DEVICETREE includes subdirectory issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,192 +44,94 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 May 2017 15:59:06 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 15 May 2017 17:33:52 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Mon, May 15, 2017 at 3:49 AM, Jussi Kukkonen
-<jussi.kukkonen@intel.com> wrote:
->
->
-> On 15 May 2017 at 12:05, Huang Qiyu <huangqy.fnst@cn.fujitsu.com> wrote:
->>
->> 1) Upgrade libnl from 3.2.29 to 3.3.0.
->> 2) Delete patch "fix-pktloc_syntax_h-race.patch", since it is  integrated
->> upstream.
->> 3) Add patch "musl-header-conflict.patch" to fix musl compile error.
->>
->> Signed-off-by: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
->> ---
->>  .../libnl/libnl/fix-pktloc_syntax_h-race.patch     | 36 -------------
->>  .../libnl/libnl/musl-header-conflict.patch         | 59
->> ++++++++++++++++++++++
->>  .../libnl/{libnl_3.2.29.bb => libnl_3.3.0.bb}      |  7 +--
->>  3 files changed, 63 insertions(+), 39 deletions(-)
->>  delete mode 100644
->> meta/recipes-support/libnl/libnl/fix-pktloc_syntax_h-race.patch
->>  create mode 100644
->> meta/recipes-support/libnl/libnl/musl-header-conflict.patch
->>  rename meta/recipes-support/libnl/{libnl_3.2.29.bb => libnl_3.3.0.bb}
->> (88%)
->>
->> diff --git
->> a/meta/recipes-support/libnl/libnl/fix-pktloc_syntax_h-race.patch
->> b/meta/recipes-support/libnl/libnl/fix-pktloc_syntax_h-race.patch
->> deleted file mode 100644
->> index 79aa0bd..0000000
->> --- a/meta/recipes-support/libnl/libnl/fix-pktloc_syntax_h-race.patch
->> +++ /dev/null
->> @@ -1,36 +0,0 @@
->> -Upstream-Status: Inappropriate [configuration]
->> -
->> -libnl has progressed to 0.3.2 and there does not appear to be any
->> -"make -j" issues with this build after my limited testing on that
->> -newer version so we can assume this issue is fixed upstream
->> -
->> -Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
->> -
->> -Index: libnl-3.2.25/lib/Makefile.am
->> -===================================================================
->> ---- libnl-3.2.25.orig/lib/Makefile.am
->> -+++ libnl-3.2.25/lib/Makefile.am
->> -@@ -46,9 +46,12 @@ CLEANFILES = \
->> -
->> - # Hack to avoid using ylwrap. It does not function correctly in
->> combination
->> - # with --header-file=
->> -+route/pktloc.lo: route/pktloc_syntax.h route/pktloc_grammar.h
->> -+route/pktloc_grammar.h: route/pktloc_grammar.c
->> - route/pktloc_grammar.c: route/pktloc_grammar.l
->> -       $(AM_V_GEN) $(MKDIR_P) route; $(FLEX)
->> --header-file=route/pktloc_grammar.h $(LFLAGS) -o $@ $^
->> -
->> -+route/pktloc_syntax.h: route/pktloc_syntax.c
->> - route/pktloc_syntax.c: route/pktloc_syntax.y
->> -       $(AM_V_GEN) $(MKDIR_P) route; $(YACC) -d $(YFLAGS) -o $@ $^
->> -
->> -@@ -102,7 +105,9 @@ BUILT_SOURCES = \
->> -       route/cls/ematch_grammar.c \
->> -       route/cls/ematch_syntax.c \
->> -       route/pktloc_grammar.c \
->> --      route/pktloc_syntax.c
->> -+   route/pktloc_syntax.c \
->> -+   route/pktloc_syntax.h \
->> -+   route/pktloc_grammar.h
->> -
->> - EXTRA_DIST = \
->> -       route/pktloc_grammar.l \
->> diff --git a/meta/recipes-support/libnl/libnl/musl-header-conflict.patch
->> b/meta/recipes-support/libnl/libnl/musl-header-conflict.patch
->> new file mode 100644
->> index 0000000..5363685
->> --- /dev/null
->> +++ b/meta/recipes-support/libnl/libnl/musl-header-conflict.patch
->> @@ -0,0 +1,59 @@
->> +From fa1ecb21bd612c0f7c0bd380c15d058227451e4e Mon Sep 17 00:00:00 2001
->> +From: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
->> +Date: Tue, 16 May 2017 02:30:21 +0900
->> +Subject: [PATCH] Fix musl compile error like:
->> +
->> +In file included from
->> ../libnl-3.3.0/include/linux-private/linux/ipv6.h:5:0,
->> +                 from
->> ../libnl-3.3.0/include/netlink-private/netlink.h:54,
->> +                 from ../libnl-3.3.0/lib/nl.c:28:
->> +../libnl-3.3.0/include/linux-private/linux/in6.h:32:8: error:
->> +redefinition of 'struct in6_addr'
->> + struct in6_addr {
->> +        ^~~~~~~~
->> +
->> +Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
->> +---
->> + include/linux-private/linux/if_bridge.h | 1 -
->> + include/linux-private/linux/ipv6.h      | 1 -
->> + include/netlink-private/netlink.h       | 1 -
->> + 3 files changed, 3 deletions(-)
->> +
->> +diff --git a/include/linux-private/linux/if_bridge.h
->> b/include/linux-private/linux/if_bridge.h
->> +index f24050b..8f7490c 100644
->> +--- a/include/linux-private/linux/if_bridge.h
->> ++++ b/include/linux-private/linux/if_bridge.h
->> +@@ -15,7 +15,6 @@
->> +
->> + #include <linux/types.h>
->> + #include <linux/if_ether.h>
->> +-#include <linux/in6.h>
->> +
->> + #define SYSFS_BRIDGE_ATTR     "bridge"
->> + #define SYSFS_BRIDGE_FDB      "brforward"
->> +diff --git a/include/linux-private/linux/ipv6.h
->> b/include/linux-private/linux/ipv6.h
->> +index e05e684..f16349d 100644
->> +--- a/include/linux-private/linux/ipv6.h
->> ++++ b/include/linux-private/linux/ipv6.h
->> +@@ -2,7 +2,6 @@
->> + #define _IPV6_H
->> +
->> + #include <asm/byteorder.h>
->> +-#include <linux/in6.h>
->> +
->> + /* The latest drafts declared increase in minimal mtu up to 1280. */
->> +
->> +diff --git a/include/netlink-private/netlink.h
->> b/include/netlink-private/netlink.h
->> +index dd07c10..25ee07f 100644
->> +--- a/include/netlink-private/netlink.h
->> ++++ b/include/netlink-private/netlink.h
->> +@@ -30,7 +30,6 @@
->> + #include <limits.h>
->> + #include <search.h>
->> +
->> +-#include <arpa/inet.h>
->> + #include <netdb.h>
->> +
->> + #include <defs.h>
->> +--
->> +2.7.4
->> +
->> diff --git a/meta/recipes-support/libnl/libnl_3.2.29.bb
->> b/meta/recipes-support/libnl/libnl_3.3.0.bb
->> similarity index 88%
->> rename from meta/recipes-support/libnl/libnl_3.2.29.bb
->> rename to meta/recipes-support/libnl/libnl_3.3.0.bb
->> index 7d4839b..9138aa8 100644
->> --- a/meta/recipes-support/libnl/libnl_3.2.29.bb
->> +++ b/meta/recipes-support/libnl/libnl_3.3.0.bb
->> @@ -10,13 +10,14 @@ LIC_FILES_CHKSUM =
->> "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
->>  DEPENDS = "flex-native bison-native"
->>
->>  SRC_URI =
->> "https://github.com/thom311/${BPN}/releases/download/${BPN}${@d.getVar('PV').replace('.','_')}/${BP}.tar.gz
->> \
->> -           file://fix-pktloc_syntax_h-race.patch \
->>             file://fix-pc-file.patch \
->>  "
->>  UPSTREAM_CHECK_URI = "https://github.com/thom311/${BPN}/releases"
->>
->> -SRC_URI[md5sum] = "a8ba62a5c4f883f4e493a46d1f3733fe"
->> -SRC_URI[sha256sum] =
->> "0beb593dc6abfffa18a5c787b27884979c1b7e7f1fd468c801e3cc938a685922"
->> +SRC_URI_append_libc-musl = "file://musl-header-conflict.patch"
->
->
-> Does the patched version not build with glibc or why is this only patched
-> for musl?
+On Mon, May 15, 2017 at 03:09:32AM +0000, C.R. Guo wrote:
+> Hello Denys ,
+> 
+> 
+> for example:
+> KERNEL_DEVICETREE ?= "freescale/fsl-ls1046a-rdb.dtb"
 
-this should be generic
+^^^^^^^^^^^^^^^^^^^^
 
->
-> Also patch seems to be missing Upstream-Status.
->
-> Jussi
->
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
+
+> ${DTB}= "freescale/fsl-ls1046a-rdb.dtb"
+
+^^^^^^^^^^^^^^^^^^^^
+
+
+> DTB=`basename ${DTB}`
+> 
+> ${DTB}= "fsl-ls1046a-rdb.dtb"
+> 
+> if use  DTB_PATH="arch/${ARCH}/boot/dts/${DTB}"
+> 
+> 
+> DTB_PATH = ="arch/${ARCH}/boot/dts/fsl-ls1046a-rdb.dtb"
+> 
+> but  dtb files real path is  arch/${ARCH}/boot/dts/freescale/fsl-ls1046a-rdb.dtb"
+
+The original DTB and KERNEL_DEVICETREE above still have the correct path, 
+don't they?
+
+-- 
+Denys
+
+
+> -----Original Message-----
+> From: Denys Dmytriyenko [mailto:denis@denix.org] 
+> Sent: Friday, May 12, 2017 11:12 PM
+> To: Chunrong Guo
+> Cc: openembedded-core@lists.openembedded.org; C.R. Guo
+> Subject: Re: [OE-core] [PATCH 3/3] kernel-fitimage: fix KERNEL_DEVICETREE includes subdirectory issue
+> 
+> On Wed, May 10, 2017 at 04:47:13PM +0800, Chunrong Guo wrote:
+> > From: Chunrong Guo <chunrong.guo@nxp.com>
+> > 
+> >     * For example:
+> >       KERNEL_DEVICETREE ?= "freescale/fsl-ls1046a-rdb.dtb"
+> > 
+> >       ${DTB}= "freescale/fsl-ls1046a-rdb.dtb"
+> > 
+> >       but only fsl-ls1046a-rdb.dtb  should be used in fit-image.its
+> > 
+> > Signed-off-by: Chunrong Guo <B40290@freescale.com>
+> > ---
+> >  meta/classes/kernel-fitimage.bbclass | 5 ++++-
+> >  1 file changed, 4 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/meta/classes/kernel-fitimage.bbclass 
+> > b/meta/classes/kernel-fitimage.bbclass
+> > index 9fa836f..3171d10 100644
+> > --- a/meta/classes/kernel-fitimage.bbclass
+> > +++ b/meta/classes/kernel-fitimage.bbclass
+> > @@ -346,7 +346,10 @@ fitimage_assemble() {
+> >  				bbwarn "${DTB} contains the full path to the the dts file, but only the dtb name should be used."
+> >  				DTB=`basename ${DTB} | sed 's,\.dts$,.dtb,g'`
+> >  			fi
+> > -			DTB_PATH="arch/${ARCH}/boot/dts/${DTB}"
+> > +                          
+> > +			DTB=`basename ${DTB}`
+> > +                        DTB_PATH=`find arch/${ARCH}/boot -name 
+> > +"${DTB}"`
+> 
+> Any way to not use "find" here? Shouldn't KERNEL_DEVICETREE and DTB_PATH already give you the full path?
+> 
+> 
+> > + 
+> >  			if [ ! -e "${DTB_PATH}" ]; then
+> >  				DTB_PATH="arch/${ARCH}/boot/${DTB}"
+> >  			fi
+> > -- 
+> > 1.8.3.2
+> > 
+> > -- 
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> 
 
