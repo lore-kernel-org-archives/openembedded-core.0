@@ -1,21 +1,21 @@
 Return-Path: <carol.zhu@nxp.com>
-X-Greylist: delayed 923 seconds by postgrey-1.34 at layers.openembedded.org;
-	Mon, 15 May 2017 09:09:25 UTC
-Received: from NAM03-BY2-obe.outbound.protection.outlook.com
-	(mail-by2nam03on0049.outbound.protection.outlook.com [104.47.42.49])
-	by mail.openembedded.org (Postfix) with ESMTP id EB50471DDA
+X-Greylist: delayed 925 seconds by postgrey-1.34 at layers.openembedded.org;
+	Mon, 15 May 2017 09:09:34 UTC
+Received: from NAM03-DM3-obe.outbound.protection.outlook.com
+	(mail-dm3nam03on0067.outbound.protection.outlook.com [104.47.41.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 15FFB71E52
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 May 2017 09:09:25 +0000 (UTC)
-Received: from BN3PR03CA0115.namprd03.prod.outlook.com (10.174.66.33) by
-	BN3PR0301MB0897.namprd03.prod.outlook.com (10.160.156.14) with
-	Microsoft SMTP Server (version=TLS1_2,
+	Mon, 15 May 2017 09:09:34 +0000 (UTC)
+Received: from DM5PR03CA0033.namprd03.prod.outlook.com (10.174.189.150) by
+	MWHPR03MB2799.namprd03.prod.outlook.com (10.168.208.17) with Microsoft
+	SMTP Server (version=TLS1_2,
 	cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
-	15.1.1084.16; Mon, 15 May 2017 08:54:14 +0000
-Received: from BN1BFFO11FD021.protection.gbl (2a01:111:f400:7c10::1:148) by
-	BN3PR03CA0115.outlook.office365.com (2603:10b6:400:4::33) with
-	Microsoft SMTP Server (version=TLS1_2,
+	15.1.1084.16; Mon, 15 May 2017 08:54:05 +0000
+Received: from BN1BFFO11FD040.protection.gbl (2a01:111:f400:7c10::1:122) by
+	DM5PR03CA0033.outlook.office365.com (2603:10b6:4:3b::22) with Microsoft
+	SMTP Server (version=TLS1_2,
 	cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
-	15.1.1084.16 via Frontend Transport; Mon, 15 May 2017 08:54:14 +0000
+	15.1.1084.16 via Frontend Transport; Mon, 15 May 2017 08:54:04 +0000
 Authentication-Results: spf=fail (sender IP is 192.88.168.50)
 	smtp.mailfrom=nxp.com; nxp.com; dkim=none (message not signed)
 	header.d=none;nxp.com; dmarc=fail action=none header.from=nxp.com;
@@ -24,108 +24,109 @@ Received-SPF: Fail (protection.outlook.com: domain of nxp.com does not
 	receiver=protection.outlook.com; 
 	client-ip=192.88.168.50; helo=tx30smr01.am.freescale.net;
 Received: from tx30smr01.am.freescale.net (192.88.168.50) by
-	BN1BFFO11FD021.mail.protection.outlook.com (10.58.144.84) with
-	Microsoft SMTP Server (version=TLS1_0,
-	cipher=TLS_RSA_WITH_AES_256_CBC_SHA) id 15.1.1075.5
-	via Frontend Transport; Mon, 15 May 2017 08:54:14 +0000
+	BN1BFFO11FD040.mail.protection.outlook.com (10.58.144.103) with
+	Microsoft
+	SMTP Server (version=TLS1_0, cipher=TLS_RSA_WITH_AES_256_CBC_SHA) id
+	15.1.1075.5 via Frontend Transport; Mon, 15 May 2017 08:54:04 +0000
 Received: from carol-OptiPlex-3020.ap.freescale.net
 	(carol-OptiPlex-3020.ap.freescale.net [10.192.241.17])
 	by tx30smr01.am.freescale.net (8.14.3/8.14.0) with ESMTP id
-	v4F8s0Gw005326; Mon, 15 May 2017 01:54:12 -0700
+	v4F8s0Gr005326; Mon, 15 May 2017 01:54:03 -0700
 From: Yuqing Zhu <carol.zhu@nxp.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 15 May 2017 16:52:38 +0800
-Message-ID: <1494838358-28036-7-git-send-email-carol.zhu@nxp.com>
+Date: Mon, 15 May 2017 16:52:33 +0800
+Message-ID: <1494838358-28036-2-git-send-email-carol.zhu@nxp.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1494838358-28036-1-git-send-email-carol.zhu@nxp.com>
 References: <1494838358-28036-1-git-send-email-carol.zhu@nxp.com>
 X-EOPAttributedMessage: 0
-X-Matching-Connectors: 131393120545192503;
+X-Matching-Connectors: 131393120451548113;
 	(91ab9b29-cfa4-454e-5278-08d120cd25b8); ()
 X-Forefront-Antispam-Report: CIP:192.88.168.50; IPV:NLI; CTRY:US; EFV:NLI;
 	SFV:NSPM;
-	SFS:(10009020)(6009001)(336005)(39410400002)(39400400002)(39850400002)(39840400002)(39450400003)(39380400002)(39860400002)(2980300002)(1110001)(1109001)(339900001)(199003)(189002)(9170700003)(8656002)(81166006)(8676002)(2950100002)(6916009)(6666003)(189998001)(5660300001)(53936002)(36756003)(6306002)(50466002)(230783001)(2906002)(498600001)(48376002)(77096006)(356003)(105606002)(106466001)(104016004)(5003940100001)(4326008)(85426001)(575784001)(33646002)(86362001)(2351001)(305945005)(110136004)(47776003)(76176999)(50986999)(8936002)(50226002)(38730400002);
-	DIR:OUT; SFP:1101; SCL:1; SRVR:BN3PR0301MB0897;
-	H:tx30smr01.am.freescale.net; FPR:; SPF:Fail; MLV:ovrnspm; A:1;
-	MX:1; PTR:InfoDomainNonexistent; LANG:en; 
-X-Microsoft-Exchange-Diagnostics: 1; BN1BFFO11FD021;
-	1:hT2XTWi+rNyu3a2A4FtKtSHywpZ0OEhRAEc0llGXJJGgRTgBnonAoy47tnJso7lpobV3wAO0V57IqKYEcvj61TPUj9JB6KIQWn/qZtuXXmslv/onsCT7wRNYONF/SW+r45ikTdit9Pdoz78IejF7b0cV9Bzs3s9BfRrS5Hb5ZgLvUEt+w8oG1MTA7POE77ChPcnVl/UBkyzJOMv6nqYb6U5ZPt35Qp3+gFZbKD4+5JlhEIIbHckd8yJleUGdQQLJwVo1vESO4mQ3PGFqhWqFWGDXqBABbzZi6u93ZXbc4UlJKI2G2fsZoG73xjrcSn7EZGPzhUFcrIdImnu2CHDGrNKS0cj7h/p9XIuiuo/3gPocewmPjuilAYYCQvwLupG+Z1c5o5mrQZZYKaQdhSMjSQ7qJ1C4yMDAhDHS477yq44au9wuIdWxkystxKOLzt4rJkjPH75bV1lBinbTad2T/L0t6FPKzOv5iRopa03tUeyQqBC3w853rsvx/agXjS+6AY8kUbBS0JVeNqCG+E3xzBlpuMcpmUrZziCWLBGiXD18J6Lf1vSiY8kWzXAfkiANewlHxqMSif979321M5rW5R8MEZbDBwKxB/ZLq9VaGRp9PEbU4wyTaJADyjkhgWdjIHIJ5l0BAbYxXNGrLA7VvDZWLph9eU8KFRd0rjZXTiYyLzMeRPvyGtovYhMfDMrcZRfVduMZwIgl+PycERPnF0R2eCY+QgLBkdvc1e0XL7k=
+	SFS:(10009020)(6009001)(336005)(39400400002)(39380400002)(39410400002)(39850400002)(39840400002)(39860400002)(39450400003)(2980300002)(1109001)(1110001)(339900001)(199003)(189002)(9170700003)(189998001)(6306002)(50226002)(8936002)(48376002)(5660300001)(50466002)(230783001)(6666003)(6916009)(76176999)(50986999)(2950100002)(305945005)(5003940100001)(53936002)(110136004)(77096006)(38730400002)(33646002)(2906002)(36756003)(85426001)(498600001)(356003)(105606002)(47776003)(2351001)(106466001)(4326008)(575784001)(86362001)(8676002)(8656002)(81166006)(104016004)(129583001)(146423001)(17423001)(121003001)(156123004);
+	DIR:OUT; SFP:1101; SCL:1; SRVR:MWHPR03MB2799;
+	H:tx30smr01.am.freescale.net; FPR:; SPF:Fail; MLV:ovr; A:1; MX:1;
+	PTR:InfoDomainNonexistent; LANG:en; 
+X-Microsoft-Exchange-Diagnostics: 1; BN1BFFO11FD040;
+	1:Nsl55d1RKimNDOyPogxTCdZOQSEkAUB04knS3BSRKprksMfoLrJTpPddmAZgs2DbFgZ19wQJQVszvWYkMFVvPP5PvvySj53tjv/CoYYTPitZVCf5LA/rP8+BrM2qR6cOPtQ5+yYQtMcUFipnWg1LbcwksTjeOo3m7jRVXyEbX3dFQ0VZp8W5zZbzw58M5IKc5SdTqkjgvZxCPAK1PGKdSQfeFpuTLSJZ5v2OwbHoVZGiDxDNu1/f9GOPQlb3RVuRfUybIEv3gI2eaiU4vfrJ+QS8vH7a4wEo47UtqEs/uMhpGTO702fjKV7xQJ0kcO7BZnkACedKd52jB14v2H6P9F/67dZCzzDvkLNWDhbQpLw+otVEcAX2wsCmz/r37prYeupQ/TSo7hnOxXmT5qCwfXffTI5LqgiYfQaiznT3NF+XfvnADLAxEwm4vs1KUeEVtWasmX/zRBMZShbfjt3Efj8AAfAwa2nFFkQt1m/Nfj7Vp73yHR3Xpt3RVPtOSnD2qWSnXMzwtDL/G6BlgBrWAfojcyMOad2b+Bo7d9i88QKlHz79asIk/FbjRCYC2je2bGBXlX2aJN1LyGMA7KxrsNtlS0fhPcpg04c70VdhJ/NCZqTvpwx28bf1nn5GvEBG6qaM+vUQh3o9qaHyMO8/dVh/Ih+U8JbAi+tyoIHFkwUVlcv4J6KGk7CXxAAT8YXTQoQv635JGFInpWvSGtaipD1G1w+MO2GxKwvU8tz9uqQ=
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 00482f3f-7204-4e84-58d7-08d49b6ff67b
+X-MS-Office365-Filtering-Correlation-Id: e7dde4dd-3749-4c23-d3d1-08d49b6ff0e8
 X-Microsoft-Antispam: UriScan:; BCL:0; PCL:0;
 	RULEID:(22001)(201703131430075)(201703131517081);
-	SRVR:BN3PR0301MB0897; 
-X-Microsoft-Exchange-Diagnostics: 1; BN3PR0301MB0897;
-	3:qWU1faSlYWBTzBI67/4OpeBnQfS/dMGD4gio6jvLJOeG4R9XwuhnRL3DsqMZf8q9atVw/0osXv2p3pAJ/bWJQC8Agna4z98mcNlY7A6Ycqnuf6Qx9J1Km2TPjsQDGCgHn3sbAc0ZyQDyf7PLlUh2dhjJ+9YyvQEf6vTh+7WVGzgMoxabd+tzeQIH1cy5Wqh4dSNVjZyLIEqvZ57f5O8/I9ywb+LRlxf1cUnjfBWblZEUC0sPjYsG5XPAFEio3VcIddOpcqjtAOagPr496w/0e1waP+tIv1T23WmGNwbHu/Sx+Pi3dLoq5/9ySDCvgb5N+z/V/zne/x0nO36ldbhh3PePovQ+/mAcxZbAHKVkW2nK0bkeecwYiQfXJZNLxg4KAguPjLxGCy7lw22hkegRW8PtIT2WckPJageVNrBeeUb9CW+FL2CKa6W5K8k7z6hK;
-	25:Z7VFTd1b4QOq16BdDGFQwtPWP4PlGD7Xrf6h0xk/fH+PfIHS3qau9ih47LbGWh8oEM3tTxJZJ1shbhrxOpQUijbmldmNOmwvne9hhtc2qAEqHlVND8zuZiaDAvfIwWLSPZVbuWCFqDrQ3Beegmo+AsH/5OlgOOqOM0te19uT5M5OBDuXTy1HZZyUI3y+tOqF3d2kxCyigNKM7YaD6WZ08uI7xm8Fj+5SMcvSc0jPzLz0rCvuvcrz5Kv17zPjgARnalHQwPZk0ZqtpZFcauBfLoh6iHEMGPjBXfnMpI4UMDydTssE8eSI+RdMj0FKnUkfoWT5OKsqP2q6i2X+HXhjCjgxuMhz67eESq58jejSNFoqRFyMOziZp0egUziax3N1WKJRQJuN07C/dzievbHcrvoXM33XUvtxjszUMSJmreNFIOdxH3TA3PAC0zF9jRrYkIiRnA+hIk6horL5JyPK0g==
-X-Microsoft-Exchange-Diagnostics: 1; BN3PR0301MB0897;
-	31:CanP1caEuM9PE9FQiwimPGphBKjy07kFcu+ClleB3FoafGX5a3sULtvDfv3BS3RSkbugCQ4SWovsTd+1w7QbU2UHmWmK9KNKvQgNrTzMXfOyt9DR2YtWS1DOp4KiokJQRW1ErT36mCiDtQA+5ysJQMtu1Ik+HKKIkyIgFGbfYLVooxMavSPND2Qoqo0ujgfaMVvspcxfdmWbDaM/W/QTqkDENCHdy9Omg9NcJqi9QejcJOU0GzS4SAxQBffDk+tE
-X-Microsoft-Antispam-PRVS: <BN3PR0301MB089742704F9B8036E5E2FADBE9E10@BN3PR0301MB0897.namprd03.prod.outlook.com>
+	SRVR:MWHPR03MB2799; 
+X-Microsoft-Exchange-Diagnostics: 1; MWHPR03MB2799;
+	3:EbCb/wfrWZqY3Nklivt2oEb+wLmy0CsMuH8xa/WiXPWCtjZKUyBWNvsd7oI/88h3a0hxGdR//OCjLFz2ObGdd5Xfpaq4UgxQIv/qcLt+WvDjX1g5oUfC+ppO79aw0VV7FBtZOd7IE+KP7Wkuqy+izkIRcMWDaxlVSjoGex/6qZTQLaKfmqLVEG4rSrxOZUTExZXt1i9HTPmkHs/Jo5VTI9nKN/K3MxFgBIbpWh9BsF8HtoymBAjiYlJ2Lt8nqDsZI63LfX1JolNVRftCNIF4y7/V5BFgqS+GOcsOq2nJtiFnv4WhTOFk4O1vNFzDCpFh+JdNFWoqu5Zs6otLLF6Ax2rv55PVMwAraLFdD6Z8FO/WY48Gc5rAoTwY4tO3RwQOFw/e2eA5AluqrPUrBnixI2diO+t/mNWYhzNBIWv3SK7D6Scw7GfojNV+9ZHf/Wi3;
+	25:pTCB91+NgUa7KmVKWSPvFnhGm5gkGyVsx4Bvh8BDe2h63CKwbIObH1EvbDeLKq+sVf6fn4DTMPM9s7Nb1vr7jui8yXBm8d7ERhKRKDVYhY0+Z16jv5zzTuJa9EA3NxLV0DGogZ76KpNyO/If4zgYPzsGq5Me/YlRoxLGu/TTihyTX1Gfx1tEFzILbsS3T2ckZeq/LcIkxIWVcKcpZQrdgwJcCUDv4Gu/DyJKgwHg+TEzMclDRUT8XvObMMQgdzVFNjyr3+xsN9IgEzRpAVxa/un9egUXWPa6KEE4gSOoY2R8gANWYIzo1PfNWb54zW7Jf5ql2r3a7jnaomjw7QSCYZvUHojUMy6sBFKC7j0k+eZjG2o2ILDRu1LWA4XhJAj9KErTc+GNgwMwYE9yzsfBeYCIyEyd5eEEM+N0UVBh4pykQ7Bb04TWHkvOAgpzCpaENdzdjUC45Ff6dy3FLorwfw==
+X-Microsoft-Exchange-Diagnostics: 1; MWHPR03MB2799;
+	31:IfY6AG6ID0V712QsWtbyxauCLLNfLiCpub90kdRzkmPwk7IAgEB+lpsypvFTkkGS7nAd4TYgbJHRMCEAscV1QJBMIdAufqdbZM6DoPXQN7x5jdcbbQiIerjS+1nAE2AAx/W3ru6BOytNYD2WiceZ8hRckCsm4vXD3ETKCd0GVMlWY/6+xuer5b1+9vDl5bCykh86FQeCeN1PJhFBTqjahWhcrUEJE2RUKX9PxOn+xyPsSnUBCJf1Ju3U7hd59TPph+DOo4T7YIu2mGuZ0yaoiA==
+X-Microsoft-Antispam-PRVS: <MWHPR03MB2799D0BBCD5A8747E9FF2622E9E10@MWHPR03MB2799.namprd03.prod.outlook.com>
 X-Exchange-Antispam-Report-Test: UriScan:(185117386973197);
 X-Exchange-Antispam-Report-CFA-Test: BCL:0; PCL:0;
-	RULEID:(6095135)(601004)(2401047)(8121501046)(5005006)(13017025)(13015025)(13023025)(13018025)(13024025)(10201501046)(93006095)(93001095)(3002001)(6055026)(6096035)(20161123563025)(20161123559100)(20161123556025)(201703131430075)(201703131448075)(201703131433075)(201703161259150)(201703151042153)(20161123561025)(20161123565025);
-	SRVR:BN3PR0301MB0897; BCL:0; PCL:0; RULEID:(400006);
-	SRVR:BN3PR0301MB0897; 
-X-Microsoft-Exchange-Diagnostics: =?us-ascii?Q?1; BN3PR0301MB0897;
-	4:JcXaDhMtm6QkeeaPJGgNjG5dpNgNt5TAuzkXYIUG?=
-	=?us-ascii?Q?PXuDEK70ZvG019twGbNlVKZIWteDKcv5Y6/dK2MTe6OWCNdJA/ghkY+ULFux?=
-	=?us-ascii?Q?SeZjaFH2Zq1Wwi4e0aCPz470jBHZny8pUsf5lGsAkVWqF9OsclgaXwaV6hzh?=
-	=?us-ascii?Q?YgvlrPWwkHxKH6Nv8/kr+AKXz2Dx5FtGGAqS3FUzg5HXm+uVKQfdcodOl0T4?=
-	=?us-ascii?Q?ADtY/yuRsuGPdnEigGp2hhfwRZL7edSuKCerzQlmxZKr/3cS8OgbD+DfVIcx?=
-	=?us-ascii?Q?iYS25fm33P2sgf46XWDcjG764OZowSn52QaFQMz+pAYCkvCAcn7jHjgR4Tvd?=
-	=?us-ascii?Q?7lS6rl/0CWk2r2ElflZuNvZwWzzMvAf6UfC/teAjOxyA4fsdYnjWMIqwhKgK?=
-	=?us-ascii?Q?bR49XOmNXUQjzi5+CVPAPQFO5A8BKta8mOUgCQbc3cWye8lvQH3vME9pBpDg?=
-	=?us-ascii?Q?kG6nqftzddTmRUHxSlGdtDSFTWUAdHF30+mZT49+vyR6WtXknRZlXu00/UJ1?=
-	=?us-ascii?Q?KOPwTBuq6ThBLgcQeHhCSHj6rU4QbD8qIJHQFhIrCgIWZtsp539aKEaRrdu5?=
-	=?us-ascii?Q?8ivr+hjD1b2JVh/wfb05QeytILJENS1kTbeSRl/967vDNh0Z8/oZTF6gK8as?=
-	=?us-ascii?Q?/WOCM2glITIr/86757nMo2+hZETnL2vtbkiEJ0zAahaMwquT+8P+DMJ39cuQ?=
-	=?us-ascii?Q?nXO/ohcJ1qpk6sEk5VeogCKccXWYmMGMpqhxSbDACD0Qyf5gAa2QmK6RL1w1?=
-	=?us-ascii?Q?7YWjM3XgOno48dK2XtLfi3jcpbWFz7DrQaODyww5mpR8zORbJSkhS1/+47P6?=
-	=?us-ascii?Q?x5cp0wGerf0WAHE6ufBBVcY4EEeG4myyuyHj41+rXpRRPVixhIQa/+3crwsM?=
-	=?us-ascii?Q?iNqx9t3rkDQQfrq8+icG2svvDRFxtYMSuPTSXE+ZWaWOOY21Yq5vvb3wFPMd?=
-	=?us-ascii?Q?88/3jvkzRHuSVkCNH/TTY+8CNvPubpvN1rzMKyzy8w=3D=3D?=
+	RULEID:(6095135)(601004)(2401047)(13023025)(13018025)(8121501046)(5005006)(13024025)(13015025)(13017025)(93006095)(93001095)(3002001)(10201501046)(6055026)(6096035)(20161123565025)(20161123561025)(20161123563025)(20161123559100)(20161123556025)(201703131430075)(201703131448075)(201703131433075)(201703161259150)(201703151042153);
+	SRVR:MWHPR03MB2799; BCL:0; PCL:0; RULEID:(400006);
+	SRVR:MWHPR03MB2799; 
+X-Microsoft-Exchange-Diagnostics: =?us-ascii?Q?1; MWHPR03MB2799;
+	4:0v6578K77dl1+tb4nP/L7VkcxjjGShD6qd/MpZ5noy?=
+	=?us-ascii?Q?Es5DOh8PqOCL+nW+OyA0we2iaU3oPjQ/N2nPIEmdsnAleygTAGJQEzwlGnlz?=
+	=?us-ascii?Q?HF0vCa8CUU58eEwrdyySWq0lw2R92uoakzdQNpSnQGdoNd68XFyPv5DiF5dH?=
+	=?us-ascii?Q?horPswNnakwiGuPZbqhlg5BQ23e3Zds+8koQ9hn4Uh6kqoAKLRviOaq9pUuk?=
+	=?us-ascii?Q?FIjNbNtUWCs/S00WfxVJWnM4M+Qlg7+HHedyOYoJMntz5OMtkGYa8NR4BpVV?=
+	=?us-ascii?Q?ShZ7+hZXd8r+BnlS1cLRZbff3iFETavoJwvkPICxJerYJ8cgeTrDeeifjL2q?=
+	=?us-ascii?Q?PooikkPtB2R+z7fkaRymkD3iCWDda9slnm9dlI230SDrEzmInyLvKEK5Su/h?=
+	=?us-ascii?Q?xY/UzidEJNRR821ewDVUiFSdrWlDAvJdHjaSbPacfjJij/grc3NxZ5GUfzQf?=
+	=?us-ascii?Q?dXJtabYzfU5W/lk2aJXhnRescodAB9HUGeFUjy8XaG5fXdJhyPzh3DbySUYA?=
+	=?us-ascii?Q?cAZ6KF91f2lV8UN8XyyFToT2w0tdP3m6UP2NT7Pe/QfHtNupiiGM0dFfeEv2?=
+	=?us-ascii?Q?NeI11y1tBhl4wh7l3LVXzBx6H6BW83mvU6LYrrbK7TsmDrs8la74VPVdz4gh?=
+	=?us-ascii?Q?mSv2zJnK0ooRJIKMbDi1EGhYosn+3ZK3p8MnSAY8xBCGzCay/rfQTZvO/lM5?=
+	=?us-ascii?Q?nt3AnIkjhdUFWXws6k2sBr2indaceWk4yUbrPBmDTENxxTX8vXu0jwH7uJ3N?=
+	=?us-ascii?Q?3vWqxD3fmvQSAGrFo9o7FOYogutDs2YweirFW5rUgKFlRknzeTUb/BRCUR1u?=
+	=?us-ascii?Q?afYsXHanuxRU4CvqvZlb3GO+QhIGWma0KJCNlfDg17HlbmNx+uTFTZlrzl/A?=
+	=?us-ascii?Q?sq4q7GFpYd+G929OuLpDlNfak5E6UlfZ1ZYjlt7VJpFzLSrzSGYFzBseEPOk?=
+	=?us-ascii?Q?Etj1jyvhM9g9+mjFx/KIr5Gn3IsI5VB0uhRHupSw=3D=3D?=
 X-Forefront-PRVS: 0308EE423E
-X-Microsoft-Exchange-Diagnostics: =?us-ascii?Q?1; BN3PR0301MB0897;
-	23:KyoezMyC08d/ekEcUSdTFP5ho3Q7+52ZdXe+uup?=
-	=?us-ascii?Q?Gh9BtRhYCrJDjQ35khkUo0N1i+blfZVUXEXJAsum1QTEn5Lj27rEPeBmtJmx?=
-	=?us-ascii?Q?QzKfjTYnhdSixAsgEW+zI9IpvIfuY8jW6Wk5uU8N0qxEnZJvfPnGG90Kr/C2?=
-	=?us-ascii?Q?JF+ON5rPp2UNlT3Mi4hUWrx7G6xKKExcPLPxcOk3gFcdj8IthCJvM2gvKfun?=
-	=?us-ascii?Q?EGiEILxAd2wjoJnYfzcYc9+eXRAY3d9FMSJvNFjSkSTzb49tKWp8lDFnRMFT?=
-	=?us-ascii?Q?8usTEYEyYtjiSMWopirVZstjlVxoEXCt1G7WIjLcVr7rAXo9Ch0SLoVpSWc7?=
-	=?us-ascii?Q?y+T8vqKbyS7+Zq6bFZNvovh3YmHbgGNY/DUKgi9f9uLXMJn99YZPCNUCaXEV?=
-	=?us-ascii?Q?pagkQB2nymdVumBDNc5ClYvhZolWkAErxc1xfrTHbHrd3xah8TIp7rPD9LPX?=
-	=?us-ascii?Q?w2qtF4nhfA6Bqdo0OaA5KH/uC23KDAZglxudl+cEifJ6M0sOjPrkiuSIW8bj?=
-	=?us-ascii?Q?8MZOekvNXfkWBsEHDqqOFKsh8gbnWF3vIN1HtfDL4FMO0EHJQLVQHBYgLjiy?=
-	=?us-ascii?Q?kCEO7qd8mhQfExtk/GYWg+9fvAGNMxDgKGvBSJZf0bCksiZrUqWlGdWVSTo4?=
-	=?us-ascii?Q?bRcmWFxjtXLI6uAp4+1GjF3mK8cDRI23skFBxRpbgXqA10uVXcixqd0xvh2V?=
-	=?us-ascii?Q?wD63bzXPxxr557j/uc65R6tiNZelVeyQsfLSWI6UfDAvWJTsDSvplIi70H+F?=
-	=?us-ascii?Q?zp9BuBOeNFq6OEgoNxEr8v0h9qX6Zt97ShIIIZhE7Xtk6aqWpoS1gdd5RF07?=
-	=?us-ascii?Q?BNk0gUmg1XYsinpMNDOqlNoofmN6rj8EN5PMRcrz/O3Xmy0jGIWBoS4kv/b1?=
-	=?us-ascii?Q?LzJmJJ+Z+xFPJjrXxZr/hvM39jN/TUWxluNpOhSFBJuKWycxJh+vn9k/gsLG?=
-	=?us-ascii?Q?abEBgtSpWjhTROuykAt7ghtdcK8xuLwtdeFziE2ZZFme5XsOUIVN0b5LzyQz?=
-	=?us-ascii?Q?03iy902KBzvl3PX0FBN6otsRAkK+HoBwwCmmbFe539FQfyYHJ5Y241tIb/XE?=
-	=?us-ascii?Q?3NkGvWwyWDEkrGli/Lj+t8h9gtf44Lidv59zUrhvDSpVvPvl950MI6Q0DuUg?=
-	=?us-ascii?Q?Xs9C7adMxQy3633mucCON2QjKjCadVQTeClcL4AJVWRUy7mFHSfIzG0dRgjv?=
-	=?us-ascii?Q?IlqeM2EgDbHKdGIG7djps061EFE8HAxOq6Bf8gx3j3+aLnHiGvVeiOGuq7gi?=
-	=?us-ascii?Q?5U9iHv2PnEvOqXQ7IiNk89FU2itSFbtPTZ0rRyaMp3boVt0jmMwqRr+LD/oD?=
-	=?us-ascii?Q?gig=3D=3D?=
-X-Microsoft-Exchange-Diagnostics: 1; BN3PR0301MB0897;
-	6:AtoyE0VHJ0FpStH7PjoWSXg71jSyikztEAYcv7vM9zzsmAAVc8GKvoH6bbl7U6D5322pr6iLmX/vA1OOmCg1NL2z6FCywZA/mxsLV6ekhWWmfsfb4uFiHShrpIMxmeKAeur8ZLZBT281CjrcdDAj8XaeYx+0+7pOdPL+M8rRjxWqBO4JFwrW5Ur6a8P/DY2NThA6BcXJcr7zI4RVDDzr3v59NuvnrMplllheGLachr1dpVRq+rg3OCFHAPgZoEfBSg1f/ouu0M2O+F28i9nQigVJAHZy3bOxR2bJHPitKeLqFV7WmXJJXE3DqzA5JLfdSBnKalhMIQoy4CjlkTjFwHXLRNowK5ee3Ay6DD3U1i1ex1Hq9URd2tW1LK+9TD7wCQ1nQwq7vCXr4Uu6Ay/UZNIXmtLN6nQHWu/qk9bcf+mIuWWabaoiJAmugd4eCl7OApX5GkvoHnJ7xZr/y++JmFw3Nx1t74WYxNuvAKukkku2UQJIs7Ai+tARr5bhelGvlKyjQX8748AW5Fh5lOE+Kw==;
-	5:PdkrKaEcHzRRybwHoNA1rK1fUmUgT5ZNFctlE1Y6H8mycTH3AA9+RoXnlhSRx0qvT6qume/6AMSQKWdNwL2M08dgZ1EWMLNR4FvA3drPICyLsKkemU89JLup2W1RJFi8BiqgphZQ0NOQYESOpPuyzLR9QJ4b29UDWnhpvDaSHh0nPtU+s85KOpJRxEV6aLQH;
-	24:dugpuz4D3luPTFYW+QkM6aELBKhtsp+gR/9a2zH4YvkUucK6VlgL+7or3e+e7dT97tYupUK/RmgemdVtbu2ojFVR2SQcusR/E9HcqvarsEI=
+X-Microsoft-Exchange-Diagnostics: =?us-ascii?Q?1; MWHPR03MB2799;
+	23:SQYw/DBhoc+PdDNi58x8tL51uZVmaHY67lQuNZLa3?=
+	=?us-ascii?Q?0Pr82yaR5D40rOAvE8Y/miyXkWKcJAFSwAjv1jvqiA06W/1hSJ/KmdP54mYd?=
+	=?us-ascii?Q?3tCDT/mQAmbxrmgZ2qcdfnJfDBUEhUX/lCccuGHylyaLMNc2wBEN/0dFcodl?=
+	=?us-ascii?Q?wSa9XnYodw5dgGXlTFZHUkzx/oBcb+rv9ghcSnnpTIxQT01kyagkykS2yAQR?=
+	=?us-ascii?Q?IZkYZm248tUSUMwtVEMFBbPFSqJ3aoEstvKls5INYCeeK9MO8Wmt8JdfuOo7?=
+	=?us-ascii?Q?ilIViLqqtlWLSDvsgkVXUcCClRUxWHOjPYpkn4IpKRetJixZFAjdfQsGIgHq?=
+	=?us-ascii?Q?J7qEzA59v2d2cpJSWGrYPSB03aB1L7LsDdC+65uTpIyxGCAAo4SC8+b6b+IS?=
+	=?us-ascii?Q?2GGxJc0RJBhp3SiX5f+CQbWFucFny4eMorChRAFjkmuOVLANQQciRdWW4jpU?=
+	=?us-ascii?Q?23SZzckYK+4mHcRHt6d+9l1hoau/at3ot1sRiZro0acdjx+Y5WFqoCWNDsdD?=
+	=?us-ascii?Q?cD5rueJtSmfoN0PpDyDlLU5oSQ6sMmtQSliB2OaTdgn2IsWSLrHXBb+i8M5U?=
+	=?us-ascii?Q?myBCp/Rosr4AAdlwzbxXuIECFSth7idOjE7cyjOBuKTkF2qAI/0UK7sU6mVk?=
+	=?us-ascii?Q?oAIb5tr+VPAyaztIqhNfVhXhIp231zmFa6d/d3+df2oR5W6vw4M0Km757NKi?=
+	=?us-ascii?Q?gernaCAejySa96bTldCIY4i5HO6t7dx6Q21zdPrcyzy4lHSgolNIR3e00cFS?=
+	=?us-ascii?Q?m2FpuOgalmfHur0nd3QglghiNVgIDGOgOgEhSOy43L1pl3haA9JaxIdW6QOx?=
+	=?us-ascii?Q?4gfzqNAQ+27M8Fxfc3boxy12M1I0vrbN9C7NIEnDYtWvvFUgoD0y6JlnX30O?=
+	=?us-ascii?Q?ucBMmmXSnntK7HYKzNnpaaGM3pzBhJVK3vx9ArOq0yoNaQ8FtdXJ3y69v8qW?=
+	=?us-ascii?Q?+4gFVo4S1oS9X/vc5/rfWd5ZPSNgup6mtzCWdyBbtfLKer+H3kd7wu6uh3kU?=
+	=?us-ascii?Q?W9jCgKarEuyM5Tku/h3vKm6/f/EoWkDk6lHkT/lcvJCFMmESeYKz1CRlIpi0?=
+	=?us-ascii?Q?BVlR7ay8hdc9g4g7utnaQu7hufIRDUhSwQDaZJ53kHyvbifsXfNisNJUcPGR?=
+	=?us-ascii?Q?9Pe0tW3wXTMuyghHwneWgu27hVJT5IaRhEiz14fIP7Dhm8YIj4lc8q3gwKyM?=
+	=?us-ascii?Q?KTJhnu4uUoUIKZiWTXB5P30jCeVLRhltgZiN+kRWzUdvITCSmxUGsx1dF+Gu?=
+	=?us-ascii?Q?e6Q+VI0iNZQM5nP+U8vBIW/CL29GP1HnCl55q2+33b/FlyzwWpo0iRwkAhmt?=
+	=?us-ascii?Q?dp3qNoEL5Suvrtj72GExerlH8fgAItwlq562EnE1tauMYBhbySdH12IuCN4a?=
+	=?us-ascii?Q?EUlJFMh7AZC9i+w2NrQLsoLRFQOReQ0V417uKIud7YT7R/T?=
+X-Microsoft-Exchange-Diagnostics: 1; MWHPR03MB2799;
+	6:OO7awnHoEvPHgLFOEHnX7KS+qq3tFR6Ob7XcXhpt9cyW2CYncbDC5Q3WAec/v69LLFFBitWBOe7bi4IZTkYBwZWhUW25FMxffv1Nf1N7Bf060zhzOlb6F8Xe1jHsk1weVfswo/x8RbphGbne3aI8xjQ+nomgdC1Bggw4wI1VwtJmBeFZ9bRwGAG/fAj7UhNJ1TTvK6bwUShdeLUo07CXmdK+H+fYPidaqrW5oRsHeM2LqScGmlOPlwidCJS8K5PadMY9bcsOIRm3vgf32u2GGBBPvQ9EDtZA6x+ozoaF/v7UTUt4Z/6kL1XsN3WTez4fXJJmxamJ9N/V9u/CyUTb0utdFax+1lCEyNbns6YSGPLQ1TpVBybtfJ1ymSXAqF08ScHFrmsxcuK7oKN2NqrqeZTUPH2GD4bYME+rW1j+t07I2c2eBaOVHXjCwvZ8ZjwG+MrB5srEJegumRwgq0tBbsA9AKQeHMcqRj82tKy2xlNAo68x/zHvfEwBamHjZWT4quczNHFsjGnz+SMxyIBc8g==;
+	5:x50/GBPlHGSLM619WiPNMvoijkYy/5mapdKNX073sU5BuF9oi0vxy7G6svGfKYUBNfeIBByjofsxl33apNWP3MFSJsbjG5EEw86fgIEKx2aC9BtG/019p/N7u/ABVgV2sBGb8wUn0Gd2ksJiyZBV+Ya9ikBaCqsn780ppb/mIH5jl/XzOKsbKXGDSDVrYLuI;
+	24:R00vo2M9wEZbMDajIFYtPohh1FZrhpOUq3yljZSiTfOOR9DA3HHnUloAFXmq+SZ/kQXNRR2U87tiF4WT1M6ROAL/lBYFkctQO0JOsY2FL3g=
 SpamDiagnosticOutput: 1:99
 SpamDiagnosticMetadata: NSPM
-X-Microsoft-Exchange-Diagnostics: 1; BN3PR0301MB0897;
-	7:SAt94cNMRF6hMwAy9muYTB4n4L/4ZlW5FSN69KUiUeKzb7rLC71ruS7DqggwlpXyBgfO5pOz+IYfU0U/GdxYD786jcrQvNlaGtJzFEjNaUWlOrhp0uh9JQL11bb20HNBifvXy46Qx+rGvpn+Z0S/xZgKjZIDmnoQZPcBR9QMofwDmBfqjQxKKrlVYlalX2Lm6oKelnALF9YTPMJxyh6yu5brUCSYY6FDRhmd31GelcHIw9Kd/MTer4eZNFXPWXXb6j7pfFtlQMBUeiJZbCF5aVMtQRd6So/AZ1qW4woj9TBCv3tTX7MSOZZ20sLOydwyAEepsNoL699B5xYxx/nNzw==
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 May 2017 08:54:14.3320 (UTC)
+X-Microsoft-Exchange-Diagnostics: 1; MWHPR03MB2799;
+	7:KgdTcAluyVlo0xrEExnKMF9TZM0veo8IKvmG0A9KBjXdDVnrJlgyypFtf0Zki+a4svmx8FxZ4VaBUd2Nt6HpwUAibRZZzJxoI0oB2gJS+GKnB6Wg+VrOrdaq6F1SgmWllO8a3iK7mdSfPOYni3Im/cyONqAH8KtwXrLsfhFlNIrnaXvaOBc2PuTxLX53TeYv6uEk0K+BuPflnxKU1K0B6C+u2w3YkRS3Bk9rCF5sV8tMhdycWNN9v8hVmdJyNN5Q0zG8t7TOqjXM4yBWIVDkH5Er49T6ZIrubUaVEZGEKfE9OCaNzWNhamuP6xlFp35Pmz15Q3uH0r+ZFr1AYlkv9A==
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 May 2017 08:54:04.9832 (UTC)
 X-MS-Exchange-CrossTenant-Id: 5afe0b00-7697-4969-b663-5eab37d5f47e
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=5afe0b00-7697-4969-b663-5eab37d5f47e;
 	Ip=[192.88.168.50]; Helo=[tx30smr01.am.freescale.net]
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN3PR0301MB0897
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR03MB2799
 Cc: Yuqing Zhu <carol.zhu@nxp.com>
-Subject: [poky][PATCH 6/6] gstreamer1.0-plugins-bad: Fix memory leak when use a GValue in glupload
+Subject: [poky][PATCH 1/6] gstreamer1.0-plugins-bad: Add some enhancements for qmlglsrc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -138,63 +139,206 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 May 2017 09:09:26 -0000
+X-List-Received-Date: Mon, 15 May 2017 09:09:35 -0000
 Content-Type: text/plain
 
-GValue "targets" should be unset after set to caps
-to avoid memory leak.
+1. Need set use-default-fbo to qquickwindow during set
+   property to support change render target on the fly
+
+2. Calculate qmlglsrc refresh frame rate in qtglwindow
 
 Signed-off-by: Yuqing Zhu <carol.zhu@nxp.com>
 ---
- ...-glupload-fix-memory-leak-when-use-a-GVal.patch | 29 ++++++++++++++++++++++
- .../gstreamer/gstreamer1.0-plugins-bad_1.10.4.bb   |  1 +
- 2 files changed, 30 insertions(+)
- create mode 100755 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0007-glupload-fix-memory-leak-when-use-a-GVal.patch
+ ...2-qmlglsrc-some-enhancements-for-qmlglsrc.patch | 170 +++++++++++++++++++++
+ .../gstreamer/gstreamer1.0-plugins-bad_1.10.4.bb   |   1 +
+ 2 files changed, 171 insertions(+)
+ create mode 100755 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0002-qmlglsrc-some-enhancements-for-qmlglsrc.patch
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0007-glupload-fix-memory-leak-when-use-a-GVal.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0007-glupload-fix-memory-leak-when-use-a-GVal.patch
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0002-qmlglsrc-some-enhancements-for-qmlglsrc.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0002-qmlglsrc-some-enhancements-for-qmlglsrc.patch
 new file mode 100755
-index 0000000..fa98405
+index 0000000..b4e662f
 --- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0007-glupload-fix-memory-leak-when-use-a-GVal.patch
-@@ -0,0 +1,29 @@
-+From a3988d464c89742cfe8fbbd570eef5e6ab5159ba Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0002-qmlglsrc-some-enhancements-for-qmlglsrc.patch
+@@ -0,0 +1,170 @@
++From f55cc58325ed5df0b0d5fd0a61ebb32d735c2481 Mon Sep 17 00:00:00 2001
 +From: Haihua Hu <jared.hu@nxp.com>
-+Date: Fri, 28 Apr 2017 10:21:31 +0800
-+Subject: [PATCH 1/2] glupload: fix memory leak when use a GValue
++Date: Mon, 7 Nov 2016 16:31:02 +0800
++Subject: [PATCH 23/24] qmlglsrc: some enhancements for qmlglsrc
 +
-+GValue "targets" should be unset after set to caps
-+to avoid memory leak
++1. Need set use-default-fbo to qquickwindow during set
++   property to support change render target on the fly.
++2. Calculate qmlglsrc refresh frame rate in qtglwindow
 +
-+Upstream-Status: Backport [1.10.5]
-+https://bugzilla.gnome.org/show_bug.cgi?id=781876
++Upstream-Status: Backport [1.11.1]
++
++https://bugzilla.gnome.org/show_bug.cgi?id=774035
++
++Signed-off-by: Haihua Hu <jared.hu@nxp.com>
 +---
-+ gst-libs/gst/gl/gstglupload.c | 1 +
-+ 1 file changed, 1 insertion(+)
++ ext/qt/gstqtsrc.cc | 14 +++++---------
++ ext/qt/qtwindow.cc | 34 ++++++++++++++++++++--------------
++ ext/qt/qtwindow.h  |  1 -
++ 3 files changed, 25 insertions(+), 24 deletions(-)
 +
-+diff --git a/gst-libs/gst/gl/gstglupload.c b/gst-libs/gst/gl/gstglupload.c
-+index f33a696..3ef3b19 100644
-+--- a/gst-libs/gst/gl/gstglupload.c
-++++ b/gst-libs/gst/gl/gstglupload.c
-+@@ -179,6 +179,7 @@ _caps_intersect_texture_target (GstCaps * caps, GstGLTextureTarget target_mask)
-+   target = gst_caps_copy (caps);
-+   gst_gl_value_set_texture_target_from_mask (&targets, target_mask);
-+   gst_caps_set_value (target, "texture-target", &targets);
-++  g_value_unset(&targets);
++diff --git a/ext/qt/gstqtsrc.cc b/ext/qt/gstqtsrc.cc
++index 3cfc709..350f70d 100644
++--- a/ext/qt/gstqtsrc.cc
+++++ b/ext/qt/gstqtsrc.cc
++@@ -132,6 +132,7 @@ gst_qt_src_init (GstQtSrc * src)
++   gst_base_src_set_live (GST_BASE_SRC (src), DEFAULT_IS_LIVE);
++   src->default_fbo = FALSE;
++   src->pending_image_orientation = TRUE;
+++  src->window = NULL;
++ }
 + 
-+   ret = gst_caps_intersect_full (caps, target, GST_CAPS_INTERSECT_FIRST);
++ static void
++@@ -147,6 +148,8 @@ gst_qt_src_set_property (GObject * object, guint prop_id,
 + 
++       if (qt_src->window)
++         delete qt_src->window;
+++      qt_src->window = NULL;
+++
++       if (qt_src->qwindow)
++         qt_src->window = new QtGLWindow (NULL, qt_src->qwindow);
++ 
++@@ -154,6 +157,8 @@ gst_qt_src_set_property (GObject * object, guint prop_id,
++     }
++     case PROP_DEFAULT_FBO:
++       qt_src->default_fbo = g_value_get_boolean (value);
+++      if (qt_src->window)
+++        qt_window_use_default_fbo (qt_src->window, qt_src->default_fbo);
++       break;
++     default:
++       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
++@@ -508,7 +513,6 @@ gst_qt_src_change_state (GstElement * element, GstStateChange transition)
++   GstQtSrc *qt_src = GST_QT_SRC (element);
++   GstStateChangeReturn ret = GST_STATE_CHANGE_SUCCESS;
++   QGuiApplication *app;
++-  guint64 frames_rendered = 0;
++ 
++   GST_DEBUG ("changing state: %s => %s",
++       gst_element_state_get_name (GST_STATE_TRANSITION_CURRENT (transition)),
++@@ -553,18 +557,10 @@ gst_qt_src_change_state (GstElement * element, GstStateChange transition)
++ 
++   switch (transition) {
++     case GST_STATE_CHANGE_PLAYING_TO_PAUSED:
++-      qt_src->run_time = gst_element_get_start_time (GST_ELEMENT (qt_src));
++       break;
++     case GST_STATE_CHANGE_PAUSED_TO_READY:
++       break;
++     case GST_STATE_CHANGE_READY_TO_NULL:
++-      qt_window_get_total_frames (qt_src->window, &frames_rendered);
++-      if (qt_src->run_time > 0) {
++-        GST_DEBUG ("qmlglsrc Total refresh frames (%ld), playing for (%"
++-            GST_TIME_FORMAT "), fps (%.3f).\n", frames_rendered,
++-            GST_TIME_ARGS (qt_src->run_time),
++-            (gfloat) GST_SECOND * frames_rendered / qt_src->run_time);
++-      }
++       break;
++     default:
++       break;
++diff --git a/ext/qt/qtwindow.cc b/ext/qt/qtwindow.cc
++index 3d96751..edb6b24 100644
++--- a/ext/qt/qtwindow.cc
+++++ b/ext/qt/qtwindow.cc
++@@ -29,6 +29,7 @@
++ #include "gstqsgtexture.h"
++ #include "gstqtglutility.h"
++ 
+++#include <QtCore/QDateTime>
++ #include <QtCore/QRunnable>
++ #include <QtGui/QGuiApplication>
++ #include <QtQuick/QQuickWindow>
++@@ -71,6 +72,8 @@ struct _QtGLWindowPrivate
++ 
++   /* frames that qmlview rendered in its gl thread */
++   guint64 frames_rendered;
+++  qint64 start;
+++  qint64 stop;
++ };
++ 
++ class InitQtGLContext : public QRunnable
++@@ -146,6 +149,12 @@ QtGLWindow::beforeRendering()
++ 
++   g_mutex_lock (&this->priv->lock);
++ 
+++  static volatile gsize once = 0;
+++  if (g_once_init_enter(&once)) {
+++    this->priv->start = QDateTime::currentDateTime().toMSecsSinceEpoch();
+++    g_once_init_leave(&once,1);
+++  }
+++
++   if (!fbo && !this->priv->useDefaultFbo) {
++ 
++     width = source->width();
++@@ -157,6 +166,10 @@ QtGLWindow::beforeRendering()
++           QOpenGLFramebufferObject::NoAttachment, GL_TEXTURE_2D, GL_RGBA));
++ 
++     source->setRenderTarget(fbo.data());
+++  } else if (this->priv->useDefaultFbo) {
+++    GST_DEBUG ("use default fbo for renderTargetId");
+++    fbo.reset(NULL);
+++    source->setRenderTarget(NULL);
++   }
++ 
++   g_mutex_unlock (&this->priv->lock);
++@@ -256,9 +269,14 @@ QtGLWindow::aboutToQuit()
++   this->priv->quit = TRUE;
++   g_cond_signal (&this->priv->update_cond);
++ 
++-  g_mutex_unlock (&this->priv->lock);
+++  this->priv->stop = QDateTime::currentDateTime().toMSecsSinceEpoch();
+++  qint64 duration = this->priv->stop - this->priv->start;
+++  float fps = ((float)this->priv->frames_rendered / duration * 1000);
+++
+++  GST_DEBUG("about to quit, total refresh frames (%lld) in (%0.3f) seconds, fps: %0.3f",
+++      this->priv->frames_rendered, (float)duration / 1000, fps);
++ 
++-  GST_DEBUG("about to quit");
+++  g_mutex_unlock (&this->priv->lock);
++ }
++ 
++ void
++@@ -410,15 +428,3 @@ qt_window_use_default_fbo (QtGLWindow * qt_window, gboolean useDefaultFbo)
++ 
++   g_mutex_unlock (&qt_window->priv->lock);
++ }
++-
++-void
++-qt_window_get_total_frames (QtGLWindow * qt_window, guint64 *frames)
++-{
++-  g_return_if_fail (qt_window != NULL);
++-
++-  g_mutex_lock (&qt_window->priv->lock);
++-
++-  *frames = qt_window->priv->frames_rendered;
++-
++-  g_mutex_unlock (&qt_window->priv->lock);
++-}
++diff --git a/ext/qt/qtwindow.h b/ext/qt/qtwindow.h
++index 8cb5a2c..697f389 100644
++--- a/ext/qt/qtwindow.h
+++++ b/ext/qt/qtwindow.h
++@@ -65,7 +65,6 @@ GstGLContext *  qt_window_get_qt_context (QtGLWindow * qt_window);
++ GstGLDisplay *  qt_window_get_display (QtGLWindow * qt_window);
++ gboolean        qt_window_is_scenegraph_initialized (QtGLWindow * qt_window);
++ void            qt_window_use_default_fbo (QtGLWindow * qt_window, gboolean useDefaultFbo);
++-void            qt_window_get_total_frames (QtGLWindow * qt_window, guint64 *frames);
++ }
++ 
++ #endif /* __QT_WINDOW_H__ */
 +-- 
 +1.9.1
 +
 diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.10.4.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.10.4.bb
-index 91e1a51..68f78ea 100644
+index 0bb4053..a5fc913 100644
 --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.10.4.bb
 +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.10.4.bb
-@@ -23,6 +23,7 @@ SRC_URI = " \
-     file://0004-player-Add-get-track-number-media-info-API.patch \
-     file://0005-player-Add-overlayvideorenderer-video-sink.patch \
-     file://0006-gst-player-fix-gst-player-failed-to-load-external-su.patch \
-+    file://0007-glupload-fix-memory-leak-when-use-a-GVal.patch \
+@@ -18,6 +18,7 @@ SRC_URI = " \
+     file://0001-smoothstreaming-implement-adaptivedemux-s-get_live_s.patch \
+     file://0001-smoothstreaming-use-the-duration-from-the-list-of-fr.patch \
+     file://0001-mssdemux-improved-live-playback-support.patch \
++    file://0002-qmlglsrc-some-enhancements-for-qmlglsrc.patch \
  "
  SRC_URI[md5sum] = "2757103e57a096a1a05b3ab85b8381af"
  SRC_URI[sha256sum] = "23ddae506b3a223b94869a0d3eea3e9a12e847f94d2d0e0b97102ce13ecd6966"
