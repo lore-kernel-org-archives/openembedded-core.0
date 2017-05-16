@@ -1,25 +1,25 @@
 Return-Path: <markus.lehtonen@linux.intel.com>
 Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id BF83977E73
+	by mail.openembedded.org (Postfix) with ESMTP id 024E477E78
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 May 2017 13:19:14 +0000 (UTC)
+	Tue, 16 May 2017 13:19:15 +0000 (UTC)
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-	by orsmga105.jf.intel.com with ESMTP; 16 May 2017 06:19:16 -0700
+	by orsmga105.jf.intel.com with ESMTP; 16 May 2017 06:19:17 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.38,349,1491289200"; d="scan'208";a="102711921"
+X-IronPort-AV: E=Sophos;i="5.38,349,1491289200"; d="scan'208";a="102711932"
 Received: from bkearns-mobl.ger.corp.intel.com (HELO
 	mqz-osx-suse64.fi.intel.com) ([10.252.10.90])
-	by fmsmga006.fm.intel.com with ESMTP; 16 May 2017 06:19:15 -0700
+	by fmsmga006.fm.intel.com with ESMTP; 16 May 2017 06:19:16 -0700
 From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 16 May 2017 16:18:47 +0300
-Message-Id: <a8684aed47b1d6e82d6f2385b513332c98f2ad49.1494939394.git.markus.lehtonen@linux.intel.com>
+Date: Tue, 16 May 2017 16:18:48 +0300
+Message-Id: <c45cc322cfc47c7af605863dfaaf4629defad4b4.1494939394.git.markus.lehtonen@linux.intel.com>
 X-Mailer: git-send-email 2.12.0
 In-Reply-To: <cover.1494939394.git.markus.lehtonen@linux.intel.com>
 References: <cover.1494939394.git.markus.lehtonen@linux.intel.com>
 In-Reply-To: <cover.1494939394.git.markus.lehtonen@linux.intel.com>
 References: <cover.1494939394.git.markus.lehtonen@linux.intel.com>
-Subject: [PATCH v2 17/20] python3: fix profile-optimized build of modules
+Subject: [PATCH v2 18/20] python-pgo-image: exclude tests from the python3 profile target
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,94 +32,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 May 2017 13:19:15 -0000
+X-List-Received-Date: Tue, 16 May 2017 13:19:16 -0000
 
-Without this the pgo-related compiler flags are not used in
-cross-builds.
+Exlude failing tests (on qemux86 target) which would cause the profile
+task to fail.
+
+Also, disable some very long running tests. Running in qemux86 target on
+my i7-3770K:
+  test_lib2to3: 1604.5s
+  test_buffer: 1562.8s
+  test_pickle: 1527.0s
+  test_io: 1517.8s
+  test_threading: 1384.1s
+  test_asyncio: 1380.9s
+  test_urllib2_localnet: 1276.8s
+  test_itertools: 944.7s
+  test_tuple: 847.7s
+  test_trace: 756.7s
+  test_tarfile: 716.7s
+  test_unicodedata: 709.9s
+  test_decimal: 615.1s
+  test_buffer: 1562.8s
+  test_pickle: 1527.0s
+  test_io: 1517.8s
+  test_threading: 1384.1s
+  test_asyncio: 1380.9s
+  test_urllib2_localnet: 1276.8s
+  test_itertools: 944.7s
+  test_tuple: 847.7s
+  test_trace: 756.7s
+  test_tarfile: 716.7s
+  test_unicodedata: 709.9s
+  test_decimal: 615.1s
 
 [YOCTO #9338]
 
 Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
 ---
- ...-CFLAGS-for-extensions-when-cross-compili.patch | 56 ++++++++++++++++++++++
- meta/recipes-devtools/python/python3_3.5.2.bb      |  1 +
- 2 files changed, 57 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3/Use-correct-CFLAGS-for-extensions-when-cross-compili.patch
+ meta/recipes-devtools/images/python-pgo-image.bb | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/meta/recipes-devtools/python/python3/Use-correct-CFLAGS-for-extensions-when-cross-compili.patch b/meta/recipes-devtools/python/python3/Use-correct-CFLAGS-for-extensions-when-cross-compili.patch
-new file mode 100644
-index 0000000000..bf239c6261
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3/Use-correct-CFLAGS-for-extensions-when-cross-compili.patch
-@@ -0,0 +1,56 @@
-+From 0fd8b986888ddf1995b503edf46ac827e83114d9 Mon Sep 17 00:00:00 2001
-+From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
-+Date: Wed, 23 Nov 2016 16:08:04 +0200
-+Subject: [PATCH] Use correct CFLAGS for extensions when cross-compiling
-+
-+Take PY_CFLAGS_NODIST into account, like in native build. This is needed
-+in order to to profile-optimized build. Also, pass EXTRA_CFLAGS to
-+profile-optimized build.
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
-+---
-+ Makefile.pre.in | 4 ++--
-+ setup.py        | 3 ++-
-+ 2 files changed, 4 insertions(+), 3 deletions(-)
-+
-+diff --git a/Makefile.pre.in b/Makefile.pre.in
-+index bace00e..9635aa4 100644
-+--- a/Makefile.pre.in
-++++ b/Makefile.pre.in
-+@@ -509,7 +509,7 @@ profile-opt:
-+ 	$(MAKE) profile-removal
-+ 
-+ build_all_generate_profile:
-+-	$(MAKE) all CFLAGS_NODIST="$(CFLAGS) $(PGO_PROF_GEN_FLAG) @LTOFLAGS@" LDFLAGS="$(LDFLAGS) $(PGO_PROF_GEN_FLAG) @LTOFLAGS@" LIBS="$(LIBS)"
-++	$(MAKE) all CFLAGS_NODIST="$(CFLAGS) $(EXTRA_CFLAGS) $(PGO_PROF_GEN_FLAG) @LTOFLAGS@" LDFLAGS="$(LDFLAGS) $(PGO_PROF_GEN_FLAG) @LTOFLAGS@" LIBS="$(LIBS)"
-+ 
-+ run_profile_task:
-+ 	: # FIXME: can't run for a cross build
-+@@ -519,7 +519,7 @@ build_all_merge_profile:
-+ 	$(LLVM_PROF_MERGER)
-+ 
-+ build_all_use_profile:
-+-	$(MAKE) all CFLAGS_NODIST="$(CFLAGS) $(PGO_PROF_USE_FLAG) @LTOFLAGS@" LDFLAGS="$(LDFLAGS) @LTOFLAGS@"
-++	$(MAKE) all CFLAGS_NODIST="$(CFLAGS) $(EXTRA_CFLAGS) $(PGO_PROF_USE_FLAG) @LTOFLAGS@" LDFLAGS="$(LDFLAGS) @LTOFLAGS@"
-+ 
-+ # Compile and run with gcov
-+ .PHONY=coverage coverage-lcov coverage-report
-+diff --git a/setup.py b/setup.py
-+index c1ce87e..72d37cf 100644
-+--- a/setup.py
-++++ b/setup.py
-+@@ -271,7 +271,8 @@ class PyBuildExt(build_ext):
-+         # compilers
-+         if compiler is not None:
-+             if cross_compiling:
-+-                (ccshared,cflags) = (os.environ.get('CCSHARED') or '', os.environ.get('CFLAGS') or '')
-++                (ccshared,cflags) = (os.environ.get('CCSHARED') or '',
-++                                     (os.environ.get('CFLAGS') or '') + ' ' + sysconfig.get_config_var('PY_CFLAGS_NODIST'))
-+             else:
-+                 (ccshared,cflags) = sysconfig.get_config_vars('CCSHARED','CFLAGS')
-+             args['compiler_so'] = compiler + ' ' + ccshared + ' ' + cflags
-+-- 
-+2.6.6
-+
-diff --git a/meta/recipes-devtools/python/python3_3.5.2.bb b/meta/recipes-devtools/python/python3_3.5.2.bb
-index 7a3d2b367f..7853c69e09 100644
---- a/meta/recipes-devtools/python/python3_3.5.2.bb
-+++ b/meta/recipes-devtools/python/python3_3.5.2.bb
-@@ -35,6 +35,7 @@ SRC_URI += "\
-             file://configure.ac-fix-LIBPL.patch \
-             file://python3-fix-CVE-2016-1000110.patch \
-             file://upstream-random-fixes.patch \
-+            file://Use-correct-CFLAGS-for-extensions-when-cross-compili.patch \
-            "
- SRC_URI[md5sum] = "8906efbacfcdc7c3c9198aeefafd159e"
- SRC_URI[sha256sum] = "0010f56100b9b74259ebcd5d4b295a32324b58b517403a10d1a2aa7cb22bca40"
+diff --git a/meta/recipes-devtools/images/python-pgo-image.bb b/meta/recipes-devtools/images/python-pgo-image.bb
+index 285e403d32..e16cd52486 100644
+--- a/meta/recipes-devtools/images/python-pgo-image.bb
++++ b/meta/recipes-devtools/images/python-pgo-image.bb
+@@ -23,6 +23,11 @@ PYTHON_PROFILE_TASK ?= "${PYTHON_PROFILE_TASK_DEFAULT}"
+ 
+ PYTHON3_PROFILE_DIR ?= "${TMPDIR}/work-shared/${MACHINE}/python3/pgo-data"
+ PYTHON3_PROFILE_TASK_DEFAULT = "-m test.regrtest --pgo -w -x test_asyncore test_gdb test_multiprocessing_fork test_multiprocessing_forkserver test_multiprocessing_main_handling test_multiprocessing_spawn test_subprocess"
++# Exclude tests that are failing on qemux86
++PYTHON3_PROFILE_TASK_DEFAULT += "test_builtin test_cmath test_concurrent_futures test_difflib test_distutils test_float test_format test_math test_optparse test_shutil test_statistics test_types test_unicode"
++# Exclude tests that are taking very long on qemux86
++PYTHON3_PROFILE_TASK_DEFAULT += "test_lib2to3 test_buffer test_pickle test_io test_threading test_asyncio test_urllib2_localnet test_itertools test_tuple test_trace test_tarfile test_unicodedata test_decimal"
++PYTHON3_PROFILE_TASK_DEFAULT += "test_long test_zipfile test_deque test_descr test_email test_venv test_bytes test_compileall test_ast test_multibytecodec"
+ 
+ PYTHON3_PROFILE_TASK ?= "${PYTHON3_PROFILE_TASK_DEFAULT}"
+ 
 -- 
 2.12.0
 
