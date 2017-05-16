@@ -1,26 +1,22 @@
 Return-Path: <markus.lehtonen@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id D44A077D94
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 54C8F77D94
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 16 May 2017 13:18:55 +0000 (UTC)
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	16 May 2017 06:18:57 -0700
+	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	16 May 2017 06:18:54 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.38,349,1491289200"; d="scan'208";a="102711782"
+X-IronPort-AV: E=Sophos;i="5.38,349,1491289200"; d="scan'208";a="102711766"
 Received: from bkearns-mobl.ger.corp.intel.com (HELO
 	mqz-osx-suse64.fi.intel.com) ([10.252.10.90])
-	by fmsmga006.fm.intel.com with ESMTP; 16 May 2017 06:18:55 -0700
+	by fmsmga006.fm.intel.com with ESMTP; 16 May 2017 06:18:52 -0700
 From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 16 May 2017 16:18:32 +0300
-Message-Id: <8b7d2e2fa9c1a678989c31246ec439148271690d.1494939394.git.markus.lehtonen@linux.intel.com>
+Date: Tue, 16 May 2017 16:18:30 +0300
+Message-Id: <cover.1494939394.git.markus.lehtonen@linux.intel.com>
 X-Mailer: git-send-email 2.12.0
-In-Reply-To: <cover.1494939394.git.markus.lehtonen@linux.intel.com>
-References: <cover.1494939394.git.markus.lehtonen@linux.intel.com>
-In-Reply-To: <cover.1494939394.git.markus.lehtonen@linux.intel.com>
-References: <cover.1494939394.git.markus.lehtonen@linux.intel.com>
-Subject: [PATCH v2 02/20] python: add python-profile-opt recipe
+Subject: [PATCH v2 00/20] support profile-optimized build for Python
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,129 +29,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 May 2017 13:18:56 -0000
+X-List-Received-Date: Tue, 16 May 2017 13:18:57 -0000
 
-This patch adds a new recipe that builds a special version of python
-that produces profile data for profile guided optimization. It will
-install under /opt in order to prevent clash with the "normal" python.
-The new recipe directly includes the base python recipe so that they are
-build in as similar way as possible and this hopefully decreases the
-recipe maintenance burden, too.
-
-Normally, python profile-guided-optimization is done simply by doing
-"make profile-opt" which first builds python with profile
-instrumentation enabled, then runs a profile task to get the profile
-data, and last, re-builds python with profile data guiding the
-optimization. However, in our cross-build environment this gets a lot
-trickier. We need to split out the steps as building is done on the
-build host but we need to run the second step (i.e. run the profile
-task) on the target hardware. This patch enables the first step, i.e.
-building python with profile instrumentation enabled
+This patchset makes it possible to make a PGO (profile-guided-optimization)
+build of python. This version of the patchset is almost identical to v1
+submitted back in February, with these changes:
+- rebased on top of latest oe-core master
+- exclude profile data for Modules/posixmodule of Python 2.7 as it was not
+  working correctly
 
 [YOCTO #9338]
 
-Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
----
- .../python/python-profile-opt_2.7.13.bb            | 17 ++++++++++++++
- meta/recipes-devtools/python/python_2.7.13.bb      | 26 +++++++++++++++-------
- 2 files changed, 35 insertions(+), 8 deletions(-)
- create mode 100644 meta/recipes-devtools/python/python-profile-opt_2.7.13.bb
+The following changes since commit 123962018251dfb1d6ca5aa5c0d02534007de3ab:
 
-diff --git a/meta/recipes-devtools/python/python-profile-opt_2.7.13.bb b/meta/recipes-devtools/python/python-profile-opt_2.7.13.bb
-new file mode 100644
-index 0000000000..058cc63bc9
---- /dev/null
-+++ b/meta/recipes-devtools/python/python-profile-opt_2.7.13.bb
-@@ -0,0 +1,17 @@
-+require python_${PV}.bb
-+
-+PROVIDES += "libpython2"
-+RPROVIDES_${PN}-core += "libpython2"
-+
-+# Use special prefix in order to prevent clash with normal python
-+STAGING_INCDIR_DEFAULT = "${STAGING_DIR_HOST}/usr/include"
-+STAGING_LIBDIR_DEFAULT = "${STAGING_DIR_HOST}/usr/${baselib}"
-+TARGET_CFLAGS += "-I${STAGING_INCDIR_DEFAULT}"
-+TARGET_CPPFLAGS += "-I${STAGING_INCDIR_DEFAULT}"
-+prefix = "/opt"
-+exec_prefix = "/opt"
-+
-+PYTHON_MAKE_TARGET = "build_all_generate_profile"
-+
-+# Force pkgdata not to clash with python recipe
-+PKG_libpython-profile-opt2 = "libpython-profile-opt2.7-1.0"
-diff --git a/meta/recipes-devtools/python/python_2.7.13.bb b/meta/recipes-devtools/python/python_2.7.13.bb
-index 4ef99523e0..efe02aa8a3 100644
---- a/meta/recipes-devtools/python/python_2.7.13.bb
-+++ b/meta/recipes-devtools/python/python_2.7.13.bb
-@@ -37,6 +37,11 @@ CONFIGUREOPTS += " --with-system-ffi "
- 
- EXTRA_OECONF += "ac_cv_file__dev_ptmx=yes ac_cv_file__dev_ptc=no"
- 
-+# These are needed in order to build with modified prefix (python-prorile-opt
-+# recipe)
-+STAGING_INCDIR_DEFAULT ?= "${STAGING_INCDIR}"
-+STAGING_LIBDIR_DEFAULT ?= "${STAGING_LIBDIR}"
-+
- do_configure_append() {
- 	rm -f ${S}/Makefile.orig
-         autoreconf -Wcross --verbose --install --force --exclude=autopoint ../Python-${PV}/Modules/_ctypes/libffi
-@@ -45,12 +50,12 @@ do_configure_append() {
- do_compile() {
-         # regenerate platform specific files, because they depend on system headers
-         cd ${S}/Lib/plat-linux2
--        include=${STAGING_INCDIR} ${STAGING_BINDIR_NATIVE}/python-native/python \
-+        include=${STAGING_INCDIR_DEFAULT} ${STAGING_BINDIR_NATIVE}/python-native/python \
-                 ${S}/Tools/scripts/h2py.py -i '(u_long)' \
--                ${STAGING_INCDIR}/dlfcn.h \
--                ${STAGING_INCDIR}/linux/cdrom.h \
--                ${STAGING_INCDIR}/netinet/in.h \
--                ${STAGING_INCDIR}/sys/types.h
-+                ${STAGING_INCDIR_DEFAULT}/dlfcn.h \
-+                ${STAGING_INCDIR_DEFAULT}/linux/cdrom.h \
-+                ${STAGING_INCDIR_DEFAULT}/netinet/in.h \
-+                ${STAGING_INCDIR_DEFAULT}/sys/types.h
-         sed -e 's,${STAGING_DIR_HOST},,g' -i *.py
-         cd -
- 
-@@ -60,7 +65,7 @@ do_compile() {
- 	if [ ! -f Makefile.orig ]; then
- 		install -m 0644 Makefile Makefile.orig
- 	fi
--	sed -i -e 's#^LDFLAGS=.*#LDFLAGS=${LDFLAGS} -L. -L${STAGING_LIBDIR}#g' \
-+	sed -i -e 's#^LDFLAGS=.*#LDFLAGS=${LDFLAGS} -L. -L${STAGING_LIBDIR_DEFAULT}#g' \
- 		-e 's,libdir=${libdir},libdir=${STAGING_LIBDIR},g' \
- 		-e 's,libexecdir=${libexecdir},libexecdir=${STAGING_DIR_HOST}${libexecdir},g' \
- 		-e 's,^LIBDIR=.*,LIBDIR=${STAGING_LIBDIR},g' \
-@@ -74,13 +79,17 @@ do_compile() {
- 
- 	export CROSS_COMPILE="${TARGET_PREFIX}"
- 	export PYTHONBUILDDIR="${B}"
-+    # This is only used in PGO profiling by python-profile-opt package
-+    if [ "${PYTHON_MAKE_TARGET}" = "build_all_generate_profile" ]; then
-+        export EXTRA_CFLAGS="-fprofile-dir=./python-pgo-profiles/"
-+    fi
- 
- 	oe_runmake HOSTPGEN=${STAGING_BINDIR_NATIVE}/python-native/pgen \
- 		HOSTPYTHON=${STAGING_BINDIR_NATIVE}/python-native/python \
- 		STAGING_LIBDIR=${STAGING_LIBDIR} \
- 		STAGING_INCDIR=${STAGING_INCDIR} \
- 		STAGING_BASELIBDIR=${STAGING_BASELIBDIR} \
--		OPT="${CFLAGS}"
-+		OPT="${CFLAGS}" ${PYTHON_MAKE_TARGET}
- }
- 
- do_install() {
-@@ -99,7 +108,8 @@ do_install() {
- 		STAGING_LIBDIR=${STAGING_LIBDIR} \
- 		STAGING_INCDIR=${STAGING_INCDIR} \
- 		STAGING_BASELIBDIR=${STAGING_BASELIBDIR} \
--		DESTDIR=${D} LIBDIR=${libdir}
-+		DESTDIR=${D} LIBDIR=${libdir} ${PYTHON_MAKE_TARGET}
-+
- 	
- 	oe_runmake HOSTPGEN=${STAGING_BINDIR_NATIVE}/python-native/pgen \
- 		HOSTPYTHON=${STAGING_BINDIR_NATIVE}/python-native/python \
+  build-appliance-image: Update to master head revision (2017-05-01 08:56:43 +0100)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib marquiz/fixes-9338
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=marquiz/fixes-9338
+
+Markus Lehtonen (20):
+  python-native: support profile optimized build
+  python: add python-profile-opt recipe
+  python: remove path hack from setup.py
+  python-profile-opt: rename libpython
+  devtools/images: add python-pgo-image
+  python: make profile-optimized build possible
+  python-pgo-image: exclude tests from the default profile target
+  python: add python-tools subpackage
+  python-pgo-image: switch python default profile task to pybench
+  python-pgo-image: enable sstate for do_profile
+  python3-native: support profile optimized build
+  python3: fix depends of python-tests
+  python3: add python-profile-opt3 recipe
+  python-pgo-image: profiling for python3
+  python3: remove two setup.py cross-compile hacks
+  python3: support profile optimized build
+  python3: fix profile-optimized build of modules
+  python-pgo-image: exclude tests from the python3 profile target
+  python3: add python3-tools subpackage
+  python-pgo-image: change python3 profile target to pybench
+
+ meta/recipes-devtools/images/python-pgo-image.bb   | 121 +++++++++++++++++++++
+ .../python/python-2.7-manifest.inc                 |   8 +-
+ .../python/python-3.5-manifest.inc                 |  10 +-
+ ...x-.so-loading-when-when-running-profile-t.patch |  26 +++++
+ .../python/python-native_2.7.13.bb                 |  10 ++
+ meta/recipes-devtools/python/python-profile-opt3   |   1 +
+ .../python/python-profile-opt3_3.5.2.bb            |  15 +++
+ .../python/python-profile-opt_2.7.13.bb            |  13 +++
+ .../01-use-proper-tools-for-cross-build.patch      |  10 --
+ ...rename-libpython-to-libpython-profile-opt.patch |  94 ++++++++++++++++
+ .../python/python3-native_3.5.2.bb                 |   9 ++
+ .../python/python3/000-cross-compile.patch         |   9 --
+ ...efile-add-install_generate_profile-target.patch |  25 +++++
+ ...-CFLAGS-for-extensions-when-cross-compili.patch |  56 ++++++++++
+ .../python3-setup.py-no-host-headers-libs.patch    |  33 ------
+ ...name-libpython3-to-libpython-profile-opt3.patch | 111 +++++++++++++++++++
+ .../setup.py-find-libraries-in-staging-dirs.patch  |  30 -----
+ meta/recipes-devtools/python/python3_3.5.2.bb      |  74 +++++++++----
+ meta/recipes-devtools/python/python_2.7.13.bb      |  54 +++++++--
+ 19 files changed, 590 insertions(+), 119 deletions(-)
+ create mode 100644 meta/recipes-devtools/images/python-pgo-image.bb
+ create mode 100644 meta/recipes-devtools/python/python-native/Makefile-fix-.so-loading-when-when-running-profile-t.patch
+ create mode 120000 meta/recipes-devtools/python/python-profile-opt3
+ create mode 100644 meta/recipes-devtools/python/python-profile-opt3_3.5.2.bb
+ create mode 100644 meta/recipes-devtools/python/python-profile-opt_2.7.13.bb
+ create mode 100644 meta/recipes-devtools/python/python/rename-libpython-to-libpython-profile-opt.patch
+ create mode 100644 meta/recipes-devtools/python/python3/Makefile-add-install_generate_profile-target.patch
+ create mode 100644 meta/recipes-devtools/python/python3/Use-correct-CFLAGS-for-extensions-when-cross-compili.patch
+ delete mode 100644 meta/recipes-devtools/python/python3/python3-setup.py-no-host-headers-libs.patch
+ create mode 100644 meta/recipes-devtools/python/python3/rename-libpython3-to-libpython-profile-opt3.patch
+ delete mode 100644 meta/recipes-devtools/python/python3/setup.py-find-libraries-in-staging-dirs.patch
+
 -- 
 2.12.0
 
