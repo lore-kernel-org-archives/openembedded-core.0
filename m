@@ -1,20 +1,20 @@
 Return-Path: <dv@pseudoterminal.org>
 Received: from ptmx.org (ptmx.org [178.63.28.110])
-	by mail.openembedded.org (Postfix) with ESMTP id 22B0677D47
+	by mail.openembedded.org (Postfix) with ESMTP id C69CE77D31
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 16 May 2017 11:26:28 +0000 (UTC)
 Received: from soylentgreen.sue.net (vpn.streamunlimited.com [91.114.0.140])
-	by ptmx.org (Postfix) with ESMTPSA id E718D46E05
+	by ptmx.org (Postfix) with ESMTPSA id 9D8A746E59
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 May 2017 13:26:28 +0200 (CEST)
+	Tue, 16 May 2017 13:26:29 +0200 (CEST)
 From: Carlos Rafael Giani <dv@pseudoterminal.org>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 16 May 2017 13:26:18 +0200
-Message-Id: <1494933979-5139-8-git-send-email-dv@pseudoterminal.org>
+Date: Tue, 16 May 2017 13:26:19 +0200
+Message-Id: <1494933979-5139-9-git-send-email-dv@pseudoterminal.org>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1494933979-5139-1-git-send-email-dv@pseudoterminal.org>
 References: <1494933979-5139-1-git-send-email-dv@pseudoterminal.org>
-Subject: [PATCH 8/9] gstreamer1.0-omx: upgrade to version 1.12.0
+Subject: [PATCH 9/9] gstreamer1.0-vaapi: upgrade to version 1.12.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,31 +27,141 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 May 2017 11:26:28 -0000
+X-List-Received-Date: Tue, 16 May 2017 11:26:29 -0000
+
+* Added PACKAGECONFIG_GL variable to make it possible for BSP layers to
+  customize what should be the default, egl or glx
+* Set virtual/egl instead of virtual/mesa as egl dependency in case
+  platform specific drivers provide virtual/egl functionality
+* Removed backported allocator patch since it was merged in the release
+  and is no longer needed
 
 Signed-off-by: Carlos Rafael Giani <dv@pseudoterminal.org>
 ---
- .../{gstreamer1.0-omx_1.10.4.bb => gstreamer1.0-omx_1.12.0.bb}        | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-omx_1.10.4.bb => gstreamer1.0-omx_1.12.0.bb} (69%)
+ ...ideobufferpool-create-allocator-if-needed.patch | 61 ----------------------
+ .../gstreamer/gstreamer1.0-vaapi.inc               |  9 +++-
+ .../gstreamer/gstreamer1.0-vaapi_1.10.4.bb         |  7 ---
+ .../gstreamer/gstreamer1.0-vaapi_1.12.0.bb         |  5 ++
+ 4 files changed, 12 insertions(+), 70 deletions(-)
+ delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer-vaapi/vaapivideobufferpool-create-allocator-if-needed.patch
+ delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.10.4.bb
+ create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.12.0.bb
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.10.4.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.12.0.bb
-similarity index 69%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.10.4.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.12.0.bb
-index dfeefa5..73c5adb 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.10.4.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.12.0.bb
-@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c \
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer-vaapi/vaapivideobufferpool-create-allocator-if-needed.patch b/meta/recipes-multimedia/gstreamer/gstreamer-vaapi/vaapivideobufferpool-create-allocator-if-needed.patch
+deleted file mode 100644
+index f666adc..0000000
+--- a/meta/recipes-multimedia/gstreamer/gstreamer-vaapi/vaapivideobufferpool-create-allocator-if-needed.patch
++++ /dev/null
+@@ -1,61 +0,0 @@
+-Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+-Upstream-Status: Backport [commit 59a731be6b in '1.10' branch]
+-
+-
+-From 02a6002c3a80b3a5301c0943b1a1518bbdf439fc Mon Sep 17 00:00:00 2001
+-From: =?UTF-8?q?V=C3=ADctor=20Manuel=20J=C3=A1quez=20Leal?=
+- <vjaquez@igalia.com>
+-Date: Fri, 21 Apr 2017 19:07:18 +0200
+-Subject: [PATCH] vaapivideobufferpool: create allocator if needed
+-
+-Backport to branch 1.10
+-
+-Sometimes a video decoder could set different buffer pool
+-configurations, because their frame size changes. In this case we
+-did not reconfigure the allocator.
+-
+-This patch enables this use case, creating a new allocator inside
+-the VAAPI buffer pool if the caps changed, if it is not dmabuf-based.
+-If so, it is just reconfigured, since it doesn't have a surface pool.
+-
+-https://bugzilla.gnome.org/show_bug.cgi?id=781577
+----
+- gst/vaapi/gstvaapivideobufferpool.c | 21 +++++++++++++++++++++
+- 1 file changed, 21 insertions(+)
+-
+-diff --git a/gst/vaapi/gstvaapivideobufferpool.c b/gst/vaapi/gstvaapivideobufferpool.c
+-index a3b9223f..9a50614b 100644
+---- a/gst/vaapi/gstvaapivideobufferpool.c
+-+++ b/gst/vaapi/gstvaapivideobufferpool.c
+-@@ -159,6 +159,27 @@ gst_vaapi_video_buffer_pool_set_config (GstBufferPool * pool,
+-     gst_object_replace ((GstObject **) & priv->allocator, NULL);
+-   priv->video_info = new_vip;
+- 
+-+  {
+-+    guint surface_alloc_flags;
+-+    gboolean vinfo_changed = FALSE;
+-+
+-+    if (allocator) {
+-+      const GstVideoInfo *alloc_vinfo =
+-+          gst_allocator_get_vaapi_video_info (allocator, &surface_alloc_flags);
+-+      vinfo_changed = gst_video_info_changed (alloc_vinfo, &new_vip);
+-+    }
+-+
+-+    if (vinfo_changed && allocator && priv->use_dmabuf_memory) {
+-+      gst_allocator_set_vaapi_video_info (allocator, &new_vip,
+-+          surface_alloc_flags);
+-+    } else if (!priv->use_dmabuf_memory && (vinfo_changed || !allocator)) {
+-+      /* let's destroy the other allocator and create a new one */
+-+      allocator = gst_vaapi_video_allocator_new (priv->display, &new_vip,
+-+          surface_alloc_flags);
+-+      gst_buffer_pool_config_set_allocator (config, allocator, NULL);
+-+    }
+-+  }
+-+
+-   if (!gst_buffer_pool_config_has_option (config,
+-           GST_BUFFER_POOL_OPTION_VAAPI_VIDEO_META))
+-     goto error_no_vaapi_video_meta_option;
+--- 
+-2.11.0
+-
+-
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi.inc
+index ef0734b..f0ff3c7 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi.inc
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi.inc
+@@ -22,12 +22,17 @@ REQUIRED_DISTRO_FEATURES ?= "opengl"
  
- SRC_URI = "http://gstreamer.freedesktop.org/src/gst-omx/gst-omx-${PV}.tar.xz"
+ PACKAGES =+ "${PN}-tests"
  
--SRC_URI[md5sum] = "cedb230f1c47d0cf4b575d70dff66ff2"
--SRC_URI[sha256sum] = "45072925cf262f0fd528fab78f0de52734e46a5a88aa802fae51c67c09c81aa2"
-+SRC_URI[md5sum] = "eaf9505c7acb9b96215cb0ff775d278d"
-+SRC_URI[sha256sum] = "acee8c8a88b995fb95601b7b43bf0c83f502d9026bca5705f9c0dc44a757997e"
++# opengl packageconfig factored out to make it easy for distros
++# and BSP layers to pick either glx, egl, or no GL
++PACKAGECONFIG_GL ?= "${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'egl', '', d)}"
++
+ PACKAGECONFIG ??= "drm \
+-                   ${@bb.utils.contains('DISTRO_FEATURES', 'opengl x11', 'glx', '', d)} \
++                   ${PACKAGECONFIG_GL} \
+                    ${@bb.utils.filter('DISTRO_FEATURES', 'wayland x11', d)}"
  
- S = "${WORKDIR}/gst-omx-${PV}"
+ PACKAGECONFIG[drm] = "--enable-drm,--disable-drm,udev libdrm"
+-PACKAGECONFIG[glx] = "--enable-glx,--disable-glx,virtual/mesa"
++PACKAGECONFIG[egl] = "--enable-egl,--disable-egl,virtual/egl"
++PACKAGECONFIG[glx] = "--enable-glx,--disable-glx,virtual/libgl"
+ PACKAGECONFIG[wayland] = "--enable-wayland,--disable-wayland,wayland"
+ PACKAGECONFIG[x11] = "--enable-x11,--disable-x11,virtual/libx11 libxrandr libxrender"
+ 
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.10.4.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.10.4.bb
+deleted file mode 100644
+index 44c66de..0000000
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.10.4.bb
++++ /dev/null
+@@ -1,7 +0,0 @@
+-require gstreamer1.0-vaapi.inc
+-SRC_URI[md5sum] = "318af17f906637570b61dd7be9b5581d"
+-SRC_URI[sha256sum] = "03e690621594d9f9495d86c7dac8b8590b3a150462770ed070dc76f66a70de75"
+-
+-SRC_URI += "file://vaapivideobufferpool-create-allocator-if-needed.patch"
+-
+-DEPENDS += "gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-bad"
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.12.0.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.12.0.bb
+new file mode 100644
+index 0000000..4d263bf
+--- /dev/null
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.12.0.bb
+@@ -0,0 +1,5 @@
++require gstreamer1.0-vaapi.inc
++SRC_URI[md5sum] = "7548a48eece6c76298561f2ec890a240"
++SRC_URI[sha256sum] = "4a1a5a174b3d3a76ce6c123203e7ee535a347d77f9d4f4ffaf69bfbbfeb03ddb"
++
++DEPENDS += "gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-bad"
 -- 
 2.7.4
 
