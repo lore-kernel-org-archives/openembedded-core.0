@@ -1,26 +1,26 @@
 Return-Path: <markus.lehtonen@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 7899877D70
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 911EA77E1C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 May 2017 13:18:55 +0000 (UTC)
+	Tue, 16 May 2017 13:19:01 +0000 (UTC)
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	16 May 2017 06:18:57 -0700
+	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	16 May 2017 06:18:58 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.38,349,1491289200"; d="scan'208";a="102711775"
+X-IronPort-AV: E=Sophos;i="5.38,349,1491289200"; d="scan'208";a="102711785"
 Received: from bkearns-mobl.ger.corp.intel.com (HELO
 	mqz-osx-suse64.fi.intel.com) ([10.252.10.90])
-	by fmsmga006.fm.intel.com with ESMTP; 16 May 2017 06:18:54 -0700
+	by fmsmga006.fm.intel.com with ESMTP; 16 May 2017 06:18:57 -0700
 From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 16 May 2017 16:18:31 +0300
-Message-Id: <11e6e5d587cefe5115aa3ae2b2c99b343bcee008.1494939394.git.markus.lehtonen@linux.intel.com>
+Date: Tue, 16 May 2017 16:18:33 +0300
+Message-Id: <b2ceb4eaaec348481e8e6a1897e4015698021a9a.1494939394.git.markus.lehtonen@linux.intel.com>
 X-Mailer: git-send-email 2.12.0
 In-Reply-To: <cover.1494939394.git.markus.lehtonen@linux.intel.com>
 References: <cover.1494939394.git.markus.lehtonen@linux.intel.com>
 In-Reply-To: <cover.1494939394.git.markus.lehtonen@linux.intel.com>
 References: <cover.1494939394.git.markus.lehtonen@linux.intel.com>
-Subject: [PATCH v2 01/20] python-native: support profile optimized build
+Subject: [PATCH v2 03/20] python: remove path hack from setup.py
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,89 +33,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 May 2017 13:18:57 -0000
+X-List-Received-Date: Tue, 16 May 2017 13:19:01 -0000
 
-Make it possible to build python-native with profile directed
-optimization enabled.  The feature is enabled by setting
-PYTHON_NATIVE_PROFILE_OPT = "1" in local.conf.
-
-The profile task to run may be specified with PYTHON_NATIVE_PROFILE_TASK
-variable in local.conf, e.g.
-PYTHON_NATIVE_PROFILE_TASK = "${S}/Tools/pybench/pybench.py -n 2 --with-gc --with-syscheck"
+There should be no need to hack the library and include dirs in
+setup.py. The script detects them from compiler output. We need to
+remove this is because python-profile-opt recipe is built with a
+non-standard prefix setting (i.e. /opt) and the hack breaks the
+discovery of system libraries and headers.
 
 [YOCTO #9338]
 
 Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
 ---
- ...x-.so-loading-when-when-running-profile-t.patch | 26 ++++++++++++++++++++++
- .../python/python-native_2.7.13.bb                 | 10 +++++++++
- 2 files changed, 36 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python-native/Makefile-fix-.so-loading-when-when-running-profile-t.patch
+ .../python/python/01-use-proper-tools-for-cross-build.patch    | 10 ----------
+ 1 file changed, 10 deletions(-)
 
-diff --git a/meta/recipes-devtools/python/python-native/Makefile-fix-.so-loading-when-when-running-profile-t.patch b/meta/recipes-devtools/python/python-native/Makefile-fix-.so-loading-when-when-running-profile-t.patch
-new file mode 100644
-index 0000000000..e4c89dba03
---- /dev/null
-+++ b/meta/recipes-devtools/python/python-native/Makefile-fix-.so-loading-when-when-running-profile-t.patch
-@@ -0,0 +1,26 @@
-+Makefile: fix .so loading when when running profile task
-+
-+Use correct search path when doing profiling for profile-optimized
-+build. This way we load the correct Python libraries, i.e. the ones from
-+our build directory, and not the ones from the host os.
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
-+
-+diff --git a/Makefile.pre.in b/Makefile.pre.in
-+index 2affc41..4355e7f 100644
-+--- a/Makefile.pre.in
-++++ b/Makefile.pre.in
-+@@ -458,7 +458,7 @@ build_all_generate_profile:
-+ 
-+ run_profile_task:
-+ 	: # FIXME: can't run for a cross build
-+-	$(LLVM_PROF_FILE) ./$(BUILDPYTHON) $(PROFILE_TASK) || true
-++	$(LLVM_PROF_FILE) $(RUNSHARED) ./$(BUILDPYTHON) $(PROFILE_TASK) || true
-+ 
-+ build_all_merge_profile:
-+ 	$(LLVM_PROF_MERGER)
-+-- 
-+2.6.6
-+
-diff --git a/meta/recipes-devtools/python/python-native_2.7.13.bb b/meta/recipes-devtools/python/python-native_2.7.13.bb
-index 7edf153489..28fb007d32 100644
---- a/meta/recipes-devtools/python/python-native_2.7.13.bb
-+++ b/meta/recipes-devtools/python/python-native_2.7.13.bb
-@@ -17,6 +17,7 @@ SRC_URI += "\
-             file://builddir.patch \
-             file://parallel-makeinst-create-bindir.patch \
-             file://revert_use_of_sysconfigdata.patch \
-+            file://Makefile-fix-.so-loading-when-when-running-profile-t.patch \
-            "
- 
- S = "${WORKDIR}/Python-${PV}"
-@@ -35,10 +36,19 @@ EXTRA_OEMAKE = '\
-   STAGING_INCDIR=${STAGING_INCDIR_NATIVE} \
- '
- 
-+PYTHON_NATIVE_MAKE_TARGET ?= "${@'profile-opt' if d.getVar('PYTHON_NATIVE_PROFILE_OPT', True) == '1' else ''}"
-+
- do_configure_append() {
- 	autoreconf --verbose --install --force --exclude=autopoint ../Python-${PV}/Modules/_ctypes/libffi
- }
- 
-+do_compile() {
-+    if [ -n "${PYTHON_NATIVE_PROFILE_TASK}" ]; then
-+        sed -i -e 's,^PROFILE_TASK=.*,PROFILE_TASK=${PYTHON_NATIVE_PROFILE_TASK},g' Makefile
-+    fi
-+    oe_runmake ${PYTHON_NATIVE_MAKE_TARGET}
-+}
-+
- do_install() {
- 	oe_runmake 'DESTDIR=${D}' install
- 	install -d ${D}${bindir}/${PN}
+diff --git a/meta/recipes-devtools/python/python/01-use-proper-tools-for-cross-build.patch b/meta/recipes-devtools/python/python/01-use-proper-tools-for-cross-build.patch
+index 366ce3e400..02656d23c5 100644
+--- a/meta/recipes-devtools/python/python/01-use-proper-tools-for-cross-build.patch
++++ b/meta/recipes-devtools/python/python/01-use-proper-tools-for-cross-build.patch
+@@ -85,13 +85,3 @@ Index: Python-2.7.13/setup.py
+              assert not self.inplace
+              basename, tail = os.path.splitext(ext_filename)
+              newname = basename + "_failed" + tail
+-@@ -574,6 +575,9 @@ class PyBuildExt(build_ext):
+- 
+-         # XXX Omitted modules: gl, pure, dl, SGI-specific modules
+- 
+-+        lib_dirs = [ os.getenv("STAGING_LIBDIR"),  os.getenv("STAGING_BASELIBDIR") ]
+-+        inc_dirs = [ os.getenv("STAGING_INCDIR") ]
+-+
+-         #
+-         # The following modules are all pretty straightforward, and compile
+-         # on pretty much any POSIXish platform.
 -- 
 2.12.0
 
