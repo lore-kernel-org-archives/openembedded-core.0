@@ -1,50 +1,43 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qt0-f176.google.com (mail-qt0-f176.google.com
-	[209.85.216.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 8788B77D49
+Return-Path: <sona.sarmadi@enea.com>
+X-Greylist: delayed 890 seconds by postgrey-1.34 at layers.openembedded.org;
+	Tue, 16 May 2017 12:20:00 UTC
+Received: from smtp-out11.electric.net (smtp-out11.electric.net
+	[185.38.181.32])
+	by mail.openembedded.org (Postfix) with ESMTP id 5961C77D60
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 May 2017 12:19:21 +0000 (UTC)
-Received: by mail-qt0-f176.google.com with SMTP id f55so75397416qta.3
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 May 2017 05:19:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=YWNv/G4I1kVQniKU3U01CwiNi9huyyzlXqKUNbTcOBo=;
-	b=z2k+1RkSrEarJwaOMMNQ7hnTnEHv85mlXW9gvOlfmXqcYr+zCUqwPD/Th52a9HYh5C
-	Z9JaZICpqcmgL++4I9gEcICVAl56j9KV8x9GNcGAdtgGJgYVGGDxbIeLp6J4hPQ0lNvw
-	a9OrmP1wPW5PsZmuG8AA17IoFQBLR4MpPmb3cbEEe880EKJ3kxgrDTNyoyucPZa/sasK
-	IvKWL/mbgCr7uGOHgAV5lqpeNogG0lWBl5Gc9sIQ3j0c/pNT+/1kBO/pVH1dDURXt0Dt
-	kS4itdn0DXdoF2JHQnL8dpK6tEdB4uZsxY1we5vIF+J5J7UU82cjD4UtOd3fjrqeSY3e
-	Y/IA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=YWNv/G4I1kVQniKU3U01CwiNi9huyyzlXqKUNbTcOBo=;
-	b=qfzYigrv4AcDiWFJV84ffLOFuV0gqYRF3/MORyCySF/7ZbOsE807e+iYAIj54OGHLr
-	7zOHEGjhfZ42WznGiqSwSC+8RiNzrwGDpaguJLRnzXUp+EdgZ0dYyr3hIvvTERcnM0EA
-	/BJ9RfquPLQz1k0T1x5kR2FYySEWfBb/L/E2DhHr/YucA9r8UP1D8imKG4IYmtEaNI+o
-	4AxYuMBw+rLCGVlFiovUXr58ts5mIm/lJGVMUv683hLfg5Bv2mUa4FzJsn7y4/XbHEGj
-	lCYfr2foyyAqqGNAf+zLt9LHwaGmGFz8SkbtdkDkm1f7eHUlpYe+DaBl52NlWJ5TPKn0
-	ovvQ==
-X-Gm-Message-State: AODbwcDJJYXmGwiQdLfU1/3c0yEgLgJZCkfiZtad/fNhJhCln9ll3zrE
-	TCQQiWL75cYTfTeFqp5P8VqH9CA3slXV
-X-Received: by 10.237.36.219 with SMTP id u27mr10804223qtc.197.1494937162052; 
-	Tue, 16 May 2017 05:19:22 -0700 (PDT)
+	Tue, 16 May 2017 12:20:00 +0000 (UTC)
+Received: from 1dAbDy-0002Lf-VJ by out11d.electric.net with emc1-ok (Exim 4.87)
+	(envelope-from <sona.sarmadi@enea.com>) id 1dAbDy-0002M2-Vl
+	for openembedded-core@lists.openembedded.org;
+	Tue, 16 May 2017 05:05:10 -0700
+Received: by emcmailer; Tue, 16 May 2017 05:05:10 -0700
+Received: from [192.36.1.72] (helo=mx-3.enea.com)
+	by out11d.electric.net with esmtps (TLSv1:ECDHE-RSA-AES256-SHA:256)
+	(Exim 4.87) (envelope-from <sona.sarmadi@enea.com>)
+	id 1dAbDy-0002Lf-VJ for openembedded-core@lists.openembedded.org;
+	Tue, 16 May 2017 05:05:10 -0700
+Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
+	(172.21.1.208) with Microsoft SMTP Server id 14.3.319.2;
+	Tue, 16 May 2017 14:05:10 +0200
+From: Sona Sarmadi <sona.sarmadi@enea.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 16 May 2017 14:05:06 +0200
+Message-ID: <1494936306-1567-1-git-send-email-sona.sarmadi@enea.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Received: by 10.140.41.115 with HTTP; Tue, 16 May 2017 05:19:01 -0700 (PDT)
-In-Reply-To: <CAMKF1spBOuOq0yvQ2v4GaKXX4b7mi+o+B26YaHPaK0jtP4kwXw@mail.gmail.com>
-References: <1494839116-32279-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
-	<CAHiDW_FuoagmNjK=XV3OeaYSq+AAR6NvcZ9RnKFabN0=DUFHGQ@mail.gmail.com>
-	<CAMKF1spBOuOq0yvQ2v4GaKXX4b7mi+o+B26YaHPaK0jtP4kwXw@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 16 May 2017 13:19:01 +0100
-Message-ID: <CAJTo0LZ9vD21YSPJQNiw_nMv_gHtVtuERVkvJvnEomWY=taapw@mail.gmail.com>
-To: huangqy <huangqy.fnst@cn.fujitsu.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v3] libnl: 3.2.29 -> 3.3.0
+Received-SPF: None (SESTOEX08.enea.se: sona.sarmadi@enea.com does not
+	designate permitted sender hosts)
+X-Outbound-IP: 192.36.1.72
+X-Env-From: sona.sarmadi@enea.com
+X-Proto: esmtps
+X-Revdns: mx-3.enea.com
+X-HELO: mx-3.enea.com
+X-TLS: TLSv1:ECDHE-RSA-AES256-SHA:256
+X-Authenticated_ID: 
+X-PolicySMART: 6551647
+X-Virus-Status: Scanned by VirusSMART (c)
+X-Virus-Status: Scanned by VirusSMART (s)
+Subject: [PATCH] Qemu: update to 2.8.1.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,48 +50,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 May 2017 12:19:23 -0000
-Content-Type: multipart/alternative; boundary="001a11406ef0819e77054fa32e0a"
+X-List-Received-Date: Tue, 16 May 2017 12:20:01 -0000
+Content-Type: text/plain
 
---001a11406ef0819e77054fa32e0a
-Content-Type: text/plain; charset="UTF-8"
+Fixed CVE:
 
-On 15 May 2017 at 16:58, Khem Raj <raj.khem@gmail.com> wrote:
+ - CVE-2017-2620 (Severity = High)
+display: cirrus: potential arbitrary code execution via cirrus_bitblt_cputovideo
 
-> >> +SRC_URI_append_libc-musl = "file://musl-header-conflict.patch"
-> >
-> >
-> > Does the patched version not build with glibc or why is this only patched
-> > for musl?
->
-> this should be generic
->
+Reference
+https://lists.gnu.org/archive/html/qemu-devel/2017-02/msg04700.html
 
-Yes, please always apply patches which despite fixing build failures on a
-specific libc are in fact safe for all libcs.
+Removed patches (already in upstream):
 
-Ross
+- target-ppc-fix-user-mode.patch
 
---001a11406ef0819e77054fa32e0a
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
+---
+ meta/recipes-devtools/qemu/{qemu_2.8.0.bb => qemu_2.8.1.1.bb} | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
+ rename meta/recipes-devtools/qemu/{qemu_2.8.0.bb => qemu_2.8.1.1.bb} (87%)
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 15 May 2017 at 16:58, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"mailto:r=
-aj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</span> wrot=
-e:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-l=
-eft:1px #ccc solid;padding-left:1ex"><div class=3D"HOEnZb adM"><div class=
-=3D"">&gt;&gt; +SRC_URI_append_libc-musl =3D &quot;file://musl-header-confl=
-ict.<wbr>patch&quot;<br>
-&gt;<br>
-&gt;<br>
-&gt; Does the patched version not build with glibc or why is this only patc=
-hed<br>
-&gt; for musl?<br>
-<br>
-</div></div>this should be generic<br></blockquote><div><br></div><div>Yes,=
- please always apply patches which despite fixing build failures on a speci=
-fic libc are in fact safe for all libcs.</div><div><br></div><div>Ross</div=
-></div></div></div>
+diff --git a/meta/recipes-devtools/qemu/qemu_2.8.0.bb b/meta/recipes-devtools/qemu/qemu_2.8.1.1.bb
+similarity index 87%
+rename from meta/recipes-devtools/qemu/qemu_2.8.0.bb
+rename to meta/recipes-devtools/qemu/qemu_2.8.1.1.bb
+index 19d7e8f..1d5bcf9 100644
+--- a/meta/recipes-devtools/qemu/qemu_2.8.0.bb
++++ b/meta/recipes-devtools/qemu/qemu_2.8.1.1.bb
+@@ -19,7 +19,6 @@ SRC_URI += " \
+             file://no-valgrind.patch \
+             file://pathlimit.patch \
+             file://qemu-2.5.0-cflags.patch \
+-            file://target-ppc-fix-user-mode.patch \
+             file://glibc-2.25.patch \
+ "
+ 
+@@ -28,8 +27,6 @@ SRC_URI += " \
+             file://0002-Introduce-condition-to-notify-waiters-of-completed-c.patch \
+             file://0003-Introduce-condition-in-TPM-backend-for-notification.patch \
+             file://0004-Add-support-for-VM-suspend-resume-for-TPM-TIS.patch \
+-            file://CVE-2016-9908.patch \
+-            file://CVE-2016-9912.patch \
+ "
+ 
+ SRC_URI_append_class-native = " \
+@@ -39,8 +36,8 @@ SRC_URI_append_class-native = " \
+ 
+ SRC_URI =+ "http://wiki.qemu-project.org/download/${BP}.tar.bz2"
+ 
+-SRC_URI[md5sum] = "17940dce063b6ce450a12e719a6c9c43"
+-SRC_URI[sha256sum] = "dafd5d7f649907b6b617b822692f4c82e60cf29bc0fc58bc2036219b591e5e62"
++SRC_URI[md5sum] = "a6a23a0c59fd0f8ec564b0fb89a79954"
++SRC_URI[sha256sum] = "f62ab18a1fb9ff5b4c81ed44becc945b11581eff777618141bdb787da55d3638"
+ 
+ COMPATIBLE_HOST_mipsarchn32 = "null"
+ COMPATIBLE_HOST_mipsarchn64 = "null"
+-- 
+1.9.1
 
---001a11406ef0819e77054fa32e0a--
+
