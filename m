@@ -1,20 +1,20 @@
 Return-Path: <dv@pseudoterminal.org>
 Received: from ptmx.org (ptmx.org [178.63.28.110])
-	by mail.openembedded.org (Postfix) with ESMTP id 19C2177D42
+	by mail.openembedded.org (Postfix) with ESMTP id 1BF8877D46
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 16 May 2017 11:26:24 +0000 (UTC)
 Received: from soylentgreen.sue.net (vpn.streamunlimited.com [91.114.0.140])
-	by ptmx.org (Postfix) with ESMTPSA id 56FA146E5A
+	by ptmx.org (Postfix) with ESMTPSA id 9109E46E59
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 May 2017 13:26:25 +0200 (CEST)
+	Tue, 16 May 2017 13:26:24 +0200 (CEST)
 From: Carlos Rafael Giani <dv@pseudoterminal.org>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 16 May 2017 13:26:13 +0200
-Message-Id: <1494933979-5139-3-git-send-email-dv@pseudoterminal.org>
+Date: Tue, 16 May 2017 13:26:12 +0200
+Message-Id: <1494933979-5139-2-git-send-email-dv@pseudoterminal.org>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1494933979-5139-1-git-send-email-dv@pseudoterminal.org>
 References: <1494933979-5139-1-git-send-email-dv@pseudoterminal.org>
-Subject: [PATCH 3/9] gstreamer1.0-plugins-good: upgrade to version 1.12.0
+Subject: [PATCH 2/9] gstreamer1.0-plugins-base: upgrade to version 1.12.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,76 +29,75 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 16 May 2017 11:26:25 -0000
 
-* Removed backported v4l2object patch since it is no longer needed
+* Removed encodebin patch since it has been merged
 
 Signed-off-by: Carlos Rafael Giani <dv@pseudoterminal.org>
 ---
- ...Also-add-videometa-if-there-is-padding-to.patch | 35 ----------------------
- ...10.4.bb => gstreamer1.0-plugins-good_1.12.0.bb} |  5 ++--
- 2 files changed, 2 insertions(+), 38 deletions(-)
- delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/0001-v4l2object-Also-add-videometa-if-there-is-padding-to.patch
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-good_1.10.4.bb => gstreamer1.0-plugins-good_1.12.0.bb} (78%)
+ ...eed-more-buffers-in-output-queue-for-bett.patch | 32 ----------------------
+ ...10.4.bb => gstreamer1.0-plugins-base_1.12.0.bb} |  5 ++--
+ 2 files changed, 2 insertions(+), 35 deletions(-)
+ delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/encodebin-Need-more-buffers-in-output-queue-for-bett.patch
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-base_1.10.4.bb => gstreamer1.0-plugins-base_1.12.0.bb} (78%)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/0001-v4l2object-Also-add-videometa-if-there-is-padding-to.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/0001-v4l2object-Also-add-videometa-if-there-is-padding-to.patch
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/encodebin-Need-more-buffers-in-output-queue-for-bett.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/encodebin-Need-more-buffers-in-output-queue-for-bett.patch
 deleted file mode 100644
-index 2a9a23e..0000000
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/0001-v4l2object-Also-add-videometa-if-there-is-padding-to.patch
+index 5341e3c..0000000
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/encodebin-Need-more-buffers-in-output-queue-for-bett.patch
 +++ /dev/null
-@@ -1,35 +0,0 @@
--From 22be02612adc757f6a43cefc6ee65ecaef68f0d9 Mon Sep 17 00:00:00 2001
--From: Carlos Rafael Giani <dv@pseudoterminal.org>
--Date: Thu, 23 Mar 2017 22:13:05 +0100
--Subject: [PATCH] v4l2object: Also add videometa if there is padding to the
-- right and bottom
+@@ -1,32 +0,0 @@
+-From 540e02c92c75e08b90326863dc787fa5cadf9da6 Mon Sep 17 00:00:00 2001
+-From: Song Bing <b06498@freescale.com>
+-Date: Fri, 13 Mar 2015 18:04:31 +0800
+-Subject: [PATCH] encodebin: Need more buffers in output queue for better
+- performance
 -
--https://bugzilla.gnome.org/show_bug.cgi?id=780478
+-Need more buffers in output queue for better performance
 -
--Upstream-Status: Backport [1.10.5]
+-Upstream-Status: Submitted [https://bugzilla.gnome.org/show_bug.cgi?id=744191]
 -
--Signed-off-by: Carlos Rafael Giani <dv@pseudoterminal.org>
+-Signed-off-by: Song Bing <b06498@freescale.com>
 ----
-- sys/v4l2/gstv4l2object.c | 5 +++--
-- 1 file changed, 3 insertions(+), 2 deletions(-)
+- gst/encoding/gstencodebin.c |    3 +--
+- 1 file changed, 1 insertion(+), 2 deletions(-)
 -
--diff --git a/sys/v4l2/gstv4l2object.c b/sys/v4l2/gstv4l2object.c
--index 91c8ff0..ed4654e 100644
----- a/sys/v4l2/gstv4l2object.c
--+++ b/sys/v4l2/gstv4l2object.c
--@@ -3070,9 +3070,10 @@ store_info:
--   GST_DEBUG_OBJECT (v4l2object->element, "Got sizeimage %" G_GSIZE_FORMAT,
--       info->size);
+-diff --git a/gst/encoding/gstencodebin.c b/gst/encoding/gstencodebin.c
+-index 6728e58..32daae4 100644
+---- a/gst/encoding/gstencodebin.c
+-+++ b/gst/encoding/gstencodebin.c
+-@@ -1228,8 +1228,7 @@ _create_stream_group (GstEncodeBin * ebin, GstEncodingProfile * sprof,
+-    * We only use a 1buffer long queue here, the actual queueing will be done
+-    * in the input queue */
+-   last = sgroup->outqueue = gst_element_factory_make ("queue", NULL);
+--  g_object_set (sgroup->outqueue, "max-size-buffers", (guint32) 1,
+--      "max-size-bytes", (guint32) 0, "max-size-time", (guint64) 0,
+-+  g_object_set (sgroup->outqueue, "max-size-time", (guint64) 0,
+-       "silent", TRUE, NULL);
 - 
---  /* to avoid copies we need video meta if top or left padding */
--+  /* to avoid copies we need video meta if there is padding */
--   v4l2object->need_video_meta =
---      ((align->padding_top + align->padding_left) != 0);
--+      ((align->padding_top + align->padding_left + align->padding_right +
--+          align->padding_bottom) != 0);
-- 
--   /* ... or if stride is non "standard" */
--   if (!standard_stride)
+-   gst_bin_add (GST_BIN (ebin), sgroup->outqueue);
 --- 
--2.7.4
+-1.7.9.5
 -
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.10.4.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.12.0.bb
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.10.4.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.12.0.bb
 similarity index 78%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.10.4.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.12.0.bb
-index 57447bf..42dd706 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.10.4.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.12.0.bb
-@@ -10,9 +10,8 @@ SRC_URI = " \
-     file://avoid-including-sys-poll.h-directly.patch \
-     file://ensure-valid-sentinel-for-gst_structure_get.patch \
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.10.4.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.12.0.bb
+index 7c81670..637ea3e 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.10.4.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.12.0.bb
+@@ -9,11 +9,10 @@ SRC_URI = " \
+     file://get-caps-from-src-pad-when-query-caps.patch \
+     file://0003-ssaparse-enhance-SSA-text-lines-parsing.patch \
+     file://0004-subparse-set-need_segment-after-sink-pad-received-GS.patch \
+-    file://encodebin-Need-more-buffers-in-output-queue-for-bett.patch \
+     file://make-gio_unix_2_0-dependency-configurable.patch \
      file://0001-introspection.m4-prefix-pkgconfig-paths-with-PKG_CON.patch \
--    file://0001-v4l2object-Also-add-videometa-if-there-is-padding-to.patch \
  "
--SRC_URI[md5sum] = "cc0cc13cdb07d4237600b6886b81f31d"
--SRC_URI[sha256sum] = "8a86c61434a8c44665365bd0b3557a040937d1f44bf69caee4e9ea816ce74d7e"
-+SRC_URI[md5sum] = "9294b22ddab3bec373cbc5e84ff4c084"
-+SRC_URI[sha256sum] = "8a1d734db7338e00c28b794a7f0a5a9e67d1c5c8b0074075b50638207d372ebc"
+-SRC_URI[md5sum] = "f6b46f8fac01eb773d556e3efc369e86"
+-SRC_URI[sha256sum] = "f6d245b6b3d4cb733f81ebb021074c525ece83db0c10e932794b339b8d935eb7"
++SRC_URI[md5sum] = "f34fc5630f9db0db53172fcf3b955e01"
++SRC_URI[sha256sum] = "345fc6877f54b8b6e97aacf2996be37a51a0e369f53fc2cf83108af9f764364d"
  
- S = "${WORKDIR}/gst-plugins-good-${PV}"
+ S = "${WORKDIR}/gst-plugins-base-${PV}"
 -- 
 2.7.4
 
