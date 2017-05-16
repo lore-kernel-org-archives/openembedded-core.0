@@ -1,25 +1,47 @@
-Return-Path: <markus.lehtonen@linux.intel.com>
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id 1ED9B77DB1
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm0-f54.google.com (mail-wm0-f54.google.com [74.125.82.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 034E877E56
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 May 2017 13:19:19 +0000 (UTC)
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-	by orsmga105.jf.intel.com with ESMTP; 16 May 2017 06:19:20 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.38,349,1491289200"; d="scan'208";a="102711950"
-Received: from bkearns-mobl.ger.corp.intel.com (HELO
-	mqz-osx-suse64.fi.intel.com) ([10.252.10.90])
-	by fmsmga006.fm.intel.com with ESMTP; 16 May 2017 06:19:19 -0700
-From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+	Tue, 16 May 2017 13:20:52 +0000 (UTC)
+Received: by mail-wm0-f54.google.com with SMTP id b84so133394498wmh.0
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 16 May 2017 06:20:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=i/laglanoAtk/8uTzzSl+TlKmJiq4+X+Ovu7Gw3qvuo=;
+	b=1DpZTzW5kvAayeeU3qGuYmJRBWDexvlJ8gajw4Oa1H9OHx8Vvj+sqG1ncdBjvXpJFH
+	XHQfgur74AQbxtCPwnt2K+yhAPpO8bFEEYcbhA6ZDxTBeAfAY9fGmP1D3suMgCgysMMh
+	Sk4KZ7KnKGD10IO2iCbLyU25EzCTo8Uelk4KSjFAVbygab/DhTtsnud9FA7telOZnh+K
+	7mqE0EUYoma/1bLg77GeFZjZGGBld8pYy/Hb1+EggX5V0OJs7WDRO8mOladjIBOf9Ima
+	0m3HfDztiK/kxzfgJs7UjJmWZ8o6wDY5hCwYTlsacFHND5gFEUIQA7F5kZhU2ZXX5SAM
+	IYRA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=i/laglanoAtk/8uTzzSl+TlKmJiq4+X+Ovu7Gw3qvuo=;
+	b=Aa0pIMUH5k7utm+CXNdM9EbY/3A5l9rpoqdBaLM5XQKRWDmLGewMfgIRfKle6DM8RH
+	B2zhee/+I0n233/vKLpbfs+lagy2QNL6pw0Z0hGC9ig+v3b87vn4yUQ4tjz/eRyMYG+d
+	r6TpwIb3PdbNUwoekq5UM90Wewgw0/CFuof6zGx8+rW77IHr+92MLEI+gqWDX0ZgtTXG
+	OfON6egq8VduvSbnTLwMe/1xmsd/LPyNGIjg0kkQmL59gXzrgChWgCUKsDQFN9hXR83o
+	B6m0zQq/GF1zERfmcSS46OF2G3OiH7Q48ymPYr4I6BOQqTGOH1KNu5dief9VEwhoMKRb
+	dXsA==
+X-Gm-Message-State: AODbwcDsVCb08K5uZJ2Jbc3al9HTmBgVDQod+z2hC3bwjNsSP5EF4FmV
+	Fs+jhCqMpf00cZoskpE=
+X-Received: by 10.28.16.212 with SMTP id 203mr6490635wmq.26.1494940852927;
+	Tue, 16 May 2017 06:20:52 -0700 (PDT)
+Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id
+	h70sm6579646wma.14.2017.05.16.06.20.51
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 16 May 2017 06:20:52 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 16 May 2017 16:18:50 +0300
-Message-Id: <d5e464c405080ef6afac33a68652badb02c8db73.1494939394.git.markus.lehtonen@linux.intel.com>
-X-Mailer: git-send-email 2.12.0
-In-Reply-To: <cover.1494939394.git.markus.lehtonen@linux.intel.com>
-References: <cover.1494939394.git.markus.lehtonen@linux.intel.com>
-In-Reply-To: <cover.1494939394.git.markus.lehtonen@linux.intel.com>
-References: <cover.1494939394.git.markus.lehtonen@linux.intel.com>
-Subject: [PATCH v2 20/20] python-pgo-image: change python3 profile target to pybench
+Date: Tue, 16 May 2017 14:20:48 +0100
+Message-Id: <1494940848-25745-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.8.1
+Subject: [PATCH] scripts: add pkgdataui
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,51 +54,611 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 May 2017 13:19:19 -0000
+X-List-Received-Date: Tue, 16 May 2017 13:20:53 -0000
 
-Running test.regrtest was still taking ridiculously long, i.e. around 4
-hours in qemux86 on my desktop machine. Change to pybench which "only"
-takes around 55 minutes.
+pkgdataui is a Python 3/GObject Introspection/GTK+ 3 tool to browse the pkgdata
+database at your leisure.  By being graphical it is easier to explore and can
+follow links between packages.
 
-[YOCTO #9338]
+This is very much a work in progress, so be gentle and patches are welcome.
 
-Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-devtools/images/python-pgo-image.bb | 11 ++++++-----
- 1 file changed, 6 insertions(+), 5 deletions(-)
+ scripts/pkgdataui.glade | 335 ++++++++++++++++++++++++++++++++++++++++++++++++
+ scripts/pkgdataui.py    | 241 ++++++++++++++++++++++++++++++++++
+ 2 files changed, 576 insertions(+)
+ create mode 100644 scripts/pkgdataui.glade
+ create mode 100755 scripts/pkgdataui.py
 
-diff --git a/meta/recipes-devtools/images/python-pgo-image.bb b/meta/recipes-devtools/images/python-pgo-image.bb
-index e16cd52486..dc98e0c839 100644
---- a/meta/recipes-devtools/images/python-pgo-image.bb
-+++ b/meta/recipes-devtools/images/python-pgo-image.bb
-@@ -3,7 +3,7 @@ SUMMARY = "Minimal image for doing Python profiling (for PGO)"
- IMAGE_FEATURES += "ssh-server-dropbear"
- IMAGE_INSTALL = "packagegroup-core-boot"
- IMAGE_INSTALL += "python-profile-opt python-profile-opt-tests python-profile-opt-tools"
--IMAGE_INSTALL += "python-profile-opt3 python-profile-opt3-tests"
-+IMAGE_INSTALL += "python-profile-opt3 python-profile-opt3-tests python-profile-opt3-tools"
- 
- LICENSE = "MIT"
- 
-@@ -22,12 +22,13 @@ PYTHON_PROFILE_TASK_DEFAULT = "/opt/share/doc/python-profile-opt/Tools/pybench/p
- PYTHON_PROFILE_TASK ?= "${PYTHON_PROFILE_TASK_DEFAULT}"
- 
- PYTHON3_PROFILE_DIR ?= "${TMPDIR}/work-shared/${MACHINE}/python3/pgo-data"
--PYTHON3_PROFILE_TASK_DEFAULT = "-m test.regrtest --pgo -w -x test_asyncore test_gdb test_multiprocessing_fork test_multiprocessing_forkserver test_multiprocessing_main_handling test_multiprocessing_spawn test_subprocess"
-+#PYTHON3_PROFILE_TASK_DEFAULT = "-m test.regrtest --pgo -w -x test_asyncore test_gdb test_multiprocessing_fork test_multiprocessing_forkserver test_multiprocessing_main_handling test_multiprocessing_spawn test_subprocess"
- # Exclude tests that are failing on qemux86
--PYTHON3_PROFILE_TASK_DEFAULT += "test_builtin test_cmath test_concurrent_futures test_difflib test_distutils test_float test_format test_math test_optparse test_shutil test_statistics test_types test_unicode"
-+#PYTHON3_PROFILE_TASK_DEFAULT += "test_builtin test_cmath test_concurrent_futures test_difflib test_distutils test_float test_format test_math test_optparse test_shutil test_statistics test_types test_unicode"
- # Exclude tests that are taking very long on qemux86
--PYTHON3_PROFILE_TASK_DEFAULT += "test_lib2to3 test_buffer test_pickle test_io test_threading test_asyncio test_urllib2_localnet test_itertools test_tuple test_trace test_tarfile test_unicodedata test_decimal"
--PYTHON3_PROFILE_TASK_DEFAULT += "test_long test_zipfile test_deque test_descr test_email test_venv test_bytes test_compileall test_ast test_multibytecodec"
-+#PYTHON3_PROFILE_TASK_DEFAULT += "test_lib2to3 test_buffer test_pickle test_io test_threading test_asyncio test_urllib2_localnet test_itertools test_tuple test_trace test_tarfile test_unicodedata test_decimal"
-+#PYTHON3_PROFILE_TASK_DEFAULT += "test_long test_zipfile test_deque test_descr test_email test_venv test_bytes test_compileall test_ast test_multibytecodec"
-+PYTHON3_PROFILE_TASK_DEFAULT = "/opt/share/doc/python-profile-opt3/Tools/pybench/pybench.py -n 2 --with-gc --with-syscheck"
- 
- PYTHON3_PROFILE_TASK ?= "${PYTHON3_PROFILE_TASK_DEFAULT}"
- 
+diff --git a/scripts/pkgdataui.glade b/scripts/pkgdataui.glade
+new file mode 100644
+index 0000000..04e987b
+--- /dev/null
++++ b/scripts/pkgdataui.glade
+@@ -0,0 +1,335 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<!-- Generated with glade 3.18.3 -->
++<interface>
++  <requires lib="gtk+" version="3.12"/>
++  <object class="GtkListStore" id="file_store">
++    <columns>
++      <!-- column-name Filename -->
++      <column type="gchararray"/>
++      <!-- column-name Size -->
++      <column type="glong"/>
++    </columns>
++  </object>
++  <object class="GtkListStore" id="package_store">
++    <columns>
++      <!-- column-name Package -->
++      <column type="gchararray"/>
++      <!-- column-name Size -->
++      <column type="glong"/>
++    </columns>
++  </object>
++  <object class="GtkListStore" id="pkgdata_store">
++    <columns>
++      <!-- column-name Name -->
++      <column type="gchararray"/>
++      <!-- column-name Path -->
++      <column type="gchararray"/>
++    </columns>
++  </object>
++  <object class="GtkListStore" id="recipe_store">
++    <columns>
++      <!-- column-name Recipe -->
++      <column type="gchararray"/>
++    </columns>
++  </object>
++  <object class="GtkWindow" id="window">
++    <property name="can_focus">False</property>
++    <property name="title" translatable="yes">Package Data Browser</property>
++    <property name="icon_name">accessories-dictionary</property>
++    <property name="has_resize_grip">True</property>
++    <child>
++      <object class="GtkBox" id="box1">
++        <property name="visible">True</property>
++        <property name="can_focus">False</property>
++        <property name="margin_left">4</property>
++        <property name="margin_right">4</property>
++        <property name="margin_top">4</property>
++        <property name="margin_bottom">4</property>
++        <property name="orientation">vertical</property>
++        <property name="spacing">4</property>
++        <child>
++          <object class="GtkComboBox" id="pkgdata_combo">
++            <property name="can_focus">False</property>
++            <property name="model">pkgdata_store</property>
++            <property name="id_column">1</property>
++            <child>
++              <object class="GtkCellRendererText" id="cellrenderertext5"/>
++              <attributes>
++                <attribute name="text">0</attribute>
++              </attributes>
++            </child>
++          </object>
++          <packing>
++            <property name="expand">False</property>
++            <property name="fill">True</property>
++            <property name="position">0</property>
++          </packing>
++        </child>
++        <child>
++          <object class="GtkPaned" id="paned1">
++            <property name="visible">True</property>
++            <property name="can_focus">True</property>
++            <property name="position">200</property>
++            <property name="position_set">True</property>
++            <child>
++              <object class="GtkScrolledWindow" id="scrolledwindow1">
++                <property name="visible">True</property>
++                <property name="can_focus">True</property>
++                <property name="shadow_type">in</property>
++                <property name="min_content_width">100</property>
++                <child>
++                  <object class="GtkTreeView" id="recipe_view">
++                    <property name="visible">True</property>
++                    <property name="can_focus">True</property>
++                    <property name="model">recipe_store</property>
++                    <property name="search_column">0</property>
++                    <property name="fixed_height_mode">True</property>
++                    <property name="show_expanders">False</property>
++                    <child internal-child="selection">
++                      <object class="GtkTreeSelection" id="treeview-selection1"/>
++                    </child>
++                    <child>
++                      <object class="GtkTreeViewColumn" id="treeviewcolumn1">
++                        <property name="sizing">fixed</property>
++                        <property name="title" translatable="yes">Recipe</property>
++                        <child>
++                          <object class="GtkCellRendererText" id="cellrenderertext1"/>
++                          <attributes>
++                            <attribute name="text">0</attribute>
++                          </attributes>
++                        </child>
++                      </object>
++                    </child>
++                  </object>
++                </child>
++              </object>
++              <packing>
++                <property name="resize">False</property>
++                <property name="shrink">True</property>
++              </packing>
++            </child>
++            <child>
++              <object class="GtkPaned" id="paned2">
++                <property name="visible">True</property>
++                <property name="can_focus">True</property>
++                <property name="position">200</property>
++                <property name="position_set">True</property>
++                <child>
++                  <object class="GtkScrolledWindow" id="scrolledwindow2">
++                    <property name="visible">True</property>
++                    <property name="can_focus">True</property>
++                    <property name="shadow_type">in</property>
++                    <property name="min_content_width">100</property>
++                    <child>
++                      <object class="GtkTreeView" id="package_view">
++                        <property name="visible">True</property>
++                        <property name="can_focus">True</property>
++                        <property name="model">package_store</property>
++                        <property name="search_column">0</property>
++                        <property name="show_expanders">False</property>
++                        <child internal-child="selection">
++                          <object class="GtkTreeSelection" id="treeview-selection2"/>
++                        </child>
++                        <child>
++                          <object class="GtkTreeViewColumn" id="package_name_column">
++                            <property name="resizable">True</property>
++                            <property name="sizing">autosize</property>
++                            <property name="title" translatable="yes">Package</property>
++                            <property name="sort_column_id">0</property>
++                            <child>
++                              <object class="GtkCellRendererText" id="cellrenderertext2"/>
++                              <attributes>
++                                <attribute name="text">0</attribute>
++                              </attributes>
++                            </child>
++                          </object>
++                        </child>
++                        <child>
++                          <object class="GtkTreeViewColumn" id="package_size_column">
++                            <property name="resizable">True</property>
++                            <property name="sizing">autosize</property>
++                            <property name="title" translatable="yes">Size</property>
++                            <property name="sort_column_id">1</property>
++                            <child>
++                              <object class="GtkCellRendererText" id="package_size_cell"/>
++                            </child>
++                          </object>
++                        </child>
++                      </object>
++                    </child>
++                  </object>
++                  <packing>
++                    <property name="resize">False</property>
++                    <property name="shrink">True</property>
++                  </packing>
++                </child>
++                <child>
++                  <object class="GtkBox" id="box2">
++                    <property name="visible">True</property>
++                    <property name="can_focus">False</property>
++                    <property name="margin_left">4</property>
++                    <property name="orientation">vertical</property>
++                    <property name="spacing">4</property>
++                    <child>
++                      <object class="GtkLabel" id="label1">
++                        <property name="visible">True</property>
++                        <property name="can_focus">False</property>
++                        <property name="xalign">0</property>
++                        <property name="label" translatable="yes">label</property>
++                      </object>
++                      <packing>
++                        <property name="expand">False</property>
++                        <property name="fill">True</property>
++                        <property name="position">0</property>
++                      </packing>
++                    </child>
++                    <child>
++                      <object class="GtkLabel" id="depends_label">
++                        <property name="visible">True</property>
++                        <property name="can_focus">False</property>
++                        <property name="xalign">0</property>
++                        <property name="label" translatable="yes">depends_label</property>
++                        <property name="wrap">True</property>
++                        <property name="track_visited_links">False</property>
++                      </object>
++                      <packing>
++                        <property name="expand">False</property>
++                        <property name="fill">True</property>
++                        <property name="position">1</property>
++                      </packing>
++                    </child>
++                    <child>
++                      <object class="GtkLabel" id="recommends_label">
++                        <property name="visible">True</property>
++                        <property name="can_focus">False</property>
++                        <property name="xalign">0</property>
++                        <property name="label" translatable="yes">recs_label</property>
++                        <property name="wrap">True</property>
++                        <property name="track_visited_links">False</property>
++                      </object>
++                      <packing>
++                        <property name="expand">False</property>
++                        <property name="fill">True</property>
++                        <property name="position">2</property>
++                      </packing>
++                    </child>
++                    <child>
++                      <object class="GtkLabel" id="suggests_label">
++                        <property name="visible">True</property>
++                        <property name="can_focus">False</property>
++                        <property name="xalign">0</property>
++                        <property name="label" translatable="yes">suggests_label</property>
++                        <property name="wrap">True</property>
++                        <property name="track_visited_links">False</property>
++                      </object>
++                      <packing>
++                        <property name="expand">False</property>
++                        <property name="fill">True</property>
++                        <property name="position">3</property>
++                      </packing>
++                    </child>
++                    <child>
++                      <object class="GtkLabel" id="provides_label">
++                        <property name="visible">True</property>
++                        <property name="can_focus">False</property>
++                        <property name="xalign">0</property>
++                        <property name="label" translatable="yes">provides_label</property>
++                        <property name="wrap">True</property>
++                        <property name="track_visited_links">False</property>
++                      </object>
++                      <packing>
++                        <property name="expand">False</property>
++                        <property name="fill">True</property>
++                        <property name="position">4</property>
++                      </packing>
++                    </child>
++                    <child>
++                      <object class="GtkLabel" id="files_label">
++                        <property name="visible">True</property>
++                        <property name="can_focus">False</property>
++                        <property name="xalign">0</property>
++                        <property name="label" translatable="yes">files_label</property>
++                        <property name="ellipsize">end</property>
++                      </object>
++                      <packing>
++                        <property name="expand">False</property>
++                        <property name="fill">True</property>
++                        <property name="position">5</property>
++                      </packing>
++                    </child>
++                    <child>
++                      <object class="GtkScrolledWindow" id="files_scrollview">
++                        <property name="visible">True</property>
++                        <property name="can_focus">True</property>
++                        <property name="shadow_type">in</property>
++                        <child>
++                          <object class="GtkTreeView" id="files_view">
++                            <property name="visible">True</property>
++                            <property name="can_focus">True</property>
++                            <property name="model">file_store</property>
++                            <property name="rules_hint">True</property>
++                            <property name="search_column">0</property>
++                            <property name="show_expanders">False</property>
++                            <child internal-child="selection">
++                              <object class="GtkTreeSelection" id="treeview-selection3"/>
++                            </child>
++                            <child>
++                              <object class="GtkTreeViewColumn" id="file_name_column">
++                                <property name="title" translatable="yes">Name</property>
++                                <property name="sort_indicator">True</property>
++                                <property name="sort_column_id">0</property>
++                                <child>
++                                  <object class="GtkCellRendererText" id="cellrenderertext3">
++                                    <property name="background_rgba">rgba(0,0,0,0)</property>
++                                  </object>
++                                  <attributes>
++                                    <attribute name="text">0</attribute>
++                                  </attributes>
++                                </child>
++                              </object>
++                            </child>
++                            <child>
++                              <object class="GtkTreeViewColumn" id="treeviewcolumn4">
++                                <property name="title" translatable="yes">Size</property>
++                                <property name="sort_indicator">True</property>
++                                <property name="sort_column_id">1</property>
++                                <child>
++                                  <object class="GtkCellRendererText" id="cellrenderertext4"/>
++                                  <attributes>
++                                    <attribute name="text">1</attribute>
++                                  </attributes>
++                                </child>
++                              </object>
++                            </child>
++                          </object>
++                        </child>
++                      </object>
++                      <packing>
++                        <property name="expand">True</property>
++                        <property name="fill">True</property>
++                        <property name="position">6</property>
++                      </packing>
++                    </child>
++                  </object>
++                  <packing>
++                    <property name="resize">True</property>
++                    <property name="shrink">True</property>
++                  </packing>
++                </child>
++              </object>
++              <packing>
++                <property name="resize">True</property>
++                <property name="shrink">True</property>
++              </packing>
++            </child>
++          </object>
++          <packing>
++            <property name="expand">True</property>
++            <property name="fill">True</property>
++            <property name="position">1</property>
++          </packing>
++        </child>
++      </object>
++    </child>
++  </object>
++</interface>
+diff --git a/scripts/pkgdataui.py b/scripts/pkgdataui.py
+new file mode 100755
+index 0000000..f6b23fc
+--- /dev/null
++++ b/scripts/pkgdataui.py
+@@ -0,0 +1,241 @@
++#! /usr/bin/env python3
++
++import os, sys, enum, ast
++
++scripts_path = os.path.dirname(os.path.realpath(__file__))
++lib_path = scripts_path + '/lib'
++sys.path = sys.path + [lib_path]
++
++import scriptpath
++bitbakepath = scriptpath.add_bitbake_lib_path()
++if not bitbakepath:
++    print("Unable to find bitbake by searching parent directory of this script or PATH")
++    sys.exit(1)
++import bb
++
++import gi
++gi.require_version('Gtk', '3.0')
++from gi.repository import Gtk, Gdk, GObject
++
++RecipeColumns = enum.IntEnum("RecipeColumns", {"Recipe": 0})
++PackageColumns = enum.IntEnum("PackageColumns", {"Package": 0, "Size": 1})
++FileColumns = enum.IntEnum("FileColumns", {"Filename": 0, "Size": 1})
++
++import time
++def timeit(f):
++    def timed(*args, **kw):
++        ts = time.time()
++        print ("func:%r calling" % f.__name__)
++        result = f(*args, **kw)
++        te = time.time()
++        print ('func:%r args:[%r, %r] took: %2.4f sec' % \
++          (f.__name__, args, kw, te-ts))
++        return result
++    return timed
++
++def human_size(nbytes):
++    import math
++    suffixes = ['B', 'KB', 'MB', 'GB', 'TB', 'PB']
++    human = nbytes
++    rank = 0
++    if nbytes != 0:
++        rank = int((math.log10(nbytes)) / 3)
++        rank = min(rank, len(suffixes) - 1)
++        human = nbytes / (1000.0 ** rank)
++    f = ('%.2f' % human).rstrip('0').rstrip('.')
++    return '%s %s' % (f, suffixes[rank])
++
++def load(filename, suffix=None):
++    from configparser import ConfigParser
++    from itertools import chain
++
++    parser = ConfigParser()
++    if suffix:
++        parser.optionxform = lambda option: option.replace("_" + suffix, "")
++    with open(filename) as lines:
++        lines = chain(("[fake]",), lines)
++        parser.read_file(lines)
++
++    # TODO extract the data and put it into a real dict so we can transform some
++    # values to ints?
++    return parser["fake"]
++
++def find_pkgdata():
++    import subprocess
++    output = subprocess.check_output(("bitbake", "-e"), universal_newlines=True)
++    for line in output.splitlines():
++        if line.startswith("PKGDATA_DIR="):
++            return line.split("=", 1)[1].strip("\'\"")
++    # TODO exception or something
++    return None
++
++def packages_in_recipe(pkgdata, recipe):
++    """
++    Load the recipe pkgdata to determine the list of runtime packages.
++    """
++    data = load(os.path.join(pkgdata, recipe))
++    packages = data["PACKAGES"].split()
++    return packages
++
++def load_runtime_package(pkgdata, package):
++    return load(os.path.join(pkgdata, "runtime", package), suffix=package)
++
++def recipe_from_package(pkgdata, package):
++    data = load(os.path.join(pkgdata, "runtime", package), suffix=package)
++    return data["PN"]
++
++def summary(data):
++    s = ""
++    s += "{0[PKG]} {0[PKGV]}-{0[PKGR]}\n{0[LICENSE]}\n{0[SUMMARY]}\n".format(data)
++
++    return s
++
++
++class PkgUi():
++    def __init__(self, pkgdata):
++        self.pkgdata = pkgdata
++        self.current_recipe = None
++        self.recipe_iters = {}
++        self.package_iters = {}
++
++        builder = Gtk.Builder()
++        builder.add_from_file(os.path.join(os.path.dirname(__file__), "pkgdataui.glade"))
++
++        self.window = builder.get_object("window")
++        self.window.connect("delete-event", Gtk.main_quit)
++
++        self.recipe_store = builder.get_object("recipe_store")
++        self.recipe_view = builder.get_object("recipe_view")
++        self.package_store = builder.get_object("package_store")
++        self.package_view = builder.get_object("package_view")
++
++        # Somehow resizable does not get set via builder xml
++        package_name_column = builder.get_object("package_name_column")
++        package_name_column.set_resizable(True)
++        file_name_column = builder.get_object("file_name_column")
++        file_name_column.set_resizable(True)
++
++        self.recipe_view.get_selection().connect("changed", self.on_recipe_changed)
++        self.package_view.get_selection().connect("changed", self.on_package_changed)
++
++        self.package_store.set_sort_column_id(PackageColumns.Package, Gtk.SortType.ASCENDING)
++        builder.get_object("package_size_column").set_cell_data_func(builder.get_object("package_size_cell"), lambda column, cell, model, iter, data: cell.set_property("text", human_size(model[iter][PackageColumns.Size])))
++
++        self.label = builder.get_object("label1")
++        self.depends_label = builder.get_object("depends_label")
++        self.recommends_label = builder.get_object("recommends_label")
++        self.suggests_label = builder.get_object("suggests_label")
++        self.provides_label = builder.get_object("provides_label")
++
++        self.depends_label.connect("activate-link", self.on_link_activate)
++        self.recommends_label.connect("activate-link", self.on_link_activate)
++        self.suggests_label.connect("activate-link", self.on_link_activate)
++
++        self.file_store = builder.get_object("file_store")
++        self.file_store.set_sort_column_id(FileColumns.Filename, Gtk.SortType.ASCENDING)
++        self.files_view = builder.get_object("files_scrollview")
++        self.files_label = builder.get_object("files_label")
++
++        self.load_recipes()
++
++        self.recipe_view.set_cursor(Gtk.TreePath.new_first())
++
++        self.window.show()
++
++    def on_link_activate(self, label, url_string):
++        from urllib.parse import urlparse
++        url = urlparse(url_string)
++        if url.scheme == "package":
++            package = url.path
++            recipe = recipe_from_package(self.pkgdata, package)
++
++            it = self.recipe_iters[recipe]
++            path = self.recipe_store.get_path(it)
++            self.recipe_view.set_cursor(path)
++            self.recipe_view.scroll_to_cell(path)
++
++            self.on_recipe_changed(self.recipe_view.get_selection())
++
++            it = self.package_iters[package]
++            path = self.package_store.get_path(it)
++            self.package_view.set_cursor(path)
++            self.package_view.scroll_to_cell(path)
++
++            return True
++        else:
++            return False
++
++    def on_recipe_changed(self, selection):
++        self.package_store.clear()
++        self.package_iters = {}
++
++        (model, it) = selection.get_selected()
++        if not it:
++            return
++
++        recipe = model[it][RecipeColumns.Recipe]
++        for package in packages_in_recipe(self.pkgdata, recipe):
++            # TODO also show PKG after debian-renaming?
++            data = load_runtime_package(self.pkgdata, package)
++            # TODO stash data to avoid reading in on_package_changed
++            self.package_iters[package] = self.package_store.append([package, int(data["PKGSIZE"])])
++
++    def on_package_changed(self, selection):
++        self.label.set_text("")
++        self.file_store.clear()
++        self.depends_label.hide()
++        self.recommends_label.hide()
++        self.suggests_label.hide()
++
++        (model, it) = selection.get_selected()
++        if it is None:
++            return
++
++        package = model[it][PackageColumns.Package]
++        data = load_runtime_package(self.pkgdata, package)
++
++        self.label.set_text(summary(data))
++
++        files = ast.literal_eval(data["FILES_INFO"])
++        if files:
++            self.files_label.set_text("{0} files take {1}.".format(len(files), human_size(int(data["PKGSIZE"]))))
++            self.files_view.show()
++            for filename, size in files.items():
++                self.file_store.append([filename, size])
++        else:
++            self.files_view.hide()
++            self.files_label.set_text("This package has no files.")
++
++        def update_deps(field, prefix, label, clickable=True):
++            if field in data:
++                l = []
++                for name, version in bb.utils.explode_dep_versions2(data[field]).items():
++                    if clickable:
++                        l.append("<a href='package:{0}'>{0}</a> {1}".format(name, " ".join(version)))
++                    else:
++                        l.append("{0} {1}".format(name, " ".join(version)))
++                label.set_markup(prefix + ", ".join(l))
++                label.show()
++            else:
++                label.hide()
++        update_deps("RDEPENDS", "Depends: ", self.depends_label)
++        update_deps("RRECOMMENDS", "Recommends: ", self.recommends_label)
++        update_deps("RSUGGESTS", "Suggests: ", self.suggests_label)
++        update_deps("RPROVIDES", "Provides: ", self.provides_label, clickable=False)
++
++    def load_recipes(self):
++        for recipe in sorted(os.listdir(pkgdata)):
++            if os.path.isfile(os.path.join(pkgdata, recipe)):
++                self.recipe_iters[recipe] = self.recipe_store.append([recipe])
++
++if __name__ == "__main__":
++    import argparse
++
++    parser = argparse.ArgumentParser(description='pkgdata browser')
++    parser.add_argument('-p', '--pkgdata', help="Optional location of pkgdata")
++
++    args = parser.parse_args()
++    pkgdata = args.pkgdata if args.pkgdata else find_pkgdata()
++    # TODO assert pkgdata is a directory
++    window = PkgUi(pkgdata)
++    Gtk.main()
 -- 
-2.12.0
+2.8.1
 
 
