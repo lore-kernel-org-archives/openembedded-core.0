@@ -1,42 +1,60 @@
-Return-Path: <Awais_Belal@mentor.com>
-Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id 87BB271B87
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-it0-f49.google.com (mail-it0-f49.google.com
+	[209.85.214.49])
+	by mail.openembedded.org (Postfix) with ESMTP id B2D5971B04
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 May 2017 05:36:05 +0000 (UTC)
-Received: from nat-ies.mentorg.com ([192.94.31.2]
-	helo=SVR-IES-MBX-04.mgc.mentorg.com)
-	by relay1.mentorg.com with esmtp 
-	id 1dAV9R-0003H1-TF from Awais_Belal@mentor.com ;
-	Mon, 15 May 2017 22:36:05 -0700
-Received: from SVR-IES-MBX-03.mgc.mentorg.com (139.181.222.3) by
-	SVR-IES-MBX-04.mgc.mentorg.com (139.181.222.4) with Microsoft SMTP
-	Server (TLS) id 15.0.1210.3; Tue, 16 May 2017 06:36:02 +0100
-Received: from SVR-IES-MBX-03.mgc.mentorg.com ([fe80::1072:fb6e:87f1:ed17]) by
-	SVR-IES-MBX-03.mgc.mentorg.com ([fe80::1072:fb6e:87f1:ed17%22]) with
-	mapi id 15.00.1210.000; Tue, 16 May 2017 06:36:02 +0100
-From: "Belal, Awais" <Awais_Belal@mentor.com>
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>,
-	"openembedded-core@lists.openembedded.org"
+	Tue, 16 May 2017 06:26:30 +0000 (UTC)
+Received: by mail-it0-f49.google.com with SMTP id o5so56401386ith.1
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 15 May 2017 23:26:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:organization:mime-version:content-transfer-encoding;
+	bh=wATzSaMGXrO935SmIbCuSpaRBnWgUa2kNmEsTSLodqQ=;
+	b=kYrE8ExqMNLYPgwsMr97j2fgKUKrPA1oHQNyy6J+eTjk5NMUO74U9JfirvZmPyopHL
+	Qb7udBs/ABfwFyT5Iw/f5o/oysBpRjpS+Jml7sgCkokn+GAbW93Nr9PpVa85PTcXmTyy
+	S0PidxjRhknSw87L50GTz+igNVjp2l1yipSbenNMlhHHN2w7dNJ5BlmlExstQTQZsHR5
+	U1/O6z9u9pCdGIcvlx3aZTsch3jKTfJRKjHsCowYh//l7HmFC8Niy5AiDlqLYJw7OSXs
+	F3qIYhoFKK2zfgFhjSExWlEYbiUWLJ1CsPh3VD/CTQmJyBV3dM2Q6bjNLA3fNk0agEao
+	qRUQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:organization:mime-version:content-transfer-encoding;
+	bh=wATzSaMGXrO935SmIbCuSpaRBnWgUa2kNmEsTSLodqQ=;
+	b=ZlV+aW3fkKoI+TLw/OpUnYYpigP2UDsMxMODa5CUfGlXP5MTqffdLLhQROdY/L9Soo
+	wQLinhtbGe5Wd5E2w2OpmoXDU/P5xcj2rnlurVdgTizMboQ3bPJzGnBry2sYuH2OZqwo
+	oDspLzLmHhXGeRfvzQztnD+CAdQ7Qrap7JczuzcK7y1avnTVqXAztuwwPF4iDhIDUkRp
+	Qs8umS/ig3119zreZLE6VX+nBuRv+uL/icA+22o1+xCKm2FlZ1Vk9YxSqm6Aer5pU/ZH
+	VMM3Mym9Ps7rZK/KOVGrzfFAqgJG182p6TW/T1bJNztrRRSJZiHwYZI9x0ThwsvtUxWL
+	csdQ==
+X-Gm-Message-State: AODbwcBv0jE58ijoFuZrnBf87wqPygCQKXlsijLRGUFnkN6uByI7frcl
+	WorCoTD/ZakqhA4l
+X-Received: by 10.36.33.142 with SMTP id e136mr9070540ita.72.1494915991653;
+	Mon, 15 May 2017 23:26:31 -0700 (PDT)
+Received: from pohly-mobl1 (p5DE8EB79.dip0.t-ipconnect.de. [93.232.235.121])
+	by smtp.gmail.com with ESMTPSA id c1sm497048itd.15.2017.05.15.23.26.29
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 15 May 2017 23:26:30 -0700 (PDT)
+Message-ID: <1494915987.1179.277.camel@intel.com>
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 16 May 2017 08:26:27 +0200
+In-Reply-To: <CAMKF1so9iLoMCs7Z0JtO9FEsg-bGpUUUrUH+FZP7YH+PHBs1qA@mail.gmail.com>
+References: <cover.da0bfaf0b62cb1033573711fd83cf5251f8827f3.1494854721.git-series.patrick.ohly@intel.com>
+	<e03ca7d9d2d8b290fe306da077e0fc74a6916efd.1494854721.git-series.patrick.ohly@intel.com>
+	<CAMKF1spKnOnZfMoijNz5kQjE2=5OO3k4CUVK5d04id1B42JB2A@mail.gmail.com>
+	<1494875908.1179.254.camel@intel.com>
+	<CAMKF1srA7qkRJMtDgn6eNT8Fhs2dP6YUhJ3CMiNBFU+6ZdreZg@mail.gmail.com>
+	<1494877678.1179.263.camel@intel.com>
+	<CAMKF1so9iLoMCs7Z0JtO9FEsg-bGpUUUrUH+FZP7YH+PHBs1qA@mail.gmail.com>
+Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
+X-Mailer: Evolution 3.12.9-1+b1 
+Mime-Version: 1.0
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH] autogen: fix autoopts script generation to
-	handle shebang
-Thread-Index: AQHSyyf1Z+lHkWIXCkGvAcE6jL5+q6Hwqu4AgARxwImAAB/ggIAARI/F///yioCAAP4lwA==
-Date: Tue, 16 May 2017 05:36:02 +0000
-Message-ID: <1494912962159.30415@mentor.com>
-References: <20170512135918.25150-1-awais_belal@mentor.com>
-	<b3b3d45f-7209-2ba2-a299-5da723ea5008@linux.intel.com>
-	<1494838882617.45509@mentor.com>
-	<d5c91712-63e4-b855-e508-a638de7cf916@linux.intel.com>
-	<1494860635949.47847@mentor.com>,
-	<2f2b263c-5b85-3622-ea62-c01825da24be@linux.intel.com>
-In-Reply-To: <2f2b263c-5b85-3622-ea62-c01825da24be@linux.intel.com>
-Accept-Language: en-US, en-IE
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [137.202.0.87]
-MIME-Version: 1.0
-Subject: Re: [PATCH] autogen: fix autoopts script generation to handle shebang
+Subject: Re: [RFC][PATCH 6/6] local.conf.sample: make debug-tweaks depend on IMAGE_MODE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,66 +67,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 May 2017 05:36:05 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 16 May 2017 06:26:32 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-> The standard way to fix too long #! lines in oe is to patch upstream=0A=
-> code to use=0A=
-> #!/usr/bin/env something=0A=
-> (where something is just the binary name).=0A=
-=0A=
-> Why not simply replace ${POSIX_SHELL} with /bin/sh? Where and how is it s=
-et?=0A=
-=0A=
-POSIX_SHELL is being set to "/usr/bin/env sh" already through the recipe bu=
-t it gets resolved/expanded to <build-dir>/hosttools/<shell-bin> during the=
- configuration process so it's not usable for shebang in deep directory hie=
-rarchy scenarios.=0A=
-I guess a better way would be simply to use the same technique that we're u=
-sing for perl. So for shell we'll have=0A=
-=0A=
-#!/usr/bin/env sh=0A=
-=0A=
-in mk-tpl-config.sh directly. I'll submit the change as v2 if you think thi=
-s is okay.=0A=
-=0A=
-BR,=0A=
-Awais=0A=
-=0A=
-________________________________________=0A=
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>=0A=
-Sent: Monday, May 15, 2017 8:10 PM=0A=
-To: Belal, Awais; openembedded-core@lists.openembedded.org=0A=
-Subject: Re: [OE-core] [PATCH] autogen: fix autoopts script generation to h=
-andle shebang=0A=
-=0A=
-On 05/15/2017 06:03 PM, Belal, Awais wrote:=0A=
-> Hi Alex,=0A=
->=0A=
->> The first line will guarantee a short shebang, while the second one=0A=
->> may result in a very long shebang which may hit the hardcoded=0A=
->> kernel limit.=0A=
->=0A=
-> I do not see how the second one can be longer in any case than the=0A=
-> first one but that's probably because of my lack of knowledge. I can=0A=
-> confirm that the changes around perl setting are not required and I=0A=
-> only stepped over it because I was using an older commit of core=0A=
-> however the change for sh is still required. Should I submit a v2=0A=
-> with that change only or is there a concern around that as well?=0A=
-=0A=
-The sh part is also using readlink, which produces full paths, and=0A=
-therefore is incorrect. You simply should not use full paths in #!, as=0A=
-depending on your setup they may be still too long.=0A=
-=0A=
-The standard way to fix too long #! lines in oe is to patch upstream=0A=
-code to use=0A=
-#!/usr/bin/env something=0A=
-(where something is just the binary name).=0A=
-=0A=
-Why not simply replace ${POSIX_SHELL} with /bin/sh? Where and how is it set=
-?=0A=
-=0A=
-Alex=0A=
+On Mon, 2017-05-15 at 13:25 -0700, Khem Raj wrote:
+> On Mon, May 15, 2017 at 12:47 PM, Patrick Ohly <patrick.ohly@intel.com> wrote:
+> > The production image recipe "foobar-image-production.bb" can use
+> > IMAGE_MODE_forcevariable = "production"
+> > and the development image recipe "foobar-image-development.bb" can use
+> > IMAGE_MODE_forcevariable = "development".
+
+I'll probably automate the creation of these extra image variants via
+BBCLASSEXTEND in an utility class. This seems to be of general
+usefulness: base image with default IMAGE_MODE, one variant per valid
+IMAGE_MODE where that mode is selected explicitly.
+
+> > Then whatever the user might configure in local.conf is ignored in favor
+> > of the fixed recipe values. If there's a concern about using
+> > _forcevariable: that could be addressed by configuring a global
+> > IMAGE_MODE_DEFAULT ??= "" and an IMAGE_MODE ??= "${IMAGE_MODE_DEFAULT}"
+> > in image-mode.bbclass and changing IMAGE_MODE_DEFAULT in distro or local
+> > conf. Then individual recipes can set IMAGE_MODE =
+> > "development/production" without having to fall back to _forcevariable.
+> >
+> > Or do you mean that there's just one image .bb and traditionally
+> > IMAGE_FEATURES were changed to switch back and forth? The same works
+> > with IMAGE_MODE. The advantage over enabling or disabling dangerous
+> > IMAGE_FEATURES is that users of a distro don't need to know about them.
+> > They get the guarantee that (for a responsible distro) the dangerous
+> > once will not get enabled by default for IMAGE_MODE=development.
+> >
+> 
+> IMAGE_MODE is a distro settings not image setting is that correct ?
+
+No, it is per-image. The code that checks the variable always runs in
+individual image recipes.
+
+-- 
+Best Regards, Patrick Ohly
+
+The content of this message is my personal opinion only and although
+I am an employee of Intel, the statements I make here in no way
+represent Intel's position on the issue, nor am I authorized to speak
+on behalf of Intel on this matter.
+
+
+
 
