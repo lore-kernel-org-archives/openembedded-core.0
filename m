@@ -1,28 +1,50 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id D54ED77D53
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qt0-f176.google.com (mail-qt0-f176.google.com
+	[209.85.216.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 8788B77D49
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 May 2017 11:51:23 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga104.jf.intel.com with ESMTP; 16 May 2017 04:51:24 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.38,349,1491289200"; d="scan'208";a="87415137"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by orsmga002.jf.intel.com with ESMTP; 16 May 2017 04:51:23 -0700
-To: openembedded-core@lists.openembedded.org,
-	"Ohly, Patrick" <patrick.ohly@intel.com>
-References: <cover.da0bfaf0b62cb1033573711fd83cf5251f8827f3.1494854721.git-series.patrick.ohly@intel.com>
-	<79e18217-d4ed-8356-9532-7da63a420d6f@topic.nl>
-	<1494922912.1179.306.camel@intel.com>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <aaeaad51-6bd1-10c4-ce22-4381c07bd9a8@linux.intel.com>
-Date: Tue, 16 May 2017 14:49:19 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.8.0
+	Tue, 16 May 2017 12:19:21 +0000 (UTC)
+Received: by mail-qt0-f176.google.com with SMTP id f55so75397416qta.3
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 16 May 2017 05:19:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=YWNv/G4I1kVQniKU3U01CwiNi9huyyzlXqKUNbTcOBo=;
+	b=z2k+1RkSrEarJwaOMMNQ7hnTnEHv85mlXW9gvOlfmXqcYr+zCUqwPD/Th52a9HYh5C
+	Z9JaZICpqcmgL++4I9gEcICVAl56j9KV8x9GNcGAdtgGJgYVGGDxbIeLp6J4hPQ0lNvw
+	a9OrmP1wPW5PsZmuG8AA17IoFQBLR4MpPmb3cbEEe880EKJ3kxgrDTNyoyucPZa/sasK
+	IvKWL/mbgCr7uGOHgAV5lqpeNogG0lWBl5Gc9sIQ3j0c/pNT+/1kBO/pVH1dDURXt0Dt
+	kS4itdn0DXdoF2JHQnL8dpK6tEdB4uZsxY1we5vIF+J5J7UU82cjD4UtOd3fjrqeSY3e
+	Y/IA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=YWNv/G4I1kVQniKU3U01CwiNi9huyyzlXqKUNbTcOBo=;
+	b=qfzYigrv4AcDiWFJV84ffLOFuV0gqYRF3/MORyCySF/7ZbOsE807e+iYAIj54OGHLr
+	7zOHEGjhfZ42WznGiqSwSC+8RiNzrwGDpaguJLRnzXUp+EdgZ0dYyr3hIvvTERcnM0EA
+	/BJ9RfquPLQz1k0T1x5kR2FYySEWfBb/L/E2DhHr/YucA9r8UP1D8imKG4IYmtEaNI+o
+	4AxYuMBw+rLCGVlFiovUXr58ts5mIm/lJGVMUv683hLfg5Bv2mUa4FzJsn7y4/XbHEGj
+	lCYfr2foyyAqqGNAf+zLt9LHwaGmGFz8SkbtdkDkm1f7eHUlpYe+DaBl52NlWJ5TPKn0
+	ovvQ==
+X-Gm-Message-State: AODbwcDJJYXmGwiQdLfU1/3c0yEgLgJZCkfiZtad/fNhJhCln9ll3zrE
+	TCQQiWL75cYTfTeFqp5P8VqH9CA3slXV
+X-Received: by 10.237.36.219 with SMTP id u27mr10804223qtc.197.1494937162052; 
+	Tue, 16 May 2017 05:19:22 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <1494922912.1179.306.camel@intel.com>
-Subject: Re: [RFC][PATCH 0/6] development vs. production builds
+Received: by 10.140.41.115 with HTTP; Tue, 16 May 2017 05:19:01 -0700 (PDT)
+In-Reply-To: <CAMKF1spBOuOq0yvQ2v4GaKXX4b7mi+o+B26YaHPaK0jtP4kwXw@mail.gmail.com>
+References: <1494839116-32279-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
+	<CAHiDW_FuoagmNjK=XV3OeaYSq+AAR6NvcZ9RnKFabN0=DUFHGQ@mail.gmail.com>
+	<CAMKF1spBOuOq0yvQ2v4GaKXX4b7mi+o+B26YaHPaK0jtP4kwXw@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 16 May 2017 13:19:01 +0100
+Message-ID: <CAJTo0LZ9vD21YSPJQNiw_nMv_gHtVtuERVkvJvnEomWY=taapw@mail.gmail.com>
+To: huangqy <huangqy.fnst@cn.fujitsu.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v3] libnl: 3.2.29 -> 3.3.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,39 +57,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 May 2017 11:51:26 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 16 May 2017 12:19:23 -0000
+Content-Type: multipart/alternative; boundary="001a11406ef0819e77054fa32e0a"
 
-On 05/16/2017 11:21 AM, Patrick Ohly wrote:
+--001a11406ef0819e77054fa32e0a
+Content-Type: text/plain; charset="UTF-8"
 
->> While the "development/production" switch may be great for some projects,
->> it'll make things only more complicated for others while gaining nothing above
->> what we have now.
+On 15 May 2017 at 16:58, Khem Raj <raj.khem@gmail.com> wrote:
+
+> >> +SRC_URI_append_libc-musl = "file://musl-header-conflict.patch"
+> >
+> >
+> > Does the patched version not build with glibc or why is this only patched
+> > for musl?
 >
-> What about the approach I outlined in my reponse to Richard, where we
-> just introduce the IMAGE_MODE mechanism in OE-core without defining
-> specific modes? Would you find that useful?
+> this should be generic
+>
 
-Please no. Global variables are a headache, and the less we have of them 
-the better.
+Yes, please always apply patches which despite fixing build failures on a
+specific libc are in fact safe for all libcs.
 
-Here in particularly, what is wrong with defining:
+Ross
 
-patricks-awesome-image-developers.bb
-(containing IMAGE_FEATURE = "no-password-for-anything")
+--001a11406ef0819e77054fa32e0a
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-patricks-awesome-image-production.bb
-(containing IMAGE_FEATURE = "serious-security")
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 15 May 2017 at 16:58, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"mailto:r=
+aj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</span> wrot=
+e:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-l=
+eft:1px #ccc solid;padding-left:1ex"><div class=3D"HOEnZb adM"><div class=
+=3D"">&gt;&gt; +SRC_URI_append_libc-musl =3D &quot;file://musl-header-confl=
+ict.<wbr>patch&quot;<br>
+&gt;<br>
+&gt;<br>
+&gt; Does the patched version not build with glibc or why is this only patc=
+hed<br>
+&gt; for musl?<br>
+<br>
+</div></div>this should be generic<br></blockquote><div><br></div><div>Yes,=
+ please always apply patches which despite fixing build failures on a speci=
+fic libc are in fact safe for all libcs.</div><div><br></div><div>Ross</div=
+></div></div></div>
 
-and the common bits can go to patricks-awesome-image.inc.
-
-It's simple, direct and self-explanatory. At the end of the day, you 
-*always* need to drill down to the code that does the work, and learn 
-the details, to truly understand what is happening behind a 
-configuration setting, and adding abstraction layers and scattering 
-functionality over many different files does not help - quite the opposite.
-
-Alex
-
-
+--001a11406ef0819e77054fa32e0a--
