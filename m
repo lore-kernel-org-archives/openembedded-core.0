@@ -1,26 +1,26 @@
 Return-Path: <markus.lehtonen@linux.intel.com>
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 8922477E2B
+	by mail.openembedded.org (Postfix) with ESMTP id E79AB77E3D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 May 2017 13:19:02 +0000 (UTC)
+	Tue, 16 May 2017 13:19:03 +0000 (UTC)
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
 	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	16 May 2017 06:19:04 -0700
+	16 May 2017 06:19:05 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.38,349,1491289200"; d="scan'208";a="102711842"
+X-IronPort-AV: E=Sophos;i="5.38,349,1491289200"; d="scan'208";a="102711850"
 Received: from bkearns-mobl.ger.corp.intel.com (HELO
 	mqz-osx-suse64.fi.intel.com) ([10.252.10.90])
-	by fmsmga006.fm.intel.com with ESMTP; 16 May 2017 06:19:03 -0700
+	by fmsmga006.fm.intel.com with ESMTP; 16 May 2017 06:19:04 -0700
 From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 16 May 2017 16:18:37 +0300
-Message-Id: <0d264b2bb80ad67ab6113bddba94292c4a2ae349.1494939394.git.markus.lehtonen@linux.intel.com>
+Date: Tue, 16 May 2017 16:18:38 +0300
+Message-Id: <a75e2861aa05b7ec5676da7c5a67201dc9546339.1494939394.git.markus.lehtonen@linux.intel.com>
 X-Mailer: git-send-email 2.12.0
 In-Reply-To: <cover.1494939394.git.markus.lehtonen@linux.intel.com>
 References: <cover.1494939394.git.markus.lehtonen@linux.intel.com>
 In-Reply-To: <cover.1494939394.git.markus.lehtonen@linux.intel.com>
 References: <cover.1494939394.git.markus.lehtonen@linux.intel.com>
-Subject: [PATCH v2 07/20] python-pgo-image: exclude tests from the default profile target
+Subject: [PATCH v2 08/20] python: add python-tools subpackage
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,44 +33,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 May 2017 13:19:02 -0000
+X-List-Received-Date: Tue, 16 May 2017 13:19:04 -0000
 
-Exclue tests that are segfaulting or otherwise failing (on qemux86
-target), and thus, causing the profile task to fail.
-
-Also, disable tests that are taking very long to execute. In qemux86
-target on my i7-3770K:
-  test_lib2to3: 1908.8s
-  test_io: 1278.4s
-  test_itertools: 436.4s
+Useful in developing Python, e.g. in benchmarking.
 
 [YOCTO #9338]
 
 Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
 ---
- meta/recipes-devtools/images/python-pgo-image.bb | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+ meta/recipes-devtools/python/python-2.7-manifest.inc | 8 +++++---
+ meta/recipes-devtools/python/python_2.7.13.bb        | 5 +++++
+ 2 files changed, 10 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-devtools/images/python-pgo-image.bb b/meta/recipes-devtools/images/python-pgo-image.bb
-index af9da20338..426d6acb45 100644
---- a/meta/recipes-devtools/images/python-pgo-image.bb
-+++ b/meta/recipes-devtools/images/python-pgo-image.bb
-@@ -8,7 +8,14 @@ LICENSE = "MIT"
- inherit core-image
+diff --git a/meta/recipes-devtools/python/python-2.7-manifest.inc b/meta/recipes-devtools/python/python-2.7-manifest.inc
+index 7ed254bbd6..33189e0f0b 100644
+--- a/meta/recipes-devtools/python/python-2.7-manifest.inc
++++ b/meta/recipes-devtools/python/python-2.7-manifest.inc
+@@ -4,9 +4,9 @@
  
- PYTHON_PROFILE_DIR ?= "${TMPDIR}/work-shared/${MACHINE}/python/pgo-data"
--PYTHON_PROFILE_TASK ?= "-m test.regrtest --pgo -w -x test_asyncore test_gdb test_multiprocessing test_subprocess"
-+PYTHON_PROFILE_TASK_DEFAULT = "-m test.regrtest --pgo -w -x test_asyncore test_gdb test_multiprocessing test_subprocess"
-+# Exclude tests that are segfaulting on qemux86 target
-+PYTHON_PROFILE_TASK_DEFAULT += "test_bytes test_str test_string test_tuple test_unicode test_userstring test_xmlrpc"
-+# Exclude tests that are failing on qemux86
-+PYTHON_PROFILE_TASK_DEFAULT += "test_StringIO test_builtin test_calendar test_cmath test_ctypes test_distutils test_exceptions test_getargs test_gzip test_json test_math test_shutil test_socket test_sqlite test_sysconfig test_traceback test_warnings"
-+# Exclude tests that are taking very long on qemux86
-+PYTHON_PROFILE_TASK_DEFAULT += "test_io test_lib2to3 test_itertools"
-+PYTHON_PROFILE_TASK ?= "${PYTHON_PROFILE_TASK_DEFAULT}"
+  
  
- # We need these because we're utilizing the runtime test helpers from oeqa
- TEST_TARGET ?= "qemu"
+-PROVIDES+="${PN}-2to3 ${PN}-argparse ${PN}-audio ${PN}-bsddb ${PN}-codecs ${PN}-compile ${PN}-compiler ${PN}-compression ${PN}-contextlib ${PN}-core ${PN}-crypt ${PN}-ctypes ${PN}-curses ${PN}-datetime ${PN}-db ${PN}-debugger ${PN}-dev ${PN}-difflib ${PN}-distutils ${PN}-distutils-staticdev ${PN}-doctest ${PN}-email ${PN}-fcntl ${PN}-gdbm ${PN}-hotshot ${PN}-html ${PN}-idle ${PN}-image ${PN}-importlib ${PN}-io ${PN}-json ${PN}-lang ${PN}-logging ${PN}-mailbox ${PN}-math ${PN}-mime ${PN}-mmap ${PN}-multiprocessing ${PN}-netclient ${PN}-netserver ${PN}-numbers ${PN}-pickle ${PN}-pkgutil ${PN}-plistlib ${PN}-pprint ${PN}-profile ${PN}-pydoc ${PN}-re ${PN}-readline ${PN}-resource ${PN}-robotparser ${PN}-shell ${PN}-smtpd ${PN}-sqlite3 ${PN}-sqlite3-tests ${PN}-stringold ${PN}-subprocess ${PN}-syslog ${PN}-terminal ${PN}-tests ${PN}-textutils ${PN}-threading ${PN}-tkinter ${PN}-unittest ${PN}-unixadmin ${PN}-xml ${PN}-xmlrpc ${PN}-zlib "
++PROVIDES+="${PN}-2to3 ${PN}-argparse ${PN}-audio ${PN}-bsddb ${PN}-codecs ${PN}-compile ${PN}-compiler ${PN}-compression ${PN}-contextlib ${PN}-core ${PN}-crypt ${PN}-ctypes ${PN}-curses ${PN}-datetime ${PN}-db ${PN}-debugger ${PN}-dev ${PN}-difflib ${PN}-distutils ${PN}-distutils-staticdev ${PN}-doctest ${PN}-email ${PN}-fcntl ${PN}-gdbm ${PN}-hotshot ${PN}-html ${PN}-idle ${PN}-image ${PN}-importlib ${PN}-io ${PN}-json ${PN}-lang ${PN}-logging ${PN}-mailbox ${PN}-math ${PN}-mime ${PN}-mmap ${PN}-multiprocessing ${PN}-netclient ${PN}-netserver ${PN}-numbers ${PN}-pickle ${PN}-pkgutil ${PN}-plistlib ${PN}-pprint ${PN}-profile ${PN}-pydoc ${PN}-re ${PN}-readline ${PN}-resource ${PN}-robotparser ${PN}-shell ${PN}-smtpd ${PN}-sqlite3 ${PN}-sqlite3-tests ${PN}-stringold ${PN}-subprocess ${PN}-syslog ${PN}-terminal ${PN}-tests ${PN}-textutils ${PN}-threading ${PN}-tkinter ${PN}-unittest ${PN}-unixadmin ${PN}-xml ${PN}-xmlrpc ${PN}-zlib ${PN}-tools"
+ 
+-PACKAGES="${PN}-dbg ${PN}-2to3 ${PN}-argparse ${PN}-audio ${PN}-bsddb ${PN}-codecs ${PN}-compile ${PN}-compiler ${PN}-compression ${PN}-contextlib ${PN}-core ${PN}-crypt ${PN}-ctypes ${PN}-curses ${PN}-datetime ${PN}-db ${PN}-debugger ${PN}-dev ${PN}-difflib ${PN}-distutils-staticdev ${PN}-distutils ${PN}-doctest ${PN}-email ${PN}-fcntl ${PN}-gdbm ${PN}-hotshot ${PN}-html ${PN}-idle ${PN}-image ${PN}-importlib ${PN}-io ${PN}-json ${PN}-lang ${PN}-logging ${PN}-mailbox ${PN}-math ${PN}-mime ${PN}-mmap ${PN}-multiprocessing ${PN}-netclient ${PN}-netserver ${PN}-numbers ${PN}-pickle ${PN}-pkgutil ${PN}-plistlib ${PN}-pprint ${PN}-profile ${PN}-pydoc ${PN}-re ${PN}-readline ${PN}-resource ${PN}-robotparser ${PN}-shell ${PN}-smtpd ${PN}-sqlite3 ${PN}-sqlite3-tests ${PN}-stringold ${PN}-subprocess ${PN}-syslog ${PN}-terminal ${PN}-tests ${PN}-textutils ${PN}-threading ${PN}-tkinter ${PN}-unittest ${PN}-unixadmin ${PN}-xml ${PN}-xmlrpc ${PN}-zlib ${PN}-modules"
++PACKAGES="${PN}-dbg ${PN}-2to3 ${PN}-argparse ${PN}-audio ${PN}-bsddb ${PN}-codecs ${PN}-compile ${PN}-compiler ${PN}-compression ${PN}-contextlib ${PN}-core ${PN}-crypt ${PN}-ctypes ${PN}-curses ${PN}-datetime ${PN}-db ${PN}-debugger ${PN}-dev ${PN}-difflib ${PN}-distutils-staticdev ${PN}-distutils ${PN}-doctest ${PN}-email ${PN}-fcntl ${PN}-gdbm ${PN}-hotshot ${PN}-html ${PN}-idle ${PN}-image ${PN}-importlib ${PN}-io ${PN}-json ${PN}-lang ${PN}-logging ${PN}-mailbox ${PN}-math ${PN}-mime ${PN}-mmap ${PN}-multiprocessing ${PN}-netclient ${PN}-netserver ${PN}-numbers ${PN}-pickle ${PN}-pkgutil ${PN}-plistlib ${PN}-pprint ${PN}-profile ${PN}-pydoc ${PN}-re ${PN}-readline ${PN}-resource ${PN}-robotparser ${PN}-shell ${PN}-smtpd ${PN}-sqlite3 ${PN}-sqlite3-tests ${PN}-stringold ${PN}-subprocess ${PN}-syslog ${PN}-terminal ${PN}-tests ${PN}-textutils ${PN}-threading ${PN}-tkinter ${PN}-unittest ${PN}-unixadmin ${PN}-xml ${PN}-xmlrpc ${PN}-zlib ${PN}-modules ${PN}-tools"
+ 
+ SUMMARY_${PN}-2to3="Python automated Python 2 to 3 code translator"
+ RDEPENDS_${PN}-2to3="${PN}-core"
+@@ -284,4 +284,6 @@ SUMMARY_${PN}-modules="All Python modules"
+ RDEPENDS_${PN}-modules="${PN}-2to3 ${PN}-argparse ${PN}-audio ${PN}-bsddb ${PN}-codecs ${PN}-compile ${PN}-compiler ${PN}-compression ${PN}-contextlib ${PN}-core ${PN}-crypt ${PN}-ctypes ${PN}-curses ${PN}-datetime ${PN}-db ${PN}-debugger ${PN}-difflib ${PN}-distutils ${PN}-doctest ${PN}-email ${PN}-fcntl ${PN}-gdbm ${PN}-hotshot ${PN}-html ${PN}-idle ${PN}-image ${PN}-importlib ${PN}-io ${PN}-json ${PN}-lang ${PN}-logging ${PN}-mailbox ${PN}-math ${PN}-mime ${PN}-mmap ${PN}-multiprocessing ${PN}-netclient ${PN}-netserver ${PN}-numbers ${PN}-pickle ${PN}-pkgutil ${PN}-plistlib ${PN}-pprint ${PN}-profile ${PN}-pydoc ${PN}-re ${PN}-readline ${PN}-resource ${PN}-robotparser ${PN}-shell ${PN}-smtpd ${PN}-sqlite3 ${PN}-sqlite3-tests ${PN}-stringold ${PN}-subprocess ${PN}-syslog ${PN}-terminal ${PN}-tests ${PN}-textutils ${PN}-threading ${PN}-tkinter ${PN}-unittest ${PN}-unixadmin ${PN}-xml ${PN}-xmlrpc ${PN}-zlib  "
+ ALLOW_EMPTY_${PN}-modules = "1"
+ 
+-
++SUMMARY_${PN}-tools="Useful scripts from Python"
++RDEPENDS_${PN}-tools="${PN}-modules"
++FILES_${PN}-tools="${docdir}/${PN}/Tools"
+diff --git a/meta/recipes-devtools/python/python_2.7.13.bb b/meta/recipes-devtools/python/python_2.7.13.bb
+index d9e458cf72..c39bcfe447 100644
+--- a/meta/recipes-devtools/python/python_2.7.13.bb
++++ b/meta/recipes-devtools/python/python_2.7.13.bb
+@@ -148,6 +148,11 @@ do_install() {
+ 	fi
+ 
+ 	oe_multilib_header python${PYTHON_MAJMIN}/pyconfig.h
++
++    # Install tools
++    install -d -m 755 ${D}/${docdir}/${PN}
++    cp -r ${S}/Tools ${D}/${docdir}/${PN}/
++    find ${D}/${docdir}/${PN}/ -name Makefile -delete
+ }
+ 
+ do_install_append_class-nativesdk () {
 -- 
 2.12.0
 
