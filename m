@@ -1,59 +1,27 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-it0-f44.google.com (mail-it0-f44.google.com
-	[209.85.214.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 7A4C977E39
+Return-Path: <maxin.john@intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 3C45977D36
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 May 2017 14:25:36 +0000 (UTC)
-Received: by mail-it0-f44.google.com with SMTP id g126so88648908ith.0
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 May 2017 07:25:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:organization:mime-version:content-transfer-encoding;
-	bh=6BVXk/JKbtH+nDe04Hhbz9mpHiM2Yy6d0UF2xRNIK5A=;
-	b=NTMSyjK2SX+5HwIUCgTLhRf/cQvvCh1glNXvGcZdO6OkCulrNdO5PjimnmH0KAYfn7
-	faPx5pAhNspf27lM7wwk01wyaIaWPAB8GvRX/T0wqKj9xn/Vradi9o3Ko8M3IDiwNz1j
-	OrM3gajedaspB4F/1FzTon+qWa5b8Hn1V7KoIX/WGjrEgj/3ChZmZdhfu3L2vbkUlMJn
-	Dl2X/nI5MIuAIaXzzfMQiAvc8+WnprBHnRMAD0lXyHVozjb5qo12J50asaggy3oNDfTz
-	h/dO4sjJfA/qEGyTMdR68eMxsuOlrd+R0n//zU2AaciPo7ZVoIPJFR3XCk9LuSUQ2jod
-	TdPg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:organization:mime-version:content-transfer-encoding;
-	bh=6BVXk/JKbtH+nDe04Hhbz9mpHiM2Yy6d0UF2xRNIK5A=;
-	b=crDYplfF1V2vHyPP9a8WC/UKSGeuaTskF4QgZIh9d53QdcUbiyEMijDAVNMlpzvfPd
-	CySOEZevpANEc6mu74fseBWWj2vWsb5SYDmD3MU7uUn2HX/e1Qkgx6KEOA598Lwd0Qic
-	hqbfA2963njTU6qRNiFntzLK5j8gTjcy1u9P8sEYb8R8vz+qhc+j+qWWmUdN5LhwgeRt
-	D7UQLOdWySr/8n8pxdjMuNf84V4Elzte1MmwvjtRWISV/SNq/IZSElsNyOPIljq1ewg4
-	8iunhZSLjhUgvntrWrBVAW81RzpUi6z02GOkj7jVDsrHcD03UWi9fGW64DWuM+ijc6Ha
-	mHgA==
-X-Gm-Message-State: AODbwcCpnaqBSDVLq22ZyspEDaEOKlxvAFzwaougA98niMKAcs5kn3OF
-	K3+RuADB6UHT+OgW
-X-Received: by 10.36.78.200 with SMTP id r191mr10603039ita.84.1494944737492;
-	Tue, 16 May 2017 07:25:37 -0700 (PDT)
-Received: from pohly-mobl1 (p5DE8EB79.dip0.t-ipconnect.de. [93.232.235.121])
-	by smtp.gmail.com with ESMTPSA id
-	w79sm1051039itb.11.2017.05.16.07.25.35
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 16 May 2017 07:25:36 -0700 (PDT)
-Message-ID: <1494944734.28624.19.camel@intel.com>
-From: Patrick Ohly <patrick.ohly@intel.com>
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Date: Tue, 16 May 2017 16:25:34 +0200
-In-Reply-To: <4da20a5f-4d38-e3fb-b31e-f42ce8505564@linux.intel.com>
-References: <cover.da0bfaf0b62cb1033573711fd83cf5251f8827f3.1494854721.git-series.patrick.ohly@intel.com>
-	<79e18217-d4ed-8356-9532-7da63a420d6f@topic.nl>
-	<1494922912.1179.306.camel@intel.com>
-	<aaeaad51-6bd1-10c4-ce22-4381c07bd9a8@linux.intel.com>
-	<1494942469.28624.10.camel@intel.com>
-	<4da20a5f-4d38-e3fb-b31e-f42ce8505564@linux.intel.com>
-Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
-X-Mailer: Evolution 3.12.9-1+b1 
-Mime-Version: 1.0
+	Tue, 16 May 2017 14:39:56 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	16 May 2017 07:39:57 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.38,349,1491289200"; d="scan'208";a="857467992"
+Received: from mbabyjoh-desk.fi.intel.com (HELO
+	mbabyjoh-desk.ger.corp.intel.com) ([10.237.72.84])
+	by FMSMGA003.fm.intel.com with ESMTP; 16 May 2017 07:39:56 -0700
+Date: Tue, 16 May 2017 17:39:54 +0300
+From: "Maxin B. John" <maxin.john@intel.com>
+To: Carlos Rafael Giani <dv@pseudoterminal.org>
+Message-ID: <20170516143953.GA16062@mbabyjoh-desk.ger.corp.intel.com>
+References: <1494933979-5139-1-git-send-email-dv@pseudoterminal.org>
+	<1494933979-5139-5-git-send-email-dv@pseudoterminal.org>
+MIME-Version: 1.0
+In-Reply-To: <1494933979-5139-5-git-send-email-dv@pseudoterminal.org>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [RFC][PATCH 0/6] development vs. production builds
+Subject: Re: [PATCH 5/9] gstreamer1.0-plugins-ugly: upgrade to version 1.12.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -66,57 +34,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 May 2017 14:25:37 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 16 May 2017 14:39:57 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Tue, 2017-05-16 at 17:02 +0300, Alexander Kanavin wrote:
-> On 05/16/2017 04:47 PM, Patrick Ohly wrote:
+Hi,
+
+On Tue, May 16, 2017 at 01:26:15PM +0200, Carlos Rafael Giani wrote:
+> * libmad plugin was removed in 1.12.0, since mad is GPLed, unmaintained,
+>   and both gst-libav & the mpg123 plugin are fully functional alternatives
 > 
-> > Then why is not already done like that in practice? Is it just because
-> > OE-core and Poky set such a bad precedence with teaching developers to
-> > add EXTRA_IMAGE_FEATURES ?= "debug-tweaks" to make the images usable,
-> > and then that approach gets copied?
+> Signed-off-by: Carlos Rafael Giani <dv@pseudoterminal.org>
+> ---
+>  meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly.inc       | 1 -
+>  ...1.0-plugins-ugly_1.10.4.bb => gstreamer1.0-plugins-ugly_1.12.0.bb} | 4 ++--
+>  2 files changed, 2 insertions(+), 3 deletions(-)
+>  rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-ugly_1.10.4.bb => gstreamer1.0-plugins-ugly_1.12.0.bb} (76%)
 > 
-> It is done like that already, it's just not very consistent from what I 
-> can see. For example, core-image-sato-dev.bb:
-> =============
-> require core-image-sato.bb
-> 
-> DESCRIPTION = "Image with Sato for development work. It includes 
-> everything \
-> within core-image-sato plus a native toolchain, application development 
-> and \
-> testing libraries, profiling and debug symbols."
-> 
-> IMAGE_FEATURES += "dev-pkgs"
-> =============
+> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly.inc
+> index 708ad7a..60aa968 100644
+> --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly.inc
+> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly.inc
+> @@ -18,7 +18,6 @@ PACKAGECONFIG[amrwb]    = "--enable-amrwb,--disable-amrwb,opencore-amr"
+>  PACKAGECONFIG[cdio]     = "--enable-cdio,--disable-cdio,libcdio"
+>  PACKAGECONFIG[dvdread]  = "--enable-dvdread,--disable-dvdread,libdvdread"
+>  PACKAGECONFIG[lame]     = "--enable-lame,--disable-lame,lame"
+> -PACKAGECONFIG[mad]      = "--enable-mad,--disable-mad,libmad"
+>  PACKAGECONFIG[mpeg2dec] = "--enable-mpeg2dec,--disable-mpeg2dec,mpeg2dec"
+>  PACKAGECONFIG[mpg123]   = "--enable-mpg123,--disable-mpg123,mpg123"
+>  PACKAGECONFIG[x264]     = "--enable-x264,--disable-x264,x264"
+> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.10.4.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.12.0.bb
+> similarity index 76%
+> rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.10.4.bb
+> rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.12.0.bb
+> index 92a2caa..3bf9a9c 100644
+> --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.10.4.bb
+> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.12.0.bb
+> @@ -7,7 +7,7 @@ SRC_URI = " \
+>      http://gstreamer.freedesktop.org/src/gst-plugins-ugly/gst-plugins-ugly-${PV}.tar.xz \
+>      file://0001-introspection.m4-prefix-pkgconfig-paths-with-PKG_CON.patch \
+>  "
+> -SRC_URI[md5sum] = "c68d0509c9980b0b70a4b836ff73fff1"
+> -SRC_URI[sha256sum] = "6386c77ca8459cba431ed0b63da780c7062c7cc48055d222024d8eaf198ffa59"
+> +SRC_URI[md5sum] = "30e815834819a4890eb1ef6ef67cf68d"
+> +SRC_URI[sha256sum] = "5e68ba5046e83ee87b17d7a13931e6091466fd771e1338c5b929ee0944d40ad6"
+>  
+>  S = "${WORKDIR}/gst-plugins-ugly-${PV}"
 
-That's different. Here an image recipe specifies what it is meant to
-*contain*, not how it is meant to *behave*.
+For gstreamer1.0-plugins-ugly, we can remove the build dependency on "libid3tag" since it
+is not needed anymore.
 
-One would need core-image-sato-dev-production.bb (no debug-tweaks,
-dev-pkgs), core-image-sato-dev-debug.bb (debug-tweaks, dev-pkgs),
-core-image-sato-production.bb (no debug-tweaks, no dev-pkgs),
-core-image-sato-debug.bb (debug-tweaks, no dev-pkgs).
-
-Allowing EXTRA_IMAGE_FEATURES in local.conf.sample avoids that.
-
-> I'm not a big fan of placing INHERIT into local.conf either, by the way. 
-> I believe in functional programming principles, and this goes directly 
-> against them.
-
-It makes sense to me when the functionality is orthogonal to the
-content, like enabling buildhistory.
-
--- 
-Best Regards, Patrick Ohly
-
-The content of this message is my personal opinion only and although
-I am an employee of Intel, the statements I make here in no way
-represent Intel's position on the issue, nor am I authorized to speak
-on behalf of Intel on this matter.
-
-
-
+Best Regards,
+Maxin
 
