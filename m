@@ -1,26 +1,27 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 8D94C77D48
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 82A0E77D53
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 May 2017 13:25:13 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	16 May 2017 06:25:15 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.38,349,1491289200"; d="scan'208";a="87450283"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by orsmga002.jf.intel.com with ESMTP; 16 May 2017 06:25:14 -0700
+	Tue, 16 May 2017 13:45:17 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	v4GDjFdj003994
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
+	verify=NOT); Tue, 16 May 2017 14:45:16 +0100
+Message-ID: <1494942315.27342.33.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Markus Lehtonen <markus.lehtonen@linux.intel.com>,
 	openembedded-core@lists.openembedded.org
-References: <cover.1494939394.git.markus.lehtonen@linux.intel.com>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <8519c496-eafb-fac3-190c-5eb0e4dbe6e2@linux.intel.com>
-Date: Tue, 16 May 2017 16:23:09 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.8.0
-MIME-Version: 1.0
+Date: Tue, 16 May 2017 14:45:15 +0100
 In-Reply-To: <cover.1494939394.git.markus.lehtonen@linux.intel.com>
+References: <cover.1494939394.git.markus.lehtonen@linux.intel.com>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.1 
+Mime-Version: 1.0
+X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.11
+	(dan.rpsys.net [192.168.3.1]);
+	Tue, 16 May 2017 14:45:16 +0100 (BST)
+X-Virus-Scanned: clamav-milter 0.99.2 at dan
+X-Virus-Status: Clean
 Subject: Re: [PATCH v2 00/20] support profile-optimized build for Python
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -34,25 +35,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 May 2017 13:25:14 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
+X-List-Received-Date: Tue, 16 May 2017 13:45:19 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 05/16/2017 04:18 PM, Markus Lehtonen wrote:
-> This patchset makes it possible to make a PGO (profile-guided-optimization)
-> build of python. This version of the patchset is almost identical to v1
-> submitted back in February, with these changes:
-> - rebased on top of latest oe-core master
-> - exclude profile data for Modules/posixmodule of Python 2.7 as it was not
->   working correctly
+On Tue, 2017-05-16 at 16:18 +0300, Markus Lehtonen wrote:
+> This patchset makes it possible to make a PGO (profile-guided-
+> optimization) build of python. This version of the patchset is almost
+> identical to v1 submitted back in February, with these changes:
+> - rebased on top of latest oe-core master - exclude profile data for
+> Modules/posixmodule of Python 2.7 as it was not working correctly
+> 
+> [YOCTO #9338]
+> 
 
-How about doing this only for Python 3.x? We'd like to stick to our 
-resolution of deprecating 2.x, which means not introducing any new 
-dependencies or images that need it.
+I'm wondering if recipe specific sysroots might have made this problem
+a bit easier?
 
-Also, python-pgo-image commits should probably be all squashed into one 
-(with comments within files replacing the commit messages).
+It should now be possible to build the two packages with conflicting
+files and as long as you exclude the recipe from the shlibs code and
+set the RPROVIDES correctly, it should all work without as many
+invasive changes?
 
-Alex
+Of course I haven't tested that...
 
+Cheers,
+
+Richard
 
