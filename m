@@ -1,20 +1,34 @@
-Return-Path: <dv@pseudoterminal.org>
-Received: from ptmx.org (ptmx.org [178.63.28.110])
-	by mail.openembedded.org (Postfix) with ESMTP id C69CE77D31
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 0BBB877D58
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 May 2017 11:26:28 +0000 (UTC)
-Received: from soylentgreen.sue.net (vpn.streamunlimited.com [91.114.0.140])
-	by ptmx.org (Postfix) with ESMTPSA id 9D8A746E59
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 May 2017 13:26:29 +0200 (CEST)
-From: Carlos Rafael Giani <dv@pseudoterminal.org>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 16 May 2017 13:26:19 +0200
-Message-Id: <1494933979-5139-9-git-send-email-dv@pseudoterminal.org>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1494933979-5139-1-git-send-email-dv@pseudoterminal.org>
-References: <1494933979-5139-1-git-send-email-dv@pseudoterminal.org>
-Subject: [PATCH 9/9] gstreamer1.0-vaapi: upgrade to version 1.12.0
+	Tue, 16 May 2017 11:34:30 +0000 (UTC)
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	16 May 2017 04:34:31 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.38,349,1491289200"; d="scan'208";a="87952302"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by orsmga004.jf.intel.com with ESMTP; 16 May 2017 04:34:31 -0700
+To: "Belal, Awais" <Awais_Belal@mentor.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+References: <20170512135918.25150-1-awais_belal@mentor.com>
+	<b3b3d45f-7209-2ba2-a299-5da723ea5008@linux.intel.com>
+	<1494838882617.45509@mentor.com>
+	<d5c91712-63e4-b855-e508-a638de7cf916@linux.intel.com>
+	<1494860635949.47847@mentor.com>
+	<2f2b263c-5b85-3622-ea62-c01825da24be@linux.intel.com>
+	<1494912962159.30415@mentor.com>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <51bb3192-0566-418f-9448-4db95e29b567@linux.intel.com>
+Date: Tue, 16 May 2017 14:32:26 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.8.0
+MIME-Version: 1.0
+In-Reply-To: <1494912962159.30415@mentor.com>
+Subject: Re: [PATCH] autogen: fix autoopts script generation to handle shebang
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,142 +41,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 May 2017 11:26:29 -0000
+X-List-Received-Date: Tue, 16 May 2017 11:34:31 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
-* Added PACKAGECONFIG_GL variable to make it possible for BSP layers to
-  customize what should be the default, egl or glx
-* Set virtual/egl instead of virtual/mesa as egl dependency in case
-  platform specific drivers provide virtual/egl functionality
-* Removed backported allocator patch since it was merged in the release
-  and is no longer needed
+On 05/16/2017 08:36 AM, Belal, Awais wrote:
+>> The standard way to fix too long #! lines in oe is to patch
+>> upstream code to use #!/usr/bin/env something (where something is
+>> just the binary name).
+>
+>> Why not simply replace ${POSIX_SHELL} with /bin/sh? Where and how
+>> is it set?
+>
+> POSIX_SHELL is being set to "/usr/bin/env sh" already through the
+> recipe but it gets resolved/expanded to
+> <build-dir>/hosttools/<shell-bin> during the configuration process so
+> it's not usable for shebang in deep directory hierarchy scenarios. I
+> guess a better way would be simply to use the same technique that
+> we're using for perl. So for shell we'll have
+>
+> #!/usr/bin/env sh
+>
+> in mk-tpl-config.sh directly. I'll submit the change as v2 if you
+> think this is okay.
 
-Signed-off-by: Carlos Rafael Giani <dv@pseudoterminal.org>
----
- ...ideobufferpool-create-allocator-if-needed.patch | 61 ----------------------
- .../gstreamer/gstreamer1.0-vaapi.inc               |  9 +++-
- .../gstreamer/gstreamer1.0-vaapi_1.10.4.bb         |  7 ---
- .../gstreamer/gstreamer1.0-vaapi_1.12.0.bb         |  5 ++
- 4 files changed, 12 insertions(+), 70 deletions(-)
- delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer-vaapi/vaapivideobufferpool-create-allocator-if-needed.patch
- delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.10.4.bb
- create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.12.0.bb
+You should not patch out the use of POSIX_SHELL after the fact. Find 
+where it is resolved/expanded in the source code in the first place, and 
+patch it there. Also, please check why setting POSIX_SHELL in the recipe 
+no longer has any effect - there is a patch called 
+0001-config-libopts.m4-regenerate-it-from-config-libopts.patch which 
+should do the trick, but does not.
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer-vaapi/vaapivideobufferpool-create-allocator-if-needed.patch b/meta/recipes-multimedia/gstreamer/gstreamer-vaapi/vaapivideobufferpool-create-allocator-if-needed.patch
-deleted file mode 100644
-index f666adc..0000000
---- a/meta/recipes-multimedia/gstreamer/gstreamer-vaapi/vaapivideobufferpool-create-allocator-if-needed.patch
-+++ /dev/null
-@@ -1,61 +0,0 @@
--Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
--Upstream-Status: Backport [commit 59a731be6b in '1.10' branch]
--
--
--From 02a6002c3a80b3a5301c0943b1a1518bbdf439fc Mon Sep 17 00:00:00 2001
--From: =?UTF-8?q?V=C3=ADctor=20Manuel=20J=C3=A1quez=20Leal?=
-- <vjaquez@igalia.com>
--Date: Fri, 21 Apr 2017 19:07:18 +0200
--Subject: [PATCH] vaapivideobufferpool: create allocator if needed
--
--Backport to branch 1.10
--
--Sometimes a video decoder could set different buffer pool
--configurations, because their frame size changes. In this case we
--did not reconfigure the allocator.
--
--This patch enables this use case, creating a new allocator inside
--the VAAPI buffer pool if the caps changed, if it is not dmabuf-based.
--If so, it is just reconfigured, since it doesn't have a surface pool.
--
--https://bugzilla.gnome.org/show_bug.cgi?id=781577
-----
-- gst/vaapi/gstvaapivideobufferpool.c | 21 +++++++++++++++++++++
-- 1 file changed, 21 insertions(+)
--
--diff --git a/gst/vaapi/gstvaapivideobufferpool.c b/gst/vaapi/gstvaapivideobufferpool.c
--index a3b9223f..9a50614b 100644
----- a/gst/vaapi/gstvaapivideobufferpool.c
--+++ b/gst/vaapi/gstvaapivideobufferpool.c
--@@ -159,6 +159,27 @@ gst_vaapi_video_buffer_pool_set_config (GstBufferPool * pool,
--     gst_object_replace ((GstObject **) & priv->allocator, NULL);
--   priv->video_info = new_vip;
-- 
--+  {
--+    guint surface_alloc_flags;
--+    gboolean vinfo_changed = FALSE;
--+
--+    if (allocator) {
--+      const GstVideoInfo *alloc_vinfo =
--+          gst_allocator_get_vaapi_video_info (allocator, &surface_alloc_flags);
--+      vinfo_changed = gst_video_info_changed (alloc_vinfo, &new_vip);
--+    }
--+
--+    if (vinfo_changed && allocator && priv->use_dmabuf_memory) {
--+      gst_allocator_set_vaapi_video_info (allocator, &new_vip,
--+          surface_alloc_flags);
--+    } else if (!priv->use_dmabuf_memory && (vinfo_changed || !allocator)) {
--+      /* let's destroy the other allocator and create a new one */
--+      allocator = gst_vaapi_video_allocator_new (priv->display, &new_vip,
--+          surface_alloc_flags);
--+      gst_buffer_pool_config_set_allocator (config, allocator, NULL);
--+    }
--+  }
--+
--   if (!gst_buffer_pool_config_has_option (config,
--           GST_BUFFER_POOL_OPTION_VAAPI_VIDEO_META))
--     goto error_no_vaapi_video_meta_option;
---- 
--2.11.0
--
--
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi.inc
-index ef0734b..f0ff3c7 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi.inc
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi.inc
-@@ -22,12 +22,17 @@ REQUIRED_DISTRO_FEATURES ?= "opengl"
- 
- PACKAGES =+ "${PN}-tests"
- 
-+# opengl packageconfig factored out to make it easy for distros
-+# and BSP layers to pick either glx, egl, or no GL
-+PACKAGECONFIG_GL ?= "${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'egl', '', d)}"
-+
- PACKAGECONFIG ??= "drm \
--                   ${@bb.utils.contains('DISTRO_FEATURES', 'opengl x11', 'glx', '', d)} \
-+                   ${PACKAGECONFIG_GL} \
-                    ${@bb.utils.filter('DISTRO_FEATURES', 'wayland x11', d)}"
- 
- PACKAGECONFIG[drm] = "--enable-drm,--disable-drm,udev libdrm"
--PACKAGECONFIG[glx] = "--enable-glx,--disable-glx,virtual/mesa"
-+PACKAGECONFIG[egl] = "--enable-egl,--disable-egl,virtual/egl"
-+PACKAGECONFIG[glx] = "--enable-glx,--disable-glx,virtual/libgl"
- PACKAGECONFIG[wayland] = "--enable-wayland,--disable-wayland,wayland"
- PACKAGECONFIG[x11] = "--enable-x11,--disable-x11,virtual/libx11 libxrandr libxrender"
- 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.10.4.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.10.4.bb
-deleted file mode 100644
-index 44c66de..0000000
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.10.4.bb
-+++ /dev/null
-@@ -1,7 +0,0 @@
--require gstreamer1.0-vaapi.inc
--SRC_URI[md5sum] = "318af17f906637570b61dd7be9b5581d"
--SRC_URI[sha256sum] = "03e690621594d9f9495d86c7dac8b8590b3a150462770ed070dc76f66a70de75"
--
--SRC_URI += "file://vaapivideobufferpool-create-allocator-if-needed.patch"
--
--DEPENDS += "gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-bad"
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.12.0.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.12.0.bb
-new file mode 100644
-index 0000000..4d263bf
---- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.12.0.bb
-@@ -0,0 +1,5 @@
-+require gstreamer1.0-vaapi.inc
-+SRC_URI[md5sum] = "7548a48eece6c76298561f2ec890a240"
-+SRC_URI[sha256sum] = "4a1a5a174b3d3a76ce6c123203e7ee535a347d77f9d4f4ffaf69bfbbfeb03ddb"
-+
-+DEPENDS += "gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-bad"
--- 
-2.7.4
+Alex
 
 
