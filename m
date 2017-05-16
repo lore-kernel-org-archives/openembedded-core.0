@@ -1,30 +1,29 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id 5E12C77E32
+Return-Path: <markus.lehtonen@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 11AF077E32
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 May 2017 14:04:25 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga104.jf.intel.com with ESMTP; 16 May 2017 07:04:27 -0700
+	Tue, 16 May 2017 14:07:51 +0000 (UTC)
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	16 May 2017 07:07:42 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.38,349,1491289200"; d="scan'208";a="87466017"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by orsmga002.jf.intel.com with ESMTP; 16 May 2017 07:04:26 -0700
-To: Patrick Ohly <patrick.ohly@intel.com>
-References: <cover.da0bfaf0b62cb1033573711fd83cf5251f8827f3.1494854721.git-series.patrick.ohly@intel.com>
-	<79e18217-d4ed-8356-9532-7da63a420d6f@topic.nl>
-	<1494922912.1179.306.camel@intel.com>
-	<aaeaad51-6bd1-10c4-ce22-4381c07bd9a8@linux.intel.com>
-	<1494942469.28624.10.camel@intel.com>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <4da20a5f-4d38-e3fb-b31e-f42ce8505564@linux.intel.com>
-Date: Tue, 16 May 2017 17:02:21 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.8.0
-MIME-Version: 1.0
-In-Reply-To: <1494942469.28624.10.camel@intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [RFC][PATCH 0/6] development vs. production builds
+X-IronPort-AV: E=Sophos;i="5.38,349,1491289200"; d="scan'208";a="101255639"
+Received: from bkearns-mobl.ger.corp.intel.com (HELO [10.252.10.90])
+	([10.252.10.90])
+	by orsmga005.jf.intel.com with ESMTP; 16 May 2017 07:07:40 -0700
+User-Agent: Microsoft-MacOutlook/f.20.0.170309
+Date: Tue, 16 May 2017 17:07:39 +0300
+From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>,
+	<openembedded-core@lists.openembedded.org>
+Message-ID: <CB3B2E08-268C-4D53-BE2C-BD83B7020E91@linux.intel.com>
+Thread-Topic: [OE-core] [PATCH v2 00/20] support profile-optimized build for
+	Python
+References: <cover.1494939394.git.markus.lehtonen@linux.intel.com>
+	<8519c496-eafb-fac3-190c-5eb0e4dbe6e2@linux.intel.com>
+In-Reply-To: <8519c496-eafb-fac3-190c-5eb0e4dbe6e2@linux.intel.com>
+Mime-version: 1.0
+Subject: Re: [PATCH v2 00/20] support profile-optimized build for Python
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,44 +36,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 May 2017 14:04:26 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 16 May 2017 14:07:54 -0000
+Content-type: text/plain;
+	charset="UTF-8"
+Content-transfer-encoding: 7bit
 
-On 05/16/2017 04:47 PM, Patrick Ohly wrote:
+On 16/05/2017, 16.23, "Alexander Kanavin" <alexander.kanavin@linux.intel.com> wrote:
 
-> Then why is not already done like that in practice? Is it just because
-> OE-core and Poky set such a bad precedence with teaching developers to
-> add EXTRA_IMAGE_FEATURES ?= "debug-tweaks" to make the images usable,
-> and then that approach gets copied?
+    On 05/16/2017 04:18 PM, Markus Lehtonen wrote:
+    > This patchset makes it possible to make a PGO (profile-guided-optimization)
+    > build of python. This version of the patchset is almost identical to v1
+    > submitted back in February, with these changes:
+    > - rebased on top of latest oe-core master
+    > - exclude profile data for Modules/posixmodule of Python 2.7 as it was not
+    >   working correctly
+    
+    How about doing this only for Python 3.x? We'd like to stick to our 
+    resolution of deprecating 2.x, which means not introducing any new 
+    dependencies or images that need it.
 
-It is done like that already, it's just not very consistent from what I 
-can see. For example, core-image-sato-dev.bb:
-=============
-require core-image-sato.bb
+You're probably right. There's not much use in churning soon-to-be-deprecated Python 2.x. I will submit a new patchset for Python 3.x only. Python 2.x could be added later if deprecation wouldn't happen for some reason.
 
-DESCRIPTION = "Image with Sato for development work. It includes 
-everything \
-within core-image-sato plus a native toolchain, application development 
-and \
-testing libraries, profiling and debug symbols."
+    
+    Also, python-pgo-image commits should probably be all squashed into one 
+    (with comments within files replacing the commit messages).
+    
+Point taken.
 
-IMAGE_FEATURES += "dev-pkgs"
-=============
 
-> I think everyone agrees that removing "debug-tweaks" would be a good
-> idea. But completely removing the global (sic!) EXTRA_IMAGE_FEATURES in
-> local.conf.sample would go even further, and I am not sure how the
-> reactions to that would be. I suspect there are people who find it
-> useful to have just one image recipe that gets build in different
-> configurations (dangerous and not so dangerous).
+Thanks,
+  Markus
+    
 
-I'm not sure either, but I think that's not actually a bad idea - 
-dropping support for it altogether. :)
 
-I'm not a big fan of placing INHERIT into local.conf either, by the way. 
-I believe in functional programming principles, and this goes directly 
-against them.
-
-Alex
 
