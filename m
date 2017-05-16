@@ -1,54 +1,28 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-io0-f177.google.com (mail-io0-f177.google.com
-	[209.85.223.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 9EE0271AD1
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 1D04D6006E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 May 2017 07:12:29 +0000 (UTC)
-Received: by mail-io0-f177.google.com with SMTP id p24so87954809ioi.0
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 May 2017 00:12:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=message-id:subject:from:to:date:in-reply-to:references:organization
-	:mime-version:content-transfer-encoding;
-	bh=SM53kJRYyXfw10K+Y6TrMT6UmZ5P1bf8ZT8w6vFJGuQ=;
-	b=MHCW4018YzePTgdXO13JpzxpwSr77pVMeiAvfBMsnMII4y0ojAGnHuYMkU+MCUGnLM
-	m5RHkOm6bI2jDelH3z+tW1BycYxGql8arxw5KXc+fcHovRf1k5d3yVXpn10/16ZBl3kZ
-	OMhueUoh1KAYpw31wKmomWCNTIax9zZXXSzfPJROOel+ZLF3IBENf+c4CrOheae8GcZo
-	FnS9H0we4tJRMbT/ZmBySm/2LAtB6/x6X1Oc5+3a3ZEUBqo9J0z4VZYkhbA+9IA2cRSN
-	qdtAnNzyol0ka0/BTacxLaTNx7inC8nZxmKOaYnN52di8V7lyvY61Ns72HDM4XkyZPz1
-	euFQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:organization:mime-version:content-transfer-encoding;
-	bh=SM53kJRYyXfw10K+Y6TrMT6UmZ5P1bf8ZT8w6vFJGuQ=;
-	b=QqWbbKjQVg7lKnwFkLntd1c+tZiBSIZ3+XxUFOl4bvIV7UsUDOARprLaNf/OdkF6ZN
-	LodhVST6BIIQyG6vnHz/77zcFARaUkQcT8KADrwlbIQHyBpBjcinxZ9cGWfyuUOFsJF4
-	zgAS/Ez/HWkfpJDFKRFO1B8LmOdF+BeDUmjLwxBho/97j8BmtGdB+byPe17Lr0ihKoBZ
-	eMW8RPOUe8tVMJjxvlk+RskufHqgEmLB5JRooFgUJF9K0Uh8jyeOFtIo7PnD3BYimGQm
-	RcXART3+W+wTlsqcJxIfFrJIjPXj0uPq36nysU8/DsXdrUEDuoEwYMZzGzxmLMqGvI5b
-	3LQg==
-X-Gm-Message-State: AODbwcCfSCIwpqpNvxth54LrIa1xPXXdYmV2bvsI1VMhO8svWfJOlyso
-	VB5YTEiGIlyBxZhC
-X-Received: by 10.107.159.8 with SMTP id i8mr9345210ioe.143.1494918750437;
-	Tue, 16 May 2017 00:12:30 -0700 (PDT)
-Received: from pohly-mobl1 (p5DE8EB79.dip0.t-ipconnect.de. [93.232.235.121])
-	by smtp.gmail.com with ESMTPSA id
-	o73sm6365141ioi.42.2017.05.16.00.12.28
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 16 May 2017 00:12:29 -0700 (PDT)
-Message-ID: <1494918747.1179.280.camel@intel.com>
-From: Patrick Ohly <patrick.ohly@intel.com>
-To: openembedded-core@lists.openembedded.org, Khem Raj <raj.khem@gmail.com>
-Date: Tue, 16 May 2017 09:12:27 +0200
-In-Reply-To: <e03ca7d9d2d8b290fe306da077e0fc74a6916efd.1494854721.git-series.patrick.ohly@intel.com>
+	Tue, 16 May 2017 07:29:30 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	v4G7TODI004589
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
+	verify=NOT); Tue, 16 May 2017 08:29:26 +0100
+Message-ID: <1494919764.27342.27.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patrick Ohly <patrick.ohly@intel.com>,
+	openembedded-core@lists.openembedded.org
+Date: Tue, 16 May 2017 08:29:24 +0100
+In-Reply-To: <cover.da0bfaf0b62cb1033573711fd83cf5251f8827f3.1494854721.git-series.patrick.ohly@intel.com>
 References: <cover.da0bfaf0b62cb1033573711fd83cf5251f8827f3.1494854721.git-series.patrick.ohly@intel.com>
-	<e03ca7d9d2d8b290fe306da077e0fc74a6916efd.1494854721.git-series.patrick.ohly@intel.com>
-Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
-X-Mailer: Evolution 3.12.9-1+b1 
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.1 
 Mime-Version: 1.0
-Subject: Re: [RFC][PATCH 6/6] local.conf.sample: make debug-tweaks depend on IMAGE_MODE
+X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.11
+	(dan.rpsys.net [192.168.3.1]);
+	Tue, 16 May 2017 08:29:26 +0100 (BST)
+X-Virus-Scanned: clamav-milter 0.99.2 at dan
+X-Virus-Status: Clean
+Subject: Re: [RFC][PATCH 0/6] development vs. production builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,51 +35,88 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 May 2017 07:12:30 -0000
+X-List-Received-Date: Tue, 16 May 2017 07:29:32 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Mon, 2017-05-15 at 15:27 +0200, Patrick Ohly wrote:
-> Enabling "debug-tweaks" unconditionally, even if it is only in the
-> local.conf.sample file, runs the risk of that getting used in
-> production images.
+On Mon, 2017-05-15 at 15:26 +0200, Patrick Ohly wrote:
+> At OEDAM [1] I took the AR to flesh out some of my ideas for
+> introducing global and per-image settings for switching between
+> development and production builds. The goal is partly to establish
+> common configure options that then can be used by different layers,
+> partly to have some actual useful functionality attached to them
+> already in OE-core.
 > 
-> By checking the per-image IMAGE_MODE, the debug tweaks only get
-> enabled for images not meant for production.
+> "development" builds are what a developer does when trying out a
+> distro or working on his own personal device. "production" is what
+> device manufacturer put onto the actual end-user hardware.
 > 
-> Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
-> ---
->  meta/conf/local.conf.sample | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
+> At OEDAM we already concluded that per-image settings are more
+> useful. However, sometimes a component also has compile-time choices
+> that cannot be changed later on in an image, and indeed I found one
+> example for that (kmod) in OE-core.
 > 
-> diff --git a/meta/conf/local.conf.sample b/meta/conf/local.conf.sample
-> index 85c5e21..edadbb7 100644
-> --- a/meta/conf/local.conf.sample
-> +++ b/meta/conf/local.conf.sample
-> @@ -114,8 +114,9 @@ PACKAGE_CLASSES ?= "package_ipk"
->  #                     e.g. ssh root access has a blank password
->  # There are other application targets that can be used here too, see
->  # meta/classes/image.bbclass and meta/classes/core-image.bbclass for more details.
-> -# We default to enabling the debugging tweaks.
-> -EXTRA_IMAGE_FEATURES ?= "debug-tweaks"
-> +# We default to enabling the debugging tweaks unless an image is explicitly
-> +# requested to be built for production.
+> Therefore I have included "debug-build" DISTRO_FEATURES support. It's
+> a
+> bit similar to manpages.bbclass, but in contrast to that (currently)
+> is meant to be inherited globally - that's partly due to
+> misunderstanding how manpages.bbclass was meant to be used. This can
+> be changed, for now I just want to demonstrate that such a distro
+> feature is not entirely useless, and what effect it could have
+> already
+> in OE-core.
+> 
+> In refkit, we also switch globally between development and production
+> builds via .inc files. However, I am in the process of replacing that
+> with the more flexible per-image IMAGE_MODE check. So from my
+> perspective, the IMAGE_MODE is more important and useful than the
+> "debug-build" DISTRO_FEATURE.
+> 
+> From a design perspective, the approach taken here is to let a
+> developer or image define what mode it wants, and default features
+> can
+> be configured accordingly. That alternative would be to continue
+> defining
+> features as before and use the mode to configure QA warnings or
+> errors.
+> 
+> But I find that less flexible, and I suspect it would be harder to
+> keep track of what is meant to be usable in which mode. Developers
+> also would have a harder time overriding the defaults.
+> 
+> [1] https://www.openembedded.org/wiki/OEDAM_2017
 
-Would it help to add an additional comment here, like this?
+I'm not really sure I like this change, it seems fairly invasive and
+complex for gains which don't seem to add up to me.
 
-# Note that this expression gets evaluated separately for each image
-# and that IMAGE_MODE can get set differently for different images,
-# even in the same build.
+For example after your patchset, we end up with two different places
+motd may be generated based on various flags. I think it would be
+confusing for the user to find out where a message as coming from.
 
-> +EXTRA_IMAGE_FEATURES ?= "${@ '' if 'production' == d.getVar('IMAGE_MODE') else 'debug-tweaks'}"
+One of the reasons I have grown to hate "debug-tweaks" is that when you
+enable it, you have no idea what you're really changing as the name
+doesn't tell you what it does. I worry "debug-build" will become the
+same problem, it doesn't do one thing well but many things badly. If it
+really just changes debug and logging PACKAGECONFIG (if present), why
+doesn't the distro just do that?
 
--- 
-Best Regards, Patrick Ohly
+I also worry about the number of classes this introduces. Whilst
+classes are cheap and easy, I have heard concerns we have too many of
+them. In this case image-mode gets hardcoded into image.bbclass.
 
-The content of this message is my personal opinion only and although
-I am an employee of Intel, the statements I make here in no way
-represent Intel's position on the issue, nor am I authorized to speak
-on behalf of Intel on this matter.
+Also, have you seen bb.utils.filter()? It might be useful instead of
+some of your .intersection() code?
+
+I do think you're right that we need to make some changes in this area
+but overall this patchset seems too complex to me somehow and I think
+we probably can achieve something similar in a simpler way...
+
+Cheers,
+
+Richard
+
+
+
 
 
 
