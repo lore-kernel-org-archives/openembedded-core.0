@@ -1,28 +1,28 @@
 Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id D6A4A77E26
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 8849377E36
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 May 2017 13:40:23 +0000 (UTC)
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	17 May 2017 06:40:25 -0700
+	Wed, 17 May 2017 13:40:24 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	17 May 2017 06:40:26 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.38,354,1491289200"; d="scan'208";a="88378802"
+X-IronPort-AV: E=Sophos;i="5.38,354,1491289200"; d="scan'208";a="969437543"
 Received: from linux.intel.com ([10.54.29.200])
-	by orsmga004.jf.intel.com with ESMTP; 17 May 2017 06:40:25 -0700
+	by orsmga003.jf.intel.com with ESMTP; 17 May 2017 06:40:26 -0700
 Received: from vmed.fi.intel.com (crosswalk-testmaster.fi.intel.com
 	[10.237.72.36])
-	by linux.intel.com (Postfix) with ESMTP id EBC736A4080
+	by linux.intel.com (Postfix) with ESMTP id 0CA766A4080
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 May 2017 06:40:09 -0700 (PDT)
+	Wed, 17 May 2017 06:40:10 -0700 (PDT)
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 17 May 2017 13:39:52 +0000
-Message-Id: <670bb51a7e11aed7360e57ec198e4b271ea7a7b4.1495028274.git.ed.bartosh@linux.intel.com>
+Date: Wed, 17 May 2017 13:39:53 +0000
+Message-Id: <0d62506f311d9fa37394f103a0075a13885d1fd8.1495028274.git.ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.12.0
 In-Reply-To: <cover.1495028274.git.ed.bartosh@linux.intel.com>
 References: <cover.1495028274.git.ed.bartosh@linux.intel.com>
-Subject: [PATCH v2 7/8] engine: implement listing wic images
+Subject: [PATCH v2 8/8] selftest: add new test case test_wic_ls
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,126 +35,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 May 2017 13:40:24 -0000
+X-List-Received-Date: Wed, 17 May 2017 13:40:25 -0000
 
-Implemented 'wic ls' functionality:
- - list image partitions
- - list directory content of vfat partitions
-
-[YOCTO #11283]
+Tested 'wic ls' functionality:
+ - list of image partitions
+ - list of directory content of vfat partition
 
 Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 ---
- scripts/lib/wic/engine.py | 84 +++++++++++++++++++++++++++++++++++++++++++++--
- 1 file changed, 82 insertions(+), 2 deletions(-)
+ meta/lib/oeqa/selftest/wic.py | 20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)
 
-diff --git a/scripts/lib/wic/engine.py b/scripts/lib/wic/engine.py
-index e58beb7dce..95c8d1cc22 100644
---- a/scripts/lib/wic/engine.py
-+++ b/scripts/lib/wic/engine.py
-@@ -30,10 +30,15 @@
- 
- import logging
- import os
-+import tempfile
+diff --git a/meta/lib/oeqa/selftest/wic.py b/meta/lib/oeqa/selftest/wic.py
+index 9cb9507830..e908c076ad 100644
+--- a/meta/lib/oeqa/selftest/wic.py
++++ b/meta/lib/oeqa/selftest/wic.py
+@@ -825,3 +825,23 @@ part /etc --source rootfs --ondisk mmcblk0 --fstype=ext4 --exclude-path bin/ --r
+             status, output = qemu.run_serial(cmd)
+             self.assertEqual(1, status, 'Failed to run command "%s": %s' % (cmd, output))
+             self.assertEqual(output, '2')
 +
-+from collections import namedtuple, OrderedDict
-+from distutils.spawn import find_executable
- 
- from wic import WicError
-+from wic.filemap import sparse_copy
- from wic.pluginbase import PluginMgr
--from wic.utils.misc import get_bitbake_var
-+from wic.utils.misc import get_bitbake_var, exec_cmd
- 
- logger = logging.getLogger('wic')
- 
-@@ -225,9 +230,84 @@ def wic_list(args, scripts_path):
- 
-     return False
- 
++    def test_wic_ls(self):
++        """Test listing image content using 'wic ls'"""
++        self.assertEqual(0, runCmd("wic create wictestdisk "
++                                   "--image-name=core-image-minimal "
++                                   "-D -o %s" % self.resultdir).status)
++        images = glob(self.resultdir + "wictestdisk-*.direct")
++        self.assertEqual(1, len(images))
 +
-+class Disk:
-+    def __init__(self, imagepath, native_sysroot):
-+        self.imagepath = imagepath
-+        self.native_sysroot = native_sysroot
-+        self._partitions = None
-+        self._mdir = None
-+        self._partimages = {}
++        sysroot = get_bb_var('RECIPE_SYSROOT_NATIVE', 'wic-tools')
 +
-+        # find parted
-+        self.paths = "/bin:/usr/bin:/usr/sbin:/sbin/"
-+        if native_sysroot:
-+            for path in self.paths.split(':'):
-+                self.paths = "%s%s:%s" % (native_sysroot, path, self.paths)
++        # list partitions
++        result = runCmd("wic ls %s -n %s" % (images[0], sysroot))
++        self.assertEqual(0, result.status)
++        self.assertEqual(3, len(result.output.split('\n')))
 +
-+        self.parted = find_executable("parted", self.paths)
-+        if not self.parted:
-+            raise WicError("Can't find executable parted")
-+
-+    def __del__(self):
-+        for path in self._partimages.values():
-+            os.unlink(path)
-+
-+    @property
-+    def partitions(self):
-+        if self._partitions is None:
-+            self._partitions = OrderedDict()
-+            out = exec_cmd("%s -sm %s unit B print" % (self.parted, self.imagepath))
-+            parttype = namedtuple("Part", "pnum start end size fstype")
-+            for line in out.splitlines()[2:]:
-+                pnum, start, end, size, fstype = line.split(':')[:5]
-+                partition = parttype(pnum, int(start[:-1]), int(end[:-1]),
-+                                     int(size[:-1]), fstype)
-+                self._partitions[pnum] = partition
-+
-+        return self._partitions
-+
-+    @property
-+    def mdir(self):
-+        if self._mdir is None:
-+            self._mdir = find_executable("mdir", self.paths)
-+            if not self._mdir:
-+                raise WicError("Can't find executable mdir")
-+        return self._mdir
-+
-+    def _get_part_image(self, pnum):
-+        if pnum not in self.partitions:
-+            raise WicError("Partition %s is not in the image")
-+        part = self.partitions[pnum]
-+        if not part.fstype.startswith("fat"):
-+            raise WicError("Not supported fstype: {}".format(part.fstype))
-+        if pnum not in self._partimages:
-+            tmpf = tempfile.NamedTemporaryFile(prefix="wic-part")
-+            dst_fname = tmpf.name
-+            tmpf.close()
-+            sparse_copy(self.imagepath, dst_fname, skip=part.start, length=part.size)
-+            self._partimages[pnum] = dst_fname
-+
-+        return self._partimages[pnum]
-+
-+    def dir(self, pnum, path):
-+        return exec_cmd("{} -i {} ::{}".format(self.mdir,
-+                                               self._get_part_image(pnum),
-+                                               path))
-+
- def wic_ls(args, native_sysroot):
-     """List contents of partitioned image or vfat partition."""
--    pass
-+    disk = Disk(args.path.image, native_sysroot)
-+    if not args.path.part:
-+        if disk.partitions:
-+            print('Num     Start        End          Size      Fstype')
-+            for part in disk.partitions.values():
-+                print("{:2s}  {:12d} {:12d} {:12d}  {}".format(\
-+                          part.pnum, part.start, part.end,
-+                          part.size, part.fstype))
-+    else:
-+        path = args.path.path or '/'
-+        print(disk.dir(args.path.part, path))
- 
- def find_canned(scripts_path, file_name):
-     """
++        # list directory content of the first partition
++        result = runCmd("wic ls %s:1/ -n %s" % (images[0], sysroot))
++        self.assertEqual(0, result.status)
++        self.assertEqual(6, len(result.output.split('\n')))
 -- 
 2.12.0
 
