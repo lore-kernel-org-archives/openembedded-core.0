@@ -1,28 +1,27 @@
 Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 8849377E36
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	by mail.openembedded.org (Postfix) with ESMTP id 2DE8577E1B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 May 2017 13:40:24 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	17 May 2017 06:40:26 -0700
+	Wed, 17 May 2017 13:40:25 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga105.jf.intel.com with ESMTP; 17 May 2017 06:40:24 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.38,354,1491289200"; d="scan'208";a="969437543"
+X-IronPort-AV: E=Sophos;i="5.38,354,1491289200"; d="scan'208";a="1148911127"
 Received: from linux.intel.com ([10.54.29.200])
-	by orsmga003.jf.intel.com with ESMTP; 17 May 2017 06:40:26 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 17 May 2017 06:40:24 -0700
 Received: from vmed.fi.intel.com (crosswalk-testmaster.fi.intel.com
 	[10.237.72.36])
-	by linux.intel.com (Postfix) with ESMTP id 0CA766A4080
+	by linux.intel.com (Postfix) with ESMTP id D67EA6A4080
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 May 2017 06:40:10 -0700 (PDT)
+	Wed, 17 May 2017 06:40:08 -0700 (PDT)
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 17 May 2017 13:39:53 +0000
-Message-Id: <0d62506f311d9fa37394f103a0075a13885d1fd8.1495028274.git.ed.bartosh@linux.intel.com>
+Date: Wed, 17 May 2017 13:39:51 +0000
+Message-Id: <844a941ee5ff3306e0ae87485d8e9a15bd7404c0.1495028274.git.ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.12.0
 In-Reply-To: <cover.1495028274.git.ed.bartosh@linux.intel.com>
 References: <cover.1495028274.git.ed.bartosh@linux.intel.com>
-Subject: [PATCH v2 8/8] selftest: add new test case test_wic_ls
+Subject: [PATCH v2 6/8] wic: add 'wic ls' command
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,45 +34,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 May 2017 13:40:25 -0000
+X-List-Received-Date: Wed, 17 May 2017 13:40:26 -0000
 
-Tested 'wic ls' functionality:
- - list of image partitions
- - list of directory content of vfat partition
+Added empty 'wic ls' command that does nothing.
+The functionality will be added by the next commits.
 
 Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 ---
- meta/lib/oeqa/selftest/wic.py | 20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
+ scripts/lib/wic/engine.py |  4 ++++
+ scripts/wic               | 15 +++++++++++++++
+ 2 files changed, 19 insertions(+)
 
-diff --git a/meta/lib/oeqa/selftest/wic.py b/meta/lib/oeqa/selftest/wic.py
-index 9cb9507830..e908c076ad 100644
---- a/meta/lib/oeqa/selftest/wic.py
-+++ b/meta/lib/oeqa/selftest/wic.py
-@@ -825,3 +825,23 @@ part /etc --source rootfs --ondisk mmcblk0 --fstype=ext4 --exclude-path bin/ --r
-             status, output = qemu.run_serial(cmd)
-             self.assertEqual(1, status, 'Failed to run command "%s": %s' % (cmd, output))
-             self.assertEqual(output, '2')
+diff --git a/scripts/lib/wic/engine.py b/scripts/lib/wic/engine.py
+index 647358287f..e58beb7dce 100644
+--- a/scripts/lib/wic/engine.py
++++ b/scripts/lib/wic/engine.py
+@@ -225,6 +225,10 @@ def wic_list(args, scripts_path):
+ 
+     return False
+ 
++def wic_ls(args, native_sysroot):
++    """List contents of partitioned image or vfat partition."""
++    pass
 +
-+    def test_wic_ls(self):
-+        """Test listing image content using 'wic ls'"""
-+        self.assertEqual(0, runCmd("wic create wictestdisk "
-+                                   "--image-name=core-image-minimal "
-+                                   "-D -o %s" % self.resultdir).status)
-+        images = glob(self.resultdir + "wictestdisk-*.direct")
-+        self.assertEqual(1, len(images))
+ def find_canned(scripts_path, file_name):
+     """
+     Find a file either by its path or by name in the canned files dir.
+diff --git a/scripts/wic b/scripts/wic
+index 6c9a30da7d..4161f80367 100755
+--- a/scripts/wic
++++ b/scripts/wic
+@@ -234,6 +234,14 @@ def wic_list_subcommand(args, usage_str):
+         raise WicError("Bad list arguments, exiting")
+ 
+ 
++def wic_ls_subcommand(args, usage_str):
++    """
++    Command-line handling for list content of images.
++    The real work is done by engine.wic_ls()
++    """
++    engine.wic_ls(args, args.native_sysroot)
 +
-+        sysroot = get_bb_var('RECIPE_SYSROOT_NATIVE', 'wic-tools')
 +
-+        # list partitions
-+        result = runCmd("wic ls %s -n %s" % (images[0], sysroot))
-+        self.assertEqual(0, result.status)
-+        self.assertEqual(3, len(result.output.split('\n')))
-+
-+        # list directory content of the first partition
-+        result = runCmd("wic ls %s:1/ -n %s" % (images[0], sysroot))
-+        self.assertEqual(0, result.status)
-+        self.assertEqual(6, len(result.output.split('\n')))
+ def wic_help_subcommand(args, usage_str):
+     """
+     Command-line handling for help subcommand to keep the current
+@@ -266,6 +274,9 @@ helptopics = {
+     "create":    [wic_help_topic_subcommand,
+                   wic_help_topic_usage,
+                   hlp.wic_create_help],
++    "ls":        [wic_help_topic_subcommand,
++                  wic_help_topic_usage,
++                  hlp.wic_ls_help],
+     "list":      [wic_help_topic_subcommand,
+                   wic_help_topic_usage,
+                   hlp.wic_list_help]
+@@ -359,6 +370,10 @@ subcommands = {
+                   hlp.wic_list_usage,
+                   hlp.wic_list_help,
+                   wic_init_parser_list],
++    "ls":        [wic_ls_subcommand,
++                  hlp.wic_ls_usage,
++                  hlp.wic_ls_help,
++                  wic_init_parser_ls],
+     "help":      [wic_help_subcommand,
+                   wic_help_topic_usage,
+                   hlp.wic_help_help,
 -- 
 2.12.0
 
