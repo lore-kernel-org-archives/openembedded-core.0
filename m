@@ -1,33 +1,44 @@
-Return-Path: <denis@denix.org>
-Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.17])
-	by mail.openembedded.org (Postfix) with ESMTP id 59D6277E6E
+Return-Path: <tharvey@gateworks.com>
+Received: from mail-wm0-f52.google.com (mail-wm0-f52.google.com [74.125.82.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 170B977E69
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 May 2017 19:32:26 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mailout4.zoneedit.com (Postfix) with ESMTP id 1D2B720B49;
-	Wed, 17 May 2017 19:32:28 +0000 (UTC)
-Received: from mailout4.zoneedit.com ([127.0.0.1])
-	by localhost (zmo03-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
-	port 10024)
-	with ESMTP id AVlT8uKtRuLR; Wed, 17 May 2017 19:32:28 +0000 (UTC)
-Received: from mail.denix.org (pool-100-15-85-143.washdc.fios.verizon.net
-	[100.15.85.143])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mailout4.zoneedit.com (Postfix) with ESMTPSA id EF115204E0;
-	Wed, 17 May 2017 19:32:26 +0000 (UTC)
-Received: by mail.denix.org (Postfix, from userid 1000)
-	id 8003C1624C6; Wed, 17 May 2017 15:32:26 -0400 (EDT)
-Date: Wed, 17 May 2017 15:32:26 -0400
-From: Denys Dmytriyenko <denis@denix.org>
-To: zhengrq <zhengrq.fnst@cn.fujitsu.com>
-Message-ID: <20170517193226.GQ28053@denix.org>
-References: <1495019861-63880-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+	Wed, 17 May 2017 19:36:16 +0000 (UTC)
+Received: by mail-wm0-f52.google.com with SMTP id 70so22126468wmq.1
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 17 May 2017 12:36:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=gateworks-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:from:date:message-id:subject:to
+	:content-transfer-encoding;
+	bh=MScoZENXmk51jnDCPdYKDxPUA4MR1lCW7ncTnOen7dE=;
+	b=bNI0+kP7FcMS6NHKbZXVZe0A+qGL+VGAqn6gVNyqjGQI7kQVEu0KrBKZq70VhourC9
+	pH3R+Tg+MbTDnhyMavJsgbG/hdYj75gNnQF3DEHuTbky7EmAUr2i/ygbOym3zs6Zilys
+	2YUUPP8zljWIoDaeK6H1oOm+lFv+LA7Ol5mDNpc4b1eiG55Ssj4JFknGtb1YBgbKMJEW
+	as9MoAboREqY9cLvEDSWON3wLAIRMzH24/pVO6NWK6ah/6XrLVwUvjUQh3Vlp6tCp4hv
+	b+FPpWoviGiR0y9r488cANG1MaimuTQiSbMge61epv5bVPwOEyZjeu+tVeD0+vCx5z/5
+	jKpw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to
+	:content-transfer-encoding;
+	bh=MScoZENXmk51jnDCPdYKDxPUA4MR1lCW7ncTnOen7dE=;
+	b=CwOWZo1XiBLqbObODJeYbNRMDQTGTm1N11DfRbcWamtpL/9hv7aGrQVdDxBvhcoXAm
+	xn4wXWE3yssaEfldNc4dOuLYSJIdLiJwnJujlkRnsOdDEX2TGTq9FzuKU/hVJzyYVFku
+	NamChwy/vZKdgOnWe6PxDwAfe3lStwmCz9R4HH7fYHww6sT0AAiTp/F8iXUooA2B86l/
+	j8mi7V8tpVfw23dI+bjm0BGDtr658h6qyKPSWTy4Ze3mt5lkWi9ue31Bo6eD6+tt8VsY
+	2Te3yt182yZ6q1qyItuMXby2ighXAijNX2wYIrRk4/yK55S1tJolQHoBKggvwrae/Eii
+	Yxgg==
+X-Gm-Message-State: AODbwcCA84kBdLLRkwf5Az3QdhaW+DaJ830+augJ1ZJJKp7RqXELB6az
+	3HJyIcfnUlInD6ZughPc43vl5wzlTTPL
+X-Received: by 10.28.137.201 with SMTP id l192mr11394701wmd.27.1495049776561; 
+	Wed, 17 May 2017 12:36:16 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <1495019861-63880-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
-User-Agent: Mutt/1.5.20 (2009-06-14)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2 1/2] libx11: 1.6.4 -> 1.6.5
+Received: by 10.28.212.21 with HTTP; Wed, 17 May 2017 12:36:15 -0700 (PDT)
+From: Tim Harvey <tharvey@gateworks.com>
+Date: Wed, 17 May 2017 12:36:15 -0700
+Message-ID: <CAJ+vNU02n6DavkhuwM8gU7daWLyyd4QHgd0N5topHJQiO2_6RA@mail.gmail.com>
+To: poky@yoctoproject.org, openembedded-core@lists.openembedded.org
+Subject: populate sdk broken for u-boot-mkimage
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,61 +51,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 May 2017 19:32:32 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Wed, 17 May 2017 19:36:17 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Please make it a diff between the versions.
+Greetings,
 
-On Wed, May 17, 2017 at 07:17:41PM +0800, zhengrq wrote:
-> Upgrade libx11 from 1.6.4 to 1.6.5
-> 
-> Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
-> ---
->  meta/recipes-graphics/xorg-lib/libx11_1.6.4.bb | 10 ----------
->  meta/recipes-graphics/xorg-lib/libx11_1.6.5.bb | 10 ++++++++++
->  2 files changed, 10 insertions(+), 10 deletions(-)
->  delete mode 100644 meta/recipes-graphics/xorg-lib/libx11_1.6.4.bb
->  create mode 100644 meta/recipes-graphics/xorg-lib/libx11_1.6.5.bb
-> 
-> diff --git a/meta/recipes-graphics/xorg-lib/libx11_1.6.4.bb b/meta/recipes-graphics/xorg-lib/libx11_1.6.4.bb
-> deleted file mode 100644
-> index caa95fb..0000000
-> --- a/meta/recipes-graphics/xorg-lib/libx11_1.6.4.bb
-> +++ /dev/null
-> @@ -1,10 +0,0 @@
-> -require libx11.inc
-> -inherit gettext
-> -
-> -BBCLASSEXTEND = "native nativesdk"
-> -
-> -SRC_URI += "file://disable_tests.patch \
-> -           "
-> -
-> -SRC_URI[md5sum] = "6d54227082f3aa2c596f0b3a3fbb9175"
-> -SRC_URI[sha256sum] = "b7c748be3aa16ec2cbd81edc847e9b6ee03f88143ab270fb59f58a044d34e441"
-> diff --git a/meta/recipes-graphics/xorg-lib/libx11_1.6.5.bb b/meta/recipes-graphics/xorg-lib/libx11_1.6.5.bb
-> new file mode 100644
-> index 0000000..71cbf67
-> --- /dev/null
-> +++ b/meta/recipes-graphics/xorg-lib/libx11_1.6.5.bb
-> @@ -0,0 +1,10 @@
-> +require libx11.inc
-> +inherit gettext
-> +
-> +BBCLASSEXTEND = "native nativesdk"
-> +           "
-> +
-> +SRC_URI[md5sum] = "0f618db70c4054ca67cee0cc156a4255"
-> +SRC_URI[sha256sum] = "4d3890db2ba225ba8c55ca63c6409c1ebb078a2806de59fb16342768ae63435d"
-> -- 
-> 2.7.4
-> 
-> 
-> 
-> -- 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+I'm running into the following build error when trying to create an
+SDK for an image that includes u-boot-mkimage-native.
+
+The nativesdk-u-boot-mkimage do_package task fails with:
+ERROR: nativesdk-u-boot-mkimage: chrpath command failed with exit code 7:
+b'/usr/src/ventana/yocto/pyro-2.3/build/tmp/work/x86_64-nativesdk-fslcsdk-l=
+inux/nativesdk-u-boot-mkimage/1_2017.01-r0/package/opt/fslc-x11/2.3/sysroot=
+s/x86_64-fslcsdk-linux/usr/bin/uboot-mkimage:
+RPATH=3D/usr/src/ventana/yocto/pyro-2.3/build/tmp/work/x86_64-nativesdk-fsl=
+csdk-linux/nativesdk-u-boot-mkimage/1_2017.01-r0/recipe-sysroot-native/usr/=
+lib:/usr/src/ventana/yocto/pyro-2.3/build/tmp/work/x86_64-nativesdk-fslcsdk=
+-linux/nativesdk-u-boot-mkimage/1_2017.01-r0/recipe-sysroot-native/lib\n'b"=
+new
+rpath '$ORIGIN/../../../../../../../usr/src/ventana/yocto/pyro-2.3/build/tm=
+p/work/x86_64-nativesdk-fslcsdk-linux/nativesdk-u-boot-mkimage/1_2017.01-r0=
+/recipe-sysroot-native/usr/lib:$ORIGIN/../../../../../../../usr/src/ventana=
+/yocto/pyro-2.3/build/tmp/work/x86_64-nativesdk-fslcsdk-linux/nativesdk-u-b=
+oot-mkimage/1_2017.01-r0/recipe-sysroot-native/lib'
+too large; maximum length 287\n"
+DEBUG: Python function perform_packagecopy finished
+DEBUG: Python function do_package finished
+ERROR: Function failed: perform_packagecopy
+
+I'm guessing this has something to do with the long list of args in
+EXTRA_OEMAKE_class-nativesdk from
+http://git.yoctoproject.org/cgit.cgi/poky/tree/meta/recipes-bsp/u-boot/u-bo=
+ot-mkimage_2017.01.bb
+
+Any ideas?
+
+Regards,
+
+Tim
 
