@@ -1,28 +1,25 @@
 Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id A62E777D88
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 25B5371A92
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 May 2017 13:28:00 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	17 May 2017 06:28:02 -0700
+	Wed, 17 May 2017 13:30:11 +0000 (UTC)
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	17 May 2017 06:30:13 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.38,354,1491289200"; d="scan'208";a="1131381579"
+X-IronPort-AV: E=Sophos;i="5.38,354,1491289200"; d="scan'208";a="103186223"
 Received: from linux.intel.com ([10.54.29.200])
-	by orsmga001.jf.intel.com with ESMTP; 17 May 2017 06:28:02 -0700
+	by fmsmga006.fm.intel.com with ESMTP; 17 May 2017 06:30:12 -0700
 Received: from vmed.fi.intel.com (crosswalk-testmaster.fi.intel.com
 	[10.237.72.36])
-	by linux.intel.com (Postfix) with ESMTP id C3CF96A4080
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 May 2017 06:27:46 -0700 (PDT)
+	by linux.intel.com (Postfix) with ESMTP id E66166A4080;
+	Wed, 17 May 2017 06:29:56 -0700 (PDT)
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 17 May 2017 13:27:49 +0000
-Message-Id: <158b8e8539345dc205db5877cdbdc9903aeb8833.1495027402.git.ed.bartosh@linux.intel.com>
+Date: Wed, 17 May 2017 13:30:07 +0000
+Message-Id: <20170517133007.10730-1-ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.12.0
-In-Reply-To: <cover.1495027402.git.ed.bartosh@linux.intel.com>
-References: <cover.1495027402.git.ed.bartosh@linux.intel.com>
-Subject: [PATCH 2/2] create-pull-request: support format-patch options
+Subject: [PATCH] isoimage-isohybrid: don't use TRANSLATED_TARGET_ARCH
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,73 +32,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 May 2017 13:28:00 -0000
+X-List-Received-Date: Wed, 17 May 2017 13:30:12 -0000
 
-Added possibility to specify extra format-patch options
-in the create-pull-request command line:
-   create-pull-request -u contrib -r master -- -v3
+isoimage-isohybrid plugin fails with this error when
+trying to find initrd image:
+    initrd = glob.glob('%s/%s*%s.%s' % (initrd_dir, image_name, target_arch, image_type))[0]
+    IndexError: list index out of range
+as it uses TRANSLATED_TARGET_ARCH value as part of the image.
+This approach stopped to work due to changes in oe core code.
+
+initrd file name is made using MACHINE variable. wic can't get value
+of this variable as it's not included into bitbake -e output.
+
+Used basename of deploy dir as MACHINE value to fix the breakage.
 
 Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 ---
- scripts/create-pull-request | 14 +++++++++++---
- 1 file changed, 11 insertions(+), 3 deletions(-)
+ meta/classes/image_types_wic.bbclass                 | 2 +-
+ scripts/lib/wic/plugins/source/isoimage-isohybrid.py | 6 ++----
+ 2 files changed, 3 insertions(+), 5 deletions(-)
 
-diff --git a/scripts/create-pull-request b/scripts/create-pull-request
-index e82858bc98..280880b3f7 100755
---- a/scripts/create-pull-request
-+++ b/scripts/create-pull-request
-@@ -34,7 +34,7 @@ RFC=0
- usage() {
- CMD=$(basename $0)
- cat <<EOM
--Usage: $CMD [-h] [-o output_dir] [-m msg_body_file] [-s subject] [-r relative_to] [-i commit_id] [-d relative_dir] -u remote [-b branch]
-+Usage: $CMD [-h] [-o output_dir] [-m msg_body_file] [-s subject] [-r relative_to] [-i commit_id] [-d relative_dir] -u remote [-b branch] [-- <format-patch options>]
-   -b branch           Branch name in the specified remote (default: current branch)
-   -l local branch     Local branch name (default: HEAD)
-   -c                  Create an RFC (Request for Comment) patch series
-@@ -57,6 +57,7 @@ Usage: $CMD [-h] [-o output_dir] [-m msg_body_file] [-s subject] [-r relative_to
-    $CMD -u contrib -r master -i misc -b nitin/misc -o pull-misc
-    $CMD -u contrib -p "RFC PATCH" -b nitin/experimental
-    $CMD -u contrib -i misc -b nitin/misc -d ./bitbake
-+   $CMD -u contrib -r origin/master -o /tmp/out.v3 -- -v3 --in-reply-to=20170511120134.XX7799@site.com
- EOM
- }
+diff --git a/meta/classes/image_types_wic.bbclass b/meta/classes/image_types_wic.bbclass
+index 3b73261d5e..dcf67e3c24 100644
+--- a/meta/classes/image_types_wic.bbclass
++++ b/meta/classes/image_types_wic.bbclass
+@@ -3,7 +3,7 @@
+ WICVARS ?= "\
+            BBLAYERS IMGDEPLOYDIR DEPLOY_DIR_IMAGE FAKEROOTCMD IMAGE_BASENAME IMAGE_BOOT_FILES \
+            IMAGE_LINK_NAME IMAGE_ROOTFS INITRAMFS_FSTYPES INITRD INITRD_LIVE ISODIR RECIPE_SYSROOT_NATIVE \
+-           ROOTFS_SIZE STAGING_DATADIR STAGING_DIR STAGING_LIBDIR TARGET_SYS TRANSLATED_TARGET_ARCH"
++           ROOTFS_SIZE STAGING_DATADIR STAGING_DIR STAGING_LIBDIR TARGET_SYS"
  
-@@ -108,9 +109,16 @@ while getopts "b:acd:hi:m:o:p:r:s:u:l:" OPT; do
- 	a)
- 		CPR_CONTRIB_AUTO_PUSH="1"
- 		;;
-+	--)
-+		shift
-+		break
-+		;;
- 	esac
- done
+ WKS_FILE ??= "${IMAGE_BASENAME}.${MACHINE}.wks"
+ WKS_FILES ?= "${WKS_FILE} ${IMAGE_BASENAME}.wks"
+diff --git a/scripts/lib/wic/plugins/source/isoimage-isohybrid.py b/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
+index 1ceba62be0..b464263c3d 100644
+--- a/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
++++ b/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
+@@ -162,11 +162,9 @@ class IsoImagePlugin(SourcePlugin):
+             if not image_type:
+                 raise WicError("Couldn't find INITRAMFS_FSTYPES, exiting.")
  
-+shift "$((OPTIND - 1))"
-+extraopts="$@"
-+
- if [ -z "$REMOTE" ]; then
- 	echo "ERROR: Missing parameter -u or CPR_CONTRIB_REMOTE in env, no git remote!"
- 	usage
-@@ -201,7 +209,7 @@ if [ -n "$RELDIR" ]; then
- 	ODIR=$(realpath $ODIR)
- 	pdir=$(pwd)
- 	cd $RELDIR
--	extraopts="--relative"
-+	extraopts="$extraopts --relative"
- fi
+-            target_arch = get_bitbake_var("TRANSLATED_TARGET_ARCH")
+-            if not target_arch:
+-                raise WicError("Couldn't find TRANSLATED_TARGET_ARCH, exiting.")
++            machine = os.path.basename(initrd_dir)
  
- # Generate the patches and cover letter
-@@ -218,7 +226,7 @@ fi
- [ -n "$RELDIR" ] && cd $pdir
+-            initrd = glob.glob('%s/%s*%s.%s' % (initrd_dir, image_name, target_arch, image_type))[0]
++            initrd = glob.glob('%s/%s*%s.%s' % (initrd_dir, image_name, machine, image_type))[0]
  
- # Customize the cover letter
--CL="$ODIR/0000-cover-letter.patch"
-+CL="$(echo $ODIR/*0000-cover-letter.patch)"
- PM="$ODIR/pull-msg"
- GIT_VERSION=$(`git --version` | tr -d '[:alpha:][:space:].' | sed 's/\(...\).*/\1/')
- NEWER_GIT_VERSION=210
+         if not os.path.exists(initrd):
+             # Create initrd from rootfs directory
 -- 
 2.12.0
 
