@@ -1,69 +1,46 @@
-Return-Path: <bevenson@melinkcorp.com>
-X-Greylist: delayed 84193 seconds by postgrey-1.34 at layers.openembedded.org;
-	Wed, 17 May 2017 17:24:30 UTC
-Received: from NAM01-SN1-obe.outbound.protection.outlook.com
-	(mail-sn1nam01on0100.outbound.protection.outlook.com [104.47.32.100])
-	by mail.openembedded.org (Postfix) with ESMTP id E366477E18
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wm0-f51.google.com (mail-wm0-f51.google.com [74.125.82.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 3698B77E81
 	for <Openembedded-core@lists.openembedded.org>;
-	Wed, 17 May 2017 17:24:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=Melink.onmicrosoft.com; s=selector1-melinkcorp-com;
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
-	bh=9ZyvTReuJwsTC2TO30vTPUUPkZX1nMpgXcf9qSRreh8=;
-	b=fY/PZMLVo09jyqbjIzAVj61KVc1sXV27mRFGzRNSrC1EoqfuYHtyCBpyPWLGf1X6GmEMu595VjJVHom9+U6NjB2l54Spo70IQprnWcjw/rKqvsWfyAaWPBH/Zk8Yka9kpoGHizoCGPaFubUZFakCHaUmcxv10hoCYuoSKwjmP90=
-Received: from DM5PR05MB2954.namprd05.prod.outlook.com (10.168.176.142) by
-	DM5PR05MB2953.namprd05.prod.outlook.com (10.168.176.141) with Microsoft
-	SMTP Server (version=TLS1_2,
-	cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
-	15.1.1101.8; Wed, 17 May 2017 17:24:30 +0000
-Received: from DM5PR05MB2954.namprd05.prod.outlook.com ([10.168.176.142]) by
-	DM5PR05MB2954.namprd05.prod.outlook.com ([10.168.176.142]) with mapi id
-	15.01.1101.011; Wed, 17 May 2017 17:24:30 +0000
-From: Bryan Evenson <bevenson@melinkcorp.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Thread-Topic: [OE-core] eudev: opkg not automatically upgrading from udev to
-	eudev
-Thread-Index: AdLOYlpqF6Ic/6aPRBO/lUJuMAsISgAvchAQAAJCsYAAAh3BMA==
-Date: Wed, 17 May 2017 17:24:29 +0000
-Message-ID: <DM5PR05MB2954CA5DFFA544060B1AC3FCBBE70@DM5PR05MB2954.namprd05.prod.outlook.com>
+	Wed, 17 May 2017 17:51:40 +0000 (UTC)
+Received: by mail-wm0-f51.google.com with SMTP id 70so19024754wmq.1
+	for <Openembedded-core@lists.openembedded.org>;
+	Wed, 17 May 2017 10:51:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=a0x9uvwoV1GPsHdlmv6hyoT50GlY1jM7pnDRmW7MzTA=;
+	b=ua/69Fr3Ysm8nh3E9+E5jSptyX9G5TnvBdY4wJX8W1WJqw+8VJXTPe4LRBV0YxHNXC
+	WanjnI5fkeaOAflTBizYeL17x+eINvcjIBF8JxjLtL5TF8nPVq6BzRkoxwby0hYgcMFL
+	OKLnz3XW9C2nB64B3xCOZvCGqH9O5AJ4Trl+NafUJUhk46ScayxEQFLjIDDiW5ZF2bHl
+	ebxtWGVYzI1ZMKXR1U/34Cp8u8vkEPdzs69Z+0PKFamA8B1PJchZsDLl0T07lN6q9/dE
+	D92IfyMKkxhdwO7tXvno1H5gVOHucJ921E+BbxW+ErOx2rG9osnGfvWpXArXhMd+tkIN
+	Z2Fg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=a0x9uvwoV1GPsHdlmv6hyoT50GlY1jM7pnDRmW7MzTA=;
+	b=o5EVf1ob4htc+zI+JlsO0SptzYv/mWFHf09IOs6sSsGfaoVF2w0KRHQYh6qAZ7qpi6
+	52m/LJjLJiciv5OF/5Pz6071CerTGh0fV3nrrt3fdw4CXRoqWHXg/jL7Hjl7eodY0Ckp
+	kHd4/nK+FvtZYN9u/Sfx5JftH094Xc88GGx7O3UuEUOwqC0hGuvT3E3ASatHT7PYi5Iu
+	F9dJsQ4GNCzHcX4RmK0y8tAdzZJj9oktEvB1Jrvjv+C+f8sPpNRJcI3rgR7J65Ei7UD6
+	WoJgEWTT2GPKwreutF/hRCHz2uMMtr1CZAv3JsIUUQtfaSMYQKJ91stpPCbrIBiS9Ici
+	V8uw==
+X-Gm-Message-State: AODbwcDfVh302Bhp/KnwUOzqMzeOjRBtA77IKj+1RVN5rNVWZvHNKuBL
+	wo9pzz47Zd04v7+sCW9BnSMAb0h0vA==
+X-Received: by 10.80.154.65 with SMTP id o59mr3942098edb.181.1495043501241;
+	Wed, 17 May 2017 10:51:41 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.80.213.154 with HTTP; Wed, 17 May 2017 10:51:40 -0700 (PDT)
+In-Reply-To: <DM5PR05MB2954CA5DFFA544060B1AC3FCBBE70@DM5PR05MB2954.namprd05.prod.outlook.com>
 References: <BN6PR05MB29463641747B05CF02AB8AEBBBE60@BN6PR05MB2946.namprd05.prod.outlook.com>
 	<DM5PR05MB2954072E97220E285EBB4860BBE70@DM5PR05MB2954.namprd05.prod.outlook.com>
 	<CA+chaQd4NPqyLQpB7RQrET=rvJp4+ChGNQje4d+hnAWEx0dd5g@mail.gmail.com>
-In-Reply-To: <CA+chaQd4NPqyLQpB7RQrET=rvJp4+ChGNQje4d+hnAWEx0dd5g@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: gmail.com; dkim=none (message not signed)
-	header.d=none; gmail.com;
-	dmarc=none action=none header.from=melinkcorp.com; 
-x-originating-ip: [98.100.91.242]
-x-ms-publictraffictype: Email
-x-microsoft-exchange-diagnostics: 1; DM5PR05MB2953;
-	7:4zdSozVg3Zz+kRaqlGyKYNy8F1aDScQ+5q6aCzsVITUoMH56H3THLTY6VW0TgOgyIrZq7t8axlEfxkNVXOUjnWp9WW3ZXmGmLTv5U7kgUfowHBISwUk2BZfeWxtdlpVmVsDbddMSfd6nUK/s+OgxsVfKiW1ZAA+MmLzpEaekYnuCmHD6CIGAmkk3ThtoeZtwOOEUiUJccDEgzH9lLNQch6R2tRjw06vbCmQ3V9vuoplgJLaaJ9om/zojk4Kak9mznI48WXOg4h5jAomNycZzoqjWpsBGHH3jkxopQSHWSpI/XJEDV6yfiOI0A2T8/1tAAC/6v8dJpRiJUgHfUWUx7A==
-x-ms-traffictypediagnostic: DM5PR05MB2953:
-x-ms-office365-filtering-correlation-id: ad6195bb-ba9e-427a-e770-08d49d4993a1
-x-microsoft-antispam: UriScan:; BCL:0; PCL:0;
-	RULEID:(22001)(2017030254075)(201703131423075)(201703031133081);
-	SRVR:DM5PR05MB2953; 
-x-microsoft-antispam-prvs: <DM5PR05MB295304B5760074ECB73AA95BBBE70@DM5PR05MB2953.namprd05.prod.outlook.com>
-x-exchange-antispam-report-test: UriScan:(264703809997249)(21748063052155);
-x-exchange-antispam-report-cfa-test: BCL:0; PCL:0;
-	RULEID:(6040450)(601004)(2401047)(8121501046)(5005006)(10201501046)(3002001)(93006095)(93001095)(6041248)(20161123564025)(20161123562025)(201703131423075)(201702281528075)(201703061421075)(201703061406153)(20161123558100)(20161123560025)(20161123555025)(6072148);
-	SRVR:DM5PR05MB2953; BCL:0; PCL:0; RULEID:; SRVR:DM5PR05MB2953; 
-x-forefront-prvs: 0310C78181
-x-forefront-antispam-report: SFV:NSPM;
-	SFS:(10019020)(39400400002)(39830400002)(39450400003)(39410400002)(51914003)(24454002)(13464003)(377454003)(66066001)(606005)(6436002)(3660700001)(3280700002)(102836003)(6116002)(790700001)(3846002)(77096006)(478600001)(6916009)(53936002)(81166006)(8676002)(5660300001)(4326008)(6246003)(110136004)(38730400002)(2950100002)(8936002)(81156014)(2906002)(229853002)(122556002)(189998001)(6506006)(33656002)(7906003)(6306002)(25786009)(236005)(39060400002)(74316002)(966005)(54896002)(53546009)(19609705001)(9686003)(7696004)(7736002)(86362001)(99286003)(2900100001)(54356999)(50986999)(76176999)(55016002);
-	DIR:OUT; SFP:1102; SCL:1; SRVR:DM5PR05MB2953;
-	H:DM5PR05MB2954.namprd05.prod.outlook.com; FPR:; SPF:None;
-	MLV:ovrnspm; PTR:InfoNoRecords; LANG:en; 
-spamdiagnosticoutput: 1:99
-spamdiagnosticmetadata: NSPM
-MIME-Version: 1.0
-X-OriginatorOrg: melinkcorp.com
-X-MS-Exchange-CrossTenant-originalarrivaltime: 17 May 2017 17:24:29.9265 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: d06db0f9-efcc-42b5-9f8c-c934a01c9bfd
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR05MB2953
+	<DM5PR05MB2954CA5DFFA544060B1AC3FCBBE70@DM5PR05MB2954.namprd05.prod.outlook.com>
+From: Martin Jansa <martin.jansa@gmail.com>
+Date: Wed, 17 May 2017 19:51:40 +0200
+Message-ID: <CA+chaQcby5PK1YJfByF1ToKGy7kLtW7GLTeozdScXqMy=X+1jw@mail.gmail.com>
+To: Bryan Evenson <bevenson@melinkcorp.com>
 Cc: "Openembedded-core@lists.openembedded.org"
 	<Openembedded-core@lists.openembedded.org>
 Subject: Re: eudev: opkg not automatically upgrading from udev to eudev
@@ -79,272 +56,376 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 May 2017 17:24:31 -0000
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_DM5PR05MB2954CA5DFFA544060B1AC3FCBBE70DM5PR05MB2954namp_"
+X-List-Received-Date: Wed, 17 May 2017 17:51:41 -0000
+Content-Type: multipart/alternative; boundary="94eb2c1954e4d0bc69054fbbf09a"
 
---_000_DM5PR05MB2954CA5DFFA544060B1AC3FCBBE70DM5PR05MB2954namp_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+--94eb2c1954e4d0bc69054fbbf09a
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-TWFydGluLA0KDQpUaGFua3MgZm9yIHRoZSBwb2ludGVycy4gIEkgdGhpbmsgSSBmaW5hbGx5IGhh
-dmUgaXQgd29ya2luZyBjb3JyZWN0bHkuIEkgYWRkZWQgUlBST1ZJREVTL1JDT05GTElDVFMvUlJF
-UExBQ0VTIGluIG15IGV1ZGV2IGJiYXBwZW5kIHRvIHN0YXRlIGl0IHJlcGxhY2VzIHVkZXYuICBJ
-IGFsc28gbmVlZGVkIHRvIHNldCBQRSA9IDEgZm9yIHVkZXYtY2FjaGUuICBTaW5jZSB1ZGV2LWNh
-Y2hlIGRpZG7igJl0IGNoYW5nZSB0aGUgcGFja2FnZSBuYW1lLCBJIGNhbuKAmXQgc2F5IGl0IFJD
-T05GTElDVFMvUlJFUExBQ0VTIGl0c2VsZi4NCg0KVGhhbmtzLA0KQnJ5YW4NCg0KRnJvbTogTWFy
-dGluIEphbnNhIFttYWlsdG86bWFydGluLmphbnNhQGdtYWlsLmNvbV0NClNlbnQ6IFdlZG5lc2Rh
-eSwgTWF5IDE3LCAyMDE3IDEyOjE4IFBNDQpUbzogQnJ5YW4gRXZlbnNvbiA8YmV2ZW5zb25AbWVs
-aW5rY29ycC5jb20+DQpDYzogT3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9y
-Zw0KU3ViamVjdDogUmU6IFtPRS1jb3JlXSBldWRldjogb3BrZyBub3QgYXV0b21hdGljYWxseSB1
-cGdyYWRpbmcgZnJvbSB1ZGV2IHRvIGV1ZGV2DQoNCklzbid0IGl0IGVub3VnaCB0byBzZXQgUlBS
-T1ZJREVTL1JDT05GTElDVFMvUlJFUExBQ0VTIGNvbWJvIHRvIHNheSB0aGF0IGV1ZGV2IHJlYWxs
-eSByZXBsYWNlcyBvbGQgdWRldiBldmVuIHdoZW4gdGhlIHBhY2thZ2UgdmVyc2lvbiBpcyBsb3dl
-ci4NCg0KVGhpcyB1c2VkIHRvIGZpeCBzdWNoIHVwZ3JhZGUtcGF0aCBpc3N1ZXMgYmVmb3JlLCBi
-dXQgSSd2ZSBzdG9wcGVkIHRlc3RpbmcgdGhlbSBsb25nIHRpbWUgYWdvLg0KDQpPbiBXZWQsIE1h
-eSAxNywgMjAxNyBhdCA1OjI2IFBNLCBCcnlhbiBFdmVuc29uIDxiZXZlbnNvbkBtZWxpbmtjb3Jw
-LmNvbTxtYWlsdG86YmV2ZW5zb25AbWVsaW5rY29ycC5jb20+PiB3cm90ZToNCkFsbCwNCg0KPiAt
-LS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBvcGVuZW1iZWRkZWQtY29yZS1ib3Vu
-Y2VzQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc8bWFpbHRvOm9wZW5lbWJlZGRlZC1jb3JlLWJvdW5j
-ZXNAbGlzdHMub3BlbmVtYmVkZGVkLm9yZz4NCj4gW21haWx0bzpvcGVuZW1iZWRkZWQtY29yZS1i
-b3VuY2VzQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc8bWFpbHRvOm9wZW5lbWJlZGRlZC1jb3JlLWJv
-dW5jZXNAbGlzdHMub3BlbmVtYmVkZGVkLm9yZz5dIE9uIEJlaGFsZg0KPiBPZiBCcnlhbiBFdmVu
-c29uDQo+IFNlbnQ6IFR1ZXNkYXksIE1heSAxNiwgMjAxNyAyOjAxIFBNDQo+IFRvOiBPcGVuZW1i
-ZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnPG1haWx0bzpPcGVuZW1iZWRkZWQtY29y
-ZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnPg0KPiBTdWJqZWN0OiBbT0UtY29yZV0gZXVkZXY6IG9w
-a2cgbm90IGF1dG9tYXRpY2FsbHkgdXBncmFkaW5nIGZyb20gdWRldiB0bw0KPiBldWRldg0KPg0K
-Pg0KPiBJIGhhdmUgYW4gaW1hZ2UgYmFzZWQgb24gY29yZS1pbWFnZS1taW5pbWFsIHRoYXQgdXNl
-cyBzeXN2aW5pdCBmb3IgaW5pdCBhbmQNCj4gb3BrZyBmb3IgcGFja2FnZSBtYW5hZ2VtZW50LiAg
-SSBhbSBkb2luZyBzb21lIHVwZ3JhZGUgdGVzdGluZyBhbmQgSSBzZWUNCj4gYW4gaXNzdWUgd2l0
-aCBldWRldi4gIEkgYW0gdGVzdGluZyB1cGdyYWRpbmcgYW4gaW1hZ2UgdGhhdCB3YXMgYnVpbHQg
-dW5kZXINCj4gZGl6enkgdG8gbXkgbGF0ZXN0IGltYWdlIGJ1aWx0IHVuZGVyIG1vcnR5LiAgSSdt
-IGZpcnN0IHRlc3RpbmcgdGhhdCBhbGwgdGhlIGNvcnJlY3QNCj4gcGFja2FnZXMgYW5kIG5ldyBk
-ZXBlbmRlbmNpZXMgYXJlIGNvcnJlY3RseSBiZWluZyBpZGVudGlmaWVkIGZvciB1cGdyYWRlDQo+
-IGJ5IHJ1bm5pbmcgIm9wa2cgdXBkYXRlOyBvcGtnIHVwZ3JhZGUgLS1kb3dubG9hZC1vbmx5IiBm
-cm9tIHRoZQ0KPiBjb21tYW5kIGxpbmUgYW5kIGNvbXBhcmluZyB3aGF0IGlzIGluIHRoZSBvcGtn
-IGNhY2hlIGRpcmVjdG9yeSB3aXRoIHdoYXQNCj4gd2FzIGF2YWlsYWJsZS4gIEFsbCBwYWNrYWdl
-cyBleGNlcHQgZXVkZXYgYW5kIHVkZXYtY2FjaGUgYXJlIGJlaW5nDQo+IGRvd25sb2FkZWQgZm9y
-IHVwZ3JhZGUuDQo+DQo+IEkgcmFuIHRoZSBvcGtnIHVwZ3JhZGUgYWdhaW4gd2l0aCB0aGUgLVY0
-IG9wdGlvbiBmb3IgYWRkaXRpb25hbCBkZWJ1ZyBvdXRwdXQNCj4gSGVyZSdzIHdoYXQgSSBzYXcg
-aW4gb25lIHNlY3Rpb24gcmVnYXJkaW5nIHVkZXY6DQo+DQo+IHBrZ19oYXNoX2ZldGNoX2Jlc3Rf
-aW5zdGFsbGF0aW9uX2NhbmRpZGF0ZTogQmVzdCBpbnN0YWxsYXRpb24gY2FuZGlkYXRlIGZvcg0K
-PiB1ZGV2Og0KPiBwa2dfaGFzaF9mZXRjaF9iZXN0X2luc3RhbGxhdGlvbl9jYW5kaWRhdGU6IGFw
-a2c9dWRldiBucHJvdmlkZXM9Mi4NCj4gcGtnX2hhc2hfZmV0Y2hfYmVzdF9pbnN0YWxsYXRpb25f
-Y2FuZGlkYXRlOiBBZGRpbmcgZXVkZXYgdG8gcHJvdmlkZXJzLg0KPiBwa2dfaGFzaF9mZXRjaF9i
-ZXN0X2luc3RhbGxhdGlvbl9jYW5kaWRhdGU6IEFkZGluZyB1ZGV2IHRvIHByb3ZpZGVycy4NCj4g
-cGtnX2hhc2hfZmV0Y2hfYmVzdF9pbnN0YWxsYXRpb25fY2FuZGlkYXRlOiBldWRldiBhcmNoPWFy
-bXY1ZQ0KPiBhcmNoX3ByaW9yaXR5PTQxIHZlcnNpb249My4yLg0KPiBwa2dfaGFzaF9mZXRjaF9i
-ZXN0X2luc3RhbGxhdGlvbl9jYW5kaWRhdGU6IHVkZXYgYXJjaD1hcm05MjZlanN0ZQ0KPiBhcmNo
-X3ByaW9yaXR5PTUxIHZlcnNpb249MTgyLg0KPiBwa2dfaGFzaF9mZXRjaF9iZXN0X2luc3RhbGxh
-dGlvbl9jYW5kaWRhdGU6IENhbmRpZGF0ZTogdWRldiAxODIuDQo+IHBrZ19oYXNoX2ZldGNoX2Jl
-c3RfaW5zdGFsbGF0aW9uX2NhbmRpZGF0ZTogMiBtYXRjaGluZyBwa2dzIGZvcg0KPiBhcGtnPXVk
-ZXY6DQo+IHBrZ19oYXNoX2ZldGNoX2Jlc3RfaW5zdGFsbGF0aW9uX2NhbmRpZGF0ZTogZXVkZXYg
-My4yIGFybXY1ZQ0KPiBwa2dfaGFzaF9mZXRjaF9iZXN0X2luc3RhbGxhdGlvbl9jYW5kaWRhdGU6
-IHVkZXYgMTgyIGFybTkyNmVqc3RlDQo+IG9wa2dfdXBncmFkZV9wa2c6IENvbXBhcmluZyB2aXNp
-YmxlIHZlcnNpb25zIG9mIHBrZyB1ZGV2Og0KPiAgICAgICAgIDE4Mi1yOS45IGlzIGluc3RhbGxl
-ZA0KPiAgICAgICAgIDE4Mi1yOS45IGlzIGF2YWlsYWJsZQ0KPiAgICAgICAgIDAgd2FzIGNvbXBh
-cmlzb24gcmVzdWx0DQo+IG9wa2dfdXBncmFkZV9wa2c6IFBhY2thZ2UgdWRldiAoMTgyLXI5Ljkp
-IGluc3RhbGxlZCBpbiByb290IGlzIHVwIHRvIGRhdGUuDQo+DQo+IEknbSBhc3N1bWluZyB0aGUg
-cHJvYmxlbSBpcyB0aGF0IHVkZXYgaXMgdmVyc2lvbiAxODIgYW5kIGV1ZGV2IGlzIHZlcnNpb24g
-My4yDQo+IGFuZCB0aGF0IG9wa2cgZG9lc24ndCB0aGluayB1ZGV2IG5lZWRzIHRvIGJlIHVwZ3Jh
-ZGVkLiAgSXMgdGhlcmUgYW4NCj4gUkRFUEVORFMgdGhhdCBuZWVkcyB0byBiZSBhZGRlZCBzb21l
-d2hlcmUgc28gb3BrZyBzZWVzIHRoYXQgaXQgbmVlZHMgdG8NCj4gdXBncmFkZSB1ZGV2IHRvIGV1
-ZGV2Pw0KSSBtYWRlIHNvbWUgY2hhbmdlcyBhbmQgbm93IGJvdGggZXVkZXYgYW5kIHVkZXYtY2Fj
-aGUgYXJlIGJlaW5nIHB1bGxlZCBpbiBvbiB1cGdyYWRlLiAgSG93ZXZlciwgSSdkIGxpa2UgYSBz
-ZWNvbmQgb3BpbmlvbiB0aGF0IHdoYXQgSSBkaWQgd2FzIHJlYXNvbmFibGUuDQoNCkZpcnN0LCBJ
-IGNyZWF0ZWQgZXVkZXZfJS5iYmFwcGVuZCBpbiBteSBwcml2YXRlIGxheWVyIGFuZCBhZGRlZCAi
-UEUgPSAiMSIiIHRvIHRoZSBiYmFwcGVuZC4gIFNpbmNlIHRoZSBudW1iZXJpbmcgc2NoZW1lIGNo
-YW5nZWQgYmV0d2VlbiB1ZGV2IGFuZCBldWRldiwgSSBmaWd1cmVkIHRoaXMgd2FzIGEgcmVhc29u
-YWJsZSBtb3ZlLiAgVGhpcyBicm91Z2h0IHRoZSB1cGRhdGUgdWRldi1jYWNoZSBpbiBmb3IgdXBn
-cmFkZSwgYnV0IG5vdCBldWRldi4gIEluIG15IHByaXZhdGUgbGF5ZXIsIEkgYWxzbyBoYXZlIGFu
-IGltYWdlIHZlcnNpb24gbnVtYmVyIHBhY2thZ2UuICBJIGFkZGVkIGV1ZGV2IHRvIHRoZSBSREVQ
-RU5EUyBsaXN0IGZvciB0aGlzIHBhY2thZ2Ugc2luY2UgbXkgaW1hZ2UsIHdoaWNoIG5vdyBoYXMg
-bGludXggdmVyc2lvbiA0LjQsIGRvZXMgZGVwZW5kIG9uIGV1ZGV2Lg0KDQpEb2VzIHRoaXMgc291
-bmQgcmVhc29uYWJsZT8gIElzIHRoZXJlIGEgYmV0dGVyIHdheSB0byBkbyB0aGUgc2FtZSB0aGlu
-Zz8NCg0KVGhhbmtzLA0KQnJ5YW4NCg0KPg0KPiBUaGFua3MsDQo+IEJyeWFuDQo+IC0tDQo+IF9f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fDQo+IE9wZW5lbWJl
-ZGRlZC1jb3JlIG1haWxpbmcgbGlzdA0KPiBPcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1i
-ZWRkZWQub3JnPG1haWx0bzpPcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3Jn
-Pg0KPiBodHRwOi8vbGlzdHMub3BlbmVtYmVkZGVkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL29wZW5l
-bWJlZGRlZC1jb3JlDQotLQ0KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX18NCk9wZW5lbWJlZGRlZC1jb3JlIG1haWxpbmcgbGlzdA0KT3BlbmVtYmVkZGVkLWNv
-cmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZzxtYWlsdG86T3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMu
-b3BlbmVtYmVkZGVkLm9yZz4NCmh0dHA6Ly9saXN0cy5vcGVuZW1iZWRkZWQub3JnL21haWxtYW4v
-bGlzdGluZm8vb3BlbmVtYmVkZGVkLWNvcmUNCg0K
+Yes, that sounds reasonable, just keep in mind that PE bumps are forever
+(once you introduce it in your binary feed, you probably wont be able to
+ever remove the .bbappend with it), unless you get the PE bump merged in
+oe-core as well.
 
---_000_DM5PR05MB2954CA5DFFA544060B1AC3FCBBE70DM5PR05MB2954namp_
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: base64
+I think you should just submit the fix to oe-core and then your .bbappend
+will be only temporary until you upgrade to the release which already
+includes the fix.
 
-PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
-bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
-YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
-cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
-VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
-Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
-ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
-PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
-IkNhbWJyaWEgTWF0aCI7DQoJcGFub3NlLTE6MiA0IDUgMyA1IDQgNiAzIDIgNDt9DQpAZm9udC1m
-YWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIgMiAyIDQgMyAy
-IDQ7fQ0KLyogU3R5bGUgRGVmaW5pdGlvbnMgKi8NCnAuTXNvTm9ybWFsLCBsaS5Nc29Ob3JtYWws
-IGRpdi5Nc29Ob3JtYWwNCgl7bWFyZ2luOjBpbjsNCgltYXJnaW4tYm90dG9tOi4wMDAxcHQ7DQoJ
-Zm9udC1zaXplOjEyLjBwdDsNCglmb250LWZhbWlseToiVGltZXMgTmV3IFJvbWFuIixzZXJpZjt9
-DQphOmxpbmssIHNwYW4uTXNvSHlwZXJsaW5rDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsNCglj
-b2xvcjpibHVlOw0KCXRleHQtZGVjb3JhdGlvbjp1bmRlcmxpbmU7fQ0KYTp2aXNpdGVkLCBzcGFu
-Lk1zb0h5cGVybGlua0ZvbGxvd2VkDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsNCgljb2xvcjpw
-dXJwbGU7DQoJdGV4dC1kZWNvcmF0aW9uOnVuZGVybGluZTt9DQpwLm1zb25vcm1hbDAsIGxpLm1z
-b25vcm1hbDAsIGRpdi5tc29ub3JtYWwwDQoJe21zby1zdHlsZS1uYW1lOm1zb25vcm1hbDsNCglt
-c28tbWFyZ2luLXRvcC1hbHQ6YXV0bzsNCgltYXJnaW4tcmlnaHQ6MGluOw0KCW1zby1tYXJnaW4t
-Ym90dG9tLWFsdDphdXRvOw0KCW1hcmdpbi1sZWZ0OjBpbjsNCglmb250LXNpemU6MTIuMHB0Ow0K
-CWZvbnQtZmFtaWx5OiJUaW1lcyBOZXcgUm9tYW4iLHNlcmlmO30NCnNwYW4uRW1haWxTdHlsZTE4
-DQoJe21zby1zdHlsZS10eXBlOnBlcnNvbmFsOw0KCWZvbnQtZmFtaWx5OiJDYWxpYnJpIixzYW5z
-LXNlcmlmOw0KCWNvbG9yOndpbmRvd3RleHQ7fQ0Kc3Bhbi5FbWFpbFN0eWxlMTkNCgl7bXNvLXN0
-eWxlLXR5cGU6cGVyc29uYWwtY29tcG9zZTsNCglmb250LWZhbWlseToiQ2FsaWJyaSIsc2Fucy1z
-ZXJpZjsNCgljb2xvcjp3aW5kb3d0ZXh0O30NCi5Nc29DaHBEZWZhdWx0DQoJe21zby1zdHlsZS10
-eXBlOmV4cG9ydC1vbmx5Ow0KCWZvbnQtZmFtaWx5OiJDYWxpYnJpIixzYW5zLXNlcmlmO30NCkBw
-YWdlIFdvcmRTZWN0aW9uMQ0KCXtzaXplOjguNWluIDExLjBpbjsNCgltYXJnaW46MS4waW4gMS4w
-aW4gMS4waW4gMS4waW47fQ0KZGl2LldvcmRTZWN0aW9uMQ0KCXtwYWdlOldvcmRTZWN0aW9uMTt9
-DQotLT48L3N0eWxlPjwhLS1baWYgZ3RlIG1zbyA5XT48eG1sPg0KPG86c2hhcGVkZWZhdWx0cyB2
-OmV4dD0iZWRpdCIgc3BpZG1heD0iMTAyNiIgLz4NCjwveG1sPjwhW2VuZGlmXS0tPjwhLS1baWYg
-Z3RlIG1zbyA5XT48eG1sPg0KPG86c2hhcGVsYXlvdXQgdjpleHQ9ImVkaXQiPg0KPG86aWRtYXAg
-djpleHQ9ImVkaXQiIGRhdGE9IjEiIC8+DQo8L286c2hhcGVsYXlvdXQ+PC94bWw+PCFbZW5kaWZd
-LS0+DQo8L2hlYWQ+DQo8Ym9keSBsYW5nPSJFTi1VUyIgbGluaz0iYmx1ZSIgdmxpbms9InB1cnBs
-ZSI+DQo8ZGl2IGNsYXNzPSJXb3JkU2VjdGlvbjEiPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNw
-YW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90
-OyxzYW5zLXNlcmlmIj5NYXJ0aW4sPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1z
-b05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7
-Q2FsaWJyaSZxdW90OyxzYW5zLXNlcmlmIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8
-cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZh
-bWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWYiPlRoYW5rcyBmb3IgdGhlIHBvaW50
-ZXJzLiZuYnNwOyBJIHRoaW5rIEkgZmluYWxseSBoYXZlIGl0IHdvcmtpbmcgY29ycmVjdGx5LiBJ
-IGFkZGVkIFJQUk9WSURFUy9SQ09ORkxJQ1RTL1JSRVBMQUNFUyBpbiBteSBldWRldiBiYmFwcGVu
-ZCB0byBzdGF0ZSBpdCByZXBsYWNlcyB1ZGV2LiZuYnNwOyBJIGFsc28gbmVlZGVkDQogdG8gc2V0
-IFBFID0gMSBmb3IgdWRldi1jYWNoZS4mbmJzcDsgU2luY2UgdWRldi1jYWNoZSBkaWRu4oCZdCBj
-aGFuZ2UgdGhlIHBhY2thZ2UgbmFtZSwgSSBjYW7igJl0IHNheSBpdCBSQ09ORkxJQ1RTL1JSRVBM
-QUNFUyBpdHNlbGYuPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+
-PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZx
-dW90OyxzYW5zLXNlcmlmIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0i
-TXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVv
-dDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWYiPlRoYW5rcyw8bzpwPjwvbzpwPjwvc3Bhbj48L3A+
-DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250
-LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWYiPkJyeWFuPG86cD48L286cD48
-L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZTox
-MS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OyxzYW5zLXNlcmlmIj48bzpwPiZu
-YnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8ZGl2IHN0eWxlPSJib3JkZXI6bm9uZTtib3JkZXItbGVm
-dDpzb2xpZCBibHVlIDEuNXB0O3BhZGRpbmc6MGluIDBpbiAwaW4gNC4wcHQiPg0KPGRpdj4NCjxk
-aXYgc3R5bGU9ImJvcmRlcjpub25lO2JvcmRlci10b3A6c29saWQgI0UxRTFFMSAxLjBwdDtwYWRk
-aW5nOjMuMHB0IDBpbiAwaW4gMGluIj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxiPjxzcGFuIHN0
-eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fu
-cy1zZXJpZiI+RnJvbTo8L3NwYW4+PC9iPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2Zv
-bnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJpZiI+IE1hcnRpbiBKYW5zYSBb
-bWFpbHRvOm1hcnRpbi5qYW5zYUBnbWFpbC5jb21dDQo8YnI+DQo8Yj5TZW50OjwvYj4gV2VkbmVz
-ZGF5LCBNYXkgMTcsIDIwMTcgMTI6MTggUE08YnI+DQo8Yj5Ubzo8L2I+IEJyeWFuIEV2ZW5zb24g
-Jmx0O2JldmVuc29uQG1lbGlua2NvcnAuY29tJmd0Ozxicj4NCjxiPkNjOjwvYj4gT3BlbmVtYmVk
-ZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZzxicj4NCjxiPlN1YmplY3Q6PC9iPiBSZTog
-W09FLWNvcmVdIGV1ZGV2OiBvcGtnIG5vdCBhdXRvbWF0aWNhbGx5IHVwZ3JhZGluZyBmcm9tIHVk
-ZXYgdG8gZXVkZXY8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8L2Rpdj4NCjwvZGl2Pg0KPHAgY2xh
-c3M9Ik1zb05vcm1hbCI+PG86cD4mbmJzcDs8L286cD48L3A+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1z
-b05vcm1hbCI+SXNuJ3QgaXQgZW5vdWdoIHRvIHNldCBSUFJPVklERVMvUkNPTkZMSUNUUy9SUkVQ
-TEFDRVMgY29tYm8gdG8gc2F5IHRoYXQgZXVkZXYgcmVhbGx5IHJlcGxhY2VzIG9sZCB1ZGV2IGV2
-ZW4gd2hlbiB0aGUgcGFja2FnZSB2ZXJzaW9uIGlzIGxvd2VyLjxvOnA+PC9vOnA+PC9wPg0KPGRp
-dj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPC9kaXY+DQo8
-ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+VGhpcyB1c2VkIHRvIGZpeCBzdWNoIHVwZ3JhZGUt
-cGF0aCBpc3N1ZXMgYmVmb3JlLCBidXQgSSd2ZSBzdG9wcGVkIHRlc3RpbmcgdGhlbSBsb25nIHRp
-bWUgYWdvLjxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0i
-TXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9y
-bWFsIj5PbiBXZWQsIE1heSAxNywgMjAxNyBhdCA1OjI2IFBNLCBCcnlhbiBFdmVuc29uICZsdDs8
-YSBocmVmPSJtYWlsdG86YmV2ZW5zb25AbWVsaW5rY29ycC5jb20iIHRhcmdldD0iX2JsYW5rIj5i
-ZXZlbnNvbkBtZWxpbmtjb3JwLmNvbTwvYT4mZ3Q7IHdyb3RlOjxvOnA+PC9vOnA+PC9wPg0KPGJs
-b2NrcXVvdGUgc3R5bGU9ImJvcmRlcjpub25lO2JvcmRlci1sZWZ0OnNvbGlkICNDQ0NDQ0MgMS4w
-cHQ7cGFkZGluZzowaW4gMGluIDBpbiA2LjBwdDttYXJnaW4tbGVmdDo0LjhwdDttYXJnaW4tcmln
-aHQ6MGluIj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPkFsbCw8bzpwPjwvbzpwPjwvcD4NCjxkaXY+
-DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCIgc3R5bGU9Im1hcmdpbi1ib3R0b206MTIuMHB0
-Ij48YnI+DQomZ3Q7IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tPGJyPg0KJmd0OyBGcm9tOiA8
-YSBocmVmPSJtYWlsdG86b3BlbmVtYmVkZGVkLWNvcmUtYm91bmNlc0BsaXN0cy5vcGVuZW1iZWRk
-ZWQub3JnIj5vcGVuZW1iZWRkZWQtY29yZS1ib3VuY2VzQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc8
-L2E+PGJyPg0KJmd0OyBbbWFpbHRvOjxhIGhyZWY9Im1haWx0bzpvcGVuZW1iZWRkZWQtY29yZS1i
-b3VuY2VzQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmciPm9wZW5lbWJlZGRlZC1jb3JlLWJvdW5jZXNA
-bGlzdHMub3BlbmVtYmVkZGVkLm9yZzwvYT5dIE9uIEJlaGFsZjxicj4NCiZndDsgT2YgQnJ5YW4g
-RXZlbnNvbjxicj4NCiZndDsgU2VudDogVHVlc2RheSwgTWF5IDE2LCAyMDE3IDI6MDEgUE08YnI+
-DQomZ3Q7IFRvOiA8YSBocmVmPSJtYWlsdG86T3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVt
-YmVkZGVkLm9yZyI+T3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZzwvYT48
-YnI+DQomZ3Q7IFN1YmplY3Q6IFtPRS1jb3JlXSBldWRldjogb3BrZyBub3QgYXV0b21hdGljYWxs
-eSB1cGdyYWRpbmcgZnJvbSB1ZGV2IHRvPGJyPg0KJmd0OyBldWRldjxicj4NCiZndDs8YnI+DQom
-Z3Q7PGJyPg0KJmd0OyBJIGhhdmUgYW4gaW1hZ2UgYmFzZWQgb24gY29yZS1pbWFnZS1taW5pbWFs
-IHRoYXQgdXNlcyBzeXN2aW5pdCBmb3IgaW5pdCBhbmQ8YnI+DQomZ3Q7IG9wa2cgZm9yIHBhY2th
-Z2UgbWFuYWdlbWVudC4mbmJzcDsgSSBhbSBkb2luZyBzb21lIHVwZ3JhZGUgdGVzdGluZyBhbmQg
-SSBzZWU8YnI+DQomZ3Q7IGFuIGlzc3VlIHdpdGggZXVkZXYuJm5ic3A7IEkgYW0gdGVzdGluZyB1
-cGdyYWRpbmcgYW4gaW1hZ2UgdGhhdCB3YXMgYnVpbHQgdW5kZXI8YnI+DQomZ3Q7IGRpenp5IHRv
-IG15IGxhdGVzdCBpbWFnZSBidWlsdCB1bmRlciBtb3J0eS4mbmJzcDsgSSdtIGZpcnN0IHRlc3Rp
-bmcgdGhhdCBhbGwgdGhlIGNvcnJlY3Q8YnI+DQomZ3Q7IHBhY2thZ2VzIGFuZCBuZXcgZGVwZW5k
-ZW5jaWVzIGFyZSBjb3JyZWN0bHkgYmVpbmcgaWRlbnRpZmllZCBmb3IgdXBncmFkZTxicj4NCiZn
-dDsgYnkgcnVubmluZyAmcXVvdDtvcGtnIHVwZGF0ZTsgb3BrZyB1cGdyYWRlIC0tZG93bmxvYWQt
-b25seSZxdW90OyBmcm9tIHRoZTxicj4NCiZndDsgY29tbWFuZCBsaW5lIGFuZCBjb21wYXJpbmcg
-d2hhdCBpcyBpbiB0aGUgb3BrZyBjYWNoZSBkaXJlY3Rvcnkgd2l0aCB3aGF0PGJyPg0KJmd0OyB3
-YXMgYXZhaWxhYmxlLiZuYnNwOyBBbGwgcGFja2FnZXMgZXhjZXB0IGV1ZGV2IGFuZCB1ZGV2LWNh
-Y2hlIGFyZSBiZWluZzxicj4NCiZndDsgZG93bmxvYWRlZCBmb3IgdXBncmFkZS48YnI+DQomZ3Q7
-PGJyPg0KJmd0OyBJIHJhbiB0aGUgb3BrZyB1cGdyYWRlIGFnYWluIHdpdGggdGhlIC1WNCBvcHRp
-b24gZm9yIGFkZGl0aW9uYWwgZGVidWcgb3V0cHV0PGJyPg0KJmd0OyBIZXJlJ3Mgd2hhdCBJIHNh
-dyBpbiBvbmUgc2VjdGlvbiByZWdhcmRpbmcgdWRldjo8YnI+DQomZ3Q7PGJyPg0KJmd0OyBwa2df
-aGFzaF9mZXRjaF9iZXN0X2luc3RhbGxhdGlvbl9jYW5kaWRhdGU6IEJlc3QgaW5zdGFsbGF0aW9u
-IGNhbmRpZGF0ZSBmb3I8YnI+DQomZ3Q7IHVkZXY6PGJyPg0KJmd0OyBwa2dfaGFzaF9mZXRjaF9i
-ZXN0X2luc3RhbGxhdGlvbl9jYW5kaWRhdGU6IGFwa2c9dWRldiBucHJvdmlkZXM9Mi48YnI+DQom
-Z3Q7IHBrZ19oYXNoX2ZldGNoX2Jlc3RfaW5zdGFsbGF0aW9uX2NhbmRpZGF0ZTogQWRkaW5nIGV1
-ZGV2IHRvIHByb3ZpZGVycy48YnI+DQomZ3Q7IHBrZ19oYXNoX2ZldGNoX2Jlc3RfaW5zdGFsbGF0
-aW9uX2NhbmRpZGF0ZTogQWRkaW5nIHVkZXYgdG8gcHJvdmlkZXJzLjxicj4NCiZndDsgcGtnX2hh
-c2hfZmV0Y2hfYmVzdF9pbnN0YWxsYXRpb25fY2FuZGlkYXRlOiBldWRldiBhcmNoPWFybXY1ZTxi
-cj4NCiZndDsgYXJjaF9wcmlvcml0eT00MSB2ZXJzaW9uPTMuMi48YnI+DQomZ3Q7IHBrZ19oYXNo
-X2ZldGNoX2Jlc3RfaW5zdGFsbGF0aW9uX2NhbmRpZGF0ZTogdWRldiBhcmNoPWFybTkyNmVqc3Rl
-PGJyPg0KJmd0OyBhcmNoX3ByaW9yaXR5PTUxIHZlcnNpb249MTgyLjxicj4NCiZndDsgcGtnX2hh
-c2hfZmV0Y2hfYmVzdF9pbnN0YWxsYXRpb25fY2FuZGlkYXRlOiBDYW5kaWRhdGU6IHVkZXYgMTgy
-Ljxicj4NCiZndDsgcGtnX2hhc2hfZmV0Y2hfYmVzdF9pbnN0YWxsYXRpb25fY2FuZGlkYXRlOiAy
-IG1hdGNoaW5nIHBrZ3MgZm9yPGJyPg0KJmd0OyBhcGtnPXVkZXY6PGJyPg0KJmd0OyBwa2dfaGFz
-aF9mZXRjaF9iZXN0X2luc3RhbGxhdGlvbl9jYW5kaWRhdGU6IGV1ZGV2IDMuMiBhcm12NWU8YnI+
-DQomZ3Q7IHBrZ19oYXNoX2ZldGNoX2Jlc3RfaW5zdGFsbGF0aW9uX2NhbmRpZGF0ZTogdWRldiAx
-ODIgYXJtOTI2ZWpzdGU8YnI+DQomZ3Q7IG9wa2dfdXBncmFkZV9wa2c6IENvbXBhcmluZyB2aXNp
-YmxlIHZlcnNpb25zIG9mIHBrZyB1ZGV2Ojxicj4NCiZndDsmbmJzcDsgJm5ic3A7ICZuYnNwOyAm
-bmJzcDsgJm5ic3A7MTgyLXI5LjkgaXMgaW5zdGFsbGVkPGJyPg0KJmd0OyZuYnNwOyAmbmJzcDsg
-Jm5ic3A7ICZuYnNwOyAmbmJzcDsxODItcjkuOSBpcyBhdmFpbGFibGU8YnI+DQomZ3Q7Jm5ic3A7
-ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOzAgd2FzIGNvbXBhcmlzb24gcmVzdWx0PGJyPg0K
-Jmd0OyBvcGtnX3VwZ3JhZGVfcGtnOiBQYWNrYWdlIHVkZXYgKDE4Mi1yOS45KSBpbnN0YWxsZWQg
-aW4gcm9vdCBpcyB1cCB0byBkYXRlLjxicj4NCiZndDs8YnI+DQomZ3Q7IEknbSBhc3N1bWluZyB0
-aGUgcHJvYmxlbSBpcyB0aGF0IHVkZXYgaXMgdmVyc2lvbiAxODIgYW5kIGV1ZGV2IGlzIHZlcnNp
-b24gMy4yPGJyPg0KJmd0OyBhbmQgdGhhdCBvcGtnIGRvZXNuJ3QgdGhpbmsgdWRldiBuZWVkcyB0
-byBiZSB1cGdyYWRlZC4mbmJzcDsgSXMgdGhlcmUgYW48YnI+DQomZ3Q7IFJERVBFTkRTIHRoYXQg
-bmVlZHMgdG8gYmUgYWRkZWQgc29tZXdoZXJlIHNvIG9wa2cgc2VlcyB0aGF0IGl0IG5lZWRzIHRv
-PGJyPg0KJmd0OyB1cGdyYWRlIHVkZXYgdG8gZXVkZXY/PG86cD48L286cD48L3A+DQo8L2Rpdj4N
-CjwvZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+SSBtYWRlIHNvbWUgY2hhbmdlcyBhbmQgbm93
-IGJvdGggZXVkZXYgYW5kIHVkZXYtY2FjaGUgYXJlIGJlaW5nIHB1bGxlZCBpbiBvbiB1cGdyYWRl
-LiZuYnNwOyBIb3dldmVyLCBJJ2QgbGlrZSBhIHNlY29uZCBvcGluaW9uIHRoYXQgd2hhdCBJIGRp
-ZCB3YXMgcmVhc29uYWJsZS48YnI+DQo8YnI+DQpGaXJzdCwgSSBjcmVhdGVkIGV1ZGV2XyUuYmJh
-cHBlbmQgaW4gbXkgcHJpdmF0ZSBsYXllciBhbmQgYWRkZWQgJnF1b3Q7UEUgPSAmcXVvdDsxJnF1
-b3Q7JnF1b3Q7IHRvIHRoZSBiYmFwcGVuZC4mbmJzcDsgU2luY2UgdGhlIG51bWJlcmluZyBzY2hl
-bWUgY2hhbmdlZCBiZXR3ZWVuIHVkZXYgYW5kIGV1ZGV2LCBJIGZpZ3VyZWQgdGhpcyB3YXMgYSBy
-ZWFzb25hYmxlIG1vdmUuJm5ic3A7IFRoaXMgYnJvdWdodCB0aGUgdXBkYXRlIHVkZXYtY2FjaGUg
-aW4gZm9yIHVwZ3JhZGUsIGJ1dCBub3QgZXVkZXYuJm5ic3A7DQogSW4gbXkgcHJpdmF0ZSBsYXll
-ciwgSSBhbHNvIGhhdmUgYW4gaW1hZ2UgdmVyc2lvbiBudW1iZXIgcGFja2FnZS4mbmJzcDsgSSBh
-ZGRlZCBldWRldiB0byB0aGUgUkRFUEVORFMgbGlzdCBmb3IgdGhpcyBwYWNrYWdlIHNpbmNlIG15
-IGltYWdlLCB3aGljaCBub3cgaGFzIGxpbnV4IHZlcnNpb24gNC40LCBkb2VzIGRlcGVuZCBvbiBl
-dWRldi48YnI+DQo8YnI+DQpEb2VzIHRoaXMgc291bmQgcmVhc29uYWJsZT8mbmJzcDsgSXMgdGhl
-cmUgYSBiZXR0ZXIgd2F5IHRvIGRvIHRoZSBzYW1lIHRoaW5nPzxicj4NCjxicj4NClRoYW5rcyw8
-YnI+DQpCcnlhbjxvOnA+PC9vOnA+PC9wPg0KPGRpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9y
-bWFsIj48YnI+DQomZ3Q7PGJyPg0KJmd0OyBUaGFua3MsPGJyPg0KJmd0OyBCcnlhbjxicj4NCiZn
-dDsgLS08YnI+DQomZ3Q7IF9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fPGJyPg0KJmd0OyBPcGVuZW1iZWRkZWQtY29yZSBtYWlsaW5nIGxpc3Q8YnI+DQomZ3Q7
-IDxhIGhyZWY9Im1haWx0bzpPcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3Jn
-Ij5PcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnPC9hPjxicj4NCiZndDsg
-PGEgaHJlZj0iaHR0cDovL2xpc3RzLm9wZW5lbWJlZGRlZC5vcmcvbWFpbG1hbi9saXN0aW5mby9v
-cGVuZW1iZWRkZWQtY29yZSIgdGFyZ2V0PSJfYmxhbmsiPg0KaHR0cDovL2xpc3RzLm9wZW5lbWJl
-ZGRlZC5vcmcvbWFpbG1hbi9saXN0aW5mby9vcGVuZW1iZWRkZWQtY29yZTwvYT48YnI+DQotLTxi
-cj4NCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fPGJyPg0K
-T3BlbmVtYmVkZGVkLWNvcmUgbWFpbGluZyBsaXN0PGJyPg0KPGEgaHJlZj0ibWFpbHRvOk9wZW5l
-bWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmciPk9wZW5lbWJlZGRlZC1jb3JlQGxp
-c3RzLm9wZW5lbWJlZGRlZC5vcmc8L2E+PGJyPg0KPGEgaHJlZj0iaHR0cDovL2xpc3RzLm9wZW5l
-bWJlZGRlZC5vcmcvbWFpbG1hbi9saXN0aW5mby9vcGVuZW1iZWRkZWQtY29yZSIgdGFyZ2V0PSJf
-YmxhbmsiPmh0dHA6Ly9saXN0cy5vcGVuZW1iZWRkZWQub3JnL21haWxtYW4vbGlzdGluZm8vb3Bl
-bmVtYmVkZGVkLWNvcmU8L2E+PG86cD48L286cD48L3A+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9ibG9j
-a3F1b3RlPg0KPC9kaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwv
-cD4NCjwvZGl2Pg0KPC9kaXY+DQo8L2Rpdj4NCjwvYm9keT4NCjwvaHRtbD4NCg==
+On Wed, May 17, 2017 at 7:24 PM, Bryan Evenson <bevenson@melinkcorp.com>
+wrote:
 
---_000_DM5PR05MB2954CA5DFFA544060B1AC3FCBBE70DM5PR05MB2954namp_--
+> Martin,
+>
+>
+>
+> Thanks for the pointers.  I think I finally have it working correctly. I
+> added RPROVIDES/RCONFLICTS/RREPLACES in my eudev bbappend to state it
+> replaces udev.  I also needed to set PE =3D 1 for udev-cache.  Since
+> udev-cache didn=E2=80=99t change the package name, I can=E2=80=99t say it
+> RCONFLICTS/RREPLACES itself.
+>
+>
+>
+> Thanks,
+>
+> Bryan
+>
+>
+>
+> *From:* Martin Jansa [mailto:martin.jansa@gmail.com]
+> *Sent:* Wednesday, May 17, 2017 12:18 PM
+> *To:* Bryan Evenson <bevenson@melinkcorp.com>
+> *Cc:* Openembedded-core@lists.openembedded.org
+> *Subject:* Re: [OE-core] eudev: opkg not automatically upgrading from
+> udev to eudev
+>
+>
+>
+> Isn't it enough to set RPROVIDES/RCONFLICTS/RREPLACES combo to say that
+> eudev really replaces old udev even when the package version is lower.
+>
+>
+>
+> This used to fix such upgrade-path issues before, but I've stopped testin=
+g
+> them long time ago.
+>
+>
+>
+> On Wed, May 17, 2017 at 5:26 PM, Bryan Evenson <bevenson@melinkcorp.com>
+> wrote:
+>
+> All,
+>
+>
+> > -----Original Message-----
+> > From: openembedded-core-bounces@lists.openembedded.org
+> > [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf
+> > Of Bryan Evenson
+> > Sent: Tuesday, May 16, 2017 2:01 PM
+> > To: Openembedded-core@lists.openembedded.org
+> > Subject: [OE-core] eudev: opkg not automatically upgrading from udev to
+> > eudev
+> >
+> >
+> > I have an image based on core-image-minimal that uses sysvinit for init
+> and
+> > opkg for package management.  I am doing some upgrade testing and I see
+> > an issue with eudev.  I am testing upgrading an image that was built
+> under
+> > dizzy to my latest image built under morty.  I'm first testing that all
+> the correct
+> > packages and new dependencies are correctly being identified for upgrad=
+e
+> > by running "opkg update; opkg upgrade --download-only" from the
+> > command line and comparing what is in the opkg cache directory with wha=
+t
+> > was available.  All packages except eudev and udev-cache are being
+> > downloaded for upgrade.
+> >
+> > I ran the opkg upgrade again with the -V4 option for additional debug
+> output
+> > Here's what I saw in one section regarding udev:
+> >
+> > pkg_hash_fetch_best_installation_candidate: Best installation candidate
+> for
+> > udev:
+> > pkg_hash_fetch_best_installation_candidate: apkg=3Dudev nprovides=3D2.
+> > pkg_hash_fetch_best_installation_candidate: Adding eudev to providers.
+> > pkg_hash_fetch_best_installation_candidate: Adding udev to providers.
+> > pkg_hash_fetch_best_installation_candidate: eudev arch=3Darmv5e
+> > arch_priority=3D41 version=3D3.2.
+> > pkg_hash_fetch_best_installation_candidate: udev arch=3Darm926ejste
+> > arch_priority=3D51 version=3D182.
+> > pkg_hash_fetch_best_installation_candidate: Candidate: udev 182.
+> > pkg_hash_fetch_best_installation_candidate: 2 matching pkgs for
+> > apkg=3Dudev:
+> > pkg_hash_fetch_best_installation_candidate: eudev 3.2 armv5e
+> > pkg_hash_fetch_best_installation_candidate: udev 182 arm926ejste
+> > opkg_upgrade_pkg: Comparing visible versions of pkg udev:
+> >         182-r9.9 is installed
+> >         182-r9.9 is available
+> >         0 was comparison result
+> > opkg_upgrade_pkg: Package udev (182-r9.9) installed in root is up to
+> date.
+> >
+> > I'm assuming the problem is that udev is version 182 and eudev is
+> version 3.2
+> > and that opkg doesn't think udev needs to be upgraded.  Is there an
+> > RDEPENDS that needs to be added somewhere so opkg sees that it needs to
+> > upgrade udev to eudev?
+>
+> I made some changes and now both eudev and udev-cache are being pulled in
+> on upgrade.  However, I'd like a second opinion that what I did was
+> reasonable.
+>
+> First, I created eudev_%.bbappend in my private layer and added "PE =3D "=
+1""
+> to the bbappend.  Since the numbering scheme changed between udev and
+> eudev, I figured this was a reasonable move.  This brought the update
+> udev-cache in for upgrade, but not eudev.  In my private layer, I also ha=
+ve
+> an image version number package.  I added eudev to the RDEPENDS list for
+> this package since my image, which now has linux version 4.4, does depend
+> on eudev.
+>
+> Does this sound reasonable?  Is there a better way to do the same thing?
+>
+> Thanks,
+> Bryan
+>
+>
+> >
+> > Thanks,
+> > Bryan
+> > --
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+>
+>
+
+--94eb2c1954e4d0bc69054fbbf09a
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Yes, that sounds reasonable, just keep in mind that PE bum=
+ps are forever (once you introduce it in your binary feed, you probably won=
+t be able to ever remove the .bbappend with it), unless you get the PE bump=
+ merged in oe-core as well.<div><br></div><div>I think you should just subm=
+it the fix to oe-core and then your .bbappend will be only temporary until =
+you upgrade to the release which already includes the fix.</div></div><div =
+class=3D"gmail_extra"><br><div class=3D"gmail_quote">On Wed, May 17, 2017 a=
+t 7:24 PM, Bryan Evenson <span dir=3D"ltr">&lt;<a href=3D"mailto:bevenson@m=
+elinkcorp.com" target=3D"_blank">bevenson@melinkcorp.com</a>&gt;</span> wro=
+te:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-=
+left:1px #ccc solid;padding-left:1ex">
+
+
+
+
+
+<div lang=3D"EN-US" link=3D"blue" vlink=3D"purple">
+<div class=3D"m_-887092949972708242WordSection1">
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif">Martin,<u></u><u></u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif"><u></u>=C2=A0<u></u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif">Thanks for the pointers.=C2=A0 I think I finally ha=
+ve it working correctly. I added RPROVIDES/RCONFLICTS/RREPLACES in my eudev=
+ bbappend to state it replaces udev.=C2=A0 I also needed
+ to set PE =3D 1 for udev-cache.=C2=A0 Since udev-cache didn=E2=80=99t chan=
+ge the package name, I can=E2=80=99t say it RCONFLICTS/RREPLACES itself.<u>=
+</u><u></u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif"><u></u>=C2=A0<u></u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif">Thanks,<u></u><u></u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif">Bryan<u></u><u></u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif"><u></u>=C2=A0<u></u></span></p>
+<div style=3D"border:none;border-left:solid blue 1.5pt;padding:0in 0in 0in =
+4.0pt">
+<div>
+<div style=3D"border:none;border-top:solid #e1e1e1 1.0pt;padding:3.0pt 0in =
+0in 0in">
+<p class=3D"MsoNormal"><b><span style=3D"font-size:11.0pt;font-family:&quot=
+;Calibri&quot;,sans-serif">From:</span></b><span style=3D"font-size:11.0pt;=
+font-family:&quot;Calibri&quot;,sans-serif"> Martin Jansa [mailto:<a href=
+=3D"mailto:martin.jansa@gmail.com" target=3D"_blank">martin.jansa@gmail.com=
+</a><wbr>]
+<br>
+<b>Sent:</b> Wednesday, May 17, 2017 12:18 PM<br>
+<b>To:</b> Bryan Evenson &lt;<a href=3D"mailto:bevenson@melinkcorp.com" tar=
+get=3D"_blank">bevenson@melinkcorp.com</a>&gt;<br>
+<b>Cc:</b> <a href=3D"mailto:Openembedded-core@lists.openembedded.org" targ=
+et=3D"_blank">Openembedded-core@lists.<wbr>openembedded.org</a><br>
+<b>Subject:</b> Re: [OE-core] eudev: opkg not automatically upgrading from =
+udev to eudev<u></u><u></u></span></p>
+</div>
+</div><div><div class=3D"h5">
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+<div>
+<p class=3D"MsoNormal">Isn&#39;t it enough to set RPROVIDES/RCONFLICTS/RREP=
+LACES combo to say that eudev really replaces old udev even when the packag=
+e version is lower.<u></u><u></u></p>
+<div>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal">This used to fix such upgrade-path issues before, bu=
+t I&#39;ve stopped testing them long time ago.<u></u><u></u></p>
+</div>
+</div>
+<div>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+<div>
+<p class=3D"MsoNormal">On Wed, May 17, 2017 at 5:26 PM, Bryan Evenson &lt;<=
+a href=3D"mailto:bevenson@melinkcorp.com" target=3D"_blank">bevenson@melink=
+corp.com</a>&gt; wrote:<u></u><u></u></p>
+<blockquote style=3D"border:none;border-left:solid #cccccc 1.0pt;padding:0i=
+n 0in 0in 6.0pt;margin-left:4.8pt;margin-right:0in">
+<p class=3D"MsoNormal">All,<u></u><u></u></p>
+<div>
+<div>
+<p class=3D"MsoNormal" style=3D"margin-bottom:12.0pt"><br>
+&gt; -----Original Message-----<br>
+&gt; From: <a href=3D"mailto:openembedded-core-bounces@lists.openembedded.o=
+rg" target=3D"_blank">openembedded-core-bounces@<wbr>lists.openembedded.org=
+</a><br>
+&gt; [mailto:<a href=3D"mailto:openembedded-core-bounces@lists.openembedded=
+.org" target=3D"_blank">openembedded-core-<wbr>bounces@lists.openembedded.o=
+rg</a><wbr>] On Behalf<br>
+&gt; Of Bryan Evenson<br>
+&gt; Sent: Tuesday, May 16, 2017 2:01 PM<br>
+&gt; To: <a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=
+=3D"_blank">Openembedded-core@lists.<wbr>openembedded.org</a><br>
+&gt; Subject: [OE-core] eudev: opkg not automatically upgrading from udev t=
+o<br>
+&gt; eudev<br>
+&gt;<br>
+&gt;<br>
+&gt; I have an image based on core-image-minimal that uses sysvinit for ini=
+t and<br>
+&gt; opkg for package management.=C2=A0 I am doing some upgrade testing and=
+ I see<br>
+&gt; an issue with eudev.=C2=A0 I am testing upgrading an image that was bu=
+ilt under<br>
+&gt; dizzy to my latest image built under morty.=C2=A0 I&#39;m first testin=
+g that all the correct<br>
+&gt; packages and new dependencies are correctly being identified for upgra=
+de<br>
+&gt; by running &quot;opkg update; opkg upgrade --download-only&quot; from =
+the<br>
+&gt; command line and comparing what is in the opkg cache directory with wh=
+at<br>
+&gt; was available.=C2=A0 All packages except eudev and udev-cache are bein=
+g<br>
+&gt; downloaded for upgrade.<br>
+&gt;<br>
+&gt; I ran the opkg upgrade again with the -V4 option for additional debug =
+output<br>
+&gt; Here&#39;s what I saw in one section regarding udev:<br>
+&gt;<br>
+&gt; pkg_hash_fetch_best_<wbr>installation_candidate: Best installation can=
+didate for<br>
+&gt; udev:<br>
+&gt; pkg_hash_fetch_best_<wbr>installation_candidate: apkg=3Dudev nprovides=
+=3D2.<br>
+&gt; pkg_hash_fetch_best_<wbr>installation_candidate: Adding eudev to provi=
+ders.<br>
+&gt; pkg_hash_fetch_best_<wbr>installation_candidate: Adding udev to provid=
+ers.<br>
+&gt; pkg_hash_fetch_best_<wbr>installation_candidate: eudev arch=3Darmv5e<b=
+r>
+&gt; arch_priority=3D41 version=3D3.2.<br>
+&gt; pkg_hash_fetch_best_<wbr>installation_candidate: udev arch=3Darm926ejs=
+te<br>
+&gt; arch_priority=3D51 version=3D182.<br>
+&gt; pkg_hash_fetch_best_<wbr>installation_candidate: Candidate: udev 182.<=
+br>
+&gt; pkg_hash_fetch_best_<wbr>installation_candidate: 2 matching pkgs for<b=
+r>
+&gt; apkg=3Dudev:<br>
+&gt; pkg_hash_fetch_best_<wbr>installation_candidate: eudev 3.2 armv5e<br>
+&gt; pkg_hash_fetch_best_<wbr>installation_candidate: udev 182 arm926ejste<=
+br>
+&gt; opkg_upgrade_pkg: Comparing visible versions of pkg udev:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0182-r9.9 is installed<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0182-r9.9 is available<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A00 was comparison result<br>
+&gt; opkg_upgrade_pkg: Package udev (182-r9.9) installed in root is up to d=
+ate.<br>
+&gt;<br>
+&gt; I&#39;m assuming the problem is that udev is version 182 and eudev is =
+version 3.2<br>
+&gt; and that opkg doesn&#39;t think udev needs to be upgraded.=C2=A0 Is th=
+ere an<br>
+&gt; RDEPENDS that needs to be added somewhere so opkg sees that it needs t=
+o<br>
+&gt; upgrade udev to eudev?<u></u><u></u></p>
+</div>
+</div>
+<p class=3D"MsoNormal">I made some changes and now both eudev and udev-cach=
+e are being pulled in on upgrade.=C2=A0 However, I&#39;d like a second opin=
+ion that what I did was reasonable.<br>
+<br>
+First, I created eudev_%.bbappend in my private layer and added &quot;PE =
+=3D &quot;1&quot;&quot; to the bbappend.=C2=A0 Since the numbering scheme c=
+hanged between udev and eudev, I figured this was a reasonable move.=C2=A0 =
+This brought the update udev-cache in for upgrade, but not eudev.=C2=A0
+ In my private layer, I also have an image version number package.=C2=A0 I =
+added eudev to the RDEPENDS list for this package since my image, which now=
+ has linux version 4.4, does depend on eudev.<br>
+<br>
+Does this sound reasonable?=C2=A0 Is there a better way to do the same thin=
+g?<br>
+<br>
+Thanks,<br>
+Bryan<u></u><u></u></p>
+<div>
+<div>
+<p class=3D"MsoNormal"><br>
+&gt;<br>
+&gt; Thanks,<br>
+&gt; Bryan<br>
+&gt; --<br>
+&gt; ______________________________<wbr>_________________<br>
+&gt; Openembedded-core mailing list<br>
+&gt; <a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"=
+_blank">Openembedded-core@lists.<wbr>openembedded.org</a><br>
+&gt; <a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded=
+-core" target=3D"_blank">
+http://lists.openembedded.org/<wbr>mailman/listinfo/openembedded-<wbr>core<=
+/a><br>
+--<br>
+______________________________<wbr>_________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
+k">Openembedded-core@lists.<wbr>openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" target=3D"_blank">http://lists.openembedded.org/<wbr>mailman/listinfo/ope=
+nembedded-<wbr>core</a><u></u><u></u></p>
+</div>
+</div>
+</blockquote>
+</div>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+</div>
+</div></div></div>
+</div>
+</div>
+
+</blockquote></div><br></div>
+
+--94eb2c1954e4d0bc69054fbbf09a--
