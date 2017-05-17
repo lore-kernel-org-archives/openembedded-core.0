@@ -1,50 +1,54 @@
 Return-Path: <patrick.ohly@intel.com>
-Received: from mail-io0-f179.google.com (mail-io0-f179.google.com
-	[209.85.223.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 144CA77E1C
+Received: from mail-io0-f175.google.com (mail-io0-f175.google.com
+	[209.85.223.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 426D671B04
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 May 2017 07:59:05 +0000 (UTC)
-Received: by mail-io0-f179.google.com with SMTP id o12so4476534iod.3
+	Wed, 17 May 2017 08:38:08 +0000 (UTC)
+Received: by mail-io0-f175.google.com with SMTP id p24so5027991ioi.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 May 2017 00:59:07 -0700 (PDT)
+	Wed, 17 May 2017 01:38:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=Vbw86Ro9SCqlxTGCKwFzY6GgLcyWe4f+UIBYHNyaitI=;
-	b=bhmpL1gLu57CgHde/32lF4PxUsL2JA5v5OeRSFsoBi3f8tjWFWcmCjdBY6roqKdWAp
-	ycOuvUuIa5nsi65jvMt3o2s1c6mkwPfR9yf/UlQS2ff+Nm1MbeV9yV+G+b/S5bGNIhzb
-	p9p6uD6Hx5ijir5CMZcB7q9vxRH8ecZt4N9G/unisknxHhX+OYMSrkkn/aRjFvJt4HRd
-	M5rAgKXTQAKHecyOaATj8YfLUSDnJLYAQGpuyweuv43zmllCljG4EEQNO7k2XDuoxJ/T
-	AUdmQDvb7gmeuHVxa0XsjP3Cb5o/BA+Q3nZt99XQKfvxw9SJcJ0Gq7tz94Bc8rRrHqSQ
-	BxEA==
+	h=message-id:subject:from:to:date:in-reply-to:references:organization
+	:mime-version:content-transfer-encoding;
+	bh=smXLCJKukmSVlyQBQLwoZa1gvOTj5ke9VQ7VslJctXE=;
+	b=BUvX+ULtx4uz1Cg1IUeWkkILU/TGEn1sbLmXS6Z6hmQAR1IceK4QS7OlyAGeq4K5jH
+	ap/AuWkT+1cJOsKsWBldYWMT+Og4EgImFpDvCFgrFapWrCxq1ms+s/a0In4eqwRLm6Px
+	wtznXik/w0wnkwx4A79soT2YJjHZd2qJY23tG3tXX0F/TYJxaQtlG/PaLkIM8Nl7ylGA
+	DpbSpGeuk5qc0pJyb0Ck5KeOvZG3ZR9OwVcPcv7kuq5dwkjYU4iQihQ9AGMRQ6mPkuZ9
+	2TQ8eya3NtESiHEYj0iGJBiqYIr2OywkQIFnEGKq3pXffOc8o/c78IAtvVDjjSHRKgtU
+	278w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=Vbw86Ro9SCqlxTGCKwFzY6GgLcyWe4f+UIBYHNyaitI=;
-	b=pjEwhGcuSykZ+J0MW7mG0QYNtkKEXFfhCLVy0Lys6IMWtvZUvqll6m3nQu1Yb014aN
-	d9EhHaATC4Lc6ASuK0WkDnuXfwQolLoJPitoMLOSKvoFdPYPNybe1KXtmmdj8y+ASfZi
-	Fn5Cj2KK+DNWWOJ1IVxf7lybSpXtTYGHoHbdTRtsgYCVvd64bQ76tTT2TfvsKFN0x8Xf
-	+KCqtcdoRCcGfm8GlQLl0+i2W6LKiQwBCUa58vXdDRfIbPkTggGeTOq9FV6gQjD5b17i
-	vH2ahcBaGhIPLDkvux089QKwilMdqGU2teHYd8HAjzc5FlI/cicn7SEhF9xttOourBhO
-	oEGw==
-X-Gm-Message-State: AODbwcBMFGiPygjXZTtJarO7iX9OmUFo59Ef6NrEWv7UGjCJ+okZbNmG
-	OJ3/2zudF1ro6rIRrHQ=
-X-Received: by 10.107.175.37 with SMTP id y37mr1896943ioe.38.1495007946603;
-	Wed, 17 May 2017 00:59:06 -0700 (PDT)
-Received: from pohly-desktop.fritz.box (p5DE8F2FD.dip0.t-ipconnect.de.
-	[93.232.242.253])
-	by smtp.gmail.com with ESMTPSA id i74sm7109100itb.5.2017.05.17.00.59.04
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 17 May 2017 00:59:05 -0700 (PDT)
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:organization:mime-version:content-transfer-encoding;
+	bh=smXLCJKukmSVlyQBQLwoZa1gvOTj5ke9VQ7VslJctXE=;
+	b=My+NV0QZgbpQ0GO0cC1VpupQT9ryZ0TRsogpI+fQxv8IJMlUaShdq72lHTjYs/izPt
+	FuAEeeWZTspxqIwjiEoIVGuutRm8qqFlLfL4nLaP7weyHVLJik3dXpwaZtRYIA8Zp/FI
+	TzoBYG6mWNnu+JTHdBj1qP8uTnTy1RhYhd6qLTsrR1wN/513KjDujrboAkFrOzwyNvvc
+	y5BIgQ3uLr80bkiItfk85IFGt7QtEDEXhMj8gqZyj80Ply2rVPrekGiUDVPI5INU/SVj
+	UtAYzAlv+tVtKW0IkbtpJt2NNKGJ0imsmC3rT7cuS1NxyoWyXYIajRVR9p09QZjd1c6n
+	h7eg==
+X-Gm-Message-State: AODbwcC7qbru1jyQk+QNNc6NdZTDfCZp7xqHuasw3Wh5p3AQQy1oeQG3
+	dE1mu5OsbHFEewl2C7c=
+X-Received: by 10.107.157.67 with SMTP id g64mr1953450ioe.48.1495010289890;
+	Wed, 17 May 2017 01:38:09 -0700 (PDT)
+Received: from pohly-mobl1 (p5DE8F2FD.dip0.t-ipconnect.de. [93.232.242.253])
+	by smtp.gmail.com with ESMTPSA id d35sm675537ioj.5.2017.05.17.01.38.08
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 17 May 2017 01:38:09 -0700 (PDT)
+Message-ID: <1495010286.28624.30.camel@intel.com>
 From: Patrick Ohly <patrick.ohly@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 17 May 2017 09:58:57 +0200
-Message-Id: <8810a4bbb1c67b438a7320df810db02099fcb5a0.1495007905.git-series.patrick.ohly@intel.com>
-X-Mailer: git-send-email 2.11.0
-In-Reply-To: <cover.eea09064b94ca036ef2177896c19070d316ee965.1495007905.git-series.patrick.ohly@intel.com>
+Date: Wed, 17 May 2017 10:38:06 +0200
+In-Reply-To: <8810a4bbb1c67b438a7320df810db02099fcb5a0.1495007905.git-series.patrick.ohly@intel.com>
 References: <cover.eea09064b94ca036ef2177896c19070d316ee965.1495007905.git-series.patrick.ohly@intel.com>
-Subject: [PATCH v2 1/1] image-mode.bbclass: common infrastructure for choosing image defaults
+	<8810a4bbb1c67b438a7320df810db02099fcb5a0.1495007905.git-series.patrick.ohly@intel.com>
+Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
+X-Mailer: Evolution 3.12.9-1+b1 
+Mime-Version: 1.0
+Subject: Re: [PATCH v2 1/1] image-mode.bbclass: common infrastructure for choosing image defaults
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,127 +61,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 May 2017 07:59:06 -0000
+X-List-Received-Date: Wed, 17 May 2017 08:38:10 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-A distro might want to offer developers different, pre-defined ways of
-building an image, for example a "development" mode with easy (but
-insecure) login methods and a "production" mode with hardened
-settings.
+On Wed, 2017-05-17 at 09:58 +0200, Patrick Ohly wrote:
+[...]
+> +    valid = d.getVar('IMAGE_MODE_VALID') or ''
+> +    if mode not in valid.split():
+> +        bb.fatal('Invalid image mode: IMAGE_MODE=%s (not in %s)' % (image_mode, valid))
+> +}
 
-image-mode.bbclass introduces IMAGE_MODE as the switch that defines
-how developers want to build an image. It can be set differently for
-different images. The intention is that the image recipe checks
-IMAGE_MODE when setting the default IMAGE_FEATURES or whether
-pre-generated signing keys are to be used for features like dm-verity.
+A dedicated error message for the "IMAGE_MODE_VALID is empty" case is
+needed. But let me wait for reactions before posting a v3.
 
-All functionality is opt-in: if a distro does not change the defaults,
-then the class only warns when a developer sets IMAGE_MODE althought
-it isn't supported. The purpose of having this class in OE-core
-although it doesn't do much by default is to achieve consistent
-behavior between different distros.
-
-Distros can define different modes (if desired, even differently for
-different images) and can define additional text that gets appended to
-/etc/motd of an image when a certain mode was used for the image.
-
-The functionality is provided as a separate helper class to ease
-copying of the functionality into distros not based on OE-core master
-yet and to keep it in one place. The alternative is to copy the code
-into image.bbclass and rootfs-postcommands.bbclass.
-
-Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
----
- meta/classes/image-mode.bbclass | 66 ++++++++++++++++++++++++++++++++++-
- meta/classes/image.bbclass      |  2 +-
- 2 files changed, 68 insertions(+)
- create mode 100644 meta/classes/image-mode.bbclass
-
-diff --git a/meta/classes/image-mode.bbclass b/meta/classes/image-mode.bbclass
-new file mode 100644
-index 0000000..6137010
---- /dev/null
-+++ b/meta/classes/image-mode.bbclass
-@@ -0,0 +1,66 @@
-+# Some distros may want to build images in different modes ("development",
-+# "production", etc.). The same image recipe might get built differently
-+# based on local configuration, or different image recipes might inherit
-+# from the same base and just differ in their mode. This class introduces
-+# "IMAGE_MODE" as the per-image variable which controls this mode.
-+#
-+# IMAGE_MODE is intentionally a separate variable. This way, IMAGE_FEATURES
-+# can be set dynamically depending on IMAGE_MODE.
-+#
-+# There are no pre-defined modes. Distros which want to use modes
-+# must set the IMAGE_MODE_VALID variable, either globally or per image.
-+# Distros which don't have modes can still use the class to trigger
-+# an error message when developers set the variable although it doesn't
-+# have an effect.
-+
-+# The default is to have no fixed mode.
-+IMAGE_MODE ??= ""
-+
-+# Set this in the distro or image to enable mode support. For example:
-+# IMAGE_MODE_VALID ??= "production development debugging"
-+
-+# Optionally this class extends /etc/motd in each image depending on the
-+# IMAGE_MODE of the image. To use this, set IMAGE_MODE_MOTD[<image mode>]
-+# to a string for that mode or IMAGE_MODE_MOTD[none] for empty or
-+# unset IMAGE_MODE. IMAGE_MODE_MOTD is used as default when the varflag
-+# is not set.
-+#
-+# When the motd text is empty, /etc/motd is not touched at all.
-+#
-+# Example:
-+# IMAGE_MODE_MOTD_NOT_PRODUCTION () {
-+# *********************************************
-+# *** This is a ${IMAGE_MODE} image! ${@ ' ' * (19 - len(d.getVar('IMAGE_MODE')))} ***
-+# *** Do not use in production.             ***
-+# *********************************************
-+# }
-+# IMAGE_MODE_MOTD = "${IMAGE_MODE_MOTD_NOT_PRODUCTION}"
-+# IMAGE_MODE_MOTD[production] = ""
-+
-+# Empty when IMAGE_MODE is unset, otherwise -<IMAGE_MODE>.
-+IMAGE_MODE_SUFFIX = "${@ '-' + d.getVar('IMAGE_MODE') if d.getVar('IMAGE_MODE') else '' }"
-+
-+python () {
-+    # Sanity checks for IMAGE_MODE.
-+    image_mode = d.getVar('IMAGE_MODE')
-+    mode = set(image_mode.split())
-+    if len(mode) == 0:
-+        return
-+    if len(mode) > 1:
-+        bb.fatal('An image can only be built in exactly one mode: IMAGE_MODE=%s' % image_mode)
-+    mode = mode.pop()
-+    valid = d.getVar('IMAGE_MODE_VALID') or ''
-+    if mode not in valid.split():
-+        bb.fatal('Invalid image mode: IMAGE_MODE=%s (not in %s)' % (image_mode, valid))
-+}
-+
-+python image_mode_motd () {
-+    image_mode = d.getVar('IMAGE_MODE')
-+    motd = d.getVarFlag('IMAGE_MODE_MOTD', image_mode or 'none')
-+    if motd is None:
-+        motd = d.getVar('IMAGE_MODE_MOTD')
-+    if motd:
-+        with open(d.expand('${IMAGE_ROOTFS}${sysconfdir}/motd'), 'a') as f:
-+            f.write(motd)
-+}
-+ROOTFS_POSTPROCESS_COMMAND += "image_mode_motd;"
-diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index 405fd73..b381d53 100644
---- a/meta/classes/image.bbclass
-+++ b/meta/classes/image.bbclass
-@@ -204,7 +204,9 @@ LINGUAS_INSTALL ?= "${@" ".join(map(lambda s: "locale-base-%s" % s, d.getVar('IM
- # aren't yet available.
- PSEUDO_PASSWD = "${IMAGE_ROOTFS}:${STAGING_DIR_NATIVE}"
- 
-+# Inherit helper classes.
- inherit rootfs-postcommands
-+inherit image-mode
- 
- PACKAGE_EXCLUDE ??= ""
- PACKAGE_EXCLUDE[type] = "list"
 -- 
-git-series 0.9.1
+Best Regards, Patrick Ohly
+
+The content of this message is my personal opinion only and although
+I am an employee of Intel, the statements I make here in no way
+represent Intel's position on the issue, nor am I authorized to speak
+on behalf of Intel on this matter.
+
+
+
 
