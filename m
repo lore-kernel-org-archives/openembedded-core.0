@@ -1,48 +1,47 @@
-Return-Path: <max.oss.09@gmail.com>
-Received: from mail-wr0-f193.google.com (mail-wr0-f193.google.com
-	[209.85.128.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 66B1677D88
+Return-Path: <tharvey@gateworks.com>
+Received: from mail-wm0-f45.google.com (mail-wm0-f45.google.com [74.125.82.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 643F960557
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 May 2017 20:17:36 +0000 (UTC)
-Received: by mail-wr0-f193.google.com with SMTP id v42so3436847wrc.3
+	Wed, 17 May 2017 21:29:23 +0000 (UTC)
+Received: by mail-wm0-f45.google.com with SMTP id 70so25178264wmq.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 May 2017 13:17:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=dbEt9c1F8jNQ/UzwKrO1AXHxHG3b5WRedssfcatHI/k=;
-	b=FcAXfkDd2aU7GdaBF02A5Gi541hyct6PXTJ3/p+st9/+qPW1KtIJbomjehx7BhVWR6
-	7UFmQKUcfGFI6LHjZiQKN5C2wEfmcLnSgDEtjFklBo+v466pCzQgS/1rIsodi8DyPx4+
-	0Ma/eNuAUrx7aXQhq2fDal7da0F441OY0nntMU3ujIgCFOtuJb2gX3D6XtTBF5gTYm43
-	a7K36cwKnQTBPFofAfqHYOrOXtWHvWWJs+ZETMfwU1L9f4HIkxjTJLT4Xi1c9uVh0gy5
-	lmKUr5NiWto5b/U+K6CEXyM4Obvxt9kjUzrb1kKUoc/E8aW7yLeDh819kIuUC5DI35F3
-	moRw==
+	Wed, 17 May 2017 14:29:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=gateworks-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=vWnWu4ILZCzGdZr9GSKp1ZCIOxIxKOsPd7neb0Ym+/8=;
+	b=HPfx+c7RDs6nn8QMtw5nO56mRw5APTvJaBsTYxlDmZ3W6sg8W6HsZcpMu7I7dtuVcV
+	oQcD8A7FknqWOdkifhO1erRceAvl1z5fjjmh3Iq3TRqRegTKr/Hm/S1Q3fgEhoWQ/HlB
+	ICEs18gPsPj6MoS6exUZVslVUq3bn7v0o/Gq6qhtLcX9xfW7KV9GyxtIZlEH5RNwOByo
+	EmyezKBWnrJKoidmTx/608cVbfSfHMNC9XWvTXW2FFPzS1gAo20N1K+K+xzT23yoeIfW
+	dsCymdRdluyGIcI27NymU+Myi+12+GIEzm5KIrDQheOqzLAH+DisMt8RMTbl2a0JAXJI
+	sCfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=dbEt9c1F8jNQ/UzwKrO1AXHxHG3b5WRedssfcatHI/k=;
-	b=MD1J4EaTtH8+5skDKrzjrvDVvrWkYNYwj7klPPwxW5/+YzPbrjiSe87wsvoxm6CZ5J
-	5i6YUWaZwEXwFnh0a9NCraWxqoBnATZURYmeexoX8envclxf4LXh165ZvrUtWJgidoV/
-	/pbKteBtriJS5ub76H/IefjH1AAiib9Kl9bT9SmD/9o35wQAA9/Ch/d6G6vVREH0P4x3
-	fUAr2o6MBChzik8XmUPHS4YOyx99nNpePPgGLlkKuDY14QPnjspSMyjcT/NN+IMfMF6/
-	TrwHuOlj6aHb2Wm75y2MEE4t2bZb6FZKSujMiXtdYtA+yR+1mtf9NQ9EAP4tBYO/e0/n
-	5/KQ==
-X-Gm-Message-State: AODbwcCv0QNf3Y8UTBiY4RfFQUL1M7OprpoWqpTBSCtv6SpVC4DU5937
-	OnSctwCN4P2xUw==
-X-Received: by 10.223.163.12 with SMTP id c12mr306667wrb.56.1495052257965;
-	Wed, 17 May 2017 13:17:37 -0700 (PDT)
-Received: from linuxdev.toradex.int ([46.140.72.82])
-	by smtp.gmail.com with ESMTPSA id
-	137sm3973807wmi.19.2017.05.17.13.17.36
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 17 May 2017 13:17:37 -0700 (PDT)
-From: Max Krummenacher <max.oss.09@gmail.com>
-X-Google-Original-From: Max Krummenacher <max.krummenacher@toradex.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 17 May 2017 22:16:52 +0200
-Message-Id: <20170517201652.27476-1-max.krummenacher@toradex.com>
-X-Mailer: git-send-email 2.9.3
-Cc: Max Krummenacher <max.krummenacher@toradex.com>
-Subject: [PATCH] libsolv: don't pick up bundled db from host rpm
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=vWnWu4ILZCzGdZr9GSKp1ZCIOxIxKOsPd7neb0Ym+/8=;
+	b=X5KI8Cyp6c5kt8sm+mAT2Q46MPpp/I60nWuto0bmzH0HSm7EY4vc7Vg2dBQ23rSARb
+	JYYAwlLVZIERrU00WFjkym2V3yu+VxgwLZvf9Hyc/Y9JmO6ERN1scJlx59bc+o+Nh0Fx
+	5ahZnUf9rb10z/UVSmZo2diIKqmSgF+5ww4s+9ZyFP1ViEcIPCVdmcmQlNWo1L8JU4+j
+	d20PKapyymV+Ux7qcgGnq9pFq/AooKNFeZS6gPytp6sNzKpoHqz4eYDeHS9cw/Fn9tc6
+	Eh2A0jsdh9Usq3Keil5KN0rnoDggtURJAwhZuMH77aRTk0eZp8BoXWuP8lqgFQipGnly
+	pfBg==
+X-Gm-Message-State: AODbwcAj412vQExV5CaXjQB2YUu7g9i7fJgtFmmtws+g+xOs//qoc8Lz
+	sMJsIexqizE/tV+0qVWMB3tcU/HfJ3V7
+X-Received: by 10.28.137.201 with SMTP id l192mr11633625wmd.27.1495056564662; 
+	Wed, 17 May 2017 14:29:24 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.28.212.21 with HTTP; Wed, 17 May 2017 14:29:24 -0700 (PDT)
+In-Reply-To: <1495052131.7502.1.camel@gmail.com>
+References: <CAJ+vNU02n6DavkhuwM8gU7daWLyyd4QHgd0N5topHJQiO2_6RA@mail.gmail.com>
+	<1495052131.7502.1.camel@gmail.com>
+From: Tim Harvey <tharvey@gateworks.com>
+Date: Wed, 17 May 2017 14:29:24 -0700
+Message-ID: <CAJ+vNU1kh56xNCvy77zMM2Pc5hnaM+jFBhzdvip5h2dQ_+YMNA@mail.gmail.com>
+To: Max Krummenacher <max.oss.09@gmail.com>
+Cc: poky@yoctoproject.org, openembedded-core@lists.openembedded.org
+Subject: Re: populate sdk broken for u-boot-mkimage
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,77 +54,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 May 2017 20:17:38 -0000
+X-List-Received-Date: Wed, 17 May 2017 21:29:24 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-With rpm v4 in openembedded but on a host with existing /usr/include/rpm/db.h
-the build fails to compile.
+On Wed, May 17, 2017 at 1:15 PM, Max Krummenacher <max.oss.09@gmail.com> wrote:
+> Hi Tim
+>
+> Just sent a patch which may fix what you see.
+>
+> Regards
+> Max
+>
+> Am Mittwoch, den 17.05.2017, 12:36 -0700 schrieb Tim Harvey:
+>> Greetings,
+>>
+>> I'm running into the following build error when trying to create an
+>> SDK for an image that includes u-boot-mkimage-native.
+>>
+>> The nativesdk-u-boot-mkimage do_package task fails with:
+>> ERROR: nativesdk-u-boot-mkimage: chrpath command failed with exit code 7:
+>> b'/usr/src/ventana/yocto/pyro-2.3/build/tmp/work/x86_64-nativesdk-fslcsdk-linux/nativesdk-u-boot
+>> -mkimage/1_2017.01-r0/package/opt/fslc-x11/2.3/sysroots/x86_64-fslcsdk-linux/usr/bin/uboot
+>> -mkimage:
+>> RPATH=/usr/src/ventana/yocto/pyro-2.3/build/tmp/work/x86_64-nativesdk-fslcsdk-linux/nativesdk-u
+>> -boot-mkimage/1_2017.01-r0/recipe-sysroot-native/usr/lib:/usr/src/ventana/yocto/pyro
+>> -2.3/build/tmp/work/x86_64-nativesdk-fslcsdk-linux/nativesdk-u-boot-mkimage/1_2017.01-r0/recipe
+>> -sysroot-native/lib\n'b"new
+>> rpath '$ORIGIN/../../../../../../../usr/src/ventana/yocto/pyro-2.3/build/tmp/work/x86_64-nativesdk
+>> -fslcsdk-linux/nativesdk-u-boot-mkimage/1_2017.01-r0/recipe-sysroot
+>> -native/usr/lib:$ORIGIN/../../../../../../../usr/src/ventana/yocto/pyro-2.3/build/tmp/work/x86_64
+>> -nativesdk-fslcsdk-linux/nativesdk-u-boot-mkimage/1_2017.01-r0/recipe-sysroot-native/lib'
+>> too large; maximum length 287\n"
+>> DEBUG: Python function perform_packagecopy finished
+>> DEBUG: Python function do_package finished
+>> ERROR: Function failed: perform_packagecopy
+>>
+>> I'm guessing this has something to do with the long list of args in
+>> EXTRA_OEMAKE_class-nativesdk from
+>> http://git.yoctoproject.org/cgit.cgi/poky/tree/meta/recipes-bsp/u-boot/u-boot-mkimage_2017.01.bb
+>>
+>> Any ideas?
+>>
+>> Regards,
+>>
+>> Tim
 
-Signed-off-by: Max Krummenacher <max.krummenacher@toradex.com>
----
- ...01-don-t-pick-up-bundled-db-from-host-rpm.patch | 38 ++++++++++++++++++++++
- meta/recipes-extended/libsolv/libsolv_0.6.26.bb    |  3 +-
- 2 files changed, 40 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-extended/libsolv/libsolv/0001-don-t-pick-up-bundled-db-from-host-rpm.patch
+Max,
 
-diff --git a/meta/recipes-extended/libsolv/libsolv/0001-don-t-pick-up-bundled-db-from-host-rpm.patch b/meta/recipes-extended/libsolv/libsolv/0001-don-t-pick-up-bundled-db-from-host-rpm.patch
-new file mode 100644
-index 0000000..e0eb36e
---- /dev/null
-+++ b/meta/recipes-extended/libsolv/libsolv/0001-don-t-pick-up-bundled-db-from-host-rpm.patch
-@@ -0,0 +1,38 @@
-+From 7bd5f609ce63876e2d52dea26cd40cbd2cfb4532 Mon Sep 17 00:00:00 2001
-+From: Max Krummenacher <max.krummenacher@toradex.com>
-+Date: Sat, 7 May 2017 20:28:11 +0100
-+Subject: [PATCH] don't pick up bundled db from host rpm
-+
-+With rpm v4 in openembedded but on a host with existing /usr/include/rpm/db.h
-+the build is configured to have HAVE_RPM_DB_H but fails to compile.
-+
-+Fixes the following link errors:
-+| ../ext/libsolvext.so.0: undefined reference to `db_create_rpmdb'
-+| ../ext/libsolvext.so.0: undefined reference to `db_env_create_rpmdb'
-+
-+Observed on a openSUSE Leap 42.1 build host with rpm-devel installed.
-+
-+Upstream-Status: Inappropriate [cross build specific]
-+
-+Signed-off-by: Max Krummenacher <max.krummenacher@toradex.com>
-+---
-+ CMakeLists.txt | 3 +--
-+ 1 file changed, 1 insertion(+), 2 deletions(-)
-+
-+diff --git a/CMakeLists.txt b/CMakeLists.txt
-+index 838f9d0..b64bcd9 100644
-+--- a/CMakeLists.txt
-++++ b/CMakeLists.txt
-+@@ -205,8 +205,7 @@ IF (ENABLE_RPMDB)
-+     ENDIF (RPMMISC_LIBRARY)
-+   ENDIF (RPM5)
-+ 
-+-  # check if rpm contains a bundled berkeley db
-+-  CHECK_INCLUDE_FILE(rpm/db.h HAVE_RPM_DB_H)
-++  set(HAVE_RPM_DB_H 0)
-+   IF (NOT HAVE_RPM_DB_H)
-+     FIND_LIBRARY (DB_LIBRARY NAMES db)
-+     IF (DB_LIBRARY)
-+-- 
-+2.6.6
-+
-diff --git a/meta/recipes-extended/libsolv/libsolv_0.6.26.bb b/meta/recipes-extended/libsolv/libsolv_0.6.26.bb
-index a33c251..ccd9cfa 100644
---- a/meta/recipes-extended/libsolv/libsolv_0.6.26.bb
-+++ b/meta/recipes-extended/libsolv/libsolv_0.6.26.bb
-@@ -8,7 +8,8 @@ LIC_FILES_CHKSUM = "file://LICENSE.BSD;md5=62272bd11c97396d4aaf1c41bc11f7d8"
- DEPENDS = "expat zlib rpm"
- 
- SRC_URI = "git://github.com/openSUSE/libsolv.git \
--           "
-+           file://0001-don-t-pick-up-bundled-db-from-host-rpm.patch \
-+          "
- SRC_URI_append_libc-musl = " file://0001-Add-fallback-fopencookie-implementation.patch \
-                              file://0002-Fixes-to-internal-fopencookie-implementation.patch \
-                            "
--- 
-2.9.3
+indeed your patch '[OE-core] [PATCH] u-boot-mkimage: fix nativesdk
+build' resolves my problem.
 
+This should be backported to at least the pyro branch as well I would assume?
+
+Tim
 
