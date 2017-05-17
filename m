@@ -1,37 +1,46 @@
-Return-Path: <zhengrq.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 3273577A3D
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wr0-f196.google.com (mail-wr0-f196.google.com
+	[209.85.128.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 118C271A72
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 May 2017 05:18:47 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.22,518,1449504000"; d="scan'208";a="18951271"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 17 May 2017 13:18:48 +0800
-Received: from G08CNEXCHPEKD02.g08.fujitsu.local (unknown [10.167.33.83])
-	by cn.fujitsu.com (Postfix) with ESMTP id DBAF447C6527
+	Wed, 17 May 2017 07:30:47 +0000 (UTC)
+Received: by mail-wr0-f196.google.com with SMTP id w50so439667wrc.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 May 2017 13:18:45 +0800 (CST)
-Received: from G08CNEXMBPEKD01.g08.fujitsu.local ([10.167.33.81]) by
-	G08CNEXCHPEKD02.g08.fujitsu.local ([10.167.33.83]) with mapi id
-	14.03.0319.002; Wed, 17 May 2017 13:18:45 +0800
-From: "Zheng, Ruoqin" <zhengrq.fnst@cn.fujitsu.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [morty] [PATCH] rpm: Fix the Bug of SRPM String error
-Thread-Index: AQHSx5sPmXi3vgs0f0SBHwG0xBNVMKH4Cjzw
-Date: Wed, 17 May 2017 05:18:45 +0000
-Message-ID: <33D4DBCAC5F2D74E96B07F6E7632BF732452335A@G08CNEXMBPEKD01.g08.fujitsu.local>
-References: <1494238617-8419-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
-In-Reply-To: <1494238617-8419-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
-Accept-Language: zh-CN, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.167.226.100]
-MIME-Version: 1.0
-X-yoursite-MailScanner-ID: DBAF447C6527.A06AF
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: zhengrq.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Subject: Re: [morty] [PATCH] rpm: Fix the Bug of SRPM String error
+	Wed, 17 May 2017 00:30:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=G4qwpmUNIxCMfX8qyjS3wE1Pklhcf1pxxzgEnZcWHsA=;
+	b=DvPSD1wRaKJXtMlHlUCFZJ3gWMxFITcCqngRVsY9FoD+xYneqKCtaZUrOBrM+upJRx
+	iefDKtAsGkPB+LBlVyrnv0e35CP6REW67lsO4wc42WMr1k0+JxEFpckSin9jO0mvPNcd
+	vytxRvXH9wmnJopKx2yZPqmiXqhlhM7eeY3WnP+IpdRvv8i8Y3bbBehrNciqWack4gh9
+	RYx1VQWqYO0Iwd90TeyVYtdRyPLij6X7OH/6aObs9LDS2RCL24l07VcEiY9zDMVc17EI
+	kj93Mykc88oNLjco/4S9/l7Jk75zd+gHj24uhnXDWqj3+am1/VZ2koz5mV9jSz1WC4eg
+	RL4Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=G4qwpmUNIxCMfX8qyjS3wE1Pklhcf1pxxzgEnZcWHsA=;
+	b=aexnGLUKfBEHAcZ/0SFi4Kw9m9VzqQBDAZz59zt8N8VNOb3rRCaMoP8IRB3yMFgzpF
+	/4C5wf/eyICOhckKDvHaOG8pXIDitx3z1YHlZPF/3UHzZPVdUkUJ3Q7Ega3gmvRk0xhx
+	s4S5uFYlFpP8XRCMug3J16Q9kQNyxa6ZdDlAJlWJNPB5R7pviCTMgsgv19DKtVaWROeV
+	sELmYonrGsTG9ttb2EeJ9io4F780sHw+zeXNTWHDD4PAd5C0NDMHHNKRw5Te7uXBvhuH
+	IzobHa2MTpe5PkgIvfY0uZhiC5hawW+p6VuOTqpOzFhqLm2ipS3078YPeZCs/1oaO9Ke
+	DuoA==
+X-Gm-Message-State: AODbwcDpLbs6Q9L/LFLlC1nAJLArZPbl5061G1sXyWz1dyLeNJoLfkCw
+	ooo3QRb5YhlPjw==
+X-Received: by 10.223.134.238 with SMTP id 43mr1108860wry.80.1495006248422;
+	Wed, 17 May 2017 00:30:48 -0700 (PDT)
+Received: from localhost ([217.30.68.212])
+	by smtp.gmail.com with ESMTPSA id v7sm1195946wme.5.2017.05.17.00.30.47
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 17 May 2017 00:30:47 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 17 May 2017 09:31:38 +0200
+Message-Id: <20170517073138.23672-1-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.13.0
+Subject: [PATCH] python-3.5: add runtime dependency from python3-compression on python3-misc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,200 +53,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 May 2017 05:18:49 -0000
-Content-Language: zh-CN
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Wed, 17 May 2017 07:30:52 -0000
 
-UGluZw0KDQpaaGVuZyBSdW9xaW4NCk5hbmppbmcgRnVqaXRzdSBOYW5kYSBT
-b2Z0d2FyZSBUZWNoLiBDby4sIEx0ZC4oRk5TVCkNCkFERFIuOiBOby42IFdl
-bnpodSBSb2FkLCBTb2Z0d2FyZSBBdmVudWUsDQogICAgICAgTmFuamluZywg
-MjEwMDEyLCBDaGluYQ0KTUFJTCA6IHpoZW5ncnEuZm5zdEBjbi5mdWppc3R1
-LmNvbQ0KDQotLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KRnJvbTogWmhl
-bmcsIFJ1b3Fpbi/pg5Eg6Iul6ZKmIA0KU2VudDogTW9uZGF5LCBNYXkgMDgs
-IDIwMTcgNjoxNyBQTQ0KVG86IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9w
-ZW5lbWJlZGRlZC5vcmcNCkNjOiBaaGVuZywgUnVvcWluL+mDkSDoi6XpkqYg
-PHpoZW5ncnEuZm5zdEBjbi5mdWppdHN1LmNvbT4NClN1YmplY3Q6IFtPRS1j
-b3JlXSBbbW9ydHldIFtQQVRDSF0gcnBtOiBGaXggdGhlIEJ1ZyBvZiBTUlBN
-IFN0cmluZyBlcnJvcg0KDQpBZGQgYSBwYXRjaCAwMDAxLUZpeC10aGUtQnVn
-LW9mLVNSUE0tU3RyaW5nLWVycm9yLnBhdGNoIHRvIGZpeCBTUlBNIGJ1Zw0K
-DQpXaGVuIHVzZSBiaXRiYWtlIHRvIGJ1aWxkIGEgU1JQTSBwYWNrYWdlLCBz
-b21lIHNlY3Rpb25zIG9mIFNSUE0gY2FuJ3QgYmUgZGlzcGxheWVkIG5vcm1h
-bGx5Lg0KRm9yIGV4YW1wbGU6DQokIHJwbSAtcXBpIHpsaWItMS4yLjgtcjAu
-c3JjLnJwbQ0Kd2FybmluZzogemxpYi0xLjIuOC1yMC5zcmMucnBtOiBIZWFk
-ZXIgVjQgRFNBL1NIQTEgU2lnbmF0dXJlLCBrZXkgSUQgZTY0OTYyYTY6IE5P
-S0VZDQpOYW1lICAgICAgICA6IHpsaWINClZlcnNpb24gICAgIDogMS4yLjgN
-ClJlbGVhc2UgICAgIDogcjANCkFyY2hpdGVjdHVyZTogaTU4Ng0KSW5zdGFs
-bCBEYXRlOiAobm90IGluc3RhbGxlZCkNCkdyb3VwICAgICAgIDogw6/CusKp
-DQpTaXplICAgICAgICA6IDYzMzAwNw0KTGljZW5zZSAgICAgOiBabGliDQpT
-aWduYXR1cmUgICA6IERTQS9TSEExLCAyMDE3w6XCucK0MDTDpsWTy4YyMsOm
-4oCUwqUgMDDDpuKEouKAmjM4w6XLhuKAoDAzw6fCp+KAmSwgS2V5IElEIGJj
-NWUwNTIwZTY0OTYyYTYNClNvdXJjZSBSUE0gIDogKG5vbmUpDQpCdWlsZCBE
-YXRlICA6IDIwMTfDpcK5wrQwNMOmxZPLhjIyw6bigJTCpSAwMMOm4oSi4oCa
-MzjDpcuG4oCgMDPDp8Kn4oCZDQpCdWlsZCBIb3N0ICA6IGZvcmNlDQpSZWxv
-Y2F0aW9ucyA6IChub3QgcmVsb2NhdGFibGUpDQpQYWNrYWdlciAgICA6IFBv
-a3kgPHBva3lAeW9jdG9wcm9qZWN0Lm9yZz4NClVSTCAgICAgICAgIDogaHR0
-cDovL3psaWIubmV0Lw0KU3VtbWFyeSAgICAgOiDDgsKow4LCrw0KRGVzY3Jp
-cHRpb24gOg0Kw6/CusKpDQoNClNpZ25lZC1vZmYtYnk6IFpoZW5nIFJ1b3Fp
-biA8emhlbmdycS5mbnN0QGNuLmZ1aml0c3UuY29tPg0KLS0tDQogLi4uLzAw
-MDEtRml4LXRoZS1CdWctb2YtU1JQTS1TdHJpbmctZXJyb3IucGF0Y2ggICAg
-fCAxNjIgKysrKysrKysrKysrKysrKysrKysrDQogbWV0YS9yZWNpcGVzLWRl
-dnRvb2xzL3JwbS9ycG1fNS40LjE2LmJiICAgICAgICAgICAgfCAgIDEgKw0K
-IDIgZmlsZXMgY2hhbmdlZCwgMTYzIGluc2VydGlvbnMoKykNCiBjcmVhdGUg
-bW9kZSAxMDA2NDQgbWV0YS9yZWNpcGVzLWRldnRvb2xzL3JwbS9ycG0vMDAw
-MS1GaXgtdGhlLUJ1Zy1vZi1TUlBNLVN0cmluZy1lcnJvci5wYXRjaA0KDQpk
-aWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3JwbS9ycG0vMDAw
-MS1GaXgtdGhlLUJ1Zy1vZi1TUlBNLVN0cmluZy1lcnJvci5wYXRjaCBiL21l
-dGEvcmVjaXBlcy1kZXZ0b29scy9ycG0vcnBtLzAwMDEtRml4LXRoZS1CdWct
-b2YtU1JQTS1TdHJpbmctZXJyb3IucGF0Y2gNCm5ldyBmaWxlIG1vZGUgMTAw
-NjQ0DQppbmRleCAwMDAwMDAwLi44NWM0OGFjDQotLS0gL2Rldi9udWxsDQor
-KysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcnBtL3JwbS8wMDAxLUZpeC10
-aGUtQnVnLW9mLVNSUE0tU3RyaW5nLWVycm8NCisrKyByLnBhdGNoDQpAQCAt
-MCwwICsxLDE2MiBAQA0KK1N1YmplY3Q6IFtQQVRDSF0gRml4IHRoZSBCdWcg
-b2YgU1JQTSBTdHJpbmcgZXJyb3INCisNCitVcHN0cmVhbS1TdGF0dXM6IEJh
-Y2twb3J0IGZyb20gcnBtIDUuNC4xNiAkIHJwbSAtcXBpIA0KK3psaWItMS4y
-LjgtcjAuc3JjLnJwbQ0KK3dhcm5pbmc6IHpsaWItMS4yLjgtcjAuc3JjLnJw
-bTogSGVhZGVyIFY0IERTQS9TSEExIFNpZ25hdHVyZSwga2V5IElEIGU2NDk2
-MmE2OiBOT0tFWQ0KK05hbWUgICAgICAgIDogemxpYg0KK1ZlcnNpb24gICAg
-IDogMS4yLjgNCitSZWxlYXNlICAgICA6IHIwDQorQXJjaGl0ZWN0dXJlOiBp
-NTg2DQorSW5zdGFsbCBEYXRlOiAobm90IGluc3RhbGxlZCkNCitHcm91cCAg
-ICAgICA6IMOvwrrCqQ0KK1NpemUgICAgICAgIDogNjMzMDA3DQorTGljZW5z
-ZSAgICAgOiBabGliDQorU2lnbmF0dXJlICAgOiBEU0EvU0hBMSwgMjAxN8Ol
-wrnCtDA0w6bFk8uGMjLDpuKAlMKlIDAww6bihKLigJozOMOly4bigKAwM8On
-wqfigJksIEtleSBJRCBiYzVlMDUyMGU2NDk2MmE2DQorU291cmNlIFJQTSAg
-OiAobm9uZSkNCitCdWlsZCBEYXRlICA6IDIwMTfDpcK5wrQwNMOmxZPLhjIy
-w6bigJTCpSAwMMOm4oSi4oCaMzjDpcuG4oCgMDPDp8Kn4oCZDQorQnVpbGQg
-SG9zdCAgOiBmb3JjZQ0KK1JlbG9jYXRpb25zIDogKG5vdCByZWxvY2F0YWJs
-ZSkNCitQYWNrYWdlciAgICA6IFBva3kgPHBva3lAeW9jdG9wcm9qZWN0Lm9y
-Zz4NCitVUkwgICAgICAgICA6IGh0dHA6Ly96bGliLm5ldC8NCitTdW1tYXJ5
-ICAgICA6IMOCwqjDgsKvDQorRGVzY3JpcHRpb24gOg0KK8OvwrrCqQ0KKw0K
-K1NpZ25lZC1vZmYtYnk6IFpoZW5nIFJ1b3FpbiA8emhlbmdycS5mbnN0QGNu
-LmZ1aml0c3UuY29tPg0KKy0tLQ0KKyBycG1kYi9oZWFkZXIuYyAgfCAgOCAr
-KysrLS0tLQ0KKyBycG1kYi9ycG10YWcuaCAgfCAgMSArDQorIHJwbWRiL3Rh
-Z25hbWUuYyB8IDYxIA0KKysrKysrKysrKysrKysrKysrKysrKysrKysrKysr
-KysrKysrKysrKystLS0tLS0tLS0tLS0tLS0tLQ0KKyAzIGZpbGVzIGNoYW5n
-ZWQsIDQ4IGluc2VydGlvbnMoKyksIDIyIGRlbGV0aW9ucygtKQ0KKw0KK2Rp
-ZmYgLS1naXQgYS9ycG1kYi9oZWFkZXIuYyBiL3JwbWRiL2hlYWRlci5jIGlu
-ZGV4IDVkNmM2Y2YuLjVhODBkZjAgDQorMTAwNjQ0DQorLS0tIGEvcnBtZGIv
-aGVhZGVyLmMNCisrKysgYi9ycG1kYi9oZWFkZXIuYw0KK0BAIC0zMiw3ICsz
-Miw3IEBAIEdFTmZyZWUoSGVhZGVySXRlcmF0b3IpDQorICNlbmRpZgkvKiBf
-X2NwbHVzcGx1cyAqLw0KKyANCisgI2lmIGRlZmluZWQoU1VQUE9SVF9JTVBM
-SUNJVF9UQUdfREFUQV9UWVBFUykNCistZXh0ZXJuIHZvaWQgdGFnVHlwZVZh
-bGlkYXRlKEhFX3QgaGUpDQorK2V4dGVybiB2b2lkIHRhZ1R5cGVWYWxpZGF0
-ZShIRV90IGhlLCB1bnNpZ25lZCBpbnQgZmxhZ3MpDQorIAkvKkAqLzsNCisg
-I2VuZGlmDQorIA0KK0BAIC0yMjgxLDcgKzIyODEsNyBAQCBpbnQgaGVhZGVy
-R2V0KEhlYWRlciBoLCBIRV90IGhlLCB1bnNpZ25lZCBpbnQgDQorZmxhZ3Mp
-ICAvKkAtbW9kZmlsZXN5c0AqLw0KKyAgICAgLyogWFhYIHZlcmlmeSB0aGF0
-IGV4cGxpY2l0IGFuZCBpbXBsaWNpdCB0eXBlcyBhcmUgaWRlbnRpY2FsLiAq
-Lw0KKyAgICAgaWYgKHJjKQ0KKy0JdGFnVHlwZVZhbGlkYXRlKGhlKTsNCisr
-ICAgICAgICB0YWdUeXBlVmFsaWRhdGUoaGUsIGZsYWdzKTsNCisgLypAPW1v
-ZGZpbGVzeXNAKi8NCisgI2VuZGlmDQorIA0KK0BAIC0yMzA0LDcgKzIzMDQs
-NyBAQCBpbnQgaGVhZGVyUHV0KEhlYWRlciBoLCBIRV90IGhlLCAvKkB1bnVz
-ZWRAKi8gDQordW5zaWduZWQgaW50IGZsYWdzKSAgI2lmIGRlZmluZWQoU1VQ
-UE9SVF9JTVBMSUNJVF9UQUdfREFUQV9UWVBFUykNCisgLypALW1vZGZpbGVz
-eXNAKi8NCisgICAgIC8qIFhYWCB2ZXJpZnkgdGhhdCBleHBsaWNpdCBhbmQg
-aW1wbGljaXQgdHlwZXMgYXJlIGlkZW50aWNhbC4gKi8NCistICAgIHRhZ1R5
-cGVWYWxpZGF0ZShoZSk7DQorKyAgICB0YWdUeXBlVmFsaWRhdGUoaGUsIGZs
-YWdzKTsNCisgLypAPW1vZGZpbGVzeXNAKi8NCisgI2VuZGlmDQorIA0KK0BA
-IC0yMzI5LDcgKzIzMjksNyBAQCBpbnQgaGVhZGVyTW9kKEhlYWRlciBoLCBI
-RV90IGhlLCAvKkB1bnVzZWRAKi8gDQordW5zaWduZWQgaW50IGZsYWdzKSAg
-I2lmIGRlZmluZWQoU1VQUE9SVF9JTVBMSUNJVF9UQUdfREFUQV9UWVBFUykN
-CisgLypALW1vZGZpbGVzeXNAKi8NCisgICAgIC8qIFhYWCB2ZXJpZnkgdGhh
-dCBleHBsaWNpdCBhbmQgaW1wbGljaXQgdHlwZXMgYXJlIGlkZW50aWNhbC4g
-Ki8NCistICAgIHRhZ1R5cGVWYWxpZGF0ZShoZSk7DQorKyAgICB0YWdUeXBl
-VmFsaWRhdGUoaGUsIGZsYWdzKTsNCisgLypAPW1vZGZpbGVzeXNAKi8NCisg
-I2VuZGlmDQorIA0KK2RpZmYgLS1naXQgYS9ycG1kYi9ycG10YWcuaCBiL3Jw
-bWRiL3JwbXRhZy5oIGluZGV4IGZmY2U2NzguLjhmNmEyYmYgDQorMTAwNjQ0
-DQorLS0tIGEvcnBtZGIvcnBtdGFnLmgNCisrKysgYi9ycG1kYi9ycG10YWcu
-aA0KK0BAIC04NjgsNiArODY4LDcgQEAgaW50IGhlYWRlckdldChIZWFkZXIg
-aCwgSEVfdCBoZSwgdW5zaWduZWQgaW50IGZsYWdzKQ0KKyAJLypAbW9kaWZp
-ZXMgaGUsIGludGVybmFsU3RhdGUgQCovOw0KKyAjZGVmaW5lCUhFQURFUkdF
-VF9OT0VYVEVOU0lPTgkoMSA8PCAwKSAvKiE8IEV4dGVuc2lvbiBzZWFyY2gg
-ZGlzYWJsZXIuICovDQorICNkZWZpbmUJSEVBREVSR0VUX05PSTE4TlNUUklO
-RwkoMSA8PCAxKSAvKiE8IFJldHVybiBpMThuIHN0cmluZ3MgYXMgYXJndi4g
-Ki8NCisrI2RlZmluZSBIRUFERVJHRVRfU0lHSEVBREVSICAgICAoMSA8PCAy
-KSAvKiE8IE92ZXJyaWRlIHNpZ25hdHVyZSB0YWcgZGF0YS4gKi8NCisgDQor
-IC8qKiBcaW5ncm91cCBoZWFkZXINCisgICogQWRkIG9yIGFwcGVuZCB0YWcg
-Y29udGFpbmVyIHRvIGhlYWRlci4NCitkaWZmIC0tZ2l0IGEvcnBtZGIvdGFn
-bmFtZS5jIGIvcnBtZGIvdGFnbmFtZS5jIGluZGV4IGNmZDE0NTkuLjM3NGFk
-NzcgDQorMTAwNjQ0DQorLS0tIGEvcnBtZGIvdGFnbmFtZS5jDQorKysrIGIv
-cnBtZGIvdGFnbmFtZS5jDQorQEAgLTUxNSwyOCArNTE1LDUzIEBAIHRhZ1N0
-b3JlX3QgdGFnU3RvcmVGcmVlKHRhZ1N0b3JlX3QgZGJpVGFncywgDQorc2l6
-ZV90IGRiaU5UYWdzKQ0KKyAgKiBWYWxpZGF0ZSB0aGF0IGltcGxpY2l0IGFu
-ZCBleHBsaWNpdCB0eXBlcyBhcmUgaWRlbnRpY2FsLg0KKyAgKiBAcGFyYW0g
-aGUJCXRhZyBjb250YWluZXINCisgICovDQorLXZvaWQgdGFnVHlwZVZhbGlk
-YXRlKEhFX3QgaGUpOw0KKy12b2lkIHRhZ1R5cGVWYWxpZGF0ZShIRV90IGhl
-KQ0KKyt2b2lkIHRhZ1R5cGVWYWxpZGF0ZShIRV90IGhlLCB1bnNpZ25lZCBp
-bnQgZmxhZ3MpOyB2b2lkIA0KKyt0YWdUeXBlVmFsaWRhdGUoSEVfdCBoZSwg
-dW5zaWduZWQgaW50IGZsYWdzKQ0KKyB7DQorLSAgICAvKiBYWFggUmUtbWFw
-IFJQTV9JMThOU1RSSU5HX1RZUEUgLT4gUlBNX1NUUklOR19UWVBFICovDQor
-LSAgICBpZiAoaGUtPnQgPT0gUlBNX0kxOE5TVFJJTkdfVFlQRSkNCistCWhl
-LT50ID0gUlBNX1NUUklOR19UWVBFOw0KKy0NCistICAgIC8qIFhYWCBBcmJp
-dHJhcnkgdGFncyBhcmUgYWx3YXlzIHN0cmluZ3MuICovDQorLSAgICBpZiAo
-KGhlLT50YWcgJiAweDQwMDAwMDAwKQ0KKy0gICAgICYmIChoZS0+dCA9PSBS
-UE1fU1RSSU5HX1RZUEUgfHwgaGUtPnQgPT0gUlBNX1NUUklOR19BUlJBWV9U
-WVBFKSkNCisrICAgIC8qIFhYWCBTa2lwIFJQTVNJR1RBR18qIHZhbGlkYXRp
-b24uICovDQorKyAgICBpZiAoZmxhZ3MgJiBIRUFERVJHRVRfU0lHSEVBREVS
-KQ0KKyAJcmV0dXJuOw0KKyANCistICAgIC8qIFhYWCBNYWtlIDB4M2ZmZmZm
-ZmYgZGlzYXBwZWFyIGZvciBub3cuIFNpZ25hdHVyZT8gKi8NCistICAgIGlm
-IChoZS0+dGFnID09IDB4M2ZmZmZmZmYgJiYgaGUtPnQgPT0gUlBNX0JJTl9U
-WVBFKQ0KKysgICAgLyogWFhYIEFyYml0cmFyeSB0YWdzIGFyZSBhbHdheXMg
-U1RSSU5HIG9yIFNUUklOR19BUlJBWS4gKi8NCisrICAgIGlmIChoZS0+dGFn
-ICYgMHg0MDAwMDAwMCkgew0KKysJaWYgKCEoaGUtPnQgPT0gUlBNX1NUUklO
-R19UWVBFIHx8IGhlLT50ID09IFJQTV9TVFJJTkdfQVJSQVlfVFlQRSkpIHsN
-CisrCSAgICBycG1UYWdUeXBlIHRhZ3R5cGUgPSBSUE1fU1RSSU5HX1RZUEU7
-DQorKwkgICAgcnBtbG9nKFJQTUxPR19XQVJOSU5HLA0KKysJCV8oInRhZyAl
-cygldSkgdHlwZSgweCV4KSAhPSBleHBlY3RlZCB0eXBlKDB4JXgpXG4iKSwN
-CisrCQl0YWdOYW1lKGhlLT50YWcpLCAodW5zaWduZWQpIGhlLT50YWcsIGhl
-LT50LCB0YWd0eXBlKTsNCisrCX0NCisgCXJldHVybjsNCisrICAgIH0NCisg
-DQorLS8qIFhYWCBoYWNrIGFyb3VuZCBrbm93biBib3JrYWdlIGZvciBub3cu
-ICovIC1pZiAoIShoZS0+dGFnID09IDYyKSkgDQorLWlmICghKGhlLT50YWcg
-PT0gMjYxIHx8IGhlLT50YWcgPT0gMjY5KSkgLWlmICghKGhlLT50YWcgPT0g
-MTAwMCB8fCANCitoZS0+dGFnID09IDEwMDQgfHwgaGUtPnRhZyA9PSAxMDA3
-KSkgLWlmICghKGhlLT50YWcgPT0gMTAyOSB8fCBoZS0+dGFnIA0KKz09IDEw
-ODYgfHwgaGUtPnRhZyA9PSAxMDg3KSkgLWlmIChoZS0+dCAhPSAodGFnVHlw
-ZShoZS0+dGFnKSAmIDB4ZmZmZikpIA0KKy1mcHJpbnRmKHN0ZGVyciwgIj09
-PiB3YXJuaW5nOiB0YWcgJXUgdHlwZSgweCV4KSAhPSBpbXBsaWNpdCANCit0
-eXBlKDB4JXgpXG4iLCAodW5zaWduZWQpIGhlLT50YWcsIGhlLT50LCB0YWdU
-eXBlKGhlLT50YWcpKTsNCisrICAgIHN3aXRjaCAoaGUtPnRhZykgew0KKysj
-aWYgZGVmaW5lZChTVVBQT1JUX0kxOE5TVFJJTkdfVFlQRSkNCisrICAgIGNh
-c2UgUlBNVEFHX1NVTU1BUlk6DQorKyAgICBjYXNlIFJQTVRBR19ERVNDUklQ
-VElPTjoNCisrICAgIGNhc2UgUlBNVEFHX0dST1VQOg0KKysjZW5kaWYNCisr
-ICAgIGNhc2UgUlBNVEFHX0ZJTEVTVEFURVM6CS8qIFhYWCBlaXRoZXIgQ0hB
-UiBvciBVSU5UOCAqLw0KKysJYnJlYWs7DQorKyAgICBjYXNlIFJQTVRBR19Q
-UkVJTlBST0c6CS8qIFhYWCBlaXRoZXIgU1RSSU5HIG9yIFNUUklOR19BUlJB
-WSAqLw0KKysgICAgY2FzZSBSUE1UQUdfUE9TVElOUFJPRzoJLyogWFhYIGVp
-dGhlciBTVFJJTkcgb3IgU1RSSU5HX0FSUkFZICovDQorKyAgICBjYXNlIFJQ
-TVRBR19QUkVVTlBST0c6CS8qIFhYWCBlaXRoZXIgU1RSSU5HIG9yIFNUUklO
-R19BUlJBWSAqLw0KKysgICAgY2FzZSBSUE1UQUdfUE9TVFVOUFJPRzoJLyog
-WFhYIGVpdGhlciBTVFJJTkcgb3IgU1RSSU5HX0FSUkFZICovDQorKyAgICBj
-YXNlIFJQTVRBR19WRVJJRllTQ1JJUFRQUk9HOi8qIFhYWCBlaXRoZXIgU1RS
-SU5HIG9yIFNUUklOR19BUlJBWSAqLw0KKysJaWYgKCEoaGUtPnQgPT0gUlBN
-X1NUUklOR19UWVBFIHx8IGhlLT50ID09IFJQTV9TVFJJTkdfQVJSQVlfVFlQ
-RSkpIHsNCisrCSAgICBycG1UYWdUeXBlIHRhZ3R5cGUgPSBSUE1fU1RSSU5H
-X1RZUEU7DQorKwkgICAgcnBtbG9nKFJQTUxPR19XQVJOSU5HLA0KKysJCV8o
-InRhZyAlcygldSkgdHlwZSgweCV4KSAhPSBleHBlY3RlZCB0eXBlKDB4JXgp
-XG4iKSwNCisrCQl0YWdOYW1lKGhlLT50YWcpLCAodW5zaWduZWQpIGhlLT50
-YWcsIGhlLT50LCB0YWd0eXBlKTsNCisrCX0NCisrCWJyZWFrOw0KKysgICAg
-ZGVmYXVsdDoNCisrICAgICAgewlycG1UYWdUeXBlIHRhZ3R5cGUgPSB0YWdU
-eXBlKGhlLT50YWcpOw0KKysJcnBtVGFnVHlwZSB0eXBlID0gKHRhZ3R5cGUg
-JiAweGZmZmYpOw0KKysJaWYgKHR5cGUgJiYgaGUtPnQgIT0gdHlwZSkgew0K
-KysJICAgIHJwbWxvZyhSUE1MT0dfV0FSTklORywNCisrCQlfKCJ0YWcgJXMo
-JXUpIHR5cGUoMHgleCkgIT0gZXhwZWN0ZWQgdHlwZSgweCV4KVxuIiksDQor
-KwkJdGFnTmFtZShoZS0+dGFnKSwgKHVuc2lnbmVkKSBoZS0+dGFnLCBoZS0+
-dCwgdGFndHlwZSk7DQorKwl9DQorKyAgICAgIH0JYnJlYWs7DQorKyAgICB9
-DQorIH0NCisgI2VuZGlmDQorLS0NCisyLjcuNA0KKw0KZGlmZiAtLWdpdCBh
-L21ldGEvcmVjaXBlcy1kZXZ0b29scy9ycG0vcnBtXzUuNC4xNi5iYiBiL21l
-dGEvcmVjaXBlcy1kZXZ0b29scy9ycG0vcnBtXzUuNC4xNi5iYg0KaW5kZXgg
-NDk3YWY4ZS4uMmJmZTQ1NSAxMDA2NDQNCi0tLSBhL21ldGEvcmVjaXBlcy1k
-ZXZ0b29scy9ycG0vcnBtXzUuNC4xNi5iYg0KKysrIGIvbWV0YS9yZWNpcGVz
-LWRldnRvb2xzL3JwbS9ycG1fNS40LjE2LmJiDQpAQCAtMTIwLDYgKzEyMCw3
-IEBAIFNSQ19VUkkgKz0gIiBcDQogCSAgIGZpbGU6Ly8wMDAxLXN5c3RlbS5o
-LXF1ZXJ5LmMtc3VwcG9ydC1ub3NpZ25hdHVyZS5wYXRjaCBcDQogCSAgIGZp
-bGU6Ly9ycG0tZW5zdXJlLXJwbTJjcGlvLWNhbGwtcnBtLXJlbG9jYXRpb24t
-Y29kZS5wYXRjaCBcDQogCSAgIGZpbGU6Ly8wMDAxLW1hY3Jvcy1hZGQtX2dw
-Z19zaWduX2NtZF9leHRyYV9hcmdzLnBhdGNoIFwNCisgICAgICAgICAgIGZp
-bGU6Ly8wMDAxLUZpeC10aGUtQnVnLW9mLVNSUE0tU3RyaW5nLWVycm9yLnBh
-dGNoIFwNCiAiDQogDQogIyBPRSBzcGVjaWZpYyBjaGFuZ2VzDQotLQ0KMi43
-LjQNCg0KCgo=
+* the /usr/lib/python3.5/_compression.py file is possibly incorrectly included
+  in python3-misc, either it should be moved to python3-compression or this
+  runtime dependency is needed in order to use e.g. gzip.py in runtime:
+
+  >>> import tarfile, zlib, gzip
+  Traceback (most recent call last):
+    File "<stdin>", line 1, in <module>
+    File "/usr/lib/python3.5/gzip.py", line 12, in <module>
+      import _compression
+  ImportError: No module named '_compression'
+
+* at least python3-tests and lzma and bz2 still in python3-misc are using this as well:
+  $ grep -R import.*_compression tmp-glibc/work/aarch64-oe-linux/python3/3.5.2-r1.0/packages-split/
+  tmp-glibc/work/aarch64-oe-linux/python3/3.5.2-r1.0/packages-split/python3-compression/usr/lib/python3.5/gzip.py:import _compression
+  tmp-glibc/work/aarch64-oe-linux/python3/3.5.2-r1.0/packages-split/python3-misc/usr/lib/python3.5/lzma.py:import _compression
+  tmp-glibc/work/aarch64-oe-linux/python3/3.5.2-r1.0/packages-split/python3-misc/usr/lib/python3.5/bz2.py:import _compression
+  tmp-glibc/work/aarch64-oe-linux/python3/3.5.2-r1.0/packages-split/python3-tests/usr/lib/python3.5/test/test_bz2.py:import _compression
+  tmp-glibc/work/aarch64-oe-linux/python3/3.5.2-r1.0/packages-split/python3-tests/usr/lib/python3.5/test/test_lzma.py:import _compression
+  that's why I've just added runtime dependency without moving the _compression.py to different package.
+
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ meta/recipes-devtools/python/python-3.5-manifest.inc | 2 +-
+ scripts/contrib/python/generate-manifest-3.5.py      | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/meta/recipes-devtools/python/python-3.5-manifest.inc b/meta/recipes-devtools/python/python-3.5-manifest.inc
+index 1e20f00c64..6815b39bc3 100644
+--- a/meta/recipes-devtools/python/python-3.5-manifest.inc
++++ b/meta/recipes-devtools/python/python-3.5-manifest.inc
+@@ -33,7 +33,7 @@ RDEPENDS_${PN}-compile="${PN}-core"
+ FILES_${PN}-compile="${libdir}/python3.5/py_compile.* ${libdir}/python3.5/__pycache__/py_compile.* ${libdir}/python3.5/compileall.* ${libdir}/python3.5/__pycache__/compileall.* "
+ 
+ SUMMARY_${PN}-compression="Python high-level compression support"
+-RDEPENDS_${PN}-compression="${PN}-core ${PN}-codecs ${PN}-importlib ${PN}-threading ${PN}-shell"
++RDEPENDS_${PN}-compression="${PN}-core ${PN}-codecs ${PN}-importlib ${PN}-threading ${PN}-shell ${PN}-misc"
+ FILES_${PN}-compression="${libdir}/python3.5/gzip.* ${libdir}/python3.5/__pycache__/gzip.* ${libdir}/python3.5/zipfile.* ${libdir}/python3.5/__pycache__/zipfile.* ${libdir}/python3.5/tarfile.* ${libdir}/python3.5/__pycache__/tarfile.* ${libdir}/python3.5/lib-dynload/bz2.*.so ${libdir}/python3.5/lib-dynload/__pycache__/bz2.*.so ${libdir}/python3.5/lib-dynload/zlib.*.so ${libdir}/python3.5/lib-dynload/__pycache__/zlib.*.so "
+ 
+ SUMMARY_${PN}-core="Python interpreter and core modules"
+diff --git a/scripts/contrib/python/generate-manifest-3.5.py b/scripts/contrib/python/generate-manifest-3.5.py
+index 075860c418..2c29a29843 100755
+--- a/scripts/contrib/python/generate-manifest-3.5.py
++++ b/scripts/contrib/python/generate-manifest-3.5.py
+@@ -253,7 +253,7 @@ if __name__ == "__main__":
+     m.addPackage( "${PN}-compile", "Python bytecode compilation support", "${PN}-core",
+     "py_compile.* compileall.*" )
+ 
+-    m.addPackage( "${PN}-compression", "Python high-level compression support", "${PN}-core ${PN}-codecs ${PN}-importlib ${PN}-threading ${PN}-shell",
++    m.addPackage( "${PN}-compression", "Python high-level compression support", "${PN}-core ${PN}-codecs ${PN}-importlib ${PN}-threading ${PN}-shell ${PN}-misc",
+     "gzip.* zipfile.* tarfile.* lib-dynload/bz2.*.so lib-dynload/zlib.*.so" )
+ 
+     m.addPackage( "${PN}-crypt", "Python basic cryptographic and hashing support", "${PN}-core",
+-- 
+2.13.0
+
 
