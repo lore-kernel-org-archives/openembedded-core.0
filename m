@@ -1,54 +1,44 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-io0-f175.google.com (mail-io0-f175.google.com
-	[209.85.223.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 426D671B04
+Return-Path: <Awais_Belal@mentor.com>
+Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
+	by mail.openembedded.org (Postfix) with ESMTP id F1D4071B04
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 May 2017 08:38:08 +0000 (UTC)
-Received: by mail-io0-f175.google.com with SMTP id p24so5027991ioi.0
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 May 2017 01:38:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=message-id:subject:from:to:date:in-reply-to:references:organization
-	:mime-version:content-transfer-encoding;
-	bh=smXLCJKukmSVlyQBQLwoZa1gvOTj5ke9VQ7VslJctXE=;
-	b=BUvX+ULtx4uz1Cg1IUeWkkILU/TGEn1sbLmXS6Z6hmQAR1IceK4QS7OlyAGeq4K5jH
-	ap/AuWkT+1cJOsKsWBldYWMT+Og4EgImFpDvCFgrFapWrCxq1ms+s/a0In4eqwRLm6Px
-	wtznXik/w0wnkwx4A79soT2YJjHZd2qJY23tG3tXX0F/TYJxaQtlG/PaLkIM8Nl7ylGA
-	DpbSpGeuk5qc0pJyb0Ck5KeOvZG3ZR9OwVcPcv7kuq5dwkjYU4iQihQ9AGMRQ6mPkuZ9
-	2TQ8eya3NtESiHEYj0iGJBiqYIr2OywkQIFnEGKq3pXffOc8o/c78IAtvVDjjSHRKgtU
-	278w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:organization:mime-version:content-transfer-encoding;
-	bh=smXLCJKukmSVlyQBQLwoZa1gvOTj5ke9VQ7VslJctXE=;
-	b=My+NV0QZgbpQ0GO0cC1VpupQT9ryZ0TRsogpI+fQxv8IJMlUaShdq72lHTjYs/izPt
-	FuAEeeWZTspxqIwjiEoIVGuutRm8qqFlLfL4nLaP7weyHVLJik3dXpwaZtRYIA8Zp/FI
-	TzoBYG6mWNnu+JTHdBj1qP8uTnTy1RhYhd6qLTsrR1wN/513KjDujrboAkFrOzwyNvvc
-	y5BIgQ3uLr80bkiItfk85IFGt7QtEDEXhMj8gqZyj80Ply2rVPrekGiUDVPI5INU/SVj
-	UtAYzAlv+tVtKW0IkbtpJt2NNKGJ0imsmC3rT7cuS1NxyoWyXYIajRVR9p09QZjd1c6n
-	h7eg==
-X-Gm-Message-State: AODbwcC7qbru1jyQk+QNNc6NdZTDfCZp7xqHuasw3Wh5p3AQQy1oeQG3
-	dE1mu5OsbHFEewl2C7c=
-X-Received: by 10.107.157.67 with SMTP id g64mr1953450ioe.48.1495010289890;
-	Wed, 17 May 2017 01:38:09 -0700 (PDT)
-Received: from pohly-mobl1 (p5DE8F2FD.dip0.t-ipconnect.de. [93.232.242.253])
-	by smtp.gmail.com with ESMTPSA id d35sm675537ioj.5.2017.05.17.01.38.08
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 17 May 2017 01:38:09 -0700 (PDT)
-Message-ID: <1495010286.28624.30.camel@intel.com>
-From: Patrick Ohly <patrick.ohly@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 17 May 2017 10:38:06 +0200
-In-Reply-To: <8810a4bbb1c67b438a7320df810db02099fcb5a0.1495007905.git-series.patrick.ohly@intel.com>
-References: <cover.eea09064b94ca036ef2177896c19070d316ee965.1495007905.git-series.patrick.ohly@intel.com>
-	<8810a4bbb1c67b438a7320df810db02099fcb5a0.1495007905.git-series.patrick.ohly@intel.com>
-Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
-X-Mailer: Evolution 3.12.9-1+b1 
-Mime-Version: 1.0
-Subject: Re: [PATCH v2 1/1] image-mode.bbclass: common infrastructure for choosing image defaults
+	Wed, 17 May 2017 08:50:08 +0000 (UTC)
+Received: from nat-ies.mentorg.com ([192.94.31.2]
+	helo=SVR-IES-MBX-04.mgc.mentorg.com)
+	by relay1.mentorg.com with esmtp 
+	id 1dAueo-0002m8-9b from Awais_Belal@mentor.com ;
+	Wed, 17 May 2017 01:50:10 -0700
+Received: from SVR-IES-MBX-03.mgc.mentorg.com (139.181.222.3) by
+	SVR-IES-MBX-04.mgc.mentorg.com (139.181.222.4) with Microsoft SMTP
+	Server (TLS) id 15.0.1210.3; Wed, 17 May 2017 09:50:07 +0100
+Received: from SVR-IES-MBX-03.mgc.mentorg.com ([fe80::1072:fb6e:87f1:ed17]) by
+	SVR-IES-MBX-03.mgc.mentorg.com ([fe80::1072:fb6e:87f1:ed17%22]) with
+	mapi id 15.00.1210.000; Wed, 17 May 2017 09:50:07 +0100
+From: "Belal, Awais" <Awais_Belal@mentor.com>
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH] autogen: fix autoopts script generation to
+	handle shebang
+Thread-Index: AQHSyyf1Z+lHkWIXCkGvAcE6jL5+q6Hwqu4AgARxwImAAB/ggIAARI/F///yioCAAP4lwIAAV1AAgAFyjsg=
+Date: Wed, 17 May 2017 08:50:07 +0000
+Message-ID: <1495011007241.56954@mentor.com>
+References: <20170512135918.25150-1-awais_belal@mentor.com>
+	<b3b3d45f-7209-2ba2-a299-5da723ea5008@linux.intel.com>
+	<1494838882617.45509@mentor.com>
+	<d5c91712-63e4-b855-e508-a638de7cf916@linux.intel.com>
+	<1494860635949.47847@mentor.com>
+	<2f2b263c-5b85-3622-ea62-c01825da24be@linux.intel.com>
+	<1494912962159.30415@mentor.com>,
+	<51bb3192-0566-418f-9448-4db95e29b567@linux.intel.com>
+In-Reply-To: <51bb3192-0566-418f-9448-4db95e29b567@linux.intel.com>
+Accept-Language: en-US, en-IE
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [137.202.0.87]
+MIME-Version: 1.0
+Subject: Re: [PATCH] autogen: fix autoopts script generation to handle shebang
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,28 +51,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 May 2017 08:38:10 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 17 May 2017 08:50:10 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, 2017-05-17 at 09:58 +0200, Patrick Ohly wrote:
-[...]
-> +    valid = d.getVar('IMAGE_MODE_VALID') or ''
-> +    if mode not in valid.split():
-> +        bb.fatal('Invalid image mode: IMAGE_MODE=%s (not in %s)' % (image_mode, valid))
-> +}
-
-A dedicated error message for the "IMAGE_MODE_VALID is empty" case is
-needed. But let me wait for reactions before posting a v3.
-
--- 
-Best Regards, Patrick Ohly
-
-The content of this message is my personal opinion only and although
-I am an employee of Intel, the statements I make here in no way
-represent Intel's position on the issue, nor am I authorized to speak
-on behalf of Intel on this matter.
-
-
-
+> You should not patch out the use of POSIX_SHELL after the fact. Find=0A=
+> where it is resolved/expanded in the source code in the first place, and=
+=0A=
+> patch it there. Also, please check why setting POSIX_SHELL in the recipe=
+=0A=
+> no longer has any effect - there is a patch called=0A=
+> 0001-config-libopts.m4-regenerate-it-from-config-libopts.patch which=0A=
+> should do the trick, but does not.=0A=
+=0A=
+I guess I see the problem now. The mechanism in libopts.m4 won't allow sett=
+ing POSIX_SHELL to anything other than an actual file because it does=0A=
+=0A=
+test -x ${POSIX_SHELL} && break=0A=
+=0A=
+Now the recipe sets POSIX_SHELL to "/usr/bin/env sh" which would resolve to=
+ the actual shell binary when used but itself it's just a string so the con=
+dition (test -x) fails because POSIX_SHELL at that particular moment is jus=
+t a string and not an executable. Moving ahead the script does=0A=
+=0A=
+POSIX_SHELL=3D`which bash`=0A=
+=0A=
+which then resolves/expands to <build-dir>/tmp/hosttools/bash and obviously=
+ breaks what we're trying to achieve with "/usr/bin/env sh". I believe the =
+first check in libopts.m4 for POSIX_SHELL should be changed to=0A=
+=0A=
+test -n ${POSIX_SHELL} && break=0A=
+=0A=
+So the user can set it to whatever he desires obviously he'll need to make =
+sure that this would work as a proper shell. Thoughts?=0A=
+=0A=
+BR,=0A=
+Awais=0A=
+=0A=
+________________________________________=0A=
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>=0A=
+Sent: Tuesday, May 16, 2017 4:32 PM=0A=
+To: Belal, Awais; openembedded-core@lists.openembedded.org=0A=
+Subject: Re: [OE-core] [PATCH] autogen: fix autoopts script generation to h=
+andle shebang=0A=
+=0A=
+On 05/16/2017 08:36 AM, Belal, Awais wrote:=0A=
+>> The standard way to fix too long #! lines in oe is to patch=0A=
+>> upstream code to use #!/usr/bin/env something (where something is=0A=
+>> just the binary name).=0A=
+>=0A=
+>> Why not simply replace ${POSIX_SHELL} with /bin/sh? Where and how=0A=
+>> is it set?=0A=
+>=0A=
+> POSIX_SHELL is being set to "/usr/bin/env sh" already through the=0A=
+> recipe but it gets resolved/expanded to=0A=
+> <build-dir>/hosttools/<shell-bin> during the configuration process so=0A=
+> it's not usable for shebang in deep directory hierarchy scenarios. I=0A=
+> guess a better way would be simply to use the same technique that=0A=
+> we're using for perl. So for shell we'll have=0A=
+>=0A=
+> #!/usr/bin/env sh=0A=
+>=0A=
+> in mk-tpl-config.sh directly. I'll submit the change as v2 if you=0A=
+> think this is okay.=0A=
+=0A=
+You should not patch out the use of POSIX_SHELL after the fact. Find=0A=
+where it is resolved/expanded in the source code in the first place, and=0A=
+patch it there. Also, please check why setting POSIX_SHELL in the recipe=0A=
+no longer has any effect - there is a patch called=0A=
+0001-config-libopts.m4-regenerate-it-from-config-libopts.patch which=0A=
+should do the trick, but does not.=0A=
+=0A=
+Alex=0A=
+=0A=
 
