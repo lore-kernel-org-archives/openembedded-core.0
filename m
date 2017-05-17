@@ -1,46 +1,30 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wr0-f196.google.com (mail-wr0-f196.google.com
-	[209.85.128.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 118C271A72
+Return-Path: <huangqy.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
+	by mail.openembedded.org (Postfix) with ESMTP id 5C15C72F60
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 May 2017 07:30:47 +0000 (UTC)
-Received: by mail-wr0-f196.google.com with SMTP id w50so439667wrc.0
+	Wed, 17 May 2017 07:37:26 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.22,518,1449504000"; d="scan'208";a="18957178"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 17 May 2017 15:37:23 +0800
+Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
+	by cn.fujitsu.com (Postfix) with ESMTP id 5EB6D47C653F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 May 2017 00:30:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=G4qwpmUNIxCMfX8qyjS3wE1Pklhcf1pxxzgEnZcWHsA=;
-	b=DvPSD1wRaKJXtMlHlUCFZJ3gWMxFITcCqngRVsY9FoD+xYneqKCtaZUrOBrM+upJRx
-	iefDKtAsGkPB+LBlVyrnv0e35CP6REW67lsO4wc42WMr1k0+JxEFpckSin9jO0mvPNcd
-	vytxRvXH9wmnJopKx2yZPqmiXqhlhM7eeY3WnP+IpdRvv8i8Y3bbBehrNciqWack4gh9
-	RYx1VQWqYO0Iwd90TeyVYtdRyPLij6X7OH/6aObs9LDS2RCL24l07VcEiY9zDMVc17EI
-	kj93Mykc88oNLjco/4S9/l7Jk75zd+gHj24uhnXDWqj3+am1/VZ2koz5mV9jSz1WC4eg
-	RL4Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=G4qwpmUNIxCMfX8qyjS3wE1Pklhcf1pxxzgEnZcWHsA=;
-	b=aexnGLUKfBEHAcZ/0SFi4Kw9m9VzqQBDAZz59zt8N8VNOb3rRCaMoP8IRB3yMFgzpF
-	/4C5wf/eyICOhckKDvHaOG8pXIDitx3z1YHlZPF/3UHzZPVdUkUJ3Q7Ega3gmvRk0xhx
-	s4S5uFYlFpP8XRCMug3J16Q9kQNyxa6ZdDlAJlWJNPB5R7pviCTMgsgv19DKtVaWROeV
-	sELmYonrGsTG9ttb2EeJ9io4F780sHw+zeXNTWHDD4PAd5C0NDMHHNKRw5Te7uXBvhuH
-	IzobHa2MTpe5PkgIvfY0uZhiC5hawW+p6VuOTqpOzFhqLm2ipS3078YPeZCs/1oaO9Ke
-	DuoA==
-X-Gm-Message-State: AODbwcDpLbs6Q9L/LFLlC1nAJLArZPbl5061G1sXyWz1dyLeNJoLfkCw
-	ooo3QRb5YhlPjw==
-X-Received: by 10.223.134.238 with SMTP id 43mr1108860wry.80.1495006248422;
-	Wed, 17 May 2017 00:30:48 -0700 (PDT)
-Received: from localhost ([217.30.68.212])
-	by smtp.gmail.com with ESMTPSA id v7sm1195946wme.5.2017.05.17.00.30.47
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 17 May 2017 00:30:47 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 17 May 2017 09:31:38 +0200
-Message-Id: <20170517073138.23672-1-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.13.0
-Subject: [PATCH] python-3.5: add runtime dependency from python3-compression on python3-misc
+	Wed, 17 May 2017 15:37:22 +0800 (CST)
+Received: from localhost.localdomain (10.167.226.81) by
+	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.319.2; Wed, 17 May 2017 15:37:22 +0800
+From: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 17 May 2017 15:37:02 +0800
+Message-ID: <1495006622-39912-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 2.7.4
+MIME-Version: 1.0
+X-Originating-IP: [10.167.226.81]
+X-yoursite-MailScanner-ID: 5EB6D47C653F.A7F90
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: huangqy.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [PATCH] curl: fix error for ARMv8 32BE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,61 +37,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 May 2017 07:30:52 -0000
+X-List-Received-Date: Wed, 17 May 2017 07:37:29 -0000
+Content-Type: text/plain
 
-* the /usr/lib/python3.5/_compression.py file is possibly incorrectly included
-  in python3-misc, either it should be moved to python3-compression or this
-  runtime dependency is needed in order to use e.g. gzip.py in runtime:
+curl + gnutls can not work on ARMv8 32BE, so change it to curl + ssl. 
 
-  >>> import tarfile, zlib, gzip
-  Traceback (most recent call last):
-    File "<stdin>", line 1, in <module>
-    File "/usr/lib/python3.5/gzip.py", line 12, in <module>
-      import _compression
-  ImportError: No module named '_compression'
-
-* at least python3-tests and lzma and bz2 still in python3-misc are using this as well:
-  $ grep -R import.*_compression tmp-glibc/work/aarch64-oe-linux/python3/3.5.2-r1.0/packages-split/
-  tmp-glibc/work/aarch64-oe-linux/python3/3.5.2-r1.0/packages-split/python3-compression/usr/lib/python3.5/gzip.py:import _compression
-  tmp-glibc/work/aarch64-oe-linux/python3/3.5.2-r1.0/packages-split/python3-misc/usr/lib/python3.5/lzma.py:import _compression
-  tmp-glibc/work/aarch64-oe-linux/python3/3.5.2-r1.0/packages-split/python3-misc/usr/lib/python3.5/bz2.py:import _compression
-  tmp-glibc/work/aarch64-oe-linux/python3/3.5.2-r1.0/packages-split/python3-tests/usr/lib/python3.5/test/test_bz2.py:import _compression
-  tmp-glibc/work/aarch64-oe-linux/python3/3.5.2-r1.0/packages-split/python3-tests/usr/lib/python3.5/test/test_lzma.py:import _compression
-  that's why I've just added runtime dependency without moving the _compression.py to different package.
-
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+Signed-off-by: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
 ---
- meta/recipes-devtools/python/python-3.5-manifest.inc | 2 +-
- scripts/contrib/python/generate-manifest-3.5.py      | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-support/curl/curl_7.54.0.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/python/python-3.5-manifest.inc b/meta/recipes-devtools/python/python-3.5-manifest.inc
-index 1e20f00c64..6815b39bc3 100644
---- a/meta/recipes-devtools/python/python-3.5-manifest.inc
-+++ b/meta/recipes-devtools/python/python-3.5-manifest.inc
-@@ -33,7 +33,7 @@ RDEPENDS_${PN}-compile="${PN}-core"
- FILES_${PN}-compile="${libdir}/python3.5/py_compile.* ${libdir}/python3.5/__pycache__/py_compile.* ${libdir}/python3.5/compileall.* ${libdir}/python3.5/__pycache__/compileall.* "
+diff --git a/meta/recipes-support/curl/curl_7.54.0.bb b/meta/recipes-support/curl/curl_7.54.0.bb
+index ce5ca37..2c0a395 100644
+--- a/meta/recipes-support/curl/curl_7.54.0.bb
++++ b/meta/recipes-support/curl/curl_7.54.0.bb
+@@ -20,7 +20,7 @@ SRC_URI[sha256sum] = "f50ebaf43c507fa7cc32be4b8108fa8bbd0f5022e90794388f3c7694a3
+ CVE_PRODUCT = "libcurl"
+ inherit autotools pkgconfig binconfig multilib_header
  
- SUMMARY_${PN}-compression="Python high-level compression support"
--RDEPENDS_${PN}-compression="${PN}-core ${PN}-codecs ${PN}-importlib ${PN}-threading ${PN}-shell"
-+RDEPENDS_${PN}-compression="${PN}-core ${PN}-codecs ${PN}-importlib ${PN}-threading ${PN}-shell ${PN}-misc"
- FILES_${PN}-compression="${libdir}/python3.5/gzip.* ${libdir}/python3.5/__pycache__/gzip.* ${libdir}/python3.5/zipfile.* ${libdir}/python3.5/__pycache__/zipfile.* ${libdir}/python3.5/tarfile.* ${libdir}/python3.5/__pycache__/tarfile.* ${libdir}/python3.5/lib-dynload/bz2.*.so ${libdir}/python3.5/lib-dynload/__pycache__/bz2.*.so ${libdir}/python3.5/lib-dynload/zlib.*.so ${libdir}/python3.5/lib-dynload/__pycache__/zlib.*.so "
+-PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)} gnutls proxy zlib"
++PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)} ssl proxy zlib"
+ PACKAGECONFIG_class-native = "ipv6 proxy ssl zlib"
+ PACKAGECONFIG_class-nativesdk = "ipv6 proxy ssl zlib"
  
- SUMMARY_${PN}-core="Python interpreter and core modules"
-diff --git a/scripts/contrib/python/generate-manifest-3.5.py b/scripts/contrib/python/generate-manifest-3.5.py
-index 075860c418..2c29a29843 100755
---- a/scripts/contrib/python/generate-manifest-3.5.py
-+++ b/scripts/contrib/python/generate-manifest-3.5.py
-@@ -253,7 +253,7 @@ if __name__ == "__main__":
-     m.addPackage( "${PN}-compile", "Python bytecode compilation support", "${PN}-core",
-     "py_compile.* compileall.*" )
- 
--    m.addPackage( "${PN}-compression", "Python high-level compression support", "${PN}-core ${PN}-codecs ${PN}-importlib ${PN}-threading ${PN}-shell",
-+    m.addPackage( "${PN}-compression", "Python high-level compression support", "${PN}-core ${PN}-codecs ${PN}-importlib ${PN}-threading ${PN}-shell ${PN}-misc",
-     "gzip.* zipfile.* tarfile.* lib-dynload/bz2.*.so lib-dynload/zlib.*.so" )
- 
-     m.addPackage( "${PN}-crypt", "Python basic cryptographic and hashing support", "${PN}-core",
 -- 
-2.13.0
+2.7.4
+
+
 
 
