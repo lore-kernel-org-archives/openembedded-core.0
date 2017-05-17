@@ -1,55 +1,30 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-io0-f175.google.com (mail-io0-f175.google.com
-	[209.85.223.175])
-	by mail.openembedded.org (Postfix) with ESMTP id B531577D49
+Return-Path: <zhengrq.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
+	by mail.openembedded.org (Postfix) with ESMTP id 45D6071CA7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 May 2017 10:47:06 +0000 (UTC)
-Received: by mail-io0-f175.google.com with SMTP id f102so6558996ioi.2
+	Wed, 17 May 2017 11:19:12 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.22,518,1449504000"; d="scan'208";a="18966814"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 17 May 2017 19:19:08 +0800
+Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
+	by cn.fujitsu.com (Postfix) with ESMTP id 52EBD47E64CE
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 May 2017 03:47:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:organization:mime-version:content-transfer-encoding;
-	bh=vDcrffjwTwV2KYAQDMKR3dWwnH8pBmM9XGPgMMZ3oKo=;
-	b=VE3adJOrkshYmH6/DBAwh3f7+vjF8euB0W5jhtlW7kXztmAA9O0QLsb8Iy6AKP4QwV
-	GY706fwmkXGp3TRJgyg4ik8dwDowSafnI6GmDoSfEgI/MZcdkV9Hyh/141ursKtEgUf9
-	wqcfAQR8V7yTZjfu9c240AqiZ7oPgID2ceWKT+gvSsqtpmV/tCqoxzzzj97zYNNivplZ
-	EFr/aPuI1xZ7C7ZE1UIbelZSXMzlKgw3U8iiz0jSNstwVjI76fH8P+wSbI5nwYWHMeI0
-	quzuerq2U6IA30QAOVa1qId3H7tH8fgh6L+IaRrw7X7HinFo450+UrMa4rhShOhSbUZU
-	R0hg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:organization:mime-version:content-transfer-encoding;
-	bh=vDcrffjwTwV2KYAQDMKR3dWwnH8pBmM9XGPgMMZ3oKo=;
-	b=prveL6hZX/igsmeXegkwXAZ+PfjfD+4UkWrsG257pLLswfZY6w0KRlHsfb7ZbPrTRo
-	WrJDl5jN08hZ8Te/pd7zca+kBfffyXiM3ysyGLF1DrklzVciJDGlZNsPle8m0/MFW+Ha
-	9VHtPqpMkagdCfCz39fkNNzQe9AYYV5nk5tqNYUW0SCMFWxs9GHrrkjjek97r2JXquNA
-	884pHfSjGR/7GQezATWcQuiqHYI3yYMznf2R/YE4pEab+MgynwsPH1c1w7o1A93/Hp7U
-	PXt8TF5jxtj54/L0ZlDqhgnTwqBzepINwwV/hgjarrhK2lxSkAfn6oC04mYsKHkW31n1
-	fDxQ==
-X-Gm-Message-State: AODbwcDOUWNEm1fsrSXF+Y/ovwLA5luPxeBAD83w82wj28G5NvMLtPGH
-	stOTl8IFcYOMWGTu
-X-Received: by 10.107.180.130 with SMTP id d124mr2332110iof.47.1495018028249; 
-	Wed, 17 May 2017 03:47:08 -0700 (PDT)
-Received: from pohly-mobl1 (p5DE8F2FD.dip0.t-ipconnect.de. [93.232.242.253])
-	by smtp.gmail.com with ESMTPSA id y7sm7403750itc.27.2017.05.17.03.47.05
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 17 May 2017 03:47:06 -0700 (PDT)
-Message-ID: <1495018023.28624.38.camel@intel.com>
-From: Patrick Ohly <patrick.ohly@intel.com>
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Date: Wed, 17 May 2017 12:47:03 +0200
-In-Reply-To: <6d634eb4-a0e6-7f56-0d6e-b1324eece035@linux.intel.com>
-References: <cover.eea09064b94ca036ef2177896c19070d316ee965.1495007905.git-series.patrick.ohly@intel.com>
-	<8810a4bbb1c67b438a7320df810db02099fcb5a0.1495007905.git-series.patrick.ohly@intel.com>
-	<6d634eb4-a0e6-7f56-0d6e-b1324eece035@linux.intel.com>
-Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
-X-Mailer: Evolution 3.12.9-1+b1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2 1/1] image-mode.bbclass: common infrastructure for choosing image defaults
+	Wed, 17 May 2017 19:19:06 +0800 (CST)
+Received: from localhost.localdomain.localdomain (10.167.226.100) by
+	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.319.2; Wed, 17 May 2017 19:19:06 +0800
+From: zhengrq <zhengrq.fnst@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 17 May 2017 19:17:41 +0800
+Message-ID: <1495019861-63880-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
+MIME-Version: 1.0
+X-Originating-IP: [10.167.226.100]
+X-yoursite-MailScanner-ID: 52EBD47E64CE.A8AAE
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: zhengrq.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [PATCH v2 1/2] libx11: 1.6.4 -> 1.6.5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,52 +37,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 May 2017 10:47:08 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 17 May 2017 11:19:13 -0000
+Content-Type: text/plain
 
-On Wed, 2017-05-17 at 12:49 +0300, Alexander Kanavin wrote:
-> On 05/17/2017 10:58 AM, Patrick Ohly wrote:
-> > A distro might want to offer developers different, pre-defined ways of
-> > building an image, for example a "development" mode with easy (but
-> > insecure) login methods and a "production" mode with hardened
-> > settings.
-> 
-> Apologies Patrick, I still think this brings more complication than 
-> benefits. And it's not even showcased anywhere in poky: you add the 
-> variable, but don't take it into use anywhere. Which means it also won't 
-> get tested.
->
-> You can do this thing by creating separate image recipes, each with 
-> their hand picked IMAGE_FEATURES. And that includes showing appropriate 
-> motd as well - but that perhaps would not be necessary because the image 
-> mode would be encoded in its file name.
+Upgrade libx11 from 1.6.4 to 1.6.5
 
-Can you be specific? Which image recipes should I add?
+Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
+---
+ meta/recipes-graphics/xorg-lib/libx11_1.6.4.bb | 10 ----------
+ meta/recipes-graphics/xorg-lib/libx11_1.6.5.bb | 10 ++++++++++
+ 2 files changed, 10 insertions(+), 10 deletions(-)
+ delete mode 100644 meta/recipes-graphics/xorg-lib/libx11_1.6.4.bb
+ create mode 100644 meta/recipes-graphics/xorg-lib/libx11_1.6.5.bb
 
-The feature by design is now meant to be used by distros. OE-core
-doesn't contain a distro definition, so the feature cannot really be
-used in OE-core in a realistic, reusable way. I can write a selftest
-with a custom distro or image configuration, if that addresses your
-concern about not getting the code tested.
-
-I know that you prefer defining more image recipes over allowing the
-reconfiguration of the same image recipe. I disagree on that, because
-when you have independent aspects (like content and login
-configuration), then you end up with various combinations of those
-configuration options. Writing down all combinations in pre-defined
-image recipes just doesn't scale. But you are welcome to proof me wrong
-by showing how the existing image recipes in OE-core should be changed
-so that they not only cover different content selection, but also what's
-currently done via EXTRA_IMAGE_FEATURES in local.conf.sample.
-
+diff --git a/meta/recipes-graphics/xorg-lib/libx11_1.6.4.bb b/meta/recipes-graphics/xorg-lib/libx11_1.6.4.bb
+deleted file mode 100644
+index caa95fb..0000000
+--- a/meta/recipes-graphics/xorg-lib/libx11_1.6.4.bb
++++ /dev/null
+@@ -1,10 +0,0 @@
+-require libx11.inc
+-inherit gettext
+-
+-BBCLASSEXTEND = "native nativesdk"
+-
+-SRC_URI += "file://disable_tests.patch \
+-           "
+-
+-SRC_URI[md5sum] = "6d54227082f3aa2c596f0b3a3fbb9175"
+-SRC_URI[sha256sum] = "b7c748be3aa16ec2cbd81edc847e9b6ee03f88143ab270fb59f58a044d34e441"
+diff --git a/meta/recipes-graphics/xorg-lib/libx11_1.6.5.bb b/meta/recipes-graphics/xorg-lib/libx11_1.6.5.bb
+new file mode 100644
+index 0000000..71cbf67
+--- /dev/null
++++ b/meta/recipes-graphics/xorg-lib/libx11_1.6.5.bb
+@@ -0,0 +1,10 @@
++require libx11.inc
++inherit gettext
++
++BBCLASSEXTEND = "native nativesdk"
++           "
++
++SRC_URI[md5sum] = "0f618db70c4054ca67cee0cc156a4255"
++SRC_URI[sha256sum] = "4d3890db2ba225ba8c55ca63c6409c1ebb078a2806de59fb16342768ae63435d"
 -- 
-Best Regards, Patrick Ohly
-
-The content of this message is my personal opinion only and although
-I am an employee of Intel, the statements I make here in no way
-represent Intel's position on the issue, nor am I authorized to speak
-on behalf of Intel on this matter.
+2.7.4
 
 
 
