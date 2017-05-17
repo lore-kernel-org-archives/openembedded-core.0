@@ -1,28 +1,28 @@
 Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id ACDC477E29
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 550EE77E36
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 May 2017 13:48:31 +0000 (UTC)
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	Wed, 17 May 2017 13:48:32 +0000 (UTC)
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
 	17 May 2017 06:48:33 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.38,354,1491289200"; d="scan'208";a="103192171"
+X-IronPort-AV: E=Sophos;i="5.38,354,1491289200"; d="scan'208";a="101718265"
 Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga006.fm.intel.com with ESMTP; 17 May 2017 06:48:32 -0700
+	by orsmga005.jf.intel.com with ESMTP; 17 May 2017 06:48:34 -0700
 Received: from vmed.fi.intel.com (crosswalk-testmaster.fi.intel.com
 	[10.237.72.36])
-	by linux.intel.com (Postfix) with ESMTP id 555016A4080
+	by linux.intel.com (Postfix) with ESMTP id 691336A4080
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 May 2017 06:48:17 -0700 (PDT)
+	Wed, 17 May 2017 06:48:18 -0700 (PDT)
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 17 May 2017 13:47:47 +0000
-Message-Id: <1265da7b9c7ae1aabfed5b76d69f4b64578c12da.1495028624.git.ed.bartosh@linux.intel.com>
+Date: Wed, 17 May 2017 13:47:48 +0000
+Message-Id: <01492faf59394d4bc3ac4ebc3d8cc1a5b3c29347.1495028624.git.ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.12.0
 In-Reply-To: <cover.1495028624.git.ed.bartosh@linux.intel.com>
 References: <cover.1495028624.git.ed.bartosh@linux.intel.com>
-Subject: [PATCH v4 4/7] image_types_wic: merged 2 tasks
+Subject: [PATCH v4 5/7] oe-selftest: add wic tests for generic EFI
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,109 +37,77 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 17 May 2017 13:48:32 -0000
 
-Merged do_write_wks_template and do_populate_bootfs into
-new task do_prepare_wic_build to be able to write the same
-partition UUID into bootloader configuration files and
-kickstart file.
+Added test_generic_efi_grub_qemu and test_generic_efi_systemd_qemu
+test cases and wks template to build and boot generic EFI images in qemu.
 
 [YOCTO #10073]
 
 Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 ---
- meta/classes/image_types_wic.bbclass | 53 +++++++++++++++++++-----------------
- 1 file changed, 28 insertions(+), 25 deletions(-)
+ meta-selftest/wic/test_generic_efi.wks.in |  9 ++++++++
+ meta/lib/oeqa/selftest/wic.py             | 36 +++++++++++++++++++++++++++++++
+ 2 files changed, 45 insertions(+)
+ create mode 100644 meta-selftest/wic/test_generic_efi.wks.in
 
-diff --git a/meta/classes/image_types_wic.bbclass b/meta/classes/image_types_wic.bbclass
-index 3f9824d26a..d8430e49ac 100644
---- a/meta/classes/image_types_wic.bbclass
-+++ b/meta/classes/image_types_wic.bbclass
-@@ -43,27 +43,6 @@ do_image_wic[depends] += "wic-tools:do_populate_sysroot"
- WKS_FILE_DEPENDS ??= ''
- DEPENDS += "${@ '${WKS_FILE_DEPENDS}' if d.getVar('USING_WIC') else '' }"
- 
--python do_write_wks_template () {
--    """Write out expanded template contents to WKS_FULL_PATH."""
--    import re
--
--    template_body = d.getVar('_WKS_TEMPLATE')
--
--    # Remove any remnant variable references left behind by the expansion
--    # due to undefined variables
--    expand_var_regexp = re.compile(r"\${[^{}@\n\t :]+}")
--    while True:
--        new_body = re.sub(expand_var_regexp, '', template_body)
--        if new_body == template_body:
--            break
--        else:
--            template_body = new_body
--
--    wks_file = d.getVar('WKS_FULL_PATH')
--    with open(wks_file, 'w') as f:
--        f.write(template_body)
--}
--
- python () {
-     if d.getVar('USING_WIC'):
-         wks_file_u = d.getVar('WKS_FULL_PATH', False)
-@@ -90,7 +69,6 @@ python () {
-                 # file in process_wks_template as well, so just put it in
-                 # a variable and let the metadata deal with the deps.
-                 d.setVar('_WKS_TEMPLATE', body)
--                bb.build.addtask('do_write_wks_template', 'do_image_wic', None, d)
- }
- 
- #
-@@ -127,7 +105,11 @@ EFI_PROVIDER ?= "systemd-boot"
- EFI_CLASS = "${@bb.utils.contains("MACHINE_FEATURES", "efi", "${EFI_PROVIDER}", "", d)}"
- inherit ${EFI_CLASS}
- 
--python do_populate_bootfs() {
-+python do_prepare_wic_build() {
-+    # Prepare required artifacts for the wic image build:
-+    #  - Populate {WORKDIR}/bootfs directory with EFI content
-+    #  - Write wks.in template into the .wks file
+diff --git a/meta-selftest/wic/test_generic_efi.wks.in b/meta-selftest/wic/test_generic_efi.wks.in
+new file mode 100644
+index 0000000000..fecf3fd713
+--- /dev/null
++++ b/meta-selftest/wic/test_generic_efi.wks.in
+@@ -0,0 +1,9 @@
++# short-description: Create an EFI disk image
++# long-description: Creates a partitioned EFI disk image that the user
++# can directly dd to boot media.
 +
-     def populate_bootfs(partuuid):
-         # remove bootfs dir as it may have files from previous build
-         bootfs = os.path.join(d.getVar("WORKDIR"), 'bootfs')
-@@ -140,6 +122,23 @@ python do_populate_bootfs() {
- 
-         bb.build.exec_func('efi_bootfs_populate', d)
- 
-+    def write_wks_template(template_body, wks_file):
-+        """Write out expanded template contents to WKS_FULL_PATH."""
-+        import re
++part /boot --source rootfs --rootfs-dir=${WORKDIR}/bootfs --fstype=vfat --label boot --active --align 1024
 +
-+        # Remove any remnant variable references left behind by the expansion
-+        # due to undefined variables
-+        expand_var_regexp = re.compile(r"\${[^{}@\n\t :]+}")
-+        while True:
-+            new_body = re.sub(expand_var_regexp, '', template_body)
-+            if new_body == template_body:
-+                break
-+            else:
-+                template_body = new_body
++part / --source rootfs --fstype=ext4 --label root --align 1024 --uuid ${ROOTFS_PARTUUID}
 +
-+        with open(wks_file, 'w') as f:
-+            f.write(template_body)
++bootloader --ptable gpt
+diff --git a/meta/lib/oeqa/selftest/wic.py b/meta/lib/oeqa/selftest/wic.py
+index cdec80c076..9cb9507830 100644
+--- a/meta/lib/oeqa/selftest/wic.py
++++ b/meta/lib/oeqa/selftest/wic.py
+@@ -789,3 +789,39 @@ part /etc --source rootfs --ondisk mmcblk0 --fstype=ext4 --exclude-path bin/ --r
+                 # 8 blocks is 4K (physical sector size)
+                 self.assertEqual(dest_stat.st_blocks, 8)
+             os.unlink(dest)
 +
-     if d.getVar('USING_WIC'):
-         # Generate parition UUID
-         from uuid import uuid4
-@@ -148,7 +147,11 @@ python do_populate_bootfs() {
- 
-         if d.getVar("EFI_CLASS"):
-             populate_bootfs(partuuid)
++    @only_for_arch(['i586', 'i686', 'x86_64'])
++    def test_generic_efi_grub_qemu(self):
++        """Test generic efi (grub-efi) image in qemu"""
++        config = 'IMAGE_FSTYPES = "wic"\nMACHINE_FEATURES_append = " efi"\n'\
++                 'EFI_PROVIDER = "grub-efi"\n'\
++                 'WKS_FILE = "test_generic_efi.wks.in"\n'
 +
-+        template = d.getVar("_WKS_TEMPLATE")
-+        if template:
-+            write_wks_template(template, d.getVar('WKS_FULL_PATH'))
- }
- 
--addtask do_populate_bootfs before do_image_wic
--do_populate_bootfs[depends] = "${MLPREFIX}${EFI_PROVIDER}:do_deploy virtual/kernel:do_deploy"
-+addtask do_prepare_wic_build before do_image_wic
-+do_prepare_wic_build[depends] = "${MLPREFIX}${EFI_PROVIDER}:do_deploy virtual/kernel:do_deploy"
++        self.append_config(config)
++        self.assertEqual(0, bitbake('core-image-minimal ovmf').status)
++        self.remove_config(config)
++
++        with runqemu('core-image-minimal', ssh=False,
++                     runqemuparams='ovmf', image_fstype='wic') as qemu:
++            cmd = "grep sda. /proc/partitions  |wc -l"
++            status, output = qemu.run_serial(cmd)
++            self.assertEqual(1, status, 'Failed to run command "%s": %s' % (cmd, output))
++            self.assertEqual(output, '2')
++
++    @only_for_arch(['i586', 'i686', 'x86_64'])
++    def test_generic_efi_systemd_qemu(self):
++        """Test generic efi (systemd-boot) image in qemu"""
++        config = 'IMAGE_FSTYPES = "wic"\nMACHINE_FEATURES_append = " efi"\n'\
++                 'EFI_PROVIDER = "systemd-boot"\n'\
++                 'WKS_FILE = "test_generic_efi.wks.in"\n'
++
++        self.append_config(config)
++        self.assertEqual(0, bitbake('core-image-minimal ovmf').status)
++        self.remove_config(config)
++
++        with runqemu('core-image-minimal', ssh=False,
++                     runqemuparams='ovmf', image_fstype='wic') as qemu:
++            cmd = "grep sda. /proc/partitions  |wc -l"
++            status, output = qemu.run_serial(cmd)
++            self.assertEqual(1, status, 'Failed to run command "%s": %s' % (cmd, output))
++            self.assertEqual(output, '2')
 -- 
 2.12.0
 
