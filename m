@@ -1,30 +1,30 @@
-Return-Path: <zhengrq.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
-	by mail.openembedded.org (Postfix) with ESMTP id DEFE977D82
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 00CE260750
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 May 2017 11:19:24 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.22,518,1449504000"; d="scan'208";a="18966831"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 17 May 2017 19:19:26 +0800
-Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
-	by cn.fujitsu.com (Postfix) with ESMTP id 9C41847E64D0
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 May 2017 19:19:25 +0800 (CST)
-Received: from localhost.localdomain.localdomain (10.167.226.100) by
-	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.319.2; Wed, 17 May 2017 19:19:25 +0800
-From: zhengrq <zhengrq.fnst@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 17 May 2017 19:18:06 +0800
-Message-ID: <1495019886-63930-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
+	Wed, 17 May 2017 12:58:39 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	17 May 2017 05:58:39 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.38,354,1491289200"; d="scan'208";a="1131373281"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by orsmga001.jf.intel.com with ESMTP; 17 May 2017 05:58:38 -0700
+To: Patrick Ohly <patrick.ohly@intel.com>
+References: <cover.eea09064b94ca036ef2177896c19070d316ee965.1495007905.git-series.patrick.ohly@intel.com>
+	<8810a4bbb1c67b438a7320df810db02099fcb5a0.1495007905.git-series.patrick.ohly@intel.com>
+	<6d634eb4-a0e6-7f56-0d6e-b1324eece035@linux.intel.com>
+	<1495018023.28624.38.camel@intel.com>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <b06241d4-97c2-a272-7d38-95091bdb66e7@linux.intel.com>
+Date: Wed, 17 May 2017 15:56:34 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.8.0
 MIME-Version: 1.0
-X-Originating-IP: [10.167.226.100]
-X-yoursite-MailScanner-ID: 9C41847E64D0.A67DE
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: zhengrq.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Subject: [PATCH v2 2/2] libx11-diet: 1.6.4 -> 1.6.5
+In-Reply-To: <1495018023.28624.38.camel@intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v2 1/1] image-mode.bbclass: common infrastructure for choosing image defaults
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,38 +37,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 May 2017 11:19:25 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 17 May 2017 12:58:41 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Upgrade libx11-diet from 1.6.4 to 1.6.5
+On 05/17/2017 01:47 PM, Patrick Ohly wrote:
 
-Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
----
- .../xorg-lib/{libx11-diet_1.6.4.bb => libx11-diet_1.6.5.bb}           | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/xorg-lib/{libx11-diet_1.6.4.bb => libx11-diet_1.6.5.bb} (73%)
+> I know that you prefer defining more image recipes over allowing the
+> reconfiguration of the same image recipe. I disagree on that, because
+> when you have independent aspects (like content and login
+> configuration), then you end up with various combinations of those
+> configuration options. Writing down all combinations in pre-defined
+> image recipes just doesn't scale. But you are welcome to proof me wrong
+> by showing how the existing image recipes in OE-core should be changed
+> so that they not only cover different content selection, but also what's
+> currently done via EXTRA_IMAGE_FEATURES in local.conf.sample.
 
-diff --git a/meta/recipes-graphics/xorg-lib/libx11-diet_1.6.4.bb b/meta/recipes-graphics/xorg-lib/libx11-diet_1.6.5.bb
-similarity index 73%
-rename from meta/recipes-graphics/xorg-lib/libx11-diet_1.6.4.bb
-rename to meta/recipes-graphics/xorg-lib/libx11-diet_1.6.5.bb
-index 0c761d7..295f96a2 100644
---- a/meta/recipes-graphics/xorg-lib/libx11-diet_1.6.4.bb
-+++ b/meta/recipes-graphics/xorg-lib/libx11-diet_1.6.5.bb
-@@ -11,8 +11,8 @@ SRC_URI += "file://X18NCMSstubs.diff \
- RPROVIDES_${PN}-dev = "libx11-dev"
- RPROVIDES_${PN}-locale = "libx11-locale"
- 
--SRC_URI[md5sum] = "6d54227082f3aa2c596f0b3a3fbb9175"
--SRC_URI[sha256sum] = "b7c748be3aa16ec2cbd81edc847e9b6ee03f88143ab270fb59f58a044d34e441"
-+SRC_URI[md5sum] = "0f618db70c4054ca67cee0cc156a4255"
-+SRC_URI[sha256sum] = "4d3890db2ba225ba8c55ca63c6409c1ebb078a2806de59fb16342768ae63435d"
- 
- EXTRA_OECONF += "--disable-xlocale"
- 
--- 
-2.7.4
+I disagree that it doesn't scale. It scales just fine with a 
+well-constructed include files hierarchy. I'd even argue that's the only 
+way to stay sane when there's more than a few product configurations:
 
+all-products.inc
+(things common to all products)
 
+product1.inc
+(things specific for product1)
+
+product2.inc
+(things specific for product2)
+
+production.inc
+(where serious security is configured)
+
+development.inc
+(where things are made easy for developers)
+
+and then you have
+
+product1-development.bb
+====
+include product1.inc
+include development.inc
+====
+
+product2-development.bb
+====
+include product2.inc
+include development.inc
+====
+
+product1-production.bb
+====
+include product1.inc
+include production.inc
+====
+
+product2-production.bb
+====
+include product2.inc
+include production.inc
+====
+
+This pattern is used throughout openembedded. Take a look at machine or 
+distro configurations for example, or how both python 2 and 3 can be 
+supported with a single recipe include and two very short recipes in 
+meta-python. What does IMAGE_MODE do that include files cannot?
+
+Alex
 
 
