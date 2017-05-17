@@ -1,44 +1,48 @@
-Return-Path: <tharvey@gateworks.com>
-Received: from mail-wm0-f52.google.com (mail-wm0-f52.google.com [74.125.82.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 170B977E69
+Return-Path: <max.oss.09@gmail.com>
+Received: from mail-wr0-f193.google.com (mail-wr0-f193.google.com
+	[209.85.128.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 6C39677D88
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 May 2017 19:36:16 +0000 (UTC)
-Received: by mail-wm0-f52.google.com with SMTP id 70so22126468wmq.1
+	Wed, 17 May 2017 20:12:23 +0000 (UTC)
+Received: by mail-wr0-f193.google.com with SMTP id w50so3422615wrc.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 May 2017 12:36:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=gateworks-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:from:date:message-id:subject:to
-	:content-transfer-encoding;
-	bh=MScoZENXmk51jnDCPdYKDxPUA4MR1lCW7ncTnOen7dE=;
-	b=bNI0+kP7FcMS6NHKbZXVZe0A+qGL+VGAqn6gVNyqjGQI7kQVEu0KrBKZq70VhourC9
-	pH3R+Tg+MbTDnhyMavJsgbG/hdYj75gNnQF3DEHuTbky7EmAUr2i/ygbOym3zs6Zilys
-	2YUUPP8zljWIoDaeK6H1oOm+lFv+LA7Ol5mDNpc4b1eiG55Ssj4JFknGtb1YBgbKMJEW
-	as9MoAboREqY9cLvEDSWON3wLAIRMzH24/pVO6NWK6ah/6XrLVwUvjUQh3Vlp6tCp4hv
-	b+FPpWoviGiR0y9r488cANG1MaimuTQiSbMge61epv5bVPwOEyZjeu+tVeD0+vCx5z/5
-	jKpw==
+	Wed, 17 May 2017 13:12:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=943y3eNemjXL9kVlRGkJ3PEZAIu4/lkxMdG0GOm5XAg=;
+	b=F3fFDtdMcxQ9ltmLq/2iGgxrhLiwd7KfV/PXfQzpqab2QXSM3Q79goz0EMPGy4+9vq
+	s8okE2n96PDfnoF0+cprRhY5RJNIHGonmdEg++00XVTWAZnNrr4841QTAbWAvWZO0Jru
+	ZHOJyPfl2ujmujdb6oaAtsQoQJhCpGppMXPmu0pupubcFTbN2QtO/7hAH8AdVdmRtAAG
+	xxm0b35sBPv61gEkq2l/1BIhkrOuTDqcf5THY5QoSbDl7AulS+097m8yk7hifksD+upO
+	PAW3K1g5eqggQoImbj3dpMCCng0+jsD9EBLhmgeosdQevWl+W0DE0wbTRlZ86v6iIvcQ
+	LCrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:from:date:message-id:subject:to
-	:content-transfer-encoding;
-	bh=MScoZENXmk51jnDCPdYKDxPUA4MR1lCW7ncTnOen7dE=;
-	b=CwOWZo1XiBLqbObODJeYbNRMDQTGTm1N11DfRbcWamtpL/9hv7aGrQVdDxBvhcoXAm
-	xn4wXWE3yssaEfldNc4dOuLYSJIdLiJwnJujlkRnsOdDEX2TGTq9FzuKU/hVJzyYVFku
-	NamChwy/vZKdgOnWe6PxDwAfe3lStwmCz9R4HH7fYHww6sT0AAiTp/F8iXUooA2B86l/
-	j8mi7V8tpVfw23dI+bjm0BGDtr658h6qyKPSWTy4Ze3mt5lkWi9ue31Bo6eD6+tt8VsY
-	2Te3yt182yZ6q1qyItuMXby2ighXAijNX2wYIrRk4/yK55S1tJolQHoBKggvwrae/Eii
-	Yxgg==
-X-Gm-Message-State: AODbwcCA84kBdLLRkwf5Az3QdhaW+DaJ830+augJ1ZJJKp7RqXELB6az
-	3HJyIcfnUlInD6ZughPc43vl5wzlTTPL
-X-Received: by 10.28.137.201 with SMTP id l192mr11394701wmd.27.1495049776561; 
-	Wed, 17 May 2017 12:36:16 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.28.212.21 with HTTP; Wed, 17 May 2017 12:36:15 -0700 (PDT)
-From: Tim Harvey <tharvey@gateworks.com>
-Date: Wed, 17 May 2017 12:36:15 -0700
-Message-ID: <CAJ+vNU02n6DavkhuwM8gU7daWLyyd4QHgd0N5topHJQiO2_6RA@mail.gmail.com>
-To: poky@yoctoproject.org, openembedded-core@lists.openembedded.org
-Subject: populate sdk broken for u-boot-mkimage
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=943y3eNemjXL9kVlRGkJ3PEZAIu4/lkxMdG0GOm5XAg=;
+	b=E9cZZvoavjoaSz4IsR8ETZPzeTYpkct41vBjTA6NNJnrdfR3ZIFlJuF3Z3RawY0xIe
+	STm/6ApX/p12WwDD00gkstzUOedKjIIWid5c5jXNXRO+bZFM7RpLDXqUUYHyKXCTx765
+	yzAIdnCrB0Jn/3DKqKGpNq57rsQVhGUAMUVPnH8NxK1jCFnykjFAFGDF4ldyQ65F49kM
+	Ib+9FS4g/QXop3yGjULXJpz5xpiCu7fH1tH15TShoxk+3nhDasbERsVjeD+RtuyDSGtF
+	RlU/LjoAFP+sHtId1mWa/gGLU2sulGN5/sAlcu8ihisr/9wxARPY4cMVPufOIAgdBaIb
+	rX+Q==
+X-Gm-Message-State: AODbwcBKG6ISrkfn7k3Gen+Hbuj+Lw/LdthzksmzWNvk1NOPq/yze6CO
+	BVTXmcFH5a2EnsP8
+X-Received: by 10.223.154.100 with SMTP id z91mr305335wrb.76.1495051944615;
+	Wed, 17 May 2017 13:12:24 -0700 (PDT)
+Received: from linuxdev.toradex.int ([46.140.72.82])
+	by smtp.gmail.com with ESMTPSA id
+	185sm3615750wmo.10.2017.05.17.13.12.23
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 17 May 2017 13:12:23 -0700 (PDT)
+From: Max Krummenacher <max.oss.09@gmail.com>
+X-Google-Original-From: Max Krummenacher <max.krummenacher@toradex.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 17 May 2017 22:11:34 +0200
+Message-Id: <20170517201134.26758-1-max.krummenacher@toradex.com>
+X-Mailer: git-send-email 2.9.3
+Cc: Max Krummenacher <max.krummenacher@toradex.com>
+Subject: [PATCH] u-boot-mkimage: fix nativesdk build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,43 +55,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 May 2017 19:36:17 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 17 May 2017 20:12:26 -0000
 
-Greetings,
+If building for nativesdk the wrong rss sysroot is used leading the
+following error message.
 
-I'm running into the following build error when trying to create an
-SDK for an image that includes u-boot-mkimage-native.
+| ERROR: oe_runmake failed
+| In file included from tools/imximage.c:13:0:
+| include/image.h:1024:27: fatal error: openssl/evp.h: No such file or directory
+|  # include  <openssl/evp.h>
 
-The nativesdk-u-boot-mkimage do_package task fails with:
-ERROR: nativesdk-u-boot-mkimage: chrpath command failed with exit code 7:
-b'/usr/src/ventana/yocto/pyro-2.3/build/tmp/work/x86_64-nativesdk-fslcsdk-l=
-inux/nativesdk-u-boot-mkimage/1_2017.01-r0/package/opt/fslc-x11/2.3/sysroot=
-s/x86_64-fslcsdk-linux/usr/bin/uboot-mkimage:
-RPATH=3D/usr/src/ventana/yocto/pyro-2.3/build/tmp/work/x86_64-nativesdk-fsl=
-csdk-linux/nativesdk-u-boot-mkimage/1_2017.01-r0/recipe-sysroot-native/usr/=
-lib:/usr/src/ventana/yocto/pyro-2.3/build/tmp/work/x86_64-nativesdk-fslcsdk=
--linux/nativesdk-u-boot-mkimage/1_2017.01-r0/recipe-sysroot-native/lib\n'b"=
-new
-rpath '$ORIGIN/../../../../../../../usr/src/ventana/yocto/pyro-2.3/build/tm=
-p/work/x86_64-nativesdk-fslcsdk-linux/nativesdk-u-boot-mkimage/1_2017.01-r0=
-/recipe-sysroot-native/usr/lib:$ORIGIN/../../../../../../../usr/src/ventana=
-/yocto/pyro-2.3/build/tmp/work/x86_64-nativesdk-fslcsdk-linux/nativesdk-u-b=
-oot-mkimage/1_2017.01-r0/recipe-sysroot-native/lib'
-too large; maximum length 287\n"
-DEBUG: Python function perform_packagecopy finished
-DEBUG: Python function do_package finished
-ERROR: Function failed: perform_packagecopy
+Tools needed on the build host (script/basic/fixdep) and code compiled
+for the SDK machine are both built with the build host's compiler,
+leading to additinal errors.
 
-I'm guessing this has something to do with the long list of args in
-EXTRA_OEMAKE_class-nativesdk from
-http://git.yoctoproject.org/cgit.cgi/poky/tree/meta/recipes-bsp/u-boot/u-bo=
-ot-mkimage_2017.01.bb
+Adding CROSS_COMPILE="${HOST_PREFIX}" and using the cross-compiler for
+the SDK_ARCH fixes the build error.
+The resulting binary in the SDK is working.
 
-Any ideas?
+Signed-off-by: Max Krummenacher <max.krummenacher@toradex.com>
+---
+ meta/recipes-bsp/u-boot/u-boot-mkimage_2017.01.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Regards,
+diff --git a/meta/recipes-bsp/u-boot/u-boot-mkimage_2017.01.bb b/meta/recipes-bsp/u-boot/u-boot-mkimage_2017.01.bb
+index 1aa95e7..de999e7 100644
+--- a/meta/recipes-bsp/u-boot/u-boot-mkimage_2017.01.bb
++++ b/meta/recipes-bsp/u-boot/u-boot-mkimage_2017.01.bb
+@@ -7,7 +7,7 @@ DEPENDS = "openssl"
+ 
+ EXTRA_OEMAKE_class-target = 'CROSS_COMPILE="${TARGET_PREFIX}" CC="${CC} ${CFLAGS} ${LDFLAGS}" HOSTCC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}" STRIP=true V=1'
+ EXTRA_OEMAKE_class-native = 'CC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}" HOSTCC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}" STRIP=true V=1'
+-EXTRA_OEMAKE_class-nativesdk = 'CC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}" HOSTCC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}" STRIP=true V=1'
++EXTRA_OEMAKE_class-nativesdk = 'CROSS_COMPILE="${HOST_PREFIX}" CC="${CC} ${CFLAGS} ${LDFLAGS}" HOSTCC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}" STRIP=true V=1'
+ 
+ do_compile () {
+ 	oe_runmake sandbox_defconfig
+-- 
+2.9.3
 
-Tim
 
