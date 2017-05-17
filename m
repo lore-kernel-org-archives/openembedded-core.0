@@ -1,28 +1,28 @@
 Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 104EC77E0E
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id C75EB77DC8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 May 2017 13:48:29 +0000 (UTC)
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	17 May 2017 06:48:30 -0700
+	Wed, 17 May 2017 13:48:30 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	17 May 2017 06:48:32 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.38,354,1491289200"; d="scan'208";a="101718257"
+X-IronPort-AV: E=Sophos;i="5.38,354,1491289200"; d="scan'208";a="87930730"
 Received: from linux.intel.com ([10.54.29.200])
-	by orsmga005.jf.intel.com with ESMTP; 17 May 2017 06:48:30 -0700
+	by orsmga002.jf.intel.com with ESMTP; 17 May 2017 06:48:31 -0700
 Received: from vmed.fi.intel.com (crosswalk-testmaster.fi.intel.com
 	[10.237.72.36])
-	by linux.intel.com (Postfix) with ESMTP id 2F4CB6A4080
+	by linux.intel.com (Postfix) with ESMTP id 41CA96A4080
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 May 2017 06:48:14 -0700 (PDT)
+	Wed, 17 May 2017 06:48:16 -0700 (PDT)
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 17 May 2017 13:47:45 +0000
-Message-Id: <ab38484d5565e46fffc3fd6a594e27be48202b54.1495028624.git.ed.bartosh@linux.intel.com>
+Date: Wed, 17 May 2017 13:47:46 +0000
+Message-Id: <d37ccbd577542089ef232d111373c3c3d505bbc2.1495028624.git.ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.12.0
 In-Reply-To: <cover.1495028624.git.ed.bartosh@linux.intel.com>
 References: <cover.1495028624.git.ed.bartosh@linux.intel.com>
-Subject: [PATCH v4 2/7] efi: add efi_bootfs_populate API
+Subject: [PATCH v4 3/7] image_types_wic: add do_populate_bootfs task
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,54 +37,62 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 17 May 2017 13:48:30 -0000
 
-Added API to populate ${WORKDIR}/bootfs directory with EFI
-artifacts to both EFI provider classes(grub-efi and systemd-boot).
-
-This API will be used to prepare artifacts for the wic image
-build.
+This task generates root partition UUID and calls efi_bootfs_populate
+API of current EFI provider to populate bootfs directory with
+EFI artifacts.
 
 [YOCTO #10073]
 
 Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 ---
- meta/classes/grub-efi.bbclass     | 6 ++++++
- meta/classes/systemd-boot.bbclass | 6 ++++++
- 2 files changed, 12 insertions(+)
+ meta/classes/image_types_wic.bbclass | 37 ++++++++++++++++++++++++++++++++++++
+ 1 file changed, 37 insertions(+)
 
-diff --git a/meta/classes/grub-efi.bbclass b/meta/classes/grub-efi.bbclass
-index df7fe18a79..bacbeb4b66 100644
---- a/meta/classes/grub-efi.bbclass
-+++ b/meta/classes/grub-efi.bbclass
-@@ -71,6 +71,12 @@ efi_hddimg_populate() {
- 	efi_populate $1
- }
- 
-+efi_bootfs_populate() {
-+	bootfs_dir="${WORKDIR}/bootfs"
-+	efi_populate $bootfs_dir
-+	cp --dereference ${DEPLOY_DIR_IMAGE}/${KERNEL_IMAGETYPE} $bootfs_dir/vmlinuz
+diff --git a/meta/classes/image_types_wic.bbclass b/meta/classes/image_types_wic.bbclass
+index 4711c24593..3f9824d26a 100644
+--- a/meta/classes/image_types_wic.bbclass
++++ b/meta/classes/image_types_wic.bbclass
+@@ -115,3 +115,40 @@ python do_rootfs_wicenv () {
+ addtask do_rootfs_wicenv after do_image before do_image_wic
+ do_rootfs_wicenv[vardeps] += "${WICVARS}"
+ do_rootfs_wicenv[prefuncs] = 'set_image_size'
++
++# Set variables for efi_bootfs_populate
++GRUB_CFG ?= "${WORKDIR}/grub_wic.cfg"
++SYSTEMD_BOOT_CFG ?= "${WORKDIR}/loader_wic.conf"
++GRUB_GFXSERIAL ?= "1"
++LABELS_WIC ?= "boot install"
++LABELS ?= "${LABELS_WIC}"
++
++EFI_PROVIDER ?= "systemd-boot"
++EFI_CLASS = "${@bb.utils.contains("MACHINE_FEATURES", "efi", "${EFI_PROVIDER}", "", d)}"
++inherit ${EFI_CLASS}
++
++python do_populate_bootfs() {
++    def populate_bootfs(partuuid):
++        # remove bootfs dir as it may have files from previous build
++        bootfs = os.path.join(d.getVar("WORKDIR"), 'bootfs')
++        if os.path.exists(bootfs):
++            import shutil
++            shutil.rmtree(bootfs)
++
++        d.setVar("APPEND", "root=PARTUUID=%s" % partuuid)
++        bb.build.exec_func('build_efi_cfg', d)
++
++        bb.build.exec_func('efi_bootfs_populate', d)
++
++    if d.getVar('USING_WIC'):
++        # Generate parition UUID
++        from uuid import uuid4
++        partuuid = str(uuid4())
++        d.setVar("ROOTFS_PARTUUID", partuuid)
++
++        if d.getVar("EFI_CLASS"):
++            populate_bootfs(partuuid)
 +}
 +
- python build_efi_cfg() {
-     import sys
- 
-diff --git a/meta/classes/systemd-boot.bbclass b/meta/classes/systemd-boot.bbclass
-index 4412fb1ef7..c97adce584 100644
---- a/meta/classes/systemd-boot.bbclass
-+++ b/meta/classes/systemd-boot.bbclass
-@@ -62,6 +62,12 @@ efi_hddimg_populate() {
-         efi_populate $1
- }
- 
-+efi_bootfs_populate() {
-+        bootfs_dir="${WORKDIR}/bootfs"
-+        efi_populate $bootfs_dir
-+        cp --dereference ${DEPLOY_DIR_IMAGE}/${KERNEL_IMAGETYPE} $bootfs_dir/vmlinuz
-+}
-+
- python build_efi_cfg() {
-     s = d.getVar("S")
-     labels = d.getVar('LABELS')
++addtask do_populate_bootfs before do_image_wic
++do_populate_bootfs[depends] = "${MLPREFIX}${EFI_PROVIDER}:do_deploy virtual/kernel:do_deploy"
 -- 
 2.12.0
 
