@@ -1,26 +1,28 @@
 Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id D422C77DC8
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 8ACE877DCB
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 May 2017 13:40:00 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	17 May 2017 06:40:01 -0700
+	Wed, 17 May 2017 13:40:11 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	17 May 2017 06:40:12 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.38,354,1491289200"; d="scan'208";a="1148910888"
+X-IronPort-AV: E=Sophos;i="5.38,354,1491289200"; d="scan'208";a="1131384338"
 Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga001.fm.intel.com with ESMTP; 17 May 2017 06:40:00 -0700
+	by orsmga001.jf.intel.com with ESMTP; 17 May 2017 06:40:12 -0700
 Received: from vmed.fi.intel.com (crosswalk-testmaster.fi.intel.com
 	[10.237.72.36])
-	by linux.intel.com (Postfix) with ESMTP id 138956A4082
+	by linux.intel.com (Postfix) with ESMTP id 285406A4080
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 May 2017 06:39:44 -0700 (PDT)
+	Wed, 17 May 2017 06:39:56 -0700 (PDT)
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 17 May 2017 13:39:45 +0000
-Message-Id: <cover.1495028274.git.ed.bartosh@linux.intel.com>
+Date: Wed, 17 May 2017 13:39:46 +0000
+Message-Id: <499ee0ee026d7315652c960717c20b163a4772dc.1495028274.git.ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.12.0
-Subject: [PATCH v2 0/8] #11283: wic ls
+In-Reply-To: <cover.1495028274.git.ed.bartosh@linux.intel.com>
+References: <cover.1495028274.git.ed.bartosh@linux.intel.com>
+Subject: [PATCH v2 1/8] filemap: fix skip logic
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,68 +35,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 May 2017 13:40:01 -0000
+X-List-Received-Date: Wed, 17 May 2017 13:40:11 -0000
 
-Hi,
+Fixed bug in processing 'skip' parameter:
+   don't read input file if end of bmap block is less than skip
 
-This is an implementation of new wic subcommand 'wic ls'.
+Simplified logic of positioning to the start of data inside a
+partially skipped bmap block.
 
-It lists image partitions:
+Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+---
+ scripts/lib/wic/filemap.py | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
 
-$ wic ls tmp/deploy/images/qemux86-64/core-image-minimal-qemux86-64.wic
-Num     Start        End          Size      Fstype
-1        1048576     24438783     23390208  fat16
-2       25165824     50315263     25149440  ext4
-
-or directory contents of vfat partitions:
-
-$ wic ls tmp/deploy/images/qemux86-64/core-image-minimal-qemux86-64.wic:1/efi/boot
-Volume in drive : is boot
- Volume Serial Number is 66EC-5750
-Directory for ::/efi/boot
-
-.            <DIR>     2017-05-15  13:00
-..           <DIR>     2017-05-15  13:00
-grub     cfg       639 2017-05-15  13:00
-bootx64  efi    571392 2017-05-15  13:00
-        4 files             572 031 bytes
-                         15 818 752 bytes free
-
-The patchset also fixes and extends sparse_copy API to support copying part of
-the image (one partition) into another image.
-
-It also contains test case for 'wic ls' functionality.
-
-Changes in v2: used mtools from sysroot in the test as oe-selftest failed
-               trying to use host mtools
-
-The following changes since commit b852248822868b543e6bec8c4dbea6d43eb55f1b:
-
-  image_types_wic: schedule prepare_wic_build correctly (2017-05-17 13:35:31 +0000)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib ed/wic/wip
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=ed/wic/wip
-
-Ed Bartosh (8):
-  filemap: fix skip logic
-  filemap: add parameter 'length' to sparse_copy
-  bootimg-pcbios: make boot image file unique
-  wic: add wic_init_parser_ls
-  wic: add help and usage content for 'wic ls'
-  wic: add 'wic ls' command
-  engine: implement listing wic images
-  selftest: add new test case test_wic_ls
-
- meta/lib/oeqa/selftest/wic.py                    | 20 ++++++
- scripts/lib/wic/engine.py                        | 86 +++++++++++++++++++++++-
- scripts/lib/wic/filemap.py                       | 26 +++++--
- scripts/lib/wic/help.py                          | 65 ++++++++++++++++++
- scripts/lib/wic/plugins/source/bootimg-pcbios.py |  2 +-
- scripts/wic                                      | 40 +++++++++++
- 6 files changed, 230 insertions(+), 9 deletions(-)
-
+diff --git a/scripts/lib/wic/filemap.py b/scripts/lib/wic/filemap.py
+index 1f1aacc522..585b7ea84e 100644
+--- a/scripts/lib/wic/filemap.py
++++ b/scripts/lib/wic/filemap.py
+@@ -545,11 +545,14 @@ def sparse_copy(src_fname, dst_fname, offset=0, skip=0, api=None):
+         start = first * fmap.block_size
+         end = (last + 1) * fmap.block_size
+ 
++        if skip >= end:
++            continue
++
+         if start < skip < end:
+-            fmap._f_image.seek(skip, os.SEEK_SET)
+-        else:
+-            fmap._f_image.seek(start, os.SEEK_SET)
+-        dst_file.seek(offset + start, os.SEEK_SET)
++            start = skip
++
++        fmap._f_image.seek(start, os.SEEK_SET)
++        dst_file.seek(offset + start - skip, os.SEEK_SET)
+ 
+         chunk_size = 1024 * 1024
+         to_read = end - start
 -- 
 2.12.0
 
