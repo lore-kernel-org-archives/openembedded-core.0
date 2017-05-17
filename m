@@ -1,32 +1,47 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id D3B7977E1E
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qt0-f178.google.com (mail-qt0-f178.google.com
+	[209.85.216.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 8B5F977E13
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 May 2017 14:19:54 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	17 May 2017 07:19:55 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.38,354,1491289200"; d="scan'208";a="1170362637"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by fmsmga002.fm.intel.com with ESMTP; 17 May 2017 07:19:54 -0700
-To: Patrick Ohly <patrick.ohly@intel.com>
-References: <cover.eea09064b94ca036ef2177896c19070d316ee965.1495007905.git-series.patrick.ohly@intel.com>
-	<8810a4bbb1c67b438a7320df810db02099fcb5a0.1495007905.git-series.patrick.ohly@intel.com>
-	<6d634eb4-a0e6-7f56-0d6e-b1324eece035@linux.intel.com>
-	<1495018023.28624.38.camel@intel.com>
-	<b06241d4-97c2-a272-7d38-95091bdb66e7@linux.intel.com>
-	<1495028379.28624.46.camel@intel.com>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <c17220fa-b0a0-32bb-9cce-271ddd81da6e@linux.intel.com>
-Date: Wed, 17 May 2017 17:17:51 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.8.0
+	Wed, 17 May 2017 15:21:57 +0000 (UTC)
+Received: by mail-qt0-f178.google.com with SMTP id t26so12213038qtg.0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 17 May 2017 08:21:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=os3SDwnP9YKS+lsStEzLK1evc77b3nWn5GEnd0mrl2I=;
+	b=Q97GngkH2KA3OR4poHbt3WdPkKD6jRDG6vKVwB7tVBg0gaS1zHRWv7Xpx1sJf903XH
+	srYY0Su48ZKKFVoQ+6efBBRn1TIH05m1DxDf1W2yfHC4V3cfMqnMpj7B3ko+x5w9SYKZ
+	XWr7/W60maPIow/PX8So2l5KiCg7/pzQ9aOc7TaZ3CMV/JKHPvmFpGW5kYUIv7TVO20M
+	ff3qmiJ8KSNkY/aftTK3bRdgl3riJr9EDybr0vJNaEF3FdeZG7m0JxZAXVGJPF0r9cRL
+	BcnnVUNDmtFVCdmKc1cb1gYqe5fevqXsKC6qmAz6Kb3ASHwFMdBqrqfdpaFhi/5ydaH4
+	kDYQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=os3SDwnP9YKS+lsStEzLK1evc77b3nWn5GEnd0mrl2I=;
+	b=HlVMDAi8pHuGrdjT74EMUvnfTR+w28u02bgeNdcBBKyxHC5QtUW0RL09LWAOY0cYqr
+	SKuofKlPk3UyEzFCpssta4eyf6yZJMG5tbPU54QQ7JQJyZvgKzlSM50KJFL/k6II/+vi
+	kuOcveQzEba1obZXjAP6+ZEaJN+RwQu0oPMjvVCT056O31bI9WV8vMa2gtGkl5uYhmVT
+	kdOMTSxS25E2eHLZHUMltlZvJYlLubU2HuL6v3hMrrXAfkQwof4OfShxtadJkprEVMXK
+	FmPOsGrMNSZ9aT0acYtwowYKytyz/mmlEwKMJ42OGU0h7PxlgBrS1XudULvH4wkFUv5r
+	NR3A==
+X-Gm-Message-State: AODbwcAq+6PsalWVxAcIw63kBmAekA9oL4K/PdoxB7wlbSztpyeozztN
+	D2haqIBfkzTmDbwDQ7uHU5yO/M1Q8Lfn
+X-Received: by 10.237.36.219 with SMTP id u27mr3861599qtc.197.1495034518170;
+	Wed, 17 May 2017 08:21:58 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <1495028379.28624.46.camel@intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2 1/1] image-mode.bbclass: common infrastructure for choosing image defaults
+Received: by 10.140.41.115 with HTTP; Wed, 17 May 2017 08:21:37 -0700 (PDT)
+In-Reply-To: <20170517073138.23672-1-Martin.Jansa@gmail.com>
+References: <20170517073138.23672-1-Martin.Jansa@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 17 May 2017 16:21:37 +0100
+Message-ID: <CAJTo0LZ4WBk8dtPmjMO5cDcsuz7QXnLaJdDLxc336zPNEJy-vQ@mail.gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] python-3.5: add runtime dependency from python3-compression on python3-misc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,22 +54,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 May 2017 14:19:56 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 17 May 2017 15:21:57 -0000
+Content-Type: multipart/alternative; boundary="001a11406ef062056a054fb9d9a5"
 
-On 05/17/2017 04:39 PM, Patrick Ohly wrote:
-> [...]
+--001a11406ef062056a054fb9d9a5
+Content-Type: text/plain; charset="UTF-8"
+
+On 17 May 2017 at 08:31, Martin Jansa <martin.jansa@gmail.com> wrote:
+
+> * the /usr/lib/python3.5/_compression.py file is possibly incorrectly
+> included
+>   in python3-misc, either it should be moved to python3-compression or this
+>   runtime dependency is needed in order to use e.g. gzip.py in runtime:
 >
-> Now add one more mode and you end up with six instead of two image
-> recipes. That's what I consider not scalable.
 
-Wait a moment. The contents of recipe files is short, regular and can be 
-easily produced (or re-produced) by a script from the two lists of 
-products and modes. You never even need to look at them, let alone edit 
-them. The total amount of these recipe files is products*modes - there 
-is no combinatorial explosion. What does not scale here?
+Sounds like that file should be in -compression.
 
-Alex
+Ross
 
+--001a11406ef062056a054fb9d9a5
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 17 May 2017 at 08:31, Martin Jansa <span dir=3D"ltr">&lt;<a href=3D"mail=
+to:martin.jansa@gmail.com" target=3D"_blank">martin.jansa@gmail.com</a>&gt;=
+</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .=
+8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":15p" class=3D"=
+a3s aXjCH m15c15526fde00f90">* the /usr/lib/python3.5/_<wbr>compression.py =
+file is possibly incorrectly included<br>
+=C2=A0 in python3-misc, either it should be moved to python3-compression or=
+ this<br>
+=C2=A0 runtime dependency is needed in order to use e.g. gzip.py in runtime=
+:</div></blockquote></div><br>Sounds like that file should be in -compressi=
+on.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ro=
+ss</div></div>
+
+--001a11406ef062056a054fb9d9a5--
