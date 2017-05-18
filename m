@@ -1,45 +1,48 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg0-f68.google.com (mail-pg0-f68.google.com [74.125.83.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 3361160616
+Received: from mail-pg0-f66.google.com (mail-pg0-f66.google.com [74.125.83.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 1109277E7D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 May 2017 05:34:37 +0000 (UTC)
-Received: by mail-pg0-f68.google.com with SMTP id s62so4582807pgc.0
+	Thu, 18 May 2017 05:34:39 +0000 (UTC)
+Received: by mail-pg0-f66.google.com with SMTP id u187so4568013pgb.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 May 2017 22:34:39 -0700 (PDT)
+	Wed, 17 May 2017 22:34:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=qMYUpjNCUfQ4p/IC5iayFK4p6cQnmaLu5MxBp8ieVuw=;
-	b=qfFxJgfCIA+eWX8AHotCRffqqcLv2HABhvesW31puwOO89fnX5HSalaOuOvsZAPKGh
-	UvUOJTn8PqrdWDwH9JBsYCrYBeBZlQOKXPF9jKD2H0Kc6/lZinRTWEJpnSqKFl89Tk1T
-	ab+dtSw4pmujgfogIjuZNKDLTcqWfrvQ9yrwvu8jm/yYQjSvqgZLQlYds5S3b/aCQtpB
-	M+56CvxQ7yf++ArMhyXJXadViI0YH4Dd8w+ZACcGc0Mo12LyG5gcM/d0O2NqBx4Ex4rP
-	WWBkdlN50+Gmh7tgn1lGn2s1LEDZ0gqm/9P/+bdqOXavnmag5sFGr5uJvnjWDskNJvyJ
-	KRQw==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=DMubrUO8VGUQlsqpJzGJS1j8gegNbogpVDjm8gTi2o0=;
+	b=CdeCIxHhVI9zvB+XJ6B5KWyWXgx4gRRIVD7cS2gshqYpUvPcU0H6saRVq2+BMCLYZI
+	YBq1VujVw1lIoLKoWf4zX05JMBv9K6mc//Hdf9wGWnumSgiTySXfqO652jLd/0DAv/nM
+	XxfMmWjmUB3tHbgJLOLx1sxEMYFj1ZhpPG0lKjf0Dm70M34eMgan45+T0t4wU8NYTYKR
+	RFmJBpd1q4x3ex0e9WYlKaiOMTnoKWdm3PwNNxVVDwrSaThrJrlGEMKdcha16yOvnlaJ
+	2LC/yMbLgi0xzgr/iMT27HnwZaMj6q33TfrXUCBUsdbeQ3ARmGP7Jc9vUfnDiLJ+D0Ia
+	8Zeg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=qMYUpjNCUfQ4p/IC5iayFK4p6cQnmaLu5MxBp8ieVuw=;
-	b=WSenGKkDmzMkfsVynLhpMc/FtNxCVfa84QdjNZ1qnNjG+FDUJ45cwh7TmuqAMVjrIY
-	k+tqi2RQYGtpLpLX1btY5Fwjc+bVQp+1vbgOp15AFbtC22a7wFqgZ9//wrJebAgHG3RQ
-	be9BR43KfVy8T5WVZyJ/AvEkjUccEK+Z85Z6MrFkiL0IJYsL92N86dOLueCqESP+9RTD
-	tFOBxccrnRCGO2DkBWID2RCvIlhJaDcccnXV6VE3vOpAbCsOFroqI/YotiiwnfPLCkrk
-	8sR4tnEvNVleM4ZYgUSJV+8T1z4253AMrlVXxMk6hw5j13SsH31bFROOnzn9Tc2R61/O
-	YUdQ==
-X-Gm-Message-State: AODbwcActOSiiLuXE6YwIQlEUwgSqcm1PSfH/no+nQLn8bJYnAXzU3uX
-	lzziPyZYGXal3Q==
-X-Received: by 10.98.35.142 with SMTP id q14mr2501792pfj.220.1495085678990;
-	Wed, 17 May 2017 22:34:38 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=DMubrUO8VGUQlsqpJzGJS1j8gegNbogpVDjm8gTi2o0=;
+	b=B0JH/fr5/wGdv4D8kCraIHpPr1+WJztIrO741mOL8O5mft3e+7df46J048YdhlX89C
+	Qd3AqVnf0RQuA0tqxUmSQPpEWDr3+GnJcPu012GVCDRqnPs/x1rxPFyj/W871STFJymE
+	eSLlDwC6PH90vsP6nAXpJBVNkPM5+ApCbdBbDniyO4y0CRHW+o+enZjwlSlkGasv+eNU
+	nApI+uYc6ItZKHGiN+740bcANs1uwlqsp2h66dAqzRCv7E073E8y40rkBnczKfH1CLVm
+	V4W0bmHmgzUDxRLA9MQb2XMbYx3MxV/Gj4XU57Yub9dNHVNeqrLuudL/QPprHskiBwX8
+	Mm5Q==
+X-Gm-Message-State: AODbwcBf91523bCqxPM3zTc67zzmYihpjK8Ht1hdQyc8IEN8R0ei16te
+	J7HmCd03+faruTXn
+X-Received: by 10.99.95.88 with SMTP id t85mr2580956pgb.50.1495085680505;
+	Wed, 17 May 2017 22:34:40 -0700 (PDT)
 Received: from localhost.localdomain ([2601:646:8882:b8c::c232])
 	by smtp.gmail.com with ESMTPSA id
-	d83sm6802286pfe.40.2017.05.17.22.34.37
+	d83sm6802286pfe.40.2017.05.17.22.34.39
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 17 May 2017 22:34:37 -0700 (PDT)
+	Wed, 17 May 2017 22:34:39 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 17 May 2017 22:34:24 -0700
-Message-Id: <20170518053425.37319-1-raj.khem@gmail.com>
+Date: Wed, 17 May 2017 22:34:25 -0700
+Message-Id: <20170518053425.37319-2-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.13.0
-Subject: [PATCH 1/2] webkitgtk: Fix build for armv5
+In-Reply-To: <20170518053425.37319-1-raj.khem@gmail.com>
+References: <20170518053425.37319-1-raj.khem@gmail.com>
+Subject: [PATCH 2/2] xkeyboard-config: Enable nls support explicitly
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,69 +55,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 May 2017 05:34:38 -0000
+X-List-Received-Date: Thu, 18 May 2017 05:34:40 -0000
 
-Detect atomics during configure
+Helps compile when distros disable NLS
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../detect-atomics-during-configure.patch          | 34 ++++++++++++++++++++++
- meta/recipes-sato/webkit/webkitgtk_2.16.1.bb       |  1 +
- 2 files changed, 35 insertions(+)
- create mode 100644 meta/recipes-sato/webkit/webkitgtk/detect-atomics-during-configure.patch
+ meta/recipes-graphics/xorg-lib/xkeyboard-config_2.20.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-sato/webkit/webkitgtk/detect-atomics-during-configure.patch b/meta/recipes-sato/webkit/webkitgtk/detect-atomics-during-configure.patch
-new file mode 100644
-index 0000000000..12836f28f2
---- /dev/null
-+++ b/meta/recipes-sato/webkit/webkitgtk/detect-atomics-during-configure.patch
-@@ -0,0 +1,34 @@
-+Taken from
-+https://bugs.webkit.org/show_bug.cgi?id=161900
+diff --git a/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.20.bb b/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.20.bb
+index d00904df21..d308e9b07b 100644
+--- a/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.20.bb
++++ b/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.20.bb
+@@ -19,6 +19,8 @@ SRC_URI[sha256sum] = "d1bfc72553c4e3ef1cd6f13eec0488cf940498b612ab8a0b362e7090c9
+ SECTION = "x11/libs"
+ DEPENDS = "intltool-native virtual/gettext util-macros libxslt-native"
+ 
++USE_NLS = "yes"
 +
-+Upstream-Status: Pending
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+
-+Index: webkitgtk-2.16.1/Source/WTF/wtf/CMakeLists.txt
-+===================================================================
-+--- webkitgtk-2.16.1.orig/Source/WTF/wtf/CMakeLists.txt
-++++ webkitgtk-2.16.1/Source/WTF/wtf/CMakeLists.txt
-+@@ -182,7 +182,6 @@ set(WTF_HEADERS
-+ 
-+ set(WTF_SOURCES
-+     Assertions.cpp
-+-    Atomics.cpp
-+     AutomaticThread.cpp
-+     BitVector.cpp
-+     ClockType.cpp
-+@@ -301,6 +300,15 @@ if (NOT USE_SYSTEM_MALLOC)
-+     list(APPEND WTF_LIBRARIES bmalloc)
-+ endif ()
-+ 
-++file(WRITE ${CMAKE_BINARY_DIR}/test_atomics.cpp
-++     "int main(void)\n"
-++     "{ long long x = 1; return (int) __sync_add_and_fetch_8(&x, 1); }\n")
-++try_compile(ATOMICS_BUILD_SUCCEEDED ${CMAKE_BINARY_DIR} ${CMAKE_BINARY_DIR}/test_atomics.cpp)
-++if (NOT ATOMICS_BUILD_SUCCEEDED)
-++    list(APPEND WTF_SOURCES Atomics.cpp)
-++endif ()
-++file(REMOVE ${CMAKE_BINARY_DIR}/test_atomics.cpp)
-++
-+ list(APPEND WTF_SOURCES
-+     unicode/icu/CollatorICU.cpp
-+ )
-diff --git a/meta/recipes-sato/webkit/webkitgtk_2.16.1.bb b/meta/recipes-sato/webkit/webkitgtk_2.16.1.bb
-index 0931a50636..a52d93cfbe 100644
---- a/meta/recipes-sato/webkit/webkitgtk_2.16.1.bb
-+++ b/meta/recipes-sato/webkit/webkitgtk_2.16.1.bb
-@@ -20,6 +20,7 @@ SRC_URI = "http://www.webkitgtk.org/releases/${BPN}-${PV}.tar.xz \
-            file://x32_support.patch \
-            file://cross-compile.patch \
-            file://gcc7.patch \
-+           file://detect-atomics-during-configure.patch \
-            "
- SRC_URI[md5sum] = "d3bcf995a667fd9febb9ab991acf0ca7"
- SRC_URI[sha256sum] = "eb92383232328ce655b703c64370ed3795662479719ad1b4a869ed46769d2945"
+ EXTRA_OECONF = "--with-xkb-rules-symlink=xorg --disable-runtime-deps"
+ 
+ FILES_${PN} += "${datadir}/X11/xkb"
 -- 
 2.13.0
 
