@@ -1,24 +1,41 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 7F01D77EA9
+Return-Path: <Awais_Belal@mentor.com>
+Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
+	by mail.openembedded.org (Postfix) with ESMTP id EBEA678080
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 May 2017 13:01:00 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v4ID116A007964
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Thu, 18 May 2017 06:01:01 -0700
-Received: from yow-bashfiel-d4.wrs.com (128.224.56.94) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.294.0; Thu, 18 May 2017 06:01:00 -0700
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-To: <ross.burton@intel.com>
-Date: Thu, 18 May 2017 09:01:00 -0400
-Message-ID: <1495112460-1991-1-git-send-email-bruce.ashfield@windriver.com>
-X-Mailer: git-send-email 2.5.0
+	Thu, 18 May 2017 13:20:43 +0000 (UTC)
+Received: from nat-ies.mentorg.com ([192.94.31.2]
+	helo=SVR-IES-MBX-03.mgc.mentorg.com)
+	by relay1.mentorg.com with esmtp 
+	id 1dBLMC-0001x1-Hv from Awais_Belal@mentor.com ;
+	Thu, 18 May 2017 06:20:44 -0700
+Received: from SVR-IES-MBX-03.mgc.mentorg.com (139.181.222.3) by
+	SVR-IES-MBX-03.mgc.mentorg.com (139.181.222.3) with Microsoft SMTP
+	Server (TLS) id 15.0.1210.3; Thu, 18 May 2017 14:20:41 +0100
+Received: from SVR-IES-MBX-03.mgc.mentorg.com ([fe80::1072:fb6e:87f1:ed17]) by
+	SVR-IES-MBX-03.mgc.mentorg.com ([fe80::1072:fb6e:87f1:ed17%22]) with
+	mapi id 15.00.1210.000; Thu, 18 May 2017 14:20:41 +0100
+From: "Belal, Awais" <Awais_Belal@mentor.com>
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>, Robert Yang
+	<liezhi.yang@windriver.com>, "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH] autogen-native: allow user to set POSIX_SHELL
+	as desired
+Thread-Index: AQHSz6MW7Q5pe3J2J0SZSGZTFD/7BaH5nyEAgAAUlwCAAD5Uz4AAA66AgAActU4=
+Date: Thu, 18 May 2017 13:20:41 +0000
+Message-ID: <1495113640541.39546@mentor.com>
+References: <20170518065043.1662-1-awais_belal@mentor.com>
+	<62e4fbc9-931b-d0dd-e71b-99002495c32e@windriver.com>
+	<a577a0c9-e1df-a657-a00b-4c5cd69c4609@linux.intel.com>
+	<1495106583673.65036@mentor.com>,
+	<62eacb9b-662a-c259-0bbf-364c488cb194@linux.intel.com>
+In-Reply-To: <62eacb9b-662a-c259-0bbf-364c488cb194@linux.intel.com>
+Accept-Language: en-US, en-IE
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [137.202.0.87]
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH v2] linux-yocto/4.1: fix gcc7 compilation and v4.1.39
+Subject: Re: [PATCH] autogen-native: allow user to set POSIX_SHELL as desired
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,101 +48,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 May 2017 13:01:01 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 18 May 2017 13:20:44 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
-Porting the mainline commit, to fix gcc7 builds:
-
-  474c90156c [give up on gcc ilog2() constant optimizations]
-
-We also integrate the 4.1.39 -stable update to pick up additional
-fixes.
-
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
----
- meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb   |  6 +++---
- meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb |  6 +++---
- meta/recipes-kernel/linux/linux-yocto_4.1.bb      | 20 ++++++++++----------
- 3 files changed, 16 insertions(+), 16 deletions(-)
-
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb b/meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb
-index 21cc635bf4f8..d69b9ade2ce1 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb
-@@ -11,13 +11,13 @@ python () {
-         raise bb.parse.SkipPackage("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
- }
- 
--SRCREV_machine ?= "f793c71d51277bdb14d6854c8cbcc09b4f5936b4"
--SRCREV_meta ?= "7140ddb86e4b01529185e6d4a606001ad152b8f3"
-+SRCREV_machine ?= "ec0bfadaeac24cc63fa05521c6608b79b26a5e5d"
-+SRCREV_meta ?= "82aa97b3ebb3cd7eec8296a7cb090dfc67c2d382"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.1.git;branch=${KBRANCH};name=machine \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.1;destsuffix=${KMETA}"
- 
--LINUX_VERSION ?= "4.1.38"
-+LINUX_VERSION ?= "4.1.39"
- 
- PV = "${LINUX_VERSION}+git${SRCPV}"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb
-index ce8aea628b2c..f7c969a1bece 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb
-@@ -4,13 +4,13 @@ KCONFIG_MODE = "--allnoconfig"
- 
- require recipes-kernel/linux/linux-yocto.inc
- 
--LINUX_VERSION ?= "4.1.38"
-+LINUX_VERSION ?= "4.1.39"
- 
- KMETA = "kernel-meta"
- KCONF_BSP_AUDIT_LEVEL = "2"
- 
--SRCREV_machine ?= "2ce56d130ddff67f43ec857cc51cd347666a0078"
--SRCREV_meta ?= "7140ddb86e4b01529185e6d4a606001ad152b8f3"
-+SRCREV_machine ?= "398d1785c6bde0085b99f00f346e199a15fbdcef"
-+SRCREV_meta ?= "82aa97b3ebb3cd7eec8296a7cb090dfc67c2d382"
- 
- PV = "${LINUX_VERSION}+git${SRCPV}"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto_4.1.bb b/meta/recipes-kernel/linux/linux-yocto_4.1.bb
-index bf7f266ee6f2..c6cdcab95030 100644
---- a/meta/recipes-kernel/linux/linux-yocto_4.1.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_4.1.bb
-@@ -11,20 +11,20 @@ KBRANCH_qemux86  ?= "standard/base"
- KBRANCH_qemux86-64 ?= "standard/base"
- KBRANCH_qemumips64 ?= "standard/mti-malta64"
- 
--SRCREV_machine_qemuarm ?= "4d2c95e78cdc7d312b7ab231ce90dce317f45df9"
--SRCREV_machine_qemuarm64 ?= "2ce56d130ddff67f43ec857cc51cd347666a0078"
--SRCREV_machine_qemumips ?= "81454f95166056a253c8950980e025ee243d8074"
--SRCREV_machine_qemuppc ?= "42c41e606b70fd73a202f4146c0480f5624b0a0e"
--SRCREV_machine_qemux86 ?= "2ce56d130ddff67f43ec857cc51cd347666a0078"
--SRCREV_machine_qemux86-64 ?= "2ce56d130ddff67f43ec857cc51cd347666a0078"
--SRCREV_machine_qemumips64 ?= "8a481005da41f82d2a40bf8cb40334547160ab5b"
--SRCREV_machine ?= "2ce56d130ddff67f43ec857cc51cd347666a0078"
--SRCREV_meta ?= "7140ddb86e4b01529185e6d4a606001ad152b8f3"
-+SRCREV_machine_qemuarm ?= "3b0fd24797cb11aae54010b1bbc09dd2ae8a108e"
-+SRCREV_machine_qemuarm64 ?= "398d1785c6bde0085b99f00f346e199a15fbdcef"
-+SRCREV_machine_qemumips ?= "7420516ff545f8ab3e2471cf08bf851744264a6a"
-+SRCREV_machine_qemuppc ?= "6952f5a70bc8a84a4c4d926cdec93e7a39878f32"
-+SRCREV_machine_qemux86 ?= "398d1785c6bde0085b99f00f346e199a15fbdcef"
-+SRCREV_machine_qemux86-64 ?= "398d1785c6bde0085b99f00f346e199a15fbdcef"
-+SRCREV_machine_qemumips64 ?= "59727538774860381f42bcfb6ec05fe21facd319"
-+SRCREV_machine ?= "398d1785c6bde0085b99f00f346e199a15fbdcef"
-+SRCREV_meta ?= "82aa97b3ebb3cd7eec8296a7cb090dfc67c2d382"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.1.git;name=machine;branch=${KBRANCH}; \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.1;destsuffix=${KMETA}"
- 
--LINUX_VERSION ?= "4.1.38"
-+LINUX_VERSION ?= "4.1.39"
- 
- PV = "${LINUX_VERSION}+git${SRCPV}"
- 
--- 
-2.5.0
-
+> I just checked why is autogen in oe-core in the first place. The only=0A=
+> thing that needs it now is grub, and it will no longer be necessary when=
+=0A=
+> Khem's grub 2.02 patch shows up in master. So then we can remove the=0A=
+> whole thing. But thanks for fixing! :)=0A=
+=0A=
+I went through Khem's grub2 changes: http://cgit.openembedded.org/openembed=
+ded-core-contrib/commit/?h=3Dkraj/master&id=3D0af89270aa83d6ad0a4859e18643b=
+53191567c8b and in those changes the grub2.inc still reads=0A=
+=0A=
+DEPENDS =3D "flex-native bison-native autogen-native"=0A=
+=0A=
+So I think this can be valuable :)=0A=
+=0A=
+BR,=0A=
+Awais=0A=
+=0A=
+________________________________________=0A=
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>=0A=
+Sent: Thursday, May 18, 2017 5:32 PM=0A=
+To: Belal, Awais; Robert Yang; openembedded-core@lists.openembedded.org=0A=
+Subject: Re: [OE-core] [PATCH] autogen-native: allow user to set POSIX_SHEL=
+L as desired=0A=
+=0A=
+On 05/18/2017 02:23 PM, Belal, Awais wrote:=0A=
+>> That's right. The file is generated from libopts.def in the same=0A=
+>> directory. I now looked at the code finally :) and I think it's=0A=
+>> better to leave the POSIX_SHELL variable alone (and not set it from=0A=
+>> the recipe either because it has no effect), and go back to the=0A=
+>> original idea of patching the place where it's used to make a=0A=
+>> shebang line - I think there's only one such place in the source=0A=
+>> code.=0A=
+>=0A=
+>> But fixing libopts.def is okay too, I just think it's more=0A=
+>> trouble.=0A=
+>=0A=
+> The usage of libopts.def has been deprecated upstream:=0A=
+> git://git.sv.gnu.org/autogen.git #=0A=
+> 5cbe233387d7f7b36752736338d1cd4f71287daa but they've still kept=0A=
+> libopts.m4 so I think this patch will do for future use as well and=0A=
+> shouldn't have a problem.=0A=
+=0A=
+I just checked why is autogen in oe-core in the first place. The only=0A=
+thing that needs it now is grub, and it will no longer be necessary when=0A=
+Khem's grub 2.02 patch shows up in master. So then we can remove the=0A=
+whole thing. But thanks for fixing! :)=0A=
+=0A=
+Alex=0A=
 
