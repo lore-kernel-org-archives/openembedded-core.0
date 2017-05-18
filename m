@@ -1,26 +1,26 @@
 Return-Path: <markus.lehtonen@linux.intel.com>
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 73B3077E94
+	by mail.openembedded.org (Postfix) with ESMTP id D339F60069
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 18 May 2017 08:42:59 +0000 (UTC)
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
 	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	18 May 2017 01:43:00 -0700
+	18 May 2017 01:43:01 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.38,358,1491289200"; d="scan'208";a="88535183"
+X-IronPort-AV: E=Sophos;i="5.38,358,1491289200"; d="scan'208";a="88535195"
 Received: from dmcgahon-mobl.ger.corp.intel.com (HELO
 	mqz-osx-suse64.fi.intel.com) ([10.252.14.225])
-	by orsmga002.jf.intel.com with ESMTP; 18 May 2017 01:42:59 -0700
+	by orsmga002.jf.intel.com with ESMTP; 18 May 2017 01:43:00 -0700
 From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 18 May 2017 11:42:51 +0300
-Message-Id: <44699ac4b14f4e2255d843ed438bd1adc883f329.1495095863.git.markus.lehtonen@linux.intel.com>
+Date: Thu, 18 May 2017 11:42:52 +0300
+Message-Id: <25a92206c4cc59a6fe7c24c17ed39f21b2612d2b.1495095863.git.markus.lehtonen@linux.intel.com>
 X-Mailer: git-send-email 2.12.0
 In-Reply-To: <cover.1495095863.git.markus.lehtonen@linux.intel.com>
 References: <cover.1495095863.git.markus.lehtonen@linux.intel.com>
 In-Reply-To: <cover.1495095863.git.markus.lehtonen@linux.intel.com>
 References: <cover.1495095863.git.markus.lehtonen@linux.intel.com>
-Subject: [PATCH v3 1/8] python3-native: support profile optimized build
+Subject: [PATCH v3 2/8] python3: fix depends of python3-tests
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,66 +35,32 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 18 May 2017 08:42:59 -0000
 
-Make it possible to build python3-native with profile directed optimization
-enabled. The feature is enabled by specifying
-PYTHON3_NATIVE_PROFILE_OPT = "1" in local.conf.
+Similar to an earlier fix for Python 2.7. Make the tests subpackage
+depend on all modules as test.regrtest uses most (if not all) of them.
 
-The profile task to be run may be specified with PYTHON3_NATIVE_PROFILE_TASK
-variable in local.conf, e.g.
-PYTHON3_NATIVE_PROFILE_TASK = "${S}/Tools/pybench/pybench.py -n 2 --with-gc --with-syscheck"
+Some tests also depend on libgcc so add that as a runtime dependency as
+well.
 
 [YOCTO #9338]
 
 Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
 ---
- meta/recipes-devtools/python/python3-native_3.5.2.bb         | 9 +++++++++
- meta/recipes-devtools/python/python3/000-cross-compile.patch | 9 ---------
- 2 files changed, 9 insertions(+), 9 deletions(-)
+ meta/recipes-devtools/python/python-3.5-manifest.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/python/python3-native_3.5.2.bb b/meta/recipes-devtools/python/python3-native_3.5.2.bb
-index edcf2244f5..1d99e56054 100644
---- a/meta/recipes-devtools/python/python3-native_3.5.2.bb
-+++ b/meta/recipes-devtools/python/python3-native_3.5.2.bb
-@@ -56,10 +56,19 @@ EXTRA_OEMAKE = '\
- # No ctypes option for python 3
- PYTHONLSBOPTS = ""
+diff --git a/meta/recipes-devtools/python/python-3.5-manifest.inc b/meta/recipes-devtools/python/python-3.5-manifest.inc
+index 1e20f00c64..3f29b53a73 100644
+--- a/meta/recipes-devtools/python/python-3.5-manifest.inc
++++ b/meta/recipes-devtools/python/python-3.5-manifest.inc
+@@ -241,7 +241,7 @@ RDEPENDS_${PN}-terminal="${PN}-core ${PN}-io"
+ FILES_${PN}-terminal="${libdir}/python3.5/pty.* ${libdir}/python3.5/__pycache__/pty.* ${libdir}/python3.5/tty.* ${libdir}/python3.5/__pycache__/tty.* "
  
-+PYTHON3_NATIVE_MAKE_TARGET ?= "${@'profile-opt' if d.getVar('PYTHON3_NATIVE_PROFILE_OPT', True) == '1' else ''}"
-+
- do_configure_append() {
- 	autoreconf --verbose --install --force --exclude=autopoint ../Python-${PV}/Modules/_ctypes/libffi
- }
+ SUMMARY_${PN}-tests="Python tests"
+-RDEPENDS_${PN}-tests="${PN}-core"
++RDEPENDS_${PN}-tests="${PN}-core ${PN}-modules libgcc"
+ FILES_${PN}-tests="${libdir}/python3.5/test ${libdir}/python3.5/test/__pycache__ "
  
-+do_compile() {
-+    if [ -n "${PYTHON3_NATIVE_PROFILE_TASK}" ]; then
-+        sed -i -e 's,^PROFILE_TASK=.*,PROFILE_TASK=${PYTHON3_NATIVE_PROFILE_TASK},g' Makefile
-+    fi
-+    oe_runmake ${PYTHON3_NATIVE_MAKE_TARGET}
-+}
-+
- do_install() {
- 	install -d ${D}${libdir}/pkgconfig
- 	oe_runmake 'DESTDIR=${D}' install
-diff --git a/meta/recipes-devtools/python/python3/000-cross-compile.patch b/meta/recipes-devtools/python/python3/000-cross-compile.patch
-index 2d822218f4..d6d7820ee8 100644
---- a/meta/recipes-devtools/python/python3/000-cross-compile.patch
-+++ b/meta/recipes-devtools/python/python3/000-cross-compile.patch
-@@ -29,15 +29,6 @@ Index: Python-3.5.2/Makefile.pre.in
-  
-  PSRCS=		\
-  		Parser/acceler.c \
--@@ -509,7 +511,7 @@ build_all_generate_profile:
-- 
-- run_profile_task:
-- 	: # FIXME: can't run for a cross build
---	$(LLVM_PROF_FILE) $(RUNSHARED) ./$(BUILDPYTHON) $(PROFILE_TASK) || true
--+	$(LLVM_PROF_FILE) $(RUNSHARED) $(HOSTPYTHON) $(PROFILE_TASK) || true
-- 
-- build_all_merge_profile:
-- 	$(LLVM_PROF_MERGER)
- @@ -792,7 +794,7 @@ $(GRAMMAR_H): $(GRAMMAR_INPUT) $(PGEN)
-  	@$(MKDIR_P) Include
-  	# Avoid copying the file onto itself for an in-tree build
+ SUMMARY_${PN}-textutils="Python option parsing, text wrapping and CSV support"
 -- 
 2.12.0
 
