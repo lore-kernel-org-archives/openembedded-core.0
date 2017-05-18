@@ -1,39 +1,50 @@
-Return-Path: <juro.bystricky@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 4A6A278044
+Return-Path: <kergoth@gmail.com>
+Received: from mail-oi0-f65.google.com (mail-oi0-f65.google.com
+	[209.85.218.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 4DAB777F80
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 May 2017 21:14:42 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	18 May 2017 14:14:43 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.38,360,1491289200"; 
-	d="scan'208,217";a="1132314250"
-Received: from orsmsx108.amr.corp.intel.com ([10.22.240.6])
-	by orsmga001.jf.intel.com with ESMTP; 18 May 2017 14:14:42 -0700
-Received: from orsmsx114.amr.corp.intel.com (10.22.240.10) by
-	ORSMSX108.amr.corp.intel.com (10.22.240.6) with Microsoft SMTP Server
-	(TLS) id 14.3.319.2; Thu, 18 May 2017 14:14:41 -0700
-Received: from orsmsx112.amr.corp.intel.com ([169.254.3.213]) by
-	ORSMSX114.amr.corp.intel.com ([169.254.8.78]) with mapi id
-	14.03.0319.002; Thu, 18 May 2017 14:14:41 -0700
-From: "Bystricky, Juro" <juro.bystricky@intel.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Thread-Topic: [PATCH] kernel.bbclass: improve reproducibility
-Thread-Index: AQHS0Bp5QyH/rNeLEk2la53nVMXnkaH7C12A//+Lrwk=
-Date: Thu, 18 May 2017 21:14:40 +0000
-Message-ID: <6E51916E4A1F32428260031F4C7CD2B61195C6DE@ORSMSX112.amr.corp.intel.com>
-References: <1495141509-4582-1-git-send-email-juro.bystricky@intel.com>,
-	<CAJTo0LbY5NPD8PY8dFiCvg8h47DCWYBgM6yEWLVDk3Vg-C-MUw@mail.gmail.com>
-In-Reply-To: <CAJTo0LbY5NPD8PY8dFiCvg8h47DCWYBgM6yEWLVDk3Vg-C-MUw@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.19.9.46]
+	Thu, 18 May 2017 21:37:48 +0000 (UTC)
+Received: by mail-oi0-f65.google.com with SMTP id h4so9539549oib.0
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 18 May 2017 14:37:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=i8vvbZANzMKZQQ8e/PR6cW/5rspHya6GjCxjD4TG9X0=;
+	b=Dm9PgSpe1qilvyj0n9R83Hrh3DDAWflNqXjYrW+Np2ukSecx3/9Klk7PWkW54ukjMJ
+	CR9PchmEz39vXGvU44deBSpU9ZwxDpE1KqPaF78750/bVJd2ywmgsmYGDwTR797p/Hyx
+	IrR5TzPC1l/SDl2d3RHW8Zl0ncMHnsUgaPr5DGOzVFxAohAtzRtZ2VB7Qxdz0fkX+w4U
+	3fnlU8IyaAyq1krQmEpuxFOyuzSEM7phVy0cU8SY26Tsv+vm+FJ9gY1oA8XlB6wYHL2V
+	+MM0uWiZ2TtsfYmX8NXbjsdhvj5eKqkMb0rIB2iUnzH49Fgd1N6ocvCIf9l4WL3MZFUj
+	UfsA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=i8vvbZANzMKZQQ8e/PR6cW/5rspHya6GjCxjD4TG9X0=;
+	b=WNscDA/VXXG/dsYLfJhpWuWDFjZxHd7d23w/rb/0BnFLE+nQufNlM4nnNukJA6wAB9
+	eAYZkVJIV/QJHGD3FoV2TCs3v0zfo/VtnORCKrOIjyswWSDwFkxzmU2N2HHSRVmewObo
+	RTC1tAFZxETObEuZf6KYVHQHBQM+G7prezZtxE6221Jss2vGjj7NlHVOf73wEdX+fsLC
+	Mx2MnAMD55lPrKULpb9nhLDcx1rATjR4xR0YlGmp8rF/LkXCx5nQQ6EKLmJuH7yXy/iy
+	nKz4XXdGyabZpz2H8VBrDfdDkhvUVLSgRM+IXZaIaaQSZYqiVzStEItBD7iEocFcvdKr
+	U+BQ==
+X-Gm-Message-State: AODbwcD/a4GFYwVXm1Px7vNsb/fYyX40RjLoG6n+adfJjCKNkzNkhsPa
+	00fVN2mSrWN2gfii59vhlKqGBdud6A==
+X-Received: by 10.157.31.71 with SMTP id x7mr3729590otx.217.1495143470229;
+	Thu, 18 May 2017 14:37:50 -0700 (PDT)
 MIME-Version: 1.0
-Cc: Juro Bystricky <jurobystricky@hotmail.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] kernel.bbclass: improve reproducibility
+Received: by 10.157.30.226 with HTTP; Thu, 18 May 2017 14:37:29 -0700 (PDT)
+In-Reply-To: <CAMKF1sp9VFkd5+4HcYpgnZ+HhOoarKJNrc=--DTsmGYJyps-2g@mail.gmail.com>
+References: <20170518173423.28994-1-enrico.scholz@sigma-chemnitz.de>
+	<20170518181957.GU28053@denix.org>
+	<CAMKF1sp9VFkd5+4HcYpgnZ+HhOoarKJNrc=--DTsmGYJyps-2g@mail.gmail.com>
+From: Christopher Larson <kergoth@gmail.com>
+Date: Thu, 18 May 2017 14:37:29 -0700
+Message-ID: <CABcZAN=wku6-Z-T2w-OWzpXSxghB_NRUdYx3d9nn2STpUrYBpw@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] tzcode-native: quote ${CC}
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,102 +57,110 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 May 2017 21:14:42 -0000
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_6E51916E4A1F32428260031F4C7CD2B61195C6DEORSMSX112amrcor_"
+X-List-Received-Date: Thu, 18 May 2017 21:37:51 -0000
+Content-Type: multipart/alternative; boundary="001a113710bc6e70e9054fd33799"
 
---_000_6E51916E4A1F32428260031F4C7CD2B61195C6DEORSMSX112amrcor_
-Content-Type: text/plain; charset="iso-8859-1"
+--001a113710bc6e70e9054fd33799
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Quite possibly. However, the biggest abuser of __FILE__ seems to be kernel =
-and kernel_modules.
+On Thu, May 18, 2017 at 11:57 AM, Khem Raj <raj.khem@gmail.com> wrote:
 
-________________________________
-From: Burton, Ross [ross.burton@intel.com]
-Sent: Thursday, May 18, 2017 2:10 PM
-To: Bystricky, Juro
-Cc: OE-core; Purdie, Richard; Joshua G Lock; Juro Bystricky
-Subject: Re: [PATCH] kernel.bbclass: improve reproducibility
+> On Thu, May 18, 2017 at 11:19 AM, Denys Dmytriyenko <denis@denix.org>
+> wrote:
+> > On Thu, May 18, 2017 at 07:34:23PM +0200, Enrico Scholz wrote:
+> >> build fails else with
+> >>
+> >> | + make -j 8 -l 6 cc=3Dccache gcc
+> >> | make: *** No rule to make target 'gcc'.  Stop.
+> >>
+> >> Signed-off-by: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+> >> ---
+> >>  meta/recipes-extended/tzcode/tzcode-native_2017b.bb | 2 +-
+> >>  1 file changed, 1 insertion(+), 1 deletion(-)
+> >>
+> >> diff --git a/meta/recipes-extended/tzcode/tzcode-native_2017b.bb
+> b/meta/recipes-extended/tzcode/tzcode-native_2017b.bb
+> >> index 2084f79..165d2c6 100644
+> >> --- a/meta/recipes-extended/tzcode/tzcode-native_2017b.bb
+> >> +++ b/meta/recipes-extended/tzcode/tzcode-native_2017b.bb
+> >> @@ -18,7 +18,7 @@ S =3D "${WORKDIR}"
+> >>
+> >>  inherit native
+> >>
+> >> -EXTRA_OEMAKE +=3D "cc=3D${CC}"
+> >> +EXTRA_OEMAKE +=3D "cc=3D'${CC}'"
+> >
+> > Should these be double-quotes around ${CC}?
+>
+> I think this should work as such.
 
 
-On 18 May 2017 at 22:05, Juro Bystricky <juro.bystricky@intel.com<mailto:ju=
-ro.bystricky@intel.com>> wrote:
-Kernel and kernel modules contain hard coded paths referencing the host
-build system. This is usually because the source code contains __FILE__
-at some place. This prevents binary reproducibility. However, some compiler=
-s
-allow remapping of the __FILE__ value. If we detect the compiler is capable
-of doing this, we replace the source path $(S) part of __FILE__ by a string=
- "/kernel-source".
-For example:
+Indeed, it=E2=80=99s expanded by bitbake, not the shell, so which quotes do=
+n=E2=80=99t
+matter in that regard, and it=E2=80=99s syntactically cleaner to use differ=
+ent
+quotes than those used for the variable as a whole.
+--=20
+Christopher Larson
+kergoth at gmail dot com
+Founder - BitBake, OpenEmbedded, OpenZaurus
+Senior Software Engineer, Mentor Graphics
 
-Is this not something we should do globally?
-
-Ross
-
---_000_6E51916E4A1F32428260031F4C7CD2B61195C6DEORSMSX112amrcor_
-Content-Type: text/html; charset="iso-8859-1"
+--001a113710bc6e70e9054fd33799
+Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<html dir=3D"ltr">
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
-1">
-<style type=3D"text/css" id=3D"owaParaStyle">P {margin-top:0;margin-bottom:=
-0;}</style>
-</head>
-<body fpstyle=3D"1" ocsi=3D"0">
-<div style=3D"direction: ltr;font-family: Tahoma;color: #000000;font-size: =
-10pt;">Quite possibly. However, the biggest abuser of __FILE__ seems to be =
-kernel and kernel_modules.<br>
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On Thu, May 18, 2017 at 11:57 AM, Khem Raj <span dir=3D"ltr">&lt;<a href=3D=
+"mailto:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</s=
+pan> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex=
+;border-left:1px #ccc solid;padding-left:1ex"><span class=3D"">On Thu, May =
+18, 2017 at 11:19 AM, Denys Dmytriyenko &lt;<a href=3D"mailto:denis@denix.o=
+rg">denis@denix.org</a>&gt; wrote:<br>
+&gt; On Thu, May 18, 2017 at 07:34:23PM +0200, Enrico Scholz wrote:<br>
+&gt;&gt; build fails else with<br>
+&gt;&gt;<br>
+&gt;&gt; | + make -j 8 -l 6 cc=3Dccache gcc<br>
+&gt;&gt; | make: *** No rule to make target &#39;gcc&#39;.=C2=A0 Stop.<br>
+&gt;&gt;<br>
+&gt;&gt; Signed-off-by: Enrico Scholz &lt;<a href=3D"mailto:enrico.scholz@s=
+igma-chemnitz.de">enrico.scholz@sigma-chemnitz.<wbr>de</a>&gt;<br>
+&gt;&gt; ---<br>
+&gt;&gt;=C2=A0 meta/recipes-extended/tzcode/<a href=3D"http://tzcode-native=
+_2017b.bb" rel=3D"noreferrer" target=3D"_blank">t<wbr>zcode-native_2017b.bb=
+</a> | 2 +-<br>
+&gt;&gt;=C2=A0 1 file changed, 1 insertion(+), 1 deletion(-)<br>
+&gt;&gt;<br>
+&gt;&gt; diff --git a/meta/recipes-extended/<wbr>tzcode/<a href=3D"http://t=
+zcode-native_2017b.bb" rel=3D"noreferrer" target=3D"_blank">tzcode-native_2=
+017b.bb</a> b/meta/recipes-extended/<wbr>tzcode/<a href=3D"http://tzcode-na=
+tive_2017b.bb" rel=3D"noreferrer" target=3D"_blank">tzcode-native_2017b.bb<=
+/a><br>
+&gt;&gt; index 2084f79..165d2c6 100644<br>
+&gt;&gt; --- a/meta/recipes-extended/<wbr>tzcode/<a href=3D"http://tzcode-n=
+ative_2017b.bb" rel=3D"noreferrer" target=3D"_blank">tzcode-native_2017b.bb=
+</a><br>
+&gt;&gt; +++ b/meta/recipes-extended/<wbr>tzcode/<a href=3D"http://tzcode-n=
+ative_2017b.bb" rel=3D"noreferrer" target=3D"_blank">tzcode-native_2017b.bb=
+</a><br>
+&gt;&gt; @@ -18,7 +18,7 @@ S =3D &quot;${WORKDIR}&quot;<br>
+&gt;&gt;<br>
+&gt;&gt;=C2=A0 inherit native<br>
+&gt;&gt;<br>
+&gt;&gt; -EXTRA_OEMAKE +=3D &quot;cc=3D${CC}&quot;<br>
+&gt;&gt; +EXTRA_OEMAKE +=3D &quot;cc=3D&#39;${CC}&#39;&quot;<br>
+&gt;<br>
+&gt; Should these be double-quotes around ${CC}?<br>
 <br>
-<div style=3D"font-family: Times New Roman; color: #000000; font-size: 16px=
-">
-<hr tabindex=3D"-1">
-<div id=3D"divRpF80446" style=3D"direction: ltr;"><font size=3D"2" color=3D=
-"#000000" face=3D"Tahoma"><b>From:</b> Burton, Ross [ross.burton@intel.com]=
-<br>
-<b>Sent:</b> Thursday, May 18, 2017 2:10 PM<br>
-<b>To:</b> Bystricky, Juro<br>
-<b>Cc:</b> OE-core; Purdie, Richard; Joshua G Lock; Juro Bystricky<br>
-<b>Subject:</b> Re: [PATCH] kernel.bbclass: improve reproducibility<br>
-</font><br>
-</div>
-<div></div>
-<div>
-<div dir=3D"ltr">
-<div class=3D"gmail_extra"><br>
-<div class=3D"gmail_quote">On 18 May 2017 at 22:05, Juro Bystricky <span di=
-r=3D"ltr">
-&lt;<a href=3D"mailto:juro.bystricky@intel.com" target=3D"_blank">juro.byst=
-ricky@intel.com</a>&gt;</span> wrote:<br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex; border-left:1=
-px #ccc solid; padding-left:1ex">
-<div id=3D":1v4" class=3D"a3s aXjCH m15c1d618d19a5dbb">Kernel and kernel mo=
-dules contain hard coded paths referencing the host<br>
-build system. This is usually because the source code contains __FILE__<br>
-at some place. This prevents binary reproducibility. However, some compiler=
-s<br>
-allow remapping of the __FILE__ value. If we detect the compiler is capable=
-<br>
-of doing this, we replace the source path $(S) part of __FILE__ by a string=
- &quot;/kernel-source&quot;.<br>
-For example:<br>
-</div>
-</blockquote>
-</div>
-<br>
-Is this not something we should do globally?</div>
-<div class=3D"gmail_extra"><br>
-</div>
-<div class=3D"gmail_extra">Ross</div>
-</div>
-</div>
-</div>
-</div>
-</body>
-</html>
+</span>I think this should work as such.</blockquote></div><br>Indeed, it=
+=E2=80=99s expanded by bitbake, not the shell, so which quotes don=E2=80=99=
+t matter in that regard, and it=E2=80=99s syntactically cleaner to use diff=
+erent quotes than those used for the variable as a whole.<br>-- <br><div cl=
+ass=3D"gmail_signature" data-smartmail=3D"gmail_signature"><div dir=3D"ltr"=
+><div><div dir=3D"ltr">Christopher Larson<br>kergoth at gmail dot com<br>Fo=
+under - BitBake, OpenEmbedded, OpenZaurus<br>Senior Software Engineer, Ment=
+or Graphics</div></div></div></div>
+</div></div>
 
---_000_6E51916E4A1F32428260031F4C7CD2B61195C6DEORSMSX112amrcor_--
+--001a113710bc6e70e9054fd33799--
