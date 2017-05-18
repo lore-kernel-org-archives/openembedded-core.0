@@ -1,30 +1,47 @@
-Return-Path: <huangqy.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
-	by mail.openembedded.org (Postfix) with ESMTP id F423977E98
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qt0-f172.google.com (mail-qt0-f172.google.com
+	[209.85.216.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 91FE077EA0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 May 2017 09:16:12 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.22,518,1449504000"; d="scan'208";a="19012815"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 18 May 2017 17:16:11 +0800
-Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
-	by cn.fujitsu.com (Postfix) with ESMTP id A632547C7C66
+	Thu, 18 May 2017 09:27:24 +0000 (UTC)
+Received: by mail-qt0-f172.google.com with SMTP id c13so29379291qtc.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 May 2017 17:16:06 +0800 (CST)
-Received: from localhost.localdomain (10.167.226.81) by
-	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.319.2; Thu, 18 May 2017 17:16:07 +0800
-From: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 18 May 2017 17:15:50 +0800
-Message-ID: <1495098950-18824-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 2.7.4
+	Thu, 18 May 2017 02:27:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=nwP5d8Bwx1HE9dZ2OD4FZV02HwM3sJucvLojI9j6dkQ=;
+	b=qiRHw3bA8VTLwwKZ9hIS1Gcxdzr70ugH64I6493+PV7AuYQkOY+Il1JQMot9C5Tcz2
+	oxDvrK12onrw/MZqHg5D6ADkW2u2Eucbnc0JSK8T70Mbn40KDrs14uLKvS5ZJqkoz8me
+	1ttPnV6RmB7a14LEOOK5YeG0Vfsqm1JSHuZQ2csWEZzBA9ggjztDcVdlvdMLBQAWKDir
+	ZzoWEaCqrQYsSKmz90sCTFCTSrNQ6HSQya9uXvJRbNAIkTXkXmeeQ8XtGn6ox3ImCIn6
+	SLiAN21L02i3rma7kfZBXSmfvGgD+RWaAoR6iR8mOhqa3uebrwBL/4P1CiWvkbP7s6Rn
+	3XIw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=nwP5d8Bwx1HE9dZ2OD4FZV02HwM3sJucvLojI9j6dkQ=;
+	b=PPNBfGN769NSKl4P8fqV96mwRgKhUKoKNirZcllTII/emoK26TI8P4eTRSbFWv7+6I
+	nU8uOUtb8x835yWjXTwdKcBUyTLhg35EJr49Jo1+XieNa30F7N70eYKrxYLudZFWZAXk
+	HSXpJ25dGxm6IH5vswf2N0QchH9zsaHjd/+kAubpnJMI7Het1+ozgSlJb1nk06VXaQeB
+	jjqx7um0gtAZbKkKZC9la1KqlhMNaP57pVehwuNTbcuubJEI2ujou9jfR6RCJLql/wxd
+	wMDsbJkSevPa+IHwKINcZggmcQnaNs8TxVpwTaZ0LG+njsXZJy8IToIpPzWPcQ4sbLe+
+	/hGg==
+X-Gm-Message-State: AODbwcDjxkB09k8VtI5UznomcPOaO7HgDwPSGGY7nD8tEZ0s4j23TVzq
+	KOoEH/sGIJsOj2h1sqLO4CoJt6Zbjksf
+X-Received: by 10.200.50.49 with SMTP id x46mr3131979qta.105.1495099645436;
+	Thu, 18 May 2017 02:27:25 -0700 (PDT)
 MIME-Version: 1.0
-X-Originating-IP: [10.167.226.81]
-X-yoursite-MailScanner-ID: A632547C7C66.A8E12
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: huangqy.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Subject: [PATCH v4] libnl: 3.2.29 -> 3.3.0
+Received: by 10.140.41.115 with HTTP; Thu, 18 May 2017 02:27:05 -0700 (PDT)
+In-Reply-To: <1495098950-18824-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
+References: <1495098950-18824-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 18 May 2017 10:27:05 +0100
+Message-ID: <CAJTo0LbAX6DHYZUNUH1bzJF3a7xaK0o5RPX4jXBzTXDhAvUZXg@mail.gmail.com>
+To: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v4] libnl: 3.2.29 -> 3.3.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,157 +54,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 May 2017 09:16:13 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 18 May 2017 09:27:25 -0000
+Content-Type: multipart/alternative; boundary="001a113577a24548c6054fc90338"
 
-1) Upgrade libnl from 3.2.29 to 3.3.0.
-2) Delete patch "fix-pktloc_syntax_h-race.patch", since it is  integrated upstream.
-3) Add patch "musl-header-conflict.patch" to fix musl compile error.
+--001a113577a24548c6054fc90338
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
----
- .../libnl/libnl/fix-pktloc_syntax_h-race.patch     | 36 -------------
- .../libnl/libnl/musl-header-conflict.patch         | 59 ++++++++++++++++++++++
- .../libnl/{libnl_3.2.29.bb => libnl_3.3.0.bb}      |  6 +--
- 3 files changed, 62 insertions(+), 39 deletions(-)
- delete mode 100644 meta/recipes-support/libnl/libnl/fix-pktloc_syntax_h-race.patch
- create mode 100644 meta/recipes-support/libnl/libnl/musl-header-conflict.patch
- rename meta/recipes-support/libnl/{libnl_3.2.29.bb => libnl_3.3.0.bb} (88%)
+On 18 May 2017 at 10:15, Huang Qiyu <huangqy.fnst@cn.fujitsu.com> wrote:
 
-diff --git a/meta/recipes-support/libnl/libnl/fix-pktloc_syntax_h-race.patch b/meta/recipes-support/libnl/libnl/fix-pktloc_syntax_h-race.patch
-deleted file mode 100644
-index 79aa0bd..0000000
---- a/meta/recipes-support/libnl/libnl/fix-pktloc_syntax_h-race.patch
-+++ /dev/null
-@@ -1,36 +0,0 @@
--Upstream-Status: Inappropriate [configuration]
--
--libnl has progressed to 0.3.2 and there does not appear to be any
--"make -j" issues with this build after my limited testing on that
--newer version so we can assume this issue is fixed upstream
--
--Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
--
--Index: libnl-3.2.25/lib/Makefile.am
--===================================================================
----- libnl-3.2.25.orig/lib/Makefile.am
--+++ libnl-3.2.25/lib/Makefile.am
--@@ -46,9 +46,12 @@ CLEANFILES = \
-- 
-- # Hack to avoid using ylwrap. It does not function correctly in combination
-- # with --header-file=
--+route/pktloc.lo: route/pktloc_syntax.h route/pktloc_grammar.h
--+route/pktloc_grammar.h: route/pktloc_grammar.c
-- route/pktloc_grammar.c: route/pktloc_grammar.l
-- 	$(AM_V_GEN) $(MKDIR_P) route; $(FLEX) --header-file=route/pktloc_grammar.h $(LFLAGS) -o $@ $^
-- 
--+route/pktloc_syntax.h: route/pktloc_syntax.c
-- route/pktloc_syntax.c: route/pktloc_syntax.y
-- 	$(AM_V_GEN) $(MKDIR_P) route; $(YACC) -d $(YFLAGS) -o $@ $^
-- 
--@@ -102,7 +105,9 @@ BUILT_SOURCES = \
-- 	route/cls/ematch_grammar.c \
-- 	route/cls/ematch_syntax.c \
-- 	route/pktloc_grammar.c \
---	route/pktloc_syntax.c
--+   route/pktloc_syntax.c \
--+   route/pktloc_syntax.h \
--+   route/pktloc_grammar.h
-- 
-- EXTRA_DIST = \
-- 	route/pktloc_grammar.l \
-diff --git a/meta/recipes-support/libnl/libnl/musl-header-conflict.patch b/meta/recipes-support/libnl/libnl/musl-header-conflict.patch
-new file mode 100644
-index 0000000..dfe4cb8
---- /dev/null
-+++ b/meta/recipes-support/libnl/libnl/musl-header-conflict.patch
-@@ -0,0 +1,59 @@
-+From e1f2827673d9d45fe69ca912628bbb90d4003f49 Mon Sep 17 00:00:00 2001
-+From: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
-+Date: Mon, 15 May 2017 02:09:08 +0900
-+Subject: [PATCH] Fix musl compile error like:
-+
-+In file included from ../libnl-3.3.0/include/linux-private/linux/ipv6.h:5:0,
-+                 from ../libnl-3.3.0/include/netlink-private/netlink.h:54,
-+                 from ../libnl-3.3.0/lib/nl.c:28:
-+../libnl-3.3.0/include/linux-private/linux/in6.h:32:8: error:
-+redefinition of 'struct in6_addr'
-+ struct in6_addr {
-+        ^~~~~~~~
-+
-+Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
-+---
-+ include/linux-private/linux/if_bridge.h | 1 -
-+ include/linux-private/linux/ipv6.h      | 1 -
-+ include/netlink-private/netlink.h       | 1 -
-+ 3 files changed, 3 deletions(-)
-+
-+diff --git a/include/linux-private/linux/if_bridge.h b/include/linux-private/linux/if_bridge.h
-+index f24050b..8f7490c 100644
-+--- a/include/linux-private/linux/if_bridge.h
-++++ b/include/linux-private/linux/if_bridge.h
-+@@ -15,7 +15,6 @@
-+ 
-+ #include <linux/types.h>
-+ #include <linux/if_ether.h>
-+-#include <linux/in6.h>
-+ 
-+ #define SYSFS_BRIDGE_ATTR	"bridge"
-+ #define SYSFS_BRIDGE_FDB	"brforward"
-+diff --git a/include/linux-private/linux/ipv6.h b/include/linux-private/linux/ipv6.h
-+index e05e684..f16349d 100644
-+--- a/include/linux-private/linux/ipv6.h
-++++ b/include/linux-private/linux/ipv6.h
-+@@ -2,7 +2,6 @@
-+ #define _IPV6_H
-+ 
-+ #include <asm/byteorder.h>
-+-#include <linux/in6.h>
-+ 
-+ /* The latest drafts declared increase in minimal mtu up to 1280. */
-+ 
-+diff --git a/include/netlink-private/netlink.h b/include/netlink-private/netlink.h
-+index 728ca5c..a73115b 100644
-+--- a/include/netlink-private/netlink.h
-++++ b/include/netlink-private/netlink.h
-+@@ -29,7 +29,6 @@
-+ #include <limits.h>
-+ #include <search.h>
-+ 
-+-#include <arpa/inet.h>
-+ #include <netdb.h>
-+ 
-+ #include <defs.h>
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-support/libnl/libnl_3.2.29.bb b/meta/recipes-support/libnl/libnl_3.3.0.bb
-similarity index 88%
-rename from meta/recipes-support/libnl/libnl_3.2.29.bb
-rename to meta/recipes-support/libnl/libnl_3.3.0.bb
-index 7d4839b..b070416 100644
---- a/meta/recipes-support/libnl/libnl_3.2.29.bb
-+++ b/meta/recipes-support/libnl/libnl_3.3.0.bb
-@@ -10,13 +10,13 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
- DEPENDS = "flex-native bison-native"
- 
- SRC_URI = "https://github.com/thom311/${BPN}/releases/download/${BPN}${@d.getVar('PV').replace('.','_')}/${BP}.tar.gz \
--           file://fix-pktloc_syntax_h-race.patch \
-            file://fix-pc-file.patch \
-+           file://musl-header-conflict.patch \
- "
- UPSTREAM_CHECK_URI = "https://github.com/thom311/${BPN}/releases"
- 
--SRC_URI[md5sum] = "a8ba62a5c4f883f4e493a46d1f3733fe"
--SRC_URI[sha256sum] = "0beb593dc6abfffa18a5c787b27884979c1b7e7f1fd468c801e3cc938a685922"
-+SRC_URI[md5sum] = "ab3ef137cad95bdda5ff0ffa5175dfa5"
-+SRC_URI[sha256sum] = "705468b5ae4cd1eb099d2d1c476d6a3abe519bc2810becf12fb1e32de1e074e4"
- 
- inherit autotools pkgconfig
- 
--- 
-2.7.4
+> +++ b/meta/recipes-support/libnl/libnl/musl-header-conflict.patch
+> @@ -0,0 +1,59 @@
+> +From e1f2827673d9d45fe69ca912628bbb90d4003f49 Mon Sep 17 00:00:00 2001
+> +From: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
+> +Date: Mon, 15 May 2017 02:09:08 +0900
+> +Subject: [PATCH] Fix musl compile error like:
+> +
+> +In file included from ../libnl-3.3.0/include/linux-
+> private/linux/ipv6.h:5:0,
+> +                 from ../libnl-3.3.0/include/
+> netlink-private/netlink.h:54,
+> +                 from ../libnl-3.3.0/lib/nl.c:28:
+> +../libnl-3.3.0/include/linux-private/linux/in6.h:32:8: error:
+> +redefinition of 'struct in6_addr'
+> + struct in6_addr {
+> +        ^~~~~~~~
+> +
+> +Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
+>
 
+This patch needs an Upstream-Status tag.
 
+Ross
 
+--001a113577a24548c6054fc90338
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 18 May 2017 at 10:15, Huang Qiyu <span dir=3D"ltr">&lt;<a href=3D"mailto=
+:huangqy.fnst@cn.fujitsu.com" target=3D"_blank">huangqy.fnst@cn.fujitsu.com=
+</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin=
+:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":160" c=
+lass=3D"a3s aXjCH m15c1ad85ebe0f5a9">+++ b/meta/recipes-support/libnl/<wbr>=
+libnl/musl-header-conflict.<wbr>patch<br>
+@@ -0,0 +1,59 @@<br>
++From e1f2827673d9d45fe69ca912628bbb<wbr>90d4003f49 Mon Sep 17 00:00:00 200=
+1<br>
++From: Zheng Ruoqin &lt;<a href=3D"mailto:zhengrq.fnst@cn.fujitsu.com">zhen=
+grq.fnst@cn.fujitsu.com</a>&gt;<br>
++Date: Mon, 15 May 2017 02:09:08 +0900<br>
++Subject: [PATCH] Fix musl compile error like:<br>
++<br>
++In file included from ../libnl-3.3.0/include/linux-<wbr>private/linux/ipv6=
+.h:5:0,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0from ../libn=
+l-3.3.0/include/<wbr>netlink-private/netlink.h:54,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0from ../libn=
+l-3.3.0/lib/nl.c:28:<br>
++../libnl-3.3.0/include/linux-<wbr>private/linux/in6.h:32:8: error:<br>
++redefinition of &#39;struct in6_addr&#39;<br>
++ struct in6_addr {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 ^~~~~~~~<br>
++<br>
++Signed-off-by: Zheng Ruoqin &lt;<a href=3D"mailto:zhengrq.fnst@cn.fujitsu.=
+com">zhengrq.fnst@cn.fujitsu.com</a>&gt;</div></blockquote></div><br>This p=
+atch needs an Upstream-Status tag.</div><div class=3D"gmail_extra"><br></di=
+v><div class=3D"gmail_extra">Ross</div></div>
+
+--001a113577a24548c6054fc90338--
