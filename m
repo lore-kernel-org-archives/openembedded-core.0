@@ -1,48 +1,47 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 29CFF7807B
+Return-Path: <twoerner@gmail.com>
+Received: from mail-ua0-f194.google.com (mail-ua0-f194.google.com
+	[209.85.217.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 8D99777FA0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 May 2017 18:58:02 +0000 (UTC)
-Received: by mail-wm0-f65.google.com with SMTP id d127so13220654wmf.1
+	Thu, 18 May 2017 19:46:42 +0000 (UTC)
+Received: by mail-ua0-f194.google.com with SMTP id x47so1862156uab.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 May 2017 11:58:04 -0700 (PDT)
+	Thu, 18 May 2017 12:46:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=wrzqfpGuo276JsvdF6uiS82FKV1C93ql92wQaqCJK7k=;
-	b=MChytpGCEZkfUnkzVO6YIDLgjFR4xDknkpli7i+Px7Z9zqHd5u5bCjLSNB9MNZxtTZ
-	14VX9B9UfgxMo6GjCK3/OuCWOaVrkyEZwim6NA3nI5ReEeT/H8CGas/8BqTITLDMNlCN
-	8dReNkPPEVaZ0ITv4dqC75ifr3CqmefGL6BxIJcYIUblo5o5bLnvXc9nb9fRVRzEfH9F
-	DnqPigsQCe9cORzcXuVakJPjAleEQ2T1ghM1ZOsA+LS5GfmRSLRDSN5i+dZqzVJlYBoa
-	yklHAr5RNlYjya2qgk8XSY/xxP0PF55/N5zUyIdOXfuZ8qUSexOH8JqtO3R2QOWBHHK7
-	o1wg==
+	:cc; bh=eCJXejvhnYzrzeuUq63tuF/fflWWl958oGTnHhVyldE=;
+	b=I79pQsU5UX1/AQgFfnNuvi7HvW4i7lYUiZlXg9h3N/alKwGGpD3utKAzS5DMqZZk9G
+	v/7De/TJeyxDc/txq0sFFYKAWnNwu2C9KxWP9quX3ZyBAGutaBnuKReuGfQmCUmFOwTQ
+	ozUq9yBrkIUnUAvCR/5ZAbo+XcrNEoDTit42CvL9NUxWF1INTMcM7ewGRZ8PVFtIPR0e
+	3+ZizGcR0pTBiyLKEf5JePLfhl9EhIV4u3ZXLME8X964jYUBm60gEwTZEZ3+rRTWcaPd
+	yZpRDHi4GxCUFqJ08nDJ2NySOJvORMtzDjxoW/xsnP54/vxlB3UzvfwPbRIElyntLvdK
+	AWLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=wrzqfpGuo276JsvdF6uiS82FKV1C93ql92wQaqCJK7k=;
-	b=c3Opyl6Z2uZg7X3n/SyGdvbThCV4znGvtrAi3EHYG+vNMxBZ9ozC3fLOYaaBNPRyy0
-	0tF9EsE1r7h+0+VNXqWhnEAx34wxZE6TsjxQCsrI5JA1E1LndqDUcFGc4moZ6SF28ZaL
-	8H/ws1feZBwB6LIOTq4fF6sH78NB/MJZQG637Ow7/3+YCgybrPYYAmeIxto/pmLFZrYa
-	0SGGkfMa6CtH+YQCtSnvo0+wDxptd5mSn791bqonQtolTEs5yjB0gQ5FLnI5qw0o5kMe
-	6XanktyqxWIjHGT4+l3YGfetdcPsav+HNK10TWDhCb7tEx+3nex8ZkzSuE7Z55jxUiiZ
-	gtrQ==
-X-Gm-Message-State: AODbwcBeaHwZ/6UcFn/Va9QhKQBqv2laN338oqk7CZovpFv1oDBLfevy
-	/Dqc8AifrFilA7GilOTeTZkTXTeaqQ==
-X-Received: by 10.80.137.56 with SMTP id e53mr4398021ede.67.1495133883434;
-	Thu, 18 May 2017 11:58:03 -0700 (PDT)
+	bh=eCJXejvhnYzrzeuUq63tuF/fflWWl958oGTnHhVyldE=;
+	b=CtvIFDQBvBUrtOoC5gKJsi0aOFB8cTxbPsFwJ35vbyzD3sIxc0P4KuYk1sCLaTfjjK
+	/2b7iaDF03Lx6nm3J9kgJ5PT4M/kNHjC80u76C/3TTzufnfjx8xIaYq0QJojoDGRWTlR
+	bCq/gDc1cBjdli9XZEOkZeQJIHDkM2ybNVhOuq0VpF+w2jKVM+6D3QsEDxabDPHqYjjR
+	fdWQ2G4YuXvYaU77tBnspXVMbeCS6G2Av9g1LUAGG6AC/5RUCAp+EsrwW6m5j30KDeTr
+	OyiZlrPmRguzEtuZ+BkTOQPB7pYWaZOyg5RWQtPPmosS34olIohpaB6uCDY7U0o5OU7z
+	HwrA==
+X-Gm-Message-State: AODbwcC0ddWiUm+rEPfSPbEnooL8H3BNszb+WOHKDSvhjofHhIWPjRsj
+	n4koXc1nJqXIsjvzABNzJtEpzLHW/hSQ
+X-Received: by 10.159.57.73 with SMTP id i9mr2946720uag.17.1495136803552; Thu,
+	18 May 2017 12:46:43 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.80.195.143 with HTTP; Thu, 18 May 2017 11:57:32 -0700 (PDT)
-In-Reply-To: <20170518181957.GU28053@denix.org>
-References: <20170518173423.28994-1-enrico.scholz@sigma-chemnitz.de>
-	<20170518181957.GU28053@denix.org>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 18 May 2017 11:57:32 -0700
-Message-ID: <CAMKF1sp9VFkd5+4HcYpgnZ+HhOoarKJNrc=--DTsmGYJyps-2g@mail.gmail.com>
-To: Denys Dmytriyenko <denis@denix.org>
-Cc: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>,
-	Patches and discussions about the oe-core layer
+Received: by 10.103.67.199 with HTTP; Thu, 18 May 2017 12:46:43 -0700 (PDT)
+In-Reply-To: <1495093256-84820-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+References: <1495093256-84820-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+From: Trevor Woerner <twoerner@gmail.com>
+Date: Thu, 18 May 2017 15:46:43 -0400
+Message-ID: <CAHUNapSCAbM38tha7b=twmqOqfJ22Cdw5tH1yzrR74O-uCDhpQ@mail.gmail.com>
+To: zhengrq <zhengrq.fnst@cn.fujitsu.com>
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] tzcode-native: quote ${CC}
+Subject: Re: [PATCH v3 1/2] libx11: 1.6.4 -> 1.6.5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,51 +54,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 May 2017 18:58:04 -0000
+X-List-Received-Date: Thu, 18 May 2017 19:46:44 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Thu, May 18, 2017 at 11:19 AM, Denys Dmytriyenko <denis@denix.org> wrote:
-> On Thu, May 18, 2017 at 07:34:23PM +0200, Enrico Scholz wrote:
->> build fails else with
->>
->> | + make -j 8 -l 6 cc=ccache gcc
->> | make: *** No rule to make target 'gcc'.  Stop.
->>
->> Signed-off-by: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
->> ---
->>  meta/recipes-extended/tzcode/tzcode-native_2017b.bb | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/meta/recipes-extended/tzcode/tzcode-native_2017b.bb b/meta/recipes-extended/tzcode/tzcode-native_2017b.bb
->> index 2084f79..165d2c6 100644
->> --- a/meta/recipes-extended/tzcode/tzcode-native_2017b.bb
->> +++ b/meta/recipes-extended/tzcode/tzcode-native_2017b.bb
->> @@ -18,7 +18,7 @@ S = "${WORKDIR}"
->>
->>  inherit native
->>
->> -EXTRA_OEMAKE += "cc=${CC}"
->> +EXTRA_OEMAKE += "cc='${CC}'"
->
-> Should these be double-quotes around ${CC}?
+Hi Zheng,
 
-I think this should work as such.
+On Thu, May 18, 2017 at 3:40 AM, zhengrq <zhengrq.fnst@cn.fujitsu.com> wrote:
+>  meta/recipes-graphics/xorg-lib/{libx11_1.6.4.bb => libx11_1.6.5.bb} | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>  rename meta/recipes-graphics/xorg-lib/{libx11_1.6.4.bb => libx11_1.6.5.bb} (47%)
+>
+> diff --git a/meta/recipes-graphics/xorg-lib/libx11_1.6.4.bb b/meta/recipes-graphics/xorg-lib/libx11_1.6.5.bb
+> similarity index 47%
+> rename from meta/recipes-graphics/xorg-lib/libx11_1.6.4.bb
+> rename to meta/recipes-graphics/xorg-lib/libx11_1.6.5.bb
 
->
->
->>  do_install () {
->>          install -d ${D}${bindir}/
->> --
->> 2.9.4
->>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+This is much better; thank you!
 
