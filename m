@@ -1,21 +1,23 @@
 Return-Path: <jose.a.lamego@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id EAB1278092
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 1C11678096
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 May 2017 22:28:50 +0000 (UTC)
+	Thu, 18 May 2017 22:29:02 +0000 (UTC)
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	18 May 2017 15:28:51 -0700
+	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	18 May 2017 15:29:04 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.38,360,1491289200"; d="scan'208";a="1150009228"
+X-IronPort-AV: E=Sophos;i="5.38,360,1491289200"; d="scan'208";a="1150009284"
 Received: from jalamego-mobl2.zpn.intel.com ([10.219.128.138])
-	by fmsmga001.fm.intel.com with ESMTP; 18 May 2017 15:28:51 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 18 May 2017 15:29:03 -0700
 From: Jose Lamego <jose.a.lamego@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 18 May 2017 17:28:45 -0500
-Message-Id: <1495146527-32073-1-git-send-email-jose.a.lamego@linux.intel.com>
+Date: Thu, 18 May 2017 17:28:46 -0500
+Message-Id: <1495146527-32073-2-git-send-email-jose.a.lamego@linux.intel.com>
 X-Mailer: git-send-email 2.7.4
-Subject: [PATCH 0/2] bc: upgrade 1.06 to 1.07.1
+In-Reply-To: <1495146527-32073-1-git-send-email-jose.a.lamego@linux.intel.com>
+References: <1495146527-32073-1-git-send-email-jose.a.lamego@linux.intel.com>
+Subject: [PATCH 1/2] conf/bitbake.conf: include ed in hosttools
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,30 +30,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 May 2017 22:28:51 -0000
+X-List-Received-Date: Thu, 18 May 2017 22:29:03 -0000
 
-bc recipe must be upgraded to latest version in upstream.
+Some recipes build fail due to missing ed command.
 
-Changes in this series:
-    include ed to the hosttools required to run builds with oe-core,
-    since the new bc version requires the ed command during build
+This change includes ed to the hosttools required to
+run builds with oe-core.
 
-    upgrade bc version from 1.06 to 1.07.1
+Signed-off-by: Jose Lamego <jose.a.lamego@linux.intel.com>
+Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+---
+ meta/conf/bitbake.conf | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-    update bc license from "GPLv2+ & LGPLv2.1" to "GPLv3+ & LGPLv3"
-
-    unset PARALLEL_MAKE variable in bc recipe to prevent a
-    Parallel Make Race during build
-
-Jose Lamego (2):
-  conf/bitbake.conf: include ed in hosttools
-  bc: upgrade 1.06 to 1.07.1
-
- meta/conf/bitbake.conf                             |  2 +-
- .../bc/{bc_1.06.bb => bc_1.07.1.bb}                | 22 +++++++++++-----------
- 2 files changed, 12 insertions(+), 12 deletions(-)
- rename meta/recipes-extended/bc/{bc_1.06.bb => bc_1.07.1.bb} (28%)
-
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 8e4f4bb..64f1a54 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -459,7 +459,7 @@ HOSTTOOLS_DIR = "${TMPDIR}/hosttools"
+ # Tools needed to run builds with OE-Core
+ HOSTTOOLS += " \
+     [ ar as awk basename bash bzip2 cat chgrp chmod chown chrpath cmp cp cpio \
+-    cpp cut date dd diff diffstat dirname du echo egrep env expand expr false \
++    cpp cut date dd diff diffstat dirname du echo ed egrep env expand expr false \
+     fgrep file find flock g++ gawk gcc getconf getopt git grep gunzip gzip \
+     head hostname install ld ldd ln ls make makeinfo md5sum mkdir mknod \
+     mktemp mv nm objcopy objdump od patch perl pod2man pr printf pwd python python2 \
 -- 
 2.7.4
 
