@@ -1,39 +1,48 @@
-Return-Path: <Awais_Belal@mentor.com>
-Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id D47C4601D4
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qt0-f175.google.com (mail-qt0-f175.google.com
+	[209.85.216.175])
+	by mail.openembedded.org (Postfix) with ESMTP id B4CBC719D0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 May 2017 11:23:07 +0000 (UTC)
-Received: from nat-ies.mentorg.com ([192.94.31.2]
-	helo=svr-ies-mbx-01.mgc.mentorg.com)
-	by relay1.mentorg.com with esmtp 
-	id 1dBJWM-0000Yu-Mw from Awais_Belal@mentor.com ;
-	Thu, 18 May 2017 04:23:06 -0700
-Received: from SVR-IES-MBX-03.mgc.mentorg.com (139.181.222.3) by
-	svr-ies-mbx-01.mgc.mentorg.com (139.181.222.1) with Microsoft SMTP
-	Server (TLS) id 15.0.1210.3; Thu, 18 May 2017 12:23:03 +0100
-Received: from SVR-IES-MBX-03.mgc.mentorg.com ([fe80::1072:fb6e:87f1:ed17]) by
-	SVR-IES-MBX-03.mgc.mentorg.com ([fe80::1072:fb6e:87f1:ed17%22]) with
-	mapi id 15.00.1210.000; Thu, 18 May 2017 12:23:03 +0100
-From: "Belal, Awais" <Awais_Belal@mentor.com>
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>, Robert Yang
-	<liezhi.yang@windriver.com>, "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH] autogen-native: allow user to set POSIX_SHELL
-	as desired
-Thread-Index: AQHSz6MW7Q5pe3J2J0SZSGZTFD/7BaH5nyEAgAAUlwCAAD5Uzw==
-Date: Thu, 18 May 2017 11:23:03 +0000
-Message-ID: <1495106583673.65036@mentor.com>
-References: <20170518065043.1662-1-awais_belal@mentor.com>
-	<62e4fbc9-931b-d0dd-e71b-99002495c32e@windriver.com>,
-	<a577a0c9-e1df-a657-a00b-4c5cd69c4609@linux.intel.com>
-In-Reply-To: <a577a0c9-e1df-a657-a00b-4c5cd69c4609@linux.intel.com>
-Accept-Language: en-US, en-IE
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [137.202.0.87]
+	Thu, 18 May 2017 11:47:31 +0000 (UTC)
+Received: by mail-qt0-f175.google.com with SMTP id f55so31510824qta.3
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 18 May 2017 04:47:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=i4ZDjarrSb2APShtEf8+wBxIQ5nC+bvigpDZT3iYpA8=;
+	b=fSA14oC0iITAcr2Yx9B4LDf9TMW8j91jcPramf1mnpHD9M4/0jqRdJN1dyVrNt3ZiL
+	SrUjf2Kyq587UDlMKqjQwrxCsI+9KfxYpzQKulDNBTPButLaRObvEpY5q7AivwpOtF7Y
+	XM05unFm7kIaJauS+fuGzelQDrYj2Skr0NS4z2djMM0TobW8+3MXjXk4478jfjDZnYq1
+	7gWcmauM7D9PKiObASV/x5BA4hbXPbC8iKxjCWQQLIM+i0ls3AYa7BDGrdgmWqiMwB7v
+	5twBg8RZDwVJnkgt5S2uQVFV1EMl2Oed+3DwYAYEJ00DG+i+FbCb95b5AGCrvohxxzCI
+	hlzw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=i4ZDjarrSb2APShtEf8+wBxIQ5nC+bvigpDZT3iYpA8=;
+	b=EA9P8OD0HCY506qKYP4k75dqIeSzKMgDM0D87hJu+poJQOOJUN+ujvFGXdYvJvGlSK
+	5Y+CHPuY4CAHTRBxWVWDHuuLAqiz7MI080my//Wb2h+RFNifTvx1DLznMiLCDEDNqbhd
+	u7tTYspwzNXyHnqy45eLAFidfwVSieeqNcfTUk6uoiB2H2BSJmQ2Dd/+RipLy6HcapzP
+	4QU6Cif7Ijf2vwl5pS4pWcyl+qXKV+EMMQ90wf7HVkxBTlr9qr8WUC973RTz4zovkBYT
+	y+8mGgckwzC171eQzRUn46O9NWGz+8J8Hqv1O/B2BM/WEqapdkkxvVpgVRqWaImFeoXF
+	9Gxg==
+X-Gm-Message-State: AODbwcC8KmwycGsv48DbRie8ob/rAjKtzur+x6clpMxm0Z8dBSfSRi7d
+	pALRWsrHFC2tieFPGNQcFDDeRjJU25gt
+X-Received: by 10.237.55.106 with SMTP id i97mr3280675qtb.68.1495108052556;
+	Thu, 18 May 2017 04:47:32 -0700 (PDT)
 MIME-Version: 1.0
-Subject: Re: [PATCH] autogen-native: allow user to set POSIX_SHELL as desired
+Received: by 10.140.41.115 with HTTP; Thu, 18 May 2017 04:47:12 -0700 (PDT)
+In-Reply-To: <d65b6c616f45f14b2c49ce8a2f860ad45def3df2.1494851172.git.bruce.ashfield@windriver.com>
+References: <cover.1494851172.git.bruce.ashfield@windriver.com>
+	<d65b6c616f45f14b2c49ce8a2f860ad45def3df2.1494851172.git.bruce.ashfield@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 18 May 2017 12:47:12 +0100
+Message-ID: <CAJTo0LZKMitURrfEBJCOf5qjy8WqFooEcVsQKQ==1W5MECKyvw@mail.gmail.com>
+To: Bruce Ashfield <bruce.ashfield@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/4] linux-yocto/4.1: fix gcc7 compilation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,52 +55,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 May 2017 11:23:08 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
+X-List-Received-Date: Thu, 18 May 2017 11:47:32 -0000
+Content-Type: multipart/alternative; boundary="001a11472ba05fb2ea054fcaf863"
+
+--001a11472ba05fb2ea054fcaf863
+Content-Type: text/plain; charset="UTF-8"
+
+On 15 May 2017 at 13:51, Bruce Ashfield <bruce.ashfield@windriver.com>
+wrote:
+> Porting the mainline commit, to fix gcc7 builds:
+>
+>   474c90156c [give up on gcc ilog2() constant optimizations]
+
+Sorry but:
+
+ERROR: linux-yocto-4.1.38+gitAUTOINC+a867edab41_3b0fd24797-r0
+do_kernel_version_sanity_check: Package Version
+(4.1.38+gitAUTOINC+a867edab41_3b0fd24797) does not match of kernel being
+built (4.1.39). Please update the PV variable to match the kernel source or
+set KERNEL_VERSION_SANITY_SKIP="1" in your recipe.
+
+Ross
+
+--001a11472ba05fb2ea054fcaf863
+Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-> That's right. The file is generated from libopts.def in the same=0A=
-> directory. I now looked at the code finally :) and I think it's better=0A=
-> to leave the POSIX_SHELL variable alone (and not set it from the recipe=
-=0A=
-> either because it has no effect), and go back to the original idea of=0A=
-> patching the place where it's used to make a shebang line - I think=0A=
-> there's only one such place in the source code.=0A=
-=0A=
-> But fixing libopts.def is okay too, I just think it's more trouble.=0A=
-=0A=
-The usage of libopts.def has been deprecated upstream: git://git.sv.gnu.org=
-/autogen.git # 5cbe233387d7f7b36752736338d1cd4f71287daa but they've still k=
-ept libopts.m4 so I think this patch will do for future use as well and sho=
-uldn't have a problem.=0A=
-=0A=
-BR,=0A=
-Awais=0A=
-=0A=
-________________________________________=0A=
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>=0A=
-Sent: Thursday, May 18, 2017 1:36 PM=0A=
-To: Robert Yang; Belal, Awais; openembedded-core@lists.openembedded.org=0A=
-Subject: Re: [OE-core] [PATCH] autogen-native: allow user to set POSIX_SHEL=
-L as desired=0A=
-=0A=
-On 05/18/2017 10:23 AM, Robert Yang wrote:=0A=
->> +-      test -x "$POSIX_SHELL" && break=0A=
->> ++      test -n "$POSIX_SHELL" && break=0A=
->=0A=
-> The problem is libopts.m4 is auto generated, so it may override=0A=
-> when upgrade autogen-native.=0A=
-=0A=
-That's right. The file is generated from libopts.def in the same=0A=
-directory. I now looked at the code finally :) and I think it's better=0A=
-to leave the POSIX_SHELL variable alone (and not set it from the recipe=0A=
-either because it has no effect), and go back to the original idea of=0A=
-patching the place where it's used to make a shebang line - I think=0A=
-there's only one such place in the source code.=0A=
-=0A=
-But fixing libopts.def is okay too, I just think it's more trouble.=0A=
-=0A=
-Alex=0A=
-=0A=
+<div dir=3D"ltr"><br>On 15 May 2017 at 13:51, Bruce Ashfield &lt;<a href=3D=
+"mailto:bruce.ashfield@windriver.com">bruce.ashfield@windriver.com</a>&gt; =
+wrote:<br>&gt; Porting the mainline commit, to fix gcc7 builds:<br>&gt;<br>=
+&gt; =C2=A0 474c90156c [give up on gcc ilog2() constant optimizations]<br><=
+br>Sorry but:<div><br>ERROR: linux-yocto-4.1.38+gitAUTOINC+a867edab41_3b0fd=
+24797-r0 do_kernel_version_sanity_check: Package Version (4.1.38+gitAUTOINC=
++a867edab41_3b0fd24797) does not match of kernel being built (4.1.39). Plea=
+se update the PV variable to match the kernel source or set KERNEL_VERSION_=
+SANITY_SKIP=3D&quot;1&quot; in your recipe.<div><br></div><div>Ross</div></=
+div></div>
 
+--001a11472ba05fb2ea054fcaf863--
