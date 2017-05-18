@@ -1,36 +1,45 @@
-Return-Path: <denis@denix.org>
-Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.17])
-	by mail.openembedded.org (Postfix) with ESMTP id ACE2277E7F
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pg0-f68.google.com (mail-pg0-f68.google.com [74.125.83.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 3361160616
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 May 2017 01:08:13 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mailout4.zoneedit.com (Postfix) with ESMTP id B70DC208C5;
-	Thu, 18 May 2017 01:08:14 +0000 (UTC)
-Received: from mailout4.zoneedit.com ([127.0.0.1])
-	by localhost (zmo03-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
-	port 10024)
-	with ESMTP id vzT5-zVUh7Ea; Thu, 18 May 2017 01:08:14 +0000 (UTC)
-Received: from mail.denix.org (pool-100-15-85-143.washdc.fios.verizon.net
-	[100.15.85.143])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 81A6020756;
-	Thu, 18 May 2017 01:08:11 +0000 (UTC)
-Received: by mail.denix.org (Postfix, from userid 1000)
-	id 195361624C6; Wed, 17 May 2017 21:08:11 -0400 (EDT)
-Date: Wed, 17 May 2017 21:08:11 -0400
-From: Denys Dmytriyenko <denis@denix.org>
-To: Max Krummenacher <max.oss.09@gmail.com>
-Message-ID: <20170518010811.GS28053@denix.org>
-References: <CAJ+vNU02n6DavkhuwM8gU7daWLyyd4QHgd0N5topHJQiO2_6RA@mail.gmail.com>
-	<1495052131.7502.1.camel@gmail.com>
-	<CAJ+vNU1kh56xNCvy77zMM2Pc5hnaM+jFBhzdvip5h2dQ_+YMNA@mail.gmail.com>
-	<1495060628.9242.2.camel@gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <1495060628.9242.2.camel@gmail.com>
-User-Agent: Mutt/1.5.20 (2009-06-14)
-Cc: poky@yoctoproject.org, openembedded-core@lists.openembedded.org
-Subject: Re: populate sdk broken for u-boot-mkimage
+	Thu, 18 May 2017 05:34:37 +0000 (UTC)
+Received: by mail-pg0-f68.google.com with SMTP id s62so4582807pgc.0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 17 May 2017 22:34:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=qMYUpjNCUfQ4p/IC5iayFK4p6cQnmaLu5MxBp8ieVuw=;
+	b=qfFxJgfCIA+eWX8AHotCRffqqcLv2HABhvesW31puwOO89fnX5HSalaOuOvsZAPKGh
+	UvUOJTn8PqrdWDwH9JBsYCrYBeBZlQOKXPF9jKD2H0Kc6/lZinRTWEJpnSqKFl89Tk1T
+	ab+dtSw4pmujgfogIjuZNKDLTcqWfrvQ9yrwvu8jm/yYQjSvqgZLQlYds5S3b/aCQtpB
+	M+56CvxQ7yf++ArMhyXJXadViI0YH4Dd8w+ZACcGc0Mo12LyG5gcM/d0O2NqBx4Ex4rP
+	WWBkdlN50+Gmh7tgn1lGn2s1LEDZ0gqm/9P/+bdqOXavnmag5sFGr5uJvnjWDskNJvyJ
+	KRQw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=qMYUpjNCUfQ4p/IC5iayFK4p6cQnmaLu5MxBp8ieVuw=;
+	b=WSenGKkDmzMkfsVynLhpMc/FtNxCVfa84QdjNZ1qnNjG+FDUJ45cwh7TmuqAMVjrIY
+	k+tqi2RQYGtpLpLX1btY5Fwjc+bVQp+1vbgOp15AFbtC22a7wFqgZ9//wrJebAgHG3RQ
+	be9BR43KfVy8T5WVZyJ/AvEkjUccEK+Z85Z6MrFkiL0IJYsL92N86dOLueCqESP+9RTD
+	tFOBxccrnRCGO2DkBWID2RCvIlhJaDcccnXV6VE3vOpAbCsOFroqI/YotiiwnfPLCkrk
+	8sR4tnEvNVleM4ZYgUSJV+8T1z4253AMrlVXxMk6hw5j13SsH31bFROOnzn9Tc2R61/O
+	YUdQ==
+X-Gm-Message-State: AODbwcActOSiiLuXE6YwIQlEUwgSqcm1PSfH/no+nQLn8bJYnAXzU3uX
+	lzziPyZYGXal3Q==
+X-Received: by 10.98.35.142 with SMTP id q14mr2501792pfj.220.1495085678990;
+	Wed, 17 May 2017 22:34:38 -0700 (PDT)
+Received: from localhost.localdomain ([2601:646:8882:b8c::c232])
+	by smtp.gmail.com with ESMTPSA id
+	d83sm6802286pfe.40.2017.05.17.22.34.37
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 17 May 2017 22:34:37 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 17 May 2017 22:34:24 -0700
+Message-Id: <20170518053425.37319-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.13.0
+Subject: [PATCH 1/2] webkitgtk: Fix build for armv5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,71 +52,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 May 2017 01:08:14 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Thu, 18 May 2017 05:34:38 -0000
 
-On Thu, May 18, 2017 at 12:37:08AM +0200, Max Krummenacher wrote:
-> Am Mittwoch, den 17.05.2017, 14:29 -0700 schrieb Tim Harvey:
-> > On Wed, May 17, 2017 at 1:15 PM, Max Krummenacher <max.oss.09@gmail.com> wrote:
-> > > Hi Tim
-> > > 
-> > > Just sent a patch which may fix what you see.
-> > > 
-> > > Regards
-> > > Max
-> > > 
-> > > Am Mittwoch, den 17.05.2017, 12:36 -0700 schrieb Tim Harvey:
-> > > > Greetings,
-> > > > 
-> > > > I'm running into the following build error when trying to create an
-> > > > SDK for an image that includes u-boot-mkimage-native.
-> > > > 
-> > > > The nativesdk-u-boot-mkimage do_package task fails with:
-> > > > ERROR: nativesdk-u-boot-mkimage: chrpath command failed with exit code 7:
-> > > > b'/usr/src/ventana/yocto/pyro-2.3/build/tmp/work/x86_64-nativesdk-fslcsdk-linux/nativesdk-u
-> > > > -boot
-> > > > -mkimage/1_2017.01-r0/package/opt/fslc-x11/2.3/sysroots/x86_64-fslcsdk-linux/usr/bin/uboot
-> > > > -mkimage:
-> > > > RPATH=/usr/src/ventana/yocto/pyro-2.3/build/tmp/work/x86_64-nativesdk-fslcsdk-linux/nativesdk
-> > > > -u
-> > > > -boot-mkimage/1_2017.01-r0/recipe-sysroot-native/usr/lib:/usr/src/ventana/yocto/pyro
-> > > > -2.3/build/tmp/work/x86_64-nativesdk-fslcsdk-linux/nativesdk-u-boot-mkimage/1_2017.01
-> > > > -r0/recipe
-> > > > -sysroot-native/lib\n'b"new
-> > > > rpath '$ORIGIN/../../../../../../../usr/src/ventana/yocto/pyro-2.3/build/tmp/work/x86_64
-> > > > -nativesdk
-> > > > -fslcsdk-linux/nativesdk-u-boot-mkimage/1_2017.01-r0/recipe-sysroot
-> > > > -native/usr/lib:$ORIGIN/../../../../../../../usr/src/ventana/yocto/pyro
-> > > > -2.3/build/tmp/work/x86_64
-> > > > -nativesdk-fslcsdk-linux/nativesdk-u-boot-mkimage/1_2017.01-r0/recipe-sysroot-native/lib'
-> > > > too large; maximum length 287\n"
-> > > > DEBUG: Python function perform_packagecopy finished
-> > > > DEBUG: Python function do_package finished
-> > > > ERROR: Function failed: perform_packagecopy
-> > > > 
-> > > > I'm guessing this has something to do with the long list of args in
-> > > > EXTRA_OEMAKE_class-nativesdk from
-> > > > http://git.yoctoproject.org/cgit.cgi/poky/tree/meta/recipes-bsp/u-boot/u-boot-mkimage_2017.01.
-> > > > bb
-> > > > 
-> > > > Any ideas?
-> > > > 
-> > > > Regards,
-> > > > 
-> > > > Tim
-> > 
-> > Max,
-> > 
-> > indeed your patch '[OE-core] [PATCH] u-boot-mkimage: fix nativesdk
-> > build' resolves my problem.
-> > 
-> > This should be backported to at least the pyro branch as well I would assume?
-> 
-> Yes, I expect that pyro has the same issue, morty likely does not though.
+Detect atomics during configure
 
-I can confirm this does not affect morty.
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ .../detect-atomics-during-configure.patch          | 34 ++++++++++++++++++++++
+ meta/recipes-sato/webkit/webkitgtk_2.16.1.bb       |  1 +
+ 2 files changed, 35 insertions(+)
+ create mode 100644 meta/recipes-sato/webkit/webkitgtk/detect-atomics-during-configure.patch
 
+diff --git a/meta/recipes-sato/webkit/webkitgtk/detect-atomics-during-configure.patch b/meta/recipes-sato/webkit/webkitgtk/detect-atomics-during-configure.patch
+new file mode 100644
+index 0000000000..12836f28f2
+--- /dev/null
++++ b/meta/recipes-sato/webkit/webkitgtk/detect-atomics-during-configure.patch
+@@ -0,0 +1,34 @@
++Taken from
++https://bugs.webkit.org/show_bug.cgi?id=161900
++
++Upstream-Status: Pending
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++
++Index: webkitgtk-2.16.1/Source/WTF/wtf/CMakeLists.txt
++===================================================================
++--- webkitgtk-2.16.1.orig/Source/WTF/wtf/CMakeLists.txt
+++++ webkitgtk-2.16.1/Source/WTF/wtf/CMakeLists.txt
++@@ -182,7 +182,6 @@ set(WTF_HEADERS
++ 
++ set(WTF_SOURCES
++     Assertions.cpp
++-    Atomics.cpp
++     AutomaticThread.cpp
++     BitVector.cpp
++     ClockType.cpp
++@@ -301,6 +300,15 @@ if (NOT USE_SYSTEM_MALLOC)
++     list(APPEND WTF_LIBRARIES bmalloc)
++ endif ()
++ 
+++file(WRITE ${CMAKE_BINARY_DIR}/test_atomics.cpp
+++     "int main(void)\n"
+++     "{ long long x = 1; return (int) __sync_add_and_fetch_8(&x, 1); }\n")
+++try_compile(ATOMICS_BUILD_SUCCEEDED ${CMAKE_BINARY_DIR} ${CMAKE_BINARY_DIR}/test_atomics.cpp)
+++if (NOT ATOMICS_BUILD_SUCCEEDED)
+++    list(APPEND WTF_SOURCES Atomics.cpp)
+++endif ()
+++file(REMOVE ${CMAKE_BINARY_DIR}/test_atomics.cpp)
+++
++ list(APPEND WTF_SOURCES
++     unicode/icu/CollatorICU.cpp
++ )
+diff --git a/meta/recipes-sato/webkit/webkitgtk_2.16.1.bb b/meta/recipes-sato/webkit/webkitgtk_2.16.1.bb
+index 0931a50636..a52d93cfbe 100644
+--- a/meta/recipes-sato/webkit/webkitgtk_2.16.1.bb
++++ b/meta/recipes-sato/webkit/webkitgtk_2.16.1.bb
+@@ -20,6 +20,7 @@ SRC_URI = "http://www.webkitgtk.org/releases/${BPN}-${PV}.tar.xz \
+            file://x32_support.patch \
+            file://cross-compile.patch \
+            file://gcc7.patch \
++           file://detect-atomics-during-configure.patch \
+            "
+ SRC_URI[md5sum] = "d3bcf995a667fd9febb9ab991acf0ca7"
+ SRC_URI[sha256sum] = "eb92383232328ce655b703c64370ed3795662479719ad1b4a869ed46769d2945"
 -- 
-Denys
+2.13.0
+
 
