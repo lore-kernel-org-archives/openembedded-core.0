@@ -1,48 +1,57 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 06DE978095
+Return-Path: <enrico.scholz@sigma-chemnitz.de>
+Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
+	by mail.openembedded.org (Postfix) with ESMTP id 732BB60778
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 May 2017 23:16:51 +0000 (UTC)
-Received: by mail-wm0-f66.google.com with SMTP id y10so14555071wmh.0
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 May 2017 16:16:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=nQ+aJIgObMUUQpjJXO5+VfjDDCPelracDxk3VGioIEI=;
-	b=GraiRq8kxkt32bD2tZ8j8RkIpKOa8JuTNGZSmRuUA0B+kVAnuoLmzAXLUA/JMhMi7e
-	d0EAZ7CQmaMUTfibtLzB2huyDaflwXlR44x9KD9WxcoLXosEvcJ+hmtIVcS4TKbROWLR
-	hPn9+hX50NXynbC7gkaZX6if2asIhHG4p2RDb5njSS/mjtX9XNjJy3zfX7yG5IGddm1b
-	h+7zVLUdnpGxaUr+XdmUhcXTsxHn7P0+w9clb7QrbckpUZGziqwb8IdhPfcCD11jTkAW
-	KixUZSiMBRgdDSXbL1NjcqBGPIOBSLPC+8z6ghmsMUTLpzT5D8n//o3DQl9sJjjRMToF
-	bVIA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=nQ+aJIgObMUUQpjJXO5+VfjDDCPelracDxk3VGioIEI=;
-	b=rOXXBPqsFjvW46ltUQ6o60k+vNSd1n2whq8wMM7vGt+3qRolU0aDd0EWt101Kqyr7F
-	u47tRcRNxrFzf7PcGU+Zj/iXJAUoxj6slc9/vrhYuTg5y0T11i0QrUuRM/EAgvdPcMG2
-	RW6bEVCM96SuENm3S3TMNBq6nWv3CjvdHKZA37cAPWjlQRcPVGVIMTjtOp859scvbhgz
-	EVbJDKi2Q5WkxhOtYVY3D5m3J9pDvszZA9YK8o8cIr/qduazSu3NFhPDiNXorjt3I0+y
-	h4Vm4/2kh3mIbDz1m/poMYcrTHI70Tpvg/bFQULOEPG3xBb3rikx5T2VkSD41t+tmkeL
-	rtTQ==
-X-Gm-Message-State: AODbwcDJIdonKcrtpLSXZ1B2+IRh/ZHOUKHC/2B1CrMtWUFFIQOyPmdN
-	2En7gCpDn0S9figApXlq5cShEcN/Tg==
-X-Received: by 10.80.137.56 with SMTP id e53mr4961502ede.67.1495149412568;
-	Thu, 18 May 2017 16:16:52 -0700 (PDT)
+	Thu, 18 May 2017 23:38:08 +0000 (UTC)
+Received: from mail-mta-0.intern.sigma-chemnitz.de
+	(mail-mta-0.intern.sigma-chemnitz.de [192.168.12.76])
+	by mailout-1.intern.sigma-chemnitz.de (8.14.7/8.14.7) with ESMTP id
+	v4INc9bW009761
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=OK) for <openembedded-core@lists.openembedded.org>;
+	Fri, 19 May 2017 01:38:09 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sigma-chemnitz.de;
+	s=v2012061000; t=1495150689;
+	bh=c6UCi3rdY7+IV9AYBKrDcdznCGL/ybjAkVxWlJy2LAo=;
+	h=From:To:Cc:Subject:References:Date:In-Reply-To:Message-ID:
+	MIME-Version:Content-Type:Sender;
+	b=EoHlotveKS6NulTRBoLEkOz0rnNy7WCmtWtd7ENk9nA4wOTFX1F7FO7EW6NZeYwwX
+	G/6cyQaMHk4YUFCX8te2HVeAP7eqwoJfPqTRfXFl2aIcrBJerPbbxIc5kRNlFx1ltR
+	Atv9N5wyLEcmSa9rv8+xCmbAayUBTfPjwCJ1C/A4=
+Received: from reddoxx.intern.sigma-chemnitz.de
+	(reddoxx.intern.sigma-chemnitz.de [192.168.0.193])
+	by mail-mta-0.intern.sigma-chemnitz.de (8.14.7/8.14.7) with ESMTP id
+	v4INc1Dj024194 for <openembedded-core@lists.openembedded.org> from
+	enrico.scholz@sigma-chemnitz.de; Fri, 19 May 2017 01:38:02 +0200
+Received: from mail-msa-0.intern.sigma-chemnitz.de ( [192.168.12.77]) by
+	reddoxx.intern.sigma-chemnitz.de
+	(Reddoxx engine) with SMTP id 226FBE6281F;
+	Fri, 19 May 2017 01:35:40 +0200
+Received: from ensc-virt.intern.sigma-chemnitz.de
+	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
+	by mail-msa-0.intern.sigma-chemnitz.de (8.14.7/8.14.7) with ESMTP id
+	v4INbxcJ024189
+	(version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
+	Fri, 19 May 2017 01:37:59 +0200
+Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
+	4.87) (envelope-from <ensc@sigma-chemnitz.de>)
+	id 1dBUzX-0000ip-Lf; Fri, 19 May 2017 01:37:59 +0200
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+To: Denys Dmytriyenko <denis@denix.org>
+References: <20170518173423.28994-1-enrico.scholz@sigma-chemnitz.de>
+	<20170518181957.GU28053@denix.org>
+Date: Fri, 19 May 2017 01:37:59 +0200
+In-Reply-To: <20170518181957.GU28053@denix.org> (Denys Dmytriyenko's message
+	of "Thu, 18 May 2017 14:19:57 -0400")
+Message-ID: <lyinkxrb1k.fsf@ensc-virt.intern.sigma-chemnitz.de>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/25.2 (gnu/linux)
 MIME-Version: 1.0
-Received: by 10.80.195.143 with HTTP; Thu, 18 May 2017 16:16:22 -0700 (PDT)
-In-Reply-To: <1495149157.27342.142.camel@linuxfoundation.org>
-References: <1495146527-32073-1-git-send-email-jose.a.lamego@linux.intel.com>
-	<1495146527-32073-2-git-send-email-jose.a.lamego@linux.intel.com>
-	<1495149157.27342.142.camel@linuxfoundation.org>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 18 May 2017 16:16:22 -0700
-Message-ID: <CAMKF1so_wFUH=eNqBc_Qhach4+C1mW73ZFUuK=TqLaYZ81C=Hg@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] conf/bitbake.conf: include ed in hosttools
+Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+X-Spam-Score: -0.6
+X-Spam-Tests: AWL,BAYES_00,DKIM_ADSP_ALL,RP_MATCHES_RCVD,SPF_NEUTRAL
+X-Scanned-By: MIMEDefang 2.79
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] tzcode-native: quote ${CC}
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,35 +64,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 May 2017 23:16:52 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 18 May 2017 23:38:11 -0000
+Content-Type: text/plain
 
-On Thu, May 18, 2017 at 4:12 PM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> On Thu, 2017-05-18 at 17:28 -0500, Jose Lamego wrote:
->> Some recipes build fail due to missing ed command.
->>
->> This change includes ed to the hosttools required to
->> run builds with oe-core.
->>
->> Signed-off-by: Jose Lamego <jose.a.lamego@linux.intel.com>
->> Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.in
->> tel.com>
->
-> We really don't want to add ed here. Which recipes are failing and why
-> do we need ed to build them?
+Denys Dmytriyenko <denis@denix.org> writes:
 
-we also need whoami which kernel uses to identify the build user id
+>> -EXTRA_OEMAKE += "cc=${CC}"
+>> +EXTRA_OEMAKE += "cc='${CC}'"
+>
+> Should these be double-quotes around ${CC}?
 
->
-> Cheers,
->
-> Richard
->
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+I wrote it in this way:
+
+- to 60%, because '' is more correct than "" in this context (see below)
+
+- to 40%, because "" would clutter code too much and I can not say
+  whether it must be quoted as \", \\" or whether perhaps plain " works
+  too
+
+
+A yet more correct solution would be
+
+| export cc = "${CC}"
+
+in the recipe (outside of do_*()) and perhaps adding '-e' to EXTRA_OEMAKE.
+
+
+This handles additionally the case when 'CC' contains a single quote
+(which causes misbehavior in my patch).
+
+Double quotes are much more worse because CC must not contain '$', '`'
+or '\\' (which is not uncommon in flags like '-DFOO()=\"bar\"').  In OE,
+it is not expected that these characters are interpreted directly by the
+shell (${CC} is passed properly quoted in the environment).
+
+But all this does not matter... correct quoting is neglactted in OE and
+bitbake; when you are lucky, commands are written as "foo '%s'" % path.
+But nobody uses functions like 'pipes.quote()' or a non-shell variants
+like subprocess.call(['foo', path]).
+
+So, you can assume that '${FOO}' expands to the same value like "${FOO}".
+
+
+Enrico
+-- 
+SIGMA Chemnitz GmbH       Registergericht:   Amtsgericht Chemnitz HRB 1750
+Am Erlenwald 13           Geschaeftsfuehrer: Grit Freitag, Frank Pyritz
+09128 Chemnitz
 
