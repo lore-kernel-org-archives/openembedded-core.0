@@ -1,35 +1,47 @@
-Return-Path: <huangqy.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
-	by mail.openembedded.org (Postfix) with ESMTP id DCF7477D70
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qt0-f179.google.com (mail-qt0-f179.google.com
+	[209.85.216.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 29FBF77811
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 May 2017 10:03:11 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.22,518,1449504000"; d="scan'208,217";a="19014706"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 18 May 2017 18:03:06 +0800
-Received: from G08CNEXCHPEKD01.g08.fujitsu.local (unknown [10.167.33.80])
-	by cn.fujitsu.com (Postfix) with ESMTP id CAEBE47C652B;
-	Thu, 18 May 2017 18:03:01 +0800 (CST)
-Received: from G08CNEXMBPEKD03.g08.fujitsu.local ([10.167.33.86]) by
-	G08CNEXCHPEKD01.g08.fujitsu.local ([10.167.33.80]) with mapi id
-	14.03.0319.002; Thu, 18 May 2017 18:03:02 +0800
-From: "Huang, Qiyu" <huangqy.fnst@cn.fujitsu.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Thread-Topic: [OE-core] [PATCH v4] libnl: 3.2.29 -> 3.3.0
-Thread-Index: AQHSz7diYc5c2rYhX0CIUCcigKVuSaH5TEiAgACO/qA=
-Date: Thu, 18 May 2017 10:03:01 +0000
-Message-ID: <97F7C8E70D26E94FA7E05578493F65C60DFAF522@G08CNEXMBPEKD03.g08.fujitsu.local>
+	Thu, 18 May 2017 10:19:28 +0000 (UTC)
+Received: by mail-qt0-f179.google.com with SMTP id v27so30180427qtg.2
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 18 May 2017 03:19:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=4JMIvtyNkPf2EaNbnybqypOLNHS+3ffvvJ1pWxWa/6w=;
+	b=S6lPkVSGL4O2FcuZHV6An/AKzznnqLwUuYtnoWaHOq9+XVCCVP3wwnzCv3bDkRfOYH
+	b7bFxeC/qj9IN+4BsXuapcQxdW7lBOWatjq+fO7M1vB8XA1dbdheQeEbekpNFO3cejZB
+	s5SBa0UD7ZKq/QiGYDhxFIQG2IWJFQklbHWta/NALFApMjLpaZ/d0gY00HraC0595MWG
+	sZwLopBZiqmwq2O8wWxOAk4b08J4XN3VpCTRjp8sU3sTtbqJNcx9FdcaKBOorJ8eOISW
+	Re0Oa/q8w1bHe1tptYntnNGKFn1+5lLOcm3zZMKdAsHVYidnIxOHxPSOq1Cx/q4t/tfc
+	GaDQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=4JMIvtyNkPf2EaNbnybqypOLNHS+3ffvvJ1pWxWa/6w=;
+	b=a2EpqngpL3H077sdj3KT4gpK78vNKrg8D+BFPWoAZt6CY7thkkaDOMg1xkxsLZJZGk
+	doz73K77u3BVxqytqvWwyvmrKnr32FhCTscNeNqmtderIQjlD7f+j5Yvtez78iF0vm5b
+	Ga5RopucNOOmRAZkZz+8J+9ckZculLVFO+XImUBbCL6Q92NFhAMzwywBWPOb2/nSQpZ0
+	14yCgXvsJT674vl5fFfFsJC6s23ptxJnnD9IPSAz78Tr5+JTuTivSh/R8UUOVqHeUZ1W
+	FHA8i/AL2PV9RMd3J565/94Wmdhk3jwRYmonAQEejWQZtIGWyvCi+MfpRGD32xZrXQQ0
+	eoLQ==
+X-Gm-Message-State: AODbwcBSlvKP2e8o9gOwBNQ1DjmhjOAc/oRI3BB5XN4IPXGDwcKbtYqI
+	K9uEU5Lam9Gnaz1wye3653M+XKEZOMGO
+X-Received: by 10.200.34.162 with SMTP id f31mr3222911qta.65.1495102769982;
+	Thu, 18 May 2017 03:19:29 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.41.115 with HTTP; Thu, 18 May 2017 03:19:09 -0700 (PDT)
+In-Reply-To: <97F7C8E70D26E94FA7E05578493F65C60DFAF522@G08CNEXMBPEKD03.g08.fujitsu.local>
 References: <1495098950-18824-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
 	<CAJTo0LbAX6DHYZUNUH1bzJF3a7xaK0o5RPX4jXBzTXDhAvUZXg@mail.gmail.com>
-In-Reply-To: <CAJTo0LbAX6DHYZUNUH1bzJF3a7xaK0o5RPX4jXBzTXDhAvUZXg@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.167.226.81]
-MIME-Version: 1.0
-X-yoursite-MailScanner-ID: CAEBE47C652B.AA775
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: huangqy.fnst@cn.fujitsu.com
-X-Spam-Status: No
+	<97F7C8E70D26E94FA7E05578493F65C60DFAF522@G08CNEXMBPEKD03.g08.fujitsu.local>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 18 May 2017 11:19:09 +0100
+Message-ID: <CAJTo0LbjrBN9oJa8UK5Ec_4Aw2xYNYFFBLgCY0-R8JEDU4dERQ@mail.gmail.com>
+To: "Huang, Qiyu" <huangqy.fnst@cn.fujitsu.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH v4] libnl: 3.2.29 -> 3.3.0
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -44,162 +56,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 May 2017 10:03:14 -0000
-Content-Language: zh-CN
-Content-Type: multipart/alternative;
-	boundary="_000_97F7C8E70D26E94FA7E05578493F65C60DFAF522G08CNEXMBPEKD03_"
+X-List-Received-Date: Thu, 18 May 2017 10:19:29 -0000
+Content-Type: multipart/alternative; boundary="001a114027ec8204fe054fc9bd9e"
 
---_000_97F7C8E70D26E94FA7E05578493F65C60DFAF522G08CNEXMBPEKD03_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+--001a114027ec8204fe054fc9bd9e
+Content-Type: text/plain; charset="UTF-8"
 
-SSBmaXhlZCB0aGlzIGVycm9yIGJ5IG15c2VsZiwgc28gaXQgZG9uJ3QgaGF2
-ZSBVcHN0cmVhbS1TdGF0dXMuDQoNCmh1YW5ncXkNCg0KRnJvbTogQnVydG9u
-LCBSb3NzIFttYWlsdG86cm9zcy5idXJ0b25AaW50ZWwuY29tXQ0KU2VudDog
-VGh1cnNkYXksIE1heSAxOCwgMjAxNyA1OjI3IFBNDQpUbzogSHVhbmcsIFFp
-eXUv6buEIOeQpuWuhyA8aHVhbmdxeS5mbnN0QGNuLmZ1aml0c3UuY29tPg0K
-Q2M6IE9FLWNvcmUgPG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJl
-ZGRlZC5vcmc+DQpTdWJqZWN0OiBSZTogW09FLWNvcmVdIFtQQVRDSCB2NF0g
-bGlibmw6IDMuMi4yOSAtPiAzLjMuMA0KDQoNCk9uIDE4IE1heSAyMDE3IGF0
-IDEwOjE1LCBIdWFuZyBRaXl1IDxodWFuZ3F5LmZuc3RAY24uZnVqaXRzdS5j
-b208bWFpbHRvOmh1YW5ncXkuZm5zdEBjbi5mdWppdHN1LmNvbT4+IHdyb3Rl
-Og0KKysrIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGlibmwvbGlibmwvbXVz
-bC1oZWFkZXItY29uZmxpY3QucGF0Y2gNCkBAIC0wLDAgKzEsNTkgQEANCitG
-cm9tIGUxZjI4Mjc2NzNkOWQ0NWZlNjljYTkxMjYyOGJiYjkwZDQwMDNmNDkg
-TW9uIFNlcCAxNyAwMDowMDowMCAyMDAxDQorRnJvbTogWmhlbmcgUnVvcWlu
-IDx6aGVuZ3JxLmZuc3RAY24uZnVqaXRzdS5jb208bWFpbHRvOnpoZW5ncnEu
-Zm5zdEBjbi5mdWppdHN1LmNvbT4+DQorRGF0ZTogTW9uLCAxNSBNYXkgMjAx
-NyAwMjowOTowOCArMDkwMA0KK1N1YmplY3Q6IFtQQVRDSF0gRml4IG11c2wg
-Y29tcGlsZSBlcnJvciBsaWtlOg0KKw0KK0luIGZpbGUgaW5jbHVkZWQgZnJv
-bSAuLi9saWJubC0zLjMuMC9pbmNsdWRlL2xpbnV4LXByaXZhdGUvbGludXgv
-aXB2Ni5oOjU6MCwNCisgICAgICAgICAgICAgICAgIGZyb20gLi4vbGlibmwt
-My4zLjAvaW5jbHVkZS9uZXRsaW5rLXByaXZhdGUvbmV0bGluay5oOjU0LA0K
-KyAgICAgICAgICAgICAgICAgZnJvbSAuLi9saWJubC0zLjMuMC9saWIvbmwu
-YzoyODoNCisuLi9saWJubC0zLjMuMC9pbmNsdWRlL2xpbnV4LXByaXZhdGUv
-bGludXgvaW42Lmg6MzI6ODogZXJyb3I6DQorcmVkZWZpbml0aW9uIG9mICdz
-dHJ1Y3QgaW42X2FkZHInDQorIHN0cnVjdCBpbjZfYWRkciB7DQorICAgICAg
-ICBefn5+fn5+fg0KKw0KK1NpZ25lZC1vZmYtYnk6IFpoZW5nIFJ1b3FpbiA8
-emhlbmdycS5mbnN0QGNuLmZ1aml0c3UuY29tPG1haWx0bzp6aGVuZ3JxLmZu
-c3RAY24uZnVqaXRzdS5jb20+Pg0KDQpUaGlzIHBhdGNoIG5lZWRzIGFuIFVw
-c3RyZWFtLVN0YXR1cyB0YWcuDQoNClJvc3MNCgoK
+On 18 May 2017 at 11:03, Huang, Qiyu <huangqy.fnst@cn.fujitsu.com> wrote:
 
---_000_97F7C8E70D26E94FA7E05578493F65C60DFAF522G08CNEXMBPEKD03_
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: base64
+> I fixed this error by myself, so it don't have Upstream-Status.
+>
+>
+Yes, you do.  Have you submitted it upstream? (then, Submitted).  Is it
+appropriate upstream at all, or is it customisation (Inappropriate).  If
+you wrote the patch, it needs to go upstream but you haven't yet, then
+Pending.
 
-PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwi
-IHhtbG5zOm89InVybjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9m
-ZmljZSIgeG1sbnM6dz0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTpvZmZp
-Y2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNv
-bS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5v
-cmcvVFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9
-IkNvbnRlbnQtVHlwZSIgY29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0
-Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRvciIgY29udGVudD0iTWljcm9z
-b2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxlPjwhLS0N
-Ci8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1m
-YW1pbHk65a6L5L2TOw0KCXBhbm9zZS0xOjIgMSA2IDAgMyAxIDEgMSAxIDE7
-fQ0KQGZvbnQtZmFjZQ0KCXtmb250LWZhbWlseToiQ2FtYnJpYSBNYXRoIjsN
-CglwYW5vc2UtMToyIDQgNSAzIDUgNCA2IDMgMiA0O30NCkBmb250LWZhY2UN
-Cgl7Zm9udC1mYW1pbHk6Q2FsaWJyaTsNCglwYW5vc2UtMToyIDE1IDUgMiAy
-IDIgNCAzIDIgNDt9DQpAZm9udC1mYWNlDQoJe2ZvbnQtZmFtaWx5OiJcQOWu
-i+S9kyI7DQoJcGFub3NlLTE6MiAxIDYgMCAzIDEgMSAxIDEgMTt9DQovKiBT
-dHlsZSBEZWZpbml0aW9ucyAqLw0KcC5Nc29Ob3JtYWwsIGxpLk1zb05vcm1h
-bCwgZGl2Lk1zb05vcm1hbA0KCXttYXJnaW46MGNtOw0KCW1hcmdpbi1ib3R0
-b206LjAwMDFwdDsNCglmb250LXNpemU6MTIuMHB0Ow0KCWZvbnQtZmFtaWx5
-OuWui+S9kzt9DQphOmxpbmssIHNwYW4uTXNvSHlwZXJsaW5rDQoJe21zby1z
-dHlsZS1wcmlvcml0eTo5OTsNCgljb2xvcjpibHVlOw0KCXRleHQtZGVjb3Jh
-dGlvbjp1bmRlcmxpbmU7fQ0KYTp2aXNpdGVkLCBzcGFuLk1zb0h5cGVybGlu
-a0ZvbGxvd2VkDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsNCgljb2xvcjpw
-dXJwbGU7DQoJdGV4dC1kZWNvcmF0aW9uOnVuZGVybGluZTt9DQpzcGFuLkVt
-YWlsU3R5bGUxNw0KCXttc28tc3R5bGUtdHlwZTpwZXJzb25hbC1yZXBseTsN
-Cglmb250LWZhbWlseToiQ2FsaWJyaSIsc2Fucy1zZXJpZjsNCgljb2xvcjoj
-MUY0OTdEO30NCi5Nc29DaHBEZWZhdWx0DQoJe21zby1zdHlsZS10eXBlOmV4
-cG9ydC1vbmx5Ow0KCWZvbnQtZmFtaWx5OiJDYWxpYnJpIixzYW5zLXNlcmlm
-O30NCkBwYWdlIFdvcmRTZWN0aW9uMQ0KCXtzaXplOjYxMi4wcHQgNzkyLjBw
-dDsNCgltYXJnaW46NzIuMHB0IDkwLjBwdCA3Mi4wcHQgOTAuMHB0O30NCmRp
-di5Xb3JkU2VjdGlvbjENCgl7cGFnZTpXb3JkU2VjdGlvbjE7fQ0KLS0+PC9z
-dHlsZT48IS0tW2lmIGd0ZSBtc28gOV0+PHhtbD4NCjxvOnNoYXBlZGVmYXVs
-dHMgdjpleHQ9ImVkaXQiIHNwaWRtYXg9IjEwMjYiIC8+DQo8L3htbD48IVtl
-bmRpZl0tLT48IS0tW2lmIGd0ZSBtc28gOV0+PHhtbD4NCjxvOnNoYXBlbGF5
-b3V0IHY6ZXh0PSJlZGl0Ij4NCjxvOmlkbWFwIHY6ZXh0PSJlZGl0IiBkYXRh
-PSIxIiAvPg0KPC9vOnNoYXBlbGF5b3V0PjwveG1sPjwhW2VuZGlmXS0tPg0K
-PC9oZWFkPg0KPGJvZHkgbGFuZz0iWkgtQ04iIGxpbms9ImJsdWUiIHZsaW5r
-PSJwdXJwbGUiPg0KPGRpdiBjbGFzcz0iV29yZFNlY3Rpb24xIj4NCjxwIGNs
-YXNzPSJNc29Ob3JtYWwiPjxzcGFuIGxhbmc9IkVOLVVTIj5JIGZpeGVkIHRo
-aXMgZXJyb3IgYnkgbXlzZWxmLCBzbyBpdCBkb24ndCBoYXZlIFVwc3RyZWFt
-LVN0YXR1cy48bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNv
-Tm9ybWFsIj48c3BhbiBsYW5nPSJFTi1VUyI+PG86cD4mbmJzcDs8L286cD48
-L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gbGFuZz0i
-RU4tVVMiPmh1YW5ncXk8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFz
-cz0iTXNvTm9ybWFsIj48c3BhbiBsYW5nPSJFTi1VUyIgc3R5bGU9ImZvbnQt
-c2l6ZToxMC41cHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90Oyxz
-YW5zLXNlcmlmO2NvbG9yOiMxRjQ5N0QiPjxvOnA+Jm5ic3A7PC9vOnA+PC9z
-cGFuPjwvcD4NCjxkaXYgc3R5bGU9ImJvcmRlcjpub25lO2JvcmRlci1sZWZ0
-OnNvbGlkIGJsdWUgMS41cHQ7cGFkZGluZzowY20gMGNtIDBjbSA0LjBwdCI+
-DQo8ZGl2Pg0KPGRpdiBzdHlsZT0iYm9yZGVyOm5vbmU7Ym9yZGVyLXRvcDpz
-b2xpZCAjRTFFMUUxIDEuMHB0O3BhZGRpbmc6My4wcHQgMGNtIDBjbSAwY20i
-Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PGI+PHNwYW4gbGFuZz0iRU4tVVMi
-IHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0Nh
-bGlicmkmcXVvdDssc2Fucy1zZXJpZiI+RnJvbTo8L3NwYW4+PC9iPjxzcGFu
-IGxhbmc9IkVOLVVTIiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZh
-bWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWYiPiBCdXJ0b24s
-IFJvc3MgW21haWx0bzpyb3NzLmJ1cnRvbkBpbnRlbC5jb21dDQo8YnI+DQo8
-Yj5TZW50OjwvYj4gVGh1cnNkYXksIE1heSAxOCwgMjAxNyA1OjI3IFBNPGJy
-Pg0KPGI+VG86PC9iPiBIdWFuZywgUWl5dS88L3NwYW4+PHNwYW4gc3R5bGU9
-ImZvbnQtc2l6ZToxMS4wcHQiPum7hDwvc3Bhbj48c3BhbiBzdHlsZT0iZm9u
-dC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7
-LHNhbnMtc2VyaWYiPg0KPC9zcGFuPjxzcGFuIHN0eWxlPSJmb250LXNpemU6
-MTEuMHB0Ij7nkKblroc8L3NwYW4+PHNwYW4gbGFuZz0iRU4tVVMiIHN0eWxl
-PSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkm
-cXVvdDssc2Fucy1zZXJpZiI+ICZsdDtodWFuZ3F5LmZuc3RAY24uZnVqaXRz
-dS5jb20mZ3Q7PGJyPg0KPGI+Q2M6PC9iPiBPRS1jb3JlICZsdDtvcGVuZW1i
-ZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnJmd0Ozxicj4NCjxi
-PlN1YmplY3Q6PC9iPiBSZTogW09FLWNvcmVdIFtQQVRDSCB2NF0gbGlibmw6
-IDMuMi4yOSAtJmd0OyAzLjMuMDxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjwv
-ZGl2Pg0KPC9kaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBsYW5n
-PSJFTi1VUyI+PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0KPGRpdj4N
-CjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBsYW5nPSJFTi1V
-UyI+PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0KPGRpdj4NCjxwIGNs
-YXNzPSJNc29Ob3JtYWwiPjxzcGFuIGxhbmc9IkVOLVVTIj5PbiAxOCBNYXkg
-MjAxNyBhdCAxMDoxNSwgSHVhbmcgUWl5dSAmbHQ7PGEgaHJlZj0ibWFpbHRv
-Omh1YW5ncXkuZm5zdEBjbi5mdWppdHN1LmNvbSIgdGFyZ2V0PSJfYmxhbmsi
-Pmh1YW5ncXkuZm5zdEBjbi5mdWppdHN1LmNvbTwvYT4mZ3Q7IHdyb3RlOjxv
-OnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxibG9ja3F1b3RlIHN0eWxlPSJib3Jk
-ZXI6bm9uZTtib3JkZXItbGVmdDpzb2xpZCAjQ0NDQ0NDIDEuMHB0O3BhZGRp
-bmc6MGNtIDBjbSAwY20gNi4wcHQ7bWFyZ2luLWxlZnQ6NC44cHQ7bWFyZ2lu
-LXJpZ2h0OjBjbSI+DQo8ZGl2IGlkPSI6MTYwIj4NCjxwIGNsYXNzPSJNc29O
-b3JtYWwiPjxzcGFuIGxhbmc9IkVOLVVTIj4mIzQzOyYjNDM7JiM0MzsgYi9t
-ZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJubC9saWJubC9tdXNsLWhlYWRlci1j
-b25mbGljdC5wYXRjaDxicj4NCkBAIC0wLDAgJiM0MzsxLDU5IEBAPGJyPg0K
-JiM0MztGcm9tIGUxZjI4Mjc2NzNkOWQ0NWZlNjljYTkxMjYyOGJiYjkwZDQw
-MDNmNDkgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxPGJyPg0KJiM0MztGcm9t
-OiBaaGVuZyBSdW9xaW4gJmx0OzxhIGhyZWY9Im1haWx0bzp6aGVuZ3JxLmZu
-c3RAY24uZnVqaXRzdS5jb20iPnpoZW5ncnEuZm5zdEBjbi5mdWppdHN1LmNv
-bTwvYT4mZ3Q7PGJyPg0KJiM0MztEYXRlOiBNb24sIDE1IE1heSAyMDE3IDAy
-OjA5OjA4ICYjNDM7MDkwMDxicj4NCiYjNDM7U3ViamVjdDogW1BBVENIXSBG
-aXggbXVzbCBjb21waWxlIGVycm9yIGxpa2U6PGJyPg0KJiM0Mzs8YnI+DQom
-IzQzO0luIGZpbGUgaW5jbHVkZWQgZnJvbSAuLi9saWJubC0zLjMuMC9pbmNs
-dWRlL2xpbnV4LXByaXZhdGUvbGludXgvaXB2Ni5oOjU6MCw8YnI+DQomIzQz
-OyZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZu
-YnNwOyAmbmJzcDsgJm5ic3A7ZnJvbSAuLi9saWJubC0zLjMuMC9pbmNsdWRl
-L25ldGxpbmstcHJpdmF0ZS9uZXRsaW5rLmg6NTQsPGJyPg0KJiM0MzsmbmJz
-cDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsg
-Jm5ic3A7ICZuYnNwO2Zyb20gLi4vbGlibmwtMy4zLjAvbGliL25sLmM6Mjg6
-PGJyPg0KJiM0MzsuLi9saWJubC0zLjMuMC9pbmNsdWRlL2xpbnV4LXByaXZh
-dGUvbGludXgvaW42Lmg6MzI6ODogZXJyb3I6PGJyPg0KJiM0MztyZWRlZmlu
-aXRpb24gb2YgJ3N0cnVjdCBpbjZfYWRkcic8YnI+DQomIzQzOyBzdHJ1Y3Qg
-aW42X2FkZHIgezxicj4NCiYjNDM7Jm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5i
-c3A7IF5+fn5+fn5+PGJyPg0KJiM0Mzs8YnI+DQomIzQzO1NpZ25lZC1vZmYt
-Ynk6IFpoZW5nIFJ1b3FpbiAmbHQ7PGEgaHJlZj0ibWFpbHRvOnpoZW5ncnEu
-Zm5zdEBjbi5mdWppdHN1LmNvbSI+emhlbmdycS5mbnN0QGNuLmZ1aml0c3Uu
-Y29tPC9hPiZndDs8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8L2Rpdj4NCjwv
-YmxvY2txdW90ZT4NCjwvZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNw
-YW4gbGFuZz0iRU4tVVMiPjxicj4NClRoaXMgcGF0Y2ggbmVlZHMgYW4gVXBz
-dHJlYW0tU3RhdHVzIHRhZy48bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8L2Rp
-dj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBsYW5nPSJF
-Ti1VUyI+PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0KPC9kaXY+DQo8
-ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gbGFuZz0iRU4tVVMi
-PlJvc3M8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8L2Rpdj4NCjwvZGl2Pg0K
-PC9kaXY+DQo8L2Rpdj4NCjwvYm9keT4NCjwvaHRtbD4NCg==
+Ideally we want Submitted/Backport/Inappropriate, but we've a worrying
+number of Pending.  Please send it upstream.
 
---_000_97F7C8E70D26E94FA7E05578493F65C60DFAF522G08CNEXMBPEKD03_--
+Ross
+
+--001a114027ec8204fe054fc9bd9e
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 18 May 2017 at 11:03, Huang, Qiyu <span dir=3D"ltr">&lt;<a href=3D"mailt=
+o:huangqy.fnst@cn.fujitsu.com" target=3D"_blank">huangqy.fnst@cn.fujitsu.co=
+m</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margi=
+n:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><p class=3D"MsoNo=
+rmal"><span lang=3D"EN-US">I fixed this error by myself, so it don&#39;t ha=
+ve Upstream-Status.<u></u><u></u></span></p>
+<p class=3D"MsoNormal"></p></blockquote></div><br>Yes, you do.=C2=A0 Have y=
+ou submitted it upstream? (then, Submitted).=C2=A0 Is it appropriate upstre=
+am at all, or is it customisation (Inappropriate).=C2=A0 If you wrote the p=
+atch, it needs to go upstream but you haven&#39;t yet, then Pending.</div><=
+div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ideally we w=
+ant Submitted/Backport/Inappropriate, but we&#39;ve a worrying number of Pe=
+nding.=C2=A0 Please send it upstream.</div><div class=3D"gmail_extra"><br><=
+/div><div class=3D"gmail_extra">Ross</div></div>
+
+--001a114027ec8204fe054fc9bd9e--
