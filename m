@@ -1,48 +1,22 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f173.google.com (mail-qk0-f173.google.com
-	[209.85.220.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 0CD7471BA0
+Return-Path: <juro.bystricky@intel.com>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by mail.openembedded.org (Postfix) with ESMTP id 9EAA277FF0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 May 2017 20:07:18 +0000 (UTC)
-Received: by mail-qk0-f173.google.com with SMTP id y201so45650692qka.0
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 May 2017 13:07:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=QXppdHewFygKJxuwBYo8qFEZ0uZ+LKigoEmHE+EwMYk=;
-	b=Ad0blPF/zkvvxqoUHrGQibd/KWcWqtl1kadlsZYONLy57cJQMRYwZUUnM1qLJYS0uO
-	3aJrkO1tz1KdUrOV1c4SWQWTrdGvGmWN4PXC4hJCmwvvdLyM0s+CUbQLuEeP3+wbvtnE
-	Jbq4wUrDcPMGzEprP/m86zaYnb6F3jdVuzQhfOTtU7QDC/EJF7h+hg3SXmYrl39STFnU
-	GLt71mFO0FKJos5N2R8f4tQSz8MqGGfF2EWFJJUAN/eyVI0fBk8/XG4Fazu3IMFT2DGi
-	eDxG8MkZQ13TdGJBnBYF1XxeqnhfUUUkahIpdzt15upvFfEX0+Ffdlo5jDFOiT4au/Em
-	uG4g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=QXppdHewFygKJxuwBYo8qFEZ0uZ+LKigoEmHE+EwMYk=;
-	b=MS1azewcRTmN/grctqACa4ZXnHcQ2sj3SZxzGJeBwix3liBha5qtxGZ/9b85r7boiP
-	rCtTzx7uRij3p+LF1hYYmxFCiOSHLgIlxPtvYr1XyhUWGIl1kf5ATIa8VCpDTfOb1eEr
-	5ezca+1/fFX/l9hShYpSdgnr3h/pI2qL6ZjIw1WcoV7oeLB8LCbvb0GnflIMytwn+nRt
-	hOV6G8qQbratKbyImeXdGrV6dJGQHrMrtoCBJC6h8+NhhUejNKSNfw48l5TkMRuPDIIp
-	so+kLFMhBOBEgzxQlr3IYXFru2pa/F7YuduX7+W/ZOSsdr0s/c9hkftMk5UOrDBrJ3ik
-	qEvQ==
-X-Gm-Message-State: AODbwcBzfcrULvgVVjedPlxC45T8W9EQDRTSH7FkeUf09iceKiTVxUVa
-	GHieqUcnyO/tECzPS2ZkMOpmmpb8HbBicQ0=
-X-Received: by 10.55.69.67 with SMTP id s64mr5293278qka.221.1495138039393;
-	Thu, 18 May 2017 13:07:19 -0700 (PDT)
+	Thu, 18 May 2017 21:05:10 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga104.jf.intel.com with ESMTP; 18 May 2017 14:05:11 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.38,360,1491289200"; d="scan'208";a="88960385"
+Received: from juro-precision-t5610.jf.intel.com ([10.7.198.53])
+	by orsmga002.jf.intel.com with ESMTP; 18 May 2017 14:05:11 -0700
+From: Juro Bystricky <juro.bystricky@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 18 May 2017 14:05:09 -0700
+Message-Id: <1495141509-4582-1-git-send-email-juro.bystricky@intel.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Received: by 10.140.41.115 with HTTP; Thu, 18 May 2017 13:06:58 -0700 (PDT)
-In-Reply-To: <20170510093529.6651-2-alexander.kanavin@linux.intel.com>
-References: <20170510093529.6651-1-alexander.kanavin@linux.intel.com>
-	<20170510093529.6651-2-alexander.kanavin@linux.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 18 May 2017 21:06:58 +0100
-Message-ID: <CAJTo0LYCQ+Y2xgy6ZQvayQx--B+waGVuOm_rsTDcRfuKonE_4Q@mail.gmail.com>
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 02/11] trace-cmd: update to 2.6.1
+Cc: jurobystricky@hotmail.com
+Subject: [PATCH] kernel.bbclass: improve reproducibility
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,52 +29,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 May 2017 20:07:21 -0000
-Content-Type: multipart/alternative; boundary="001a11489b82baa8d3054fd1f318"
+X-List-Received-Date: Thu, 18 May 2017 21:05:13 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
---001a11489b82baa8d3054fd1f318
-Content-Type: text/plain; charset="UTF-8"
+Kernel and kernel modules contain hard coded paths referencing the host
+build system. This is usually because the source code contains __FILE__
+at some place. This prevents binary reproducibility. However, some compilers
+allow remapping of the __FILE__ value. If we detect the compiler is capable
+of doing this, we replace the source path $(S) part of __FILE__ by a string "/kernel-source".
+For example:
 
-On 10 May 2017 at 10:35, Alexander Kanavin <
-alexander.kanavin@linux.intel.com> wrote:
+​/​data/​master/​build-​repro/​tmp/​work-​shared/​qemux86/​kernel-​source/​drivers/​media/​v4l2-​core/​videobuf2-​core.​c
 
-> License change is due to update in FSF address.
->
-> Library path needs to be specified in absolute form now.
->
-> Remove bash completion file from kernelshark package as it will cause
-> a conflict with trace-cmd package.
->
+will be replaced by a reproducible value:
 
-This breaks under musl:
+/kernel-source/drivers/media/v4l2-core/videobuf2-core.c.
 
-https://autobuilder.yoctoproject.org/main/builders/nightly-musl/builds/459/steps/BuildImages/logs/stdio
+Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
+---
+ meta/classes/kernel.bbclass | 18 ++++++++++++++++--
+ 1 file changed, 16 insertions(+), 2 deletions(-)
 
-Ross
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index 8954b28..0a2cd3d 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -249,6 +249,18 @@ python do_devshell_prepend () {
+ 
+ addtask bundle_initramfs after do_install before do_deploy
+ 
++get_cc_option () {
++		# Check if KERNEL_CC supports the option "file-prefix-map".
++		# This option allows us to build images with __FILE__ values that do not
++		# contain the host build path.
++		cc_option_supported=`${KERNEL_CC} -Q --help=joined | grep ffile-prefix-map`
++		cc_extra=""
++		if [ $cc_option_supported = "-ffile-prefix-map=<old=new>" ]; then
++			cc_extra=-ffile-prefix-map=${S}=/kernel-source/
++		fi
++		echo $cc_extra
++}
++
+ kernel_do_compile() {
+ 	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS MACHINE
+ 	# The $use_alternate_initrd is only set from
+@@ -264,8 +276,9 @@ kernel_do_compile() {
+ 		copy_initramfs
+ 		use_alternate_initrd=CONFIG_INITRAMFS_SOURCE=${B}/usr/${INITRAMFS_IMAGE_NAME}.cpio
+ 	fi
++	cc_extra=$(get_cc_option)
+ 	for typeformake in ${KERNEL_IMAGETYPE_FOR_MAKE} ; do
+-		oe_runmake ${typeformake} CC="${KERNEL_CC}" LD="${KERNEL_LD}" ${KERNEL_EXTRA_ARGS} $use_alternate_initrd
++		oe_runmake ${typeformake} CC="${KERNEL_CC} $cc_extra " LD="${KERNEL_LD}" ${KERNEL_EXTRA_ARGS} $use_alternate_initrd
+ 		for type in ${KERNEL_IMAGETYPES} ; do
+ 			if test "${typeformake}.gz" = "${type}"; then
+ 				mkdir -p "${KERNEL_OUTPUT_DIR}"
+@@ -279,7 +292,8 @@ kernel_do_compile() {
+ do_compile_kernelmodules() {
+ 	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS MACHINE
+ 	if (grep -q -i -e '^CONFIG_MODULES=y$' ${B}/.config); then
+-		oe_runmake -C ${B} ${PARALLEL_MAKE} modules CC="${KERNEL_CC}" LD="${KERNEL_LD}" ${KERNEL_EXTRA_ARGS}
++		cc_extra=$(get_cc_option)
++		oe_runmake -C ${B} ${PARALLEL_MAKE} modules CC="${KERNEL_CC} $cc_extra " LD="${KERNEL_LD}" ${KERNEL_EXTRA_ARGS}
+ 
+ 		# Module.symvers gets updated during the 
+ 		# building of the kernel modules. We need to
+-- 
+2.7.4
 
---001a11489b82baa8d3054fd1f318
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 10 May 2017 at 10:35, Alexander Kanavin <span dir=3D"ltr">&lt;<a href=3D=
-"mailto:alexander.kanavin@linux.intel.com" target=3D"_blank">alexander.kana=
-vin@linux.intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quo=
-te" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-sty=
-le:solid;border-left-color:rgb(204,204,204);padding-left:1ex"><div id=3D"gm=
-ail-:1v6" class=3D"gmail-a3s gmail-aXjCH gmail-m15bf1b707d356542">License c=
-hange is due to update in FSF address.<br>
-<br>
-Library path needs to be specified in absolute form now.<br>
-<br>
-Remove bash completion file from kernelshark package as it will cause<br>
-a conflict with <span class=3D"gmail-il">trace</span>-<span class=3D"gmail-=
-il">cmd</span> package.</div></blockquote></div><br>This breaks under musl:=
-</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra"><a hr=
-ef=3D"https://autobuilder.yoctoproject.org/main/builders/nightly-musl/build=
-s/459/steps/BuildImages/logs/stdio">https://autobuilder.yoctoproject.org/ma=
-in/builders/nightly-musl/builds/459/steps/BuildImages/logs/stdio</a><br></d=
-iv><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</di=
-v></div>
-
---001a11489b82baa8d3054fd1f318--
