@@ -1,27 +1,30 @@
-Return-Path: <markus.lehtonen@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 9E3D877E8F
+Return-Path: <gthomas@mlbassoc.com>
+X-Greylist: delayed 326 seconds by postgrey-1.34 at layers.openembedded.org;
+	Thu, 18 May 2017 09:14:47 UTC
+Received: from mail.analogue-micro.com (mail.analogue-micro.com
+	[217.144.149.242])
+	by mail.openembedded.org (Postfix) with ESMTP id 601A677E98
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 May 2017 08:43:06 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	18 May 2017 01:43:08 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.38,358,1491289200"; d="scan'208";a="88535265"
-Received: from dmcgahon-mobl.ger.corp.intel.com (HELO
-	mqz-osx-suse64.fi.intel.com) ([10.252.14.225])
-	by orsmga002.jf.intel.com with ESMTP; 18 May 2017 01:43:07 -0700
-From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+	Thu, 18 May 2017 09:14:47 +0000 (UTC)
+Received: by mail.analogue-micro.com (Postfix, from userid 999)
+	id C46DB68A019; Thu, 18 May 2017 10:09:21 +0100 (BST)
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
+	loki.analogue-micro-ltd.com
+X-Spam-Level: 
+X-Spam-Status: No, score=-0.2 required=5.0 tests=ALL_TRUSTED,BAYES_00,
+	DNS_FROM_AHBL_RHSBL autolearn=no version=3.3.2
+Received: from zeus.mlbassoc.com (unknown [10.8.0.2])
+	by mail.analogue-micro.com (Postfix) with ESMTP id 476CA68A019;
+	Thu, 18 May 2017 10:09:21 +0100 (BST)
+Received: by zeus.mlbassoc.com (Postfix, from userid 1000)
+	id 907FD67402EF; Thu, 18 May 2017 11:09:19 +0200 (CEST)
+From: Gary Thomas <gary@mlbassoc.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 18 May 2017 11:42:58 +0300
-Message-Id: <754323a382f83b8e7f7754c9a23502d51f410221.1495095863.git.markus.lehtonen@linux.intel.com>
-X-Mailer: git-send-email 2.12.0
-In-Reply-To: <cover.1495095863.git.markus.lehtonen@linux.intel.com>
-References: <cover.1495095863.git.markus.lehtonen@linux.intel.com>
-MIME-Version: 1.0
-In-Reply-To: <cover.1495095863.git.markus.lehtonen@linux.intel.com>
-References: <cover.1495095863.git.markus.lehtonen@linux.intel.com>
-Subject: [PATCH v3 8/8] python3: remove two setup.py cross-compile hacks
+Date: Thu, 18 May 2017 11:09:15 +0200
+Message-Id: <1495098555-17751-1-git-send-email-gary@mlbassoc.com>
+X-Mailer: git-send-email 2.7.4
+Cc: Gary Thomas <gary@mlbassoc.com>
+Subject: [PATCH] openssh: Remove deprecated sshd option
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,134 +37,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 May 2017 08:43:06 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 18 May 2017 09:14:48 -0000
 
-Remove two unneeded hacks. The first hack ("setup.py: no host headers
-libs" patch) is not needed because we use cross-compiler (e.g.
-i586-oe-linux-gcc) which has not been configured with any host system
-include or library directories, and thus, we don't get any host system
-directories when running "gcc -E -v".
+The UsePrivilegeSeparation is no longer supported (recent SSHD always runs
+with previlege separation), so remove this option from the default config
+file to avoid this warning:
+  /etc/ssh/sshd_config line 110: Deprecated option UsePrivilegeSeparation
 
-The second hack becomes useless after the first hack has been removed
-and we get the standard include and lib directories normally from gcc.
-
-Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+Signed-off-by: Gary Thomas <gary@mlbassoc.com>
 ---
- .../python/python3-profile-opt_3.5.2.bb            |  3 ++
- .../python3-setup.py-no-host-headers-libs.patch    | 33 ----------------------
- .../setup.py-find-libraries-in-staging-dirs.patch  | 30 --------------------
- meta/recipes-devtools/python/python3_3.5.2.bb      |  2 --
- 4 files changed, 3 insertions(+), 65 deletions(-)
- delete mode 100644 meta/recipes-devtools/python/python3/python3-setup.py-no-host-headers-libs.patch
- delete mode 100644 meta/recipes-devtools/python/python3/setup.py-find-libraries-in-staging-dirs.patch
+ meta/recipes-connectivity/openssh/openssh/sshd_config | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/python/python3-profile-opt_3.5.2.bb b/meta/recipes-devtools/python/python3-profile-opt_3.5.2.bb
-index bd8889cbed..d752cd8fd7 100644
---- a/meta/recipes-devtools/python/python3-profile-opt_3.5.2.bb
-+++ b/meta/recipes-devtools/python/python3-profile-opt_3.5.2.bb
-@@ -5,6 +5,9 @@ SRC_URI += "file://Makefile-add-install_generate_profile-target.patch \
- 
- PYTHON3_MAKE_TARGET = "build_all_generate_profile"
- 
-+RCONFLICTS_${PN}-core = "python3-core"
-+RCONFLICTS_lib${BPN} = "libpython3"
-+
- # Prevent a clash with libpython3
- EXCLUDE_FROM_SHLIBS = "1"
- RDEPENDS_${PN}-core += "lib${BPN}"
-diff --git a/meta/recipes-devtools/python/python3/python3-setup.py-no-host-headers-libs.patch b/meta/recipes-devtools/python/python3/python3-setup.py-no-host-headers-libs.patch
-deleted file mode 100644
-index 2bc8b8c460..0000000000
---- a/meta/recipes-devtools/python/python3/python3-setup.py-no-host-headers-libs.patch
-+++ /dev/null
-@@ -1,33 +0,0 @@
--From 43238e1ac13e32984d015c92a5841f3de1fe1d15 Mon Sep 17 00:00:00 2001
--From: Jackie Huang <jackie.huang@windriver.com>
--Date: Tue, 18 Nov 2014 00:07:07 -0500
--Subject: [PATCH] setup.py: no host headers libs
--
--When we are cross-compiling, setup.py should never look in /usr
--or /usr/local to find headers or libraries.
--
--Upstream-Status: Inappropriate [Cross compile specific]
--
--Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
-----
-- setup.py | 3 ---
-- 1 file changed, 3 deletions(-)
--
--diff --git a/setup.py b/setup.py
--index f020b28..e8339cd 100644
----- a/setup.py
--+++ b/setup.py
--@@ -444,10 +444,7 @@ class PyBuildExt(build_ext):
--         if not cross_compiling:
--             add_dir_to_list(self.compiler.library_dirs, os.path.join('/usr/local', sys.lib))
--             add_dir_to_list(self.compiler.include_dirs, '/usr/local/include')
---        # only change this for cross builds for 3.3, issues on Mageia
---        if cross_compiling:
--             self.add_gcc_paths()
---        if not cross_compiling:
--             self.add_multiarch_paths()
-- 
--         # Add paths specified in the environment variables LDFLAGS and
---- 
--2.0.0
--
-diff --git a/meta/recipes-devtools/python/python3/setup.py-find-libraries-in-staging-dirs.patch b/meta/recipes-devtools/python/python3/setup.py-find-libraries-in-staging-dirs.patch
-deleted file mode 100644
-index f26bd38b02..0000000000
---- a/meta/recipes-devtools/python/python3/setup.py-find-libraries-in-staging-dirs.patch
-+++ /dev/null
-@@ -1,30 +0,0 @@
--Patch setup.py so that the detect_modules() function looks for required
--libraries and headers in STAGING_LIBDIR / STAGING_INCDIR.
--
--Without this patch, several extension modules are not built, even though
--their dependencies are present in the compiler's search paths.
--The result is the following warning, and ultimately incomplete packages:
--
--| The necessary bits to build these optional modules were not found:
--| _bz2                  _curses_panel         _dbm
--| _gdbm                 _lzma                 _sqlite3
--| nis                   readline              zlib
--| To find the necessary bits, look in setup.py in detect_modules() for the module's name.
--
--Upstream-Status:  Inappropriate [Cross compile specific]
--
--Signed-off-by: Dominic Sacré <dominic.sacre@gmx.de>
--
--Index: Python-3.4.3/setup.py
--===================================================================
----- Python-3.4.3.orig/setup.py
--+++ Python-3.4.3/setup.py
--@@ -521,6 +521,8 @@ class PyBuildExt(build_ext):
--         else:
--             lib_dirs = self.compiler.library_dirs[:]
--             inc_dirs = self.compiler.include_dirs[:]
--+            lib_dirs.append(os.environ.get('STAGING_LIBDIR'))
--+            inc_dirs.append(os.environ.get('STAGING_INCDIR'))
--         exts = []
--         missing = []
-- 
-diff --git a/meta/recipes-devtools/python/python3_3.5.2.bb b/meta/recipes-devtools/python/python3_3.5.2.bb
-index 757909a893..9512a4d4a9 100644
---- a/meta/recipes-devtools/python/python3_3.5.2.bb
-+++ b/meta/recipes-devtools/python/python3_3.5.2.bb
-@@ -30,10 +30,8 @@ SRC_URI += "\
-             file://unixccompiler.patch \
-             file://avoid-ncursesw-include-path.patch \
-             file://python3-use-CROSSPYTHONPATH-for-PYTHON_FOR_BUILD.patch \
--            file://python3-setup.py-no-host-headers-libs.patch \
-             file://sysconfig.py-add-_PYTHON_PROJECT_SRC.patch \
-             file://setup.py-check-cross_compiling-when-get-FLAGS.patch \
--            file://setup.py-find-libraries-in-staging-dirs.patch \
-             file://configure.ac-fix-LIBPL.patch \
-             file://python3-fix-CVE-2016-1000110.patch \
-             file://upstream-random-fixes.patch \
+diff --git a/meta/recipes-connectivity/openssh/openssh/sshd_config b/meta/recipes-connectivity/openssh/openssh/sshd_config
+index d48bd2b..31fe5d9 100644
+--- a/meta/recipes-connectivity/openssh/openssh/sshd_config
++++ b/meta/recipes-connectivity/openssh/openssh/sshd_config
+@@ -107,7 +107,6 @@ ChallengeResponseAuthentication no
+ #PrintLastLog yes
+ #TCPKeepAlive yes
+ #UseLogin no
+-UsePrivilegeSeparation sandbox # Default for new installations.
+ #PermitUserEnvironment no
+ Compression no
+ ClientAliveInterval 15
 -- 
-2.12.0
+2.7.4
 
 
