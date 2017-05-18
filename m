@@ -1,48 +1,32 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-qk0-f196.google.com (mail-qk0-f196.google.com
-	[209.85.220.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 503E777FC5
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id AF7D677EAE
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 May 2017 12:31:57 +0000 (UTC)
-Received: by mail-qk0-f196.google.com with SMTP id o85so5773832qkh.0
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 May 2017 05:31:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=foFJZBzYNchAXdrukn8eFWQD/wnP/5koEHtjb8qYCVM=;
-	b=ScY3pPGM7h9YDwRR9ZV//kyHkQ0aM+huruiWrB0ZCa2gek2t9hdfC1aX3x+uTBVjS6
-	yfDJfCwh01eaHGk4FYwqvuaH4rbIigj/PJl0M55EnteqAOLYXljj2t4Sn0tQbZGrJrQl
-	Md1IOV2TgO3m8C8RI/JUw7hb0jTsvmNP18hBKv4CSs6XyJlnAEajUZ5nm90kwm4e/03c
-	EKqhTnRtyRQwp2+ppiIygGLTtAUD0I6y7bt2SQyL0gsPjqBT5d33MF0H8rPvdeKuqE2a
-	4sf35G4jYuq2tQtLEqA1LPT6T3D4fzzNtuajKBe6Agfa+a5uzutvVVmqz9XfuZdlgdsS
-	EWTg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=foFJZBzYNchAXdrukn8eFWQD/wnP/5koEHtjb8qYCVM=;
-	b=iRgohmeN/ygwVFfPwE1s2lMjWWay95+oe20TlA9MtgBh2ixzQrWpnwbgCdvJ+Oifbc
-	kpsYdpdmiAoXn00DvjEUU/0gcz3qnTOd55UnM++q9+CuO78C6dApFd9LcRNeojRTGMqO
-	RfN66pL8qCHXxV1ZsBU+gg5apCjEXb3C/PrhAfOKPrtgBMN+E6NzaHML8uNvqtI23zmb
-	teEc4uKgXcq1xNPA5GDOD7uAdtAhrfwiCZ49rpt5ti0C92V90HhnacQzLBICISzhm9h6
-	vMv4qBkvRzqOh8j+C3fjDC3ICE01k91CpA++09XLy0BiPTBw19qY0YmtOiIUnFzWDM3Z
-	O03w==
-X-Gm-Message-State: AODbwcAESMIkqnXwf4stg9xyj0SRHn8qNM9CdYJ7XM/ekfvciGIR1rjb
-	v4sA4s4B460TY8Pxs/CtFcQ2rlVXRg==
-X-Received: by 10.55.83.70 with SMTP id h67mr3309083qkb.287.1495110719211;
-	Thu, 18 May 2017 05:31:59 -0700 (PDT)
+	Thu, 18 May 2017 12:35:02 +0000 (UTC)
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	18 May 2017 05:35:03 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.38,359,1491289200"; d="scan'208";a="89019756"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by orsmga004.jf.intel.com with ESMTP; 18 May 2017 05:35:02 -0700
+To: "Belal, Awais" <Awais_Belal@mentor.com>,
+	Robert Yang <liezhi.yang@windriver.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+References: <20170518065043.1662-1-awais_belal@mentor.com>
+	<62e4fbc9-931b-d0dd-e71b-99002495c32e@windriver.com>
+	<a577a0c9-e1df-a657-a00b-4c5cd69c4609@linux.intel.com>
+	<1495106583673.65036@mentor.com>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <62eacb9b-662a-c259-0bbf-364c488cb194@linux.intel.com>
+Date: Thu, 18 May 2017 15:32:59 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.8.0
 MIME-Version: 1.0
-Received: by 10.12.182.109 with HTTP; Thu, 18 May 2017 05:31:57 -0700 (PDT)
-In-Reply-To: <CAJTo0LZKMitURrfEBJCOf5qjy8WqFooEcVsQKQ==1W5MECKyvw@mail.gmail.com>
-References: <cover.1494851172.git.bruce.ashfield@windriver.com>
-	<d65b6c616f45f14b2c49ce8a2f860ad45def3df2.1494851172.git.bruce.ashfield@windriver.com>
-	<CAJTo0LZKMitURrfEBJCOf5qjy8WqFooEcVsQKQ==1W5MECKyvw@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Thu, 18 May 2017 08:31:57 -0400
-Message-ID: <CADkTA4MAp7DZKyHYY+N_H4uz8z3-f6EEm6AY+6kVacHa1SRBLw@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/4] linux-yocto/4.1: fix gcc7 compilation
+In-Reply-To: <1495106583673.65036@mentor.com>
+Subject: Re: [PATCH] autogen-native: allow user to set POSIX_SHELL as desired
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,96 +39,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 May 2017 12:31:58 -0000
-Content-Type: multipart/alternative; boundary="001a114e7170518df5054fcb9739"
+X-List-Received-Date: Thu, 18 May 2017 12:35:03 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
---001a114e7170518df5054fcb9739
-Content-Type: text/plain; charset="UTF-8"
-
-On Thu, May 18, 2017 at 7:47 AM, Burton, Ross <ross.burton@intel.com> wrote:
-
+On 05/18/2017 02:23 PM, Belal, Awais wrote:
+>> That's right. The file is generated from libopts.def in the same
+>> directory. I now looked at the code finally :) and I think it's
+>> better to leave the POSIX_SHELL variable alone (and not set it from
+>> the recipe either because it has no effect), and go back to the
+>> original idea of patching the place where it's used to make a
+>> shebang line - I think there's only one such place in the source
+>> code.
 >
-> On 15 May 2017 at 13:51, Bruce Ashfield <bruce.ashfield@windriver.com>
-> wrote:
-> > Porting the mainline commit, to fix gcc7 builds:
-> >
-> >   474c90156c [give up on gcc ilog2() constant optimizations]
+>> But fixing libopts.def is okay too, I just think it's more
+>> trouble.
 >
-> Sorry but:
->
-> ERROR: linux-yocto-4.1.38+gitAUTOINC+a867edab41_3b0fd24797-r0
-> do_kernel_version_sanity_check: Package Version
-> (4.1.38+gitAUTOINC+a867edab41_3b0fd24797) does not match of kernel being
-> built (4.1.39). Please update the PV variable to match the kernel source or
-> set KERNEL_VERSION_SANITY_SKIP="1" in your recipe.
->
->
-Well bugger, I did that patch and then a -stable updated, decided to squash
-them and then
-blew away the version number bump.
+> The usage of libopts.def has been deprecated upstream:
+> git://git.sv.gnu.org/autogen.git #
+> 5cbe233387d7f7b36752736338d1cd4f71287daa but they've still kept
+> libopts.m4 so I think this patch will do for future use as well and
+> shouldn't have a problem.
 
-I sent that as part of a queue, did you want the queue again, or just that
-gcc7 patch resent as
-a v2 of it ?
+I just checked why is autogen in oe-core in the first place. The only 
+thing that needs it now is grub, and it will no longer be necessary when 
+Khem's grub 2.02 patch shows up in master. So then we can remove the 
+whole thing. But thanks for fixing! :)
 
-Bruce
+Alex
 
-
-> Ross
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
->
-
-
--- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await thee
-at its end"
-
---001a114e7170518df5054fcb9739
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
-te">On Thu, May 18, 2017 at 7:47 AM, Burton, Ross <span dir=3D"ltr">&lt;<a =
-href=3D"mailto:ross.burton@intel.com" target=3D"_blank">ross.burton@intel.c=
-om</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"marg=
-in:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div dir=3D"ltr"=
-><span class=3D""><br>On 15 May 2017 at 13:51, Bruce Ashfield &lt;<a href=
-=3D"mailto:bruce.ashfield@windriver.com" target=3D"_blank">bruce.ashfield@w=
-indriver.com</a>&gt; wrote:<br>&gt; Porting the mainline commit, to fix gcc=
-7 builds:<br>&gt;<br>&gt; =C2=A0 474c90156c [give up on gcc ilog2() constan=
-t optimizations]<br><br></span>Sorry but:<div><br>ERROR: linux-yocto-4.1.38=
-+gitAUTOINC+<wbr>a867edab41_3b0fd24797-r0 do_kernel_version_sanity_<wbr>che=
-ck: Package Version (4.1.38+gitAUTOINC+a867edab41_<wbr>3b0fd24797) does not=
- match of kernel being built (4.1.39). Please update the PV variable to mat=
-ch the kernel source or set KERNEL_VERSION_SANITY_SKIP=3D&quot;1&quot; in y=
-our recipe.<span class=3D"HOEnZb"><font color=3D"#888888"><div><br></div></=
-font></span></div></div></blockquote><div><br></div><div>Well bugger, I did=
- that patch and then a -stable updated, decided to squash them and then</di=
-v><div>blew away the version number bump.</div><div><br></div><div>I sent t=
-hat as part of a queue, did you want the queue again, or just that gcc7 pat=
-ch resent as</div><div>a v2 of it ?</div><div><br></div><div>Bruce</div><di=
-v>=C2=A0<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .=
-8ex;border-left:1px #ccc solid;padding-left:1ex"><div dir=3D"ltr"><div><spa=
-n class=3D"HOEnZb"><font color=3D"#888888"><div></div><div>Ross</div></font=
-></span></div></div>
-<br>--<br>
-______________________________<wbr>_________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
-re@lists.<wbr>openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
-ailman/listinfo/openembedded-<wbr>core</a><br>
-<br></blockquote></div><br><br clear=3D"all"><div><br></div>-- <br><div cla=
-ss=3D"gmail_signature" data-smartmail=3D"gmail_signature">&quot;Thou shalt =
-not follow the NULL pointer, for chaos and madness await thee at its end&qu=
-ot;</div>
-</div></div>
-
---001a114e7170518df5054fcb9739--
