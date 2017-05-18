@@ -1,24 +1,51 @@
-Return-Path: <Awais_Belal@mentor.com>
-Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id BA7566FFED
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 May 2017 06:50:47 +0000 (UTC)
-Received: from nat-ies.mentorg.com ([192.94.31.2]
-	helo=SVR-IES-FEM-02.mgc.mentorg.com)
-	by relay1.mentorg.com with esmtp 
-	id 1dBFGp-00052e-PP from Awais_Belal@mentor.com 
-	for openembedded-core@lists.openembedded.org;
-	Wed, 17 May 2017 23:50:47 -0700
-Received: from svr-pkl-eng-07.mgc.mentorg.com (137.202.0.76) by
-	SVR-IES-FEM-02.mgc.mentorg.com (137.202.0.106) with Microsoft SMTP
-	Server id 14.3.224.2; Thu, 18 May 2017 07:50:46 +0100
-From: Awais Belal <awais_belal@mentor.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 18 May 2017 11:50:43 +0500
-Message-ID: <20170518065043.1662-1-awais_belal@mentor.com>
-X-Mailer: git-send-email 2.11.1
+Return-Path: <kristian.amlie@mender.io>
+Received: from mail-wm0-f42.google.com (mail-wm0-f42.google.com [74.125.82.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 5F56D72F62
+	for <Openembedded-core@lists.openembedded.org>;
+	Thu, 18 May 2017 07:16:19 +0000 (UTC)
+Received: by mail-wm0-f42.google.com with SMTP id 70so35553269wmq.1
+	for <Openembedded-core@lists.openembedded.org>;
+	Thu, 18 May 2017 00:16:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=mender-io.20150623.gappssmtp.com; s=20150623;
+	h=to:cc:from:subject:message-id:date:user-agent:mime-version
+	:content-transfer-encoding;
+	bh=kgCDwWQKG+GZ4C3f93RrIboYk11ovScz74QLG6mPpTc=;
+	b=ccUn0wk8ABOaMt6vNVSpPElCdP1STHq+fxIVrK/GJjB3kOk35lI+YSvPRDD9N/arYH
+	tn2dXPuTIqTrAW6ln4kaL1tpFW/i/iEWkR9VrQi2zIzHAPgVifrbpPUKzStMzE6Na11v
+	VrlCZoV0foYupo++qFd1LhayfJ6g11TegZZh0lBtalivtLR8rAq9XLD4JHgQr/WvspJU
+	wGneXQzSmsH2XwZhdgg9N56ojvJpMOzdl5ukH8FDvP5afXvaCB0wlOrpzvg5UmtZtGmn
+	9m0uHYGrXw+lU5oOd8E8sRKuv9HxMn3nglZntT0m9NiYAOcwLrR3md3czYja71f5z3tj
+	k11A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:to:cc:from:subject:message-id:date:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=kgCDwWQKG+GZ4C3f93RrIboYk11ovScz74QLG6mPpTc=;
+	b=mmjo8EoT2V3xZGZrQPb8uC8L6HfsiwH9piM51ii1S6E6i8s4Fst4MYpYE8BuXJVABc
+	qjtWSXg4w3q1Q086zgmfzmU/xQRkiNJdNKP7E5OTz642bgji7A30+HotwgZBIvg2mBXP
+	rreLGbe0SUpE+W20PGgmRDy8dDX1l/S95sDm1oeEUn2UqSs2xjQDc1Ns0Wspk+OQmxgh
+	P0XNF3nGLi0+TE7ZtzZWrj/mQz2zrh94wEfqYLHXdrrQoDAKBe2VxOG10nBjJ738jggl
+	DYSSUHkI6XdZxhnCFSGASG438KWjMqjoAeJBIlYArx3VxI1xMMU98OGOPMib/KCBzuXK
+	AbVQ==
+X-Gm-Message-State: AODbwcA/mm7PeqQ7lOe4Jvy65sUDTYpi+zZn00NW6Zmezt5PWIjmNb86
+	d9Xut0BUOxgeVxoA
+X-Received: by 10.80.188.1 with SMTP id j1mr2207113edh.100.1495091779924;
+	Thu, 18 May 2017 00:16:19 -0700 (PDT)
+Received: from [192.168.1.29] ([176.111.205.58])
+	by smtp.googlemail.com with ESMTPSA id
+	h29sm2117840eda.45.2017.05.18.00.16.18
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 18 May 2017 00:16:18 -0700 (PDT)
+To: OE-core <Openembedded-core@lists.openembedded.org>
+From: Kristian Amlie <kristian.amlie@mender.io>
+Message-ID: <d84852f6-9ce4-3f9a-cb7f-fa92c6a74462@mender.io>
+Date: Thu, 18 May 2017 09:16:18 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.8.0
 MIME-Version: 1.0
-Subject: [PATCH] autogen-native: allow user to set POSIX_SHELL as desired
+Cc: Joe Slater <jslater@windriver.com>
+Subject: volatile-binds and DNS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,84 +58,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 May 2017 06:50:55 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 18 May 2017 07:16:19 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
 
-Using 'test -x' is only viable in situations where
-POSIX_SHELL is directly set to an executable whereas
-there are scenarios where a user might want to set
-it to "env sh" so that it can be used in places
-where there's a problem with shebang lengths etc. This
-is exactly how it is being used in OE so build failures
-are seen in cases where deep directory hierarchies are
-used for the builddir.
-We now use 'test -n' just to make sure if POSIX_SHELL
-is set by the user or not and then move forward to
-other tests in case it is unset.
+We've discovered that one of the recent commits to poky has broken DNS
+resolution in our image. The commit in questions is this one:
 
-Signed-off-by: Awais Belal <awais_belal@mentor.com>
----
- .../autogen/autogen-native_5.18.12.bb              |  1 +
- ...pts-allow-user-to-set-POSIX_SHELL-as-desi.patch | 37 ++++++++++++++++++++++
- 2 files changed, 38 insertions(+)
- create mode 100644 meta/recipes-devtools/autogen/autogen/0001-config-libopts-allow-user-to-set-POSIX_SHELL-as-desi.patch
+-------------------
+commit fcd48092d7bcab0cad2606e65332da62420935ad
+Author: Joe Slater <jslater@windriver.com>
+Date:   Fri Mar 31 03:06:33 2017
 
-diff --git a/meta/recipes-devtools/autogen/autogen-native_5.18.12.bb b/meta/recipes-devtools/autogen/autogen-native_5.18.12.bb
-index 853477cf7c..37571e3358 100644
---- a/meta/recipes-devtools/autogen/autogen-native_5.18.12.bb
-+++ b/meta/recipes-devtools/autogen/autogen-native_5.18.12.bb
-@@ -14,6 +14,7 @@ SRC_URI = "${GNU_MIRROR}/autogen/rel${PV}/autogen-${PV}.tar.gz \
-            file://fix-script-err-when-processing-libguile.patch \
-            file://0001-config-libopts.m4-regenerate-it-from-config-libopts..patch \
-            file://0002-autoopts-mk-tpl-config.sh-fix-perl-path.patch \
-+           file://0001-config-libopts-allow-user-to-set-POSIX_SHELL-as-desi.patch \
- "
- 
- SRC_URI[md5sum] = "551d15ccbf5b5fc5658da375d5003389"
-diff --git a/meta/recipes-devtools/autogen/autogen/0001-config-libopts-allow-user-to-set-POSIX_SHELL-as-desi.patch b/meta/recipes-devtools/autogen/autogen/0001-config-libopts-allow-user-to-set-POSIX_SHELL-as-desi.patch
-new file mode 100644
-index 0000000000..bfbf6621e1
---- /dev/null
-+++ b/meta/recipes-devtools/autogen/autogen/0001-config-libopts-allow-user-to-set-POSIX_SHELL-as-desi.patch
-@@ -0,0 +1,37 @@
-+From dfb30e438a051993c69357c5069170ec779e91e4 Mon Sep 17 00:00:00 2001
-+From: Awais Belal <awais_belal@mentor.com>
-+Date: Wed, 17 May 2017 15:06:48 +0500
-+Subject: [PATCH] config/libopts: allow user to set POSIX_SHELL as desired
-+
-+Using 'test -x' is only viable in situations where
-+POSIX_SHELL is directly set to an executable whereas
-+there are scenarios where a user might want to set
-+it to "env sh" so that it can be used in places
-+where there's a problem with shebang lengths etc.
-+We now use 'test -n' just to make sure if POSIX_SHELL
-+is set by the user or not and then move forward to
-+other tests in case it is unset.
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Awais Belal <awais_belal@mentor.com>
-+---
-+ config/libopts.m4 | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/config/libopts.m4 b/config/libopts.m4
-+index 51e6a39..efabc7f 100644
-+--- a/config/libopts.m4
-++++ b/config/libopts.m4
-+@@ -114,7 +114,7 @@ AC_DEFUN([INVOKE_LIBOPTS_MACROS_FIRST],[
-+   AC_PROG_SED
-+   [while :
-+   do
-+-      test -x "$POSIX_SHELL" && break
-++      test -n "$POSIX_SHELL" && break
-+       POSIX_SHELL=`which bash`
-+       test -x "$POSIX_SHELL" && break
-+       POSIX_SHELL=`which dash`
-+-- 
-+2.11.1
-+
+    volatile-binds: correct some errors reported by systemd
+
+    systemd-tmpfiles-setup will fail at boot, so we suppress
+    the default versions of etc.conf and home.conf.
+
+    We also make sure that /var/{cache,spool} and /srv are writeable
+    if they exist.
+...
+-------------------
+
+The problem is that this suppresses the creation of a /etc/resolv.conf
+file, and without that DNS does not work.
+
+The file is a symlink to the resolv.conf that systemd provides in
+/run/systemd/resolve/resolv.conf, so it could potentially be
+prepopulated, but I admit I don't fully understand how this fits together.
+
+Any advice?
+
 -- 
-2.11.1
-
+Kristian
 
