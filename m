@@ -1,50 +1,53 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-oi0-f65.google.com (mail-oi0-f65.google.com
-	[209.85.218.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 4DAB777F80
+Return-Path: <max.oss.09@gmail.com>
+Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 85AFB77F80
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 May 2017 21:37:48 +0000 (UTC)
-Received: by mail-oi0-f65.google.com with SMTP id h4so9539549oib.0
+	Thu, 18 May 2017 21:54:04 +0000 (UTC)
+Received: by mail-wm0-f68.google.com with SMTP id d127so14126922wmf.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 May 2017 14:37:50 -0700 (PDT)
+	Thu, 18 May 2017 14:54:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=i8vvbZANzMKZQQ8e/PR6cW/5rspHya6GjCxjD4TG9X0=;
-	b=Dm9PgSpe1qilvyj0n9R83Hrh3DDAWflNqXjYrW+Np2ukSecx3/9Klk7PWkW54ukjMJ
-	CR9PchmEz39vXGvU44deBSpU9ZwxDpE1KqPaF78750/bVJd2ywmgsmYGDwTR797p/Hyx
-	IrR5TzPC1l/SDl2d3RHW8Zl0ncMHnsUgaPr5DGOzVFxAohAtzRtZ2VB7Qxdz0fkX+w4U
-	3fnlU8IyaAyq1krQmEpuxFOyuzSEM7phVy0cU8SY26Tsv+vm+FJ9gY1oA8XlB6wYHL2V
-	+MM0uWiZ2TtsfYmX8NXbjsdhvj5eKqkMb0rIB2iUnzH49Fgd1N6ocvCIf9l4WL3MZFUj
-	UfsA==
+	h=message-id:subject:from:to:date:in-reply-to:references:mime-version
+	:content-transfer-encoding;
+	bh=0adwEGoDFTSZ6nwqCoTC6ziL3Dq5qdaYsxD4LThTqIY=;
+	b=ebH5eUn0qk4Kn3X8YdYYpG1mqRClF6e51Qm02A8fPH/ksuGdjJiVvJEzdzmVpNcpMb
+	h97uUXsRLt8cafyMd5dIUSd3gW68FYVv81Kp0QON+X9wURLMeCJrz5vsFg6pAv6+QfL0
+	ku0fIDbDoBlQXf1S3iZfKSXxR8j4qliZfx9Fz6gWaAfAkTg3eWWa9HA6DWd2FEs0qvaV
+	b3bOaGYCOkVOHftI2cUYAbCl+9MSALysoAMD/Ma/0+WqMj254GNKXV+QKJS+ukFXre+z
+	nnTi0Vj9rLL+tgGfKloyMyS8LYWypUtM0JVY1svbinVgvSuI/iDxe+SMBh2WxUn6VTC8
+	O2cg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=i8vvbZANzMKZQQ8e/PR6cW/5rspHya6GjCxjD4TG9X0=;
-	b=WNscDA/VXXG/dsYLfJhpWuWDFjZxHd7d23w/rb/0BnFLE+nQufNlM4nnNukJA6wAB9
-	eAYZkVJIV/QJHGD3FoV2TCs3v0zfo/VtnORCKrOIjyswWSDwFkxzmU2N2HHSRVmewObo
-	RTC1tAFZxETObEuZf6KYVHQHBQM+G7prezZtxE6221Jss2vGjj7NlHVOf73wEdX+fsLC
-	Mx2MnAMD55lPrKULpb9nhLDcx1rATjR4xR0YlGmp8rF/LkXCx5nQQ6EKLmJuH7yXy/iy
-	nKz4XXdGyabZpz2H8VBrDfdDkhvUVLSgRM+IXZaIaaQSZYqiVzStEItBD7iEocFcvdKr
-	U+BQ==
-X-Gm-Message-State: AODbwcD/a4GFYwVXm1Px7vNsb/fYyX40RjLoG6n+adfJjCKNkzNkhsPa
-	00fVN2mSrWN2gfii59vhlKqGBdud6A==
-X-Received: by 10.157.31.71 with SMTP id x7mr3729590otx.217.1495143470229;
-	Thu, 18 May 2017 14:37:50 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.157.30.226 with HTTP; Thu, 18 May 2017 14:37:29 -0700 (PDT)
-In-Reply-To: <CAMKF1sp9VFkd5+4HcYpgnZ+HhOoarKJNrc=--DTsmGYJyps-2g@mail.gmail.com>
-References: <20170518173423.28994-1-enrico.scholz@sigma-chemnitz.de>
-	<20170518181957.GU28053@denix.org>
-	<CAMKF1sp9VFkd5+4HcYpgnZ+HhOoarKJNrc=--DTsmGYJyps-2g@mail.gmail.com>
-From: Christopher Larson <kergoth@gmail.com>
-Date: Thu, 18 May 2017 14:37:29 -0700
-Message-ID: <CABcZAN=wku6-Z-T2w-OWzpXSxghB_NRUdYx3d9nn2STpUrYBpw@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] tzcode-native: quote ${CC}
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=0adwEGoDFTSZ6nwqCoTC6ziL3Dq5qdaYsxD4LThTqIY=;
+	b=knsj8abr2YCL5sG5pogqT0rRx3eXPccj43asNC/InBVnnMnWs8MKIzABSo4+WCb9qP
+	hJ/FkpctVAgWdoKr8Vp/scD9SQSuJWASITH40Q59Ces8hxteZs52cGIjkWKmaRiGDJWz
+	4z482UMgM71Kulsz37euuetW1COl7EGfEQhtgTy0AN1uKhv1SPOP7A+A6EDZwmpkrjSc
+	ddCom4UsaPcXskczjcPrBHRqc8Bx6H0h8XB0Xj8x34Dg+NagjFkRgTdnnRS2hY/80BpV
+	ycJl3v4aXEeRN9QLO+qCssRzWgIHhF/ZUDBWXmnBOpNuU0P0+jIu5nqUKkD27x3GD983
+	o1AQ==
+X-Gm-Message-State: AODbwcCOuBGtMRK7WMSkrTgvKE3ifZAgKmK2C6oUMlGy5dK6XKrxHDjl
+	1ko+dsnIgaVpKA==
+X-Received: by 10.80.182.211 with SMTP id f19mr4757653ede.44.1495144445890;
+	Thu, 18 May 2017 14:54:05 -0700 (PDT)
+Received: from Saturn.local.all (138-14-48-195.pool.dsl-net.ch.
+	[195.48.14.138]) by smtp.gmail.com with ESMTPSA id
+	c47sm2480016ede.32.2017.05.18.14.54.04
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 18 May 2017 14:54:04 -0700 (PDT)
+Message-ID: <1495144443.3001.1.camel@gmail.com>
+From: Max Krummenacher <max.oss.09@gmail.com>
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>, 
+	openembedded-core@lists.openembedded.org, Max Krummenacher
+	<max.krummenacher@toradex.com>
+Date: Thu, 18 May 2017 23:54:03 +0200
+In-Reply-To: <918cd582-010b-d732-3471-4858f4e2e836@linux.intel.com>
+References: <20170517201652.27476-1-max.krummenacher@toradex.com>
+	<918cd582-010b-d732-3471-4858f4e2e836@linux.intel.com>
+X-Mailer: Evolution 3.16.5 
+Mime-Version: 1.0
+Subject: Re: [PATCH] libsolv: don't pick up bundled db from host rpm
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,110 +60,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 May 2017 21:37:51 -0000
-Content-Type: multipart/alternative; boundary="001a113710bc6e70e9054fd33799"
-
---001a113710bc6e70e9054fd33799
+X-List-Received-Date: Thu, 18 May 2017 21:54:05 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 
-On Thu, May 18, 2017 at 11:57 AM, Khem Raj <raj.khem@gmail.com> wrote:
+Hi Alex
 
-> On Thu, May 18, 2017 at 11:19 AM, Denys Dmytriyenko <denis@denix.org>
-> wrote:
-> > On Thu, May 18, 2017 at 07:34:23PM +0200, Enrico Scholz wrote:
-> >> build fails else with
-> >>
-> >> | + make -j 8 -l 6 cc=3Dccache gcc
-> >> | make: *** No rule to make target 'gcc'.  Stop.
-> >>
-> >> Signed-off-by: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-> >> ---
-> >>  meta/recipes-extended/tzcode/tzcode-native_2017b.bb | 2 +-
-> >>  1 file changed, 1 insertion(+), 1 deletion(-)
-> >>
-> >> diff --git a/meta/recipes-extended/tzcode/tzcode-native_2017b.bb
-> b/meta/recipes-extended/tzcode/tzcode-native_2017b.bb
-> >> index 2084f79..165d2c6 100644
-> >> --- a/meta/recipes-extended/tzcode/tzcode-native_2017b.bb
-> >> +++ b/meta/recipes-extended/tzcode/tzcode-native_2017b.bb
-> >> @@ -18,7 +18,7 @@ S =3D "${WORKDIR}"
-> >>
-> >>  inherit native
-> >>
-> >> -EXTRA_OEMAKE +=3D "cc=3D${CC}"
-> >> +EXTRA_OEMAKE +=3D "cc=3D'${CC}'"
-> >
-> > Should these be double-quotes around ${CC}?
->
-> I think this should work as such.
+Am Donnerstag, den 18.05.2017, 08:37 +0300 schrieb Alexander Kanavin:
+> On 05/17/2017 11:16 PM, Max Krummenacher wrote:
+> > With rpm v4 in openembedded but on a host with existing /usr/include/rpm/db.h
+> > the build fails to compile.
+> > +-  # check if rpm contains a bundled berkeley db
+> > +-  CHECK_INCLUDE_FILE(rpm/db.h HAVE_RPM_DB_H)
+> > ++  set(HAVE_RPM_DB_H 0)
+> 
+> The problem seems to be that CHECK_INCLUDE_FILE is incorrectly looking 
+> for headers in host's /usr/include. Perhaps you could look into why that 
+> is happening and if it can be fixed, rather than fix one specific 
+> instance in libsolv where it is known to cause trouble?
 
+Ok, will try to find a more generic solution.
 
-Indeed, it=E2=80=99s expanded by bitbake, not the shell, so which quotes do=
-n=E2=80=99t
-matter in that regard, and it=E2=80=99s syntactically cleaner to use differ=
-ent
-quotes than those used for the variable as a whole.
---=20
-Christopher Larson
-kergoth at gmail dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Senior Software Engineer, Mentor Graphics
+Max
 
---001a113710bc6e70e9054fd33799
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+> 
+> Alex
+> 
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On Thu, May 18, 2017 at 11:57 AM, Khem Raj <span dir=3D"ltr">&lt;<a href=3D=
-"mailto:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</s=
-pan> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex=
-;border-left:1px #ccc solid;padding-left:1ex"><span class=3D"">On Thu, May =
-18, 2017 at 11:19 AM, Denys Dmytriyenko &lt;<a href=3D"mailto:denis@denix.o=
-rg">denis@denix.org</a>&gt; wrote:<br>
-&gt; On Thu, May 18, 2017 at 07:34:23PM +0200, Enrico Scholz wrote:<br>
-&gt;&gt; build fails else with<br>
-&gt;&gt;<br>
-&gt;&gt; | + make -j 8 -l 6 cc=3Dccache gcc<br>
-&gt;&gt; | make: *** No rule to make target &#39;gcc&#39;.=C2=A0 Stop.<br>
-&gt;&gt;<br>
-&gt;&gt; Signed-off-by: Enrico Scholz &lt;<a href=3D"mailto:enrico.scholz@s=
-igma-chemnitz.de">enrico.scholz@sigma-chemnitz.<wbr>de</a>&gt;<br>
-&gt;&gt; ---<br>
-&gt;&gt;=C2=A0 meta/recipes-extended/tzcode/<a href=3D"http://tzcode-native=
-_2017b.bb" rel=3D"noreferrer" target=3D"_blank">t<wbr>zcode-native_2017b.bb=
-</a> | 2 +-<br>
-&gt;&gt;=C2=A0 1 file changed, 1 insertion(+), 1 deletion(-)<br>
-&gt;&gt;<br>
-&gt;&gt; diff --git a/meta/recipes-extended/<wbr>tzcode/<a href=3D"http://t=
-zcode-native_2017b.bb" rel=3D"noreferrer" target=3D"_blank">tzcode-native_2=
-017b.bb</a> b/meta/recipes-extended/<wbr>tzcode/<a href=3D"http://tzcode-na=
-tive_2017b.bb" rel=3D"noreferrer" target=3D"_blank">tzcode-native_2017b.bb<=
-/a><br>
-&gt;&gt; index 2084f79..165d2c6 100644<br>
-&gt;&gt; --- a/meta/recipes-extended/<wbr>tzcode/<a href=3D"http://tzcode-n=
-ative_2017b.bb" rel=3D"noreferrer" target=3D"_blank">tzcode-native_2017b.bb=
-</a><br>
-&gt;&gt; +++ b/meta/recipes-extended/<wbr>tzcode/<a href=3D"http://tzcode-n=
-ative_2017b.bb" rel=3D"noreferrer" target=3D"_blank">tzcode-native_2017b.bb=
-</a><br>
-&gt;&gt; @@ -18,7 +18,7 @@ S =3D &quot;${WORKDIR}&quot;<br>
-&gt;&gt;<br>
-&gt;&gt;=C2=A0 inherit native<br>
-&gt;&gt;<br>
-&gt;&gt; -EXTRA_OEMAKE +=3D &quot;cc=3D${CC}&quot;<br>
-&gt;&gt; +EXTRA_OEMAKE +=3D &quot;cc=3D&#39;${CC}&#39;&quot;<br>
-&gt;<br>
-&gt; Should these be double-quotes around ${CC}?<br>
-<br>
-</span>I think this should work as such.</blockquote></div><br>Indeed, it=
-=E2=80=99s expanded by bitbake, not the shell, so which quotes don=E2=80=99=
-t matter in that regard, and it=E2=80=99s syntactically cleaner to use diff=
-erent quotes than those used for the variable as a whole.<br>-- <br><div cl=
-ass=3D"gmail_signature" data-smartmail=3D"gmail_signature"><div dir=3D"ltr"=
-><div><div dir=3D"ltr">Christopher Larson<br>kergoth at gmail dot com<br>Fo=
-under - BitBake, OpenEmbedded, OpenZaurus<br>Senior Software Engineer, Ment=
-or Graphics</div></div></div></div>
-</div></div>
-
---001a113710bc6e70e9054fd33799--
