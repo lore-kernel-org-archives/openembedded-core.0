@@ -1,29 +1,24 @@
-Return-Path: <jose.a.lamego@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 41E0C77F58
+Return-Path: <joe.slater@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 4D163780E6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 May 2017 19:17:46 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	19 May 2017 12:17:47 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.38,365,1491289200"; 
-	d="asc'?scan'208";a="1132652534"
-Received: from jalamego-mobl2.zpn.intel.com (HELO [10.219.128.138])
-	([10.219.128.138])
-	by orsmga001.jf.intel.com with ESMTP; 19 May 2017 12:17:47 -0700
-To: OE-core <openembedded-core@lists.openembedded.org>
-References: <1495146527-32073-1-git-send-email-jose.a.lamego@linux.intel.com>
-	<1495146527-32073-3-git-send-email-jose.a.lamego@linux.intel.com>
-	<CAJTo0LZEF_O3Evumo1+YQ8kpjt=FpTqszfg0704B45GXFHNYVA@mail.gmail.com>
-From: Jose Lamego <jose.a.lamego@linux.intel.com>
-Message-ID: <a2fd37e9-cc6d-b323-09d4-267dbdd0e5f5@linux.intel.com>
-Date: Fri, 19 May 2017 14:17:53 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.1.1
+	Fri, 19 May 2017 20:25:19 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v4JKPH1h017922
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 19 May 2017 13:25:17 -0700 (PDT)
+Received: from ala-jslater-lx3.wrs.com (147.11.152.42) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.294.0; Fri, 19 May 2017 13:25:16 -0700
+From: Joe Slater <jslater@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 19 May 2017 13:25:16 -0700
+Message-ID: <1495225516-14696-1-git-send-email-jslater@windriver.com>
+X-Mailer: git-send-email 1.7.3.4
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0LZEF_O3Evumo1+YQ8kpjt=FpTqszfg0704B45GXFHNYVA@mail.gmail.com>
-Subject: Re: [PATCH 2/2] bc: upgrade 1.06 to 1.07.1
+Subject: [PATCH 1/1] ghostscript: move to version 9.21
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,95 +31,353 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 May 2017 19:17:48 -0000
-X-Groupsio-MsgNum: 97536
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature";
-	boundary="ttHpL0E7DHc79lcxbQMw7XOpWQ4DACvEW"
+X-List-Received-Date: Fri, 19 May 2017 20:25:20 -0000
+Content-Type: text/plain
 
---ttHpL0E7DHc79lcxbQMw7XOpWQ4DACvEW
-Content-Type: multipart/mixed; boundary="eQpU9NQODM4CR8l1dK3ehhespRX59fcUk";
- protected-headers="v1"
-From: Jose Lamego <jose.a.lamego@linux.intel.com>
-To: OE-core <openembedded-core@lists.openembedded.org>
-Cc: "Burton, Ross" <ross.burton@intel.com>
-Message-ID: <a2fd37e9-cc6d-b323-09d4-267dbdd0e5f5@linux.intel.com>
-Subject: Re: [OE-core] [PATCH 2/2] bc: upgrade 1.06 to 1.07.1
-References: <1495146527-32073-1-git-send-email-jose.a.lamego@linux.intel.com>
- <1495146527-32073-3-git-send-email-jose.a.lamego@linux.intel.com>
- <CAJTo0LZEF_O3Evumo1+YQ8kpjt=FpTqszfg0704B45GXFHNYVA@mail.gmail.com>
-In-Reply-To: <CAJTo0LZEF_O3Evumo1+YQ8kpjt=FpTqszfg0704B45GXFHNYVA@mail.gmail.com>
+Eliminate CVE patches that are now in source.  Add CVE-2017-7975
+patch.
 
---eQpU9NQODM4CR8l1dK3ehhespRX59fcUk
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Joe Slater <jslater@windriver.com>
+---
+ .../ghostscript/ghostscript/CVE-2016-10219.patch   | 49 -------------------
+ .../ghostscript/ghostscript/CVE-2016-10220.patch   | 55 ----------------------
+ .../ghostscript/ghostscript/CVE-2017-7975.patch    | 35 ++++++++++++++
+ ...t-9.21-native-fix-disable-system-libtiff.patch} | 22 ++++-----
+ ... => ghostscript-9.21-prevent_recompiling.patch} | 25 +++++-----
+ .../{ghostscript_9.20.bb => ghostscript_9.21.bb}   | 13 +++--
+ 6 files changed, 63 insertions(+), 136 deletions(-)
+ delete mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2016-10219.patch
+ delete mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2016-10220.patch
+ create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2017-7975.patch
+ rename meta/recipes-extended/ghostscript/ghostscript/{ghostscript-native-fix-disable-system-libtiff.patch => ghostscript-9.21-native-fix-disable-system-libtiff.patch} (67%)
+ rename meta/recipes-extended/ghostscript/ghostscript/{ghostscript-9.02-prevent_recompiling.patch => ghostscript-9.21-prevent_recompiling.patch} (81%)
+ rename meta/recipes-extended/ghostscript/{ghostscript_9.20.bb => ghostscript_9.21.bb} (89%)
+
+diff --git a/meta/recipes-extended/ghostscript/ghostscript/CVE-2016-10219.patch b/meta/recipes-extended/ghostscript/ghostscript/CVE-2016-10219.patch
+deleted file mode 100644
+index 574abe0..0000000
+--- a/meta/recipes-extended/ghostscript/ghostscript/CVE-2016-10219.patch
++++ /dev/null
+@@ -1,49 +0,0 @@
+-From 4bef1a1d32e29b68855616020dbff574b9cda08f Mon Sep 17 00:00:00 2001
+-From: Robin Watts <Robin.Watts@artifex.com>
+-Date: Thu, 29 Dec 2016 15:57:43 +0000
+-Subject: [PATCH] Bug 697453: Avoid divide by 0 in scan conversion code.
+-
+-Arithmetic overflow due to extreme values in the scan conversion
+-code can cause a division by 0.
+-
+-Avoid this with a simple extra check.
+-
+-  dx_old=cf814d81
+-  endp->x_next=b0e859b9
+-  alp->x_next=8069a73a
+-
+-leads to dx_den = 0
+-
+-Upstream-Status: Backport
+-CVE: CVE-2016-10219
+-
+-Signed-off-by: Catalin Enache <catalin.enache@windriver.com>
+----
+- base/gxfill.c | 4 ++--
+- 1 file changed, 2 insertions(+), 2 deletions(-)
+-
+-diff --git a/base/gxfill.c b/base/gxfill.c
+-index 99196c0..2f81bb0 100644
+---- a/base/gxfill.c
+-+++ b/base/gxfill.c
+-@@ -1741,7 +1741,7 @@ intersect(active_line *endp, active_line *alp, fixed y, fixed y1, fixed *p_y_new
+-     fixed dx_old = alp->x_current - endp->x_current;
+-     fixed dx_den = dx_old + endp->x_next - alp->x_next;
+- 
+--    if (dx_den <= dx_old)
+-+    if (dx_den <= dx_old || dx_den == 0)
+-         return false; /* Intersection isn't possible. */
+-     dy = y1 - y;
+-     if_debug3('F', "[F]cross: dy=%g, dx_old=%g, dx_new=%g\n",
+-@@ -1750,7 +1750,7 @@ intersect(active_line *endp, active_line *alp, fixed y, fixed y1, fixed *p_y_new
+-     /* Do the computation in single precision */
+-     /* if the values are small enough. */
+-     y_new =
+--        ((dy | dx_old) < 1L << (size_of(fixed) * 4 - 1) ?
+-+        (((ufixed)(dy | dx_old)) < (1L << (size_of(fixed) * 4 - 1)) ?
+-          dy * dx_old / dx_den :
+-          (INCR_EXPR(mq_cross), fixed_mult_quo(dy, dx_old, dx_den)))
+-         + y;
+--- 
+-2.10.2
+-
+diff --git a/meta/recipes-extended/ghostscript/ghostscript/CVE-2016-10220.patch b/meta/recipes-extended/ghostscript/ghostscript/CVE-2016-10220.patch
+deleted file mode 100644
+index 5e1e8ba..0000000
+--- a/meta/recipes-extended/ghostscript/ghostscript/CVE-2016-10220.patch
++++ /dev/null
+@@ -1,55 +0,0 @@
+-From daf85701dab05f17e924a48a81edc9195b4a04e8 Mon Sep 17 00:00:00 2001
+-From: Ken Sharp <ken.sharp@artifex.com>
+-Date: Wed, 21 Dec 2016 16:54:14 +0000
+-Subject: [PATCH] fix crash with bad data supplied to makeimagedevice
+-
+-Bug #697450 "Null pointer dereference in gx_device_finalize()"
+-
+-The problem here is that the code to finalise a device unconditionally
+-frees the icc_struct member of the device structure. However this
+-particular (weird) device is not setup as a normal device, probably
+-because its very, very ancient. Its possible for the initialisation
+-of the device to abort with an error before calling gs_make_mem_device()
+-which is where the icc_struct member gets allocated (or set to NULL).
+-
+-If that happens, then the cleanup code tries to free the device, which
+-calls finalize() which tries to free a garbage pointer.
+-
+-Setting the device memory to 0x00 after we allocate it means that the
+-icc_struct member will be NULL< and our memory manager allows for that
+-happily enough, which avoids the problem.
+-
+-Upstream-Status: Backport
+-CVE: CVE-2016-10220
+-
+-Signed-off-by: Catalin Enache <catalin.enache@windriver.com>
+----
+- base/gsdevmem.c | 12 ++++++++++++
+- 1 file changed, 12 insertions(+)
+-
+-diff --git a/base/gsdevmem.c b/base/gsdevmem.c
+-index 97b9cf4..fe75bcc 100644
+---- a/base/gsdevmem.c
+-+++ b/base/gsdevmem.c
+-@@ -225,6 +225,18 @@ gs_makewordimagedevice(gx_device ** pnew_dev, const gs_matrix * pmat,
+- 
+-     if (pnew == 0)
+-         return_error(gs_error_VMerror);
+-+
+-+    /* Bug #697450 "Null pointer dereference in gx_device_finalize()"
+-+     * If we have incorrect data passed to gs_initialise_wordimagedevice() then the
+-+     * initialisation will fail, crucially it will fail *before* it calls
+-+     * gs_make_mem_device() which initialises the device. This means that the
+-+     * icc_struct member will be uninitialsed, but the device finalise method
+-+     * will unconditionally free that memory. Since its a garbage pointer, bad things happen.
+-+     * Apparently we do still need makeimagedevice to be available from
+-+     * PostScript, so in here just zero the device memory, which means that
+-+     * the finalise routine won't have a problem.
+-+     */
+-+    memset(pnew, 0x00, st_device_memory.ssize);
+-     code = gs_initialize_wordimagedevice(pnew, pmat, width, height,
+-                                          colors, num_colors, word_oriented,
+-                                          page_device, mem);
+--- 
+-2.10.2
+-
+diff --git a/meta/recipes-extended/ghostscript/ghostscript/CVE-2017-7975.patch b/meta/recipes-extended/ghostscript/ghostscript/CVE-2017-7975.patch
+new file mode 100644
+index 0000000..1de055f
+--- /dev/null
++++ b/meta/recipes-extended/ghostscript/ghostscript/CVE-2017-7975.patch
+@@ -0,0 +1,35 @@
++From b39be1019b4acc1aa50c6026463c543332e95a31 Mon Sep 17 00:00:00 2001
++From: Catalin Enache <catalin.enache@windriver.com>
++Date: Mon, 8 May 2017 16:18:14 +0300
++Subject: [PATCH] Bug 697693: Prevent SEGV due to integer overflow.
++
++While building a Huffman table, the start and end points were susceptible
++to integer overflow.
++
++Thank you to Jiaqi for finding this issue and suggesting a patch.
++
++Upstream-Status: Backport
++CVE: CVE-2017-7975
++
++Signed-off-by: Catalin Enache <catalin.enache@windriver.com>
++
++Contents of this patch were extracted from a larger patch which addressed
++two CVE's.  The context (location of {) was also modified to apply to
++ghostscript 9.21.
++
++Signed-off-by: Joe Slater <joe.slater@windriver.com>
++
++
++--- a/jbig2dec/jbig2_huffman.c
+++++ b/jbig2dec/jbig2_huffman.c
++@@ -421,8 +421,8 @@ jbig2_build_huffman_table(Jbig2Ctx *ctx,
++ 
++             if (PREFLEN == CURLEN) {
++                 int RANGELEN = lines[CURTEMP].RANGELEN;
++-                int start_j = CURCODE << shift;
++-                int end_j = (CURCODE + 1) << shift;
+++                uint_32t start_j = CURCODE << shift;
+++                uint_32t end_j = (CURCODE + 1) << shift;
++                 byte eflags = 0;
++ 
++                 if (end_j > max_j) {
+diff --git a/meta/recipes-extended/ghostscript/ghostscript/ghostscript-native-fix-disable-system-libtiff.patch b/meta/recipes-extended/ghostscript/ghostscript/ghostscript-9.21-native-fix-disable-system-libtiff.patch
+similarity index 67%
+rename from meta/recipes-extended/ghostscript/ghostscript/ghostscript-native-fix-disable-system-libtiff.patch
+rename to meta/recipes-extended/ghostscript/ghostscript/ghostscript-9.21-native-fix-disable-system-libtiff.patch
+index 9158117..bff3e61 100644
+--- a/meta/recipes-extended/ghostscript/ghostscript/ghostscript-native-fix-disable-system-libtiff.patch
++++ b/meta/recipes-extended/ghostscript/ghostscript/ghostscript-9.21-native-fix-disable-system-libtiff.patch
+@@ -5,23 +5,26 @@ ghostscrip could work while system-libtiff is
+ disabled.
+ 
+ Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
++
++Updated to apply to ghostscript 9.21.
++
++Signed-off-by: Joe Slater <joe.slater@windriver.com>
++
+ Upstream-Status: Pending
+----
+- configure.ac | 5 +++++
+- 1 file changed, 5 insertions(+)
+ 
+-diff --git a/configure.ac b/configure.ac
++
++
+ --- a/configure.ac
+ +++ b/configure.ac
+-@@ -1055,6 +1055,7 @@ Disabling tiff output devices.])
++@@ -1259,6 +1259,7 @@ case "x$with_system_libtiff" in
+  esac
+  
+- if test $SHARE_LIBTIFF -eq 0; then
++ if test x"$SHARE_LIBTIFF" = x"0" ; then
+ +    if test -e $LIBTIFFDIR/configure; then
+-       echo
+        echo "Running libtiff configure script..."
+        olddir=`pwd`
+-@@ -1069,6 +1070,10 @@ if test $SHARE_LIBTIFF -eq 0; then
++       if ! test -d "$LIBTIFFCONFDIR" ; then
++@@ -1272,6 +1273,10 @@ if test x"$SHARE_LIBTIFF" = x"0" ; then
+        cd "$olddir"
+        echo
+        echo "Continuing with Ghostscript configuration..."
+@@ -32,6 +35,3 @@ diff --git a/configure.ac b/configure.ac
+  fi
+  
+  AC_SUBST(SHARE_LIBTIFF)
+--- 
+-1.8.1.2
+-
+diff --git a/meta/recipes-extended/ghostscript/ghostscript/ghostscript-9.02-prevent_recompiling.patch b/meta/recipes-extended/ghostscript/ghostscript/ghostscript-9.21-prevent_recompiling.patch
+similarity index 81%
+rename from meta/recipes-extended/ghostscript/ghostscript/ghostscript-9.02-prevent_recompiling.patch
+rename to meta/recipes-extended/ghostscript/ghostscript/ghostscript-9.21-prevent_recompiling.patch
+index e709195..f2c6d04 100644
+--- a/meta/recipes-extended/ghostscript/ghostscript/ghostscript-9.02-prevent_recompiling.patch
++++ b/meta/recipes-extended/ghostscript/ghostscript/ghostscript-9.21-prevent_recompiling.patch
+@@ -9,15 +9,13 @@ Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
+ 
+ Rebase to 9.19
+ Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+----
+- base/unix-aux.mak | 64 +++++++++++++++++++++++++++----------------------------
+- 1 file changed, 32 insertions(+), 32 deletions(-)
+ 
+-diff --git a/base/unix-aux.mak b/base/unix-aux.mak
+-index 0110667..e2eb1a1 100644
++Rebase to 9.21
++Signed-off-by: Joe Slater <joe.slater@windriver.com>
++
+ --- a/base/unix-aux.mak
+ +++ b/base/unix-aux.mak
+-@@ -71,44 +71,44 @@ $(GLOBJ)gp_sysv.$(OBJ): $(GLSRC)gp_sysv.c $(stdio__h) $(time__h) $(AK)\
++@@ -66,45 +66,45 @@ $(GLOBJ)gp_sysv.$(OBJ): $(GLSRC)gp_sysv.
+  
+  # -------------------------- Auxiliary programs --------------------------- #
+  
+@@ -61,14 +59,14 @@ index 0110667..e2eb1a1 100644
+ - $(AUX)gp_stdia.$(OBJ) $(AUX)gsutil.$(OBJ) $(AUX)memento.$(OBJ)
+ -
+ -$(MKROMFS_XE)_0: $(GLSRC)mkromfs.c $(MKROMFS_COMMON_DEPS) $(MKROMFS_OBJS_0) $(UNIX_AUX_MAK) $(MAKEDIRS)
+--	$(CCAUX_) $(GENOPT) $(CFLAGS) $(I_)$(GLSRCDIR)$(_I) $(I_)$(GLOBJ)$(_I) $(I_)$(ZSRCDIR)$(_I) $(GLSRC)mkromfs.c $(O_)$(MKROMFS_XE)_0 $(MKROMFS_OBJS_0) $(AUXEXTRALIBS)
++-	$(CCAUX_) $(GENOPTAUX) $(I_)$(GLSRCDIR)$(_I) $(I_)$(GLOBJ)$(_I) $(I_)$(ZSRCDIR)$(_I) $(GLSRC)mkromfs.c $(O_)$(MKROMFS_XE)_0 $(MKROMFS_OBJS_0) $(AUXEXTRALIBS)
+ -
+ +#MKROMFS_OBJS_0=$(MKROMFS_ZLIB_OBJS) $(AUX)gpmisc.$(OBJ) $(AUX)gp_getnv.$(OBJ) \
+ +# $(AUX)gscdefs.$(OBJ) $(AUX)gp_unix.$(OBJ) $(AUX)gp_unifs.$(OBJ) $(AUX)gp_unifn.$(OBJ) \
+ +# $(AUX)gp_stdia.$(OBJ) $(AUX)gsutil.$(OBJ) $(AUX)memento.$(OBJ)
+ +#
+ +#$(MKROMFS_XE)_0: $(GLSRC)mkromfs.c $(MKROMFS_COMMON_DEPS) $(MKROMFS_OBJS_0) $(UNIX_AUX_MAK) $(MAKEDIRS)
+-+#	$(CCAUX_) $(GENOPT) $(CFLAGS) $(I_)$(GLSRCDIR)$(_I) $(I_)$(GLOBJ)$(_I) $(I_)$(ZSRCDIR)$(_I) $(GLSRC)mkromfs.c $(O_)$(MKROMFS_XE)_0 $(MKROMFS_OBJS_0) $(AUXEXTRALIBS)
+++#	$(CCAUX_) $(GENOPTAUX) $(I_)$(GLSRCDIR)$(_I) $(I_)$(GLOBJ)$(_I) $(I_)$(ZSRCDIR)$(_I) $(GLSRC)mkromfs.c $(O_)$(MKROMFS_XE)_0 $(MKROMFS_OBJS_0) $(AUXEXTRALIBS)
+ +#
+  # .... and one using the zlib library linked via the command line
+ -MKROMFS_OBJS_1=$(AUX)gscdefs.$(OBJ) \
+@@ -77,23 +75,22 @@ index 0110667..e2eb1a1 100644
+ - $(AUX)gp_stdia.$(OBJ) $(AUX)gsutil.$(OBJ)
+ -
+ -$(MKROMFS_XE)_1: $(GLSRC)mkromfs.c $(MKROMFS_COMMON_DEPS) $(MKROMFS_OBJS_1) $(UNIX_AUX_MAK) $(MAKEDIRS)
+--	$(CCAUX_) $(GENOPT) $(CFLAGS) $(I_)$(GLSRCDIR)$(_I) $(I_)$(GLOBJ)$(_I) $(I_)$(ZSRCDIR)$(_I) $(GLSRC)mkromfs.c $(O_)$(MKROMFS_XE)_1 $(MKROMFS_OBJS_1) $(AUXEXTRALIBS)
++-	$(CCAUX_) $(GENOPTAUX) $(I_)$(GLSRCDIR)$(_I) $(I_)$(GLOBJ)$(_I) $(I_)$(ZSRCDIR)$(_I) $(GLSRC)mkromfs.c $(O_)$(MKROMFS_XE)_1 $(MKROMFS_OBJS_1) $(AUXEXTRALIBS)
+ -
+ -$(MKROMFS_XE): $(MKROMFS_XE)_$(SHARE_ZLIB) $(UNIX_AUX_MAK) $(MAKEDIRS)
+ -	$(CP_) $(MKROMFS_XE)_$(SHARE_ZLIB) $(MKROMFS_XE)
++-
+ +#MKROMFS_OBJS_1=$(AUX)gscdefs.$(OBJ) \
+ +# $(AUX)gpmisc.$(OBJ) $(AUX)gp_getnv.$(OBJ) \
+ +# $(AUX)gp_unix.$(OBJ) $(AUX)gp_unifs.$(OBJ) $(AUX)gp_unifn.$(OBJ) \
+ +# $(AUX)gp_stdia.$(OBJ) $(AUX)gsutil.$(OBJ)
+ +#
+ +#$(MKROMFS_XE)_1: $(GLSRC)mkromfs.c $(MKROMFS_COMMON_DEPS) $(MKROMFS_OBJS_1) $(UNIX_AUX_MAK) $(MAKEDIRS)
+-+#	$(CCAUX_) $(GENOPT) $(CFLAGS) $(I_)$(GLSRCDIR)$(_I) $(I_)$(GLOBJ)$(_I) $(I_)$(ZSRCDIR)$(_I) $(GLSRC)mkromfs.c $(O_)$(MKROMFS_XE)_1 $(MKROMFS_OBJS_1) $(AUXEXTRALIBS)
+++#	$(CCAUX_) $(GENOPTAUX) $(I_)$(GLSRCDIR)$(_I) $(I_)$(GLOBJ)$(_I) $(I_)$(ZSRCDIR)$(_I) $(GLSRC)mkromfs.c $(O_)$(MKROMFS_XE)_1 $(MKROMFS_OBJS_1) $(AUXEXTRALIBS)
+ +#
+ +#$(MKROMFS_XE): $(MKROMFS_XE)_$(SHARE_ZLIB) $(UNIX_AUX_MAK) $(MAKEDIRS)
+ +#	$(CP_) $(MKROMFS_XE)_$(SHARE_ZLIB) $(MKROMFS_XE)
+- 
+++#
+  # Query the environment to construct gconfig_.h.
+  # These are all defined conditionally (except the JasPER one), so that
+--- 
+-2.8.1
+-
++ # they can be overridden by settings from the configure script.
+diff --git a/meta/recipes-extended/ghostscript/ghostscript_9.20.bb b/meta/recipes-extended/ghostscript/ghostscript_9.21.bb
+similarity index 89%
+rename from meta/recipes-extended/ghostscript/ghostscript_9.20.bb
+rename to meta/recipes-extended/ghostscript/ghostscript_9.21.bb
+index 3c8a2e6..e542c86 100644
+--- a/meta/recipes-extended/ghostscript/ghostscript_9.20.bb
++++ b/meta/recipes-extended/ghostscript/ghostscript_9.21.bb
+@@ -19,7 +19,7 @@ DEPENDS_class-native = "libpng-native"
+ UPSTREAM_CHECK_URI = "https://github.com/ArtifexSoftware/ghostpdl-downloads/releases"
+ UPSTREAM_CHECK_REGEX = "(?P<pver>\d+(\.\d+)+)\.tar"
+ 
+-SRC_URI_BASE = "https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs920/${BPN}-${PV}.tar.gz \
++SRC_URI_BASE = "https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs921/${BPN}-${PV}.tar.gz \
+                 file://ghostscript-9.15-parallel-make.patch \
+                 file://ghostscript-9.16-Werror-return-type.patch \
+                 file://png_mak.patch \
+@@ -27,23 +27,22 @@ SRC_URI_BASE = "https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/d
+ "
+ 
+ SRC_URI = "${SRC_URI_BASE} \
+-           file://ghostscript-9.02-prevent_recompiling.patch \
++           file://ghostscript-9.21-prevent_recompiling.patch \
+            file://ghostscript-9.02-genarch.patch \
+            file://objarch.h \
+            file://cups-no-gcrypt.patch \
+            file://CVE-2017-7207.patch \
+-           file://CVE-2016-10219.patch \
+-           file://CVE-2016-10220.patch \
+            file://CVE-2017-5951.patch \
++           file://CVE-2017-7975.patch \
+            "
+ 
+ SRC_URI_class-native = "${SRC_URI_BASE} \
+-                        file://ghostscript-native-fix-disable-system-libtiff.patch \
++                        file://ghostscript-9.21-native-fix-disable-system-libtiff.patch \
+                         file://base-genht.c-add-a-preprocessor-define-to-allow-fope.patch \
+                         "
+ 
+-SRC_URI[md5sum] = "93c5987cd3ab341108be1ebbaadc24fe"
+-SRC_URI[sha256sum] = "949b64b46ecf8906db54a94ecf83ab97534ebf946f770d3c3f283cb469cb6e14"
++SRC_URI[md5sum] = "5f213281761d2750fcf27476c404d17f"
++SRC_URI[sha256sum] = "02bceadbc4dddeb6f2eec9c8b1623d945d355ca11b8b4df035332b217d58ce85"
+ 
+ EXTRA_OECONF = "--without-x --with-system-libtiff --without-jbig2dec \
+                 --with-fontpath=${datadir}/fonts \
+-- 
+2.7.4
 
 
-
-On 05/19/2017 10:25 AM, Burton, Ross wrote:
->=20
-> On 18 May 2017 at 23:28, Jose Lamego <jose.a.lamego@linux.intel.com
-> <mailto:jose.a.lamego@linux.intel.com>> wrote:
->=20
->     bc recipe must be upgraded to latest version in upstream.
->=20
->     bc license changed from "GPLv2+ & LGPLv2.1" to "GPLv3+ & LGPLv3"
->     The new version exhibits a Parallel Make Race that required
->     unsetting PARALLEL_MAKE variable.
->     This change was tested with core-image-minimal in qemux86.
->=20
->=20
-> It would be appreciated if you could spend a few minutes looking at wha=
-t
-> the build race is and pushing a fix upstream.  Or at least include a
-> comment showing the failure.
->=20
-> I chased the sed thing as previous releases didn't need it: my build
-> machine doesn't even have ed installed so HOSTTOOLS won't help.  This
-> appears to be a regression as 1.06 shipped the file that needs ed to
-> build.  The makefile now always builds a binary to generate a file that=
-
-> it then runs through ed, and it doesn't build this tool correctly in a
-> cross environment either:
->=20
-> | /bin/bash: ./fbc: cannot execute binary file: Exec format error
->=20
-> (it's trying to run an arm binary on x86)
->=20
-> I'd suggest that we approach the upstream maintainer and discuss:
-> 1) should the tarballs ship libmath.h instead of requiring it to be
-> generated
-> 2) using CC_FOR_BUILD etc from autoconf-archive to build fbc with the
-> host compiler in cross-compile environments
-> 3) can sed be used instead of ed to reduce the host requirements
->=20
-> Ross
-
-Agree. I will contact the bc maintainer and work on the build race. I'll
-get back to you with the findings. Thanks for the suggestions!
-
---=20
-Jose Lamego | OTC Embedded Platforms & Tools | GDC
-
-
---eQpU9NQODM4CR8l1dK3ehhespRX59fcUk--
-
---ttHpL0E7DHc79lcxbQMw7XOpWQ4DACvEW
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iQEcBAEBCAAGBQJZH0ThAAoJEFJAtowlSEbnYGQH/2MHEAf5+x+AMieSXjQZ0b/Y
-6gO6Vdt1qG6ibj3gF3mMRxMoZp3/96FtxaEsO4w3LI+Q6P6QyU30ghLRj0Npox3B
-nTU4nPZmcHCeCG/JNV/bTDaqcPlbeiSnGlq312BTc+O18i35aWCJWozFwpPGFkbd
-fkqRk9/zrxKH9IwcSSS5Rmulp0e3wHF/wmUwjAScKZfgYCN3azpr/J6DtJ77NbCw
-3YuekgkZ5cqHe7S1JUuJ7bjion43e/BScDCM1ChlQ4Rif+2F3SM3Xhdg6b+UrJFU
-DzFIyGbp/9TluhNjaC171Nl1qSsQ8doI9zQxdM8+1tggffkg/7L9LsftmvxeAro=
-=fBpX
------END PGP SIGNATURE-----
-
---ttHpL0E7DHc79lcxbQMw7XOpWQ4DACvEW--
