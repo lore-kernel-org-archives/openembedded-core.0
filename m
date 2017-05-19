@@ -1,57 +1,47 @@
-Return-Path: <enrico.scholz@sigma-chemnitz.de>
-Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
-	by mail.openembedded.org (Postfix) with ESMTP id 732BB60778
+Return-Path: <tharvey@gateworks.com>
+Received: from mail-wm0-f51.google.com (mail-wm0-f51.google.com [74.125.82.51])
+	by mail.openembedded.org (Postfix) with ESMTP id A1F5E77EFD
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 May 2017 23:38:08 +0000 (UTC)
-Received: from mail-mta-0.intern.sigma-chemnitz.de
-	(mail-mta-0.intern.sigma-chemnitz.de [192.168.12.76])
-	by mailout-1.intern.sigma-chemnitz.de (8.14.7/8.14.7) with ESMTP id
-	v4INc9bW009761
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=OK) for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 May 2017 01:38:09 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sigma-chemnitz.de;
-	s=v2012061000; t=1495150689;
-	bh=c6UCi3rdY7+IV9AYBKrDcdznCGL/ybjAkVxWlJy2LAo=;
-	h=From:To:Cc:Subject:References:Date:In-Reply-To:Message-ID:
-	MIME-Version:Content-Type:Sender;
-	b=EoHlotveKS6NulTRBoLEkOz0rnNy7WCmtWtd7ENk9nA4wOTFX1F7FO7EW6NZeYwwX
-	G/6cyQaMHk4YUFCX8te2HVeAP7eqwoJfPqTRfXFl2aIcrBJerPbbxIc5kRNlFx1ltR
-	Atv9N5wyLEcmSa9rv8+xCmbAayUBTfPjwCJ1C/A4=
-Received: from reddoxx.intern.sigma-chemnitz.de
-	(reddoxx.intern.sigma-chemnitz.de [192.168.0.193])
-	by mail-mta-0.intern.sigma-chemnitz.de (8.14.7/8.14.7) with ESMTP id
-	v4INc1Dj024194 for <openembedded-core@lists.openembedded.org> from
-	enrico.scholz@sigma-chemnitz.de; Fri, 19 May 2017 01:38:02 +0200
-Received: from mail-msa-0.intern.sigma-chemnitz.de ( [192.168.12.77]) by
-	reddoxx.intern.sigma-chemnitz.de
-	(Reddoxx engine) with SMTP id 226FBE6281F;
-	Fri, 19 May 2017 01:35:40 +0200
-Received: from ensc-virt.intern.sigma-chemnitz.de
-	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
-	by mail-msa-0.intern.sigma-chemnitz.de (8.14.7/8.14.7) with ESMTP id
-	v4INbxcJ024189
-	(version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
-	Fri, 19 May 2017 01:37:59 +0200
-Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
-	4.87) (envelope-from <ensc@sigma-chemnitz.de>)
-	id 1dBUzX-0000ip-Lf; Fri, 19 May 2017 01:37:59 +0200
-From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-To: Denys Dmytriyenko <denis@denix.org>
-References: <20170518173423.28994-1-enrico.scholz@sigma-chemnitz.de>
-	<20170518181957.GU28053@denix.org>
-Date: Fri, 19 May 2017 01:37:59 +0200
-In-Reply-To: <20170518181957.GU28053@denix.org> (Denys Dmytriyenko's message
-	of "Thu, 18 May 2017 14:19:57 -0400")
-Message-ID: <lyinkxrb1k.fsf@ensc-virt.intern.sigma-chemnitz.de>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/25.2 (gnu/linux)
+	Fri, 19 May 2017 01:11:23 +0000 (UTC)
+Received: by mail-wm0-f51.google.com with SMTP id b84so220004159wmh.0
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 18 May 2017 18:11:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=gateworks-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=U2Cc4pxeYn9TjAvKAu7bUN8DEX43z7wdOhqSkw2/1/A=;
+	b=00Wcr8eMX10R9mQig2ArrciP8V6S2TTQYPOE1eeUrKzOGTfGVFSB9DpuSbi1YKKq3Y
+	muuPiX6pFEr94KYnt/Uvi2gaz0J3d8SQuB6aD2d9nN/tkB7PHnEgT5XU/pBA+6JHccJu
+	zWReTsJtQwipgZotJllE3VUF7GfA/6nO03LPlzo+LX69WUM+aj7aly3MiPoI3UkiktbC
+	EtnXC5x8vFpGmHI7rEnLgrP96LeFmpSHV7YTpxnFYQOrdHeH4dgWaCylLjcP5HjcMXgt
+	N4MFT1opJWHxJX+qgp880xvwbefBSSbA+3X5e1uQypP9VzR9OF7bGU8zhnOdfZz1P6zm
+	jP+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=U2Cc4pxeYn9TjAvKAu7bUN8DEX43z7wdOhqSkw2/1/A=;
+	b=B4V21lPd0Kqdxy7qgtf/ofWIeag8QFA7PwO3sD7Dj4ky/0kW3NKDxwGZ28pJ3xdulj
+	Tbs0jTwrcQdKhk2NreLwTBDKAYasx3dYIexYSBDAdKh1rtya0J0fKcUPLICTSjHCaoU9
+	yihyGxiSIsK8fxBpTGpFG8/WjEjC5Ftf3XesnK2ZFmTxk7GjEN1i6Atu4m3BZUY0geXg
+	E7bAAMSSCsG5i339A8EMgeQySGmA87XICC2d+eG5mg4H17y7pP3W417GGnaXU9SeTtgn
+	afVQFGelsjOb8BuKY9XLnVoYcJX8HlXlS3oAYvVliYWANQHbBMxfm69M+fcVqfgAVRhW
+	iMLg==
+X-Gm-Message-State: AODbwcDfLukVdEgqhZm5QciSUsT4ko6LevA1TFIIsGyHoqgDQ+XNV1vN
+	tzzorpZiq5CYJwh5H1dxZKCbC27PrZq2
+X-Received: by 10.28.191.89 with SMTP id p86mr4381164wmf.27.1495156283908;
+	Thu, 18 May 2017 18:11:23 -0700 (PDT)
 MIME-Version: 1.0
-Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-X-Spam-Score: -0.6
-X-Spam-Tests: AWL,BAYES_00,DKIM_ADSP_ALL,RP_MATCHES_RCVD,SPF_NEUTRAL
-X-Scanned-By: MIMEDefang 2.79
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] tzcode-native: quote ${CC}
+Received: by 10.28.142.206 with HTTP; Thu, 18 May 2017 18:11:23 -0700 (PDT)
+In-Reply-To: <20170517201134.26758-1-max.krummenacher@toradex.com>
+References: <20170517201134.26758-1-max.krummenacher@toradex.com>
+From: Tim Harvey <tharvey@gateworks.com>
+Date: Thu, 18 May 2017 18:11:23 -0700
+Message-ID: <CAJ+vNU1sSaxxBiUxs1HRajgCuNhv3qK-6qfsRy+-DLmCw4=7SA@mail.gmail.com>
+To: Max Krummenacher <max.oss.09@gmail.com>
+Cc: Max Krummenacher <max.krummenacher@toradex.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] u-boot-mkimage: fix nativesdk build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,51 +54,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 May 2017 23:38:11 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 19 May 2017 01:11:23 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Denys Dmytriyenko <denis@denix.org> writes:
-
->> -EXTRA_OEMAKE += "cc=${CC}"
->> +EXTRA_OEMAKE += "cc='${CC}'"
+On Wed, May 17, 2017 at 1:11 PM, Max Krummenacher <max.oss.09@gmail.com> wrote:
+> If building for nativesdk the wrong rss sysroot is used leading the
+> following error message.
 >
-> Should these be double-quotes around ${CC}?
+> | ERROR: oe_runmake failed
+> | In file included from tools/imximage.c:13:0:
+> | include/image.h:1024:27: fatal error: openssl/evp.h: No such file or directory
+> |  # include  <openssl/evp.h>
+>
+> Tools needed on the build host (script/basic/fixdep) and code compiled
+> for the SDK machine are both built with the build host's compiler,
+> leading to additinal errors.
+>
+> Adding CROSS_COMPILE="${HOST_PREFIX}" and using the cross-compiler for
+> the SDK_ARCH fixes the build error.
+> The resulting binary in the SDK is working.
+>
+> Signed-off-by: Max Krummenacher <max.krummenacher@toradex.com>
+> ---
+>  meta/recipes-bsp/u-boot/u-boot-mkimage_2017.01.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-bsp/u-boot/u-boot-mkimage_2017.01.bb b/meta/recipes-bsp/u-boot/u-boot-mkimage_2017.01.bb
+> index 1aa95e7..de999e7 100644
+> --- a/meta/recipes-bsp/u-boot/u-boot-mkimage_2017.01.bb
+> +++ b/meta/recipes-bsp/u-boot/u-boot-mkimage_2017.01.bb
+> @@ -7,7 +7,7 @@ DEPENDS = "openssl"
+>
+>  EXTRA_OEMAKE_class-target = 'CROSS_COMPILE="${TARGET_PREFIX}" CC="${CC} ${CFLAGS} ${LDFLAGS}" HOSTCC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}" STRIP=true V=1'
+>  EXTRA_OEMAKE_class-native = 'CC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}" HOSTCC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}" STRIP=true V=1'
+> -EXTRA_OEMAKE_class-nativesdk = 'CC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}" HOSTCC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}" STRIP=true V=1'
+> +EXTRA_OEMAKE_class-nativesdk = 'CROSS_COMPILE="${HOST_PREFIX}" CC="${CC} ${CFLAGS} ${LDFLAGS}" HOSTCC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}" STRIP=true V=1'
+>
+>  do_compile () {
+>         oe_runmake sandbox_defconfig
+> --
 
-I wrote it in this way:
+This resolved build sdk issues on pyro
 
-- to 60%, because '' is more correct than "" in this context (see below)
-
-- to 40%, because "" would clutter code too much and I can not say
-  whether it must be quoted as \", \\" or whether perhaps plain " works
-  too
-
-
-A yet more correct solution would be
-
-| export cc = "${CC}"
-
-in the recipe (outside of do_*()) and perhaps adding '-e' to EXTRA_OEMAKE.
-
-
-This handles additionally the case when 'CC' contains a single quote
-(which causes misbehavior in my patch).
-
-Double quotes are much more worse because CC must not contain '$', '`'
-or '\\' (which is not uncommon in flags like '-DFOO()=\"bar\"').  In OE,
-it is not expected that these characters are interpreted directly by the
-shell (${CC} is passed properly quoted in the environment).
-
-But all this does not matter... correct quoting is neglactted in OE and
-bitbake; when you are lucky, commands are written as "foo '%s'" % path.
-But nobody uses functions like 'pipes.quote()' or a non-shell variants
-like subprocess.call(['foo', path]).
-
-So, you can assume that '${FOO}' expands to the same value like "${FOO}".
-
-
-Enrico
--- 
-SIGMA Chemnitz GmbH       Registergericht:   Amtsgericht Chemnitz HRB 1750
-Am Erlenwald 13           Geschaeftsfuehrer: Grit Freitag, Frank Pyritz
-09128 Chemnitz
+Tested-by: Tim Harvey <tharvey@gateworks.com> - pyro branch
 
