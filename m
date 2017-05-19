@@ -1,52 +1,47 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qt0-f178.google.com (mail-qt0-f178.google.com
-	[209.85.216.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 0E4C160777
+Return-Path: <max.oss.09@gmail.com>
+Received: from mail-wr0-f196.google.com (mail-wr0-f196.google.com
+	[209.85.128.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 822CB60777
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 May 2017 15:48:03 +0000 (UTC)
-Received: by mail-qt0-f178.google.com with SMTP id v27so61277428qtg.2
+	Fri, 19 May 2017 15:49:53 +0000 (UTC)
+Received: by mail-wr0-f196.google.com with SMTP id 6so3355658wrb.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 May 2017 08:48:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=6Nfl4+0IxtzfHFrmsRXqgW5LpSKXBYNN8iZJqEakcmc=;
-	b=rapR6FCO6tMyxyCMRFaSqjWyeVeGYwC8x3v1HhJM+iA5o07/1fyevYrxKyEfgyyyuS
-	5Cd+ippwlU159BxFjeiuXP3HTU7OdpA2ALBTlVaPoCWdHje26lZS/MZZZ0nuDASgESYh
-	gOYbSOZ6B8gJGrBswzWPVRSpwnUQM76q+OsgjrgMB4vx8euJFKDmn+IGs6Khy8ct8I05
-	u+AFvqsIq+XsMX5hrUD8KO9Ladh/2mm+60TteJ/6vzzIPA5vgqDGkB1YObJcpPjAtI3H
-	ywbtL8OCbpe2T/Qbh5oT/trHuWgV3/Ifcz+sBCCRhpnjJGcVBIYQGmmefD7WAjSYELIW
-	8UZQ==
+	Fri, 19 May 2017 08:49:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=VqgnpD2OoeczS9Y1qb8uLtCgRDIZWnAsCyO5CeChPl4=;
+	b=U6Bj7t9GIhauSlNmmraj8mPkpVle6KFoq1AtNiDZubo5Dp0dDOiwteW/OTLnIWEPao
+	p8yNlMkd8qHGbatAhYBl+LZewTolq83bTCsN/EZNQpwdoHRcYBAzVGEbCjpGT3j/4PMJ
+	t1CmjV+Sbdnn2Zw/zHBvn7OrHnhyYQAXJM41n98AQkR8LN6fHd4DVL9AFPivO0QqcfrI
+	jAzCGNG4sRqVZyTEGs4d+b7z1h4QthJznxAKvdqYyeWHvIYVVJCPQXkiGMaYHZJuxCfq
+	zPcPnN3PZ2Fv9P2I855vZPZ+xQBn7e3senh73mjrMqGyy5uNrI2GA4lj+5NeITRoMA7j
+	Y/PQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=6Nfl4+0IxtzfHFrmsRXqgW5LpSKXBYNN8iZJqEakcmc=;
-	b=PkOyj7GM1rhg5lTOJm+v6JHCkrVD58U3IMVXRFOYUIUFi+OxhaGSj+C0vLvBaoZ78f
-	5gjNryxmUYYdK2/qEQN4d3/Za+6xpWgK3CX+xVO/aUgE0VTOFHE/HbNhhwN1gJv58f9r
-	fAlVTyUy6EV+MxClw4doNyxRE15uk94L+o//P9DEtW+iD6wfRByoESWnAH3qi/kSH9Fu
-	84zt32VNXw6KBEkgklmWgqOaFpvU70azp+Z/RLIQACYtenHN/gD9OLiT/FuJVwW7VtRN
-	XCx4SvmcaS57yasj9cbEWAI2ZACyXFxrT7UUWOvIxJ2y4dAAyPwrEQIjCubj/FhnCyZK
-	AH4w==
-X-Gm-Message-State: AODbwcCNuFlDLbSpfiOgmI4bA4oV35stj4SxAegVAyXk513GfVfuVUQJ
-	YkrtdOD0sQ7W3WZxLUZJdN1+SDmGg6l/
-X-Received: by 10.200.50.49 with SMTP id x46mr10554488qta.105.1495208885016;
-	Fri, 19 May 2017 08:48:05 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.41.115 with HTTP; Fri, 19 May 2017 08:47:44 -0700 (PDT)
-In-Reply-To: <f327a215-04da-26fa-37b7-3081121385cc@linux.intel.com>
-References: <1495146527-32073-1-git-send-email-jose.a.lamego@linux.intel.com>
-	<1495146527-32073-2-git-send-email-jose.a.lamego@linux.intel.com>
-	<1495149157.27342.142.camel@linuxfoundation.org>
-	<CAMKF1so_wFUH=eNqBc_Qhach4+C1mW73ZFUuK=TqLaYZ81C=Hg@mail.gmail.com>
-	<20170519090232.5z53crs2ocxbbvno@ad.chargestorm.se>
-	<f327a215-04da-26fa-37b7-3081121385cc@linux.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 19 May 2017 16:47:44 +0100
-Message-ID: <CAJTo0LbLgGTfhD4OEzQDAAfC5RcOWhoF52FowDLK7vQakeJ9Uw@mail.gmail.com>
-To: Jose Lamego <jose.a.lamego@linux.intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] conf/bitbake.conf: include ed in hosttools
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=VqgnpD2OoeczS9Y1qb8uLtCgRDIZWnAsCyO5CeChPl4=;
+	b=FvF2Z5EuuLOGqRp8/dq0ciYpsfOYSo8mA4dsCRu/O7fRS3U4Ba8YKBVS6NA8nLl2Kn
+	vVdGxIfLjLN+fKF4coY1CrZXS3y4zzr/P2aTPmz/TZumsV2t6x7n/bpI5W78zcE6Hy9m
+	bisOMVYfkb6rhnqd4wPeKUf3emc7pP5y1vWOlzT5dJOg/PX/opXh0ZrZWaAnm7yEThhV
+	MRVXsxCwawIGgPAbK10VydZF2lpT02tmsmunziE9J3cgjZ0HPlLuPpdo5YU0AET9c/Pu
+	ELV4PcUSWjrOZ0eD8OYMOLeaO2dp0ONOjqOJUP7HaovFlgIms5gKQrY+yQ3NDRzPWPDM
+	h+/Q==
+X-Gm-Message-State: AODbwcAaeCurZUeNk3dI82PnalmTsKc4Ed7WPbDsV3kWknPIcwrXs84H
+	mJQsTVsf3XNRIg==
+X-Received: by 10.223.173.74 with SMTP id p68mr3391676wrc.163.1495208994125;
+	Fri, 19 May 2017 08:49:54 -0700 (PDT)
+Received: from linuxdev.toradex.int ([46.140.72.82])
+	by smtp.gmail.com with ESMTPSA id j1sm5089584wmf.6.2017.05.19.08.49.53
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 19 May 2017 08:49:53 -0700 (PDT)
+From: Max Krummenacher <max.oss.09@gmail.com>
+X-Google-Original-From: Max Krummenacher <max.krummenacher@toradex.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 19 May 2017 17:48:56 +0200
+Message-Id: <20170519154856.21505-1-max.krummenacher@toradex.com>
+X-Mailer: git-send-email 2.9.3
+Cc: Max Krummenacher <max.krummenacher@toradex.com>
+Subject: [PATCH v2] libsolv: don't pick up bundled db from host rpm
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,38 +54,97 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 May 2017 15:48:04 -0000
-Content-Type: multipart/alternative; boundary="001a113577a2750158054fe27212"
+X-List-Received-Date: Fri, 19 May 2017 15:49:53 -0000
 
---001a113577a2750158054fe27212
-Content-Type: text/plain; charset="UTF-8"
+With rpm v4 in openembedded but on a host with existing /usr/include/rpm/db.h
+the native build fails to compile.
 
-On 19 May 2017 at 13:54, Jose Lamego <jose.a.lamego@linux.intel.com> wrote:
+Signed-off-by: Max Krummenacher <max.krummenacher@toradex.com>
+---
+ ...01-don-t-pick-up-bundled-db-from-host-rpm.patch | 51 ++++++++++++++++++++++
+ meta/recipes-extended/libsolv/libsolv_0.6.26.bb    |  3 +-
+ 2 files changed, 53 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-extended/libsolv/libsolv/0001-don-t-pick-up-bundled-db-from-host-rpm.patch
 
-> This patch is a requisite for the bc recipe update from 1.06 to 1.07.1,
-> which fails due to ed command not found during building.
->
+changes in V2:
 
-I just replied to the bc patch, the new version is broken in several
-interesting ways.
+- instead of unconditionally assume db is not bundled
+  evaluate the actually linked librpm.so
+- fix commit text to include that libsolv-native is failing
+  (but not libsolv and nativesdk-libsolv)
 
-Ross
+diff --git a/meta/recipes-extended/libsolv/libsolv/0001-don-t-pick-up-bundled-db-from-host-rpm.patch b/meta/recipes-extended/libsolv/libsolv/0001-don-t-pick-up-bundled-db-from-host-rpm.patch
+new file mode 100644
+index 0000000..f99cdca
+--- /dev/null
++++ b/meta/recipes-extended/libsolv/libsolv/0001-don-t-pick-up-bundled-db-from-host-rpm.patch
+@@ -0,0 +1,51 @@
++From f815c166f08f8a0a257630e91c0bcc20409f42cf Mon Sep 17 00:00:00 2001
++From: Max Krummenacher <max.krummenacher@toradex.com>
++Date: Sun, 7 May 2017 20:28:11 +0100
++Subject: [PATCH] don't pick up bundled db from host rpm
++
++For libsolv-native with rpm v4 in openembedded but on a host with
++existing /usr/include/rpm/db.h the build is configured to have
++HAVE_RPM_DB_H because of the existing header file from the host,
++but linking against the librpm.so in recipe-sysroot-native fails.
++
++Check for a bundled db by testing if librpm.so provides one of
++the db functions.
++
++Fixes the following link errors:
++| ../ext/libsolvext.so.0: undefined reference to `db_create_rpmdb'
++| ../ext/libsolvext.so.0: undefined reference to `db_env_create_rpmdb'
++
++Observed on a openSUSE Leap 42.1 build host with rpm-devel installed.
++
++Upstream-Status: Inappropriate [oe build specific]
++
++Signed-off-by: Max Krummenacher <max.krummenacher@toradex.com>
++---
++ CMakeLists.txt | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/CMakeLists.txt b/CMakeLists.txt
++index 838f9d0..1ded881 100644
++--- a/CMakeLists.txt
+++++ b/CMakeLists.txt
++@@ -185,7 +185,7 @@ IF (ENABLE_RPMDB)
++ SET (ENABLE_RPMPKG ON)
++ ENDIF (ENABLE_RPMDB)
++ 
++-INCLUDE (CheckIncludeFile)
+++INCLUDE (CheckLibraryExists)
++ IF (ENABLE_RPMDB)
++   FIND_LIBRARY (RPMDB_LIBRARY NAMES rpmdb)
++ 
++@@ -206,7 +206,7 @@ IF (ENABLE_RPMDB)
++   ENDIF (RPM5)
++ 
++   # check if rpm contains a bundled berkeley db
++-  CHECK_INCLUDE_FILE(rpm/db.h HAVE_RPM_DB_H)
+++  CHECK_LIBRARY_EXISTS(rpm.so db_create_rpmdb "" HAVE_RPM_DB_H)
++   IF (NOT HAVE_RPM_DB_H)
++     FIND_LIBRARY (DB_LIBRARY NAMES db)
++     IF (DB_LIBRARY)
++-- 
++2.12.0
++
+diff --git a/meta/recipes-extended/libsolv/libsolv_0.6.26.bb b/meta/recipes-extended/libsolv/libsolv_0.6.26.bb
+index a33c251..ccd9cfa 100644
+--- a/meta/recipes-extended/libsolv/libsolv_0.6.26.bb
++++ b/meta/recipes-extended/libsolv/libsolv_0.6.26.bb
+@@ -8,7 +8,8 @@ LIC_FILES_CHKSUM = "file://LICENSE.BSD;md5=62272bd11c97396d4aaf1c41bc11f7d8"
+ DEPENDS = "expat zlib rpm"
+ 
+ SRC_URI = "git://github.com/openSUSE/libsolv.git \
+-           "
++           file://0001-don-t-pick-up-bundled-db-from-host-rpm.patch \
++          "
+ SRC_URI_append_libc-musl = " file://0001-Add-fallback-fopencookie-implementation.patch \
+                              file://0002-Fixes-to-internal-fopencookie-implementation.patch \
+                            "
+-- 
+2.9.3
 
---001a113577a2750158054fe27212
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 19 May 2017 at 13:54, Jose Lamego <span dir=3D"ltr">&lt;<a href=3D"mailt=
-o:jose.a.lamego@linux.intel.com" target=3D"_blank">jose.a.lamego@linux.inte=
-l.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"m=
-argin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":2=
-ig" class=3D"a3s aXjCH m15c20c654e2b670a">This patch is a requisite for the=
- bc recipe update from 1.06 to 1.07.1,<br>
-which fails due to ed command not found during building.<br>
-<div class=3D"HOEnZb"></div></div></blockquote></div><br>I just replied to =
-the bc patch, the new version is broken in several interesting ways.</div><=
-div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></=
-div>
-
---001a113577a2750158054fe27212--
