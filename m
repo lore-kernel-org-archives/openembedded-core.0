@@ -1,35 +1,40 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id C5F30780AC
+Return-Path: <prvs=4312e0f35b=michael.davis@essvote.com>
+Received: from mail1.essvote.com (mail1.essvote.com [66.37.226.19])
+	by mail.openembedded.org (Postfix) with ESMTP id 4DD24780AE
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 May 2017 13:01:25 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	v4JD1HxL016401
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Fri, 19 May 2017 14:01:18 +0100
-Message-ID: <1495198877.27342.150.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: "Burton, Ross" <ross.burton@intel.com>, Khem Raj <raj.khem@gmail.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>, Bruce Ashfield
-	<bruce.ashfield@windriver.com>
-Date: Fri, 19 May 2017 14:01:17 +0100
-In-Reply-To: <CAJTo0LZmtYMT2Z2N19J85dXi5JnOfPxXBMX=rwEuwcaq1GeiAg@mail.gmail.com>
-References: <1495146527-32073-1-git-send-email-jose.a.lamego@linux.intel.com>
-	<1495146527-32073-2-git-send-email-jose.a.lamego@linux.intel.com>
-	<1495149157.27342.142.camel@linuxfoundation.org>
-	<CAMKF1so_wFUH=eNqBc_Qhach4+C1mW73ZFUuK=TqLaYZ81C=Hg@mail.gmail.com>
-	<20170519090232.5z53crs2ocxbbvno@ad.chargestorm.se>
-	<CAJTo0LZmtYMT2Z2N19J85dXi5JnOfPxXBMX=rwEuwcaq1GeiAg@mail.gmail.com>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.1 
-Mime-Version: 1.0
-X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.11
-	(dan.rpsys.net [192.168.3.1]);
-	Fri, 19 May 2017 14:01:19 +0100 (BST)
-X-Virus-Scanned: clamav-milter 0.99.2 at dan
-X-Virus-Status: Clean
-Subject: Re: [PATCH 1/2] conf/bitbake.conf: include ed in hosttools
+	Fri, 19 May 2017 14:19:40 +0000 (UTC)
+X-AuditID: 0a000213-e8dff70000003040-fe-591efefbaa52
+Received: from ESS-EX01.essvote.corp.local (Unknown_Domain [172.16.110.40])
+	by mail1.essvote.com (Symantec Messaging Gateway) with SMTP id
+	7F.E7.12352.BFEFE195; Fri, 19 May 2017 09:19:40 -0500 (CDT)
+Received: from ESS-EX01.essvote.corp.local ([::1]) by
+	ESS-EX01.essvote.corp.local ([::1]) with mapi id 14.03.0301.000;
+	Fri, 19 May 2017 09:19:39 -0500
+From: "Davis, Michael" <michael.davis@essvote.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-CORE][PATCH] scripts/lib/recipetool/create_npm.py: Fix npm
+	uri_replace
+Thread-Index: AQHS0KryGiwKhvf2RkefmWhIMQvG1A==
+Date: Fri, 19 May 2017 14:19:38 +0000
+Message-ID: <20170519141954.20802-1-michael.davis@essvote.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.1.20.66]
+MIME-Version: 1.0
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrOLMWRmVeSWpSXmKPExsWyRiBPQ/fPP7lIg5Yb8hZ3fr5jd2D0OLdx
+	BWMAYxS3TVJiSVlwZnqevl0Cd8aiK+cZC7ZyVazdOJ+9gfE8excjJ4eEgInE3Kt/2LoYuTiE
+	BE4wSmz8vI0VwpnFKDF9URsrSBWbgJHEueubGEFsEYFoiaUzZoJ1MwsYSLzbvBGsRlggVOLC
+	j2vsEDVREuunz2SCsPUkvm2dAmRzcLAIqErcPsYDEuYVsJP48Og8WAmjgJjE91NrmCBGikvc
+	ejKfCeI4AYkle84zQ9iiEi8f/2OFsOUk1r07CVWvJ3Fj6hQ2CFtbYtnC18wQ8wUlTs58wjKB
+	UXgWkrGzkLTMQtIyC0nLAkaWVYyCuYmZOYZ6qcXFZfklqXrJ+bmbGIHBzcXAJLyDcc4U20OM
+	AhyMSjy8nL/lIoVYE8uKK3MPMUpzsCiJ8z5byRwpJJCeWJKanZpakFoUX1Sak1p8iJGJg/MQ
+	owQHl5RIcWpeSmpRYmlJRjwohuKLgVEk1cBoH3ltLt/y+Tkz6iUeJVz53SSaYqps6fXmLccT
+	Xb3OhHsLojKWuPxb+UpzGeezf5aRXgZvLJK9lMperI4OaGvljhb5XLyq/eDcYrnznT7vtmm+
+	usvwael/MWX/C7/1Pu19d0HmluuVbbEX//QoNF1JMHp4cfPU60/ljuW/fZe1fTv7zovG+qy1
+	SizFGYmGWsxFxYkADEyKdWoCAAA=
+Subject: [PATCH] scripts/lib/recipetool/create_npm.py: Fix npm uri_replace
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,25 +47,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 May 2017 13:01:27 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 19 May 2017 14:19:41 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, 2017-05-19 at 12:56 +0100, Burton, Ross wrote:
-> 
-> On 19 May 2017 at 10:02, Anders Darander <anders@chargestorm.se>
-> wrote:
-> > As fas as I can (in a recent kernel), whoami is only used in
-> > scripts/mkcompile_h. And there, it's only used if
-> > $KBUILD_BUILD_USER is
-> > empty. I'd rather see that we set $KBUILD_BUILD_USER to something
-> > deterministic in our kernel.bbclass.
-> > 
-> Definitely this.
+Currently bitbakes uri_replace compares "npm://*/*" to
+"npm://registry.npmjs.org".  The lack of the second / causes this to always=
+ fail.
+This results in things like mirror tarballs not functioning.
+This patch adds in a / to the link generated by npm://registry.npmjs.org.
 
-Agreed, I've mentioned this would be preferred already. I'm just living
-in hope someone sends a patch!
+Signed-off-by: Michael Davis <michael.davis@essvote.com>
+---
+ scripts/lib/recipetool/create_npm.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
--- 
-RP
+diff --git a/scripts/lib/recipetool/create_npm.py b/scripts/lib/recipetool/=
+create_npm.py
+index cb8f338..b54f539 100644
+--- a/scripts/lib/recipetool/create_npm.py
++++ b/scripts/lib/recipetool/create_npm.py
+@@ -126,7 +126,7 @@ class NpmRecipeHandler(RecipeHandler):
+                     for dep, depdata in deplist.items():
+                         version =3D depdata.get('version', None)
+                         if version:
+-                            url =3D 'npm://registry.npmjs.org;name=3D%s;ve=
+rsion=3D%s;subdir=3Dnode_modules/%s' % (dep, version, dep)
++                            url =3D 'npm://registry.npmjs.org/;name=3D%s;v=
+ersion=3D%s;subdir=3Dnode_modules/%s' % (dep, version, dep)
+                             scriptutils.fetch_uri(d, url, srctree)
+                             src_uri.append(url)
+                             changed =3D True
+--=20
+2.9.4
 
