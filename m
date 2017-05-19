@@ -1,26 +1,69 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 426B0780A8
+Return-Path: <anders@chargestorm.se>
+Received: from mail-wr0-f169.google.com (mail-wr0-f169.google.com
+	[209.85.128.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 6A23077E13
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 May 2017 08:57:20 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v4J8vJA1004042
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Fri, 19 May 2017 01:57:20 -0700
-Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.294.0; Fri, 19 May 2017 01:57:18 -0700
-From: <kai.kang@windriver.com>
-To: <ross.burton@intel.com>
-Date: Fri, 19 May 2017 16:52:47 +0800
-Message-ID: <7cea3331a7d6166f0c3327b491976588c492a699.1495183828.git.kai.kang@windriver.com>
-X-Mailer: git-send-email 2.10.1
-In-Reply-To: <cover.1495183828.git.kai.kang@windriver.com>
-References: <cover.1495183828.git.kai.kang@windriver.com>
+	Fri, 19 May 2017 09:02:33 +0000 (UTC)
+Received: by mail-wr0-f169.google.com with SMTP id w50so12695646wrc.0
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 19 May 2017 02:02:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=chargestorm-se.20150623.gappssmtp.com; s=20150623;
+	h=date:from:to:cc:subject:message-id:mail-followup-to:references
+	:mime-version:content-disposition:in-reply-to:organization
+	:user-agent; bh=9UQPpBL6nQM6kR6+9sFD5au6yEZIAThd4AEvKv4AU58=;
+	b=OkAU0Oy/mJqoz27k4flqc4eGn21saxj81J1B2pMLgEQwCCP0X+dWXqn5e4w+ERXcSR
+	Zd5PSLKIgs+nefdLtUq7ASryAaZIYUWjl4WQhw2CYIc9eQX8Kd+knN8cHORz02kjr5Fx
+	+IuAA7Hu7l+oby5+QIQXUo1el4JfRwQPTbLU/aOpwWMtHvfzvq1bwtdDu5YFmy80fJri
+	+xFY9kbHl6qWgcE/QUccUuFoaRm4ERFLIk+tT+TFUXZjGIIX9G+4Tf+kvzXXv1VGUCOZ
+	YUfKJjnrZdDLaS88ZOG25AATSc2lX0VpuuRK7mDv9FuVN4VmoqGBLF56dzX+0Az3Ag6Y
+	H9DQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:date:from:to:cc:subject:message-id
+	:mail-followup-to:references:mime-version:content-disposition
+	:in-reply-to:organization:user-agent;
+	bh=9UQPpBL6nQM6kR6+9sFD5au6yEZIAThd4AEvKv4AU58=;
+	b=Xx6abwkykjm47ZGYGO4iX4gAXwS+oG6Zlm/sA7IYPFGm162FP7KnAY8S2GlDwiHrPD
+	999HSIfZLqAuBEV/seZo/pTbaBb6/mE2uELalg2S8eHevoSnxUWmZ+qdZSuHG6JEeX+s
+	hRYZsLn353XjVncr1n3g9PwsLhtpxiSNgBNlMqSxFG0BjW4y/Xl0nnI+aoKI2nRdFcQM
+	4mCF7qNpoLNec15l8rx8MI6PPn+Lrgj1MTL3ktUVu6wsxnT/GMGlqUfgZeRpOC/jWlAm
+	ZKHpQiHi963yXWAF/81Kw94XmIA+gIuDoGJKd7ypFAjiAKzLGutprjP8o0V0ZfpZX157
+	OHNw==
+X-Gm-Message-State: AODbwcB4VsZtjp7I9DNOkArOPMwuBUASRf5lvpSi57yxh3ko96y2XkNr
+	9g+uuoiftlAJaofD
+X-Received: by 10.46.13.2 with SMTP id 2mr2307556ljn.93.1495184554906;
+	Fri, 19 May 2017 02:02:34 -0700 (PDT)
+Received: from ad.chargestorm.se (194-237-220-218.customer.telia.com.
+	[194.237.220.218])
+	by smtp.gmail.com with ESMTPSA id v70sm831345lfa.61.2017.05.19.02.02.33
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Fri, 19 May 2017 02:02:33 -0700 (PDT)
+Date: Fri, 19 May 2017 11:02:32 +0200
+From: Anders Darander <anders@chargestorm.se>
+To: Khem Raj <raj.khem@gmail.com>
+Message-ID: <20170519090232.5z53crs2ocxbbvno@ad.chargestorm.se>
+Mail-Followup-To: Khem Raj <raj.khem@gmail.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>, 
+	bruce.ashfield@windriver.com
+References: <1495146527-32073-1-git-send-email-jose.a.lamego@linux.intel.com>
+	<1495146527-32073-2-git-send-email-jose.a.lamego@linux.intel.com>
+	<1495149157.27342.142.camel@linuxfoundation.org>
+	<CAMKF1so_wFUH=eNqBc_Qhach4+C1mW73ZFUuK=TqLaYZ81C=Hg@mail.gmail.com>
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/2] dhcp: build shared libraries
+In-Reply-To: <CAMKF1so_wFUH=eNqBc_Qhach4+C1mW73ZFUuK=TqLaYZ81C=Hg@mail.gmail.com>
+X-Accept-Language: sv, en, de
+X-GPG-Fingerprint: 5AF0 B2E9 78FE 9D75 D110  6F8F 3E31 84D7 920E 938C
+X-GPG-Key-Id: 0x920E938C
+X-GPG-Keyserver: hkp://keys.gnupg.net
+Organization: ChargeStorm AB
+User-Agent: NeoMutt/20170306 (1.8.0)
+Cc: bruce.ashfield@windriver.com,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2] conf/bitbake.conf: include ed in hosttools
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,263 +76,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 May 2017 08:57:21 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 19 May 2017 09:02:36 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-From: Kai Kang <kai.kang@windriver.com>
+* Khem Raj <raj.khem@gmail.com> [170519 01:17]:
 
-When enable bind threads support, it fails to compile dhcp:
+> On Thu, May 18, 2017 at 4:12 PM, Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+> > On Thu, 2017-05-18 at 17:28 -0500, Jose Lamego wrote:
+> >> Some recipes build fail due to missing ed command.
 
-| tmp/work/armv5e-poky-linux-gnueabi/bind/9.10.3-P3-r0/build/lib/isc/pthreads/../../../
-| ../bind-9.10.3-P3/lib/isc/pthreads/thread.c:64: undefined reference to `pthread_create'
+> >> This change includes ed to the hosttools required to
+> >> run builds with oe-core.
 
-Enable build shared libraries for bind and dhcp to fix the build
-failure. And the patch is ported from Fedora.
+> >> Signed-off-by: Jose Lamego <jose.a.lamego@linux.intel.com>
+> >> Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.in
+> >> tel.com>
 
-Add sub-package dhcp-libs to package shared libraries.
+> > We really don't want to add ed here. Which recipes are failing and why
+> > do we need ed to build them?
 
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
----
- meta/recipes-connectivity/dhcp/dhcp.inc            |   6 +-
- .../dhcp/dhcp/build-shared-libs.patch              | 186 +++++++++++++++++++++
- meta/recipes-connectivity/dhcp/dhcp_4.3.5.bb       |   1 +
- 3 files changed, 191 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-connectivity/dhcp/dhcp/build-shared-libs.patch
+> we also need whoami which kernel uses to identify the build user id
 
-diff --git a/meta/recipes-connectivity/dhcp/dhcp.inc b/meta/recipes-connectivity/dhcp/dhcp.inc
-index aafdd0a..969fdcb 100644
---- a/meta/recipes-connectivity/dhcp/dhcp.inc
-+++ b/meta/recipes-connectivity/dhcp/dhcp.inc
-@@ -46,7 +46,7 @@ EXTRA_OECONF = "--with-srv-lease-file=${localstatedir}/lib/dhcp/dhcpd.leases \
-                 --with-cli-lease-file=${localstatedir}/lib/dhcp/dhclient.leases \
-                 --with-cli6-lease-file=${localstatedir}/lib/dhcp/dhclient6.leases \
-                 --with-libbind=${STAGING_LIBDIR}/ \
--                --enable-paranoia \
-+                --enable-paranoia --disable-static \
-                 --with-randomdev=/dev/random \
-                "
- 
-@@ -82,12 +82,14 @@ do_install_append () {
-        sed -i -e 's,@SYSCONFDIR@,${sysconfdir},g' ${D}${systemd_unitdir}/system/dhcrelay.service
- }
- 
--PACKAGES += "dhcp-server dhcp-server-config dhcp-client dhcp-relay dhcp-omshell"
-+PACKAGES += "dhcp-libs dhcp-server dhcp-server-config dhcp-client dhcp-relay dhcp-omshell"
- 
- FILES_${PN} = ""
- RDEPENDS_${PN}-dev = ""
- RDEPENDS_${PN}-staticdev = ""
- 
-+FILES_${PN}-libs = "${libdir}/libdhcpctl.so.0* ${libdir}/libomapi.so.0*"
-+
- FILES_${PN}-server = "${sbindir}/dhcpd ${sysconfdir}/init.d/dhcp-server"
- RRECOMMENDS_${PN}-server = "dhcp-server-config"
- 
-diff --git a/meta/recipes-connectivity/dhcp/dhcp/build-shared-libs.patch b/meta/recipes-connectivity/dhcp/dhcp/build-shared-libs.patch
-new file mode 100644
-index 0000000..0b3d6e4
---- /dev/null
-+++ b/meta/recipes-connectivity/dhcp/dhcp/build-shared-libs.patch
-@@ -0,0 +1,186 @@
-+Upstream-Status: Pending
-+
-+Port patches from Fedora to build shared libs rather than static libs.
-+
-+Signed-off-by: Kai Kang <kai.kang@windriver.com>
-+---
-+diff --git a/client/Makefile.am b/client/Makefile.am
-+index 84d8131..e776bf0 100644
-+--- a/client/Makefile.am
-++++ b/client/Makefile.am
-+@@ -15,7 +15,7 @@ dhclient_SOURCES = $(srcdir)/clparse.c $(srcdir)/dhclient.c $(srcdir)/dhc6.c \
-+ 		   scripts/bsdos scripts/freebsd scripts/linux scripts/macos \
-+ 		   scripts/netbsd scripts/nextstep scripts/openbsd \
-+ 		   scripts/solaris scripts/openwrt
-+-dhclient_LDADD = ../common/libdhcp.a ../omapip/libomapi.a $(BINDLIBDIR)/libirs.a \
-+-		 $(BINDLIBDIR)/libdns.a $(BINDLIBDIR)/libisccfg.a $(BINDLIBDIR)/libisc.a
-++dhclient_LDADD = ../common/libdhcp.a ../omapip/libomapi.la \
-++		  -L$(BINDLIBDIR) -lirs -ldns -lisccfg -lisc
-+ man_MANS = dhclient.8 dhclient-script.8 dhclient.conf.5 dhclient.leases.5
-+ EXTRA_DIST = $(man_MANS)
-+diff --git a/common/tests/Makefile.am b/common/tests/Makefile.am
-+index 05cd9c1..ab7a5a3 100644
-+--- a/common/tests/Makefile.am
-++++ b/common/tests/Makefile.am
-+@@ -15,26 +15,23 @@ ATF_TESTS += alloc_unittest dns_unittest misc_unittest ns_name_unittest
-+ alloc_unittest_SOURCES = test_alloc.c $(top_srcdir)/tests/t_api_dhcp.c
-+ alloc_unittest_LDADD = $(ATF_LDFLAGS)
-+ alloc_unittest_LDADD += ../libdhcp.a  \
-+-	../../omapip/libomapi.a $(BINDLIBDIR)/libirs.a \
-+-	$(BINDLIBDIR)/libdns.a $(BINDLIBDIR)/libisccfg.a  $(BINDLIBDIR)/libisc.a
-++	../../omapip/libomapi.la -L$(BINDLIBDIR) -ldns -lisccfg -lisc
-+ 
-+ dns_unittest_SOURCES = dns_unittest.c $(top_srcdir)/tests/t_api_dhcp.c
-+ dns_unittest_LDADD = $(ATF_LDFLAGS)
-+ dns_unittest_LDADD += ../libdhcp.a  \
-+-	../../omapip/libomapi.a $(BINDLIBDIR)/libirs.a \
-+-	$(BINDLIBDIR)/libdns.a $(BINDLIBDIR)/libisccfg.a  $(BINDLIBDIR)/libisc.a
-++	../../omapip/libomapi.la -L$(BINDLIBDIR) -ldns -lisccfg -lisc
-+ 
-+ misc_unittest_SOURCES = misc_unittest.c $(top_srcdir)/tests/t_api_dhcp.c
-+ misc_unittest_LDADD = $(ATF_LDFLAGS)
-+ misc_unittest_LDADD += ../libdhcp.a  \
-+-	../../omapip/libomapi.a $(BINDLIBDIR)/libirs.a \
-+-	$(BINDLIBDIR)/libdns.a $(BINDLIBDIR)/libisccfg.a  $(BINDLIBDIR)/libisc.a
-++	../../omapip/libomapi.la -L$(BINDLIBDIR) -ldns -lisccfg -lisc
-+ 
-+ ns_name_unittest_SOURCES = ns_name_test.c $(top_srcdir)/tests/t_api_dhcp.c
-+ ns_name_unittest_LDADD = $(ATF_LDFLAGS)
-+ ns_name_unittest_LDADD += ../libdhcp.a  \
-+-	../../omapip/libomapi.a $(BINDLIBDIR)/libirs.a \
-+-	$(BINDLIBDIR)/libdns.a $(BINDLIBDIR)/libisccfg.a  $(BINDLIBDIR)/libisc.a
-++	../../omapip/libomapi.a -L$(BINDLIBDIR) \
-++	-ldns -lisccfg -lisc
-+ 
-+ check: $(ATF_TESTS)
-+ 	-cp -n $(top_srcdir)/common/tests/Atffile Atffile
-+diff --git a/configure.ac b/configure.ac
-+index 1684df1..dadc3f1 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -47,16 +47,8 @@ AM_CONDITIONAL(CROSS_COMPILING, test "$cross_compiling" = "yes")
-+ # Use this to define _GNU_SOURCE to pull in the IPv6 Advanced Socket API.
-+ AC_USE_SYSTEM_EXTENSIONS
-+ 
-+-AC_PROG_RANLIB
-+-
-+-AC_PATH_PROG(AR, ar)
-+-AC_SUBST(AR)
-+-
-+-if test "X$AR" = "X"; then
-+-	AC_MSG_ERROR([
-+-ar program not found.  Please fix your PATH to include the directory in
-+-which ar resides, or set AR in the environment with the full path to ar.])
-+-fi
-++# Use libtool to simplify building of shared libraries
-++AC_PROG_LIBTOOL
-+ 
-+ AC_CONFIG_HEADERS([includes/config.h])
-+ 
-+diff --git a/dhcpctl/Makefile.am b/dhcpctl/Makefile.am
-+index 9b2486e..784cdf7 100644
-+--- a/dhcpctl/Makefile.am
-++++ b/dhcpctl/Makefile.am
-+@@ -3,19 +3,17 @@ BINDLIBDIR = @BINDDIR@
-+ AM_CPPFLAGS = -I$(top_srcdir)/includes -I$(top_srcdir)
-+ 
-+ bin_PROGRAMS = omshell
-+-lib_LIBRARIES = libdhcpctl.a
-++lib_LTLIBRARIES = libdhcpctl.la
-+ noinst_PROGRAMS = cltest
-+ man_MANS = omshell.1 dhcpctl.3
-+ EXTRA_DIST = $(man_MANS)
-+ 
-+ omshell_SOURCES = omshell.c
-+-omshell_LDADD = libdhcpctl.a ../common/libdhcp.a ../omapip/libomapi.a \
-+-	        $(BINDLIBDIR)/libirs.a $(BINDLIBDIR)/libdns.a \
-+-	        $(BINDLIBDIR)/libisccfg.a $(BINDLIBDIR)/libisc.a
-++omshell_LDADD = libdhcpctl.la ../common/libdhcp.a ../omapip/libomapi.la \
-++	        -L$(BINDLIBDIR) -lirs -ldns -lisccfg -lisc
-+ 
-+-libdhcpctl_a_SOURCES = dhcpctl.c callback.c remote.c
-++libdhcpctl_la_SOURCES = dhcpctl.c callback.c remote.c
-+ 
-+ cltest_SOURCES = cltest.c
-+-cltest_LDADD = libdhcpctl.a ../common/libdhcp.a ../omapip/libomapi.a \
-+-	       $(BINDLIBDIR)/libirs.a $(BINDLIBDIR)/libdns.a \
-+-               $(BINDLIBDIR)/libisccfg.a $(BINDLIBDIR)/libisc.a
-++cltest_LDADD = libdhcpctl.la ../common/libdhcp.a ../omapip/libomapi.la \
-++	       -L$(BINDLIBDIR) -lirs -ldns -lisccfg -lisc
-+diff --git a/omapip/Makefile.am b/omapip/Makefile.am
-+index e4a8599..c0c7a1e 100644
-+--- a/omapip/Makefile.am
-++++ b/omapip/Makefile.am
-+@@ -1,10 +1,10 @@
-+ BINDLIBDIR = @BINDDIR@
-+ AM_CPPFLAGS = -I$(top_srcdir)/includes
-+ 
-+-lib_LIBRARIES = libomapi.a
-++lib_LTLIBRARIES = libomapi.la
-+ noinst_PROGRAMS = svtest
-+ 
-+-libomapi_a_SOURCES = protocol.c buffer.c alloc.c result.c connection.c \
-++libomapi_la_SOURCES = protocol.c buffer.c alloc.c result.c connection.c \
-+ 		     errwarn.c listener.c dispatch.c generic.c support.c \
-+ 		     handle.c message.c convert.c hash.c auth.c inet_addr.c \
-+ 		     array.c trace.c toisc.c iscprint.c isclib.c
-+@@ -13,6 +13,5 @@ man_MANS = omapi.3
-+ EXTRA_DIST = $(man_MANS)
-+ 
-+ svtest_SOURCES = test.c
-+-svtest_LDADD = libomapi.a $(BINDLIBDIR)/libirs.a $(BINDLIBDIR)/libdns.a \
-+-		$(BINDLIBDIR)/libisccfg.a $(BINDLIBDIR)/libisc.a
-++svtest_LDADD = libomapi.la -L$(BINDLIBDIR) -lirs -ldns -lisccfg -lisc
-+ 
-+diff --git a/relay/Makefile.am b/relay/Makefile.am
-+index b3bf578..f47009f 100644
-+--- a/relay/Makefile.am
-++++ b/relay/Makefile.am
-+@@ -4,9 +4,8 @@ AM_CPPFLAGS = -DLOCALSTATEDIR='"@localstatedir@"' -I$(top_srcdir)/includes
-+ 
-+ sbin_PROGRAMS = dhcrelay
-+ dhcrelay_SOURCES = dhcrelay.c
-+-dhcrelay_LDADD = ../common/libdhcp.a ../omapip/libomapi.a \
-+-		 $(BINDLIBDIR)/libirs.a $(BINDLIBDIR)/libdns.a \
-+-		 $(BINDLIBDIR)/libisccfg.a $(BINDLIBDIR)/libisc.a
-++dhcrelay_LDADD = ../common/libdhcp.a ../omapip/libomapi.la \
-++		 -L$(BINDLIBDIR) -lirs -ldns -lisccfg -lisc
-+ man_MANS = dhcrelay.8
-+ EXTRA_DIST = $(man_MANS)
-+ 
-+diff --git a/server/Makefile.am b/server/Makefile.am
-+index b5d8c2d..d7f876d 100644
-+--- a/server/Makefile.am
-++++ b/server/Makefile.am
-+@@ -15,10 +15,9 @@ dhcpd_SOURCES = dhcpd.c dhcp.c bootp.c confpars.c db.c class.c failover.c \
-+ 		dhcpv6.c mdb6.c ldap.c ldap_casa.c leasechain.c ldap_krb_helper.c
-+ 
-+ dhcpd_CFLAGS = $(LDAP_CFLAGS)
-+-dhcpd_LDADD = ../common/libdhcp.a ../omapip/libomapi.a \
-+-	      ../dhcpctl/libdhcpctl.a $(BINDLIBDIR)/libirs.a \
-+-	      $(BINDLIBDIR)/libdns.a $(BINDLIBDIR)/libisccfg.a \
-+-	      $(BINDLIBDIR)/libisc.a $(LDAP_LIBS)
-++dhcpd_LDADD = ../common/libdhcp.a ../omapip/libomapi.la \
-++	      ../dhcpctl/libdhcpctl.la -L$(BINDLIBDIR) \
-++	      -lirs -ldns -lisccfg -lisc $(LDAP_LIBS)
-+ 
-+ man_MANS = dhcpd.8 dhcpd.conf.5 dhcpd.leases.5
-+ EXTRA_DIST = $(man_MANS)
-+diff --git a/server/tests/Makefile.am b/server/tests/Makefile.am
-+index 2892309..056978b 100644
-+--- a/server/tests/Makefile.am
-++++ b/server/tests/Makefile.am
-+@@ -19,10 +19,9 @@ DHCPSRC = ../dhcp.c ../bootp.c ../confpars.c ../db.c ../class.c      \
-+           ../ddns.c ../dhcpleasequery.c ../dhcpv6.c ../mdb6.c        \
-+           ../ldap.c ../ldap_casa.c ../dhcpd.c ../leasechain.c
-+ 
-+-DHCPLIBS = $(top_builddir)/common/libdhcp.a $(top_builddir)/omapip/libomapi.a \
-+-          $(top_builddir)/dhcpctl/libdhcpctl.a $(BINDLIBDIR)/libirs.a \
-+-	  $(BINDLIBDIR)/libdns.a $(BINDLIBDIR)/libisccfg.a \
-+-	  $(BINDLIBDIR)/libisc.a
-++DHCPLIBS = $(top_builddir)/common/libdhcp.a $(top_builddir)/omapip/libomapi.la \
-++          $(top_builddir)/dhcpctl/libdhcpctl.la \
-++          -L$(BINDLIBDIR) -lirs -ldns -lisccfg -lisc
-+ 
-+ ATF_TESTS =
-+ if HAVE_ATF
-diff --git a/meta/recipes-connectivity/dhcp/dhcp_4.3.5.bb b/meta/recipes-connectivity/dhcp/dhcp_4.3.5.bb
-index 678c29a..0a73ecc 100644
---- a/meta/recipes-connectivity/dhcp/dhcp_4.3.5.bb
-+++ b/meta/recipes-connectivity/dhcp/dhcp_4.3.5.bb
-@@ -9,6 +9,7 @@ SRC_URI += "file://dhcp-3.0.3-dhclient-dbus.patch;striplevel=0 \
-             file://libxml2-configure-argument.patch \
-             file://tweak-to-support-external-bind.patch \
-             file://remove-dhclient-script-bash-dependency.patch \
-+            file://build-shared-libs.patch \
-            "
- 
- SRC_URI[md5sum] = "2b5e5b2fa31c2e27e487039d86f83d3f"
+
+No, we don't want to add whoami...
+
+As fas as I can (in a recent kernel), whoami is only used in
+scripts/mkcompile_h. And there, it's only used if $KBUILD_BUILD_USER is
+empty. I'd rather see that we set $KBUILD_BUILD_USER to something
+deterministic in our kernel.bbclass.
+
+Cheers,
+Anders
+
 -- 
-2.10.1
-
+Anders Darander, Senior System Architect
+ChargeStorm AB / eStorm AB
 
