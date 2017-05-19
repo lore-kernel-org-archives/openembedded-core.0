@@ -1,53 +1,48 @@
 Return-Path: <max.oss.09@gmail.com>
-Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 4F87177F99
+Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 7D21077F99
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 May 2017 16:08:52 +0000 (UTC)
-Received: by mail-wm0-f68.google.com with SMTP id d127so19127080wmf.1
+	Fri, 19 May 2017 16:21:32 +0000 (UTC)
+Received: by mail-wm0-f65.google.com with SMTP id b84so3362529wmh.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 May 2017 09:08:54 -0700 (PDT)
+	Fri, 19 May 2017 09:21:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=x+TjlJsTCtuHCJx8Tunj9AlEJwspyu3lufTqztyDCZw=;
-	b=so28+AqUdR5yrcq4XICbOmpMVPrGNbqUKjnQ4A/5XmTRqylAV5f6wXa96MN2UCba5P
-	tRBRdceaq6d3Bj6wYep70OeumX7ltMJvM/1/2OjRTySIE/12ro3ZlT8jR3AeV5vMCRKV
-	EGifLivK3NS5cp5MOGicFe5U+cTbOsiaBRXtWgjuxFRKbfp4bLR9FxmZms/DKb3sIJwq
-	TqexGdsISL+WWH4+/Qbo5gvcLIU6p3Rg9rM90XZJeQ4Ton7TqzfmssDu1vo0ouZwi2KV
-	mWlR/Xk7L/0Y1gmAPRb5KPaNlmcFWc4sV9wKvXO9UAXxvnQlKxyvCmjSKpnDO3jQTxwl
-	S4Qg==
+	h=from:to:cc:subject:date:message-id;
+	bh=r5J7Um9no27Bl+2LCtGvDlbRzGzbtkzouFLT+kstPSk=;
+	b=DbVpFOkXHQKv0DqsegmlU02NWlORxIL8+t1ODMkUe5J98JvZRfu38kw5FEvI/UV64s
+	PIFHfDN7Isi8c7Umb5lbRLKFdN3qHMl4GY2wGYW9BfBvJQx9xL1r/g9fobDp1hM3Er+z
+	iRJC/gJ/nX/G+J9XUk8Fp1wpKgN4Ph+Q6kIWlW3SGUzau8//aswrWPgBmKH3brDeyejI
+	rkIEVXiFHUQQBUliFitXI+I0JKcqmx81snOavFLdFzQxpp01mHaA9kqTl09zHnqsNXUf
+	wnTS4M+GBaIo1GjdX7wOAqJYbB3dfsqwm++NXFhIR/z6nqhXv+mVCprDNsu53ICy7wGh
+	tUaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=x+TjlJsTCtuHCJx8Tunj9AlEJwspyu3lufTqztyDCZw=;
-	b=V+5ptKYoDaFhPGQLnHFPBNh8H507L9ZBhofLn7s0LrxkyyNxkbEYxjBfik4zSASicx
-	ytD4Va+9eOFRNj5vQ49GqelrJKVP6X85sBVVDRFHq/naE6eCGfo7902i/yM23y2WodpW
-	9bjnDja2bUokXdPE+AcKSKcG5QJgHpW+3Tp20PyYsx9/i3thiIClAzNyPmArFo2K9C07
-	kobGZ2y5/D2EdhCancthEDbir1q9ktFvl/sDfcQOHiYGTp+SixIrAiv5XmsPz5ns429+
-	5/vBqTlrfzkoUB9Wp0MQKpiFdTa/OCnS/xPI5q9oHMxUjhZDbT1RXkXgVTuD/oN7MK3O
-	3Q+w==
-X-Gm-Message-State: AODbwcCIPFCsnNQq9NRFSklPWy485tgdL3KjfHVxRbM1W/Ud4t79HQS2
-	6ZQHwauZFc47jA==
-X-Received: by 10.28.61.215 with SMTP id k206mr7598230wma.133.1495210134020;
-	Fri, 19 May 2017 09:08:54 -0700 (PDT)
-Received: from Saturn.local.all (138-14-48-195.pool.dsl-net.ch.
-	[195.48.14.138]) by smtp.gmail.com with ESMTPSA id
-	e83sm26357271wmc.28.2017.05.19.09.08.53
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=r5J7Um9no27Bl+2LCtGvDlbRzGzbtkzouFLT+kstPSk=;
+	b=kP+uEzwWYlqgkFAWf3gv8YwQHAPzUtW3O2ZKaX2Hlp8pPjh1JHqDuMPtIo/Cle/msj
+	mH+BOUY53Xvt7LXo1nPibORWtOKwYBp/AJqlQmwYd3RMimu3mPIcRAYMr5zTeI/fOVoh
+	hbVJ//qlgsZC0tJBgzkNu9Yrn50QK0hPoEZ6K0IIVSOa5upEX+B0C5qYRMI2gHwTEjnZ
+	MejUEb9pfl8kWsMr+EH9uFpJg84gUlnM68ijXphudbf3erbdUGkbDzzkoXUjVww/yE/t
+	Tqwd6kf4Fq7ujR8N2F6GfuDXmeH/OKv2+/kNw8rTDKhi6757C502PLNl85edC0zQF59g
+	a7VA==
+X-Gm-Message-State: AODbwcAcpdFm5IHMGX2GGLj24ro3sTRtHKFKDZ4y4QaUzys2D/4+Z6zf
+	UDqW2DgdFhGV6Q==
+X-Received: by 10.28.29.17 with SMTP id d17mr7644938wmd.90.1495210893266;
+	Fri, 19 May 2017 09:21:33 -0700 (PDT)
+Received: from linuxdev.toradex.int ([46.140.72.82])
+	by smtp.gmail.com with ESMTPSA id
+	137sm10139541wmi.19.2017.05.19.09.21.32
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 19 May 2017 09:08:53 -0700 (PDT)
-Message-ID: <1495210132.3247.7.camel@gmail.com>
+	Fri, 19 May 2017 09:21:32 -0700 (PDT)
 From: Max Krummenacher <max.oss.09@gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 19 May 2017 18:08:52 +0200
-In-Reply-To: <CAJTo0Lbf1u7b+X6JTH-S+n+N80OSkFGcZnvoRnAKBgcqQ2q6xg@mail.gmail.com>
-References: <20170519154856.21505-1-max.krummenacher@toradex.com>
-	<CAJTo0Lbf1u7b+X6JTH-S+n+N80OSkFGcZnvoRnAKBgcqQ2q6xg@mail.gmail.com>
-X-Mailer: Evolution 3.16.5 
-Mime-Version: 1.0
-Cc: Max Krummenacher <max.krummenacher@toradex.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] libsolv: don't pick up bundled db from host rpm
+X-Google-Original-From: Max Krummenacher <max.krummenacher@toradex.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 19 May 2017 18:20:39 +0200
+Message-Id: <20170519162041.28339-1-max.krummenacher@toradex.com>
+X-Mailer: git-send-email 2.9.3
+Cc: Stefan Agner <stefan.agner@toradex.com>,
+	Max Krummenacher <max.krummenacher@toradex.com>
+Subject: [PATCH 1/3] dpkg-configure: do not reload daemon configuration
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,32 +55,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 May 2017 16:08:53 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 19 May 2017 16:21:32 -0000
 
-Am Freitag, den 19.05.2017, 16:51 +0100 schrieb Burton, Ross:
-> On 19 May 2017 at 16:48, Max Krummenacher <max.oss.09@gmail.com> wrote:
-> 
-> > +Upstream-Status: Inappropriate [oe build specific]
-> > 
-> 
-> Is this really inappropriate?  We're finding a bug in the build system but
-> that doesn't mean we're the cause of the breakage.
+In case a systemd service disables itself while init is still in its
+boot sequence the reloading of the service files can be problematic.
+In that case: It seems that systemd can loose the state of .device units,
+and some services depend on such units (namely serial consoles such as
+serial-getty@ttyS0.service). As a result no getty is spawned on the
+affected serial tty.
+After a power-cycle the second boot (which does not disable services)
+succeeds.
 
-Yes, I think so.
+The following sequence shows this problem:
 
-In the OE setup we have our own sysroot with a variant of rpm-devel and the build host has one in
-/usr/...
+| Jan 09 16:36:28 apalis-t30 systemctl[162]: Removed /etc/systemd/system/sysinit.target.wants/run-postinsts.service.
+| Jan 09 16:36:28 apalis-t30 systemd[1]: Reloading.
+|    ...
+|    And then the failing one:
+| Feb 22 15:33:15 apalis-t30 systemd[1]: dev-ttyS0.device: Job dev-ttyS0.device/start timed out.
+| Feb 22 15:33:15 apalis-t30 systemd[1]: Timed out waiting for device dev-ttyS0.device.
+| Feb 22 15:33:15 apalis-t30 systemd[1]: Dependency failed for Serial Getty on ttyS0.
+| Feb 22 15:33:15 apalis-t30 systemd[1]: serial-getty@ttyS0.service: Job serial-getty@ttyS0.service/start failed with result 'dependency'.
+| Feb 22 15:33:15 apalis-t30 systemd[1]: dev-ttyS0.device: Job dev-ttyS0.device/start failed with result 'timeout'.
+| Feb 22 15:33:15 apalis-t30 systemd[1]: Reached target Login Prompts.
 
-I think that upstream need not assume that it is configured on a build host where it sees two
-differently configured rpm development packages.
+(the time has been updated between this two events, but that does not
+influence the issue)
 
-For my approach to work the bundled Berkely db must provide the function db_create_rpmdb which is
-more likely to change than the filename db.h.
+Using --no-reload in the service file avoids the "Reloading." message
+above and seems to not cause such issues anymore.
 
-Max
+Signed-off-by: Stefan Agner <stefan.agner@toradex.com>
+Signed-off-by: Max Krummenacher <max.krummenacher@toradex.com>
+---
+ meta/recipes-devtools/dpkg/dpkg/dpkg-configure.service | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> 
-> Ross
+diff --git a/meta/recipes-devtools/dpkg/dpkg/dpkg-configure.service b/meta/recipes-devtools/dpkg/dpkg/dpkg-configure.service
+index f0b0789..9a248cc 100644
+--- a/meta/recipes-devtools/dpkg/dpkg/dpkg-configure.service
++++ b/meta/recipes-devtools/dpkg/dpkg/dpkg-configure.service
+@@ -8,7 +8,7 @@ Before=sysinit.target
+ Type=oneshot
+ EnvironmentFile=-@SYSCONFDIR@/default/postinst
+ ExecStart=-@BASE_BINDIR@/sh -c " if [ $POSTINST_LOGGING = '1' ]; then @BINDIR@/dpkg --configure -a > $LOGFILE 2>&1; else @BINDIR@/dpkg --configure -a; fi"
+-ExecStartPost=@BASE_BINDIR@/systemctl disable dpkg-configure.service
++ExecStartPost=@BASE_BINDIR@/systemctl --no-reload disable dpkg-configure.service
+ StandardOutput=syslog
+ RemainAfterExit=No
+ 
+-- 
+2.9.3
+
 
