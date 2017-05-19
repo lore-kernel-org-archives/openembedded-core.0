@@ -1,24 +1,120 @@
-Return-Path: <joe.slater@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 4D163780E6
+Return-Path: <haris.okanovic@ni.com>
+Received: from mx0b-00010702.pphosted.com (mx0a-00010702.pphosted.com
+	[148.163.156.75])
+	by mail.openembedded.org (Postfix) with ESMTP id 4479B601D3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 May 2017 20:25:19 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v4JKPH1h017922
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 May 2017 13:25:17 -0700 (PDT)
-Received: from ala-jslater-lx3.wrs.com (147.11.152.42) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.294.0; Fri, 19 May 2017 13:25:16 -0700
-From: Joe Slater <jslater@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 19 May 2017 13:25:16 -0700
-Message-ID: <1495225516-14696-1-git-send-email-jslater@windriver.com>
-X-Mailer: git-send-email 1.7.3.4
+	Fri, 19 May 2017 21:45:31 +0000 (UTC)
+Received: from pps.filterd (m0098781.ppops.net [127.0.0.1])
+	by mx0a-00010702.pphosted.com (8.16.0.20/8.16.0.20) with SMTP id
+	v4JLfvsm001711; Fri, 19 May 2017 16:45:32 -0500
+Received: from nam01-sn1-obe.outbound.protection.outlook.com
+	(mail-sn1nam01lp0115.outbound.protection.outlook.com
+	[207.46.163.115])
+	by mx0a-00010702.pphosted.com with ESMTP id 2aj89j83cn-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
+	Fri, 19 May 2017 16:45:32 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=nio365.onmicrosoft.com; s=selector1-ni-com;
+	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
+	bh=BBOqk2m4cpZgh2NEFqF+VBip3p7f33GBJK7RkLybdXs=;
+	b=EXU0hRSIR2UiBkEPFIh/QokeG3/IAzbIqcG4CdY6H1AblURwCUdzQDNlmsZoDeFFKpC9X//Ioe3FXady6fOxeDZga6bXKWetEpuopt+TbzQmt1IbQx1fxG0dz8G2SCvpvUZhDjejt9dP61aDK/aSEBkgjaqGVLFhXes3C0AWPLo=
+Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
+	header.d=none; lists.openembedded.org;
+	dmarc=none action=none header.from=ni.com;
+Received: from harisdt.amer.corp.natinst.com (130.164.62.171) by
+	DM5PR04MB0701.namprd04.prod.outlook.com (10.172.187.143) with Microsoft
+	SMTP Server (version=TLS1_2,
+	cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+	15.1.1101.14; Fri, 19 May 2017 21:34:28 +0000
+To: Martin Jansa <martin.jansa@gmail.com>
+References: <20170519150121.7707-1-haris.okanovic@ni.com>
+	<20170519172941.GA3094@jama>
+From: Haris Okanovic <haris.okanovic@ni.com>
+Message-ID: <a94b3628-181c-98a8-643c-52931aceada7@ni.com>
+Date: Fri, 19 May 2017 16:34:24 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.8.0
 MIME-Version: 1.0
-Subject: [PATCH 1/1] ghostscript: move to version 9.21
+In-Reply-To: <20170519172941.GA3094@jama>
+X-Originating-IP: [130.164.62.171]
+X-ClientProxiedBy: CO2PR07CA0060.namprd07.prod.outlook.com (10.174.192.28) To
+	DM5PR04MB0701.namprd04.prod.outlook.com (10.172.187.143)
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM5PR04MB0701:
+X-MS-Office365-Filtering-Correlation-Id: 0c54d0c1-4995-4f85-9cbb-08d49efed441
+X-Microsoft-Antispam: UriScan:; BCL:0; PCL:0;
+	RULEID:(22001)(201703131423075)(201703031133081);
+	SRVR:DM5PR04MB0701; 
+X-Microsoft-Exchange-Diagnostics: 1; DM5PR04MB0701;
+	3:MK410fBbFgTOc5922aD7y3u1mqvpQ4CP/BmJxYoWMHNs+JHjpJSnov7iNdYStApuIQ/iqA0cVsMdn9bdbOXQZMrUlMgOViuYZi1mHPJkyd9re8+PxRD21vbhnG/ZU0BU3P4s0OQVffjt6FlK/Rkj09+AMKVw/Db8jC9773t9IzLlkF00+unMsK89J/Cv2Sa994tc2/pZGpow3RZEvRNTsIImk27ZVwwxKSeRMP9sUp4rnduTNrJJgtAz7kG3xZd4Kz4SzRmwRJ8hAB6JVsxtOjwdnAKM14nSP9UZWY5RqtmggUmCAm4DmRSEacf6S9Zjj59XQv3tkJpbODH8cStf3g==;
+	25:kwiAYRFlljN6sLC1jXKDDmeX+G9N1XK+pRvvpZw5ALYb1pVcuwGwrVrq66VvJtrVZnXFqFizuTDbKGNmXfJ29F8NF3jiP3UZ6szo/JmcMkgW6ME/sOQ3sqTPskzBSr10LEsGkIf1QTJiZ2yFbGyCOE8+NokmuerStj/osxjCUil6oEilKNRZKmhwmlrhu+japnuBA/7rwioGfMyxWSHxF7U4lb79dSpGsao/tX2+8lsiXcBS0ubUO9pP376PwWpD6NLHE7uAO2k0CwIR3FjU2L3EVyJizXBkQvHLggf4b+DTdtWsOMMPwhOtaBG9za/bZIGMuysQ9K9pX9w1zepRwvVZckxx2vo3X8x8J3JrlsRMui11KqujlITTx4iDeBir9bmHmHW0TArQ/cnOmuDniJVQW35fo2JsKJUpae2+qk4JhWe/YYfx6PurufUsDDPpr7sqsSQTvU6GT4RPcEwEaw3YBnIl39lZHUJfk2pFlBY=
+X-Microsoft-Exchange-Diagnostics: 1; DM5PR04MB0701;
+	31:uYP2KKZI4p7l40KJeOqaW1JiaxMkFnuQSeyfnVE8FvnEVRkZt+wOd7Edqos60yuT4Dtq4rEX5BoaX3BRdSbanoA1k6p7OaH+TBSwzdSR4FVVHb5ruvyzzQjOGLXLViH1UUSUw0M/AbyxQ9SEdwneZsZ3lBdkaOqIlIectOg19ETyb2JqBWtXOC2Nj6hqipCVXwta5O3NNgB7EMA05hUsWc6EiVoukDMH210daetHTZ8=;
+	20:uDaosnDVPrj2TJAoghZKN7KNZERpJzMRyb2Z6+2YED86SiQGWe5rj/qnK5EnlqfYv1ZW1vphcIqT2bXgonlPzw8pxJkVsaR0EsdKqxwlnn33pc/De+8fMa63D0uy78cP48AtiUL8+t0NS+tdALabI5Fi+XAAtC/zQFyXRco1aygtJQ5rCrIDTsKPxu25122KpYUHZWxM1nLdpwhhW5dz1TOXBzz8Pfy43n8DEdvda39Dl4iPEo8VhsYyDFt4rtjklLegAG208MOVUZNJvt/BesI0ZAwJNBBocRBhjED5zLdaxEU/+mgUS5hqTpxbf24yB6kcuQ7Di81Aikdcqz18dfSVAc9RYlwIBoNNUWRi0xBwy4QPbrAxhdCI6eYmJxx4kAkj9ETOR1RMoDOHjKArlTGFzj0htdLP3I6KO0cKR/3rSIdQU6b57/XHJnsAylkraSjNOgKDyhHcVi1P4yEnuX8VX4pVnXCZGicSQg3LP35xuHSHdUz3dugbYzkSiAz4SvyFIixn+kPlHdFdINV+RJpYdYYxY4nT7RVldCG6snMaZF1xdpg3xjYlNdHz9FyNM5A2iOCzZZ0yjy/n/R9MBpmYJsaGievIg3+NU8jbBwg=
+X-Microsoft-Antispam-PRVS: <DM5PR04MB0701A80796012AFCD901C1C2E5E50@DM5PR04MB0701.namprd04.prod.outlook.com>
+X-Exchange-Antispam-Report-Test: UriScan:(20558992708506)(264703809997249)(145744241990776); 
+X-Exchange-Antispam-Report-CFA-Test: BCL:0; PCL:0;
+	RULEID:(6040450)(601004)(2401047)(5005006)(8121501046)(93006095)(93001095)(10201501046)(3002001)(6041248)(20161123555025)(20161123564025)(20161123560025)(20161123558100)(20161123562025)(201703131423075)(201702281528075)(201703061421075)(201703061406153)(6072148);
+	SRVR:DM5PR04MB0701; BCL:0; PCL:0; RULEID:; SRVR:DM5PR04MB0701; 
+X-Microsoft-Exchange-Diagnostics: 1; DM5PR04MB0701;
+	4:3F5QGefptrMVMrROvlztsK50x7FT3sZAi+UQkvK4bS/o+sgyFMUfHvRjU3TyTxLk2F0AeCv2EGuhwZfnKKkHiS+uI+ZOnOfkxuH1pWWN1Jr6oU0jrCsAy22QWXaWxWOfB1f+kXfpUwYcheRin4A57S/VmM4J8g1FZMOTyQRd59yyXyL0qX2FDV9otJTsolwnIYB1IpDRfbLsUr5OoNUoGjOEX9cOgXUb5WdxVQ6lvNTdFToQ86yZ8Ey1vSLCLfMVBqm7t14R6USPiAoM1FQFfvTBwPrIEZpxIZeYhYMYnssRCt1kXxb0IMAKrqqohzt/loBVqOhr6YPejF2VGpCy9GXF8oB7N5lqN96vTdr7/FF6vnqiQMVmAjbndAzN+oIYmmOxjOqLDfI4JGI2hWFH8OuXaosZ5/Ek1Q63F4TmjdyBM/B7MU2ISacICpDZG5Fjslxw59GvCHPrLJHe9sqFriddhcjfxQLtTRuZCeAGPnht0rPIBOC/SvPwplGmR+BJLGVwh7SkNUpnnfMPsuh0/0cvw/mnXM/GEeToCPUZTidcA24hkH4L1+EX0EYPgLIyx7xtB1XW8VgTqvECdYAauaDK6NLg1OdKpEX22Ie6l+vGTgmhsY/LaUemDseC+cziW0NGYm2WwSn/d71PbEwNT/68QU1y3HgLhzuf/qMZFc9acJbkgos+zz8ry2FHCiWBe5qd7nSpwTfQb3lCcQ0W8ghTCQmcn+u/z/RB8gzIXcrdRO7MEJgHhDumdeb/lQPeZjaS1mMFIM8lEa2yh/Dy2u+qzMFrAgXAqKXFIBsv7TIAX9SyQLIomOZuFS/qHwmcfgpmLFWhSS3VQbIP0qk18pkgiIAUDIAO04uW2kC97VJ8nK0Xkl3UC0lwiwph2MRtdL4I/3yWy0b9JZ9KcEW83A==
+X-Forefront-PRVS: 031257FE13
+X-Forefront-Antispam-Report: SFV:NSPM;
+	SFS:(10019020)(4630300001)(6009001)(39840400002)(39400400002)(39450400003)(39410400002)(39850400002)(24454002)(377454003)(36756003)(66066001)(6486002)(65956001)(47776003)(53546009)(6512007)(6306002)(64126003)(5660300001)(23746002)(305945005)(966005)(6506006)(8676002)(4001350100001)(53936002)(189998001)(25786009)(83506001)(81166006)(50466002)(478600001)(110136004)(86362001)(42186005)(38730400002)(6246003)(65826007)(4326008)(230700001)(3846002)(229853002)(6116002)(31696002)(1720100001)(2906002)(31686004)(76176999)(6666003)(54356999)(2950100002)(33646002)(6916009)(50986999);
+	DIR:OUT; SFP:1102; SCL:1; SRVR:DM5PR04MB0701;
+	H:harisdt.amer.corp.natinst.com; FPR:; SPF:None; MLV:sfv;
+	LANG:en; 
+X-Microsoft-Exchange-Diagnostics: =?Windows-1252?Q?1; DM5PR04MB0701;
+	23:+JbROIXluLJ7S0v5gkNxvTo3dt9yxSdMAKFfP?=
+	=?Windows-1252?Q?UrhXAZrZOI4pKrSuPOzPSUypA0/lqk1AJkSjvD4dGOaEtXhuE6C4HwQm?=
+	=?Windows-1252?Q?vQ2HmV8v8reY89dWrbLn8DIa7/KXD8pF8S5fsSc4Gd/Sy3vu88wKFecO?=
+	=?Windows-1252?Q?icCdzsQPq4oqqmAHugSAw1Lu3XaXItRhKUtKsUAw1fjvMd1VnGKMW0yq?=
+	=?Windows-1252?Q?quAisAwA2T0ByZzTa3scKim6UFqvXuGmT7CYtZbM5knKhtL9hYy6V+M5?=
+	=?Windows-1252?Q?nEXLkmYePmicGASjbLeBW4AgdpQQXKWLDR+rz62Q/ocA3WQxE+ZxIaK5?=
+	=?Windows-1252?Q?QJV4np+R8XsDc2R9equ+57pEYi5dy5Vi7b35v4QArQPbXrBQDnCuzYm1?=
+	=?Windows-1252?Q?rDjkAaDH1koVrXF9EdzFBYW5rFDcgBGzXjyw9JnLjxOWtqVAonsoqYLR?=
+	=?Windows-1252?Q?pEN5zxktv6lPkcNu2p/y5E8+BKKpOSv8VE1DMB69ApSDrXF3v7qv3FKM?=
+	=?Windows-1252?Q?LCIX2WyM4wFSZfajc+lsMtidfoFwairksw5BBmXO4qQkg8w/ZkzbC8wb?=
+	=?Windows-1252?Q?ADCN+gQc/RryeSyL4iMFDcUn2IQafIxpg/N6FX2KntY8x4frcV+VWF+q?=
+	=?Windows-1252?Q?dLpBjGzbioU5EOpERSeuPlcP1I0gf7bSpOFZ3SuIwLqmLz1XRoTkoAcr?=
+	=?Windows-1252?Q?xoSO9TYEwYAsxd3bxUBN2nIh7bTq2SRVbIewbnbhP93BbrW/fu0Wq5VJ?=
+	=?Windows-1252?Q?QIBeLUiYhLRDUKMTNvhmN89qZL+koOhh2psSXNVO0Pey3l0MX3WBl1v/?=
+	=?Windows-1252?Q?qk+uDAmgK94bBAjSV1Xxunaw1BBlTjlitUPT7PCYaE8ADKK+eRd+KD4/?=
+	=?Windows-1252?Q?ric/YejH/KQ2JgiGAL1Ior2ZwgxKt/7m9LuYZrlNn+DG/I+fTH2Id3n1?=
+	=?Windows-1252?Q?7F/8XGnIEBULLqUwqOvSIp5nT3cYMSaENWNI29ienCqNXOId6p2wjCj5?=
+	=?Windows-1252?Q?HqRji0vUJDxbY/0OYXc/L69hxP+vU7LdfIjiJvLO67UYQeylGTJVU9js?=
+	=?Windows-1252?Q?6EctbmgTtVvncj6fWDA4rJ2k9o5nHkjg4mO751C1M1J3WJ0YyHvVbC6R?=
+	=?Windows-1252?Q?kug7gWZfxUuiaiAiHXeKjzQNSBuOy/pz1HTdS+RNESqQhI5z6ovM23zD?=
+	=?Windows-1252?Q?XK6cJL3m5E22qV4o9hdiYOL8EZGre3j+5ap5f8CWxyrV1Ggzc0PlkHgj?=
+	=?Windows-1252?Q?3ru9+6KeN1Z2BgAioabqzR5tRF/ayC2CgHl251Q4e2FiGfsk23q++Tji?=
+	=?Windows-1252?Q?AOK6oT10SUxKQNGefkM/RUHEl65Eb//jctKJbOuQh93taCWsO5TAwdUy?=
+	=?Windows-1252?Q?E0fouiipMAool6tSRbJuZ2gs0UNr5eisYgFICjFvsbeHu5tFf4pvJoUm?=
+	=?Windows-1252?Q?Q/W7TcgBfgWNFOPvPaP?=
+X-Microsoft-Exchange-Diagnostics: 1; DM5PR04MB0701;
+	6:drwskx1tDRxVk6rmv6R2TtUdqNZX9EpMxdAAn+hglrrqedge2eE/sMYvf4AaRTF7GZIZYN8Ij7hMM6mtKJrlDHe8yWEDhYA+9h7aRX51eyJ12uqmiCbyGYXEjB6Eb7mS6HsC7Ws/ewAv7GTYGrTkexDeUQaKfeCCa+LfywUlSjpngEvd4yaFUFU8CJnwCx+3VG5hpKvA2g2kCL/sy1Tu+1ITTRC38oBrnig2FiUW923CC9HS5kwHF+uQMFYXndjrOmj+/xBnxlZh32r6LyBeYY3sk5dXqljYDSoEr+4hS91cTOhAAWFD6CLiLRJDE0kn1EoskFWa85ylYNyfghd0++fehRN1mDKoyghQZhUFUSR8y7ILQPL2PBFR379u1B8qAfAw8gzc/aHSsxsemoWo81uhv62oIzV2+g6MG9X2hV9IFWm0YTrNkpvxpBH7pjfRiBGggoPhjA1HwIl5A2X5ELZPi2NUS6IjhPR0cwwt7naoXmvNEXUA1dcCFq12/8n4m6HXxOkVF951SBaFro0j+g==;
+	5:3qqjFboMYtkZB3zfBhdBMdKyCaM3CTKO948daJU6WS62diqg4wxn/yDdHrWPCZrA+rkA3jKp/XjNK4CpnKuywK9FddNhMDdKuD8OzYPrKW+7O6dq04G5qBRHVUAZDAciCdLyAChKGolMoHbYbp4obQ==;
+	24:Ql5sTdrQw+3jk1TiTEsHgqn2nwmEZiJGVyrVFnv9C3KOWaOL/K1dPKnyrSPIwi5+uvjEue7U6ctNfpoaSbI0naQBR2qEsubKfGQTfAyIx3Y=
+SpamDiagnosticOutput: 1:99
+SpamDiagnosticMetadata: NSPM
+X-Microsoft-Exchange-Diagnostics: 1; DM5PR04MB0701;
+	7:Mx9XUcCHs6WNHDQHj5BCcs0FbjIJjS0VgioFrmj7sglewgS9J7ERG7Frd1sunnOvyudoWkiDFuo0RF4FxuZP/Le5cIdt0Zai3dUyGyQpE82ALsOokqpK4JjWUmGnHcIVcYAbaffLxm2/0SqB1fDhtLB0Ka3wz7bJnqaF/Rka0kChdZ25XWoALGWcmd1HiJ7aCzdZ7SjiAZ947/0aMrWEtZ/iC4/VuzJM7UKRVRDdhsSXG8Uq8uwRfDdgJTp/X6RnTCLMQYcxBY93HKZOGKulNnz1u3E1/usikJd6x7801/8/jTxYkrxxm+QKuQUgoPRrreTQrxrxYFEBJLmHiNgCtg==
+X-OriginatorOrg: ni.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 May 2017 21:34:28.1430 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR04MB0701
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
+	definitions=2017-05-19_14:, , signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_policy_notspam policy=outbound_policy
+	score=30
+	priorityscore=1501 malwarescore=0 suspectscore=0 phishscore=0
+	bulkscore=0
+	spamscore=0 clxscore=1015 lowpriorityscore=0 impostorscore=0
+	adultscore=0
+	classifier=spam adjust=30 reason=mlx scancount=1
+	engine=8.0.1-1703280000 definitions=main-1705190137
+Cc: Haris Okanovic <haris.okanovic@ni.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] package_manager.py: Add PACKAGE_ENABLE_FILELIST option to OpkgIndexer
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,353 +127,98 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 May 2017 20:25:20 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 19 May 2017 21:45:32 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Eliminate CVE patches that are now in source.  Add CVE-2017-7975
-patch.
+> Why not use files-in-package.txt reports in buildhistory?
+> https://bugzilla.yoctoproject.org/show_bug.cgi?id=5870
 
-Signed-off-by: Joe Slater <jslater@windriver.com>
----
- .../ghostscript/ghostscript/CVE-2016-10219.patch   | 49 -------------------
- .../ghostscript/ghostscript/CVE-2016-10220.patch   | 55 ----------------------
- .../ghostscript/ghostscript/CVE-2017-7975.patch    | 35 ++++++++++++++
- ...t-9.21-native-fix-disable-system-libtiff.patch} | 22 ++++-----
- ... => ghostscript-9.21-prevent_recompiling.patch} | 25 +++++-----
- .../{ghostscript_9.20.bb => ghostscript_9.21.bb}   | 13 +++--
- 6 files changed, 63 insertions(+), 136 deletions(-)
- delete mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2016-10219.patch
- delete mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2016-10220.patch
- create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2017-7975.patch
- rename meta/recipes-extended/ghostscript/ghostscript/{ghostscript-native-fix-disable-system-libtiff.patch => ghostscript-9.21-native-fix-disable-system-libtiff.patch} (67%)
- rename meta/recipes-extended/ghostscript/ghostscript/{ghostscript-9.02-prevent_recompiling.patch => ghostscript-9.21-prevent_recompiling.patch} (81%)
- rename meta/recipes-extended/ghostscript/{ghostscript_9.20.bb => ghostscript_9.21.bb} (89%)
+Practical reason: files-in-package.txt is an OE-ism. Our opkg-based 
+distribution provides software feeds built outside of OE. We use 
+opkg-utils to generate feed metadata like OE, so it makes sense to reuse 
+logic instead of rewriting it. Others may be in the same position.
 
-diff --git a/meta/recipes-extended/ghostscript/ghostscript/CVE-2016-10219.patch b/meta/recipes-extended/ghostscript/ghostscript/CVE-2016-10219.patch
-deleted file mode 100644
-index 574abe0..0000000
---- a/meta/recipes-extended/ghostscript/ghostscript/CVE-2016-10219.patch
-+++ /dev/null
-@@ -1,49 +0,0 @@
--From 4bef1a1d32e29b68855616020dbff574b9cda08f Mon Sep 17 00:00:00 2001
--From: Robin Watts <Robin.Watts@artifex.com>
--Date: Thu, 29 Dec 2016 15:57:43 +0000
--Subject: [PATCH] Bug 697453: Avoid divide by 0 in scan conversion code.
--
--Arithmetic overflow due to extreme values in the scan conversion
--code can cause a division by 0.
--
--Avoid this with a simple extra check.
--
--  dx_old=cf814d81
--  endp->x_next=b0e859b9
--  alp->x_next=8069a73a
--
--leads to dx_den = 0
--
--Upstream-Status: Backport
--CVE: CVE-2016-10219
--
--Signed-off-by: Catalin Enache <catalin.enache@windriver.com>
-----
-- base/gxfill.c | 4 ++--
-- 1 file changed, 2 insertions(+), 2 deletions(-)
--
--diff --git a/base/gxfill.c b/base/gxfill.c
--index 99196c0..2f81bb0 100644
----- a/base/gxfill.c
--+++ b/base/gxfill.c
--@@ -1741,7 +1741,7 @@ intersect(active_line *endp, active_line *alp, fixed y, fixed y1, fixed *p_y_new
--     fixed dx_old = alp->x_current - endp->x_current;
--     fixed dx_den = dx_old + endp->x_next - alp->x_next;
-- 
---    if (dx_den <= dx_old)
--+    if (dx_den <= dx_old || dx_den == 0)
--         return false; /* Intersection isn't possible. */
--     dy = y1 - y;
--     if_debug3('F', "[F]cross: dy=%g, dx_old=%g, dx_new=%g\n",
--@@ -1750,7 +1750,7 @@ intersect(active_line *endp, active_line *alp, fixed y, fixed y1, fixed *p_y_new
--     /* Do the computation in single precision */
--     /* if the values are small enough. */
--     y_new =
---        ((dy | dx_old) < 1L << (size_of(fixed) * 4 - 1) ?
--+        (((ufixed)(dy | dx_old)) < (1L << (size_of(fixed) * 4 - 1)) ?
--          dy * dx_old / dx_den :
--          (INCR_EXPR(mq_cross), fixed_mult_quo(dy, dx_old, dx_den)))
--         + y;
---- 
--2.10.2
--
-diff --git a/meta/recipes-extended/ghostscript/ghostscript/CVE-2016-10220.patch b/meta/recipes-extended/ghostscript/ghostscript/CVE-2016-10220.patch
-deleted file mode 100644
-index 5e1e8ba..0000000
---- a/meta/recipes-extended/ghostscript/ghostscript/CVE-2016-10220.patch
-+++ /dev/null
-@@ -1,55 +0,0 @@
--From daf85701dab05f17e924a48a81edc9195b4a04e8 Mon Sep 17 00:00:00 2001
--From: Ken Sharp <ken.sharp@artifex.com>
--Date: Wed, 21 Dec 2016 16:54:14 +0000
--Subject: [PATCH] fix crash with bad data supplied to makeimagedevice
--
--Bug #697450 "Null pointer dereference in gx_device_finalize()"
--
--The problem here is that the code to finalise a device unconditionally
--frees the icc_struct member of the device structure. However this
--particular (weird) device is not setup as a normal device, probably
--because its very, very ancient. Its possible for the initialisation
--of the device to abort with an error before calling gs_make_mem_device()
--which is where the icc_struct member gets allocated (or set to NULL).
--
--If that happens, then the cleanup code tries to free the device, which
--calls finalize() which tries to free a garbage pointer.
--
--Setting the device memory to 0x00 after we allocate it means that the
--icc_struct member will be NULL< and our memory manager allows for that
--happily enough, which avoids the problem.
--
--Upstream-Status: Backport
--CVE: CVE-2016-10220
--
--Signed-off-by: Catalin Enache <catalin.enache@windriver.com>
-----
-- base/gsdevmem.c | 12 ++++++++++++
-- 1 file changed, 12 insertions(+)
--
--diff --git a/base/gsdevmem.c b/base/gsdevmem.c
--index 97b9cf4..fe75bcc 100644
----- a/base/gsdevmem.c
--+++ b/base/gsdevmem.c
--@@ -225,6 +225,18 @@ gs_makewordimagedevice(gx_device ** pnew_dev, const gs_matrix * pmat,
-- 
--     if (pnew == 0)
--         return_error(gs_error_VMerror);
--+
--+    /* Bug #697450 "Null pointer dereference in gx_device_finalize()"
--+     * If we have incorrect data passed to gs_initialise_wordimagedevice() then the
--+     * initialisation will fail, crucially it will fail *before* it calls
--+     * gs_make_mem_device() which initialises the device. This means that the
--+     * icc_struct member will be uninitialsed, but the device finalise method
--+     * will unconditionally free that memory. Since its a garbage pointer, bad things happen.
--+     * Apparently we do still need makeimagedevice to be available from
--+     * PostScript, so in here just zero the device memory, which means that
--+     * the finalise routine won't have a problem.
--+     */
--+    memset(pnew, 0x00, st_device_memory.ssize);
--     code = gs_initialize_wordimagedevice(pnew, pmat, width, height,
--                                          colors, num_colors, word_oriented,
--                                          page_device, mem);
---- 
--2.10.2
--
-diff --git a/meta/recipes-extended/ghostscript/ghostscript/CVE-2017-7975.patch b/meta/recipes-extended/ghostscript/ghostscript/CVE-2017-7975.patch
-new file mode 100644
-index 0000000..1de055f
---- /dev/null
-+++ b/meta/recipes-extended/ghostscript/ghostscript/CVE-2017-7975.patch
-@@ -0,0 +1,35 @@
-+From b39be1019b4acc1aa50c6026463c543332e95a31 Mon Sep 17 00:00:00 2001
-+From: Catalin Enache <catalin.enache@windriver.com>
-+Date: Mon, 8 May 2017 16:18:14 +0300
-+Subject: [PATCH] Bug 697693: Prevent SEGV due to integer overflow.
-+
-+While building a Huffman table, the start and end points were susceptible
-+to integer overflow.
-+
-+Thank you to Jiaqi for finding this issue and suggesting a patch.
-+
-+Upstream-Status: Backport
-+CVE: CVE-2017-7975
-+
-+Signed-off-by: Catalin Enache <catalin.enache@windriver.com>
-+
-+Contents of this patch were extracted from a larger patch which addressed
-+two CVE's.  The context (location of {) was also modified to apply to
-+ghostscript 9.21.
-+
-+Signed-off-by: Joe Slater <joe.slater@windriver.com>
-+
-+
-+--- a/jbig2dec/jbig2_huffman.c
-++++ b/jbig2dec/jbig2_huffman.c
-+@@ -421,8 +421,8 @@ jbig2_build_huffman_table(Jbig2Ctx *ctx,
-+ 
-+             if (PREFLEN == CURLEN) {
-+                 int RANGELEN = lines[CURTEMP].RANGELEN;
-+-                int start_j = CURCODE << shift;
-+-                int end_j = (CURCODE + 1) << shift;
-++                uint_32t start_j = CURCODE << shift;
-++                uint_32t end_j = (CURCODE + 1) << shift;
-+                 byte eflags = 0;
-+ 
-+                 if (end_j > max_j) {
-diff --git a/meta/recipes-extended/ghostscript/ghostscript/ghostscript-native-fix-disable-system-libtiff.patch b/meta/recipes-extended/ghostscript/ghostscript/ghostscript-9.21-native-fix-disable-system-libtiff.patch
-similarity index 67%
-rename from meta/recipes-extended/ghostscript/ghostscript/ghostscript-native-fix-disable-system-libtiff.patch
-rename to meta/recipes-extended/ghostscript/ghostscript/ghostscript-9.21-native-fix-disable-system-libtiff.patch
-index 9158117..bff3e61 100644
---- a/meta/recipes-extended/ghostscript/ghostscript/ghostscript-native-fix-disable-system-libtiff.patch
-+++ b/meta/recipes-extended/ghostscript/ghostscript/ghostscript-9.21-native-fix-disable-system-libtiff.patch
-@@ -5,23 +5,26 @@ ghostscrip could work while system-libtiff is
- disabled.
- 
- Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-+
-+Updated to apply to ghostscript 9.21.
-+
-+Signed-off-by: Joe Slater <joe.slater@windriver.com>
-+
- Upstream-Status: Pending
-----
-- configure.ac | 5 +++++
-- 1 file changed, 5 insertions(+)
- 
--diff --git a/configure.ac b/configure.ac
-+
-+
- --- a/configure.ac
- +++ b/configure.ac
--@@ -1055,6 +1055,7 @@ Disabling tiff output devices.])
-+@@ -1259,6 +1259,7 @@ case "x$with_system_libtiff" in
-  esac
-  
-- if test $SHARE_LIBTIFF -eq 0; then
-+ if test x"$SHARE_LIBTIFF" = x"0" ; then
- +    if test -e $LIBTIFFDIR/configure; then
--       echo
-        echo "Running libtiff configure script..."
-        olddir=`pwd`
--@@ -1069,6 +1070,10 @@ if test $SHARE_LIBTIFF -eq 0; then
-+       if ! test -d "$LIBTIFFCONFDIR" ; then
-+@@ -1272,6 +1273,10 @@ if test x"$SHARE_LIBTIFF" = x"0" ; then
-        cd "$olddir"
-        echo
-        echo "Continuing with Ghostscript configuration..."
-@@ -32,6 +35,3 @@ diff --git a/configure.ac b/configure.ac
-  fi
-  
-  AC_SUBST(SHARE_LIBTIFF)
---- 
--1.8.1.2
--
-diff --git a/meta/recipes-extended/ghostscript/ghostscript/ghostscript-9.02-prevent_recompiling.patch b/meta/recipes-extended/ghostscript/ghostscript/ghostscript-9.21-prevent_recompiling.patch
-similarity index 81%
-rename from meta/recipes-extended/ghostscript/ghostscript/ghostscript-9.02-prevent_recompiling.patch
-rename to meta/recipes-extended/ghostscript/ghostscript/ghostscript-9.21-prevent_recompiling.patch
-index e709195..f2c6d04 100644
---- a/meta/recipes-extended/ghostscript/ghostscript/ghostscript-9.02-prevent_recompiling.patch
-+++ b/meta/recipes-extended/ghostscript/ghostscript/ghostscript-9.21-prevent_recompiling.patch
-@@ -9,15 +9,13 @@ Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
- 
- Rebase to 9.19
- Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-----
-- base/unix-aux.mak | 64 +++++++++++++++++++++++++++----------------------------
-- 1 file changed, 32 insertions(+), 32 deletions(-)
- 
--diff --git a/base/unix-aux.mak b/base/unix-aux.mak
--index 0110667..e2eb1a1 100644
-+Rebase to 9.21
-+Signed-off-by: Joe Slater <joe.slater@windriver.com>
-+
- --- a/base/unix-aux.mak
- +++ b/base/unix-aux.mak
--@@ -71,44 +71,44 @@ $(GLOBJ)gp_sysv.$(OBJ): $(GLSRC)gp_sysv.c $(stdio__h) $(time__h) $(AK)\
-+@@ -66,45 +66,45 @@ $(GLOBJ)gp_sysv.$(OBJ): $(GLSRC)gp_sysv.
-  
-  # -------------------------- Auxiliary programs --------------------------- #
-  
-@@ -61,14 +59,14 @@ index 0110667..e2eb1a1 100644
- - $(AUX)gp_stdia.$(OBJ) $(AUX)gsutil.$(OBJ) $(AUX)memento.$(OBJ)
- -
- -$(MKROMFS_XE)_0: $(GLSRC)mkromfs.c $(MKROMFS_COMMON_DEPS) $(MKROMFS_OBJS_0) $(UNIX_AUX_MAK) $(MAKEDIRS)
---	$(CCAUX_) $(GENOPT) $(CFLAGS) $(I_)$(GLSRCDIR)$(_I) $(I_)$(GLOBJ)$(_I) $(I_)$(ZSRCDIR)$(_I) $(GLSRC)mkromfs.c $(O_)$(MKROMFS_XE)_0 $(MKROMFS_OBJS_0) $(AUXEXTRALIBS)
-+-	$(CCAUX_) $(GENOPTAUX) $(I_)$(GLSRCDIR)$(_I) $(I_)$(GLOBJ)$(_I) $(I_)$(ZSRCDIR)$(_I) $(GLSRC)mkromfs.c $(O_)$(MKROMFS_XE)_0 $(MKROMFS_OBJS_0) $(AUXEXTRALIBS)
- -
- +#MKROMFS_OBJS_0=$(MKROMFS_ZLIB_OBJS) $(AUX)gpmisc.$(OBJ) $(AUX)gp_getnv.$(OBJ) \
- +# $(AUX)gscdefs.$(OBJ) $(AUX)gp_unix.$(OBJ) $(AUX)gp_unifs.$(OBJ) $(AUX)gp_unifn.$(OBJ) \
- +# $(AUX)gp_stdia.$(OBJ) $(AUX)gsutil.$(OBJ) $(AUX)memento.$(OBJ)
- +#
- +#$(MKROMFS_XE)_0: $(GLSRC)mkromfs.c $(MKROMFS_COMMON_DEPS) $(MKROMFS_OBJS_0) $(UNIX_AUX_MAK) $(MAKEDIRS)
--+#	$(CCAUX_) $(GENOPT) $(CFLAGS) $(I_)$(GLSRCDIR)$(_I) $(I_)$(GLOBJ)$(_I) $(I_)$(ZSRCDIR)$(_I) $(GLSRC)mkromfs.c $(O_)$(MKROMFS_XE)_0 $(MKROMFS_OBJS_0) $(AUXEXTRALIBS)
-++#	$(CCAUX_) $(GENOPTAUX) $(I_)$(GLSRCDIR)$(_I) $(I_)$(GLOBJ)$(_I) $(I_)$(ZSRCDIR)$(_I) $(GLSRC)mkromfs.c $(O_)$(MKROMFS_XE)_0 $(MKROMFS_OBJS_0) $(AUXEXTRALIBS)
- +#
-  # .... and one using the zlib library linked via the command line
- -MKROMFS_OBJS_1=$(AUX)gscdefs.$(OBJ) \
-@@ -77,23 +75,22 @@ index 0110667..e2eb1a1 100644
- - $(AUX)gp_stdia.$(OBJ) $(AUX)gsutil.$(OBJ)
- -
- -$(MKROMFS_XE)_1: $(GLSRC)mkromfs.c $(MKROMFS_COMMON_DEPS) $(MKROMFS_OBJS_1) $(UNIX_AUX_MAK) $(MAKEDIRS)
---	$(CCAUX_) $(GENOPT) $(CFLAGS) $(I_)$(GLSRCDIR)$(_I) $(I_)$(GLOBJ)$(_I) $(I_)$(ZSRCDIR)$(_I) $(GLSRC)mkromfs.c $(O_)$(MKROMFS_XE)_1 $(MKROMFS_OBJS_1) $(AUXEXTRALIBS)
-+-	$(CCAUX_) $(GENOPTAUX) $(I_)$(GLSRCDIR)$(_I) $(I_)$(GLOBJ)$(_I) $(I_)$(ZSRCDIR)$(_I) $(GLSRC)mkromfs.c $(O_)$(MKROMFS_XE)_1 $(MKROMFS_OBJS_1) $(AUXEXTRALIBS)
- -
- -$(MKROMFS_XE): $(MKROMFS_XE)_$(SHARE_ZLIB) $(UNIX_AUX_MAK) $(MAKEDIRS)
- -	$(CP_) $(MKROMFS_XE)_$(SHARE_ZLIB) $(MKROMFS_XE)
-+-
- +#MKROMFS_OBJS_1=$(AUX)gscdefs.$(OBJ) \
- +# $(AUX)gpmisc.$(OBJ) $(AUX)gp_getnv.$(OBJ) \
- +# $(AUX)gp_unix.$(OBJ) $(AUX)gp_unifs.$(OBJ) $(AUX)gp_unifn.$(OBJ) \
- +# $(AUX)gp_stdia.$(OBJ) $(AUX)gsutil.$(OBJ)
- +#
- +#$(MKROMFS_XE)_1: $(GLSRC)mkromfs.c $(MKROMFS_COMMON_DEPS) $(MKROMFS_OBJS_1) $(UNIX_AUX_MAK) $(MAKEDIRS)
--+#	$(CCAUX_) $(GENOPT) $(CFLAGS) $(I_)$(GLSRCDIR)$(_I) $(I_)$(GLOBJ)$(_I) $(I_)$(ZSRCDIR)$(_I) $(GLSRC)mkromfs.c $(O_)$(MKROMFS_XE)_1 $(MKROMFS_OBJS_1) $(AUXEXTRALIBS)
-++#	$(CCAUX_) $(GENOPTAUX) $(I_)$(GLSRCDIR)$(_I) $(I_)$(GLOBJ)$(_I) $(I_)$(ZSRCDIR)$(_I) $(GLSRC)mkromfs.c $(O_)$(MKROMFS_XE)_1 $(MKROMFS_OBJS_1) $(AUXEXTRALIBS)
- +#
- +#$(MKROMFS_XE): $(MKROMFS_XE)_$(SHARE_ZLIB) $(UNIX_AUX_MAK) $(MAKEDIRS)
- +#	$(CP_) $(MKROMFS_XE)_$(SHARE_ZLIB) $(MKROMFS_XE)
-- 
-++#
-  # Query the environment to construct gconfig_.h.
-  # These are all defined conditionally (except the JasPER one), so that
---- 
--2.8.1
--
-+ # they can be overridden by settings from the configure script.
-diff --git a/meta/recipes-extended/ghostscript/ghostscript_9.20.bb b/meta/recipes-extended/ghostscript/ghostscript_9.21.bb
-similarity index 89%
-rename from meta/recipes-extended/ghostscript/ghostscript_9.20.bb
-rename to meta/recipes-extended/ghostscript/ghostscript_9.21.bb
-index 3c8a2e6..e542c86 100644
---- a/meta/recipes-extended/ghostscript/ghostscript_9.20.bb
-+++ b/meta/recipes-extended/ghostscript/ghostscript_9.21.bb
-@@ -19,7 +19,7 @@ DEPENDS_class-native = "libpng-native"
- UPSTREAM_CHECK_URI = "https://github.com/ArtifexSoftware/ghostpdl-downloads/releases"
- UPSTREAM_CHECK_REGEX = "(?P<pver>\d+(\.\d+)+)\.tar"
- 
--SRC_URI_BASE = "https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs920/${BPN}-${PV}.tar.gz \
-+SRC_URI_BASE = "https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs921/${BPN}-${PV}.tar.gz \
-                 file://ghostscript-9.15-parallel-make.patch \
-                 file://ghostscript-9.16-Werror-return-type.patch \
-                 file://png_mak.patch \
-@@ -27,23 +27,22 @@ SRC_URI_BASE = "https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/d
- "
- 
- SRC_URI = "${SRC_URI_BASE} \
--           file://ghostscript-9.02-prevent_recompiling.patch \
-+           file://ghostscript-9.21-prevent_recompiling.patch \
-            file://ghostscript-9.02-genarch.patch \
-            file://objarch.h \
-            file://cups-no-gcrypt.patch \
-            file://CVE-2017-7207.patch \
--           file://CVE-2016-10219.patch \
--           file://CVE-2016-10220.patch \
-            file://CVE-2017-5951.patch \
-+           file://CVE-2017-7975.patch \
-            "
- 
- SRC_URI_class-native = "${SRC_URI_BASE} \
--                        file://ghostscript-native-fix-disable-system-libtiff.patch \
-+                        file://ghostscript-9.21-native-fix-disable-system-libtiff.patch \
-                         file://base-genht.c-add-a-preprocessor-define-to-allow-fope.patch \
-                         "
- 
--SRC_URI[md5sum] = "93c5987cd3ab341108be1ebbaadc24fe"
--SRC_URI[sha256sum] = "949b64b46ecf8906db54a94ecf83ab97534ebf946f770d3c3f283cb469cb6e14"
-+SRC_URI[md5sum] = "5f213281761d2750fcf27476c404d17f"
-+SRC_URI[sha256sum] = "02bceadbc4dddeb6f2eec9c8b1623d945d355ca11b8b4df035332b217d58ce85"
- 
- EXTRA_OECONF = "--without-x --with-system-libtiff --without-jbig2dec \
-                 --with-fontpath=${datadir}/fonts \
--- 
-2.7.4
+Philosophical reason: I prefer to build the file list (and index) from 
+actual packages (I.e. exactly what we're shipping) instead of OE's 
+environment. This makes the file list and index more easily reproducible 
+and insulates that process from OE bugs.
 
+-- Haris
+
+
+On 05/19/2017 12:29 PM, Martin Jansa wrote:
+> On Fri, May 19, 2017 at 10:01:21AM -0500, Haris Okanovic wrote:
+>> Setting PACKAGE_ENABLE_FILELIST option generates Packages.filelist on
+>> `bitbake package-index`, which is index of files provided by each
+>> IPK package in the feed. It's useful for figuring out which package
+>> provides a particular file/program/library/etc.
+>>
+>> Disabled by default since generating a filelist involves reading the
+>> payload of every package in the feed, a time and IO intensive operation
+>> many users won't want to run. Those who do may flip this switch.
+>>
+>> Testing:
+>>  * Built an opkg index with PACKAGE_ENABLE_FILELIST unset and verified
+>>    no Packages.filelist are generated.
+>>  * Built with PACKAGE_ENABLE_FILELIST="1" and verified each subfeed
+>>    has Packages.filelist; took ~3min longer for 8,200 IPKs.
+>>
+>> Signed-off-by: Haris Okanovic <haris.okanovic@ni.com>
+>
+> Why not use files-in-package.txt reports in buildhistory?
+> https://bugzilla.yoctoproject.org/show_bug.cgi?id=5870
+>
+> That should work for any package backend and better to generate it once
+> in one place.
+>
+>> ---
+>>  meta/lib/oe/package_manager.py | 10 ++++++++--
+>>  1 file changed, 8 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
+>> index b4b359a8c6..5e1fc48500 100644
+>> --- a/meta/lib/oe/package_manager.py
+>> +++ b/meta/lib/oe/package_manager.py
+>> @@ -161,6 +161,8 @@ class OpkgIndexer(Indexer):
+>>          else:
+>>              signer = None
+>>
+>> +        enable_filelist = bb.utils.to_boolean(self.d.getVar('PACKAGE_ENABLE_FILELIST', True) or "False")
+>> +
+>>          if not os.path.exists(os.path.join(self.deploy_dir, "Packages")):
+>>              open(os.path.join(self.deploy_dir, "Packages"), "w").close()
+>>
+>> @@ -175,14 +177,18 @@ class OpkgIndexer(Indexer):
+>>                  pkgs_dir = os.path.join(self.deploy_dir, arch)
+>>                  pkgs_file = os.path.join(pkgs_dir, "Packages")
+>>
+>> +                filelist_cmd = ""
+>> +                if enable_filelist:
+>> +                    filelist_cmd = '-l %s.filelist' % (pkgs_file)
+>> +
+>>                  if not os.path.isdir(pkgs_dir):
+>>                      continue
+>>
+>>                  if not os.path.exists(pkgs_file):
+>>                      open(pkgs_file, "w").close()
+>>
+>> -                index_cmds.add('%s -r %s -p %s -m %s' %
+>> -                                  (opkg_index_cmd, pkgs_file, pkgs_file, pkgs_dir))
+>> +                index_cmds.add('%s -r %s -p %s -m %s %s' %
+>> +                                  (opkg_index_cmd, pkgs_file, pkgs_file, filelist_cmd, pkgs_dir))
+>>
+>>                  index_sign_files.add(pkgs_file)
+>>
+>> --
+>> 2.12.1
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+>
+>
 
