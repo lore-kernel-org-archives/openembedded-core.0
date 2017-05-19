@@ -1,21 +1,53 @@
-Return-Path: <joshua.g.lock@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id AFC05780AE
+Return-Path: <max.oss.09@gmail.com>
+Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 4F87177F99
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 May 2017 15:53:17 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	19 May 2017 08:53:19 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.38,364,1491289200"; d="scan'208";a="1132600171"
-Received: from jlock-mobl1.jf.intel.com ([10.24.8.67])
-	by orsmga001.jf.intel.com with ESMTP; 19 May 2017 08:53:19 -0700
-From: Joshua Lock <joshua.g.lock@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 19 May 2017 16:53:06 +0100
-Message-Id: <20170519155306.28317-1-joshua.g.lock@intel.com>
-X-Mailer: git-send-email 2.9.3
-Subject: [PATCH] kernel: predefine KBUILD_BUILD_USER and KBUILD_BUILD_HOST
+	Fri, 19 May 2017 16:08:52 +0000 (UTC)
+Received: by mail-wm0-f68.google.com with SMTP id d127so19127080wmf.1
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 19 May 2017 09:08:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=x+TjlJsTCtuHCJx8Tunj9AlEJwspyu3lufTqztyDCZw=;
+	b=so28+AqUdR5yrcq4XICbOmpMVPrGNbqUKjnQ4A/5XmTRqylAV5f6wXa96MN2UCba5P
+	tRBRdceaq6d3Bj6wYep70OeumX7ltMJvM/1/2OjRTySIE/12ro3ZlT8jR3AeV5vMCRKV
+	EGifLivK3NS5cp5MOGicFe5U+cTbOsiaBRXtWgjuxFRKbfp4bLR9FxmZms/DKb3sIJwq
+	TqexGdsISL+WWH4+/Qbo5gvcLIU6p3Rg9rM90XZJeQ4Ton7TqzfmssDu1vo0ouZwi2KV
+	mWlR/Xk7L/0Y1gmAPRb5KPaNlmcFWc4sV9wKvXO9UAXxvnQlKxyvCmjSKpnDO3jQTxwl
+	S4Qg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=x+TjlJsTCtuHCJx8Tunj9AlEJwspyu3lufTqztyDCZw=;
+	b=V+5ptKYoDaFhPGQLnHFPBNh8H507L9ZBhofLn7s0LrxkyyNxkbEYxjBfik4zSASicx
+	ytD4Va+9eOFRNj5vQ49GqelrJKVP6X85sBVVDRFHq/naE6eCGfo7902i/yM23y2WodpW
+	9bjnDja2bUokXdPE+AcKSKcG5QJgHpW+3Tp20PyYsx9/i3thiIClAzNyPmArFo2K9C07
+	kobGZ2y5/D2EdhCancthEDbir1q9ktFvl/sDfcQOHiYGTp+SixIrAiv5XmsPz5ns429+
+	5/vBqTlrfzkoUB9Wp0MQKpiFdTa/OCnS/xPI5q9oHMxUjhZDbT1RXkXgVTuD/oN7MK3O
+	3Q+w==
+X-Gm-Message-State: AODbwcCIPFCsnNQq9NRFSklPWy485tgdL3KjfHVxRbM1W/Ud4t79HQS2
+	6ZQHwauZFc47jA==
+X-Received: by 10.28.61.215 with SMTP id k206mr7598230wma.133.1495210134020;
+	Fri, 19 May 2017 09:08:54 -0700 (PDT)
+Received: from Saturn.local.all (138-14-48-195.pool.dsl-net.ch.
+	[195.48.14.138]) by smtp.gmail.com with ESMTPSA id
+	e83sm26357271wmc.28.2017.05.19.09.08.53
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 19 May 2017 09:08:53 -0700 (PDT)
+Message-ID: <1495210132.3247.7.camel@gmail.com>
+From: Max Krummenacher <max.oss.09@gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 19 May 2017 18:08:52 +0200
+In-Reply-To: <CAJTo0Lbf1u7b+X6JTH-S+n+N80OSkFGcZnvoRnAKBgcqQ2q6xg@mail.gmail.com>
+References: <20170519154856.21505-1-max.krummenacher@toradex.com>
+	<CAJTo0Lbf1u7b+X6JTH-S+n+N80OSkFGcZnvoRnAKBgcqQ2q6xg@mail.gmail.com>
+X-Mailer: Evolution 3.16.5 
+Mime-Version: 1.0
+Cc: Max Krummenacher <max.krummenacher@toradex.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] libsolv: don't pick up bundled db from host rpm
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,35 +60,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 May 2017 15:53:18 -0000
+X-List-Received-Date: Fri, 19 May 2017 16:08:53 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-By exporting KBUILD_BUILD_USER with a pre-defined value we improve the
-reproducibility of the kernel and remove the requirement for whoami in the
-HOSTTOOLS.
-KBUILD_BUILD_HOST also helps improve the reproducibility of the kernel.
+Am Freitag, den 19.05.2017, 16:51 +0100 schrieb Burton, Ross:
+> On 19 May 2017 at 16:48, Max Krummenacher <max.oss.09@gmail.com> wrote:
+> 
+> > +Upstream-Status: Inappropriate [oe build specific]
+> > 
+> 
+> Is this really inappropriate?  We're finding a bug in the build system but
+> that doesn't mean we're the cause of the breakage.
 
-For more kernel reproducibility options see:
-https://lwn.net/Articles/437864/
+Yes, I think so.
 
-Signed-off-by: Joshua Lock <joshua.g.lock@intel.com>
----
- meta/classes/kernel.bbclass | 2 ++
- 1 file changed, 2 insertions(+)
+In the OE setup we have our own sysroot with a variant of rpm-devel and the build host has one in
+/usr/...
 
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index 8954b28..7a134d5 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -130,6 +130,8 @@ PACKAGES_DYNAMIC += "^kernel-firmware-.*"
- 
- export OS = "${TARGET_OS}"
- export CROSS_COMPILE = "${TARGET_PREFIX}"
-+export KBUILD_BUILD_USER = "oe-user"
-+export KBUILD_BUILD_HOST = "oe-host"
- 
- KERNEL_PRIORITY ?= "${@int(d.getVar('PV').split('-')[0].split('+')[0].split('.')[0]) * 10000 + \
-                        int(d.getVar('PV').split('-')[0].split('+')[0].split('.')[1]) * 100 + \
--- 
-2.9.3
+I think that upstream need not assume that it is configured on a build host where it sees two
+differently configured rpm development packages.
 
+For my approach to work the bundled Berkely db must provide the function db_create_rpmdb which is
+more likely to change than the filename db.h.
+
+Max
+
+> 
+> Ross
 
