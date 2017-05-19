@@ -1,51 +1,52 @@
-Return-Path: <max.oss.09@gmail.com>
-Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
-	by mail.openembedded.org (Postfix) with ESMTP id E3771780BA
+Return-Path: <haris.okanovic@ni.com>
+X-Greylist: delayed 5132 seconds by postgrey-1.34 at layers.openembedded.org;
+	Fri, 19 May 2017 16:26:58 UTC
+Received: from mx0b-00010702.pphosted.com (mx0a-00010702.pphosted.com
+	[148.163.156.75])
+	by mail.openembedded.org (Postfix) with ESMTP id 33868780B6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 May 2017 16:21:42 +0000 (UTC)
-Received: by mail-wm0-f66.google.com with SMTP id k15so17957976wmh.3
+	Fri, 19 May 2017 16:26:58 +0000 (UTC)
+Received: from pps.filterd (m0098780.ppops.net [127.0.0.1])
+	by mx0a-00010702.pphosted.com (8.16.0.20/8.16.0.20) with SMTP id
+	v4JF0jff029045 for <openembedded-core@lists.openembedded.org>;
+	Fri, 19 May 2017 10:01:28 -0500
+Received: from ni.com (skprod3.natinst.com [130.164.80.24])
+	by mx0a-00010702.pphosted.com with ESMTP id 2aj2k58344-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=NOT) for <openembedded-core@lists.openembedded.org>;
+	Fri, 19 May 2017 10:01:27 -0500
+Received: from us-aus-exch2.ni.corp.natinst.com
+	(us-aus-exch2.ni.corp.natinst.com [130.164.68.12])
+	by us-aus-skprod3.natinst.com (8.16.0.17/8.16.0.17) with ESMTPS id
+	v4JF1RUT004679
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 May 2017 09:21:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=/gIqM3HpkQBsERphGXZcNz7wqLFO2mOmCIMs7zEbBPM=;
-	b=DXZFlAtuddrscgey5itlMjIifytJUIn1EUqw3TE8JERiMMVjYgvW+tmzD39AYDrJ4e
-	vkeGGdfo/hJegk8Wfh6Mjl4/bwjMH+xGiM6rknjTVf8cg1FGkMf4VnoppNZWgvJyZ8vG
-	k5u+S1DBAyfqU0CbKmecsBb1trBXqZ0J4BhhjVPxZkub0P/ZPX10WM2kifrpfsXj70Dc
-	RPI7UwrJx7xfn1oWlfcAsQr8sfV58T8wvO3RTnKSGW9irhnn2F/5qkvsqbmPW4pXrlAC
-	CreIUhlYNv7bbTq56CPZtMvIJHDgJECZdR5BUHhvFGIHe7UkTXHZuHgCUPHpUrShMPI1
-	Jghg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=/gIqM3HpkQBsERphGXZcNz7wqLFO2mOmCIMs7zEbBPM=;
-	b=PQHRpFw1D4HDg5psGbcEGdh4V4qrghBboAjaG4oev0Mx5CsohslP88SS8uQXgyAaDs
-	HIGI8q6cOX+6qhIYyhcESxdONh0cFilqRzYg969lDN4eIyI+vRhcVzhYcY2qsZdyb75t
-	sUFDGzurYSc+qHwCTAxXXgdB0V3w9/qXEimCsOl6xNLO1TmG+PRJletqfwSnGj4cN978
-	hy56OXL5+sB6qQkS0VxfCOEhwIgD/Q/9XnVK8Ghe+bZ3SHHEZ+baZbNWs0DubgH1zBw4
-	wDeC56B3PqWoIxo/s9z8CDgNpPyZVHFfoJJdXDKs/FTUDb2giaFTFNY40wDsUgMSGFUX
-	6gSA==
-X-Gm-Message-State: AODbwcCrQR9SgLHjxooURf/XRYeC6OMJbWko2F/Mf4++nyj056NZEgnT
-	/mecES0NedSuBuuM
-X-Received: by 10.28.1.198 with SMTP id 189mr6791350wmb.18.1495210903481;
-	Fri, 19 May 2017 09:21:43 -0700 (PDT)
-Received: from linuxdev.toradex.int ([46.140.72.82])
-	by smtp.gmail.com with ESMTPSA id
-	137sm10139541wmi.19.2017.05.19.09.21.42
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 19 May 2017 09:21:42 -0700 (PDT)
-From: Max Krummenacher <max.oss.09@gmail.com>
-X-Google-Original-From: Max Krummenacher <max.krummenacher@toradex.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 19 May 2017 18:20:41 +0200
-Message-Id: <20170519162041.28339-3-max.krummenacher@toradex.com>
-X-Mailer: git-send-email 2.9.3
-In-Reply-To: <20170519162041.28339-1-max.krummenacher@toradex.com>
-References: <20170519162041.28339-1-max.krummenacher@toradex.com>
-Cc: Stefan Agner <stefan.agner@toradex.com>,
-	Max Krummenacher <max.krummenacher@toradex.com>
-Subject: [PATCH 3/3] run-postinsts: do not reload daemon configuration
+	Fri, 19 May 2017 10:01:27 -0500
+Received: from us-aus-exhub2.ni.corp.natinst.com (130.164.68.32) by
+	us-aus-exch2.ni.corp.natinst.com (130.164.68.12) with Microsoft SMTP
+	Server (TLS) id 15.0.1156.6; Fri, 19 May 2017 10:01:26 -0500
+Received: from harisdt.amer.corp.natinst.com (130.164.49.7) by
+	us-aus-exhub2.ni.corp.natinst.com (130.164.68.32) with Microsoft SMTP
+	Server
+	id 15.0.1156.6 via Frontend Transport; Fri, 19 May 2017 10:01:26 -0500
+From: Haris Okanovic <haris.okanovic@ni.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 19 May 2017 10:01:21 -0500
+Message-ID: <20170519150121.7707-1-haris.okanovic@ni.com>
+X-Mailer: git-send-email 2.12.1
+MIME-Version: 1.0
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
+	definitions=2017-05-19_09:, , signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_policy_notspam policy=outbound_policy
+	score=30
+	priorityscore=1501 malwarescore=0 suspectscore=4 phishscore=0
+	bulkscore=0
+	spamscore=0 clxscore=1011 lowpriorityscore=0 impostorscore=0
+	adultscore=0
+	classifier=spam adjust=30 reason=mlx scancount=1
+	engine=8.0.1-1703280000 definitions=main-1705190094
+Cc: haris.okanovic@ni.com
+Subject: [PATCH] package_manager.py: Add PACKAGE_ENABLE_FILELIST option to OpkgIndexer
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,56 +59,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 May 2017 16:21:43 -0000
+X-List-Received-Date: Fri, 19 May 2017 16:26:59 -0000
+Content-Type: text/plain
 
-In case a systemd service disables itself while init is still in its
-boot sequence the reloading of the service files can be problematic.
-In that case: It seems that systemd can loose the state of .device units,
-and some services depend on such units (namely serial consoles such as
-serial-getty@ttyS0.service). As a result no getty is spawned on the
-affected serial tty.
-After a power-cycle the second boot (which does not disable services)
-succeeds.
+Setting PACKAGE_ENABLE_FILELIST option generates Packages.filelist on
+`bitbake package-index`, which is index of files provided by each
+IPK package in the feed. It's useful for figuring out which package
+provides a particular file/program/library/etc.
 
-The following sequence shows this problem:
+Disabled by default since generating a filelist involves reading the
+payload of every package in the feed, a time and IO intensive operation
+many users won't want to run. Those who do may flip this switch.
 
-| Jan 09 16:36:28 apalis-t30 systemctl[162]: Removed /etc/systemd/system/sysinit.target.wants/run-postinsts.service.
-| Jan 09 16:36:28 apalis-t30 systemd[1]: Reloading.
-|    ...
-|    And then the failing one:
-| Feb 22 15:33:15 apalis-t30 systemd[1]: dev-ttyS0.device: Job dev-ttyS0.device/start timed out.
-| Feb 22 15:33:15 apalis-t30 systemd[1]: Timed out waiting for device dev-ttyS0.device.
-| Feb 22 15:33:15 apalis-t30 systemd[1]: Dependency failed for Serial Getty on ttyS0.
-| Feb 22 15:33:15 apalis-t30 systemd[1]: serial-getty@ttyS0.service: Job serial-getty@ttyS0.service/start failed with result 'dependency'.
-| Feb 22 15:33:15 apalis-t30 systemd[1]: dev-ttyS0.device: Job dev-ttyS0.device/start failed with result 'timeout'.
-| Feb 22 15:33:15 apalis-t30 systemd[1]: Reached target Login Prompts.
+Testing:
+ * Built an opkg index with PACKAGE_ENABLE_FILELIST unset and verified
+   no Packages.filelist are generated.
+ * Built with PACKAGE_ENABLE_FILELIST="1" and verified each subfeed
+   has Packages.filelist; took ~3min longer for 8,200 IPKs.
 
-(the time has been updated between this two events, but that does not
-influence the issue)
-
-Using --no-reload in the service file avoids the "Reloading." message
-above and seems to not cause such issues anymore.
-
-Signed-off-by: Stefan Agner <stefan.agner@toradex.com>
-Signed-off-by: Max Krummenacher <max.krummenacher@toradex.com>
+Signed-off-by: Haris Okanovic <haris.okanovic@ni.com>
 ---
- meta/recipes-devtools/run-postinsts/run-postinsts/run-postinsts.service | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/lib/oe/package_manager.py | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-devtools/run-postinsts/run-postinsts/run-postinsts.service b/meta/recipes-devtools/run-postinsts/run-postinsts/run-postinsts.service
-index 85a0439..1b71a1f 100644
---- a/meta/recipes-devtools/run-postinsts/run-postinsts/run-postinsts.service
-+++ b/meta/recipes-devtools/run-postinsts/run-postinsts/run-postinsts.service
-@@ -8,7 +8,7 @@ ConditionPathExistsGlob=#SYSCONFDIR#/*-postinsts
- [Service]
- Type=oneshot
- ExecStart=#SBINDIR#/run-postinsts
--ExecStartPost=#BASE_BINDIR#/systemctl disable run-postinsts.service
-+ExecStartPost=#BASE_BINDIR#/systemctl --no-reload disable run-postinsts.service
- RemainAfterExit=No
- TimeoutSec=0
+diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
+index b4b359a8c6..5e1fc48500 100644
+--- a/meta/lib/oe/package_manager.py
++++ b/meta/lib/oe/package_manager.py
+@@ -161,6 +161,8 @@ class OpkgIndexer(Indexer):
+         else:
+             signer = None
+ 
++        enable_filelist = bb.utils.to_boolean(self.d.getVar('PACKAGE_ENABLE_FILELIST', True) or "False")
++
+         if not os.path.exists(os.path.join(self.deploy_dir, "Packages")):
+             open(os.path.join(self.deploy_dir, "Packages"), "w").close()
+ 
+@@ -175,14 +177,18 @@ class OpkgIndexer(Indexer):
+                 pkgs_dir = os.path.join(self.deploy_dir, arch)
+                 pkgs_file = os.path.join(pkgs_dir, "Packages")
+ 
++                filelist_cmd = ""
++                if enable_filelist:
++                    filelist_cmd = '-l %s.filelist' % (pkgs_file)
++
+                 if not os.path.isdir(pkgs_dir):
+                     continue
+ 
+                 if not os.path.exists(pkgs_file):
+                     open(pkgs_file, "w").close()
+ 
+-                index_cmds.add('%s -r %s -p %s -m %s' %
+-                                  (opkg_index_cmd, pkgs_file, pkgs_file, pkgs_dir))
++                index_cmds.add('%s -r %s -p %s -m %s %s' %
++                                  (opkg_index_cmd, pkgs_file, pkgs_file, filelist_cmd, pkgs_dir))
+ 
+                 index_sign_files.add(pkgs_file)
  
 -- 
-2.9.3
+2.12.1
 
 
