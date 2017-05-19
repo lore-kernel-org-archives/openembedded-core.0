@@ -1,24 +1,24 @@
 Return-Path: <erik.boto@pelagicore.com>
-Received: from ORO-EDGE-03.luxoft.com (oro-edge-03.luxoft.com [109.166.244.23])
-	by mail.openembedded.org (Postfix) with ESMTP id CCD7A780BC
+Received: from ORO-EDGE-01.luxoft.com (oro-edge-01.luxoft.com [109.166.244.21])
+	by mail.openembedded.org (Postfix) with ESMTP id C88BF780B7
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 May 2017 14:25:44 +0000 (UTC)
+	Fri, 19 May 2017 14:25:46 +0000 (UTC)
 Received: from ORO-HUBT-02.luxoft.com (172.30.115.36) by
-	oro-edge-03.luxoft.com (172.30.19.23) with Microsoft SMTP Server (TLS)
-	id 14.3.319.2; Fri, 19 May 2017 17:20:17 +0300
+	oro-edge-01.luxoft.com (172.30.19.21) with Microsoft SMTP Server (TLS)
+	id 14.3.319.2; Fri, 19 May 2017 17:20:20 +0300
 Received: from debbie.luxoft.com (172.31.241.79) by ORO-HUBT-02.luxoft.com
 	(172.30.115.101) with Microsoft SMTP Server (TLS) id 14.3.319.2;
-	Fri, 19 May 2017 17:20:17 +0300
+	Fri, 19 May 2017 17:20:19 +0300
 From: =?UTF-8?q?Erik=20Bot=C3=B6?= <erik.boto@pelagicore.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 19 May 2017 16:20:03 +0200
-Message-ID: <20170519142004.32682-3-erik.boto@pelagicore.com>
+Date: Fri, 19 May 2017 16:20:04 +0200
+Message-ID: <20170519142004.32682-4-erik.boto@pelagicore.com>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <20170519142004.32682-1-erik.boto@pelagicore.com>
 References: <20170519142004.32682-1-erik.boto@pelagicore.com>
 MIME-Version: 1.0
 X-Originating-IP: [172.31.241.79]
-Subject: [PATCH 3/4] masterimage.py: fix stop()
+Subject: [PATCH 4/4] sshcontrol.py: in copy_to() always use scp
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,32 +31,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 May 2017 14:25:45 -0000
+X-List-Received-Date: Fri, 19 May 2017 14:25:47 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-The stop() function is called in the context of the masterimage,
-so self.master should be used instead of self.connection which is
-undefined at that time.
+The current implementation is broken when the localpath is a link.
+Then only a symlink would be created on the target, instead of copying
+the actual file.
 
 Signed-off-by: Erik Botö <erik.boto@pelagicore.com>
 ---
- meta/lib/oeqa/controllers/masterimage.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/lib/oeqa/utils/sshcontrol.py | 9 +++------
+ 1 file changed, 3 insertions(+), 6 deletions(-)
 
-diff --git a/meta/lib/oeqa/controllers/masterimage.py b/meta/lib/oeqa/controllers/masterimage.py
-index 18da2799bb..75bcd4b08d 100644
---- a/meta/lib/oeqa/controllers/masterimage.py
-+++ b/meta/lib/oeqa/controllers/masterimage.py
-@@ -156,7 +156,7 @@ class MasterImageHardwareTarget(oeqa.targetcontrol.BaseTarget, metaclass=ABCMeta
+diff --git a/meta/lib/oeqa/utils/sshcontrol.py b/meta/lib/oeqa/utils/sshcontrol.py
+index 05d6502550..d292893c08 100644
+--- a/meta/lib/oeqa/utils/sshcontrol.py
++++ b/meta/lib/oeqa/utils/sshcontrol.py
+@@ -150,12 +150,9 @@ class SSHControl(object):
  
-     def stop(self):
-         bb.plain("%s - reboot/powercycle target" % self.pn)
--        self.power_cycle(self.connection)
-+        self.power_cycle(self.master)
+     def copy_to(self, localpath, remotepath):
+         if os.path.islink(localpath):
+-            link = os.readlink(localpath)
+-            dst_dir, dst_base = os.path.split(remotepath)
+-            return self.run("cd %s; ln -s %s %s" % (dst_dir, link, dst_base))
+-        else:
+-            command = self.scp + [localpath, '%s@%s:%s' % (self.user, self.ip, remotepath)]
+-            return self._internal_run(command, ignore_status=False)
++            localpath = os.path.dirname(localpath) + "/" + os.readlink(localpath)
++        command = self.scp + [localpath, '%s@%s:%s' % (self.user, self.ip, remotepath)]
++        return self._internal_run(command, ignore_status=False)
  
- 
- class SystemdbootTarget(MasterImageHardwareTarget):
+     def copy_from(self, remotepath, localpath):
+         command = self.scp + ['%s@%s:%s' % (self.user, self.ip, remotepath), localpath]
 -- 
 2.11.0
 
