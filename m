@@ -1,24 +1,48 @@
-Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id 2E4FF77E7A
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qt0-f180.google.com (mail-qt0-f180.google.com
+	[209.85.216.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 5D44771CAA
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 May 2017 15:05:57 +0000 (UTC)
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-	by orsmga105.jf.intel.com with ESMTP; 19 May 2017 08:05:52 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.38,364,1491289200"; d="scan'208";a="104208724"
-Received: from lsandov1-mobl2.zpn.intel.com ([10.219.128.119])
-	by fmsmga005.fm.intel.com with ESMTP; 19 May 2017 07:51:25 -0700
-Message-ID: <1495205983.1761.105.camel@linux.intel.com>
-From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
-To: Erik =?ISO-8859-1?Q?Bot=F6?= <erik.boto@pelagicore.com>
-Date: Fri, 19 May 2017 09:59:43 -0500
-In-Reply-To: <20170519142004.32682-1-erik.boto@pelagicore.com>
-References: <20170519142004.32682-1-erik.boto@pelagicore.com>
-X-Mailer: Evolution 3.12.9-1+b1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/4] masterimage.py: fix issue with calling reboot on masterimage/DUT
+	Fri, 19 May 2017 15:25:57 +0000 (UTC)
+Received: by mail-qt0-f180.google.com with SMTP id f55so60660732qta.3
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 19 May 2017 08:25:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=RSGSXZW7xaWGOhQJoKTvzfEbKA/dj/kw06iu2z49Ut4=;
+	b=mzwttLHMZ7kw1HIJFOte53eAji+Xwel7rcnMgEPZnrCZmkudJzmCXNTS2/5Irgof6p
+	CXGadQYZ6xHe8mGxcDeakAQwsmT4QGJqeMkp/qafpvfF6++fV/8FU1O28X+l2tMqF5e1
+	Xgwbirds1eJG+bus6LRkZRiwN+2iwVUnI1DwrkfY9qBlrYJV6KRgW51e6SZQUpitAZL1
+	Tm02z9qp7ww6xUQg0XHWZJuAySba9tTsAmH+5laZ6rkDwYLKgRp2TM8QXuayZSz0rrC/
+	M2Oo7RNNcNrd7PUjdTKimxqml9Ri9H2sxBrFBKK9LFcFUDR7OsMi/704S19rtx08WsSX
+	CSEw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=RSGSXZW7xaWGOhQJoKTvzfEbKA/dj/kw06iu2z49Ut4=;
+	b=RZQNvQkD6osHTlkdBl8PWzTcX/76Cetop7ulOwSUEYdUib8kABcNvGtngFh5Kb9zT9
+	45WTUlAZSXK5u0qV/jdBzfCrMzeP3fE9MaHP1ciXLdFc+HhCm6VctUkHqcpeG0i/q+tl
+	6uCBy9K/zMctE/jm23yIx0Gk7bx8YoABnUmhR4sRNzerllPlnHjBbs1RIbNVdnxmEzz1
+	GXUTNZ605nwZZGrQ0c1XlwY1Pd1FJUWY7v8ibQWs+qNMgCfjjJ9AriYPorpJbiuIsj+U
+	izq9J5ezsv/SxDTOHrQbRSaWyQbwxBAD0wwcPN6xbC2vvqZchdMcF+fSqErWxSbSuTfp
+	Jpkw==
+X-Gm-Message-State: AODbwcDyOam2NOQ3dvvoX3XfEK1sr5kiqVTwfXcZpcgUYsavU+Bx6B41
+	2Bu3boOFvUsADpo14BlJ/5FgS+YStbCf5l8=
+X-Received: by 10.200.34.229 with SMTP id g34mr5164574qta.65.1495207558687;
+	Fri, 19 May 2017 08:25:58 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.41.115 with HTTP; Fri, 19 May 2017 08:25:38 -0700 (PDT)
+In-Reply-To: <1495146527-32073-3-git-send-email-jose.a.lamego@linux.intel.com>
+References: <1495146527-32073-1-git-send-email-jose.a.lamego@linux.intel.com>
+	<1495146527-32073-3-git-send-email-jose.a.lamego@linux.intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 19 May 2017 16:25:38 +0100
+Message-ID: <CAJTo0LZEF_O3Evumo1+YQ8kpjt=FpTqszfg0704B45GXFHNYVA@mail.gmail.com>
+To: Jose Lamego <jose.a.lamego@linux.intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/2] bc: upgrade 1.06 to 1.07.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,40 +55,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 May 2017 15:05:58 -0000
+X-List-Received-Date: Fri, 19 May 2017 15:25:58 -0000
+Content-Type: multipart/alternative; boundary="001a113f422866cd5e054fe22321"
+
+--001a113f422866cd5e054fe22321
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
 
-On Fri, 2017-05-19 at 16:20 +0200, Erik Botö wrote:
-> On systemd systems calling reboot over an ssh connection doesn't
-> return as expected causing an exception, therefore wrap the call
-> to reboot in order to avoid this issue.
-> 
-> Signed-off-by: Erik Botö <erik.boto@pelagicore.com>
-> ---
->  meta/lib/oeqa/controllers/masterimage.py | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/meta/lib/oeqa/controllers/masterimage.py b/meta/lib/oeqa/controllers/masterimage.py
-> index 07418fcda1..6cdcfa3068 100644
-> --- a/meta/lib/oeqa/controllers/masterimage.py
-> +++ b/meta/lib/oeqa/controllers/masterimage.py
-> @@ -108,7 +108,7 @@ class MasterImageHardwareTarget(oeqa.targetcontrol.BaseTarget, metaclass=ABCMeta
->              time.sleep(10)
->              self.power_ctl("cycle")
->          else:
-> -            status, output = conn.run("reboot")
-> +            status, output = conn.run("{ sleep 1; reboot; } > /dev/null &")
+On 18 May 2017 at 23:28, Jose Lamego <jose.a.lamego@linux.intel.com> wrote:
 
-what would make the difference having the sleep before reboot?
+> bc recipe must be upgraded to latest version in upstream.
+>
+> bc license changed from "GPLv2+ & LGPLv2.1" to "GPLv3+ & LGPLv3"
+> The new version exhibits a Parallel Make Race that required
+> unsetting PARALLEL_MAKE variable.
+> This change was tested with core-image-minimal in qemux86.
 
 
->              if status != 0:
->                  bb.error("Failed rebooting target and no power control command defined. You need to manually reset the device.\n%s" % output)
->  
-> -- 
-> 2.11.0
-> 
+It would be appreciated if you could spend a few minutes looking at what
+the build race is and pushing a fix upstream.  Or at least include a
+comment showing the failure.
 
+I chased the sed thing as previous releases didn't need it: my build
+machine doesn't even have ed installed so HOSTTOOLS won't help.  This
+appears to be a regression as 1.06 shipped the file that needs ed to
+build.  The makefile now always builds a binary to generate a file that it
+then runs through ed, and it doesn't build this tool correctly in a cross
+environment either:
 
+| /bin/bash: ./fbc: cannot execute binary file: Exec format error
 
+(it's trying to run an arm binary on x86)
+
+I'd suggest that we approach the upstream maintainer and discuss:
+1) should the tarballs ship libmath.h instead of requiring it to be
+generated
+2) using CC_FOR_BUILD etc from autoconf-archive to build fbc with the host
+compiler in cross-compile environments
+3) can sed be used instead of ed to reduce the host requirements
+
+Ross
+
+--001a113f422866cd5e054fe22321
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 18 May 2017 at 23:28, Jose Lamego <span dir=3D"ltr">&lt;<a href=3D"mailt=
+o:jose.a.lamego@linux.intel.com" target=3D"_blank">jose.a.lamego@linux.inte=
+l.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"m=
+argin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-style:solid;borde=
+r-left-color:rgb(204,204,204);padding-left:1ex"><span class=3D"gmail-">bc r=
+ecipe must be upgraded to latest version in upstream.<br>
+<br>
+</span>bc license changed from &quot;GPLv2+ &amp; LGPLv2.1&quot; to &quot;G=
+PLv3+ &amp; LGPLv3&quot;<br>
+The new version exhibits a Parallel Make Race that required<br>
+unsetting PARALLEL_MAKE variable.<br>
+This change was tested with core-image-minimal in qemux86.</blockquote></di=
+v><br>It would be appreciated if you could spend a few minutes looking at w=
+hat the build race is and pushing a fix upstream.=C2=A0 Or at least include=
+ a comment showing the failure.</div><div class=3D"gmail_extra"><br></div><=
+div class=3D"gmail_extra">I chased the sed thing as previous releases didn&=
+#39;t need it: my build machine doesn&#39;t even have ed installed so HOSTT=
+OOLS won&#39;t help.=C2=A0 This appears to be a regression as 1.06 shipped =
+the file that needs ed to build.=C2=A0 The makefile now always builds a bin=
+ary to generate a file that it then runs through ed, and it doesn&#39;t bui=
+ld this tool correctly in a cross environment either:</div><div class=3D"gm=
+ail_extra"><br></div><div class=3D"gmail_extra">| /bin/bash: ./fbc: cannot =
+execute binary file: Exec format error<br></div><div class=3D"gmail_extra">=
+<br></div><div class=3D"gmail_extra">(it&#39;s trying to run an arm binary =
+on x86)</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra=
+">I&#39;d suggest that we approach the upstream maintainer and discuss:</di=
+v><div class=3D"gmail_extra">1) should the tarballs ship libmath.h instead =
+of requiring it to be generated</div><div class=3D"gmail_extra">2) using CC=
+_FOR_BUILD etc from autoconf-archive to build fbc with the host compiler in=
+ cross-compile environments</div><div class=3D"gmail_extra">3) can sed be u=
+sed instead of ed to reduce the host requirements</div><div class=3D"gmail_=
+extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+
+--001a113f422866cd5e054fe22321--
