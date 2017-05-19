@@ -1,47 +1,48 @@
-Return-Path: <max.oss.09@gmail.com>
-Received: from mail-wr0-f196.google.com (mail-wr0-f196.google.com
-	[209.85.128.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 822CB60777
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qt0-f173.google.com (mail-qt0-f173.google.com
+	[209.85.216.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 6513160777
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 May 2017 15:49:53 +0000 (UTC)
-Received: by mail-wr0-f196.google.com with SMTP id 6so3355658wrb.1
+	Fri, 19 May 2017 15:51:43 +0000 (UTC)
+Received: by mail-qt0-f173.google.com with SMTP id t26so61420635qtg.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 May 2017 08:49:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=VqgnpD2OoeczS9Y1qb8uLtCgRDIZWnAsCyO5CeChPl4=;
-	b=U6Bj7t9GIhauSlNmmraj8mPkpVle6KFoq1AtNiDZubo5Dp0dDOiwteW/OTLnIWEPao
-	p8yNlMkd8qHGbatAhYBl+LZewTolq83bTCsN/EZNQpwdoHRcYBAzVGEbCjpGT3j/4PMJ
-	t1CmjV+Sbdnn2Zw/zHBvn7OrHnhyYQAXJM41n98AQkR8LN6fHd4DVL9AFPivO0QqcfrI
-	jAzCGNG4sRqVZyTEGs4d+b7z1h4QthJznxAKvdqYyeWHvIYVVJCPQXkiGMaYHZJuxCfq
-	zPcPnN3PZ2Fv9P2I855vZPZ+xQBn7e3senh73mjrMqGyy5uNrI2GA4lj+5NeITRoMA7j
-	Y/PQ==
+	Fri, 19 May 2017 08:51:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=13G32h38/DAfp9CK629wMvGwZeLJFls12ssfGm1qM/A=;
+	b=j96KH6CR63VoJteQEz7Mn4d3jZuC3I1Gig2Kpy6MP51L6MvZbWSGNLluOe2JB2GgEp
+	tEQmCZlRqIqRyHypLrWlEoCctjA+KQA59OfBL5u3+f1PvAwyfl4zPIPyhUjSW5zRj1+/
+	QL7GZ35tU1XOVmajqRFlweKoR/imeIdUXR1vH8efTua6WMa9UvfXQA3cjnHcn69MBHiN
+	7EFhjGizh6HM72Nl3mn67uQdNJmZ+LjaMdwqzWDf/IKGqdLP5rSvmpb3UNwkyX37/Ith
+	0JBI2qPRW9ADgLrRvBqhGP8WFwre47LirxNhfrpnbmPHseBXyrTRkmp4ReJF6oQSkkMU
+	geDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=VqgnpD2OoeczS9Y1qb8uLtCgRDIZWnAsCyO5CeChPl4=;
-	b=FvF2Z5EuuLOGqRp8/dq0ciYpsfOYSo8mA4dsCRu/O7fRS3U4Ba8YKBVS6NA8nLl2Kn
-	vVdGxIfLjLN+fKF4coY1CrZXS3y4zzr/P2aTPmz/TZumsV2t6x7n/bpI5W78zcE6Hy9m
-	bisOMVYfkb6rhnqd4wPeKUf3emc7pP5y1vWOlzT5dJOg/PX/opXh0ZrZWaAnm7yEThhV
-	MRVXsxCwawIGgPAbK10VydZF2lpT02tmsmunziE9J3cgjZ0HPlLuPpdo5YU0AET9c/Pu
-	ELV4PcUSWjrOZ0eD8OYMOLeaO2dp0ONOjqOJUP7HaovFlgIms5gKQrY+yQ3NDRzPWPDM
-	h+/Q==
-X-Gm-Message-State: AODbwcAaeCurZUeNk3dI82PnalmTsKc4Ed7WPbDsV3kWknPIcwrXs84H
-	mJQsTVsf3XNRIg==
-X-Received: by 10.223.173.74 with SMTP id p68mr3391676wrc.163.1495208994125;
-	Fri, 19 May 2017 08:49:54 -0700 (PDT)
-Received: from linuxdev.toradex.int ([46.140.72.82])
-	by smtp.gmail.com with ESMTPSA id j1sm5089584wmf.6.2017.05.19.08.49.53
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 19 May 2017 08:49:53 -0700 (PDT)
-From: Max Krummenacher <max.oss.09@gmail.com>
-X-Google-Original-From: Max Krummenacher <max.krummenacher@toradex.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 19 May 2017 17:48:56 +0200
-Message-Id: <20170519154856.21505-1-max.krummenacher@toradex.com>
-X-Mailer: git-send-email 2.9.3
-Cc: Max Krummenacher <max.krummenacher@toradex.com>
-Subject: [PATCH v2] libsolv: don't pick up bundled db from host rpm
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=13G32h38/DAfp9CK629wMvGwZeLJFls12ssfGm1qM/A=;
+	b=U4DykUMkRaOx+b7PO4/bb4UTj5TuJN0Q637WNUsKaGt29k/ehufagDwQcy2Y7DN4Ix
+	qTgHV97dBsBG541bqBJApUPSMvdZK0kTGIXxuu0HJeeS54kbFqzBq/Un1NuRd4p7HzTc
+	S19ryNFlqWLldhXespd0tTrp5mIc+dVls/2z+PaKBy6pJoUrFCZ36ll1NwDr9MOZ4QAk
+	svOweULmnScFKM4d/6iEYI9gOequBvFbtvrbDKi6bqSPnHdY0xLgPC3UX1mAVMxIwobO
+	hH+cVu4qTar8QJoZovVqvvhLnNEeYnuiLioTP+NlgsIOYAeS1CaCXx1jtF5nTMNQ96+M
+	KNIQ==
+X-Gm-Message-State: AODbwcCl5wmZk6XVVU7Us9XK/gRCd+ZcZ5B2M7mQntxhz306c0Ob7ds6
+	gZLdLiw/WKOhwOqh4lltgHal6ahyxqzj
+X-Received: by 10.200.50.49 with SMTP id x46mr10571549qta.105.1495209105317;
+	Fri, 19 May 2017 08:51:45 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.41.115 with HTTP; Fri, 19 May 2017 08:51:24 -0700 (PDT)
+In-Reply-To: <20170519154856.21505-1-max.krummenacher@toradex.com>
+References: <20170519154856.21505-1-max.krummenacher@toradex.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 19 May 2017 16:51:24 +0100
+Message-ID: <CAJTo0Lbf1u7b+X6JTH-S+n+N80OSkFGcZnvoRnAKBgcqQ2q6xg@mail.gmail.com>
+To: Max Krummenacher <max.oss.09@gmail.com>
+Cc: Max Krummenacher <max.krummenacher@toradex.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] libsolv: don't pick up bundled db from host rpm
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,97 +55,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 May 2017 15:49:53 -0000
+X-List-Received-Date: Fri, 19 May 2017 15:51:44 -0000
+Content-Type: multipart/alternative; boundary="001a113577a2967634054fe27fdc"
 
-With rpm v4 in openembedded but on a host with existing /usr/include/rpm/db.h
-the native build fails to compile.
+--001a113577a2967634054fe27fdc
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Max Krummenacher <max.krummenacher@toradex.com>
----
- ...01-don-t-pick-up-bundled-db-from-host-rpm.patch | 51 ++++++++++++++++++++++
- meta/recipes-extended/libsolv/libsolv_0.6.26.bb    |  3 +-
- 2 files changed, 53 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-extended/libsolv/libsolv/0001-don-t-pick-up-bundled-db-from-host-rpm.patch
+On 19 May 2017 at 16:48, Max Krummenacher <max.oss.09@gmail.com> wrote:
 
-changes in V2:
+> +Upstream-Status: Inappropriate [oe build specific]
+>
 
-- instead of unconditionally assume db is not bundled
-  evaluate the actually linked librpm.so
-- fix commit text to include that libsolv-native is failing
-  (but not libsolv and nativesdk-libsolv)
+Is this really inappropriate?  We're finding a bug in the build system but
+that doesn't mean we're the cause of the breakage.
 
-diff --git a/meta/recipes-extended/libsolv/libsolv/0001-don-t-pick-up-bundled-db-from-host-rpm.patch b/meta/recipes-extended/libsolv/libsolv/0001-don-t-pick-up-bundled-db-from-host-rpm.patch
-new file mode 100644
-index 0000000..f99cdca
---- /dev/null
-+++ b/meta/recipes-extended/libsolv/libsolv/0001-don-t-pick-up-bundled-db-from-host-rpm.patch
-@@ -0,0 +1,51 @@
-+From f815c166f08f8a0a257630e91c0bcc20409f42cf Mon Sep 17 00:00:00 2001
-+From: Max Krummenacher <max.krummenacher@toradex.com>
-+Date: Sun, 7 May 2017 20:28:11 +0100
-+Subject: [PATCH] don't pick up bundled db from host rpm
-+
-+For libsolv-native with rpm v4 in openembedded but on a host with
-+existing /usr/include/rpm/db.h the build is configured to have
-+HAVE_RPM_DB_H because of the existing header file from the host,
-+but linking against the librpm.so in recipe-sysroot-native fails.
-+
-+Check for a bundled db by testing if librpm.so provides one of
-+the db functions.
-+
-+Fixes the following link errors:
-+| ../ext/libsolvext.so.0: undefined reference to `db_create_rpmdb'
-+| ../ext/libsolvext.so.0: undefined reference to `db_env_create_rpmdb'
-+
-+Observed on a openSUSE Leap 42.1 build host with rpm-devel installed.
-+
-+Upstream-Status: Inappropriate [oe build specific]
-+
-+Signed-off-by: Max Krummenacher <max.krummenacher@toradex.com>
-+---
-+ CMakeLists.txt | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
-+
-+diff --git a/CMakeLists.txt b/CMakeLists.txt
-+index 838f9d0..1ded881 100644
-+--- a/CMakeLists.txt
-++++ b/CMakeLists.txt
-+@@ -185,7 +185,7 @@ IF (ENABLE_RPMDB)
-+ SET (ENABLE_RPMPKG ON)
-+ ENDIF (ENABLE_RPMDB)
-+ 
-+-INCLUDE (CheckIncludeFile)
-++INCLUDE (CheckLibraryExists)
-+ IF (ENABLE_RPMDB)
-+   FIND_LIBRARY (RPMDB_LIBRARY NAMES rpmdb)
-+ 
-+@@ -206,7 +206,7 @@ IF (ENABLE_RPMDB)
-+   ENDIF (RPM5)
-+ 
-+   # check if rpm contains a bundled berkeley db
-+-  CHECK_INCLUDE_FILE(rpm/db.h HAVE_RPM_DB_H)
-++  CHECK_LIBRARY_EXISTS(rpm.so db_create_rpmdb "" HAVE_RPM_DB_H)
-+   IF (NOT HAVE_RPM_DB_H)
-+     FIND_LIBRARY (DB_LIBRARY NAMES db)
-+     IF (DB_LIBRARY)
-+-- 
-+2.12.0
-+
-diff --git a/meta/recipes-extended/libsolv/libsolv_0.6.26.bb b/meta/recipes-extended/libsolv/libsolv_0.6.26.bb
-index a33c251..ccd9cfa 100644
---- a/meta/recipes-extended/libsolv/libsolv_0.6.26.bb
-+++ b/meta/recipes-extended/libsolv/libsolv_0.6.26.bb
-@@ -8,7 +8,8 @@ LIC_FILES_CHKSUM = "file://LICENSE.BSD;md5=62272bd11c97396d4aaf1c41bc11f7d8"
- DEPENDS = "expat zlib rpm"
- 
- SRC_URI = "git://github.com/openSUSE/libsolv.git \
--           "
-+           file://0001-don-t-pick-up-bundled-db-from-host-rpm.patch \
-+          "
- SRC_URI_append_libc-musl = " file://0001-Add-fallback-fopencookie-implementation.patch \
-                              file://0002-Fixes-to-internal-fopencookie-implementation.patch \
-                            "
--- 
-2.9.3
+Ross
 
+--001a113577a2967634054fe27fdc
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 19 May 2017 at 16:48, Max Krummenacher <span dir=3D"ltr">&lt;<a href=3D"=
+mailto:max.oss.09@gmail.com" target=3D"_blank">max.oss.09@gmail.com</a>&gt;=
+</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .=
+8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":2a8" class=3D"=
+a3s aXjCH m15c216722bf22d17">+Upstream-Status: Inappropriate [oe build spec=
+ific]<br></div></blockquote></div><br>Is this really inappropriate?=C2=A0 W=
+e&#39;re finding a bug in the build system but that doesn&#39;t mean we&#39=
+;re the cause of the breakage.</div><div class=3D"gmail_extra"><br></div><d=
+iv class=3D"gmail_extra">Ross</div></div>
+
+--001a113577a2967634054fe27fdc--
