@@ -1,24 +1,24 @@
-Return-Path: <erik.boto@pelagicore.com>
-Received: from ORO-EDGE-01.luxoft.com (oro-edge-01.luxoft.com [109.166.244.21])
-	by mail.openembedded.org (Postfix) with ESMTP id C88BF780B7
+Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	by mail.openembedded.org (Postfix) with ESMTP id 2E4FF77E7A
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 May 2017 14:25:46 +0000 (UTC)
-Received: from ORO-HUBT-02.luxoft.com (172.30.115.36) by
-	oro-edge-01.luxoft.com (172.30.19.21) with Microsoft SMTP Server (TLS)
-	id 14.3.319.2; Fri, 19 May 2017 17:20:20 +0300
-Received: from debbie.luxoft.com (172.31.241.79) by ORO-HUBT-02.luxoft.com
-	(172.30.115.101) with Microsoft SMTP Server (TLS) id 14.3.319.2;
-	Fri, 19 May 2017 17:20:19 +0300
-From: =?UTF-8?q?Erik=20Bot=C3=B6?= <erik.boto@pelagicore.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 19 May 2017 16:20:04 +0200
-Message-ID: <20170519142004.32682-4-erik.boto@pelagicore.com>
-X-Mailer: git-send-email 2.11.0
+	Fri, 19 May 2017 15:05:57 +0000 (UTC)
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+	by orsmga105.jf.intel.com with ESMTP; 19 May 2017 08:05:52 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.38,364,1491289200"; d="scan'208";a="104208724"
+Received: from lsandov1-mobl2.zpn.intel.com ([10.219.128.119])
+	by fmsmga005.fm.intel.com with ESMTP; 19 May 2017 07:51:25 -0700
+Message-ID: <1495205983.1761.105.camel@linux.intel.com>
+From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+To: Erik =?ISO-8859-1?Q?Bot=F6?= <erik.boto@pelagicore.com>
+Date: Fri, 19 May 2017 09:59:43 -0500
 In-Reply-To: <20170519142004.32682-1-erik.boto@pelagicore.com>
 References: <20170519142004.32682-1-erik.boto@pelagicore.com>
-MIME-Version: 1.0
-X-Originating-IP: [172.31.241.79]
-Subject: [PATCH 4/4] sshcontrol.py: in copy_to() always use scp
+X-Mailer: Evolution 3.12.9-1+b1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/4] masterimage.py: fix issue with calling reboot on masterimage/DUT
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,40 +31,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 May 2017 14:25:47 -0000
+X-List-Received-Date: Fri, 19 May 2017 15:05:58 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-The current implementation is broken when the localpath is a link.
-Then only a symlink would be created on the target, instead of copying
-the actual file.
+On Fri, 2017-05-19 at 16:20 +0200, Erik Botö wrote:
+> On systemd systems calling reboot over an ssh connection doesn't
+> return as expected causing an exception, therefore wrap the call
+> to reboot in order to avoid this issue.
+> 
+> Signed-off-by: Erik Botö <erik.boto@pelagicore.com>
+> ---
+>  meta/lib/oeqa/controllers/masterimage.py | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/meta/lib/oeqa/controllers/masterimage.py b/meta/lib/oeqa/controllers/masterimage.py
+> index 07418fcda1..6cdcfa3068 100644
+> --- a/meta/lib/oeqa/controllers/masterimage.py
+> +++ b/meta/lib/oeqa/controllers/masterimage.py
+> @@ -108,7 +108,7 @@ class MasterImageHardwareTarget(oeqa.targetcontrol.BaseTarget, metaclass=ABCMeta
+>              time.sleep(10)
+>              self.power_ctl("cycle")
+>          else:
+> -            status, output = conn.run("reboot")
+> +            status, output = conn.run("{ sleep 1; reboot; } > /dev/null &")
 
-Signed-off-by: Erik Botö <erik.boto@pelagicore.com>
----
- meta/lib/oeqa/utils/sshcontrol.py | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
+what would make the difference having the sleep before reboot?
 
-diff --git a/meta/lib/oeqa/utils/sshcontrol.py b/meta/lib/oeqa/utils/sshcontrol.py
-index 05d6502550..d292893c08 100644
---- a/meta/lib/oeqa/utils/sshcontrol.py
-+++ b/meta/lib/oeqa/utils/sshcontrol.py
-@@ -150,12 +150,9 @@ class SSHControl(object):
- 
-     def copy_to(self, localpath, remotepath):
-         if os.path.islink(localpath):
--            link = os.readlink(localpath)
--            dst_dir, dst_base = os.path.split(remotepath)
--            return self.run("cd %s; ln -s %s %s" % (dst_dir, link, dst_base))
--        else:
--            command = self.scp + [localpath, '%s@%s:%s' % (self.user, self.ip, remotepath)]
--            return self._internal_run(command, ignore_status=False)
-+            localpath = os.path.dirname(localpath) + "/" + os.readlink(localpath)
-+        command = self.scp + [localpath, '%s@%s:%s' % (self.user, self.ip, remotepath)]
-+        return self._internal_run(command, ignore_status=False)
- 
-     def copy_from(self, remotepath, localpath):
-         command = self.scp + ['%s@%s:%s' % (self.user, self.ip, remotepath), localpath]
--- 
-2.11.0
+
+>              if status != 0:
+>                  bb.error("Failed rebooting target and no power control command defined. You need to manually reset the device.\n%s" % output)
+>  
+> -- 
+> 2.11.0
+> 
+
 
 
