@@ -1,24 +1,24 @@
 Return-Path: <erik.boto@pelagicore.com>
-X-Greylist: delayed 327 seconds by postgrey-1.34 at layers.openembedded.org;
-	Fri, 19 May 2017 14:25:41 UTC
-Received: from ORO-EDGE-01.luxoft.com (oro-edge-01.luxoft.com [109.166.244.21])
-	by mail.openembedded.org (Postfix) with ESMTP id 41F7277F15
+Received: from ORO-EDGE-02.luxoft.com (oro-edge-02.luxoft.com [109.166.244.22])
+	by mail.openembedded.org (Postfix) with ESMTP id D2AA1780B7
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 May 2017 14:25:41 +0000 (UTC)
+	Fri, 19 May 2017 14:25:42 +0000 (UTC)
 Received: from ORO-HUBT-02.luxoft.com (172.30.115.36) by
-	oro-edge-01.luxoft.com (172.30.19.21) with Microsoft SMTP Server (TLS)
-	id 14.3.319.2; Fri, 19 May 2017 17:20:12 +0300
+	oro-edge-02.luxoft.com (172.30.19.22) with Microsoft SMTP Server (TLS)
+	id 14.3.319.2; Fri, 19 May 2017 17:20:16 +0300
 Received: from debbie.luxoft.com (172.31.241.79) by ORO-HUBT-02.luxoft.com
 	(172.30.115.101) with Microsoft SMTP Server (TLS) id 14.3.319.2;
-	Fri, 19 May 2017 17:20:12 +0300
+	Fri, 19 May 2017 17:20:15 +0300
 From: =?UTF-8?q?Erik=20Bot=C3=B6?= <erik.boto@pelagicore.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 19 May 2017 16:20:01 +0200
-Message-ID: <20170519142004.32682-1-erik.boto@pelagicore.com>
+Date: Fri, 19 May 2017 16:20:02 +0200
+Message-ID: <20170519142004.32682-2-erik.boto@pelagicore.com>
 X-Mailer: git-send-email 2.11.0
+In-Reply-To: <20170519142004.32682-1-erik.boto@pelagicore.com>
+References: <20170519142004.32682-1-erik.boto@pelagicore.com>
 MIME-Version: 1.0
 X-Originating-IP: [172.31.241.79]
-Subject: [PATCH 1/4] masterimage.py: fix issue with calling reboot on masterimage/DUT
+Subject: [PATCH 2/4] masterimage.py: rename parameter "params" in start() to "extra_bootparams"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,13 +31,11 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 May 2017 14:25:41 -0000
+X-List-Received-Date: Fri, 19 May 2017 14:25:43 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-On systemd systems calling reboot over an ssh connection doesn't
-return as expected causing an exception, therefore wrap the call
-to reboot in order to avoid this issue.
+This matches how it is called, and how it is named in qmeu target.
 
 Signed-off-by: Erik Botö <erik.boto@pelagicore.com>
 ---
@@ -45,18 +43,18 @@ Signed-off-by: Erik Botö <erik.boto@pelagicore.com>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/meta/lib/oeqa/controllers/masterimage.py b/meta/lib/oeqa/controllers/masterimage.py
-index 07418fcda1..6cdcfa3068 100644
+index 6cdcfa3068..18da2799bb 100644
 --- a/meta/lib/oeqa/controllers/masterimage.py
 +++ b/meta/lib/oeqa/controllers/masterimage.py
-@@ -108,7 +108,7 @@ class MasterImageHardwareTarget(oeqa.targetcontrol.BaseTarget, metaclass=ABCMeta
-             time.sleep(10)
-             self.power_ctl("cycle")
-         else:
--            status, output = conn.run("reboot")
-+            status, output = conn.run("{ sleep 1; reboot; } > /dev/null &")
-             if status != 0:
-                 bb.error("Failed rebooting target and no power control command defined. You need to manually reset the device.\n%s" % output)
+@@ -143,7 +143,7 @@ class MasterImageHardwareTarget(oeqa.targetcontrol.BaseTarget, metaclass=ABCMeta
+     def _deploy(self):
+         pass
  
+-    def start(self, params=None):
++    def start(self, extra_bootparams=None):
+         bb.plain("%s - boot test image on target" % self.pn)
+         self._start()
+         # set the ssh object for the target/test image
 -- 
 2.11.0
 
