@@ -1,47 +1,26 @@
-Return-Path: <twoerner@gmail.com>
-Received: from mail-ua0-f179.google.com (mail-ua0-f179.google.com
-	[209.85.217.179])
-	by mail.openembedded.org (Postfix) with ESMTP id F287F77E1B
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 20 May 2017 04:49:31 +0000 (UTC)
-Received: by mail-ua0-f179.google.com with SMTP id j17so36039033uag.3
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 May 2017 21:49:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to; 
-	bh=+C6+FjknW0gRnMFG7KU4YDJRNxr5JSxa5kfKLZEoyOU=;
-	b=XZiTsleJ70gN1EdD7QciZY/GBCy9jGbye3YE8wmX5/T0Wt7ds4+njxjzt953AWHy7W
-	lSp3slWmEtfVUaUJ4H0QzwJIk2oz510I7y3Pb7ZSHu99mpccHTHAciUCW8SIb7eaqCCS
-	CTyEgWv8q36oMpRaO/uhNH1nEJp+Le0O3VbDlmleB6hmQRwJY5ik7AP0E345g4WJlZiB
-	H2ycOq+irHf12YAWEPIcEgQewXg3FsVibWou2vdGYI92YZLwT+tu1q+ahOxg7WNRFimG
-	/ZgWs8AKdzzUSbWD2ISYkk32eenGfJT/B+Tgvcbq+QTusQmJvBupWyrwV7xFK5E7ymbk
-	qOpA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to;
-	bh=+C6+FjknW0gRnMFG7KU4YDJRNxr5JSxa5kfKLZEoyOU=;
-	b=YX3kEig+Apb3PYFNIX1mIfVk5xGhZpBkTFI3C4ZwWWdfNAvKrs1UvGe/0/vLyxt8A2
-	WEkmYbshRvNShvQHARAU3fJfuCuFDPesSHtNgXUEuFN9pQzj6jIJ0VbJpIS8cIu0TIRH
-	ZjWFdMoXJakjB4hZMTvkDBwz7/6s5z/uFMxwWR330F17GyRHj2TEVAAdiD0QBHvB98eO
-	VQR7XPt0tJF2ZlUQFSB5pMVOGyMzQ2obNBUxhvDr6iRtU5PeAOP/nz3mBoNYy8wgfmCn
-	BQD2Pkw2spIXh9yC8PSoAoAqVowLHD53uQvqIenCytt54r48DInh+nk5a1r3GDsO+Kk9
-	XggA==
-X-Gm-Message-State: AODbwcAPsR2qB2AOKIlq1aCMfKNN4u+I1Y3YfxFhWI8ApfPexyBrgBAb
-	4ksv0NZ/nrJrY5dzr9QGzJ5Ua8Q/uNzX
-X-Received: by 10.159.37.105 with SMTP id 96mr6488909uaz.92.1495255772573;
-	Fri, 19 May 2017 21:49:32 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.103.67.199 with HTTP; Fri, 19 May 2017 21:49:32 -0700 (PDT)
-In-Reply-To: <6E51916E4A1F32428260031F4C7CD2B61195C6DE@ORSMSX112.amr.corp.intel.com>
-References: <1495141509-4582-1-git-send-email-juro.bystricky@intel.com>
-	<CAJTo0LbY5NPD8PY8dFiCvg8h47DCWYBgM6yEWLVDk3Vg-C-MUw@mail.gmail.com>
-	<6E51916E4A1F32428260031F4C7CD2B61195C6DE@ORSMSX112.amr.corp.intel.com>
-From: Trevor Woerner <twoerner@gmail.com>
-Date: Sat, 20 May 2017 00:49:32 -0400
-Message-ID: <CAHUNapSwJtsaLgavq3VMjXsHgPb-AwX-+yu0-j_7fV2oDLCEnQ@mail.gmail.com>
-To: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] kernel.bbclass: improve reproducibility
+Return-Path: <timothy.t.orling@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 4919F6FEFA;
+	Sat, 20 May 2017 16:57:38 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	20 May 2017 09:57:39 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.38,370,1491289200"; d="scan'208";a="1132902881"
+Received: from mbstephe-mobl1.amr.corp.intel.com ([10.254.187.130])
+	by orsmga001.jf.intel.com with ESMTP; 20 May 2017 09:57:39 -0700
+Mime-Version: 1.0 (Mac OS X Mail 10.3 \(3273\))
+From: Tim Orling <timothy.t.orling@linux.intel.com>
+In-Reply-To: <20170519191339.GA11044@jama>
+Date: Sat, 20 May 2017 09:57:39 -0700
+Message-Id: <938DFEF8-6CF3-4868-A052-C9217B619FDC@linux.intel.com>
+References: <20170519191339.GA11044@jama>
+To: Martin Jansa <martin.jansa@gmail.com>
+X-Mailer: Apple Mail (2.3273)
+Cc: openembedded-devel <openembedded-devel@lists.openembedded.org>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [oe] State of bitbake world, Failed tasks 2017-05-17
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,12 +33,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 20 May 2017 04:49:33 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Sat, 20 May 2017 16:57:39 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-Should this be configurable?
 
-Is there an assumption everyone who uses oe-core wants reproducible builds?
+> On May 19, 2017, at 12:13 PM, Martin Jansa <martin.jansa@gmail.com> =
+wrote:
+>=20
+> http://www.openembedded.org/wiki/Bitbake_World_Status
 
-Could this affect one's ability to perform debugging?
+</snip>
+
+> =3D=3D=3D common (4) =3D=3D=3D
+>    * =
+meta-browser/recipes-mozilla/firefox/firefox_45.6.0esr.bb:do_compile
+>    * =
+meta-openembedded/meta-oe/recipes-multimedia/audiofile/audiofile_0.3.6.bb:=
+do_configure
+>    * =
+meta-openembedded/meta-xfce/recipes-bindings/vala/xfce4-vala_4.10.3.bb:do_=
+configure
+
+I sent a patch to ML for this. vala api 0.34 -> 0.36, easy fix :)
+
+>    * =
+meta-smartphone/meta-shr/recipes-shr/3rdparty/libsensmon_git.bb:do_compile=
+
+>=20
+</snip>
+
 
