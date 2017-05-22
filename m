@@ -1,41 +1,41 @@
 Return-Path: <nicolas.dechesne@linaro.org>
-Received: from mail-qt0-f176.google.com (mail-qt0-f176.google.com
-	[209.85.216.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 8CB0B71AC6
+Received: from mail-qk0-f182.google.com (mail-qk0-f182.google.com
+	[209.85.220.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 9E16371AC6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 May 2017 09:26:59 +0000 (UTC)
-Received: by mail-qt0-f176.google.com with SMTP id c13so96863657qtc.1
+	Mon, 22 May 2017 09:30:16 +0000 (UTC)
+Received: by mail-qk0-f182.google.com with SMTP id y201so100892404qka.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 May 2017 02:27:00 -0700 (PDT)
+	Mon, 22 May 2017 02:30:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:cc:subject:date:message-id;
 	bh=UDa3yJBK6DziR+K7BLcxuZjjgAZZiGIlGyJhGNSUzc8=;
-	b=U0VH/WmXxWMEenjPaco6NG+/66ZPP61Ezw/OmYTzy/OUSs3WV3j3cefK6smYhMxNOu
-	3KTr5CWfQwR3ekZ8I8xuzzYKB+5tlBxK6EDrGTkeJr1SvcJaqlPkDMnO6CuEyzyANj0x
-	hddVPYFCPnmX1p1qPvEVfNYPa8zXlFzOi5zlw=
+	b=WFS0+fXb3lh2qI/iKkojZhF+dvKW99ALGyfPTxyDUgRLem8xS1EUYTCJYYyLk8H9Cm
+	iaaqY0qeZseXmaKK1Y4YvQGB+6LWPALbDm1/+PB/iCCvsU7SeEhSs6iyL9GSd+421m3T
+	9qjMwoVZk3jbcmiB6jKU+jGZy93a+P/H/LGXM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id;
 	bh=UDa3yJBK6DziR+K7BLcxuZjjgAZZiGIlGyJhGNSUzc8=;
-	b=piy2upDMezNTxtM2XLg32eTDxrIAj6YQZLBcWzccBZ3FlkAWWKx9tVSXFr4pBCfDro
-	qkGHImolFcqHHsw/eH3YDIXV05RdOSbnxJejfpjT7tBUsN4XEHnqim0fs51095nkVLUM
-	j3MnWIsMSEc6b7bw2O+DKfbhOlt4R5HmqYEuaRQArG+aJhNd7XzmpSmcRNArPWZAdNxx
-	HmJ119+ajij5sI4Y2LwDW6zNMjRB2Vx23RcCzfCEdUAgW6UzmPICctNvzb7848rDwVYA
-	uV4j2uzPzqLfHBMOPbJs/gniEiPsRxev5LZjiJ4A156YBbJBxZH2ybNNgG0z1Ey23Dpl
-	2ApA==
-X-Gm-Message-State: AODbwcCFYTnBP39RnLVTl/mgF6Tm4C8he30v1x3JIWNNKVA5bG+YFMWQ
-	UiSR1sAIcLKc+/lS
-X-Received: by 10.200.44.186 with SMTP id 55mr23559980qtw.173.1495445220232;
-	Mon, 22 May 2017 02:27:00 -0700 (PDT)
+	b=dIG6VsLuLzsPY1xvjsLwoG12uGh2Oyv+ME69QzJZRtjwcying84XqtzlLHxTFqIyGg
+	+aVh2UrOacDk7jmG4wVKhtFAk6vG5kpaL6X8S3O083TokzXaHkMtCNuQyFr9lOsGPO85
+	TOGSQzvHpYHoXDoRQI1JM9m44BX6fgqLRHJJh1afTKAEpHqMmdfnpr0UO7lXOLm70Dj6
+	9BBJXtPipUUQFaoBXtCj9ItFpE4qLyl1qy5+VrALN6kuKq82An1RdVnP+G2MY0wk7Gdm
+	6ZMlVvt81HH80htahjrFAMEgUJV3y1M6mIP3g6EILnT70+ovOyWkBnkGiu/6EFuWm2CP
+	5TZA==
+X-Gm-Message-State: AODbwcDOPwPpC5pKvDh+bvTJ5tEImFn4YBNyem9J++l1mSetHAzVLEM2
+	gqk6LBihF0c6TzZyVPz/JA==
+X-Received: by 10.55.64.133 with SMTP id n127mr6239163qka.145.1495445417536;
+	Mon, 22 May 2017 02:30:17 -0700 (PDT)
 Received: from localhost.localdomain (static.8.26.4.46.clients.your-server.de.
 	[46.4.26.8]) by smtp.gmail.com with ESMTPSA id
-	m11sm11459462qta.67.2017.05.22.02.26.59
+	n17sm11667604qtb.6.2017.05.22.02.30.16
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 22 May 2017 02:26:59 -0700 (PDT)
+	Mon, 22 May 2017 02:30:16 -0700 (PDT)
 From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 22 May 2017 11:26:22 +0200
-Message-Id: <20170522092622.14761-1-nicolas.dechesne@linaro.org>
+Date: Mon, 22 May 2017 11:30:00 +0200
+Message-Id: <20170522093003.17711-1-nicolas.dechesne@linaro.org>
 X-Mailer: git-send-email 2.11.0
 Cc: Nicolas Dechesne <nicolas.dechesne@linaro.org>
 Subject: [PATCH 0/3] [RFC] Add support for 'fastboot images'
@@ -51,7 +51,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 May 2017 09:26:59 -0000
+X-List-Received-Date: Mon, 22 May 2017 09:30:16 -0000
 
 Many devices come with 'Android' bootloader that implements fastboot
 protocol. This protocol was also added in uboot. This series tries to
