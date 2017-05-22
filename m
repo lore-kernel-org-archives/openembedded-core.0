@@ -1,34 +1,21 @@
-Return-Path: <denis@denix.org>
-Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.17])
-	by mail.openembedded.org (Postfix) with ESMTP id E950677E86
+Return-Path: <alejandro.hernandez@linux.intel.com>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by mail.openembedded.org (Postfix) with ESMTP id 85601719E7
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 May 2017 21:33:44 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mailout4.zoneedit.com (Postfix) with ESMTP id 7D9DB20BAA;
-	Mon, 22 May 2017 21:33:45 +0000 (UTC)
-Received: from mailout4.zoneedit.com ([127.0.0.1])
-	by localhost (zmo03-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
-	port 10024)
-	with ESMTP id Vy5mTx3R4FvE; Mon, 22 May 2017 21:33:45 +0000 (UTC)
-Received: from mail.denix.org (pool-100-15-85-143.washdc.fios.verizon.net
-	[100.15.85.143])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 5BBF6204E0;
-	Mon, 22 May 2017 21:33:44 +0000 (UTC)
-Received: by mail.denix.org (Postfix, from userid 1000)
-	id E63F01624C9; Mon, 22 May 2017 17:33:43 -0400 (EDT)
-Date: Mon, 22 May 2017 17:33:43 -0400
-From: Denys Dmytriyenko <denis@denix.org>
+	Mon, 22 May 2017 22:25:27 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by orsmga104.jf.intel.com with ESMTP; 22 May 2017 15:25:29 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.38,379,1491289200"; d="scan'208";a="860132960"
+Received: from yctb02.ostc.intel.com (HELO yctb02.otcr.jf.intel.com)
+	([10.54.69.56])
+	by FMSMGA003.fm.intel.com with ESMTP; 22 May 2017 15:25:28 -0700
+From: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Message-ID: <20170522213343.GZ28053@denix.org>
-References: <1494367136-21140-1-git-send-email-denis@denix.org>
-	<20170516214906.GN28053@denix.org>
-MIME-Version: 1.0
-In-Reply-To: <20170516214906.GN28053@denix.org>
-User-Agent: Mutt/1.5.20 (2009-06-14)
-Cc: Denys Dmytriyenko <denys@ti.com>
-Subject: Re: [PATCH] tcmode-default: use SDK_SYS suffix instead of SDK_ARCH for binutils-crosssdk
+Date: Mon, 22 May 2017 15:25:23 -0700
+Message-Id: <20170522222523.15978-1-alejandro.hernandez@linux.intel.com>
+X-Mailer: git-send-email 2.12.0
+Subject: [PATCH] intltool: Adds gettext as a DEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,51 +28,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 May 2017 21:33:45 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Mon, 22 May 2017 22:25:29 -0000
 
-Ping again.
+When setting USE_NLS="no" and building systemd-boot
+(which DEPENDS on intltool), configure fails,
+complaining about missing gettext:
 
-On Tue, May 16, 2017 at 05:49:06PM -0400, Denys Dmytriyenko wrote:
-> Ping
-> 
-> On Tue, May 09, 2017 at 05:58:56PM -0400, Denys Dmytriyenko wrote:
-> > From: Denys Dmytriyenko <denys@ti.com>
-> > 
-> > Commit d2eccccb70e809d482c493922f23aef4409cfd82 has changed suffixes for
-> > all -crosssdk packages from SDK_ARCH to SDK_SYS, but missed one line with
-> > binutils-crosssdk. This change fixes that omission.
-> > 
-> > Signed-off-by: Denys Dmytriyenko <denys@ti.com>
-> > ---
-> >  meta/conf/distro/include/tcmode-default.inc | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/meta/conf/distro/include/tcmode-default.inc b/meta/conf/distro/include/tcmode-default.inc
-> > index 3db16e8..bdc70cf 100644
-> > --- a/meta/conf/distro/include/tcmode-default.inc
-> > +++ b/meta/conf/distro/include/tcmode-default.inc
-> > @@ -48,7 +48,7 @@ PREFERRED_VERSION_nativesdk-libgcc-initial ?= "${SDKGCCVERSION}"
-> >  PREFERRED_VERSION_binutils ?= "${BINUVERSION}"
-> >  PREFERRED_VERSION_binutils-native ?= "${BINUVERSION}"
-> >  PREFERRED_VERSION_binutils-cross-${TARGET_ARCH} ?= "${BINUVERSION}"
-> > -PREFERRED_VERSION_binutils-crosssdk-${SDK_ARCH} ?= "${BINUVERSION}"
-> > +PREFERRED_VERSION_binutils-crosssdk-${SDK_SYS} ?= "${BINUVERSION}"
-> >  PREFERRED_VERSION_binutils-cross-canadian-${TRANSLATED_TARGET_ARCH} ?= "${BINUVERSION}"
-> >  PREFERRED_VERSION_gdb ?= "${GDBVERSION}"
-> >  PREFERRED_VERSION_gdb-cross-${TARGET_ARCH} ?= "${GDBVERSION}"
-> > -- 
-> > 2.7.4
-> > 
-> > -- 
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> -- 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+configure: error: GNU gettext tools not found; required for intltool
+
+This is caused because USE_NLS="no" makes the gettext class
+add gettext-minimal-native to BASEDEPENDS instead of adding
+gettext-native.
+
+Since we still would like to set USE_NLS="no" and build systemd-boot,
+we add gettext-native as a dependency to intltool-native, which makes it
+available for the configure script of systemd-boot fixing the problem.
+
+[YOCTO #11562]
+
+Signed-off-by: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
+---
+ meta/recipes-devtools/intltool/intltool_0.51.0.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/recipes-devtools/intltool/intltool_0.51.0.bb b/meta/recipes-devtools/intltool/intltool_0.51.0.bb
+index 551bdf0619a..ecff2faf253 100644
+--- a/meta/recipes-devtools/intltool/intltool_0.51.0.bb
++++ b/meta/recipes-devtools/intltool/intltool_0.51.0.bb
+@@ -16,7 +16,7 @@ UPSTREAM_CHECK_URI = "https://launchpad.net/intltool/trunk/"
+ 
+ DEPENDS = "libxml-parser-perl-native"
+ RDEPENDS_${PN} = "gettext-dev libxml-parser-perl"
+-DEPENDS_class-native = "libxml-parser-perl-native"
++DEPENDS_class-native = "libxml-parser-perl-native gettext-native"
+ 
+ inherit autotools pkgconfig perlnative
+ 
+-- 
+2.12.0
+
 
