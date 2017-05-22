@@ -1,53 +1,34 @@
-Return-Path: <max.oss.09@gmail.com>
-Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
-	by mail.openembedded.org (Postfix) with ESMTP id AF49771A36
+Return-Path: <denis@denix.org>
+Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.17])
+	by mail.openembedded.org (Postfix) with ESMTP id E950677E86
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 May 2017 21:32:19 +0000 (UTC)
-Received: by mail-wm0-f68.google.com with SMTP id k15so34364957wmh.3
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 May 2017 14:32:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=CZZ/1tO0fpLcwhDw9yIY7v4mK7pp29sm2aFRLiqPbFU=;
-	b=hOYvP2gAXeWQ2BfqVz++VU6KHvaTgKx7MBb+0xIwDCp4Orja6V7QhTWCzqg9uPnDws
-	e3a5KuXIVBOZRH0rMQcYyI/9V06QcklNWQO7TA1ZRCPCw2sI9BiLKQHYXKMghU7HjnKZ
-	fa4PU8LwBVg5DRU8wjMS1utXUqXYShkDcNPPPjQWCqkS9qmqObIk2RIX9QvwEv7v64Ji
-	gurRTr7OHhj5pyp5FOOJhpMW3vN3alGNVPK5JGdyln/nvloN4x0FppUvbgfAD10HD1zV
-	fRhTNXwZVDDPxjeYYQ2CgMGyl9o1U29O60I1Scas4W/AK9Npzvfgwh3lPlypYJzr3DSA
-	U67A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=CZZ/1tO0fpLcwhDw9yIY7v4mK7pp29sm2aFRLiqPbFU=;
-	b=tPE5oY6cIAcUAUZQhJuYh+/S3rr5Pnx9GB4Uv9nJY2LFJVJg4928Cm3uv2jRiys9pD
-	3Mf0hfUXJLqUnVxKSE6QvyvaF2AWnINGLQ0gM0WyLP07oRPorNOPNG6AlODa7788+oTA
-	QvOWlz7IpVc3WlaZIFEBid7b8zBeypwvdqNZYDEWlDFdDpaOlBLOB4wJrnd3zGUE9zLq
-	iR9ITnJnl5eg3xU17IUMMFQ5wRu8tte+kz7tW8otX8uVAgPef7DV/sWKRadXwSoLiUcE
-	3CBb7VqgOAjQKkVryaRk7h+MFarqomoZIHY0VfwAds0JRAw1255FFy8UcT1LBhABr/bV
-	CmKQ==
-X-Gm-Message-State: AODbwcBllUpdXCPIdZoPJn3FG4cCHyNU2kMVgmCH6Ym7xrmp5oZPPXU8
-	fY8T2oPKbYoNXQ==
-X-Received: by 10.80.129.229 with SMTP id 92mr18131830ede.161.1495488739993;
-	Mon, 22 May 2017 14:32:19 -0700 (PDT)
-Received: from Saturn.local.all (138-14-48-195.pool.dsl-net.ch.
-	[195.48.14.138]) by smtp.gmail.com with ESMTPSA id
-	h29sm9544368eda.45.2017.05.22.14.32.18
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 22 May 2017 14:32:19 -0700 (PDT)
-Message-ID: <1495488738.2723.18.camel@gmail.com>
-From: Max Krummenacher <max.oss.09@gmail.com>
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Mon, 22 May 2017 23:32:18 +0200
-In-Reply-To: <ea81f53d-203f-183b-3a51-b0d71301b384@linux.intel.com>
-References: <20170519154856.21505-1-max.krummenacher@toradex.com>
-	<ea81f53d-203f-183b-3a51-b0d71301b384@linux.intel.com>
-X-Mailer: Evolution 3.16.5 
-Mime-Version: 1.0
-Cc: Max Krummenacher <max.krummenacher@toradex.com>
-Subject: Re: [PATCH v2] libsolv: don't pick up bundled db from host rpm
+	Mon, 22 May 2017 21:33:44 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by mailout4.zoneedit.com (Postfix) with ESMTP id 7D9DB20BAA;
+	Mon, 22 May 2017 21:33:45 +0000 (UTC)
+Received: from mailout4.zoneedit.com ([127.0.0.1])
+	by localhost (zmo03-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
+	port 10024)
+	with ESMTP id Vy5mTx3R4FvE; Mon, 22 May 2017 21:33:45 +0000 (UTC)
+Received: from mail.denix.org (pool-100-15-85-143.washdc.fios.verizon.net
+	[100.15.85.143])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 5BBF6204E0;
+	Mon, 22 May 2017 21:33:44 +0000 (UTC)
+Received: by mail.denix.org (Postfix, from userid 1000)
+	id E63F01624C9; Mon, 22 May 2017 17:33:43 -0400 (EDT)
+Date: Mon, 22 May 2017 17:33:43 -0400
+From: Denys Dmytriyenko <denis@denix.org>
+To: openembedded-core@lists.openembedded.org
+Message-ID: <20170522213343.GZ28053@denix.org>
+References: <1494367136-21140-1-git-send-email-denis@denix.org>
+	<20170516214906.GN28053@denix.org>
+MIME-Version: 1.0
+In-Reply-To: <20170516214906.GN28053@denix.org>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Cc: Denys Dmytriyenko <denys@ti.com>
+Subject: Re: [PATCH] tcmode-default: use SDK_SYS suffix instead of SDK_ARCH for binutils-crosssdk
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,57 +41,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 May 2017 21:32:19 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 22 May 2017 21:33:45 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi Alex
+Ping again.
 
-Am Montag, den 22.05.2017, 16:08 +0300 schrieb Alexander Kanavin:
-> On 05/19/2017 06:48 PM, Max Krummenacher wrote:
-> > +   # check if rpm contains a bundled berkeley db
-> > +-  CHECK_INCLUDE_FILE(rpm/db.h HAVE_RPM_DB_H)
-> > ++  CHECK_LIBRARY_EXISTS(rpm.so db_create_rpmdb "" HAVE_RPM_DB_H)
+On Tue, May 16, 2017 at 05:49:06PM -0400, Denys Dmytriyenko wrote:
+> Ping
 > 
-> Sorry Max, this is actually worse than the first version. HAVE_RPM_DB_H 
-> has to accurately reflect the presence or absence of the header, as that 
-> header is later included or not included depending on that. You cannot 
-> set it based on checking some library.
-Well, that is somewhat true.
-The test explicitly tests that the header file is available, but then
-implicitely assumes that when the header file is available no standalone
-needs be linked.
-
-Turning that assumption to explicitly test that rpm.so provides the db
-functionality and from that assuming that rpm/db.h is available is IMHO
-equally right or equally incomplete testing.
-
-> So please either fix CHECK_INCLUDE_FILE, 
-The reason why I didn't fix it as follows is that this would break
-the test for the non native (target and nativesdk) case.
-
-+  CHECK_INCLUDE_FILE(rpm/db.h HAVE_RPM_DB_H "-nostdinc")
-
-For the non native case the OE rpm headers are actually stored in
-the compiler's standard include path, so searching for rpm/db.h
-with -nostdinc wouldn't pick up the file even if it would exist.
-
-> 
-> or let's revert to the first 
-> version of the patch, as it at least doesn't introduce a new issue.
-v1 unconditionally assumes that rpm is provided without a bundled db.
-v2 tries to find out from the to be linked librpm.so if it db is bundled.
-Both versions work for libsolv, libsolv-native, and nativesdk-libsolv.
-
-I can send a v3 with either variant plus the rebase on top of the now
-updated libsolv recipe.
-
-What do you think?
-
-Max
-
-
-
-
-> Alex
+> On Tue, May 09, 2017 at 05:58:56PM -0400, Denys Dmytriyenko wrote:
+> > From: Denys Dmytriyenko <denys@ti.com>
+> > 
+> > Commit d2eccccb70e809d482c493922f23aef4409cfd82 has changed suffixes for
+> > all -crosssdk packages from SDK_ARCH to SDK_SYS, but missed one line with
+> > binutils-crosssdk. This change fixes that omission.
+> > 
+> > Signed-off-by: Denys Dmytriyenko <denys@ti.com>
+> > ---
+> >  meta/conf/distro/include/tcmode-default.inc | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > 
+> > diff --git a/meta/conf/distro/include/tcmode-default.inc b/meta/conf/distro/include/tcmode-default.inc
+> > index 3db16e8..bdc70cf 100644
+> > --- a/meta/conf/distro/include/tcmode-default.inc
+> > +++ b/meta/conf/distro/include/tcmode-default.inc
+> > @@ -48,7 +48,7 @@ PREFERRED_VERSION_nativesdk-libgcc-initial ?= "${SDKGCCVERSION}"
+> >  PREFERRED_VERSION_binutils ?= "${BINUVERSION}"
+> >  PREFERRED_VERSION_binutils-native ?= "${BINUVERSION}"
+> >  PREFERRED_VERSION_binutils-cross-${TARGET_ARCH} ?= "${BINUVERSION}"
+> > -PREFERRED_VERSION_binutils-crosssdk-${SDK_ARCH} ?= "${BINUVERSION}"
+> > +PREFERRED_VERSION_binutils-crosssdk-${SDK_SYS} ?= "${BINUVERSION}"
+> >  PREFERRED_VERSION_binutils-cross-canadian-${TRANSLATED_TARGET_ARCH} ?= "${BINUVERSION}"
+> >  PREFERRED_VERSION_gdb ?= "${GDBVERSION}"
+> >  PREFERRED_VERSION_gdb-cross-${TARGET_ARCH} ?= "${GDBVERSION}"
+> > -- 
+> > 2.7.4
+> > 
+> > -- 
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> -- 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
