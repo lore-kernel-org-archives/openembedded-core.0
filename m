@@ -1,21 +1,23 @@
 Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id C07A477E6E
+	by mail.openembedded.org (Postfix) with ESMTP id D9EA777E89
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 May 2017 18:47:09 +0000 (UTC)
+	Mon, 22 May 2017 18:47:11 +0000 (UTC)
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
 	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
 	22 May 2017 11:47:10 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.38,378,1491289200"; d="scan'208";a="90367943"
+X-IronPort-AV: E=Sophos;i="5.38,378,1491289200"; d="scan'208";a="90367944"
 Received: from yctb05.ostc.intel.com ([10.54.69.59])
 	by orsmga002.jf.intel.com with ESMTP; 22 May 2017 11:47:09 -0700
 From: leonardo.sandoval.gonzalez@linux.intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 22 May 2017 11:47:01 -0700
-Message-Id: <20170522184702.14841-1-leonardo.sandoval.gonzalez@linux.intel.com>
+Date: Mon, 22 May 2017 11:47:02 -0700
+Message-Id: <20170522184702.14841-2-leonardo.sandoval.gonzalez@linux.intel.com>
 X-Mailer: git-send-email 2.12.0
-Subject: [PATCH 1/2] ruby: upgrade to 2.4.1
+In-Reply-To: <20170522184702.14841-1-leonardo.sandoval.gonzalez@linux.intel.com>
+References: <20170522184702.14841-1-leonardo.sandoval.gonzalez@linux.intel.com>
+Subject: [PATCH 2/2] nfs-utils: upgrade to 2.1.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,27 +36,28 @@ From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
 
 Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
 ---
- meta/recipes-devtools/ruby/{ruby_2.4.0.bb => ruby_2.4.1.bb} | 4 ++--
+ .../nfs-utils/{nfs-utils_1.3.4.bb => nfs-utils_2.1.1.bb}              | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/ruby/{ruby_2.4.0.bb => ruby_2.4.1.bb} (89%)
+ rename meta/recipes-connectivity/nfs-utils/{nfs-utils_1.3.4.bb => nfs-utils_2.1.1.bb} (97%)
 
-diff --git a/meta/recipes-devtools/ruby/ruby_2.4.0.bb b/meta/recipes-devtools/ruby/ruby_2.4.1.bb
-similarity index 89%
-rename from meta/recipes-devtools/ruby/ruby_2.4.0.bb
-rename to meta/recipes-devtools/ruby/ruby_2.4.1.bb
-index 4d39c476309..1d335f1c287 100644
---- a/meta/recipes-devtools/ruby/ruby_2.4.0.bb
-+++ b/meta/recipes-devtools/ruby/ruby_2.4.1.bb
-@@ -1,7 +1,7 @@
- require ruby.inc
+diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils_1.3.4.bb b/meta/recipes-connectivity/nfs-utils/nfs-utils_2.1.1.bb
+similarity index 97%
+rename from meta/recipes-connectivity/nfs-utils/nfs-utils_1.3.4.bb
+rename to meta/recipes-connectivity/nfs-utils/nfs-utils_2.1.1.bb
+index 4ca9ab2a3de..bdf0efa3302 100644
+--- a/meta/recipes-connectivity/nfs-utils/nfs-utils_1.3.4.bb
++++ b/meta/recipes-connectivity/nfs-utils/nfs-utils_2.1.1.bb
+@@ -33,8 +33,8 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/nfs-utils/${PV}/nfs-utils-${PV}.tar.x
+            file://bugfix-adjust-statd-service-name.patch \
+ "
  
--SRC_URI[md5sum] = "7e9485dcdb86ff52662728de2003e625"
--SRC_URI[sha256sum] = "152fd0bd15a90b4a18213448f485d4b53e9f7662e1508190aa5b702446b29e3d"
-+SRC_URI[md5sum] = "782bca562e474dd25956dd0017d92677"
-+SRC_URI[sha256sum] = "a330e10d5cb5e53b3a0078326c5731888bb55e32c4abfeb27d9e7f8e5d000250"
+-SRC_URI[md5sum] = "54e4119043ec8507a2a0e054cf2889a4"
+-SRC_URI[sha256sum] = "b42a5bc0a8d80d04650030ceb9a11f08f4acfbcb1ee297f657fb94e339c45975"
++SRC_URI[md5sum] = "59dfcb2e6254b129f901f40c86086b13"
++SRC_URI[sha256sum] = "0faeb54c70b84e6bd3b9b6901544b1f6add8d246f35c1683e402daf4e0c719ef"
  
- # it's unknown to configure script, but then passed to extconf.rb
- # maybe it's not really needed as we're hardcoding the result with
+ # Only kernel-module-nfsd is required here (but can be built-in)  - the nfsd module will
+ # pull in the remainder of the dependencies.
 -- 
 2.12.0
 
