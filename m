@@ -1,22 +1,48 @@
-Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id 4F39D60269
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-wm0-f47.google.com (mail-wm0-f47.google.com [74.125.82.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 2FEEA600EB
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 May 2017 16:43:10 +0000 (UTC)
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-	by orsmga105.jf.intel.com with ESMTP; 22 May 2017 09:43:11 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.38,377,1491289200"; d="scan'208";a="105515359"
-Received: from yctb05.ostc.intel.com ([10.54.69.59])
-	by fmsmga006.fm.intel.com with ESMTP; 22 May 2017 09:43:11 -0700
-From: leonardo.sandoval.gonzalez@linux.intel.com
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 22 May 2017 09:43:09 -0700
-Message-Id: <20170522164309.31121-1-leonardo.sandoval.gonzalez@linux.intel.com>
-X-Mailer: git-send-email 2.12.0
-In-Reply-To: <20170503192603.41086-1-leonardo.sandoval.gonzalez@linux.intel.com>
-References: <20170503192603.41086-1-leonardo.sandoval.gonzalez@linux.intel.com>
-Subject: [PATCH v2] package_ipk: correct ipk descriptions
+	Mon, 22 May 2017 17:06:55 +0000 (UTC)
+Received: by mail-wm0-f47.google.com with SMTP id b84so1699155wmh.0
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 22 May 2017 10:06:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=wxSPD+MTJm3PTQse8FZdqzpTQsBH0NHfSXstOEKvc2w=;
+	b=Nn/uMN3aS3WCYXtsuwXEU7mos7TqcLXNKPBveMNasSwjqEukP3shkFFXkhbt02YuMh
+	YWdK1x4/rbvynLSfuM27hmarqO/Ug8QXorfu0EJP1XTtN1a8sGptqY08Z7so0yJrlqc7
+	ZUiYQt8uuqDrzjGJcdV7fvLCrA24wmqs6/o2qebpKMB9761A2PNonvwXSO5NHJ5qa2Yc
+	KxeobZH0kz4dTJw/YjVSdctHw8Bvm45sDVgV35G4qwFcCV/WKaegdNoocPiJqQe+oR9j
+	7KBm08ic0CKLWC4C3Gzo5m/Xeqm4O+RfwPWtaYHiKDUVkTnPMwGIE4B/l0YF8kmXAoCH
+	a84Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=wxSPD+MTJm3PTQse8FZdqzpTQsBH0NHfSXstOEKvc2w=;
+	b=Wbk5lD67sohZYsJticsss2Zg8JL9OQP90PyHF97ediLvjG9bm2TBfnaEKGxsl03Art
+	Kpi+EjA1xlpJRq8VUdg4FG4iLP5i+lIOoolnD+Z7/FsCEqlmCBSI7xADcur8TontWok/
+	qGAkLHgk1uCDQxbaPOH2TUBjXnqpRwrzjJacnKxVaN5OafcuWFViECtqk0N8LEbtHIyB
+	UMlW6beTxycsHWkBA5XA6gywP7EXP0R9T7kG4nPHVnWL8PQuSt7XfHOsP6ukXJUOPg+9
+	m2jGZGqU+No1cPkgm4ax6PU5mcvUqUzbKbjn+drX6n5zwXXONP8rB6vCf26qB8C0JMYx
+	x6qg==
+X-Gm-Message-State: AODbwcCkzWCX3DTIJ+a6D/wXK4mdY6NLlsGCj5KWRdkUpBS69wEwMmG/
+	Q5om1yr9ji/lFzbB1kHlefUKoHo/eA==
+X-Received: by 10.80.144.118 with SMTP id z51mr17566400edz.143.1495472816924; 
+	Mon, 22 May 2017 10:06:56 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.80.195.143 with HTTP; Mon, 22 May 2017 10:06:26 -0700 (PDT)
+In-Reply-To: <CADkTA4M-3HipxJL7GnE9FJkK1hKJQ9EOjJpvUpyom8WNgbcGnw@mail.gmail.com>
+References: <20170522050042.42403-1-raj.khem@gmail.com>
+	<20170522050042.42403-11-raj.khem@gmail.com>
+	<CADkTA4M-3HipxJL7GnE9FJkK1hKJQ9EOjJpvUpyom8WNgbcGnw@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 22 May 2017 10:06:26 -0700
+Message-ID: <CAMKF1sqBtBGzB_o_eM5SYhG+mS=kNqspYQDEu4dOe=FT70HSqA@mail.gmail.com>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 11/15] linux-yocto: Enable drm by default
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,42 +55,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 May 2017 16:43:11 -0000
+X-List-Received-Date: Mon, 22 May 2017 17:06:56 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+>> +SRC_URI += "file://drm.cfg"
+>
+>
+>
+> If anything gets added to the default configurations, they need to go into
+> the kernel-cache
+> and then be included by the relevant kernel types there.
+>
+> If you want, I can take care of switching things to that format.
+>
 
-Empty descriptions are set with a space following by a dot. For the non-empty ones,
-there is no need for formating the description with textwrap, so remove the logic
-for the latter.
-
-[YOCTO #10677]
-
-Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
----
- meta/classes/package_ipk.bbclass | 9 +--------
- 1 file changed, 1 insertion(+), 8 deletions(-)
-
-diff --git a/meta/classes/package_ipk.bbclass b/meta/classes/package_ipk.bbclass
-index 5cc7e0a7b24..862cc3c730b 100644
---- a/meta/classes/package_ipk.bbclass
-+++ b/meta/classes/package_ipk.bbclass
-@@ -150,14 +150,7 @@ def ipk_write_pkg(pkg, d):
-                 if '\\n' in description:
-                     # Manually indent
-                     for t in description.split('\\n'):
--                        # We don't limit the width when manually indent, but we do
--                        # need the textwrap.fill() to set the initial_indent and
--                        # subsequent_indent, so set a large width
--                        line = textwrap.fill(t.strip(),
--                                             width=100000,
--                                             initial_indent=' ',
--                                             subsequent_indent=' ') or '.'
--                        ctrlfile.write('%s\n' % line)
-+                        ctrlfile.write('%s\n' % (t.strip() or ' .'))
-                 else:
-                     # Auto indent
-                     ctrlfile.write('%s\n' % textwrap.fill(description, width=74, initial_indent=' ', subsequent_indent=' '))
--- 
-2.12.0
-
+yes please.
 
