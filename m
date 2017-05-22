@@ -1,73 +1,44 @@
-Return-Path: <carol.zhu@nxp.com>
-Received: from EUR01-DB5-obe.outbound.protection.outlook.com
-	(mail-db5eur01on0086.outbound.protection.outlook.com [104.47.2.86])
-	by mail.openembedded.org (Postfix) with ESMTP id DC0AB71D86
+Return-Path: <jpewhacker@gmail.com>
+Received: from mail-wm0-f53.google.com (mail-wm0-f53.google.com [74.125.82.53])
+	by mail.openembedded.org (Postfix) with ESMTP id C120760110
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 May 2017 10:28:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1; 
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
-	bh=RdZ/YjpPqQzWeY6ZlNmou9nlmNVFR0xw5FtBeyUWJSM=;
-	b=r8CnIhalU5gK7gjLwGH3HtHxo/AIZIsiUlmxFRykFSsHcg51T4j/na95be37/n5bD/wi3nyB55LZKxzdxDPTYQOEIWFOBDUVvBWn/H7IrK3khMKj1XqmMcQ8TApZ+QK2f82VJbUEZvedNwsZzfOswlrUwh8SF+MVFjLFGQJhNt8=
-Received: from AM5PR0401MB2674.eurprd04.prod.outlook.com (10.169.246.8) by
-	AM5PR0401MB2673.eurprd04.prod.outlook.com (10.169.240.151) with
-	Microsoft SMTP Server (version=TLS1_2,
-	cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1101.14;
-	Mon, 22 May 2017 10:13:45 +0000
-Received: from AM5PR0401MB2674.eurprd04.prod.outlook.com
-	([fe80::34e0:a42:f88f:964b]) by
-	AM5PR0401MB2674.eurprd04.prod.outlook.com
-	([fe80::34e0:a42:f88f:964b%15]) with mapi id 15.01.1101.019;
-	Mon, 22 May 2017 10:13:45 +0000
-From: Carol Zhu <carol.zhu@nxp.com>
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Thread-Topic: [OE-core] [poky][PATCH 0/6] Add patches for
-	gstreamer1.0-plugins-bad V1.10.4
-Thread-Index: AQHSzVjP26Anocpq60a3FguZiQlmIaH1RKQAgAABPwCACrTJ0A==
-Date: Mon, 22 May 2017 10:13:45 +0000
-Message-ID: <AM5PR0401MB2674AE793FC63BFA09BF94ECE9F80@AM5PR0401MB2674.eurprd04.prod.outlook.com>
-References: <1494838358-28036-1-git-send-email-carol.zhu@nxp.com>
-	<CAHiDW_GksyO+YLMzejrL+9=tgw4wdAPrRjHf32h321fi=_F2ag@mail.gmail.com>
-	<9678201e-569c-33dc-4844-8f249fa28780@linux.intel.com>
-In-Reply-To: <9678201e-569c-33dc-4844-8f249fa28780@linux.intel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: linux.intel.com; dkim=none (message not signed)
-	header.d=none; linux.intel.com;
-	dmarc=none action=none header.from=nxp.com; 
-x-originating-ip: [199.59.226.141]
-x-ms-publictraffictype: Email
-x-microsoft-exchange-diagnostics: 1; AM5PR0401MB2673;
-	7:JSPsjk4WybP0knKAvLUC6LOLnZn8n8lMnkkdIgd3sFS8Cni/CUrWGNgrZw7+QaiEUQ6A22Ec2ccAzESvP7wFiou15QGdMy2Ou/4uuLs4GZiLgud4x39w6cHnDRK35R2lRSjQrEoZRQK48JLw5vGYx2IG3ygSL/M/8NJc4VXyqD17S8oBisO7vOp7tRCV17gIjwwZYGCN9cge+FgUSyQzrALKk385KkFh3CFNm/2WQbqwsr1oeZ3i+JuGWrWXZICAoUk3yO0g7XfUWAsisX5vI/x7T/9LcV8bFe2q9DmrRBuhvi2zbJDhBwxbHScLvi/oC5u9fPtZD3ww/5z1eKJs1Q==
-x-ms-traffictypediagnostic: AM5PR0401MB2673:
-x-ms-office365-filtering-correlation-id: 35713daa-fe1d-472f-782f-08d4a0fb3b5f
-x-ms-office365-filtering-ht: Tenant
-x-microsoft-antispam: UriScan:; BCL:0; PCL:0;
-	RULEID:(22001)(2017030254075)(48565401081)(201703131423075)(201703031133081);
-	SRVR:AM5PR0401MB2673; 
-x-microsoft-antispam-prvs: <AM5PR0401MB2673E85B9DEFB5E5768BBE22E9F80@AM5PR0401MB2673.eurprd04.prod.outlook.com>
-x-exchange-antispam-report-test: UriScan:(185117386973197)(264703809997249)(228905959029699); 
-x-exchange-antispam-report-cfa-test: BCL:0; PCL:0;
-	RULEID:(6040450)(601004)(2401047)(5005006)(8121501046)(10201501046)(3002001)(93006095)(93001095)(6055026)(6041248)(20161123558100)(20161123564025)(20161123562025)(20161123555025)(20161123560025)(201703131423075)(201702281528075)(201703061421075)(201703061406153)(6072148);
-	SRVR:AM5PR0401MB2673; BCL:0; PCL:0; RULEID:;
-	SRVR:AM5PR0401MB2673; 
-x-forefront-prvs: 03152A99FF
-x-forefront-antispam-report: SFV:NSPM;
-	SFS:(10009020)(6009001)(39450400003)(39400400002)(39850400002)(39410400002)(39840400002)(39860400002)(13464003)(377454003)(24454002)(33656002)(6246003)(81166006)(7736002)(2900100001)(5660300001)(8936002)(38730400002)(9686003)(6436002)(110136004)(54906002)(2950100002)(6916009)(3280700002)(53936002)(230783001)(99286003)(74316002)(305945005)(66066001)(55016002)(8676002)(478600001)(25786009)(53546009)(229853002)(3660700001)(7696004)(5250100002)(2906002)(102836003)(189998001)(50986999)(4326008)(76176999)(3846002)(86362001)(54356999)(6116002);
-	DIR:OUT; SFP:1101; SCL:1; SRVR:AM5PR0401MB2673;
-	H:AM5PR0401MB2674.eurprd04.prod.outlook.com; FPR:; SPF:None;
-	MLV:sfv; LANG:en; 
-spamdiagnosticoutput: 1:99
-spamdiagnosticmetadata: NSPM
+	Mon, 22 May 2017 13:08:21 +0000 (UTC)
+Received: by mail-wm0-f53.google.com with SMTP id e127so37742306wmg.1
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 22 May 2017 06:08:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=GSUIg0tjRLfwmNAuFapY1eSjgKJY7VCCd/cXV8SrPf4=;
+	b=Om350eQrN9RHisd1Fb/zvTNmXmMVFhDB2CKrlbzCS73eHqZUgPV3+CAwnLLOlzX27o
+	WdUJpyiPlXqE63suK9X/zqMXiDQcOQvuujQzJYkJfKE1wDfMKHzSFhXzbsw1Cb5le5ep
+	Hz3maZCvT8Rfxrt1XgCwHqD6l/Rq+vysmQ86utxM/0aTh2mMTBqUv2BaUIv0VRFVeL8P
+	fpDg+0zszCUXnuYuYUAUUqmtNL0f60xAhFBipx+R0/bnaC26TkcuRq+OY9mmOW23Ag9I
+	FtmK0HGHAkzprS9DP2D15+1CQOe1HnWKA7SluLGqIw1MHggd5BaJSgb+YHwWNnKeN0GU
+	dm4g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=GSUIg0tjRLfwmNAuFapY1eSjgKJY7VCCd/cXV8SrPf4=;
+	b=SEGRNmjM4f/qQi7OUb70HPfazPGrBnjMfcXbHxSvu5Tv8kEQkHWTNMbJNLiA842kV2
+	WX4LbDMFWyjXmoKEQoH5Lj/tDudmSSCgQFxfSwvOMeyM627qzHqkU2FLuIZ3wfdynGOe
+	B+h2j73ZCwOaue6b8qGYGc0Fwtmwgd74bZpbZgLO7vPXfIw9/JSYVWqObUIB0pgeAlux
+	LzONxByAoCqjUcU73ZJg4GUD4aKghv45JeWVGPhkNKcxOUdDncaX9FxvQ4zTZyesrEGq
+	PQ6PfbiHpf7uoNpezTx+5DstzJ3K0/5ZB6moXew4uvsOkzVK//pKbFIHGt1Zusk0Gct8
+	8q1Q==
+X-Gm-Message-State: AODbwcAMrdGbULcYzkaicsyUjR0dulVDDeqXM3UIJP3aS8WdNhobFJZc
+	PdAGWq+TC8DKvyZsbeAfpMY1VMPc0w==
+X-Received: by 10.28.207.207 with SMTP id f198mr27711172wmg.85.1495458502033; 
+	Mon, 22 May 2017 06:08:22 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-originalarrivaltime: 22 May 2017 10:13:45.8649 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM5PR0401MB2673
-Cc: Patches and discussions about
-	the oe-core layer <openembedded-core@lists.openembedded.org>
-Subject: Re: [poky][PATCH 0/6] Add patches for gstreamer1.0-plugins-bad V1.10.4
+Received: by 10.28.128.65 with HTTP; Mon, 22 May 2017 06:08:21 -0700 (PDT)
+In-Reply-To: <20170507013304.30165-1-JPEWhacker@gmail.com>
+References: <20170507013304.30165-1-JPEWhacker@gmail.com>
+From: Joshua Watt <jpewhacker@gmail.com>
+Date: Mon, 22 May 2017 08:08:21 -0500
+Message-ID: <CAJdd5GboaT=3LqSREjaP1ECXgrbG9c8sADBSPhZN+i7t3jcVAA@mail.gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] openssh: Atomically generate host keys
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -80,63 +51,155 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 May 2017 10:28:16 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 22 May 2017 13:08:22 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Alex,
+Could I get a review of this? I'm somewhat new to submitting patches,
+so if I'm missing something I probably don't realize it, any feedback
+is appreciated.
 
-Here are some explanations.
+Thanks,
+Joshua Watt
 
-- 0002-qmlglsrc-some-enhancements-for-qmlglsrc.patch
-  Two enhancements for qmlglsrc:
-  1. Need set use-default-fbo to qquickwindow during set property to suppor=
-t change render target on the fly.
-  2. Calculate qmlglsrc refresh frame rate in qtglwindow.
-  It adds some common features for qmlglsrc to make app development much ea=
-sier.
-
-- 0003-player-Add-configuration-for-enabling-accurate-seeks.patch
-- 0004-player-Add-get-track-number-media-info-API.patch
-- 0005-player-Add-overlayvideorenderer-video-sink.patch
-- 0006-gst-player-fix-gst-player-failed-to-load-external-su.patch
-  These are gstplayer related patches.
-  And by above gstplayer backport patches, we enhanced some API to make it =
-much easier to use for users.=20
-  Without these API enhancements,  some features may not be realized (like =
-accurate seek, video sink configuration) when using gstplayer API.
-  So it would be better if they can be picked.
-
-- 0007-glupload-fix-memory-leak-when-use-a-GVal.patch
-  This patch fixes a memory leak issue in glupload, which is common.
-
-
-
-B.R.
-Carol
-
-
------Original Message-----
-From: Alexander Kanavin [mailto:alexander.kanavin@linux.intel.com]=20
-Sent: Monday, May 15, 2017 7:42 PM
-To: Carol Zhu <carol.zhu@nxp.com>
-Cc: Jussi Kukkonen <jussi.kukkonen@intel.com>; Patches and discussions abou=
-t the oe-core layer <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [poky][PATCH 0/6] Add patches for gstreamer1.0-plugi=
-ns-bad V1.10.4
-
-On 05/15/2017 02:37 PM, Jussi Kukkonen wrote:
-
-> The patches could be considered for Pyro (not too fond of backported=20
-> new features though -- I don't think oe-core should normally do that).
-
-Yes; you do need to explain why these are useful to oe-core users in genera=
-l.
-
-There's a ton of gstreamer bugfixes that can be backported in a similar way=
-, so why these and not the others?
-
-
-Alex
+On Sat, May 6, 2017 at 8:33 PM, Joshua Watt <jpewhacker@gmail.com> wrote:
+> Generating the host keys atomically prevents power interruptions during
+> the first boot from leaving the key files incomplete, which often
+> prevents users from being able to ssh into the device.
+>
+> Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+> ---
+>  meta/recipes-connectivity/openssh/openssh/init     | 21 ++++------------
+>  .../openssh/openssh/sshd-check-key                 | 28 ++++++++++++++++++++++
+>  .../openssh/openssh/sshdgenkeys.service            | 16 ++++---------
+>  meta/recipes-connectivity/openssh/openssh_7.4p1.bb |  8 +++++++
+>  4 files changed, 44 insertions(+), 29 deletions(-)
+>  create mode 100644 meta/recipes-connectivity/openssh/openssh/sshd-check-key
+>
+> diff --git a/meta/recipes-connectivity/openssh/openssh/init b/meta/recipes-connectivity/openssh/openssh/init
+> index 1f63725..22124a9 100644
+> --- a/meta/recipes-connectivity/openssh/openssh/init
+> +++ b/meta/recipes-connectivity/openssh/openssh/init
+> @@ -45,23 +45,10 @@ check_config() {
+>  }
+>
+>  check_keys() {
+> -       # create keys if necessary
+> -       if [ ! -f $HOST_KEY_RSA ]; then
+> -               echo "  generating ssh RSA key..."
+> -               ssh-keygen -q -f $HOST_KEY_RSA -N '' -t rsa
+> -       fi
+> -       if [ ! -f $HOST_KEY_ECDSA ]; then
+> -               echo "  generating ssh ECDSA key..."
+> -               ssh-keygen -q -f $HOST_KEY_ECDSA -N '' -t ecdsa
+> -       fi
+> -       if [ ! -f $HOST_KEY_DSA ]; then
+> -               echo "  generating ssh DSA key..."
+> -               ssh-keygen -q -f $HOST_KEY_DSA -N '' -t dsa
+> -       fi
+> -       if [ ! -f $HOST_KEY_ED25519 ]; then
+> -               echo "  generating ssh ED25519 key..."
+> -               ssh-keygen -q -f $HOST_KEY_ED25519 -N '' -t ed25519
+> -       fi
+> +    @LIBEXECDIR@/sshd-check-key $HOST_KEY_RSA rsa
+> +    @LIBEXECDIR@/sshd-check-key $HOST_KEY_ECDSA ecdsa
+> +    @LIBEXECDIR@/sshd-check-key $HOST_KEY_DSA dsa
+> +    @LIBEXECDIR@/sshd-check-key $HOST_KEY_ED25519 ed25519
+>  }
+>
+>  export PATH="${PATH:+$PATH:}/usr/sbin:/sbin"
+> diff --git a/meta/recipes-connectivity/openssh/openssh/sshd-check-key b/meta/recipes-connectivity/openssh/openssh/sshd-check-key
+> new file mode 100644
+> index 0000000..3495d98
+> --- /dev/null
+> +++ b/meta/recipes-connectivity/openssh/openssh/sshd-check-key
+> @@ -0,0 +1,28 @@
+> +#! /bin/sh
+> +set -e
+> +
+> +NAME="$1"
+> +TYPE="$2"
+> +
+> +if [ -z "$NAME" ] || [ -z "$TYPE" ]; then
+> +    echo "Usage: $0 NAME TYPE"
+> +    exit 1;
+> +fi
+> +
+> +if [ ! -f "$NAME" ]; then
+> +    echo "  generating ssh $TYPE key..."
+> +    ssh-keygen -q -f "${NAME}.tmp" -N '' -t $TYPE
+> +
+> +    # Sync to ensure data is written to temp file before renaming
+> +    sync
+> +
+> +    # Move (Atomically rename) files
+> +    # Rename the .pub file first, since the check that triggers a
+> +    # key generation is based on the private file.
+> +    mv -f "${NAME}.tmp.pub" "${NAME}.pub"
+> +    sync
+> +
+> +    mv -f "${NAME}.tmp" "${NAME}"
+> +    sync
+> +fi
+> +
+> diff --git a/meta/recipes-connectivity/openssh/openssh/sshdgenkeys.service b/meta/recipes-connectivity/openssh/openssh/sshdgenkeys.service
+> index 148e6ad..af56404 100644
+> --- a/meta/recipes-connectivity/openssh/openssh/sshdgenkeys.service
+> +++ b/meta/recipes-connectivity/openssh/openssh/sshdgenkeys.service
+> @@ -1,22 +1,14 @@
+>  [Unit]
+>  Description=OpenSSH Key Generation
+>  RequiresMountsFor=/var /run
+> -ConditionPathExists=!/var/run/ssh/ssh_host_rsa_key
+> -ConditionPathExists=!/var/run/ssh/ssh_host_dsa_key
+> -ConditionPathExists=!/var/run/ssh/ssh_host_ecdsa_key
+> -ConditionPathExists=!/var/run/ssh/ssh_host_ed25519_key
+> -ConditionPathExists=!/etc/ssh/ssh_host_rsa_key
+> -ConditionPathExists=!/etc/ssh/ssh_host_dsa_key
+> -ConditionPathExists=!/etc/ssh/ssh_host_ecdsa_key
+> -ConditionPathExists=!/etc/ssh/ssh_host_ed25519_key
+>
+>  [Service]
+>  Environment="SYSCONFDIR=/etc/ssh"
+>  EnvironmentFile=-/etc/default/ssh
+>  ExecStart=@BASE_BINDIR@/mkdir -p $SYSCONFDIR
+> -ExecStart=@BINDIR@/ssh-keygen -q -f ${SYSCONFDIR}/ssh_host_rsa_key -N '' -t rsa
+> -ExecStart=@BINDIR@/ssh-keygen -q -f ${SYSCONFDIR}/ssh_host_dsa_key -N '' -t dsa
+> -ExecStart=@BINDIR@/ssh-keygen -q -f ${SYSCONFDIR}/ssh_host_ecdsa_key -N '' -t ecdsa
+> -ExecStart=@BINDIR@/ssh-keygen -q -f ${SYSCONFDIR}/ssh_host_ed25519_key -N '' -t ed25519
+> +ExecStart=@LIBEXECDIR@/sshd-check-key ${SYSCONFDIR}/ssh_host_rsa_key rsa
+> +ExecStart=@LIBEXECDIR@/sshd-check-key ${SYSCONFDIR}/ssh_host_dsa_key dsa
+> +ExecStart=@LIBEXECDIR@/sshd-check-key ${SYSCONFDIR}/ssh_host_ecdsa_key ecdsa
+> +ExecStart=@LIBEXECDIR@/sshd-check-key ${SYSCONFDIR}/ssh_host_ed25519_key ed25519
+>  Type=oneshot
+>  RemainAfterExit=yes
+> diff --git a/meta/recipes-connectivity/openssh/openssh_7.4p1.bb b/meta/recipes-connectivity/openssh/openssh_7.4p1.bb
+> index c8093d4..ccd7a02 100644
+> --- a/meta/recipes-connectivity/openssh/openssh_7.4p1.bb
+> +++ b/meta/recipes-connectivity/openssh/openssh_7.4p1.bb
+> @@ -25,6 +25,7 @@ SRC_URI = "http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar
+>             file://openssh-7.1p1-conditional-compile-des-in-cipher.patch \
+>             file://openssh-7.1p1-conditional-compile-des-in-pkcs11.patch \
+>             file://fix-potential-signed-overflow-in-pointer-arithmatic.patch \
+> +           file://sshd-check-key \
+>             "
+>
+>  PAM_SRC_URI = "file://sshd"
+> @@ -124,7 +125,14 @@ do_install_append () {
+>         sed -i -e 's,@BASE_BINDIR@,${base_bindir},g' \
+>                 -e 's,@SBINDIR@,${sbindir},g' \
+>                 -e 's,@BINDIR@,${bindir},g' \
+> +               -e 's,@LIBEXECDIR@,${libexecdir}/${BPN},g' \
+>                 ${D}${systemd_unitdir}/system/sshd.socket ${D}${systemd_unitdir}/system/*.service
+> +
+> +       sed -i -e 's,@LIBEXECDIR@,${libexecdir}/${BPN},g' \
+> +               ${D}${sysconfdir}/init.d/sshd
+> +
+> +       install -d 644 ${D}${libexecdir}/${BPN}
+> +       install -m 0755 ${WORKDIR}/sshd-check-key ${D}${libexecdir}/${BPN}
+>  }
+>
+>  do_install_ptest () {
+> --
+> 2.9.3
+>
 
