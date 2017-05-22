@@ -1,49 +1,49 @@
 Return-Path: <raj.khem@gmail.com>
 Received: from mail-pf0-f193.google.com (mail-pf0-f193.google.com
 	[209.85.192.193])
-	by mail.openembedded.org (Postfix) with ESMTP id D7C8077F6B
+	by mail.openembedded.org (Postfix) with ESMTP id AEDCC77F6B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 May 2017 05:01:09 +0000 (UTC)
-Received: by mail-pf0-f193.google.com with SMTP id n23so17287920pfb.3
+	Mon, 22 May 2017 05:01:10 +0000 (UTC)
+Received: by mail-pf0-f193.google.com with SMTP id n23so17288137pfb.3
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 21 May 2017 22:01:11 -0700 (PDT)
+	Sun, 21 May 2017 22:01:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=mEtgfpWTf2TWq/ksYE+EST1Ya6ifokvF0tQL6LUN7Go=;
-	b=jenA+TYFKhi5Gl1/9V+DwN0ifk3+jUwfRlv90hz3yw2+HAVssjaSvdtPSTqt20LqEC
-	H34Dwu+z9HQsw4QcMy/vWAHCgAZlinz27YEUNUwdN0S5MuNOouVuPyQViXjRxlzX6yZ4
-	stqsl/d9Dm5R+BWZaL/+tamJP5w4ZQfkWL0D7di04FjHYA4NCaS9RDD3wbSO/GgJr5h7
-	zTHeq4ipAHyPa34vKI2W0ExDgZ25ir77JQrrArrhWBfDALSBQCHOGmFGyw4M/2YOoKCr
-	DoyrdOrg+d4iCES4Enj04TaL+5aJYbOp3XxMVTlgnhQrWx/R2ZLy1wFEJ4fTp0uHfDMT
-	MbFQ==
+	bh=G03xFQ07IDJFvKD3/2ew68olH6xBK0bROKPYhWvciDc=;
+	b=kioQkiQD91gduiRl2moD8brxz1LxYgAY4lDt06IdpbqfdNijIf4YfDoHNYq58dPmSS
+	yrdDe6cXoCFi+Ed/elCIwwsYMIB9/KZRC/HaF5nId68ggpM7wLHH8jKAfRURPLSnPYFa
+	rqFktASTvJL7cyqYnL6pNXC+pkjUX5wwUmhPJrT+B2lcMHZe0AmHDxu2ksIFIqihYD65
+	0TQ06fPBA8UKwBK+ymDWSB3p9+iTlNJosdkBJHfnwlQIk/vCKgsjWK9ftJ763nwSuKoV
+	Ue83130mk63xw0MPQU8Cg6V0Rq5m/IP0bQ7bIabnlveZGVhJGZKwsiD2QcP+tG205rJa
+	5QzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=mEtgfpWTf2TWq/ksYE+EST1Ya6ifokvF0tQL6LUN7Go=;
-	b=MRtE/TnLHzWahHMY+X9RXM8ypvuMkMrYTlZNeagPD4xBWtBmdHwM41+Jw3Fk1RXiwq
-	cMGqudz1o6AQRNj0fX5HtnlWcfI6EuVQoB7DS09ywhlRGS7TE3cnubbmbKq2dUW1hx5w
-	n5uTVlNcf9ea+JQioZXw0mv8ySDnfRUmESWxLbuCjLI96HVv21EWX7X793JAmQFBc+cb
-	Vi1bbs+/4kSxc54kYNgs+RbJkQHIbkGdvz+YlF4nMc0v60ks5kxfljN4sXfzmCtDDrcN
-	046z8wr3U6KYvQu9De6RITYfruG2dj48JjQm4NkTTc7PDY39qVnuitxEKUfmAgRwR30C
-	BBCw==
-X-Gm-Message-State: AODbwcDvvNsQmCb2kpxPwbdqQrzNDMmL7JgVw6LiHOPpW1u/uCVOWtcY
-	m+9m/NsvJrZPgg==
-X-Received: by 10.98.28.202 with SMTP id c193mr23812459pfc.233.1495429270567; 
-	Sun, 21 May 2017 22:01:10 -0700 (PDT)
+	bh=G03xFQ07IDJFvKD3/2ew68olH6xBK0bROKPYhWvciDc=;
+	b=Y3NMM/XYF+pCjdE6Y+UgjfAfgiKJlzpkxIxbSyyEE7w/UAoESpHci5lpryBPioxvBP
+	k7IUzWb+FT3Wzh0xC/yJJ6o54SB8BzwiPfNaVnJipD4n5zjGqTXSWazG7BstomzlNoHL
+	5vEbU+kZh8S8Xj0G1skdEYTHFJJIfnZANDg3EXIsdFuyUSizEPsUWPhBpE+YPTsOWAk/
+	itVpDVGNpb/fpUlIwdC1q6N1lQPaWNedaW2PDPC08Xmp+gLtPEn2Oa5gEcYSvmpGt+3h
+	khn9B9njdIwMxGdhg9RtPLuWYkS7lERrJ6MFlJOL+fieYguBpc/w6ooi3ZxQPI1g6oDX
+	c1OQ==
+X-Gm-Message-State: AODbwcCGKaWCg21OWhdJZ0o93VBM4lDSnkDUgKDVX8lrpt4FG/AofH0T
+	Oc49YrHjXfDoxg==
+X-Received: by 10.98.111.133 with SMTP id k127mr23185472pfc.215.1495429272038; 
+	Sun, 21 May 2017 22:01:12 -0700 (PDT)
 Received: from localhost.localdomain ([2601:646:8882:b8c::63fb])
 	by smtp.gmail.com with ESMTPSA id
-	t13sm28839596pfa.126.2017.05.21.22.01.08
+	t13sm28839596pfa.126.2017.05.21.22.01.10
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 21 May 2017 22:01:09 -0700 (PDT)
+	Sun, 21 May 2017 22:01:10 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 21 May 2017 22:00:36 -0700
-Message-Id: <20170522050042.42403-9-raj.khem@gmail.com>
+Date: Sun, 21 May 2017 22:00:37 -0700
+Message-Id: <20170522050042.42403-10-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.13.0
 In-Reply-To: <20170522050042.42403-1-raj.khem@gmail.com>
 References: <20170522050042.42403-1-raj.khem@gmail.com>
-Subject: [PATCH 09/15] systemd: Make knobs for compiler specific nn, ar, ranlib
+Subject: [PATCH 10/15] db: Add --tag=CC to cross libtool invocation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,37 +58,29 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 22 May 2017 05:01:10 -0000
 
-These are used with LTO enabled so it has to be
-compiler specific, making it weak default, makes
-clang to override them when enabled.
+Fixes errors like
+
+libtool: compile: unable to infer tagged configuration
+libtool: compile: specify a tag with `--tag'
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-core/systemd/systemd_232.bb | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
+ meta/recipes-support/db/db_5.3.28.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/systemd/systemd_232.bb b/meta/recipes-core/systemd/systemd_232.bb
-index 398cb46f0d..8c778ae778 100644
---- a/meta/recipes-core/systemd/systemd_232.bb
-+++ b/meta/recipes-core/systemd/systemd_232.bb
-@@ -160,10 +160,14 @@ CFLAGS .= "${@bb.utils.contains('PACKAGECONFIG', 'valgrind', ' -DVALGRIND=1', ''
- # disable problematic GCC 5.2 optimizations [YOCTO #8291]
- FULL_OPTIMIZATION_append_arm = " -fno-schedule-insns -fno-schedule-insns2"
+diff --git a/meta/recipes-support/db/db_5.3.28.bb b/meta/recipes-support/db/db_5.3.28.bb
+index 26065bbb0b..bbf52605f8 100644
+--- a/meta/recipes-support/db/db_5.3.28.bb
++++ b/meta/recipes-support/db/db_5.3.28.bb
+@@ -72,7 +72,7 @@ MUTEX = ""
+ MUTEX_arm = "${ARM_MUTEX}"
+ MUTEX_armeb = "${ARM_MUTEX}"
+ EXTRA_OECONF += "${MUTEX} STRIP=true"
+-EXTRA_OEMAKE_append_class-target = " LIBTOOL=${STAGING_BINDIR_CROSS}/${HOST_SYS}-libtool"
++EXTRA_OEMAKE_append_class-target = " LIBTOOL='${STAGING_BINDIR_CROSS}/${HOST_SYS}-libtool --tag=CC'"
  
-+COMPILER_NM ?= "${HOST_PREFIX}gcc-nm"
-+COMPILER_AR ?= "${HOST_PREFIX}gcc-ar"
-+COMPILER_RANLIB ?= "${HOST_PREFIX}gcc-ranlib"
-+
- do_configure_prepend() {
--	export NM="${HOST_PREFIX}gcc-nm"
--	export AR="${HOST_PREFIX}gcc-ar"
--	export RANLIB="${HOST_PREFIX}gcc-ranlib"
-+	export NM="${COMPILER_NM}"
-+	export AR="${COMPILER_AR}"
-+	export RANLIB="${COMPILER_RANLIB}"
- 	export KMOD="${base_bindir}/kmod"
- 	if [ -d ${S}/units.pre_sed ] ; then
- 		cp -r ${S}/units.pre_sed ${S}/units
+ AUTOTOOLS_SCRIPT_PATH = "${S}/dist"
+ 
 -- 
 2.13.0
 
