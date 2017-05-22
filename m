@@ -1,54 +1,34 @@
-Return-Path: <kristian.amlie@mender.io>
-Received: from mail-lf0-f47.google.com (mail-lf0-f47.google.com
-	[209.85.215.47])
-	by mail.openembedded.org (Postfix) with ESMTP id B99ED77B50
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	by mail.openembedded.org (Postfix) with ESMTP id 6FA6660778
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 May 2017 07:08:41 +0000 (UTC)
-Received: by mail-lf0-f47.google.com with SMTP id 99so25461696lfu.1
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 May 2017 00:08:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=mender-io.20150623.gappssmtp.com; s=20150623;
-	h=subject:to:cc:references:from:message-id:date:user-agent
-	:mime-version:in-reply-to:content-language:content-transfer-encoding;
-	bh=7DczEXxMOF8ebSl/gnWS7HXqdxA+/6MSycb+VHPTA68=;
-	b=hYi54tJHFKhUHo87pPORYvKzo9ovvFjMAC54EvHxG3twJXF4uB3skwgwwAJEWpBZwj
-	nwHOLOka0QKh87yWxcOd6aQNU+Z5ZZ8spwEFndm8WzxyqZ/un0OqYKdi/SR6GBaFDc0A
-	RxlhK/c5ad8rpuQCTshdnPfIi6YYIG9i7/DnlQLLDHvgANct1cSTSY69RGqDR+i2hoZU
-	S9SS4KJkRy2iyMKvPJTpKKAvGC+3hJ7iHQFPlqURpI7M83VOsPiaBSxhcClZGjvk32bo
-	KqW5rgE7djOKHf0W0VoVM7bHeObzhoSHjnRds5Qa29eGxuyDECLS310Mk4bVEOzoTS5I
-	FXuA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=7DczEXxMOF8ebSl/gnWS7HXqdxA+/6MSycb+VHPTA68=;
-	b=QfqgqPPx6J1l8z6pdzeZrQ310NcTiEbfcLqPqFI3IUY3ifwbHr/7m7nxK2XOZDzVjH
-	VZ0Q6sx5cywLfl5ihurJVGSB/AleQuLHxHvl9NWbNx1l3Qmw1lgLPz3KIlxWO2LgR3iy
-	8cq4CHgYCOQScduMouuB5hKr/CTLI9i30WJIfUUyi8N+tb31pLQSd9wZsmwYQ23gFXK3
-	SXJe8eFdMKSwc7OAGzpcygfh5Q5AKjQYpKcTMaSs4FSTU7RndHMKfbl/SH83MnhmKM2f
-	6RTRehWC8wHpFvlB4fPjpP/otKV9YBTW1IdWeDYiLSOn7qJ9DPnGJBLnwpinQvy/IdM1
-	oAzg==
-X-Gm-Message-State: AODbwcCrwmry26O1pgSHAM08UPYpnQ5GV6x6PH52H1saSaB2PBqOuzJJ
-	1zMih5AoDZQpfoi2
-X-Received: by 10.25.16.232 with SMTP id 101mr5310917lfq.54.1495436922805;
-	Mon, 22 May 2017 00:08:42 -0700 (PDT)
-Received: from [10.20.33.141] ([195.159.234.190])
-	by smtp.googlemail.com with ESMTPSA id
-	b62sm2443096lfe.39.2017.05.22.00.08.41
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 22 May 2017 00:08:41 -0700 (PDT)
-To: openembedded-core@lists.openembedded.org
-References: <1493219031-12843-1-git-send-email-kristian.amlie@mender.io>
-From: Kristian Amlie <kristian.amlie@mender.io>
-Message-ID: <534a1d7c-b787-5e3c-e9fe-829c6585124d@mender.io>
-Date: Mon, 22 May 2017 09:08:41 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.1.1
+	Mon, 22 May 2017 07:42:42 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga105.jf.intel.com with ESMTP; 22 May 2017 00:42:43 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.38,377,1491289200"; d="scan'208";a="1133337676"
+Received: from linux.intel.com ([10.54.29.200])
+	by orsmga001.jf.intel.com with ESMTP; 22 May 2017 00:42:25 -0700
+Received: from linux.intel.com (vmed.fi.intel.com [10.237.72.38])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by linux.intel.com (Postfix) with ESMTP id CE53F6A4082;
+	Mon, 22 May 2017 00:42:03 -0700 (PDT)
+Date: Mon, 22 May 2017 10:19:35 +0300
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: "Wold, Saul" <saul.wold@intel.com>
+Message-ID: <20170522071935.GA11250@linux.intel.com>
+Reply-To: ed.bartosh@linux.intel.com
+References: <cover.1495028624.git.ed.bartosh@linux.intel.com>
+	<b852248822868b543e6bec8c4dbea6d43eb55f1b.1495028624.git.ed.bartosh@linux.intel.com>
+	<1495234544.16942.222.camel@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <1493219031-12843-1-git-send-email-kristian.amlie@mender.io>
-Subject: Re: do_image: Adding support for IMAGE_ROOTFS_EXCLUDE_PATH.
+In-Reply-To: <1495234544.16942.222.camel@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v4 7/7] image_types_wic: schedule prepare_wic_build correctly
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,61 +41,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 May 2017 07:08:43 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 22 May 2017 07:42:43 -0000
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-Ping. Would be great to get some feedback so I can continue working on this.
+On Fri, May 19, 2017 at 10:55:46PM +0000, Wold, Saul wrote:
+> On Wed, 2017-05-17 at 13:47 +0000, Ed Bartosh wrote:
+> > Scheduled prepare_wic_build only if wic build enabled.
+> > Added dependencies to kernel and efi bootloader deploy
+> > tasks only if EFI is enabled.
+> > 
+> > This should fix build failure on machines without
+> > EFI functionality.
+> > 
+> > Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+> > ---
+> >  meta/classes/image_types_wic.bbclass | 27 ++++++++++++++----------
+> > ---
+> >  1 file changed, 14 insertions(+), 13 deletions(-)
+> > 
+> > diff --git a/meta/classes/image_types_wic.bbclass
+> > b/meta/classes/image_types_wic.bbclass
+> > index d8430e49ac..3b73261d5e 100644
+> > --- a/meta/classes/image_types_wic.bbclass
+> > +++ b/meta/classes/image_types_wic.bbclass
+> > @@ -69,6 +69,11 @@ python () {
+> >                  # file in process_wks_template as well, so just put
+> > it in
+> >                  # a variable and let the metadata deal with the
+> > deps.
+> >                  d.setVar('_WKS_TEMPLATE', body)
+> > +
+> > +        bb.build.addtask('do_prepare_wic_build', 'do_image_wic',
+> > None, d)
+> > +        if d.getVar('EFI_CLASS'):
+> > +            d.appendVarFlag('do_prepare_wic_build', 'depends',
+> > +                            '%s%s:do_deploy 
+> > virtual/kernel:do_deploy' % (d.getVar('MLPREFIX'),
+> > d.getVar('EFI_CLASS')))
+> 
+> Ed, 
+> Have you tested this with any layers?
+I tested it with poky layers as I do for all my patches.
+
+> I tied recently with meta-
+> intel and tripped over an issue with the rmc-boot not having an actual
+> target for the EFI_CLASS to have a deploy task caused a failure.
+
+I also tested it on qemuarm machine that doesn't support EFI. It worked just fine.
+
+I'll try to test it with meta-intel. Can you provide more detailed
+instructions how to reproduce this issue? Which image did you try to
+build?
 
 --
-Kristian
-
-On 26/04/17 17:03, Kristian Amlie wrote:
-> This is a direct followup from the earlier f6a064d969f414 commit in wic. It
-> works more or less the same way: The variable specifies a list of directories
-> relative to the root of the rootfs, and these directories will be excluded from
-> the resulting rootfs image. If an entry ends with a slash, only the contents are
-> omitted, not the directory itself.
-> 
-> This is early feedback call, and several things are missing here (see
-> below). However, I would like to know if at least the basic approach is
-> acceptable. Reviewers pressed on time really only need to look at the topmost
-> hunk as well as the last couple of lines of the two functions. Those show what
-> the basic idea is.
-> 
-> What's missing:
-> 
-> * Documentation
-> 
-> * Test coverage
-> 
-> * Respecting IMAGE_ROOTFS_EXCLUDE_PATH is a behavior change, and isn't
->   appropriate for all image creators. In fact, for the the main use case [1] to
->   work it must not always be respected.
-> 
-> My idea for the last point is that the variable will not be respected by
-> default, and each of the pure filesystem image creators (btrfs, ext2/3/4, etc)
-> will set a flag that mark their image creator as a "pure filesystem", which
-> would respect this variable. Image creators that make partitions, however,
-> should not respect it, because they will use wic for that purpose instead, and
-> then they need to have access to the entire rootfs. Hence they should not set
-> the flag.
-> 
-> I'm imagining something like this:
-> 
->   d.setVarFlag('do_image_%s' % t, 'respect_exclude_path', '1')
-> 
-> although I'm not sure if that's the best approach (tips are welcome).
-> 
-> [1] The use case for this feature is the following: We are creating two types of
-> images in Mender: One complete partitioned image, and one image containing only
-> the rootfs. In order to be able to populate non-rootfs partitions, we want to
-> use the regular bitbake recipes for building these components, but then exclude
-> certain directories from the rootfs image. Using wic, we are adding those
-> directories back into the partitioned image, but under different
-> partitions. Unlike the rootfs image, the other partitions are not expected to be
-> rebuilt after the first rollout.
-> 
-
+Regards,
+Ed
 
