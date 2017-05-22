@@ -1,32 +1,44 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id C7AE860797
+Return-Path: <nicolas.dechesne@linaro.org>
+Received: from mail-qt0-f176.google.com (mail-qt0-f176.google.com
+	[209.85.216.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 8CB0B71AC6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 May 2017 08:46:26 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga105.jf.intel.com with ESMTP; 22 May 2017 01:46:27 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.38,377,1491289200"; d="scan'208";a="971553266"
-Received: from linux.intel.com ([10.54.29.200])
-	by orsmga003.jf.intel.com with ESMTP; 22 May 2017 01:46:27 -0700
-Received: from linux.intel.com (vmed.fi.intel.com [10.237.72.38])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by linux.intel.com (Postfix) with ESMTP id D2F566A4006;
-	Mon, 22 May 2017 01:46:10 -0700 (PDT)
-Date: Mon, 22 May 2017 11:46:22 +0300
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
-To: Kristian Amlie <kristian.amlie@mender.io>
-Message-ID: <20170522084622.GA7783@linux.intel.com>
-Reply-To: ed.bartosh@linux.intel.com
-References: <1493219031-12843-1-git-send-email-kristian.amlie@mender.io>
-	<534a1d7c-b787-5e3c-e9fe-829c6585124d@mender.io>
-MIME-Version: 1.0
-In-Reply-To: <534a1d7c-b787-5e3c-e9fe-829c6585124d@mender.io>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: do_image: Adding support for IMAGE_ROOTFS_EXCLUDE_PATH.
+	Mon, 22 May 2017 09:26:59 +0000 (UTC)
+Received: by mail-qt0-f176.google.com with SMTP id c13so96863657qtc.1
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 22 May 2017 02:27:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=from:to:cc:subject:date:message-id;
+	bh=UDa3yJBK6DziR+K7BLcxuZjjgAZZiGIlGyJhGNSUzc8=;
+	b=U0VH/WmXxWMEenjPaco6NG+/66ZPP61Ezw/OmYTzy/OUSs3WV3j3cefK6smYhMxNOu
+	3KTr5CWfQwR3ekZ8I8xuzzYKB+5tlBxK6EDrGTkeJr1SvcJaqlPkDMnO6CuEyzyANj0x
+	hddVPYFCPnmX1p1qPvEVfNYPa8zXlFzOi5zlw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=UDa3yJBK6DziR+K7BLcxuZjjgAZZiGIlGyJhGNSUzc8=;
+	b=piy2upDMezNTxtM2XLg32eTDxrIAj6YQZLBcWzccBZ3FlkAWWKx9tVSXFr4pBCfDro
+	qkGHImolFcqHHsw/eH3YDIXV05RdOSbnxJejfpjT7tBUsN4XEHnqim0fs51095nkVLUM
+	j3MnWIsMSEc6b7bw2O+DKfbhOlt4R5HmqYEuaRQArG+aJhNd7XzmpSmcRNArPWZAdNxx
+	HmJ119+ajij5sI4Y2LwDW6zNMjRB2Vx23RcCzfCEdUAgW6UzmPICctNvzb7848rDwVYA
+	uV4j2uzPzqLfHBMOPbJs/gniEiPsRxev5LZjiJ4A156YBbJBxZH2ybNNgG0z1Ey23Dpl
+	2ApA==
+X-Gm-Message-State: AODbwcCFYTnBP39RnLVTl/mgF6Tm4C8he30v1x3JIWNNKVA5bG+YFMWQ
+	UiSR1sAIcLKc+/lS
+X-Received: by 10.200.44.186 with SMTP id 55mr23559980qtw.173.1495445220232;
+	Mon, 22 May 2017 02:27:00 -0700 (PDT)
+Received: from localhost.localdomain (static.8.26.4.46.clients.your-server.de.
+	[46.4.26.8]) by smtp.gmail.com with ESMTPSA id
+	m11sm11459462qta.67.2017.05.22.02.26.59
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 22 May 2017 02:26:59 -0700 (PDT)
+From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 22 May 2017 11:26:22 +0200
+Message-Id: <20170522092622.14761-1-nicolas.dechesne@linaro.org>
+X-Mailer: git-send-email 2.11.0
+Cc: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+Subject: [PATCH 0/3] [RFC] Add support for 'fastboot images'
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,74 +51,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 May 2017 08:46:28 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Mon, 22 May 2017 09:26:59 -0000
 
-On Mon, May 22, 2017 at 09:08:41AM +0200, Kristian Amlie wrote:
-> Ping. Would be great to get some feedback so I can continue working on this.
-> 
-I like the idea.
+Many devices come with 'Android' bootloader that implements fastboot
+protocol. This protocol was also added in uboot. This series tries to
+make (Android) fastboot image a first class citizen in OE core. While
+the fastboot protocol initially came from Android, it is not specific
+to Android, and can be used with any standard Linux system as well.
 
-Lately I was working on generic EFI implementation
-and thought that it would be nice to be able to package EFI artifacts
-and get them installed the same way as other packages. With
-IMAGE_ROOTFS_EXCLUDE_PATH = '<directory with efi artifacts>' it would be
-possible to not include that directory into the rootfs if needed.
+More information abot the fastboot sparse image can be found at [1].
 
-> --
-> Kristian
-> 
-> On 26/04/17 17:03, Kristian Amlie wrote:
-> > This is a direct followup from the earlier f6a064d969f414 commit in wic. It
-> > works more or less the same way: The variable specifies a list of directories
-> > relative to the root of the rootfs, and these directories will be excluded from
-> > the resulting rootfs image. If an entry ends with a slash, only the contents are
-> > omitted, not the directory itself.
-> > 
-> > This is early feedback call, and several things are missing here (see
-> > below). However, I would like to know if at least the basic approach is
-> > acceptable. Reviewers pressed on time really only need to look at the topmost
-> > hunk as well as the last couple of lines of the two functions. Those show what
-> > the basic idea is.
-> > 
-> > What's missing:
-> > 
-> > * Documentation
-> > 
-> > * Test coverage
-> > 
-> > * Respecting IMAGE_ROOTFS_EXCLUDE_PATH is a behavior change, and isn't
-> >   appropriate for all image creators. In fact, for the the main use case [1] to
-> >   work it must not always be respected.
-> > 
-> > My idea for the last point is that the variable will not be respected by
-> > default, and each of the pure filesystem image creators (btrfs, ext2/3/4, etc)
-> > will set a flag that mark their image creator as a "pure filesystem", which
-> > would respect this variable. Image creators that make partitions, however,
-> > should not respect it, because they will use wic for that purpose instead, and
-> > then they need to have access to the entire rootfs. Hence they should not set
-> > the flag.
-> > 
-> > I'm imagining something like this:
-> > 
-> >   d.setVarFlag('do_image_%s' % t, 'respect_exclude_path', '1')
-> > 
-> > although I'm not sure if that's the best approach (tips are welcome).
-> > 
-> > [1] The use case for this feature is the following: We are creating two types of
-> > images in Mender: One complete partitioned image, and one image containing only
-> > the rootfs. In order to be able to populate non-rootfs partitions, we want to
-> > use the regular bitbake recipes for building these components, but then exclude
-> > certain directories from the rootfs image. Using wic, we are adding those
-> > directories back into the partitioned image, but under different
-> > partitions. Unlike the rootfs image, the other partitions are not expected to be
-> > rebuilt after the first rollout.
-> > 
-> 
+Such support already exists in meta-android, but I thought it would
+make sense to move that into OE core, given that it allows any OE
+users to reuse this mechanism directly. At least, I wanted to have a
+discussion about it and gather others feedback!
+
+[1] http://www.2net.co.uk/tutorial/android-sparse-image-format
+
+Nicolas Dechesne (3):
+  android-tools: import from meta-oe
+  image_types: oe_mkext234fs: add arguments to customize output file
+    extension
+  image_types: add support for 'fastboot' image type
+
+ meta/classes/image_types.bbclass                   |  24 ++-
+ .../android-tools-conf/android-gadget-setup        |  25 +++
+ .../android-tools/android-tools-conf_1.0.bb        |  13 ++
+ .../android-tools/android-tools/.gitignore         |  57 +++++++
+ .../android-tools/android-tools/adb.mk             |  72 +++++++++
+ .../android-tools/android-tools/adbd.mk            | 163 ++++++++++++++++++++
+ .../android-tools/android-tools/ext4_utils.mk      | 103 +++++++++++++
+ .../android-tools/android-tools/fastboot.mk        |  89 +++++++++++
+ .../android-tools/android-tools/mkbootimg.mk       |  29 ++++
+ .../android-tools/android-tools_5.1.1.r37.bb       | 168 +++++++++++++++++++++
+ 10 files changed, 736 insertions(+), 7 deletions(-)
+ create mode 100644 meta/recipes-devtools/android-tools/android-tools-conf/android-gadget-setup
+ create mode 100644 meta/recipes-devtools/android-tools/android-tools-conf_1.0.bb
+ create mode 100644 meta/recipes-devtools/android-tools/android-tools/.gitignore
+ create mode 100644 meta/recipes-devtools/android-tools/android-tools/adb.mk
+ create mode 100644 meta/recipes-devtools/android-tools/android-tools/adbd.mk
+ create mode 100644 meta/recipes-devtools/android-tools/android-tools/ext4_utils.mk
+ create mode 100644 meta/recipes-devtools/android-tools/android-tools/fastboot.mk
+ create mode 100644 meta/recipes-devtools/android-tools/android-tools/mkbootimg.mk
+ create mode 100644 meta/recipes-devtools/android-tools/android-tools_5.1.1.r37.bb
 
 -- 
---
-Regards,
-Ed
+2.11.0
+
 
