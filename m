@@ -1,47 +1,47 @@
 Return-Path: <nicolas.dechesne@linaro.org>
-Received: from mail-qt0-f170.google.com (mail-qt0-f170.google.com
-	[209.85.216.170])
-	by mail.openembedded.org (Postfix) with ESMTP id D1ACF77F7A
+Received: from mail-qt0-f180.google.com (mail-qt0-f180.google.com
+	[209.85.216.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 2287F77FA5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 May 2017 09:30:26 +0000 (UTC)
-Received: by mail-qt0-f170.google.com with SMTP id v27so96884215qtg.2
+	Mon, 22 May 2017 09:30:28 +0000 (UTC)
+Received: by mail-qt0-f180.google.com with SMTP id c13so96916877qtc.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 May 2017 02:30:28 -0700 (PDT)
+	Mon, 22 May 2017 02:30:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=4mG8bgXSDWr7G2UzBmjSBxNz2jFr3co/l4d/hl01ZiU=;
-	b=NTU/aJHoqzQUtbJWoOlQJjPkrXXWIfSeF55OjYwkzYfgu74eJbEalMQuo978Mpvw2c
-	kNBtgX/0+KsrLfbo5FSe6OzLoRN0LsKAG9OsG5PytlGfvMbLKL2K7Omk5CvtFBiFxm74
-	zjfIvFiShlBJJlZwcXQqOn13RUEPJBEo70F04=
+	bh=B5QpZRKuKd68QNUxT+cFgwVpr4TjOi6w7LPt+jfjrnI=;
+	b=PTBUmasv4RdUbSeTeQ1L3n6soJpMFMIIVWipyqE2ZWjyADM8BaZ18antAiliCaz6ug
+	b0Wqz28nrJdcXxd30HO8aYzvYHOsCvugcCP2V3elBIkuakr4mWEUTfp+EZ51ju81/l6Z
+	XeXOjDCncmIAciFCh3wEZBnv0Uc7s0wIVJfR0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=4mG8bgXSDWr7G2UzBmjSBxNz2jFr3co/l4d/hl01ZiU=;
-	b=iIEaVuIP1NjiB3knMd6lmDKtZwrMYlpO5SRqUlmcnT3kv3Dah2OTvK413EftZb6B3F
-	uFXhy2qV5HOrHPmlIDj3VF9cJ5v2urDOO2PfhCse2Kjzb1DFUuxGO9KSMprPgCcQymSd
-	9WmTmR6oebheOq9j23A4IjBn9n2jCO8fAzmTiTJALbdHQtb/NVKRy4No/6GvufXhRb90
-	QTqCzxUb2OGlcStgw6lKZD/Nn2ZTYUPxYPpyL/E6Fl5DEzvLWarWpEfJ7x6bd5UzsIa2
-	TY4APc3maja6DjqC3Ra7XCQ2Po484dI3RCQ1CsRC3LBbfWkstHFp/R5DPBmHj17Dki+k
-	fmGQ==
-X-Gm-Message-State: AODbwcCY+sEVGhAQRTUNx6Sq0tXwcz+Wudvb+61p4wQokZfynpq4c9sB
-	7dCa1tYIqScgatsm
-X-Received: by 10.237.54.193 with SMTP id f59mr19516126qtb.63.1495445427902;
-	Mon, 22 May 2017 02:30:27 -0700 (PDT)
+	bh=B5QpZRKuKd68QNUxT+cFgwVpr4TjOi6w7LPt+jfjrnI=;
+	b=WVbVFaoEVPMCmgZf4u6BgqVIoW4Rdu5uiqFkSb2zvyfou787F0lnHkvuXmwPw8+SPb
+	aHAiOtrtxOJZM8mLC3LyGGT+Sc1/4TXy0FzuYov0moRi4+nLXN++berfKlGjX0T7twYL
+	Dk0Kev/wn0vmXHztHGdUOEupLJVdJXP/ZezKJ2ofjU0sv/vTUTZCK3cOEusNiWhvKgNE
+	1RvbyN7xNzMovYvpBxXikQoSYJ+rrVWWahSkMsD+WSg7bePAbfjueu7rENkeUNtgO8NL
+	kTxxwc+0Ft69C1YxwHz52UQoJDslA9yrbNfLk4UHVwOllhHSxyztia61kGKIxtppcxBx
+	L8tA==
+X-Gm-Message-State: AODbwcAvPzwcq/bBqqHV7B3RGJcHdfjZL26gRPI9jYJF8LLXWmxS/UVz
+	ZlCYq3WHb2bfsn88ZQOaTQ==
+X-Received: by 10.200.48.98 with SMTP id g31mr20202840qte.119.1495445429942;
+	Mon, 22 May 2017 02:30:29 -0700 (PDT)
 Received: from localhost.localdomain (static.8.26.4.46.clients.your-server.de.
 	[46.4.26.8]) by smtp.gmail.com with ESMTPSA id
-	n17sm11667604qtb.6.2017.05.22.02.30.26
+	n17sm11667604qtb.6.2017.05.22.02.30.29
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 22 May 2017 02:30:27 -0700 (PDT)
+	Mon, 22 May 2017 02:30:29 -0700 (PDT)
 From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 22 May 2017 11:30:02 +0200
-Message-Id: <20170522093003.17711-3-nicolas.dechesne@linaro.org>
+Date: Mon, 22 May 2017 11:30:03 +0200
+Message-Id: <20170522093003.17711-4-nicolas.dechesne@linaro.org>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <20170522093003.17711-1-nicolas.dechesne@linaro.org>
 References: <20170522093003.17711-1-nicolas.dechesne@linaro.org>
 Cc: Nicolas Dechesne <nicolas.dechesne@linaro.org>
-Subject: [PATCH 2/3] image_types: oe_mkext234fs: add arguments to customize output file extension
+Subject: [PATCH 3/3] image_types: add support for 'fastboot' image type
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,56 +54,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 May 2017 09:30:27 -0000
+X-List-Received-Date: Mon, 22 May 2017 09:30:29 -0000
 
-Add a function argument to allow users of this fonction to specify the output
-file extension. This commit as it is, is a no-op, and this new feature will be
-used in the future.
+'fastboot' images are Android sparse images, which can be loaded onto
+development boards using the fastboot protocol, available on many development
+boards, as well as a very large number of read devices (phones, tablets, ...).
+
+In this implementation, the 'fastboot' image type relies on standard linux
+mkfs.ext4 to generate the file system and uses ext2simg from android-tools to
+generate the sparse image. android-tools has its own tool to build an ext4
+image, but it usually has less features than the standard linux mkfs.ext4
+(especially with regards to file attributes).
 
 Signed-off-by: Nicolas Dechesne <nicolas.dechesne@linaro.org>
 ---
- meta/classes/image_types.bbclass | 16 +++++++++-------
- 1 file changed, 9 insertions(+), 7 deletions(-)
+ meta/classes/image_types.bbclass | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
 diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
-index 7749b00098..efdcfed843 100644
+index efdcfed843..0b2f11e157 100644
 --- a/meta/classes/image_types.bbclass
 +++ b/meta/classes/image_types.bbclass
-@@ -56,9 +56,11 @@ IMAGE_CMD_cramfs = "mkfs.cramfs ${IMAGE_ROOTFS} ${IMGDEPLOYDIR}/${IMAGE_NAME}${I
+@@ -197,6 +197,12 @@ IMAGE_CMD_ubi () {
  
- oe_mkext234fs () {
- 	fstype=$1
-+	ext=$2
- 	extra_imagecmd=""
+ IMAGE_CMD_ubifs = "mkfs.ubifs -r ${IMAGE_ROOTFS} -o ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.ubifs ${MKUBIFS_ARGS}"
  
--	if [ $# -gt 1 ]; then
-+	if [ $# -gt 2 ]; then
-+		shift
- 		shift
- 		extra_imagecmd=$@
- 	fi
-@@ -72,15 +74,15 @@ oe_mkext234fs () {
- 		eval COUNT=\"$MIN_COUNT\"
- 	fi
- 	# Create a sparse image block
--	dd if=/dev/zero of=${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.$fstype seek=$ROOTFS_SIZE count=$COUNT bs=1024
--	mkfs.$fstype -F $extra_imagecmd ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.$fstype -d ${IMAGE_ROOTFS}
-+	dd if=/dev/zero of=${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.$ext seek=$ROOTFS_SIZE count=$COUNT bs=1024
-+	mkfs.$fstype -F $extra_imagecmd ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.$ext -d ${IMAGE_ROOTFS}
- 	# Error codes 0-3 indicate successfull operation of fsck (no errors or errors corrected)
--	fsck.$fstype -pvfD ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.$fstype || [ $? -le 3 ]
-+	fsck.$fstype -pvfD ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.$ext || [ $? -le 3 ]
- }
++IMAGE_CMD_fastboot () {
++	oe_mkext234fs ext4 tmp ${EXTRA_IMAGECMD}
++	ext2simg -v ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.tmp ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.fastboot
++	rm -f ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.tmp
++}
++
+ EXTRA_IMAGECMD = ""
  
--IMAGE_CMD_ext2 = "oe_mkext234fs ext2 ${EXTRA_IMAGECMD}"
--IMAGE_CMD_ext3 = "oe_mkext234fs ext3 ${EXTRA_IMAGECMD}"
--IMAGE_CMD_ext4 = "oe_mkext234fs ext4 ${EXTRA_IMAGECMD}"
-+IMAGE_CMD_ext2 = "oe_mkext234fs ext2 ext2 ${EXTRA_IMAGECMD}"
-+IMAGE_CMD_ext3 = "oe_mkext234fs ext3 ext3 ${EXTRA_IMAGECMD}"
-+IMAGE_CMD_ext4 = "oe_mkext234fs ext4 ext4 ${EXTRA_IMAGECMD}"
+ inherit siteinfo
+@@ -226,6 +232,7 @@ IMAGE_DEPENDS_ubi = "mtd-utils-native"
+ IMAGE_DEPENDS_ubifs = "mtd-utils-native"
+ IMAGE_DEPENDS_multiubi = "mtd-utils-native"
+ IMAGE_DEPENDS_wic = "parted-native"
++IMAGE_DEPENDS_fastboot = "e2fsprogs-native android-tools-native"
  
- MIN_BTRFS_SIZE ?= "16384"
- IMAGE_CMD_btrfs () {
+ # This variable is available to request which values are suitable for IMAGE_FSTYPES
+ IMAGE_TYPES = " \
+@@ -234,6 +241,7 @@ IMAGE_TYPES = " \
+     ext2 ext2.gz ext2.bz2 ext2.lzma \
+     ext3 ext3.gz \
+     ext4 ext4.gz \
++    fastboot fastboot.gz \
+     btrfs \
+     iso \
+     hddimg \
 -- 
 2.11.0
 
