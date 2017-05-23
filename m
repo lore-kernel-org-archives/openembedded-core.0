@@ -1,19 +1,19 @@
 Return-Path: <carol.zhu@nxp.com>
 Received: from NAM01-SN1-obe.outbound.protection.outlook.com
-	(mail-sn1nam01on0060.outbound.protection.outlook.com [104.47.32.60])
-	by mail.openembedded.org (Postfix) with ESMTP id 89D9B77E89
+	(mail-sn1nam01on0048.outbound.protection.outlook.com [104.47.32.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 6218A77E9B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 May 2017 07:36:03 +0000 (UTC)
-Received: from MWHPR03CA0021.namprd03.prod.outlook.com (10.175.133.159) by
-	BY1PR0301MB0904.namprd03.prod.outlook.com (10.160.195.143) with
+	Tue, 23 May 2017 07:36:06 +0000 (UTC)
+Received: from BN3PR03CA0102.namprd03.prod.outlook.com (10.174.66.20) by
+	CY4PR03MB2789.namprd03.prod.outlook.com (10.173.38.19) with Microsoft
+	SMTP Server (version=TLS1_2,
+	cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+	15.1.1101.14; Tue, 23 May 2017 07:36:06 +0000
+Received: from BL2FFO11FD014.protection.gbl (2a01:111:f400:7c09::186) by
+	BN3PR03CA0102.outlook.office365.com (2603:10b6:400:4::20) with
 	Microsoft SMTP Server (version=TLS1_2,
-	cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1101.14;
-	Tue, 23 May 2017 07:36:05 +0000
-Received: from BL2FFO11FD046.protection.gbl (2a01:111:f400:7c09::102) by
-	MWHPR03CA0021.outlook.office365.com (2603:10b6:300:117::31) with
-	Microsoft SMTP Server (version=TLS1_2,
-	cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1101.14 via
-	Frontend Transport; Tue, 23 May 2017 07:36:04 +0000
+	cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+	15.1.1101.14 via Frontend Transport; Tue, 23 May 2017 07:36:06 +0000
 Authentication-Results: spf=fail (sender IP is 192.88.168.50)
 	smtp.mailfrom=nxp.com; nxp.com; dkim=none (message not signed)
 	header.d=none;nxp.com; dmarc=fail action=none header.from=nxp.com;
@@ -22,109 +22,109 @@ Received-SPF: Fail (protection.outlook.com: domain of nxp.com does not
 	receiver=protection.outlook.com; 
 	client-ip=192.88.168.50; helo=tx30smr01.am.freescale.net;
 Received: from tx30smr01.am.freescale.net (192.88.168.50) by
-	BL2FFO11FD046.mail.protection.outlook.com (10.173.161.208) with
+	BL2FFO11FD014.mail.protection.outlook.com (10.173.160.222) with
 	Microsoft
 	SMTP Server (version=TLS1_0, cipher=TLS_RSA_WITH_AES_256_CBC_SHA) id
-	15.1.1075.5 via Frontend Transport; Tue, 23 May 2017 07:36:03 +0000
+	15.1.1075.5 via Frontend Transport; Tue, 23 May 2017 07:36:06 +0000
 Received: from carol-OptiPlex-3020.ap.freescale.net
 	(carol-OptiPlex-3020.ap.freescale.net [10.192.241.17])
 	by tx30smr01.am.freescale.net (8.14.3/8.14.0) with ESMTP id
-	v4N7Zo6g015402; Tue, 23 May 2017 00:36:01 -0700
+	v4N7Zo6h015402; Tue, 23 May 2017 00:36:04 -0700
 From: Yuqing Zhu <carol.zhu@nxp.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 23 May 2017 15:34:21 +0800
-Message-ID: <1495524863-28699-5-git-send-email-carol.zhu@nxp.com>
+Date: Tue, 23 May 2017 15:34:22 +0800
+Message-ID: <1495524863-28699-6-git-send-email-carol.zhu@nxp.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1495524863-28699-1-git-send-email-carol.zhu@nxp.com>
 References: <1495524863-28699-1-git-send-email-carol.zhu@nxp.com>
 X-EOPAttributedMessage: 0
-X-Matching-Connectors: 131399985640413789;
+X-Matching-Connectors: 131399985666749397;
 	(91ab9b29-cfa4-454e-5278-08d120cd25b8); ()
 X-Forefront-Antispam-Report: CIP:192.88.168.50; IPV:NLI; CTRY:US; EFV:NLI;
 	SFV:NSPM;
-	SFS:(10009020)(6009001)(336005)(39860400002)(39450400003)(39840400002)(39380400002)(39400400002)(39410400002)(39850400002)(2980300002)(1110001)(1109001)(339900001)(189002)(199003)(9170700003)(6666003)(36756003)(97736004)(356003)(53936002)(8656002)(110136004)(38730400002)(2906002)(189998001)(5660300001)(76176999)(54906002)(305945005)(498600001)(6306002)(6916009)(50986999)(2950100002)(5003940100001)(50466002)(575784001)(104016004)(85426001)(4326008)(77096006)(50226002)(8676002)(8936002)(81166006)(86362001)(2351001)(105606002)(106466001)(33646002)(47776003)(230783001)(48376002);
-	DIR:OUT; SFP:1101; SCL:1; SRVR:BY1PR0301MB0904;
+	SFS:(10009020)(6009001)(336005)(39860400002)(39380400002)(39850400002)(39410400002)(39400400002)(39840400002)(39450400003)(2980300002)(1110001)(1109001)(339900001)(189002)(199003)(9170700003)(50466002)(356003)(6916009)(106466001)(6666003)(48376002)(2950100002)(2351001)(86362001)(575784001)(53936002)(2906002)(38730400002)(105606002)(110136004)(33646002)(8676002)(97736004)(77096006)(81166006)(85426001)(5660300001)(6306002)(4326008)(104016004)(8936002)(50226002)(36756003)(230783001)(47776003)(76176999)(189998001)(50986999)(8656002)(498600001)(305945005)(5003940100001)(54906002);
+	DIR:OUT; SFP:1101; SCL:1; SRVR:CY4PR03MB2789;
 	H:tx30smr01.am.freescale.net; FPR:; SPF:Fail; MLV:ovrnspm; MX:1;
 	A:1; PTR:InfoDomainNonexistent; LANG:en; 
-X-Microsoft-Exchange-Diagnostics: 1; BL2FFO11FD046;
-	1:p/9Un1RgkFRVrZh2iobbvGV/O5q8j8/5jgSQk/jyCLLhM52XpVqe0yBu68bNko/8reL15dGyBC50ZtVxWq2/dNnkkP3xYn0gUK1ldZ2Uy9Rkmcz9lMUOqe+weplsExwbJKSbPHhr/yUpMoH+wfpHKWwQE1laV+gvTgP025DcfZ702c4vslwINTUF1xwpZySucYTDMFufI5eygaeOXXYqwjy85Mgm3+WZjDdS/W5lzSz/gk8Na+crbdnTWyIp9Ys6tRbad55iuQ2M+XLQKYG+h60cJzBcX5lqfcYw12nNBKfLSALPct/BdI3ZwmhoiYCcMS4O35+ELAW3jQ6f+J9kXrWpNduxbzY8F9115eEsrjOqIHQcvQtORHRjIVOeFSTfCly711KffeVxwwq6TqMTL0JTy+yA4wuxzaF37/0RCdYe6FpkqY72maco1Q9a2psGneHpK8j1DENTtC5papYk6+zqELN1EuSN0lxjmPZzFARL5SsLWVcQYSlmVt99mpvknOx01dLuzCf4Wt7N+JkzeEQE9tSTlj+T/7ddwdgi8LL7/RhoIsc3DTj1kWmC7h/tuM6fg1+j8HbqzlRykYxf/LzmFJOHpemN5p+XY0rOok/f/Fg2o6BWr75NJrm2vHmUQnVrVq37rIJTmu+qoIXaCgNFCzme0KcUYvwy2YoPoyOmJGqgbYBj2ewMnmEtZKeTMs+ZKmd4cXl05wvEJxnHm42vRJMs4dCCqkccrNrQTlWI7Cmf2WiP7+2yARfQO/Jtptm7tiXKJdrIkXekdHwC2Q==
+X-Microsoft-Exchange-Diagnostics: 1; BL2FFO11FD014;
+	1:ild/loPEwpE4dxTHQfHNZo1KAITDPleiNN+qQg6z9cX5ZcHWNqGGnW97oao4WsF6OUpam/HieSpwDIwX4TBkoEIzA0Ts850PO3jmjeuOv8e8BjwIJPE/5f5SIMBufELvqFV79YvBwhaobC+vqL3MDi5z0pNkoLQbseEeEbtrwefNHP7voBCu+jUrhS+Oc/oXpKmm4An0SmeyDoCFdGQgJ/LMgUZbUrxiZiTEXslV6qODNc697H61aC6yC45J2uaSBIL7ISPP8SQUAjVmNd5yaDba3z7BGsoPQi7jvnOP4NXaTEB3uHXmTEpv9TG0FsEVH6A04HHWxTg7Tz9FpF5L4jmbpiaK6mzHFS1Mki7738eHzEy6+WuTmE5SXTiQXs/i/lZUwEoZ29q5xDjrmcsFVHvoqW3lXg6OlT3jvJiaKmYMUivMGP6Xn+scS7K9M/QccjG41MNmEJvHYQsgej18Kz4FKvTNvJ4CiFN8+9x32x+4CCXl0hNic1INDK1m4BPerviNToCkJqFJGLlZluidc4TMfE1G2Tby09o9Wp1NvG2AtERb4HGXCGDN4BmmRYTjuBLzvW+y/dZ41MrtBC19kJBz4DjslsFhdLfw9vmhpBQF0JghLXxtzBOI7A9aN6968k63iFVWPamaohwds64zYYjFKoEsf0GxXF2zl+bcB1OdAK8Y1m9aXYkdHx08gl6UIUNFZpfEkA9reZiXbUG5mVNGw03wxjQbvB03v0vh0dy9YBqYER5cGJfP0NHy64zG6nQ1L0o4rMa3dQhFTo5G5A==
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BY1PR0301MB0904:
-X-MS-Office365-Filtering-Correlation-Id: 8705713d-fc30-4532-9a5d-08d4a1ae5e0d
+X-MS-TrafficTypeDiagnostic: CY4PR03MB2789:
+X-MS-Office365-Filtering-Correlation-Id: d51b8f94-a230-4328-b115-08d4a1ae5f9a
 X-Microsoft-Antispam: UriScan:; BCL:0; PCL:0;
 	RULEID:(22001)(201703131430075)(201703131517081);
-	SRVR:BY1PR0301MB0904; 
-X-Microsoft-Exchange-Diagnostics: 1; BY1PR0301MB0904;
-	3:1r0hrbb9tAT97uY6PMTQo5EjQ+n3oeAxPEyrD0uP5OOpA9xDktzFmToVchheekQ41rikqBe3BzS04onngN2qNJ1oOzxAv3rlgJUKr5bE7ks0HBkDalrYTsoFJYkaruBiLGAJduvbUm78XdWShrHiC+PhrvnJA4Rzc3W7S589rYgB6CUEDEoYsUKRJjfQ3RFaEPPfgkxIAnJcDtTGHxft6oS49MWcOPjvHta91Mva0k+/JfGOSUN85GyiRLfKm2tg/xW0SVgp2lqAdz+MCHF/MUjCjoXPSRiJ8Z7MxHlDETwXGcY/gha+Xg33fIKBKjxO06yiw9Z5vR/t/J9gfbhTWQ/2kSogVGcTZVc97LRiYbFJ1R3HZWUy0VgiefrqPwbo1awvVZORpt0rOOxp4oiakHlqF2avOaTac39nds6QdV9CCB4Y1oyhJFlXrJlAEyUr;
-	25:O/C/mr24YEGXTXFbcS8w3EjvzbanR9ZeP0xe/DzD2DbZjmsTKGbeMVzmIu3spvmsbyyZH1dJ4CnP4quZQc9Bynxj7E8PpO4GTUYko8EE2luJdY7Nd3rdshN+hZ20Dde1RN7CkL79+nyQ37/bg7qw1X5tl0GyX6k6ubVcGnK/brACyvmvxaB9WbeB+ayHC/7Y6Fn3ItaFo8trCK9M7DD8ILwBu+g3XAho1u0YaDhDdKkq33zXi2DlnEGXyttiSJajmSla0FD32ExBBBabq70Uuqhg3hl34SRWsEI3pTt1LzOjTAzsUyscqt4hIPxhocqqGqyreL3e7rk8RStIYXhE9bsfYMTKKg5L2DKSrJhCMmUykwVoVQBASKFp9V7k0E4v18MAOv+HRLYzoYx9lc/FvasEVGnkJxDBCxv0lHUHIN42B4NV3O5UUcK69aXsErq5SD804IUD2QChozZRH4y8iAvfPMiXWpXrleqQ7lnQ00A=
-X-Microsoft-Exchange-Diagnostics: 1; BY1PR0301MB0904;
-	31:TfDI4JdLSC1vgdGL7GbwlKoki2shxz5VoGkHIZpDbcVGvQvI9bA4MqUEYQB108Kht3TlGn6hYJNz1wDmd3gRncb9J7DC3lBhcH5J9nCxz8zzNxymlEdxrpNSAwD2TKflGycVMyR+L3QuoEHg+RYmidIKyEf2eTuN1HXM8xUDVp9J6s90PHr5Pe0O/N2E1UTa0CtdbVc4d6sCkfUW1efsJpyVfFALAM2GAYcE8OJ+nSiue3TMmaid80z/ftUPGCte
-X-Microsoft-Antispam-PRVS: <BY1PR0301MB0904DBC875B7238EF6972FB2E9F90@BY1PR0301MB0904.namprd03.prod.outlook.com>
+	SRVR:CY4PR03MB2789; 
+X-Microsoft-Exchange-Diagnostics: 1; CY4PR03MB2789;
+	3:iUMNzMPOoc4U6c1ae2JABN+W7fr0t7o3tgjGN1wFmv0aAzUkeTbry8oxCa4pbh44jN3CFZpBNtu+7bRyG7H5h6tmrkpnZm2kDSMaoEYaaSD6wqzO4Td9ipiZaolU9YfivPckQIKbFXlNAEMQojZ1y49oSTwSQvjo1OCYM94BfNXAub5livv3mSczK7X/vcxT2uTXbHZf2qXnzzftlH7+yOdsigqZ3QYoUPmRqzk7CAGl1wz323ndYucj3l+pCmkR5virXpxBw6+SbsaqITTKtEE09s/WOzMd6zUDOD7gE2/WRKMNxgeUC7+siQBjI6dfn8a2yiQpU6OSN7Ks2+OGmUHROyKdEdBdWGl2oTw4gqlqiDoWbd2jADq7F4iWmAr8kUBLaAGanvMDxaupNClajsceL/DMWyReJ0Kt6XyTal+i1ZxsGxbbI5RO1oQ6CgGO;
+	25:7z1+qbE2rE5+LSpaCgkyo/vQ3U6wwjs1fKVJiurzqxQo7lc7pmwylQ79QAJmegNwGPxqsU1QXa0eGDEXFMOQHdOpMo2OAPi73OLL22lwxPjphwugSPcrynSs43onKRk2NnVYSlkIAlpehUkYqsi7ZiTTwBSmgcsirN5wTYizDcrDATkh4xljozG5ff3RElr9l5rj2u08U21IhVcrPTNvmwAPTRNatGaRKJgfTpaneaTVfjqgggz0nNicOAOlk89iIbcBaRXQCBRFbbqtpClNLzWJThjeJorhv3ftJxJf8iBjmrX7HmUQhNIbkKpAcHv71cNiIVv92iU9Yhlv/Ajsjvmv6jT08EfbACqs9P8RLyqxOVxL0TTAVnn2tNG6xKcUr/4FVxJg0qSqHTpMy+NWGxNRvtgQ/g9DLgOlsKJqE30U57tRvXr5Ep9xw2R5du09F3RTS4Tgc7rsNNv0T3SIbVo/nQYMiAA2Mvvuef/Y7FE=
+X-Microsoft-Exchange-Diagnostics: 1; CY4PR03MB2789;
+	31:4v23G2BxVhuybSWqUzVmWYV8I2Izd94Kc2U5TkhJoAWqxZWMYb97ITh1knFFMK1tFfSZ54PNO2CTbSG85yH4Eq39DXMeoGGo9/CY+DMNyVbeil5LPf6PT8LkgYNINN5yUiNcCvC+8vCuQZ3hR4ZsJWrdClvJ/NZxRIDnvrTb8dwZUtwD6R07A2JNFwF7kJl/ukIJThF6kk88wPiMkRAbdmMfjZtZMaI1A9EOyderSUKheSWjyrPgvY3gG5dXwsNx
+X-Microsoft-Antispam-PRVS: <CY4PR03MB2789FFB70419EFA482E31708E9F90@CY4PR03MB2789.namprd03.prod.outlook.com>
 X-Exchange-Antispam-Report-Test: UriScan:(185117386973197);
 X-Exchange-Antispam-Report-CFA-Test: BCL:0; PCL:0;
-	RULEID:(6095135)(601004)(2401047)(13017025)(13023025)(8121501046)(13018025)(5005006)(13015025)(13024025)(10201501046)(93006095)(93001095)(3002001)(6055026)(6096035)(20161123559100)(20161123563025)(201703131430075)(201703131433075)(201703131448075)(201703161259150)(201703151042153)(20161123561025)(20161123556025)(20161123565025);
-	SRVR:BY1PR0301MB0904; BCL:0; PCL:0; RULEID:(400006);
-	SRVR:BY1PR0301MB0904; 
-X-Microsoft-Exchange-Diagnostics: =?us-ascii?Q?1; BY1PR0301MB0904;
-	4:pdh19nNY+IsdMGaRVgV5SRV1Vmos3BNf5kmarIBF?=
-	=?us-ascii?Q?E1q5Ah2JSYy/NP8Eym6N5AtzaWExr1Q65UbnJx0cdxvf61dPK7i9FljQUIXF?=
-	=?us-ascii?Q?Wtakf7zm1Omj9rhHihArtW1bO/r+ufKjmWQqHsKSX3c916apQ/xSFDcCz7ya?=
-	=?us-ascii?Q?rmmkbR0zL/rn74ptluTG0EOdaVfzmUNrEcOMdbKFNoOUsMqt84oaqbDdEiQF?=
-	=?us-ascii?Q?QOvePnKCLO9/DmvZsi8LTulHujg3npMwyyveDeB1s5DhTeToi7bFn3cAHanF?=
-	=?us-ascii?Q?Je64MuZR92FrYGl0Y/2OKCedbGfwOncnNrQARQYVFxyihUL4dl+YqdcUGAnI?=
-	=?us-ascii?Q?d8ebhpZW50C37VVGjb5e/HNMupTNsZdQXUaAYavE1fCwuZ7E6fgLxpNdpTs9?=
-	=?us-ascii?Q?0FhEVTmyVS13EMxuVxtYzh46JfIDQuRNI620/D8G/FqmVCyc92ugZy16goBz?=
-	=?us-ascii?Q?HXkq5UMlT3DiWlS2gbsuUrCI9b+iVm/BG8wHZDr4HmrOhS+RKrnhu2dYurQK?=
-	=?us-ascii?Q?aFY3w745GzUWXH/xvQscaoJDj0m4Pfk1KpFBgWC3ZbbOAZfM6A7CbKEY9PUC?=
-	=?us-ascii?Q?ORRx+ZwOLPACFNRTnbP3d1wZFHWr0RFEVbR8sdFYqcLloKscAxA4F3JsoV1d?=
-	=?us-ascii?Q?n/mPRsHWxhVTMTBz9basYQGlXevk1a6LPGxkI5p6fqPhd+/ahGfYIcCu5Y26?=
-	=?us-ascii?Q?m/O7nMR5zeMDgcOpdqG5UgZiRwtWNVAO9hjYMDJSGSowotnt+Keb96xPntEQ?=
-	=?us-ascii?Q?e63uP0MInvMmiyVYdwwVuFNwRbVOQqrus/3m2a2qlY/LgPRpq/TWTY0Ve7Z0?=
-	=?us-ascii?Q?rsuCON1yBOQies3Cr6vMrspzffxcjaNPONe5C3XRnFfrBy6KKreeCOw24TLe?=
-	=?us-ascii?Q?axmXP+moLqIOizNQf+QoKLWKP1CRIxfn+TzTKyGnlEzpIfenq+xPRAF3NyKj?=
-	=?us-ascii?Q?6/RogisHHtdxrkM/1qe+CQeTKjQud/6ehApt+fD4/Q=3D=3D?=
+	RULEID:(6095135)(601004)(2401047)(13024025)(5005006)(13017025)(13023025)(13015025)(13018025)(8121501046)(93006095)(93001095)(10201501046)(3002001)(6055026)(6096035)(20161123561025)(20161123563025)(20161123565025)(20161123556025)(201703131430075)(201703131433075)(201703131448075)(201703161259150)(201703151042153)(20161123559100);
+	SRVR:CY4PR03MB2789; BCL:0; PCL:0; RULEID:(400006);
+	SRVR:CY4PR03MB2789; 
+X-Microsoft-Exchange-Diagnostics: =?us-ascii?Q?1; CY4PR03MB2789;
+	4:LVb9Ys2BVkL85ZoICZRsOXbXOrG+1t2R106pk0dhuo?=
+	=?us-ascii?Q?sw/VO0StLxJcCGSFxEotHmLURz7DCWGOUdU8IX7WqLJd8LT3cL0v6I4QvIpA?=
+	=?us-ascii?Q?QxrnrALjaySTDQq9lUxk5T8Lbx8rtMtoS42cJPjxjYmUfnALxsMNLT0PPr6Q?=
+	=?us-ascii?Q?0RnI9ezvzvfvpwswaDmgCobrhdJ1QrL/GuD+A9dxkeoRj1HY8hqKfKSfPc1D?=
+	=?us-ascii?Q?aNwOjoAkG0ww7suEUtAAYpFo6L9eYoEatV1my6cL2NsRnLlbTIjg8ELprYF+?=
+	=?us-ascii?Q?uGmMVWYUE7Qsj4DFB8vg0is20Em6aaTEzqN7WiCKs7sLCGkaOWZ+vTrKZbvL?=
+	=?us-ascii?Q?W7ZRhshX+O5mCbg5wYcl8+IGXTFZPnbkkdBCWD22dJbfHWjIfi/ScJ4B5kCk?=
+	=?us-ascii?Q?fe+cgF7c20SKnPIEBt9+9iSVulQst9f64OGX4nzgprCtQvGMW2NwWHWDyPBz?=
+	=?us-ascii?Q?q/hFR/MRvKHYbKoIT2NldO0Wqr/N+NQM/KusLzG7CD7TlPvmIRd95zDJHHhZ?=
+	=?us-ascii?Q?ZMsPc5qieQt2w3P5nhCa7E5MAIeskTdjr/45zu6qaAgSR+NjsUDl+4cqRHfB?=
+	=?us-ascii?Q?92WI8JDIhvTBcDVSZaOoxC8jQmaro1uoTmvvJhdj3ZCXBziZdqazVPgMYDPi?=
+	=?us-ascii?Q?i0FZy3OdrLbmUsUGsIrSA/KEfDRHRhpT2nGEezZnDM2A3EN4LzEr85jIBdGz?=
+	=?us-ascii?Q?9PGq8MqmYkYcNF62V4nQOmt34IttdCn1arw+3sA/aN6CqhQHPKAy4hPuwRSC?=
+	=?us-ascii?Q?Y+34RqyEex9VmEGbWB4XdbcdK3r9poz/03fa5HLAOxQocILQp4bTzNKAmyaK?=
+	=?us-ascii?Q?ZbmT4v/i2Tj/gD7J5h/kJQFPoX6q3l9uXH+X6e0njgimAoYYsHvJmVd1ZB0k?=
+	=?us-ascii?Q?C3Ti19tloWgu2sAUY9AFzkwNSQM5gaGqw+zFTkdym2ZDP3GyIej9d2eA6b7B?=
+	=?us-ascii?Q?hJJslqeCZLU9C7K/T9Vn4RQt0lfF6hTGyi8Oc2wg=3D=3D?=
 X-Forefront-PRVS: 0316567485
-X-Microsoft-Exchange-Diagnostics: =?us-ascii?Q?1; BY1PR0301MB0904;
-	23:4EqgLxm7o3NuKNos6qx0pPf2/r4Hm+nr2/ZQDxY?=
-	=?us-ascii?Q?i4WO9EvL7ezwmP4skQyKJqdNhyuJz6LC3gA5cmeNuYAjqBfRdTVB/Y+R6HFW?=
-	=?us-ascii?Q?y5D64z0KYAq2eRAB4PuR984YEbC7tfehbvIsoh20/GkaX90JOYQQdn/UgQkT?=
-	=?us-ascii?Q?WH79naCRLzFR77/SVlwRf1Gv+NQ1QcCqhkzZo+7YNs6wRUlwqwAC/wd7FI1o?=
-	=?us-ascii?Q?KaAEUmo4fUxArB950F4HDXOfjTJkxkBW64tDDTir8gu3aqjfoTpJgFs8Dz8G?=
-	=?us-ascii?Q?WdbkP04FCADNUV+6U8aRhbmPn6APiYJRAPsKG1493o9uIUjk214EY2fIxU9K?=
-	=?us-ascii?Q?RUsX8mooNP15ZSzOd7Kk2ui2Mh1FG6OJo8mmYRVWam41SMHo8qArjdPNbI7f?=
-	=?us-ascii?Q?XpxIbdP6I17Wfjm4iTeklGXidvMFhoWS9d1PqeFWFjVKhSozTOGHIFYSc0we?=
-	=?us-ascii?Q?lwg5IY+HucEML7YA2+gY1yViNJ9LN699KjBx7QLUN0TaEvtrP6chORg1kB99?=
-	=?us-ascii?Q?6Msij83IO+lQgfaQyNKqzspE3QxLo08F5FoUu9p2HuSTTj/gychUm8iqbZzp?=
-	=?us-ascii?Q?SUktO98QCXa6Ka33H75/osw8K7yVdcUFPtZR/8czm+CrGQXSE/uQLqfXraqX?=
-	=?us-ascii?Q?UOY9DojyKg1HjDIctdyanu4E1sibDt0dhHxTAQWepfQ5YXr8NGYNvNGjfq93?=
-	=?us-ascii?Q?nUldhEIeVQkJ4As9ml0zQdSwNiL3oLTd+A/swv/Z2octf3vkD5rrt9OPpm26?=
-	=?us-ascii?Q?B9oXu8slkrmFuttzhz/EXt/cxzBnvToN+eeyEl7/Wt472BufuOGMQeZdHsU7?=
-	=?us-ascii?Q?N808LLUoK0/GfuDODzhpTEQ4bcqe1SHZv1ECkq28slYkUin5Ca2y0sta4+aQ?=
-	=?us-ascii?Q?mxJild0fiKkpmzzPQwpws55MfzQf/F5YJW6qFS3xFy/8YNrq73Z96/QunKQt?=
-	=?us-ascii?Q?ZNj+XMVlTuy3cjh3vR8f84vExTId5FProU8ueo1ZNx2JpW9kaJbGk4ME2Zjn?=
-	=?us-ascii?Q?xJqutu+AjHsVB5yqc9OwFWLTG4LLzr+a0+mSB93kzXTx3i8pUdGTP26U2Dv3?=
-	=?us-ascii?Q?sHobwgZuptcpeJPhMxQ/rZmTmdyFmcjVW35dUaBg7uuvgYsEnABocW/CwOYu?=
-	=?us-ascii?Q?UMLvEyQcdRn22mYqefwIY9lTkie1OnsKruhtTyOERSCBsJ+ukFh+7L1z9tb8?=
-	=?us-ascii?Q?Bz/je9aR2vLHp7m2QnwuoI2+zm8FykCB0hbSdoKBuB3ZOaFYo6Qj9ihKATo4?=
-	=?us-ascii?Q?cZne0mTvoF0uDLPBxCv225/Vt2Mvjph2HNlmUaiwrHyOmXq08pUdGJSx6c4T?=
-	=?us-ascii?Q?SVyfExvAJq2xzQdO6pyZ7HuMVdeVsLdUjYlt6MTaez11h?=
-X-Microsoft-Exchange-Diagnostics: 1; BY1PR0301MB0904;
-	6:yzT5wpnpePk5j+5raF7AT3USLnM3VQoAV7ZqTAUY82qrXdVGPUIYEBG1EhAQGitoBWb+Y/TSi0xVu2qxv5YfLSbWVo3l9mOmWO0CgOt2NF2LHZPiTrslmpS7Eh/2n/Lsqy2+NpVqFv+M2zGDIaAeeY306u5/KqZdyX/+lRMhcEJWu1ustqSeiWNBBnvpcnHtURTSoDMg83A5wW+5rBxv01b+qhV7C9iVOYJBJ0LcpOr5Hq52ygmfXOZ588Cjm76eIm9TQ7hhlnsV1bp7WPzhDR3hsdJhpLoI1iyfHhz4W1SUZ0wkpzokJvmXbJ9GM3ts/4qzxy2bxjrwvlodfeNqFTKzcZvB/q4LmV1oayWESECgAYDKSswBDTlEia/UHLm7kcITaatjo82r6CamooTWMvQLBR4gWTyJXIPX5iQeQlO37GVKheXTlYQpe1/Yy/wpHN4rRibc6S2FaL3skyPH1Ka4A1vDRSIm+TFbjsSGDiY3N8680cU87TRvP3aB07ZHWqMt0CWEo6ag2dwOpOVN8A==;
-	5:hpV1sZlYQ3UwDL6E67LllDazIzbQrCpi1jMOwYLk65aqIupZN/uL6N53wqcvyJ/1DA5tOr8Q6vfdjWKymJMMh0ingsqLGPvk0bsZKY4cSUuJBkDuQypSJ24xZ1WrkO0oL7jYSCQ82ExpgyYaD2F76up1a6JscKKY6C5JHX3rnm1YyOWfQ3EkChqF5nPobwfh;
-	24:Kl5A6Qevq4nik//HOVPwEL+DPWIWuaDNa4OUfWuzNkg82wcYbuzpgzZlK9eHlU/PuqXdrnJ1hcLmKUBhWQ7DlEk+3mzb7qCrZyClv8MIOd0=
+X-Microsoft-Exchange-Diagnostics: =?us-ascii?Q?1; CY4PR03MB2789;
+	23:Sks4+RF4hGY5DLUWQCgRefpgH0znAACtu/khSVZYM?=
+	=?us-ascii?Q?4R6npOkMqKMvhy8JaNbvE0r6Jz4/I6wvJeW5x9Gu8cVCQgLTPu/2ybSbWPM8?=
+	=?us-ascii?Q?lGwUjkVdZXhMqbVT5PWtOBkkmLBJ/TqTRoI1tGnHjB3a6QjbYpQiSF8G9TOk?=
+	=?us-ascii?Q?SKhuWIL6MAZHHfruAiB0iMg9Bvn+W8yF9dXTlT6f6DwI9/Gu5PwHTijtquT7?=
+	=?us-ascii?Q?wuF4eB80bt2zzPWfWRjzGcS+yYlsUdMVaxXtp8wE0ZW17UZpIG8ktAQCwjCA?=
+	=?us-ascii?Q?adYF6lILfGkq7q/rmj9kRbNX2lPyD76atS0Pf538Sl/KuWBCCDpylBzW0pzG?=
+	=?us-ascii?Q?+iRBiapU/+A9ulETMiVhdLbYzx0s5XEdmmYe93xW79tdJRhNKrQOCEaFey9k?=
+	=?us-ascii?Q?Wt+oEmNDj27xb9bbSzCVVgDih17QjUImqYV3Ep1gRUz4BqwPG0jjj5/Rdszp?=
+	=?us-ascii?Q?3z/m0h6rHU3P2ftdztJklOT+rjjmc8A9svbqfUdVy0rMQRickvsZs5bwcD70?=
+	=?us-ascii?Q?bqJkwdBEAlGD2MdB9otI/AZ2LYzTfE9Yu5ffKQk5Dxk6JhiO5fhU3jY2353E?=
+	=?us-ascii?Q?ScwVGyip1QCQ/OGd/nFBzchOhB6SLpokFnoy7QC5h+ZU4savmni9gAXWi69E?=
+	=?us-ascii?Q?lT+g56t2J/kvitPCrPKnDhnsXeq1Ys1s1hGRvI2BRlUah0ZkgH1McNQSoRtZ?=
+	=?us-ascii?Q?fFO71/8YNNJIOZSiEA7IDC8LAJuu69UZA3lZmoNqxqacZaXVXXwLiRCpj/ev?=
+	=?us-ascii?Q?EWmfOctLsgj7P4VbyHns2qTsgh6650NphodEcgSkl34WwHOhBK2AO8/E7KT7?=
+	=?us-ascii?Q?EFUU0fGvLC3U5Ab4r9596NcipnQDqnGml0eAVqhyo/wdnZrUiczO3yEs7jKT?=
+	=?us-ascii?Q?iGBGgn8e9ewqyojyA6BnJc+O1zOO+k3o/Jv0ZR4CraOe8V0mViMLyJzy8ofr?=
+	=?us-ascii?Q?QsRIY4cJpDWgRZ8q80+5F8QqkMlRlTxR4uhm0cOV7ehsC+AsazQntzZ/YFqh?=
+	=?us-ascii?Q?ldQ8UifilKmTTmpTORbUzDXj3iwwcaSNc4+0cbEFoql+oH5H37p13Dp/t7Bn?=
+	=?us-ascii?Q?Oy/4pNKB+zaV5KtKAEYLg+YmmGsHOhcW1rQ+VRKbVHCcoK9DTZDTYdGqyMw8?=
+	=?us-ascii?Q?HjP+T/QAK+KCmaxSVf2R+93SafXQqht3DTzYKu7gwnIm8g1t3Xv0+IkbUzED?=
+	=?us-ascii?Q?sIsvgvvCeJokQgR5Eylh1qSUYzdPuQn/+HyNZknQEjxgqGd1b7H2G1ZnVAlm?=
+	=?us-ascii?Q?H9BPYdy+719sUmRuc2VamcGSQ/FafWMtEikLCgg8o2u6K9iKjR5QrE96aYne?=
+	=?us-ascii?Q?RQFgAHwUzFVBTwU4W7oLCidRhS2VnC4XkLv/m/2H811?=
+X-Microsoft-Exchange-Diagnostics: 1; CY4PR03MB2789;
+	6:ppNcyXzgs6jevn4ACvlj0Mtnfd82N7kCBD35hV8tsDFaZZtjwARjDdgTcdA97fZZj4+2kDbpx6Es6RKR37r7MbVBoiRFMorZUrU1/v2h6/BHpTfsvTKieo3IabbhIDint6gSfzBEhc9zN5FPlsyvFt38PxevsZsjFUEhuSpX3GUlwb8Yhp79c1g5OL/jMQZVGSLs/1n4PoTiDSlyLP5BVG15v8qOvzXxrLzvRO5gBLvPEmv2Hj9nOJuPrDSQ+gVHUuiCUV4Ee5dYxqa/jmikY0NheoUzUwTwJCyftBJV0/z8s8uIzu0Jp5MqBUwYBYWGEPpl/WjTKQMc0VaYo+QVZSZkcQGm5w3lKpEIZLxozm0Th4PqEwsHyKT1L6i3YOZhZnbih8Vn9uPUpJwJUTR4bjr0JQfFzjxnG/YKp+ZdHKcoT58UWBXK7WdTL0l4ALvb37ERdGR5P6evaKmws8lfB2Vqpjg9gSqNpvNbnDAYjBXBB5HoRPlbV0L6snCOuji/yChoGbmKoVZ7IbeW1kzbLw==;
+	5:TMoT/W53X1xlmUfybxkbImzFc0jzCOheQZ7fEeOgFvW+BRA5eOMrL5IPy8br7szG85E4saG4sc3wVYZAfV6oQh+pL4GGVADyH7vjENSEA1ND8WE9pYmx3hGSLwLDFFXDROSzFL6Rb0Dx5q23yhbZ5SUUCWUGhcU9iXEs3NjZ7PHz9cF5hb2mbZ2GqF77pXQF;
+	24:g9bayKFTJGbT2pSv4wrEmgfc6xONoBr/D9SZ7oG2p8Ezhxj3O1jrwmWNlWfYWYjzbmH099DwFxcxLtPPrRocSNTEyqPs6MzdKSxvLk54jcM=
 SpamDiagnosticOutput: 1:99
 SpamDiagnosticMetadata: NSPM
-X-Microsoft-Exchange-Diagnostics: 1; BY1PR0301MB0904;
-	7:AmupA3Dg+LHKOgAxNziLmeWOzY3DUqHoA7tUAe1qYjsYTaHeIUbZRQ9xwF22bbgxCYdDFZQXts95jmO/McuMWUDQjMcExObaSid8sQ3MT8V0w3Sl2zAVGzNvgVQWGI0vaov8F7K6OkJTRGV2FaVjTy9x55K/k5Q9EIR1qHsgA4FXtLV/lC0YVIAqaZtQ/vjS9jIGShgS/KOzW5Zix09YSnZSP/8hdum2SLULViCOxZKExGS/TfY+zc4aQNTJcrdvw78L6+zBtKTM3MEPZV09BK+ghaE+xuWKQjD3euIge2hvWKXpX7pZbc0vlOlfwomhOASkaxmRD74XvOqu3hNjmw==
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 May 2017 07:36:03.8697 (UTC)
+X-Microsoft-Exchange-Diagnostics: 1; CY4PR03MB2789;
+	7:diR4Z6IRb++/9tnv5R9rW+uAEZ3Cx64NV9G4Ll8A9weocgTlLHVQgYYGqEssPl45Y/KZqT+vJBfH1dUGmz6I9xZaE/dHf1/bKzgbwbqcz2KB3vcix8ig1x4zwdzn3s3aUgq6Z83r9TBY7FmP8hrdewUJ+FyqW3QGhIXv7ZX+U0dQl2QdR+wNOewwB0FQp858pvWECl6Oxcu+qpcohXRtR2oLkIIIBFJkEyP8v68KCqFLJCtpDlsCKLVg0QhMsrSpu8HhDCwGMJS81z1pRaCyvHnLfO//PTR6p/JxSPGSaNFnQSQdWzqLMRLxJ/OGbrv72dWRS+m+gx8i2MHfoFNPmg==
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 May 2017 07:36:06.4877 (UTC)
 X-MS-Exchange-CrossTenant-Id: 5afe0b00-7697-4969-b663-5eab37d5f47e
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=5afe0b00-7697-4969-b663-5eab37d5f47e;
 	Ip=[192.88.168.50]; Helo=[tx30smr01.am.freescale.net]
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY1PR0301MB0904
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR03MB2789
 Cc: Yuqing Zhu <carol.zhu@nxp.com>
-Subject: [poky][PATCH v2 4/6] gstreamer1.0-plugins-bad: Add overlayvideorenderer video sink
+Subject: [poky][PATCH v2 5/6] gstreamer1.0-plugins-bad: Fix gst-player failed to load external subtitle uri
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -137,175 +137,86 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 May 2017 07:36:04 -0000
+X-List-Received-Date: Tue, 23 May 2017 07:36:07 -0000
 Content-Type: text/plain
 
-- Add overlay video renderer "video-sink" property, so that can be set
-
-- In create_video_sink, it returns video sink instead of always NULL
-
-- Add new renderer_new_with_sink() API to set video sink
+gst_player_set_uri_internal shouldn't free suburi which maybe set
+by user to load external subtitle before start play. It just need
+reset playbin's subutri property to NULL no matter if there was a
+previous one or not.
 
 Signed-off-by: Yuqing Zhu <carol.zhu@nxp.com>
 ---
- ...layer-Add-overlayvideorenderer-video-sink.patch | 138 +++++++++++++++++++++
- .../gstreamer/gstreamer1.0-plugins-bad_1.10.4.bb   |   1 +
- 2 files changed, 139 insertions(+)
- create mode 100755 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0005-player-Add-overlayvideorenderer-video-sink.patch
+ ...fix-gst-player-failed-to-load-external-su.patch | 50 ++++++++++++++++++++++
+ .../gstreamer/gstreamer1.0-plugins-bad_1.10.4.bb   |  1 +
+ 2 files changed, 51 insertions(+)
+ create mode 100755 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0006-gst-player-fix-gst-player-failed-to-load-external-su.patch
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0005-player-Add-overlayvideorenderer-video-sink.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0005-player-Add-overlayvideorenderer-video-sink.patch
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0006-gst-player-fix-gst-player-failed-to-load-external-su.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0006-gst-player-fix-gst-player-failed-to-load-external-su.patch
 new file mode 100755
-index 0000000..ba5dd27
+index 0000000..0d42243
 --- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0005-player-Add-overlayvideorenderer-video-sink.patch
-@@ -0,0 +1,138 @@
-+From 2437386711abdd866ec46d10a8bf48072ffbaaad Mon Sep 17 00:00:00 2001
-+From: Lyon Wang <lyon.wang@nxp.com>
-+Date: Tue, 27 Dec 2016 17:13:58 +0800
-+Subject: [PATCH 4/5] player: Add overlayvideorenderer video sink
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0006-gst-player-fix-gst-player-failed-to-load-external-su.patch
+@@ -0,0 +1,50 @@
++From a085090ec68efccd4d82c7cf4ea6f18fb475c4d8 Mon Sep 17 00:00:00 2001
++From: Haihua Hu <jared.hu@nxp.com>
++Date: Thu, 2 Mar 2017 14:36:56 +0800
++Subject: [PATCH] gst-player: fix gst-player failed to load external subtitle
++ uri
 +
-+- Add overlay video renderer "video-sink" property, so that can be set
-+- In  create_video_sink,it return video sink instead of always NULL
-+- Add new renderer_new_with_sink() API to set video sink
++gst_player_set_uri_internal shouldn't free suburi which maybe set
++by user to load external subtitle before start play. It just need
++reset playbin's subutri property to NULL no matter if there was a
++previous one or not.
 +
-+Upstream-Status: Backport [1.11.2]
-+https://bugzilla.gnome.org/show_bug.cgi?id=776490
++Upstream-Status: Backport[1.11.3]
++https://bugzilla.gnome.org/show_bug.cgi?id=779453
 +
-+Signed-off-by: Lyon Wang <lyon.wang@nxp.com>
++Signed-off-by: Haihua Hu <jared.hu@nxp.com>
 +---
-+ .../gstplayer-video-overlay-video-renderer.c       | 38 +++++++++++++++++++++-
-+ .../gstplayer-video-overlay-video-renderer.h       |  1 +
-+ 2 files changed, 38 insertions(+), 1 deletion(-)
++ gst-libs/gst/player/gstplayer.c | 10 ++++------
++ 1 file changed, 4 insertions(+), 6 deletions(-)
 +
-+diff --git a/gst-libs/gst/player/gstplayer-video-overlay-video-renderer.c b/gst-libs/gst/player/gstplayer-video-overlay-video-renderer.c
-+index 7764d43..411dd3a 100644
-+--- a/gst-libs/gst/player/gstplayer-video-overlay-video-renderer.c
-++++ b/gst-libs/gst/player/gstplayer-video-overlay-video-renderer.c
-+@@ -40,6 +40,8 @@ struct _GstPlayerVideoOverlayVideoRenderer
-+   GstVideoOverlay *video_overlay;
-+   gpointer window_handle;
-+   gint x, y, width, height;
++diff --git a/gst-libs/gst/player/gstplayer.c b/gst-libs/gst/player/gstplayer.c
++index fc5463a..3757a09 100644
++--- a/gst-libs/gst/player/gstplayer.c
+++++ b/gst-libs/gst/player/gstplayer.c
++@@ -582,12 +582,7 @@ gst_player_set_uri_internal (gpointer user_data)
++         (GDestroyNotify) uri_loaded_signal_data_free);
++   }
++ 
++-  /* if have suburi from previous playback then free it */
++-  if (self->suburi) {
++-    g_free (self->suburi);
++-    self->suburi = NULL;
++-    g_object_set (self->playbin, "suburi", NULL, NULL);
++-  }
+++  g_object_set (self->playbin, "suburi", NULL, NULL);
++ 
++   g_mutex_unlock (&self->lock);
++ 
++@@ -667,6 +662,9 @@ gst_player_set_property (GObject * object, guint prop_id,
++       g_free (self->redirect_uri);
++       self->redirect_uri = NULL;
++ 
+++      g_free (self->suburi);
+++      self->suburi = NULL;
 ++
-++  GstElement *video_sink;       /* configured video sink, or NULL      */
-+ };
-+ 
-+ struct _GstPlayerVideoOverlayVideoRendererClass
-+@@ -55,6 +57,7 @@ enum
-+ {
-+   VIDEO_OVERLAY_VIDEO_RENDERER_PROP_0,
-+   VIDEO_OVERLAY_VIDEO_RENDERER_PROP_WINDOW_HANDLE,
-++  VIDEO_OVERLAY_VIDEO_RENDERER_PROP_VIDEO_SINK,
-+   VIDEO_OVERLAY_VIDEO_RENDERER_PROP_LAST
-+ };
-+ 
-+@@ -81,6 +84,9 @@ gst_player_video_overlay_video_renderer_set_property (GObject * object,
-+         gst_video_overlay_set_window_handle (self->video_overlay,
-+             (guintptr) self->window_handle);
-+       break;
-++    case VIDEO_OVERLAY_VIDEO_RENDERER_PROP_VIDEO_SINK:
-++      self->video_sink = gst_object_ref_sink (g_value_get_object (value));
-++      break;
-+     default:
-+       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
-+       break;
-+@@ -98,6 +104,9 @@ gst_player_video_overlay_video_renderer_get_property (GObject * object,
-+     case VIDEO_OVERLAY_VIDEO_RENDERER_PROP_WINDOW_HANDLE:
-+       g_value_set_pointer (value, self->window_handle);
-+       break;
-++    case VIDEO_OVERLAY_VIDEO_RENDERER_PROP_VIDEO_SINK:
-++      g_value_take_object (value, gst_object_ref (self->video_sink));
-++      break;
-+     default:
-+       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
-+       break;
-+@@ -113,6 +122,9 @@ gst_player_video_overlay_video_renderer_finalize (GObject * object)
-+   if (self->video_overlay)
-+     gst_object_unref (self->video_overlay);
-+ 
-++  if (self->video_sink)
-++    gst_object_unref (self->video_sink);
-++
-+   G_OBJECT_CLASS
-+       (gst_player_video_overlay_video_renderer_parent_class)->finalize (object);
-+ }
-+@@ -135,6 +147,12 @@ static void
-+       "Window handle to embed the video into",
-+       G_PARAM_READWRITE | G_PARAM_CONSTRUCT | G_PARAM_STATIC_STRINGS);
-+ 
-++  video_overlay_video_renderer_param_specs
-++      [VIDEO_OVERLAY_VIDEO_RENDERER_PROP_VIDEO_SINK] =
-++      g_param_spec_object ("video-sink", "Video Sink",
-++      "the video output element to use (NULL = default sink)",
-++      GST_TYPE_ELEMENT, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
-++
-+   g_object_class_install_properties (gobject_class,
-+       VIDEO_OVERLAY_VIDEO_RENDERER_PROP_LAST,
-+       video_overlay_video_renderer_param_specs);
-+@@ -145,6 +163,7 @@ static void
-+     (GstPlayerVideoOverlayVideoRenderer * self)
-+ {
-+   self->x = self->y = self->width = self->height = -1;
-++  self->video_sink = NULL;
-+ }
-+ 
-+ static GstElement *gst_player_video_overlay_video_renderer_create_video_sink
-+@@ -168,7 +187,7 @@ static GstElement *gst_player_video_overlay_video_renderer_create_video_sink
-+     gst_video_overlay_set_render_rectangle (self->video_overlay, self->x,
-+         self->y, self->width, self->height);
-+ 
-+-  return NULL;
-++  return self->video_sink;
-+ }
-+ 
-+ static void
-+@@ -193,6 +212,23 @@ gst_player_video_overlay_video_renderer_new (gpointer window_handle)
-+ }
-+ 
-+ /**
-++ * gst_player_video_overlay_video_renderer_new_with_sink:
-++ * @window_handle: (allow-none): Window handle to use or %NULL
-++ * @video_sink:  the custom video_sink to be set for the video renderer
-++ *
-++ * Returns: (transfer full):
-++ *
-++ * Since 1.12
-++ */
-++GstPlayerVideoRenderer *
-++gst_player_video_overlay_video_renderer_new_with_sink (gpointer window_handle,
-++    GstElement * video_sink)
-++{
-++  return g_object_new (GST_TYPE_PLAYER_VIDEO_OVERLAY_VIDEO_RENDERER,
-++      "window-handle", window_handle, "video-sink", video_sink, NULL);
-++}
-++
-++/**
-+  * gst_player_video_overlay_video_renderer_set_window_handle:
-+  * @self: #GstPlayerVideoRenderer instance
-+  * @window_handle: handle referencing to the platform specific window
-+diff --git a/gst-libs/gst/player/gstplayer-video-overlay-video-renderer.h b/gst-libs/gst/player/gstplayer-video-overlay-video-renderer.h
-+index be09113..8a96e84 100644
-+--- a/gst-libs/gst/player/gstplayer-video-overlay-video-renderer.h
-++++ b/gst-libs/gst/player/gstplayer-video-overlay-video-renderer.h
-+@@ -41,6 +41,7 @@ typedef struct _GstPlayerVideoOverlayVideoRendererClass
-+ 
-+ GType gst_player_video_overlay_video_renderer_get_type (void);
-+ GstPlayerVideoRenderer * gst_player_video_overlay_video_renderer_new (gpointer window_handle);
-++GstPlayerVideoRenderer * gst_player_video_overlay_video_renderer_new_with_sink (gpointer window_handle, GstElement * video_sink);
-+ void gst_player_video_overlay_video_renderer_set_window_handle (GstPlayerVideoOverlayVideoRenderer * self, gpointer window_handle);
-+ gpointer gst_player_video_overlay_video_renderer_get_window_handle (GstPlayerVideoOverlayVideoRenderer * self);
-+ 
++       self->uri = g_value_dup_string (value);
++       GST_DEBUG_OBJECT (self, "Set uri=%s", self->uri);
++       g_mutex_unlock (&self->lock);
 +-- 
 +1.9.1
 +
 diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.10.4.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.10.4.bb
-index 732fc2d..82cd91c 100644
+index 82cd91c..91e1a51 100644
 --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.10.4.bb
 +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.10.4.bb
-@@ -21,6 +21,7 @@ SRC_URI = " \
-     file://0002-qmlglsrc-some-enhancements-for-qmlglsrc.patch \
+@@ -22,6 +22,7 @@ SRC_URI = " \
      file://0003-player-Add-configuration-for-enabling-accurate-seeks.patch \
      file://0004-player-Add-get-track-number-media-info-API.patch \
-+    file://0005-player-Add-overlayvideorenderer-video-sink.patch \
+     file://0005-player-Add-overlayvideorenderer-video-sink.patch \
++    file://0006-gst-player-fix-gst-player-failed-to-load-external-su.patch \
  "
  SRC_URI[md5sum] = "2757103e57a096a1a05b3ab85b8381af"
  SRC_URI[sha256sum] = "23ddae506b3a223b94869a0d3eea3e9a12e847f94d2d0e0b97102ce13ecd6966"
