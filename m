@@ -1,19 +1,19 @@
 Return-Path: <carol.zhu@nxp.com>
-Received: from NAM01-SN1-obe.outbound.protection.outlook.com
-	(mail-sn1nam01on0049.outbound.protection.outlook.com [104.47.32.49])
-	by mail.openembedded.org (Postfix) with ESMTP id D3DC577E89
+Received: from NAM03-DM3-obe.outbound.protection.outlook.com
+	(mail-dm3nam03on0085.outbound.protection.outlook.com [104.47.41.85])
+	by mail.openembedded.org (Postfix) with ESMTP id 0AB2777E89
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 May 2017 07:35:58 +0000 (UTC)
-Received: from DM5PR03CA0043.namprd03.prod.outlook.com (10.174.189.160) by
-	DM2PR0301MB0910.namprd03.prod.outlook.com (10.160.217.140) with
+	Tue, 23 May 2017 07:35:59 +0000 (UTC)
+Received: from BN6PR03CA0096.namprd03.prod.outlook.com (10.164.122.162) by
+	CY1PR0301MB0908.namprd03.prod.outlook.com (10.160.165.19) with
 	Microsoft SMTP Server (version=TLS1_2,
-	cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1101.14;
-	Tue, 23 May 2017 07:35:57 +0000
-Received: from BY2FFO11FD007.protection.gbl (2a01:111:f400:7c0c::140) by
-	DM5PR03CA0043.outlook.office365.com (2603:10b6:4:3b::32) with Microsoft
-	SMTP Server (version=TLS1_2,
 	cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
-	15.1.1101.14 via Frontend Transport; Tue, 23 May 2017 07:35:56 +0000
+	15.1.1101.14; Tue, 23 May 2017 07:36:00 +0000
+Received: from BL2FFO11FD038.protection.gbl (2a01:111:f400:7c09::107) by
+	BN6PR03CA0096.outlook.office365.com (2603:10b6:405:6f::34) with
+	Microsoft SMTP Server (version=TLS1_2,
+	cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1101.14 via
+	Frontend Transport; Tue, 23 May 2017 07:35:59 +0000
 Authentication-Results: spf=fail (sender IP is 192.88.168.50)
 	smtp.mailfrom=nxp.com; nxp.com; dkim=none (message not signed)
 	header.d=none;nxp.com; dmarc=fail action=none header.from=nxp.com;
@@ -22,111 +22,110 @@ Received-SPF: Fail (protection.outlook.com: domain of nxp.com does not
 	receiver=protection.outlook.com; 
 	client-ip=192.88.168.50; helo=tx30smr01.am.freescale.net;
 Received: from tx30smr01.am.freescale.net (192.88.168.50) by
-	BY2FFO11FD007.mail.protection.outlook.com (10.1.14.128) with Microsoft
-	SMTP Server (version=TLS1_0,
-	cipher=TLS_RSA_WITH_AES_256_CBC_SHA) id 15.1.1075.5
-	via Frontend Transport; Tue, 23 May 2017 07:35:56 +0000
+	BL2FFO11FD038.mail.protection.outlook.com (10.173.161.134) with
+	Microsoft
+	SMTP Server (version=TLS1_0, cipher=TLS_RSA_WITH_AES_256_CBC_SHA) id
+	15.1.1075.5 via Frontend Transport; Tue, 23 May 2017 07:35:58 +0000
 Received: from carol-OptiPlex-3020.ap.freescale.net
 	(carol-OptiPlex-3020.ap.freescale.net [10.192.241.17])
 	by tx30smr01.am.freescale.net (8.14.3/8.14.0) with ESMTP id
-	v4N7Zo6d015402; Tue, 23 May 2017 00:35:54 -0700
+	v4N7Zo6e015402; Tue, 23 May 2017 00:35:56 -0700
 From: Yuqing Zhu <carol.zhu@nxp.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 23 May 2017 15:34:18 +0800
-Message-ID: <1495524863-28699-2-git-send-email-carol.zhu@nxp.com>
+Date: Tue, 23 May 2017 15:34:19 +0800
+Message-ID: <1495524863-28699-3-git-send-email-carol.zhu@nxp.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1495524863-28699-1-git-send-email-carol.zhu@nxp.com>
 References: <1495524863-28699-1-git-send-email-carol.zhu@nxp.com>
 X-EOPAttributedMessage: 0
-X-Matching-Connectors: 131399985565161944;
+X-Matching-Connectors: 131399985592151240;
 	(91ab9b29-cfa4-454e-5278-08d120cd25b8); ()
 X-Forefront-Antispam-Report: CIP:192.88.168.50; IPV:NLI; CTRY:US; EFV:NLI;
 	SFV:NSPM;
-	SFS:(10009020)(6009001)(336005)(39860400002)(39840400002)(39450400003)(39380400002)(39850400002)(39410400002)(39400400002)(2980300002)(1109001)(1110001)(339900001)(189002)(199003)(9170700003)(53936002)(54906002)(47776003)(50226002)(8656002)(6306002)(498600001)(97736004)(4326008)(2906002)(8936002)(8676002)(81166006)(76176999)(85426001)(110136004)(38730400002)(50986999)(104016004)(48376002)(50466002)(2950100002)(33646002)(305945005)(6666003)(189998001)(86362001)(6916009)(575784001)(5660300001)(77096006)(106466001)(105606002)(230783001)(5003940100001)(36756003)(356003)(2351001)(129583001)(146423001)(121003001)(17423001)(156123004);
-	DIR:OUT; SFP:1101; SCL:1; SRVR:DM2PR0301MB0910;
-	H:tx30smr01.am.freescale.net; FPR:; SPF:Fail; MLV:ovrnspm; MX:1;
-	A:1; PTR:InfoDomainNonexistent; LANG:en; 
-X-Microsoft-Exchange-Diagnostics: 1; BY2FFO11FD007;
-	1:ZOlSd/V0HVrJQMIljhG1toETHH5spBZ0R8T1SiJIsb9/uJm1j4jv5JMnvRvDSaJ4w+mAcshL17PFHEMqeYsJo4vOuaRMrIVmkmnDO+LgmoqL7kgpW+5L950lOqhLeNLrb+qfxg3nh4efCkxjBw31l3h9i5tSMoWvw2+xvkk30W6ePxfHHivpYmwjilRbdfsbyk246pmrx/PdhHaybbNKBpsmufOFypSKbXdb2mStX9ifJX4eiYufQxDCf4Gzk0kRG1C2F9BcluMKixOasPvLVRwc4nP9GboA6Qlbqv/gbVgQnRf/3yB00LwfdM+iZtU0QauX9lowAYvCSsSsPvr/gPq7h9SaoNlljm8GTttjT+jtfoBV5qn95DEVStyJJJsIdqcb3mWMZx7spRd5OgoTT5g9HnAw5HXgeCpe+qK+6m2mpHbuJOmfIKThKYk2OO4DkTBDMJG2a3aCafUJsrsD6fVDNqGA1L7B33DFjo3IpdzqWtUjeQZW7tukVScvKItvM+pcWRwSPzDyF4ygAupgQ6t7E0Ok7mVIElvTmWKPiZrQf4/RDSZxQvSrfOe1CchnTz7necsD7I0qERkFX0OYEZPTRRxqDqk1mGzu8fOu3XORFH3zZGaH/V8CCdb5/7jM2eeTJ5PZ+cTUS7l7DBUQzBDEUVP3ziSSiN/MaT9czB9WtGGmHcCgP7PEEvwsZon14dAOxNtAY4TuVAeV4lR5MstGkemExdwCuURCOdUAgHLZtA/FLmyHbcQ5XplWHwJrh+/6/lIrxvd/YA6w+Cg60w==
+	SFS:(10009020)(6009001)(336005)(39860400002)(39450400003)(39840400002)(39850400002)(39400400002)(39410400002)(39380400002)(2980300002)(1110001)(1109001)(339900001)(199003)(189002)(9170700003)(97736004)(48376002)(106466001)(2351001)(50986999)(5003940100001)(4326008)(76176999)(189998001)(230783001)(50466002)(47776003)(77096006)(38730400002)(6306002)(8656002)(105606002)(53936002)(36756003)(110136004)(54906002)(104016004)(305945005)(86362001)(50226002)(575784001)(5660300001)(8936002)(8676002)(2906002)(85426001)(356003)(6916009)(2950100002)(498600001)(33646002)(81166006)(6666003);
+	DIR:OUT; SFP:1101; SCL:1; SRVR:CY1PR0301MB0908;
+	H:tx30smr01.am.freescale.net; FPR:; SPF:Fail; MLV:ovrnspm; A:1;
+	MX:1; PTR:InfoDomainNonexistent; LANG:en; 
+X-Microsoft-Exchange-Diagnostics: 1; BL2FFO11FD038;
+	1:tsHHlpksxvlH1CnJMHg6fbV/MeahnI6J4FPhR2w0QrD9BUVFDdSWqum1STItJBKiDTL09jf+4w22aTx9nMJlZ5xB63amMvgzWTNkWetn3r+XM9I5wjRCYNNUo1EzniIsg3fTGT/nAiqw6Qewpt7ph4sl4KG49uoQ3dcfs3r2trqSTIdjg+2XDShFwYI0T2TBxq0Jpo4xu12gnT1qifTgZ5v5+blE4iyerFVmgFGsm9ObtqtmOcW1WZoUc93H4STKbDnEnEUv7ZrUP6aOImRnl94cj9gqz8amZ2PulLmY0QrR+wFDaEnYty81GkWr5dqORmdVQxl5+aT0njlR2k1NCV2BUJmkCzjQDQ2tgAzr7UF6kM7Ba1HfA5CbQHz5o8vQ6n2yXek4FHKMk9AML/tnrfCMlqwF9Lcefj8+GVnUNhiQp3ebVx3aD19DMXBTNU3j0SRc1mVvJl6xt1hF2aRGbgB+9/TNrQh2fi7hi3aIy57QiEoE9jfhT9VOtefvilCKNj+/HjZ6whVKc+BG7YTFgS3Q6mBd6MLvxD34S0uWD+OVpunqVSBVa8u/Tv58WDyaI/23zMhApGvDl1haKZhcXyjttuqo2hJ2QhKnQZzq9wB1Wlyo3FZ5/6iqP1qN+TbVPywDEqDlPm3PTWQT43Bt9UXZTn7vesAntqVv3Rr0/8TfL//YAIyImXs6hzBvShQT/4LvyNfxbdAGhiYHNG3aD5JHofz83PHXyIZ9vj6GYxaYM4rOtxZ1aNiDPjvM2g19qsiRKS2rMHzowA3BFDpHBg==
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM2PR0301MB0910:
-X-MS-Office365-Filtering-Correlation-Id: 344e50e9-acee-4d29-ed66-08d4a1ae597b
+X-MS-TrafficTypeDiagnostic: CY1PR0301MB0908:
+X-MS-Office365-Filtering-Correlation-Id: 7f7a7797-603e-47c7-c05f-08d4a1ae5b17
 X-Microsoft-Antispam: UriScan:; BCL:0; PCL:0;
 	RULEID:(22001)(201703131430075)(201703131517081);
-	SRVR:DM2PR0301MB0910; 
-X-Microsoft-Exchange-Diagnostics: 1; DM2PR0301MB0910;
-	3:yCXOH2jPnc7RkLUjZiCnlDnIXsHUt2sEs1xBlokEEk3urWQmGz/plFPieGH/2zNVDshsyMBp6NRLiBAtsl/SZsoVObvl+BADH1lpuoJwGDDlcOd4R9j1bPGDbkmMSseuxbhT3DUq7WVtAJcsA5P6Ki8jGt+NKsfSrXyrha4sldocZzm//CxUOHG58aIdfyL/Paff9eiUpghzhAJrLAgwZZ41QRCvNoJUtO/CWjl68RCvwwnhjP1abJiYPOU+/OxpY8knMONMpmnOGDfDmlBiRGtLUF6Q2asuZW9pho/yHuzj/g6sNRv3gLEFMoFESMFg47ySZsMWaY4Q8GupSJVlOLUPyZ25S1GiytZhrwATJn60rxwwSaXxm/NynrMTkjWa634zhQF79wCtcMZtVe/w2NKgQvSpdWGYMSNCnCgz0YZ5io+nzIMsrH4FOia9peyF;
-	25:fzKKoRxApkf1bOYKTWvTANOupCS4RL8F+w81RV97xzP8dlP9zyEDo6s8ZeynShjuE33Z9tJlg4i7dzE/o1k/4m/Vw6j/ZDpCZwyfhSZDfJlI6Vz1JophBjiHB1L9RAqZf5USwb8rWV7FNgJW9MODD5ioQUn7NBp1o9u0RytZSCjnznhkLfzNj9kHgGj9Qy23nqxpBKlNvvf9qwSahDsxq7VHv9RrnmZjYaIxWbaAdqtU62McZ6XacKZ7+Rp/36DztNoKlme4MXRzlhlbWFE4z9/fRsg6NXU/3Iook+ZOedtPjg7S+AT/DGK5hzv/poWHbn8EUjMcd+k/lozMq1QfvKWZVAuc78N30o3METQmtsXIVM3RsZzju3b6kDdByxIjFdQos/OXy/MYbAT69h9W1OQGz/+cOLzH7BGlrEowOstlm0oVXMAKeSjcW5o3RaAMqo4LD8A+Kczt4SNBdjkqEatXbHAiGgodo6s29ivrwCM=
-X-Microsoft-Exchange-Diagnostics: 1; DM2PR0301MB0910;
-	31:ZEd6WFKafZia/3yvomp+5dgElydU4EKsRxE22UJ5Y8H3q14QvwakRY8NYQlmo+GDie2KrPhPDBwLzHbnEgVimXfVmQ0teDj8syNN4Wp/2pdaXPPyUsODJHdMRer5dgwDTv7GNbuht80WpfHcQQUp0q7lyTCHvz/PusTO4ZPOaF2P0jwO+mvGgulakL8JLXUqpq2dTkqtIrLncjGzTRlln3tAGWkfb1ruhrhvcCMqMGNORKQ1Y6/7snf99d1yXll8d64QhkD6G6QA5+zhpI5+hg==
-X-Microsoft-Antispam-PRVS: <DM2PR0301MB0910029202C12FECE2620BE6E9F90@DM2PR0301MB0910.namprd03.prod.outlook.com>
-X-Exchange-Antispam-Report-Test: UriScan:(185117386973197);
+	SRVR:CY1PR0301MB0908; 
+X-Microsoft-Exchange-Diagnostics: 1; CY1PR0301MB0908;
+	3:uqxLGVCsVbh/kI3V8p3QnAwNsFwCAYhKIDcSS493Tf4GgPMPYpqoggffMEcRyF4m6F4bDtZbiSKdBIRCmnrtXeiyb53ZjQFT2uk+AkkOrWZ+z3j0HtvaD58eW6CSH0bDw0CQNFxVDtBZQlLmFilZKXoemUK/IzuSnF1ZCgZkKOEzeCCKHUgE/Zi05NyXrWi0/Q5+hN3Qp/696+g8W6lQw38/otcLB+n37ru4CWc6sutFj+QEfXFqT8Oq3CLwmG4sPbt/kFYOGitmOHmKa6bAgwIJc1Vd566bcDaK6PYdBgowmTkMnj5SzSM57QSps6XnyRjTYX7rQwfQbnQo7LNKzbveVbs3CULm5SZ1U6Ajk9dwKg34EwBtx0m88dHmNdVKT/9+/9kw5jwoBOTGKiHDgHv86Bj9Sqn4Pkgn7/mNQxE6udTgTP2dGhw3nF/pS5ZV;
+	25:G4wHaSeAEH9TMtZ8quYDD2rnTXyvXunncwWAFK7bKU+9yrRPmyz+9cj/snrjceHloASjCwyHxn9kEwFABMaWGcDk46LcAh8fWG5flx7cbJEdXycSDFmkAINLPb7ZuiYyF1X1qubWFM4jkPyIv395lgoR2XYqzEMxvdF2FVN1zhXIppT0C9pOrlC3t30MySHuk46sCr4kK6c0Oc8E8uICdL87RwQS6AH2EnimRLiNP4xqY11QrHjSQln8uUBxKhCtc3TIsllpe7E4CooMUVi6PLkuq2Qt1IOJBwWKjTA8WuJNmv92edPZPsmkkC+1vjmAF2xOoycrp0agl8VOHS37apd6gfzN1VGod7fCkGOieiYZx//pms4IO8/0S2lzZcxFWH7W1CHFv6eB5FeOpETDCDauv1O7A+8aM5yd6qGbQC5CdLRWo51rOaBw1BPUapW4cPWgGAhn5JiHLsagMw3XLcc+9o+0DowFiAOAksXLX9I=
+X-Microsoft-Exchange-Diagnostics: 1; CY1PR0301MB0908;
+	31:E/1183HdcLNmUZi8OrX9/2Ch0Rx0MkSsjKJKN1az1W6J+Qh2+Bm1B0FuXKNzM6p35HOJzP/5ob3FwIPyeK1Q/SXYM0055rF7dGeQ4LmZy7ObdKIDGqSGiym9dZueMDRVlvftmfn0CWILIuseKc8d7ZAb6ZwhPclPIu6mAFkWAnkugr88lcrd83P26RSgVruwMRAoKQyTruYRxcHFI3CWolkEU8FxskTiNw884M74VlXOzpnkZ9gCDFr9LDLvlq4jP4DE3I4KGy83B/+OpwOLpw==
+X-Microsoft-Antispam-PRVS: <CY1PR0301MB09087D9957781813C31E9228E9F90@CY1PR0301MB0908.namprd03.prod.outlook.com>
+X-Exchange-Antispam-Report-Test: UriScan:(131327999870524)(185117386973197);
 X-Exchange-Antispam-Report-CFA-Test: BCL:0; PCL:0;
-	RULEID:(6095135)(601004)(2401047)(13024025)(13017025)(5005006)(13018025)(13023025)(13015025)(8121501046)(3002001)(10201501046)(93006095)(93001095)(6055026)(6096035)(20161123559100)(20161123563025)(20161123561025)(20161123556025)(201703131430075)(201703131448075)(201703131433075)(201703161259150)(201703151042153)(20161123565025);
-	SRVR:DM2PR0301MB0910; BCL:0; PCL:0; RULEID:(400006);
-	SRVR:DM2PR0301MB0910; 
-X-Microsoft-Exchange-Diagnostics: =?us-ascii?Q?1; DM2PR0301MB0910;
-	4:99sVO8QAy7BPrSuXEFjEEODxJWrGly839Zvs9zUF?=
-	=?us-ascii?Q?6M7QsPr5eoX7MI8kThvBUnMA8l0+fe5HuxrF/izehSsQpYa4CBGXVMZ2LKBj?=
-	=?us-ascii?Q?onbdOIsHx4v22uQiLICh/woNZKOvGvtTe+89G7gbzTcrP6wMFV3SSm6pteKW?=
-	=?us-ascii?Q?MFTBV4CJohcjE8OKnL8Zm7pSIFnB/AnRmImH30BL1akwOJvx1Ec7QiAP85Gp?=
-	=?us-ascii?Q?dIrmpe2Rnnq+VC+3fEIKwd0obTgwHu7xYa1Xs1BOcYj0O4ScxuZRzbJbw+20?=
-	=?us-ascii?Q?07B+ba7sN0P+PKn5tI+84dwml8bLzCC3APBcVhzvXDojoBkr4pdbY3KP4y4X?=
-	=?us-ascii?Q?Rq7uEeMu096bofIOB+Hrxi4YECVEsG/Ps5zWwmyDcyUghcUtQNs/yFeRCTyq?=
-	=?us-ascii?Q?K5DOntqTp/4WjzhfuVwKkWTAfrH+/YlpwBm+9Nxiod1r6hsSoX24cDTUKds4?=
-	=?us-ascii?Q?b7E4k0iV9jAEaW7anIRIelM65+vWiJ5mDFijLRvyrEqLmuFzISJmatNQTX6d?=
-	=?us-ascii?Q?MCuNp0Oxyq5HxC9C63KeGmXurTJISSf+4HI42QREVQK0wWBjcE1okA5j5rv5?=
-	=?us-ascii?Q?lz1E+N+c6n5QmBSHOAnXrbHf6sophw342+2AtqSouBEXQ49c5Tr36tcH8PZd?=
-	=?us-ascii?Q?nRajBggT8x58NZBYEfRy2Tox9Wrx4H9NeoOoH9kBIsxkPkbyszjPohBR9aQL?=
-	=?us-ascii?Q?I93zO0X8UIAaYqhYzaZLfNv+hdozdhq7IVUqj2XhV4HYAnsQ/jv6aTclaYiX?=
-	=?us-ascii?Q?ibE1pW9oldU/x8i0q/oCok7uTWSVXykEvIiZXfnH9FDsgZ++15+AedHxEfYj?=
-	=?us-ascii?Q?mMyPImRsAZQIml8n4yu3v9lYjiRPYFTqx68redTxDd4pgu4FyZ5ICotV0FRk?=
-	=?us-ascii?Q?w5gVZSawpjYC1Hp+x6mpziW0FfVdlrcUaLjtXZdB0BX0BturiJRd4uGCiU4H?=
-	=?us-ascii?Q?BQOgXIopvy2FT01T40k7gdTABWMXsZgAkXrb/gljmw=3D=3D?=
+	RULEID:(6095135)(601004)(2401047)(13017025)(13023025)(13024025)(5005006)(13018025)(13015025)(8121501046)(10201501046)(93006095)(93001095)(3002001)(6055026)(6096035)(20161123563025)(20161123556025)(20161123559100)(20161123565025)(20161123561025)(201703131430075)(201703131433075)(201703131448075)(201703161259150)(201703151042153);
+	SRVR:CY1PR0301MB0908; BCL:0; PCL:0; RULEID:(400006);
+	SRVR:CY1PR0301MB0908; 
+X-Microsoft-Exchange-Diagnostics: =?us-ascii?Q?1; CY1PR0301MB0908;
+	4:2bdIAgHgJPFECU90aXJjuFQCgYQ/AUtQOSbpRLGX?=
+	=?us-ascii?Q?QwYeBBeUyaokuYM9kJwFC9kjQWAP2NofquzZYRGnYqXygqmfOb+NapNbrZVd?=
+	=?us-ascii?Q?xicbPvv5l74mcoA67fvuBBcu+WNXZPmFdic6RJ2RBdQr8b3iXvmEeJIiqgPw?=
+	=?us-ascii?Q?KN9314orvBtGJ686lsCJBsPU2GBHiafyNoVvOpkVHGRSrqDitBiJ2nnQzbVl?=
+	=?us-ascii?Q?l1kSGmaBaPWhbBpPoYMaiWljiJ5XxC0Ae0TgVcDCMqRFGBmyAylH1UB83RCp?=
+	=?us-ascii?Q?B4OF8hHmyUSjlG4i18W1rBWvAZvS42Tf8SwstymLuBlThEp5RnZMWTdPtDXq?=
+	=?us-ascii?Q?wBjyhsmz3GSlbdfNBJ3/Ovu002qaIrWYnroaQHG8Di40HjlXbqPKW0klmKyn?=
+	=?us-ascii?Q?NpJmjti3VhCK2wJzH++NmBP4g0lCG4yhW4P9Xk5/1W4tHj8F2aLrLZKlvvX/?=
+	=?us-ascii?Q?yIJAZCWA3azDyb6r9HXu8nRjs3XgcVJ0d94/kX84VgMxBv5D/br95jVLyHSy?=
+	=?us-ascii?Q?kyIOBBFXE2msTTGhBHLLHierh9kM0/EKRmpGPqGM/+MTF6WAWpAviwBkR8+9?=
+	=?us-ascii?Q?NJWhsQrwvSecSoB4sakyt8Vimy0WeKs/ew5D7Ty76GMBY+V1jonlRuQar7El?=
+	=?us-ascii?Q?UA5gfx/zTZ89/81pPjP4cFZlwHsh/jyr8/cVkT/fewp00hvJ/DhcGw54xQX/?=
+	=?us-ascii?Q?ynp8TFHWQKcGGBRMPHVFoZwL1F+5Fnx7K6L3oo7OHVcg6O/ZsaNzvQtoSR/c?=
+	=?us-ascii?Q?/7yA96NIgfxoPsamAqkXvSaaiWtRUSsQpNW/RmRxo2QbUbWT2o78YEUCRrVQ?=
+	=?us-ascii?Q?nhF12cufgLRnoP8hIhdpeBYEFLBRKDYpn3hM7DmmkvnRbM+224C4Y7cf4fGd?=
+	=?us-ascii?Q?yqCuUY//Qorxy4TNawJ0U8Qb5s6Jdu55GI7Hj62g8HDcGzg66lQ+R3Dq3aIC?=
+	=?us-ascii?Q?josXbguZcEf4uzSBegR98ziVCdSTKflOVK+uOLAmk3ahFPW4wbyyStXNIo78?=
+	=?us-ascii?Q?pj0=3D?=
 X-Forefront-PRVS: 0316567485
-X-Microsoft-Exchange-Diagnostics: =?us-ascii?Q?1; DM2PR0301MB0910;
-	23:IxRBOauugJg5URdQm3CPQnqMe5kAd2YY/GWvzQF?=
-	=?us-ascii?Q?b/NMt/b24ZFx4HRrrFQ2GYze5VJSnRH6NIn2QKLxLJN+ubZ+p3RRP71IfIyf?=
-	=?us-ascii?Q?UwSE2i2+aB6EdDoNwx6Q5znWCWO51XrND9M8AA5BZsxtKBg46mGqBxqpCD7h?=
-	=?us-ascii?Q?JECt8n9Yk/pqFy4tS/RwlvFhpBWJCqzU6SycRwcSRHqfg0CdhcyNZrm1RFHB?=
-	=?us-ascii?Q?+/18c2YfIx8BCWpFyNY1/wsT/GnwBpaa1/iu+Oyba5/mQ5f1RtG4sEVZdaNv?=
-	=?us-ascii?Q?kmZnuUQsUf0L9YaFuHXMrDAuiAIAaWnf/xDfo0YcwAQxtgPP7jQGKVpcDRSU?=
-	=?us-ascii?Q?Hufi7ZhFG1zoV8BxnMRoxCHC6xUqBqS82TUSO+Q83Oaclj2XVUj3ABgb4W82?=
-	=?us-ascii?Q?/NCK7Q92QTUOwXJtdLOFRmXmv85aisvkIMWiCS28tsVMEbDt3ZT+j4RoZoJx?=
-	=?us-ascii?Q?vBysxrrPrLORCpwNielmg7fbP//NWeV24jh5tLUq7bUj9Kmes7psKVgg3WCR?=
-	=?us-ascii?Q?vx74ysMmkU0bW0xiLxu9HUBv9WlD9T037PlNHd9XeTpT5tzZuaM5L+jLt/BM?=
-	=?us-ascii?Q?NL11yJP2nKKUB86LUc6gGisiuLbcfKsUalvgB2heFWzPVycv1ce+u05TpDQF?=
-	=?us-ascii?Q?uKpxQ1qkL0xakDDtfolQEq9TqNaqS2v2A7QNNMvintgjmNTfDZuIMbH8xkuD?=
-	=?us-ascii?Q?NM2dPYRgrpme850B3fZ1xcuoVfbpOUZVFeKGNa7NvGkseknMnHRkg8QLhkLO?=
-	=?us-ascii?Q?nGxbXRwGUIldTEwMs2QIkap/dIeR/lPcDeRwWj3hbipC8b9QFOseK51yaIUI?=
-	=?us-ascii?Q?I0XcfcLdlbacrn1GpqPS6vmg0+3uvcqkbf3kXKRYAgfrYwcOye0Zv2HglPnk?=
-	=?us-ascii?Q?y0Ex4Wguxhew1V+GwZHh1ihk6+vLyAfVE0sMuou2mTUtGraWT5AGuwXISvv7?=
-	=?us-ascii?Q?fbjLbvFvrhgzH8V39Zz+UcMXB6yjYEYByEw6NJ0WV0dOyvQXnF2YM3vnjtsB?=
-	=?us-ascii?Q?pNhH4N4vghLyXQbLP531XPNuZd1XWJC7ppf+3rFiHB53qQEpcr3D2dP9NXn3?=
-	=?us-ascii?Q?pk/EeFM+FhTGgB3/EvspmXEMZ6S8PVN0XS9G/3ZlEDpTSsBwNu4eGYzPJv+4?=
-	=?us-ascii?Q?cvHTjTSkUI1GXsYXjDY8rZ9O4GXgm4dCaWbCxqJyafycypi0j0Q22eaEZ55e?=
-	=?us-ascii?Q?NdjpHiVFVpW5JaX9Z91Kmrb93tS2KK0tqzyPb/CeEuUA4L3AOVvzP58JuPWu?=
-	=?us-ascii?Q?s29lMILtna4vt2ToP7WZhRqvMKj8PJMZLYxxRDZ1BGj9Z1rmKgcIW/SNIqnr?=
-	=?us-ascii?Q?EFqi63tXE3gJx6xOFtQ+2J0/IpqZe8v3YrRuh1nk0zCZpPpRc+XUOoBalgR5?=
-	=?us-ascii?Q?tIr2xDlMMKQvgaaovfUePTg/U6iBG+aOqjBoUPCUpuFSBPV48Z3hC92B6FcQ?=
-	=?us-ascii?Q?eF8GKkbR7ElxEk0HNMDh1Ne+Eb0XCF/U=3D?=
-X-Microsoft-Exchange-Diagnostics: 1; DM2PR0301MB0910;
-	6:LP8+4IJ5mtVGixRMrYCIBWnEIfGMwQgRVdqm0UXr5i6Re5ZYgQ6ZqjATOLyiEarZ+wr097n3c0z85yqYIosVxpWmurzwhnUfkAsMlI9RgK39pz9dp6Y/Pp2BEzVMSCHRBudssMneIzuaRaYuIn5ifhwlJXAXwMBayONQVZ9MhwDSKU3qjttJ35w8YX2pGeJUKGDZyTubXycNsZfzaUgipB+GFXuFcQiUD5jmmfAltPM0b3pDlGDPym3/VkgWdfN/OlrBQ6m1cCyk4su+JNuO0viaJwIh9Gxw+F6BPbQFixPG8neqos4HB/WAHQzgdZHI5tCUC6ZTWVdNMmwBZ+T2VtYQkZWzxVdy8bayQe3tT6BprvDMBER70WuLzOGEVV9naJh6Ih6CsCfLkr8aYsNnoi2eUFlkFredq4jZwjtmH/hn1Rz/O+VuYTdUyF+kEdW8MFOQNTA2gajgs84g7v1vX3gOddwYPjCN1a6jcUn+P6rmQhY1a3RV2jDe68MuDKEwf8Ja6hmLSKKqBS/VaV8O7w==;
-	5:2U34OUc47TK4wLWTJhRXA1LgsZMvxo2nJIQppUsffQ8UKqff3u0xsDx3v6CrRPvaMv/Uc3ObT3CcE8aFOpH/xKTwO0HVQ5QopklysrRHZVhglgoPR6obfpsyxUi640VPf6QlnG05lKjPfiOpdUln4zJKWzQ955KUi5HsJucvF0nQNQrXdRo3Iwjs4m/utUDB;
-	24:yfNPWkqzgrhOjAmAq6BEW5kfCTMM5y+WtLMdDbOLypr42LAniHhXKgm5kGEgroDLGmT/tPCiDucHYFeRNKFw8g1+qVFHQuoxW/uj6gpUxlk=
+X-Microsoft-Exchange-Diagnostics: =?us-ascii?Q?1; CY1PR0301MB0908;
+	23:rQhq1P8589QkwMjUbdXEXv6GGhd9+s9qV6jKwD1?=
+	=?us-ascii?Q?D9A7kg83SpSZ1S3RCv6u3Ief37sPIwkzj/2HJGIAK9ev05O7UxO8jsxciMSS?=
+	=?us-ascii?Q?NVTcIUtCg2POZptELXjoew6h63XoWu/7J0V1WIGJc4EWnejxJG48UUxuutPJ?=
+	=?us-ascii?Q?CxPXr8fvss0ClVrYw48w5qP14YPXLIRF6MpMrzxEZEGV2nJKxKYrawYqqidb?=
+	=?us-ascii?Q?i1XghcZzeNmWkCrq2/wylB0Qs6/Vxsyv4QjjcUwJeGujkK7GBi3vjaPkCPQz?=
+	=?us-ascii?Q?DGSJWHciQuDHuE5UJs1CIhrzvQFL3TYJ1v9APv/GSZnSRoeyz2bcBHGnrwcc?=
+	=?us-ascii?Q?GyGrRiF7c8eRTLjn3o2TurFAUcZvOAUjTmS79STxAZA/W3CCQuTFo/YWot5U?=
+	=?us-ascii?Q?EV3PlqpiYXH0Tmy9qVU8vPlxOkzFCn8GkDh3fuG8IAuit03gWMH1YZe7cG6V?=
+	=?us-ascii?Q?Xuy3zbj1gbPuVR0wpQE4QWHYugQ6PbvjKjuGnSsjkTK+VeSkuT+3PZVmEKqu?=
+	=?us-ascii?Q?EkomO+qi8tVqhXdyQ64qtWxB148zQkvbeBuNuhAKDL7vWw/KUoc7Esgpjb4j?=
+	=?us-ascii?Q?8r9OK9OxkCjGgp9Bs1dZtV4Bz8vXMKoW82SO2Z69PVfzDQD7XZuIZTHWkqdy?=
+	=?us-ascii?Q?jiCGzuDWbCYHPfNckoOeBhGq1dif22Q3IAxJXCfS+JE89v2eSd6yZg36+zAA?=
+	=?us-ascii?Q?9UrShkcFTKBYk+Aj078u/FdCDGHfA7xnDDo0VWsiSjI1EZKbMrc8jY626e3h?=
+	=?us-ascii?Q?tLZhrn4oUtMu3Kh/E/pGdHQucTnivF/fnMSmEaDJlyAej7o5JUPfrOqjysIX?=
+	=?us-ascii?Q?ZlrdIM6lkAUzY/kHD4Pf878zZedz+DFAewZKpIFURx/ix5FC3qZnfMmI/YsQ?=
+	=?us-ascii?Q?HkWcvDZeCNCuXK0WDBXrwVvebOWrPoAUZhlMmQSy1UOwWTWOjTROoeykd0x/?=
+	=?us-ascii?Q?4V54/mCpf85ixZ95MgPWbmz1tsWnxE3oLYwZI3iCDU2YUA1u9x9MHR4KeESJ?=
+	=?us-ascii?Q?utW3dbjIRXR5AGNwA0jK38F1hlKcWK1UQc/oSYlunk44MuvJwd2VJLxKD1Yp?=
+	=?us-ascii?Q?t8OCnWMfcX77SzQHHdN2MGDZG2FlrHTLR7UcIm1UrGnYhs4psnQj53fhVhp2?=
+	=?us-ascii?Q?Ac6snK7tKNy3RV2VZ2Bvk8lvtxBFckJ00mlaX3rsCdLAtPQjrIrhUHwcHcFv?=
+	=?us-ascii?Q?STzA3t3hFGeRkNwr/7MYXEVQQmIX5U/iNORb+Jl6FMaAoBQQLo//ug4cPgtJ?=
+	=?us-ascii?Q?e4UrNCiI7dd7ByCQz6UNUF5xzzi+UqdG1OcMX0/U3DOZ4V+j20pQJmlhye4Z?=
+	=?us-ascii?Q?xqtNmoh1I1aLv4ZhQVeIGkxEQhEYdvNNd0uI/iB8+egh/?=
+X-Microsoft-Exchange-Diagnostics: 1; CY1PR0301MB0908;
+	6:ocZv5+xrnVwunDqFCWr7okpS8nNYWmI4MDq9jFjs5LTvpODgq1IkWVbG0X83IZoCCYFaFVcnSFTUUPr5tqB/uYKKiONYPl8SSh9lQHPmNkCp9/rZ0/yDLwT9GejwImZG1tRjCfIBfhc5C9P0YWwxdiBITXJRgN+CjGmj/nmj/EVZVKr57S46xPOl5mimW/TCWtdrbf8rjXlHQa4GpUZh7LpawboQPYTTHstZy5iY34E+kMqzaNXNXPFTJuw80bE7Wu8IUCnQEU1N8ots16uzYbhKDBA9/79cisJeSInuXos/euOcrgQdQhFfxyKAEbGVRdsiJm7scHmp1xXWKHGqT2tGNe2jXoT2P1iZgqKtI+8eB1YGbmPgBRSM8GX0gFveC/Gi5/VdwWyiDkvqvuyEHmIqCLmxw7ieYZaLzs8vnFjFWcdVusTpUwVsVrlGzDQjoC8In/ZbHlNcIqbFgN7K+pSzm7VkiYHBAy+hpzs1q+clxmpyvQYcVXOpSo98fp3vlNJc13UbYMgb/jGHuwW3hA==;
+	5:w4DtizLuDS6jnaNxG3TMYbQCR7vuFqcpHp4xiXmRAr5KXrZSnif5g8fs9dk1iQ14kE6CBrwnyy8rOAYKsDNSLomVadk07GPjkGMO8NFoe2DzwT00ppL+Cm8bolwnh7kgc3qmZpPUrmmcFWSlM5FdqYWBQfndWfRhi83zsHEEmdJwyKvA15YACeCUA1a0m/Ft;
+	24:6Id0erxgP4b35gwqa+Y5jJR6cSgKZWRJ52gnFDUCp+Lwa0qF3YjfIPXCKoPWe34BfL6f5RLTayHx+nscbjykcdhsYce6kXwlgjmKVoPy5Ps=
 SpamDiagnosticOutput: 1:99
 SpamDiagnosticMetadata: NSPM
-X-Microsoft-Exchange-Diagnostics: 1; DM2PR0301MB0910;
-	7:ZfFCrLPoP4HsItOpct/U5/+zDaumiLl3wIBY0VGDi40dOK/1Ub69t1Wy055RiPTNAxDWr2Msmubljt/xMJam+NBXOQ1QmY7aMGb0bCT2zcELIV+MekAm1dAHXkWSI1FAYHrlqJQoSqRDr/byjUbd61vRfsZ2vhNDvKNAUapUFQU4F8ZCHK12pRkn2LTJYBju+rVC5IGUkAJqwwD1LN1Qcw/JAQ6ri+2e76d0wxo1q33UbOi9URcyGbYIj+fx76PL3Do0YGc4EGCYcksOE0wcpdp7QNacSwW4YwzcWg5hwUTYSnUNW0pFteqn8+LuVrId84isyiVewjh3XIUkTMeNIw==
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 May 2017 07:35:56.1885 (UTC)
+X-Microsoft-Exchange-Diagnostics: 1; CY1PR0301MB0908;
+	7:xZsqR/hAxBr68oWs+ATkJPnv1XMcTbFdYjZ1xU/LbnSbxlExz7nVGM8UjanzT1xS+UylSG0FOCcM+mu95ZRHk6kzTyb1Hef0ek5RnWEyGq+DdeiPvslY2FqX2IfCSydEQTyhUKZpvCc0LeyD6xoHUXuJAWl2ymNDJF2c5K0xsB5bWdjjVN9gIxXxf6Yb/pyvGMyNAurO8twjLd6ONpuLSPXtdaFwdBxbBC4/Gn87kJm7v9nTuYr17WhOShxwNJow0y437Yi5VNpygAK+gUtSMFketXvDU7Ke1pENu3G6lR1GN8I5WjrdOPclGfuwNv23qF8ABwwtfSOodqBd7q961g==
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 May 2017 07:35:58.9031 (UTC)
 X-MS-Exchange-CrossTenant-Id: 5afe0b00-7697-4969-b663-5eab37d5f47e
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=5afe0b00-7697-4969-b663-5eab37d5f47e;
 	Ip=[192.88.168.50]; Helo=[tx30smr01.am.freescale.net]
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM2PR0301MB0910
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY1PR0301MB0908
 Cc: Yuqing Zhu <carol.zhu@nxp.com>
-Subject: [poky][PATCH v2 1/6] gstreamer1.0-plugins-bad: Add two enhancements for qmlglsrc
+Subject: [poky][PATCH v2 2/6] gstreamer1.0-plugins-bad: Add configuration for enabling accurate seeks
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -139,207 +138,179 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 May 2017 07:35:59 -0000
+X-List-Received-Date: Tue, 23 May 2017 07:36:00 -0000
 Content-Type: text/plain
-
-1. Need set use-default-fbo to qquickwindow during set
-   property to support change render target on the fly
-2. Calculate qmlglsrc refresh frame rate in qtglwindow
-
-It adds some common features for qmlglsrc to make app development much easier
 
 Signed-off-by: Yuqing Zhu <carol.zhu@nxp.com>
 ---
- ...2-qmlglsrc-some-enhancements-for-qmlglsrc.patch | 170 +++++++++++++++++++++
+ ...configuration-for-enabling-accurate-seeks.patch | 148 +++++++++++++++++++++
  .../gstreamer/gstreamer1.0-plugins-bad_1.10.4.bb   |   1 +
- 2 files changed, 171 insertions(+)
- create mode 100755 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0002-qmlglsrc-some-enhancements-for-qmlglsrc.patch
+ 2 files changed, 149 insertions(+)
+ create mode 100755 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0003-player-Add-configuration-for-enabling-accurate-seeks.patch
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0002-qmlglsrc-some-enhancements-for-qmlglsrc.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0002-qmlglsrc-some-enhancements-for-qmlglsrc.patch
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0003-player-Add-configuration-for-enabling-accurate-seeks.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0003-player-Add-configuration-for-enabling-accurate-seeks.patch
 new file mode 100755
-index 0000000..b4e662f
+index 0000000..46d602c
 --- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0002-qmlglsrc-some-enhancements-for-qmlglsrc.patch
-@@ -0,0 +1,170 @@
-+From f55cc58325ed5df0b0d5fd0a61ebb32d735c2481 Mon Sep 17 00:00:00 2001
-+From: Haihua Hu <jared.hu@nxp.com>
-+Date: Mon, 7 Nov 2016 16:31:02 +0800
-+Subject: [PATCH 23/24] qmlglsrc: some enhancements for qmlglsrc
-+
-+1. Need set use-default-fbo to qquickwindow during set
-+   property to support change render target on the fly.
-+2. Calculate qmlglsrc refresh frame rate in qtglwindow
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0003-player-Add-configuration-for-enabling-accurate-seeks.patch
+@@ -0,0 +1,148 @@
++From 698fbfbf955af2fb9b79f9e6e8091b8750c886c4 Mon Sep 17 00:00:00 2001
++From: Lyon Wang <lyon.wang@nxp.com>
++Date: Wed, 26 Oct 2016 16:28:10 +0800
++Subject: [PATCH 1/5] player: Add configuration for enabling accurate seeks
 +
 +Upstream-Status: Backport [1.11.1]
++https://bugzilla.gnome.org/show_bug.cgi?id=773521
 +
-+https://bugzilla.gnome.org/show_bug.cgi?id=774035
-+
-+Signed-off-by: Haihua Hu <jared.hu@nxp.com>
 +---
-+ ext/qt/gstqtsrc.cc | 14 +++++---------
-+ ext/qt/qtwindow.cc | 34 ++++++++++++++++++++--------------
-+ ext/qt/qtwindow.h  |  1 -
-+ 3 files changed, 25 insertions(+), 24 deletions(-)
++ docs/libs/gst-plugins-bad-libs-sections.txt |  3 ++
++ gst-libs/gst/player/gstplayer.c             | 60 +++++++++++++++++++++++++++++
++ gst-libs/gst/player/gstplayer.h             |  3 ++
++ 3 files changed, 66 insertions(+)
 +
-+diff --git a/ext/qt/gstqtsrc.cc b/ext/qt/gstqtsrc.cc
-+index 3cfc709..350f70d 100644
-+--- a/ext/qt/gstqtsrc.cc
-++++ b/ext/qt/gstqtsrc.cc
-+@@ -132,6 +132,7 @@ gst_qt_src_init (GstQtSrc * src)
-+   gst_base_src_set_live (GST_BASE_SRC (src), DEFAULT_IS_LIVE);
-+   src->default_fbo = FALSE;
-+   src->pending_image_orientation = TRUE;
-++  src->window = NULL;
-+ }
++diff --git a/docs/libs/gst-plugins-bad-libs-sections.txt b/docs/libs/gst-plugins-bad-libs-sections.txt
++index dbab6f7..77092f9 100644
++--- a/docs/libs/gst-plugins-bad-libs-sections.txt
+++++ b/docs/libs/gst-plugins-bad-libs-sections.txt
++@@ -1953,6 +1953,9 @@ gst_player_config_get_position_update_interval
++ gst_player_config_set_user_agent
++ gst_player_config_get_user_agent
 + 
-+ static void
-+@@ -147,6 +148,8 @@ gst_qt_src_set_property (GObject * object, guint prop_id,
-+ 
-+       if (qt_src->window)
-+         delete qt_src->window;
-++      qt_src->window = NULL;
+++gst_player_config_set_seek_accurate
+++gst_player_config_get_seek_accurate
 ++
-+       if (qt_src->qwindow)
-+         qt_src->window = new QtGLWindow (NULL, qt_src->qwindow);
++ <SUBSECTION Standard>
++ GST_IS_PLAYER
++ GST_IS_PLAYER_CLASS
++diff --git a/gst-libs/gst/player/gstplayer.c b/gst-libs/gst/player/gstplayer.c
++index 313bca5..d9ff524 100644
++--- a/gst-libs/gst/player/gstplayer.c
+++++ b/gst-libs/gst/player/gstplayer.c
++@@ -85,6 +85,7 @@ typedef enum
++ {
++   CONFIG_QUARK_USER_AGENT = 0,
++   CONFIG_QUARK_POSITION_INTERVAL_UPDATE,
+++  CONFIG_QUARK_ACCURATE_SEEK,
 + 
-+@@ -154,6 +157,8 @@ gst_qt_src_set_property (GObject * object, guint prop_id,
-+     }
-+     case PROP_DEFAULT_FBO:
-+       qt_src->default_fbo = g_value_get_boolean (value);
-++      if (qt_src->window)
-++        qt_window_use_default_fbo (qt_src->window, qt_src->default_fbo);
-+       break;
-+     default:
-+       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
-+@@ -508,7 +513,6 @@ gst_qt_src_change_state (GstElement * element, GstStateChange transition)
-+   GstQtSrc *qt_src = GST_QT_SRC (element);
-+   GstStateChangeReturn ret = GST_STATE_CHANGE_SUCCESS;
-+   QGuiApplication *app;
-+-  guint64 frames_rendered = 0;
-+ 
-+   GST_DEBUG ("changing state: %s => %s",
-+       gst_element_state_get_name (GST_STATE_TRANSITION_CURRENT (transition)),
-+@@ -553,18 +557,10 @@ gst_qt_src_change_state (GstElement * element, GstStateChange transition)
-+ 
-+   switch (transition) {
-+     case GST_STATE_CHANGE_PLAYING_TO_PAUSED:
-+-      qt_src->run_time = gst_element_get_start_time (GST_ELEMENT (qt_src));
-+       break;
-+     case GST_STATE_CHANGE_PAUSED_TO_READY:
-+       break;
-+     case GST_STATE_CHANGE_READY_TO_NULL:
-+-      qt_window_get_total_frames (qt_src->window, &frames_rendered);
-+-      if (qt_src->run_time > 0) {
-+-        GST_DEBUG ("qmlglsrc Total refresh frames (%ld), playing for (%"
-+-            GST_TIME_FORMAT "), fps (%.3f).\n", frames_rendered,
-+-            GST_TIME_ARGS (qt_src->run_time),
-+-            (gfloat) GST_SECOND * frames_rendered / qt_src->run_time);
-+-      }
-+       break;
-+     default:
-+       break;
-+diff --git a/ext/qt/qtwindow.cc b/ext/qt/qtwindow.cc
-+index 3d96751..edb6b24 100644
-+--- a/ext/qt/qtwindow.cc
-++++ b/ext/qt/qtwindow.cc
-+@@ -29,6 +29,7 @@
-+ #include "gstqsgtexture.h"
-+ #include "gstqtglutility.h"
-+ 
-++#include <QtCore/QDateTime>
-+ #include <QtCore/QRunnable>
-+ #include <QtGui/QGuiApplication>
-+ #include <QtQuick/QQuickWindow>
-+@@ -71,6 +72,8 @@ struct _QtGLWindowPrivate
-+ 
-+   /* frames that qmlview rendered in its gl thread */
-+   guint64 frames_rendered;
-++  qint64 start;
-++  qint64 stop;
++   CONFIG_QUARK_MAX
++ } ConfigQuarkId;
++@@ -92,6 +93,7 @@ typedef enum
++ static const gchar *_config_quark_strings[] = {
++   "user-agent",
++   "position-interval-update",
+++  "accurate-seek",
 + };
 + 
-+ class InitQtGLContext : public QRunnable
-+@@ -146,6 +149,12 @@ QtGLWindow::beforeRendering()
++ GQuark _config_quark_table[CONFIG_QUARK_MAX];
++@@ -266,6 +268,7 @@ gst_player_init (GstPlayer * self)
++   /* *INDENT-OFF* */
++   self->config = gst_structure_new_id (QUARK_CONFIG,
++       CONFIG_QUARK (POSITION_INTERVAL_UPDATE), G_TYPE_UINT, DEFAULT_POSITION_UPDATE_INTERVAL_MS,
+++      CONFIG_QUARK (ACCURATE_SEEK), G_TYPE_BOOLEAN, FALSE,
++       NULL);
++   /* *INDENT-ON* */
 + 
-+   g_mutex_lock (&this->priv->lock);
++@@ -2967,6 +2970,7 @@ gst_player_seek_internal_locked (GstPlayer * self)
++   GstStateChangeReturn state_ret;
++   GstEvent *s_event;
++   GstSeekFlags flags = 0;
+++  gboolean accurate = FALSE;
 + 
-++  static volatile gsize once = 0;
-++  if (g_once_init_enter(&once)) {
-++    this->priv->start = QDateTime::currentDateTime().toMSecsSinceEpoch();
-++    g_once_init_leave(&once,1);
++   if (self->seek_source) {
++     g_source_destroy (self->seek_source);
++@@ -3002,6 +3006,14 @@ gst_player_seek_internal_locked (GstPlayer * self)
++ 
++   flags |= GST_SEEK_FLAG_FLUSH;
++ 
+++  accurate = gst_player_config_get_seek_accurate (self->config);
+++
+++  if (accurate) {
+++    flags |= GST_SEEK_FLAG_ACCURATE;
+++  } else {
+++    flags &= ~GST_SEEK_FLAG_ACCURATE;
 ++  }
 ++
-+   if (!fbo && !this->priv->useDefaultFbo) {
-+ 
-+     width = source->width();
-+@@ -157,6 +166,10 @@ QtGLWindow::beforeRendering()
-+           QOpenGLFramebufferObject::NoAttachment, GL_TEXTURE_2D, GL_RGBA));
-+ 
-+     source->setRenderTarget(fbo.data());
-++  } else if (this->priv->useDefaultFbo) {
-++    GST_DEBUG ("use default fbo for renderTargetId");
-++    fbo.reset(NULL);
-++    source->setRenderTarget(NULL);
++   if (rate != 1.0) {
++     flags |= GST_SEEK_FLAG_TRICKMODE;
 +   }
++@@ -4199,3 +4211,51 @@ gst_player_config_get_position_update_interval (const GstStructure * config)
 + 
-+   g_mutex_unlock (&this->priv->lock);
-+@@ -256,9 +269,14 @@ QtGLWindow::aboutToQuit()
-+   this->priv->quit = TRUE;
-+   g_cond_signal (&this->priv->update_cond);
-+ 
-+-  g_mutex_unlock (&this->priv->lock);
-++  this->priv->stop = QDateTime::currentDateTime().toMSecsSinceEpoch();
-++  qint64 duration = this->priv->stop - this->priv->start;
-++  float fps = ((float)this->priv->frames_rendered / duration * 1000);
++   return interval;
++ }
 ++
-++  GST_DEBUG("about to quit, total refresh frames (%lld) in (%0.3f) seconds, fps: %0.3f",
-++      this->priv->frames_rendered, (float)duration / 1000, fps);
+++/**
+++ * gst_player_config_set_seek_accurate:
+++ * @player: #GstPlayer instance
+++ * @accurate: accurate seek or not
+++ *
+++ * Enable or disable accurate seeking. When enabled, elements will try harder
+++ * to seek as accurately as possible to the requested seek position. Generally
+++ * it will be slower especially for formats that don't have any indexes or
+++ * timestamp markers in the stream.
+++ *
+++ * If accurate seeking is disabled, elements will seek as close as the request
+++ * position without slowing down seeking too much.
+++ *
+++ * Accurate seeking is disabled by default.
+++ *
+++ * Since: 1.12
+++ */
+++void
+++gst_player_config_set_seek_accurate (GstPlayer * self, gboolean accurate)
+++{
+++  GstStructure *config = self->config;
+++  g_return_if_fail (config != NULL);
+++
+++  gst_structure_id_set (config,
+++      CONFIG_QUARK (ACCURATE_SEEK), G_TYPE_BOOLEAN, accurate, NULL);
+++}
+++
+++/**
+++ * gst_player_config_get_seek_accurate:
+++ * @config: a #GstPlayer configuration
+++ *
+++ * Returns: %TRUE if accurate seeking is enabled
+++ *
+++ * Since 1.12
+++ */
+++gboolean
+++gst_player_config_get_seek_accurate (const GstStructure * config)
+++{
+++  gboolean accurate = FALSE;
+++
+++  g_return_val_if_fail (config != NULL, FALSE);
+++
+++  gst_structure_id_get (config,
+++      CONFIG_QUARK (ACCURATE_SEEK), G_TYPE_BOOLEAN, &accurate, NULL);
+++
+++  return accurate;
+++}
++diff --git a/gst-libs/gst/player/gstplayer.h b/gst-libs/gst/player/gstplayer.h
++index 0ac66be..8426be5 100644
++--- a/gst-libs/gst/player/gstplayer.h
+++++ b/gst-libs/gst/player/gstplayer.h
++@@ -202,6 +202,9 @@ void           gst_player_config_set_position_update_interval  (GstStructure * c
++                                                                 guint          interval);
++ guint          gst_player_config_get_position_update_interval  (const GstStructure * config);
 + 
-+-  GST_DEBUG("about to quit");
-++  g_mutex_unlock (&this->priv->lock);
-+ }
+++void           gst_player_config_set_seek_accurate (GstPlayer * player, gboolean accurate);
+++gboolean       gst_player_config_get_seek_accurate (const GstStructure * config);
+++
++ G_END_DECLS
 + 
-+ void
-+@@ -410,15 +428,3 @@ qt_window_use_default_fbo (QtGLWindow * qt_window, gboolean useDefaultFbo)
-+ 
-+   g_mutex_unlock (&qt_window->priv->lock);
-+ }
-+-
-+-void
-+-qt_window_get_total_frames (QtGLWindow * qt_window, guint64 *frames)
-+-{
-+-  g_return_if_fail (qt_window != NULL);
-+-
-+-  g_mutex_lock (&qt_window->priv->lock);
-+-
-+-  *frames = qt_window->priv->frames_rendered;
-+-
-+-  g_mutex_unlock (&qt_window->priv->lock);
-+-}
-+diff --git a/ext/qt/qtwindow.h b/ext/qt/qtwindow.h
-+index 8cb5a2c..697f389 100644
-+--- a/ext/qt/qtwindow.h
-++++ b/ext/qt/qtwindow.h
-+@@ -65,7 +65,6 @@ GstGLContext *  qt_window_get_qt_context (QtGLWindow * qt_window);
-+ GstGLDisplay *  qt_window_get_display (QtGLWindow * qt_window);
-+ gboolean        qt_window_is_scenegraph_initialized (QtGLWindow * qt_window);
-+ void            qt_window_use_default_fbo (QtGLWindow * qt_window, gboolean useDefaultFbo);
-+-void            qt_window_get_total_frames (QtGLWindow * qt_window, guint64 *frames);
-+ }
-+ 
-+ #endif /* __QT_WINDOW_H__ */
++ #endif /* __GST_PLAYER_H__ */
 +-- 
 +1.9.1
 +
 diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.10.4.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.10.4.bb
-index 0bb4053..a5fc913 100644
+index a5fc913..6655a86 100644
 --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.10.4.bb
 +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.10.4.bb
-@@ -18,6 +18,7 @@ SRC_URI = " \
-     file://0001-smoothstreaming-implement-adaptivedemux-s-get_live_s.patch \
+@@ -19,6 +19,7 @@ SRC_URI = " \
      file://0001-smoothstreaming-use-the-duration-from-the-list-of-fr.patch \
      file://0001-mssdemux-improved-live-playback-support.patch \
-+    file://0002-qmlglsrc-some-enhancements-for-qmlglsrc.patch \
+     file://0002-qmlglsrc-some-enhancements-for-qmlglsrc.patch \
++    file://0003-player-Add-configuration-for-enabling-accurate-seeks.patch \
  "
  SRC_URI[md5sum] = "2757103e57a096a1a05b3ab85b8381af"
  SRC_URI[sha256sum] = "23ddae506b3a223b94869a0d3eea3e9a12e847f94d2d0e0b97102ce13ecd6966"
