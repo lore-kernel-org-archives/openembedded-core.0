@@ -1,48 +1,46 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-yb0-f196.google.com (mail-yb0-f196.google.com
-	[209.85.213.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 52D0A77EAC
+Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 380E577F9C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 May 2017 23:47:59 +0000 (UTC)
-Received: by mail-yb0-f196.google.com with SMTP id n198so6102408yba.3
+	Tue, 23 May 2017 23:50:45 +0000 (UTC)
+Received: by mail-wm0-f65.google.com with SMTP id g15so23515164wmc.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 May 2017 16:48:01 -0700 (PDT)
+	Tue, 23 May 2017 16:50:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=Oy6XiG7SnA67Sn/BZNVtxNhKy+CXUH4UCKANQ+c9/g8=;
-	b=dqrlV+E9qArX32ayQIdrxoszDbTftvrRcryLFBy5PTPevSrNUtQNBTn2P/DpY9rYPf
-	4o/mVDEx2FIFvvQyf6MZpwrZ22b2X+rVA3+WvAqtYU6EC3566tqs1Vpp44bsLJj1rRoU
-	qwTWvDxfRrzwuKqt4J6miglvWkPDvzziV2Yga3VRxiLW8BGQOFUhM74G2I68djoKYo5t
-	AlBIJvgCen2e3UwHOUPUgmjNkiPQpXWlW+y7ugTzNE8jcOA9C6lZTpOudYhM7HA0sbWv
-	ajIefNMsZM5Wyxtrx1TNQZYIXfiskgdueIYTytGbRfvXIk9z8C311IJUUjyUcq1vlztZ
-	jiCw==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=/0TheAmkxnycptfjBY2/c0srI6nOv9/K5nQNSdzBbhY=;
+	b=HyX76VwYsRugPGnqP7OYLzOqexQISdYIu7+4BjFEsbMdSjhqOnAX5ZOC/nvFEbgudm
+	pmjs7Hkd5pF4x/MjR6f10QWU8CQdKVJxHpmr0KtncARAV2lDPqysMEbYjp5xc5V4Lc4R
+	e9zLEcspSgK+23xV+hGUF7R0BzoMFsGvFRvmf92tBOwL5OfUnydz1W2HbTTtx6hHIMOC
+	eG3ei5EfrHGbjRhwKP8tpjbLPjY/BZt9QfNh8FegQjigjAFkz8IqGSwmgOstc9Ohp57y
+	Y2C672M4VLa5Mu5yNBPDaGc0wagC+oi0GsMbYAmA6R65gz80QhxIjf2QIL2wgsrcyZo5
+	O2Og==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=Oy6XiG7SnA67Sn/BZNVtxNhKy+CXUH4UCKANQ+c9/g8=;
-	b=jnUENhRCxb4PmjQtgMCLbzGbeZVBF4p6YLpYu3q5ejJ/HlL/TBKHZekcre31JKm+fB
-	zg0GwGoC37IYGagpKUMB9sXIkta71mHcGfW09vL9dl1FReFNAZSUGppnumUIYy04mlAY
-	etqKap5GB6ItqcFTcuHPBK4T1tJW/ENZyrxc+V1ZiIf5cCn7Q6YrYcVxtRA6079mgK7x
-	vdk7xi/6Hgv4teBclvnLNLbQu4vUuYCBa1BdEp2znUYPLOXzHCM4n4WCS//aLd77NXBB
-	IsNgRia3Pf7dX6t9we3XP2Ol1dgUN9+n0teDr3rntP69Qx7yEZQ5fwBpyTadG1QlPS3s
-	6iNw==
-X-Gm-Message-State: AODbwcDhxRl2ViYc10kM/T6F0XlhXPqwMOFYrzC6Z/sCFuIlazsH35e4
-	/0rKoBBBN1z8ng==
-X-Received: by 10.37.45.76 with SMTP id s12mr14879525ybe.108.1495583281251;
-	Tue, 23 May 2017 16:48:01 -0700 (PDT)
-Received: from localhost.localdomain ([2601:646:8882:b8c::63fb])
-	by smtp.gmail.com with ESMTPSA id v19sm975325ywg.46.2017.05.23.16.48.00
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 23 May 2017 16:48:00 -0700 (PDT)
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=/0TheAmkxnycptfjBY2/c0srI6nOv9/K5nQNSdzBbhY=;
+	b=TzTGxAGwJjAcjIhi4jOCBX9dQkZxZHHrjphgLkuEU9v0YCdsUkt8ImEQRVcL9UKU1T
+	gk8efaNsyKb+qL/I85jBJEn4sSHAaRP3O6l6l2FnjR2XvlSQeA/NkHtZdjzL41rROimw
+	i9r0O3lLQ1loTv/2UEgsNamNx8tGvXSnT0PRfEdYmNWKpEdR8JicdA25vitzirzBsmVZ
+	Qt4RrPmO6dd2+UMpF9VI4uBkHczUU8olRXikKFkj8xT0ekbpNsxWDjnceu5zEFCsaTgo
+	wn91eVf5h7UknIDPPPQ4IAjXbg6u73anLcwgs4ehQognOJpG0c1FkHrd84dysU6eFAfh
+	8bOA==
+X-Gm-Message-State: AODbwcAP9C1Ab9nejdsnA4Qp6X4g6IFDTWFNxEyYjnToI5eAFZg/rsen
+	GozKwO1VZ0SzlhRhwlGmGInF2kxb5g==
+X-Received: by 10.80.154.165 with SMTP id p34mr22304045edb.127.1495583446892; 
+	Tue, 23 May 2017 16:50:46 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.80.195.143 with HTTP; Tue, 23 May 2017 16:50:16 -0700 (PDT)
+In-Reply-To: <20170522050042.42403-8-raj.khem@gmail.com>
+References: <20170522050042.42403-1-raj.khem@gmail.com>
+	<20170522050042.42403-8-raj.khem@gmail.com>
 From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 23 May 2017 16:47:44 -0700
-Message-Id: <20170523234744.34487-3-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.13.0
-In-Reply-To: <20170523234744.34487-1-raj.khem@gmail.com>
-References: <20170523234744.34487-1-raj.khem@gmail.com>
-Subject: [PATCH 3/3] apt-native: Remove USE_NLS = "yes"
+Date: Tue, 23 May 2017 16:50:16 -0700
+Message-ID: <CAMKF1srcyg9oX6KYPKJa03WbgeN0hvpfH4XBYzLJN+++-c_GaA@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 08/15] xkeyboard-config: Enable nls support explicitly
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,28 +53,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 May 2017 23:48:00 -0000
+X-List-Received-Date: Tue, 23 May 2017 23:50:46 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-USE_NLS is target specific, its redundant for native packages
+Drop this one, I have sent a v2
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/recipes-devtools/apt/apt-native.inc | 1 -
- 1 file changed, 1 deletion(-)
-
-diff --git a/meta/recipes-devtools/apt/apt-native.inc b/meta/recipes-devtools/apt/apt-native.inc
-index 68f1b3ce2c..be806826e4 100644
---- a/meta/recipes-devtools/apt/apt-native.inc
-+++ b/meta/recipes-devtools/apt/apt-native.inc
-@@ -3,7 +3,6 @@ inherit native
- 
- DEPENDS += "dpkg-native gettext-native db-native curl-native xz-native"
- PACKAGES = ""
--USE_NLS = "yes"
- 
- SRC_URI += "file://db_linking_hack.patch \
-             file://0001-Revert-always-run-dpkg-configure-a-at-the-end-of-our.patch \
--- 
-2.13.0
-
+On Sun, May 21, 2017 at 10:00 PM, Khem Raj <raj.khem@gmail.com> wrote:
+> Helps compile when distros disable NLS
+>
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ---
+>  meta/recipes-graphics/xorg-lib/xkeyboard-config_2.20.bb | 2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.20.bb b/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.20.bb
+> index d00904df21..d308e9b07b 100644
+> --- a/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.20.bb
+> +++ b/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.20.bb
+> @@ -19,6 +19,8 @@ SRC_URI[sha256sum] = "d1bfc72553c4e3ef1cd6f13eec0488cf940498b612ab8a0b362e7090c9
+>  SECTION = "x11/libs"
+>  DEPENDS = "intltool-native virtual/gettext util-macros libxslt-native"
+>
+> +USE_NLS = "yes"
+> +
+>  EXTRA_OECONF = "--with-xkb-rules-symlink=xorg --disable-runtime-deps"
+>
+>  FILES_${PN} += "${datadir}/X11/xkb"
+> --
+> 2.13.0
+>
 
