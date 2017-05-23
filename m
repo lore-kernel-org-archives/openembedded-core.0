@@ -1,32 +1,44 @@
-Return-Path: <prvs=0316b6c712=alan.levy@plextek.com>
-Received: from mailgate.plextek.co.uk (mailgate.plextek.co.uk [62.254.222.163])
-	by mail.openembedded.org (Postfix) with ESMTP id C682C71BA1
+Return-Path: <nicolas.dechesne@linaro.org>
+Received: from mail-qt0-f180.google.com (mail-qt0-f180.google.com
+	[209.85.216.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 659D077DF1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 May 2017 12:05:01 +0000 (UTC)
-Received: from plextek-exch1.plextek.lan ([10.10.0.152]:41021)
-	by mailgate.plextek.co.uk with esmtps (TLSv1:AES256-SHA:256)
-	(Exim 4.82_1-5b7a7c0-XX) (envelope-from <alan.levy@plextek.com>)
-	id 1dD8Ye-0004ub-2z for openembedded-core@lists.openembedded.org;
-	Tue, 23 May 2017 13:05:00 +0100
-Received: from PLEXTEK-EXCH1.plextek.lan (10.10.0.152) by
-	PLEXTEK-EXCH1.plextek.lan (10.10.0.152) with Microsoft SMTP Server
-	(TLS) id 15.0.847.32; Tue, 23 May 2017 13:05:00 +0100
-Received: from PLEXTEK-EXCH1.plextek.lan ([fe80::64ad:692a:46f8:cc46]) by
-	PLEXTEK-EXCH1.plextek.lan ([fe80::64ad:692a:46f8:cc46%18]) with mapi id
-	15.00.0847.030; Tue, 23 May 2017 13:04:47 +0100
-From: Alan Levy <alan.levy@plextek.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: patchtest: failure 
-Thread-Index: AdLTvKNeq/JQJUsxSM2wELNz6+5nyw==
-Date: Tue, 23 May 2017 12:04:47 +0000
-Message-ID: <62b9d549e24c4b989a50dc565324e7e7@PLEXTEK-EXCH1.plextek.lan>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.10.12.154]
+	Tue, 23 May 2017 12:14:19 +0000 (UTC)
+Received: by mail-qt0-f180.google.com with SMTP id c13so125615873qtc.1
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 23 May 2017 05:14:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=SKZQ4UPVw4D1MQuB00VK7OfMvhW7soEW1t7lp3X+RoU=;
+	b=AO/s/5Jx0G+1YtKCtoyjUImSZK5ddVwms6pS/a51D3z047hmaItdDWRfeH35uUTxDI
+	mKs7SeC//Q3n7urmuKb+tUWZ+xFxWUCeYnRsz3gXo338MmXZgYhMWTgWAoBZ0fepqRrU
+	bGonq8gwuiKOEzDJkWIwMUZBrlEZFvT/Lpvf8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=SKZQ4UPVw4D1MQuB00VK7OfMvhW7soEW1t7lp3X+RoU=;
+	b=aWcse3misJQgM2s25bx6cOotOoXw3Qo5r+mGdWso1rNEFYLNCPgEUvRw53W/5P+K1L
+	zGduBUJb+NINZocZ/sacZp5lLE989UJCO7s/XwqcXoy7akh9X4CPKDIx93HMZW4tbhim
+	EN6DNxKvLWXYKVkYyfqWiw4yj2eK9j5rPz26O9gE/h7BphMELtV7hzoX4iaW6Jr0zHmZ
+	57q+2/FP99/KcDK1JSVWR3zCcls1xM1eYSUhRii2n6sHw2h2IqdjC7Ewh6i03fxuJbai
+	zE++ISqHYy0EF86bwHmUJtxQhBTSjOgcrOstgjcTLVYKSVsb1q4XT8LMgsf3GIdF3+AE
+	v/OQ==
+X-Gm-Message-State: AODbwcDRxT/NIH3eDB4zBhp7bcZGqSg5LrFaRT3O9buErzBwiEYy5FbL
+	D8HsoNrGTvfdYUA/CqNEK7Ypy4znZWai
+X-Received: by 10.200.42.219 with SMTP id c27mr18826759qta.9.1495541660296;
+	Tue, 23 May 2017 05:14:20 -0700 (PDT)
 MIME-Version: 1.0
-Subject: FW: patchtest: failure
+Received: by 10.140.88.135 with HTTP; Tue, 23 May 2017 05:13:59 -0700 (PDT)
+In-Reply-To: <CAJTo0LbgS9xA+MRkHxVGy524hQhCyCGB2pBXuhxrF1j1tbWhnA@mail.gmail.com>
+References: <1495509563-62240-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
+	<CAJTo0LbgS9xA+MRkHxVGy524hQhCyCGB2pBXuhxrF1j1tbWhnA@mail.gmail.com>
+From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+Date: Tue, 23 May 2017 14:13:59 +0200
+Message-ID: <CAP71WjzjChQtrTVK7Ph3Ba3TPrgc=0t+CVtNQnOP0p5dZDMjpg@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] mesa: 17.0.4 -> 17.1.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,48 +51,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 May 2017 12:05:02 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Tue, 23 May 2017 12:14:19 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-VGhlIHBhdGNoIGFwcGxpZXMgY29ycmVjdGx5IG9uIG15IExpbnV4IGRldmVsb3BtZW50IHN5c3Rl
-bSBidXQgSSdtIGhhdmluZyB0byBjb3B5IGl0IHRvIGEgV2luZG93cyBQQyBhbmQgdXNlIE91dGxv
-b2sgdG8gc3VibWl0IGl0IGJlY2F1c2UgdGhlIExpbnV4IHN5c3RlbSBoYXMgbm8gYWNjZXNzIHRv
-IGVtYWlsLiBJIGNhbiBvbmx5IHN1cHBvc2UgdGhhdCdzIHdoeSBJIGdldCB0aGVzZSBlcnJvcnMu
-IEhvdyBkbyBJIGZpeCB0aGlzPw0KDQpBbGFuIExldnkNCg0KQUxBTiBMRVZZLCBMZWFkIENvbnN1
-bHRhbnQsIEVtYmVkZGVkIFN5c3RlbXMNCg0KUGxleHRlayBDb25zdWx0aW5nLCBUaGUgUGxleHRl
-ayBCdWlsZGluZywgTG9uZG9uIFJvYWQsIEdyZWF0IENoZXN0ZXJmb3JkLCBTYWZmcm9uIFdhbGRl
-biwgQ0IxMCAxTlksIFVLDQpUOiArNDQgKDApIDE3OTkgNTMzMjAwICAgIEU6IGFsYW4ubGV2eUBw
-bGV4dGVrLmNvbSAgVzogd3d3LnBsZXh0ZWsuY29tDQoNCg0KDQoNCi0tLS0tT3JpZ2luYWwgTWVz
-c2FnZS0tLS0tDQpGcm9tOiBQYXRjaHdvcmsgW21haWx0bzpwYXRjaHdvcmtAcGF0Y2h3b3JrLm9w
-ZW5lbWJlZGRlZC5vcmddIA0KU2VudDogMjMgTWF5IDIwMTcgMTM6MDINClRvOiBBbGFuIExldnkN
-CkNjOiBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQpTdWJqZWN0OiDi
-nJcgcGF0Y2h0ZXN0OiBmYWlsdXJlIGZvciBiYXNlLmJiY2xhc3M6IGltcHJvdmUgZXJyb3IgbWVz
-c2FnZSBmb3IgbWlzc2luZyBob3N0IHRvb2xzIChyZXYyKQ0KDQo9PSBTZXJpZXMgRGV0YWlscyA9
-PQ0KDQpTZXJpZXM6IGJhc2UuYmJjbGFzczogaW1wcm92ZSBlcnJvciBtZXNzYWdlIGZvciBtaXNz
-aW5nIGhvc3QgdG9vbHMgKHJldjIpDQpSZXZpc2lvbjogMg0KVVJMICAgOiBodHRwczovL3BhdGNo
-d29yay5vcGVuZW1iZWRkZWQub3JnL3Nlcmllcy82ODU5Lw0KU3RhdGUgOiBmYWlsdXJlDQoNCj09
-IFN1bW1hcnkgPT0NCg0KDQpUaGFuayB5b3UgZm9yIHN1Ym1pdHRpbmcgdGhpcyBwYXRjaCBzZXJp
-ZXMgdG8gT3BlbkVtYmVkZGVkIENvcmUuIFRoaXMgaXMgYW4gYXV0b21hdGVkIHJlc3BvbnNlLiBT
-ZXZlcmFsIHRlc3RzIGhhdmUgYmVlbiBleGVjdXRlZCBvbiB0aGUgcHJvcG9zZWQgc2VyaWVzIGJ5
-IHBhdGNodGVzdCByZXN1bHRpbmcgaW4gdGhlIGZvbGxvd2luZyBmYWlsdXJlczoNCg0KDQoNCiog
-SXNzdWUgICAgICAgICAgICAgU2VyaWVzIGNhbm5vdCBiZSBwYXJzZWQgY29ycmVjdGx5IGR1ZSB0
-byBtYWxmb3JtZWQgZGlmZiBsaW5lcyBbdGVzdF9tYm94X2Zvcm1hdF0gDQogIFN1Z2dlc3RlZCBm
-aXggICAgQ3JlYXRlIHRoZSBzZXJpZXMgYWdhaW4gdXNpbmcgZ2l0LWZvcm1hdC1wYXRjaCBhbmQg
-ZW5zdXJlIGl0IGNhbiBiZSBhcHBsaWVkIHVzaW5nIGdpdCBhbQ0KICBEaWZmIGxpbmUgICAgICAg
-IA0KDQoNCiogSXNzdWUgICAgICAgICAgICAgU2VyaWVzIGRvZXMgbm90IGFwcGx5IG9uIHRvcCBv
-ZiB0YXJnZXQgYnJhbmNoIFt0ZXN0X3Nlcmllc19tZXJnZV9vbl9oZWFkXSANCiAgU3VnZ2VzdGVk
-IGZpeCAgICBSZWJhc2UgeW91ciBzZXJpZXMgb24gdG9wIG9mIHRhcmdldGVkIGJyYW5jaA0KICBU
-YXJnZXRlZCBicmFuY2ggIG1hc3RlciAoY3VycmVudGx5IGF0IGVlNTViNTY4NWEpDQoNCg0KDQpJ
-ZiB5b3UgYmVsaWV2ZSBhbnkgb2YgdGhlc2UgdGVzdCByZXN1bHRzIGFyZSBpbmNvcnJlY3QsIHBs
-ZWFzZSByZXBseSB0byB0aGUgbWFpbGluZyBsaXN0IChvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5v
-cGVuZW1iZWRkZWQub3JnKSByYWlzaW5nIHlvdXIgY29uY2VybnMuDQpPdGhlcndpc2Ugd2Ugd291
-bGQgYXBwcmVjaWF0ZSB5b3UgY29ycmVjdGluZyB0aGUgaXNzdWVzIGFuZCBzdWJtaXR0aW5nIGEg
-bmV3IHZlcnNpb24gb2YgdGhlIHBhdGNoc2V0IGlmIGFwcGxpY2FibGUuIFBsZWFzZSBlbnN1cmUg
-eW91IGFkZC9pbmNyZW1lbnQgdGhlIHZlcnNpb24gbnVtYmVyIHdoZW4gc2VuZGluZyB0aGUgbmV3
-IHZlcnNpb24gKGkuZS4gW1BBVENIXSAtPiBbUEFUQ0ggdjJdIC0+IFtQQVRDSCB2M10gLT4gLi4u
-KS4NCg0KLS0tDQpUZXN0IGZyYW1ld29yazogaHR0cDovL2dpdC55b2N0b3Byb2plY3Qub3JnL2Nn
-aXQvY2dpdC5jZ2kvcGF0Y2h0ZXN0DQpUZXN0IHN1aXRlOiAgICAgaHR0cDovL2dpdC55b2N0b3By
-b2plY3Qub3JnL2NnaXQvY2dpdC5jZ2kvcGF0Y2h0ZXN0LW9lDQoNCg==
+On Tue, May 23, 2017 at 1:09 PM, Burton, Ross <ross.burton@intel.com> wrote:
+> On 23 May 2017 at 04:19, Huang Qiyu <huangqy.fnst@cn.fujitsu.com> wrote:
+>>
+>> 1) Upgrade mesa from 17.0.4 to 17.1.0.
+>
+>
+> "Mesa 17.1.0 is released. This is a new development release. See the release
+> notes for more information about the release."
+>
+> Unless there's a good reason we don't ship development releases, so the
+> latest stable release is 17.0.6.
+
+I agree with that, i was about to send the same email, but I noticed
+yours.. especially because there is at least 1 regression that I found
+when testing 17.1.0 on my boards which will be fixed in 17.1.1
+release.
+
+>
+> (we should fix the upgrade helper regex to exclude .1.0 releases)
 
