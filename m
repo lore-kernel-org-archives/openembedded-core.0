@@ -1,47 +1,50 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f175.google.com (mail-qk0-f175.google.com
-	[209.85.220.175])
-	by mail.openembedded.org (Postfix) with ESMTP id C24C271D97
+Received: from mail-qk0-f172.google.com (mail-qk0-f172.google.com
+	[209.85.220.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 23ECA77E8D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 May 2017 14:37:35 +0000 (UTC)
-Received: by mail-qk0-f175.google.com with SMTP id u75so131442415qka.3
+	Tue, 23 May 2017 14:44:28 +0000 (UTC)
+Received: by mail-qk0-f172.google.com with SMTP id a72so131676750qkj.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 May 2017 07:37:37 -0700 (PDT)
+	Tue, 23 May 2017 07:44:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=v2S8pG7F/GnrVUzMrjzlAgmrGid6ptGFpr1NVeJ3aQU=;
-	b=davxiQXyCICKYU6T0UIMXKfZaVXqwNrmUmZtASKLHE1pFqUdzzm2mMrp8Fks/A7TKm
-	qnEWmlAN3QZQZ/wd7Lhi+/hnFqG1iktIOa3OTwnjuMbjuI3Nzy9DlrUMf+oOnuuts6YM
-	80RQ6vcK96xHLQrqQi/95cwkUK+IUWThOmIDTwrahTNchGKFor02OldHhu8by/HFnOJ/
-	vFBq7qYXug8yKsMhy0qyqozZqIGUuIz62gXqp+SVCJ8TsdfEmFC3ZX1O60Yg3q7j6RNC
-	DiSJh5YCQNa0fGDJjNOo0GGlUtnylaZwrnqjfvTTY7CqKBn7BEGYYnelnLcgf8HESuQJ
-	xj+w==
+	:cc; bh=6M7v6gIH0QyhMCrDTA2yS9HfTJxLXiqM/4uKYY6nGvg=;
+	b=TfxSGq2QELSIdlm6HFywcJC6Hae35RyBpOZVUHvYQj3iEqCZJNDkU1R3WSk37xaraQ
+	WwUNHVylrkJirjhIw7nV9vmWmMFfR3NP8wBgePBcEGdQyH1BALHlM8KSGjIACeaddn8f
+	W8zuVF1/P4skreyshtzmrd9Cw0kmCtGEyaV2qcrjDBJ2ZeXQJjmc6bB2wcKOSLAvBQCr
+	ctZ9kPolHEhrlKrEy9vARWGQUM0ufyDhiiRWcukCPdYbMFIsagGDnIaki1BqZquKUiqI
+	HCwh5DVnHOu2njSTYIBxB2sdvK1DA/lqHXKaU0BDq9FSeDeVyMqP4XNc2deAqw2QXmyw
+	1G8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=v2S8pG7F/GnrVUzMrjzlAgmrGid6ptGFpr1NVeJ3aQU=;
-	b=coEDdd2JlfHC1ljz+1vMm+8Wl1rzffbWaR2J/IeTGmJJo9T9aXBSkkQ6/T4D9gogI3
-	ksamfQcEvM7LLKvThqkKxPz36lR+eB61RKIl18kPDKwU5wHAGuq0CXpaDkkYxQWocvlj
-	YYlH6gv9ClaFwt4gwkfnU1mY4TnF+CpAAspANWFuvSpk1ngjMhO1MXbJkM5jlz2UFxdC
-	fEVK4p0zLn7O8XY5RhPGqmr8AePBkWC6cIzymmQym8fOFtWfHsARxAYsjjSXEXBW4XEW
-	Nq5veHvybFtX1JC4kvO6C/E2KWqzHdxXCGwhHRlf0zm1udKv9iEK7xdNdgjJt4CW4c/b
-	D+LA==
-X-Gm-Message-State: AODbwcCjBz/3Ynt5BUgIt91SZASFt/BTBKq/mjt13XDQmBSRqNwHvX5n
-	adBJfZ4rRUlwDaojWii9mJiU5Gg0/oaj
-X-Received: by 10.55.170.79 with SMTP id t76mr28896778qke.54.1495550256720;
-	Tue, 23 May 2017 07:37:36 -0700 (PDT)
+	bh=6M7v6gIH0QyhMCrDTA2yS9HfTJxLXiqM/4uKYY6nGvg=;
+	b=Ur/7NZcIeRlLtqlAHGP2igOudyuqt+2XMn7Yg7L6hvjTWjQBuvGS6RXtc5m4AgGv4C
+	tweU6Mmjdx7hzxz1d9A31/u1qD5x/eJd30W/d4s0+xH+YSVPLlJKxnfc6pXyJK5zkW0E
+	lJgbgg0VQ0WGzkGf7XaTv8KQiSUhLzUgYiok8U8dlaUfVHCrt1cNtqQaINNJrBpTjiC1
+	6zsiV/huZzyTCwBWo4B64I3BPHM5THH+y8Bf+C2aolnVkPyhpQ79RPybpT00wAYvV/mu
+	yzhhotTgCfh2bzZpsWwK+HwjUbM1OWAJPE22Dka1vIvSp7SuysWzg/vc/IObG70aA85J
+	DMZA==
+X-Gm-Message-State: AODbwcCbBXwyY476KMdSgbmUh6nbTBX2iE/PRr82VoQILMjED5NJb6xq
+	MOcy89o3FvK9EJtXJdYlaDg1ds2bduG2
+X-Received: by 10.55.170.79 with SMTP id t76mr28933393qke.54.1495550670159;
+	Tue, 23 May 2017 07:44:30 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.140.41.115 with HTTP; Tue, 23 May 2017 07:37:16 -0700 (PDT)
-In-Reply-To: <20170507013304.30165-1-JPEWhacker@gmail.com>
-References: <20170507013304.30165-1-JPEWhacker@gmail.com>
+Received: by 10.140.41.115 with HTTP; Tue, 23 May 2017 07:44:09 -0700 (PDT)
+In-Reply-To: <CAMKF1sqQfmxrG+jOHoeS-kizz127zY1vDbO3Xo4qRVnqZD8cvw@mail.gmail.com>
+References: <20170522050042.42403-1-raj.khem@gmail.com>
+	<20170522050042.42403-10-raj.khem@gmail.com>
+	<CAJTo0La8fX-H==K-R37j2uTG2s_a5ww0hmNqtLNOEox8C-EZuQ@mail.gmail.com>
+	<CAMKF1sqQfmxrG+jOHoeS-kizz127zY1vDbO3Xo4qRVnqZD8cvw@mail.gmail.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 23 May 2017 15:37:16 +0100
-Message-ID: <CAJTo0Lafr6dearC1uiQpumEUHA9ggAC59MhtvFWVvYi-Oc_8TQ@mail.gmail.com>
-To: Joshua Watt <jpewhacker@gmail.com>
+Date: Tue, 23 May 2017 15:44:09 +0100
+Message-ID: <CAJTo0Lbig6eUAOHX_UCLU7VM8QUG-Cj2JZoBzsfwbd7vpLKRdA@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] openssh: Atomically generate host keys
+Subject: Re: [PATCH 10/15] db: Add --tag=CC to cross libtool invocation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,122 +57,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 May 2017 14:37:36 -0000
-Content-Type: multipart/alternative; boundary="001a114d5f6ecbd0d6055031ede4"
+X-List-Received-Date: Tue, 23 May 2017 14:44:29 -0000
+Content-Type: multipart/alternative; boundary="001a114d5f6e704f6505503206b4"
 
---001a114d5f6ecbd0d6055031ede4
+--001a114d5f6e704f6505503206b4
 Content-Type: text/plain; charset="UTF-8"
 
-On 7 May 2017 at 02:33, Joshua Watt <jpewhacker@gmail.com> wrote:
+On 23 May 2017 at 15:32, Khem Raj <raj.khem@gmail.com> wrote:
 
-> +if [ ! -f "$NAME" ]; then
-> +    echo "  generating ssh $TYPE key..."
-> +    ssh-keygen -q -f "${NAME}.tmp" -N '' -t $TYPE
-> +
-> +    # Sync to ensure data is written to temp file before renaming
-> +    sync
-> +
-> +    # Move (Atomically rename) files
-> +    # Rename the .pub file first, since the check that triggers a
-> +    # key generation is based on the private file.
-> +    mv -f "${NAME}.tmp.pub" "${NAME}.pub"
-> +    sync
-> +
-> +    mv -f "${NAME}.tmp" "${NAME}"
-> +    sync
-> +fi
+> I think you are right we have c++ here can you try with --tag=CXX
 >
->
-All of these syncs seem quite enthusiastic, are they really needed?
-Writing the file to a temporary name and then mving it to the real name
-should result in either no file or a complete file in the event of power
-loss, surely?
+>>
+packages/corei7-64-poky-linux/db/db: RDEPENDS: added "libgcc (['>= 6.3.0'])
+libstdc++ (['>= 6.3.0'])"
 
-
-> diff --git a/meta/recipes-connectivity/openssh/openssh/sshdgenkeys.service
-> b/meta/recipes-connectivity/openssh/openssh/sshdgenkeys.service
-> index 148e6ad..af56404 100644
-> --- a/meta/recipes-connectivity/openssh/openssh/sshdgenkeys.service
-> +++ b/meta/recipes-connectivity/openssh/openssh/sshdgenkeys.service
-> @@ -1,22 +1,14 @@
->  [Unit]
->  Description=OpenSSH Key Generation
->  RequiresMountsFor=/var /run
-> -ConditionPathExists=!/var/run/ssh/ssh_host_rsa_key
-> -ConditionPathExists=!/var/run/ssh/ssh_host_dsa_key
-> -ConditionPathExists=!/var/run/ssh/ssh_host_ecdsa_key
-> -ConditionPathExists=!/var/run/ssh/ssh_host_ed25519_key
-> -ConditionPathExists=!/etc/ssh/ssh_host_rsa_key
-> -ConditionPathExists=!/etc/ssh/ssh_host_dsa_key
-> -ConditionPathExists=!/etc/ssh/ssh_host_ecdsa_key
-> -ConditionPathExists=!/etc/ssh/ssh_host_ed25519_key
->
-
-Can you not continue to use ConditionPathExists to only run this unit if it
-needs to run?  You can prepend the argument with | to make them logical OR
-instead of logical AND, if I'm reading this documentation correctly.
+That's worse! :)
 
 Ross
 
---001a114d5f6ecbd0d6055031ede4
+--001a114d5f6e704f6505503206b4
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 7 May 2017 at 02:33, Joshua Watt <span dir=3D"ltr">&lt;<a href=3D"mailto=
-:jpewhacker@gmail.com" target=3D"_blank">jpewhacker@gmail.com</a>&gt;</span=
-> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bo=
-rder-left:1px #ccc solid;padding-left:1ex"><div id=3D":1ij" class=3D"a3s aX=
-jCH m15be08ab5931b842">+if [ ! -f &quot;$NAME&quot; ]; then<br>
-+=C2=A0 =C2=A0 echo &quot;=C2=A0 generating ssh $TYPE key...&quot;<br>
-+=C2=A0 =C2=A0 ssh-keygen -q -f &quot;${NAME}.tmp&quot; -N &#39;&#39; -t $T=
-YPE<br>
-+<br>
-+=C2=A0 =C2=A0 # Sync to ensure data is written to temp file before renamin=
-g<br>
-+=C2=A0 =C2=A0 sync<br>
-+<br>
-+=C2=A0 =C2=A0 # Move (Atomically rename) files<br>
-+=C2=A0 =C2=A0 # Rename the .pub file first, since the check that triggers =
-a<br>
-+=C2=A0 =C2=A0 # key generation is based on the private file.<br>
-+=C2=A0 =C2=A0 mv -f &quot;${NAME}.tmp.pub&quot; &quot;${NAME}.pub&quot;<br=
->
-+=C2=A0 =C2=A0 sync<br>
-+<br>
-+=C2=A0 =C2=A0 mv -f &quot;${NAME}.tmp&quot; &quot;${NAME}&quot;<br>
-+=C2=A0 =C2=A0 sync<br>
-+fi<br><br></div></blockquote><div><br></div><div>All of these syncs seem q=
-uite enthusiastic, are they really needed?=C2=A0 Writing the file to a temp=
-orary name and then mving it to the real name should result in either no fi=
-le or a complete file in the event of power loss, surely?</div><div>=C2=A0<=
-/div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-le=
-ft:1px #ccc solid;padding-left:1ex"><div id=3D":1ij" class=3D"a3s aXjCH m15=
-be08ab5931b842">
-diff --git a/meta/recipes-connectivity/<wbr>openssh/openssh/sshdgenkeys.<wb=
-r>service b/meta/recipes-connectivity/<wbr>openssh/openssh/sshdgenkeys.<wbr=
->service<br>
-index 148e6ad..af56404 100644<br>
---- a/meta/recipes-connectivity/<wbr>openssh/openssh/sshdgenkeys.<wbr>servi=
-ce<br>
-+++ b/meta/recipes-connectivity/<wbr>openssh/openssh/sshdgenkeys.<wbr>servi=
-ce<br>
-@@ -1,22 +1,14 @@<br>
-=C2=A0[Unit]<br>
-=C2=A0Description=3DOpenSSH Key Generation<br>
-=C2=A0RequiresMountsFor=3D/var /run<br>
--ConditionPathExists=3D!/var/<wbr>run/ssh/ssh_host_rsa_key<br>
--ConditionPathExists=3D!/var/<wbr>run/ssh/ssh_host_dsa_key<br>
--ConditionPathExists=3D!/var/<wbr>run/ssh/ssh_host_ecdsa_key<br>
--ConditionPathExists=3D!/var/<wbr>run/ssh/ssh_host_ed25519_key<br>
--ConditionPathExists=3D!/etc/<wbr>ssh/ssh_host_rsa_key<br>
--ConditionPathExists=3D!/etc/<wbr>ssh/ssh_host_dsa_key<br>
--ConditionPathExists=3D!/etc/<wbr>ssh/ssh_host_ecdsa_key<br>
--ConditionPathExists=3D!/etc/<wbr>ssh/ssh_host_ed25519_key</div></blockquot=
-e></div><br>Can you not continue to use ConditionPathExists to only run thi=
-s unit if it needs to run?=C2=A0 You can prepend the argument with | to mak=
-e them logical OR instead of logical AND, if I&#39;m reading this documenta=
-tion correctly.</div><div class=3D"gmail_extra"><br></div><div class=3D"gma=
-il_extra">Ross</div></div>
+On 23 May 2017 at 15:32, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"mailto:r=
+aj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</span> wrot=
+e:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;b=
+order-left-width:1px;border-left-style:solid;border-left-color:rgb(204,204,=
+204);padding-left:1ex"><div>I think you are right we have c++ here can you =
+try with --tag=3DCXX</div><blockquote class=3D"gmail_quote" style=3D"margin=
+:0px 0px 0px 0.8ex;border-left-width:1px;border-left-style:solid;border-lef=
+t-color:rgb(204,204,204);padding-left:1ex"><div><div class=3D"gmail_extra">=
+</div></div><div><div class=3D"gmail_extra"></div></div></blockquote></bloc=
+kquote></div><br>packages/corei7-64-poky-linux/db/db: RDEPENDS: added &quot=
+;libgcc ([&#39;&gt;=3D 6.3.0&#39;]) libstdc++ ([&#39;&gt;=3D 6.3.0&#39;])&q=
+uot;<br></div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extr=
+a">That&#39;s worse! :)</div><div class=3D"gmail_extra"><br></div><div clas=
+s=3D"gmail_extra">Ross</div></div>
 
---001a114d5f6ecbd0d6055031ede4--
+--001a114d5f6e704f6505503206b4--
