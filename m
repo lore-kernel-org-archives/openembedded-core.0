@@ -1,49 +1,45 @@
-Return-Path: <jpewhacker@gmail.com>
-Received: from mail-wm0-f53.google.com (mail-wm0-f53.google.com [74.125.82.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 29ABF77FC7
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-yb0-f194.google.com (mail-yb0-f194.google.com
+	[209.85.213.194])
+	by mail.openembedded.org (Postfix) with ESMTP id CE9C577EAC
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 May 2017 19:56:54 +0000 (UTC)
-Received: by mail-wm0-f53.google.com with SMTP id e127so44604562wmg.1
+	Tue, 23 May 2017 23:47:57 +0000 (UTC)
+Received: by mail-yb0-f194.google.com with SMTP id d72so6097544ybh.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 May 2017 12:56:56 -0700 (PDT)
+	Tue, 23 May 2017 16:47:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=3XiZgFW030cSeOqF8/ER7iQdwvQyhTBv1q0Lu8E8Zag=;
-	b=epPWkb/FjQBunjz4Z5WIl851QCAs+Nd0E5YRXqfgF2AC7U5qyygGuq7LDySetlopwJ
-	QHBaJ9brG/V6GxLKPm4sotP5YShGFNnCUWdayp2cmSMu2088BBBE+p+1Zdbp3ojAxxdh
-	kFG3fmdIameegjS06LzF1fBWRUPV5tXWfD1GXhzLG3CsCFUCiPRj/LWKWT+TNWyEFr5C
-	qN2gV6p9UGPgz5n7v/pDuJs6VD2M6oK8kTrNsNgDTNfqNK6lgH4DizUDd/VxeAWaFB7c
-	Q12wjHJ7nxlcwyQwA1CG6IVi1qOhYppD62HrQ7OE/1tvGhXpxhHWldU0iIbAOgcGm9uO
-	vjKg==
+	h=from:to:cc:subject:date:message-id;
+	bh=PwcHeKA2oVFvpn77gHDfywkHYKPa+aei3jfdSiLtEr8=;
+	b=WtiKdad+5bSYit7CFLOkeTagHUQQjAg/gU5s37JJHn6zhJD1zTf6Ab2zRBr8RBQUVH
+	tV81SOLnKnnBPURYFkYYXSHlg3wmtakje8fP6otVxpuyJiQxhO/u/BnJh5wwUqRdOKKo
+	rLAzpS4GVO4ci67YsVIWisPqNawAjRzVAuUojjbl+TyoJedbk7lgJkuB7RWNkJLGQV3w
+	XRaqc8Xq4/xAtF4NOw5kKEK1ZLy+GIO+CToEebRk8njvDZl/8tU1pK3/NHpFDy6xOirz
+	PejKvzjuldzEUfPLQTUIzgzrYd//ee1Ehf7S/sBrkVwGycAmU1WXtEuY9qWRYJQXR7Hf
+	8spA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=3XiZgFW030cSeOqF8/ER7iQdwvQyhTBv1q0Lu8E8Zag=;
-	b=NeiGhulA0PW5Td9bNiC4TpkuhoexFOY75Y8P/zhN/XYjl6ch6BjwBz7pjDNR9eqmxZ
-	0/34GC77NNHF66PrjrgZtsbtakEV8SbD+NcFSN/qW9jRuDK1GldX2aaY9AxVn0chOu0h
-	14pQ6DZqqE/YixHqm+kR/uZOF0zaSnLnWwnAms8Np2g82aWDAPaHMjKanCu5SskPqkcg
-	6peOUTAQCOOpI8yefBdhvGCVMu4A8jlNftqtqhgBRRTulm7YPCgoJ62aZ0qlm9jC6TyL
-	P13GqnatX+SBPKs6b0f1K4w6BZLG01VMH3Z1hHZnIdkhqKiJUNOZQNy4Hp5a5Da+fEQ9
-	rvDQ==
-X-Gm-Message-State: AODbwcBzkvzbi6Y9uicpfXlPAxZVeYdgXaZFPRMdvbO/2hj58QdLBZAE
-	3f8yz7Gp8xrUS3tPXGwEcoPCoSi6Cw==
-X-Received: by 10.28.157.14 with SMTP id g14mr3701475wme.114.1495569415505;
-	Tue, 23 May 2017 12:56:55 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.28.128.65 with HTTP; Tue, 23 May 2017 12:56:54 -0700 (PDT)
-In-Reply-To: <CAJdd5GadD1wBi_GcWQRk92pW8WG-oUQcATLDemWXcZkCax+pjA@mail.gmail.com>
-References: <20170507013304.30165-1-JPEWhacker@gmail.com>
-	<CAJTo0Lafr6dearC1uiQpumEUHA9ggAC59MhtvFWVvYi-Oc_8TQ@mail.gmail.com>
-	<CAJdd5GZeT8h7qXfKF=XM7Q0kKoMgQSxNprqhWz7wYv_vBquzTQ@mail.gmail.com>
-	<09a43b20-0aa0-beed-f019-762bb23d0a79@linux.intel.com>
-	<CAJdd5GadD1wBi_GcWQRk92pW8WG-oUQcATLDemWXcZkCax+pjA@mail.gmail.com>
-From: Joshua Watt <jpewhacker@gmail.com>
-Date: Tue, 23 May 2017 14:56:54 -0500
-Message-ID: <CAJdd5GZWc73h2hgGk=LboLfYkMPOME1yLoLCZyK5hCy79_TV+w@mail.gmail.com>
-To: Randy Witt <randy.e.witt@linux.intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] openssh: Atomically generate host keys
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=PwcHeKA2oVFvpn77gHDfywkHYKPa+aei3jfdSiLtEr8=;
+	b=rCpHQorji7Orb5EQhize0h1trgDh43BE+Wx/iV9oBoBFCGyqDVHtiGaUHicEsi3SCq
+	Wa7i4PVE3HPwFKonibY1A0qK8CVaXoGiXJoakICXlkSalUEMfCIwkfLDIs/Y4D2iirWK
+	vNt8wD28J28FdEqvJzHR395hwzD+dtgArmP7GiQ9riVXLb9oOxZ69TQTkXUnPOoo/hms
+	b4uxMhNlFp6pIGNbF+2UEeUT0FzEelRGn/dtteKdynr+Foq//KDiRs4x/wi3mD2xtHQq
+	13auXZE0GlydviaGzxnD2HPjQ/rnAFjN1YtnLfmNmzLxjkzA/xZNQx+1rFF6JqArCJ2s
+	7SLg==
+X-Gm-Message-State: AODbwcBPoaglGAS8HvjddgJtCug65sM4fjEZt9mY0Wao/gMjpRHqkn9Q
+	H0ge21sLpSJexQ==
+X-Received: by 10.37.80.130 with SMTP id e124mr25549035ybb.165.1495583278567; 
+	Tue, 23 May 2017 16:47:58 -0700 (PDT)
+Received: from localhost.localdomain ([2601:646:8882:b8c::63fb])
+	by smtp.gmail.com with ESMTPSA id v19sm975325ywg.46.2017.05.23.16.47.56
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 23 May 2017 16:47:57 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 23 May 2017 16:47:42 -0700
+Message-Id: <20170523234744.34487-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.13.0
+Subject: [PATCH 1/3] intltool: Adds gettext as a DEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,155 +52,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 May 2017 19:56:55 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 23 May 2017 23:47:58 -0000
 
-On Tue, May 23, 2017 at 12:56 PM, Joshua Watt <jpewhacker@gmail.com> wrote:
-> On Tue, May 23, 2017 at 12:23 PM, Randy Witt
-> <randy.e.witt@linux.intel.com> wrote:
->> On 05/23/2017 08:29 AM, Joshua Watt wrote:
->>>
->>> On Tue, May 23, 2017 at 9:37 AM, Burton, Ross <ross.burton@intel.com>
->>> wrote:
->>>>
->>>>
->>>> On 7 May 2017 at 02:33, Joshua Watt <jpewhacker@gmail.com> wrote:
->>>>>
->>>>>
->>>>> +if [ ! -f "$NAME" ]; then
->>>>> +    echo "  generating ssh $TYPE key..."
->>>>> +    ssh-keygen -q -f "${NAME}.tmp" -N '' -t $TYPE
->>>>> +
->>>>> +    # Sync to ensure data is written to temp file before renaming
->>>>> +    sync
->>>>> +
->>>>> +    # Move (Atomically rename) files
->>>>> +    # Rename the .pub file first, since the check that triggers a
->>>>> +    # key generation is based on the private file.
->>>>> +    mv -f "${NAME}.tmp.pub" "${NAME}.pub"
->>>>> +    sync
->>>>> +
->>>>> +    mv -f "${NAME}.tmp" "${NAME}"
->>>>> +    sync
->>>>> +fi
->>>>>
->>>>
->>>> All of these syncs seem quite enthusiastic, are they really needed?
->>>> Writing
->>>> the file to a temporary name and then mving it to the real name should
->>>> result in either no file or a complete file in the event of power loss,
->>>> surely?
->>>
->>>
->>> My understanding (and observation) of most journal file systems is
->>> that only metadata (i.e. directory entries and such) are journaled in
->>> typical usage. The first sync is necessary in this case to ensure that
->>> the actual file data gets put on the disk before we rename the files,
->>> otherwise in the event of interruption journaled rename might get
->>> replayed but have garbage data. The second one is more of a "force
->>> operation order" sync to make sure the public file is written before
->>> the private one, as a reordering would cause problems. The last sync
->>> is the most optional, but I've seen it take minutes for disk to sync
->>> contents if no one calls "sync", so it is very possible that all our
->>> work of regenerating keys would be for naught if power is interrupted
->>> in the meantime.
->>>
->>> I think some of these syncs can be removed. Namely, the first and
->>> third one. The second one needs to be there, but can server double
->>> duty of syncing data to disk and enforcing the order between the
->>> public and private rename. It does mean we could get a state where the
->>> public key exists but is garbage, but this should be OK because the
->>> private key won't exist and it would be regenerated.
->>>
->>> The third sync can be removed and I can put one final sync at the end
->>> after all keys are generated to ensure we won't go through all the
->>> effort of regenerating the (last) key again in the event of
->>> interruption shortly after, unless you would prefer I didn't.
->>>
->>
->> The typical convention for this is,
->>
->> 1. Update file data.
->> 2. sync file
->> 3. sync containing directory
->> 4. mv file to new location
->> 5. sync directory containing new file (although I've seen this step left out
->> before)
->>
->> https://lwn.net/Articles/457672/ is a good example which is linked from
->> https://lwn.net/Articles/457667/
->>
->> But one of the important parts vs your code, is also that the example is
->> only calling sync on the files/directory needed, vs calling "sync" with no
->> arguments which is going to cause all data in all filesystem caches to be
->> flushed.
->
-> Ah, OK. That makes sense, I will update sync to specify the
-> files/directory explicitly.
+From: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
 
-FWIW, I did some tests on the sync behavior:
+When setting USE_NLS="no" and building systemd-boot
+(which DEPENDS on intltool), configure fails,
+complaining about missing gettext:
 
-It appears that older versions of the sync command ignore any
-arguments and just call sync(). From Ubuntu 14.04:
-$ strace sync foo
-...
-write(2, "sync: ", 6sync: )                   = 6
-write(2, "ignoring all arguments", 22)  = 22
-write(2, "\n", 1)                       = 1
-sync()                                  = 0
-...
+configure: error: GNU gettext tools not found; required for intltool
 
-The same is true for the (default) busybox version of sync on master
-(again verified with strace), but it doesn't complain nosily about it.
+This is caused because USE_NLS="no" makes the gettext class
+add gettext-minimal-native to BASEDEPENDS instead of adding
+gettext-native.
 
-I looked at the coreutils code, and sync was changed to respect
-arguments in January of 2015
-(8b2bf5295f353016d4f5e6a2317d55b6a8e7fd00) and only call fsync() on
-the provided arguments (if any are provided).
+Since we still would like to set USE_NLS="no" and build systemd-boot,
+we add gettext-native as a dependency to intltool-native, which makes it
+available for the configure script of systemd-boot fixing the problem.
 
-Either way, adding the arguments to the sync call in my patch won't
-hurt because it is forward compatible, even though it won't be
-optimally efficient currently because the sync command currently
-simply calls sync()
+[YOCTO #11562]
 
->
->>
->>
->>>>
->>>>>
->>>>> diff --git
->>>>> a/meta/recipes-connectivity/openssh/openssh/sshdgenkeys.service
->>>>> b/meta/recipes-connectivity/openssh/openssh/sshdgenkeys.service
->>>>> index 148e6ad..af56404 100644
->>>>> --- a/meta/recipes-connectivity/openssh/openssh/sshdgenkeys.service
->>>>> +++ b/meta/recipes-connectivity/openssh/openssh/sshdgenkeys.service
->>>>> @@ -1,22 +1,14 @@
->>>>>   [Unit]
->>>>>   Description=OpenSSH Key Generation
->>>>>   RequiresMountsFor=/var /run
->>>>> -ConditionPathExists=!/var/run/ssh/ssh_host_rsa_key
->>>>> -ConditionPathExists=!/var/run/ssh/ssh_host_dsa_key
->>>>> -ConditionPathExists=!/var/run/ssh/ssh_host_ecdsa_key
->>>>> -ConditionPathExists=!/var/run/ssh/ssh_host_ed25519_key
->>>>> -ConditionPathExists=!/etc/ssh/ssh_host_rsa_key
->>>>> -ConditionPathExists=!/etc/ssh/ssh_host_dsa_key
->>>>> -ConditionPathExists=!/etc/ssh/ssh_host_ecdsa_key
->>>>> -ConditionPathExists=!/etc/ssh/ssh_host_ed25519_key
->>>>
->>>>
->>>>
->>>> Can you not continue to use ConditionPathExists to only run this unit if
->>>> it
->>>> needs to run?  You can prepend the argument with | to make them logical
->>>> OR
->>>> instead of logical AND, if I'm reading this documentation correctly.
->>>
->>>
->>> I will try that. I wasn't aware that was an option since systemd conf
->>> files are somewhat new to me.
->>>
->>>>
->>>> Ross
->>
->>
+Signed-off-by: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/recipes-devtools/intltool/intltool_0.51.0.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/recipes-devtools/intltool/intltool_0.51.0.bb b/meta/recipes-devtools/intltool/intltool_0.51.0.bb
+index 551bdf0619..ecff2faf25 100644
+--- a/meta/recipes-devtools/intltool/intltool_0.51.0.bb
++++ b/meta/recipes-devtools/intltool/intltool_0.51.0.bb
+@@ -16,7 +16,7 @@ UPSTREAM_CHECK_URI = "https://launchpad.net/intltool/trunk/"
+ 
+ DEPENDS = "libxml-parser-perl-native"
+ RDEPENDS_${PN} = "gettext-dev libxml-parser-perl"
+-DEPENDS_class-native = "libxml-parser-perl-native"
++DEPENDS_class-native = "libxml-parser-perl-native gettext-native"
+ 
+ inherit autotools pkgconfig perlnative
+ 
+-- 
+2.13.0
+
 
