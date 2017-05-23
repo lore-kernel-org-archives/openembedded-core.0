@@ -1,44 +1,33 @@
-Return-Path: <nicolas.dechesne@linaro.org>
-Received: from mail-qt0-f180.google.com (mail-qt0-f180.google.com
-	[209.85.216.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 659D077DF1
+Return-Path: <prvs=0316b6c712=alan.levy@plextek.com>
+Received: from mailgate.plextek.co.uk (mailgate.plextek.co.uk [62.254.222.163])
+	by mail.openembedded.org (Postfix) with ESMTP id 3DB4A7199E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 May 2017 12:14:19 +0000 (UTC)
-Received: by mail-qt0-f180.google.com with SMTP id c13so125615873qtc.1
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 May 2017 05:14:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=SKZQ4UPVw4D1MQuB00VK7OfMvhW7soEW1t7lp3X+RoU=;
-	b=AO/s/5Jx0G+1YtKCtoyjUImSZK5ddVwms6pS/a51D3z047hmaItdDWRfeH35uUTxDI
-	mKs7SeC//Q3n7urmuKb+tUWZ+xFxWUCeYnRsz3gXo338MmXZgYhMWTgWAoBZ0fepqRrU
-	bGonq8gwuiKOEzDJkWIwMUZBrlEZFvT/Lpvf8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=SKZQ4UPVw4D1MQuB00VK7OfMvhW7soEW1t7lp3X+RoU=;
-	b=aWcse3misJQgM2s25bx6cOotOoXw3Qo5r+mGdWso1rNEFYLNCPgEUvRw53W/5P+K1L
-	zGduBUJb+NINZocZ/sacZp5lLE989UJCO7s/XwqcXoy7akh9X4CPKDIx93HMZW4tbhim
-	EN6DNxKvLWXYKVkYyfqWiw4yj2eK9j5rPz26O9gE/h7BphMELtV7hzoX4iaW6Jr0zHmZ
-	57q+2/FP99/KcDK1JSVWR3zCcls1xM1eYSUhRii2n6sHw2h2IqdjC7Ewh6i03fxuJbai
-	zE++ISqHYy0EF86bwHmUJtxQhBTSjOgcrOstgjcTLVYKSVsb1q4XT8LMgsf3GIdF3+AE
-	v/OQ==
-X-Gm-Message-State: AODbwcDRxT/NIH3eDB4zBhp7bcZGqSg5LrFaRT3O9buErzBwiEYy5FbL
-	D8HsoNrGTvfdYUA/CqNEK7Ypy4znZWai
-X-Received: by 10.200.42.219 with SMTP id c27mr18826759qta.9.1495541660296;
-	Tue, 23 May 2017 05:14:20 -0700 (PDT)
+	Tue, 23 May 2017 12:39:27 +0000 (UTC)
+Received: from plextek-exch1.plextek.lan ([10.10.0.152]:42012)
+	by mailgate.plextek.co.uk with esmtps (TLSv1:AES256-SHA:256)
+	(Exim 4.82_1-5b7a7c0-XX) (envelope-from <alan.levy@plextek.com>)
+	id 1dD95y-0006hX-1T for openembedded-core@lists.openembedded.org;
+	Tue, 23 May 2017 13:39:26 +0100
+Received: from PLEXTEK-EXCH1.plextek.lan (10.10.0.152) by
+	PLEXTEK-EXCH1.plextek.lan (10.10.0.152) with Microsoft SMTP Server
+	(TLS) id 15.0.847.32; Tue, 23 May 2017 13:39:19 +0100
+Received: from PLEXTEK-EXCH1.plextek.lan ([fe80::64ad:692a:46f8:cc46]) by
+	PLEXTEK-EXCH1.plextek.lan ([fe80::64ad:692a:46f8:cc46%18]) with mapi id
+	15.00.0847.030; Tue, 23 May 2017 13:39:19 +0100
+From: Alan Levy <alan.levy@plextek.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core][PATCH v3] base.bbclass: improve error message for
+	missing host tools
+Thread-Index: AdLTwV+3lpUv5pJHRWOl7ntqUnR3Dw==
+Date: Tue, 23 May 2017 12:39:19 +0000
+Message-ID: <b8549a606b514fa4b41060b879cc59d0@PLEXTEK-EXCH1.plextek.lan>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.10.12.154]
 MIME-Version: 1.0
-Received: by 10.140.88.135 with HTTP; Tue, 23 May 2017 05:13:59 -0700 (PDT)
-In-Reply-To: <CAJTo0LbgS9xA+MRkHxVGy524hQhCyCGB2pBXuhxrF1j1tbWhnA@mail.gmail.com>
-References: <1495509563-62240-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
-	<CAJTo0LbgS9xA+MRkHxVGy524hQhCyCGB2pBXuhxrF1j1tbWhnA@mail.gmail.com>
-From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
-Date: Tue, 23 May 2017 14:13:59 +0200
-Message-ID: <CAP71WjzjChQtrTVK7Ph3Ba3TPrgc=0t+CVtNQnOP0p5dZDMjpg@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] mesa: 17.0.4 -> 17.1.0
+Subject: [PATCH v3] base.bbclass: improve error message for missing host tools
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,26 +40,115 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 May 2017 12:14:19 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 23 May 2017 12:39:30 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, May 23, 2017 at 1:09 PM, Burton, Ross <ross.burton@intel.com> wrote:
-> On 23 May 2017 at 04:19, Huang Qiyu <huangqy.fnst@cn.fujitsu.com> wrote:
->>
->> 1) Upgrade mesa from 17.0.4 to 17.1.0.
->
->
-> "Mesa 17.1.0 is released. This is a new development release. See the release
-> notes for more information about the release."
->
-> Unless there's a good reason we don't ship development releases, so the
-> latest stable release is 17.0.6.
+Host tools such as Subversion (svn) are not always installed or needed.
+When they were required by a recipe but not installed the resulting error
+message was not very user friendly. This patch generates a friendly error
+message without forcing the user to install the tools if they aren't
+needed.
 
-I agree with that, i was about to send the same email, but I noticed
-yours.. especially because there is at least 1 regression that I found
-when testing 17.1.0 on my boards which will be fixed in 17.1.1
-release.
+Signed-off-by: Alan Levy <alan.levy@plextek.com>
+---
+ meta/classes/base.bbclass | 16 ++++++++++++++--
+ meta/conf/bitbake.conf    |  4 ++++
+ meta/files/warnmissing.sh |  3 +++
+ 3 files changed, 21 insertions(+), 2 deletions(-)
+ create mode 100755 meta/files/warnmissing.sh
 
->
-> (we should fix the upgrade helper regex to exclude .1.0 releases)
+diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+index 7892665..ecb6956 100644
+--- a/meta/classes/base.bbclass
++++ b/meta/classes/base.bbclass
+@@ -112,7 +112,9 @@ def get_lic_checksum_file_list(d):
+             bb.fatal(d.getVar('PN') + ": LIC_FILES_CHKSUM contains an inva=
+lid URL: " + url)
+     return " ".join(filelist)
+=20
+-def setup_hosttools_dir(dest, toolsvar, d, fatal=3DTrue):
++def setup_hosttools_dir(dest, toolsvar, d, fatal=3DTrue, optional=3DFalse)=
+:
++    corebase =3D d.getVar('COREBASE')
++    toolwarningscript =3D os.path.join(corebase, "meta/files/warnmissing.s=
+h")
+     tools =3D d.getVar(toolsvar).split()
+     origbbenv =3D d.getVar("BB_ORIGENV", False)
+     path =3D origbbenv.getVar("PATH")
+@@ -120,6 +122,10 @@ def setup_hosttools_dir(dest, toolsvar, d, fatal=3DTru=
+e):
+     notfound =3D []
+     for tool in tools:
+         desttool =3D os.path.join(dest, tool)
++        if optional and os.path.islink(desttool):
++            # For optional tools remove the symbolic link in case the host=
+ package has been
++            # installed or removed since we last ran
++            os.remove(desttool)
+         if not os.path.exists(desttool):
+             srctool =3D bb.utils.which(path, tool, executable=3DTrue)
+             if "ccache" in srctool:
+@@ -127,7 +133,12 @@ def setup_hosttools_dir(dest, toolsvar, d, fatal=3DTru=
+e):
+             if srctool:
+                 os.symlink(srctool, desttool)
+             else:
+-                notfound.append(tool)
++                if optional:
++                    # Optional tools don't need to be present unless they =
+are actually used by a recipe.
++                    # Set up a symlink to a script that generates a runtim=
+e error if the tool is used
++                    os.symlink(toolwarningscript, desttool)
++                else:
++                    notfound.append(tool)
+     if notfound and fatal:
+         bb.fatal("The following required tools (as specified by HOSTTOOLS)=
+ appear to be unavailable in PATH, please install them in order to proceed:=
+\n  %s" % " ".join(notfound))
+=20
+@@ -234,6 +245,7 @@ python base_eventhandler() {
+         # Works with the line in layer.conf which changes PATH to point he=
+re
+         setup_hosttools_dir(d.getVar('HOSTTOOLS_DIR'), 'HOSTTOOLS', d)
+         setup_hosttools_dir(d.getVar('HOSTTOOLS_DIR'), 'HOSTTOOLS_NONFATAL=
+', d, fatal=3DFalse)
++        setup_hosttools_dir(d.getVar('HOSTTOOLS_DIR'), 'HOSTTOOLS_OPTIONAL=
+', d, fatal=3DFalse, optional=3DTrue)
+=20
+     if isinstance(e, bb.event.BuildStarted):
+         localdata =3D bb.data.createCopy(e.data)
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 8e4f4bb..6b5a195 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -477,6 +477,10 @@ HOSTTOOLS_NONFATAL +=3D "aws ccache gcc-ar gpg ld.bfd =
+ld.gold nc sftp socat sudo"
+ # Temporary add few more detected in bitbake world
+ HOSTTOOLS_NONFATAL +=3D "join nl size yes zcat"
+=20
++# Tools that can occasionally cause problems at runtime if they aren't pre=
+sent
++# on the host.
++HOSTTOOLS_OPTIONAL +=3D "svn cvs bzr hg"
++
+ CCACHE ??=3D ""
+ # Disable ccache explicitly if CCACHE is null since gcc may be a symlink
+ # of ccache some distributions (e.g., Fedora 17).
+diff --git a/meta/files/warnmissing.sh b/meta/files/warnmissing.sh
+new file mode 100755
+index 0000000..41c707d
+--- /dev/null
++++ b/meta/files/warnmissing.sh
+@@ -0,0 +1,3 @@
++echo "The following tool (as specified by HOSTTOOLS_OPTIONAL) appears to b=
+e unavailable in PATH but is needed by one or more recipes. Please install =
+it in order to proceed:\n  `basename $0`"
++exit 1
++
+--=20
+2.7.4
+
 
