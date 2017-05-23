@@ -1,29 +1,48 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id A6A4171951
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qt0-f178.google.com (mail-qt0-f178.google.com
+	[209.85.216.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 8718971D9D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 May 2017 13:12:06 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga105.jf.intel.com with ESMTP; 23 May 2017 06:12:07 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.38,382,1491289200"; d="scan'208";a="1173205692"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by fmsmga002.fm.intel.com with ESMTP; 23 May 2017 06:12:06 -0700
-To: Max Krummenacher <max.oss.09@gmail.com>,
-	openembedded-core@lists.openembedded.org
-References: <20170519154856.21505-1-max.krummenacher@toradex.com>
-	<ea81f53d-203f-183b-3a51-b0d71301b384@linux.intel.com>
-	<1495488738.2723.18.camel@gmail.com>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <8ab9f3a0-a3cf-e77d-e615-bfda3b016840@linux.intel.com>
-Date: Tue, 23 May 2017 16:10:09 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.8.0
+	Tue, 23 May 2017 13:13:03 +0000 (UTC)
+Received: by mail-qt0-f178.google.com with SMTP id f55so126938635qta.3
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 23 May 2017 06:13:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=psI7TDcEZTZYDwgcZuYGvUCnCai9SntR4r1pUPZMVo4=;
+	b=dLCRLjKkYCWQJAtIY+lVZE6s2lAew6DLeMm9imNwJcONzbl5dF3cPe/6jc2A+axDuo
+	ENiEm+w8xHBWeAU8LzRRDj4txC2q3Jme9oBtxaJe7FuW3ITpEnHG1uD0R5zoftdnJIPg
+	iPYPGJvsf1z3Z34XT15tjYe7IZflTeICWxTGdoFdPYT78NoX0dGCIuXPvnqNWNZpJWoh
+	mg1U6cxtX5DDBwgVkZralwo7ha7Ns85i15OWV/jbaR2lI9aNmw8SMz66ZtgArrbGwrZP
+	T8iFK8BdSW2TCpRYAxIfmpnFdVI7ds8IeAvClKF+jI33wfdIrEHe9kyN65/LBPBez3BC
+	+EhQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=psI7TDcEZTZYDwgcZuYGvUCnCai9SntR4r1pUPZMVo4=;
+	b=Y8YMWq/snwq+nFcV94TC0RvZprCgojM4lXraz8Ds1bR54QXu03DXKcSR2pFbpnz61n
+	dbD7R5lYbpTcJ1Y3sni/3JO9oBH6AiTkVh6ppLsbnW+QMXCpoz93HPMi+CN7RcATKUhB
+	SgSbyotPfFUiz4bxfMK7DJcG6/CgoysrzGtMUL9faFjX4zQXjj37JlAeRNTYLJBF9tx+
+	IMwjoitSflt9B41jlEvDvOuc/ZXz6tJpmUlHQenLPKsC6tQMyumRakw/FMj9gh8WS4b4
+	Lcb70aQLobiZaAxTsEXqNzAPJFjpQtTyqH2H47DNOmkXjukGX+72zFxLDZc/qFEiWqst
+	cO9g==
+X-Gm-Message-State: AODbwcDdzrn6SP1ArZ64ERQR2DyaNuY0mziw+SAyQgKOaVJxYWJYOcxl
+	QXw9iahZkS7CKlHbmx3STEJqEktEDM/8
+X-Received: by 10.200.43.99 with SMTP id 32mr27557612qtv.6.1495545184524; Tue,
+	23 May 2017 06:13:04 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <1495488738.2723.18.camel@gmail.com>
-Cc: Max Krummenacher <max.krummenacher@toradex.com>
-Subject: Re: [PATCH v2] libsolv: don't pick up bundled db from host rpm
+Received: by 10.140.41.115 with HTTP; Tue, 23 May 2017 06:12:44 -0700 (PDT)
+In-Reply-To: <62b9d549e24c4b989a50dc565324e7e7@PLEXTEK-EXCH1.plextek.lan>
+References: <62b9d549e24c4b989a50dc565324e7e7@PLEXTEK-EXCH1.plextek.lan>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 23 May 2017 14:12:44 +0100
+Message-ID: <CAJTo0LYzC5QfMm1zWZntwq9862_UpxdUp0zMLBz0V3OVLPqcNw@mail.gmail.com>
+To: Alan Levy <alan.levy@plextek.com>
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: FW: patchtest: failure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,52 +55,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 May 2017 13:12:09 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 23 May 2017 13:13:04 -0000
+Content-Type: multipart/alternative; boundary="001a1146fb4678310b055030bf1a"
 
-On 05/23/2017 12:32 AM, Max Krummenacher wrote:
->> Sorry Max, this is actually worse than the first version. HAVE_RPM_DB_H
->> has to accurately reflect the presence or absence of the header, as that
->> header is later included or not included depending on that. You cannot
->> set it based on checking some library.
-> Well, that is somewhat true.
-> The test explicitly tests that the header file is available, but then
-> implicitely assumes that when the header file is available no standalone
-> needs be linked.
+--001a1146fb4678310b055030bf1a
+Content-Type: text/plain; charset="UTF-8"
+
+On 23 May 2017 at 13:04, Alan Levy <alan.levy@plextek.com> wrote:
+
+> The patch applies correctly on my Linux development system but I'm having
+> to copy it to a Windows PC and use Outlook to submit it because the Linux
+> system has no access to email. I can only suppose that's why I get these
+> errors. How do I fix this?
 >
-> Turning that assumption to explicitly test that rpm.so provides the db
-> functionality and from that assuming that rpm/db.h is available is IMHO
-> equally right or equally incomplete testing.
 
-The first version of the patch assumes that rpm in oe-core is configured 
-to use external db, and hardcodes that assumption.
+Yes, the line endings being changed will be the problem.  You could
+register a gmail account or similar and send through that (git send-email
+can talk directly to GMail SMTP).
 
-The second version of the patch assumes that both the library and the 
-header are available at the same time. This may be true right now when 
-building with bitbake, it is certainly not true in other situations.
+Ross
 
-I would rather make assumptions about oe-core content, rather than 
-bitbake behaviour.
+--001a1146fb4678310b055030bf1a
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
->> So please either fix CHECK_INCLUDE_FILE,
-> The reason why I didn't fix it as follows is that this would break
-> the test for the non native (target and nativesdk) case.
->
-> +  CHECK_INCLUDE_FILE(rpm/db.h HAVE_RPM_DB_H "-nostdinc")
->
-> For the non native case the OE rpm headers are actually stored in
-> the compiler's standard include path, so searching for rpm/db.h
-> with -nostdinc wouldn't pick up the file even if it would exist.
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 23 May 2017 at 13:04, Alan Levy <span dir=3D"ltr">&lt;<a href=3D"mailto:=
+alan.levy@plextek.com" target=3D"_blank">alan.levy@plextek.com</a>&gt;</spa=
+n> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;b=
+order-left:1px #ccc solid;padding-left:1ex"><div id=3D":28c" class=3D"a3s a=
+XjCH m15c3532aea796812">The patch applies correctly on my Linux development=
+ system but I&#39;m having to copy it to a Windows PC and use Outlook to su=
+bmit it because the Linux system has no access to email. I can only suppose=
+ that&#39;s why I get these errors. How do I fix this?<br></div></blockquot=
+e></div><br>Yes, the line endings being changed will be the problem.=C2=A0 =
+You could register a gmail account or similar and send through that (git se=
+nd-email can talk directly to GMail SMTP).</div><div class=3D"gmail_extra">=
+<br></div><div class=3D"gmail_extra">Ross</div></div>
 
-This is not the fix I meant. You are fixing the *use* of 
-CHECK_INCLUDE_FILE, but I wanted you to fix the internal content of 
-CHECK_INCLUDE_FILE itself, so that it behaves correctly in 
-bitbake-driven environment, and does not go out to check host machine 
-include paths.
-
-It's fine if the code to be fixed is too arcane or tricky and you cannot 
-do it, then let's just revert to the first version of the patch.
-
-Alex
-
+--001a1146fb4678310b055030bf1a--
