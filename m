@@ -1,51 +1,46 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
-	by mail.openembedded.org (Postfix) with ESMTP id ABF1C77D24
+Return-Path: <jpewhacker@gmail.com>
+Received: from mail-wm0-f46.google.com (mail-wm0-f46.google.com [74.125.82.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 4A1E571A75
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 May 2017 15:11:25 +0000 (UTC)
-Received: by mail-wm0-f67.google.com with SMTP id d127so40092094wmf.1
+	Tue, 23 May 2017 15:29:19 +0000 (UTC)
+Received: by mail-wm0-f46.google.com with SMTP id d127so30704971wmf.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 May 2017 08:11:27 -0700 (PDT)
+	Tue, 23 May 2017 08:29:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=n1WgGR7iJvdPsgCxHoD6tu1lfx2vIaBS49mteemBG48=;
-	b=pQ6miKVUbLywu1MWSlar2Wuy94fho9bNkC60NPcTbiEu4Ktxt/K/AV0IWWcSXWjzn3
-	PJJpm2hhA7FfuHqbH/2gcJvnZvetZSeJ47MkTlA4Y32l6896pI/DpUf/drEVZGmMaGLP
-	kEsnhM4gpwfdVP+yz2UzlBkfVKVEBKTnxYP0UJbq6BtZrhBjd+82YUp3T6lis30699RS
-	/Plgqv0GwwYCJwL1tZb0av2ztYoOy4y204MkTERBaocxvKBSlYAF4HnDbpLc4hSCay3j
-	9HP/qv0M0+IPbz04l0UGcc2hlD06b/gZMdUQx4WaqrSc7w9mANXzHwamxhXwW3dt5MI8
-	78hg==
+	:cc; bh=Ga5wA0JHkjuOZpKUVd0OV1mU4ADRjyce6H0ag43vXJ0=;
+	b=DdnEoUEp3DsPB6hl7IhXPml10BwyQ/JHj5/BR18maaULAr1AzO/FfObBmSIolK/jAH
+	Ze93NFAXHfljDuBqscNslU9k8RxixMiE7nwCjxY3UMBbGnO5wSLBaN0FeFsd8FsQGoZM
+	j5dHdrTMiqEDt9a/f0tGFakj/u6fQPJlj4Ar7IS2EN7JW0CE1YEsdrKDe0e+UcZOoG8v
+	SvwlNVLG3R3Amf9UAUspuW4htT8MeDTDk6bKEjyN7a8mTq4qoY2N8SQd/lCQSPdwkZye
+	IiFQd5QxVy6w8m9JbVX9kkNcqEaflw0ecT+SDgpg4fp7QNOYrbHQqVQKz99CmDP2PiF8
+	bNDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=n1WgGR7iJvdPsgCxHoD6tu1lfx2vIaBS49mteemBG48=;
-	b=bBa31fCn6EHRLqvoR6TqxlSBGVRxcW9rI90Wrgn/tbKXG1rAJNe6MzpMPS6V21k5SC
-	foYpoPvkJXxCoeOJzYEIN79UHoRQFuDU1ipNKnNSSuJrxDIUNbQTZPpQbYD43RTDwZIy
-	gDKB2oD8sp+DsXSyQIjj/kti8PeWqUitZMrMrKDn3csVPBHaelvag7/MN2a/6F6M/r0w
-	AuZKG2VtAg6/1LGGw+AyNx5kngsgbe7Of+clvm7geHTvd8mqZHCPsLy2ScaZaP+nkE7x
-	VWZp/2xVJAALFpClK2BZMArEjTPyZoJD2QwQ5EOQCTATIWJX+qDBK/BGN/0MKa9IPKT/
-	Pnsg==
-X-Gm-Message-State: AODbwcDW3KcoZlmQwpOU7U8odoobI7j5V7kH4bVW7VkwP9SR8YXRKJ7L
-	XkLMBHx1Ix2yc4HymheiyxDCrV0uxg==
-X-Received: by 10.80.147.195 with SMTP id o61mr21194071eda.178.1495552286505; 
-	Tue, 23 May 2017 08:11:26 -0700 (PDT)
+	bh=Ga5wA0JHkjuOZpKUVd0OV1mU4ADRjyce6H0ag43vXJ0=;
+	b=gXCimn6nIUEzQmd6Nn74A6YIL2BuQxY1ZVSMQyh3Zo1a7+JbHDXGQeopGDMgBXhAco
+	VnKYGyBEP5D1Uo/kUIb22RLprCzvcCp9Po2f72BDEkL97O9LOree1L6liuc1I2qOhYv1
+	qejL9V7Rs8Bb52CYfCbAATlLn7MNakf+6eDioFIJugFHJMFOM3o7ffrJsjb8G5BKYNbD
+	555K558LkauTXt8jzYGtNlyiSR/xeU1kTCTFHtK9NfLlqbDnl6+MGE8LpVHsWqA2WJRx
+	8OJa1KWzOO1UsgTA3znIlKOvNsXWroDN+LHM0eUXmaKtlU3+GrZ4PSRUXYJ4X9qlXfCO
+	CdnQ==
+X-Gm-Message-State: AODbwcCWWv0jN22nN240thWhle1nVuhIRN8p5izmd+BSjJ3AJQa2F7IE
+	R0z9UjaxAy+Dz6lCGCn/yakFeUhbow==
+X-Received: by 10.28.173.85 with SMTP id w82mr2645786wme.98.1495553359444;
+	Tue, 23 May 2017 08:29:19 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.80.195.143 with HTTP; Tue, 23 May 2017 08:10:56 -0700 (PDT)
-In-Reply-To: <CAJTo0LY8kj9EKXdZ5Lummhm1w=UKV4h3sfcHy+sY6+4qZFswxQ@mail.gmail.com>
-References: <20170522050042.42403-1-raj.khem@gmail.com>
-	<20170522050042.42403-10-raj.khem@gmail.com>
-	<CAJTo0La8fX-H==K-R37j2uTG2s_a5ww0hmNqtLNOEox8C-EZuQ@mail.gmail.com>
-	<CAMKF1sqQfmxrG+jOHoeS-kizz127zY1vDbO3Xo4qRVnqZD8cvw@mail.gmail.com>
-	<CAJTo0Lbig6eUAOHX_UCLU7VM8QUG-Cj2JZoBzsfwbd7vpLKRdA@mail.gmail.com>
-	<CAMKF1sp01SVCaG=g4=UKRM23OwYC1LpQSBmwde7j0GugV3R6Fg@mail.gmail.com>
-	<CAJTo0LY8kj9EKXdZ5Lummhm1w=UKV4h3sfcHy+sY6+4qZFswxQ@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 23 May 2017 08:10:56 -0700
-Message-ID: <CAMKF1spWW94OytgBfdC7nCa7A+XXp1X8rw_rVSJMOJ6YY1P0fA@mail.gmail.com>
+Received: by 10.28.128.65 with HTTP; Tue, 23 May 2017 08:29:18 -0700 (PDT)
+In-Reply-To: <CAJTo0Lafr6dearC1uiQpumEUHA9ggAC59MhtvFWVvYi-Oc_8TQ@mail.gmail.com>
+References: <20170507013304.30165-1-JPEWhacker@gmail.com>
+	<CAJTo0Lafr6dearC1uiQpumEUHA9ggAC59MhtvFWVvYi-Oc_8TQ@mail.gmail.com>
+From: Joshua Watt <jpewhacker@gmail.com>
+Date: Tue, 23 May 2017 10:29:18 -0500
+Message-ID: <CAJdd5GZeT8h7qXfKF=XM7Q0kKoMgQSxNprqhWz7wYv_vBquzTQ@mail.gmail.com>
 To: "Burton, Ross" <ross.burton@intel.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 10/15] db: Add --tag=CC to cross libtool invocation
+Subject: Re: [PATCH] openssh: Atomically generate host keys
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,44 +53,89 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 May 2017 15:11:26 -0000
+X-List-Received-Date: Tue, 23 May 2017 15:29:20 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Tue, May 23, 2017 at 8:02 AM, Burton, Ross <ross.burton@intel.com> wrote:
+On Tue, May 23, 2017 at 9:37 AM, Burton, Ross <ross.burton@intel.com> wrote:
 >
-> On 23 May 2017 at 15:48, Khem Raj <raj.khem@gmail.com> wrote:
+> On 7 May 2017 at 02:33, Joshua Watt <jpewhacker@gmail.com> wrote:
 >>
->> no its better, it reintroduced the deps and this time also on libgcc
->> which probably was latent. it worked because someone else pulled
->> libgcc into image. can you check readelf -d | grep DT_NEEDED output
->> from bins/solibs in db package. ?
+>> +if [ ! -f "$NAME" ]; then
+>> +    echo "  generating ssh $TYPE key..."
+>> +    ssh-keygen -q -f "${NAME}.tmp" -N '' -t $TYPE
+>> +
+>> +    # Sync to ensure data is written to temp file before renaming
+>> +    sync
+>> +
+>> +    # Move (Atomically rename) files
+>> +    # Rename the .pub file first, since the check that triggers a
+>> +    # key generation is based on the private file.
+>> +    mv -f "${NAME}.tmp.pub" "${NAME}.pub"
+>> +    sync
+>> +
+>> +    mv -f "${NAME}.tmp" "${NAME}"
+>> +    sync
+>> +fi
+>>
 >
->
-> Using --tag=CC:
->
-> $ readelf -d libdb.so |grep NEEDED
->  0x0000000000000001 (NEEDED)             Shared library: [libpthread.so.0]
->  0x0000000000000001 (NEEDED)             Shared library: [libc.so.6]
-> $ readelf -d libdb_cxx.so |grep NEEDED
->  0x0000000000000001 (NEEDED)             Shared library: [libpthread.so.0]
->  0x0000000000000001 (NEEDED)             Shared library: [libgcc_s.so.1]
->  0x0000000000000001 (NEEDED)             Shared library: [libc.so.6]
->
-> Using --tag=CXX:
->
-> $ readelf -d libdb.so |grep NEEDED
->  0x0000000000000001 (NEEDED)             Shared library: [libpthread.so.0]
->  0x0000000000000001 (NEEDED)             Shared library: [libstdc++.so.6]
->  0x0000000000000001 (NEEDED)             Shared library: [libgcc_s.so.1]
->  0x0000000000000001 (NEEDED)             Shared library: [libc.so.6]
-> $ readelf -d libdb_cxx.so |grep NEEDED
->  0x0000000000000001 (NEEDED)             Shared library: [libpthread.so.0]
->  0x0000000000000001 (NEEDED)             Shared library: [libstdc++.so.6]
->  0x0000000000000001 (NEEDED)             Shared library: [libgcc_s.so.1]
->  0x0000000000000001 (NEEDED)             Shared library: [libc.so.6]
->
+> All of these syncs seem quite enthusiastic, are they really needed?  Writing
+> the file to a temporary name and then mving it to the real name should
+> result in either no file or a complete file in the event of power loss,
+> surely?
 
-So I think we need to add the --tag inside the component configuration itself
+My understanding (and observation) of most journal file systems is
+that only metadata (i.e. directory entries and such) are journaled in
+typical usage. The first sync is necessary in this case to ensure that
+the actual file data gets put on the disk before we rename the files,
+otherwise in the event of interruption journaled rename might get
+replayed but have garbage data. The second one is more of a "force
+operation order" sync to make sure the public file is written before
+the private one, as a reordering would cause problems. The last sync
+is the most optional, but I've seen it take minutes for disk to sync
+contents if no one calls "sync", so it is very possible that all our
+work of regenerating keys would be for naught if power is interrupted
+in the meantime.
 
+I think some of these syncs can be removed. Namely, the first and
+third one. The second one needs to be there, but can server double
+duty of syncing data to disk and enforcing the order between the
+public and private rename. It does mean we could get a state where the
+public key exists but is garbage, but this should be OK because the
+private key won't exist and it would be regenerated.
+
+The third sync can be removed and I can put one final sync at the end
+after all keys are generated to ensure we won't go through all the
+effort of regenerating the (last) key again in the event of
+interruption shortly after, unless you would prefer I didn't.
+
+>
+>>
+>> diff --git a/meta/recipes-connectivity/openssh/openssh/sshdgenkeys.service
+>> b/meta/recipes-connectivity/openssh/openssh/sshdgenkeys.service
+>> index 148e6ad..af56404 100644
+>> --- a/meta/recipes-connectivity/openssh/openssh/sshdgenkeys.service
+>> +++ b/meta/recipes-connectivity/openssh/openssh/sshdgenkeys.service
+>> @@ -1,22 +1,14 @@
+>>  [Unit]
+>>  Description=OpenSSH Key Generation
+>>  RequiresMountsFor=/var /run
+>> -ConditionPathExists=!/var/run/ssh/ssh_host_rsa_key
+>> -ConditionPathExists=!/var/run/ssh/ssh_host_dsa_key
+>> -ConditionPathExists=!/var/run/ssh/ssh_host_ecdsa_key
+>> -ConditionPathExists=!/var/run/ssh/ssh_host_ed25519_key
+>> -ConditionPathExists=!/etc/ssh/ssh_host_rsa_key
+>> -ConditionPathExists=!/etc/ssh/ssh_host_dsa_key
+>> -ConditionPathExists=!/etc/ssh/ssh_host_ecdsa_key
+>> -ConditionPathExists=!/etc/ssh/ssh_host_ed25519_key
+>
+>
+> Can you not continue to use ConditionPathExists to only run this unit if it
+> needs to run?  You can prepend the argument with | to make them logical OR
+> instead of logical AND, if I'm reading this documentation correctly.
+
+I will try that. I wasn't aware that was an option since systemd conf
+files are somewhat new to me.
+
+>
 > Ross
 
