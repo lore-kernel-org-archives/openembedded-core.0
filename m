@@ -1,46 +1,59 @@
-Return-Path: <jpewhacker@gmail.com>
-Received: from mail-wm0-f46.google.com (mail-wm0-f46.google.com [74.125.82.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 4A1E571A75
+Return-Path: <enrico.scholz@sigma-chemnitz.de>
+Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
+	by mail.openembedded.org (Postfix) with ESMTP id DE2A877E88
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 May 2017 15:29:19 +0000 (UTC)
-Received: by mail-wm0-f46.google.com with SMTP id d127so30704971wmf.0
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 May 2017 08:29:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=Ga5wA0JHkjuOZpKUVd0OV1mU4ADRjyce6H0ag43vXJ0=;
-	b=DdnEoUEp3DsPB6hl7IhXPml10BwyQ/JHj5/BR18maaULAr1AzO/FfObBmSIolK/jAH
-	Ze93NFAXHfljDuBqscNslU9k8RxixMiE7nwCjxY3UMBbGnO5wSLBaN0FeFsd8FsQGoZM
-	j5dHdrTMiqEDt9a/f0tGFakj/u6fQPJlj4Ar7IS2EN7JW0CE1YEsdrKDe0e+UcZOoG8v
-	SvwlNVLG3R3Amf9UAUspuW4htT8MeDTDk6bKEjyN7a8mTq4qoY2N8SQd/lCQSPdwkZye
-	IiFQd5QxVy6w8m9JbVX9kkNcqEaflw0ecT+SDgpg4fp7QNOYrbHQqVQKz99CmDP2PiF8
-	bNDw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=Ga5wA0JHkjuOZpKUVd0OV1mU4ADRjyce6H0ag43vXJ0=;
-	b=gXCimn6nIUEzQmd6Nn74A6YIL2BuQxY1ZVSMQyh3Zo1a7+JbHDXGQeopGDMgBXhAco
-	VnKYGyBEP5D1Uo/kUIb22RLprCzvcCp9Po2f72BDEkL97O9LOree1L6liuc1I2qOhYv1
-	qejL9V7Rs8Bb52CYfCbAATlLn7MNakf+6eDioFIJugFHJMFOM3o7ffrJsjb8G5BKYNbD
-	555K558LkauTXt8jzYGtNlyiSR/xeU1kTCTFHtK9NfLlqbDnl6+MGE8LpVHsWqA2WJRx
-	8OJa1KWzOO1UsgTA3znIlKOvNsXWroDN+LHM0eUXmaKtlU3+GrZ4PSRUXYJ4X9qlXfCO
-	CdnQ==
-X-Gm-Message-State: AODbwcCWWv0jN22nN240thWhle1nVuhIRN8p5izmd+BSjJ3AJQa2F7IE
-	R0z9UjaxAy+Dz6lCGCn/yakFeUhbow==
-X-Received: by 10.28.173.85 with SMTP id w82mr2645786wme.98.1495553359444;
-	Tue, 23 May 2017 08:29:19 -0700 (PDT)
+	Tue, 23 May 2017 15:51:00 +0000 (UTC)
+Received: from mail-mta-0.intern.sigma-chemnitz.de
+	(mail-mta-0.intern.sigma-chemnitz.de [192.168.12.76])
+	by mailout-1.intern.sigma-chemnitz.de (8.14.7/8.14.7) with ESMTP id
+	v4NFoxrc016428
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=OK) for <openembedded-core@lists.openembedded.org>;
+	Tue, 23 May 2017 17:51:00 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sigma-chemnitz.de;
+	s=v2012061000; t=1495554660;
+	bh=/oiVzU/SyJYwX/KPHsXS0Q4WR0kglCc34UbsOgKwAPg=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type:Sender;
+	b=eYekIkNKpjr159XvLmKh5Hark82kdLL5Ob0UNyYzODaayNxhlfWJFp8yPmKlrvkiH
+	8NhRRMJKwycAuZpJFAtJVwjRpQrUHNfD+Y25lAW2jQg2omzPA+ib5nP9eDHDK4zSxe
+	GNFLrTl+O3Zd1/q+Z2BcL9IBxGXmBYrT4w1zIcjE=
+Received: from reddoxx.intern.sigma-chemnitz.de
+	(reddoxx.intern.sigma-chemnitz.de [192.168.0.193])
+	by mail-mta-0.intern.sigma-chemnitz.de (8.14.7/8.14.7) with ESMTP id
+	v4NForWq007263 for <openembedded-core@lists.openembedded.org> from
+	enrico.scholz@sigma-chemnitz.de; Tue, 23 May 2017 17:50:53 +0200
+Received: from mail-msa-0.intern.sigma-chemnitz.de ( [192.168.12.77]) by
+	reddoxx.intern.sigma-chemnitz.de
+	(Reddoxx engine) with SMTP id 26E6EE73FC;
+	Tue, 23 May 2017 17:48:24 +0200
+Received: from ensc-virt.intern.sigma-chemnitz.de
+	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
+	by mail-msa-0.intern.sigma-chemnitz.de (8.14.7/8.14.7) with ESMTP id
+	v4NFooAC007260
+	(version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org> from
+	ensc@sigma-chemnitz.de; Tue, 23 May 2017 17:50:50 +0200
+Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
+	4.87) (envelope-from <ensc@sigma-chemnitz.de>) id 1dDC5C-0002jV-ON
+	for openembedded-core@lists.openembedded.org;
+	Tue, 23 May 2017 17:50:50 +0200
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+To: openembedded-core@lists.openembedded.org
+Mail-Followup-To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+Date: Tue, 23 May 2017 17:50:50 +0200
+Message-ID: <ly4lwbfu79.fsf@ensc-virt.intern.sigma-chemnitz.de>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/25.2 (gnu/linux)
 MIME-Version: 1.0
-Received: by 10.28.128.65 with HTTP; Tue, 23 May 2017 08:29:18 -0700 (PDT)
-In-Reply-To: <CAJTo0Lafr6dearC1uiQpumEUHA9ggAC59MhtvFWVvYi-Oc_8TQ@mail.gmail.com>
-References: <20170507013304.30165-1-JPEWhacker@gmail.com>
-	<CAJTo0Lafr6dearC1uiQpumEUHA9ggAC59MhtvFWVvYi-Oc_8TQ@mail.gmail.com>
-From: Joshua Watt <jpewhacker@gmail.com>
-Date: Tue, 23 May 2017 10:29:18 -0500
-Message-ID: <CAJdd5GZeT8h7qXfKF=XM7Q0kKoMgQSxNprqhWz7wYv_vBquzTQ@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] openssh: Atomically generate host keys
+Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+X-DSPAM-Result: Innocent
+X-DSPAM-Probability: 0
+X-DSPAM-Confidence: 0.76
+X-Spam-Score: -4.6
+X-Spam-Level: ----
+X-Spam-Tests: AWL, BAYES_00, DKIM_ADSP_ALL, RP_MATCHES_RCVD, SPF_NEUTRAL,
+	DSPAM_INNOCENT
+X-Scanned-By: MIMEDefang 2.79
+Subject: Per-recipe sysroot + BBCLASSEXTEND=cross
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,89 +66,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 May 2017 15:29:20 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 23 May 2017 15:51:02 -0000
+Content-Type: text/plain
 
-On Tue, May 23, 2017 at 9:37 AM, Burton, Ross <ross.burton@intel.com> wrote:
->
-> On 7 May 2017 at 02:33, Joshua Watt <jpewhacker@gmail.com> wrote:
->>
->> +if [ ! -f "$NAME" ]; then
->> +    echo "  generating ssh $TYPE key..."
->> +    ssh-keygen -q -f "${NAME}.tmp" -N '' -t $TYPE
->> +
->> +    # Sync to ensure data is written to temp file before renaming
->> +    sync
->> +
->> +    # Move (Atomically rename) files
->> +    # Rename the .pub file first, since the check that triggers a
->> +    # key generation is based on the private file.
->> +    mv -f "${NAME}.tmp.pub" "${NAME}.pub"
->> +    sync
->> +
->> +    mv -f "${NAME}.tmp" "${NAME}"
->> +    sync
->> +fi
->>
->
-> All of these syncs seem quite enthusiastic, are they really needed?  Writing
-> the file to a temporary name and then mving it to the real name should
-> result in either no file or a complete file in the event of power loss,
-> surely?
+Hello,
 
-My understanding (and observation) of most journal file systems is
-that only metadata (i.e. directory entries and such) are journaled in
-typical usage. The first sync is necessary in this case to ensure that
-the actual file data gets put on the disk before we rename the files,
-otherwise in the event of interruption journaled rename might get
-replayed but have garbage data. The second one is more of a "force
-operation order" sync to make sure the public file is written before
-the private one, as a reordering would cause problems. The last sync
-is the most optional, but I've seen it take minutes for disk to sync
-contents if no one calls "sync", so it is very possible that all our
-work of regenerating keys would be for naught if power is interrupted
-in the meantime.
+when having
 
-I think some of these syncs can be removed. Namely, the first and
-third one. The second one needs to be there, but can server double
-duty of syncing data to disk and enforcing the order between the
-public and private rename. It does mean we could get a state where the
-public key exists but is garbage, but this should be OK because the
-private key won't exist and it would be regenerated.
+--- test-a.bb ---
+LICENSE = "GPLv3"
+LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-3.0;md5=c79ff39f19dfec6d293b95dea7b07891"
 
-The third sync can be removed and I can put one final sync at the end
-after all keys are generated to ensure we won't go through all the
-effort of regenerating the (last) key again in the event of
-interruption shortly after, unless you would prefer I didn't.
+BBCLASSEXTEND = "cross"
 
->
->>
->> diff --git a/meta/recipes-connectivity/openssh/openssh/sshdgenkeys.service
->> b/meta/recipes-connectivity/openssh/openssh/sshdgenkeys.service
->> index 148e6ad..af56404 100644
->> --- a/meta/recipes-connectivity/openssh/openssh/sshdgenkeys.service
->> +++ b/meta/recipes-connectivity/openssh/openssh/sshdgenkeys.service
->> @@ -1,22 +1,14 @@
->>  [Unit]
->>  Description=OpenSSH Key Generation
->>  RequiresMountsFor=/var /run
->> -ConditionPathExists=!/var/run/ssh/ssh_host_rsa_key
->> -ConditionPathExists=!/var/run/ssh/ssh_host_dsa_key
->> -ConditionPathExists=!/var/run/ssh/ssh_host_ecdsa_key
->> -ConditionPathExists=!/var/run/ssh/ssh_host_ed25519_key
->> -ConditionPathExists=!/etc/ssh/ssh_host_rsa_key
->> -ConditionPathExists=!/etc/ssh/ssh_host_dsa_key
->> -ConditionPathExists=!/etc/ssh/ssh_host_ecdsa_key
->> -ConditionPathExists=!/etc/ssh/ssh_host_ed25519_key
->
->
-> Can you not continue to use ConditionPathExists to only run this unit if it
-> needs to run?  You can prepend the argument with | to make them logical OR
-> instead of logical AND, if I'm reading this documentation correctly.
+do_install_forcevariable() {
+    install -d ${D}
+    touch ${D}/foo
+}
+----
 
-I will try that. I wasn't aware that was an option since systemd conf
-files are somewhat new to me.
+and
 
->
-> Ross
+--- test-b.bb ---
+LICENSE = "GPLv3"
+LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-3.0;md5=c79ff39f19dfec6d293b95dea7b07891"
+
+DEPENDS = "test-a-cross"
+----
+
+the sysroot of 'test-b' will not contain the files from 'test-a-cross'
+because the manifest could not be found:
+
+| $ ./bitbake test-b
+| WARNING: test-b-1.0-r0 do_prepare_recipe_sysroot: Manifest ... manifest-allarch-test-a-cross.populate_sysroot not found?
+| ...
+
+The sysroot code expects to find '-cross-' in the PN, so I changed
+test-a.bb to contain
+
+---
+python () {
+    override = d.getVar("CLASSOVERRIDE", True) or ""
+    if override == "class-cross":
+        d.appendVar("PN", "-${TARGET_ARCH}")
+        d.setVar("SPECIAL_PKGSUFFIX", "-cross-${TARGET_ARCH}")
+}
+---
+
+
+Is there a better way to use BBCLASSEXTEND to build cross recipes?
+
+
+Enrico
+-- 
+SIGMA Chemnitz GmbH       Registergericht:   Amtsgericht Chemnitz HRB 1750
+Am Erlenwald 13           Geschaeftsfuehrer: Grit Freitag, Frank Pyritz
+09128 Chemnitz
+
 
