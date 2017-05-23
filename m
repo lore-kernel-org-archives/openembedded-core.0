@@ -1,29 +1,47 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id F2CF9719B7
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qt0-f180.google.com (mail-qt0-f180.google.com
+	[209.85.216.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 0A7A2606B2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 May 2017 10:00:14 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v4NA0B9o027971
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Tue, 23 May 2017 03:00:13 -0700
-Received: from [128.224.162.212] (128.224.162.212) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
-	Tue, 23 May 2017 03:00:09 -0700
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <cover.1495183828.git.kai.kang@windriver.com>
-	<d0db7f059097d0271e5808dda280140ef49aae6f.1495183828.git.kai.kang@windriver.com>
-	<CAJTo0LbxO83ka-W2znsakpTwOejgoJzmxFuehogFk5oDhZct2Q@mail.gmail.com>
-From: Kang Kai <Kai.Kang@windriver.com>
-Message-ID: <c46b6cd7-cf25-8fd6-789f-c9cfbcbf9026@windriver.com>
-Date: Tue, 23 May 2017 17:58:43 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.1.1
+	Tue, 23 May 2017 11:09:24 +0000 (UTC)
+Received: by mail-qt0-f180.google.com with SMTP id c13so124273105qtc.1
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 23 May 2017 04:09:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=hTUue1aysaLPcjtRGMB7phTJ70hWBKpnLpv33qRVkeY=;
+	b=u3TyHjibEKzhe1jA5yED0lvbPj0T9rNyEH+RMCVuln5ZJNlNdqYJeRMq0AS8gJEDS9
+	5kck/saqc2sTWW4q0Zt63PMRGrbxpSGg3hFiQcgfqugRn17iBM2yvCjHkic38JZn0Xje
+	RgKuoAdZjc61oURTkn4sgheeNbnzGvHKHw6QUM8j4K7mTy1XnHl1bkX51iWyG1712ise
+	4fTjvCygqT96rgL/8TCWg8F9xRg6/81xqyyT9kXJylmJThAwm556j0bhusmlW9V++zoT
+	CIBZmDBEwNGXNZuLEFi3Uk22W/AY7j3x+41J8bPJ1PmsiPYcHeXMM0susise4WvR+87j
+	QQCw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=hTUue1aysaLPcjtRGMB7phTJ70hWBKpnLpv33qRVkeY=;
+	b=sW/5ohRLSfKbtIDwZu3EDJWpnc+rW77lav9o23dzffqdmzZDapnNcMv3awI+q6uNQW
+	6+cWwmrbIQLW1NTGSdInOmNiGMuQ1YgFe3Qqp6XFfZ371FHT1xu6AV99WkRGex+zhiQl
+	qOvDVGOG0vpkvD/ZrFNqsTuGq5VIRXEQC4sRbBzMkrnOWpR33TP25UxcQKFs1RpS4Apv
+	T6kBDLc98/LG02RfoWySggqBS5MB7s663D13TbvllGJfhgRtSkUUTRnu3TEgeBFXD9GB
+	9yx7vnKMtEZ3cHP3Mwy7jT2cmS3jYJosyIzmJRoN7utg97fQbaexa0FmoxtIIsqVXht1
+	/WIA==
+X-Gm-Message-State: AODbwcAvup4I9w9MgYK9Rpt2qONcsPfFBTJRle6NyDkkyHeUBUF8CQf0
+	2HoHJQUUfX5VDyGB2yalNZhsDa061oQI
+X-Received: by 10.200.50.67 with SMTP id y3mr27921888qta.27.1495537765755;
+	Tue, 23 May 2017 04:09:25 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0LbxO83ka-W2znsakpTwOejgoJzmxFuehogFk5oDhZct2Q@mail.gmail.com>
+Received: by 10.140.41.115 with HTTP; Tue, 23 May 2017 04:09:05 -0700 (PDT)
+In-Reply-To: <1495509563-62240-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
+References: <1495509563-62240-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 23 May 2017 12:09:05 +0100
+Message-ID: <CAJTo0LbgS9xA+MRkHxVGy524hQhCyCGB2pBXuhxrF1j1tbWhnA@mail.gmail.com>
+To: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] bind: build with threads and update configure options
+Subject: Re: [PATCH] mesa: 17.0.4 -> 17.1.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,152 +54,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 May 2017 10:00:15 -0000
-Content-Type: multipart/alternative;
-	boundary="------------DE360297AC560BB85834B73E"
-Content-Language: en-US
+X-List-Received-Date: Tue, 23 May 2017 11:09:25 -0000
+Content-Type: multipart/alternative; boundary="001a1141047a46d18405502f0596"
 
---------------DE360297AC560BB85834B73E
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+--001a1141047a46d18405502f0596
+Content-Type: text/plain; charset="UTF-8"
 
-On 2017年05月19日 19:47, Burton, Ross wrote:
->
-> On 19 May 2017 at 09:52, <kai.kang@windriver.com 
-> <mailto:kai.kang@windriver.com>> wrote:
->
->     Build without threads for bind is inherited from legacy openembedded.
->     All libc's support proper threading on Linux now, so enable threads
->     support for bind.
->
->     It is also need to disable static library build which cause
->     package dhcp
->     fail to build after enable bind threads support.
->
->     Options devpoll and epoll are configured to choose most preferable
->     multiplex method for unix socket. The priorities are: epoll > poll >
->     select. When set '--enable-epoll', it just defines a var and include
->     header file that is available for cross compile. So use epoll for
->     bind.
->
->     Add PACKAGECONFIG 'urandom' that could use /dev/urandom as random
->     device.
->
->     Update file/directory ownerships to fix daemon start failure.
->
->
-> This is changing more than documented:
->
-> packages/corei7-64-poky-linux/bind/bind-utils: RDEPENDS: removed 
-> "libcrypto (['>= 1.0.2k'])", added "bind (['>= 9.10.3-P3'])"
+On 23 May 2017 at 04:19, Huang Qiyu <huangqy.fnst@cn.fujitsu.com> wrote:
 
-It is a problem and I am still working to figure it out.
-
-Thanks,
-Kai
-
+> 1) Upgrade mesa from 17.0.4 to 17.1.0.
 >
-> (and dhcp has the same dropping of libcrypto)
->
-> Is this intentional?
->
-> Ross
 
+"Mesa 17.1.0 is released. This is a new development release. See the
+release notes for more information about the release."
 
--- 
-Regards,
-Neil | Kai Kang
+Unless there's a good reason we don't ship development releases, so the
+latest stable release is 17.0.6.
 
+(we should fix the upgrade helper regex to exclude .1.0 releases)
 
---------------DE360297AC560BB85834B73E
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Ross
 
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  </head>
-  <body text="#000000" bgcolor="#FFFFFF">
-    <div class="moz-cite-prefix">On 2017年05月19日 19:47, Burton, Ross
-      wrote:<br>
-    </div>
-    <blockquote type="cite"
-cite="mid:CAJTo0LbxO83ka-W2znsakpTwOejgoJzmxFuehogFk5oDhZct2Q@mail.gmail.com">
-      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-      <div dir="ltr">
-        <div class="gmail_extra"><br>
-          <div class="gmail_quote">On 19 May 2017 at 09:52, <span
-              dir="ltr">&lt;<a href="mailto:kai.kang@windriver.com"
-                target="_blank" moz-do-not-send="true">kai.kang@windriver.com</a>&gt;</span>
-            wrote:<br>
-            <blockquote class="gmail_quote" style="margin:0px 0px 0px
-0.8ex;border-left-width:1px;border-left-style:solid;border-left-color:rgb(204,204,204);padding-left:1ex">
-              <div id="gmail-:2bt" class="gmail-a3s gmail-aXjCH
-                gmail-m15c1fed202a4f4a4">Build without threads for <span
-                  class="gmail-il">bind</span> is inherited from legacy
-                openembedded.<br>
-                All libc's support proper threading on Linux now, so
-                enable threads<br>
-                support for <span class="gmail-il">bind</span>.<br>
-                <br>
-                It is also need to disable static library build which
-                cause package dhcp<br>
-                fail to build after enable <span class="gmail-il">bind</span>
-                threads support.<br>
-                <br>
-                Options devpoll and epoll are configured to choose most
-                preferable<br>
-                multiplex method for unix socket. The priorities are:
-                epoll &gt; poll &gt;<br>
-                select. When set '--enable-epoll', it just defines a var
-                and include<br>
-                header file that is available for cross compile. So use
-                epoll for <span class="gmail-il">bind</span>.<br>
-                <br>
-                Add PACKAGECONFIG 'urandom' that could use /dev/urandom
-                as random device.<br>
-                <br>
-                Update file/directory ownerships to fix daemon start
-                failure.</div>
-            </blockquote>
-          </div>
-          <br>
-          This is changing more than documented:</div>
-        <div class="gmail_extra"><br>
-        </div>
-        <div class="gmail_extra">packages/corei7-64-poky-linux/bind/bind-utils:
-          RDEPENDS: removed "libcrypto (['&gt;= 1.0.2k'])", added "bind
-          (['&gt;= 9.10.3-P3'])"<br>
-        </div>
-      </div>
-    </blockquote>
-    <br>
-    It is a problem and I am still working to figure it out.<br>
-    <br>
-    Thanks,<br>
-    Kai<br>
-    <br>
-    <blockquote type="cite"
-cite="mid:CAJTo0LbxO83ka-W2znsakpTwOejgoJzmxFuehogFk5oDhZct2Q@mail.gmail.com">
-      <div dir="ltr">
-        <div class="gmail_extra"><br>
-        </div>
-        <div class="gmail_extra">(and dhcp has the same dropping of
-          libcrypto)</div>
-        <div class="gmail_extra"><br>
-        </div>
-        <div class="gmail_extra">Is this intentional?</div>
-        <div class="gmail_extra"><br>
-        </div>
-        <div class="gmail_extra">Ross</div>
-      </div>
-    </blockquote>
-    <p><br>
-    </p>
-    <pre class="moz-signature" cols="72">-- 
-Regards,
-Neil | Kai Kang</pre>
-  </body>
-</html>
+--001a1141047a46d18405502f0596
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
---------------DE360297AC560BB85834B73E--
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 23 May 2017 at 04:19, Huang Qiyu <span dir=3D"ltr">&lt;<a href=3D"mailto=
+:huangqy.fnst@cn.fujitsu.com" target=3D"_blank">huangqy.fnst@cn.fujitsu.com=
+</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin=
+:0px 0px 0px 0.8ex;border-left-width:1px;border-left-style:solid;border-lef=
+t-color:rgb(204,204,204);padding-left:1ex"><div id=3D"gmail-:187" class=3D"=
+gmail-a3s gmail-aXjCH gmail-m15c335209b3cbc46">1) Upgrade mesa from 17.0.4 =
+to 17.1.0.<br></div></blockquote></div><br></div>&quot;Mesa 17.1.0 is relea=
+sed. This is a new development release. See the release notes for more info=
+rmation about the release.&quot;<div><br></div><div>Unless there&#39;s a go=
+od reason we don&#39;t ship development releases, so the latest stable rele=
+ase is 17.0.6.</div><div><br></div><div>(we should fix the upgrade helper r=
+egex to exclude .1.0 releases)</div><div><br></div><div>Ross</div></div>
+
+--001a1141047a46d18405502f0596--
