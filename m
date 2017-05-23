@@ -1,33 +1,29 @@
-Return-Path: <prvs=0316b6c712=alan.levy@plextek.com>
-Received: from mailgate.plextek.co.uk (mailgate.plextek.co.uk [62.254.222.163])
-	by mail.openembedded.org (Postfix) with ESMTP id 3DB4A7199E
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	by mail.openembedded.org (Postfix) with ESMTP id A6A4171951
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 May 2017 12:39:27 +0000 (UTC)
-Received: from plextek-exch1.plextek.lan ([10.10.0.152]:42012)
-	by mailgate.plextek.co.uk with esmtps (TLSv1:AES256-SHA:256)
-	(Exim 4.82_1-5b7a7c0-XX) (envelope-from <alan.levy@plextek.com>)
-	id 1dD95y-0006hX-1T for openembedded-core@lists.openembedded.org;
-	Tue, 23 May 2017 13:39:26 +0100
-Received: from PLEXTEK-EXCH1.plextek.lan (10.10.0.152) by
-	PLEXTEK-EXCH1.plextek.lan (10.10.0.152) with Microsoft SMTP Server
-	(TLS) id 15.0.847.32; Tue, 23 May 2017 13:39:19 +0100
-Received: from PLEXTEK-EXCH1.plextek.lan ([fe80::64ad:692a:46f8:cc46]) by
-	PLEXTEK-EXCH1.plextek.lan ([fe80::64ad:692a:46f8:cc46%18]) with mapi id
-	15.00.0847.030; Tue, 23 May 2017 13:39:19 +0100
-From: Alan Levy <alan.levy@plextek.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core][PATCH v3] base.bbclass: improve error message for
-	missing host tools
-Thread-Index: AdLTwV+3lpUv5pJHRWOl7ntqUnR3Dw==
-Date: Tue, 23 May 2017 12:39:19 +0000
-Message-ID: <b8549a606b514fa4b41060b879cc59d0@PLEXTEK-EXCH1.plextek.lan>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.10.12.154]
+	Tue, 23 May 2017 13:12:06 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by orsmga105.jf.intel.com with ESMTP; 23 May 2017 06:12:07 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.38,382,1491289200"; d="scan'208";a="1173205692"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by fmsmga002.fm.intel.com with ESMTP; 23 May 2017 06:12:06 -0700
+To: Max Krummenacher <max.oss.09@gmail.com>,
+	openembedded-core@lists.openembedded.org
+References: <20170519154856.21505-1-max.krummenacher@toradex.com>
+	<ea81f53d-203f-183b-3a51-b0d71301b384@linux.intel.com>
+	<1495488738.2723.18.camel@gmail.com>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <8ab9f3a0-a3cf-e77d-e615-bfda3b016840@linux.intel.com>
+Date: Tue, 23 May 2017 16:10:09 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.8.0
 MIME-Version: 1.0
-Subject: [PATCH v3] base.bbclass: improve error message for missing host tools
+In-Reply-To: <1495488738.2723.18.camel@gmail.com>
+Cc: Max Krummenacher <max.krummenacher@toradex.com>
+Subject: Re: [PATCH v2] libsolv: don't pick up bundled db from host rpm
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,115 +36,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 May 2017 12:39:30 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 23 May 2017 13:12:09 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Host tools such as Subversion (svn) are not always installed or needed.
-When they were required by a recipe but not installed the resulting error
-message was not very user friendly. This patch generates a friendly error
-message without forcing the user to install the tools if they aren't
-needed.
+On 05/23/2017 12:32 AM, Max Krummenacher wrote:
+>> Sorry Max, this is actually worse than the first version. HAVE_RPM_DB_H
+>> has to accurately reflect the presence or absence of the header, as that
+>> header is later included or not included depending on that. You cannot
+>> set it based on checking some library.
+> Well, that is somewhat true.
+> The test explicitly tests that the header file is available, but then
+> implicitely assumes that when the header file is available no standalone
+> needs be linked.
+>
+> Turning that assumption to explicitly test that rpm.so provides the db
+> functionality and from that assuming that rpm/db.h is available is IMHO
+> equally right or equally incomplete testing.
 
-Signed-off-by: Alan Levy <alan.levy@plextek.com>
----
- meta/classes/base.bbclass | 16 ++++++++++++++--
- meta/conf/bitbake.conf    |  4 ++++
- meta/files/warnmissing.sh |  3 +++
- 3 files changed, 21 insertions(+), 2 deletions(-)
- create mode 100755 meta/files/warnmissing.sh
+The first version of the patch assumes that rpm in oe-core is configured 
+to use external db, and hardcodes that assumption.
 
-diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
-index 7892665..ecb6956 100644
---- a/meta/classes/base.bbclass
-+++ b/meta/classes/base.bbclass
-@@ -112,7 +112,9 @@ def get_lic_checksum_file_list(d):
-             bb.fatal(d.getVar('PN') + ": LIC_FILES_CHKSUM contains an inva=
-lid URL: " + url)
-     return " ".join(filelist)
-=20
--def setup_hosttools_dir(dest, toolsvar, d, fatal=3DTrue):
-+def setup_hosttools_dir(dest, toolsvar, d, fatal=3DTrue, optional=3DFalse)=
-:
-+    corebase =3D d.getVar('COREBASE')
-+    toolwarningscript =3D os.path.join(corebase, "meta/files/warnmissing.s=
-h")
-     tools =3D d.getVar(toolsvar).split()
-     origbbenv =3D d.getVar("BB_ORIGENV", False)
-     path =3D origbbenv.getVar("PATH")
-@@ -120,6 +122,10 @@ def setup_hosttools_dir(dest, toolsvar, d, fatal=3DTru=
-e):
-     notfound =3D []
-     for tool in tools:
-         desttool =3D os.path.join(dest, tool)
-+        if optional and os.path.islink(desttool):
-+            # For optional tools remove the symbolic link in case the host=
- package has been
-+            # installed or removed since we last ran
-+            os.remove(desttool)
-         if not os.path.exists(desttool):
-             srctool =3D bb.utils.which(path, tool, executable=3DTrue)
-             if "ccache" in srctool:
-@@ -127,7 +133,12 @@ def setup_hosttools_dir(dest, toolsvar, d, fatal=3DTru=
-e):
-             if srctool:
-                 os.symlink(srctool, desttool)
-             else:
--                notfound.append(tool)
-+                if optional:
-+                    # Optional tools don't need to be present unless they =
-are actually used by a recipe.
-+                    # Set up a symlink to a script that generates a runtim=
-e error if the tool is used
-+                    os.symlink(toolwarningscript, desttool)
-+                else:
-+                    notfound.append(tool)
-     if notfound and fatal:
-         bb.fatal("The following required tools (as specified by HOSTTOOLS)=
- appear to be unavailable in PATH, please install them in order to proceed:=
-\n  %s" % " ".join(notfound))
-=20
-@@ -234,6 +245,7 @@ python base_eventhandler() {
-         # Works with the line in layer.conf which changes PATH to point he=
-re
-         setup_hosttools_dir(d.getVar('HOSTTOOLS_DIR'), 'HOSTTOOLS', d)
-         setup_hosttools_dir(d.getVar('HOSTTOOLS_DIR'), 'HOSTTOOLS_NONFATAL=
-', d, fatal=3DFalse)
-+        setup_hosttools_dir(d.getVar('HOSTTOOLS_DIR'), 'HOSTTOOLS_OPTIONAL=
-', d, fatal=3DFalse, optional=3DTrue)
-=20
-     if isinstance(e, bb.event.BuildStarted):
-         localdata =3D bb.data.createCopy(e.data)
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 8e4f4bb..6b5a195 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -477,6 +477,10 @@ HOSTTOOLS_NONFATAL +=3D "aws ccache gcc-ar gpg ld.bfd =
-ld.gold nc sftp socat sudo"
- # Temporary add few more detected in bitbake world
- HOSTTOOLS_NONFATAL +=3D "join nl size yes zcat"
-=20
-+# Tools that can occasionally cause problems at runtime if they aren't pre=
-sent
-+# on the host.
-+HOSTTOOLS_OPTIONAL +=3D "svn cvs bzr hg"
-+
- CCACHE ??=3D ""
- # Disable ccache explicitly if CCACHE is null since gcc may be a symlink
- # of ccache some distributions (e.g., Fedora 17).
-diff --git a/meta/files/warnmissing.sh b/meta/files/warnmissing.sh
-new file mode 100755
-index 0000000..41c707d
---- /dev/null
-+++ b/meta/files/warnmissing.sh
-@@ -0,0 +1,3 @@
-+echo "The following tool (as specified by HOSTTOOLS_OPTIONAL) appears to b=
-e unavailable in PATH but is needed by one or more recipes. Please install =
-it in order to proceed:\n  `basename $0`"
-+exit 1
-+
---=20
-2.7.4
+The second version of the patch assumes that both the library and the 
+header are available at the same time. This may be true right now when 
+building with bitbake, it is certainly not true in other situations.
 
+I would rather make assumptions about oe-core content, rather than 
+bitbake behaviour.
+
+>> So please either fix CHECK_INCLUDE_FILE,
+> The reason why I didn't fix it as follows is that this would break
+> the test for the non native (target and nativesdk) case.
+>
+> +  CHECK_INCLUDE_FILE(rpm/db.h HAVE_RPM_DB_H "-nostdinc")
+>
+> For the non native case the OE rpm headers are actually stored in
+> the compiler's standard include path, so searching for rpm/db.h
+> with -nostdinc wouldn't pick up the file even if it would exist.
+
+This is not the fix I meant. You are fixing the *use* of 
+CHECK_INCLUDE_FILE, but I wanted you to fix the internal content of 
+CHECK_INCLUDE_FILE itself, so that it behaves correctly in 
+bitbake-driven environment, and does not go out to check host machine 
+include paths.
+
+It's fine if the code to be fixed is too arcane or tricky and you cannot 
+do it, then let's just revert to the first version of the patch.
+
+Alex
 
