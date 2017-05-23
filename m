@@ -1,47 +1,35 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qt0-f180.google.com (mail-qt0-f180.google.com
-	[209.85.216.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 0A7A2606B2
+Return-Path: <prvs=0316b6c712=alan.levy@plextek.com>
+X-Greylist: delayed 341 seconds by postgrey-1.34 at layers.openembedded.org;
+	Tue, 23 May 2017 11:25:59 UTC
+Received: from mailgate.plextek.co.uk (mailgate.plextek.co.uk [62.254.222.163])
+	by mail.openembedded.org (Postfix) with ESMTP id 6DCA86025F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 May 2017 11:09:24 +0000 (UTC)
-Received: by mail-qt0-f180.google.com with SMTP id c13so124273105qtc.1
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 May 2017 04:09:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=hTUue1aysaLPcjtRGMB7phTJ70hWBKpnLpv33qRVkeY=;
-	b=u3TyHjibEKzhe1jA5yED0lvbPj0T9rNyEH+RMCVuln5ZJNlNdqYJeRMq0AS8gJEDS9
-	5kck/saqc2sTWW4q0Zt63PMRGrbxpSGg3hFiQcgfqugRn17iBM2yvCjHkic38JZn0Xje
-	RgKuoAdZjc61oURTkn4sgheeNbnzGvHKHw6QUM8j4K7mTy1XnHl1bkX51iWyG1712ise
-	4fTjvCygqT96rgL/8TCWg8F9xRg6/81xqyyT9kXJylmJThAwm556j0bhusmlW9V++zoT
-	CIBZmDBEwNGXNZuLEFi3Uk22W/AY7j3x+41J8bPJ1PmsiPYcHeXMM0susise4WvR+87j
-	QQCw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=hTUue1aysaLPcjtRGMB7phTJ70hWBKpnLpv33qRVkeY=;
-	b=sW/5ohRLSfKbtIDwZu3EDJWpnc+rW77lav9o23dzffqdmzZDapnNcMv3awI+q6uNQW
-	6+cWwmrbIQLW1NTGSdInOmNiGMuQ1YgFe3Qqp6XFfZ371FHT1xu6AV99WkRGex+zhiQl
-	qOvDVGOG0vpkvD/ZrFNqsTuGq5VIRXEQC4sRbBzMkrnOWpR33TP25UxcQKFs1RpS4Apv
-	T6kBDLc98/LG02RfoWySggqBS5MB7s663D13TbvllGJfhgRtSkUUTRnu3TEgeBFXD9GB
-	9yx7vnKMtEZ3cHP3Mwy7jT2cmS3jYJosyIzmJRoN7utg97fQbaexa0FmoxtIIsqVXht1
-	/WIA==
-X-Gm-Message-State: AODbwcAvup4I9w9MgYK9Rpt2qONcsPfFBTJRle6NyDkkyHeUBUF8CQf0
-	2HoHJQUUfX5VDyGB2yalNZhsDa061oQI
-X-Received: by 10.200.50.67 with SMTP id y3mr27921888qta.27.1495537765755;
-	Tue, 23 May 2017 04:09:25 -0700 (PDT)
+	Tue, 23 May 2017 11:25:59 +0000 (UTC)
+Received: from plextek-exch1.plextek.lan ([10.10.0.152]:39165)
+	by mailgate.plextek.co.uk with esmtps (TLSv1:AES256-SHA:256)
+	(Exim 4.82_1-5b7a7c0-XX) (envelope-from <alan.levy@plextek.com>)
+	id 1dD7rL-0002Z0-1B for openembedded-core@lists.openembedded.org;
+	Tue, 23 May 2017 12:20:15 +0100
+Received: from PLEXTEK-EXCH1.plextek.lan (10.10.0.152) by
+	PLEXTEK-EXCH1.plextek.lan (10.10.0.152) with Microsoft SMTP Server
+	(TLS) id 15.0.847.32; Tue, 23 May 2017 12:20:14 +0100
+Received: from PLEXTEK-EXCH1.plextek.lan ([fe80::64ad:692a:46f8:cc46]) by
+	PLEXTEK-EXCH1.plextek.lan ([fe80::64ad:692a:46f8:cc46%18]) with mapi id
+	15.00.0847.030; Tue, 23 May 2017 12:20:08 +0100
+From: Alan Levy <alan.levy@plextek.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core][PATCH] base.bbclass: improve error message for
+	missing host tools
+Thread-Index: AdLTtnamWz8LjyXwQSCSBcG+2vQj1Q==
+Date: Tue, 23 May 2017 11:20:08 +0000
+Message-ID: <6ea4a0079ae04490aef2431f8c89d07f@PLEXTEK-EXCH1.plextek.lan>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.10.12.154]
 MIME-Version: 1.0
-Received: by 10.140.41.115 with HTTP; Tue, 23 May 2017 04:09:05 -0700 (PDT)
-In-Reply-To: <1495509563-62240-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
-References: <1495509563-62240-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 23 May 2017 12:09:05 +0100
-Message-ID: <CAJTo0LbgS9xA+MRkHxVGy524hQhCyCGB2pBXuhxrF1j1tbWhnA@mail.gmail.com>
-To: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] mesa: 17.0.4 -> 17.1.0
+Subject: [PATCH] base.bbclass: improve error message for missing host tools
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,43 +42,363 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 May 2017 11:09:25 -0000
-Content-Type: multipart/alternative; boundary="001a1141047a46d18405502f0596"
+X-List-Received-Date: Tue, 23 May 2017 11:26:00 -0000
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_6ea4a0079ae04490aef2431f8c89d07fPLEXTEKEXCH1plexteklan_"
 
---001a1141047a46d18405502f0596
-Content-Type: text/plain; charset="UTF-8"
-
-On 23 May 2017 at 04:19, Huang Qiyu <huangqy.fnst@cn.fujitsu.com> wrote:
-
-> 1) Upgrade mesa from 17.0.4 to 17.1.0.
->
-
-"Mesa 17.1.0 is released. This is a new development release. See the
-release notes for more information about the release."
-
-Unless there's a good reason we don't ship development releases, so the
-latest stable release is 17.0.6.
-
-(we should fix the upgrade helper regex to exclude .1.0 releases)
-
-Ross
-
---001a1141047a46d18405502f0596
-Content-Type: text/html; charset="UTF-8"
+--_000_6ea4a0079ae04490aef2431f8c89d07fPLEXTEKEXCH1plexteklan_
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 23 May 2017 at 04:19, Huang Qiyu <span dir=3D"ltr">&lt;<a href=3D"mailto=
-:huangqy.fnst@cn.fujitsu.com" target=3D"_blank">huangqy.fnst@cn.fujitsu.com=
-</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin=
-:0px 0px 0px 0.8ex;border-left-width:1px;border-left-style:solid;border-lef=
-t-color:rgb(204,204,204);padding-left:1ex"><div id=3D"gmail-:187" class=3D"=
-gmail-a3s gmail-aXjCH gmail-m15c335209b3cbc46">1) Upgrade mesa from 17.0.4 =
-to 17.1.0.<br></div></blockquote></div><br></div>&quot;Mesa 17.1.0 is relea=
-sed. This is a new development release. See the release notes for more info=
-rmation about the release.&quot;<div><br></div><div>Unless there&#39;s a go=
-od reason we don&#39;t ship development releases, so the latest stable rele=
-ase is 17.0.6.</div><div><br></div><div>(we should fix the upgrade helper r=
-egex to exclude .1.0 releases)</div><div><br></div><div>Ross</div></div>
+Host tools such as Subversion (svn) are not always installed or needed.
+When they were required by a recipe but not installed the resulting error
+message was not very user friendly. This patch generates a friendly error
+message without forcing the user to install the tools if they aren't
+needed.
 
---001a1141047a46d18405502f0596--
+Signed-off-by: Alan Levy <alan.levy@plextek.com>
+---
+meta/classes/base.bbclass | 16 ++++++++++++++--
+meta/conf/bitbake.conf    |  4 ++++
+meta/files/warnmissing.sh |  3 +++
+3 files changed, 21 insertions(+), 2 deletions(-)
+create mode 100755 meta/files/warnmissing.sh
+
+diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+index 7892665..ecb6956 100644
+--- a/meta/classes/base.bbclass
++++ b/meta/classes/base.bbclass
+@@ -112,7 +112,9 @@ def get_lic_checksum_file_list(d):
+             bb.fatal(d.getVar('PN') + ": LIC_FILES_CHKSUM contains an inva=
+lid URL: " + url)
+     return " ".join(filelist)
+-def setup_hosttools_dir(dest, toolsvar, d, fatal=3DTrue):
++def setup_hosttools_dir(dest, toolsvar, d, fatal=3DTrue, optional=3DFalse)=
+:
++    corebase =3D d.getVar('COREBASE')
++    toolwarningscript =3D os.path.join(corebase, "meta/files/warnmissing.s=
+h")
+     tools =3D d.getVar(toolsvar).split()
+     origbbenv =3D d.getVar("BB_ORIGENV", False)
+     path =3D origbbenv.getVar("PATH")
+@@ -120,6 +122,10 @@ def setup_hosttools_dir(dest, toolsvar, d, fatal=3DTru=
+e):
+     notfound =3D []
+     for tool in tools:
+         desttool =3D os.path.join(dest, tool)
++        if optional and os.path.islink(desttool):
++            # For optional tools remove the symbolic link in case the host=
+ package has been
++            # installed or removed since we last ran
++            os.remove(desttool)
+         if not os.path.exists(desttool):
+             srctool =3D bb.utils.which(path, tool, executable=3DTrue)
+             if "ccache" in srctool:
+@@ -127,7 +133,12 @@ def setup_hosttools_dir(dest, toolsvar, d, fatal=3DTru=
+e):
+             if srctool:
+                 os.symlink(srctool, desttool)
+             else:
+-                notfound.append(tool)
++                if optional:
++                    # Optional tools don't need to be present unless they =
+are actually used by a recipe.
++                    # Set up a symlink to a script that generates a runtim=
+e error if the tool is used
++                    os.symlink(toolwarningscript, desttool)
++                else:
++                    notfound.append(tool)
+     if notfound and fatal:
+         bb.fatal("The following required tools (as specified by HOSTTOOLS)=
+ appear to be unavailable in PATH, please install them in order to proceed:=
+\n  %s" % " ".join(notfound))
+@@ -234,6 +245,7 @@ python base_eventhandler() {
+         # Works with the line in layer.conf which changes PATH to point he=
+re
+         setup_hosttools_dir(d.getVar('HOSTTOOLS_DIR'), 'HOSTTOOLS', d)
+         setup_hosttools_dir(d.getVar('HOSTTOOLS_DIR'), 'HOSTTOOLS_NONFATAL=
+', d, fatal=3DFalse)
++        setup_hosttools_dir(d.getVar('HOSTTOOLS_DIR'), 'HOSTTOOLS_OPTIONAL=
+', d, fatal=3DFalse, optional=3DTrue)
+     if isinstance(e, bb.event.BuildStarted):
+         localdata =3D bb.data.createCopy(e.data)
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 8e4f4bb..6b5a195 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -477,6 +477,10 @@ HOSTTOOLS_NONFATAL +=3D "aws ccache gcc-ar gpg ld.bfd =
+ld.gold nc sftp socat sudo"
+# Temporary add few more detected in bitbake world
+HOSTTOOLS_NONFATAL +=3D "join nl size yes zcat"
++# Tools that can occasionally cause problems at runtime if they aren't pre=
+sent
++# on the host.
++HOSTTOOLS_OPTIONAL +=3D "svn cvs bzr hg"
++
+CCACHE ??=3D ""
+# Disable ccache explicitly if CCACHE is null since gcc may be a symlink
+# of ccache some distributions (e.g., Fedora 17).
+diff --git a/meta/files/warnmissing.sh b/meta/files/warnmissing.sh
+new file mode 100755
+index 0000000..41c707d
+--- /dev/null
++++ b/meta/files/warnmissing.sh
+@@ -0,0 +1,3 @@
++echo "The following tool (as specified by HOSTTOOLS_OPTIONAL) appears to b=
+e unavailable in PATH but is needed by one or more recipes. Please install =
+it in order to proceed:\n  `basename $0`"
++exit 1
++
+--
+2.7.4
+
+
+--_000_6ea4a0079ae04490aef2431f8c89d07fPLEXTEKEXCH1plexteklan_
+Content-Type: text/html; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
+osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
+//www.w3.org/TR/REC-html40">
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
+>
+<meta name=3D"Generator" content=3D"Microsoft Word 14 (filtered medium)">
+<style><!--
+/* Font Definitions */
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+@font-face
+	{font-family:Tahoma;
+	panose-1:2 11 6 4 3 5 4 4 2 4;}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0cm;
+	margin-bottom:.0001pt;
+	font-size:11.0pt;
+	font-family:"Calibri","sans-serif";
+	mso-fareast-language:EN-US;}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:blue;
+	text-decoration:underline;}
+a:visited, span.MsoHyperlinkFollowed
+	{mso-style-priority:99;
+	color:purple;
+	text-decoration:underline;}
+p.MsoAcetate, li.MsoAcetate, div.MsoAcetate
+	{mso-style-priority:99;
+	mso-style-link:"Balloon Text Char";
+	margin:0cm;
+	margin-bottom:.0001pt;
+	font-size:8.0pt;
+	font-family:"Tahoma","sans-serif";
+	mso-fareast-language:EN-US;}
+span.EmailStyle17
+	{mso-style-type:personal-compose;
+	font-family:"Calibri","sans-serif";
+	color:windowtext;}
+span.BalloonTextChar
+	{mso-style-name:"Balloon Text Char";
+	mso-style-priority:99;
+	mso-style-link:"Balloon Text";
+	font-family:"Tahoma","sans-serif";}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-family:"Calibri","sans-serif";
+	mso-fareast-language:EN-US;}
+@page WordSection1
+	{size:612.0pt 792.0pt;
+	margin:72.0pt 72.0pt 72.0pt 72.0pt;}
+div.WordSection1
+	{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]-->
+</head>
+<body lang=3D"EN-GB" link=3D"blue" vlink=3D"purple">
+<div class=3D"WordSection1">
+<p class=3D"MsoNormal">Host tools such as Subversion (svn) are not always i=
+nstalled or needed.<o:p></o:p></p>
+<p class=3D"MsoNormal">When they were required by a recipe but not installe=
+d the resulting error<o:p></o:p></p>
+<p class=3D"MsoNormal">message was not very user friendly. This patch gener=
+ates a friendly error<o:p></o:p></p>
+<p class=3D"MsoNormal">message without forcing the user to install the tool=
+s if they aren't<o:p></o:p></p>
+<p class=3D"MsoNormal">needed.<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">Signed-off-by: Alan Levy &lt;alan.levy@plextek.com&g=
+t;<o:p></o:p></p>
+<p class=3D"MsoNormal">---<o:p></o:p></p>
+<p class=3D"MsoNormal">meta/classes/base.bbclass | 16 &#43;&#43;&#43;&#43;&=
+#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;--<o:p></o:p></p>
+<p class=3D"MsoNormal">meta/conf/bitbake.conf&nbsp;&nbsp;&nbsp; |&nbsp; 4 &=
+#43;&#43;&#43;&#43;<o:p></o:p></p>
+<p class=3D"MsoNormal">meta/files/warnmissing.sh |&nbsp; 3 &#43;&#43;&#43;<=
+o:p></o:p></p>
+<p class=3D"MsoNormal">3 files changed, 21 insertions(&#43;), 2 deletions(-=
+)<o:p></o:p></p>
+<p class=3D"MsoNormal">create mode 100755 meta/files/warnmissing.sh<o:p></o=
+:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">diff --git a/meta/classes/base.bbclass b/meta/classe=
+s/base.bbclass<o:p></o:p></p>
+<p class=3D"MsoNormal">index 7892665..ecb6956 100644<o:p></o:p></p>
+<p class=3D"MsoNormal">--- a/meta/classes/base.bbclass<o:p></o:p></p>
+<p class=3D"MsoNormal">&#43;&#43;&#43; b/meta/classes/base.bbclass<o:p></o:=
+p></p>
+<p class=3D"MsoNormal">@@ -112,7 &#43;112,9 @@ def get_lic_checksum_file_li=
+st(d):<o:p></o:p></p>
+<p class=3D"MsoNormal">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp; bb.fatal(d.getVar('PN') &#43; &quot;: LIC_FILES_CHKSUM=
+ contains an invalid URL: &quot; &#43; url)<o:p></o:p></p>
+<p class=3D"MsoNormal">&nbsp;&nbsp;&nbsp;&nbsp; return &quot; &quot;.join(f=
+ilelist)<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p></o:p></p>
+<p class=3D"MsoNormal">-def setup_hosttools_dir(dest, toolsvar, d, fatal=3D=
+True):<o:p></o:p></p>
+<p class=3D"MsoNormal">&#43;def setup_hosttools_dir(dest, toolsvar, d, fata=
+l=3DTrue, optional=3DFalse):<o:p></o:p></p>
+<p class=3D"MsoNormal">&#43;&nbsp;&nbsp;&nbsp; corebase =3D d.getVar('COREB=
+ASE')<o:p></o:p></p>
+<p class=3D"MsoNormal">&#43;&nbsp;&nbsp;&nbsp; toolwarningscript =3D os.pat=
+h.join(corebase, &quot;meta/files/warnmissing.sh&quot;)<o:p></o:p></p>
+<p class=3D"MsoNormal">&nbsp;&nbsp;&nbsp;&nbsp; tools =3D d.getVar(toolsvar=
+).split()<o:p></o:p></p>
+<p class=3D"MsoNormal">&nbsp;&nbsp;&nbsp;&nbsp; origbbenv =3D d.getVar(&quo=
+t;BB_ORIGENV&quot;, False)<o:p></o:p></p>
+<p class=3D"MsoNormal">&nbsp;&nbsp;&nbsp;&nbsp; path =3D origbbenv.getVar(&=
+quot;PATH&quot;)<o:p></o:p></p>
+<p class=3D"MsoNormal">@@ -120,6 &#43;122,10 @@ def setup_hosttools_dir(des=
+t, toolsvar, d, fatal=3DTrue):<o:p></o:p></p>
+<p class=3D"MsoNormal">&nbsp;&nbsp;&nbsp;&nbsp; notfound =3D []<o:p></o:p><=
+/p>
+<p class=3D"MsoNormal">&nbsp;&nbsp;&nbsp;&nbsp; for tool in tools:<o:p></o:=
+p></p>
+<p class=3D"MsoNormal">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; des=
+ttool =3D os.path.join(dest, tool)<o:p></o:p></p>
+<p class=3D"MsoNormal">&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if o=
+ptional and os.path.islink(desttool):<o:p></o:p></p>
+<p class=3D"MsoNormal">&#43;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;# For optional tools remove the symbolic link in case t=
+he host package has been<o:p></o:p></p>
+<p class=3D"MsoNormal">&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp; # installed or removed since we last ran<o:p></o:p></p>
+<p class=3D"MsoNormal">&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp; os.remove(desttool)<o:p></o:p></p>
+<p class=3D"MsoNormal">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if =
+not os.path.exists(desttool):<o:p></o:p></p>
+<p class=3D"MsoNormal">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp; srctool =3D bb.utils.which(path, tool, executable=3DTr=
+ue)<o:p></o:p></p>
+<p class=3D"MsoNormal">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp; if &quot;ccache&quot; in srctool:<o:p></o:p></p>
+<p class=3D"MsoNormal">@@ -127,7 &#43;133,12 @@ def setup_hosttools_dir(des=
+t, toolsvar, d, fatal=3DTrue):<o:p></o:p></p>
+<p class=3D"MsoNormal">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp; if srctool:<o:p></o:p></p>
+<p class=3D"MsoNormal">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; os.symlink(srctool, desttool)<=
+o:p></o:p></p>
+<p class=3D"MsoNormal">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp; else:<o:p></o:p></p>
+<p class=3D"MsoNormal">-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; notfound.append(tool)<o:p></o:p></p=
+>
+<p class=3D"MsoNormal">&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if optional:<o:p></o:p></p>
+<p class=3D"MsoNormal">&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # Optio=
+nal tools don't need to be present unless they are actually used by a recip=
+e.<o:p></o:p></p>
+<p class=3D"MsoNormal">&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # Set u=
+p a symlink to a script that generates a runtime error if the tool is used<=
+o:p></o:p></p>
+<p class=3D"MsoNormal">&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; os.syml=
+ink(toolwarningscript, desttool)<o:p></o:p></p>
+<p class=3D"MsoNormal">&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; else:<o:p></o:p></p>
+<p class=3D"MsoNormal">&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; notfoun=
+d.append(tool)<o:p></o:p></p>
+<p class=3D"MsoNormal">&nbsp;&nbsp;&nbsp;&nbsp; if notfound and fatal:<o:p>=
+</o:p></p>
+<p class=3D"MsoNormal">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; bb.=
+fatal(&quot;The following required tools (as specified by HOSTTOOLS) appear=
+ to be unavailable in PATH, please install them in order to proceed:\n&nbsp=
+; %s&quot; % &quot; &quot;.join(notfound))<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p></o:p></p>
+<p class=3D"MsoNormal">@@ -234,6 &#43;245,7 @@ python base_eventhandler() {=
+<o:p></o:p></p>
+<p class=3D"MsoNormal">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # W=
+orks with the line in layer.conf which changes PATH to point here<o:p></o:p=
+></p>
+<p class=3D"MsoNormal">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; set=
+up_hosttools_dir(d.getVar('HOSTTOOLS_DIR'), 'HOSTTOOLS', d)<o:p></o:p></p>
+<p class=3D"MsoNormal">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; set=
+up_hosttools_dir(d.getVar('HOSTTOOLS_DIR'), 'HOSTTOOLS_NONFATAL', d, fatal=
+=3DFalse)<o:p></o:p></p>
+<p class=3D"MsoNormal">&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; setu=
+p_hosttools_dir(d.getVar('HOSTTOOLS_DIR'), 'HOSTTOOLS_OPTIONAL', d, fatal=
+=3DFalse, optional=3DTrue)<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p></o:p></p>
+<p class=3D"MsoNormal">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if isinstance(e, bb.ev=
+ent.BuildStarted):<o:p></o:p></p>
+<p class=3D"MsoNormal">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; loc=
+aldata =3D bb.data.createCopy(e.data)<o:p></o:p></p>
+<p class=3D"MsoNormal">diff --git a/meta/conf/bitbake.conf b/meta/conf/bitb=
+ake.conf<o:p></o:p></p>
+<p class=3D"MsoNormal">index 8e4f4bb..6b5a195 100644<o:p></o:p></p>
+<p class=3D"MsoNormal">--- a/meta/conf/bitbake.conf<o:p></o:p></p>
+<p class=3D"MsoNormal">&#43;&#43;&#43; b/meta/conf/bitbake.conf<o:p></o:p><=
+/p>
+<p class=3D"MsoNormal">@@ -477,6 &#43;477,10 @@ HOSTTOOLS_NONFATAL &#43;=3D=
+ &quot;aws ccache gcc-ar gpg ld.bfd ld.gold nc sftp socat sudo&quot;<o:p></=
+o:p></p>
+<p class=3D"MsoNormal"># Temporary add few more detected in bitbake world<o=
+:p></o:p></p>
+<p class=3D"MsoNormal">HOSTTOOLS_NONFATAL &#43;=3D &quot;join nl size yes z=
+cat&quot;<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p></o:p></p>
+<p class=3D"MsoNormal">&#43;# Tools that can occasionally cause problems at=
+ runtime if they aren't present<o:p></o:p></p>
+<p class=3D"MsoNormal">&#43;# on the host.<o:p></o:p></p>
+<p class=3D"MsoNormal">&#43;HOSTTOOLS_OPTIONAL &#43;=3D &quot;svn cvs bzr h=
+g&quot;<o:p></o:p></p>
+<p class=3D"MsoNormal">&#43;<o:p></o:p></p>
+<p class=3D"MsoNormal">CCACHE ??=3D &quot;&quot;<o:p></o:p></p>
+<p class=3D"MsoNormal"># Disable ccache explicitly if CCACHE is null since =
+gcc may be a symlink<o:p></o:p></p>
+<p class=3D"MsoNormal"># of ccache some distributions (e.g., Fedora 17).<o:=
+p></o:p></p>
+<p class=3D"MsoNormal">diff --git a/meta/files/warnmissing.sh b/meta/files/=
+warnmissing.sh<o:p></o:p></p>
+<p class=3D"MsoNormal">new file mode 100755<o:p></o:p></p>
+<p class=3D"MsoNormal">index 0000000..41c707d<o:p></o:p></p>
+<p class=3D"MsoNormal">--- /dev/null<o:p></o:p></p>
+<p class=3D"MsoNormal">&#43;&#43;&#43; b/meta/files/warnmissing.sh<o:p></o:=
+p></p>
+<p class=3D"MsoNormal">@@ -0,0 &#43;1,3 @@<o:p></o:p></p>
+<p class=3D"MsoNormal">&#43;echo &quot;The following tool (as specified by =
+HOSTTOOLS_OPTIONAL) appears to be unavailable in PATH but is needed by one =
+or more recipes. Please install it in order to proceed:\n&nbsp; `basename $=
+0`&quot;<o:p></o:p></p>
+<p class=3D"MsoNormal">&#43;exit 1<o:p></o:p></p>
+<p class=3D"MsoNormal">&#43;<o:p></o:p></p>
+<p class=3D"MsoNormal">-- <o:p></o:p></p>
+<p class=3D"MsoNormal">2.7.4<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+</div>
+</body>
+</html>
+
+--_000_6ea4a0079ae04490aef2431f8c89d07fPLEXTEKEXCH1plexteklan_--
