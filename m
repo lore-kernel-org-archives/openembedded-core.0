@@ -1,37 +1,58 @@
-Return-Path: <prvs=0316b6c712=alan.levy@plextek.com>
-Received: from mailgate.plextek.co.uk (mailgate.plextek.co.uk [62.254.222.163])
-	by mail.openembedded.org (Postfix) with ESMTP id D289E71C1F
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
+	by mail.openembedded.org (Postfix) with ESMTP id 8DE4871C1F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 May 2017 13:36:30 +0000 (UTC)
-Received: from plextek-exch1.plextek.lan ([10.10.0.152]:44111)
-	by mailgate.plextek.co.uk with esmtps (TLSv1:AES256-SHA:256)
-	(Exim 4.82_1-5b7a7c0-XX) (envelope-from <alan.levy@plextek.com>)
-	id 1dD9z3-0001hs-0s; Tue, 23 May 2017 14:36:21 +0100
-Received: from PLEXTEK-EXCH1.plextek.lan (10.10.0.152) by
-	PLEXTEK-EXCH1.plextek.lan (10.10.0.152) with Microsoft SMTP Server
-	(TLS) id 15.0.847.32; Tue, 23 May 2017 14:36:14 +0100
-Received: from PLEXTEK-EXCH1.plextek.lan ([fe80::64ad:692a:46f8:cc46]) by
-	PLEXTEK-EXCH1.plextek.lan ([fe80::64ad:692a:46f8:cc46%18]) with mapi id
-	15.00.0847.030; Tue, 23 May 2017 14:36:08 +0100
-From: Alan Levy <alan.levy@plextek.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Thread-Topic: [OE-core] FW: patchtest: failure
-Thread-Index: AQHS08ZTYUwSiXW5xkqn4l7l+1ujzqIB5SdA///y9wCAABGZcA==
-Date: Tue, 23 May 2017 13:36:07 +0000
-Message-ID: <d431db7bf5e84493b684f5c63164f73c@PLEXTEK-EXCH1.plextek.lan>
-References: <62b9d549e24c4b989a50dc565324e7e7@PLEXTEK-EXCH1.plextek.lan>
-	<CAJTo0LYzC5QfMm1zWZntwq9862_UpxdUp0zMLBz0V3OVLPqcNw@mail.gmail.com>
-	<c230f1be6916430ab80979215c6141b6@PLEXTEK-EXCH1.plextek.lan>
-	<CAJTo0LbsyDheS7wS=ByZkAvDiJFyaro44kjoOTY+LFmHh=Dn5g@mail.gmail.com>
-In-Reply-To: <CAJTo0LbsyDheS7wS=ByZkAvDiJFyaro44kjoOTY+LFmHh=Dn5g@mail.gmail.com>
-Accept-Language: en-GB, en-US
+	Tue, 23 May 2017 13:38:10 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bes.se.axis.com (Postfix) with ESMTP id 093F32E321;
+	Tue, 23 May 2017 15:38:11 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
+Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024)
+	with LMTP id RtMhjDS2sa3k; Tue, 23 May 2017 15:38:09 +0200 (CEST)
+Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
+	by bes.se.axis.com (Postfix) with ESMTPS id E11142E0D2;
+	Tue, 23 May 2017 15:38:09 +0200 (CEST)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id CA5E31A096;
+	Tue, 23 May 2017 15:38:09 +0200 (CEST)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id BE7041A095;
+	Tue, 23 May 2017 15:38:09 +0200 (CEST)
+Received: from seth.se.axis.com (unknown [10.0.2.172])
+	by boulder02.se.axis.com (Postfix) with ESMTP;
+	Tue, 23 May 2017 15:38:09 +0200 (CEST)
+Received: from XBOX01.axis.com (xbox01.axis.com [10.0.5.15])
+	by seth.se.axis.com (Postfix) with ESMTP id B289C19E2;
+	Tue, 23 May 2017 15:38:09 +0200 (CEST)
+Received: from XBOX02.axis.com (10.0.5.16) by XBOX01.axis.com (10.0.5.15) with
+	Microsoft SMTP Server (TLS) id 15.0.1210.3;
+	Tue, 23 May 2017 15:38:09 +0200
+Received: from XBOX02.axis.com ([fe80::d00f:cb52:1b56:20d]) by XBOX02.axis.com
+	([fe80::d00f:cb52:1b56:20d%21]) with mapi id 15.00.1210.000;
+	Tue, 23 May 2017 15:38:09 +0200
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Thread-Topic: [OE-core] [PATCH 0/2] Allow oe-pkgdata-util package-info to
+	display more info
+Thread-Index: AQHSzkZqp9gGxV6pNUqQQ7Dv3QS0/6H3ErOwgArjjaA=
+Date: Tue, 23 May 2017 13:38:09 +0000
+Message-ID: <d9d85ca9935b4a599378a8d877e022cf@XBOX02.axis.com>
+References: <cover.1494932131.git.pkj@axis.com>
+	<1494940489.27342.30.camel@linuxfoundation.org>
+	<2e2982504b9f46819b0c90ad11fdde7b@XBOX02.axis.com>
+In-Reply-To: <2e2982504b9f46819b0c90ad11fdde7b@XBOX02.axis.com>
+Accept-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-x-originating-ip: [10.10.12.154]
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.60]
 MIME-Version: 1.0
+X-TM-AS-GCONF: 00
 Cc: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: FW: patchtest: failure
+Subject: Re: [PATCH 0/2] Allow oe-pkgdata-util package-info to display more info
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,109 +65,95 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 May 2017 13:36:31 -0000
+X-List-Received-Date: Tue, 23 May 2017 13:38:11 -0000
 Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_d431db7bf5e84493b684f5c63164f73cPLEXTEKEXCH1plexteklan_"
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
---_000_d431db7bf5e84493b684f5c63164f73cPLEXTEKEXCH1plexteklan_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org
+> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
+> Peter Kjellerstedt
+> Sent: den 16 maj 2017 18:30
+> To: Richard Purdie <richard.purdie@linuxfoundation.org>
+> Cc: openembedded-core@lists.openembedded.org
+> Subject: Re: [OE-core] [PATCH 0/2] Allow oe-pkgdata-util package-info
+> to display more info
+>=20
+> > -----Original Message-----
+> > From: Richard Purdie [mailto:richard.purdie@linuxfoundation.org]
+> > Sent: den 16 maj 2017 15:15
+> > To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>; openembedded-
+> > core@lists.openembedded.org
+> > Subject: Re: [OE-core] [PATCH 0/2] Allow oe-pkgdata-util package-info
+> > to display more info
+> >
+> > On Tue, 2017-05-16 at 12:56 +0200, Peter Kjellerstedt wrote:
+> > > After a build in our autobuilder, we use `oe-pkgdata-util package-
+> > > info -f package.manifest` to store a file with information about=20
+> > > each installed package. This is typically used to compare builds=20
+> > > later on. Since not every difference to a package is explained by=20
+> > > its version, we have found it beneficial to also include the=20
+> > > SRC_URI in the generated file.
+> > >
+> > > This patch set adds SRC_URI to the pkgdata that is stored for each
+> > > package, and adds a new option to oe-pkgdata-util package-info,
+> > > -e <var>, that can be used to display extra variables from the
+> > > pkgdata.
+> >
+> > I'm going to say no to this.
+> >
+> > The reason is that pkgdata is not really about collecting up all
+> > build information. If you want to know how two different builds=20
+> > differ, you'd use the sigdata files. If I take this patch, more=20
+> > will follow where you find some new difference you want to track=20
+> > and there are other mechanisms I'd suggest (buildhistory and=20
+> > siginfo for starters). I don't want to turn the pkgdata files=20
+> > into something they're not.
+> >
+> > Cheers,
+> >
+> > Richard
+>=20
+> As you may have expected, that was not the response I had hoped for.
+> However, I will see if we can come to a working solution that you can
+> accept.
+>=20
+> Since I hope that the change to oe-pkgdata-util is acceptable to you,
+> I will focus on the change in package.bbclass.
+>=20
+> Regarding siginfo: I assume it has the information in there somewhere.
+> However, I have been working with OE for five years now, and it is
+> still basically a black hole to me. I have no idea how to do anything=20
+> useful with it.
+>=20
+> Regarding buildhistory: AFAICT there is nothing in there about neither
+> recipe names nor SRC_URI. I guess that can be added, though, if really
+> needed.
+>=20
+> On the other hand, we have a tool, oe-pkgdata-util, that provides a
+> simple interface to access the package information, and can produce a
+> simple information file (oe-pkgdata-util package-info) with one line
+> per package. This file is simple enough that I can give it to our
+> maintenance team and they can look at it to see if there are any
+> differences they need to know about. An additional benefit here is that
+> we can run oe-pkgdata-util from within a bitbake task to generate the
+> file together with the other artefacts we produce for a release.
+>=20
+> That said, I can understand that you do not want to add information to
+> the pkgdata that is not really needed to build. However, would you
+> accept a way to add to this data, e.g., by specifying a BitBake variable=
+=20
+> such as EXTRA_PKGDATA_VARS with the names of the extra variables that=20
+> should be stored in pkgdata? That way it would not affect anyone unless=20
+> they actually need this extra data, and I would not have the burden of
+> carrying a backported version of package.bbclass forever in our layers=20
+> with all the extra maintenance that incurs.
+>=20
+> //Peter
 
-DQoNCk9uIDIzIE1heSAyMDE3IGF0IDE0OjI0LCBBbGFuIExldnkgPGFsYW4ubGV2eUBwbGV4dGVr
-LmNvbTxtYWlsdG86YWxhbi5sZXZ5QHBsZXh0ZWsuY29tPj4gd3JvdGU6DQpUaGFua3MgZm9yIHRo
-ZSBhZHZpY2UuIFdoYXQgSSBiZWxhdGVkbHkgcmVhbGlzZWQgd2FzIHRoYXQgSSB3YXMgdXNpbmcg
-SFRNTCBmb3JtYXQgcmF0aGVyIHRoYW4gcGxhaW4gdGV4dCBhbmQgdGhhdCB3YXMgbG9zaW5nIHNv
-bWUgb2YgdGhlIGZvcm1hdHRpbmcgaW4gdGhlIHByb2Nlc3MuIEkgcmUtc2VudCBpdCBpbiBwbGFp
-biB0ZXh0IGFuZCB0aGlzIHRpbWUgaXQgaGFzbuKAmXQgYmVlbiByZWplY3RlZCAoeWV0KS4gQWxz
-bywgSSB3YXNu4oCZdCAxMDAlIGNlcnRhaW4gd2hldGhlciB0aGUgc3lzdGVtIHdvdWxkIGFjY2Vw
-dCBhIHBhdGNoIGZyb20gYW4gZW1haWwgYWRkcmVzcyB0aGF0IHdhc27igJl0IHRoZSBzYW1lIGFz
-IHRoZSBvbmUgdGhlIHBhdGNoIHdhcyBzaWduZWQgd2l0aC4gSSBjYW7igJl0IGZpbmQgYW55IGV4
-YW1wbGVzIGluIHRoZSBhcmNoaXZlIOKAkyB3b3VsZCBpdCBhY3R1YWxseSB3b3JrPw0KDQpJIGJl
-bGlldmUgaWYgeW91IHRlbGwgR01haWwgdGhhdCB5b3VyIHdvcmsgZW1haWwgaXMgYSB2YWxpZCBh
-bGlhcyBpdCB3aWxsIGxldCB5b3Ugc2VuZCBmcm9tIGl0IHRob3VnaCB0aGUgU01UUCBzZXJ2ZXIu
-DQoNClJvc3MNCg0KWWVzLCBpZiBvbmx5IG91ciBjb3Jwb3JhdGUgZmlyZXdhbGwgd291bGQgYWN0
-dWFsbHkgbGV0IFNNVFAgdGhyb3VnaDsgdGhhdCB3YXMgdGhlIG90aGVyIHByb2JsZW0g4pi5Lg0K
-DQo=
+It has been a week now. Any response would be appreciated.
 
---_000_d431db7bf5e84493b684f5c63164f73cPLEXTEKEXCH1plexteklan_
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: base64
+//Peter
 
-PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
-bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
-YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
-cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
-VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
-Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
-ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTQgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
-PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
-V2luZ2RpbmdzOw0KCXBhbm9zZS0xOjUgMCAwIDAgMCAwIDAgMCAwIDA7fQ0KQGZvbnQtZmFjZQ0K
-CXtmb250LWZhbWlseTpXaW5nZGluZ3M7DQoJcGFub3NlLTE6NSAwIDAgMCAwIDAgMCAwIDAgMDt9
-DQpAZm9udC1mYWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIg
-MiAyIDQgMyAyIDQ7fQ0KQGZvbnQtZmFjZQ0KCXtmb250LWZhbWlseTpUYWhvbWE7DQoJcGFub3Nl
-LTE6MiAxMSA2IDQgMyA1IDQgNCAyIDQ7fQ0KLyogU3R5bGUgRGVmaW5pdGlvbnMgKi8NCnAuTXNv
-Tm9ybWFsLCBsaS5Nc29Ob3JtYWwsIGRpdi5Nc29Ob3JtYWwNCgl7bWFyZ2luOjBjbTsNCgltYXJn
-aW4tYm90dG9tOi4wMDAxcHQ7DQoJZm9udC1zaXplOjEyLjBwdDsNCglmb250LWZhbWlseToiVGlt
-ZXMgTmV3IFJvbWFuIiwic2VyaWYiO30NCmE6bGluaywgc3Bhbi5Nc29IeXBlcmxpbmsNCgl7bXNv
-LXN0eWxlLXByaW9yaXR5Ojk5Ow0KCWNvbG9yOmJsdWU7DQoJdGV4dC1kZWNvcmF0aW9uOnVuZGVy
-bGluZTt9DQphOnZpc2l0ZWQsIHNwYW4uTXNvSHlwZXJsaW5rRm9sbG93ZWQNCgl7bXNvLXN0eWxl
-LXByaW9yaXR5Ojk5Ow0KCWNvbG9yOnB1cnBsZTsNCgl0ZXh0LWRlY29yYXRpb246dW5kZXJsaW5l
-O30NCnAuTXNvQWNldGF0ZSwgbGkuTXNvQWNldGF0ZSwgZGl2Lk1zb0FjZXRhdGUNCgl7bXNvLXN0
-eWxlLXByaW9yaXR5Ojk5Ow0KCW1zby1zdHlsZS1saW5rOiJCYWxsb29uIFRleHQgQ2hhciI7DQoJ
-bWFyZ2luOjBjbTsNCgltYXJnaW4tYm90dG9tOi4wMDAxcHQ7DQoJZm9udC1zaXplOjguMHB0Ow0K
-CWZvbnQtZmFtaWx5OiJUYWhvbWEiLCJzYW5zLXNlcmlmIjt9DQpzcGFuLkVtYWlsU3R5bGUxNw0K
-CXttc28tc3R5bGUtdHlwZTpwZXJzb25hbC1yZXBseTsNCglmb250LWZhbWlseToiQ2FsaWJyaSIs
-InNhbnMtc2VyaWYiOw0KCWNvbG9yOiMxRjQ5N0Q7fQ0Kc3Bhbi5CYWxsb29uVGV4dENoYXINCgl7
-bXNvLXN0eWxlLW5hbWU6IkJhbGxvb24gVGV4dCBDaGFyIjsNCgltc28tc3R5bGUtcHJpb3JpdHk6
-OTk7DQoJbXNvLXN0eWxlLWxpbms6IkJhbGxvb24gVGV4dCI7DQoJZm9udC1mYW1pbHk6IlRhaG9t
-YSIsInNhbnMtc2VyaWYiOw0KCW1zby1mYXJlYXN0LWxhbmd1YWdlOkVOLUdCO30NCi5Nc29DaHBE
-ZWZhdWx0DQoJe21zby1zdHlsZS10eXBlOmV4cG9ydC1vbmx5Ow0KCWZvbnQtZmFtaWx5OiJDYWxp
-YnJpIiwic2Fucy1zZXJpZiI7DQoJbXNvLWZhcmVhc3QtbGFuZ3VhZ2U6RU4tVVM7fQ0KQHBhZ2Ug
-V29yZFNlY3Rpb24xDQoJe3NpemU6NjEyLjBwdCA3OTIuMHB0Ow0KCW1hcmdpbjo3Mi4wcHQgNzIu
-MHB0IDcyLjBwdCA3Mi4wcHQ7fQ0KZGl2LldvcmRTZWN0aW9uMQ0KCXtwYWdlOldvcmRTZWN0aW9u
-MTt9DQotLT48L3N0eWxlPjwhLS1baWYgZ3RlIG1zbyA5XT48eG1sPg0KPG86c2hhcGVkZWZhdWx0
-cyB2OmV4dD0iZWRpdCIgc3BpZG1heD0iMTAyNiIgLz4NCjwveG1sPjwhW2VuZGlmXS0tPjwhLS1b
-aWYgZ3RlIG1zbyA5XT48eG1sPg0KPG86c2hhcGVsYXlvdXQgdjpleHQ9ImVkaXQiPg0KPG86aWRt
-YXAgdjpleHQ9ImVkaXQiIGRhdGE9IjEiIC8+DQo8L286c2hhcGVsYXlvdXQ+PC94bWw+PCFbZW5k
-aWZdLS0+DQo8L2hlYWQ+DQo8Ym9keSBsYW5nPSJFTi1HQiIgbGluaz0iYmx1ZSIgdmxpbms9InB1
-cnBsZSI+DQo8ZGl2IGNsYXNzPSJXb3JkU2VjdGlvbjEiPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+
-PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZx
-dW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7O2NvbG9yOiMxRjQ5N0QiPjxvOnA+Jm5ic3A7PC9v
-OnA+PC9zcGFuPjwvcD4NCjxkaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PG86cD4m
-bmJzcDs8L286cD48L3A+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+T24gMjMgTWF5IDIw
-MTcgYXQgMTQ6MjQsIEFsYW4gTGV2eSAmbHQ7PGEgaHJlZj0ibWFpbHRvOmFsYW4ubGV2eUBwbGV4
-dGVrLmNvbSIgdGFyZ2V0PSJfYmxhbmsiPmFsYW4ubGV2eUBwbGV4dGVrLmNvbTwvYT4mZ3Q7IHdy
-b3RlOjxvOnA+PC9vOnA+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCIgc3R5bGU9Im1zby1tYXJn
-aW4tdG9wLWFsdDphdXRvO21zby1tYXJnaW4tYm90dG9tLWFsdDphdXRvIj48c3BhbiBzdHlsZT0i
-Zm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LCZxdW90O3Nh
-bnMtc2VyaWYmcXVvdDs7Y29sb3I6IzFGNDk3RCI+VGhhbmtzIGZvciB0aGUgYWR2aWNlLiBXaGF0
-IEkgYmVsYXRlZGx5IHJlYWxpc2VkIHdhcyB0aGF0IEkgd2FzIHVzaW5nIEhUTUwgZm9ybWF0IHJh
-dGhlciB0aGFuIHBsYWluDQogdGV4dCBhbmQgdGhhdCB3YXMgbG9zaW5nIHNvbWUgb2YgdGhlIGZv
-cm1hdHRpbmcgaW4gdGhlIHByb2Nlc3MuIEkgcmUtc2VudCBpdCBpbiBwbGFpbiB0ZXh0IGFuZCB0
-aGlzIHRpbWUgaXQgaGFzbuKAmXQgYmVlbiByZWplY3RlZCAoeWV0KS4gQWxzbywgSSB3YXNu4oCZ
-dCAxMDAlIGNlcnRhaW4gd2hldGhlciB0aGUgc3lzdGVtIHdvdWxkIGFjY2VwdCBhIHBhdGNoIGZy
-b20gYW4gZW1haWwgYWRkcmVzcyB0aGF0IHdhc27igJl0IHRoZSBzYW1lIGFzIHRoZSBvbmUNCiB0
-aGUgcGF0Y2ggd2FzIHNpZ25lZCB3aXRoLiBJIGNhbuKAmXQgZmluZCBhbnkgZXhhbXBsZXMgaW4g
-dGhlIGFyY2hpdmUg4oCTIHdvdWxkIGl0IGFjdHVhbGx5IHdvcms/PC9zcGFuPjxvOnA+PC9vOnA+
-PC9wPg0KPC9kaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48YnI+DQpJIGJlbGlldmUgaWYgeW91
-IHRlbGwgR01haWwgdGhhdCB5b3VyIHdvcmsgZW1haWwgaXMgYSB2YWxpZCBhbGlhcyBpdCB3aWxs
-IGxldCB5b3Ugc2VuZCBmcm9tIGl0IHRob3VnaCB0aGUgU01UUCBzZXJ2ZXIuPG86cD48L286cD48
-L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpw
-PjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPlJvc3M8bzpwPjwvbzpw
-PjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0
-O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90Oztj
-b2xvcjojMUY0OTdEIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNv
-Tm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtD
-YWxpYnJpJnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVvdDs7Y29sb3I6IzFGNDk3RCI+WWVzLCBp
-ZiBvbmx5IG91ciBjb3Jwb3JhdGUgZmlyZXdhbGwgd291bGQgYWN0dWFsbHkgbGV0IFNNVFAgdGhy
-b3VnaDsgdGhhdCB3YXMgdGhlIG90aGVyIHByb2JsZW0NCjwvc3Bhbj48c3BhbiBzdHlsZT0iZm9u
-dC1zaXplOjExLjBwdDtmb250LWZhbWlseTpXaW5nZGluZ3M7Y29sb3I6IzFGNDk3RCI+TDwvc3Bh
-bj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJp
-JnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVvdDs7Y29sb3I6IzFGNDk3RCI+LjxvOnA+PC9vOnA+
-PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6
-MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssJnF1b3Q7c2Fucy1zZXJpZiZx
-dW90Oztjb2xvcjojMUY0OTdEIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8L2Rpdj4N
-CjwvZGl2Pg0KPC9kaXY+DQo8L2JvZHk+DQo8L2h0bWw+DQo=
 
---_000_d431db7bf5e84493b684f5c63164f73cPLEXTEKEXCH1plexteklan_--
