@@ -1,27 +1,30 @@
-Return-Path: <alejandro.hernandez@linux.intel.com>
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id 6287377E26
+Return-Path: <huangqy.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
+	by mail.openembedded.org (Postfix) with ESMTP id B3FAF7198E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 May 2017 23:08:46 +0000 (UTC)
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-	by orsmga105.jf.intel.com with ESMTP; 22 May 2017 16:08:47 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.38,379,1491289200"; 
-	d="scan'208,217";a="104137685"
-Received: from olopezca-mobl2.amr.corp.intel.com (HELO [10.252.250.88])
-	([10.252.250.88])
-	by orsmga005.jf.intel.com with ESMTP; 22 May 2017 16:08:46 -0700
-To: Khem Raj <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org
-References: <20170522222523.15978-1-alejandro.hernandez@linux.intel.com>
-	<CAMKF1soNk9DWEuiYSy_zQ=MrUSK186FAGQJOSDOu=_nfHGByqw@mail.gmail.com>
-From: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
-Message-ID: <10077e31-2f0d-2915-fa2c-38c5eadc8b87@linux.intel.com>
-Date: Mon, 22 May 2017 18:08:45 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.0
+	Tue, 23 May 2017 03:19:42 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.22,518,1449504000"; d="scan'208";a="19183454"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 23 May 2017 11:19:39 +0800
+Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
+	by cn.fujitsu.com (Postfix) with ESMTP id 9F9A447C6526
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 23 May 2017 11:19:33 +0800 (CST)
+Received: from localhost.localdomain (10.167.226.81) by
+	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.319.2; Tue, 23 May 2017 11:19:33 +0800
+From: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 23 May 2017 11:19:23 +0800
+Message-ID: <1495509563-62240-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-In-Reply-To: <CAMKF1soNk9DWEuiYSy_zQ=MrUSK186FAGQJOSDOu=_nfHGByqw@mail.gmail.com>
-Subject: Re: [PATCH] intltool: Adds gettext as a DEPENDS
+X-Originating-IP: [10.167.226.81]
+X-yoursite-MailScanner-ID: 9F9A447C6526.A6A65
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: huangqy.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [PATCH] mesa: 17.0.4 -> 17.1.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,223 +37,114 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 May 2017 23:08:48 -0000
-Content-Type: multipart/alternative;
-	boundary="------------AA8BC8FE1DF3D58CA163C897"
-Content-Language: en-US
+X-List-Received-Date: Tue, 23 May 2017 03:19:43 -0000
+Content-Type: text/plain
 
---------------AA8BC8FE1DF3D58CA163C897
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+1) Upgrade mesa from 17.0.4 to 17.1.0.
+2) Modify one patch "0001-Use-wayland-scanner-in-the-path.patch", since the data has been changed.
+3) License checksum changed,since the URL were changed. 
 
-Hey Khem,
+Signed-off-by: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
+---
+ .../files/0001-Use-wayland-scanner-in-the-path.patch | 20 +++++++++++---------
+ .../mesa/{mesa-gl_17.0.4.bb => mesa-gl_17.1.0.bb}    |  0
+ meta/recipes-graphics/mesa/mesa.inc                  |  2 +-
+ .../mesa/{mesa_17.0.4.bb => mesa_17.1.0.bb}          |  4 ++--
+ 4 files changed, 14 insertions(+), 12 deletions(-)
+ rename meta/recipes-graphics/mesa/{mesa-gl_17.0.4.bb => mesa-gl_17.1.0.bb} (100%)
+ rename meta/recipes-graphics/mesa/{mesa_17.0.4.bb => mesa_17.1.0.bb} (83%)
+
+diff --git a/meta/recipes-graphics/mesa/files/0001-Use-wayland-scanner-in-the-path.patch b/meta/recipes-graphics/mesa/files/0001-Use-wayland-scanner-in-the-path.patch
+index e49695b..9295baf 100644
+--- a/meta/recipes-graphics/mesa/files/0001-Use-wayland-scanner-in-the-path.patch
++++ b/meta/recipes-graphics/mesa/files/0001-Use-wayland-scanner-in-the-path.patch
+@@ -1,37 +1,39 @@
+-From 2f68fcaaf4964e7feeb383f5c26851965cda037c Mon Sep 17 00:00:00 2001
+-From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+-Date: Tue, 15 Nov 2016 15:20:49 +0200
++From 82976409cc85537a490444532ff4302d6dc01f73 Mon Sep 17 00:00:00 2001
++From: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
++Date: Thu, 18 May 2017 02:25:02 +0900
+ Subject: [PATCH] Simplify wayland-scanner lookup
+ 
+-Don't use pkg-config to lookup the path of a binary that's in the path.
++Don't use pkg-config to lookup the path of a binary that's in
++ the path.
+ 
+ Alternatively we'd have to prefix the path returned by pkg-config with
+ PKG_CONFIG_SYSROOT_DIR.
+ 
+ Upstream-Status: Pending
+ Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
++Signed-off-by: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
+ ---
+  configure.ac | 7 +------
+  1 file changed, 1 insertion(+), 6 deletions(-)
+ 
+ diff --git a/configure.ac b/configure.ac
+-index e56e35a..a92005a 100644
++index 0454070..78255c1 100644
+ --- a/configure.ac
+ +++ b/configure.ac
+-@@ -2020,12 +2020,7 @@ if test "x$with_egl_platforms" != "x" -a "x$enable_egl" != xyes; then
+-     AC_MSG_ERROR([cannot build egl state tracker without EGL library])
++@@ -2179,12 +2179,7 @@ if test "x$with_platforms" != xauto; then
++     with_egl_platforms=$with_platforms
+  fi
+  
+ -PKG_CHECK_MODULES([WAYLAND_SCANNER], [wayland-scanner],
+ -        WAYLAND_SCANNER=`$PKG_CONFIG --variable=wayland_scanner wayland-scanner`,
+ -        WAYLAND_SCANNER='')
+ -if test "x$WAYLAND_SCANNER" = x; then
+--    AC_PATH_PROG([WAYLAND_SCANNER], [wayland-scanner])
++-    AC_PATH_PROG([WAYLAND_SCANNER], [wayland-scanner], [:])
+ -fi
+ +AC_PATH_PROG([WAYLAND_SCANNER], [wayland-scanner])
+  
+  # Do per-EGL platform setups and checks
+  egl_platforms=`IFS=', '; echo $with_egl_platforms`
+ -- 
+-2.1.4
++2.7.4
+ 
+diff --git a/meta/recipes-graphics/mesa/mesa-gl_17.0.4.bb b/meta/recipes-graphics/mesa/mesa-gl_17.1.0.bb
+similarity index 100%
+rename from meta/recipes-graphics/mesa/mesa-gl_17.0.4.bb
+rename to meta/recipes-graphics/mesa/mesa-gl_17.1.0.bb
+diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
+index 0348bb2..b9fbc4b 100644
+--- a/meta/recipes-graphics/mesa/mesa.inc
++++ b/meta/recipes-graphics/mesa/mesa.inc
+@@ -10,7 +10,7 @@ HOMEPAGE = "http://mesa3d.org"
+ BUGTRACKER = "https://bugs.freedesktop.org"
+ SECTION = "x11"
+ LICENSE = "MIT"
+-LIC_FILES_CHKSUM = "file://docs/license.html;md5=899fbe7e42d494c7c8c159c7001693d5"
++LIC_FILES_CHKSUM = "file://docs/license.html;md5=725f991a1cc322aa7a0cd3a2016621c4"
+ 
+ PE = "2"
+ 
+diff --git a/meta/recipes-graphics/mesa/mesa_17.0.4.bb b/meta/recipes-graphics/mesa/mesa_17.1.0.bb
+similarity index 83%
+rename from meta/recipes-graphics/mesa/mesa_17.0.4.bb
+rename to meta/recipes-graphics/mesa/mesa_17.1.0.bb
+index 396076d..8dded79 100644
+--- a/meta/recipes-graphics/mesa/mesa_17.0.4.bb
++++ b/meta/recipes-graphics/mesa/mesa_17.1.0.bb
+@@ -6,8 +6,8 @@ SRC_URI = "ftp://ftp.freedesktop.org/pub/mesa/mesa-${PV}.tar.xz \
+            file://0001-Use-wayland-scanner-in-the-path.patch \
+ "
+ 
+-SRC_URI[md5sum] = "4a16cfc1c6d034cc17314b866eada628"
+-SRC_URI[sha256sum] = "1269dc8545a193932a0779b2db5bce9be4a5f6813b98c38b93b372be8362a346"
++SRC_URI[md5sum] = "ab1c7d44df6afd5d35286de57f762a74"
++SRC_URI[sha256sum] = "cf234a6ed4764673886b6661553b54675776ef0898f774716173cec890ac3b17"
+ 
+ #because we cannot rely on the fact that all apps will use pkgconfig,
+ #make eglplatform.h independent of MESA_EGL_NO_X11_HEADER
+-- 
+2.7.4
 
 
-On 05/22/2017 05:41 PM, Khem Raj wrote:
->
-> On Mon, May 22, 2017 at 3:25 PM Alejandro Hernandez 
-> <alejandro.hernandez@linux.intel.com 
-> <mailto:alejandro.hernandez@linux.intel.com>> wrote:
->
->     When setting USE_NLS="no" and building systemd-boot
->     (which DEPENDS on intltool), configure fails,
->     complaining about missing gettext:
->
->     configure: error: GNU gettext tools not found; required for intltool
->
->     This is caused because USE_NLS="no" makes the gettext class
->     add gettext-minimal-native to BASEDEPENDS instead of adding
->     gettext-native.
->
->     Since we still would like to set USE_NLS="no" and build systemd-boot,
->     we add gettext-native as a dependency to intltool-native, which
->     makes it
->     available for the configure script of systemd-boot fixing the problem.
->
->     [YOCTO #11562]
->
->     Signed-off-by: Alejandro Hernandez
->     <alejandro.hernandez@linux.intel.com
->     <mailto:alejandro.hernandez@linux.intel.com>>
->     ---
->      meta/recipes-devtools/intltool/intltool_0.51.0.bb
->     <http://intltool_0.51.0.bb> | 2 +-
->      1 file changed, 1 insertion(+), 1 deletion(-)
->
->     diff --git a/meta/recipes-devtools/intltool/intltool_0.51.0.bb
->     <http://intltool_0.51.0.bb>
->     b/meta/recipes-devtools/intltool/intltool_0.51.0.bb
->     <http://intltool_0.51.0.bb>
->     index 551bdf0619a..ecff2faf253 100644
->     --- a/meta/recipes-devtools/intltool/intltool_0.51.0.bb
->     <http://intltool_0.51.0.bb>
->     +++ b/meta/recipes-devtools/intltool/intltool_0.51.0.bb
->     <http://intltool_0.51.0.bb>
->     @@ -16,7 +16,7 @@ UPSTREAM_CHECK_URI =
->     "https://launchpad.net/intltool/trunk/"
->
->      DEPENDS = "libxml-parser-perl-native"
->      RDEPENDS_${PN} = "gettext-dev libxml-parser-perl"
->     -DEPENDS_class-native = "libxml-parser-perl-native"
->     +DEPENDS_class-native = "libxml-parser-perl-native gettext-native"
->
->
-> This will serialise the build I think it better to add the dep only 
-> when NLS is down disabled
-I thought about doing so but I couldn't think of a clean way of doing it.
-
-I can't get rid of it on the gettext.bbclass since it would mess up the 
-work on b090fde5c184
 
 
-What I can do, is set gettext-native as a DEPENDS to systemd-boot which 
-is the one that is actually
-complaining, this way we would keep returning gettext-minimal-native 
-when USE_NLS="no", but we would
-also fix the issue, what do you think?
-
-
->
->
->      inherit autotools pkgconfig perlnative
->
->     --
->     2.12.0
->
->     --
->     _______________________________________________
->     Openembedded-core mailing list
->     Openembedded-core@lists.openembedded.org
->     <mailto:Openembedded-core@lists.openembedded.org>
->     http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
-
-
---------------AA8BC8FE1DF3D58CA163C897
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  </head>
-  <body text="#000000" bgcolor="#FFFFFF">
-    <p>Hey Khem,<br>
-    </p>
-    <br>
-    <div class="moz-cite-prefix">On 05/22/2017 05:41 PM, Khem Raj wrote:<br>
-    </div>
-    <blockquote type="cite"
-cite="mid:CAMKF1soNk9DWEuiYSy_zQ=MrUSK186FAGQJOSDOu=_nfHGByqw@mail.gmail.com">
-      <div><br>
-        <div class="gmail_quote">
-          <div>On Mon, May 22, 2017 at 3:25 PM Alejandro Hernandez &lt;<a
-              href="mailto:alejandro.hernandez@linux.intel.com"
-              moz-do-not-send="true">alejandro.hernandez@linux.intel.com</a>&gt;
-            wrote:<br>
-          </div>
-          <blockquote class="gmail_quote" style="margin:0 0 0
-            .8ex;border-left:1px #ccc solid;padding-left:1ex">When
-            setting USE_NLS="no" and building systemd-boot<br>
-            (which DEPENDS on intltool), configure fails,<br>
-            complaining about missing gettext:<br>
-            <br>
-            configure: error: GNU gettext tools not found; required for
-            intltool<br>
-            <br>
-            This is caused because USE_NLS="no" makes the gettext class<br>
-            add gettext-minimal-native to BASEDEPENDS instead of adding<br>
-            gettext-native.<br>
-            <br>
-            Since we still would like to set USE_NLS="no" and build
-            systemd-boot,<br>
-            we add gettext-native as a dependency to intltool-native,
-            which makes it<br>
-            available for the configure script of systemd-boot fixing
-            the problem.<br>
-            <br>
-            [YOCTO #11562]<br>
-            <br>
-            Signed-off-by: Alejandro Hernandez &lt;<a
-              href="mailto:alejandro.hernandez@linux.intel.com"
-              target="_blank" moz-do-not-send="true">alejandro.hernandez@linux.intel.com</a>&gt;<br>
-            ---<br>
-             meta/recipes-devtools/intltool/<a
-              href="http://intltool_0.51.0.bb" rel="noreferrer"
-              target="_blank" moz-do-not-send="true">intltool_0.51.0.bb</a>
-            | 2 +-<br>
-             1 file changed, 1 insertion(+), 1 deletion(-)<br>
-            <br>
-            diff --git a/meta/recipes-devtools/intltool/<a
-              href="http://intltool_0.51.0.bb" rel="noreferrer"
-              target="_blank" moz-do-not-send="true">intltool_0.51.0.bb</a>
-            b/meta/recipes-devtools/intltool/<a
-              href="http://intltool_0.51.0.bb" rel="noreferrer"
-              target="_blank" moz-do-not-send="true">intltool_0.51.0.bb</a><br>
-            index 551bdf0619a..ecff2faf253 100644<br>
-            --- a/meta/recipes-devtools/intltool/<a
-              href="http://intltool_0.51.0.bb" rel="noreferrer"
-              target="_blank" moz-do-not-send="true">intltool_0.51.0.bb</a><br>
-            +++ b/meta/recipes-devtools/intltool/<a
-              href="http://intltool_0.51.0.bb" rel="noreferrer"
-              target="_blank" moz-do-not-send="true">intltool_0.51.0.bb</a><br>
-            @@ -16,7 +16,7 @@ UPSTREAM_CHECK_URI = "<a
-              href="https://launchpad.net/intltool/trunk/"
-              rel="noreferrer" target="_blank" moz-do-not-send="true">https://launchpad.net/intltool/trunk/</a>"<br>
-            <br>
-             DEPENDS = "libxml-parser-perl-native"<br>
-             RDEPENDS_${PN} = "gettext-dev libxml-parser-perl"<br>
-            -DEPENDS_class-native = "libxml-parser-perl-native"<br>
-            +DEPENDS_class-native = "libxml-parser-perl-native
-            gettext-native"</blockquote>
-          <div><br>
-          </div>
-          <div>This will serialise the build I think it better to add
-            the dep only when NLS is down disabled <br>
-          </div>
-        </div>
-      </div>
-    </blockquote>
-    I thought about doing so but I couldn't think of a clean way of
-    doing it.<br>
-    <br>
-    I can't get rid of it on the gettext.bbclass since it would mess up
-    the work on b090fde5c184<br>
-    <br>
-    <br>
-    What I can do, is set gettext-native as a DEPENDS to systemd-boot
-    which is the one that is actually<br>
-    complaining, this way we would keep returning gettext-minimal-native
-    when USE_NLS="no", but we would <br>
-    also fix the issue, what do you think?<br>
-    <br>
-    <br>
-    <blockquote type="cite"
-cite="mid:CAMKF1soNk9DWEuiYSy_zQ=MrUSK186FAGQJOSDOu=_nfHGByqw@mail.gmail.com">
-      <div>
-        <div class="gmail_quote">
-          <blockquote class="gmail_quote" style="margin:0 0 0
-            .8ex;border-left:1px #ccc solid;padding-left:1ex"><br>
-            <br>
-             inherit autotools pkgconfig perlnative<br>
-            <br>
-            --<br>
-            2.12.0<br>
-            <br>
-            --<br>
-            _______________________________________________<br>
-            Openembedded-core mailing list<br>
-            <a href="mailto:Openembedded-core@lists.openembedded.org"
-              target="_blank" moz-do-not-send="true">Openembedded-core@lists.openembedded.org</a><br>
-            <a
-              href="http://lists.openembedded.org/mailman/listinfo/openembedded-core"
-              rel="noreferrer" target="_blank" moz-do-not-send="true">http://lists.openembedded.org/mailman/listinfo/openembedded-core</a><br>
-          </blockquote>
-        </div>
-      </div>
-    </blockquote>
-    <br>
-  </body>
-</html>
-
---------------AA8BC8FE1DF3D58CA163C897--
