@@ -1,36 +1,24 @@
-Return-Path: <fan.xin@jp.fujitsu.com>
-X-Greylist: delayed 681 seconds by postgrey-1.34 at layers.openembedded.org;
-	Wed, 24 May 2017 02:39:42 UTC
-Received: from mgwkm04.jp.fujitsu.com (mgwkm04.jp.fujitsu.com [202.219.69.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 044D277F50
+Return-Path: <Yuanjie.Huang@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 8FE1F77E68
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 May 2017 02:39:42 +0000 (UTC)
-Received: from kw-mxoi2.gw.nic.fujitsu.com (unknown [192.168.231.133]) by
-	mgwkm04.jp.fujitsu.com with smtp
-	id 0f11_308f_a43e71db_91bf_4f5d_a79b_7c7a5e141d21;
-	Wed, 24 May 2017 11:28:20 +0900
-Received: from g01jpfmpwkw01.exch.g01.fujitsu.local
-	(g01jpfmpwkw01.exch.g01.fujitsu.local [10.0.193.38])
-	by kw-mxoi2.gw.nic.fujitsu.com (Postfix) with ESMTP id DD305AC00E9
+	Wed, 24 May 2017 02:45:30 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v4O2jUNp020145
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 May 2017 11:28:19 +0900 (JST)
-Received: from g01jpexchkw33.g01.fujitsu.local (unknown [10.0.193.4])
-	by g01jpfmpwkw01.exch.g01.fujitsu.local (Postfix) with ESMTP id
-	DD2236923FB for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 May 2017 11:28:18 +0900 (JST)
-Received: from localhost.localdomain (10.24.19.99) by
-	g01jpexchkw33.g01.fujitsu.local (10.0.193.36) with Microsoft SMTP
-	Server id 14.3.266.1; Wed, 24 May 2017 11:28:18 +0900
-From: Fan Xin <fan.xin@jp.fujitsu.com>
+	Tue, 23 May 2017 19:45:31 -0700
+Received: from ala-lpd-susbld2.wrs.com (147.11.105.122) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.294.0; Tue, 23 May 2017 19:45:30 -0700
+From: Yuanjie Huang <yuanjie.huang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 24 May 2017 11:29:31 +0900
-Message-ID: <1495592971-29272-1-git-send-email-fan.xin@jp.fujitsu.com>
-X-Mailer: git-send-email 1.9.1
+Date: Tue, 23 May 2017 19:45:29 -0700
+Message-ID: <20170524024529.275871-1-yuanjie.huang@windriver.com>
+X-Mailer: git-send-email 2.11.0
 MIME-Version: 1.0
-X-SecurityPolicyCheck-GC: OK by FENCE-Mail
-X-Encrypted: FENCE-Mail/3.1.1
-X-TM-AS-MML: disable
-Subject: [PATCH] binutils: Fix CVE-2017-8392
+Subject: [PATCH] binutils: fix CVE-2017-6969 in readelf
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,161 +31,229 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 May 2017 02:39:44 -0000
+X-List-Received-Date: Wed, 24 May 2017 02:45:30 -0000
 Content-Type: text/plain
 
-Backport upsream commit to fix CVE-2017-8392
+CVE: CVE-2017-8392
+[BZ 21156] -- https://sourceware.org/bugzilla/show_bug.cgi?id=21156
 
-CVE:CVE-2017-8392
-[BZ 21409] -- https://sourceware.org/bugzilla/show_bug.cgi?id=21409
+PR binutils/21156: Fix illegal memory accesses in readelf when parsing a corrupt binary.
+PR binutils/21156: Fix another memory access error in readelf when parsing a corrupt binary.
 
-	PR 21409, segfault in _bfd_dwarf2_find_nearest_line
-
-	PR 21409
-	* dwarf2.c (_bfd_dwarf2_find_nearest_line): Don't segfault when
-	no symbols.
-
-Signed-off-by: Fan Xin <fan.xin@jp.fujitsu.com>
+Signed-off-by: Yuanjie Huang <yuanjie.huang@windriver.com>
 ---
- meta/recipes-devtools/binutils/binutils-2.28.inc   |  2 +
- ...-lookup-of-file-line-information-for-erro.patch | 74 ++++++++++++++++++++++
- ...segfault-in-_bfd_dwarf2_find_nearest_line.patch | 32 ++++++++++
- 3 files changed, 108 insertions(+)
- create mode 100644 meta/recipes-devtools/binutils/binutils/0017-bfd-Improve-lookup-of-file-line-information-for-erro.patch
- create mode 100644 meta/recipes-devtools/binutils/binutils/0018-PR-21409-segfault-in-_bfd_dwarf2_find_nearest_line.patch
+ meta/recipes-devtools/binutils/binutils-2.28.inc   |   2 +
+ .../binutils/binutils/CVE-2017-6969.patch          |  57 ++++++++++
+ .../binutils/binutils/CVE-2017-6969_2.patch        | 122 +++++++++++++++++++++
+ 3 files changed, 181 insertions(+)
+ create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2017-6969.patch
+ create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2017-6969_2.patch
 
 diff --git a/meta/recipes-devtools/binutils/binutils-2.28.inc b/meta/recipes-devtools/binutils/binutils-2.28.inc
-index 7585da1..5492505 100644
+index 7585da1ca9..fd37484dca 100644
 --- a/meta/recipes-devtools/binutils/binutils-2.28.inc
 +++ b/meta/recipes-devtools/binutils/binutils-2.28.inc
 @@ -37,6 +37,8 @@ SRC_URI = "\
       file://0016-Detect-64-bit-MIPS-targets.patch \
       file://CVE-2017-6965.patch \
       file://CVE-2017-6966.patch \
-+     file://0017-bfd-Improve-lookup-of-file-line-information-for-erro.patch \
-+     file://0018-PR-21409-segfault-in-_bfd_dwarf2_find_nearest_line.patch \
++     file://CVE-2017-6969.patch \
++     file://CVE-2017-6969_2.patch \
  "
  S  = "${WORKDIR}/git"
  
-diff --git a/meta/recipes-devtools/binutils/binutils/0017-bfd-Improve-lookup-of-file-line-information-for-erro.patch b/meta/recipes-devtools/binutils/binutils/0017-bfd-Improve-lookup-of-file-line-information-for-erro.patch
+diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2017-6969.patch b/meta/recipes-devtools/binutils/binutils/CVE-2017-6969.patch
 new file mode 100644
-index 0000000..0716623
+index 0000000000..ed5403430c
 --- /dev/null
-+++ b/meta/recipes-devtools/binutils/binutils/0017-bfd-Improve-lookup-of-file-line-information-for-erro.patch
-@@ -0,0 +1,74 @@
-+From 3239a4231ff79bf8b67b8faaf414b1667486167c Mon Sep 17 00:00:00 2001
-+From: Andrew Burgess <andrew.burgess@embecosm.com>
-+Date: Mon, 19 Dec 2016 15:27:59 +0000
-+Subject: [PATCH] bfd: Improve lookup of file / line information for errors
++++ b/meta/recipes-devtools/binutils/binutils/CVE-2017-6969.patch
+@@ -0,0 +1,57 @@
++From 1d9a2696903fc59d6a936f4ab4e4407ef329d066 Mon Sep 17 00:00:00 2001
++From: Nick Clifton <nickc@redhat.com>
++Date: Fri, 17 Feb 2017 15:59:45 +0000
++Subject: Fix illegal memory accesses in readelf when parsing
++ a corrupt binary.
 +
-+When looking up file and line information (used from the linker to
-+report error messages) if no symbol is passed in, then use the symbol
-+list to look for a matching symbol.
++	PR binutils/21156
++	* readelf.c (find_section_in_set): Test for invalid section
++	indicies.
 +
-+If a matching symbol is found then use this to look up the file / line
-+information.
++CVE: CVE-2017-6969
++Upstream-Status: Backport [master]
 +
-+This should improve errors when looking up file / line information for
-+data sections.  Hopefully we should find a matching data symbol, which
-+should, in turn (we hope) match a DW_TAG_variable in the DWARF, this
-+should allow us to give accurate file / line errors for data symbols.
-+
-+As the hope is to find a matching DW_TAG_variable in the DWARF then we
-+ignore section symbols, and prefer global symbols to locals.
-+
-+Upstream-Status: Submitted
-+
-+Signed-off-by: Fan Xin <fan.xin@jp.fujitsu.com>
++Signed-off-by: Yuanjie Huang <yuanjie.huang@windriver.com>
 +---
-+ bfd/dwarf2.c                   | 32 ++++++++++++++++++++++++++++++++
-+ 1 files changed, 32 insertions(+)
++ binutils/ChangeLog |  6 ++++++
++ binutils/readelf.c | 10 ++++++++--
++ 2 files changed, 14 insertions(+), 2 deletions(-)
 +
-+
-+diff --git a/bfd/dwarf2.c b/bfd/dwarf2.c
-+index 03447a9..9bb8126 100644
-+--- a/bfd/dwarf2.c
-++++ b/bfd/dwarf2.c
-+@@ -4155,6 +4155,38 @@ _bfd_dwarf2_find_nearest_line (bfd *abfd,
++diff --git a/binutils/ChangeLog b/binutils/ChangeLog
++index bd63c8a0d8..1d840b42f9 100644
++--- a/binutils/ChangeLog
+++++ b/binutils/ChangeLog
++@@ -1,3 +1,9 @@
+++2017-02-17  Nick Clifton  <nickc@redhat.com>
+++
+++	PR binutils/21156
+++	* readelf.c (find_section_in_set): Test for invalid section
+++	indicies.
+++
++ 2017-02-13  Nick Clifton  <nickc@redhat.com>
++ 
++ 	PR binutils/21139
++diff --git a/binutils/readelf.c b/binutils/readelf.c
++index 7c158c6342..4960491c5c 100644
++--- a/binutils/readelf.c
+++++ b/binutils/readelf.c
++@@ -675,8 +675,14 @@ find_section_in_set (const char * name, unsigned int * set)
++   if (set != NULL)
 +     {
-+       BFD_ASSERT (section != NULL && functionname_ptr != NULL);
-+       addr = offset;
-++
-++      /* If we have no SYMBOL but the section we're looking at is not a
-++         code section, then take a look through the list of symbols to see
-++         if we have a symbol at the address we're looking for.  If we do
-++         then use this to look up line information.  This will allow us to
-++         give file and line results for data symbols.  We exclude code
-++         symbols here, if we look up a function symbol and then look up the
-++         line information we'll actually return the line number for the
-++         opening '{' rather than the function definition line.  This is
-++         because looking up by symbol uses the line table, in which the
-++         first line for a function is usually the opening '{', while
-++         looking up the function by section + offset uses the
-++         DW_AT_decl_line from the function DW_TAG_subprogram for the line,
-++         which will be the line of the function name.  */
-++      if ((section->flags & SEC_CODE) == 0)
++       while ((i = *set++) > 0)
++-	if (streq (SECTION_NAME (section_headers + i), name))
++-	  return section_headers + i;
 ++	{
-++	  asymbol **tmp;
+++	  /* See PR 21156 for a reproducer.  */
+++	  if (i >= elf_header.e_shnum)
+++	    continue; /* FIXME: Should we issue an error message ?  */
 ++
-++	  for (tmp = symbols; (*tmp) != NULL; ++tmp)
-++	    if ((*tmp)->the_bfd == abfd
-++		&& (*tmp)->section == section
-++		&& (*tmp)->value == offset
-++		&& ((*tmp)->flags & BSF_SECTION_SYM) == 0)
-++	      {
-++		symbol = *tmp;
-++		do_line = TRUE;
-++                /* For local symbols, keep going in the hope we find a
-++                   global.  */
-++                if ((symbol->flags & BSF_GLOBAL) != 0)
-++                  break;
-++	      }
+++	  if (streq (SECTION_NAME (section_headers + i), name))
+++	    return section_headers + i;
 ++	}
 +     }
 + 
-+   if (section->output_section)
++   return find_section (name);
 +-- 
-+1.9.1
++2.11.0
 +
-diff --git a/meta/recipes-devtools/binutils/binutils/0018-PR-21409-segfault-in-_bfd_dwarf2_find_nearest_line.patch b/meta/recipes-devtools/binutils/binutils/0018-PR-21409-segfault-in-_bfd_dwarf2_find_nearest_line.patch
+diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2017-6969_2.patch b/meta/recipes-devtools/binutils/binutils/CVE-2017-6969_2.patch
 new file mode 100644
-index 0000000..c9103e0
+index 0000000000..59a5dec675
 --- /dev/null
-+++ b/meta/recipes-devtools/binutils/binutils/0018-PR-21409-segfault-in-_bfd_dwarf2_find_nearest_line.patch
-@@ -0,0 +1,32 @@
-+From 97e83a100aa8250be783304bfe0429761c6e6b6b Mon Sep 17 00:00:00 2001
-+From: Alan Modra <amodra@gmail.com>
-+Date: Sun, 23 Apr 2017 13:55:49 +0930
-+Subject: [PATCH] PR 21409, segfault in _bfd_dwarf2_find_nearest_line
++++ b/meta/recipes-devtools/binutils/binutils/CVE-2017-6969_2.patch
+@@ -0,0 +1,122 @@
++From ef81126314f67472a46db9581530fbf5ccb6b3f2 Mon Sep 17 00:00:00 2001
++From: Nick Clifton <nickc@redhat.com>
++Date: Mon, 20 Feb 2017 14:40:39 +0000
++Subject: Fix another memory access error in readelf when
++ parsing a corrupt binary.
 +
-+	PR 21409
-+	* dwarf2.c (_bfd_dwarf2_find_nearest_line): Don't segfault when
-+	no symbols.
++	PR binutils/21156
++	* dwarf.c (cu_tu_indexes_read): Move into...
++	(load_cu_tu_indexes): ... here.  Change the variable into
++	tri-state.  Change the function into boolean, returning
++	false if the indicies could not be loaded.
++	(find_cu_tu_set): Return NULL if the indicies could not be
++	loaded.
 +
-+Upstream-Status: Submitted
++CVE: CVE-2017-6969
++Upstream-Status: Backport [master]
 +
-+Signed-off-by: Fan Xin <fan.xin@jp.fujitsu.com>
++Signed-off-by: Yuanjie Huang <yuanjie.huang@windriver.com>
 +---
-+ bfd/dwarf2.c  | 2 +-
-+ 1 files changed, 1 insertions(+), 1 deletion(-)
++ binutils/ChangeLog | 10 ++++++++++
++ binutils/dwarf.c   | 34 ++++++++++++++++++++--------------
++ 2 files changed, 30 insertions(+), 14 deletions(-)
 +
-+diff --git a/bfd/dwarf2.c b/bfd/dwarf2.c
-+index 132a674..0ef3e1f 100644
-+--- a/bfd/dwarf2.c
-++++ b/bfd/dwarf2.c
-+@@ -4205,7 +4205,7 @@ _bfd_dwarf2_find_nearest_line (bfd *abfd,
-+          looking up the function by section + offset uses the
-+          DW_AT_decl_line from the function DW_TAG_subprogram for the line,
-+          which will be the line of the function name.  */
-+-      if ((section->flags & SEC_CODE) == 0)
-++      if (symbols != NULL && (section->flags & SEC_CODE) == 0)
-+ 	{
-+ 	  asymbol **tmp;
++diff --git a/binutils/ChangeLog b/binutils/ChangeLog
++index 1d840b42f9..53352c1801 100644
++--- a/binutils/ChangeLog
+++++ b/binutils/ChangeLog
++@@ -1,3 +1,13 @@
+++2017-02-20  Nick Clifton  <nickc@redhat.com>
+++
+++	PR binutils/21156
+++	* dwarf.c (cu_tu_indexes_read): Move into...
+++	(load_cu_tu_indexes): ... here.  Change the variable into
+++	tri-state.  Change the function into boolean, returning
+++	false if the indicies could not be loaded.
+++	(find_cu_tu_set): Return NULL if the indicies could not be
+++	loaded.
+++
++ 2017-02-17  Nick Clifton  <nickc@redhat.com>
 + 
++ 	PR binutils/21156
++diff --git a/binutils/dwarf.c b/binutils/dwarf.c
++index 0184a7ab2e..6d879c9b61 100644
++--- a/binutils/dwarf.c
+++++ b/binutils/dwarf.c
++@@ -76,7 +76,6 @@ int dwarf_check = 0;
++    as a zero-terminated list of section indexes comprising one set of debug
++    sections from a .dwo file.  */
++ 
++-static int cu_tu_indexes_read = 0;
++ static unsigned int *shndx_pool = NULL;
++ static unsigned int shndx_pool_size = 0;
++ static unsigned int shndx_pool_used = 0;
++@@ -99,7 +98,7 @@ static int tu_count = 0;
++ static struct cu_tu_set *cu_sets = NULL;
++ static struct cu_tu_set *tu_sets = NULL;
++ 
++-static void load_cu_tu_indexes (void *file);
+++static bfd_boolean load_cu_tu_indexes (void *);
++ 
++ /* Values for do_debug_lines.  */
++ #define FLAG_DEBUG_LINES_RAW	 1
++@@ -2715,7 +2714,7 @@ load_debug_info (void * file)
++     return num_debug_info_entries;
++ 
++   /* If this is a DWARF package file, load the CU and TU indexes.  */
++-  load_cu_tu_indexes (file);
+++  (void) load_cu_tu_indexes (file);
++ 
++   if (load_debug_section (info, file)
++       && process_debug_info (&debug_displays [info].section, file, abbrev, 1, 0))
++@@ -7378,21 +7377,27 @@ process_cu_tu_index (struct dwarf_section *section, int do_display)
++    section sets that we can use to associate a .debug_info.dwo section
++    with its associated .debug_abbrev.dwo section in a .dwp file.  */
++ 
++-static void
+++static bfd_boolean
++ load_cu_tu_indexes (void *file)
++ {
+++  static int cu_tu_indexes_read = -1; /* Tri-state variable.  */
+++
++   /* If we have already loaded (or tried to load) the CU and TU indexes
++      then do not bother to repeat the task.  */
++-  if (cu_tu_indexes_read)
++-    return;
++-
++-  if (load_debug_section (dwp_cu_index, file))
++-    process_cu_tu_index (&debug_displays [dwp_cu_index].section, 0);
++-
++-  if (load_debug_section (dwp_tu_index, file))
++-    process_cu_tu_index (&debug_displays [dwp_tu_index].section, 0);
+++  if (cu_tu_indexes_read == -1)
+++    {
+++      cu_tu_indexes_read = TRUE;
+++  
+++      if (load_debug_section (dwp_cu_index, file))
+++	if (! process_cu_tu_index (&debug_displays [dwp_cu_index].section, 0))
+++	  cu_tu_indexes_read = FALSE;
+++
+++      if (load_debug_section (dwp_tu_index, file))
+++	if (! process_cu_tu_index (&debug_displays [dwp_tu_index].section, 0))
+++	  cu_tu_indexes_read = FALSE;
+++    }
++ 
++-  cu_tu_indexes_read = 1;
+++  return (bfd_boolean) cu_tu_indexes_read;
++ }
++ 
++ /* Find the set of sections that includes section SHNDX.  */
++@@ -7402,7 +7407,8 @@ find_cu_tu_set (void *file, unsigned int shndx)
++ {
++   unsigned int i;
++ 
++-  load_cu_tu_indexes (file);
+++  if (! load_cu_tu_indexes (file))
+++    return NULL;
++ 
++   /* Find SHNDX in the shndx pool.  */
++   for (i = 0; i < shndx_pool_used; i++)
 +-- 
-+1.9.1
++2.11.0
 +
 -- 
-1.9.1
+2.11.0
 
 
