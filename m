@@ -1,50 +1,47 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f170.google.com (mail-qk0-f170.google.com
-	[209.85.220.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 7A9E360557
+Return-Path: <twoerner@gmail.com>
+Received: from mail-ua0-f179.google.com (mail-ua0-f179.google.com
+	[209.85.217.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 0293271A0F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 May 2017 22:08:38 +0000 (UTC)
-Received: by mail-qk0-f170.google.com with SMTP id y201so165046697qka.0
+	Wed, 24 May 2017 22:17:26 +0000 (UTC)
+Received: by mail-ua0-f179.google.com with SMTP id u10so105702068uaf.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 May 2017 15:08:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	Wed, 24 May 2017 15:17:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=UngiohbRE2qK7Qsgye5Dwp+uFJtBY3U9K/oqIxdvqSw=;
-	b=l75MX9n+DpzST7wLzlssFW4jDzqQSNbPBeqAUMsD+VNY7d6RmBsXM/Mm8xDi7kqJjP
-	g16DJvT1HukN/CiwS8LsAnugILcNH0FMygGakV376ZA0tgs9jQIMHQB3EdM8/HHqg0GX
-	uZR6bDDmctVr2aA91Xhi6iDBvBPCcXUh5Rx3SSaXIIWIIYUZFoAa2Hnufjd5NCIPcJ7c
-	BbjLamKBevhmu1DNbWT0r20UrcXZ/f8ugA/pksGwHE4QQATK3pEwVJ5C+mJZkk8kMWNi
-	0t9B3iSgixkWIAiZu717zl8KNlSciQ2M7HY8VVLjVhIAOs8oN9PjEXOtFuDlJEGeLCLw
-	Qnwg==
+	:cc; bh=2/Le6OuX+1B9lkhij+RACdbWS6xDYVvSaj3daCjH44E=;
+	b=F0+JUkhcwCtfTRHVe1rWOurYaU1HnkUBTuxWJmG+P87UNyJJ+VTYPQphVApsxQpEN1
+	auAAhbn7ictqDZcMYbf0awqttDRXP+62PTnQ/TJ+9Ub5J3FivRHjlQutlkBYcYnCWO6e
+	yr5iksYtvqNXXt17G4ar0hfnnKQbAGrOH3Y6zGfNVW7dHnBZVyxbHG1fRpnm+Wt2DZtO
+	NTniTsOG7DAot250VPPvJzNfb0k27WCcEgqLkB6JMjuqWDkMrEjWmfNXS8GrRtkY42KU
+	gfb51Zb4wqSbNqb2fElXjNse9uZNY+AgnDZ1ncMcn0mid2OTddMIznxWVpK9+d2TEmhy
+	1k8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=UngiohbRE2qK7Qsgye5Dwp+uFJtBY3U9K/oqIxdvqSw=;
-	b=TzvgTOafrQgaUb+1HCljtswJls/haTDkSbOquOWeXcx469wz73L3kQGj8OJP4lEcLV
-	c5UgDHCep1tgDWf/Ux0TWFjaBVq9yqpP8OJ5WTkZrIwl+Ve9Dzsfz+MB43BuKo4inypL
-	vMPPv5Cbhe5g34cwOQDrjYdH5x9e2S82qF8mTODoQHbOVe3qyk+duImDZbZr0BBo/yoG
-	5TSf0vTBc8w0hFXoxdRHpB6cur3e6vPovSSfHR3dk+eZO+ws+ejLMLGnxcev4srbtGak
-	QeD1e7ApnxxebuTL7Rs1fLjXpKEzFeEO+Y4XEfPZYN3F2yYZUfkItTYKp+1jsr0qxGq0
-	o+pw==
-X-Gm-Message-State: AODbwcBDRR+SWYRFrI3J/SVw3tEpX+NUlok9C0B9qh1z5Tzl/DR3eroA
-	ZNU7b+iveS86x6UdIKn3ReYK7QcuWsxp
-X-Received: by 10.55.116.133 with SMTP id p127mr31446934qkc.154.1495663720097; 
-	Wed, 24 May 2017 15:08:40 -0700 (PDT)
+	bh=2/Le6OuX+1B9lkhij+RACdbWS6xDYVvSaj3daCjH44E=;
+	b=f7agvo9bsnQYCcbbzHO93A5W7gu1wUGvsi71lDXdQzRIoTm/XQKyCMuMryTAJiuU3k
+	NvQPHPcg++wmhSdzN/wK1ShXSOxKCUIle4o3iq5jAFk5mTQlwtbk0zZs4JnndjwjOYmf
+	CFSQZE42ofGl0ag8Bq67aMZ2TKS+ap1vDiD4AQ9bk+m2nByfJuqTgjzC9BBYttvddfPS
+	aj9Z65roW300oQ367V6KEZG8ZThWuDzDRV/XdbUihUBxnOuqvA516kg7S1hvatL8SzgL
+	Y5XjkxRPmF5+fkBPBKLWHjN+e42d4/MnyqrxOOQUHUwPvVSzqV8V7wlrWi9Pe73yHHIn
+	0+JA==
+X-Gm-Message-State: AODbwcBDsQUbBbwZxvwEfk6H4hvTcEX8JXarlEr26h2DLQOoltarC2p+
+	/AGUdldC9Xcif63FS1SE+QbmkR58QWag
+X-Received: by 10.159.57.73 with SMTP id i9mr20480804uag.17.1495664247854;
+	Wed, 24 May 2017 15:17:27 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.140.41.115 with HTTP; Wed, 24 May 2017 15:08:19 -0700 (PDT)
-In-Reply-To: <1495658864.26945.1.camel@linux.intel.com>
-References: <20170503192603.41086-1-leonardo.sandoval.gonzalez@linux.intel.com>
-	<20170522164309.31121-1-leonardo.sandoval.gonzalez@linux.intel.com>
-	<CAJTo0LaJrNTwML2jQbPR+p5y3EOnwm=D2nDiD5VcHtfer8m+gA@mail.gmail.com>
-	<1495658864.26945.1.camel@linux.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 24 May 2017 23:08:19 +0100
-Message-ID: <CAJTo0LZUsLuPFgEb-G79VVhBxsNKstenHgk_V-njU51YRGotAg@mail.gmail.com>
-To: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] package_ipk: correct ipk descriptions
+Received: by 10.103.67.199 with HTTP; Wed, 24 May 2017 15:17:27 -0700 (PDT)
+In-Reply-To: <20170524204659.2850-1-marex@denx.de>
+References: <20170524204659.2850-1-marex@denx.de>
+From: Trevor Woerner <twoerner@gmail.com>
+Date: Wed, 24 May 2017 18:17:27 -0400
+Message-ID: <CAHUNapSRH375gzkbj+ChZ-sbQhxe0hMAPEEHD54AXzKKtX495w@mail.gmail.com>
+To: Marek Vasut <marex@denx.de>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] libdrm: Add etnaviv support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,36 +54,17 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 May 2017 22:08:40 -0000
-Content-Type: multipart/alternative; boundary="001a114fde72bd83cb05504c5826"
-
---001a114fde72bd83cb05504c5826
+X-List-Received-Date: Wed, 24 May 2017 22:17:27 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On 24 May 2017 at 21:47, Leonardo Sandoval <
-leonardo.sandoval.gonzalez@linux.intel.com> wrote:
+On Wed, May 24, 2017 at 4:46 PM, Marek Vasut <marex@denx.de> wrote:
+> @@ -27,7 +27,10 @@ EXTRA_OECONF += "--disable-cairo-tests \
+>                   --enable-etnaviv-experimental-api \
+>                   --enable-install-test-programs \
+>                   --disable-valgrind \
+> +                 --enable-libkms \
+> +                 --enable-etnaviv-experimental-api \
 
-> I will check that particular recipe and bb world just so see if some
-> other recipe is broken with this change, then provide a v3.
->
 
-And double check what opkg expects :)
+--enable-etnaviv-experimental-api is already enabled a couple lines up
 
-Ross
-
---001a114fde72bd83cb05504c5826
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 24 May 2017 at 21:47, Leonardo Sandoval <span dir=3D"ltr">&lt;<a href=3D=
-"mailto:leonardo.sandoval.gonzalez@linux.intel.com" target=3D"_blank">leona=
-rdo.sandoval.gonzalez@linux.intel.com</a>&gt;</span> wrote:<br><blockquote =
-class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid=
-;padding-left:1ex"><div id=3D":16x" class=3D"a3s aXjCH m15c3c2f6ab05abe0">I=
- will check that particular recipe and bb world just so see if some<br>
-other recipe is broken with this change, then provide a v3.<br></div></bloc=
-kquote></div><br>And double check what opkg expects :)</div><div class=3D"g=
-mail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
-
---001a114fde72bd83cb05504c5826--
