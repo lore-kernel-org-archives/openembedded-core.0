@@ -1,35 +1,37 @@
 Return-Path: <fan.xin@jp.fujitsu.com>
-Received: from mgwkm04.jp.fujitsu.com (mgwkm04.jp.fujitsu.com [202.219.69.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 6D0D6605B3
+X-Greylist: delayed 662 seconds by postgrey-1.34 at layers.openembedded.org;
+	Wed, 24 May 2017 05:53:04 UTC
+Received: from mgwym02.jp.fujitsu.com (mgwym02.jp.fujitsu.com [211.128.242.41])
+	by mail.openembedded.org (Postfix) with ESMTP id A049477CCC
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 May 2017 05:15:09 +0000 (UTC)
-Received: from kw-mxoi1.gw.nic.fujitsu.com (unknown [192.168.231.131]) by
-	mgwkm04.jp.fujitsu.com with smtp
-	id 69bb_d9f2_430375d5_f29c_47f8_9b8c_0bdfb8a848f0;
-	Wed, 24 May 2017 14:15:04 +0900
-Received: from g01jpfmpwyt01.exch.g01.fujitsu.local
-	(g01jpfmpwyt01.exch.g01.fujitsu.local [10.128.193.38])
-	by kw-mxoi1.gw.nic.fujitsu.com (Postfix) with ESMTP id 837EDAC0121
+	Wed, 24 May 2017 05:53:03 +0000 (UTC)
+Received: from yt-mxoi2.gw.nic.fujitsu.com (unknown [192.168.229.69]) by
+	mgwym02.jp.fujitsu.com with smtp
+	id 6e62_8099_05dce24f_7929_4a31_91b6_776773215719;
+	Wed, 24 May 2017 14:41:58 +0900
+Received: from g01jpfmpwyt02.exch.g01.fujitsu.local
+	(g01jpfmpwyt02.exch.g01.fujitsu.local [10.128.193.56])
+	by yt-mxoi2.gw.nic.fujitsu.com (Postfix) with ESMTP id 85C83AC0104
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 May 2017 14:15:03 +0900 (JST)
-Received: from G01JPEXCHYT18.g01.fujitsu.local
-	(G01JPEXCHYT18.g01.fujitsu.local [10.128.194.57])
-	by g01jpfmpwyt01.exch.g01.fujitsu.local (Postfix) with ESMTP id
-	71D556D659A for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 May 2017 14:15:02 +0900 (JST)
+	Wed, 24 May 2017 14:41:57 +0900 (JST)
+Received: from G01JPEXCHYT15.g01.fujitsu.local
+	(G01JPEXCHYT15.g01.fujitsu.local [10.128.194.54])
+	by g01jpfmpwyt02.exch.g01.fujitsu.local (Postfix) with ESMTP id
+	70440584303 for <openembedded-core@lists.openembedded.org>;
+	Wed, 24 May 2017 14:41:56 +0900 (JST)
 Received: from localhost.localdomain (10.24.19.99) by
-	G01JPEXCHYT18.g01.fujitsu.local (10.128.194.57) with Microsoft SMTP
-	Server id 14.3.266.1; Wed, 24 May 2017 14:15:01 +0900
+	G01JPEXCHYT15.g01.fujitsu.local (10.128.194.54) with Microsoft SMTP
+	Server id 14.3.266.1; Wed, 24 May 2017 14:41:56 +0900
 From: Fan Xin <fan.xin@jp.fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 24 May 2017 14:16:15 +0900
-Message-ID: <1495602975-9227-1-git-send-email-fan.xin@jp.fujitsu.com>
+Date: Wed, 24 May 2017 14:43:11 +0900
+Message-ID: <1495604591-11295-1-git-send-email-fan.xin@jp.fujitsu.com>
 X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
 X-SecurityPolicyCheck-GC: OK by FENCE-Mail
 X-Encrypted: FENCE-Mail/3.1.1
 X-TM-AS-MML: disable
-Subject: [PATCH v2] binutils: Fix CVE-2017-8392
+Subject: [PATCH v3] binutils: Fix CVE-2017-8392
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,26 +44,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 May 2017 05:15:11 -0000
+X-List-Received-Date: Wed, 24 May 2017 05:53:06 -0000
 Content-Type: text/plain
 
 Backport upsream commit to fix CVE-2017-8392
 
 CVE: CVE-2017-8392
+
 [BZ 21409] -- https://sourceware.org/bugzilla/show_bug.cgi?id=21409
 
-	PR 21409, segfault in _bfd_dwarf2_find_nearest_line
+        PR 21409, segfault in _bfd_dwarf2_find_nearest_line
 
-	PR 21409
-	* dwarf2.c (_bfd_dwarf2_find_nearest_line): Don't segfault when
-	no symbols.
+        PR 21409
+        * dwarf2.c (_bfd_dwarf2_find_nearest_line): Don't segfault when
+        no symbols.
 
 Signed-off-by: Fan Xin <fan.xin@jp.fujitsu.com>
 ---
  meta/recipes-devtools/binutils/binutils-2.28.inc   |  2 +
- ...-lookup-of-file-line-information-for-erro.patch | 74 ++++++++++++++++++++++
- ...segfault-in-_bfd_dwarf2_find_nearest_line.patch | 32 ++++++++++
- 3 files changed, 108 insertions(+)
+ ...-lookup-of-file-line-information-for-erro.patch | 75 ++++++++++++++++++++++
+ ...segfault-in-_bfd_dwarf2_find_nearest_line.patch | 33 ++++++++++
+ 3 files changed, 110 insertions(+)
  create mode 100644 meta/recipes-devtools/binutils/binutils/0017-bfd-Improve-lookup-of-file-line-information-for-erro.patch
  create mode 100644 meta/recipes-devtools/binutils/binutils/0018-PR-21409-segfault-in-_bfd_dwarf2_find_nearest_line.patch
 
@@ -80,10 +83,10 @@ index 7585da1..5492505 100644
  
 diff --git a/meta/recipes-devtools/binutils/binutils/0017-bfd-Improve-lookup-of-file-line-information-for-erro.patch b/meta/recipes-devtools/binutils/binutils/0017-bfd-Improve-lookup-of-file-line-information-for-erro.patch
 new file mode 100644
-index 0000000..0716623
+index 0000000..23ad10a
 --- /dev/null
 +++ b/meta/recipes-devtools/binutils/binutils/0017-bfd-Improve-lookup-of-file-line-information-for-erro.patch
-@@ -0,0 +1,74 @@
+@@ -0,0 +1,75 @@
 +From 3239a4231ff79bf8b67b8faaf414b1667486167c Mon Sep 17 00:00:00 2001
 +From: Andrew Burgess <andrew.burgess@embecosm.com>
 +Date: Mon, 19 Dec 2016 15:27:59 +0000
@@ -104,7 +107,8 @@ index 0000000..0716623
 +As the hope is to find a matching DW_TAG_variable in the DWARF then we
 +ignore section symbols, and prefer global symbols to locals.
 +
-+Upstream-Status: Submitted
++CVE: CVE-2017-8392
++Upstream-Status: Accepted
 +
 +Signed-off-by: Fan Xin <fan.xin@jp.fujitsu.com>
 +---
@@ -160,10 +164,10 @@ index 0000000..0716623
 +
 diff --git a/meta/recipes-devtools/binutils/binutils/0018-PR-21409-segfault-in-_bfd_dwarf2_find_nearest_line.patch b/meta/recipes-devtools/binutils/binutils/0018-PR-21409-segfault-in-_bfd_dwarf2_find_nearest_line.patch
 new file mode 100644
-index 0000000..c9103e0
+index 0000000..acb37df
 --- /dev/null
 +++ b/meta/recipes-devtools/binutils/binutils/0018-PR-21409-segfault-in-_bfd_dwarf2_find_nearest_line.patch
-@@ -0,0 +1,32 @@
+@@ -0,0 +1,33 @@
 +From 97e83a100aa8250be783304bfe0429761c6e6b6b Mon Sep 17 00:00:00 2001
 +From: Alan Modra <amodra@gmail.com>
 +Date: Sun, 23 Apr 2017 13:55:49 +0930
@@ -173,7 +177,8 @@ index 0000000..c9103e0
 +	* dwarf2.c (_bfd_dwarf2_find_nearest_line): Don't segfault when
 +	no symbols.
 +
-+Upstream-Status: Submitted
++CVE: CVE-2017-8392
++Upstream-Status: Accepted
 +
 +Signed-off-by: Fan Xin <fan.xin@jp.fujitsu.com>
 +---
