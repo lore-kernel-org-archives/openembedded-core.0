@@ -1,30 +1,24 @@
-Return-Path: <huangqy.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
-	by mail.openembedded.org (Postfix) with ESMTP id DE72377E26
+Return-Path: <Kai.Kang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 311DE77E4E
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 May 2017 09:09:25 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.22,518,1449504000"; d="scan'208";a="19250840"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 24 May 2017 17:09:17 +0800
-Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
-	by cn.fujitsu.com (Postfix) with ESMTP id 2A70447C6523
+	Wed, 24 May 2017 09:38:49 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v4O9cpPo010078
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=NO)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 May 2017 17:09:15 +0800 (CST)
-Received: from localhost.localdomain (10.167.226.81) by
-	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.319.2; Wed, 24 May 2017 17:09:15 +0800
-From: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
+	Wed, 24 May 2017 02:38:51 -0700 (PDT)
+Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.294.0; Wed, 24 May 2017 02:38:50 -0700
+From: <kai.kang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 24 May 2017 17:08:58 +0800
-Message-ID: <1495616938-5489-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 2.7.4
+Date: Wed, 24 May 2017 17:33:57 +0800
+Message-ID: <cover.1495618375.git.kai.kang@windriver.com>
+X-Mailer: git-send-email 2.10.1
 MIME-Version: 1.0
-X-Originating-IP: [10.167.226.81]
-X-yoursite-MailScanner-ID: 2A70447C6523.A66C4
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: huangqy.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Subject: [PATCH v2] mesa: 17.0.4 -> 17.0.6
+Subject: [PATCH 0/1] libpcap: add native package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,44 +31,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 May 2017 09:09:27 -0000
+X-List-Received-Date: Wed, 24 May 2017 09:38:50 -0000
 Content-Type: text/plain
 
-Upgrade mesa from 17.0.4 to 17.0.6.
+From: Kai Kang <kai.kang@windriver.com>
 
-Signed-off-by: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
----
- meta/recipes-graphics/mesa/{mesa-gl_17.0.4.bb => mesa-gl_17.0.6.bb} | 0
- meta/recipes-graphics/mesa/{mesa_17.0.4.bb => mesa_17.0.6.bb}       | 4 ++--
- 2 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/mesa/{mesa-gl_17.0.4.bb => mesa-gl_17.0.6.bb} (100%)
- rename meta/recipes-graphics/mesa/{mesa_17.0.4.bb => mesa_17.0.6.bb} (83%)
+The following changes since commit a3d160f9e5826140cc8d6b2ed1b38bf022443b08:
 
-diff --git a/meta/recipes-graphics/mesa/mesa-gl_17.0.4.bb b/meta/recipes-graphics/mesa/mesa-gl_17.0.6.bb
-similarity index 100%
-rename from meta/recipes-graphics/mesa/mesa-gl_17.0.4.bb
-rename to meta/recipes-graphics/mesa/mesa-gl_17.0.6.bb
-diff --git a/meta/recipes-graphics/mesa/mesa_17.0.4.bb b/meta/recipes-graphics/mesa/mesa_17.0.6.bb
-similarity index 83%
-rename from meta/recipes-graphics/mesa/mesa_17.0.4.bb
-rename to meta/recipes-graphics/mesa/mesa_17.0.6.bb
-index 396076d..3f98271 100644
---- a/meta/recipes-graphics/mesa/mesa_17.0.4.bb
-+++ b/meta/recipes-graphics/mesa/mesa_17.0.6.bb
-@@ -6,8 +6,8 @@ SRC_URI = "ftp://ftp.freedesktop.org/pub/mesa/mesa-${PV}.tar.xz \
-            file://0001-Use-wayland-scanner-in-the-path.patch \
- "
- 
--SRC_URI[md5sum] = "4a16cfc1c6d034cc17314b866eada628"
--SRC_URI[sha256sum] = "1269dc8545a193932a0779b2db5bce9be4a5f6813b98c38b93b372be8362a346"
-+SRC_URI[md5sum] = "77ea38dc0ab899864b06ea2941ac31a4"
-+SRC_URI[sha256sum] = "89ecf3bcd0f18dcca5aaa42bf36bb52a2df33be89889f94aaaad91f7a504a69d"
- 
- #because we cannot rely on the fact that all apps will use pkgconfig,
- #make eglplatform.h independent of MESA_EGL_NO_X11_HEADER
+  linux-yocto: Update genericx86* SRCREVs for linux-yocto 4.10 (2017-05-23 17:46:14 +0100)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib kangkai/daq
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=kangkai/daq
+
+Kai Kang (1):
+  libpcap: add native package
+
+ meta/recipes-connectivity/libpcap/libpcap.inc | 2 ++
+ 1 file changed, 2 insertions(+)
+
 -- 
-2.7.4
-
-
+2.10.1
 
 
