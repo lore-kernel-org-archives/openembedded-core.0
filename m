@@ -1,30 +1,18 @@
-Return-Path: <jose.a.lamego@linux.intel.com>
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id 870BE780C1
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 May 2017 20:57:08 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga105.jf.intel.com with ESMTP; 24 May 2017 13:57:08 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.38,388,1491289200"; 
-	d="asc'?scan'208";a="1173931879"
-Received: from jalamego-mobl2.zpn.intel.com (HELO [10.219.128.138])
-	([10.219.128.138])
-	by fmsmga002.fm.intel.com with ESMTP; 24 May 2017 13:57:08 -0700
-To: openembedded-core@lists.openembedded.org
-References: <9f9ebf2e1ba6eda48fb5e3f20d4ca5bbabe3dad4.1494837087.git-series.patrick.ohly@intel.com>
-	<237a1d6e-7c01-2488-c6a2-e5d0c95aff53@linux.intel.com>
-	<1494851042.1179.246.camel@intel.com>
-	<CAJTo0La_VMBTkXKD2Df5RAEWtEO5NFcQu29j-yO_PS-qZoT5bA@mail.gmail.com>
-	<3a84eeba-58d0-bf74-61c3-b3b0d5292ad6@linux.intel.com>
-From: Jose Lamego <jose.a.lamego@linux.intel.com>
-Message-ID: <dbf01dea-1284-1de2-50b1-8f91ebf0a2df@linux.intel.com>
-Date: Wed, 24 May 2017 15:57:17 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.1.1
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id F301D780ED;
+	Wed, 24 May 2017 21:02:00 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <3a84eeba-58d0-bf74-61c3-b3b0d5292ad6@linux.intel.com>
-Subject: Re: [PATCH] manpages.bbclass: avoid QA warning when "manpages" feature not supported
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Marek Vasut <marex@denx.de>
+Date: Wed, 24 May 2017 21:02:02 -0000
+Message-ID: <20170524210202.1043.95987@do.openembedded.org>
+References: <20170524204615.2748-1-marex@denx.de>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <20170524204615.2748-1-marex@denx.de>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgdS1ib290OiBGaXggYnVpbGQgd2l0aCBPcGVuU1NMIDEuMS54?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,56 +25,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 May 2017 20:57:09 -0000
-X-Groupsio-MsgNum: 97682
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature";
-	boundary="q6od5mBcIQKNoWMsQhVX3XWfvTACaWw5A"
+X-List-Received-Date: Wed, 24 May 2017 21:02:01 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
---q6od5mBcIQKNoWMsQhVX3XWfvTACaWw5A
-Content-Type: multipart/mixed; boundary="rhbjBegODjrbgRL2OUsXWWuN0QXivAppO";
- protected-headers="v1"
-From: Jose Lamego <jose.a.lamego@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Message-ID: <dbf01dea-1284-1de2-50b1-8f91ebf0a2df@linux.intel.com>
-Subject: Re: [OE-core] [PATCH] manpages.bbclass: avoid QA warning when
- "manpages" feature not supported
-References: <9f9ebf2e1ba6eda48fb5e3f20d4ca5bbabe3dad4.1494837087.git-series.patrick.ohly@intel.com>
- <237a1d6e-7c01-2488-c6a2-e5d0c95aff53@linux.intel.com>
- <1494851042.1179.246.camel@intel.com>
- <CAJTo0La_VMBTkXKD2Df5RAEWtEO5NFcQu29j-yO_PS-qZoT5bA@mail.gmail.com>
- <3a84eeba-58d0-bf74-61c3-b3b0d5292ad6@linux.intel.com>
-In-Reply-To: <3a84eeba-58d0-bf74-61c3-b3b0d5292ad6@linux.intel.com>
+== Series Details ==
 
---rhbjBegODjrbgRL2OUsXWWuN0QXivAppO
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Series: u-boot: Fix build with OpenSSL 1.1.x
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/6890/
+State : failure
 
-Evidently, I don't have the required permissions (you can see the
-previous system-generated comment).
-
---=20
-Jose Lamego | OTC Embedded Platforms & Tools | GDC
+== Summary ==
 
 
---rhbjBegODjrbgRL2OUsXWWuN0QXivAppO--
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
 
---q6od5mBcIQKNoWMsQhVX3XWfvTACaWw5A
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
 
-iQEcBAEBCAAGBQJZJfOtAAoJEFJAtowlSEbngh0H/jo64FF18FtvduTh/wmpTSds
-FlRcvKb2DLvnlHCDYYzHkhxbnbd00EZT5qVp07dtGTXXJ5gisRXiE7um/NJrMOZQ
-ol1jAluU7BlJIHIsjflm4a+uW+HssWXuC++YKbbCi7ssQ3fS2p7Z+qoG74QiN922
-fNhDgULoaPGVxO43p+nTDg/Lk1EeuZWxuonf5NnqTe1mp8SEWRETmhumXzm1UxLP
-MMmSQmD9VHqwMQFmjJU92D7VJZlagCNxrfPPu90i9Zg6Wm18wroFuO1uY3E7PS92
-dE9wPpkLWMwQV5PMjl0j7vIzxNGO87oj1DhZGbLMEE/OVYpnlXLTyNxvL8WRvrk=
-=6MKD
------END PGP SIGNATURE-----
+* Issue             Added patch file is missing Upstream-Status in the header [test_upstream_status_presence] 
+  Suggested fix    Add Upstream-Status: <status> to the header of meta/recipes-bsp/u-boot/files/0001-rsa-Fix-build-with-OpenSSL-1.1.x.patch (possible values: Pending, Submitted, Accepted, Backport, Denied, Inappropriate)
 
---q6od5mBcIQKNoWMsQhVX3XWfvTACaWw5A--
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at 496a9dc179)
+
+* Issue             A patch file has been added, but does not have a Signed-off-by tag [test_signed_off_by_presence] 
+  Suggested fix    Sign off the added patch file (meta/recipes-bsp/u-boot/files/0001-rsa-Fix-build-with-OpenSSL-1.1.x.patch)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
+---
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+
+
