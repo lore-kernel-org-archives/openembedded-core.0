@@ -1,48 +1,47 @@
-Return-Path: <mcrowe@brightsign.biz>
-Received: from relay.appriver.com (relay101a.appriver.com [207.97.230.14])
-	by mail.openembedded.org (Postfix) with ESMTP id 45090605C2
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qt0-f181.google.com (mail-qt0-f181.google.com
+	[209.85.216.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 8BD38780E7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 May 2017 13:23:39 +0000 (UTC)
-X-Note: This Email was scanned by AppRiver SecureTide
-X-Note-AR-ScanTimeLocal: 05/24/2017 9:23:40 AM
-X-Note: SecureTide Build: 4/27/2017 4:11:48 PM UTC (2.6.18.8)
-X-Note: Filtered by 10.238.11.161
-X-Policy: brightsign.biz  - brightsign.biz
-X-Policy: brightsign.biz  - brightsign.biz
-X-Primary: mcrowe@brightsign.biz
-X-Virus-Scan: V-
-X-Note: ICH-CT/SI:0-870/SG:1 5/24/2017 9:23:19 AM
-X-Note-SnifferID: 0
-X-Note: TCH-CT/SI:0-50/SG:1 5/24/2017 9:23:20 AM
-X-GBUdb-Analysis: 0, 213.210.30.29, Ugly c=0.407177 p=-1 Source Normal
-X-Signature-Violations: 0-0-0-4146-c
-X-Note: Spam Tests Failed: 
-X-Country-Path: ->PRIVATE->United Kingdom->United States
-X-Note-Sending-IP: 213.210.30.29
-X-Note-Reverse-DNS: elite.brightsigndigital.co.uk
-X-Note-Return-Path: mcrowe@brightsign.biz
-X-Note: User Rule Hits: 
-X-Note: Global Rule Hits: G269 G270 G271 G272 G276 G277 G405 
-X-Note: Encrypt Rule Hits: 
-X-Note: Mail Class: VALID
-X-Note: Headers Injected
-Received: from [213.210.30.29] (HELO elite.brightsigndigital.co.uk)
-	by relay.appriver.com (CommuniGate Pro SMTP 6.1.7)
-	with ESMTPS id 146123993; Wed, 24 May 2017 09:23:40 -0400
-Received: from chuckie.brightsign ([172.30.1.25] helo=chuckie)
-	by elite.brightsigndigital.co.uk with esmtp (Exim 4.84_2)
-	(envelope-from <mcrowe@brightsign.biz>)
-	id 1dDWGJ-0008AN-WE; Wed, 24 May 2017 14:23:40 +0100
-Received: from mac by chuckie with local (Exim 4.89)
-	(envelope-from <mcrowe@brightsign.biz>)
-	id 1dDWGJ-00017R-VG; Wed, 24 May 2017 14:23:39 +0100
-From: Mike Crowe <mac@mcrowe.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 24 May 2017 14:23:36 +0100
-Message-Id: <20170524132336.4259-1-mac@mcrowe.com>
-X-Mailer: git-send-email 2.11.0
-Cc: Mike Crowe <mac@mcrowe.com>
-Subject: [PATCH] libgcrypt: Revert to inheriting from binconfig
+	Wed, 24 May 2017 13:28:30 +0000 (UTC)
+Received: by mail-qt0-f181.google.com with SMTP id v27so154789759qtg.2
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 24 May 2017 06:28:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=28tPTXva8OG1BrPrhMlSpzUELdkO2EYIjR1hmsk+IqY=;
+	b=xpLa+wBbb+6zG2kNzMsoZfsomuESD76o20tySMm/eeQA9HRVkQW0ArBEDRqLF3aD3l
+	aZZr36//WuPlvK4amYh9BFmuwu3UGjCZBpYkYq5+UOeMOlZs3ZeaVlmuQm06PM/UesZw
+	6bkN40oeSi5OJjpxplp07TJo1LFKenHTotBF5xF376ft/Q67/zqwHDp5flBkooeKux0s
+	lNAM+Ibii+HuKRPK0QhmWeWov2Xxwf+854ZB5syGO0bgqBdaTNkgOnQxqNToXrH2lvX8
+	iYwwq+KUEmHX8eNyOO2/NVYRis5Oh5j6Qzh4GDIP6hZduWFmElDd/uTs2Q5349RwjELm
+	YnlQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=28tPTXva8OG1BrPrhMlSpzUELdkO2EYIjR1hmsk+IqY=;
+	b=nfy9WAI3GS5+3QG9rnsMegYiIzslFjWqySO1LmS8wX9sGiPynL2ImJvTwlK61wilhT
+	5CC50HP48bq6dSh+y9smGsIdxIQEB8i0/Pkb71ILIo0WLKGTgypil1pcv5CDC6MCtJAQ
+	vTS15wWgrhs0cHT4yShudW43iqmS+p7cD1/pd1gJ2rN0JyRJmeWERiATT94X9JtmMntw
+	IZmQKF50mbMJu7c4+VeVI43eYOkK1edmlnjul7KuGDOJvqUHSgA1LzLHmr5n5GGGzIeP
+	LrX8immrlRpEP4RdDBJ03ZNZYhhX5ihkeQF2uwkUIueK0gaTvXwi7uJSeuA9mtN/5hQO
+	Uv4w==
+X-Gm-Message-State: AODbwcCLiAYoIHu4mZuLEqGKTfg4ct0aRZXOfwv3BwCkfCqtyofMetzN
+	JVa7Bjo/QLjKNV/w5fvKJCDbdF/516x6
+X-Received: by 10.200.39.164 with SMTP id w33mr34543114qtw.93.1495632511594;
+	Wed, 24 May 2017 06:28:31 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.41.115 with HTTP; Wed, 24 May 2017 06:28:11 -0700 (PDT)
+In-Reply-To: <20170524132336.4259-1-mac@mcrowe.com>
+References: <20170524132336.4259-1-mac@mcrowe.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 24 May 2017 14:28:11 +0100
+Message-ID: <CAJTo0LY85HYy_CdROAJMdPVXehNYMs=mDAsuT-RmLr-QK-Ezjg@mail.gmail.com>
+To: Mike Crowe <mac@mcrowe.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] libgcrypt: Revert to inheriting from binconfig
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,46 +54,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 May 2017 13:23:40 -0000
+X-List-Received-Date: Wed, 24 May 2017 13:28:31 -0000
+Content-Type: multipart/alternative; boundary="001a114039f49197f005504514a1"
 
-Commit 5870bd272b0b077d0826fb900b251884c1c05061 introduced
-binconfig-disabled and enabled it for libgcrypt. This intentionally broke
-the old-style libgcrypt-config binary since packages should be using the
-pkg-config instead.
+--001a114039f49197f005504514a1
+Content-Type: text/plain; charset="UTF-8"
 
-oe-core patches libgcrypt itself in order to generate a .pc file. This
-patch was not accepted upstream because they do not wish to depend on
-pkg-config. This means that upstream libgcrypt continues to ship with an
-autoconf snippet that expects the libgcrypt-config binary so the configure
-scripts shipped with other upstream projects (e.g. libmicrohttpd) also
-expect to be able to find the libgcrypt-config binary.
+On 24 May 2017 at 14:23, Mike Crowe <mac@mcrowe.com> wrote:
 
-If libgcrypt upstream doesn't generate a .pc file by default, then we
-shouldn't expect other upstreams to make use of one. So, I think it makes
-most sense to go back to installing a working libgcrypt-config binary until
-that situation changes.
+> If libgcrypt upstream doesn't generate a .pc file by default, then we
+> shouldn't expect other upstreams to make use of one. So, I think it makes
+> most sense to go back to installing a working libgcrypt-config binary until
+> that situation changes.
+>
 
-Signed-off-by: Mike Crowe <mac@mcrowe.com>
----
- meta/recipes-support/libgcrypt/libgcrypt.inc | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+The flip side of this being that we disabled the script because those sort
+of scripts have terrible failure modes when cross-compiling...
 
-diff --git a/meta/recipes-support/libgcrypt/libgcrypt.inc b/meta/recipes-support/libgcrypt/libgcrypt.inc
-index 84c1cc018b..569e102c01 100644
---- a/meta/recipes-support/libgcrypt/libgcrypt.inc
-+++ b/meta/recipes-support/libgcrypt/libgcrypt.inc
-@@ -22,9 +22,7 @@ SRC_URI = "${GNUPG_MIRROR}/libgcrypt/libgcrypt-${PV}.tar.gz \
-            file://fix-undefined-reference-to-pthread.patch \
- "
- 
--BINCONFIG = "${bindir}/libgcrypt-config"
--
--inherit autotools texinfo binconfig-disabled pkgconfig
-+inherit autotools texinfo binconfig pkgconfig
- 
- EXTRA_OECONF = "--disable-asm"
- 
--- 
-2.11.0
+Ross
 
+--001a114039f49197f005504514a1
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 24 May 2017 at 14:23, Mike Crowe <span dir=3D"ltr">&lt;<a href=3D"mailto=
+:mac@mcrowe.com" target=3D"_blank">mac@mcrowe.com</a>&gt;</span> wrote:<br>=
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex"><div id=3D":1ir" class=3D"a3s aXjCH m15c3aa0=
+ec3975a2b">If libgcrypt upstream doesn&#39;t generate a .pc file by default=
+, then we<br>
+shouldn&#39;t expect other upstreams to make use of one. So, I think it mak=
+es<br>
+most sense to go back to installing a working libgcrypt-config binary until=
+<br>
+that situation changes.</div></blockquote></div><br>The flip side of this b=
+eing that we disabled the script because those sort of scripts have terribl=
+e failure modes when cross-compiling...</div><div class=3D"gmail_extra"><br=
+></div><div class=3D"gmail_extra">Ross</div></div>
+
+--001a114039f49197f005504514a1--
