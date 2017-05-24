@@ -1,37 +1,35 @@
 Return-Path: <fan.xin@jp.fujitsu.com>
-X-Greylist: delayed 662 seconds by postgrey-1.34 at layers.openembedded.org;
-	Wed, 24 May 2017 05:53:04 UTC
-Received: from mgwym02.jp.fujitsu.com (mgwym02.jp.fujitsu.com [211.128.242.41])
-	by mail.openembedded.org (Postfix) with ESMTP id A049477CCC
+Received: from mgwkm03.jp.fujitsu.com (mgwkm03.jp.fujitsu.com [202.219.69.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 6E19B71C7E
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 May 2017 05:53:03 +0000 (UTC)
-Received: from yt-mxoi2.gw.nic.fujitsu.com (unknown [192.168.229.69]) by
-	mgwym02.jp.fujitsu.com with smtp
-	id 6e62_8099_05dce24f_7929_4a31_91b6_776773215719;
-	Wed, 24 May 2017 14:41:58 +0900
-Received: from g01jpfmpwyt02.exch.g01.fujitsu.local
-	(g01jpfmpwyt02.exch.g01.fujitsu.local [10.128.193.56])
-	by yt-mxoi2.gw.nic.fujitsu.com (Postfix) with ESMTP id 85C83AC0104
+	Wed, 24 May 2017 08:09:44 +0000 (UTC)
+Received: from kw-mxauth.gw.nic.fujitsu.com (unknown [192.168.231.132]) by
+	mgwkm03.jp.fujitsu.com with smtp
+	id 1117_5312_bf0c1d70_ca6e_4886_979b_901f751cb708;
+	Wed, 24 May 2017 17:09:41 +0900
+Received: from g01jpfmpwkw02.exch.g01.fujitsu.local
+	(g01jpfmpwkw02.exch.g01.fujitsu.local [10.0.193.56])
+	by kw-mxauth.gw.nic.fujitsu.com (Postfix) with ESMTP id 88C01AC00E7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 May 2017 14:41:57 +0900 (JST)
-Received: from G01JPEXCHYT15.g01.fujitsu.local
-	(G01JPEXCHYT15.g01.fujitsu.local [10.128.194.54])
-	by g01jpfmpwyt02.exch.g01.fujitsu.local (Postfix) with ESMTP id
-	70440584303 for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 May 2017 14:41:56 +0900 (JST)
+	Wed, 24 May 2017 17:09:41 +0900 (JST)
+Received: from G01JPEXCHKW13.g01.fujitsu.local
+	(G01JPEXCHKW13.g01.fujitsu.local [10.0.194.52])
+	by g01jpfmpwkw02.exch.g01.fujitsu.local (Postfix) with ESMTP id
+	82CC53284AA for <openembedded-core@lists.openembedded.org>;
+	Wed, 24 May 2017 17:09:40 +0900 (JST)
 Received: from localhost.localdomain (10.24.19.99) by
-	G01JPEXCHYT15.g01.fujitsu.local (10.128.194.54) with Microsoft SMTP
-	Server id 14.3.266.1; Wed, 24 May 2017 14:41:56 +0900
+	G01JPEXCHKW13.g01.fujitsu.local (10.0.194.52) with Microsoft SMTP
+	Server id 14.3.266.1; Wed, 24 May 2017 17:09:40 +0900
 From: Fan Xin <fan.xin@jp.fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 24 May 2017 14:43:11 +0900
-Message-ID: <1495604591-11295-1-git-send-email-fan.xin@jp.fujitsu.com>
+Date: Wed, 24 May 2017 17:10:52 +0900
+Message-ID: <1495613452-22020-1-git-send-email-fan.xin@jp.fujitsu.com>
 X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
 X-SecurityPolicyCheck-GC: OK by FENCE-Mail
 X-Encrypted: FENCE-Mail/3.1.1
 X-TM-AS-MML: disable
-Subject: [PATCH v3] binutils: Fix CVE-2017-8392
+Subject: [PATCH] rpcbind: Fix CVE-2017-8779
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,163 +42,260 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 May 2017 05:53:06 -0000
+X-List-Received-Date: Wed, 24 May 2017 08:09:46 -0000
 Content-Type: text/plain
 
-Backport upsream commit to fix CVE-2017-8392
+This vulnerability is also called "rpcbomb".
+Backport upstream patch to fix this vulnerability.
 
-CVE: CVE-2017-8392
+CVE: CVE-2017-8779
 
-[BZ 21409] -- https://sourceware.org/bugzilla/show_bug.cgi?id=21409
-
-        PR 21409, segfault in _bfd_dwarf2_find_nearest_line
-
-        PR 21409
-        * dwarf2.c (_bfd_dwarf2_find_nearest_line): Don't segfault when
-        no symbols.
-
-Signed-off-by: Fan Xin <fan.xin@jp.fujitsu.com>
+Signed-off-by: Fan Xin<fan.xin@jp.fujitsu.com>
 ---
- meta/recipes-devtools/binutils/binutils-2.28.inc   |  2 +
- ...-lookup-of-file-line-information-for-erro.patch | 75 ++++++++++++++++++++++
- ...segfault-in-_bfd_dwarf2_find_nearest_line.patch | 33 ++++++++++
- 3 files changed, 110 insertions(+)
- create mode 100644 meta/recipes-devtools/binutils/binutils/0017-bfd-Improve-lookup-of-file-line-information-for-erro.patch
- create mode 100644 meta/recipes-devtools/binutils/binutils/0018-PR-21409-segfault-in-_bfd_dwarf2_find_nearest_line.patch
+ ...r-all-svc_getargs-calls-with-svc_freeargs.patch | 221 +++++++++++++++++++++
+ meta/recipes-extended/rpcbind/rpcbind_0.2.4.bb     |   1 +
+ 2 files changed, 222 insertions(+)
+ create mode 100644 meta/recipes-extended/rpcbind/rpcbind/0001-rpcbind-pair-all-svc_getargs-calls-with-svc_freeargs.patch
 
-diff --git a/meta/recipes-devtools/binutils/binutils-2.28.inc b/meta/recipes-devtools/binutils/binutils-2.28.inc
-index 7585da1..5492505 100644
---- a/meta/recipes-devtools/binutils/binutils-2.28.inc
-+++ b/meta/recipes-devtools/binutils/binutils-2.28.inc
-@@ -37,6 +37,8 @@ SRC_URI = "\
-      file://0016-Detect-64-bit-MIPS-targets.patch \
-      file://CVE-2017-6965.patch \
-      file://CVE-2017-6966.patch \
-+     file://0017-bfd-Improve-lookup-of-file-line-information-for-erro.patch \
-+     file://0018-PR-21409-segfault-in-_bfd_dwarf2_find_nearest_line.patch \
- "
- S  = "${WORKDIR}/git"
- 
-diff --git a/meta/recipes-devtools/binutils/binutils/0017-bfd-Improve-lookup-of-file-line-information-for-erro.patch b/meta/recipes-devtools/binutils/binutils/0017-bfd-Improve-lookup-of-file-line-information-for-erro.patch
+diff --git a/meta/recipes-extended/rpcbind/rpcbind/0001-rpcbind-pair-all-svc_getargs-calls-with-svc_freeargs.patch b/meta/recipes-extended/rpcbind/rpcbind/0001-rpcbind-pair-all-svc_getargs-calls-with-svc_freeargs.patch
 new file mode 100644
-index 0000000..23ad10a
+index 0000000..bf7aaef
 --- /dev/null
-+++ b/meta/recipes-devtools/binutils/binutils/0017-bfd-Improve-lookup-of-file-line-information-for-erro.patch
-@@ -0,0 +1,75 @@
-+From 3239a4231ff79bf8b67b8faaf414b1667486167c Mon Sep 17 00:00:00 2001
-+From: Andrew Burgess <andrew.burgess@embecosm.com>
-+Date: Mon, 19 Dec 2016 15:27:59 +0000
-+Subject: [PATCH] bfd: Improve lookup of file / line information for errors
++++ b/meta/recipes-extended/rpcbind/rpcbind/0001-rpcbind-pair-all-svc_getargs-calls-with-svc_freeargs.patch
+@@ -0,0 +1,221 @@
++From 7ea36eeece56b59f98e469934e4c20b4da043346 Mon Sep 17 00:00:00 2001
++From: Doran Moppert <dmoppert@redhat.com>
++Date: Thu, 11 May 2017 11:42:54 -0400
++Subject: [PATCH] rpcbind: pair all svc_getargs() calls with svc_freeargs() to
++ avoid memory leak
 +
-+When looking up file and line information (used from the linker to
-+report error messages) if no symbol is passed in, then use the symbol
-+list to look for a matching symbol.
++This patch is to address CVE-2017-8779 "rpcbomb" in rpcbind, discussed
++at [1], [2], [3].  The last link suggests this issue is actually a bug
++in rpcbind, which led me here.
 +
-+If a matching symbol is found then use this to look up the file / line
-+information.
++The leak caused by the reproducer at [4] appears to come from
++rpcb_service_4(), in the case where svc_getargs() returns false and the
++function had an early return, rather than passing through the cleanup
++path at done:, as would otherwise occur.
 +
-+This should improve errors when looking up file / line information for
-+data sections.  Hopefully we should find a matching data symbol, which
-+should, in turn (we hope) match a DW_TAG_variable in the DWARF, this
-+should allow us to give accurate file / line errors for data symbols.
++It also addresses a couple of other locations where the same fault seems
++to exist, though I haven't been able to exercise those.  I hope someone
++more intimate with rpc(3) can confirm my understanding is correct, and
++that I haven't introduced any new bugs.
 +
-+As the hope is to find a matching DW_TAG_variable in the DWARF then we
-+ignore section symbols, and prefer global symbols to locals.
++Without this patch, using the reproducer (and variants) repeatedly
++against rpcbind with a numBytes argument of 1_000_000_000, /proc/$(pidof
++rpcbind)/status reports VmSize increase of 976564 kB each call, and
++VmRSS increase of around 260 kB every 33 calls - the specific numbers
++are probably an artifact of my rhel/glibc version.  With the patch,
++there is a small (~50 kB) VmSize increase with the first message, but
++thereafter both VmSize and VmRSS remain steady.
 +
-+CVE: CVE-2017-8392
-+Upstream-Status: Accepted
++[1]: http://seclists.org/oss-sec/2017/q2/209
++[2]: https://bugzilla.redhat.com/show_bug.cgi?id=1448124
++[3]: https://sourceware.org/ml/libc-alpha/2017-05/msg00129.html
++[4]: https://github.com/guidovranken/rpcbomb/
++
++
++CVE: CVE-2017-8779
++Upstream-Status: Backport
 +
 +Signed-off-by: Fan Xin <fan.xin@jp.fujitsu.com>
 +---
-+ bfd/dwarf2.c                   | 32 ++++++++++++++++++++++++++++++++
-+ 1 files changed, 32 insertions(+)
++ src/pmap_svc.c     | 56 +++++++++++++++++++++++++++++++++++++++++++++---------
++ src/rpcb_svc.c     |  2 +-
++ src/rpcb_svc_4.c   |  2 +-
++ src/rpcb_svc_com.c |  8 ++++++++
++ 4 files changed, 57 insertions(+), 11 deletions(-)
 +
-+
-+diff --git a/bfd/dwarf2.c b/bfd/dwarf2.c
-+index 03447a9..9bb8126 100644
-+--- a/bfd/dwarf2.c
-++++ b/bfd/dwarf2.c
-+@@ -4155,6 +4155,38 @@ _bfd_dwarf2_find_nearest_line (bfd *abfd,
-+     {
-+       BFD_ASSERT (section != NULL && functionname_ptr != NULL);
-+       addr = offset;
-++
-++      /* If we have no SYMBOL but the section we're looking at is not a
-++         code section, then take a look through the list of symbols to see
-++         if we have a symbol at the address we're looking for.  If we do
-++         then use this to look up line information.  This will allow us to
-++         give file and line results for data symbols.  We exclude code
-++         symbols here, if we look up a function symbol and then look up the
-++         line information we'll actually return the line number for the
-++         opening '{' rather than the function definition line.  This is
-++         because looking up by symbol uses the line table, in which the
-++         first line for a function is usually the opening '{', while
-++         looking up the function by section + offset uses the
-++         DW_AT_decl_line from the function DW_TAG_subprogram for the line,
-++         which will be the line of the function name.  */
-++      if ((section->flags & SEC_CODE) == 0)
-++	{
-++	  asymbol **tmp;
-++
-++	  for (tmp = symbols; (*tmp) != NULL; ++tmp)
-++	    if ((*tmp)->the_bfd == abfd
-++		&& (*tmp)->section == section
-++		&& (*tmp)->value == offset
-++		&& ((*tmp)->flags & BSF_SECTION_SYM) == 0)
-++	      {
-++		symbol = *tmp;
-++		do_line = TRUE;
-++                /* For local symbols, keep going in the hope we find a
-++                   global.  */
-++                if ((symbol->flags & BSF_GLOBAL) != 0)
-++                  break;
-++	      }
++diff --git a/src/pmap_svc.c b/src/pmap_svc.c
++index 4c744fe..e926cdc 100644
++--- a/src/pmap_svc.c
+++++ b/src/pmap_svc.c
++@@ -175,6 +175,7 @@ pmapproc_change(struct svc_req *rqstp /*__unused*/, SVCXPRT *xprt, unsigned long
++ 	long ans;
++ 	uid_t uid;
++ 	char uidbuf[32];
+++	int rc = TRUE;
++ 
++ 	/*
++ 	 * Can't use getpwnam here. We might end up calling ourselves
++@@ -194,7 +195,8 @@ pmapproc_change(struct svc_req *rqstp /*__unused*/, SVCXPRT *xprt, unsigned long
++ 
++ 	if (!svc_getargs(xprt, (xdrproc_t) xdr_pmap, (char *)&reg)) {
++ 		svcerr_decode(xprt);
++-		return (FALSE);
+++		rc = FALSE;
+++		goto done;
++ 	}
++ #ifdef RPCBIND_DEBUG
++ 	if (debugging)
++@@ -205,7 +207,8 @@ pmapproc_change(struct svc_req *rqstp /*__unused*/, SVCXPRT *xprt, unsigned long
++ 
++ 	if (!check_access(xprt, op, reg.pm_prog, PMAPVERS)) {
++ 		svcerr_weakauth(xprt);
++-		return (FALSE);
+++		rc = (FALSE);
+++		goto done;
++ 	}
++ 
++ 	rpcbreg.r_prog = reg.pm_prog;
++@@ -258,7 +261,16 @@ done_change:
++ 		rpcbs_set(RPCBVERS_2_STAT, ans);
++ 	else
++ 		rpcbs_unset(RPCBVERS_2_STAT, ans);
++-	return (TRUE);
+++done:
+++	if (!svc_freeargs(xprt, (xdrproc_t) xdr_pmap, (char *)&reg)) {
+++		if (debugging) {
+++			/*(void) xlog(LOG_DEBUG, "unable to free arguments\n");*/
+++			if (doabort) {
+++				rpcbind_abort();
+++			}
+++		}
 ++	}
-+     }
+++	return (rc);
++ }
 + 
-+   if (section->output_section)
++ /* ARGSUSED */
++@@ -272,15 +284,18 @@ pmapproc_getport(struct svc_req *rqstp /*__unused*/, SVCXPRT *xprt)
++ #ifdef RPCBIND_DEBUG
++ 	char *uaddr;
++ #endif
+++	int rc = TRUE;
++ 
++ 	if (!svc_getargs(xprt, (xdrproc_t) xdr_pmap, (char *)&reg)) {
++ 		svcerr_decode(xprt);
++-		return (FALSE);
+++		rc = FALSE;
+++		goto done;
++ 	}
++ 
++ 	if (!check_access(xprt, PMAPPROC_GETPORT, reg.pm_prog, PMAPVERS)) {
++ 		svcerr_weakauth(xprt);
++-		return FALSE;
+++		rc = FALSE;
+++		goto done;
++ 	}
++ 
++ #ifdef RPCBIND_DEBUG
++@@ -330,21 +345,34 @@ pmapproc_getport(struct svc_req *rqstp /*__unused*/, SVCXPRT *xprt)
++ 		pmap_ipprot2netid(reg.pm_prot) ?: "<unknown>",
++ 		port ? udptrans : "");
++ 
++-	return (TRUE);
+++done:
+++	if (!svc_freeargs(xprt, (xdrproc_t) xdr_pmap, (char *)&reg)) {
+++		if (debugging) {
+++			/* (void) xlog(LOG_DEBUG, "unable to free arguments\n");*/
+++			if (doabort) {
+++				rpcbind_abort();
+++			}
+++		}
+++	}
+++	return (rc);
++ }
++ 
++ /* ARGSUSED */
++ static bool_t
++ pmapproc_dump(struct svc_req *rqstp /*__unused*/, SVCXPRT *xprt)
++ {
+++	int rc = TRUE;
+++
++ 	if (!svc_getargs(xprt, (xdrproc_t)xdr_void, NULL)) {
++ 		svcerr_decode(xprt);
++-		return (FALSE);
+++		rc = FALSE;
+++		goto done;
++ 	}
++ 
++ 	if (!check_access(xprt, PMAPPROC_DUMP, 0, PMAPVERS)) {
++ 		svcerr_weakauth(xprt);
++-		return FALSE;
+++		rc = FALSE;
+++		goto done;
++ 	}
++ 	
++ 	if ((!svc_sendreply(xprt, (xdrproc_t) xdr_pmaplist_ptr,
++@@ -354,7 +382,17 @@ pmapproc_dump(struct svc_req *rqstp /*__unused*/, SVCXPRT *xprt)
++ 			rpcbind_abort();
++ 		}
++ 	}
++-	return (TRUE);
+++
+++done:
+++	if (!svc_freeargs(xprt, (xdrproc_t) xdr_pmap, (char *)NULL)) {
+++		if (debugging) {
+++			/*(void) xlog(LOG_DEBUG, "unable to free arguments\n");*/
+++			if (doabort) {
+++				rpcbind_abort();
+++			}
+++		}
+++	}
+++	return (rc);
++ }
++ 
++ int pmap_netid2ipprot(const char *netid)
++diff --git a/src/rpcb_svc.c b/src/rpcb_svc.c
++index 709e3fb..091f530 100644
++--- a/src/rpcb_svc.c
+++++ b/src/rpcb_svc.c
++@@ -166,7 +166,7 @@ rpcb_service_3(struct svc_req *rqstp, SVCXPRT *transp)
++ 		svcerr_decode(transp);
++ 		if (debugging)
++ 			(void) xlog(LOG_DEBUG, "rpcbind: could not decode");
++-		return;
+++		goto done;
++ 	}
++ 
++ 	if (rqstp->rq_proc == RPCBPROC_SET
++diff --git a/src/rpcb_svc_4.c b/src/rpcb_svc_4.c
++index 5094879..eebbbbe 100644
++--- a/src/rpcb_svc_4.c
+++++ b/src/rpcb_svc_4.c
++@@ -218,7 +218,7 @@ rpcb_service_4(struct svc_req *rqstp, SVCXPRT *transp)
++ 		svcerr_decode(transp);
++ 		if (debugging)
++ 			(void) xlog(LOG_DEBUG, "rpcbind: could not decode\n");
++-		return;
+++		goto done;
++ 	}
++ 
++ 	if (rqstp->rq_proc == RPCBPROC_SET
++diff --git a/src/rpcb_svc_com.c b/src/rpcb_svc_com.c
++index 5862c26..cb63afd 100644
++--- a/src/rpcb_svc_com.c
+++++ b/src/rpcb_svc_com.c
++@@ -927,6 +927,14 @@ error:
++ 	if (call_msg.rm_xid != 0)
++ 		(void) free_slot_by_xid(call_msg.rm_xid);
++ out:
+++	if (!svc_freeargs(transp, (xdrproc_t) xdr_rmtcall_args, (char *) &a)) {
+++		if (debugging) {
+++			(void) xlog(LOG_DEBUG, "unable to free arguments\n");
+++			if (doabort) {
+++				rpcbind_abort();
+++			}
+++		}
+++	}
++ 	if (local_uaddr)
++ 		free(local_uaddr);
++ 	if (buf_alloc)
 +-- 
 +1.9.1
 +
-diff --git a/meta/recipes-devtools/binutils/binutils/0018-PR-21409-segfault-in-_bfd_dwarf2_find_nearest_line.patch b/meta/recipes-devtools/binutils/binutils/0018-PR-21409-segfault-in-_bfd_dwarf2_find_nearest_line.patch
-new file mode 100644
-index 0000000..acb37df
---- /dev/null
-+++ b/meta/recipes-devtools/binutils/binutils/0018-PR-21409-segfault-in-_bfd_dwarf2_find_nearest_line.patch
-@@ -0,0 +1,33 @@
-+From 97e83a100aa8250be783304bfe0429761c6e6b6b Mon Sep 17 00:00:00 2001
-+From: Alan Modra <amodra@gmail.com>
-+Date: Sun, 23 Apr 2017 13:55:49 +0930
-+Subject: [PATCH] PR 21409, segfault in _bfd_dwarf2_find_nearest_line
-+
-+	PR 21409
-+	* dwarf2.c (_bfd_dwarf2_find_nearest_line): Don't segfault when
-+	no symbols.
-+
-+CVE: CVE-2017-8392
-+Upstream-Status: Accepted
-+
-+Signed-off-by: Fan Xin <fan.xin@jp.fujitsu.com>
-+---
-+ bfd/dwarf2.c  | 2 +-
-+ 1 files changed, 1 insertions(+), 1 deletion(-)
-+
-+diff --git a/bfd/dwarf2.c b/bfd/dwarf2.c
-+index 132a674..0ef3e1f 100644
-+--- a/bfd/dwarf2.c
-++++ b/bfd/dwarf2.c
-+@@ -4205,7 +4205,7 @@ _bfd_dwarf2_find_nearest_line (bfd *abfd,
-+          looking up the function by section + offset uses the
-+          DW_AT_decl_line from the function DW_TAG_subprogram for the line,
-+          which will be the line of the function name.  */
-+-      if ((section->flags & SEC_CODE) == 0)
-++      if (symbols != NULL && (section->flags & SEC_CODE) == 0)
-+ 	{
-+ 	  asymbol **tmp;
-+ 
-+-- 
-+1.9.1
-+
+diff --git a/meta/recipes-extended/rpcbind/rpcbind_0.2.4.bb b/meta/recipes-extended/rpcbind/rpcbind_0.2.4.bb
+index d3ebcb3..60e46ed 100644
+--- a/meta/recipes-extended/rpcbind/rpcbind_0.2.4.bb
++++ b/meta/recipes-extended/rpcbind/rpcbind_0.2.4.bb
+@@ -15,6 +15,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/rpcbind/rpcbind-${PV}.tar.bz2 \
+            file://rpcbind.conf \
+            file://rpcbind.socket \
+            file://rpcbind.service \
++           file://0001-rpcbind-pair-all-svc_getargs-calls-with-svc_freeargs.patch \
+           "
+ SRC_URI[md5sum] = "cf10cd41ed8228fc54c316191c1f07fe"
+ SRC_URI[sha256sum] = "074a9a530dc7c11e0d905aa59bcb0847c009313f02e98d3d798aa9568f414c66"
 -- 
 1.9.1
 
