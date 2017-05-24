@@ -1,45 +1,50 @@
-Return-Path: <nicolas.dechesne@linaro.org>
-Received: from mail-qk0-f170.google.com (mail-qk0-f170.google.com
-	[209.85.220.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 21E9160722
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qt0-f182.google.com (mail-qt0-f182.google.com
+	[209.85.216.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 6AB1378072
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 May 2017 15:22:46 +0000 (UTC)
-Received: by mail-qk0-f170.google.com with SMTP id k74so156672861qke.1
+	Wed, 24 May 2017 16:26:00 +0000 (UTC)
+Received: by mail-qt0-f182.google.com with SMTP id t26so159844192qtg.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 May 2017 08:22:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	Wed, 24 May 2017 09:26:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=MGkviw+Q1bw+SIb1CmYig+QhDmiQL829sumSR1Cx31s=;
-	b=EHIPd5WqFWfa+DwSE0EiORkhdEVuQ14qCgj+JBDeltA0Hp9/geeA6BzuhyLEffEG/s
-	kZskypQo4WSnAWraNk+89IrK9flwiz3WZ90Je20V012SgJHGIc9tQA22QLw6HshcN2b1
-	x8W8e6Wzv9APITQjk43GKBYrORIuqa47dIKJ4=
+	:cc; bh=rnusXntwkuz3ZfZP/GLn+XOEp7askVgqEVlogqOeOsk=;
+	b=AUy2oIRz9eTFmXr82hROEPtP9tEbGPPM9gWXOWTX4eJqh4fheAs+E71gQcyx9N3xGi
+	ulak/6DxQWIPiwPkvLejGQMzgegnhbJbwWYVU0HnbOogfpelZYp7IjFza/p6Zu7XBCO0
+	3kLZEmFFfuvjKTY28DqHFd1jUfjcfFJv3NyOqnlfIPp7NPoN3FXzHK3N+0bIsQiM9+QV
+	SFrJPCRiW/bvrJ+SuMS7NL7gNrBWgJisgsBNpwnZGsxWVdjhCZ3UjG+RTY2hQC3010XU
+	/oq6shYMi2LgLsLZ0VQzmdtEH2I5Am5mhUqeaIUJ/bMDlVmQvvZ/ZLucOsm0Im9vGp3x
+	MCWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=MGkviw+Q1bw+SIb1CmYig+QhDmiQL829sumSR1Cx31s=;
-	b=IeH4H7iJ6Zlts7y4MGNBiVK4xc7vwC6SiZSsjZZVARTdjE+rheJqL6JIABMzvr52hC
-	rfWomKOUoQS1ebEC+q7wbS8S82ZTNXXMaE1ew172ksQQHnY5jAqa08sriMQA7sJH1hdJ
-	qzAXr81Y40NTl30VPC9IAPBOw1gR57ailM4FN2FJvL5yUmuO6VbNqsu1m+g+2coyDxJe
-	My6ObSmR6xzP4ED5lLe+HUNVXODQo9ZKiDLfRpFUmCjygDdDYygonHncWb2OhUmzWtBx
-	NmNzplEB99HIfH3JJRe3kTXxsvgY+5jkStmuQuba67JbQyk38nkkSfAtFBNtIerSm/cF
-	C6CQ==
-X-Gm-Message-State: AODbwcCDHGrcDmCphPljA05ImBX/2PPhcssN3RjACIRbVmDCVILuU9QW
-	1JuArvltP8cmTx2s7bPMl1OgABaQTvIP
-X-Received: by 10.55.26.153 with SMTP id l25mr34651786qkh.9.1495639367547;
-	Wed, 24 May 2017 08:22:47 -0700 (PDT)
+	bh=rnusXntwkuz3ZfZP/GLn+XOEp7askVgqEVlogqOeOsk=;
+	b=ApNVKc5E3ZqHCFJNSgnrgGAq7BPyejpEdjzcvuwudhWKAv494PmVlw/Oj4xKRUfzKq
+	4v9Rf1MToQrEg+zwrVabmkef1I209/uZbThy3KzeWJfHnJ0l5PT4lCqeHZgveJ9V4d8A
+	YWUsphL6a0XKhW8EjJKQMDmoZu8dMY0MaUMZKxKG5fU/n1+mRKYlkQ4unnF8ijMIhMFL
+	pCq+ooWqeCEUmS57ka+n0Wyt4vJBVRhLCtRcT11nc6BOBmKADX1AnubLQADMuYtbMXx5
+	CvTbh93Ph6WZ7Dl0Gy4EyRE3857JAF/OS1aluvXPGMqMvuHMkHB/61dW884i4NHMnQZv
+	OMXQ==
+X-Gm-Message-State: AODbwcCGqfRr96RaWnsSx+oyySUhapaRE69X5B8W9kem4oWvnlb4zCnk
+	smDL1jfrrlkWw6ipjwTjnsHCfGPDJFbE
+X-Received: by 10.200.45.247 with SMTP id q52mr35579198qta.177.1495643161339; 
+	Wed, 24 May 2017 09:26:01 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.140.88.135 with HTTP; Wed, 24 May 2017 08:22:27 -0700 (PDT)
-In-Reply-To: <CAMKF1spmBTseFWvZokZT-BxnjQgzzdSWj+Y7LWH0+iaLSqOpcQ@mail.gmail.com>
-References: <20170522092622.14761-1-nicolas.dechesne@linaro.org>
-	<CAMKF1spmBTseFWvZokZT-BxnjQgzzdSWj+Y7LWH0+iaLSqOpcQ@mail.gmail.com>
-From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
-Date: Wed, 24 May 2017 17:22:27 +0200
-Message-ID: <CAP71WjzSCeZeHRKF=eXXX=6kfrTx0O4bjRgeQ-ayopiot43T0A@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/3] [RFC] Add support for 'fastboot images'
+Received: by 10.140.41.115 with HTTP; Wed, 24 May 2017 09:25:40 -0700 (PDT)
+In-Reply-To: <20170524135232.GA13067@mcrowe.com>
+References: <20170524132336.4259-1-mac@mcrowe.com>
+	<CAJTo0LY85HYy_CdROAJMdPVXehNYMs=mDAsuT-RmLr-QK-Ezjg@mail.gmail.com>
+	<20170524135232.GA13067@mcrowe.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 24 May 2017 17:25:40 +0100
+Message-ID: <CAJTo0LZCojNChLhaBsAqNouue3JEX9b7gfF5AQOiyhTedW_ByQ@mail.gmail.com>
+To: Mike Crowe <mac@mcrowe.com>, "Purdie,
+	Richard" <richard.purdie@linuxfoundation.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] libgcrypt: Revert to inheriting from binconfig
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,16 +57,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 May 2017 15:22:47 -0000
+X-List-Received-Date: Wed, 24 May 2017 16:26:06 -0000
+Content-Type: multipart/alternative; boundary="001a1139cdf057c1b50550478f34"
+
+--001a1139cdf057c1b50550478f34
 Content-Type: text/plain; charset="UTF-8"
 
-On Mon, May 22, 2017 at 7:13 PM, Khem Raj <raj.khem@gmail.com> wrote:
-> its in meta-oe, what do we get if we bring it to OE-Core. ?
-> how much prevalent is it ?
+On 24 May 2017 at 14:52, Mike Crowe <mac@mcrowe.com> wrote:
 
-the android-tools recipe is in meta-oe, i believe that fastboot images
-are widely used, and having a generic 'fastboot' image type in oe-core
-would be helpful. Having image type outside of oe-core is possible but
-cumbersome, since we need a custom class, which needs to be inherited
-and creates additional dependencies to meta-oe.
+> Oh, I thought that binconfig.bbclass swung through hoops in order to make
+> the scripts work well enough. Is that not true?
+>
+> Many other recipes are still inheriting binconfig rather than
+> binconfig-disabled: apr, curl, gnutls, libtasn1.
+>
 
+binconfig goes through hoops that are just not required with pkgconfig, and
+the hoops are hacks which may not be reliable.  I can't remember the
+details but I do remember that libgcrypt/gnupg was a worst offender here.
+
+CCing Richard to see if he can remember why.
+
+In the glorious future removing all binconfig scripts would be the ideal,
+in my opinion.  Alternatively replacing them with glorified pkgconfig
+wrappers.
+
+Ross
+
+--001a1139cdf057c1b50550478f34
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 24 May 2017 at 14:52, Mike Crowe <span dir=3D"ltr">&lt;<a href=3D"mailto=
+:mac@mcrowe.com" target=3D"_blank">mac@mcrowe.com</a>&gt;</span> wrote:<br>=
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex"><div id=3D":1a6" class=3D"a3s aXjCH m15c3abb=
+64b3fca77">Oh, I thought that binconfig.bbclass swung through hoops in orde=
+r to make<br>
+the scripts work well enough. Is that not true?<br>
+<br>
+Many other recipes are still inheriting binconfig rather than<br>
+binconfig-disabled: apr, curl, gnutls, libtasn1.</div></blockquote></div><b=
+r>binconfig goes through hoops that are just not required with pkgconfig, a=
+nd the hoops are hacks which may not be reliable.=C2=A0 I can&#39;t remembe=
+r the details but I do remember that libgcrypt/gnupg was a worst offender h=
+ere.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">C=
+Cing Richard to see if he can remember why.</div><div class=3D"gmail_extra"=
+><br></div><div class=3D"gmail_extra">In the glorious future removing all b=
+inconfig scripts would be the ideal, in my opinion.=C2=A0 Alternatively rep=
+lacing them with glorified pkgconfig wrappers.</div><div class=3D"gmail_ext=
+ra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+
+--001a1139cdf057c1b50550478f34--
