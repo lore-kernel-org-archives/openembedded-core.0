@@ -1,18 +1,35 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id BCC5877E9D;
-	Wed, 24 May 2017 03:01:42 +0000 (UTC)
+Return-Path: <fan.xin@jp.fujitsu.com>
+Received: from mgwkm04.jp.fujitsu.com (mgwkm04.jp.fujitsu.com [202.219.69.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 6D0D6605B3
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 24 May 2017 05:15:09 +0000 (UTC)
+Received: from kw-mxoi1.gw.nic.fujitsu.com (unknown [192.168.231.131]) by
+	mgwkm04.jp.fujitsu.com with smtp
+	id 69bb_d9f2_430375d5_f29c_47f8_9b8c_0bdfb8a848f0;
+	Wed, 24 May 2017 14:15:04 +0900
+Received: from g01jpfmpwyt01.exch.g01.fujitsu.local
+	(g01jpfmpwyt01.exch.g01.fujitsu.local [10.128.193.38])
+	by kw-mxoi1.gw.nic.fujitsu.com (Postfix) with ESMTP id 837EDAC0121
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 24 May 2017 14:15:03 +0900 (JST)
+Received: from G01JPEXCHYT18.g01.fujitsu.local
+	(G01JPEXCHYT18.g01.fujitsu.local [10.128.194.57])
+	by g01jpfmpwyt01.exch.g01.fujitsu.local (Postfix) with ESMTP id
+	71D556D659A for <openembedded-core@lists.openembedded.org>;
+	Wed, 24 May 2017 14:15:02 +0900 (JST)
+Received: from localhost.localdomain (10.24.19.99) by
+	G01JPEXCHYT18.g01.fujitsu.local (10.128.194.57) with Microsoft SMTP
+	Server id 14.3.266.1; Wed, 24 May 2017 14:15:01 +0900
+From: Fan Xin <fan.xin@jp.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 24 May 2017 14:16:15 +0900
+Message-ID: <1495602975-9227-1-git-send-email-fan.xin@jp.fujitsu.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: fan.xin <fan.xin@jp.fujitsu.com>
-Date: Wed, 24 May 2017 03:01:44 -0000
-Message-ID: <20170524030144.26295.50038@do.openembedded.org>
-References: <1495592971-29272-1-git-send-email-fan.xin@jp.fujitsu.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <1495592971-29272-1-git-send-email-fan.xin@jp.fujitsu.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgYmludXRpbHM6IEZpeCBDVkUtMjAxNy04Mzky?=
+X-SecurityPolicyCheck-GC: OK by FENCE-Mail
+X-Encrypted: FENCE-Mail/3.1.1
+X-TM-AS-MML: disable
+Subject: [PATCH v2] binutils: Fix CVE-2017-8392
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,41 +42,161 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 May 2017 03:01:43 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 24 May 2017 05:15:11 -0000
+Content-Type: text/plain
 
-== Series Details ==
+Backport upsream commit to fix CVE-2017-8392
 
-Series: binutils: Fix CVE-2017-8392
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/6873/
-State : failure
+CVE: CVE-2017-8392
+[BZ 21409] -- https://sourceware.org/bugzilla/show_bug.cgi?id=21409
 
-== Summary ==
+	PR 21409, segfault in _bfd_dwarf2_find_nearest_line
 
+	PR 21409
+	* dwarf2.c (_bfd_dwarf2_find_nearest_line): Don't segfault when
+	no symbols.
 
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Patch            binutils: Fix CVE-2017-8392
- Issue             Missing or incorrectly formatted CVE tag in included patch file [test_cve_tag_format] 
-  Suggested fix    Correct or include the CVE tag on cve patch with format: "CVE: CVE-YYYY-XXXX"
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
+Signed-off-by: Fan Xin <fan.xin@jp.fujitsu.com>
 ---
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+ meta/recipes-devtools/binutils/binutils-2.28.inc   |  2 +
+ ...-lookup-of-file-line-information-for-erro.patch | 74 ++++++++++++++++++++++
+ ...segfault-in-_bfd_dwarf2_find_nearest_line.patch | 32 ++++++++++
+ 3 files changed, 108 insertions(+)
+ create mode 100644 meta/recipes-devtools/binutils/binutils/0017-bfd-Improve-lookup-of-file-line-information-for-erro.patch
+ create mode 100644 meta/recipes-devtools/binutils/binutils/0018-PR-21409-segfault-in-_bfd_dwarf2_find_nearest_line.patch
+
+diff --git a/meta/recipes-devtools/binutils/binutils-2.28.inc b/meta/recipes-devtools/binutils/binutils-2.28.inc
+index 7585da1..5492505 100644
+--- a/meta/recipes-devtools/binutils/binutils-2.28.inc
++++ b/meta/recipes-devtools/binutils/binutils-2.28.inc
+@@ -37,6 +37,8 @@ SRC_URI = "\
+      file://0016-Detect-64-bit-MIPS-targets.patch \
+      file://CVE-2017-6965.patch \
+      file://CVE-2017-6966.patch \
++     file://0017-bfd-Improve-lookup-of-file-line-information-for-erro.patch \
++     file://0018-PR-21409-segfault-in-_bfd_dwarf2_find_nearest_line.patch \
+ "
+ S  = "${WORKDIR}/git"
+ 
+diff --git a/meta/recipes-devtools/binutils/binutils/0017-bfd-Improve-lookup-of-file-line-information-for-erro.patch b/meta/recipes-devtools/binutils/binutils/0017-bfd-Improve-lookup-of-file-line-information-for-erro.patch
+new file mode 100644
+index 0000000..0716623
+--- /dev/null
++++ b/meta/recipes-devtools/binutils/binutils/0017-bfd-Improve-lookup-of-file-line-information-for-erro.patch
+@@ -0,0 +1,74 @@
++From 3239a4231ff79bf8b67b8faaf414b1667486167c Mon Sep 17 00:00:00 2001
++From: Andrew Burgess <andrew.burgess@embecosm.com>
++Date: Mon, 19 Dec 2016 15:27:59 +0000
++Subject: [PATCH] bfd: Improve lookup of file / line information for errors
++
++When looking up file and line information (used from the linker to
++report error messages) if no symbol is passed in, then use the symbol
++list to look for a matching symbol.
++
++If a matching symbol is found then use this to look up the file / line
++information.
++
++This should improve errors when looking up file / line information for
++data sections.  Hopefully we should find a matching data symbol, which
++should, in turn (we hope) match a DW_TAG_variable in the DWARF, this
++should allow us to give accurate file / line errors for data symbols.
++
++As the hope is to find a matching DW_TAG_variable in the DWARF then we
++ignore section symbols, and prefer global symbols to locals.
++
++Upstream-Status: Submitted
++
++Signed-off-by: Fan Xin <fan.xin@jp.fujitsu.com>
++---
++ bfd/dwarf2.c                   | 32 ++++++++++++++++++++++++++++++++
++ 1 files changed, 32 insertions(+)
++
++
++diff --git a/bfd/dwarf2.c b/bfd/dwarf2.c
++index 03447a9..9bb8126 100644
++--- a/bfd/dwarf2.c
+++++ b/bfd/dwarf2.c
++@@ -4155,6 +4155,38 @@ _bfd_dwarf2_find_nearest_line (bfd *abfd,
++     {
++       BFD_ASSERT (section != NULL && functionname_ptr != NULL);
++       addr = offset;
+++
+++      /* If we have no SYMBOL but the section we're looking at is not a
+++         code section, then take a look through the list of symbols to see
+++         if we have a symbol at the address we're looking for.  If we do
+++         then use this to look up line information.  This will allow us to
+++         give file and line results for data symbols.  We exclude code
+++         symbols here, if we look up a function symbol and then look up the
+++         line information we'll actually return the line number for the
+++         opening '{' rather than the function definition line.  This is
+++         because looking up by symbol uses the line table, in which the
+++         first line for a function is usually the opening '{', while
+++         looking up the function by section + offset uses the
+++         DW_AT_decl_line from the function DW_TAG_subprogram for the line,
+++         which will be the line of the function name.  */
+++      if ((section->flags & SEC_CODE) == 0)
+++	{
+++	  asymbol **tmp;
+++
+++	  for (tmp = symbols; (*tmp) != NULL; ++tmp)
+++	    if ((*tmp)->the_bfd == abfd
+++		&& (*tmp)->section == section
+++		&& (*tmp)->value == offset
+++		&& ((*tmp)->flags & BSF_SECTION_SYM) == 0)
+++	      {
+++		symbol = *tmp;
+++		do_line = TRUE;
+++                /* For local symbols, keep going in the hope we find a
+++                   global.  */
+++                if ((symbol->flags & BSF_GLOBAL) != 0)
+++                  break;
+++	      }
+++	}
++     }
++ 
++   if (section->output_section)
++-- 
++1.9.1
++
+diff --git a/meta/recipes-devtools/binutils/binutils/0018-PR-21409-segfault-in-_bfd_dwarf2_find_nearest_line.patch b/meta/recipes-devtools/binutils/binutils/0018-PR-21409-segfault-in-_bfd_dwarf2_find_nearest_line.patch
+new file mode 100644
+index 0000000..c9103e0
+--- /dev/null
++++ b/meta/recipes-devtools/binutils/binutils/0018-PR-21409-segfault-in-_bfd_dwarf2_find_nearest_line.patch
+@@ -0,0 +1,32 @@
++From 97e83a100aa8250be783304bfe0429761c6e6b6b Mon Sep 17 00:00:00 2001
++From: Alan Modra <amodra@gmail.com>
++Date: Sun, 23 Apr 2017 13:55:49 +0930
++Subject: [PATCH] PR 21409, segfault in _bfd_dwarf2_find_nearest_line
++
++	PR 21409
++	* dwarf2.c (_bfd_dwarf2_find_nearest_line): Don't segfault when
++	no symbols.
++
++Upstream-Status: Submitted
++
++Signed-off-by: Fan Xin <fan.xin@jp.fujitsu.com>
++---
++ bfd/dwarf2.c  | 2 +-
++ 1 files changed, 1 insertions(+), 1 deletion(-)
++
++diff --git a/bfd/dwarf2.c b/bfd/dwarf2.c
++index 132a674..0ef3e1f 100644
++--- a/bfd/dwarf2.c
+++++ b/bfd/dwarf2.c
++@@ -4205,7 +4205,7 @@ _bfd_dwarf2_find_nearest_line (bfd *abfd,
++          looking up the function by section + offset uses the
++          DW_AT_decl_line from the function DW_TAG_subprogram for the line,
++          which will be the line of the function name.  */
++-      if ((section->flags & SEC_CODE) == 0)
+++      if (symbols != NULL && (section->flags & SEC_CODE) == 0)
++ 	{
++ 	  asymbol **tmp;
++ 
++-- 
++1.9.1
++
+-- 
+1.9.1
 
 
