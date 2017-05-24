@@ -1,63 +1,48 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id C95EC780C5
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f182.google.com (mail-qk0-f182.google.com
+	[209.85.220.182])
+	by mail.openembedded.org (Postfix) with ESMTP id EA992780C5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 May 2017 10:03:55 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id DD99518092;
-	Wed, 24 May 2017 12:03:54 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id GMnjuPnNCyBL; Wed, 24 May 2017 12:03:53 +0200 (CEST)
-Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
-	by bastet.se.axis.com (Postfix) with ESMTPS id 7E4B91831B;
-	Wed, 24 May 2017 12:03:53 +0200 (CEST)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 686BB1A088;
-	Wed, 24 May 2017 12:03:53 +0200 (CEST)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 5CC6E1A07F;
-	Wed, 24 May 2017 12:03:53 +0200 (CEST)
-Received: from seth.se.axis.com (unknown [10.0.2.172])
-	by boulder02.se.axis.com (Postfix) with ESMTP;
-	Wed, 24 May 2017 12:03:53 +0200 (CEST)
-Received: from XBOX03.axis.com (xbox03.axis.com [10.0.5.17])
-	by seth.se.axis.com (Postfix) with ESMTP id 4FC851AE3;
-	Wed, 24 May 2017 12:03:53 +0200 (CEST)
-Received: from xbox12.axis.com (10.0.5.26) by XBOX03.axis.com (10.0.5.17) with
-	Microsoft SMTP Server (TLS) id 15.0.1210.3;
-	Wed, 24 May 2017 12:03:53 +0200
-Received: from XBOX02.axis.com (10.0.5.16) by xbox12.axis.com (10.0.5.26) with
-	Microsoft SMTP Server (TLS) id 15.0.1210.3;
-	Wed, 24 May 2017 12:03:52 +0200
-Received: from XBOX02.axis.com ([fe80::d00f:cb52:1b56:20d]) by XBOX02.axis.com
-	([fe80::d00f:cb52:1b56:20d%21]) with mapi id 15.00.1210.000;
-	Wed, 24 May 2017 12:03:53 +0200
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Joshua Watt <jpewhacker@gmail.com>, Randy Witt
-	<randy.e.witt@linux.intel.com>
-Thread-Topic: [OE-core] [PATCH] openssh: Atomically generate host keys
-Thread-Index: AQHSxtH9tkiyG8k3skSQqXn1vxkEFaIB9PoAgAAOigCAAB/igIAACTSAgAAhrgCAAQ0ggA==
-Date: Wed, 24 May 2017 10:03:53 +0000
-Message-ID: <410d6a00d45b4b1fa84dd0e36196f753@XBOX02.axis.com>
-References: <20170507013304.30165-1-JPEWhacker@gmail.com>
-	<CAJTo0Lafr6dearC1uiQpumEUHA9ggAC59MhtvFWVvYi-Oc_8TQ@mail.gmail.com>
-	<CAJdd5GZeT8h7qXfKF=XM7Q0kKoMgQSxNprqhWz7wYv_vBquzTQ@mail.gmail.com>
-	<09a43b20-0aa0-beed-f019-762bb23d0a79@linux.intel.com>
-	<CAJdd5GadD1wBi_GcWQRk92pW8WG-oUQcATLDemWXcZkCax+pjA@mail.gmail.com>
-	<CAJdd5GZWc73h2hgGk=LboLfYkMPOME1yLoLCZyK5hCy79_TV+w@mail.gmail.com>
-In-Reply-To: <CAJdd5GZWc73h2hgGk=LboLfYkMPOME1yLoLCZyK5hCy79_TV+w@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.60]
+	Wed, 24 May 2017 10:59:16 +0000 (UTC)
+Received: by mail-qk0-f182.google.com with SMTP id y201so150375848qka.0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 24 May 2017 03:59:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=erNBXr21jibRlEKnNpH7lI0fOaImOlaqbvv5QGsrerM=;
+	b=T8EFvF//DC6w0cC6yI2N1Qt8tHu7kfV3FXFRjDg6Rpbrqd7e5Td6xbjh8n+MsQFCjI
+	IZ705k9QRyDNRCPY0hNNHGjGdtBmm0gQiTWw0cPUsQfF0Bdfp56Zhr3wVGjf+ebvqJAK
+	p9BDq5M2QqgoNaAv84eQNvtVOCAU3XczKzIDjN6AnJcvrPCjc+Y8kXJrcvbiMJd7cK1K
+	ifRbJulWRvWYc3ahoH8xcyFrAjob/niCRSFghexE6jHa2Aue+eU44rOPiAPrW9TxuWz7
+	qMp57L1ItxoMjbtzdI0qBrmCchfxVvrjPtFA0Wcd6XOT15k+QeNUZOvTnRBX1ZcOdrLx
+	0L8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=erNBXr21jibRlEKnNpH7lI0fOaImOlaqbvv5QGsrerM=;
+	b=CGRWuVlGq1kad/agMUStzMRnCzIpNkvHu4yDNzXRThqYgnJsJgD1kmOIAXuKACV83x
+	az2YqCmrRLGH9tL9ju5hz6xPDyqV8nDYIUqf/PrIq3ULKJTmK+rpDUk3TocyGG3xNP7p
+	FTqKz1goQOv5Zn/pRKO/wsuESlwzPDBsrM3Xae9YS3tvDv/vw3O2eUtE7fuapqIO++Ro
+	XkUAXCPFoXD6moskYZ2PQFiXNUqKsVH/mD5LgQG7K3qk1uKfPE1hkYOBEkRbppFXNS20
+	zFQAGNstR3JT51lNuVcuBQosJL0if4SGrPKbvRIV/UGKHtsZpVhjSIdq4MC9HdE7q69h
+	+iIA==
+X-Gm-Message-State: AODbwcDe1NOQDKbwxtSrC1Mpnm9mJz1NJIw9yvJNYxWxs+L8KTKOMAg/
+	RsZ4Udx32gRuGDgGuAal60UBc6gsvRMz
+X-Received: by 10.55.140.65 with SMTP id o62mr29753367qkd.127.1495623557539;
+	Wed, 24 May 2017 03:59:17 -0700 (PDT)
 MIME-Version: 1.0
-X-TM-AS-GCONF: 00
+Received: by 10.140.41.115 with HTTP; Wed, 24 May 2017 03:58:57 -0700 (PDT)
+In-Reply-To: <20170523234744.34487-3-raj.khem@gmail.com>
+References: <20170523234744.34487-1-raj.khem@gmail.com>
+	<20170523234744.34487-3-raj.khem@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 24 May 2017 11:58:57 +0100
+Message-ID: <CAJTo0LbJVNpJ5JVHw8bB2NRhSCLCPuUS97e+C_YxAC_An7rCew@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] openssh: Atomically generate host keys
+Subject: Re: [PATCH 3/3] apt-native: Remove USE_NLS = "yes"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -70,153 +55,104 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 May 2017 10:03:56 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Wed, 24 May 2017 10:59:17 -0000
+Content-Type: multipart/alternative; boundary="94eb2c05430edd806f055042fe0c"
+
+--94eb2c05430edd806f055042fe0c
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org
-> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
-> Joshua Watt
-> Sent: den 23 maj 2017 21:57
-> To: Randy Witt <randy.e.witt@linux.intel.com>
-> Cc: OE-core <openembedded-core@lists.openembedded.org>
-> Subject: Re: [OE-core] [PATCH] openssh: Atomically generate host keys
->=20
-> On Tue, May 23, 2017 at 12:56 PM, Joshua Watt <jpewhacker@gmail.com>
-> wrote:
-> > On Tue, May 23, 2017 at 12:23 PM, Randy Witt
-> > <randy.e.witt@linux.intel.com> wrote:
-> >> On 05/23/2017 08:29 AM, Joshua Watt wrote:
-> >>>
-> >>> On Tue, May 23, 2017 at 9:37 AM, Burton, Ross
-> <ross.burton@intel.com>
-> >>> wrote:
-> >>>>
-> >>>>
-> >>>> On 7 May 2017 at 02:33, Joshua Watt <jpewhacker@gmail.com> wrote:
-> >>>>>
-> >>>>>
-> >>>>> +if [ ! -f "$NAME" ]; then
-> >>>>> +    echo "  generating ssh $TYPE key..."
-> >>>>> +    ssh-keygen -q -f "${NAME}.tmp" -N '' -t $TYPE
-> >>>>> +
-> >>>>> +    # Sync to ensure data is written to temp file before
-> renaming
-> >>>>> +    sync
-> >>>>> +
-> >>>>> +    # Move (Atomically rename) files
-> >>>>> +    # Rename the .pub file first, since the check that triggers
-> a
-> >>>>> +    # key generation is based on the private file.
-> >>>>> +    mv -f "${NAME}.tmp.pub" "${NAME}.pub"
-> >>>>> +    sync
-> >>>>> +
-> >>>>> +    mv -f "${NAME}.tmp" "${NAME}"
-> >>>>> +    sync
-> >>>>> +fi
-> >>>>>
-> >>>>
-> >>>> All of these syncs seem quite enthusiastic, are they really
-> needed?
-> >>>> Writing
-> >>>> the file to a temporary name and then mving it to the real name
-> should
-> >>>> result in either no file or a complete file in the event of power
-> loss,
-> >>>> surely?
-> >>>
-> >>>
-> >>> My understanding (and observation) of most journal file systems is
-> >>> that only metadata (i.e. directory entries and such) are journaled
-> in
-> >>> typical usage. The first sync is necessary in this case to ensure
-> that
-> >>> the actual file data gets put on the disk before we rename the
-> files,
-> >>> otherwise in the event of interruption journaled rename might get
-> >>> replayed but have garbage data. The second one is more of a "force
-> >>> operation order" sync to make sure the public file is written
-> before
-> >>> the private one, as a reordering would cause problems. The last
-> sync
-> >>> is the most optional, but I've seen it take minutes for disk to
-> sync
-> >>> contents if no one calls "sync", so it is very possible that all
-> our
-> >>> work of regenerating keys would be for naught if power is
-> interrupted
-> >>> in the meantime.
-> >>>
-> >>> I think some of these syncs can be removed. Namely, the first and
-> >>> third one. The second one needs to be there, but can server double
-> >>> duty of syncing data to disk and enforcing the order between the
-> >>> public and private rename. It does mean we could get a state where
-> the
-> >>> public key exists but is garbage, but this should be OK because the
-> >>> private key won't exist and it would be regenerated.
-> >>>
-> >>> The third sync can be removed and I can put one final sync at the
-> end
-> >>> after all keys are generated to ensure we won't go through all the
-> >>> effort of regenerating the (last) key again in the event of
-> >>> interruption shortly after, unless you would prefer I didn't.
-> >>>
-> >>
-> >> The typical convention for this is,
-> >>
-> >> 1. Update file data.
-> >> 2. sync file
-> >> 3. sync containing directory
-> >> 4. mv file to new location
-> >> 5. sync directory containing new file (although I've seen this step
-> left out
-> >> before)
-> >>
-> >> https://lwn.net/Articles/457672/ is a good example which is linked
-> from
-> >> https://lwn.net/Articles/457667/
-> >>
-> >> But one of the important parts vs your code, is also that the
-> example is
-> >> only calling sync on the files/directory needed, vs calling "sync"
-> with no
-> >> arguments which is going to cause all data in all filesystem caches
-> to be
-> >> flushed.
-> >
-> > Ah, OK. That makes sense, I will update sync to specify the
-> > files/directory explicitly.
->=20
-> FWIW, I did some tests on the sync behavior:
->=20
-> It appears that older versions of the sync command ignore any
-> arguments and just call sync(). From Ubuntu 14.04:
-> $ strace sync foo
-> ...
-> write(2, "sync: ", 6sync: )                   =3D 6
-> write(2, "ignoring all arguments", 22)  =3D 22
-> write(2, "\n", 1)                       =3D 1
-> sync()                                  =3D 0
-> ...
->=20
-> The same is true for the (default) busybox version of sync on master
-> (again verified with strace), but it doesn't complain nosily about it.
+On 24 May 2017 at 00:47, Khem Raj <raj.khem@gmail.com> wrote:
 
-Busybox has a separate fsync applet to do file synchronization, but it=20
-is not enabled in the default OE-core configuration...
+> USE_NLS is target specific, its redundant for native packages
+>
 
-> I looked at the coreutils code, and sync was changed to respect
-> arguments in January of 2015
-> (8b2bf5295f353016d4f5e6a2317d55b6a8e7fd00) and only call fsync() on
-> the provided arguments (if any are provided).
->=20
-> Either way, adding the arguments to the sync call in my patch won't
-> hurt because it is forward compatible, even though it won't be
-> optimally efficient currently because the sync command currently
-> simply calls sync()
+I don't think you're right:
 
-//Peter
+| In file included from
+/data/poky-master/tmp/work/x86_64-linux/apt-native/1.2.12-r0/build/include/=
+apt-private/private-cachefile.h:12:0,
+|                  from
+/data/poky-master/tmp/work/x86_64-linux/apt-native/1.2.12-r0/apt-1.2.12/apt=
+-private/private-output.cc:15:
+| /usr/include/libintl.h:44:14: error: expected unqualified-id before =E2=
+=80=98char=E2=80=99
+|  extern char *dgettext (const char *__domainname, const char *__msgid)
+|               ^
+| /usr/include/libintl.h:44:14: error: expected initializer before =E2=80=
+=98char=E2=80=99
+| In file included from /usr/include/features.h:374:0,
+|                  from /usr/include/x86_64-linux-gnu/sys/types.h:25,
+|                  from /usr/include/regex.h:23,
+|                  from
+/data/poky-master/tmp/work/x86_64-linux/apt-native/1.2.12-r0/build/include/=
+apt-pkg/configuration.h:31,
+|                  from
+/data/poky-master/tmp/work/x86_64-linux/apt-native/1.2.12-r0/apt-1.2.12/apt=
+-private/private-output.cc:4:
+| /usr/include/libintl.h:82:52: error: expected unqualified-id before
+=E2=80=98throw=E2=80=99
+|  extern char *textdomain (const char *__domainname) __THROW;
+|                                                     ^
+| /usr/include/libintl.h:82:52: error: expected initializer before =E2=80=
+=98throw=E2=80=99
+| /usr/include/libintl.h:87:32: error: expected unqualified-id before
+=E2=80=98throw=E2=80=99
+|          const char *__dirname) __THROW;
+|                                 ^
+| ERROR: oe_runmake failed
+| /usr/include/libintl.h:87:32: error: expected initializer before =E2=80=
+=98throw=E2=80=99
 
+native.bbclass sets USE_NLS=3Dno but I think apt requires it to be enabled,
+thus the assignment.
 
+Ross
+
+--94eb2c05430edd806f055042fe0c
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">On 24 May 2017 at 00:47, Khem Raj <span dir=3D"ltr">&lt;<a=
+ href=3D"mailto:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a=
+>&gt;</span> wrote:<br><div class=3D"gmail_extra"><div class=3D"gmail_quote=
+"><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;borde=
+r-left-width:1px;border-left-style:solid;border-left-color:rgb(204,204,204)=
+;padding-left:1ex">USE_NLS is target specific, its redundant for native pac=
+kages<br></blockquote><div><br></div><div>I don&#39;t think you&#39;re righ=
+t:</div><div><br></div><div>| In file included from /data/poky-master/tmp/w=
+ork/x86_64-linux/apt-native/1.2.12-r0/build/include/apt-private/private-cac=
+hefile.h:12:0,</div><div>| =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0from /data/poky-master/tmp/work/x86_64-linux/apt-native/1.2.1=
+2-r0/apt-1.2.12/apt-private/private-output.cc:15:</div><div>| /usr/include/=
+libintl.h:44:14: error: expected unqualified-id before =E2=80=98char=E2=80=
+=99</div><div>| =C2=A0extern char *dgettext (const char *__domainname, cons=
+t char *__msgid)</div><div>| =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 ^</div><div>| /usr/include/libintl.h:44:14: error: expected initializer=
+ before =E2=80=98char=E2=80=99</div><div>| In file included from /usr/inclu=
+de/features.h:374:0,</div><div>| =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0from /usr/include/x86_64-linux-gnu/sys/types.h:25,</div=
+><div>| =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0from =
+/usr/include/regex.h:23,</div><div>| =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0from /data/poky-master/tmp/work/x86_64-linux/apt-na=
+tive/1.2.12-r0/build/include/apt-pkg/configuration.h:31,</div><div>| =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0from /data/poky-mas=
+ter/tmp/work/x86_64-linux/apt-native/1.2.12-r0/apt-1.2.12/apt-private/priva=
+te-output.cc:4:</div><div>| /usr/include/libintl.h:82:52: error: expected u=
+nqualified-id before =E2=80=98throw=E2=80=99</div><div>| =C2=A0extern char =
+*textdomain (const char *__domainname) __THROW;</div><div>| =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 ^</div><div>| /usr/include/libintl.h:82:52: error: exp=
+ected initializer before =E2=80=98throw=E2=80=99</div><div>| /usr/include/l=
+ibintl.h:87:32: error: expected unqualified-id before =E2=80=98throw=E2=80=
+=99</div><div>| =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0const char *__dirname) __=
+THROW;</div><div>| =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ^</div><div>| ERROR=
+: oe_runmake failed</div><div>| /usr/include/libintl.h:87:32: error: expect=
+ed initializer before =E2=80=98throw=E2=80=99=C2=A0</div><div><br></div><di=
+v>native.bbclass sets USE_NLS=3Dno but I think apt requires it to be enable=
+d, thus the assignment.</div><div><br></div><div>Ross</div></div></div></di=
+v>
+
+--94eb2c05430edd806f055042fe0c--
