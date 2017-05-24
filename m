@@ -1,46 +1,36 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 380E577F9C
+Return-Path: <fan.xin@jp.fujitsu.com>
+X-Greylist: delayed 681 seconds by postgrey-1.34 at layers.openembedded.org;
+	Wed, 24 May 2017 02:39:42 UTC
+Received: from mgwkm04.jp.fujitsu.com (mgwkm04.jp.fujitsu.com [202.219.69.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 044D277F50
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 May 2017 23:50:45 +0000 (UTC)
-Received: by mail-wm0-f65.google.com with SMTP id g15so23515164wmc.2
+	Wed, 24 May 2017 02:39:42 +0000 (UTC)
+Received: from kw-mxoi2.gw.nic.fujitsu.com (unknown [192.168.231.133]) by
+	mgwkm04.jp.fujitsu.com with smtp
+	id 0f11_308f_a43e71db_91bf_4f5d_a79b_7c7a5e141d21;
+	Wed, 24 May 2017 11:28:20 +0900
+Received: from g01jpfmpwkw01.exch.g01.fujitsu.local
+	(g01jpfmpwkw01.exch.g01.fujitsu.local [10.0.193.38])
+	by kw-mxoi2.gw.nic.fujitsu.com (Postfix) with ESMTP id DD305AC00E9
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 May 2017 16:50:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=/0TheAmkxnycptfjBY2/c0srI6nOv9/K5nQNSdzBbhY=;
-	b=HyX76VwYsRugPGnqP7OYLzOqexQISdYIu7+4BjFEsbMdSjhqOnAX5ZOC/nvFEbgudm
-	pmjs7Hkd5pF4x/MjR6f10QWU8CQdKVJxHpmr0KtncARAV2lDPqysMEbYjp5xc5V4Lc4R
-	e9zLEcspSgK+23xV+hGUF7R0BzoMFsGvFRvmf92tBOwL5OfUnydz1W2HbTTtx6hHIMOC
-	eG3ei5EfrHGbjRhwKP8tpjbLPjY/BZt9QfNh8FegQjigjAFkz8IqGSwmgOstc9Ohp57y
-	Y2C672M4VLa5Mu5yNBPDaGc0wagC+oi0GsMbYAmA6R65gz80QhxIjf2QIL2wgsrcyZo5
-	O2Og==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=/0TheAmkxnycptfjBY2/c0srI6nOv9/K5nQNSdzBbhY=;
-	b=TzTGxAGwJjAcjIhi4jOCBX9dQkZxZHHrjphgLkuEU9v0YCdsUkt8ImEQRVcL9UKU1T
-	gk8efaNsyKb+qL/I85jBJEn4sSHAaRP3O6l6l2FnjR2XvlSQeA/NkHtZdjzL41rROimw
-	i9r0O3lLQ1loTv/2UEgsNamNx8tGvXSnT0PRfEdYmNWKpEdR8JicdA25vitzirzBsmVZ
-	Qt4RrPmO6dd2+UMpF9VI4uBkHczUU8olRXikKFkj8xT0ekbpNsxWDjnceu5zEFCsaTgo
-	wn91eVf5h7UknIDPPPQ4IAjXbg6u73anLcwgs4ehQognOJpG0c1FkHrd84dysU6eFAfh
-	8bOA==
-X-Gm-Message-State: AODbwcAP9C1Ab9nejdsnA4Qp6X4g6IFDTWFNxEyYjnToI5eAFZg/rsen
-	GozKwO1VZ0SzlhRhwlGmGInF2kxb5g==
-X-Received: by 10.80.154.165 with SMTP id p34mr22304045edb.127.1495583446892; 
-	Tue, 23 May 2017 16:50:46 -0700 (PDT)
+	Wed, 24 May 2017 11:28:19 +0900 (JST)
+Received: from g01jpexchkw33.g01.fujitsu.local (unknown [10.0.193.4])
+	by g01jpfmpwkw01.exch.g01.fujitsu.local (Postfix) with ESMTP id
+	DD2236923FB for <openembedded-core@lists.openembedded.org>;
+	Wed, 24 May 2017 11:28:18 +0900 (JST)
+Received: from localhost.localdomain (10.24.19.99) by
+	g01jpexchkw33.g01.fujitsu.local (10.0.193.36) with Microsoft SMTP
+	Server id 14.3.266.1; Wed, 24 May 2017 11:28:18 +0900
+From: Fan Xin <fan.xin@jp.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 24 May 2017 11:29:31 +0900
+Message-ID: <1495592971-29272-1-git-send-email-fan.xin@jp.fujitsu.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Received: by 10.80.195.143 with HTTP; Tue, 23 May 2017 16:50:16 -0700 (PDT)
-In-Reply-To: <20170522050042.42403-8-raj.khem@gmail.com>
-References: <20170522050042.42403-1-raj.khem@gmail.com>
-	<20170522050042.42403-8-raj.khem@gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 23 May 2017 16:50:16 -0700
-Message-ID: <CAMKF1srcyg9oX6KYPKJa03WbgeN0hvpfH4XBYzLJN+++-c_GaA@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 08/15] xkeyboard-config: Enable nls support explicitly
+X-SecurityPolicyCheck-GC: OK by FENCE-Mail
+X-Encrypted: FENCE-Mail/3.1.1
+X-TM-AS-MML: disable
+Subject: [PATCH] binutils: Fix CVE-2017-8392
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,33 +43,161 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 May 2017 23:50:46 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 24 May 2017 02:39:44 -0000
+Content-Type: text/plain
 
-Drop this one, I have sent a v2
+Backport upsream commit to fix CVE-2017-8392
 
-On Sun, May 21, 2017 at 10:00 PM, Khem Raj <raj.khem@gmail.com> wrote:
-> Helps compile when distros disable NLS
->
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ---
->  meta/recipes-graphics/xorg-lib/xkeyboard-config_2.20.bb | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.20.bb b/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.20.bb
-> index d00904df21..d308e9b07b 100644
-> --- a/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.20.bb
-> +++ b/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.20.bb
-> @@ -19,6 +19,8 @@ SRC_URI[sha256sum] = "d1bfc72553c4e3ef1cd6f13eec0488cf940498b612ab8a0b362e7090c9
->  SECTION = "x11/libs"
->  DEPENDS = "intltool-native virtual/gettext util-macros libxslt-native"
->
-> +USE_NLS = "yes"
-> +
->  EXTRA_OECONF = "--with-xkb-rules-symlink=xorg --disable-runtime-deps"
->
->  FILES_${PN} += "${datadir}/X11/xkb"
-> --
-> 2.13.0
->
+CVE:CVE-2017-8392
+[BZ 21409] -- https://sourceware.org/bugzilla/show_bug.cgi?id=21409
+
+	PR 21409, segfault in _bfd_dwarf2_find_nearest_line
+
+	PR 21409
+	* dwarf2.c (_bfd_dwarf2_find_nearest_line): Don't segfault when
+	no symbols.
+
+Signed-off-by: Fan Xin <fan.xin@jp.fujitsu.com>
+---
+ meta/recipes-devtools/binutils/binutils-2.28.inc   |  2 +
+ ...-lookup-of-file-line-information-for-erro.patch | 74 ++++++++++++++++++++++
+ ...segfault-in-_bfd_dwarf2_find_nearest_line.patch | 32 ++++++++++
+ 3 files changed, 108 insertions(+)
+ create mode 100644 meta/recipes-devtools/binutils/binutils/0017-bfd-Improve-lookup-of-file-line-information-for-erro.patch
+ create mode 100644 meta/recipes-devtools/binutils/binutils/0018-PR-21409-segfault-in-_bfd_dwarf2_find_nearest_line.patch
+
+diff --git a/meta/recipes-devtools/binutils/binutils-2.28.inc b/meta/recipes-devtools/binutils/binutils-2.28.inc
+index 7585da1..5492505 100644
+--- a/meta/recipes-devtools/binutils/binutils-2.28.inc
++++ b/meta/recipes-devtools/binutils/binutils-2.28.inc
+@@ -37,6 +37,8 @@ SRC_URI = "\
+      file://0016-Detect-64-bit-MIPS-targets.patch \
+      file://CVE-2017-6965.patch \
+      file://CVE-2017-6966.patch \
++     file://0017-bfd-Improve-lookup-of-file-line-information-for-erro.patch \
++     file://0018-PR-21409-segfault-in-_bfd_dwarf2_find_nearest_line.patch \
+ "
+ S  = "${WORKDIR}/git"
+ 
+diff --git a/meta/recipes-devtools/binutils/binutils/0017-bfd-Improve-lookup-of-file-line-information-for-erro.patch b/meta/recipes-devtools/binutils/binutils/0017-bfd-Improve-lookup-of-file-line-information-for-erro.patch
+new file mode 100644
+index 0000000..0716623
+--- /dev/null
++++ b/meta/recipes-devtools/binutils/binutils/0017-bfd-Improve-lookup-of-file-line-information-for-erro.patch
+@@ -0,0 +1,74 @@
++From 3239a4231ff79bf8b67b8faaf414b1667486167c Mon Sep 17 00:00:00 2001
++From: Andrew Burgess <andrew.burgess@embecosm.com>
++Date: Mon, 19 Dec 2016 15:27:59 +0000
++Subject: [PATCH] bfd: Improve lookup of file / line information for errors
++
++When looking up file and line information (used from the linker to
++report error messages) if no symbol is passed in, then use the symbol
++list to look for a matching symbol.
++
++If a matching symbol is found then use this to look up the file / line
++information.
++
++This should improve errors when looking up file / line information for
++data sections.  Hopefully we should find a matching data symbol, which
++should, in turn (we hope) match a DW_TAG_variable in the DWARF, this
++should allow us to give accurate file / line errors for data symbols.
++
++As the hope is to find a matching DW_TAG_variable in the DWARF then we
++ignore section symbols, and prefer global symbols to locals.
++
++Upstream-Status: Submitted
++
++Signed-off-by: Fan Xin <fan.xin@jp.fujitsu.com>
++---
++ bfd/dwarf2.c                   | 32 ++++++++++++++++++++++++++++++++
++ 1 files changed, 32 insertions(+)
++
++
++diff --git a/bfd/dwarf2.c b/bfd/dwarf2.c
++index 03447a9..9bb8126 100644
++--- a/bfd/dwarf2.c
+++++ b/bfd/dwarf2.c
++@@ -4155,6 +4155,38 @@ _bfd_dwarf2_find_nearest_line (bfd *abfd,
++     {
++       BFD_ASSERT (section != NULL && functionname_ptr != NULL);
++       addr = offset;
+++
+++      /* If we have no SYMBOL but the section we're looking at is not a
+++         code section, then take a look through the list of symbols to see
+++         if we have a symbol at the address we're looking for.  If we do
+++         then use this to look up line information.  This will allow us to
+++         give file and line results for data symbols.  We exclude code
+++         symbols here, if we look up a function symbol and then look up the
+++         line information we'll actually return the line number for the
+++         opening '{' rather than the function definition line.  This is
+++         because looking up by symbol uses the line table, in which the
+++         first line for a function is usually the opening '{', while
+++         looking up the function by section + offset uses the
+++         DW_AT_decl_line from the function DW_TAG_subprogram for the line,
+++         which will be the line of the function name.  */
+++      if ((section->flags & SEC_CODE) == 0)
+++	{
+++	  asymbol **tmp;
+++
+++	  for (tmp = symbols; (*tmp) != NULL; ++tmp)
+++	    if ((*tmp)->the_bfd == abfd
+++		&& (*tmp)->section == section
+++		&& (*tmp)->value == offset
+++		&& ((*tmp)->flags & BSF_SECTION_SYM) == 0)
+++	      {
+++		symbol = *tmp;
+++		do_line = TRUE;
+++                /* For local symbols, keep going in the hope we find a
+++                   global.  */
+++                if ((symbol->flags & BSF_GLOBAL) != 0)
+++                  break;
+++	      }
+++	}
++     }
++ 
++   if (section->output_section)
++-- 
++1.9.1
++
+diff --git a/meta/recipes-devtools/binutils/binutils/0018-PR-21409-segfault-in-_bfd_dwarf2_find_nearest_line.patch b/meta/recipes-devtools/binutils/binutils/0018-PR-21409-segfault-in-_bfd_dwarf2_find_nearest_line.patch
+new file mode 100644
+index 0000000..c9103e0
+--- /dev/null
++++ b/meta/recipes-devtools/binutils/binutils/0018-PR-21409-segfault-in-_bfd_dwarf2_find_nearest_line.patch
+@@ -0,0 +1,32 @@
++From 97e83a100aa8250be783304bfe0429761c6e6b6b Mon Sep 17 00:00:00 2001
++From: Alan Modra <amodra@gmail.com>
++Date: Sun, 23 Apr 2017 13:55:49 +0930
++Subject: [PATCH] PR 21409, segfault in _bfd_dwarf2_find_nearest_line
++
++	PR 21409
++	* dwarf2.c (_bfd_dwarf2_find_nearest_line): Don't segfault when
++	no symbols.
++
++Upstream-Status: Submitted
++
++Signed-off-by: Fan Xin <fan.xin@jp.fujitsu.com>
++---
++ bfd/dwarf2.c  | 2 +-
++ 1 files changed, 1 insertions(+), 1 deletion(-)
++
++diff --git a/bfd/dwarf2.c b/bfd/dwarf2.c
++index 132a674..0ef3e1f 100644
++--- a/bfd/dwarf2.c
+++++ b/bfd/dwarf2.c
++@@ -4205,7 +4205,7 @@ _bfd_dwarf2_find_nearest_line (bfd *abfd,
++          looking up the function by section + offset uses the
++          DW_AT_decl_line from the function DW_TAG_subprogram for the line,
++          which will be the line of the function name.  */
++-      if ((section->flags & SEC_CODE) == 0)
+++      if (symbols != NULL && (section->flags & SEC_CODE) == 0)
++ 	{
++ 	  asymbol **tmp;
++ 
++-- 
++1.9.1
++
+-- 
+1.9.1
+
 
