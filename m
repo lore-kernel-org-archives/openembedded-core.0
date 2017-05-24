@@ -1,18 +1,18 @@
 Return-Path: <patchwork@patchwork.openembedded.org>
 Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id F301D780ED;
-	Wed, 24 May 2017 21:02:00 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id F0BF1780F3;
+	Wed, 24 May 2017 21:02:01 +0000 (UTC)
 MIME-Version: 1.0
 From: Patchwork <patchwork@patchwork.openembedded.org>
 To: Marek Vasut <marex@denx.de>
-Date: Wed, 24 May 2017 21:02:02 -0000
-Message-ID: <20170524210202.1043.95987@do.openembedded.org>
-References: <20170524204615.2748-1-marex@denx.de>
+Date: Wed, 24 May 2017 21:02:03 -0000
+Message-ID: <20170524210203.1042.10390@do.openembedded.org>
+References: <20170524204636.2797-1-marex@denx.de>
 Reply-To: openembedded-core@lists.openembedded.org
 X-Patchwork-Hint: ignore
-In-Reply-To: <20170524204615.2748-1-marex@denx.de>
+In-Reply-To: <20170524204636.2797-1-marex@denx.de>
 Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgdS1ib290OiBGaXggYnVpbGQgd2l0aCBPcGVuU1NMIDEuMS54?=
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgcWVtdTogQWRkIG5pb3MyIHRhcmdldA==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,15 +25,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 May 2017 21:02:01 -0000
+X-List-Received-Date: Wed, 24 May 2017 21:02:02 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
 == Series Details ==
 
-Series: u-boot: Fix build with OpenSSL 1.1.x
+Series: qemu: Add nios2 target
 Revision: 1
-URL   : https://patchwork.openembedded.org/series/6890/
+URL   : https://patchwork.openembedded.org/series/6891/
 State : failure
 
 == Summary ==
@@ -45,15 +45,14 @@ series by patchtest resulting in the following failures:
 
 
 
-* Issue             Added patch file is missing Upstream-Status in the header [test_upstream_status_presence] 
-  Suggested fix    Add Upstream-Status: <status> to the header of meta/recipes-bsp/u-boot/files/0001-rsa-Fix-build-with-OpenSSL-1.1.x.patch (possible values: Pending, Submitted, Accepted, Backport, Denied, Inappropriate)
-
 * Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
   Suggested fix    Rebase your series on top of targeted branch
   Targeted branch  master (currently at 496a9dc179)
 
-* Issue             A patch file has been added, but does not have a Signed-off-by tag [test_signed_off_by_presence] 
-  Suggested fix    Sign off the added patch file (meta/recipes-bsp/u-boot/files/0001-rsa-Fix-build-with-OpenSSL-1.1.x.patch)
+* Issue             Series sent to the wrong mailing list or some patches from the series correspond to different mailing lists [test_target_mailing_list] 
+  Suggested fix    Send the series again to the correct mailing list (ML)
+  Suggested ML     poky@yoctoproject.org [http://git.yoctoproject.org/cgit/cgit.cgi/poky/]
+  Patch's path:    meta-poky/conf/distro/poky.conf
 
 
 
