@@ -1,26 +1,63 @@
-Return-Path: <Yuanjie.Huang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 1EBDA78059
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id C95EC780C5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 May 2017 09:55:16 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v4O9tI1e010143
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 May 2017 02:55:18 -0700 (PDT)
-Received: from ala-lpd-susbld2.wrs.com (147.11.105.122) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.294.0; Wed, 24 May 2017 02:55:18 -0700
-From: Yuanjie Huang <yuanjie.huang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 24 May 2017 02:55:17 -0700
-Message-ID: <20170524095517.168046-1-yuanjie.huang@windriver.com>
-X-Mailer: git-send-email 2.11.0
-In-Reply-To: <20170524024529.275871-1-yuanjie.huang@windriver.com>
-References: <20170524024529.275871-1-yuanjie.huang@windriver.com>
+	Wed, 24 May 2017 10:03:55 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id DD99518092;
+	Wed, 24 May 2017 12:03:54 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024)
+	with LMTP id GMnjuPnNCyBL; Wed, 24 May 2017 12:03:53 +0200 (CEST)
+Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
+	by bastet.se.axis.com (Postfix) with ESMTPS id 7E4B91831B;
+	Wed, 24 May 2017 12:03:53 +0200 (CEST)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 686BB1A088;
+	Wed, 24 May 2017 12:03:53 +0200 (CEST)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 5CC6E1A07F;
+	Wed, 24 May 2017 12:03:53 +0200 (CEST)
+Received: from seth.se.axis.com (unknown [10.0.2.172])
+	by boulder02.se.axis.com (Postfix) with ESMTP;
+	Wed, 24 May 2017 12:03:53 +0200 (CEST)
+Received: from XBOX03.axis.com (xbox03.axis.com [10.0.5.17])
+	by seth.se.axis.com (Postfix) with ESMTP id 4FC851AE3;
+	Wed, 24 May 2017 12:03:53 +0200 (CEST)
+Received: from xbox12.axis.com (10.0.5.26) by XBOX03.axis.com (10.0.5.17) with
+	Microsoft SMTP Server (TLS) id 15.0.1210.3;
+	Wed, 24 May 2017 12:03:53 +0200
+Received: from XBOX02.axis.com (10.0.5.16) by xbox12.axis.com (10.0.5.26) with
+	Microsoft SMTP Server (TLS) id 15.0.1210.3;
+	Wed, 24 May 2017 12:03:52 +0200
+Received: from XBOX02.axis.com ([fe80::d00f:cb52:1b56:20d]) by XBOX02.axis.com
+	([fe80::d00f:cb52:1b56:20d%21]) with mapi id 15.00.1210.000;
+	Wed, 24 May 2017 12:03:53 +0200
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: Joshua Watt <jpewhacker@gmail.com>, Randy Witt
+	<randy.e.witt@linux.intel.com>
+Thread-Topic: [OE-core] [PATCH] openssh: Atomically generate host keys
+Thread-Index: AQHSxtH9tkiyG8k3skSQqXn1vxkEFaIB9PoAgAAOigCAAB/igIAACTSAgAAhrgCAAQ0ggA==
+Date: Wed, 24 May 2017 10:03:53 +0000
+Message-ID: <410d6a00d45b4b1fa84dd0e36196f753@XBOX02.axis.com>
+References: <20170507013304.30165-1-JPEWhacker@gmail.com>
+	<CAJTo0Lafr6dearC1uiQpumEUHA9ggAC59MhtvFWVvYi-Oc_8TQ@mail.gmail.com>
+	<CAJdd5GZeT8h7qXfKF=XM7Q0kKoMgQSxNprqhWz7wYv_vBquzTQ@mail.gmail.com>
+	<09a43b20-0aa0-beed-f019-762bb23d0a79@linux.intel.com>
+	<CAJdd5GadD1wBi_GcWQRk92pW8WG-oUQcATLDemWXcZkCax+pjA@mail.gmail.com>
+	<CAJdd5GZWc73h2hgGk=LboLfYkMPOME1yLoLCZyK5hCy79_TV+w@mail.gmail.com>
+In-Reply-To: <CAJdd5GZWc73h2hgGk=LboLfYkMPOME1yLoLCZyK5hCy79_TV+w@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.60]
 MIME-Version: 1.0
-Subject: [PATCH V3] binutils: fix CVE-2017-6969 in readelf
+X-TM-AS-GCONF: 00
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] openssh: Atomically generate host keys
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,231 +70,153 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 May 2017 09:55:17 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 24 May 2017 10:03:56 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-CVE: CVE-2017-6969
-[BZ 21156] -- https://sourceware.org/bugzilla/show_bug.cgi?id=21156
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org
+> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
+> Joshua Watt
+> Sent: den 23 maj 2017 21:57
+> To: Randy Witt <randy.e.witt@linux.intel.com>
+> Cc: OE-core <openembedded-core@lists.openembedded.org>
+> Subject: Re: [OE-core] [PATCH] openssh: Atomically generate host keys
+>=20
+> On Tue, May 23, 2017 at 12:56 PM, Joshua Watt <jpewhacker@gmail.com>
+> wrote:
+> > On Tue, May 23, 2017 at 12:23 PM, Randy Witt
+> > <randy.e.witt@linux.intel.com> wrote:
+> >> On 05/23/2017 08:29 AM, Joshua Watt wrote:
+> >>>
+> >>> On Tue, May 23, 2017 at 9:37 AM, Burton, Ross
+> <ross.burton@intel.com>
+> >>> wrote:
+> >>>>
+> >>>>
+> >>>> On 7 May 2017 at 02:33, Joshua Watt <jpewhacker@gmail.com> wrote:
+> >>>>>
+> >>>>>
+> >>>>> +if [ ! -f "$NAME" ]; then
+> >>>>> +    echo "  generating ssh $TYPE key..."
+> >>>>> +    ssh-keygen -q -f "${NAME}.tmp" -N '' -t $TYPE
+> >>>>> +
+> >>>>> +    # Sync to ensure data is written to temp file before
+> renaming
+> >>>>> +    sync
+> >>>>> +
+> >>>>> +    # Move (Atomically rename) files
+> >>>>> +    # Rename the .pub file first, since the check that triggers
+> a
+> >>>>> +    # key generation is based on the private file.
+> >>>>> +    mv -f "${NAME}.tmp.pub" "${NAME}.pub"
+> >>>>> +    sync
+> >>>>> +
+> >>>>> +    mv -f "${NAME}.tmp" "${NAME}"
+> >>>>> +    sync
+> >>>>> +fi
+> >>>>>
+> >>>>
+> >>>> All of these syncs seem quite enthusiastic, are they really
+> needed?
+> >>>> Writing
+> >>>> the file to a temporary name and then mving it to the real name
+> should
+> >>>> result in either no file or a complete file in the event of power
+> loss,
+> >>>> surely?
+> >>>
+> >>>
+> >>> My understanding (and observation) of most journal file systems is
+> >>> that only metadata (i.e. directory entries and such) are journaled
+> in
+> >>> typical usage. The first sync is necessary in this case to ensure
+> that
+> >>> the actual file data gets put on the disk before we rename the
+> files,
+> >>> otherwise in the event of interruption journaled rename might get
+> >>> replayed but have garbage data. The second one is more of a "force
+> >>> operation order" sync to make sure the public file is written
+> before
+> >>> the private one, as a reordering would cause problems. The last
+> sync
+> >>> is the most optional, but I've seen it take minutes for disk to
+> sync
+> >>> contents if no one calls "sync", so it is very possible that all
+> our
+> >>> work of regenerating keys would be for naught if power is
+> interrupted
+> >>> in the meantime.
+> >>>
+> >>> I think some of these syncs can be removed. Namely, the first and
+> >>> third one. The second one needs to be there, but can server double
+> >>> duty of syncing data to disk and enforcing the order between the
+> >>> public and private rename. It does mean we could get a state where
+> the
+> >>> public key exists but is garbage, but this should be OK because the
+> >>> private key won't exist and it would be regenerated.
+> >>>
+> >>> The third sync can be removed and I can put one final sync at the
+> end
+> >>> after all keys are generated to ensure we won't go through all the
+> >>> effort of regenerating the (last) key again in the event of
+> >>> interruption shortly after, unless you would prefer I didn't.
+> >>>
+> >>
+> >> The typical convention for this is,
+> >>
+> >> 1. Update file data.
+> >> 2. sync file
+> >> 3. sync containing directory
+> >> 4. mv file to new location
+> >> 5. sync directory containing new file (although I've seen this step
+> left out
+> >> before)
+> >>
+> >> https://lwn.net/Articles/457672/ is a good example which is linked
+> from
+> >> https://lwn.net/Articles/457667/
+> >>
+> >> But one of the important parts vs your code, is also that the
+> example is
+> >> only calling sync on the files/directory needed, vs calling "sync"
+> with no
+> >> arguments which is going to cause all data in all filesystem caches
+> to be
+> >> flushed.
+> >
+> > Ah, OK. That makes sense, I will update sync to specify the
+> > files/directory explicitly.
+>=20
+> FWIW, I did some tests on the sync behavior:
+>=20
+> It appears that older versions of the sync command ignore any
+> arguments and just call sync(). From Ubuntu 14.04:
+> $ strace sync foo
+> ...
+> write(2, "sync: ", 6sync: )                   =3D 6
+> write(2, "ignoring all arguments", 22)  =3D 22
+> write(2, "\n", 1)                       =3D 1
+> sync()                                  =3D 0
+> ...
+>=20
+> The same is true for the (default) busybox version of sync on master
+> (again verified with strace), but it doesn't complain nosily about it.
 
-PR binutils/21156: Fix illegal memory accesses in readelf when
-ing a corrupt binary.
-PR binutils/21156: Fix another memory access error in readelf when
-parsing a corrupt binary.
+Busybox has a separate fsync applet to do file synchronization, but it=20
+is not enabled in the default OE-core configuration...
 
-Signed-off-by: Yuanjie Huang <yuanjie.huang@windriver.com>
----
- meta/recipes-devtools/binutils/binutils-2.28.inc   |   2 +
- .../binutils/binutils/CVE-2017-6969.patch          |  57 ++++++++++
- .../binutils/binutils/CVE-2017-6969_2.patch        | 122 +++++++++++++++++++++
- 3 files changed, 181 insertions(+)
- create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2017-6969.patch
- create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2017-6969_2.patch
+> I looked at the coreutils code, and sync was changed to respect
+> arguments in January of 2015
+> (8b2bf5295f353016d4f5e6a2317d55b6a8e7fd00) and only call fsync() on
+> the provided arguments (if any are provided).
+>=20
+> Either way, adding the arguments to the sync call in my patch won't
+> hurt because it is forward compatible, even though it won't be
+> optimally efficient currently because the sync command currently
+> simply calls sync()
 
-diff --git a/meta/recipes-devtools/binutils/binutils-2.28.inc b/meta/recipes-devtools/binutils/binutils-2.28.inc
-index 7585da1ca9..fd37484dca 100644
---- a/meta/recipes-devtools/binutils/binutils-2.28.inc
-+++ b/meta/recipes-devtools/binutils/binutils-2.28.inc
-@@ -37,6 +37,8 @@ SRC_URI = "\
-      file://0016-Detect-64-bit-MIPS-targets.patch \
-      file://CVE-2017-6965.patch \
-      file://CVE-2017-6966.patch \
-+     file://CVE-2017-6969.patch \
-+     file://CVE-2017-6969_2.patch \
- "
- S  = "${WORKDIR}/git"
- 
-diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2017-6969.patch b/meta/recipes-devtools/binutils/binutils/CVE-2017-6969.patch
-new file mode 100644
-index 0000000000..ed5403430c
---- /dev/null
-+++ b/meta/recipes-devtools/binutils/binutils/CVE-2017-6969.patch
-@@ -0,0 +1,57 @@
-+From 1d9a2696903fc59d6a936f4ab4e4407ef329d066 Mon Sep 17 00:00:00 2001
-+From: Nick Clifton <nickc@redhat.com>
-+Date: Fri, 17 Feb 2017 15:59:45 +0000
-+Subject: Fix illegal memory accesses in readelf when parsing
-+ a corrupt binary.
-+
-+	PR binutils/21156
-+	* readelf.c (find_section_in_set): Test for invalid section
-+	indicies.
-+
-+CVE: CVE-2017-6969
-+Upstream-Status: Backport [master]
-+
-+Signed-off-by: Yuanjie Huang <yuanjie.huang@windriver.com>
-+---
-+ binutils/ChangeLog |  6 ++++++
-+ binutils/readelf.c | 10 ++++++++--
-+ 2 files changed, 14 insertions(+), 2 deletions(-)
-+
-+diff --git a/binutils/ChangeLog b/binutils/ChangeLog
-+index bd63c8a0d8..1d840b42f9 100644
-+--- a/binutils/ChangeLog
-++++ b/binutils/ChangeLog
-+@@ -1,3 +1,9 @@
-++2017-02-17  Nick Clifton  <nickc@redhat.com>
-++
-++	PR binutils/21156
-++	* readelf.c (find_section_in_set): Test for invalid section
-++	indicies.
-++
-+ 2017-02-13  Nick Clifton  <nickc@redhat.com>
-+ 
-+ 	PR binutils/21139
-+diff --git a/binutils/readelf.c b/binutils/readelf.c
-+index 7c158c6342..4960491c5c 100644
-+--- a/binutils/readelf.c
-++++ b/binutils/readelf.c
-+@@ -675,8 +675,14 @@ find_section_in_set (const char * name, unsigned int * set)
-+   if (set != NULL)
-+     {
-+       while ((i = *set++) > 0)
-+-	if (streq (SECTION_NAME (section_headers + i), name))
-+-	  return section_headers + i;
-++	{
-++	  /* See PR 21156 for a reproducer.  */
-++	  if (i >= elf_header.e_shnum)
-++	    continue; /* FIXME: Should we issue an error message ?  */
-++
-++	  if (streq (SECTION_NAME (section_headers + i), name))
-++	    return section_headers + i;
-++	}
-+     }
-+ 
-+   return find_section (name);
-+-- 
-+2.11.0
-+
-diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2017-6969_2.patch b/meta/recipes-devtools/binutils/binutils/CVE-2017-6969_2.patch
-new file mode 100644
-index 0000000000..59a5dec675
---- /dev/null
-+++ b/meta/recipes-devtools/binutils/binutils/CVE-2017-6969_2.patch
-@@ -0,0 +1,122 @@
-+From ef81126314f67472a46db9581530fbf5ccb6b3f2 Mon Sep 17 00:00:00 2001
-+From: Nick Clifton <nickc@redhat.com>
-+Date: Mon, 20 Feb 2017 14:40:39 +0000
-+Subject: Fix another memory access error in readelf when
-+ parsing a corrupt binary.
-+
-+	PR binutils/21156
-+	* dwarf.c (cu_tu_indexes_read): Move into...
-+	(load_cu_tu_indexes): ... here.  Change the variable into
-+	tri-state.  Change the function into boolean, returning
-+	false if the indicies could not be loaded.
-+	(find_cu_tu_set): Return NULL if the indicies could not be
-+	loaded.
-+
-+CVE: CVE-2017-6969
-+Upstream-Status: Backport [master]
-+
-+Signed-off-by: Yuanjie Huang <yuanjie.huang@windriver.com>
-+---
-+ binutils/ChangeLog | 10 ++++++++++
-+ binutils/dwarf.c   | 34 ++++++++++++++++++++--------------
-+ 2 files changed, 30 insertions(+), 14 deletions(-)
-+
-+diff --git a/binutils/ChangeLog b/binutils/ChangeLog
-+index 1d840b42f9..53352c1801 100644
-+--- a/binutils/ChangeLog
-++++ b/binutils/ChangeLog
-+@@ -1,3 +1,13 @@
-++2017-02-20  Nick Clifton  <nickc@redhat.com>
-++
-++	PR binutils/21156
-++	* dwarf.c (cu_tu_indexes_read): Move into...
-++	(load_cu_tu_indexes): ... here.  Change the variable into
-++	tri-state.  Change the function into boolean, returning
-++	false if the indicies could not be loaded.
-++	(find_cu_tu_set): Return NULL if the indicies could not be
-++	loaded.
-++
-+ 2017-02-17  Nick Clifton  <nickc@redhat.com>
-+ 
-+ 	PR binutils/21156
-+diff --git a/binutils/dwarf.c b/binutils/dwarf.c
-+index 0184a7ab2e..6d879c9b61 100644
-+--- a/binutils/dwarf.c
-++++ b/binutils/dwarf.c
-+@@ -76,7 +76,6 @@ int dwarf_check = 0;
-+    as a zero-terminated list of section indexes comprising one set of debug
-+    sections from a .dwo file.  */
-+ 
-+-static int cu_tu_indexes_read = 0;
-+ static unsigned int *shndx_pool = NULL;
-+ static unsigned int shndx_pool_size = 0;
-+ static unsigned int shndx_pool_used = 0;
-+@@ -99,7 +98,7 @@ static int tu_count = 0;
-+ static struct cu_tu_set *cu_sets = NULL;
-+ static struct cu_tu_set *tu_sets = NULL;
-+ 
-+-static void load_cu_tu_indexes (void *file);
-++static bfd_boolean load_cu_tu_indexes (void *);
-+ 
-+ /* Values for do_debug_lines.  */
-+ #define FLAG_DEBUG_LINES_RAW	 1
-+@@ -2715,7 +2714,7 @@ load_debug_info (void * file)
-+     return num_debug_info_entries;
-+ 
-+   /* If this is a DWARF package file, load the CU and TU indexes.  */
-+-  load_cu_tu_indexes (file);
-++  (void) load_cu_tu_indexes (file);
-+ 
-+   if (load_debug_section (info, file)
-+       && process_debug_info (&debug_displays [info].section, file, abbrev, 1, 0))
-+@@ -7378,21 +7377,27 @@ process_cu_tu_index (struct dwarf_section *section, int do_display)
-+    section sets that we can use to associate a .debug_info.dwo section
-+    with its associated .debug_abbrev.dwo section in a .dwp file.  */
-+ 
-+-static void
-++static bfd_boolean
-+ load_cu_tu_indexes (void *file)
-+ {
-++  static int cu_tu_indexes_read = -1; /* Tri-state variable.  */
-++
-+   /* If we have already loaded (or tried to load) the CU and TU indexes
-+      then do not bother to repeat the task.  */
-+-  if (cu_tu_indexes_read)
-+-    return;
-+-
-+-  if (load_debug_section (dwp_cu_index, file))
-+-    process_cu_tu_index (&debug_displays [dwp_cu_index].section, 0);
-+-
-+-  if (load_debug_section (dwp_tu_index, file))
-+-    process_cu_tu_index (&debug_displays [dwp_tu_index].section, 0);
-++  if (cu_tu_indexes_read == -1)
-++    {
-++      cu_tu_indexes_read = TRUE;
-++  
-++      if (load_debug_section (dwp_cu_index, file))
-++	if (! process_cu_tu_index (&debug_displays [dwp_cu_index].section, 0))
-++	  cu_tu_indexes_read = FALSE;
-++
-++      if (load_debug_section (dwp_tu_index, file))
-++	if (! process_cu_tu_index (&debug_displays [dwp_tu_index].section, 0))
-++	  cu_tu_indexes_read = FALSE;
-++    }
-+ 
-+-  cu_tu_indexes_read = 1;
-++  return (bfd_boolean) cu_tu_indexes_read;
-+ }
-+ 
-+ /* Find the set of sections that includes section SHNDX.  */
-+@@ -7402,7 +7407,8 @@ find_cu_tu_set (void *file, unsigned int shndx)
-+ {
-+   unsigned int i;
-+ 
-+-  load_cu_tu_indexes (file);
-++  if (! load_cu_tu_indexes (file))
-++    return NULL;
-+ 
-+   /* Find SHNDX in the shndx pool.  */
-+   for (i = 0; i < shndx_pool_used; i++)
-+-- 
-+2.11.0
-+
--- 
-2.11.0
+//Peter
 
 
