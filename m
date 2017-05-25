@@ -1,18 +1,18 @@
 Return-Path: <patchwork@patchwork.openembedded.org>
 Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 70DF97811C;
-	Thu, 25 May 2017 15:01:40 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id 6E0B378121;
+	Thu, 25 May 2017 15:01:41 +0000 (UTC)
 MIME-Version: 1.0
 From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Ed Bartosh <ed.bartosh@linux.intel.com>
-Date: Thu, 25 May 2017 15:01:42 -0000
-Message-ID: <20170525150142.1042.57283@do.openembedded.org>
-References: <cover.1495722660.git.ed.bartosh@linux.intel.com>
+To: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 25 May 2017 15:01:43 -0000
+Message-ID: <20170525150143.1040.50698@do.openembedded.org>
+References: <20170525144732.15447-1-raj.khem@gmail.com>
 Reply-To: openembedded-core@lists.openembedded.org
 X-Patchwork-Hint: ignore
-In-Reply-To: <cover.1495722660.git.ed.bartosh@linux.intel.com>
+In-Reply-To: <20170525144732.15447-1-raj.khem@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgVGhpcyBpcyBhbiBpbXBsZW1lbnRhdGlvbiBvZiBuZXcgd2ljIHN1YmNvbW1hbmQgJ3dpYyBjcCcu?=
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgbWV0YS1wZXJsOiBNYWtlIGdsaWJjLWdjb252IGRlcHMgYXBwbHkgZm9yIGdsaWJjIGJhc2VkIHN5c3RlbXMgYWxvbmU=?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,15 +25,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 May 2017 15:01:40 -0000
+X-List-Received-Date: Thu, 25 May 2017 15:01:41 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
 == Series Details ==
 
-Series: This is an implementation of new wic subcommand 'wic cp'.
+Series: meta-perl: Make glibc-gconv deps apply for glibc based systems alone
 Revision: 1
-URL   : https://patchwork.openembedded.org/series/6907/
+URL   : https://patchwork.openembedded.org/series/6908/
 State : failure
 
 == Summary ==
