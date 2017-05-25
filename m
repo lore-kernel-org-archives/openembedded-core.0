@@ -1,26 +1,26 @@
 Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 8447B78127
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by mail.openembedded.org (Postfix) with ESMTP id DB37178133
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 May 2017 14:47:39 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga105.fm.intel.com with ESMTP; 25 May 2017 07:47:41 -0700
+	Thu, 25 May 2017 14:47:42 +0000 (UTC)
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by orsmga104.jf.intel.com with ESMTP; 25 May 2017 07:47:42 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.38,391,1491289200"; d="scan'208";a="1174254162"
+X-IronPort-AV: E=Sophos;i="5.38,391,1491289200"; d="scan'208";a="266315140"
 Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga002.fm.intel.com with ESMTP; 25 May 2017 07:47:41 -0700
+	by fmsmga004.fm.intel.com with ESMTP; 25 May 2017 07:47:42 -0700
 Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
-	by linux.intel.com (Postfix) with ESMTP id 0B57B580363
+	by linux.intel.com (Postfix) with ESMTP id 17FBF580363
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 May 2017 07:47:40 -0700 (PDT)
+	Thu, 25 May 2017 07:47:41 -0700 (PDT)
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 25 May 2017 17:46:19 +0300
-Message-Id: <1f5c16083268ad61261ff73a7230f88cf012679a.1495722660.git.ed.bartosh@linux.intel.com>
+Date: Thu, 25 May 2017 17:46:20 +0300
+Message-Id: <1cde42bd57a128abd1d14985671233f4e39cd49e.1495722660.git.ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1495722660.git.ed.bartosh@linux.intel.com>
 References: <cover.1495722660.git.ed.bartosh@linux.intel.com>
-Subject: [PATCH 02/11] wic: add help and usage content for 'wic cp'
+Subject: [PATCH 03/11] wic: add 'wic cp' command
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,93 +33,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 May 2017 14:47:40 -0000
+X-List-Received-Date: Thu, 25 May 2017 14:47:43 -0000
 
-Added wic_cp_help and wic_cp_usage variables to
-help.py. These variables contain help content that
-will be used in 'wic cp help' and 'wic cp --help'
-output.
+Added empty 'wic cp' command that does nothing.
+The functionality will be added by the next commits.
 
 [YOCTO #11283]
 
 Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 ---
- scripts/lib/wic/help.py | 62 +++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 62 insertions(+)
+ scripts/lib/wic/engine.py |  7 +++++++
+ scripts/wic               | 13 +++++++++++++
+ 2 files changed, 20 insertions(+)
 
-diff --git a/scripts/lib/wic/help.py b/scripts/lib/wic/help.py
-index bb3c749..e93ac4b 100644
---- a/scripts/lib/wic/help.py
-+++ b/scripts/lib/wic/help.py
-@@ -349,6 +349,68 @@ DESCRIPTION
+diff --git a/scripts/lib/wic/engine.py b/scripts/lib/wic/engine.py
+index 95c8d1c..f8f2844 100644
+--- a/scripts/lib/wic/engine.py
++++ b/scripts/lib/wic/engine.py
+@@ -309,6 +309,13 @@ def wic_ls(args, native_sysroot):
+         path = args.path.path or '/'
+         print(disk.dir(args.path.part, path))
  
- """
++def wic_cp(args, native_sysroot):
++    """
++    Copy local file or directory to the vfat partition of
++    partitioned image.
++    """
++    pass
++
+ def find_canned(scripts_path, file_name):
+     """
+     Find a file either by its path or by name in the canned files dir.
+diff --git a/scripts/wic b/scripts/wic
+index 945dda8..5e81fad 100755
+--- a/scripts/wic
++++ b/scripts/wic
+@@ -241,6 +241,12 @@ def wic_ls_subcommand(args, usage_str):
+     """
+     engine.wic_ls(args, args.native_sysroot)
  
-+wic_cp_usage = """
-+
-+ Copy files and directories to the vfat partitions
-+
-+ usage: wic cp <src> <image>:<vfat partition>[<path>] [--native-sysroot <path>]
-+
-+ This command  copies local files or directories to the vfat partitions of partitioned
-+ image.
-+
-+ See 'wic help cp' for more detailed instructions.
-+
-+"""
-+
-+wic_cp_help = """
-+
-+NAME
-+    wic cp - copy files and directories to the vfat partitions
-+
-+SYNOPSIS
-+    wic cp <src> <image>:<vfat partition>
-+    wic cp <src> <image>:<vfat partition><path>
-+    wic cp <src> <image>:<vfat partition><path> --native-sysroot <path>
-+
-+DESCRIPTION
-+    This command copies files and directories to the vfat partition of the
-+    wic image.
-+
-+    The first form of it copies file or directory to the root directory of
-+    the vfat partition:
-+        $ wic cp test.wks tmp/deploy/images/qemux86-64/core-image-minimal-qemux86-64.wic:1
-+        $ wic ls tmp/deploy/images/qemux86-64/core-image-minimal-qemux86-64.wic:1
-+        Volume in drive : is boot
-+         Volume Serial Number is DB4C-FD4C
-+        Directory for ::/
-+
-+        efi          <DIR>     2017-05-24  18:15
-+        loader       <DIR>     2017-05-24  18:15
-+        startup  nsh        26 2017-05-24  18:15
-+        vmlinuz        6926384 2017-05-24  18:15
-+        test     wks       628 2017-05-24  21:22
-+                5 files           6 927 038 bytes
-+                                 15 677 440 bytes free
-+
-+    The second form of the command copies file or directory to the specified directory
-+    on the vfat partition:
-+       $ wic cp test tmp/deploy/images/qemux86-64/core-image-minimal-qemux86-64.wic:1/efi/
-+       $ wic ls tmp/deploy/images/qemux86-64/core-image-minimal-qemux86-64.wic:1/eti/
-+       Volume in drive : is boot
-+        Volume Serial Number is DB4C-FD4C
-+       Directory for ::/efi
-+
-+       .            <DIR>     2017-05-24  18:15
-+       ..           <DIR>     2017-05-24  18:15
-+       boot         <DIR>     2017-05-24  18:15
-+       test         <DIR>     2017-05-24  21:27
-+               4 files                   0 bytes
-+                                15 675 392 bytes free
-+
-+    The -n option is used to specify the path to the native sysroot
-+    containing the tools(parted and mtools) to use.
-+"""
-+
- wic_plugins_help = """
++def wic_cp_subcommand(args, usage_str):
++    """
++    Command-line handling for copying files/dirs to images.
++    The real work is done by engine.wic_cp()
++    """
++    engine.wic_cp(args, args.native_sysroot)
  
- NAME
+ def wic_help_subcommand(args, usage_str):
+     """
+@@ -277,6 +283,9 @@ helptopics = {
+     "ls":        [wic_help_topic_subcommand,
+                   wic_help_topic_usage,
+                   hlp.wic_ls_help],
++    "cp":        [wic_help_topic_subcommand,
++                  wic_help_topic_usage,
++                  hlp.wic_cp_help],
+     "list":      [wic_help_topic_subcommand,
+                   wic_help_topic_usage,
+                   hlp.wic_list_help]
+@@ -390,6 +399,10 @@ subcommands = {
+                   hlp.wic_ls_usage,
+                   hlp.wic_ls_help,
+                   wic_init_parser_ls],
++    "cp":        [wic_cp_subcommand,
++                  hlp.wic_cp_usage,
++                  hlp.wic_cp_help,
++                  wic_init_parser_cp],
+     "help":      [wic_help_subcommand,
+                   wic_help_topic_usage,
+                   hlp.wic_help_help,
 -- 
 2.1.4
 
