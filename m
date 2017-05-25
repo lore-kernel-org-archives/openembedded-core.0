@@ -1,45 +1,48 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f52.google.com (mail-wm0-f52.google.com [74.125.82.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 231F7780FD
+Received: from mail-wm0-f47.google.com (mail-wm0-f47.google.com [74.125.82.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 99659780FD
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 May 2017 11:16:58 +0000 (UTC)
-Received: by mail-wm0-f52.google.com with SMTP id d127so93065967wmf.0
+	Thu, 25 May 2017 11:16:59 +0000 (UTC)
+Received: by mail-wm0-f47.google.com with SMTP id 123so32619064wmg.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 May 2017 04:17:00 -0700 (PDT)
+	Thu, 25 May 2017 04:17:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id;
-	bh=EndmnMq48xNPv1X/x1YuT8PMYCuw7Gao6DRLDI8Veis=;
-	b=YRpXbvAxeyFGEjKtk7i7lpSuTGlEA6Xa17AHGFhZa17PNRHXlKuOeR4KXUn0X5Z3Sa
-	fazQAKwcUI1SVIMXULDWNQeEI4qQdinB8FLdYH8/fztUkT0ijb492KADmep96Dk+3u0z
-	ASVpcNpHnU2PEKpgyasf1BjSE01esgkaeMyQJhK2eQOCSWP1SJaRmsYpdny46QCeAc4v
-	Duki12vIMKqpmIZJO/+Nu+LXCyeUuaHOTs6llJcN0U7hO0abqronWwEMqFPn0bnp+ARF
-	XpZZ/6Ib4PV1Mf+UoXy+Qh9nI2seLTvNBdKqbKoXdikRTxgMtDxCBVL+copG/7n450cZ
-	8oKg==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=yXw+m6MehVrIAvbt5g3AXn6iE3lPfoGzVKWp8NRRBLU=;
+	b=f7cpB9t+hr8En5DL7Lj7qcAHF1hL6FjJT2/eTh/wmAFle+QZFSKBez+S0bF6Nsq4U7
+	7kZ78Z/lujglczq4EW3kuOAwSDv3iieP2S0VFQ20P+dZS1DYx93tElfrTKPQ+t+zwgix
+	16TJ7VHUuxDmQQpjDgJ7Bl61Ed99X9by187hJAg+p1NWldsHcODlB++Hyjf+1keK9915
+	HHS6QYrBpj4VIkVw+27Cq97cVS4pTmdF8HOpZ+l7d9UScsSo7+2EJwFf54p6kyUvYK1M
+	AxCp2rXz47cL4WTbH6Ta62CDDpKNkP/lmbZVZeLmGXuYWgauJvX+hQXgZV5fhzKd62TV
+	F7Uw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=EndmnMq48xNPv1X/x1YuT8PMYCuw7Gao6DRLDI8Veis=;
-	b=n4wGDO/inDkhjt5Zt+ANtbnuNFbSTYUUp3N/op56oDtzmmA3SE/dNWIAJmBMtjyJsv
-	nGkD24jBQn8Mo8gz9M4Wo8JhZigazbgR4lk4lw6q7bfQINQvcIJUrUiiDRmtOx1TPbXo
-	KO/Uu2hVdrVRfNLlat0rjmnJ6UvhQkUyYyKwylZiPq93LwgeT5FIjTnVI87SAvL0a0ZF
-	//J4mQMmB86f2OjT7FP2C52GhukP8yimYZjMVsUEvGAUm/v4mU9a+ylJ1azUidG2IsLn
-	qm15WD0QeOYKlcECw3RIy/MX0c/5TUMYJhN5pInQB7UR6guMbi/PEp+NUHD/4BJg7ZSh
-	NhgA==
-X-Gm-Message-State: AODbwcCDslu9yoSiHaClZFMA7ehpQY21TGPYmh4wh/6gFXPb9BvNsIO2
-	aOzERtiHwq99+XSM
-X-Received: by 10.223.135.50 with SMTP id a47mr23489615wra.138.1495711018549; 
-	Thu, 25 May 2017 04:16:58 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=yXw+m6MehVrIAvbt5g3AXn6iE3lPfoGzVKWp8NRRBLU=;
+	b=M6e1PltBiJx80wJRMFzXh0xXLCEQfHPHjVZ5SGepRd7EvIrQKP6u+TIypRwwW1eiC4
+	y0p9TpZJHFlj/J/7Z3ITUsBLca6i9WTh8ngTkomtGBfNocKUaPM43S5HolSdnxYT+icR
+	iI8kzCAD58sEFk9LtIRitwWn8/aU5OJXaUiFC+3H+jpSHyd1ZzkRdrlxoAiVyMQKpoqg
+	Hd8Zn2FKzF042oj1Z6XmTwXfgMak2USSmdIwZAwkW2n2AtwgdgCUaPuArXGCcVKCpWoq
+	ROhtgH4jM8998FP1sxN5yWLow0E2mvrCDPNr93ZyM0ruMlgkc2nDT+WSnGlsMvlpu/yg
+	TfiQ==
+X-Gm-Message-State: AODbwcBs6qwbSABrxu8++UVcEpL2WGU43PcSxqSbRoc+T0ATAr7dmbBH
+	HMd7dEmeyeO9N7r9
+X-Received: by 10.28.1.198 with SMTP id 189mr9020885wmb.18.1495711020327;
+	Thu, 25 May 2017 04:17:00 -0700 (PDT)
 Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id d74sm8544169wmi.3.2017.05.25.04.16.57
+	by smtp.gmail.com with ESMTPSA id d74sm8544169wmi.3.2017.05.25.04.16.59
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 25 May 2017 04:16:58 -0700 (PDT)
+	Thu, 25 May 2017 04:16:59 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 25 May 2017 12:16:50 +0100
-Message-Id: <1495711012-6397-1-git-send-email-ross.burton@intel.com>
+Date: Thu, 25 May 2017 12:16:52 +0100
+Message-Id: <1495711012-6397-3-git-send-email-ross.burton@intel.com>
 X-Mailer: git-send-email 2.8.1
-Subject: [PATCH][morty 1/3] insane: remove broken unsafe-references-in-binaries test
+In-Reply-To: <1495711012-6397-1-git-send-email-ross.burton@intel.com>
+References: <1495711012-6397-1-git-send-email-ross.burton@intel.com>
+Subject: [PATCH][morty 3/3] selftest: do not perform a full build in test_continue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,80 +55,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 May 2017 11:16:59 -0000
+X-List-Received-Date: Thu, 25 May 2017 11:17:00 -0000
 
-This test aims to detect binaries in /bin which link to libraries in /usr/lib,
-for the case where the user has /usr on a separate filesystem to /.
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 
-However it doesn't scan both image/ and the sysroot, so if a binary in /bin
-links to a library in /usr/lib that was built by the same recipe then it will
-error out.
+This was fetching and building the toolchain and everything else
+against empty download dir and sstate cache, and so was enormously slow.
+The test does not need that, it only checks that one fetch task fails and
+another succeeds when using bitbake's -k option.
 
-This test isn't enabled by default, and because of this serious bug I suspect
-nobody else is enabling it either.  As /usr being on a separate partition to /
-is a very rare configuration these days I think we should delete the test: if
-someone cares sufficiently they should write a test that actually works.
-
-(From OE-Core rev: a6af5bbf3dad6f0951c67a0aae13ef86a8906893)
-
+Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 Signed-off-by: Ross Burton <ross.burton@intel.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/classes/insane.bbclass | 41 -----------------------------------------
- 1 file changed, 41 deletions(-)
+ meta/lib/oeqa/selftest/bbtests.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-index 5ddb87b..e541c72 100644
---- a/meta/classes/insane.bbclass
-+++ b/meta/classes/insane.bbclass
-@@ -405,47 +405,6 @@ def package_qa_check_perm(path,name,d, elf, messages):
-     """
-     return
- 
--QAPATHTEST[unsafe-references-in-binaries] = "package_qa_check_unsafe_references_in_binaries"
--def package_qa_check_unsafe_references_in_binaries(path, name, d, elf, messages):
--    """
--    Ensure binaries in base_[bindir|sbindir|libdir] do not link to files under exec_prefix
--    """
--    if unsafe_references_skippable(path, name, d):
--        return
--
--    if elf:
--        import subprocess as sub
--        pn = d.getVar('PN', True)
--
--        exec_prefix = d.getVar('exec_prefix', True)
--        sysroot_path = d.getVar('STAGING_DIR_TARGET', True)
--        sysroot_path_usr = sysroot_path + exec_prefix
--
--        try:
--            ldd_output = bb.process.Popen(["prelink-rtld", "--root", sysroot_path, path], stdout=sub.PIPE).stdout.read().decode("utf-8")
--        except bb.process.CmdError:
--            error_msg = pn + ": prelink-rtld aborted when processing %s" % path
--            package_qa_handle_error("unsafe-references-in-binaries", error_msg, d)
--            return False
--
--        if sysroot_path_usr in ldd_output:
--            ldd_output = ldd_output.replace(sysroot_path, "")
--
--            pkgdest = d.getVar('PKGDEST', True)
--            packages = d.getVar('PACKAGES', True)
--
--            for package in packages.split():
--                short_path = path.replace('%s/%s' % (pkgdest, package), "", 1)
--                if (short_path != path):
--                    break
--
--            base_err = pn + ": %s, installed in the base_prefix, requires a shared library under exec_prefix (%s)" % (short_path, exec_prefix)
--            for line in ldd_output.split('\n'):
--                if exec_prefix in line:
--                    error_msg = "%s: %s" % (base_err, line.strip())
--                    package_qa_handle_error("unsafe-references-in-binaries", error_msg, d)
--
--            return False
- 
- QAPATHTEST[unsafe-references-in-scripts] = "package_qa_check_unsafe_references_in_scripts"
- def package_qa_check_unsafe_references_in_scripts(path, name, d, elf, messages):
+diff --git a/meta/lib/oeqa/selftest/bbtests.py b/meta/lib/oeqa/selftest/bbtests.py
+index baae1e0..c9802a4 100644
+--- a/meta/lib/oeqa/selftest/bbtests.py
++++ b/meta/lib/oeqa/selftest/bbtests.py
+@@ -221,7 +221,7 @@ INHERIT_remove = \"report-error\"
+         self.track_for_cleanup(os.path.join(self.builddir, "download-selftest"))
+         self.write_recipeinc('man',"\ndo_fail_task () {\nexit 1 \n}\n\naddtask do_fail_task before do_fetch\n" )
+         runCmd('bitbake -c cleanall man xcursor-transparent-theme')
+-        result = runCmd('bitbake man xcursor-transparent-theme -k', ignore_status=True)
++        result = runCmd('bitbake -c unpack -k man xcursor-transparent-theme', ignore_status=True)
+         errorpos = result.output.find('ERROR: Function failed: do_fail_task')
+         manver = re.search("NOTE: recipe xcursor-transparent-theme-(.*?): task do_unpack: Started", result.output)
+         continuepos = result.output.find('NOTE: recipe xcursor-transparent-theme-%s: task do_unpack: Started' % manver.group(1))
 -- 
 2.8.1
 
