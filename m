@@ -1,48 +1,47 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f47.google.com (mail-wm0-f47.google.com [74.125.82.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 99659780FD
+Received: from mail-qt0-f180.google.com (mail-qt0-f180.google.com
+	[209.85.216.180])
+	by mail.openembedded.org (Postfix) with ESMTP id ECF9B77E31
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 May 2017 11:16:59 +0000 (UTC)
-Received: by mail-wm0-f47.google.com with SMTP id 123so32619064wmg.1
+	Thu, 25 May 2017 11:50:09 +0000 (UTC)
+Received: by mail-qt0-f180.google.com with SMTP id t26so177787518qtg.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 May 2017 04:17:01 -0700 (PDT)
+	Thu, 25 May 2017 04:50:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=yXw+m6MehVrIAvbt5g3AXn6iE3lPfoGzVKWp8NRRBLU=;
-	b=f7cpB9t+hr8En5DL7Lj7qcAHF1hL6FjJT2/eTh/wmAFle+QZFSKBez+S0bF6Nsq4U7
-	7kZ78Z/lujglczq4EW3kuOAwSDv3iieP2S0VFQ20P+dZS1DYx93tElfrTKPQ+t+zwgix
-	16TJ7VHUuxDmQQpjDgJ7Bl61Ed99X9by187hJAg+p1NWldsHcODlB++Hyjf+1keK9915
-	HHS6QYrBpj4VIkVw+27Cq97cVS4pTmdF8HOpZ+l7d9UScsSo7+2EJwFf54p6kyUvYK1M
-	AxCp2rXz47cL4WTbH6Ta62CDDpKNkP/lmbZVZeLmGXuYWgauJvX+hQXgZV5fhzKd62TV
-	F7Uw==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=U0MwXxLlRaCkCjAsxNUMSaXJ15VbeRP7BXnvAE9vP+s=;
+	b=00oFuuaaHbkyNNTRttXj+imfCPdXTmk2CNGUaq/GuFe+aZtEYtyai1mAKTT+434rKr
+	QuPGpEHiOp3fSWkw+ocNGRQfpohqImaMjtBOz8wv9R+AnE046WyCByE5RZ3veOo2MRTT
+	pr4hYuztwZdOpcvZ6KqWDwTs0SGi5L0kdKuXaFWEQ96RXV3rF5hx1pjapK6z/u3pFo7s
+	KDcEjx1vVB4P0NmeM+BO5RDKar4asoIkBQ8QVXH0ziwbDDTLqoJaKnsQ6EFkj15rlXM8
+	WL2jJvtVHTnijCymilCBknHwr37zDf44iQCA6mSFZcv9Id3o1IctqrFH0x+XCVOiyULh
+	8sTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=yXw+m6MehVrIAvbt5g3AXn6iE3lPfoGzVKWp8NRRBLU=;
-	b=M6e1PltBiJx80wJRMFzXh0xXLCEQfHPHjVZ5SGepRd7EvIrQKP6u+TIypRwwW1eiC4
-	y0p9TpZJHFlj/J/7Z3ITUsBLca6i9WTh8ngTkomtGBfNocKUaPM43S5HolSdnxYT+icR
-	iI8kzCAD58sEFk9LtIRitwWn8/aU5OJXaUiFC+3H+jpSHyd1ZzkRdrlxoAiVyMQKpoqg
-	Hd8Zn2FKzF042oj1Z6XmTwXfgMak2USSmdIwZAwkW2n2AtwgdgCUaPuArXGCcVKCpWoq
-	ROhtgH4jM8998FP1sxN5yWLow0E2mvrCDPNr93ZyM0ruMlgkc2nDT+WSnGlsMvlpu/yg
-	TfiQ==
-X-Gm-Message-State: AODbwcBs6qwbSABrxu8++UVcEpL2WGU43PcSxqSbRoc+T0ATAr7dmbBH
-	HMd7dEmeyeO9N7r9
-X-Received: by 10.28.1.198 with SMTP id 189mr9020885wmb.18.1495711020327;
-	Thu, 25 May 2017 04:17:00 -0700 (PDT)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id d74sm8544169wmi.3.2017.05.25.04.16.59
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 25 May 2017 04:16:59 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 25 May 2017 12:16:52 +0100
-Message-Id: <1495711012-6397-3-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.8.1
-In-Reply-To: <1495711012-6397-1-git-send-email-ross.burton@intel.com>
-References: <1495711012-6397-1-git-send-email-ross.burton@intel.com>
-Subject: [PATCH][morty 3/3] selftest: do not perform a full build in test_continue
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=U0MwXxLlRaCkCjAsxNUMSaXJ15VbeRP7BXnvAE9vP+s=;
+	b=YGOJFP8eYj4ErXPDZS1diEUoRpVDTMsStVzcP5XKReIQpCbYzrcoGx7TCxwrOGVEXk
+	nMPZaBY4csptTGfPsJRtOJkJ0kQ6H7XgkSu5QQsuf7m3otw42OwGWUcigE+30BlGC3rj
+	DoYd9yQ/+Dtbyb3+rKQFiYmNtxh3GHx6sGotU0n2uH654/l5yr5i/Mp87AkZvJZ4UNLt
+	oy5C3ELNmnq85BxQGK4INsWtzhn3AXdKHd5Rcq3ZpVMuBXkam82hIjFgAh0SGc3mzn8o
+	OT94ck5lTR+egGNRl+JfTWRM4mFu28cD3E5Jh1hpx6W1hChrX0ql8avsvr+eLKRxQw+e
+	JdXQ==
+X-Gm-Message-State: AODbwcBplwi3iozfnKmlkO/IdVlBb53xYJpc5uQamDgApEeRAFm1S8bS
+	1pPsIv94Ii4ZjhrspB/60ZE9ahq0lrsb
+X-Received: by 10.200.47.210 with SMTP id m18mr40912933qta.44.1495713010645;
+	Thu, 25 May 2017 04:50:10 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.41.115 with HTTP; Thu, 25 May 2017 04:49:50 -0700 (PDT)
+In-Reply-To: <1495678712-44204-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
+References: <1495678712-44204-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 25 May 2017 12:49:50 +0100
+Message-ID: <CAJTo0Lao3m_MEjgiVyvOCWamdi488Ya75eyTS=vvHvwHfpnqyA@mail.gmail.com>
+To: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] curl: fix libssl error for ARMv8
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,35 +54,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 May 2017 11:17:00 -0000
+X-List-Received-Date: Thu, 25 May 2017 11:50:10 -0000
+Content-Type: multipart/alternative; boundary="001a1142adbaafadda055057d270"
 
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+--001a1142adbaafadda055057d270
+Content-Type: text/plain; charset="UTF-8"
 
-This was fetching and building the toolchain and everything else
-against empty download dir and sstate cache, and so was enormously slow.
-The test does not need that, it only checks that one fetch task fails and
-another succeeds when using bitbake's -k option.
+On 25 May 2017 at 03:18, Huang Qiyu <huangqy.fnst@cn.fujitsu.com> wrote:
 
-Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/lib/oeqa/selftest/bbtests.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> +PACKAGECONFIG_aarch64 ??= "${@bb.utils.contains("DISTRO_FEATURES",
+> "ipv6", "ipv6", "", d)} ssl proxy zlib"
+>
 
-diff --git a/meta/lib/oeqa/selftest/bbtests.py b/meta/lib/oeqa/selftest/bbtests.py
-index baae1e0..c9802a4 100644
---- a/meta/lib/oeqa/selftest/bbtests.py
-+++ b/meta/lib/oeqa/selftest/bbtests.py
-@@ -221,7 +221,7 @@ INHERIT_remove = \"report-error\"
-         self.track_for_cleanup(os.path.join(self.builddir, "download-selftest"))
-         self.write_recipeinc('man',"\ndo_fail_task () {\nexit 1 \n}\n\naddtask do_fail_task before do_fetch\n" )
-         runCmd('bitbake -c cleanall man xcursor-transparent-theme')
--        result = runCmd('bitbake man xcursor-transparent-theme -k', ignore_status=True)
-+        result = runCmd('bitbake -c unpack -k man xcursor-transparent-theme', ignore_status=True)
-         errorpos = result.output.find('ERROR: Function failed: do_fail_task')
-         manver = re.search("NOTE: recipe xcursor-transparent-theme-(.*?): task do_unpack: Started", result.output)
-         continuepos = result.output.find('NOTE: recipe xcursor-transparent-theme-%s: task do_unpack: Started' % manver.group(1))
--- 
-2.8.1
+So this is a gnutls bug?  Have you filed it upstream or attempted to
+root-cause it?
 
+As you cant do ??= with overrides, a neater way would be:
 
+PACKAGECONFG_append_aarch64 = " ssl"
+PACKAGECONFG_remove_aarch64 = "gnutls"
+
+(with a comment in the recipe)
+
+Ross
+
+--001a1142adbaafadda055057d270
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 25 May 2017 at 03:18, Huang Qiyu <span dir=3D"ltr">&lt;<a href=3D"mailto=
+:huangqy.fnst@cn.fujitsu.com" target=3D"_blank">huangqy.fnst@cn.fujitsu.com=
+</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin=
+:0px 0px 0px 0.8ex;border-left-width:1px;border-left-style:solid;border-lef=
+t-color:rgb(204,204,204);padding-left:1ex"><div id=3D"gmail-:2ql" class=3D"=
+gmail-a3s gmail-aXjCH gmail-m15c3d6849bf7e7aa">+PACKAGECONFIG_aarch64 ??=3D=
+ &quot;${@bb.utils.contains(&quot;DISTRO_<wbr>FEATURES&quot;, &quot;ipv6&qu=
+ot;, &quot;ipv6&quot;, &quot;&quot;, d)} ssl proxy zlib&quot;<br></div></bl=
+ockquote></div><br>So this is a gnutls bug?=C2=A0 Have you filed it upstrea=
+m or attempted to root-cause it?</div><div class=3D"gmail_extra"><br></div>=
+<div class=3D"gmail_extra"><div class=3D"gmail_extra">As you cant do ??=3D =
+with overrides, a neater way would be:</div><div class=3D"gmail_extra"><br>=
+</div><div class=3D"gmail_extra">PACKAGECONFG_append_aarch64 =3D &quot; ssl=
+&quot;</div><div><div class=3D"gmail_extra">PACKAGECONFG_remove_aarch64 =3D=
+ &quot;gnutls&quot;</div></div><div><br></div><div>(with a comment in the r=
+ecipe)</div><div><br></div><div>Ross</div></div></div>
+
+--001a1142adbaafadda055057d270--
