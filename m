@@ -1,33 +1,46 @@
-Return-Path: <joe.slater@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id CE14E65CBF
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-pf0-f195.google.com (mail-pf0-f195.google.com
+	[209.85.192.195])
+	by mail.openembedded.org (Postfix) with ESMTP id CA8957815F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 May 2017 19:43:55 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v4PJhtdB013162
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 25 May 2017 12:43:55 -0700 (PDT)
-Received: from ALA-MBC.corp.ad.wrs.com ([fe80::fcbe:9b7:1141:89a1]) by
-	ALA-HCA.corp.ad.wrs.com ([147.11.189.40]) with mapi id 14.03.0294.000;
-	Thu, 25 May 2017 12:43:55 -0700
-From: "Slater, Joseph" <joe.slater@windriver.com>
-To: "BURTON, ROSS" <ross.burton@intel.com>
-Thread-Topic: [OE-core] [oe-core][PATCH 1/1] ghostscript: move to version 9.21
-Thread-Index: AQHS1VWGsTBt6tGpxUOJvuQUW0X3AqIFaihg
-Date: Thu, 25 May 2017 19:43:55 +0000
-Message-ID: <007BD92917A2324FA403BCF9A464CF84CF35AD61@ALA-MBC.corp.ad.wrs.com>
-References: <1495647593-19100-1-git-send-email-jslater@windriver.com>
-	<1495647593-19100-2-git-send-email-jslater@windriver.com>
-	<CAJTo0LYjqCw3Q7ycYCCg0cF2C5h+1oTG6JdmRsguC3wQY0PwpQ@mail.gmail.com>
-In-Reply-To: <CAJTo0LYjqCw3Q7ycYCCg0cF2C5h+1oTG6JdmRsguC3wQY0PwpQ@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [147.11.216.197]
-MIME-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] ghostscript: move to version 9.21
+	Thu, 25 May 2017 19:50:06 +0000 (UTC)
+Received: by mail-pf0-f195.google.com with SMTP id n23so41104108pfb.3
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 25 May 2017 12:50:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=775LVIeC5IhIpw0hJt1nrDbTtigb91SfAn13SRAh/Q8=;
+	b=ilMTuG/EH/m9rM3GRXwDopHnzYR5wCu+BdN/u+rMYCHB3W63iGoBG9ODXsHCTVVhL6
+	/sGWDStszykapa5545BZW1sW1/YBxxvLcYpM1T/KgjXDZNzfe/aekHSPPnUGof3csXCR
+	+o8MNch0rTAUMWpdcGHPgYmZct+p3dQd3uPNvXK9eEYbeUnOD+cvMYqhu+tliYtxH0G/
+	6ijPPJJVwUDZor0rEnMTjnCbN1Z1T7wBzz6JKRRLj/fJ5T66spUTQHeLXubqHx+Gr3CY
+	IV+Dv/VWODlpMAjNljrDMfyrTi2UpSeVEysu04WyCY6uq1AMdYJ25soY+1OuaVCHTyqg
+	87DQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=775LVIeC5IhIpw0hJt1nrDbTtigb91SfAn13SRAh/Q8=;
+	b=Rf6zdDFYSev2P/gQcbpCmBV2sYgwpXAQoCKM1ekj/zw/H/M6MkToKNky6E9470nri+
+	AuY1TXfjv4c2QKaqGqq15WTux4C3LH5wBicNEvjcPfPGyopCxSSeypvtuefkTN5SEfV7
+	JTPZ9qreiMnCEtJ0STeOFieYTXfcVguZZLnju7E+788eF+dMrB61gROrnAaw/MCxzJzT
+	aBNGFkYp8iJGf6qf7qVH9SGWxoAJn2T/BCJnRS/lLFVuGozTwGeZEAViQ3XJQ3EKh67U
+	l6WlQogmRiPGOvDS7HtqEoHXg3391ndcp+XzmWTa5IpyowfbSNL99EU4eu6J9BrEF1fY
+	WamA==
+X-Gm-Message-State: AODbwcBAWTPssMOpA9HOo+S9Vo+b/AWh2hmkYvJupxDObL5EqdZNuzDB
+	oGKC/Ax+bHchZg==
+X-Received: by 10.98.205.65 with SMTP id o62mr46331512pfg.105.1495741807724;
+	Thu, 25 May 2017 12:50:07 -0700 (PDT)
+Received: from e6520.cablelabs.com ([4.16.80.121])
+	by smtp.gmail.com with ESMTPSA id
+	z3sm15323684pfk.99.2017.05.25.12.50.06
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 25 May 2017 12:50:06 -0700 (PDT)
+From: Andre McCurdy <armccurdy@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 25 May 2017 12:50:01 -0700
+Message-Id: <1495741801-3123-1-git-send-email-armccurdy@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH] tune-mips32*.inc: use consistent comments across all three .inc files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,114 +53,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 May 2017 19:43:56 -0000
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_007BD92917A2324FA403BCF9A464CF84CF35AD61ALAMBCcorpadwrs_"
+X-List-Received-Date: Thu, 25 May 2017 19:50:07 -0000
 
---_000_007BD92917A2324FA403BCF9A464CF84CF35AD61ALAMBCcorpadwrs_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+No functional changes, just use a consistent set of comments to
+separate hard and soft float tuning options.
 
-SSBkb27igJl0IGtub3cgaWYgaXTigJlzIGludGVudGlvbmFsLCBidXQgaXQgZG9lcyBzZWVtIHRv
-IGJlIGEgZmVhdHVyZSBvZiA5LjIxIHRoYXQgY3VwcyBzdXBwb3J0DQpJcyBuZXZlciBidWlsdCBl
-dmVuIHRob3VnaCBjb25maWd1cmUgZmluZHMgY3Vwcy5oIGFuZCBjdXBzLWNvbmZpZy4NCg0KSW4g
-dHJ5aW5nIHRvIGNvbXBhcmUgYnVpbGQgbG9ncywgSSBzZWUgYSBuZXcgdmFyaWFibGUgY2FsbGVk
-IEJVSUxEX0NVUFNDT05GSUcgd2hpY2ggaXMNClNldCB0byB3aGF0IHRoZSBvbGQgQ1VQU0NPTkZJ
-RyB2YXJpYWJsZSB3YXMuICBJbiB0aGUgbmV3IGxvZywgQ1VQU0NPTkZJRyBpcyBudWxsLg0KDQpK
-b2UNCg0KRnJvbTogQnVydG9uLCBSb3NzIFttYWlsdG86cm9zcy5idXJ0b25AaW50ZWwuY29tXQ0K
-U2VudDogVGh1cnNkYXksIE1heSAyNSwgMjAxNyA1OjUwIEFNDQpUbzogU2xhdGVyLCBKb3NlcGgN
-CkNjOiBPRS1jb3JlDQpTdWJqZWN0OiBSZTogW09FLWNvcmVdIFtvZS1jb3JlXVtQQVRDSCAxLzFd
-IGdob3N0c2NyaXB0OiBtb3ZlIHRvIHZlcnNpb24gOS4yMQ0KDQoNCk9uIDI0IE1heSAyMDE3IGF0
-IDE4OjM5LCBKb2UgU2xhdGVyIDxqc2xhdGVyQHdpbmRyaXZlci5jb208bWFpbHRvOmpzbGF0ZXJA
-d2luZHJpdmVyLmNvbT4+IHdyb3RlOg0KRWxpbWluYXRlIENWRSBwYXRjaGVzIHRoYXQgYXJlIG5v
-dyBpbiBzb3VyY2UuICBBZGQgQ1ZFLTIwMTctNzk3NQ0KcGF0Y2guDQoNCnBhY2thZ2VzL2NvcmVp
-Ny02NC1wb2t5LWxpbnV4L2dob3N0c2NyaXB0L2dob3N0c2NyaXB0OiBSREVQRU5EUzogcmVtb3Zl
-ZCBhbGwgaXRlbXMgImN1cHMtbGliaW1hZ2UgKFsnPj0gMi4yLjInXSkgY3Vwcy1saWIgKFsnPj0g
-Mi4yLjInXSkiDQoNCklzIHRoYXQgaW50ZW50aW9uYWw/DQoNClJvc3MNCg==
+Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+---
+ meta/conf/machine/include/tune-mips32.inc   | 6 +++++-
+ meta/conf/machine/include/tune-mips32r2.inc | 4 ++--
+ meta/conf/machine/include/tune-mips32r6.inc | 2 +-
+ 3 files changed, 8 insertions(+), 4 deletions(-)
 
---_000_007BD92917A2324FA403BCF9A464CF84CF35AD61ALAMBCcorpadwrs_
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: base64
+diff --git a/meta/conf/machine/include/tune-mips32.inc b/meta/conf/machine/include/tune-mips32.inc
+index ce0445f..a90c0f0 100644
+--- a/meta/conf/machine/include/tune-mips32.inc
++++ b/meta/conf/machine/include/tune-mips32.inc
+@@ -6,7 +6,8 @@ TUNEVALID[mips32] = "Enable mips32 specific processor optimizations"
+ TUNECONFLICTS[mips32] = "n64 n32"
+ TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'mips32', ' -march=mips32', '', d)}"
+ 
+-AVAILTUNES += "mips32 mips32el mips32-nf mips32el-nf"
++# Base Tunes (Hard Float)
++AVAILTUNES += "mips32 mips32el"
+ 
+ TUNE_FEATURES_tune-mips32 = "${TUNE_FEATURES_tune-mips} mips32"
+ MIPSPKGSFX_VARIANT_tune-mips32 = "mips32"
+@@ -16,6 +17,9 @@ TUNE_FEATURES_tune-mips32el = "${TUNE_FEATURES_tune-mipsel} mips32"
+ MIPSPKGSFX_VARIANT_tune-mips32el = "mips32el"
+ PACKAGE_EXTRA_ARCHS_tune-mips32el = "mipsel mips32el"
+ 
++# Soft Float
++AVAILTUNES += "mips32-nf mips32el-nf"
++
+ TUNE_FEATURES_tune-mips32-nf = "${TUNE_FEATURES_tune-mips-nf} mips32"
+ MIPSPKGSFX_VARIANT_tune-mips32-nf = "mips32"
+ PACKAGE_EXTRA_ARCHS_tune-mips32-nf = "mips-nf mips32-nf"
+diff --git a/meta/conf/machine/include/tune-mips32r2.inc b/meta/conf/machine/include/tune-mips32r2.inc
+index 5e398cb..14473ca 100644
+--- a/meta/conf/machine/include/tune-mips32r2.inc
++++ b/meta/conf/machine/include/tune-mips32r2.inc
+@@ -6,7 +6,7 @@ TUNEVALID[mips32r2] = "Enable mips32r2 specific processor optimizations"
+ TUNECONFLICTS[mips32r2] = "n64 n32"
+ TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'mips32r2', ' -march=mips32r2', '', d)}"
+ 
+-# hard float
++# Base Tunes (Hard Float)
+ AVAILTUNES += "mips32r2 mips32r2el"
+ 
+ TUNE_FEATURES_tune-mips32r2 = "${TUNE_FEATURES_tune-mips} mips32r2"
+@@ -17,7 +17,7 @@ TUNE_FEATURES_tune-mips32r2el = "${TUNE_FEATURES_tune-mipsel} mips32r2"
+ MIPSPKGSFX_VARIANT_tune-mips32r2el = "mips32r2el"
+ PACKAGE_EXTRA_ARCHS_tune-mips32r2el = "mipsel mips32el mips32r2el"
+ 
+-# soft float
++# Soft Float
+ AVAILTUNES += "mips32r2-nf mips32r2el-nf"
+ 
+ TUNE_FEATURES_tune-mips32r2-nf = "${TUNE_FEATURES_tune-mips-nf} mips32r2"
+diff --git a/meta/conf/machine/include/tune-mips32r6.inc b/meta/conf/machine/include/tune-mips32r6.inc
+index dea33ea..44369cb 100644
+--- a/meta/conf/machine/include/tune-mips32r6.inc
++++ b/meta/conf/machine/include/tune-mips32r6.inc
+@@ -6,7 +6,7 @@ TUNEVALID[mipsisa32r6] = "Enable mipsisa32r6 specific processor optimizations"
+ TUNECONFLICTS[mipsisa32r6] = "n64 n32"
+ TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'mipsisa32r6', ' -march=mips32r6', '', d)}"
+ 
+-# Base Tunes
++# Base Tunes (Hard Float)
+ AVAILTUNES += "mipsisa32r6 mipsisa32r6el"
+ 
+ TUNE_FEATURES_tune-mipsisa32r6 = "o32 bigendian mipsisa32r6 fpu-hard r6"
+-- 
+1.9.1
 
-PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
-bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
-YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
-cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
-VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
-Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
-ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTQgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
-PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
-Q2FsaWJyaTsNCglwYW5vc2UtMToyIDE1IDUgMiAyIDIgNCAzIDIgNDt9DQpAZm9udC1mYWNlDQoJ
-e2ZvbnQtZmFtaWx5OlRhaG9tYTsNCglwYW5vc2UtMToyIDExIDYgNCAzIDUgNCA0IDIgNDt9DQov
-KiBTdHlsZSBEZWZpbml0aW9ucyAqLw0KcC5Nc29Ob3JtYWwsIGxpLk1zb05vcm1hbCwgZGl2Lk1z
-b05vcm1hbA0KCXttYXJnaW46MGluOw0KCW1hcmdpbi1ib3R0b206LjAwMDFwdDsNCglmb250LXNp
-emU6MTIuMHB0Ow0KCWZvbnQtZmFtaWx5OiJUaW1lcyBOZXcgUm9tYW4iLCJzZXJpZiI7fQ0KYTps
-aW5rLCBzcGFuLk1zb0h5cGVybGluaw0KCXttc28tc3R5bGUtcHJpb3JpdHk6OTk7DQoJY29sb3I6
-Ymx1ZTsNCgl0ZXh0LWRlY29yYXRpb246dW5kZXJsaW5lO30NCmE6dmlzaXRlZCwgc3Bhbi5Nc29I
-eXBlcmxpbmtGb2xsb3dlZA0KCXttc28tc3R5bGUtcHJpb3JpdHk6OTk7DQoJY29sb3I6cHVycGxl
-Ow0KCXRleHQtZGVjb3JhdGlvbjp1bmRlcmxpbmU7fQ0Kc3Bhbi5FbWFpbFN0eWxlMTcNCgl7bXNv
-LXN0eWxlLXR5cGU6cGVyc29uYWwtcmVwbHk7DQoJZm9udC1mYW1pbHk6IkNhbGlicmkiLCJzYW5z
-LXNlcmlmIjsNCgljb2xvcjojMUY0OTdEO30NCi5Nc29DaHBEZWZhdWx0DQoJe21zby1zdHlsZS10
-eXBlOmV4cG9ydC1vbmx5Ow0KCWZvbnQtZmFtaWx5OiJDYWxpYnJpIiwic2Fucy1zZXJpZiI7fQ0K
-QHBhZ2UgV29yZFNlY3Rpb24xDQoJe3NpemU6OC41aW4gMTEuMGluOw0KCW1hcmdpbjoxLjBpbiAx
-LjBpbiAxLjBpbiAxLjBpbjt9DQpkaXYuV29yZFNlY3Rpb24xDQoJe3BhZ2U6V29yZFNlY3Rpb24x
-O30NCi0tPjwvc3R5bGU+PCEtLVtpZiBndGUgbXNvIDldPjx4bWw+DQo8bzpzaGFwZWRlZmF1bHRz
-IHY6ZXh0PSJlZGl0IiBzcGlkbWF4PSIxMDI2IiAvPg0KPC94bWw+PCFbZW5kaWZdLS0+PCEtLVtp
-ZiBndGUgbXNvIDldPjx4bWw+DQo8bzpzaGFwZWxheW91dCB2OmV4dD0iZWRpdCI+DQo8bzppZG1h
-cCB2OmV4dD0iZWRpdCIgZGF0YT0iMSIgLz4NCjwvbzpzaGFwZWxheW91dD48L3htbD48IVtlbmRp
-Zl0tLT4NCjwvaGVhZD4NCjxib2R5IGxhbmc9IkVOLVVTIiBsaW5rPSJibHVlIiB2bGluaz0icHVy
-cGxlIj4NCjxkaXYgY2xhc3M9IldvcmRTZWN0aW9uMSI+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48
-c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1
-b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVvdDs7Y29sb3I6IzFGNDk3RCI+SSBkb27igJl0IGtub3cg
-aWYgaXTigJlzIGludGVudGlvbmFsLCBidXQgaXQgZG9lcyBzZWVtIHRvIGJlIGEgZmVhdHVyZSBv
-ZiA5LjIxIHRoYXQgY3VwcyBzdXBwb3J0PG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9
-Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1
-b3Q7Q2FsaWJyaSZxdW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7O2NvbG9yOiMxRjQ5N0QiPklz
-IG5ldmVyIGJ1aWx0IGV2ZW4gdGhvdWdoIGNvbmZpZ3VyZSBmaW5kcyBjdXBzLmggYW5kIGN1cHMt
-Y29uZmlnLjxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFu
-IHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDss
-JnF1b3Q7c2Fucy1zZXJpZiZxdW90Oztjb2xvcjojMUY0OTdEIj48bzpwPiZuYnNwOzwvbzpwPjwv
-c3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjEx
-LjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVv
-dDs7Y29sb3I6IzFGNDk3RCI+SW4gdHJ5aW5nIHRvIGNvbXBhcmUgYnVpbGQgbG9ncywgSSBzZWUg
-YSBuZXcgdmFyaWFibGUgY2FsbGVkIEJVSUxEX0NVUFNDT05GSUcgd2hpY2ggaXM8bzpwPjwvbzpw
-Pjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXpl
-OjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYm
-cXVvdDs7Y29sb3I6IzFGNDk3RCI+U2V0IHRvIHdoYXQgdGhlIG9sZCBDVVBTQ09ORklHIHZhcmlh
-YmxlIHdhcy4mbmJzcDsgSW4gdGhlIG5ldyBsb2csIENVUFNDT05GSUcgaXMgbnVsbC48bzpwPjwv
-bzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1z
-aXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LCZxdW90O3NhbnMtc2Vy
-aWYmcXVvdDs7Y29sb3I6IzFGNDk3RCI+PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0KPHAg
-Y2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1p
-bHk6JnF1b3Q7Q2FsaWJyaSZxdW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7O2NvbG9yOiMxRjQ5
-N0QiPkpvZTxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFu
-IHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDss
-JnF1b3Q7c2Fucy1zZXJpZiZxdW90Oztjb2xvcjojMUY0OTdEIj48bzpwPiZuYnNwOzwvbzpwPjwv
-c3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48Yj48c3BhbiBzdHlsZT0iZm9udC1zaXpl
-OjEwLjBwdDtmb250LWZhbWlseTomcXVvdDtUYWhvbWEmcXVvdDssJnF1b3Q7c2Fucy1zZXJpZiZx
-dW90OyI+RnJvbTo8L3NwYW4+PC9iPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTAuMHB0O2ZvbnQt
-ZmFtaWx5OiZxdW90O1RhaG9tYSZxdW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7Ij4gQnVydG9u
-LCBSb3NzIFttYWlsdG86cm9zcy5idXJ0b25AaW50ZWwuY29tXQ0KPGJyPg0KPGI+U2VudDo8L2I+
-IFRodXJzZGF5LCBNYXkgMjUsIDIwMTcgNTo1MCBBTTxicj4NCjxiPlRvOjwvYj4gU2xhdGVyLCBK
-b3NlcGg8YnI+DQo8Yj5DYzo8L2I+IE9FLWNvcmU8YnI+DQo8Yj5TdWJqZWN0OjwvYj4gUmU6IFtP
-RS1jb3JlXSBbb2UtY29yZV1bUEFUQ0ggMS8xXSBnaG9zdHNjcmlwdDogbW92ZSB0byB2ZXJzaW9u
-IDkuMjE8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpwPiZu
-YnNwOzwvbzpwPjwvcD4NCjxkaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PG86cD4m
-bmJzcDs8L286cD48L3A+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+T24gMjQgTWF5IDIw
-MTcgYXQgMTg6MzksIEpvZSBTbGF0ZXIgJmx0OzxhIGhyZWY9Im1haWx0bzpqc2xhdGVyQHdpbmRy
-aXZlci5jb20iIHRhcmdldD0iX2JsYW5rIj5qc2xhdGVyQHdpbmRyaXZlci5jb208L2E+Jmd0OyB3
-cm90ZTo8bzpwPjwvbzpwPjwvcD4NCjxkaXYgaWQ9ImdtYWlsLTpxaiI+DQo8cCBjbGFzcz0iTXNv
-Tm9ybWFsIj5FbGltaW5hdGUgQ1ZFIHBhdGNoZXMgdGhhdCBhcmUgbm93IGluIHNvdXJjZS4mbmJz
-cDsgQWRkIENWRS0yMDE3LTc5NzU8YnI+DQpwYXRjaC48bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0K
-PC9kaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48YnI+DQpwYWNrYWdlcy9jb3JlaTctNjQtcG9r
-eS1saW51eC9naG9zdHNjcmlwdC9naG9zdHNjcmlwdDogUkRFUEVORFM6IHJlbW92ZWQgYWxsIGl0
-ZW1zICZxdW90O2N1cHMtbGliaW1hZ2UgKFsnJmd0Oz0gMi4yLjInXSkgY3Vwcy1saWIgKFsnJmd0
-Oz0gMi4yLjInXSkmcXVvdDs8bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNz
-PSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xh
-c3M9Ik1zb05vcm1hbCI+SXMgdGhhdCBpbnRlbnRpb25hbD88bzpwPjwvbzpwPjwvcD4NCjwvZGl2
-Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPC9k
-aXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+Um9zczxvOnA+PC9vOnA+PC9wPg0KPC9k
-aXY+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9ib2R5Pg0KPC9odG1sPg0K
 
---_000_007BD92917A2324FA403BCF9A464CF84CF35AD61ALAMBCcorpadwrs_--
