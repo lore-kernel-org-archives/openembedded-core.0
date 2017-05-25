@@ -1,34 +1,25 @@
-Return-Path: <jose.a.lamego@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 449DE780BC
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id CA0F27810D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 May 2017 14:21:13 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	25 May 2017 07:21:13 -0700
+	Thu, 25 May 2017 14:47:03 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	25 May 2017 07:47:01 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.38,391,1491289200"; 
-	d="asc'?scan'208";a="1152722466"
-Received: from jalamego-mobl2.zpn.intel.com (HELO [10.219.128.138])
-	([10.219.128.138])
-	by fmsmga001.fm.intel.com with ESMTP; 25 May 2017 07:21:12 -0700
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>,
-	"Burton, Ross" <ross.burton@intel.com>
-References: <9f9ebf2e1ba6eda48fb5e3f20d4ca5bbabe3dad4.1494837087.git-series.patrick.ohly@intel.com>
-	<237a1d6e-7c01-2488-c6a2-e5d0c95aff53@linux.intel.com>
-	<1494851042.1179.246.camel@intel.com>
-	<CAJTo0La_VMBTkXKD2Df5RAEWtEO5NFcQu29j-yO_PS-qZoT5bA@mail.gmail.com>
-	<3a84eeba-58d0-bf74-61c3-b3b0d5292ad6@linux.intel.com>
-	<128b693d-588c-e1be-0720-6c6954b4651c@linux.intel.com>
-From: Jose Lamego <jose.a.lamego@linux.intel.com>
-Message-ID: <ce2310fc-0545-b739-2328-cef74ab84fed@linux.intel.com>
-Date: Thu, 25 May 2017 09:21:20 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.1.1
-MIME-Version: 1.0
-In-Reply-To: <128b693d-588c-e1be-0720-6c6954b4651c@linux.intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] manpages.bbclass: avoid QA warning when "manpages" feature not supported
+X-IronPort-AV: E=Sophos;i="5.38,391,1491289200"; d="scan'208";a="861245776"
+Received: from linux.intel.com ([10.54.29.200])
+	by FMSMGA003.fm.intel.com with ESMTP; 25 May 2017 07:47:01 -0700
+Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
+	by linux.intel.com (Postfix) with ESMTP id 09296580394
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 25 May 2017 07:47:00 -0700 (PDT)
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 25 May 2017 17:46:17 +0300
+Message-Id: <cover.1495722660.git.ed.bartosh@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH 00/11] This is an implementation of new wic subcommand 'wic cp'.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,86 +32,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 May 2017 14:21:14 -0000
-X-Groupsio-MsgNum: 97720
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature";
-	boundary="Botb1sKKSeq7Am2FW8mIldMiQM5E0gnMi"
+X-List-Received-Date: Thu, 25 May 2017 14:47:05 -0000
 
---Botb1sKKSeq7Am2FW8mIldMiQM5E0gnMi
-Content-Type: multipart/mixed; boundary="iAtq67IePT5VQAXPlX5omgBnwggnf1tVs";
- protected-headers="v1"
-From: Jose Lamego <jose.a.lamego@linux.intel.com>
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>,
- "Burton, Ross" <ross.burton@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Message-ID: <ce2310fc-0545-b739-2328-cef74ab84fed@linux.intel.com>
-Subject: Re: [OE-core] [PATCH] manpages.bbclass: avoid QA warning when
- "manpages" feature not supported
-References: <9f9ebf2e1ba6eda48fb5e3f20d4ca5bbabe3dad4.1494837087.git-series.patrick.ohly@intel.com>
- <237a1d6e-7c01-2488-c6a2-e5d0c95aff53@linux.intel.com>
- <1494851042.1179.246.camel@intel.com>
- <CAJTo0La_VMBTkXKD2Df5RAEWtEO5NFcQu29j-yO_PS-qZoT5bA@mail.gmail.com>
- <3a84eeba-58d0-bf74-61c3-b3b0d5292ad6@linux.intel.com>
- <128b693d-588c-e1be-0720-6c6954b4651c@linux.intel.com>
-In-Reply-To: <128b693d-588c-e1be-0720-6c6954b4651c@linux.intel.com>
+Hi,
 
---iAtq67IePT5VQAXPlX5omgBnwggnf1tVs
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+'wic cp' command copies files and directories to the vfat partition of the wic image.
 
+Here are couple of examples:
 
+Copy file to the root directory of the vfat partition:
+    $ wic cp test.wks tmp/deploy/images/qemux86-64/core-image-minimal-qemux86-64.wic:1
+    $ wic ls tmp/deploy/images/qemux86-64/core-image-minimal-qemux86-64.wic:1
+        Volume in drive : is boot
+         Volume Serial Number is DB4C-FD4C
+        Directory for ::/
 
-On 05/25/2017 03:06 AM, Alexander Kanavin wrote:
-> On 05/24/2017 11:54 PM, Jose Lamego wrote:
->> Sorry is miss this message.
->>
->> The command line is missing the squared brackets (the following should=
+        efi          <DIR>     2017-05-24  18:15
+        loader       <DIR>     2017-05-24  18:15
+        startup  nsh        26 2017-05-24  18:15
+        vmlinuz        6926384 2017-05-24  18:15
+        test     wks       628 2017-05-24  21:22
+                5 files           6 927 038 bytes
+                                 15 677 440 bytes free
 
->> do the work since I may have permissions):
->>
->> [Patchwork-Status: Rejected]
->>
->> Guys: Do you believe we should drop the brackets requirement?
->=20
-> You can support both brackets and no-brackets.
->=20
-> The problem is that this feature is not documented, nobody knows about
-> it, and we lack established practices around it. Who should be using it=
-?
-> I'd say only the author of the patch or people with commit rights to
-> master (RP, Ross).
+Copy directory to the efi subdirectory of the vfat partition:
+   $ wic cp test tmp/deploy/images/qemux86-64/core-image-minimal-qemux86-64.wic:1/efi/
+   $ wic ls tmp/deploy/images/qemux86-64/core-image-minimal-qemux86-64.wic:1/eti/
+       Volume in drive : is boot
+        Volume Serial Number is DB4C-FD4C
+       Directory for ::/efi
 
-I've added an entry to the OE-Patchwork wiki:
-
-https://www.openembedded.org/wiki/Patchwork#Update_the_state_of_patches
-
->=20
-> Alex
->=20
-
---=20
-Jose Lamego | OTC Embedded Platforms & Tools | GDC
+       .            <DIR>     2017-05-24  18:15
+       ..           <DIR>     2017-05-24  18:15
+       boot         <DIR>     2017-05-24  18:15
+       test         <DIR>     2017-05-24  21:27
+               4 files                   0 bytes
+                                15 675 392 bytes free
 
 
---iAtq67IePT5VQAXPlX5omgBnwggnf1tVs--
+The patchset also contains fixes for sparse_copy bugs discuvered in the
+process of working on 'wic cp' functionality.
 
---Botb1sKKSeq7Am2FW8mIldMiQM5E0gnMi
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
+It also contains test case for 'wic cp' command.
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
+The following changes since commit ae4b01e75618030f3fa0a592c6dffddb2fdab3b5:
 
-iQEcBAEBCAAGBQJZJuhhAAoJEFJAtowlSEbnWuIH/028L8X2NIxhkv+1jkpnLjys
-sfpiuf5rTQ7J944q+JAQNRJwWcncbq8qBIXR/2/NJsz1YYKD/ac4zwGoFTqgAx90
-zH2AjzAk2smvcBQATLm8lw0Rh3LjY+8fgzJtUwSCoDYvqtjV6ZbqCklVerwz1I9Z
-qWq1y+Ag86SAgJzY0dbrRZ51Tx9KqHvgi4UpyS9JKohKBYwMlNU512K249st1Q6j
-46CQu0mUukwf0V2JnxAaPulZPsu6DFjX0JxqKNXTrQSNcZSjU0wXPIhyxsQfMnmE
-e/DF8HZKPnGlDZn7+B0pMDZe+YbXQdgdXxg1BAuYOdjDsKUVZOWEDRh8cNIQJZ8=
-=q5aB
------END PGP SIGNATURE-----
+  selftest: add new test case test_wic_ls (2017-05-25 17:30:03 +0300)
 
---Botb1sKKSeq7Am2FW8mIldMiQM5E0gnMi--
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib ed/wic/wip
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=ed/wic/wip
+
+Ed Bartosh (11):
+  wic: add wic_init_parser_cp
+  wic: add help and usage content for 'wic cp'
+  wic: add 'wic cp' command
+  wic: add Disk._prop helper
+  wic: add mcopy property
+  filemap: change signature of sparse_copy function
+  filemap: check if dest is written for every block
+  filemap: calculate dst size correctly
+  wic: add Disk._put_part_image method
+  wic: fully implement 'wic cp'
+  selftest: add test_wic_cp test case
+
+ meta/lib/oeqa/selftest/wic.py            | 46 +++++++++++++++++++++++-
+ scripts/lib/wic/engine.py                | 41 ++++++++++++++++++---
+ scripts/lib/wic/filemap.py               | 28 ++++++++++++---
+ scripts/lib/wic/help.py                  | 62 ++++++++++++++++++++++++++++++++
+ scripts/lib/wic/plugins/imager/direct.py |  2 +-
+ scripts/wic                              | 29 +++++++++++++++
+ 6 files changed, 197 insertions(+), 11 deletions(-)
+
+--
+Regards,
+Ed
+
