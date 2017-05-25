@@ -1,23 +1,36 @@
-Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id CD44C7816C
+Return-Path: <joe.slater@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 9E86477CEF
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 May 2017 21:31:57 +0000 (UTC)
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	25 May 2017 14:31:53 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.38,393,1491289200"; d="scan'208";a="91509279"
-Received: from yctb05.ostc.intel.com ([10.54.69.59])
-	by orsmga004.jf.intel.com with ESMTP; 25 May 2017 14:31:52 -0700
-From: leonardo.sandoval.gonzalez@linux.intel.com
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 25 May 2017 14:31:48 -0700
-Message-Id: <74570ed1b829c9c416cffa5547b673ea6e3ef262.1495747168.git.leonardo.sandoval.gonzalez@linux.intel.com>
-X-Mailer: git-send-email 2.12.0
-In-Reply-To: <cover.1495747168.git.leonardo.sandoval.gonzalez@linux.intel.com>
-References: <cover.1495747168.git.leonardo.sandoval.gonzalez@linux.intel.com>
-Subject: [PATCH 2/2] import: new plugin to import the devtool workspace
+	Thu, 25 May 2017 21:54:03 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v4PLs4bR017444
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 25 May 2017 14:54:04 -0700
+Received: from ALA-MBC.corp.ad.wrs.com ([fe80::fcbe:9b7:1141:89a1]) by
+	ALA-HCA.corp.ad.wrs.com ([147.11.189.40]) with mapi id 14.03.0294.000;
+	Thu, 25 May 2017 14:54:04 -0700
+From: "Slater, Joseph" <joe.slater@windriver.com>
+To: "Slater, Joseph" <joe.slater@windriver.com>, "BURTON, ROSS"
+	<ross.burton@intel.com>
+Thread-Topic: [OE-core] [oe-core][PATCH 1/1] ghostscript: move to version 9.21
+Thread-Index: AQHS1VWGsTBt6tGpxUOJvuQUW0X3AqIFaihggAAtRKA=
+Date: Thu, 25 May 2017 21:54:02 +0000
+Message-ID: <007BD92917A2324FA403BCF9A464CF84CF35AEBA@ALA-MBC.corp.ad.wrs.com>
+References: <1495647593-19100-1-git-send-email-jslater@windriver.com>
+	<1495647593-19100-2-git-send-email-jslater@windriver.com>
+	<CAJTo0LYjqCw3Q7ycYCCg0cF2C5h+1oTG6JdmRsguC3wQY0PwpQ@mail.gmail.com>
+	<007BD92917A2324FA403BCF9A464CF84CF35AD61@ALA-MBC.corp.ad.wrs.com>
+In-Reply-To: <007BD92917A2324FA403BCF9A464CF84CF35AD61@ALA-MBC.corp.ad.wrs.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [147.11.216.197]
+MIME-Version: 1.0
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] ghostscript: move to version 9.21
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,130 +43,168 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 May 2017 21:31:58 -0000
+X-List-Received-Date: Thu, 25 May 2017 21:54:03 -0000
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_007BD92917A2324FA403BCF9A464CF84CF35AEBAALAMBCcorpadwrs_"
 
-From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+--_000_007BD92917A2324FA403BCF9A464CF84CF35AEBAALAMBCcorpadwrs_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Takes a tar archive created by 'devtool export' and export it (untar) to
-workspace. By default, the whole tar archive is imported, thus there is no
-way to limit what is imported.
+U2V0dGluZyBDVVBTQ09ORklHIGFzIGFuIGFyZ3VtZW50IHRvIGNvbmZpZ3VyZSB3b3Jrcy4gIEni
+gJl2ZSBmaWxlZCBhIGJ1ZyB3aXRoIGdob3N0c2NyaXB0IHRvDQpTZWUgaWYgdGhleSBjb25maXJt
+IHRoZSBpc3N1ZS4gIEkgY291bGQgbW9kaWZ5IG15IDkuMjEgcGF0Y2ggdG8gc2V0IENVUFNDT05G
+SUcgZm9yIHRhcmdldCBidWlsZHMgYW5kDQpUaGluZ3Mgc2hvdWxkIGJlIGJhY2sgdG8gd2hlcmUg
+dGhleSB3ZXJlLg0KDQpKb2UNCg0KDQpGcm9tOiBvcGVuZW1iZWRkZWQtY29yZS1ib3VuY2VzQGxp
+c3RzLm9wZW5lbWJlZGRlZC5vcmcgW21haWx0bzpvcGVuZW1iZWRkZWQtY29yZS1ib3VuY2VzQGxp
+c3RzLm9wZW5lbWJlZGRlZC5vcmddIE9uIEJlaGFsZiBPZiBTbGF0ZXIsIEpvc2VwaA0KU2VudDog
+VGh1cnNkYXksIE1heSAyNSwgMjAxNyAxMjo0NCBQTQ0KVG86IEJVUlRPTiwgUk9TUw0KQ2M6IE9F
+LWNvcmUNClN1YmplY3Q6IFJlOiBbT0UtY29yZV0gW29lLWNvcmVdW1BBVENIIDEvMV0gZ2hvc3Rz
+Y3JpcHQ6IG1vdmUgdG8gdmVyc2lvbiA5LjIxDQoNCkkgZG9u4oCZdCBrbm93IGlmIGl04oCZcyBp
+bnRlbnRpb25hbCwgYnV0IGl0IGRvZXMgc2VlbSB0byBiZSBhIGZlYXR1cmUgb2YgOS4yMSB0aGF0
+IGN1cHMgc3VwcG9ydA0KSXMgbmV2ZXIgYnVpbHQgZXZlbiB0aG91Z2ggY29uZmlndXJlIGZpbmRz
+IGN1cHMuaCBhbmQgY3Vwcy1jb25maWcuDQoNCkluIHRyeWluZyB0byBjb21wYXJlIGJ1aWxkIGxv
+Z3MsIEkgc2VlIGEgbmV3IHZhcmlhYmxlIGNhbGxlZCBCVUlMRF9DVVBTQ09ORklHIHdoaWNoIGlz
+DQpTZXQgdG8gd2hhdCB0aGUgb2xkIENVUFNDT05GSUcgdmFyaWFibGUgd2FzLiAgSW4gdGhlIG5l
+dyBsb2csIENVUFNDT05GSUcgaXMgbnVsbC4NCg0KSm9lDQoNCkZyb206IEJ1cnRvbiwgUm9zcyBb
+bWFpbHRvOnJvc3MuYnVydG9uQGludGVsLmNvbV0NClNlbnQ6IFRodXJzZGF5LCBNYXkgMjUsIDIw
+MTcgNTo1MCBBTQ0KVG86IFNsYXRlciwgSm9zZXBoDQpDYzogT0UtY29yZQ0KU3ViamVjdDogUmU6
+IFtPRS1jb3JlXSBbb2UtY29yZV1bUEFUQ0ggMS8xXSBnaG9zdHNjcmlwdDogbW92ZSB0byB2ZXJz
+aW9uIDkuMjENCg0KDQpPbiAyNCBNYXkgMjAxNyBhdCAxODozOSwgSm9lIFNsYXRlciA8anNsYXRl
+ckB3aW5kcml2ZXIuY29tPG1haWx0bzpqc2xhdGVyQHdpbmRyaXZlci5jb20+PiB3cm90ZToNCkVs
+aW1pbmF0ZSBDVkUgcGF0Y2hlcyB0aGF0IGFyZSBub3cgaW4gc291cmNlLiAgQWRkIENWRS0yMDE3
+LTc5NzUNCnBhdGNoLg0KDQpwYWNrYWdlcy9jb3JlaTctNjQtcG9reS1saW51eC9naG9zdHNjcmlw
+dC9naG9zdHNjcmlwdDogUkRFUEVORFM6IHJlbW92ZWQgYWxsIGl0ZW1zICJjdXBzLWxpYmltYWdl
+IChbJz49IDIuMi4yJ10pIGN1cHMtbGliIChbJz49IDIuMi4yJ10pIg0KDQpJcyB0aGF0IGludGVu
+dGlvbmFsPw0KDQpSb3NzDQo=
 
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=10510
+--_000_007BD92917A2324FA403BCF9A464CF84CF35AEBAALAMBCcorpadwrs_
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-[YOCTO #10510]
+PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
+bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
+YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
+cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
+VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
+Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
+ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTQgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
+PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
+Q2FsaWJyaTsNCglwYW5vc2UtMToyIDE1IDUgMiAyIDIgNCAzIDIgNDt9DQpAZm9udC1mYWNlDQoJ
+e2ZvbnQtZmFtaWx5OlRhaG9tYTsNCglwYW5vc2UtMToyIDExIDYgNCAzIDUgNCA0IDIgNDt9DQov
+KiBTdHlsZSBEZWZpbml0aW9ucyAqLw0KcC5Nc29Ob3JtYWwsIGxpLk1zb05vcm1hbCwgZGl2Lk1z
+b05vcm1hbA0KCXttYXJnaW46MGluOw0KCW1hcmdpbi1ib3R0b206LjAwMDFwdDsNCglmb250LXNp
+emU6MTIuMHB0Ow0KCWZvbnQtZmFtaWx5OiJUaW1lcyBOZXcgUm9tYW4iLCJzZXJpZiI7fQ0KYTps
+aW5rLCBzcGFuLk1zb0h5cGVybGluaw0KCXttc28tc3R5bGUtcHJpb3JpdHk6OTk7DQoJY29sb3I6
+Ymx1ZTsNCgl0ZXh0LWRlY29yYXRpb246dW5kZXJsaW5lO30NCmE6dmlzaXRlZCwgc3Bhbi5Nc29I
+eXBlcmxpbmtGb2xsb3dlZA0KCXttc28tc3R5bGUtcHJpb3JpdHk6OTk7DQoJY29sb3I6cHVycGxl
+Ow0KCXRleHQtZGVjb3JhdGlvbjp1bmRlcmxpbmU7fQ0KcC5Nc29BY2V0YXRlLCBsaS5Nc29BY2V0
+YXRlLCBkaXYuTXNvQWNldGF0ZQ0KCXttc28tc3R5bGUtcHJpb3JpdHk6OTk7DQoJbXNvLXN0eWxl
+LWxpbms6IkJhbGxvb24gVGV4dCBDaGFyIjsNCgltYXJnaW46MGluOw0KCW1hcmdpbi1ib3R0b206
+LjAwMDFwdDsNCglmb250LXNpemU6OC4wcHQ7DQoJZm9udC1mYW1pbHk6IlRhaG9tYSIsInNhbnMt
+c2VyaWYiO30NCnNwYW4uRW1haWxTdHlsZTE3DQoJe21zby1zdHlsZS10eXBlOnBlcnNvbmFsOw0K
+CWZvbnQtZmFtaWx5OiJDYWxpYnJpIiwic2Fucy1zZXJpZiI7DQoJY29sb3I6IzFGNDk3RDt9DQpz
+cGFuLkVtYWlsU3R5bGUxOA0KCXttc28tc3R5bGUtdHlwZTpwZXJzb25hbC1yZXBseTsNCglmb250
+LWZhbWlseToiQ2FsaWJyaSIsInNhbnMtc2VyaWYiOw0KCWNvbG9yOiMxRjQ5N0Q7fQ0Kc3Bhbi5C
+YWxsb29uVGV4dENoYXINCgl7bXNvLXN0eWxlLW5hbWU6IkJhbGxvb24gVGV4dCBDaGFyIjsNCglt
+c28tc3R5bGUtcHJpb3JpdHk6OTk7DQoJbXNvLXN0eWxlLWxpbms6IkJhbGxvb24gVGV4dCI7DQoJ
+Zm9udC1mYW1pbHk6IlRhaG9tYSIsInNhbnMtc2VyaWYiO30NCi5Nc29DaHBEZWZhdWx0DQoJe21z
+by1zdHlsZS10eXBlOmV4cG9ydC1vbmx5Ow0KCWZvbnQtc2l6ZToxMC4wcHQ7fQ0KQHBhZ2UgV29y
+ZFNlY3Rpb24xDQoJe3NpemU6OC41aW4gMTEuMGluOw0KCW1hcmdpbjoxLjBpbiAxLjBpbiAxLjBp
+biAxLjBpbjt9DQpkaXYuV29yZFNlY3Rpb24xDQoJe3BhZ2U6V29yZFNlY3Rpb24xO30NCi0tPjwv
+c3R5bGU+PCEtLVtpZiBndGUgbXNvIDldPjx4bWw+DQo8bzpzaGFwZWRlZmF1bHRzIHY6ZXh0PSJl
+ZGl0IiBzcGlkbWF4PSIxMDI2IiAvPg0KPC94bWw+PCFbZW5kaWZdLS0+PCEtLVtpZiBndGUgbXNv
+IDldPjx4bWw+DQo8bzpzaGFwZWxheW91dCB2OmV4dD0iZWRpdCI+DQo8bzppZG1hcCB2OmV4dD0i
+ZWRpdCIgZGF0YT0iMSIgLz4NCjwvbzpzaGFwZWxheW91dD48L3htbD48IVtlbmRpZl0tLT4NCjwv
+aGVhZD4NCjxib2R5IGxhbmc9IkVOLVVTIiBsaW5rPSJibHVlIiB2bGluaz0icHVycGxlIj4NCjxk
+aXYgY2xhc3M9IldvcmRTZWN0aW9uMSI+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHls
+ZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LCZxdW90
+O3NhbnMtc2VyaWYmcXVvdDs7Y29sb3I6IzFGNDk3RCI+U2V0dGluZyBDVVBTQ09ORklHIGFzIGFu
+IGFyZ3VtZW50IHRvIGNvbmZpZ3VyZSB3b3Jrcy4mbmJzcDsgSeKAmXZlIGZpbGVkIGEgYnVnIHdp
+dGggZ2hvc3RzY3JpcHQgdG88bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9y
+bWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxp
+YnJpJnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVvdDs7Y29sb3I6IzFGNDk3RCI+U2VlIGlmIHRo
+ZXkgY29uZmlybSB0aGUgaXNzdWUuJm5ic3A7IEkgY291bGQgbW9kaWZ5IG15IDkuMjEgcGF0Y2gg
+dG8gc2V0IENVUFNDT05GSUcgZm9yIHRhcmdldCBidWlsZHMgYW5kPG86cD48L286cD48L3NwYW4+
+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7
+Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7O2Nv
+bG9yOiMxRjQ5N0QiPlRoaW5ncyBzaG91bGQgYmUgYmFjayB0byB3aGVyZSB0aGV5IHdlcmUuPG86
+cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZv
+bnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OywmcXVvdDtzYW5z
+LXNlcmlmJnF1b3Q7O2NvbG9yOiMxRjQ5N0QiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4N
+CjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQt
+ZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90Oztjb2xvcjoj
+MUY0OTdEIj5Kb2U8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48
+c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1
+b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVvdDs7Y29sb3I6IzFGNDk3RCI+PG86cD4mbmJzcDs8L286
+cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6
+ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OywmcXVvdDtzYW5zLXNlcmlm
+JnF1b3Q7O2NvbG9yOiMxRjQ5N0QiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxkaXY+
+DQo8ZGl2IHN0eWxlPSJib3JkZXI6bm9uZTtib3JkZXItdG9wOnNvbGlkICNCNUM0REYgMS4wcHQ7
+cGFkZGluZzozLjBwdCAwaW4gMGluIDBpbiI+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48Yj48c3Bh
+biBzdHlsZT0iZm9udC1zaXplOjEwLjBwdDtmb250LWZhbWlseTomcXVvdDtUYWhvbWEmcXVvdDss
+JnF1b3Q7c2Fucy1zZXJpZiZxdW90OyI+RnJvbTo8L3NwYW4+PC9iPjxzcGFuIHN0eWxlPSJmb250
+LXNpemU6MTAuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O1RhaG9tYSZxdW90OywmcXVvdDtzYW5zLXNl
+cmlmJnF1b3Q7Ij4gb3BlbmVtYmVkZGVkLWNvcmUtYm91bmNlc0BsaXN0cy5vcGVuZW1iZWRkZWQu
+b3JnIFttYWlsdG86b3BlbmVtYmVkZGVkLWNvcmUtYm91bmNlc0BsaXN0cy5vcGVuZW1iZWRkZWQu
+b3JnXQ0KPGI+T24gQmVoYWxmIE9mIDwvYj5TbGF0ZXIsIEpvc2VwaDxicj4NCjxiPlNlbnQ6PC9i
+PiBUaHVyc2RheSwgTWF5IDI1LCAyMDE3IDEyOjQ0IFBNPGJyPg0KPGI+VG86PC9iPiBCVVJUT04s
+IFJPU1M8YnI+DQo8Yj5DYzo8L2I+IE9FLWNvcmU8YnI+DQo8Yj5TdWJqZWN0OjwvYj4gUmU6IFtP
+RS1jb3JlXSBbb2UtY29yZV1bUEFUQ0ggMS8xXSBnaG9zdHNjcmlwdDogbW92ZSB0byB2ZXJzaW9u
+IDkuMjE8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8L2Rpdj4NCjwvZGl2Pg0KPHAgY2xhc3M9Ik1z
+b05vcm1hbCI+PG86cD4mbmJzcDs8L286cD48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3Bh
+biBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7
+LCZxdW90O3NhbnMtc2VyaWYmcXVvdDs7Y29sb3I6IzFGNDk3RCI+SSBkb27igJl0IGtub3cgaWYg
+aXTigJlzIGludGVudGlvbmFsLCBidXQgaXQgZG9lcyBzZWVtIHRvIGJlIGEgZmVhdHVyZSBvZiA5
+LjIxIHRoYXQgY3VwcyBzdXBwb3J0PG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1z
+b05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7
+Q2FsaWJyaSZxdW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7O2NvbG9yOiMxRjQ5N0QiPklzIG5l
+dmVyIGJ1aWx0IGV2ZW4gdGhvdWdoIGNvbmZpZ3VyZSBmaW5kcyBjdXBzLmggYW5kIGN1cHMtY29u
+ZmlnLjxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0
+eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssJnF1
+b3Q7c2Fucy1zZXJpZiZxdW90Oztjb2xvcjojMUY0OTdEIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bh
+bj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBw
+dDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVvdDs7
+Y29sb3I6IzFGNDk3RCI+SW4gdHJ5aW5nIHRvIGNvbXBhcmUgYnVpbGQgbG9ncywgSSBzZWUgYSBu
+ZXcgdmFyaWFibGUgY2FsbGVkIEJVSUxEX0NVUFNDT05GSUcgd2hpY2ggaXM8bzpwPjwvbzpwPjwv
+c3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjEx
+LjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVv
+dDs7Y29sb3I6IzFGNDk3RCI+U2V0IHRvIHdoYXQgdGhlIG9sZCBDVVBTQ09ORklHIHZhcmlhYmxl
+IHdhcy4mbmJzcDsgSW4gdGhlIG5ldyBsb2csIENVUFNDT05GSUcgaXMgbnVsbC48bzpwPjwvbzpw
+Pjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXpl
+OjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYm
+cXVvdDs7Y29sb3I6IzFGNDk3RCI+PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0KPHAgY2xh
+c3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6
+JnF1b3Q7Q2FsaWJyaSZxdW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7O2NvbG9yOiMxRjQ5N0Qi
+PkpvZTxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0
+eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssJnF1
+b3Q7c2Fucy1zZXJpZiZxdW90Oztjb2xvcjojMUY0OTdEIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bh
+bj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48Yj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjEw
+LjBwdDtmb250LWZhbWlseTomcXVvdDtUYWhvbWEmcXVvdDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90
+OyI+RnJvbTo8L3NwYW4+PC9iPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTAuMHB0O2ZvbnQtZmFt
+aWx5OiZxdW90O1RhaG9tYSZxdW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7Ij4gQnVydG9uLCBS
+b3NzIFs8YSBocmVmPSJtYWlsdG86cm9zcy5idXJ0b25AaW50ZWwuY29tIj5tYWlsdG86cm9zcy5i
+dXJ0b25AaW50ZWwuY29tPC9hPl0NCjxicj4NCjxiPlNlbnQ6PC9iPiBUaHVyc2RheSwgTWF5IDI1
+LCAyMDE3IDU6NTAgQU08YnI+DQo8Yj5Ubzo8L2I+IFNsYXRlciwgSm9zZXBoPGJyPg0KPGI+Q2M6
+PC9iPiBPRS1jb3JlPGJyPg0KPGI+U3ViamVjdDo8L2I+IFJlOiBbT0UtY29yZV0gW29lLWNvcmVd
+W1BBVENIIDEvMV0gZ2hvc3RzY3JpcHQ6IG1vdmUgdG8gdmVyc2lvbiA5LjIxPG86cD48L286cD48
+L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PG86cD4mbmJzcDs8L286cD48L3A+DQo8
+ZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0K
+PGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPk9uIDI0IE1heSAyMDE3IGF0IDE4OjM5LCBKb2Ug
+U2xhdGVyICZsdDs8YSBocmVmPSJtYWlsdG86anNsYXRlckB3aW5kcml2ZXIuY29tIiB0YXJnZXQ9
+Il9ibGFuayI+anNsYXRlckB3aW5kcml2ZXIuY29tPC9hPiZndDsgd3JvdGU6PG86cD48L286cD48
+L3A+DQo8ZGl2IGlkPSJnbWFpbC06cWoiPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+RWxpbWluYXRl
+IENWRSBwYXRjaGVzIHRoYXQgYXJlIG5vdyBpbiBzb3VyY2UuJm5ic3A7IEFkZCBDVkUtMjAxNy03
+OTc1PGJyPg0KcGF0Y2guPG86cD48L286cD48L3A+DQo8L2Rpdj4NCjwvZGl2Pg0KPHAgY2xhc3M9
+Ik1zb05vcm1hbCI+PGJyPg0KcGFja2FnZXMvY29yZWk3LTY0LXBva3ktbGludXgvZ2hvc3RzY3Jp
+cHQvZ2hvc3RzY3JpcHQ6IFJERVBFTkRTOiByZW1vdmVkIGFsbCBpdGVtcyAmcXVvdDtjdXBzLWxp
+YmltYWdlIChbJyZndDs9IDIuMi4yJ10pIGN1cHMtbGliIChbJyZndDs9IDIuMi4yJ10pJnF1b3Q7
+PG86cD48L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpw
+PiZuYnNwOzwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPklz
+IHRoYXQgaW50ZW50aW9uYWw/PG86cD48L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFz
+cz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNs
+YXNzPSJNc29Ob3JtYWwiPlJvc3M8bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPC9kaXY+DQo8L2Rp
+dj4NCjwvYm9keT4NCjwvaHRtbD4NCg==
 
-Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
----
- scripts/lib/devtool/import.py | 99 +++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 99 insertions(+)
- create mode 100644 scripts/lib/devtool/import.py
-
-diff --git a/scripts/lib/devtool/import.py b/scripts/lib/devtool/import.py
-new file mode 100644
-index 00000000000..ff770c321f4
---- /dev/null
-+++ b/scripts/lib/devtool/import.py
-@@ -0,0 +1,99 @@
-+# Development tool - import command plugin
-+#
-+# Copyright (C) 2014-2017 Intel Corporation
-+#
-+# This program is free software; you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License version 2 as
-+# published by the Free Software Foundation.
-+#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License along
-+# with this program; if not, write to the Free Software Foundation, Inc.,
-+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-+"""Devtool import plugin"""
-+
-+import os
-+import tarfile
-+import logging
-+import re
-+from devtool import standard
-+
-+logger = logging.getLogger('devtool')
-+
-+def devimport(args, config, basepath, workspace):
-+    """Entry point for the devtool 'import' subcommand"""
-+    if not os.path.exists(args.name):
-+        logger.error('Tar archive %s does not exist. The expected archive should be created with "devtool export"')
-+        return 1
-+
-+    # match exported workspace folders
-+    prog = re.compile('recipes|appends|sources')
-+
-+    def get_prefix(name):
-+        """Prefix the workspace path or $HOME to the member name"""
-+        _prefix = ""
-+        if prog.match(name):
-+            _prefix = config.workspace_path + '/'
-+        else:
-+            if not name.startswith('/'):
-+                _prefix = os.environ['HOME'] + '/'
-+
-+        return _prefix, _prefix + name
-+
-+    # include the default archiver filename if missing
-+    name = args.name
-+    if os.path.isdir(name):
-+        if name[-1] != '/':
-+            name = name + '/'
-+        name = name + default_arcname
-+
-+    if not os.path.exists(name):
-+        logger.error('Tar archive %s does not exists. Export your workspace using "devtool export"')
-+        return 1
-+
-+    included = []
-+    with tarfile.open(name) as tar:
-+        for member in tar.getmembers():
-+            prefix, path = get_prefix(member.name)
-+            if os.path.exists(path):
-+                if args.force:
-+                    try:
-+                        tar.extract(member, path=prefix)
-+                    except PermissionError as pe:
-+                        logger.warn(pe)
-+                else:
-+                    logger.warn('File already present, add -f to overwrite: %s' % member.name)
-+            else:
-+                tar.extract(member, path=prefix)
-+
-+            # md5 creation just for recipes or appends
-+            if member.name.startswith('recipes') or member.name.startswith('appends'):
-+                dirpath, recipe = os.path.split(member.name)
-+                recipename = ""
-+                for sep in "_ .".split():
-+                    if sep in recipe:
-+                        recipename = recipe.split(sep)[0]
-+                        break
-+                if not recipename:
-+                    logger.warn('Recipe name could not be extracted from %s' % member.name)
-+                    recipename = recipe
-+
-+                standard._add_md5(config, recipename, path)
-+                if recipename not in included:
-+                    included.append(recipename)
-+
-+    logger.info('Imported recipes into workspace %s: %s' % (config.workspace_path, included))
-+
-+def register_commands(subparsers, context):
-+    """Register devtool import subcommands"""
-+    parser = subparsers.add_parser('import',
-+                                   help='Import tar archive into workspace',
-+                                   description='Import previously created tar archive into the workspace',
-+                                   group='advanced')
-+    parser.add_argument('--name', '-n', default='workspace.tar', help='Name of the tar archive to import')
-+    parser.add_argument('--force', '-f', action="store_true", help='Overwrite previous files')
-+    parser.set_defaults(func=devimport)
--- 
-2.12.0
-
-
+--_000_007BD92917A2324FA403BCF9A464CF84CF35AEBAALAMBCcorpadwrs_--
