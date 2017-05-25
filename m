@@ -1,30 +1,18 @@
-Return-Path: <huangqy.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 4EB8F77F98
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 May 2017 02:18:29 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.22,518,1449504000"; d="scan'208";a="19278470"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 25 May 2017 10:18:25 +0800
-Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
-	by cn.fujitsu.com (Postfix) with ESMTP id 82C0247C6536
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 May 2017 10:18:25 +0800 (CST)
-Received: from localhost.localdomain (10.167.226.81) by
-	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.319.2; Thu, 25 May 2017 10:18:25 +0800
-From: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 25 May 2017 10:18:32 +0800
-Message-ID: <1495678712-44204-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 2.7.4
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 78B7277FA3;
+	Thu, 25 May 2017 02:31:44 +0000 (UTC)
 MIME-Version: 1.0
-X-Originating-IP: [10.167.226.81]
-X-yoursite-MailScanner-ID: 82C0247C6536.A63C6
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: huangqy.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Subject: [PATCH v2] curl: fix libssl error for ARMv8
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Joshua Watt <jpewhacker@gmail.com>
+Date: Thu, 25 May 2017 02:31:46 -0000
+Message-ID: <20170525023146.1042.29474@do.openembedded.org>
+References: <20170507013304.30165-1-JPEWhacker@gmail.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <20170507013304.30165-1-JPEWhacker@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3Igb3BlbnNzaDogQXRvbWljYWxseSBnZW5lcmF0ZSBob3N0IGtleXMgKHJldjMp?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,36 +25,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 May 2017 02:18:30 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 25 May 2017 02:31:44 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-curl + gnutls can not work on ARMv8 32BE, so change it to curl + ssl when the target is aarch64.
+== Series Details ==
 
-The error is as follow:
-curl: (35) gnutls_handshake() failed: Bad record MAC
+Series: openssh: Atomically generate host keys (rev3)
+Revision: 3
+URL   : https://patchwork.openembedded.org/series/6626/
+State : failure
 
-When set machine to qemuarm64 in local.conf, this patch will work.
+== Summary ==
 
-Signed-off-by: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Patch            [meta-oe,v3] openssh: Atomically generate host keys
+ Issue             Patch is missing Signed-off-by [test_signed_off_by_presence] 
+  Suggested fix    Sign off the patch (either manually or with "git commit --amend -s")
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- meta/recipes-support/curl/curl_7.54.0.bb | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/meta/recipes-support/curl/curl_7.54.0.bb b/meta/recipes-support/curl/curl_7.54.0.bb
-index ce5ca37..7421617 100644
---- a/meta/recipes-support/curl/curl_7.54.0.bb
-+++ b/meta/recipes-support/curl/curl_7.54.0.bb
-@@ -21,6 +21,7 @@ CVE_PRODUCT = "libcurl"
- inherit autotools pkgconfig binconfig multilib_header
- 
- PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)} gnutls proxy zlib"
-+PACKAGECONFIG_aarch64 ??= "${@bb.utils.contains("DISTRO_FEATURES", "ipv6", "ipv6", "", d)} ssl proxy zlib"
- PACKAGECONFIG_class-native = "ipv6 proxy ssl zlib"
- PACKAGECONFIG_class-nativesdk = "ipv6 proxy ssl zlib"
- 
--- 
-2.7.4
-
-
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
