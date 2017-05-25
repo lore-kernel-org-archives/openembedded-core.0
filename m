@@ -1,27 +1,26 @@
 Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 9E0F97812D
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by mail.openembedded.org (Postfix) with ESMTP id 2F2757812D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 May 2017 14:47:44 +0000 (UTC)
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	25 May 2017 07:47:43 -0700
+	Thu, 25 May 2017 14:47:45 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga104.jf.intel.com with ESMTP; 25 May 2017 07:47:46 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.38,391,1491289200"; d="scan'208";a="106899719"
+X-IronPort-AV: E=Sophos;i="5.38,391,1491289200"; d="scan'208";a="91714756"
 Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga006.fm.intel.com with ESMTP; 25 May 2017 07:47:43 -0700
+	by orsmga002.jf.intel.com with ESMTP; 25 May 2017 07:47:46 -0700
 Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
-	by linux.intel.com (Postfix) with ESMTP id 2473C580363
+	by linux.intel.com (Postfix) with ESMTP id 69195580394
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 May 2017 07:47:42 -0700 (PDT)
+	Thu, 25 May 2017 07:47:46 -0700 (PDT)
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 25 May 2017 17:46:21 +0300
-Message-Id: <c698b7c84887f26996216b1163aaf6dd1b9afd56.1495722660.git.ed.bartosh@linux.intel.com>
+Date: Thu, 25 May 2017 17:46:24 +0300
+Message-Id: <776519216d6d7ad481acc827c20d89729327f360.1495722660.git.ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1495722660.git.ed.bartosh@linux.intel.com>
 References: <cover.1495722660.git.ed.bartosh@linux.intel.com>
-Subject: [PATCH 04/11] wic: add Disk._prop helper
+Subject: [PATCH 07/11] filemap: check if dest is written for every block
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,44 +33,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 May 2017 14:47:44 -0000
+X-List-Received-Date: Thu, 25 May 2017 14:47:45 -0000
 
-Added generic helper to use in property methods to
-access commands in a lazy manner.
+If lenght parameter is provided to sparse_copy call
+it's mandatory to check if the output file is fully
+written after reading unmapped block from input file.
+
+If it's not done then sparse_copy can write more data
+than specified length.
 
 Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 ---
- scripts/lib/wic/engine.py | 15 ++++++++++-----
- 1 file changed, 10 insertions(+), 5 deletions(-)
+ scripts/lib/wic/filemap.py | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/scripts/lib/wic/engine.py b/scripts/lib/wic/engine.py
-index f8f2844..e3701c4 100644
---- a/scripts/lib/wic/engine.py
-+++ b/scripts/lib/wic/engine.py
-@@ -267,13 +267,18 @@ class Disk:
+diff --git a/scripts/lib/wic/filemap.py b/scripts/lib/wic/filemap.py
+index 8719f44..764dbbe 100644
+--- a/scripts/lib/wic/filemap.py
++++ b/scripts/lib/wic/filemap.py
+@@ -563,6 +563,13 @@ def sparse_copy(src_fname, dst_fname, skip=0, seek=0,
+             start = skip
  
-         return self._partitions
- 
-+    def _prop(self, name):
-+        """Get path to the executable in a lazy way."""
-+        aname = "_%s" % name
-+        if getattr(self, aname) is None:
-+            setattr(self, aname, find_executable(name, self.paths))
-+            if not getattr(self, aname):
-+                raise WicError("Can't find executable {}".format(name))
-+        return getattr(self, aname)
+         fmap._f_image.seek(start, os.SEEK_SET)
 +
-     @property
-     def mdir(self):
--        if self._mdir is None:
--            self._mdir = find_executable("mdir", self.paths)
--            if not self._mdir:
--                raise WicError("Can't find executable mdir")
--        return self._mdir
-+        return self._prop('mdir')
++        written += start - skip - written
++        if length and written >= length:
++            dst_file.seek(seek + length, os.SEEK_SET)
++            dst_file.close()
++            return
++
+         dst_file.seek(seek + start - skip, os.SEEK_SET)
  
-     def _get_part_image(self, pnum):
-         if pnum not in self.partitions:
+         chunk_size = 1024 * 1024
 -- 
 2.1.4
 
