@@ -1,34 +1,45 @@
-Return-Path: <mac@mcrowe.com>
-Received: from avasout05.plus.net (avasout05.plus.net [84.93.230.250])
-	by mail.openembedded.org (Postfix) with ESMTP id 5466278124
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-wm0-f48.google.com (mail-wm0-f48.google.com [74.125.82.48])
+	by mail.openembedded.org (Postfix) with ESMTP id B3EE878150
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 May 2017 16:37:47 +0000 (UTC)
-Received: from deneb ([80.229.24.9]) by avasout05 with smtp
-	id Qgdl1v0010BmcFC01gdmb9; Thu, 25 May 2017 17:37:48 +0100
-X-CM-Score: 0.00
-X-CNFS-Analysis: v=2.2 cv=Iav3YSia c=1 sm=1 tr=0
-	a=E/9URZZQ5L3bK/voZ0g0HQ==:117 a=E/9URZZQ5L3bK/voZ0g0HQ==:17
-	a=8nJEP1OIZ-IA:10 a=tJ8p9aeEuA8A:10 a=-An2I_7KAAAA:8
-	a=3yVqv-UoVgkp1kgFw5cA:9
-	a=wPNLvfGTeEIA:10 a=Sq34B_EcNBM9_nrAYB9S:22
-Received: from mac by deneb with local (Exim 4.84_2)
-	(envelope-from <mac@mcrowe.com>)
-	id 1dDvlh-0004LA-3y; Thu, 25 May 2017 17:37:45 +0100
-Date: Thu, 25 May 2017 17:37:45 +0100
-From: Mike Crowe <mac@mcrowe.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	"Burton, Ross" <ross.burton@intel.com>
-Message-ID: <20170525163745.GA16458@mcrowe.com>
-References: <20170524132336.4259-1-mac@mcrowe.com>
-	<CAJTo0LY85HYy_CdROAJMdPVXehNYMs=mDAsuT-RmLr-QK-Ezjg@mail.gmail.com>
-	<20170524135232.GA13067@mcrowe.com>
-	<CAJTo0LZCojNChLhaBsAqNouue3JEX9b7gfF5AQOiyhTedW_ByQ@mail.gmail.com>
-	<1495665889.25229.32.camel@linuxfoundation.org>
+	Thu, 25 May 2017 18:31:05 +0000 (UTC)
+Received: by mail-wm0-f48.google.com with SMTP id m7so431877wmg.0
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 25 May 2017 11:31:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=p0zeC+eB8iG1NRmVEFjAf3oTiwIKxK5xDlfiNqzf1h8=;
+	b=Ftq5a/q4AbA6RRpzU+CfMU/q6Dq/TfDLIIw++nlxZ0C0O+KShprTlMLMn+cF4agWc3
+	pn3m6xUXyFERFPjt3/htnxonvqFT9ga/Xjf+ST62eCZlRtek+/F+5Jbgijno5ccxOiFQ
+	BOHAE0Efzt1lAXFMlnX7nT17n63+IsXzK/6fdOWM04N3ENF/Wv+6A/wkWDunezYGIdIb
+	q/40ad1p+xSd+sI8LZ5LGtw+WxKwn7ItaN5CKEenIDoHlFzAZUmsRVyHSapeI28HYnm8
+	CFH962jLWKwqnjn/fb1GnW5BtAZQUNO2Ehr8ZCLhA+lK8v2S4GxNOvVu30Hg0VhGAl1x
+	Ghag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=p0zeC+eB8iG1NRmVEFjAf3oTiwIKxK5xDlfiNqzf1h8=;
+	b=bQcHkUMoiSM/Cs/UBqFXTYx2v1ADS5/LszriRRA87RfyDc0+WLYYl4VuPxVGzZlJ6W
+	+HMu929lKFrD5eawIk6nMVOkB2W+m4eTIOX+NkKvcHhBADkSxdsL4LQ7f9FEiBwN4CYY
+	pJMCGh8EQVpdVxp5pQr7MkoSUSxEgaoTvKc+/L6bMfF1A8TpLxkKV5bkxwmseuyA+hpj
+	GzzecAw+8c522d13draj0SCDnI2Wu4hoPPgsyfCjrWTvxfsTarNPmuNo0vFEj62Dp/i6
+	SNxSkKfYvF4r0dtFzd4Vq1L8AozdjnP1vw4JP58/1vBkHFAKvk1GhTnuSYCS7gohSqji
+	roLQ==
+X-Gm-Message-State: AODbwcDKU4gIwIML2SwUiJ7fqZfdfN2TLyoQBpWCKOjhi1sKYKva82Gj
+	KllWLdOFG/m9FSfTJzR9qIXlG3q8HA==
+X-Received: by 10.223.170.67 with SMTP id q3mr29346675wrd.19.1495737066107;
+	Thu, 25 May 2017 11:31:06 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <1495665889.25229.32.camel@linuxfoundation.org>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] libgcrypt: Revert to inheriting from binconfig
+Received: by 10.223.153.18 with HTTP; Thu, 25 May 2017 11:31:05 -0700 (PDT)
+In-Reply-To: <1495678712-44204-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
+References: <1495678712-44204-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+Date: Thu, 25 May 2017 11:31:05 -0700
+Message-ID: <CAJ86T=W++TQhRcupbLoACVLTEmEzZRmQUaYZqFFh23+Zwq6X4w@mail.gmail.com>
+To: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] curl: fix libssl error for ARMv8
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,56 +52,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 May 2017 16:37:48 -0000
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 25 May 2017 18:31:06 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-On Wednesday 24 May 2017 at 23:44:49 +0100, Richard Purdie wrote:
-> On Wed, 2017-05-24 at 17:25 +0100, Burton, Ross wrote:
-> > 
-> > On 24 May 2017 at 14:52, Mike Crowe <mac@mcrowe.com> wrote:
-> > > Oh, I thought that binconfig.bbclass swung through hoops in order
-> > > to make
-> > > the scripts work well enough. Is that not true?
-> > > 
-> > > Many other recipes are still inheriting binconfig rather than
-> > > binconfig-disabled: apr, curl, gnutls, libtasn1.
-> > > 
-> > binconfig goes through hoops that are just not required with
-> > pkgconfig, and the hoops are hacks which may not be reliable.  I
-> > can't remember the details but I do remember that libgcrypt/gnupg was
-> > a worst offender here.
-> > 
-> > CCing Richard to see if he can remember why.
-> > 
-> > In the glorious future removing all binconfig scripts would be the
-> > ideal, in my opinion.  Alternatively replacing them with glorified
-> > pkgconfig wrappers.
-> 
-> We made a choice back then to go ahead and migrate these pieces to pkg-
-> config regardless of upstream's views since its so much cleaner and
-> less error prone than -config shell scripts which need hacking. We do
-> also patch the autoconf macros those pieces of software ship so that
-> pkg-config is used by the standard macros which covers most users
-> (since we reautoconf software).
+On Wed, May 24, 2017 at 7:18 PM, Huang Qiyu <huangqy.fnst@cn.fujitsu.com> wrote:
+> curl + gnutls can not work on ARMv8 32BE, so change it to curl + ssl when the target is aarch64.
+>
+> The error is as follow:
+> curl: (35) gnutls_handshake() failed: Bad record MAC
 
-[snip]
+Googling for that error message brings up the following thread, which
+isn't very conclusive but suggests the root cause is the server
+configuration:
 
-> I appreciate that does cause some pain as we're doing something
-> differently but I also believe it is justified. I would suggest
-> reminding these upstreams who won't at least allow pkg-config in
-> parallel that this does cause pain in the hope that if multiple people
-> report it, they may rethink things.
+  https://lists.gnu.org/archive/html/help-gnutls/2013-01/threads.html#00006
 
-I was unaware that oe-core's libgcrypt recipe provides a modified
-libgcrypt.m4 in share/aclocal/ that uses pkg-config.
+Have you confirmed that curl + gnutls built for targets other than
+ARMv8 32BE and aarch64 works OK with your server?
 
-Inspired by the oe-core gnupg recipe, I deleted m4/libgcrypt.m4 from the
-libmicrohttpd source directory in a do_configure_prepend and everything now
-seems happy.
-
-Thanks, and sorry for the unnecessary diversion.
-
-Mike.
+> When set machine to qemuarm64 in local.conf, this patch will work.
+>
+> Signed-off-by: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
+> ---
+>  meta/recipes-support/curl/curl_7.54.0.bb | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/meta/recipes-support/curl/curl_7.54.0.bb b/meta/recipes-support/curl/curl_7.54.0.bb
+> index ce5ca37..7421617 100644
+> --- a/meta/recipes-support/curl/curl_7.54.0.bb
+> +++ b/meta/recipes-support/curl/curl_7.54.0.bb
+> @@ -21,6 +21,7 @@ CVE_PRODUCT = "libcurl"
+>  inherit autotools pkgconfig binconfig multilib_header
+>
+>  PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)} gnutls proxy zlib"
+> +PACKAGECONFIG_aarch64 ??= "${@bb.utils.contains("DISTRO_FEATURES", "ipv6", "ipv6", "", d)} ssl proxy zlib"
+>  PACKAGECONFIG_class-native = "ipv6 proxy ssl zlib"
+>  PACKAGECONFIG_class-nativesdk = "ipv6 proxy ssl zlib"
+>
+> --
+> 2.7.4
+>
+>
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
