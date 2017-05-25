@@ -1,45 +1,33 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-wm0-f48.google.com (mail-wm0-f48.google.com [74.125.82.48])
-	by mail.openembedded.org (Postfix) with ESMTP id B3EE878150
+Return-Path: <joe.slater@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id CE14E65CBF
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 May 2017 18:31:05 +0000 (UTC)
-Received: by mail-wm0-f48.google.com with SMTP id m7so431877wmg.0
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 May 2017 11:31:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=p0zeC+eB8iG1NRmVEFjAf3oTiwIKxK5xDlfiNqzf1h8=;
-	b=Ftq5a/q4AbA6RRpzU+CfMU/q6Dq/TfDLIIw++nlxZ0C0O+KShprTlMLMn+cF4agWc3
-	pn3m6xUXyFERFPjt3/htnxonvqFT9ga/Xjf+ST62eCZlRtek+/F+5Jbgijno5ccxOiFQ
-	BOHAE0Efzt1lAXFMlnX7nT17n63+IsXzK/6fdOWM04N3ENF/Wv+6A/wkWDunezYGIdIb
-	q/40ad1p+xSd+sI8LZ5LGtw+WxKwn7ItaN5CKEenIDoHlFzAZUmsRVyHSapeI28HYnm8
-	CFH962jLWKwqnjn/fb1GnW5BtAZQUNO2Ehr8ZCLhA+lK8v2S4GxNOvVu30Hg0VhGAl1x
-	Ghag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=p0zeC+eB8iG1NRmVEFjAf3oTiwIKxK5xDlfiNqzf1h8=;
-	b=bQcHkUMoiSM/Cs/UBqFXTYx2v1ADS5/LszriRRA87RfyDc0+WLYYl4VuPxVGzZlJ6W
-	+HMu929lKFrD5eawIk6nMVOkB2W+m4eTIOX+NkKvcHhBADkSxdsL4LQ7f9FEiBwN4CYY
-	pJMCGh8EQVpdVxp5pQr7MkoSUSxEgaoTvKc+/L6bMfF1A8TpLxkKV5bkxwmseuyA+hpj
-	GzzecAw+8c522d13draj0SCDnI2Wu4hoPPgsyfCjrWTvxfsTarNPmuNo0vFEj62Dp/i6
-	SNxSkKfYvF4r0dtFzd4Vq1L8AozdjnP1vw4JP58/1vBkHFAKvk1GhTnuSYCS7gohSqji
-	roLQ==
-X-Gm-Message-State: AODbwcDKU4gIwIML2SwUiJ7fqZfdfN2TLyoQBpWCKOjhi1sKYKva82Gj
-	KllWLdOFG/m9FSfTJzR9qIXlG3q8HA==
-X-Received: by 10.223.170.67 with SMTP id q3mr29346675wrd.19.1495737066107;
-	Thu, 25 May 2017 11:31:06 -0700 (PDT)
+	Thu, 25 May 2017 19:43:55 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v4PJhtdB013162
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 25 May 2017 12:43:55 -0700 (PDT)
+Received: from ALA-MBC.corp.ad.wrs.com ([fe80::fcbe:9b7:1141:89a1]) by
+	ALA-HCA.corp.ad.wrs.com ([147.11.189.40]) with mapi id 14.03.0294.000;
+	Thu, 25 May 2017 12:43:55 -0700
+From: "Slater, Joseph" <joe.slater@windriver.com>
+To: "BURTON, ROSS" <ross.burton@intel.com>
+Thread-Topic: [OE-core] [oe-core][PATCH 1/1] ghostscript: move to version 9.21
+Thread-Index: AQHS1VWGsTBt6tGpxUOJvuQUW0X3AqIFaihg
+Date: Thu, 25 May 2017 19:43:55 +0000
+Message-ID: <007BD92917A2324FA403BCF9A464CF84CF35AD61@ALA-MBC.corp.ad.wrs.com>
+References: <1495647593-19100-1-git-send-email-jslater@windriver.com>
+	<1495647593-19100-2-git-send-email-jslater@windriver.com>
+	<CAJTo0LYjqCw3Q7ycYCCg0cF2C5h+1oTG6JdmRsguC3wQY0PwpQ@mail.gmail.com>
+In-Reply-To: <CAJTo0LYjqCw3Q7ycYCCg0cF2C5h+1oTG6JdmRsguC3wQY0PwpQ@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [147.11.216.197]
 MIME-Version: 1.0
-Received: by 10.223.153.18 with HTTP; Thu, 25 May 2017 11:31:05 -0700 (PDT)
-In-Reply-To: <1495678712-44204-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
-References: <1495678712-44204-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-Date: Thu, 25 May 2017 11:31:05 -0700
-Message-ID: <CAJ86T=W++TQhRcupbLoACVLTEmEzZRmQUaYZqFFh23+Zwq6X4w@mail.gmail.com>
-To: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] curl: fix libssl error for ARMv8
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] ghostscript: move to version 9.21
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,51 +40,114 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 May 2017 18:31:06 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 25 May 2017 19:43:56 -0000
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_007BD92917A2324FA403BCF9A464CF84CF35AD61ALAMBCcorpadwrs_"
 
-On Wed, May 24, 2017 at 7:18 PM, Huang Qiyu <huangqy.fnst@cn.fujitsu.com> wrote:
-> curl + gnutls can not work on ARMv8 32BE, so change it to curl + ssl when the target is aarch64.
->
-> The error is as follow:
-> curl: (35) gnutls_handshake() failed: Bad record MAC
+--_000_007BD92917A2324FA403BCF9A464CF84CF35AD61ALAMBCcorpadwrs_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Googling for that error message brings up the following thread, which
-isn't very conclusive but suggests the root cause is the server
-configuration:
+SSBkb27igJl0IGtub3cgaWYgaXTigJlzIGludGVudGlvbmFsLCBidXQgaXQgZG9lcyBzZWVtIHRv
+IGJlIGEgZmVhdHVyZSBvZiA5LjIxIHRoYXQgY3VwcyBzdXBwb3J0DQpJcyBuZXZlciBidWlsdCBl
+dmVuIHRob3VnaCBjb25maWd1cmUgZmluZHMgY3Vwcy5oIGFuZCBjdXBzLWNvbmZpZy4NCg0KSW4g
+dHJ5aW5nIHRvIGNvbXBhcmUgYnVpbGQgbG9ncywgSSBzZWUgYSBuZXcgdmFyaWFibGUgY2FsbGVk
+IEJVSUxEX0NVUFNDT05GSUcgd2hpY2ggaXMNClNldCB0byB3aGF0IHRoZSBvbGQgQ1VQU0NPTkZJ
+RyB2YXJpYWJsZSB3YXMuICBJbiB0aGUgbmV3IGxvZywgQ1VQU0NPTkZJRyBpcyBudWxsLg0KDQpK
+b2UNCg0KRnJvbTogQnVydG9uLCBSb3NzIFttYWlsdG86cm9zcy5idXJ0b25AaW50ZWwuY29tXQ0K
+U2VudDogVGh1cnNkYXksIE1heSAyNSwgMjAxNyA1OjUwIEFNDQpUbzogU2xhdGVyLCBKb3NlcGgN
+CkNjOiBPRS1jb3JlDQpTdWJqZWN0OiBSZTogW09FLWNvcmVdIFtvZS1jb3JlXVtQQVRDSCAxLzFd
+IGdob3N0c2NyaXB0OiBtb3ZlIHRvIHZlcnNpb24gOS4yMQ0KDQoNCk9uIDI0IE1heSAyMDE3IGF0
+IDE4OjM5LCBKb2UgU2xhdGVyIDxqc2xhdGVyQHdpbmRyaXZlci5jb208bWFpbHRvOmpzbGF0ZXJA
+d2luZHJpdmVyLmNvbT4+IHdyb3RlOg0KRWxpbWluYXRlIENWRSBwYXRjaGVzIHRoYXQgYXJlIG5v
+dyBpbiBzb3VyY2UuICBBZGQgQ1ZFLTIwMTctNzk3NQ0KcGF0Y2guDQoNCnBhY2thZ2VzL2NvcmVp
+Ny02NC1wb2t5LWxpbnV4L2dob3N0c2NyaXB0L2dob3N0c2NyaXB0OiBSREVQRU5EUzogcmVtb3Zl
+ZCBhbGwgaXRlbXMgImN1cHMtbGliaW1hZ2UgKFsnPj0gMi4yLjInXSkgY3Vwcy1saWIgKFsnPj0g
+Mi4yLjInXSkiDQoNCklzIHRoYXQgaW50ZW50aW9uYWw/DQoNClJvc3MNCg==
 
-  https://lists.gnu.org/archive/html/help-gnutls/2013-01/threads.html#00006
+--_000_007BD92917A2324FA403BCF9A464CF84CF35AD61ALAMBCcorpadwrs_
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Have you confirmed that curl + gnutls built for targets other than
-ARMv8 32BE and aarch64 works OK with your server?
+PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
+bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
+YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
+cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
+VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
+Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
+ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTQgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
+PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
+Q2FsaWJyaTsNCglwYW5vc2UtMToyIDE1IDUgMiAyIDIgNCAzIDIgNDt9DQpAZm9udC1mYWNlDQoJ
+e2ZvbnQtZmFtaWx5OlRhaG9tYTsNCglwYW5vc2UtMToyIDExIDYgNCAzIDUgNCA0IDIgNDt9DQov
+KiBTdHlsZSBEZWZpbml0aW9ucyAqLw0KcC5Nc29Ob3JtYWwsIGxpLk1zb05vcm1hbCwgZGl2Lk1z
+b05vcm1hbA0KCXttYXJnaW46MGluOw0KCW1hcmdpbi1ib3R0b206LjAwMDFwdDsNCglmb250LXNp
+emU6MTIuMHB0Ow0KCWZvbnQtZmFtaWx5OiJUaW1lcyBOZXcgUm9tYW4iLCJzZXJpZiI7fQ0KYTps
+aW5rLCBzcGFuLk1zb0h5cGVybGluaw0KCXttc28tc3R5bGUtcHJpb3JpdHk6OTk7DQoJY29sb3I6
+Ymx1ZTsNCgl0ZXh0LWRlY29yYXRpb246dW5kZXJsaW5lO30NCmE6dmlzaXRlZCwgc3Bhbi5Nc29I
+eXBlcmxpbmtGb2xsb3dlZA0KCXttc28tc3R5bGUtcHJpb3JpdHk6OTk7DQoJY29sb3I6cHVycGxl
+Ow0KCXRleHQtZGVjb3JhdGlvbjp1bmRlcmxpbmU7fQ0Kc3Bhbi5FbWFpbFN0eWxlMTcNCgl7bXNv
+LXN0eWxlLXR5cGU6cGVyc29uYWwtcmVwbHk7DQoJZm9udC1mYW1pbHk6IkNhbGlicmkiLCJzYW5z
+LXNlcmlmIjsNCgljb2xvcjojMUY0OTdEO30NCi5Nc29DaHBEZWZhdWx0DQoJe21zby1zdHlsZS10
+eXBlOmV4cG9ydC1vbmx5Ow0KCWZvbnQtZmFtaWx5OiJDYWxpYnJpIiwic2Fucy1zZXJpZiI7fQ0K
+QHBhZ2UgV29yZFNlY3Rpb24xDQoJe3NpemU6OC41aW4gMTEuMGluOw0KCW1hcmdpbjoxLjBpbiAx
+LjBpbiAxLjBpbiAxLjBpbjt9DQpkaXYuV29yZFNlY3Rpb24xDQoJe3BhZ2U6V29yZFNlY3Rpb24x
+O30NCi0tPjwvc3R5bGU+PCEtLVtpZiBndGUgbXNvIDldPjx4bWw+DQo8bzpzaGFwZWRlZmF1bHRz
+IHY6ZXh0PSJlZGl0IiBzcGlkbWF4PSIxMDI2IiAvPg0KPC94bWw+PCFbZW5kaWZdLS0+PCEtLVtp
+ZiBndGUgbXNvIDldPjx4bWw+DQo8bzpzaGFwZWxheW91dCB2OmV4dD0iZWRpdCI+DQo8bzppZG1h
+cCB2OmV4dD0iZWRpdCIgZGF0YT0iMSIgLz4NCjwvbzpzaGFwZWxheW91dD48L3htbD48IVtlbmRp
+Zl0tLT4NCjwvaGVhZD4NCjxib2R5IGxhbmc9IkVOLVVTIiBsaW5rPSJibHVlIiB2bGluaz0icHVy
+cGxlIj4NCjxkaXYgY2xhc3M9IldvcmRTZWN0aW9uMSI+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48
+c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1
+b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVvdDs7Y29sb3I6IzFGNDk3RCI+SSBkb27igJl0IGtub3cg
+aWYgaXTigJlzIGludGVudGlvbmFsLCBidXQgaXQgZG9lcyBzZWVtIHRvIGJlIGEgZmVhdHVyZSBv
+ZiA5LjIxIHRoYXQgY3VwcyBzdXBwb3J0PG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9
+Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1
+b3Q7Q2FsaWJyaSZxdW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7O2NvbG9yOiMxRjQ5N0QiPklz
+IG5ldmVyIGJ1aWx0IGV2ZW4gdGhvdWdoIGNvbmZpZ3VyZSBmaW5kcyBjdXBzLmggYW5kIGN1cHMt
+Y29uZmlnLjxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFu
+IHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDss
+JnF1b3Q7c2Fucy1zZXJpZiZxdW90Oztjb2xvcjojMUY0OTdEIj48bzpwPiZuYnNwOzwvbzpwPjwv
+c3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjEx
+LjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVv
+dDs7Y29sb3I6IzFGNDk3RCI+SW4gdHJ5aW5nIHRvIGNvbXBhcmUgYnVpbGQgbG9ncywgSSBzZWUg
+YSBuZXcgdmFyaWFibGUgY2FsbGVkIEJVSUxEX0NVUFNDT05GSUcgd2hpY2ggaXM8bzpwPjwvbzpw
+Pjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXpl
+OjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYm
+cXVvdDs7Y29sb3I6IzFGNDk3RCI+U2V0IHRvIHdoYXQgdGhlIG9sZCBDVVBTQ09ORklHIHZhcmlh
+YmxlIHdhcy4mbmJzcDsgSW4gdGhlIG5ldyBsb2csIENVUFNDT05GSUcgaXMgbnVsbC48bzpwPjwv
+bzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1z
+aXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LCZxdW90O3NhbnMtc2Vy
+aWYmcXVvdDs7Y29sb3I6IzFGNDk3RCI+PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0KPHAg
+Y2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1p
+bHk6JnF1b3Q7Q2FsaWJyaSZxdW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7O2NvbG9yOiMxRjQ5
+N0QiPkpvZTxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFu
+IHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDss
+JnF1b3Q7c2Fucy1zZXJpZiZxdW90Oztjb2xvcjojMUY0OTdEIj48bzpwPiZuYnNwOzwvbzpwPjwv
+c3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48Yj48c3BhbiBzdHlsZT0iZm9udC1zaXpl
+OjEwLjBwdDtmb250LWZhbWlseTomcXVvdDtUYWhvbWEmcXVvdDssJnF1b3Q7c2Fucy1zZXJpZiZx
+dW90OyI+RnJvbTo8L3NwYW4+PC9iPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTAuMHB0O2ZvbnQt
+ZmFtaWx5OiZxdW90O1RhaG9tYSZxdW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7Ij4gQnVydG9u
+LCBSb3NzIFttYWlsdG86cm9zcy5idXJ0b25AaW50ZWwuY29tXQ0KPGJyPg0KPGI+U2VudDo8L2I+
+IFRodXJzZGF5LCBNYXkgMjUsIDIwMTcgNTo1MCBBTTxicj4NCjxiPlRvOjwvYj4gU2xhdGVyLCBK
+b3NlcGg8YnI+DQo8Yj5DYzo8L2I+IE9FLWNvcmU8YnI+DQo8Yj5TdWJqZWN0OjwvYj4gUmU6IFtP
+RS1jb3JlXSBbb2UtY29yZV1bUEFUQ0ggMS8xXSBnaG9zdHNjcmlwdDogbW92ZSB0byB2ZXJzaW9u
+IDkuMjE8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpwPiZu
+YnNwOzwvbzpwPjwvcD4NCjxkaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PG86cD4m
+bmJzcDs8L286cD48L3A+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+T24gMjQgTWF5IDIw
+MTcgYXQgMTg6MzksIEpvZSBTbGF0ZXIgJmx0OzxhIGhyZWY9Im1haWx0bzpqc2xhdGVyQHdpbmRy
+aXZlci5jb20iIHRhcmdldD0iX2JsYW5rIj5qc2xhdGVyQHdpbmRyaXZlci5jb208L2E+Jmd0OyB3
+cm90ZTo8bzpwPjwvbzpwPjwvcD4NCjxkaXYgaWQ9ImdtYWlsLTpxaiI+DQo8cCBjbGFzcz0iTXNv
+Tm9ybWFsIj5FbGltaW5hdGUgQ1ZFIHBhdGNoZXMgdGhhdCBhcmUgbm93IGluIHNvdXJjZS4mbmJz
+cDsgQWRkIENWRS0yMDE3LTc5NzU8YnI+DQpwYXRjaC48bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0K
+PC9kaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48YnI+DQpwYWNrYWdlcy9jb3JlaTctNjQtcG9r
+eS1saW51eC9naG9zdHNjcmlwdC9naG9zdHNjcmlwdDogUkRFUEVORFM6IHJlbW92ZWQgYWxsIGl0
+ZW1zICZxdW90O2N1cHMtbGliaW1hZ2UgKFsnJmd0Oz0gMi4yLjInXSkgY3Vwcy1saWIgKFsnJmd0
+Oz0gMi4yLjInXSkmcXVvdDs8bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNz
+PSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xh
+c3M9Ik1zb05vcm1hbCI+SXMgdGhhdCBpbnRlbnRpb25hbD88bzpwPjwvbzpwPjwvcD4NCjwvZGl2
+Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPC9k
+aXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+Um9zczxvOnA+PC9vOnA+PC9wPg0KPC9k
+aXY+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9ib2R5Pg0KPC9odG1sPg0K
 
-> When set machine to qemuarm64 in local.conf, this patch will work.
->
-> Signed-off-by: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
-> ---
->  meta/recipes-support/curl/curl_7.54.0.bb | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/meta/recipes-support/curl/curl_7.54.0.bb b/meta/recipes-support/curl/curl_7.54.0.bb
-> index ce5ca37..7421617 100644
-> --- a/meta/recipes-support/curl/curl_7.54.0.bb
-> +++ b/meta/recipes-support/curl/curl_7.54.0.bb
-> @@ -21,6 +21,7 @@ CVE_PRODUCT = "libcurl"
->  inherit autotools pkgconfig binconfig multilib_header
->
->  PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)} gnutls proxy zlib"
-> +PACKAGECONFIG_aarch64 ??= "${@bb.utils.contains("DISTRO_FEATURES", "ipv6", "ipv6", "", d)} ssl proxy zlib"
->  PACKAGECONFIG_class-native = "ipv6 proxy ssl zlib"
->  PACKAGECONFIG_class-nativesdk = "ipv6 proxy ssl zlib"
->
-> --
-> 2.7.4
->
->
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
+--_000_007BD92917A2324FA403BCF9A464CF84CF35AD61ALAMBCcorpadwrs_--
