@@ -1,53 +1,48 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-qk0-f176.google.com (mail-qk0-f176.google.com
-	[209.85.220.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 1A9597810B
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qt0-f175.google.com (mail-qt0-f175.google.com
+	[209.85.216.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 2CB12780F7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 May 2017 12:01:43 +0000 (UTC)
-Received: by mail-qk0-f176.google.com with SMTP id y201so175015884qka.0
+	Thu, 25 May 2017 12:15:23 +0000 (UTC)
+Received: by mail-qt0-f175.google.com with SMTP id f55so178136115qta.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 May 2017 05:01:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	Thu, 25 May 2017 05:15:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=4jVy3KUO3Wm1HTFybhrV8V170gg9TJOeoU5vBJytAOU=;
-	b=tYKMkGvSTjXBKEpzPCb110z4mVKwc6Ji1kZMetFPS4Gj4093EzLTGnAILNLtbhp2/R
-	5V0HxSHUzsbUkqsx1t4ZCbW28mA1bemtx8ivaI47Wmaok4bo8CkTfm+ZwDKeZiehECpl
-	adEmPdKuxk7WGhcx7rINz720KcZ25TvTHimxUMAJQo2GQFUaXBM+sZ8RpeYrYc8fG/WJ
-	lyAw7Pe5Zec2ca8Z6Oo2/tMmD0fUcKqtDPzaJFxNPd+ZqDTOzA3Roz7TOHO71Radkaht
-	Z2dd2T11T8P5O4+9Ji/uf+CmQyCDpY9WC8stMFPqAZ33rHJSHQSSLUZlVLOl4eolbPX7
-	yGqw==
+	:cc; bh=vFDgtkNxfdutmDGUxKjNJ9FdVrDz9ajcX8BCktQX1CU=;
+	b=MHYuQwDMH48N4lvv+ZjrXrkESwRHvNdjh0IsVcQ5UAX8j/J5KrSk1fCSbScvHTtfz/
+	eXDXQZjIGxHKfQ3NBxsCN9Do2fb5nzq+8vgvBET8OLO+Tt9oPtlaly2uHCcfTC3HOGft
+	oeWvzsUNbJ2LHAmgwWjVyQLt83UZzST4hkP+3MSxnn+Wa52QkefByKPr6NJrnl5kbmy1
+	TXnNqxuQH5WdR0lNHsOLcjvVQXigfb+AKKjumzEpJmLFTaqzjdsy7kcNtWk0yhmDApKV
+	KvEnlzUVtee06u/RIXIunxMhv98ZktZ+NEf3xMqtC7dtTVYQjC8O1PcWVhKLPms4X8BY
+	L29Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=4jVy3KUO3Wm1HTFybhrV8V170gg9TJOeoU5vBJytAOU=;
-	b=c9j6GqXNBR6nou/CLyiF1Wks33Cm+Whel2B3PKghiR8DgqLPmUm0u7yuRideY3F77u
-	CZEInMxtolv/Xs9LkWL0nCw70i2cSKRJ9jcMFuMP3EwtL9nUU/73LDRiD1USpJdHZLzy
-	L2mDP2f+JRP4zoGI6VXny185Z83pU69Zzwm6pmS8MHjgpXNCfT9dsBvLWbVxd0e7IeuY
-	ViwpULfNkc3tEfCFxwbnsyV7Z1l3Pkv8Po99leZ338sQRwM4rsnxylvO5LycxuxUp20e
-	HaroNpByRJGqj5flasK+7QIAOFnvNyWQGyK65nWXcAtn5ctkdIWy6a2/woJUJqIbxei7
-	4MaA==
-X-Gm-Message-State: AODbwcDApOn85oVdQdLXigJYZ7nDDqpl/qIEhD35ioYPRPfLe2FTBlks
-	/W0f57eQJWyZJhCxU2kf60IjxlJ1Jg==
-X-Received: by 10.55.118.199 with SMTP id r190mr36371880qkc.43.1495713704744; 
-	Thu, 25 May 2017 05:01:44 -0700 (PDT)
+	bh=vFDgtkNxfdutmDGUxKjNJ9FdVrDz9ajcX8BCktQX1CU=;
+	b=ihn7cOAvgWzZBbtlILOLz0JT3dwXtoa1N4sw5jEIMlbLu/W8sN6BZvO02niKKK5x+z
+	NsvGl9eZoA1xNiPuFnWtPGVxg6MaCtk+jjj3Vq911btP+b0AMpJsSvMpRLsqdoZ44j0J
+	SOxG/Z+lJe8fypupJRrR02cp6+j/281+1peF/WQgCEPIzDUHqJB6vTs4kme4hnoiwVhx
+	5mdm8laf5sc4MAJtGlK3d8BvH7pw96FLWWGGwpXLgDxc9vQKBrALu1BBZdJPJZ7RUs7a
+	usvwV6tb2ua3Nlgj0BMhj7sko+D9qvmXW06umNzV87hl5K9h75H0NgyF8VsaMeaiYwqR
+	1JFw==
+X-Gm-Message-State: AODbwcB6KgrXoBAsWSKhXD7bt1alUqSmr7DUltyOdn89kmBfQA8GiGRO
+	cwz2NV5Hpgz42qO7wBqYIea2a557XJfE
+X-Received: by 10.200.43.33 with SMTP id 30mr40556073qtu.210.1495714524917;
+	Thu, 25 May 2017 05:15:24 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.12.182.109 with HTTP; Thu, 25 May 2017 05:01:44 -0700 (PDT)
-In-Reply-To: <CAMKF1sqnqBr9wZwnHoozcE1swutjaRQyuEnLFMh0p6THcGybtg@mail.gmail.com>
-References: <20170522050042.42403-1-raj.khem@gmail.com>
-	<20170522050042.42403-11-raj.khem@gmail.com>
-	<CADkTA4M-3HipxJL7GnE9FJkK1hKJQ9EOjJpvUpyom8WNgbcGnw@mail.gmail.com>
-	<CAMKF1sqBtBGzB_o_eM5SYhG+mS=kNqspYQDEu4dOe=FT70HSqA@mail.gmail.com>
-	<CADkTA4NZ2E7TPb7-Awd4d_ZsWCB8Zz2Xv06VzUOnbWY5VFAUpw@mail.gmail.com>
-	<CADkTA4OFuN3c1QoevxzQuUT5zNSxmMPxooWwKLhu2aeF_vbb-w@mail.gmail.com>
-	<CAMKF1sqnqBr9wZwnHoozcE1swutjaRQyuEnLFMh0p6THcGybtg@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Thu, 25 May 2017 08:01:44 -0400
-Message-ID: <CADkTA4MQnsXSOuRswaJqo0=oNVF1OZKRinhnvp22jPCyS4dCiA@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 11/15] linux-yocto: Enable drm by default
+Received: by 10.140.41.115 with HTTP; Thu, 25 May 2017 05:15:04 -0700 (PDT)
+In-Reply-To: <1494933979-5139-8-git-send-email-dv@pseudoterminal.org>
+References: <1494933979-5139-1-git-send-email-dv@pseudoterminal.org>
+	<1494933979-5139-8-git-send-email-dv@pseudoterminal.org>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 25 May 2017 13:15:04 +0100
+Message-ID: <CAJTo0LYipxZN4VK25oKEcPH4=PUw3BJUQG-W14h8+T7N2P+_1w@mail.gmail.com>
+To: Carlos Rafael Giani <dv@pseudoterminal.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 8/9] gstreamer1.0-omx: upgrade to version 1.12.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,328 +55,147 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 May 2017 12:01:45 -0000
-Content-Type: multipart/alternative; boundary="94eb2c05e3640e9d08055057fc0c"
+X-List-Received-Date: Thu, 25 May 2017 12:15:24 -0000
+Content-Type: multipart/alternative; boundary="001a1141481ef1b33d0550582c7e"
 
---94eb2c05e3640e9d08055057fc0c
+--001a1141481ef1b33d0550582c7e
 Content-Type: text/plain; charset="UTF-8"
 
-On Wed, May 24, 2017 at 10:46 PM, Khem Raj <raj.khem@gmail.com> wrote:
+I presume you build without api-documentation as with Poky I get this error:
 
-> On Wed, May 24, 2017 at 7:40 PM, Bruce Ashfield
-> <bruce.ashfield@gmail.com> wrote:
-> >
-> >
-> > On Tue, May 23, 2017 at 3:36 PM, Bruce Ashfield <
-> bruce.ashfield@gmail.com>
-> > wrote:
-> >>
-> >>
-> >>
-> >> On Mon, May 22, 2017 at 1:06 PM, Khem Raj <raj.khem@gmail.com> wrote:
-> >>>
-> >>> >> +SRC_URI += "file://drm.cfg"
-> >>> >
-> >>> >
-> >>> >
-> >>> > If anything gets added to the default configurations, they need to go
-> >>> > into
-> >>> > the kernel-cache
-> >>> > and then be included by the relevant kernel types there.
-> >>> >
-> >>> > If you want, I can take care of switching things to that format.
-> >>> >
-> >>>
-> >>> yes please.
-> >>
-> >>
-> >> Will do. I'll make it available to all active kernel versions + future
-> >> ones.
-> >
-> >
-> > As it turns out, we already have a similar fragment for vmware guests:
-> >
-> > cfg/vmware-guest.cfg
-> >
-> > --------------------
-> >
-> > CONFIG_VMWARE_BALLOON=m
-> >
-> > CONFIG_VMWARE_PVSCSI=y
-> >
-> > CONFIG_VMWARE_VMCI=m
-> >
-> > CONFIG_VSOCKETS=m
-> >
-> > CONFIG_VMWARE_VMCI_VSOCKETS=m
-> >
-> > CONFIG_VMXNET3=y
-> >
-> > CONFIG_DRM_VMWGFX=m
-> >
-> > CONFIG_DRM_VMWGFX_FBCON=y
-> >
-> > CONFIG_FUSION=y
-> >
-> > CONFIG_FUSION_SPI=y
-> >
-> > CONFIG_FUSION_FC=y
-> >
-> > CONFIG_FUSION_SAS=y
-> >
-> > CONFIG_FUSION_MAX_SGE=128
-> >
-> > CONFIG_FUSION_CTL=y
-> >
-> > CONFIG_FUSION_LAN=y
-> >
-> > CONFIG_FUSION_LOGGING=y
-> >
-> > CONFIG_SCSI_MPT2SAS=y
-> >
-> > CONFIG_SCSI_MPT2SAS_MAX_SGE=128
-> >
-> > CONFIG_SCSI_MPT2SAS_LOGGING=y
-> >
-> > CONFIG_SCSI_MPT3SAS=y
-> >
-> > CONFIG_SCSI_MPT3SAS_MAX_SGE=128
-> >
-> > CONFIG_SCSI_MPT3SAS_LOGGING=y
-> >
-> > -------------
-> >
-> > To stay consistent with that naming, I'll call this
-> virtual-box-guest.cfg,
-> > and it can be enabled
-> > via KERNEL_FEATURES when needed.
-> >
-> > I'm hesitant to globally enable it, since we don't need those modules on
-> all
-> > linux-yocto
-> > kernels, just ones that are going to run on virtual box.
-> >
-> > I could enable them for qemux86*, since those already have virtio configs
-> > enabled by
-> > default and these have a similar goal.
-> >
-> > Thoughts ? I'd like to make sure that sounds reasonable, before spending
-> the
-> > time to
-> > make the changes and test.
-> >
+| checking for gtkdoc-check...
+/data/poky-master/tmp/work/corei7-64-poky-linux/gstreamer1.0-omx/1.10.4-r0/recipe-sysroot-native/usr/bin/gtkdoc-check
+| checking for gtkdoc-rebase...
+/data/poky-master/tmp/work/corei7-64-poky-linux/gstreamer1.0-omx/1.10.4-r0/recipe-sysroot-native/usr/bin/gtkdoc-rebase
+| checking for gtkdoc-mkpdf...
+/data/poky-master/tmp/work/corei7-64-poky-linux/gstreamer1.0-omx/1.10.4-r0/recipe-sysroot-native/usr/bin/gtkdoc-mkpdf
+| configure: error: You need to have gtk-doc >= 1.3 installed to build
+GStreamer OpenMAX Plug-ins
+
+Ross
+
+On 16 May 2017 at 12:26, Carlos Rafael Giani <dv@pseudoterminal.org> wrote:
+
+> Signed-off-by: Carlos Rafael Giani <dv@pseudoterminal.org>
+> ---
+>  .../{gstreamer1.0-omx_1.10.4.bb => gstreamer1.0-omx_1.12.0.bb}        |
+> 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>  rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-omx_1.10.4.bb =>
+> gstreamer1.0-omx_1.12.0.bb} (69%)
 >
-> I would suggest to enable them by default since these are modules they
-> dont impact the size of kernel itself. Then we can use recommends to
-> choose them in machine configs.
+> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.10.4.bb
+> b/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.12.0.bb
+> similarity index 69%
+> rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.10.4.bb
+> rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.12.0.bb
+> index dfeefa5..73c5adb 100644
+> --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.10.4.bb
+> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.12.0.bb
+> @@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=
+> 4fbd65380cdd255951079008b364516c \
+>
+>  SRC_URI = "http://gstreamer.freedesktop.org/src/gst-omx/gst-omx-${PV}.
+> tar.xz"
+>
+> -SRC_URI[md5sum] = "cedb230f1c47d0cf4b575d70dff66ff2"
+> -SRC_URI[sha256sum] = "45072925cf262f0fd528fab78f0de5
+> 2734e46a5a88aa802fae51c67c09c81aa2"
+> +SRC_URI[md5sum] = "eaf9505c7acb9b96215cb0ff775d278d"
+> +SRC_URI[sha256sum] = "acee8c8a88b995fb95601b7b43bf0c
+> 83f502d9026bca5705f9c0dc44a757997e"
+>
+>  S = "${WORKDIR}/gst-omx-${PV}"
+> --
+> 2.7.4
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 >
 
-We've never done that before, there's hundreds of modules we could turn on
-just in case, but instead only enable them for machines that can actually
-use
-them.
-
-Many users use the meta package for modules and expect the build to be as
-minimal as possible.
-
-So I'm balancing both those use cases.
-
-I'll complete the fragment and we can enable it in a second commit to keep
-the
-options open.
-
-Bruce
-
-
->
-> > Bruce
-> >
-> >>
-> >> Cheers,
-> >>
-> >> Bruce
-> >>
-> >>
-> >>
-> >> --
-> >> "Thou shalt not follow the NULL pointer, for chaos and madness await
-> thee
-> >> at its end"
-> >
-> >
-> >
-> >
-> > --
-> > "Thou shalt not follow the NULL pointer, for chaos and madness await
-> thee at
-> > its end"
->
-
-
-
--- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await thee
-at its end"
-
---94eb2c05e3640e9d08055057fc0c
+--001a1141481ef1b33d0550582c7e
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
-te">On Wed, May 24, 2017 at 10:46 PM, Khem Raj <span dir=3D"ltr">&lt;<a hre=
-f=3D"mailto:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt=
-;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 =
-.8ex;border-left:1px #ccc solid;padding-left:1ex">On Wed, May 24, 2017 at 7=
-:40 PM, Bruce Ashfield<br>
-<div><div class=3D"h5">&lt;<a href=3D"mailto:bruce.ashfield@gmail.com">bruc=
-e.ashfield@gmail.com</a>&gt; wrote:<br>
-&gt;<br>
-&gt;<br>
-&gt; On Tue, May 23, 2017 at 3:36 PM, Bruce Ashfield &lt;<a href=3D"mailto:=
-bruce.ashfield@gmail.com">bruce.ashfield@gmail.com</a>&gt;<br>
-&gt; wrote:<br>
-&gt;&gt;<br>
-&gt;&gt;<br>
-&gt;&gt;<br>
-&gt;&gt; On Mon, May 22, 2017 at 1:06 PM, Khem Raj &lt;<a href=3D"mailto:ra=
-j.khem@gmail.com">raj.khem@gmail.com</a>&gt; wrote:<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt; &gt;&gt; +SRC_URI +=3D &quot;file://drm.cfg&quot;<br>
-&gt;&gt;&gt; &gt;<br>
-&gt;&gt;&gt; &gt;<br>
-&gt;&gt;&gt; &gt;<br>
-&gt;&gt;&gt; &gt; If anything gets added to the default configurations, the=
-y need to go<br>
-&gt;&gt;&gt; &gt; into<br>
-&gt;&gt;&gt; &gt; the kernel-cache<br>
-&gt;&gt;&gt; &gt; and then be included by the relevant kernel types there.<=
+<div dir=3D"ltr">I presume you build without api-documentation as with Poky=
+ I get this error:<div><br></div><div><div>| checking for gtkdoc-check... /=
+data/poky-master/tmp/work/corei7-64-poky-linux/gstreamer1.0-omx/1.10.4-r0/r=
+ecipe-sysroot-native/usr/bin/gtkdoc-check</div><div>| checking for gtkdoc-r=
+ebase... /data/poky-master/tmp/work/corei7-64-poky-linux/gstreamer1.0-omx/1=
+.10.4-r0/recipe-sysroot-native/usr/bin/gtkdoc-rebase</div><div>| checking f=
+or gtkdoc-mkpdf... /data/poky-master/tmp/work/corei7-64-poky-linux/gstreame=
+r1.0-omx/1.10.4-r0/recipe-sysroot-native/usr/bin/gtkdoc-mkpdf</div><div>| c=
+onfigure: error: You need to have gtk-doc &gt;=3D 1.3 installed to build GS=
+treamer OpenMAX Plug-ins</div></div><div><br></div><div>Ross</div></div><di=
+v class=3D"gmail_extra"><br><div class=3D"gmail_quote">On 16 May 2017 at 12=
+:26, Carlos Rafael Giani <span dir=3D"ltr">&lt;<a href=3D"mailto:dv@pseudot=
+erminal.org" target=3D"_blank">dv@pseudoterminal.org</a>&gt;</span> wrote:<=
+br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left=
+:1px #ccc solid;padding-left:1ex">Signed-off-by: Carlos Rafael Giani &lt;<a=
+ href=3D"mailto:dv@pseudoterminal.org">dv@pseudoterminal.org</a>&gt;<br>
+---<br>
+=C2=A0.../{<a href=3D"http://gstreamer1.0-omx_1.10.4.bb" rel=3D"noreferrer"=
+ target=3D"_blank">gstreamer1.0-omx_1.10.4.<wbr>bb</a> =3D&gt; <a href=3D"h=
+ttp://gstreamer1.0-omx_1.12.0.bb" rel=3D"noreferrer" target=3D"_blank">gstr=
+eamer1.0-omx_1.12.0.bb</a>}=C2=A0 =C2=A0 =C2=A0 =C2=A0 | 4 ++--<br>
+=C2=A01 file changed, 2 insertions(+), 2 deletions(-)<br>
+=C2=A0rename meta/recipes-multimedia/<wbr>gstreamer/{<a href=3D"http://gstr=
+eamer1.0-omx_1.10.4.bb" rel=3D"noreferrer" target=3D"_blank">gstreamer1.0-o=
+mx_1.<wbr>10.4.bb</a> =3D&gt; <a href=3D"http://gstreamer1.0-omx_1.12.0.bb"=
+ rel=3D"noreferrer" target=3D"_blank">gstreamer1.0-omx_1.12.0.bb</a>} (69%)=
+<br>
+<br>
+diff --git a/meta/recipes-multimedia/<wbr>gstreamer/<a href=3D"http://gstre=
+amer1.0-omx_1.10.4.bb" rel=3D"noreferrer" target=3D"_blank">gstreamer1.0-om=
+x_1.<wbr>10.4.bb</a> b/meta/recipes-multimedia/<wbr>gstreamer/<a href=3D"ht=
+tp://gstreamer1.0-omx_1.12.0.bb" rel=3D"noreferrer" target=3D"_blank">gstre=
+amer1.0-omx_1.<wbr>12.0.bb</a><br>
+similarity index 69%<br>
+rename from meta/recipes-multimedia/<wbr>gstreamer/<a href=3D"http://gstrea=
+mer1.0-omx_1.10.4.bb" rel=3D"noreferrer" target=3D"_blank">gstreamer1.0-omx=
+_1.<wbr>10.4.bb</a><br>
+rename to meta/recipes-multimedia/<wbr>gstreamer/<a href=3D"http://gstreame=
+r1.0-omx_1.12.0.bb" rel=3D"noreferrer" target=3D"_blank">gstreamer1.0-omx_1=
+.<wbr>12.0.bb</a><br>
+index dfeefa5..73c5adb 100644<br>
+--- a/meta/recipes-multimedia/<wbr>gstreamer/<a href=3D"http://gstreamer1.0=
+-omx_1.10.4.bb" rel=3D"noreferrer" target=3D"_blank">gstreamer1.0-omx_1.<wb=
+r>10.4.bb</a><br>
++++ b/meta/recipes-multimedia/<wbr>gstreamer/<a href=3D"http://gstreamer1.0=
+-omx_1.12.0.bb" rel=3D"noreferrer" target=3D"_blank">gstreamer1.0-omx_1.<wb=
+r>12.0.bb</a><br>
+@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM =3D &quot;file://COPYING;md5=3D<wbr>4fbd65=
+380cdd255951079008b36451<wbr>6c \<br>
+<br>
+=C2=A0SRC_URI =3D &quot;<a href=3D"http://gstreamer.freedesktop.org/src/gst=
+-omx/gst-omx-${PV}.tar.xz" rel=3D"noreferrer" target=3D"_blank">http://gstr=
+eamer.freedesktop.<wbr>org/src/gst-omx/gst-omx-${PV}.<wbr>tar.xz</a>&quot;<=
 br>
-&gt;&gt;&gt; &gt;<br>
-&gt;&gt;&gt; &gt; If you want, I can take care of switching things to that =
-format.<br>
-&gt;&gt;&gt; &gt;<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt; yes please.<br>
-&gt;&gt;<br>
-&gt;&gt;<br>
-&gt;&gt; Will do. I&#39;ll make it available to all active kernel versions =
-+ future<br>
-&gt;&gt; ones.<br>
-&gt;<br>
-&gt;<br>
-&gt; As it turns out, we already have a similar fragment for vmware guests:=
 <br>
-&gt;<br>
-&gt; cfg/vmware-guest.cfg<br>
-&gt;<br>
-&gt; --------------------<br>
-&gt;<br>
-&gt; CONFIG_VMWARE_BALLOON=3Dm<br>
-&gt;<br>
-&gt; CONFIG_VMWARE_PVSCSI=3Dy<br>
-&gt;<br>
-&gt; CONFIG_VMWARE_VMCI=3Dm<br>
-&gt;<br>
-&gt; CONFIG_VSOCKETS=3Dm<br>
-&gt;<br>
-&gt; CONFIG_VMWARE_VMCI_VSOCKETS=3Dm<br>
-&gt;<br>
-&gt; CONFIG_VMXNET3=3Dy<br>
-&gt;<br>
-&gt; CONFIG_DRM_VMWGFX=3Dm<br>
-&gt;<br>
-&gt; CONFIG_DRM_VMWGFX_FBCON=3Dy<br>
-&gt;<br>
-&gt; CONFIG_FUSION=3Dy<br>
-&gt;<br>
-&gt; CONFIG_FUSION_SPI=3Dy<br>
-&gt;<br>
-&gt; CONFIG_FUSION_FC=3Dy<br>
-&gt;<br>
-&gt; CONFIG_FUSION_SAS=3Dy<br>
-&gt;<br>
-&gt; CONFIG_FUSION_MAX_SGE=3D128<br>
-&gt;<br>
-&gt; CONFIG_FUSION_CTL=3Dy<br>
-&gt;<br>
-&gt; CONFIG_FUSION_LAN=3Dy<br>
-&gt;<br>
-&gt; CONFIG_FUSION_LOGGING=3Dy<br>
-&gt;<br>
-&gt; CONFIG_SCSI_MPT2SAS=3Dy<br>
-&gt;<br>
-&gt; CONFIG_SCSI_MPT2SAS_MAX_SGE=3D<wbr>128<br>
-&gt;<br>
-&gt; CONFIG_SCSI_MPT2SAS_LOGGING=3Dy<br>
-&gt;<br>
-&gt; CONFIG_SCSI_MPT3SAS=3Dy<br>
-&gt;<br>
-&gt; CONFIG_SCSI_MPT3SAS_MAX_SGE=3D<wbr>128<br>
-&gt;<br>
-&gt; CONFIG_SCSI_MPT3SAS_LOGGING=3Dy<br>
-&gt;<br>
-&gt; -------------<br>
-&gt;<br>
-&gt; To stay consistent with that naming, I&#39;ll call this virtual-box-gu=
-est.cfg,<br>
-&gt; and it can be enabled<br>
-&gt; via KERNEL_FEATURES when needed.<br>
-&gt;<br>
-&gt; I&#39;m hesitant to globally enable it, since we don&#39;t need those =
-modules on all<br>
-&gt; linux-yocto<br>
-&gt; kernels, just ones that are going to run on virtual box.<br>
-&gt;<br>
-&gt; I could enable them for qemux86*, since those already have virtio conf=
-igs<br>
-&gt; enabled by<br>
-&gt; default and these have a similar goal.<br>
-&gt;<br>
-&gt; Thoughts ? I&#39;d like to make sure that sounds reasonable, before sp=
-ending the<br>
-&gt; time to<br>
-&gt; make the changes and test.<br>
-&gt;<br>
+-SRC_URI[md5sum] =3D &quot;<wbr>cedb230f1c47d0cf4b575d70dff66f<wbr>f2&quot;=
 <br>
-</div></div>I would suggest to enable them by default since these are modul=
-es they<br>
-dont impact the size of kernel itself. Then we can use recommends to<br>
-choose them in machine configs.<br></blockquote><div><br></div><div>We&#39;=
-ve never done that before, there&#39;s hundreds of modules we could turn on=
-=C2=A0</div><div>just in case, but instead only enable them for machines th=
-at can actually use</div><div>them.</div><div><br></div><div>Many users use=
- the meta package for modules and expect the build to be as</div><div>minim=
-al as possible.</div><div><br></div><div>So I&#39;m balancing both those us=
-e cases.</div><div><br></div><div>I&#39;ll complete the fragment and we can=
- enable it in a second commit to keep the</div><div>options open.</div><div=
-><br></div><div>Bruce</div><div>=C2=A0</div><blockquote class=3D"gmail_quot=
-e" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
-<div class=3D"HOEnZb"><div class=3D"h5"><br>
-&gt; Bruce<br>
-&gt;<br>
-&gt;&gt;<br>
-&gt;&gt; Cheers,<br>
-&gt;&gt;<br>
-&gt;&gt; Bruce<br>
-&gt;&gt;<br>
-&gt;&gt;<br>
-&gt;&gt;<br>
-&gt;&gt; --<br>
-&gt;&gt; &quot;Thou shalt not follow the NULL pointer, for chaos and madnes=
-s await thee<br>
-&gt;&gt; at its end&quot;<br>
-&gt;<br>
-&gt;<br>
-&gt;<br>
-&gt;<br>
-&gt; --<br>
-&gt; &quot;Thou shalt not follow the NULL pointer, for chaos and madness aw=
-ait thee at<br>
-&gt; its end&quot;<br>
-</div></div></blockquote></div><br><br clear=3D"all"><div><br></div>-- <br>=
-<div class=3D"gmail_signature" data-smartmail=3D"gmail_signature">&quot;Tho=
-u shalt not follow the NULL pointer, for chaos and madness await thee at it=
-s end&quot;</div>
-</div></div>
+-SRC_URI[sha256sum] =3D &quot;<wbr>45072925cf262f0fd528fab78f0de5<wbr>2734e=
+46a5a88aa802fae51c67c09c8<wbr>1aa2&quot;<br>
++SRC_URI[md5sum] =3D &quot;<wbr>eaf9505c7acb9b96215cb0ff775d27<wbr>8d&quot;=
+<br>
++SRC_URI[sha256sum] =3D &quot;<wbr>acee8c8a88b995fb95601b7b43bf0c<wbr>83f50=
+2d9026bca5705f9c0dc44a757<wbr>997e&quot;<br>
+<br>
+=C2=A0S =3D &quot;${WORKDIR}/gst-omx-${PV}&quot;<br>
+<span class=3D"HOEnZb"><font color=3D"#888888">--<br>
+2.7.4<br>
+<br>
+--<br>
+______________________________<wbr>_________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
+re@lists.<wbr>openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
+ailman/listinfo/openembedded-<wbr>core</a><br>
+</font></span></blockquote></div><br></div>
 
---94eb2c05e3640e9d08055057fc0c--
+--001a1141481ef1b33d0550582c7e--
