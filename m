@@ -1,26 +1,47 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id B98EE7828E
+Return-Path: <max.oss.09@gmail.com>
+Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
+	by mail.openembedded.org (Postfix) with ESMTP id D6E7177F73
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 May 2017 20:10:53 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v4QKAssV011909
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 26 May 2017 13:10:54 -0700 (PDT)
-Received: from yow-bashfiel-d4.wrs.com (128.224.56.94) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.294.0; Fri, 26 May 2017 13:10:53 -0700
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-To: <richard.purdie@linuxfoundation.org>
-Date: Fri, 26 May 2017 16:10:46 -0400
-Message-ID: <4121fb9febb4932b9544aa8925d2b690d5f19d24.1495829213.git.bruce.ashfield@windriver.com>
-X-Mailer: git-send-email 2.5.0
-In-Reply-To: <cover.1495829213.git.bruce.ashfield@windriver.com>
-References: <cover.1495829213.git.bruce.ashfield@windriver.com>
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 3/3] kernel/meta: add virtualbox configuration fragment
+	Fri, 26 May 2017 20:37:26 +0000 (UTC)
+Received: by mail-wm0-f67.google.com with SMTP id d127so5826728wmf.1
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 26 May 2017 13:37:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=Ss+6auivLCZlVK4hFIl9VcGh50zCkOSci087+XmTH8g=;
+	b=Xndj/7rk+jFrIzjCRmfeFTNqmHcbE3CkMsBDrLm15tL2MSdtOt+AH1iQ1Il1WNF9h6
+	1CEJDNOenfDcdwxI0mpGbmj9IwAB9iWnO0ZWygCbnTM/oM5mUBZLjztyH/YL75X0Qm7H
+	yyRe01DU3l7RQxQsNm5vbeuLzUT/3GDetTR8rs9Gj+m+I2XRExeNZo1AEWIAG2KcpYES
+	y1/iHdSynr/JtOZMpOCdkzptv3uaZsOcovMgB51Gdz9jRNhd/GxtSAHbmwZFe8otOLmF
+	b7q4djOrh2SyBaSCro9j0vDaLVuOaNKjqmne7hYbL6IFmAeH5eDRZXI9W/iOaQ8HVAcN
+	b1wg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=Ss+6auivLCZlVK4hFIl9VcGh50zCkOSci087+XmTH8g=;
+	b=GWn5oNV1N4dxtP9tbVvTp2ZTslT/qq/Qqbyqurg76Ca6bxskA1zc39gQJZGbLp1MeN
+	P22QkMaHHcyo3PC7DzPxqlqPBdyFXcgNU8xuKSSoxZkcvDYShfy47V7TvSWwMfIImJya
+	GFrFJStQSh9a8EH1A8VHWhMsEY46pbXbcgq4fdjg59J7iY03rgu1GZZKSjbKfca3GEmF
+	WsihMYbAF7tTcfQo2d47iHB4daQcufA9r+FFYyuLG7uhPEXvKM+Sif1iOQ15X4Lip/Nt
+	aaPxC26oSt/LLpyEdiodHiFiDngsXM8Cvm/K3xOJBtRLIXHDPCp1WqVtrCCd3Q+a+xrZ
+	8+tw==
+X-Gm-Message-State: AODbwcBnGjSCI+n27hpT8kniG4xuVuiVv48eUKLCzbWXqN5iVdAZP8Pw
+	CV90ucFmqOpJ3o+I
+X-Received: by 10.28.66.23 with SMTP id p23mr3022140wma.38.1495831047732;
+	Fri, 26 May 2017 13:37:27 -0700 (PDT)
+Received: from linuxdev.toradex.int ([46.140.72.82])
+	by smtp.gmail.com with ESMTPSA id
+	y16sm2670128wry.46.2017.05.26.13.37.26
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 26 May 2017 13:37:26 -0700 (PDT)
+From: Max Krummenacher <max.oss.09@gmail.com>
+X-Google-Original-From: Max Krummenacher <max.krummenacher@toradex.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 26 May 2017 22:35:37 +0200
+Message-Id: <20170526203537.30721-1-max.krummenacher@toradex.com>
+X-Mailer: git-send-email 2.9.3
+Cc: Max Krummenacher <max.krummenacher@toradex.com>
+Subject: [PATCH v2] libsolv: don't pick up bundled db from host rpm
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,188 +54,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 May 2017 20:10:53 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 26 May 2017 20:37:28 -0000
 
-As suggested by Khem, we can create a virtualbox configuration
-fragment that helps to run XFCE under virtualization.
+With rpm v4 in openembedded but on a host with existing /usr/include/rpm/db.h
+the native build fails to compile.
 
-This can be enabled via KERNEL_FEATURES for targest that
-require it, and may be enabled by default in the future.
-
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+Signed-off-by: Max Krummenacher <max.krummenacher@toradex.com>
 ---
- meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb    | 2 +-
- meta/recipes-kernel/linux/linux-yocto-rt_4.10.bb   | 2 +-
- meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb    | 2 +-
- meta/recipes-kernel/linux/linux-yocto-rt_4.9.bb    | 2 +-
- meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb  | 2 +-
- meta/recipes-kernel/linux/linux-yocto-tiny_4.10.bb | 2 +-
- meta/recipes-kernel/linux/linux-yocto-tiny_4.4.bb  | 2 +-
- meta/recipes-kernel/linux/linux-yocto-tiny_4.9.bb  | 2 +-
- meta/recipes-kernel/linux/linux-yocto_4.1.bb       | 2 +-
- meta/recipes-kernel/linux/linux-yocto_4.10.bb      | 2 +-
- meta/recipes-kernel/linux/linux-yocto_4.4.bb       | 2 +-
- meta/recipes-kernel/linux/linux-yocto_4.9.bb       | 2 +-
- 12 files changed, 12 insertions(+), 12 deletions(-)
+ ...01-don-t-pick-up-bundled-db-from-host-rpm.patch | 43 ++++++++++++++++++++++
+ meta/recipes-extended/libsolv/libsolv_0.6.27.bb    |  3 +-
+ 2 files changed, 45 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-extended/libsolv/libsolv/0001-don-t-pick-up-bundled-db-from-host-rpm.patch
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb b/meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb
-index d69b9ade2ce1..2df6d3fee964 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb
-@@ -12,7 +12,7 @@ python () {
- }
+diff --git a/meta/recipes-extended/libsolv/libsolv/0001-don-t-pick-up-bundled-db-from-host-rpm.patch b/meta/recipes-extended/libsolv/libsolv/0001-don-t-pick-up-bundled-db-from-host-rpm.patch
+new file mode 100644
+index 0000000..41656fa
+--- /dev/null
++++ b/meta/recipes-extended/libsolv/libsolv/0001-don-t-pick-up-bundled-db-from-host-rpm.patch
+@@ -0,0 +1,43 @@
++From d5ff23ec64bc8b79d5335a2e0cd4b481b63fd95f Mon Sep 17 00:00:00 2001
++From: Max Krummenacher <max.krummenacher@toradex.com>
++Date: Sun, 7 May 2017 20:28:11 +0100
++Subject: [PATCH] don't pick up bundled db from host rpm
++
++For libsolv-native with rpm v4 in openembedded but on a host with
++existing /usr/include/rpm/db.h the build is configured to have
++HAVE_RPM_DB_H because of the existing header file from the host,
++but linking against the librpm.so in recipe-sysroot-native fails.
++
++Skip the check for rpm/db.h and assume that rpm is provided without
++a bundled berkley db.
++
++Fixes the following link errors:
++| ../ext/libsolvext.so.0: undefined reference to `db_create_rpmdb'
++| ../ext/libsolvext.so.0: undefined reference to `db_env_create_rpmdb'
++
++Observed on a openSUSE Leap 42.1 build host with rpm-devel installed.
++
++Upstream-Status: Inappropriate [oe build specific]
++
++Signed-off-by: Max Krummenacher <max.krummenacher@toradex.com>
++---
++ CMakeLists.txt | 3 +--
++ 1 file changed, 1 insertion(+), 2 deletions(-)
++
++diff --git a/CMakeLists.txt b/CMakeLists.txt
++index bcdeee6..1ca7b41 100644
++--- a/CMakeLists.txt
+++++ b/CMakeLists.txt
++@@ -220,8 +220,7 @@ IF (ENABLE_RPMDB)
++     ENDIF (RPMMISC_LIBRARY)
++   ENDIF (RPM5)
++ 
++-  # check if rpm contains a bundled berkeley db
++-  CHECK_INCLUDE_FILE(rpm/db.h HAVE_RPM_DB_H)
+++  set(HAVE_RPM_DB_H 0)
++   IF (NOT HAVE_RPM_DB_H)
++     FIND_LIBRARY (DB_LIBRARY NAMES db)
++     IF (DB_LIBRARY)
++-- 
++2.9.3
++
+diff --git a/meta/recipes-extended/libsolv/libsolv_0.6.27.bb b/meta/recipes-extended/libsolv/libsolv_0.6.27.bb
+index 7ddd533..0f988dc 100644
+--- a/meta/recipes-extended/libsolv/libsolv_0.6.27.bb
++++ b/meta/recipes-extended/libsolv/libsolv_0.6.27.bb
+@@ -8,7 +8,8 @@ LIC_FILES_CHKSUM = "file://LICENSE.BSD;md5=62272bd11c97396d4aaf1c41bc11f7d8"
+ DEPENDS = "expat zlib rpm"
  
- SRCREV_machine ?= "ec0bfadaeac24cc63fa05521c6608b79b26a5e5d"
--SRCREV_meta ?= "82aa97b3ebb3cd7eec8296a7cb090dfc67c2d382"
-+SRCREV_meta ?= "c55c877244b49a12c7f1bcf7e05d44e64e10046f"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.1.git;branch=${KBRANCH};name=machine \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.1;destsuffix=${KMETA}"
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.10.bb b/meta/recipes-kernel/linux/linux-yocto-rt_4.10.bb
-index e6890e3497b4..fc235c98d435 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_4.10.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.10.bb
-@@ -12,7 +12,7 @@ python () {
- }
- 
- SRCREV_machine ?= "d2c1ed3c0cbc0d8dcf429346f7ab2e96d470b504"
--SRCREV_meta ?= "21488a58127eebac2b6b656305aa0fb695e46c50"
-+SRCREV_meta ?= "79a4c1b415207961ba47c5d58f7625000218e98b"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.10.git;branch=${KBRANCH};name=machine \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.10;destsuffix=${KMETA}"
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb b/meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb
-index 061ada0d35e8..3946e1d89b8d 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb
-@@ -12,7 +12,7 @@ python () {
- }
- 
- SRCREV_machine ?= "cb23b8e3ce0ad77acb717e249b4821c8350f1c83"
--SRCREV_meta ?= "9d268bd8a8f0e01de550aef730e639bd6b148132"
-+SRCREV_meta ?= "877a7cd7da402200aab62dcc8583134d0947fa30"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.4.git;branch=${KBRANCH};name=machine \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.4;destsuffix=${KMETA}"
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.9.bb b/meta/recipes-kernel/linux/linux-yocto-rt_4.9.bb
-index fa1263d817ad..c87c01c19337 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_4.9.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.9.bb
-@@ -12,7 +12,7 @@ python () {
- }
- 
- SRCREV_machine ?= "095698fd99b452d95188ff6f2cce3df5127beb5c"
--SRCREV_meta ?= "5fd0435f4d40c03bc5a06389d22dbafd5086e7ab"
-+SRCREV_meta ?= "fcc729412013996e17f7aa3953b21cb0a1521108"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.9.git;branch=${KBRANCH};name=machine \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.9;destsuffix=${KMETA}"
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb
-index f7c969a1bece..b77b7ff9d4a4 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb
-@@ -10,7 +10,7 @@ KMETA = "kernel-meta"
- KCONF_BSP_AUDIT_LEVEL = "2"
- 
- SRCREV_machine ?= "398d1785c6bde0085b99f00f346e199a15fbdcef"
--SRCREV_meta ?= "82aa97b3ebb3cd7eec8296a7cb090dfc67c2d382"
-+SRCREV_meta ?= "c55c877244b49a12c7f1bcf7e05d44e64e10046f"
- 
- PV = "${LINUX_VERSION}+git${SRCPV}"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_4.10.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_4.10.bb
-index d61a1ee97df0..21ca972e252a 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_4.10.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_4.10.bb
-@@ -10,7 +10,7 @@ KMETA = "kernel-meta"
- KCONF_BSP_AUDIT_LEVEL = "2"
- 
- SRCREV_machine ?= "d2c1ed3c0cbc0d8dcf429346f7ab2e96d470b504"
--SRCREV_meta ?= "21488a58127eebac2b6b656305aa0fb695e46c50"
-+SRCREV_meta ?= "79a4c1b415207961ba47c5d58f7625000218e98b"
- 
- PV = "${LINUX_VERSION}+git${SRCPV}"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_4.4.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_4.4.bb
-index 8bc8b5774300..0bc9205c2441 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_4.4.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_4.4.bb
-@@ -10,7 +10,7 @@ KMETA = "kernel-meta"
- KCONF_BSP_AUDIT_LEVEL = "2"
- 
- SRCREV_machine ?= "98b9340a7858f786f5ff7d50021ef83eaad0613d"
--SRCREV_meta ?= "9d268bd8a8f0e01de550aef730e639bd6b148132"
-+SRCREV_meta ?= "877a7cd7da402200aab62dcc8583134d0947fa30"
- 
- PV = "${LINUX_VERSION}+git${SRCPV}"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_4.9.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_4.9.bb
-index a55decae84e2..919a25847cd1 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_4.9.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_4.9.bb
-@@ -10,7 +10,7 @@ KMETA = "kernel-meta"
- KCONF_BSP_AUDIT_LEVEL = "2"
- 
- SRCREV_machine ?= "2c31d7a45ae75159a7d991abdeb7002a4493af7f"
--SRCREV_meta ?= "5fd0435f4d40c03bc5a06389d22dbafd5086e7ab"
-+SRCREV_meta ?= "fcc729412013996e17f7aa3953b21cb0a1521108"
- 
- PV = "${LINUX_VERSION}+git${SRCPV}"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto_4.1.bb b/meta/recipes-kernel/linux/linux-yocto_4.1.bb
-index c6cdcab95030..9a2bf15425b2 100644
---- a/meta/recipes-kernel/linux/linux-yocto_4.1.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_4.1.bb
-@@ -19,7 +19,7 @@ SRCREV_machine_qemux86 ?= "398d1785c6bde0085b99f00f346e199a15fbdcef"
- SRCREV_machine_qemux86-64 ?= "398d1785c6bde0085b99f00f346e199a15fbdcef"
- SRCREV_machine_qemumips64 ?= "59727538774860381f42bcfb6ec05fe21facd319"
- SRCREV_machine ?= "398d1785c6bde0085b99f00f346e199a15fbdcef"
--SRCREV_meta ?= "82aa97b3ebb3cd7eec8296a7cb090dfc67c2d382"
-+SRCREV_meta ?= "c55c877244b49a12c7f1bcf7e05d44e64e10046f"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.1.git;name=machine;branch=${KBRANCH}; \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.1;destsuffix=${KMETA}"
-diff --git a/meta/recipes-kernel/linux/linux-yocto_4.10.bb b/meta/recipes-kernel/linux/linux-yocto_4.10.bb
-index 1c35ebe4b749..cbcd38e6d4d2 100644
---- a/meta/recipes-kernel/linux/linux-yocto_4.10.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_4.10.bb
-@@ -19,7 +19,7 @@ SRCREV_machine_qemux86 ?= "d2c1ed3c0cbc0d8dcf429346f7ab2e96d470b504"
- SRCREV_machine_qemux86-64 ?= "d2c1ed3c0cbc0d8dcf429346f7ab2e96d470b504"
- SRCREV_machine_qemumips64 ?= "229abf6f63652058db1308a0c07e59652d3e6a23"
- SRCREV_machine ?= "d2c1ed3c0cbc0d8dcf429346f7ab2e96d470b504"
--SRCREV_meta ?= "21488a58127eebac2b6b656305aa0fb695e46c50"
-+SRCREV_meta ?= "79a4c1b415207961ba47c5d58f7625000218e98b"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.10.git;name=machine;branch=${KBRANCH}; \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.10;destsuffix=${KMETA}"
-diff --git a/meta/recipes-kernel/linux/linux-yocto_4.4.bb b/meta/recipes-kernel/linux/linux-yocto_4.4.bb
-index 9406a05e2ed1..589531866749 100644
---- a/meta/recipes-kernel/linux/linux-yocto_4.4.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_4.4.bb
-@@ -19,7 +19,7 @@ SRCREV_machine_qemux86 ?= "98b9340a7858f786f5ff7d50021ef83eaad0613d"
- SRCREV_machine_qemux86-64 ?= "98b9340a7858f786f5ff7d50021ef83eaad0613d"
- SRCREV_machine_qemumips64 ?= "a9b8241a0c0e7626baba529abb4940831ff3a83e"
- SRCREV_machine ?= "98b9340a7858f786f5ff7d50021ef83eaad0613d"
--SRCREV_meta ?= "9d268bd8a8f0e01de550aef730e639bd6b148132"
-+SRCREV_meta ?= "877a7cd7da402200aab62dcc8583134d0947fa30"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.4.git;name=machine;branch=${KBRANCH}; \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.4;destsuffix=${KMETA}"
-diff --git a/meta/recipes-kernel/linux/linux-yocto_4.9.bb b/meta/recipes-kernel/linux/linux-yocto_4.9.bb
-index 5d73cfeb1894..b986d11c3226 100644
---- a/meta/recipes-kernel/linux/linux-yocto_4.9.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_4.9.bb
-@@ -19,7 +19,7 @@ SRCREV_machine_qemux86 ?= "2c31d7a45ae75159a7d991abdeb7002a4493af7f"
- SRCREV_machine_qemux86-64 ?= "2c31d7a45ae75159a7d991abdeb7002a4493af7f"
- SRCREV_machine_qemumips64 ?= "bfdb9d2cf36f5ded1cd8d03e58465d9f6250bba8"
- SRCREV_machine ?= "2c31d7a45ae75159a7d991abdeb7002a4493af7f"
--SRCREV_meta ?= "5fd0435f4d40c03bc5a06389d22dbafd5086e7ab"
-+SRCREV_meta ?= "fcc729412013996e17f7aa3953b21cb0a1521108"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.9.git;name=machine;branch=${KBRANCH}; \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.9;destsuffix=${KMETA}"
+ SRC_URI = "git://github.com/openSUSE/libsolv.git \
+-           "
++           file://0001-don-t-pick-up-bundled-db-from-host-rpm.patch \
++          "
+ SRC_URI_append_libc-musl = " file://0001-Add-fallback-fopencookie-implementation.patch \
+                              file://0002-Fixes-to-internal-fopencookie-implementation.patch \
+                            "
 -- 
-2.5.0
+2.9.3
 
 
