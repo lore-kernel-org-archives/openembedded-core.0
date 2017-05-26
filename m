@@ -1,33 +1,24 @@
-Return-Path: <denis@denix.org>
-Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.17])
-	by mail.openembedded.org (Postfix) with ESMTP id EEE8377DED
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id AD2B071A32
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 May 2017 19:58:57 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mailout4.zoneedit.com (Postfix) with ESMTP id E4F97208BA;
-	Fri, 26 May 2017 19:58:58 +0000 (UTC)
-Received: from mailout4.zoneedit.com ([127.0.0.1])
-	by localhost (zmo03-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
-	port 10024)
-	with ESMTP id dvlcUIoBsGvV; Fri, 26 May 2017 19:58:58 +0000 (UTC)
-Received: from mail.denix.org (pool-100-15-85-143.washdc.fios.verizon.net
-	[100.15.85.143])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mailout4.zoneedit.com (Postfix) with ESMTPSA id B20012079D;
-	Fri, 26 May 2017 19:58:55 +0000 (UTC)
-Received: by mail.denix.org (Postfix, from userid 1000)
-	id 32E621624D3; Fri, 26 May 2017 15:58:55 -0400 (EDT)
-Date: Fri, 26 May 2017 15:58:55 -0400
-From: Denys Dmytriyenko <denis@denix.org>
-To: Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>
-Message-ID: <20170526195855.GD28053@denix.org>
-References: <1495783966-95216-1-git-send-email-rebecca.swee.fun.chang@intel.com>
+	Fri, 26 May 2017 20:10:48 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v4QKAlDt011906
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Fri, 26 May 2017 13:10:48 -0700 (PDT)
+Received: from yow-bashfiel-d4.wrs.com (128.224.56.94) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.294.0; Fri, 26 May 2017 13:10:47 -0700
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+To: <richard.purdie@linuxfoundation.org>
+Date: Fri, 26 May 2017 16:10:43 -0400
+Message-ID: <cover.1495829213.git.bruce.ashfield@windriver.com>
+X-Mailer: git-send-email 2.5.0
 MIME-Version: 1.0
-In-Reply-To: <1495783966-95216-1-git-send-email-rebecca.swee.fun.chang@intel.com>
-User-Agent: Mutt/1.5.20 (2009-06-14)
-Cc: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Subject: Re: [morty] [PATCH] cryptodev-linux: update SRC_URI
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH 0/3] kernel-yocto: configuration changes/fragments
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,51 +31,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 May 2017 19:58:59 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Fri, 26 May 2017 20:10:49 -0000
+Content-Type: text/plain
 
-Richard, Ross, Armin, et al,
+Hi all,
 
-Can we please expedite this change to morty and other stable releases? Thanks!
+Just a small pull request to tweak some configuration items in the
+kernel meta data.
+
+The first two are configuration warning fixes, and the virtualbox
+fragment are the options that Khem had previous sent to allow XFCE
+to run under virtualization.
+
+I haven't enabled the virtualbox fragment universally as Khem had
+proposed, since it does add DRM and FB as built in options .. which
+are not universally required. If there's demand, I can easily include
+options like that by default, but I'm holding off for now. In the
+mean time, the options can be added via KERNEL_FEATURES.
+
+Cheers,
+
+Bruce
+
+The following changes since commit 5eed6c644f715783edb0d05926373e719442dd6a:
+
+  libpcap: add native package (2017-05-25 23:59:32 +0100)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib zedd/kernel
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
+
+Bruce Ashfield (3):
+  linux-yocto/meta: bluetooth: Adds BT_BREDR and BT_LE, which are needed
+    as dependencies
+  linux-yocto/meta: smp: Add config X86_BIGSMP since its needed when
+    NR_CPUS > 8
+  kernel/meta: add virtualbox configuration fragment
+
+ meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb    | 2 +-
+ meta/recipes-kernel/linux/linux-yocto-rt_4.10.bb   | 2 +-
+ meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb    | 2 +-
+ meta/recipes-kernel/linux/linux-yocto-rt_4.9.bb    | 2 +-
+ meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb  | 2 +-
+ meta/recipes-kernel/linux/linux-yocto-tiny_4.10.bb | 2 +-
+ meta/recipes-kernel/linux/linux-yocto-tiny_4.4.bb  | 2 +-
+ meta/recipes-kernel/linux/linux-yocto-tiny_4.9.bb  | 2 +-
+ meta/recipes-kernel/linux/linux-yocto_4.1.bb       | 2 +-
+ meta/recipes-kernel/linux/linux-yocto_4.10.bb      | 2 +-
+ meta/recipes-kernel/linux/linux-yocto_4.4.bb       | 2 +-
+ meta/recipes-kernel/linux/linux-yocto_4.9.bb       | 2 +-
+ 12 files changed, 12 insertions(+), 12 deletions(-)
 
 -- 
-Denys
+2.5.0
 
-
-On Fri, May 26, 2017 at 03:32:46PM +0800, Chang Rebecca Swee Fun wrote:
-> Gna! project announced that the download site from gna.org HTTP server
-> will soon be closing down. We have verified that the site is no longer
-> accessible without network proxy cache. We need to update SRC_URI to
-> point to new alternative (nwl.cc HTTP server) in order to avoid fetcher
-> issues in future.
-> 
-> [YOCTO #11575]
-> 
-> Signed-off-by: Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>
-> ---
->  meta/recipes-kernel/cryptodev/cryptodev.inc | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/meta/recipes-kernel/cryptodev/cryptodev.inc b/meta/recipes-kernel/cryptodev/cryptodev.inc
-> index 160ab30..22c6977 100644
-> --- a/meta/recipes-kernel/cryptodev/cryptodev.inc
-> +++ b/meta/recipes-kernel/cryptodev/cryptodev.inc
-> @@ -3,7 +3,7 @@ HOMEPAGE = "http://cryptodev-linux.org/"
->  LICENSE = "GPLv2"
->  LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
->  
-> -SRC_URI = "http://download.gna.org/cryptodev-linux/cryptodev-linux-${PV}.tar.gz \
-> +SRC_URI = "http://nwl.cc/pub/cryptodev-linux/cryptodev-linux-${PV}.tar.gz \
->             file://06d6b560c6e45dc317dae47c74706fa43f4a31d8.patch \
->             file://cb186f682679383e8b5806240927903730ce85d9.patch"
->  
-> -- 
-> 2.7.4
-> 
-> -- 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
