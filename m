@@ -1,49 +1,46 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f196.google.com (mail-pf0-f196.google.com
-	[209.85.192.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 6DBF578280
+Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 31E1278279
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 May 2017 16:15:11 +0000 (UTC)
-Received: by mail-pf0-f196.google.com with SMTP id n23so3782369pfb.3
+	Fri, 26 May 2017 16:26:24 +0000 (UTC)
+Received: by mail-wm0-f67.google.com with SMTP id d127so4840147wmf.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 May 2017 09:15:12 -0700 (PDT)
+	Fri, 26 May 2017 09:26:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=8Uva9W7Pv7myl5krzIH+ih3BEHnzvIaOL3fwhyeaE+I=;
-	b=QM56B9X00gSbWGXMvOBDVbVGZfG6YHYRzI5BjBifDToA5Fi6LAarM+0xIwpdHF6Uwd
-	g73sQnmgq9LL+4hgXS41fCuwrAUTC9F9sg6/peijwMNLMeWp72pMjPX29wtQdUuk5TgX
-	H40FZqP3SfhM78q5ryIzWDrJN2TRepjsoAfExiWQNFtvWlcOQ8bDIy85Z4lw0A+4uvdx
-	1OEU9lH8C5NxLKDc62kssr8ml9w2pODpXFZnt9y84rnYojQG1OGhWXHDQpcCvTw9OOh7
-	h0S71MNyQYCAIcXS44UxPRrCUkrwVj2/tBkqLngpEUNtoT8P8AAtk3BjVb5rgfGucBBU
-	Q68w==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=RMuuds3SoT+NRH3PVQ277Mf2WNUGQb3Liv24BSSqSRs=;
+	b=EQGSFqTONBN7ugzq1vtdWO53zx8gG2DXhc9kiYF/pFtDhaTOy6MxDSEaicgjUomm08
+	WkSJrhg+eHKoBg4yJX6psuyM2vwHUz3XVvI4p8Znaxatub8K6+96FznMs2cVakD30udh
+	1cTsYTaSkC6fv9D1Qk0BqMyp8+v5cpPRZUblep/Z6sbI88xVCl+Lt6ue3pBwDelmxOa8
+	ch8HmXhXj770uJ4OW4rA1J/3+SkvXi20zR+sLVpqw1y+kG6iqkrtPHSamBF36N8yOc7w
+	dKqF4QYMiSMfj0kmlGlhBnRoBb0A70/SzDZL8DqzC1TlSUPm0HbJ3KbOuOEF/WcRAfCL
+	mPLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=8Uva9W7Pv7myl5krzIH+ih3BEHnzvIaOL3fwhyeaE+I=;
-	b=JFgX7TIsDgEZQLiSwFJiuV1kCHXLgOPfuZShBZ8QnUTGzmrtP4ZxeYi3/smNds4vUM
-	lzoCTm9hjBH+STaV1yraHdUUmS972RdszhhCWupUK1k6w6zORDVMyalrYLu7yHe1scw6
-	aPP8nmsfqlwbQBil/wQlG4IGaNl0OlL1KhGWYp6NmiS7uajgy1mkC4e2wc7m+q/Y5ciE
-	eVVkSpM4UUctb3igc5+w5+gHsxyPK9GnCkD+64ZHszLOoz1Ti6AeHHND0SN190Tb1UEX
-	lTdv7/g794VfrObV7DL7B6nmgPZYzdk0VZLdIjRveaXpSaXZYvkqSMwTpQgONouIlVRF
-	P0PA==
-X-Gm-Message-State: AODbwcBwoORrByocTDvtfP2lea8ykmppsWY7oCjqn+ylb3ZUsWGE9qix
-	QggiXmQBUSA3CQ==
-X-Received: by 10.84.217.218 with SMTP id d26mr60031802plj.47.1495815312645;
-	Fri, 26 May 2017 09:15:12 -0700 (PDT)
-Received: from localhost.localdomain ([2601:646:8882:b8c::63fb])
-	by smtp.gmail.com with ESMTPSA id
-	f72sm2723752pfe.62.2017.05.26.09.15.11
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 26 May 2017 09:15:11 -0700 (PDT)
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=RMuuds3SoT+NRH3PVQ277Mf2WNUGQb3Liv24BSSqSRs=;
+	b=RHB7SaYm9uguxe7phw+cP5NQ1UVGFP2cpX2+BlfWa6Zoj7tCgiwSROJXHCj4Etatx4
+	ryRPo/uiHWL5IcqwoVniaVMShpHDXcbI1ZORIiqahNo4ULviPJotzDjS9+M7AyPmUNDB
+	85tS+HQ+g1SAuC20GCrrtcf7gPEM5QMKISi3gV77ltrLqW9oWSo04WPb/l0/C7MVFveo
+	UAZkt9iflAqMeMGbMX5vX6gT+1Q+WJQc6TuRWdbkGQgPnXJCH1GbwcBFFKjolU3cDsPp
+	ZSwjoB+e7Gmh+HPKyV47CH+0sL8fSIZa9nJcLnarTx6VsYj7an5HWSWEeuvdZAXI6riA
+	76eg==
+X-Gm-Message-State: AODbwcBbs4rDdxeBeeEIqQpOQ7GOmtPfx3cKWN0tZ53+qxtkSwQ+LCfZ
+	RoSG5NNIgIi46QRWJGRg5MT8m1e4Qg==
+X-Received: by 10.80.182.35 with SMTP id b32mr3049005ede.123.1495815985725;
+	Fri, 26 May 2017 09:26:25 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.80.195.143 with HTTP; Fri, 26 May 2017 09:25:55 -0700 (PDT)
+In-Reply-To: <1495815229-10309-1-git-send-email-ross.burton@intel.com>
+References: <1495815229-10309-1-git-send-email-ross.burton@intel.com>
 From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 26 May 2017 09:15:01 -0700
-Message-Id: <20170526161501.30122-2-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.13.0
-In-Reply-To: <20170526161501.30122-1-raj.khem@gmail.com>
-References: <20170526161501.30122-1-raj.khem@gmail.com>
-Subject: [PATCH 2/2] glibc: Configure with extra hardening options
+Date: Fri, 26 May 2017 09:25:55 -0700
+Message-ID: <CAMKF1sqWjyXxv8dgtooat_BByt3-Sbf2HTjKCQA8Syu-6JQZKA@mail.gmail.com>
+To: Ross Burton <ross.burton@intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] kconfig-frontends: fix another build race
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,29 +53,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 May 2017 16:15:11 -0000
+X-List-Received-Date: Fri, 26 May 2017 16:26:25 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/recipes-core/glibc/glibc_2.25.bb | 4 ++++
- 1 file changed, 4 insertions(+)
+On Fri, May 26, 2017 at 9:13 AM, Ross Burton <ross.burton@intel.com> wrote:
+> It is possible that frontends/kconfig is written to by sed before frontends/
+> exists, so add a mkdir to ensure the directory always exits.
+>
+> [ YOCTO #11574 ]
+>
 
-diff --git a/meta/recipes-core/glibc/glibc_2.25.bb b/meta/recipes-core/glibc/glibc_2.25.bb
-index ab6fbbea2a..83a1249b8c 100644
---- a/meta/recipes-core/glibc/glibc_2.25.bb
-+++ b/meta/recipes-core/glibc/glibc_2.25.bb
-@@ -77,6 +77,10 @@ EXTRA_OECONF = "--enable-kernel=${OLDEST_KERNEL} \
-                 --with-headers=${STAGING_INCDIR} \
-                 --without-selinux \
-                 --enable-obsolete-rpc \
-+                --enable-tunables \
-+                --enable-bind-now \
-+                --enable-stack-protector=strong \
-+                --enable-stackguard-randomization \
-                 ${GLIBC_EXTRA_OECONF}"
- 
- EXTRA_OECONF += "${@get_libc_fpu_setting(bb, d)}"
--- 
-2.13.0
+this package should probably be retired from oe-core. I added it as
+part of eglibc
+kconfig support which we have dropped few releases back.
 
+
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
+> ---
+>  meta/recipes-devtools/kconfig-frontends/files/missing-mkdir.patch | 4 ++++
+>  1 file changed, 4 insertions(+)
+>
+> diff --git a/meta/recipes-devtools/kconfig-frontends/files/missing-mkdir.patch b/meta/recipes-devtools/kconfig-frontends/files/missing-mkdir.patch
+> index a06a547..a11186e 100644
+> --- a/meta/recipes-devtools/kconfig-frontends/files/missing-mkdir.patch
+> +++ b/meta/recipes-devtools/kconfig-frontends/files/missing-mkdir.patch
+> @@ -21,6 +21,10 @@ diff --git a/Makefile.am b/Makefile.am
+>  index c8e96ef..1baa110 100644
+>  --- a/Makefile.am
+>  +++ b/Makefile.am
+> +@@ -173,2 +173,3 @@ bin_SCRIPTS += frontends/kconfig
+> + frontends/kconfig: frontends/kconfig.in
+> ++      $(MKDIR_P) $(@D)
+> +       $(AM_V_GEN)$(SED) -e 's/@KCFG_LIST@/$(kcfg_list)/g' \
+>  @@ -348,6 +348,7 @@ EXTRA_DIST += \
+>         utils/kconfig-tweak.in.patch
+>
+> --
+> 2.8.1
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
