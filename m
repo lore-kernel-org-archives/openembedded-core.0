@@ -1,20 +1,20 @@
 Return-Path: <anibal.limon@linux.intel.com>
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id F31AD782E4
+	by mail.openembedded.org (Postfix) with ESMTP id C1734782D8
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 May 2017 20:38:23 +0000 (UTC)
+	Fri, 26 May 2017 20:38:25 +0000 (UTC)
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
 	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	26 May 2017 13:38:25 -0700
+	26 May 2017 13:38:27 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.38,399,1491289200"; d="scan'208";a="266887677"
+X-IronPort-AV: E=Sophos;i="5.38,399,1491289200"; d="scan'208";a="266887686"
 Received: from tsriniv-mobl.amr.corp.intel.com (HELO
 	alimonb-mobl1.amr.corp.intel.com) ([10.254.103.51])
-	by fmsmga004.fm.intel.com with ESMTP; 26 May 2017 13:38:24 -0700
+	by fmsmga004.fm.intel.com with ESMTP; 26 May 2017 13:38:25 -0700
 From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 26 May 2017 15:37:36 -0500
-Message-Id: <b2592513114e26e56b0465a57718375f47d124df.1495830706.git.anibal.limon@linux.intel.com>
+Date: Fri, 26 May 2017 15:37:37 -0500
+Message-Id: <6968c34dc3ded470ec1fbea09ba5d87b3c642e69.1495830706.git.anibal.limon@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1495830706.git.anibal.limon@linux.intel.com>
 References: <cover.1495830706.git.anibal.limon@linux.intel.com>
@@ -22,7 +22,7 @@ In-Reply-To: <cover.1495830706.git.anibal.limon@linux.intel.com>
 References: <cover.1495830706.git.anibal.limon@linux.intel.com>
 MIME-Version: 1.0
 Cc: paul.eggleton@linux.intel.com
-Subject: [PATCH 10/36] oeqa/core/threaded: Add OETestResultThreaded{, Internal} classes
+Subject: [PATCH 11/36] oeqa/core/threaded: Add support of OETestRunnerThreaded
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,112 +35,117 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 May 2017 20:38:24 -0000
+X-List-Received-Date: Fri, 26 May 2017 20:38:26 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The OETestResultThreadedInternal extends OETestResult to stores
-results by Thread.
+The OETestRunnerThreaded overrides the run method of OETestRunner
+it recieves a list of suites to be executed by a ThreadPool.
 
-The OETestResultThreaded is a simple class that provides the
-implementation of interfaces needed by outside like wasSuccesful,
-stop, logSummary, logDetails.
+The new run method handles the ThreadPool creation and the
+OETestResultThreaded fill.
 
 [YOCTO #11450]
 
 Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
 ---
- meta/lib/oeqa/core/threaded.py | 73 +++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 72 insertions(+), 1 deletion(-)
+ meta/lib/oeqa/core/threaded.py | 75 +++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 74 insertions(+), 1 deletion(-)
 
 diff --git a/meta/lib/oeqa/core/threaded.py b/meta/lib/oeqa/core/threaded.py
-index 73b7f2f..f216685 100644
+index f216685..81df340 100644
 --- a/meta/lib/oeqa/core/threaded.py
 +++ b/meta/lib/oeqa/core/threaded.py
-@@ -7,7 +7,7 @@ import multiprocessing
+@@ -3,11 +3,13 @@
+ 
+ import threading
+ import multiprocessing
++import queue
++import time
+ 
  from unittest.suite import TestSuite
  
  from oeqa.core.loader import OETestLoader
--from oeqa.core.runner import OEStreamLogger
-+from oeqa.core.runner import OEStreamLogger, OETestResult
+-from oeqa.core.runner import OEStreamLogger, OETestResult
++from oeqa.core.runner import OEStreamLogger, OETestResult, OETestRunner
  
  class OETestLoaderThreaded(OETestLoader):
      def __init__(self, tc, module_paths, modules, tests, modules_required,
-@@ -114,3 +114,74 @@ class OEStreamLoggerThreaded(OEStreamLogger):
-         for line in self.buffers[tid].split('\n'):
-             self.logger.info(line)
-         self._lock.release()
+@@ -185,3 +187,74 @@ class OETestResultThreaded(object):
+         tid = list(self._results)[0]
+         result = self._results[tid]['result']
+         result.logDetails()
 +
-+class OETestResultThreadedInternal(OETestResult):
-+    def _tc_map_results(self):
-+        tid = threading.get_ident()
-+        
-+        # PyUnit generates a result for every test module run, test
-+        # if the thread already has an entry to avoid lose the previous
-+        # test module results.
-+        if not tid in self.tc._results:
-+            self.tc._results[tid] = {}
-+            self.tc._results[tid]['failures'] = self.failures
-+            self.tc._results[tid]['errors'] = self.errors
-+            self.tc._results[tid]['skipped'] = self.skipped
-+            self.tc._results[tid]['expectedFailures'] = self.expectedFailures
++class _Worker(threading.Thread):
++    """Thread executing tasks from a given tasks queue"""
++    def __init__(self, tasks, result, stream):
++        threading.Thread.__init__(self)
++        self.tasks = tasks
 +
-+class OETestResultThreaded(object):
-+    _results = {}
-+    _lock = threading.Lock()
++        self.result = result
++        self.stream = stream
 +
-+    def __init__(self, tc):
-+        self.tc = tc
++    def run(self):
++        while True:
++            try:
++                func, args, kargs = self.tasks.get(block=False)
++            except queue.Empty:
++                break
 +
-+    def _fill_tc_results(self):
-+        tids = list(self.tc._results.keys())
-+        fields = ['failures', 'errors', 'skipped', 'expectedFailures']
++            try:
++                run_start_time = time.time()
++                rc = func(*args, **kargs)
++                run_end_time = time.time()
++                self.result.addResult(rc, run_start_time, run_end_time)
++                self.stream.finish()
++            except Exception as e:
++                print(e)
++            finally:
++                self.tasks.task_done()
 +
-+        for tid in tids:
-+            result = self.tc._results[tid]
-+            for field in fields:
-+                if not field in self.tc._results:
-+                    self.tc._results[field] = []
-+                self.tc._results[field].extend(result[field])
++class _ThreadedPool:
++    """Pool of threads consuming tasks from a queue"""
++    def __init__(self, num_workers, num_tasks, stream=None, result=None):
++        self.tasks = queue.Queue(num_tasks)
++        self.workers = []
 +
-+    def addResult(self, result, run_start_time, run_end_time):
-+        tid = threading.get_ident()
++        for _ in range(num_workers):
++            worker = _Worker(self.tasks, result, stream)
++            self.workers.append(worker)
 +
-+        self._lock.acquire()
-+        self._results[tid] = {}
-+        self._results[tid]['result'] = result
-+        self._results[tid]['run_start_time'] = run_start_time 
-+        self._results[tid]['run_end_time'] = run_end_time 
-+        self._results[tid]['result'] = result
-+        self._lock.release()
++    def start(self):
++        for worker in self.workers:
++            worker.start()
 +
-+    def wasSuccessful(self):
-+        wasSuccessful = True
-+        for tid in self._results.keys():
-+            wasSuccessful = wasSuccessful and \
-+                    self._results[tid]['result'].wasSuccessful()
-+        return wasSuccessful
++    def add_task(self, func, *args, **kargs):
++        """Add a task to the queue"""
++        self.tasks.put((func, args, kargs))
 +
-+    def stop(self):
-+        for tid in self._results.keys():
-+            self._results[tid]['result'].stop()
++    def wait_completion(self):
++        """Wait for completion of all the tasks in the queue"""
++        self.tasks.join()
++        for worker in self.workers:
++            worker.join()
 +
-+    def logSummary(self, component, context_msg=''):
-+        elapsed_time = (self.tc._run_end_time - self.tc._run_start_time)
++class OETestRunnerThreaded(OETestRunner):
++    streamLoggerClass = OEStreamLoggerThreaded
 +
-+        self.tc.logger.info("SUMMARY:")
-+        self.tc.logger.info("%s (%s) - Ran %d tests in %.3fs" % (component,
-+            context_msg, len(self.tc._registry['cases']), elapsed_time))
-+        if self.wasSuccessful():
-+            msg = "%s - OK - All required tests passed" % component
-+        else:
-+            msg = "%s - FAIL - Required tests failed" % component
-+        self.tc.logger.info(msg)
++    def __init__(self, tc, *args, **kwargs):
++        super(OETestRunnerThreaded, self).__init__(tc, *args, **kwargs)
++        self.resultclass = OETestResultThreadedInternal # XXX: XML reporting overrides at __init__
 +
-+    def logDetails(self):
-+        tid = list(self._results)[0]
-+        result = self._results[tid]['result']
-+        result.logDetails()
++    def run(self, suites):
++        result = OETestResultThreaded(self.tc)
++
++        pool = _ThreadedPool(len(suites), len(suites), stream=self.stream,
++                result=result)
++        for s in suites:
++            pool.add_task(super(OETestRunnerThreaded, self).run, s)
++        pool.start()
++        pool.wait_completion()
++        result._fill_tc_results()
++
++        return result
 -- 
 2.1.4
 
