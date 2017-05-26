@@ -1,30 +1,35 @@
-Return-Path: <huangqy.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 2495A7823A
+Return-Path: <fan.xin@jp.fujitsu.com>
+Received: from mgwym03.jp.fujitsu.com (mgwym03.jp.fujitsu.com [211.128.242.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 3069378224
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 May 2017 02:04:24 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.22,518,1449504000"; d="scan'208";a="19323850"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 26 May 2017 10:04:17 +0800
-Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
-	by cn.fujitsu.com (Postfix) with ESMTP id CC45247C6D2E
+	Fri, 26 May 2017 02:37:55 +0000 (UTC)
+Received: from yt-mxq.gw.nic.fujitsu.com (unknown [192.168.229.66]) by
+	mgwym03.jp.fujitsu.com with smtp
+	id 475a_0878_a233c2c9_ad11_4705_b353_846d153d5802;
+	Fri, 26 May 2017 11:37:53 +0900
+Received: from g01jpfmpwkw03.exch.g01.fujitsu.local
+	(g01jpfmpwkw03.exch.g01.fujitsu.local [10.0.193.57])
+	by yt-mxq.gw.nic.fujitsu.com (Postfix) with ESMTP id 1423DAC00F4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 May 2017 10:04:15 +0800 (CST)
-Received: from localhost.localdomain (10.167.226.81) by
-	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.319.2; Fri, 26 May 2017 10:04:16 +0800
-From: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
+	Fri, 26 May 2017 11:37:53 +0900 (JST)
+Received: from G01JPEXCHKW17.g01.fujitsu.local
+	(G01JPEXCHKW17.g01.fujitsu.local [10.0.194.56])
+	by g01jpfmpwkw03.exch.g01.fujitsu.local (Postfix) with ESMTP id
+	1CB5ABD67C1 for <openembedded-core@lists.openembedded.org>;
+	Fri, 26 May 2017 11:37:52 +0900 (JST)
+Received: from localhost.localdomain (10.24.19.99) by
+	G01JPEXCHKW17.g01.fujitsu.local (10.0.194.56) with Microsoft SMTP
+	Server id 14.3.266.1; Fri, 26 May 2017 11:37:52 +0900
+From: Fan Xin <fan.xin@jp.fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 26 May 2017 10:04:15 +0800
-Message-ID: <1495764255-842-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 2.7.4
+Date: Fri, 26 May 2017 11:39:06 +0900
+Message-ID: <1495766346-14491-1-git-send-email-fan.xin@jp.fujitsu.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-X-Originating-IP: [10.167.226.81]
-X-yoursite-MailScanner-ID: CC45247C6D2E.A853F
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: huangqy.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Subject: [PATCH] pango: 1.40.3 -> 1.40.6
+X-SecurityPolicyCheck-GC: OK by FENCE-Mail
+X-Encrypted: FENCE-Mail/3.1.1
+X-TM-AS-MML: disable
+Subject: [PATCH] libxslt: Fix CVE-2017-5029
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,38 +42,117 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 May 2017 02:04:25 -0000
+X-List-Received-Date: Fri, 26 May 2017 02:37:57 -0000
 Content-Type: text/plain
 
-Upgrade pango from 1.40.3 to 1.40.6.
+Backport upstream patch to fix CVE-2017-5029.
 
-Signed-off-by: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
+Signed-off-by: Fan Xin <fan.xin@jp.fujitsu.com>
 ---
- meta/recipes-graphics/pango/{pango_1.40.3.bb => pango_1.40.6.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/pango/{pango_1.40.3.bb => pango_1.40.6.bb} (92%)
+ ...for-integer-overflow-in-xsltAddTextString.patch | 80 ++++++++++++++++++++++
+ meta/recipes-support/libxslt/libxslt_1.1.29.bb     |  1 +
+ 2 files changed, 81 insertions(+)
+ create mode 100644 meta/recipes-support/libxslt/libxslt/0001-Check-for-integer-overflow-in-xsltAddTextString.patch
 
-diff --git a/meta/recipes-graphics/pango/pango_1.40.3.bb b/meta/recipes-graphics/pango/pango_1.40.6.bb
-similarity index 92%
-rename from meta/recipes-graphics/pango/pango_1.40.3.bb
-rename to meta/recipes-graphics/pango/pango_1.40.6.bb
-index e259a82..31c3d2a 100644
---- a/meta/recipes-graphics/pango/pango_1.40.3.bb
-+++ b/meta/recipes-graphics/pango/pango_1.40.6.bb
-@@ -17,8 +17,8 @@ SRC_URI += "file://run-ptest \
-             file://0001-Drop-introspection-macros-from-acinclude.m4.patch \
-             file://0001-Enforce-recreation-of-docs-pango.types-it-is-build-c.patch \
- "
--SRC_URI[archive.md5sum] = "17c26720f5a862a12f7e1745e2f1d966"
--SRC_URI[archive.sha256sum] = "abba8b5ce728520c3a0f1535eab19eac3c14aeef7faa5aded90017ceac2711d3"
-+SRC_URI[archive.md5sum] = "507c6746fbf53fc9d48c577f1e265de3"
-+SRC_URI[archive.sha256sum] = "ca152b7383a1e9f7fd74ae96023dc6770dc5043414793bfe768ff06b6759e573"
+diff --git a/meta/recipes-support/libxslt/libxslt/0001-Check-for-integer-overflow-in-xsltAddTextString.patch b/meta/recipes-support/libxslt/libxslt/0001-Check-for-integer-overflow-in-xsltAddTextString.patch
+new file mode 100644
+index 0000000..57aaacc
+--- /dev/null
++++ b/meta/recipes-support/libxslt/libxslt/0001-Check-for-integer-overflow-in-xsltAddTextString.patch
+@@ -0,0 +1,80 @@
++From 08ab2774b870de1c7b5a48693df75e8154addae5 Mon Sep 17 00:00:00 2001
++From: Nick Wellnhofer <wellnhofer@aevum.de>
++Date: Thu, 12 Jan 2017 15:39:52 +0100
++Subject: [PATCH] Check for integer overflow in xsltAddTextString
++
++Limit buffer size in xsltAddTextString to INT_MAX. The issue can be
++exploited to trigger an out of bounds write on 64-bit systems.
++
++Originally reported to Chromium:
++
++https://crbug.com/676623
++
++CVE: CVE-2017-5029
++Upstream-Status: Backport
++
++Signed-off-by: Fan Xin <fan.xin@jp.fujitus.com>
++
++---
++ libxslt/transform.c     | 25 ++++++++++++++++++++++---
++ libxslt/xsltInternals.h |  4 ++--
++ 2 files changed, 24 insertions(+), 5 deletions(-)
++
++diff --git a/libxslt/transform.c b/libxslt/transform.c
++index 519133f..02bff34 100644
++--- a/libxslt/transform.c
+++++ b/libxslt/transform.c
++@@ -813,13 +813,32 @@ xsltAddTextString(xsltTransformContextPtr ctxt, xmlNodePtr target,
++         return(target);
++ 
++     if (ctxt->lasttext == target->content) {
+++        int minSize;
++ 
++-	if (ctxt->lasttuse + len >= ctxt->lasttsize) {
+++        /* Check for integer overflow accounting for NUL terminator. */
+++        if (len >= INT_MAX - ctxt->lasttuse) {
+++            xsltTransformError(ctxt, NULL, target,
+++                "xsltCopyText: text allocation failed\n");
+++            return(NULL);
+++        }
+++        minSize = ctxt->lasttuse + len + 1;
+++
+++        if (ctxt->lasttsize < minSize) {
++ 	    xmlChar *newbuf;
++ 	    int size;
+++            int extra;
+++
+++            /* Double buffer size but increase by at least 100 bytes. */
+++            extra = minSize < 100 ? 100 : minSize;
+++
+++            /* Check for integer overflow. */
+++            if (extra > INT_MAX - ctxt->lasttsize) {
+++                size = INT_MAX;
+++            }
+++            else {
+++                size = ctxt->lasttsize + extra;
+++            }
++ 
++-	    size = ctxt->lasttsize + len + 100;
++-	    size *= 2;
++ 	    newbuf = (xmlChar *) xmlRealloc(target->content,size);
++ 	    if (newbuf == NULL) {
++ 		xsltTransformError(ctxt, NULL, target,
++diff --git a/libxslt/xsltInternals.h b/libxslt/xsltInternals.h
++index 060b178..5ad1771 100644
++--- a/libxslt/xsltInternals.h
+++++ b/libxslt/xsltInternals.h
++@@ -1754,8 +1754,8 @@ struct _xsltTransformContext {
++      * Speed optimization when coalescing text nodes
++      */
++     const xmlChar  *lasttext;		/* last text node content */
++-    unsigned int    lasttsize;		/* last text node size */
++-    unsigned int    lasttuse;		/* last text node use */
+++    int             lasttsize;		/* last text node size */
+++    int             lasttuse;		/* last text node use */
++     /*
++      * Per Context Debugging
++      */
++-- 
++1.9.1
++
+diff --git a/meta/recipes-support/libxslt/libxslt_1.1.29.bb b/meta/recipes-support/libxslt/libxslt_1.1.29.bb
+index 2946a74..d27c706 100644
+--- a/meta/recipes-support/libxslt/libxslt_1.1.29.bb
++++ b/meta/recipes-support/libxslt/libxslt_1.1.29.bb
+@@ -12,6 +12,7 @@ SRC_URI = "ftp://xmlsoft.org/libxslt/libxslt-${PV}.tar.gz \
+            file://pkgconfig_fix.patch \
+            file://0001-Use-pkg-config-to-find-gcrypt-and-libxml2.patch \
+            file://0001-Link-libraries-with-libm.patch \
++           file://0001-Check-for-integer-overflow-in-xsltAddTextString.patch \
+            "
  
- DEPENDS = "glib-2.0 glib-2.0-native fontconfig freetype virtual/libiconv cairo harfbuzz"
- 
+ SRC_URI[md5sum] = "a129d3c44c022de3b9dcf6d6f288d72e"
 -- 
-2.7.4
-
-
+1.9.1
 
 
