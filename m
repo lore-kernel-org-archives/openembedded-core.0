@@ -1,50 +1,50 @@
 Return-Path: <jpewhacker@gmail.com>
 Received: from mail-it0-f54.google.com (mail-it0-f54.google.com
 	[209.85.214.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 49A427820B
+	by mail.openembedded.org (Postfix) with ESMTP id 249967820F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 May 2017 01:52:11 +0000 (UTC)
-Received: by mail-it0-f54.google.com with SMTP id r63so1733506itc.1
+	Fri, 26 May 2017 01:54:32 +0000 (UTC)
+Received: by mail-it0-f54.google.com with SMTP id c15so66620637ith.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 May 2017 18:52:13 -0700 (PDT)
+	Thu, 25 May 2017 18:54:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=kOaBbFWvI1lVmV6DUYdSsad3b5/IVl+6VA7qObNcJgA=;
-	b=cxR7uzGkog/5XNX087OSAjXzm+LFGmbNWwBfJ5C9yVuqvs2jnbYYNqA+LBZx4BUSYi
-	Ag472cewcFzEkOgX2dyvbIbQHRzQJrVE+olDzx38wg7bRZdMiv7Yr30My62e1O8lC5yh
-	DY9+eT3P1Qm/Cpx0WIxYwo+8jcfu+4Wj8RkNQsccmNRUPskj2VfW7gpL+yI8jhLS7mNP
-	6AfNusVaNcqCvHxB57vdc2duL4L7Z3c1GypWN7t1WX77dy+ctUb6dHdnvAVlg9gax97S
-	3jRY2OOS0/yQmkHH0SHdYSVtPe7Q3qdPUoB7wYV8IqfOqBnO/fPc70xlmI80aUk2JF3e
-	hVZQ==
+	bh=GZ50c30k+qC4by9UBHza5UCKFQOYDjBNe7Q5Ty5h39U=;
+	b=SV7FAxFiZqgJysnrV1c9wTaSVu0hNHEdhtb5pbUkuQWaFmV2z/YLZ6LkoOWuosLQDL
+	9cPVcwRUTfvhUYWNVBzs/wBt6FO6O1I+LyEwnac5joed2KczQ+AgnJ5MYAlOHl4fsXC1
+	KxmSTeQNIhAoFCMi8fiUmiBwwi188rbIrdmT9gFjP/C0iTF1+eSH9PqSqD2QtQhLREmw
+	7c68FLvzZzA/ajKzil0U1Fa2Lx9UtIwtaLEcCP40LHesK01gmfukkvsxWKIHYCLIPDKE
+	HnuWyp7fTxEncUbpRCV1f1X6XC4b6m2q0DDhBqRz8mVbvpZK80oOb5v+sK9h8lQ86mKY
+	kbGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=kOaBbFWvI1lVmV6DUYdSsad3b5/IVl+6VA7qObNcJgA=;
-	b=KZGNThfMiUxwAOTaj5hzb77KE7grkxqp4CD5Mgs5F1mutrPuiKsqtmaX09qZQJBDUO
-	FF/IvmmijUnzB0Bk2oSU1o6fpANrhTPbh4tF02/xzCRxjzK7BMQxEbXSaT5y6USPuTlz
-	rFSbmEffrpBvrRXcZjZZXsPW6lie39hetKBeyqmBGcjH4gwsAaWETG2LWC6goTQ3WCDb
-	eauYF0vc3XR5bbQotNXR5gZ8sIvMnat0iMqcDG2RgZtEpnVuR9iRSbtlL8HEx5sk8c8H
-	D7j+hUJfiX5Xjq2jqkWh3UuebwUlWlqoka72mrLPPYL3p1Y2YwYFBkap/8likrM0Tbpx
-	EjaQ==
-X-Gm-Message-State: AODbwcD3L7GcAHnCi64vQ5iiRdmzwRR5JYhJJIbh4Dzkq74sXjGdC3F6
-	gUjctl/zGaZHAd9ZodU=
-X-Received: by 10.36.115.1 with SMTP id y1mr586948itb.117.1495763532275;
-	Thu, 25 May 2017 18:52:12 -0700 (PDT)
+	bh=GZ50c30k+qC4by9UBHza5UCKFQOYDjBNe7Q5Ty5h39U=;
+	b=l3XiuDWdyVnOT67NH/jvs7E2ZMIPrddtyD2scSlpEa60jwznSwpEhr1LDdKY02TWh7
+	DkXP6m1iydwGD7mbHRJyaJXKanFHqtT/Nnm4afrCTW44x6WiI1dvZPwY43Fn+1H4RJ4Y
+	xR1lIhs2fIxKPfonfMAgGRoWuEAjOwdG34c8om5OtpyaPjN4wnRcY/5krzgxAHjmtJvo
+	XujbPhlOBMuVsLIpQLIw1U80IadShijqNgZEyqyP9B+ucbgtoKw1xPT4RMfYQj93x03Q
+	iWMs4jPGSeEDNv3cJJEVktUAVxhd+AxlYNk+4Gedj+PceCsVnhrwNIUz9zuYKNdB94IP
+	KsBg==
+X-Gm-Message-State: AODbwcC/5+BwAwiFZ2YmRqbJAXqRdAXVoEHtpVvGXfPuRI/V2iQP6XLp
+	nXmgCCp68XP6iALCAQ8=
+X-Received: by 10.36.252.66 with SMTP id b63mr2354562ith.21.1495763673290;
+	Thu, 25 May 2017 18:54:33 -0700 (PDT)
 Received: from localhost.localdomain ([2605:a601:a83:3700:10fb:b4c1:2c33:798c])
 	by smtp.gmail.com with ESMTPSA id
-	e34sm3769054iod.18.2017.05.25.18.52.10
+	e21sm3822002ioj.15.2017.05.25.18.54.31
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 25 May 2017 18:52:11 -0700 (PDT)
+	Thu, 25 May 2017 18:54:31 -0700 (PDT)
 From: Joshua Watt <jpewhacker@gmail.com>
 X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 25 May 2017 20:52:02 -0500
-Message-Id: <20170526015202.13469-1-JPEWhacker@gmail.com>
+Date: Thu, 25 May 2017 20:54:28 -0500
+Message-Id: <20170526015428.13714-1-JPEWhacker@gmail.com>
 X-Mailer: git-send-email 2.9.3
 In-Reply-To: <CAJdd5GYuBbqarXs38M91atDyQhz17EcPDE9yKme-oiwDjCtaaA@mail.gmail.com>
 References: <CAJdd5GYuBbqarXs38M91atDyQhz17EcPDE9yKme-oiwDjCtaaA@mail.gmail.com>
-Subject: [meta-oe][PATCH v4] openssh: Atomically generate host keys
+Subject: [meta-oe][PATCH v5] openssh: Atomically generate host keys
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,11 +57,13 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 May 2017 01:52:13 -0000
+X-List-Received-Date: Fri, 26 May 2017 01:54:32 -0000
 
 Generating the host keys atomically prevents power interruptions during
 the first boot from leaving the key files incomplete, which often
 prevents users from being able to ssh into the device.
+
+Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
 ---
  meta/recipes-connectivity/openssh/openssh/init     | 22 +++----------
  .../openssh/openssh/sshd-check-key                 | 36 ++++++++++++++++++++++
