@@ -1,30 +1,49 @@
-Return-Path: <huangqy.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 8B8FB7824C
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f176.google.com (mail-qk0-f176.google.com
+	[209.85.220.176])
+	by mail.openembedded.org (Postfix) with ESMTP id F18F471DDA
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 May 2017 09:32:19 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.22,518,1449504000"; d="scan'208";a="19343390"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 26 May 2017 17:32:17 +0800
-Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
-	by cn.fujitsu.com (Postfix) with ESMTP id 3A88A47C6105
+	Fri, 26 May 2017 09:49:46 +0000 (UTC)
+Received: by mail-qk0-f176.google.com with SMTP id k74so3510144qke.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 May 2017 17:32:15 +0800 (CST)
-Received: from localhost.localdomain (10.167.226.81) by
-	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.319.2; Fri, 26 May 2017 17:32:15 +0800
-From: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 26 May 2017 17:31:54 +0800
-Message-ID: <1495791114-1419-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 2.7.4
+	Fri, 26 May 2017 02:49:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=qVVMM0SRqoOB1Xnzi07Q3sA2+A1bFdS1+NdzIHYTLWQ=;
+	b=gl+4GZLLPkTdKauPi3R5ws2Rn+2c8IjmyFwBgLu3r95vMbMClH9515B5xLi5BN2cXV
+	bow+cs1YKfSCG8+TehFmtvBC2/JWaIUyGY2CifYsaCvxxwkWdcHXKmrACHnxn4fl7WZs
+	RR2K5b5S+bN/XSn6hOYS+wom8BxZtwAlwxkeXiz1SGrjYvPaOtF/aS40xBX1l0ErqJx2
+	ilLHTo63GytrM1Uku2t1E20FXuXl8i2E8uRXM0lmC3Es0t9Q4jPnkgpeHcahHd04WX5S
+	ci9RQY9Ao3RGH2Clubm0ORsjRST9BPsl4QUUYd4wTAiV3QXxt/FF1KDBZUOVpWrYtzwB
+	T5eA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=qVVMM0SRqoOB1Xnzi07Q3sA2+A1bFdS1+NdzIHYTLWQ=;
+	b=jTI41dxySNhZ3bNJ7tPWVKOSnOcMkBURhMLUI3OEjAw20UQnIyO3trz9SfU4G2EWub
+	jWbyfdqBuO3BI+odj5lUivUzhIVe+YR8zhnAqJAKsyGnVLw+Q7Pxh4Fkf35+EEj6BYTS
+	SoExZ2Soenzq6wM/XxmXJaa/h/73p72uVje61Jp60rJkCDMuMiQ/64Bt2OsEQnehWnqt
+	C/asb0qDHeh95rWnAoVEnw06Pw/SHGYxoxYwIGnTRrRfpkSNu9vebFlGpQwFfs6n1UGG
+	oD9ACP8z5nPJLzQz1lpyRLJY/2IPLaIYEHpYxH9cRDEMF57Fn2Zso2ErCXVEnVgKyrE7
+	89cQ==
+X-Gm-Message-State: AODbwcC40e7xgcxOLHGFSEnPRxuO0xQR7DKcS1hV+TUMl9taApsr4Hv5
+	GJgGoegsbHUKpJjsPfjkAY8AerkOxQyC
+X-Received: by 10.55.146.199 with SMTP id u190mr883595qkd.109.1495792187607;
+	Fri, 26 May 2017 02:49:47 -0700 (PDT)
 MIME-Version: 1.0
-X-Originating-IP: [10.167.226.81]
-X-yoursite-MailScanner-ID: 3A88A47C6105.A531B
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: huangqy.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Subject: [PATCH] ncurses: 6.0+20161126 -> 6.0+20170408
+Received: by 10.140.41.115 with HTTP; Fri, 26 May 2017 02:49:27 -0700 (PDT)
+In-Reply-To: <AM5PR0401MB2674C8508629E9A0834B5D8BE9FC0@AM5PR0401MB2674.eurprd04.prod.outlook.com>
+References: <1495548488-12280-1-git-send-email-carol.zhu@nxp.com>
+	<CAJTo0LYms47eMVfYR8cfFn0+j6UhV_ODNdjzb-HqJ6gC=MNY2w@mail.gmail.com>
+	<AM5PR0401MB2674C8508629E9A0834B5D8BE9FC0@AM5PR0401MB2674.eurprd04.prod.outlook.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 26 May 2017 10:49:27 +0100
+Message-ID: <CAJTo0Lb+gfjt3Pw2NWw2f37bf8YOw8KXaR=aK+qjthw7a5BD6g@mail.gmail.com>
+To: Carol Zhu <carol.zhu@nxp.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [pyro][PATCH 0/6] Add some gstreamer1.0-plugins-bad patches for pyro
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,68 +56,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 May 2017 09:32:22 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 26 May 2017 09:49:47 -0000
+Content-Type: multipart/alternative; boundary="94eb2c08bd7000203b05506a4285"
 
-1) Upgrade ncurses from 6.0+20161126 to 6.0+20170408.
-2) Delete patch "fix-cflags-mangle.patch",since it is integrated upstream.
+--94eb2c08bd7000203b05506a4285
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
----
- .../recipes-core/ncurses/files/fix-cflags-mangle.patch | 18 ------------------
- ...ncurses_6.0+20161126.bb => ncurses_6.0+20170408.bb} |  3 +--
- 2 files changed, 1 insertion(+), 20 deletions(-)
- delete mode 100644 meta/recipes-core/ncurses/files/fix-cflags-mangle.patch
- rename meta/recipes-core/ncurses/{ncurses_6.0+20161126.bb => ncurses_6.0+20170408.bb} (76%)
+On 26 May 2017 at 02:56, Carol Zhu <carol.zhu@nxp.com> wrote:
 
-diff --git a/meta/recipes-core/ncurses/files/fix-cflags-mangle.patch b/meta/recipes-core/ncurses/files/fix-cflags-mangle.patch
-deleted file mode 100644
-index e9447c5..0000000
---- a/meta/recipes-core/ncurses/files/fix-cflags-mangle.patch
-+++ /dev/null
-@@ -1,18 +0,0 @@
--configure has a piece of logic to detect users "abusing" CC to hold compiler
--flags (which we do).  It also has logic to "correct" this by moving the flags
--from CC to CFLAGS, but the sed only handles a single argument in CC.
--
--Replace the sed with awk to filter out all words that start with a hyphen.
--
--Upstream-Status: Pending
--Signed-off-by: Ross Burton <ross.burton@intel.com>
--
--diff --git a/configure b/configure
--index 7f31208..1a29cfc 100755
----- a/configure
--+++ b/configure
--@@ -2191,2 +2191,2 @@ echo "$as_me: WARNING: your environment misuses the CC variable to hold CFLAGS/C
---	cf_flags=`echo "$CC" | sed -e 's/^.*[ 	]\(-[^ 	]\)/\1/'`
---	CC=`echo "$CC " | sed -e 's/[ 	]-[^ 	].*$//' -e 's/[ 	]*$//'`
--+	cf_flags=`echo "$CC" | awk  'BEGIN{ORS=" ";RS=" "} /^-.+/ {print $1}'`
--+	CC=`echo "$CC " | awk  'BEGIN{ORS=" ";RS=" "} /^[^-].+/ {print $1}'`
-diff --git a/meta/recipes-core/ncurses/ncurses_6.0+20161126.bb b/meta/recipes-core/ncurses/ncurses_6.0+20170408.bb
-similarity index 76%
-rename from meta/recipes-core/ncurses/ncurses_6.0+20161126.bb
-rename to meta/recipes-core/ncurses/ncurses_6.0+20170408.bb
-index ace3108..02db551 100644
---- a/meta/recipes-core/ncurses/ncurses_6.0+20161126.bb
-+++ b/meta/recipes-core/ncurses/ncurses_6.0+20170408.bb
-@@ -1,12 +1,11 @@
- require ncurses.inc
- 
- SRC_URI += "file://tic-hang.patch \
--            file://fix-cflags-mangle.patch \
-             file://config.cache \
-             file://configure-reproducible.patch \
- "
- # commit id corresponds to the revision in package version
--SRCREV = "3db0bd19cb50e3d9b4f2cf15b7a102fe11302068"
-+SRCREV = "9e9f3df43c491e8f046345b9d1aa54ad57201df2"
- S = "${WORKDIR}/git"
- EXTRA_OECONF += "--with-abi-version=5"
- UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+(\.\d+)+(\+\d+)*)"
--- 
-2.7.4
+> These are backports from 1.11 or earlier.
+>
+> And I was told that Maxin is currently working on upgrading the GStreamer
+> stack to 1.12.
+>
+> So I am trying to upstream them for pyro as these probably do not make
+> sense for master.
+>
+>
+Ok, thanks.
 
+Ross
 
+--94eb2c08bd7000203b05506a4285
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 26 May 2017 at 02:56, Carol Zhu <span dir=3D"ltr">&lt;<a href=3D"mailto:=
+carol.zhu@nxp.com" target=3D"_blank">carol.zhu@nxp.com</a>&gt;</span> wrote=
+:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-le=
+ft:1px #ccc solid;padding-left:1ex"><p class=3D"MsoNormal">These are backpo=
+rts from 1.11 or earlier. <u></u><u></u></p>
+<p class=3D"MsoNormal">And I was told that Maxin is currently working on up=
+grading the GStreamer stack to 1.12.<u></u><u></u></p>
+<p class=3D"MsoNormal">So I am trying to upstream them for pyro as these pr=
+obably do not make sense for master.<u></u><u></u></p>
+<p class=3D"MsoNormal"></p></blockquote></div><br>Ok, thanks.</div><div cla=
+ss=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
 
+--94eb2c08bd7000203b05506a4285--
