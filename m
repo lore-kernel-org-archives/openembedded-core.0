@@ -1,53 +1,30 @@
-Return-Path: <erik.boto@pelagicore.com>
-Received: from mail-wm0-f46.google.com (mail-wm0-f46.google.com [74.125.82.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 1F9C178271
+Return-Path: <huangqy.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
+	by mail.openembedded.org (Postfix) with ESMTP id 8B8FB7824C
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 May 2017 09:01:46 +0000 (UTC)
-Received: by mail-wm0-f46.google.com with SMTP id e127so13580124wmg.1
+	Fri, 26 May 2017 09:32:19 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.22,518,1449504000"; d="scan'208";a="19343390"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 26 May 2017 17:32:17 +0800
+Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
+	by cn.fujitsu.com (Postfix) with ESMTP id 3A88A47C6105
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 May 2017 02:01:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=pelagicore-com.20150623.gappssmtp.com; s=20150623;
-	h=subject:to:references:from:message-id:date:user-agent:mime-version
-	:in-reply-to:content-transfer-encoding;
-	bh=/msTwu38OSxycTH4j1LfFo1xypZxckA4YTX0jDkQW4Q=;
-	b=yOBGxGmq2Cnkzd8optISkspenKX89TyeQAyGw5is7ImcP+s/mxtkVJNb/yh6RGoOtc
-	feevYbc5XSR6fp8nqKNEuDeYWQuSJcPNv7kX8BBb05YCNIUq6quPmdAVgaPzqAMkYRz8
-	NVNAQuANpLRyfqbsFVYwmkZ+TpAfg2EcmQZT5Z0m1FTBp1YcpgzRrt3BYyUidBulSe+B
-	DthtaZc9VMUdmIBIuMdrg7PWT+Dxe7pWaL0sfBrwUyD50O0D/wDQj0xpjUWLS/O+XEx9
-	nFCJjCI/rl5xIAJ5U31cTvwg0VhmkZZgqzaaN5v4+gmSopDpBBOaoV4czfclRETAc6FB
-	75Qg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding;
-	bh=/msTwu38OSxycTH4j1LfFo1xypZxckA4YTX0jDkQW4Q=;
-	b=LJ5ATCY5nSRVR+uV4kzXz1zzr8u9Ietj/K+QI3U8n/DxrDdBuex430RGXVtbW5QIzL
-	NfNbQ49ZKdnSY6We+5EDizhq3QQPJLQ1kljh9oJGAhcstMtJuNomBlrgtZCaOxBnBshe
-	OGkGqijnesrUiU2xX6S6UtiUYxSyASyMT4yz9UW0pkw5uZ1yXziL918OXsfhIEp9y2S2
-	FmDpwTCGfa6XJ2XDPdrpcFzwKl+05AEcV4AAXXJod0V65gzUZpgAV926QXaBovcmBtyA
-	aEnthpv7jG7rRWdOTb5VF5yawqTuhKMYm5zLHiZ1eoJ4vWYTneppJva8faHuoRowEfaG
-	o6iQ==
-X-Gm-Message-State: AODbwcBY+Z33+zfEx2od3RKt2KVOHoxq9ozFmuACuunTuscY1r7w9EJF
-	wslNdj1PPnPo86pZ5d0n/Q==
-X-Received: by 10.28.48.21 with SMTP id w21mr12031565wmw.44.1495789306851;
-	Fri, 26 May 2017 02:01:46 -0700 (PDT)
-Received: from [172.31.173.74] ([83.218.80.243])
-	by smtp.gmail.com with ESMTPSA id
-	p76sm1271618wma.15.2017.05.26.02.01.45
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 26 May 2017 02:01:45 -0700 (PDT)
-To: =?UTF-8?Q?Erik_Bot=c3=b6?= <erik.boto@pelagicore.com>,
-	openembedded-core@lists.openembedded.org
-References: <20170519142004.32682-1-erik.boto@pelagicore.com>
-From: =?UTF-8?Q?Erik_Bot=c3=b6?= <erik.boto@pelagicore.com>
-Message-ID: <b41949aa-b992-6403-4b27-c54d22c15279@pelagicore.com>
-Date: Fri, 26 May 2017 11:01:44 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.8.0
+	Fri, 26 May 2017 17:32:15 +0800 (CST)
+Received: from localhost.localdomain (10.167.226.81) by
+	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.319.2; Fri, 26 May 2017 17:32:15 +0800
+From: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 26 May 2017 17:31:54 +0800
+Message-ID: <1495791114-1419-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-In-Reply-To: <20170519142004.32682-1-erik.boto@pelagicore.com>
-Subject: Re: [PATCH 1/4] masterimage.py: fix issue with calling reboot on masterimage/DUT
+X-Originating-IP: [10.167.226.81]
+X-yoursite-MailScanner-ID: 3A88A47C6105.A531B
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: huangqy.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [PATCH] ncurses: 6.0+20161126 -> 6.0+20170408
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,44 +37,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 May 2017 09:01:48 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 26 May 2017 09:32:22 -0000
+Content-Type: text/plain
 
-I guess an introduction should have been added to this patchset, so here 
-it comes a bit late:
+1) Upgrade ncurses from 6.0+20161126 to 6.0+20170408.
+2) Delete patch "fix-cflags-mangle.patch",since it is integrated upstream.
 
-These patches are what I needed to do in order to get automated runtime 
-tests on target using the systemd-boot target working. There is an open 
-bug in the bugzilla for this as well: 
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=11524.
+Signed-off-by: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
+---
+ .../recipes-core/ncurses/files/fix-cflags-mangle.patch | 18 ------------------
+ ...ncurses_6.0+20161126.bb => ncurses_6.0+20170408.bb} |  3 +--
+ 2 files changed, 1 insertion(+), 20 deletions(-)
+ delete mode 100644 meta/recipes-core/ncurses/files/fix-cflags-mangle.patch
+ rename meta/recipes-core/ncurses/{ncurses_6.0+20161126.bb => ncurses_6.0+20170408.bb} (76%)
 
-Cheers,
-Erik
+diff --git a/meta/recipes-core/ncurses/files/fix-cflags-mangle.patch b/meta/recipes-core/ncurses/files/fix-cflags-mangle.patch
+deleted file mode 100644
+index e9447c5..0000000
+--- a/meta/recipes-core/ncurses/files/fix-cflags-mangle.patch
++++ /dev/null
+@@ -1,18 +0,0 @@
+-configure has a piece of logic to detect users "abusing" CC to hold compiler
+-flags (which we do).  It also has logic to "correct" this by moving the flags
+-from CC to CFLAGS, but the sed only handles a single argument in CC.
+-
+-Replace the sed with awk to filter out all words that start with a hyphen.
+-
+-Upstream-Status: Pending
+-Signed-off-by: Ross Burton <ross.burton@intel.com>
+-
+-diff --git a/configure b/configure
+-index 7f31208..1a29cfc 100755
+---- a/configure
+-+++ b/configure
+-@@ -2191,2 +2191,2 @@ echo "$as_me: WARNING: your environment misuses the CC variable to hold CFLAGS/C
+--	cf_flags=`echo "$CC" | sed -e 's/^.*[ 	]\(-[^ 	]\)/\1/'`
+--	CC=`echo "$CC " | sed -e 's/[ 	]-[^ 	].*$//' -e 's/[ 	]*$//'`
+-+	cf_flags=`echo "$CC" | awk  'BEGIN{ORS=" ";RS=" "} /^-.+/ {print $1}'`
+-+	CC=`echo "$CC " | awk  'BEGIN{ORS=" ";RS=" "} /^[^-].+/ {print $1}'`
+diff --git a/meta/recipes-core/ncurses/ncurses_6.0+20161126.bb b/meta/recipes-core/ncurses/ncurses_6.0+20170408.bb
+similarity index 76%
+rename from meta/recipes-core/ncurses/ncurses_6.0+20161126.bb
+rename to meta/recipes-core/ncurses/ncurses_6.0+20170408.bb
+index ace3108..02db551 100644
+--- a/meta/recipes-core/ncurses/ncurses_6.0+20161126.bb
++++ b/meta/recipes-core/ncurses/ncurses_6.0+20170408.bb
+@@ -1,12 +1,11 @@
+ require ncurses.inc
+ 
+ SRC_URI += "file://tic-hang.patch \
+-            file://fix-cflags-mangle.patch \
+             file://config.cache \
+             file://configure-reproducible.patch \
+ "
+ # commit id corresponds to the revision in package version
+-SRCREV = "3db0bd19cb50e3d9b4f2cf15b7a102fe11302068"
++SRCREV = "9e9f3df43c491e8f046345b9d1aa54ad57201df2"
+ S = "${WORKDIR}/git"
+ EXTRA_OECONF += "--with-abi-version=5"
+ UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+(\.\d+)+(\+\d+)*)"
+-- 
+2.7.4
 
 
-On 05/19/2017 04:20 PM, Erik Botö wrote:
-> On systemd systems calling reboot over an ssh connection doesn't
-> return as expected causing an exception, therefore wrap the call
-> to reboot in order to avoid this issue.
->
-> Signed-off-by: Erik Botö <erik.boto@pelagicore.com>
-> ---
->   meta/lib/oeqa/controllers/masterimage.py | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/lib/oeqa/controllers/masterimage.py b/meta/lib/oeqa/controllers/masterimage.py
-> index 07418fcda1..6cdcfa3068 100644
-> --- a/meta/lib/oeqa/controllers/masterimage.py
-> +++ b/meta/lib/oeqa/controllers/masterimage.py
-> @@ -108,7 +108,7 @@ class MasterImageHardwareTarget(oeqa.targetcontrol.BaseTarget, metaclass=ABCMeta
->               time.sleep(10)
->               self.power_ctl("cycle")
->           else:
-> -            status, output = conn.run("reboot")
-> +            status, output = conn.run("{ sleep 1; reboot; } > /dev/null &")
->               if status != 0:
->                   bb.error("Failed rebooting target and no power control command defined. You need to manually reset the device.\n%s" % output)
->   
 
 
