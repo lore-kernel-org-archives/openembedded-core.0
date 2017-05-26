@@ -1,46 +1,25 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f42.google.com (mail-wm0-f42.google.com [74.125.82.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 42E3C7827A
+Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id A2A3B782A0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 May 2017 13:37:14 +0000 (UTC)
-Received: by mail-wm0-f42.google.com with SMTP id 7so127988814wmo.1
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 May 2017 06:37:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=5dabaFz0ygt1TRmRpI7uEWNeCXa6mX/t+JheIr19EW0=;
-	b=gVUJkcq3DoNN0Zesn3VzAsFXy5r45eARCN6GyarlYD8ca/iBkTJcOnxZl/2NTYiL+u
-	I0HEyYnV6UpqSHuthDHVBD1ZZmdfCnNIS5sigu0yhFTSnTMADvsC8kzU0SMjvoepa6Xs
-	Yl2GF2rFkq41XY/wFIzKmANS8ki5fm/ctdd05eW2qDuE+c708M3LCFp16TX6MCTYuxuw
-	SCGJkvIrMOX4sms1RShFgq58dlkdjzheEVuwYgXYuwypc5/THivFyTlOwGHlyLeNoIkl
-	RNRbOktOsQ3t8rkaDjBlARmWA8y7LQNsLWINv2dGFFlt7wz/oM2eBX/KY5j4M3FrYvhh
-	Vxaw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=5dabaFz0ygt1TRmRpI7uEWNeCXa6mX/t+JheIr19EW0=;
-	b=QKzcqecF7dn6PYsMZwSMNDRQL0yBFjzS1ei2hLDUjlpmBO8+xckDauKcY3udnnGxri
-	BksfXkEUFyyFuzbXIOyjgre+QD4tXeUke1rj7AZn2rLMc6TpINUemJmSCHZXnHFrX2C9
-	1v58O0s6EJk++bJTHTCl4NyDPoy/Bqu4FdqTOLA4N2qsE+ThekTDJSkpSlVZ82Wz+7Xx
-	Or7KBTlgQpjWTBg5ZaxsZNsNCDEHnjUpfc6C5U/df43d+AE/hbVecqolFCOAU9PLRrFm
-	aXCtnpykhmgD6Fq1i/P+ajcjhAXARqpspF0zqzTIH+cCS1th3iI7/bMyd9kgFRYNchVO
-	PUeQ==
-X-Gm-Message-State: AODbwcCEdicHw+ygLkdRlbFiGJ4TxRspcGCqF0JwfcTWZU02Uu0Xa8XF
-	D0kBuMes0MC9OxL3WzM=
-X-Received: by 10.28.224.135 with SMTP id x129mr2048354wmg.45.1495805835556;
-	Fri, 26 May 2017 06:37:15 -0700 (PDT)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id 4sm1078185wry.31.2017.05.26.06.37.14
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 26 May 2017 06:37:15 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 26 May 2017 14:37:13 +0100
-Message-Id: <1495805833-413-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.8.1
-Subject: [PATCH] gstreamer1.0-omx: delete broken m4 files
+	Fri, 26 May 2017 13:41:02 +0000 (UTC)
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	26 May 2017 06:41:03 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.38,397,1491289200"; d="scan'208";a="266735452"
+Received: from lsandov1-mobl2.zpn.intel.com ([10.219.128.119])
+	by fmsmga004.fm.intel.com with ESMTP; 26 May 2017 06:41:03 -0700
+Message-ID: <1495806571.26945.15.camel@linux.intel.com>
+From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+To: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
+Date: Fri, 26 May 2017 08:49:31 -0500
+In-Reply-To: <1495783680-1190-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
+References: <1495783680-1190-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
+X-Mailer: Evolution 3.12.9-1+b1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] lsbinitscripts: 9.68 -> 9.72
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,41 +32,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 May 2017 13:37:15 -0000
+X-List-Received-Date: Fri, 26 May 2017 13:41:03 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-These m4 files need to be deleted so that the versions in the sysroot that we've
-patched are used.  Specifically, building documentation fails as the gtk-doc
-checks fail.
+On Fri, 2017-05-26 at 15:28 +0800, Huang Qiyu wrote:
+> 1) Upgrade lsbinitscripts from 9.68 to 9.72.
+> 2) Modify one patch "functions.patch", since the data has been changed.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-multimedia/gstreamer/gstreamer1.0-omx.inc | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+the only change I see in the .patch file is the extra -e, is that what
+you mean that the data has changed?
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx.inc
-index 05562b1..5d92351 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx.inc
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx.inc
-@@ -29,10 +29,17 @@ python __anonymous () {
-         d.setVar("PACKAGE_ARCH", d.getVar("MACHINE_ARCH"))
- }
- 
-+delete_pkg_m4_file() {
-+    # Delete m4 files which we provide patched versions of but will be ignored
-+    # if these exist
-+	rm -f "${S}/common/m4/pkg.m4"
-+	rm -f "${S}/common/m4/gtk-doc.m4"
-+}
-+do_configure[prefuncs] += "delete_pkg_m4_file"
-+
- set_omx_core_name() {
- 	sed -i -e "s;^core-name=.*;core-name=${GSTREAMER_1_0_OMX_CORE_NAME};" "${D}${sysconfdir}/xdg/gstomx.conf"
- }
--
- do_install[postfuncs] += " set_omx_core_name "
- 
- FILES_${PN} += "${libdir}/gstreamer-1.0/*.so"
--- 
-2.8.1
+Leo
+
 
 
