@@ -1,27 +1,18 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 9998278246
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 May 2017 13:50:26 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	26 May 2017 06:50:26 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.38,397,1491289200"; d="scan'208";a="1174694232"
-Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga002.fm.intel.com with ESMTP; 26 May 2017 06:50:25 -0700
-Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
-	by linux.intel.com (Postfix) with ESMTP id DCC325803BC
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 May 2017 06:50:24 -0700 (PDT)
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 26 May 2017 16:49:55 +0300
-Message-Id: <1e2b78ac0de5a09c37c67bcdc1335d351f5713db.1495806200.git.ed.bartosh@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <cover.1495806200.git.ed.bartosh@linux.intel.com>
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id A7F40782AA;
+	Fri, 26 May 2017 14:01:40 +0000 (UTC)
+MIME-Version: 1.0
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Ed Bartosh <ed.bartosh@linux.intel.com>
+Date: Fri, 26 May 2017 14:01:42 -0000
+Message-ID: <20170526140142.1043.89493@do.openembedded.org>
 References: <cover.1495806200.git.ed.bartosh@linux.intel.com>
-Subject: [PATCH 1/1] image_types_wic: schedule prepare_wic_build correctly
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <cover.1495806200.git.ed.bartosh@linux.intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgaW1hZ2VfdHlwZXNfd2ljOiBmaXggc2NoZWR1bGluZyBvZiBwcmVwYXJlX3dpY19idWlsZA==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,68 +25,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 May 2017 13:50:26 -0000
+X-List-Received-Date: Fri, 26 May 2017 14:01:40 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-When EFI is enabled we need to ensure that kernel and bootloader
-artifacts are fully deployed before running prepare_wic_build.
-This is done by scheduling this task after do_bootimg and
-by adding dependencty to virtual/kernel:do_deploy task.
+== Series Details ==
 
-Scheduled prepare_wic_build only if wic build is enabled to
-avoid running it when it's not needed.
+Series: image_types_wic: fix scheduling of prepare_wic_build
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/6934/
+State : failure
 
-Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at 12373003cc)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- meta/classes/image_types_wic.bbclass | 28 +++++++++++++++-------------
- 1 file changed, 15 insertions(+), 13 deletions(-)
-
-diff --git a/meta/classes/image_types_wic.bbclass b/meta/classes/image_types_wic.bbclass
-index d8430e4..baf375b 100644
---- a/meta/classes/image_types_wic.bbclass
-+++ b/meta/classes/image_types_wic.bbclass
-@@ -69,6 +69,12 @@ python () {
-                 # file in process_wks_template as well, so just put it in
-                 # a variable and let the metadata deal with the deps.
-                 d.setVar('_WKS_TEMPLATE', body)
-+
-+        if d.getVar('EFI_CLASS'):
-+            bb.build.addtask('do_prepare_wic_build', 'do_image_wic', 'do_bootimg', d)
-+            d.appendVarFlag('do_prepare_wic_build', 'depends', 'virtual/kernel:do_deploy')
-+        else:
-+            bb.build.addtask('do_prepare_wic_build', 'do_image_wic', None, d)
- }
- 
- #
-@@ -139,19 +145,15 @@ python do_prepare_wic_build() {
-         with open(wks_file, 'w') as f:
-             f.write(template_body)
- 
--    if d.getVar('USING_WIC'):
--        # Generate parition UUID
--        from uuid import uuid4
--        partuuid = str(uuid4())
--        d.setVar("ROOTFS_PARTUUID", partuuid)
-+    # Generate parition UUID
-+    from uuid import uuid4
-+    partuuid = str(uuid4())
-+    d.setVar("ROOTFS_PARTUUID", partuuid)
- 
--        if d.getVar("EFI_CLASS"):
--            populate_bootfs(partuuid)
-+    if d.getVar("EFI_CLASS"):
-+        populate_bootfs(partuuid)
- 
--        template = d.getVar("_WKS_TEMPLATE")
--        if template:
--            write_wks_template(template, d.getVar('WKS_FULL_PATH'))
-+    template = d.getVar("_WKS_TEMPLATE")
-+    if template:
-+        write_wks_template(template, d.getVar('WKS_FULL_PATH'))
- }
--
--addtask do_prepare_wic_build before do_image_wic
--do_prepare_wic_build[depends] = "${MLPREFIX}${EFI_PROVIDER}:do_deploy virtual/kernel:do_deploy"
--- 
-2.1.4
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
