@@ -1,47 +1,47 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f170.google.com (mail-qk0-f170.google.com
-	[209.85.220.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 73BDC78222
+Received: from mail-wm0-f47.google.com (mail-wm0-f47.google.com [74.125.82.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 087927826C
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 May 2017 14:30:37 +0000 (UTC)
-Received: by mail-qk0-f170.google.com with SMTP id u75so8569436qka.3
+	Fri, 26 May 2017 16:13:52 +0000 (UTC)
+Received: by mail-wm0-f47.google.com with SMTP id d127so25009439wmf.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 May 2017 07:30:38 -0700 (PDT)
+	Fri, 26 May 2017 09:13:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=2meyPE/CGbZSc9FDt7mwplw0/DNuo80KnT6wkZxaTkM=;
-	b=MHgFzqzb5zN7QGF+YZQ/W+bFn0WPBe8A8tiLMsr35t8sRY+iI0j0hgB2FD3+/UcG6G
-	Vajv41b1x1sQzNq9dsJaiwSQXTVb+sknSxh4iSfE1Vy4dRPe1NSpdQQxkfKeFoO2wvRH
-	ZSZPr41PPjhT03QACoK61iDIAEZ/2znf/s2fUoWdUusz3fSHTdhejLhNpnv04+Ny58hk
-	qw07b+4vHmsD0f8DEuJto2YbpJvrpV6jqwdpFbcgW/F5l3h85QFaGggN1q9h8RJYArUf
-	2xwyPB10oDXxfBE8TiQZEwIpk7VAc9tilaPBd3/I3jfJSIaCnywMXx+2Fc8XM20oru+V
-	7Ltw==
+	h=from:to:subject:date:message-id;
+	bh=6LXqBYLIYUJLBfEIyQg9RtFZk3dtS53OSlNSHjT2/Rw=;
+	b=CgmjHoCflMjRIfB/8KYHTZSi8s6gHq3nNvJ+fTXfbz8aujEGqAe+YwoesRY0gacuzd
+	qROyWsHusRGCf6LZHupOzp0Q9r5Rh9Y6MvJTS535MGdUdMNOS4TB4xbEO2Lxxg2PTDYe
+	jNrN2cO2BYIuey8WVTO9Avrn9/4Dgy8RouxQ7WzMgfuYKSeusZBcL8sc4SC1U2KA1tRk
+	lbxHs/36oPENDss2CKO2UURs3OxaK4A78OEMmzX6pgy9abooj+M3DXVkKexUIFQLtJEN
+	UT0raJQuYBE+BZZckjn6LQVqrWNt4wghGuDo7gpgSvYsYAfb6XR9k9r6HHoFWm1TJXJY
+	8WKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=2meyPE/CGbZSc9FDt7mwplw0/DNuo80KnT6wkZxaTkM=;
-	b=mbhbEkH1CXp1gRZUglN447RO0P+LuR9NM2HmNr0ZVnGZv4W+ZTkkwO+gfu+rCBuLyJ
-	2WWc7gzX279HTCs+juMCXjRIZKykOXMxeNkjvc3vv05p2ReCW38eT37ZXru7WBxTO0tY
-	8/gzz2/NKnQo9HAzU/Mck3yEtJpvUd+A+Hxe7kci42aXOwagLDNHYhGzJ7phn4jHAzhG
-	zdzYka03LSL5t817/EAuOS6hfjiT9ACNs1jrULkRN1u85uw7guVgRddJuG6H2aAB4pzU
-	iu/NfyQbs+3ciQzNMYdmT1iVv1II3Vt8w9BtIqXRje9YDxIpNvQzs0UAt9NBd7sqxvKI
-	RgQA==
-X-Gm-Message-State: AODbwcCZ+/I0VKtCCcE6f6sUZNpvVJcO7JfaMKB5UG5zD5bI0rD296dC
-	AwKgRnNylf2sugX3KyNfgEwEU53wk+MR6u8=
-X-Received: by 10.55.116.133 with SMTP id p127mr2296789qkc.154.1495809038350; 
-	Fri, 26 May 2017 07:30:38 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.41.115 with HTTP; Fri, 26 May 2017 07:30:17 -0700 (PDT)
-In-Reply-To: <1495775169-24954-1-git-send-email-fan.xin@jp.fujitsu.com>
-References: <1495775169-24954-1-git-send-email-fan.xin@jp.fujitsu.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 26 May 2017 15:30:17 +0100
-Message-ID: <CAJTo0LYTGn2kObGysTxTPvRj8GR_ahkZO3s=DzvXPo3BWBY5bg@mail.gmail.com>
-To: Fan Xin <fan.xin@jp.fujitsu.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] elfutils: Upgrade 0.168 to 0.169
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=6LXqBYLIYUJLBfEIyQg9RtFZk3dtS53OSlNSHjT2/Rw=;
+	b=LFDPZjscn0AcyUau7f5Hn6lYt9qe1eIBSVbcSZSjgcffB9FcUe2Vc0Ux5Sj6RZEK/s
+	F7OZWEmpJ7DsBpoFSFbubNAxAI+BVlAan/wnIKoEV6qIY+RtwD/VCi0ldXJdtahkKt+K
+	qv+uT329F6H6MRHBWb0Gvmza5Jj9z3l4QedEZtS3xXgH6Dem1BjFYVtMz4i8eiTBwUQG
+	9rbKozvD0MHYhYPwvOG6A7VbykiT76TnsokEAR3ZurQ/kwbFzmJgzkWV5z68Iw4HmWfg
+	3PqwOOukzi0DMuPDjzJTNOqJ18qJLcSOYkjdugZSvHW4s5nNAPYqJPt/V4OM9FsSClIV
+	sg8g==
+X-Gm-Message-State: AODbwcDlqnbAz73qFcNyksQbvBAl7aQs1h9HdwgParupCQmCiIEDOI88
+	AtZJH13VIskhhPG74oA=
+X-Received: by 10.28.169.81 with SMTP id s78mr2833295wme.93.1495815233307;
+	Fri, 26 May 2017 09:13:53 -0700 (PDT)
+Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id
+	q203sm11208716wme.0.2017.05.26.09.13.52
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 26 May 2017 09:13:52 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 26 May 2017 17:13:49 +0100
+Message-Id: <1495815229-10309-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.8.1
+Subject: [PATCH] kconfig-frontends: fix another build race
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,40 +54,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 May 2017 14:30:37 -0000
-Content-Type: multipart/alternative; boundary="001a114fde726210eb05506e2ec7"
+X-List-Received-Date: Fri, 26 May 2017 16:13:55 -0000
 
---001a114fde726210eb05506e2ec7
-Content-Type: text/plain; charset="UTF-8"
+It is possible that frontends/kconfig is written to by sed before frontends/
+exists, so add a mkdir to ensure the directory always exits.
 
-On 26 May 2017 at 06:06, Fan Xin <fan.xin@jp.fujitsu.com> wrote:
+[ YOCTO #11574 ]
 
-> 1) Upgrade elfutils from 0.168 to 0.169
-> 2) Delete unnecessary patches which has been merged into 0.169
-> 3) Rebase the patch files for 0.169
->
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-devtools/kconfig-frontends/files/missing-mkdir.patch | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-ERROR: elfutils-0.169-r0 do_fetch: Fetcher failure for URL:
-'file://aarch64_uio.patch'. Unable to fetch URL from any source.
+diff --git a/meta/recipes-devtools/kconfig-frontends/files/missing-mkdir.patch b/meta/recipes-devtools/kconfig-frontends/files/missing-mkdir.patch
+index a06a547..a11186e 100644
+--- a/meta/recipes-devtools/kconfig-frontends/files/missing-mkdir.patch
++++ b/meta/recipes-devtools/kconfig-frontends/files/missing-mkdir.patch
+@@ -21,6 +21,10 @@ diff --git a/Makefile.am b/Makefile.am
+ index c8e96ef..1baa110 100644
+ --- a/Makefile.am
+ +++ b/Makefile.am
++@@ -173,2 +173,3 @@ bin_SCRIPTS += frontends/kconfig
++ frontends/kconfig: frontends/kconfig.in
+++	$(MKDIR_P) $(@D)
++ 	$(AM_V_GEN)$(SED) -e 's/@KCFG_LIST@/$(kcfg_list)/g' \
+ @@ -348,6 +348,7 @@ EXTRA_DIST += \
+  	utils/kconfig-tweak.in.patch
+  
+-- 
+2.8.1
 
-Ross
 
---001a114fde726210eb05506e2ec7
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 26 May 2017 at 06:06, Fan Xin <span dir=3D"ltr">&lt;<a href=3D"mailto:fa=
-n.xin@jp.fujitsu.com" target=3D"_blank">fan.xin@jp.fujitsu.com</a>&gt;</spa=
-n> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px =
-0.8ex;border-left-width:1px;border-left-style:solid;border-left-color:rgb(2=
-04,204,204);padding-left:1ex"><div id=3D"gmail-:2s6" class=3D"gmail-a3s gma=
-il-aXjCH gmail-m15c4325c486895af">1) Upgrade <span class=3D"gmail-il">elfut=
-ils</span> from 0.168 to 0.169<br>
-2) Delete unnecessary patches which has been merged into 0.169<br>
-3) Rebase the patch files for 0.169<br></div></blockquote></div><br>ERROR: =
-elfutils-0.169-r0 do_fetch: Fetcher failure for URL: &#39;file://aarch64_ui=
-o.patch&#39;. Unable to fetch URL from any source.<br></div><div class=3D"g=
-mail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
-
---001a114fde726210eb05506e2ec7--
