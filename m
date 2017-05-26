@@ -1,26 +1,25 @@
-Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 94D18607A5
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 28D3E7825F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 May 2017 13:48:58 +0000 (UTC)
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-	by fmsmga105.fm.intel.com with ESMTP; 26 May 2017 06:48:58 -0700
+	Fri, 26 May 2017 13:50:18 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	26 May 2017 06:50:17 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.38,397,1491289200"; d="scan'208";a="91742305"
-Received: from lsandov1-mobl2.zpn.intel.com ([10.219.128.119])
-	by orsmga004.jf.intel.com with ESMTP; 26 May 2017 06:48:58 -0700
-Message-ID: <1495807047.26945.19.camel@linux.intel.com>
-From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
-To: Erik =?ISO-8859-1?Q?Bot=F6?= <erik.boto@pelagicore.com>
-Date: Fri, 26 May 2017 08:57:27 -0500
-In-Reply-To: <b41949aa-b992-6403-4b27-c54d22c15279@pelagicore.com>
-References: <20170519142004.32682-1-erik.boto@pelagicore.com>
-	<b41949aa-b992-6403-4b27-c54d22c15279@pelagicore.com>
-X-Mailer: Evolution 3.12.9-1+b1 
-Mime-Version: 1.0
-Cc: "Cetola, Stephano" <stephano.cetola@intel.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/4] masterimage.py: fix issue with calling reboot on masterimage/DUT
+X-IronPort-AV: E=Sophos;i="5.38,397,1491289200"; d="scan'208";a="1135047899"
+Received: from linux.intel.com ([10.54.29.200])
+	by orsmga001.jf.intel.com with ESMTP; 26 May 2017 06:50:17 -0700
+Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
+	by linux.intel.com (Postfix) with ESMTP id 76025580240
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 26 May 2017 06:50:16 -0700 (PDT)
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 26 May 2017 16:49:54 +0300
+Message-Id: <cover.1495806200.git.ed.bartosh@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH 0/1] image_types_wic: fix scheduling of prepare_wic_build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,52 +32,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 May 2017 13:48:58 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 26 May 2017 13:50:19 -0000
 
-On Fri, 2017-05-26 at 11:01 +0200, Erik Botö wrote:
-> I guess an introduction should have been added to this patchset, so here 
-> it comes a bit late:
-> 
+Hi,
 
-no problem, in that case, you may need to tag the commit(s) with the
-bugzilla ID
+This patch fixes wic build on machines that don't support EFI.
 
+It also fixes build on intel-meta layer for intel-corei7-64 machine that
+was broken by previous patches due to the wrong assumption that
+EFI_PROVIDER recipe must be present if layer provides EFI functionality.
 
-> These patches are what I needed to do in order to get automated runtime 
-> tests on target using the systemd-boot target working. There is an open 
-> bug in the bugzilla for this as well: 
-> https://bugzilla.yoctoproject.org/show_bug.cgi?id=11524.
-> 
-> Cheers,
-> Erik
-> 
-> 
-> On 05/19/2017 04:20 PM, Erik Botö wrote:
-> > On systemd systems calling reboot over an ssh connection doesn't
-> > return as expected causing an exception, therefore wrap the call
-> > to reboot in order to avoid this issue.
-> >
-> > Signed-off-by: Erik Botö <erik.boto@pelagicore.com>
-> > ---
-> >   meta/lib/oeqa/controllers/masterimage.py | 2 +-
-> >   1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/meta/lib/oeqa/controllers/masterimage.py b/meta/lib/oeqa/controllers/masterimage.py
-> > index 07418fcda1..6cdcfa3068 100644
-> > --- a/meta/lib/oeqa/controllers/masterimage.py
-> > +++ b/meta/lib/oeqa/controllers/masterimage.py
-> > @@ -108,7 +108,7 @@ class MasterImageHardwareTarget(oeqa.targetcontrol.BaseTarget, metaclass=ABCMeta
-> >               time.sleep(10)
-> >               self.power_ctl("cycle")
-> >           else:
-> > -            status, output = conn.run("reboot")
-> > +            status, output = conn.run("{ sleep 1; reboot; } > /dev/null &")
-> >               if status != 0:
-> >                   bb.error("Failed rebooting target and no power control command defined. You need to manually reset the device.\n%s" % output)
-> >   
-> 
+This patch obsoletes 2 previous patches:
+ image_types_wic: schedule prepare_wic_build correctly
+ image_types_wic: reschedule do_prepare_wic_build
 
+The following changes since commit 1b131061ebe121f554b931f50ee9ff934f61b762:
+
+  runqemu: output qemu-system errors (2017-05-26 16:37:23 +0300)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib ed/wic/wip
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=ed/wic/wip
+
+Ed Bartosh (1):
+  image_types_wic: schedule prepare_wic_build correctly
+
+ meta/classes/image_types_wic.bbclass | 28 +++++++++++++++-------------
+ 1 file changed, 15 insertions(+), 13 deletions(-)
+
+--
+Regards,
+Ed
 
 
