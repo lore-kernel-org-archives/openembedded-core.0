@@ -1,20 +1,20 @@
 Return-Path: <anibal.limon@linux.intel.com>
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 6D8977831A
+	by mail.openembedded.org (Postfix) with ESMTP id A82F078314
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 May 2017 20:38:36 +0000 (UTC)
+	Fri, 26 May 2017 20:38:40 +0000 (UTC)
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
 	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	26 May 2017 13:38:38 -0700
+	26 May 2017 13:38:42 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.38,399,1491289200"; d="scan'208";a="266887743"
+X-IronPort-AV: E=Sophos;i="5.38,399,1491289200"; d="scan'208";a="266887770"
 Received: from tsriniv-mobl.amr.corp.intel.com (HELO
 	alimonb-mobl1.amr.corp.intel.com) ([10.254.103.51])
-	by fmsmga004.fm.intel.com with ESMTP; 26 May 2017 13:38:34 -0700
+	by fmsmga004.fm.intel.com with ESMTP; 26 May 2017 13:38:38 -0700
 From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 26 May 2017 15:37:42 -0500
-Message-Id: <33f088127de52061d513103270ab40595d31e759.1495830706.git.anibal.limon@linux.intel.com>
+Date: Fri, 26 May 2017 15:37:43 -0500
+Message-Id: <99d3fbd76a6c75cf1caa37924b9afedb9e9d15cc.1495830706.git.anibal.limon@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1495830706.git.anibal.limon@linux.intel.com>
 References: <cover.1495830706.git.anibal.limon@linux.intel.com>
@@ -22,7 +22,7 @@ In-Reply-To: <cover.1495830706.git.anibal.limon@linux.intel.com>
 References: <cover.1495830706.git.anibal.limon@linux.intel.com>
 MIME-Version: 1.0
 Cc: paul.eggleton@linux.intel.com
-Subject: [PATCH 16/36] oeqa/sdkext/cases: Move sdk_update test into devtool module
+Subject: [PATCH 17/36] oeqa/sdk: Enable usage of OEQA thread mode
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,121 +35,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 May 2017 20:38:36 -0000
+X-List-Received-Date: Fri, 26 May 2017 20:38:41 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-With the new OEQA thread support there are problems running
-devtool twice at the same time because only one instance of
-bitbake/devtool is allowed.
+oeqa/sdk/context.py - Use OETestContextThreaded.
+classes/testsdk.bbclass - Enable bb event thread mode to avoid
+corrupt the PIPE when multiple threads writes.
 
 [YOCTO #11450]
 
 Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
 ---
- meta/lib/oeqa/sdkext/cases/devtool.py    | 32 ++++++++++++++++++++++++++
- meta/lib/oeqa/sdkext/cases/sdk_update.py | 39 --------------------------------
- 2 files changed, 32 insertions(+), 39 deletions(-)
- delete mode 100644 meta/lib/oeqa/sdkext/cases/sdk_update.py
+ meta/classes/testsdk.bbclass | 4 ++++
+ meta/lib/oeqa/sdk/context.py | 5 +++--
+ 2 files changed, 7 insertions(+), 2 deletions(-)
 
-diff --git a/meta/lib/oeqa/sdkext/cases/devtool.py b/meta/lib/oeqa/sdkext/cases/devtool.py
-index a01bc0b..ea90517 100644
---- a/meta/lib/oeqa/sdkext/cases/devtool.py
-+++ b/meta/lib/oeqa/sdkext/cases/devtool.py
-@@ -1,12 +1,14 @@
- # Copyright (C) 2016 Intel Corporation
- # Released under the MIT license (see COPYING.MIT)
+diff --git a/meta/classes/testsdk.bbclass b/meta/classes/testsdk.bbclass
+index edea89c..8a9e680 100644
+--- a/meta/classes/testsdk.bbclass
++++ b/meta/classes/testsdk.bbclass
+@@ -24,6 +24,8 @@ def testsdk_main(d):
+     from oeqa.sdk.context import OESDKTestContext, OESDKTestContextExecutor
+     from oeqa.utils import make_logger_bitbake_compatible
  
-+import os
- import shutil
- import subprocess
++    bb.event.enable_threadlock()
++
+     pn = d.getVar("PN")
+     logger = make_logger_bitbake_compatible(logging.getLogger("BitBake"))
  
- from oeqa.sdkext.case import OESDKExtTestCase
- from oeqa.core.decorator.depends import OETestDepends
- from oeqa.core.decorator.oeid import OETestID
-+from oeqa.utils.httpserver import HTTPService
+@@ -97,6 +99,8 @@ def testsdkext_main(d):
+     from oeqa.utils import avoid_paths_in_environ, make_logger_bitbake_compatible, subprocesstweak
+     from oeqa.sdkext.context import OESDKExtTestContext, OESDKExtTestContextExecutor
  
- class DevtoolTest(OESDKExtTestCase):
-     @classmethod
-@@ -95,3 +97,33 @@ class DevtoolTest(OESDKExtTestCase):
-             self._run('devtool build %s ' % package_nodejs)
-         finally:
-             self._run('devtool reset %s '% package_nodejs)
++    bb.event.enable_threadlock()
 +
-+class SdkUpdateTest(OESDKExtTestCase):
-+    @classmethod
-+    def setUpClass(self):
-+        self.publish_dir = os.path.join(self.tc.sdk_dir, 'esdk_publish')
-+        if os.path.exists(self.publish_dir):
-+            shutil.rmtree(self.publish_dir)
-+        os.mkdir(self.publish_dir)
-+
-+        base_tcname = "%s/%s" % (self.td.get("SDK_DEPLOY", ''),
-+            self.td.get("TOOLCHAINEXT_OUTPUTNAME", ''))
-+        tcname_new = "%s-new.sh" % base_tcname
-+        if not os.path.exists(tcname_new):
-+            tcname_new = "%s.sh" % base_tcname
-+
-+        cmd = 'oe-publish-sdk %s %s' % (tcname_new, self.publish_dir)
-+        subprocess.check_output(cmd, shell=True)
-+
-+        self.http_service = HTTPService(self.publish_dir)
-+        self.http_service.start()
-+
-+        self.http_url = "http://127.0.0.1:%d" % self.http_service.port
-+
-+    def test_sdk_update_http(self):
-+        output = self._run("devtool sdk-update \"%s\"" % self.http_url)
-+
-+    @classmethod
-+    def tearDownClass(self):
-+        self.http_service.stop()
-+        shutil.rmtree(self.publish_dir)
-diff --git a/meta/lib/oeqa/sdkext/cases/sdk_update.py b/meta/lib/oeqa/sdkext/cases/sdk_update.py
-deleted file mode 100644
-index 2f8598b..0000000
---- a/meta/lib/oeqa/sdkext/cases/sdk_update.py
-+++ /dev/null
-@@ -1,39 +0,0 @@
--# Copyright (C) 2016 Intel Corporation
--# Released under the MIT license (see COPYING.MIT)
--
--import os
--import shutil
--import subprocess
--
--from oeqa.sdkext.case import OESDKExtTestCase
--from oeqa.utils.httpserver import HTTPService
--
--class SdkUpdateTest(OESDKExtTestCase):
--    @classmethod
--    def setUpClass(self):
--        self.publish_dir = os.path.join(self.tc.sdk_dir, 'esdk_publish')
--        if os.path.exists(self.publish_dir):
--            shutil.rmtree(self.publish_dir)
--        os.mkdir(self.publish_dir)
--
--        base_tcname = "%s/%s" % (self.td.get("SDK_DEPLOY", ''),
--            self.td.get("TOOLCHAINEXT_OUTPUTNAME", ''))
--        tcname_new = "%s-new.sh" % base_tcname
--        if not os.path.exists(tcname_new):
--            tcname_new = "%s.sh" % base_tcname
--
--        cmd = 'oe-publish-sdk %s %s' % (tcname_new, self.publish_dir)
--        subprocess.check_output(cmd, shell=True)
--
--        self.http_service = HTTPService(self.publish_dir)
--        self.http_service.start()
--
--        self.http_url = "http://127.0.0.1:%d" % self.http_service.port
--
--    def test_sdk_update_http(self):
--        output = self._run("devtool sdk-update \"%s\"" % self.http_url)
--
--    @classmethod
--    def tearDownClass(self):
--        self.http_service.stop()
--        shutil.rmtree(self.publish_dir)
+     pn = d.getVar("PN")
+     logger = make_logger_bitbake_compatible(logging.getLogger("BitBake"))
+ 
+diff --git a/meta/lib/oeqa/sdk/context.py b/meta/lib/oeqa/sdk/context.py
+index 82e4c19..b3d7c75 100644
+--- a/meta/lib/oeqa/sdk/context.py
++++ b/meta/lib/oeqa/sdk/context.py
+@@ -6,9 +6,10 @@ import sys
+ import glob
+ import re
+ 
+-from oeqa.core.context import OETestContext, OETestContextExecutor
++from oeqa.core.context import OETestContextExecutor
++from oeqa.core.threaded import OETestContextThreaded
+ 
+-class OESDKTestContext(OETestContext):
++class OESDKTestContext(OETestContextThreaded):
+     sdk_files_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "files")
+ 
+     def __init__(self, td=None, logger=None, sdk_dir=None, sdk_env=None,
 -- 
 2.1.4
 
