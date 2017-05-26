@@ -1,46 +1,46 @@
 Return-Path: <armccurdy@gmail.com>
-Received: from mail-wm0-f53.google.com (mail-wm0-f53.google.com [74.125.82.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 6772260766
+Received: from mail-wr0-f194.google.com (mail-wr0-f194.google.com
+	[209.85.128.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 58DD778150
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 May 2017 18:02:51 +0000 (UTC)
-Received: by mail-wm0-f53.google.com with SMTP id d127so1101556wmf.0
+	Fri, 26 May 2017 18:47:16 +0000 (UTC)
+Received: by mail-wr0-f194.google.com with SMTP id n104so174901wrb.3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 May 2017 11:02:53 -0700 (PDT)
+	Fri, 26 May 2017 11:47:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=97wiMuxwbXECF4YiURblHim8J1AnaqhjPwO9lPhb5bw=;
-	b=qTyX3pewxbRxpsi7NFZGjUB8Odg9J/46lLFLWv2yAJYOheAW/2zQTQKb5C8tw4mRSc
-	FSWZrTCdf4P5XoUFkCwFkdP4QHP75RCQeL6uU3WAWAMMdtis3Z02T0TjmKURXS2xldaG
-	BZ1SC9cNTCSWy7FBFfdqUy+6giOJFf7Pra3CZLpCv55FAB/+50agM2pdH2iSdPUPOy15
-	7O6aexod0iP0cJEIwGWvhgdpMFU7LRW8oZQKP0yHOjAygoi8oEzhqzyrixUPa/hDGqaW
-	QZgZn2zry/mKo7OVrbMKozfHhOe3A2stXiPJWT77KzGhoLBaQxvpfRAw938wxfYbbH/R
-	H/0A==
+	:cc; bh=nKQ/97Mgmr2nl7Otn7f+eY4gBPqcVWSZDGRyVWr8Nxk=;
+	b=stFCJ5hkxiHUkvM3NH6bnPvkiSlJINQZ2RMTtS/H87g8hnkai7cwjpj/NCGkS1gv96
+	sUJNDVPj14R6xJ/kpnP74TkDV6N7kVtMTheWcqGcDrJcDZPBS8hBBZKpAnjY+LwP7UZ6
+	mVCkZqNeFUl/jhTP/A7wyaiQkVhSvicq39Gg3KhCiWEzxksCpMFJs1m0/LU9/YsTqiRU
+	ivhwfIN4xIJd5ilZUSTvFQnH/QoC2doYtRtoyxoAQXk6Ffid7J18oa5LhsysjsQ3gTLr
+	cWyday3cUc9GgHwHWo+zLV9wZM/sWJu9VqJDMSuGAx87Ry/Uyb1deIFF9jER9slC2u8e
+	oFDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=97wiMuxwbXECF4YiURblHim8J1AnaqhjPwO9lPhb5bw=;
-	b=CNxwUyKs2MySHnfqMIDuG0Z2vF6vkgx1oy/mu3rIsTiuvrwXCh9EN414utCw/eU0Ph
-	yvnA4Nc1kHucvZtzPp+qO9mT8NwlpKRbOBOZ+Z4GTCg4S0wTS1n0uhOLichEFAXe8F8y
-	FfS5UEJ8ew4L/INiZ1tuO6SB9TMcM/1h6wdxNO/7nOyEJ9OPUL6vjjz1FH3N4lCtYvdE
-	s8Dg05YM32HYMajJtAYgXn7vS6UT6ewfsUZbO1x9xnedaKzgLaXuxha8S0QFfX1intQq
-	HvLDywjYVrxe5HCpCI8heC2oc0G87TVTScEP8vrKfa/aHa7Lz7FPmW/NALj9R1DBw0M6
-	R3ng==
-X-Gm-Message-State: AODbwcCTJ7Urkp2gzmEalXdLBL/lgx+aft61tapeTE5UXz8s74FNLRpr
-	jFv8nFkqduB1x0ASm+KL9YPSrHllTQ==
-X-Received: by 10.28.30.199 with SMTP id e190mr13482879wme.96.1495821772744;
-	Fri, 26 May 2017 11:02:52 -0700 (PDT)
+	bh=nKQ/97Mgmr2nl7Otn7f+eY4gBPqcVWSZDGRyVWr8Nxk=;
+	b=Nen4IsgMYyX7TJoizQRcyXABcTys1dGICV+SQMmZq0unc/RcacpGj2qcfEPUPtfitn
+	K0P6xoNU6BN8EPr5wVzF7EHcEUKNPHqcI8m87WlKwUZLP3jbjhHsqcQrys4e+Ks5T1hm
+	7vtnD8TpArBeFFQNLvEes+BzsmAxoxZMmdEBiCeOsGgM/HjesT7yP3F+njJ17nC+FUhA
+	30lSwVU6aFtxVBHXihfvfPINMVP10LrBxnLfxSARp6OPBSLkRHDXCEO9efYsRrcr5LEB
+	2NjUg0QHjMRinv5Y4VJX1m8h24ygpNRoOu9W/oAs+b9oNIIruSZNMpUBK6MMf2h0UOUF
+	4urQ==
+X-Gm-Message-State: AODbwcDyPtUqY6bewa8EJfdbRo8ZOixJgUWMXBUMSaUSGuS8HfMXZQGQ
+	Y1TJerCrER0zCBvNntHqz5Gx1tEz1nnj
+X-Received: by 10.223.170.67 with SMTP id q3mr3038657wrd.19.1495824437116;
+	Fri, 26 May 2017 11:47:17 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.223.153.18 with HTTP; Fri, 26 May 2017 11:02:52 -0700 (PDT)
-In-Reply-To: <20170526015202.13469-1-JPEWhacker@gmail.com>
-References: <CAJdd5GYuBbqarXs38M91atDyQhz17EcPDE9yKme-oiwDjCtaaA@mail.gmail.com>
-	<20170526015202.13469-1-JPEWhacker@gmail.com>
+Received: by 10.223.153.18 with HTTP; Fri, 26 May 2017 11:47:16 -0700 (PDT)
+In-Reply-To: <20170526070344.6053-1-mirza.krak@endian.se>
+References: <20170526070344.6053-1-mirza.krak@endian.se>
 From: Andre McCurdy <armccurdy@gmail.com>
-Date: Fri, 26 May 2017 11:02:52 -0700
-Message-ID: <CAJ86T=UEeMp_tjo4Nd3Jt5MxWcYmL7dRCHmEAamJdWjH5r6h2g@mail.gmail.com>
-To: Joshua Watt <jpewhacker@gmail.com>
+Date: Fri, 26 May 2017 11:47:16 -0700
+Message-ID: <CAJ86T=WvYZHsVBKjMkLOGko31sw5tMNki8fVz38u4DhRz6dG9Q@mail.gmail.com>
+To: Mirza Krak <mirza.krak@endian.se>
 Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [meta-oe][PATCH v4] openssh: Atomically generate host keys
+Subject: Re: [morty][PATCH 1/1] openssl-native: Compile with -fPIC
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,177 +53,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 May 2017 18:02:53 -0000
+X-List-Received-Date: Fri, 26 May 2017 18:47:18 -0000
 Content-Type: text/plain; charset="UTF-8"
 
- On Thu, May 25, 2017 at 6:52 PM, Joshua Watt <jpewhacker@gmail.com> wrote:
-> Generating the host keys atomically prevents power interruptions during
-> the first boot from leaving the key files incomplete, which often
-> prevents users from being able to ssh into the device.
+On Fri, May 26, 2017 at 12:03 AM, Mirza Krak <mirza.krak@endian.se> wrote:
+> From: Khem Raj <raj.khem@gmail.com>
+>
+> Fixes
+> | /usr/bin/ld: libcrypto.a(sha1-x86_64.o): relocation R_X86_64_PC32 against undefined symbol `OPENSSL_ia32cap_P' can not be used when making a shared object; recompile with -fPIC
+> | /usr/bin/ld: final link failed: Bad value
+
+Although this is an old thread, it appears to suggest that adding
+-Wl,-Bsymbolic may be the more "correct" solution:
+
+  https://rt.openssl.org/Ticket/Display.html?user=guest&pass=guest&id=1521
+
+Interestingly, that's actually the default in upstream openssl, but
+removed by an OE patch inherited from Debian:
+
+  http://git.openembedded.org/openembedded-core/tree/meta/recipes-connectivity/openssl/openssl/debian/no-symbolic.patch
+
+
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> (cherry picked from commit 0a19e72081771fca8ed94fb2a2a8996fd3dce00c)
+> Signed-off-by: Mirza Krak <mirza.krak@endian.se>
 > ---
->  meta/recipes-connectivity/openssh/openssh/init     | 22 +++----------
->  .../openssh/openssh/sshd-check-key                 | 36 ++++++++++++++++++++++
->  .../openssh/openssh/sshdgenkeys.service            | 25 +++++++--------
->  meta/recipes-connectivity/openssh/openssh_7.5p1.bb |  9 ++++++
->  4 files changed, 63 insertions(+), 29 deletions(-)
->  create mode 100644 meta/recipes-connectivity/openssh/openssh/sshd-check-key
 >
-> diff --git a/meta/recipes-connectivity/openssh/openssh/init b/meta/recipes-connectivity/openssh/openssh/init
-> index 1f63725..e02c479 100644
-> --- a/meta/recipes-connectivity/openssh/openssh/init
-> +++ b/meta/recipes-connectivity/openssh/openssh/init
-> @@ -45,23 +45,11 @@ check_config() {
->  }
+> I hit the same compiler error as in above commit message when running on morty branch.
 >
->  check_keys() {
-> -       # create keys if necessary
-> -       if [ ! -f $HOST_KEY_RSA ]; then
-> -               echo "  generating ssh RSA key..."
-> -               ssh-keygen -q -f $HOST_KEY_RSA -N '' -t rsa
-> -       fi
-> -       if [ ! -f $HOST_KEY_ECDSA ]; then
-> -               echo "  generating ssh ECDSA key..."
-> -               ssh-keygen -q -f $HOST_KEY_ECDSA -N '' -t ecdsa
-> -       fi
-> -       if [ ! -f $HOST_KEY_DSA ]; then
-> -               echo "  generating ssh DSA key..."
-> -               ssh-keygen -q -f $HOST_KEY_DSA -N '' -t dsa
-> -       fi
-> -       if [ ! -f $HOST_KEY_ED25519 ]; then
-> -               echo "  generating ssh ED25519 key..."
-> -               ssh-keygen -q -f $HOST_KEY_ED25519 -N '' -t ed25519
-> -       fi
-> +    @LIBEXECDIR@/sshd-check-key $HOST_KEY_RSA rsa
-> +    @LIBEXECDIR@/sshd-check-key $HOST_KEY_ECDSA ecdsa
-> +    @LIBEXECDIR@/sshd-check-key $HOST_KEY_DSA dsa
-> +    @LIBEXECDIR@/sshd-check-key $HOST_KEY_ED25519 ed25519
-> +    @BASE_BINDIR@/sync
->  }
+> I simply cherry-picked that fix in to morty branch. I looked in the git log of oe-core and it seems to me that it shall be ok to do that?
 >
->  export PATH="${PATH:+$PATH:}/usr/sbin:/sbin"
-> diff --git a/meta/recipes-connectivity/openssh/openssh/sshd-check-key b/meta/recipes-connectivity/openssh/openssh/sshd-check-key
-> new file mode 100644
-> index 0000000..d2613af
-> --- /dev/null
-> +++ b/meta/recipes-connectivity/openssh/openssh/sshd-check-key
-> @@ -0,0 +1,36 @@
-> +#! /bin/sh
-> +set -e
-
-Is this appropriate for an init script? Aborting on unforeseen errors
-may be worse than continuing.
-
-> +NAME="$1"
-> +TYPE="$2"
-> +
-> +if [ -z "$NAME" ] || [ -z "$TYPE" ]; then
-> +    echo "Usage: $0 NAME TYPE"
-> +    exit 1;
-
-Remove the stray ";"
-
-> +fi
-> +
-> +DIR="$(dirname "$NAME")"
-
-This could be moved down so dirname is only called if DIR is going to be used.
-
-> +if [ ! -f "$NAME" ]; then
-> +    echo "  generating ssh $TYPE key..."
-> +    ssh-keygen -q -f "${NAME}.tmp" -N '' -t $TYPE
-> +
-> +    # Move (Atomically rename) files
-> +    mv -f "${NAME}.tmp.pub" "${NAME}.pub"
-> +
-> +    # This sync does double duty: Ensuring that the data in the temporary
-> +    # private key file is on disk before the rename, and ensuring that the
-> +    # public key rename is completed before the private key rename, since we
-> +    # switch on the existence of the private key to trigger key generation.
-> +    # This does mean it is possible for the public key to exist, but be garbage
-> +    # but this is OK because in that case the private key won't exist and the
-> +    # keys will be regenerated.
-> +    #
-> +    # In the event that sync understands arguments that limit what it tries to
-> +    # fsync(), we provided them. If it does not, it will simply call sync()
-> +    # which is just as well
-> +    sync "${NAME}.pub" "$DIR" "${NAME}.tmp"
-> +
-> +    mv -f "${NAME}.tmp" "${NAME}"
-
-No need for "-f" here as ${NAME} is known not to exist.
-
-> +fi
-> +
-> diff --git a/meta/recipes-connectivity/openssh/openssh/sshdgenkeys.service b/meta/recipes-connectivity/openssh/openssh/sshdgenkeys.service
-> index 148e6ad..23fd351 100644
-> --- a/meta/recipes-connectivity/openssh/openssh/sshdgenkeys.service
-> +++ b/meta/recipes-connectivity/openssh/openssh/sshdgenkeys.service
-> @@ -1,22 +1,23 @@
->  [Unit]
->  Description=OpenSSH Key Generation
->  RequiresMountsFor=/var /run
-> -ConditionPathExists=!/var/run/ssh/ssh_host_rsa_key
-> -ConditionPathExists=!/var/run/ssh/ssh_host_dsa_key
-> -ConditionPathExists=!/var/run/ssh/ssh_host_ecdsa_key
-> -ConditionPathExists=!/var/run/ssh/ssh_host_ed25519_key
-> -ConditionPathExists=!/etc/ssh/ssh_host_rsa_key
-> -ConditionPathExists=!/etc/ssh/ssh_host_dsa_key
-> -ConditionPathExists=!/etc/ssh/ssh_host_ecdsa_key
-> -ConditionPathExists=!/etc/ssh/ssh_host_ed25519_key
-> +ConditionPathExists=|!/var/run/ssh/ssh_host_rsa_key
-> +ConditionPathExists=|!/var/run/ssh/ssh_host_dsa_key
-> +ConditionPathExists=|!/var/run/ssh/ssh_host_ecdsa_key
-> +ConditionPathExists=|!/var/run/ssh/ssh_host_ed25519_key
-> +ConditionPathExists=|!/etc/ssh/ssh_host_rsa_key
-> +ConditionPathExists=|!/etc/ssh/ssh_host_dsa_key
-> +ConditionPathExists=|!/etc/ssh/ssh_host_ecdsa_key
-> +ConditionPathExists=|!/etc/ssh/ssh_host_ed25519_key
+> This is a re-send since I messed up Subject the first time around [1]
 >
->  [Service]
->  Environment="SYSCONFDIR=/etc/ssh"
->  EnvironmentFile=-/etc/default/ssh
->  ExecStart=@BASE_BINDIR@/mkdir -p $SYSCONFDIR
-> -ExecStart=@BINDIR@/ssh-keygen -q -f ${SYSCONFDIR}/ssh_host_rsa_key -N '' -t rsa
-> -ExecStart=@BINDIR@/ssh-keygen -q -f ${SYSCONFDIR}/ssh_host_dsa_key -N '' -t dsa
-> -ExecStart=@BINDIR@/ssh-keygen -q -f ${SYSCONFDIR}/ssh_host_ecdsa_key -N '' -t ecdsa
-> -ExecStart=@BINDIR@/ssh-keygen -q -f ${SYSCONFDIR}/ssh_host_ed25519_key -N '' -t ed25519
-> +ExecStart=@LIBEXECDIR@/sshd-check-key ${SYSCONFDIR}/ssh_host_rsa_key rsa
-> +ExecStart=@LIBEXECDIR@/sshd-check-key ${SYSCONFDIR}/ssh_host_dsa_key dsa
-> +ExecStart=@LIBEXECDIR@/sshd-check-key ${SYSCONFDIR}/ssh_host_ecdsa_key ecdsa
-> +ExecStart=@LIBEXECDIR@/sshd-check-key ${SYSCONFDIR}/ssh_host_ed25519_key ed25519
-> +ExecStart=@BASE_BINDIR@/sync
->  Type=oneshot
->  RemainAfterExit=yes
-> diff --git a/meta/recipes-connectivity/openssh/openssh_7.5p1.bb b/meta/recipes-connectivity/openssh/openssh_7.5p1.bb
-> index 5b96745..c1fcda4 100644
-> --- a/meta/recipes-connectivity/openssh/openssh_7.5p1.bb
-> +++ b/meta/recipes-connectivity/openssh/openssh_7.5p1.bb
-> @@ -25,6 +25,7 @@ SRC_URI = "http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar
->             file://openssh-7.1p1-conditional-compile-des-in-cipher.patch \
->             file://openssh-7.1p1-conditional-compile-des-in-pkcs11.patch \
->             file://fix-potential-signed-overflow-in-pointer-arithmatic.patch \
-> +           file://sshd-check-key \
->             "
+> [1]. http://lists.openembedded.org/pipermail/openembedded-core/2017-May/136489.html
 >
->  PAM_SRC_URI = "file://sshd"
-> @@ -124,7 +125,15 @@ do_install_append () {
->         sed -i -e 's,@BASE_BINDIR@,${base_bindir},g' \
->                 -e 's,@SBINDIR@,${sbindir},g' \
->                 -e 's,@BINDIR@,${bindir},g' \
-> +               -e 's,@LIBEXECDIR@,${libexecdir}/${BPN},g' \
->                 ${D}${systemd_unitdir}/system/sshd.socket ${D}${systemd_unitdir}/system/*.service
-> +
-> +       sed -i -e 's,@LIBEXECDIR@,${libexecdir}/${BPN},g' \
-> +               -e 's,@BASE_BINDIR@,${base_bindir},g' \
-> +               ${D}${sysconfdir}/init.d/sshd
-> +
-> +       install -d ${D}${libexecdir}/${BPN}
-> +       install -m 0755 ${WORKDIR}/sshd-check-key ${D}${libexecdir}/${BPN}
->  }
+>  meta/recipes-connectivity/openssl/openssl_1.0.2j.bb | 1 +
+>  1 file changed, 1 insertion(+)
 >
->  do_install_ptest () {
+> diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.2j.bb b/meta/recipes-connectivity/openssl/openssl_1.0.2j.bb
+> index 9a7cdedd05..b6fb126349 100644
+> --- a/meta/recipes-connectivity/openssl/openssl_1.0.2j.bb
+> +++ b/meta/recipes-connectivity/openssl/openssl_1.0.2j.bb
+> @@ -5,6 +5,7 @@ require openssl.inc
+>  DEPENDS += "cryptodev-linux"
+>
+>  CFLAG += "-DHAVE_CRYPTODEV -DUSE_CRYPTODEV_DIGESTS"
+> +CFLAG_append_class-native = " -fPIC"
+>
+>  LIC_FILES_CHKSUM = "file://LICENSE;md5=27ffa5d74bb5a337056c14b2ef93fbf6"
+>
 > --
-> 2.9.3
+> 2.13.0
 >
 > --
 > _______________________________________________
