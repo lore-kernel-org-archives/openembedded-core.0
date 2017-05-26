@@ -1,47 +1,46 @@
-Return-Path: <jpewhacker@gmail.com>
-Received: from mail-wm0-f45.google.com (mail-wm0-f45.google.com [74.125.82.45])
-	by mail.openembedded.org (Postfix) with ESMTP id A280078246
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm0-f42.google.com (mail-wm0-f42.google.com [74.125.82.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 42E3C7827A
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 May 2017 13:33:04 +0000 (UTC)
-Received: by mail-wm0-f45.google.com with SMTP id 123so6189188wmg.1
+	Fri, 26 May 2017 13:37:14 +0000 (UTC)
+Received: by mail-wm0-f42.google.com with SMTP id 7so127988814wmo.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 May 2017 06:33:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=88fZvmb00dV8lh6ZMDd3N+SXl9tqmTk/eZg6Qy5ZuCQ=;
-	b=GtbO3dL9TtVJ07hbfGeBbqPT/lUGXbrfiDerpF3FZmL9kwsvNYlUwhcvGGQg47YEgH
-	bDeHiLHw7OR/hQtb58GgpGaLN97BLHgu8Xo5KC5d1gbjHSj0JdsZVZK3GM81FyzyDd4z
-	cmEyuXcAN2siig3nJAUoX4urP7nUfHNZl3MVNYzxLHV3R/6uAhG7zxa+5E0PdZBgLz2D
-	wfaMTfTq6TLByi51hQ+jk5F6vHcBpHqkH6xiBEilLFo9/WIQfz+pTGb+V2AQeQVNrF2d
-	yhMBhY/iJo3Bsy7vAhMrmugVt6qbulSVFLwzu0KwIeVlwcjhiAYKEvZzDAQbUEuUygUz
-	4miw==
+	Fri, 26 May 2017 06:37:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=5dabaFz0ygt1TRmRpI7uEWNeCXa6mX/t+JheIr19EW0=;
+	b=gVUJkcq3DoNN0Zesn3VzAsFXy5r45eARCN6GyarlYD8ca/iBkTJcOnxZl/2NTYiL+u
+	I0HEyYnV6UpqSHuthDHVBD1ZZmdfCnNIS5sigu0yhFTSnTMADvsC8kzU0SMjvoepa6Xs
+	Yl2GF2rFkq41XY/wFIzKmANS8ki5fm/ctdd05eW2qDuE+c708M3LCFp16TX6MCTYuxuw
+	SCGJkvIrMOX4sms1RShFgq58dlkdjzheEVuwYgXYuwypc5/THivFyTlOwGHlyLeNoIkl
+	RNRbOktOsQ3t8rkaDjBlARmWA8y7LQNsLWINv2dGFFlt7wz/oM2eBX/KY5j4M3FrYvhh
+	Vxaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=88fZvmb00dV8lh6ZMDd3N+SXl9tqmTk/eZg6Qy5ZuCQ=;
-	b=K2/w2G+IrMzfMvxEWdOXCMbG7vkmNYUBeQKwyG/xFEsrgl/UU7xUaWcK/QwbLJ3TdF
-	DRRlQq2fsutQj+jxz16xV507iR6hcFyU73pwPOTrphsj7Xz8a68GxLnwBDM6KUf05/9M
-	bLUVpASFmEvodm73gEaZ/F+By6CMQ7WukOnAf4Uks0KkzJto3SFa2Snj6gLlX0e6DzWH
-	8uo06bkPjs0MN9QIEYMuoye6ibUSXe9UoxxURAd8mfvAfGDEdu6NHaSu+SisAHzMQYtI
-	qJ0D2kXgO2yhENyYxANI9zhJSNFq8BLoqJJ7bnRiuT2cN/5ZxyXXg8uXZ+Ag3c3BlXQW
-	ktKQ==
-X-Gm-Message-State: AODbwcDTsthntZ7vAYOkDSu/b2bW7UVhm75Kq+2EfJbZhuTn4RV8eHI6
-	Olw5u6oDEFvjj4pn/wNSeRv/HVsX6A==
-X-Received: by 10.28.87.16 with SMTP id l16mr2299197wmb.114.1495805585524;
-	Fri, 26 May 2017 06:33:05 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.28.128.65 with HTTP; Fri, 26 May 2017 06:33:04 -0700 (PDT)
-In-Reply-To: <1495805613.26945.11.camel@linux.intel.com>
-References: <CAJdd5GYuBbqarXs38M91atDyQhz17EcPDE9yKme-oiwDjCtaaA@mail.gmail.com>
-	<20170526015428.13714-1-JPEWhacker@gmail.com>
-	<1495805613.26945.11.camel@linux.intel.com>
-From: Joshua Watt <jpewhacker@gmail.com>
-Date: Fri, 26 May 2017 08:33:04 -0500
-Message-ID: <CAJdd5GY2PvzsxHB+evuaOKOMsnKh3ZnwiWTsbdruQPX3J1A8+g@mail.gmail.com>
-To: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [meta-oe][PATCH v5] openssh: Atomically generate host keys
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=5dabaFz0ygt1TRmRpI7uEWNeCXa6mX/t+JheIr19EW0=;
+	b=QKzcqecF7dn6PYsMZwSMNDRQL0yBFjzS1ei2hLDUjlpmBO8+xckDauKcY3udnnGxri
+	BksfXkEUFyyFuzbXIOyjgre+QD4tXeUke1rj7AZn2rLMc6TpINUemJmSCHZXnHFrX2C9
+	1v58O0s6EJk++bJTHTCl4NyDPoy/Bqu4FdqTOLA4N2qsE+ThekTDJSkpSlVZ82Wz+7Xx
+	Or7KBTlgQpjWTBg5ZaxsZNsNCDEHnjUpfc6C5U/df43d+AE/hbVecqolFCOAU9PLRrFm
+	aXCtnpykhmgD6Fq1i/P+ajcjhAXARqpspF0zqzTIH+cCS1th3iI7/bMyd9kgFRYNchVO
+	PUeQ==
+X-Gm-Message-State: AODbwcCEdicHw+ygLkdRlbFiGJ4TxRspcGCqF0JwfcTWZU02Uu0Xa8XF
+	D0kBuMes0MC9OxL3WzM=
+X-Received: by 10.28.224.135 with SMTP id x129mr2048354wmg.45.1495805835556;
+	Fri, 26 May 2017 06:37:15 -0700 (PDT)
+Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id 4sm1078185wry.31.2017.05.26.06.37.14
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 26 May 2017 06:37:15 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 26 May 2017 14:37:13 +0100
+Message-Id: <1495805833-413-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.8.1
+Subject: [PATCH] gstreamer1.0-omx: delete broken m4 files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,29 +53,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 May 2017 13:33:05 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 26 May 2017 13:37:15 -0000
 
-On Fri, May 26, 2017 at 8:33 AM, Leonardo Sandoval
-<leonardo.sandoval.gonzalez@linux.intel.com> wrote:
-> Just a minor comment: there is no need to include any prefix besides
-> [PATCH vN]. Also, patches either go to oe-core or meta-oe, so it makes
-> no sense to send the patch to the oe-core and using the [meta-oe] as
-> prefix.
+These m4 files need to be deleted so that the versions in the sysroot that we've
+patched are used.  Specifically, building documentation fails as the gtk-doc
+checks fail.
 
-Ya, sorry. I was following these directions and didn't read closely enough:
-https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEmbedded
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-multimedia/gstreamer/gstreamer1.0-omx.inc | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
->
->
-> Leo
->
->
->
-> On Thu, 2017-05-25 at 20:54 -0500, Joshua Watt wrote:
->> Generating the host keys atomically prevents power interruptions during
->> the first boot from leaving the key files incomplete, which often
->> prevents users from being able to ssh into the device.
->
->
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx.inc
+index 05562b1..5d92351 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx.inc
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx.inc
+@@ -29,10 +29,17 @@ python __anonymous () {
+         d.setVar("PACKAGE_ARCH", d.getVar("MACHINE_ARCH"))
+ }
+ 
++delete_pkg_m4_file() {
++    # Delete m4 files which we provide patched versions of but will be ignored
++    # if these exist
++	rm -f "${S}/common/m4/pkg.m4"
++	rm -f "${S}/common/m4/gtk-doc.m4"
++}
++do_configure[prefuncs] += "delete_pkg_m4_file"
++
+ set_omx_core_name() {
+ 	sed -i -e "s;^core-name=.*;core-name=${GSTREAMER_1_0_OMX_CORE_NAME};" "${D}${sysconfdir}/xdg/gstomx.conf"
+ }
+-
+ do_install[postfuncs] += " set_omx_core_name "
+ 
+ FILES_${PN} += "${libdir}/gstreamer-1.0/*.so"
+-- 
+2.8.1
+
 
