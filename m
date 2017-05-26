@@ -1,46 +1,47 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-wm0-f47.google.com (mail-wm0-f47.google.com [74.125.82.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 178A97827A
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f170.google.com (mail-qk0-f170.google.com
+	[209.85.220.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 73BDC78222
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 May 2017 14:12:12 +0000 (UTC)
-Received: by mail-wm0-f47.google.com with SMTP id d127so22089599wmf.0
+	Fri, 26 May 2017 14:30:37 +0000 (UTC)
+Received: by mail-qk0-f170.google.com with SMTP id u75so8569436qka.3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 May 2017 07:12:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	Fri, 26 May 2017 07:30:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=MtKlCSR1gPjr7ON0V2LkClWYuIBQZs06SZGMclremUg=;
-	b=Xys5L82lAp3NNQp5feuQu6w7mSGNrvCDgSLQMMFZfYCNafLsNb9TgJ9Z8MmTVK1oy4
-	ahjR41Bt43KaUd91L3TBj17Q49OXEuPoQBI0tsY8Fmfp8025J+Gn/5GNBJWTjTaxxvCv
-	HP6fpcw93vkILq+Une3mEZ0yr9EAx6HnR5zbHrY/I/XHWq+Z4iup4QoT1yp7DpESSiKy
-	SacEGUgoWaYy5I9aysRtq0VGQ/o6oD91z4VL+r+quYCSPFIm5aFIZfPzKEDemMjR5hMd
-	SygWCZaDffFqq5haUSm2wEo7+2Qtcs/fR6phAKTPdV7xXi2P3L8tliPF24mLrDJxmhwF
-	xWxw==
+	:cc; bh=2meyPE/CGbZSc9FDt7mwplw0/DNuo80KnT6wkZxaTkM=;
+	b=MHgFzqzb5zN7QGF+YZQ/W+bFn0WPBe8A8tiLMsr35t8sRY+iI0j0hgB2FD3+/UcG6G
+	Vajv41b1x1sQzNq9dsJaiwSQXTVb+sknSxh4iSfE1Vy4dRPe1NSpdQQxkfKeFoO2wvRH
+	ZSZPr41PPjhT03QACoK61iDIAEZ/2znf/s2fUoWdUusz3fSHTdhejLhNpnv04+Ny58hk
+	qw07b+4vHmsD0f8DEuJto2YbpJvrpV6jqwdpFbcgW/F5l3h85QFaGggN1q9h8RJYArUf
+	2xwyPB10oDXxfBE8TiQZEwIpk7VAc9tilaPBd3/I3jfJSIaCnywMXx+2Fc8XM20oru+V
+	7Ltw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=MtKlCSR1gPjr7ON0V2LkClWYuIBQZs06SZGMclremUg=;
-	b=Tj7y31cLKdwwANcXD0lzuQpud2t5pf344Vx6S2PfKg5CDEJajcsmJngJK3kMp9c4IG
-	//yESarAIwgHyJ27d2Jo8GzxYml3WWVlJqN/eiD5rB0RcdZMDrTD06f+6Cle1OJPPoQW
-	OR+f0e6k6VXTBpLmE8J05ahg7XiXAU2LmgmFeP1WB7gAy1Slkxv7U0w8DhdEiMnoePYK
-	o3+RLDVtISObXCWBOaSplgF4cV1afpCuQriJpBSYrLChHApKJV1j8PM+KlbTOSBmkvki
-	5QSQ+YCgUW6MEgtgyGI4HO37+G7TTy7b93WOMNwhlZYDh5qFTR8jhxwUe7c3mdJIzo3u
-	lSuw==
-X-Gm-Message-State: AODbwcBjKEBwQ0z6XKInurS4mr4VgiAoeaSbU0TWf28ERaLTB0HhoJMT
-	BPr/xGX3TaRVr6/ROXw7pQxAIDH7lw==
-X-Received: by 10.80.147.195 with SMTP id o61mr2570556eda.178.1495807933818;
-	Fri, 26 May 2017 07:12:13 -0700 (PDT)
+	bh=2meyPE/CGbZSc9FDt7mwplw0/DNuo80KnT6wkZxaTkM=;
+	b=mbhbEkH1CXp1gRZUglN447RO0P+LuR9NM2HmNr0ZVnGZv4W+ZTkkwO+gfu+rCBuLyJ
+	2WWc7gzX279HTCs+juMCXjRIZKykOXMxeNkjvc3vv05p2ReCW38eT37ZXru7WBxTO0tY
+	8/gzz2/NKnQo9HAzU/Mck3yEtJpvUd+A+Hxe7kci42aXOwagLDNHYhGzJ7phn4jHAzhG
+	zdzYka03LSL5t817/EAuOS6hfjiT9ACNs1jrULkRN1u85uw7guVgRddJuG6H2aAB4pzU
+	iu/NfyQbs+3ciQzNMYdmT1iVv1II3Vt8w9BtIqXRje9YDxIpNvQzs0UAt9NBd7sqxvKI
+	RgQA==
+X-Gm-Message-State: AODbwcCZ+/I0VKtCCcE6f6sUZNpvVJcO7JfaMKB5UG5zD5bI0rD296dC
+	AwKgRnNylf2sugX3KyNfgEwEU53wk+MR6u8=
+X-Received: by 10.55.116.133 with SMTP id p127mr2296789qkc.154.1495809038350; 
+	Fri, 26 May 2017 07:30:38 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.80.195.143 with HTTP; Fri, 26 May 2017 07:12:13 -0700 (PDT)
-In-Reply-To: <CAJTo0Lbhw_Rmds0A636rBwxgy1Gzj7=9AWk2ks+7T1-5Jou8bQ@mail.gmail.com>
-References: <20170525144732.15447-1-raj.khem@gmail.com>
-	<CAJTo0Lbhw_Rmds0A636rBwxgy1Gzj7=9AWk2ks+7T1-5Jou8bQ@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 26 May 2017 07:12:13 -0700
-Message-ID: <CAMKF1srF24xs81YzedkuNTkv+RY7sem5oaeDfek_caYgvvNxGg@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
+Received: by 10.140.41.115 with HTTP; Fri, 26 May 2017 07:30:17 -0700 (PDT)
+In-Reply-To: <1495775169-24954-1-git-send-email-fan.xin@jp.fujitsu.com>
+References: <1495775169-24954-1-git-send-email-fan.xin@jp.fujitsu.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 26 May 2017 15:30:17 +0100
+Message-ID: <CAJTo0LYTGn2kObGysTxTPvRj8GR_ahkZO3s=DzvXPo3BWBY5bg@mail.gmail.com>
+To: Fan Xin <fan.xin@jp.fujitsu.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [meta-perl][PATCH] meta-perl: Make glibc-gconv deps apply for glibc based systems alone
+Subject: Re: [PATCH] elfutils: Upgrade 0.168 to 0.169
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,49 +54,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 May 2017 14:12:13 -0000
-Content-Type: multipart/alternative; boundary="f403045c8ff08c2e3d05506decd5"
+X-List-Received-Date: Fri, 26 May 2017 14:30:37 -0000
+Content-Type: multipart/alternative; boundary="001a114fde726210eb05506e2ec7"
 
---f403045c8ff08c2e3d05506decd5
+--001a114fde726210eb05506e2ec7
 Content-Type: text/plain; charset="UTF-8"
 
-On Friday, May 26, 2017, Burton, Ross <ross.burton@intel.com> wrote:
+On 26 May 2017 at 06:06, Fan Xin <fan.xin@jp.fujitsu.com> wrote:
 
->
-> On 25 May 2017 at 15:47, Khem Raj <raj.khem@gmail.com
-> <javascript:_e(%7B%7D,'cvml','raj.khem@gmail.com');>> wrote:
->
->> musl does not provide separate gconv packages
->>
->
-> Wrong list :)
+> 1) Upgrade elfutils from 0.168 to 0.169
+> 2) Delete unnecessary patches which has been merged into 0.169
+> 3) Rebase the patch files for 0.169
 >
 
-Ah
+ERROR: elfutils-0.169-r0 do_fetch: Fetcher failure for URL:
+'file://aarch64_uio.patch'. Unable to fetch URL from any source.
 
+Ross
 
->
-> Ross
->
-
---f403045c8ff08c2e3d05506decd5
+--001a114fde726210eb05506e2ec7
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<br><br>On Friday, May 26, 2017, Burton, Ross &lt;<a href=3D"mailto:ross.bu=
-rton@intel.com">ross.burton@intel.com</a>&gt; wrote:<br><blockquote class=
-=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padd=
-ing-left:1ex"><div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D=
-"gmail_quote">On 25 May 2017 at 15:47, Khem Raj <span dir=3D"ltr">&lt;<a hr=
-ef=3D"javascript:_e(%7B%7D,&#39;cvml&#39;,&#39;raj.khem@gmail.com&#39;);" t=
-arget=3D"_blank">raj.khem@gmail.com</a>&gt;</span> wrote:<br><blockquote cl=
-ass=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;p=
-adding-left:1ex"><div>musl does not provide separate gconv packages<br></di=
-v></blockquote></div><br>Wrong list :)</div></div></blockquote><div><br></d=
-iv><div>Ah</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D=
-"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div dir=3D=
-"ltr"><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross<=
-/div></div>
-</blockquote>
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 26 May 2017 at 06:06, Fan Xin <span dir=3D"ltr">&lt;<a href=3D"mailto:fa=
+n.xin@jp.fujitsu.com" target=3D"_blank">fan.xin@jp.fujitsu.com</a>&gt;</spa=
+n> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px =
+0.8ex;border-left-width:1px;border-left-style:solid;border-left-color:rgb(2=
+04,204,204);padding-left:1ex"><div id=3D"gmail-:2s6" class=3D"gmail-a3s gma=
+il-aXjCH gmail-m15c4325c486895af">1) Upgrade <span class=3D"gmail-il">elfut=
+ils</span> from 0.168 to 0.169<br>
+2) Delete unnecessary patches which has been merged into 0.169<br>
+3) Rebase the patch files for 0.169<br></div></blockquote></div><br>ERROR: =
+elfutils-0.169-r0 do_fetch: Fetcher failure for URL: &#39;file://aarch64_ui=
+o.patch&#39;. Unable to fetch URL from any source.<br></div><div class=3D"g=
+mail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
 
---f403045c8ff08c2e3d05506decd5--
+--001a114fde726210eb05506e2ec7--
