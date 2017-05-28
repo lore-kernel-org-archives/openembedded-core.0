@@ -1,27 +1,19 @@
-Return-Path: <Li.Zhou@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 080E7780E4
+Return-Path: <romain.perier@collabora.com>
+X-Greylist: delayed 421 seconds by postgrey-1.34 at layers.openembedded.org;
+	Sun, 28 May 2017 06:58:05 UTC
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+	by mail.openembedded.org (Postfix) with ESMTP id 494EC71AB8
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 27 May 2017 09:47:17 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v4R9lJnE015757
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 27 May 2017 02:47:19 -0700 (PDT)
-Received: from pek-lpggp2.wrs.com (128.224.153.75) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server (TLS) id 14.3.294.0;
-	Sat, 27 May 2017 02:47:18 -0700
-From: Li Zhou <li.zhou@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Sat, 27 May 2017 17:46:16 +0800
-Message-ID: <1495878376-29266-2-git-send-email-li.zhou@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1495878376-29266-1-git-send-email-li.zhou@windriver.com>
-References: <1495878376-29266-1-git-send-email-li.zhou@windriver.com>
-MIME-Version: 1.0
-X-Originating-IP: [128.224.153.75]
-Subject: [PATCH V2 2/2] python3: Move config-*/Makefile from misc package to dev package
+	Sun, 28 May 2017 06:58:05 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(Authenticated sender: rperier) with ESMTPSA id C5291260A9E
+From: Romain Perier <romain.perier@collabora.com>
+To: Qi.Chen@windriver.com
+Date: Sun, 28 May 2017 08:50:56 +0200
+Message-Id: <20170528065056.15481-1-romain.perier@collabora.com>
+X-Mailer: git-send-email 2.11.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH v3] busybox: make SYSLOGD optionnal
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,45 +26,100 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 27 May 2017 09:47:18 -0000
-Content-Type: text/plain
+X-List-Received-Date: Sun, 28 May 2017 06:58:07 -0000
 
-Move config-*/Makefile in libdir from misc package to dev package for
-python3, because it is only needed in development process.
+Some distros might choose another syslogd provider like rsyslogd.
+update-alternative will update the link from syslogd to the right
+provider. However the syslogd feature is still present and enabled
+in busybox.
 
-Signed-off-by: Li Zhou <li.zhou@windriver.com>
+This commit adds a new configuration fragment to make syslogd
+optionnal in busybox.
+
+Signed-off-by: Romain Perier <romain.perier@collabora.com>
+Acked-by: Otavio Salvador <otavio@ossystems.com.br>
 ---
- meta/recipes-devtools/python/python-3.5-manifest.inc | 2 +-
- scripts/contrib/python/generate-manifest-3.5.py      | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-devtools/python/python-3.5-manifest.inc b/meta/recipes-devtools/python/python-3.5-manifest.inc
-index 1e20f00..3d9532d 100644
---- a/meta/recipes-devtools/python/python-3.5-manifest.inc
-+++ b/meta/recipes-devtools/python/python-3.5-manifest.inc
-@@ -66,7 +66,7 @@ FILES_${PN}-debugger="${libdir}/python3.5/bdb.* ${libdir}/python3.5/__pycache__/
+Changes in v3:
+- Rebased onto oe-core master
+- Added Acked-by tag for Otavio
+
+Changes in v2:
+- Rebased onto master branch (thanks to patchwork)
+
+ meta/recipes-core/busybox/busybox.inc       |  6 +++---
+ meta/recipes-core/busybox/busybox/defconfig | 20 +++++++++-----------
+ meta/recipes-core/busybox/busybox_1.24.1.bb |  1 +
+ 3 files changed, 13 insertions(+), 14 deletions(-)
+
+diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
+index adc6e9a..b23eaa1 100644
+--- a/meta/recipes-core/busybox/busybox.inc
++++ b/meta/recipes-core/busybox/busybox.inc
+@@ -39,7 +39,7 @@ INITSCRIPT_NAME_${PN}-syslog = "syslog"
+ INITSCRIPT_NAME_${PN}-udhcpd = "busybox-udhcpd"
  
- SUMMARY_${PN}-dev="Python development package"
- RDEPENDS_${PN}-dev="${PN}-core"
--FILES_${PN}-dev="${includedir} ${libdir}/lib*${SOLIBSDEV} ${libdir}/*.la ${libdir}/*.a ${libdir}/*.o ${libdir}/pkgconfig ${base_libdir}/*.a ${base_libdir}/*.o ${datadir}/aclocal ${datadir}/pkgconfig ${libdir}/python3.5/config/Makefile ${libdir}/python3.5/config/Makefile/__pycache__ "
-+FILES_${PN}-dev="${includedir} ${libdir}/lib*${SOLIBSDEV} ${libdir}/*.la ${libdir}/*.a ${libdir}/*.o ${libdir}/pkgconfig ${base_libdir}/*.a ${base_libdir}/*.o ${datadir}/aclocal ${datadir}/pkgconfig ${libdir}/python3.5/config*/Makefile ${libdir}/python3.5/config*/Makefile/__pycache__ "
+ SYSTEMD_PACKAGES = "${PN}-syslog"
+-SYSTEMD_SERVICE_${PN}-syslog = "busybox-syslog.service"
++SYSTEMD_SERVICE_${PN}-syslog = "${@bb.utils.contains('SRC_URI', 'file://syslog.cfg', 'busybox-syslog.service', '', d)}"
  
- SUMMARY_${PN}-difflib="Python helpers for computing deltas between objects"
- RDEPENDS_${PN}-difflib="${PN}-lang ${PN}-re"
-diff --git a/scripts/contrib/python/generate-manifest-3.5.py b/scripts/contrib/python/generate-manifest-3.5.py
-index 075860c..a8b5059 100755
---- a/scripts/contrib/python/generate-manifest-3.5.py
-+++ b/scripts/contrib/python/generate-manifest-3.5.py
-@@ -224,7 +224,7 @@ if __name__ == "__main__":
-     "${base_libdir}/*.o " +
-     "${datadir}/aclocal " +
-     "${datadir}/pkgconfig " +
--    "config/Makefile ")
-+    "config*/Makefile ")
+ CONFFILES_${PN}-syslog = "${sysconfdir}/syslog-startup.conf.${BPN}"
+ CONFFILES_${PN}-mdev = "${sysconfdir}/mdev.conf"
+@@ -329,8 +329,8 @@ inherit update-alternatives
  
-     m.addPackage( "${PN}-2to3", "Python automated Python 2 to 3 code translator", "${PN}-core",
-     "lib2to3" ) # package
+ ALTERNATIVE_PRIORITY = "50"
+ 
+-ALTERNATIVE_${PN}-syslog += "syslog-conf"
+-ALTERNATIVE_LINK_NAME[syslog-conf] = "${sysconfdir}/syslog.conf"
++ALTERNATIVE_${PN}-syslog += "${@bb.utils.contains('SRC_URI', 'file://syslog.cfg', 'syslog-conf', '', d)}"
++ALTERNATIVE_LINK_NAME[syslog-conf] = "${@bb.utils.contains('SRC_URI', 'file://syslog.cfg', "${sysconfdir}/syslog.conf", '', d)}"
+ 
+ python () {
+     if bb.utils.contains('DISTRO_FEATURES', 'sysvinit', True, False, d):
+diff --git a/meta/recipes-core/busybox/busybox/defconfig b/meta/recipes-core/busybox/busybox/defconfig
+index 8803b52..54202ef 100644
+--- a/meta/recipes-core/busybox/busybox/defconfig
++++ b/meta/recipes-core/busybox/busybox/defconfig
+@@ -1053,17 +1053,15 @@ CONFIG_FEATURE_SH_HISTFILESIZE=y
+ #
+ # System Logging Utilities
+ #
+-CONFIG_SYSLOGD=y
+-CONFIG_FEATURE_ROTATE_LOGFILE=y
+-CONFIG_FEATURE_REMOTE_LOG=y
+-CONFIG_FEATURE_SYSLOGD_DUP=y
+-CONFIG_FEATURE_SYSLOGD_CFG=y
+-CONFIG_FEATURE_SYSLOGD_READ_BUFFER_SIZE=256
+-CONFIG_FEATURE_IPC_SYSLOG=y
+-CONFIG_FEATURE_IPC_SYSLOG_BUFFER_SIZE=64
+-CONFIG_LOGREAD=y
+-CONFIG_FEATURE_LOGREAD_REDUCED_LOCKING=y
+-CONFIG_FEATURE_KMSG_SYSLOG=y
++# CONFIG_SYSLOGD is not set
++# CONFIG_FEATURE_ROTATE_LOGFILE is not set
++# CONFIG_FEATURE_REMOTE_LOG is not set
++# CONFIG_FEATURE_SYSLOGD_DUP is not set
++# CONFIG_FEATURE_SYSLOGD_CFG is not set
++# CONFIG_FEATURE_IPC_SYSLOG is not set
++# CONFIG_LOGREAD is not set
++# CONFIG_FEATURE_LOGREAD_REDUCED_LOCKING is not set
++# CONFIG_FEATURE_KMSG_SYSLOG is not set
+ CONFIG_KLOGD=y
+ 
+ #
+diff --git a/meta/recipes-core/busybox/busybox_1.24.1.bb b/meta/recipes-core/busybox/busybox_1.24.1.bb
+index e26dfff..1baadeac 100644
+--- a/meta/recipes-core/busybox/busybox_1.24.1.bb
++++ b/meta/recipes-core/busybox/busybox_1.24.1.bb
+@@ -40,6 +40,7 @@ SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
+            file://resize.cfg \
+            ${@["", "file://init.cfg"][(d.getVar('VIRTUAL-RUNTIME_init_manager') == 'busybox')]} \
+            ${@["", "file://mdev.cfg"][(d.getVar('VIRTUAL-RUNTIME_dev_manager') == 'busybox-mdev')]} \
++           file://syslog.cfg \
+            file://inittab \
+            file://rcS \
+            file://rcK \
 -- 
-1.9.1
+1.8.3.1
 
 
