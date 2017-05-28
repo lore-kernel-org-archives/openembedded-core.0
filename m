@@ -1,17 +1,60 @@
-Return-Path: <romain.perier@collabora.com>
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
-	by mail.openembedded.org (Postfix) with ESMTP id 6E2A7781BB
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
+	by mail.openembedded.org (Postfix) with ESMTP id A71E177F66
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 28 May 2017 06:59:46 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(Authenticated sender: rperier) with ESMTPSA id A20BE260A9E
-From: Romain Perier <romain.perier@collabora.com>
-To: Qi.Chen@windriver.com
-Date: Sun, 28 May 2017 08:59:40 +0200
-Message-Id: <20170528065940.16603-1-romain.perier@collabora.com>
-X-Mailer: git-send-email 2.11.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH v4] busybox: make SYSLOGD optionnal
+	Sun, 28 May 2017 22:30:59 +0000 (UTC)
+Received: by mail-wm0-f68.google.com with SMTP id k15so13646123wmh.3
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 28 May 2017 15:31:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
+	:cc; bh=ZCUNcPV59vl3jOub/kJz8J+eTsF3UwLoVWXV7SwRg1g=;
+	b=BSO5g6oWWJXvV2uqm3HpQTMmVjGtcq6aOyFJH1fu6SBJhlfbi+j4rVFxLmX6SafgRH
+	lPvafnxkmrugF/XTY1ARrPNJ5jk1pQgM3RLeXkVJI7wDc4T76GyskGSImfm1HH+8b+eM
+	vAnDcerB7Z4Kdtd1a1Q9HMD7tf73tr4dd0hjU7/jePP00YgGzRByUL722XWZ5Ru8I9SZ
+	4lvhifQ4S3CKs1j4UUPGaYHu21hwMWR9rI+HFgxilrp/0NGfc8qXGHmgDqmntiN50Fq/
+	a4e+nSQxl+3DnBpqg0wJl5DUtKlRu2R8BZ5Z/1ERGNIET4l3kMfM9WsQdxBg9y1a0cro
+	Zejw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
+	:message-id:subject:to:cc;
+	bh=ZCUNcPV59vl3jOub/kJz8J+eTsF3UwLoVWXV7SwRg1g=;
+	b=K9NFk+Jh5g5UQvybsuCZpsKGzbF3tki78vkkTcuPx8noGds3+Fgoj0Xv6ptZVSJ45w
+	eoAakyuHiOyzeEuAIklX/SFDRw9iqUcVawoqgIAUawpBcXf3MpTgIhd+IHnEBbaTxIgD
+	gUlhS8jyZdmb0vEsPs0igBNVtREOLKvib3/ZP1TlzrT2sU2BlzxJn0BGd6lTcmSmQpgh
+	IA8qlaz9vwYRi46wZRQrCj+w4j83KKBg+DxtwSntYzh3h9alB5cGc4cZKvra9L/xjuO7
+	UfgzkIirpckUqZmheyxwhRt996WZPtOWpVAR9pR0wQkddaOfKr6kx1cb4mJobnDbMwbL
+	xWcg==
+X-Gm-Message-State: AODbwcCf3wRoUCXDsCEeJ3HRiFGDQUxbzCjACKpGUVgYoeyIS1i4ZDhr
+	3lgj6uhB4aPRomBP400=
+X-Received: by 10.28.29.17 with SMTP id d17mr8767437wmd.90.1496010660194;
+	Sun, 28 May 2017 15:31:00 -0700 (PDT)
+Received: from mail-wm0-f45.google.com (mail-wm0-f45.google.com.
+	[74.125.82.45])
+	by smtp.gmail.com with ESMTPSA id b8sm8399801wrb.7.2017.05.28.15.30.58
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sun, 28 May 2017 15:30:59 -0700 (PDT)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-wm0-f45.google.com with SMTP id b84so35008748wmh.0
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 28 May 2017 15:30:58 -0700 (PDT)
+X-Received: by 10.28.4.203 with SMTP id 194mr8579818wme.118.1496010658471;
+	Sun, 28 May 2017 15:30:58 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.28.236.75 with HTTP; Sun, 28 May 2017 15:30:57 -0700 (PDT)
+In-Reply-To: <20170528065940.16603-1-romain.perier@collabora.com>
+References: <20170528065940.16603-1-romain.perier@collabora.com>
+Date: Sun, 28 May 2017 19:30:57 -0300
+X-Gmail-Original-Message-ID: <CAP9ODKremvtL4xsZUft8L3hKUZksp94Hpc3nFKgVbKKLe8hjtg@mail.gmail.com>
+Message-ID: <CAP9ODKremvtL4xsZUft8L3hKUZksp94Hpc3nFKgVbKKLe8hjtg@mail.gmail.com>
+To: Romain Perier <romain.perier@collabora.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v4] busybox: make SYSLOGD optionnal
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -24,122 +67,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 28 May 2017 06:59:46 -0000
+X-List-Received-Date: Sun, 28 May 2017 22:30:59 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Some distros might choose another syslogd provider like rsyslogd.
-update-alternative will update the link from syslogd to the right
-provider. However the syslogd feature is still present and enabled
-in busybox.
+On Sun, May 28, 2017 at 3:59 AM, Romain Perier
+<romain.perier@collabora.com> wrote:
+> Some distros might choose another syslogd provider like rsyslogd.
+> update-alternative will update the link from syslogd to the right
+> provider. However the syslogd feature is still present and enabled
+> in busybox.
+>
+> This commit adds a new configuration fragment to make syslogd
+> optionnal in busybox.
+>
+> Signed-off-by: Romain Perier <romain.perier@collabora.com>
+> Acked-by: Otavio Salvador <otavio@ossystems.com.br>
 
-This commit adds a new configuration fragment to make syslogd
-optionnal in busybox.
+This is a good addition; once this is merged on master I would like to
+propose to backport it to pyro as it does not change the current
+behaviour but allows for better finer-grained configuration.
 
-Signed-off-by: Romain Perier <romain.perier@collabora.com>
-Acked-by: Otavio Salvador <otavio@ossystems.com.br>
----
-
-Changes in v4:
-- Added missing syslog.cfg (whoops, sorry guys!)
-
-Changes in v3:
-- Rebased onto oe-core master
-- Added Acked-by tag for Otavio
-
-Changes in v2:
-- Rebased onto master branch (thanks to patchwork)
-
- meta/recipes-core/busybox/busybox.inc        |  6 +++---
- meta/recipes-core/busybox/busybox/defconfig  | 20 +++++++++-----------
- meta/recipes-core/busybox/busybox/syslog.cfg | 11 +++++++++++
- meta/recipes-core/busybox/busybox_1.24.1.bb  |  1 +
- 4 files changed, 24 insertions(+), 14 deletions(-)
- create mode 100644 meta/recipes-core/busybox/busybox/syslog.cfg
-
-diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
-index adc6e9a..b23eaa1 100644
---- a/meta/recipes-core/busybox/busybox.inc
-+++ b/meta/recipes-core/busybox/busybox.inc
-@@ -39,7 +39,7 @@ INITSCRIPT_NAME_${PN}-syslog = "syslog"
- INITSCRIPT_NAME_${PN}-udhcpd = "busybox-udhcpd"
- 
- SYSTEMD_PACKAGES = "${PN}-syslog"
--SYSTEMD_SERVICE_${PN}-syslog = "busybox-syslog.service"
-+SYSTEMD_SERVICE_${PN}-syslog = "${@bb.utils.contains('SRC_URI', 'file://syslog.cfg', 'busybox-syslog.service', '', d)}"
- 
- CONFFILES_${PN}-syslog = "${sysconfdir}/syslog-startup.conf.${BPN}"
- CONFFILES_${PN}-mdev = "${sysconfdir}/mdev.conf"
-@@ -329,8 +329,8 @@ inherit update-alternatives
- 
- ALTERNATIVE_PRIORITY = "50"
- 
--ALTERNATIVE_${PN}-syslog += "syslog-conf"
--ALTERNATIVE_LINK_NAME[syslog-conf] = "${sysconfdir}/syslog.conf"
-+ALTERNATIVE_${PN}-syslog += "${@bb.utils.contains('SRC_URI', 'file://syslog.cfg', 'syslog-conf', '', d)}"
-+ALTERNATIVE_LINK_NAME[syslog-conf] = "${@bb.utils.contains('SRC_URI', 'file://syslog.cfg', "${sysconfdir}/syslog.conf", '', d)}"
- 
- python () {
-     if bb.utils.contains('DISTRO_FEATURES', 'sysvinit', True, False, d):
-diff --git a/meta/recipes-core/busybox/busybox/defconfig b/meta/recipes-core/busybox/busybox/defconfig
-index 8803b52..54202ef 100644
---- a/meta/recipes-core/busybox/busybox/defconfig
-+++ b/meta/recipes-core/busybox/busybox/defconfig
-@@ -1053,17 +1053,15 @@ CONFIG_FEATURE_SH_HISTFILESIZE=y
- #
- # System Logging Utilities
- #
--CONFIG_SYSLOGD=y
--CONFIG_FEATURE_ROTATE_LOGFILE=y
--CONFIG_FEATURE_REMOTE_LOG=y
--CONFIG_FEATURE_SYSLOGD_DUP=y
--CONFIG_FEATURE_SYSLOGD_CFG=y
--CONFIG_FEATURE_SYSLOGD_READ_BUFFER_SIZE=256
--CONFIG_FEATURE_IPC_SYSLOG=y
--CONFIG_FEATURE_IPC_SYSLOG_BUFFER_SIZE=64
--CONFIG_LOGREAD=y
--CONFIG_FEATURE_LOGREAD_REDUCED_LOCKING=y
--CONFIG_FEATURE_KMSG_SYSLOG=y
-+# CONFIG_SYSLOGD is not set
-+# CONFIG_FEATURE_ROTATE_LOGFILE is not set
-+# CONFIG_FEATURE_REMOTE_LOG is not set
-+# CONFIG_FEATURE_SYSLOGD_DUP is not set
-+# CONFIG_FEATURE_SYSLOGD_CFG is not set
-+# CONFIG_FEATURE_IPC_SYSLOG is not set
-+# CONFIG_LOGREAD is not set
-+# CONFIG_FEATURE_LOGREAD_REDUCED_LOCKING is not set
-+# CONFIG_FEATURE_KMSG_SYSLOG is not set
- CONFIG_KLOGD=y
- 
- #
-diff --git a/meta/recipes-core/busybox/busybox/syslog.cfg b/meta/recipes-core/busybox/busybox/syslog.cfg
-new file mode 100644
-index 0000000..e2425ed
---- /dev/null
-+++ b/meta/recipes-core/busybox/busybox/syslog.cfg
-@@ -0,0 +1,11 @@
-+CONFIG_SYSLOGD=y
-+CONFIG_FEATURE_ROTATE_LOGFILE=y
-+CONFIG_FEATURE_REMOTE_LOG=y
-+CONFIG_FEATURE_SYSLOGD_DUP=y
-+CONFIG_FEATURE_SYSLOGD_CFG=y
-+CONFIG_FEATURE_SYSLOGD_READ_BUFFER_SIZE=256
-+CONFIG_FEATURE_IPC_SYSLOG=y
-+CONFIG_FEATURE_IPC_SYSLOG_BUFFER_SIZE=64
-+CONFIG_LOGREAD=y
-+CONFIG_FEATURE_LOGREAD_REDUCED_LOCKING=y
-+CONFIG_FEATURE_KMSG_SYSLOG=y
-diff --git a/meta/recipes-core/busybox/busybox_1.24.1.bb b/meta/recipes-core/busybox/busybox_1.24.1.bb
-index e26dfff..1baadeac 100644
---- a/meta/recipes-core/busybox/busybox_1.24.1.bb
-+++ b/meta/recipes-core/busybox/busybox_1.24.1.bb
-@@ -40,6 +40,7 @@ SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
-            file://resize.cfg \
-            ${@["", "file://init.cfg"][(d.getVar('VIRTUAL-RUNTIME_init_manager') == 'busybox')]} \
-            ${@["", "file://mdev.cfg"][(d.getVar('VIRTUAL-RUNTIME_dev_manager') == 'busybox-mdev')]} \
-+           file://syslog.cfg \
-            file://inittab \
-            file://rcS \
-            file://rcK \
 -- 
-1.8.3.1
-
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
