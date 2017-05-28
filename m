@@ -1,19 +1,17 @@
 Return-Path: <romain.perier@collabora.com>
-X-Greylist: delayed 421 seconds by postgrey-1.34 at layers.openembedded.org;
-	Sun, 28 May 2017 06:58:05 UTC
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
-	by mail.openembedded.org (Postfix) with ESMTP id 494EC71AB8
+	by mail.openembedded.org (Postfix) with ESMTP id 6E2A7781BB
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 28 May 2017 06:58:05 +0000 (UTC)
+	Sun, 28 May 2017 06:59:46 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(Authenticated sender: rperier) with ESMTPSA id C5291260A9E
+	(Authenticated sender: rperier) with ESMTPSA id A20BE260A9E
 From: Romain Perier <romain.perier@collabora.com>
 To: Qi.Chen@windriver.com
-Date: Sun, 28 May 2017 08:50:56 +0200
-Message-Id: <20170528065056.15481-1-romain.perier@collabora.com>
+Date: Sun, 28 May 2017 08:59:40 +0200
+Message-Id: <20170528065940.16603-1-romain.perier@collabora.com>
 X-Mailer: git-send-email 2.11.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH v3] busybox: make SYSLOGD optionnal
+Subject: [PATCH v4] busybox: make SYSLOGD optionnal
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -26,7 +24,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 28 May 2017 06:58:07 -0000
+X-List-Received-Date: Sun, 28 May 2017 06:59:46 -0000
 
 Some distros might choose another syslogd provider like rsyslogd.
 update-alternative will update the link from syslogd to the right
@@ -40,6 +38,9 @@ Signed-off-by: Romain Perier <romain.perier@collabora.com>
 Acked-by: Otavio Salvador <otavio@ossystems.com.br>
 ---
 
+Changes in v4:
+- Added missing syslog.cfg (whoops, sorry guys!)
+
 Changes in v3:
 - Rebased onto oe-core master
 - Added Acked-by tag for Otavio
@@ -47,10 +48,12 @@ Changes in v3:
 Changes in v2:
 - Rebased onto master branch (thanks to patchwork)
 
- meta/recipes-core/busybox/busybox.inc       |  6 +++---
- meta/recipes-core/busybox/busybox/defconfig | 20 +++++++++-----------
- meta/recipes-core/busybox/busybox_1.24.1.bb |  1 +
- 3 files changed, 13 insertions(+), 14 deletions(-)
+ meta/recipes-core/busybox/busybox.inc        |  6 +++---
+ meta/recipes-core/busybox/busybox/defconfig  | 20 +++++++++-----------
+ meta/recipes-core/busybox/busybox/syslog.cfg | 11 +++++++++++
+ meta/recipes-core/busybox/busybox_1.24.1.bb  |  1 +
+ 4 files changed, 24 insertions(+), 14 deletions(-)
+ create mode 100644 meta/recipes-core/busybox/busybox/syslog.cfg
 
 diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
 index adc6e9a..b23eaa1 100644
@@ -107,6 +110,23 @@ index 8803b52..54202ef 100644
  CONFIG_KLOGD=y
  
  #
+diff --git a/meta/recipes-core/busybox/busybox/syslog.cfg b/meta/recipes-core/busybox/busybox/syslog.cfg
+new file mode 100644
+index 0000000..e2425ed
+--- /dev/null
++++ b/meta/recipes-core/busybox/busybox/syslog.cfg
+@@ -0,0 +1,11 @@
++CONFIG_SYSLOGD=y
++CONFIG_FEATURE_ROTATE_LOGFILE=y
++CONFIG_FEATURE_REMOTE_LOG=y
++CONFIG_FEATURE_SYSLOGD_DUP=y
++CONFIG_FEATURE_SYSLOGD_CFG=y
++CONFIG_FEATURE_SYSLOGD_READ_BUFFER_SIZE=256
++CONFIG_FEATURE_IPC_SYSLOG=y
++CONFIG_FEATURE_IPC_SYSLOG_BUFFER_SIZE=64
++CONFIG_LOGREAD=y
++CONFIG_FEATURE_LOGREAD_REDUCED_LOCKING=y
++CONFIG_FEATURE_KMSG_SYSLOG=y
 diff --git a/meta/recipes-core/busybox/busybox_1.24.1.bb b/meta/recipes-core/busybox/busybox_1.24.1.bb
 index e26dfff..1baadeac 100644
 --- a/meta/recipes-core/busybox/busybox_1.24.1.bb
