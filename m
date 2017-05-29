@@ -1,44 +1,35 @@
-Return-Path: <nicolas.dechesne@linaro.org>
-Received: from mail-qt0-f170.google.com (mail-qt0-f170.google.com
-	[209.85.216.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 0242A77FA2
+Return-Path: <ismo.puustinen@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 67B5071976
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 May 2017 09:04:51 +0000 (UTC)
-Received: by mail-qt0-f170.google.com with SMTP id c13so45630422qtc.1
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 May 2017 02:04:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=from:to:cc:subject:date:message-id;
-	bh=eGjQeFSPUM18m6vsFx+UsEMbL20fCp9kwKnGrtvvjZ0=;
-	b=LRfiuzmoQL1w/cM9knpK1bSc6mItwSZM4X2UJz6zoktHWo77V93VrTFdotoTOpk2KS
-	aVrQxevVjNgiDVY2Tq64Vn8/GVbnRF4IrYp53PlTqGorHycdST1IsFKgUAHvKI1SoS40
-	NG0P8WIr9nZ/UO0+OFrCjmdqajwzAx/86vx8c=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=eGjQeFSPUM18m6vsFx+UsEMbL20fCp9kwKnGrtvvjZ0=;
-	b=a7SpuFJ5grFBiGRV5QarFOmbMWdwclAv1WIfK30z2yUVbryOYQdog9b833N2OdOPsl
-	zeaaTonrRZ166SsUYcISupiUQf+WQNN584+W1aS63fUIH8FtWOK+cNC0KjdIX5c+CtY+
-	7zNMWBp1atYAitfeKb7QMAhJH7svgb0+DSYI1yNWd157qpC/FxcbGuhe1x0pidS4MVC2
-	7NQG5lyXUtnpdlO1DJn6TY/RqwMEGvO8q3E5dr6xyjqqBluP30V6JydA/dcqyPQLW0nR
-	1SnKpp1/cgaQ0kuQUSm12hz0kA588ysR7VmQeLchlORtmngFgYRCeotX4B7plwJv0u3p
-	k5hg==
-X-Gm-Message-State: AODbwcDV/Fd04yKVui3KUDJat6aVamDpqKf8SxdkMQqExW1pJ6E0m42R
-	rDaj5XAXz58oJHZcyEIE7g==
-X-Received: by 10.237.60.150 with SMTP id d22mr17713161qtf.126.1496048692855; 
-	Mon, 29 May 2017 02:04:52 -0700 (PDT)
-Received: from localhost.localdomain (static.8.26.4.46.clients.your-server.de.
-	[46.4.26.8]) by smtp.gmail.com with ESMTPSA id
-	w12sm6017694qth.42.2017.05.29.02.04.51
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 29 May 2017 02:04:52 -0700 (PDT)
-From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 29 May 2017 11:04:46 +0200
-Message-Id: <20170529090446.28930-1-nicolas.dechesne@linaro.org>
-X-Mailer: git-send-email 2.11.0
-Cc: Nicolas Dechesne <nicolas.dechesne@linaro.org>
-Subject: [PATCH] libdrm: upgrade to 2.4.81
+	Mon, 29 May 2017 09:11:40 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	29 May 2017 02:11:41 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.38,413,1491289200"; d="scan'208";a="862401476"
+Received: from irsmsx153.ger.corp.intel.com ([163.33.192.75])
+	by FMSMGA003.fm.intel.com with ESMTP; 29 May 2017 02:11:41 -0700
+Received: from irsmsx107.ger.corp.intel.com ([169.254.10.129]) by
+	IRSMSX153.ger.corp.intel.com ([169.254.9.74]) with mapi id
+	14.03.0319.002; Mon, 29 May 2017 10:11:17 +0100
+From: "Puustinen, Ismo" <ismo.puustinen@intel.com>
+To: "dmitry.rozhkov@linux.intel.com" <dmitry.rozhkov@linux.intel.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH] boost: backport a regression fix for
+	forgotten header
+Thread-Index: AQHS2FuGYCKQlrS/4Ueeim46kYAhHA==
+Date: Mon, 29 May 2017 09:11:16 +0000
+Message-ID: <1496049074.37734.1.camel@intel.com>
+References: <20170515115432.27466-1-dmitry.rozhkov@linux.intel.com>
+In-Reply-To: <20170515115432.27466-1-dmitry.rozhkov@linux.intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.237.72.72]
+MIME-Version: 1.0
+Subject: Re: [PATCH] boost: backport a regression fix for forgotten header
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,33 +42,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 May 2017 09:04:52 -0000
+X-List-Received-Date: Mon, 29 May 2017 09:11:45 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <58F4ACAB28926D4DBED3CE694C2CEBA9@intel.com>
+Content-Transfer-Encoding: base64
 
-Signed-off-by: Nicolas Dechesne <nicolas.dechesne@linaro.org>
----
- meta/recipes-graphics/drm/{libdrm_2.4.80.bb => libdrm_2.4.81.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/drm/{libdrm_2.4.80.bb => libdrm_2.4.81.bb} (93%)
-
-diff --git a/meta/recipes-graphics/drm/libdrm_2.4.80.bb b/meta/recipes-graphics/drm/libdrm_2.4.81.bb
-similarity index 93%
-rename from meta/recipes-graphics/drm/libdrm_2.4.80.bb
-rename to meta/recipes-graphics/drm/libdrm_2.4.81.bb
-index 063381f178..9181340a6c 100644
---- a/meta/recipes-graphics/drm/libdrm_2.4.80.bb
-+++ b/meta/recipes-graphics/drm/libdrm_2.4.81.bb
-@@ -16,8 +16,8 @@ SRC_URI = "http://dri.freedesktop.org/libdrm/${BP}.tar.bz2 \
-            file://0001-configure.ac-Allow-explicit-enabling-of-cunit-tests.patch \
-           "
- 
--SRC_URI[md5sum] = "4867866477f228973a64e68051ca9c66"
--SRC_URI[sha256sum] = "a82a519601e9cdfad795e760807eb07ac8913b225e25fc8fe9bc03e3be6549f1"
-+SRC_URI[md5sum] = "d04f3567f0a812188d06f860fded5ab7"
-+SRC_URI[sha256sum] = "8cc05c195ac8708199979a94c4e4d1a928c14ec338ecbcb38ead09f54dae11ae"
- 
- inherit autotools pkgconfig manpages
- 
--- 
-2.11.0
-
+T24gTW9uLCAyMDE3LTA1LTE1IGF0IDE0OjU0ICswMzAwLCBEbWl0cnkgUm96aGtvdiB3cm90ZToN
+Cj4gVGhlIHYxLjY0IHJlbGVhc2UgaGFzIGJyb2tlbiBhcnJheSBzZXJpYWxpemF0aW9uIGNvZGUg
+d2l0aCBpc3N1ZXMNCj4gcmVwb3J0ZWQgaW4NCj4gDQo+IGh0dHBzOi8vc3ZuLmJvb3N0Lm9yZy90
+cmFjL2Jvb3N0L3RpY2tldC8xMjUxNg0KPiBodHRwczovL2dpdGh1Yi5jb20vYm13Y2FyaXQvbWV0
+YS1yb3MvaXNzdWVzLzUwNQ0KPiANCj4gQmFja3BvcnQgdGhlIGZpeCBmcm9tIGJvb3N0OjpzZXJp
+YWxpemF0aW9uJ3MgbWFzdGVyLg0KDQpUaGlzIGlzIHByZXR0eSBpbXBvcnRhbnQgcGF0Y2ggLS0g
+UmVma2l0IGRvZXNuJ3QgY29tcGlsZSB3aXRoIGxhdGVzdA0Kb2UtY29yZSB3aXRob3V0IHRoZSBw
+YXRjaC4NCg0KSXNtbw0K
 
