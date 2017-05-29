@@ -1,25 +1,23 @@
 Return-Path: <prvs=032210ad29=mike.looijmans@topicproducts.com>
-X-Greylist: delayed 416 seconds by postgrey-1.34 at layers.openembedded.org;
-	Mon, 29 May 2017 06:03:40 UTC
 Received: from mx18-11.smtp.antispamcloud.com (mx18-11.smtp.antispamcloud.com
 	[207.244.64.180])
-	by mail.openembedded.org (Postfix) with ESMTP id EB45F71A92
+	by mail.openembedded.org (Postfix) with ESMTP id 6456571A92
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 May 2017 06:03:40 +0000 (UTC)
+	Mon, 29 May 2017 06:08:06 +0000 (UTC)
 Received: from [37.74.225.130] (helo=TOP-EX01.TOPIC.LOCAL)
 	by mx18.antispamcloud.com with esmtps (TLSv1:ECDHE-RSA-AES128-SHA:128)
 	(Exim 4.86) (envelope-from <mike.looijmans@topicproducts.com>)
-	id 1dFDmG-0004ZR-9U; Mon, 29 May 2017 08:03:42 +0200
+	id 1dFDfT-0002k3-Ub; Mon, 29 May 2017 07:56:41 +0200
 Received: from [192.168.80.121] (192.168.80.121) by webmail.topic.nl
 	(192.168.10.102) with Microsoft SMTP Server id 14.3.224.2;
-	Mon, 29 May 2017 08:03:37 +0200
+	Mon, 29 May 2017 07:56:36 +0200
 To: Nicolas Dechesne <nicolas.dechesne@linaro.org>
 References: <16ea8913-19d8-a67a-601a-98cad6657d58@topic.nl>
 	<CAP71WjyNaSFd3Aw5WD9=aKkopAWaofR5b6TUbthzBSusLx45JQ@mail.gmail.com>
 From: Mike Looijmans <mike.looijmans@topic.nl>
 Organization: TOPIC
-Message-ID: <f9eecc58-44f5-64d8-c77f-c5629cca98c5@topic.nl>
-Date: Mon, 29 May 2017 08:03:37 +0200
+Message-ID: <985ac28d-6709-e021-0432-d3e7a6507683@topic.nl>
+Date: Mon, 29 May 2017 07:56:36 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
 	Thunderbird/52.1.1
 MIME-Version: 1.0
@@ -33,18 +31,18 @@ X-SpamExperts-Username: 37.74.225.128/28
 Authentication-Results: antispamcloud.com;
 	auth=pass smtp.auth=37.74.225.128/28@topic.nl
 X-SpamExperts-Outgoing-Class: unsure
-X-SpamExperts-Outgoing-Evidence: Combined (0.13)
+X-SpamExperts-Outgoing-Evidence: Combined (0.12)
 X-Recommended-Action: accept
 X-Filter-ID: s0sct1PQhAABKnZB5plbIbbvfIHzQjPVmPLZeVYSu3xU9luQrU+8/8qthi+0Jd/W/95+6ZE6dI+d
-	FNTaLLKrTD4PkK8WOoKuw32u9iEtZmisSr42qUwvK7U11fJ5smF5bE7GwnNXTE7JFCR1ojdwNOEK
-	NrYQW57WsYxjRA1Ux1GhGf1rwYL/aSvk8yX+WbqQVFDf11BDUksFLMtNheI4l2bjO41FyBEqIaDu
+	FNTaLLKrTD4PkK8WOoKuw32u9iEtZmisSr42qUwvK7U11fJ5smF5bE7GwnNXTE7JFCR1ojdwNNyW
+	H7RGc0A/UbN5SIWQ0Fm2DpKVf5dHw4JTlBkbzGqDuUL9N0PTguXNhipHGr//UmbjO41FyBEqIaDu
 	dcVplPGNaieKxw/vh63RdlaW2Zj1hcQD6Dxo9kokFZNwiacNPxeTCKssqlJePCDBHWfCYUvWOATT
 	vnG+QUCcfrSs6FZc7tZ3vKwSN7Mv0HNteAusUZ8BuYwGqmI8Tx/Ism0pnCcmlWACu0WC7nIKSPYV
-	aBAANeo6Hr4UJMIZEVOGlXeApA3I626B4k1VCg2pmPRu/tu4nyga8lW9tEVMYitDM7+yhMjnTQYb
-	91c8o8sXyIHYib3upx1n/FUf/NwbTI+uRoXlWvXEyVXmV1DcCGMoc6ig/SVaKi0jvtxxX4zA29pu
+	aBAANeo6Hr4UJMIZEVOGlXeApA3I626B4k1VCg2pmPRu/tvP/YT4gjy8+DVTGU6FCXjL/XXh1uZd
+	3ILTRMFiG58wZL3upx1n/FUf/NwbTI+uRoXlWvXEyVXmV1DcCGMoc6ig/SVaKi0jvtxxX4zA29pu
 	2ONYQFX+rhdRbxagFZk9QeUTMKkbMlXz2JUArHA+14sz3sbskoLsCzHbimU89cr33RKm353ztx8x
 	waw1cKnsBGxm83Bq3Dr745Bh95etgupgGplHcpVCCoX989hgB8R+yFNe0necuBmgAaEH47pnSozS
-	cx6dixYXWS0UC4sPAz0+bt/Gv4WE4ys5zo3LXTadBldVG3udxDVjJl88/rWN0QJAZs8O0qGELL5L
+	cx6dixYXWS0UC4sPAz0+bMvcCanEWO+beEcuwlNL5FdVG3udxDVjJl88/rWN0QJAZs8O0qGELL5L
 	HSCgBqXfiEc3YcCUDBl3OGV65ZQULuQ0Yt6sBXejfJJliPYr+dkd1etKa5Nq/q2DHPZtUu0QwVHj
 	pxmv0LFZXDVo/Kt/6gVmJtP3Y/gn5Y6P8W6FvYevIHo77OZsQVM4N41Tn9775j98TA7MKskOpkOl
 	8Lxi7FIIPDyod71wDzAkT5SU3Vo=
@@ -64,7 +62,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 May 2017 06:03:41 -0000
+X-List-Received-Date: Mon, 29 May 2017 06:08:08 -0000
 Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Language: nl
 Content-Transfer-Encoding: quoted-printable
@@ -115,21 +113,15 @@ g
 > nmtui) and is well integrated with systemd. that happens to work well
 > for me.
 
-Apparently not for headless systems, networkmanager requires X11:
 
-ERROR: Nothing PROVIDES 'consolekit' (but=20
-.../meta-oe/meta-oe/recipes-connectivity/networkmanager/networkmanager_1.0.=
-12.bb=20
-DEPENDS on or otherwise requires it)
-ERROR: consolekit was skipped: missing required distro feature 'x11' (not i=
-n=20
-DISTRO_FEATURES)
-
+Does it work without systemd? Because usually I use mdev for hotplug to sav=
+e=20
+(drastically) on boot time and flash usage.
 
 > i want to believe that connman can do the same thing, but i have never
 > tried it much..
 
-I'll try that next...
+Same question there...
 
 
 
