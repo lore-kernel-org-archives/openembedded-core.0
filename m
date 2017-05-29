@@ -1,24 +1,24 @@
 Return-Path: <erik.boto@pelagicore.com>
-Received: from ORO-EDGE-01.luxoft.com (oro-edge-01.luxoft.com [109.166.244.21])
-	by mail.openembedded.org (Postfix) with ESMTP id AE90F73068
+Received: from ORO-EDGE-02.luxoft.com (oro-edge-02.luxoft.com [109.166.244.22])
+	by mail.openembedded.org (Postfix) with ESMTP id 11E5577FCE
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 29 May 2017 06:09:48 +0000 (UTC)
 Received: from ORO-HUBT-03.luxoft.com (172.30.115.38) by
-	oro-edge-01.luxoft.com (172.30.19.21) with Microsoft SMTP Server (TLS)
-	id 14.3.319.2; Mon, 29 May 2017 09:09:48 +0300
+	oro-edge-02.luxoft.com (172.30.19.22) with Microsoft SMTP Server (TLS)
+	id 14.3.319.2; Mon, 29 May 2017 09:09:47 +0300
 Received: from debbie.luxoft.com (172.31.240.101) by ORO-HUBT-03.luxoft.com
 	(172.30.115.101) with Microsoft SMTP Server (TLS) id 14.3.319.2;
-	Mon, 29 May 2017 09:09:49 +0300
+	Mon, 29 May 2017 09:09:47 +0300
 From: =?UTF-8?q?Erik=20Bot=C3=B6?= <erik.boto@pelagicore.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 29 May 2017 08:09:34 +0200
-Message-ID: <20170529060935.8093-4-erik.boto@pelagicore.com>
+Date: Mon, 29 May 2017 08:09:32 +0200
+Message-ID: <20170529060935.8093-2-erik.boto@pelagicore.com>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <20170529060935.8093-1-erik.boto@pelagicore.com>
 References: <20170529060935.8093-1-erik.boto@pelagicore.com>
 MIME-Version: 1.0
 X-Originating-IP: [172.31.240.101]
-Subject: [PATCH v2 3/4] masterimage.py: fix stop()
+Subject: [PATCH v2 1/4] masterimage.py: fix issue with calling reboot on masterimage/DUT
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,9 +35,9 @@ X-List-Received-Date: Mon, 29 May 2017 06:09:49 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-The stop() function is called in the context of the masterimage,
-so self.master should be used instead of self.connection which is
-undefined at that time.
+On systemd systems calling reboot over an ssh connection doesn't
+return as expected causing an exception, therefore wrap the call
+to reboot in order to avoid this issue.
 
 [YOCTO #11524]
 
@@ -47,18 +47,18 @@ Signed-off-by: Erik Botö <erik.boto@pelagicore.com>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/meta/lib/oeqa/controllers/masterimage.py b/meta/lib/oeqa/controllers/masterimage.py
-index 18da2799bb..75bcd4b08d 100644
+index 07418fcda1..6cdcfa3068 100644
 --- a/meta/lib/oeqa/controllers/masterimage.py
 +++ b/meta/lib/oeqa/controllers/masterimage.py
-@@ -156,7 +156,7 @@ class MasterImageHardwareTarget(oeqa.targetcontrol.BaseTarget, metaclass=ABCMeta
+@@ -108,7 +108,7 @@ class MasterImageHardwareTarget(oeqa.targetcontrol.BaseTarget, metaclass=ABCMeta
+             time.sleep(10)
+             self.power_ctl("cycle")
+         else:
+-            status, output = conn.run("reboot")
++            status, output = conn.run("{ sleep 1; reboot; } > /dev/null &")
+             if status != 0:
+                 bb.error("Failed rebooting target and no power control command defined. You need to manually reset the device.\n%s" % output)
  
-     def stop(self):
-         bb.plain("%s - reboot/powercycle target" % self.pn)
--        self.power_cycle(self.connection)
-+        self.power_cycle(self.master)
- 
- 
- class SystemdbootTarget(MasterImageHardwareTarget):
 -- 
 2.11.0
 
