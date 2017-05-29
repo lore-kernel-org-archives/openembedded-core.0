@@ -1,22 +1,24 @@
 Return-Path: <erik.boto@pelagicore.com>
 Received: from ORO-EDGE-01.luxoft.com (oro-edge-01.luxoft.com [109.166.244.21])
-	by mail.openembedded.org (Postfix) with ESMTP id 1B93E73068
+	by mail.openembedded.org (Postfix) with ESMTP id AE90F73068
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 May 2017 06:09:47 +0000 (UTC)
+	Mon, 29 May 2017 06:09:48 +0000 (UTC)
 Received: from ORO-HUBT-03.luxoft.com (172.30.115.38) by
 	oro-edge-01.luxoft.com (172.30.19.21) with Microsoft SMTP Server (TLS)
-	id 14.3.319.2; Mon, 29 May 2017 09:09:46 +0300
+	id 14.3.319.2; Mon, 29 May 2017 09:09:48 +0300
 Received: from debbie.luxoft.com (172.31.240.101) by ORO-HUBT-03.luxoft.com
 	(172.30.115.101) with Microsoft SMTP Server (TLS) id 14.3.319.2;
-	Mon, 29 May 2017 09:09:46 +0300
+	Mon, 29 May 2017 09:09:49 +0300
 From: =?UTF-8?q?Erik=20Bot=C3=B6?= <erik.boto@pelagicore.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 29 May 2017 08:09:31 +0200
-Message-ID: <20170529060935.8093-1-erik.boto@pelagicore.com>
+Date: Mon, 29 May 2017 08:09:34 +0200
+Message-ID: <20170529060935.8093-4-erik.boto@pelagicore.com>
 X-Mailer: git-send-email 2.11.0
+In-Reply-To: <20170529060935.8093-1-erik.boto@pelagicore.com>
+References: <20170529060935.8093-1-erik.boto@pelagicore.com>
 MIME-Version: 1.0
 X-Originating-IP: [172.31.240.101]
-Subject: [PATCH v2 0/4] oeqa: fix runtime testing using systemd-boot target
+Subject: [PATCH v2 3/4] masterimage.py: fix stop()
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,21 +31,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 May 2017 06:09:48 -0000
+X-List-Received-Date: Mon, 29 May 2017 06:09:49 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-When I was setting up automated runtime testing using the systemd-boot
-target I hit a couple of bugs that I addressed. There is an open bug
-on this in Yocto Bugzilla #11524.
+The stop() function is called in the context of the masterimage,
+so self.master should be used instead of self.connection which is
+undefined at that time.
 
-Changes since v1: Added cover letter and references bug from commit msgs
+[YOCTO #11524]
 
-Cheers,
-Erik
+Signed-off-by: Erik Botö <erik.boto@pelagicore.com>
+---
+ meta/lib/oeqa/controllers/masterimage.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- meta/lib/oeqa/controllers/masterimage.py | 6 +++---
- meta/lib/oeqa/utils/sshcontrol.py        | 9 +++------
- 2 files changed, 6 insertions(+), 9 deletions(-)
+diff --git a/meta/lib/oeqa/controllers/masterimage.py b/meta/lib/oeqa/controllers/masterimage.py
+index 18da2799bb..75bcd4b08d 100644
+--- a/meta/lib/oeqa/controllers/masterimage.py
++++ b/meta/lib/oeqa/controllers/masterimage.py
+@@ -156,7 +156,7 @@ class MasterImageHardwareTarget(oeqa.targetcontrol.BaseTarget, metaclass=ABCMeta
+ 
+     def stop(self):
+         bb.plain("%s - reboot/powercycle target" % self.pn)
+-        self.power_cycle(self.connection)
++        self.power_cycle(self.master)
+ 
+ 
+ class SystemdbootTarget(MasterImageHardwareTarget):
+-- 
+2.11.0
 
 
