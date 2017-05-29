@@ -1,26 +1,47 @@
-Return-Path: <maxin.john@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 6668677EE4
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-io0-f180.google.com (mail-io0-f180.google.com
+	[209.85.223.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 83A1A77BE9
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 May 2017 14:27:43 +0000 (UTC)
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	29 May 2017 07:27:43 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.38,414,1491289200"; d="scan'208";a="92593126"
-Received: from linux.intel.com ([10.54.29.200])
-	by orsmga004.jf.intel.com with ESMTP; 29 May 2017 07:27:43 -0700
-Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
-	[10.237.72.84])
-	by linux.intel.com (Postfix) with ESMTP id CB1555803B0
+	Mon, 29 May 2017 14:49:08 +0000 (UTC)
+Received: by mail-io0-f180.google.com with SMTP id k91so42268100ioi.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 May 2017 07:27:42 -0700 (PDT)
-From: "Maxin B. John" <maxin.john@intel.com>
+	Mon, 29 May 2017 07:49:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id;
+	bh=K/V+9u6arN7sN8RWa5hg4zV/ZbyolNaNujYotD9Vp+k=;
+	b=UyShTw6MSWuHk0cNsnZrfHby+1y1ACuS43YPc8ZMtTBMKGsgAULg0DeZtFskMI5kvq
+	QRuTj9jP4ztxK/rwCBfa4ZjdbR0pbw6vULkE3nIq4vFxZX3xDKNt8tE4TBMLAd7RRBQa
+	LafSWJO8dRmlro9UQTBY/WIJ7oBBu/hdpSeRZRTXE/Jf2mbg2K0wpaZ0pmaSyY5z65jW
+	DN7UmslLjMnaLE4NtP6LIdxTVr0Ew1/lRyA1Z7rFXGsDNUW+ZK+QU6gFLRKPLxNoOKgC
+	1iX69LLIJo+vKz6hCmWH65mzui9i623GDN6TBGiTSwp2e3qK7EzY/VoxevNgF4QsM6nW
+	RHUw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=K/V+9u6arN7sN8RWa5hg4zV/ZbyolNaNujYotD9Vp+k=;
+	b=F8aRAby0quK/1brVHeSQXO4at0goAb9SjkiyOcbyxcQ7YzHMesRNAqw044j4e1oNRI
+	8hOdxy0Abjf8qVSslnQ0wdFUR0oFn/bG/ulxmBl6D2+AkLqBGeuRocbn9smBd9Fvn5K4
+	0lbI0I2Mgn577KyBPTzhpQ7e2BiRVUt6WsUprpAQdfq/oS1xzIpiJZznRAPTHZvPpiOh
+	vkW1KBeqsU/mUT2UaDKUk62ZFXGcjW/GSQAGPXMI091VW05nj0KLvEUOmPVnrf4CT2NP
+	ejPqN570LZvfjV7Q8chDnCQOJkc9/A9rsFQBu7Xi0j7zG7VZISx0cgtf75jzQTJGR1Yb
+	MApw==
+X-Gm-Message-State: AODbwcCliINsz91qVfmN2UsSTXSK6lAb86aNo2cfLqE9MTELNlep0Oq2
+	/W0+U5FWYQzXErX+/5k=
+X-Received: by 10.107.15.19 with SMTP id x19mr13850117ioi.214.1496069349089;
+	Mon, 29 May 2017 07:49:09 -0700 (PDT)
+Received: from pohly-desktop.fritz.box (p5DE8FCB8.dip0.t-ipconnect.de.
+	[93.232.252.184]) by smtp.gmail.com with ESMTPSA id
+	i28sm4239431ioo.54.2017.05.29.07.49.07
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 29 May 2017 07:49:07 -0700 (PDT)
+From: Patrick Ohly <patrick.ohly@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 29 May 2017 17:27:42 +0300
-Message-Id: <1496068063-34177-1-git-send-email-maxin.john@intel.com>
-X-Mailer: git-send-email 2.4.0
-Subject: [PATCH 1/2] mmc-utils: Upgrade to latest git version
+Date: Mon, 29 May 2017 16:49:02 +0200
+Message-Id: <cover.6a3be6133a9172fdd3e435528c8d98c4be1d9dd1.1496069310.git-series.patrick.ohly@intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH 0/1] bblayers sanity: bblayers.conf.sample specific update code
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,34 +54,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 May 2017 14:27:46 -0000
+X-List-Received-Date: Mon, 29 May 2017 14:49:09 -0000
 
-Updates in the new version:
+In an experimental branch of refkit I bumped LCONF_VERSION from 4 to 5
+and ran into the problem mentioned in the commit message: instead of
+raising an error as before, the code (incorrectly) claimed to have
+updated the bblayers.conf file.
 
-37c86e6  : mmc-utils: Check for ext_csd_rev only once
-c22a92f  : mmc-utils: feature spec  5.0+, Pre EOL information
-34a954b  : mmc-utils: feature spec 5.0+, device life time estimation for MLC
-           and pSLC mode
+Perhaps refkit should have started with LCONF_VERSION as in the
+current OE-core bblayers.conf.sample file to avoid being affected by
+this - too late for that now, though.
 
-Signed-off-by: Maxin B. John <maxin.john@intel.com>
----
- meta/recipes-devtools/mmc/mmc-utils_git.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+As an ugly workaround I'm currently jumping from 4 to 8 directly,
+which produces some extra (and wrong) output about "automatically
+updated" before finally raising the expected error (twice, for some
+reasons).
 
-diff --git a/meta/recipes-devtools/mmc/mmc-utils_git.bb b/meta/recipes-devtools/mmc/mmc-utils_git.bb
-index 7858819..6dcc367 100644
---- a/meta/recipes-devtools/mmc/mmc-utils_git.bb
-+++ b/meta/recipes-devtools/mmc/mmc-utils_git.bb
-@@ -4,7 +4,7 @@ LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://mmc.c;beginline=1;endline=20;md5=fae32792e20f4d27ade1c5a762d16b7d"
- 
- SRCBRANCH ?= "master"
--SRCREV = "2cb6695e8dec00d887bdd5309d1b57d836fcd214"
-+SRCREV = "37c86e60c0442fef570b75cd81aeb1db4d0cbafd"
- 
- PV = "0.1"
- 
+I'm not sure how this code was meant to work for different distros
+based on OE-core. Depending on when a distro forked from OE-core and
+how it continued with numbering its bblayers.conf.sample file, there
+must have been such conflicts already before.
+
+Note that I have only checked that the code gets called when placed in
+the expected location, and the code itself was copied verbatim. As it
+refers to ancient changes, I've not actually tried to set up a build
+dir where that upgrade path is necessary. Perhaps the code could even
+be removed entirely?
+
+Patrick Ohly (1):
+  bblayers sanity: bblayers.conf.sample specific update code
+
+ meta/classes/sanity.bbclass               | 121 ++++-------------------
+ meta/conf/lib/bblayers_update/__init__.py | 104 ++++++++++++++++++++-
+ 2 files changed, 130 insertions(+), 95 deletions(-)
+ create mode 100644 meta/conf/lib/bblayers_update/__init__.py
+
+base-commit: ccf630e78aad488da7b80f2981037d3d0559cfad
 -- 
-2.4.0
-
+git-series 0.9.1
 
