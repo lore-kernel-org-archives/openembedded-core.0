@@ -1,50 +1,50 @@
 Return-Path: <patrick.ohly@intel.com>
-Received: from mail-io0-f182.google.com (mail-io0-f182.google.com
-	[209.85.223.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 374BA7809E
+Received: from mail-it0-f45.google.com (mail-it0-f45.google.com
+	[209.85.214.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 99E1C7809E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 May 2017 15:32:58 +0000 (UTC)
-Received: by mail-io0-f182.google.com with SMTP id k91so42856217ioi.1
+	Mon, 29 May 2017 15:33:01 +0000 (UTC)
+Received: by mail-it0-f45.google.com with SMTP id c15so28582115ith.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 May 2017 08:33:00 -0700 (PDT)
+	Mon, 29 May 2017 08:33:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=ec6WO5bitqtjj9WoOp1FerRUir0qIJlMvAcv0BnUWWI=;
-	b=vsk9AyCFFiEiE3lH9EzZxnS7NoQ7k36E4BzZay6v9L0BHDI4B2BaMAmloqWGHAg2CL
-	tctNS4dNFXMXw896Qs/3HtzYJ16VLz/RG+44N01fWIVgTBCjvqs50/QCeITmKcxNKLUX
-	7idBBcDPAckWAfNBz7AfYjHpIWCWOM6dVU+mw7+tkBSczPiZw5ma31z1Vw9saX5UNUig
-	7u/xMyB/Yf+O3gXYq1QGCanicROpgMeoU7wLNXNwKxcky/Y7VOQ17kaMy4Fozx1cAcp/
-	9CSPEbs71GnvHFNeH8tfWNcKQQLFOGbrckBodRiMBGGpyFpvvT66w3pDsKzlfcxf9FJk
-	xbYg==
+	bh=ntT0Uxriv+NDfZa/IbuHU01PujxHvLd/ysugeVSpmag=;
+	b=tGQqaJx4DcXdZbOuLBCt+jt5/5JYpJ+ec9I4Bo5Ta6NdI3NxSFiAs1WtTlECtM1/oh
+	Qh7fqcSSQ4JCpC8HE+l8b09rnVEuu+LJL3hpEeCEBaNR2mQoI+vyiSVDCar0ZxN5ty3h
+	X6m0311urZ7uYY/JlGulZ1SRbxfRUM7Y5Nhh3q9J7UQYr9KdugfYi1ePLIAPrv6W851K
+	hMEM2muOO7DNXn4kJ28eXwG1uScRAavEfbgSSw8ExehjU5HK+SiHCS3uPmImbNKdcFmk
+	aDuqNOyvIV754AREeU7PPbZsVJwW+aqAgQvxGYYicQcx1+oIN/eVz7i99zVpTuP8bEi9
+	SaEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=ec6WO5bitqtjj9WoOp1FerRUir0qIJlMvAcv0BnUWWI=;
-	b=JWZJILP+MG6ZZ5kNwSGoyBM8NHy05oOJgN9NccXRuZY7xBuhkj6s4hDRVU2sOZN8om
-	V/YvyokQuIqYkxDelaEK3Quxg52uvvu9kjVVDU0XGxEqJZZeRJCOFNa1yQ1Q23voAMWK
-	GFed8d4uTD1C3RidunNSuInqexpkBjfk+bTzNpHYzBFORoAW0k4ox0UtoUm/Pt7b0/Fy
-	cOgqQ+NFLws5SdAR2D8ad50FR9SLKkDTKMLNPXYFwMenna7raGqszxVuAUUWRSgWb6/W
-	FpWC4PaChyhy5PZK9Cxbv0MQGavJon2nm2/4D23XPjPO+s9/C1Ino5CCyTUOuC30UJuZ
-	d+Ug==
-X-Gm-Message-State: AODbwcCDqhuwG3LVjQt1g+f9PFibw3qOLewgoW8LclT0tyJFDPQfpXC6
-	purFh/HacsDRhv/ki3Y=
-X-Received: by 10.107.20.134 with SMTP id 128mr12807617iou.132.1496071979609; 
-	Mon, 29 May 2017 08:32:59 -0700 (PDT)
+	bh=ntT0Uxriv+NDfZa/IbuHU01PujxHvLd/ysugeVSpmag=;
+	b=oEj8gNc7hjseIisepPzOO6accbHf7CUcaUf/tSnVYv49PZXzs91hSLhigi+QLs9KdZ
+	YV6izzKP5EHoT0Ch9LhbZ8SDsMzK4LeLPdcY+n4jXWmgAQX2EQyZAgGWq/Fb/nfrqJRa
+	qMvAqsEfi5DCv6UxTaP/Xg01EXMeGQBLi+5C1PlMrDE3tGGIRzqeANkbcLTY9rg+Mbdc
+	VAKZ6uwIbQDH3lYF9vRY+AMG7X0GFBHuIZg6CX/YHl+uyDUaHFgvRRpaQ5gXH9iWk8Fr
+	p0e1+wNS2v6WJiqnd/g0zmKJmxicj4eZvf3niGYNI6MSb3A72Hz4Lz4llMHUhxZu+NZ5
+	TuEQ==
+X-Gm-Message-State: AODbwcAI2pb33mcz08Glh6fEB1dUdQpLk5DrrHzYWE0DuubFPA1iK+tZ
+	mXZcDVt8ruGtYYpBY7w=
+X-Received: by 10.36.29.150 with SMTP id 144mr8261409itj.71.1496071982364;
+	Mon, 29 May 2017 08:33:02 -0700 (PDT)
 Received: from pohly-desktop.fritz.box (p5DE8FCB8.dip0.t-ipconnect.de.
 	[93.232.252.184]) by smtp.gmail.com with ESMTPSA id
-	r82sm4232600iod.45.2017.05.29.08.32.57
+	r82sm4232600iod.45.2017.05.29.08.33.00
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 29 May 2017 08:32:58 -0700 (PDT)
+	Mon, 29 May 2017 08:33:01 -0700 (PDT)
 From: Patrick Ohly <patrick.ohly@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 29 May 2017 17:32:38 +0200
-Message-Id: <6fb76ec32e7e4e786320a351362d3fe8034b8f1b.1496071841.git-series.patrick.ohly@intel.com>
+Date: Mon, 29 May 2017 17:32:39 +0200
+Message-Id: <c352a354d5263ef5fb82e3ce7cda0ed265437a2c.1496071841.git-series.patrick.ohly@intel.com>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <cover.393a6efac99077bd222866024d8e18f371414195.1496071841.git-series.patrick.ohly@intel.com>
 References: <cover.393a6efac99077bd222866024d8e18f371414195.1496071841.git-series.patrick.ohly@intel.com>
-Subject: [PATCH 4/6] yocto-compat-layer.py: add test_world
+Subject: [PATCH 5/6] yocto-compat-layer.py: allow README with suffix
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,42 +57,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 May 2017 15:32:59 -0000
+X-List-Received-Date: Mon, 29 May 2017 15:33:01 -0000
 
-"test_signatures" ignores wold build breakage for the sake of
-reporting differences also when a world build is broken. Therefore we
-need a dedicated test that a world build at least theoretically can
-proceed without obvious parse time problems (dependencies, parse
-errors, dangling .bbappends, etc.).
+It may be useful to append a suffix denoting the file format. For
+example, README.rst is rendered differently when viewed on Github, and
+also helps editors to switch to a mode more suitable for the format.
 
-This is similar to the BSP test_machine_world. The difference is
-that test_world doesn't change the MACHINE.
+The tests uses a file pattern to find the README file(s) and treats
+the one with the shortest name as the main one which must not be
+empty.
 
 Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
 ---
- scripts/lib/compatlayer/cases/common.py |  9 +++++++++
- 1 file changed, 9 insertions(+)
+ scripts/lib/compatlayer/cases/common.py | 14 ++++++++++----
+ 1 file changed, 10 insertions(+), 4 deletions(-)
 
 diff --git a/scripts/lib/compatlayer/cases/common.py b/scripts/lib/compatlayer/cases/common.py
-index fe4936e..b9cd656 100644
+index b9cd656..284d1cc 100644
 --- a/scripts/lib/compatlayer/cases/common.py
 +++ b/scripts/lib/compatlayer/cases/common.py
-@@ -26,6 +26,15 @@ class CommonCompatLayer(OECompatLayerTestCase):
-         check_command('Layer %s failed to show environment.' % self.tc.layer['name'],
-                       'bitbake -e')
+@@ -1,6 +1,7 @@
+ # Copyright (C) 2017 Intel Corporation
+ # Released under the MIT license (see COPYING.MIT)
  
-+    def test_world(self):
-+        '''
-+        "bitbake world" is expected to work. test_signatures does not cover that
-+        because it is more lenient and ignores recipes in a world build that
-+        are not actually buildable, so here we fail when "bitbake -S none world"
-+        fails.
-+        '''
-+        get_signatures(self.td['builddir'], failsafe=False)
-+
-     def test_signatures(self):
-         # task -> (old signature, new signature)
-         sig_diff = {}
++import glob
+ import os
+ import unittest
+ from compatlayer import get_signatures, LayerType, check_command, get_depgraph
+@@ -8,15 +9,20 @@ from compatlayer.case import OECompatLayerTestCase
+ 
+ class CommonCompatLayer(OECompatLayerTestCase):
+     def test_readme(self):
+-        readme_file = os.path.join(self.tc.layer['path'], 'README')
+-        self.assertTrue(os.path.isfile(readme_file),
+-                msg="Layer doesn't contains README file.")
++        # The top-level README file may have a suffix (like README.rst or README.txt).
++        readme_files = glob.glob(os.path.join(self.tc.layer['path'], 'README*'))
++        self.assertTrue(len(readme_files) > 0,
++                        msg="Layer doesn't contains README file.")
+ 
++        # There might be more than one file matching the file pattern above
++        # (for example, README.rst and README-COPYING.rst). The one with the shortest
++        # name is considered the "main" one.
++        readme_file = sorted(readme_files)[0]
+         data = ''
+         with open(readme_file, 'r') as f:
+             data = f.read()
+         self.assertTrue(data,
+-                msg="Layer contains README file but is empty.")
++                msg="Layer contains a README file but it is empty.")
+ 
+     def test_parse(self):
+         check_command('Layer %s failed to parse.' % self.tc.layer['name'],
 -- 
 git-series 0.9.1
 
