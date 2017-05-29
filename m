@@ -1,31 +1,28 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id C3C4F780AC
+Return-Path: <anibal.limon@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id AF308780AA
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 May 2017 15:55:56 +0000 (UTC)
+	Mon, 29 May 2017 16:13:46 +0000 (UTC)
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga105.jf.intel.com with ESMTP; 29 May 2017 08:55:57 -0700
+	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	29 May 2017 09:13:47 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.38,415,1491289200"; d="scan'208";a="93146968"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by orsmga002.jf.intel.com with ESMTP; 29 May 2017 08:55:56 -0700
-To: Max Krummenacher <max.oss.09@gmail.com>
-References: <20170526203537.30721-1-max.krummenacher@toradex.com>
-	<cf075667-da8d-6b04-8cbb-a39fd3c0fcfa@linux.intel.com>
-	<CAEHkU3VWN7gwy1pZYK6izb5V6kr6=s+9fCymb+Px==ZLRZi6-g@mail.gmail.com>
-	<CAEHkU3VzMEsCgxwL_mc1MiAQ-1-Ks7WEhyz15T3OpzdpJ-C1+w@mail.gmail.com>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <e9b75721-f3e3-7f3f-e781-58df67b4130a@linux.intel.com>
-Date: Mon, 29 May 2017 18:54:06 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.8.0
+X-IronPort-AV: E=Sophos;i="5.38,415,1491289200"; 
+	d="asc'?scan'208";a="93154049"
+Received: from unknown (HELO [10.219.128.117]) ([10.219.128.117])
+	by orsmga002.jf.intel.com with ESMTP; 29 May 2017 09:13:46 -0700
+To: Patrick Ohly <patrick.ohly@intel.com>,
+	openembedded-core@lists.openembedded.org
+References: <cover.393a6efac99077bd222866024d8e18f371414195.1496071841.git-series.patrick.ohly@intel.com>
+	<c8d26bf705a207b8f639c966f811bbb15556038c.1496071841.git-series.patrick.ohly@intel.com>
+From: =?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <anibal.limon@linux.intel.com>
+Message-ID: <592C48BD.5020107@linux.intel.com>
+Date: Mon, 29 May 2017 11:13:49 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.3.0
 MIME-Version: 1.0
-In-Reply-To: <CAEHkU3VzMEsCgxwL_mc1MiAQ-1-Ks7WEhyz15T3OpzdpJ-C1+w@mail.gmail.com>
-Cc: "Purdie, Richard" <richard.purdie@intel.com>,
-	Max Krummenacher <max.krummenacher@toradex.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] libsolv: don't pick up bundled db from host rpm
+In-Reply-To: <c8d26bf705a207b8f639c966f811bbb15556038c.1496071841.git-series.patrick.ohly@intel.com>
+Subject: Re: [PATCH 3/6] yocto-compat-layer.py: apply test_signatures to all layers
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,56 +35,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 May 2017 15:55:56 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 29 May 2017 16:13:48 -0000
+X-Groupsio-MsgNum: 97886
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature";
+	boundary="NT4DBsPxTBiLIFr4LpWFI1ouh4VeDO4eU"
 
-On 05/29/2017 04:06 PM, Max Krummenacher wrote:
->>>> +-  # check if rpm contains a bundled berkeley db
->>>> +-  CHECK_INCLUDE_FILE(rpm/db.h HAVE_RPM_DB_H)
->>>> ++  set(HAVE_RPM_DB_H 0)
->>>
->>>
->>> Have you looked into what CHECK_INCLUDE_FILE does, and whether it can be
->>> fixed? I'd like to hear about your findings.
->>
->> Yes, I did.
->>
->> I creates a c file and tries to compile it with the CFLAGS specified
->> in CMaketext.
->>
->> <<<<<<<<
->> #include "rpm/db.h"
->> int main () {
->> return 0;
->> }
->>>>>>>>>>
->>
->> As we're talking about libsolv-native here it uses the build host's
->> gcc which has the standard include directory
->> /usr/include and thus finds a /usr/include/rpm/db.h
->>
->> And again, I do not think that it is an error to find/use headers from
->> the build host's /usr/include for a *-native
->> build.
->
-> Maybe to add to 'can it be fixed?'
->
-> As I said, IMHO it is not broken, but
-> yes, one could pass an additional parameter to the compiler '-nostdinc'.
-> CHECK_INCLUDE_FILE(rpm/db.h HAVE_RPM_DB_H, "-nostdinc")
-> But this would break the intention of the test on the not '-native'
-> build as there
-> the rpm headers whould actually be found in the standard include directories.
-> So if OE ever would decide to change the rpm recipe to have an included db
-> this would not be picked up by the test in the not '-native' tests.
+--NT4DBsPxTBiLIFr4LpWFI1ouh4VeDO4eU
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: quoted-printable
 
-I see. You are right here. I admit I don't fully understand if it's 
-generally okay for -native recipes to look around in (and later use) 
-host include  directories like that, as we're striving towards 
-reproducible builds, and this behavior is not supportive of them. 
-Richard, can we have your say please?
+On 05/29/2017 10:32 AM, Patrick Ohly wrote:
+> Software layers were previously allowed to change signatures, but
+> that's not desired for those layers either. The rule that a layer
+> which is "Yocto Compatible 2.0" must not change signatures unless
+> explicitly requested holds for all kinds of layers.
 
-Alex
+If i understand correctly now a software layer can't change a signature
+but how do we handle this?, currently if a software layer is added and
+has bbappends or newer version of a recipe the signature will change.
+
+May be we need to postpone this validation removal until we have a
+manner to avoid a software layer automatically change the signatures.
+
+Cheers,
+Anibal
 
 
+>=20
+> Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
+> ---
+>  scripts/lib/compatlayer/cases/common.py | 4 ----
+>  1 file changed, 4 deletions(-)
+>=20
+> diff --git a/scripts/lib/compatlayer/cases/common.py b/scripts/lib/comp=
+atlayer/cases/common.py
+> index 2dfcbb1..fe4936e 100644
+> --- a/scripts/lib/compatlayer/cases/common.py
+> +++ b/scripts/lib/compatlayer/cases/common.py
+> @@ -27,10 +27,6 @@ class CommonCompatLayer(OECompatLayerTestCase):
+>                        'bitbake -e')
+> =20
+>      def test_signatures(self):
+> -        if self.tc.layer['type'] =3D=3D LayerType.SOFTWARE:
+> -            raise unittest.SkipTest("Layer %s isn't BSP or DISTRO one.=
+" \
+> -                     % self.tc.layer['name'])
+> -
+>          # task -> (old signature, new signature)
+>          sig_diff =3D {}
+>          curr_sigs, _ =3D get_signatures(self.td['builddir'], failsafe=3D=
+True)
+>=20
+
+
+--NT4DBsPxTBiLIFr4LpWFI1ouh4VeDO4eU
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iQIcBAEBAgAGBQJZLEi/AAoJEGJqcE9h3glgd9oP/3FHQo59alFWv+U9QuLv0yhg
+FYc9j+dG/7KBL3gfQkfG8PX3zZQKS7ZTRnsUzfOBg5+Hn4EsyTDwZk6+nF1zpLvk
+t1+0jxqfdA8lzDYc5l3sF7DvMzDRmuXPDAq/uJqHF047V0QqFUTNz3Qg3t60fAvX
+GlRJMroBAGG2GH2BzKGJpI8w50b+Uhrai6czPjj6UDENIx8/S6Sc2BcLnFKriB0e
+8tLN8SsR5lI9S8TtKlrzSrEcNR0uvPe5eay8UluwgpESDNkZ/stH4l7IRDYi094x
+EgCtoK3zFwdQPyKn7oAi35PQBagV6O2u997n/2CF481tcBB1W3EXGp0pra96cOKB
+Nuu07iDppM995E4W93zJa1xvb8PNIcb4qk7qU82QuG1CC02d+dismzXat8A0BrZ9
+xOQbj/89vnOubODotygnp7nsKwgUU7d5lbPYQ5Ve3+1iLTaIxmaWSWYs+h4jYj8I
+VlfjmRjEWLaKI5rQFB8lYNFLOba1+RXXIhVYkTerNxvuSk+LASJ1RvVYAIXgU1AX
+2yRK3aNLaZ7x20Cip/aHxCvhtQ9FXSlP7KY2gH9pt0ZmoXw4FPzeZyPVjhT0+yes
+OnOGE6Dt5SWf0CZAvQyw0EBf8wG4qfuYhpKU4BTtUr0cnVc+QHmUzB0Zg+dLA4p5
+45KYGyEbyGF3ruvN6SeB
+=3QkM
+-----END PGP SIGNATURE-----
+
+--NT4DBsPxTBiLIFr4LpWFI1ouh4VeDO4eU--
