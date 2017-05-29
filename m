@@ -1,25 +1,34 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id 5BB6771AC6
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id E794977D40
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 May 2017 22:39:29 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga104.jf.intel.com with ESMTP; 29 May 2017 15:39:31 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.38,415,1491289200"; d="scan'208";a="1135991998"
-Received: from iho2-mobl6.gar.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.255.160.82])
-	by orsmga001.jf.intel.com with ESMTP; 29 May 2017 15:39:29 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 30 May 2017 10:39:27 +1200
-Message-ID: <4112856.L6cQ6Ng9MU@peggleto-mobl.ger.corp.intel.com>
-Organization: Intel Corporation
-In-Reply-To: <74570ed1b829c9c416cffa5547b673ea6e3ef262.1495747168.git.leonardo.sandoval.gonzalez@linux.intel.com>
-References: <cover.1495747168.git.leonardo.sandoval.gonzalez@linux.intel.com>
-	<74570ed1b829c9c416cffa5547b673ea6e3ef262.1495747168.git.leonardo.sandoval.gonzalez@linux.intel.com>
-MIME-Version: 1.0
-Subject: Re: [PATCH 2/2] import: new plugin to import the devtool workspace
+	Mon, 29 May 2017 23:11:58 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	v4TNBnKf014304
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
+	verify=NOT); Tue, 30 May 2017 00:11:50 +0100
+Message-ID: <1496099509.25229.144.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>, Max Krummenacher
+	<max.oss.09@gmail.com>
+Date: Tue, 30 May 2017 00:11:49 +0100
+In-Reply-To: <e9b75721-f3e3-7f3f-e781-58df67b4130a@linux.intel.com>
+References: <20170526203537.30721-1-max.krummenacher@toradex.com>
+	<cf075667-da8d-6b04-8cbb-a39fd3c0fcfa@linux.intel.com>
+	<CAEHkU3VWN7gwy1pZYK6izb5V6kr6=s+9fCymb+Px==ZLRZi6-g@mail.gmail.com>
+	<CAEHkU3VzMEsCgxwL_mc1MiAQ-1-Ks7WEhyz15T3OpzdpJ-C1+w@mail.gmail.com>
+	<e9b75721-f3e3-7f3f-e781-58df67b4130a@linux.intel.com>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.1 
+Mime-Version: 1.0
+X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.11
+	(dan.rpsys.net [192.168.3.1]);
+	Tue, 30 May 2017 00:11:51 +0100 (BST)
+X-Virus-Scanned: clamav-milter 0.99.2 at dan
+X-Virus-Status: Clean
+Cc: Max Krummenacher <max.krummenacher@toradex.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] libsolv: don't pick up bundled db from host rpm
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,162 +41,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 May 2017 22:39:31 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Mon, 29 May 2017 23:11:59 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Friday, 26 May 2017 9:31:48 AM NZST leonardo.sandoval.gonzalez@linux.intel.com wrote:
-> From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
-> 
-> Takes a tar archive created by 'devtool export' and export it (untar) to
-> workspace. By default, the whole tar archive is imported, thus there is no
-> way to limit what is imported.
-> 
-> https://bugzilla.yoctoproject.org/show_bug.cgi?id=10510
-> 
-> [YOCTO #10510]
-> 
-> Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
-> ---
->  scripts/lib/devtool/import.py | 99 +++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 99 insertions(+)
->  create mode 100644 scripts/lib/devtool/import.py
-> 
-> diff --git a/scripts/lib/devtool/import.py b/scripts/lib/devtool/import.py
-> new file mode 100644
-> index 00000000000..ff770c321f4
-> --- /dev/null
-> +++ b/scripts/lib/devtool/import.py
-> @@ -0,0 +1,99 @@
-> +# Development tool - import command plugin
-> +#
-> +# Copyright (C) 2014-2017 Intel Corporation
-> +#
-> +# This program is free software; you can redistribute it and/or modify
-> +# it under the terms of the GNU General Public License version 2 as
-> +# published by the Free Software Foundation.
-> +#
-> +# This program is distributed in the hope that it will be useful,
-> +# but WITHOUT ANY WARRANTY; without even the implied warranty of
-> +# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-> +# GNU General Public License for more details.
-> +#
-> +# You should have received a copy of the GNU General Public License along
-> +# with this program; if not, write to the Free Software Foundation, Inc.,
-> +# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-> +"""Devtool import plugin"""
-> +
-> +import os
-> +import tarfile
-> +import logging
-> +import re
-> +from devtool import standard
-> +
-> +logger = logging.getLogger('devtool')
-> +
-> +def devimport(args, config, basepath, workspace):
-> +    """Entry point for the devtool 'import' subcommand"""
-> +    if not os.path.exists(args.name):
-> +        logger.error('Tar archive %s does not exist. The expected archive should be created with "devtool export"')
-> +        return 1
-> +
-> +    # match exported workspace folders
-> +    prog = re.compile('recipes|appends|sources')
-> +
-> +    def get_prefix(name):
-> +        """Prefix the workspace path or $HOME to the member name"""
-> +        _prefix = ""
-> +        if prog.match(name):
-> +            _prefix = config.workspace_path + '/'
-> +        else:
-> +            if not name.startswith('/'):
-> +                _prefix = os.environ['HOME'] + '/'
-> +
-> +        return _prefix, _prefix + name
-> +
-> +    # include the default archiver filename if missing
-> +    name = args.name
-> +    if os.path.isdir(name):
-> +        if name[-1] != '/':
-> +            name = name + '/'
-> +        name = name + default_arcname
+On Mon, 2017-05-29 at 18:54 +0300, Alexander Kanavin wrote:
+> I see. You are right here. I admit I don't fully understand if it's 
+> generally okay for -native recipes to look around in (and later use) 
+> host include  directories like that, as we're striving towards 
+> reproducible builds, and this behavior is not supportive of them. 
+> Richard, can we have your say please?
 
-If the date is in the export we can't use this default - see below.
+Its unavoidable really, we have to have some host system we build on as
+we need a compiler/headers from it. Even if you build a gcc-native,
+what would you compile it with? :)
 
-> +
-> +    if not os.path.exists(name):
-> +        logger.error('Tar archive %s does not exists. Export your workspace using "devtool export"')
+If you do want to avoid the risk, you'd choose your own custom base OS
+(or container) and then always build on that. It would then be both
+reproducible and deterministic. We don't want to mandate a specific
+host configuration out the box though.
 
-"exists" -> "exist". We should also drop the "export your workspace" bit.
-
-> +        return 1
-> +
-> +    included = []
-> +    with tarfile.open(name) as tar:
-> +        for member in tar.getmembers():
-> +            prefix, path = get_prefix(member.name)
-> +            if os.path.exists(path):
-> +                if args.force:
-> +                    try:
-> +                        tar.extract(member, path=prefix)
-> +                    except PermissionError as pe:
-> +                        logger.warn(pe)
-> +                else:
-> +                    logger.warn('File already present, add -f to overwrite: %s' % member.name)
-> +            else:
-> +                tar.extract(member, path=prefix)
-> +
-> +            # md5 creation just for recipes or appends
-> +            if member.name.startswith('recipes') or member.name.startswith('appends'):
-> +                dirpath, recipe = os.path.split(member.name)
-> +                recipename = ""
-> +                for sep in "_ .".split():
-> +                    if sep in recipe:
-> +                        recipename = recipe.split(sep)[0]
-> +                        break
-> +                if not recipename:
-> +                    logger.warn('Recipe name could not be extracted from %s' % member.name)
-> +                    recipename = recipe
-> +
-> +                standard._add_md5(config, recipename, path)
-> +                if recipename not in included:
-> +                    included.append(recipename)
-> +
-> +    logger.info('Imported recipes into workspace %s: %s' % (config.workspace_path, included))
-> +
-> +def register_commands(subparsers, context):
-> +    """Register devtool import subcommands"""
-> +    parser = subparsers.add_parser('import',
-> +                                   help='Import tar archive into workspace',
-> +                                   description='Import previously created tar archive into the workspace',
-> +                                   group='advanced')
-> +    parser.add_argument('--name', '-n', default='workspace.tar', help='Name of the tar archive to import')
-
-Remove the default here - actually I suspect we should just make this a
-mandatory positional argument.
-
-> +    parser.add_argument('--force', '-f', action="store_true", help='Overwrite previous files')
-
-As per export this should be "overwrite" rather than "force".
-
-There are a couple of things missing from this:
-
-1) You noted that it doesn't check if there are recipes to match the
-bbappends - we do need to do this as part of the initial version.
-tinfoil.cooker.recipecaches[''].pkg_fn.items() should give you a list of all
-recipe files that you can use to verify this.
-
-2) The bbappends contain absolute paths that will need to be updated e.g.
-EXTERNALSRC / EXTERNALSRC_BUILD - these will almost certainly be different
-between the export and import machine if this functionality is used to send
-workspace content between different users.
+So this patch avoids an issue. We don't tend to run into too many
+issues like this one thankfully.
 
 Cheers,
-Paul
+
+Richard
 
 
--- 
 
-Paul Eggleton
-Intel Open Source Technology Centre
+
 
