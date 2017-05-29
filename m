@@ -1,51 +1,43 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-oi0-f54.google.com (mail-oi0-f54.google.com
-	[209.85.218.54])
-	by mail.openembedded.org (Postfix) with ESMTP id A17BD77F85
+Return-Path: <daniel.diaz@linaro.org>
+Received: from mail-io0-f173.google.com (mail-io0-f173.google.com
+	[209.85.223.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 50EB377D81
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 May 2017 20:14:29 +0000 (UTC)
-Received: by mail-oi0-f54.google.com with SMTP id h4so88933881oib.3
+	Mon, 29 May 2017 21:04:40 +0000 (UTC)
+Received: by mail-io0-f173.google.com with SMTP id o12so46441707iod.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 May 2017 13:14:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	Mon, 29 May 2017 14:04:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=7zPQg7pknACA6rtxARoScNEdhm+XN5CvPh8AsPEEONw=;
-	b=coLY2BQ3GqM92hHnFVdZ5qj4+6S2EBwQPFX30ELbRU7frYIq+LGgdLphpNSSLec3u8
-	MYSMgGXv+tDs2ir/RbvxxFFGZWwDci0lxvnZeXR1VYYBxI9xgDpdsn6lW+x05vPIWEJm
-	Xz0wVTWrxDLYBFaFB2bghGmRAXEUI9uPCplwe+oB2DUx/HKhDaKhBR9lv/I7hd74bj7k
-	3Kb1wUODeHe/zAxUvKDTOvSPdxRjIchuWc7FCfKog30jcvIA2LyqssnD5doCVuWVQ1co
-	UAUOc7gZJ93OcYV9zdy4iNBKpL4yXGKL67o/89kbyCgGZ1Ncs45fvh/vEddcMKygqXQx
-	t5Jw==
+	:cc:content-transfer-encoding;
+	bh=OZ3mw+c4oBJk1j6/p5PZTBIHgwbxO4GnEDItQTd4xAY=;
+	b=hxa+VpVzB73dgN2i12cVl5n8XbwRqFK6jF30gDyfSi7ugy6XbjNIp7eXiQ9XsGTR2g
+	mdb6mfiLOlgmdgPfnlHOOklUXJ0BXxPyCgyP3jQ9BJqjyNmif08d2ZnnRTCNu80305Gm
+	GN4H9KAbcwJ4hWVziMCOWmd49+2D1W3WxSal0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=7zPQg7pknACA6rtxARoScNEdhm+XN5CvPh8AsPEEONw=;
-	b=qTMVk3hpTcEk+mvJD0iBStD2whGX4B2lOWDDAt8wedKqu5iRjA0y55fBzprlw9o/q1
-	2XABf9LyTrFJeOCiwKgeBrsIf/FyNpJ4ISbJQVMWPg/yJvJOtvjWD1ED+5h4+qNNQelW
-	NZRG8BgTysay/p+6/rE6BV9s2GQgzq/k2txVHbF8Ew4R501aannY+yDqb7lIAhjZLk6B
-	dqCXcq8QoJyLlS1j2blrRNLATJhgGE1kLF851SnZ+uOvhFGUz9oI3i3pk8QVNT1U19L6
-	OSYel5Hr3Lbh0jIanfGf8snIzmNQDD/yRK31oiEqg46k1RdhopxEzrHASjrJHADI4aXN
-	qluA==
-X-Gm-Message-State: AODbwcBpJWuzqmGUikJ4dUoxXRofRvchL73MbS9dYwovTE1wpTx4dHev
-	mRT02TwtXXsSY04Th2awmNc6RcBts9hM
-X-Received: by 10.202.172.194 with SMTP id v185mr7939338oie.176.1496088871159; 
-	Mon, 29 May 2017 13:14:31 -0700 (PDT)
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=OZ3mw+c4oBJk1j6/p5PZTBIHgwbxO4GnEDItQTd4xAY=;
+	b=Ryp+EkbePAHe2lHhJCCRb460ymA8zuSJ68zEt6WvzvxDbn4hhAiN2ehua0NxobPOw9
+	omgwT5vj8s43G/PujY21bkxzgfIvf+4MaCrQKbMG9aP/sp0K633TG28tyK28h+ozA0Zu
+	UU1xRAbBs7ZmL6GmC6G8RtatSVk1brMPgCLJcOXu/yvFFNz52RQHB1B/+RWVGuFcGCmM
+	tJWMKkvO8O1O94UY9vuL4bhaEDShTRn9WIh+emEsmukD99r9cob90B1UpfvhJ5DBjZ0s
+	enRs/+cfffUxVHf4VdohRAPENBKLzpu/CKUiNr6kzwjip8BKdp2UCbHt2QsJ4Fx1bjPH
+	/Bfw==
+X-Gm-Message-State: AODbwcDV0URrMNZX2yAFTOLL91RuJwEWKbmxx9aXR6SQ6ApMGMFpwgOg
+	HkfGgEcVX+pD3RAxJQFpP43RNo7PxRJhQns=
+X-Received: by 10.107.136.17 with SMTP id k17mr16004118iod.89.1496091881453;
+	Mon, 29 May 2017 14:04:41 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.157.30.226 with HTTP; Mon, 29 May 2017 13:14:10 -0700 (PDT)
-In-Reply-To: <592C75CC.2090708@linux.intel.com>
-References: <cover.393a6efac99077bd222866024d8e18f371414195.1496071841.git-series.patrick.ohly@intel.com>
-	<c8d26bf705a207b8f639c966f811bbb15556038c.1496071841.git-series.patrick.ohly@intel.com>
-	<592C48BD.5020107@linux.intel.com>
-	<1496085537.16923.133.camel@intel.com>
-	<592C75CC.2090708@linux.intel.com>
-From: Christopher Larson <kergoth@gmail.com>
-Date: Mon, 29 May 2017 13:14:10 -0700
-Message-ID: <CABcZANmeNcT0JHWXaJM2__EZrgarSjCqQO3Af4trGNF_Dria-A@mail.gmail.com>
-To: =?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <anibal.limon@linux.intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/6] yocto-compat-layer.py: apply test_signatures to all layers
+Received: by 10.107.168.224 with HTTP; Mon, 29 May 2017 14:04:41 -0700 (PDT)
+In-Reply-To: <1495131757-7261-1-git-send-email-daniel.diaz@linaro.org>
+References: <1495131757-7261-1-git-send-email-daniel.diaz@linaro.org>
+From: =?UTF-8?Q?Daniel_D=C3=ADaz_Rodr=C3=ADguez?= <daniel.diaz@linaro.org>
+Date: Mon, 29 May 2017 16:04:41 -0500
+Message-ID: <CAEUSe7-yrguHG2mYJha0n1+U=WagU5OUPqoc3DzpCiB1FvJy6w@mail.gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/3] piglit: depend on virtual/egl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,94 +50,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 May 2017 20:14:31 -0000
-Content-Type: multipart/alternative; boundary="001a113ce7dcb7cff50550af5529"
-
---001a113ce7dcb7cff50550af5529
+X-List-Received-Date: Mon, 29 May 2017 21:04:42 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, May 29, 2017 at 12:26 PM, An=C3=ADbal Lim=C3=B3n <anibal.limon@linu=
-x.intel.com
-> wrote:
+Ping on this series (#6793 in Patchwork).
 
-> >
-> > Changing software versions is indeed a bit more problematic. One could
-> > argue that layers shouldn't fight over who provides a certain recipe in
-> > the first place. If they do, perhaps the "additional layers" (=3D the o=
-nes
-> > with lower priority) need to provide explicit .inc files with
-> > PREFERRED_VERSION assignments without which the overriding recipes
-> > aren't used?
->
-> Yes, so in this case will need to set automatically the preferred
-> versions to oe-core recipes, and then let the distro layer to change the
-> preferred version in this way when test a distro layer with oe-core the
-> signatures not will change only when add the combo of distro layer +
-> software layer.
-
-
-Currently, if you add a high priority layer with an older version recipe,
-it will change the default selected recipe, lacking a PREFERRED_VERSION.
-You can=E2=80=99t use DEFAULT_PREFERENCE to make the new old version of a r=
-ecipe
-not be used, since bitbake treats layer priority as more important than
-default preference, so adding a .inc won=E2=80=99t do much good, since you =
-can=E2=80=99t
-make the recipe not be preferred by default without a preferred version set
-to the current oe-core version. You could add such a line to the
-layer.conf, but then you=E2=80=99re hardcoding the oe-core recipe version i=
-nto a
-separate layer, which is pretty ugly. I don=E2=80=99t htink we should be en=
-forcing
-this signature change without resolving this.
 --=20
-Christopher Larson
-kergoth at gmail dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Senior Software Engineer, Mentor Graphics
+ddiaz
 
---001a113ce7dcb7cff50550af5529
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On Mon, May 29, 2017 at 12:26 PM, An=C3=ADbal Lim=C3=B3n <span dir=3D"ltr">=
-&lt;<a href=3D"mailto:anibal.limon@linux.intel.com" target=3D"_blank">aniba=
-l.limon@linux.intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail=
-_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:=
-1ex"><span class=3D"">&gt;<br>
-&gt; Changing software versions is indeed a bit more problematic. One could=
-<br>
-&gt; argue that layers shouldn&#39;t fight over who provides a certain reci=
-pe in<br>
-&gt; the first place. If they do, perhaps the &quot;additional layers&quot;=
- (=3D the ones<br>
-&gt; with lower priority) need to provide explicit .inc files with<br>
-&gt; PREFERRED_VERSION assignments without which the overriding recipes<br>
-&gt; aren&#39;t used?<br>
-<br>
-</span>Yes, so in this case will need to set automatically the preferred<br=
+
+On 18 May 2017 at 13:22, Daniel D=C3=ADaz <daniel.diaz@linaro.org> wrote:
+> While building for Hikey using Mali 450 driver (r6p0), an
+> error like the following appears while linking:
 >
-versions to oe-core recipes, and then let the distro layer to change the<br=
+>   [  1%] Linking C shared library ../../../../lib/libpiglitutil.so
+>   [...]
+>   [...]/aarch64-linaro-linux/gcc/aarch64-linaro-linux/6.3.1/ld: cannot fi=
+nd -lEGL
+>   collect2: error: ld returned 1 exit status
+>   make[2]: *** [lib/libpiglitutil.so.0] Error 1
 >
-preferred version in this way when test a distro layer with oe-core the<br>
-signatures not will change only when add the combo of distro layer +<br>
-software layer.</blockquote></div><br>Currently, if you add a high priority=
- layer with an older version recipe, it will change the default selected re=
-cipe, lacking a PREFERRED_VERSION. You can=E2=80=99t use DEFAULT_PREFERENCE=
- to make the new old version of a recipe not be used, since bitbake treats =
-layer priority as more important than default preference, so adding a .inc =
-won=E2=80=99t do much good, since you can=E2=80=99t make the recipe not be =
-preferred by default without a preferred version set to the current oe-core=
- version. You could add such a line to the layer.conf, but then you=E2=80=
-=99re hardcoding the oe-core recipe version into a separate layer, which is=
- pretty ugly. I don=E2=80=99t htink we should be enforcing this signature c=
-hange without resolving this.<br>-- <br><div class=3D"gmail_signature" data=
--smartmail=3D"gmail_signature"><div dir=3D"ltr"><div><div dir=3D"ltr">Chris=
-topher Larson<br>kergoth at gmail dot com<br>Founder - BitBake, OpenEmbedde=
-d, OpenZaurus<br>Senior Software Engineer, Mentor Graphics</div></div></div=
-></div>
-</div></div>
+> Mesa generally provides virtual/egl (along with virtual/libgl,
+> which satisfies Piglit's current DEPENDS) but that is not the
+> implementation to use with Mali.
+>
+> Signed-off-by: Daniel D=C3=ADaz <daniel.diaz@linaro.org>
+> ---
+>  meta/recipes-graphics/piglit/piglit_git.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-graphics/piglit/piglit_git.bb b/meta/recipes-gr=
+aphics/piglit/piglit_git.bb
+> index d6bfb14..eae3eed 100644
+> --- a/meta/recipes-graphics/piglit/piglit_git.bb
+> +++ b/meta/recipes-graphics/piglit/piglit_git.bb
+> @@ -14,7 +14,7 @@ PV =3D "1.0+gitr${SRCPV}"
+>
+>  S =3D "${WORKDIR}/git"
+>
+> -DEPENDS =3D "libpng virtual/libx11 libxkbcommon libxrender waffle virtua=
+l/libgl libglu python3-mako-native python3-numpy-native python3-six-native"
+> +DEPENDS =3D "libpng virtual/libx11 libxkbcommon libxrender waffle virtua=
+l/libgl libglu python3-mako-native python3-numpy-native python3-six-native =
+virtual/egl"
+>
+>  inherit cmake python3native distro_features_check bash-completion
+>  # depends on virtual/libx11
+> --
+> 1.9.1
+>
 
---001a113ce7dcb7cff50550af5529--
