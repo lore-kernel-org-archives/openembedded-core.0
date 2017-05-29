@@ -1,24 +1,24 @@
 Return-Path: <erik.boto@pelagicore.com>
-Received: from ORO-EDGE-02.luxoft.com (oro-edge-02.luxoft.com [109.166.244.22])
-	by mail.openembedded.org (Postfix) with ESMTP id A7AC477FD1
+Received: from ORO-EDGE-03.luxoft.com (oro-edge-03.luxoft.com [109.166.244.23])
+	by mail.openembedded.org (Postfix) with ESMTP id E8E3D77FEF
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 29 May 2017 06:09:49 +0000 (UTC)
 Received: from ORO-HUBT-03.luxoft.com (172.30.115.38) by
-	oro-edge-02.luxoft.com (172.30.19.22) with Microsoft SMTP Server (TLS)
+	oro-edge-03.luxoft.com (172.30.19.23) with Microsoft SMTP Server (TLS)
 	id 14.3.319.2; Mon, 29 May 2017 09:09:49 +0300
 Received: from debbie.luxoft.com (172.31.240.101) by ORO-HUBT-03.luxoft.com
 	(172.30.115.101) with Microsoft SMTP Server (TLS) id 14.3.319.2;
-	Mon, 29 May 2017 09:09:50 +0300
+	Mon, 29 May 2017 09:09:48 +0300
 From: =?UTF-8?q?Erik=20Bot=C3=B6?= <erik.boto@pelagicore.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 29 May 2017 08:09:35 +0200
-Message-ID: <20170529060935.8093-5-erik.boto@pelagicore.com>
+Date: Mon, 29 May 2017 08:09:33 +0200
+Message-ID: <20170529060935.8093-3-erik.boto@pelagicore.com>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <20170529060935.8093-1-erik.boto@pelagicore.com>
 References: <20170529060935.8093-1-erik.boto@pelagicore.com>
 MIME-Version: 1.0
 X-Originating-IP: [172.31.240.101]
-Subject: [PATCH v2 4/4] sshcontrol.py: in copy_to() always use scp
+Subject: [PATCH v2 2/4] masterimage.py: rename parameter "params" in start() to "extra_bootparams"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,37 +35,28 @@ X-List-Received-Date: Mon, 29 May 2017 06:09:50 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-The current implementation is broken when the localpath is a link.
-Then only a symlink would be created on the target, instead of copying
-the actual file.
+This matches how it is called, and how it is named in qmeu target.
 
 [YOCTO #11524]
 
 Signed-off-by: Erik Botö <erik.boto@pelagicore.com>
 ---
- meta/lib/oeqa/utils/sshcontrol.py | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
+ meta/lib/oeqa/controllers/masterimage.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/lib/oeqa/utils/sshcontrol.py b/meta/lib/oeqa/utils/sshcontrol.py
-index 05d6502550..d292893c08 100644
---- a/meta/lib/oeqa/utils/sshcontrol.py
-+++ b/meta/lib/oeqa/utils/sshcontrol.py
-@@ -150,12 +150,9 @@ class SSHControl(object):
+diff --git a/meta/lib/oeqa/controllers/masterimage.py b/meta/lib/oeqa/controllers/masterimage.py
+index 6cdcfa3068..18da2799bb 100644
+--- a/meta/lib/oeqa/controllers/masterimage.py
++++ b/meta/lib/oeqa/controllers/masterimage.py
+@@ -143,7 +143,7 @@ class MasterImageHardwareTarget(oeqa.targetcontrol.BaseTarget, metaclass=ABCMeta
+     def _deploy(self):
+         pass
  
-     def copy_to(self, localpath, remotepath):
-         if os.path.islink(localpath):
--            link = os.readlink(localpath)
--            dst_dir, dst_base = os.path.split(remotepath)
--            return self.run("cd %s; ln -s %s %s" % (dst_dir, link, dst_base))
--        else:
--            command = self.scp + [localpath, '%s@%s:%s' % (self.user, self.ip, remotepath)]
--            return self._internal_run(command, ignore_status=False)
-+            localpath = os.path.dirname(localpath) + "/" + os.readlink(localpath)
-+        command = self.scp + [localpath, '%s@%s:%s' % (self.user, self.ip, remotepath)]
-+        return self._internal_run(command, ignore_status=False)
- 
-     def copy_from(self, remotepath, localpath):
-         command = self.scp + ['%s@%s:%s' % (self.user, self.ip, remotepath), localpath]
+-    def start(self, params=None):
++    def start(self, extra_bootparams=None):
+         bb.plain("%s - boot test image on target" % self.pn)
+         self._start()
+         # set the ssh object for the target/test image
 -- 
 2.11.0
 
