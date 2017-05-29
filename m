@@ -1,23 +1,35 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	by mail.openembedded.org (Postfix) with ESMTP id D57EE77F6D
+Return-Path: <fan.xin@jp.fujitsu.com>
+Received: from mgwym04.jp.fujitsu.com (mgwym04.jp.fujitsu.com [211.128.242.43])
+	by mail.openembedded.org (Postfix) with ESMTP id E27246FF73
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 May 2017 02:03:00 +0000 (UTC)
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-	by fmsmga105.fm.intel.com with ESMTP; 28 May 2017 19:03:02 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.38,412,1491289200"; d="scan'208";a="107709381"
-Received: from iho2-mobl6.gar.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.255.160.82])
-	by fmsmga005.fm.intel.com with ESMTP; 28 May 2017 19:03:01 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 29 May 2017 14:01:56 +1200
-Message-Id: <17fedf4f271ace8731f5bc38aa372af18d74d326.1496022724.git.paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 2.9.4
-In-Reply-To: <cover.1496022724.git.paul.eggleton@linux.intel.com>
-References: <cover.1496022724.git.paul.eggleton@linux.intel.com>
-Subject: [pyro][PATCH 1/1] scriptutils: fix fetch_uri() to work with RSS
+	Mon, 29 May 2017 02:36:04 +0000 (UTC)
+Received: from yt-mxoi1.gw.nic.fujitsu.com (unknown [192.168.229.67]) by
+	mgwym04.jp.fujitsu.com with smtp
+	id 0582_3c60_3cb90388_f93c_478c_888e_ed9533d26d23;
+	Mon, 29 May 2017 11:36:02 +0900
+Received: from m3050.s.css.fujitsu.com (msm.b.css.fujitsu.com [10.134.21.208])
+	by yt-mxoi1.gw.nic.fujitsu.com (Postfix) with ESMTP id 2A4F5AC00E0
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 29 May 2017 11:36:02 +0900 (JST)
+Received: from omame (omame.fct.css.fujitsu.com [10.24.14.171])
+	by m3050.s.css.fujitsu.com (Postfix) with ESMTP id 14BE21E9;
+	Mon, 29 May 2017 11:36:02 +0900 (JST)
+Received: from [10.24.19.99] (fan1.utsfd.cs.fujitsu.co.jp [10.24.19.99])
+	by omame (Postfix) with ESMTPSA id EF2C71E0074;
+	Mon, 29 May 2017 11:36:01 +0900 (JST)
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <1495775169-24954-1-git-send-email-fan.xin@jp.fujitsu.com>
+	<CAJTo0LYTGn2kObGysTxTPvRj8GR_ahkZO3s=DzvXPo3BWBY5bg@mail.gmail.com>
+From: Fan Xin <fan.xin@jp.fujitsu.com>
+Message-ID: <c6087a6a-04f5-4a2a-4eb1-a77ba6e865f7@jp.fujitsu.com>
+Date: Mon, 29 May 2017 11:37:19 +0900
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.1.1
+MIME-Version: 1.0
+In-Reply-To: <CAJTo0LYTGn2kObGysTxTPvRj8GR_ahkZO3s=DzvXPo3BWBY5bg@mail.gmail.com>
+X-TM-AS-MML: disable
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] elfutils: Upgrade 0.168 to 0.169
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,119 +42,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 May 2017 02:03:01 -0000
+X-List-Received-Date: Mon, 29 May 2017 02:36:05 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 
-Since recipe-specific sysroots were implemented, devtool add and devtool
-upgrade operations that fetch from a URL that requires native sysroot
-dependencies will fail to work as there is no recipe-specific sysroot
-set up for them during fetching. An example was any URL pointing to a
-tarball compressed with xz, e.g. devtool upgrade on gnutls.
+Sorry, I forgot to include aarch64_uio.patch into patch file.
 
-The most expedient way to fix this is to set up a dummy recipe-specific
-sysroot to use for the fetch/unpack operations. We do this in the same
-manner as bitbake -b does, so we're just taking all of the sysroot
-components available and creating a sysroot from those rather than
-ensuring the correct dependencies are there - this means that we're
-still going to have problems if e.g. xz-native hasn't been built yet,
-but that issue will be trickier to solve and is tracked separately.
+Fan Xin
 
-Fixes [YOCTO #11474].
+On 2017年05月26日 23:30, Burton, Ross wrote:
+> 
+> On 26 May 2017 at 06:06, Fan Xin <fan.xin@jp.fujitsu.com 
+> <mailto:fan.xin@jp.fujitsu.com>> wrote:
+> 
+>     1) Upgrade elfutils from 0.168 to 0.169
+>     2) Delete unnecessary patches which has been merged into 0.169
+>     3) Rebase the patch files for 0.169
+> 
+> 
+> ERROR: elfutils-0.169-r0 do_fetch: Fetcher failure for URL: 
+> 'file://aarch64_uio.patch'. Unable to fetch URL from any source.
+> 
+> Ross
 
-(From OE-Core master rev: 559151e783759af78b5cdd76cdbb9ce325a391e6)
-
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
-Signed-off-by: Ross Burton <ross.burton@intel.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- scripts/lib/scriptutils.py | 65 +++++++++++++++++++++++++++++-----------------
- 1 file changed, 41 insertions(+), 24 deletions(-)
-
-diff --git a/scripts/lib/scriptutils.py b/scripts/lib/scriptutils.py
-index 4ccbe5c..92b601c 100644
---- a/scripts/lib/scriptutils.py
-+++ b/scripts/lib/scriptutils.py
-@@ -21,6 +21,8 @@ import logging
- import glob
- import argparse
- import subprocess
-+import tempfile
-+import shutil
- 
- def logger_create(name, stream=None):
-     logger = logging.getLogger(name)
-@@ -78,32 +80,47 @@ def git_convert_standalone_clone(repodir):
- 
- def fetch_uri(d, uri, destdir, srcrev=None):
-     """Fetch a URI to a local directory"""
--    import bb.data
--    bb.utils.mkdirhier(destdir)
--    localdata = bb.data.createCopy(d)
--    localdata.setVar('BB_STRICT_CHECKSUM', '')
--    localdata.setVar('SRCREV', srcrev)
--    ret = (None, None)
--    olddir = os.getcwd()
-+    import bb
-+    tmpparent = d.getVar('BASE_WORKDIR')
-+    bb.utils.mkdirhier(tmpparent)
-+    tmpworkdir = tempfile.mkdtemp(dir=tmpparent)
-     try:
--        fetcher = bb.fetch2.Fetch([uri], localdata)
--        for u in fetcher.ud:
--            ud = fetcher.ud[u]
--            ud.ignore_checksums = True
--        fetcher.download()
--        for u in fetcher.ud:
--            ud = fetcher.ud[u]
--            if ud.localpath.rstrip(os.sep) == localdata.getVar('DL_DIR').rstrip(os.sep):
--                raise Exception('Local path is download directory - please check that the URI "%s" is correct' % uri)
--        fetcher.unpack(destdir)
--        for u in fetcher.ud:
--            ud = fetcher.ud[u]
--            if ud.method.recommends_checksum(ud):
--                md5value = bb.utils.md5_file(ud.localpath)
--                sha256value = bb.utils.sha256_file(ud.localpath)
--                ret = (md5value, sha256value)
-+        bb.utils.mkdirhier(destdir)
-+        localdata = bb.data.createCopy(d)
-+
-+        # Set some values to allow extend_recipe_sysroot to work here we're we are not running from a task
-+        localdata.setVar('WORKDIR', tmpworkdir)
-+        localdata.setVar('BB_RUNTASK', 'do_fetch')
-+        localdata.setVar('PN', 'dummy')
-+        localdata.setVar('BB_LIMITEDDEPS', '1')
-+        bb.build.exec_func("extend_recipe_sysroot", localdata)
-+
-+        # Set some values for the benefit of the fetcher code
-+        localdata.setVar('BB_STRICT_CHECKSUM', '')
-+        localdata.setVar('SRCREV', srcrev)
-+        ret = (None, None)
-+        olddir = os.getcwd()
-+        try:
-+            fetcher = bb.fetch2.Fetch([uri], localdata)
-+            for u in fetcher.ud:
-+                ud = fetcher.ud[u]
-+                ud.ignore_checksums = True
-+            fetcher.download()
-+            for u in fetcher.ud:
-+                ud = fetcher.ud[u]
-+                if ud.localpath.rstrip(os.sep) == localdata.getVar('DL_DIR').rstrip(os.sep):
-+                    raise Exception('Local path is download directory - please check that the URI "%s" is correct' % uri)
-+            fetcher.unpack(destdir)
-+            for u in fetcher.ud:
-+                ud = fetcher.ud[u]
-+                if ud.method.recommends_checksum(ud):
-+                    md5value = bb.utils.md5_file(ud.localpath)
-+                    sha256value = bb.utils.sha256_file(ud.localpath)
-+                    ret = (md5value, sha256value)
-+        finally:
-+            os.chdir(olddir)
-     finally:
--        os.chdir(olddir)
-+        shutil.rmtree(tmpworkdir)
-     return ret
- 
- def run_editor(fn):
 -- 
-2.9.4
+=====================================================
+株式会社富士通コンピュータテクノロジーズ
+組込みシステム技術統括部　第一ファームウェア技術部
+樊　昕 Fan Xin
+fan.xin@jp.fujitsu.com
 
+┏┓ ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+┗■ 【ubinux V15】のリリースを開始しました！
+「SDN(Open vSwitch)」や「クラウド管理(OpenStack Heat）」などに対応
+---------------------------------------------------------------------
+詳細＞＞http://elsc.utsfd.cs.fujitsu.co.jp/location_elsc.php?id=0024
+※"ubinux"は組込み装置向け当社独自のLinuxディストリビューションです
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
