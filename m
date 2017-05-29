@@ -1,55 +1,22 @@
-Return-Path: <prvs=032210ad29=mike.looijmans@topicproducts.com>
-Received: from mx18-11.smtp.antispamcloud.com (mx18-11.smtp.antispamcloud.com
-	[207.244.64.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 6456571A92
+Return-Path: <erik.boto@pelagicore.com>
+Received: from ORO-EDGE-01.luxoft.com (oro-edge-01.luxoft.com [109.166.244.21])
+	by mail.openembedded.org (Postfix) with ESMTP id 1B93E73068
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 May 2017 06:08:06 +0000 (UTC)
-Received: from [37.74.225.130] (helo=TOP-EX01.TOPIC.LOCAL)
-	by mx18.antispamcloud.com with esmtps (TLSv1:ECDHE-RSA-AES128-SHA:128)
-	(Exim 4.86) (envelope-from <mike.looijmans@topicproducts.com>)
-	id 1dFDfT-0002k3-Ub; Mon, 29 May 2017 07:56:41 +0200
-Received: from [192.168.80.121] (192.168.80.121) by webmail.topic.nl
-	(192.168.10.102) with Microsoft SMTP Server id 14.3.224.2;
-	Mon, 29 May 2017 07:56:36 +0200
-To: Nicolas Dechesne <nicolas.dechesne@linaro.org>
-References: <16ea8913-19d8-a67a-601a-98cad6657d58@topic.nl>
-	<CAP71WjyNaSFd3Aw5WD9=aKkopAWaofR5b6TUbthzBSusLx45JQ@mail.gmail.com>
-From: Mike Looijmans <mike.looijmans@topic.nl>
-Organization: TOPIC
-Message-ID: <985ac28d-6709-e021-0432-d3e7a6507683@topic.nl>
-Date: Mon, 29 May 2017 07:56:36 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.1.1
+	Mon, 29 May 2017 06:09:47 +0000 (UTC)
+Received: from ORO-HUBT-03.luxoft.com (172.30.115.38) by
+	oro-edge-01.luxoft.com (172.30.19.21) with Microsoft SMTP Server (TLS)
+	id 14.3.319.2; Mon, 29 May 2017 09:09:46 +0300
+Received: from debbie.luxoft.com (172.31.240.101) by ORO-HUBT-03.luxoft.com
+	(172.30.115.101) with Microsoft SMTP Server (TLS) id 14.3.319.2;
+	Mon, 29 May 2017 09:09:46 +0300
+From: =?UTF-8?q?Erik=20Bot=C3=B6?= <erik.boto@pelagicore.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 29 May 2017 08:09:31 +0200
+Message-ID: <20170529060935.8093-1-erik.boto@pelagicore.com>
+X-Mailer: git-send-email 2.11.0
 MIME-Version: 1.0
-In-Reply-To: <CAP71WjyNaSFd3Aw5WD9=aKkopAWaofR5b6TUbthzBSusLx45JQ@mail.gmail.com>
-X-Originating-IP: [192.168.80.121]
-X-EXCLAIMER-MD-CONFIG: 9833cda7-5b21-4d34-9a38-8d025ddc3664
-X-EXCLAIMER-MD-BIFURCATION-INSTANCE: 0
-X-Originating-IP: 37.74.225.130
-X-SpamExperts-Domain: topic.nl
-X-SpamExperts-Username: 37.74.225.128/28
-Authentication-Results: antispamcloud.com;
-	auth=pass smtp.auth=37.74.225.128/28@topic.nl
-X-SpamExperts-Outgoing-Class: unsure
-X-SpamExperts-Outgoing-Evidence: Combined (0.12)
-X-Recommended-Action: accept
-X-Filter-ID: s0sct1PQhAABKnZB5plbIbbvfIHzQjPVmPLZeVYSu3xU9luQrU+8/8qthi+0Jd/W/95+6ZE6dI+d
-	FNTaLLKrTD4PkK8WOoKuw32u9iEtZmisSr42qUwvK7U11fJ5smF5bE7GwnNXTE7JFCR1ojdwNNyW
-	H7RGc0A/UbN5SIWQ0Fm2DpKVf5dHw4JTlBkbzGqDuUL9N0PTguXNhipHGr//UmbjO41FyBEqIaDu
-	dcVplPGNaieKxw/vh63RdlaW2Zj1hcQD6Dxo9kokFZNwiacNPxeTCKssqlJePCDBHWfCYUvWOATT
-	vnG+QUCcfrSs6FZc7tZ3vKwSN7Mv0HNteAusUZ8BuYwGqmI8Tx/Ism0pnCcmlWACu0WC7nIKSPYV
-	aBAANeo6Hr4UJMIZEVOGlXeApA3I626B4k1VCg2pmPRu/tvP/YT4gjy8+DVTGU6FCXjL/XXh1uZd
-	3ILTRMFiG58wZL3upx1n/FUf/NwbTI+uRoXlWvXEyVXmV1DcCGMoc6ig/SVaKi0jvtxxX4zA29pu
-	2ONYQFX+rhdRbxagFZk9QeUTMKkbMlXz2JUArHA+14sz3sbskoLsCzHbimU89cr33RKm353ztx8x
-	waw1cKnsBGxm83Bq3Dr745Bh95etgupgGplHcpVCCoX989hgB8R+yFNe0necuBmgAaEH47pnSozS
-	cx6dixYXWS0UC4sPAz0+bMvcCanEWO+beEcuwlNL5FdVG3udxDVjJl88/rWN0QJAZs8O0qGELL5L
-	HSCgBqXfiEc3YcCUDBl3OGV65ZQULuQ0Yt6sBXejfJJliPYr+dkd1etKa5Nq/q2DHPZtUu0QwVHj
-	pxmv0LFZXDVo/Kt/6gVmJtP3Y/gn5Y6P8W6FvYevIHo77OZsQVM4N41Tn9775j98TA7MKskOpkOl
-	8Lxi7FIIPDyod71wDzAkT5SU3Vo=
-X-Report-Abuse-To: spam@quarantine2.antispamcloud.com
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: What's the "proper" way to start WiFi networking?
+X-Originating-IP: [172.31.240.101]
+Subject: [PATCH v2 0/4] oeqa: fix runtime testing using systemd-boot target
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,90 +29,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 May 2017 06:08:08 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: nl
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 29 May 2017 06:09:48 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-=EF=BB=BFOn 24-05-17 15:12, Nicolas Dechesne wrote:
-> On Wed, May 24, 2017 at 2:58 PM, Mike Looijmans <mike.looijmans@topic.nl>=
- wrote:
->>
->> I was wondering if there were better ways than handcrafting shell script=
-s to
->> do this on a headless embedded board?
->>
->>
->>
->> If I put wpa-conf into /etc/network/interfaces it works, but blocks boot=
-ing
->> for a long time if the wifi isn't there.
->>
->>
->> I've been using ifplugd combined with wired ethernet, and this also work=
-s
->> fine with wireless. Once wpa-supplicant connects to an access point, the
->> link reports up and DCHP can start.
->>
->>
->> Starting wpa_supplicant from the commandline runs fine:
->>
->> /usr/sbin/wpa_supplicant -B -P /var/run/wpa_supplicant.wlan0.pid -i wlan=
-0 -c
->> /etc/wpa_topic.conf -D
->>
->> However, putting this line into a startup script (/etc/rc5.d/...) hangs.=
- It
->> doesn't matter whether I start early or late, the wpa_supplicant just ha=
-ngs
->> and waits and doesn't fork into daemon mode like it should. Tried settin=
-g
->> PATH and redirecting input, invoking through start-stop-daemon, but that
->> didn't help.
->>
->> Appending an ampersand to the command makes the boot continue, but
->> wpa_supplicant doesn't work, it won't connect to the access point.
->=20
-> my 2 cents..
->=20
-> after going back and forth for some time, I am now always using
-> network-manager.. it has very handy command line utilities (nmcli and
-> nmtui) and is well integrated with systemd. that happens to work well
-> for me.
+When I was setting up automated runtime testing using the systemd-boot
+target I hit a couple of bugs that I addressed. There is an open bug
+on this in Yocto Bugzilla #11524.
 
+Changes since v1: Added cover letter and references bug from commit msgs
 
-Does it work without systemd? Because usually I use mdev for hotplug to sav=
-e=20
-(drastically) on boot time and flash usage.
+Cheers,
+Erik
 
-> i want to believe that connman can do the same thing, but i have never
-> tried it much..
-
-Same question there...
-
-
-
-Kind regards,
-
-Mike Looijmans
-System Expert
-
-TOPIC Products
-Materiaalweg 4, NL-5681 RJ Best
-Postbus 440, NL-5680 AK Best
-Telefoon: +31 (0) 499 33 69 79
-E-mail: mike.looijmans@topicproducts.com
-Website: www.topicproducts.com
-
-Please consider the environment before printing this e-mail
-
-
-
-Join our presentation at Electronics & Applications 2017:
-FPGA for real-time data processing, subject =E2=80=9CHardware platform for =
-industrial ultrasound steel plate Inspection=E2=80=9D Topic Embedded System=
-s - Herman Kuster, 1st June 10 AM
-
-Visit http://eabeurs.nl/author/612884/ for more information
+ meta/lib/oeqa/controllers/masterimage.py | 6 +++---
+ meta/lib/oeqa/utils/sshcontrol.py        | 9 +++------
+ 2 files changed, 6 insertions(+), 9 deletions(-)
 
 
