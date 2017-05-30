@@ -1,48 +1,23 @@
-Return-Path: <twoerner@gmail.com>
-Received: from mail-vk0-f68.google.com (mail-vk0-f68.google.com
-	[209.85.213.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 6B3A571B04
+Return-Path: <romain.perier@collabora.com>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+	by mail.openembedded.org (Postfix) with ESMTP id 1441077E68
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 May 2017 05:28:36 +0000 (UTC)
-Received: by mail-vk0-f68.google.com with SMTP id w1so5300338vkd.1
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 May 2017 22:28:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=aub3I3MS0fy+JXHaUc9tRv7FMYkLpfqdWqih0znU758=;
-	b=MpLK+6SDExxugD39NTD37rDZRoGR6Vg5kSk2CXuJ9QQKrM7gMcKu+A5whYQlzFOLIn
-	mvNYAH3OdfmVHmuU6givpfy4ir07SBi1ZYMlfoNzrLUku+2FX7nscySNPBpJPg0TF3nU
-	JwIU10umIsqd228vdVtbTx0l5fxtkvy07eKvjccLNijOrjFCZ9+bdqI0hLLTH5XF34k3
-	1IJAjVyNL2/y4tacENDG06yf6wHnjQz81rIao1jEB9fSp3WiQnaj6+c/CN9KBt7xajnx
-	GJxXYN7iG1z36KrR7189156BOT8ALxJJSBqvhKMbV0Smm+MhY4+c4pqonhzTqbPR5lBN
-	i7/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=aub3I3MS0fy+JXHaUc9tRv7FMYkLpfqdWqih0znU758=;
-	b=Abb3l5YqKSRB2QyKdci4zBob/94ZjQ/zgbzM+vZgo1nqq5eNBqk83rJH6Tun+puqog
-	pQT9gbSFrrh6KYJe0hQaE/CIMmScanTkzLD83CaZy+Zd/jXm9grn/sJ5CFh9LjdGWhUj
-	1KGsnKMnRF5nn7yaD35yxGDACZt+u74+LU1HVy5fMOW59Sz1VkjW6O60xpiGl5mUaLhN
-	e1orhjWX8/Wh8o7dQBrFhzevGpq2FgCfDCHrSVuYV3P04tPV7IwSKZdTqCLKuIjVXkRS
-	8obSrZICSw3fxL7//r3WwYYxSvTOcA88XoHZbb+P7WTw2zSVpdkA6Iqd4fi7cFv4kNSo
-	j/rg==
-X-Gm-Message-State: AODbwcDPre3IHcVghrvqtW9wY8NHgQ3IQcBW3IfJpE3QNqgTIajAQV4t
-	ur+KG4h+r4KZ3VtdUewYcAsLMyFDyQ==
-X-Received: by 10.31.89.68 with SMTP id n65mr7198670vkb.71.1496122118125; Mon,
-	29 May 2017 22:28:38 -0700 (PDT)
+	Tue, 30 May 2017 06:36:20 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(Authenticated sender: rperier) with ESMTPSA id 6A3AE264FC5
+To: Otavio Salvador <otavio.salvador@ossystems.com.br>
+References: <20170528065940.16603-1-romain.perier@collabora.com>
+	<CAP9ODKremvtL4xsZUft8L3hKUZksp94Hpc3nFKgVbKKLe8hjtg@mail.gmail.com>
+From: Romain Perier <romain.perier@collabora.com>
+Message-ID: <ff1d28df-4dc2-71f0-5b3e-07ab8254c968@collabora.com>
+Date: Tue, 30 May 2017 08:36:17 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.1.1
 MIME-Version: 1.0
-Received: by 10.103.67.199 with HTTP; Mon, 29 May 2017 22:28:37 -0700 (PDT)
-In-Reply-To: <1496100337.25229.147.camel@linuxfoundation.org>
-References: <20170526212248.16374-1-twoerner@gmail.com>
-	<1496100337.25229.147.camel@linuxfoundation.org>
-From: Trevor Woerner <twoerner@gmail.com>
-Date: Tue, 30 May 2017 01:28:37 -0400
-Message-ID: <CAHUNapREVWXEaWYDYon8cYByzXcAdEu=_uWMAHCbOjU6VXrghg@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
+In-Reply-To: <CAP9ODKremvtL4xsZUft8L3hKUZksp94Hpc3nFKgVbKKLe8hjtg@mail.gmail.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] mesa: potentially enable texture float for gallium
+Subject: Re: [PATCH v4] busybox: make SYSLOGD optionnal
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,88 +30,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 May 2017 05:28:40 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 30 May 2017 06:36:23 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 
-Hi Richard,
+Hello,
 
-Thanks for your review.
 
-On Mon, May 29, 2017 at 7:25 PM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> On Fri, 2017-05-26 at 17:22 -0400, Trevor Woerner wrote:
->> Somewhere along the path from OpenGL ES 2.0 to OpenGL ES 3.0 are some
->> algorithms that are encumbered by patents. These algorithms are
->> enabled with
->> mesa's --enable-texture-float configure flag. However, if hardware
->> acceleration is being used and the hardware supports --enable-
->> texture-float,
->> it means the hardware vendor has paid for the patents.
+Le 29/05/2017 à 00:30, Otavio Salvador a écrit :
+> On Sun, May 28, 2017 at 3:59 AM, Romain Perier
+> <romain.perier@collabora.com> wrote:
+>> Some distros might choose another syslogd provider like rsyslogd.
+>> update-alternative will update the link from syslogd to the right
+>> provider. However the syslogd feature is still present and enabled
+>> in busybox.
 >>
->> This patch will add --enable-texture-float for any hardware-backed
->> gallium
->> mesa driver. In other words, if you are only using the software
->> backup
->> (swrast) you'll need to enable this flag if you know what you're
->> doing (which
->> assumes you are complying with the patent). Otherwise we enable this
->> flag so
->> the software can take full advantage of the hardware.
+>> This commit adds a new configuration fragment to make syslogd
+>> optionnal in busybox.
+>>
+>> Signed-off-by: Romain Perier <romain.perier@collabora.com>
+>> Acked-by: Otavio Salvador <otavio@ossystems.com.br>
+> This is a good addition; once this is merged on master I would like to
+> propose to backport it to pyro as it does not change the current
+> behaviour but allows for better finer-grained configuration.
 >
-> Does this handle the case where the driver may or may not run on a
-> platform with the relevant hardware?
+I agree, this is something that I wanted to propose too.
 
-The choice of gallium driver should be set based on the MACHINE
-setting, so hopefully this is being set correctly from the BSP.
-Presumably the user isn't building gallium with "swrast,imx,etnaviv"
-then trying to run that on intel hardware! In which case, you are
-right: the imx/etnaviv code will not be able to initialize the
-hardware, and the code will fallback to use swrast (if it was in the
-list).
-
-> Some platforms add swrast as well
-> as hardware acceleration which based on what I read above, may breach
-> patents depending on which hardware its run on?
-
-My understanding (from chatting with airlied on #dri-devel) is that
-it's one or the other, there is no fallback: "the drivers don't
-dynamically fallback ever"
-
-If the driver can't initialize the graphics hardware, then it will
-fall back (fully) to swrast... if it was listed. This makes me wonder
-if "swrast" should be always added to the list of gallium drivers
-built on those platforms with hardware-supported gallium drivers?
-Wouldn't it be better to have the graphics system fail to come up if
-something is configured wrong, rather than to fallback to software
-rasterization and let the user think everything is okay?
-
-Currently the OE code initializes the list of gallium drivers to be
-built to "swrast" then potentially adds others based on PACAKGECONFIGs
-which are expected to point to which hardware is expected. Maybe the
-OE code should try to set a hardware-specific gallium driver, and use
---enable-texture-float. If, at the end, no gallium drivers are listed,
-then the OE code should set the list to "swrast" and not include
---enable-texture-float?
-
-If you're running mesa on platforms that have hardware support, the
-"swrast" is not required (as is my understanding, but I could look
-into this).
-
-According to Dave Airlie, Fedora builds now include this option.
-Specifically: "there is a fedora patch that mostly does that \n
-disable the float just for swrast". Then later: "actually the patch it
-ships now just bars float on llvmpipe and softpipe". This requires
-some "reading between the lines", however. Of some interest might be
-that Arch also includes this option by default (2011) [1] as does
-"Intel mesa" (2012) [2]. I can't find anything definitive, but it
-looks like Ubuntu also includes this option by default (starting with
-14?).
-
-Sadly, if we don't add this option, mesa's advertisement will be
-limited to open gl (es) 2, even in cases where the hardware would
-support 3 (and greater?).
-
-
-[1] http://www.phoronix.com/scan.php?page=news_item&px=OTUxMg
-[2] http://www.phoronix.com/scan.php?page=news_item&px=MTIwOTg
+Regards,
+Romain
 
