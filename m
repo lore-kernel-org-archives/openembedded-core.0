@@ -1,29 +1,27 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 7EE397809C
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 29175780C8
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 May 2017 23:31:43 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	v4TNVaaC014857
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Tue, 30 May 2017 00:31:38 +0100
-Message-ID: <1496100696.25229.150.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>,
-	OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Tue, 30 May 2017 00:31:36 +0100
-In-Reply-To: <1496034979-99713-2-git-send-email-rebecca.swee.fun.chang@intel.com>
+	Tue, 30 May 2017 00:07:47 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	29 May 2017 17:07:47 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.38,416,1491289200"; d="scan'208";a="862574899"
+Received: from iho2-mobl6.gar.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.255.160.82])
+	by FMSMGA003.fm.intel.com with ESMTP; 29 May 2017 17:07:45 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Date: Tue, 30 May 2017 12:07:43 +1200
+Message-ID: <1601098.y1ZEXWJiEU@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+In-Reply-To: <1496100696.25229.150.camel@linuxfoundation.org>
 References: <1496034979-99713-1-git-send-email-rebecca.swee.fun.chang@intel.com>
 	<1496034979-99713-2-git-send-email-rebecca.swee.fun.chang@intel.com>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.1 
-Mime-Version: 1.0
-X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.11
-	(dan.rpsys.net [192.168.3.1]);
-	Tue, 30 May 2017 00:31:39 +0100 (BST)
-X-Virus-Scanned: clamav-milter 0.99.2 at dan
-X-Virus-Status: Clean
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>
+	<1496100696.25229.150.camel@linuxfoundation.org>
+MIME-Version: 1.0
+Cc: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 1/2] devshell.bbclass: ensure toolchains available for do_devshell
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -37,68 +35,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 May 2017 23:31:45 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 30 May 2017 00:07:49 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
+Hi Richard,
 
-On Mon, 2017-05-29 at 13:16 +0800, Chang Rebecca Swee Fun wrote:
-> Toolchains are required to be prepopulated in sysroot before
-> entering devshell.
+On Tuesday, 30 May 2017 11:31:36 AM NZST Richard Purdie wrote:
+> On Mon, 2017-05-29 at 13:16 +0800, Chang Rebecca Swee Fun wrote:
+> > Toolchains are required to be prepopulated in sysroot before
+> > entering devshell.
+> > 
+> > [YOCTO #11464]
+> > 
+> > Signed-off-by: Chang Rebecca Swee Fun 
+> > ---
+> >  meta/classes/devshell.bbclass | 11 ++++++++++-
+> >  1 file changed, 10 insertions(+), 1 deletion(-)
 > 
-> [YOCTO #11464]
+> This looks awfully complicated and I'm not sure this does much more
+> than this would:
 > 
-> Signed-off-by: Chang Rebecca Swee Fun 
-> ---
->  meta/classes/devshell.bbclass | 11 ++++++++++-
->  1 file changed, 10 insertions(+), 1 deletion(-)
+> -addtask devshell after do_patch
+> +addtask devshell after do_prepare_recipe_sysroot
+> 
+> Can someone explain to me why we want to do the below instead as I
+> think the effect is the same?
+> 
+> I did read the bug too but that didn't help answer my question.
+> 
+> Yes, this does mean devshell will now trigger a lot of more
+> dependencies and build but I think the change below would do the same
+> thing too.
 
-This looks awfully complicated and I'm not sure this does much more
-than this would:
+I'd suggested the method Rebecca is using in the bug, but you're right, I'm 
+not sure why I didn't think of doing as you suggest instead. Presumably 
+however since do_prepare_recipe_sysroot doesn't depend on do_patch we would 
+still need to depend on that i.e.:
 
--addtask devshell after do_patch
-+addtask devshell after do_prepare_recipe_sysroot
+addtask devshell after do_patch do_prepare_recipe_sysroot
 
-Can someone explain to me why we want to do the below instead as I
-think the effect is the same?
-
-I did read the bug too but that didn't help answer my question.
-
-Yes, this does mean devshell will now trigger a lot of more
-dependencies and build but I think the change below would do the same
-thing too.
+Right?
 
 Cheers,
+Paul
 
-Richard
+-- 
 
-> diff --git a/meta/classes/devshell.bbclass
-> b/meta/classes/devshell.bbclass
-> index 4de7ea6..770dcbd 100644
-> --- a/meta/classes/devshell.bbclass
-> +++ b/meta/classes/devshell.bbclass
-> @@ -32,7 +32,16 @@ python () {
->         # can't manipulate the environment and variables here yet
-> (see YOCTO #4795)
->         d.setVarFlag("do_devshell", "manualfakeroot", "1")
->         d.delVarFlag("do_devshell", "fakeroot")
-> -} 
-> +
-> +    # We need to ensure that the toolchains are available in the
-> sysroot
-> +    # when running devshell (see YOCTO #11464)
-> +    # We get the dependency for do_configure depends varflag and
-> DEPENDS
-> +    # variable, then append it to do_devshell depends varflag
-> +    deps = d.getVarFlag('do_configure', 'depends') or ""
-> +    for x in bb.utils.explode_deps(d.getVar('DEPENDS') or ""):
-> +        deps += ' %s:do_populate_sysroot' % x
-> +    d.appendVarFlag('do_devshell', 'depends', deps)
-> +}
->  
->  def devpyshell(d):
->  
-> -- 
-> 2.7.4
-> 
+Paul Eggleton
+Intel Open Source Technology Centre
 
