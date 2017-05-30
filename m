@@ -1,49 +1,49 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f194.google.com (mail-pf0-f194.google.com
-	[209.85.192.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 66851781C8
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-yb0-f194.google.com (mail-yb0-f194.google.com
+	[209.85.213.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 0E324781D2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 May 2017 17:15:35 +0000 (UTC)
-Received: by mail-pf0-f194.google.com with SMTP id n23so19250808pfb.3
+	Tue, 30 May 2017 17:33:16 +0000 (UTC)
+Received: by mail-yb0-f194.google.com with SMTP id 130so3295072ybl.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 May 2017 10:15:37 -0700 (PDT)
+	Tue, 30 May 2017 10:33:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=zJ+YQIbpNrO0kswyRWKn/f5YMfze8wwe2vgYvAajZXo=;
-	b=nL62RJVSsuvgj+4/C0OpJOHEYoEjLwCjsrV89TEx2CUiYmMrRqgN7zqnJjT3Q9xN86
-	0zWkJ8ncAIeskUjIB+5CsL/Iu5Tazqd7ZSDYp/e1WA63r2zr2abrQgjxPzPAjbg2lgRG
-	DnDX2PBROVcbINB9/xBTGZo1OrovV8J46gl3xJTUCzmvAQDQvpYWdrZMcbVUvYxhQ+qR
-	clPVimxGgRGPgVngNAqvHzoUpd+Y89MjdwakmTEJ0k5tIx5GFB5JbQYKbnZ2S5ZkUmVf
-	44U/YJdKsHk5lIjdoZTYri8AwaTN/yzj+F/vhtJxvBNKJ8SqJSBkmHiAZ3abIakckl7C
-	ddAQ==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=xHtgUluUOx/JOOx1i9jFJ83sYiX7RyhUkNUy1rimBRc=;
+	b=VDubH2O3W8htTSrHjJwAq2N3pjVSbTF8VUe9/K+H8bbLHFtJdwWEnLQ/IcAXTFQhYP
+	qfNWlBrav+c4Rq4OpGqy17+0Eim+Jx6zmZLNwPRmOunytC/O0oi06tb6aVHs6etpwCCe
+	D5O83bjnd57omq4t6aefL7P5l5KvXSUaEGEq+aXMlxM8B2woxj07bwljW/UKY97jjZja
+	WCiF/rnbnhlnTcz5iQ497gGdkahc1rZMEknyrr5eQC5Q2boW9qcAJV4DMVyFKMtONE+8
+	kBRrVjwNtmuYkd1rDuGtQmija/6eQ3yGBsR16SiYWDC/venKUEm5DeftQ4uynQzz73J1
+	669A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=zJ+YQIbpNrO0kswyRWKn/f5YMfze8wwe2vgYvAajZXo=;
-	b=EGoGI4vVWiwVWW401bEq58xOEiGQkAxtI7Z3+k9O7IYtJe5bR6LD+bCdt0Jv6duvyx
-	Br7PsH4cwra8Jzm/aaTf5wUd0SC9bTtlK0o3E4TY6R7uqG/LnnI7a8WB1kbVNlI9jlMs
-	OwSL/Mvm3mdogcMGbpeo4dQ9UFUXvD/ssYb+ZIbdhufRKJrMiaX0cvL/kf+IP8ePEFh2
-	7LYxC4KoCV7ZzLoyylo8CHORZAEGlxgoec8TXh0W+9fEirZ3a6yAI0+Lch7QqjU54fut
-	G1wAP8kvCcUaleeLin5aSJ7yngn45H3IIMH3SB03kWcmt6MxJspEpXgzHUb/3IMAsd33
-	IIeg==
-X-Gm-Message-State: AODbwcD28CgbMmVL0JSV+kPK/cZpqzHfvmMqnZvFjo1VQI5d39caDUc2
-	Dl3tjB0Ai+zUniKR
-X-Received: by 10.99.161.25 with SMTP id b25mr26526068pgf.26.1496164535598;
-	Tue, 30 May 2017 10:15:35 -0700 (PDT)
-Received: from localhost.localdomain ([2601:646:8882:b8c::cf4])
-	by smtp.gmail.com with ESMTPSA id
-	n24sm28071137pgd.57.2017.05.30.10.15.33
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 30 May 2017 10:15:34 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 30 May 2017 10:15:22 -0700
-Message-Id: <20170530171523.37470-2-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.13.0
-In-Reply-To: <20170530171523.37470-1-raj.khem@gmail.com>
-References: <20170530171523.37470-1-raj.khem@gmail.com>
-Subject: [PATCH 2/3] fts: Switch SRC_URI to github
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=xHtgUluUOx/JOOx1i9jFJ83sYiX7RyhUkNUy1rimBRc=;
+	b=TSnnYVL3eJ6VzpI974j+Bj8+lI3VNTtzZC5LRQaKUPTE+OosYRGd3jk7nUl47tjsND
+	DjoQf1pl5NQlWL39vO++psQZXoqoqy0/Yxv1UxZwq7koxBvz4Qi7A9SFC3mtmhJ8Bf9v
+	zlHzMgNn8xHSPDnHgKCCFbE5A4fTrhyz0tyaLnRm6ib8HNzK82/Pd0SGidNLfOPi1Euy
+	bVO9KT+gg4ayZ3HbrAN0rqFWAqUxK09aQZcLvu9NdXwNpojRolv3o/iu9eJ1AWbvHHca
+	Rba4RTJu6Q6uqAjxou2yde4s39kHgg7HqDuDgFRNSTXDSyKK8cpTO71Z8VFa1hDTu3Vu
+	EaIA==
+X-Gm-Message-State: AODbwcBv5RQ9v/d9oexj5MeBs7U4uy2gUMIU9GVjpoJCx9yAoMtw6e6Q
+	SPkJki5XzcVvPRGoR5MwOnvyJ2B8Ag==
+X-Received: by 10.37.252.2 with SMTP id v2mr10714264ybd.80.1496165598161; Tue,
+	30 May 2017 10:33:18 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.37.162.38 with HTTP; Tue, 30 May 2017 10:33:17 -0700 (PDT)
+In-Reply-To: <CAJ86T=W=pf1ie8TEe6+pnHU_JaHf1wb-5Odv73=6em2iQYX98w@mail.gmail.com>
+References: <20170530080836.25342-1-Martin.Jansa@gmail.com>
+	<CAJ86T=XbqdaxFrWzd1RN-5Y0E8B+Ndj9fHAy8XU0v+q1OYMp6Q@mail.gmail.com>
+	<3feaadad-607b-0ae4-61b4-158f86816786@windriver.com>
+	<CAJ86T=W=pf1ie8TEe6+pnHU_JaHf1wb-5Odv73=6em2iQYX98w@mail.gmail.com>
+From: Martin Jansa <martin.jansa@gmail.com>
+Date: Tue, 30 May 2017 19:33:17 +0200
+Message-ID: <CA+chaQfy11sKg7njwvg3-Sg=-8_q4JmjEEbydiGRSAw+urQ5mQ@mail.gmail.com>
+To: Andre McCurdy <armccurdy@gmail.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] recipes: Replace "cp -a" with "cp -R --no-dereference --preserve=mode, links"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,1635 +56,275 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 May 2017 17:15:36 -0000
+X-List-Received-Date: Tue, 30 May 2017 17:33:18 -0000
+Content-Type: multipart/alternative; boundary="f403045db88000f5b70550c1330a"
 
-Use the package maintained by voidlinux
-Drop local patches
+--f403045db88000f5b70550c1330a
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/recipes-core/fts/fts.bb                       |   36 +-
- .../fts/fts/fts-header-correctness.patch           |   25 -
- meta/recipes-core/fts/fts/fts-uclibc.patch         |   50 -
- meta/recipes-core/fts/fts/gcc5.patch               | 1368 --------------------
- meta/recipes-core/fts/fts/remove_cdefs.patch       |   69 -
- meta/recipes-core/fts/fts/stdint.patch             |   15 -
- 6 files changed, 8 insertions(+), 1555 deletions(-)
- delete mode 100644 meta/recipes-core/fts/fts/fts-header-correctness.patch
- delete mode 100644 meta/recipes-core/fts/fts/fts-uclibc.patch
- delete mode 100644 meta/recipes-core/fts/fts/gcc5.patch
- delete mode 100644 meta/recipes-core/fts/fts/remove_cdefs.patch
- delete mode 100644 meta/recipes-core/fts/fts/stdint.patch
+I cannot find the exact message in MLs, but this combination of parameters
+was suggested by someone and approved by others back in 2015, when I did
+this change and similar in other layers like:
+https://patchwork.openembedded.org/patch/116525/
 
-diff --git a/meta/recipes-core/fts/fts.bb b/meta/recipes-core/fts/fts.bb
-index de9297ebed..02f54086a3 100644
---- a/meta/recipes-core/fts/fts.bb
-+++ b/meta/recipes-core/fts/fts.bb
-@@ -3,38 +3,18 @@
- 
- SUMMARY = "POSIX file tree stream operations library"
- HOMEPAGE = "https://sites.google.com/a/bostic.com/keithbostic"
--LICENSE = "BSD-4-Clause"
--LIC_FILES_CHKSUM = "file://fts.h;beginline=1;endline=36;md5=2532eddb3d1a21905723a4011ec4e085"
-+LICENSE = "BSD-3-Clause"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=5ffe358174aad383f1b69ce3b53da982"
- SECTION = "libs"
- 
--SRC_URI = "https://sites.google.com/a/bostic.com/keithbostic/files/fts.tar.gz \
--           file://fts-header-correctness.patch \
--           file://fts-uclibc.patch \
--           file://remove_cdefs.patch \
--           file://stdint.patch \
--           file://gcc5.patch \
--"
--
--SRC_URI[md5sum] = "120c14715485ec6ced14f494d059d20a"
--SRC_URI[sha256sum] = "3df9b9b5a45aeaf16f33bb84e692a10dc662e22ec8a51748f98767d67fb6f342"
--
--S = "${WORKDIR}/${BPN}"
-+SRCREV = "944333aed9dc24cfa76cc64bfe70c75d25652753"
-+PV = "1.2+git${SRCPV}"
- 
--do_configure[noexec] = "1"
--
--HASHSTYLE_mipsarch = "sysv"
--HASHSTYLE = "gnu"
--
--VER = "0"
--do_compile () {
--    ${CC} -I${S} -fPIC -shared -Wl,--hash-style=${HASHSTYLE} -o libfts.so.${VER} -Wl,-soname,libfts.so.${VER} ${S}/fts.c
--}
-+SRC_URI = "git://github.com/voidlinux/musl-fts \
-+"
-+S = "${WORKDIR}/git"
- 
--do_install() {
--    install -Dm755 ${B}/libfts.so.${VER} ${D}${libdir}/libfts.so.${VER}
--    ln -sf libfts.so.${VER} ${D}${libdir}/libfts.so
--    install -Dm644 ${S}/fts.h ${D}${includedir}/fts.h
--}
-+inherit autotools pkgconfig
- #
- # We will skip parsing for non-musl systems
- #
-diff --git a/meta/recipes-core/fts/fts/fts-header-correctness.patch b/meta/recipes-core/fts/fts/fts-header-correctness.patch
-deleted file mode 100644
-index c73ddc95d8..0000000000
---- a/meta/recipes-core/fts/fts/fts-header-correctness.patch
-+++ /dev/null
-@@ -1,25 +0,0 @@
--Included needed headers for compiling with musl
--
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
--Upstream-Status: Inappropriate
--
----- fts.orig/fts.h
--+++ fts/fts.h
--@@ -38,6 +38,17 @@
-- #ifndef	_FTS_H_
-- #define	_FTS_H_
-- 
--+#include <sys/types.h>
--+#include <sys/param.h>
--+#include <sys/stat.h>
--+
--+#include <dirent.h>
--+#include <errno.h>
--+#include <fcntl.h>
--+#include <stdlib.h>
--+#include <string.h>
--+#include <unistd.h>
--+
-- typedef struct {
-- 	struct _ftsent *fts_cur;	/* current node */
-- 	struct _ftsent *fts_child;	/* linked list of children */
-diff --git a/meta/recipes-core/fts/fts/fts-uclibc.patch b/meta/recipes-core/fts/fts/fts-uclibc.patch
-deleted file mode 100644
-index 397654bf51..0000000000
---- a/meta/recipes-core/fts/fts/fts-uclibc.patch
-+++ /dev/null
-@@ -1,50 +0,0 @@
--Add missing defines for uclibc
--
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
--Upstream-Status: Inappropriate
--
----- fts.orig/fts.c
--+++ fts/fts.c
--@@ -31,6 +31,10 @@
--  * SUCH DAMAGE.
--  */
-- 
--+#define	alignof(TYPE)   ((int) &((struct { char dummy1; TYPE dummy2; } *) 0)->dummy2)
--+#define	ALIGNBYTES	(alignof(long double) - 1)
--+#define	ALIGN(p)	(((uintptr_t)(p) + ALIGNBYTES) & ~ALIGNBYTES) 
--+
-- #if defined(LIBC_SCCS) && !defined(lint)
-- static char sccsid[] = "@(#)fts.c	8.6 (Berkeley) 8/14/94";
-- #endif /* LIBC_SCCS and not lint */
--@@ -652,10 +656,10 @@
-- 		if (!ISSET(FTS_SEEDOT) && ISDOT(dp->d_name))
-- 			continue;
-- 
---		if ((p = fts_alloc(sp, dp->d_name, (int)dp->d_namlen)) == NULL)
--+		if ((p = fts_alloc(sp, dp->d_name, (int)dp->d_reclen)) == NULL)
-- 			goto mem1;
---		if (dp->d_namlen > maxlen) {
---			if (fts_palloc(sp, (size_t)dp->d_namlen)) {
--+		if (dp->d_reclen > maxlen) {
--+			if (fts_palloc(sp, (size_t)dp->d_reclen)) {
-- 				/*
-- 				 * No more memory for path or structures.  Save
-- 				 * errno, free up the current structure and the
--@@ -675,7 +679,7 @@
-- 			maxlen = sp->fts_pathlen - sp->fts_cur->fts_pathlen - 1;
-- 		}
-- 
---		p->fts_pathlen = len + dp->d_namlen + 1;
--+		p->fts_pathlen = len + dp->d_reclen + 1;
-- 		p->fts_parent = sp->fts_cur;
-- 		p->fts_level = level;
-- 
--@@ -784,7 +788,7 @@
-- 	/* If user needs stat info, stat buffer already allocated. */
-- 	sbp = ISSET(FTS_NOSTAT) ? &sb : p->fts_statp;
-- 
---#ifdef DT_WHT
--+#ifdef S_IFWHT
-- 	/*
-- 	 * Whited-out files don't really exist.  However, there's stat(2) file
-- 	 * mask for them, so we set it so that programs (i.e., find) don't have
-diff --git a/meta/recipes-core/fts/fts/gcc5.patch b/meta/recipes-core/fts/fts/gcc5.patch
-deleted file mode 100644
-index f5b948edc0..0000000000
---- a/meta/recipes-core/fts/fts/gcc5.patch
-+++ /dev/null
-@@ -1,1368 +0,0 @@
--Forward port the sources to be able to compile with c99/gcc5
--
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
--Upstream-Status: Inappropriate
--
--Index: fts/fts.c
--===================================================================
----- fts.orig/fts.c
--+++ fts/fts.c
--@@ -51,16 +51,6 @@ static char sccsid[] = "@(#)fts.c	8.6 (B
-- #include <string.h>
-- #include <unistd.h>
-- 
---static FTSENT	*fts_alloc __P(FTS *, char *, int);
---static FTSENT	*fts_build __P(FTS *, int);
---static void	 fts_lfree __P(FTSENT *);
---static void	 fts_load __P(FTS *, FTSENT *);
---static size_t	 fts_maxarglen __P(char * const *);
---static void	 fts_padjust __P(FTS *, void *);
---static int	 fts_palloc __P(FTS *, size_t);
---static FTSENT	*fts_sort __P(FTS *, FTSENT *, int);
---static u_short	 fts_stat __P(FTS *, struct dirent *, FTSENT *, int);
---
-- #define	ISDOT(a)	(a[0] == '.' && (!a[1] || a[1] == '.' && !a[2]))
-- 
-- #define	ISSET(opt)	(sp->fts_options & opt)
--@@ -73,119 +63,16 @@ static u_short	 fts_stat __P(FTS *, stru
-- #define	BCHILD		1		/* fts_children */
-- #define	BNAMES		2		/* fts_children, names only */
-- #define	BREAD		3		/* fts_read */
---
---FTS *
---fts_open(argv, options, compar)
---	char * const *argv;
---	register int options;
---	int (*compar)();
---{
---	register FTS *sp;
---	register FTSENT *p, *root;
---	register int nitems;
---	FTSENT *parent, *tmp;
---	int len;
---
---	/* Options check. */
---	if (options & ~FTS_OPTIONMASK) {
---		errno = EINVAL;
---		return (NULL);
---	}
---
---	/* Allocate/initialize the stream */
---	if ((sp = malloc((u_int)sizeof(FTS))) == NULL)
---		return (NULL);
---	memset(sp, 0, sizeof(FTS));
---	sp->fts_compar = compar;
---	sp->fts_options = options;
---
---	/* Logical walks turn on NOCHDIR; symbolic links are too hard. */
---	if (ISSET(FTS_LOGICAL))
---		SET(FTS_NOCHDIR);
---
---	/*
---	 * Start out with 1K of path space, and enough, in any case,
---	 * to hold the user's paths.
---	 */
---	if (fts_palloc(sp, MAX(fts_maxarglen(argv), MAXPATHLEN)))
---		goto mem1;
---
---	/* Allocate/initialize root's parent. */
---	if ((parent = fts_alloc(sp, "", 0)) == NULL)
---		goto mem2;
---	parent->fts_level = FTS_ROOTPARENTLEVEL;
---
---	/* Allocate/initialize root(s). */
---	for (root = NULL, nitems = 0; *argv; ++argv, ++nitems) {
---		/* Don't allow zero-length paths. */
---		if ((len = strlen(*argv)) == 0) {
---			errno = EINVAL;
---			goto mem3;
---		}
---
---		p = fts_alloc(sp, *argv, len);
---		p->fts_level = FTS_ROOTLEVEL;
---		p->fts_parent = parent;
---		p->fts_accpath = p->fts_name;
---		p->fts_info = fts_stat(sp, NULL, p, ISSET(FTS_COMFOLLOW));
---
---		/* Command-line "." and ".." are real directories. */
---		if (p->fts_info == FTS_DOT)
---			p->fts_info = FTS_D;
---
---		/*
---		 * If comparison routine supplied, traverse in sorted
---		 * order; otherwise traverse in the order specified.
---		 */
---		if (compar) {
---			p->fts_link = root;
---			root = p;
---		} else {
---			p->fts_link = NULL;
---			if (root == NULL)
---				tmp = root = p;
---			else {
---				tmp->fts_link = p;
---				tmp = p;
---			}
---		}
---	}
---	if (compar && nitems > 1)
---		root = fts_sort(sp, root, nitems);
---
---	/*
---	 * Allocate a dummy pointer and make fts_read think that we've just
---	 * finished the node before the root(s); set p->fts_info to FTS_INIT
---	 * so that everything about the "current" node is ignored.
---	 */
---	if ((sp->fts_cur = fts_alloc(sp, "", 0)) == NULL)
---		goto mem3;
---	sp->fts_cur->fts_link = root;
---	sp->fts_cur->fts_info = FTS_INIT;
---
---	/*
---	 * If using chdir(2), grab a file descriptor pointing to dot to insure
---	 * that we can get back here; this could be avoided for some paths,
---	 * but almost certainly not worth the effort.  Slashes, symbolic links,
---	 * and ".." are all fairly nasty problems.  Note, if we can't get the
---	 * descriptor we run anyway, just more slowly.
---	 */
---	if (!ISSET(FTS_NOCHDIR) && (sp->fts_rfd = open(".", O_RDONLY, 0)) < 0)
---		SET(FTS_NOCHDIR);
---
---	return (sp);
---
---mem3:	fts_lfree(root);
---	free(parent);
---mem2:	free(sp->fts_path);
---mem1:	free(sp);
---	return (NULL);
---}
--+/*
--+ * Special case a root of "/" so that slashes aren't appended which would
--+ * cause paths to be written as "//foo".
--+ */
--+#define	NAPPEND(p)							\
--+	(p->fts_level == FTS_ROOTLEVEL && p->fts_pathlen == 1 &&	\
--+	    p->fts_path[0] == '/' ? 0 : p->fts_pathlen)
-- 
-- static void
---fts_load(sp, p)
---	FTS *sp;
---	register FTSENT *p;
--+fts_load(FTS *sp, register FTSENT *p)
-- {
-- 	register int len;
-- 	register char *cp;
--@@ -208,332 +95,214 @@ fts_load(sp, p)
-- 	sp->fts_dev = p->fts_dev;
-- }
-- 
---int
---fts_close(sp)
---	FTS *sp;
--+static void
--+fts_lfree(register FTSENT *head)
-- {
---	register FTSENT *freep, *p;
---	int saved_errno;
--+	register FTSENT *p;
-- 
---	/*
---	 * This still works if we haven't read anything -- the dummy structure
---	 * points to the root list, so we step through to the end of the root
---	 * list which has a valid parent pointer.
---	 */
---	if (sp->fts_cur) {
---		for (p = sp->fts_cur; p->fts_level >= FTS_ROOTLEVEL;) {
---			freep = p;
---			p = p->fts_link ? p->fts_link : p->fts_parent;
---			free(freep);
---		}
--+	/* Free a linked list of structures. */
--+	while (p = head) {
--+		head = head->fts_link;
-- 		free(p);
-- 	}
--+}
-- 
---	/* Free up child linked list, sort array, path buffer. */
---	if (sp->fts_child)
---		fts_lfree(sp->fts_child);
---	if (sp->fts_array)
---		free(sp->fts_array);
---	free(sp->fts_path);
--+static size_t
--+fts_maxarglen(char * const *argv)
--+{
--+	size_t len, max;
-- 
---	/* Return to original directory, save errno if necessary. */
---	if (!ISSET(FTS_NOCHDIR)) {
---		saved_errno = fchdir(sp->fts_rfd) ? errno : 0;
---		(void)close(sp->fts_rfd);
---	}
--+	for (max = 0; *argv; ++argv)
--+		if ((len = strlen(*argv)) > max)
--+			max = len;
--+	return (max);
--+}
-- 
---	/* Free up the stream pointer. */
---	free(sp);
-- 
---	/* Set errno and return. */
---	if (!ISSET(FTS_NOCHDIR) && saved_errno) {
---		errno = saved_errno;
---		return (-1);
--+/*
--+ * When the path is realloc'd, have to fix all of the pointers in structures
--+ * already returned.
--+ */
--+static void
--+fts_padjust(FTS *sp, void *addr)
--+{
--+	FTSENT *p;
--+
--+#define	ADJUST(p) {							\
--+	(p)->fts_accpath =						\
--+	    (char *)addr + ((p)->fts_accpath - (p)->fts_path);		\
--+	(p)->fts_path = addr;						\
--+}
--+	/* Adjust the current set of children. */
--+	for (p = sp->fts_child; p; p = p->fts_link)
--+		ADJUST(p);
--+
--+	/* Adjust the rest of the tree. */
--+	for (p = sp->fts_cur; p->fts_level >= FTS_ROOTLEVEL;) {
--+		ADJUST(p);
--+		p = p->fts_link ? p->fts_link : p->fts_parent;
-- 	}
---	return (0);
-- }
-- 
-- /*
--- * Special case a root of "/" so that slashes aren't appended which would
--- * cause paths to be written as "//foo".
--+ * Allow essentially unlimited paths; find, rm, ls should all work on any tree.
--+ * Most systems will allow creation of paths much longer than MAXPATHLEN, even
--+ * though the kernel won't resolve them.  Add the size (not just what's needed)
--+ * plus 256 bytes so don't realloc the path 2 bytes at a time.
--  */
---#define	NAPPEND(p)							\
---	(p->fts_level == FTS_ROOTLEVEL && p->fts_pathlen == 1 &&	\
---	    p->fts_path[0] == '/' ? 0 : p->fts_pathlen)
--+static int
--+fts_palloc(FTS *sp, size_t more)
--+{
--+	sp->fts_pathlen += more + 256;
--+	sp->fts_path = realloc(sp->fts_path, (size_t)sp->fts_pathlen);
--+	return (sp->fts_path == NULL);
--+}
-- 
---FTSENT *
---fts_read(sp)
---	register FTS *sp;
--+static FTSENT *
--+fts_alloc(FTS *sp, char *name, register int namelen)
-- {
---	register FTSENT *p, *tmp;
---	register int instr;
---	register char *t;
---	int saved_errno;
--+	register FTSENT *p;
--+	size_t len;
-- 
---	/* If finished or unrecoverable error, return NULL. */
---	if (sp->fts_cur == NULL || ISSET(FTS_STOP))
--+	/*
--+	 * The file name is a variable length array and no stat structure is
--+	 * necessary if the user has set the nostat bit.  Allocate the FTSENT
--+	 * structure, the file name and the stat structure in one chunk, but
--+	 * be careful that the stat structure is reasonably aligned.  Since the
--+	 * fts_name field is declared to be of size 1, the fts_name pointer is
--+	 * namelen + 2 before the first possible address of the stat structure.
--+	 */
--+	len = sizeof(FTSENT) + namelen;
--+	if (!ISSET(FTS_NOSTAT))
--+		len += sizeof(struct stat) + ALIGNBYTES;
--+	if ((p = malloc(len)) == NULL)
-- 		return (NULL);
-- 
---	/* Set current node pointer. */
---	p = sp->fts_cur;
--+	/* Copy the name plus the trailing NULL. */
--+	memmove(p->fts_name, name, namelen + 1);
-- 
---	/* Save and zero out user instructions. */
---	instr = p->fts_instr;
--+	if (!ISSET(FTS_NOSTAT))
--+		p->fts_statp = (struct stat *)ALIGN(p->fts_name + namelen + 2);
--+	p->fts_namelen = namelen;
--+	p->fts_path = sp->fts_path;
--+	p->fts_errno = 0;
--+	p->fts_flags = 0;
-- 	p->fts_instr = FTS_NOINSTR;
--+	p->fts_number = 0;
--+	p->fts_pointer = NULL;
--+	return (p);
--+}
-- 
---	/* Any type of file may be re-visited; re-stat and re-turn. */
---	if (instr == FTS_AGAIN) {
---		p->fts_info = fts_stat(sp, NULL, p, 0);
---		return (p);
---	}
-- 
--+static u_short
--+fts_stat(FTS *sp, register FTSENT *p, struct dirent *dp, int follow)
--+{
--+	register FTSENT *t;
--+	register dev_t dev;
--+	register ino_t ino;
--+	struct stat *sbp, sb;
--+	int saved_errno;
--+
--+	/* If user needs stat info, stat buffer already allocated. */
--+	sbp = ISSET(FTS_NOSTAT) ? &sb : p->fts_statp;
--+
--+#ifdef S_IFWHT
-- 	/*
---	 * Following a symlink -- SLNONE test allows application to see
---	 * SLNONE and recover.  If indirecting through a symlink, have
---	 * keep a pointer to current location.  If unable to get that
---	 * pointer, follow fails.
---	 */
---	if (instr == FTS_FOLLOW &&
---	    (p->fts_info == FTS_SL || p->fts_info == FTS_SLNONE)) {
---		p->fts_info = fts_stat(sp, NULL, p, 1);
---		if (p->fts_info == FTS_D && !ISSET(FTS_NOCHDIR))
---			if ((p->fts_symfd = open(".", O_RDONLY, 0)) < 0) {
---				p->fts_errno = errno;
---				p->fts_info = FTS_ERR;
---			} else
---				p->fts_flags |= FTS_SYMFOLLOW;
---		return (p);
--+	 * Whited-out files don't really exist.  However, there's stat(2) file
--+	 * mask for them, so we set it so that programs (i.e., find) don't have
--+	 * to test FTS_W separately from other file types.
--+	 */
--+	if (dp != NULL && dp->d_type == DT_WHT) {
--+		memset(sbp, 0, sizeof(struct stat));
--+		sbp->st_mode = S_IFWHT;
--+		return (FTS_W);
-- 	}
---
---	/* Directory in pre-order. */
---	if (p->fts_info == FTS_D) {
---		/* If skipped or crossed mount point, do post-order visit. */
---		if (instr == FTS_SKIP ||
---		    ISSET(FTS_XDEV) && p->fts_dev != sp->fts_dev) {
---			if (p->fts_flags & FTS_SYMFOLLOW)
---				(void)close(p->fts_symfd);
---			if (sp->fts_child) {
---				fts_lfree(sp->fts_child);
---				sp->fts_child = NULL;
---			}
---			p->fts_info = FTS_DP;
---			return (p);
---		} 
---
---		/* Rebuild if only read the names and now traversing. */
---		if (sp->fts_child && sp->fts_options & FTS_NAMEONLY) {
---			sp->fts_options &= ~FTS_NAMEONLY;
---			fts_lfree(sp->fts_child);
---			sp->fts_child = NULL;
---		}
---
---		/*
---		 * Cd to the subdirectory.
---		 *
---		 * If have already read and now fail to chdir, whack the list
---		 * to make the names come out right, and set the parent errno
---		 * so the application will eventually get an error condition.
---		 * Set the FTS_DONTCHDIR flag so that when we logically change
---		 * directories back to the parent we don't do a chdir.
---		 *
---		 * If haven't read do so.  If the read fails, fts_build sets
---		 * FTS_STOP or the fts_info field of the node.
---		 */
---		if (sp->fts_child) {
---			if (CHDIR(sp, p->fts_accpath)) {
---				p->fts_errno = errno;
---				p->fts_flags |= FTS_DONTCHDIR;
---				for (p = sp->fts_child; p; p = p->fts_link)
---					p->fts_accpath =
---					    p->fts_parent->fts_accpath;
---			}
---		} else if ((sp->fts_child = fts_build(sp, BREAD)) == NULL) {
---			if (ISSET(FTS_STOP))
---				return (NULL);
---			return (p);
--+#endif
--+
--+	/*
--+	 * If doing a logical walk, or application requested FTS_FOLLOW, do
--+	 * a stat(2).  If that fails, check for a non-existent symlink.  If
--+	 * fail, set the errno from the stat call.
--+	 */
--+	if (ISSET(FTS_LOGICAL) || follow) {
--+		if (stat(p->fts_accpath, sbp)) {
--+			saved_errno = errno;
--+			if (!lstat(p->fts_accpath, sbp)) {
--+				errno = 0;
--+				return (FTS_SLNONE);
--+			}
--+			p->fts_errno = saved_errno;
--+			goto err;
-- 		}
---		p = sp->fts_child;
---		sp->fts_child = NULL;
---		goto name;
--+	} else if (lstat(p->fts_accpath, sbp)) {
--+		p->fts_errno = errno;
--+err:		memset(sbp, 0, sizeof(struct stat));
--+		return (FTS_NS);
-- 	}
-- 
---	/* Move to the next node on this level. */
---next:	tmp = p;
---	if (p = p->fts_link) {
---		free(tmp);
---
---		/*
---		 * If reached the top, return to the original directory, and
---		 * load the paths for the next root.
---		 */
---		if (p->fts_level == FTS_ROOTLEVEL) {
---			if (!ISSET(FTS_NOCHDIR) && FCHDIR(sp, sp->fts_rfd)) {
---				SET(FTS_STOP);
---				return (NULL);
---			}
---			fts_load(sp, p);
---			return (sp->fts_cur = p);
---		}
---
--+	if (S_ISDIR(sbp->st_mode)) {
-- 		/*
---		 * User may have called fts_set on the node.  If skipped,
---		 * ignore.  If followed, get a file descriptor so we can
---		 * get back if necessary.
--+		 * Set the device/inode.  Used to find cycles and check for
--+		 * crossing mount points.  Also remember the link count, used
--+		 * in fts_build to limit the number of stat calls.  It is
--+		 * understood that these fields are only referenced if fts_info
--+		 * is set to FTS_D.
-- 		 */
---		if (p->fts_instr == FTS_SKIP)
---			goto next;
---		if (p->fts_instr == FTS_FOLLOW) {
---			p->fts_info = fts_stat(sp, NULL, p, 1);
---			if (p->fts_info == FTS_D && !ISSET(FTS_NOCHDIR))
---				if ((p->fts_symfd =
---				    open(".", O_RDONLY, 0)) < 0) {
---					p->fts_errno = errno;
---					p->fts_info = FTS_ERR;
---				} else
---					p->fts_flags |= FTS_SYMFOLLOW;
---			p->fts_instr = FTS_NOINSTR;
---		}
---
---name:		t = sp->fts_path + NAPPEND(p->fts_parent);
---		*t++ = '/';
---		memmove(t, p->fts_name, p->fts_namelen + 1);
---		return (sp->fts_cur = p);
---	}
--+		dev = p->fts_dev = sbp->st_dev;
--+		ino = p->fts_ino = sbp->st_ino;
--+		p->fts_nlink = sbp->st_nlink;
-- 
---	/* Move up to the parent node. */
---	p = tmp->fts_parent;
---	free(tmp);
--+		if (ISDOT(p->fts_name))
--+			return (FTS_DOT);
-- 
---	if (p->fts_level == FTS_ROOTPARENTLEVEL) {
-- 		/*
---		 * Done; free everything up and set errno to 0 so the user
---		 * can distinguish between error and EOF.
--+		 * Cycle detection is done by brute force when the directory
--+		 * is first encountered.  If the tree gets deep enough or the
--+		 * number of symbolic links to directories is high enough,
--+		 * something faster might be worthwhile.
-- 		 */
---		free(p);
---		errno = 0;
---		return (sp->fts_cur = NULL);
---	}
---
---	/* Nul terminate the pathname. */
---	sp->fts_path[p->fts_pathlen] = '\0';
---
---	/*
---	 * Return to the parent directory.  If at a root node or came through
---	 * a symlink, go back through the file descriptor.  Otherwise, cd up
---	 * one directory.
---	 */
---	if (p->fts_level == FTS_ROOTLEVEL) {
---		if (!ISSET(FTS_NOCHDIR) && FCHDIR(sp, sp->fts_rfd)) {
---			SET(FTS_STOP);
---			return (NULL);
---		}
---	} else if (p->fts_flags & FTS_SYMFOLLOW) {
---		if (FCHDIR(sp, p->fts_symfd)) {
---			saved_errno = errno;
---			(void)close(p->fts_symfd);
---			errno = saved_errno;
---			SET(FTS_STOP);
---			return (NULL);
---		}
---		(void)close(p->fts_symfd);
---	} else if (!(p->fts_flags & FTS_DONTCHDIR)) {
---		if (CHDIR(sp, "..")) {
---			SET(FTS_STOP);
---			return (NULL);
---		}
---	}
---	p->fts_info = p->fts_errno ? FTS_ERR : FTS_DP;
---	return (sp->fts_cur = p);
---}
---
---/*
--- * Fts_set takes the stream as an argument although it's not used in this
--- * implementation; it would be necessary if anyone wanted to add global
--- * semantics to fts using fts_set.  An error return is allowed for similar
--- * reasons.
--- */
---/* ARGSUSED */
---int
---fts_set(sp, p, instr)
---	FTS *sp;
---	FTSENT *p;
---	int instr;
---{
---	if (instr && instr != FTS_AGAIN && instr != FTS_FOLLOW &&
---	    instr != FTS_NOINSTR && instr != FTS_SKIP) {
---		errno = EINVAL;
---		return (1);
--+		for (t = p->fts_parent;
--+		    t->fts_level >= FTS_ROOTLEVEL; t = t->fts_parent)
--+			if (ino == t->fts_ino && dev == t->fts_dev) {
--+				p->fts_cycle = t;
--+				return (FTS_DC);
--+			}
--+		return (FTS_D);
-- 	}
---	p->fts_instr = instr;
---	return (0);
--+	if (S_ISLNK(sbp->st_mode))
--+		return (FTS_SL);
--+	if (S_ISREG(sbp->st_mode))
--+		return (FTS_F);
--+	return (FTS_DEFAULT);
-- }
-- 
---FTSENT *
---fts_children(sp, instr)
---	register FTS *sp;
---	int instr;
--+static FTSENT *
--+fts_sort(FTS *sp, FTSENT *head, register int nitems)
-- {
---	register FTSENT *p;
---	int fd;
---
---	if (instr && instr != FTS_NAMEONLY) {
---		errno = EINVAL;
---		return (NULL);
---	}
---
---	/* Set current node pointer. */
---	p = sp->fts_cur;
---
---	/*
---	 * Errno set to 0 so user can distinguish empty directory from
---	 * an error.
---	 */
---	errno = 0;
---
---	/* Fatal errors stop here. */
---	if (ISSET(FTS_STOP))
---		return (NULL);
---
---	/* Return logical hierarchy of user's arguments. */
---	if (p->fts_info == FTS_INIT)
---		return (p->fts_link);
---
---	/*
---	 * If not a directory being visited in pre-order, stop here.  Could
---	 * allow FTS_DNR, assuming the user has fixed the problem, but the
---	 * same effect is available with FTS_AGAIN.
---	 */
---	if (p->fts_info != FTS_D /* && p->fts_info != FTS_DNR */)
---		return (NULL);
---
---	/* Free up any previous child list. */
---	if (sp->fts_child)
---		fts_lfree(sp->fts_child);
---
---	if (instr == FTS_NAMEONLY) {
---		sp->fts_options |= FTS_NAMEONLY;
---		instr = BNAMES;
---	} else 
---		instr = BCHILD;
--+	register FTSENT **ap, *p;
-- 
-- 	/*
---	 * If using chdir on a relative path and called BEFORE fts_read does
---	 * its chdir to the root of a traversal, we can lose -- we need to
---	 * chdir into the subdirectory, and we don't know where the current
---	 * directory is, so we can't get back so that the upcoming chdir by
---	 * fts_read will work.
--+	 * Construct an array of pointers to the structures and call qsort(3).
--+	 * Reassemble the array in the order returned by qsort.  If unable to
--+	 * sort for memory reasons, return the directory entries in their
--+	 * current order.  Allocate enough space for the current needs plus
--+	 * 40 so don't realloc one entry at a time.
-- 	 */
---	if (p->fts_level != FTS_ROOTLEVEL || p->fts_accpath[0] == '/' ||
---	    ISSET(FTS_NOCHDIR))
---		return (sp->fts_child = fts_build(sp, instr));
---
---	if ((fd = open(".", O_RDONLY, 0)) < 0)
---		return (NULL);
---	sp->fts_child = fts_build(sp, instr);
---	if (fchdir(fd))
---		return (NULL);
---	(void)close(fd);
---	return (sp->fts_child);
--+	if (nitems > sp->fts_nitems) {
--+		sp->fts_nitems = nitems + 40;
--+		if ((sp->fts_array = realloc(sp->fts_array,
--+		    (size_t)(sp->fts_nitems * sizeof(FTSENT *)))) == NULL) {
--+			sp->fts_nitems = 0;
--+			return (head);
--+		}
--+	}
--+	for (ap = sp->fts_array, p = head; p; p = p->fts_link)
--+		*ap++ = p;
--+	qsort((void *)sp->fts_array, nitems, sizeof(FTSENT *), sp->fts_compar);
--+	for (head = *(ap = sp->fts_array); --nitems; ++ap)
--+		ap[0]->fts_link = ap[1];
--+	ap[0]->fts_link = NULL;
--+	return (head);
-- }
-- 
-- /*
--@@ -551,9 +320,7 @@ fts_children(sp, instr)
--  * been found, cutting the stat calls by about 2/3.
--  */
-- static FTSENT *
---fts_build(sp, type)
---	register FTS *sp;
---	int type;
--+fts_build(register FTS *sp, int type)
-- {
-- 	register struct dirent *dp;
-- 	register FTSENT *p, *head;
--@@ -716,283 +483,479 @@ mem1:				saved_errno = errno;
-- 				--nlinks;
-- 		}
-- 
---		/* We walk in directory order so "ls -f" doesn't get upset. */
---		p->fts_link = NULL;
---		if (head == NULL)
---			head = tail = p;
---		else {
---			tail->fts_link = p;
---			tail = p;
--+		/* We walk in directory order so "ls -f" doesn't get upset. */
--+		p->fts_link = NULL;
--+		if (head == NULL)
--+			head = tail = p;
--+		else {
--+			tail->fts_link = p;
--+			tail = p;
--+		}
--+		++nitems;
--+	}
--+	(void)closedir(dirp);
--+
--+	/*
--+	 * If had to realloc the path, adjust the addresses for the rest
--+	 * of the tree.
--+	 */
--+	if (adjaddr)
--+		fts_padjust(sp, adjaddr);
--+
--+	/*
--+	 * If not changing directories, reset the path back to original
--+	 * state.
--+	 */
--+	if (ISSET(FTS_NOCHDIR)) {
--+		if (cp - 1 > sp->fts_path)
--+			--cp;
--+		*cp = '\0';
--+	}
--+
--+	/*
--+	 * If descended after called from fts_children or after called from
--+	 * fts_read and nothing found, get back.  At the root level we use
--+	 * the saved fd; if one of fts_open()'s arguments is a relative path
--+	 * to an empty directory, we wind up here with no other way back.  If
--+	 * can't get back, we're done.
--+	 */
--+	if (descend && (type == BCHILD || !nitems) &&
--+	    (cur->fts_level == FTS_ROOTLEVEL ?
--+	    FCHDIR(sp, sp->fts_rfd) : CHDIR(sp, ".."))) {
--+		cur->fts_info = FTS_ERR;
--+		SET(FTS_STOP);
--+		return (NULL);
--+	}
--+
--+	/* If didn't find anything, return NULL. */
--+	if (!nitems) {
--+		if (type == BREAD)
--+			cur->fts_info = FTS_DP;
--+		return (NULL);
--+	}
--+
--+	/* Sort the entries. */
--+	if (sp->fts_compar && nitems > 1)
--+		head = fts_sort(sp, head, nitems);
--+	return (head);
--+}
--+
--+
--+FTS *
--+fts_open(char * const *argv, register int options, int (*compar)())
--+{
--+	register FTS *sp;
--+	register FTSENT *p, *root;
--+	register int nitems;
--+	FTSENT *parent, *tmp;
--+	int len;
--+
--+	/* Options check. */
--+	if (options & ~FTS_OPTIONMASK) {
--+		errno = EINVAL;
--+		return (NULL);
--+	}
--+
--+	/* Allocate/initialize the stream */
--+	if ((sp = malloc((u_int)sizeof(FTS))) == NULL)
--+		return (NULL);
--+	memset(sp, 0, sizeof(FTS));
--+	sp->fts_compar = compar;
--+	sp->fts_options = options;
--+
--+	/* Logical walks turn on NOCHDIR; symbolic links are too hard. */
--+	if (ISSET(FTS_LOGICAL))
--+		SET(FTS_NOCHDIR);
--+
--+	/*
--+	 * Start out with 1K of path space, and enough, in any case,
--+	 * to hold the user's paths.
--+	 */
--+	if (fts_palloc(sp, MAX(fts_maxarglen(argv), MAXPATHLEN)))
--+		goto mem1;
--+
--+	/* Allocate/initialize root's parent. */
--+	if ((parent = fts_alloc(sp, "", 0)) == NULL)
--+		goto mem2;
--+	parent->fts_level = FTS_ROOTPARENTLEVEL;
--+
--+	/* Allocate/initialize root(s). */
--+	for (root = NULL, nitems = 0; *argv; ++argv, ++nitems) {
--+		/* Don't allow zero-length paths. */
--+		if ((len = strlen(*argv)) == 0) {
--+			errno = EINVAL;
--+			goto mem3;
--+		}
--+
--+		p = fts_alloc(sp, *argv, len);
--+		p->fts_level = FTS_ROOTLEVEL;
--+		p->fts_parent = parent;
--+		p->fts_accpath = p->fts_name;
--+		p->fts_info = fts_stat(sp, NULL, p, ISSET(FTS_COMFOLLOW));
--+
--+		/* Command-line "." and ".." are real directories. */
--+		if (p->fts_info == FTS_DOT)
--+			p->fts_info = FTS_D;
--+
--+		/*
--+		 * If comparison routine supplied, traverse in sorted
--+		 * order; otherwise traverse in the order specified.
--+		 */
--+		if (compar) {
--+			p->fts_link = root;
--+			root = p;
--+		} else {
--+			p->fts_link = NULL;
--+			if (root == NULL)
--+				tmp = root = p;
--+			else {
--+				tmp->fts_link = p;
--+				tmp = p;
--+			}
-- 		}
---		++nitems;
-- 	}
---	(void)closedir(dirp);
---
---	/*
---	 * If had to realloc the path, adjust the addresses for the rest
---	 * of the tree.
---	 */
---	if (adjaddr)
---		fts_padjust(sp, adjaddr);
--+	if (compar && nitems > 1)
--+		root = fts_sort(sp, root, nitems);
-- 
-- 	/*
---	 * If not changing directories, reset the path back to original
---	 * state.
--+	 * Allocate a dummy pointer and make fts_read think that we've just
--+	 * finished the node before the root(s); set p->fts_info to FTS_INIT
--+	 * so that everything about the "current" node is ignored.
-- 	 */
---	if (ISSET(FTS_NOCHDIR)) {
---		if (cp - 1 > sp->fts_path)
---			--cp;
---		*cp = '\0';
---	}
--+	if ((sp->fts_cur = fts_alloc(sp, "", 0)) == NULL)
--+		goto mem3;
--+	sp->fts_cur->fts_link = root;
--+	sp->fts_cur->fts_info = FTS_INIT;
-- 
-- 	/*
---	 * If descended after called from fts_children or after called from
---	 * fts_read and nothing found, get back.  At the root level we use
---	 * the saved fd; if one of fts_open()'s arguments is a relative path
---	 * to an empty directory, we wind up here with no other way back.  If
---	 * can't get back, we're done.
--+	 * If using chdir(2), grab a file descriptor pointing to dot to insure
--+	 * that we can get back here; this could be avoided for some paths,
--+	 * but almost certainly not worth the effort.  Slashes, symbolic links,
--+	 * and ".." are all fairly nasty problems.  Note, if we can't get the
--+	 * descriptor we run anyway, just more slowly.
-- 	 */
---	if (descend && (type == BCHILD || !nitems) &&
---	    (cur->fts_level == FTS_ROOTLEVEL ?
---	    FCHDIR(sp, sp->fts_rfd) : CHDIR(sp, ".."))) {
---		cur->fts_info = FTS_ERR;
---		SET(FTS_STOP);
---		return (NULL);
---	}
--+	if (!ISSET(FTS_NOCHDIR) && (sp->fts_rfd = open(".", O_RDONLY, 0)) < 0)
--+		SET(FTS_NOCHDIR);
-- 
---	/* If didn't find anything, return NULL. */
---	if (!nitems) {
---		if (type == BREAD)
---			cur->fts_info = FTS_DP;
---		return (NULL);
---	}
--+	return (sp);
-- 
---	/* Sort the entries. */
---	if (sp->fts_compar && nitems > 1)
---		head = fts_sort(sp, head, nitems);
---	return (head);
--+mem3:	fts_lfree(root);
--+	free(parent);
--+mem2:	free(sp->fts_path);
--+mem1:	free(sp);
--+	return (NULL);
-- }
-- 
---static u_short
---fts_stat(sp, dp, p, follow)
---	FTS *sp;
---	register FTSENT *p;
---	struct dirent *dp;
---	int follow;
--+FTSENT *
--+fts_read(register FTS *sp)
-- {
---	register FTSENT *t;
---	register dev_t dev;
---	register ino_t ino;
---	struct stat *sbp, sb;
--+	register FTSENT *p, *tmp;
--+	register int instr;
--+	register char *t;
-- 	int saved_errno;
-- 
---	/* If user needs stat info, stat buffer already allocated. */
---	sbp = ISSET(FTS_NOSTAT) ? &sb : p->fts_statp;
--+	/* If finished or unrecoverable error, return NULL. */
--+	if (sp->fts_cur == NULL || ISSET(FTS_STOP))
--+		return (NULL);
-- 
---#ifdef S_IFWHT
---	/*
---	 * Whited-out files don't really exist.  However, there's stat(2) file
---	 * mask for them, so we set it so that programs (i.e., find) don't have
---	 * to test FTS_W separately from other file types.
---	 */
---	if (dp != NULL && dp->d_type == DT_WHT) {
---		memset(sbp, 0, sizeof(struct stat));
---		sbp->st_mode = S_IFWHT;
---		return (FTS_W);
--+	/* Set current node pointer. */
--+	p = sp->fts_cur;
--+
--+	/* Save and zero out user instructions. */
--+	instr = p->fts_instr;
--+	p->fts_instr = FTS_NOINSTR;
--+
--+	/* Any type of file may be re-visited; re-stat and re-turn. */
--+	if (instr == FTS_AGAIN) {
--+		p->fts_info = fts_stat(sp, NULL, p, 0);
--+		return (p);
-- 	}
---#endif
---	
--+
-- 	/*
---	 * If doing a logical walk, or application requested FTS_FOLLOW, do
---	 * a stat(2).  If that fails, check for a non-existent symlink.  If
---	 * fail, set the errno from the stat call.
--+	 * Following a symlink -- SLNONE test allows application to see
--+	 * SLNONE and recover.  If indirecting through a symlink, have
--+	 * keep a pointer to current location.  If unable to get that
--+	 * pointer, follow fails.
-- 	 */
---	if (ISSET(FTS_LOGICAL) || follow) {
---		if (stat(p->fts_accpath, sbp)) {
---			saved_errno = errno;
---			if (!lstat(p->fts_accpath, sbp)) {
---				errno = 0;
---				return (FTS_SLNONE);
---			} 
---			p->fts_errno = saved_errno;
---			goto err;
--+	if (instr == FTS_FOLLOW &&
--+	    (p->fts_info == FTS_SL || p->fts_info == FTS_SLNONE)) {
--+		p->fts_info = fts_stat(sp, NULL, p, 1);
--+		if (p->fts_info == FTS_D && !ISSET(FTS_NOCHDIR))
--+			if ((p->fts_symfd = open(".", O_RDONLY, 0)) < 0) {
--+				p->fts_errno = errno;
--+				p->fts_info = FTS_ERR;
--+			} else
--+				p->fts_flags |= FTS_SYMFOLLOW;
--+		return (p);
--+	}
--+
--+	/* Directory in pre-order. */
--+	if (p->fts_info == FTS_D) {
--+		/* If skipped or crossed mount point, do post-order visit. */
--+		if (instr == FTS_SKIP ||
--+		    ISSET(FTS_XDEV) && p->fts_dev != sp->fts_dev) {
--+			if (p->fts_flags & FTS_SYMFOLLOW)
--+				(void)close(p->fts_symfd);
--+			if (sp->fts_child) {
--+				fts_lfree(sp->fts_child);
--+				sp->fts_child = NULL;
--+			}
--+			p->fts_info = FTS_DP;
--+			return (p);
-- 		}
---	} else if (lstat(p->fts_accpath, sbp)) {
---		p->fts_errno = errno;
---err:		memset(sbp, 0, sizeof(struct stat));
---		return (FTS_NS);
--+
--+		/* Rebuild if only read the names and now traversing. */
--+		if (sp->fts_child && sp->fts_options & FTS_NAMEONLY) {
--+			sp->fts_options &= ~FTS_NAMEONLY;
--+			fts_lfree(sp->fts_child);
--+			sp->fts_child = NULL;
--+		}
--+
--+		/*
--+		 * Cd to the subdirectory.
--+		 *
--+		 * If have already read and now fail to chdir, whack the list
--+		 * to make the names come out right, and set the parent errno
--+		 * so the application will eventually get an error condition.
--+		 * Set the FTS_DONTCHDIR flag so that when we logically change
--+		 * directories back to the parent we don't do a chdir.
--+		 *
--+		 * If haven't read do so.  If the read fails, fts_build sets
--+		 * FTS_STOP or the fts_info field of the node.
--+		 */
--+		if (sp->fts_child) {
--+			if (CHDIR(sp, p->fts_accpath)) {
--+				p->fts_errno = errno;
--+				p->fts_flags |= FTS_DONTCHDIR;
--+				for (p = sp->fts_child; p; p = p->fts_link)
--+					p->fts_accpath =
--+					    p->fts_parent->fts_accpath;
--+			}
--+		} else if ((sp->fts_child = fts_build(sp, BREAD)) == NULL) {
--+			if (ISSET(FTS_STOP))
--+				return (NULL);
--+			return (p);
--+		}
--+		p = sp->fts_child;
--+		sp->fts_child = NULL;
--+		goto name;
-- 	}
-- 
---	if (S_ISDIR(sbp->st_mode)) {
--+	/* Move to the next node on this level. */
--+next:	tmp = p;
--+	if (p = p->fts_link) {
--+		free(tmp);
--+
-- 		/*
---		 * Set the device/inode.  Used to find cycles and check for
---		 * crossing mount points.  Also remember the link count, used
---		 * in fts_build to limit the number of stat calls.  It is
---		 * understood that these fields are only referenced if fts_info
---		 * is set to FTS_D.
--+		 * If reached the top, return to the original directory, and
--+		 * load the paths for the next root.
-- 		 */
---		dev = p->fts_dev = sbp->st_dev;
---		ino = p->fts_ino = sbp->st_ino;
---		p->fts_nlink = sbp->st_nlink;
--+		if (p->fts_level == FTS_ROOTLEVEL) {
--+			if (!ISSET(FTS_NOCHDIR) && FCHDIR(sp, sp->fts_rfd)) {
--+				SET(FTS_STOP);
--+				return (NULL);
--+			}
--+			fts_load(sp, p);
--+			return (sp->fts_cur = p);
--+		}
--+
--+		/*
--+		 * User may have called fts_set on the node.  If skipped,
--+		 * ignore.  If followed, get a file descriptor so we can
--+		 * get back if necessary.
--+		 */
--+		if (p->fts_instr == FTS_SKIP)
--+			goto next;
--+		if (p->fts_instr == FTS_FOLLOW) {
--+			p->fts_info = fts_stat(sp, NULL, p, 1);
--+			if (p->fts_info == FTS_D && !ISSET(FTS_NOCHDIR))
--+				if ((p->fts_symfd =
--+				    open(".", O_RDONLY, 0)) < 0) {
--+					p->fts_errno = errno;
--+					p->fts_info = FTS_ERR;
--+				} else
--+					p->fts_flags |= FTS_SYMFOLLOW;
--+			p->fts_instr = FTS_NOINSTR;
--+		}
-- 
---		if (ISDOT(p->fts_name))
---			return (FTS_DOT);
--+name:		t = sp->fts_path + NAPPEND(p->fts_parent);
--+		*t++ = '/';
--+		memmove(t, p->fts_name, p->fts_namelen + 1);
--+		return (sp->fts_cur = p);
--+	}
-- 
--+	/* Move up to the parent node. */
--+	p = tmp->fts_parent;
--+	free(tmp);
--+
--+	if (p->fts_level == FTS_ROOTPARENTLEVEL) {
-- 		/*
---		 * Cycle detection is done by brute force when the directory
---		 * is first encountered.  If the tree gets deep enough or the
---		 * number of symbolic links to directories is high enough,
---		 * something faster might be worthwhile.
--+		 * Done; free everything up and set errno to 0 so the user
--+		 * can distinguish between error and EOF.
-- 		 */
---		for (t = p->fts_parent;
---		    t->fts_level >= FTS_ROOTLEVEL; t = t->fts_parent)
---			if (ino == t->fts_ino && dev == t->fts_dev) {
---				p->fts_cycle = t;
---				return (FTS_DC);
---			}
---		return (FTS_D);
--+		free(p);
--+		errno = 0;
--+		return (sp->fts_cur = NULL);
-- 	}
---	if (S_ISLNK(sbp->st_mode))
---		return (FTS_SL);
---	if (S_ISREG(sbp->st_mode))
---		return (FTS_F);
---	return (FTS_DEFAULT);
---}
-- 
---static FTSENT *
---fts_sort(sp, head, nitems)
---	FTS *sp;
---	FTSENT *head;
---	register int nitems;
---{
---	register FTSENT **ap, *p;
--+	/* Nul terminate the pathname. */
--+	sp->fts_path[p->fts_pathlen] = '\0';
-- 
-- 	/*
---	 * Construct an array of pointers to the structures and call qsort(3).
---	 * Reassemble the array in the order returned by qsort.  If unable to
---	 * sort for memory reasons, return the directory entries in their
---	 * current order.  Allocate enough space for the current needs plus
---	 * 40 so don't realloc one entry at a time.
--+	 * Return to the parent directory.  If at a root node or came through
--+	 * a symlink, go back through the file descriptor.  Otherwise, cd up
--+	 * one directory.
-- 	 */
---	if (nitems > sp->fts_nitems) {
---		sp->fts_nitems = nitems + 40;
---		if ((sp->fts_array = realloc(sp->fts_array,
---		    (size_t)(sp->fts_nitems * sizeof(FTSENT *)))) == NULL) {
---			sp->fts_nitems = 0;
---			return (head);
--+	if (p->fts_level == FTS_ROOTLEVEL) {
--+		if (!ISSET(FTS_NOCHDIR) && FCHDIR(sp, sp->fts_rfd)) {
--+			SET(FTS_STOP);
--+			return (NULL);
--+		}
--+	} else if (p->fts_flags & FTS_SYMFOLLOW) {
--+		if (FCHDIR(sp, p->fts_symfd)) {
--+			saved_errno = errno;
--+			(void)close(p->fts_symfd);
--+			errno = saved_errno;
--+			SET(FTS_STOP);
--+			return (NULL);
--+		}
--+		(void)close(p->fts_symfd);
--+	} else if (!(p->fts_flags & FTS_DONTCHDIR)) {
--+		if (CHDIR(sp, "..")) {
--+			SET(FTS_STOP);
--+			return (NULL);
-- 		}
-- 	}
---	for (ap = sp->fts_array, p = head; p; p = p->fts_link)
---		*ap++ = p;
---	qsort((void *)sp->fts_array, nitems, sizeof(FTSENT *), sp->fts_compar);
---	for (head = *(ap = sp->fts_array); --nitems; ++ap)
---		ap[0]->fts_link = ap[1];
---	ap[0]->fts_link = NULL;
---	return (head);
--+	p->fts_info = p->fts_errno ? FTS_ERR : FTS_DP;
--+	return (sp->fts_cur = p);
-- }
-- 
---static FTSENT *
---fts_alloc(sp, name, namelen)
---	FTS *sp;
---	char *name;
---	register int namelen;
--+/*
--+ * Fts_set takes the stream as an argument although it's not used in this
--+ * implementation; it would be necessary if anyone wanted to add global
--+ * semantics to fts using fts_set.  An error return is allowed for similar
--+ * reasons.
--+ */
--+/* ARGSUSED */
--+int
--+fts_set(FTS *sp, FTSENT *p, int instr)
--+{
--+	if (instr && instr != FTS_AGAIN && instr != FTS_FOLLOW &&
--+	    instr != FTS_NOINSTR && instr != FTS_SKIP) {
--+		errno = EINVAL;
--+		return (1);
--+	}
--+	p->fts_instr = instr;
--+	return (0);
--+}
--+
--+FTSENT *
--+fts_children(register FTS *sp, int instr)
-- {
-- 	register FTSENT *p;
---	size_t len;
--+	int fd;
--+
--+	if (instr && instr != FTS_NAMEONLY) {
--+		errno = EINVAL;
--+		return (NULL);
--+	}
--+
--+	/* Set current node pointer. */
--+	p = sp->fts_cur;
-- 
-- 	/*
---	 * The file name is a variable length array and no stat structure is
---	 * necessary if the user has set the nostat bit.  Allocate the FTSENT
---	 * structure, the file name and the stat structure in one chunk, but
---	 * be careful that the stat structure is reasonably aligned.  Since the
---	 * fts_name field is declared to be of size 1, the fts_name pointer is
---	 * namelen + 2 before the first possible address of the stat structure.
--+	 * Errno set to 0 so user can distinguish empty directory from
--+	 * an error.
-- 	 */
---	len = sizeof(FTSENT) + namelen;
---	if (!ISSET(FTS_NOSTAT))
---		len += sizeof(struct stat) + ALIGNBYTES;
---	if ((p = malloc(len)) == NULL)
--+	errno = 0;
--+
--+	/* Fatal errors stop here. */
--+	if (ISSET(FTS_STOP))
-- 		return (NULL);
-- 
---	/* Copy the name plus the trailing NULL. */
---	memmove(p->fts_name, name, namelen + 1);
--+	/* Return logical hierarchy of user's arguments. */
--+	if (p->fts_info == FTS_INIT)
--+		return (p->fts_link);
-- 
---	if (!ISSET(FTS_NOSTAT))
---		p->fts_statp = (struct stat *)ALIGN(p->fts_name + namelen + 2);
---	p->fts_namelen = namelen;
---	p->fts_path = sp->fts_path;
---	p->fts_errno = 0;
---	p->fts_flags = 0;
---	p->fts_instr = FTS_NOINSTR;
---	p->fts_number = 0;
---	p->fts_pointer = NULL;
---	return (p);
--+	/*
--+	 * If not a directory being visited in pre-order, stop here.  Could
--+	 * allow FTS_DNR, assuming the user has fixed the problem, but the
--+	 * same effect is available with FTS_AGAIN.
--+	 */
--+	if (p->fts_info != FTS_D /* && p->fts_info != FTS_DNR */)
--+		return (NULL);
--+
--+	/* Free up any previous child list. */
--+	if (sp->fts_child)
--+		fts_lfree(sp->fts_child);
--+
--+	if (instr == FTS_NAMEONLY) {
--+		sp->fts_options |= FTS_NAMEONLY;
--+		instr = BNAMES;
--+	} else
--+		instr = BCHILD;
--+
--+	/*
--+	 * If using chdir on a relative path and called BEFORE fts_read does
--+	 * its chdir to the root of a traversal, we can lose -- we need to
--+	 * chdir into the subdirectory, and we don't know where the current
--+	 * directory is, so we can't get back so that the upcoming chdir by
--+	 * fts_read will work.
--+	 */
--+	if (p->fts_level != FTS_ROOTLEVEL || p->fts_accpath[0] == '/' ||
--+	    ISSET(FTS_NOCHDIR))
--+		return (sp->fts_child = fts_build(sp, instr));
--+
--+	if ((fd = open(".", O_RDONLY, 0)) < 0)
--+		return (NULL);
--+	sp->fts_child = fts_build(sp, instr);
--+	if (fchdir(fd))
--+		return (NULL);
--+	(void)close(fd);
--+	return (sp->fts_child);
-- }
-- 
---static void
---fts_lfree(head)
---	register FTSENT *head;
--+int
--+fts_close(FTS *sp)
-- {
---	register FTSENT *p;
--+	register FTSENT *freep, *p;
--+	int saved_errno;
-- 
---	/* Free a linked list of structures. */
---	while (p = head) {
---		head = head->fts_link;
--+	/*
--+	 * This still works if we haven't read anything -- the dummy structure
--+	 * points to the root list, so we step through to the end of the root
--+	 * list which has a valid parent pointer.
--+	 */
--+	if (sp->fts_cur) {
--+		for (p = sp->fts_cur; p->fts_level >= FTS_ROOTLEVEL;) {
--+			freep = p;
--+			p = p->fts_link ? p->fts_link : p->fts_parent;
--+			free(freep);
--+		}
-- 		free(p);
-- 	}
---}
-- 
---/*
--- * Allow essentially unlimited paths; find, rm, ls should all work on any tree.
--- * Most systems will allow creation of paths much longer than MAXPATHLEN, even
--- * though the kernel won't resolve them.  Add the size (not just what's needed)
--- * plus 256 bytes so don't realloc the path 2 bytes at a time. 
--- */
---static int
---fts_palloc(sp, more)
---	FTS *sp;
---	size_t more;
---{
---	sp->fts_pathlen += more + 256;
---	sp->fts_path = realloc(sp->fts_path, (size_t)sp->fts_pathlen);
---	return (sp->fts_path == NULL);
---}
--+	/* Free up child linked list, sort array, path buffer. */
--+	if (sp->fts_child)
--+		fts_lfree(sp->fts_child);
--+	if (sp->fts_array)
--+		free(sp->fts_array);
--+	free(sp->fts_path);
-- 
---/*
--- * When the path is realloc'd, have to fix all of the pointers in structures
--- * already returned.
--- */
---static void
---fts_padjust(sp, addr)
---	FTS *sp;
---	void *addr;
---{
---	FTSENT *p;
--+	/* Return to original directory, save errno if necessary. */
--+	if (!ISSET(FTS_NOCHDIR)) {
--+		saved_errno = fchdir(sp->fts_rfd) ? errno : 0;
--+		(void)close(sp->fts_rfd);
--+	}
-- 
---#define	ADJUST(p) {							\
---	(p)->fts_accpath =						\
---	    (char *)addr + ((p)->fts_accpath - (p)->fts_path);		\
---	(p)->fts_path = addr;						\
---}
---	/* Adjust the current set of children. */
---	for (p = sp->fts_child; p; p = p->fts_link)
---		ADJUST(p);
--+	/* Free up the stream pointer. */
--+	free(sp);
-- 
---	/* Adjust the rest of the tree. */
---	for (p = sp->fts_cur; p->fts_level >= FTS_ROOTLEVEL;) {
---		ADJUST(p);
---		p = p->fts_link ? p->fts_link : p->fts_parent;
--+	/* Set errno and return. */
--+	if (!ISSET(FTS_NOCHDIR) && saved_errno) {
--+		errno = saved_errno;
--+		return (-1);
-- 	}
--+	return (0);
-- }
-- 
---static size_t
---fts_maxarglen(argv)
---	char * const *argv;
---{
---	size_t len, max;
---
---	for (max = 0; *argv; ++argv)
---		if ((len = strlen(*argv)) > max)
---			max = len;
---	return (max);
---}
-diff --git a/meta/recipes-core/fts/fts/remove_cdefs.patch b/meta/recipes-core/fts/fts/remove_cdefs.patch
-deleted file mode 100644
-index c152704d44..0000000000
---- a/meta/recipes-core/fts/fts/remove_cdefs.patch
-+++ /dev/null
-@@ -1,69 +0,0 @@
--Replace use of macros from sys/cdefs.h since cdefs.h is missing on musl
--
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
--Upstream-Status: Inappropriate
--
--Index: fts/fts.h
--===================================================================
----- fts.orig/fts.h
--+++ fts/fts.h
--@@ -126,15 +126,21 @@ typedef struct _ftsent {
-- 	char fts_name[1];		/* file name */
-- } FTSENT;
-- 
---#include <sys/cdefs.h>
--+#ifdef __cplusplus
--+extern "C" {
--+#endif
-- 
---__BEGIN_DECLS
---FTSENT	*fts_children __P((FTS *, int));
---int	 fts_close __P((FTS *));
---FTS	*fts_open __P((char * const *, int,
---	    int (*)(const FTSENT **, const FTSENT **)));
---FTSENT	*fts_read __P((FTS *));
---int	 fts_set __P((FTS *, FTSENT *, int));
---__END_DECLS
--+#ifndef __P
--+#define __P
--+#endif
--+FTSENT	*fts_children (FTS *p, int opts);
--+int	 fts_close (FTS *p);
--+FTS	*fts_open (char * const * path, int opts,
--+	    int (*compfn)(const FTSENT **, const FTSENT **));
--+FTSENT	*fts_read (FTS *p);
--+int	 fts_set (FTS *p, FTSENT *f, int opts);
-- 
--+#ifdef __cplusplus
--+}
--+#endif
-- #endif /* !_FTS_H_ */
--Index: fts/fts.c
--===================================================================
----- fts.orig/fts.c
--+++ fts/fts.c
--@@ -50,15 +50,15 @@ static char sccsid[] = "@(#)fts.c	8.6 (B
-- #include <string.h>
-- #include <unistd.h>
-- 
---static FTSENT	*fts_alloc __P((FTS *, char *, int));
---static FTSENT	*fts_build __P((FTS *, int));
---static void	 fts_lfree __P((FTSENT *));
---static void	 fts_load __P((FTS *, FTSENT *));
---static size_t	 fts_maxarglen __P((char * const *));
---static void	 fts_padjust __P((FTS *, void *));
---static int	 fts_palloc __P((FTS *, size_t));
---static FTSENT	*fts_sort __P((FTS *, FTSENT *, int));
---static u_short	 fts_stat __P((FTS *, struct dirent *, FTSENT *, int));
--+static FTSENT	*fts_alloc __P(FTS *, char *, int);
--+static FTSENT	*fts_build __P(FTS *, int);
--+static void	 fts_lfree __P(FTSENT *);
--+static void	 fts_load __P(FTS *, FTSENT *);
--+static size_t	 fts_maxarglen __P(char * const *);
--+static void	 fts_padjust __P(FTS *, void *);
--+static int	 fts_palloc __P(FTS *, size_t);
--+static FTSENT	*fts_sort __P(FTS *, FTSENT *, int);
--+static u_short	 fts_stat __P(FTS *, struct dirent *, FTSENT *, int);
-- 
-- #define	ISDOT(a)	(a[0] == '.' && (!a[1] || a[1] == '.' && !a[2]))
-- 
-diff --git a/meta/recipes-core/fts/fts/stdint.patch b/meta/recipes-core/fts/fts/stdint.patch
-deleted file mode 100644
-index 89e6097fcb..0000000000
---- a/meta/recipes-core/fts/fts/stdint.patch
-+++ /dev/null
-@@ -1,15 +0,0 @@
--Include stdint.h for u_* typedefs
--
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
--Upstream-Status: Inappropriate
--
----- ./fts.c.orig
--+++ ./fts.c
--@@ -46,6 +46,7 @@
-- #include <errno.h>
-- #include <fcntl.h>
-- #include <fts.h>
--+#include <stdint.h>
-- #include <stdlib.h>
-- #include <string.h>
-- #include <unistd.h>
--- 
-2.13.0
+So I'm just using the same everywhere.
 
+But I'm open to change it to some other form if there are technical reasons
+to do so (other than personal preference).
 
+On Tue, May 30, 2017 at 6:30 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
+
+> On Tue, May 30, 2017 at 8:41 AM, Mark Hatle <mark.hatle@windriver.com>
+> wrote:
+> > On 5/30/17 9:45 AM, Andre McCurdy wrote:
+> >> On Tue, May 30, 2017 at 1:08 AM, Martin Jansa <martin.jansa@gmail.com>
+> wrote:
+> >>> * Using "cp -a" leaks UID of user running the builds, causing
+> >>>   many QA warnings.
+> >>> * See this thread for details:
+> >>>   http://lists.openembedded.org/pipermail/openembedded-core/
+> 2015-November/112904.html
+> >>
+> >> Using "cp -av --no-preserve=ownership" is a slightly cleaner solution.
+> >
+> > I personally prefer Martin's version since '-a' is not supported
+> everywhere.
+> > (Unless you using gnu cp, which 99% of the Linux world uses.. but
+> non-Linux
+> > systems rarely do.)
+>
+> Which versions of cp do you know of that support
+> "--preserve=mode,links" without supporting "-a" ?
+>
+> A quick google of manpages suggests that FreeBSD supports "-a" but not
+> "--preserve=XXX". OpenBSD doesn't seem to support either.
+>
+> Which non-Linux host systems does OE support?
+>
+> > --Mark
+> >
+> >>> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+> >>> ---
+> >>>  meta/recipes-core/coreutils/coreutils_8.27.bb       | 2 +-
+> >>>  meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.4.bb | 4 ++--
+> >>>  meta/recipes-extended/mdadm/mdadm_4.0.bb            | 2 +-
+> >>>  3 files changed, 4 insertions(+), 4 deletions(-)
+> >>>
+> >>> diff --git a/meta/recipes-core/coreutils/coreutils_8.27.bb
+> b/meta/recipes-core/coreutils/coreutils_8.27.bb
+> >>> index 667e0af560..ea8740a2d1 100644
+> >>> --- a/meta/recipes-core/coreutils/coreutils_8.27.bb
+> >>> +++ b/meta/recipes-core/coreutils/coreutils_8.27.bb
+> >>> @@ -99,7 +99,7 @@ do_install_append() {
+> >>>         install -t ${D}/${mandir}/man1 ${S}/man/*.1
+> >>>         # prebuilt man pages don't do a separate man page for [ vs
+> test.
+> >>>         # see comment above r.e. sed and update-alternatives
+> >>> -       cp -a ${D}${mandir}/man1/test.1 ${D}${mandir}/man1/lbracket.1.
+> ${BPN}
+> >>> +       cp -R --no-dereference --preserve=mode,links -v
+> ${D}${mandir}/man1/test.1 ${D}${mandir}/man1/lbracket.1.${BPN}
+> >>>  }
+> >>>
+> >>>  inherit update-alternatives
+> >>> diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.4.bb
+> b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.4.bb
+> >>> index 5216c7027c..7c8809a41e 100644
+> >>> --- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.4.bb
+> >>> +++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.4.bb
+> >>> @@ -106,7 +106,7 @@ do_compile_ptest() {
+> >>>  }
+> >>>
+> >>>  do_install_ptest() {
+> >>> -       cp -a ${B}/tests ${D}${PTEST_PATH}/test
+> >>> -       cp -a ${S}/tests/* ${D}${PTEST_PATH}/test
+> >>> +       cp -R --no-dereference --preserve=mode,links -v ${B}/tests
+> ${D}${PTEST_PATH}/test
+> >>> +       cp -R --no-dereference --preserve=mode,links -v ${S}/tests/*
+> ${D}${PTEST_PATH}/test
+> >>>         sed -e 's!../e2fsck/e2fsck!e2fsck!g' -i
+> ${D}${PTEST_PATH}/test/*/expect*
+> >>>  }
+> >>> diff --git a/meta/recipes-extended/mdadm/mdadm_4.0.bb
+> b/meta/recipes-extended/mdadm/mdadm_4.0.bb
+> >>> index 98a10a8b15..506b0bc315 100644
+> >>> --- a/meta/recipes-extended/mdadm/mdadm_4.0.bb
+> >>> +++ b/meta/recipes-extended/mdadm/mdadm_4.0.bb
+> >>> @@ -55,7 +55,7 @@ do_compile_ptest() {
+> >>>  }
+> >>>
+> >>>  do_install_ptest() {
+> >>> -       cp -a ${S}/tests ${D}${PTEST_PATH}/tests
+> >>> +       cp -R --no-dereference --preserve=mode,links -v ${S}/tests
+> ${D}${PTEST_PATH}/tests
+> >>>         cp ${S}/test ${D}${PTEST_PATH}
+> >>>         sed -e 's!sleep 0.*!sleep 1!g; s!/var/tmp!/!g' -i
+> ${D}${PTEST_PATH}/test
+> >>>         ln -s ${base_sbindir}/mdadm ${D}${PTEST_PATH}/mdadm
+> >>> --
+> >>> 2.13.0
+> >>>
+> >>> --
+> >>> _______________________________________________
+> >>> Openembedded-core mailing list
+> >>> Openembedded-core@lists.openembedded.org
+> >>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> >
+>
+
+--f403045db88000f5b70550c1330a
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">I cannot find the exact message in MLs, but this combinati=
+on of parameters was suggested by someone and approved by others back in 20=
+15, when I did this change and similar in other layers like:<div><a href=3D=
+"https://patchwork.openembedded.org/patch/116525/">https://patchwork.openem=
+bedded.org/patch/116525/</a><br></div><div><br></div><div>So I&#39;m just u=
+sing the same everywhere.</div><div><br></div><div>But I&#39;m open to chan=
+ge it to some other form if there are technical reasons to do so (other tha=
+n personal preference).</div></div><div class=3D"gmail_extra"><br><div clas=
+s=3D"gmail_quote">On Tue, May 30, 2017 at 6:30 PM, Andre McCurdy <span dir=
+=3D"ltr">&lt;<a href=3D"mailto:armccurdy@gmail.com" target=3D"_blank">armcc=
+urdy@gmail.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" s=
+tyle=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><spa=
+n class=3D"">On Tue, May 30, 2017 at 8:41 AM, Mark Hatle &lt;<a href=3D"mai=
+lto:mark.hatle@windriver.com">mark.hatle@windriver.com</a>&gt; wrote:<br>
+&gt; On 5/30/17 9:45 AM, Andre McCurdy wrote:<br>
+&gt;&gt; On Tue, May 30, 2017 at 1:08 AM, Martin Jansa &lt;<a href=3D"mailt=
+o:martin.jansa@gmail.com">martin.jansa@gmail.com</a>&gt; wrote:<br>
+&gt;&gt;&gt; * Using &quot;cp -a&quot; leaks UID of user running the builds=
+, causing<br>
+&gt;&gt;&gt;=C2=A0 =C2=A0many QA warnings.<br>
+&gt;&gt;&gt; * See this thread for details:<br>
+&gt;&gt;&gt;=C2=A0 =C2=A0<a href=3D"http://lists.openembedded.org/pipermail=
+/openembedded-core/2015-November/112904.html" rel=3D"noreferrer" target=3D"=
+_blank">http://lists.openembedded.org/<wbr>pipermail/openembedded-core/<wbr=
+>2015-November/112904.html</a><br>
+&gt;&gt;<br>
+&gt;&gt; Using &quot;cp -av --no-preserve=3Downership&quot; is a slightly c=
+leaner solution.<br>
+&gt;<br>
+&gt; I personally prefer Martin&#39;s version since &#39;-a&#39; is not sup=
+ported everywhere.<br>
+&gt; (Unless you using gnu cp, which 99% of the Linux world uses.. but non-=
+Linux<br>
+&gt; systems rarely do.)<br>
+<br>
+</span>Which versions of cp do you know of that support<br>
+&quot;--preserve=3Dmode,links&quot; without supporting &quot;-a&quot; ?<br>
+<br>
+A quick google of manpages suggests that FreeBSD supports &quot;-a&quot; bu=
+t not<br>
+&quot;--preserve=3DXXX&quot;. OpenBSD doesn&#39;t seem to support either.<b=
+r>
+<br>
+Which non-Linux host systems does OE support?<br>
+<div class=3D"HOEnZb"><div class=3D"h5"><br>
+&gt; --Mark<br>
+&gt;<br>
+&gt;&gt;&gt; Signed-off-by: Martin Jansa &lt;<a href=3D"mailto:Martin.Jansa=
+@gmail.com">Martin.Jansa@gmail.com</a>&gt;<br>
+&gt;&gt;&gt; ---<br>
+&gt;&gt;&gt;=C2=A0 meta/recipes-core/coreutils/<a href=3D"http://coreutils_=
+8.27.bb" rel=3D"noreferrer" target=3D"_blank">co<wbr>reutils_8.27.bb</a>=C2=
+=A0 =C2=A0 =C2=A0 =C2=A0| 2 +-<br>
+&gt;&gt;&gt;=C2=A0 meta/recipes-devtools/<wbr>e2fsprogs/<a href=3D"http://e=
+2fsprogs_1.43.4.bb" rel=3D"noreferrer" target=3D"_blank">e2fsprogs_1.43.4.b=
+b</a> | 4 ++--<br>
+&gt;&gt;&gt;=C2=A0 meta/recipes-extended/mdadm/<a href=3D"http://mdadm_4.0.=
+bb" rel=3D"noreferrer" target=3D"_blank">md<wbr>adm_4.0.bb</a>=C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 2 +-<br>
+&gt;&gt;&gt;=C2=A0 3 files changed, 4 insertions(+), 4 deletions(-)<br>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt; diff --git a/meta/recipes-core/coreutils/<a href=3D"http://cor=
+eutils_8.27.bb" rel=3D"noreferrer" target=3D"_blank"><wbr>coreutils_8.27.bb=
+</a> b/meta/recipes-core/coreutils/<a href=3D"http://coreutils_8.27.bb" rel=
+=3D"noreferrer" target=3D"_blank"><wbr>coreutils_8.27.bb</a><br>
+&gt;&gt;&gt; index 667e0af560..ea8740a2d1 100644<br>
+&gt;&gt;&gt; --- a/meta/recipes-core/coreutils/<a href=3D"http://coreutils_=
+8.27.bb" rel=3D"noreferrer" target=3D"_blank"><wbr>coreutils_8.27.bb</a><br=
+>
+&gt;&gt;&gt; +++ b/meta/recipes-core/coreutils/<a href=3D"http://coreutils_=
+8.27.bb" rel=3D"noreferrer" target=3D"_blank"><wbr>coreutils_8.27.bb</a><br=
+>
+&gt;&gt;&gt; @@ -99,7 +99,7 @@ do_install_append() {<br>
+&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0install -t ${D}/${mandir}/man=
+1 ${S}/man/*.1<br>
+&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# prebuilt man pages don&#39;=
+t do a separate man page for [ vs test.<br>
+&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# see comment above r.e. sed =
+and update-alternatives<br>
+&gt;&gt;&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0cp -a ${D}${mandir}/man1/test.1 ${=
+D}${mandir}/man1/lbracket.1.<wbr>${BPN}<br>
+&gt;&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0cp -R --no-dereference --preserve=
+=3Dmode,links -v ${D}${mandir}/man1/test.1 ${D}${mandir}/man1/lbracket.1.<w=
+br>${BPN}<br>
+&gt;&gt;&gt;=C2=A0 }<br>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt;=C2=A0 inherit update-alternatives<br>
+&gt;&gt;&gt; diff --git a/meta/recipes-devtools/<wbr>e2fsprogs/<a href=3D"h=
+ttp://e2fsprogs_1.43.4.bb" rel=3D"noreferrer" target=3D"_blank">e2fsprogs_1=
+.43.4.bb</a> b/meta/recipes-devtools/<wbr>e2fsprogs/<a href=3D"http://e2fsp=
+rogs_1.43.4.bb" rel=3D"noreferrer" target=3D"_blank">e2fsprogs_1.43.4.bb</a=
+><br>
+&gt;&gt;&gt; index 5216c7027c..7c8809a41e 100644<br>
+&gt;&gt;&gt; --- a/meta/recipes-devtools/<wbr>e2fsprogs/<a href=3D"http://e=
+2fsprogs_1.43.4.bb" rel=3D"noreferrer" target=3D"_blank">e2fsprogs_1.43.4.b=
+b</a><br>
+&gt;&gt;&gt; +++ b/meta/recipes-devtools/<wbr>e2fsprogs/<a href=3D"http://e=
+2fsprogs_1.43.4.bb" rel=3D"noreferrer" target=3D"_blank">e2fsprogs_1.43.4.b=
+b</a><br>
+&gt;&gt;&gt; @@ -106,7 +106,7 @@ do_compile_ptest() {<br>
+&gt;&gt;&gt;=C2=A0 }<br>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt;=C2=A0 do_install_ptest() {<br>
+&gt;&gt;&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0cp -a ${B}/tests ${D}${PTEST_PATH}=
+/test<br>
+&gt;&gt;&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0cp -a ${S}/tests/* ${D}${PTEST_PAT=
+H}/test<br>
+&gt;&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0cp -R --no-dereference --preserve=
+=3Dmode,links -v ${B}/tests ${D}${PTEST_PATH}/test<br>
+&gt;&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0cp -R --no-dereference --preserve=
+=3Dmode,links -v ${S}/tests/* ${D}${PTEST_PATH}/test<br>
+&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0sed -e &#39;s!../e2fsck/e2fsc=
+k!e2fsck!g&#39; -i ${D}${PTEST_PATH}/test/*/<wbr>expect*<br>
+&gt;&gt;&gt;=C2=A0 }<br>
+&gt;&gt;&gt; diff --git a/meta/recipes-extended/mdadm/<a href=3D"http://mda=
+dm_4.0.bb" rel=3D"noreferrer" target=3D"_blank"><wbr>mdadm_4.0.bb</a> b/met=
+a/recipes-extended/mdadm/<a href=3D"http://mdadm_4.0.bb" rel=3D"noreferrer"=
+ target=3D"_blank"><wbr>mdadm_4.0.bb</a><br>
+&gt;&gt;&gt; index 98a10a8b15..506b0bc315 100644<br>
+&gt;&gt;&gt; --- a/meta/recipes-extended/mdadm/<a href=3D"http://mdadm_4.0.=
+bb" rel=3D"noreferrer" target=3D"_blank"><wbr>mdadm_4.0.bb</a><br>
+&gt;&gt;&gt; +++ b/meta/recipes-extended/mdadm/<a href=3D"http://mdadm_4.0.=
+bb" rel=3D"noreferrer" target=3D"_blank"><wbr>mdadm_4.0.bb</a><br>
+&gt;&gt;&gt; @@ -55,7 +55,7 @@ do_compile_ptest() {<br>
+&gt;&gt;&gt;=C2=A0 }<br>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt;=C2=A0 do_install_ptest() {<br>
+&gt;&gt;&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0cp -a ${S}/tests ${D}${PTEST_PATH}=
+/tests<br>
+&gt;&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0cp -R --no-dereference --preserve=
+=3Dmode,links -v ${S}/tests ${D}${PTEST_PATH}/tests<br>
+&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0cp ${S}/test ${D}${PTEST_PATH=
+}<br>
+&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0sed -e &#39;s!sleep 0.*!sleep=
+ 1!g; s!/var/tmp!/!g&#39; -i ${D}${PTEST_PATH}/test<br>
+&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ln -s ${base_sbindir}/mdadm $=
+{D}${PTEST_PATH}/mdadm<br>
+&gt;&gt;&gt; --<br>
+&gt;&gt;&gt; 2.13.0<br>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt; --<br>
+&gt;&gt;&gt; ______________________________<wbr>_________________<br>
+&gt;&gt;&gt; Openembedded-core mailing list<br>
+&gt;&gt;&gt; <a href=3D"mailto:Openembedded-core@lists.openembedded.org">Op=
+enembedded-core@lists.<wbr>openembedded.org</a><br>
+&gt;&gt;&gt; <a href=3D"http://lists.openembedded.org/mailman/listinfo/open=
+embedded-core" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedd=
+ed.org/<wbr>mailman/listinfo/openembedded-<wbr>core</a><br>
+&gt;<br>
+</div></div></blockquote></div><br></div>
+
+--f403045db88000f5b70550c1330a--
