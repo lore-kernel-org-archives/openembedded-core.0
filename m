@@ -1,46 +1,49 @@
 Return-Path: <raj.khem@gmail.com>
 Received: from mail-pf0-f195.google.com (mail-pf0-f195.google.com
 	[209.85.192.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 26B6C7803F
+	by mail.openembedded.org (Postfix) with ESMTP id 20E9C781D0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 May 2017 17:15:32 +0000 (UTC)
-Received: by mail-pf0-f195.google.com with SMTP id w69so19277239pfk.1
+	Tue, 30 May 2017 17:15:35 +0000 (UTC)
+Received: by mail-pf0-f195.google.com with SMTP id f27so19291421pfe.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 May 2017 10:15:34 -0700 (PDT)
+	Tue, 30 May 2017 10:15:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=svn77VS+UokAoLuEGM4qoEeh+Rzx3Iv6gkNJa6op7pY=;
-	b=Jo2dpkZ4h23mXkHgnTTSfFaCfCoo7H4zn024R6+3kZffpI710g1HryfXPsN/9S9M6q
-	bDiuxd1ieKV48+BzhKVBB1i52vQE/6pqJ2qCeshkSRSIy6l5Qpn5cqhbhXnmzJicDGx8
-	VJoXwz2m40ZzTefLEPLiie3UIKSQSV5NxinRNqioCxVr2FuDAEjjH7zP4BqI6D4RnVGo
-	Z7tnYG1XEsvRsdk59cYt3QOdfoJ8CFMVVUAjC2z1p6Cxz+FWrQFg3/fsLUM7Coud+HUZ
-	xD65mZ38CKSdSeNaTJPRwgEsnWvHktQptUIlaIgqO0bwZVuCh4upeBUFwugd/ah+64j/
-	E6Mg==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=byCbx7z8PTfOsH0pb2hGrr+jhNbR/SwjUwCfC7dpceQ=;
+	b=orG66x8bCWIVEfKix0cXohuU8hR2BthQZR68W3qhCzzQsbI7E9ZT7HfkHdUVVFMQcd
+	Zwgd1UeZkG2NrBzEWv8HWXUyq5QUU2ewuWnrc+u9EEL9CsIGdFy53rNqZw/K626pksFC
+	jw44pYC+eARt4HTTS1c62plnFQQDfFbi8ZFu4TKcJUr9sZbD+BetBJmJ+Kts6Em3PugO
+	gY2TJjev1V1YvYJnUiDT3IwfUk8rwqpUT5IGSfhi53TUG7MotdGLl33oxyXsTDCb/nvt
+	1JNtgAX7ISa6f7x2UWFdn1pJRrE2aAWzs0coTP7JNgdX9SosA3YEGkvNpUE5aTHz8QXB
+	KA6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=svn77VS+UokAoLuEGM4qoEeh+Rzx3Iv6gkNJa6op7pY=;
-	b=mnANvo+IcZNjI7PluHpVn8WgBvFfEdhcZ19q850HUP+N+pau2iBf4AWTIQKqrXUYHN
-	bYCemFZeKU850Cdm2jI+sP2BTZZ3USyePH8/IZ5EStx3bT6tU5QLqoPA6BKYZFZXSP4C
-	bo8mhTaH2ukGsqMMJlBo9utl2rKSlRohqD2thRlEpuzvGrGQlbfOn/Bu9cGxJ2pmJQEx
-	W/5tiAe3M9tCJVxvZr0OY5P7BA/6DItzSy1NHeMTBlnOQY162Un/nL8o+ktmejWxCINy
-	k0OUiReXTUpA0FyUYmxVGvJ64AxLGzpmf0IHl1kzOw4CPR+0XqW0TNYjoRcZavv4PpuL
-	Lolg==
-X-Gm-Message-State: AODbwcBJL1Ho+LQnhK5nvKAGYzfpH3U3zy2YCgfjMnKSDaKVG0IPdFX6
-	tFHNJnVegMpisdQh
-X-Received: by 10.99.140.9 with SMTP id m9mr27277283pgd.49.1496164533725;
-	Tue, 30 May 2017 10:15:33 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=byCbx7z8PTfOsH0pb2hGrr+jhNbR/SwjUwCfC7dpceQ=;
+	b=QJIXMLTSpulO7R3wjy1prhuIo4g7kVtkWDz371hycpG/yAzNxBU7tHcr1+d3rr4vXV
+	c1Y5O+G1aDFktJBkR8UhDB1jRW5tkHxZ2L1TGQsX9xNixK++I6ECyj3on2mWQ/gJITS2
+	19ExnfGo+c10yUKkDsc2iFGtIpsh5DQdNkVtk8co4tiUKtQ+Vs2LedJtZV8mRFVUhcY4
+	7H7+E7ZmSKn6fv4u6LFLRIg2kRNgwhYJJdGBdguOaBGShi5z/PPfdHvZpm6YVos+2rha
+	8H0podBBvM9+GmAvpZoPbhokLKHAgDj1FlxOEsjJL6ygK8E7Y9H686PVaAOJcNiH2utt
+	9CTg==
+X-Gm-Message-State: AODbwcD7ecSR2shghP9rQ8igB/Oe+kt6yOO3eLY/SkLmYJIrJEigMv1V
+	K71Qxm/bX0cWk6E6
+X-Received: by 10.99.101.132 with SMTP id z126mr26808161pgb.194.1496164536942; 
+	Tue, 30 May 2017 10:15:36 -0700 (PDT)
 Received: from localhost.localdomain ([2601:646:8882:b8c::cf4])
 	by smtp.gmail.com with ESMTPSA id
-	n24sm28071137pgd.57.2017.05.30.10.15.31
+	n24sm28071137pgd.57.2017.05.30.10.15.35
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 30 May 2017 10:15:32 -0700 (PDT)
+	Tue, 30 May 2017 10:15:36 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 30 May 2017 10:15:21 -0700
-Message-Id: <20170530171523.37470-1-raj.khem@gmail.com>
+Date: Tue, 30 May 2017 10:15:23 -0700
+Message-Id: <20170530171523.37470-3-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.13.0
-Subject: [PATCH 1/3] gstreamer1.0-plugins-bad: Fix missing library with bcm egl
+In-Reply-To: <20170530171523.37470-1-raj.khem@gmail.com>
+References: <20170530171523.37470-1-raj.khem@gmail.com>
+Subject: [PATCH 3/3] libatomic-ops: Upgrade to 7.6.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,73 +56,86 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 May 2017 17:15:33 -0000
+X-List-Received-Date: Tue, 30 May 2017 17:15:36 -0000
 
-userland graphics driver provided libegl for rpi depends upon
-symbols from vchostif library, therefore add it to linker cmdline
+Can compile in thumb1 and thumb2 modes now
+AO_THUMB_GO_ARM, AO_THUMB_RESTORE_MODE are used
+to guard swp instructions
 
-helps with loadng gst-gl plugins on rpi
+Switch to github and use git for src_uri
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../link-with-libvchostif.patch                    | 35 ++++++++++++++++++++++
- .../gstreamer/gstreamer1.0-plugins-bad_1.10.4.bb   |  1 +
- 2 files changed, 36 insertions(+)
- create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/link-with-libvchostif.patch
+ .../libatomic-ops/libatomic-ops_7.4.4.bb           | 32 ----------------------
+ .../libatomic-ops/libatomic-ops_7.6.0.bb           | 20 ++++++++++++++
+ 2 files changed, 20 insertions(+), 32 deletions(-)
+ delete mode 100644 meta/recipes-support/libatomic-ops/libatomic-ops_7.4.4.bb
+ create mode 100644 meta/recipes-support/libatomic-ops/libatomic-ops_7.6.0.bb
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/link-with-libvchostif.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/link-with-libvchostif.patch
+diff --git a/meta/recipes-support/libatomic-ops/libatomic-ops_7.4.4.bb b/meta/recipes-support/libatomic-ops/libatomic-ops_7.4.4.bb
+deleted file mode 100644
+index 930c1b8ed6..0000000000
+--- a/meta/recipes-support/libatomic-ops/libatomic-ops_7.4.4.bb
++++ /dev/null
+@@ -1,32 +0,0 @@
+-SUMMARY = "A library for atomic integer operations"
+-HOMEPAGE = "https://github.com/ivmai/libatomic_ops/"
+-SECTION = "optional"
+-PROVIDES += "libatomics-ops"
+-LICENSE = "GPLv2 & MIT"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
+-                    file://doc/LICENSING.txt;md5=e00dd5c8ac03a14c5ae5225a4525fa2d \
+-		   "
+-
+-SRC_URI = "\
+-	http://www.ivmaisoft.com/_bin/atomic_ops/libatomic_ops-${PV}.tar.gz \
+-	file://0001-Add-initial-nios2-architecture-support.patch \
+-	"
+-
+-SRC_URI[md5sum] = "426d804baae12c372967a6d183e25af2"
+-SRC_URI[sha256sum] = "bf210a600dd1becbf7936dd2914cf5f5d3356046904848dcfd27d0c8b12b6f8f"
+-
+-S = "${WORKDIR}/libatomic_ops-${PV}"
+-
+-ALLOW_EMPTY_${PN} = "1"
+-
+-ARM_INSTRUCTION_SET = "arm"
+-
+-inherit autotools pkgconfig
+-
+-do_install_append() {
+-	# those contain only docs, not necessary for now.
+-	install -m 0755 -d ${D}${docdir}
+-	mv ${D}${datadir}/libatomic_ops ${D}${docdir}/${BPN}
+-}
+-
+-BBCLASSEXTEND = "native nativesdk"
+diff --git a/meta/recipes-support/libatomic-ops/libatomic-ops_7.6.0.bb b/meta/recipes-support/libatomic-ops/libatomic-ops_7.6.0.bb
 new file mode 100644
-index 0000000000..c382b17586
+index 0000000000..4463d86c86
 --- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/link-with-libvchostif.patch
-@@ -0,0 +1,35 @@
-+Add -lvchostif to link when using -lEGL on rpi
++++ b/meta/recipes-support/libatomic-ops/libatomic-ops_7.6.0.bb
+@@ -0,0 +1,20 @@
++SUMMARY = "A library for atomic integer operations"
++HOMEPAGE = "https://github.com/ivmai/libatomic_ops/"
++SECTION = "optional"
++PROVIDES += "libatomics-ops"
++LICENSE = "GPLv2 & MIT"
++LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
++                    file://doc/LICENSING.txt;md5=e00dd5c8ac03a14c5ae5225a4525fa2d \
++		   "
++PV .= "+git${SRCPV}"
 +
-+This is required because libEGL from userland uses sybols
-+from this library.
++SRCREV = "73c60c5ef1ed370111549ee5aab6d4020ba70ed4"
++SRC_URI = "git://github.com/ivmai/libatomic_ops"
 +
-+lib/libEGL.so.1.0.0                                                                                                                                                                                                                              121: 00000000     0 FUNC    GLOBAL DEFAULT  UND vc_dispmanx_element_add
-+  1552: 00000000     0 FUNC    GLOBAL DEFAULT  UND vc_dispmanx_element_add
++S = "${WORKDIR}/git"
 +
-+These symbols are provided by libvchostif as seen below
++ALLOW_EMPTY_${PN} = "1"
 +
-+lib/libvchostif.so
-+   252: 0000b161   192 FUNC    GLOBAL DEFAULT    9 vc_dispmanx_element_add
-+   809: 0000b161   192 FUNC    GLOBAL DEFAULT    9 vc_dispmanx_element_add
++inherit autotools pkgconfig
 +
-+With this explicit link, plugins fail during runtime
-+
-+(gst-plugin-scanner:571): GStreamer-WARNING **: Failed to load plugin '/usr/lib/gstreamer-1.0/libgstomx.so': Error relocating /usr/lib/libgstgl-1.0.so.0: vc_dispmanx_element_add: symbol not found
-+(gst-plugin-scanner:571): GStreamer-WARNING **: Failed to load plugin '/usr/lib/gstreamer-1.0/libgstopengl.so': Error relocating /usr/lib/libgstgl-1.0.so.0: vc_dispmanx_element_add: symbol not found
-+
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+
-+Upstream-Status: Pending
-+Index: gst-plugins-bad-1.10.4/configure.ac
-+===================================================================
-+--- gst-plugins-bad-1.10.4.orig/configure.ac
-++++ gst-plugins-bad-1.10.4/configure.ac
-+@@ -785,7 +785,7 @@ case $host in
-+                             HAVE_EGL=yes
-+                             HAVE_GLES2=yes
-+                             HAVE_EGL_RPI=yes
-+-                            EGL_LIBS="-lbcm_host -lvcos -lvchiq_arm"
-++                            EGL_LIBS="-lbcm_host -lvchostif -lvcos -lvchiq_arm"
-+                             EGL_CFLAGS=""
-+                             AC_DEFINE(USE_EGL_RPI, [1], [Use RPi platform])
-+                           ])
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.10.4.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.10.4.bb
-index 0bb4053e43..def03a9b81 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.10.4.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.10.4.bb
-@@ -18,6 +18,7 @@ SRC_URI = " \
-     file://0001-smoothstreaming-implement-adaptivedemux-s-get_live_s.patch \
-     file://0001-smoothstreaming-use-the-duration-from-the-list-of-fr.patch \
-     file://0001-mssdemux-improved-live-playback-support.patch \
-+    file://link-with-libvchostif.patch \
- "
- SRC_URI[md5sum] = "2757103e57a096a1a05b3ab85b8381af"
- SRC_URI[sha256sum] = "23ddae506b3a223b94869a0d3eea3e9a12e847f94d2d0e0b97102ce13ecd6966"
++BBCLASSEXTEND = "native nativesdk"
 -- 
 2.13.0
 
