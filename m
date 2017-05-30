@@ -1,31 +1,45 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 7C0EE780BE
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wm0-f50.google.com (mail-wm0-f50.google.com [74.125.82.50])
+	by mail.openembedded.org (Postfix) with ESMTP id EEF22780D3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 May 2017 07:47:56 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	v4U7lthE032114
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Tue, 30 May 2017 08:47:56 +0100
-Message-ID: <1496130475.25229.160.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Trevor Woerner <twoerner@gmail.com>
-Date: Tue, 30 May 2017 08:47:55 +0100
-In-Reply-To: <CAHUNapREVWXEaWYDYon8cYByzXcAdEu=_uWMAHCbOjU6VXrghg@mail.gmail.com>
-References: <20170526212248.16374-1-twoerner@gmail.com>
-	<1496100337.25229.147.camel@linuxfoundation.org>
-	<CAHUNapREVWXEaWYDYon8cYByzXcAdEu=_uWMAHCbOjU6VXrghg@mail.gmail.com>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.1 
-Mime-Version: 1.0
-X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.11
-	(dan.rpsys.net [192.168.3.1]);
-	Tue, 30 May 2017 08:47:56 +0100 (BST)
-X-Virus-Scanned: clamav-milter 0.99.2 at dan
-X-Virus-Status: Clean
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] mesa: potentially enable texture float for gallium
+	Tue, 30 May 2017 07:48:14 +0000 (UTC)
+Received: by mail-wm0-f50.google.com with SMTP id e127so87458368wmg.1
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 30 May 2017 00:48:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=dxJGgRge1z6EhMtBMTF2xUD1LPCl4q046eiZ183y0hE=;
+	b=N252nxlI5+kW0tY0k7bgwPmHaZQOwrjfiRP1I0h5pAXb9QweVXp/PbsRhiK+R3v5o9
+	PXIRlQrAIpaXyj7IfjBBJh1afSzqwWpo8xJXj1tf4zqdAkAm0RSqNi4N9j9IiOZxs43U
+	RlvGuBFmm4x+LxbeVS59KjanmAOEJ4z10PsSJpiCDqGiJUHjXMT0AB73n4Bf2p6XsyJ6
+	AB4A/dO5eF/a0JLDJRjThqxTQaP5aT4/o6f6amfJYCXYIwYEnDP9s5P3toAppGCZisDR
+	GQtTeHpZyiFrA5TkikKPhtmTG7/9CTj+z+GCTvae6xgjSvqhUVPqAomzHwSOPJgSPrD7
+	UGCQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=dxJGgRge1z6EhMtBMTF2xUD1LPCl4q046eiZ183y0hE=;
+	b=gcwKvsFYKEmGKZkciiMYW9SaZoNqm1g/SUz4HJl80pYkIn9H7wb+prq8czANv4Xpnn
+	r8HV80F5g5VAgdS/M5JRBp9SvonuUXDmExEfe93AZodnvlFNDpxZmcDsWP36CBrBNNla
+	Jbn4OGQpq3MW6VFMrGfEjitybywkFGeNZF5nq8SursUtLaMWVIncUpIIiTGANKhNFzQH
+	s72CdUITAiKJSk7EjM0e3Ciu/AqEqstGXyM20d3J4K1+VvKqSQyPADhfYMmQHbcm02qO
+	U9Dz9CiaFvFlG0HLtmzAjbCRKPBvhsBFZuayg3K8y1B/bP0OzQfwkOx/5rURm9HZkcyO
+	RjBw==
+X-Gm-Message-State: AODbwcAPIkjKRBkgMgJJ5bSUkCRVCtzxGQaQXcqbyf1ltVBFR+yKUrpg
+	kDldsZfppkXMMoxY
+X-Received: by 10.28.158.11 with SMTP id h11mr754870wme.0.1496130495385;
+	Tue, 30 May 2017 00:48:15 -0700 (PDT)
+Received: from localhost ([217.30.68.212]) by smtp.gmail.com with ESMTPSA id
+	e73sm25848753wmd.1.2017.05.30.00.48.14
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 30 May 2017 00:48:14 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 30 May 2017 07:48:13 +0200
+Message-Id: <20170530054813.17234-1-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.13.0
+Subject: [PATCH] package_manager: flush installed_pkgs file before oe-pkgdata-util uses it
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,115 +52,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 May 2017 07:47:56 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 30 May 2017 07:48:15 -0000
 
-On Tue, 2017-05-30 at 01:28 -0400, Trevor Woerner wrote:
-> On Mon, May 29, 2017 at 7:25 PM, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> > 
-> > On Fri, 2017-05-26 at 17:22 -0400, Trevor Woerner wrote:
-> > > 
-> > > Somewhere along the path from OpenGL ES 2.0 to OpenGL ES 3.0 are
-> > > some
-> > > algorithms that are encumbered by patents. These algorithms are
-> > > enabled with
-> > > mesa's --enable-texture-float configure flag. However, if
-> > > hardware
-> > > acceleration is being used and the hardware supports --enable-
-> > > texture-float,
-> > > it means the hardware vendor has paid for the patents.
-> > > 
-> > > This patch will add --enable-texture-float for any hardware-
-> > > backed
-> > > gallium
-> > > mesa driver. In other words, if you are only using the software
-> > > backup
-> > > (swrast) you'll need to enable this flag if you know what you're
-> > > doing (which
-> > > assumes you are complying with the patent). Otherwise we enable
-> > > this
-> > > flag so
-> > > the software can take full advantage of the hardware.
-> > Does this handle the case where the driver may or may not run on a
-> > platform with the relevant hardware?
-> The choice of gallium driver should be set based on the MACHINE
-> setting, so hopefully this is being set correctly from the BSP.
-> Presumably the user isn't building gallium with "swrast,imx,etnaviv"
-> then trying to run that on intel hardware! In which case, you are
-> right: the imx/etnaviv code will not be able to initialize the
-> hardware, and the code will fallback to use swrast (if it was in the
-> list).
+* since this commit:
+  commit f5a1013ffa9815f22e13989e2bcb83f966e7ce2c
+  Author: Ross Burton <ross.burton@intel.com>
+  Date:   Tue Apr 18 16:19:12 2017 +0100
 
-The issue is that mesa isn't built per MACHINE, nor is it machine
-specific, we build it once, enabling all the drivers for a given
-architecture and then packaging them separately in some cases.
+    package_manager: don't race on a file when installing complementary
+    packages
 
-We then RDEPEND on specific sets of drivers for specific machines.
+  the file isn't closed before oe-pkgdata-util uses it and this
+  temporary file might look empty to oe-pkgdata-util, because it
+  wasn't flushed yet. Which resulted in almost empty debugfs tarballs
+  and no locale packages in regular rootfs.
+* without this change:
+  124K May 30 07:41 core-image-full-cmdline-raspberrypi3-64-20170530054003-dbg.rootfs.tar.gz
+* with this change:
+  173M May 30 07:29 core-image-full-cmdline-raspberrypi3-64-20170530052715-dbg.rootfs.tar.gz
 
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ meta/lib/oe/package_manager.py | 1 +
+ 1 file changed, 1 insertion(+)
 
-> > Some platforms add swrast as well
-> > as hardware acceleration which based on what I read above, may
-> > breach
-> > patents depending on which hardware its run on?
-> My understanding (from chatting with airlied on #dri-devel) is that
-> it's one or the other, there is no fallback: "the drivers don't
-> dynamically fallback ever"
-> 
-> If the driver can't initialize the graphics hardware, then it will
-> fall back (fully) to swrast... if it was listed. This makes me wonder
-> if "swrast" should be always added to the list of gallium drivers
-> built on those platforms with hardware-supported gallium drivers?
-> Wouldn't it be better to have the graphics system fail to come up if
-> something is configured wrong, rather than to fallback to software
-> rasterization and let the user think everything is okay?
-
-See above, mesa is not machine specific (nor should it be).
-
-> Currently the OE code initializes the list of gallium drivers to be
-> built to "swrast" then potentially adds others based on
-> PACAKGECONFIGs
-> which are expected to point to which hardware is expected. Maybe the
-> OE code should try to set a hardware-specific gallium driver, and use
-> --enable-texture-float. If, at the end, no gallium drivers are
-> listed,
-> then the OE code should set the list to "swrast" and not include
-> --enable-texture-float?
-> 
-> If you're running mesa on platforms that have hardware support, the
-> "swrast" is not required (as is my understanding, but I could look
-> into this).
-
-Right, that makes sense. We do run on platforms where we do need
-swrast, e.g. all our qemu testing. We also support generic platforms
-like genericx86 where we don't know which hardware we'll run on.
-
-> According to Dave Airlie, Fedora builds now include this option.
-> Specifically: "there is a fedora patch that mostly does that \n
-> disable the float just for swrast". Then later: "actually the patch
-> it
-> ships now just bars float on llvmpipe and softpipe". This requires
-> some "reading between the lines", however. Of some interest might be
-> that Arch also includes this option by default (2011) [1] as does
-> "Intel mesa" (2012) [2]. I can't find anything definitive, but it
-> looks like Ubuntu also includes this option by default (starting with
-> 14?).
-> 
-> Sadly, if we don't add this option, mesa's advertisement will be
-> limited to open gl (es) 2, even in cases where the hardware would
-> support 3 (and greater?).
-> 
-> [1] http://www.phoronix.com/scan.php?page=news_item&px=OTUxMg
-> [2] http://www.phoronix.com/scan.php?page=news_item&px=MTIwOTg
-
-We should look at how Fedora "just bars float on llvmpipe and softpipe"
-and perhaps look at copying that? Not that we enable llvmpipe at the
-moment either mind so presumably we're using softpipe.
-
-Cheers,
-
-Richard
-
+diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
+index f1b65bdbbc..2795dd3823 100644
+--- a/meta/lib/oe/package_manager.py
++++ b/meta/lib/oe/package_manager.py
+@@ -399,6 +399,7 @@ class PackageManager(object, metaclass=ABCMeta):
+             pkgs = self.list_installed()
+             output = oe.utils.format_pkg_list(pkgs, "arch")
+             installed_pkgs.write(output)
++            installed_pkgs.flush()
+ 
+             cmd = [bb.utils.which(os.getenv('PATH'), "oe-pkgdata-util"),
+                    "-p", self.d.getVar('PKGDATA_DIR'), "glob", installed_pkgs.name,
+-- 
+2.13.0
 
 
