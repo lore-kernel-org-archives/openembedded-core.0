@@ -1,52 +1,46 @@
-Return-Path: <twoerner@gmail.com>
-Received: from mail-ua0-f175.google.com (mail-ua0-f175.google.com
-	[209.85.217.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 69393781D0
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-wm0-f42.google.com (mail-wm0-f42.google.com [74.125.82.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 1829A780BE
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 May 2017 16:00:10 +0000 (UTC)
-Received: by mail-ua0-f175.google.com with SMTP id u10so54108061uaf.1
+	Tue, 30 May 2017 16:11:00 +0000 (UTC)
+Received: by mail-wm0-f42.google.com with SMTP id d127so102267393wmf.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 May 2017 09:00:12 -0700 (PDT)
+	Tue, 30 May 2017 09:11:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=9gEYW8Jy11kkTsgff3r5qRSPHq5wyDX/IEytaqN7/F8=;
-	b=hUI5O5kPMUYlyRATpH1E7yWTtydJGT4UK4yaPSuDnVmiW4DiIaA/LrtoxDYr+KJYCI
-	x83gDdqnUHCF7V/DqyID1m3M7GLXraE0Wf35a3Kj/aq6ZcwCyQhaFWjW8HGfJXDMvM25
-	YskxUZRS5jvt9wdLuv/Y+wMb2vYIKsy0ouMeyd/HK2+NPvSAxjHMzea1RDIs/Kdmq6r/
-	AzBRPhzcYSOOHuYkIoolJ6TiZIU9c9KKIXE/hlctco8h0HNRgkuXpb75a46ALlPsHVOp
-	qKxVN4P8cAU94M0pvqBg7+8FB6ZZBA27MKhCa2MbxXFN/UT4d/lsgi57oyH66qKYYX7z
-	zZsA==
+	:cc; bh=tmGByRdhrA6LlIJMBFxGn99/R2HS5bvMPAUJ+S4gQ4M=;
+	b=KWoKgNHxSi3V4wHBQSRK74MuNpx383GqApbayvWIltSBfp+lmbNB/VNgpZqCAXFrGj
+	yDZnbFbefd7PeOt0HMBxLDI2+dyjk3Zt1B16q3PrBh8eXgB8knnzZuaAFC0VyzZED/e3
+	pgvuJINRR0/xg7F4C02ENJhyIoqE190omXtX42ytRz37U6juJoHLmr7jPaYKEOuInrYl
+	cW+x2jmrneuyXJUcKYwbtQGVdYF++wlyEnl19ijLeob/g0RxQq5Yg9IYpxXy37IFfpDM
+	j9BGY/NlmFRPR3wvA8TUwWt8BGFn7v70Yth0kOCsKx4N+DQGTk43gWAB73phHGBZVI46
+	WvnQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=9gEYW8Jy11kkTsgff3r5qRSPHq5wyDX/IEytaqN7/F8=;
-	b=rFp7vIFYlt45yk/DWsYr8Ou4aXas1hX9I9BDymFzlWOQq16RUMvHenqWYKEnPZYriw
-	Em54PGJc2rWcV9RYbt+2jueELcZXkFtA9DLPDcuVQl4mvNopbySkKHfsDxzFMA0ouCEr
-	Lr8AyzYTYdoGEEC2P6nhzgWw1kNrMxT47dKkQ9FeAYAOtlneh1IAKFqxd3Jf+MXBpV+t
-	+mRaSnJ8qjfz1AtZh8awgSHie5DwGzKK4iJMy4hz1GNW5NbP9JO3zdebYIwblfIWg8vp
-	ELIE6N61FnYSqlug/6L7iZ9nUTYk0A6gqCRB8SCkWC3aWS21Ewp5EnMTMV0KU5P1P15v
-	oBZA==
-X-Gm-Message-State: AODbwcC5w4758GivP8WIMRt11Q+J3JhmSkgF4AX2KRKM9TJ3sKHmdtsF
-	dHVWmCubJOBPg61MNoqKrIyMHHG2dw==
-X-Received: by 10.159.33.71 with SMTP id 65mr10820155uab.50.1496160011705;
-	Tue, 30 May 2017 09:00:11 -0700 (PDT)
+	bh=tmGByRdhrA6LlIJMBFxGn99/R2HS5bvMPAUJ+S4gQ4M=;
+	b=dtGBT1+43U2wZM0Mwo3GQS+LktaShR4JpXD8IP6iMIUH6v2rdzg8f1CC8M6XZSqBmc
+	qJ4cGT143Hq/ndci42XqN2iR7zTaWU436fZTvPjY9IYLQAmn8Tu6GiFyeobA/6rIgPbu
+	xOk5d2xcszLYI3Z+u/HfC43BqYw53hKkbVHu6mE+xfrs9OltG0GX7owfkuF3vqAIiBib
+	Obnu0aBkXSuifPrNJNN580PuoSfRiYDDiZhgkON0SfSLpOeSXg2hp/Mj0kI2T5+cpK/T
+	L0w5fYaCzWh28VUcOA7g1tgLzw31wW2H75Q/Nxqn4O5pwywx9ekI6gDsTp2pmg8AaOCw
+	0Lew==
+X-Gm-Message-State: AODbwcCY4qUiktegrz6HS5ZUublNn0N+JdQfBURnxSFCaaqDz3LPLTGB
+	UmaFDDgMbjfp+SQnVO+SYmB+5HE7Kg==
+X-Received: by 10.80.154.165 with SMTP id p34mr17245703edb.127.1496160661623; 
+	Tue, 30 May 2017 09:11:01 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.103.67.199 with HTTP; Tue, 30 May 2017 09:00:11 -0700 (PDT)
-In-Reply-To: <1496159050.6630.12.camel@linuxfoundation.org>
-References: <20170526212248.16374-1-twoerner@gmail.com>
-	<1496100337.25229.147.camel@linuxfoundation.org>
-	<CAHUNapREVWXEaWYDYon8cYByzXcAdEu=_uWMAHCbOjU6VXrghg@mail.gmail.com>
-	<1496130475.25229.160.camel@linuxfoundation.org>
-	<20170530152738.GA24515@linux-uys3>
-	<1496159050.6630.12.camel@linuxfoundation.org>
-From: Trevor Woerner <twoerner@gmail.com>
-Date: Tue, 30 May 2017 12:00:11 -0400
-Message-ID: <CAHUNapR0bPQq4qJnzK-ddPzn-m-0FCtVYLDBMsBuLY=eJUgmZg@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Received: by 10.80.195.143 with HTTP; Tue, 30 May 2017 09:10:30 -0700 (PDT)
+In-Reply-To: <CAP71WjxkYLeEaO5CfUjbEaON=j2pwRkjMDUxkyYafPAEt2qW1w@mail.gmail.com>
+References: <CAP71WjxkYLeEaO5CfUjbEaON=j2pwRkjMDUxkyYafPAEt2qW1w@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 30 May 2017 09:10:30 -0700
+Message-ID: <CAMKF1srQQQFZofNGn8FEcVBJL+TrVKjvwMn_qp20J2BmNDTN3g@mail.gmail.com>
+To: Nicolas Dechesne <nicolas.dechesne@linaro.org>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] mesa: potentially enable texture float for gallium
+Subject: Re: KERNEL_IMAGETYPES and Image.gz
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,26 +53,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 May 2017 16:00:11 -0000
+X-List-Received-Date: Tue, 30 May 2017 16:11:01 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Tue, May 30, 2017 at 11:44 AM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->> Maybe this would be a better way forward? Enable it, always, in
->> ./configure,
->> add the patch to check for it in the code itself, then you can build
->> for all
->> the gallium targets (including swrast) and know that the patented
->> code will
->> only kick in where it's supported in hardware (and thus patent-safe)?
+On Mon, May 29, 2017 at 2:13 PM, Nicolas Dechesne
+<nicolas.dechesne@linaro.org> wrote:
+> hi,
 >
-> That sounds like exactly what we need to do!
+> i am trying to set  KERNEL_IMAGETYPES="Image.gz" in my machine conf
+> file. But it doesn't work. I am seeing this error during
+> kernel_do_compile():
+>
+> run.do_compile.30019: cannot open Image: No such file
+>
+> In fact the code snippet that tries to compress the Image file into
+> Image.gz expects the Image file to be in ${B}, but when compiling
+> kernel Image is actually in ${B}/arch/arm64/boot:
 
-Okay. The only caveat being, if someone actually *wanted* to enable
-float for swrast, this would prevent them from going down that path.
+is that always the case for all architectures ? that it puts the Image
+ion arch/$ARCH/boot ?
 
-ajax on #dri-devel pointed out that some piglit tests go from pass to
-fail instead of being skipped as a result of the above patch since the
-piglit tests are done with swrast and run very poorly without float
-enabled.
+>
+> $ find tmp-rpb-glibc/work/dragonboard_410c-linaro-linux/linux-linaro-qcomlt/
+> -name Image
+> tmp-rpb-glibc/work/dragonboard_410c-linaro-linux/linux-linaro-qcomlt/4.9-r0/build/arch/arm64/boot/Image
+>
+> The piece of code in question is in kernel.bbclass:
+>
+>   gzip -9c < "${typeformake}" > "${KERNEL_OUTPUT_DIR}/${type}"
+> It really sounds to me like something obvious is missing, i doubt I
+> would be the first one to try Image.gz..
+>
+> Any thoughts?
+>
+> thanks
+> nico
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
