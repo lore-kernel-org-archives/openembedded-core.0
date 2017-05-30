@@ -1,45 +1,25 @@
-Return-Path: <nicolas.dechesne@linaro.org>
-Received: from mail-qt0-f179.google.com (mail-qt0-f179.google.com
-	[209.85.216.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 8578377811
+Return-Path: <francisco.j.pedraza.gonzalez@intel.com>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 1673E7198E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 May 2017 20:27:17 +0000 (UTC)
-Received: by mail-qt0-f179.google.com with SMTP id c13so79742088qtc.1
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 May 2017 13:27:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=SwYgvgBUU+OVu57ctqA9sCYtGpW1C6q7MoGy/0kPMdY=;
-	b=Ym+in8r5TLW/vDK1nTERimo6jimms8zU7bSZI4KLPuthma7MPLeR6puO9f5TfMJdgB
-	B3oCuUyB7Kyek3ecFddDzN2oOZHTaCQupyJLNDG1nxHV57KTxGeJDT4Oep4OPXUVVzWQ
-	pPkMvoLEyMnzML42ANGiHrSAKcGSNiv99Bj+U=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=SwYgvgBUU+OVu57ctqA9sCYtGpW1C6q7MoGy/0kPMdY=;
-	b=auy2qZdtpVupd2wSW787Ircplk1RciaZ5F3gwCrcjc3ohNCxVEXifc2hquStqRq0Ik
-	5NLWE3reTZdUTaBmFb5+mjkfZ2yJhPKn9n+YpXcQsSRXJykXMdBrPe6Y7hjSm9uOYb2Q
-	E58+XMKbJzQH6zlEv653YSPEgC37pJ4HQcugYxVWCSC9+3+6zd7S0XHAx4JlqtmBa6NS
-	YXlZDV8EAEI3wx1s47dhTACUwAR+W5U5Yj7CWTMFtRCZGck5upURVjPpEo0iiEe8AjiL
-	20CCH+9YJPfA8WtLX1sRDHWtnjuLF0u2BMY/1MI/9I3Ogb09/bZLZLq1OVyy6Wdqv8PK
-	G52A==
-X-Gm-Message-State: AODbwcBrSJYLtVJQIaS/XVP5CBma+05tLZUoZnParVdebzrhWLYfRckK
-	nYiWbGGeDgMOrTc+au7X8pjFhkVNB0Rz
-X-Received: by 10.200.42.219 with SMTP id c27mr27567345qta.9.1496176038378;
-	Tue, 30 May 2017 13:27:18 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.88.135 with HTTP; Tue, 30 May 2017 13:26:57 -0700 (PDT)
-In-Reply-To: <CAJ86T=VS+ThYpfakL=oHDbDt9ogmoq4E6A95S0YVdxXNxfwRRg@mail.gmail.com>
-References: <CAP71WjxkYLeEaO5CfUjbEaON=j2pwRkjMDUxkyYafPAEt2qW1w@mail.gmail.com>
-	<CAJ86T=VS+ThYpfakL=oHDbDt9ogmoq4E6A95S0YVdxXNxfwRRg@mail.gmail.com>
-From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
-Date: Tue, 30 May 2017 22:26:57 +0200
-Message-ID: <CAP71WjwsNYDZZttAqUwxh0+=QkY6H7HVvLbvBXc-po6y6C77uA@mail.gmail.com>
-To: Andre McCurdy <armccurdy@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: KERNEL_IMAGETYPES and Image.gz
+	Tue, 30 May 2017 21:08:20 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga105.fm.intel.com with ESMTP; 30 May 2017 14:08:22 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.38,420,1491289200"; d="scan'208";a="1136304613"
+Received: from linux.intel.com ([10.54.29.200])
+	by orsmga001.jf.intel.com with ESMTP; 30 May 2017 14:08:22 -0700
+Received: from yocto-ab03.ostc.intel.com (yocto-ab03.ostc.intel.com
+	[10.54.69.73])
+	by linux.intel.com (Postfix) with ESMTP id 50B175800D3;
+	Tue, 30 May 2017 14:08:21 -0700 (PDT)
+From: Francisco Pedraza <francisco.j.pedraza.gonzalez@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 30 May 2017 14:08:19 -0700
+Message-Id: <1496178499-42913-1-git-send-email-francisco.j.pedraza.gonzalez@intel.com>
+X-Mailer: git-send-email 1.8.3.1
+Cc: Francisco Pedraza <francisco.j.pedraza.gonzalez@intel.com>
+Subject: [PATCH v1] oeqa/selftest: Adds verification for the integrity compressed images
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,57 +32,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 May 2017 20:27:17 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 30 May 2017 21:08:21 -0000
 
-On Tue, May 30, 2017 at 7:15 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
->>   gzip -9c < "${typeformake}" > "${KERNEL_OUTPUT_DIR}/${type}"
->> It really sounds to me like something obvious is missing, i doubt I
->> would be the first one to try Image.gz..
->
-> You may be the first to try for a non-MIPS machine.
->
-> MIPS is a little special in that the MIPS kernel doesn't support self
-> extracting compressed kernels (zImage, etc), so MIPS machines are the
-> most likely to make use of a gzipped vmlinux image (which will then be
-> decompressed by the bootloader) and KERNEL_IMAGETYPES="vmlinux.gz"
-> works OK.
->
-> If a compressed kernel is required, most non-MIPS machines use a self
-> extracting image.
+Added verification for images compression divided in 3 steps.
+1. Add IMAGE_FSTYPES += "[type(s)]" to ~/conf/local.conf
+2. Build a "core-image-minimal" using this configuration.
+3. Verify that the image compressed file is present in rootfs directory.
+YOCTO[#10745]
 
-this piece of is coming from this old commit:
+Signed-off-by: Francisco Pedraza <francisco.j.pedraza.gonzalez@intel.com>
+---
+ meta/lib/oeqa/selftest/runtime-test.py | 44 ++++++++++++++++++++++++++++++++++
+ 1 file changed, 44 insertions(+)
 
-cb17b6c2a7 kernel.bbclass: support kernel image type of vmlinux.gz
+diff --git a/meta/lib/oeqa/selftest/runtime-test.py b/meta/lib/oeqa/selftest/runtime-test.py
+index 13a4c03..71ba6cf 100644
+--- a/meta/lib/oeqa/selftest/runtime-test.py
++++ b/meta/lib/oeqa/selftest/runtime-test.py
+@@ -236,3 +236,47 @@ postinst-delayed-t \
+                     sshargs = '-o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no'
+                     result = runCmd('ssh %s root@%s %s' % (sshargs, qemu.ip, testcommand))
+                     self.assertEqual(result.status, 0, 'File %s was not created at firts boot'% fileboot_name)
++
++class GeneratedImages(oeSelfTest):
++    @testcase(1845)
++    def test_integrity_compressed_images(self):
++        """
++        Summary: The purpose of this test is to verify the correct behavior of all the available images compression.
++        Bugzilla ID: [10745]
++        Steps:
++            1. Add IMAGE_FSTYPES += "[type(s)]" to ~/conf/local.conf
++            2. Build a "core-image-minimal" using this configuration.
++            3. Verify that the image compressed file is present in rootfs directory.
++        """
++        # Step 1 Add configuration to conf/local.conf
++        features = 'btrfs ' + \
++'cpio cpio.gz cpio.lz4 cpio.lzma cpio.xz ' + \
++'cramfs ' + \
++'elf ' + \
++'ext2 ext2.bz2 ext2.gz ext2.lzma ext3 ext3.gz ext4 ext4.gz ' + \
++'hdddirect hddimg ' + \
++'iso ' + \
++'jffs2 jffs2.sum ' + \
++'multiubi ' + \
++'qcow2 ' + \
++'squashfs squashfs-lzo squashfs-xz ' + \
++'tar tar.bz2 tar.gz tar.lz4 tar.xz ' + \
++'ubi ubifs ' + \
++'vdi ' + \
++'vmdk ' + \
++'wic wic.bz2 wic.gz wic.lzma ' 
++        features_list = features.split()
++        self.write_config('IMAGE_FSTYPES = "%s"' % features)
++        # Setp 2 Compile.
++        build = 'core-image-minimal'
++        bitbake(build)
++        for image_feature in features_list:
++            # Step 3 Verify compressed images are present in rottfs directory.
++            need_vars = ['DEPLOY_DIR_IMAGE','MACHINE']
++            bb_vars = get_bb_vars(need_vars, 'core-image-minimal')
++            deploy_dir_image = bb_vars['DEPLOY_DIR_IMAGE']
++            machine = bb_vars['MACHINE']
++            compressed_file = "%s-%s.%s" % (build, machine, image_feature)
++            complete_path = os.path.join(deploy_dir_image, compressed_file)
++        msg = "Couldn't find compressed file: %s" % complete_path
++        self.assertEqual(os.path.isfile(complete_path), True, msg)
+-- 
+1.8.3.1
 
-It is clear that the goal of this logic is only to support vmlinux.gz
-since the kernel build system does not create it (only vmlinux). It
-almost looks to me like we should treat vmlinux.gz as a special case
-instead of treating each .gz target as 'special'
-
--    typeformake = re.sub(r'\.gz', '', types)
-+    typeformake = re.sub(r'vmlinux\.gz', '', types)
-
-e.g. the special case should be used *only* when the kernel build
-system is not capable to create the compressed file. e.g. on ARM ,
-Image, Image.gz and vmlinux are valid image that the kernel build can
-generate, so it probably doesn't make any sense to have vmlinux.gz in
-KERNEL_IMAGETYPES anyways..
-
-In fact , looking more closely at kernel makefiles (for arch/mips,
-since you brought this one up), it looks like uImage (and compressed
-vmlinux) was added in 2013 (commit
-4defe4559e86e26545ab2f542656a4b966dcde53). So we might not need all
-this logic at all anymore in kernel.bbclass and just get rid of it.
-
-so, to backtrack a bit, i think it should be safe to only treat
-vmlinux.gz as a 'special' case, and then it is there in
-KERNEL_IMAGETYPE, then we do a "make vmlinux" and we manually compress
-the file, otherwise we just trust that KERNEL_IMAGETYPE is a valid
-type and give it to kernel make command line.  that should be enough
-to fix the Image.gz cases on all platforms where it's relevant (like
-arm).
-
-then a second step might be to check if we even need that mechanism
-anymore.. but that might be a more tricky change.
 
