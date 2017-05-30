@@ -1,55 +1,44 @@
-Return-Path: <twoerner@gmail.com>
-Received: from mail-io0-f194.google.com (mail-io0-f194.google.com
-	[209.85.223.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 28F6C71B50
+Return-Path: <nicolas.dechesne@linaro.org>
+Received: from mail-qk0-f172.google.com (mail-qk0-f172.google.com
+	[209.85.220.172])
+	by mail.openembedded.org (Postfix) with ESMTP id BA12871B50
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 May 2017 15:27:41 +0000 (UTC)
-Received: by mail-io0-f194.google.com with SMTP id 12so9400137iol.1
+	Tue, 30 May 2017 15:33:00 +0000 (UTC)
+Received: by mail-qk0-f172.google.com with SMTP id y201so71489569qka.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 May 2017 08:27:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=l9tsHJqFimmQ7EXyuFiteBKWf2qkAK+XOXbjp/CZJKQ=;
-	b=kymKNB/S1xwAxV6BddwgN2s0qoiE5sXP4XuFW+2tNfa2wDq3iys2G2KyTUhMNDxoYP
-	uGfJdFT9qlqHMRNoaEQVAeip+TuMhwfIAWGtR7hJPwwLKp/l/Rikok6pW+BT+rIkbwjw
-	t4vXMimB16eLEkQGYFnuHF9Pjz5hcHUHylO4GBd3Tvw6ElPncGHxFtiYCGoCr8xUWXx0
-	bEdSAZn3TpMErOuCW1CN4vAE0zCchW0UbwOC3+zDKgA+hJNpLJMjBEeopRfHrz0/bU8K
-	5xPT0pGsFP53qso+BlkqD/wZCoEfQdiaLwBVMQtRjmC4OHCTYAMpF14K3LZzouq4Ggcr
-	flAQ==
+	Tue, 30 May 2017 08:33:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=from:to:cc:subject:date:message-id;
+	bh=hhX58gEwlnezLcbjcK7gkVXwH7YZF/bTHqWg4UbyVo0=;
+	b=Y0C2t5y4lqXFF2rgxB7gNalWyOXBwlplBMP9XPCIGVhWHtzCZOOD8Wgs4f+/dxI7Bm
+	nPTLoCjeqVlnAoYbSKwh2Qsn1yiKzb4OVnxsRebOeylllzW40ZFVAhoB5zG1YYXNOL3B
+	yxpKGZzfoPL3uJ7YgxQMXJ8XjfuccM9F6X3MI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=l9tsHJqFimmQ7EXyuFiteBKWf2qkAK+XOXbjp/CZJKQ=;
-	b=iolM81W34Egc7fiaHO2dLXZ5HdeJIstWfaygNLGU8ahLqqMCfJ8+7IrvwXmu05+9Dg
-	H4MsuyQx8E04hRz0wyxLgriGoWLRnwxyBlNcroF62zjAd51q7sacL7q/F7aJ8IHqNrfA
-	EnTs+xQy1iH8DziGezX4F+A4qdLt1kU80vRBacJ2Gt5xLLlzb4ojteQJ7b7K69lc4tWh
-	RPBgxzFMThK0dUhxqqadEgTy05wyM2rMLTkzMTEVMiS4dmdrZOH8jRxKt76gRE14d3eZ
-	AlKkQFhRuyDa1kLhIbQqIlqNWyMfmt+kpFHWpjjWd/k1wYTt17SMCT9XiENnJBSN6bwk
-	zQmA==
-X-Gm-Message-State: AODbwcCMmZuqPMZLCDdmyJuVY2WWezRB1tnb5T2NMLaJkIzgVFdcC6Nj
-	b9zDIOdC8nAN5g==
-X-Received: by 10.107.17.14 with SMTP id z14mr16421108ioi.151.1496158063042;
-	Tue, 30 May 2017 08:27:43 -0700 (PDT)
-Received: from linux-uys3 ([206.248.190.95]) by smtp.gmail.com with ESMTPSA id
-	b62sm6043155itc.16.2017.05.30.08.27.41
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 30 May 2017 08:27:42 -0700 (PDT)
-Date: Tue, 30 May 2017 11:27:39 -0400
-From: Trevor Woerner <twoerner@gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Message-ID: <20170530152738.GA24515@linux-uys3>
-References: <20170526212248.16374-1-twoerner@gmail.com>
-	<1496100337.25229.147.camel@linuxfoundation.org>
-	<CAHUNapREVWXEaWYDYon8cYByzXcAdEu=_uWMAHCbOjU6VXrghg@mail.gmail.com>
-	<1496130475.25229.160.camel@linuxfoundation.org>
-MIME-Version: 1.0
-In-Reply-To: <1496130475.25229.160.camel@linuxfoundation.org>
-User-Agent: Mutt/1.6.0 (2016-04-01)
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] mesa: potentially enable texture float for gallium
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=hhX58gEwlnezLcbjcK7gkVXwH7YZF/bTHqWg4UbyVo0=;
+	b=WXZNXzjGxTvvQBWJ3S/vzZycK9vSK20MJBqfJq1nwsNOn8V2QkvJUth5Js6eq9FK+X
+	FzpwDm+4t2GWBE7QgtWA6bfx9364VHr1X81iywVRuTazaOrYV4nb7ZdCPv6891cWYu5D
+	LlpsjXGPbj0manMOtMyIRCFOzFprdgCjhnj9S7zwqyO1vA6IPcLVkk3/ltqWvoi119Z0
+	E/qt0SWMSDXPDMjs+BCkkuwhNZJCya0jFyi9ROJYnP8ts+dPJrvMyIxzY9Cd8juqfQYi
+	9FKKBJ5S7tFqsjnJxM/9r4EtxJ0ePoqeAdllTGKegrg5Kfi7cxCIBXBykx+Ey4anRHBq
+	xvaA==
+X-Gm-Message-State: AODbwcBzHVJUa61I89NlTmEcU35vBtEmAyuYbV9LrNsKeD9gdHqNv1Tv
+	MAVdJhC3AFdVP5Kscn6uUw==
+X-Received: by 10.55.178.5 with SMTP id b5mr24196926qkf.258.1496158381315;
+	Tue, 30 May 2017 08:33:01 -0700 (PDT)
+Received: from localhost.localdomain (static.8.26.4.46.clients.your-server.de.
+	[46.4.26.8]) by smtp.gmail.com with ESMTPSA id
+	w17sm8680759qta.57.2017.05.30.08.33.00
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 30 May 2017 08:33:00 -0700 (PDT)
+From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 30 May 2017 17:32:49 +0200
+Message-Id: <20170530153249.7161-1-nicolas.dechesne@linaro.org>
+X-Mailer: git-send-email 2.11.0
+Cc: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+Subject: [PATCH] mesa: upgrade to 17.1.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,116 +51,112 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 May 2017 15:27:42 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-List-Received-Date: Tue, 30 May 2017 15:33:02 -0000
 
-On Tue 2017-05-30 @ 08:47:55 AM, Richard Purdie wrote:
-> We should look at how Fedora "just bars float on llvmpipe and softpipe"
-> and perhaps look at copying that? Not that we enable llvmpipe at the
-> moment either mind so presumably we're using softpipe.
+* Costmetic changes in license.html file required new MD5 hash
+* Add PACKAGECONFIG option for libunwind support (new feature, disable by default)
+* Rebased 0001-Use-wayland-scanner-in-the-path.patch
+* Added zlib in DEPENDS, otherwise mesa no longer builds.
 
-If you build for AMD's gizmo2 (meta-amd), it uses llvmpipe (although it's
-doing a lot of its own stuff with mesa):
+Signed-off-by: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+---
+ .../mesa/files/0001-Use-wayland-scanner-in-the-path.patch    | 12 ++++++------
+ .../mesa/{mesa-gl_17.0.6.bb => mesa-gl_17.1.1.bb}            |  0
+ meta/recipes-graphics/mesa/mesa.inc                          |  6 ++++--
+ .../recipes-graphics/mesa/{mesa_17.0.6.bb => mesa_17.1.1.bb} |  4 ++--
+ 4 files changed, 12 insertions(+), 10 deletions(-)
+ rename meta/recipes-graphics/mesa/{mesa-gl_17.0.6.bb => mesa-gl_17.1.1.bb} (100%)
+ rename meta/recipes-graphics/mesa/{mesa_17.0.6.bb => mesa_17.1.1.bb} (83%)
 
-	http://git.yoctoproject.org/cgit/cgit.cgi/meta-amd/tree/common/recipes-graphics/mesa/mesa_git.bbappend?h=master
+diff --git a/meta/recipes-graphics/mesa/files/0001-Use-wayland-scanner-in-the-path.patch b/meta/recipes-graphics/mesa/files/0001-Use-wayland-scanner-in-the-path.patch
+index e49695bf85..eb6ff4ff04 100644
+--- a/meta/recipes-graphics/mesa/files/0001-Use-wayland-scanner-in-the-path.patch
++++ b/meta/recipes-graphics/mesa/files/0001-Use-wayland-scanner-in-the-path.patch
+@@ -1,4 +1,4 @@
+-From 2f68fcaaf4964e7feeb383f5c26851965cda037c Mon Sep 17 00:00:00 2001
++From c908f0c13ac81a3a52140f129a13b2bc997ff4ee Mon Sep 17 00:00:00 2001
+ From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+ Date: Tue, 15 Nov 2016 15:20:49 +0200
+ Subject: [PATCH] Simplify wayland-scanner lookup
+@@ -15,23 +15,23 @@ Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+  1 file changed, 1 insertion(+), 6 deletions(-)
+ 
+ diff --git a/configure.ac b/configure.ac
+-index e56e35a..a92005a 100644
++index 2c7e636fac..d2b2350739 100644
+ --- a/configure.ac
+ +++ b/configure.ac
+-@@ -2020,12 +2020,7 @@ if test "x$with_egl_platforms" != "x" -a "x$enable_egl" != xyes; then
+-     AC_MSG_ERROR([cannot build egl state tracker without EGL library])
++@@ -2174,12 +2174,7 @@ if test "x$with_platforms" != xauto; then
++     with_egl_platforms=$with_platforms
+  fi
+  
+ -PKG_CHECK_MODULES([WAYLAND_SCANNER], [wayland-scanner],
+ -        WAYLAND_SCANNER=`$PKG_CONFIG --variable=wayland_scanner wayland-scanner`,
+ -        WAYLAND_SCANNER='')
+ -if test "x$WAYLAND_SCANNER" = x; then
+--    AC_PATH_PROG([WAYLAND_SCANNER], [wayland-scanner])
++-    AC_PATH_PROG([WAYLAND_SCANNER], [wayland-scanner], [:])
+ -fi
+ +AC_PATH_PROG([WAYLAND_SCANNER], [wayland-scanner])
+  
+  # Do per-EGL platform setups and checks
+  egl_platforms=`IFS=', '; echo $with_egl_platforms`
+ -- 
+-2.1.4
++2.13.0
+ 
+diff --git a/meta/recipes-graphics/mesa/mesa-gl_17.0.6.bb b/meta/recipes-graphics/mesa/mesa-gl_17.1.1.bb
+similarity index 100%
+rename from meta/recipes-graphics/mesa/mesa-gl_17.0.6.bb
+rename to meta/recipes-graphics/mesa/mesa-gl_17.1.1.bb
+diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
+index 447fd6d0df..67039a9962 100644
+--- a/meta/recipes-graphics/mesa/mesa.inc
++++ b/meta/recipes-graphics/mesa/mesa.inc
+@@ -10,11 +10,11 @@ HOMEPAGE = "http://mesa3d.org"
+ BUGTRACKER = "https://bugs.freedesktop.org"
+ SECTION = "x11"
+ LICENSE = "MIT"
+-LIC_FILES_CHKSUM = "file://docs/license.html;md5=899fbe7e42d494c7c8c159c7001693d5"
++LIC_FILES_CHKSUM = "file://docs/license.html;md5=725f991a1cc322aa7a0cd3a2016621c4"
+ 
+ PE = "2"
+ 
+-DEPENDS = "expat makedepend-native flex-native bison-native libxml2-native"
++DEPENDS = "expat makedepend-native flex-native bison-native libxml2-native zlib"
+ 
+ PROVIDES = "virtual/libgl virtual/libgles1 virtual/libgles2 virtual/egl virtual/mesa"
+ 
+@@ -74,6 +74,8 @@ PACKAGECONFIG[xa]  = "--enable-xa, --disable-xa"
+ OSMESA = "${@bb.utils.contains('PACKAGECONFIG', 'gallium', 'gallium-osmesa', 'osmesa', d)}"
+ PACKAGECONFIG[osmesa] = "--enable-${OSMESA},--disable-${OSMESA}"
+ 
++PACKAGECONFIG[unwind] = "--enable-libunwind,--disable-libunwind,libunwind"
++
+ # llvmpipe is slow if compiled with -fomit-frame-pointer (e.g. -O2)
+ FULL_OPTIMIZATION_append = " -fno-omit-frame-pointer"
+ 
+diff --git a/meta/recipes-graphics/mesa/mesa_17.0.6.bb b/meta/recipes-graphics/mesa/mesa_17.1.1.bb
+similarity index 83%
+rename from meta/recipes-graphics/mesa/mesa_17.0.6.bb
+rename to meta/recipes-graphics/mesa/mesa_17.1.1.bb
+index 3f98271f21..ad5d2a7a20 100644
+--- a/meta/recipes-graphics/mesa/mesa_17.0.6.bb
++++ b/meta/recipes-graphics/mesa/mesa_17.1.1.bb
+@@ -6,8 +6,8 @@ SRC_URI = "ftp://ftp.freedesktop.org/pub/mesa/mesa-${PV}.tar.xz \
+            file://0001-Use-wayland-scanner-in-the-path.patch \
+ "
+ 
+-SRC_URI[md5sum] = "77ea38dc0ab899864b06ea2941ac31a4"
+-SRC_URI[sha256sum] = "89ecf3bcd0f18dcca5aaa42bf36bb52a2df33be89889f94aaaad91f7a504a69d"
++SRC_URI[md5sum] = "a4844bc6052578574f9629458bcbb749"
++SRC_URI[sha256sum] = "aed503f94c0c1630a162a3e276f4ee12a86764cee4cb92338ea2dea99a04e7ef"
+ 
+ #because we cannot rely on the fact that all apps will use pkgconfig,
+ #make eglplatform.h independent of MESA_EGL_NO_X11_HEADER
+-- 
+2.11.0
 
-
-Here is the relevant part of Fedora's mesa.spec file for Fedora 25 (with line
-numbers):
-
-	 400 %configure \
-	 401     %{?asm_flags} \
-	 402     --enable-libglvnd \
-	 403     --enable-selinux \
-	 404     --enable-gallium-osmesa \
-	 405     --with-dri-driverdir=%{_libdir}/dri \
-	 406     --enable-egl \
-	 407     --disable-gles1 \
-	 408     --enable-gles2 \
-	 409     --disable-xvmc \
-	 410     %{?with_vdpau:--enable-vdpau} \
-	 411     %{?with_vaapi:--enable-va} \
-	 412     --with-egl-platforms=x11,drm,surfaceless%{?with_wayland:,wayland} \
-	 413     --enable-shared-glapi \
-	 414     --enable-gbm \
-	 415     %{?with_omx:--enable-omx} \
-	 416     %{?with_opencl:--enable-opencl --enable-opencl-icd} %{!?with_opencl:--disable-opencl} \
-	 417     --enable-glx-tls \
-	 418     --enable-texture-float=yes \
-	 419 %if %{with_vulkan}
-	 420     %{?vulkan_drivers} \
-	 421 %endif
-	 422     %{?with_llvm:--enable-gallium-llvm} \
-	 423     %{?with_llvm:--enable-llvm-shared-libs} \
-	 424     --enable-dri \
-	 425 %if %{with_hardware}
-	 426     %{?with_xa:--enable-xa} \
-	 427     %{?with_nine:--enable-nine} \
-	 428     --with-gallium-drivers=%{?with_vmware:svga,}%{?with_radeonsi:radeonsi,}%{?with_llvm:swrast,r600,}%{?with_freedreno:freedreno,}%{?with_etnaviv:etnaviv,}%{?with_vc4:vc4,}%{?with_ilo:ilo,}virgl,r300,nouveau \
-	 429 %else
-	 430     --with-gallium-drivers=%{?with_llvm:swrast,}virgl \
-	 431 %endif
-	 432     %{?dri_drivers}
-
---enable-texture-float (line 418) is always, unconditionally enabled. However,
-mesa itself is then patched (for Fedora) so that the --enable-texture-float
-configuration option doesn't have any effect on llvm and swrast. I.e. it is
-easier to do this optional check in code than on the ./configure line:
-
-	From 00bcd599310dc7fce4fe336ffd85902429051a0c Mon Sep 17 00:00:00 2001
-	From: Igor Gnatenko <i.gnatenko.brain@gmail.com>
-	Date: Sun, 20 Mar 2016 13:27:04 +0100
-	Subject: [PATCH 2/4] hardware gloat
-
-	Signed-off-by: Igor Gnatenko <i.gnatenko.brain@gmail.com>
-	---
-	 src/gallium/drivers/llvmpipe/lp_screen.c | 7 +++++++
-	 src/gallium/drivers/softpipe/sp_screen.c | 7 +++++++
-	 2 files changed, 14 insertions(+)
-
-	diff --git a/src/gallium/drivers/llvmpipe/lp_screen.c b/src/gallium/drivers/llvmpipe/lp_screen.c
-	index 4f61de8..3b0ec77 100644
-	--- a/src/gallium/drivers/llvmpipe/lp_screen.c
-	+++ b/src/gallium/drivers/llvmpipe/lp_screen.c
-	@@ -411,6 +411,13 @@ llvmpipe_is_format_supported( struct pipe_screen *_screen,
-	    if (!format_desc)
-	       return FALSE;
-	 
-	+   if ((bind & PIPE_BIND_RENDER_TARGET) &&
-	+       format != PIPE_FORMAT_R9G9B9E5_FLOAT &&
-	+       format != PIPE_FORMAT_R11G11B10_FLOAT &&
-	+       util_format_is_float(format)) {
-	+      return FALSE;
-	+   }
-	+
-	    assert(target == PIPE_BUFFER ||
-		   target == PIPE_TEXTURE_1D ||
-		   target == PIPE_TEXTURE_1D_ARRAY ||
-	diff --git a/src/gallium/drivers/softpipe/sp_screen.c b/src/gallium/drivers/softpipe/sp_screen.c
-	index 031602b..c279120 100644
-	--- a/src/gallium/drivers/softpipe/sp_screen.c
-	+++ b/src/gallium/drivers/softpipe/sp_screen.c
-	@@ -358,6 +358,13 @@ softpipe_is_format_supported( struct pipe_screen *screen,
-	    if (!format_desc)
-	       return FALSE;
-	 
-	+   if ((bind & PIPE_BIND_RENDER_TARGET) &&
-	+       format != PIPE_FORMAT_R9G9B9E5_FLOAT &&
-	+       format != PIPE_FORMAT_R11G11B10_FLOAT &&
-	+       util_format_is_float(format)) {
-	+      return FALSE;
-	+   }
-	+
-	    if (sample_count > 1)
-	       return FALSE;
-	 
-	-- 
-	2.7.4
-
-
-Maybe this would be a better way forward? Enable it, always, in ./configure,
-add the patch to check for it in the code itself, then you can build for all
-the gallium targets (including swrast) and know that the patented code will
-only kick in where it's supported in hardware (and thus patent-safe)?
 
