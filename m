@@ -1,47 +1,18 @@
-Return-Path: <ola.x.nilsson@axis.com>
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 5D91A780C3
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 May 2017 10:16:32 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id E034118407
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 May 2017 12:16:32 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id 86DnSc5f4MHl
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 May 2017 12:16:32 +0200 (CEST)
-Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
-	by bastet.se.axis.com (Postfix) with ESMTPS id 2B013183E9
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 May 2017 12:16:32 +0200 (CEST)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 144391A07E
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 May 2017 12:16:32 +0200 (CEST)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 062C31A070
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 May 2017 12:16:32 +0200 (CEST)
-Received: from thoth.se.axis.com (unknown [10.0.2.173])
-	by boulder02.se.axis.com (Postfix) with ESMTP
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 May 2017 12:16:31 +0200 (CEST)
-Received: from lnxolani1.se.axis.com (lnxolani1.se.axis.com [10.88.130.9])
-	by thoth.se.axis.com (Postfix) with ESMTP id EE82B21F3
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 May 2017 12:16:31 +0200 (CEST)
-Received: by lnxolani1.se.axis.com (Postfix, from userid 20853)
-	id E9BC1409BA; Tue, 30 May 2017 12:16:31 +0200 (CEST)
-From: Ola x Nilsson <ola.x.nilsson@axis.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 30 May 2017 12:16:31 +0200
-Message-Id: <20170530101631.29058-1-olani@axis.com>
-X-Mailer: git-send-email 2.11.0
-X-TM-AS-GCONF: 00
-Subject: [PATCH] devtool: Compare abspath of both B and S
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id E992D781F8;
+	Tue, 30 May 2017 10:31:39 +0000 (UTC)
+MIME-Version: 1.0
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Martin Jansa <martin.jansa@gmail.com>
+Date: Tue, 30 May 2017 10:31:41 -0000
+Message-ID: <20170530103141.1042.42316@do.openembedded.org>
+References: <20170530080801.23995-1-Martin.Jansa@gmail.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <20170530080801.23995-1-Martin.Jansa@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3Igc3N0YXRlLWRpZmYtbWFjaGluZXMuc2g6IFJlcGxhY2UgTUFDSElORV9BUkNIIG9ubHkgYXQgdGhlIGJlZ2lubmluZyBhbmQgc2VwYXJhdGVkIHdpdGggZGFzaA==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,35 +25,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 May 2017 10:16:34 -0000
+X-List-Received-Date: Tue, 30 May 2017 10:31:40 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-Either both or none of the paths must be passed through
-os.path.abspath or things like 'A//B', 'A/./B/', and 'A/B/' in S will
-cause unintentional mismatches even when B = "${S}".
+== Series Details ==
 
-Using os.path.abspath for both seems more likely to be correct as that
-will also handle the case where ${B} != ${S} but the abspaths are
-equal.
+Series: sstate-diff-machines.sh: Replace MACHINE_ARCH only at the beginning and separated with dash
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/6969/
+State : failure
 
-Signed-off-by: Ola x Nilsson <olani@axis.com>
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Patch            sstate-diff-machines.sh: Replace MACHINE_ARCH only at the beginning and separated with dash
+ Issue             Commit shortlog is too long [test_shortlog_length] 
+  Suggested fix    Edit shortlog so that it is 90 characters or less (currently 91 characters)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- scripts/lib/devtool/__init__.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/scripts/lib/devtool/__init__.py b/scripts/lib/devtool/__init__.py
-index d646b0cf63..29c4c05071 100644
---- a/scripts/lib/devtool/__init__.py
-+++ b/scripts/lib/devtool/__init__.py
-@@ -191,7 +191,7 @@ def use_external_build(same_dir, no_same_dir, d):
-         logger.info('Using source tree as build directory since --same-dir specified')
-     elif bb.data.inherits_class('autotools-brokensep', d):
-         logger.info('Using source tree as build directory since recipe inherits autotools-brokensep')
--    elif d.getVar('B') == os.path.abspath(d.getVar('S')):
-+    elif os.path.abspath(d.getVar('B')) == os.path.abspath(d.getVar('S')):
-         logger.info('Using source tree as build directory since that would be the default for this recipe')
-     else:
-         b_is_s = False
--- 
-2.11.0
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
