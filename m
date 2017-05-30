@@ -1,49 +1,46 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f195.google.com (mail-pf0-f195.google.com
-	[209.85.192.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 20E9C781D0
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-wm0-f52.google.com (mail-wm0-f52.google.com [74.125.82.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 1B638781C8
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 30 May 2017 17:15:35 +0000 (UTC)
-Received: by mail-pf0-f195.google.com with SMTP id f27so19291421pfe.0
+Received: by mail-wm0-f52.google.com with SMTP id b84so97781190wmh.0
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 30 May 2017 10:15:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=byCbx7z8PTfOsH0pb2hGrr+jhNbR/SwjUwCfC7dpceQ=;
-	b=orG66x8bCWIVEfKix0cXohuU8hR2BthQZR68W3qhCzzQsbI7E9ZT7HfkHdUVVFMQcd
-	Zwgd1UeZkG2NrBzEWv8HWXUyq5QUU2ewuWnrc+u9EEL9CsIGdFy53rNqZw/K626pksFC
-	jw44pYC+eARt4HTTS1c62plnFQQDfFbi8ZFu4TKcJUr9sZbD+BetBJmJ+Kts6Em3PugO
-	gY2TJjev1V1YvYJnUiDT3IwfUk8rwqpUT5IGSfhi53TUG7MotdGLl33oxyXsTDCb/nvt
-	1JNtgAX7ISa6f7x2UWFdn1pJRrE2aAWzs0coTP7JNgdX9SosA3YEGkvNpUE5aTHz8QXB
-	KA6w==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=eFu5QVeWJp8quWZ5FgBS0zmEyCp48qxkOt92zmD7SSI=;
+	b=lP3wL8zSlJECjSDDZy2Hjdg3O+74NonMhQMO7nmmh0CXQLPugYW1as7yQL/MxdG3Jc
+	WpNwNnZrysLKTKN17jUD6297ptwwO1BoZ/CMpJoKMQX/1utWAgTko3WsVoahvGdGslD+
+	y5SChoHBFTIVuWoOeYKjJd68rH6mC7lho5GkxAi5CX/E9ZyAfRJOzyiOV92iFSt+QOwo
+	/EaGreskodhZMH9QV6FZSLwTTLCSo9iFzcCS6YGxy0cBfRT0sKVfq/QUWWOlnF6zQBPJ
+	a2HWEZWgBfq93DznsiPwZgkTBmAWxTJuQZ0XfST7kIlPbYsdWuCHhC5L+bai7qCJBKKs
+	w5Pw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=byCbx7z8PTfOsH0pb2hGrr+jhNbR/SwjUwCfC7dpceQ=;
-	b=QJIXMLTSpulO7R3wjy1prhuIo4g7kVtkWDz371hycpG/yAzNxBU7tHcr1+d3rr4vXV
-	c1Y5O+G1aDFktJBkR8UhDB1jRW5tkHxZ2L1TGQsX9xNixK++I6ECyj3on2mWQ/gJITS2
-	19ExnfGo+c10yUKkDsc2iFGtIpsh5DQdNkVtk8co4tiUKtQ+Vs2LedJtZV8mRFVUhcY4
-	7H7+E7ZmSKn6fv4u6LFLRIg2kRNgwhYJJdGBdguOaBGShi5z/PPfdHvZpm6YVos+2rha
-	8H0podBBvM9+GmAvpZoPbhokLKHAgDj1FlxOEsjJL6ygK8E7Y9H686PVaAOJcNiH2utt
-	9CTg==
-X-Gm-Message-State: AODbwcD7ecSR2shghP9rQ8igB/Oe+kt6yOO3eLY/SkLmYJIrJEigMv1V
-	K71Qxm/bX0cWk6E6
-X-Received: by 10.99.101.132 with SMTP id z126mr26808161pgb.194.1496164536942; 
-	Tue, 30 May 2017 10:15:36 -0700 (PDT)
-Received: from localhost.localdomain ([2601:646:8882:b8c::cf4])
-	by smtp.gmail.com with ESMTPSA id
-	n24sm28071137pgd.57.2017.05.30.10.15.35
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 30 May 2017 10:15:36 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 30 May 2017 10:15:23 -0700
-Message-Id: <20170530171523.37470-3-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.13.0
-In-Reply-To: <20170530171523.37470-1-raj.khem@gmail.com>
-References: <20170530171523.37470-1-raj.khem@gmail.com>
-Subject: [PATCH 3/3] libatomic-ops: Upgrade to 7.6.0
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=eFu5QVeWJp8quWZ5FgBS0zmEyCp48qxkOt92zmD7SSI=;
+	b=XbPViTD/cmxBzrb2xXxzPW3DyhsblVXicc7DkjCK4Jn6Usk2N4SxFWkFY9irBmaws9
+	uUGOFzFsQhAPvXHunRkTb+8puAyKkDHSHRTbrCPSgstXJKgcfQdc1W258gWE7UTheK0B
+	/noKOSRp5lByc91pxV+HTHk5JdyRG2hw0BLXq5DiZySLkh0/WF9LYfIoLwFqt2yC1sei
+	cIqPewXmupGXwYf5n5seV1iLPOWV3eMIXy9J2ZA9c38Jh72L967djnVinCr5anKFn2VB
+	FEP/AbR0X1ifpjbHEQZ7gcjc/51h1N/S2JyDcq4W9Q+wKyDgTrKMKIoFsfYRtLqdr75B
+	Tn4A==
+X-Gm-Message-State: AODbwcB9DpRra0uEzi2Gr63fVFgfBIRCZgEn0QLF04yq0YgNwOzFQl+n
+	mr5aKXzMDNCB7I/1NM6TEJBT9Z/i5g==
+X-Received: by 10.28.74.1 with SMTP id x1mr2610454wma.95.1496164536395; Tue,
+	30 May 2017 10:15:36 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.223.176.148 with HTTP; Tue, 30 May 2017 10:15:35 -0700 (PDT)
+In-Reply-To: <CAP71WjxkYLeEaO5CfUjbEaON=j2pwRkjMDUxkyYafPAEt2qW1w@mail.gmail.com>
+References: <CAP71WjxkYLeEaO5CfUjbEaON=j2pwRkjMDUxkyYafPAEt2qW1w@mail.gmail.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+Date: Tue, 30 May 2017 10:15:35 -0700
+Message-ID: <CAJ86T=VS+ThYpfakL=oHDbDt9ogmoq4E6A95S0YVdxXNxfwRRg@mail.gmail.com>
+To: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: KERNEL_IMAGETYPES and Image.gz
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,86 +54,50 @@ List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 30 May 2017 17:15:36 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Can compile in thumb1 and thumb2 modes now
-AO_THUMB_GO_ARM, AO_THUMB_RESTORE_MODE are used
-to guard swp instructions
+On Mon, May 29, 2017 at 2:13 PM, Nicolas Dechesne
+<nicolas.dechesne@linaro.org> wrote:
+> hi,
+>
+> i am trying to set  KERNEL_IMAGETYPES="Image.gz" in my machine conf
+> file. But it doesn't work. I am seeing this error during
+> kernel_do_compile():
+>
+> run.do_compile.30019: cannot open Image: No such file
+>
+> In fact the code snippet that tries to compress the Image file into
+> Image.gz expects the Image file to be in ${B}, but when compiling
+> kernel Image is actually in ${B}/arch/arm64/boot:
+>
+> $ find tmp-rpb-glibc/work/dragonboard_410c-linaro-linux/linux-linaro-qcomlt/
+> -name Image
+> tmp-rpb-glibc/work/dragonboard_410c-linaro-linux/linux-linaro-qcomlt/4.9-r0/build/arch/arm64/boot/Image
+>
+> The piece of code in question is in kernel.bbclass:
+>
+>   gzip -9c < "${typeformake}" > "${KERNEL_OUTPUT_DIR}/${type}"
+> It really sounds to me like something obvious is missing, i doubt I
+> would be the first one to try Image.gz..
 
-Switch to github and use git for src_uri
+You may be the first to try for a non-MIPS machine.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- .../libatomic-ops/libatomic-ops_7.4.4.bb           | 32 ----------------------
- .../libatomic-ops/libatomic-ops_7.6.0.bb           | 20 ++++++++++++++
- 2 files changed, 20 insertions(+), 32 deletions(-)
- delete mode 100644 meta/recipes-support/libatomic-ops/libatomic-ops_7.4.4.bb
- create mode 100644 meta/recipes-support/libatomic-ops/libatomic-ops_7.6.0.bb
+MIPS is a little special in that the MIPS kernel doesn't support self
+extracting compressed kernels (zImage, etc), so MIPS machines are the
+most likely to make use of a gzipped vmlinux image (which will then be
+decompressed by the bootloader) and KERNEL_IMAGETYPES="vmlinux.gz"
+works OK.
 
-diff --git a/meta/recipes-support/libatomic-ops/libatomic-ops_7.4.4.bb b/meta/recipes-support/libatomic-ops/libatomic-ops_7.4.4.bb
-deleted file mode 100644
-index 930c1b8ed6..0000000000
---- a/meta/recipes-support/libatomic-ops/libatomic-ops_7.4.4.bb
-+++ /dev/null
-@@ -1,32 +0,0 @@
--SUMMARY = "A library for atomic integer operations"
--HOMEPAGE = "https://github.com/ivmai/libatomic_ops/"
--SECTION = "optional"
--PROVIDES += "libatomics-ops"
--LICENSE = "GPLv2 & MIT"
--LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
--                    file://doc/LICENSING.txt;md5=e00dd5c8ac03a14c5ae5225a4525fa2d \
--		   "
--
--SRC_URI = "\
--	http://www.ivmaisoft.com/_bin/atomic_ops/libatomic_ops-${PV}.tar.gz \
--	file://0001-Add-initial-nios2-architecture-support.patch \
--	"
--
--SRC_URI[md5sum] = "426d804baae12c372967a6d183e25af2"
--SRC_URI[sha256sum] = "bf210a600dd1becbf7936dd2914cf5f5d3356046904848dcfd27d0c8b12b6f8f"
--
--S = "${WORKDIR}/libatomic_ops-${PV}"
--
--ALLOW_EMPTY_${PN} = "1"
--
--ARM_INSTRUCTION_SET = "arm"
--
--inherit autotools pkgconfig
--
--do_install_append() {
--	# those contain only docs, not necessary for now.
--	install -m 0755 -d ${D}${docdir}
--	mv ${D}${datadir}/libatomic_ops ${D}${docdir}/${BPN}
--}
--
--BBCLASSEXTEND = "native nativesdk"
-diff --git a/meta/recipes-support/libatomic-ops/libatomic-ops_7.6.0.bb b/meta/recipes-support/libatomic-ops/libatomic-ops_7.6.0.bb
-new file mode 100644
-index 0000000000..4463d86c86
---- /dev/null
-+++ b/meta/recipes-support/libatomic-ops/libatomic-ops_7.6.0.bb
-@@ -0,0 +1,20 @@
-+SUMMARY = "A library for atomic integer operations"
-+HOMEPAGE = "https://github.com/ivmai/libatomic_ops/"
-+SECTION = "optional"
-+PROVIDES += "libatomics-ops"
-+LICENSE = "GPLv2 & MIT"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
-+                    file://doc/LICENSING.txt;md5=e00dd5c8ac03a14c5ae5225a4525fa2d \
-+		   "
-+PV .= "+git${SRCPV}"
-+
-+SRCREV = "73c60c5ef1ed370111549ee5aab6d4020ba70ed4"
-+SRC_URI = "git://github.com/ivmai/libatomic_ops"
-+
-+S = "${WORKDIR}/git"
-+
-+ALLOW_EMPTY_${PN} = "1"
-+
-+inherit autotools pkgconfig
-+
-+BBCLASSEXTEND = "native nativesdk"
--- 
-2.13.0
+If a compressed kernel is required, most non-MIPS machines use a self
+extracting image.
 
+> Any thoughts?
+>
+> thanks
+> nico
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
