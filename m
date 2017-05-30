@@ -1,19 +1,45 @@
-Return-Path: <daniel@lublin.se>
-Received: from eltanin.uberspace.de (eltanin.uberspace.de [185.26.156.28])
-	by mail.openembedded.org (Postfix) with ESMTP id E7D317814B
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 3C2C2781F3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 May 2017 14:40:49 +0000 (UTC)
-Received: (qmail 32680 invoked from network); 30 May 2017 14:40:48 -0000
-Received: from localhost (HELO ot.localdomain) (127.0.0.1)
-	by eltanin.uberspace.de with SMTP; 30 May 2017 14:40:48 -0000
-Received: by ot.localdomain (Postfix, from userid 1000)
-	id DC87383D66; Tue, 30 May 2017 16:40:46 +0200 (CEST)
-From: Daniel Lublin <daniel@lublin.se>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 30 May 2017 16:40:43 +0200
-Message-Id: <2c1e2d8665b76fcc438deeab9f98df1e15fd8053.1496155243.git.daniel@lublin.se>
-X-Mailer: git-send-email 2.13.0
-Subject: [PATCH] devtool: deploy-target: Don't use find -exec
+	Tue, 30 May 2017 14:45:45 +0000 (UTC)
+Received: by mail-wm0-f65.google.com with SMTP id b84so25735300wmh.0
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 30 May 2017 07:45:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=ZOLFc1qEnmBzI0PVZt50duHW40jIpYrOkMPiObr24xA=;
+	b=NUxnW56ri5FJ8XJxcWCt3Nr/X4r9CNgETQTXjpejzVpUOF6fd5SELiuQecTqH/IVgM
+	15I48v0K/Gp0UIMA7p/6M8Kb1IGwxYHYTjHf/HJaL8vEr6vzqaZRaF/Ql9OEX8t1g/MF
+	6xEJPdVx2E4kA+CVcPVTIJ7Hos3K+x7LtltZ9r5xnoNANUiLVDx2JD6PMKricgZ4ROzn
+	8JGaefY1auxHOCSGm6uU17oNkBwgTyxqGH83EcbxUHHaS1HJwKELdC6aiaEzP13gTycg
+	qctE3dGNxnqrUGRJv/EsZ0kb9fEFQSjNv0nbb7odSPKZzru7v54SquxaLyv0UFKD2bcE
+	+puA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=ZOLFc1qEnmBzI0PVZt50duHW40jIpYrOkMPiObr24xA=;
+	b=sXhjKIBltzIpzqpLHvGUo0JV4UgN1U7P7rfGvAxb5Hgq0uVfMk08ZiJk+FXuKOez5L
+	NMNyUmO/wRaoH6Dy2HKMdKiK3PtwpMZvNibDHXaEy3mk+XXfcB7a8Jwf4l+d81kA80fT
+	unXm+JsiGq4kRv9qIJXn3HPkPr0UbRIPECEYle5TtlraUb/TcFLxfDMwilFccWDViLOJ
+	R0b0PcG9Ey69tVpgbzTK8tHJ/PGMAcXwd586xH9sTMvwrqBvFo9bSmAxAgBki3gAlPex
+	xAoyQoIxWgZOZaCDcjkUSQtNudwNAKAaABNli7zRAAottpSZxbmt659kuzGT5w1+l6I7
+	2pYA==
+X-Gm-Message-State: AODbwcAGDo5Y0c3V/xccfljIYLMAA9NMCJzXlrN3kG94rndePcx3Q6KT
+	vlp1aDZurTqKG6jOarLYsrbbYqepfw==
+X-Received: by 10.28.24.207 with SMTP id 198mr1967893wmy.86.1496155546612;
+	Tue, 30 May 2017 07:45:46 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.223.176.148 with HTTP; Tue, 30 May 2017 07:45:46 -0700 (PDT)
+In-Reply-To: <20170530080836.25342-1-Martin.Jansa@gmail.com>
+References: <20170530080836.25342-1-Martin.Jansa@gmail.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+Date: Tue, 30 May 2017 07:45:46 -0700
+Message-ID: <CAJ86T=XbqdaxFrWzd1RN-5Y0E8B+Ndj9fHAy8XU0v+q1OYMp6Q@mail.gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] recipes: Replace "cp -a" with "cp -R --no-dereference --preserve=mode, links"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -26,33 +52,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 May 2017 14:40:50 -0000
+X-List-Received-Date: Tue, 30 May 2017 14:45:46 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-find may be provided by busybox, which might be compiled without support
-for -exec.
+On Tue, May 30, 2017 at 1:08 AM, Martin Jansa <martin.jansa@gmail.com> wrote:
+> * Using "cp -a" leaks UID of user running the builds, causing
+>   many QA warnings.
+> * See this thread for details:
+>   http://lists.openembedded.org/pipermail/openembedded-core/2015-November/112904.html
 
-Signed-off-by: Daniel Lublin <daniel@lublin.se>
----
- scripts/lib/devtool/deploy.py | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+Using "cp -av --no-preserve=ownership" is a slightly cleaner solution.
 
-diff --git a/scripts/lib/devtool/deploy.py b/scripts/lib/devtool/deploy.py
-index b3730ae833..af367d2985 100644
---- a/scripts/lib/devtool/deploy.py
-+++ b/scripts/lib/devtool/deploy.py
-@@ -119,7 +119,10 @@ def _prepare_remote_script(deploy, verbose=False, dryrun=False, undeployall=Fals
-         # Put any preserved files back
-         lines.append('if [ -d $preservedir ] ; then')
-         lines.append('    cd $preservedir')
--        lines.append('    find . -type f -exec mv {} /{} \;')
-+        lines.append('    find . -type f | while read file')
-+        lines.append('    do')
-+        lines.append('        mv $file /$file')
-+        lines.append('    done')
-         lines.append('    cd /')
-         lines.append('    rm -rf $preservedir')
-         lines.append('fi')
--- 
-2.13.0
-
+> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+> ---
+>  meta/recipes-core/coreutils/coreutils_8.27.bb       | 2 +-
+>  meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.4.bb | 4 ++--
+>  meta/recipes-extended/mdadm/mdadm_4.0.bb            | 2 +-
+>  3 files changed, 4 insertions(+), 4 deletions(-)
+>
+> diff --git a/meta/recipes-core/coreutils/coreutils_8.27.bb b/meta/recipes-core/coreutils/coreutils_8.27.bb
+> index 667e0af560..ea8740a2d1 100644
+> --- a/meta/recipes-core/coreutils/coreutils_8.27.bb
+> +++ b/meta/recipes-core/coreutils/coreutils_8.27.bb
+> @@ -99,7 +99,7 @@ do_install_append() {
+>         install -t ${D}/${mandir}/man1 ${S}/man/*.1
+>         # prebuilt man pages don't do a separate man page for [ vs test.
+>         # see comment above r.e. sed and update-alternatives
+> -       cp -a ${D}${mandir}/man1/test.1 ${D}${mandir}/man1/lbracket.1.${BPN}
+> +       cp -R --no-dereference --preserve=mode,links -v ${D}${mandir}/man1/test.1 ${D}${mandir}/man1/lbracket.1.${BPN}
+>  }
+>
+>  inherit update-alternatives
+> diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.4.bb b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.4.bb
+> index 5216c7027c..7c8809a41e 100644
+> --- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.4.bb
+> +++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.4.bb
+> @@ -106,7 +106,7 @@ do_compile_ptest() {
+>  }
+>
+>  do_install_ptest() {
+> -       cp -a ${B}/tests ${D}${PTEST_PATH}/test
+> -       cp -a ${S}/tests/* ${D}${PTEST_PATH}/test
+> +       cp -R --no-dereference --preserve=mode,links -v ${B}/tests ${D}${PTEST_PATH}/test
+> +       cp -R --no-dereference --preserve=mode,links -v ${S}/tests/* ${D}${PTEST_PATH}/test
+>         sed -e 's!../e2fsck/e2fsck!e2fsck!g' -i ${D}${PTEST_PATH}/test/*/expect*
+>  }
+> diff --git a/meta/recipes-extended/mdadm/mdadm_4.0.bb b/meta/recipes-extended/mdadm/mdadm_4.0.bb
+> index 98a10a8b15..506b0bc315 100644
+> --- a/meta/recipes-extended/mdadm/mdadm_4.0.bb
+> +++ b/meta/recipes-extended/mdadm/mdadm_4.0.bb
+> @@ -55,7 +55,7 @@ do_compile_ptest() {
+>  }
+>
+>  do_install_ptest() {
+> -       cp -a ${S}/tests ${D}${PTEST_PATH}/tests
+> +       cp -R --no-dereference --preserve=mode,links -v ${S}/tests ${D}${PTEST_PATH}/tests
+>         cp ${S}/test ${D}${PTEST_PATH}
+>         sed -e 's!sleep 0.*!sleep 1!g; s!/var/tmp!/!g' -i ${D}${PTEST_PATH}/test
+>         ln -s ${base_sbindir}/mdadm ${D}${PTEST_PATH}/mdadm
+> --
+> 2.13.0
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
