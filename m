@@ -1,28 +1,47 @@
-Return-Path: <maxin.john@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id CC937780B0
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-qt0-f170.google.com (mail-qt0-f170.google.com
+	[209.85.216.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 1495378062
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 31 May 2017 11:39:38 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	31 May 2017 04:39:40 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.38,423,1491289200"; d="scan'208";a="1176493837"
-Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga002.fm.intel.com with ESMTP; 31 May 2017 04:39:40 -0700
-Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
-	[10.237.72.84])
-	by linux.intel.com (Postfix) with ESMTP id D746A580244
+	Wed, 31 May 2017 12:17:06 +0000 (UTC)
+Received: by mail-qt0-f170.google.com with SMTP id f55so10159905qta.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 31 May 2017 04:39:38 -0700 (PDT)
-From: "Maxin B. John" <maxin.john@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 31 May 2017 14:39:36 +0300
-Message-Id: <1496230776-38517-3-git-send-email-maxin.john@intel.com>
-X-Mailer: git-send-email 2.4.0
-In-Reply-To: <1496230776-38517-1-git-send-email-maxin.john@intel.com>
-References: <1496230776-38517-1-git-send-email-maxin.john@intel.com>
-Subject: [PATCH 3/3] pkgconfig: upgrade 0.29.1 -> 0.29.2
+	Wed, 31 May 2017 05:17:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=M0bytIhRN9KiALMk8AKW0y0Pnz7Bu2JkScbAD6wV5fs=;
+	b=omMUE0ELO17J+5HuluTxqhRj7aGiupu5ALDmVs/n4agbSe4kdQbhU9aWNss0epRORi
+	/qmKpYVXaCjpqLdmWbkfAqpTzXPgFv3PVAE4MUL/R0MUOU4mJk/cm/PIQaurZ/UnBCSf
+	Nn0zUM7NeatsV6eRF3Fuf5o0RcdFgtwHdp7jiVnanV7OnbvQPYCFlwOXuA1JVKlLgHsi
+	DlXSekgDwtVMi6Z5k0C91YhmgFbhnZWWsiOdR1B6nuyoKNXcYu9A8yZ9TGCv/cIVMS8s
+	VsA8/Km28bd/idlOT+BNHDy7bTe7WBbRQLFj1kv/z3x51cilYou0g5GKvbzcGb4re3p+
+	MXkg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=M0bytIhRN9KiALMk8AKW0y0Pnz7Bu2JkScbAD6wV5fs=;
+	b=YOGyU9gD0UpoppcVMQZOn+T8IZp1ZNyTqaQc1Ygmx0HZvsociFzwgOAHPbpMbnaTww
+	6Q9Fq01u+TFxdfQcwuTweIDgYuTNJppHhbt4qOV5o76WUQSBrYJzp932DsmaSuy3RnVc
+	UOWdKq0RnCVFz3xJrYJY53wfshw5VC7NCor2P8KuaXXglY3XD9byi5gb/t7LUveAQ9Fm
+	rvm/fBoXStkxhg5eLGou0kxPDJ5j+aUP3ncJavSeW34xpmUxLh+nBXR3dr/xgsXTvH9l
+	+gAdEYDBKEmis0UNCpjspri+61AXhICMdF0qMFghO04/zXJJ7cOpCITLFyAnJFBjB2Ae
+	A6vg==
+X-Gm-Message-State: AODbwcB6PP6o3XpV31oL5IGqt0z6yYaAPXN7ziKh2r2Sgw1+XCDeM+JH
+	qjy+3GplYhA634slrlEAKj2bywk5iQ==
+X-Received: by 10.200.55.103 with SMTP id p36mr27838498qtb.64.1496233027819;
+	Wed, 31 May 2017 05:17:07 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.12.182.109 with HTTP; Wed, 31 May 2017 05:17:07 -0700 (PDT)
+In-Reply-To: <CAPoQQ-1uznmcUSkXs3iLYyK-Bm8gDaT5de_Bi-jF4Su6+KjKvw@mail.gmail.com>
+References: <20170530211436.16397-1-dev@codyps.com>
+	<CAPoQQ-1uznmcUSkXs3iLYyK-Bm8gDaT5de_Bi-jF4Su6+KjKvw@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Wed, 31 May 2017 08:17:07 -0400
+Message-ID: <CADkTA4MoY27QPks7oJVP-tfs1+Yr1yY9StmXToNT5Rrs9mYJAA@mail.gmail.com>
+To: Cody P Schafer <dev@codyps.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] runqemu-export-rootfs: don't change RPC ports
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,84 +54,113 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 31 May 2017 11:39:39 -0000
+X-List-Received-Date: Wed, 31 May 2017 12:17:07 -0000
+Content-Type: multipart/alternative; boundary="001a1142662a1fdeef0550d0e627"
 
-Remove backported patch:
-1. 0001-gdate-Move-warning-pragma-outside-of-function.patch
+--001a1142662a1fdeef0550d0e627
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Maxin B. John <maxin.john@intel.com>
----
- ...e-Move-warning-pragma-outside-of-function.patch | 39 ----------------------
- meta/recipes-devtools/pkgconfig/pkgconfig_git.bb   |  5 ++-
- 2 files changed, 2 insertions(+), 42 deletions(-)
- delete mode 100644 meta/recipes-devtools/pkgconfig/pkgconfig/0001-gdate-Move-warning-pragma-outside-of-function.patch
+On Wed, May 31, 2017 at 1:04 AM, Cody P Schafer <dev@codyps.com> wrote:
 
-diff --git a/meta/recipes-devtools/pkgconfig/pkgconfig/0001-gdate-Move-warning-pragma-outside-of-function.patch b/meta/recipes-devtools/pkgconfig/pkgconfig/0001-gdate-Move-warning-pragma-outside-of-function.patch
-deleted file mode 100644
-index 14c8293..0000000
---- a/meta/recipes-devtools/pkgconfig/pkgconfig/0001-gdate-Move-warning-pragma-outside-of-function.patch
-+++ /dev/null
-@@ -1,39 +0,0 @@
--From 946d36266d8a30f04fe34d3183bf4929141934d2 Mon Sep 17 00:00:00 2001
--From: coypu <coypu@sdf.org>
--Date: Wed, 2 Mar 2016 19:38:48 +0200
--Subject: [PATCH] gdate: Move warning pragma outside of function
--
--Commit 0817af40e8c74c721c30f6ef482b1f53d12044c7 breaks the build on
--older versions of GCC, which don't allow pragma inside functions.
--
--https://bugzilla.gnome.org/761550
-----
--Upstream-Status: Backport
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
--
-- glib/glib/gdate.c | 5 +++++
-- 1 file changed, 5 insertions(+)
--
--diff --git a/glib/glib/gdate.c b/glib/glib/gdate.c
--index 1978cf7..20e6c4a 100644
----- a/glib/glib/gdate.c
--+++ b/glib/glib/gdate.c
--@@ -2439,6 +2439,9 @@ win32_strftime_helper (const GDate     *d,
--  *
--  * Returns: number of characters written to the buffer, or 0 the buffer was too small
--  */
--+#pragma GCC diagnostic push
--+#pragma GCC diagnostic ignored "-Wformat-nonliteral"
--+
-- gsize     
-- g_date_strftime (gchar       *s, 
--                  gsize        slen, 
--@@ -2549,3 +2552,5 @@ g_date_strftime (gchar       *s,
--   return retval;
-- #endif
-- }
--+
--+#pragma GCC diagnostic pop
---- 
--1.9.1
--
-diff --git a/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb b/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb
-index dc44992..e634021 100644
---- a/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb
-+++ b/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb
-@@ -8,13 +8,12 @@ SECTION = "console/utils"
- LICENSE = "GPLv2+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
- 
--SRCREV = "87152c05be88ca8be71a3a563f275b3686d32c28"
--PV = "0.29.1+git${SRCPV}"
-+SRCREV = "edf8e6f0ea77ede073f07bff0d2ae1fc7a38103b"
-+PV = "0.29.2+git${SRCPV}"
- 
- SRC_URI = "git://anongit.freedesktop.org/pkg-config \
-            file://pkg-config-native.in \
-            file://fix-glib-configure-libtool-usage.patch \
--           file://0001-gdate-Move-warning-pragma-outside-of-function.patch \
-            file://0001-glib-gettext.m4-Update-AM_GLIB_GNU_GETTEXT-to-match-.patch \
-            "
- 
+> > The result of this is that trying to mount filesystems exported by
+> > runqemu-export-rootfs in modern kernels (at least in 4.2 and later, and
+> > probably more like 2.6.20 and later) doesn't actually work.
+>
+> To clarify, when using nfsroot with the current kernel & unfsd
+> options, my boot stops, waits for the nfs root to appear, and then
+> times out. When trying to mount normally (ie: via `mount -t nfs` of a
+> very recent vintage in arch-linux), I get immediate "protocol family
+> not supported" errors.
+>
+> With this change, both mount methods (nfsroot with new kernel options
+> and normally mount) work without issue.
+>
+> > I'm honestly not sure how anyone was using this for nfsroot support.
+> > Maybe an initramfs with a version of nfs-utils that could handle the
+> > mountprog/nfsprog option was in use? Not sure.
+>
+> Or is there some yocto kernel patch to enable support for it? I'm
+> running a custom kernel.
+>
+
+
+There's a patch that we've had for years to allow alternate RPC ports
+to work with userspace NFS and co-exist with existing NFS servers.
+
+This would have an impact on that functionality, so if we do need to
+change those ports, the existing ones should be maintained with some
+sort of option to change the nfsroot line.
+
+Bruce
+
+
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+
+
+
 -- 
-2.4.0
+"Thou shalt not follow the NULL pointer, for chaos and madness await thee
+at its end"
 
+--001a1142662a1fdeef0550d0e627
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
+te">On Wed, May 31, 2017 at 1:04 AM, Cody P Schafer <span dir=3D"ltr">&lt;<=
+a href=3D"mailto:dev@codyps.com" target=3D"_blank">dev@codyps.com</a>&gt;</=
+span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8e=
+x;border-left:1px #ccc solid;padding-left:1ex"><span class=3D"">&gt; The re=
+sult of this is that trying to mount filesystems exported by<br>
+&gt; runqemu-export-rootfs in modern kernels (at least in 4.2 and later, an=
+d<br>
+&gt; probably more like 2.6.20 and later) doesn&#39;t actually work.<br>
+<br>
+</span>To clarify, when using nfsroot with the current kernel &amp; unfsd<b=
+r>
+options, my boot stops, waits for the nfs root to appear, and then<br>
+times out. When trying to mount normally (ie: via `mount -t nfs` of a<br>
+very recent vintage in arch-linux), I get immediate &quot;protocol family<b=
+r>
+not supported&quot; errors.<br>
+<br>
+With this change, both mount methods (nfsroot with new kernel options<br>
+and normally mount) work without issue.<br>
+<span class=3D""><br>
+&gt; I&#39;m honestly not sure how anyone was using this for nfsroot suppor=
+t.<br>
+&gt; Maybe an initramfs with a version of nfs-utils that could handle the<b=
+r>
+&gt; mountprog/nfsprog option was in use? Not sure.<br>
+<br>
+</span>Or is there some yocto kernel patch to enable support for it? I&#39;=
+m<br>
+running a custom kernel.<br></blockquote><div><br></div><div><br></div><div=
+>There&#39;s a patch that we&#39;ve had for years to allow alternate RPC po=
+rts</div><div>to work with userspace NFS and co-exist with existing NFS ser=
+vers.</div><div><br></div><div>This would have an impact on that functional=
+ity, so if we do need to</div><div>change those ports, the existing ones sh=
+ould be maintained with some</div><div>sort of option to change the nfsroot=
+ line.</div><div><br></div><div>Bruce</div><div>=C2=A0</div><blockquote cla=
+ss=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;pa=
+dding-left:1ex">
+<div class=3D"HOEnZb"><div class=3D"h5">--<br>
+______________________________<wbr>_________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
+re@lists.<wbr>openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
+ailman/listinfo/openembedded-<wbr>core</a><br>
+</div></div></blockquote></div><br><br clear=3D"all"><div><br></div>-- <br>=
+<div class=3D"gmail_signature" data-smartmail=3D"gmail_signature">&quot;Tho=
+u shalt not follow the NULL pointer, for chaos and madness await thee at it=
+s end&quot;</div>
+</div></div>
+
+--001a1142662a1fdeef0550d0e627--
