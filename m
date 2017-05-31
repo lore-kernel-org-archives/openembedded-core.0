@@ -1,55 +1,46 @@
-Return-Path: <twoerner@gmail.com>
-Received: from mail-ua0-f176.google.com (mail-ua0-f176.google.com
-	[209.85.217.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 949B86FF73
+Return-Path: <dev@codyps.com>
+Received: from mail-qt0-f181.google.com (mail-qt0-f181.google.com
+	[209.85.216.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 9CCF26FF73
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 31 May 2017 16:03:06 +0000 (UTC)
-Received: by mail-ua0-f176.google.com with SMTP id y4so12086892uay.2
+	Wed, 31 May 2017 16:07:26 +0000 (UTC)
+Received: by mail-qt0-f181.google.com with SMTP id v27so15864923qtg.2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 31 May 2017 09:03:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	Wed, 31 May 2017 09:07:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=codyps.com; s=google;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=NYGnsvzETzuKa0NOmc3ZjMY5bJDZoE+vzzOKuoC1N+o=;
-	b=tgkdeT2pNDhA8u0GiufIh0mArlYRss4LKQaKtnyZNsm7GjcL7++n739eOQEyPd7epj
-	dr1sX1Hwq33YC5vuNJnCfOA54knbH1Yupde1D4U/t27nn+0Uja7o5NwBut8EeS0iY7dd
-	1fnE6RSZ25GCXehO2GGpqrGQmG4dDLbhBEndKIV02zq8ZZBhHyVvoz88qnsfFPMgkxuE
-	epS0mL4K8tUqgEbHROUxV1qzjjIm5PNmf12BwzOGydBsIA1q2lMQ7TmNgXXwnyHODFmi
-	RvVLkz7D0CAUGeLXtTaX5sT5Iqzr6RQ2FJ3M4PGY/4Pb/mveAjerXgloi8NIcXNyvslf
-	S3gw==
+	:cc; bh=bvtrJXGEHAlJPpK/DInNOgcG8gBuY46yJH4y2avZLcY=;
+	b=H0HLgXvxqZ9xMtHYtm5xpuzGaAftSK62UWCjxE+l7RBTa5UL9ff31zsAhgXCBeIH0z
+	N6I7GqFgByO6OfRxBG5cQLHcHNCWgZFGeGTkuSHaDqmhrnGiG0HntnYbYNxNKDZyoasB
+	ph88GQDJF3pvO9yo1T6RYBZ+6dAR/k6pZ4vl4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=NYGnsvzETzuKa0NOmc3ZjMY5bJDZoE+vzzOKuoC1N+o=;
-	b=jGYaRE0O3unPZ1+UFHgsfNIs9ODzZKl0gp9qIb6sqV+H8U8nT8F0eGJ3QJ++nqVVSO
-	TLSv5IxJUPc9IGWIdKSfo2NHIDlVgIXv1tWCEUMrfxNu/UCQVZwkKtMQ40l4wVUKT70l
-	oQf6M5+xb/ylAqARysCs9bCq1tzIE8q9sXE2RnUZlNqyLdFJdBEhlBs+uX+Qr2QfKS67
-	c3kvP1tbwUWXTliihERRQze1yBN6CMeCw/Q8SM0U3l5Vf1K13qWKpkNVDacW/aHJ5WAy
-	MbKctjfHUvo0mub044WIlbwh9/QV+BS92i6IB24AJ7gm6EsPE+w4v8sQOL0nIYQfOcp0
-	IN/Q==
-X-Gm-Message-State: AODbwcANFrj1KVsGUDH8tjCXCEp6BX11sj+4jOn4qtwYlf8gBvJ+5Ml2
-	zJTAsSK/c/mmqfOZy8IwLNrxeD13wg==
-X-Received: by 10.176.71.25 with SMTP id h25mr13653000uac.140.1496246587325;
-	Wed, 31 May 2017 09:03:07 -0700 (PDT)
+	bh=bvtrJXGEHAlJPpK/DInNOgcG8gBuY46yJH4y2avZLcY=;
+	b=C8Q4JotCvjux+VWIlsbVyR3W3srRiK3vBKJp5wfEfwrF0JfYFaOh+IvldifZaV2NT1
+	KEB2s49C3Y4WmXX7PL89jJJLhrIu81XrxrNzDvR8LngMiuFDXM4uq5psggmWtB78feCm
+	hU+yWdlgZSo1YsKkhOxYIFKnHQ82OpSNy/rJTPu+3gl62SA5sCvnz22vN6hrcraE3/SB
+	HFEKnMEXXCLeGW60oHFHfIUDhcCLzqEd5qWS/Ip6cd8OFNQNCkspNuue7gEcTfII5ihb
+	5IdhNewIm0n63UEXBAoPlQPh5eZCIQtVG7IzQZRO8d8P9/d5EKhurdl0/hYAJSm4Ozgk
+	16zQ==
+X-Gm-Message-State: AODbwcDYeXf0B/NuDxpzNICEgZy999+R6HRJq+zssDJW22PKnlB/xZ7b
+	MhTV2olvVXTkOP3T9UB7sSWLvAfIZu53f24=
+X-Received: by 10.200.41.135 with SMTP id 7mr29601561qts.85.1496246848011;
+	Wed, 31 May 2017 09:07:28 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.103.67.199 with HTTP; Wed, 31 May 2017 09:03:06 -0700 (PDT)
-In-Reply-To: <CAHiDW_EOrrVn+5FzMgGWSZP4=kOFfrWs_fc1bTBBx29a4HiqhQ@mail.gmail.com>
-References: <20170526212248.16374-1-twoerner@gmail.com>
-	<1496100337.25229.147.camel@linuxfoundation.org>
-	<CAHUNapREVWXEaWYDYon8cYByzXcAdEu=_uWMAHCbOjU6VXrghg@mail.gmail.com>
-	<1496130475.25229.160.camel@linuxfoundation.org>
-	<20170530152738.GA24515@linux-uys3>
-	<1496159050.6630.12.camel@linuxfoundation.org>
-	<CAHUNapR0bPQq4qJnzK-ddPzn-m-0FCtVYLDBMsBuLY=eJUgmZg@mail.gmail.com>
-	<1496161149.6630.14.camel@linuxfoundation.org>
-	<CAHiDW_EOrrVn+5FzMgGWSZP4=kOFfrWs_fc1bTBBx29a4HiqhQ@mail.gmail.com>
-From: Trevor Woerner <twoerner@gmail.com>
-Date: Wed, 31 May 2017 12:03:06 -0400
-Message-ID: <CAHUNapRDjjg7cBSe3v1OSmsvQfAX0NmqCNZHpZ4gaO5C4UY-1g@mail.gmail.com>
-To: Jussi Kukkonen <jussi.kukkonen@intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] mesa: potentially enable texture float for gallium
+Received: by 10.12.189.168 with HTTP; Wed, 31 May 2017 09:07:27 -0700 (PDT)
+X-Originating-IP: [72.74.84.52]
+In-Reply-To: <CADkTA4MoY27QPks7oJVP-tfs1+Yr1yY9StmXToNT5Rrs9mYJAA@mail.gmail.com>
+References: <20170530211436.16397-1-dev@codyps.com>
+	<CAPoQQ-1uznmcUSkXs3iLYyK-Bm8gDaT5de_Bi-jF4Su6+KjKvw@mail.gmail.com>
+	<CADkTA4MoY27QPks7oJVP-tfs1+Yr1yY9StmXToNT5Rrs9mYJAA@mail.gmail.com>
+From: Cody P Schafer <dev@codyps.com>
+Date: Wed, 31 May 2017 12:07:27 -0400
+Message-ID: <CAPoQQ-00id+nBQ1_n=b=7RNrixOxPZb_5puOvCFmOspQB=O3rw@mail.gmail.com>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] runqemu-export-rootfs: don't change RPC ports
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,21 +53,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 31 May 2017 16:03:07 -0000
+X-List-Received-Date: Wed, 31 May 2017 16:07:29 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Wed, May 31, 2017 at 3:15 AM, Jussi Kukkonen
-<jussi.kukkonen@intel.com> wrote:
-> On 30 May 2017 at 19:19, Richard Purdie <richard.purdie@linuxfoundation.org>
-> wrote:
->> If someone really wants to enable it, they can drop the patch. I'm open
->> to feedback from others like Ross/Jussi but IMO I think we can accept
->> the degraded piglit results for swrast...
->
-> Sounds like a completely reasonable compromise to me.
+> There's a patch that we've had for years to allow alternate RPC ports
+> to work with userspace NFS and co-exist with existing NFS servers.
 
-Okay, thanks.
+Ah, I see (I should have checked that sooner). "NFS: allow nfs root
+mount to use alternate rpc ports". I can likely just pull that into my
+kernel and have things work fine without changes to
+runqemu-export-rootfs.
 
-It looks like there's a patch in the pipe for mesa.inc, I'll wait
-until that is in place before doing and sending this update.
+> This would have an impact on that functionality, so if we do need to
+> change those ports, the existing ones should be maintained with some
+> sort of option to change the nfsroot line.
+
+Yep, that makes sense.
+
+That said: it isn't completely clear to me that a seperate rpc program
+number (aka RPC port) is needed to avoid conflicts between 2 nfs
+instances in this case:
+
+ - we don't have unfsd register with rpcbind (-p option), so the rpc
+program numbers won't conflict there.
+ - using nfsroot implicitly adds the 'nolock' option, so there isn't a
+conflict there
+ - I did my tests with the nfs kernel server running. There wasn't an
+immdiate issue observed with mounting and accessing both a kernel
+provided export & a unfsd provided export (using
+runqemu-export-rootfs) at the same time.
+
+Still, I'm not too familiar with all of the ins and outs of nfs. Is
+there somewhere I've overlooked where the program numbers could
+conflict?
 
