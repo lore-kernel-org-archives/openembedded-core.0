@@ -1,47 +1,43 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 8D22977794
+Return-Path: <dev@codyps.com>
+Received: from mail-qk0-f194.google.com (mail-qk0-f194.google.com
+	[209.85.220.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 8057F77BEB
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 31 May 2017 04:21:23 +0000 (UTC)
-Received: by mail-wm0-f66.google.com with SMTP id d127so1140065wmf.1
+	Wed, 31 May 2017 05:04:03 +0000 (UTC)
+Received: by mail-qk0-f194.google.com with SMTP id c206so641649qkb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 May 2017 21:21:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	Tue, 30 May 2017 22:04:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=codyps.com; s=google;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=Je1o/Z0+mJUwGbLFv1eddbx6Y9RekLo4vxmEjjnQaUA=;
-	b=Q9+kdlplFWAvlwHQp+XlWp/plSNCEbHJwXy7wABWi6F+zwPXxvc+KCyupjWVDj4ZH+
-	9METB7ZyhxrVqyma1HfV/HcUtNs6KVIRPEDannWYM4Jh+/jSGwouqadOasKXwqEjBfgI
-	ShpCnvvpIMsGhI0X4v8/O4IaysSRa98xCTXsSbj9FPZph/hqW5pXGxC35fyTUn1htDJh
-	/Noc6ZtICLhS8WEZa0M8yX5aAwWMQIsouYv+4x7wfr6HJyXdwhwFj6Ftr2cBnGl3Bfd0
-	nVqDdCuWYkWwDhnUrMkW1EIbYo5PgHdZh42whdzswePMD7bGAP7HdTMzBxGfjz8X+AOs
-	+iJA==
+	:cc; bh=5Vli3iYWYyQFoEGBFBo8r5wFCXPb2eZEeDsc2POR9Ww=;
+	b=DAnEiy6+Rt05YtjUooeBeyfE2M3UmS9i4j3u++ZcFgz+NRWxOpFwj9BXl8ykhJrKM/
+	ncAhdpfyNCjtnh9HFFkKioUAyhMSZP23WUBRpCsthe1aPYF7MVNthKn4bUIgeStRAc/h
+	VyGXMIcgMa2kbphWMC3gRGZwhM3Ckk2mTxW7c=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=Je1o/Z0+mJUwGbLFv1eddbx6Y9RekLo4vxmEjjnQaUA=;
-	b=Gn2L12+2H+wBuUWRLDAzq1++w5xvyGReADrryZQtWPyFoYD8F7EQMQd4iz6nSsuAIy
-	SVBznJkfi160vfFPFXWi/RWKM2KK2Uw3s3+jymccV7BH8OmHTtSzS5ti4qSj68hYBN3r
-	DrQrO0Zl38Fmdf5lFKd0tvQyj8v1eiDO9xTLrOd08PX+eMauKrgqJMFittOcC68JZPt6
-	TWmk/7SmaGRtXSMz60OiAxzRE2eyst/cjAEHINh+2jIJ0EvHm/PgJdcPb94dztv0tUqO
-	FJX8/vc/KDuQl+v4YMJ+7eGMScJhhYwt1MJcAaXB4jDfjXo/aCERS2tG45Bna5Nm5RLB
-	ux5w==
-X-Gm-Message-State: AODbwcAMcQ1ZcC9+RechLuxU8Bz0gq5IdjFy3IB1lwK2DzeUnQtVN651
-	ZWcJ/+RmV+T61SlqA47eBbXP+KPnbsdh
-X-Received: by 10.80.137.56 with SMTP id e53mr19519690ede.67.1496204483904;
-	Tue, 30 May 2017 21:21:23 -0700 (PDT)
+	bh=5Vli3iYWYyQFoEGBFBo8r5wFCXPb2eZEeDsc2POR9Ww=;
+	b=C536INW26htxqyo8Us7A3FSMqnTb7zCUsXM6gvls0ch2cCyCOHCfTsJsq3ZkcaHCfv
+	QuYKC+VgwQWeNs3GwLcXtd6firXeJdSGiWzuomKIYu6uC0HRQEeBtjgB+CECzglF/ZZH
+	L0nQUVoVEqzvYefb+aaeDYj3ZW587Np9DpxE+EIgOlCgBosSsbhRDPoZ9bxWi/5ZNq2y
+	Lm2EpOsHDHR1GBx9Z4B55soY8HfOpRtZyXMGwxUr/zbWfmvqTk9bcV4A+4Zq+Th30l9F
+	MSLIVgpIm3BFPQmqsejulWNvEdx8k74aQiW1GHI0X43FWbyqFug/1/44q6Y2wsDnmYLa
+	qfYA==
+X-Gm-Message-State: AODbwcBeNiBA2iTrS6RpuV9hobfWroW/ZKIOJ9+lgKDUg7algEysOIj8
+	650OF48PtTDmh/nuAo2+Glz1jS2oBWuyY9k=
+X-Received: by 10.55.200.209 with SMTP id t78mr21187163qkl.178.1496207044457; 
+	Tue, 30 May 2017 22:04:04 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.80.195.143 with HTTP; Tue, 30 May 2017 21:20:53 -0700 (PDT)
-In-Reply-To: <CAP9ODKr2pzFF-i5UPch30TZWasYdYzEwTZFgro=Ma-cROdv51w@mail.gmail.com>
-References: <20170530171523.37470-1-raj.khem@gmail.com>
-	<CAP9ODKr2pzFF-i5UPch30TZWasYdYzEwTZFgro=Ma-cROdv51w@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 30 May 2017 21:20:53 -0700
-Message-ID: <CAMKF1sp09ghfm4F2Qf1tfQgZxLV0GQi1_AFTP0ie_sSms+OjoA@mail.gmail.com>
-To: Otavio Salvador <otavio.salvador@ossystems.com.br>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/3] gstreamer1.0-plugins-bad: Fix missing library with bcm egl
+Received: by 10.12.189.168 with HTTP; Tue, 30 May 2017 22:04:03 -0700 (PDT)
+X-Originating-IP: [2601:190:67f:ebb9:65c6:5dd6:daeb:67d1]
+In-Reply-To: <20170530211436.16397-1-dev@codyps.com>
+References: <20170530211436.16397-1-dev@codyps.com>
+From: Cody P Schafer <dev@codyps.com>
+Date: Wed, 31 May 2017 01:04:03 -0400
+Message-ID: <CAPoQQ-1uznmcUSkXs3iLYyK-Bm8gDaT5de_Bi-jF4Su6+KjKvw@mail.gmail.com>
+To: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] runqemu-export-rootfs: don't change RPC ports
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,27 +50,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 31 May 2017 04:21:24 -0000
+X-List-Received-Date: Wed, 31 May 2017 05:04:04 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Tue, May 30, 2017 at 7:25 PM, Otavio Salvador
-<otavio.salvador@ossystems.com.br> wrote:
-> On Tue, May 30, 2017 at 2:15 PM, Khem Raj <raj.khem@gmail.com> wrote:
->> userland graphics driver provided libegl for rpi depends upon
->> symbols from vchostif library, therefore add it to linker cmdline
->>
->> helps with loadng gst-gl plugins on rpi
->>
->> Signed-off-by: Khem Raj <raj.khem@gmail.com>
->
-> Has it been send upstream?
->
+> The result of this is that trying to mount filesystems exported by
+> runqemu-export-rootfs in modern kernels (at least in 4.2 and later, and
+> probably more like 2.6.20 and later) doesn't actually work.
 
-not yet, there is another patch to userland which needs to be upstreamed
-first. http://git.yoctoproject.org/cgit/cgit.cgi/meta-raspberrypi/tree/recipes-graphics/userland/userland/0011-build-shared-library-for-vchostif.patch
->
-> --
-> Otavio Salvador                             O.S. Systems
-> http://www.ossystems.com.br        http://code.ossystems.com.br
-> Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+To clarify, when using nfsroot with the current kernel & unfsd
+options, my boot stops, waits for the nfs root to appear, and then
+times out. When trying to mount normally (ie: via `mount -t nfs` of a
+very recent vintage in arch-linux), I get immediate "protocol family
+not supported" errors.
+
+With this change, both mount methods (nfsroot with new kernel options
+and normally mount) work without issue.
+
+> I'm honestly not sure how anyone was using this for nfsroot support.
+> Maybe an initramfs with a version of nfs-utils that could handle the
+> mountprog/nfsprog option was in use? Not sure.
+
+Or is there some yocto kernel patch to enable support for it? I'm
+running a custom kernel.
 
