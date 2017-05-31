@@ -1,25 +1,47 @@
-Return-Path: <francisco.j.pedraza.gonzalez@intel.com>
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id DAFD660191
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 8D22977794
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 31 May 2017 03:38:18 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga104.jf.intel.com with ESMTP; 30 May 2017 20:38:19 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.38,421,1491289200"; d="scan'208";a="862986394"
-Received: from linux.intel.com ([10.54.29.200])
-	by FMSMGA003.fm.intel.com with ESMTP; 30 May 2017 20:38:19 -0700
-Received: from yocto-ab03.ostc.intel.com (yocto-ab03.ostc.intel.com
-	[10.54.69.73])
-	by linux.intel.com (Postfix) with ESMTP id 995AD58038B;
-	Tue, 30 May 2017 20:38:18 -0700 (PDT)
-From: Francisco Pedraza <francisco.j.pedraza.gonzalez@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 30 May 2017 20:38:17 -0700
-Message-Id: <1496201897-48058-1-git-send-email-francisco.j.pedraza.gonzalez@intel.com>
-X-Mailer: git-send-email 1.8.3.1
-Cc: Francisco Pedraza <francisco.j.pedraza.gonzalez@intel.com>
-Subject: [PATCH v2] oeqa/selftest: Adds verification for the integrity compressed images
+	Wed, 31 May 2017 04:21:23 +0000 (UTC)
+Received: by mail-wm0-f66.google.com with SMTP id d127so1140065wmf.1
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 30 May 2017 21:21:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=Je1o/Z0+mJUwGbLFv1eddbx6Y9RekLo4vxmEjjnQaUA=;
+	b=Q9+kdlplFWAvlwHQp+XlWp/plSNCEbHJwXy7wABWi6F+zwPXxvc+KCyupjWVDj4ZH+
+	9METB7ZyhxrVqyma1HfV/HcUtNs6KVIRPEDannWYM4Jh+/jSGwouqadOasKXwqEjBfgI
+	ShpCnvvpIMsGhI0X4v8/O4IaysSRa98xCTXsSbj9FPZph/hqW5pXGxC35fyTUn1htDJh
+	/Noc6ZtICLhS8WEZa0M8yX5aAwWMQIsouYv+4x7wfr6HJyXdwhwFj6Ftr2cBnGl3Bfd0
+	nVqDdCuWYkWwDhnUrMkW1EIbYo5PgHdZh42whdzswePMD7bGAP7HdTMzBxGfjz8X+AOs
+	+iJA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=Je1o/Z0+mJUwGbLFv1eddbx6Y9RekLo4vxmEjjnQaUA=;
+	b=Gn2L12+2H+wBuUWRLDAzq1++w5xvyGReADrryZQtWPyFoYD8F7EQMQd4iz6nSsuAIy
+	SVBznJkfi160vfFPFXWi/RWKM2KK2Uw3s3+jymccV7BH8OmHTtSzS5ti4qSj68hYBN3r
+	DrQrO0Zl38Fmdf5lFKd0tvQyj8v1eiDO9xTLrOd08PX+eMauKrgqJMFittOcC68JZPt6
+	TWmk/7SmaGRtXSMz60OiAxzRE2eyst/cjAEHINh+2jIJ0EvHm/PgJdcPb94dztv0tUqO
+	FJX8/vc/KDuQl+v4YMJ+7eGMScJhhYwt1MJcAaXB4jDfjXo/aCERS2tG45Bna5Nm5RLB
+	ux5w==
+X-Gm-Message-State: AODbwcAMcQ1ZcC9+RechLuxU8Bz0gq5IdjFy3IB1lwK2DzeUnQtVN651
+	ZWcJ/+RmV+T61SlqA47eBbXP+KPnbsdh
+X-Received: by 10.80.137.56 with SMTP id e53mr19519690ede.67.1496204483904;
+	Tue, 30 May 2017 21:21:23 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.80.195.143 with HTTP; Tue, 30 May 2017 21:20:53 -0700 (PDT)
+In-Reply-To: <CAP9ODKr2pzFF-i5UPch30TZWasYdYzEwTZFgro=Ma-cROdv51w@mail.gmail.com>
+References: <20170530171523.37470-1-raj.khem@gmail.com>
+	<CAP9ODKr2pzFF-i5UPch30TZWasYdYzEwTZFgro=Ma-cROdv51w@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 30 May 2017 21:20:53 -0700
+Message-ID: <CAMKF1sp09ghfm4F2Qf1tfQgZxLV0GQi1_AFTP0ie_sSms+OjoA@mail.gmail.com>
+To: Otavio Salvador <otavio.salvador@ossystems.com.br>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/3] gstreamer1.0-plugins-bad: Fix missing library with bcm egl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,72 +54,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 31 May 2017 03:38:19 -0000
+X-List-Received-Date: Wed, 31 May 2017 04:21:24 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Added verification for images compression divided in 3 steps.
-1. Add IMAGE_FSTYPES += "[type(s)]" to ~/conf/local.conf
-2. Build a "core-image-minimal" using this configuration.
-3. Verify that the image compressed file is present in rootfs directory.
-YOCTO[#10745]
+On Tue, May 30, 2017 at 7:25 PM, Otavio Salvador
+<otavio.salvador@ossystems.com.br> wrote:
+> On Tue, May 30, 2017 at 2:15 PM, Khem Raj <raj.khem@gmail.com> wrote:
+>> userland graphics driver provided libegl for rpi depends upon
+>> symbols from vchostif library, therefore add it to linker cmdline
+>>
+>> helps with loadng gst-gl plugins on rpi
+>>
+>> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+>
+> Has it been send upstream?
+>
 
-Signed-off-by: Francisco Pedraza <francisco.j.pedraza.gonzalez@intel.com>
----
- meta/lib/oeqa/selftest/runtime-test.py | 44 ++++++++++++++++++++++++++++++++++
- 1 file changed, 44 insertions(+)
-
-diff --git a/meta/lib/oeqa/selftest/runtime-test.py b/meta/lib/oeqa/selftest/runtime-test.py
-index 13a4c03..4c5e7cc 100644
---- a/meta/lib/oeqa/selftest/runtime-test.py
-+++ b/meta/lib/oeqa/selftest/runtime-test.py
-@@ -236,3 +236,47 @@ postinst-delayed-t \
-                     sshargs = '-o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no'
-                     result = runCmd('ssh %s root@%s %s' % (sshargs, qemu.ip, testcommand))
-                     self.assertEqual(result.status, 0, 'File %s was not created at firts boot'% fileboot_name)
-+
-+class GeneratedImages(oeSelfTest):
-+    @testcase(1845)
-+    def test_integrity_compressed_images(self):
-+        """
-+        Summary: The purpose of this test is to verify the correct behavior of all the available images compression.
-+        Bugzilla ID: [10745]
-+        Steps:
-+            1. Add IMAGE_FSTYPES += "[type(s)]" to ~/conf/local.conf
-+            2. Build a "core-image-minimal" using this configuration.
-+            3. Verify that the image compressed file is present in rootfs directory.
-+        """
-+        # Step 1 Add configuration to conf/local.conf
-+        features = 'btrfs ' + \
-+'cpio cpio.gz cpio.lz4 cpio.lzma cpio.xz ' + \
-+'cramfs ' + \
-+'elf ' + \
-+'ext2 ext2.bz2 ext2.gz ext2.lzma ext3 ext3.gz ext4 ext4.gz ' + \
-+'hdddirect hddimg ' + \
-+'iso ' + \
-+'jffs2 jffs2.sum ' + \
-+'multiubi ' + \
-+'qcow2 ' + \
-+'squashfs squashfs-lzo squashfs-xz ' + \
-+'tar tar.bz2 tar.gz tar.lz4 tar.xz ' + \
-+'ubi ubifs ' + \
-+'vdi ' + \
-+'vmdk ' + \
-+'wic wic.bz2 wic.gz wic.lzma ' 
-+        features_list = features.split()
-+        self.write_config('IMAGE_FSTYPES = "%s"' % features)
-+        # Setp 2 Compile.
-+        build = 'core-image-minimal'
-+        bitbake(build)
-+        for image_feature in features_list:
-+            # Step 3 Verify compressed images are present in rottfs directory.
-+            need_vars = ['DEPLOY_DIR_IMAGE','MACHINE']
-+            bb_vars = get_bb_vars(need_vars, 'core-image-minimal')
-+            deploy_dir_image = bb_vars['DEPLOY_DIR_IMAGE']
-+            machine = bb_vars['MACHINE']
-+            compressed_file = "%s-%s.%s" % (build, machine, image_feature)
-+            complete_path = os.path.join(deploy_dir_image, compressed_file)
-+            msg = "Couldn't find compressed file: %s" % complete_path
-+            self.assertEqual(os.path.isfile(complete_path), True, msg)
--- 
-1.8.3.1
-
+not yet, there is another patch to userland which needs to be upstreamed
+first. http://git.yoctoproject.org/cgit/cgit.cgi/meta-raspberrypi/tree/recipes-graphics/userland/userland/0011-build-shared-library-for-vchostif.patch
+>
+> --
+> Otavio Salvador                             O.S. Systems
+> http://www.ossystems.com.br        http://code.ossystems.com.br
+> Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
