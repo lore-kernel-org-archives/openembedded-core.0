@@ -1,61 +1,62 @@
 Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-wr0-f177.google.com (mail-wr0-f177.google.com
-	[209.85.128.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 7B98972F67
+Received: from mail-wm0-f45.google.com (mail-wm0-f45.google.com [74.125.82.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 913F178044
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 31 May 2017 02:25:54 +0000 (UTC)
-Received: by mail-wr0-f177.google.com with SMTP id j27so1194607wre.3
+	Wed, 31 May 2017 02:26:55 +0000 (UTC)
+Received: by mail-wm0-f45.google.com with SMTP id 7so105375472wmo.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 May 2017 19:25:55 -0700 (PDT)
+	Tue, 30 May 2017 19:26:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
 	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
-	:cc; bh=1uVCvWa4ANVWAVkFVQ6FVSGegJspNl0sXMd1IG1hqO8=;
-	b=EOqGGmU27SO0aYVMQfVS3oxhfH6Dr55Epx35OHY9RVKCC1r1P9ZpqAIObzPLALFtwa
-	ouS7pnrsBCAbJwvG54jk8aJOIVPXG+DHgSHD0x8gO+6Vags0h81fDxFJnEBGYrvLUPcM
-	drjrZBJs67l1JLAX0dChBj3TrH66tvZzBmrxPBjJW2ag7Gm/Hio187TV9hFi5AVqK6OK
-	6CavQ7OFMEiAV/sSUoPvAhZDTQ79DAQqaP9CplR5Wu3kdoOX/mosbvFrYuAMD2nLKQIK
-	SUi0iGiHXXQ5Kv4al8CqDy9/cJegoLDy1tG/Tm/fRlHIGyuJAFTgv27CviPHDkt1K5Sr
-	vbzQ==
+	:cc; bh=9PtL7kAJYXBbKoKei30hDt2J6oyjWys40jF2ygKQ2c0=;
+	b=hpskjxvnQYp8Wh2wP06nJz22aEWPXTbshzNTuUtTeYXLmaWtBquUuxXsadnJJiU2fo
+	dmmdyrV0LuVPS4V6amW2c3IGqIMOngoGOjbeo6YNWP0sqdrXHF51mtQvEePnFJNstOYB
+	dMuS6vfP8gCor8TV5gbyrPpgV0l/ZWalmzuzJERDgL1EllXIUTm4MDqwSK9r1ZJFLMZo
+	9Vbg7YXH+G1MS1cdrE+vUz/ixPy4KVpnLeCmOawH5haEv12HVAdhxnSsRsP+JSeTq5Yc
+	T3sWi6ASMhGbjqteE/GcPuvp1JJWP1IiYX/VNI63OwKbajDIUKnSuHyPT721WyBJ8dOD
+	8M2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
 	:message-id:subject:to:cc;
-	bh=1uVCvWa4ANVWAVkFVQ6FVSGegJspNl0sXMd1IG1hqO8=;
-	b=kfS0oKuTa5K1/bsIcXOcJpwHggF62CUeLYnauznMM1iTIgm0+49JpxRB5BLeLtBu5x
-	XesnmiU4UYC94sUUlwojTOG6a/W0wAwFMM+plhCysHlAyEx1b/sZ29j4kTNTgE6hPSMv
-	0h4CxzkRNWTjmcr5nCf5Ns8QZtdOZqEK8hF5PFsRRun7LLUM9xlWzgZkuUazBY27gb7c
-	2JkwJz9Quf5cULZJMFm66a+cO28uIVSmx2ELRQI0C9/lOzeYVD/dr3LWc/Sb7ltV7Pbx
-	jyPnYbb+/KkL6psCwk6nw4oZBEeh5YSO2yEHw70uUzKVF61gAN8Mis8Zk7K3s2lTPLn9
-	5o3Q==
-X-Gm-Message-State: AODbwcA+Vv+pWeDUuMiFAG52pCYjpowuiflLvKdfDXgHin6JHEOrVF/T
-	wlZqEjh11jIv6b/cpOk=
-X-Received: by 10.223.139.72 with SMTP id v8mr15907195wra.13.1496197554661;
-	Tue, 30 May 2017 19:25:54 -0700 (PDT)
-Received: from mail-wr0-f175.google.com (mail-wr0-f175.google.com.
-	[209.85.128.175])
-	by smtp.gmail.com with ESMTPSA id 8sm13370344wrb.55.2017.05.30.19.25.53
+	bh=9PtL7kAJYXBbKoKei30hDt2J6oyjWys40jF2ygKQ2c0=;
+	b=Xt+w9+qQXjrFwpUep5GdSxMjSinR6akHZiPtTUPg65Hf+6vrIRq8xmticdbgFKvR28
+	TgcHPFvARwq49gDsbxltNjTE+f1f4hJuoDaKR6jwiFJ3XJhoz66Ef5flceiSQ76jsRfL
+	6vF56MLKzYB18sme/dQ3EHSt1fYrDt07b3gAh9wkfVQw2dzY2V8YaR1vTSc3GjF2ZSjF
+	C1SJ9F+xAZ+i4CBLqiKJ09SPA8rQRVX/kAFaYfdB9ZDFzzYMUBJ0mrciH1dEIAlBMqjK
+	Ha2tN2zIwGbNn4lMvJDWwUa1JpXijUZhHbrxwt0F5rX35RGSnQuc4dRlz8sGm5gzzyEs
+	MmHg==
+X-Gm-Message-State: AODbwcBbxkYiWRln0QqG56VSmOrQpcX+noER+6K51Q0pmBGm8C5Hu8GJ
+	BQGBAHKGRAM3f04TWx0=
+X-Received: by 10.28.175.84 with SMTP id y81mr3907594wme.25.1496197616211;
+	Tue, 30 May 2017 19:26:56 -0700 (PDT)
+Received: from mail-wm0-f43.google.com (mail-wm0-f43.google.com.
+	[74.125.82.43])
+	by smtp.gmail.com with ESMTPSA id 63sm22620844wmt.9.2017.05.30.19.26.55
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 30 May 2017 19:25:53 -0700 (PDT)
+	Tue, 30 May 2017 19:26:55 -0700 (PDT)
 From: Otavio Salvador <otavio.salvador@ossystems.com.br>
 X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-wr0-f175.google.com with SMTP id j27so1194472wre.3
+Received: by mail-wm0-f43.google.com with SMTP id e127so4903334wmg.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 May 2017 19:25:53 -0700 (PDT)
-X-Received: by 10.223.164.137 with SMTP id g9mr5507153wrb.128.1496197553694;
-	Tue, 30 May 2017 19:25:53 -0700 (PDT)
+	Tue, 30 May 2017 19:26:55 -0700 (PDT)
+X-Received: by 10.28.208.130 with SMTP id h124mr3798900wmg.21.1496197614954;
+	Tue, 30 May 2017 19:26:54 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.28.236.75 with HTTP; Tue, 30 May 2017 19:25:52 -0700 (PDT)
-In-Reply-To: <20170530171523.37470-1-raj.khem@gmail.com>
-References: <20170530171523.37470-1-raj.khem@gmail.com>
-Date: Tue, 30 May 2017 23:25:52 -0300
-X-Gmail-Original-Message-ID: <CAP9ODKr2pzFF-i5UPch30TZWasYdYzEwTZFgro=Ma-cROdv51w@mail.gmail.com>
-Message-ID: <CAP9ODKr2pzFF-i5UPch30TZWasYdYzEwTZFgro=Ma-cROdv51w@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Patches and discussions about the oe-core layer
+Received: by 10.28.236.75 with HTTP; Tue, 30 May 2017 19:26:54 -0700 (PDT)
+In-Reply-To: <ee1c6e65-f2f1-4873-48ed-0b5e57f293ef@intel.com>
+References: <1495474501-10841-1-git-send-email-california.l.sullivan@intel.com>
+	<ee1c6e65-f2f1-4873-48ed-0b5e57f293ef@intel.com>
+Date: Tue, 30 May 2017 23:26:54 -0300
+X-Gmail-Original-Message-ID: <CAP9ODKp_tF7sxJBH7zn+qycX3k6_6rD2vQvQ4uV=P1VyrTZRAQ@mail.gmail.com>
+Message-ID: <CAP9ODKp_tF7sxJBH7zn+qycX3k6_6rD2vQvQ4uV=P1VyrTZRAQ@mail.gmail.com>
+To: Cal Sullivan <california.l.sullivan@intel.com>
+Cc: "akuster@mvista" <akuster@mvista.com>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/3] gstreamer1.0-plugins-bad: Fix missing library with bcm egl
+Subject: Re: [PATCH] systemd-boot.bbclass: Add configuration data to secondary EFI partition
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -68,19 +69,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 31 May 2017 02:25:54 -0000
+X-List-Received-Date: Wed, 31 May 2017 02:26:56 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Tue, May 30, 2017 at 2:15 PM, Khem Raj <raj.khem@gmail.com> wrote:
-> userland graphics driver provided libegl for rpi depends upon
-> symbols from vchostif library, therefore add it to linker cmdline
->
-> helps with loadng gst-gl plugins on rpi
->
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+On Tue, May 30, 2017 at 9:10 PM, Cal Sullivan
+<california.l.sullivan@intel.com> wrote:
+> It looks like this was accepted on master. Would it be possible to backport
+> this fix to pyro as well?
 
-Has it been send upstream?
 
+I support this backport as well.
 
 -- 
 Otavio Salvador                             O.S. Systems
