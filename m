@@ -1,26 +1,24 @@
-Return-Path: <Jackie.Huang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id E731677FF6
+Return-Path: <Yuanjie.Huang@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 3CA8677FED
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 31 May 2017 08:27:26 +0000 (UTC)
+	Wed, 31 May 2017 08:38:03 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v4V8RRGK025535
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v4V8c1Jr029445
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 31 May 2017 01:27:28 -0700 (PDT)
-Received: from pek-hostel-deb01.wrs.com (128.224.153.151) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.294.0; Wed, 31 May 2017 01:27:27 -0700
-From: <jackie.huang@windriver.com>
+	Wed, 31 May 2017 01:38:03 -0700
+Received: from ala-lpd-susbld2.wrs.com (147.11.105.122) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.294.0; Wed, 31 May 2017 01:37:59 -0700
+From: Yuanjie Huang <yuanjie.huang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 31 May 2017 16:27:17 +0800
-Message-ID: <666f53fd87d3e05a819fad3d1667c6b5393ed317.1496218782.git.jackie.huang@windriver.com>
+Date: Wed, 31 May 2017 01:37:57 -0700
+Message-ID: <20170531083759.115702-1-yuanjie.huang@windriver.com>
 X-Mailer: git-send-email 2.11.0
-In-Reply-To: <cover.1496218782.git.jackie.huang@windriver.com>
-References: <cover.1496218782.git.jackie.huang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 2/2] siteinfo: fix siteinfo_get_files to work with RSS
+Subject: [morty][PATCH 1/3] binutils: fix CVE-2017-6969 in readelf
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,70 +31,229 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 31 May 2017 08:27:27 -0000
+X-List-Received-Date: Wed, 31 May 2017 08:38:04 -0000
 Content-Type: text/plain
 
-From: Jackie Huang <jackie.huang@windriver.com>
+CVE: CVE-2017-6969
+[BZ 21156] -- https://sourceware.org/bugzilla/show_bug.cgi?id=21156
 
-The siteconfig cache files in ACLOCALDIR setup by autotools.bbclass
-has been dropped after switching to RSS, so change the siteconfig
-search path back to SITECONFIG_SYSROOTCACHE and the parameter
-name changed from aclocalcache to sysrootcache.
+PR binutils/21156: Fix illegal memory accesses in readelf when
+ing a corrupt binary.
+PR binutils/21156: Fix another memory access error in readelf when
+parsing a corrupt binary.
 
-Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
+Signed-off-by: Yuanjie Huang <yuanjie.huang@windriver.com>
 ---
- meta/classes/autotools.bbclass |  2 +-
- meta/classes/siteinfo.bbclass  | 15 ++++-----------
- 2 files changed, 5 insertions(+), 12 deletions(-)
+ meta/recipes-devtools/binutils/binutils-2.27.inc   |   2 +
+ .../binutils/binutils/CVE-2017-6969.patch          |  56 ++++++++++
+ .../binutils/binutils/CVE-2017-6969_2.patch        | 122 +++++++++++++++++++++
+ 3 files changed, 180 insertions(+)
+ create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2017-6969.patch
+ create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2017-6969_2.patch
 
-diff --git a/meta/classes/autotools.bbclass b/meta/classes/autotools.bbclass
-index ac04a07cb5..efa4098d63 100644
---- a/meta/classes/autotools.bbclass
-+++ b/meta/classes/autotools.bbclass
-@@ -141,7 +141,7 @@ ACLOCALEXTRAPATH_class-nativesdk = " -I ${STAGING_DATADIR_NATIVE}/aclocal/"
+diff --git a/meta/recipes-devtools/binutils/binutils-2.27.inc b/meta/recipes-devtools/binutils/binutils-2.27.inc
+index f98fef9e02..d32ce25dd5 100644
+--- a/meta/recipes-devtools/binutils/binutils-2.27.inc
++++ b/meta/recipes-devtools/binutils/binutils-2.27.inc
+@@ -41,6 +41,8 @@ SRC_URI = "\
+      file://0001-ppc-apuinfo-for-spe-parsed-incorrectly.patch \
+      file://CVE-2017-6965.patch \
+      file://CVE-2017-6966.patch \
++     file://CVE-2017-6969.patch \
++     file://CVE-2017-6969_2.patch \
+ "
+ S  = "${WORKDIR}/git"
  
- python autotools_aclocals () {
-     # Refresh variable with cache files
--    d.setVar("CONFIG_SITE", siteinfo_get_files(d, aclocalcache=True))
-+    d.setVar("CONFIG_SITE", siteinfo_get_files(d, sysrootcache=True))
- }
- 
- CONFIGURE_FILES = "${S}/configure.in ${S}/configure.ac ${S}/config.h.in ${S}/acinclude.m4 Makefile.am"
-diff --git a/meta/classes/siteinfo.bbclass b/meta/classes/siteinfo.bbclass
-index 2c33732be3..e8e2644684 100644
---- a/meta/classes/siteinfo.bbclass
-+++ b/meta/classes/siteinfo.bbclass
-@@ -159,7 +159,7 @@ python () {
-         bb.fatal("Please add your architecture to siteinfo.bbclass")
- }
- 
--def siteinfo_get_files(d, aclocalcache = False):
-+def siteinfo_get_files(d, sysrootcache = False):
-     sitedata = siteinfo_data(d)
-     sitefiles = ""
-     for path in d.getVar("BBPATH").split(":"):
-@@ -168,18 +168,11 @@ def siteinfo_get_files(d, aclocalcache = False):
-             if os.path.exists(filename):
-                 sitefiles += filename + " "
- 
--    if not aclocalcache:
-+    if not sysrootcache:
-         return sitefiles
- 
--    # Now check for siteconfig cache files in the directory setup by autotools.bbclass to
--    # avoid races.
--    #
--    # ACLOCALDIR may or may not exist so cache should only be set to True from autotools.bbclass
--    # after files have been copied into this location. To do otherwise risks parsing/signature
--    # issues and the directory being created/removed whilst this code executes. This can happen
--    # when a multilib recipe is parsed along with its base variant which may be running at the time
--    # causing rare but nasty failures
--    path_siteconfig = d.getVar('ACLOCALDIR')
-+    # Now check for siteconfig cache files in sysroots
-+    path_siteconfig = d.getVar('SITECONFIG_SYSROOTCACHE')
-     if path_siteconfig and os.path.isdir(path_siteconfig):
-         for i in os.listdir(path_siteconfig):
-             if not i.endswith("_config"):
+diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2017-6969.patch b/meta/recipes-devtools/binutils/binutils/CVE-2017-6969.patch
+new file mode 100644
+index 0000000000..3d036c4cf6
+--- /dev/null
++++ b/meta/recipes-devtools/binutils/binutils/CVE-2017-6969.patch
+@@ -0,0 +1,56 @@
++From 489246368e2c49a795ad5ecbc8895cbc854292fa Mon Sep 17 00:00:00 2001
++From: Nick Clifton <nickc@redhat.com>
++Date: Fri, 17 Feb 2017 15:59:45 +0000
++Subject: Fix illegal memory accesses in readelf when parsing a corrupt binary.
++
++	PR binutils/21156
++	* readelf.c (find_section_in_set): Test for invalid section
++	indicies.
++
++CVE: CVE-2017-6969
++Upstream-Status: Backport [master]
++
++Signed-off-by: Yuanjie Huang <yuanjie.huang@windriver.com>
++---
++ binutils/ChangeLog |  6 ++++++
++ binutils/readelf.c | 10 ++++++++--
++ 2 files changed, 14 insertions(+), 2 deletions(-)
++
++diff --git a/binutils/ChangeLog b/binutils/ChangeLog
++index a70bdb7a7b..dbf8eb079e 100644
++--- a/binutils/ChangeLog
+++++ b/binutils/ChangeLog
++@@ -1,3 +1,9 @@
+++2017-02-17  Nick Clifton  <nickc@redhat.com>
+++
+++	PR binutils/21156
+++	* readelf.c (find_section_in_set): Test for invalid section
+++	indicies.
+++
++ 2016-08-03  Tristan Gingold  <gingold@adacore.com>
++ 
++ 	* configure: Regenerate.
++diff --git a/binutils/readelf.c b/binutils/readelf.c
++index d31558c3b4..7f7365dbc5 100644
++--- a/binutils/readelf.c
+++++ b/binutils/readelf.c
++@@ -674,8 +674,14 @@ find_section_in_set (const char * name, unsigned int * set)
++   if (set != NULL)
++     {
++       while ((i = *set++) > 0)
++-	if (streq (SECTION_NAME (section_headers + i), name))
++-	  return section_headers + i;
+++	{
+++	  /* See PR 21156 for a reproducer.  */
+++	  if (i >= elf_header.e_shnum)
+++	    continue; /* FIXME: Should we issue an error message ?  */
+++
+++	  if (streq (SECTION_NAME (section_headers + i), name))
+++	    return section_headers + i;
+++	}
++     }
++ 
++   return find_section (name);
++-- 
++2.11.0
++
+diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2017-6969_2.patch b/meta/recipes-devtools/binutils/binutils/CVE-2017-6969_2.patch
+new file mode 100644
+index 0000000000..491c7086ee
+--- /dev/null
++++ b/meta/recipes-devtools/binutils/binutils/CVE-2017-6969_2.patch
+@@ -0,0 +1,122 @@
++From 59fcd64fe65a89fb0acaf5463840310701189375 Mon Sep 17 00:00:00 2001
++From: Nick Clifton <nickc@redhat.com>
++Date: Mon, 20 Feb 2017 14:40:39 +0000
++Subject: Fix another memory access error in readelf when parsing a corrupt
++ binary.
++
++	PR binutils/21156
++	* dwarf.c (cu_tu_indexes_read): Move into...
++	(load_cu_tu_indexes): ... here.  Change the variable into
++	tri-state.  Change the function into boolean, returning
++	false if the indicies could not be loaded.
++	(find_cu_tu_set): Return NULL if the indicies could not be
++	loaded.
++
++CVE: CVE-2017-6969
++Upstream-Status: Backport [master]
++
++Signed-off-by: Yuanjie Huang <yuanjie.huang@windriver.com>
++---
++ binutils/ChangeLog | 10 ++++++++++
++ binutils/dwarf.c   | 34 ++++++++++++++++++++--------------
++ 2 files changed, 30 insertions(+), 14 deletions(-)
++
++diff --git a/binutils/ChangeLog b/binutils/ChangeLog
++index dbf8eb079e..55d2f8ba40 100644
++--- a/binutils/ChangeLog
+++++ b/binutils/ChangeLog
++@@ -1,3 +1,13 @@
+++2017-02-20  Nick Clifton  <nickc@redhat.com>
+++
+++	PR binutils/21156
+++	* dwarf.c (cu_tu_indexes_read): Move into...
+++	(load_cu_tu_indexes): ... here.  Change the variable into
+++	tri-state.  Change the function into boolean, returning
+++	false if the indicies could not be loaded.
+++	(find_cu_tu_set): Return NULL if the indicies could not be
+++	loaded.
+++
++ 2017-02-17  Nick Clifton  <nickc@redhat.com>
++ 
++ 	PR binutils/21156
++diff --git a/binutils/dwarf.c b/binutils/dwarf.c
++index 282e069958..a23267feb6 100644
++--- a/binutils/dwarf.c
+++++ b/binutils/dwarf.c
++@@ -76,7 +76,6 @@ int dwarf_check = 0;
++    as a zero-terminated list of section indexes comprising one set of debug
++    sections from a .dwo file.  */
++ 
++-static int cu_tu_indexes_read = 0;
++ static unsigned int *shndx_pool = NULL;
++ static unsigned int shndx_pool_size = 0;
++ static unsigned int shndx_pool_used = 0;
++@@ -99,7 +98,7 @@ static int tu_count = 0;
++ static struct cu_tu_set *cu_sets = NULL;
++ static struct cu_tu_set *tu_sets = NULL;
++ 
++-static void load_cu_tu_indexes (void *file);
+++static bfd_boolean load_cu_tu_indexes (void *);
++ 
++ /* Values for do_debug_lines.  */
++ #define FLAG_DEBUG_LINES_RAW	 1
++@@ -2713,7 +2712,7 @@ load_debug_info (void * file)
++     return num_debug_info_entries;
++ 
++   /* If this is a DWARF package file, load the CU and TU indexes.  */
++-  load_cu_tu_indexes (file);
+++  (void) load_cu_tu_indexes (file);
++ 
++   if (load_debug_section (info, file)
++       && process_debug_info (&debug_displays [info].section, file, abbrev, 1, 0))
++@@ -7302,21 +7301,27 @@ process_cu_tu_index (struct dwarf_section *section, int do_display)
++    section sets that we can use to associate a .debug_info.dwo section
++    with its associated .debug_abbrev.dwo section in a .dwp file.  */
++ 
++-static void
+++static bfd_boolean
++ load_cu_tu_indexes (void *file)
++ {
+++  static int cu_tu_indexes_read = -1; /* Tri-state variable.  */
+++
++   /* If we have already loaded (or tried to load) the CU and TU indexes
++      then do not bother to repeat the task.  */
++-  if (cu_tu_indexes_read)
++-    return;
++-
++-  if (load_debug_section (dwp_cu_index, file))
++-    process_cu_tu_index (&debug_displays [dwp_cu_index].section, 0);
++-
++-  if (load_debug_section (dwp_tu_index, file))
++-    process_cu_tu_index (&debug_displays [dwp_tu_index].section, 0);
+++  if (cu_tu_indexes_read == -1)
+++    {
+++      cu_tu_indexes_read = TRUE;
+++  
+++      if (load_debug_section (dwp_cu_index, file))
+++	if (! process_cu_tu_index (&debug_displays [dwp_cu_index].section, 0))
+++	  cu_tu_indexes_read = FALSE;
+++
+++      if (load_debug_section (dwp_tu_index, file))
+++	if (! process_cu_tu_index (&debug_displays [dwp_tu_index].section, 0))
+++	  cu_tu_indexes_read = FALSE;
+++    }
++ 
++-  cu_tu_indexes_read = 1;
+++  return (bfd_boolean) cu_tu_indexes_read;
++ }
++ 
++ /* Find the set of sections that includes section SHNDX.  */
++@@ -7326,7 +7331,8 @@ find_cu_tu_set (void *file, unsigned int shndx)
++ {
++   unsigned int i;
++ 
++-  load_cu_tu_indexes (file);
+++  if (! load_cu_tu_indexes (file))
+++    return NULL;
++ 
++   /* Find SHNDX in the shndx pool.  */
++   for (i = 0; i < shndx_pool_used; i++)
++-- 
++2.11.0
++
 -- 
 2.11.0
 
