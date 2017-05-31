@@ -1,25 +1,55 @@
-Return-Path: <andrej.valek@siemens.com>
-Received: from thoth.sbs.de (thoth.sbs.de [192.35.17.2])
-	by mail.openembedded.org (Postfix) with ESMTP id 17AB478049
+Return-Path: <twoerner@gmail.com>
+Received: from mail-ua0-f176.google.com (mail-ua0-f176.google.com
+	[209.85.217.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 949B86FF73
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 31 May 2017 12:55:34 +0000 (UTC)
-Received: from mail2.siemens.de (mail2.siemens.de [139.25.208.11])
-	by thoth.sbs.de (8.15.2/8.15.2) with ESMTPS id v4VCtZhx028933
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
+	Wed, 31 May 2017 16:03:06 +0000 (UTC)
+Received: by mail-ua0-f176.google.com with SMTP id y4so12086892uay.2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 31 May 2017 14:55:35 +0200
-Received: from dev.sbt.siemens.com ([139.16.117.186])
-	by mail2.siemens.de (8.15.2/8.15.2) with ESMTP id v4VCtZuc004831;
-	Wed, 31 May 2017 14:55:35 +0200
-Received: from dev.sbt.siemens.com (localhost [127.0.0.1])
-	by dev.sbt.siemens.com (Postfix) with ESMTP id B284B683E0A;
-	Wed, 31 May 2017 14:55:35 +0200 (CEST)
-From: Andrej Valek <andrej.valek@siemens.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 31 May 2017 14:55:09 +0200
-Message-Id: <1496235309-30694-1-git-send-email-andrej.valek@siemens.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] srecord: add collection of tools for manipulating EPROM load files
+	Wed, 31 May 2017 09:03:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=NYGnsvzETzuKa0NOmc3ZjMY5bJDZoE+vzzOKuoC1N+o=;
+	b=tgkdeT2pNDhA8u0GiufIh0mArlYRss4LKQaKtnyZNsm7GjcL7++n739eOQEyPd7epj
+	dr1sX1Hwq33YC5vuNJnCfOA54knbH1Yupde1D4U/t27nn+0Uja7o5NwBut8EeS0iY7dd
+	1fnE6RSZ25GCXehO2GGpqrGQmG4dDLbhBEndKIV02zq8ZZBhHyVvoz88qnsfFPMgkxuE
+	epS0mL4K8tUqgEbHROUxV1qzjjIm5PNmf12BwzOGydBsIA1q2lMQ7TmNgXXwnyHODFmi
+	RvVLkz7D0CAUGeLXtTaX5sT5Iqzr6RQ2FJ3M4PGY/4Pb/mveAjerXgloi8NIcXNyvslf
+	S3gw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=NYGnsvzETzuKa0NOmc3ZjMY5bJDZoE+vzzOKuoC1N+o=;
+	b=jGYaRE0O3unPZ1+UFHgsfNIs9ODzZKl0gp9qIb6sqV+H8U8nT8F0eGJ3QJ++nqVVSO
+	TLSv5IxJUPc9IGWIdKSfo2NHIDlVgIXv1tWCEUMrfxNu/UCQVZwkKtMQ40l4wVUKT70l
+	oQf6M5+xb/ylAqARysCs9bCq1tzIE8q9sXE2RnUZlNqyLdFJdBEhlBs+uX+Qr2QfKS67
+	c3kvP1tbwUWXTliihERRQze1yBN6CMeCw/Q8SM0U3l5Vf1K13qWKpkNVDacW/aHJ5WAy
+	MbKctjfHUvo0mub044WIlbwh9/QV+BS92i6IB24AJ7gm6EsPE+w4v8sQOL0nIYQfOcp0
+	IN/Q==
+X-Gm-Message-State: AODbwcANFrj1KVsGUDH8tjCXCEp6BX11sj+4jOn4qtwYlf8gBvJ+5Ml2
+	zJTAsSK/c/mmqfOZy8IwLNrxeD13wg==
+X-Received: by 10.176.71.25 with SMTP id h25mr13653000uac.140.1496246587325;
+	Wed, 31 May 2017 09:03:07 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.103.67.199 with HTTP; Wed, 31 May 2017 09:03:06 -0700 (PDT)
+In-Reply-To: <CAHiDW_EOrrVn+5FzMgGWSZP4=kOFfrWs_fc1bTBBx29a4HiqhQ@mail.gmail.com>
+References: <20170526212248.16374-1-twoerner@gmail.com>
+	<1496100337.25229.147.camel@linuxfoundation.org>
+	<CAHUNapREVWXEaWYDYon8cYByzXcAdEu=_uWMAHCbOjU6VXrghg@mail.gmail.com>
+	<1496130475.25229.160.camel@linuxfoundation.org>
+	<20170530152738.GA24515@linux-uys3>
+	<1496159050.6630.12.camel@linuxfoundation.org>
+	<CAHUNapR0bPQq4qJnzK-ddPzn-m-0FCtVYLDBMsBuLY=eJUgmZg@mail.gmail.com>
+	<1496161149.6630.14.camel@linuxfoundation.org>
+	<CAHiDW_EOrrVn+5FzMgGWSZP4=kOFfrWs_fc1bTBBx29a4HiqhQ@mail.gmail.com>
+From: Trevor Woerner <twoerner@gmail.com>
+Date: Wed, 31 May 2017 12:03:06 -0400
+Message-ID: <CAHUNapRDjjg7cBSe3v1OSmsvQfAX0NmqCNZHpZ4gaO5C4UY-1g@mail.gmail.com>
+To: Jussi Kukkonen <jussi.kukkonen@intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] mesa: potentially enable texture float for gallium
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,109 +62,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 31 May 2017 12:55:35 -0000
+X-List-Received-Date: Wed, 31 May 2017 16:03:07 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
----
- .../srecord/files/add-option-to-remove-docs.patch  | 57 ++++++++++++++++++++++
- meta/recipes-support/srecord/srecord_1.64.bb       | 23 +++++++++
- 2 files changed, 80 insertions(+)
- create mode 100644 meta/recipes-support/srecord/files/add-option-to-remove-docs.patch
- create mode 100644 meta/recipes-support/srecord/srecord_1.64.bb
+On Wed, May 31, 2017 at 3:15 AM, Jussi Kukkonen
+<jussi.kukkonen@intel.com> wrote:
+> On 30 May 2017 at 19:19, Richard Purdie <richard.purdie@linuxfoundation.org>
+> wrote:
+>> If someone really wants to enable it, they can drop the patch. I'm open
+>> to feedback from others like Ross/Jussi but IMO I think we can accept
+>> the degraded piglit results for swrast...
+>
+> Sounds like a completely reasonable compromise to me.
 
-diff --git a/meta/recipes-support/srecord/files/add-option-to-remove-docs.patch b/meta/recipes-support/srecord/files/add-option-to-remove-docs.patch
-new file mode 100644
-index 0000000..9b2bd99
---- /dev/null
-+++ b/meta/recipes-support/srecord/files/add-option-to-remove-docs.patch
-@@ -0,0 +1,57 @@
-+Add option to build this utility without a documentation.
-+
-+For full documentation building are necessary utilities like
-+groff and ps2pdf. Full documentation can takes a lot of space.
-+So it can be disabled by overloading makefile variable WITHOUT_DOC.
-+
-+Upstream-Status: Inappropriate [Other]
-+Workaround specific to our build system.
-+
-+Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
-+
-+diff --git a/Makefile.in b/Makefile.in
-+index 9bdd8f1..a2b5494 100644
-+--- a/Makefile.in
-++++ b/Makefile.in
-+@@ -141,6 +141,14 @@ GROFF = @GROFF@
-+ #
-+ SOELIM = @SOELIM@
-+ 
-++# Option to build this utility without building and installing the documentation.
-++WITHOUT_DOC ?= 0
-++ifeq ($(WITHOUT_DOC),0)
-++	BUILD_DOC = all-doc
-++	INST_DOC = install-doc
-++	CLR_DOC = clean-doc
-++endif
-++
-+ # ---------------------------------------------------------
-+ # You should not need to change anything below this line.
-+ 
-+@@ -4090,7 +4098,7 @@ bin/test_url_decode: $(test_url_decode_obj) .bin srecord/libsrecord.la
-+ 	$(LIBTOOL) --mode=link --tag=CXX $(CXX) $(CPPFLAGS) $(CXXFLAGS) -o $@ \
-+ 		$(test_url_decode_obj) srecord/libsrecord.la $(LDFLAGS) $(LIBS)
-+ 
-+-all: all-bin all-doc
-++all: all-bin $(BUILD_DOC)
-+ 
-+ all-bin: bin/srec_cat bin/srec_cmp bin/srec_info bin/test_arglex_ambiguous \
-+ 		bin/test_crc16 bin/test_fletcher16 bin/test_gecos \
-+@@ -4156,7 +4164,7 @@ test_files = t0001a t0002a t0003a t0004a t0005a t0006a t0007a t0008a t0009a \
-+ sure: $(test_files)
-+ 	@echo Passed All Tests
-+ 
-+-clean: clean-bin clean-doc clean-misc clean-obj
-++clean: clean-bin $(CLR_DOC) clean-misc clean-obj
-+ 
-+ clean-bin:
-+ 	rm -f bin/srec_cat bin/srec_cmp bin/srec_info bin/test_arglex_ambiguous
-+@@ -4443,7 +4451,7 @@ distclean-directories:
-+ 	rm -rf test/fletcher16/.libs test/gecos/.libs test/hyphen/.libs
-+ 	rm -rf test/url_decode/.libs
-+ 
-+-install: install-bin install-doc install-include install-libdir install-man
-++install: install-bin $(INST_DOC) install-include install-libdir install-man
-+ 
-+ install-bin: $(bindir)/srec_cat $(bindir)/srec_cmp $(bindir)/srec_info
-+ 
-diff --git a/meta/recipes-support/srecord/srecord_1.64.bb b/meta/recipes-support/srecord/srecord_1.64.bb
-new file mode 100644
-index 0000000..fe1af47
---- /dev/null
-+++ b/meta/recipes-support/srecord/srecord_1.64.bb
-@@ -0,0 +1,23 @@
-+SUMMARY = "A collection of powerful tools for manipulating EPROM load files."
-+SECTION = "devel"
-+LICENSE = "GPLv2"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=8dfcbf2f0a144b97f0931b6394debea7"
-+
-+SRC_URI = " \
-+    http://srecord.sourceforge.net/srecord-${PV}.tar.gz \
-+    file://add-option-to-remove-docs.patch \
-+"
-+
-+SRC_URI[md5sum] = "4de4a7497472d7972645c2af91313769"
-+SRC_URI[sha256sum] = "49a4418733c508c03ad79a29e95acec9a2fbc4c7306131d2a8f5ef32012e67e2"
-+
-+DEPENDS = "libtool-native boost groff-native"
-+
-+inherit autotools-brokensep
-+
-+EXTRA_OECONF = "--without-gcrypt LIBTOOL=${STAGING_BINDIR_CROSS}/${HOST_SYS}-libtool"
-+
-+# Set variable WITHOUT_DOC=0 to enable documentation generation
-+EXTRA_OEMAKE = "WITHOUT_DOC=1"
-+
-+BBCLASSEXTEND = "native"
--- 
-2.1.4
+Okay, thanks.
 
+It looks like there's a patch in the pipe for mesa.inc, I'll wait
+until that is in place before doing and sending this update.
 
