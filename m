@@ -1,50 +1,44 @@
-Return-Path: <prvs=31872cab3=Mikko.Rapeli@bmw.de>
-X-Greylist: delayed 597 seconds by postgrey-1.34 at layers.openembedded.org;
-	Thu, 01 Jun 2017 09:54:43 UTC
-Received: from esa8.bmw.c3s2.iphmx.com (esa8.bmw.c3s2.iphmx.com
-	[68.232.139.97])
-	by mail.openembedded.org (Postfix) with ESMTP id 0AD1860291
+Return-Path: <nicolas.dechesne@linaro.org>
+Received: from mail-qt0-f177.google.com (mail-qt0-f177.google.com
+	[209.85.216.177])
+	by mail.openembedded.org (Postfix) with ESMTP id E926B607F8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Jun 2017 09:54:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
-	t=1496310886; x=1527846886;
-	h=from:to:subject:date:message-id:references:in-reply-to:
-	content-id:content-transfer-encoding:mime-version;
-	bh=hyPL06EyTmYPFaSxSViurxbbgSCKOGnXPck4oGFuNHE=;
-	b=FJZhoeNgqpJ2CnFjcPqTaurQ5RI6YYkLlFPdH786UYsF1iLnfCmcl/e5
-	GUSnokexW0JlZ+yE4i5QbxKRPrZZI8RWZtpTgSDWrF7cMBzPobxgL7akz
-	8osTpCTM+l0LoBe/V/MwwN+sQmJvFc/Yria/f9vqcwUI09BgaomuM7t1U 4=;
-Received: from esagw2.bmwgroup.com (HELO esagw2.muc) ([160.46.252.38]) by
-	esa8.bmw.c3s2.iphmx.com with ESMTP/TLS; 01 Jun 2017 11:44:48 +0200
-Received: from esabb3.muc ([160.50.100.30])  by esagw2.muc with ESMTP/TLS;
-	01 Jun 2017 11:44:46 +0200
-Received: from smucm10j.bmwgroup.net (HELO smucm10j.europe.bmw.corp)
-	([160.48.96.46])
-	by esabb3.muc with ESMTP/TLS; 01 Jun 2017 11:44:44 +0200
-Received: from smucm10k.europe.bmw.corp (160.48.96.47) by
-	smucm10j.europe.bmw.corp
-	(160.48.96.46) with Microsoft SMTP Server (TLS;
-	Thu, 1 Jun 2017 11:44:43 +0200
-Received: from smucm10k.europe.bmw.corp ([160.48.96.47]) by
-	smucm10k.europe.bmw.corp ([160.48.96.47]) with mapi id 15.00.1263.000;
-	Thu, 1 Jun 2017 11:44:43 +0200
-From: <Mikko.Rapeli@bmw.de>
-To: <openembedded-core@lists.openembedded.org>
-Thread-Topic: [PATCH] Fix return value checks from subprocess.call()'s
-Thread-Index: AQHS0G/7wjrREpahp0apkdMg+WxVPaIPtP2A
-Date: Thu, 1 Jun 2017 09:44:43 +0000
-Message-ID: <20170601094443.jmsxjzdkghtw4wsf@hiutale>
-References: <1495178237-22689-1-git-send-email-mikko.rapeli@bmw.de>
-In-Reply-To: <1495178237-22689-1-git-send-email-mikko.rapeli@bmw.de>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [192.168.44.101]
+	Thu,  1 Jun 2017 10:15:06 +0000 (UTC)
+Received: by mail-qt0-f177.google.com with SMTP id w1so5193020qtg.2
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 01 Jun 2017 03:15:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=K4CzuWs5VmaVnB/+OKdIluSRPf7tho3FPRIDM0rrbzE=;
+	b=Erul/RBcSyUDUcdUv+EVdoYCAavcwFmqSHNzcFcBqb06FZswu+ubwNapa9SG1pFCg2
+	/ABaU4ORPGWRT9OlkUtik0oUrcyFCz60QM0BMv3U4qEsGsOCnYqV8jI14tVGcnj+MIHv
+	M/7yZ5QjwWm+YstR+WtdQnF3Tq80cM0PYCX9A=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=K4CzuWs5VmaVnB/+OKdIluSRPf7tho3FPRIDM0rrbzE=;
+	b=ic1serzodta3W7dXSRq2U5G/d5Y/x09LQN4gnUA+0kFtG0TOrH1CIIrCQlqjnDASYp
+	KRlvzZCol/ZOu7a45o7EA7MVRqNwBFiRjVV5Srn7O7+pJD/taFRvu3L66uUjmp4kjOOx
+	42LukvqcJJS2YyopkkTjh13wW87C4iUnUd2F0d3bIQXVpZYiIGu8Oke5T/V/U6W4f8WR
+	yft7u3l5XgO9L56VcbQYkrYeIBEO2RBVMT9n7ctlyJwdUXF9tym5F2qdxrkY0BAE3/kB
+	2yz22vgSmPYGoEwRYwK5LaPyYt8t0mte9aGi0lImfAPNjA0j/o0Pu0jcE6egU4YTltQt
+	rEhA==
+X-Gm-Message-State: AODbwcC3MnAJkrCpcExRQWQOLEL7H5VpKFZgfOP0Pi2eIlWCCqHbzFsQ
+	k6/eVIirTNvFgc/nCiEIc6qiHq3H0cod
+X-Received: by 10.200.42.219 with SMTP id c27mr740404qta.9.1496312108076; Thu,
+	01 Jun 2017 03:15:08 -0700 (PDT)
 MIME-Version: 1.0
-Subject: Re: [PATCH] Fix return value checks from subprocess.call()'s
+Received: by 10.140.88.135 with HTTP; Thu, 1 Jun 2017 03:14:47 -0700 (PDT)
+In-Reply-To: <CAJTo0La8sEivJMFo7BzLbgLUOt0gD-8UPS06LZ0fNLoc8BoJrg@mail.gmail.com>
+References: <20170530153249.7161-1-nicolas.dechesne@linaro.org>
+	<CAJTo0La8sEivJMFo7BzLbgLUOt0gD-8UPS06LZ0fNLoc8BoJrg@mail.gmail.com>
+From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+Date: Thu, 1 Jun 2017 12:14:47 +0200
+Message-ID: <CAP71Wjzf4Guc_+Ou_bdhg3mDrdxYiQRWfktiMzmnJUSExrvoFg@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] mesa: upgrade to 17.1.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,37 +51,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Jun 2017 09:54:44 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <06899357B848E3449808EDF6E70C3603@bmwmail.corp>
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 01 Jun 2017 10:15:07 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Hi,
+On Thu, Jun 1, 2017 at 11:27 AM, Burton, Ross <ross.burton@intel.com> wrote:
+> On 30 May 2017 at 16:32, Nicolas Dechesne <nicolas.dechesne@linaro.org>
+> wrote:
+>>
+>> * Costmetic changes in license.html file required new MD5 hash
+>> * Add PACKAGECONFIG option for libunwind support (new feature, disable by
+>> default)
+>> * Rebased 0001-Use-wayland-scanner-in-the-path.patch
+>> * Added zlib in DEPENDS, otherwise mesa no longer builds.
+>
+>
+> Breaks under musl:
+>
+> http://errors.yoctoproject.org/Errors/Details/143476/
 
-On Fri, May 19, 2017 at 10:17:17AM +0300, Mikko Rapeli wrote:
-> Python function subprocess.call() returns the return value of the
-> executed process. If return values are not checked, errors may
-> go unnoticed and bad things can happen.
->=20
-> Change all callers of subprocess.call() which do not check for
-> the return value to use subprocess.check_call() which raises
-> CalledProcessError if the subprocess returns with non-zero value.
->=20
-> https://docs.python.org/2/library/subprocess.html#using-the-subprocess-mo=
-dule
->=20
-> All users of the function were found with:
->=20
-> $ git grep "subprocess\.call" | \
->   egrep -v 'if.*subprocess\.call|=3D\ +subprocess\.call|return.*subproces=
-s\.call'
->=20
-> Tested similar patch on top of jethro. Only compile tested core-image-min=
-imal
-> on poky master branch.
+thanks.. should be fixed now with
+https://lists.freedesktop.org/archives/mesa-dev/2017-June/157542.html
 
-Any comments to this patch?
-
--Mikko=
+i will update the recipe accordingly and resend.
 
