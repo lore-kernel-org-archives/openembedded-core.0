@@ -1,24 +1,24 @@
 Return-Path: <mcfrisk@kapsi.fi>
 Received: from mail.kapsi.fi (mail.kapsi.fi [217.30.184.167])
-	by mail.openembedded.org (Postfix) with ESMTP id 3AEEE77DAF
+	by mail.openembedded.org (Postfix) with ESMTP id 7C54377DAF
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Jun 2017 15:51:47 +0000 (UTC)
+	Thu,  1 Jun 2017 15:53:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
 	s=20161220; 
 	h=References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From;
-	bh=G30OZuPID3dmsHyiK6QcnxgoLWwlmcRv1x8ug/xufiI=; 
-	b=LL7Ick5x34jomu+WwrX4re/KNMgaQEkejl74uP4Z6XFeyWPFcqR1wU1KtxR8O37l30oeZ66HKREHiGF+kxJP9rTilVCtDNiEgiy4+NemJE0NrtgzGhwecq1w+EuQWAMxGiYtOF/VKXkCGiN8yNzM2FPV/91hI6obh2KXtWpW74aum5k/KSxuvDDpnQ8EYxezugP85/xblz4aLoTxNIbDQ8OqyaYEgOJCa3dPClghRm6Ixd/H42ufWXIenyeCD5F7S02MihVd8gXTsXsiuToN+yF9GsyZ9WGUFd8ePBrqkc3NgEUHN3YeKo4rWCMDxjIkIT/W2Xwriy+TJ7yPS+qEWg==;
+	bh=4j13ojxkCrICnj3xzlCM2BIqIgpmzNGqasPDtXf8W3w=; 
+	b=EPteVMTg5LD6lE0dcz3z/KA7+8wDaFtkhmct7NuLgv4+UXnz/B/EFxSSk75MR3rXc9aXASxD94MNspyXlja3u05nG878E+7PB6gvRp/b96asGQILvQmgjXABWNeMTIsOabHN6jntQLlThjHSBQxLGxjmxq0W3z+5ZbNmqiVER5uf9dGcY8tS5tYB75tswO+snv9w5cabhy92zQ9e3myHALnPPoZRl2Xz8E6RnZZfUEmkGwO+/uZqUhDfifrae69maKopVEYM3K60//pBHB9fVTrn4E4kYpTtXFQpFW9W5W38KxC8WRijb3Bptf+OL5GJcE/S8DA26GVvXdxaQzOLEQ==;
 Received: from lakka.kapsi.fi ([2001:1bc8:1004::1] ident=Debian-exim)
 	by mail.kapsi.fi with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
 	(Exim 4.84_2) (envelope-from <mcfrisk@kapsi.fi>)
-	id 1dGSO0-0005IM-Ug; Thu, 01 Jun 2017 18:51:44 +0300
+	id 1dGSPK-0005hy-F5; Thu, 01 Jun 2017 18:53:06 +0300
 Received: from mcfrisk by lakka.kapsi.fi with local (Exim 4.84_2)
 	(envelope-from <mcfrisk@lakka.kapsi.fi>)
-	id 1dGSO0-0006WI-TE; Thu, 01 Jun 2017 18:51:44 +0300
+	id 1dGSPK-0001VI-Dc; Thu, 01 Jun 2017 18:53:06 +0300
 From: Mikko Rapeli <mikko.rapeli@bmw.de>
-To: bitbake-devel@lists.openembedded.org
-Date: Thu,  1 Jun 2017 18:51:33 +0300
-Message-Id: <1496332293-23469-1-git-send-email-mikko.rapeli@bmw.de>
+To: poky@yoctoproject.org
+Date: Thu,  1 Jun 2017 18:52:59 +0300
+Message-Id: <1496332379-3802-1-git-send-email-mikko.rapeli@bmw.de>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <20170601125029.wli6reydiovo7xjk@hiutale>
 References: <20170601125029.wli6reydiovo7xjk@hiutale>
@@ -26,7 +26,7 @@ X-SA-Exim-Connect-IP: 2001:1bc8:1004::1
 X-SA-Exim-Mail-From: mcfrisk@kapsi.fi
 X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/3 v2] bitbake: Fix return value checks from subprocess.call()'s
+Subject: [PATCH 2/3 v2] scripts: Fix return value checks from subprocess.call()'s
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,7 +39,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Jun 2017 15:51:48 -0000
+X-List-Received-Date: Thu, 01 Jun 2017 15:53:05 -0000
 
 Python function subprocess.call() returns the return value of the
 executed process. If return values are not checked, errors may
@@ -61,9 +61,8 @@ core-image-minimal on poky master branch.
 
 Signed-off-by: Mikko Rapeli <mikko.rapeli@bmw.de>
 ---
- bitbake/lib/bb/ui/ncurses.py | 2 +-
- bitbake/lib/bb/utils.py      | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ scripts/runqemu | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
 v2:
 split patches to bitbake, meta and scripts
@@ -71,32 +70,42 @@ split patches to bitbake, meta and scripts
 v1:
 http://lists.openembedded.org/pipermail/openembedded-core/2017-May/136901.html
 
-diff --git a/bitbake/lib/bb/ui/ncurses.py b/bitbake/lib/bb/ui/ncurses.py
-index d81e413..ca845a3 100644
---- a/bitbake/lib/bb/ui/ncurses.py
-+++ b/bitbake/lib/bb/ui/ncurses.py
-@@ -297,7 +297,7 @@ class NCursesUI:
- #                            bb.error("log data follows (%s)" % logfile)
- #                            number_of_lines = data.getVar("BBINCLUDELOGS_LINES", d)
- #                            if number_of_lines:
--#                                subprocess.call('tail -n%s %s' % (number_of_lines, logfile), shell=True)
-+#                                subprocess.check_call('tail -n%s %s' % (number_of_lines, logfile), shell=True)
- #                            else:
- #                                f = open(logfile, "r")
- #                                while True:
-diff --git a/bitbake/lib/bb/utils.py b/bitbake/lib/bb/utils.py
-index 077fddc..6a44db5 100644
---- a/bitbake/lib/bb/utils.py
-+++ b/bitbake/lib/bb/utils.py
-@@ -680,7 +680,7 @@ def remove(path, recurse=False):
-             if _check_unsafe_delete_path(path):
-                 raise Exception('bb.utils.remove: called with dangerous path "%s" and recurse=True, refusing to delete!' % path)
-         # shutil.rmtree(name) would be ideal but its too slow
--        subprocess.call(['rm', '-rf'] + glob.glob(path))
-+        subprocess.check_call(['rm', '-rf'] + glob.glob(path))
-         return
-     for name in glob.glob(path):
-         try:
+diff --git a/scripts/runqemu b/scripts/runqemu
+index 72c4176..416c3f7 100755
+--- a/scripts/runqemu
++++ b/scripts/runqemu
+@@ -1098,7 +1098,7 @@ class BaseConfig(object):
+         if self.serialstdio:
+             logger.info("Interrupt character is '^]'")
+             cmd = "stty intr ^]"
+-            subprocess.call(cmd, shell=True)
++            subprocess.check_call(cmd, shell=True)
+ 
+             first_serial = ""
+             if not re.search("-nographic", self.qemu_opt):
+@@ -1145,7 +1145,7 @@ class BaseConfig(object):
+         if self.cleantap:
+             cmd = 'sudo %s %s %s' % (self.qemuifdown, self.tap, self.bindir_native)
+             logger.info('Running %s' % cmd)
+-            subprocess.call(cmd, shell=True)
++            subprocess.check_call(cmd, shell=True)
+         if self.lock_descriptor:
+             logger.info("Releasing lockfile for tap device '%s'" % self.tap)
+             self.release_lock()
+@@ -1154,11 +1154,11 @@ class BaseConfig(object):
+             logger.info("Shutting down the userspace NFS server...")
+             cmd = "runqemu-export-rootfs stop %s" % self.rootfs
+             logger.info('Running %s' % cmd)
+-            subprocess.call(cmd, shell=True)
++            subprocess.check_call(cmd, shell=True)
+ 
+         if self.saved_stty:
+             cmd = "stty %s" % self.saved_stty
+-            subprocess.call(cmd, shell=True)
++            subprocess.check_call(cmd, shell=True)
+ 
+         if self.clean_nfs_dir:
+             logger.info('Removing %s' % self.rootfs)
 -- 
 1.9.1
 
