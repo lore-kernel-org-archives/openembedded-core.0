@@ -1,25 +1,26 @@
 Return-Path: <jussi.kukkonen@intel.com>
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 6C6F877D94
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id F358377DAF
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Jun 2017 10:37:04 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga105.fm.intel.com with ESMTP; 01 Jun 2017 03:37:04 -0700
+	Thu,  1 Jun 2017 10:37:06 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	01 Jun 2017 03:37:08 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.39,279,1493708400"; d="scan'208";a="975511647"
+X-IronPort-AV: E=Sophos;i="5.39,279,1493708400"; d="scan'208";a="1155312169"
 Received: from linux.intel.com ([10.54.29.200])
-	by orsmga003.jf.intel.com with ESMTP; 01 Jun 2017 03:37:04 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 01 Jun 2017 03:37:08 -0700
 Received: from theory.fi.intel.com (theory.fi.intel.com [10.237.72.53])
-	by linux.intel.com (Postfix) with ESMTP id 8054C5803AB;
-	Thu,  1 Jun 2017 03:37:03 -0700 (PDT)
+	by linux.intel.com (Postfix) with ESMTP id 92A415800D3;
+	Thu,  1 Jun 2017 03:37:07 -0700 (PDT)
 From: Jussi Kukkonen <jussi.kukkonen@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  1 Jun 2017 13:36:50 +0300
-Message-Id: <16ead647be529ca378e7bb9c9dbafae64e416b64.1496311679.git.jussi.kukkonen@intel.com>
+Date: Thu,  1 Jun 2017 13:36:53 +0300
+Message-Id: <bf0ca6ae531f506f26e7791357fee138614b2ff0.1496311679.git.jussi.kukkonen@intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1496311679.git.jussi.kukkonen@intel.com>
 References: <cover.1496311679.git.jussi.kukkonen@intel.com>
-Subject: [PATCH 05/10] clutter-1.0: Upgrade 1.26.0 -> 1.26.2
+Subject: [PATCH 08/10] xserver-xorg: Upgrade 1.19.1 -> 1.19.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,34 +33,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Jun 2017 10:37:04 -0000
+X-List-Received-Date: Thu, 01 Jun 2017 10:37:07 -0000
 
-Mostly bug fixes in this release.
+Bug fix releases.
 
 Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
 ---
- .../clutter/{clutter-1.0_1.26.0.bb => clutter-1.0_1.26.2.bb}          | 4 ++--
+ .../xorg-xserver/{xserver-xorg_1.19.1.bb => xserver-xorg_1.19.3.bb}   | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/clutter/{clutter-1.0_1.26.0.bb => clutter-1.0_1.26.2.bb} (67%)
+ rename meta/recipes-graphics/xorg-xserver/{xserver-xorg_1.19.1.bb => xserver-xorg_1.19.3.bb} (89%)
 
-diff --git a/meta/recipes-graphics/clutter/clutter-1.0_1.26.0.bb b/meta/recipes-graphics/clutter/clutter-1.0_1.26.2.bb
-similarity index 67%
-rename from meta/recipes-graphics/clutter/clutter-1.0_1.26.0.bb
-rename to meta/recipes-graphics/clutter/clutter-1.0_1.26.2.bb
-index dfa1cfe..48b0501 100644
---- a/meta/recipes-graphics/clutter/clutter-1.0_1.26.0.bb
-+++ b/meta/recipes-graphics/clutter/clutter-1.0_1.26.2.bb
-@@ -2,8 +2,8 @@ require clutter-1.0.inc
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.19.1.bb b/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.19.3.bb
+similarity index 89%
+rename from meta/recipes-graphics/xorg-xserver/xserver-xorg_1.19.1.bb
+rename to meta/recipes-graphics/xorg-xserver/xserver-xorg_1.19.3.bb
+index 0dc1028..606367d 100644
+--- a/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.19.1.bb
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.19.3.bb
+@@ -6,8 +6,8 @@ SRC_URI += "file://musl-arm-inb-outb.patch \
+             file://0003-modesetting-Fix-16-bit-depth-bpp-mode.patch \
+             file://0003-Remove-check-for-useSIGIO-option.patch \
+             "
+-SRC_URI[md5sum] = "caa8ee7b2950abbf734347d137529fb6"
+-SRC_URI[sha256sum] = "79ae2cf39d3f6c4a91201d8dad549d1d774b3420073c5a70d390040aa965a7fb"
++SRC_URI[md5sum] = "015d2fc4b9f2bfe7a626edb63a62c65e"
++SRC_URI[sha256sum] = "677a8166e03474719238dfe396ce673c4234735464d6dadf2959b600d20e5a98"
  
- LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
- 
--SRC_URI[archive.md5sum] = "b065e9ca53d1f6bc1ec26aeb27338bb7"
--SRC_URI[archive.sha256sum] = "67514e7824b3feb4723164084b36d6ce1ae41cb3a9897e9f1a56c8334993ce06"
-+SRC_URI[archive.md5sum] = "a03482cbacf735eca8c996f210a21ee5"
-+SRC_URI[archive.sha256sum] = "e7233314983055e9018f94f56882e29e7fc34d8d35de030789fdcd9b2d0e2e56"
- SRC_URI += "file://install-examples.patch \
-             file://run-installed-tests-with-tap-output.patch \
-             file://0001-Remove-clutter.types-as-it-is-build-configuration-sp.patch \
+ # These extensions are now integrated into the server, so declare the migration
+ # path for in-place upgrades.
 -- 
 2.1.4
 
