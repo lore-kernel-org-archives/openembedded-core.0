@@ -1,46 +1,45 @@
 Return-Path: <armccurdy@gmail.com>
-Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 3C6AC77D11
+Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 5F52A77D11
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Jun 2017 19:02:37 +0000 (UTC)
-Received: by mail-wm0-f68.google.com with SMTP id g15so13579529wmc.2
+	Thu,  1 Jun 2017 19:10:59 +0000 (UTC)
+Received: by mail-wm0-f66.google.com with SMTP id k15so13667555wmh.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 01 Jun 2017 12:02:39 -0700 (PDT)
+	Thu, 01 Jun 2017 12:11:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=WVMEcEMpNEyoWVxqH3k15/9XpFN0VxKN4QBaTI542ZU=;
-	b=gLccYMDsU87TpWgSTAyIzn6g+Nbj88C1EMu+MnF6KrnFzWmVGsfcYQNkuIP3qMIi+2
-	7HAbkUA+kTxvRTTKwJVJ7W6cIcKzd/8yRcfaapZKGdkIREx+YGl41XhKb9JjWD+29Y7m
-	kv1NhXkbZRt3I7VzAccdzq5JP1uCNuxGeOltPucH7FTUQNLXWyX4jCopWTexUL5f7imV
-	zG7p8k+s65w22IpbvgYGZwSM98E7JXE75OI3EMYj7hUu0TZ8uKxCrJGuXj+ZtDwXa0uW
-	8rORUxSxruFOKxTfNGXgcnnkt9QjPU5yvq1xUUWOwJq0USWsEfEBKlNKmPJlhhhpxGGr
-	71SA==
+	:cc; bh=8xaO99vCwCzu5OUQ6xjcoFCWLkiHC354Ny9+ICwJpyI=;
+	b=K852IBfx4ika/lk9DjwNdJdqKbj4GDrg+DBToFfwsP+i1wosavIL/GbkiSxaSgn+sb
+	QRjbVddOCSZlvcauekclOC64bJv2m5Q9UwIvwnrv7lQ78t40HNF7dfXe+VdOf2CDVej0
+	aCEax84f5ViCexsTsYBtDuTv50Xs9B7PPFk/I6FnRZBPzxMIeCXsqhz6FtT2xYMmPieA
+	cOwBHKZr3m/EE6omys2gghvaSa8uEpWQxTEbHVRFpJMf/D2pd4rymOFy3Tz2EotrA6B3
+	csGc9lR0zinlnK0wxhoFzfpC9/pK0GpVDeDIKK5iBvSJBrOzhMw7FHk9dICnAJDaCW0x
+	YSCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=WVMEcEMpNEyoWVxqH3k15/9XpFN0VxKN4QBaTI542ZU=;
-	b=TXVJHQ6tzxLplJKVVXF65AKBMrttz5ywexaUJXngA/gqcwLL/+5Nx9yrpxYY+x5Uki
-	Tg8hJge/TJGEWe6i9oz55gnTJgnvB7e+yhaqim2sfXcD9BaQ5Yuk5xsSZbdmGyzmWnuO
-	DU8zULqnxkjXhNuOpA4PouFfuT+rkJRJNeHBDe142g56vJpiAaqocuhSQkzFpeJyBdKt
-	17oSHYkR8ZNh8qbduncAz0q6pRj2LgAHsA+7fBZ3i9k82GAwQrZkQIj0V5UsOSbO6SID
-	K45cBw6nIZA7Xwo26kGDxiC8hfVOMUbZJUranuLSq+t0W/rgIeaNJPBSei85bWFMAlR1
-	5k3g==
-X-Gm-Message-State: AODbwcAV+STyN1V/SRUsv6HDLWaRSzoItvyOfI8ROJKKV3Ydt1lMR6Ah
-	WhiWXHt/OC6mf2vH2rhm2F5quoNd0g==
-X-Received: by 10.28.74.1 with SMTP id x1mr436406wma.95.1496343759022; Thu, 01
-	Jun 2017 12:02:39 -0700 (PDT)
+	bh=8xaO99vCwCzu5OUQ6xjcoFCWLkiHC354Ny9+ICwJpyI=;
+	b=U9zbX5gfUGxXedC0nfbeN2eud+qQQ/D4oL+U+iCzg1rsm/htgfop/5dicM0oPjiOKy
+	RBAJWAu1lf2t0ZAep7cuO4+dhLG0mDKvXMp9xw/V1ZUYg9y22elILOcvMfhXmcuT8y7T
+	yGsASkbCupv8lx9ogwb1aYCSLbw/SXc+s/PRsMWqStTEpfi07WGO1WAP7AI6hYO5Iodv
+	dlCzJSSbx+ihW2ODtnZ5TOxfgzUfn1wo8D03llGjJRoKAO8gmJTBfLk9eIwCsijey9GH
+	B74HWUdcHoDI0pSVs1KnKI6eN7UoFajTKOQFdnj7cdHR4TPENt56RsyL97A5RxDnBu1o
+	E5rQ==
+X-Gm-Message-State: AODbwcAdR4h3TGAUZmKgM7sFZpG3/u1J1znYcqi5+qExd5yPV9BfOl4s
+	HPEJE9N6zqTY9L2hVSdFANm2HazkAw==
+X-Received: by 10.28.41.193 with SMTP id p184mr450686wmp.86.1496344260541;
+	Thu, 01 Jun 2017 12:11:00 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.223.176.148 with HTTP; Thu, 1 Jun 2017 12:02:38 -0700 (PDT)
-In-Reply-To: <dc21b6be8d46f824831ff9bf4a5055dec3895b6b.1496329361.git.alexander.kanavin@linux.intel.com>
-References: <cover.1496329361.git.alexander.kanavin@linux.intel.com>
-	<dc21b6be8d46f824831ff9bf4a5055dec3895b6b.1496329361.git.alexander.kanavin@linux.intel.com>
+Received: by 10.223.176.148 with HTTP; Thu, 1 Jun 2017 12:11:00 -0700 (PDT)
+In-Reply-To: <20170601092108.9544-1-nicolas.dechesne@linaro.org>
+References: <20170601092108.9544-1-nicolas.dechesne@linaro.org>
 From: Andre McCurdy <armccurdy@gmail.com>
-Date: Thu, 1 Jun 2017 12:02:38 -0700
-Message-ID: <CAJ86T=Vgkosu=ubwF62dp8mHhaL7n1nKfSQXi4G1Si5F3J6TfA@mail.gmail.com>
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Date: Thu, 1 Jun 2017 12:11:00 -0700
+Message-ID: <CAJ86T=VpTJSAcHdwGC04AsF8hKexk8VRV8LPCQdTaEo=2c1d7g@mail.gmail.com>
+To: Nicolas Dechesne <nicolas.dechesne@linaro.org>
 Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] package_rpm.bbclass: use multithreaded xz compression
+Subject: Re: [PATCH] kernel.bbclass: fix KERNEL_IMAGETYPE(S) for Image.gz
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,45 +52,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Jun 2017 19:02:39 -0000
+X-List-Received-Date: Thu, 01 Jun 2017 19:11:01 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Jun 1, 2017 at 8:15 AM, Alexander Kanavin
-<alexander.kanavin@linux.intel.com> wrote:
-> RPM's default is single-threaded gz; the change greatly helps with
-> both buildtimes (when there is a small number of large-sized packages)
-> and disk space taken by resulting rpms.
-
-Do you have any test results for that? Obviously build times will be
-longer when building with a single CPU since xz compression needs more
-CPU than gzip, but I'm curious how many CPUs are required before the
-multiple threads win over and build times actually get shorter. 4? 8?
-
-One other concern with parallel xz compression is memory usage. Single
-threaded xz needs more memory than gzip and running multiple xz
-compression threads together will push the memory usage up again.
-Maybe not an issue if the peak is still acceptable, but something to
-be aware of (I've given up trying to build in 4GB, but hopefully 8GB
-build machines still have some life left in them...).
-
-> Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-> ---
->  meta/classes/package_rpm.bbclass | 2 ++
->  1 file changed, 2 insertions(+)
+On Thu, Jun 1, 2017 at 2:21 AM, Nicolas Dechesne
+<nicolas.dechesne@linaro.org> wrote:
+> KERNEL_IMAGETYPES lists all the kernel images that we want to build. in
+> cb17b6c2a7 (kernel.bbclass: support kernel image type of vmlinux.gz), some logic
+> was added to support vmlinux.gz which is not a target built by kernel
+> makefiles (only vmlinux). It is clear that the goal of this logic is only to
+> support vmlinux.gz and not others compressed format (such as Image.gz) which are
+> valid target for kernel makefiles.
 >
-> diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
-> index a844c4d4360..dc241975c3b 100644
-> --- a/meta/classes/package_rpm.bbclass
-> +++ b/meta/classes/package_rpm.bbclass
-> @@ -644,6 +644,8 @@ python do_package_rpm () {
->      cmd = cmd + " --define '_build_name_fmt %%{NAME}-%%{VERSION}-%%{RELEASE}.%%{ARCH}.rpm'"
->      cmd = cmd + " --define '_use_internal_dependency_generator 0'"
->      cmd = cmd + " --define '_binaries_in_noarch_packages_terminate_build 0'"
-> +    cmd = cmd + " --define '_binary_payload w6T.xzdio'"
-> +    cmd = cmd + " --define '_source_payload w6T.xzdio'"
->      if perfiledeps:
->          cmd = cmd + " --define '__find_requires " + outdepends + "'"
->          cmd = cmd + " --define '__find_provides " + outprovides + "'"
+> For Image.gz we should rely on the kernel makefiles and not do the compression
+> in kernel class.
+>
+> This patch updates the logic used to filter out non supported kernel target from
+> KERNEL_IMAGETYPES, and make vmlinux.gz a 'special case', instead of *.gz. If
+> more special cases are needed in the future, we could add them in a similar way.
+>
+> This patch should be a no-op for anyone using vmlinux or vmlinux.gz, and on top
+> of that it is fixing the build for Image.gz which was not working until now.
+>
+> Signed-off-by: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+> ---
+>  meta/classes/kernel.bbclass | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
+>
+> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+> index 7a134d5c29..459b6d66a3 100644
+> --- a/meta/classes/kernel.bbclass
+> +++ b/meta/classes/kernel.bbclass
+> @@ -44,7 +44,10 @@ python __anonymous () {
+>          types = (alttype + ' ' + types).strip()
+>      d.setVar('KERNEL_IMAGETYPES', types)
+>
+> -    typeformake = re.sub(r'\.gz', '', types)
+> +    # some commonly used kernel images aren't generated by the kernel build system, such as vmlinux.gz
+> +    # typeformake lists only valid kernel make targets, and post processing can be done after the kernel
+> +    # is built (such as using gzip to compress vmlinux)
+> +    typeformake = re.sub(r'vmlinux\.gz', 'vmlinux', types)
+
+You could use types.replace('vmlinux.gz', 'vmlinux') here (and then
+drop the "import re"). Also, if vmlinux.gz is the only special case
+being supported, then the kernel_do_compile() can be simplified too
+(see the patch I sent yesterday).
+
+>      d.setVar('KERNEL_IMAGETYPE_FOR_MAKE', typeformake)
+>
+>      for type in types.split():
 > --
 > 2.11.0
 >
