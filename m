@@ -1,47 +1,22 @@
-Return-Path: <net147@gmail.com>
-Received: from mail-it0-f67.google.com (mail-it0-f67.google.com
-	[209.85.214.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 61F30719B7
+Return-Path: <joshua.g.lock@linux.intel.com>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	by mail.openembedded.org (Postfix) with ESMTP id 5A074719B7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Jun 2017 12:15:11 +0000 (UTC)
-Received: by mail-it0-f67.google.com with SMTP id d68so5718363ita.1
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 01 Jun 2017 05:15:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=8fg1TvB+iBL9oRJAPMjfG4b/JVShYEJvL4wBloDZyT4=;
-	b=CpeoOc7pM8hLrht3FtJmf5YWSp+qJlsdBQKkJ03LQb75huzz0Gj82JNdiULYtTjLgo
-	fxcXUAYndRoyoTlLa0ta4oSbln+3ChSx9x7zSSqdZF9mfFXbp6C+PLYfSus4A/UnPJqH
-	R4SIogv7Ex2elxDmUeQihjQ44L5jkYjvmf+H4cLFrT8SdbbneB3fysOAPn5UOc26W0RI
-	pdFBxAt4pvSURjbFhGOYQCC+fmEfIdz4wi/GbpYwY+fI5Zgh9XOdUwjORz+G2YmgcCcn
-	6AyOjI4MbckJH8s5TQCYdNl/jqmyakIy/Z+rlToS+qGQWGZ8ZIDVzYCc64sOu1vhgVbn
-	MIWw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=8fg1TvB+iBL9oRJAPMjfG4b/JVShYEJvL4wBloDZyT4=;
-	b=FFnWopkWVdB0dknz3+8Wt7cGcb6X6kT/i7mNMPgVbTMymQ7wSGv5ssLjpfBcNK87Fd
-	192oqoPHku7E4nkvwhvbk20jva//KeqD0WoFT1WAmkOnZFiohTuEisXW+biaNLB6hhzC
-	4GkPWdnvO46T0fbh1/AMR7r+HZyZN4yPr2ptiEcONZ6MkaiJ1rKRgYjrn9wJXLJSK8cR
-	i1Dmnu8PzddBR9plGtxhk+1iVURbCCMj5hGmJEgEGiyYk4wD6j6px/SZnrekMjdQ/yPK
-	E58R1biV5H4J/CKWTu0SPR0cXVGxI163NxwC0MkS2HvUmTu0MbVNmYEJ/ouf3h6zrk3m
-	9n6A==
-X-Gm-Message-State: AODbwcAGvkRktbvGV5dRwpicikNGOcM4klvQte75RuenWShm0TEcIHEJ
-	oESaXvMUmHwzEg==
-X-Received: by 10.99.114.94 with SMTP id c30mr921579pgn.6.1496319313514;
-	Thu, 01 Jun 2017 05:15:13 -0700 (PDT)
-Received: from 60-242-179-244.static.tpgi.com.au
-	(60-242-179-244.static.tpgi.com.au. [60.242.179.244])
-	by smtp.gmail.com with ESMTPSA id
-	v9sm33576555pfa.43.2017.06.01.05.15.12
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 01 Jun 2017 05:15:12 -0700 (PDT)
-From: Jonathan Liu <net147@gmail.com>
+	Thu,  1 Jun 2017 12:24:09 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga105.jf.intel.com with ESMTP; 01 Jun 2017 05:24:11 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.39,279,1493708400"; d="scan'208";a="1136916510"
+Received: from jlock-mobl1.ger.corp.intel.com ([10.252.23.138])
+	by orsmga001.jf.intel.com with ESMTP; 01 Jun 2017 05:24:10 -0700
+From: Joshua Lock <joshua.g.lock@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  1 Jun 2017 22:15:52 +1000
-Message-Id: <20170601121552.27868-1-net147@gmail.com>
-X-Mailer: git-send-email 2.12.2
-Subject: [PATCH v2] bitbake.conf: Add sdl-config to HOSTTOOLS if using host SDL
+Date: Thu,  1 Jun 2017 13:24:05 +0100
+Message-Id: <3481b946fa892f7ecc6fb0ca5376ab9bcb85c529.1496319716.git.joshua.g.lock@intel.com>
+X-Mailer: git-send-email 2.9.4
+In-Reply-To: <cover.1496319716.git.joshua.g.lock@intel.com>
+References: <cover.1496319716.git.joshua.g.lock@intel.com>
+Subject: [morty][PATCH 1/1] perf: add perf-feature for systemtap
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,31 +29,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Jun 2017 12:15:12 -0000
+X-List-Received-Date: Thu, 01 Jun 2017 12:24:10 -0000
 
-If ASSUME_PROVIDES contains libsdl-native, we need to add sdl-config
-to HOSTTOOLS to allow access to the host sdl-config.
+Based on OE-Core rev: 8aafed5f4757550f2ff688e1b8981e5e8e6e3428 if systemtap
+isn't disabled it's possible to race with systemtap headers being present
+during autodetection and disappearing during the build:
 
-Signed-off-by: Jonathan Liu <net147@gmail.com>
+    tests/sdt.c:14:21: fatal error: sys/sdt.h: No such file or directory
+     #include <sys/sdt.h>
+
+Signed-off-by: Joshua Lock <joshua.g.lock@intel.com>
 ---
- meta/conf/bitbake.conf | 3 +++
- 1 file changed, 3 insertions(+)
+ meta/recipes-kernel/perf/perf.bb | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 8e4f4bbb56..3ad905c917 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -471,6 +471,9 @@ HOSTTOOLS += " \
- # Tools needed to run testimage runtime image testing
- HOSTTOOLS += "ip ping ps scp ssh stty"
+diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
+index 471023d..03ae446 100644
+--- a/meta/recipes-kernel/perf/perf.bb
++++ b/meta/recipes-kernel/perf/perf.bb
+@@ -66,6 +66,7 @@ SCRIPTING_DEFINES = "${@perf_feature_enabled('perf-scripting', '', 'NO_LIBPERL=1
+ TUI_DEFINES = "${@perf_feature_enabled('perf-tui', '', 'NO_NEWT=1',d)}"
+ LIBUNWIND_DEFINES = "${@perf_feature_enabled('perf-libunwind', '', 'NO_LIBUNWIND=1 NO_LIBDW_DWARF_UNWIND=1',d)}"
+ LIBNUMA_DEFINES = "${@perf_feature_enabled('perf-libnuma', '', 'NO_LIBNUMA=1',d)}"
++SYSTEMTAP_DEFINES = "${@perf_feature_enabled('perf-systemtap', '', 'NO_SDT=1', d)}"
  
-+# Link to sdl-config if using host SDL
-+HOSTTOOLS += "${@bb.utils.contains('ASSUME_PROVIDES', 'libsdl-native', 'sdl-config', '', d)}"
-+
- # Link to these if present
- HOSTTOOLS_NONFATAL += "aws ccache gcc-ar gpg ld.bfd ld.gold nc sftp socat sudo"
+ # The LDFLAGS is required or some old kernels fails due missing
+ # symbols and this is preferred than requiring patches to every old
+@@ -83,7 +84,7 @@ EXTRA_OEMAKE = '\
+     EXTRA_CFLAGS="-ldw" \
+     perfexecdir=${libexecdir} \
+     NO_GTK2=1 ${TUI_DEFINES} NO_DWARF=1 ${LIBUNWIND_DEFINES} \
+-    ${SCRIPTING_DEFINES} ${LIBNUMA_DEFINES} \
++    ${SCRIPTING_DEFINES} ${LIBNUMA_DEFINES} ${SYSTEMTAP_DEFINES} \
+ '
  
+ EXTRA_OEMAKE += "\
 -- 
-2.12.2
+2.9.4
 
 
