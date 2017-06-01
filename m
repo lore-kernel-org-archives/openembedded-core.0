@@ -1,43 +1,42 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 5F52A77D11
+Return-Path: <nicolas.dechesne@linaro.org>
+Received: from mail-qt0-f172.google.com (mail-qt0-f172.google.com
+	[209.85.216.172])
+	by mail.openembedded.org (Postfix) with ESMTP id D343C600BB
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Jun 2017 19:10:59 +0000 (UTC)
-Received: by mail-wm0-f66.google.com with SMTP id k15so13667555wmh.3
+	Thu,  1 Jun 2017 21:31:49 +0000 (UTC)
+Received: by mail-qt0-f172.google.com with SMTP id f55so46769402qta.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 01 Jun 2017 12:11:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	Thu, 01 Jun 2017 14:31:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=8xaO99vCwCzu5OUQ6xjcoFCWLkiHC354Ny9+ICwJpyI=;
-	b=K852IBfx4ika/lk9DjwNdJdqKbj4GDrg+DBToFfwsP+i1wosavIL/GbkiSxaSgn+sb
-	QRjbVddOCSZlvcauekclOC64bJv2m5Q9UwIvwnrv7lQ78t40HNF7dfXe+VdOf2CDVej0
-	aCEax84f5ViCexsTsYBtDuTv50Xs9B7PPFk/I6FnRZBPzxMIeCXsqhz6FtT2xYMmPieA
-	cOwBHKZr3m/EE6omys2gghvaSa8uEpWQxTEbHVRFpJMf/D2pd4rymOFy3Tz2EotrA6B3
-	csGc9lR0zinlnK0wxhoFzfpC9/pK0GpVDeDIKK5iBvSJBrOzhMw7FHk9dICnAJDaCW0x
-	YSCw==
+	:cc; bh=l9vRq+8NgWY61gpd/wMAoWdyzvCRSvPEQN0PqLIRxRk=;
+	b=VhrNNXs2RLCGvT/vQMG6JylMQWlN4qtoz7tPdZwFu+M5tg9T9hxaWTH2ytm9AHq6jJ
+	WShXmhRJSVs39sqEkWaR+noqZy5SjQ8FVbJaj7TW5INYADqgBYHHJWck0iD+DtM9HvBG
+	gnRMk3LkshKf3sN5NxFERULYQuUMiVcIoTZIg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=8xaO99vCwCzu5OUQ6xjcoFCWLkiHC354Ny9+ICwJpyI=;
-	b=U9zbX5gfUGxXedC0nfbeN2eud+qQQ/D4oL+U+iCzg1rsm/htgfop/5dicM0oPjiOKy
-	RBAJWAu1lf2t0ZAep7cuO4+dhLG0mDKvXMp9xw/V1ZUYg9y22elILOcvMfhXmcuT8y7T
-	yGsASkbCupv8lx9ogwb1aYCSLbw/SXc+s/PRsMWqStTEpfi07WGO1WAP7AI6hYO5Iodv
-	dlCzJSSbx+ihW2ODtnZ5TOxfgzUfn1wo8D03llGjJRoKAO8gmJTBfLk9eIwCsijey9GH
-	B74HWUdcHoDI0pSVs1KnKI6eN7UoFajTKOQFdnj7cdHR4TPENt56RsyL97A5RxDnBu1o
-	E5rQ==
-X-Gm-Message-State: AODbwcAdR4h3TGAUZmKgM7sFZpG3/u1J1znYcqi5+qExd5yPV9BfOl4s
-	HPEJE9N6zqTY9L2hVSdFANm2HazkAw==
-X-Received: by 10.28.41.193 with SMTP id p184mr450686wmp.86.1496344260541;
-	Thu, 01 Jun 2017 12:11:00 -0700 (PDT)
+	bh=l9vRq+8NgWY61gpd/wMAoWdyzvCRSvPEQN0PqLIRxRk=;
+	b=TzPDYnyjMlO/D8At8h2eiigJgh5efcUjVmBuYRQr6iX0YZY2bLhLeDg4BajZPDbh6O
+	jR5FadKLGs/xvwhiheFohvkwWKDFLm1+JJcC/pSUGlEEGTY1r2rPfpehj5W7Y7Hjes+E
+	mX7sq9tjsICVGNjRKgYBiJWHqfkms3F/nMfa78SlZDJfx3/5H9NpjhpJ71fDODKQs0Hv
+	bJAjcrFMnmHyA0n/d9BGEGI2Qm1KgcroUiCuIgTfd43bvLwmCCfPcTNYdj3fCOrP6Cj1
+	mGV998dSf1zDWDsLZa2fJMCAlSY6M5rZhZaixbnSx9J4j/GDuPchrHEFU8E30zIuC+xz
+	nrUQ==
+X-Gm-Message-State: AODbwcAHGPi8GNgZ6oyL4Wcw8GlSG6782UvAIQmg0x9CWkw/qQ2rmYaA
+	EnpR6LZhWMWHWwpt3q+1xxrsj6D6q9RE
+X-Received: by 10.200.34.132 with SMTP id f4mr4529560qta.183.1496352710813;
+	Thu, 01 Jun 2017 14:31:50 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.223.176.148 with HTTP; Thu, 1 Jun 2017 12:11:00 -0700 (PDT)
-In-Reply-To: <20170601092108.9544-1-nicolas.dechesne@linaro.org>
+Received: by 10.140.88.135 with HTTP; Thu, 1 Jun 2017 14:31:30 -0700 (PDT)
+In-Reply-To: <CAJ86T=VpTJSAcHdwGC04AsF8hKexk8VRV8LPCQdTaEo=2c1d7g@mail.gmail.com>
 References: <20170601092108.9544-1-nicolas.dechesne@linaro.org>
-From: Andre McCurdy <armccurdy@gmail.com>
-Date: Thu, 1 Jun 2017 12:11:00 -0700
-Message-ID: <CAJ86T=VpTJSAcHdwGC04AsF8hKexk8VRV8LPCQdTaEo=2c1d7g@mail.gmail.com>
-To: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+	<CAJ86T=VpTJSAcHdwGC04AsF8hKexk8VRV8LPCQdTaEo=2c1d7g@mail.gmail.com>
+From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+Date: Thu, 1 Jun 2017 23:31:30 +0200
+Message-ID: <CAP71Wjy6Yf4e0xGsXSwpyQuc1w=RnJktkY9n0HJGjjE8OFzocg@mail.gmail.com>
+To: Andre McCurdy <armccurdy@gmail.com>
 Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] kernel.bbclass: fix KERNEL_IMAGETYPE(S) for Image.gz
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -52,61 +51,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Jun 2017 19:11:01 -0000
+X-List-Received-Date: Thu, 01 Jun 2017 21:31:51 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Jun 1, 2017 at 2:21 AM, Nicolas Dechesne
-<nicolas.dechesne@linaro.org> wrote:
-> KERNEL_IMAGETYPES lists all the kernel images that we want to build. in
-> cb17b6c2a7 (kernel.bbclass: support kernel image type of vmlinux.gz), some logic
-> was added to support vmlinux.gz which is not a target built by kernel
-> makefiles (only vmlinux). It is clear that the goal of this logic is only to
-> support vmlinux.gz and not others compressed format (such as Image.gz) which are
-> valid target for kernel makefiles.
->
-> For Image.gz we should rely on the kernel makefiles and not do the compression
-> in kernel class.
->
-> This patch updates the logic used to filter out non supported kernel target from
-> KERNEL_IMAGETYPES, and make vmlinux.gz a 'special case', instead of *.gz. If
-> more special cases are needed in the future, we could add them in a similar way.
->
-> This patch should be a no-op for anyone using vmlinux or vmlinux.gz, and on top
-> of that it is fixing the build for Image.gz which was not working until now.
->
-> Signed-off-by: Nicolas Dechesne <nicolas.dechesne@linaro.org>
-> ---
->  meta/classes/kernel.bbclass | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
->
-> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-> index 7a134d5c29..459b6d66a3 100644
-> --- a/meta/classes/kernel.bbclass
-> +++ b/meta/classes/kernel.bbclass
-> @@ -44,7 +44,10 @@ python __anonymous () {
->          types = (alttype + ' ' + types).strip()
->      d.setVar('KERNEL_IMAGETYPES', types)
->
-> -    typeformake = re.sub(r'\.gz', '', types)
-> +    # some commonly used kernel images aren't generated by the kernel build system, such as vmlinux.gz
-> +    # typeformake lists only valid kernel make targets, and post processing can be done after the kernel
-> +    # is built (such as using gzip to compress vmlinux)
-> +    typeformake = re.sub(r'vmlinux\.gz', 'vmlinux', types)
+On Thu, Jun 1, 2017 at 9:11 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
+> You could use types.replace('vmlinux.gz', 'vmlinux') here (and then
+> drop the "import re"). Also, if vmlinux.gz is the only special case
+> being supported, then the kernel_do_compile() can be simplified too
+> (see the patch I sent yesterday).
 
-You could use types.replace('vmlinux.gz', 'vmlinux') here (and then
-drop the "import re"). Also, if vmlinux.gz is the only special case
-being supported, then the kernel_do_compile() can be simplified too
-(see the patch I sent yesterday).
-
->      d.setVar('KERNEL_IMAGETYPE_FOR_MAKE', typeformake)
->
->      for type in types.split():
-> --
-> 2.11.0
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+yes, you're right. that change seems like an improvement. i will test
+it out and resend..
 
