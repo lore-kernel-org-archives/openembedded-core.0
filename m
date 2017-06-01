@@ -1,24 +1,44 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id D6E5377D42
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-wm0-f43.google.com (mail-wm0-f43.google.com [74.125.82.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 287276025E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Jun 2017 01:42:51 +0000 (UTC)
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	31 May 2017 18:42:53 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.39,277,1493708400"; d="scan'208";a="107755961"
-Received: from ysayabal-mobl.gar.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.255.134.117])
-	by orsmga005.jf.intel.com with ESMTP; 31 May 2017 18:42:51 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  1 Jun 2017 13:42:25 +1200
-Message-Id: <df1f9e34c047b18d7097ccedbb6fbfb6c3547039.1496281301.git.paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 2.9.4
-In-Reply-To: <cover.1496281301.git.paul.eggleton@linux.intel.com>
-References: <cover.1496281301.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 1/1] classes/buildhistory: make a single commit per build
+	Thu,  1 Jun 2017 01:54:31 +0000 (UTC)
+Received: by mail-wm0-f43.google.com with SMTP id b84so139806257wmh.0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 31 May 2017 18:54:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:from:date:message-id:subject:to;
+	bh=zfFN2y3nhvENT/F8dOF7O9+jPlfnIsWrUzOeQpkLjvA=;
+	b=D55dAEIUOd/Z4B4+TwkecNTfa3IYJolhyE3SPw4cs14ThpQhKapidghMxcvozZ99eS
+	DVjx3o1fNlagyy6y4rY5M/gNsja0rUxIxzyZc1tqgXQkIrmaujNQncFjnMxpPX5upTK3
+	xaEEGma0Z38hFE8QzTlA+S8+G3lu88PBqRUpQGUc9qmroXofPvPby028YsguggsWZX9R
+	pPU8DCB1lH9IP/3QVwViPrkK5xIhVpsBMXtjM/Dp8DFQ3DkxqcqKMnuRm+SiI2T0OP4p
+	zZwlJMKMx5YeB4qddav6pDKsj9dAj8doe9EK0q8VXkAVCZ9uMnhUUthlYym5zx21kcDB
+	6muQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+	bh=zfFN2y3nhvENT/F8dOF7O9+jPlfnIsWrUzOeQpkLjvA=;
+	b=JrRd5180fDjUOD4TSbyw0bvborNfNhpBPTYQbgi+OxPMd12hQMRi1YRMu42Qxrdl5K
+	1eCGjiY1DxLhKByctEdvsADUMZ0FhkWZ978SBXQk10J34cLOlr5Uak7EVhiq3Sgw4ODR
+	bG6TMPcKAFD3c11DfYZsXZOQRAvXvt5nTYWYX/UxZVrGq6h3/m7Qo/q5a9runy/BdW1J
+	j+Tq0LqC45z+ckW3cgtGrvN7jU+F5G1GMS2siPdJk2PR0cTuvHgVitWQ6czkEMkN0wq8
+	YVjivNbDktuZ8m5Em7Lr8h3WdqBm5ErUDe57nf3xKfTEjCw72unlhvAU9eyRIJior0cn
+	0PQw==
+X-Gm-Message-State: AODbwcB261tTSoE8ZX9taUU8Va2hObh7w0dFA8xQV86+kUfE63n8Yrr6
+	4CFm0maj4kq+JBobxD+R9gZs8qOzgw==
+X-Received: by 10.80.182.35 with SMTP id b32mr23438721ede.123.1496282072558;
+	Wed, 31 May 2017 18:54:32 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.80.195.143 with HTTP; Wed, 31 May 2017 18:54:02 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 31 May 2017 18:54:02 -0700
+Message-ID: <CAMKF1spQcs7rHhT=NgHBWhDESzEzbJx4XReBmREtr=rs5c9FjQ@mail.gmail.com>
+To: Mark Hatle <mark.hatle@windriver.com>, 
+	Alexander Kanavin <alexander.kanavin@linux.intel.com>, 
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: AS_NEEDED and rpm4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,63 +51,14 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Jun 2017 01:42:52 -0000
+X-List-Received-Date: Thu, 01 Jun 2017 01:54:32 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Way back in OE-Core commit fba198ac7efe476a25c5761878ef2fcee97bf9f1 in
-2012 we split committing to the repository, making a commit per
-top-level directory. However, as we add more information it becomes
-harder to see which commits belong to which build. Switch back to a
-single commit per build to keep the history tidier.
+Hi
 
-To address the original concern, if you do want to see just the changes
-for a particular subdirectory, git can filter that for you - just
-specify that subdirectory as the last parameter on the git show / git
-diff command line and that's all you will see.
+We added entry for disabling AS_NEEDED for rpm5, now that  we have move to rpm4
+is that entry sitll required in "conf/distro/include/as-needed.inc"
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
----
- meta/classes/buildhistory.bbclass | 12 +++++-------
- 1 file changed, 5 insertions(+), 7 deletions(-)
-
-diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
-index f543bb7..3e907fc 100644
---- a/meta/classes/buildhistory.bbclass
-+++ b/meta/classes/buildhistory.bbclass
-@@ -706,10 +706,10 @@ def buildhistory_get_cmdline(d):
- buildhistory_single_commit() {
- 	if [ "$3" = "" ] ; then
- 		commitopts="${BUILDHISTORY_DIR}/ --allow-empty"
--		item="No changes"
-+		shortlogprefix="No changes: "
- 	else
--		commitopts="$3 metadata-revs"
--		item="$3"
-+		commitopts=""
-+		shortlogprefix=""
- 	fi
- 	if [ "${BUILDHISTORY_BUILD_FAILURES}" = "0" ] ; then
- 		result="succeeded"
-@@ -726,7 +726,7 @@ buildhistory_single_commit() {
- 	esac
- 	commitmsgfile=`mktemp`
- 	cat > $commitmsgfile << END
--$item: Build ${BUILDNAME} of ${DISTRO} ${DISTRO_VERSION} for machine ${MACHINE} on $2
-+${shortlogprefix}Build ${BUILDNAME} of ${DISTRO} ${DISTRO_VERSION} for machine ${MACHINE} on $2
- 
- cmd: $1
- 
-@@ -770,9 +770,7 @@ END
- 			git add -A .
- 			# porcelain output looks like "?? packages/foo/bar"
- 			# Ensure we commit metadata-revs with the first commit
--			for entry in `echo "$repostatus" | awk '{print $2}' | awk -F/ '{print $1}' | sort | uniq` ; do
--				buildhistory_single_commit "$CMDLINE" "$HOSTNAME" "$entry"
--			done
-+			buildhistory_single_commit "$CMDLINE" "$HOSTNAME" dummy
- 			git gc --auto --quiet
- 		else
- 			buildhistory_single_commit "$CMDLINE" "$HOSTNAME"
--- 
-2.9.4
-
+Thanks
+-Khem
 
