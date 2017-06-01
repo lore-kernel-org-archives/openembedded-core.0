@@ -1,30 +1,28 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 1883977DB3
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	by mail.openembedded.org (Postfix) with ESMTP id A347077DB1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Jun 2017 17:39:27 +0000 (UTC)
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	01 Jun 2017 10:39:28 -0700
+	Thu,  1 Jun 2017 17:46:34 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga105.jf.intel.com with ESMTP; 01 Jun 2017 10:46:32 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.39,280,1493708400"; d="scan'208";a="108072912"
+X-IronPort-AV: E=Sophos;i="5.39,280,1493708400"; d="scan'208";a="1137013088"
 Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
 	([10.237.68.161])
-	by orsmga005.jf.intel.com with ESMTP; 01 Jun 2017 10:39:27 -0700
+	by orsmga001.jf.intel.com with ESMTP; 01 Jun 2017 10:46:31 -0700
 To: Mark Hatle <mark.hatle@windriver.com>,
-	openembedded-core@lists.openembedded.org,
-	Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+	openembedded-core@lists.openembedded.org
 References: <cover.1496329361.git.alexander.kanavin@linux.intel.com>
-	<1496335920.26945.80.camel@linux.intel.com>
-	<b191e2fc-65c7-350f-1a7e-da684ca6b2b5@windriver.com>
+	<dc21b6be8d46f824831ff9bf4a5055dec3895b6b.1496329361.git.alexander.kanavin@linux.intel.com>
+	<af1710db-aa6a-1934-e2e8-d59f94c52402@windriver.com>
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <f71622c0-5f67-999f-da93-b441d1e3445a@linux.intel.com>
-Date: Thu, 1 Jun 2017 20:37:41 +0300
+Message-ID: <bcc3605e-962f-1239-dad9-1ea7e6a97f83@linux.intel.com>
+Date: Thu, 1 Jun 2017 20:44:45 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
 	Thunderbird/45.8.0
 MIME-Version: 1.0
-In-Reply-To: <b191e2fc-65c7-350f-1a7e-da684ca6b2b5@windriver.com>
-Subject: Re: [PATCH 0/2] Multi-threaded RPM support
+In-Reply-To: <af1710db-aa6a-1934-e2e8-d59f94c52402@windriver.com>
+Subject: Re: [PATCH 1/2] package_rpm.bbclass: use multithreaded xz compression
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,32 +35,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Jun 2017 17:39:28 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
+X-List-Received-Date: Thu, 01 Jun 2017 17:46:40 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 06/01/2017 08:13 PM, Mark Hatle wrote:
->>> perl
->>> before: 1m19s 63M
->>> after: 55s 42M
->>>
->>> python3
->>> before: 40s 38M
->>> after: 28s 24M
->>
->> it is interesting to see that perl and python does not benefit 'much'.
->> buildstats should give us a better picture per recipe.
+On 06/01/2017 08:11 PM, Mark Hatle wrote:
+> On 6/1/17 10:15 AM, Alexander Kanavin wrote:
+>> RPM's default is single-threaded gz; the change greatly helps with
+>> both buildtimes (when there is a small number of large-sized packages)
+>> and disk space taken by resulting rpms.
 >
-> This may be due to how we process rpmdeps within OpenEmbedded.. but I'm not
-> sure.  I'd have expected a bigger time difference with large packages (lots of
-> sub packages) like perl and python3.
+> If you wnable XZ here, you need to make sure XZ compression is enabled within
+> rpm itself.  (I know how that worked in rpm5, not sure how rpm4 does it -- it
+> may be enable that the binary be present to call out to.)
 
-The numbers include the overhead of starting bitbake (some 10 seconds). 
-Subtract that (from both 'before' and 'after') and then it's more 
-impressive :) I tested via
+rpm4 does not call out to any binary, it is linking against liblzma from 
+xz package, if it can find it during configure. Xz was already in list 
+of dependencies, so nothing needed to be done. Same for other 
+compression schemes.
 
-time bitbake -f -c do_package_write_rpm perl
+> Finally I have not investigated parallel XZ, but in some cases the resulting
+> compressed file is different depending on compression artifacts due to
+> parallelization.  (The compressed file is different, not the uncompressed content.)
+>
+> This can be a concern to some who want fully reproducible builds (from source).
+> So we need to make sure we have a way to disable this type of parallelization
+> --if-- it causes a problem with different contents.
+
+Let's first see if it is an actual concern for anyone. If the 
+uncompressed contents is exactly same, I have difficulty seeing what is 
+the problem specifically.
 
 Alex
-
 
