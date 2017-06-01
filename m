@@ -1,50 +1,91 @@
-Return-Path: <jpewhacker@gmail.com>
-Received: from mail-it0-f51.google.com (mail-it0-f51.google.com
-	[209.85.214.51])
-	by mail.openembedded.org (Postfix) with ESMTP id C022D71AD4
+Return-Path: <mkelly@xevo.com>
+X-Greylist: delayed 18705 seconds by postgrey-1.34 at layers.openembedded.org;
+	Thu, 01 Jun 2017 05:44:17 UTC
+Received: from NAM03-CO1-obe.outbound.protection.outlook.com
+	(mail-co1nam03on0045.outbound.protection.outlook.com [104.47.40.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 1DA5D7199D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Jun 2017 03:06:46 +0000 (UTC)
-Received: by mail-it0-f51.google.com with SMTP id m47so8145896iti.0
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 31 May 2017 20:06:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=ip4Mng59jYP06VJOXBsKWStYgva5uQIDE0azQQ8Iiuo=;
-	b=CygKETFqy5xZd+ed3zhX2ahr2JtzhBs/PeGKUNxx9CR4auAkn/fGDKeLQb0qet5uEq
-	xSq34J//dsRKJnB9330wIFhM5KvDYkinznvF7lFUUSy51jk4GcnW2Z8BpXzCDBXPu9aa
-	m6ns01EckQegB6przVPnrmVHzgSB3cEdeyX4MAabgzVVT4acKZi0kVVCXxZMca0H/At/
-	FL3bcftGUdwEKQRjvdyzaNXLrqLnPbDmq4eZy5zqJeYBdKVtXSgV9vT8yzrAC9Gb/2NQ
-	BcTB97wfsgTSZvNlEzzMiTkV8eL5J6m6SgTOBsytwux3jV0xxikH33UuW5L733LxLr2e
-	Xbqg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=ip4Mng59jYP06VJOXBsKWStYgva5uQIDE0azQQ8Iiuo=;
-	b=cqFKajHJ7V6EMygx9Q9hiCQFqmGhSso4fiBr7ixoSd6FQVzbUp21PP447wYXi9G0Rj
-	5Ie44ix+RMOOmwjcgkIZjAJ81/43UZ2wrCUpnU8So+B6/oZULDEf1wxt30raBsn/fAK5
-	NgXc7vzxow2bPyqQT4B6Oafgcumi2WlNoCGM4grAA1fiKPIM/4QMNzoKLik9Ty/B1lZn
-	uYQ9ocENg7oAjFH4LJsxUh4wCY7cXmS0qBaaFCEQYNYelBBkXHXD8VSdTqRBGkBBqYMv
-	J+EMpuXEWeQkTtqg/wb/jbwwnO0p37yWE2qbh6viunTLDOv9jtxeQNQX6wG6NwIsoiFs
-	vssw==
-X-Gm-Message-State: AODbwcB2rpFf62phaOkOQD0MtIa0jgchWR0WSDfG+9Rz5e2rWjizgyf+
-	FKK29v6166STSv+ZTFU=
-X-Received: by 10.36.77.9 with SMTP id l9mr11057838itb.95.1496286407930;
-	Wed, 31 May 2017 20:06:47 -0700 (PDT)
-Received: from localhost.localdomain ([2605:a601:a83:3700:10fb:b4c1:2c33:798c])
-	by smtp.gmail.com with ESMTPSA id
-	n27sm7734055ioe.23.2017.05.31.20.06.46
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 31 May 2017 20:06:46 -0700 (PDT)
-From: Joshua Watt <jpewhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 31 May 2017 22:05:57 -0500
-Message-Id: <20170601030557.9337-1-JPEWhacker@gmail.com>
-X-Mailer: git-send-email 2.9.4
-In-Reply-To: <CAJdd5GYuBbqarXs38M91atDyQhz17EcPDE9yKme-oiwDjCtaaA@mail.gmail.com>
-References: <CAJdd5GYuBbqarXs38M91atDyQhz17EcPDE9yKme-oiwDjCtaaA@mail.gmail.com>
-Subject: [PATCH v7] openssh: Atomically generate host keys
+	Thu,  1 Jun 2017 05:44:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=uievolution.onmicrosoft.com; s=selector1-xevo-com;
+	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
+	bh=/YOuiRXdwPBOrMYotPxgWzO2Ho0km6i/6C3f8eUSYd8=;
+	b=oc+2w/xyyOdGPU15WM2XbRgwuczCxFZdM+nLvr/O2OD5LrmBLgpKtrIV6T3XhdGP+9Qd7rTI9VJ1pegHlbhejBlLx6Tu1GDNL4wrAiSmKSXyFNkltivzjF4psKKsnMyizEr1kA5XelAvhOsXtl7Oisht5salDUtwjFlhEneagf8=
+Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
+	header.d=none; lists.openembedded.org;
+	dmarc=none action=none header.from=xevo.com;
+Received: from willamette.conference.local (210.131.143.241) by
+	CY4PR0101MB2934.prod.exchangelabs.com (10.171.223.139) with Microsoft
+	SMTP Server (version=TLS1_2,
+	cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+	15.1.1124.9; Thu, 1 Jun 2017 05:44:16 +0000
+From: Martin Kelly <mkelly@xevo.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 1 Jun 2017 14:43:54 +0900
+Message-ID: <1496295834-15479-1-git-send-email-mkelly@xevo.com>
+X-Mailer: git-send-email 2.1.4
+MIME-Version: 1.0
+X-Originating-IP: [210.131.143.241]
+X-ClientProxiedBy: SG2PR04CA0026.apcprd04.prod.outlook.com (10.162.195.164) To
+	CY4PR0101MB2934.prod.exchangelabs.com (10.171.223.139)
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY4PR0101MB2934:
+X-MS-Office365-Filtering-Correlation-Id: 87c9f428-b783-4160-5c03-08d4a8b13eb4
+X-Microsoft-Antispam: UriScan:; BCL:0; PCL:0;
+	RULEID:(22001)(201703131423075)(201703031133081);
+	SRVR:CY4PR0101MB2934; 
+X-Microsoft-Exchange-Diagnostics: 1; CY4PR0101MB2934;
+	3:SSi9OWI8POKgb73hBJGKB15GDaQwr1ZKoekLgtdA4tpSUMO199+a/OOez1mfZ0tQqaIizvTV/KWSHOk1ay6jdIxvTQn9eK/LVAr7z+IzayurLqadNpqN/jGjI602ujoDYFZrEmoDLt2iEss+WgJxz/QgAdn1gCDZK6JiONq4coLzy+W1tNwfE28iHM+jy+04WbuoL+K/336R/6WKI4jpO8ufaMr8Qr7iSbSt5ntFHmwWe8g/bGwyOlg6vYPRiKzUgWV+yCizAz1kaotpoBmEFqZinlrXuJPXrLlzCiCaIsJ4yt9HLmOJV9XpE9VKtGGJFk0KRIHliUz58sm/hM5r+w==;
+	25:6pix0y+xwvwtjp4dtb6irmq5u5uIkcCxKWr6P2n35569VndRGBsairDfQzsT24gZhJsXfQcLDCu6SrwrFmRSZ74qp6Q9MBZiKfTx3qdSDPXqTkV58m/QMhEZFEy5D/jdv/hzuylEYdpkzrI6ulTcpb5VPT2sQWbIyOROgD/i+EStywOpZvUJNslH/vGMP1J/3najT9WAh6GyCr+8UYpkcPPkLK9BPVCWPF/0I+d7tGvZS0qlIOa3tnM0NWhvuTNEfwV/PrA6QU6iq8UTLxllMH0jMufqqfulQj6lhVW+Ch/rFEiRE2MMfhpO/dgrFtqdY5kRjCHbrjnQy9x+uurXoFzVdeF0myn8W2v8EL2r3EUWssetCjXKQIIFShWteUz+Jz14QnngwV/KgwLAqxKclTVOjPxbq4SA6LhsmyuDhrotvN2eLZIQ30F3JVQb7M7Q/uRAQtyhWJIQgeU0dH2JXESBUkeYFZaS9ZUvR/44SUo=
+X-Microsoft-Exchange-Diagnostics: 1; CY4PR0101MB2934;
+	31:VrhEcBV3gvpJQZ8egGDsnQGaLBpySAgukXbjNxyXjK5lKYYo0oJOJ4jdUrs/Gqm8gsNvsltjJxCt1Vx+qY0FaR/CXzi6hbwgM5BH+be7FoW9bL2FkJj3gezWj1c5h73LsaDxlUzsJv5s/ljXB1SN1RZxvZP/faghU+a+kJSGeZAxbRGcKs2BNaSFcfb7gAOImL+rQ+7piC7t5FE71C5IUx3Ss6nF6mlSwx08g3uwwCo=;
+	20:IqZXtCN8pIG7XuptoSnCW/uYfHG8diAggnA/xhZTjiDKmgNHjC9FQY2guopZ/2OpTGAqNA+dfIu+AweR3kefkQuWL6eS03OdVGSPLmlnSo2tHYfZcCZJBhR+tbQeQqO0E8HPih9wFn3Vano+kb4pJQt4+d0rd20swHDbrGIcJt114tK2V1rprBGpzfCU8NYpuZ1fFR1fE8QFNXZVoKIUENsrsxjhydgPPdVMuSv0yNgeSy2juN1Yl8xi0lsr1GVgTqMF0mYsilGNapTuYym4xRjLOR/3Dp3P68FQ7rAnWaDWq9dqOzImI7xh5Vkj2HWFlbNVb4EbNGEytdH6fwJx8g==
+X-Microsoft-Antispam-PRVS: <CY4PR0101MB29347776CBEEE2303FBBBB39ABF60@CY4PR0101MB2934.prod.exchangelabs.com>
+X-Exchange-Antispam-Report-Test: UriScan:;
+X-Exchange-Antispam-Report-CFA-Test: BCL:0; PCL:0;
+	RULEID:(6040450)(2401047)(8121501046)(5005006)(93006095)(93001095)(10201501046)(3002001)(6041248)(20161123560025)(20161123558100)(20161123564025)(201703131423075)(201702281528075)(201703061421075)(201703061406153)(20161123555025)(20161123562025)(6072148);
+	SRVR:CY4PR0101MB2934; BCL:0; PCL:0; RULEID:;
+	SRVR:CY4PR0101MB2934; 
+X-Microsoft-Exchange-Diagnostics: 1; CY4PR0101MB2934;
+	4:VF5P8A7xw6uEm/DaoL1W8A75mY4SysRtT1+doUXGiP3ScnfJLULqydXii/1RfqboemI9s9NXM0zsfTrm3fTDO3erQ1rKPqIgsm4LlZPvzrUaX4Sk8HYqKg2oAwnl20XlR25j1ZvcxN2bcX1r3ls49qqLh2H7dRCyhNRGZSCcYSHZbB+pYZnRmy+vfJhAAyPRIu3Sgmd2UZE/xb7uEBBf5MiGlaNqTUuh1twKAT7WTqTFS5cRxarQTOegLJHV65bXsC6cO1ylz9Rfl3Cpjbvd+1XpC/be2rq98THUVJeUhMtZtpPsGzzip2QkXJVNw+be2cCXCrUBgkAQVrqdSsKYwng1jaAbQ477lYr5fqJ7wVh+TaKMZbP35M6LM3UcYvO+w0DCrmKDCgzEFrOuqezMXEAri6NpyyK9yX5SekuzPbXaqLl3OgTEjyo/i8OsZ5pxKFx6K1dNUMpu6D5kqdn3t/RX4hT2nGhe2rg75Tnq1Yrrep3yS24b2STyO1a/wjIuRfiS2mhDur+CDas+SUw7DbknPuILgmfJeJqJLfcjZriDf0bfyqd1+x6n+e4NMqxO14Rx/IhQ/Vls+Y9XPQDRt0poi2FG5t1xDXKOrJqC4rG8S/rGFpvw14OeJGtsA/jY702L8/W0SdctMUXYIo47c67sNU0Gr+MBZTGBFsVxBechYJDO5eAq0hPFE1IY6HfJOEUpdxYET4/M+QCt4svAA6T6FgRFuwOubfplbccFNZWfFrgLPkgnxtfmeOrTK7pYN4YKN/VlQb6tFWemJ8Qkiw==
+X-Forefront-PRVS: 0325F6C77B
+X-Forefront-Antispam-Report: SFV:NSPM;
+	SFS:(10009020)(4630300001)(6009001)(39450400003)(39830400002)(39410400002)(39400400002)(110136004)(6512007)(53936002)(54906002)(478600001)(5003940100001)(6306002)(86362001)(6506006)(6916009)(6666003)(305945005)(7736002)(25786009)(6486002)(4326008)(50226002)(8676002)(81166006)(107886003)(38730400002)(5660300001)(966005)(2351001)(189998001)(47776003)(33646002)(50986999)(50466002)(2906002)(42186005)(6116002)(3846002)(36756003)(66066001)(48376002);
+	DIR:OUT; SFP:1101; SCL:1; SRVR:CY4PR0101MB2934;
+	H:willamette.conference.local; FPR:; SPF:None; MLV:sfv; LANG:en;
+X-Microsoft-Exchange-Diagnostics: =?us-ascii?Q?1; CY4PR0101MB2934;
+	23:rOkfeNoGIDBaqF2xdQixATNcC/laJ6XsOzkoGId?=
+	=?us-ascii?Q?tGwg1YioBuI6MOndqDlKTTBEGrVEv3j0UiaAhV07S3buOR+xHvE1piuIXndb?=
+	=?us-ascii?Q?ihRU5UKzLHu+rnLxsWyMwgbZlmLioT198OoVnKtyuENU5o3pQ0wPHp7+Qzs9?=
+	=?us-ascii?Q?Jsy70dcEbXN4oGHXHWUTHpOQkmffHlaGEGMifLjNFQ6Hz9WhprsHFfXpWVRI?=
+	=?us-ascii?Q?/HvLXLrBXaZl+Oj5twTRZmRDen4RpBsX+6wPgT41xkImxEDUOMge6FjjS2M2?=
+	=?us-ascii?Q?WZqIJQJk6XkZt5Dp58cbk7zl0l4YyZpKlQnYrl63xCN1Zh0WVZtIoVIPZcKi?=
+	=?us-ascii?Q?+VfJXSVWZaw9t6bSvp2JKUSyN5gv0qG4Dj96ArI7oMxKkdYx2NoEILnJtiP4?=
+	=?us-ascii?Q?FK5Ax8N3udg7ePSIT+lNT2m+T0vfpciVyOKzJvXipU0nVGX630CTPMqArOto?=
+	=?us-ascii?Q?YsYMzJOWfHNGxUJfmOAAkTM/mKtSSVBlHFMki/s9Iw4s1HGTjKqkBIXYbgTn?=
+	=?us-ascii?Q?QeKPnzD7a7BZ0kpaB8ycb74ID5mOkvLEpKfr9FAeAH6yeFampdjJW1wnya3x?=
+	=?us-ascii?Q?RZmWT05ZnXmToUnLqnarbgyinLbfPOzVwr+vOATQMcEBrp+ec0FZ31S2ksyx?=
+	=?us-ascii?Q?bwcVvq4raDpX1AWhTM7CGu3D9o47zWnXPKkiExNdShbqMoDIHDPkP2a388HH?=
+	=?us-ascii?Q?9h2poq9OJkO7qTqfXs6KTApdoBsXzEMTw0q6iWyGMMPWugQgJn5Ed7ObdEGa?=
+	=?us-ascii?Q?CHUUhB6FwJ7YuMQcv9SQteokXexBduHuxE9tXRwcJdaLjIsUCzkIIX10/N3t?=
+	=?us-ascii?Q?Z0P4dkXjPR3eBiJ/AnNFNh6Qj/EWFa/h6Fb5LiuszURijGGxnyCn7cA6aT9O?=
+	=?us-ascii?Q?DrSV7F8vdF9yk+krGhqCCjXOtkYDRFZ9w7Q7BHo6M0uR4A2HhHRWqdVOa+ML?=
+	=?us-ascii?Q?WeH+aC1A5F8YkH3pH6ln3ExH6i3m7xFhdWqDNAz+IPu/4FAwZhiBsUEBYhji?=
+	=?us-ascii?Q?LqiRfW+InzjEykkHQXrCeVI3U8u8jI+Lh/jCo+z+3W7ax6qDmcEwnGqNaO+n?=
+	=?us-ascii?Q?E24sYPrw=3D?=
+X-Microsoft-Exchange-Diagnostics: 1; CY4PR0101MB2934;
+	6:A61Gnv8W2qk1NnT6EhyRAOcT6w7XaBMvwZXitMslp+uJEyqlfES6stoHaTo8c5Rjjhn2urNOMevgaytrnutbG0tZm7jkJ2jOBvRN97sID9yWt4tTJfzkRcMrfNJDY7DfyphgyBmFPCAGs4ecB261pg32sJSD3b4BjsmJJcDxxaeyNZN0dDsV8lcWWA/poHGVbjI/UBUSsn8GHLPPepzoBb9I+ikLxZhMVMb3x0lEv/AjwywRyEKF8X+Ynv1ATHcbF8JRCUXQX486WZrYuCKVh95XHHwsMa/tbS0T36pG4j4/hoix3wuCWTYW2SkTGSaTFcZZP17HqWvl0vTofJm8B535l/PSW+yuG4woGIY91lSvuTfDi45kME0d4BSzoRlNHROzMdeqQITGwh8HruSwZ2ItrW+57n/QLL4aBNOEPBg9JJ2l21PKKjpxTUIbJJQYYfiYir83qEvgOekg3nxE3FB961b2Scen768eAROV5D5LgBQnC96qV1YBGnQOrPPSnUhUcOHB9jE4jQ6kYcBnPg==;
+	5:ncpu/ML9F1FWegaQ9/DPfUwcVPwLCpX3PCplNyPKbg7ho3WoN/+SAOXbJdZSPYkuQHMfTB9UNQo2swjvzwg4aWvdKcWuE1uZYnaVjuNT7upUzh9rbQb/DSlOMHdDk6rGvQt3d5SRg96iv2xLNIN50w==;
+	24:U6yHKxO9uHwHvrAwk4DKQxQ0dfiQeJBcFF+dxXPSMVdiYuYcveJ+w5TomuqaVWfLXIgBW7ATqdXicgHGeqPFPqhNtAu4khrGvnchH6mctQA=
+SpamDiagnosticOutput: 1:99
+SpamDiagnosticMetadata: NSPM
+X-Microsoft-Exchange-Diagnostics: 1; CY4PR0101MB2934;
+	7:8wK8oiEK6SCCIR8uhqoLIOhaKe5G+vxzGHVY7hbGRdqN0EtIc0eJRnn5mfjApHL/tvnUUgx3hxZ2cZ8wcu/xK4kSv9rw33n95YcZYyck1mrZbGhLVz1NWY66tj8ihMzOaTJlvmPNFVtXs+ylTxZg4RgmRBH1x64Rq4X+Vi5r0H4H5PYBGFxaGmrGYkZxu55Oz7w/N7CNV0TkdjJlz4CCGGVocEXRoNg6lsUwPGPWpNJDS6NW+90ubB+3INYN29b051xjCxUftztwmAzuylvjvPqhWAnJzGubjpXeITXpHv7KjnmUmvHLzw/CSY6GX8z1aKoZ5d17gVSN9m/kP3O5oQ==
+X-OriginatorOrg: xevo.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Jun 2017 05:44:16.2124 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR0101MB2934
+Subject: [PATCH] tcf-agent: kill with USR2 in systemd stop
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,163 +98,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Jun 2017 03:06:48 -0000
+X-List-Received-Date: Thu, 01 Jun 2017 05:44:18 -0000
+Content-Type: text/plain
 
-Generating the host keys atomically prevents power interruptions during
-the first boot from leaving the key files incomplete, which often
-prevents users from being able to ssh into the device.
+tcf-agent ignores SIGTERM, so upstream uses USR2 instead. This issue was noticed
+by Jan Kiszka and Brian Avery around the same time:
 
-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+https://patchwork.openembedded.org/patch/139546/
+https://patchwork.openembedded.org/patch/139560/
+
+However, these patches fixed only the init scripts, not the systemd service
+file. This patch fixes the systemd file.
+
+Signed-off-by: Martin Kelly <mkelly@xevo.com>
 ---
- meta/recipes-connectivity/openssh/openssh/init     | 22 ++++----------
- .../openssh/openssh/sshd-check-key                 | 35 ++++++++++++++++++++++
- .../openssh/openssh/sshdgenkeys.service            | 25 ++++++++--------
- meta/recipes-connectivity/openssh/openssh_7.5p1.bb |  8 +++++
- 4 files changed, 61 insertions(+), 29 deletions(-)
- create mode 100644 meta/recipes-connectivity/openssh/openssh/sshd-check-key
+ meta/recipes-devtools/tcf-agent/tcf-agent/tcf-agent.service | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-connectivity/openssh/openssh/init b/meta/recipes-connectivity/openssh/openssh/init
-index 1f63725..e02c479 100644
---- a/meta/recipes-connectivity/openssh/openssh/init
-+++ b/meta/recipes-connectivity/openssh/openssh/init
-@@ -45,23 +45,11 @@ check_config() {
- }
- 
- check_keys() {
--	# create keys if necessary
--	if [ ! -f $HOST_KEY_RSA ]; then
--		echo "  generating ssh RSA key..."
--		ssh-keygen -q -f $HOST_KEY_RSA -N '' -t rsa
--	fi
--	if [ ! -f $HOST_KEY_ECDSA ]; then
--		echo "  generating ssh ECDSA key..."
--		ssh-keygen -q -f $HOST_KEY_ECDSA -N '' -t ecdsa
--	fi
--	if [ ! -f $HOST_KEY_DSA ]; then
--		echo "  generating ssh DSA key..."
--		ssh-keygen -q -f $HOST_KEY_DSA -N '' -t dsa
--	fi
--	if [ ! -f $HOST_KEY_ED25519 ]; then
--		echo "  generating ssh ED25519 key..."
--		ssh-keygen -q -f $HOST_KEY_ED25519 -N '' -t ed25519
--	fi
-+    @LIBEXECDIR@/sshd-check-key $HOST_KEY_RSA rsa
-+    @LIBEXECDIR@/sshd-check-key $HOST_KEY_ECDSA ecdsa
-+    @LIBEXECDIR@/sshd-check-key $HOST_KEY_DSA dsa
-+    @LIBEXECDIR@/sshd-check-key $HOST_KEY_ED25519 ed25519
-+    @BASE_BINDIR@/sync
- }
- 
- export PATH="${PATH:+$PATH:}/usr/sbin:/sbin"
-diff --git a/meta/recipes-connectivity/openssh/openssh/sshd-check-key b/meta/recipes-connectivity/openssh/openssh/sshd-check-key
-new file mode 100644
-index 0000000..3afdb8b
---- /dev/null
-+++ b/meta/recipes-connectivity/openssh/openssh/sshd-check-key
-@@ -0,0 +1,35 @@
-+#! /bin/sh
-+NAME="$1"
-+TYPE="$2"
-+
-+if [ -z "$NAME" ] || [ -z "$TYPE" ]; then
-+    echo "Usage: $0 NAME TYPE"
-+    exit 1
-+fi
-+
-+
-+if [ ! -f "$NAME" ]; then
-+    DIR="$(dirname "$NAME")"
-+
-+    echo "  generating ssh $TYPE key..."
-+    ssh-keygen -q -f "${NAME}.tmp" -N '' -t $TYPE
-+
-+    # Move (Atomically rename) files
-+    mv -f "${NAME}.tmp.pub" "${NAME}.pub"
-+
-+    # This sync does double duty: Ensuring that the data in the temporary
-+    # private key file is on disk before the rename, and ensuring that the
-+    # public key rename is completed before the private key rename, since we
-+    # switch on the existence of the private key to trigger key generation.
-+    # This does mean it is possible for the public key to exist, but be garbage
-+    # but this is OK because in that case the private key won't exist and the
-+    # keys will be regenerated.
-+    #
-+    # In the event that sync understands arguments that limit what it tries to
-+    # fsync(), we provided them. If it does not, it will simply call sync()
-+    # which is just as well
-+    sync "${NAME}.pub" "$DIR" "${NAME}.tmp"
-+
-+    mv "${NAME}.tmp" "$NAME"
-+fi
-+
-diff --git a/meta/recipes-connectivity/openssh/openssh/sshdgenkeys.service b/meta/recipes-connectivity/openssh/openssh/sshdgenkeys.service
-index 148e6ad..23fd351 100644
---- a/meta/recipes-connectivity/openssh/openssh/sshdgenkeys.service
-+++ b/meta/recipes-connectivity/openssh/openssh/sshdgenkeys.service
-@@ -1,22 +1,23 @@
- [Unit]
- Description=OpenSSH Key Generation
- RequiresMountsFor=/var /run
--ConditionPathExists=!/var/run/ssh/ssh_host_rsa_key
--ConditionPathExists=!/var/run/ssh/ssh_host_dsa_key
--ConditionPathExists=!/var/run/ssh/ssh_host_ecdsa_key
--ConditionPathExists=!/var/run/ssh/ssh_host_ed25519_key
--ConditionPathExists=!/etc/ssh/ssh_host_rsa_key
--ConditionPathExists=!/etc/ssh/ssh_host_dsa_key
--ConditionPathExists=!/etc/ssh/ssh_host_ecdsa_key
--ConditionPathExists=!/etc/ssh/ssh_host_ed25519_key
-+ConditionPathExists=|!/var/run/ssh/ssh_host_rsa_key
-+ConditionPathExists=|!/var/run/ssh/ssh_host_dsa_key
-+ConditionPathExists=|!/var/run/ssh/ssh_host_ecdsa_key
-+ConditionPathExists=|!/var/run/ssh/ssh_host_ed25519_key
-+ConditionPathExists=|!/etc/ssh/ssh_host_rsa_key
-+ConditionPathExists=|!/etc/ssh/ssh_host_dsa_key
-+ConditionPathExists=|!/etc/ssh/ssh_host_ecdsa_key
-+ConditionPathExists=|!/etc/ssh/ssh_host_ed25519_key
- 
+diff --git a/meta/recipes-devtools/tcf-agent/tcf-agent/tcf-agent.service b/meta/recipes-devtools/tcf-agent/tcf-agent/tcf-agent.service
+index fd9a6c4..a486ac7 100644
+--- a/meta/recipes-devtools/tcf-agent/tcf-agent/tcf-agent.service
++++ b/meta/recipes-devtools/tcf-agent/tcf-agent/tcf-agent.service
+@@ -5,6 +5,8 @@ After=network.target
  [Service]
- Environment="SYSCONFDIR=/etc/ssh"
- EnvironmentFile=-/etc/default/ssh
- ExecStart=@BASE_BINDIR@/mkdir -p $SYSCONFDIR
--ExecStart=@BINDIR@/ssh-keygen -q -f ${SYSCONFDIR}/ssh_host_rsa_key -N '' -t rsa
--ExecStart=@BINDIR@/ssh-keygen -q -f ${SYSCONFDIR}/ssh_host_dsa_key -N '' -t dsa
--ExecStart=@BINDIR@/ssh-keygen -q -f ${SYSCONFDIR}/ssh_host_ecdsa_key -N '' -t ecdsa
--ExecStart=@BINDIR@/ssh-keygen -q -f ${SYSCONFDIR}/ssh_host_ed25519_key -N '' -t ed25519
-+ExecStart=@LIBEXECDIR@/sshd-check-key ${SYSCONFDIR}/ssh_host_rsa_key rsa
-+ExecStart=@LIBEXECDIR@/sshd-check-key ${SYSCONFDIR}/ssh_host_dsa_key dsa
-+ExecStart=@LIBEXECDIR@/sshd-check-key ${SYSCONFDIR}/ssh_host_ecdsa_key ecdsa
-+ExecStart=@LIBEXECDIR@/sshd-check-key ${SYSCONFDIR}/ssh_host_ed25519_key ed25519
-+ExecStart=@BASE_BINDIR@/sync
- Type=oneshot
- RemainAfterExit=yes
-diff --git a/meta/recipes-connectivity/openssh/openssh_7.5p1.bb b/meta/recipes-connectivity/openssh/openssh_7.5p1.bb
-index 5b96745..ec4b55f 100644
---- a/meta/recipes-connectivity/openssh/openssh_7.5p1.bb
-+++ b/meta/recipes-connectivity/openssh/openssh_7.5p1.bb
-@@ -25,6 +25,7 @@ SRC_URI = "http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar
-            file://openssh-7.1p1-conditional-compile-des-in-cipher.patch \
-            file://openssh-7.1p1-conditional-compile-des-in-pkcs11.patch \
-            file://fix-potential-signed-overflow-in-pointer-arithmatic.patch \
-+           file://sshd-check-key \
-            "
+ Type=forking
+ ExecStart=@SBINDIR@/tcf-agent -d -L- -l0
++KillSignal=USR2
++SuccessExitStatus=USR2
  
- PAM_SRC_URI = "file://sshd"
-@@ -124,7 +125,14 @@ do_install_append () {
- 	sed -i -e 's,@BASE_BINDIR@,${base_bindir},g' \
- 		-e 's,@SBINDIR@,${sbindir},g' \
- 		-e 's,@BINDIR@,${bindir},g' \
-+		-e 's,@LIBEXECDIR@,${libexecdir}/${BPN},g' \
- 		${D}${systemd_unitdir}/system/sshd.socket ${D}${systemd_unitdir}/system/*.service
-+
-+	sed -i -e 's,@LIBEXECDIR@,${libexecdir}/${BPN},g' \
-+		-e 's,@BASE_BINDIR@,${base_bindir},g' \
-+		${D}${sysconfdir}/init.d/sshd
-+
-+	install -D -m 0755 ${WORKDIR}/sshd-check-key ${D}${libexecdir}/${BPN}
- }
- 
- do_install_ptest () {
+ [Install]
+ WantedBy=multi-user.target
 -- 
-2.9.4
+2.1.4
 
 
