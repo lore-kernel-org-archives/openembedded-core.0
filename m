@@ -1,119 +1,45 @@
-Return-Path: <mkelly@xevo.com>
-Received: from NAM01-SN1-obe.outbound.protection.outlook.com
-	(mail-sn1nam01on0071.outbound.protection.outlook.com [104.47.32.71])
-	by mail.openembedded.org (Postfix) with ESMTP id 3B78F70100
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
+	by mail.openembedded.org (Postfix) with ESMTP id C930E77E2D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Jun 2017 00:49:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=uievolution.onmicrosoft.com; s=selector1-xevo-com;
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
-	bh=4TZbaf0dINuZd6H7Hh+aMhfm6hSqCHrY2rw2mYgDKPY=;
-	b=0ELKWJsIoPWb2U9Jj+jge75a7t8P59XaV+3TUek0k3FnFPjv947hOPztJ2Ljc9ToYYMVBiuTbm2ZSKHN4V0AbKWzPVqpu9FSE6t3qpLnhZ+tE0tgaVQOqpGLzkNSA3g/jPxGEc3y6GRftjYyuinWcMDv5VEBkaw9ikYJ7GrWk6M=
-Authentication-Results: intel.com; dkim=none (message not signed)
-	header.d=none;intel.com; dmarc=none action=none header.from=xevo.com;
-Received: from [10.10.63.161] (210.131.143.241) by
-	MWHPR0101MB2942.prod.exchangelabs.com (10.174.170.13) with Microsoft
-	SMTP Server (version=TLS1_2,
-	cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
-	15.1.1124.9; Thu, 1 Jun 2017 00:18:15 +0000
-To: Jan Kiszka <jan.kiszka@web.de>, <openembedded-core@lists.openembedded.org>
-References: <3bd366a6-a31c-e4c8-688c-e24e84f1520c@web.de>
-	<2af19119-fac3-8ce3-fb36-c4aaf64163b7@xevo.com>
-From: Martin Kelly <mkelly@xevo.com>
-Message-ID: <4e18dc00-1800-f2dd-797a-7e0a380467c4@xevo.com>
-Date: Thu, 1 Jun 2017 09:17:56 +0900
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.8.0
+	Thu,  1 Jun 2017 00:58:35 +0000 (UTC)
+Received: by mail-wm0-f67.google.com with SMTP id g15so7401050wmc.2
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 31 May 2017 17:58:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=iRHhJpu8hjjbklDiKlhxoPWoK1nSL8U3Nyo4BogLnLE=;
+	b=BP3961+yW7Pw909ncO41Cxyr5yhvzAGceT9bRKroB5Cx68vPxhCa3xJFDMO8HWvdNU
+	VZD5wHz1+ET07c7Ke54QL7w1/H9cjY3q9Zf9nhzYZzZPwAXIdjekIdaqGQH4xB9gA/VC
+	uXIN6Jo/8mSYtV5c2we1O9mIv/HzsrqsW3RzcFO6t7V9D4dZria+d78xS/wGG8UfVuDg
+	0p5fh7ssKvVON14Z/LViwGmlOk+nxnoblIHErypVnFpzr4AVnZEeuHn5XdPM4SzaNcgY
+	ZQLFLFJJ3ysOjsa4jlsKTvgULOtWCjpBLfA2G6u29X5ccuWzYMoQpUkddpoA7LrOqakz
+	7EEw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=iRHhJpu8hjjbklDiKlhxoPWoK1nSL8U3Nyo4BogLnLE=;
+	b=R2fRICVxKbxC37UffLKgMX45NevEpdvskiz+AEsHH0BbJvcZ4y04BztOp527DmQbgS
+	BFYcH6hKhXzx0AFck/sjsQExa6YDYpjr5LBANjzPOzm4G2BICLojA9VHwNLyV0BToKby
+	OTTXiH7etp2boLrFJHnsztCh3OvAKKTzW9D31H4NH6fX4luuBa+RTjfvJWsvmMhhzyNh
+	+zICia+VqrS875gtxrfOYLzcjAPo0NAEpCunHCMk3aPyslbJnLcV01sBoPb3TtjbKUux
+	VMlI8fxCxPgw7JR5rS+5MYa//vrEpkk4gb7/m1PUkJm6kZ3A4yBg/Zd3XEy5TclS/Ue5
+	ZC3Q==
+X-Gm-Message-State: AODbwcCyeEm/QMQKhzJEYGTf9dOnSFWSymuXyYhNVYUR0cZrMuRGXwD0
+	plxfSYTTJbcWbPgQ5wn0zdhN2W1mkw==
+X-Received: by 10.80.180.155 with SMTP id w27mr22661928edd.42.1496278716239;
+	Wed, 31 May 2017 17:58:36 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <2af19119-fac3-8ce3-fb36-c4aaf64163b7@xevo.com>
-X-Originating-IP: [210.131.143.241]
-X-ClientProxiedBy: SG2PR0199CA0027.apcprd01.prod.exchangelabs.com
-	(10.162.195.37) To MWHPR0101MB2942.prod.exchangelabs.com
-	(10.174.170.13)
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MWHPR0101MB2942:
-X-MS-Office365-Filtering-Correlation-Id: 2659a416-1146-4c58-fefa-08d4a883b345
-X-Microsoft-Antispam: UriScan:; BCL:0; PCL:0;
-	RULEID:(22001)(201703131423075)(201703031133081);
-	SRVR:MWHPR0101MB2942; 
-X-Microsoft-Exchange-Diagnostics: 1; MWHPR0101MB2942;
-	3:1qrStouAb+NZBgbCZ03LScmh+q2BLaNIxu0IU/CU5P4tH7j0GFjyF7TRy3Yg6TCcNnL9FAz/URAYKBJ8dX7beDSl30uYctN5Nu7fqmZzwgKBI+hqULIypoh5uyRXxrJxvY5jscRr6kCGv5IiNtwUQIEzVwWRmxThFqe9q4ctgZOBBTREITRteGxSYJPIKwn82p2onhg1A92FeqpU5z1n7o4cIcH9ggD/vg2TaWHoQ6dVOmq+59fbNXWBO8//CWOIMphBoAMZpsnWoz0mnKfLH9sZd7kb8AEldUUU6ELpDT689kQ6LlTbGnTgjTPt+L+nglmbGGMZpTR/1IZS2vShCA==;
-	25:JHUMyBKwH2I1eC9MGakNFKJfzw+zyIQuxkgAB7F8fTnSc5I3Go6DIOovDjXSH/6SBT6RU+6R1el0f1uct+Se3FCRJ4Z5NorUCLs5XioIk8a4f3M/G86iQPfSMaczsM6Mkz7j/gvSdQsJcw8mS4TFGktEyupJ1QzXnngeVOioZ4ymvXpMpq687GDRIlHlX2rKk8VWWQx+1kMUPXC5Mjv88avRTCA4u89oUheE3pGMdFDqCWx7KPUT9BsmSPrmN17Pi219VcxZSlmAEg34YyVP7H7J2ZyTmgCZaynfuKDxWLkJjgl5dlk9iJG0wxIrHZ4OirpWdURbyleOcwF9jvQrhHy6pqRW+3+CLuCj3m/yqnyOrCrNYyrm/6UkT949IbwOQ3+d56kMiYzrXVbLoDtmnKAvMmUvPL+KhBiQnsF2k/PbbKqxCK2hN5XkW1DU2qADylMIXF4BAhpaC4yFgu/LpSxMfDgtj7cobPkvCOj8QoQ=
-X-Microsoft-Exchange-Diagnostics: 1; MWHPR0101MB2942;
-	31:+VTeFNjlW7qT/KVIPmDmtiXm+NCSxIoqAcOsRywX+1U7p3eBnO2ThHtvZkXnejdCTj7BaLzc5078BIsh7YfqxZyzhQn4w4AQJFskevq+iv+k8m7hFPagMY6uycPNuK8yzJLTocOuTsZyGXwXmyQ6t+zNTTBICPMYRKwKzGkoAwzMJNChCFv43CClWBS5FTU3bCQT9jeuTVYQM7CTP80BdJ7Lm2kYslJVPpjdZcIh7SjVBJdv04pDus2DFKFRVRqEuLOLnt2eKEA2D3wxqLeVpQ==;
-	20:oqXIKl3fWl5Mxe9xRO5JTAkwdkYe9mkBFWKFrjtjhL7U8bJDrW34XAnhurUJ5Ejab0vD+gVBeDd4V9gYMdhkSOJ2lzEgjjgcPs+EljP1s9ythn+HGOhsOekPMTiDAU3lV+nTm8/58Ns+gs1zqmS6XR8jCHYS0YpWSGQDSbBt6FDqST/VeS7GHTC3eFiCOL4/Nojuu21UdVxiXAqdq/NM40W/N+k3FMXlYZuZpvvz41pDi6DRrIjZoLA2UXbFwnZ/Dz0D5MzWWOtjuwQwFKfQW+yyJyHY6nPo2DbZfH/16MxGIfCUg8yNWZgn9/cwTGBnaB8O45n36v2Ixu48mZANDw==
-X-Microsoft-Antispam-PRVS: <MWHPR0101MB294278B02D7E04EE138BDB2FABF60@MWHPR0101MB2942.prod.exchangelabs.com>
-X-Exchange-Antispam-Report-Test: UriScan:(126837547833334);
-X-Exchange-Antispam-Report-CFA-Test: BCL:0; PCL:0;
-	RULEID:(100000700073)(100105000095)(100000701073)(100105300095)(100000702073)(100105100095)(6040450)(2401047)(5005006)(8121501046)(100000703073)(100105400095)(10201501046)(3002001)(93006095)(93001095)(6041248)(20161123562025)(20161123564025)(20161123555025)(20161123558100)(20161123560025)(201703131423075)(201702281528075)(201703061421075)(201703061406153)(6072148)(100000704073)(100105200095)(100000705073)(100105500095);
-	SRVR:MWHPR0101MB2942; BCL:0; PCL:0;
-	RULEID:(100000800073)(100110000095)(100000801073)(100110300095)(100000802073)(100110100095)(100000803073)(100110400095)(100000804073)(100110200095)(100000805073)(100110500095);
-	SRVR:MWHPR0101MB2942; 
-X-Microsoft-Exchange-Diagnostics: =?Windows-1252?Q?1; MWHPR0101MB2942;
-	4:uzPLAJiV009jW1bFEe2l+zBMnVQDCscu1DIv?=
-	=?Windows-1252?Q?FQcYWCWTkA7zg8lEe3xdl23tz1/YfaIB4FztmLbWTo4AOq6S3h5qsEMw?=
-	=?Windows-1252?Q?0LrPmxhbfIiNeZlCB12tWtVNA/HRXfVnw/Dk38xFVnGaGAO6XsfImtnQ?=
-	=?Windows-1252?Q?R9sR6ak4qPdNlPon+XYZ6I+CrGWS72HhmjtAeToPUySBRXBCoLgXqa9d?=
-	=?Windows-1252?Q?VTlaQpK6kpckJdPOLt8kSjHYl6VRKE3XyPUYS5kpq0m0pnSdEay4cGxf?=
-	=?Windows-1252?Q?GF8HkOJ2494xZKIZcTVQUPbue9xQVsotjwX3oCG1mnA8UDfytCCqdww+?=
-	=?Windows-1252?Q?bq1eogoV3TsFUgHmub30aAmSPLQYoWNzGzt8C9DF73h4uPkYhuO2lmEo?=
-	=?Windows-1252?Q?P3vFpM1QskHjreWBMta91S68jBa54tS3SmKzvIWWv4Im1Nva7Hpg804p?=
-	=?Windows-1252?Q?ZfPAvuNej6wPssH3jthoe4YUaL3cBMaJoFq5HIuJOHtXncgF/LeuRsNa?=
-	=?Windows-1252?Q?HaeTgIHOqorejahCBLtee35xe+zvCu77NYpSvAL7uLGrl4IMSzhvOpz/?=
-	=?Windows-1252?Q?EpZzHqa5HbFPenSYIXrNnemDATjwsJm8FZUULRTxvDhJarAvMXamDL3e?=
-	=?Windows-1252?Q?I0NRoGykt0LYKap2TeIrWfr6nNaDQ2bPMfhIvv6XI+v1tOAIREfoyHSI?=
-	=?Windows-1252?Q?5SMR3p+pxGwASfAFIlgD+zKFQyLYAFH5SHBDjxIhw0GbFtlQXQ6f7MFj?=
-	=?Windows-1252?Q?cweavFceofGBwSCriKYI3G7xAOAlGtQoSW8EMI9WeKTMaR4/qIapig7s?=
-	=?Windows-1252?Q?tUXzxYZ7kPL4bNutpVTWbOeTDzpw279elS5KUlBBHCLyUMmmbXuVvoea?=
-	=?Windows-1252?Q?rUsb0/SqUsV4ajfplMNgCBwNvt7zi+QyM8UH5q8N1W6JZq6gw33x2IxF?=
-	=?Windows-1252?Q?MKwQ+dy27dYi09hZy8P6mfD0vx0uo0xQqGAAYtwHrBvka7NqoSUQiesk?=
-	=?Windows-1252?Q?+kIL61cdsTQZH4DDsOt8ciH3sKjnafWptWV3ItEEpzROk9FAiZ6RTuIB?=
-	=?Windows-1252?Q?swvwu8Uk6tOfFXaLA8XvAR2kEzDqp7Um3M4JHG01F+sDbh8b8Y3H2Oja?=
-	=?Windows-1252?Q?LVVTT28Mh3IZHP+o5rcLmBlpwi389FD4ExQZn/uerPxk3kXvqACDjiyS?=
-	=?Windows-1252?Q?no8w1dBcbxJXq1YZHI52xRtlkSZpNFP1UT+oZOYL4YFUuOpB2vIjzttq?=
-	=?Windows-1252?Q?ybVeEtX/wHoa2WKEwz4Ou/RLGV+xOQpCRZ5ygKI=3D?=
-X-Forefront-PRVS: 0325F6C77B
-X-Forefront-Antispam-Report: SFV:NSPM;
-	SFS:(10009020)(4630300001)(6049001)(6009001)(39400400002)(39450400003)(39830400002)(24454002)(377454003)(478600001)(53936002)(38730400002)(33646002)(65956001)(7736002)(86362001)(305945005)(6116002)(65806001)(66066001)(3846002)(81166006)(230700001)(6486002)(31686004)(25786009)(53546009)(77096006)(47776003)(8676002)(4001350100001)(31696002)(42186005)(229853002)(50986999)(50466002)(2906002)(5660300001)(76176999)(36756003)(6666003)(189998001)(23746002)(4326008)(54356999)(83506001)(64126003)(2950100002)(6246003);
-	DIR:OUT; SFP:1101; SCL:1; SRVR:MWHPR0101MB2942; H:[10.10.63.161];
-	FPR:; SPF:None; MLV:sfv; LANG:en; 
-X-Microsoft-Exchange-Diagnostics: =?Windows-1252?Q?1; MWHPR0101MB2942;
-	23:fKhGWdTRymMrqybxn7cG22FEvbB+m6ECqy0?=
-	=?Windows-1252?Q?twibrACOlrNiYuOdspAP3lEnXGu/8M2muQqHOFb0dIZxbOZeqTKnh3es?=
-	=?Windows-1252?Q?ELvTy5AAvDFJkzU0UtaH2PlQ2D46Et/XeF9EHV+3OKcfZL1Lxg/meKTN?=
-	=?Windows-1252?Q?c/kzEKUck6PjFOsHEQUU6iQhCfY/3491RyjaOgGLtP+NJ/+fipL39Ovh?=
-	=?Windows-1252?Q?+1GESB4rWR741iq2Cwe8eZ5Z9hcFb+yqSxVaasizFdJuNYrtHfMvi6Ez?=
-	=?Windows-1252?Q?Ajyg/y4rjOl0ExCfwcye6StO1AdC63I1P8R2hw4JQCWqCEw4aiVklZdN?=
-	=?Windows-1252?Q?c14Cg7FtMk+FSyQJDniB8IAWs5iQVU15xTSLEowVd9W0YePD3EuJlmAO?=
-	=?Windows-1252?Q?p14LzIrOTV5YZ7tASfkQOwje2W8+EwzrDwstoAtpRw7xXxI9viMgwRoo?=
-	=?Windows-1252?Q?sRXzb/ogDwGqs+wAhR/YFafJiHykzrj2O90dvn0w4hCXuUdjCJORYoSY?=
-	=?Windows-1252?Q?FT6dAoRS3zn/4KKRuQGlUq8d78jTRNx/6mOCXeztWGkexYq2fsMInUAA?=
-	=?Windows-1252?Q?cSkdLMz4CSrFKAM6Pnlhr412mcKbN+BQVErOAWKczZL/hRekbsP10AKq?=
-	=?Windows-1252?Q?HjIjCvQ8aa21IW0OiGHgtD4lPczYIu/gZTqr/z4BJiIniSao4yS6f/8l?=
-	=?Windows-1252?Q?ocJWZrtFz4SjZMinnw8scMgBKXftwSchGgpPNj5x9fRq5LhPJQYcKZ0M?=
-	=?Windows-1252?Q?t7rI+qLvVk4ErAQxBW7EPxsBdPP68s6Rdtlxm6fQsVGJszq3M7mNBGgb?=
-	=?Windows-1252?Q?5tLUlsKiJad1ktBBF0DkBu1/q6VQSPlz1yu0JUSzE5Rg0XyBFJncTwnX?=
-	=?Windows-1252?Q?/9Fjml3SOLv+UWRrfNi3WgdkNjBG6pk7CamgWbqLmO5tYabtZqLM4TZh?=
-	=?Windows-1252?Q?QWO48E+VJt7BjPi+7saGhj5+RtHlDwW5hMEcArPYo0YV7VBARg14lN9R?=
-	=?Windows-1252?Q?wjlk7glOroNV/SFd//bKJHW29L31JiAcuAt7xHNWLWMMxjzAGqjaMGWU?=
-	=?Windows-1252?Q?pGT7eg2B8LGhS7TuwO5tyz+KZmpEXzIu8gNPo6c9LBlSHV0Q1K0hN1T1?=
-	=?Windows-1252?Q?cd8GZakD6X9nM5Sr3mX7ceac/viMA6OaGVI/yYr4QRzkyVO8N+9fV0kV?=
-	=?Windows-1252?Q?0IqQuKARbU5bn2YzQTjcNWX9zpcKLK/b2G68I7I+qetdpo1l3u8kzdlD?=
-	=?Windows-1252?Q?q7XvX21bxRyTUlGVlQOtqd1K9y9BYsHkP05HiXfA=3D?=
-X-Microsoft-Exchange-Diagnostics: 1; MWHPR0101MB2942;
-	6:MTvLgBxdGf1Hjl9fg/3ykzpdnDM0zsUb+/Emlpt1anvzM7YGYipjglLX4XPHg7NOzPrPmrP6M0rkNzD92KTaHIZx0G5MMI9qSmey7/Jsp7UXvke27ySJBAbzFRTEFK9HprvxS4JreFa2ucZxGN5Wk/lakKUwFxjIJQiSeLjSzF3hMx+YzB5mbLg52MrhuM7c5u3Ecmmr4k2jHbs6qAqqMTOizckuyEIVNOd2Kz/rfas/SG4Onk/9nBRDWclROGm1eVMQlzNNebXQIW/byVA2fWS3OG2KmCz5Ank52DmlO0XcKp5GGTDMtLGd/qqZpUpMrIVO80KsFEJCTJoXvl3ZuzjmhwymJId3fYJqXC+3MmhHl4SPbSHWgAgPQ/I2EXog/FXLzd2f/EYG6sCvfKPYxB+3px5ckasAyuCc4BhpBbSBj0DqcR60Kd878Q2AIKW1dhu3RNavOJh8M739Q69zG6ZIHep4yHPKmM7TxMGFsnNScbRQ5L9xyI+p1PfahuZCxcQ+KXXiT3STfGkcL/cTbQ==
-X-Microsoft-Exchange-Diagnostics: 1; MWHPR0101MB2942;
-	5:5bTY00/8x1y6K1Fx9Bxmofr1qRymSXCmuw+7T0P423fK10M7F/5Npb4iplsnuN2zwtLQkKzj367whEnDOs9pR/5UMIBpBzZ5WRbGZKnj3CyjxN9q1WcwbJXYammqX66RCZy3yQVYmstvgA3cFWhio0K2VCcJV+mWbDl8C44Nfc39cBk7XLCJxJvc3D4Wq/UpsWTbF4dnfeOh3XUUTJ8mG5wYHqMe8zz6Rufzrjx8XQeyufaJsgbsBwMXEM0Jo7/L6t0qAisI3wUdAj+WdNp4nGFmGeOcWVJlMLrL39Fc31dsNCzt1yXMQDE3tSYHiL76Nooy+PDVASnrWKbhdOZsXv/wgjDOb4/07Ed+awUE39f1pG0nkNA9UNu8VInT2DuW9ltptILx9NG9U2FWW6c4MHc690A38dVdHImDyGfqXXXry3M0k5ZNgPbaTBvFvnn+ineonglpqBs7SJfpE7oAjJQdiVhzdffxe718lqWjc+zD7aRjQ8IOZOZLfUpVtVuo;
-	24:cHpwPzwqn4SL9Z9+SrNfwcFxyD396tRfm1f39UZhKrNwsPm336h4Ul5kKoWSr98lR/bqdy5dLIFudsyzcztWvUbj1je9kP0appUEHKu2afs=
-SpamDiagnosticOutput: 1:99
-SpamDiagnosticMetadata: NSPM
-X-Microsoft-Exchange-Diagnostics: 1; MWHPR0101MB2942;
-	7:ZGZ9ZKoOuFil7f9h4XiU9rNH9EOEm+QYRc+5oW7ViQEsWQg9IAppbbD5JhVHH27d4rQcMWo5AfqkkT1Eer6hmnM6eRfZjey4GqRdLng6Z/YMOZvW6DoNo0dGb5kDIwpPZSKRg4PZwsg7WMdrCRcP33IP8rYbohY/ucqG/oNzke3HZauwTZOtn6/MYvLYCR4sV+9AUsKy7vdLwv5EwrcpdFbjNTreMk+5iRMZQiXvGwsuKr9ygs+sQs1iZ4kkyPqxomi7sjqyrcVO8deOwVC0nwX6O9dm10kKrHaABk1jXhnRGtecPVLtzqxZsIobM9NjS4NcWiOOKwLtx5xO4G7eqg==
-X-OriginatorOrg: xevo.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Jun 2017 00:18:15.3129 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR0101MB2942
-Subject: Re: [PATCH] tcf-agent: Fix daemon termination
+Received: by 10.80.195.143 with HTTP; Wed, 31 May 2017 17:58:05 -0700 (PDT)
+In-Reply-To: <20170601003100.32359-1-otavio@ossystems.com.br>
+References: <20170601003100.32359-1-otavio@ossystems.com.br>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 31 May 2017 17:58:05 -0700
+Message-ID: <CAMKF1soDUE=MB1_Y_eh_VF-mnvaZPXYV5HW2qbMadc5U53DjUQ@mail.gmail.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Cc: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] cmake: Upgrade to 3.8.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -126,25 +52,194 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Jun 2017 00:49:43 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 01 Jun 2017 00:58:36 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-On 05/02/2017 01:41 AM, Martin Kelly wrote:
-> On 04/30/2017 08:28 AM, Jan Kiszka wrote:
->> From: Jan Kiszka <jan.kiszka@siemens.com>
->>
->> The upstream init script uses SIGUSR2 to terminate that daemon because
->> SIGTERM is ignored. As the killproc function does not support specifying
->> a signal, switch to start-stop-daemon. Drop the retry loop because
->> SIGUSR2 is lethal for agent.
->>
->> Signed-off-by: Jan Kiszka <jan.kiszka@siemens.com>
+On Wed, May 31, 2017 at 5:31 PM, Otavio Salvador
+<otavio@ossystems.com.br> wrote:
+> There was a set of changes, those are:
 >
-> Thanks! I noticed this bug and was planning to look into it, but it
-> looks like you found the issue first! This was bringing shutdowns to a
-> crawl for me.
+>  - CMake now requires librhash for build and as there is no other
+>    users in OE-Core we make it use its internal copy instead;
+>
+>  - Copyright.txt checksum has change due new contrubutors and 2017
+>    year additions;
+>
+>  - Patch avoid-gcc-warnings-with-Wstrict-prototypes.patch was removed
+>    as it is not need anymore;
+>
+>  - Patch 0001-KWIML-tests-Remove-format-security-from-flags.patch was
+>    removed as it is included in this release.
+>
 
-I just noticed, I think we need to fix the same bug in the systemd 
-service script too.
+Can we get to 3.8.2 instead while you are at it ?
+
+
+> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+> ---
+>
+>  ...cmake-native_3.7.2.bb => cmake-native_3.8.1.bb} |  1 +
+>  meta/recipes-devtools/cmake/cmake.inc              |  8 ++---
+>  ...L-tests-Remove-format-security-from-flags.patch | 33 -----------------
+>  ...void-gcc-warnings-with-Wstrict-prototypes.patch | 42 ----------------------
+>  .../cmake/{cmake_3.7.2.bb => cmake_3.8.1.bb}       |  1 +
+>  5 files changed, 5 insertions(+), 80 deletions(-)
+>  rename meta/recipes-devtools/cmake/{cmake-native_3.7.2.bb => cmake-native_3.8.1.bb} (94%)
+>  delete mode 100644 meta/recipes-devtools/cmake/cmake/0001-KWIML-tests-Remove-format-security-from-flags.patch
+>  delete mode 100644 meta/recipes-devtools/cmake/cmake/avoid-gcc-warnings-with-Wstrict-prototypes.patch
+>  rename meta/recipes-devtools/cmake/{cmake_3.7.2.bb => cmake_3.8.1.bb} (97%)
+>
+> diff --git a/meta/recipes-devtools/cmake/cmake-native_3.7.2.bb b/meta/recipes-devtools/cmake/cmake-native_3.8.1.bb
+> similarity index 94%
+> rename from meta/recipes-devtools/cmake/cmake-native_3.7.2.bb
+> rename to meta/recipes-devtools/cmake/cmake-native_3.8.1.bb
+> index 7ad4345efe..e55e8b1cf6 100644
+> --- a/meta/recipes-devtools/cmake/cmake-native_3.7.2.bb
+> +++ b/meta/recipes-devtools/cmake/cmake-native_3.8.1.bb
+> @@ -18,6 +18,7 @@ CMAKE_EXTRACONF = "\
+>      -DCMAKE_USE_SYSTEM_LIBRARY_JSONCPP=0 \
+>      -DCMAKE_USE_SYSTEM_LIBRARY_LIBARCHIVE=0 \
+>      -DCMAKE_USE_SYSTEM_LIBRARY_LIBUV=0 \
+> +    -DCMAKE_USE_SYSTEM_LIBRARY_LIBRHASH=0 \
+>      -DENABLE_ACL=0 -DHAVE_ACL_LIBACL_H=0 \
+>      -DHAVE_SYS_ACL_H=0 \
+>  "
+> diff --git a/meta/recipes-devtools/cmake/cmake.inc b/meta/recipes-devtools/cmake/cmake.inc
+> index 6c8b36d18d..45563de3b1 100644
+> --- a/meta/recipes-devtools/cmake/cmake.inc
+> +++ b/meta/recipes-devtools/cmake/cmake.inc
+> @@ -6,7 +6,7 @@ HOMEPAGE = "http://www.cmake.org/"
+>  BUGTRACKER = "http://public.kitware.com/Bug/my_view_page.php"
+>  SECTION = "console/utils"
+>  LICENSE = "BSD"
+> -LIC_FILES_CHKSUM = "file://Copyright.txt;md5=7a64bc564202bf7401d9a8ef33c9564d \
+> +LIC_FILES_CHKSUM = "file://Copyright.txt;md5=8d8c7bc32f8797d23f5cf605d9339d2d \
+>                      file://Source/cmake.h;beginline=1;endline=3;md5=4494dee184212fc89c469c3acd555a14"
+>
+>  CMAKE_MAJOR_VERSION = "${@'.'.join(d.getVar('PV').split('.')[0:2])}"
+> @@ -14,12 +14,10 @@ CMAKE_MAJOR_VERSION = "${@'.'.join(d.getVar('PV').split('.')[0:2])}"
+>  SRC_URI = "https://cmake.org/files/v${CMAKE_MAJOR_VERSION}/cmake-${PV}.tar.gz \
+>             file://support-oe-qt4-tools-names.patch \
+>             file://qt4-fail-silent.patch \
+> -           file://avoid-gcc-warnings-with-Wstrict-prototypes.patch \
+> -           file://0001-KWIML-tests-Remove-format-security-from-flags.patch \
+>             "
+>
+> -SRC_URI[md5sum] = "79bd7e65cd81ea3aa2619484ad6ff25a"
+> -SRC_URI[sha256sum] = "dc1246c4e6d168ea4d6e042cfba577c1acd65feea27e56f5ff37df920c30cae0"
+> +SRC_URI[md5sum] = "e8ef820ddf7a650845252bca846696e7"
+> +SRC_URI[sha256sum] = "ce5d9161396e06501b00e52933783150a87c33080d4bdcef461b5b7fd24ac228"
+>
+>  UPSTREAM_CHECK_REGEX = "cmake-(?P<pver>\d+(\.\d+)+)\.tar"
+>
+> diff --git a/meta/recipes-devtools/cmake/cmake/0001-KWIML-tests-Remove-format-security-from-flags.patch b/meta/recipes-devtools/cmake/cmake/0001-KWIML-tests-Remove-format-security-from-flags.patch
+> deleted file mode 100644
+> index 190133ba5c..0000000000
+> --- a/meta/recipes-devtools/cmake/cmake/0001-KWIML-tests-Remove-format-security-from-flags.patch
+> +++ /dev/null
+> @@ -1,33 +0,0 @@
+> -From 0941395b146804abcd87004589ff6e7a2953412d Mon Sep 17 00:00:00 2001
+> -From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+> -Date: Thu, 16 Mar 2017 14:39:04 +0200
+> -Subject: [PATCH] KWIML tests: Remove format-security from flags
+> -
+> -For the tests where "format" is removed from flags, "format-security"
+> -should be removed as well. Otherwise building cmake with
+> -"-Wformat -Wformat-security" fails:
+> -
+> -| cc1: error: -Wformat-security ignored without -Wformat [-Werror=format-security]
+> -
+> -Upstream-Status: Backport [part of commit f77420cfc9]
+> -Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+> ----
+> - Utilities/KWIML/test/CMakeLists.txt | 2 +-
+> - 1 file changed, 1 insertion(+), 1 deletion(-)
+> -
+> -diff --git a/Utilities/KWIML/test/CMakeLists.txt b/Utilities/KWIML/test/CMakeLists.txt
+> -index 4f6f37b..1bf93bb 100644
+> ---- a/Utilities/KWIML/test/CMakeLists.txt
+> -+++ b/Utilities/KWIML/test/CMakeLists.txt
+> -@@ -10,7 +10,7 @@ endif()
+> - # Suppress printf/scanf format warnings; we test if the sizes match.
+> - foreach(lang C CXX)
+> -   if(KWIML_LANGUAGE_${lang} AND CMAKE_${lang}_COMPILER_ID STREQUAL "GNU")
+> --    set(CMAKE_${lang}_FLAGS "${CMAKE_${lang}_FLAGS} -Wno-format")
+> -+    set(CMAKE_${lang}_FLAGS "${CMAKE_${lang}_FLAGS} -Wno-format -Wno-format-security")
+> -   endif()
+> - endforeach()
+> -
+> ---
+> -2.1.4
+> -
+> diff --git a/meta/recipes-devtools/cmake/cmake/avoid-gcc-warnings-with-Wstrict-prototypes.patch b/meta/recipes-devtools/cmake/cmake/avoid-gcc-warnings-with-Wstrict-prototypes.patch
+> deleted file mode 100644
+> index 8b8d4802ee..0000000000
+> --- a/meta/recipes-devtools/cmake/cmake/avoid-gcc-warnings-with-Wstrict-prototypes.patch
+> +++ /dev/null
+> @@ -1,42 +0,0 @@
+> -From 4bc17345c01ea467099e28c7df30c23ace9e7811 Mon Sep 17 00:00:00 2001
+> -From: Andre McCurdy <armccurdy@gmail.com>
+> -Date: Fri, 14 Oct 2016 16:26:58 -0700
+> -Subject: [PATCH] CheckFunctionExists.c: avoid gcc warnings with
+> - -Wstrict-prototypes
+> -
+> -Avoid warnings (and therefore build failures etc) if a user happens
+> -to add -Wstrict-prototypes to CFLAGS.
+> -
+> - | $ gcc --version
+> - | gcc (Ubuntu 4.8.4-2ubuntu1~14.04.3) 4.8.4
+> - |
+> - | $ gcc -Wstrict-prototypes -Werror -DCHECK_FUNCTION_EXISTS=pthread_create -o foo.o -c Modules/CheckFunctionExists.c
+> - | Modules/CheckFunctionExists.c:7:3: error: function declaration isn't a prototype [-Werror=strict-prototypes]
+> - |    CHECK_FUNCTION_EXISTS();
+> - |    ^
+> - | cc1: all warnings being treated as errors
+> - |
+> -
+> -Upstream-Status: Pending
+> -
+> -Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+> ----
+> - Modules/CheckFunctionExists.c | 2 +-
+> - 1 file changed, 1 insertion(+), 1 deletion(-)
+> -
+> -diff --git a/Modules/CheckFunctionExists.c b/Modules/CheckFunctionExists.c
+> -index 2304000..224e340 100644
+> ---- a/Modules/CheckFunctionExists.c
+> -+++ b/Modules/CheckFunctionExists.c
+> -@@ -4,7 +4,7 @@
+> - extern "C"
+> - #endif
+> -   char
+> --  CHECK_FUNCTION_EXISTS();
+> -+  CHECK_FUNCTION_EXISTS(void);
+> - #ifdef __CLASSIC_C__
+> - int main()
+> - {
+> ---
+> -1.9.1
+> -
+> diff --git a/meta/recipes-devtools/cmake/cmake_3.7.2.bb b/meta/recipes-devtools/cmake/cmake_3.8.1.bb
+> similarity index 97%
+> rename from meta/recipes-devtools/cmake/cmake_3.7.2.bb
+> rename to meta/recipes-devtools/cmake/cmake_3.8.1.bb
+> index f566a48cfb..3f8fd7a997 100644
+> --- a/meta/recipes-devtools/cmake/cmake_3.7.2.bb
+> +++ b/meta/recipes-devtools/cmake/cmake_3.8.1.bb
+> @@ -28,6 +28,7 @@ EXTRA_OECMAKE=" \
+>      -DCMAKE_USE_SYSTEM_LIBRARIES=1 \
+>      -DCMAKE_USE_SYSTEM_LIBRARY_JSONCPP=0 \
+>      -DCMAKE_USE_SYSTEM_LIBRARY_LIBUV=0 \
+> +    -DCMAKE_USE_SYSTEM_LIBRARY_LIBRHASH=0 \
+>      -DKWSYS_CHAR_IS_SIGNED=1 \
+>      -DBUILD_CursesDialog=0 \
+>      -DKWSYS_LFS_WORKS=1 \
+> --
+> 2.13.0
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
