@@ -1,44 +1,52 @@
-Return-Path: <nicolas.dechesne@linaro.org>
-Received: from mail-qt0-f172.google.com (mail-qt0-f172.google.com
-	[209.85.216.172])
-	by mail.openembedded.org (Postfix) with ESMTP id D343C600BB
+Return-Path: <dev@codyps.com>
+Received: from mail-qk0-f179.google.com (mail-qk0-f179.google.com
+	[209.85.220.179])
+	by mail.openembedded.org (Postfix) with ESMTP id B47996FF69
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Jun 2017 21:31:49 +0000 (UTC)
-Received: by mail-qt0-f172.google.com with SMTP id f55so46769402qta.3
+	Thu,  1 Jun 2017 22:17:25 +0000 (UTC)
+Received: by mail-qk0-f179.google.com with SMTP id p66so31199736qkf.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 01 Jun 2017 14:31:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	Thu, 01 Jun 2017 15:17:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=codyps.com; s=google;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=l9vRq+8NgWY61gpd/wMAoWdyzvCRSvPEQN0PqLIRxRk=;
-	b=VhrNNXs2RLCGvT/vQMG6JylMQWlN4qtoz7tPdZwFu+M5tg9T9hxaWTH2ytm9AHq6jJ
-	WShXmhRJSVs39sqEkWaR+noqZy5SjQ8FVbJaj7TW5INYADqgBYHHJWck0iD+DtM9HvBG
-	gnRMk3LkshKf3sN5NxFERULYQuUMiVcIoTZIg=
+	:cc; bh=zDAesvSW61snG6G27HY+r5V+AhPFPdO/R8XtsCsgUUg=;
+	b=bZK/tJu4xQLhnJkYjG1BT7JYSkf9hRBRe4lxDjb64WYlzvoyGKckgI8SSbn0X+uIb5
+	KG2NfprD0z6ltNB5bD5ITCiAesFylI103rulZw9izNhlnKZMkWihmKmaLAE8dlOF4QWt
+	txp6N018daS7J46JJ3ZS1nz/7OPdFc/ON8tYw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=l9vRq+8NgWY61gpd/wMAoWdyzvCRSvPEQN0PqLIRxRk=;
-	b=TzPDYnyjMlO/D8At8h2eiigJgh5efcUjVmBuYRQr6iX0YZY2bLhLeDg4BajZPDbh6O
-	jR5FadKLGs/xvwhiheFohvkwWKDFLm1+JJcC/pSUGlEEGTY1r2rPfpehj5W7Y7Hjes+E
-	mX7sq9tjsICVGNjRKgYBiJWHqfkms3F/nMfa78SlZDJfx3/5H9NpjhpJ71fDODKQs0Hv
-	bJAjcrFMnmHyA0n/d9BGEGI2Qm1KgcroUiCuIgTfd43bvLwmCCfPcTNYdj3fCOrP6Cj1
-	mGV998dSf1zDWDsLZa2fJMCAlSY6M5rZhZaixbnSx9J4j/GDuPchrHEFU8E30zIuC+xz
-	nrUQ==
-X-Gm-Message-State: AODbwcAHGPi8GNgZ6oyL4Wcw8GlSG6782UvAIQmg0x9CWkw/qQ2rmYaA
-	EnpR6LZhWMWHWwpt3q+1xxrsj6D6q9RE
-X-Received: by 10.200.34.132 with SMTP id f4mr4529560qta.183.1496352710813;
-	Thu, 01 Jun 2017 14:31:50 -0700 (PDT)
+	bh=zDAesvSW61snG6G27HY+r5V+AhPFPdO/R8XtsCsgUUg=;
+	b=ZYTEagITzWYd8bd/5W5hRBcjR+2hjJfGt/HQjQeujtz5hx+OBAVTqoi4gMBgAZzrCx
+	Bp7llBWKamOkhUuh/6WJUbFpAG/G963Nf5IR5ZdUHVlNLNpgUnY/1DxlkcAu7NV+EL9x
+	ahh1FQTZ2/pITYst3BfiyjLy1El0NjzvvPUJOdaelM5nG42kzA+hnLcFii1kJQvH4Gok
+	/dI5agSM2auOWxqBquj3Oa0gRBTuL2D+LSUofdzo4BZl8BFwgJLk6Mi0jCc0oKskApvN
+	Wmr1cbdyMNNiordkw+TdHJhonPZ0F2BkLtzofY0oBHkRfmppNMcm8jLHXhIJFMlLvPWE
+	p7gg==
+X-Gm-Message-State: AODbwcD1dPPAhLq3qbnACj0TbwBTUWGMvQPu09pxLvQP8zqKV0Jz6/YD
+	G9wCeyheiU9e01wGtAOnS7Ipb12tdAIb
+X-Received: by 10.55.200.209 with SMTP id t78mr4863251qkl.178.1496355446870;
+	Thu, 01 Jun 2017 15:17:26 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.140.88.135 with HTTP; Thu, 1 Jun 2017 14:31:30 -0700 (PDT)
-In-Reply-To: <CAJ86T=VpTJSAcHdwGC04AsF8hKexk8VRV8LPCQdTaEo=2c1d7g@mail.gmail.com>
-References: <20170601092108.9544-1-nicolas.dechesne@linaro.org>
-	<CAJ86T=VpTJSAcHdwGC04AsF8hKexk8VRV8LPCQdTaEo=2c1d7g@mail.gmail.com>
-From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
-Date: Thu, 1 Jun 2017 23:31:30 +0200
-Message-ID: <CAP71Wjy6Yf4e0xGsXSwpyQuc1w=RnJktkY9n0HJGjjE8OFzocg@mail.gmail.com>
-To: Andre McCurdy <armccurdy@gmail.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] kernel.bbclass: fix KERNEL_IMAGETYPE(S) for Image.gz
+Received: by 10.12.189.168 with HTTP; Thu, 1 Jun 2017 15:17:26 -0700 (PDT)
+X-Originating-IP: [2601:190:67f:ebb9:e065:d5f8:984a:e361]
+In-Reply-To: <f3591f2b-14cb-7db8-b697-17db7c2e3cb0@windriver.com>
+References: <20170530211436.16397-1-dev@codyps.com>
+	<CAPoQQ-1uznmcUSkXs3iLYyK-Bm8gDaT5de_Bi-jF4Su6+KjKvw@mail.gmail.com>
+	<CADkTA4MoY27QPks7oJVP-tfs1+Yr1yY9StmXToNT5Rrs9mYJAA@mail.gmail.com>
+	<CAPoQQ-00id+nBQ1_n=b=7RNrixOxPZb_5puOvCFmOspQB=O3rw@mail.gmail.com>
+	<7bed8363-bd79-0233-3e91-1a74f26fca37@windriver.com>
+	<CAPoQQ-3k3HBh97T855_qY4PtBy8Z2qTVuU_BawnBJsvcBCoe8A@mail.gmail.com>
+	<d5baf3fb-75f5-d50c-e59b-07f3688a88d4@windriver.com>
+	<CAPoQQ-32FvReq9UQPKVYM0dL4LC=vg__GVvnVf3uSq8YwDQerg@mail.gmail.com>
+	<f3591f2b-14cb-7db8-b697-17db7c2e3cb0@windriver.com>
+From: Cody P Schafer <dev@codyps.com>
+Date: Thu, 1 Jun 2017 18:17:26 -0400
+Message-ID: <CAPoQQ-2J0YV7kj7sRHo9G_rtq+PwJDhVguC4jf_E_ai0Zh6nAg@mail.gmail.com>
+To: Mark Hatle <mark.hatle@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] runqemu-export-rootfs: don't change RPC ports
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,15 +59,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Jun 2017 21:31:51 -0000
+X-List-Received-Date: Thu, 01 Jun 2017 22:17:27 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Jun 1, 2017 at 9:11 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
-> You could use types.replace('vmlinux.gz', 'vmlinux') here (and then
-> drop the "import re"). Also, if vmlinux.gz is the only special case
-> being supported, then the kernel_do_compile() can be simplified too
-> (see the patch I sent yesterday).
+On Thu, Jun 1, 2017 at 1:02 PM, Mark Hatle <mark.hatle@windriver.com> wrote:
 
-yes, you're right. that change seems like an improvement. i will test
-it out and resend..
+>
+> The rpcbind runs on a privileged port (usually).  So either you have to 're-use'
+> the system wide on or run your own.  On many environments, with a system wide
+> one, you will clash if someone else is offering the same services.  So you are
+> forced to run your own and/or register then with a different set of port numbers.
+>
+> This is absolutely needed in a multi-user or 'locked system' configuration where
+> the user does not have permission to run these types of things.
+
+unfsd does not include rpcbind, it optionally uses the system's rpcbind.
+
+In the runqemu-export-rootfs case, unfsd does not use any rpcbind at all.
+
+Still not seeing anything that would require runqemu-export-rootfs to
+use custom rpc program numbers.
 
