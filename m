@@ -1,44 +1,47 @@
-Return-Path: <nicolas.dechesne@linaro.org>
-Received: from mail-qt0-f175.google.com (mail-qt0-f175.google.com
-	[209.85.216.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 7F6F8606A8
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f172.google.com (mail-qk0-f172.google.com
+	[209.85.220.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 2B1A9606A8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Jun 2017 09:21:31 +0000 (UTC)
-Received: by mail-qt0-f175.google.com with SMTP id w1so4404016qtg.2
+	Thu,  1 Jun 2017 09:27:46 +0000 (UTC)
+Received: by mail-qk0-f172.google.com with SMTP id y201so31631124qka.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 01 Jun 2017 02:21:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=from:to:cc:subject:date:message-id;
-	bh=ZU+9zhwAh44pyCt+OI4LUgNKOwNfvrZrXqtsUAkwMOI=;
-	b=Z1hcw2Xs3lpYPt6aNC9PKHH12q8L8Ubh4dqvEYKieRaUSEslBQPNEXF6zlk/eJen09
-	Lnb3udfDRdu9ZR5LYNep2xlb35l5DUUwAZCAfAqklCXU7Iz/LBCTiW+saUwL0viYlhuW
-	TYkKy0s0hY9zmAh4Qioyw0bwzZ68vxF8vglho=
+	Thu, 01 Jun 2017 02:27:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=Ozroe5yjbSfg+5wYBjfSBOz2l/MMsXA6D+3AdYoy0Os=;
+	b=IqaMoo5U6ilNnO/l0wxB+R4gGy5QCuTeZnJdGSwXkobvOys7zFvW67YAxFSXALLTT3
+	PFkpC2SK/7mn1h5u22pqKjNLBrl0tAdjtolj7F9GXTAHhfYS3mPYXW4RUW8j5G2LRKUj
+	Gn7X4BPxG9Z3zgwyz222TI/B9w0VxbFK4VO3fwOz/5BkqFd+LvSNNuDJ/Ly2XFMVaPde
+	tfPwya7OXKhqkoxdPRkJoNGlDpHvls3yAfTngTpbwFIpfat6cGSGzyjw6xaf/ePcyam4
+	asQv3VaQ9oNkdI3Pr4p91QyY4DqX/1wUHWm6Qsygsq9WacjkSQwyMU2zqFP8DgsW+nEy
+	TL6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=ZU+9zhwAh44pyCt+OI4LUgNKOwNfvrZrXqtsUAkwMOI=;
-	b=sBGDwQe6h5yCn4hhHB+HOLkLpXjAOGcuPpiZOlRqMEFMgnq5+M0d8MisbRb8bU8p+e
-	6hCVzMJFEmXcl60FCDhrunHqURDfo2TSFpyFo+AX25WhVR73HhgMs2S4YB/MW1TuVYw4
-	AdY96jYm4XVdQx1iLLnSHlgUrFyeHv4EzgsHfhjuahuQB75iZ4q0AZqhJAwEEujH6/gQ
-	qG5xKzys2FCyRYbHBJJE6zoZ1LHaNe1GSoW9ar77eAhDEq8PNXo/iqiqvZ1sNHt7F3+9
-	ambThRJ7FbH2eEVVVvHw80uHrWOIQdWaMHeEbyM53ZGpHEQsKoQ3oH6NViyTbaW3PDiq
-	x70g==
-X-Gm-Message-State: AODbwcA7kWoloUQQajruTl8q3t4YVtaE6peGw6mJaAfBGW1UhhjlxmaJ
-	Z8o+3BXtqrWrJ8XLYTW1Og==
-X-Received: by 10.237.61.134 with SMTP id i6mr425804qtf.241.1496308893002;
-	Thu, 01 Jun 2017 02:21:33 -0700 (PDT)
-Received: from localhost.localdomain (static.8.26.4.46.clients.your-server.de.
-	[46.4.26.8]) by smtp.gmail.com with ESMTPSA id
-	u51sm12658423qta.56.2017.06.01.02.21.31
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 01 Jun 2017 02:21:32 -0700 (PDT)
-From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  1 Jun 2017 11:21:08 +0200
-Message-Id: <20170601092108.9544-1-nicolas.dechesne@linaro.org>
-X-Mailer: git-send-email 2.11.0
-Cc: Nicolas Dechesne <nicolas.dechesne@linaro.org>
-Subject: [PATCH] kernel.bbclass: fix KERNEL_IMAGETYPE(S) for Image.gz
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=Ozroe5yjbSfg+5wYBjfSBOz2l/MMsXA6D+3AdYoy0Os=;
+	b=P3p0CFktjH6nShH92B59iHDlP7lKTBCWpTrxD2VIOe5PaBSbHAQZmsR170PecHLMds
+	EQNeGtiT6rjvgJAJOyz6Ezr2ds46dN7Y8DU/HKcjysscOpuPuImiw2ps5aQu7ejWba8q
+	4RtdwsTnqcCV/h3nJaPOxDItLyLe9Fmg/n1IRrzUBhGJD6ba7FMXoX7HXsHiPANPrS7d
+	axhVEhCsSycH6Q39v2Ri/wHL/g7yvUc/I/Gugp4isbVdOD6iJOSLVS00fD1jvnzW7Vkt
+	0LFWO8W3bVKvQzE3SstlS2tDDo9F28usw00RoCy9UQf/3jIi+JrSMLPwXfPLE6GumypE
+	fNlg==
+X-Gm-Message-State: AODbwcCupnu4miDHXQpQ5LLHDUTY4Mve8m+pwt55ajKIfVyjc2lYKovk
+	46aSLPv1zJrFtpDw9YVrzvtNTzO6Y7vM
+X-Received: by 10.55.86.66 with SMTP id k63mr494906qkb.46.1496309267849; Thu,
+	01 Jun 2017 02:27:47 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.41.115 with HTTP; Thu, 1 Jun 2017 02:27:27 -0700 (PDT)
+In-Reply-To: <1495791114-1419-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
+References: <1495791114-1419-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 1 Jun 2017 10:27:27 +0100
+Message-ID: <CAJTo0LZVhAr0JROGrE6HMG=bOrWFZNhvm5872sn80zPb617aRw@mail.gmail.com>
+To: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] ncurses: 6.0+20161126 -> 6.0+20170408
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,47 +54,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Jun 2017 09:21:33 -0000
+X-List-Received-Date: Thu, 01 Jun 2017 09:27:47 -0000
+Content-Type: multipart/alternative; boundary="001a114e72386278b90550e2a68f"
 
-KERNEL_IMAGETYPES lists all the kernel images that we want to build. in
-cb17b6c2a7 (kernel.bbclass: support kernel image type of vmlinux.gz), some logic
-was added to support vmlinux.gz which is not a target built by kernel
-makefiles (only vmlinux). It is clear that the goal of this logic is only to
-support vmlinux.gz and not others compressed format (such as Image.gz) which are
-valid target for kernel makefiles.
+--001a114e72386278b90550e2a68f
+Content-Type: text/plain; charset="UTF-8"
 
-For Image.gz we should rely on the kernel makefiles and not do the compression
-in kernel class.
+On 26 May 2017 at 10:31, Huang Qiyu <huangqy.fnst@cn.fujitsu.com> wrote:
 
-This patch updates the logic used to filter out non supported kernel target from
-KERNEL_IMAGETYPES, and make vmlinux.gz a 'special case', instead of *.gz. If
-more special cases are needed in the future, we could add them in a similar way.
+> 1) Upgrade ncurses from 6.0+20161126 to 6.0+20170408.
+> 2) Delete patch "fix-cflags-mangle.patch",since it is integrated upstream.
+>
 
-This patch should be a no-op for anyone using vmlinux or vmlinux.gz, and on top
-of that it is fixing the build for Image.gz which was not working until now.
+As usual, the ncurses upgrade has broke mc:
 
-Signed-off-by: Nicolas Dechesne <nicolas.dechesne@linaro.org>
----
- meta/classes/kernel.bbclass | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+http://errors.yoctoproject.org/Errors/Details/143477/
 
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index 7a134d5c29..459b6d66a3 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -44,7 +44,10 @@ python __anonymous () {
-         types = (alttype + ' ' + types).strip()
-     d.setVar('KERNEL_IMAGETYPES', types)
- 
--    typeformake = re.sub(r'\.gz', '', types)
-+    # some commonly used kernel images aren't generated by the kernel build system, such as vmlinux.gz
-+    # typeformake lists only valid kernel make targets, and post processing can be done after the kernel
-+    # is built (such as using gzip to compress vmlinux)
-+    typeformake = re.sub(r'vmlinux\.gz', 'vmlinux', types)
-     d.setVar('KERNEL_IMAGETYPE_FOR_MAKE', typeformake)
- 
-     for type in types.split():
--- 
-2.11.0
+I haven't investigate what recipe is to blame, but obviously we can't merge
+ncurses unless mc builds.
 
+Ross
 
+--001a114e72386278b90550e2a68f
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 26 May 2017 at 10:31, Huang Qiyu <span dir=3D"ltr">&lt;<a href=3D"mailto=
+:huangqy.fnst@cn.fujitsu.com" target=3D"_blank">huangqy.fnst@cn.fujitsu.com=
+</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin=
+:0px 0px 0px 0.8ex;border-left-width:1px;border-left-style:solid;border-lef=
+t-color:rgb(204,204,204);padding-left:1ex"><div id=3D"gmail-:273" class=3D"=
+gmail-a3s gmail-aXjCH gmail-m15c441ad9a6227fe">1) Upgrade <span class=3D"gm=
+ail-il">ncurses</span> from 6.0+20161126 to 6.0+20170408.<br>
+2) Delete patch &quot;fix-cflags-mangle.patch&quot;,<wbr>since it is integr=
+ated upstream.<br></div></blockquote></div><br>As usual, the ncurses upgrad=
+e has broke mc:</div><div class=3D"gmail_extra"><br></div><div class=3D"gma=
+il_extra"><a href=3D"http://errors.yoctoproject.org/Errors/Details/143477/"=
+>http://errors.yoctoproject.org/Errors/Details/143477/</a><br></div><div cl=
+ass=3D"gmail_extra"><br></div><div class=3D"gmail_extra">I haven&#39;t inve=
+stigate what recipe is to blame, but obviously we can&#39;t merge ncurses u=
+nless mc builds.</div><div class=3D"gmail_extra"><br></div><div class=3D"gm=
+ail_extra">Ross</div></div>
+
+--001a114e72386278b90550e2a68f--
