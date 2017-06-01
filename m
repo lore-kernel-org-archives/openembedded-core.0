@@ -1,26 +1,47 @@
-Return-Path: <jussi.kukkonen@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id BA85877E12
+Return-Path: <net147@gmail.com>
+Received: from mail-it0-f67.google.com (mail-it0-f67.google.com
+	[209.85.214.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 9B9D1719B7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Jun 2017 10:37:09 +0000 (UTC)
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	01 Jun 2017 03:37:11 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.39,279,1493708400"; d="scan'208";a="93584370"
-Received: from linux.intel.com ([10.54.29.200])
-	by orsmga004.jf.intel.com with ESMTP; 01 Jun 2017 03:37:11 -0700
-Received: from theory.fi.intel.com (theory.fi.intel.com [10.237.72.53])
-	by linux.intel.com (Postfix) with ESMTP id 411435800D3;
-	Thu,  1 Jun 2017 03:37:10 -0700 (PDT)
-From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+	Thu,  1 Jun 2017 12:13:41 +0000 (UTC)
+Received: by mail-it0-f67.google.com with SMTP id 67so5707637itx.2
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 01 Jun 2017 05:13:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=5iqnCBAoYUYy9TBTWrmJhz4dyRf7NzujtuEuGw6grK8=;
+	b=mi3yNiR3ZhuRo0ZqWku/5EaiVGOMlcwAJFD6kl0W0gOX1j9fmRMHTNjSpriNIVonf9
+	8p4j5SBLvvGpNVr51g8yUZ7Ca/uWHGnOyQXQuN64puxSpGnIAXYTsfzJvWlVthTOb9EU
+	eVjFsjoBCXXHL9RgRmfcJsGPOom0twA4QoSpRbC1GeQfUSYWVT1srwGqwmibLoo8EvhA
+	isaCjbK27U7Bv1R29oWNmdvcxMY4wWuJPadppdJLa7S8Hh7UkGV+DuPIt9Jd+TARVzfs
+	Pg0aGWqGy064oZsDPvHRgpka2651TgmM8BCm2M9TEktXxKX9KbKpmNSfao724WY/c49l
+	0gag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=5iqnCBAoYUYy9TBTWrmJhz4dyRf7NzujtuEuGw6grK8=;
+	b=ON1cMnEXZKiqGFCRr2Qa7Eg2IhgA+CxTKq2TyCyyKR9dxiJryQB/It2EJBbRCj9NiK
+	YhaQX1k90x8qEYor0fk+eKy9akYNMHoN/UJjg/AlZJ9v9lS0gOCFx1DgSIMJ0MwvLqWY
+	lq3rV7T6n3LyX3nhThVm9K+RnyV0FK1U03PC3FD0NLuTLNeViDHEC3LulxGG9Es4PB3s
+	76fnRbdGEJjIN+b8nKjb0jr+TaRNuYrkV4/IRiYv3o3sqEaGorUVqQaLaphRbkoNaPKN
+	TXN2SOHg6iTlXQ/CwG+hLq1ah2cQFkILYRRjT726nSu5LxyknJM5ETXqnJYCYbAV1mkB
+	Zg8Q==
+X-Gm-Message-State: AODbwcApoa8hl3bgNn/VRAVJgZOB3W0k89s91xPvL3XDVgaJgfUyLqBD
+	Un+vKpMKOyKaqg==
+X-Received: by 10.99.16.65 with SMTP id 1mr918706pgq.60.1496319222604;
+	Thu, 01 Jun 2017 05:13:42 -0700 (PDT)
+Received: from 60-242-179-244.static.tpgi.com.au
+	(60-242-179-244.static.tpgi.com.au. [60.242.179.244])
+	by smtp.gmail.com with ESMTPSA id
+	n24sm35575827pfb.14.2017.06.01.05.13.41
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Thu, 01 Jun 2017 05:13:41 -0700 (PDT)
+From: Jonathan Liu <net147@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  1 Jun 2017 13:36:55 +0300
-Message-Id: <b8ff51ab7decd583268ed0b91f91c65176d002e8.1496311679.git.jussi.kukkonen@intel.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <cover.1496311679.git.jussi.kukkonen@intel.com>
-References: <cover.1496311679.git.jussi.kukkonen@intel.com>
-Subject: [PATCH 10/10] xkeyboard-config: Upgrade 2.20 -> 2.21
+Date: Thu,  1 Jun 2017 22:14:18 +1000
+Message-Id: <20170601121418.27740-1-net147@gmail.com>
+X-Mailer: git-send-email 2.12.2
+Subject: [PATCH] bitbake.conf: Add sdl-config to HOSTTOOLS if using host SDL
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,33 +54,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Jun 2017 10:37:09 -0000
+X-List-Received-Date: Thu, 01 Jun 2017 12:13:41 -0000
 
-Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+If ASSUME_PROVIVES contains libsdl-native, we need to add sdl-config
+to HOSTTOOLS to allow access to the host sdl-config.
+
+Signed-off-by: Jonathan Liu <net147@gmail.com>
 ---
- .../xorg-lib/{xkeyboard-config_2.20.bb => xkeyboard-config_2.21.bb}   | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/xorg-lib/{xkeyboard-config_2.20.bb => xkeyboard-config_2.21.bb} (87%)
+ meta/conf/bitbake.conf | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.20.bb b/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.21.bb
-similarity index 87%
-rename from meta/recipes-graphics/xorg-lib/xkeyboard-config_2.20.bb
-rename to meta/recipes-graphics/xorg-lib/xkeyboard-config_2.21.bb
-index 168b840..01a51ad 100644
---- a/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.20.bb
-+++ b/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.21.bb
-@@ -13,8 +13,8 @@ LICENSE = "MIT & MIT-style"
- LIC_FILES_CHKSUM = "file://COPYING;md5=0e7f21ca7db975c63467d2e7624a12f9"
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 8e4f4bbb56..3ad905c917 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -471,6 +471,9 @@ HOSTTOOLS += " \
+ # Tools needed to run testimage runtime image testing
+ HOSTTOOLS += "ip ping ps scp ssh stty"
  
- SRC_URI = "${XORG_MIRROR}/individual/data/xkeyboard-config/${BPN}-${PV}.tar.bz2"
--SRC_URI[md5sum] = "1f68886339116ae3877052204c9b9b88"
--SRC_URI[sha256sum] = "d1bfc72553c4e3ef1cd6f13eec0488cf940498b612ab8a0b362e7090c94bc134"
-+SRC_URI[md5sum] = "af9498e8954907d0a47f0f7b3d21e1ef"
-+SRC_URI[sha256sum] = "30c17049fae129fc14875656da9aa3099e3031d6ce0ee1d77aae190fd9edcec5"
++# Link to sdl-config if using host SDL
++HOSTTOOLS += "${@bb.utils.contains('ASSUME_PROVIDES', 'libsdl-native', 'sdl-config', '', d)}"
++
+ # Link to these if present
+ HOSTTOOLS_NONFATAL += "aws ccache gcc-ar gpg ld.bfd ld.gold nc sftp socat sudo"
  
- SECTION = "x11/libs"
- DEPENDS = "intltool-native util-macros libxslt-native"
 -- 
-2.1.4
+2.12.2
 
 
