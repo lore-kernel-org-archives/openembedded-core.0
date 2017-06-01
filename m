@@ -1,28 +1,47 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id A347077DB1
+Return-Path: <daniel.diaz@linaro.org>
+Received: from mail-oi0-f45.google.com (mail-oi0-f45.google.com
+	[209.85.218.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 798C377CF1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Jun 2017 17:46:34 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga105.jf.intel.com with ESMTP; 01 Jun 2017 10:46:32 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.39,280,1493708400"; d="scan'208";a="1137013088"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by orsmga001.jf.intel.com with ESMTP; 01 Jun 2017 10:46:31 -0700
-To: Mark Hatle <mark.hatle@windriver.com>,
-	openembedded-core@lists.openembedded.org
-References: <cover.1496329361.git.alexander.kanavin@linux.intel.com>
-	<dc21b6be8d46f824831ff9bf4a5055dec3895b6b.1496329361.git.alexander.kanavin@linux.intel.com>
-	<af1710db-aa6a-1934-e2e8-d59f94c52402@windriver.com>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <bcc3605e-962f-1239-dad9-1ea7e6a97f83@linux.intel.com>
-Date: Thu, 1 Jun 2017 20:44:45 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.8.0
+	Thu,  1 Jun 2017 18:48:43 +0000 (UTC)
+Received: by mail-oi0-f45.google.com with SMTP id h4so65321340oib.3
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 01 Jun 2017 11:48:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=CIyEyce2P4eY7OqCCu6IuBYKRodBO9lGk3uuiUPwZG0=;
+	b=Ig6BcpuCyNjnzd71mqF8cZVDJJzweSaDfOcBA0ix+EF1RL0jhrRUlS4oIWg9N5MN91
+	YFJXyhexCm7R8TEWok3x6GHv45h1I0BaIUjtjR2UBG3fgE+r//qrO7HXo+0pSZc8e8mN
+	cxrjkcncTb+QWmRGX+fKW1gjzaOYhuEmfWTXs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=CIyEyce2P4eY7OqCCu6IuBYKRodBO9lGk3uuiUPwZG0=;
+	b=ZmgpHTI6n5ywjP7r8XrSvkyHoSD0MS4uW8AIbcHDR62DMOQR2cvMpWtFk/Ek5wKynP
+	XMnD2JAzez5d/J0eMroRTWlLum2ojPTpk+reFh6W8KP8Qs3D7MzBv6q8vwf9eWNFw08P
+	JnmqNX3uNrXxM2q6u+34uPvjullEHNR88pYcyI34Bkbbsu1b9Ji8ib4U9nJCZ27+8zB1
+	LZ+oqa7s0lfX/E14yzXrXXOo/lcPvDDQf6FulL2RtNKLPLSpYO+UWmFeZcyh7nmF5EkP
+	1mqRsBxs4/nMCIyRKSqqvn9Q7NqovkflpUMCQ5QRR1308laMrnSjxwFFzoVp+qZeTEqm
+	Szbw==
+X-Gm-Message-State: AKS2vOwjEWuG2OonPDjPMbbc6IUDfKwLmtZ/Plqh6SRERBM/UKa2WLmK
+	Ef2gSNfN2pNz70h/HmmEEA==
+X-Received: by 10.157.82.134 with SMTP id f6mr2035952oth.24.1496342924865;
+	Thu, 01 Jun 2017 11:48:44 -0700 (PDT)
+Received: from aura.cortijodelrio.net
+	(CableLink67-82.telefonia.InterCable.net. [201.172.67.82])
+	by smtp.googlemail.com with ESMTPSA id
+	s4sm2161146ota.56.2017.06.01.11.48.43
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 01 Jun 2017 11:48:44 -0700 (PDT)
+From: =?UTF-8?q?Daniel=20D=C3=ADaz?= <daniel.diaz@linaro.org>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  1 Jun 2017 13:47:47 -0500
+Message-Id: <1496342867-22987-1-git-send-email-daniel.diaz@linaro.org>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-In-Reply-To: <af1710db-aa6a-1934-e2e8-d59f94c52402@windriver.com>
-Subject: Re: [PATCH 1/2] package_rpm.bbclass: use multithreaded xz compression
+Subject: [PATCH] piglit: fix building issues regarding gbm_bo_map and a MESA test
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,36 +54,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Jun 2017 17:46:40 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 01 Jun 2017 18:48:45 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On 06/01/2017 08:11 PM, Mark Hatle wrote:
-> On 6/1/17 10:15 AM, Alexander Kanavin wrote:
->> RPM's default is single-threaded gz; the change greatly helps with
->> both buildtimes (when there is a small number of large-sized packages)
->> and disk space taken by resulting rpms.
->
-> If you wnable XZ here, you need to make sure XZ compression is enabled within
-> rpm itself.  (I know how that worked in rpm5, not sure how rpm4 does it -- it
-> may be enable that the binary be present to call out to.)
+These patches fix a few building problems but are not being
+taken into consideration at the moment, even though they have
+been reviewed upstream with most of them merged (and accepted
+already in OE-core master):
+1.- CMake: define GBM_BO_MAP only when symbol is found
+2.- util/egl: Honour Surfaceless MESA in get_default_display
+3.- egl_mesa_platform_surfaceless: Don't use eglGetPlatformDisplay directly
+4.- egl_mesa_platform_surfaceless: Use EXT functions for surfaces
 
-rpm4 does not call out to any binary, it is linking against liblzma from 
-xz package, if it can find it during configure. Xz was already in list 
-of dependencies, so nothing needed to be done. Same for other 
-compression schemes.
+Signed-off-by: Daniel Díaz <daniel.diaz@linaro.org>
+---
+ meta/recipes-graphics/piglit/piglit_git.bb | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-> Finally I have not investigated parallel XZ, but in some cases the resulting
-> compressed file is different depending on compression artifacts due to
-> parallelization.  (The compressed file is different, not the uncompressed content.)
->
-> This can be a concern to some who want fully reproducible builds (from source).
-> So we need to make sure we have a way to disable this type of parallelization
-> --if-- it causes a problem with different contents.
+diff --git a/meta/recipes-graphics/piglit/piglit_git.bb b/meta/recipes-graphics/piglit/piglit_git.bb
+index eae3eed..2ea5779 100644
+--- a/meta/recipes-graphics/piglit/piglit_git.bb
++++ b/meta/recipes-graphics/piglit/piglit_git.bb
+@@ -5,6 +5,10 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b2beded7103a3d8a442a2a0391d607b0"
+ SRC_URI = "git://anongit.freedesktop.org/piglit \
+            file://0001-cmake-install-bash-completions-in-the-right-place.patch \
+            file://0001-tests-Use-FE_UPWARD-only-if-its-defined-in-fenv.h.patch \
++           file://0001-CMake-define-GBM_BO_MAP-only-when-symbol-is-found.patch \
++           file://0002-util-egl-Honour-Surfaceless-MESA-in-get_default_disp.patch \
++           file://0003-egl_mesa_platform_surfaceless-Don-t-use-eglGetPlatfo.patch \
++           file://0004-egl_mesa_platform_surfaceless-Use-EXT-functions-for-.patch \
+            "
+ 
+ # From 2017-02-06
+-- 
+1.9.1
 
-Let's first see if it is an actual concern for anyone. If the 
-uncompressed contents is exactly same, I have difficulty seeing what is 
-the problem specifically.
-
-Alex
 
