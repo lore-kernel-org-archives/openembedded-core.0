@@ -1,18 +1,18 @@
 Return-Path: <patchwork@patchwork.openembedded.org>
 Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id A92A877E31;
-	Thu,  1 Jun 2017 16:01:45 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id A356377E40;
+	Thu,  1 Jun 2017 16:01:46 +0000 (UTC)
 MIME-Version: 1.0
 From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Mikko Rapeli <mikko.rapeli@bmw.de>
-Date: Thu, 01 Jun 2017 16:01:47 -0000
-Message-ID: <20170601160147.1043.91345@do.openembedded.org>
-References: <1495178237-22689-1-git-send-email-mikko.rapeli@bmw.de>
+To: =?utf-8?q?Daniel_D=C3=ADaz?= <daniel.diaz@linaro.org>
+Date: Thu, 01 Jun 2017 16:01:48 -0000
+Message-ID: <20170601160148.1044.96450@do.openembedded.org>
+References: <1496331426-6553-1-git-send-email-daniel.diaz@linaro.org>
 Reply-To: openembedded-core@lists.openembedded.org
 X-Patchwork-Hint: ignore
-In-Reply-To: <1495178237-22689-1-git-send-email-mikko.rapeli@bmw.de>
+In-Reply-To: <1496331426-6553-1-git-send-email-daniel.diaz@linaro.org>
 Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgRml4IHJldHVybiB2YWx1ZSBjaGVja3MgZnJvbSBzdWJwcm9jZXNzLmNhbGwoKSdzIChyZXYyKQ==?=
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgIlsxLzMscHlyb10gcGlnbGl0OiBkZXBlbmQgb24gdi4uLiIgYW5kIDIgbW9yZQ==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,9 +31,9 @@ Content-Transfer-Encoding: 7bit
 
 == Series Details ==
 
-Series: Fix return value checks from subprocess.call()'s (rev2)
-Revision: 2
-URL   : https://patchwork.openembedded.org/series/6800/
+Series: "[1/3,pyro] piglit: depend on v..." and 2 more
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/7014/
 State : failure
 
 == Summary ==
@@ -45,9 +45,8 @@ series by patchtest resulting in the following failures:
 
 
 
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  master (currently at 4aa6cdfe9f)
+* Issue             Added patch file is missing Upstream-Status in the header [test_upstream_status_presence] 
+  Suggested fix    Add Upstream-Status: <status> to the header of meta/recipes-graphics/piglit/piglit/0001-CMake-define-GBM_BO_MAP-only-when-symbol-is-found.patch (possible values: Pending, Submitted, Accepted, Backport, Denied, Inappropriate)
 
 
 
