@@ -1,46 +1,50 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f179.google.com (mail-qk0-f179.google.com
-	[209.85.220.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 6623677D3C
+Return-Path: <prvs=31872cab3=Mikko.Rapeli@bmw.de>
+Received: from esa5.bmw.c3s2.iphmx.com (esa5.bmw.c3s2.iphmx.com
+	[68.232.139.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 3F0A777D42
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Jun 2017 12:40:29 +0000 (UTC)
-Received: by mail-qk0-f179.google.com with SMTP id d14so34877063qkb.1
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 01 Jun 2017 05:40:31 -0700 (PDT)
+	Thu,  1 Jun 2017 12:50:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=pj0wTN6Zvc6GDGTOriobYZpUWuRqdE21gZ6OSDiNFXI=;
-	b=fq9mKg/exltTlmMKY7zvZ0YhnuYfQEGU5AO4wwew5f2vJkwAECX8FofmrmYO3tANIV
-	NqqYDAoSkpBw8kLE7gD1KdAloKSuMuKn1Yt7TdED35WBF/CnZA4/XxIYAyanp+EytjEP
-	GD4Ome7fz1BAk+gmDFeve+/36FmFmFauW9GFedBw/qrtJylj1H4ULwK5H3SrVdHrb4WI
-	b0prJTvcwrKjPN+6oy8ketoWTH3+stdJPPARGzpyXw8U38sHUedcxclU5WdmxG/wXdQq
-	gsMFKOp5IIxQg3mEw4Sei/Fkjxd0sDAisczCf7gJcPWryP4wzreJH4c9/Cb3PRagacRw
-	FueQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=pj0wTN6Zvc6GDGTOriobYZpUWuRqdE21gZ6OSDiNFXI=;
-	b=GB65G7q3/MkZZHFmiAxBzBGKTRePZmrV6xnALs4nGtvcZzP2aAJ5OwcRi0WDDW5zMh
-	Qc8FwDa5D/VDGvnRTwMOdyCqNOM797WzrOuqaoChkjnWyd//hpiwa/GtxzPwrSKBdl8/
-	E0VtgltCrzG41+2fP4XXp9UGBctzwKUdsfew0+bVVg8x0XegaxuyMi1SSIe6TNb4MCnw
-	dng+ZjqwRf6DY/RWgTQ5DSC7Ifym3jEU0aZ8TdXrhMIWk1BlSqoVSINepPO5hODHv+6v
-	i1Yg89Wfpbkm8L3/sb9etwkXYx4TwIXzuUHPP94Xg68WTkLfupQPH8cxm3yxn5h3ONjR
-	W1fw==
-X-Gm-Message-State: AODbwcDKUkjy38fqOmli6tkZtgkeBvacjFl9esHNV8iPCBAHUmPwTOpc
-	L4q08JPzuEaeyp934C/jOs5dXbwu9T0H
-X-Received: by 10.55.140.65 with SMTP id o62mr1452779qkd.127.1496320831047;
-	Thu, 01 Jun 2017 05:40:31 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.41.115 with HTTP; Thu, 1 Jun 2017 05:40:10 -0700 (PDT)
-In-Reply-To: <1495178237-22689-1-git-send-email-mikko.rapeli@bmw.de>
+	d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
+	t=1496321434; x=1527857434;
+	h=from:to:cc:subject:date:message-id:references:
+	in-reply-to:content-id:content-transfer-encoding: mime-version;
+	bh=ph6k6zP4EcM4DeLErPdw6hxkM3P84OtHpMMm0y0Zw54=;
+	b=kspfRqsUNaVoTlPok5apzBJEhxuR4K/1Kc32yqvmBNTn59V572RE8Xev
+	12fQ3wmrtPzVcbscdov5EpxQfHAIfH1pZ1czoTz7f+N1DfQDuSTbe0W7Y
+	GK8sZU9rTiiquj4je9G0gGBur8nSSEUdwko9iuYa5WVzZYK2IltgMNqcA c=;
+Received: from esagw2.bmwgroup.com (HELO esagw2.muc) ([160.46.252.38]) by
+	esa5.bmw.c3s2.iphmx.com with ESMTP/TLS; 01 Jun 2017 14:50:31 +0200
+Received: from esabb5.muc ([160.50.100.47])  by esagw2.muc with ESMTP/TLS;
+	01 Jun 2017 14:50:30 +0200
+Received: from smucm10m.bmwgroup.net (HELO smucm10m.europe.bmw.corp)
+	([160.48.96.49])
+	by esabb5.muc with ESMTP/TLS; 01 Jun 2017 14:50:30 +0200
+Received: from smucm10k.europe.bmw.corp (160.48.96.47) by
+	smucm10m.europe.bmw.corp
+	(160.48.96.49) with Microsoft SMTP Server (TLS;
+	Thu, 1 Jun 2017 14:50:30 +0200
+Received: from smucm10k.europe.bmw.corp ([160.48.96.47]) by
+	smucm10k.europe.bmw.corp ([160.48.96.47]) with mapi id 15.00.1263.000;
+	Thu, 1 Jun 2017 14:50:30 +0200
+From: <Mikko.Rapeli@bmw.de>
+To: <ross.burton@intel.com>
+Thread-Topic: [OE-core] [PATCH] Fix return value checks from
+	subprocess.call()'s
+Thread-Index: AQHS0G/7wjrREpahp0apkdMg+WxVPaIP5gIAgAAC4oA=
+Date: Thu, 1 Jun 2017 12:50:30 +0000
+Message-ID: <20170601125029.wli6reydiovo7xjk@hiutale>
 References: <1495178237-22689-1-git-send-email-mikko.rapeli@bmw.de>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 1 Jun 2017 13:40:10 +0100
-Message-ID: <CAJTo0LYvce=ZnTyYmT+_3b9-VD35t9yZES8wNin+xM-Xdj2ALQ@mail.gmail.com>
-To: Mikko Rapeli <mikko.rapeli@bmw.de>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
+	<CAJTo0LYvce=ZnTyYmT+_3b9-VD35t9yZES8wNin+xM-Xdj2ALQ@mail.gmail.com>
+In-Reply-To: <CAJTo0LYvce=ZnTyYmT+_3b9-VD35t9yZES8wNin+xM-Xdj2ALQ@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [192.168.44.101]
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH] Fix return value checks from subprocess.call()'s
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -54,69 +58,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Jun 2017 12:40:30 -0000
-Content-Type: multipart/alternative; boundary="94eb2c05430e9ae2240550e5570d"
-
---94eb2c05430e9ae2240550e5570d
-Content-Type: text/plain; charset="UTF-8"
-
-On 19 May 2017 at 08:17, Mikko Rapeli <mikko.rapeli@bmw.de> wrote:
-
->  bitbake/lib/bb/ui/ncurses.py             | 2 +-
->  bitbake/lib/bb/utils.py                  | 2 +-
->  meta/classes/archiver.bbclass            | 2 +-
->  meta/classes/cml1.bbclass                | 2 +-
->  meta/classes/kernel-module-split.bbclass | 2 +-
->  meta/classes/sstate.bbclass              | 4 ++--
->  meta/lib/oeqa/utils/buildproject.py      | 2 +-
->  meta/lib/oeqa/utils/targetbuild.py       | 4 ++--
->  meta/recipes-extended/cups/cups.inc      | 2 +-
->  scripts/runqemu                          | 8 ++++----
->
-
-Poky is a generated repository and you've patches that touch two upstream
-repositories, can you split this into bitbake/ (for the bitbake repo) and
-meta/ scripts/ (for the openembedded-core repository).
-
-I presume the transformation wasn't automated and you checked that throwing
-exceptions was the right thing to do?
-
-Ross
-
---94eb2c05430e9ae2240550e5570d
-Content-Type: text/html; charset="UTF-8"
+X-List-Received-Date: Thu, 01 Jun 2017 12:50:32 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <4BD997CC66606444BEE4220BC6A873BC@bmwmail.corp>
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 19 May 2017 at 08:17, Mikko Rapeli <span dir=3D"ltr">&lt;<a href=3D"mail=
-to:mikko.rapeli@bmw.de" target=3D"_blank">mikko.rapeli@bmw.de</a>&gt;</span=
-> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bo=
-rder-left:1px #ccc solid;padding-left:1ex"><div id=3D":282" class=3D"a3s aX=
-jCH m15c1fb026a8668d0">=C2=A0bitbake/lib/bb/ui/ncurses.py=C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 2 +-<br>
-=C2=A0bitbake/lib/bb/utils.py=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 | 2 +-<br>
-=C2=A0meta/classes/archiver.bbclass=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 | 2 +-<br>
-=C2=A0meta/classes/cml1.bbclass=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 | 2 +-<br>
-=C2=A0meta/classes/kernel-module-<wbr>split.bbclass | 2 +-<br>
-=C2=A0meta/classes/sstate.bbclass=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 | 4 ++--<br>
-=C2=A0meta/lib/oeqa/utils/<wbr>buildproject.py=C2=A0 =C2=A0 =C2=A0 | 2 +-<b=
-r>
-=C2=A0meta/lib/oeqa/utils/<wbr>targetbuild.py=C2=A0 =C2=A0 =C2=A0 =C2=A0| 4=
- ++--<br>
-=C2=A0meta/recipes-extended/cups/<wbr>cups.inc=C2=A0 =C2=A0 =C2=A0 | 2 +-<b=
-r>
-=C2=A0scripts/runqemu=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 8 ++++----</div></blockquote></div=
-><br>Poky is a generated repository and you&#39;ve patches that touch two u=
-pstream repositories, can you split this into bitbake/ (for the bitbake rep=
-o) and meta/ scripts/ (for the openembedded-core repository).</div><div cla=
-ss=3D"gmail_extra"><br></div><div class=3D"gmail_extra">I presume the trans=
-formation wasn&#39;t automated and you checked that throwing exceptions was=
- the right thing to do?</div><div class=3D"gmail_extra"><br></div><div clas=
-s=3D"gmail_extra">Ross</div></div>
+On Thu, Jun 01, 2017 at 01:40:10PM +0100, Burton, Ross wrote:
+> On 19 May 2017 at 08:17, Mikko Rapeli <mikko.rapeli@bmw.de> wrote:
+>=20
+> >  bitbake/lib/bb/ui/ncurses.py             | 2 +-
+> >  bitbake/lib/bb/utils.py                  | 2 +-
+> >  meta/classes/archiver.bbclass            | 2 +-
+> >  meta/classes/cml1.bbclass                | 2 +-
+> >  meta/classes/kernel-module-split.bbclass | 2 +-
+> >  meta/classes/sstate.bbclass              | 4 ++--
+> >  meta/lib/oeqa/utils/buildproject.py      | 2 +-
+> >  meta/lib/oeqa/utils/targetbuild.py       | 4 ++--
+> >  meta/recipes-extended/cups/cups.inc      | 2 +-
+> >  scripts/runqemu                          | 8 ++++----
+> >
+>=20
+> Poky is a generated repository and you've patches that touch two upstream
+> repositories, can you split this into bitbake/ (for the bitbake repo) and
+> meta/ scripts/ (for the openembedded-core repository).
 
---94eb2c05430e9ae2240550e5570d--
+Yes, I can do that.
+
+> I presume the transformation wasn't automated and you checked that throwi=
+ng
+> exceptions was the right thing to do?
+
+I did the changes manually and to me throwing an exception in those places
+is the right thing to do instead of ignoring all errors.
+
+I will send a v2.
+
+-Mikko=
+
