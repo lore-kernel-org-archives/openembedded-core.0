@@ -1,23 +1,25 @@
 Return-Path: <jussi.kukkonen@intel.com>
 Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id F1D046093B
+	by mail.openembedded.org (Postfix) with ESMTP id 1B2B477CFB
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Jun 2017 10:36:52 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga105.jf.intel.com with ESMTP; 01 Jun 2017 03:36:52 -0700
+	Thu,  1 Jun 2017 10:36:59 +0000 (UTC)
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+	by orsmga105.jf.intel.com with ESMTP; 01 Jun 2017 03:37:00 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.39,279,1493708400"; d="scan'208";a="94302850"
+X-IronPort-AV: E=Sophos;i="5.39,279,1493708400"; d="scan'208";a="109594801"
 Received: from linux.intel.com ([10.54.29.200])
-	by orsmga002.jf.intel.com with ESMTP; 01 Jun 2017 03:36:51 -0700
+	by fmsmga006.fm.intel.com with ESMTP; 01 Jun 2017 03:37:00 -0700
 Received: from theory.fi.intel.com (theory.fi.intel.com [10.237.72.53])
-	by linux.intel.com (Postfix) with ESMTP id 35DD258024C;
-	Thu,  1 Jun 2017 03:36:51 -0700 (PDT)
+	by linux.intel.com (Postfix) with ESMTP id 6E25E5800D3;
+	Thu,  1 Jun 2017 03:36:59 -0700 (PDT)
 From: Jussi Kukkonen <jussi.kukkonen@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  1 Jun 2017 13:36:44 +0300
-Message-Id: <cover.1496311679.git.jussi.kukkonen@intel.com>
+Date: Thu,  1 Jun 2017 13:36:47 +0300
+Message-Id: <ce44766152188d41f983eb5aa94fe0dcb4dd2956.1496311679.git.jussi.kukkonen@intel.com>
 X-Mailer: git-send-email 2.1.4
-Subject: [PATCH 00/10] More version upgrades
+In-Reply-To: <cover.1496311679.git.jussi.kukkonen@intel.com>
+References: <cover.1496311679.git.jussi.kukkonen@intel.com>
+Subject: [PATCH 02/10] libinput: Upgrade 1.6.1 -> 1.7.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,60 +32,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Jun 2017 10:36:53 -0000
+X-List-Received-Date: Thu, 01 Jun 2017 10:36:59 -0000
 
-Xorg and some unrelated individual upgrades.
-The only major release here is libinput.
+Includes a major feature releas, release notes for that one:
+https://lists.freedesktop.org/archives/wayland-devel/2017-March/033531.html
 
-I've tested this on top of the previous batch of upgrades but this
-should work fine independently as well.
+inherit lib_package to get the binaries into libinput-bin package.
+This changes the final library package name so add
+RPROVIDES/RREPLACES/RCONFLICTS.
 
-Thanks,
- Jussi
-
-The following changes since commit bd063fa288b49b6e3ea77982d0ccc46610feb1ad:
-
-  tune-mips32*.inc: use consistent comments across all three .inc files (2017-05-30 10:15:20 +0100)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib jku/more-updates
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=jku/more-updates
-
-Jussi Kukkonen (10):
-  vte: Upgrade 0.46.1 -> 0.48.3
-  libinput: Upgrade 1.6.1 -> 1.7.2
-  xdg-utils: Upgrade 1.1.1 -> 1.1.2
-  libevdev: Upgrade 1.5.6 -> 1.5.7
-  clutter-1.0: Upgrade 1.26.0 -> 1.26.2
-  clutter-gst-3.0: Upgrade 3.0.22 -> 3.0.24
-  xf86-input-libinput: Upgrade 0.24.0 -> 0.25.1
-  xserver-xorg: Upgrade 1.19.1 -> 1.19.3
-  xkbcomp: Upgrade 1.3.1 -> 1.4.0
-  xkeyboard-config: Upgrade 2.20 -> 2.21
-
- .../xdg-utils/{xdg-utils_1.1.1.bb => xdg-utils_1.1.2.bb}      |  6 +++---
- .../clutter/{clutter-1.0_1.26.0.bb => clutter-1.0_1.26.2.bb}  |  4 ++--
- .../{clutter-gst-3.0_3.0.22.bb => clutter-gst-3.0_3.0.24.bb}  |  4 ++--
- .../wayland/{libinput_1.6.1.bb => libinput_1.7.2.bb}          | 10 +++++++---
- .../xorg-app/{xkbcomp_1.3.1.bb => xkbcomp_1.4.0.bb}           |  4 ++--
- ...input-libinput_0.24.0.bb => xf86-input-libinput_0.25.1.bb} |  4 ++--
- .../{xkeyboard-config_2.20.bb => xkeyboard-config_2.21.bb}    |  4 ++--
- .../{xserver-xorg_1.19.1.bb => xserver-xorg_1.19.3.bb}        |  4 ++--
- .../libevdev/{libevdev_1.5.6.bb => libevdev_1.5.7.bb}         |  4 ++--
- meta/recipes-support/vte/{vte_0.46.1.bb => vte_0.48.3.bb}     | 11 ++++++++---
- 10 files changed, 32 insertions(+), 23 deletions(-)
- rename meta/recipes-extended/xdg-utils/{xdg-utils_1.1.1.bb => xdg-utils_1.1.2.bb} (83%)
- rename meta/recipes-graphics/clutter/{clutter-1.0_1.26.0.bb => clutter-1.0_1.26.2.bb} (67%)
- rename meta/recipes-graphics/clutter/{clutter-gst-3.0_3.0.22.bb => clutter-gst-3.0_3.0.24.bb} (58%)
+Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+---
+ .../wayland/{libinput_1.6.1.bb => libinput_1.7.2.bb}           | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
  rename meta/recipes-graphics/wayland/{libinput_1.6.1.bb => libinput_1.7.2.bb} (74%)
- rename meta/recipes-graphics/xorg-app/{xkbcomp_1.3.1.bb => xkbcomp_1.4.0.bb} (78%)
- rename meta/recipes-graphics/xorg-driver/{xf86-input-libinput_0.24.0.bb => xf86-input-libinput_0.25.1.bb} (63%)
- rename meta/recipes-graphics/xorg-lib/{xkeyboard-config_2.20.bb => xkeyboard-config_2.21.bb} (87%)
- rename meta/recipes-graphics/xorg-xserver/{xserver-xorg_1.19.1.bb => xserver-xorg_1.19.3.bb} (89%)
- rename meta/recipes-support/libevdev/{libevdev_1.5.6.bb => libevdev_1.5.7.bb} (74%)
- rename meta/recipes-support/vte/{vte_0.46.1.bb => vte_0.48.3.bb} (84%)
 
+diff --git a/meta/recipes-graphics/wayland/libinput_1.6.1.bb b/meta/recipes-graphics/wayland/libinput_1.7.2.bb
+similarity index 74%
+rename from meta/recipes-graphics/wayland/libinput_1.6.1.bb
+rename to meta/recipes-graphics/wayland/libinput_1.7.2.bb
+index c8714f2..f4693b6 100644
+--- a/meta/recipes-graphics/wayland/libinput_1.6.1.bb
++++ b/meta/recipes-graphics/wayland/libinput_1.7.2.bb
+@@ -10,10 +10,10 @@ DEPENDS = "libevdev udev mtdev"
+ SRC_URI = "http://www.freedesktop.org/software/${BPN}/${BP}.tar.xz \
+            file://touchpad-serial-synaptics-need-to-fake-new-touches-on-TRIPLETAP.patch \
+ "
+-SRC_URI[md5sum] = "7e282344f8ed7ec5cf87ca9fc22674fb"
+-SRC_URI[sha256sum] = "9d816f13eee63bcca0e9c3bb652c52ab55f39be4d1b90b54e4bfd1dc92ef55a8"
++SRC_URI[md5sum] = "d138d62c528fbf9aba300a97bae453cb"
++SRC_URI[sha256sum] = "0b1e5a6c106ccc609ccececd9e33e6b27c8b01fc7457ddb4c1dd266e780d6bc2"
+ 
+-inherit autotools pkgconfig
++inherit autotools pkgconfig lib_package
+ 
+ PACKAGECONFIG ??= ""
+ PACKAGECONFIG[libunwind] = "--with-libunwind,--without-libunwind,libunwind"
+@@ -23,3 +23,7 @@ PACKAGECONFIG[gui] = "--enable-event-gui,--disable-event-gui,cairo gtk+3"
+ UDEVDIR = "`pkg-config --variable=udevdir udev`"
+ 
+ EXTRA_OECONF += "--with-udev-dir=${UDEVDIR}"
++
++RPROVIDES_${PN} = "libinput"
++RREPLACES_${PN} = "libinput"
++RCONFLICTS_${PN} = "libinput"
 -- 
 2.1.4
 
