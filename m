@@ -1,46 +1,33 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f50.google.com (mail-wm0-f50.google.com [74.125.82.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 4689E77D81
+Return-Path: <saul.wold@intel.com>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by mail.openembedded.org (Postfix) with ESMTP id 6CCF277D40
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Jun 2017 15:18:28 +0000 (UTC)
-Received: by mail-wm0-f50.google.com with SMTP id 7so161872829wmo.1
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 01 Jun 2017 08:18:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id;
-	bh=sNmNeDFn+9J2pm/PMCLN5lPoF/ojih1x/kW/AC/Y0LA=;
-	b=wpuXDU3P/JIHMBDNT+IuDHmeQCPMxwtQwuPzZyWXrAGjh2jOfQFFLK8ZUL4lnpY/LU
-	83QkENJQ8C732rr5Gr7jMhc2kQra5cjVj0HoC4GVFj6IwHcnpEsoWMqtsmmxtBexV426
-	ECaVZOskB9FpUGO6aLBm6NJJGGNCNtbRNB374KNDvrFkhjajBeJqRWIfZW05Uw7qqb7T
-	kkuedPe6FjvswdCNA49XxUhsOU+JCDDOIda9663BWTyzN+SQNicLgJz8iz53q1srAunA
-	OhoNCO8tYANyJfhdYC0dUAT0ISm4ihBFVr/8ix2+VNUGdKWn0l90y2nXKYXzM9nJ146Y
-	+vVA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=sNmNeDFn+9J2pm/PMCLN5lPoF/ojih1x/kW/AC/Y0LA=;
-	b=AVx7rfLx/O3z+vGuRp1RaGmMvcBprXmIUZw6hw7kgKfXYUEWnLov65Vv37qsjYqudp
-	XMdw0N4u8JmQZoGQ4jLvX2KVZwoXXPPyuztGx22rU3ILYASYwsDrxzPOA3RmbVKS5Cr8
-	AmAQvPN1cBqS8KzfFI8Cs06ewf9tpeS7QZagEKRbMzDqiBgS6ggzhFhw289kuDVVrNoO
-	E01WcDPZZ8HCby2RYpNSzn5PrzWY5moOzAXKrY1d3OD/n/HZnrgZRNrLIrlc8l07Uhuf
-	h11a7abA4Xy7p6TecTjRcVVac5eRgaZn/xaTjEKts1tkMciSWDkfWdpd+Y6EmdVqzl6Z
-	IPwA==
-X-Gm-Message-State: AODbwcDNzZcC4QOnuFpgIMLWC8dfrwWeqP7HIBMikrah4euqDHiKBoRn
-	uC/KlYM6CdzYkPxrzPI=
-X-Received: by 10.223.155.217 with SMTP id e25mr1735734wrc.55.1496330309152;
-	Thu, 01 Jun 2017 08:18:29 -0700 (PDT)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id
-	w18sm18841843wmw.26.2017.06.01.08.18.28
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 01 Jun 2017 08:18:28 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  1 Jun 2017 16:18:24 +0100
-Message-Id: <1496330304-20841-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.8.1
-Subject: [PATCH] gstreamer1.0: upgrade to version 1.12.0
+	Thu,  1 Jun 2017 15:21:51 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga104.jf.intel.com with ESMTP; 01 Jun 2017 08:21:52 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.39,280,1493708400"; d="scan'208";a="1155414027"
+Received: from orsmsx110.amr.corp.intel.com ([10.22.240.8])
+	by fmsmga001.fm.intel.com with ESMTP; 01 Jun 2017 08:21:52 -0700
+Received: from orsmsx113.amr.corp.intel.com ([169.254.9.128]) by
+	ORSMSX110.amr.corp.intel.com ([169.254.10.175]) with mapi id
+	14.03.0319.002; Thu, 1 Jun 2017 08:21:51 -0700
+From: "Wold, Saul" <saul.wold@intel.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>, "ed.bartosh@linux.intel.com"
+	<ed.bartosh@linux.intel.com>
+Thread-Topic: [OE-core] [PATCH v4 0/7] i#10073: generic EFI for wic
+Thread-Index: AQHS2urLPzzSZ3xrlEKtwPtZXGDbbA==
+Date: Thu, 1 Jun 2017 15:21:51 +0000
+Message-ID: <1496330509.6426.82.camel@intel.com>
+References: <cover.1495028624.git.ed.bartosh@linux.intel.com>
+In-Reply-To: <cover.1495028624.git.ed.bartosh@linux.intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.254.99.93]
+MIME-Version: 1.0
+Subject: Re: [PATCH v4 0/7] i#10073: generic EFI for wic
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,172 +40,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Jun 2017 15:18:29 -0000
+X-List-Received-Date: Thu, 01 Jun 2017 15:21:51 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <E87BB350B7FB0948BC72BE99EA3744C1@intel.com>
+Content-Transfer-Encoding: base64
 
-From: Carlos Rafael Giani <dv@pseudoterminal.org>
-
-* Version 1.12 introduces support for libdw (provided by elfutils)
-  libdw adds source lines & numbers to backtraces
-  new dw packageconfig added for enabling/disabling this feature
-* Leftover docbook cruft was removed
-
-* Fix bash completion packaging (RB)
-
-Signed-off-by: Carlos Rafael Giani <dv@pseudoterminal.org>
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-multimedia/gstreamer/gstreamer1.0.inc |  6 +--
- ...tection-of-libunwind-and-libdw-determinis.patch | 56 ++++++++++++++++++++++
- .../gstreamer1.0/deterministic-unwind.patch        | 24 ----------
- ...treamer1.0_1.10.4.bb => gstreamer1.0_1.12.0.bb} |  6 +--
- 4 files changed, 62 insertions(+), 30 deletions(-)
- create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0/0001-Make-the-detection-of-libunwind-and-libdw-determinis.patch
- delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0/deterministic-unwind.patch
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0_1.10.4.bb => gstreamer1.0_1.12.0.bb} (59%)
-
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0.inc
-index 72d7ce6..df3d4c4 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0.inc
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0.inc
-@@ -25,10 +25,10 @@ PACKAGECONFIG[tests] = "--enable-tests,--disable-tests"
- PACKAGECONFIG[valgrind] = "--enable-valgrind,--disable-valgrind,valgrind,"
- PACKAGECONFIG[gst-tracer-hooks] = "--enable-gst-tracer-hooks,--disable-gst-tracer-hooks,"
- PACKAGECONFIG[unwind] = "--with-unwind,--without-unwind,libunwind"
-+PACKAGECONFIG[dw] = "--with-dw,--without-dw,elfutils"
- 
- EXTRA_OECONF = " \
-     --disable-dependency-tracking \
--    --disable-docbook \
-     --disable-examples \
- "
- 
-@@ -37,11 +37,11 @@ CACHED_CONFIGUREVARS += "ac_cv_header_valgrind_valgrind_h=no"
- # musl libc generates warnings if <sys/poll.h> is included directly
- CACHED_CONFIGUREVARS += "ac_cv_header_sys_poll_h=no"
- 
--PACKAGES += "${PN}-bash-completion"
-+PACKAGES =+ "${PN}-bash-completion"
- 
- FILES_${PN} += "${libdir}/gstreamer-1.0/*.so"
- FILES_${PN}-dev += "${libdir}/gstreamer-1.0/*.la ${libdir}/gstreamer-1.0/*.a ${libdir}/gstreamer-1.0/include"
--FILES_${PN}-bash-completion += "${datadir}/bash-completion/completions/ ${datadir}/bash-completion/helpers/gst*"
-+FILES_${PN}-bash-completion += "${datadir}/bash-completion/ ${libexecdir}/gstreamer-1.0/gst-completion-helper"
- 
- RRECOMMENDS_${PN}_qemux86 += "kernel-module-snd-ens1370 kernel-module-snd-rawmidi"
- RRECOMMENDS_${PN}_qemux86-64 += "kernel-module-snd-ens1370 kernel-module-snd-rawmidi"
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0001-Make-the-detection-of-libunwind-and-libdw-determinis.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0001-Make-the-detection-of-libunwind-and-libdw-determinis.patch
-new file mode 100644
-index 0000000..11ce5e9
---- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0001-Make-the-detection-of-libunwind-and-libdw-determinis.patch
-@@ -0,0 +1,56 @@
-+From fa2344e1a0ffed7e648e36ac72c8871d817e40e0 Mon Sep 17 00:00:00 2001
-+From: Carlos Rafael Giani <dv@pseudoterminal.org>
-+Date: Mon, 8 May 2017 01:38:57 +0200
-+Subject: [PATCH] Make the detection of libunwind and libdw deterministic
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Carlos Rafael Giani <dv@pseudoterminal.org>
-+---
-+ configure.ac | 28 ++++++++++++++++++++--------
-+ 1 file changed, 20 insertions(+), 8 deletions(-)
-+
-+diff --git a/configure.ac b/configure.ac
-+index b151208..b7922ac 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -821,16 +821,28 @@ fi
-+ AM_CONDITIONAL(HAVE_GTK, test "x$HAVE_GTK" = "xyes")
-+ 
-+ dnl libunwind is optionally used by the leaks tracer
-+-PKG_CHECK_MODULES(UNWIND, libunwind, HAVE_UNWIND=yes, HAVE_UNWIND=no)
-+-if test "x$HAVE_UNWIND" = "xyes"; then
-+-  AC_DEFINE(HAVE_UNWIND, 1, [libunwind available])
-+-fi
-++AC_ARG_WITH([unwind],[AS_HELP_STRING([--with-unwind],[use libunwind])],
-++            [], [with_unwind=yes])
-++AS_IF([test "x$with_unwind" = xyes],
-++      [PKG_CHECK_MODULES(UNWIND, libunwind)
-++       HAVE_UNWIND=yes
-++       AC_DEFINE(HAVE_UNWIND, 1, [libunwind available])
-++      ], [
-++       HAVE_UNWIND="no"
-++      ]
-++)
-+ 
-+ dnl libdw is optionally used to add source lines and numbers to backtraces
-+-PKG_CHECK_MODULES(DW, libdw, HAVE_DW=yes, HAVE_DW=no)
-+-if test "x$HAVE_DW" = "xyes"; then
-+-  AC_DEFINE(HAVE_DW, 1, [libdw available])
-+-fi
-++AC_ARG_WITH([dw],[AS_HELP_STRING([--with-dw],[use libdw])],
-++            [], [with_dw=yes])
-++AS_IF([test "x$with_dw" = xyes],
-++      [PKG_CHECK_MODULES(DW, libdw)
-++       HAVE_DW=yes
-++       AC_DEFINE(HAVE_DW, 1, [libdw available])
-++      ], [
-++       HAVE_DW=no
-++      ]
-++)
-+ 
-+ dnl Check for backtrace() from libc
-+ AC_CHECK_FUNC(backtrace, [
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0/deterministic-unwind.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0/deterministic-unwind.patch
-deleted file mode 100644
-index e39e6ca..0000000
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0/deterministic-unwind.patch
-+++ /dev/null
-@@ -1,24 +0,0 @@
--Make the detection of libunwind deterministic.
--
--Upstream-Status: Pending
--Signed-off-by: Ross Burton <ross.burton@intel.com>
--
--diff --git a/configure.ac b/configure.ac
--index ac88fb2..182c19a 100644
----- a/configure.ac
--+++ b/configure.ac
--@@ -829,3 +828,0 @@ AM_CONDITIONAL(HAVE_GTK, test "x$HAVE_GTK" = "xyes")
---dnl libunwind is optionally used by the leaks tracer
---PKG_CHECK_MODULES(UNWIND, libunwind, HAVE_UNWIND=yes, HAVE_UNWIND=no)
---
--@@ -839,3 +836,7 @@ AC_CHECK_FUNC(backtrace, [
---if test "x$HAVE_UNWIND" = "xyes"; then
---  AC_DEFINE(HAVE_UNWIND, 1, [libunwind available])
---fi
--+dnl libunwind is optionally used by the leaks tracer
--+AC_ARG_WITH([unwind],[AS_HELP_STRING([--with-unwind],[use libunwind])],
--+            [], [with_unwind=yes])
--+AS_IF([test "$with_unwind" = yes],
--+      [PKG_CHECK_MODULES(UNWIND, libunwind)
--+       AC_DEFINE(HAVE_UNWIND, 1, [libunwind available])]
--+)
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.10.4.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.12.0.bb
-similarity index 59%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0_1.10.4.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0_1.12.0.bb
-index 2a67993..84fc321 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.10.4.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.12.0.bb
-@@ -5,9 +5,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=6762ed442b3822387a51c92d928ead0d \
- 
- SRC_URI = " \
-     http://gstreamer.freedesktop.org/src/gstreamer/gstreamer-${PV}.tar.xz \
--    file://deterministic-unwind.patch \
-+    file://0001-Make-the-detection-of-libunwind-and-libdw-determinis.patch \
- "
--SRC_URI[md5sum] = "7c91a97e4a2dc81eafd59d0a2f8b0d6e"
--SRC_URI[sha256sum] = "50c2f5af50a6cc6c0a3f3ed43bdd8b5e2bff00bacfb766d4be139ec06d8b5218"
-+SRC_URI[md5sum] = "8f76b6b5e4b3307e505bd6ab9304dd03"
-+SRC_URI[sha256sum] = "14d5eef8297d2bf2a728d38fa43cd92cc267a0ad260cf83d770215212aff4302"
- 
- S = "${WORKDIR}/gstreamer-${PV}"
--- 
-2.8.1
-
+T24gV2VkLCAyMDE3LTA1LTE3IGF0IDEzOjQ3ICswMDAwLCBFZCBCYXJ0b3NoIHdyb3RlOg0KPiBI
+aSwNCj4gDQo+IFRoaXMgcGF0Y2hzZXQgaXMgYW4gaW1wbGVtZW50YXRpb24gb2YgZ2VuZXJpYyBF
+RkkgYXBwcm9hY2ggZm9yIHdpYw0KPiBpbWFnZXMuDQo+IA0KPiBJbnN0ZWFkIG9mIGludHJvZHVj
+aW5nIHlldCBhbm90aGVyIHdpYyBwbHVnaW4gaXQgdXNlcyBleGlzdGluZyBBUElzDQo+IGZyb20N
+Cj4gRUZJX1BST1ZJREVSIGNsYXNzZXMgdG8gcG9wdWxhdGUgJHtXT1JLRElSfS9ib290ZnMgZGly
+ZWN0b3J5IHdpdGggRUZJDQo+IGFydGlmYWN0cw0KPiBhbmQgYm9vdGxvYWRlciBjb25maWd1cmF0
+aW9uLiBUaGlzIGRpcmVjdG9yeSBjYW4gYmUgdXNlZCBieSB3aWMNCj4gcm9vdGZzIHBsdWdpbg0K
+PiB0byBwdXQgaW50byBib290IHBhcnRpdGlvbiBvZiB0aGUgaW1hZ2UuDQo+IA0KPiBFeGFtcGxl
+IGtpY2tzdGFydCBmaWxlIGFuZCAyIHRlc3QgY2FzZXMgd2VyZSBhZGRlZCB0byB3aWMgdGVzdCBz
+dWl0ZQ0KPiB0byBiZXR0ZXINCj4gaWxsdXN0cmF0ZSB0aGUgYXBwcm9hY2guDQo+IA0KPiBJIHBl
+cnNvbmFsbHkgbGlrZSB0aGlzIGFwcHJvYWNoIG11Y2ggYmV0dGVyIHRoYW4gZHVwbGljYXRpbmcg
+b2UgaW1hZ2UNCj4gY3JlYXRpb24NCj4gZnVuY3Rpb25hbGl0eSBpbiB3aWMgcGx1Z2lucy4gVGhp
+cyB3YXkgd2UgY2FuIGhhdmUgdGhlIGNvZGUgaW4gb25lDQo+IHBsYWNlIGFuZA0KPiBib290bG9h
+ZGVycyBjYW4gYmUgY29uZmlndXJlZCB0aGUgc2FtZSB3YXkgZm9yIG9lIGFuZCB3aWMgaW1hZ2Vz
+Lg0KPiANCg0KRWQsDQoNCkkgaGF2ZSBiZWVuIGxvb2tpbmcgYXQgdGhpcyBzZXQgb2YgY2hhbmdl
+cyBvdmVyIHRoZSBsYXN0IGZldyBkYXlzLCBhbmQNCndoaWxlIEkgbGlrZSB0aGUgYmFzaWMgYXBw
+cm9hY2gsIEkgZG9uJ3QgdGhpbmsgaXQgZ29lcyBmYXIgZW5vdWdoLiDCoEkNCmFtIGxvb2tpbmcg
+YXQgaG93IG9uZSB3b3VsZCBjcmVhdGUgYSBnZW5lcmljIGJvb3RmcyB2aWEgYSBERVBMT1lfRElS
+DQphbmQgYW4gaW1hZ2UtYm9vdGZzLmJiIHR5cGUgb2YgcmVjaXBlIHRoYXQgZG9lcyB0aGUgYm9v
+dGZzIGNvbnN0cnVjdGlvbg0KaW5zdGVhZCBvZiB0aGUgZXhpc3Rpbmcgc3lzdGVtZC1ib290IG9y
+IGdydWItZWZpIGJiY2xhc3MgY29uc3RydWN0aW9uLg0KDQpUaGlzIHdpbGwgYWxsb3cgZm9yIG1v
+cmUgZmxleGliaWxpdHkgaW4gY3JlYXRpbmcgbGFiZWxzIGZvcg0KYm9vdGxvYWRlcnMsIGRpZmZl
+cmVudCB0eXBlcyBvZiBib290IGxvYWRlcnMgd2l0aG91dCBoYXZpbmcgdG8gY3JlYXRlDQpjbGFz
+c2VzLiDCoFdlIHNob3VsZCB0aGVuIGJlIGFibGUgdG8gY29uc3RydWN0IHRoZSBlcXVpdmxhbnQg
+b2YgaGRkaW1nDQpvciBpc28gaW1hZ2VzIHZpYSBhIHJlY2lwZSB0aGF0IGRlcGVuZHMgb24gdGhl
+IHZhcmlvdXMgZG9fZGVwbG95KCkNCnRhc2tzIG9mIHRoZSBpbWFnZXMgZGVwZW5kZW50IGl0ZW1z
+IChzeXNsaW51eCwgZ3J1YiwgdmlydHVhbC9rZXJuZWwpDQphbmQgY29uZmlndXJhdGlvbi4NCg0K
+SSB0aGluayB3ZSBhcmUgc3RpbGwgdG9vIGxvY2tlZCBpbnRvIHByZXBhcmVfd2ljX2J1aWxkKCkg
+Y2FsbGluZw0KYnVpbGRfZWZpX2NmZyBhbmQgZWZpX2Jvb3Rmc19wb3B1bGF0ZSwgd2hpY2ggbWVh
+bnMgd2ljIHN0aWxsIG5lZWRzDQprbm93bGVkZ2Ugb2YgdGhlIGJvb3QgbG9hZGVycyBpbnN0ZWFk
+IG9mIGp1c3QgaGF2aW5nIGEgcmVjaXBlIHBvcHVsYXRlDQphIGJvb3RmcyBwYXJ0aXRpb24gYW5k
+IHdpYyBjcmVhdGluZyB0aGUgcGFydGl0aW9uIGFuZCBjb3B5aW5nIGZpbGVzDQppbnRvIGl0Lg0K
+DQpNYXliZSBJIGFtIG1pc3Npbmcgc29tZXRoaW5nLCBzbyBwbGVhc2UgY29ycmVjdCBtZSBpZiBJ
+IGFtIHdyb25nLiDCoEkNCmhhdmUgYW4gZXhhbXBsZSBvZiB3aGF0IEkgYW0gdGhpbmtpbmcgb2Yg
+aW4gY29udHJpYi9zZ3cvd2ljX3dpcA0KDQpUaGFua3MNCg0KU2F1IQ0KDQoNCj4gQ2hhbmdlcyBp
+biB2MjoNCj4gwqAtIGFkZGVkIHBhdGNoOiBmaXhlZCBkZWZhdWx0IHZhbHVlIG9mIEdSVUJfUk9P
+VA0KPiDCoC0gZml4ZWQgdHlwbyBpbiBjb21taXQgbWVzc2FnZTogdGltYWdlX3R5cGVzX3dpYyA+
+IGltYWdlX3R5cGVzX3dpYw0KPiANCj4gQ2hhbmdlcyBpbiB2MzoNCj4gwqAtIHNjaGVkdWxlZCBk
+b19wcmVwYXJlX3dpY19idWlsZCBhcyBlYXJsaWVyIGFzIHBvc3NpYmxlDQo+IA0KPiBDaGFuZ2Vz
+IGluIHY0Og0KPiDCoC0gZml4ZWQgYnVpbGQgb24gcGxhdGZvcm1zIHRoYXQgZG9uJ3Qgc3VwcG9y
+dCBFRkkNCj4gwqAtIGZpeGVkIG5vbi1ncGwzIGJ1aWxkDQo+IMKgLSBmaXhlZCBidWlsZCBmYWls
+dXJlIGluIHN5c3RlbWQtYm9vdCBjb2RlIGNhdXNlZCBieSByZXNjaGVkdWxlZA0KPiDCoMKgwqBk
+b19wb3B1bGF0ZV9ib290ZnMgdG8gcnVuIGVhcmxpZXINCj4gDQo+IFRoZSBmb2xsb3dpbmcgY2hh
+bmdlcyBzaW5jZSBjb21taXQNCj4gOTIwZTE1OTJmYmE4ZmQ3MTRiOGZkZjg3Zjk3OTJlYmZhMzM3
+Nzc5MzoNCj4gDQo+IMKgIHNlbGZ0ZXN0OiBmaXggdGVzdF91bnN1cHBvcnRlZF9zdWJjb21tYW5k
+IHRlc3QgY2FzZSAoMjAxNy0wNS0xNw0KPiAxMzozNToyOCArMDAwMCkNCj4gDQo+IGFyZSBhdmFp
+bGFibGUgaW4gdGhlIGdpdCByZXBvc2l0b3J5IGF0Og0KPiANCj4gwqAgZ2l0Oi8vZ2l0LnlvY3Rv
+cHJvamVjdC5vcmcvcG9reS1jb250cmliIGVkL3dpYy93aXANCj4gwqAgaHR0cDovL2dpdC55b2N0
+b3Byb2plY3Qub3JnL2NnaXQuY2dpL3Bva3ktY29udHJpYi9sb2cvP2g9ZWQvd2ljL3dpcA0KPiAN
+Cj4gRWQgQmFydG9zaCAoNyk6DQo+IMKgIHN5c3RlbWQtYm9vdDogY3JlYXRlIG91dHB1dCBkaXIg
+aWYgaXQgZG9lc24ndCBleGlzdA0KPiDCoCBlZmk6IGFkZCBlZmlfYm9vdGZzX3BvcHVsYXRlIEFQ
+SQ0KPiDCoCBpbWFnZV90eXBlc193aWM6IGFkZCBkb19wb3B1bGF0ZV9ib290ZnMgdGFzaw0KPiDC
+oCBpbWFnZV90eXBlc193aWM6IG1lcmdlZCAyIHRhc2tzDQo+IMKgIG9lLXNlbGZ0ZXN0OiBhZGQg
+d2ljIHRlc3RzIGZvciBnZW5lcmljIEVGSQ0KPiDCoCBncnViLWVmaTogZml4ZWQgZGVmYXVsdCB2
+YWx1ZSBvZiBHUlVCX1JPT1QNCj4gwqAgaW1hZ2VfdHlwZXNfd2ljOiBzY2hlZHVsZSBwcmVwYXJl
+X3dpY19idWlsZCBjb3JyZWN0bHkNCj4gDQo+IMKgbWV0YS1zZWxmdGVzdC93aWMvdGVzdF9nZW5l
+cmljX2VmaS53a3MuaW4gfMKgwqA5ICsrKysNCj4gwqBtZXRhL2NsYXNzZXMvZ3J1Yi1lZmkuYmJj
+bGFzc8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgfCAxNCArKystLQ0KPiDCoG1ldGEvY2xhc3Nl
+cy9pbWFnZV90eXBlc193aWMuYmJjbGFzc8KgwqDCoMKgwqDCoHwgODUNCj4gKysrKysrKysrKysr
+KysrKysrKysrKystLS0tLS0tLQ0KPiDCoG1ldGEvY2xhc3Nlcy9zeXN0ZW1kLWJvb3QuYmJjbGFz
+c8KgwqDCoMKgwqDCoMKgwqDCoHzCoMKgOCArKysNCj4gwqBtZXRhL2xpYi9vZXFhL3NlbGZ0ZXN0
+L3dpYy5wecKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgfCAzNiArKysrKysrKysrKysrDQo+IMKg
+NSBmaWxlcyBjaGFuZ2VkLCAxMjYgaW5zZXJ0aW9ucygrKSwgMjYgZGVsZXRpb25zKC0pDQo+IMKg
+Y3JlYXRlIG1vZGUgMTAwNjQ0IG1ldGEtc2VsZnRlc3Qvd2ljL3Rlc3RfZ2VuZXJpY19lZmkud2tz
+LmluDQo+IA0KPiAtLcKgDQo+IFJlZ2FyZHMsDQo+IEVkDQo+IA==
 
