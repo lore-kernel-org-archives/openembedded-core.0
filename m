@@ -1,47 +1,24 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f180.google.com (mail-qk0-f180.google.com
-	[209.85.220.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 7D7AC7760A
+Return-Path: <Dengke.Du@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id AB90A7782F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Jun 2017 09:28:18 +0000 (UTC)
-Received: by mail-qk0-f180.google.com with SMTP id p66so15011991qkf.3
+	Thu,  1 Jun 2017 09:38:43 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v519ciOS008717
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 01 Jun 2017 02:28:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=jyIJ3ko+xA5OD9XE4leTj/uaylb8QF9pT3+L/XAzW+8=;
-	b=cOsV+gIH4LdARasBKIA/CXTum0KQNaDun9RLYTTIW3Xv1zaPz/dv43LPRFNBbKMKfa
-	jTNN1UFu4ELJJPw9WvdQJTaBjTG4OD4dP2epZi76e9a5aVsiUN09200luZWwqD1wmMrg
-	ZhPtbeBhEksE88mPkSvg+VQVpomZ12AFdW+vqPwGezrB4Jydz8iFRyI6GJrdPmonrlxf
-	bbJ8EQB2nyJz0cy5mqEWS9VUvAk3JyRaw2TWbxOqONEUAaFfzCIr/yJYe70Buk87zNrQ
-	2juOJIiZl+U5vG4eL2bwddqZgx0YGTCq2DG5VlAZXMlSDYv2GWYCr6b38QPu6sMUCFkx
-	qSQg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=jyIJ3ko+xA5OD9XE4leTj/uaylb8QF9pT3+L/XAzW+8=;
-	b=uUvIgZagzkyBxebpfF/2QpM6ggeghAWQ1QYxysXBtf9YLQ1MbBYhDmvPqTjciPWVpq
-	gOGaQ3TfvRrgWERFH5VkC/bm88OgeSU5uQIzPQOUZ9DJ4nZ4j5BHmIy9MfleKoGGm474
-	z1LnrDkICBlz2p3jV8CrTknOwA5KcZxfbzx000bKGAEb2edOKHXOY4rX+cYGwuA24V8b
-	okwV1mBd0I6wxK3ZZypXHEiNZvzkIFnDq4M5pO2ItqlBFoVcb0vs+z0YObWKus9h4Sz3
-	zyVQ4f90GXc13O1t+QLr3FY/sTDHsMH1KiqaReMEwz/cLiw5/TALpnA5QB0E81x1wjU7
-	JGsg==
-X-Gm-Message-State: AODbwcBw45Y0Rfg1MXAS5DMrtGP1Zt9EC7SWhY0bksmoksU04QZ5ZH2M
-	9xwiKxt7AYOWG/gNig5jSC2zcOBTs3rg
-X-Received: by 10.55.146.199 with SMTP id u190mr443775qkd.109.1496309299601;
-	Thu, 01 Jun 2017 02:28:19 -0700 (PDT)
+	Thu, 1 Jun 2017 02:38:44 -0700 (PDT)
+Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.294.0;
+	Thu, 1 Jun 2017 02:38:44 -0700
+From: Dengke Du <dengke.du@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 1 Jun 2017 05:38:40 -0400
+Message-ID: <cover.1496309470.git.dengke.du@windriver.com>
+X-Mailer: git-send-email 2.8.1
 MIME-Version: 1.0
-Received: by 10.140.41.115 with HTTP; Thu, 1 Jun 2017 02:27:59 -0700 (PDT)
-In-Reply-To: <20170530153249.7161-1-nicolas.dechesne@linaro.org>
-References: <20170530153249.7161-1-nicolas.dechesne@linaro.org>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 1 Jun 2017 10:27:59 +0100
-Message-ID: <CAJTo0La8sEivJMFo7BzLbgLUOt0gD-8UPS06LZ0fNLoc8BoJrg@mail.gmail.com>
-To: Nicolas Dechesne <nicolas.dechesne@linaro.org>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] mesa: upgrade to 17.1.1
+Subject: [PATCH 0/2] json-glib,dropbear: upgrade to new version
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,48 +31,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Jun 2017 09:28:18 -0000
-Content-Type: multipart/alternative; boundary="94eb2c08bd70470fc70550e2a885"
+X-List-Received-Date: Thu, 01 Jun 2017 09:38:43 -0000
+Content-Type: text/plain
 
---94eb2c08bd70470fc70550e2a885
-Content-Type: text/plain; charset="UTF-8"
+The following changes since commit bd063fa288b49b6e3ea77982d0ccc46610feb1ad:
 
-On 30 May 2017 at 16:32, Nicolas Dechesne <nicolas.dechesne@linaro.org>
-wrote:
+  tune-mips32*.inc: use consistent comments across all three .inc files (2017-05-30 10:15:20 +0100)
 
-> * Costmetic changes in license.html file required new MD5 hash
-> * Add PACKAGECONFIG option for libunwind support (new feature, disable by
-> default)
-> * Rebased 0001-Use-wayland-scanner-in-the-path.patch
-> * Added zlib in DEPENDS, otherwise mesa no longer builds.
->
+are available in the git repository at:
 
-Breaks under musl:
+  https://github.com/DengkeDu/openembedded-core.git dengke/json-glib_dropbear_upgrade
+  https://github.com//tree/dengke/json-glib_dropbear_upgrade
 
-http://errors.yoctoproject.org/Errors/Details/143476/
+Dengke Du (2):
+  json-glib: upgrade 1.2.2 -> 1.2.8
+  dropbear: upgrade 2016.74 -> 2017.75
 
-Ross
+ .../dropbear/support-out-of-tree-builds.patch      | 43 ----------------------
+ meta/recipes-core/dropbear/dropbear_2016.74.bb     |  7 ----
+ meta/recipes-core/dropbear/dropbear_2017.75.bb     |  5 +++
+ .../{json-glib_1.2.2.bb => json-glib_1.2.8.bb}     |  4 +-
+ 4 files changed, 7 insertions(+), 52 deletions(-)
+ delete mode 100644 meta/recipes-core/dropbear/dropbear/support-out-of-tree-builds.patch
+ delete mode 100644 meta/recipes-core/dropbear/dropbear_2016.74.bb
+ create mode 100644 meta/recipes-core/dropbear/dropbear_2017.75.bb
+ rename meta/recipes-gnome/json-glib/{json-glib_1.2.2.bb => json-glib_1.2.8.bb} (82%)
 
---94eb2c08bd70470fc70550e2a885
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+-- 
+2.8.1
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 30 May 2017 at 16:32, Nicolas Dechesne <span dir=3D"ltr">&lt;<a href=3D"=
-mailto:nicolas.dechesne@linaro.org" target=3D"_blank">nicolas.dechesne@lina=
-ro.org</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"=
-margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-style:solid;bord=
-er-left-color:rgb(204,204,204);padding-left:1ex"><div id=3D"gmail-:1hh" cla=
-ss=3D"gmail-a3s gmail-aXjCH gmail-m15c59fdfbeb70b30">* Costmetic changes in=
- license.html file required new MD5 hash<br>
-* Add PACKAGECONFIG option for libunwind support (new feature, disable by d=
-efault)<br>
-* Rebased 0001-Use-wayland-scanner-in-<wbr>the-path.patch<br>
-* Added zlib in DEPENDS, otherwise <span class=3D"gmail-il">mesa</span> no =
-longer builds.<br></div></blockquote></div><br>Breaks under musl:</div><div=
- class=3D"gmail_extra"><br></div><div class=3D"gmail_extra"><a href=3D"http=
-://errors.yoctoproject.org/Errors/Details/143476/">http://errors.yoctoproje=
-ct.org/Errors/Details/143476/</a><br></div><div class=3D"gmail_extra"><br><=
-/div><div class=3D"gmail_extra">Ross</div></div>
 
---94eb2c08bd70470fc70550e2a885--
