@@ -1,35 +1,29 @@
 Return-Path: <mark.hatle@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 8E40C77D2F
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id D824877D2F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Jun 2017 17:02:50 +0000 (UTC)
+	Thu,  1 Jun 2017 17:11:20 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v51H2pU9022360
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v51HBL4D015256
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 1 Jun 2017 10:02:51 -0700 (PDT)
+	Thu, 1 Jun 2017 10:11:21 -0700 (PDT)
 Received: from soho-mhatle-m.local (172.25.36.235) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
-	Thu, 1 Jun 2017 10:02:51 -0700
-To: Cody P Schafer <dev@codyps.com>
-References: <20170530211436.16397-1-dev@codyps.com>
-	<CAPoQQ-1uznmcUSkXs3iLYyK-Bm8gDaT5de_Bi-jF4Su6+KjKvw@mail.gmail.com>
-	<CADkTA4MoY27QPks7oJVP-tfs1+Yr1yY9StmXToNT5Rrs9mYJAA@mail.gmail.com>
-	<CAPoQQ-00id+nBQ1_n=b=7RNrixOxPZb_5puOvCFmOspQB=O3rw@mail.gmail.com>
-	<7bed8363-bd79-0233-3e91-1a74f26fca37@windriver.com>
-	<CAPoQQ-3k3HBh97T855_qY4PtBy8Z2qTVuU_BawnBJsvcBCoe8A@mail.gmail.com>
-	<d5baf3fb-75f5-d50c-e59b-07f3688a88d4@windriver.com>
-	<CAPoQQ-32FvReq9UQPKVYM0dL4LC=vg__GVvnVf3uSq8YwDQerg@mail.gmail.com>
+	Thu, 1 Jun 2017 10:11:20 -0700
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>,
+	<openembedded-core@lists.openembedded.org>
+References: <cover.1496329361.git.alexander.kanavin@linux.intel.com>
+	<dc21b6be8d46f824831ff9bf4a5055dec3895b6b.1496329361.git.alexander.kanavin@linux.intel.com>
 From: Mark Hatle <mark.hatle@windriver.com>
 Organization: Wind River Systems
-Message-ID: <f3591f2b-14cb-7db8-b697-17db7c2e3cb0@windriver.com>
-Date: Thu, 1 Jun 2017 12:02:49 -0500
+Message-ID: <af1710db-aa6a-1934-e2e8-d59f94c52402@windriver.com>
+Date: Thu, 1 Jun 2017 12:11:16 -0500
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:52.0)
 	Gecko/20100101 Thunderbird/52.1.1
 MIME-Version: 1.0
-In-Reply-To: <CAPoQQ-32FvReq9UQPKVYM0dL4LC=vg__GVvnVf3uSq8YwDQerg@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] runqemu-export-rootfs: don't change RPC ports
+In-Reply-To: <dc21b6be8d46f824831ff9bf4a5055dec3895b6b.1496329361.git.alexander.kanavin@linux.intel.com>
+Subject: Re: [PATCH 1/2] package_rpm.bbclass: use multithreaded xz compression
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,34 +36,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Jun 2017 17:02:51 -0000
+X-List-Received-Date: Thu, 01 Jun 2017 17:11:21 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 
-On 5/31/17 3:27 PM, Cody P Schafer wrote:
->> RPC Ports are just the bindings into rpcbind.   The tcp/udp ports are the ones
->> that typically conflict and why this was all done to begin with.
-> 
-> Ok, then it doesn't sound like that is a conflict or a "privileged
-> ports" issue, and it is safe to drop the custom rpc program numbers
-> ("RPC Ports") from `unfsd`s arguments & the kernel parameters.
-> 
-> As I've noted, runqemu-export-rootfs does not register with rpcbind
-> (we pass the `-p` flag to `unfsd`).
+On 6/1/17 10:15 AM, Alexander Kanavin wrote:
+> RPM's default is single-threaded gz; the change greatly helps with
+> both buildtimes (when there is a small number of large-sized packages)
+> and disk space taken by resulting rpms.
 
-The rpcbind runs on a privileged port (usually).  So either you have to 're-use'
-the system wide on or run your own.  On many environments, with a system wide
-one, you will clash if someone else is offering the same services.  So you are
-forced to run your own and/or register then with a different set of port numbers.
+If you wnable XZ here, you need to make sure XZ compression is enabled within
+rpm itself.  (I know how that worked in rpm5, not sure how rpm4 does it -- it
+may be enable that the binary be present to call out to.)
 
-This is absolutely needed in a multi-user or 'locked system' configuration where
-the user does not have permission to run these types of things.
+Similarly to XZ, you can use pigz or other parallel compression tools to do
+similar with other schemes.
+
+Finally I have not investigated parallel XZ, but in some cases the resulting
+compressed file is different depending on compression artifacts due to
+parallelization.  (The compressed file is different, not the uncompressed content.)
+
+This can be a concern to some who want fully reproducible builds (from source).
+So we need to make sure we have a way to disable this type of parallelization
+--if-- it causes a problem with different contents.
+
+(Note the fact RPM package metadata changes each time a new RPM is constructed,
+this is far -less- of a concern to me.. but something to be aware of.)
 
 --Mark
 
-> Or is there something else system-wide which is keeping a list of rpc
-> program numbers?
+> Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+> ---
+>  meta/classes/package_rpm.bbclass | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
+> index a844c4d4360..dc241975c3b 100644
+> --- a/meta/classes/package_rpm.bbclass
+> +++ b/meta/classes/package_rpm.bbclass
+> @@ -644,6 +644,8 @@ python do_package_rpm () {
+>      cmd = cmd + " --define '_build_name_fmt %%{NAME}-%%{VERSION}-%%{RELEASE}.%%{ARCH}.rpm'"
+>      cmd = cmd + " --define '_use_internal_dependency_generator 0'"
+>      cmd = cmd + " --define '_binaries_in_noarch_packages_terminate_build 0'"
+> +    cmd = cmd + " --define '_binary_payload w6T.xzdio'"
+> +    cmd = cmd + " --define '_source_payload w6T.xzdio'"
+>      if perfiledeps:
+>          cmd = cmd + " --define '__find_requires " + outdepends + "'"
+>          cmd = cmd + " --define '__find_provides " + outprovides + "'"
 > 
 
 
