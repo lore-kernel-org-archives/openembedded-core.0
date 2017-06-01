@@ -1,48 +1,49 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qt0-f180.google.com (mail-qt0-f180.google.com
-	[209.85.216.180])
-	by mail.openembedded.org (Postfix) with ESMTP id BD3D377DCA
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-lf0-f43.google.com (mail-lf0-f43.google.com
+	[209.85.215.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 9FB7977DAF
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Jun 2017 15:32:23 +0000 (UTC)
-Received: by mail-qt0-f180.google.com with SMTP id c13so39110283qtc.1
+	Thu,  1 Jun 2017 15:37:20 +0000 (UTC)
+Received: by mail-lf0-f43.google.com with SMTP id c184so24763002lfe.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 01 Jun 2017 08:32:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=u2QkQnbgDNZOK0BkkJo5iJJFfuN3rtxtF1i2b1lPI5s=;
-	b=DxgfTYTsmGV/N+OkKaLqo5yWJOJbBcU+BIIU2CLL4DpWJ3WiNxgmvr8zgTRSwD2hEX
-	iKMU2wY5wBOev3hEV3ufSDxp+EkGTkSTXL26t7sYkI4b9H5XbpF/T6sJGhkTd3r3dU1M
-	mF3qODUstOC4HfbS1aqWj37aZ6CHUziUlfBSSX7eT1hgErIoM9hr8Wo+yA6BXN/616z9
-	Nr6ufgNkia6/F5kpDsjzHAKzcigackv3ULUcbOHPzB2RrTRyx+7vrw83ZTzUy0VJbDU9
-	kv9AMjECO9NE9IuiINLOIpaMcz4cB9+KxhPLt17+a2Ht54D4YfswKvE7T44hKjqnEx5G
-	LFfg==
+	Thu, 01 Jun 2017 08:37:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to; 
+	bh=uJLIzsx4ezVWiukd3kFATSD0OjOPlSas6wUeefClVpU=;
+	b=T0xI9XWsZ6dOzDsxkd0QbaSx03AbzfTRXiAUtFxWNIHyNO6h9RMN0agR7NU07JFaMn
+	YUPU3Zs3inbpSB5G7wDL0N+ooWkxD7xiHAhPlTaWaNAXrZ2fZ5hnC3+NLmpbr/Hba0im
+	MgJnZTaWxskYEG+C4xR1yijLYHemqLxgKn4iC8g98Irwp89oiA2BvbxX7cIXOgzc12vd
+	RnL3gX0u7T4fcWik1SYZOcvoWAYOkoIzoGKuhTEKkP7RtnhvC21Bw8bhpWDx62TQDpEc
+	6ECk45xjGsxjaT5y83HQLQm+pXG6z0R+lMgvT/JukJb//HsxMV5KaoTWin/LQtVYuU0e
+	1x6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=u2QkQnbgDNZOK0BkkJo5iJJFfuN3rtxtF1i2b1lPI5s=;
-	b=ka/OhxNnFbVle1NDDVrgCUG/oCuzmdzsLGKRuCc/qS1y10plHFgaWyhSfG5SKDuJzG
-	gYnNN6So3v6nasqkQHvJd1PIHqQNPgPuM4fb1JT7SnhsynG27+8ij9XmKAcC006Om0vS
-	4B4GZnUvAFi+Ja/zHEjTO1nYm40RfXRMQYG3HDHyKNtdr9eqFb8MOSa/48Cp1N/rbaHM
-	jxbpNyiN5kxKAmebmNDisG9KAARLJsjzRWgp0KHAIY9id1nTcGL9WiA0AsX11NZZ9u2e
-	jYZieaLvdXNoabHjPmbWfIJhIuxH3X4F5EHQYN5G5MqtN9/L84G90ZbBAJGKPw1H5BV1
-	xZJQ==
-X-Gm-Message-State: AODbwcBL0DZgHCuFFoLnt8CPIAlGq9FobBtFLp4unqwSL8181XP0naCo
-	m4FwtPKWi5IZKeNUNapL1yd3OVLWz+zT+KE=
-X-Received: by 10.200.43.99 with SMTP id 32mr2765614qtv.6.1496331144311; Thu,
-	01 Jun 2017 08:32:24 -0700 (PDT)
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to;
+	bh=uJLIzsx4ezVWiukd3kFATSD0OjOPlSas6wUeefClVpU=;
+	b=D+EPHSA3pYHQadmwjVNUtPszTlLasbHEWhfjXfa4mhtVX6YG3moiPW/ArDK3GcM/h4
+	6I9GSHzJEx1tSdo6+FzWl8RvIyIy+Kn7uS8fEDOv1tvVIzWZSa7QF4Ms0Jjd/kcjJRAK
+	sLfCSlQSd/qK/vLDsr/4k2zlfZqyxjUD60Wl0UQQ1d8ZD8YJVWzF+gbpV7RtsWOxv5Hr
+	g0+NrN+W5eXa9hBic3A7ThmulNI9E/UAp26wi0CLWP3xJa7ekQQJEpg8PQiAWn39MJoo
+	0CYm/xLbIplMGx8+gRko/rq5cy8YKIT13kVWJmGANn2WYO8QavKuX1/8s4MTzo5Of3Yr
+	GoXA==
+X-Gm-Message-State: AODbwcA/ROj1fBnhLVBF8MTgTjClgaDoHAe693Mu8eSthSEbpkeKUhY8
+	elUihgMuDCCMv7CCM7G4WAUg1H9N/w==
+X-Received: by 10.80.137.56 with SMTP id e53mr2323538ede.67.1496331441068;
+	Thu, 01 Jun 2017 08:37:21 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.140.41.115 with HTTP; Thu, 1 Jun 2017 08:32:03 -0700 (PDT)
-In-Reply-To: <1494933979-5139-5-git-send-email-dv@pseudoterminal.org>
-References: <1494933979-5139-1-git-send-email-dv@pseudoterminal.org>
-	<1494933979-5139-5-git-send-email-dv@pseudoterminal.org>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 1 Jun 2017 16:32:03 +0100
-Message-ID: <CAJTo0LZRyKSoQPEZDqSHL7qD7viYz6QJq8Vd34rViUdh-dbsMA@mail.gmail.com>
-To: Carlos Rafael Giani <dv@pseudoterminal.org>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 5/9] gstreamer1.0-plugins-ugly: upgrade to version 1.12.0
+References: <CAMKF1spQcs7rHhT=NgHBWhDESzEzbJx4XReBmREtr=rs5c9FjQ@mail.gmail.com>
+	<12b1e915-31c9-3258-1013-46854abb78ae@windriver.com>
+	<f960d84e-0372-07f1-22f9-0768f5792f8b@linux.intel.com>
+In-Reply-To: <f960d84e-0372-07f1-22f9-0768f5792f8b@linux.intel.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 01 Jun 2017 15:37:09 +0000
+Message-ID: <CAMKF1spOiMc6rT4MBN5zx8LfqnpZAHVCGHWbarjy7YaS+rWLuA@mail.gmail.com>
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>, 
+	Mark Hatle <mark.hatle@windriver.com>, 
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: AS_NEEDED and rpm4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,54 +56,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Jun 2017 15:32:24 -0000
-Content-Type: multipart/alternative; boundary="001a1146fb4652e52c0550e7be9f"
+X-List-Received-Date: Thu, 01 Jun 2017 15:37:21 -0000
+Content-Type: multipart/alternative; boundary="f403045c283e02e12c0550e7d046"
 
---001a1146fb4652e52c0550e7be9f
+--f403045c283e02e12c0550e7d046
 Content-Type: text/plain; charset="UTF-8"
 
-On 16 May 2017 at 12:26, Carlos Rafael Giani <dv@pseudoterminal.org> wrote:
+I don't use rpm so I won't be able to test it
+It just occurred to me when I was looking into that file for pulse audio
+which should be removed as well I have patch for that I will send shortly
+On Thu, Jun 1, 2017 at 1:54 AM Alexander Kanavin <
+alexander.kanavin@linux.intel.com> wrote:
 
-> * libmad plugin was removed in 1.12.0, since mad is GPLed, unmaintained,
->   and both gst-libav & the mpg123 plugin are fully functional alternatives
+> On 06/01/2017 05:06 AM, Mark Hatle wrote:
+>
+> >> We added entry for disabling AS_NEEDED for rpm5, now that  we have move
+> to rpm4
+> >> is that entry sitll required in "conf/distro/include/as-needed.inc"
+> >
+> > Unknown, I hadn't realized this was done.  Should be easy to clear it
+> and see if
+> > everything is still working.
+>
+> Yes. That's why I really don't like those global include files that
+> change flags behind recipes' back - any exceptions to default settings
+> are very easy to miss and they really belong in recipes themselves. You
+> are welcome to try and submit a patch.
+>
+> Alex
+>
 >
 
-Something in this series is causing other plugins to change their
-dependencies and I'm not sure if it's intentional or not.
-
-For example, this happens when upgrading base/good/bad:
-
-packages/corei7-64-poky-linux/gstreamer1.0-vaapi/gstreamer1.0-vaapi:
-RDEPENDS: removed all items "libwayland-egl (['>= 17.1.1']) libgles2-mesa
-(['>= 17.1.1'])"
-
-I've not dug into this to see if that is expected or not.
-
-Ross
-
---001a1146fb4652e52c0550e7be9f
+--f403045c283e02e12c0550e7d046
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 16 May 2017 at 12:26, Carlos Rafael Giani <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:dv@pseudoterminal.org" target=3D"_blank">dv@pseudoterminal.org</=
-a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0=
-px 0px 0px 0.8ex;border-left-width:1px;border-left-style:solid;border-left-=
-color:rgb(204,204,204);padding-left:1ex"><div id=3D"gmail-:295" class=3D"gm=
-ail-a3s gmail-aXjCH gmail-m15c110378563ba6e">* libmad plugin was removed in=
- 1.12.0, since mad is GPLed, unmaintained,<br>
-=C2=A0 and both gst-libav &amp; the mpg123 plugin are fully functional alte=
-rnatives<br></div></blockquote></div><br>Something in this series is causin=
-g other plugins to change their dependencies and I&#39;m not sure if it&#39=
-;s intentional or not.</div><div class=3D"gmail_extra"><br></div><div class=
-=3D"gmail_extra">For example, this happens when upgrading base/good/bad:</d=
-iv><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">packages=
-/corei7-64-poky-linux/gstreamer1.0-vaapi/gstreamer1.0-vaapi: RDEPENDS: remo=
-ved all items &quot;libwayland-egl ([&#39;&gt;=3D 17.1.1&#39;]) libgles2-me=
-sa ([&#39;&gt;=3D 17.1.1&#39;])&quot;<br></div><div class=3D"gmail_extra"><=
-br></div><div class=3D"gmail_extra">I&#39;ve not dug into this to see if th=
-at is expected or not.</div><div class=3D"gmail_extra"><br></div><div class=
-=3D"gmail_extra">Ross</div></div>
+<div>I don&#39;t use rpm so I won&#39;t be able to test it</div><div>It jus=
+t occurred to me when I was looking into that file for pulse audio which sh=
+ould be removed as well I have patch for that I will send shortly=C2=A0<br>=
+<div class=3D"gmail_quote"><div>On Thu, Jun 1, 2017 at 1:54 AM Alexander Ka=
+navin &lt;<a href=3D"mailto:alexander.kanavin@linux.intel.com">alexander.ka=
+navin@linux.intel.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_qu=
+ote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex=
+">On 06/01/2017 05:06 AM, Mark Hatle wrote:<br>
+<br>
+&gt;&gt; We added entry for disabling AS_NEEDED for rpm5, now that=C2=A0 we=
+ have move to rpm4<br>
+&gt;&gt; is that entry sitll required in &quot;conf/distro/include/as-neede=
+d.inc&quot;<br>
+&gt;<br>
+&gt; Unknown, I hadn&#39;t realized this was done.=C2=A0 Should be easy to =
+clear it and see if<br>
+&gt; everything is still working.<br>
+<br>
+Yes. That&#39;s why I really don&#39;t like those global include files that=
+<br>
+change flags behind recipes&#39; back - any exceptions to default settings<=
+br>
+are very easy to miss and they really belong in recipes themselves. You<br>
+are welcome to try and submit a patch.<br>
+<br>
+Alex<br>
+<br>
+</blockquote></div></div>
 
---001a1146fb4652e52c0550e7be9f--
+--f403045c283e02e12c0550e7d046--
