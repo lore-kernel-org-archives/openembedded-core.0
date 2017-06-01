@@ -1,26 +1,25 @@
 Return-Path: <jussi.kukkonen@intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 3F92677D21
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 6C6F877D94
 	for <openembedded-core@lists.openembedded.org>;
 	Thu,  1 Jun 2017 10:37:04 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	01 Jun 2017 03:37:05 -0700
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga105.fm.intel.com with ESMTP; 01 Jun 2017 03:37:04 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.39,279,1493708400"; d="scan'208";a="863479320"
+X-IronPort-AV: E=Sophos;i="5.39,279,1493708400"; d="scan'208";a="975511647"
 Received: from linux.intel.com ([10.54.29.200])
-	by FMSMGA003.fm.intel.com with ESMTP; 01 Jun 2017 03:37:05 -0700
+	by orsmga003.jf.intel.com with ESMTP; 01 Jun 2017 03:37:04 -0700
 Received: from theory.fi.intel.com (theory.fi.intel.com [10.237.72.53])
-	by linux.intel.com (Postfix) with ESMTP id D54105800D3;
-	Thu,  1 Jun 2017 03:37:04 -0700 (PDT)
+	by linux.intel.com (Postfix) with ESMTP id 8054C5803AB;
+	Thu,  1 Jun 2017 03:37:03 -0700 (PDT)
 From: Jussi Kukkonen <jussi.kukkonen@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  1 Jun 2017 13:36:51 +0300
-Message-Id: <a5b1d675d79068ed89d19fef8843f8b2bf983f83.1496311679.git.jussi.kukkonen@intel.com>
+Date: Thu,  1 Jun 2017 13:36:50 +0300
+Message-Id: <16ead647be529ca378e7bb9c9dbafae64e416b64.1496311679.git.jussi.kukkonen@intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1496311679.git.jussi.kukkonen@intel.com>
 References: <cover.1496311679.git.jussi.kukkonen@intel.com>
-Subject: [PATCH 06/10] clutter-gst-3.0: Upgrade 3.0.22 -> 3.0.24
+Subject: [PATCH 05/10] clutter-1.0: Upgrade 1.26.0 -> 1.26.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,29 +34,32 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 01 Jun 2017 10:37:04 -0000
 
-Very small release with only bug fixes.
+Mostly bug fixes in this release.
 
 Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
 ---
- .../clutter/{clutter-gst-3.0_3.0.22.bb => clutter-gst-3.0_3.0.24.bb}  | 4 ++--
+ .../clutter/{clutter-1.0_1.26.0.bb => clutter-1.0_1.26.2.bb}          | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/clutter/{clutter-gst-3.0_3.0.22.bb => clutter-gst-3.0_3.0.24.bb} (58%)
+ rename meta/recipes-graphics/clutter/{clutter-1.0_1.26.0.bb => clutter-1.0_1.26.2.bb} (67%)
 
-diff --git a/meta/recipes-graphics/clutter/clutter-gst-3.0_3.0.22.bb b/meta/recipes-graphics/clutter/clutter-gst-3.0_3.0.24.bb
-similarity index 58%
-rename from meta/recipes-graphics/clutter/clutter-gst-3.0_3.0.22.bb
-rename to meta/recipes-graphics/clutter/clutter-gst-3.0_3.0.24.bb
-index 6177c91..ca5e0ae 100644
---- a/meta/recipes-graphics/clutter/clutter-gst-3.0_3.0.22.bb
-+++ b/meta/recipes-graphics/clutter/clutter-gst-3.0_3.0.24.bb
-@@ -3,5 +3,5 @@ require clutter-gst-3.0.inc
- LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c \
-                     file://clutter-gst/clutter-gst.h;beginline=1;endline=24;md5=95baacba194e814c110ea3bdf25ddbf4"
+diff --git a/meta/recipes-graphics/clutter/clutter-1.0_1.26.0.bb b/meta/recipes-graphics/clutter/clutter-1.0_1.26.2.bb
+similarity index 67%
+rename from meta/recipes-graphics/clutter/clutter-1.0_1.26.0.bb
+rename to meta/recipes-graphics/clutter/clutter-1.0_1.26.2.bb
+index dfa1cfe..48b0501 100644
+--- a/meta/recipes-graphics/clutter/clutter-1.0_1.26.0.bb
++++ b/meta/recipes-graphics/clutter/clutter-1.0_1.26.2.bb
+@@ -2,8 +2,8 @@ require clutter-1.0.inc
  
--SRC_URI[archive.md5sum] = "88eea2dd5fc4357b5b18f1dfeed56c62"
--SRC_URI[archive.sha256sum] = "f1fc57fb32ea7e3d9234b58db35eb9ef3028cf0b266d85235f959edc0fe3dfd4"
-+SRC_URI[archive.md5sum] = "3e145e24bb3c340eeeddafd18efe547d"
-+SRC_URI[archive.sha256sum] = "e9f1c87d8f4c47062e952fb8008704f8942cf2d6f290688f3f7d13e83578cc6c"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
+ 
+-SRC_URI[archive.md5sum] = "b065e9ca53d1f6bc1ec26aeb27338bb7"
+-SRC_URI[archive.sha256sum] = "67514e7824b3feb4723164084b36d6ce1ae41cb3a9897e9f1a56c8334993ce06"
++SRC_URI[archive.md5sum] = "a03482cbacf735eca8c996f210a21ee5"
++SRC_URI[archive.sha256sum] = "e7233314983055e9018f94f56882e29e7fc34d8d35de030789fdcd9b2d0e2e56"
+ SRC_URI += "file://install-examples.patch \
+             file://run-installed-tests-with-tap-output.patch \
+             file://0001-Remove-clutter.types-as-it-is-build-configuration-sp.patch \
 -- 
 2.1.4
 
