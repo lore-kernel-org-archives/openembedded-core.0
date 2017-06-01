@@ -1,47 +1,47 @@
 Return-Path: <net147@gmail.com>
 Received: from mail-it0-f67.google.com (mail-it0-f67.google.com
 	[209.85.214.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 9B9D1719B7
+	by mail.openembedded.org (Postfix) with ESMTP id 61F30719B7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Jun 2017 12:13:41 +0000 (UTC)
-Received: by mail-it0-f67.google.com with SMTP id 67so5707637itx.2
+	Thu,  1 Jun 2017 12:15:11 +0000 (UTC)
+Received: by mail-it0-f67.google.com with SMTP id d68so5718363ita.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 01 Jun 2017 05:13:43 -0700 (PDT)
+	Thu, 01 Jun 2017 05:15:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id;
-	bh=5iqnCBAoYUYy9TBTWrmJhz4dyRf7NzujtuEuGw6grK8=;
-	b=mi3yNiR3ZhuRo0ZqWku/5EaiVGOMlcwAJFD6kl0W0gOX1j9fmRMHTNjSpriNIVonf9
-	8p4j5SBLvvGpNVr51g8yUZ7Ca/uWHGnOyQXQuN64puxSpGnIAXYTsfzJvWlVthTOb9EU
-	eVjFsjoBCXXHL9RgRmfcJsGPOom0twA4QoSpRbC1GeQfUSYWVT1srwGqwmibLoo8EvhA
-	isaCjbK27U7Bv1R29oWNmdvcxMY4wWuJPadppdJLa7S8Hh7UkGV+DuPIt9Jd+TARVzfs
-	Pg0aGWqGy064oZsDPvHRgpka2651TgmM8BCm2M9TEktXxKX9KbKpmNSfao724WY/c49l
-	0gag==
+	bh=8fg1TvB+iBL9oRJAPMjfG4b/JVShYEJvL4wBloDZyT4=;
+	b=CpeoOc7pM8hLrht3FtJmf5YWSp+qJlsdBQKkJ03LQb75huzz0Gj82JNdiULYtTjLgo
+	fxcXUAYndRoyoTlLa0ta4oSbln+3ChSx9x7zSSqdZF9mfFXbp6C+PLYfSus4A/UnPJqH
+	R4SIogv7Ex2elxDmUeQihjQ44L5jkYjvmf+H4cLFrT8SdbbneB3fysOAPn5UOc26W0RI
+	pdFBxAt4pvSURjbFhGOYQCC+fmEfIdz4wi/GbpYwY+fI5Zgh9XOdUwjORz+G2YmgcCcn
+	6AyOjI4MbckJH8s5TQCYdNl/jqmyakIy/Z+rlToS+qGQWGZ8ZIDVzYCc64sOu1vhgVbn
+	MIWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=5iqnCBAoYUYy9TBTWrmJhz4dyRf7NzujtuEuGw6grK8=;
-	b=ON1cMnEXZKiqGFCRr2Qa7Eg2IhgA+CxTKq2TyCyyKR9dxiJryQB/It2EJBbRCj9NiK
-	YhaQX1k90x8qEYor0fk+eKy9akYNMHoN/UJjg/AlZJ9v9lS0gOCFx1DgSIMJ0MwvLqWY
-	lq3rV7T6n3LyX3nhThVm9K+RnyV0FK1U03PC3FD0NLuTLNeViDHEC3LulxGG9Es4PB3s
-	76fnRbdGEJjIN+b8nKjb0jr+TaRNuYrkV4/IRiYv3o3sqEaGorUVqQaLaphRbkoNaPKN
-	TXN2SOHg6iTlXQ/CwG+hLq1ah2cQFkILYRRjT726nSu5LxyknJM5ETXqnJYCYbAV1mkB
-	Zg8Q==
-X-Gm-Message-State: AODbwcApoa8hl3bgNn/VRAVJgZOB3W0k89s91xPvL3XDVgaJgfUyLqBD
-	Un+vKpMKOyKaqg==
-X-Received: by 10.99.16.65 with SMTP id 1mr918706pgq.60.1496319222604;
-	Thu, 01 Jun 2017 05:13:42 -0700 (PDT)
+	bh=8fg1TvB+iBL9oRJAPMjfG4b/JVShYEJvL4wBloDZyT4=;
+	b=FFnWopkWVdB0dknz3+8Wt7cGcb6X6kT/i7mNMPgVbTMymQ7wSGv5ssLjpfBcNK87Fd
+	192oqoPHku7E4nkvwhvbk20jva//KeqD0WoFT1WAmkOnZFiohTuEisXW+biaNLB6hhzC
+	4GkPWdnvO46T0fbh1/AMR7r+HZyZN4yPr2ptiEcONZ6MkaiJ1rKRgYjrn9wJXLJSK8cR
+	i1Dmnu8PzddBR9plGtxhk+1iVURbCCMj5hGmJEgEGiyYk4wD6j6px/SZnrekMjdQ/yPK
+	E58R1biV5H4J/CKWTu0SPR0cXVGxI163NxwC0MkS2HvUmTu0MbVNmYEJ/ouf3h6zrk3m
+	9n6A==
+X-Gm-Message-State: AODbwcAGvkRktbvGV5dRwpicikNGOcM4klvQte75RuenWShm0TEcIHEJ
+	oESaXvMUmHwzEg==
+X-Received: by 10.99.114.94 with SMTP id c30mr921579pgn.6.1496319313514;
+	Thu, 01 Jun 2017 05:15:13 -0700 (PDT)
 Received: from 60-242-179-244.static.tpgi.com.au
 	(60-242-179-244.static.tpgi.com.au. [60.242.179.244])
 	by smtp.gmail.com with ESMTPSA id
-	n24sm35575827pfb.14.2017.06.01.05.13.41
+	v9sm33576555pfa.43.2017.06.01.05.15.12
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 01 Jun 2017 05:13:41 -0700 (PDT)
+	Thu, 01 Jun 2017 05:15:12 -0700 (PDT)
 From: Jonathan Liu <net147@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  1 Jun 2017 22:14:18 +1000
-Message-Id: <20170601121418.27740-1-net147@gmail.com>
+Date: Thu,  1 Jun 2017 22:15:52 +1000
+Message-Id: <20170601121552.27868-1-net147@gmail.com>
 X-Mailer: git-send-email 2.12.2
-Subject: [PATCH] bitbake.conf: Add sdl-config to HOSTTOOLS if using host SDL
+Subject: [PATCH v2] bitbake.conf: Add sdl-config to HOSTTOOLS if using host SDL
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,9 +54,9 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Jun 2017 12:13:41 -0000
+X-List-Received-Date: Thu, 01 Jun 2017 12:15:12 -0000
 
-If ASSUME_PROVIVES contains libsdl-native, we need to add sdl-config
+If ASSUME_PROVIDES contains libsdl-native, we need to add sdl-config
 to HOSTTOOLS to allow access to the host sdl-config.
 
 Signed-off-by: Jonathan Liu <net147@gmail.com>
