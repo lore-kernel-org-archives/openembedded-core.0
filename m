@@ -1,25 +1,35 @@
-Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 8F41577D81
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 8E40C77D2F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Jun 2017 16:43:22 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	01 Jun 2017 09:43:23 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.39,280,1493708400"; d="scan'208";a="1136993327"
-Received: from lsandov1-mobl2.zpn.intel.com ([10.219.128.119])
-	by orsmga001.jf.intel.com with ESMTP; 01 Jun 2017 09:43:22 -0700
-Message-ID: <1496335920.26945.80.camel@linux.intel.com>
-From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Date: Thu, 01 Jun 2017 11:52:00 -0500
-In-Reply-To: <cover.1496329361.git.alexander.kanavin@linux.intel.com>
-References: <cover.1496329361.git.alexander.kanavin@linux.intel.com>
-X-Mailer: Evolution 3.12.9-1+b1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/2] Multi-threaded RPM support
+	Thu,  1 Jun 2017 17:02:50 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v51H2pU9022360
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 1 Jun 2017 10:02:51 -0700 (PDT)
+Received: from soho-mhatle-m.local (172.25.36.235) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
+	Thu, 1 Jun 2017 10:02:51 -0700
+To: Cody P Schafer <dev@codyps.com>
+References: <20170530211436.16397-1-dev@codyps.com>
+	<CAPoQQ-1uznmcUSkXs3iLYyK-Bm8gDaT5de_Bi-jF4Su6+KjKvw@mail.gmail.com>
+	<CADkTA4MoY27QPks7oJVP-tfs1+Yr1yY9StmXToNT5Rrs9mYJAA@mail.gmail.com>
+	<CAPoQQ-00id+nBQ1_n=b=7RNrixOxPZb_5puOvCFmOspQB=O3rw@mail.gmail.com>
+	<7bed8363-bd79-0233-3e91-1a74f26fca37@windriver.com>
+	<CAPoQQ-3k3HBh97T855_qY4PtBy8Z2qTVuU_BawnBJsvcBCoe8A@mail.gmail.com>
+	<d5baf3fb-75f5-d50c-e59b-07f3688a88d4@windriver.com>
+	<CAPoQQ-32FvReq9UQPKVYM0dL4LC=vg__GVvnVf3uSq8YwDQerg@mail.gmail.com>
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+Message-ID: <f3591f2b-14cb-7db8-b697-17db7c2e3cb0@windriver.com>
+Date: Thu, 1 Jun 2017 12:02:49 -0500
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:52.0)
+	Gecko/20100101 Thunderbird/52.1.1
+MIME-Version: 1.0
+In-Reply-To: <CAPoQQ-32FvReq9UQPKVYM0dL4LC=vg__GVvnVf3uSq8YwDQerg@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] runqemu-export-rootfs: don't change RPC ports
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,79 +42,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Jun 2017 16:43:22 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 01 Jun 2017 17:02:51 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 
-On Thu, 2017-06-01 at 18:15 +0300, Alexander Kanavin wrote:
-> These two patches add multi-threaded features to RPM to speed up the do_package_write_rpm task.
+On 5/31/17 3:27 PM, Cody P Schafer wrote:
+>> RPC Ports are just the bindings into rpcbind.   The tcp/udp ports are the ones
+>> that typically conflict and why this was all done to begin with.
 > 
-> Specifically:
+> Ok, then it doesn't sound like that is a conflict or a "privileged
+> ports" issue, and it is safe to drop the custom rpc program numbers
+> ("RPC Ports") from `unfsd`s arguments & the kernel parameters.
 > 
-> 1) Multi-threaded xz compressor is used instead of default single-threaded gz. This has the most
-> dramatic effect when a recipe produces a smaller number of large-sized packages.
-> 
-> 2) Packages creation is run in multiple threads via thread pools. This is most beneficial when
-> a recipe produces a large amount of small packages.
-> 
-> Some not very scientific benchmarks for time and .rpm sizes
-> (time is measured for do_package_write_rpm tasks only):
-> 
-> webkitgtk
-> before: 9m22s 1550M
-> after: 1m50s 858M
-> 
-> glibc-locale
-> before: 3m2s 125M
-> after: 40s 56M
-> 
-> glibc
-> before: 56s 54M
-> after: 23s 38M
-> 
-> perl
-> before: 1m19s 63M
-> after: 55s 42M
-> 
-> python3
-> before: 40s 38M
-> after: 28s 24M
+> As I've noted, runqemu-export-rootfs does not register with rpcbind
+> (we pass the `-p` flag to `unfsd`).
 
-it is interesting to see that perl and python does not benefit 'much'.
-buildstats should give us a better picture per recipe.
+The rpcbind runs on a privileged port (usually).  So either you have to 're-use'
+the system wide on or run your own.  On many environments, with a system wide
+one, you will clash if someone else is offering the same services.  So you are
+forced to run your own and/or register then with a different set of port numbers.
 
-Leo
+This is absolutely needed in a multi-user or 'locked system' configuration where
+the user does not have permission to run these types of things.
 
+--Mark
 
+> Or is there something else system-wide which is keeping a list of rpc
+> program numbers?
 > 
-> The following changes since commit bd063fa288b49b6e3ea77982d0ccc46610feb1ad:
-> 
->   tune-mips32*.inc: use consistent comments across all three .inc files (2017-05-30 10:15:20 +0100)
-> 
-> are available in the git repository at:
-> 
->   git://git.yoctoproject.org/poky-contrib akanavin/parallel-rpm
->   http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=akanavin/parallel-rpm
-> 
-> Alexander Kanavin (2):
->   package_rpm.bbclass: use multithreaded xz compression
->   rpm: run binary package generation via thread pools
-> 
->  meta/classes/package_rpm.bbclass                   |   2 +
->  ...y-package-building-into-a-separate-functi.patch |  83 ++++++++
->  ...-binary-package-creation-via-thread-pools.patch | 137 +++++++++++++
->  ...c-make-operations-over-string-pools-threa.patch | 209 +++++++++++++++++++
->  ...c-remove-static-local-variables-from-buil.patch | 227 +++++++++++++++++++++
->  meta/recipes-devtools/rpm/rpm_git.bb               |   4 +
->  6 files changed, 662 insertions(+)
->  create mode 100644 meta/recipes-devtools/rpm/files/0001-Split-binary-package-building-into-a-separate-functi.patch
->  create mode 100644 meta/recipes-devtools/rpm/files/0002-Run-binary-package-creation-via-thread-pools.patch
->  create mode 100644 meta/recipes-devtools/rpm/files/0003-rpmstrpool.c-make-operations-over-string-pools-threa.patch
->  create mode 100644 meta/recipes-devtools/rpm/files/0004-build-pack.c-remove-static-local-variables-from-buil.patch
-> 
-> -- 
-> 2.11.0
-> 
-
 
 
