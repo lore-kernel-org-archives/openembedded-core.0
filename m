@@ -1,49 +1,47 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-lf0-f43.google.com (mail-lf0-f43.google.com
-	[209.85.215.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 9FB7977DAF
+Return-Path: <daniel.diaz@linaro.org>
+Received: from mail-oi0-f42.google.com (mail-oi0-f42.google.com
+	[209.85.218.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 53D1777E17
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Jun 2017 15:37:20 +0000 (UTC)
-Received: by mail-lf0-f43.google.com with SMTP id c184so24763002lfe.2
+	Thu,  1 Jun 2017 15:37:27 +0000 (UTC)
+Received: by mail-oi0-f42.google.com with SMTP id w10so58670011oif.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 01 Jun 2017 08:37:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to; 
-	bh=uJLIzsx4ezVWiukd3kFATSD0OjOPlSas6wUeefClVpU=;
-	b=T0xI9XWsZ6dOzDsxkd0QbaSx03AbzfTRXiAUtFxWNIHyNO6h9RMN0agR7NU07JFaMn
-	YUPU3Zs3inbpSB5G7wDL0N+ooWkxD7xiHAhPlTaWaNAXrZ2fZ5hnC3+NLmpbr/Hba0im
-	MgJnZTaWxskYEG+C4xR1yijLYHemqLxgKn4iC8g98Irwp89oiA2BvbxX7cIXOgzc12vd
-	RnL3gX0u7T4fcWik1SYZOcvoWAYOkoIzoGKuhTEKkP7RtnhvC21Bw8bhpWDx62TQDpEc
-	6ECk45xjGsxjaT5y83HQLQm+pXG6z0R+lMgvT/JukJb//HsxMV5KaoTWin/LQtVYuU0e
-	1x6Q==
+	Thu, 01 Jun 2017 08:37:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=No9SOiyoo65oACywIcnQimZ89YPMwnUCKyu0sI6d4To=;
+	b=hTB6iHd5Hgo4cTJEUVvUMFEKfPV5CnWTnNp3IDVQvNJlGQOTWVB8nWS/1/fe7U4ZIr
+	KLgI7BTO217PatdV/+OLT6Zp7r6WuqlxTfMTwKfzwWd3VwvYSkMEgPv/8wRhbKqAmMGs
+	Un0oPMpBUPuQ5atReIb6MjifoDE9Gdo955IXU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to;
-	bh=uJLIzsx4ezVWiukd3kFATSD0OjOPlSas6wUeefClVpU=;
-	b=D+EPHSA3pYHQadmwjVNUtPszTlLasbHEWhfjXfa4mhtVX6YG3moiPW/ArDK3GcM/h4
-	6I9GSHzJEx1tSdo6+FzWl8RvIyIy+Kn7uS8fEDOv1tvVIzWZSa7QF4Ms0Jjd/kcjJRAK
-	sLfCSlQSd/qK/vLDsr/4k2zlfZqyxjUD60Wl0UQQ1d8ZD8YJVWzF+gbpV7RtsWOxv5Hr
-	g0+NrN+W5eXa9hBic3A7ThmulNI9E/UAp26wi0CLWP3xJa7ekQQJEpg8PQiAWn39MJoo
-	0CYm/xLbIplMGx8+gRko/rq5cy8YKIT13kVWJmGANn2WYO8QavKuX1/8s4MTzo5Of3Yr
-	GoXA==
-X-Gm-Message-State: AODbwcA/ROj1fBnhLVBF8MTgTjClgaDoHAe693Mu8eSthSEbpkeKUhY8
-	elUihgMuDCCMv7CCM7G4WAUg1H9N/w==
-X-Received: by 10.80.137.56 with SMTP id e53mr2323538ede.67.1496331441068;
-	Thu, 01 Jun 2017 08:37:21 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=No9SOiyoo65oACywIcnQimZ89YPMwnUCKyu0sI6d4To=;
+	b=ANVW7qB5pveZlIwxWQdzj5A/OkhbJhW4fg/vnTWEMquKFioe0Bsd2P6Htck6HWAKxx
+	G7c3HpaCMVQ73BC20WN3Q8l9t6syTA3wpqAcfxjWf6uEb6Z3Ffuws8+USpEoD2IqPbxc
+	vA2Zrmmr1478vJqfIlZJZfuMwf0R61iZ7Rz4XwRpfOlzFgHcJRFMce5XSGcm4rtFzm5+
+	1Ad8BAHOq3wm8v8vIj7+Bra7QjScmJddN9r7jAMeg8m0CLJSrI8yNBT67JO6ympk34+j
+	7OQQuRwI1LFnzTsdmG2rpFPpL1psd3+SYwvVJgN09TTmRVm5+rceSAUBa3FtyHJhEuo1
+	UdNQ==
+X-Gm-Message-State: AODbwcDrygNbo5sq6dUr6mYRcGKuLRmuYm9V+RrDKwq9tQpMwGjH8kui
+	jnIA9FQCp3fPl4qYKlUfPw==
+X-Received: by 10.202.204.141 with SMTP id c135mr1503254oig.187.1496331449171; 
+	Thu, 01 Jun 2017 08:37:29 -0700 (PDT)
+Received: from aura.cortijodelrio.net
+	(CableLink67-82.telefonia.InterCable.net. [201.172.67.82])
+	by smtp.googlemail.com with ESMTPSA id
+	c50sm9088799ote.29.2017.06.01.08.37.28
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 01 Jun 2017 08:37:28 -0700 (PDT)
+From: =?UTF-8?q?Daniel=20D=C3=ADaz?= <daniel.diaz@linaro.org>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  1 Jun 2017 10:37:04 -0500
+Message-Id: <1496331426-6553-1-git-send-email-daniel.diaz@linaro.org>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-References: <CAMKF1spQcs7rHhT=NgHBWhDESzEzbJx4XReBmREtr=rs5c9FjQ@mail.gmail.com>
-	<12b1e915-31c9-3258-1013-46854abb78ae@windriver.com>
-	<f960d84e-0372-07f1-22f9-0768f5792f8b@linux.intel.com>
-In-Reply-To: <f960d84e-0372-07f1-22f9-0768f5792f8b@linux.intel.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 01 Jun 2017 15:37:09 +0000
-Message-ID: <CAMKF1spOiMc6rT4MBN5zx8LfqnpZAHVCGHWbarjy7YaS+rWLuA@mail.gmail.com>
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>, 
-	Mark Hatle <mark.hatle@windriver.com>, 
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: AS_NEEDED and rpm4
+Subject: [PATCH 1/3][pyro] piglit: depend on virtual/egl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,68 +54,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Jun 2017 15:37:21 -0000
-Content-Type: multipart/alternative; boundary="f403045c283e02e12c0550e7d046"
+X-List-Received-Date: Thu, 01 Jun 2017 15:37:28 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
---f403045c283e02e12c0550e7d046
-Content-Type: text/plain; charset="UTF-8"
+[Backported from master.]
 
-I don't use rpm so I won't be able to test it
-It just occurred to me when I was looking into that file for pulse audio
-which should be removed as well I have patch for that I will send shortly
-On Thu, Jun 1, 2017 at 1:54 AM Alexander Kanavin <
-alexander.kanavin@linux.intel.com> wrote:
+While building for Hikey using Mali 450 driver (r6p0), an
+error like the following appears while linking:
 
-> On 06/01/2017 05:06 AM, Mark Hatle wrote:
->
-> >> We added entry for disabling AS_NEEDED for rpm5, now that  we have move
-> to rpm4
-> >> is that entry sitll required in "conf/distro/include/as-needed.inc"
-> >
-> > Unknown, I hadn't realized this was done.  Should be easy to clear it
-> and see if
-> > everything is still working.
->
-> Yes. That's why I really don't like those global include files that
-> change flags behind recipes' back - any exceptions to default settings
-> are very easy to miss and they really belong in recipes themselves. You
-> are welcome to try and submit a patch.
->
-> Alex
->
->
+  [  1%] Linking C shared library ../../../../lib/libpiglitutil.so
+  [...]
+  [...]/aarch64-linaro-linux/gcc/aarch64-linaro-linux/6.3.1/ld: cannot find -lEGL
+  collect2: error: ld returned 1 exit status
+  make[2]: *** [lib/libpiglitutil.so.0] Error 1
 
---f403045c283e02e12c0550e7d046
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Mesa generally provides virtual/egl (along with virtual/libgl,
+which satisfies Piglit's current DEPENDS) but that is not the
+implementation to use with Mali.
 
-<div>I don&#39;t use rpm so I won&#39;t be able to test it</div><div>It jus=
-t occurred to me when I was looking into that file for pulse audio which sh=
-ould be removed as well I have patch for that I will send shortly=C2=A0<br>=
-<div class=3D"gmail_quote"><div>On Thu, Jun 1, 2017 at 1:54 AM Alexander Ka=
-navin &lt;<a href=3D"mailto:alexander.kanavin@linux.intel.com">alexander.ka=
-navin@linux.intel.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_qu=
-ote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex=
-">On 06/01/2017 05:06 AM, Mark Hatle wrote:<br>
-<br>
-&gt;&gt; We added entry for disabling AS_NEEDED for rpm5, now that=C2=A0 we=
- have move to rpm4<br>
-&gt;&gt; is that entry sitll required in &quot;conf/distro/include/as-neede=
-d.inc&quot;<br>
-&gt;<br>
-&gt; Unknown, I hadn&#39;t realized this was done.=C2=A0 Should be easy to =
-clear it and see if<br>
-&gt; everything is still working.<br>
-<br>
-Yes. That&#39;s why I really don&#39;t like those global include files that=
-<br>
-change flags behind recipes&#39; back - any exceptions to default settings<=
-br>
-are very easy to miss and they really belong in recipes themselves. You<br>
-are welcome to try and submit a patch.<br>
-<br>
-Alex<br>
-<br>
-</blockquote></div></div>
+Signed-off-by: Daniel Díaz <daniel.diaz@linaro.org>
+---
+ meta/recipes-graphics/piglit/piglit_git.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
---f403045c283e02e12c0550e7d046--
+diff --git a/meta/recipes-graphics/piglit/piglit_git.bb b/meta/recipes-graphics/piglit/piglit_git.bb
+index d6bfb14..eae3eed 100644
+--- a/meta/recipes-graphics/piglit/piglit_git.bb
++++ b/meta/recipes-graphics/piglit/piglit_git.bb
+@@ -14,7 +14,7 @@ PV = "1.0+gitr${SRCPV}"
+ 
+ S = "${WORKDIR}/git"
+ 
+-DEPENDS = "libpng virtual/libx11 libxkbcommon libxrender waffle virtual/libgl libglu python3-mako-native python3-numpy-native python3-six-native"
++DEPENDS = "libpng virtual/libx11 libxkbcommon libxrender waffle virtual/libgl libglu python3-mako-native python3-numpy-native python3-six-native virtual/egl"
+ 
+ inherit cmake python3native distro_features_check bash-completion
+ # depends on virtual/libx11
+-- 
+1.9.1
+
+
