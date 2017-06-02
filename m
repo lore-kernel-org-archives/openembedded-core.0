@@ -1,52 +1,31 @@
-Return-Path: <dev@codyps.com>
-Received: from mail-qk0-f179.google.com (mail-qk0-f179.google.com
-	[209.85.220.179])
-	by mail.openembedded.org (Postfix) with ESMTP id B47996FF69
+Return-Path: <Randy.MacLeod@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 893F177E31
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Jun 2017 22:17:25 +0000 (UTC)
-Received: by mail-qk0-f179.google.com with SMTP id p66so31199736qkf.3
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 01 Jun 2017 15:17:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=codyps.com; s=google;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=zDAesvSW61snG6G27HY+r5V+AhPFPdO/R8XtsCsgUUg=;
-	b=bZK/tJu4xQLhnJkYjG1BT7JYSkf9hRBRe4lxDjb64WYlzvoyGKckgI8SSbn0X+uIb5
-	KG2NfprD0z6ltNB5bD5ITCiAesFylI103rulZw9izNhlnKZMkWihmKmaLAE8dlOF4QWt
-	txp6N018daS7J46JJ3ZS1nz/7OPdFc/ON8tYw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=zDAesvSW61snG6G27HY+r5V+AhPFPdO/R8XtsCsgUUg=;
-	b=ZYTEagITzWYd8bd/5W5hRBcjR+2hjJfGt/HQjQeujtz5hx+OBAVTqoi4gMBgAZzrCx
-	Bp7llBWKamOkhUuh/6WJUbFpAG/G963Nf5IR5ZdUHVlNLNpgUnY/1DxlkcAu7NV+EL9x
-	ahh1FQTZ2/pITYst3BfiyjLy1El0NjzvvPUJOdaelM5nG42kzA+hnLcFii1kJQvH4Gok
-	/dI5agSM2auOWxqBquj3Oa0gRBTuL2D+LSUofdzo4BZl8BFwgJLk6Mi0jCc0oKskApvN
-	Wmr1cbdyMNNiordkw+TdHJhonPZ0F2BkLtzofY0oBHkRfmppNMcm8jLHXhIJFMlLvPWE
-	p7gg==
-X-Gm-Message-State: AODbwcD1dPPAhLq3qbnACj0TbwBTUWGMvQPu09pxLvQP8zqKV0Jz6/YD
-	G9wCeyheiU9e01wGtAOnS7Ipb12tdAIb
-X-Received: by 10.55.200.209 with SMTP id t78mr4863251qkl.178.1496355446870;
-	Thu, 01 Jun 2017 15:17:26 -0700 (PDT)
+	Fri,  2 Jun 2017 00:00:42 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v5200HBL019609
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 1 Jun 2017 17:00:17 -0700 (PDT)
+Received: from [172.25.44.7] (172.25.44.7) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
+	Thu, 1 Jun 2017 17:00:17 -0700
+From: Randy MacLeod <randy.macleod@windriver.com>
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>,
+	<openembedded-core@lists.openembedded.org>, Zheng Ruoqin
+	<zhengrq.fnst@cn.fujitsu.com>
+References: <cover.1492777818.git.alexander.kanavin@linux.intel.com>
+	<f48b227d578d9b712347d7329714105a33e54bd8.1492777818.git.alexander.kanavin@linux.intel.com>
+	<6d5ae07d-880f-388f-432e-5da89aa07e24@windriver.com>
+Message-ID: <501d2419-3401-4c9f-e80d-b2c33e2b01bc@windriver.com>
+Date: Thu, 1 Jun 2017 20:00:15 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.1.1
 MIME-Version: 1.0
-Received: by 10.12.189.168 with HTTP; Thu, 1 Jun 2017 15:17:26 -0700 (PDT)
-X-Originating-IP: [2601:190:67f:ebb9:e065:d5f8:984a:e361]
-In-Reply-To: <f3591f2b-14cb-7db8-b697-17db7c2e3cb0@windriver.com>
-References: <20170530211436.16397-1-dev@codyps.com>
-	<CAPoQQ-1uznmcUSkXs3iLYyK-Bm8gDaT5de_Bi-jF4Su6+KjKvw@mail.gmail.com>
-	<CADkTA4MoY27QPks7oJVP-tfs1+Yr1yY9StmXToNT5Rrs9mYJAA@mail.gmail.com>
-	<CAPoQQ-00id+nBQ1_n=b=7RNrixOxPZb_5puOvCFmOspQB=O3rw@mail.gmail.com>
-	<7bed8363-bd79-0233-3e91-1a74f26fca37@windriver.com>
-	<CAPoQQ-3k3HBh97T855_qY4PtBy8Z2qTVuU_BawnBJsvcBCoe8A@mail.gmail.com>
-	<d5baf3fb-75f5-d50c-e59b-07f3688a88d4@windriver.com>
-	<CAPoQQ-32FvReq9UQPKVYM0dL4LC=vg__GVvnVf3uSq8YwDQerg@mail.gmail.com>
-	<f3591f2b-14cb-7db8-b697-17db7c2e3cb0@windriver.com>
-From: Cody P Schafer <dev@codyps.com>
-Date: Thu, 1 Jun 2017 18:17:26 -0400
-Message-ID: <CAPoQQ-2J0YV7kj7sRHo9G_rtq+PwJDhVguC4jf_E_ai0Zh6nAg@mail.gmail.com>
-To: Mark Hatle <mark.hatle@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] runqemu-export-rootfs: don't change RPC ports
+In-Reply-To: <6d5ae07d-880f-388f-432e-5da89aa07e24@windriver.com>
+X-Originating-IP: [172.25.44.7]
+Subject: Re: [PATCH 08/11] libunwind: update to 1.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,24 +38,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Jun 2017 22:17:27 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 02 Jun 2017 00:00:48 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 
-On Thu, Jun 1, 2017 at 1:02 PM, Mark Hatle <mark.hatle@windriver.com> wrote:
+On 2017-05-31 09:57 PM, Randy MacLeod wrote:
+> I'll send that change tomorrow unless there's new from upstream
+> or someone has a better idea.
 
->
-> The rpcbind runs on a privileged port (usually).  So either you have to 're-use'
-> the system wide on or run your own.  On many environments, with a system wide
-> one, you will clash if someone else is offering the same services.  So you are
-> forced to run your own and/or register then with a different set of port numbers.
->
-> This is absolutely needed in a multi-user or 'locked system' configuration where
-> the user does not have permission to run these types of things.
+Upstream is going to release a new tarball "soon"
 
-unfsd does not include rpcbind, it optionally uses the system's rpcbind.
+    On 2017-06-01 12:18 PM, Dave Watson wrote:
+    > The fix is in v1.2-stable and master, of which the next releases
+    > will be v1.2.1 and v1.3, neither of which have been released yet.
+    > I haven't seen any other fixes to go in v1.2.1 for a while, so
+    > I'll roll that one out shortly.  Thanks
 
-In the runqemu-export-rootfs case, unfsd does not use any rpcbind at all.
 
-Still not seeing anything that would require runqemu-export-rootfs to
-use custom rpc program numbers.
+so I'll wait for that since it's been a month and no one else
+has reported the mips* build failures.
+-- 
+# Randy MacLeod. SMTS, Linux, Wind River
+Direct: 613.963.1350 | 350 Terry Fox Drive, Suite 200, Ottawa, ON, 
+Canada, K2K 2W5
 
