@@ -1,40 +1,45 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-vk0-f67.google.com (mail-vk0-f67.google.com
-	[209.85.213.67])
-	by mail.openembedded.org (Postfix) with ESMTP id EFA3277FC9
+Return-Path: <nicolas.dechesne@linaro.org>
+Received: from mail-qt0-f176.google.com (mail-qt0-f176.google.com
+	[209.85.216.176])
+	by mail.openembedded.org (Postfix) with ESMTP id A97F760103
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  2 Jun 2017 18:42:51 +0000 (UTC)
-Received: by mail-vk0-f67.google.com with SMTP id 19so1081606vkd.2
+	Fri,  2 Jun 2017 19:18:27 +0000 (UTC)
+Received: by mail-qt0-f176.google.com with SMTP id c13so66493898qtc.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 02 Jun 2017 11:42:53 -0700 (PDT)
+	Fri, 02 Jun 2017 12:18:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=lTloarFhhK4RdqTjcmwnhriwUU77OCZkgNDOw1JT+60=;
+	b=GoezXEIbtOzPIhsSrx/JfTfXf9qLZTv2LLRB7GUOe0nNzQuyCfZ62KkKtdj2sN/vBo
+	m4wny08vnTex26GvDIoUyzpAPx5AWOfH2PJugaOtc1xNb8pIIvtFSuBjbAxfd8Z8TSRe
+	Ftk9FB9+LasXgsDw6aSPPHbnGNgHUB+OfcMp4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:organization;
-	bh=wyAOtmVahSeTjt4JfBlrhZlfO9qhGHhtCxWMm4uYvn8=;
-	b=oj7swzI2S3xsTNaraXaulnBS41biWmWDLwxs8tcIzjLRS6a2MiBBszWd2ycRcsCxUg
-	6qKYvD76+1VjOP6LeGjZKX1LJb3cCuTRWTLmbtciSI0KUswmnXQAdDZHm4E5agLCDKKh
-	xOR2qy+ju2xZRNhe1cmev2cvQlM+dTBhysQQNxzuONaqDxJNjl+M1ujKSstG+l/m+BUN
-	qEeEapsd5N9i/nRQxYIHqR/CGyXYeVoiyPVzhIMY0U5QcoX0HPYFRGXAzLkZndAB3AMv
-	PxcwV3zwmAYwcqPK9bYQqASc++3X4t2mkN5k37tngHPAUrXjkYdOlVQztnx1ciRkPw9o
-	QPaQ==
-X-Gm-Message-State: AODbwcB0EsEwZbBDHyf3DNTwjnuj5za72zf+YG1PLzrHha19v5no0505
-	/vnzWnLXnLXBjLio
-X-Received: by 10.31.160.2 with SMTP id j2mr4159018vke.92.1496428971922;
-	Fri, 02 Jun 2017 11:42:51 -0700 (PDT)
-Received: from localhost.localdomain ([189.35.69.200])
-	by smtp.gmail.com with ESMTPSA id q17sm5722801uab.7.2017.06.02.11.42.48
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Fri, 02 Jun 2017 11:42:50 -0700 (PDT)
-Received: by localhost.localdomain (sSMTP sendmail emulation);
-	Fri, 02 Jun 2017 15:42:44 -0300
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Fri,  2 Jun 2017 15:42:43 -0300
-Message-Id: <20170602184243.11689-1-otavio@ossystems.com.br>
-X-Mailer: git-send-email 2.13.0
-Organization: O.S. Systems Software LTDA.
-Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH v2] cmake: Upgrade to 3.8.2
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=lTloarFhhK4RdqTjcmwnhriwUU77OCZkgNDOw1JT+60=;
+	b=BdrHkGIQCzMMIkXbgytIh5pZN0aYMaX/vk+zgOZoRUWVXorozyJ9nZbGwAPSmCn9w4
+	sbzHZyk+f3KW3pniIdV+aZAg3Zy1uj/Vyo9GFl3dvOu6z4hRU6Q/X4yeoYaq4m63tudd
+	DzgQ66VUReIytZM/D1V0xqB2CSWqD91lrIfelbtgr2WUdwv76hNgFC5uC4oXScTjpoUq
+	pYVi0L0vud1dADoXxyDalXgImwFGhMHdFB4D+G0/WYVFaixDzWjSjHikLsWetL6P6Zww
+	CxN1B+jSudgGDW1ql6xVjTNPbVel3RzAg+QbOUlLp0tCWFfo7HFvC3ryRtyLAqwRcAJt
+	gr0A==
+X-Gm-Message-State: AODbwcBcgFUUz7naCTG5UNTXO5VsyPBQNSGMpC5jj0nxA/oGt076b4fw
+	U1ucUQORDHoCs/O20dV07+oNjt8rizGl
+X-Received: by 10.200.4.25 with SMTP id v25mr10311924qtg.166.1496431108631;
+	Fri, 02 Jun 2017 12:18:28 -0700 (PDT)
+MIME-Version: 1.0
+References: <CAP71WjxkYLeEaO5CfUjbEaON=j2pwRkjMDUxkyYafPAEt2qW1w@mail.gmail.com>
+	<5f7f9187-8c25-e641-2d9f-88018201ad45@socionext.com>
+	<CAP71WjzvFiOTUgd62kw8mUfTJxX5jUAkiZg3YQSrmQjP-=DQrQ@mail.gmail.com>
+	<ad4c8dd8-47b7-2b88-9226-b3dc981fea7e@socionext.com>
+In-Reply-To: <ad4c8dd8-47b7-2b88-9226-b3dc981fea7e@socionext.com>
+From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+Date: Fri, 02 Jun 2017 19:18:17 +0000
+Message-ID: <CAP71WjwLxy0qn8WLgih7fi1ADb+0pa64sAYcCp-FhZxSPejPmg@mail.gmail.com>
+To: Kunihiko Hayashi <hayashi.kunihiko@socionext.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: KERNEL_IMAGETYPES and Image.gz
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,185 +52,111 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Jun 2017 18:42:53 -0000
+X-List-Received-Date: Fri, 02 Jun 2017 19:18:29 -0000
+Content-Type: multipart/alternative; boundary="f40304378fd4a940af0550ff0487"
 
-There was a set of changes, those are:
+--f40304378fd4a940af0550ff0487
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
- - CMake now requires librhash for build and as there is no other
-   users in OE-Core we make it use its internal copy instead;
+Le ven. 2 juin 2017 =C3=A0 20:32, Kunihiko Hayashi <
+hayashi.kunihiko@socionext.com> a =C3=A9crit :
 
- - Copyright.txt checksum has change due new contrubutors and 2017
-   year additions;
-
- - Patch avoid-gcc-warnings-with-Wstrict-prototypes.patch was removed
-   as it is not need anymore;
-
- - Patch 0001-KWIML-tests-Remove-format-security-from-flags.patch was
-   removed as it is included in this release.
-
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
----
-
-Changes in v2:
-- Update to 3.8.2 (Khem)
-
- ...cmake-native_3.7.2.bb => cmake-native_3.8.2.bb} |  1 +
- meta/recipes-devtools/cmake/cmake.inc              |  8 ++---
- ...L-tests-Remove-format-security-from-flags.patch | 33 -----------------
- ...void-gcc-warnings-with-Wstrict-prototypes.patch | 42 ----------------------
- .../cmake/{cmake_3.7.2.bb => cmake_3.8.2.bb}       |  1 +
- 5 files changed, 5 insertions(+), 80 deletions(-)
- rename meta/recipes-devtools/cmake/{cmake-native_3.7.2.bb => cmake-native_3.8.2.bb} (94%)
- delete mode 100644 meta/recipes-devtools/cmake/cmake/0001-KWIML-tests-Remove-format-security-from-flags.patch
- delete mode 100644 meta/recipes-devtools/cmake/cmake/avoid-gcc-warnings-with-Wstrict-prototypes.patch
- rename meta/recipes-devtools/cmake/{cmake_3.7.2.bb => cmake_3.8.2.bb} (97%)
-
-diff --git a/meta/recipes-devtools/cmake/cmake-native_3.7.2.bb b/meta/recipes-devtools/cmake/cmake-native_3.8.2.bb
-similarity index 94%
-rename from meta/recipes-devtools/cmake/cmake-native_3.7.2.bb
-rename to meta/recipes-devtools/cmake/cmake-native_3.8.2.bb
-index 7ad4345efe..e55e8b1cf6 100644
---- a/meta/recipes-devtools/cmake/cmake-native_3.7.2.bb
-+++ b/meta/recipes-devtools/cmake/cmake-native_3.8.2.bb
-@@ -18,6 +18,7 @@ CMAKE_EXTRACONF = "\
-     -DCMAKE_USE_SYSTEM_LIBRARY_JSONCPP=0 \
-     -DCMAKE_USE_SYSTEM_LIBRARY_LIBARCHIVE=0 \
-     -DCMAKE_USE_SYSTEM_LIBRARY_LIBUV=0 \
-+    -DCMAKE_USE_SYSTEM_LIBRARY_LIBRHASH=0 \
-     -DENABLE_ACL=0 -DHAVE_ACL_LIBACL_H=0 \
-     -DHAVE_SYS_ACL_H=0 \
- "
-diff --git a/meta/recipes-devtools/cmake/cmake.inc b/meta/recipes-devtools/cmake/cmake.inc
-index 6c8b36d18d..dbd34f542c 100644
---- a/meta/recipes-devtools/cmake/cmake.inc
-+++ b/meta/recipes-devtools/cmake/cmake.inc
-@@ -6,7 +6,7 @@ HOMEPAGE = "http://www.cmake.org/"
- BUGTRACKER = "http://public.kitware.com/Bug/my_view_page.php"
- SECTION = "console/utils"
- LICENSE = "BSD"
--LIC_FILES_CHKSUM = "file://Copyright.txt;md5=7a64bc564202bf7401d9a8ef33c9564d \
-+LIC_FILES_CHKSUM = "file://Copyright.txt;md5=8d8c7bc32f8797d23f5cf605d9339d2d \
-                     file://Source/cmake.h;beginline=1;endline=3;md5=4494dee184212fc89c469c3acd555a14"
- 
- CMAKE_MAJOR_VERSION = "${@'.'.join(d.getVar('PV').split('.')[0:2])}"
-@@ -14,12 +14,10 @@ CMAKE_MAJOR_VERSION = "${@'.'.join(d.getVar('PV').split('.')[0:2])}"
- SRC_URI = "https://cmake.org/files/v${CMAKE_MAJOR_VERSION}/cmake-${PV}.tar.gz \
-            file://support-oe-qt4-tools-names.patch \
-            file://qt4-fail-silent.patch \
--           file://avoid-gcc-warnings-with-Wstrict-prototypes.patch \
--           file://0001-KWIML-tests-Remove-format-security-from-flags.patch \
-            "
- 
--SRC_URI[md5sum] = "79bd7e65cd81ea3aa2619484ad6ff25a"
--SRC_URI[sha256sum] = "dc1246c4e6d168ea4d6e042cfba577c1acd65feea27e56f5ff37df920c30cae0"
-+SRC_URI[md5sum] = "b5dff61f6a7f1305271ab3f6ae261419"
-+SRC_URI[sha256sum] = "da3072794eb4c09f2d782fcee043847b99bb4cf8d4573978d9b2024214d6e92d"
- 
- UPSTREAM_CHECK_REGEX = "cmake-(?P<pver>\d+(\.\d+)+)\.tar"
- 
-diff --git a/meta/recipes-devtools/cmake/cmake/0001-KWIML-tests-Remove-format-security-from-flags.patch b/meta/recipes-devtools/cmake/cmake/0001-KWIML-tests-Remove-format-security-from-flags.patch
-deleted file mode 100644
-index 190133ba5c..0000000000
---- a/meta/recipes-devtools/cmake/cmake/0001-KWIML-tests-Remove-format-security-from-flags.patch
-+++ /dev/null
-@@ -1,33 +0,0 @@
--From 0941395b146804abcd87004589ff6e7a2953412d Mon Sep 17 00:00:00 2001
--From: Jussi Kukkonen <jussi.kukkonen@intel.com>
--Date: Thu, 16 Mar 2017 14:39:04 +0200
--Subject: [PATCH] KWIML tests: Remove format-security from flags
--
--For the tests where "format" is removed from flags, "format-security"
--should be removed as well. Otherwise building cmake with
--"-Wformat -Wformat-security" fails:
--
--| cc1: error: -Wformat-security ignored without -Wformat [-Werror=format-security]
--
--Upstream-Status: Backport [part of commit f77420cfc9]
--Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
-----
-- Utilities/KWIML/test/CMakeLists.txt | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/Utilities/KWIML/test/CMakeLists.txt b/Utilities/KWIML/test/CMakeLists.txt
--index 4f6f37b..1bf93bb 100644
----- a/Utilities/KWIML/test/CMakeLists.txt
--+++ b/Utilities/KWIML/test/CMakeLists.txt
--@@ -10,7 +10,7 @@ endif()
-- # Suppress printf/scanf format warnings; we test if the sizes match.
-- foreach(lang C CXX)
--   if(KWIML_LANGUAGE_${lang} AND CMAKE_${lang}_COMPILER_ID STREQUAL "GNU")
---    set(CMAKE_${lang}_FLAGS "${CMAKE_${lang}_FLAGS} -Wno-format")
--+    set(CMAKE_${lang}_FLAGS "${CMAKE_${lang}_FLAGS} -Wno-format -Wno-format-security")
--   endif()
-- endforeach()
-- 
---- 
--2.1.4
--
-diff --git a/meta/recipes-devtools/cmake/cmake/avoid-gcc-warnings-with-Wstrict-prototypes.patch b/meta/recipes-devtools/cmake/cmake/avoid-gcc-warnings-with-Wstrict-prototypes.patch
-deleted file mode 100644
-index 8b8d4802ee..0000000000
---- a/meta/recipes-devtools/cmake/cmake/avoid-gcc-warnings-with-Wstrict-prototypes.patch
-+++ /dev/null
-@@ -1,42 +0,0 @@
--From 4bc17345c01ea467099e28c7df30c23ace9e7811 Mon Sep 17 00:00:00 2001
--From: Andre McCurdy <armccurdy@gmail.com>
--Date: Fri, 14 Oct 2016 16:26:58 -0700
--Subject: [PATCH] CheckFunctionExists.c: avoid gcc warnings with
-- -Wstrict-prototypes
--
--Avoid warnings (and therefore build failures etc) if a user happens
--to add -Wstrict-prototypes to CFLAGS.
--
-- | $ gcc --version
-- | gcc (Ubuntu 4.8.4-2ubuntu1~14.04.3) 4.8.4
-- |
-- | $ gcc -Wstrict-prototypes -Werror -DCHECK_FUNCTION_EXISTS=pthread_create -o foo.o -c Modules/CheckFunctionExists.c
-- | Modules/CheckFunctionExists.c:7:3: error: function declaration isn't a prototype [-Werror=strict-prototypes]
-- |    CHECK_FUNCTION_EXISTS();
-- |    ^
-- | cc1: all warnings being treated as errors
-- |
--
--Upstream-Status: Pending
--
--Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
-----
-- Modules/CheckFunctionExists.c | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/Modules/CheckFunctionExists.c b/Modules/CheckFunctionExists.c
--index 2304000..224e340 100644
----- a/Modules/CheckFunctionExists.c
--+++ b/Modules/CheckFunctionExists.c
--@@ -4,7 +4,7 @@
-- extern "C"
-- #endif
--   char
---  CHECK_FUNCTION_EXISTS();
--+  CHECK_FUNCTION_EXISTS(void);
-- #ifdef __CLASSIC_C__
-- int main()
-- {
---- 
--1.9.1
--
-diff --git a/meta/recipes-devtools/cmake/cmake_3.7.2.bb b/meta/recipes-devtools/cmake/cmake_3.8.2.bb
-similarity index 97%
-rename from meta/recipes-devtools/cmake/cmake_3.7.2.bb
-rename to meta/recipes-devtools/cmake/cmake_3.8.2.bb
-index f566a48cfb..3f8fd7a997 100644
---- a/meta/recipes-devtools/cmake/cmake_3.7.2.bb
-+++ b/meta/recipes-devtools/cmake/cmake_3.8.2.bb
-@@ -28,6 +28,7 @@ EXTRA_OECMAKE=" \
-     -DCMAKE_USE_SYSTEM_LIBRARIES=1 \
-     -DCMAKE_USE_SYSTEM_LIBRARY_JSONCPP=0 \
-     -DCMAKE_USE_SYSTEM_LIBRARY_LIBUV=0 \
-+    -DCMAKE_USE_SYSTEM_LIBRARY_LIBRHASH=0 \
-     -DKWSYS_CHAR_IS_SIGNED=1 \
-     -DBUILD_CursesDialog=0 \
-     -DKWSYS_LFS_WORKS=1 \
--- 
-2.13.0
+>
+> On 2017/06/03 1:24, nicolas.dechesne@linaro.org (Nicolas Dechesne) wrote:
+> > On Fri, Jun 2, 2017 at 6:16 PM, Kunihiko Hayashi
+> > <hayashi.kunihiko@socionext.com> wrote:
+> >> I already suggested the patch to solve this issue.
+> >>
+> >> https://patchwork.openembedded.org/patch/138596/
+> >>
+> >> Although I've not received any comments on this yet, could you try to
+> apply
+> >> it?
+> >
+> > thanks for sending this out. Well, unfortunately, I think your patch
+> > is doing something wrong.
+> >
+> > As discussed earlier on that thread, we should be using kernel
+> > Makefile to generate the target as much as possible. The linux build
+> > system can generate vmlinux, Image and Image.gz, but not vmlinux.gz.
+> > So we should compress only vmlinux 'outside' of the linux build
+> > system, and for Image.gz we shouldn't do that in OE. In other words,
+> > Image.gz should be included in typeformake. Your patch does not do
+> > that, and that is something which is taken care by mine.
+>
+> Surely we should use Image.gz generated by kernel build system and my pat=
+ch
+> doesn't do that. I also think that OE should compress only images that th=
+e
+> kernel build system doesn't generate.
+> Sorry my patch won't help.
 
 
+No problem. Can you please review and tes this one then, and provide
+feedback?
+
+Thanks!
+
+
+>
+> Best Regards,
+> Kunihiko Hayashi
+>
+
+--f40304378fd4a940af0550ff0487
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div><br><div class=3D"gmail_quote"><div>Le=C2=A0ven. 2 juin 2017 =C3=A0 20=
+:32, Kunihiko Hayashi &lt;<a href=3D"mailto:hayashi.kunihiko@socionext.com"=
+>hayashi.kunihiko@socionext.com</a>&gt; a =C3=A9crit=C2=A0:<br></div><block=
+quote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc=
+ solid;padding-left:1ex"><br>
+On 2017/06/03 1:24, <a href=3D"mailto:nicolas.dechesne@linaro.org" target=
+=3D"_blank">nicolas.dechesne@linaro.org</a> (Nicolas Dechesne) wrote:<br>
+&gt; On Fri, Jun 2, 2017 at 6:16 PM, Kunihiko Hayashi<br>
+&gt; &lt;<a href=3D"mailto:hayashi.kunihiko@socionext.com" target=3D"_blank=
+">hayashi.kunihiko@socionext.com</a>&gt; wrote:<br>
+&gt;&gt; I already suggested the patch to solve this issue.<br>
+&gt;&gt;<br>
+&gt;&gt; <a href=3D"https://patchwork.openembedded.org/patch/138596/" rel=
+=3D"noreferrer" target=3D"_blank">https://patchwork.openembedded.org/patch/=
+138596/</a><br>
+&gt;&gt;<br>
+&gt;&gt; Although I&#39;ve not received any comments on this yet, could you=
+ try to apply<br>
+&gt;&gt; it?<br>
+&gt;<br>
+&gt; thanks for sending this out. Well, unfortunately, I think your patch<b=
+r>
+&gt; is doing something wrong.<br>
+&gt;<br>
+&gt; As discussed earlier on that thread, we should be using kernel<br>
+&gt; Makefile to generate the target as much as possible. The linux build<b=
+r>
+&gt; system can generate vmlinux, Image and Image.gz, but not vmlinux.gz.<b=
+r>
+&gt; So we should compress only vmlinux &#39;outside&#39; of the linux buil=
+d<br>
+&gt; system, and for Image.gz we shouldn&#39;t do that in OE. In other word=
+s,<br>
+&gt; Image.gz should be included in typeformake. Your patch does not do<br>
+&gt; that, and that is something which is taken care by mine.<br>
+<br>
+Surely we should use Image.gz generated by kernel build system and my patch=
+<br>
+doesn&#39;t do that. I also think that OE should compress only images that =
+the<br>
+kernel build system doesn&#39;t generate.<br>
+Sorry my patch won&#39;t help.</blockquote><div><br></div><div>No problem. =
+Can you please review and tes this one then, and provide feedback?</div><di=
+v><br></div><div>Thanks!</div><div><br></div><blockquote class=3D"gmail_quo=
+te" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"=
+><br>
+<br>
+Best Regards,<br>
+Kunihiko Hayashi<br>
+</blockquote></div></div>
+
+--f40304378fd4a940af0550ff0487--
