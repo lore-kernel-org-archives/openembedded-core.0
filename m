@@ -1,49 +1,37 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f193.google.com (mail-pf0-f193.google.com
-	[209.85.192.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 2120F77E65
+Return-Path: <fan.xin@jp.fujitsu.com>
+Received: from mgwym01.jp.fujitsu.com (mgwym01.jp.fujitsu.com [211.128.242.40])
+	by mail.openembedded.org (Postfix) with ESMTP id C441877E5D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  2 Jun 2017 04:42:04 +0000 (UTC)
-Received: by mail-pf0-f193.google.com with SMTP id f27so11081031pfe.0
+	Fri,  2 Jun 2017 04:47:54 +0000 (UTC)
+Received: from yt-mxoi2.gw.nic.fujitsu.com (unknown [192.168.229.69]) by
+	mgwym01.jp.fujitsu.com with smtp
+	id 32ba_5d67_c49334a8_118d_42c1_96da_e2a0a78f2352;
+	Fri, 02 Jun 2017 13:47:50 +0900
+Received: from g01jpfmpwyt03.exch.g01.fujitsu.local
+	(g01jpfmpwyt03.exch.g01.fujitsu.local [10.128.193.57])
+	by yt-mxoi2.gw.nic.fujitsu.com (Postfix) with ESMTP id 23F87AC00EA
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 01 Jun 2017 21:42:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=+boB4codxxBUw1YY+lwTbuzcg5CJ8dEindgr1s+wo3s=;
-	b=bKikKRsT2kEH/ZlhQ/mQ/Vxo3zSeW8AnTDUIUuTlnvf9dpcwZxPadXvoKUGboW61ON
-	1LQ2iARW1NGVK9VRSfuWNbWxI5daN+fKM98pCoGTjNGjlpjgKLhf5H1WUglE0HJ89Sjf
-	sv4kNuYqGHxlE7vbQKNt2oAPkv1D0bQn4ntPQG/+mHta2b0lU+tQKVgC2A8Mph/INPk7
-	QKT/v59LN03bXRcsMDhacYZEc+WUaOHLgRVVqH0z9QYA6YEdXrsd4qtm47h4tBJroGk8
-	KcZZKEsao+9ZWXIP9XhTo2KngDd8nhGAZarBbx/D9MMSVA3bu0JqcREZalYwihGMz3kF
-	yKuQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=+boB4codxxBUw1YY+lwTbuzcg5CJ8dEindgr1s+wo3s=;
-	b=Ke4rPADcCFZ3ITDQpASzxGVZgnDU5+770iw+3/PbxbuduVkruXY1bXi8VNSAgIQQCy
-	29KoUBG89xdU8xTuF7qKz3nDJdv/XiViZPx7qJXoBB0UHr3BLc5Ezr2V/uPNa4NA1b/h
-	pi+n0xK7G4FfhS1PfoYS9B9ufXJdu+jfTl0xSrQLgeX69F5NAK62FouvlzNLmJVFPpwU
-	xCqplRCD9HOjfLuNA3LUmHnafyYNPclQg6R7qlD/bmGOyAN/FQXm8hIpEp7bNdagE9TZ
-	FT1S00S50y7GEod2UVefmIEE9yOLUgrRlTV/N0ITjHdlyW99WKMPGgljUAxg34ecIZmS
-	ZHtg==
-X-Gm-Message-State: AODbwcA+hFywDi+Jq+YBDGNwf9wUDcwrw6I3GMjqNqidxHlKnJXHl26q
-	qXIsD4QNNnhpGqZc
-X-Received: by 10.99.142.75 with SMTP id k72mr4936023pge.99.1496378525438;
-	Thu, 01 Jun 2017 21:42:05 -0700 (PDT)
-Received: from localhost.localdomain ([2601:646:8882:b8c::cf4])
-	by smtp.gmail.com with ESMTPSA id
-	t66sm37003163pfe.134.2017.06.01.21.42.04
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 01 Jun 2017 21:42:04 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  1 Jun 2017 21:41:53 -0700
-Message-Id: <20170602044153.9629-3-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.13.0
-In-Reply-To: <20170602044153.9629-1-raj.khem@gmail.com>
-References: <20170602044153.9629-1-raj.khem@gmail.com>
-Subject: [PATCH 3/3] setuptoools.bbclass: Do not use -pie with hardening
+	Fri,  2 Jun 2017 13:47:49 +0900 (JST)
+Received: from G01JPEXCHYT14.g01.fujitsu.local
+	(G01JPEXCHYT14.g01.fujitsu.local [10.128.194.53])
+	by g01jpfmpwyt03.exch.g01.fujitsu.local (Postfix) with ESMTP id
+	B724E46E792 for <openembedded-core@lists.openembedded.org>;
+	Fri,  2 Jun 2017 13:47:47 +0900 (JST)
+Received: from localhost.localdomain (10.24.19.99) by
+	G01JPEXCHYT14.g01.fujitsu.local (10.128.194.53) with Microsoft SMTP
+	Server id 14.3.266.1; Fri, 2 Jun 2017 13:47:48 +0900
+From: Fan Xin <fan.xin@jp.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 2 Jun 2017 13:49:05 +0900
+Message-ID: <1496378945-11362-1-git-send-email-fan.xin@jp.fujitsu.com>
+X-Mailer: git-send-email 1.9.1
+In-Reply-To: <CAMKF1soxS53rTddDtH2YPFW9f82ndW__0PvWUCMisvf5eOPtqw@mail.gmail.com>
+References: <CAMKF1soxS53rTddDtH2YPFW9f82ndW__0PvWUCMisvf5eOPtqw@mail.gmail.com>
+MIME-Version: 1.0
+X-SecurityPolicyCheck-GC: OK by FENCE-Mail
+X-Encrypted: FENCE-Mail/3.1.1
+X-TM-AS-MML: disable
+Subject: [PATCH v2] lzo: Upgrade 2.09 -> 2.10
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,45 +44,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Jun 2017 04:42:04 -0000
+X-List-Received-Date: Fri, 02 Jun 2017 04:47:56 -0000
+Content-Type: text/plain
 
-Fix build when PIE is turned on. It tries to build
-.so file using -pie and -shared flags together because
-its doing compile and link in same step CFLAGS and LDFLAGS
-are combined and does not work, ending in errors e.g.
+1. Upgrade lzo from 2.09 to 2.10
 
-| /mnt/a/oe/build/tmp/work/cortexa7t2hf-neon-vfpv4-bec-linux-musleabi/python-pygpgme/0.3-r0/recipe-sysroot/usr/l
-ib/Scrt1.o: In function `_start_c':
-| /usr/src/debug/musl/1.1.16+gitAUTOINC+179766aa2e-r0/git/crt/crt1.c:17: undefined reference to `main'
-| collect2: error: ld returned 1 exit status
+2. Update the license checksum due to the date change, not license change.
 
-This error while cryptic is due to the fact that we are
-building a shared library but also pass -pie flag to the link
-step after specify LDHSARED ( which is -shared linker flags )
+3. Add a patch to fix the undefined error.
 
-we can not use -pie when doing shared libs. This is true for all the python
-modules inheriting setup tools
-
-Disable the pie flags thusly for all modules using setuptools since
-this setting is done in setuptools makefiles which are then used
-during module compiles
-
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Fan Xin <fan.xin@jp.fujitsu.com>
 ---
- meta/classes/setuptools.bbclass | 2 ++
- 1 file changed, 2 insertions(+)
+ ...-pkgconfigdir-to-solve-the-undefine-error.patch | 27 ++++++++++++++++++++++
+ .../lzo/{lzo_2.09.bb => lzo_2.10.bb}               |  7 +++---
+ 2 files changed, 31 insertions(+), 3 deletions(-)
+ create mode 100644 meta/recipes-support/lzo/lzo/0001-Add-pkgconfigdir-to-solve-the-undefine-error.patch
+ rename meta/recipes-support/lzo/{lzo_2.09.bb => lzo_2.10.bb} (78%)
 
-diff --git a/meta/classes/setuptools.bbclass b/meta/classes/setuptools.bbclass
-index 56343b1c73..7d0c5267d7 100644
---- a/meta/classes/setuptools.bbclass
-+++ b/meta/classes/setuptools.bbclass
-@@ -6,3 +6,5 @@ DISTUTILS_INSTALL_ARGS = "--root=${D} \
-     --prefix=${prefix} \
-     --install-lib=${PYTHON_SITEPACKAGES_DIR} \
-     --install-data=${datadir}"
+diff --git a/meta/recipes-support/lzo/lzo/0001-Add-pkgconfigdir-to-solve-the-undefine-error.patch b/meta/recipes-support/lzo/lzo/0001-Add-pkgconfigdir-to-solve-the-undefine-error.patch
+new file mode 100644
+index 0000000..5235a15
+--- /dev/null
++++ b/meta/recipes-support/lzo/lzo/0001-Add-pkgconfigdir-to-solve-the-undefine-error.patch
+@@ -0,0 +1,27 @@
++From e730bfd7c2d3a4b5f3605878599cb9b20d31b1fd Mon Sep 17 00:00:00 2001
++From: Fan Xin <fan.xin@jp.fujitsu.com>
++Date: Fri, 2 Jun 2017 11:52:25 +0900
++Subject: [PATCH] Add pkgconfigdir to solve the undefine error.
 +
-+SECURITY_CFLAGS = "${SECURITY_NO_PIE_CFLAGS}"
++Upstream-Status: Pending
++
++Signed-off-by: Fan Xin <fan.xin@jp.fujitsu.com>
++---
++ Makefile.am | 1 +
++ 1 file changed, 1 insertion(+)
++
++diff --git a/Makefile.am b/Makefile.am
++index e4d383b..c75023d 100644
++--- a/Makefile.am
+++++ b/Makefile.am
++@@ -14,6 +14,7 @@ AM_CPPFLAGS = -I$(top_srcdir)/include -I$(top_srcdir)
++ LDADD = src/liblzo2.la
++ lib_LTLIBRARIES =
++ noinst_PROGRAMS =
+++pkgconfigdir = $(libdir)/pkgconfig
++ pkgconfig_DATA = lzo2.pc
++ 
++ 
++-- 
++1.9.1
++
+diff --git a/meta/recipes-support/lzo/lzo_2.09.bb b/meta/recipes-support/lzo/lzo_2.10.bb
+similarity index 78%
+rename from meta/recipes-support/lzo/lzo_2.09.bb
+rename to meta/recipes-support/lzo/lzo_2.10.bb
+index 2978617..490d230 100644
+--- a/meta/recipes-support/lzo/lzo_2.09.bb
++++ b/meta/recipes-support/lzo/lzo_2.10.bb
+@@ -3,16 +3,17 @@ HOMEPAGE = "http://www.oberhumer.com/opensource/lzo/"
+ SECTION = "libs"
+ LICENSE = "GPLv2+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+-                    file://src/lzo_init.c;beginline=5;endline=25;md5=355023835a9b9eeb70ab895395e951ff"
++                    file://src/lzo_init.c;beginline=5;endline=25;md5=9ae697ca01829b0a383c5d2d163e0108"
+ 
+ SRC_URI = "http://www.oberhumer.com/opensource/lzo/download/lzo-${PV}.tar.gz \
+            file://0001-Use-memcpy-instead-of-reinventing-it.patch \
++	   file://0001-Add-pkgconfigdir-to-solve-the-undefine-error.patch \
+            file://acinclude.m4 \
+            file://run-ptest \
+            "
+ 
+-SRC_URI[md5sum] = "c7ffc9a103afe2d1bba0b015e7aa887f"
+-SRC_URI[sha256sum] = "f294a7ced313063c057c504257f437c8335c41bfeed23531ee4e6a2b87bcb34c"
++SRC_URI[md5sum] = "39d3f3f9c55c87b1e5d6888e1420f4b5"
++SRC_URI[sha256sum] = "c0f892943208266f9b6543b3ae308fab6284c5c90e627931446fb49b4221a072"
+ 
+ inherit autotools ptest
+ 
 -- 
-2.13.0
+1.9.1
 
 
