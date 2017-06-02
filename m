@@ -1,45 +1,22 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f169.google.com (mail-pf0-f169.google.com
-	[209.85.192.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 2F9B76076F
+Return-Path: <anibal.limon@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 73CD56076F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  2 Jun 2017 16:01:58 +0000 (UTC)
-Received: by mail-pf0-f169.google.com with SMTP id 9so51635486pfj.1
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 02 Jun 2017 09:02:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=ItGxa99H5FEieNUmW1ZTSB6EQpQo3W/Y3iYLLEgNBNw=;
-	b=gfTadt68ksesKUpkpFICpo2A4ZteVjBWSM4Yaq4dswz5oVhD+/iaKRSBd4Z0LRUp7Z
-	ieRswGH2JGDP/taJNnUVrSzO0O6nJ12q73jerkHvcp3T1U51MSFPBS8QdvGjz/U+FvuN
-	CvwHihdySlnfV4Ka5iqZnMEkbG15A0f/RbZx+rL+Uxv2nS81FYdbSgPHsO9GAW4XGyj6
-	iidPvWBT9ZeNhmmgSKXvX2UW800gVximMcbrQEG/s1n4EnelVBP5hXzFx61jE4pfRLXo
-	llJv1VtuD8+agIpG6qPwEkfKmzLiM3XJColWZ1qnxs0KdgARjXMaUuHGrYwtBAu0EOCB
-	io/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=ItGxa99H5FEieNUmW1ZTSB6EQpQo3W/Y3iYLLEgNBNw=;
-	b=A1xgDwKmlfSuPAxWkFijKvvXnQtDvBytdpLJubePWKvq73fRSI/OaLnZL6yBqTVrke
-	1LjtljZubB0vQD0xpqgjEfCq0efoBBDF/H/yk+QQ1iyxAaGu7naFbTP+6HpJEq/N8zz+
-	cPu2KNO/JOAVds0Sl3wKgHqN9E3slBbkd7Hjad3Ff0lxocPTvB0WaHXmY9B7jFCTMxXj
-	WYGzQU6YcpTi2QsVbs2Vq7FssALf7e8H9wLbh0ccudvwobm6q0l0yUksE6FbuZE17pKX
-	EQhpMhTrOs6n4AanRW3YPoWcwXWPrJo8rpnDFUTTRb1Hb8JJCidQeLlUmdpLFp0mdIlt
-	vNNA==
-X-Gm-Message-State: AODbwcApnenbZ1q9CFdjvDd7MrN4XOqT94T8Rvf8YNwIdQGRemXpSQqr
-	TBSfVoN+MdS/CzF2
-X-Received: by 10.99.126.92 with SMTP id o28mr8053562pgn.63.1496419318952;
-	Fri, 02 Jun 2017 09:01:58 -0700 (PDT)
-Received: from localhost.localdomain ([2601:646:8882:b8c::cf4])
-	by smtp.gmail.com with ESMTPSA id a69sm7511420pfg.7.2017.06.02.09.01.57
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 02 Jun 2017 09:01:57 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
+	Fri,  2 Jun 2017 16:11:00 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	02 Jun 2017 09:10:59 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.39,285,1493708400"; d="scan'208";a="1155876440"
+Received: from alimonb-mobl1.zpn.intel.com ([10.219.128.117])
+	by fmsmga001.fm.intel.com with ESMTP; 02 Jun 2017 09:10:59 -0700
+From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  2 Jun 2017 09:01:50 -0700
-Message-Id: <20170602160150.6813-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.13.0
-Subject: [PATCH V3] distutils-base.bbclass: Do not use -pie with hardening
+Date: Fri,  2 Jun 2017 11:11:03 -0500
+Message-Id: <1496419863-13332-1-git-send-email-anibal.limon@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+MIME-Version: 1.0
+Subject: [PATCH] oeqa/runtime/context.py: Add support to specify port in target_ip
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,50 +29,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Jun 2017 16:02:01 -0000
+X-List-Received-Date: Fri, 02 Jun 2017 16:11:03 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Fix build when PIE is turned on. It tries to build
-.so file using -pie and -shared flags together because
-its doing compile and link in same step CFLAGS and LDFLAGS
-are combined and does not work, ending in errors e.g.
-
-| /mnt/a/oe/build/tmp/work/cortexa7t2hf-neon-vfpv4-bec-linux-musleabi/python-pygpgme/0.3-r0/recipe-sysroot/usr/l
-ib/Scrt1.o: In function `_start_c':
-| /usr/src/debug/musl/1.1.16+gitAUTOINC+179766aa2e-r0/git/crt/crt1.c:17: undefined reference to `main'
-| collect2: error: ld returned 1 exit status
-
-This error while cryptic is due to the fact that we are
-building a shared library but also pass -pie flag to the link
-step after specify LDHSARED ( which is -shared linker flags )
-
-we can not use -pie when doing shared libs. This is true for all the python
-modules inheriting setup tools
-
-Disable the pie flags thusly for all modules using setuptools since
-this setting is done in setuptools makefiles which are then used
-during module compiles
-
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
 ---
-v1 -> v2
-- Move change to distutils-base
-V2 -> v3
-- Fix a missing end quote
+ meta/lib/oeqa/runtime/context.py | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
- meta/classes/distutils-base.bbclass | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/meta/classes/distutils-base.bbclass b/meta/classes/distutils-base.bbclass
-index 9f398d7051..d6137c4e42 100644
---- a/meta/classes/distutils-base.bbclass
-+++ b/meta/classes/distutils-base.bbclass
-@@ -2,3 +2,5 @@ DEPENDS  += "${@["${PYTHON_PN}-native ${PYTHON_PN}", ""][(d.getVar('PACKAGES') =
- RDEPENDS_${PN} += "${@['', '${PYTHON_PN}-core']['${CLASSOVERRIDE}' == 'class-target']}"
+diff --git a/meta/lib/oeqa/runtime/context.py b/meta/lib/oeqa/runtime/context.py
+index c4cd76c..0294003 100644
+--- a/meta/lib/oeqa/runtime/context.py
++++ b/meta/lib/oeqa/runtime/context.py
+@@ -92,6 +92,12 @@ class OERuntimeTestContextExecutor(OETestContextExecutor):
+     def getTarget(target_type, logger, target_ip, server_ip, **kwargs):
+         target = None
  
- inherit distutils-common-base pythonnative
++        if target_ip:
++            target_ip_port = target_ip.split(':')
++            if len(target_ip_port) == 2:
++                target_ip = target_ip_port[0]
++                kwargs['port'] = target_ip_port[1]
 +
-+SECURITY_CFLAGS = "${SECURITY_NO_PIE_CFLAGS}"
+         if target_type == 'simpleremote':
+             target = OESSHTarget(logger, target_ip, server_ip, **kwargs)
+         elif target_type == 'qemu':
 -- 
-2.13.0
+2.1.4
 
 
