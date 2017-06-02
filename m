@@ -1,22 +1,45 @@
-Return-Path: <anibal.limon@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 73CD56076F
+Return-Path: <nicolas.dechesne@linaro.org>
+Received: from mail-qt0-f178.google.com (mail-qt0-f178.google.com
+	[209.85.216.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 2A1F977CF8
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  2 Jun 2017 16:11:00 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	02 Jun 2017 09:10:59 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.39,285,1493708400"; d="scan'208";a="1155876440"
-Received: from alimonb-mobl1.zpn.intel.com ([10.219.128.117])
-	by fmsmga001.fm.intel.com with ESMTP; 02 Jun 2017 09:10:59 -0700
-From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  2 Jun 2017 11:11:03 -0500
-Message-Id: <1496419863-13332-1-git-send-email-anibal.limon@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
+	Fri,  2 Jun 2017 16:24:58 +0000 (UTC)
+Received: by mail-qt0-f178.google.com with SMTP id w1so35887816qtg.2
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 02 Jun 2017 09:25:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=rm6wCkPtvRwwCTMQ+ub10yWaP4aFNz4e8ec9f7AkHTA=;
+	b=Aj6HOXUyyBqMMWttVcSlwWL/Rv7bFZ7J7TNn1C4YDudo8ljahQdWu353JjefBWeSw6
+	Ygf6KurSuV9vUbkExQLiotVp3UJnp96qH4hRHThTe9cNCUh/nfIaq6Vjt+87QjOymsdc
+	Z5q1tfJvMAQuaIwUsXzS5xa/Tm522Z1aD111g=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=rm6wCkPtvRwwCTMQ+ub10yWaP4aFNz4e8ec9f7AkHTA=;
+	b=ArmddBldHYrgVadHEzOf4lBpksqlDFsJbP5ljNuPM52KqQxPiZPTrVpzWGE7mj2qtT
+	stLpeb6IeQLxciiSnJx/PZFGinxSzwSfAEltXbBTud5FaJXfpS8jjG3cn6EpWknngCcQ
+	tCeB+coOOuVyZBaVda+B/GxQY7taCbBIQehkCetcWYe4xaUiJVJwO2bjhQbdPCquRHaz
+	11SGmlV+C52EIP7yRX0Ixe30xDXQLEzfAJzavAJtue/FYr4s5Wo0lgbd1+/h6GvYiLyg
+	COeNCQvx6IAjcfgt/f8evj+n4dHIc2Etwb+P2RX2CRrd4AGYpFm5LUzd85o22YTU+6hB
+	6ySQ==
+X-Gm-Message-State: AODbwcDje92iL/TwiOOFWTYgxe9Gfu3D460yZ593uYeKbAwO2jo/UVwr
+	DE2wfGwqsjMCFDNpa19mk9jCiJ0YW70Y
+X-Received: by 10.200.33.232 with SMTP id 37mr10275957qtz.189.1496420699844;
+	Fri, 02 Jun 2017 09:24:59 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH] oeqa/runtime/context.py: Add support to specify port in target_ip
+Received: by 10.140.104.204 with HTTP; Fri, 2 Jun 2017 09:24:39 -0700 (PDT)
+In-Reply-To: <5f7f9187-8c25-e641-2d9f-88018201ad45@socionext.com>
+References: <CAP71WjxkYLeEaO5CfUjbEaON=j2pwRkjMDUxkyYafPAEt2qW1w@mail.gmail.com>
+	<5f7f9187-8c25-e641-2d9f-88018201ad45@socionext.com>
+From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+Date: Fri, 2 Jun 2017 18:24:39 +0200
+Message-ID: <CAP71WjzvFiOTUgd62kw8mUfTJxX5jUAkiZg3YQSrmQjP-=DQrQ@mail.gmail.com>
+To: Kunihiko Hayashi <hayashi.kunihiko@socionext.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: KERNEL_IMAGETYPES and Image.gz
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,33 +52,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Jun 2017 16:11:03 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 02 Jun 2017 16:24:59 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
----
- meta/lib/oeqa/runtime/context.py | 6 ++++++
- 1 file changed, 6 insertions(+)
+On Fri, Jun 2, 2017 at 6:16 PM, Kunihiko Hayashi
+<hayashi.kunihiko@socionext.com> wrote:
+> I already suggested the patch to solve this issue.
+>
+> https://patchwork.openembedded.org/patch/138596/
+>
+> Although I've not received any comments on this yet, could you try to apply
+> it?
 
-diff --git a/meta/lib/oeqa/runtime/context.py b/meta/lib/oeqa/runtime/context.py
-index c4cd76c..0294003 100644
---- a/meta/lib/oeqa/runtime/context.py
-+++ b/meta/lib/oeqa/runtime/context.py
-@@ -92,6 +92,12 @@ class OERuntimeTestContextExecutor(OETestContextExecutor):
-     def getTarget(target_type, logger, target_ip, server_ip, **kwargs):
-         target = None
- 
-+        if target_ip:
-+            target_ip_port = target_ip.split(':')
-+            if len(target_ip_port) == 2:
-+                target_ip = target_ip_port[0]
-+                kwargs['port'] = target_ip_port[1]
-+
-         if target_type == 'simpleremote':
-             target = OESSHTarget(logger, target_ip, server_ip, **kwargs)
-         elif target_type == 'qemu':
--- 
-2.1.4
+thanks for sending this out. Well, unfortunately, I think your patch
+is doing something wrong.
 
+As discussed earlier on that thread, we should be using kernel
+Makefile to generate the target as much as possible. The linux build
+system can generate vmlinux, Image and Image.gz, but not vmlinux.gz.
+So we should compress only vmlinux 'outside' of the linux build
+system, and for Image.gz we shouldn't do that in OE. In other words,
+Image.gz should be included in typeformake. Your patch does not do
+that, and that is something which is taken care by mine.
 
