@@ -1,37 +1,46 @@
-Return-Path: <fan.xin@jp.fujitsu.com>
-Received: from mgwym01.jp.fujitsu.com (mgwym01.jp.fujitsu.com [211.128.242.40])
-	by mail.openembedded.org (Postfix) with ESMTP id C441877E5D
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pf0-f195.google.com (mail-pf0-f195.google.com
+	[209.85.192.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 326786059E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  2 Jun 2017 04:47:54 +0000 (UTC)
-Received: from yt-mxoi2.gw.nic.fujitsu.com (unknown [192.168.229.69]) by
-	mgwym01.jp.fujitsu.com with smtp
-	id 32ba_5d67_c49334a8_118d_42c1_96da_e2a0a78f2352;
-	Fri, 02 Jun 2017 13:47:50 +0900
-Received: from g01jpfmpwyt03.exch.g01.fujitsu.local
-	(g01jpfmpwyt03.exch.g01.fujitsu.local [10.128.193.57])
-	by yt-mxoi2.gw.nic.fujitsu.com (Postfix) with ESMTP id 23F87AC00EA
+	Fri,  2 Jun 2017 06:21:18 +0000 (UTC)
+Received: by mail-pf0-f195.google.com with SMTP id u26so11575514pfd.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  2 Jun 2017 13:47:49 +0900 (JST)
-Received: from G01JPEXCHYT14.g01.fujitsu.local
-	(G01JPEXCHYT14.g01.fujitsu.local [10.128.194.53])
-	by g01jpfmpwyt03.exch.g01.fujitsu.local (Postfix) with ESMTP id
-	B724E46E792 for <openembedded-core@lists.openembedded.org>;
-	Fri,  2 Jun 2017 13:47:47 +0900 (JST)
-Received: from localhost.localdomain (10.24.19.99) by
-	G01JPEXCHYT14.g01.fujitsu.local (10.128.194.53) with Microsoft SMTP
-	Server id 14.3.266.1; Fri, 2 Jun 2017 13:47:48 +0900
-From: Fan Xin <fan.xin@jp.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 2 Jun 2017 13:49:05 +0900
-Message-ID: <1496378945-11362-1-git-send-email-fan.xin@jp.fujitsu.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <CAMKF1soxS53rTddDtH2YPFW9f82ndW__0PvWUCMisvf5eOPtqw@mail.gmail.com>
-References: <CAMKF1soxS53rTddDtH2YPFW9f82ndW__0PvWUCMisvf5eOPtqw@mail.gmail.com>
-MIME-Version: 1.0
-X-SecurityPolicyCheck-GC: OK by FENCE-Mail
-X-Encrypted: FENCE-Mail/3.1.1
-X-TM-AS-MML: disable
-Subject: [PATCH v2] lzo: Upgrade 2.09 -> 2.10
+	Thu, 01 Jun 2017 23:21:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=Ze1PeT0c5BHoHO/TsjMq+biV8uEbLDqmFdqPjdXa3kc=;
+	b=rnUUyi5RFkgHALDZDhdugua043/QHGkNS4kI9TviM13G+inOAhSF8J0SDsEsp066hQ
+	0gz7jcjCDT+Kiv32LBbdEZsldbKfFasaJ0y4Z9TRorkEvmQY97cSuswuSkWpUXESro/T
+	B4tasYrptaIxkM3qmdUGHnzgcYrl3slhZ+0ziDxyr85/l3x3SnFMOR9XOSHeLwSKgX0/
+	MA/dzt+ZzOziaa6n/xR+onyszzeQc1CLFpmXPx37D8UBpJmbCOtIVz9zNsJF+8bkFnJj
+	j2LrVvlykLgk5CzYnX8L97QYZmJnGfdoV7Tvp2C9JOyDAMQutwxF2Qgt59qj1QDEsxcg
+	zGUg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=Ze1PeT0c5BHoHO/TsjMq+biV8uEbLDqmFdqPjdXa3kc=;
+	b=Io81rVUYpG2C8tS/yhUF5/wtIDBj47XIDQrRFBajt1HNNXbYc63f3wMM0kpD1g0CFs
+	EOFS12ouGAtTBDVchHagf9TpgkMC+Z3UfQAdX5TR0ff9rOH1VdOBTLZzvp2Z/zN5xBky
+	qgbfoWIkZbr7++eA8Qbo2pIJD8+8UiMAELwBMJxr6CQNRpdpEfkrZLHDta5Hnbw9DmgJ
+	88eLpd8ad6DV3lV/PTWXtnw3bTAomDbWRL9MkbuG9rgk0iTlnpvgifNhN/1Ssv3eehZV
+	4m2kzHLVKCpRw4pVXEVhBU2D8WyqEh9PzdzU4wTal9ab5NJrUhaCPSiC1W5iIBVJTxoh
+	YN+Q==
+X-Gm-Message-State: AODbwcDIxYY1nxPMQg5ihryZA9i8gFISjjzhUlvfL5oKDNxgs/e6ADC2
+	rsh15iSWdyTaEg==
+X-Received: by 10.84.150.129 with SMTP id h1mr11594666plh.149.1496384480114;
+	Thu, 01 Jun 2017 23:21:20 -0700 (PDT)
+Received: from localhost.localdomain ([2601:646:8882:b8c::cf4])
+	by smtp.gmail.com with ESMTPSA id
+	o89sm39796844pfj.88.2017.06.01.23.21.18
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 01 Jun 2017 23:21:19 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  1 Jun 2017 23:21:08 -0700
+Message-Id: <20170602062108.34496-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.13.0
+Subject: [PATCH] tcf-agent: Add missing leading space to CFLAGS appends
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,85 +53,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Jun 2017 04:47:56 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 02 Jun 2017 06:21:19 -0000
 
-1. Upgrade lzo from 2.09 to 2.10
+Its a typo, that we see when building with musl
 
-2. Update the license checksum due to the date change, not license change.
-
-3. Add a patch to fix the undefined error.
-
-Signed-off-by: Fan Xin <fan.xin@jp.fujitsu.com>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- ...-pkgconfigdir-to-solve-the-undefine-error.patch | 27 ++++++++++++++++++++++
- .../lzo/{lzo_2.09.bb => lzo_2.10.bb}               |  7 +++---
- 2 files changed, 31 insertions(+), 3 deletions(-)
- create mode 100644 meta/recipes-support/lzo/lzo/0001-Add-pkgconfigdir-to-solve-the-undefine-error.patch
- rename meta/recipes-support/lzo/{lzo_2.09.bb => lzo_2.10.bb} (78%)
+ meta/recipes-devtools/tcf-agent/tcf-agent_git.bb | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-support/lzo/lzo/0001-Add-pkgconfigdir-to-solve-the-undefine-error.patch b/meta/recipes-support/lzo/lzo/0001-Add-pkgconfigdir-to-solve-the-undefine-error.patch
-new file mode 100644
-index 0000000..5235a15
---- /dev/null
-+++ b/meta/recipes-support/lzo/lzo/0001-Add-pkgconfigdir-to-solve-the-undefine-error.patch
-@@ -0,0 +1,27 @@
-+From e730bfd7c2d3a4b5f3605878599cb9b20d31b1fd Mon Sep 17 00:00:00 2001
-+From: Fan Xin <fan.xin@jp.fujitsu.com>
-+Date: Fri, 2 Jun 2017 11:52:25 +0900
-+Subject: [PATCH] Add pkgconfigdir to solve the undefine error.
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Fan Xin <fan.xin@jp.fujitsu.com>
-+---
-+ Makefile.am | 1 +
-+ 1 file changed, 1 insertion(+)
-+
-+diff --git a/Makefile.am b/Makefile.am
-+index e4d383b..c75023d 100644
-+--- a/Makefile.am
-++++ b/Makefile.am
-+@@ -14,6 +14,7 @@ AM_CPPFLAGS = -I$(top_srcdir)/include -I$(top_srcdir)
-+ LDADD = src/liblzo2.la
-+ lib_LTLIBRARIES =
-+ noinst_PROGRAMS =
-++pkgconfigdir = $(libdir)/pkgconfig
-+ pkgconfig_DATA = lzo2.pc
-+ 
-+ 
-+-- 
-+1.9.1
-+
-diff --git a/meta/recipes-support/lzo/lzo_2.09.bb b/meta/recipes-support/lzo/lzo_2.10.bb
-similarity index 78%
-rename from meta/recipes-support/lzo/lzo_2.09.bb
-rename to meta/recipes-support/lzo/lzo_2.10.bb
-index 2978617..490d230 100644
---- a/meta/recipes-support/lzo/lzo_2.09.bb
-+++ b/meta/recipes-support/lzo/lzo_2.10.bb
-@@ -3,16 +3,17 @@ HOMEPAGE = "http://www.oberhumer.com/opensource/lzo/"
- SECTION = "libs"
- LICENSE = "GPLv2+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
--                    file://src/lzo_init.c;beginline=5;endline=25;md5=355023835a9b9eeb70ab895395e951ff"
-+                    file://src/lzo_init.c;beginline=5;endline=25;md5=9ae697ca01829b0a383c5d2d163e0108"
+diff --git a/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb b/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
+index 1dad825fda..de627e09e8 100644
+--- a/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
++++ b/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
+@@ -36,13 +36,13 @@ MAKE_OS = "`echo ${TARGET_OS} | sed s,^linux.*,GNU/Linux,`"
+ EXTRA_OEMAKE = "MACHINE=${MAKE_ARCH} OPSYS=${MAKE_OS} 'CC=${CC}' 'AR=${AR}'"
  
- SRC_URI = "http://www.oberhumer.com/opensource/lzo/download/lzo-${PV}.tar.gz \
-            file://0001-Use-memcpy-instead-of-reinventing-it.patch \
-+	   file://0001-Add-pkgconfigdir-to-solve-the-undefine-error.patch \
-            file://acinclude.m4 \
-            file://run-ptest \
-            "
- 
--SRC_URI[md5sum] = "c7ffc9a103afe2d1bba0b015e7aa887f"
--SRC_URI[sha256sum] = "f294a7ced313063c057c504257f437c8335c41bfeed23531ee4e6a2b87bcb34c"
-+SRC_URI[md5sum] = "39d3f3f9c55c87b1e5d6888e1420f4b5"
-+SRC_URI[sha256sum] = "c0f892943208266f9b6543b3ae308fab6284c5c90e627931446fb49b4221a072"
- 
- inherit autotools ptest
+ # These features don't compile on mips and libc-musl
+-CFLAGS_mips_append = "-DSERVICE_RunControl=0 -DSERVICE_Breakpoints=0 \
++CFLAGS_mips_append = " -DSERVICE_RunControl=0 -DSERVICE_Breakpoints=0 \
+     -DSERVICE_Memory=0 -DSERVICE_Registers=0 -DSERVICE_MemoryMap=0 \
+     -DSERVICE_StackTrace=0 -DSERVICE_Expressions=0"
+-CFLAGS_mips64_append = "-DSERVICE_RunControl=0 -DSERVICE_Breakpoints=0 \
++CFLAGS_mips64_append = " -DSERVICE_RunControl=0 -DSERVICE_Breakpoints=0 \
+     -DSERVICE_Memory=0 -DSERVICE_Registers=0 -DSERVICE_MemoryMap=0 \
+     -DSERVICE_StackTrace=0 -DSERVICE_Expressions=0"
+-CFLAGS_append_libc-musl = "-DSERVICE_RunControl=0 -DSERVICE_Breakpoints=0 \
++CFLAGS_append_libc-musl = " -DSERVICE_RunControl=0 -DSERVICE_Breakpoints=0 \
+     -DSERVICE_Memory=0 -DSERVICE_Registers=0 -DSERVICE_MemoryMap=0 \
+     -DSERVICE_StackTrace=0 -DSERVICE_Expressions=0"
  
 -- 
-1.9.1
+2.13.0
 
 
