@@ -1,62 +1,46 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-wr0-f175.google.com (mail-wr0-f175.google.com
-	[209.85.128.175])
-	by mail.openembedded.org (Postfix) with ESMTP id AE7D177E79
+Return-Path: <freesilicon@gmail.com>
+Received: from mail-wr0-f194.google.com (mail-wr0-f194.google.com
+	[209.85.128.194])
+	by mail.openembedded.org (Postfix) with ESMTP id EDC3A77E83
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  2 Jun 2017 15:13:22 +0000 (UTC)
-Received: by mail-wr0-f175.google.com with SMTP id v111so1998318wrc.3
+	Fri,  2 Jun 2017 15:17:17 +0000 (UTC)
+Received: by mail-wr0-f194.google.com with SMTP id e23so356988wre.3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 02 Jun 2017 08:13:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
-	:cc; bh=hijXO0ELXuyBjRG0kQz4Q010K9wcC9VUmRqWVg0Pikg=;
-	b=ErjMSafKaXf80ynvGYlR2mutcGUjlVG4FNntqUVSg9M5wNX+X2f+plGide7gLdF/M4
-	Z1HLaw2iwjBZq5a8UTcZx9qWgIiylu/xGA8H2/wTz6u+Yzh8Amb3jWLynUCx3usDs8bi
-	GKpkQwSsb5Q5DJbQl4riSldKCQjqeocy/M7MnLIB0GKZPgqVSeljggFX9OEVfKz0aX9w
-	DJSWcn9Vfr/Ipc/Xr+OqMn3/YjMAb4eksuz2kiMwcHCPNaGtxdaZ1yFjFUbG5Im3l34j
-	Sa4mV8IiDpgy1Oo00nw3blcRmSO4edsxNpEeZAy5C0s3Cs1pyw3g53UPrteNycBVlL76
-	z67w==
+	Fri, 02 Jun 2017 08:17:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=+c400+Wq9QQ7khhEtRHSGUHXNV4Pl1gL4BmbgmMBoss=;
+	b=sqNznAQfUgnmlXQFupldgrmfnH/0ioEmAkKrMcdeTLt5McQXsCFhha6NM6HAEDbnRO
+	Tk1yLXAIXbHaV77Zy8fGPEhUxcnjcHbZk2JPZ0msJCzPyxLYmXWD6Q5Mg/SvA3lOFwx5
+	IEA3n9Pz7UCQ4q4GC0iQRxoolqLyXFuYq+Jy942cR02I5CgHWnZZH+5okMMiID2zUbV7
+	CVLfPUhpkJJDfKMu+CutrUqJ8XMVvXmSDmHZ6quIzqk6j1OFbiq4cp8AuR8JeigXOi0f
+	zs99YOhS20hmjzSSo4fSBhthLmqtu4rFea1sX0jxyUPy9wnzrSMob3Y7Px6+RgWN5QPV
+	dN/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
-	:message-id:subject:to:cc;
-	bh=hijXO0ELXuyBjRG0kQz4Q010K9wcC9VUmRqWVg0Pikg=;
-	b=dxSOWAVcvd+QOfhmhfxs3ah4BmkNBCMHBipcL5gssIT+a6E81gIUUr/QuUoRZCwRS0
-	w+3zOEjjM8qaejccCaRqLyoADZ2N0wdlnm/VMENSwOwOjRO0zBkCOqj3AMicq0woWYmp
-	U9A0P1qAzQEs4ZS5vhRoMHZfoe1TssOKiEGEvombVhTlh9SsOtDHt1zL+KhvoXpD2uFQ
-	3khIL/E3Ip/kdiodBPHzuyRRG830xoTjCFoBlfwF8v2JATzY+GAYE/oWhgRqtW0cWKpR
-	1cQVFD186l47ID/OP3Q4KIyJ4J1D3YBi5iAJXSzP90Kcg2eMgILGjIiPghmk/TAXj29E
-	Jm1Q==
-X-Gm-Message-State: AODbwcBXlKreZpwJq2a+cKYlL8X2nJllqCHSIR5MZO7KXUabvyLWYrN2
-	pXU6WqIIEAJiyTjqf30=
-X-Received: by 10.223.170.137 with SMTP id h9mr6106649wrc.36.1496416403271;
-	Fri, 02 Jun 2017 08:13:23 -0700 (PDT)
-Received: from mail-wm0-f50.google.com (mail-wm0-f50.google.com.
-	[74.125.82.50]) by smtp.gmail.com with ESMTPSA id
-	p65sm3405765wmf.24.2017.06.02.08.13.22
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 02 Jun 2017 08:13:22 -0700 (PDT)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-wm0-f50.google.com with SMTP id b84so28155160wmh.0
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 02 Jun 2017 08:13:22 -0700 (PDT)
-X-Received: by 10.28.103.214 with SMTP id b205mr3491007wmc.122.1496416401967; 
-	Fri, 02 Jun 2017 08:13:21 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.28.236.75 with HTTP; Fri, 2 Jun 2017 08:13:21 -0700 (PDT)
-In-Reply-To: <CAMKF1soDUE=MB1_Y_eh_VF-mnvaZPXYV5HW2qbMadc5U53DjUQ@mail.gmail.com>
-References: <20170601003100.32359-1-otavio@ossystems.com.br>
-	<CAMKF1soDUE=MB1_Y_eh_VF-mnvaZPXYV5HW2qbMadc5U53DjUQ@mail.gmail.com>
-Date: Fri, 2 Jun 2017 12:13:21 -0300
-X-Gmail-Original-Message-ID: <CAP9ODKo5xrcTbqQotadcpBPzAOVG26YvXb2OstkAq0XE51mZVw@mail.gmail.com>
-Message-ID: <CAP9ODKo5xrcTbqQotadcpBPzAOVG26YvXb2OstkAq0XE51mZVw@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Otavio Salvador <otavio@ossystems.com.br>,
-	OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] cmake: Upgrade to 3.8.1
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=+c400+Wq9QQ7khhEtRHSGUHXNV4Pl1gL4BmbgmMBoss=;
+	b=bEDAKFMTAqdXNapeuomHEQBdhGkSv87Sta3c81Uwm6r0jZdPmUJspp7Q1LFWiZOot+
+	08OHIwbLxq5ziJNKiyBOzzIVr6x11n3a6AKV1jEGU1IgWKll37A6j1S5EtDWqmzNjVuW
+	sKIyjOyBZQw9ppZAxKAdnkAXY8p+z7VmpqOM2IKRCIqTFB/SEDDlD1Z40QiRA2+mRnqU
+	ZJ7cGTxRooVHWfeFcGEtz944E3LA2SRvh0M6951ICyOoJ4GBWWypTvjyKXloi6jve1bL
+	iXNjWT6JLQy/RFuuJOc1x79bOZ0AKfQNCTopvPbSRmvW8sHDrh5rK0DMAkJXqofUbOcA
+	0Aow==
+X-Gm-Message-State: AODbwcB8mr2+eCz5Kys8uZzqgBQUamn6ARaUMp+4qwYiLKyv5c3qnc5S
+	jVvww5y742+v0tYOA/hWIA==
+X-Received: by 10.223.150.81 with SMTP id c17mr5491257wra.124.1496416638230;
+	Fri, 02 Jun 2017 08:17:18 -0700 (PDT)
+Received: from crde-port-20.cahors.local ([37.169.200.106])
+	by smtp.gmail.com with ESMTPSA id
+	a24sm26904293wra.17.2017.06.02.08.17.17
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 02 Jun 2017 08:17:17 -0700 (PDT)
+From: David Vincent <freesilicon@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  2 Jun 2017 17:16:03 +0200
+Message-Id: <20170602151603.17994-1-freesilicon@gmail.com>
+X-Mailer: git-send-email 2.13.0
+Subject: [PATCH] initscripts: Populate volatile from existing file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -69,34 +53,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Jun 2017 15:13:23 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 02 Jun 2017 15:17:18 -0000
 
-On Wed, May 31, 2017 at 9:58 PM, Khem Raj <raj.khem@gmail.com> wrote:
-> On Wed, May 31, 2017 at 5:31 PM, Otavio Salvador
-> <otavio@ossystems.com.br> wrote:
->> There was a set of changes, those are:
->>
->>  - CMake now requires librhash for build and as there is no other
->>    users in OE-Core we make it use its internal copy instead;
->>
->>  - Copyright.txt checksum has change due new contrubutors and 2017
->>    year additions;
->>
->>  - Patch avoid-gcc-warnings-with-Wstrict-prototypes.patch was removed
->>    as it is not need anymore;
->>
->>  - Patch 0001-KWIML-tests-Remove-format-security-from-flags.patch was
->>    removed as it is included in this release.
->>
->
-> Can we get to 3.8.2 instead while you are at it ?
+In some cases, it may be useful to populate a volatile file from an
+existing one, e.g. a file in a read-only rootfs that may be edited in a
+read-write destination.
 
-Sure.
+To provide this behavior, creation of volatile files has been updated to
+copy a file which has been given in the <linksource> field. If set to
+none, the current behavior is preserved.
 
+Signed-off-by: David Vincent <freesilicon@gmail.com>
+---
+ .../initscripts/initscripts-1.0/populate-volatile.sh     | 16 ++++++++++++++--
+ 1 file changed, 14 insertions(+), 2 deletions(-)
 
+diff --git a/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.sh b/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.sh
+index 22a71ecaae..35316ec2ba 100755
+--- a/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.sh
++++ b/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.sh
+@@ -25,8 +25,18 @@ COREDEF="00_core"
+ [ "${VERBOSE}" != "no" ] && echo "Populating volatile Filesystems."
+ 
+ create_file() {
++	EXEC=""
++	[ -z "$2" ] && {
++		EXEC="
++		touch \"$1\";
++		"
++	} || {
++		EXEC="
++		cp \"$2\" \"$1\";
++		"
++	}
+ 	EXEC="
+-	touch \"$1\";
++	${EXEC}
+ 	chown ${TUSER}.${TGROUP} $1 || echo \"Failed to set owner -${TUSER}- for -$1-.\" >/dev/tty0 2>&1;
+ 	chmod ${TMODE} $1 || echo \"Failed to set mode -${TMODE}- for -$1-.\" >/dev/tty0 2>&1 "
+ 
+@@ -187,7 +197,9 @@ apply_cfgfile() {
+ 
+ 		case "${TTYPE}" in
+ 			"f")  [ "${VERBOSE}" != "no" ] && echo "Creating file -${TNAME}-."
+-				create_file "${TNAME}"
++				TSOURCE="$TLTARGET"
++				[ "${TSOURCE}" = "none" ] && TSOURCE=""
++				create_file "${TNAME}" "${TSOURCE}" &
+ 				;;
+ 			"d")  [ "${VERBOSE}" != "no" ] && echo "Creating directory -${TNAME}-."
+ 				mk_dir "${TNAME}"
 -- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+2.13.0
+
 
