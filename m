@@ -1,45 +1,46 @@
-Return-Path: <nicolas.dechesne@linaro.org>
-Received: from mail-qt0-f176.google.com (mail-qt0-f176.google.com
-	[209.85.216.176])
-	by mail.openembedded.org (Postfix) with ESMTP id A97F760103
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pf0-f195.google.com (mail-pf0-f195.google.com
+	[209.85.192.195])
+	by mail.openembedded.org (Postfix) with ESMTP id E9FF76FF84
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  2 Jun 2017 19:18:27 +0000 (UTC)
-Received: by mail-qt0-f176.google.com with SMTP id c13so66493898qtc.1
+	Fri,  2 Jun 2017 19:34:26 +0000 (UTC)
+Received: by mail-pf0-f195.google.com with SMTP id w69so13529387pfk.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 02 Jun 2017 12:18:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=lTloarFhhK4RdqTjcmwnhriwUU77OCZkgNDOw1JT+60=;
-	b=GoezXEIbtOzPIhsSrx/JfTfXf9qLZTv2LLRB7GUOe0nNzQuyCfZ62KkKtdj2sN/vBo
-	m4wny08vnTex26GvDIoUyzpAPx5AWOfH2PJugaOtc1xNb8pIIvtFSuBjbAxfd8Z8TSRe
-	Ftk9FB9+LasXgsDw6aSPPHbnGNgHUB+OfcMp4=
+	Fri, 02 Jun 2017 12:34:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=UflVlLYQZQgv5nO6a00C7hpmztdVdIawBCyr+jiI3BU=;
+	b=l4/Ask7auEpYjGBy0ZjvTyvEzQMJ4JRqaUs77vpXFneoDO12F1ZcdbMQE97aCeLcS1
+	dGOdPL0szVp5PoBSZYUo6KHhf6/OkzQqwm5qGrF6ss7c4AyRCBJLg9UyJFD1CAJVOfR2
+	g2fZYwWjHt+6EANMSjjUCGbaSX9e4UjUTyXd9VHfglunBDp+XJ9ZVdtPiiH+ZSAgPpLu
+	nahBcSlvA8XEIDe4bJHN6ieJyk+7KX4p24mG/m/fCbAABa457i/hNm5HGgo/1cgE8wvV
+	YN1F+x2mIQ2YIVj42DFhP0y3pUdAbpgUjW7PdZltOiOa5Aob5Ytu6hJS7qfCRfLTcYYu
+	Nj+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=lTloarFhhK4RdqTjcmwnhriwUU77OCZkgNDOw1JT+60=;
-	b=BdrHkGIQCzMMIkXbgytIh5pZN0aYMaX/vk+zgOZoRUWVXorozyJ9nZbGwAPSmCn9w4
-	sbzHZyk+f3KW3pniIdV+aZAg3Zy1uj/Vyo9GFl3dvOu6z4hRU6Q/X4yeoYaq4m63tudd
-	DzgQ66VUReIytZM/D1V0xqB2CSWqD91lrIfelbtgr2WUdwv76hNgFC5uC4oXScTjpoUq
-	pYVi0L0vud1dADoXxyDalXgImwFGhMHdFB4D+G0/WYVFaixDzWjSjHikLsWetL6P6Zww
-	CxN1B+jSudgGDW1ql6xVjTNPbVel3RzAg+QbOUlLp0tCWFfo7HFvC3ryRtyLAqwRcAJt
-	gr0A==
-X-Gm-Message-State: AODbwcBcgFUUz7naCTG5UNTXO5VsyPBQNSGMpC5jj0nxA/oGt076b4fw
-	U1ucUQORDHoCs/O20dV07+oNjt8rizGl
-X-Received: by 10.200.4.25 with SMTP id v25mr10311924qtg.166.1496431108631;
-	Fri, 02 Jun 2017 12:18:28 -0700 (PDT)
-MIME-Version: 1.0
-References: <CAP71WjxkYLeEaO5CfUjbEaON=j2pwRkjMDUxkyYafPAEt2qW1w@mail.gmail.com>
-	<5f7f9187-8c25-e641-2d9f-88018201ad45@socionext.com>
-	<CAP71WjzvFiOTUgd62kw8mUfTJxX5jUAkiZg3YQSrmQjP-=DQrQ@mail.gmail.com>
-	<ad4c8dd8-47b7-2b88-9226-b3dc981fea7e@socionext.com>
-In-Reply-To: <ad4c8dd8-47b7-2b88-9226-b3dc981fea7e@socionext.com>
-From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
-Date: Fri, 02 Jun 2017 19:18:17 +0000
-Message-ID: <CAP71WjwLxy0qn8WLgih7fi1ADb+0pa64sAYcCp-FhZxSPejPmg@mail.gmail.com>
-To: Kunihiko Hayashi <hayashi.kunihiko@socionext.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: KERNEL_IMAGETYPES and Image.gz
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=UflVlLYQZQgv5nO6a00C7hpmztdVdIawBCyr+jiI3BU=;
+	b=BipZwInsqjafIdcmiQ0RUWpRg3hgbE+HVNQiJQC/GXeqMla7/it2DKbeAqHZnDE8yn
+	kqNOD9NB4A68n2VAY7VWiFOdNcALwOfwkCmBFaVbmT0hlGhzxEqvbRR/OTMilIziDmV0
+	Q9kz6DgpTYeGUYO8zDl7wviO645lASD/AzkZt14mTCeH+mlRHXvEaOctPRcZ7S5TypC3
+	Z+SAU7pGfVP4JvgYhN/TxyZ7V8m+mDa9SmEfYh4AlNxL8IRPcAXnLul2I1wgiGFxTDRP
+	u1CNgGvyS2wRvI2szalNlZSQhlIRo7Cbpl9NAHA2L148vpPnuMg+TPBCj302bVH3pEiD
+	jyHQ==
+X-Gm-Message-State: AODbwcA7mJx++8Nuu+LHmG2HTO45jGzMfvEOvjEpDwWh900Y4obypt1Z
+	ayuLe/THdXOkZTVv
+X-Received: by 10.99.177.77 with SMTP id g13mr8569299pgp.131.1496432067575;
+	Fri, 02 Jun 2017 12:34:27 -0700 (PDT)
+Received: from localhost.localdomain ([2601:646:8882:b8c::cf4])
+	by smtp.gmail.com with ESMTPSA id
+	h84sm45349912pfh.45.2017.06.02.12.34.26
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 02 Jun 2017 12:34:26 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  2 Jun 2017 12:34:11 -0700
+Message-Id: <20170602193411.3591-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.13.0
+Subject: [PATCH] go: Upgrade to 1.8.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,111 +53,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Jun 2017 19:18:29 -0000
-Content-Type: multipart/alternative; boundary="f40304378fd4a940af0550ff0487"
+X-List-Received-Date: Fri, 02 Jun 2017 19:34:27 -0000
 
---f40304378fd4a940af0550ff0487
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Add a comment to fix build musl<->glibc switch while
+using same TMPDIR
 
-Le ven. 2 juin 2017 =C3=A0 20:32, Kunihiko Hayashi <
-hayashi.kunihiko@socionext.com> a =C3=A9crit :
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/recipes-devtools/go/go-1.8.inc   | 8 ++++----
+ meta/recipes-devtools/go/go-cross.inc | 3 ++-
+ 2 files changed, 6 insertions(+), 5 deletions(-)
 
->
-> On 2017/06/03 1:24, nicolas.dechesne@linaro.org (Nicolas Dechesne) wrote:
-> > On Fri, Jun 2, 2017 at 6:16 PM, Kunihiko Hayashi
-> > <hayashi.kunihiko@socionext.com> wrote:
-> >> I already suggested the patch to solve this issue.
-> >>
-> >> https://patchwork.openembedded.org/patch/138596/
-> >>
-> >> Although I've not received any comments on this yet, could you try to
-> apply
-> >> it?
-> >
-> > thanks for sending this out. Well, unfortunately, I think your patch
-> > is doing something wrong.
-> >
-> > As discussed earlier on that thread, we should be using kernel
-> > Makefile to generate the target as much as possible. The linux build
-> > system can generate vmlinux, Image and Image.gz, but not vmlinux.gz.
-> > So we should compress only vmlinux 'outside' of the linux build
-> > system, and for Image.gz we shouldn't do that in OE. In other words,
-> > Image.gz should be included in typeformake. Your patch does not do
-> > that, and that is something which is taken care by mine.
->
-> Surely we should use Image.gz generated by kernel build system and my pat=
-ch
-> doesn't do that. I also think that OE should compress only images that th=
-e
-> kernel build system doesn't generate.
-> Sorry my patch won't help.
+diff --git a/meta/recipes-devtools/go/go-1.8.inc b/meta/recipes-devtools/go/go-1.8.inc
+index 5c376a2eb6..3690f310bd 100644
+--- a/meta/recipes-devtools/go/go-1.8.inc
++++ b/meta/recipes-devtools/go/go-1.8.inc
+@@ -1,8 +1,8 @@
+ require go-common.inc
+ 
+-GOMINOR = ""
++GOMINOR = "3"
+ GO_BASEVERSION = "1.8"
+-PV .= "${GOMINOR}"
++PV .= ".${GOMINOR}"
+ FILESEXTRAPATHS_prepend := "${FILE_DIRNAME}/go-${GO_BASEVERSION}:"
+ 
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=5d4950ecb7b26d2c5e4e7b4e0dd74707"
+@@ -15,5 +15,5 @@ SRC_URI += "\
+        file://split-host-and-target-build.patch \
+        file://gotooldir.patch \
+ "
+-SRC_URI[md5sum] = "7743960c968760437b6e39093cfe6f67"
+-SRC_URI[sha256sum] = "406865f587b44be7092f206d73fc1de252600b79b3cacc587b74b5ef5c623596"
++SRC_URI[md5sum] = "64e9380e07bba907e26a00cf5fcbe77e"
++SRC_URI[sha256sum] = "5f5dea2447e7dcfdc50fa6b94c512e58bfba5673c039259fd843f68829d99fa6"
+diff --git a/meta/recipes-devtools/go/go-cross.inc b/meta/recipes-devtools/go/go-cross.inc
+index 93206a5d05..71e461123c 100644
+--- a/meta/recipes-devtools/go/go-cross.inc
++++ b/meta/recipes-devtools/go/go-cross.inc
+@@ -6,7 +6,8 @@ PN = "go-cross-${TARGET_ARCH}"
+ 
+ # Ignore how TARGET_ARCH is computed.
+ TARGET_ARCH[vardepvalue] = "${TARGET_ARCH}"
+-
++# Ignore target os libc for cross compiler
++#TARGET_OS[vardepexclude] = "LIBCEXTENSION"
+ FILESEXTRAPATHS =. "${FILE_DIRNAME}/go-cross:"
+ 
+ GOROOT_FINAL = "${libdir}/go"
+-- 
+2.13.0
 
 
-No problem. Can you please review and tes this one then, and provide
-feedback?
-
-Thanks!
-
-
->
-> Best Regards,
-> Kunihiko Hayashi
->
-
---f40304378fd4a940af0550ff0487
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div><br><div class=3D"gmail_quote"><div>Le=C2=A0ven. 2 juin 2017 =C3=A0 20=
-:32, Kunihiko Hayashi &lt;<a href=3D"mailto:hayashi.kunihiko@socionext.com"=
->hayashi.kunihiko@socionext.com</a>&gt; a =C3=A9crit=C2=A0:<br></div><block=
-quote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc=
- solid;padding-left:1ex"><br>
-On 2017/06/03 1:24, <a href=3D"mailto:nicolas.dechesne@linaro.org" target=
-=3D"_blank">nicolas.dechesne@linaro.org</a> (Nicolas Dechesne) wrote:<br>
-&gt; On Fri, Jun 2, 2017 at 6:16 PM, Kunihiko Hayashi<br>
-&gt; &lt;<a href=3D"mailto:hayashi.kunihiko@socionext.com" target=3D"_blank=
-">hayashi.kunihiko@socionext.com</a>&gt; wrote:<br>
-&gt;&gt; I already suggested the patch to solve this issue.<br>
-&gt;&gt;<br>
-&gt;&gt; <a href=3D"https://patchwork.openembedded.org/patch/138596/" rel=
-=3D"noreferrer" target=3D"_blank">https://patchwork.openembedded.org/patch/=
-138596/</a><br>
-&gt;&gt;<br>
-&gt;&gt; Although I&#39;ve not received any comments on this yet, could you=
- try to apply<br>
-&gt;&gt; it?<br>
-&gt;<br>
-&gt; thanks for sending this out. Well, unfortunately, I think your patch<b=
-r>
-&gt; is doing something wrong.<br>
-&gt;<br>
-&gt; As discussed earlier on that thread, we should be using kernel<br>
-&gt; Makefile to generate the target as much as possible. The linux build<b=
-r>
-&gt; system can generate vmlinux, Image and Image.gz, but not vmlinux.gz.<b=
-r>
-&gt; So we should compress only vmlinux &#39;outside&#39; of the linux buil=
-d<br>
-&gt; system, and for Image.gz we shouldn&#39;t do that in OE. In other word=
-s,<br>
-&gt; Image.gz should be included in typeformake. Your patch does not do<br>
-&gt; that, and that is something which is taken care by mine.<br>
-<br>
-Surely we should use Image.gz generated by kernel build system and my patch=
-<br>
-doesn&#39;t do that. I also think that OE should compress only images that =
-the<br>
-kernel build system doesn&#39;t generate.<br>
-Sorry my patch won&#39;t help.</blockquote><div><br></div><div>No problem. =
-Can you please review and tes this one then, and provide feedback?</div><di=
-v><br></div><div>Thanks!</div><div><br></div><blockquote class=3D"gmail_quo=
-te" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"=
-><br>
-<br>
-Best Regards,<br>
-Kunihiko Hayashi<br>
-</blockquote></div></div>
-
---f40304378fd4a940af0550ff0487--
