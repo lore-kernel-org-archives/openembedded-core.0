@@ -1,23 +1,25 @@
-Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id 87C9577EE4
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id BEDC377E66
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  2 Jun 2017 17:13:10 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga105.jf.intel.com with ESMTP; 02 Jun 2017 10:13:12 -0700
+	Fri,  2 Jun 2017 17:20:58 +0000 (UTC)
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	02 Jun 2017 10:20:59 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.39,286,1493708400"; d="scan'208";a="863983338"
-Received: from yctb05.ostc.intel.com ([10.54.69.59])
-	by FMSMGA003.fm.intel.com with ESMTP; 02 Jun 2017 10:13:10 -0700
-From: leonardo.sandoval.gonzalez@linux.intel.com
+X-IronPort-AV: E=Sophos;i="5.39,286,1493708400"; d="scan'208";a="108507568"
+Received: from linux.intel.com ([10.54.29.200])
+	by orsmga005.jf.intel.com with ESMTP; 02 Jun 2017 10:20:59 -0700
+Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
+	by linux.intel.com (Postfix) with ESMTP id 769B458061A
+	for <openembedded-core@lists.openembedded.org>;
+	Fri,  2 Jun 2017 10:20:53 -0700 (PDT)
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  2 Jun 2017 10:13:01 -0700
-Message-Id: <fcb8ce082d06472414385f997f332f5f08581bd1.1496423434.git.leonardo.sandoval.gonzalez@linux.intel.com>
-X-Mailer: git-send-email 2.12.0
-In-Reply-To: <cover.1496423434.git.leonardo.sandoval.gonzalez@linux.intel.com>
-References: <cover.1495747168.git.leonardo.sandoval.gonzalez@linux.intel.com>
-	<cover.1496423434.git.leonardo.sandoval.gonzalez@linux.intel.com>
-Subject: [PATCH v2 3/3] import: new plugin to import the devtool workspace
+Date: Fri,  2 Jun 2017 20:19:59 +0300
+Message-Id: <cover.1496423753.git.ed.bartosh@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH 0/6] #11283: wic rm
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,161 +32,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Jun 2017 17:13:10 -0000
+X-List-Received-Date: Fri, 02 Jun 2017 17:20:59 -0000
 
-From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+Hi,
 
-Takes a tar archive created by 'devtool export' and export it (untar) to
-workspace. By default, the whole tar archive is imported, thus there is no
-way to limit what is imported.
+This is an implementation of new wic subcommand 'wic rm'.
 
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=10510
+It removes files or directories from vfat partitions:
 
-[YOCTO #10510]
+$ wic ls ./tmp/deploy/images/qemux86-64/core-image-minimal-qemux86-64.wic:1
+Volume in drive : is boot
+ Volume Serial Number is 11D0-DE21
+Directory for ::/
 
-Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
----
- scripts/lib/devtool/import.py | 130 ++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 130 insertions(+)
- create mode 100644 scripts/lib/devtool/import.py
+libcom32 c32    186500 2017-06-02  15:15
+libutil  c32     24148 2017-06-02  15:15
+syslinux cfg       209 2017-06-02  15:15
+vesamenu c32     27104 2017-06-02  15:15
+vmlinuz        6926384 2017-06-02  15:15
+        5 files           7 164 345 bytes
+                         16 582 656 bytes free
 
-diff --git a/scripts/lib/devtool/import.py b/scripts/lib/devtool/import.py
-new file mode 100644
-index 0000000000..5b85571669
---- /dev/null
-+++ b/scripts/lib/devtool/import.py
-@@ -0,0 +1,130 @@
-+# Development tool - import command plugin
-+#
-+# Copyright (C) 2014-2017 Intel Corporation
-+#
-+# This program is free software; you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License version 2 as
-+# published by the Free Software Foundation.
-+#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License along
-+# with this program; if not, write to the Free Software Foundation, Inc.,
-+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-+"""Devtool import plugin"""
-+
-+import os
-+import tarfile
-+import logging
-+import re
-+from devtool import standard, setup_tinfoil
-+from devtool import export
-+
-+import oeqa.utils.ftools as ftools
-+import json
-+
-+logger = logging.getLogger('devtool')
-+
-+def devimport(args, config, basepath, workspace):
-+    """Entry point for the devtool 'import' subcommand"""
-+
-+    def get_pn(name):
-+        dirpath, recipe = os.path.split(name)
-+        pn = ""
-+        for sep in "_ .".split():
-+            if sep in recipe:
-+                pn = recipe.split(sep)[0]
-+                break
-+        return pn
-+    
-+    # match exported workspace folders
-+    prog = re.compile('recipes|appends|sources')
-+
-+    if not os.path.exists(args.file):
-+        logger.error('Tar archive %s does not exist. Export your workspace using "devtool export"')
-+        return 1
-+
-+    # get current recipes
-+    current_recipes = []
-+    try:
-+        tinfoil = setup_tinfoil(config_only=False, basepath=basepath)
-+        current_recipes = [recipe[1] for recipe in tinfoil.cooker.recipecaches[''].pkg_fn.items()]
-+    finally:
-+        tinfoil.shutdown()
-+
-+    imported = []
-+    with tarfile.open(args.file) as tar:
-+
-+        # get exported metadata so values containing paths can be automatically replaced it
-+        export_workspace_path = export_workspace = None
-+        try:
-+            metadata = tar.getmember(export.metadata)
-+            tar.extract(metadata)
-+            with open(metadata.name) as fdm:
-+                export_workspace_path, export_workspace = json.load(fdm)
-+            os.unlink(metadata.name)
-+        except KeyError as ke:
-+            logger.warn('The export metadata file created by "devtool export" was not found')
-+            logger.warn('Manual editing is needed to correct paths on imported recipes/appends')
-+
-+        members = [member for member in tar.getmembers() if member.name != export.metadata]
-+        for member in members:
-+            # make sure imported bbappend has its corresponding recipe (bb)
-+            if member.name.startswith('appends'):
-+                bbappend = get_pn(member.name)
-+                if bbappend:
-+                    if bbappend not in current_recipes:
-+                        # check that the recipe is not in the tar archive being imported
-+                        if bbappend not in export_workspace:
-+                            logger.warn('No recipe to append %s, skipping' % bbappend)
-+                            continue
-+                else:
-+                    logger.warn('bbappend name %s could not be detected' % member.name)
-+                    continue
-+
-+            # extract file from tar
-+            path = os.path.join(config.workspace_path, member.name)
-+            if os.path.exists(path):
-+                if args.overwrite:
-+                    try:
-+                        tar.extract(member, path=config.workspace_path)
-+                    except PermissionError as pe:
-+                        logger.warn(pe)
-+                else:
-+                    logger.warn('File already present. Use --overwrite/-o to overwrite it: %s' % member.name)
-+            else:
-+                tar.extract(member, path=config.workspace_path)
-+
-+            if member.name.startswith('appends'):
-+                recipe = get_pn(member.name)
-+
-+                # Update EXTERNARLSRC
-+                if export_workspace_path:
-+                    # appends created by 'devtool modify' just need to update the workspace
-+                    ftools.replace_from_file(path, export_workspace_path, config.workspace_path)
-+
-+                    # appends created by 'devtool add' need replacement of exported source tree
-+                    exported_srctree = export_workspace[recipe]['srctree']
-+                    if exported_srctree:
-+                        ftools.replace_from_file(path, exported_srctree, os.path.join(config.workspace_path, 'sources', recipe))
-+
-+                # update .devtool_md5 file
-+                standard._add_md5(config, recipe, path)
-+                if recipe not in imported:
-+                    imported.append(recipe)
-+
-+    logger.info('Imported recipes into workspace %s: %s' % (config.workspace_path, ' '.join(imported)))
-+    return 0
-+
-+def register_commands(subparsers, context):
-+    """Register devtool import subcommands"""
-+    parser = subparsers.add_parser('import',
-+                                   help='Import tar archive into workspace',
-+                                   description='Import previously created tar archive into the workspace',
-+                                   group='advanced')
-+    parser.add_argument('file', metavar='FILE', help='Name of the tar archive to import')
-+    parser.add_argument('--overwrite', '-o', action="store_true", help='Overwrite previous export tar archive')
-+    parser.set_defaults(func=devimport)
+$ wic rm ./tmp/deploy/images/qemux86-64/core-image-minimal-qemux86-64.wic:1/libutil.c32
+
+$ wic ls ./tmp/deploy/images/qemux86-64/core-image-minimal-qemux86-64.wic:1
+Volume in drive : is boot
+ Volume Serial Number is 11D0-DE21
+Directory for ::/
+
+libcom32 c32    186500 2017-06-02  15:15
+syslinux cfg       209 2017-06-02  15:15
+vesamenu c32     27104 2017-06-02  15:15
+vmlinuz        6926384 2017-06-02  15:15
+        4 files           7 140 197 bytes
+                         16 607 232 bytes free
+
+The patchset also contains test case for 'wic rm' functionality.
+
+The following changes since commit 4cf2ac543ee3646332e8dac847d23429b492494c:
+
+  image_types_wic: schedule prepare_wic_build correctly (2017-06-02 11:21:49 +0300)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib ed/wic/wip
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=ed/wic/wip
+
+Ed Bartosh (6):
+  wic: add wic_init_parser_rm
+  wic: add help and usage content for 'wic rm'
+  wic: add 'wic rm' command
+  wic: implement removing files
+  wic: implement removing directories
+  selftest: add test_wic_rm test case
+
+ meta/lib/oeqa/selftest/wic.py | 28 ++++++++++++++++++++
+ scripts/lib/wic/engine.py     | 35 +++++++++++++++++++++++++
+ scripts/lib/wic/help.py       | 59 ++++++++++++++++++++++++++++++++++++++++++-
+ scripts/wic                   | 20 +++++++++++++++
+ 4 files changed, 141 insertions(+), 1 deletion(-)
+
 -- 
-2.12.0
+2.1.4
 
 
