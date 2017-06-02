@@ -1,35 +1,44 @@
-Return-Path: <fan.xin@jp.fujitsu.com>
-Received: from mgwym03.jp.fujitsu.com (mgwym03.jp.fujitsu.com [211.128.242.42])
-	by mail.openembedded.org (Postfix) with ESMTP id C041477794
+Return-Path: <nicolas.dechesne@linaro.org>
+Received: from mail-qt0-f181.google.com (mail-qt0-f181.google.com
+	[209.85.216.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 8E2C777E50
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  2 Jun 2017 06:58:15 +0000 (UTC)
-Received: from yt-mxoi1.gw.nic.fujitsu.com (unknown [192.168.229.67]) by
-	mgwym03.jp.fujitsu.com with smtp
-	id 1b7d_d406_26e33cd2_e4ff_4941_a9d2_7a05ff55bd80;
-	Fri, 02 Jun 2017 15:58:11 +0900
-Received: from g01jpfmpwyt03.exch.g01.fujitsu.local
-	(g01jpfmpwyt03.exch.g01.fujitsu.local [10.128.193.57])
-	by yt-mxoi1.gw.nic.fujitsu.com (Postfix) with ESMTP id C17F8AC01C7
+	Fri,  2 Jun 2017 07:06:03 +0000 (UTC)
+Received: by mail-qt0-f181.google.com with SMTP id c13so53251905qtc.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  2 Jun 2017 15:58:10 +0900 (JST)
-Received: from G01JPEXCHYT17.g01.fujitsu.local
-	(G01JPEXCHYT17.g01.fujitsu.local [10.128.194.56])
-	by g01jpfmpwyt03.exch.g01.fujitsu.local (Postfix) with ESMTP id
-	B878046E55E for <openembedded-core@lists.openembedded.org>;
-	Fri,  2 Jun 2017 15:58:09 +0900 (JST)
-Received: from localhost.localdomain (10.24.19.99) by
-	G01JPEXCHYT17.g01.fujitsu.local (10.128.194.56) with Microsoft SMTP
-	Server id 14.3.266.1; Fri, 2 Jun 2017 15:58:09 +0900
-From: Fan Xin <fan.xin@jp.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 2 Jun 2017 15:59:27 +0900
-Message-ID: <1496386767-20989-1-git-send-email-fan.xin@jp.fujitsu.com>
-X-Mailer: git-send-email 1.9.1
-MIME-Version: 1.0
-X-SecurityPolicyCheck-GC: OK by FENCE-Mail
-X-Encrypted: FENCE-Mail/3.1.1
-X-TM-AS-MML: disable
-Subject: [PATCH] lzip: Upgrade 1.18 -> 1.19
+	Fri, 02 Jun 2017 00:06:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=from:to:cc:subject:date:message-id;
+	bh=V4yQdTQudRPCIhP9+sMF9ybWaSIqlwhSxyka05xFFUs=;
+	b=gXCKGFlFmbWa59/XKqmFXSS7vAMyf+udP4XlwKrerViE1synMD7XlYn6qL6lrP4Es+
+	O46b9P8K+w+faFgT1rV8jKBFaWeAwF77S1W31w3TwIijuzdqQnBg4lyaSKo5mY/6K010
+	q3IsoQR16z8wSy4Dia4xHW68ERu6y8oMtBu7k=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=V4yQdTQudRPCIhP9+sMF9ybWaSIqlwhSxyka05xFFUs=;
+	b=PMUbgAXo3fqu/2vxg5FqO75fOdfbE4RdrKuJjNseKSobm6+rYRWZxrslNMjSSI0EAm
+	GFCiJrdyp+ZsJO63ZovC3gfEi2z3AiYGGRNr39dYwrKwnCXNlx4s263F24j2IF1B9CEY
+	S4L3hvt4nyi2zvosXm/j6QpuWCJA7AuwxkpFsr67ZUmYf3QucKLs5yA8KOTokUROgZdx
+	qxfbDx0svngiun35pL9zPszHszfRpXGm7+qsReAr3Pw0xdmYecLiIu8b8qtMh6GlMb39
+	88gKmvUWQNjDI1+sFSifGfXqCfyGM1+o5f9yiz47rRXz3PPf7ac6R0kiyy5bL4sn5K1K
+	P1pQ==
+X-Gm-Message-State: AODbwcA0pi72vaDIR7EXFXt3VpL2qa+RQp15H6OAgzOeSHgr99CKDZCC
+	XgKN8L0a7TXGL6PgVSLhsA==
+X-Received: by 10.237.53.205 with SMTP id d13mr6071935qte.46.1496387164961;
+	Fri, 02 Jun 2017 00:06:04 -0700 (PDT)
+Received: from localhost.localdomain (static.8.26.4.46.clients.your-server.de.
+	[46.4.26.8]) by smtp.gmail.com with ESMTPSA id
+	h21sm12002365qke.52.2017.06.02.00.06.03
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 02 Jun 2017 00:06:04 -0700 (PDT)
+From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  2 Jun 2017 09:05:31 +0200
+Message-Id: <20170602070531.22820-1-nicolas.dechesne@linaro.org>
+X-Mailer: git-send-email 2.11.0
+Cc: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+Subject: [PATCH v3] kernel.bbclass: fix KERNEL_IMAGETYPE(S) for Image.gz
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,34 +51,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Jun 2017 06:58:17 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 02 Jun 2017 07:06:05 -0000
 
-Signed-off-by: Fan Xin <fan.xin@jp.fujitsu.com>
+KERNEL_IMAGETYPES lists all the kernel images that we want to build. in
+cb17b6c2a7 (kernel.bbclass: support kernel image type of vmlinux.gz), some logic
+was added to support vmlinux.gz which is not a target built by kernel
+makefiles (only vmlinux). It is clear that the goal of this logic is only to
+support vmlinux.gz and not others compressed format (such as Image.gz) which are
+valid target for kernel makefiles.
+
+For Image.gz we should rely on the kernel makefiles and not do the compression
+in kernel class.
+
+This patch updates the logic used to filter out non supported kernel target from
+KERNEL_IMAGETYPES, and make vmlinux.gz a 'special case', instead of *.gz. If
+more special cases are needed in the future, we could add them in a similar way.
+
+This patch should be a no-op for anyone using vmlinux or vmlinux.gz, and on top
+of that it is fixing the build for Image.gz which was not working until now.
+
+Signed-off-by: Nicolas Dechesne <nicolas.dechesne@linaro.org>
 ---
- meta/recipes-extended/lzip/{lzip_1.18.bb => lzip_1.19.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-extended/lzip/{lzip_1.18.bb => lzip_1.19.bb} (88%)
+ meta/classes/kernel.bbclass | 18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
 
-diff --git a/meta/recipes-extended/lzip/lzip_1.18.bb b/meta/recipes-extended/lzip/lzip_1.19.bb
-similarity index 88%
-rename from meta/recipes-extended/lzip/lzip_1.18.bb
-rename to meta/recipes-extended/lzip/lzip_1.19.bb
-index c1dc8ce..099b364 100644
---- a/meta/recipes-extended/lzip/lzip_1.18.bb
-+++ b/meta/recipes-extended/lzip/lzip_1.19.bb
-@@ -7,8 +7,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=76d6e300ffd8fb9d18bd9b136a9bba13 \
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index 7a134d5c29..7670c7107a 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -32,7 +32,6 @@ KERNEL_VERSION_PKG_NAME = "${@legitimize_package_name(d.getVar('KERNEL_VERSION')
+ KERNEL_VERSION_PKG_NAME[vardepvalue] = "${LINUX_VERSION}"
  
- SRC_URI = "${SAVANNAH_GNU_MIRROR}/lzip/lzip-${PV}.tar.gz"
+ python __anonymous () {
+-    import re
  
--SRC_URI[md5sum] = "3838567460ce4a10143de4bccc64fe1c"
--SRC_URI[sha256sum] = "47f9882a104ab05532f467a7b8f4ddbb898fa2f1e8d9d468556d6c2d04db14dd"
-+SRC_URI[md5sum] = "4dd8790d7528440d034fc713a8680bd3"
-+SRC_URI[sha256sum] = "ffadc4f56be1bc0d3ae155ec4527bd003133bdc703a753b2cc683f610e646ba9"
+     # Merge KERNEL_IMAGETYPE and KERNEL_ALT_IMAGETYPE into KERNEL_IMAGETYPES
+     type = d.getVar('KERNEL_IMAGETYPE') or ""
+@@ -44,7 +43,10 @@ python __anonymous () {
+         types = (alttype + ' ' + types).strip()
+     d.setVar('KERNEL_IMAGETYPES', types)
  
- CONFIGUREOPTS = "\
-     '--srcdir=${S}' \
+-    typeformake = re.sub(r'\.gz', '', types)
++    # some commonly used kernel images aren't generated by the kernel build system, such as vmlinux.gz
++    # typeformake lists only valid kernel make targets, and post processing can be done after the kernel
++    # is built (such as using gzip to compress vmlinux)
++    typeformake = types.replace('vmlinux.gz', 'vmlinux')
+     d.setVar('KERNEL_IMAGETYPE_FOR_MAKE', typeformake)
+ 
+     for type in types.split():
+@@ -268,14 +270,12 @@ kernel_do_compile() {
+ 	fi
+ 	for typeformake in ${KERNEL_IMAGETYPE_FOR_MAKE} ; do
+ 		oe_runmake ${typeformake} CC="${KERNEL_CC}" LD="${KERNEL_LD}" ${KERNEL_EXTRA_ARGS} $use_alternate_initrd
+-		for type in ${KERNEL_IMAGETYPES} ; do
+-			if test "${typeformake}.gz" = "${type}"; then
+-				mkdir -p "${KERNEL_OUTPUT_DIR}"
+-				gzip -9c < "${typeformake}" > "${KERNEL_OUTPUT_DIR}/${type}"
+-				break;
+-			fi
+-		done
+ 	done
++	# vmlinux.gz is not built by kernel
++	if (echo "${KERNEL_IMAGETYPES}" | grep -wq "vmlinux\.gz"); then
++		mkdir -p "${KERNEL_OUTPUT_DIR}"
++		gzip -9c < ${B}/vmlinux > "${KERNEL_OUTPUT_DIR}/vmlinux.gz"
++	fi
+ }
+ 
+ do_compile_kernelmodules() {
 -- 
-1.9.1
+2.11.0
 
 
