@@ -1,27 +1,22 @@
-Return-Path: <hayashi.kunihiko@socionext.com>
-X-Greylist: delayed 2641 seconds by postgrey-1.34 at layers.openembedded.org;
-	Fri, 02 Jun 2017 17:00:18 UTC
-Received: from www501.sakura.ne.jp (www501.sakura.ne.jp [59.106.13.151])
-	by mail.openembedded.org (Postfix) with ESMTP id 6CD6260043
+Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	by mail.openembedded.org (Postfix) with ESMTP id 8B90460043
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  2 Jun 2017 17:00:18 +0000 (UTC)
-Received: from [192.168.1.133] (zaq771a9e86.zaq.ne.jp [119.26.158.134])
-	(authenticated bits=0)
-	by www501.sakura.ne.jp (8.14.5/8.14.5) with ESMTP id v52GGEEx070407
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Sat, 3 Jun 2017 01:16:15 +0900 (JST)
-	(envelope-from hayashi.kunihiko@socionext.com)
-To: nicolas.dechesne@linaro.org
-References: <CAP71WjxkYLeEaO5CfUjbEaON=j2pwRkjMDUxkyYafPAEt2qW1w@mail.gmail.com>
-From: Kunihiko Hayashi <hayashi.kunihiko@socionext.com>
-Message-ID: <5f7f9187-8c25-e641-2d9f-88018201ad45@socionext.com>
-Date: Sat, 3 Jun 2017 01:16:11 +0900
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
-	Thunderbird/45.8.0
-MIME-Version: 1.0
-In-Reply-To: <CAP71WjxkYLeEaO5CfUjbEaON=j2pwRkjMDUxkyYafPAEt2qW1w@mail.gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: KERNEL_IMAGETYPES and Image.gz
+	Fri,  2 Jun 2017 17:13:05 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by orsmga105.jf.intel.com with ESMTP; 02 Jun 2017 10:13:06 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.39,286,1493708400"; d="scan'208";a="863983317"
+Received: from yctb05.ostc.intel.com ([10.54.69.59])
+	by FMSMGA003.fm.intel.com with ESMTP; 02 Jun 2017 10:13:05 -0700
+From: leonardo.sandoval.gonzalez@linux.intel.com
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  2 Jun 2017 10:12:58 -0700
+Message-Id: <cover.1496423434.git.leonardo.sandoval.gonzalez@linux.intel.com>
+X-Mailer: git-send-email 2.12.0
+In-Reply-To: <cover.1495747168.git.leonardo.sandoval.gonzalez@linux.intel.com>
+References: <cover.1495747168.git.leonardo.sandoval.gonzalez@linux.intel.com>
+Subject: [PATCH v2 0/3] Two new devtool plugins: export and import
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,48 +29,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Jun 2017 17:00:19 -0000
-Content-Type: text/plain; charset=iso-2022-jp; format=flowed; delsp=yes
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 02 Jun 2017 17:13:06 -0000
 
+From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
 
-On 2017/05/30 6:13, nicolas.dechesne@linaro.org (Nicolas Dechesne) wrote:
- > hi,
- >
- > i am trying to set  KERNEL_IMAGETYPES="Image.gz" in my machine conf
- > file. But it doesn't work. I am seeing this error during
- > kernel_do_compile():
- >
- > run.do_compile.30019: cannot open Image: No such file
- >
- > In fact the code snippet that tries to compress the Image file into
- > Image.gz expects the Image file to be in ${B}, but when compiling
- > kernel Image is actually in ${B}/arch/arm64/boot:
- >
- > $ find tmp-rpb-glibc/work/dragonboard_410c-linaro-linux/linux-linaro-qcomlt/
- > -name Image
- >  
-tmp-rpb-glibc/work/dragonboard_410c-linaro-linux/linux-linaro-qcomlt/4.9-r0/build/arch/arm64/boot/Image
- >
- > The piece of code in question is in kernel.bbclass:
- >
- >   gzip -9c < "${typeformake}" > "${KERNEL_OUTPUT_DIR}/${type}"
- > It really sounds to me like something obvious is missing, i doubt I
- > would be the first one to try Image.gz..
+These two plugins can be used to share the devtool workspace between users.
 
-I already suggested the patch to solve this issue.
+Changes from v1 (mostly suggested by Paul E.)
 
-https://patchwork.openembedded.org/patch/138596/
+Export:
+    * metatada file created and included on tar, containing workspace data (to be consume by
+    the import plugin)
+    * tar archive contains a timestamp, making effectively unique for ever export
+    * Exclude or include recipes are validated against current workspace
+    * change on parameter naming, following the tar command args
 
-Although I've not received any comments on this yet, could you try to apply it?
+Import:
+    * the tar archive to be imported must be given from the commmand line
+    * Before importing, bbappends must have its corresponding recipe
+    * EXTERNALSRC correctly modified reflecting imported workspace
 
- >
- > Any thoughts?
- >
- > thanks
- > nico
- >
+The following changes since commit ef506f58da3a95fba2696df749b2b81f9c118847:
 
-Best Regards,
-Kunihiko Hayashi
+  cve-check-tool: backport a patch to make CVE checking work (2017-05-18 14:01:48 +0100)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib lsandov1/devtool-import-export
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=lsandov1/devtool-import-export
+
+Leonardo Sandoval (3):
+  export: new plugin to export the devtool workspace
+  ftools: new function to replace strings inside a text file
+  import: new plugin to import the devtool workspace
+
+ meta/lib/oeqa/utils/ftools.py |  22 +++++++
+ scripts/lib/devtool/export.py | 120 ++++++++++++++++++++++++++++++++++++++
+ scripts/lib/devtool/import.py | 130 ++++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 272 insertions(+)
+ create mode 100644 scripts/lib/devtool/export.py
+ create mode 100644 scripts/lib/devtool/import.py
+
+-- 
+2.12.0
+
 
