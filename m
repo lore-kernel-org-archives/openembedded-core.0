@@ -1,27 +1,24 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 5DD4177E76
+Return-Path: <dv@pseudoterminal.org>
+Received: from ptmx.org (ptmx.org [178.63.28.110])
+	by mail.openembedded.org (Postfix) with ESMTP id EBE5177E35
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  2 Jun 2017 08:31:05 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	v528V0rW027363
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Fri, 2 Jun 2017 09:31:01 +0100
-Message-ID: <1496392260.6630.81.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Fan Xin <fan.xin@jp.fujitsu.com>, openembedded-core@lists.openembedded.org
-Date: Fri, 02 Jun 2017 09:31:00 +0100
-In-Reply-To: <1496391315-26446-1-git-send-email-fan.xin@jp.fujitsu.com>
-References: <1496391315-26446-1-git-send-email-fan.xin@jp.fujitsu.com>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.1 
-Mime-Version: 1.0
-X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.11
-	(dan.rpsys.net [192.168.3.1]);
-	Fri, 02 Jun 2017 09:31:01 +0100 (BST)
-X-Virus-Scanned: clamav-milter 0.99.2 at dan
-X-Virus-Status: Clean
-Subject: Re: [PATCH] sed: Upgrade 4.2.2 -> 4.4
+	Fri,  2 Jun 2017 08:42:48 +0000 (UTC)
+Received: from [172.16.1.14] (62-178-118-86.cable.dynamic.surfer.at
+	[62.178.118.86]) by ptmx.org (Postfix) with ESMTPSA id C711B48219;
+	Fri,  2 Jun 2017 10:42:48 +0200 (CEST)
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <1494933979-5139-1-git-send-email-dv@pseudoterminal.org>
+	<1494933979-5139-5-git-send-email-dv@pseudoterminal.org>
+	<CAJTo0LZRyKSoQPEZDqSHL7qD7viYz6QJq8Vd34rViUdh-dbsMA@mail.gmail.com>
+From: Carlos Rafael Giani <dv@pseudoterminal.org>
+Message-ID: <6ae04e38-de16-a2bf-9e66-07b569da9aac@pseudoterminal.org>
+Date: Fri, 2 Jun 2017 10:42:48 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.1.1
+MIME-Version: 1.0
+In-Reply-To: <CAJTo0LZRyKSoQPEZDqSHL7qD7viYz6QJq8Vd34rViUdh-dbsMA@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 5/9] gstreamer1.0-plugins-ugly: upgrade to version 1.12.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,27 +31,112 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Jun 2017 08:31:06 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 02 Jun 2017 08:42:50 -0000
+Content-Type: multipart/alternative;
+	boundary="------------BA73C08FE9AC31074AB56E36"
+Content-Language: en-US
+
+--------------BA73C08FE9AC31074AB56E36
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+
+Note that this might be because of a change I did in 
+gstreamer1.0-vaapi.inc. Previously, the PACKAGECONFIG line contained 
+"${@bb.utils.contains('DISTRO_FEATURES', 'opengl x11', 'glx', '', d)}". 
+I replaced that with a PACKAGECONFIG_GL variable that can be overridden 
+by distros and/or BSP layers, just like how PACKAGECONFIG_GL works in 
+gstreamer1.0-plugins-bad.inc .
+
+
+On 2017-06-01 17:32, Burton, Ross wrote:
+>
+> On 16 May 2017 at 12:26, Carlos Rafael Giani <dv@pseudoterminal.org 
+> <mailto:dv@pseudoterminal.org>> wrote:
+>
+>     * libmad plugin was removed in 1.12.0, since mad is GPLed,
+>     unmaintained,
+>       and both gst-libav & the mpg123 plugin are fully functional
+>     alternatives
+>
+>
+> Something in this series is causing other plugins to change their 
+> dependencies and I'm not sure if it's intentional or not.
+>
+> For example, this happens when upgrading base/good/bad:
+>
+> packages/corei7-64-poky-linux/gstreamer1.0-vaapi/gstreamer1.0-vaapi: 
+> RDEPENDS: removed all items "libwayland-egl (['>= 17.1.1']) 
+> libgles2-mesa (['>= 17.1.1'])"
+>
+> I've not dug into this to see if that is expected or not.
+>
+> Ross
+
+
+--------------BA73C08FE9AC31074AB56E36
+Content-Type: text/html; charset=utf-8
 Content-Transfer-Encoding: 8bit
 
-On Fri, 2017-06-02 at 17:15 +0900, Fan Xin wrote:
-> 1. Upgrade sed from 4.2.2 to 4.4
-> 
-> 2. Update the SRC_URI
->    The format of archive file is changed from .tar.gz to .tar.xz
-> 
-> 3. Rename the folder from sed-4.2.2 to sed
->    No need to update the folder name when version upgrade
-> 
-> 4. Delete unncessary patch file due to the applied file is not exist.
->    sed-add-ptest.patch
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  </head>
+  <body text="#000000" bgcolor="#FFFFFF">
+    <p>Note that this might be because of a change I did in
+      gstreamer1.0-vaapi.inc. Previously, the PACKAGECONFIG line
+      contained <a class="moz-txt-link-rfc2396E" href="mailto:${@bb.utils.contains('DISTRO_FEATURES','openglx11','glx','',d)}">"${@bb.utils.contains('DISTRO_FEATURES', 'opengl x11',
+      'glx', '', d)}"</a>. I replaced that with a PACKAGECONFIG_GL variable
+      that can be overridden by distros and/or BSP layers, just like how
+      PACKAGECONFIG_GL works in gstreamer1.0-plugins-bad.inc .<br>
+    </p>
+    <br>
+    <div class="moz-cite-prefix">On 2017-06-01 17:32, Burton, Ross
+      wrote:<br>
+    </div>
+    <blockquote type="cite"
+cite="mid:CAJTo0LZRyKSoQPEZDqSHL7qD7viYz6QJq8Vd34rViUdh-dbsMA@mail.gmail.com">
+      <div dir="ltr">
+        <div class="gmail_extra"><br>
+          <div class="gmail_quote">On 16 May 2017 at 12:26, Carlos
+            Rafael Giani <span dir="ltr">&lt;<a
+                href="mailto:dv@pseudoterminal.org" target="_blank"
+                moz-do-not-send="true">dv@pseudoterminal.org</a>&gt;</span>
+            wrote:<br>
+            <blockquote class="gmail_quote" style="margin:0px 0px 0px
+0.8ex;border-left-width:1px;border-left-style:solid;border-left-color:rgb(204,204,204);padding-left:1ex">
+              <div id="gmail-:295" class="gmail-a3s gmail-aXjCH
+                gmail-m15c110378563ba6e">* libmad plugin was removed in
+                1.12.0, since mad is GPLed, unmaintained,<br>
+                  and both gst-libav &amp; the mpg123 plugin are fully
+                functional alternatives<br>
+              </div>
+            </blockquote>
+          </div>
+          <br>
+          Something in this series is causing other plugins to change
+          their dependencies and I'm not sure if it's intentional or
+          not.</div>
+        <div class="gmail_extra"><br>
+        </div>
+        <div class="gmail_extra">For example, this happens when
+          upgrading base/good/bad:</div>
+        <div class="gmail_extra"><br>
+        </div>
+        <div class="gmail_extra">packages/corei7-64-poky-linux/gstreamer1.0-vaapi/gstreamer1.0-vaapi:
+          RDEPENDS: removed all items "libwayland-egl (['&gt;= 17.1.1'])
+          libgles2-mesa (['&gt;= 17.1.1'])"<br>
+        </div>
+        <div class="gmail_extra"><br>
+        </div>
+        <div class="gmail_extra">I've not dug into this to see if that
+          is expected or not.</div>
+        <div class="gmail_extra"><br>
+        </div>
+        <div class="gmail_extra">Ross</div>
+      </div>
+    </blockquote>
+    <br>
+  </body>
+</html>
 
-That patch touches three files. Could you explain more about why this
-patch is no longer required as I don't quite understand what you mean
-here?
-
-Cheers,
-
-Richard
-
+--------------BA73C08FE9AC31074AB56E36--
