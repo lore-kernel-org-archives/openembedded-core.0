@@ -1,27 +1,27 @@
 Return-Path: <ed.bartosh@linux.intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id B72DF77FF5
+	by mail.openembedded.org (Postfix) with ESMTP id 8833E77FFE
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  2 Jun 2017 17:21:52 +0000 (UTC)
+	Fri,  2 Jun 2017 17:21:55 +0000 (UTC)
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
 	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	02 Jun 2017 10:21:54 -0700
+	02 Jun 2017 10:21:57 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.39,286,1493708400"; d="scan'208";a="1137380649"
+X-IronPort-AV: E=Sophos;i="5.39,286,1493708400"; d="scan'208";a="1137380658"
 Received: from linux.intel.com ([10.54.29.200])
-	by orsmga001.jf.intel.com with ESMTP; 02 Jun 2017 10:21:54 -0700
+	by orsmga001.jf.intel.com with ESMTP; 02 Jun 2017 10:21:57 -0700
 Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
-	by linux.intel.com (Postfix) with ESMTP id 456FD58061A
+	by linux.intel.com (Postfix) with ESMTP id 1ED895806E1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  2 Jun 2017 10:21:53 -0700 (PDT)
+	Fri,  2 Jun 2017 10:21:50 -0700 (PDT)
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  2 Jun 2017 20:20:05 +0300
-Message-Id: <e81f02aa1df5ad3f815e912df898814f4835ff1c.1496423753.git.ed.bartosh@linux.intel.com>
+Date: Fri,  2 Jun 2017 20:20:03 +0300
+Message-Id: <61ef18fd4cafa4385ac37012ef6535285a396c19.1496423753.git.ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1496423753.git.ed.bartosh@linux.intel.com>
 References: <cover.1496423753.git.ed.bartosh@linux.intel.com>
-Subject: [PATCH 6/6] selftest: add test_wic_rm test case
+Subject: [PATCH 4/6] wic: implement removing files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,53 +34,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Jun 2017 17:21:53 -0000
+X-List-Received-Date: Fri, 02 Jun 2017 17:21:55 -0000
 
-Added test case for "wic rm" functionality.
-    - remove file from vfat partition
-    - remove directory from vfat partition
+Added implementation of Disk.del method and wic_r
+function that removes files from the vfat partition
+using mdel utility.
+
+[YOCTO #11283]
 
 Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 ---
- meta/lib/oeqa/selftest/wic.py | 28 ++++++++++++++++++++++++++++
- 1 file changed, 28 insertions(+)
+ scripts/lib/wic/engine.py | 16 +++++++++++++++-
+ 1 file changed, 15 insertions(+), 1 deletion(-)
 
-diff --git a/meta/lib/oeqa/selftest/wic.py b/meta/lib/oeqa/selftest/wic.py
-index 3a611c1..b137fd1 100644
---- a/meta/lib/oeqa/selftest/wic.py
-+++ b/meta/lib/oeqa/selftest/wic.py
-@@ -889,3 +889,31 @@ part /etc --source rootfs --ondisk mmcblk0 --fstype=ext4 --exclude-path bin/ --r
-             self.assertEqual(0, result.status)
-             self.assertEqual(8, len(result.output.split('\n')))
-             self.assertTrue(os.path.basename(testdir) in result.output)
+diff --git a/scripts/lib/wic/engine.py b/scripts/lib/wic/engine.py
+index 9a8055c..6fc8bb7 100644
+--- a/scripts/lib/wic/engine.py
++++ b/scripts/lib/wic/engine.py
+@@ -238,6 +238,7 @@ class Disk:
+         self._partitions = None
+         self._mdir = None
+         self._mcopy = None
++        self._mdel = None
+         self._partimages = {}
+ 
+         # find parted
+@@ -285,6 +286,10 @@ class Disk:
+     def mcopy(self):
+         return self._prop("mcopy")
+ 
++    @property
++    def mdel(self):
++        return self._prop("mdel")
 +
-+    def test_wic_rm(self):
-+        """Test removing files and directories from the the wic image."""
-+        self.assertEqual(0, runCmd("wic create mkefidisk "
-+                                   "--image-name=core-image-minimal "
-+                                   "-D -o %s" % self.resultdir).status)
-+        images = glob(self.resultdir + "mkefidisk-*.direct")
-+        self.assertEqual(1, len(images))
+     def _get_part_image(self, pnum):
+         if pnum not in self.partitions:
+             raise WicError("Partition %s is not in the image")
+@@ -318,6 +323,14 @@ class Disk:
+         exec_cmd(cmd)
+         self._put_part_image(pnum)
+ 
++    def remove(self, pnum, path):
++        """Remove files/dirs from the partition."""
++        cmd = "{} -i {} ::{}".format(self.mdel,
++                                     self._get_part_image(pnum),
++                                     path)
++        exec_cmd(cmd)
++        self._put_part_image(pnum)
 +
-+        sysroot = get_bb_var('RECIPE_SYSROOT_NATIVE', 'wic-tools')
-+
-+        # list directory content of the first partition
-+        result = runCmd("wic ls %s:1 -n %s" % (images[0], sysroot))
-+        self.assertEqual(0, result.status)
-+        self.assertEqual(8, len(result.output.split('\n')))
-+
-+        # remove file
-+        result = runCmd("wic rm %s:1/bzimage -n %s" % (images[0], sysroot))
-+        self.assertEqual(0, result.status)
-+
-+        # remove directory
-+        result = runCmd("wic rm %s:1/efi -n %s" % (images[0], sysroot))
-+        self.assertEqual(0, result.status)
-+
-+        # check if they're removed
-+        result = runCmd("wic ls %s:1 -n %s" % (images[0], sysroot))
-+        self.assertEqual(0, result.status)
-+        self.assertEqual(6, len(result.output.split('\n')))
+ def wic_ls(args, native_sysroot):
+     """List contents of partitioned image or vfat partition."""
+     disk = Disk(args.path.image, native_sysroot)
+@@ -345,7 +358,8 @@ def wic_rm(args, native_sysroot):
+     Remove files or directories from the vfat partition of
+     partitioned image.
+     """
+-    pass
++    disk = Disk(args.path.image, native_sysroot)
++    disk.remove(args.path.part, args.path.path)
+ 
+ def find_canned(scripts_path, file_name):
+     """
 -- 
 2.1.4
 
