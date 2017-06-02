@@ -1,46 +1,21 @@
-Return-Path: <freesilicon@gmail.com>
-Received: from mail-wr0-f194.google.com (mail-wr0-f194.google.com
-	[209.85.128.194])
-	by mail.openembedded.org (Postfix) with ESMTP id EDC3A77E83
+Return-Path: <timothy.t.orling@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 0F79765C5B
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  2 Jun 2017 15:17:17 +0000 (UTC)
-Received: by mail-wr0-f194.google.com with SMTP id e23so356988wre.3
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 02 Jun 2017 08:17:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=+c400+Wq9QQ7khhEtRHSGUHXNV4Pl1gL4BmbgmMBoss=;
-	b=sqNznAQfUgnmlXQFupldgrmfnH/0ioEmAkKrMcdeTLt5McQXsCFhha6NM6HAEDbnRO
-	Tk1yLXAIXbHaV77Zy8fGPEhUxcnjcHbZk2JPZ0msJCzPyxLYmXWD6Q5Mg/SvA3lOFwx5
-	IEA3n9Pz7UCQ4q4GC0iQRxoolqLyXFuYq+Jy942cR02I5CgHWnZZH+5okMMiID2zUbV7
-	CVLfPUhpkJJDfKMu+CutrUqJ8XMVvXmSDmHZ6quIzqk6j1OFbiq4cp8AuR8JeigXOi0f
-	zs99YOhS20hmjzSSo4fSBhthLmqtu4rFea1sX0jxyUPy9wnzrSMob3Y7Px6+RgWN5QPV
-	dN/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=+c400+Wq9QQ7khhEtRHSGUHXNV4Pl1gL4BmbgmMBoss=;
-	b=bEDAKFMTAqdXNapeuomHEQBdhGkSv87Sta3c81Uwm6r0jZdPmUJspp7Q1LFWiZOot+
-	08OHIwbLxq5ziJNKiyBOzzIVr6x11n3a6AKV1jEGU1IgWKll37A6j1S5EtDWqmzNjVuW
-	sKIyjOyBZQw9ppZAxKAdnkAXY8p+z7VmpqOM2IKRCIqTFB/SEDDlD1Z40QiRA2+mRnqU
-	ZJ7cGTxRooVHWfeFcGEtz944E3LA2SRvh0M6951ICyOoJ4GBWWypTvjyKXloi6jve1bL
-	iXNjWT6JLQy/RFuuJOc1x79bOZ0AKfQNCTopvPbSRmvW8sHDrh5rK0DMAkJXqofUbOcA
-	0Aow==
-X-Gm-Message-State: AODbwcB8mr2+eCz5Kys8uZzqgBQUamn6ARaUMp+4qwYiLKyv5c3qnc5S
-	jVvww5y742+v0tYOA/hWIA==
-X-Received: by 10.223.150.81 with SMTP id c17mr5491257wra.124.1496416638230;
-	Fri, 02 Jun 2017 08:17:18 -0700 (PDT)
-Received: from crde-port-20.cahors.local ([37.169.200.106])
-	by smtp.gmail.com with ESMTPSA id
-	a24sm26904293wra.17.2017.06.02.08.17.17
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 02 Jun 2017 08:17:17 -0700 (PDT)
-From: David Vincent <freesilicon@gmail.com>
+	Fri,  2 Jun 2017 15:39:51 +0000 (UTC)
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	02 Jun 2017 08:39:52 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.39,285,1493708400"; d="scan'208";a="108469998"
+Received: from wrath.jf.intel.com ([10.54.70.7])
+	by orsmga005.jf.intel.com with ESMTP; 02 Jun 2017 08:39:51 -0700
+From: Tim Orling <timothy.t.orling@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  2 Jun 2017 17:16:03 +0200
-Message-Id: <20170602151603.17994-1-freesilicon@gmail.com>
-X-Mailer: git-send-email 2.13.0
-Subject: [PATCH] initscripts: Populate volatile from existing file
+Date: Fri,  2 Jun 2017 08:39:42 -0700
+Message-Id: <20170602153942.21459-1-timothy.t.orling@linux.intel.com>
+X-Mailer: git-send-email 2.9.4
+Subject: [PATCH] linux-firmware: add support for mt7601u WiFi chip
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,57 +28,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Jun 2017 15:17:18 -0000
+X-List-Received-Date: Fri, 02 Jun 2017 15:39:52 -0000
 
-In some cases, it may be useful to populate a volatile file from an
-existing one, e.g. a file in a read-only rootfs that may be edited in a
-read-write destination.
+Mediatek MT7601U is a common 802.11 g/n WiFi USB chip
 
-To provide this behavior, creation of volatile files has been updated to
-copy a file which has been given in the <linksource> field. If set to
-none, the current behavior is preserved.
-
-Signed-off-by: David Vincent <freesilicon@gmail.com>
+Signed-off-by: Tim Orling <timothy.t.orling@linux.intel.com>
 ---
- .../initscripts/initscripts-1.0/populate-volatile.sh     | 16 ++++++++++++++--
- 1 file changed, 14 insertions(+), 2 deletions(-)
+ meta/recipes-kernel/linux-firmware/linux-firmware_git.bb | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-diff --git a/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.sh b/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.sh
-index 22a71ecaae..35316ec2ba 100755
---- a/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.sh
-+++ b/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.sh
-@@ -25,8 +25,18 @@ COREDEF="00_core"
- [ "${VERBOSE}" != "no" ] && echo "Populating volatile Filesystems."
+diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
+index 0ef1e28..4558daf 100644
+--- a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
++++ b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
+@@ -223,6 +223,7 @@ do_install() {
  
- create_file() {
-+	EXEC=""
-+	[ -z "$2" ] && {
-+		EXEC="
-+		touch \"$1\";
-+		"
-+	} || {
-+		EXEC="
-+		cp \"$2\" \"$1\";
-+		"
-+	}
- 	EXEC="
--	touch \"$1\";
-+	${EXEC}
- 	chown ${TUSER}.${TGROUP} $1 || echo \"Failed to set owner -${TUSER}- for -$1-.\" >/dev/tty0 2>&1;
- 	chmod ${TMODE} $1 || echo \"Failed to set mode -${TMODE}- for -$1-.\" >/dev/tty0 2>&1 "
  
-@@ -187,7 +197,9 @@ apply_cfgfile() {
+ PACKAGES =+ "${PN}-ralink-license ${PN}-ralink \
++             ${PN}-mt7601u-license ${PN}-mt7601u \
+              ${PN}-radeon-license ${PN}-radeon \
+              ${PN}-marvell-license ${PN}-sd8686 ${PN}-sd8688 ${PN}-sd8787 ${PN}-sd8797 ${PN}-sd8801 ${PN}-sd8887 ${PN}-sd8897 \
+              ${PN}-ti-connectivity-license ${PN}-wl12xx ${PN}-wl18xx \
+@@ -324,6 +325,17 @@ FILES_${PN}-ralink = " \
  
- 		case "${TTYPE}" in
- 			"f")  [ "${VERBOSE}" != "no" ] && echo "Creating file -${TNAME}-."
--				create_file "${TNAME}"
-+				TSOURCE="$TLTARGET"
-+				[ "${TSOURCE}" = "none" ] && TSOURCE=""
-+				create_file "${TNAME}" "${TSOURCE}" &
- 				;;
- 			"d")  [ "${VERBOSE}" != "no" ] && echo "Creating directory -${TNAME}-."
- 				mk_dir "${TNAME}"
+ RDEPENDS_${PN}-ralink += "${PN}-ralink-license"
+ 
++# For mediatek MT7601U
++LICENSE_${PN}-mt7601u = "Firmware-ralink_a_mediatek_company_firmware"
++LICENSE_${PN}-mt7601u-license = "Firmware-ralink_a_mediatek_company_firmware"
++
++FILES_${PN}-mt7601u-license = "${nonarch_base_libdir}/firmware/LICENCE.ralink_a_mediatek_company_firmware"
++FILES_${PN}-mt7601u = " \
++  ${nonarch_base_libdir}/firmware/mt7601u.bin \
++"
++
++RDEPENDS_${PN}-mt7601u += "${PN}-mt7601u-license"
++
+ # For radeon
+ LICENSE_${PN}-radeon = "Firmware-radeon"
+ LICENSE_${PN}-radeon-license = "Firmware-radeon"
 -- 
-2.13.0
+2.9.4
 
 
