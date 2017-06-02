@@ -1,31 +1,35 @@
-Return-Path: <Randy.MacLeod@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 893F177E31
+Return-Path: <fan.xin@jp.fujitsu.com>
+Received: from mgwym04.jp.fujitsu.com (mgwym04.jp.fujitsu.com [211.128.242.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 4383B77E4E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  2 Jun 2017 00:00:42 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v5200HBL019609
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 1 Jun 2017 17:00:17 -0700 (PDT)
-Received: from [172.25.44.7] (172.25.44.7) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
-	Thu, 1 Jun 2017 17:00:17 -0700
-From: Randy MacLeod <randy.macleod@windriver.com>
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>,
-	<openembedded-core@lists.openembedded.org>, Zheng Ruoqin
-	<zhengrq.fnst@cn.fujitsu.com>
-References: <cover.1492777818.git.alexander.kanavin@linux.intel.com>
-	<f48b227d578d9b712347d7329714105a33e54bd8.1492777818.git.alexander.kanavin@linux.intel.com>
-	<6d5ae07d-880f-388f-432e-5da89aa07e24@windriver.com>
-Message-ID: <501d2419-3401-4c9f-e80d-b2c33e2b01bc@windriver.com>
-Date: Thu, 1 Jun 2017 20:00:15 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.1.1
+	Fri,  2 Jun 2017 03:11:10 +0000 (UTC)
+Received: from yt-mxoi1.gw.nic.fujitsu.com (unknown [192.168.229.67]) by
+	mgwym04.jp.fujitsu.com with smtp
+	id 5903_0186_33d8a907_62e1_456d_a4cf_0155742e8e54;
+	Fri, 02 Jun 2017 12:11:02 +0900
+Received: from g01jpfmpwkw03.exch.g01.fujitsu.local
+	(g01jpfmpwkw03.exch.g01.fujitsu.local [10.0.193.57])
+	by yt-mxoi1.gw.nic.fujitsu.com (Postfix) with ESMTP id 5806AAC014B
+	for <openembedded-core@lists.openembedded.org>;
+	Fri,  2 Jun 2017 12:11:01 +0900 (JST)
+Received: from G01JPEXCHKW16.g01.fujitsu.local
+	(G01JPEXCHKW16.g01.fujitsu.local [10.0.194.55])
+	by g01jpfmpwkw03.exch.g01.fujitsu.local (Postfix) with ESMTP id
+	315F1BD6476 for <openembedded-core@lists.openembedded.org>;
+	Fri,  2 Jun 2017 12:11:00 +0900 (JST)
+Received: from localhost.localdomain (10.24.19.99) by
+	G01JPEXCHKW16.g01.fujitsu.local (10.0.194.55) with Microsoft SMTP
+	Server id 14.3.266.1; Fri, 2 Jun 2017 12:10:59 +0900
+From: Fan Xin <fan.xin@jp.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 2 Jun 2017 12:12:17 +0900
+Message-ID: <1496373137-4094-1-git-send-email-fan.xin@jp.fujitsu.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-In-Reply-To: <6d5ae07d-880f-388f-432e-5da89aa07e24@windriver.com>
-X-Originating-IP: [172.25.44.7]
-Subject: Re: [PATCH 08/11] libunwind: update to 1.2
+X-SecurityPolicyCheck-GC: OK by FENCE-Mail
+X-Encrypted: FENCE-Mail/3.1.1
+X-TM-AS-MML: disable
+Subject: [PATCH] lzo: Upgrade 2.09 -> 2.10
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,28 +42,93 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Jun 2017 00:00:48 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 02 Jun 2017 03:11:12 -0000
+Content-Type: text/plain
 
-On 2017-05-31 09:57 PM, Randy MacLeod wrote:
-> I'll send that change tomorrow unless there's new from upstream
-> or someone has a better idea.
+1. Upgrade lzo from 2.09 to 2.10
 
-Upstream is going to release a new tarball "soon"
+2. Update the license checksum due to the date change, not license change.
 
-    On 2017-06-01 12:18 PM, Dave Watson wrote:
-    > The fix is in v1.2-stable and master, of which the next releases
-    > will be v1.2.1 and v1.3, neither of which have been released yet.
-    > I haven't seen any other fixes to go in v1.2.1 for a while, so
-    > I'll roll that one out shortly.  Thanks
+3. Add a patch to fix the undefined error.
 
+Signed-off-by: Fan Xin <fan.xin@jp.fujitsu.com>
+---
+ ...-pkgconfigdir-to-solve-the-undefine-error.patch | 27 ++++++++++++++++++++++
+ .../lzo/{lzo_2.09.bb => lzo_2.10.bb}               |  9 ++++----
+ 2 files changed, 32 insertions(+), 4 deletions(-)
+ create mode 100644 meta/recipes-support/lzo/lzo/0001-Add-pkgconfigdir-to-solve-the-undefine-error.patch
+ rename meta/recipes-support/lzo/{lzo_2.09.bb => lzo_2.10.bb} (74%)
 
-so I'll wait for that since it's been a month and no one else
-has reported the mips* build failures.
+diff --git a/meta/recipes-support/lzo/lzo/0001-Add-pkgconfigdir-to-solve-the-undefine-error.patch b/meta/recipes-support/lzo/lzo/0001-Add-pkgconfigdir-to-solve-the-undefine-error.patch
+new file mode 100644
+index 0000000..5235a15
+--- /dev/null
++++ b/meta/recipes-support/lzo/lzo/0001-Add-pkgconfigdir-to-solve-the-undefine-error.patch
+@@ -0,0 +1,27 @@
++From e730bfd7c2d3a4b5f3605878599cb9b20d31b1fd Mon Sep 17 00:00:00 2001
++From: Fan Xin <fan.xin@jp.fujitsu.com>
++Date: Fri, 2 Jun 2017 11:52:25 +0900
++Subject: [PATCH] Add pkgconfigdir to solve the undefine error.
++
++Upstream-Status: Pending
++
++Signed-off-by: Fan Xin <fan.xin@jp.fujitsu.com>
++---
++ Makefile.am | 1 +
++ 1 file changed, 1 insertion(+)
++
++diff --git a/Makefile.am b/Makefile.am
++index e4d383b..c75023d 100644
++--- a/Makefile.am
+++++ b/Makefile.am
++@@ -14,6 +14,7 @@ AM_CPPFLAGS = -I$(top_srcdir)/include -I$(top_srcdir)
++ LDADD = src/liblzo2.la
++ lib_LTLIBRARIES =
++ noinst_PROGRAMS =
+++pkgconfigdir = $(libdir)/pkgconfig
++ pkgconfig_DATA = lzo2.pc
++ 
++ 
++-- 
++1.9.1
++
+diff --git a/meta/recipes-support/lzo/lzo_2.09.bb b/meta/recipes-support/lzo/lzo_2.10.bb
+similarity index 74%
+rename from meta/recipes-support/lzo/lzo_2.09.bb
+rename to meta/recipes-support/lzo/lzo_2.10.bb
+index 2978617..efeb167 100644
+--- a/meta/recipes-support/lzo/lzo_2.09.bb
++++ b/meta/recipes-support/lzo/lzo_2.10.bb
+@@ -3,23 +3,24 @@ HOMEPAGE = "http://www.oberhumer.com/opensource/lzo/"
+ SECTION = "libs"
+ LICENSE = "GPLv2+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+-                    file://src/lzo_init.c;beginline=5;endline=25;md5=355023835a9b9eeb70ab895395e951ff"
++                    file://src/lzo_init.c;beginline=5;endline=25;md5=9ae697ca01829b0a383c5d2d163e0108"
+ 
+ SRC_URI = "http://www.oberhumer.com/opensource/lzo/download/lzo-${PV}.tar.gz \
+            file://0001-Use-memcpy-instead-of-reinventing-it.patch \
++	   file://0001-Add-pkgconfigdir-to-solve-the-undefine-error.patch \
+            file://acinclude.m4 \
+            file://run-ptest \
+            "
+ 
+-SRC_URI[md5sum] = "c7ffc9a103afe2d1bba0b015e7aa887f"
+-SRC_URI[sha256sum] = "f294a7ced313063c057c504257f437c8335c41bfeed23531ee4e6a2b87bcb34c"
++SRC_URI[md5sum] = "39d3f3f9c55c87b1e5d6888e1420f4b5"
++SRC_URI[sha256sum] = "c0f892943208266f9b6543b3ae308fab6284c5c90e627931446fb49b4221a072"
+ 
+ inherit autotools ptest
+ 
+ EXTRA_OECONF = "--enable-shared"
+ 
+ do_configure_prepend () {
+-	cp ${WORKDIR}/acinclude.m4 ${S}/
++#	cp ${WORKDIR}/acinclude.m4 ${S}/
+ }
+ 
+ do_install_ptest() {
 -- 
-# Randy MacLeod. SMTS, Linux, Wind River
-Direct: 613.963.1350 | 350 Terry Fox Drive, Suite 200, Ottawa, ON, 
-Canada, K2K 2W5
+1.9.1
+
 
