@@ -1,46 +1,29 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 69C8377D40
+Return-Path: <hayashi.kunihiko@socionext.com>
+Received: from www501.sakura.ne.jp (www501.sakura.ne.jp [59.106.13.151])
+	by mail.openembedded.org (Postfix) with ESMTP id A5623601F2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  2 Jun 2017 23:18:44 +0000 (UTC)
-Received: by mail-wm0-f65.google.com with SMTP id d127so21035712wmf.1
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 02 Jun 2017 16:18:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=5rwGkMqCh0DsjTNacUQ/YEbOfIciIXpTv/TQ4NO5Dy8=;
-	b=anhKN0Xiv6Plwuvll2NNZMQmoebUCRpl3IwEzOvwnkmRBGK/uV6ASZ7ZhRKUOISSR0
-	uDOKGssprZpYX7E/ECDhh/IFXVdwDErfZetmfMa5H2/8tPUArN6YmYlnoRUmwHEPR5kj
-	okvXLXYmJAV7+4MurjnO/Cn+ET0hLRCipuFLaEUgLHZbGigRdYj8Gy1f8a38gkyPyue1
-	Tex0MOVjn04DHBuJAHgc9BraII9dWvRehIxeGklhjXqW5PblHvcwxieG5LF9eImj3dke
-	51TcgZALREB2l2xTin9+bBlpOPZvcfFER/itPcOGJxWA3DWWdq1XUuRKQaIBBqQPeuMT
-	zocw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=5rwGkMqCh0DsjTNacUQ/YEbOfIciIXpTv/TQ4NO5Dy8=;
-	b=lNQ6Iq+9/09VHHowmJGzuphEAujKNx6HVpRgEnwHDUxqD/dT1o8lcdSNa0Kabv293f
-	XVJUIfTZwEpLd9624QhUIlz/7NV0rYPESgtlr55ovwJphmU5rOj5BvTXqb668L8No+k+
-	Elkv7WZmfzBYy1lujtMEAlgWcsbcQ0ouBMqXzU6Mvsuqyh6HKebFUX2Uxw8gqm1xuZNM
-	d2IK6bFmd4w+mGwT6gvwLXA0hE7dRPhTdm9TREUR1wHwu/tN32XeJx9kSOEJzZcMpWjT
-	kGSyIDOPW6pul+BJ03DDGSHLtRRwY16cS+uExSRs3vjyJAm+PT7t02taS9epAMX2M/KL
-	dlGA==
-X-Gm-Message-State: AODbwcANGVNXr4E/iYWDjWBwvtquzb4r6VllOu1hHG9rxL5psjYsxgwe
-	SNkOuvyQeL7vE5NAUWylhAxCvil6Bw==
-X-Received: by 10.80.144.118 with SMTP id z51mr7486734edz.143.1496445525516;
-	Fri, 02 Jun 2017 16:18:45 -0700 (PDT)
+	Sat,  3 Jun 2017 04:22:36 +0000 (UTC)
+Received: from [192.168.1.130] (zaq771a9e86.zaq.ne.jp [119.26.158.134])
+	(authenticated bits=0)
+	by www501.sakura.ne.jp (8.14.5/8.14.5) with ESMTP id v534MXAB069850
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Sat, 3 Jun 2017 13:22:33 +0900 (JST)
+	(envelope-from hayashi.kunihiko@socionext.com)
+To: nicolas.dechesne@linaro.org
+References: <CAP71WjxkYLeEaO5CfUjbEaON=j2pwRkjMDUxkyYafPAEt2qW1w@mail.gmail.com>
+	<5f7f9187-8c25-e641-2d9f-88018201ad45@socionext.com>
+	<CAP71WjzvFiOTUgd62kw8mUfTJxX5jUAkiZg3YQSrmQjP-=DQrQ@mail.gmail.com>
+	<ad4c8dd8-47b7-2b88-9226-b3dc981fea7e@socionext.com>
+	<CAP71WjwLxy0qn8WLgih7fi1ADb+0pa64sAYcCp-FhZxSPejPmg@mail.gmail.com>
+From: Kunihiko Hayashi <hayashi.kunihiko@socionext.com>
+Message-ID: <5b4933e4-107b-8998-7f9c-506d8086a323@socionext.com>
+Date: Sat, 3 Jun 2017 13:22:33 +0900
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
+	Thunderbird/45.8.0
 MIME-Version: 1.0
-Received: by 10.80.195.143 with HTTP; Fri, 2 Jun 2017 16:18:14 -0700 (PDT)
-In-Reply-To: <1496444866-17811-1-git-send-email-jslater@windriver.com>
-References: <1496444866-17811-1-git-send-email-jslater@windriver.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 2 Jun 2017 16:18:14 -0700
-Message-ID: <CAMKF1sq3RWNEn=OPXrM=P-e0KWtD94fe1spaLzTH4gxvrbRaDw@mail.gmail.com>
-To: Joe Slater <jslater@windriver.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] tcf-agent: correct CFLAGS
+In-Reply-To: <CAP71WjwLxy0qn8WLgih7fi1ADb+0pa64sAYcCp-FhZxSPejPmg@mail.gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: KERNEL_IMAGETYPES and Image.gz
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,62 +36,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Jun 2017 23:18:46 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Sat, 03 Jun 2017 04:22:38 -0000
+Content-Type: text/plain; charset=iso-2022-jp; format=flowed; delsp=yes
+Content-Transfer-Encoding: 7bit
 
-On Fri, Jun 2, 2017 at 4:07 PM, Joe Slater <jslater@windriver.com> wrote:
-> Modify CFLAGS for several cases which will not compile otherwise.
-> Do not use the form CFLAGS_x_append because it will replace, not
-> append to CFLAGS for override x.
+On 2017/06/03 4:18, nicolas.dechesne@linaro.org (Nicolas Dechesne) wrote:
+> Le ven. 2 juin 2017 ? 20:32, Kunihiko Hayashi <
+> hayashi.kunihiko@socionext.com> a ?crit :
+>
+>>
+>> On 2017/06/03 1:24, nicolas.dechesne@linaro.org (Nicolas Dechesne) wrote:
+>>> On Fri, Jun 2, 2017 at 6:16 PM, Kunihiko Hayashi
+>>> <hayashi.kunihiko@socionext.com> wrote:
+>>>> I already suggested the patch to solve this issue.
+>>>>
+>>>> https://patchwork.openembedded.org/patch/138596/
+>>>>
+>>>> Although I've not received any comments on this yet, could you try to
+>> apply
+>>>> it?
+>>>
+>>> thanks for sending this out. Well, unfortunately, I think your patch
+>>> is doing something wrong.
+>>>
+>>> As discussed earlier on that thread, we should be using kernel
+>>> Makefile to generate the target as much as possible. The linux build
+>>> system can generate vmlinux, Image and Image.gz, but not vmlinux.gz.
+>>> So we should compress only vmlinux 'outside' of the linux build
+>>> system, and for Image.gz we shouldn't do that in OE. In other words,
+>>> Image.gz should be included in typeformake. Your patch does not do
+>>> that, and that is something which is taken care by mine.
+>>
+>> Surely we should use Image.gz generated by kernel build system and my patch
+>> doesn't do that. I also think that OE should compress only images that the
+>> kernel build system doesn't generate.
+>> Sorry my patch won't help.
+>
+>
+> No problem. Can you please review and tes this one then, and provide
+> feedback?
 
-actually the reason is that override and _append are exchanged. I see
-the issue too here. I sent a patch just to fix the space issue but
-this patch is better with one exception. please call the new variable
-with call uppercase.
+Yes. I'll try your suggestion and put feedback after the patch mail.
 
->
-> Signed-off-by: Joe Slater <jslater@windriver.com>
-> ---
->  meta/recipes-devtools/tcf-agent/tcf-agent_git.bb | 17 +++++++++--------
->  1 file changed, 9 insertions(+), 8 deletions(-)
->
-> diff --git a/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb b/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
-> index 1dad825..5558a59 100644
-> --- a/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
-> +++ b/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
-> @@ -35,17 +35,18 @@ MAKE_OS = "`echo ${TARGET_OS} | sed s,^linux.*,GNU/Linux,`"
->
->  EXTRA_OEMAKE = "MACHINE=${MAKE_ARCH} OPSYS=${MAKE_OS} 'CC=${CC}' 'AR=${AR}'"
->
-> -# These features don't compile on mips and libc-musl
-> -CFLAGS_mips_append = "-DSERVICE_RunControl=0 -DSERVICE_Breakpoints=0 \
-> -    -DSERVICE_Memory=0 -DSERVICE_Registers=0 -DSERVICE_MemoryMap=0 \
-> -    -DSERVICE_StackTrace=0 -DSERVICE_Expressions=0"
-> -CFLAGS_mips64_append = "-DSERVICE_RunControl=0 -DSERVICE_Breakpoints=0 \
-> -    -DSERVICE_Memory=0 -DSERVICE_Registers=0 -DSERVICE_MemoryMap=0 \
-> -    -DSERVICE_StackTrace=0 -DSERVICE_Expressions=0"
-> -CFLAGS_append_libc-musl = "-DSERVICE_RunControl=0 -DSERVICE_Breakpoints=0 \
-> +lcl_stop_services = "-DSERVICE_RunControl=0 -DSERVICE_Breakpoints=0 \
->      -DSERVICE_Memory=0 -DSERVICE_Registers=0 -DSERVICE_MemoryMap=0 \
->      -DSERVICE_StackTrace=0 -DSERVICE_Expressions=0"
->
-> +
-> +# These features don't compile for several cases.
-> +#
-> +CFLAGS_append_mips = " ${lcl_stop_services}"
-> +CFLAGS_append_mips64 = " ${lcl_stop_services}"
-> +CFLAGS_append_libc-musl = " ${lcl_stop_services}"
-> +CFLAGS_append_powerpc64 = " ${lcl_stop_services}"
-> +
->  do_install() {
->         oe_runmake install INSTALLROOT=${D}
->         install -d ${D}${sysconfdir}/init.d/
-> --
-> 2.7.4
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Best Regards,
+Kunihiko Hayashi
 
