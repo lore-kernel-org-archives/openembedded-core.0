@@ -1,28 +1,25 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id B026B7790C
+Return-Path: <hayashi.kunihiko@socionext.com>
+Received: from www501.sakura.ne.jp (www501.sakura.ne.jp [59.106.13.151])
+	by mail.openembedded.org (Postfix) with ESMTP id 4AC74602D9
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  4 Jun 2017 14:15:30 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	v54EFS8l019643
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Sun, 4 Jun 2017 15:15:29 +0100
-Message-ID: <1496585728.6630.165.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>,
-	openembedded-core@lists.openembedded.org
-Date: Sun, 04 Jun 2017 15:15:28 +0100
-In-Reply-To: <cover.1496329361.git.alexander.kanavin@linux.intel.com>
-References: <cover.1496329361.git.alexander.kanavin@linux.intel.com>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.1 
-Mime-Version: 1.0
-X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.11
-	(dan.rpsys.net [192.168.3.1]);
-	Sun, 04 Jun 2017 15:15:29 +0100 (BST)
-X-Virus-Scanned: clamav-milter 0.99.2 at dan
-X-Virus-Status: Clean
-Subject: Re: [PATCH 0/2] Multi-threaded RPM support
+	Sun,  4 Jun 2017 17:07:09 +0000 (UTC)
+Received: from [192.168.1.130] (zaq771a9e86.zaq.ne.jp [119.26.158.134])
+	(authenticated bits=0)
+	by www501.sakura.ne.jp (8.14.5/8.14.5) with ESMTP id v54H75kq095143
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Mon, 5 Jun 2017 02:07:05 +0900 (JST)
+	(envelope-from hayashi.kunihiko@socionext.com)
+To: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+References: <20170602070531.22820-1-nicolas.dechesne@linaro.org>
+From: Kunihiko Hayashi <hayashi.kunihiko@socionext.com>
+Message-ID: <12ce19aa-cada-9d27-fa1a-ed0398c60665@socionext.com>
+Date: Mon, 5 Jun 2017 02:07:04 +0900
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
+	Thunderbird/45.8.0
+MIME-Version: 1.0
+In-Reply-To: <20170602070531.22820-1-nicolas.dechesne@linaro.org>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v3] kernel.bbclass: fix KERNEL_IMAGETYPE(S) for Image.gz
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,50 +32,93 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 04 Jun 2017 14:15:31 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Sun, 04 Jun 2017 17:07:11 -0000
+Content-Type: text/plain; charset=iso-2022-jp; format=flowed; delsp=yes
+Content-Transfer-Encoding: 7bit
 
-On Thu, 2017-06-01 at 18:15 +0300, Alexander Kanavin wrote:
-> These two patches add multi-threaded features to RPM to speed up the
-> do_package_write_rpm task.
-> 
-> Specifically:
-> 
-> 1) Multi-threaded xz compressor is used instead of default single-
-> threaded gz. This has the most
-> dramatic effect when a recipe produces a smaller number of large-
-> sized packages.
-> 
-> 2) Packages creation is run in multiple threads via thread pools.
-> This is most beneficial when
-> a recipe produces a large amount of small packages.
-> 
-> The following changes since commit
-> bd063fa288b49b6e3ea77982d0ccc46610feb1ad:
-> 
->   tune-mips32*.inc: use consistent comments across all three .inc
-> files (2017-05-30 10:15:20 +0100)
-> 
-> are available in the git repository at:
-> 
->   git://git.yoctoproject.org/poky-contrib akanavin/parallel-rpm
->   http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=akanavin/p
-> arallel-rpm
+On 2017/06/02 16:05, nicolas.dechesne@linaro.org (Nicolas Dechesne) wrote:
+> KERNEL_IMAGETYPES lists all the kernel images that we want to build. in
+> cb17b6c2a7 (kernel.bbclass: support kernel image type of vmlinux.gz), some logic
+> was added to support vmlinux.gz which is not a target built by kernel
+> makefiles (only vmlinux). It is clear that the goal of this logic is only to
+> support vmlinux.gz and not others compressed format (such as Image.gz) which are
+> valid target for kernel makefiles.
+>
+> For Image.gz we should rely on the kernel makefiles and not do the compression
+> in kernel class.
+>
+> This patch updates the logic used to filter out non supported kernel target from
+> KERNEL_IMAGETYPES, and make vmlinux.gz a 'special case', instead of *.gz. If
+> more special cases are needed in the future, we could add them in a similar way.
+>
+> This patch should be a no-op for anyone using vmlinux or vmlinux.gz, and on top
+> of that it is fixing the build for Image.gz which was not working until now.
+>
+> Signed-off-by: Nicolas Dechesne <nicolas.dechesne at linaro.org>
+> ---
+>  meta/classes/kernel.bbclass | 18 +++++++++---------
+>  1 file changed, 9 insertions(+), 9 deletions(-)
+>
+> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+> index 7a134d5c29..7670c7107a 100644
+> --- a/meta/classes/kernel.bbclass
+> +++ b/meta/classes/kernel.bbclass
+> @@ -32,7 +32,6 @@ KERNEL_VERSION_PKG_NAME = "${@legitimize_package_name(d.getVar('KERNEL_VERSION')
+>  KERNEL_VERSION_PKG_NAME[vardepvalue] = "${LINUX_VERSION}"
+>
+>  python __anonymous () {
+> -    import re
+>
+>      # Merge KERNEL_IMAGETYPE and KERNEL_ALT_IMAGETYPE into KERNEL_IMAGETYPES
+>      type = d.getVar('KERNEL_IMAGETYPE') or ""
+> @@ -44,7 +43,10 @@ python __anonymous () {
+>          types = (alttype + ' ' + types).strip()
+>      d.setVar('KERNEL_IMAGETYPES', types)
+>
+> -    typeformake = re.sub(r'\.gz', '', types)
+> +    # some commonly used kernel images aren't generated by the kernel build system, such as vmlinux.gz
+> +    # typeformake lists only valid kernel make targets, and post processing can be done after the kernel
+> +    # is built (such as using gzip to compress vmlinux)
+> +    typeformake = types.replace('vmlinux.gz', 'vmlinux')
+>      d.setVar('KERNEL_IMAGETYPE_FOR_MAKE', typeformake)
+>
+>      for type in types.split():
+> @@ -268,14 +270,12 @@ kernel_do_compile() {
+>  	fi
+>  	for typeformake in ${KERNEL_IMAGETYPE_FOR_MAKE} ; do
+>  		oe_runmake ${typeformake} CC="${KERNEL_CC}" LD="${KERNEL_LD}" ${KERNEL_EXTRA_ARGS} $use_alternate_initrd
+> -		for type in ${KERNEL_IMAGETYPES} ; do
+> -			if test "${typeformake}.gz" = "${type}"; then
+> -				mkdir -p "${KERNEL_OUTPUT_DIR}"
+> -				gzip -9c < "${typeformake}" > "${KERNEL_OUTPUT_DIR}/${type}"
+> -				break;
+> -			fi
+> -		done
+>  	done
+> +	# vmlinux.gz is not built by kernel
+> +	if (echo "${KERNEL_IMAGETYPES}" | grep -wq "vmlinux\.gz"); then
+> +		mkdir -p "${KERNEL_OUTPUT_DIR}"
+> +		gzip -9c < ${B}/vmlinux > "${KERNEL_OUTPUT_DIR}/vmlinux.gz"
+> +	fi
+>  }
+>
+>  do_compile_kernelmodules() {
+>
 
-https://autobuilder.yoctoproject.org/main/builders/nightly-x86/builds/1
-163/steps/BuildImages/logs/stdio
+This patch treats 'vmlinux.gz' only as special case, then it looks no problem.  
+Although it might become redundant to add another image type such as  
+'vmlinux.gz', it's out of scope.
 
-https://autobuilder.yoctoproject.org/main/builders/nightly-x86-64/build
-s/1203/steps/BuildImages/logs/stdio
+I tried this patch in case of arm, arm64 and x86. I specified the name of  
+compress image for each architecture to KERNEL_IMAGETYPES and I got same images  
+as that compressed by the kernel build system, in particular got Image.gz for  
+arm64 without any errors.
 
-https://autobuilder.yoctoproject.org/main/builders/nightly-ipk/builds/1
-112/steps/BuildImages/logs/stdio
+And I added 'vmlinux.gz' to KERNEL_IMAGETYPES and got compressed vmlinux  
+correctly. I think the patch works fine.
 
-I suspect the same issue causing failures in multiple places.
+Tested-by: Kunihiko Hayashi <hayashi.kunihiko@socionext.com>
 
-Cheers,
-
-Richard
-
+Best Regards,
+Kunihiko Hayashi
 
