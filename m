@@ -1,25 +1,45 @@
-Return-Path: <hayashi.kunihiko@socionext.com>
-Received: from www501.sakura.ne.jp (www501.sakura.ne.jp [59.106.13.151])
-	by mail.openembedded.org (Postfix) with ESMTP id 4AC74602D9
+Return-Path: <jpewhacker@gmail.com>
+Received: from mail-wr0-f177.google.com (mail-wr0-f177.google.com
+	[209.85.128.177])
+	by mail.openembedded.org (Postfix) with ESMTP id C469270101
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  4 Jun 2017 17:07:09 +0000 (UTC)
-Received: from [192.168.1.130] (zaq771a9e86.zaq.ne.jp [119.26.158.134])
-	(authenticated bits=0)
-	by www501.sakura.ne.jp (8.14.5/8.14.5) with ESMTP id v54H75kq095143
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Mon, 5 Jun 2017 02:07:05 +0900 (JST)
-	(envelope-from hayashi.kunihiko@socionext.com)
-To: Nicolas Dechesne <nicolas.dechesne@linaro.org>
-References: <20170602070531.22820-1-nicolas.dechesne@linaro.org>
-From: Kunihiko Hayashi <hayashi.kunihiko@socionext.com>
-Message-ID: <12ce19aa-cada-9d27-fa1a-ed0398c60665@socionext.com>
-Date: Mon, 5 Jun 2017 02:07:04 +0900
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
-	Thunderbird/45.8.0
+	Sun,  4 Jun 2017 21:37:09 +0000 (UTC)
+Received: by mail-wr0-f177.google.com with SMTP id q97so29373456wrb.2
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 04 Jun 2017 14:37:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=u1Z8lazhbLIllJTZ2WkeDlaGQ/CpVHsW7N/GAuVm9kI=;
+	b=SXwHw7m0559KKHTfWfWhvB+XP+3MingXiO8/sO8s+fP6QdJuEGGopQUSTZHxpFc1aA
+	/Gsr4uJ3MiXsGsfNbayrxVI4VaSh3Lx9bac9osq8KV6JdzD/5DiYuiGZ2hNb6Mm176nb
+	7mgWxgvLlCKuzdqE8rz7XTsKg3IETw1aX9LMQ61n4lOM8vCyQz6/2HAbnO3/78FOCxaA
+	H8kpC7bCa9/hZvPFA6gcJYRY9ZATU5YuFJkG4a2Jj2OSTn0gwv8Kl0LtAumUXamGSHqm
+	7ndMYiiCWk2o2ePWNEbT6lC7vnfczUnwRLetMnb+IbnlORFzXSXkHW4OcSRjGA9X4rB+
+	/S0g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=u1Z8lazhbLIllJTZ2WkeDlaGQ/CpVHsW7N/GAuVm9kI=;
+	b=ROPTcjQx56EeJeqXkdpxuLst8r6qHPOr0bYYYRTMi6JllIOuuhR4kljnM6zI3V1xvI
+	ceaSo8XWo7AMCD3VzoNlqUIjJW4LyOBtyUZ9jc53sNF/Xuyu6osmMyMs42hiMfOLvUTN
+	rd07SzsCaYHNQirt/lQ/ICvvEUsZW1nDxKsamC8xFxwlrT1Av5EQvw1qDSa2ZvGbMyDs
+	Jzx+jRmOctE1VfViibFDUe6Hiy5gAVHLlwi6OxqCdZ80yTXQHvARinSmVBtxv9l9MMd4
+	ANh0zEahW/KRj4h+7o8Qgr2Z0DhoJzPvwjSybP0+hHNImdqn0+ApajJnee81PO800tUu
+	zEdA==
+X-Gm-Message-State: AODbwcBYSdKuTM/iQ1eGbezZb9HnTnRW46I1CWdpcYae30WXOP63xNix
+	z9VLwTU/XEGrMY9zaG3U9g4r7kT07hpg
+X-Received: by 10.223.156.26 with SMTP id f26mr11178785wrc.187.1496612230013; 
+	Sun, 04 Jun 2017 14:37:10 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20170602070531.22820-1-nicolas.dechesne@linaro.org>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v3] kernel.bbclass: fix KERNEL_IMAGETYPE(S) for Image.gz
+Received: by 10.28.128.4 with HTTP; Sun, 4 Jun 2017 14:37:09 -0700 (PDT)
+In-Reply-To: <20170601013319.25260-1-JPEWhacker@gmail.com>
+References: <20170601013319.25260-1-JPEWhacker@gmail.com>
+From: Joshua Watt <jpewhacker@gmail.com>
+Date: Sun, 4 Jun 2017 16:37:09 -0500
+Message-ID: <CAJdd5Gani8CqS-7G4nA0qx1cAU1fuj5=TUNJdkxjyw=sA1p-vg@mail.gmail.com>
+To: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] archiver: Escape recipe name in regex
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,93 +52,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 04 Jun 2017 17:07:11 -0000
-Content-Type: text/plain; charset=iso-2022-jp; format=flowed; delsp=yes
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sun, 04 Jun 2017 21:37:10 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-On 2017/06/02 16:05, nicolas.dechesne@linaro.org (Nicolas Dechesne) wrote:
-> KERNEL_IMAGETYPES lists all the kernel images that we want to build. in
-> cb17b6c2a7 (kernel.bbclass: support kernel image type of vmlinux.gz), some logic
-> was added to support vmlinux.gz which is not a target built by kernel
-> makefiles (only vmlinux). It is clear that the goal of this logic is only to
-> support vmlinux.gz and not others compressed format (such as Image.gz) which are
-> valid target for kernel makefiles.
+On Wed, May 31, 2017 at 8:33 PM, Joshua Watt <jpewhacker@gmail.com> wrote:
+> The recipe name needs to be escaped when it is used in a regular expression so
+> that any special characters are treated literally
 >
-> For Image.gz we should rely on the kernel makefiles and not do the compression
-> in kernel class.
->
-> This patch updates the logic used to filter out non supported kernel target from
-> KERNEL_IMAGETYPES, and make vmlinux.gz a 'special case', instead of *.gz. If
-> more special cases are needed in the future, we could add them in a similar way.
->
-> This patch should be a no-op for anyone using vmlinux or vmlinux.gz, and on top
-> of that it is fixing the build for Image.gz which was not working until now.
->
-> Signed-off-by: Nicolas Dechesne <nicolas.dechesne at linaro.org>
+> Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
 > ---
->  meta/classes/kernel.bbclass | 18 +++++++++---------
->  1 file changed, 9 insertions(+), 9 deletions(-)
+>  meta/classes/archiver.bbclass | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 >
-> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-> index 7a134d5c29..7670c7107a 100644
-> --- a/meta/classes/kernel.bbclass
-> +++ b/meta/classes/kernel.bbclass
-> @@ -32,7 +32,6 @@ KERNEL_VERSION_PKG_NAME = "${@legitimize_package_name(d.getVar('KERNEL_VERSION')
->  KERNEL_VERSION_PKG_NAME[vardepvalue] = "${LINUX_VERSION}"
+> diff --git a/meta/classes/archiver.bbclass b/meta/classes/archiver.bbclass
+> index 2c04557..9cc9fb5 100644
+> --- a/meta/classes/archiver.bbclass
+> +++ b/meta/classes/archiver.bbclass
+> @@ -349,8 +349,8 @@ python do_ar_recipe () {
+>      bbappend_files = d.getVar('BBINCLUDED').split()
+>      # If recipe name is aa, we need to match files like aa.bbappend and aa_1.1.bbappend
+>      # Files like aa1.bbappend or aa1_1.1.bbappend must be excluded.
+> -    bbappend_re = re.compile( r".*/%s_[^/]*\.bbappend$" %pn)
+> -    bbappend_re1 = re.compile( r".*/%s\.bbappend$" %pn)
+> +    bbappend_re = re.compile( r".*/%s_[^/]*\.bbappend$" % re.escape(pn))
+> +    bbappend_re1 = re.compile( r".*/%s\.bbappend$" % re.escape(pn))
+>      for file in bbappend_files:
+>          if bbappend_re.match(file) or bbappend_re1.match(file):
+>              shutil.copy(file, outdir)
+> --
+> 2.9.4
 >
->  python __anonymous () {
-> -    import re
->
->      # Merge KERNEL_IMAGETYPE and KERNEL_ALT_IMAGETYPE into KERNEL_IMAGETYPES
->      type = d.getVar('KERNEL_IMAGETYPE') or ""
-> @@ -44,7 +43,10 @@ python __anonymous () {
->          types = (alttype + ' ' + types).strip()
->      d.setVar('KERNEL_IMAGETYPES', types)
->
-> -    typeformake = re.sub(r'\.gz', '', types)
-> +    # some commonly used kernel images aren't generated by the kernel build system, such as vmlinux.gz
-> +    # typeformake lists only valid kernel make targets, and post processing can be done after the kernel
-> +    # is built (such as using gzip to compress vmlinux)
-> +    typeformake = types.replace('vmlinux.gz', 'vmlinux')
->      d.setVar('KERNEL_IMAGETYPE_FOR_MAKE', typeformake)
->
->      for type in types.split():
-> @@ -268,14 +270,12 @@ kernel_do_compile() {
->  	fi
->  	for typeformake in ${KERNEL_IMAGETYPE_FOR_MAKE} ; do
->  		oe_runmake ${typeformake} CC="${KERNEL_CC}" LD="${KERNEL_LD}" ${KERNEL_EXTRA_ARGS} $use_alternate_initrd
-> -		for type in ${KERNEL_IMAGETYPES} ; do
-> -			if test "${typeformake}.gz" = "${type}"; then
-> -				mkdir -p "${KERNEL_OUTPUT_DIR}"
-> -				gzip -9c < "${typeformake}" > "${KERNEL_OUTPUT_DIR}/${type}"
-> -				break;
-> -			fi
-> -		done
->  	done
-> +	# vmlinux.gz is not built by kernel
-> +	if (echo "${KERNEL_IMAGETYPES}" | grep -wq "vmlinux\.gz"); then
-> +		mkdir -p "${KERNEL_OUTPUT_DIR}"
-> +		gzip -9c < ${B}/vmlinux > "${KERNEL_OUTPUT_DIR}/vmlinux.gz"
-> +	fi
->  }
->
->  do_compile_kernelmodules() {
->
+Would it be possible to get this backported to pyro and morty? If
+there is something else I need to move that along, please let me know.
 
-This patch treats 'vmlinux.gz' only as special case, then it looks no problem.  
-Although it might become redundant to add another image type such as  
-'vmlinux.gz', it's out of scope.
-
-I tried this patch in case of arm, arm64 and x86. I specified the name of  
-compress image for each architecture to KERNEL_IMAGETYPES and I got same images  
-as that compressed by the kernel build system, in particular got Image.gz for  
-arm64 without any errors.
-
-And I added 'vmlinux.gz' to KERNEL_IMAGETYPES and got compressed vmlinux  
-correctly. I think the patch works fine.
-
-Tested-by: Kunihiko Hayashi <hayashi.kunihiko@socionext.com>
-
-Best Regards,
-Kunihiko Hayashi
+Thanks,
+Joshua Watt
 
