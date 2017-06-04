@@ -1,33 +1,28 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 546A977756
+	by mail.openembedded.org (Postfix) with ESMTP id B026B7790C
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  4 Jun 2017 11:06:43 +0000 (UTC)
+	Sun,  4 Jun 2017 14:15:30 +0000 (UTC)
 Received: from hex ([192.168.3.34]) (authenticated bits=0)
 	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	v54B6fCo012501
+	v54EFS8l019643
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Sun, 4 Jun 2017 12:06:43 +0100
-Message-ID: <1496574401.6630.150.camel@linuxfoundation.org>
+	verify=NOT); Sun, 4 Jun 2017 15:15:29 +0100
+Message-ID: <1496585728.6630.165.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Martin Jansa <martin.jansa@gmail.com>, Andre McCurdy <armccurdy@gmail.com>
-Date: Sun, 04 Jun 2017 12:06:41 +0100
-In-Reply-To: <CA+chaQeMbAOzi_ZJiyzXzLnDK_otaHJBMBgYr1xMN8O_gNLqJg@mail.gmail.com>
-References: <20170530080836.25342-1-Martin.Jansa@gmail.com>
-	<CAJ86T=XbqdaxFrWzd1RN-5Y0E8B+Ndj9fHAy8XU0v+q1OYMp6Q@mail.gmail.com>
-	<3feaadad-607b-0ae4-61b4-158f86816786@windriver.com>
-	<CAJ86T=W=pf1ie8TEe6+pnHU_JaHf1wb-5Odv73=6em2iQYX98w@mail.gmail.com>
-	<CA+chaQfy11sKg7njwvg3-Sg=-8_q4JmjEEbydiGRSAw+urQ5mQ@mail.gmail.com>
-	<CA+chaQeMbAOzi_ZJiyzXzLnDK_otaHJBMBgYr1xMN8O_gNLqJg@mail.gmail.com>
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>,
+	openembedded-core@lists.openembedded.org
+Date: Sun, 04 Jun 2017 15:15:28 +0100
+In-Reply-To: <cover.1496329361.git.alexander.kanavin@linux.intel.com>
+References: <cover.1496329361.git.alexander.kanavin@linux.intel.com>
 X-Mailer: Evolution 3.18.5.2-0ubuntu3.1 
 Mime-Version: 1.0
 X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.11
 	(dan.rpsys.net [192.168.3.1]);
-	Sun, 04 Jun 2017 12:06:43 +0100 (BST)
+	Sun, 04 Jun 2017 15:15:29 +0100 (BST)
 X-Virus-Scanned: clamav-milter 0.99.2 at dan
 X-Virus-Status: Clean
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] recipes: Replace "cp -a" with "cp -R --no-dereference --preserve=mode, links"
+Subject: Re: [PATCH 0/2] Multi-threaded RPM support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,37 +35,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 04 Jun 2017 11:06:45 -0000
+X-List-Received-Date: Sun, 04 Jun 2017 14:15:31 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Sun, 2017-06-04 at 08:55 +0200, Martin Jansa wrote:
-> There are few more QA warnings about this even with this change
-> applied:
+On Thu, 2017-06-01 at 18:15 +0300, Alexander Kanavin wrote:
+> These two patches add multi-threaded features to RPM to speed up the
+> do_package_write_rpm task.
 > 
-> count: 3	issue: host-user-contaminated
-> glibc-locale-2.25: glibc-locale: /glibc-binary-localedata-ar-
-> jo/usr/lib/locale/ar_JO/LC_PAPER is owned by uid 3004, which is the
-> same as the user running bitbake. This may be due to host
-> contamination [host-user-contaminated]
-> glibc-locale-2.25: glibc-locale: /glibc-binary-localedata-de-
-> at/usr/lib/locale/de_AT/LC_MEASUREMENT is owned by uid 3004, which is
-> the same as the user running bitbake. This may be due to host
-> contamination [host-user-contaminated]
-> glibc-locale-2.25: glibc-locale: /glibc-binary-localedata-es-sv.iso-
-> 8859-1/usr/lib/locale/es_SV.ISO-8859-1/LC_MESSAGES/SYS_LC_MESSAGES is
-> owned by uid 3004, which is the same as the user running bitbake.
-> This may be due to host contamination [host-user-contaminated]
+> Specifically:
 > 
-> These seem to be a bit undeterministic (I think I've seen various
-> locales and files there in different runs, not just these 3 files).
-> But I'll leave this to someone else.
+> 1) Multi-threaded xz compressor is used instead of default single-
+> threaded gz. This has the most
+> dramatic effect when a recipe produces a smaller number of large-
+> sized packages.
+> 
+> 2) Packages creation is run in multiple threads via thread pools.
+> This is most beneficial when
+> a recipe produces a large amount of small packages.
+> 
+> The following changes since commit
+> bd063fa288b49b6e3ea77982d0ccc46610feb1ad:
+> 
+>   tune-mips32*.inc: use consistent comments across all three .inc
+> files (2017-05-30 10:15:20 +0100)
+> 
+> are available in the git repository at:
+> 
+>   git://git.yoctoproject.org/poky-contrib akanavin/parallel-rpm
+>   http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=akanavin/p
+> arallel-rpm
 
-I think there is an open bug for this one:
+https://autobuilder.yoctoproject.org/main/builders/nightly-x86/builds/1
+163/steps/BuildImages/logs/stdio
 
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=11299
+https://autobuilder.yoctoproject.org/main/builders/nightly-x86-64/build
+s/1203/steps/BuildImages/logs/stdio
+
+https://autobuilder.yoctoproject.org/main/builders/nightly-ipk/builds/1
+112/steps/BuildImages/logs/stdio
+
+I suspect the same issue causing failures in multiple places.
 
 Cheers,
 
 Richard
+
 
