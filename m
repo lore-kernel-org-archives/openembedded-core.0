@@ -1,29 +1,46 @@
-Return-Path: <hayashi.kunihiko@socionext.com>
-Received: from www501.sakura.ne.jp (www501.sakura.ne.jp [59.106.13.151])
-	by mail.openembedded.org (Postfix) with ESMTP id A5623601F2
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wr0-f193.google.com (mail-wr0-f193.google.com
+	[209.85.128.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 8277360720
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  3 Jun 2017 04:22:36 +0000 (UTC)
-Received: from [192.168.1.130] (zaq771a9e86.zaq.ne.jp [119.26.158.134])
-	(authenticated bits=0)
-	by www501.sakura.ne.jp (8.14.5/8.14.5) with ESMTP id v534MXAB069850
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Sat, 3 Jun 2017 13:22:33 +0900 (JST)
-	(envelope-from hayashi.kunihiko@socionext.com)
-To: nicolas.dechesne@linaro.org
-References: <CAP71WjxkYLeEaO5CfUjbEaON=j2pwRkjMDUxkyYafPAEt2qW1w@mail.gmail.com>
-	<5f7f9187-8c25-e641-2d9f-88018201ad45@socionext.com>
-	<CAP71WjzvFiOTUgd62kw8mUfTJxX5jUAkiZg3YQSrmQjP-=DQrQ@mail.gmail.com>
-	<ad4c8dd8-47b7-2b88-9226-b3dc981fea7e@socionext.com>
-	<CAP71WjwLxy0qn8WLgih7fi1ADb+0pa64sAYcCp-FhZxSPejPmg@mail.gmail.com>
-From: Kunihiko Hayashi <hayashi.kunihiko@socionext.com>
-Message-ID: <5b4933e4-107b-8998-7f9c-506d8086a323@socionext.com>
-Date: Sat, 3 Jun 2017 13:22:33 +0900
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
-	Thunderbird/45.8.0
-MIME-Version: 1.0
-In-Reply-To: <CAP71WjwLxy0qn8WLgih7fi1ADb+0pa64sAYcCp-FhZxSPejPmg@mail.gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: KERNEL_IMAGETYPES and Image.gz
+	Sun,  4 Jun 2017 05:58:49 +0000 (UTC)
+Received: by mail-wr0-f193.google.com with SMTP id g76so4583493wrd.2
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 03 Jun 2017 22:58:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=tAOD16S6qKcnhKhQ1mKIn6GqzHOB++VoTgBynqBv+TE=;
+	b=Yc+HlJTRx/85skLz+aiRTYjIwiCZ3J7PK1DSPXCidKR/7kFkMbjY2X4B2nQZE5sY7K
+	yb7kbutv4MQSfN+r4DrfIUGAKyM/86ecXAjfWJlHtIfbueqETJT6AM7X3Np/TiyKMqZk
+	/r5WMdRWEHQ0SxHVvZM++eYcUbhIkuX2T/KgC3x8Lt/fS9/UKFYGAqccB6DJYM872Paa
+	GbkxiZn6TUU0q4+aLgRpZ+5XZkawgtF/V32KXrdduZCzR7dJb4cM5DwOgFfyp1BHBEAb
+	DrVgx3q8s7aMMlsTEioyg07wM8A8g82fgBdNsNALhk9kOkOqQEyGjvSnlqXRE6xxH23E
+	wCgA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=tAOD16S6qKcnhKhQ1mKIn6GqzHOB++VoTgBynqBv+TE=;
+	b=Gpuoflhdn1ItUHSS5wGPhwOiz1Td36BVE4RHdsQHi0QaYd/g5PpPI3HhS4xv9An0XG
+	wdoyRPo4iXqzPP+87Z+NAoCV7OMdcW1HHYI6dqiHHCApcMI6N35R6poL48drZ2DRSX54
+	syon+uWEkoi7Q2wDRXkn4PUqPc/1rJ9FCqgUIyeVBEpy+bqINGoZmXIbx8ICn/Lb7ugG
+	125AdjZMh0Uezy94UpjHy4JuX5uU0KeAf6fQXW2iPc3XPIUjsseTO72YkY7npWQ1Ne3J
+	Q2xCvxSN5Wx3SMw572jjkWvWirBH9SdowcSyAtj/PeuKhlfc+2DsWRj8CkqMJgACf49U
+	BUcw==
+X-Gm-Message-State: AODbwcACmOlZjZsPeJ4c6esvjNwmh2C6WotSonrDgS731K7l0zRc+Rok
+	w7xymqkXjL1tQYCG
+X-Received: by 10.223.171.196 with SMTP id s62mr4293230wrc.119.1496555930007; 
+	Sat, 03 Jun 2017 22:58:50 -0700 (PDT)
+Received: from localhost ([217.30.68.212]) by smtp.gmail.com with ESMTPSA id
+	39sm28468597wru.50.2017.06.03.22.58.49
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sat, 03 Jun 2017 22:58:49 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sun,  4 Jun 2017 05:58:45 +0200
+Message-Id: <20170604035845.29796-1-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.13.0
+Subject: [morty][PATCH] eudev: set LGPL-2.1+ for libudev package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,48 +53,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 03 Jun 2017 04:22:38 -0000
-Content-Type: text/plain; charset=iso-2022-jp; format=flowed; delsp=yes
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sun, 04 Jun 2017 05:58:49 -0000
 
-On 2017/06/03 4:18, nicolas.dechesne@linaro.org (Nicolas Dechesne) wrote:
-> Le ven. 2 juin 2017 ? 20:32, Kunihiko Hayashi <
-> hayashi.kunihiko@socionext.com> a ?crit :
->
->>
->> On 2017/06/03 1:24, nicolas.dechesne@linaro.org (Nicolas Dechesne) wrote:
->>> On Fri, Jun 2, 2017 at 6:16 PM, Kunihiko Hayashi
->>> <hayashi.kunihiko@socionext.com> wrote:
->>>> I already suggested the patch to solve this issue.
->>>>
->>>> https://patchwork.openembedded.org/patch/138596/
->>>>
->>>> Although I've not received any comments on this yet, could you try to
->> apply
->>>> it?
->>>
->>> thanks for sending this out. Well, unfortunately, I think your patch
->>> is doing something wrong.
->>>
->>> As discussed earlier on that thread, we should be using kernel
->>> Makefile to generate the target as much as possible. The linux build
->>> system can generate vmlinux, Image and Image.gz, but not vmlinux.gz.
->>> So we should compress only vmlinux 'outside' of the linux build
->>> system, and for Image.gz we shouldn't do that in OE. In other words,
->>> Image.gz should be included in typeformake. Your patch does not do
->>> that, and that is something which is taken care by mine.
->>
->> Surely we should use Image.gz generated by kernel build system and my patch
->> doesn't do that. I also think that OE should compress only images that the
->> kernel build system doesn't generate.
->> Sorry my patch won't help.
->
->
-> No problem. Can you please review and tes this one then, and provide
-> feedback?
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ meta/recipes-core/udev/eudev_3.2.bb | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-Yes. I'll try your suggestion and put feedback after the patch mail.
+diff --git a/meta/recipes-core/udev/eudev_3.2.bb b/meta/recipes-core/udev/eudev_3.2.bb
+index 211252cebc..857d20db78 100644
+--- a/meta/recipes-core/udev/eudev_3.2.bb
++++ b/meta/recipes-core/udev/eudev_3.2.bb
+@@ -1,6 +1,7 @@
+ SUMMARY = "eudev is a fork of systemd's udev"
+ HOMEPAGE = "https://wiki.gentoo.org/wiki/Eudev"
+-LICENSE = "GPLv2.0+"
++LICENSE = "GPLv2.0+ & LGPL-2.1+"
++LICENSE_libudev = "LGPL-2.1+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
+ 
+ DEPENDS = "glib-2.0 glib-2.0-native gperf-native kmod libxslt-native util-linux"
+-- 
+2.13.0
 
-Best Regards,
-Kunihiko Hayashi
 
