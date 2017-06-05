@@ -1,24 +1,35 @@
-Return-Path: <joe.slater@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 6D48D77B99
+Return-Path: <denis@denix.org>
+Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.17])
+	by mail.openembedded.org (Postfix) with ESMTP id C214F78082
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 Jun 2017 17:53:07 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v55Hr83g026845
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 5 Jun 2017 10:53:09 -0700 (PDT)
-Received: from ala-jslater-lx3.wrs.com (147.11.152.42) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.294.0; Mon, 5 Jun 2017 10:53:08 -0700
-From: Joe Slater <jslater@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 5 Jun 2017 10:53:08 -0700
-Message-ID: <1496685188-4691-1-git-send-email-jslater@windriver.com>
-X-Mailer: git-send-email 1.7.3.4
+	Mon,  5 Jun 2017 20:28:24 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by mailout4.zoneedit.com (Postfix) with ESMTP id 48F5720BD4;
+	Mon,  5 Jun 2017 20:28:26 +0000 (UTC)
+Received: from mailout4.zoneedit.com ([127.0.0.1])
+	by localhost (zmo03-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
+	port 10024)
+	with ESMTP id wR84u2ZiV9wT; Mon,  5 Jun 2017 20:28:26 +0000 (UTC)
+Received: from mail.denix.org (pool-100-15-85-143.washdc.fios.verizon.net
+	[100.15.85.143])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 2346C20072;
+	Mon,  5 Jun 2017 20:28:24 +0000 (UTC)
+Received: by mail.denix.org (Postfix, from userid 1000)
+	id A21891624E3; Mon,  5 Jun 2017 16:28:23 -0400 (EDT)
+Date: Mon, 5 Jun 2017 16:28:23 -0400
+From: Denys Dmytriyenko <denis@denix.org>
+To: Otavio Salvador <otavio.salvador@ossystems.com.br>
+Message-ID: <20170605202823.GK28053@denix.org>
+References: <20170531031904.7439-1-otavio@ossystems.com.br>
+	<CAP9ODKqFLeaUgCYuKJc5q1yUW_3qX_-ACveggfTWp=-JwX3L1Q@mail.gmail.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/1][V2] tcf-agent: correct CFLAGS
+In-Reply-To: <CAP9ODKqFLeaUgCYuKJc5q1yUW_3qX_-ACveggfTWp=-JwX3L1Q@mail.gmail.com>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Cc: Otavio Salvador <otavio@ossystems.com.br>,
+	OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v3] u-boot: Update to 2017.05 release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,50 +42,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Jun 2017 17:53:08 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 05 Jun 2017 20:28:27 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Modify CFLAGS for several cases which will not compile otherwise.
-Do not use the form CFLAGS_x_append because it will replace, not
-append to CFLAGS for override x.
+On Mon, Jun 05, 2017 at 12:02:33PM -0300, Otavio Salvador wrote:
+> On Wed, May 31, 2017 at 12:19 AM, Otavio Salvador
+> <otavio@ossystems.com.br> wrote:
+> > This 2017.05 release is out since May 08th, 2017.
+> >
+> > Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+> 
+> Ping?
 
-Signed-off-by: Joe Slater <jslater@windriver.com>
----
- meta/recipes-devtools/tcf-agent/tcf-agent_git.bb | 17 +++++++++--------
- 1 file changed, 9 insertions(+), 8 deletions(-)
-
-diff --git a/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb b/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
-index 1dad825..6d6ba76 100644
---- a/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
-+++ b/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
-@@ -35,17 +35,18 @@ MAKE_OS = "`echo ${TARGET_OS} | sed s,^linux.*,GNU/Linux,`"
- 
- EXTRA_OEMAKE = "MACHINE=${MAKE_ARCH} OPSYS=${MAKE_OS} 'CC=${CC}' 'AR=${AR}'"
- 
--# These features don't compile on mips and libc-musl
--CFLAGS_mips_append = "-DSERVICE_RunControl=0 -DSERVICE_Breakpoints=0 \
--    -DSERVICE_Memory=0 -DSERVICE_Registers=0 -DSERVICE_MemoryMap=0 \
--    -DSERVICE_StackTrace=0 -DSERVICE_Expressions=0"
--CFLAGS_mips64_append = "-DSERVICE_RunControl=0 -DSERVICE_Breakpoints=0 \
--    -DSERVICE_Memory=0 -DSERVICE_Registers=0 -DSERVICE_MemoryMap=0 \
--    -DSERVICE_StackTrace=0 -DSERVICE_Expressions=0"
--CFLAGS_append_libc-musl = "-DSERVICE_RunControl=0 -DSERVICE_Breakpoints=0 \
-+LCL_STOP_SERVICES = "-DSERVICE_RunControl=0 -DSERVICE_Breakpoints=0 \
-     -DSERVICE_Memory=0 -DSERVICE_Registers=0 -DSERVICE_MemoryMap=0 \
-     -DSERVICE_StackTrace=0 -DSERVICE_Expressions=0"
- 
-+
-+# These features don't compile for several cases.
-+#
-+CFLAGS_append_mips = " ${LCL_STOP_SERVICES}"
-+CFLAGS_append_mips64 = " ${LCL_STOP_SERVICES}"
-+CFLAGS_append_libc-musl = " ${LCL_STOP_SERVICES}"
-+CFLAGS_append_powerpc64 = " ${LCL_STOP_SERVICES}"
-+
- do_install() {
- 	oe_runmake install INSTALLROOT=${D}
- 	install -d ${D}${sysconfdir}/init.d/
--- 
-2.7.4
-
+http://lists.openembedded.org/pipermail/openembedded-core/2017-May/137073.html
 
