@@ -1,35 +1,40 @@
-Return-Path: <fan.xin@jp.fujitsu.com>
-Received: from mgwym04.jp.fujitsu.com (mgwym04.jp.fujitsu.com [211.128.242.43])
-	by mail.openembedded.org (Postfix) with ESMTP id DE40571CA2
+Return-Path: <rebecca.swee.fun.chang@intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 336EC60107
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 Jun 2017 01:01:53 +0000 (UTC)
-Received: from yt-mxq.gw.nic.fujitsu.com (unknown [192.168.229.66]) by
-	mgwym04.jp.fujitsu.com with smtp
-	id 6400_7d95_11804d1c_4cec_473d_87cc_fd41344090c0;
-	Mon, 05 Jun 2017 10:01:46 +0900
-Received: from g01jpfmpwyt03.exch.g01.fujitsu.local
-	(g01jpfmpwyt03.exch.g01.fujitsu.local [10.128.193.57])
-	by yt-mxq.gw.nic.fujitsu.com (Postfix) with ESMTP id B1708AC0061
-	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 Jun 2017 10:01:45 +0900 (JST)
-Received: from G01JPEXCHYT13.g01.fujitsu.local
-	(G01JPEXCHYT13.g01.fujitsu.local [10.128.194.52])
-	by g01jpfmpwyt03.exch.g01.fujitsu.local (Postfix) with ESMTP id
-	91F8346E5D4 for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 Jun 2017 10:01:44 +0900 (JST)
-Received: from localhost.localdomain (10.24.19.99) by
-	G01JPEXCHYT13.g01.fujitsu.local (10.128.194.52) with Microsoft SMTP
-	Server id 14.3.266.1; Mon, 5 Jun 2017 10:01:43 +0900
-From: Fan Xin <fan.xin@jp.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 5 Jun 2017 10:03:02 +0900
-Message-ID: <1496624582-13307-1-git-send-email-fan.xin@jp.fujitsu.com>
-X-Mailer: git-send-email 1.9.1
+	Mon,  5 Jun 2017 01:15:43 +0000 (UTC)
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	04 Jun 2017 18:15:43 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.39,298,1493708400"; d="scan'208";a="270153178"
+Received: from kmsmsx155.gar.corp.intel.com ([172.21.73.106])
+	by fmsmga004.fm.intel.com with ESMTP; 04 Jun 2017 18:15:42 -0700
+Received: from pgsmsx103.gar.corp.intel.com ([169.254.2.82]) by
+	KMSMSX155.gar.corp.intel.com ([169.254.15.19]) with mapi id
+	14.03.0319.002; Mon, 5 Jun 2017 09:15:40 +0800
+From: "Chang, Rebecca Swee Fun" <rebecca.swee.fun.chang@intel.com>
+To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>, 
+	"Purdie, Richard" <richard.purdie@intel.com>, "Burton, Ross"
+	<ross.burton@intel.com>
+Thread-Topic: [PATCHv3 0/2] devshell: make sure toolchains are populated in
+	sysroot
+Thread-Index: AQHS2OYAxRK2vm7kfE6wZApanpOHg6IRPx1Q
+Date: Mon, 5 Jun 2017 01:15:40 +0000
+Message-ID: <50B33AC5ED75F74F991980326F1C438D1F050F18@PGSMSX103.gar.corp.intel.com>
+References: <cover.1496107463.git.rebecca.swee.fun.chang@intel.com>
+In-Reply-To: <cover.1496107463.git.rebecca.swee.fun.chang@intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-version: 10.0.102.7
+dlp-reaction: no-action
+x-originating-ip: [172.30.20.205]
 MIME-Version: 1.0
-X-SecurityPolicyCheck-GC: OK by FENCE-Mail
-X-Encrypted: FENCE-Mail/3.1.1
-X-TM-AS-MML: disable
-Subject: [PATCH] ncurses: Upgrade 6.0+20161126 -> 6.0+20170408
+Cc: Internal Core dev Mailing List <core-dev@eclists.intel.com>, "Eggleton,
+	Paul" <paul.eggleton@intel.com>
+Subject: Re: [PATCHv3 0/2] devshell: make sure toolchains are populated in sysroot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,68 +47,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Jun 2017 01:01:55 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 05 Jun 2017 01:15:48 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-1. Upgrade ncurses from 6.0+20161126 to 6.0+20170408
+Hi all,
 
-2. Delete the following patch file becuase new version already uses the awk to filter words.
-   fix-cflags-mangle.patch
+May I know is this patch in queue for merging? This fix was planned for 2.4=
+M1.
+Thank you very much.
 
-Signed-off-by: Fan Xin <fan.xin@jp.fujitsu.com>
----
- .../recipes-core/ncurses/files/fix-cflags-mangle.patch | 18 ------------------
- ...ncurses_6.0+20161126.bb => ncurses_6.0+20170408.bb} |  3 +--
- 2 files changed, 1 insertion(+), 20 deletions(-)
- delete mode 100644 meta/recipes-core/ncurses/files/fix-cflags-mangle.patch
- rename meta/recipes-core/ncurses/{ncurses_6.0+20161126.bb => ncurses_6.0+20170408.bb} (76%)
+Regards,
+Rebecca
 
-diff --git a/meta/recipes-core/ncurses/files/fix-cflags-mangle.patch b/meta/recipes-core/ncurses/files/fix-cflags-mangle.patch
-deleted file mode 100644
-index e9447c5..0000000
---- a/meta/recipes-core/ncurses/files/fix-cflags-mangle.patch
-+++ /dev/null
-@@ -1,18 +0,0 @@
--configure has a piece of logic to detect users "abusing" CC to hold compiler
--flags (which we do).  It also has logic to "correct" this by moving the flags
--from CC to CFLAGS, but the sed only handles a single argument in CC.
--
--Replace the sed with awk to filter out all words that start with a hyphen.
--
--Upstream-Status: Pending
--Signed-off-by: Ross Burton <ross.burton@intel.com>
--
--diff --git a/configure b/configure
--index 7f31208..1a29cfc 100755
----- a/configure
--+++ b/configure
--@@ -2191,2 +2191,2 @@ echo "$as_me: WARNING: your environment misuses the CC variable to hold CFLAGS/C
---	cf_flags=`echo "$CC" | sed -e 's/^.*[ 	]\(-[^ 	]\)/\1/'`
---	CC=`echo "$CC " | sed -e 's/[ 	]-[^ 	].*$//' -e 's/[ 	]*$//'`
--+	cf_flags=`echo "$CC" | awk  'BEGIN{ORS=" ";RS=" "} /^-.+/ {print $1}'`
--+	CC=`echo "$CC " | awk  'BEGIN{ORS=" ";RS=" "} /^[^-].+/ {print $1}'`
-diff --git a/meta/recipes-core/ncurses/ncurses_6.0+20161126.bb b/meta/recipes-core/ncurses/ncurses_6.0+20170408.bb
-similarity index 76%
-rename from meta/recipes-core/ncurses/ncurses_6.0+20161126.bb
-rename to meta/recipes-core/ncurses/ncurses_6.0+20170408.bb
-index ace3108..02db551 100644
---- a/meta/recipes-core/ncurses/ncurses_6.0+20161126.bb
-+++ b/meta/recipes-core/ncurses/ncurses_6.0+20170408.bb
-@@ -1,12 +1,11 @@
- require ncurses.inc
- 
- SRC_URI += "file://tic-hang.patch \
--            file://fix-cflags-mangle.patch \
-             file://config.cache \
-             file://configure-reproducible.patch \
- "
- # commit id corresponds to the revision in package version
--SRCREV = "3db0bd19cb50e3d9b4f2cf15b7a102fe11302068"
-+SRCREV = "9e9f3df43c491e8f046345b9d1aa54ad57201df2"
- S = "${WORKDIR}/git"
- EXTRA_OECONF += "--with-abi-version=5"
- UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+(\.\d+)+(\+\d+)*)"
--- 
-1.9.1
+> -----Original Message-----
+> From: Chang, Rebecca Swee Fun
+> Sent: Tuesday, May 30, 2017 9:43 AM
+> To: OpenEmbedded Core Mailing List <openembedded-
+> core@lists.openembedded.org>
+> Cc: Chang, Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>; Internal
+> Core dev Mailing List <core-dev@eclists.intel.com>
+> Subject: [PATCHv3 0/2] devshell: make sure toolchains are populated in sy=
+sroot
+>=20
+> From: Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>
+>=20
+> Rework on PATCHv2.
+> addtask do_prepare_recipe_sysroot is having the same effect on building m=
+ore
+> dependencies for devshell.
+>=20
+> The 2nd patch in series is to clean up some trailing whitespaces within
+> devshell.bbclass.
+>=20
+> I have done some tests on random recipe to ensure this change is having t=
+he
+> same behavior as the previous implementation.
+>=20
+> Thanks.
+>=20
+> Regards,
+> Rebecca
+>=20
+> The following changes since commit
+> 27200a3afd606df7f8e592439a8dd403d714ea6f:
+>=20
+>   bind: build with threads and update configure options (2017-05-29 15:15=
+:20
+> +0100)
+>=20
+> are available in the git repository at:
+>=20
+>   git://git.yoctoproject.org/poky-contrib rebeccas/11464-devshell
+>   http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=3Drebeccas/114=
+64-
+> devshell
+>=20
+> Chang Rebecca Swee Fun (2):
+>   devshell.bbclass: ensure toolchains available for do_devshell
+>   devshell.bbclass: clean up trailing whitespaces
+>=20
+>  meta/classes/devshell.bbclass | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+>=20
+> --
+> 2.7.4
 
 
