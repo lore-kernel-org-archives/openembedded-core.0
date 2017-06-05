@@ -1,23 +1,34 @@
-Return-Path: <Zhenbo.Gao@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id EFE7C6FFD8
+Return-Path: <fan.xin@jp.fujitsu.com>
+Received: from mgwkm04.jp.fujitsu.com (mgwkm04.jp.fujitsu.com [202.219.69.171])
+	by mail.openembedded.org (Postfix) with ESMTP id C1B277760A
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 Jun 2017 07:38:42 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v557cgWV029279
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Mon, 5 Jun 2017 00:38:43 -0700
-Received: from pek-lpggp2.wrs.com (128.224.153.75) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.294.0;
-	Mon, 5 Jun 2017 00:38:42 -0700
-From: Zhenbo Gao <zhenbo.gao@windriver.com>
-To: <ross.burton@intel.com>, <openembedded-core@lists.openembedded.org>
-Date: Mon, 5 Jun 2017 15:38:04 +0800
-Message-ID: <1496648284-206244-1-git-send-email-zhenbo.gao@windriver.com>
+	Mon,  5 Jun 2017 07:39:21 +0000 (UTC)
+Received: from kw-mxq.gw.nic.fujitsu.com (unknown [192.168.231.130]) by
+	mgwkm04.jp.fujitsu.com with smtp
+	id 4cb7_821a_4339996a_3dd7_49c7_a2d9_cc4b42011a90;
+	Mon, 05 Jun 2017 16:39:19 +0900
+Received: from g01jpfmpwkw03.exch.g01.fujitsu.local
+	(g01jpfmpwkw03.exch.g01.fujitsu.local [10.0.193.57])
+	by kw-mxq.gw.nic.fujitsu.com (Postfix) with ESMTP id E4DA0AC00F7
+	for <openembedded-core@lists.openembedded.org>;
+	Mon,  5 Jun 2017 16:39:17 +0900 (JST)
+Received: from g01jpexchkw33.g01.fujitsu.local (unknown [10.0.193.4])
+	by g01jpfmpwkw03.exch.g01.fujitsu.local (Postfix) with ESMTP id
+	D9E44BD6649 for <openembedded-core@lists.openembedded.org>;
+	Mon,  5 Jun 2017 16:39:16 +0900 (JST)
+Received: from localhost.localdomain (10.24.19.99) by
+	g01jpexchkw33.g01.fujitsu.local (10.0.193.36) with Microsoft SMTP
+	Server id 14.3.266.1; Mon, 5 Jun 2017 16:39:17 +0900
+From: Fan Xin <fan.xin@jp.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 5 Jun 2017 16:40:05 +0900
+Message-ID: <1496648405-5829-1-git-send-email-fan.xin@jp.fujitsu.com>
 X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Subject: [PATCH] logrotate: Support system dates back to the year 1970
+X-SecurityPolicyCheck-GC: OK by FENCE-Mail
+X-Encrypted: FENCE-Mail/3.1.1
+X-TM-AS-MML: disable
+Subject: [PATCH] lsbinitscripts: Upgrade to 9.72
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,63 +41,101 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Jun 2017 07:38:43 -0000
+X-List-Received-Date: Mon, 05 Jun 2017 07:39:22 -0000
 Content-Type: text/plain
 
-backport commit bdbfea3 from logrotate upstream.
+1. Upgrade lsbinitscripts from 9.68 to 9.72
 
-Signed-off-by: Zhenbo Gao <zhenbo.gao@windriver.com>
+2. Rebase the following patch file.
+   functions.patch
+
+Signed-off-by: Fan Xin <fan.xin@jp.fujitsu.com>
 ---
- ...upport-system-dates-back-to-the-year-1970.patch | 27 ++++++++++++++++++++++
- meta/recipes-extended/logrotate/logrotate_3.9.1.bb |  1 +
- 2 files changed, 28 insertions(+)
- create mode 100644 meta/recipes-extended/logrotate/logrotate/0001-Support-system-dates-back-to-the-year-1970.patch
+ .../lsb/lsbinitscripts/functions.patch             | 43 ++++++++++++----------
+ ...binitscripts_9.68.bb => lsbinitscripts_9.72.bb} |  8 ++--
+ 2 files changed, 28 insertions(+), 23 deletions(-)
+ rename meta/recipes-extended/lsb/{lsbinitscripts_9.68.bb => lsbinitscripts_9.72.bb} (70%)
 
-diff --git a/meta/recipes-extended/logrotate/logrotate/0001-Support-system-dates-back-to-the-year-1970.patch b/meta/recipes-extended/logrotate/logrotate/0001-Support-system-dates-back-to-the-year-1970.patch
-new file mode 100644
-index 0000000..b544ec6
---- /dev/null
-+++ b/meta/recipes-extended/logrotate/logrotate/0001-Support-system-dates-back-to-the-year-1970.patch
-@@ -0,0 +1,27 @@
-+Support system dates back to the year 1970
-+
-+The system time on Linux can be set back as far as 1970 (the epoch time).
-+Currently logrotate stops working correctly if the time goes before 1996.
-+This value (1996) appears to have been hard coded since the code was written
-+back in 1996. Testing and code analysis shows this can simply be modified
-+to 1970.
-+
-+The patch is provided by Matt Bennett <matt.bennett@alliedtelesis.co.nz>
-+
-+Upstream-Status: Backport +
-+Signed-off-by: Zhenbo Gao <zhenbo.gao@windriver.com>
-+
-+diff --git a/logrotate.c.orig b/logrotate.c
-+index cf8bf2c..a7dadfb 100644
-+--- a/logrotate.c.orig
-++++ b/logrotate.c
-+@@ -2381,7 +2381,7 @@ static int readState(char *stateFilename)
-+ 	}
-+ 
-+ 	/* Hack to hide earlier bug */
-+-	if ((year != 1900) && (year < 1996 || year > 2100)) {
-++	if ((year != 1900) && (year < 1970 || year > 2100)) {
-+ 	    message(MESS_ERROR,
-+ 		    "bad year %d for file %s in state file %s\n", year,
-+ 		    argv[0], stateFilename);
-+
-diff --git a/meta/recipes-extended/logrotate/logrotate_3.9.1.bb b/meta/recipes-extended/logrotate/logrotate_3.9.1.bb
-index c938d9f..4246231 100644
---- a/meta/recipes-extended/logrotate/logrotate_3.9.1.bb
-+++ b/meta/recipes-extended/logrotate/logrotate_3.9.1.bb
-@@ -23,6 +23,7 @@ SRC_URI = "https://github.com/${BPN}/${BPN}/archive/r3-9-1.tar.gz \
-            file://act-as-mv-when-rotate.patch \
-            file://update-the-manual.patch \
-            file://disable-check-different-filesystems.patch \
-+           file://0001-Support-system-dates-back-to-the-year-1970.patch \
-             "
+diff --git a/meta/recipes-extended/lsb/lsbinitscripts/functions.patch b/meta/recipes-extended/lsb/lsbinitscripts/functions.patch
+index a756d04..feef610 100644
+--- a/meta/recipes-extended/lsb/lsbinitscripts/functions.patch
++++ b/meta/recipes-extended/lsb/lsbinitscripts/functions.patch
+@@ -1,26 +1,31 @@
+-Upstream-Status: Inappropriate [configuration]
++From 57468c5f4e364bdad556604dca09046e1afca929 Mon Sep 17 00:00:00 2001
++From: Fan Xin <fan.xin@jp.fujitsu.com>
++Date: Mon, 5 Jun 2017 16:26:47 +0900
++Subject: [PATCH] Upstream-Status: Inappropriate [configuration]
  
- SRC_URI[md5sum] = "8572b7c2cf9ade09a8a8e10098500fb3"
+ Signed-off-by: Xiaofeng Yan <xiaofeng.yan@windriver.com>
+ Signed-off-by: Saul Wold <sgw@linux.intel.com>
+ 
+-Index: initscripts-9.43/rc.d/init.d/functions
+-===================================================================
+---- initscripts-9.43.orig/rc.d/init.d/functions
+-+++ initscripts-9.43/rc.d/init.d/functions
+-@@ -13,6 +13,7 @@ umask 022
+- PATH="/sbin:/usr/sbin:/bin:/usr/bin"
+- export PATH
+- 
+-+
+- if [ $PPID -ne 1 -a -z "$SYSTEMCTL_SKIP_REDIRECT" ] && \
+- 		( /bin/mountpoint -q /cgroup/systemd || /bin/mountpoint -q /sys/fs/cgroup/systemd ) ; then
+-         case "$0" in
+-@@ -54,7 +55,7 @@ systemctl_redirect () {
++Rebase on 9.72
++
++Signed-off-by: Fan Xin <fan.xin@jp.fujitsu.com>
++---
++ initscripts-9.72/rc.d/init.d/functions | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/initscripts-9.72/rc.d/init.d/functions b/initscripts-9.72/rc.d/init.d/functions
++index 0f627f1..a6aa092 100644
++--- a/initscripts-9.72/rc.d/init.d/functions
+++++ b/initscripts-9.72/rc.d/init.d/functions
++@@ -59,7 +59,7 @@ systemctl_redirect () {
+  [ -z "${COLUMNS:-}" ] && COLUMNS=80
+  
+  if [ -z "${CONSOLETYPE:-}" ]; then
+--  if [ -c "/dev/stderr" -a -r "/dev/stderr" ]; then
+-+  if [ -c "/dev/stderr" -a -r "/dev/stderr" -a -e /sbin/consoletype ]; then
+-     CONSOLETYPE="$(/sbin/consoletype < /dev/stderr 2>/dev/null)"
+-   else
+-     CONSOLETYPE="serial"
++-    if [ -c "/dev/stderr" -a -r "/dev/stderr" ]; then
+++    if [ -c "/dev/stderr" -a -r "/dev/stderr" -a -e /sbin/consoletype ]; then
++         CONSOLETYPE="$(/sbin/consoletype < /dev/stderr 2>/dev/null)"
++     else
++         CONSOLETYPE="serial"
++-- 
++1.9.1
++
+diff --git a/meta/recipes-extended/lsb/lsbinitscripts_9.68.bb b/meta/recipes-extended/lsb/lsbinitscripts_9.72.bb
+similarity index 70%
+rename from meta/recipes-extended/lsb/lsbinitscripts_9.68.bb
+rename to meta/recipes-extended/lsb/lsbinitscripts_9.72.bb
+index 0c08fff..448663f 100644
+--- a/meta/recipes-extended/lsb/lsbinitscripts_9.68.bb
++++ b/meta/recipes-extended/lsb/lsbinitscripts_9.72.bb
+@@ -8,13 +8,13 @@ RDEPENDS_${PN} += "util-linux"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=ebf4e8b49780ab187d51bd26aaa022c6"
+ 
+ S="${WORKDIR}/initscripts-${PV}"
+-SRC_URI = "http://pkgs.fedoraproject.org/repo/pkgs/initscripts/initscripts-${PV}.tar.bz2/6a51a5af38e01445f53989ed0727c3e1/initscripts-${PV}.tar.bz2 \
+-           file://functions.patch \
++SRC_URI = "http://pkgs.fedoraproject.org/repo/pkgs/initscripts/initscripts-${PV}.tar.gz/sha512/b6ed38f9576e9227c2ecf047e2d60e1e872f40d51d13861b0c91dddb282f10f7e6b79706a4d1435d7a57a14a0b73a1b71541cfe44c00e8e03ef96b08de19ec32/initscripts-${PV}.tar.gz \
++           file://functions.patch;striplevel=2 \
+            file://0001-functions-avoid-exit-1-which-causes-init-scripts-to-.patch \
+           " 
+ 
+-SRC_URI[md5sum] = "6a51a5af38e01445f53989ed0727c3e1"
+-SRC_URI[sha256sum] = "2a1c6e9dbaa37a676518f4803b501e107c058bb14ef7a8db24c52b77fbcba531"
++SRC_URI[md5sum] = "d6c798f40dceb117e12126d94cb25a9a"
++SRC_URI[sha256sum] = "1793677bdd1f7ee4cb00878ce43346196374f848a4c8e4559e086040fc7487db"
+ 
+ inherit update-alternatives
+ 
 -- 
 1.9.1
 
