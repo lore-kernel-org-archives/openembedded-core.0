@@ -1,28 +1,29 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 692F277DB5
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id 03B6F77F34
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 Jun 2017 12:16:17 +0000 (UTC)
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	05 Jun 2017 05:16:07 -0700
+	Mon,  5 Jun 2017 12:43:36 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	05 Jun 2017 05:43:37 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.39,300,1493708400"; d="scan'208";a="109307489"
+X-IronPort-AV: E=Sophos;i="5.39,300,1493708400"; d="scan'208";a="1178438804"
 Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
 	([10.237.68.161])
-	by orsmga005.jf.intel.com with ESMTP; 05 Jun 2017 05:16:06 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 05 Jun 2017 05:43:36 -0700
 To: Richard Purdie <richard.purdie@linuxfoundation.org>,
 	openembedded-core@lists.openembedded.org,
 	Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
 References: <cover.1496329361.git.alexander.kanavin@linux.intel.com>
 	<1496585728.6630.165.camel@linuxfoundation.org>
+	<4f9f2466-1409-e5d8-917c-58b4864f8863@linux.intel.com>
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <4f9f2466-1409-e5d8-917c-58b4864f8863@linux.intel.com>
-Date: Mon, 5 Jun 2017 15:14:24 +0300
+Message-ID: <d0e384ec-86e3-7fb2-75df-b835b2d6e678@linux.intel.com>
+Date: Mon, 5 Jun 2017 15:41:54 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
 	Thunderbird/45.8.0
 MIME-Version: 1.0
-In-Reply-To: <1496585728.6630.165.camel@linuxfoundation.org>
+In-Reply-To: <4f9f2466-1409-e5d8-917c-58b4864f8863@linux.intel.com>
 Subject: Re: [PATCH 0/2] Multi-threaded RPM support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -36,32 +37,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Jun 2017 12:16:24 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
+X-List-Received-Date: Mon, 05 Jun 2017 12:43:37 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 06/04/2017 05:15 PM, Richard Purdie wrote:
+On 06/05/2017 03:14 PM, Alexander Kanavin wrote:
+> The patches as they are now require that the C compiler on the host is
+> recent; specifically that it defaults to C11 mode. I'm not sure when GCC
+> made the switch, but it works that way with GCC 6.3.0.
 
-> https://autobuilder.yoctoproject.org/main/builders/nightly-x86/builds/1
-> 163/steps/BuildImages/logs/stdio
->
-> https://autobuilder.yoctoproject.org/main/builders/nightly-x86-64/build
-> s/1203/steps/BuildImages/logs/stdio
->
-> https://autobuilder.yoctoproject.org/main/builders/nightly-ipk/builds/1
-> 112/steps/BuildImages/logs/stdio
->
-> I suspect the same issue causing failures in multiple places.
-
-The patches as they are now require that the C compiler on the host is 
-recent; specifically that it defaults to C11 mode. I'm not sure when GCC 
-made the switch, but it works that way with GCC 6.3.0.
-
-In any case, I'll rework the patches to use openmp, as requested by 
-upstream - this may however cause a different set of compatibility 
-problems with older GCC versions. What are the oldest host compiler 
-versions/distro versions that we still need to support in master?
+I researched; the change happened in gcc 5 (released april 22 2015).
 
 
 Alex
+
 
