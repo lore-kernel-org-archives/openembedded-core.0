@@ -1,45 +1,35 @@
-Return-Path: <jpewhacker@gmail.com>
-Received: from mail-wr0-f177.google.com (mail-wr0-f177.google.com
-	[209.85.128.177])
-	by mail.openembedded.org (Postfix) with ESMTP id C469270101
+Return-Path: <fan.xin@jp.fujitsu.com>
+Received: from mgwym04.jp.fujitsu.com (mgwym04.jp.fujitsu.com [211.128.242.43])
+	by mail.openembedded.org (Postfix) with ESMTP id DE40571CA2
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  4 Jun 2017 21:37:09 +0000 (UTC)
-Received: by mail-wr0-f177.google.com with SMTP id q97so29373456wrb.2
+	Mon,  5 Jun 2017 01:01:53 +0000 (UTC)
+Received: from yt-mxq.gw.nic.fujitsu.com (unknown [192.168.229.66]) by
+	mgwym04.jp.fujitsu.com with smtp
+	id 6400_7d95_11804d1c_4cec_473d_87cc_fd41344090c0;
+	Mon, 05 Jun 2017 10:01:46 +0900
+Received: from g01jpfmpwyt03.exch.g01.fujitsu.local
+	(g01jpfmpwyt03.exch.g01.fujitsu.local [10.128.193.57])
+	by yt-mxq.gw.nic.fujitsu.com (Postfix) with ESMTP id B1708AC0061
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 04 Jun 2017 14:37:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=u1Z8lazhbLIllJTZ2WkeDlaGQ/CpVHsW7N/GAuVm9kI=;
-	b=SXwHw7m0559KKHTfWfWhvB+XP+3MingXiO8/sO8s+fP6QdJuEGGopQUSTZHxpFc1aA
-	/Gsr4uJ3MiXsGsfNbayrxVI4VaSh3Lx9bac9osq8KV6JdzD/5DiYuiGZ2hNb6Mm176nb
-	7mgWxgvLlCKuzdqE8rz7XTsKg3IETw1aX9LMQ61n4lOM8vCyQz6/2HAbnO3/78FOCxaA
-	H8kpC7bCa9/hZvPFA6gcJYRY9ZATU5YuFJkG4a2Jj2OSTn0gwv8Kl0LtAumUXamGSHqm
-	7ndMYiiCWk2o2ePWNEbT6lC7vnfczUnwRLetMnb+IbnlORFzXSXkHW4OcSRjGA9X4rB+
-	/S0g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=u1Z8lazhbLIllJTZ2WkeDlaGQ/CpVHsW7N/GAuVm9kI=;
-	b=ROPTcjQx56EeJeqXkdpxuLst8r6qHPOr0bYYYRTMi6JllIOuuhR4kljnM6zI3V1xvI
-	ceaSo8XWo7AMCD3VzoNlqUIjJW4LyOBtyUZ9jc53sNF/Xuyu6osmMyMs42hiMfOLvUTN
-	rd07SzsCaYHNQirt/lQ/ICvvEUsZW1nDxKsamC8xFxwlrT1Av5EQvw1qDSa2ZvGbMyDs
-	Jzx+jRmOctE1VfViibFDUe6Hiy5gAVHLlwi6OxqCdZ80yTXQHvARinSmVBtxv9l9MMd4
-	ANh0zEahW/KRj4h+7o8Qgr2Z0DhoJzPvwjSybP0+hHNImdqn0+ApajJnee81PO800tUu
-	zEdA==
-X-Gm-Message-State: AODbwcBYSdKuTM/iQ1eGbezZb9HnTnRW46I1CWdpcYae30WXOP63xNix
-	z9VLwTU/XEGrMY9zaG3U9g4r7kT07hpg
-X-Received: by 10.223.156.26 with SMTP id f26mr11178785wrc.187.1496612230013; 
-	Sun, 04 Jun 2017 14:37:10 -0700 (PDT)
+	Mon,  5 Jun 2017 10:01:45 +0900 (JST)
+Received: from G01JPEXCHYT13.g01.fujitsu.local
+	(G01JPEXCHYT13.g01.fujitsu.local [10.128.194.52])
+	by g01jpfmpwyt03.exch.g01.fujitsu.local (Postfix) with ESMTP id
+	91F8346E5D4 for <openembedded-core@lists.openembedded.org>;
+	Mon,  5 Jun 2017 10:01:44 +0900 (JST)
+Received: from localhost.localdomain (10.24.19.99) by
+	G01JPEXCHYT13.g01.fujitsu.local (10.128.194.52) with Microsoft SMTP
+	Server id 14.3.266.1; Mon, 5 Jun 2017 10:01:43 +0900
+From: Fan Xin <fan.xin@jp.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 5 Jun 2017 10:03:02 +0900
+Message-ID: <1496624582-13307-1-git-send-email-fan.xin@jp.fujitsu.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Received: by 10.28.128.4 with HTTP; Sun, 4 Jun 2017 14:37:09 -0700 (PDT)
-In-Reply-To: <20170601013319.25260-1-JPEWhacker@gmail.com>
-References: <20170601013319.25260-1-JPEWhacker@gmail.com>
-From: Joshua Watt <jpewhacker@gmail.com>
-Date: Sun, 4 Jun 2017 16:37:09 -0500
-Message-ID: <CAJdd5Gani8CqS-7G4nA0qx1cAU1fuj5=TUNJdkxjyw=sA1p-vg@mail.gmail.com>
-To: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] archiver: Escape recipe name in regex
+X-SecurityPolicyCheck-GC: OK by FENCE-Mail
+X-Encrypted: FENCE-Mail/3.1.1
+X-TM-AS-MML: disable
+Subject: [PATCH] ncurses: Upgrade 6.0+20161126 -> 6.0+20170408
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,39 +42,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 04 Jun 2017 21:37:10 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 05 Jun 2017 01:01:55 -0000
+Content-Type: text/plain
 
-On Wed, May 31, 2017 at 8:33 PM, Joshua Watt <jpewhacker@gmail.com> wrote:
-> The recipe name needs to be escaped when it is used in a regular expression so
-> that any special characters are treated literally
->
-> Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
-> ---
->  meta/classes/archiver.bbclass | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/meta/classes/archiver.bbclass b/meta/classes/archiver.bbclass
-> index 2c04557..9cc9fb5 100644
-> --- a/meta/classes/archiver.bbclass
-> +++ b/meta/classes/archiver.bbclass
-> @@ -349,8 +349,8 @@ python do_ar_recipe () {
->      bbappend_files = d.getVar('BBINCLUDED').split()
->      # If recipe name is aa, we need to match files like aa.bbappend and aa_1.1.bbappend
->      # Files like aa1.bbappend or aa1_1.1.bbappend must be excluded.
-> -    bbappend_re = re.compile( r".*/%s_[^/]*\.bbappend$" %pn)
-> -    bbappend_re1 = re.compile( r".*/%s\.bbappend$" %pn)
-> +    bbappend_re = re.compile( r".*/%s_[^/]*\.bbappend$" % re.escape(pn))
-> +    bbappend_re1 = re.compile( r".*/%s\.bbappend$" % re.escape(pn))
->      for file in bbappend_files:
->          if bbappend_re.match(file) or bbappend_re1.match(file):
->              shutil.copy(file, outdir)
-> --
-> 2.9.4
->
-Would it be possible to get this backported to pyro and morty? If
-there is something else I need to move that along, please let me know.
+1. Upgrade ncurses from 6.0+20161126 to 6.0+20170408
 
-Thanks,
-Joshua Watt
+2. Delete the following patch file becuase new version already uses the awk to filter words.
+   fix-cflags-mangle.patch
+
+Signed-off-by: Fan Xin <fan.xin@jp.fujitsu.com>
+---
+ .../recipes-core/ncurses/files/fix-cflags-mangle.patch | 18 ------------------
+ ...ncurses_6.0+20161126.bb => ncurses_6.0+20170408.bb} |  3 +--
+ 2 files changed, 1 insertion(+), 20 deletions(-)
+ delete mode 100644 meta/recipes-core/ncurses/files/fix-cflags-mangle.patch
+ rename meta/recipes-core/ncurses/{ncurses_6.0+20161126.bb => ncurses_6.0+20170408.bb} (76%)
+
+diff --git a/meta/recipes-core/ncurses/files/fix-cflags-mangle.patch b/meta/recipes-core/ncurses/files/fix-cflags-mangle.patch
+deleted file mode 100644
+index e9447c5..0000000
+--- a/meta/recipes-core/ncurses/files/fix-cflags-mangle.patch
++++ /dev/null
+@@ -1,18 +0,0 @@
+-configure has a piece of logic to detect users "abusing" CC to hold compiler
+-flags (which we do).  It also has logic to "correct" this by moving the flags
+-from CC to CFLAGS, but the sed only handles a single argument in CC.
+-
+-Replace the sed with awk to filter out all words that start with a hyphen.
+-
+-Upstream-Status: Pending
+-Signed-off-by: Ross Burton <ross.burton@intel.com>
+-
+-diff --git a/configure b/configure
+-index 7f31208..1a29cfc 100755
+---- a/configure
+-+++ b/configure
+-@@ -2191,2 +2191,2 @@ echo "$as_me: WARNING: your environment misuses the CC variable to hold CFLAGS/C
+--	cf_flags=`echo "$CC" | sed -e 's/^.*[ 	]\(-[^ 	]\)/\1/'`
+--	CC=`echo "$CC " | sed -e 's/[ 	]-[^ 	].*$//' -e 's/[ 	]*$//'`
+-+	cf_flags=`echo "$CC" | awk  'BEGIN{ORS=" ";RS=" "} /^-.+/ {print $1}'`
+-+	CC=`echo "$CC " | awk  'BEGIN{ORS=" ";RS=" "} /^[^-].+/ {print $1}'`
+diff --git a/meta/recipes-core/ncurses/ncurses_6.0+20161126.bb b/meta/recipes-core/ncurses/ncurses_6.0+20170408.bb
+similarity index 76%
+rename from meta/recipes-core/ncurses/ncurses_6.0+20161126.bb
+rename to meta/recipes-core/ncurses/ncurses_6.0+20170408.bb
+index ace3108..02db551 100644
+--- a/meta/recipes-core/ncurses/ncurses_6.0+20161126.bb
++++ b/meta/recipes-core/ncurses/ncurses_6.0+20170408.bb
+@@ -1,12 +1,11 @@
+ require ncurses.inc
+ 
+ SRC_URI += "file://tic-hang.patch \
+-            file://fix-cflags-mangle.patch \
+             file://config.cache \
+             file://configure-reproducible.patch \
+ "
+ # commit id corresponds to the revision in package version
+-SRCREV = "3db0bd19cb50e3d9b4f2cf15b7a102fe11302068"
++SRCREV = "9e9f3df43c491e8f046345b9d1aa54ad57201df2"
+ S = "${WORKDIR}/git"
+ EXTRA_OECONF += "--with-abi-version=5"
+ UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+(\.\d+)+(\+\d+)*)"
+-- 
+1.9.1
+
 
