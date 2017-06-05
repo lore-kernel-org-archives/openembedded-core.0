@@ -1,24 +1,27 @@
-Return-Path: <Jackie.Huang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 58F72771EE
+Return-Path: <peter.marko@siemens.com>
+Received: from thoth.sbs.de (thoth.sbs.de [192.35.17.2])
+	by mail.openembedded.org (Postfix) with ESMTP id DAFA873097
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 Jun 2017 07:05:57 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v5575wMO000015
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Mon,  5 Jun 2017 07:21:28 +0000 (UTC)
+Received: from mail3.siemens.de (mail3.siemens.de [139.25.208.14])
+	by thoth.sbs.de (8.15.2/8.15.2) with ESMTPS id v557LOe7013592
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 5 Jun 2017 00:05:59 -0700 (PDT)
-Received: from pek-hostel-deb01.wrs.com (128.224.153.151) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.294.0; Mon, 5 Jun 2017 00:05:58 -0700
-From: <jackie.huang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 5 Jun 2017 15:05:57 +0800
-Message-ID: <20170605070557.10106-1-jackie.huang@windriver.com>
-X-Mailer: git-send-email 2.11.0
-MIME-Version: 1.0
-Subject: [PATCH] kmscube: add opengl to REQUIRED_DISTRO_FEATURES
+	Mon, 5 Jun 2017 09:21:25 +0200
+Received: from dev.sbt.siemens.com ([163.242.44.98])
+	by mail3.siemens.de (8.15.2/8.15.2) with ESMTP id v557LOGF001566;
+	Mon, 5 Jun 2017 09:21:24 +0200
+Received: from dev.sbt.siemens.com (localhost [127.0.0.1])
+	by dev.sbt.siemens.com (Postfix) with ESMTP id 9B87A1AC4B2;
+	Mon,  5 Jun 2017 09:21:24 +0200 (CEST)
+From: Peter Marko <peter.marko@siemens.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  5 Jun 2017 09:21:13 +0200
+Message-Id: <1496647273-9693-6-git-send-email-peter.marko@siemens.com>
+X-Mailer: git-send-email 2.1.4
+In-Reply-To: <1496647273-9693-1-git-send-email-peter.marko@siemens.com>
+References: <1496647273-9693-1-git-send-email-peter.marko@siemens.com>
+Subject: [PATCH 5/5] cve-check-tool: fix crash on exceptions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,32 +34,86 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Jun 2017 07:05:58 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 05 Jun 2017 07:21:29 -0000
 
-From: Jackie Huang <jackie.huang@windriver.com>
+This fixes cve-check-tool crashes on exceptions.
 
-kmscube depends on virtual/libgles2, virtual/egl (provided
-by mesa) and gstreamer1.0 which require opengl in DISTRO_FEATURES.
-
-Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
- meta/recipes-graphics/kmscube/kmscube_git.bb | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ .../cve-check-tool/cve-check-tool_5.6.4.bb         |  1 +
+ ...01-Fix-freeing-memory-allocated-by-sqlite.patch | 50 ++++++++++++++++++++++
+ 2 files changed, 51 insertions(+)
+ create mode 100644 meta/recipes-devtools/cve-check-tool/files/0001-Fix-freeing-memory-allocated-by-sqlite.patch
 
-diff --git a/meta/recipes-graphics/kmscube/kmscube_git.bb b/meta/recipes-graphics/kmscube/kmscube_git.bb
-index 0ec5b2a7fa..9050671ab1 100644
---- a/meta/recipes-graphics/kmscube/kmscube_git.bb
-+++ b/meta/recipes-graphics/kmscube/kmscube_git.bb
-@@ -11,4 +11,6 @@ SRC_URI = "git://anongit.freedesktop.org/mesa/kmscube;branch=master;protocol=git
+diff --git a/meta/recipes-devtools/cve-check-tool/cve-check-tool_5.6.4.bb b/meta/recipes-devtools/cve-check-tool/cve-check-tool_5.6.4.bb
+index 1f906ee..4829b11 100644
+--- a/meta/recipes-devtools/cve-check-tool/cve-check-tool_5.6.4.bb
++++ b/meta/recipes-devtools/cve-check-tool/cve-check-tool_5.6.4.bb
+@@ -11,6 +11,7 @@ SRC_URI = "https://github.com/ikeydoherty/${BPN}/releases/download/v${PV}/${BP}.
+            file://0001-print-progress-in-percent-when-downloading-CVE-db.patch \
+            file://0001-curl-allow-overriding-default-CA-certificate-file.patch \
+            file://0001-update-Compare-computed-vs-expected-sha256-digit-str.patch \
++           file://0001-Fix-freeing-memory-allocated-by-sqlite.patch \
+           "
  
- S = "${WORKDIR}/git"
- 
--inherit autotools pkgconfig
-+inherit autotools pkgconfig distro_features_check
+ SRC_URI[md5sum] = "c5f4247140fc9be3bf41491d31a34155"
+diff --git a/meta/recipes-devtools/cve-check-tool/files/0001-Fix-freeing-memory-allocated-by-sqlite.patch b/meta/recipes-devtools/cve-check-tool/files/0001-Fix-freeing-memory-allocated-by-sqlite.patch
+new file mode 100644
+index 0000000..4a82cf2
+--- /dev/null
++++ b/meta/recipes-devtools/cve-check-tool/files/0001-Fix-freeing-memory-allocated-by-sqlite.patch
+@@ -0,0 +1,50 @@
++From a3353429652f83bb8b0316500faa88fa2555542d Mon Sep 17 00:00:00 2001
++From: Peter Marko <peter.marko@siemens.com>
++Date: Thu, 13 Apr 2017 23:09:52 +0200
++Subject: [PATCH] Fix freeing memory allocated by sqlite
 +
-+REQUIRED_DISTRO_FEATURES = "opengl"
++Upstream-Status: Backport
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++---
++ src/core.c | 8 ++++----
++ 1 file changed, 4 insertions(+), 4 deletions(-)
++
++diff --git a/src/core.c b/src/core.c
++index 6263031..6788f16 100644
++--- a/src/core.c
+++++ b/src/core.c
++@@ -82,7 +82,7 @@ static bool ensure_table(CveDB *self)
++         rc = sqlite3_exec(self->db, query, NULL, NULL, &err);
++         if (rc != SQLITE_OK) {
++                 fprintf(stderr, "ensure_table(): %s\n", err);
++-                free(err);
+++                sqlite3_free(err);
++                 return false;
++         }
++         
++@@ -91,7 +91,7 @@ static bool ensure_table(CveDB *self)
++         rc = sqlite3_exec(self->db, query, NULL, NULL, &err);
++         if (rc != SQLITE_OK) {
++                 fprintf(stderr, "ensure_table(): %s\n", err);
++-                free(err);
+++                sqlite3_free(err);
++                 return false;
++         }
++ 
++@@ -99,11 +99,11 @@ static bool ensure_table(CveDB *self)
++         rc = sqlite3_exec(self->db, query, NULL, NULL, &err);
++         if (rc != SQLITE_OK) {
++                 fprintf(stderr, "ensure_table(): %s\n", err);
++-                free(err);
+++                sqlite3_free(err);
++                 return false;
++         }
++         if (err) {
++-                free(err);
+++                sqlite3_free(err);
++         }
++ 
++         return true;
++-- 
++2.1.4
++
 -- 
-2.11.0
+2.1.4
 
 
