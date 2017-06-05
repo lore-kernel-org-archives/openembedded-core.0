@@ -1,40 +1,34 @@
-Return-Path: <rebecca.swee.fun.chang@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 336EC60107
+Return-Path: <fan.xin@jp.fujitsu.com>
+Received: from mgwym01.jp.fujitsu.com (mgwym01.jp.fujitsu.com [211.128.242.40])
+	by mail.openembedded.org (Postfix) with ESMTP id 1C63E6FFED
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 Jun 2017 01:15:43 +0000 (UTC)
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	04 Jun 2017 18:15:43 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.39,298,1493708400"; d="scan'208";a="270153178"
-Received: from kmsmsx155.gar.corp.intel.com ([172.21.73.106])
-	by fmsmga004.fm.intel.com with ESMTP; 04 Jun 2017 18:15:42 -0700
-Received: from pgsmsx103.gar.corp.intel.com ([169.254.2.82]) by
-	KMSMSX155.gar.corp.intel.com ([169.254.15.19]) with mapi id
-	14.03.0319.002; Mon, 5 Jun 2017 09:15:40 +0800
-From: "Chang, Rebecca Swee Fun" <rebecca.swee.fun.chang@intel.com>
-To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>, 
-	"Purdie, Richard" <richard.purdie@intel.com>, "Burton, Ross"
-	<ross.burton@intel.com>
-Thread-Topic: [PATCHv3 0/2] devshell: make sure toolchains are populated in
-	sysroot
-Thread-Index: AQHS2OYAxRK2vm7kfE6wZApanpOHg6IRPx1Q
-Date: Mon, 5 Jun 2017 01:15:40 +0000
-Message-ID: <50B33AC5ED75F74F991980326F1C438D1F050F18@PGSMSX103.gar.corp.intel.com>
-References: <cover.1496107463.git.rebecca.swee.fun.chang@intel.com>
-In-Reply-To: <cover.1496107463.git.rebecca.swee.fun.chang@intel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-version: 10.0.102.7
-dlp-reaction: no-action
-x-originating-ip: [172.30.20.205]
+	Mon,  5 Jun 2017 02:19:30 +0000 (UTC)
+Received: from yt-mxoi1.gw.nic.fujitsu.com (unknown [192.168.229.67]) by
+	mgwym01.jp.fujitsu.com with smtp
+	id 2bc5_37cf_99ac78d0_9812_4768_9d84_f021d4aafa68;
+	Mon, 05 Jun 2017 11:19:24 +0900
+Received: from g01jpfmpwkw02.exch.g01.fujitsu.local
+	(g01jpfmpwkw02.exch.g01.fujitsu.local [10.0.193.56])
+	by yt-mxoi1.gw.nic.fujitsu.com (Postfix) with ESMTP id 67007AC0145
+	for <openembedded-core@lists.openembedded.org>;
+	Mon,  5 Jun 2017 11:19:24 +0900 (JST)
+Received: from g01jpexchkw38.g01.fujitsu.local (unknown [10.0.193.4])
+	by g01jpfmpwkw02.exch.g01.fujitsu.local (Postfix) with ESMTP id
+	546893283F0 for <openembedded-core@lists.openembedded.org>;
+	Mon,  5 Jun 2017 11:19:23 +0900 (JST)
+Received: from localhost.localdomain (10.24.19.99) by
+	g01jpexchkw38.g01.fujitsu.local (10.0.193.68) with Microsoft SMTP
+	Server id 14.3.266.1; Mon, 5 Jun 2017 11:19:20 +0900
+From: Fan Xin <fan.xin@jp.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 5 Jun 2017 11:20:40 +0900
+Message-ID: <1496629240-14416-1-git-send-email-fan.xin@jp.fujitsu.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Cc: Internal Core dev Mailing List <core-dev@eclists.intel.com>, "Eggleton,
-	Paul" <paul.eggleton@intel.com>
-Subject: Re: [PATCHv3 0/2] devshell: make sure toolchains are populated in sysroot
+X-SecurityPolicyCheck-GC: OK by FENCE-Mail
+X-Encrypted: FENCE-Mail/3.1.1
+X-TM-AS-MML: disable
+Subject: [PATCH] cairo: Fix CVE-2017-7475
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,71 +41,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Jun 2017 01:15:48 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 05 Jun 2017 02:19:31 -0000
+Content-Type: text/plain
 
-Hi all,
+CVE: CVE-2017-7475
 
-May I know is this patch in queue for merging? This fix was planned for 2.4=
-M1.
-Thank you very much.
+Bug 100763 - Denial-of-Service Attack due to Logical Problem in Program
 
-Regards,
-Rebecca
+https://bugs.freedesktop.org/show_bug.cgi?id=100763
 
-> -----Original Message-----
-> From: Chang, Rebecca Swee Fun
-> Sent: Tuesday, May 30, 2017 9:43 AM
-> To: OpenEmbedded Core Mailing List <openembedded-
-> core@lists.openembedded.org>
-> Cc: Chang, Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>; Internal
-> Core dev Mailing List <core-dev@eclists.intel.com>
-> Subject: [PATCHv3 0/2] devshell: make sure toolchains are populated in sy=
-sroot
->=20
-> From: Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>
->=20
-> Rework on PATCHv2.
-> addtask do_prepare_recipe_sysroot is having the same effect on building m=
-ore
-> dependencies for devshell.
->=20
-> The 2nd patch in series is to clean up some trailing whitespaces within
-> devshell.bbclass.
->=20
-> I have done some tests on random recipe to ensure this change is having t=
-he
-> same behavior as the previous implementation.
->=20
-> Thanks.
->=20
-> Regards,
-> Rebecca
->=20
-> The following changes since commit
-> 27200a3afd606df7f8e592439a8dd403d714ea6f:
->=20
->   bind: build with threads and update configure options (2017-05-29 15:15=
-:20
-> +0100)
->=20
-> are available in the git repository at:
->=20
->   git://git.yoctoproject.org/poky-contrib rebeccas/11464-devshell
->   http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=3Drebeccas/114=
-64-
-> devshell
->=20
-> Chang Rebecca Swee Fun (2):
->   devshell.bbclass: ensure toolchains available for do_devshell
->   devshell.bbclass: clean up trailing whitespaces
->=20
->  meta/classes/devshell.bbclass | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
->=20
-> --
-> 2.7.4
+Signed-off-by: Fan Xin <fan.xin@jp.fujitsu.com>
+---
+ ...et_bitmap_surface-bsc1036789-CVE-2017-7475.diff | 22 ++++++++++++++++++++++
+ meta/recipes-graphics/cairo/cairo_1.14.8.bb        |  4 +++-
+ 2 files changed, 25 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-graphics/cairo/cairo/cairo-get_bitmap_surface-bsc1036789-CVE-2017-7475.diff
+
+diff --git a/meta/recipes-graphics/cairo/cairo/cairo-get_bitmap_surface-bsc1036789-CVE-2017-7475.diff b/meta/recipes-graphics/cairo/cairo/cairo-get_bitmap_surface-bsc1036789-CVE-2017-7475.diff
+new file mode 100644
+index 0000000..96b1127
+--- /dev/null
++++ b/meta/recipes-graphics/cairo/cairo/cairo-get_bitmap_surface-bsc1036789-CVE-2017-7475.diff
+@@ -0,0 +1,22 @@
++Cairo: Fix Denial-of-Service Attack due to Logical Problem in Program
++
++https://bugs.freedesktop.org/show_bug.cgi?id=100763
++
++CVE: CVE-2017-7475
++Upstream-Status: Pending
++
++Signed-off-by: Fan Xin <fan.xin@jp.fujitsu.com>
++
++Index: cairo-1.15.4/src/cairo-ft-font.c
++===================================================================
++--- cairo-1.15.4.orig/src/cairo-ft-font.c
+++++ cairo-1.15.4/src/cairo-ft-font.c
++@@ -1149,7 +1149,7 @@ _get_bitmap_surface (FT_Bitmap		     *bi
++     width = bitmap->width;
++     height = bitmap->rows;
++ 
++-    if (width == 0 || height == 0) {
+++    if (width == 0 || height == 0 || bitmap->buffer == NULL) {
++ 	*surface = (cairo_image_surface_t *)
++ 	    cairo_image_surface_create_for_data (NULL, format, 0, 0, 0);
++ 	return (*surface)->base.status;
+diff --git a/meta/recipes-graphics/cairo/cairo_1.14.8.bb b/meta/recipes-graphics/cairo/cairo_1.14.8.bb
+index 5a3c74f..fe1f37d 100644
+--- a/meta/recipes-graphics/cairo/cairo_1.14.8.bb
++++ b/meta/recipes-graphics/cairo/cairo_1.14.8.bb
+@@ -2,7 +2,9 @@ require cairo.inc
+ 
+ LIC_FILES_CHKSUM = "file://COPYING;md5=e73e999e0c72b5ac9012424fa157ad77"
+ 
+-SRC_URI = "http://cairographics.org/releases/cairo-${PV}.tar.xz"
++SRC_URI = "http://cairographics.org/releases/cairo-${PV}.tar.xz \
++	   file://cairo-get_bitmap_surface-bsc1036789-CVE-2017-7475.diff \	
++          "
+ 
+ SRC_URI[md5sum] = "4ef0db2eacb271c74f8a3fd87822aa98"
+ SRC_URI[sha256sum] = "d1f2d98ae9a4111564f6de4e013d639cf77155baf2556582295a0f00a9bc5e20"
+-- 
+1.9.1
 
 
