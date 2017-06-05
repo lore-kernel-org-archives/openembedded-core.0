@@ -1,32 +1,25 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 9A7CE773D5
+Return-Path: <Li.Zhou@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 42F8C77B99
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 Jun 2017 08:22:54 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	v558MoDj000354
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Mon, 5 Jun 2017 09:22:51 +0100
-Message-ID: <1496650970.6630.175.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: "Chang, Rebecca Swee Fun" <rebecca.swee.fun.chang@intel.com>,
-	OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>, 
-	"Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 05 Jun 2017 09:22:50 +0100
-In-Reply-To: <50B33AC5ED75F74F991980326F1C438D1F050F18@PGSMSX103.gar.corp.intel.com>
-References: <cover.1496107463.git.rebecca.swee.fun.chang@intel.com>
-	<50B33AC5ED75F74F991980326F1C438D1F050F18@PGSMSX103.gar.corp.intel.com>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.1 
-Mime-Version: 1.0
-X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.11
-	(dan.rpsys.net [192.168.3.1]);
-	Mon, 05 Jun 2017 09:22:51 +0100 (BST)
-X-Virus-Scanned: clamav-milter 0.99.2 at dan
-X-Virus-Status: Clean
-Cc: Internal Core dev Mailing List <core-dev@eclists.intel.com>, "Eggleton,
-	Paul" <paul.eggleton@intel.com>
-Subject: Re: [PATCHv3 0/2] devshell: make sure toolchains are populated in sysroot
+	Mon,  5 Jun 2017 09:15:55 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v559FuCP012968
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 5 Jun 2017 02:15:56 -0700 (PDT)
+Received: from pek-lpggp2.wrs.com (128.224.153.75) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server (TLS) id 14.3.294.0;
+	Mon, 5 Jun 2017 02:15:55 -0700
+From: Li Zhou <li.zhou@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 5 Jun 2017 17:15:12 +0800
+Message-ID: <1496654112-103612-1-git-send-email-li.zhou@windriver.com>
+X-Mailer: git-send-email 1.9.1
+MIME-Version: 1.0
+X-Originating-IP: [128.224.153.75]
+Subject: [PATCH V2] python2/3: Remove building host path from packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,18 +32,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Jun 2017 08:22:55 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 05 Jun 2017 09:15:57 -0000
+Content-Type: text/plain
 
-On Mon, 2017-06-05 at 01:15 +0000, Chang, Rebecca Swee Fun wrote:
-> Hi all,
-> 
-> May I know is this patch in queue for merging? This fix was planned
-> for 2.4M1.
-> Thank you very much.
+Remove building host related path from python2 and python3 packages.
 
-I've queued these in -next, thanks.
+Signed-off-by: Li Zhou <li.zhou@windriver.com>
+---
+ meta/recipes-devtools/python/python3_3.5.3.bb | 7 ++++++-
+ meta/recipes-devtools/python/python_2.7.13.bb | 5 +++++
+ 2 files changed, 11 insertions(+), 1 deletion(-)
 
-Richard
+diff --git a/meta/recipes-devtools/python/python3_3.5.3.bb b/meta/recipes-devtools/python/python3_3.5.3.bb
+index d7c29f2..58313f7 100644
+--- a/meta/recipes-devtools/python/python3_3.5.3.bb
++++ b/meta/recipes-devtools/python/python3_3.5.3.bb
+@@ -185,9 +185,14 @@ py_package_preprocess () {
+ 	install -m 0644 ${B}/Makefile.orig ${PKGD}/${libdir}/python${PYTHON_MAJMIN}/config-${PYTHON_MAJMIN}${PYTHON_ABI}/Makefile
+ 	# Remove references to buildmachine paths in target Makefile and _sysconfigdata
+ 	sed -i -e 's:--sysroot=${STAGING_DIR_TARGET}::g' -e s:'--with-libtool-sysroot=${STAGING_DIR_TARGET}'::g \
++		-e 's:${STAGING_DIR_NATIVE}::g' \
++		-e 's:${STAGING_DIR_HOST}::g' \
++		-e 's:${WORKDIR}::g' \
++		-e 's:${TMPDIR}::g' \
+ 		${PKGD}/${libdir}/python${PYTHON_MAJMIN}/config/Makefile \
+ 		${PKGD}/${libdir}/python${PYTHON_MAJMIN}/config-${PYTHON_MAJMIN}${PYTHON_ABI}/Makefile \
+-		${PKGD}/${libdir}/python${PYTHON_MAJMIN}/_sysconfigdata.py
++		${PKGD}/${libdir}/python${PYTHON_MAJMIN}/_sysconfigdata.py \
++		${PKGD}/${bindir}/python${PYTHON_MAJMIN}${PYTHON_ABI}-config
+ }
+ 
+ require python-${PYTHON_MAJMIN}-manifest.inc
+diff --git a/meta/recipes-devtools/python/python_2.7.13.bb b/meta/recipes-devtools/python/python_2.7.13.bb
+index 4ef9952..e93a84f 100644
+--- a/meta/recipes-devtools/python/python_2.7.13.bb
++++ b/meta/recipes-devtools/python/python_2.7.13.bb
+@@ -131,7 +131,12 @@ py_package_preprocess () {
+ 
+ 	# Remove references to buildmachine paths in target Makefile and _sysconfigdata
+ 	sed -i -e 's:--sysroot=${STAGING_DIR_TARGET}::g' -e s:'--with-libtool-sysroot=${STAGING_DIR_TARGET}'::g \
++		-e 's:${STAGING_DIR_NATIVE}::g' \
++		-e 's:${STAGING_DIR_HOST}::g' \
++		-e 's:${WORKDIR}::g' \
++		-e 's:${TMPDIR}::g' \
+ 		${PKGD}/${libdir}/python${PYTHON_MAJMIN}/config/Makefile \
++		${PKGD}/${libdir}/python${PYTHON_MAJMIN}/config/config.c \
+ 		${PKGD}/${libdir}/python${PYTHON_MAJMIN}/_sysconfigdata.py
+     python -m py_compile ${PKGD}/${libdir}/python${PYTHON_MAJMIN}/_sysconfigdata.py
+ }
+-- 
+1.9.1
+
 
