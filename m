@@ -1,24 +1,47 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 76FC1781C8
+Return-Path: <net147@gmail.com>
+Received: from mail-pf0-f194.google.com (mail-pf0-f194.google.com
+	[209.85.192.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 289AE780F3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 Jun 2017 22:48:01 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	05 Jun 2017 15:48:00 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.39,303,1493708400"; d="scan'208";a="977113002"
-Received: from swold-mobl2.amr.corp.intel.com ([10.254.94.120])
-	by orsmga003.jf.intel.com with ESMTP; 05 Jun 2017 15:48:00 -0700
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org,
-	richard.purdie@linuxfoundation.org
-Date: Mon,  5 Jun 2017 15:47:56 -0700
-Message-Id: <1496702876-32494-2-git-send-email-sgw@linux.intel.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1496702876-32494-1-git-send-email-sgw@linux.intel.com>
-References: <1496702876-32494-1-git-send-email-sgw@linux.intel.com>
-Subject: [PATCH] mkelfimage: Fix broken patch when building native
+	Mon,  5 Jun 2017 23:59:13 +0000 (UTC)
+Received: by mail-pf0-f194.google.com with SMTP id w69so22417194pfk.1
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 05 Jun 2017 16:59:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=qmg6Z2C+k/nHcU5ZVMNZSvALiCRZZHXg6vI2PV5hsMA=;
+	b=inLhpKukw94y+Hn0ZxVK4jXKrcJGhrvexpvW9YukI++7mii2C8T5Y6deVm/wRyP5Ka
+	3ITMwUh2G8ah97izOa0vveI1RGKzhSWDadXm2m0sTRb7Oxc1dcoiAdfiBk8hxXA4QQtx
+	wtbPfPXwzu725Ue1vWNqhkBH4g9ho2mWINznouKjUTPacS79KiqwZHz8Y06V65jWV3Bq
+	FGE5X0K5s0nXGtTEOX3p3Zb0hLQjOv7xFsVsGxaofVIe8YGUggFCBuBXOgxGK0pUspcL
+	k7ANhcxgwuGfpTjDxnHdgDYlcx0VgtBblPAZPhI8g4MGjeOhnZQDn4qegtXkRNgHaNvL
+	VE1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=qmg6Z2C+k/nHcU5ZVMNZSvALiCRZZHXg6vI2PV5hsMA=;
+	b=B9vpz3XDxjo/piS8YEx+FZU3EupFu5VVoOMnfVquNJ0g+7wVr/+BvJQDgr0p9KgKIw
+	ewByLvfG7YN/K0ncxzcpMb5BHgXQNog8SLLAAhHohYs90EyQPVYjJGSIehWLoh8U7VXz
+	Q/2aQceBuVPYds+H+Zk4mqUyebhQfRSo9fJOo3toMrMQMw/7ZpHAYdhM/AqFqxpSxavO
+	D/dYSgK/yyn26e0yWUV82sXO41sDdFmMv0XsyrCDKJd2dNXvJZaWYgsrbUsVL5gZw0RN
+	xcM0olxKNr71FsccDivN4CBGc8zER8RUXifVaISrtosfrWhtYkbmDwkmV6N8Fm4wGRLl
+	EFRw==
+X-Gm-Message-State: AODbwcBZtZVBoc+0tg7nZqUw0Lcz4aDxn4pb9vaZkjftwf0kOq6GDosy
+	KXuCi6jIKFMIvw==
+X-Received: by 10.98.91.5 with SMTP id p5mr22396494pfb.94.1496707155245;
+	Mon, 05 Jun 2017 16:59:15 -0700 (PDT)
+Received: from 60-242-179-244.static.tpgi.com.au
+	(60-242-179-244.static.tpgi.com.au. [60.242.179.244])
+	by smtp.gmail.com with ESMTPSA id
+	71sm36035109pgd.57.2017.06.05.16.59.14
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Mon, 05 Jun 2017 16:59:14 -0700 (PDT)
+From: Jonathan Liu <net147@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  6 Jun 2017 09:59:52 +1000
+Message-Id: <20170605235952.16856-1-net147@gmail.com>
+X-Mailer: git-send-email 2.12.2
+Subject: [pyro][PATCH] bitbake.conf: Add sdl-config to HOSTTOOLS if using host SDL
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,57 +54,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Jun 2017 22:48:02 -0000
+X-List-Received-Date: Mon, 05 Jun 2017 23:59:14 -0000
 
-A change occured about a year ago that broke the native build, fix
-that patch
+If ASSUME_PROVIDES contains libsdl-native, we need to add sdl-config
+to HOSTTOOLS to allow access to the host sdl-config.
 
-[YOCTO #11590]
+(From OE-Core rev: eeb248c1a017e07e36b6fbaafe45006e3869f41a)
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
+Signed-off-by: Jonathan Liu <net147@gmail.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- .../mkelfimage/mkelfimage/fix-makefile-to-find-libz.patch | 15 +++++++++------
- 1 file changed, 9 insertions(+), 6 deletions(-)
+ meta/conf/bitbake.conf | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/meta/recipes-devtools/mkelfimage/mkelfimage/fix-makefile-to-find-libz.patch b/meta/recipes-devtools/mkelfimage/mkelfimage/fix-makefile-to-find-libz.patch
-index 756a65c..be54754 100644
---- a/meta/recipes-devtools/mkelfimage/mkelfimage/fix-makefile-to-find-libz.patch
-+++ b/meta/recipes-devtools/mkelfimage/mkelfimage/fix-makefile-to-find-libz.patch
-@@ -3,8 +3,11 @@ Let makefile find libz and zlib.h by CFLAGS and LDFLAGS.
- Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
- Upstream-Status: Pending
- ---
-+ configure.ac | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 8e4f4bbb56..3ad905c917 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -471,6 +471,9 @@ HOSTTOOLS += " \
+ # Tools needed to run testimage runtime image testing
+ HOSTTOOLS += "ip ping ps scp ssh stty"
+ 
++# Link to sdl-config if using host SDL
++HOSTTOOLS += "${@bb.utils.contains('ASSUME_PROVIDES', 'libsdl-native', 'sdl-config', '', d)}"
 +
- diff --git a/configure.ac b/configure.ac
--index d1acc36..6f865b0 100644
-+index 0f2ac72..f9099a2 100644
- --- a/configure.ac
- +++ b/configure.ac
- @@ -62,7 +62,7 @@ AC_CHECK_PROG([RPM],   rpm,   rpm,   [], [$PATH])
-@@ -16,15 +19,15 @@ index d1acc36..6f865b0 100644
-  
-  dnl Find the default programs
-  if test "with_default" != no ; then
--@@ -175,7 +175,7 @@ fi
-- 
-+@@ -176,7 +176,7 @@ fi
-  dnl ---Output variables...
-  
---HOST_CFLAGS="$HOST_CFLAGS -O2 -Wall \$(HOST_CPPFLAGS)"
--+HOST_CFLAGS="$HOST_CFLAGS -O2 -Wall \$(HOST_CPPFLAGS) $CFLAGS"
-+ CFLAGS="${CFLAGS:--O2} -Wall \$(CPPFLAGS)"
-+-HOST_CFLAGS="${HOST_CFLAGS:--O2} -Wall \$(HOST_CPPFLAGS)"
-++HOST_CFLAGS="${HOST_CFLAGS:--O2} -Wall \$(HOST_CPPFLAGS) $CFLAGS"
-  
-  dnl TODO: figure out how to set these appropriately for compilers other than gcc
-  I386_CFLAGS="$I386_CFLAGS -Os -ffreestanding -Wall -W -Wno-format \$(I386_CPPFLAGS)"
- -- 
--1.7.10.4
-+2.7.4
+ # Link to these if present
+ HOSTTOOLS_NONFATAL += "aws ccache gcc-ar gpg ld.bfd ld.gold nc sftp socat sudo"
  
 -- 
-2.7.4
+2.12.2
 
 
