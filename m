@@ -1,30 +1,29 @@
-Return-Path: <andrej.valek@siemens.com>
-Received: from gecko.sbs.de (unknown [194.138.37.40])
-	by mail.openembedded.org (Postfix) with ESMTP id 35DBC60119
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 692F277DB5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 Jun 2017 11:37:46 +0000 (UTC)
-Received: from mail2.sbs.de (mail2.sbs.de [192.129.41.66])
-	by gecko.sbs.de (8.15.2/8.15.2) with ESMTPS id v55Bbcvo008349
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK); 
-	Mon, 5 Jun 2017 13:37:38 +0200
-Received: from [192.168.253.100] ([163.242.56.100])
-	by mail2.sbs.de (8.15.2/8.15.2) with ESMTPS id v55BbbH3031591
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Mon, 5 Jun 2017 13:37:38 +0200
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <1496235309-30694-1-git-send-email-andrej.valek@siemens.com>
-	<b326ca76-61c3-d11a-c497-5e773e590815@siemens.com>
-	<CAJTo0LbQR=NCQ9QyAY+R5QZTGFxiAx610s_GsaeZzvzUhSBwuA@mail.gmail.com>
-From: Andrej Valek <andrej.valek@siemens.com>
-Message-ID: <a0b6fc52-f3ed-2b8a-7338-6b954f05a63b@siemens.com>
-Date: Mon, 5 Jun 2017 13:37:37 +0200
+	Mon,  5 Jun 2017 12:16:17 +0000 (UTC)
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	05 Jun 2017 05:16:07 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.39,300,1493708400"; d="scan'208";a="109307489"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by orsmga005.jf.intel.com with ESMTP; 05 Jun 2017 05:16:06 -0700
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	openembedded-core@lists.openembedded.org,
+	Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+References: <cover.1496329361.git.alexander.kanavin@linux.intel.com>
+	<1496585728.6630.165.camel@linuxfoundation.org>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <4f9f2466-1409-e5d8-917c-58b4864f8863@linux.intel.com>
+Date: Mon, 5 Jun 2017 15:14:24 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
 	Thunderbird/45.8.0
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0LbQR=NCQ9QyAY+R5QZTGFxiAx610s_GsaeZzvzUhSBwuA@mail.gmail.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] srecord: add collection of tools for manipulating EPROM load files
+In-Reply-To: <1496585728.6630.165.camel@linuxfoundation.org>
+Subject: Re: [PATCH 0/2] Multi-threaded RPM support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,30 +36,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Jun 2017 11:37:50 -0000
-Content-Type: text/plain; charset=utf-8
+X-List-Received-Date: Mon, 05 Jun 2017 12:16:24 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-ok, I have moved it into meta-oe
-(http://lists.openembedded.org/pipermail/openembedded-devel/2017-June/113040.html)
+On 06/04/2017 05:15 PM, Richard Purdie wrote:
 
-*fixed url
+> https://autobuilder.yoctoproject.org/main/builders/nightly-x86/builds/1
+> 163/steps/BuildImages/logs/stdio
+>
+> https://autobuilder.yoctoproject.org/main/builders/nightly-x86-64/build
+> s/1203/steps/BuildImages/logs/stdio
+>
+> https://autobuilder.yoctoproject.org/main/builders/nightly-ipk/builds/1
+> 112/steps/BuildImages/logs/stdio
+>
+> I suspect the same issue causing failures in multiple places.
 
-On 06/05/2017 12:42 PM, Burton, Ross wrote:
-> 
-> On 5 June 2017 at 08:55, Andrej Valek <andrej.valek@siemens.com 
-> <mailto:andrej.valek@siemens.com>> wrote:
-> 
->     For explanation, this utility is used for EPROM data manipulation.
->     I think, it should be useful for development of embedded devices.
-> 
->     Is this the correct mailing list?
->     If not, which mailing list would be appropriate?
-> 
-> 
-> I'd suggest that meta-oe would be a better place as this doesn't appear to be 
-> universal enough for oe-core.
-> 
-> Ross
-> 
+The patches as they are now require that the C compiler on the host is 
+recent; specifically that it defaults to C11 mode. I'm not sure when GCC 
+made the switch, but it works that way with GCC 6.3.0.
+
+In any case, I'll rework the patches to use openmp, as requested by 
+upstream - this may however cause a different set of compatibility 
+problems with older GCC versions. What are the oldest host compiler 
+versions/distro versions that we still need to support in master?
+
+
+Alex
 
