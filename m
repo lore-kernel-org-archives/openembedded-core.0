@@ -1,36 +1,36 @@
-Return-Path: <fan.xin@jp.fujitsu.com>
-Received: from mgwym02.jp.fujitsu.com (mgwym02.jp.fujitsu.com [211.128.242.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 7853E77E57
+Return-Path: <jan.kiszka@siemens.com>
+Received: from david.siemens.de (david.siemens.de [192.35.17.14])
+	by mail.openembedded.org (Postfix) with ESMTP id 7A0E277DB1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Jun 2017 06:56:39 +0000 (UTC)
-Received: from yt-mxoi1.gw.nic.fujitsu.com (unknown [192.168.229.67]) by
-	mgwym02.jp.fujitsu.com with smtp
-	id 5c8a_c0ec_895ed74b_3f19_45e3_9526_9d74a678d0c4;
-	Tue, 06 Jun 2017 15:56:34 +0900
-Received: from g01jpfmpwkw03.exch.g01.fujitsu.local
-	(g01jpfmpwkw03.exch.g01.fujitsu.local [10.0.193.57])
-	by yt-mxoi1.gw.nic.fujitsu.com (Postfix) with ESMTP id 98BDFAC0171
+	Tue,  6 Jun 2017 10:30:55 +0000 (UTC)
+Received: from mail2.siemens.de (mail2.siemens.de [139.25.208.11])
+	by david.siemens.de (8.15.2/8.15.2) with ESMTPS id v56AUu9J001739
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Jun 2017 15:56:33 +0900 (JST)
-Received: from g01jpexchkw36.g01.fujitsu.local (unknown [10.0.193.4])
-	by g01jpfmpwkw03.exch.g01.fujitsu.local (Postfix) with ESMTP id
-	65F18BD66A7 for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Jun 2017 15:56:32 +0900 (JST)
-Received: from localhost.localdomain (10.24.19.99) by
-	g01jpexchkw36.g01.fujitsu.local (10.0.193.54) with Microsoft SMTP
-	Server id 14.3.266.1; Tue, 6 Jun 2017 15:56:32 +0900
-From: Fan Xin <fan.xin@jp.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 6 Jun 2017 15:57:52 +0900
-Message-ID: <1496732272-16878-1-git-send-email-fan.xin@jp.fujitsu.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <CAJTo0LZAO2UJdw4zOYD6uoBfPCGaFzigbJObprzB6v7rEp4OiA@mail.gmail.com>
-References: <CAJTo0LZAO2UJdw4zOYD6uoBfPCGaFzigbJObprzB6v7rEp4OiA@mail.gmail.com>
+	Tue, 6 Jun 2017 12:30:56 +0200
+Received: from md1f2u6c.ww002.siemens.net ([146.254.78.13])
+	by mail2.siemens.de (8.15.2/8.15.2) with ESMTP id v56AUtVw025266
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 6 Jun 2017 12:30:56 +0200
+Resent-From: Jan Kiszka <jan.kiszka@siemens.com>
+Resent-To: openembedded-core@lists.openembedded.org
+Resent-Date: Tue, 6 Jun 2017 12:30:55 +0200
+Resent-Message-ID: <917ee22b-4a20-3287-d7b9-9a199d6ca0d1@siemens.com>
+Resent-User-Agent: Mozilla/5.0 (X11; U; Linux i686 (x86_64); de;
+	rv:1.8.1.12) Gecko/20080226 SUSE/2.0.0.12-1.1
+	Thunderbird/2.0.0.12 Mnenhy/0.7.5.666
+To: Martin Kelly <mkelly@xevo.com>, <openembedded-core@lists.openembedded.org>
+References: <3bd366a6-a31c-e4c8-688c-e24e84f1520c@web.de>
+	<2af19119-fac3-8ce3-fb36-c4aaf64163b7@xevo.com>
+	<4e18dc00-1800-f2dd-797a-7e0a380467c4@xevo.com>
+From: Jan Kiszka <jan.kiszka@siemens.com>
+Message-ID: <b51b0f8b-e21b-087b-5225-38fb8040479f@siemens.com>
+Date: Tue, 6 Jun 2017 12:11:51 +0200
+User-Agent: Mozilla/5.0 (X11; U; Linux i686 (x86_64); de; rv:1.8.1.12)
+	Gecko/20080226 SUSE/2.0.0.12-1.1 Thunderbird/2.0.0.12 Mnenhy/0.7.5.666
+In-Reply-To: <4e18dc00-1800-f2dd-797a-7e0a380467c4@xevo.com>
 MIME-Version: 1.0
-X-SecurityPolicyCheck-GC: OK by FENCE-Mail
-X-Encrypted: FENCE-Mail/3.1.1
-X-TM-AS-MML: disable
-Subject: [PATCH v2] cairo: Fix CVE-2017-7475
+Subject: Re: [PATCH] tcf-agent: Fix daemon termination
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,66 +43,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Jun 2017 06:56:41 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 06 Jun 2017 10:30:57 -0000
+Content-Type: text/plain; charset="windows-1252"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-CVE: CVE-2017-7475
+On 2017-06-01 02:17, Martin Kelly wrote:
+> On 05/02/2017 01:41 AM, Martin Kelly wrote:
+>> On 04/30/2017 08:28 AM, Jan Kiszka wrote:
+>>> From: Jan Kiszka <jan.kiszka@siemens.com>
+>>>
+>>> The upstream init script uses SIGUSR2 to terminate that daemon because
+>>> SIGTERM is ignored. As the killproc function does not support specifying
+>>> a signal, switch to start-stop-daemon. Drop the retry loop because
+>>> SIGUSR2 is lethal for agent.
+>>>
+>>> Signed-off-by: Jan Kiszka <jan.kiszka@siemens.com>
+>>
+>> Thanks! I noticed this bug and was planning to look into it, but it
+>> looks like you found the issue first! This was bringing shutdowns to a
+>> crawl for me.
+> 
+> I just noticed, I think we need to fix the same bug in the systemd
+> service script too.
 
-Bug 100763 - Denial-of-Service Attack due to Logical Problem in Program
+Does this block this patch, or should this be done in a separate one? I
+noticed that it's still not merged.
 
-https://bugs.freedesktop.org/show_bug.cgi?id=100763
+Jan
 
-Signed-off-by: Fan Xin <fan.xin@jp.fujitsu.com>
----
- ...et_bitmap_surface-bsc1036789-CVE-2017-7475.diff | 22 ++++++++++++++++++++++
- meta/recipes-graphics/cairo/cairo_1.14.8.bb        |  4 +++-
- 2 files changed, 25 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-graphics/cairo/cairo/cairo-get_bitmap_surface-bsc1036789-CVE-2017-7475.diff
-
-diff --git a/meta/recipes-graphics/cairo/cairo/cairo-get_bitmap_surface-bsc1036789-CVE-2017-7475.diff b/meta/recipes-graphics/cairo/cairo/cairo-get_bitmap_surface-bsc1036789-CVE-2017-7475.diff
-new file mode 100644
-index 0000000..7aaad2e
---- /dev/null
-+++ b/meta/recipes-graphics/cairo/cairo/cairo-get_bitmap_surface-bsc1036789-CVE-2017-7475.diff
-@@ -0,0 +1,22 @@
-+Cairo: Fix Denial-of-Service Attack due to Logical Problem in Program
-+
-+https://bugs.freedesktop.org/show_bug.cgi?id=100763
-+
-+CVE: CVE-2017-7475
-+Upstream-Status: Submitted
-+
-+Signed-off-by: Fan Xin <fan.xin@jp.fujitsu.com>
-+
-+Index: cairo-1.15.4/src/cairo-ft-font.c
-+===================================================================
-+--- cairo-1.15.4.orig/src/cairo-ft-font.c
-++++ cairo-1.15.4/src/cairo-ft-font.c
-+@@ -1149,7 +1149,7 @@ _get_bitmap_surface (FT_Bitmap		     *bi
-+     width = bitmap->width;
-+     height = bitmap->rows;
-+ 
-+-    if (width == 0 || height == 0) {
-++    if (width == 0 || height == 0 || bitmap->buffer == NULL) {
-+ 	*surface = (cairo_image_surface_t *)
-+ 	    cairo_image_surface_create_for_data (NULL, format, 0, 0, 0);
-+ 	return (*surface)->base.status;
-diff --git a/meta/recipes-graphics/cairo/cairo_1.14.8.bb b/meta/recipes-graphics/cairo/cairo_1.14.8.bb
-index 5a3c74f..af6be56 100644
---- a/meta/recipes-graphics/cairo/cairo_1.14.8.bb
-+++ b/meta/recipes-graphics/cairo/cairo_1.14.8.bb
-@@ -2,7 +2,9 @@ require cairo.inc
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=e73e999e0c72b5ac9012424fa157ad77"
- 
--SRC_URI = "http://cairographics.org/releases/cairo-${PV}.tar.xz"
-+SRC_URI = "http://cairographics.org/releases/cairo-${PV}.tar.xz \
-+           file://cairo-get_bitmap_surface-bsc1036789-CVE-2017-7475.diff \ 
-+          "
- 
- SRC_URI[md5sum] = "4ef0db2eacb271c74f8a3fd87822aa98"
- SRC_URI[sha256sum] = "d1f2d98ae9a4111564f6de4e013d639cf77155baf2556582295a0f00a9bc5e20"
 -- 
-1.9.1
-
+Siemens AG, Corporate Technology, CT RDA ITP SES-DE
+Corporate Competence Center Embedded Linux
 
