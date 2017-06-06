@@ -1,47 +1,46 @@
-Return-Path: <jpewhacker@gmail.com>
-Received: from mail-it0-f68.google.com (mail-it0-f68.google.com
-	[209.85.214.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 9721C77E94
+Return-Path: <liu.ming50@gmail.com>
+Received: from mail-wm0-f52.google.com (mail-wm0-f52.google.com [74.125.82.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 8AACB71979
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Jun 2017 02:33:46 +0000 (UTC)
-Received: by mail-it0-f68.google.com with SMTP id l6so3549468iti.0
+	Tue,  6 Jun 2017 03:19:57 +0000 (UTC)
+Received: by mail-wm0-f52.google.com with SMTP id 7so87367420wmo.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 05 Jun 2017 19:33:48 -0700 (PDT)
+	Mon, 05 Jun 2017 20:19:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id;
-	bh=uoAlrkMsu9PN+x3ycYX/jjz5UdKF9iVUoiwi1nPiO/s=;
-	b=J2WSfR9vsOxlNZ0oq3HRle//NUC8DN1cqk4+As0B8mAVykwO98kX/0Ag7jSgjzVi/T
-	awnDJ1ikYuW2DDG7TSKkWbr2d3UfNdfLWF42k1SeND4ajAj4iZTkrh1jvqPebAhrJcku
-	lcl3S/mrycPqYiacoFYx6XZ/3QcgaRJB6QECkqSN/IiIYn4Lnthec+lhaNyNPgMKaAYs
-	1+3xE2G4RwjhNwN1D3VUcUBrdC0kIyMWeAiASUwgDnGhDeu+T4ZEIyz8Wfv4zae6JHld
-	XGvowU0MnaBURHK43D/CbY7EHEcJguLZ5rx0Zniunw7xLciBHP+ZlTkjo3EUHkiA2bsJ
-	+Rwg==
+	bh=JsxU3LYS6e9X4oDfzP5SzS/mNxXW6cOutZVw4kmBdb0=;
+	b=S6Dl31O7d89bCq84p9lRcEXt6gbL15QLNqnMBHUBKTr5iYtnYrKR2RquO95vRZiTGt
+	Z2/RSJil5u3djfCWgxwBESye9TQN4KT/VoRZwlbCF2yxM8cVWKaQn6whOWqou8cHhsMR
+	6Qp1O+JDfwLbKlFYh3ipEnCJeKMACSJaExhOqF0cmI174Vv6GU3qL3KaRJQSzAiHTrq4
+	WtF1CBoqomjmMKM/tVzRwb/xVCylVUqZ2FmRK4CVhzKlBH4vju3hrdVjuXkX6+6fk5u3
+	1j2ptmFieNndl++l80Ea1Ba1755iYZHONNB3JDPlGqqcQGr26EkJgt+3iJyCLwdIXoRW
+	/ZuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=uoAlrkMsu9PN+x3ycYX/jjz5UdKF9iVUoiwi1nPiO/s=;
-	b=SYu50DF6H7WT+TArKpXmNOpVI9Fnj95mL2LIIkAC1Ff4DqRw1HjPO84oDj0XSyJPb0
-	4ruhMq/KRSTpcxhrMikWtR1rpsjW+cO/r2rI8ftxqMemJ1eWuaXfMTjduEFAvf9QkWBX
-	BzqLfaRPKOtKqOrMl5paVWXoOgHxfa49h884Ovpe3drQLS4cEoeUv/YhdepEwAaiai0X
-	V3ug6lQXGdtPn8W8UVBr4LMMbIcrRr8V6Vo/lOYNx1L48yqxMn2woaE9ZnnYvKwU0A/H
-	zOL26234Eih57e7hO3IZtkX8CvL1HiLXDD0yKjoQuXuAJaC3RbyuCmaDxQKRInH4VNv2
-	Q2oQ==
-X-Gm-Message-State: AODbwcC1wQeEDmFt/wbeY2aZnKfIEHnUXj3+gCzAcGx51uJKjVrYnQX7
-	Jb2bzNnxY9vEp6sKNLQ=
-X-Received: by 10.36.57.137 with SMTP id l131mr15922034ita.61.1496716427977;
-	Mon, 05 Jun 2017 19:33:47 -0700 (PDT)
-Received: from localhost.localdomain ([2605:a601:a83:3700:10fb:b4c1:2c33:798c])
-	by smtp.gmail.com with ESMTPSA id
-	w65sm5719020ita.21.2017.06.05.19.33.46
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 05 Jun 2017 19:33:46 -0700 (PDT)
-From: Joshua Watt <jpewhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+	bh=JsxU3LYS6e9X4oDfzP5SzS/mNxXW6cOutZVw4kmBdb0=;
+	b=AJPYQC9gSMtXqswmsU4+egpFkPm5Lsn5HifecZDE3PEgpcUtqjJEwn0t5chP1LOcar
+	0hxEnaELBKSbOufDXPKy1oAOw6TAjCxtAdm0WqzSaVKbztuTco5q7MOG6sqhxAPKBO+N
+	bO6Ge2ElcnM79IxO3Jk0tROisWbRWM5snVqeHvTT9E+g8Vt5jTkOjqQDHaRJokP/Q1E4
+	dy1kCappCu0eqbO+xJCwLbmWv+Y2bGjSUqJM/RIovSV1+RdRk8958vps6wL5N5PlrNpw
+	QnqzoH4SP1VZNZbGeJIQVrK/ZuhD/c19wTim4yfZW110Ahx60Lgz7hVf1ZfVIIkF9v+E
+	2NpA==
+X-Gm-Message-State: AODbwcAZ2euFGzyffqp4sNUg6oODDokGeeNxK9z4Rjic/WeBoxGip/H7
+	e89TmduW+P6gSrdQ
+X-Received: by 10.80.159.33 with SMTP id b30mr13079594edf.5.1496719197832;
+	Mon, 05 Jun 2017 20:19:57 -0700 (PDT)
+Received: from peterliu-Precision-M4800.emea.group.atlascopco.com
+	([106.119.199.183]) by smtp.gmail.com with ESMTPSA id
+	q42sm15214841edd.24.2017.06.05.20.19.54
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 05 Jun 2017 20:19:56 -0700 (PDT)
+From: liu.ming50@gmail.com
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  5 Jun 2017 21:33:42 -0500
-Message-Id: <20170606023342.7209-1-JPEWhacker@gmail.com>
-X-Mailer: git-send-email 2.9.4
-Subject: [pyro][PATCH] archiver: Escape recipe name in regex
+Date: Tue,  6 Jun 2017 05:19:43 +0200
+Message-Id: <1496719183-2847-1-git-send-email-liu.ming50@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Cc: Ming Liu <peter.x.liu@external.atlascopco.com>
+Subject: [PATCH] buildstats-diff: show more graceful error messages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,36 +53,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Jun 2017 02:33:47 -0000
+X-List-Received-Date: Tue, 06 Jun 2017 03:19:57 -0000
 
-From: Joshua Watt <jpewhacker@gmail.com>
+From: Ming Liu <peter.x.liu@external.atlascopco.com>
 
-The recipe name needs to be escaped when using it in a regular expression so
-that and special characters are treated literally
+I got a following error when I run buildstats-diff against a invalid
+buildstats file:
+| Traceback (most recent call last):
+|   File "/poky/scripts/buildstats-diff", line 548, in <module>
+|     sys.exit(main())
+|   File "/poky/scripts/buildstats-diff", line 534, in main
+|     bs1 = read_buildstats(args.buildstats1, args.multi)
+|   File "/poky/scripts/buildstats-diff", line 222, in read_buildstats
+|     return read_buildstats_dir(path)
+|   File "/poky/scripts/buildstats-diff", line 165, in read_buildstats_dir
+|     os.path.join(recipe_dir, task))]
+|   File "/poky/scripts/buildstats-diff", line 124, in read_buildstats_file
+|     bs_task['elapsed_time'] = end_time - start_time
+| UnboundLocalError: local variable 'end_time' referenced before assignment
 
-(From OE-Core rev: 53c8cceb744adda1bf899d62071d11b20a5dea98)
+the root cause is that a task was terminated by me on the terminal,
+so the generated buildstats file was invalid, supposing that it would
+make the buildstats.sh fail, but the script should give more graceful
+error messages.
 
-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+Signed-off-by: Ming Liu <peter.x.liu@external.atlascopco.com>
 ---
- meta/classes/archiver.bbclass | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ scripts/buildstats-diff | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/meta/classes/archiver.bbclass b/meta/classes/archiver.bbclass
-index 2c04557..9cc9fb5 100644
---- a/meta/classes/archiver.bbclass
-+++ b/meta/classes/archiver.bbclass
-@@ -349,8 +349,8 @@ python do_ar_recipe () {
-     bbappend_files = d.getVar('BBINCLUDED').split()
-     # If recipe name is aa, we need to match files like aa.bbappend and aa_1.1.bbappend
-     # Files like aa1.bbappend or aa1_1.1.bbappend must be excluded.
--    bbappend_re = re.compile( r".*/%s_[^/]*\.bbappend$" %pn)
--    bbappend_re1 = re.compile( r".*/%s\.bbappend$" %pn)
-+    bbappend_re = re.compile( r".*/%s_[^/]*\.bbappend$" % re.escape(pn))
-+    bbappend_re1 = re.compile( r".*/%s\.bbappend$" % re.escape(pn))
-     for file in bbappend_files:
-         if bbappend_re.match(file) or bbappend_re1.match(file):
-             shutil.copy(file, outdir)
+diff --git a/scripts/buildstats-diff b/scripts/buildstats-diff
+index 4276464..8e64480 100755
+--- a/scripts/buildstats-diff
++++ b/scripts/buildstats-diff
+@@ -97,6 +97,7 @@ def read_buildstats_file(buildstat_file):
+     """Convert buildstat text file into dict/json"""
+     bs_task = BSTask()
+     log.debug("Reading task buildstats from %s", buildstat_file)
++    end_time = None
+     with open(buildstat_file) as fobj:
+         for line in fobj.readlines():
+             key, val = line.split(':', 1)
+@@ -121,7 +122,10 @@ def read_buildstats_file(buildstat_file):
+                 bs_task[ru_type][ru_key] = val
+             elif key == 'Status':
+                 bs_task['status'] = val
+-    bs_task['elapsed_time'] = end_time - start_time
++    if end_time is not None and start_time is not None:
++        bs_task['elapsed_time'] = end_time - start_time
++    else:
++        raise ScriptError("{} looks like a invalid buildstats file".format(buildstat_file))
+     return bs_task
+ 
+ 
 -- 
-2.9.4
+2.7.4
 
 
