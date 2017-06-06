@@ -1,49 +1,48 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qt0-f180.google.com (mail-qt0-f180.google.com
-	[209.85.216.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 4663A72F60
+Return-Path: <net147@gmail.com>
+Received: from mail-io0-f170.google.com (mail-io0-f170.google.com
+	[209.85.223.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 9E0DC71DD7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Jun 2017 19:36:06 +0000 (UTC)
-Received: by mail-qt0-f180.google.com with SMTP id w1so142414898qtg.2
+	Tue,  6 Jun 2017 22:01:03 +0000 (UTC)
+Received: by mail-io0-f170.google.com with SMTP id i7so111759ioe.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 06 Jun 2017 12:36:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=vCBN5K681kkwTMGWlu9sZ6UA2lEFShEOdnhc8UF4BY4=;
-	b=yhpdJvv//v+h3HL/yi9T0Lr+A40Bf4lYovgMVxMXuq0eDUZJ2jCDMkJBFK6XT968/x
-	Ol7+5Cu3i4zn5f5fW/lUm7RXrQtFRe9Oid1mU/rvABbiFmEI9diBTQwDgurLvb+UxLeZ
-	HKWd+44d91JpOfTku+nkwMNHAOFFBt/JqMb6VYozMNRFXP9U9RU9kTPHuc7VTYC+Zmjz
-	5cJx8SgwoLl8CpLSqJVZEVraybrOgMNhu09bSWLpREVMFmEFoxuEIvwm+i8ZV/7ig9aE
-	WQngl5/EnHY+CckWCQbN5iA8m8/lHYMQ+N59ebCJgTCmYxywrDzf08WxqS0R65gAdLZs
-	w77A==
+	Tue, 06 Jun 2017 15:01:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=S0h74wuFDnt2HZhFZqOE21RYV87ktf5S0WGQbMuuNGM=;
+	b=uloxWHhzbp6kBH7GZV/TOn3d/imYuzenUpuD54jbIF6AxVq/rQAqYMT+5+u7oKQgWJ
+	4vcljFPs+avutGyleXPnwK5xBfwn7JJCcMZAlUAUved6tvEZurGNVtnTz0UZd8tzfCSJ
+	gcB7dIzpQzuJnQWtc6ooFFclT8l/yh24ATzSkOQkZaN7SEjvrTeHSp+FIj5n5CP4bG89
+	gtFEU5ikNvRsobIk+pnRu9F0oK0PD16VKJ9cwK9m/WYKVCqna34+SonEAPe/q20GJkEZ
+	JY5Yo3XGdbW6SccgceQL8Z6rAQFg7S8SqAmPJcxChkuNWfM4H6rIUcDGjdjW9FsSz62E
+	hoEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=vCBN5K681kkwTMGWlu9sZ6UA2lEFShEOdnhc8UF4BY4=;
-	b=kb0srghtV76X/ERyO4HXy3fjFO6jXBy+0zlkcwQCkac2oQQgQkUtvbu2k/xyCFMd/d
-	dL1323FmkLQbl4IfI+APjwqs42/ODOlIblnSx4fb+2wmC/EgMG4fCAH3xz9RoH0wMflc
-	B88ejoTa81bcvWTRjrXXFtMJpwCvXSmR0NJkxiEaGE+TVB3N4t8TGGBRFVuFY24SD5Gg
-	Xu2O7RWnrrxz3Hd+nUMnYohaidLtoXVmB1MywKGGsDBwiWu3wYmmNoQyWYa8geJ1ADGS
-	1uQvjnuVkE0m8yXvFleHp6omypTuCSQVVoShBtOjwpXLoXZ4/hyWRRdl64SH84YIFzPn
-	iXMA==
-X-Gm-Message-State: AKS2vOy5mNqnQUst+fhaWt1tXFpS4sZN0zh+k4MwytKKeFXtJqLlCGLs
-	k/gOrNl49n2vWvTMNl0qyyWfy/HU2+je
-X-Received: by 10.55.140.193 with SMTP id o184mr16141672qkd.127.1496777766783; 
-	Tue, 06 Jun 2017 12:36:06 -0700 (PDT)
+	bh=S0h74wuFDnt2HZhFZqOE21RYV87ktf5S0WGQbMuuNGM=;
+	b=eswCzV6s/sTesKt5ya8rhqqZcgAamanTBLPcAYi7JtH4a/+sEXNEI/9GZEpxaXf4Vo
+	RmPQuydeHHztiuififPJssvoiLfMELcTZz8kCI+RMloDhm3P5mB8uo3OSdtVk03/gDBl
+	HPstY89sTst5rZyfBkj8pjQ+GUrv3lg0hOstv36d9Wy5T6PL1oWZzoc+WkxtfCqoRRkh
+	sSZXukPVlVF18hvVA3mEW0PoZ8QWItCUCf3wDDd2g5Qxa2A+r2u8nScFp2xi2zhHxtld
+	WUX8dMpxghll1AGEjAxh/5EkEZEN4VlUQsAiPMXxolsl30Aqo0PROKMySmScgUN+s90S
+	fv0w==
+X-Gm-Message-State: AODbwcAsH4VWEPfuK6xHlbxkh0u9sMgGeSW3PsHjJfXNYK4XLcOY3fjk
+	EycyAZPPEh8PE//Wy583664OOHM8fA==
+X-Received: by 10.107.192.6 with SMTP id q6mr27758061iof.37.1496786463871;
+	Tue, 06 Jun 2017 15:01:03 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.140.35.103 with HTTP; Tue, 6 Jun 2017 12:35:46 -0700 (PDT)
-In-Reply-To: <CA+chaQfM0Kvu-LXN7yXxx8xoYe1P9Le5em6ref3VPALZ2xbcOQ@mail.gmail.com>
-References: <1496696005-28913-1-git-send-email-ross.burton@intel.com>
-	<CA+chaQfM0Kvu-LXN7yXxx8xoYe1P9Le5em6ref3VPALZ2xbcOQ@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 6 Jun 2017 20:35:46 +0100
-Message-ID: <CAJTo0LYBxpC388nX+hmWa=9PfbsM=HF==aGQQSQCm-wGpyoYyQ@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: Patches and discussions about the oe-core layer
+References: <655290B7709079438B7932553958E60DA13093A0@ESS-EX01.essvote.corp.local>
+	<CANwerB2eshSg18OsfbP7fA=EyFBBnrON-PvqeXTRkZrfFngFvQ@mail.gmail.com>
+	<655290B7709079438B7932553958E60DA1311709@ESS-EX01.essvote.corp.local>
+In-Reply-To: <655290B7709079438B7932553958E60DA1311709@ESS-EX01.essvote.corp.local>
+From: Jonathan Liu <net147@gmail.com>
+Date: Tue, 06 Jun 2017 22:00:53 +0000
+Message-ID: <CANwerB2o98GhytVTMtG97AGjS+dnFEKaq9BsSNv27X=XFGwzKQ@mail.gmail.com>
+To: "Davis, Michael" <michael.davis@essvote.com>
+Cc: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] libunwind: fix build failure on MIPS
+Subject: Re: DISK_SIGNATURE no longer functional
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,44 +55,145 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Jun 2017 19:36:09 -0000
-Content-Type: multipart/alternative; boundary="001a114f0ce818e09105514fbb8e"
+X-List-Received-Date: Tue, 06 Jun 2017 22:01:03 -0000
+Content-Type: multipart/alternative; boundary="001a114f0b7e7bd752055151c1ce"
 
---001a114f0ce818e09105514fbb8e
+--001a114f0b7e7bd752055151c1ce
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 6 June 2017 at 20:04, Martin Jansa <martin.jansa@gmail.com> wrote:
+Hi Michael,
 
-> Do you also have a fix for armv5t build issue with this new libunwind
-> version?
+See https://patchwork.openembedded.org/patch/128565/. SYSLINUX_ROOT was
+renamed to ROOT_VM in Krogoth.
+
+Regards,
+Jonathan
+
+On Tue., 6 Jun. 2017 at 11:29 pm, Davis, Michael <michael.davis@essvote.com=
+>
+wrote:
+
+> Pyro.
+>
+> Guessing something with all the new wic additions killed it.
+>
+>
+> -----Original Message-----
+> From: Jonathan Liu [mailto:net147@gmail.com]
+> Sent: Monday, June 05, 2017 7:17 PM
+> To: Davis, Michael
+> Cc: openembedded-core@lists.openembedded.org
+> Subject: Re: [OE-core] [oe-core] DISK_SIGNATURE no longer functional
+>
+> Hi Michael,
+>
+> On 21 May 2017 at 03:16, Davis, Michael <michael.davis@essvote.com> wrote=
+:
+> > I am trying to create a generic MSDOS PC_BIOS hdddirect image with a ro=
+ot
+> > partition set by the DISK_SIGNATURE.
+> >
+> > SYSLINUX_ROOT =3D "root=3DPARTUUID=3D${DISK_SIGNATURE}-02"
+> >
+> >
+> >
+> > However the signature generated in syslinux.cfg and the one on the disk
+> > don=E2=80=99t match.
+> >
+> > I tried defining my own signature and the one in syslinux changes, but
+> the
+> > one on the disk doesn=E2=80=99t match.
+> >
+> >
+> >
+> > root=3DPARTUUID=3D22aaf83b-02
+> >
+> >
+> >
+> > NAME   PARTUUID
+> >
+> > sdd
+> >
+> > =E2=94=9C=E2=94=80sdd2 341e84a7-02
+> >
+> > =E2=94=9C=E2=94=80sdd3 341e84a7-03
+> >
+> > =E2=94=94=E2=94=80sdd1 341e84a7-01
+>
+> Which release did DISK_SIGNATURE stop working?
+>
+> Regards,
+> Jonathan
 >
 
-Goddamnit libunwind!
-
-No, I don't.
-
-I've got a patch locally to enable libunwind in perf to give it better
-coverage as currently it is only built in world builds on the autobuilder,
-which isn't all architectures.
-
-Ross
-
---001a114f0ce818e09105514fbb8e
+--001a114f0b7e7bd752055151c1ce
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 6 June 2017 at 20:04, Martin Jansa <span dir=3D"ltr">&lt;<a href=3D"mail=
-to:martin.jansa@gmail.com" target=3D"_blank">martin.jansa@gmail.com</a>&gt;=
-</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .=
-8ex;border-left:1px #ccc solid;padding-left:1ex"><div dir=3D"ltr">Do you al=
-so have a fix for armv5t build issue with this new libunwind version?<div><=
-/div></div></blockquote></div><br>Goddamnit libunwind!</div><div class=3D"g=
-mail_extra"><br></div><div class=3D"gmail_extra">No, I don&#39;t.</div><div=
- class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">I&#39;ve got a =
-patch locally to enable libunwind in perf to give it better coverage as cur=
-rently it is only built in world builds on the autobuilder, which isn&#39;t=
- all architectures.</div><div class=3D"gmail_extra"><br></div><div class=3D=
-"gmail_extra">Ross</div></div>
+<div>Hi Michael,</div><div><br></div><div>See=C2=A0<a href=3D"https://patch=
+work.openembedded.org/patch/128565/">https://patchwork.openembedded.org/pat=
+ch/128565/</a>. SYSLINUX_ROOT was renamed to ROOT_VM in Krogoth.</div><div>=
+<br></div><div>Regards,</div><div>Jonathan</div><div><br><div class=3D"gmai=
+l_quote"><div>On Tue., 6 Jun. 2017 at 11:29 pm, Davis, Michael &lt;<a href=
+=3D"mailto:michael.davis@essvote.com">michael.davis@essvote.com</a>&gt; wro=
+te:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;b=
+order-left:1px #ccc solid;padding-left:1ex">Pyro.<br>
+<br>
+Guessing something with all the new wic additions killed it.<br>
+<br>
+<br>
+-----Original Message-----<br>
+From: Jonathan Liu [mailto:<a href=3D"mailto:net147@gmail.com" target=3D"_b=
+lank">net147@gmail.com</a>]<br>
+Sent: Monday, June 05, 2017 7:17 PM<br>
+To: Davis, Michael<br>
+Cc: <a href=3D"mailto:openembedded-core@lists.openembedded.org" target=3D"_=
+blank">openembedded-core@lists.openembedded.org</a><br>
+Subject: Re: [OE-core] [oe-core] DISK_SIGNATURE no longer functional<br>
+<br>
+Hi Michael,<br>
+<br>
+On 21 May 2017 at 03:16, Davis, Michael &lt;<a href=3D"mailto:michael.davis=
+@essvote.com" target=3D"_blank">michael.davis@essvote.com</a>&gt; wrote:<br=
+>
+&gt; I am trying to create a generic MSDOS PC_BIOS hdddirect image with a r=
+oot<br>
+&gt; partition set by the DISK_SIGNATURE.<br>
+&gt;<br>
+&gt; SYSLINUX_ROOT =3D &quot;root=3DPARTUUID=3D${DISK_SIGNATURE}-02&quot;<b=
+r>
+&gt;<br>
+&gt;<br>
+&gt;<br>
+&gt; However the signature generated in syslinux.cfg and the one on the dis=
+k<br>
+&gt; don=E2=80=99t match.<br>
+&gt;<br>
+&gt; I tried defining my own signature and the one in syslinux changes, but=
+ the<br>
+&gt; one on the disk doesn=E2=80=99t match.<br>
+&gt;<br>
+&gt;<br>
+&gt;<br>
+&gt; root=3DPARTUUID=3D22aaf83b-02<br>
+&gt;<br>
+&gt;<br>
+&gt;<br>
+&gt; NAME=C2=A0 =C2=A0PARTUUID<br>
+&gt;<br>
+&gt; sdd<br>
+&gt;<br>
+&gt; =E2=94=9C=E2=94=80sdd2 341e84a7-02<br>
+&gt;<br>
+&gt; =E2=94=9C=E2=94=80sdd3 341e84a7-03<br>
+&gt;<br>
+&gt; =E2=94=94=E2=94=80sdd1 341e84a7-01<br>
+<br>
+Which release did DISK_SIGNATURE stop working?<br>
+<br>
+Regards,<br>
+Jonathan<br>
+</blockquote></div></div>
 
---001a114f0ce818e09105514fbb8e--
+--001a114f0b7e7bd752055151c1ce--
