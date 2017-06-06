@@ -1,33 +1,46 @@
-Return-Path: <Jackie.Huang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 81C4F77FA6
+Return-Path: <jpewhacker@gmail.com>
+Received: from mail-it0-f65.google.com (mail-it0-f65.google.com
+	[209.85.214.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 5A04077E94
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Jun 2017 01:38:44 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v561bv8D011572
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 5 Jun 2017 18:37:57 -0700 (PDT)
-Received: from ALA-MBC.corp.ad.wrs.com ([fe80::fcbe:9b7:1141:89a1]) by
-	ALA-HCB.corp.ad.wrs.com ([147.11.189.41]) with mapi id 14.03.0294.000;
-	Mon, 5 Jun 2017 18:37:56 -0700
-From: "Huang, Jie (Jackie)" <Jackie.Huang@windriver.com>
-To: Denys Dmytriyenko <denis@denix.org>
-Thread-Topic: [OE-core] [PATCH] kmscube: add opengl to REQUIRED_DISTRO_FEATURES
-Thread-Index: AQHS3ju/1Nv07E7uzE+ZcgiiFWyxNaIXCP6g
-Date: Tue, 6 Jun 2017 01:37:56 +0000
-Message-ID: <1B858668EC6A94408DCA5225FDFA85AA014B7D6B02@ALA-MBC.corp.ad.wrs.com>
-References: <20170605070557.10106-1-jackie.huang@windriver.com>
-	<20170605203842.GL28053@denix.org>
-In-Reply-To: <20170605203842.GL28053@denix.org>
-Accept-Language: en-US, zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [128.224.176.230]
-MIME-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] kmscube: add opengl to REQUIRED_DISTRO_FEATURES
+	Tue,  6 Jun 2017 02:31:13 +0000 (UTC)
+Received: by mail-it0-f65.google.com with SMTP id i206so25341615ita.3
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 05 Jun 2017 19:31:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=LbzCQMq/3I+a7nEIiWypka8C6+zJNc9fDKtQSf1CGK8=;
+	b=DISBtLhp9bicVG2MpvXbZmRcWP6G4ZKmxlb6LsOB1523/j/v7HFqnqYhj5GG5ydA14
+	rePz1N3MSOYA2oWOLpR1Y7gO3JF2EsdMz6o4CbnjK1yo8i5MSgv3OeJz354lPGcSrkKj
+	EmNTGlRqopITvuVtXIIUKEdBI2V1ZryxOQwJ5oT8nkX+P92bAOjubGzb96YtJrqo8tBx
+	GPHEj5+n1JqUk4eBJlvbAgwbigE0h1bi7f+iO4H8iSJ/lsqueRLj0xAFCaqQIArHQLgW
+	eXL0DtPG4rSoEjzH3PqBrie1kfyhSfm+EEFSSjTQJe9l9MyoCr+5HmQX1J8LflqrbaHq
+	rkOw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=LbzCQMq/3I+a7nEIiWypka8C6+zJNc9fDKtQSf1CGK8=;
+	b=GNG3D+4w8cwaMqRLiD2Z9CkN6Q4OUeJepVVjLqBLDFiOomcDPHGZ0KzaCJKUkkAL9q
+	5uZ9/FyjXNC70rLSJSORyNk/04yVjdQMRx+VYSgPfneJRmV3zlKmwZB355hTzefCrNNJ
+	k9hj3436Ufo/6NEdt4nJmt/EvGam2L1kMvjsB6Va1bJ1n31OYvm9Mu1rkPJdWKk0t2nJ
+	zcbsdjOpf2uzG1/MYYSFpq+DBM6cXSCLOEGHrY5DDIouJBS1W70PaCEv/VFWxIqEe4Go
+	AyfGMxNOrAlWoTRPddVDSm53B4VWx0xi+mIIjd6DcIgrg8dlPjToRswdYIGmDHiUQrVV
+	cWaA==
+X-Gm-Message-State: AODbwcCwFBhkTc4C+jbgoomPGk6ddOjebe1x20RmWgA2dk8KWsNhviqp
+	A8DVU1UslcLq7K7Eiok=
+X-Received: by 10.107.142.135 with SMTP id q129mr4608427iod.186.1496716273998; 
+	Mon, 05 Jun 2017 19:31:13 -0700 (PDT)
+Received: from localhost.localdomain ([2605:a601:a83:3700:10fb:b4c1:2c33:798c])
+	by smtp.gmail.com with ESMTPSA id b1sm5828791itb.30.2017.06.05.19.31.12
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 05 Jun 2017 19:31:13 -0700 (PDT)
+From: Joshua Watt <jpewhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  5 Jun 2017 21:30:49 -0500
+Message-Id: <20170606023049.6415-1-JPEWhacker@gmail.com>
+X-Mailer: git-send-email 2.9.4
+Subject: [morty][PATCH] archiver: Escape recipe name in regex
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,70 +53,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Jun 2017 01:38:45 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 06 Jun 2017 02:31:13 -0000
 
+From: Joshua Watt <jpewhacker@gmail.com>
 
+The recipe name needs to be escaped when using it in a regular expression so
+that and special characters are treated literally
 
-> -----Original Message-----
-> From: Denys Dmytriyenko [mailto:denis@denix.org]
-> Sent: Tuesday, June 06, 2017 04:39
-> To: Huang, Jie (Jackie)
-> Cc: openembedded-core@lists.openembedded.org
-> Subject: Re: [OE-core] [PATCH] kmscube: add opengl to
-> REQUIRED_DISTRO_FEATURES
->=20
-> On Mon, Jun 05, 2017 at 03:05:57PM +0800, jackie.huang@windriver.com
-> wrote:
-> > From: Jackie Huang <jackie.huang@windriver.com>
-> >
-> > kmscube depends on virtual/libgles2, virtual/egl (provided
-> > by mesa) and gstreamer1.0 which require opengl in DISTRO_FEATURES.
->=20
-> libgles2 and egl are not only provided by mesa!
+(From OE-Core rev: 53c8cceb744adda1bf899d62071d11b20a5dea98)
 
-Yes, I aware of that, but I only found that they are provided by mesa in oe=
--core
-and mesa is the PREFERRED_PROVIDER in oe-core, so I just mentioned mesa.
+Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+---
+ meta/classes/archiver.bbclass | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Do you think I should mention other providers from other layers or not ment=
-ion
-the provider at all?
+diff --git a/meta/classes/archiver.bbclass b/meta/classes/archiver.bbclass
+index 3543ca9..188f8c0 100644
+--- a/meta/classes/archiver.bbclass
++++ b/meta/classes/archiver.bbclass
+@@ -349,8 +349,8 @@ python do_ar_recipe () {
+     bbappend_files = d.getVar('BBINCLUDED', True).split()
+     # If recipe name is aa, we need to match files like aa.bbappend and aa_1.1.bbappend
+     # Files like aa1.bbappend or aa1_1.1.bbappend must be excluded.
+-    bbappend_re = re.compile( r".*/%s_[^/]*\.bbappend$" %pn)
+-    bbappend_re1 = re.compile( r".*/%s\.bbappend$" %pn)
++    bbappend_re = re.compile( r".*/%s_[^/]*\.bbappend$" % re.escape(pn))
++    bbappend_re1 = re.compile( r".*/%s\.bbappend$" % re.escape(pn))
+     for file in bbappend_files:
+         if bbappend_re.match(file) or bbappend_re1.match(file):
+             shutil.copy(file, outdir)
+-- 
+2.9.4
 
-Thanks,
-Jackie
-
->=20
->=20
-> > Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
-> > ---
-> >  meta/recipes-graphics/kmscube/kmscube_git.bb | 4 +++-
-> >  1 file changed, 3 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/meta/recipes-graphics/kmscube/kmscube_git.bb b/meta/recipe=
-s-
-> graphics/kmscube/kmscube_git.bb
-> > index 0ec5b2a7fa..9050671ab1 100644
-> > --- a/meta/recipes-graphics/kmscube/kmscube_git.bb
-> > +++ b/meta/recipes-graphics/kmscube/kmscube_git.bb
-> > @@ -11,4 +11,6 @@ SRC_URI =3D
-> "git://anongit.freedesktop.org/mesa/kmscube;branch=3Dmaster;protocol=3Dgi=
-t
-> >
-> >  S =3D "${WORKDIR}/git"
-> >
-> > -inherit autotools pkgconfig
-> > +inherit autotools pkgconfig distro_features_check
-> > +
-> > +REQUIRED_DISTRO_FEATURES =3D "opengl"
-> > --
-> > 2.11.0
-> >
-> > --
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
