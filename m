@@ -1,30 +1,47 @@
-Return-Path: <joe.slater@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 208FD7806D
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-yw0-f195.google.com (mail-yw0-f195.google.com
+	[209.85.161.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 7510377F85
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Jun 2017 19:00:48 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v56J0n45021485
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	Tue,  6 Jun 2017 19:04:43 +0000 (UTC)
+Received: by mail-yw0-f195.google.com with SMTP id p144so10172450ywp.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 6 Jun 2017 12:00:49 -0700
-Received: from ALA-MBC.corp.ad.wrs.com ([fe80::fcbe:9b7:1141:89a1]) by
-	ALA-HCA.corp.ad.wrs.com ([147.11.189.40]) with mapi id 14.03.0294.000;
-	Tue, 6 Jun 2017 12:00:48 -0700
-From: "Slater, Joseph" <joe.slater@windriver.com>
-To: "BURTON, ROSS" <ross.burton@intel.com>
-Thread-Topic: [oe-core][PATCH 1/1] ghostscript: move to version 9.21
-Thread-Index: AdLe9yx7lS+tEAdXTIe/YvXzaEB6Tg==
-Date: Tue, 6 Jun 2017 19:00:48 +0000
-Message-ID: <007BD92917A2324FA403BCF9A464CF84CF376642@ALA-MBC.corp.ad.wrs.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [147.11.216.197]
+	Tue, 06 Jun 2017 12:04:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=6a1M99Ldo9lxucg2uvfP+4P5LknMUcm7w6lvCWfb5Qg=;
+	b=pT16oxYjGuiI297wP8kF70iQSGWJdmLwUbhgV7WH0oaqTBrMJ00/izHjySvHpMlpev
+	M3kQuRrQ4ywoQ9k3Bu1bcW4TTFT4ALUfOp1i1BsftMMPWLyr9ATjczTHEq8MkIonzUTn
+	7/ucdDRrz7GNiWcgvQ8+umt1uOmkePPJmhhGvMUM+FDC8X5x00vmPueTkB63sa1CgkOE
+	OjWypY70Q9rZVnx1+RBIPwQqxzKFV6GjlVoNa13BD2HuWzfgE1fc2dtoKu+jHrBWsYZr
+	ZeH/2uOWiV8oCS1RNxVHGh1rMgnOjVHldaByLh/sDbD87wC+LxhQVZY8zs5st/AJodsH
+	wZMA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=6a1M99Ldo9lxucg2uvfP+4P5LknMUcm7w6lvCWfb5Qg=;
+	b=AkW+qATxBrh67Gd2/9fZZoDcyNMhvDfmTLV0UnjWrvExfZMBCPCPWNiuDwggXjP/G7
+	imxvoqAB9v1OzpVFi1c2ylnCl5JR+6YYiPgpbhfczo6s8yDOoAGWuCFmGvbIQk6B0Yom
+	G3E4Ibfi4m39j3IMQKCmjVJL8+Knksq/kvUSE+bfcY/rRFuO2yPGhuycf8ktFdAE8rSS
+	PN+0bVXDbw3UsLeuCsGgafyktepWK7XNSW8xKn4SaRJo0mc5UE4iGV/0d4AnfV+hwf21
+	OyOt0IDNUvfpIdxy/dDHJ4qbyPpApTawo2ijQq7kj3wEQs1QHpGQE68fqUpEA3/hfI4U
+	tFQg==
+X-Gm-Message-State: AODbwcBlqgTTpnUsvdgiF9f9zq8oWp5XDj9ycztx8sm8ZUexOtpR8rD3
+	BFgUNCgtLJZocL/3SbMSyU8QVTqngA==
+X-Received: by 10.129.80.193 with SMTP id e184mr4264002ywb.44.1496775884238;
+	Tue, 06 Jun 2017 12:04:44 -0700 (PDT)
 MIME-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] ghostscript: move to version 9.21
+Received: by 10.37.162.38 with HTTP; Tue, 6 Jun 2017 12:04:43 -0700 (PDT)
+In-Reply-To: <1496696005-28913-1-git-send-email-ross.burton@intel.com>
+References: <1496696005-28913-1-git-send-email-ross.burton@intel.com>
+From: Martin Jansa <martin.jansa@gmail.com>
+Date: Tue, 6 Jun 2017 21:04:43 +0200
+Message-ID: <CA+chaQfM0Kvu-LXN7yXxx8xoYe1P9Le5em6ref3VPALZ2xbcOQ@mail.gmail.com>
+To: Ross Burton <ross.burton@intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] libunwind: fix build failure on MIPS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,207 +54,426 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Jun 2017 19:00:49 -0000
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_007BD92917A2324FA403BCF9A464CF84CF376642ALAMBCcorpadwrs_"
+X-List-Received-Date: Tue, 06 Jun 2017 19:04:44 -0000
+Content-Type: multipart/alternative; boundary="001a1147e4e2e381cd05514f4a22"
 
---_000_007BD92917A2324FA403BCF9A464CF84CF376642ALAMBCcorpadwrs_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+--001a1147e4e2e381cd05514f4a22
+Content-Type: text/plain; charset="UTF-8"
 
-QSBjb3VwbGUgb2YgcGF0Y2hlcyBoYXZlIGJlZW4gc3VibWl0dGVkIG1vdmluZyBnaG9zdHNjcmlw
-dCBmcm9tIDkuMjAgdG8gOS4yMS4gIFNob3VsZCBJIHN1Ym1pdCBhIG5ldyBvbmUgZml4aW5nIHRo
-ZSBDVVBTQ09ORklHIGlzc3VlLCBvciBpcyB0aGUgb25lIGZyb20gRmFuIFhpbiBiZWluZyBjb25z
-aWRlcmVkIGluc3RlYWQ/DQoNCkpvZQ0KDQoNCkZyb206IFNsYXRlciwgSm9zZXBoDQpTZW50OiBU
-aHVyc2RheSwgTWF5IDI1LCAyMDE3IDI6NTQgUE0NClRvOiBTbGF0ZXIsIEpvc2VwaDsgQlVSVE9O
-LCBST1NTDQpDYzogT0UtY29yZQ0KU3ViamVjdDogUkU6IFtPRS1jb3JlXSBbb2UtY29yZV1bUEFU
-Q0ggMS8xXSBnaG9zdHNjcmlwdDogbW92ZSB0byB2ZXJzaW9uIDkuMjENCg0KU2V0dGluZyBDVVBT
-Q09ORklHIGFzIGFuIGFyZ3VtZW50IHRvIGNvbmZpZ3VyZSB3b3Jrcy4gIEnigJl2ZSBmaWxlZCBh
-IGJ1ZyB3aXRoIGdob3N0c2NyaXB0IHRvDQpTZWUgaWYgdGhleSBjb25maXJtIHRoZSBpc3N1ZS4g
-IEkgY291bGQgbW9kaWZ5IG15IDkuMjEgcGF0Y2ggdG8gc2V0IENVUFNDT05GSUcgZm9yIHRhcmdl
-dCBidWlsZHMgYW5kDQpUaGluZ3Mgc2hvdWxkIGJlIGJhY2sgdG8gd2hlcmUgdGhleSB3ZXJlLg0K
-DQpKb2UNCg0KDQpGcm9tOiBvcGVuZW1iZWRkZWQtY29yZS1ib3VuY2VzQGxpc3RzLm9wZW5lbWJl
-ZGRlZC5vcmc8bWFpbHRvOm9wZW5lbWJlZGRlZC1jb3JlLWJvdW5jZXNAbGlzdHMub3BlbmVtYmVk
-ZGVkLm9yZz4gW21haWx0bzpvcGVuZW1iZWRkZWQtY29yZS1ib3VuY2VzQGxpc3RzLm9wZW5lbWJl
-ZGRlZC5vcmddIE9uIEJlaGFsZiBPZiBTbGF0ZXIsIEpvc2VwaA0KU2VudDogVGh1cnNkYXksIE1h
-eSAyNSwgMjAxNyAxMjo0NCBQTQ0KVG86IEJVUlRPTiwgUk9TUw0KQ2M6IE9FLWNvcmUNClN1Ympl
-Y3Q6IFJlOiBbT0UtY29yZV0gW29lLWNvcmVdW1BBVENIIDEvMV0gZ2hvc3RzY3JpcHQ6IG1vdmUg
-dG8gdmVyc2lvbiA5LjIxDQoNCkkgZG9u4oCZdCBrbm93IGlmIGl04oCZcyBpbnRlbnRpb25hbCwg
-YnV0IGl0IGRvZXMgc2VlbSB0byBiZSBhIGZlYXR1cmUgb2YgOS4yMSB0aGF0IGN1cHMgc3VwcG9y
-dA0KSXMgbmV2ZXIgYnVpbHQgZXZlbiB0aG91Z2ggY29uZmlndXJlIGZpbmRzIGN1cHMuaCBhbmQg
-Y3Vwcy1jb25maWcuDQoNCkluIHRyeWluZyB0byBjb21wYXJlIGJ1aWxkIGxvZ3MsIEkgc2VlIGEg
-bmV3IHZhcmlhYmxlIGNhbGxlZCBCVUlMRF9DVVBTQ09ORklHIHdoaWNoIGlzDQpTZXQgdG8gd2hh
-dCB0aGUgb2xkIENVUFNDT05GSUcgdmFyaWFibGUgd2FzLiAgSW4gdGhlIG5ldyBsb2csIENVUFND
-T05GSUcgaXMgbnVsbC4NCg0KSm9lDQoNCkZyb206IEJ1cnRvbiwgUm9zcyBbbWFpbHRvOnJvc3Mu
-YnVydG9uQGludGVsLmNvbV0NClNlbnQ6IFRodXJzZGF5LCBNYXkgMjUsIDIwMTcgNTo1MCBBTQ0K
-VG86IFNsYXRlciwgSm9zZXBoDQpDYzogT0UtY29yZQ0KU3ViamVjdDogUmU6IFtPRS1jb3JlXSBb
-b2UtY29yZV1bUEFUQ0ggMS8xXSBnaG9zdHNjcmlwdDogbW92ZSB0byB2ZXJzaW9uIDkuMjENCg0K
-DQpPbiAyNCBNYXkgMjAxNyBhdCAxODozOSwgSm9lIFNsYXRlciA8anNsYXRlckB3aW5kcml2ZXIu
-Y29tPG1haWx0bzpqc2xhdGVyQHdpbmRyaXZlci5jb20+PiB3cm90ZToNCkVsaW1pbmF0ZSBDVkUg
-cGF0Y2hlcyB0aGF0IGFyZSBub3cgaW4gc291cmNlLiAgQWRkIENWRS0yMDE3LTc5NzUNCnBhdGNo
-Lg0KDQpwYWNrYWdlcy9jb3JlaTctNjQtcG9reS1saW51eC9naG9zdHNjcmlwdC9naG9zdHNjcmlw
-dDogUkRFUEVORFM6IHJlbW92ZWQgYWxsIGl0ZW1zICJjdXBzLWxpYmltYWdlIChbJz49IDIuMi4y
-J10pIGN1cHMtbGliIChbJz49IDIuMi4yJ10pIg0KDQpJcyB0aGF0IGludGVudGlvbmFsPw0KDQpS
-b3NzDQo=
+Do you also have a fix for armv5t build issue with this new libunwind
+version?
 
---_000_007BD92917A2324FA403BCF9A464CF84CF376642ALAMBCcorpadwrs_
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: base64
+http://errors.yoctoproject.org/Errors/Details/143838/
 
-PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
-bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
-YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
-cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
-VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
-Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
-ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTQgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
-PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
-Q2FsaWJyaTsNCglwYW5vc2UtMToyIDE1IDUgMiAyIDIgNCAzIDIgNDt9DQpAZm9udC1mYWNlDQoJ
-e2ZvbnQtZmFtaWx5OlRhaG9tYTsNCglwYW5vc2UtMToyIDExIDYgNCAzIDUgNCA0IDIgNDt9DQov
-KiBTdHlsZSBEZWZpbml0aW9ucyAqLw0KcC5Nc29Ob3JtYWwsIGxpLk1zb05vcm1hbCwgZGl2Lk1z
-b05vcm1hbA0KCXttYXJnaW46MGluOw0KCW1hcmdpbi1ib3R0b206LjAwMDFwdDsNCglmb250LXNp
-emU6MTIuMHB0Ow0KCWZvbnQtZmFtaWx5OiJUaW1lcyBOZXcgUm9tYW4iLCJzZXJpZiI7fQ0KYTps
-aW5rLCBzcGFuLk1zb0h5cGVybGluaw0KCXttc28tc3R5bGUtcHJpb3JpdHk6OTk7DQoJY29sb3I6
-Ymx1ZTsNCgl0ZXh0LWRlY29yYXRpb246dW5kZXJsaW5lO30NCmE6dmlzaXRlZCwgc3Bhbi5Nc29I
-eXBlcmxpbmtGb2xsb3dlZA0KCXttc28tc3R5bGUtcHJpb3JpdHk6OTk7DQoJY29sb3I6cHVycGxl
-Ow0KCXRleHQtZGVjb3JhdGlvbjp1bmRlcmxpbmU7fQ0KcC5Nc29BY2V0YXRlLCBsaS5Nc29BY2V0
-YXRlLCBkaXYuTXNvQWNldGF0ZQ0KCXttc28tc3R5bGUtcHJpb3JpdHk6OTk7DQoJbXNvLXN0eWxl
-LWxpbms6IkJhbGxvb24gVGV4dCBDaGFyIjsNCgltYXJnaW46MGluOw0KCW1hcmdpbi1ib3R0b206
-LjAwMDFwdDsNCglmb250LXNpemU6OC4wcHQ7DQoJZm9udC1mYW1pbHk6IlRhaG9tYSIsInNhbnMt
-c2VyaWYiO30NCnNwYW4uQmFsbG9vblRleHRDaGFyDQoJe21zby1zdHlsZS1uYW1lOiJCYWxsb29u
-IFRleHQgQ2hhciI7DQoJbXNvLXN0eWxlLXByaW9yaXR5Ojk5Ow0KCW1zby1zdHlsZS1saW5rOiJC
-YWxsb29uIFRleHQiOw0KCWZvbnQtZmFtaWx5OiJUYWhvbWEiLCJzYW5zLXNlcmlmIjt9DQpzcGFu
-LkVtYWlsU3R5bGUxOQ0KCXttc28tc3R5bGUtdHlwZTpwZXJzb25hbDsNCglmb250LWZhbWlseToi
-Q2FsaWJyaSIsInNhbnMtc2VyaWYiOw0KCWNvbG9yOiMxRjQ5N0Q7fQ0Kc3Bhbi5FbWFpbFN0eWxl
-MjANCgl7bXNvLXN0eWxlLXR5cGU6cGVyc29uYWw7DQoJZm9udC1mYW1pbHk6IkNhbGlicmkiLCJz
-YW5zLXNlcmlmIjsNCgljb2xvcjojMUY0OTdEO30NCnNwYW4uRW1haWxTdHlsZTIxDQoJe21zby1z
-dHlsZS10eXBlOnBlcnNvbmFsLXJlcGx5Ow0KCWZvbnQtZmFtaWx5OiJDYWxpYnJpIiwic2Fucy1z
-ZXJpZiI7DQoJY29sb3I6IzFGNDk3RDt9DQouTXNvQ2hwRGVmYXVsdA0KCXttc28tc3R5bGUtdHlw
-ZTpleHBvcnQtb25seTsNCglmb250LXNpemU6MTAuMHB0O30NCkBwYWdlIFdvcmRTZWN0aW9uMQ0K
-CXtzaXplOjguNWluIDExLjBpbjsNCgltYXJnaW46MS4waW4gMS4waW4gMS4waW4gMS4waW47fQ0K
-ZGl2LldvcmRTZWN0aW9uMQ0KCXtwYWdlOldvcmRTZWN0aW9uMTt9DQotLT48L3N0eWxlPjwhLS1b
-aWYgZ3RlIG1zbyA5XT48eG1sPg0KPG86c2hhcGVkZWZhdWx0cyB2OmV4dD0iZWRpdCIgc3BpZG1h
-eD0iMTAyNiIgLz4NCjwveG1sPjwhW2VuZGlmXS0tPjwhLS1baWYgZ3RlIG1zbyA5XT48eG1sPg0K
-PG86c2hhcGVsYXlvdXQgdjpleHQ9ImVkaXQiPg0KPG86aWRtYXAgdjpleHQ9ImVkaXQiIGRhdGE9
-IjEiIC8+DQo8L286c2hhcGVsYXlvdXQ+PC94bWw+PCFbZW5kaWZdLS0+DQo8L2hlYWQ+DQo8Ym9k
-eSBsYW5nPSJFTi1VUyIgbGluaz0iYmx1ZSIgdmxpbms9InB1cnBsZSI+DQo8ZGl2IGNsYXNzPSJX
-b3JkU2VjdGlvbjEiPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6
-ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OywmcXVvdDtzYW5zLXNlcmlm
-JnF1b3Q7O2NvbG9yOiMxRjQ5N0QiPkEgY291cGxlIG9mIHBhdGNoZXMgaGF2ZSBiZWVuIHN1Ym1p
-dHRlZCBtb3ZpbmcgZ2hvc3RzY3JpcHQgZnJvbSA5LjIwIHRvIDkuMjEuJm5ic3A7IFNob3VsZCBJ
-IHN1Ym1pdCBhIG5ldyBvbmUgZml4aW5nIHRoZSBDVVBTQ09ORklHIGlzc3VlLCBvciBpcyB0aGUg
-b25lIGZyb20gRmFuDQogWGluIGJlaW5nIGNvbnNpZGVyZWQgaW5zdGVhZD88bzpwPjwvbzpwPjwv
-c3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjEx
-LjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVv
-dDs7Y29sb3I6IzFGNDk3RCI+PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9
-Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1
-b3Q7Q2FsaWJyaSZxdW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7O2NvbG9yOiMxRjQ5N0QiPkpv
-ZTxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxl
-PSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssJnF1b3Q7
-c2Fucy1zZXJpZiZxdW90Oztjb2xvcjojMUY0OTdEIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48
-L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtm
-b250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVvdDs7Y29s
-b3I6IzFGNDk3RCI+PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0KPGRpdj4NCjxkaXYgc3R5
-bGU9ImJvcmRlcjpub25lO2JvcmRlci10b3A6c29saWQgI0I1QzRERiAxLjBwdDtwYWRkaW5nOjMu
-MHB0IDBpbiAwaW4gMGluIj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxiPjxzcGFuIHN0eWxlPSJm
-b250LXNpemU6MTAuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O1RhaG9tYSZxdW90OywmcXVvdDtzYW5z
-LXNlcmlmJnF1b3Q7Ij5Gcm9tOjwvc3Bhbj48L2I+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMC4w
-cHQ7Zm9udC1mYW1pbHk6JnF1b3Q7VGFob21hJnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVvdDsi
-PiBTbGF0ZXIsIEpvc2VwaA0KPGJyPg0KPGI+U2VudDo8L2I+IFRodXJzZGF5LCBNYXkgMjUsIDIw
-MTcgMjo1NCBQTTxicj4NCjxiPlRvOjwvYj4gU2xhdGVyLCBKb3NlcGg7IEJVUlRPTiwgUk9TUzxi
-cj4NCjxiPkNjOjwvYj4gT0UtY29yZTxicj4NCjxiPlN1YmplY3Q6PC9iPiBSRTogW09FLWNvcmVd
-IFtvZS1jb3JlXVtQQVRDSCAxLzFdIGdob3N0c2NyaXB0OiBtb3ZlIHRvIHZlcnNpb24gOS4yMTxv
-OnA+PC9vOnA+PC9zcGFuPjwvcD4NCjwvZGl2Pg0KPC9kaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFs
-Ij48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxl
-PSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssJnF1b3Q7
-c2Fucy1zZXJpZiZxdW90Oztjb2xvcjojMUY0OTdEIj5TZXR0aW5nIENVUFNDT05GSUcgYXMgYW4g
-YXJndW1lbnQgdG8gY29uZmlndXJlIHdvcmtzLiZuYnNwOyBJ4oCZdmUgZmlsZWQgYSBidWcgd2l0
-aCBnaG9zdHNjcmlwdCB0bzxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3Jt
-YWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGli
-cmkmcXVvdDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90Oztjb2xvcjojMUY0OTdEIj5TZWUgaWYgdGhl
-eSBjb25maXJtIHRoZSBpc3N1ZS4mbmJzcDsgSSBjb3VsZCBtb2RpZnkgbXkgOS4yMSBwYXRjaCB0
-byBzZXQgQ1VQU0NPTkZJRyBmb3IgdGFyZ2V0IGJ1aWxkcyBhbmQ8bzpwPjwvbzpwPjwvc3Bhbj48
-L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtm
-b250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVvdDs7Y29s
-b3I6IzFGNDk3RCI+VGhpbmdzIHNob3VsZCBiZSBiYWNrIHRvIHdoZXJlIHRoZXkgd2VyZS48bzpw
-PjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9u
-dC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LCZxdW90O3NhbnMt
-c2VyaWYmcXVvdDs7Y29sb3I6IzFGNDk3RCI+PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0K
-PHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1m
-YW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7O2NvbG9yOiMx
-RjQ5N0QiPkpvZTxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxz
-cGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVv
-dDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90Oztjb2xvcjojMUY0OTdEIj48bzpwPiZuYnNwOzwvbzpw
-Pjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXpl
-OjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYm
-cXVvdDs7Y29sb3I6IzFGNDk3RCI+PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0KPGRpdj4N
-CjxkaXYgc3R5bGU9ImJvcmRlcjpub25lO2JvcmRlci10b3A6c29saWQgI0I1QzRERiAxLjBwdDtw
-YWRkaW5nOjMuMHB0IDBpbiAwaW4gMGluIj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxiPjxzcGFu
-IHN0eWxlPSJmb250LXNpemU6MTAuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O1RhaG9tYSZxdW90Oywm
-cXVvdDtzYW5zLXNlcmlmJnF1b3Q7Ij5Gcm9tOjwvc3Bhbj48L2I+PHNwYW4gc3R5bGU9ImZvbnQt
-c2l6ZToxMC4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7VGFob21hJnF1b3Q7LCZxdW90O3NhbnMtc2Vy
-aWYmcXVvdDsiPg0KPGEgaHJlZj0ibWFpbHRvOm9wZW5lbWJlZGRlZC1jb3JlLWJvdW5jZXNAbGlz
-dHMub3BlbmVtYmVkZGVkLm9yZyI+b3BlbmVtYmVkZGVkLWNvcmUtYm91bmNlc0BsaXN0cy5vcGVu
-ZW1iZWRkZWQub3JnPC9hPiBbPGEgaHJlZj0ibWFpbHRvOm9wZW5lbWJlZGRlZC1jb3JlLWJvdW5j
-ZXNAbGlzdHMub3BlbmVtYmVkZGVkLm9yZyI+bWFpbHRvOm9wZW5lbWJlZGRlZC1jb3JlLWJvdW5j
-ZXNAbGlzdHMub3BlbmVtYmVkZGVkLm9yZzwvYT5dDQo8Yj5PbiBCZWhhbGYgT2YgPC9iPlNsYXRl
-ciwgSm9zZXBoPGJyPg0KPGI+U2VudDo8L2I+IFRodXJzZGF5LCBNYXkgMjUsIDIwMTcgMTI6NDQg
-UE08YnI+DQo8Yj5Ubzo8L2I+IEJVUlRPTiwgUk9TUzxicj4NCjxiPkNjOjwvYj4gT0UtY29yZTxi
-cj4NCjxiPlN1YmplY3Q6PC9iPiBSZTogW09FLWNvcmVdIFtvZS1jb3JlXVtQQVRDSCAxLzFdIGdo
-b3N0c2NyaXB0OiBtb3ZlIHRvIHZlcnNpb24gOS4yMTxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjwv
-ZGl2Pg0KPC9kaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4N
-CjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQt
-ZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90Oztjb2xvcjoj
-MUY0OTdEIj5JIGRvbuKAmXQga25vdyBpZiBpdOKAmXMgaW50ZW50aW9uYWwsIGJ1dCBpdCBkb2Vz
-IHNlZW0gdG8gYmUgYSBmZWF0dXJlIG9mIDkuMjEgdGhhdCBjdXBzIHN1cHBvcnQ8bzpwPjwvbzpw
-Pjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXpl
-OjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYm
-cXVvdDs7Y29sb3I6IzFGNDk3RCI+SXMgbmV2ZXIgYnVpbHQgZXZlbiB0aG91Z2ggY29uZmlndXJl
-IGZpbmRzIGN1cHMuaCBhbmQgY3Vwcy1jb25maWcuPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAg
-Y2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1p
-bHk6JnF1b3Q7Q2FsaWJyaSZxdW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7O2NvbG9yOiMxRjQ5
-N0QiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxz
-cGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVv
-dDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90Oztjb2xvcjojMUY0OTdEIj5JbiB0cnlpbmcgdG8gY29t
-cGFyZSBidWlsZCBsb2dzLCBJIHNlZSBhIG5ldyB2YXJpYWJsZSBjYWxsZWQgQlVJTERfQ1VQU0NP
-TkZJRyB3aGljaCBpczxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwi
-PjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkm
-cXVvdDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90Oztjb2xvcjojMUY0OTdEIj5TZXQgdG8gd2hhdCB0
-aGUgb2xkIENVUFNDT05GSUcgdmFyaWFibGUgd2FzLiZuYnNwOyBJbiB0aGUgbmV3IGxvZywgQ1VQ
-U0NPTkZJRyBpcyBudWxsLjxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3Jt
-YWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGli
-cmkmcXVvdDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90Oztjb2xvcjojMUY0OTdEIj48bzpwPiZuYnNw
-OzwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9u
-dC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LCZxdW90O3NhbnMt
-c2VyaWYmcXVvdDs7Y29sb3I6IzFGNDk3RCI+Sm9lPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAg
-Y2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1p
-bHk6JnF1b3Q7Q2FsaWJyaSZxdW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7O2NvbG9yOiMxRjQ5
-N0QiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxi
-PjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTAuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O1RhaG9tYSZx
-dW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7Ij5Gcm9tOjwvc3Bhbj48L2I+PHNwYW4gc3R5bGU9
-ImZvbnQtc2l6ZToxMC4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7VGFob21hJnF1b3Q7LCZxdW90O3Nh
-bnMtc2VyaWYmcXVvdDsiPiBCdXJ0b24sIFJvc3MgWzxhIGhyZWY9Im1haWx0bzpyb3NzLmJ1cnRv
-bkBpbnRlbC5jb20iPm1haWx0bzpyb3NzLmJ1cnRvbkBpbnRlbC5jb208L2E+XQ0KPGJyPg0KPGI+
-U2VudDo8L2I+IFRodXJzZGF5LCBNYXkgMjUsIDIwMTcgNTo1MCBBTTxicj4NCjxiPlRvOjwvYj4g
-U2xhdGVyLCBKb3NlcGg8YnI+DQo8Yj5DYzo8L2I+IE9FLWNvcmU8YnI+DQo8Yj5TdWJqZWN0Ojwv
-Yj4gUmU6IFtPRS1jb3JlXSBbb2UtY29yZV1bUEFUQ0ggMS8xXSBnaG9zdHNjcmlwdDogbW92ZSB0
-byB2ZXJzaW9uIDkuMjE8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFs
-Ij48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjxkaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1h
-bCI+PG86cD4mbmJzcDs8L286cD48L3A+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+T24g
-MjQgTWF5IDIwMTcgYXQgMTg6MzksIEpvZSBTbGF0ZXIgJmx0OzxhIGhyZWY9Im1haWx0bzpqc2xh
-dGVyQHdpbmRyaXZlci5jb20iIHRhcmdldD0iX2JsYW5rIj5qc2xhdGVyQHdpbmRyaXZlci5jb208
-L2E+Jmd0OyB3cm90ZTo8bzpwPjwvbzpwPjwvcD4NCjxkaXYgaWQ9ImdtYWlsLTpxaiI+DQo8cCBj
-bGFzcz0iTXNvTm9ybWFsIj5FbGltaW5hdGUgQ1ZFIHBhdGNoZXMgdGhhdCBhcmUgbm93IGluIHNv
-dXJjZS4mbmJzcDsgQWRkIENWRS0yMDE3LTc5NzU8YnI+DQpwYXRjaC48bzpwPjwvbzpwPjwvcD4N
-CjwvZGl2Pg0KPC9kaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48YnI+DQpwYWNrYWdlcy9jb3Jl
-aTctNjQtcG9reS1saW51eC9naG9zdHNjcmlwdC9naG9zdHNjcmlwdDogUkRFUEVORFM6IHJlbW92
-ZWQgYWxsIGl0ZW1zICZxdW90O2N1cHMtbGliaW1hZ2UgKFsnJmd0Oz0gMi4yLjInXSkgY3Vwcy1s
-aWIgKFsnJmd0Oz0gMi4yLjInXSkmcXVvdDs8bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4N
-CjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2
-Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+SXMgdGhhdCBpbnRlbnRpb25hbD88bzpwPjwvbzpwPjwv
-cD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+
-PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+Um9zczxvOnA+PC9vOnA+
-PC9wPg0KPC9kaXY+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9ib2R5Pg0KPC9odG1sPg0K
+On Mon, Jun 5, 2017 at 10:53 PM, Ross Burton <ross.burton@intel.com> wrote:
 
---_000_007BD92917A2324FA403BCF9A464CF84CF376642ALAMBCcorpadwrs_--
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
+> ---
+>  .../libunwind/libunwind/fix-mips.patch             | 134
+> +++++++++++++++++++++
+>  meta/recipes-support/libunwind/libunwind_1.2.bb    |   1 +
+>  2 files changed, 135 insertions(+)
+>  create mode 100644 meta/recipes-support/libunwind/libunwind/fix-mips.
+> patch
+>
+> diff --git a/meta/recipes-support/libunwind/libunwind/fix-mips.patch
+> b/meta/recipes-support/libunwind/libunwind/fix-mips.patch
+> new file mode 100644
+> index 0000000..0022237
+> --- /dev/null
+> +++ b/meta/recipes-support/libunwind/libunwind/fix-mips.patch
+> @@ -0,0 +1,134 @@
+> +Upstream-Status: Backport
+> +Signed-off-by: Ross Burton <ross.burton@intel.com>
+> +
+> +From 5f354cb7b9c84dae006f0ebd8ad7a78d7e2aad0c Mon Sep 17 00:00:00 2001
+> +From: Dave Watson <davejwatson@fb.com>
+> +Date: Wed, 25 Jan 2017 16:18:02 -0800
+> +Subject: [PATCH] mips/tilegx: Add missing unwind_i.h header file
+> +
+> +reported-by: John Knight <John.Knight@belkin.com>
+> +---
+> + src/Makefile.am | 4 ++--
+> + 1 file changed, 2 insertions(+), 2 deletions(-)
+> +
+> +diff --git a/src/Makefile.am b/src/Makefile.am
+> +index 5d874755..7de4c425 100644
+> +--- a/src/Makefile.am
+> ++++ b/src/Makefile.am
+> +@@ -280,7 +280,7 @@ libunwind_hppa_la_SOURCES_hppa =
+> $(libunwind_la_SOURCES_hppa_common)       \
+> +       hppa/Gresume.c hppa/Gstep.c
+> +
+> + # The list of files that go info libunwind and libunwind-mips:
+> +-noinst_HEADERS += mips/init.h mips/offsets.h
+> ++noinst_HEADERS += mips/init.h mips/offsets.h mips/unwind_i.h
+> + libunwind_la_SOURCES_mips_common = $(libunwind_la_SOURCES_common)
+>    \
+> +       mips/is_fpreg.c mips/regname.c
+> +
+> +@@ -299,7 +299,7 @@ libunwind_mips_la_SOURCES_mips =
+> $(libunwind_la_SOURCES_mips_common)           \
+> +       mips/Gis_signal_frame.c mips/Gregs.c mips/Gresume.c mips/Gstep.c
+> +
+> + # The list of files that go info libunwind and libunwind-tilegx:
+> +-noinst_HEADERS += tilegx/init.h tilegx/offsets.h
+> ++noinst_HEADERS += tilegx/init.h tilegx/offsets.h tilegx/unwind_i.h
+> + libunwind_la_SOURCES_tilegx_common = $(libunwind_la_SOURCES_common)
+>    \
+> +       tilegx/is_fpreg.c tilegx/regname.c
+> +
+> +diff --git a/src/mips/unwind_i.h b/src/mips/unwind_i.h
+> +new file mode 100644
+> +index 0000000..3382dcf
+> +--- /dev/null
+> ++++ b/src/mips/unwind_i.h
+> +@@ -0,0 +1,43 @@
+> ++/* libunwind - a platform-independent unwind library
+> ++   Copyright (C) 2008 CodeSourcery
+> ++
+> ++This file is part of libunwind.
+> ++
+> ++Permission is hereby granted, free of charge, to any person obtaining
+> ++a copy of this software and associated documentation files (the
+> ++"Software"), to deal in the Software without restriction, including
+> ++without limitation the rights to use, copy, modify, merge, publish,
+> ++distribute, sublicense, and/or sell copies of the Software, and to
+> ++permit persons to whom the Software is furnished to do so, subject to
+> ++the following conditions:
+> ++
+> ++The above copyright notice and this permission notice shall be
+> ++included in all copies or substantial portions of the Software.
+> ++
+> ++THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+> ++EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+> ++MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+> ++NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+> ++LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+> ++OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+> ++WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.  */
+> ++
+> ++#ifndef unwind_i_h
+> ++#define unwind_i_h
+> ++
+> ++#include <stdint.h>
+> ++
+> ++#include <libunwind-mips.h>
+> ++
+> ++#include "libunwind_i.h"
+> ++
+> ++#define mips_lock                       UNW_OBJ(lock)
+> ++#define mips_local_resume               UNW_OBJ(local_resume)
+> ++#define mips_local_addr_space_init      UNW_OBJ(local_addr_space_init)
+> ++
+> ++extern int mips_local_resume (unw_addr_space_t as, unw_cursor_t *cursor,
+> ++                             void *arg);
+> ++
+> ++extern void mips_local_addr_space_init (void);
+> ++
+> ++#endif /* unwind_i_h */
+> +diff --git a/src/tilegx/unwind_i.h b/src/tilegx/unwind_i.h
+> +new file mode 100644
+> +index 0000000..aac7be3
+> +--- /dev/null
+> ++++ b/src/tilegx/unwind_i.h
+> +@@ -0,0 +1,44 @@
+> ++/* libunwind - a platform-independent unwind library
+> ++   Copyright (C) 2008 CodeSourcery
+> ++
+> ++This file is part of libunwind.
+> ++
+> ++Permission is hereby granted, free of charge, to any person obtaining
+> ++a copy of this software and associated documentation files (the
+> ++"Software"), to deal in the Software without restriction, including
+> ++without limitation the rights to use, copy, modify, merge, publish,
+> ++distribute, sublicense, and/or sell copies of the Software, and to
+> ++permit persons to whom the Software is furnished to do so, subject to
+> ++the following conditions:
+> ++
+> ++The above copyright notice and this permission notice shall be
+> ++included in all copies or substantial portions of the Software.
+> ++
+> ++THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+> ++EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+> ++MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+> ++NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+> ++LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+> ++OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+> ++WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.  */
+> ++
+> ++#ifndef unwind_i_h
+> ++#define unwind_i_h
+> ++
+> ++#include <memory.h>
+> ++#include <stdint.h>
+> ++
+> ++#include <libunwind-tilegx.h>
+> ++
+> ++#include "libunwind_i.h"
+> ++
+> ++#define tilegx_local_resume            UNW_OBJ(local_resume)
+> ++#define tilegx_local_addr_space_init   UNW_OBJ(local_addr_space_init)
+> ++
+> ++extern int tilegx_local_resume (unw_addr_space_t as,
+> ++                                unw_cursor_t *cursor,
+> ++                                void *arg);
+> ++
+> ++extern void tilegx_local_addr_space_init (void);
+> ++
+> ++#endif /* unwind_i_h */
+> diff --git a/meta/recipes-support/libunwind/libunwind_1.2.bb
+> b/meta/recipes-support/libunwind/libunwind_1.2.bb
+> index a398d33..e598e40 100644
+> --- a/meta/recipes-support/libunwind/libunwind_1.2.bb
+> +++ b/meta/recipes-support/libunwind/libunwind_1.2.bb
+> @@ -11,6 +11,7 @@ SRC_URI = "http://download.savannah.
+> nongnu.org/releases/libunwind/libunwind-${PV
+>             file://0001-add-knobs-to-disable-enable-tests.patch \
+>             file://0001-ppc32-Consider-ucontext-mismatches-between-glibc-and.patch
+> \
+>             file://libunwind-1.1-x32.patch \
+> +           file://fix-mips.patch \
+>             "
+>
+>  SRC_URI_append_libc-musl = " file://musl-header-conflict.patch"
+> --
+> 2.8.1
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+
+--001a1147e4e2e381cd05514f4a22
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Do you also have a fix for armv5t build issue with this ne=
+w libunwind version?<div><br></div><div><a href=3D"http://errors.yoctoproje=
+ct.org/Errors/Details/143838/">http://errors.yoctoproject.org/Errors/Detail=
+s/143838/</a><br></div></div><div class=3D"gmail_extra"><br><div class=3D"g=
+mail_quote">On Mon, Jun 5, 2017 at 10:53 PM, Ross Burton <span dir=3D"ltr">=
+&lt;<a href=3D"mailto:ross.burton@intel.com" target=3D"_blank">ross.burton@=
+intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=
+=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">Signed-o=
+ff-by: Ross Burton &lt;<a href=3D"mailto:ross.burton@intel.com">ross.burton=
+@intel.com</a>&gt;<br>
+---<br>
+=C2=A0.../libunwind/libunwind/fix-<wbr>mips.patch=C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0| 134 +++++++++++++++++++++<br>
+=C2=A0meta/recipes-support/<wbr>libunwind/<a href=3D"http://libunwind_1.2.b=
+b" rel=3D"noreferrer" target=3D"_blank">libunwind_1.2.bb</a>=C2=A0 =C2=A0 |=
+=C2=A0 =C2=A01 +<br>
+=C2=A02 files changed, 135 insertions(+)<br>
+=C2=A0create mode 100644 meta/recipes-support/<wbr>libunwind/libunwind/fix-=
+mips.<wbr>patch<br>
+<br>
+diff --git a/meta/recipes-support/<wbr>libunwind/libunwind/fix-mips.<wbr>pa=
+tch b/meta/recipes-support/<wbr>libunwind/libunwind/fix-mips.<wbr>patch<br>
+new file mode 100644<br>
+index 0000000..0022237<br>
+--- /dev/null<br>
++++ b/meta/recipes-support/<wbr>libunwind/libunwind/fix-mips.<wbr>patch<br>
+@@ -0,0 +1,134 @@<br>
++Upstream-Status: Backport<br>
++Signed-off-by: Ross Burton &lt;<a href=3D"mailto:ross.burton@intel.com">ro=
+ss.burton@intel.com</a>&gt;<br>
++<br>
++From 5f354cb7b9c84dae006f0ebd8ad7a7<wbr>8d7e2aad0c Mon Sep 17 00:00:00 200=
+1<br>
++From: Dave Watson &lt;<a href=3D"mailto:davejwatson@fb.com">davejwatson@fb=
+.com</a>&gt;<br>
++Date: Wed, 25 Jan 2017 16:18:02 -0800<br>
++Subject: [PATCH] mips/tilegx: Add missing unwind_i.h header file<br>
++<br>
++reported-by: John Knight &lt;<a href=3D"mailto:John.Knight@belkin.com">Joh=
+n.Knight@belkin.com</a>&gt;<br>
++---<br>
++ src/Makefile.am | 4 ++--<br>
++ 1 file changed, 2 insertions(+), 2 deletions(-)<br>
++<br>
++diff --git a/src/Makefile.am b/src/Makefile.am<br>
++index 5d874755..7de4c425 100644<br>
++--- a/src/Makefile.am<br>
+++++ b/src/Makefile.am<br>
++@@ -280,7 +280,7 @@ libunwind_hppa_la_SOURCES_hppa =3D $(libunwind_la_SOUR=
+CES_hppa_<wbr>common)=C2=A0 =C2=A0 =C2=A0 =C2=A0\<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0hppa/Gresume.c hppa/Gstep.c<br>
++<br>
++ # The list of files that go info libunwind and libunwind-mips:<br>
++-noinst_HEADERS +=3D mips/init.h mips/offsets.h<br>
+++noinst_HEADERS +=3D mips/init.h mips/offsets.h mips/unwind_i.h<br>
++ libunwind_la_SOURCES_mips_<wbr>common =3D $(libunwind_la_SOURCES_common)=
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0\<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0mips/is_fpreg.c mips/regname.c<br>
++<br>
++@@ -299,7 +299,7 @@ libunwind_mips_la_SOURCES_mips =3D $(libunwind_la_SOUR=
+CES_mips_<wbr>common)=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0\<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0mips/Gis_signal_frame.c mips/Gregs.c mips/Gresu=
+me.c mips/Gstep.c<br>
++<br>
++ # The list of files that go info libunwind and libunwind-tilegx:<br>
++-noinst_HEADERS +=3D tilegx/init.h tilegx/offsets.h<br>
+++noinst_HEADERS +=3D tilegx/init.h tilegx/offsets.h tilegx/unwind_i.h<br>
++ libunwind_la_SOURCES_tilegx_<wbr>common =3D $(libunwind_la_SOURCES_common=
+)=C2=A0 =C2=A0 =C2=A0 =C2=A0\<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0tilegx/is_fpreg.c tilegx/regname.c<br>
++<br>
++diff --git a/src/mips/unwind_i.h b/src/mips/unwind_i.h<br>
++new file mode 100644<br>
++index 0000000..3382dcf<br>
++--- /dev/null<br>
+++++ b/src/mips/unwind_i.h<br>
++@@ -0,0 +1,43 @@<br>
+++/* libunwind - a platform-independent unwind library<br>
+++=C2=A0 =C2=A0Copyright (C) 2008 CodeSourcery<br>
+++<br>
+++This file is part of libunwind.<br>
+++<br>
+++Permission is hereby granted, free of charge, to any person obtaining<br>
+++a copy of this software and associated documentation files (the<br>
+++&quot;Software&quot;), to deal in the Software without restriction, inclu=
+ding<br>
+++without limitation the rights to use, copy, modify, merge, publish,<br>
+++distribute, sublicense, and/or sell copies of the Software, and to<br>
+++permit persons to whom the Software is furnished to do so, subject to<br>
+++the following conditions:<br>
+++<br>
+++The above copyright notice and this permission notice shall be<br>
+++included in all copies or substantial portions of the Software.<br>
+++<br>
+++THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,=
+<br>
+++EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF<br>
+++MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND<br>
+++NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE<br=
+>
+++LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION<br=
+>
+++OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION<br>
+++WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.=C2=A0 */<=
+br>
+++<br>
+++#ifndef unwind_i_h<br>
+++#define unwind_i_h<br>
+++<br>
+++#include &lt;stdint.h&gt;<br>
+++<br>
+++#include &lt;libunwind-mips.h&gt;<br>
+++<br>
+++#include &quot;libunwind_i.h&quot;<br>
+++<br>
+++#define mips_lock=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0UNW_OBJ(lock)<br>
+++#define mips_local_resume=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0UNW_OBJ(local_resume)<br>
+++#define mips_local_addr_space_init=C2=A0 =C2=A0 =C2=A0 UNW_OBJ(local_addr=
+_space_init)<br>
+++<br>
+++extern int mips_local_resume (unw_addr_space_t as, unw_cursor_t *cursor,<=
+br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0void *arg);<br>
+++<br>
+++extern void mips_local_addr_space_init (void);<br>
+++<br>
+++#endif /* unwind_i_h */<br>
++diff --git a/src/tilegx/unwind_i.h b/src/tilegx/unwind_i.h<br>
++new file mode 100644<br>
++index 0000000..aac7be3<br>
++--- /dev/null<br>
+++++ b/src/tilegx/unwind_i.h<br>
++@@ -0,0 +1,44 @@<br>
+++/* libunwind - a platform-independent unwind library<br>
+++=C2=A0 =C2=A0Copyright (C) 2008 CodeSourcery<br>
+++<br>
+++This file is part of libunwind.<br>
+++<br>
+++Permission is hereby granted, free of charge, to any person obtaining<br>
+++a copy of this software and associated documentation files (the<br>
+++&quot;Software&quot;), to deal in the Software without restriction, inclu=
+ding<br>
+++without limitation the rights to use, copy, modify, merge, publish,<br>
+++distribute, sublicense, and/or sell copies of the Software, and to<br>
+++permit persons to whom the Software is furnished to do so, subject to<br>
+++the following conditions:<br>
+++<br>
+++The above copyright notice and this permission notice shall be<br>
+++included in all copies or substantial portions of the Software.<br>
+++<br>
+++THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,=
+<br>
+++EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF<br>
+++MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND<br>
+++NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE<br=
+>
+++LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION<br=
+>
+++OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION<br>
+++WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.=C2=A0 */<=
+br>
+++<br>
+++#ifndef unwind_i_h<br>
+++#define unwind_i_h<br>
+++<br>
+++#include &lt;memory.h&gt;<br>
+++#include &lt;stdint.h&gt;<br>
+++<br>
+++#include &lt;libunwind-tilegx.h&gt;<br>
+++<br>
+++#include &quot;libunwind_i.h&quot;<br>
+++<br>
+++#define tilegx_local_resume=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 UNW_=
+OBJ(local_resume)<br>
+++#define tilegx_local_addr_space_init=C2=A0 =C2=A0UNW_OBJ(local_addr_space=
+_init)<br>
+++<br>
+++extern int tilegx_local_resume (unw_addr_space_t as,<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 unw_cursor_t *cursor,<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 void *arg);<br>
+++<br>
+++extern void tilegx_local_addr_space_init (void);<br>
+++<br>
+++#endif /* unwind_i_h */<br>
+diff --git a/meta/recipes-support/<wbr>libunwind/<a href=3D"http://libunwin=
+d_1.2.bb" rel=3D"noreferrer" target=3D"_blank">libunwind_1.2.bb</a> b/meta/=
+recipes-support/<wbr>libunwind/<a href=3D"http://libunwind_1.2.bb" rel=3D"n=
+oreferrer" target=3D"_blank">libunwind_1.2.bb</a><br>
+index a398d33..e598e40 100644<br>
+--- a/meta/recipes-support/<wbr>libunwind/<a href=3D"http://libunwind_1.2.b=
+b" rel=3D"noreferrer" target=3D"_blank">libunwind_1.2.bb</a><br>
++++ b/meta/recipes-support/<wbr>libunwind/<a href=3D"http://libunwind_1.2.b=
+b" rel=3D"noreferrer" target=3D"_blank">libunwind_1.2.bb</a><br>
+@@ -11,6 +11,7 @@ SRC_URI =3D &quot;<a href=3D"http://download.savannah.non=
+gnu.org/releases/libunwind/libunwind-${PV" rel=3D"noreferrer" target=3D"_bl=
+ank">http://download.savannah.<wbr>nongnu.org/releases/libunwind/<wbr>libun=
+wind-${PV</a><br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0001-add-knobs-to-<wbr>dis=
+able-enable-tests.patch \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0001-ppc32-Consider-<wbr>u=
+context-mismatches-between-<wbr>glibc-and.patch \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://libunwind-1.1-x32.patch \<=
+br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://fix-mips.patch \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<br>
+<br>
+=C2=A0SRC_URI_append_libc-musl =3D &quot; file://musl-header-conflict.<wbr>=
+patch&quot;<br>
+<span class=3D"HOEnZb"><font color=3D"#888888">--<br>
+2.8.1<br>
+<br>
+--<br>
+______________________________<wbr>_________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
+re@lists.<wbr>openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
+ailman/listinfo/openembedded-<wbr>core</a><br>
+</font></span></blockquote></div><br></div>
+
+--001a1147e4e2e381cd05514f4a22--
