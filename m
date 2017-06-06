@@ -1,43 +1,26 @@
-Return-Path: <michael.davis@essvote.com>
-Received: from mail1.essvote.com (mail1.essvote.com [66.37.226.19])
-	by mail.openembedded.org (Postfix) with ESMTP id 3AF8971B57
+Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 181A760110
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Jun 2017 13:29:31 +0000 (UTC)
-X-AuditID: 0a000213-38bff7000000094f-2c-5936ae380b8c
-Received: from ESS-EX01.essvote.corp.local (Unknown_Domain [172.16.110.40])
-	by mail1.essvote.com (Symantec Messaging Gateway) with SMTP id
-	B8.B6.02383.83EA6395; Tue,  6 Jun 2017 08:29:31 -0500 (CDT)
-Received: from ESS-EX01.essvote.corp.local ([::1]) by
-	ESS-EX01.essvote.corp.local ([::1]) with mapi id 14.03.0301.000;
-	Tue, 6 Jun 2017 08:29:28 -0500
-From: "Davis, Michael" <michael.davis@essvote.com>
-To: Jonathan Liu <net147@gmail.com>
-Thread-Topic: [OE-core] [oe-core] DISK_SIGNATURE no longer functional
-Thread-Index: AdLRjNlT3YpLq7j4SnSX4LjtvYzswQM9ztKAABEshSA=
-Date: Tue, 6 Jun 2017 13:29:28 +0000
-Message-ID: <655290B7709079438B7932553958E60DA1311709@ESS-EX01.essvote.corp.local>
-References: <655290B7709079438B7932553958E60DA13093A0@ESS-EX01.essvote.corp.local>
-	<CANwerB2eshSg18OsfbP7fA=EyFBBnrON-PvqeXTRkZrfFngFvQ@mail.gmail.com>
-In-Reply-To: <CANwerB2eshSg18OsfbP7fA=EyFBBnrON-PvqeXTRkZrfFngFvQ@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.1.20.77]
-MIME-Version: 1.0
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrALMWRmVeSWpSXmKPExsWyRiBPQ9d6nVmkwfp+ZYtDN88wWtz5+Y7d
-	gclj56y77B7nNq5gDGCK4rJJSc3JLEst0rdL4MpY9yemYBZ3xY+bn1kbGL9wdTFyckgImEhM
-	u/+AsYuRi0NI4ASjxPmdK1lAEkICMxkllp6pBbHZBIwkzl3fxAhiiwgoSxz6PBeshlkgWuLO
-	7zPsILawgItEz/HrbBA1rhKrjk1mh7CtJBb8mAZWzyKgIvFn9i4mEJtXIEhi07Xj7BCLgXbd
-	X/QSbAGnQKDEjG3NYM2MAmIS30+tYYJYJi5x68l8JoirBSSW7DnPDGGLSrx8/I8VwpaTeNfU
-	BmRzANVrSqzfpQ/RqigxpfshO8ReQYmTM5+wTGAUnYVk6iyEjllIOmYh6VjAyLKKUTA3MTPH
-	UC+1uLgsvyRVLzk/dxMjMDa4GJiEdzAumBF7iFGAg1GJh7chyjRSiDWxrLgy9xCjNAeLkjjv
-	zWeqkUIC6YklqdmpqQWpRfFFpTmpxYcYmTg4QQSXVAPjQUXzVyVGNuq6s88vnR64Jicl+IjC
-	ks9B3nkCUcUmk9lnTvvzXln87injbuH07lC95WuY8iZGen9tyVSwZ5heNf+6amelpnXUu7hs
-	1qzgpNl6zokvii/KzXm82GjSsdvGWTHf3lw1td0u9Xm1lbbSK4vmGz8faIeY8fJyzFh4Uu12
-	/8olRycosRRnJBpqMRcVJwIAil2Z9XMCAAA=
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: DISK_SIGNATURE no longer functional
+	Tue,  6 Jun 2017 14:11:24 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	06 Jun 2017 07:11:25 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.39,306,1493708400"; d="scan'208";a="96161083"
+Received: from lsandov1-mobl2.zpn.intel.com ([10.219.128.119])
+	by orsmga002.jf.intel.com with ESMTP; 06 Jun 2017 07:11:24 -0700
+Message-ID: <1496758810.26945.120.camel@linux.intel.com>
+From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+To: liu.ming50@gmail.com
+Date: Tue, 06 Jun 2017 09:20:10 -0500
+In-Reply-To: <1496719226-3132-1-git-send-email-liu.ming50@gmail.com>
+References: <1496719226-3132-1-git-send-email-liu.ming50@gmail.com>
+X-Mailer: Evolution 3.12.9-1+b1 
+Mime-Version: 1.0
+Cc: Ming Liu <peter.x.liu@external.atlascopco.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] buildstats.sh: add ELAPSED option
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,28 +33,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Jun 2017 13:29:32 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Tue, 06 Jun 2017 14:11:25 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-UHlyby4NCg0KR3Vlc3Npbmcgc29tZXRoaW5nIHdpdGggYWxsIHRoZSBuZXcgd2ljIGFkZGl0aW9u
-cyBraWxsZWQgaXQuDQoNCg0KLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCkZyb206IEpvbmF0
-aGFuIExpdSBbbWFpbHRvOm5ldDE0N0BnbWFpbC5jb21dIA0KU2VudDogTW9uZGF5LCBKdW5lIDA1
-LCAyMDE3IDc6MTcgUE0NClRvOiBEYXZpcywgTWljaGFlbA0KQ2M6IG9wZW5lbWJlZGRlZC1jb3Jl
-QGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNClN1YmplY3Q6IFJlOiBbT0UtY29yZV0gW29lLWNvcmVd
-IERJU0tfU0lHTkFUVVJFIG5vIGxvbmdlciBmdW5jdGlvbmFsDQoNCkhpIE1pY2hhZWwsDQoNCk9u
-IDIxIE1heSAyMDE3IGF0IDAzOjE2LCBEYXZpcywgTWljaGFlbCA8bWljaGFlbC5kYXZpc0Blc3N2
-b3RlLmNvbT4gd3JvdGU6DQo+IEkgYW0gdHJ5aW5nIHRvIGNyZWF0ZSBhIGdlbmVyaWMgTVNET1Mg
-UENfQklPUyBoZGRkaXJlY3QgaW1hZ2Ugd2l0aCBhIHJvb3QNCj4gcGFydGl0aW9uIHNldCBieSB0
-aGUgRElTS19TSUdOQVRVUkUuDQo+DQo+IFNZU0xJTlVYX1JPT1QgPSAicm9vdD1QQVJUVVVJRD0k
-e0RJU0tfU0lHTkFUVVJFfS0wMiINCj4NCj4NCj4NCj4gSG93ZXZlciB0aGUgc2lnbmF0dXJlIGdl
-bmVyYXRlZCBpbiBzeXNsaW51eC5jZmcgYW5kIHRoZSBvbmUgb24gdGhlIGRpc2sNCj4gZG9u4oCZ
-dCBtYXRjaC4NCj4NCj4gSSB0cmllZCBkZWZpbmluZyBteSBvd24gc2lnbmF0dXJlIGFuZCB0aGUg
-b25lIGluIHN5c2xpbnV4IGNoYW5nZXMsIGJ1dCB0aGUNCj4gb25lIG9uIHRoZSBkaXNrIGRvZXNu
-4oCZdCBtYXRjaC4NCj4NCj4NCj4NCj4gcm9vdD1QQVJUVVVJRD0yMmFhZjgzYi0wMg0KPg0KPg0K
-Pg0KPiBOQU1FICAgUEFSVFVVSUQNCj4NCj4gc2RkDQo+DQo+IOKUnOKUgHNkZDIgMzQxZTg0YTct
-MDINCj4NCj4g4pSc4pSAc2RkMyAzNDFlODRhNy0wMw0KPg0KPiDilJTilIBzZGQxIDM0MWU4NGE3
-LTAxDQoNCldoaWNoIHJlbGVhc2UgZGlkIERJU0tfU0lHTkFUVVJFIHN0b3Agd29ya2luZz8NCg0K
-UmVnYXJkcywNCkpvbmF0aGFuDQo=
+On Tue, 2017-06-06 at 05:20 +0200, liu.ming50@gmail.com wrote:
+> From: Ming Liu <peter.x.liu@external.atlascopco.com>
+> 
+> This allows users to be able to get the elapsed time of specific
+> tasks from buildstats, sometimes could be useful.
+> 
+> Signed-off-by: Ming Liu <peter.x.liu@external.atlascopco.com>
+> ---
+>  scripts/contrib/bb-perf/buildstats.sh | 4 ++++
+>  1 file changed, 4 insertions(+)
+> 
+> diff --git a/scripts/contrib/bb-perf/buildstats.sh b/scripts/contrib/bb-perf/buildstats.sh
+> index 8d7e248..caf34a6 100755
+> --- a/scripts/contrib/bb-perf/buildstats.sh
+> +++ b/scripts/contrib/bb-perf/buildstats.sh
+> @@ -40,6 +40,7 @@
+>  
+>  # Stats, by type
+>  TIME="utime:stime:cutime:cstime"
+> +ELAPSED="Started:Ended:Elapsed time"
+
+This is useful, thanks. Just keep in mind that this is not wall time:
+these timestamps come from the bitbake engine (not from /proc/[PID]),
+which depending on the build parallelisms, times can change. 
+
+
+Leo
+
+>  IO="IO wchar:IO write_bytes:IO syscr:IO read_bytes:IO rchar:IO syscw:IO cancelled_write_bytes"
+>  RUSAGE="rusage ru_utime:rusage ru_stime:rusage ru_maxrss:rusage ru_minflt:rusage ru_majflt:\
+>  rusage ru_inblock:rusage ru_oublock:rusage ru_nvcsw:rusage ru_nivcsw"
+> @@ -113,6 +114,9 @@ for stat in ${STATS}; do
+>  	    TIME)
+>  		stats="${stats}:${TIME}"
+>  		;;
+> +	    ELAPSED)
+> +		stats="${stats}:${ELAPSED}"
+> +		;;
+>  	    IO)
+>  		stats="${stats}:${IO}"
+>  		;;
+> -- 
+> 2.7.4
+> 
+
+
 
