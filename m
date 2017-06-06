@@ -1,47 +1,28 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wr0-f178.google.com (mail-wr0-f178.google.com
-	[209.85.128.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 0A51E77E40
+Return-Path: <jan.kiszka@siemens.com>
+Received: from thoth.sbs.de (thoth.sbs.de [192.35.17.2])
+	by mail.openembedded.org (Postfix) with ESMTP id 149ED71BD4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Jun 2017 15:03:17 +0000 (UTC)
-Received: by mail-wr0-f178.google.com with SMTP id v111so48919207wrc.3
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 06 Jun 2017 08:03:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=Q3j3NdNOHpmCVoBrTlJdfvyw4FFq0S3W9FWlEFEQs9o=;
-	b=1dKe5IKGrHo21MZ0cy4MtFaSM3z3fbUe8ZH7RQUEJeP9EPRD0kP6b0iWrgklgKRT9H
-	bt4NB1B6GLbWpPJtBB0TjwezaEmKDWoeCJLKQoPUemYzr8h2q+eE8cuWsTzUenwGZykp
-	wjMNeb35Zn4XDXFkHjAgox3pD+3YJhEVEW4BHSMVXUOoGJBkwl8PV79BUzelyTxibWgg
-	rrPbZ+NCZH2JoFLIBdHdX/uia0OL6P/bQbLh1r3N3JyDcNVgpnD8aPYBMl1xEdrCWYBM
-	+BXyx43YYRYclO8CXm6RKqE7q1WlL14W3/XC3TyBT1gomaz20am/oiBwbLx55Xs15q58
-	TRXA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=Q3j3NdNOHpmCVoBrTlJdfvyw4FFq0S3W9FWlEFEQs9o=;
-	b=Fzt23WyZ0JrIAv5NLtMTvHpr3v0CdwHyxilTA6cGXNvF/f8VqcNNHV5TZyaVYKh6Rj
-	C9jENVrmIh+1+SK0JgusUta07CkM21eSRMkEjuEqRNydkG1V5BNZzDUmWkOeBGIriAYX
-	Byu0hVVaXBm7gpN3EbGKeOfGRSJ0THgPbf1DDUbbSc0FFurx1v+QnLc6bgrU2MmQAzjD
-	lSR1zvXuaW79gjYW8VgWKfLKajOPiHxuXgbyxczfwK5NqxRzVHvVPOXzi8GAYH6MuFxu
-	78EsfLr9XldU9oxa/8Lg3RGqg5bHey/XtHUl55JFVMlCitgkaeWrs6QeV+tF/U85pIUA
-	9Dmw==
-X-Gm-Message-State: AODbwcB47PJY6DNvnQy+B/wsXwbQdnKmmdO8hLTQlAHJfObKr9dTDngg
-	hYH2vDSuwvipEv67hgc=
-X-Received: by 10.223.138.188 with SMTP id y57mr17944700wry.93.1496761398227; 
-	Tue, 06 Jun 2017 08:03:18 -0700 (PDT)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id f3sm27305015wrf.2.2017.06.06.08.03.17
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 06 Jun 2017 08:03:17 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  6 Jun 2017 16:03:15 +0100
-Message-Id: <1496761395-4499-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.8.1
-Subject: [PATCH] archiver: preserve sysroot paths in configured mode
+	Tue,  6 Jun 2017 15:14:09 +0000 (UTC)
+Received: from mail3.siemens.de (mail3.siemens.de [139.25.208.14])
+	by thoth.sbs.de (8.15.2/8.15.2) with ESMTPS id v56FE7WJ004911
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK); 
+	Tue, 6 Jun 2017 17:14:07 +0200
+Received: from md1f2u6c.ww002.siemens.net ([139.25.68.37])
+	by mail3.siemens.de (8.15.2/8.15.2) with ESMTP id v56FE6tc021188;
+	Tue, 6 Jun 2017 17:14:07 +0200
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>,
+	openembedded-core@lists.openembedded.org
+References: <15e918fb-c2e6-3005-6221-08601c804271@siemens.com>
+	<a60f39a6-8355-82dc-20b2-5f7b3d6397b3@linux.intel.com>
+From: Jan Kiszka <jan.kiszka@siemens.com>
+Message-ID: <af72aeb2-915e-0c63-60e9-18b6c7bce5ad@siemens.com>
+Date: Tue, 6 Jun 2017 17:14:06 +0200
+User-Agent: Mozilla/5.0 (X11; U; Linux i686 (x86_64); de; rv:1.8.1.12)
+	Gecko/20080226 SUSE/2.0.0.12-1.1 Thunderbird/2.0.0.12 Mnenhy/0.7.5.666
+MIME-Version: 1.0
+In-Reply-To: <a60f39a6-8355-82dc-20b2-5f7b3d6397b3@linux.intel.com>
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>
+Subject: Re: Fun with npm shrinkwrap
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,35 +35,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Jun 2017 15:03:18 -0000
+X-List-Received-Date: Tue, 06 Jun 2017 15:14:10 -0000
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-do_ar_configured alters WORKDIR but also expects to be able to run do_configure,
-so forcibly expand the paths to the sysroots as otherwise they'll point to a
-non-existant directory in the temporary WORKDIR.
+On 2017-06-06 16:12, Alexander Kanavin wrote:
+> On 06/06/2017 01:17 PM, Jan Kiszka wrote:
+>> devtool add / recipetool create do not work properly /wrt shrinkwrap
+>> when it comes to node-red-node-serialport. npm shrinkwrap finds a number
+>> of extraneous packages and refuses to generate an output.
+>>
+>> There are various workarounds discussed in [1]. For me this seems to
+>> work:
+> 
+> You forgot to include the actual [1] :)
 
-[ YOCTO #11584 ]
+Ah, sorry: https://github.com/npm/npm/issues/4435
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/classes/archiver.bbclass | 4 ++++
- 1 file changed, 4 insertions(+)
+> 
+>> But it may have unwanted side effects. So, what would be the proper way
+>> to address this issue?
+> 
+> A few months ago we had a long, big discussion about how to support
+> these kinds of language environments in a way that is sustainable (I
+> personally do not think the current approach with npm is viable in the
+> long term). Here's the initial couple of emails:
+> 
+> http://lists.openembedded.org/pipermail/openembedded-architecture/2017-March/000480.html
+> 
+> 
+> http://lists.openembedded.org/pipermail/openembedded-architecture/2017-March/000481.html
+> 
 
-diff --git a/meta/classes/archiver.bbclass b/meta/classes/archiver.bbclass
-index 82f0b16..18c5b96 100644
---- a/meta/classes/archiver.bbclass
-+++ b/meta/classes/archiver.bbclass
-@@ -222,6 +222,10 @@ python do_ar_patched() {
- python do_ar_configured() {
-     import shutil
- 
-+    # Forcibly expand the sysroot paths as we're about to change WORKDIR
-+    d.setVar('RECIPE_SYSROOT', d.getVar('RECIPE_SYSROOT'))
-+    d.setVar('RECIPE_SYSROOT_NATIVE', d.getVar('RECIPE_SYSROOT_NATIVE'))
-+
-     ar_outdir = d.getVar('ARCHIVER_OUTDIR')
-     if d.getVarFlag('ARCHIVER_MODE', 'src') == 'configured':
-         bb.note('Archiving the configured source...')
+Yeah, good points. Probably this problem is also related to OE
+reimplementing parts of the npm logic.
+
+But I suppose those concepts won't materialize very soon, will they? I'm
+also looking for a short-term solution, at least some reasonable tactic
+to generate such recipes in the meantime. Is there something in that
+thread I should dig into?
+
+Jan
+
 -- 
-2.8.1
-
+Siemens AG, Corporate Technology, CT RDA ITP SES-DE
+Corporate Competence Center Embedded Linux
 
