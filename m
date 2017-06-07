@@ -1,32 +1,23 @@
-Return-Path: <jan.kiszka@siemens.com>
-Received: from david.siemens.de (david.siemens.de [192.35.17.14])
-	by mail.openembedded.org (Postfix) with ESMTP id B04C0781AD
+Return-Path: <anibal.limon@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 350E9781AD
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Jun 2017 16:34:59 +0000 (UTC)
-Received: from mail3.siemens.de (mail3.siemens.de [139.25.208.14])
-	by david.siemens.de (8.15.2/8.15.2) with ESMTPS id v57GYtG6010455
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK); 
-	Wed, 7 Jun 2017 18:34:55 +0200
-Received: from md1f2u6c.ww002.siemens.net ([139.25.68.37])
-	by mail3.siemens.de (8.15.2/8.15.2) with ESMTP id v57GYtFL032334;
-	Wed, 7 Jun 2017 18:34:55 +0200
-To: Martin Kelly <mkelly@xevo.com>, "Burton, Ross" <ross.burton@intel.com>
-References: <3bd366a6-a31c-e4c8-688c-e24e84f1520c@web.de>
-	<2af19119-fac3-8ce3-fb36-c4aaf64163b7@xevo.com>
-	<4e18dc00-1800-f2dd-797a-7e0a380467c4@xevo.com>
-	<b51b0f8b-e21b-087b-5225-38fb8040479f@siemens.com>
-	<8098d7e7-b887-4c4f-6dba-db9065c97571@xevo.com>
-	<CAJTo0LbrkS8oG1s05KcMu6mREZwd-+h2aGwo7cLXjJc08XrMeA@mail.gmail.com>
-	<f64173c1-2746-06cc-d283-6d42c670cb69@xevo.com>
-From: Jan Kiszka <jan.kiszka@siemens.com>
-Message-ID: <1ea261d3-014e-4819-c9d3-2de695313f52@siemens.com>
-Date: Wed, 7 Jun 2017 18:34:55 +0200
-User-Agent: Mozilla/5.0 (X11; U; Linux i686 (x86_64); de; rv:1.8.1.12)
-	Gecko/20080226 SUSE/2.0.0.12-1.1 Thunderbird/2.0.0.12 Mnenhy/0.7.5.666
+	Wed,  7 Jun 2017 16:39:35 +0000 (UTC)
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	07 Jun 2017 09:39:35 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.39,311,1493708400"; d="scan'208";a="111569467"
+Received: from alimonb-mobl1.zpn.intel.com ([10.219.128.117])
+	by fmsmga005.fm.intel.com with ESMTP; 07 Jun 2017 09:39:34 -0700
+From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  7 Jun 2017 11:39:38 -0500
+Message-Id: <1496853578-3188-1-git-send-email-anibal.limon@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
 MIME-Version: 1.0
-In-Reply-To: <f64173c1-2746-06cc-d283-6d42c670cb69@xevo.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] tcf-agent: Fix daemon termination
+Cc: paul.eggleton@linux.intel.com
+Subject: [PATCH] oeqa: Change the order to logDetails and logSummary
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,43 +30,90 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Jun 2017 16:35:00 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 07 Jun 2017 16:39:36 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On 2017-06-07 18:33, Martin Kelly wrote:
-> On 06/07/2017 09:08 AM, Burton, Ross wrote:
->>
->> On 6 June 2017 at 18:28, Martin Kelly <mkelly@xevo.com
->> <mailto:mkelly@xevo.com>> wrote:
->>
->>     I sent a separate patch for fixing the systemd issue, so I think we
->>     can merge the two patches separately (they're both needed):
->>
->>     https://patchwork.openembedded.org/patch/140355/
->>     <https://patchwork.openembedded.org/patch/140355/>
->>
->>     Neither of our patches have been merged yet.
->>
->>
->> Sorry, somehow slipped through the net.
->>
->> This patch doesn't apply as it's been corrupted by the mailer.  Please
->> use git-send-email instead of copy/pasting (I've managed to apply it
->> manually as it's a simple patch this time).
->>
->> Ross
->>
-> 
-> Which patch are you referring to? I used git send-email for the systemd
-> patch, and it applies just fine for me on OE-core master (using patch -p1).
+Is better to log the summary at end to see in an easy way
+the actual result of the test run.
 
-Wasn't you, was mine. :)
+[YOCTO #11622]
 
-Jan
+Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
+---
+ meta/classes/testimage.bbclass    | 2 +-
+ meta/classes/testsdk.bbclass      | 4 ++--
+ meta/lib/oeqa/core/context.py     | 2 +-
+ meta/lib/oeqa/selftest/context.py | 2 +-
+ 4 files changed, 5 insertions(+), 5 deletions(-)
 
+diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.bbclass
+index 1185593..6c33e16 100644
+--- a/meta/classes/testimage.bbclass
++++ b/meta/classes/testimage.bbclass
+@@ -292,8 +292,8 @@ def testimage_main(d):
+     # Show results (if we have them)
+     if not results:
+         bb.fatal('%s - FAILED - tests were interrupted during execution' % pn)
+-    results.logSummary(pn)
+     results.logDetails()
++    results.logSummary(pn)
+     if not results.wasSuccessful():
+         bb.fatal('%s - FAILED - check the task log and the ssh log' % pn)
+ 
+diff --git a/meta/classes/testsdk.bbclass b/meta/classes/testsdk.bbclass
+index 8a9e680..6b51a33 100644
+--- a/meta/classes/testsdk.bbclass
++++ b/meta/classes/testsdk.bbclass
+@@ -72,8 +72,8 @@ def testsdk_main(d):
+         component = "%s %s" % (pn, OESDKTestContextExecutor.name)
+         context_msg = "%s:%s" % (os.path.basename(tcname), os.path.basename(sdk_env))
+ 
+-        result.logSummary(component, context_msg)
+         result.logDetails()
++        result.logSummary(component, context_msg)
+ 
+         if not result.wasSuccessful():
+             fail = True
+@@ -176,8 +176,8 @@ def testsdkext_main(d):
+         component = "%s %s" % (pn, OESDKExtTestContextExecutor.name)
+         context_msg = "%s:%s" % (os.path.basename(tcname), os.path.basename(sdk_env))
+ 
+-        result.logSummary(component, context_msg)
+         result.logDetails()
++        result.logSummary(component, context_msg)
+ 
+         if not result.wasSuccessful():
+             fail = True
+diff --git a/meta/lib/oeqa/core/context.py b/meta/lib/oeqa/core/context.py
+index 0dbf5c3..2d543ff 100644
+--- a/meta/lib/oeqa/core/context.py
++++ b/meta/lib/oeqa/core/context.py
+@@ -158,8 +158,8 @@ class OETestContextExecutor(object):
+         else:
+             self._pre_run()
+             rc = self.tc.runTests(**self.tc_kwargs['run'])
+-            rc.logSummary(self.name)
+             rc.logDetails()
++            rc.logSummary(self.name)
+ 
+         output_link = os.path.join(os.path.dirname(args.output_log),
+                 "%s-results.log" % self.name)
+diff --git a/meta/lib/oeqa/selftest/context.py b/meta/lib/oeqa/selftest/context.py
+index ca73070..8c8439b 100644
+--- a/meta/lib/oeqa/selftest/context.py
++++ b/meta/lib/oeqa/selftest/context.py
+@@ -179,8 +179,8 @@ class OESelftestTestContextExecutor(OETestContextExecutor):
+         else:
+             self._pre_run()
+             rc = self.tc.runTests(**self.tc_kwargs['run'])
+-            rc.logSummary(self.name)
+             rc.logDetails()
++            rc.logSummary(self.name)
+ 
+         return rc
+     
 -- 
-Siemens AG, Corporate Technology, CT RDA ITP SES-DE
-Corporate Competence Center Embedded Linux
+2.1.4
+
 
