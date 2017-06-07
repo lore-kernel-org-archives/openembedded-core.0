@@ -1,27 +1,25 @@
-Return-Path: <richard@rpsys.net>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id E546977EFE
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	by mail.openembedded.org (Postfix) with ESMTP id DDD9670100
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Jun 2017 12:39:25 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	v57CdOGN014542
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Wed, 7 Jun 2017 13:39:25 +0100
-Received: from richard by hex with local (Exim 4.86_2)
-	(envelope-from <richard@rpsys.net>)
-	id 1dIaFA-0000mQ-OM; Wed, 07 Jun 2017 13:39:24 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+	Wed,  7 Jun 2017 13:22:51 +0000 (UTC)
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+	by orsmga105.jf.intel.com with ESMTP; 07 Jun 2017 06:22:52 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.39,311,1493708400"; d="scan'208";a="95565244"
+Received: from linux.intel.com ([10.54.29.200])
+	by orsmga004.jf.intel.com with ESMTP; 07 Jun 2017 06:22:52 -0700
+Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
+	by linux.intel.com (Postfix) with ESMTP id 47C0F5800C1;
+	Wed,  7 Jun 2017 06:22:51 -0700 (PDT)
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  7 Jun 2017 13:39:23 +0100
-Message-Id: <1496839163-2957-1-git-send-email-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.7.4
-X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.11
-	(dan.rpsys.net [192.168.3.1]);
-	Wed, 07 Jun 2017 13:39:25 +0100 (BST)
-X-Virus-Scanned: clamav-milter 0.99.2 at dan
-X-Virus-Status: Clean
-Subject: [PATCH] meta*: Add LAYERSERIES_COMPAT and LAYERSERIES_CORENAMES markup to layer.conf
+Date: Wed,  7 Jun 2017 16:21:52 +0300
+Message-Id: <1496841712-26887-1-git-send-email-ed.bartosh@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+In-Reply-To: <20170607123145.1043.50092@do.openembedded.org>
+References: <20170607123145.1043.50092@do.openembedded.org>
+Subject: [PATCH v3] u-boot: enable dhcp for MPC8315 board
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,54 +32,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Jun 2017 12:39:26 -0000
+X-List-Received-Date: Wed, 07 Jun 2017 13:22:52 -0000
 
-This means mismatched layers are more clearly identified to the user in
-cases where compatibility has not been tested. This is perhaps not as
-needed for the core repository (other than CORENAMES) but lets lead by
-example.
+Getting ip address from DHCP server is much more convenient
+than setting static ip. It allows to configure u-boot in
+more generic way and to avoid hardcoding static ip in
+u-boot configuration.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Enabled dhcp client functionality for Yocto reference
+hardware MPC8315E-RDB.
+
+Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 ---
- meta-selftest/conf/layer.conf | 2 ++
- meta-skeleton/conf/layer.conf | 2 ++
- meta/conf/layer.conf          | 2 ++
- 3 files changed, 6 insertions(+)
+ .../u-boot/files/MPC8315ERDB-enable-DHCP.patch        | 19 +++++++++++++++++++
+ meta/recipes-bsp/u-boot/u-boot-common_2017.01.inc     |  4 +++-
+ 2 files changed, 22 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-bsp/u-boot/files/MPC8315ERDB-enable-DHCP.patch
 
-diff --git a/meta-selftest/conf/layer.conf b/meta-selftest/conf/layer.conf
-index a847b78..2a71895 100644
---- a/meta-selftest/conf/layer.conf
-+++ b/meta-selftest/conf/layer.conf
-@@ -8,3 +8,5 @@ BBFILES += "${LAYERDIR}/recipes-*/*/*.bb \
- BBFILE_COLLECTIONS += "selftest"
- BBFILE_PATTERN_selftest = "^${LAYERDIR}/"
- BBFILE_PRIORITY_selftest = "5"
+diff --git a/meta/recipes-bsp/u-boot/files/MPC8315ERDB-enable-DHCP.patch b/meta/recipes-bsp/u-boot/files/MPC8315ERDB-enable-DHCP.patch
+new file mode 100644
+index 0000000..5a41108
+--- /dev/null
++++ b/meta/recipes-bsp/u-boot/files/MPC8315ERDB-enable-DHCP.patch
+@@ -0,0 +1,19 @@
++Enabled dhcp client functionality for Yocto reference
++hardware MPC8315E-RDB.
 +
-+LAYERSERIES_COMPAT_selftest = "rocko"
-diff --git a/meta-skeleton/conf/layer.conf b/meta-skeleton/conf/layer.conf
-index aca1633..a15516a 100644
---- a/meta-skeleton/conf/layer.conf
-+++ b/meta-skeleton/conf/layer.conf
-@@ -13,3 +13,5 @@ BBFILE_PRIORITY_skeleton = "1"
- LAYERVERSION_skeleton = "1"
- 
- LAYERDEPENDS_skeleton = "core"
++Upstream-Status: Submitted
 +
-+LAYERSERIES_COMPAT_skeleton = "rocko"
-diff --git a/meta/conf/layer.conf b/meta/conf/layer.conf
-index fc16502..6d36aa1 100644
---- a/meta/conf/layer.conf
-+++ b/meta/conf/layer.conf
-@@ -11,6 +11,8 @@ BBFILE_PRIORITY_core = "5"
- # cause compatibility issues with other layers
- LAYERVERSION_core = "10"
- 
-+LAYERSERIES_CORENAMES = "rocko"
++Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 +
- BBLAYERS_LAYERINDEX_NAME_core = "openembedded-core"
++diff --git a/configs/MPC8315ERDB_defconfig b/configs/MPC8315ERDB_defconfig
++index 4e2b705..b02ab1f 100644
++--- a/configs/MPC8315ERDB_defconfig
+++++ b/configs/MPC8315ERDB_defconfig
++@@ -9,6 +9,7 @@ CONFIG_HUSH_PARSER=y
++ CONFIG_CMD_I2C=y
++ CONFIG_CMD_USB=y
++ # CONFIG_CMD_SETEXPR is not set
+++CONFIG_CMD_DHCP=y
++ CONFIG_CMD_MII=y
++ CONFIG_CMD_PING=y
++ CONFIG_CMD_EXT2=y
+diff --git a/meta/recipes-bsp/u-boot/u-boot-common_2017.01.inc b/meta/recipes-bsp/u-boot/u-boot-common_2017.01.inc
+index df24c85..8ee1c32 100644
+--- a/meta/recipes-bsp/u-boot/u-boot-common_2017.01.inc
++++ b/meta/recipes-bsp/u-boot/u-boot-common_2017.01.inc
+@@ -9,6 +9,8 @@ PE = "1"
+ # repo during parse
+ SRCREV = "a705ebc81b7f91bbd0ef7c634284208342901149"
  
- # Set a variable to get to the top of the metadata location
+-SRC_URI = "git://git.denx.de/u-boot.git"
++SRC_URI = "git://git.denx.de/u-boot.git \
++    file://MPC8315ERDB-enable-DHCP.patch \
++"
+ 
+ S = "${WORKDIR}/git"
 -- 
-2.7.4
+2.1.4
 
 
