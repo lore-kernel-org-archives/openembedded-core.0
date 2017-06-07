@@ -1,25 +1,18 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id 29EF077EFE
-	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Jun 2017 12:30:38 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga105.jf.intel.com with ESMTP; 07 Jun 2017 05:30:40 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.39,311,1493708400"; d="scan'208";a="977854731"
-Received: from linux.intel.com ([10.54.29.200])
-	by orsmga003.jf.intel.com with ESMTP; 07 Jun 2017 05:30:40 -0700
-Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
-	by linux.intel.com (Postfix) with ESMTP id F13BF5806E1;
-	Wed,  7 Jun 2017 05:30:38 -0700 (PDT)
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  7 Jun 2017 15:29:40 +0300
-Message-Id: <1496838580-25289-1-git-send-email-ed.bartosh@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <CAJTo0LYUEgJgU03xxhi2ke3SspsEs0_JPcX4yiBaVbF6p-saUQ@mail.gmail.com>
-References: <CAJTo0LYUEgJgU03xxhi2ke3SspsEs0_JPcX4yiBaVbF6p-saUQ@mail.gmail.com>
-Subject: [PATCH v2] u-boot: enable dhcp for MPC8315 board
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id B3B5277EFE;
+	Wed,  7 Jun 2017 12:31:43 +0000 (UTC)
+MIME-Version: 1.0
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Ed Bartosh <ed.bartosh@linux.intel.com>
+Date: Wed, 07 Jun 2017 12:31:45 -0000
+Message-ID: <20170607123145.1043.50092@do.openembedded.org>
+References: <1496837136-24209-1-git-send-email-ed.bartosh@linux.intel.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <1496837136-24209-1-git-send-email-ed.bartosh@linux.intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgdS1ib290OiBlbmFibGUgZGhjcCBmb3IgTVBDODMxNSBib2FyZCAocmV2Mik=?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,56 +25,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Jun 2017 12:30:39 -0000
+X-List-Received-Date: Wed, 07 Jun 2017 12:31:43 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-Getting ip address from DHCP server is much more convenient
-than setting static ip. It allows to configure u-boot in
-more generic way and to avoid hardcoding static ip in
-u-boot configuration.
+== Series Details ==
 
-Enabled dhcp client functionality for Yocto reference
-hardware MPC8315E-RDB.
+Series: u-boot: enable dhcp for MPC8315 board (rev2)
+Revision: 2
+URL   : https://patchwork.openembedded.org/series/7108/
+State : failure
 
-Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             Added patch file is missing Upstream-Status in the header [test_upstream_status_presence] 
+  Suggested fix    Add Upstream-Status: <status> to the header of meta/recipes-bsp/u-boot/files/MPC8315ERDB-enable-DHCP.patch (possible values: Pending, Submitted, Accepted, Backport, Denied, Inappropriate)
+
+* Issue             A patch file has been added, but does not have a Signed-off-by tag [test_signed_off_by_presence] 
+  Suggested fix    Sign off the added patch file (meta/recipes-bsp/u-boot/files/MPC8315ERDB-enable-DHCP.patch)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- meta/recipes-bsp/u-boot/files/MPC8315ERDB-enable-DHCP.patch | 12 ++++++++++++
- meta/recipes-bsp/u-boot/u-boot-common_2017.01.inc           |  4 +++-
- 2 files changed, 15 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-bsp/u-boot/files/MPC8315ERDB-enable-DHCP.patch
-
-diff --git a/meta/recipes-bsp/u-boot/files/MPC8315ERDB-enable-DHCP.patch b/meta/recipes-bsp/u-boot/files/MPC8315ERDB-enable-DHCP.patch
-new file mode 100644
-index 0000000..df89e05
---- /dev/null
-+++ b/meta/recipes-bsp/u-boot/files/MPC8315ERDB-enable-DHCP.patch
-@@ -0,0 +1,12 @@
-+diff --git a/configs/MPC8315ERDB_defconfig b/configs/MPC8315ERDB_defconfig
-+index 4e2b705..b02ab1f 100644
-+--- a/configs/MPC8315ERDB_defconfig
-++++ b/configs/MPC8315ERDB_defconfig
-+@@ -9,6 +9,7 @@ CONFIG_HUSH_PARSER=y
-+ CONFIG_CMD_I2C=y
-+ CONFIG_CMD_USB=y
-+ # CONFIG_CMD_SETEXPR is not set
-++CONFIG_CMD_DHCP=y
-+ CONFIG_CMD_MII=y
-+ CONFIG_CMD_PING=y
-+ CONFIG_CMD_EXT2=y
-diff --git a/meta/recipes-bsp/u-boot/u-boot-common_2017.01.inc b/meta/recipes-bsp/u-boot/u-boot-common_2017.01.inc
-index df24c85..8ee1c32 100644
---- a/meta/recipes-bsp/u-boot/u-boot-common_2017.01.inc
-+++ b/meta/recipes-bsp/u-boot/u-boot-common_2017.01.inc
-@@ -9,6 +9,8 @@ PE = "1"
- # repo during parse
- SRCREV = "a705ebc81b7f91bbd0ef7c634284208342901149"
- 
--SRC_URI = "git://git.denx.de/u-boot.git"
-+SRC_URI = "git://git.denx.de/u-boot.git \
-+    file://MPC8315ERDB-enable-DHCP.patch \
-+"
- 
- S = "${WORKDIR}/git"
--- 
-2.1.4
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
