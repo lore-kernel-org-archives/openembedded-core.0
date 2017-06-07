@@ -1,27 +1,26 @@
 Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 4081C780C0
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id D058E780C0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Jun 2017 10:26:16 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	07 Jun 2017 03:26:18 -0700
+	Wed,  7 Jun 2017 10:26:17 +0000 (UTC)
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+	by fmsmga105.fm.intel.com with ESMTP; 07 Jun 2017 03:26:18 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.39,310,1493708400"; d="scan'208";a="96566341"
+X-IronPort-AV: E=Sophos;i="5.39,310,1493708400"; d="scan'208";a="111438515"
 Received: from linux.intel.com ([10.54.29.200])
-	by orsmga002.jf.intel.com with ESMTP; 07 Jun 2017 03:26:17 -0700
+	by fmsmga005.fm.intel.com with ESMTP; 07 Jun 2017 03:26:18 -0700
 Received: from ed.fi.intel.com (ed.fi.intel.com [10.237.72.179])
-	by linux.intel.com (Postfix) with ESMTP id 002F35801E5
+	by linux.intel.com (Postfix) with ESMTP id 127585802EB
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Jun 2017 03:26:16 -0700 (PDT)
+	Wed,  7 Jun 2017 03:26:17 -0700 (PDT)
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  7 Jun 2017 13:25:27 +0300
-Message-Id: <05ae4ebacde536105191770b87ca6b84a1969743.1496830884.git.ed.bartosh@linux.intel.com>
+Date: Wed,  7 Jun 2017 13:25:28 +0300
+Message-Id: <cdae465d243acac4fed2dcb1fbeb1f3aa00e586f.1496830884.git.ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.12.0
 In-Reply-To: <cover.1496830884.git.ed.bartosh@linux.intel.com>
 References: <cover.1496830884.git.ed.bartosh@linux.intel.com>
-Subject: [PATCH v2 3/6] wic: add 'wic rm' command
+Subject: [PATCH v2 4/6] wic: implement removing files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,74 +35,65 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 07 Jun 2017 10:26:17 -0000
 
-Added empty 'wic rm' command that does nothing.
-The functionality will be added by the next commits.
+Added implementation of Disk.del method and wic_r
+function that removes files from the vfat partition
+using mdel utility.
 
 [YOCTO #11283]
 
 Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 ---
- scripts/lib/wic/engine.py |  7 +++++++
- scripts/wic               | 14 ++++++++++++++
- 2 files changed, 21 insertions(+)
+ scripts/lib/wic/engine.py | 16 +++++++++++++++-
+ 1 file changed, 15 insertions(+), 1 deletion(-)
 
 diff --git a/scripts/lib/wic/engine.py b/scripts/lib/wic/engine.py
-index a48c4adafb..9a8055c05c 100644
+index 9a8055c05c..6fc8bb72c3 100644
 --- a/scripts/lib/wic/engine.py
 +++ b/scripts/lib/wic/engine.py
-@@ -340,6 +340,13 @@ def wic_cp(args, native_sysroot):
-     disk = Disk(args.dest.image, native_sysroot)
-     disk.copy(args.src, args.dest.part, args.dest.path)
+@@ -238,6 +238,7 @@ class Disk:
+         self._partitions = None
+         self._mdir = None
+         self._mcopy = None
++        self._mdel = None
+         self._partimages = {}
  
-+def wic_rm(args, native_sysroot):
-+    """
-+    Remove files or directories from the vfat partition of
-+    partitioned image.
-+    """
-+    pass
+         # find parted
+@@ -285,6 +286,10 @@ class Disk:
+     def mcopy(self):
+         return self._prop("mcopy")
+ 
++    @property
++    def mdel(self):
++        return self._prop("mdel")
 +
+     def _get_part_image(self, pnum):
+         if pnum not in self.partitions:
+             raise WicError("Partition %s is not in the image")
+@@ -318,6 +323,14 @@ class Disk:
+         exec_cmd(cmd)
+         self._put_part_image(pnum)
+ 
++    def remove(self, pnum, path):
++        """Remove files/dirs from the partition."""
++        cmd = "{} -i {} ::{}".format(self.mdel,
++                                     self._get_part_image(pnum),
++                                     path)
++        exec_cmd(cmd)
++        self._put_part_image(pnum)
++
+ def wic_ls(args, native_sysroot):
+     """List contents of partitioned image or vfat partition."""
+     disk = Disk(args.path.image, native_sysroot)
+@@ -345,7 +358,8 @@ def wic_rm(args, native_sysroot):
+     Remove files or directories from the vfat partition of
+     partitioned image.
+     """
+-    pass
++    disk = Disk(args.path.image, native_sysroot)
++    disk.remove(args.path.part, args.path.path)
+ 
  def find_canned(scripts_path, file_name):
      """
-     Find a file either by its path or by name in the canned files dir.
-diff --git a/scripts/wic b/scripts/wic
-index fc192ec852..da14f4714a 100755
---- a/scripts/wic
-+++ b/scripts/wic
-@@ -248,6 +248,13 @@ def wic_cp_subcommand(args, usage_str):
-     """
-     engine.wic_cp(args, args.native_sysroot)
- 
-+def wic_rm_subcommand(args, usage_str):
-+    """
-+    Command-line handling for removing files/dirs from images.
-+    The real work is done by engine.wic_rm()
-+    """
-+    engine.wic_rm(args, args.native_sysroot)
-+
- def wic_help_subcommand(args, usage_str):
-     """
-     Command-line handling for help subcommand to keep the current
-@@ -286,6 +293,9 @@ helptopics = {
-     "cp":        [wic_help_topic_subcommand,
-                   wic_help_topic_usage,
-                   hlp.wic_cp_help],
-+    "rm":        [wic_help_topic_subcommand,
-+                  wic_help_topic_usage,
-+                  hlp.wic_rm_help],
-     "list":      [wic_help_topic_subcommand,
-                   wic_help_topic_usage,
-                   hlp.wic_list_help]
-@@ -409,6 +419,10 @@ subcommands = {
-                   hlp.wic_cp_usage,
-                   hlp.wic_cp_help,
-                   wic_init_parser_cp],
-+    "rm":        [wic_rm_subcommand,
-+                  hlp.wic_rm_usage,
-+                  hlp.wic_rm_help,
-+                  wic_init_parser_rm],
-     "help":      [wic_help_subcommand,
-                   wic_help_topic_usage,
-                   hlp.wic_help_help,
 -- 
 2.12.0
 
