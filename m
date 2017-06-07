@@ -1,58 +1,30 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 5FE5F781CD
+Return-Path: <jose.perez.carranza@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id F1A897813F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Jun 2017 17:08:20 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id EEE67180FF;
-	Wed,  7 Jun 2017 19:08:21 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id jpVdY0xb8bNu; Wed,  7 Jun 2017 19:08:21 +0200 (CEST)
-Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
-	by bastet.se.axis.com (Postfix) with ESMTPS id C4D07184E3;
-	Wed,  7 Jun 2017 19:08:20 +0200 (CEST)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id B4C021A0C9;
-	Wed,  7 Jun 2017 19:08:20 +0200 (CEST)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id A91521A0C8;
-	Wed,  7 Jun 2017 19:08:20 +0200 (CEST)
-Received: from thoth.se.axis.com (unknown [10.0.2.173])
-	by boulder02.se.axis.com (Postfix) with ESMTP;
-	Wed,  7 Jun 2017 19:08:20 +0200 (CEST)
-Received: from XBOX01.axis.com (xbox01.axis.com [10.0.5.15])
-	by thoth.se.axis.com (Postfix) with ESMTP id 9CA6C2A60;
-	Wed,  7 Jun 2017 19:08:20 +0200 (CEST)
-Received: from XBOX02.axis.com (10.0.5.16) by XBOX01.axis.com (10.0.5.15) with
-	Microsoft SMTP Server (TLS) id 15.0.1210.3;
-	Wed, 7 Jun 2017 19:08:20 +0200
-Received: from XBOX02.axis.com ([fe80::d00f:cb52:1b56:20d]) by XBOX02.axis.com
-	([fe80::d00f:cb52:1b56:20d%21]) with mapi id 15.00.1210.000;
-	Wed, 7 Jun 2017 19:08:20 +0200
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>, "Richard
-	Purdie" <richard.purdie@linuxfoundation.org>
-Thread-Topic: [OE-core] [PATCH] meta*: Add LAYERSERIES_COMPAT and
-	LAYERSERIES_CORENAMES markup to layer.conf
-Thread-Index: AQHS360cV9JgZajxuUu8cdlR+XuJT6IZoTlQ
-Date: Wed, 7 Jun 2017 17:08:20 +0000
-Message-ID: <85aeec20467b46b48d954e07ce32a10a@XBOX02.axis.com>
-References: <1496839163-2957-1-git-send-email-richard.purdie@linuxfoundation.org>
-	<1496854280.26945.140.camel@linux.intel.com>
-In-Reply-To: <1496854280.26945.140.camel@linux.intel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.60]
+	Wed,  7 Jun 2017 17:29:50 +0000 (UTC)
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	07 Jun 2017 10:29:52 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.39,311,1493708400"; 
+	d="scan'208,217";a="112089268"
+Received: from jgperezc-mobl1.zpn.intel.com (HELO [10.219.4.33])
+	([10.219.4.33])
+	by fmsmga006.fm.intel.com with ESMTP; 07 Jun 2017 10:29:51 -0700
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <a5c78ee6-8320-7508-18d1-16762bed364c@linux.intel.com>
+	<20170515135023.4090-1-jose.perez.carranza@linux.intel.com>
+	<CAJTo0LYe=7Ug3wJSWwPX5VT=cy7GDe0Kf79uPFmC1tMj-0b-6Q@mail.gmail.com>
+From: Jose Perez Carranza <jose.perez.carranza@linux.intel.com>
+Message-ID: <e1d6c111-bd9d-af76-ae44-d6921c723ba6@linux.intel.com>
+Date: Wed, 7 Jun 2017 12:31:57 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.1.0
 MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] meta*: Add LAYERSERIES_COMPAT and LAYERSERIES_CORENAMES markup to layer.conf
+In-Reply-To: <CAJTo0LYe=7Ug3wJSWwPX5VT=cy7GDe0Kf79uPFmC1tMj-0b-6Q@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v3] runtime/dnf: Add new dnf test cases
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -65,82 +37,101 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Jun 2017 17:08:22 -0000
+X-List-Received-Date: Wed, 07 Jun 2017 17:29:51 -0000
+Content-Type: multipart/alternative;
+	boundary="------------B7055A227A186F1A3B196E37"
 Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
 
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org
-> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
-> Leonardo Sandoval
-> Sent: den 7 juni 2017 18:51
-> To: Richard Purdie <richard.purdie@linuxfoundation.org>
-> Cc: openembedded-core@lists.openembedded.org
-> Subject: Re: [OE-core] [PATCH] meta*: Add LAYERSERIES_COMPAT and
-> LAYERSERIES_CORENAMES markup to layer.conf
->=20
-> On Wed, 2017-06-07 at 13:39 +0100, Richard Purdie wrote:
-> > This means mismatched layers are more clearly identified to the user
-> in
-> > cases where compatibility has not been tested. This is perhaps not as
-> > needed for the core repository (other than CORENAMES) but lets lead
-> by
-> > example.
-> >
-> > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> > ---
-> >  meta-selftest/conf/layer.conf | 2 ++
-> >  meta-skeleton/conf/layer.conf | 2 ++
-> >  meta/conf/layer.conf          | 2 ++
-> >  3 files changed, 6 insertions(+)
-> >
-> > diff --git a/meta-selftest/conf/layer.conf b/meta-
-> selftest/conf/layer.conf
-> > index a847b78..2a71895 100644
-> > --- a/meta-selftest/conf/layer.conf
-> > +++ b/meta-selftest/conf/layer.conf
-> > @@ -8,3 +8,5 @@ BBFILES +=3D "${LAYERDIR}/recipes-*/*/*.bb \
-> >  BBFILE_COLLECTIONS +=3D "selftest"
-> >  BBFILE_PATTERN_selftest =3D "^${LAYERDIR}/"
-> >  BBFILE_PRIORITY_selftest =3D "5"
-> > +
-> > +LAYERSERIES_COMPAT_selftest =3D "rocko"
-> > diff --git a/meta-skeleton/conf/layer.conf b/meta-
-> skeleton/conf/layer.conf
-> > index aca1633..a15516a 100644
-> > --- a/meta-skeleton/conf/layer.conf
-> > +++ b/meta-skeleton/conf/layer.conf
-> > @@ -13,3 +13,5 @@ BBFILE_PRIORITY_skeleton =3D "1"
-> >  LAYERVERSION_skeleton =3D "1"
-> >
-> >  LAYERDEPENDS_skeleton =3D "core"
-> > +
-> > +LAYERSERIES_COMPAT_skeleton =3D "rocko"
-> > diff --git a/meta/conf/layer.conf b/meta/conf/layer.conf
-> > index fc16502..6d36aa1 100644
-> > --- a/meta/conf/layer.conf
-> > +++ b/meta/conf/layer.conf
-> > @@ -11,6 +11,8 @@ BBFILE_PRIORITY_core =3D "5"
-> >  # cause compatibility issues with other layers
-> >  LAYERVERSION_core =3D "10"
-> >
-> > +LAYERSERIES_CORENAMES =3D "rocko"
-> > +
-> >  BBLAYERS_LAYERINDEX_NAME_core =3D "openembedded-core"
->=20
-> at oe-core, Is there a reason not to set all LAYERSERIES_COMPAT_* =3D
-> "${LAYERSERIES_CORENAMES}"? this would make it easier to bump the
-> COMPAT set of variables.
+--------------B7055A227A186F1A3B196E37
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-That is probably a bad idea, especially if the aim here is to lead=20
-by example, since otherwise you risk other layers to just blindly=20
-copying that and then we have gained nothing...
+When I tried this test image was built without using states hence 
+"busybox*.rpm" and "curl*.rpm"where present under 
+"tmp/deploy/rpm/core2_64" hence the repo i taking tha packages form 
+there to add them to repo and used on the image, but when using sstates 
+those packages are not being built so are not present on local build 
+directory. is there any way to force those packages to be built to have 
+them available on tmp/deploy/rpm/core2_64?
 
-> >  # Set a variable to get to the top of the metadata location
-> > --
-> > 2.7.4
+On 06/07/2017 05:21 AM, Burton, Ross wrote:
+>
+> On 15 May 2017 at 14:50, <jose.perez.carranza@linux.intel.com 
+> <mailto:jose.perez.carranza@linux.intel.com>> wrote:
+>
+>     Add test cases to test “exclude” and “installroot“ options, also
+>     modify
+>     the logic of filtering packages on the feed to have all the packages
+>     needed by the tests.
+>
+>
+> Fails all over the autobuilder, for example:
+>
+> http://errors.yoctoproject.org/Errors/Details/143886/
+>
+> Ross
 
-//Peter
+-- 
+Saludos
+José
 
 
+--------------B7055A227A186F1A3B196E37
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  </head>
+  <body text="#000000" bgcolor="#FFFFFF">
+    When I tried this test image was built without using states hence
+    "busybox*.rpm" and "curl*.rpm"where present under
+    "tmp/deploy/rpm/core2_64" hence the repo i taking tha packages form
+    there to add them to repo and used on the image, but when using
+    sstates those packages are not being built so are not present on
+    local build directory. is there any way to force those packages to
+    be built to have them available on tmp/deploy/rpm/core2_64? <br>
+    <br>
+    <div class="moz-cite-prefix">On 06/07/2017 05:21 AM, Burton, Ross
+      wrote:<br>
+    </div>
+    <blockquote type="cite"
+cite="mid:CAJTo0LYe=7Ug3wJSWwPX5VT=cy7GDe0Kf79uPFmC1tMj-0b-6Q@mail.gmail.com">
+      <div dir="ltr">
+        <div class="gmail_extra"><br>
+          <div class="gmail_quote">On 15 May 2017 at 14:50, <span
+              dir="ltr">&lt;<a
+                href="mailto:jose.perez.carranza@linux.intel.com"
+                target="_blank" moz-do-not-send="true">jose.perez.carranza@linux.intel.com</a>&gt;</span>
+            wrote:<br>
+            <blockquote class="gmail_quote" style="margin:0px 0px 0px
+0.8ex;border-left-width:1px;border-left-style:solid;border-left-color:rgb(204,204,204);padding-left:1ex"><span
+                class="gmail-">Add test cases to test “exclude” and
+                “installroot“ options, also modify<br>
+                the logic of filtering packages on the feed to have all
+                the packages<br>
+                needed by the tests.<br>
+              </span></blockquote>
+          </div>
+          <div class="gmail_extra"><br>
+          </div>
+          Fails all over the autobuilder, for example:</div>
+        <div class="gmail_extra"><br>
+          <a
+            href="http://errors.yoctoproject.org/Errors/Details/143886/"
+            moz-do-not-send="true">http://errors.yoctoproject.org/Errors/Details/143886/</a><br>
+        </div>
+        <div class="gmail_extra"><br>
+        </div>
+        <div class="gmail_extra">Ross</div>
+      </div>
+    </blockquote>
+    <br>
+    <pre class="moz-signature" cols="72">-- 
+Saludos 
+José </pre>
+  </body>
+</html>
+
+--------------B7055A227A186F1A3B196E37--
