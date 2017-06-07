@@ -1,47 +1,25 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qt0-f171.google.com (mail-qt0-f171.google.com
-	[209.85.216.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 4477A72F2A
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	by mail.openembedded.org (Postfix) with ESMTP id 29EF077EFE
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Jun 2017 12:12:19 +0000 (UTC)
-Received: by mail-qt0-f171.google.com with SMTP id u12so5964447qth.0
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 07 Jun 2017 05:12:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=9G//jMkY7VWD0eB8eO+JDw682FATfENSD8vI2SjUZyg=;
-	b=ZYvldTRx+Hpjp9Xhl0r2VN/szzTicmo2aGkx6c93pY3Y6NdPLaYqr0ua4HajXgA2AS
-	vYv8Dy0gGSIVNzjwfqBmgrRSisCV+5hr3UtcgF+vU+tj1agaKuHUtNJS4Shx3bf900t0
-	57ch3ILErhQ9AyRyFruaHvOJHbj7RdFgYlPqufwH/LrrbIeCyuxM1ii3H5gZxWyMpxKj
-	TpL4LYBQ4EGCsgSm+Cs3RJ+s08G1GKwUKJezHChfAeYYkXg7Mbf+dzxEjJxC62OyCEv1
-	C8UsMK60sWHJaD2FT3CGZBoGOrwukA7Mr4puK3oE3vutVdFRUYO1Cs+W5GJbq7vZvko3
-	tVfw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=9G//jMkY7VWD0eB8eO+JDw682FATfENSD8vI2SjUZyg=;
-	b=cneqySp5/0esOf+9wTmFI2oePvG0LQrPspBzF+OyBcq51AsJXjx3bZvS6r83fMyi+D
-	zr36EM8sXY2DnyyEiO4edbxOGn9zq1Zvl6MLVAAZXfG1kkXmR0NvxCjo2+ClUe+iHoYS
-	CPczF6jC2Dp23cvPVc56B+kzmhNBk6pKap9lqF5aTWRF6QsuNB0mqifrNKo8EfLN9EQR
-	1GgqFMDk6E+/Ir/PHsypGO/DcYOST3QkHQegZ2SA5YUOj26eyqU5syQE/ToMEx8leCmx
-	MKUA4MACch+KjjwJ8h4WkpGUaCNXAkTwJ9GIM/KxApjW2yKnKj/64u4zWlhjHiFWxQpZ
-	zFtA==
-X-Gm-Message-State: AODbwcDPkIDFuJl5grspyg38c3PvfS12bWD2Xrzsup7UiwYa72+7SdGH
-	wuWFnKJg3IkAB4HVF47FZ4/IyK1jFtTd
-X-Received: by 10.200.62.25 with SMTP id z25mr25104232qtf.139.1496837541156;
-	Wed, 07 Jun 2017 05:12:21 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.35.103 with HTTP; Wed, 7 Jun 2017 05:12:00 -0700 (PDT)
-In-Reply-To: <1496837136-24209-1-git-send-email-ed.bartosh@linux.intel.com>
-References: <1496837136-24209-1-git-send-email-ed.bartosh@linux.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 7 Jun 2017 13:12:00 +0100
-Message-ID: <CAJTo0LYUEgJgU03xxhi2ke3SspsEs0_JPcX4yiBaVbF6p-saUQ@mail.gmail.com>
-To: Ed Bartosh <ed.bartosh@linux.intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] u-boot: enable dhcp for MPC8315 board
+	Wed,  7 Jun 2017 12:30:38 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by orsmga105.jf.intel.com with ESMTP; 07 Jun 2017 05:30:40 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.39,311,1493708400"; d="scan'208";a="977854731"
+Received: from linux.intel.com ([10.54.29.200])
+	by orsmga003.jf.intel.com with ESMTP; 07 Jun 2017 05:30:40 -0700
+Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
+	by linux.intel.com (Postfix) with ESMTP id F13BF5806E1;
+	Wed,  7 Jun 2017 05:30:38 -0700 (PDT)
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  7 Jun 2017 15:29:40 +0300
+Message-Id: <1496838580-25289-1-git-send-email-ed.bartosh@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+In-Reply-To: <CAJTo0LYUEgJgU03xxhi2ke3SspsEs0_JPcX4yiBaVbF6p-saUQ@mail.gmail.com>
+References: <CAJTo0LYUEgJgU03xxhi2ke3SspsEs0_JPcX4yiBaVbF6p-saUQ@mail.gmail.com>
+Subject: [PATCH v2] u-boot: enable dhcp for MPC8315 board
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,33 +32,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Jun 2017 12:12:20 -0000
-Content-Type: multipart/alternative; boundary="f403045ee67eed71c605515da568"
+X-List-Received-Date: Wed, 07 Jun 2017 12:30:39 -0000
 
---f403045ee67eed71c605515da568
-Content-Type: text/plain; charset="UTF-8"
+Getting ip address from DHCP server is much more convenient
+than setting static ip. It allows to configure u-boot in
+more generic way and to avoid hardcoding static ip in
+u-boot configuration.
 
-On 7 June 2017 at 13:05, Ed Bartosh <ed.bartosh@linux.intel.com> wrote:
+Enabled dhcp client functionality for Yocto reference
+hardware MPC8315E-RDB.
 
-> +    file://MPC8315ERDB-enable-DHCP.patch \
->
+Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+---
+ meta/recipes-bsp/u-boot/files/MPC8315ERDB-enable-DHCP.patch | 12 ++++++++++++
+ meta/recipes-bsp/u-boot/u-boot-common_2017.01.inc           |  4 +++-
+ 2 files changed, 15 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-bsp/u-boot/files/MPC8315ERDB-enable-DHCP.patch
 
-This file isn't in the patch.
+diff --git a/meta/recipes-bsp/u-boot/files/MPC8315ERDB-enable-DHCP.patch b/meta/recipes-bsp/u-boot/files/MPC8315ERDB-enable-DHCP.patch
+new file mode 100644
+index 0000000..df89e05
+--- /dev/null
++++ b/meta/recipes-bsp/u-boot/files/MPC8315ERDB-enable-DHCP.patch
+@@ -0,0 +1,12 @@
++diff --git a/configs/MPC8315ERDB_defconfig b/configs/MPC8315ERDB_defconfig
++index 4e2b705..b02ab1f 100644
++--- a/configs/MPC8315ERDB_defconfig
+++++ b/configs/MPC8315ERDB_defconfig
++@@ -9,6 +9,7 @@ CONFIG_HUSH_PARSER=y
++ CONFIG_CMD_I2C=y
++ CONFIG_CMD_USB=y
++ # CONFIG_CMD_SETEXPR is not set
+++CONFIG_CMD_DHCP=y
++ CONFIG_CMD_MII=y
++ CONFIG_CMD_PING=y
++ CONFIG_CMD_EXT2=y
+diff --git a/meta/recipes-bsp/u-boot/u-boot-common_2017.01.inc b/meta/recipes-bsp/u-boot/u-boot-common_2017.01.inc
+index df24c85..8ee1c32 100644
+--- a/meta/recipes-bsp/u-boot/u-boot-common_2017.01.inc
++++ b/meta/recipes-bsp/u-boot/u-boot-common_2017.01.inc
+@@ -9,6 +9,8 @@ PE = "1"
+ # repo during parse
+ SRCREV = "a705ebc81b7f91bbd0ef7c634284208342901149"
+ 
+-SRC_URI = "git://git.denx.de/u-boot.git"
++SRC_URI = "git://git.denx.de/u-boot.git \
++    file://MPC8315ERDB-enable-DHCP.patch \
++"
+ 
+ S = "${WORKDIR}/git"
+-- 
+2.1.4
 
-Ross
 
---f403045ee67eed71c605515da568
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 7 June 2017 at 13:05, Ed Bartosh <span dir=3D"ltr">&lt;<a href=3D"mailto=
-:ed.bartosh@linux.intel.com" target=3D"_blank">ed.bartosh@linux.intel.com</=
-a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0=
- 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":43z" cla=
-ss=3D"a3s aXjCH m15c827381b9651d9">+=C2=A0 =C2=A0 file://MPC8315ERDB-enable=
--<wbr>DHCP.patch \<br></div></blockquote></div><br>This file isn&#39;t in t=
-he patch.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_ext=
-ra">Ross</div></div>
-
---f403045ee67eed71c605515da568--
