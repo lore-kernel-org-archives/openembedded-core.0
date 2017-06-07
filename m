@@ -1,47 +1,50 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 2BFD270100
+Return-Path: <michael.davis@essvote.com>
+Received: from m2.essvote.com (m2.essvote.com [66.37.226.14])
+	by mail.openembedded.org (Postfix) with ESMTP id 3347277DB8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Jun 2017 19:42:13 +0000 (UTC)
-Received: by mail-wm0-f68.google.com with SMTP id k15so4078179wmh.3
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 07 Jun 2017 12:42:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=OHyzgxAgHmChKa1akyAWxlnuHGuFdL8ZdZN1GGVCpGM=;
-	b=h1ynXIlVGmEdwIiZ4NC8YrvcDuwNWXLoB64erial59/gbJ6dPCKj9lXs0RIg6rktFL
-	u2Epkwbbf7k2BWsUzIaec1zgJ445sTA426VymXcduh8gWCx7HyRXx9QsUKhFBBftoNma
-	ikSvuoqxJYw63foG9hHUvEZ0mR9E46arxlO9KB1V5ZsJHbKL01OpPOu0yAJtdzOvOStG
-	ucUglCbtDVJAZdnFObEEy/IoirNArvnqatAOP77e+NPkTJQJJvRNgv3UAvaAW9d/YPoC
-	SS8qF39MBWKsYpfFq1wuhecb9Y85rh2crwwRjT5fj7vDiMbfm9zLqpeLFCYg1QFbA0mi
-	flEw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=OHyzgxAgHmChKa1akyAWxlnuHGuFdL8ZdZN1GGVCpGM=;
-	b=ouRrKb30UmFwVquuCaXZKtTEB/ThdRSB2qLCJPD4WqcZNYbsMZ5m3LU6cOseCRydko
-	uAHgS8Gk0GaueXl17Z8i7/JgyEVjvw+RS+ThKg8PdtUtkts6IaRk1uTQ4CVZk26QEa1o
-	MnFu73ISWcadMWbDkt/34ZlOz31PWKyYHcWAGUYI60cJpIQI7U8SWiSiM3NK5bE/Fiqw
-	tDqZBlmkwC2/CQ71qqaGo9OxsAeVEjFBN46ETFhVY1BIDVokz/MIZeBiUuRHB9UwSKrO
-	BwS//Mla1jf5izNDQkXkzd9e6PXo+kTS4NIxFcIHTz5xa+P4ZDCRsAACkG4x9LS2oIfU
-	+vwQ==
-X-Gm-Message-State: AODbwcD8JyMUu2yXjxk5XCnrTtEM/kim82cyaOBO0l93VCv0EnrsTUXg
-	767aq10IkXY7L5hjKNzHXLMnrxzogQ==
-X-Received: by 10.80.144.68 with SMTP id z4mr12050192edz.143.1496862808671;
-	Wed, 07 Jun 2017 12:13:28 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.80.153.222 with HTTP; Wed, 7 Jun 2017 12:12:58 -0700 (PDT)
-In-Reply-To: <20170607184621.5305-1-dev@codyps.com>
-References: <20170607184621.5305-1-dev@codyps.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 7 Jun 2017 12:12:58 -0700
-Message-ID: <CAMKF1spPa7XHO9s8KW8QdGqQJqY2oJsyVii4+yfd8jRq0fHStA@mail.gmail.com>
-To: Cody P Schafer <dev@codyps.com>
-Cc: Joshua Lock <joshua.g.lock@intel.com>,
-	Patches and discussions about the oe-core layer
+	Wed,  7 Jun 2017 19:51:11 +0000 (UTC)
+X-AuditID: 0a00029b-67dff70000003fa4-1c-5938592b9349
+Received: from ESS-EX01.essvote.corp.local (Unknown_Domain [172.16.110.40])
+	by m2.essvote.com (Symantec Messaging Gateway) with SMTP id
+	5D.32.16292.B2958395; Wed,  7 Jun 2017 14:51:10 -0500 (CDT)
+Received: from ESS-EX01.essvote.corp.local ([::1]) by
+	ESS-EX01.essvote.corp.local ([::1]) with mapi id 14.03.0301.000;
+	Wed, 7 Jun 2017 14:51:07 -0500
+From: "Davis, Michael" <michael.davis@essvote.com>
+To: Jan Kiszka <jan.kiszka@siemens.com>, Alexander Kanavin
+	<alexander.kanavin@linux.intel.com>,
+	"openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [morty][PATCH] gcc-6.2: backport fix of check for empty string in ubsan.c
+Thread-Topic: [OE-core] Fun with npm shrinkwrap
+Thread-Index: AQHS34O/sUYxsXQk+k2WZWQUfRGswKIZoSeA///NmgCAAJ7OgP//ulDw
+Date: Wed, 7 Jun 2017 19:51:07 +0000
+Message-ID: <655290B7709079438B7932553958E60DA13124FF@ESS-EX01.essvote.corp.local>
+References: <15e918fb-c2e6-3005-6221-08601c804271@siemens.com>
+	<a60f39a6-8355-82dc-20b2-5f7b3d6397b3@linux.intel.com>
+	<af72aeb2-915e-0c63-60e9-18b6c7bce5ad@siemens.com>
+	<615663ca-d13f-9bca-6e3d-e5dc22cfaebf@linux.intel.com>
+	<3989e16e-7a69-5f0a-90e9-3fcd1ed8b14d@siemens.com>
+	<655290B7709079438B7932553958E60DA1312205@ESS-EX01.essvote.corp.local>
+	<6e9eccd2-6aee-7605-f934-39bc5dcca51a@siemens.com>
+In-Reply-To: <6e9eccd2-6aee-7605-f934-39bc5dcca51a@siemens.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.1.20.77]
+MIME-Version: 1.0
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrDLMWRmVeSWpSXmKPExsWyRiBPQ1cv0iLSoKnX2OL/421sFvdu3mS2
+	uPPzHbvF1VniDiwe804GepzbuILRY/vJSUwBzFFcNimpOZllqUX6dglcGVcXNrAWzOKu2HBm
+	MVsD4xeuLkZODgkBE4n/W74ydTFycQgJHGWUOHH4E5Qzk1HiwYGJjCBVbAJGEueub2IESYgI
+	7GaU2PX3DBtIglnAUGLps4tACQ4OYQE9ifYF8SBhEQF9iTmrexghbDeJBy/ugNksAioS6xd9
+	B2vlFQiS2DT5LwvEshnMEpduT2IBSXAK2EssXbsFrIFRQEzi+6k1TBC7xCVuPZnPBHG2gMSS
+	PeeZIWxRiZeP/7FC2HIS75raWEHuYRbQlFi/Sx+iVVFiSvdDdoi9ghInZz5hmcAoOgvJ1FkI
+	HbOQdMxC0rGAkWUVI1+ukV5qcXFZfkmqXnJ+7iZGYMxwMTDN3sHY0xR7iFGAg1GJh3eFgkWk
+	EGtiWXFl7iFGaQ4WJXFesVCgkEB6YklqdmpqQWpRfFFpTmrxIUYmDk4QwSXVwDjr0ZHmlW0v
+	bLll1XfrXZT1mji9JHnSjdPey643XbcXWu9e1J4f8nrdVqVUoQVTJrrErDuVZxdz9bmJ92b7
+	m7Pu3f310jBW+evFguqgskPWh7Sci99wn87snHLwcN6tWmstFd4Ko8mTH53e6z73dYxw2p6I
+	bx6uCn4hl9j0OSJtdmyZsLsp5asSS3FGoqEWc1FxIgC+SxjjfwIAAA==
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>
+Subject: Re: Fun with npm shrinkwrap
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,93 +57,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Jun 2017 19:42:15 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 07 Jun 2017 19:51:13 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On Wed, Jun 7, 2017 at 11:46 AM, Cody P Schafer <dev@codyps.com> wrote:
-> From: Joshua Lock <joshua.g.lock@intel.com>
->
-> Building gcc-cross-initial with GCC7 on the host fails due to the
-> comparison of a pointer to an integer in ubsan_use_new_style_p, which
-> is forbidden by ISO C++:
->
-> ubsan.c:1474:23: error: ISO C++ forbids comparison between pointer and
-> integer [-fpermissive]
->        || xloc.file == '\0' || xloc.file[0] == '\xff'
->
-> Backport the fix from upstream GCC to enable the build with GCC 7
->
-
-this is fine
-
-
-> (From OE-Core rev: 7a7fcbab0365b9501c737dbc02715be14dda72a3)
->
-> Signed-off-by: Joshua Lock <joshua.g.lock@intel.com>
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> Signed-off-by: Cody P Schafer <dev@codyps.com>
-> ---
->  meta/recipes-devtools/gcc/gcc-6.2.inc              |  5 ++--
->  .../gcc/gcc-6.2/ubsan-fix-check-empty-string.patch | 28 ++++++++++++++++++++++
->  2 files changed, 31 insertions(+), 2 deletions(-)
->  create mode 100644 meta/recipes-devtools/gcc/gcc-6.2/ubsan-fix-check-empty-string.patch
->
-> diff --git a/meta/recipes-devtools/gcc/gcc-6.2.inc b/meta/recipes-devtools/gcc/gcc-6.2.inc
-> index b118995e1d..39ae653805 100644
-> --- a/meta/recipes-devtools/gcc/gcc-6.2.inc
-> +++ b/meta/recipes-devtools/gcc/gcc-6.2.inc
-> @@ -80,8 +80,9 @@ SRC_URI = "\
->             file://0047-libgcc_s-Use-alias-for-__cpu_indicator_init-instead-.patch \
->             ${BACKPORTS} \
->  "
-> -BACKPORTS = ""
-> -
-> +BACKPORTS = "\
-> +           file://ubsan-fix-check-empty-string.patch \
-> +"
->  SRC_URI[md5sum] = "9768625159663b300ae4de2f4745fcc4"
->  SRC_URI[sha256sum] = "9944589fc722d3e66308c0ce5257788ebd7872982a718aa2516123940671b7c5"
->
-> diff --git a/meta/recipes-devtools/gcc/gcc-6.2/ubsan-fix-check-empty-string.patch b/meta/recipes-devtools/gcc/gcc-6.2/ubsan-fix-check-empty-string.patch
-> new file mode 100644
-> index 0000000000..c0127198e0
-> --- /dev/null
-> +++ b/meta/recipes-devtools/gcc/gcc-6.2/ubsan-fix-check-empty-string.patch
-> @@ -0,0 +1,28 @@
-> +From 8db2cf6353c13f2a84cbe49b689654897906c499 Mon Sep 17 00:00:00 2001
-> +From: kyukhin <kyukhin@138bc75d-0d04-0410-961f-82ee72b054a4>
-> +Date: Sat, 3 Sep 2016 10:57:05 +0000
-> +Subject: [PATCH] gcc/  * ubsan.c (ubsan_use_new_style_p): Fix check for empty
-> + string.
-> +
-> +git-svn-id: svn+ssh://gcc.gnu.org/svn/gcc/trunk@239971 138bc75d-0d04-0410-961f-82ee72b054a4
-> +
-> +Upstream-Status: Backport
-> +Signed-off-by: Joshua Lock <joshua.g.lock@intel.com>
-> +
-> +---
-> + gcc/ubsan.c   | 2 +-
-> + 2 files changed, 5 insertions(+), 1 deletion(-)
-> +
-> +Index: gcc-6.3.0/gcc/ubsan.c
-> +===================================================================
-> +--- gcc-6.3.0.orig/gcc/ubsan.c
-> ++++ gcc-6.3.0/gcc/ubsan.c
-> +@@ -1471,7 +1471,7 @@ ubsan_use_new_style_p (location_t loc)
-> +
-> +   expanded_location xloc = expand_location (loc);
-> +   if (xloc.file == NULL || strncmp (xloc.file, "\1", 2) == 0
-> +-      || xloc.file == '\0' || xloc.file[0] == '\xff'
-> ++      || xloc.file[0] == '\0' || xloc.file[0] == '\xff'
-> +       || xloc.file[1] == '\xff')
-> +     return false;
-> +
-> --
-> 2.13.0
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+PiBJbiBmYWN0LCBtZXRhLW5vZGVqcyBpcyBhbHJlYWR5IGluIHVzZSBoZXJlLCBhbmQgSSd2ZSBi
+ZWVuIHRvbGQgdG8gZ2l2ZQ0KPiAiaW5oZXJpdCBucG0tYmFzZSIgYSB0cnkuIElzIHRoYXQgd2hh
+dCB5b3UgbWVhbj8NCg0KWWVzIGluaGVyaXQgbnBtLWJhc2Ugc2hvdWxkIGdpdmUgeW91IHdoYXQg
+eW91IG5lZWQuIFdpdGggdGhlIGJlZm9yZSBtZW50aW9uZWQgbGltaXRhdGlvbnMuDQoNCj4gSG93
+ICJ1bnJlcHJvZHVjaWJsZSIgd2lsbCBidWlsZHMgYmVjb21lPyBUaGUgbGljZW5zZSBjaGVja3Mg
+YXJlIG5vdCB0aGF0DQo+IGNyaXRpY2FsIGFzIEkgd291bGRuJ3QgdHJ1c3QgdGhlbSByaWdodCBu
+b3cgYW55d2F5LiBPZmZsaW5lIGJ1aWxkcw0KPiBjb3JyZWxhdGUgd2l0aCByZXByb2R1Y2libGls
+dHkgLSB3ZSBuZWVkIHRvIGFyY2hpdmUgdGhlIGFydGlmYWN0cyBhbmQNCj4gZ2VuZXJhdGUgaW1h
+Z2VzIHdpdGggY2hhbmdlcyBsYXRlciBvbiwgaW5kZXBlbmRlbnQgb2Ygd2hhdCBoYXBwZW5lZA0K
+PiBvdXRzaWRlIG1lYW53aGlsZS4gTm90IGEga2lsbGVyIHJpZ2h0IG5vdywgYnV0IG5vdCBhbiBv
+cHRpb24gb24gdGhlIGxvbmcNCj4gcnVuLg0KDQpNb3N0bHkgaXQganVzdCBtZWFucyB5b3UgbWF5
+IGdldCBzbGlnaHRseSBkaWZmZXJlbnQgdmVyc2lvbnMgb2YgZGVwZW5kZW5jaWVzIG92ZXIgdGlt
+ZS4NCkRlcGVuZGluZyBtb3N0bHkgb24gaG93IGxvY2tlZCBkb3duIHlvdXIgcGFja2FnZS5qc29u
+IGFuZCB0aG9zZSBvZiB5b3VyIGRlcHMgYXJlLg0KaHR0cHM6Ly9kb2NzLm5wbWpzLmNvbS9taXNj
+L3NlbXZlcg0KDQoNCj4gUFM6IFRvcC1wb3N0aW5nIGlzIGNvbnNpZGVyZWQgZXZpbC4NClRoZSBz
+YWQgc2hhbWUgb2YgaGF2aW5nIHRvIHVzZSBPdXRsb29rLiAgTm8gSU1BUCAvIFBPUCBhbmQgZGF2
+bWFpbCBoYXRlcyBtZS4NCkJvdHRvbS1wb3N0aW5nIGlzIGR5aW5nIGEgc2xvdyBkZWF0aCB0aGVz
+ZSBkYXlzLiAgT25seSBzZWUgaXQgaW4gTGludXggbWFpbGluZyBsaXN0cyBmb3IgdGhlIG1vc3Qg
+cGFydC4NCg0KLS0NCk1pa2UNCg0K
 
