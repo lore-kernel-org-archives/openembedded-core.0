@@ -1,44 +1,54 @@
-Return-Path: <dev@codyps.com>
-Received: from mail-qt0-f193.google.com (mail-qt0-f193.google.com
-	[209.85.216.193])
-	by mail.openembedded.org (Postfix) with ESMTP id C9E267197E
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qt0-f178.google.com (mail-qt0-f178.google.com
+	[209.85.216.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 573C7719B8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Jun 2017 18:46:27 +0000 (UTC)
-Received: by mail-qt0-f193.google.com with SMTP id x58so3054041qtc.2
+	Wed,  7 Jun 2017 19:09:57 +0000 (UTC)
+Received: by mail-qt0-f178.google.com with SMTP id u19so17350474qta.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 07 Jun 2017 11:46:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=codyps.com; s=google;
-	h=from:to:cc:subject:date:message-id;
-	bh=OuXExQM13fY/QZU0MJ9DB2E2pVImJROM+1KrAv4+7fE=;
-	b=ILQ/YJK3afVpV48HZOT14i3Qp+T/g6tMa7y3UjhSEGaWcsLqMQZ4gnSt/iiT/BUjB5
-	DJu7Mc9kQXToH7kZUVIOHzQUXEDFM5QMKw7EvatXsNLqKx582lumpZZekx6XpvvpsGcD
-	QPeftjo2CNOyoVoaM3L6Alb4USTdWkLJvzlBo=
+	Wed, 07 Jun 2017 12:09:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=lbWS/1MJNyz/CqykCOkw4I7qMkfg1iLfvvoB6PUi5Yc=;
+	b=V7P6azmBYmp40GGo4eP60ZyXbiENQ1qdsWjTV6hEK03KcRJ+V3jUqVoDdTI5htbrqh
+	eFjyCVvz7R1Z0OQxBbp5idAtECI8g5SdWuyvUyDs3e0VWNkBd3ni55USKPOJpcVd/vu7
+	2SSww21orZIexo7Nl6y9Jw1SmqsevA3GUxHwT0qS89rpw5gMCQe3zciUx7F+uyH6VeYB
+	yLMUsWO14OmcmWFe3kMHiW2Xo7wNfKqP1qe4zbgfI6dxKw+V7WzcKPRgo84RHfeFKyC/
+	K2JScpFH5PMKyBNrcU8I8dIcKHJPUVYA+b9A6RegQoXtorUHplA9ImwGJaG6ZTfnTJdD
+	wFvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=OuXExQM13fY/QZU0MJ9DB2E2pVImJROM+1KrAv4+7fE=;
-	b=KhlX+3p1qyCNzOU/WUxcx4ngjRyni8o4qB+s+2Nob9hCKgIbob6PzVvlqyzTzC/wwq
-	EeR08RJIZ9MAuQRpLdqtcNPGOyTWyUppbBkENzQZHudhNNDp8qVEO8MjoOKTiyvVsOS9
-	DXjNieGSYj4YTbPKtRJnWeFkSd96YLfhgOcPbGyb2gqY6T8mBMo5GlT9U6u3c1QjhmFU
-	pY8iSAJRgwV6+q0bIn60oKlSq4SYlNtnlUzUZk+K99JzlOnaKKydssn9u76kkaoraCsc
-	BOYl4sE9QWBdVEL8ItPqN/IiAFuCRjMjmLzIMH5wvgYix4oUoWdChHDlEMrLWMNkDr+R
-	W01w==
-X-Gm-Message-State: AKS2vOyM26O9XoIrc7/+Qbr7p53qNwxtz8kUD4Pu7Baoy863auZ+Zs1p
-	wMComP9bRm107y4HHzw=
-X-Received: by 10.55.102.200 with SMTP id a191mr25479136qkc.259.1496861188544; 
-	Wed, 07 Jun 2017 11:46:28 -0700 (PDT)
-Received: from localhost (static-72-74-84-52.bstnma.fios.verizon.net.
-	[72.74.84.52])
-	by smtp.gmail.com with ESMTPSA id g34sm409544qta.46.2017.06.07.11.46.28
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 07 Jun 2017 11:46:28 -0700 (PDT)
-From: Cody P Schafer <dev@codyps.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  7 Jun 2017 14:46:21 -0400
-Message-Id: <20170607184621.5305-1-dev@codyps.com>
-X-Mailer: git-send-email 2.13.0
-Cc: Joshua Lock <joshua.g.lock@intel.com>
-Subject: [morty][PATCH] gcc-6.2: backport fix of check for empty string in ubsan.c
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=lbWS/1MJNyz/CqykCOkw4I7qMkfg1iLfvvoB6PUi5Yc=;
+	b=ZnZRkcHt707cmXinv9NYoofGEfX65nvYAlx4ryNj9INiTI9LGkDvyZkYiC4suV7til
+	hoLKJdYo5zQrqw33H13fyfE5kawxBh5pristZGONkV0zjpBJDy1LfccAiMISRFuzWxda
+	YTAHStQXXO2PAW/WOahvkzb9xiFbV9lwGmfkhiv1Y6eUg/aphffNXBXPDYdEhP2jkQPt
+	E8g/Mtd44pTwrK5c4ByMju1Ta8f2MQftb7q0S9CVIhcDghv1FcS623LAUxO3iwBEH2pC
+	ypOkpPPlFbPApv4i2s7sBsGXjSmRaLfK9bn9AyBHcBv+YFs3IU2WNS7Be18FTCpQOF5x
+	69Zg==
+X-Gm-Message-State: AKS2vOyEbqAJKMNtjFJ+aS95kvMyGaR3/WEntU8Tl0tjSUdPvEa3kJeP
+	2+ZQhGGJVv55HMllcCs1xntDjBzzz5xp
+X-Received: by 10.55.102.214 with SMTP id a205mr33322093qkc.154.1496862599124; 
+	Wed, 07 Jun 2017 12:09:59 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.35.103 with HTTP; Wed, 7 Jun 2017 12:09:38 -0700 (PDT)
+In-Reply-To: <f64173c1-2746-06cc-d283-6d42c670cb69@xevo.com>
+References: <3bd366a6-a31c-e4c8-688c-e24e84f1520c@web.de>
+	<2af19119-fac3-8ce3-fb36-c4aaf64163b7@xevo.com>
+	<4e18dc00-1800-f2dd-797a-7e0a380467c4@xevo.com>
+	<b51b0f8b-e21b-087b-5225-38fb8040479f@siemens.com>
+	<8098d7e7-b887-4c4f-6dba-db9065c97571@xevo.com>
+	<CAJTo0LbrkS8oG1s05KcMu6mREZwd-+h2aGwo7cLXjJc08XrMeA@mail.gmail.com>
+	<f64173c1-2746-06cc-d283-6d42c670cb69@xevo.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 7 Jun 2017 20:09:38 +0100
+Message-ID: <CAJTo0LbpaXG07FouMMN5qa7zVUqkgxAG5OciFXQmhCzoSxrrEQ@mail.gmail.com>
+To: Martin Kelly <mkelly@xevo.com>
+Cc: Jan Kiszka <jan.kiszka@siemens.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] tcf-agent: Fix daemon termination
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,82 +61,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Jun 2017 18:46:28 -0000
+X-List-Received-Date: Wed, 07 Jun 2017 19:09:58 -0000
+Content-Type: multipart/alternative; boundary="94eb2c0580a87fb5510551637b21"
 
-From: Joshua Lock <joshua.g.lock@intel.com>
+--94eb2c0580a87fb5510551637b21
+Content-Type: text/plain; charset="UTF-8"
 
-Building gcc-cross-initial with GCC7 on the host fails due to the
-comparison of a pointer to an integer in ubsan_use_new_style_p, which
-is forbidden by ISO C++:
+On 7 June 2017 at 17:33, Martin Kelly <mkelly@xevo.com> wrote:
 
-ubsan.c:1474:23: error: ISO C++ forbids comparison between pointer and
-integer [-fpermissive]
-       || xloc.file == '\0' || xloc.file[0] == '\xff'
+> Which patch are you referring to? I used git send-email for the systemd
+> patch, and it applies just fine for me on OE-core master (using patch -p1).
+>
 
-Backport the fix from upstream GCC to enable the build with GCC 7
+Sorry, forgot to trim recipients.  Yes, it was Jan's patch.
 
-(From OE-Core rev: 7a7fcbab0365b9501c737dbc02715be14dda72a3)
+Ross
 
-Signed-off-by: Joshua Lock <joshua.g.lock@intel.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-Signed-off-by: Cody P Schafer <dev@codyps.com>
----
- meta/recipes-devtools/gcc/gcc-6.2.inc              |  5 ++--
- .../gcc/gcc-6.2/ubsan-fix-check-empty-string.patch | 28 ++++++++++++++++++++++
- 2 files changed, 31 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-devtools/gcc/gcc-6.2/ubsan-fix-check-empty-string.patch
+--94eb2c0580a87fb5510551637b21
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/meta/recipes-devtools/gcc/gcc-6.2.inc b/meta/recipes-devtools/gcc/gcc-6.2.inc
-index b118995e1d..39ae653805 100644
---- a/meta/recipes-devtools/gcc/gcc-6.2.inc
-+++ b/meta/recipes-devtools/gcc/gcc-6.2.inc
-@@ -80,8 +80,9 @@ SRC_URI = "\
-            file://0047-libgcc_s-Use-alias-for-__cpu_indicator_init-instead-.patch \
-            ${BACKPORTS} \
- "
--BACKPORTS = ""
--
-+BACKPORTS = "\
-+           file://ubsan-fix-check-empty-string.patch \
-+"
- SRC_URI[md5sum] = "9768625159663b300ae4de2f4745fcc4"
- SRC_URI[sha256sum] = "9944589fc722d3e66308c0ce5257788ebd7872982a718aa2516123940671b7c5"
- 
-diff --git a/meta/recipes-devtools/gcc/gcc-6.2/ubsan-fix-check-empty-string.patch b/meta/recipes-devtools/gcc/gcc-6.2/ubsan-fix-check-empty-string.patch
-new file mode 100644
-index 0000000000..c0127198e0
---- /dev/null
-+++ b/meta/recipes-devtools/gcc/gcc-6.2/ubsan-fix-check-empty-string.patch
-@@ -0,0 +1,28 @@
-+From 8db2cf6353c13f2a84cbe49b689654897906c499 Mon Sep 17 00:00:00 2001
-+From: kyukhin <kyukhin@138bc75d-0d04-0410-961f-82ee72b054a4>
-+Date: Sat, 3 Sep 2016 10:57:05 +0000
-+Subject: [PATCH] gcc/ 	* ubsan.c (ubsan_use_new_style_p): Fix check for empty
-+ string.
-+
-+git-svn-id: svn+ssh://gcc.gnu.org/svn/gcc/trunk@239971 138bc75d-0d04-0410-961f-82ee72b054a4
-+
-+Upstream-Status: Backport
-+Signed-off-by: Joshua Lock <joshua.g.lock@intel.com>
-+
-+---
-+ gcc/ubsan.c   | 2 +-
-+ 2 files changed, 5 insertions(+), 1 deletion(-)
-+
-+Index: gcc-6.3.0/gcc/ubsan.c
-+===================================================================
-+--- gcc-6.3.0.orig/gcc/ubsan.c
-++++ gcc-6.3.0/gcc/ubsan.c
-+@@ -1471,7 +1471,7 @@ ubsan_use_new_style_p (location_t loc)
-+ 
-+   expanded_location xloc = expand_location (loc);
-+   if (xloc.file == NULL || strncmp (xloc.file, "\1", 2) == 0
-+-      || xloc.file == '\0' || xloc.file[0] == '\xff'
-++      || xloc.file[0] == '\0' || xloc.file[0] == '\xff'
-+       || xloc.file[1] == '\xff')
-+     return false;
-+ 
--- 
-2.13.0
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 7 June 2017 at 17:33, Martin Kelly <span dir=3D"ltr">&lt;<a href=3D"mail=
+to:mkelly@xevo.com" target=3D"_blank">mkelly@xevo.com</a>&gt;</span> wrote:=
+<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-lef=
+t:1px #ccc solid;padding-left:1ex"><div id=3D":4wo" class=3D"a3s aXjCH m15c=
+8367d8d8f48a6">Which patch are you referring to? I used git send-email for =
+the systemd patch, and it applies just fine for me on OE-core master (using=
+ patch -p1).</div></blockquote><div><br></div><div>Sorry, forgot to trim re=
+cipients.=C2=A0 Yes, it was Jan&#39;s patch.</div><div><br></div><div>Ross=
+=C2=A0</div></div></div></div>
 
-
+--94eb2c0580a87fb5510551637b21--
