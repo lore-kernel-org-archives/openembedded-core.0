@@ -1,56 +1,45 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id ACBAF78145
+Return-Path: <michael.davis@essvote.com>
+Received: from mail1.essvote.com (mail1.essvote.com [66.37.226.19])
+	by mail.openembedded.org (Postfix) with ESMTP id 1782B781EE
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Jun 2017 16:11:28 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id 4576818293;
-	Wed,  7 Jun 2017 18:11:29 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id PUpt8iONiwjJ; Wed,  7 Jun 2017 18:11:28 +0200 (CEST)
-Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
-	by bastet.se.axis.com (Postfix) with ESMTPS id 2F3D21816A;
-	Wed,  7 Jun 2017 18:11:28 +0200 (CEST)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 1E4FE1A0C5;
-	Wed,  7 Jun 2017 18:11:28 +0200 (CEST)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 132691A0C2;
-	Wed,  7 Jun 2017 18:11:28 +0200 (CEST)
-Received: from thoth.se.axis.com (unknown [10.0.2.173])
-	by boulder02.se.axis.com (Postfix) with ESMTP;
-	Wed,  7 Jun 2017 18:11:28 +0200 (CEST)
-Received: from XBOX03.axis.com (xbox03.axis.com [10.0.5.17])
-	by thoth.se.axis.com (Postfix) with ESMTP id 075B42B12;
-	Wed,  7 Jun 2017 18:11:28 +0200 (CEST)
-Received: from XBOX02.axis.com (10.0.5.16) by XBOX03.axis.com (10.0.5.17) with
-	Microsoft SMTP Server (TLS) id 15.0.1210.3;
-	Wed, 7 Jun 2017 18:11:27 +0200
-Received: from XBOX02.axis.com ([fe80::d00f:cb52:1b56:20d]) by XBOX02.axis.com
-	([fe80::d00f:cb52:1b56:20d%21]) with mapi id 15.00.1210.000;
-	Wed, 7 Jun 2017 18:11:27 +0200
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Patrick Ohly <patrick.ohly@intel.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH 1/2] bitbake.conf: DISTRO_FEATURES as overrides
-Thread-Index: AQHS36NSGTWZJyr3a0+CXI7+JCHKWaIZkFKg
-Date: Wed, 7 Jun 2017 16:11:27 +0000
-Message-ID: <13cfc543313a4c59bb8c9688c91db3c4@XBOX02.axis.com>
-References: <cover.8ea05a588020117b72a57015f699c7acd76b93e6.1496849345.git-series.patrick.ohly@intel.com>
-	<7942e5efccf0ee4fa360948d892b4508e3f1f00c.1496849345.git-series.patrick.ohly@intel.com>
-In-Reply-To: <7942e5efccf0ee4fa360948d892b4508e3f1f00c.1496849345.git-series.patrick.ohly@intel.com>
+	Wed,  7 Jun 2017 16:12:53 +0000 (UTC)
+X-AuditID: 0a000213-38bff7000000094f-ae-59382602bb7f
+Received: from ESS-EX01.essvote.corp.local (Unknown_Domain [172.16.110.40])
+	by mail1.essvote.com (Symantec Messaging Gateway) with SMTP id
+	55.7E.02383.30628395; Wed,  7 Jun 2017 11:12:54 -0500 (CDT)
+Received: from ESS-EX01.essvote.corp.local ([::1]) by
+	ESS-EX01.essvote.corp.local ([::1]) with mapi id 14.03.0301.000;
+	Wed, 7 Jun 2017 11:12:50 -0500
+From: "Davis, Michael" <michael.davis@essvote.com>
+To: Jonathan Liu <net147@gmail.com>
+Thread-Topic: [OE-core] [oe-core] DISK_SIGNATURE no longer functional
+Thread-Index: AdLRjNlT3YpLq7j4SnSX4LjtvYzswQM9ztKAABEshSAAHF/wgAAbk+xw
+Date: Wed, 7 Jun 2017 16:12:50 +0000
+Message-ID: <655290B7709079438B7932553958E60DA131231B@ESS-EX01.essvote.corp.local>
+References: <655290B7709079438B7932553958E60DA13093A0@ESS-EX01.essvote.corp.local>
+	<CANwerB2eshSg18OsfbP7fA=EyFBBnrON-PvqeXTRkZrfFngFvQ@mail.gmail.com>
+	<655290B7709079438B7932553958E60DA1311709@ESS-EX01.essvote.corp.local>
+	<CANwerB2o98GhytVTMtG97AGjS+dnFEKaq9BsSNv27X=XFGwzKQ@mail.gmail.com>
+In-Reply-To: <CANwerB2o98GhytVTMtG97AGjS+dnFEKaq9BsSNv27X=XFGwzKQ@mail.gmail.com>
 Accept-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.60]
+x-originating-ip: [10.1.20.77]
 MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-Subject: Re: [PATCH 1/2] bitbake.conf: DISTRO_FEATURES as overrides
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrBLMWRmVeSWpSXmKPExsWyRiBPQ5dNzSLSYO0TRYtDN88wWtz5+Y7d
+	gclj56y77B7nNq5gDGCK4rJJSc3JLEst0rdL4MrYNH8Be8GGwIr9HzkbGCf4dzFyckgImEh8
+	fNLFAmILCZxglNjxLhnCnskosfKaOYjNJmAkce76JkYQW0RAWeLQ57lg9cwC0RJ3fp9hB7GF
+	BVwkeo5fZ4OocZVYdWwyO4TtJvFjwTGgeg4OFgEViXcL00DCvAJBErP+g4S5gFatZJK49fQ5
+	WC+nQKDEr943YLsYBcQkvp9awwSxS1zi1pP5TBA3C0gs2XOeGcIWlXj5+B8rhC0n8a6pjRWi
+	Pl9iQvcKVohlghInZz5hmcAoMgvJqFlIymYhKVvAyLyKUTA3MTPHUC+1uLgsvyRVLzk/dxMj
+	MNS5GJiEdzAumBF7iFGAg1GJhzdAziJSiDWxrLgy9xCjNAeLkjjvzWeqkUIC6YklqdmpqQWp
+	RfFFpTmpxYcYmTg4QQSXVANjn8El273f3n6fvvWfpVjiPcHfcucPTFfiv7hZedP9gC+pVXPX
+	nmjdZG63tl/Ccu7bZMm+CxtW3/8m2GUpd6yK7/GWuz27LuV+44w/yhvQpaD25cBLkct2RVI9
+	/yKU78v2/f1414NL6irPK809yjf6Hlu1Pt4Xcs3h296JJ7RKvlRfEdC9uSHvixJLcUaioRZz
+	UXEiAEcFhu1bAgAA
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: DISK_SIGNATURE no longer functional
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,98 +52,149 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Jun 2017 16:11:29 -0000
+X-List-Received-Date: Wed, 07 Jun 2017 16:12:54 -0000
 Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/alternative;
+	boundary="_000_655290B7709079438B7932553958E60DA131231BESSEX01essvotec_"
 
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org
-> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
-> Patrick Ohly
-> Sent: den 7 juni 2017 17:32
-> To: openembedded-core@lists.openembedded.org
-> Subject: [OE-core] [PATCH 1/2] bitbake.conf: DISTRO_FEATURES as
-> overrides
->=20
-> As discussed in "[Openembedded-architecture] Yocto Compatible 2.0 +
-> signature changes", changes in .bbappend must depend on some explicit
-> configuration change, typically selecting a distro feature.
->=20
-> For _append and _remove, adding an override that is set only when the
-> corresponding entry is in DISTRO_FEATURES achieves that:
->=20
->   DISTRO_FEATURES =3D " ... my-distro-feature ... "
->=20
->   do_install_append_my-distro-feature () {
->        ...
->   }
->=20
-> Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
-> ---
->  meta/conf/bitbake.conf | 17 ++++++++++++++++-
->  1 file changed, 16 insertions(+), 1 deletion(-)
->=20
-> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-> index 3ad905c..ca6501e 100644
-> --- a/meta/conf/bitbake.conf
-> +++ b/meta/conf/bitbake.conf
-> @@ -713,7 +713,7 @@ DISTRO_NAME ??=3D "OpenEmbedded"
->  #
->  # This works for  functions as well, they are really just environment
-> variables.
->  # Default OVERRIDES to make compilation fail fast in case of build
-> system misconfiguration.
-> -OVERRIDES =3D "${TARGET_OS}:${TRANSLATED_TARGET_ARCH}:build-
-> ${BUILD_OS}:pn-
-> ${PN}:${MACHINEOVERRIDES}:${DISTROOVERRIDES}:${CLASSOVERRIDE}:forcevari
-> able"
-> +OVERRIDES =3D "${TARGET_OS}:${TRANSLATED_TARGET_ARCH}:build-
-> ${BUILD_OS}:pn-
-> ${PN}:${MACHINEOVERRIDES}:${DISTROOVERRIDES}${DISTROFEATURESOVERRIDES}:
-> ${CLASSOVERRIDE}:forcevariable"
->  OVERRIDES[vardepsexclude] =3D "MACHINEOVERRIDES"
->  CLASSOVERRIDE ?=3D "class-target"
->  DISTROOVERRIDES ?=3D "${@d.getVar('DISTRO') or ''}"
-> @@ -722,6 +722,21 @@ MACHINEOVERRIDES[vardepsexclude] =3D "MACHINE"
->=20
->  FILESOVERRIDES =3D
-> "${TRANSLATED_TARGET_ARCH}:${MACHINEOVERRIDES}:${DISTROOVERRIDES}"
->=20
-> +# Turns certain DISTRO_FEATURES into overrides of the same name
-> +# or (optionally) some other name. Ensures that these special
-> +# distro features remain set also for native and nativesdk
-> +# recipes, so that these overrides can also be used there.
-> +#
-> +# Beware that this part of OVERRIDES changes during parsing, so usage
-> +# of these overrides should be limited to .bb and .bbappend files,
-> +# because then DISTRO_FEATURES is final.
-> +DISTRO_FEATURES_OVERRIDES ??=3D ""
-> +DISTRO_FEATURES_OVERRIDES[doc] =3D "A space-separated list of <feature>
-> entries. \
-> +Each entry is added to OVERRIDES with the <feature> name if <feature>
-> is in DISTRO_FEATURES."
-> +DISTRO_FEATURES_FILTER_NATIVE_append =3D " ${DISTRO_FEATURES_OVERRIDES}"
-> +DISTRO_FEATURES_FILTER_NATIVESDK_append =3D "
-> ${DISTRO_FEATURES_OVERRIDES}"
-> +DISTROFEATURESOVERRIDES =3D "${@ ''.join([':' + x for x in
-> (set(d.getVar('DISTRO_FEATURES_OVERRIDES').split()) &
-> set((d.getVar('DISTRO_FEATURES') or '').split()))]) }"
-> +
->  ##################################################################
->  # Include the rest of the config files.
->  ##################################################################
-> --
-> git-series 0.9.1
+--_000_655290B7709079438B7932553958E60DA131231BESSEX01essvotec_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Rather than requiring that the wanted DISTRO_FEATURES that should be=20
-available as overrides are defined in DISTRO_FEATURES_OVERRIDES (which=20
-should not be confused with the similarly named DISTROFEATURESOVERRIDES=20
-variable that you also add...), why not add them all but with a prefix.=20
-I.e., similar to how package names are available as overrides prefixed=20
-with "pn-", how about all distro features are made available as=20
-overrides with a "df-" prefix?
+SSB0cmllZCB1c2luZyAgUk9PVF9WTSA9ICJyb290PVBBUlRVVUlEPSR7RElTS19TSUdOQVRVUkV9
+LTAyIg0KVGhlIHJlc3VsdGluZyBQQVJUVVVJRCBpbiBzeXNsaW51eCBhcHBlbmQgbGluZSBzdGls
+bCBkb2VzbuKAmXQgbWF0Y2ggdGhlIG9uZSBvbiB0aGUgYWN0dWFsIGRpc2suDQoNCg0KRnJvbTog
+Sm9uYXRoYW4gTGl1IFttYWlsdG86bmV0MTQ3QGdtYWlsLmNvbV0NClNlbnQ6IFR1ZXNkYXksIEp1
+bmUgMDYsIDIwMTcgNTowMSBQTQ0KVG86IERhdmlzLCBNaWNoYWVsDQpDYzogb3BlbmVtYmVkZGVk
+LWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KU3ViamVjdDogUmU6IFtPRS1jb3JlXSBbb2Ut
+Y29yZV0gRElTS19TSUdOQVRVUkUgbm8gbG9uZ2VyIGZ1bmN0aW9uYWwNCg0KSGkgTWljaGFlbCwN
+Cg0KU2VlIGh0dHBzOi8vcGF0Y2h3b3JrLm9wZW5lbWJlZGRlZC5vcmcvcGF0Y2gvMTI4NTY1Ly4g
+U1lTTElOVVhfUk9PVCB3YXMgcmVuYW1lZCB0byBST09UX1ZNIGluIEtyb2dvdGguDQoNClJlZ2Fy
+ZHMsDQpKb25hdGhhbg0KDQpPbiBUdWUuLCA2IEp1bi4gMjAxNyBhdCAxMToyOSBwbSwgRGF2aXMs
+IE1pY2hhZWwgPG1pY2hhZWwuZGF2aXNAZXNzdm90ZS5jb208bWFpbHRvOm1pY2hhZWwuZGF2aXNA
+ZXNzdm90ZS5jb20+PiB3cm90ZToNClB5cm8uDQoNCkd1ZXNzaW5nIHNvbWV0aGluZyB3aXRoIGFs
+bCB0aGUgbmV3IHdpYyBhZGRpdGlvbnMga2lsbGVkIGl0Lg0KDQoNCi0tLS0tT3JpZ2luYWwgTWVz
+c2FnZS0tLS0tDQpGcm9tOiBKb25hdGhhbiBMaXUgW21haWx0bzpuZXQxNDdAZ21haWwuY29tPG1h
+aWx0bzpuZXQxNDdAZ21haWwuY29tPl0NClNlbnQ6IE1vbmRheSwgSnVuZSAwNSwgMjAxNyA3OjE3
+IFBNDQpUbzogRGF2aXMsIE1pY2hhZWwNCkNjOiBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVu
+ZW1iZWRkZWQub3JnPG1haWx0bzpvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQu
+b3JnPg0KU3ViamVjdDogUmU6IFtPRS1jb3JlXSBbb2UtY29yZV0gRElTS19TSUdOQVRVUkUgbm8g
+bG9uZ2VyIGZ1bmN0aW9uYWwNCg0KSGkgTWljaGFlbCwNCg0KT24gMjEgTWF5IDIwMTcgYXQgMDM6
+MTYsIERhdmlzLCBNaWNoYWVsIDxtaWNoYWVsLmRhdmlzQGVzc3ZvdGUuY29tPG1haWx0bzptaWNo
+YWVsLmRhdmlzQGVzc3ZvdGUuY29tPj4gd3JvdGU6DQo+IEkgYW0gdHJ5aW5nIHRvIGNyZWF0ZSBh
+IGdlbmVyaWMgTVNET1MgUENfQklPUyBoZGRkaXJlY3QgaW1hZ2Ugd2l0aCBhIHJvb3QNCj4gcGFy
+dGl0aW9uIHNldCBieSB0aGUgRElTS19TSUdOQVRVUkUuDQo+DQo+IFNZU0xJTlVYX1JPT1QgPSAi
+cm9vdD1QQVJUVVVJRD0ke0RJU0tfU0lHTkFUVVJFfS0wMiINCj4NCj4NCj4NCj4gSG93ZXZlciB0
+aGUgc2lnbmF0dXJlIGdlbmVyYXRlZCBpbiBzeXNsaW51eC5jZmcgYW5kIHRoZSBvbmUgb24gdGhl
+IGRpc2sNCj4gZG9u4oCZdCBtYXRjaC4NCj4NCj4gSSB0cmllZCBkZWZpbmluZyBteSBvd24gc2ln
+bmF0dXJlIGFuZCB0aGUgb25lIGluIHN5c2xpbnV4IGNoYW5nZXMsIGJ1dCB0aGUNCj4gb25lIG9u
+IHRoZSBkaXNrIGRvZXNu4oCZdCBtYXRjaC4NCj4NCj4NCj4NCj4gcm9vdD1QQVJUVVVJRD0yMmFh
+ZjgzYi0wMg0KPg0KPg0KPg0KPiBOQU1FICAgUEFSVFVVSUQNCj4NCj4gc2RkDQo+DQo+IOKUnOKU
+gHNkZDIgMzQxZTg0YTctMDINCj4NCj4g4pSc4pSAc2RkMyAzNDFlODRhNy0wMw0KPg0KPiDilJTi
+lIBzZGQxIDM0MWU4NGE3LTAxDQoNCldoaWNoIHJlbGVhc2UgZGlkIERJU0tfU0lHTkFUVVJFIHN0
+b3Agd29ya2luZz8NCg0KUmVnYXJkcywNCkpvbmF0aGFuDQo=
 
-//Peter
+--_000_655290B7709079438B7932553958E60DA131231BESSEX01essvotec_
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: base64
 
+PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
+bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
+YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
+cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
+VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
+Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
+ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTIgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
+Pg0KPCEtLQ0KIC8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCiBAZm9udC1mYWNlDQoJe2ZvbnQtZmFt
+aWx5OiJDYW1icmlhIE1hdGgiOw0KCXBhbm9zZS0xOjIgNCA1IDMgNSA0IDYgMyAyIDQ7fQ0KQGZv
+bnQtZmFjZQ0KCXtmb250LWZhbWlseTpDYWxpYnJpOw0KCXBhbm9zZS0xOjIgMTUgNSAyIDIgMiA0
+IDMgMiA0O30NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6VGFob21hOw0KCXBhbm9zZS0xOjIg
+MTEgNiA0IDMgNSA0IDQgMiA0O30NCiAvKiBTdHlsZSBEZWZpbml0aW9ucyAqLw0KIHAuTXNvTm9y
+bWFsLCBsaS5Nc29Ob3JtYWwsIGRpdi5Nc29Ob3JtYWwNCgl7bWFyZ2luOjBpbjsNCgltYXJnaW4t
+Ym90dG9tOi4wMDAxcHQ7DQoJZm9udC1zaXplOjEyLjBwdDsNCglmb250LWZhbWlseToiVGltZXMg
+TmV3IFJvbWFuIiwic2VyaWYiO30NCmE6bGluaywgc3Bhbi5Nc29IeXBlcmxpbmsNCgl7bXNvLXN0
+eWxlLXByaW9yaXR5Ojk5Ow0KCWNvbG9yOmJsdWU7DQoJdGV4dC1kZWNvcmF0aW9uOnVuZGVybGlu
+ZTt9DQphOnZpc2l0ZWQsIHNwYW4uTXNvSHlwZXJsaW5rRm9sbG93ZWQNCgl7bXNvLXN0eWxlLXBy
+aW9yaXR5Ojk5Ow0KCWNvbG9yOnB1cnBsZTsNCgl0ZXh0LWRlY29yYXRpb246dW5kZXJsaW5lO30N
+CnNwYW4uRW1haWxTdHlsZTE3DQoJe21zby1zdHlsZS10eXBlOnBlcnNvbmFsLXJlcGx5Ow0KCWZv
+bnQtZmFtaWx5OiJDYWxpYnJpIiwic2Fucy1zZXJpZiI7DQoJY29sb3I6IzFGNDk3RDt9DQouTXNv
+Q2hwRGVmYXVsdA0KCXttc28tc3R5bGUtdHlwZTpleHBvcnQtb25seTt9DQpAcGFnZSBTZWN0aW9u
+MQ0KCXtzaXplOjguNWluIDExLjBpbjsNCgltYXJnaW46MS4waW4gMS4waW4gMS4waW4gMS4waW47
+fQ0KZGl2LlNlY3Rpb24xDQoJe3BhZ2U6U2VjdGlvbjE7fQ0KLS0+DQo8L3N0eWxlPjwhLS1baWYg
+Z3RlIG1zbyA5XT48eG1sPg0KIDxvOnNoYXBlZGVmYXVsdHMgdjpleHQ9ImVkaXQiIHNwaWRtYXg9
+IjEwMjYiIC8+DQo8L3htbD48IVtlbmRpZl0tLT48IS0tW2lmIGd0ZSBtc28gOV0+PHhtbD4NCiA8
+bzpzaGFwZWxheW91dCB2OmV4dD0iZWRpdCI+DQogIDxvOmlkbWFwIHY6ZXh0PSJlZGl0IiBkYXRh
+PSIxIiAvPg0KIDwvbzpzaGFwZWxheW91dD48L3htbD48IVtlbmRpZl0tLT4NCjwvaGVhZD4NCjxi
+b2R5IGxhbmc9IkVOLVVTIiBsaW5rPSJibHVlIiB2bGluaz0icHVycGxlIj4NCjxkaXYgY2xhc3M9
+IlNlY3Rpb24xIj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6
+MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssJnF1b3Q7c2Fucy1zZXJpZiZx
+dW90OzsNCmNvbG9yOiMxRjQ5N0QiPkkgdHJpZWQgdXNpbmcgJm5ic3A7Uk9PVF9WTSA9ICZxdW90
+O3Jvb3Q9UEFSVFVVSUQ9JHtESVNLX1NJR05BVFVSRX0tMDImcXVvdDs8bzpwPjwvbzpwPjwvc3Bh
+bj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBw
+dDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVvdDs7
+DQpjb2xvcjojMUY0OTdEIj5UaGUgcmVzdWx0aW5nIFBBUlRVVUlEIGluIHN5c2xpbnV4IGFwcGVu
+ZCBsaW5lIHN0aWxsIGRvZXNu4oCZdCBtYXRjaCB0aGUgb25lIG9uIHRoZSBhY3R1YWwgZGlzay48
+bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0i
+Zm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LCZxdW90O3Nh
+bnMtc2VyaWYmcXVvdDs7DQpjb2xvcjojMUY0OTdEIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48
+L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtm
+b250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVvdDs7DQpj
+b2xvcjojMUY0OTdEIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8ZGl2IHN0eWxlPSJi
+b3JkZXI6bm9uZTtib3JkZXItdG9wOnNvbGlkICNCNUM0REYgMS4wcHQ7cGFkZGluZzozLjBwdCAw
+aW4gMGluIDBpbiI+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48Yj48c3BhbiBzdHlsZT0iZm9udC1z
+aXplOjEwLjBwdDtmb250LWZhbWlseTomcXVvdDtUYWhvbWEmcXVvdDssJnF1b3Q7c2Fucy1zZXJp
+ZiZxdW90OyI+RnJvbTo8L3NwYW4+PC9iPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTAuMHB0O2Zv
+bnQtZmFtaWx5OiZxdW90O1RhaG9tYSZxdW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7Ij4gSm9u
+YXRoYW4gTGl1IFttYWlsdG86bmV0MTQ3QGdtYWlsLmNvbV0NCjxicj4NCjxiPlNlbnQ6PC9iPiBU
+dWVzZGF5LCBKdW5lIDA2LCAyMDE3IDU6MDEgUE08YnI+DQo8Yj5Ubzo8L2I+IERhdmlzLCBNaWNo
+YWVsPGJyPg0KPGI+Q2M6PC9iPiBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQu
+b3JnPGJyPg0KPGI+U3ViamVjdDo8L2I+IFJlOiBbT0UtY29yZV0gW29lLWNvcmVdIERJU0tfU0lH
+TkFUVVJFIG5vIGxvbmdlciBmdW5jdGlvbmFsPG86cD48L286cD48L3NwYW4+PC9wPg0KPC9kaXY+
+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjxkaXY+DQo8cCBj
+bGFzcz0iTXNvTm9ybWFsIj5IaSBNaWNoYWVsLDxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2
+Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PG86cD4mbmJzcDs8L286cD48L3A+DQo8L2Rpdj4NCjxk
+aXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj5TZWUmbmJzcDs8YSBocmVmPSJodHRwczovL3BhdGNo
+d29yay5vcGVuZW1iZWRkZWQub3JnL3BhdGNoLzEyODU2NS8iPmh0dHBzOi8vcGF0Y2h3b3JrLm9w
+ZW5lbWJlZGRlZC5vcmcvcGF0Y2gvMTI4NTY1LzwvYT4uIFNZU0xJTlVYX1JPT1Qgd2FzIHJlbmFt
+ZWQgdG8gUk9PVF9WTSBpbiBLcm9nb3RoLjxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0K
+PHAgY2xhc3M9Ik1zb05vcm1hbCI+PG86cD4mbmJzcDs8L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+
+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj5SZWdhcmRzLDxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8
+ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+Sm9uYXRoYW48bzpwPjwvbzpwPjwvcD4NCjwvZGl2
+Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPGRp
+dj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj5PbiBUdWUuLCA2IEp1bi4gMjAxNyBhdCAx
+MToyOSBwbSwgRGF2aXMsIE1pY2hhZWwgJmx0OzxhIGhyZWY9Im1haWx0bzptaWNoYWVsLmRhdmlz
+QGVzc3ZvdGUuY29tIj5taWNoYWVsLmRhdmlzQGVzc3ZvdGUuY29tPC9hPiZndDsgd3JvdGU6PG86
+cD48L286cD48L3A+DQo8L2Rpdj4NCjxibG9ja3F1b3RlIHN0eWxlPSJib3JkZXI6bm9uZTtib3Jk
+ZXItbGVmdDpzb2xpZCAjQ0NDQ0NDIDEuMHB0O3BhZGRpbmc6MGluIDBpbiAwaW4gNi4wcHQ7DQpt
+YXJnaW4tbGVmdDo0LjhwdDttYXJnaW4tcmlnaHQ6MGluIj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwi
+PlB5cm8uPGJyPg0KPGJyPg0KR3Vlc3Npbmcgc29tZXRoaW5nIHdpdGggYWxsIHRoZSBuZXcgd2lj
+IGFkZGl0aW9ucyBraWxsZWQgaXQuPGJyPg0KPGJyPg0KPGJyPg0KLS0tLS1PcmlnaW5hbCBNZXNz
+YWdlLS0tLS08YnI+DQpGcm9tOiBKb25hdGhhbiBMaXUgW21haWx0bzo8YSBocmVmPSJtYWlsdG86
+bmV0MTQ3QGdtYWlsLmNvbSIgdGFyZ2V0PSJfYmxhbmsiPm5ldDE0N0BnbWFpbC5jb208L2E+XTxi
+cj4NClNlbnQ6IE1vbmRheSwgSnVuZSAwNSwgMjAxNyA3OjE3IFBNPGJyPg0KVG86IERhdmlzLCBN
+aWNoYWVsPGJyPg0KQ2M6IDxhIGhyZWY9Im1haWx0bzpvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5v
+cGVuZW1iZWRkZWQub3JnIiB0YXJnZXQ9Il9ibGFuayI+b3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMu
+b3BlbmVtYmVkZGVkLm9yZzwvYT48YnI+DQpTdWJqZWN0OiBSZTogW09FLWNvcmVdIFtvZS1jb3Jl
+XSBESVNLX1NJR05BVFVSRSBubyBsb25nZXIgZnVuY3Rpb25hbDxicj4NCjxicj4NCkhpIE1pY2hh
+ZWwsPGJyPg0KPGJyPg0KT24gMjEgTWF5IDIwMTcgYXQgMDM6MTYsIERhdmlzLCBNaWNoYWVsICZs
+dDs8YSBocmVmPSJtYWlsdG86bWljaGFlbC5kYXZpc0Blc3N2b3RlLmNvbSIgdGFyZ2V0PSJfYmxh
+bmsiPm1pY2hhZWwuZGF2aXNAZXNzdm90ZS5jb208L2E+Jmd0OyB3cm90ZTo8YnI+DQomZ3Q7IEkg
+YW0gdHJ5aW5nIHRvIGNyZWF0ZSBhIGdlbmVyaWMgTVNET1MgUENfQklPUyBoZGRkaXJlY3QgaW1h
+Z2Ugd2l0aCBhIHJvb3Q8YnI+DQomZ3Q7IHBhcnRpdGlvbiBzZXQgYnkgdGhlIERJU0tfU0lHTkFU
+VVJFLjxicj4NCiZndDs8YnI+DQomZ3Q7IFNZU0xJTlVYX1JPT1QgPSAmcXVvdDtyb290PVBBUlRV
+VUlEPSR7RElTS19TSUdOQVRVUkV9LTAyJnF1b3Q7PGJyPg0KJmd0Ozxicj4NCiZndDs8YnI+DQom
+Z3Q7PGJyPg0KJmd0OyBIb3dldmVyIHRoZSBzaWduYXR1cmUgZ2VuZXJhdGVkIGluIHN5c2xpbnV4
+LmNmZyBhbmQgdGhlIG9uZSBvbiB0aGUgZGlzazxicj4NCiZndDsgZG9u4oCZdCBtYXRjaC48YnI+
+DQomZ3Q7PGJyPg0KJmd0OyBJIHRyaWVkIGRlZmluaW5nIG15IG93biBzaWduYXR1cmUgYW5kIHRo
+ZSBvbmUgaW4gc3lzbGludXggY2hhbmdlcywgYnV0IHRoZTxicj4NCiZndDsgb25lIG9uIHRoZSBk
+aXNrIGRvZXNu4oCZdCBtYXRjaC48YnI+DQomZ3Q7PGJyPg0KJmd0Ozxicj4NCiZndDs8YnI+DQom
+Z3Q7IHJvb3Q9UEFSVFVVSUQ9MjJhYWY4M2ItMDI8YnI+DQomZ3Q7PGJyPg0KJmd0Ozxicj4NCiZn
+dDs8YnI+DQomZ3Q7IE5BTUUmbmJzcDsgJm5ic3A7UEFSVFVVSUQ8YnI+DQomZ3Q7PGJyPg0KJmd0
+OyBzZGQ8YnI+DQomZ3Q7PGJyPg0KJmd0OyDilJzilIBzZGQyIDM0MWU4NGE3LTAyPGJyPg0KJmd0
+Ozxicj4NCiZndDsg4pSc4pSAc2RkMyAzNDFlODRhNy0wMzxicj4NCiZndDs8YnI+DQomZ3Q7IOKU
+lOKUgHNkZDEgMzQxZTg0YTctMDE8YnI+DQo8YnI+DQpXaGljaCByZWxlYXNlIGRpZCBESVNLX1NJ
+R05BVFVSRSBzdG9wIHdvcmtpbmc/PGJyPg0KPGJyPg0KUmVnYXJkcyw8YnI+DQpKb25hdGhhbjxv
+OnA+PC9vOnA+PC9wPg0KPC9ibG9ja3F1b3RlPg0KPC9kaXY+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9i
+b2R5Pg0KPC9odG1sPg0K
 
+--_000_655290B7709079438B7932553958E60DA131231BESSEX01essvotec_--
