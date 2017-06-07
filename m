@@ -1,18 +1,29 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 435B3780CB;
-	Wed,  7 Jun 2017 10:31:29 +0000 (UTC)
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	by mail.openembedded.org (Postfix) with ESMTP id CDFB171ADD
+	for <openembedded-core@lists.openembedded.org>;
+	Wed,  7 Jun 2017 11:46:11 +0000 (UTC)
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+	by orsmga105.jf.intel.com with ESMTP; 07 Jun 2017 04:46:12 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.39,311,1493708400"; d="scan'208";a="95540662"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by orsmga004.jf.intel.com with ESMTP; 07 Jun 2017 04:46:11 -0700
+To: Jan Kiszka <jan.kiszka@siemens.com>,
+	openembedded-core@lists.openembedded.org
+References: <15e918fb-c2e6-3005-6221-08601c804271@siemens.com>
+	<a60f39a6-8355-82dc-20b2-5f7b3d6397b3@linux.intel.com>
+	<af72aeb2-915e-0c63-60e9-18b6c7bce5ad@siemens.com>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <615663ca-d13f-9bca-6e3d-e5dc22cfaebf@linux.intel.com>
+Date: Wed, 7 Jun 2017 14:43:39 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.8.0
 MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Ed Bartosh <ed.bartosh@linux.intel.com>
-Date: Wed, 07 Jun 2017 10:31:31 -0000
-Message-ID: <20170607103131.1040.72621@do.openembedded.org>
-References: <cover.1496830884.git.ed.bartosh@linux.intel.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <cover.1496830884.git.ed.bartosh@linux.intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgIzExMjgzOiB3aWMgcm0gKHJldjIp?=
+In-Reply-To: <af72aeb2-915e-0c63-60e9-18b6c7bce5ad@siemens.com>
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>
+Subject: Re: Fun with npm shrinkwrap
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,41 +36,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Jun 2017 10:31:29 -0000
-Content-Type: text/plain; charset="utf-8"
+X-List-Received-Date: Wed, 07 Jun 2017 11:46:12 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
 Content-Transfer-Encoding: 7bit
 
-== Series Details ==
+On 06/06/2017 06:14 PM, Jan Kiszka wrote:
 
-Series: #11283: wic rm (rev2)
-Revision: 2
-URL   : https://patchwork.openembedded.org/series/7046/
-State : failure
+> Yeah, good points. Probably this problem is also related to OE
+> reimplementing parts of the npm logic.
+>
+> But I suppose those concepts won't materialize very soon, will they? I'm
+> also looking for a short-term solution, at least some reasonable tactic
+> to generate such recipes in the meantime. Is there something in that
+> thread I should dig into?
 
-== Summary ==
+What I am getting at is that it would be awesome if you convince your 
+management that npm support in Yocto is a problem that needs a better 
+solution and work on it. Yes, this means you can't work on product 
+development for quite some time; this is the price for using open source 
+projects without a commercial support contract :)
 
+My apologies if this is not the answer you were seeking.
 
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  master (currently at 49c255494c)
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
----
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
-
+Alex
 
