@@ -1,30 +1,34 @@
-Return-Path: <jose.perez.carranza@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id F1A897813F
+Return-Path: <jan.kiszka@siemens.com>
+Received: from thoth.sbs.de (thoth.sbs.de [192.35.17.2])
+	by mail.openembedded.org (Postfix) with ESMTP id 243676069C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Jun 2017 17:29:50 +0000 (UTC)
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	07 Jun 2017 10:29:52 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.39,311,1493708400"; 
-	d="scan'208,217";a="112089268"
-Received: from jgperezc-mobl1.zpn.intel.com (HELO [10.219.4.33])
-	([10.219.4.33])
-	by fmsmga006.fm.intel.com with ESMTP; 07 Jun 2017 10:29:51 -0700
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <a5c78ee6-8320-7508-18d1-16762bed364c@linux.intel.com>
-	<20170515135023.4090-1-jose.perez.carranza@linux.intel.com>
-	<CAJTo0LYe=7Ug3wJSWwPX5VT=cy7GDe0Kf79uPFmC1tMj-0b-6Q@mail.gmail.com>
-From: Jose Perez Carranza <jose.perez.carranza@linux.intel.com>
-Message-ID: <e1d6c111-bd9d-af76-ae44-d6921c723ba6@linux.intel.com>
-Date: Wed, 7 Jun 2017 12:31:57 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.1.0
+	Wed,  7 Jun 2017 18:32:27 +0000 (UTC)
+Received: from mail3.siemens.de (mail3.siemens.de [139.25.208.14])
+	by thoth.sbs.de (8.15.2/8.15.2) with ESMTPS id v57IWI2J007832
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK); 
+	Wed, 7 Jun 2017 20:32:19 +0200
+Received: from md1f2u6c.ww002.siemens.net ([139.25.68.37])
+	by mail3.siemens.de (8.15.2/8.15.2) with ESMTP id v57IWFso006205;
+	Wed, 7 Jun 2017 20:32:18 +0200
+To: "Davis, Michael" <michael.davis@essvote.com>,
+	Alexander Kanavin <alexander.kanavin@linux.intel.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+References: <15e918fb-c2e6-3005-6221-08601c804271@siemens.com>
+	<a60f39a6-8355-82dc-20b2-5f7b3d6397b3@linux.intel.com>
+	<af72aeb2-915e-0c63-60e9-18b6c7bce5ad@siemens.com>
+	<615663ca-d13f-9bca-6e3d-e5dc22cfaebf@linux.intel.com>
+	<3989e16e-7a69-5f0a-90e9-3fcd1ed8b14d@siemens.com>
+	<655290B7709079438B7932553958E60DA1312205@ESS-EX01.essvote.corp.local>
+From: Jan Kiszka <jan.kiszka@siemens.com>
+Message-ID: <6e9eccd2-6aee-7605-f934-39bc5dcca51a@siemens.com>
+Date: Wed, 7 Jun 2017 20:32:15 +0200
+User-Agent: Mozilla/5.0 (X11; U; Linux i686 (x86_64); de; rv:1.8.1.12)
+	Gecko/20080226 SUSE/2.0.0.12-1.1 Thunderbird/2.0.0.12 Mnenhy/0.7.5.666
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0LYe=7Ug3wJSWwPX5VT=cy7GDe0Kf79uPFmC1tMj-0b-6Q@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v3] runtime/dnf: Add new dnf test cases
+In-Reply-To: <655290B7709079438B7932553958E60DA1312205@ESS-EX01.essvote.corp.local>
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>
+Subject: Re: Fun with npm shrinkwrap
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,101 +41,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Jun 2017 17:29:51 -0000
-Content-Type: multipart/alternative;
-	boundary="------------B7055A227A186F1A3B196E37"
+X-List-Received-Date: Wed, 07 Jun 2017 18:32:28 -0000
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
---------------B7055A227A186F1A3B196E37
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+On 2017-06-07 16:09, Davis, Michael wrote:
+> If offline builds, license checking, or stable dependency versions are not important to you then you can use the meta-nodejs layer.  It just uses the yarn tool directly https://github.com/imyller/meta-nodejs.
+> 
 
-When I tried this test image was built without using states hence 
-"busybox*.rpm" and "curl*.rpm"where present under 
-"tmp/deploy/rpm/core2_64" hence the repo i taking tha packages form 
-there to add them to repo and used on the image, but when using sstates 
-those packages are not being built so are not present on local build 
-directory. is there any way to force those packages to be built to have 
-them available on tmp/deploy/rpm/core2_64?
+In fact, meta-nodejs is already in use here, and I've been told to give
+"inherit npm-base" a try. Is that what you mean?
 
-On 06/07/2017 05:21 AM, Burton, Ross wrote:
->
-> On 15 May 2017 at 14:50, <jose.perez.carranza@linux.intel.com 
-> <mailto:jose.perez.carranza@linux.intel.com>> wrote:
->
->     Add test cases to test “exclude” and “installroot“ options, also
->     modify
->     the logic of filtering packages on the feed to have all the packages
->     needed by the tests.
->
->
-> Fails all over the autobuilder, for example:
->
-> http://errors.yoctoproject.org/Errors/Details/143886/
->
-> Ross
+How "unreproducible" will builds become? The license checks are not that
+critical as I wouldn't trust them right now anyway. Offline builds
+correlate with reproduciblilty - we need to archive the artifacts and
+generate images with changes later on, independent of what happened
+outside meanwhile. Not a killer right now, but not an option on the long
+run.
+
+> 
+> On a hijacked side note has yarn been considered as a solution to some of our npm issues?
+> It seems to be npm with built in licnese checking and better version determination.
+> Might not cover 100% of our use cases, but then npm only seems to work 50% of the time without tweaking something anyways.
+> 
+
+Can't comment on yarn, but another colleague pointed out that the
+machinery of arch-linux may also be worth a look, not only for the
+nodejs/npm galaxy.
+
+Thanks,
+Jan
+
+PS: Top-posting is considered evil.
 
 -- 
-Saludos
-José
+Siemens AG, Corporate Technology, CT RDA ITP SES-DE
+Corporate Competence Center Embedded Linux
 
-
---------------B7055A227A186F1A3B196E37
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  </head>
-  <body text="#000000" bgcolor="#FFFFFF">
-    When I tried this test image was built without using states hence
-    "busybox*.rpm" and "curl*.rpm"where present under
-    "tmp/deploy/rpm/core2_64" hence the repo i taking tha packages form
-    there to add them to repo and used on the image, but when using
-    sstates those packages are not being built so are not present on
-    local build directory. is there any way to force those packages to
-    be built to have them available on tmp/deploy/rpm/core2_64? <br>
-    <br>
-    <div class="moz-cite-prefix">On 06/07/2017 05:21 AM, Burton, Ross
-      wrote:<br>
-    </div>
-    <blockquote type="cite"
-cite="mid:CAJTo0LYe=7Ug3wJSWwPX5VT=cy7GDe0Kf79uPFmC1tMj-0b-6Q@mail.gmail.com">
-      <div dir="ltr">
-        <div class="gmail_extra"><br>
-          <div class="gmail_quote">On 15 May 2017 at 14:50, <span
-              dir="ltr">&lt;<a
-                href="mailto:jose.perez.carranza@linux.intel.com"
-                target="_blank" moz-do-not-send="true">jose.perez.carranza@linux.intel.com</a>&gt;</span>
-            wrote:<br>
-            <blockquote class="gmail_quote" style="margin:0px 0px 0px
-0.8ex;border-left-width:1px;border-left-style:solid;border-left-color:rgb(204,204,204);padding-left:1ex"><span
-                class="gmail-">Add test cases to test “exclude” and
-                “installroot“ options, also modify<br>
-                the logic of filtering packages on the feed to have all
-                the packages<br>
-                needed by the tests.<br>
-              </span></blockquote>
-          </div>
-          <div class="gmail_extra"><br>
-          </div>
-          Fails all over the autobuilder, for example:</div>
-        <div class="gmail_extra"><br>
-          <a
-            href="http://errors.yoctoproject.org/Errors/Details/143886/"
-            moz-do-not-send="true">http://errors.yoctoproject.org/Errors/Details/143886/</a><br>
-        </div>
-        <div class="gmail_extra"><br>
-        </div>
-        <div class="gmail_extra">Ross</div>
-      </div>
-    </blockquote>
-    <br>
-    <pre class="moz-signature" cols="72">-- 
-Saludos 
-José </pre>
-  </body>
-</html>
-
---------------B7055A227A186F1A3B196E37--
