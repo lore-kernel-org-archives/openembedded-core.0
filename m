@@ -1,34 +1,48 @@
-Return-Path: <fan.xin@jp.fujitsu.com>
-Received: from mgwym02.jp.fujitsu.com (mgwym02.jp.fujitsu.com [211.128.242.41])
-	by mail.openembedded.org (Postfix) with ESMTP id E6C6C71A70
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qt0-f179.google.com (mail-qt0-f179.google.com
+	[209.85.216.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 352EC6079F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Jun 2017 08:50:20 +0000 (UTC)
-Received: from yt-mxauth.gw.nic.fujitsu.com (unknown [192.168.229.68]) by
-	mgwym02.jp.fujitsu.com with smtp
-	id 1338_35b6_445ed53c_fcdb_4d49_bdf0_ca475d074228;
-	Wed, 07 Jun 2017 17:50:17 +0900
-Received: from g01jpfmpwkw01.exch.g01.fujitsu.local
-	(g01jpfmpwkw01.exch.g01.fujitsu.local [10.0.193.38])
-	by yt-mxauth.gw.nic.fujitsu.com (Postfix) with ESMTP id A0805AC01AE
+	Wed,  7 Jun 2017 10:11:01 +0000 (UTC)
+Received: by mail-qt0-f179.google.com with SMTP id c10so4432595qtd.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Jun 2017 17:50:17 +0900 (JST)
-Received: from g01jpexchkw33.g01.fujitsu.local (unknown [10.0.193.4])
-	by g01jpfmpwkw01.exch.g01.fujitsu.local (Postfix) with ESMTP id
-	8AD15692519 for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Jun 2017 17:50:16 +0900 (JST)
-Received: from localhost.localdomain (10.24.19.99) by
-	g01jpexchkw33.g01.fujitsu.local (10.0.193.36) with Microsoft SMTP
-	Server id 14.3.266.1; Wed, 7 Jun 2017 17:50:16 +0900
-From: Fan Xin <fan.xin@jp.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 7 Jun 2017 17:51:37 +0900
-Message-ID: <1496825497-26430-1-git-send-email-fan.xin@jp.fujitsu.com>
-X-Mailer: git-send-email 1.9.1
+	Wed, 07 Jun 2017 03:11:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=0eAM38kTWjGWKOtYVWvRt1P+JG4U+IMsyR4P6LJuZg0=;
+	b=tVt5X4q0wUfA8Dw/Zlgwy7vO0glVnDJe7VolOrKLWgoorXYkO6fQzy0Ko++qX5+22G
+	VIciXrPGlUym0NxTSo976ZPthD9RuBqzHq8eRJbDO19F27Q0PtDNnCA17jxpBq96Gb0R
+	W3uKKRHTpNDcBRpXsY77hYOKIxGoFNI6VN0OKahctmQ/gICFFEkLsX+Wz2TpDu1SkiLK
+	V+vJqI6vHUfBIV2QI/gpThImiciRNmNZXbdWTCeKHX4Qi0aZe7/YJR1u9YscOO3kK7Vc
+	yW1s0clGidx2imGsPFMiOX5hHcUMKDSOS9VQQKEPwsX7hcmwqvut+Am71tZMmM77IW6/
+	gVKA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=0eAM38kTWjGWKOtYVWvRt1P+JG4U+IMsyR4P6LJuZg0=;
+	b=iFcb5ZiV1t42lU9pr5oY1Dm/Se1NUX2pvViXzDxiUeIQn14HP7YjZk7QrRSdxtyjxr
+	NaxI3rRkcFNXWkLz+3KMqs3hwrADNWQHw6f1uiUS5KoUcYueWKmnkrnC8btwW0bcfja8
+	9LeGFlPvqk6etlWRqbgA2StDSupk/6UBd/YsmRf5oXxbykybVSm7siMlMpcLOg+d9ysI
+	PGSTTd1QwS53yGACTOiemZbXAU2/5BYwPxoFwxQz+etxETJEqEVeov5499vlI4JIWgKy
+	tPQ+bQXFmxFsyVprFxvaWTeaeHahyV7b/WWHKkQ9jTOW/IxBNnepcTzwbS0dfZlww9dL
+	P1tQ==
+X-Gm-Message-State: AKS2vOzNhJ8RsroRDMU6hO5F//IVY3vG8zkeMstbRMPdDvnjXOY0XT94
+	foqewygW7iOiNNTAy9I66VkWE6bh7Gcw
+X-Received: by 10.237.40.97 with SMTP id r88mr26597462qtd.27.1496830262783;
+	Wed, 07 Jun 2017 03:11:02 -0700 (PDT)
 MIME-Version: 1.0
-X-SecurityPolicyCheck-GC: OK by FENCE-Mail
-X-Encrypted: FENCE-Mail/3.1.1
-X-TM-AS-MML: disable
-Subject: [PATCH] libxml2: Fix CVE-2017-8872
+Received: by 10.140.35.103 with HTTP; Wed, 7 Jun 2017 03:10:42 -0700 (PDT)
+In-Reply-To: <7c2056f3-f791-4480-da59-3999e6b09f14@gmail.com>
+References: <1496696005-28913-1-git-send-email-ross.burton@intel.com>
+	<7c2056f3-f791-4480-da59-3999e6b09f14@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 7 Jun 2017 11:10:42 +0100
+Message-ID: <CAJTo0LaU98FDkb0Zz_9r5+uExJ_jDL-PQ+cry8+Uq2Rf=bHTuQ@mail.gmail.com>
+To: akuster808 <akuster808@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] libunwind: fix build failure on MIPS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,65 +55,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Jun 2017 08:50:21 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 07 Jun 2017 10:11:02 -0000
+Content-Type: multipart/alternative; boundary="94eb2c068b341a46fb05515bf49f"
 
-CVE: CVE-2017-8872
-The htmlParseTryOrFinish function in HTMLparser.c in libxml2 2.9.4 allows attackers
-to cause a denial of service (buffer over-read) or information disclosure.
+--94eb2c068b341a46fb05515bf49f
+Content-Type: text/plain; charset="UTF-8"
 
-External References:
-https://bugzilla.gnome.org/show_bug.cgi?id=77520
+On 7 June 2017 at 02:39, akuster808 <akuster808@gmail.com> wrote:
 
-Signed-off-by: Fan Xin <fan.xin@jp.fujitsu.com>
----
- .../libxml/libxml2/libxml2-CVE-2017-8872.patch     | 23 ++++++++++++++++++++++
- meta/recipes-core/libxml/libxml2_2.9.4.bb          |  1 +
- 2 files changed, 24 insertions(+)
- create mode 100644 meta/recipes-core/libxml/libxml2/libxml2-CVE-2017-8872.patch
+> under what conditions is this failing? or what is the build failure
+> message. The subject makes it sound like your host is a Mips system.
+>
 
-diff --git a/meta/recipes-core/libxml/libxml2/libxml2-CVE-2017-8872.patch b/meta/recipes-core/libxml/libxml2/libxml2-CVE-2017-8872.patch
-new file mode 100644
-index 0000000..df05e06
---- /dev/null
-+++ b/meta/recipes-core/libxml/libxml2/libxml2-CVE-2017-8872.patch
-@@ -0,0 +1,23 @@
-+libxml2-2.9.4: Fix CVE-2017-8872
-+
-+Bug 775200 - (CVE-2017-8872) global-buffer-overflow in htmlParseTryOrFinish (HTMLparser.c:5403) 
-+ - [https://bugzilla.gnome.org/show_bug.cgi?id=775200]
-+
-+CVE: CVE-2017-8872
-+Upstream-Status: Submitted
-+
-+Signed-off-by: Fan Xin <fan.xin@jp.fujitsu.com>
-+
-+Index: libxml2-2.9.4/HTMLparser.c
-+===================================================================
-+--- libxml2-2.9.4.orig/HTMLparser.c
-++++ libxml2-2.9.4/HTMLparser.c
-+@@ -5396,6 +5396,8 @@ htmlParseTryOrFinish(htmlParserCtxtPtr c
-+ 		ctxt->instate = XML_PARSER_EOF;
-+ 		if ((ctxt->sax) && (ctxt->sax->endDocument != NULL))
-+ 		    ctxt->sax->endDocument(ctxt->userData);
-++
-++		goto done;
-+ 	    }
-+ 	}
-+         if (avail < 1)
-diff --git a/meta/recipes-core/libxml/libxml2_2.9.4.bb b/meta/recipes-core/libxml/libxml2_2.9.4.bb
-index ea0d3b8..0b4cbca 100644
---- a/meta/recipes-core/libxml/libxml2_2.9.4.bb
-+++ b/meta/recipes-core/libxml/libxml2_2.9.4.bb
-@@ -24,6 +24,7 @@ SRC_URI = "ftp://xmlsoft.org/libxml2/libxml2-${PV}.tar.gz;name=libtar \
-            file://libxml2-CVE-2016-4658.patch \
-            file://libxml2-fix_NULL_pointer_derefs.patch \
-            file://CVE-2016-9318.patch \
-+	   file://libxml2-CVE-2017-8872.patch \
-           "
- 
- SRC_URI[libtar.md5sum] = "ae249165c173b1ff386ee8ad676815f5"
--- 
-1.9.1
+Yeah good point.  I'll sent a v2.
 
+Ross
 
+--94eb2c068b341a46fb05515bf49f
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 7 June 2017 at 02:39, akuster808 <span dir=3D"ltr">&lt;<a href=3D"mailto=
+:akuster808@gmail.com" target=3D"_blank">akuster808@gmail.com</a>&gt;</span=
+> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bo=
+rder-left:1px #ccc solid;padding-left:1ex"><div id=3D":1i0" class=3D"a3s aX=
+jCH m15c80358faf2490a">under what conditions is this failing? or what is th=
+e build failure message. The subject makes it sound like your host is a Mip=
+s system.<br></div></blockquote></div><br>Yeah good point.=C2=A0 I&#39;ll s=
+ent a v2.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_ext=
+ra">Ross</div></div>
+
+--94eb2c068b341a46fb05515bf49f--
