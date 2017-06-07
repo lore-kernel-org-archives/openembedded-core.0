@@ -1,35 +1,34 @@
 Return-Path: <fan.xin@jp.fujitsu.com>
-Received: from mgwym04.jp.fujitsu.com (mgwym04.jp.fujitsu.com [211.128.242.43])
-	by mail.openembedded.org (Postfix) with ESMTP id F1AFC71A74
+Received: from mgwym02.jp.fujitsu.com (mgwym02.jp.fujitsu.com [211.128.242.41])
+	by mail.openembedded.org (Postfix) with ESMTP id E6C6C71A70
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Jun 2017 08:27:51 +0000 (UTC)
+	Wed,  7 Jun 2017 08:50:20 +0000 (UTC)
 Received: from yt-mxauth.gw.nic.fujitsu.com (unknown [192.168.229.68]) by
-	mgwym04.jp.fujitsu.com with smtp
-	id 1b4a_4907_2c19eb8f_dcde_4ad6_a1e2_d1460559efe7;
-	Wed, 07 Jun 2017 17:27:44 +0900
-Received: from g01jpfmpwyt02.exch.g01.fujitsu.local
-	(g01jpfmpwyt02.exch.g01.fujitsu.local [10.128.193.56])
-	by yt-mxauth.gw.nic.fujitsu.com (Postfix) with ESMTP id 97CB1AC00C5
+	mgwym02.jp.fujitsu.com with smtp
+	id 1338_35b6_445ed53c_fcdb_4d49_bdf0_ca475d074228;
+	Wed, 07 Jun 2017 17:50:17 +0900
+Received: from g01jpfmpwkw01.exch.g01.fujitsu.local
+	(g01jpfmpwkw01.exch.g01.fujitsu.local [10.0.193.38])
+	by yt-mxauth.gw.nic.fujitsu.com (Postfix) with ESMTP id A0805AC01AE
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Jun 2017 17:27:44 +0900 (JST)
-Received: from G01JPEXCHYT13.g01.fujitsu.local
-	(G01JPEXCHYT13.g01.fujitsu.local [10.128.194.52])
-	by g01jpfmpwyt02.exch.g01.fujitsu.local (Postfix) with ESMTP id
-	8BB5658421C for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Jun 2017 17:27:43 +0900 (JST)
+	Wed,  7 Jun 2017 17:50:17 +0900 (JST)
+Received: from g01jpexchkw33.g01.fujitsu.local (unknown [10.0.193.4])
+	by g01jpfmpwkw01.exch.g01.fujitsu.local (Postfix) with ESMTP id
+	8AD15692519 for <openembedded-core@lists.openembedded.org>;
+	Wed,  7 Jun 2017 17:50:16 +0900 (JST)
 Received: from localhost.localdomain (10.24.19.99) by
-	G01JPEXCHYT13.g01.fujitsu.local (10.128.194.52) with Microsoft SMTP
-	Server id 14.3.266.1; Wed, 7 Jun 2017 17:27:41 +0900
+	g01jpexchkw33.g01.fujitsu.local (10.0.193.36) with Microsoft SMTP
+	Server id 14.3.266.1; Wed, 7 Jun 2017 17:50:16 +0900
 From: Fan Xin <fan.xin@jp.fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 7 Jun 2017 17:29:03 +0900
-Message-ID: <1496824143-26155-1-git-send-email-fan.xin@jp.fujitsu.com>
+Date: Wed, 7 Jun 2017 17:51:37 +0900
+Message-ID: <1496825497-26430-1-git-send-email-fan.xin@jp.fujitsu.com>
 X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
 X-SecurityPolicyCheck-GC: OK by FENCE-Mail
 X-Encrypted: FENCE-Mail/3.1.1
 X-TM-AS-MML: disable
-Subject: [PATCH] libtirpc: Fix CVE-2017-8779
+Subject: [PATCH] libxml2: Fix CVE-2017-8872
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,314 +41,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Jun 2017 08:27:52 -0000
+X-List-Received-Date: Wed, 07 Jun 2017 08:50:21 -0000
 Content-Type: text/plain
 
-This vulnerability is also called "rpcbomb".
-Backport upstream patch to fix this vulnerability.
-CVE: CVE-2017-8779
+CVE: CVE-2017-8872
+The htmlParseTryOrFinish function in HTMLparser.c in libxml2 2.9.4 allows attackers
+to cause a denial of service (buffer over-read) or information disclosure.
 
-Signed-off-by: Fan Xin<fan.xin@jp.fujitsu.com>
+External References:
+https://bugzilla.gnome.org/show_bug.cgi?id=77520
+
+Signed-off-by: Fan Xin <fan.xin@jp.fujitsu.com>
 ---
- .../libtirpc/0001-Fix-for-CVE-2017-8779.patch      | 276 +++++++++++++++++++++
- meta/recipes-extended/libtirpc/libtirpc_1.0.1.bb   |   1 +
- 2 files changed, 277 insertions(+)
- create mode 100644 meta/recipes-extended/libtirpc/libtirpc/0001-Fix-for-CVE-2017-8779.patch
+ .../libxml/libxml2/libxml2-CVE-2017-8872.patch     | 23 ++++++++++++++++++++++
+ meta/recipes-core/libxml/libxml2_2.9.4.bb          |  1 +
+ 2 files changed, 24 insertions(+)
+ create mode 100644 meta/recipes-core/libxml/libxml2/libxml2-CVE-2017-8872.patch
 
-diff --git a/meta/recipes-extended/libtirpc/libtirpc/0001-Fix-for-CVE-2017-8779.patch b/meta/recipes-extended/libtirpc/libtirpc/0001-Fix-for-CVE-2017-8779.patch
+diff --git a/meta/recipes-core/libxml/libxml2/libxml2-CVE-2017-8872.patch b/meta/recipes-core/libxml/libxml2/libxml2-CVE-2017-8872.patch
 new file mode 100644
-index 0000000..b3bae67
+index 0000000..df05e06
 --- /dev/null
-+++ b/meta/recipes-extended/libtirpc/libtirpc/0001-Fix-for-CVE-2017-8779.patch
-@@ -0,0 +1,276 @@
-+From dd9c7cf4f8f375c6d641b760d124650c418c2ce3 Mon Sep 17 00:00:00 2001
-+From: Guido Vranken <guidovranken@gmail.com>
-+Date: Mon, 15 May 2017 11:12:21 -0400
-+Subject: [PATCH] Fix for CVE-2017-8779
++++ b/meta/recipes-core/libxml/libxml2/libxml2-CVE-2017-8872.patch
+@@ -0,0 +1,23 @@
++libxml2-2.9.4: Fix CVE-2017-8872
 +
-+Signed-off-by: Steve Dickson <steved@redhat.com>
-+---
-+ src/rpc_generic.c |  8 ++++++++
-+ src/rpcb_prot.c   | 22 ++++++++++++++--------
-+ src/rpcb_st_xdr.c |  9 +++++----
-+ src/xdr.c         | 30 +++++++++++++++++++++++++-----
-+ 4 files changed, 52 insertions(+), 17 deletions(-)
++Bug 775200 - (CVE-2017-8872) global-buffer-overflow in htmlParseTryOrFinish (HTMLparser.c:5403) 
++ - [https://bugzilla.gnome.org/show_bug.cgi?id=775200]
 +
-+CVE: CVE-2017-8779
-+Upstream-Status: Backport
++CVE: CVE-2017-8872
++Upstream-Status: Submitted
 +
 +Signed-off-by: Fan Xin <fan.xin@jp.fujitsu.com>
 +
-+diff --git a/src/rpc_generic.c b/src/rpc_generic.c
-+index 2f09a8f..589cbd5 100644
-+--- a/src/rpc_generic.c
-++++ b/src/rpc_generic.c
-+@@ -615,6 +615,9 @@ __rpc_taddr2uaddr_af(int af, const struct netbuf *nbuf)
-+ 
-+ 	switch (af) {
-+ 	case AF_INET:
-++		if (nbuf->len < sizeof(*sin)) {
-++			return NULL;
-++		}
-+ 		sin = nbuf->buf;
-+ 		if (inet_ntop(af, &sin->sin_addr, namebuf, sizeof namebuf)
-+ 		    == NULL)
-+@@ -626,6 +629,9 @@ __rpc_taddr2uaddr_af(int af, const struct netbuf *nbuf)
-+ 		break;
-+ #ifdef INET6
-+ 	case AF_INET6:
-++		if (nbuf->len < sizeof(*sin6)) {
-++			return NULL;
-++		}
-+ 		sin6 = nbuf->buf;
-+ 		if (inet_ntop(af, &sin6->sin6_addr, namebuf6, sizeof namebuf6)
-+ 		    == NULL)
-+@@ -667,6 +673,8 @@ __rpc_uaddr2taddr_af(int af, const char *uaddr)
-+ 
-+ 	port = 0;
-+ 	sin = NULL;
-++	if (uaddr == NULL)
-++		return NULL;
-+ 	addrstr = strdup(uaddr);
-+ 	if (addrstr == NULL)
-+ 		return NULL;
-+diff --git a/src/rpcb_prot.c b/src/rpcb_prot.c
-+index 43fd385..a923c8e 100644
-+--- a/src/rpcb_prot.c
-++++ b/src/rpcb_prot.c
-+@@ -41,6 +41,7 @@
-+ #include <rpc/types.h>
-+ #include <rpc/xdr.h>
-+ #include <rpc/rpcb_prot.h>
-++#include "rpc_com.h"
-+ 
-+ bool_t
-+ xdr_rpcb(xdrs, objp)
-+@@ -53,13 +54,13 @@ xdr_rpcb(xdrs, objp)
-+ 	if (!xdr_u_int32_t(xdrs, &objp->r_vers)) {
-+ 		return (FALSE);
-+ 	}
-+-	if (!xdr_string(xdrs, &objp->r_netid, (u_int)~0)) {
-++	if (!xdr_string(xdrs, &objp->r_netid, RPC_MAXDATASIZE)) {
-+ 		return (FALSE);
-+ 	}
-+-	if (!xdr_string(xdrs, &objp->r_addr, (u_int)~0)) {
-++	if (!xdr_string(xdrs, &objp->r_addr, RPC_MAXDATASIZE)) {
-+ 		return (FALSE);
-+ 	}
-+-	if (!xdr_string(xdrs, &objp->r_owner, (u_int)~0)) {
-++	if (!xdr_string(xdrs, &objp->r_owner, RPC_MAXDATASIZE)) {
-+ 		return (FALSE);
-+ 	}
-+ 	return (TRUE);
-+@@ -159,19 +160,19 @@ xdr_rpcb_entry(xdrs, objp)
-+ 	XDR *xdrs;
-+ 	rpcb_entry *objp;
-+ {
-+-	if (!xdr_string(xdrs, &objp->r_maddr, (u_int)~0)) {
-++	if (!xdr_string(xdrs, &objp->r_maddr, RPC_MAXDATASIZE)) {
-+ 		return (FALSE);
-+ 	}
-+-	if (!xdr_string(xdrs, &objp->r_nc_netid, (u_int)~0)) {
-++	if (!xdr_string(xdrs, &objp->r_nc_netid, RPC_MAXDATASIZE)) {
-+ 		return (FALSE);
-+ 	}
-+ 	if (!xdr_u_int32_t(xdrs, &objp->r_nc_semantics)) {
-+ 		return (FALSE);
-+ 	}
-+-	if (!xdr_string(xdrs, &objp->r_nc_protofmly, (u_int)~0)) {
-++	if (!xdr_string(xdrs, &objp->r_nc_protofmly, RPC_MAXDATASIZE)) {
-+ 		return (FALSE);
-+ 	}
-+-	if (!xdr_string(xdrs, &objp->r_nc_proto, (u_int)~0)) {
-++	if (!xdr_string(xdrs, &objp->r_nc_proto, RPC_MAXDATASIZE)) {
-+ 		return (FALSE);
-+ 	}
-+ 	return (TRUE);
-+@@ -292,7 +293,7 @@ xdr_rpcb_rmtcallres(xdrs, p)
-+ 	bool_t dummy;
-+ 	struct r_rpcb_rmtcallres *objp = (struct r_rpcb_rmtcallres *)(void *)p;
-+ 
-+-	if (!xdr_string(xdrs, &objp->addr, (u_int)~0)) {
-++	if (!xdr_string(xdrs, &objp->addr, RPC_MAXDATASIZE)) {
-+ 		return (FALSE);
-+ 	}
-+ 	if (!xdr_u_int(xdrs, &objp->results.results_len)) {
-+@@ -312,6 +313,11 @@ xdr_netbuf(xdrs, objp)
-+ 	if (!xdr_u_int32_t(xdrs, (u_int32_t *) &objp->maxlen)) {
-+ 		return (FALSE);
-+ 	}
++Index: libxml2-2.9.4/HTMLparser.c
++===================================================================
++--- libxml2-2.9.4.orig/HTMLparser.c
+++++ libxml2-2.9.4/HTMLparser.c
++@@ -5396,6 +5396,8 @@ htmlParseTryOrFinish(htmlParserCtxtPtr c
++ 		ctxt->instate = XML_PARSER_EOF;
++ 		if ((ctxt->sax) && (ctxt->sax->endDocument != NULL))
++ 		    ctxt->sax->endDocument(ctxt->userData);
 ++
-++	if (objp->maxlen > RPC_MAXDATASIZE) {
-++		return (FALSE);
-++	}
-++
-+ 	dummy = xdr_bytes(xdrs, (char **)&(objp->buf),
-+ 			(u_int *)&(objp->len), objp->maxlen);
-+ 	return (dummy);
-+diff --git a/src/rpcb_st_xdr.c b/src/rpcb_st_xdr.c
-+index 08db745..28e6a48 100644
-+--- a/src/rpcb_st_xdr.c
-++++ b/src/rpcb_st_xdr.c
-+@@ -37,6 +37,7 @@
-+ 
-+ 
-+ #include <rpc/rpc.h>
-++#include "rpc_com.h"
-+ 
-+ /* Link list of all the stats about getport and getaddr */
-+ 
-+@@ -58,7 +59,7 @@ xdr_rpcbs_addrlist(xdrs, objp)
-+ 	    if (!xdr_int(xdrs, &objp->failure)) {
-+ 		return (FALSE);
+++		goto done;
 + 	    }
-+-	    if (!xdr_string(xdrs, &objp->netid, (u_int)~0)) {
-++	    if (!xdr_string(xdrs, &objp->netid, RPC_MAXDATASIZE)) {
-+ 		return (FALSE);
-+ 	    }
-+ 
-+@@ -109,7 +110,7 @@ xdr_rpcbs_rmtcalllist(xdrs, objp)
-+ 		IXDR_PUT_INT32(buf, objp->failure);
-+ 		IXDR_PUT_INT32(buf, objp->indirect);
 + 	}
-+-	if (!xdr_string(xdrs, &objp->netid, (u_int)~0)) {
-++	if (!xdr_string(xdrs, &objp->netid, RPC_MAXDATASIZE)) {
-+ 		return (FALSE);
-+ 	}
-+ 	if (!xdr_pointer(xdrs, (char **)&objp->next,
-+@@ -147,7 +148,7 @@ xdr_rpcbs_rmtcalllist(xdrs, objp)
-+ 		objp->failure = (int)IXDR_GET_INT32(buf);
-+ 		objp->indirect = (int)IXDR_GET_INT32(buf);
-+ 	}
-+-	if (!xdr_string(xdrs, &objp->netid, (u_int)~0)) {
-++	if (!xdr_string(xdrs, &objp->netid, RPC_MAXDATASIZE)) {
-+ 		return (FALSE);
-+ 	}
-+ 	if (!xdr_pointer(xdrs, (char **)&objp->next,
-+@@ -175,7 +176,7 @@ xdr_rpcbs_rmtcalllist(xdrs, objp)
-+ 	if (!xdr_int(xdrs, &objp->indirect)) {
-+ 		return (FALSE);
-+ 	}
-+-	if (!xdr_string(xdrs, &objp->netid, (u_int)~0)) {
-++	if (!xdr_string(xdrs, &objp->netid, RPC_MAXDATASIZE)) {
-+ 		return (FALSE);
-+ 	}
-+ 	if (!xdr_pointer(xdrs, (char **)&objp->next,
-+diff --git a/src/xdr.c b/src/xdr.c
-+index f3fb9ad..b9a1558 100644
-+--- a/src/xdr.c
-++++ b/src/xdr.c
-+@@ -42,8 +42,10 @@
-+ #include <stdlib.h>
-+ #include <string.h>
-+ 
-++#include <rpc/rpc.h>
-+ #include <rpc/types.h>
-+ #include <rpc/xdr.h>
-++#include <rpc/rpc_com.h>
-+ 
-+ typedef quad_t          longlong_t;     /* ANSI long long type */
-+ typedef u_quad_t        u_longlong_t;   /* ANSI unsigned long long type */
-+@@ -53,7 +55,6 @@ typedef u_quad_t        u_longlong_t;   /* ANSI unsigned long long type */
-+  */
-+ #define XDR_FALSE	((long) 0)
-+ #define XDR_TRUE	((long) 1)
-+-#define LASTUNSIGNED	((u_int) 0-1)
-+ 
-+ /*
-+  * for unit alignment
-+@@ -629,6 +630,7 @@ xdr_bytes(xdrs, cpp, sizep, maxsize)
-+ {
-+ 	char *sp = *cpp;  /* sp is the actual string pointer */
-+ 	u_int nodesize;
-++	bool_t ret, allocated = FALSE;
-+ 
-+ 	/*
-+ 	 * first deal with the length since xdr bytes are counted
-+@@ -652,6 +654,7 @@ xdr_bytes(xdrs, cpp, sizep, maxsize)
-+ 		}
-+ 		if (sp == NULL) {
-+ 			*cpp = sp = mem_alloc(nodesize);
-++			allocated = TRUE;
-+ 		}
-+ 		if (sp == NULL) {
-+ 			warnx("xdr_bytes: out of memory");
-+@@ -660,7 +663,14 @@ xdr_bytes(xdrs, cpp, sizep, maxsize)
-+ 		/* FALLTHROUGH */
-+ 
-+ 	case XDR_ENCODE:
-+-		return (xdr_opaque(xdrs, sp, nodesize));
-++		ret = xdr_opaque(xdrs, sp, nodesize);
-++		if ((xdrs->x_op == XDR_DECODE) && (ret == FALSE)) {
-++			if (allocated == TRUE) {
-++				free(sp);
-++				*cpp = NULL;
-++			}
-++		}
-++		return (ret);
-+ 
-+ 	case XDR_FREE:
-+ 		if (sp != NULL) {
-+@@ -754,6 +764,7 @@ xdr_string(xdrs, cpp, maxsize)
-+ 	char *sp = *cpp;  /* sp is the actual string pointer */
-+ 	u_int size;
-+ 	u_int nodesize;
-++	bool_t ret, allocated = FALSE;
-+ 
-+ 	/*
-+ 	 * first deal with the length since xdr strings are counted-strings
-+@@ -793,8 +804,10 @@ xdr_string(xdrs, cpp, maxsize)
-+ 	switch (xdrs->x_op) {
-+ 
-+ 	case XDR_DECODE:
-+-		if (sp == NULL)
-++		if (sp == NULL) {
-+ 			*cpp = sp = mem_alloc(nodesize);
-++			allocated = TRUE;
-++		}
-+ 		if (sp == NULL) {
-+ 			warnx("xdr_string: out of memory");
-+ 			return (FALSE);
-+@@ -803,7 +816,14 @@ xdr_string(xdrs, cpp, maxsize)
-+ 		/* FALLTHROUGH */
-+ 
-+ 	case XDR_ENCODE:
-+-		return (xdr_opaque(xdrs, sp, size));
-++		ret = xdr_opaque(xdrs, sp, size);
-++		if ((xdrs->x_op == XDR_DECODE) && (ret == FALSE)) {
-++			if (allocated == TRUE) {
-++				free(sp);
-++				*cpp = NULL;
-++			}
-++		}
-++		return (ret);
-+ 
-+ 	case XDR_FREE:
-+ 		mem_free(sp, nodesize);
-+@@ -823,7 +843,7 @@ xdr_wrapstring(xdrs, cpp)
-+ 	XDR *xdrs;
-+ 	char **cpp;
-+ {
-+-	return xdr_string(xdrs, cpp, LASTUNSIGNED);
-++	return xdr_string(xdrs, cpp, RPC_MAXDATASIZE);
-+ }
-+ 
-+ /*
-+-- 
-+1.9.1
-+
-diff --git a/meta/recipes-extended/libtirpc/libtirpc_1.0.1.bb b/meta/recipes-extended/libtirpc/libtirpc_1.0.1.bb
-index 5518fb3..f41d2f3 100644
---- a/meta/recipes-extended/libtirpc/libtirpc_1.0.1.bb
-+++ b/meta/recipes-extended/libtirpc/libtirpc_1.0.1.bb
-@@ -16,6 +16,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/${BP}.tar.bz2;name=libtirpc \
-            file://export_key_secretkey_is_set.patch \
-            file://0001-replace-__bzero-with-memset-API.patch \
-            file://0001-include-stdint.h-for-uintptr_t.patch \
-+           file://0001-Fix-for-CVE-2017-8779.patch \
-            "
++         if (avail < 1)
+diff --git a/meta/recipes-core/libxml/libxml2_2.9.4.bb b/meta/recipes-core/libxml/libxml2_2.9.4.bb
+index ea0d3b8..0b4cbca 100644
+--- a/meta/recipes-core/libxml/libxml2_2.9.4.bb
++++ b/meta/recipes-core/libxml/libxml2_2.9.4.bb
+@@ -24,6 +24,7 @@ SRC_URI = "ftp://xmlsoft.org/libxml2/libxml2-${PV}.tar.gz;name=libtar \
+            file://libxml2-CVE-2016-4658.patch \
+            file://libxml2-fix_NULL_pointer_derefs.patch \
+            file://CVE-2016-9318.patch \
++	   file://libxml2-CVE-2017-8872.patch \
+           "
  
- SRC_URI_append_libc-uclibc = " file://remove-des-functionality.patch \
+ SRC_URI[libtar.md5sum] = "ae249165c173b1ff386ee8ad676815f5"
 -- 
 1.9.1
 
