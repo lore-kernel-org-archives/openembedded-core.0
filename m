@@ -1,20 +1,47 @@
-Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id E43C271B69
+Return-Path: <daniel.diaz@linaro.org>
+Received: from mail-oi0-f50.google.com (mail-oi0-f50.google.com
+	[209.85.218.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 2D72F780F3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Jun 2017 14:42:00 +0000 (UTC)
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-	by orsmga105.jf.intel.com with ESMTP; 07 Jun 2017 07:42:01 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.39,311,1493708400"; d="scan'208";a="111522451"
-Received: from yctb05.ostc.intel.com ([10.54.69.59])
-	by fmsmga005.fm.intel.com with ESMTP; 07 Jun 2017 07:42:01 -0700
-From: leonardo.sandoval.gonzalez@linux.intel.com
+	Wed,  7 Jun 2017 14:51:53 +0000 (UTC)
+Received: by mail-oi0-f50.google.com with SMTP id p7so6590426oif.2
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 07 Jun 2017 07:51:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=+9vqCrhooU++hH7LUYZMPJR7aHEvPDwPWC5FlULkAFE=;
+	b=J5wGVigQ7Wi6p9b5pRCGLqPgvo8zs8cNTaPlRxWEGvcbxY+7d08O/hhVqTqr7NsyuL
+	euEqtrox6D0NXyzJusxdlX5FSIxxmofE6k5vsF3t4AUjO6+ly+cu3ySLCYdXxt8euVeX
+	a+ardTP2xyajeeLhX1p/xIZj/9FibgOQ8pL+8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=+9vqCrhooU++hH7LUYZMPJR7aHEvPDwPWC5FlULkAFE=;
+	b=ukQgKG9GbJXKRe3rpXCk4DymhJan69xnLB0xSWQkOIp4Kd6bSbgMZQqgdPYSAvrjAK
+	PuWTXzw7m/tyy/q+YrVQIzpgDY9+BIlGRK1GCzSCay31BhIC0q+nl03dB4icEPwiTUJy
+	4cNiqNGneFEuJigfNdOcDeIvk7QFG4nfdr4CFCKaO37qX/xoPjDXNLZJTdNPtpbJU1q+
+	KzTKz/+8pxs4IxXczftv0pzQYBNZqVIfHkUTQecjBON1b/Tf8vNyFpcPx6b/7lev+ixF
+	jhIcsvqwgdsXOaG7HrhIER6j1whKEIgawtrGziodgiJs3+uDuG41bAmaarlGSPs+H5Q+
+	huXw==
+X-Gm-Message-State: AODbwcAGgg8I76nXyVLTIg5/Usf4uwPBKsqZAf3T/btbiQcsVvNCSS7F
+	Rsf/SRYiA2UMQbZhbQPN2Q==
+X-Received: by 10.202.80.209 with SMTP id e200mr3194270oib.18.1496847114759;
+	Wed, 07 Jun 2017 07:51:54 -0700 (PDT)
+Received: from aura.cortijodelrio.net
+	(CableLink67-82.telefonia.InterCable.net. [201.172.67.82])
+	by smtp.googlemail.com with ESMTPSA id
+	f35sm986880otd.15.2017.06.07.07.51.53
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 07 Jun 2017 07:51:53 -0700 (PDT)
+From: =?UTF-8?q?Daniel=20D=C3=ADaz?= <daniel.diaz@linaro.org>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  7 Jun 2017 07:41:55 -0700
-Message-Id: <20170607144155.3073-1-leonardo.sandoval.gonzalez@linux.intel.com>
-X-Mailer: git-send-email 2.12.0
-Subject: [PATCH] buildhistory: skip tests if GitPython module is missing
+Date: Wed,  7 Jun 2017 09:51:19 -0500
+Message-Id: <1496847081-30528-1-git-send-email-daniel.diaz@linaro.org>
+X-Mailer: git-send-email 1.9.1
+MIME-Version: 1.0
+Subject: [PATCH 1/3 v2][pyro] piglit: depend on virtual/egl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,76 +54,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Jun 2017 14:42:01 -0000
+X-List-Received-Date: Wed, 07 Jun 2017 14:51:54 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+[Backported from master.]
 
-Catching a possible exception when importing the git module,
-allows us to skip test if the latter is missing on the host.
-Also, import oe.buildhistory_analysis inside fuctions
-because this module also needs git to work correctly.
+While building for Hikey using Mali 450 driver (r6p0), an
+error like the following appears while linking:
 
-[YOCTO #11620]
+  [  1%] Linking C shared library ../../../../lib/libpiglitutil.so
+  [...]
+  [...]/aarch64-linaro-linux/gcc/aarch64-linaro-linux/6.3.1/ld: cannot find -lEGL
+  collect2: error: ld returned 1 exit status
+  make[2]: *** [lib/libpiglitutil.so.0] Error 1
 
-Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+Mesa generally provides virtual/egl (along with virtual/libgl,
+which satisfies Piglit's current DEPENDS) but that is not the
+implementation to use with Mali.
+
+Signed-off-by: Daniel Díaz <daniel.diaz@linaro.org>
 ---
- meta/lib/oeqa/selftest/cases/oelib/buildhistory.py | 13 ++++++++++---
- 1 file changed, 10 insertions(+), 3 deletions(-)
+v2: No change, just resending.
+ 
+ meta/recipes-graphics/piglit/piglit_git.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/lib/oeqa/selftest/cases/oelib/buildhistory.py b/meta/lib/oeqa/selftest/cases/oelib/buildhistory.py
-index 4e877517c1..f9bec53d4a 100644
---- a/meta/lib/oeqa/selftest/cases/oelib/buildhistory.py
-+++ b/meta/lib/oeqa/selftest/cases/oelib/buildhistory.py
-@@ -1,9 +1,7 @@
- import os
- from oeqa.selftest.case import OESelftestTestCase
- import tempfile
--from git import Repo
- from oeqa.utils.commands import get_bb_var
--from oe.buildhistory_analysis import blob_to_dict, compare_dict_blobs
+diff --git a/meta/recipes-graphics/piglit/piglit_git.bb b/meta/recipes-graphics/piglit/piglit_git.bb
+index d6bfb14..eae3eed 100644
+--- a/meta/recipes-graphics/piglit/piglit_git.bb
++++ b/meta/recipes-graphics/piglit/piglit_git.bb
+@@ -14,7 +14,7 @@ PV = "1.0+gitr${SRCPV}"
  
- class TestBlobParsing(OESelftestTestCase):
+ S = "${WORKDIR}/git"
  
-@@ -12,7 +10,12 @@ class TestBlobParsing(OESelftestTestCase):
-         self.repo_path = tempfile.mkdtemp(prefix='selftest-buildhistory',
-             dir=get_bb_var('TOPDIR'))
+-DEPENDS = "libpng virtual/libx11 libxkbcommon libxrender waffle virtual/libgl libglu python3-mako-native python3-numpy-native python3-six-native"
++DEPENDS = "libpng virtual/libx11 libxkbcommon libxrender waffle virtual/libgl libglu python3-mako-native python3-numpy-native python3-six-native virtual/egl"
  
--        self.repo = Repo.init(self.repo_path)
-+        try:
-+            from git import Repo
-+            self.repo = Repo.init(self.repo_path)
-+        except ImportError:
-+            self.skipTest('Python module GitPython is not present')
-+
-         self.test_file = "test"
-         self.var_map = {}
- 
-@@ -40,6 +43,7 @@ class TestBlobParsing(OESelftestTestCase):
-         """
-         Test convertion of git blobs to dictionary
-         """
-+        from oe.buildhistory_analysis import blob_to_dict
-         valuesmap = { "foo" : "1", "bar" : "2" }
-         self.commit_vars(to_add = valuesmap)
- 
-@@ -51,6 +55,8 @@ class TestBlobParsing(OESelftestTestCase):
-         """
-         Test comparisson of dictionaries extracted from git blobs
-         """
-+        from oe.buildhistory_analysis import compare_dict_blobs
-+
-         changesmap = { "foo-2" : ("2", "8"), "bar" : ("","4"), "bar-2" : ("","5")}
- 
-         self.commit_vars(to_add = { "foo" : "1", "foo-2" : "2", "foo-3" : "3" })
-@@ -69,6 +75,7 @@ class TestBlobParsing(OESelftestTestCase):
-         """
-         Test default values for comparisson of git blob dictionaries
-         """
-+        from oe.buildhistory_analysis import compare_dict_blobs
-         defaultmap = { x : ("default", "1")  for x in ["PKG", "PKGE", "PKGV", "PKGR"]}
- 
-         self.commit_vars(to_add = { "foo" : "1" })
+ inherit cmake python3native distro_features_check bash-completion
+ # depends on virtual/libx11
 -- 
-2.12.0
+1.9.1
 
 
