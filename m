@@ -1,47 +1,39 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qt0-f172.google.com (mail-qt0-f172.google.com
-	[209.85.216.172])
-	by mail.openembedded.org (Postfix) with ESMTP id DF9CF78170
+Return-Path: <Peter.Marko@siemens.com>
+Received: from thoth.sbs.de (thoth.sbs.de [192.35.17.2])
+	by mail.openembedded.org (Postfix) with ESMTP id 2F89178151
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Jun 2017 16:16:31 +0000 (UTC)
-Received: by mail-qt0-f172.google.com with SMTP id u12so11568995qth.0
+	Wed,  7 Jun 2017 16:20:46 +0000 (UTC)
+Received: from mail3.siemens.de (mail3.siemens.de [139.25.208.14])
+	by thoth.sbs.de (8.15.2/8.15.2) with ESMTPS id v57GKgLa007695
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 07 Jun 2017 09:16:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=z1ePUPG73kiktP3rIFVLlYnXiqXWTkHFgp4jLTLwP+w=;
-	b=i4HVunXp6gco83U3RHol/3tjSECEG3tfXpD1ZLKxUVoeNg/Dl61s93lDPoynrIuqJe
-	pHVJdL50UmDTrLDv3K5jSp4ZX+UaXRnACB1eXeFx9OrzeJkkfdMc+nPpVBWYiaR79A9X
-	0OJiK6PTXzCpgdXIh81cjT8UdguqU0IwZrCn5yztCa6/egpKmpZEvqzXlU7pbh7V76cu
-	DVY9gAt/+eoBAPToIWn12na3wMOhMen03M8CoauUOA4/2BkRCd4QVcoyPfC8qwLrx2wG
-	4xghQBxyGNdXiASySMa50cf6La3ED2HjTpUT+A0MNVLtvCHqjyTpX+LNicBFd9Txt1X5
-	u13A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=z1ePUPG73kiktP3rIFVLlYnXiqXWTkHFgp4jLTLwP+w=;
-	b=eAW9J4oYRO2vmg1F6YEw8Xq/60YpjLqw8Tjcx7zcMpsRglBn90xPFcZksfG05MSJtN
-	aLxdv5aBPvwrr940PA50e/ABL//rrr3HmiHjQTa4YPZJ5B7wxRf7MuUmkqMZfO7dYR40
-	SBfiR0qgF3aSO+z3L/zkPXgdlKdJb6GLMDY0UJJlx+MOPzRy+Aut8mqk5GQ7nfSQtBoR
-	tlFvR8xKxw+g3IJOn3vPNssOOMy38mapJhvmb/Rnu3gs87KoutCNmp2tRWeHgutOYdP0
-	DFHaTMjgrZ/MZrR90WJU8HoTF0/Ub+WhQ6eaWem6cBT+hwn/trGyBULiEmhenNr2VLZT
-	Uwaw==
-X-Gm-Message-State: AKS2vOwAn8PiX2Q6cOzbOJdXkV7s7K/1OLoOG7J6vTjnYPLHZdnVWT/n
-	rwtI3lICvqVzhmmmJOQtj61cbJXT4mJT
-X-Received: by 10.55.140.193 with SMTP id o184mr21794377qkd.127.1496852193099; 
-	Wed, 07 Jun 2017 09:16:33 -0700 (PDT)
+	Wed, 7 Jun 2017 18:20:42 +0200
+Received: from ATNETS99132MSX.ww300.siemens.net
+	(atnets99132msx.ww300.siemens.net [158.226.163.55])
+	by mail3.siemens.de (8.15.2/8.15.2) with ESMTPS id v57GKgpq019756
+	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=OK)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 7 Jun 2017 18:20:42 +0200
+Received: from ATVIES991UAMSX.ww300.siemens.net ([169.254.1.215]) by
+	ATNETS99132MSX.ww300.siemens.net ([158.226.163.55]) with mapi id
+	14.03.0352.000; Wed, 7 Jun 2017 18:20:42 +0200
+From: "Marko, Peter" <Peter.Marko@siemens.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH v2 4/4] cve-check-tool: fix crash on exceptions
+Thread-Index: AQHS36Z02zN6ulSeJkyG/Q8fHFonlaIZkxcw
+Date: Wed, 7 Jun 2017 16:20:42 +0000
+Message-ID: <6D4566C9E07A8D4DAB6F935696920A841B841076@ATVIES991UAMSX.ww300.siemens.net>
+References: <1496815471-23075-1-git-send-email-peter.marko@siemens.com>
+	<1496815471-23075-5-git-send-email-peter.marko@siemens.com>
+	<1496851429.26945.132.camel@linux.intel.com>
+In-Reply-To: <1496851429.26945.132.camel@linux.intel.com>
+Accept-Language: sk-SK, de-AT, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [158.226.163.15]
 MIME-Version: 1.0
-Received: by 10.140.35.103 with HTTP; Wed, 7 Jun 2017 09:16:12 -0700 (PDT)
-In-Reply-To: <007BD92917A2324FA403BCF9A464CF84CF376642@ALA-MBC.corp.ad.wrs.com>
-References: <007BD92917A2324FA403BCF9A464CF84CF376642@ALA-MBC.corp.ad.wrs.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 7 Jun 2017 17:16:12 +0100
-Message-ID: <CAJTo0LYD+KPcjbjvEdaEzODauyMHrhhcKeSroRFMnEXD_NWQ1g@mail.gmail.com>
-To: "Slater, Joseph W (Wind River)" <joe.slater@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] ghostscript: move to version 9.21
+Subject: Re: [PATCH v2 4/4] cve-check-tool: fix crash on exceptions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,43 +46,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Jun 2017 16:16:33 -0000
-Content-Type: multipart/alternative; boundary="001a114f0ce84054d00551610ffa"
+X-List-Received-Date: Wed, 07 Jun 2017 16:20:47 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
---001a114f0ce84054d00551610ffa
-Content-Type: text/plain; charset="UTF-8"
+PiB0aGUgY29tbWl0IHNob3J0bG9nIGRvZXMgbm90IG1hdGNoIHdoYXQgdGhlIHBhdGNoIGlzIGRv
+aW5nLCB1bmxlc3MgdGhlIG5ldyByZXBsYWNlZCBmdW5jdGlvbiBpcyB0aGUgb25lIGF2b2lkaW5n
+IGV4Y2VwdGlvbnMuLg0KDQpUaGUgZml4ZWQgaXNzdWUgaXMgdHJhY2tlZCB1bmRlciBodHRwczov
+L2dpdGh1Yi5jb20vaWtleWRvaGVydHkvY3ZlLWNoZWNrLXRvb2wvaXNzdWVzLzYwDQpJdCBzYXlz
+ICJjcmFzaCBvbiBiYWQgcG9pbnRlciBmcmVlIi4NCkl0IGZpeGVzIGNyYXNoIHdoZW4gZnJlZWlu
+ZyBpbnZhbGlkIHBvaW50ZXIsIHdoaWNoIGhhcHBlbmVkIG9uIHNxbGl0ZSBleGNlcHRpb25zLg0K
+DQpJZiBuZWNlc3NhcnksIEkgY2FuIHVwZGF0ZSB0aGUgY29tbWl0IG1lc3NhZ2Ugd2l0aCBsb25n
+ZXIgZXhwbGFuYXRpb24uDQoNCk9uIFdlZCwgMjAxNy0wNi0wNyBhdCAwODowNCArMDIwMCwgUGV0
+ZXIgTWFya28gd3JvdGU6DQo+IFRoaXMgZml4ZXMgY3ZlLWNoZWNrLXRvb2wgY3Jhc2hlcyBvbiBl
+eGNlcHRpb25zLg0KPiANCj4gU2lnbmVkLW9mZi1ieTogUGV0ZXIgTWFya28gPHBldGVyLm1hcmtv
+QHNpZW1lbnMuY29tPg0KPiAtLS0NCj4gIC4uLi9jdmUtY2hlY2stdG9vbC9jdmUtY2hlY2stdG9v
+bF81LjYuNC5iYiAgICAgICAgIHwgIDEgKw0KPiAgLi4uMDEtRml4LWZyZWVpbmctbWVtb3J5LWFs
+bG9jYXRlZC1ieS1zcWxpdGUucGF0Y2ggfCA1MCANCj4gKysrKysrKysrKysrKysrKysrKysrKw0K
+PiAgMiBmaWxlcyBjaGFuZ2VkLCA1MSBpbnNlcnRpb25zKCspDQo+ICBjcmVhdGUgbW9kZSAxMDA2
+NDQgDQo+IG1ldGEvcmVjaXBlcy1kZXZ0b29scy9jdmUtY2hlY2stdG9vbC9maWxlcy8wMDAxLUZp
+eC1mcmVlaW5nLW1lbW9yeS1hbGwNCj4gb2NhdGVkLWJ5LXNxbGl0ZS5wYXRjaA0KPiANCj4gZGlm
+ZiAtLWdpdCANCj4gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvY3ZlLWNoZWNrLXRvb2wvY3ZlLWNo
+ZWNrLXRvb2xfNS42LjQuYmIgDQo+IGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2N2ZS1jaGVjay10
+b29sL2N2ZS1jaGVjay10b29sXzUuNi40LmJiDQo+IGluZGV4IDFmOTA2ZWUuLjQ4MjliMTEgMTAw
+NjQ0DQo+IC0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9jdmUtY2hlY2stdG9vbC9jdmUtY2hl
+Y2stdG9vbF81LjYuNC5iYg0KPiArKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvY3ZlLWNoZWNr
+LXRvb2wvY3ZlLWNoZWNrLXRvb2xfNS42LjQuYmINCj4gQEAgLTExLDYgKzExLDcgQEAgU1JDX1VS
+SSA9ICJodHRwczovL2dpdGh1Yi5jb20vaWtleWRvaGVydHkvJHtCUE59L3JlbGVhc2VzL2Rvd25s
+b2FkL3Yke1BWfS8ke0JQfS4NCj4gICAgICAgICAgICAgZmlsZTovLzAwMDEtcHJpbnQtcHJvZ3Jl
+c3MtaW4tcGVyY2VudC13aGVuLWRvd25sb2FkaW5nLUNWRS1kYi5wYXRjaCBcDQo+ICAgICAgICAg
+ICAgIGZpbGU6Ly8wMDAxLWN1cmwtYWxsb3ctb3ZlcnJpZGluZy1kZWZhdWx0LUNBLWNlcnRpZmlj
+YXRlLWZpbGUucGF0Y2ggXA0KPiAgICAgICAgICAgICANCj4gZmlsZTovLzAwMDEtdXBkYXRlLUNv
+bXBhcmUtY29tcHV0ZWQtdnMtZXhwZWN0ZWQtc2hhMjU2LWRpZ2l0LXN0ci5wYXRjaCANCj4gXA0K
+PiArICAgICAgICAgICBmaWxlOi8vMDAwMS1GaXgtZnJlZWluZy1tZW1vcnktYWxsb2NhdGVkLWJ5
+LXNxbGl0ZS5wYXRjaCBcDQo+ICAgICAgICAgICAgIg0KPiAgDQo+ICBTUkNfVVJJW21kNXN1bV0g
+PSAiYzVmNDI0NzE0MGZjOWJlM2JmNDE0OTFkMzFhMzQxNTUiDQo+IGRpZmYgLS1naXQgDQo+IGEv
+bWV0YS9yZWNpcGVzLWRldnRvb2xzL2N2ZS1jaGVjay10b29sL2ZpbGVzLzAwMDEtRml4LWZyZWVp
+bmctbWVtb3J5LWENCj4gbGxvY2F0ZWQtYnktc3FsaXRlLnBhdGNoIA0KPiBiL21ldGEvcmVjaXBl
+cy1kZXZ0b29scy9jdmUtY2hlY2stdG9vbC9maWxlcy8wMDAxLUZpeC1mcmVlaW5nLW1lbW9yeS1h
+DQo+IGxsb2NhdGVkLWJ5LXNxbGl0ZS5wYXRjaA0KPiBuZXcgZmlsZSBtb2RlIDEwMDY0NA0KPiBp
+bmRleCAwMDAwMDAwLi40YTgyY2YyDQo+IC0tLSAvZGV2L251bGwNCj4gKysrIGIvbWV0YS9yZWNp
+cGVzLWRldnRvb2xzL2N2ZS1jaGVjay10b29sL2ZpbGVzLzAwMDEtRml4LWZyZWVpbmctbWVtbw0K
+PiArKysgcnktYWxsb2NhdGVkLWJ5LXNxbGl0ZS5wYXRjaA0KPiBAQCAtMCwwICsxLDUwIEBADQo+
+ICtGcm9tIGEzMzUzNDI5NjUyZjgzYmI4YjAzMTY1MDBmYWE4OGZhMjU1NTU0MmQgTW9uIFNlcCAx
+NyAwMDowMDowMCANCj4gKzIwMDENCj4gK0Zyb206IFBldGVyIE1hcmtvIDxwZXRlci5tYXJrb0Bz
+aWVtZW5zLmNvbT4NCj4gK0RhdGU6IFRodSwgMTMgQXByIDIwMTcgMjM6MDk6NTIgKzAyMDANCj4g
+K1N1YmplY3Q6IFtQQVRDSF0gRml4IGZyZWVpbmcgbWVtb3J5IGFsbG9jYXRlZCBieSBzcWxpdGUN
+Cj4gKw0KPiArVXBzdHJlYW0tU3RhdHVzOiBCYWNrcG9ydA0KPiArU2lnbmVkLW9mZi1ieTogUGV0
+ZXIgTWFya28gPHBldGVyLm1hcmtvQHNpZW1lbnMuY29tPg0KPiArLS0tDQo+ICsgc3JjL2NvcmUu
+YyB8IDggKysrKy0tLS0NCj4gKyAxIGZpbGUgY2hhbmdlZCwgNCBpbnNlcnRpb25zKCspLCA0IGRl
+bGV0aW9ucygtKQ0KPiArDQo+ICtkaWZmIC0tZ2l0IGEvc3JjL2NvcmUuYyBiL3NyYy9jb3JlLmMN
+Cj4gK2luZGV4IDYyNjMwMzEuLjY3ODhmMTYgMTAwNjQ0DQo+ICstLS0gYS9zcmMvY29yZS5jDQo+
+ICsrKysgYi9zcmMvY29yZS5jDQo+ICtAQCAtODIsNyArODIsNyBAQCBzdGF0aWMgYm9vbCBlbnN1
+cmVfdGFibGUoQ3ZlREIgKnNlbGYpDQo+ICsgICAgICAgICByYyA9IHNxbGl0ZTNfZXhlYyhzZWxm
+LT5kYiwgcXVlcnksIE5VTEwsIE5VTEwsICZlcnIpOw0KPiArICAgICAgICAgaWYgKHJjICE9IFNR
+TElURV9PSykgew0KPiArICAgICAgICAgICAgICAgICBmcHJpbnRmKHN0ZGVyciwgImVuc3VyZV90
+YWJsZSgpOiAlc1xuIiwgZXJyKTsNCj4gKy0gICAgICAgICAgICAgICAgZnJlZShlcnIpOw0KPiAr
+KyAgICAgICAgICAgICAgICBzcWxpdGUzX2ZyZWUoZXJyKTsNCj4gKyAgICAgICAgICAgICAgICAg
+cmV0dXJuIGZhbHNlOw0KPiArICAgICAgICAgfQ0KPiArICAgICAgICAgDQo+ICtAQCAtOTEsNyAr
+OTEsNyBAQCBzdGF0aWMgYm9vbCBlbnN1cmVfdGFibGUoQ3ZlREIgKnNlbGYpDQo+ICsgICAgICAg
+ICByYyA9IHNxbGl0ZTNfZXhlYyhzZWxmLT5kYiwgcXVlcnksIE5VTEwsIE5VTEwsICZlcnIpOw0K
+PiArICAgICAgICAgaWYgKHJjICE9IFNRTElURV9PSykgew0KPiArICAgICAgICAgICAgICAgICBm
+cHJpbnRmKHN0ZGVyciwgImVuc3VyZV90YWJsZSgpOiAlc1xuIiwgZXJyKTsNCj4gKy0gICAgICAg
+ICAgICAgICAgZnJlZShlcnIpOw0KPiArKyAgICAgICAgICAgICAgICBzcWxpdGUzX2ZyZWUoZXJy
+KTsNCj4gKyAgICAgICAgICAgICAgICAgcmV0dXJuIGZhbHNlOw0KPiArICAgICAgICAgfQ0KPiAr
+IA0KPiArQEAgLTk5LDExICs5OSwxMSBAQCBzdGF0aWMgYm9vbCBlbnN1cmVfdGFibGUoQ3ZlREIg
+KnNlbGYpDQo+ICsgICAgICAgICByYyA9IHNxbGl0ZTNfZXhlYyhzZWxmLT5kYiwgcXVlcnksIE5V
+TEwsIE5VTEwsICZlcnIpOw0KPiArICAgICAgICAgaWYgKHJjICE9IFNRTElURV9PSykgew0KPiAr
+ICAgICAgICAgICAgICAgICBmcHJpbnRmKHN0ZGVyciwgImVuc3VyZV90YWJsZSgpOiAlc1xuIiwg
+ZXJyKTsNCj4gKy0gICAgICAgICAgICAgICAgZnJlZShlcnIpOw0KPiArKyAgICAgICAgICAgICAg
+ICBzcWxpdGUzX2ZyZWUoZXJyKTsNCj4gKyAgICAgICAgICAgICAgICAgcmV0dXJuIGZhbHNlOw0K
+PiArICAgICAgICAgfQ0KPiArICAgICAgICAgaWYgKGVycikgew0KPiArLSAgICAgICAgICAgICAg
+ICBmcmVlKGVycik7DQo+ICsrICAgICAgICAgICAgICAgIHNxbGl0ZTNfZnJlZShlcnIpOw0KPiAr
+ICAgICAgICAgfQ0KPiArIA0KPiArICAgICAgICAgcmV0dXJuIHRydWU7DQo+ICstLQ0KPiArMi4x
+LjQNCj4gKw0KPiAtLQ0KPiAyLjEuNA0KPiANCg0KDQo=
 
-On 6 June 2017 at 20:00, Slater, Joseph W (Wind River) <
-joe.slater@windriver.com> wrote:
-
-> A couple of patches have been submitted moving ghostscript from 9.20 to
-> 9.21.  Should I submit a new one fixing the CUPSCONFIG issue, or is the one
-> from Fan Xin being considered instead?
->
->
-The patches are functionally the same from what I can tell (although I
-haven't tested that), so the cups problem is still a thing.
-
-Ross
-
---001a114f0ce84054d00551610ffa
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 6 June 2017 at 20:00, Slater, Joseph W (Wind River) <span dir=3D"ltr">&l=
-t;<a href=3D"mailto:joe.slater@windriver.com" target=3D"_blank">joe.slater@=
-windriver.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" st=
-yle=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><p cl=
-ass=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Calibri=
-&quot;,&quot;sans-serif&quot;;color:#1f497d">A couple of patches have been =
-submitted moving <span class=3D"il">ghostscript</span> from 9.20 to 9.21.=
-=C2=A0 Should I submit a new one fixing the CUPSCONFIG issue, or is the one=
- from Fan
- Xin being considered instead?<u></u><u></u></span></p>
-<p class=3D"MsoNormal"></p></blockquote></div><br>The patches are functiona=
-lly the same from what I can tell (although I haven&#39;t tested that), so =
-the cups problem is still a thing.</div><div class=3D"gmail_extra"><br></di=
-v><div class=3D"gmail_extra">Ross</div></div>
-
---001a114f0ce84054d00551610ffa--
