@@ -1,29 +1,30 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id CDFB171ADD
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 3C15771ADD
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Jun 2017 11:46:11 +0000 (UTC)
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-	by orsmga105.jf.intel.com with ESMTP; 07 Jun 2017 04:46:12 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.39,311,1493708400"; d="scan'208";a="95540662"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by orsmga004.jf.intel.com with ESMTP; 07 Jun 2017 04:46:11 -0700
-To: Jan Kiszka <jan.kiszka@siemens.com>,
+	Wed,  7 Jun 2017 11:52:16 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	v57BqB8P009932
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
+	verify=NOT); Wed, 7 Jun 2017 12:52:12 +0100
+Message-ID: <1496836331.6630.213.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Amarnath Valluri <amarnath.valluri@intel.com>,
 	openembedded-core@lists.openembedded.org
-References: <15e918fb-c2e6-3005-6221-08601c804271@siemens.com>
-	<a60f39a6-8355-82dc-20b2-5f7b3d6397b3@linux.intel.com>
-	<af72aeb2-915e-0c63-60e9-18b6c7bce5ad@siemens.com>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <615663ca-d13f-9bca-6e3d-e5dc22cfaebf@linux.intel.com>
-Date: Wed, 7 Jun 2017 14:43:39 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.8.0
-MIME-Version: 1.0
-In-Reply-To: <af72aeb2-915e-0c63-60e9-18b6c7bce5ad@siemens.com>
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>
-Subject: Re: Fun with npm shrinkwrap
+Date: Wed, 07 Jun 2017 12:52:11 +0100
+In-Reply-To: <1487752042-19804-1-git-send-email-amarnath.valluri@intel.com>
+References: <1486734151-28331-1-git-send-email-amarnath.valluri@intel.com>
+	<1487752042-19804-1-git-send-email-amarnath.valluri@intel.com>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.1 
+Mime-Version: 1.0
+X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.11
+	(dan.rpsys.net [192.168.3.1]);
+	Wed, 07 Jun 2017 12:52:12 +0100 (BST)
+X-Virus-Scanned: clamav-milter 0.99.2 at dan
+X-Virus-Status: Clean
+Cc: Joshua Lock <joshua.g.lock@intel.com>
+Subject: Re: [PATCH v2 01/25] bitbake.conf: support for merged usr with DISTRO_FEATURE usrmerge
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,27 +37,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Jun 2017 11:46:12 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 07 Jun 2017 11:52:17 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On 06/06/2017 06:14 PM, Jan Kiszka wrote:
+On Wed, 2017-02-22 at 10:26 +0200, Amarnath Valluri wrote:
+> From: Joshua Lock <joshua.g.lock@intel.com>
+> 
+> Modify bindir, libdir and sbindir to be exec_prefix/$d, rather than
+> base_prefix/$d, when the usrmerge DISTRO_FEATURE is enabled.
+> 
+> Signed-off-by: Joshua Lock <joshua.g.lock@intel.com>
+> ---
+>  meta/conf/bitbake.conf | 12 ++++++++----
+>  1 file changed, 8 insertions(+), 4 deletions(-)
 
-> Yeah, good points. Probably this problem is also related to OE
-> reimplementing parts of the npm logic.
->
-> But I suppose those concepts won't materialize very soon, will they? I'm
-> also looking for a short-term solution, at least some reasonable tactic
-> to generate such recipes in the meantime. Is there something in that
-> thread I should dig into?
+I was asked to clarify the status of this series. We've taken many of
+the changes but the core changes to bitbake.conf haven't been merged.
 
-What I am getting at is that it would be awesome if you convince your 
-management that npm support in Yocto is a problem that needs a better 
-solution and work on it. Yes, this means you can't work on product 
-development for quite some time; this is the price for using open source 
-projects without a commercial support contract :)
+Ross/I discussed it and we both feel that the bitbake.conf make the
+file pretty unreadable. We'd therefore like to see this implemented as
+a .inc file which gets included when the relevant DISTRO_FEATURE is set
+(or could just be included by the appropriate distro configs). This
+.inc file would then simply override the paths. I believe this would be
+a lot more readable than the current approach which is a key concern in
+the core config.
 
-My apologies if this is not the answer you were seeking.
+The merge of the rest of this feature is therefore pending on the
+development of such a patch, or a discussion convincing Ross/I why we
+shouldn't take that approach for some reason.
 
-Alex
+Cheers,
+
+Richard
 
