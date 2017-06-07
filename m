@@ -1,53 +1,25 @@
-Return-Path: <jpewhacker@gmail.com>
-Received: from mail-io0-f176.google.com (mail-io0-f176.google.com
-	[209.85.223.176])
-	by mail.openembedded.org (Postfix) with ESMTP id D5FE4780D3
+Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	by mail.openembedded.org (Postfix) with ESMTP id 9B92278145
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Jun 2017 15:43:04 +0000 (UTC)
-Received: by mail-io0-f176.google.com with SMTP id b184so8685212ioe.0
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 07 Jun 2017 08:43:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:message-id:subject:to:date:in-reply-to:references:mime-version
-	:content-transfer-encoding;
-	bh=bDa/tjwAP+MgAxZnBeoxhBMgiKP5yqJug7ZULj4CNmw=;
-	b=YNuVeU3w2uwQgHYMZ3uJPjrmOb4sWn1F+EaiyMA+ksNYs5Eww3cKwzX8sHfzIP1I5M
-	/2UcLLXP32a6LEFwxEg82xBraRh10bZrX1GqP1KlUDysCYLOrly2iBPmmJW9c5LJrg4Z
-	L1eUKDgfMDWKoKUa1R2b0YZjuKslnJYQQuRQlN/WDpp4+RvOszsWcZx2wL7eS3ugIKi2
-	sDUlS0TBucB+4dKj0bhAuPKm+nhu46iOZtMjl3+V3flffLJ4Awq/xAKQFFrsR1esu7Wx
-	4mqmQCn82KOvZlGiZFrf8KYVomoLso49y3ZAWqGSWXdO8u65Zfu7iIImNevmtIqOsAww
-	QGYA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:message-id:subject:to:date:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=bDa/tjwAP+MgAxZnBeoxhBMgiKP5yqJug7ZULj4CNmw=;
-	b=fCoMjVwv0numwj/9KttZOYGM89OAPe/uWoGeQbHtiHXOGFsvn8ciqbnMarPUDfdoV6
-	Fxd3kdyiJ+1YeXEc7z0J0Dcfxz1upRx8Ptpi2C/Rvfr6bu96mMmh0jpSE8fgiDCwHW2U
-	wrZFoB4771xd/31MtAUXytJ4kFNAUq2oS3QqTy6JYIg2pPlhk2FjR132p5m0ZiDVzzNW
-	YK/hFOifj7SDk8UjAgnjf1w5T1SnyLGnEIlreWRv8KSl7eg12ULQ4TX7NVrfNRz0rW1j
-	dx1E2DqDOfUEIRWcU18aRNRvwG9XvS0PPcb6fWJM5tDcboRwhbLdDsSFjJr1HODkGafL
-	m4dg==
-X-Gm-Message-State: AODbwcAY6mpmfm3v78DjM3pD5B5qJRiwtnKWv4ZDm/JmauigjlABQpUn
-	5lv1MEc2EGEx1Q==
-X-Received: by 10.107.167.197 with SMTP id q188mr30850284ioe.110.1496850185813;
-	Wed, 07 Jun 2017 08:43:05 -0700 (PDT)
-Received: from ola-842mrw1.ad.garmin.com ([204.77.163.55])
-	by smtp.googlemail.com with ESMTPSA id
-	y40sm10808870ita.2.2017.06.07.08.43.04
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 07 Jun 2017 08:43:04 -0700 (PDT)
-From: Joshua Watt <jpewhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
-Message-ID: <1496850184.21235.1.camel@gmail.com>
-To: Patrick Ohly <patrick.ohly@intel.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Wed, 07 Jun 2017 10:43:04 -0500
-In-Reply-To: <cover.8ea05a588020117b72a57015f699c7acd76b93e6.1496849345.git-series.patrick.ohly@intel.com>
-References: <cover.8ea05a588020117b72a57015f699c7acd76b93e6.1496849345.git-series.patrick.ohly@intel.com>
-X-Mailer: Evolution 3.22.6 (3.22.6-2.fc25) 
+	Wed,  7 Jun 2017 15:55:03 +0000 (UTC)
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+	by orsmga105.jf.intel.com with ESMTP; 07 Jun 2017 08:55:02 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.39,311,1493708400"; d="scan'208";a="112050349"
+Received: from lsandov1-mobl2.zpn.intel.com ([10.219.128.119])
+	by fmsmga006.fm.intel.com with ESMTP; 07 Jun 2017 08:55:01 -0700
+Message-ID: <1496851429.26945.132.camel@linux.intel.com>
+From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+To: Peter Marko <peter.marko@siemens.com>
+Date: Wed, 07 Jun 2017 11:03:49 -0500
+In-Reply-To: <1496815471-23075-5-git-send-email-peter.marko@siemens.com>
+References: <1496815471-23075-1-git-send-email-peter.marko@siemens.com>
+	<1496815471-23075-5-git-send-email-peter.marko@siemens.com>
+X-Mailer: Evolution 3.12.9-1+b1 
 Mime-Version: 1.0
-Subject: Re: [PATCH 0/2] Yocto Compatible 2.0 support code
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v2 4/4] cve-check-tool: fix crash on exceptions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,55 +32,97 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Jun 2017 15:43:05 -0000
+X-List-Received-Date: Wed, 07 Jun 2017 15:55:04 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-On Wed, 2017-06-07 at 17:31 +0200, Patrick Ohly wrote:
-> As discussed in the "[Openembedded-architecture] Yocto Compatible 2.0
-> + signature changes" mail thread, changes in a .bbappend cannot be
-> done unconditionally. Making _append and _remove depend on overrides
-> which get set based on DISTRO_FEATURES is one way of achieving this.
+the commit shortlog does not match what the patch is doing, unless the
+new replaced function is the one avoiding exceptions..
+
+
+
+
+On Wed, 2017-06-07 at 08:04 +0200, Peter Marko wrote:
+> This fixes cve-check-tool crashes on exceptions.
 > 
-> The oe.utils.optional_includes() helper function has not been
-> discussed before. It's an attempt to address concerns by developers
-> that having to write code for (potentially complex) condition
-> checking
-> is error prone and hard to read.
-
-I promise I'm not trying to start a flame war here, and perhaps there
-is history behind this that I'm not aware of but...
-
-Why doesn't bitbake support some sort of "if" statement? It seems like
-most of what we are trying to do could be accomplished with much less
-fuss if one could simply do this in the bb file:
-
- if bb.utils.contains('DISTRO_FEATURES', 'my-feature', d):
-    include foo.inc
-
-One could even eliminate the separate inc file and simply put its
-contents under the conditional (as much fun as it seems to have to open
-a new file just to see what a recipe is doing with a distro feature...)
-
-It would also appear that this could make a lot of other things simpler
-as well (and may even negate the need to backfill DISTRO_FEATURES into
-overrides?)
-
-
+> Signed-off-by: Peter Marko <peter.marko@siemens.com>
+> ---
+>  .../cve-check-tool/cve-check-tool_5.6.4.bb         |  1 +
+>  ...01-Fix-freeing-memory-allocated-by-sqlite.patch | 50 ++++++++++++++++++++++
+>  2 files changed, 51 insertions(+)
+>  create mode 100644 meta/recipes-devtools/cve-check-tool/files/0001-Fix-freeing-memory-allocated-by-sqlite.patch
 > 
-> It depends on the bitbake enhancement that allows including multiple
-> files at once.
+> diff --git a/meta/recipes-devtools/cve-check-tool/cve-check-tool_5.6.4.bb b/meta/recipes-devtools/cve-check-tool/cve-check-tool_5.6.4.bb
+> index 1f906ee..4829b11 100644
+> --- a/meta/recipes-devtools/cve-check-tool/cve-check-tool_5.6.4.bb
+> +++ b/meta/recipes-devtools/cve-check-tool/cve-check-tool_5.6.4.bb
+> @@ -11,6 +11,7 @@ SRC_URI = "https://github.com/ikeydoherty/${BPN}/releases/download/v${PV}/${BP}.
+>             file://0001-print-progress-in-percent-when-downloading-CVE-db.patch \
+>             file://0001-curl-allow-overriding-default-CA-certificate-file.patch \
+>             file://0001-update-Compare-computed-vs-expected-sha256-digit-str.patch \
+> +           file://0001-Fix-freeing-memory-allocated-by-sqlite.patch \
+>            "
+>  
+>  SRC_URI[md5sum] = "c5f4247140fc9be3bf41491d31a34155"
+> diff --git a/meta/recipes-devtools/cve-check-tool/files/0001-Fix-freeing-memory-allocated-by-sqlite.patch b/meta/recipes-devtools/cve-check-tool/files/0001-Fix-freeing-memory-allocated-by-sqlite.patch
+> new file mode 100644
+> index 0000000..4a82cf2
+> --- /dev/null
+> +++ b/meta/recipes-devtools/cve-check-tool/files/0001-Fix-freeing-memory-allocated-by-sqlite.patch
+> @@ -0,0 +1,50 @@
+> +From a3353429652f83bb8b0316500faa88fa2555542d Mon Sep 17 00:00:00 2001
+> +From: Peter Marko <peter.marko@siemens.com>
+> +Date: Thu, 13 Apr 2017 23:09:52 +0200
+> +Subject: [PATCH] Fix freeing memory allocated by sqlite
+> +
+> +Upstream-Status: Backport
+> +Signed-off-by: Peter Marko <peter.marko@siemens.com>
+> +---
+> + src/core.c | 8 ++++----
+> + 1 file changed, 4 insertions(+), 4 deletions(-)
+> +
+> +diff --git a/src/core.c b/src/core.c
+> +index 6263031..6788f16 100644
+> +--- a/src/core.c
+> ++++ b/src/core.c
+> +@@ -82,7 +82,7 @@ static bool ensure_table(CveDB *self)
+> +         rc = sqlite3_exec(self->db, query, NULL, NULL, &err);
+> +         if (rc != SQLITE_OK) {
+> +                 fprintf(stderr, "ensure_table(): %s\n", err);
+> +-                free(err);
+> ++                sqlite3_free(err);
+> +                 return false;
+> +         }
+> +         
+> +@@ -91,7 +91,7 @@ static bool ensure_table(CveDB *self)
+> +         rc = sqlite3_exec(self->db, query, NULL, NULL, &err);
+> +         if (rc != SQLITE_OK) {
+> +                 fprintf(stderr, "ensure_table(): %s\n", err);
+> +-                free(err);
+> ++                sqlite3_free(err);
+> +                 return false;
+> +         }
+> + 
+> +@@ -99,11 +99,11 @@ static bool ensure_table(CveDB *self)
+> +         rc = sqlite3_exec(self->db, query, NULL, NULL, &err);
+> +         if (rc != SQLITE_OK) {
+> +                 fprintf(stderr, "ensure_table(): %s\n", err);
+> +-                free(err);
+> ++                sqlite3_free(err);
+> +                 return false;
+> +         }
+> +         if (err) {
+> +-                free(err);
+> ++                sqlite3_free(err);
+> +         }
+> + 
+> +         return true;
+> +-- 
+> +2.1.4
+> +
+> -- 
+> 2.1.4
 > 
-> Patrick Ohly (2):
->   bitbake.conf: DISTRO_FEATURES as overrides
->   utils.py: helper function for optional include files
-> 
->  meta/conf/bitbake.conf | 17 ++++++++++++++++-
->  meta/lib/oe/utils.py   | 29 +++++++++++++++++++++++++++++
->  2 files changed, 45 insertions(+), 1 deletion(-)
-> 
-> base-commit: 49c255494c1d0704a1c8c428281c81541b05dc3e
-> -- 
-> git-series 0.9.1
+
 
 
