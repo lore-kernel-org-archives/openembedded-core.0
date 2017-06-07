@@ -1,25 +1,20 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	by mail.openembedded.org (Postfix) with ESMTP id EC78177E88
+Return-Path: <ismo.puustinen@intel.com>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	by mail.openembedded.org (Postfix) with ESMTP id 69EA1780D6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Jun 2017 13:25:12 +0000 (UTC)
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by fmsmga105.fm.intel.com with ESMTP; 07 Jun 2017 06:25:14 -0700
+	Wed,  7 Jun 2017 13:49:53 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by orsmga105.jf.intel.com with ESMTP; 07 Jun 2017 06:49:55 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.39,311,1493708400"; d="scan'208";a="271298589"
-Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga004.fm.intel.com with ESMTP; 07 Jun 2017 06:25:13 -0700
-Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
-	by linux.intel.com (Postfix) with ESMTP id CFD585800C1;
-	Wed,  7 Jun 2017 06:25:12 -0700 (PDT)
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
+X-IronPort-AV: E=Sophos;i="5.39,311,1493708400"; d="scan'208";a="865507137"
+Received: from ipuustin-desk.fi.intel.com ([10.237.72.72])
+	by FMSMGA003.fm.intel.com with ESMTP; 07 Jun 2017 06:49:54 -0700
+From: Ismo Puustinen <ismo.puustinen@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  7 Jun 2017 16:24:16 +0300
-Message-Id: <1496841856-27399-1-git-send-email-ed.bartosh@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <20170607123145.1043.50092@do.openembedded.org>
-References: <20170607123145.1043.50092@do.openembedded.org>
-Subject: [PATCH v4] u-boot: enable dhcp for MPC8315 board
+Date: Wed,  7 Jun 2017 16:49:42 +0300
+Message-Id: <20170607134942.13281-1-ismo.puustinen@intel.com>
+X-Mailer: git-send-email 2.9.4
+Subject: [PATCH v2] python3: make readline, gdbm, and db support conditional.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,63 +27,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Jun 2017 13:25:13 -0000
+X-List-Received-Date: Wed, 07 Jun 2017 13:49:54 -0000
 
-Getting ip address from DHCP server is much more convenient
-than setting static ip. It allows to configure u-boot in
-more generic way and to avoid hardcoding static ip in
-u-boot configuration.
+The three libraries' (readline, gdbm, and db) licenses belong to the
+GPLv3 family. Add them to to PACKAGECONFIG so they can be switched off
+if the licensing doesn't allow using them. Python build system
+autodetects the dependencies but doesn't allow them to be explicitly
+disabled, so just deal with the dependencies.
 
-Enabled dhcp client functionality for Yocto reference
-hardware MPC8315E-RDB.
+The defaults in PACKAGECONFIG are the same as before, so there should be
+no change to current users.
 
-Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+Signed-off-by: Ismo Puustinen <ismo.puustinen@intel.com>
 ---
- .../u-boot/files/MPC8315ERDB-enable-DHCP.patch        | 19 +++++++++++++++++++
- meta/recipes-bsp/u-boot/u-boot-common_2017.01.inc     |  4 +++-
- 2 files changed, 22 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-bsp/u-boot/files/MPC8315ERDB-enable-DHCP.patch
+ meta/recipes-devtools/python/python3_3.5.3.bb | 23 +++++++++++++++++++++--
+ 1 file changed, 21 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-bsp/u-boot/files/MPC8315ERDB-enable-DHCP.patch b/meta/recipes-bsp/u-boot/files/MPC8315ERDB-enable-DHCP.patch
-new file mode 100644
-index 0000000..cea52b7
---- /dev/null
-+++ b/meta/recipes-bsp/u-boot/files/MPC8315ERDB-enable-DHCP.patch
-@@ -0,0 +1,19 @@
-+Enabled dhcp client functionality for Yocto reference
-+hardware MPC8315E-RDB.
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
-+
-+diff --git a/configs/MPC8315ERDB_defconfig b/configs/MPC8315ERDB_defconfig
-+index 4e2b705..b02ab1f 100644
-+--- a/configs/MPC8315ERDB_defconfig
-++++ b/configs/MPC8315ERDB_defconfig
-+@@ -9,6 +9,7 @@ CONFIG_HUSH_PARSER=y
-+ CONFIG_CMD_I2C=y
-+ CONFIG_CMD_USB=y
-+ # CONFIG_CMD_SETEXPR is not set
-++CONFIG_CMD_DHCP=y
-+ CONFIG_CMD_MII=y
-+ CONFIG_CMD_PING=y
-+ CONFIG_CMD_EXT2=y
-diff --git a/meta/recipes-bsp/u-boot/u-boot-common_2017.01.inc b/meta/recipes-bsp/u-boot/u-boot-common_2017.01.inc
-index df24c85..8ee1c32 100644
---- a/meta/recipes-bsp/u-boot/u-boot-common_2017.01.inc
-+++ b/meta/recipes-bsp/u-boot/u-boot-common_2017.01.inc
-@@ -9,6 +9,8 @@ PE = "1"
- # repo during parse
- SRCREV = "a705ebc81b7f91bbd0ef7c634284208342901149"
+diff --git a/meta/recipes-devtools/python/python3_3.5.3.bb b/meta/recipes-devtools/python/python3_3.5.3.bb
+index d7c29f2..e9a1e6b 100644
+--- a/meta/recipes-devtools/python/python3_3.5.3.bb
++++ b/meta/recipes-devtools/python/python3_3.5.3.bb
+@@ -1,6 +1,6 @@
+ require recipes-devtools/python/python.inc
  
--SRC_URI = "git://git.denx.de/u-boot.git"
-+SRC_URI = "git://git.denx.de/u-boot.git \
-+    file://MPC8315ERDB-enable-DHCP.patch \
-+"
+-DEPENDS = "python3-native libffi bzip2 db gdbm openssl readline sqlite3 zlib virtual/libintl xz"
++DEPENDS = "python3-native libffi bzip2 openssl sqlite3 zlib virtual/libintl xz"
+ PR = "${INC_PR}.0"
+ PYTHON_MAJMIN = "3.5"
+ PYTHON_BINABI= "${PYTHON_MAJMIN}m"
+@@ -76,6 +76,11 @@ export CROSSPYTHONPATH = "${STAGING_LIBDIR_NATIVE}/python${PYTHON_MAJMIN}/lib-dy
+ # No ctypes option for python 3
+ PYTHONLSBOPTS = ""
  
- S = "${WORKDIR}/git"
++PACKAGECONFIG ??= "readline gdbm db"
++PACKAGECONFIG[readline] = ",,readline"
++PACKAGECONFIG[gdbm] = ",,gdbm"
++PACKAGECONFIG[db] = ",,db"
++
+ do_configure_append() {
+ 	rm -f ${S}/Makefile.orig
+ 	autoreconf -Wcross --verbose --install --force --exclude=autopoint ../Python-${PV}/Modules/_ctypes/libffi
+@@ -194,7 +199,7 @@ require python-${PYTHON_MAJMIN}-manifest.inc
+ 
+ # manual dependency additions
+ RPROVIDES_${PN}-modules = "${PN}"
+-RRECOMMENDS_${PN}-core = "${PN}-readline"
++RRECOMMENDS_${PN}-core = "${@bb.utils.contains('PACKAGECONFIG', 'readline', '${PN}-readline', '', d)}"
+ RRECOMMENDS_${PN}-crypt = "openssl"
+ RRECOMMENDS_${PN}-crypt_class-nativesdk = "nativesdk-openssl"
+ 
+@@ -222,3 +227,17 @@ PACKAGES += "${PN}-man"
+ FILES_${PN}-man = "${datadir}/man"
+ 
+ BBCLASSEXTEND = "nativesdk"
++
++# If readline is not there, don't create python3-readline package. Same
++# for gdbm and db.
++PACKAGES_remove += "${@bb.utils.contains('PACKAGECONFIG', 'readline', '', '${PN}-readline', d)}"
++PROVIDES_remove += "${@bb.utils.contains('PACKAGECONFIG', 'readline', '', '${PN}-readline', d)}"
++RDEPENDS_${PN}-modules_remove += "${@bb.utils.contains('PACKAGECONFIG', 'readline', '', '${PN}-readline', d)}"
++
++PACKAGES_remove += "${@bb.utils.contains('PACKAGECONFIG', 'gdbm', '', '${PN}-gdbm', d)}"
++PROVIDES_remove += "${@bb.utils.contains('PACKAGECONFIG', 'gdbm', '', '${PN}-gdbm', d)}"
++RDEPENDS_${PN}-modules_remove += "${@bb.utils.contains('PACKAGECONFIG', 'gdbm', '', '${PN}-gdbm', d)}"
++
++PACKAGES_remove += "${@bb.utils.contains('PACKAGECONFIG', 'db', '', '${PN}-db', d)}"
++PROVIDES_remove += "${@bb.utils.contains('PACKAGECONFIG', 'db', '', '${PN}-db', d)}"
++RDEPENDS_${PN}-modules_remove += "${@bb.utils.contains('PACKAGECONFIG', 'db', '', '${PN}-db', d)}"
 -- 
-2.1.4
+2.9.4
 
 
