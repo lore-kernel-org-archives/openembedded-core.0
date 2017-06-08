@@ -1,26 +1,26 @@
 Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	by mail.openembedded.org (Postfix) with ESMTP id D14DF78272
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	by mail.openembedded.org (Postfix) with ESMTP id AC8C678281
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Jun 2017 16:15:36 +0000 (UTC)
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-	by fmsmga105.fm.intel.com with ESMTP; 08 Jun 2017 09:15:38 -0700
+	Thu,  8 Jun 2017 16:15:37 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by orsmga105.jf.intel.com with ESMTP; 08 Jun 2017 09:15:39 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.39,315,1493708400"; d="scan'208";a="112031913"
+X-IronPort-AV: E=Sophos;i="5.39,315,1493708400"; d="scan'208";a="1179989154"
 Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga005.fm.intel.com with ESMTP; 08 Jun 2017 09:15:38 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 08 Jun 2017 09:15:39 -0700
 Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
-	by linux.intel.com (Postfix) with ESMTP id 16CFD5806E6
+	by linux.intel.com (Postfix) with ESMTP id 220F55806E6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Jun 2017 09:15:36 -0700 (PDT)
+	Thu,  8 Jun 2017 09:15:37 -0700 (PDT)
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  8 Jun 2017 19:13:06 +0300
-Message-Id: <c9a5fa4b2b4b8f72403cff0574270a4639cf03a1.1496938139.git.ed.bartosh@linux.intel.com>
+Date: Thu,  8 Jun 2017 19:13:07 +0300
+Message-Id: <2d86b22613bab03c31bed13da243e06d4179d89a.1496938139.git.ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1496938139.git.ed.bartosh@linux.intel.com>
 References: <cover.1496938139.git.ed.bartosh@linux.intel.com>
-Subject: [PATCH 24/25] wic: implement removing directories
+Subject: [PATCH 25/25] selftest: add test_wic_rm test case
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,63 +35,53 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 08 Jun 2017 16:15:37 -0000
 
-Added support for removing directories using mdeltree
-utility to Disk.del method
-
-[YOCTO #11283]
+Added test case for "wic rm" functionality.
+    - remove file from vfat partition
+    - remove directory from vfat partition
 
 Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 ---
- scripts/lib/wic/engine.py | 22 ++++++++++++++++++----
- 1 file changed, 18 insertions(+), 4 deletions(-)
+ meta/lib/oeqa/selftest/cases/wic.py | 30 ++++++++++++++++++++++++++++++
+ 1 file changed, 30 insertions(+)
 
-diff --git a/scripts/lib/wic/engine.py b/scripts/lib/wic/engine.py
-index 6fc8bb7..2c899dd 100644
---- a/scripts/lib/wic/engine.py
-+++ b/scripts/lib/wic/engine.py
-@@ -239,6 +239,7 @@ class Disk:
-         self._mdir = None
-         self._mcopy = None
-         self._mdel = None
-+        self._mdeltree = None
-         self._partimages = {}
- 
-         # find parted
-@@ -290,6 +291,10 @@ class Disk:
-     def mdel(self):
-         return self._prop("mdel")
- 
-+    @property
-+    def mdeltree(self):
-+        return self._prop("mdeltree")
+diff --git a/meta/lib/oeqa/selftest/cases/wic.py b/meta/lib/oeqa/selftest/cases/wic.py
+index 5034587..76cf8d0 100644
+--- a/meta/lib/oeqa/selftest/cases/wic.py
++++ b/meta/lib/oeqa/selftest/cases/wic.py
+@@ -855,3 +855,33 @@ part /etc --source rootfs --ondisk mmcblk0 --fstype=ext4 --exclude-path bin/ --r
+             self.assertEqual(0, result.status)
+             self.assertEqual(8, len(result.output.split('\n')))
+             self.assertTrue(os.path.basename(testdir) in result.output)
 +
-     def _get_part_image(self, pnum):
-         if pnum not in self.partitions:
-             raise WicError("Partition %s is not in the image")
-@@ -325,10 +330,19 @@ class Disk:
- 
-     def remove(self, pnum, path):
-         """Remove files/dirs from the partition."""
--        cmd = "{} -i {} ::{}".format(self.mdel,
--                                     self._get_part_image(pnum),
--                                     path)
--        exec_cmd(cmd)
-+        partimg = self._get_part_image(pnum)
-+        cmd = "{} -i {} ::{}".format(self.mdel, partimg, path)
-+        try:
-+            exec_cmd(cmd)
-+        except WicError as err:
-+            if "not found" in str(err) or "non empty" in str(err):
-+                # mdel outputs 'File ... not found' or 'directory .. non empty"
-+                # try to use mdeltree as path could be a directory
-+                cmd = "{} -i {} ::{}".format(self.mdeltree,
-+                                             partimg, path)
-+                exec_cmd(cmd)
-+            else:
-+                raise err
-         self._put_part_image(pnum)
- 
- def wic_ls(args, native_sysroot):
++    def test_wic_rm(self):
++        """Test removing files and directories from the the wic image."""
++        self.assertEqual(0, runCmd("wic create mkefidisk "
++                                   "--image-name=core-image-minimal "
++                                   "-D -o %s" % self.resultdir).status)
++        images = glob(self.resultdir + "mkefidisk-*.direct")
++        self.assertEqual(1, len(images))
++
++        sysroot = get_bb_var('RECIPE_SYSROOT_NATIVE', 'wic-tools')
++
++        # list directory content of the first partition
++        result = runCmd("wic ls %s:1 -n %s" % (images[0], sysroot))
++        self.assertEqual(0, result.status)
++        self.assertTrue('\nbzimage        ' in result.output)
++        self.assertTrue('\nefi          <DIR>     ' in result.output)
++
++        # remove file
++        result = runCmd("wic rm %s:1/bzimage -n %s" % (images[0], sysroot))
++        self.assertEqual(0, result.status)
++
++        # remove directory
++        result = runCmd("wic rm %s:1/efi -n %s" % (images[0], sysroot))
++        self.assertEqual(0, result.status)
++
++        # check if they're removed
++        result = runCmd("wic ls %s:1 -n %s" % (images[0], sysroot))
++        self.assertEqual(0, result.status)
++        self.assertFalse('\nbzimage        ' in result.output)
++        self.assertFalse('\nefi          <DIR>     ' in result.output)
 -- 
 2.1.4
 
