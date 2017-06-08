@@ -1,26 +1,26 @@
 Return-Path: <anibal.limon@linux.intel.com>
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 1D90378285
+	by mail.openembedded.org (Postfix) with ESMTP id 1DBE778286
 	for <openembedded-core@lists.openembedded.org>;
 	Thu,  8 Jun 2017 16:32:08 +0000 (UTC)
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
 	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	08 Jun 2017 09:32:08 -0700
+	08 Jun 2017 09:32:09 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.39,315,1493708400"; d="scan'208";a="271875695"
+X-IronPort-AV: E=Sophos;i="5.39,315,1493708400"; d="scan'208";a="271875698"
 Received: from alimonb-mobl1.zpn.intel.com ([10.219.128.117])
-	by fmsmga004.fm.intel.com with ESMTP; 08 Jun 2017 09:32:07 -0700
+	by fmsmga004.fm.intel.com with ESMTP; 08 Jun 2017 09:32:08 -0700
 From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  8 Jun 2017 11:32:06 -0500
-Message-Id: <cb7f0a9dcd9d5038ec5f41755f8fac5347f1355c.1496939387.git.anibal.limon@linux.intel.com>
+Date: Thu,  8 Jun 2017 11:32:07 -0500
+Message-Id: <0ffac7a80b8afebf7d8f79c54d84f6a123f3b9c3.1496939387.git.anibal.limon@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1496939387.git.anibal.limon@linux.intel.com>
 References: <cover.1496939387.git.anibal.limon@linux.intel.com>
 In-Reply-To: <cover.1496939387.git.anibal.limon@linux.intel.com>
 References: <cover.1496939387.git.anibal.limon@linux.intel.com>
 MIME-Version: 1.0
-Subject: [PATCH 6/7] oeqa/cases/oelib: Change default case class to unittest.case.TestCase
+Subject: [PATCH 7/7] oeqa/core/loader: Fix filtering on test modules with submodules
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,126 +37,135 @@ X-List-Received-Date: Thu, 08 Jun 2017 16:32:09 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Some tests doesn't need call bitbake so it is better to use the
-basic unittest case class.
+Our filtering allows to specify which tests to run using,
 
-[YOCTO #10828]
+<module_name>.[test_class].[test_name]
+
+But the module name logic was restricted to only accept one level,
+for example: runtime_test vs oelib.types, to support multiple
+submodules use only the first part for filtering.
+
+This allows to run the whole tests in a module with more than tree
+levels.
+
+Due to the ambiguity on the test filtering options with test cases
+with more than tree levels the supported sytnax is,
+
+<module>
+
+or
+
+<module>.[submoduleN].[test_class].[test_name]
+
+[YOCTO #11632]
 
 Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
 ---
- meta/lib/oeqa/selftest/cases/oelib/elf.py     | 4 ++--
- meta/lib/oeqa/selftest/cases/oelib/license.py | 6 +++---
- meta/lib/oeqa/selftest/cases/oelib/path.py    | 4 ++--
- meta/lib/oeqa/selftest/cases/oelib/types.py   | 6 +++---
- meta/lib/oeqa/selftest/cases/oelib/utils.py   | 6 +++---
- 5 files changed, 13 insertions(+), 13 deletions(-)
+ meta/lib/oeqa/core/loader.py | 70 +++++++++++++++++++++-----------------------
+ 1 file changed, 34 insertions(+), 36 deletions(-)
 
-diff --git a/meta/lib/oeqa/selftest/cases/oelib/elf.py b/meta/lib/oeqa/selftest/cases/oelib/elf.py
-index 0451eba..74ee6a1 100644
---- a/meta/lib/oeqa/selftest/cases/oelib/elf.py
-+++ b/meta/lib/oeqa/selftest/cases/oelib/elf.py
-@@ -1,7 +1,7 @@
--from oeqa.selftest.case import OESelftestTestCase
-+from unittest.case import TestCase
- import oe.qa
- 
--class TestElf(OESelftestTestCase):
-+class TestElf(TestCase):
-     def test_machine_name(self):
+diff --git a/meta/lib/oeqa/core/loader.py b/meta/lib/oeqa/core/loader.py
+index b9385ea..d110881 100644
+--- a/meta/lib/oeqa/core/loader.py
++++ b/meta/lib/oeqa/core/loader.py
+@@ -164,8 +164,11 @@ class OETestLoader(unittest.TestLoader):
          """
-         Test elf_machine_to_string()
-diff --git a/meta/lib/oeqa/selftest/cases/oelib/license.py b/meta/lib/oeqa/selftest/cases/oelib/license.py
-index a6d9c9a..bfd9ed9 100644
---- a/meta/lib/oeqa/selftest/cases/oelib/license.py
-+++ b/meta/lib/oeqa/selftest/cases/oelib/license.py
-@@ -1,4 +1,4 @@
--from oeqa.selftest.case import OESelftestTestCase
-+from unittest.case import TestCase
- import oe.license
- 
- class SeenVisitor(oe.license.LicenseVisitor):
-@@ -9,7 +9,7 @@ class SeenVisitor(oe.license.LicenseVisitor):
-     def visit_Str(self, node):
-         self.seen.append(node.s)
- 
--class TestSingleLicense(OESelftestTestCase):
-+class TestSingleLicense(TestCase):
-     licenses = [
-         "GPLv2",
-         "LGPL-2.0",
-@@ -37,7 +37,7 @@ class TestSingleLicense(OESelftestTestCase):
-                 self.parse(license)
-             self.assertEqual(cm.exception.license, license)
- 
--class TestSimpleCombinations(OESelftestTestCase):
-+class TestSimpleCombinations(TestCase):
-     tests = {
-         "FOO&BAR": ["FOO", "BAR"],
-         "BAZ & MOO": ["BAZ", "MOO"],
-diff --git a/meta/lib/oeqa/selftest/cases/oelib/path.py b/meta/lib/oeqa/selftest/cases/oelib/path.py
-index 2ae5eaf..75a27c0 100644
---- a/meta/lib/oeqa/selftest/cases/oelib/path.py
-+++ b/meta/lib/oeqa/selftest/cases/oelib/path.py
-@@ -1,11 +1,11 @@
--from oeqa.selftest.case import OESelftestTestCase
-+from unittest.case import TestCase
- import oe, oe.path
- import tempfile
- import os
- import errno
- import shutil
- 
--class TestRealPath(OESelftestTestCase):
-+class TestRealPath(TestCase):
-     DIRS = [ "a", "b", "etc", "sbin", "usr", "usr/bin", "usr/binX", "usr/sbin", "usr/include", "usr/include/gdbm" ]
-     FILES = [ "etc/passwd", "b/file" ]
-     LINKS = [
-diff --git a/meta/lib/oeqa/selftest/cases/oelib/types.py b/meta/lib/oeqa/selftest/cases/oelib/types.py
-index 99c8404..6b53aa6 100644
---- a/meta/lib/oeqa/selftest/cases/oelib/types.py
-+++ b/meta/lib/oeqa/selftest/cases/oelib/types.py
-@@ -1,7 +1,7 @@
--from oeqa.selftest.case import OESelftestTestCase
-+from unittest.case import TestCase
- from oe.maketype import create
- 
--class TestBooleanType(OESelftestTestCase):
-+class TestBooleanType(TestCase):
-     def test_invalid(self):
-         self.assertRaises(ValueError, create, '', 'boolean')
-         self.assertRaises(ValueError, create, 'foo', 'boolean')
-@@ -31,7 +31,7 @@ class TestBooleanType(OESelftestTestCase):
-         self.assertEqual(create('y', 'boolean'), True)
-         self.assertNotEqual(create('y', 'boolean'), False)
- 
--class TestList(OESelftestTestCase):
-+class TestList(TestCase):
-     def assertListEqual(self, value, valid, sep=None):
-         obj = create(value, 'list', separator=sep)
-         self.assertEqual(obj, valid)
-diff --git a/meta/lib/oeqa/selftest/cases/oelib/utils.py b/meta/lib/oeqa/selftest/cases/oelib/utils.py
-index 5bc5fff..9fb6c15 100644
---- a/meta/lib/oeqa/selftest/cases/oelib/utils.py
-+++ b/meta/lib/oeqa/selftest/cases/oelib/utils.py
-@@ -1,7 +1,7 @@
--from oeqa.selftest.case import OESelftestTestCase
-+from unittest.case import TestCase
- from oe.utils import packages_filter_out_system, trim_version
- 
--class TestPackagesFilterOutSystem(OESelftestTestCase):
-+class TestPackagesFilterOutSystem(TestCase):
-     def test_filter(self):
+             Returns True if test case must be filtered, False otherwise.
          """
-         Test that oe.utils.packages_filter_out_system works.
-@@ -31,7 +31,7 @@ class TestPackagesFilterOutSystem(OESelftestTestCase):
-         self.assertEqual(pkgs, ["foo-data"])
+-        # Filters by module.class.name
+-        module_name = case.__module__
++        # XXX; If the module has more than one namespace only use
++        # the first to support run the whole module specifying the
++        # <module_name>.[test_class].[test_name]
++        module_name = case.__module__.split('.')[0]
++
+         class_name = case.__class__.__name__
+         test_name = case._testMethodName
  
+@@ -280,6 +283,33 @@ class OETestLoader(unittest.TestLoader):
  
--class TestTrimVersion(OESelftestTestCase):
-+class TestTrimVersion(TestCase):
-     def test_version_exception(self):
-         with self.assertRaises(TypeError):
-             trim_version(None, 2)
+         return self.suiteClass(cases) if cases else big_suite
+ 
++    def _filterModule(self, module):
++        if module.__name__ in sys.builtin_module_names:
++            msg = 'Tried to import %s test module but is a built-in'
++            raise ImportError(msg % module.__name__)
++
++        # XXX; If the module has more than one namespace only use
++        # the first to support run the whole module specifying the
++        # <module_name>.[test_class].[test_name]
++        module_name = module.__name__.split('.')[0]
++
++        # Normal test modules are loaded if no modules were specified,
++        # if module is in the specified module list or if 'all' is in
++        # module list.
++        # Underscore modules are loaded only if specified in module list.
++        load_module = True if not module_name.startswith('_') \
++                              and (not self.modules \
++                                   or module_name in self.modules \
++                                   or 'all' in self.modules) \
++                           else False
++
++        load_underscore = True if module_name.startswith('_') \
++                                  and module_name in self.modules \
++                               else False
++
++        return (load_module, load_underscore)
++
++
+     # XXX After Python 3.5, remove backward compatibility hacks for
+     # use_load_tests deprecation via *args and **kws.  See issue 16662.
+     if sys.version_info >= (3,5):
+@@ -287,23 +317,7 @@ class OETestLoader(unittest.TestLoader):
+             """
+                 Returns a suite of all tests cases contained in module.
+             """
+-            if module.__name__ in sys.builtin_module_names:
+-                msg = 'Tried to import %s test module but is a built-in'
+-                raise ImportError(msg % module.__name__)
+-
+-            # Normal test modules are loaded if no modules were specified,
+-            # if module is in the specified module list or if 'all' is in
+-            # module list.
+-            # Underscore modules are loaded only if specified in module list.
+-            load_module = True if not module.__name__.startswith('_') \
+-                                  and (not self.modules \
+-                                       or module.__name__ in self.modules \
+-                                       or 'all' in self.modules) \
+-                               else False
+-
+-            load_underscore = True if module.__name__.startswith('_') \
+-                                      and module.__name__ in self.modules \
+-                                   else False
++            load_module, load_underscore = self._filterModule(module)
+ 
+             if load_module or load_underscore:
+                 return super(OETestLoader, self).loadTestsFromModule(
+@@ -315,23 +329,7 @@ class OETestLoader(unittest.TestLoader):
+             """
+                 Returns a suite of all tests cases contained in module.
+             """
+-            if module.__name__ in sys.builtin_module_names:
+-                msg = 'Tried to import %s test module but is a built-in'
+-                raise ImportError(msg % module.__name__)
+-
+-            # Normal test modules are loaded if no modules were specified,
+-            # if module is in the specified module list or if 'all' is in
+-            # module list.
+-            # Underscore modules are loaded only if specified in module list.
+-            load_module = True if not module.__name__.startswith('_') \
+-                                  and (not self.modules \
+-                                       or module.__name__ in self.modules \
+-                                       or 'all' in self.modules) \
+-                               else False
+-
+-            load_underscore = True if module.__name__.startswith('_') \
+-                                      and module.__name__ in self.modules \
+-                                   else False
++            load_module, load_underscore = self._filterModule(module)
+ 
+             if load_module or load_underscore:
+                 return super(OETestLoader, self).loadTestsFromModule(
 -- 
 2.1.4
 
