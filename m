@@ -1,31 +1,49 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id A5DB1781F2
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qt0-f170.google.com (mail-qt0-f170.google.com
+	[209.85.216.170])
+	by mail.openembedded.org (Postfix) with ESMTP id A5FF677CF1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Jun 2017 11:31:13 +0000 (UTC)
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	08 Jun 2017 04:31:14 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.39,314,1493708400"; d="scan'208";a="110683094"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by orsmga005.jf.intel.com with ESMTP; 08 Jun 2017 04:31:13 -0700
-To: Jose Perez Carranza <jose.perez.carranza@linux.intel.com>,
-	"Burton, Ross" <ross.burton@intel.com>
-References: <a5c78ee6-8320-7508-18d1-16762bed364c@linux.intel.com>
-	<20170515135023.4090-1-jose.perez.carranza@linux.intel.com>
-	<CAJTo0LYe=7Ug3wJSWwPX5VT=cy7GDe0Kf79uPFmC1tMj-0b-6Q@mail.gmail.com>
-	<e1d6c111-bd9d-af76-ae44-d6921c723ba6@linux.intel.com>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <1fc0defa-748a-bff4-2f72-7bc0d0f160d9@linux.intel.com>
-Date: Thu, 8 Jun 2017 14:31:13 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.8.0
+	Thu,  8 Jun 2017 11:53:56 +0000 (UTC)
+Received: by mail-qt0-f170.google.com with SMTP id u12so37983691qth.0
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 08 Jun 2017 04:53:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=uG6TG382vHFIn3emijPNM5HEWbW+ASXXS3NVJgGE/DY=;
+	b=yRhPRWLYKv7uz1Gp2ozJxlypwCxtSj3VdfqbP5XH2+//HJ2UwwdYDhVpXr4uVD2LiN
+	c1mjZIYBZwsJIjCytQvoFpqJAf+F0JEpggXpdMWw4EWRYtFRQTG4utK+59imExdxZKOI
+	1/DCkVv+vy9PVah/1Sw/sDc2aWttmvgG1qj8ZtSuGiAE/sDND5b385Z8kK3ENLDiS3Tk
+	LQ700RNR1qjZHfTLd54cod7J4a8Hdiz8E8yJAdbMETTU+TRF6UafSKbljq06I2BSoECH
+	rl6vD0Vx/0jQmNgpIak+Hs9/iKNxDGch0BUinx9yKkzLK3vof9LHCWok615doYgLxzB9
+	O9xw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=uG6TG382vHFIn3emijPNM5HEWbW+ASXXS3NVJgGE/DY=;
+	b=mvxQZi2KMgY01jbb/Pv3s925ftraHSkDqq8KWGBDhrdgOQIwoMgAkEXmYJXcF89F/s
+	oJhNdqfJ4Bjtb4pWzcXQL4VlP8cUuJ3Y+3uyufYmRVEwQO0pnJ/+SjrWa2GBHC2AxbHC
+	nj1VxRdF33UUwjI6GqSGxtXOsFc+Kr1Zt2He4OYuxdqipoV6wx02Ha/UW4Loxb63+KQv
+	b+tlQLw1WufGzvb7OqMGGN9HMIwM+jCntkFco3LFc/xCdDRaTrv66tpi4zJ133UNhAuI
+	d5D6/TZ+hUu/UgKWmfbTwmAu8/ZBJ8Dij7sIKIFDvy4qiQsOOmuwNa/E3lFyCnuSXro8
+	Fkrw==
+X-Gm-Message-State: AKS2vOzmhDHPA3vG591mdtVZeiBuwFasfyX/HaK+ZIXnBbkaqLKFY4IM
+	eYir6hdoxWeiHr6CKTpQvjSlUs1ct7cO
+X-Received: by 10.55.42.30 with SMTP id q30mr21861283qkh.109.1496922837471;
+	Thu, 08 Jun 2017 04:53:57 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <e1d6c111-bd9d-af76-ae44-d6921c723ba6@linux.intel.com>
+Received: by 10.140.35.103 with HTTP; Thu, 8 Jun 2017 04:53:36 -0700 (PDT)
+In-Reply-To: <CANwerB08=Ae416bR-HQXcJ2-yJ=0ezfu51YSKexcDxzHSUfw-Q@mail.gmail.com>
+References: <20170608110754.32445-1-net147@gmail.com>
+	<CAJTo0LZcKVgrHp4M+7JizD+KM2S-qCxi=yKDnGBJ9AvziLikuQ@mail.gmail.com>
+	<CANwerB08=Ae416bR-HQXcJ2-yJ=0ezfu51YSKexcDxzHSUfw-Q@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 8 Jun 2017 12:53:36 +0100
+Message-ID: <CAJTo0LYb1UqbK7=EdE+92S1oTfvZz5awr_O05WrgMbSyU4Atjw@mail.gmail.com>
+To: Jonathan Liu <net147@gmail.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v3] runtime/dnf: Add new dnf test cases
+Subject: Re: [master][pyro][PATCH] image-vm: Avoid use of fold, tac and paste commands for DISK_SIGNATURE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,27 +56,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Jun 2017 11:31:13 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 08 Jun 2017 11:53:57 -0000
+Content-Type: multipart/alternative; boundary="001a11493f02fbfd4e0551718156"
 
-On 06/07/2017 08:31 PM, Jose Perez Carranza wrote:
-> When I tried this test image was built without using states hence
-> "busybox*.rpm" and "curl*.rpm"where present under
-> "tmp/deploy/rpm/core2_64" hence the repo i taking tha packages form
-> there to add them to repo and used on the image, but when using sstates
-> those packages are not being built so are not present on local build
-> directory. is there any way to force those packages to be built to have
-> them available on tmp/deploy/rpm/core2_64?
+--001a11493f02fbfd4e0551718156
+Content-Type: text/plain; charset="UTF-8"
 
-I can try to help if you provide steps to reproduce: if I merely do
+On 8 June 2017 at 12:21, Jonathan Liu <net147@gmail.com> wrote:
 
-rm -rf build/tmp
-bitbake core-image-sato
+> For example:
+> $ echo $(false)
+>
+> $ echo $?
+> 0
+>
 
-then the build/tmp/deploy/rpm directory gets fully re-populated.
+I stand corrected.  Thanks, sh.
 
+Ross
 
-Alex
+--001a11493f02fbfd4e0551718156
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 8 June 2017 at 12:21, Jonathan Liu <span dir=3D"ltr">&lt;<a href=3D"mail=
+to:net147@gmail.com" target=3D"_blank">net147@gmail.com</a>&gt;</span> wrot=
+e:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-l=
+eft:1px #ccc solid;padding-left:1ex"><div id=3D":3i" class=3D"a3s aXjCH m15=
+c87719204ca330">For example:<br>
+$ echo $(false)<br>
+<br>
+$ echo $?<br>
+0<br></div></blockquote></div><br>I stand corrected.=C2=A0 Thanks, sh.</div=
+><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div>=
+</div>
 
+--001a11493f02fbfd4e0551718156--
