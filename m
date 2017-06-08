@@ -1,27 +1,27 @@
 Return-Path: <ed.bartosh@linux.intel.com>
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 2B6B36FF73
+	by mail.openembedded.org (Postfix) with ESMTP id 7658D71BD4
 	for <openembedded-core@lists.openembedded.org>;
 	Thu,  8 Jun 2017 16:16:03 +0000 (UTC)
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
 	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	08 Jun 2017 09:15:38 -0700
+	08 Jun 2017 09:15:39 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.39,315,1493708400"; d="scan'208";a="271866009"
+X-IronPort-AV: E=Sophos;i="5.39,315,1493708400"; d="scan'208";a="271866078"
 Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga004.fm.intel.com with ESMTP; 08 Jun 2017 09:15:27 -0700
+	by fmsmga004.fm.intel.com with ESMTP; 08 Jun 2017 09:15:35 -0700
 Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
-	by linux.intel.com (Postfix) with ESMTP id 73F6A5806E6
+	by linux.intel.com (Postfix) with ESMTP id D5F8958029B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Jun 2017 09:15:26 -0700 (PDT)
+	Thu,  8 Jun 2017 09:15:33 -0700 (PDT)
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  8 Jun 2017 19:12:56 +0300
-Message-Id: <d184472029d734d831703b3e2b88f5a98f93c41b.1496938139.git.ed.bartosh@linux.intel.com>
+Date: Thu,  8 Jun 2017 19:13:03 +0300
+Message-Id: <1de22a24d434b511c6593029ab7b95815e9b2c22.1496938139.git.ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1496938139.git.ed.bartosh@linux.intel.com>
 References: <cover.1496938139.git.ed.bartosh@linux.intel.com>
-Subject: [PATCH 14/25] filemap: change signature of sparse_copy function
+Subject: [PATCH 21/25] wic: add help and usage content for 'wic rm'
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,66 +36,92 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 08 Jun 2017 16:16:03 -0000
 
-Renamed parameter offset->skip to match names of dd
-parameters.
-
-Changed affected sparse_copy calls.
-
-Added explanation of the parameters to docstring.
+Added wic_rm_help and wic_rm_usage variables to help.py.
+These variables contain help content that will be used in
+'wic rm help' and 'wic rm --help' output.
 
 Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 ---
- scripts/lib/wic/filemap.py               | 15 ++++++++++++---
- scripts/lib/wic/plugins/imager/direct.py |  2 +-
- 2 files changed, 13 insertions(+), 4 deletions(-)
+ scripts/lib/wic/help.py | 59 ++++++++++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 58 insertions(+), 1 deletion(-)
 
-diff --git a/scripts/lib/wic/filemap.py b/scripts/lib/wic/filemap.py
-index 8fe302a..8719f44 100644
---- a/scripts/lib/wic/filemap.py
-+++ b/scripts/lib/wic/filemap.py
-@@ -530,9 +530,18 @@ def filemap(image, log=None):
-     except ErrorNotSupp:
-         return FilemapSeek(image, log)
+diff --git a/scripts/lib/wic/help.py b/scripts/lib/wic/help.py
+index e93ac4b..23d943c 100644
+--- a/scripts/lib/wic/help.py
++++ b/scripts/lib/wic/help.py
+@@ -395,7 +395,7 @@ DESCRIPTION
+     The second form of the command copies file or directory to the specified directory
+     on the vfat partition:
+        $ wic cp test tmp/deploy/images/qemux86-64/core-image-minimal-qemux86-64.wic:1/efi/
+-       $ wic ls tmp/deploy/images/qemux86-64/core-image-minimal-qemux86-64.wic:1/eti/
++       $ wic ls tmp/deploy/images/qemux86-64/core-image-minimal-qemux86-64.wic:1/efi/
+        Volume in drive : is boot
+         Volume Serial Number is DB4C-FD4C
+        Directory for ::/efi
+@@ -411,6 +411,63 @@ DESCRIPTION
+     containing the tools(parted and mtools) to use.
+ """
  
--def sparse_copy(src_fname, dst_fname, offset=0, skip=0,
-+def sparse_copy(src_fname, dst_fname, skip=0, seek=0,
-                 length=0, api=None):
--    """Efficiently copy sparse file to or into another file."""
-+    """
-+    Efficiently copy sparse file to or into another file.
++wic_rm_usage = """
 +
-+    src_fname: path to source file
-+    dst_fname: path to destination file
-+    skip: skip N bytes at thestart of src
-+    seek: seek N bytes from the start of dst
-+    length: read N bytes from src and write them to dst
-+    api: FilemapFiemap or FilemapSeek object
-+    """
-     if not api:
-         api = filemap
-     fmap = api(src_fname)
-@@ -554,7 +563,7 @@ def sparse_copy(src_fname, dst_fname, offset=0, skip=0,
-             start = skip
++ Remove files or directories from the vfat partitions
++
++ usage: wic rm <image>:<vfat partition><path> [--native-sysroot <path>]
++
++ This command  removes files or directories from the vfat partitions of partitioned
++ image.
++
++ See 'wic help rm' for more detailed instructions.
++
++"""
++
++wic_rm_help = """
++
++NAME
++    wic rm - remove files or directories from the vfat partitions
++
++SYNOPSIS
++    wic rm <src> <image>:<vfat partition><path>
++    wic rm <src> <image>:<vfat partition><path> --native-sysroot <path>
++
++DESCRIPTION
++    This command removes files or directories from the vfat partition of the
++    wic image:
++
++        $ wic ls ./tmp/deploy/images/qemux86-64/core-image-minimal-qemux86-64.wic:1
++        Volume in drive : is boot
++         Volume Serial Number is 11D0-DE21
++        Directory for ::/
++
++        libcom32 c32    186500 2017-06-02  15:15
++        libutil  c32     24148 2017-06-02  15:15
++        syslinux cfg       209 2017-06-02  15:15
++        vesamenu c32     27104 2017-06-02  15:15
++        vmlinuz        6926384 2017-06-02  15:15
++                5 files           7 164 345 bytes
++                                 16 582 656 bytes free
++
++        $ wic rm ./tmp/deploy/images/qemux86-64/core-image-minimal-qemux86-64.wic:1/libutil.c32
++
++        $ wic ls ./tmp/deploy/images/qemux86-64/core-image-minimal-qemux86-64.wic:1
++        Volume in drive : is boot
++         Volume Serial Number is 11D0-DE21
++        Directory for ::/
++
++        libcom32 c32    186500 2017-06-02  15:15
++        syslinux cfg       209 2017-06-02  15:15
++        vesamenu c32     27104 2017-06-02  15:15
++        vmlinuz        6926384 2017-06-02  15:15
++                4 files           7 140 197 bytes
++                                 16 607 232 bytes free
++
++    The -n option is used to specify the path to the native sysroot
++    containing the tools(parted and mtools) to use.
++"""
++
+ wic_plugins_help = """
  
-         fmap._f_image.seek(start, os.SEEK_SET)
--        dst_file.seek(offset + start - skip, os.SEEK_SET)
-+        dst_file.seek(seek + start - skip, os.SEEK_SET)
- 
-         chunk_size = 1024 * 1024
-         to_read = end - start
-diff --git a/scripts/lib/wic/plugins/imager/direct.py b/scripts/lib/wic/plugins/imager/direct.py
-index f2e6127..3cdedd1 100644
---- a/scripts/lib/wic/plugins/imager/direct.py
-+++ b/scripts/lib/wic/plugins/imager/direct.py
-@@ -550,7 +550,7 @@ class PartitionedImage():
-             source = part.source_file
-             if source:
-                 # install source_file contents into a partition
--                sparse_copy(source, self.path, part.start * self.sector_size)
-+                sparse_copy(source, self.path, seek=part.start * self.sector_size)
- 
-                 logger.debug("Installed %s in partition %d, sectors %d-%d, "
-                              "size %d sectors", source, part.num, part.start,
+ NAME
 -- 
 2.1.4
 
