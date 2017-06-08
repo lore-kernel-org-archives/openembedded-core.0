@@ -1,31 +1,56 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 937C1781DC
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-io0-f174.google.com (mail-io0-f174.google.com
+	[209.85.223.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 47E8C78277
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Jun 2017 14:33:26 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	v58EXLcq018121
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Thu, 8 Jun 2017 15:33:22 +0100
-Message-ID: <1496932400.6630.250.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Joshua Watt <jpewhacker@gmail.com>, Patrick Ohly <patrick.ohly@intel.com>,
-	openembedded-core@lists.openembedded.org
-Date: Thu, 08 Jun 2017 15:33:20 +0100
-In-Reply-To: <1496930142.8427.2.camel@gmail.com>
+	Thu,  8 Jun 2017 14:36:32 +0000 (UTC)
+Received: by mail-io0-f174.google.com with SMTP id i7so20969122ioe.1
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 08 Jun 2017 07:36:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:organization:mime-version:content-transfer-encoding;
+	bh=hGqUCEAS6I0keG27bP2VMv/rliuNPkSSLGP7I3ymmG8=;
+	b=ZN0xShr9T2FRM7F2moih4wCfiS0l6QacBgMWBVXFB+MCkJuXc33BpsZF1O9SounPIY
+	aYURRHqhGuychxWundMGiRPoqAxmlztMqmorM9SigeWMdUSr9cnGr3fIAu990cW+Bzz2
+	rGKWqn1Y2aodEmUkptbIQ2q9xskgT4x38rlPu+04m6OHeQU8gpraGm4SmfHosiCaQDU9
+	BdfvjudOQD9z+wB0J7WqfZg1FbH2ImPi3nWzKXgg9LPo2+olSYgYcg3D6MnWnI8+WV7B
+	44lmnFk/U10X/yyoOXL1ayuXSQSTh+N++LhynX2onJQ95WGknC2Kgqa/Fhsmbd151ME4
+	NXRA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:organization:mime-version:content-transfer-encoding;
+	bh=hGqUCEAS6I0keG27bP2VMv/rliuNPkSSLGP7I3ymmG8=;
+	b=VUJzSR1YL7sDLYmno7tbEnvRZSr34qdsgRFaJ+vZRz22SHFPI1y9WiCc1CJ3ZOZBsH
+	6QHnNP9F6eo/ajbeAoDDo1tEz2Ekr8WeFojLnirXeuFbRzDz6sKzn2ONbSUYjL4VX2nZ
+	1OGrp2BBloTBjPOhEbx0/s0IsHJb++WiC2vvivfOBbEHnjlj1Zt5g0j0VYKZ5WO/iXCo
+	sOUYhfdMHIQXj85qEs7xCMRf9jiqzXyfigsfbxLfmNNUmqqmJLP0S5giyDQ3fMzfYxbT
+	8JUZL5ChZWV9RrN0kFlXozcQsYux7pXC03b46w8qQYoZRTgl+CLqpH/jq9m6AZ9IUqjE
+	ro6g==
+X-Gm-Message-State: AODbwcAHCPa0DTMeAeeBjAdfFfF/CFbSK/PpV1Xk2Gnth+DFfdPoc0/Z
+	9Q8tqVejRUJD2QgT
+X-Received: by 10.107.155.140 with SMTP id d134mr36054956ioe.88.1496932593230; 
+	Thu, 08 Jun 2017 07:36:33 -0700 (PDT)
+Received: from pohly-mobl1 (p5DE8CE54.dip0.t-ipconnect.de. [93.232.206.84])
+	by smtp.gmail.com with ESMTPSA id
+	r82sm2224036iod.45.2017.06.08.07.36.31
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 08 Jun 2017 07:36:32 -0700 (PDT)
+Message-ID: <1496932588.30163.135.camel@intel.com>
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Date: Thu, 08 Jun 2017 16:36:28 +0200
+In-Reply-To: <1496913653.6630.233.camel@linuxfoundation.org>
 References: <cover.8ea05a588020117b72a57015f699c7acd76b93e6.1496849345.git-series.patrick.ohly@intel.com>
-	<1496850184.21235.1.camel@gmail.com>
-	<1496912216.6630.225.camel@linuxfoundation.org>
-	<1496930142.8427.2.camel@gmail.com>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.1 
+	<4e9ae0188740bcab90705399321c8db4631ecbc0.1496849345.git-series.patrick.ohly@intel.com>
+	<1496913653.6630.233.camel@linuxfoundation.org>
+Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
+X-Mailer: Evolution 3.12.9-1+b1 
 Mime-Version: 1.0
-X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.11
-	(dan.rpsys.net [192.168.3.1]);
-	Thu, 08 Jun 2017 15:33:22 +0100 (BST)
-X-Virus-Scanned: clamav-milter 0.99.2 at dan
-X-Virus-Status: Clean
-Subject: Re: [PATCH 0/2] Yocto Compatible 2.0 support code
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 2/2] utils.py: helper function for optional include files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,123 +63,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Jun 2017 14:33:27 -0000
+X-List-Received-Date: Thu, 08 Jun 2017 14:36:33 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-On Thu, 2017-06-08 at 08:55 -0500, Joshua Watt wrote:
-> On Thu, 2017-06-08 at 09:56 +0100, Richard Purdie wrote:
+On Thu, 2017-06-08 at 10:20 +0100, Richard Purdie wrote:
+> On Wed, 2017-06-07 at 17:31 +0200, Patrick Ohly wrote:
+> > By using oe.utils.optional_includes(), developers can simplify the
+> > code which selects which additional include files need to be included
+> > in a .bbappend.
 > > 
-> > On Wed, 2017-06-07 at 10:43 -0500, Joshua Watt wrote:
-> > > 
-> > > On Wed, 2017-06-07 at 17:31 +0200, Patrick Ohly wrote:
-> > > > 
-> > > > 
-> > > > As discussed in the "[Openembedded-architecture] Yocto
-> > > > Compatible
-> > > > 2.0
-> > > > + signature changes" mail thread, changes in a .bbappend cannot
-> > > > be
-> > > > done unconditionally. Making _append and _remove depend on
-> > > > overrides
-> > > > which get set based on DISTRO_FEATURES is one way of achieving
-> > > > this.
-> > > > 
-> > > > The oe.utils.optional_includes() helper function has not been
-> > > > discussed before. It's an attempt to address concerns by
-> > > > developers
-> > > > that having to write code for (potentially complex) condition
-> > > > checking
-> > > > is error prone and hard to read.
-> > > I promise I'm not trying to start a flame war here, and perhaps
-> > > there
-> > > is history behind this that I'm not aware of but...
-> > > 
-> > > Why doesn't bitbake support some sort of "if" statement? It seems
-> > > like most of what we are trying to do could be accomplished with
-> > > much
-> > > less fuss if one could simply do this in the bb file:
-> > > 
-> > >  if bb.utils.contains('DISTRO_FEATURES', 'my-feature', d):
-> > >     include foo.inc
-> > This wouldn't actually solve as much of the problem as you think it
-> > might at first glance and probably causes others, at least as I
-> > understand it (as someone who's worked on bitbake's override code).
+> > In the simple case (one distro feature and one include file) the code
+> > is not shorter, but the intent is clearer than corresponding code
+> > using bb.utils.contains():
 > > 
-> > For example, at what point does this get evaluated? Most bitbake
-> > variables are expanded at usage time, not parse time but here, the
-> > way
-> > the parser works today, it would have to do an immediate expansion
-> > of
-> > DISTRO_FEATURES to decide whether to include this file (or code
-> > block).
-> Doesn't this same argument apply to doing a conditional include of a
-> file? When bitbake goes to resolve the file name while evaluating the
-> AST, it has to evaluate DISTRO_FEATURES which might not be complete.
-> If
-> the conditional in an "if" statement were also evaluated when
-> evaluating the AST, I believe the following snipet:
+> >    require ${@ oe.utils.optional_includes(d, 'foo-feature:bar.inc') }
+> > 
+> > More complex cases are also supported, in particular include files
+> > that are required for one of several distro features or multiple
+> > different include files.
+> > 
+> > To keep the common use case simple, DISTRO_FEATURES are checked by
+> > default. Checking IMAGE_FEATURES might also be useful.
+> > 
+> > The DISTRO_FEATURES default and the intended usage make this more
+> > suitable for OE-core than bitbake.
 > 
->  require ${@ oe.utils.optional_includes(d, 'foo-feature:bar.inc') }
+> I'm honestly not sure this actually aids readability.
+
+Fair enough.
+
+> Taking your example:
 > 
-> Would be (functionally) identical to something (sort of) like:
+> require ${@oe.utils.optional_includes(d, "foo,bar:foo-or-bar.inc xyz:x.inc,y.inc,z.inc")}
 > 
->  if oe.utils.optional_includes(d, 'foo-feature:True'):
->      <All of the content of bar.inc>
+> I think I actually prefer:
 > 
-> Without requiring splitting the recipe content up into multiple
-> files.
+> require ${@oe.utils.optional_includes(d, "foo,bar:foo-or-bar.inc")}
+> require ${@oe.utils.optional_includes(d, "xyz:x.inc,y.inc,z.inc")}
+> 
+> since its more explict. Spelling this out with the existing syntax
+> isn't so bad either, I probably still think that this is clearer too:
+> 
+> require ${@bb.utils.contains(d, "DISTRO_FEATURES", "foo bar", "foo-or-bar.inc", "")}
 
-I did say the problem applied to the require syntax, yes.
+That's the "foo and bar" case, not "foo or bar". It's an actual mistake
+that people have made and that didn't get caught during code review.
 
-Put another way, my big worry is that the if syntax will make people
-start to want if syntax for things other than include style operations
-and try and do other things other than "inclusion" type work with it.
-We'll also need to then start dealing with nesting and most likely
-other complications as well as pushing us to having to deal with
-immediate expansion problems.
+> require ${@bb.utils.contains(d, "DISTRO_FEATURES", "xyz", "x.inc y.inc z.inc", "")}
+> 
+> How about simply:
+> 
+> require ${@oe.utils.distro_features(d, "foo bar", "foo-or-bar.inc")}
+> require ${@bb.utils.distro_features(d, "xyz", "x.inc y.inc z.inc")}
 
-One of the strengths of the current syntax we have to day is that it
-makes most things possible but does try and encourage you to do things
-"the right way". In adding an if syntax like this I suspect we're on a
-path which won't lead to a good place. I appreciate this isn't an exact
-science answer :/.
+That works for me, I just wonder about the exact semantic of listing
+multiple features: "and" as in contains(), or "any"?
 
+I'm leaning towards two functions where that is explicit:
+  oe.utils.all_distro_features(d, "foo bar", "foo-and-bar.inc")
+  oe.utils.any_distro_features(d, "foo bar", "foo-or-bar.inc")
 
-To recap on how we get here, there is a problem of selective content
-inclusion in distros/layers. Right now you tend to have to buy into
-everything in a layer or nothing. This is bad for usability and
-adoption of components in layers. Sometimes its not practical to
-separate everything into isolated layers.
+-- 
+Best Regards, Patrick Ohly
 
-We've therefore tried to come up with a way of handling this adding
-minimal changes but allowing the configuration we need.
+The content of this message is my personal opinion only and although
+I am an employee of Intel, the statements I make here in no way
+represent Intel's position on the issue, nor am I authorized to speak
+on behalf of Intel on this matter.
 
-We do need to try and limit the scope of the usage of this as there is
-a fundamental issue, namely immediate expansion. I know most users will
-not realise there is even a problem with this.
-
-*If* we limit the scope to DISTRO_FEATURES, we stand a reasonable
-chance of being able to limit the occasions a user runs into this.
-
-On the other hand, if we add a generic if syntax, encourage usage of
-any variable and so on I think we're setting ourselves up for failure.
-
-Patrick for example mentioned IMAGE_FEATURES. This one is fraught with
-problems since:
-
-a) Its a recipe level setting so using it in a base configuration
-context would end badly
-
-b) Users change this in a variety of places some of which would be
-bitten by the immediate expansion problem even just in recipe context
-
-So no, I really don't like the idea of the if syntax, attractive as it
-may look at first.
-
-Cheers,
-
-Richard
 
 
 
