@@ -1,33 +1,26 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 5004771ADD
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id ADAD360778
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Jun 2017 10:45:18 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	v58AjCQJ026473
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Thu, 8 Jun 2017 11:45:13 +0100
-Message-ID: <1496918712.6630.237.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patrick Ohly <patrick.ohly@intel.com>, Peter Kjellerstedt
-	<peter.kjellerstedt@axis.com>
-Date: Thu, 08 Jun 2017 11:45:12 +0100
-In-Reply-To: <1496901892.30163.119.camel@intel.com>
-References: <cover.8ea05a588020117b72a57015f699c7acd76b93e6.1496849345.git-series.patrick.ohly@intel.com>
-	<7942e5efccf0ee4fa360948d892b4508e3f1f00c.1496849345.git-series.patrick.ohly@intel.com>
-	<13cfc543313a4c59bb8c9688c91db3c4@XBOX02.axis.com>
-	<1496901892.30163.119.camel@intel.com>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.1 
-Mime-Version: 1.0
-X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.11
-	(dan.rpsys.net [192.168.3.1]);
-	Thu, 08 Jun 2017 11:45:13 +0100 (BST)
-X-Virus-Scanned: clamav-milter 0.99.2 at dan
-X-Virus-Status: Clean
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] bitbake.conf: DISTRO_FEATURES as overrides
+	Thu,  8 Jun 2017 10:51:03 +0000 (UTC)
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by fmsmga105.fm.intel.com with ESMTP; 08 Jun 2017 03:51:04 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.39,314,1493708400"; d="scan'208";a="271733857"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by fmsmga004.fm.intel.com with ESMTP; 08 Jun 2017 03:51:03 -0700
+To: Ismo Puustinen <ismo.puustinen@intel.com>,
+	openembedded-core@lists.openembedded.org
+References: <20170607134942.13281-1-ismo.puustinen@intel.com>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <75435a83-d29b-4b68-3e27-90746b31c970@linux.intel.com>
+Date: Thu, 8 Jun 2017 13:51:04 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.8.0
+MIME-Version: 1.0
+In-Reply-To: <20170607134942.13281-1-ismo.puustinen@intel.com>
+Subject: Re: [PATCH v2] python3: make readline, gdbm, and db support conditional.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,65 +33,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Jun 2017 10:45:20 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 08 Jun 2017 10:51:03 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Thu, 2017-06-08 at 08:04 +0200, Patrick Ohly wrote:
-> On Wed, 2017-06-07 at 16:11 +0000, Peter Kjellerstedt wrote:
-> > 
-> > Rather than requiring that the wanted DISTRO_FEATURES that should
-> > be 
-> > available as overrides are defined in DISTRO_FEATURES_OVERRIDES
-> > (which 
-> > should not be confused with the similarly named
-> > DISTROFEATURESOVERRIDES 
-> > variable that you also add...),
-> I had thought about those names and in the end went ahead with the
-> similar names because the customizable one made sense to me and the
-> internal one is similar to the other entries in OVERRIDES.
-> 
-> > 
-> >  why not add them all but with a prefix. 
-> > I.e., similar to how package names are available as overrides
-> > prefixed 
-> > with "pn-", how about all distro features are made available as 
-> > overrides with a "df-" prefix?
-> That would be fine with me.
-> 
-> I just have a few concerns:
->       * How performance-sensitive is OVERRIDES? How can the impact of
->         both approaches be benchmarked? The idea behind the
-> configurable
->         subset was to add only a few new overrides. We currently have
->         almost 70 individual entries in DISTRO_FEATURES.
->       * I've seen confusion about the pn- prefix. At least df- would
-> be
->         named appropriately (in contrast to PN, which is historic),
-> but
->         it's yet another convention that might not be immediately
->         obvious. The same is true for selecting a subset with the
-> same
->         name as the feature, though.
->       * Can distro features contain characters that are invalid in an
->         override? _ and : would have to be avoided, for example by
->         mapping them to -.
+On 06/07/2017 04:49 PM, Ismo Puustinen wrote:
+> The three libraries' (readline, gdbm, and db) licenses belong to the
+> GPLv3 family. Add them to to PACKAGECONFIG so they can be switched off
+> if the licensing doesn't allow using them. Python build system
+> autodetects the dependencies but doesn't allow them to be explicitly
+> disabled, so just deal with the dependencies.
 
-My feelings are:
+db should be taken out from this patch, it's no longer a gplv3 concern 
+now that we're providing db 5.x only :)
 
-* We need to use a prefix. We've been burnt too many times in the past 
-  when not using these. "df-" is fine, users will just have to deal 
-  with it.
-
-* We should filter the list of overrides to those which the distro 
-  wants to nominate. I really don't want to encourage wider spread of 
-  things than we need to, these need to be conscious decisions.
-
-Cheers,
-
-Richard
-
-
-
+Alex
 
 
