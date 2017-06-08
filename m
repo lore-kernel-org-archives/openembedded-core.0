@@ -1,35 +1,47 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id F18C971B69
+Return-Path: <changhyeok.bae@gmail.com>
+Received: from mail-pf0-f193.google.com (mail-pf0-f193.google.com
+	[209.85.192.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 3214E719A8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Jun 2017 06:37:15 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	v586b82R006032
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Thu, 8 Jun 2017 07:37:09 +0100
-Message-ID: <1496903828.6630.215.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>, Patrick Ohly
-	<patrick.ohly@intel.com>
-Date: Thu, 08 Jun 2017 07:37:08 +0100
-In-Reply-To: <2ccad72ffc0b44ad9cf94c67325a2658@XBOX02.axis.com>
-References: <1486734151-28331-1-git-send-email-amarnath.valluri@intel.com>
-	<1487752042-19804-1-git-send-email-amarnath.valluri@intel.com>
-	<1496836331.6630.213.camel@linuxfoundation.org>
-	<1496845904.30163.102.camel@intel.com>
-	<2ccad72ffc0b44ad9cf94c67325a2658@XBOX02.axis.com>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.1 
-Mime-Version: 1.0
-X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.11
-	(dan.rpsys.net [192.168.3.1]);
-	Thu, 08 Jun 2017 07:37:10 +0100 (BST)
-X-Virus-Scanned: clamav-milter 0.99.2 at dan
-X-Virus-Status: Clean
-Cc: Joshua Lock <joshua.g.lock@intel.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2 01/25] bitbake.conf: support for merged usr with DISTRO_FEATURE usrmerge
+	Thu,  8 Jun 2017 08:18:41 +0000 (UTC)
+Received: by mail-pf0-f193.google.com with SMTP id y7so4301053pfd.3
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 08 Jun 2017 01:18:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=YxHdCKHUOds/S3D7ztuIDaYTXJeN8/6/w3Y2619IPbQ=;
+	b=CZHX06FK0f2hv4oP99ZAY/hQWnaKlHDh9w4GapoiDpHkBeQ8PZokc/7xIb1HhLuS3X
+	EFwwBB3RLqwGGFUy4lu91+TjtUZpUq/PCU4PiK8TB9l44P4RqC6qqTLaQxwFhQd4+exf
+	bWCkaVeeBe/kv/FwJijT+CWZncjh8m5CNroS9zDBKUyRbCwNJhucypNyGqtjDo/F4X6C
+	XdWRhS95ONTPRG2o+MsumvO2YtYnc+D2TAj7KKQ8w07TDgfi5OMnOXofyc0HSlh6PguO
+	vVGTPRyHGG5HLdXH1TIja1VHV4tx0qTeDl5yn2NblpUntryJ0huAIE1Nbyl73QyLVRNM
+	vjaA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=YxHdCKHUOds/S3D7ztuIDaYTXJeN8/6/w3Y2619IPbQ=;
+	b=jTpDDinWYLlhScVdCRNxlRpLCIaGam7q5PoiyWZrLuM4Xu/r0epCYyFSXOOp7+JKxe
+	8WuKmnj/blrX6hdAQnYMSF1wPi09QgTHDLbYSM/t7fSgGWnEC+ejWNEeLKySgWYInT3O
+	lXw0zRsigPkyIVMkhDD3k0OQS5JxvT48B2VCO4+1bgb/U6lcZX8sgUXxZE3XAQaNjO7D
+	O/Z7rZSAURTd3D5u6MihiTxP2X2vR/lxA3EAszhrF6yQVsxKFIvv9XvFVginE0gA0pvf
+	x61uUeUMnaax6VnqfvH7AcvEl+HYVP2Odxr8G0Cl1VcVrlL21tSuwcm71KHL3O8T1dOf
+	2Hkg==
+X-Gm-Message-State: AODbwcCV2blHNuf9v7wjWAFYXJzmOYMMDASuwy+XX6j5sqNZhLZZ1KRK
+	0n63WBcDzY0l1tD0uv0=
+X-Received: by 10.84.218.133 with SMTP id r5mr33904746pli.190.1496909923134;
+	Thu, 08 Jun 2017 01:18:43 -0700 (PDT)
+Received: from ip-172-31-15-204.ap-northeast-2.compute.internal
+	(ec2-13-124-88-129.ap-northeast-2.compute.amazonaws.com.
+	[13.124.88.129]) by smtp.gmail.com with ESMTPSA id
+	188sm7654017pgc.49.2017.06.08.01.18.41
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 08 Jun 2017 01:18:42 -0700 (PDT)
+From: Changhyeok Bae <changhyeok.bae@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  8 Jun 2017 08:18:36 +0000
+Message-Id: <1496909916-10483-1-git-send-email-changhyeok.bae@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH] openssl: Upgrade 1.0.2k -> 1.0.2l
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,100 +54,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Jun 2017 06:37:17 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 08 Jun 2017 08:18:43 -0000
 
-On Wed, 2017-06-07 at 17:04 +0000, Peter Kjellerstedt wrote:
-> > 
-> > -----Original Message-----
-> > From: openembedded-core-bounces@lists.openembedded.org
-> > [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf
-> > Of
-> > Patrick Ohly
-> > Sent: den 7 juni 2017 16:32
-> > To: Richard Purdie <richard.purdie@linuxfoundation.org>
-> > Cc: Joshua Lock <joshua.g.lock@intel.com>; openembedded-
-> > core@lists.openembedded.org
-> > Subject: Re: [OE-core] [PATCH v2 01/25] bitbake.conf: support for
-> > merged usr with DISTRO_FEATURE usrmerge
-> > 
-> > On Wed, 2017-06-07 at 12:52 +0100, Richard Purdie wrote:
-> > > 
-> > > On Wed, 2017-02-22 at 10:26 +0200, Amarnath Valluri wrote:
-> > > > 
-> > > > From: Joshua Lock <joshua.g.lock@intel.com>
-> > > > 
-> > > > Modify bindir, libdir and sbindir to be exec_prefix/$d, rather
-> > > > than
-> > > > base_prefix/$d, when the usrmerge DISTRO_FEATURE is enabled.
-> > > > 
-> > > > Signed-off-by: Joshua Lock <joshua.g.lock@intel.com>
-> > > > ---
-> > > >  meta/conf/bitbake.conf | 12 ++++++++----
-> > > >  1 file changed, 8 insertions(+), 4 deletions(-)
-> > > I was asked to clarify the status of this series. We've taken
-> > > many of
-> > > the changes but the core changes to bitbake.conf haven't been
-> > > merged.
-> > > 
-> > > Ross/I discussed it and we both feel that the bitbake.conf make
-> > > the
-> > > file pretty unreadable. We'd therefore like to see this
-> > > implemented
-> > > as a .inc file which gets included when the relevant
-> > > DISTRO_FEATURE 
-> > > is set (or could just be included by the appropriate distro
-> > > configs). 
-> > > This .inc file would then simply override the paths. I believe
-> > > this 
-> > > would be a lot more readable than the current approach which is
-> > > a 
-> > > key concern in the core config.
-> I actually suggested an alternative change to bitbake.conf in the
-> GitHub 
-> review that changes bitbake.conf to take usrmerge into account:
-> 
-> https://github.com/avalluri/openembedded-core/commit/1655a93238902a88
-> 3052a55d88ae14dd02243530
-> 
-> I will include my suggested solution here since I will refer to it 
-> below:
-> 
-> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-> index 0f27e92e96..305eaff583 100644
-> --- a/meta/conf/bitbake.conf
-> +++ b/meta/conf/bitbake.conf
-> @@ -17,11 +17,13 @@ export base_prefix = ""
->  export prefix = "/usr"
->  export exec_prefix = "${prefix}"
->  
-> +root_prefix = "${@bb.utils.contains('DISTRO_FEATURES', 'usrmerge',
-> '${exec_prefix}', '${base_prefix}', d)}"
-> +
->  # Base paths
-> -export base_bindir = "${base_prefix}/bin"
-> -export base_sbindir = "${base_prefix}/sbin"
-> -export base_libdir = "${base_prefix}/${baselib}"
-> -export nonarch_base_libdir = "${base_prefix}/lib"
-> +export base_bindir = "${root_prefix}/bin"
-> +export base_sbindir = "${root_prefix}/sbin"
-> +export base_libdir = "${root_prefix}/${baselib}"
-> +export nonarch_base_libdir = "${root_prefix}/lib"
->  
->  # Architecture independent paths
->  export sysconfdir = "${base_prefix}/etc"
-> 
-> I think that better maintains the readability of the bitbake.conf
-> file, 
-> while making the $root_prefix variable available as it can be useful
-> in 
-> its own (e.g., in the systemd recipe).
+Patch fix-cipher-des-ede3-cfb1.patch was removed as it is included
+in this release.
 
-Agreed, I'm happier with this and can probably accept a single
-DISTO_FEATURES line without the .inc stuff...
+Signed-off-by: Changhyeok Bae <changhyeok.bae@gmail.com>
+---
+ .../openssl/openssl/fix-cipher-des-ede3-cfb1.patch  | 21 ---------------------
+ .../{openssl_1.0.2k.bb => openssl_1.0.2l.bb}        |  7 +++----
+ 2 files changed, 3 insertions(+), 25 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/openssl/openssl/fix-cipher-des-ede3-cfb1.patch
+ rename meta/recipes-connectivity/openssl/{openssl_1.0.2k.bb => openssl_1.0.2l.bb} (90%)
 
-Cheers,
+diff --git a/meta/recipes-connectivity/openssl/openssl/fix-cipher-des-ede3-cfb1.patch b/meta/recipes-connectivity/openssl/openssl/fix-cipher-des-ede3-cfb1.patch
+deleted file mode 100644
+index 2a318a4..0000000
+--- a/meta/recipes-connectivity/openssl/openssl/fix-cipher-des-ede3-cfb1.patch
++++ /dev/null
+@@ -1,21 +0,0 @@
+-Upstream-Status: Submitted
+-
+-This patch adds the fix for one of the ciphers used in openssl, namely
+-the cipher des-ede3-cfb1. Complete bug log and patch is present here:
+-http://rt.openssl.org/Ticket/Display.html?id=2867
+-
+-Signed-off-by: Muhammad Shakeel <muhammad_shakeel@mentor.com>
+-
+-Index: openssl-1.0.2/crypto/evp/e_des3.c
+-===================================================================
+---- openssl-1.0.2.orig/crypto/evp/e_des3.c
+-+++ openssl-1.0.2/crypto/evp/e_des3.c
+-@@ -211,7 +211,7 @@ static int des_ede3_cfb1_cipher(EVP_CIPH
+-     size_t n;
+-     unsigned char c[1], d[1];
+- 
+--    for (n = 0; n < inl; ++n) {
+-+    for (n = 0; n * 8 < inl; ++n) {
+-         c[0] = (in[n / 8] & (1 << (7 - n % 8))) ? 0x80 : 0;
+-         DES_ede3_cfb_encrypt(c, d, 1, 1,
+-                              &data(ctx)->ks1, &data(ctx)->ks2,
+diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.2k.bb b/meta/recipes-connectivity/openssl/openssl_1.0.2l.bb
+similarity index 90%
+rename from meta/recipes-connectivity/openssl/openssl_1.0.2k.bb
+rename to meta/recipes-connectivity/openssl/openssl_1.0.2l.bb
+index 83d1a50..6390746 100644
+--- a/meta/recipes-connectivity/openssl/openssl_1.0.2k.bb
++++ b/meta/recipes-connectivity/openssl/openssl_1.0.2l.bb
+@@ -7,7 +7,7 @@ DEPENDS += "cryptodev-linux"
+ CFLAG += "-DHAVE_CRYPTODEV -DUSE_CRYPTODEV_DIGESTS"
+ CFLAG_append_class-native = " -fPIC"
+ 
+-LIC_FILES_CHKSUM = "file://LICENSE;md5=27ffa5d74bb5a337056c14b2ef93fbf6"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=057d9218c6180e1d9ee407572b2dd225"
+ 
+ export DIRS = "crypto ssl apps engines"
+ export OE_LDFLAGS="${LDFLAGS}"
+@@ -32,7 +32,6 @@ SRC_URI += "file://find.pl;subdir=${BP}/util/ \
+             file://debian1.0.2/version-script.patch \
+             file://debian1.0.2/soname.patch \
+             file://openssl_fix_for_x32.patch \
+-            file://fix-cipher-des-ede3-cfb1.patch \
+             file://openssl-avoid-NULL-pointer-dereference-in-EVP_DigestInit_ex.patch \
+             file://openssl-fix-des.pod-error.patch \
+             file://Makefiles-ptest.patch \
+@@ -45,8 +44,8 @@ SRC_URI += "file://find.pl;subdir=${BP}/util/ \
+             file://Use-SHA256-not-MD5-as-default-digest.patch \
+             file://0001-Fix-build-with-clang-using-external-assembler.patch \
+             "
+-SRC_URI[md5sum] = "f965fc0bf01bf882b31314b61391ae65"
+-SRC_URI[sha256sum] = "6b3977c61f2aedf0f96367dcfb5c6e578cf37e7b8d913b4ecb6643c3cb88d8c0"
++SRC_URI[md5sum] = "f85123cd390e864dfbe517e7616e6566"
++SRC_URI[sha256sum] = "ce07195b659e75f4e1db43552860070061f156a98bb37b672b101ba6e3ddf30c"
+ 
+ PACKAGES =+ "${PN}-engines"
+ FILES_${PN}-engines = "${libdir}/ssl/engines/*.so ${libdir}/engines"
+-- 
+2.7.4
 
-Richard
 
