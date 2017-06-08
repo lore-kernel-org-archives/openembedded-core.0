@@ -1,18 +1,36 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id DDE0D71994;
-	Thu,  8 Jun 2017 12:31:32 +0000 (UTC)
+Return-Path: <ismo.puustinen@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 5BCC6781FA
+	for <openembedded-core@lists.openembedded.org>;
+	Thu,  8 Jun 2017 12:35:19 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	08 Jun 2017 05:35:17 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.39,314,1493708400"; d="scan'208";a="865866347"
+Received: from irsmsx102.ger.corp.intel.com ([163.33.3.155])
+	by FMSMGA003.fm.intel.com with ESMTP; 08 Jun 2017 05:35:16 -0700
+Received: from irsmsx107.ger.corp.intel.com ([169.254.10.129]) by
+	IRSMSX102.ger.corp.intel.com ([169.254.2.211]) with mapi id
+	14.03.0319.002; Thu, 8 Jun 2017 13:35:16 +0100
+From: "Puustinen, Ismo" <ismo.puustinen@intel.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>,
+	"alexander.kanavin@linux.intel.com" <alexander.kanavin@linux.intel.com>
+Thread-Topic: [OE-core] [PATCH v2] python3: make readline, gdbm, and db
+	support conditional.
+Thread-Index: AQHS35T4FenGFKJDF06RYftNXiAgH6IaulIAgAAdGYA=
+Date: Thu, 8 Jun 2017 12:35:15 +0000
+Message-ID: <1496925313.23488.6.camel@intel.com>
+References: <20170607134942.13281-1-ismo.puustinen@intel.com>
+	<75435a83-d29b-4b68-3e27-90746b31c970@linux.intel.com>
+In-Reply-To: <75435a83-d29b-4b68-3e27-90746b31c970@linux.intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.237.72.72]
 MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Denys Zagorui <denys.zagorui@gmail.com>
-Date: Thu, 08 Jun 2017 12:31:34 -0000
-Message-ID: <20170608123134.1039.70305@do.openembedded.org>
-References: <1496923899-18870-1-git-send-email-denys.zagorui@globallogic.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <1496923899-18870-1-git-send-email-denys.zagorui@globallogic.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgZ3ppcDogYWRkIHB0ZXN0IChyZXYzKQ==?=
+Subject: Re: [PATCH v2] python3: make readline, gdbm, and db support conditional.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,43 +43,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Jun 2017 12:31:33 -0000
+X-List-Received-Date: Thu, 08 Jun 2017 12:35:19 -0000
+Content-Language: en-US
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+Content-ID: <66EC50CCCC069145ABA3B42320588A20@intel.com>
+Content-Transfer-Encoding: base64
 
-== Series Details ==
-
-Series: gzip: add ptest (rev3)
-Revision: 3
-URL   : https://patchwork.openembedded.org/series/5728/
-State : failure
-
-== Summary ==
-
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Issue             Added patch file is missing Upstream-Status in the header [test_upstream_status_presence] 
-  Suggested fix    Add Upstream-Status: <status> to the header of meta/recipes-extended/gzip/files/0001-maint-use-returns_-rather-than-explicit-comparison-w.patch (possible values: Pending, Submitted, Accepted, Backport, Denied, Inappropriate)
-
-* Issue             A patch file has been added, but does not have a Signed-off-by tag [test_signed_off_by_presence] 
-  Suggested fix    Sign off the added patch file (meta/recipes-extended/gzip/files/0001-maint-use-returns_-rather-than-explicit-comparison-w.patch)
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
----
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
-
+T24gVGh1LCAyMDE3LTA2LTA4IGF0IDEzOjUxICswMzAwLCBBbGV4YW5kZXIgS2FuYXZpbiB3cm90
+ZToNCj4gT24gMDYvMDcvMjAxNyAwNDo0OSBQTSwgSXNtbyBQdXVzdGluZW4gd3JvdGU6DQo+ID4g
+VGhlIHRocmVlIGxpYnJhcmllcycgKHJlYWRsaW5lLCBnZGJtLCBhbmQgZGIpIGxpY2Vuc2VzIGJl
+bG9uZyB0bw0KPiA+IHRoZQ0KPiA+IEdQTHYzIGZhbWlseS4gQWRkIHRoZW0gdG8gdG8gUEFDS0FH
+RUNPTkZJRyBzbyB0aGV5IGNhbiBiZSBzd2l0Y2hlZA0KPiA+IG9mZg0KPiA+IGlmIHRoZSBsaWNl
+bnNpbmcgZG9lc24ndCBhbGxvdyB1c2luZyB0aGVtLiBQeXRob24gYnVpbGQgc3lzdGVtDQo+ID4g
+YXV0b2RldGVjdHMgdGhlIGRlcGVuZGVuY2llcyBidXQgZG9lc24ndCBhbGxvdyB0aGVtIHRvIGJl
+DQo+ID4gZXhwbGljaXRseQ0KPiA+IGRpc2FibGVkLCBzbyBqdXN0IGRlYWwgd2l0aCB0aGUgZGVw
+ZW5kZW5jaWVzLg0KPiANCj4gZGIgc2hvdWxkIGJlIHRha2VuIG91dCBmcm9tIHRoaXMgcGF0Y2gs
+IGl0J3Mgbm8gbG9uZ2VyIGEgZ3BsdjMNCj4gY29uY2VybsKgDQo+IG5vdyB0aGF0IHdlJ3JlIHBy
+b3ZpZGluZyBkYiA1Lnggb25seSA6KQ0KDQpJIGNhbiBsZWF2ZSBkYiBvdXQgb2YgdGhlIHBhdGNo
+IHRoZW4uIElzIGRiIDUueCBhIGxvbmctdGVybSBzb2x1dGlvbiBvcg0KZG8gd2UgaGF2ZSB0byBj
+aGFuZ2UgdG8gNi54IGF0IHNvbWUgcG9pbnQ/IElzIGFueW9uZSBtYWludGFpbmluZyBkYiA1DQoo
+c2VjdXJpdHkgZml4ZXMgZXNwZWNpYWxseSkgYW55bW9yZT8NCg0KSXNtbw==
 
