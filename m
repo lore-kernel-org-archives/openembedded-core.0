@@ -1,27 +1,27 @@
 Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id A72A778279
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id CFA477813F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Jun 2017 16:15:19 +0000 (UTC)
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	08 Jun 2017 09:15:20 -0700
+	Thu,  8 Jun 2017 16:15:20 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	08 Jun 2017 09:15:22 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.39,315,1493708400"; d="scan'208";a="112530209"
+X-IronPort-AV: E=Sophos;i="5.39,315,1493708400"; d="scan'208";a="978408369"
 Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga006.fm.intel.com with ESMTP; 08 Jun 2017 09:15:20 -0700
+	by orsmga003.jf.intel.com with ESMTP; 08 Jun 2017 09:15:22 -0700
 Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
-	by linux.intel.com (Postfix) with ESMTP id 08F9F58029B
+	by linux.intel.com (Postfix) with ESMTP id 2936658029B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Jun 2017 09:15:18 -0700 (PDT)
+	Thu,  8 Jun 2017 09:15:20 -0700 (PDT)
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  8 Jun 2017 19:12:49 +0300
-Message-Id: <c8b238f27476e37fb864bd1ba27b6c0608f6175a.1496938139.git.ed.bartosh@linux.intel.com>
+Date: Thu,  8 Jun 2017 19:12:51 +0300
+Message-Id: <729a7b3349127004b37cdda4d2d8bcceb5fcba1c.1496938139.git.ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1496938139.git.ed.bartosh@linux.intel.com>
 References: <cover.1496938139.git.ed.bartosh@linux.intel.com>
-Subject: [PATCH 07/25] engine: implement listing wic images
+Subject: [PATCH 09/25] wic: add wic_init_parser_cp
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,124 +36,47 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 08 Jun 2017 16:15:20 -0000
 
-Implemented 'wic ls' functionality:
- - list image partitions
- - list directory content of vfat partitions
-
-[YOCTO #11283]
+Add parser for 'wic cp' subcommand and a custom argument type.
 
 Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 ---
- scripts/lib/wic/engine.py | 84 +++++++++++++++++++++++++++++++++++++++++++++--
- 1 file changed, 82 insertions(+), 2 deletions(-)
+ scripts/wic | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
 
-diff --git a/scripts/lib/wic/engine.py b/scripts/lib/wic/engine.py
-index e58beb7..95c8d1c 100644
---- a/scripts/lib/wic/engine.py
-+++ b/scripts/lib/wic/engine.py
-@@ -30,10 +30,15 @@
+diff --git a/scripts/wic b/scripts/wic
+index 4161f80..945dda8 100755
+--- a/scripts/wic
++++ b/scripts/wic
+@@ -341,6 +341,8 @@ def imgtype(arg):
+         image, part = image.split(':')
+         if '/' in part:
+             part, path = part.split('/', 1)
++        if not path:
++            path = '/'
  
- import logging
- import os
-+import tempfile
-+
-+from collections import namedtuple, OrderedDict
-+from distutils.spawn import find_executable
+     if not os.path.isfile(image):
+         err = "%s is not a regular file or symlink" % image
+@@ -354,6 +356,20 @@ def wic_init_parser_ls(subparser):
+     subparser.add_argument("-n", "--native-sysroot",
+                         help="path to the native sysroot containing the tools")
  
- from wic import WicError
-+from wic.filemap import sparse_copy
- from wic.pluginbase import PluginMgr
--from wic.utils.misc import get_bitbake_var
-+from wic.utils.misc import get_bitbake_var, exec_cmd
- 
- logger = logging.getLogger('wic')
- 
-@@ -225,9 +230,84 @@ def wic_list(args, scripts_path):
- 
-     return False
- 
++def imgpathtype(arg):
++    img = imgtype(arg)
++    if img.part is None:
++        raise argparse.ArgumentTypeError("partition number is not specified")
++    return img
 +
-+class Disk:
-+    def __init__(self, imagepath, native_sysroot):
-+        self.imagepath = imagepath
-+        self.native_sysroot = native_sysroot
-+        self._partitions = None
-+        self._mdir = None
-+        self._partimages = {}
++def wic_init_parser_cp(subparser):
++    subparser.add_argument("src",
++                        help="source spec")
++    subparser.add_argument("dest", type=imgpathtype,
++                        help="image spec: <image>:<vfat partition>[<path>]")
++    subparser.add_argument("-n", "--native-sysroot",
++                        help="path to the native sysroot containing the tools")
 +
-+        # find parted
-+        self.paths = "/bin:/usr/bin:/usr/sbin:/sbin/"
-+        if native_sysroot:
-+            for path in self.paths.split(':'):
-+                self.paths = "%s%s:%s" % (native_sysroot, path, self.paths)
-+
-+        self.parted = find_executable("parted", self.paths)
-+        if not self.parted:
-+            raise WicError("Can't find executable parted")
-+
-+    def __del__(self):
-+        for path in self._partimages.values():
-+            os.unlink(path)
-+
-+    @property
-+    def partitions(self):
-+        if self._partitions is None:
-+            self._partitions = OrderedDict()
-+            out = exec_cmd("%s -sm %s unit B print" % (self.parted, self.imagepath))
-+            parttype = namedtuple("Part", "pnum start end size fstype")
-+            for line in out.splitlines()[2:]:
-+                pnum, start, end, size, fstype = line.split(':')[:5]
-+                partition = parttype(pnum, int(start[:-1]), int(end[:-1]),
-+                                     int(size[:-1]), fstype)
-+                self._partitions[pnum] = partition
-+
-+        return self._partitions
-+
-+    @property
-+    def mdir(self):
-+        if self._mdir is None:
-+            self._mdir = find_executable("mdir", self.paths)
-+            if not self._mdir:
-+                raise WicError("Can't find executable mdir")
-+        return self._mdir
-+
-+    def _get_part_image(self, pnum):
-+        if pnum not in self.partitions:
-+            raise WicError("Partition %s is not in the image")
-+        part = self.partitions[pnum]
-+        if not part.fstype.startswith("fat"):
-+            raise WicError("Not supported fstype: {}".format(part.fstype))
-+        if pnum not in self._partimages:
-+            tmpf = tempfile.NamedTemporaryFile(prefix="wic-part")
-+            dst_fname = tmpf.name
-+            tmpf.close()
-+            sparse_copy(self.imagepath, dst_fname, skip=part.start, length=part.size)
-+            self._partimages[pnum] = dst_fname
-+
-+        return self._partimages[pnum]
-+
-+    def dir(self, pnum, path):
-+        return exec_cmd("{} -i {} ::{}".format(self.mdir,
-+                                               self._get_part_image(pnum),
-+                                               path))
-+
- def wic_ls(args, native_sysroot):
-     """List contents of partitioned image or vfat partition."""
--    pass
-+    disk = Disk(args.path.image, native_sysroot)
-+    if not args.path.part:
-+        if disk.partitions:
-+            print('Num     Start        End          Size      Fstype')
-+            for part in disk.partitions.values():
-+                print("{:2s}  {:12d} {:12d} {:12d}  {}".format(\
-+                          part.pnum, part.start, part.end,
-+                          part.size, part.fstype))
-+    else:
-+        path = args.path.path or '/'
-+        print(disk.dir(args.path.part, path))
- 
- def find_canned(scripts_path, file_name):
-     """
+ def wic_init_parser_help(subparser):
+     helpparsers = subparser.add_subparsers(dest='help_topic', help=hlp.wic_usage)
+     for helptopic in helptopics:
 -- 
 2.1.4
 
