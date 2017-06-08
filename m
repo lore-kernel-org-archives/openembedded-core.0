@@ -1,56 +1,47 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-io0-f174.google.com (mail-io0-f174.google.com
-	[209.85.223.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 47E8C78277
+Return-Path: <michael.davis@essvote.com>
+Received: from mail1.essvote.com (mail1.essvote.com [66.37.226.19])
+	by mail.openembedded.org (Postfix) with ESMTP id 33E707827A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Jun 2017 14:36:32 +0000 (UTC)
-Received: by mail-io0-f174.google.com with SMTP id i7so20969122ioe.1
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 08 Jun 2017 07:36:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:organization:mime-version:content-transfer-encoding;
-	bh=hGqUCEAS6I0keG27bP2VMv/rliuNPkSSLGP7I3ymmG8=;
-	b=ZN0xShr9T2FRM7F2moih4wCfiS0l6QacBgMWBVXFB+MCkJuXc33BpsZF1O9SounPIY
-	aYURRHqhGuychxWundMGiRPoqAxmlztMqmorM9SigeWMdUSr9cnGr3fIAu990cW+Bzz2
-	rGKWqn1Y2aodEmUkptbIQ2q9xskgT4x38rlPu+04m6OHeQU8gpraGm4SmfHosiCaQDU9
-	BdfvjudOQD9z+wB0J7WqfZg1FbH2ImPi3nWzKXgg9LPo2+olSYgYcg3D6MnWnI8+WV7B
-	44lmnFk/U10X/yyoOXL1ayuXSQSTh+N++LhynX2onJQ95WGknC2Kgqa/Fhsmbd151ME4
-	NXRA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:organization:mime-version:content-transfer-encoding;
-	bh=hGqUCEAS6I0keG27bP2VMv/rliuNPkSSLGP7I3ymmG8=;
-	b=VUJzSR1YL7sDLYmno7tbEnvRZSr34qdsgRFaJ+vZRz22SHFPI1y9WiCc1CJ3ZOZBsH
-	6QHnNP9F6eo/ajbeAoDDo1tEz2Ekr8WeFojLnirXeuFbRzDz6sKzn2ONbSUYjL4VX2nZ
-	1OGrp2BBloTBjPOhEbx0/s0IsHJb++WiC2vvivfOBbEHnjlj1Zt5g0j0VYKZ5WO/iXCo
-	sOUYhfdMHIQXj85qEs7xCMRf9jiqzXyfigsfbxLfmNNUmqqmJLP0S5giyDQ3fMzfYxbT
-	8JUZL5ChZWV9RrN0kFlXozcQsYux7pXC03b46w8qQYoZRTgl+CLqpH/jq9m6AZ9IUqjE
-	ro6g==
-X-Gm-Message-State: AODbwcAHCPa0DTMeAeeBjAdfFfF/CFbSK/PpV1Xk2Gnth+DFfdPoc0/Z
-	9Q8tqVejRUJD2QgT
-X-Received: by 10.107.155.140 with SMTP id d134mr36054956ioe.88.1496932593230; 
-	Thu, 08 Jun 2017 07:36:33 -0700 (PDT)
-Received: from pohly-mobl1 (p5DE8CE54.dip0.t-ipconnect.de. [93.232.206.84])
-	by smtp.gmail.com with ESMTPSA id
-	r82sm2224036iod.45.2017.06.08.07.36.31
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 08 Jun 2017 07:36:32 -0700 (PDT)
-Message-ID: <1496932588.30163.135.camel@intel.com>
-From: Patrick Ohly <patrick.ohly@intel.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Date: Thu, 08 Jun 2017 16:36:28 +0200
-In-Reply-To: <1496913653.6630.233.camel@linuxfoundation.org>
-References: <cover.8ea05a588020117b72a57015f699c7acd76b93e6.1496849345.git-series.patrick.ohly@intel.com>
-	<4e9ae0188740bcab90705399321c8db4631ecbc0.1496849345.git-series.patrick.ohly@intel.com>
-	<1496913653.6630.233.camel@linuxfoundation.org>
-Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
-X-Mailer: Evolution 3.12.9-1+b1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/2] utils.py: helper function for optional include files
+	Thu,  8 Jun 2017 14:37:03 +0000 (UTC)
+X-AuditID: 0a000213-38bff7000000094f-d8-5939610de5c4
+Received: from ESS-EX01.essvote.corp.local (Unknown_Domain [172.16.110.40])
+	by mail1.essvote.com (Symantec Messaging Gateway) with SMTP id
+	B9.73.02383.D0169395; Thu,  8 Jun 2017 09:37:04 -0500 (CDT)
+Received: from ESS-EX01.essvote.corp.local ([::1]) by
+	ESS-EX01.essvote.corp.local ([::1]) with mapi id 14.03.0301.000;
+	Thu, 8 Jun 2017 09:37:01 -0500
+From: "Davis, Michael" <michael.davis@essvote.com>
+To: Jonathan Liu <net147@gmail.com>
+Thread-Topic: [OE-core] [oe-core] DISK_SIGNATURE no longer functional
+Thread-Index: AdLRjNlT3YpLq7j4SnSX4LjtvYzswQM9ztKAABEshSAAHF/wgAAbk+xwADI3LoAAAzajsA==
+Date: Thu, 8 Jun 2017 14:37:00 +0000
+Message-ID: <655290B7709079438B7932553958E60DA1312ADA@ESS-EX01.essvote.corp.local>
+References: <655290B7709079438B7932553958E60DA13093A0@ESS-EX01.essvote.corp.local>
+	<CANwerB2eshSg18OsfbP7fA=EyFBBnrON-PvqeXTRkZrfFngFvQ@mail.gmail.com>
+	<655290B7709079438B7932553958E60DA1311709@ESS-EX01.essvote.corp.local>
+	<CANwerB2o98GhytVTMtG97AGjS+dnFEKaq9BsSNv27X=XFGwzKQ@mail.gmail.com>
+	<655290B7709079438B7932553958E60DA131231B@ESS-EX01.essvote.corp.local>
+	<CANwerB01SW-s_jBHv+1nykCU5WHR2eQ6xPHbi7cJ=_txbEEzpg@mail.gmail.com>
+In-Reply-To: <CANwerB01SW-s_jBHv+1nykCU5WHR2eQ6xPHbi7cJ=_txbEEzpg@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.1.20.77]
+MIME-Version: 1.0
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrELMWRmVeSWpSXmKPExsWyRiBPQ1cg0TLS4MtzRYtDN88wWtz5+Y7d
+	gclj56y77B7nNq5gDGCK4rJJSc3JLEst0rdL4Mp4MmUfW8EriYr9H66wNTDOkOhi5OSQEDCR
+	uLHnFmMXIxeHkMAJRom2q3vZIJyZjBI7Lv5nA6liEzCSOHd9EyOILSKgLHHo81wWEJtZIFri
+	zu8z7CC2sICLRM/x62wQNa4Sq45NZoewwyTevv3CBGKzCKhITHvRBmbzCgRJnGhYxAqxbCez
+	xPZVDawgCU6BQIk1LcvAljEKiEl8P7WGCWKZuMStJ/OZIM4WkFiy5zwzhC0q8fLxP1YIW07i
+	XVMbkM0BVK8psX6XPkSrosSU7ofsEHsFJU7OfMIygVF0FpKpsxA6ZiHpmIWkYwEjyypGwdzE
+	zBxDvdTi4rL8klS95PzcTYzA+OBiYBLewbhgRuwhRgEORiUe3oQIy0gh1sSy4srcQ4zSHCxK
+	4rxioRaRQgLpiSWp2ampBalF8UWlOanFhxiZODhBBJdUA2Ods43od9lN7OvUHtzMXb9+o975
+	8pfWQZey/sl0nJbxqppzxmhO0PSXntXzmox2JVl2G/kEf7Nuiny483tj1C31sw2T/pz/+Xff
+	rollFkodNlPYTh3qDzm0qDA4pTHwprx+8K7Ikh3n/1+7a1rydd7jT/a5IS23dSXklCJ2dqkf
+	vvvYvSupUUCJpTgj0VCLuag4EQA+QsTzdQIAAA==
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: DISK_SIGNATURE no longer functional
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,75 +54,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Jun 2017 14:36:33 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 08 Jun 2017 14:37:04 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On Thu, 2017-06-08 at 10:20 +0100, Richard Purdie wrote:
-> On Wed, 2017-06-07 at 17:31 +0200, Patrick Ohly wrote:
-> > By using oe.utils.optional_includes(), developers can simplify the
-> > code which selects which additional include files need to be included
-> > in a .bbappend.
-> > 
-> > In the simple case (one distro feature and one include file) the code
-> > is not shorter, but the intent is clearer than corresponding code
-> > using bb.utils.contains():
-> > 
-> >    require ${@ oe.utils.optional_includes(d, 'foo-feature:bar.inc') }
-> > 
-> > More complex cases are also supported, in particular include files
-> > that are required for one of several distro features or multiple
-> > different include files.
-> > 
-> > To keep the common use case simple, DISTRO_FEATURES are checked by
-> > default. Checking IMAGE_FEATURES might also be useful.
-> > 
-> > The DISTRO_FEATURES default and the intended usage make this more
-> > suitable for OE-core than bitbake.
-> 
-> I'm honestly not sure this actually aids readability.
-
-Fair enough.
-
-> Taking your example:
-> 
-> require ${@oe.utils.optional_includes(d, "foo,bar:foo-or-bar.inc xyz:x.inc,y.inc,z.inc")}
-> 
-> I think I actually prefer:
-> 
-> require ${@oe.utils.optional_includes(d, "foo,bar:foo-or-bar.inc")}
-> require ${@oe.utils.optional_includes(d, "xyz:x.inc,y.inc,z.inc")}
-> 
-> since its more explict. Spelling this out with the existing syntax
-> isn't so bad either, I probably still think that this is clearer too:
-> 
-> require ${@bb.utils.contains(d, "DISTRO_FEATURES", "foo bar", "foo-or-bar.inc", "")}
-
-That's the "foo and bar" case, not "foo or bar". It's an actual mistake
-that people have made and that didn't get caught during code review.
-
-> require ${@bb.utils.contains(d, "DISTRO_FEATURES", "xyz", "x.inc y.inc z.inc", "")}
-> 
-> How about simply:
-> 
-> require ${@oe.utils.distro_features(d, "foo bar", "foo-or-bar.inc")}
-> require ${@bb.utils.distro_features(d, "xyz", "x.inc y.inc z.inc")}
-
-That works for me, I just wonder about the exact semantic of listing
-multiple features: "and" as in contains(), or "any"?
-
-I'm leaning towards two functions where that is explicit:
-  oe.utils.all_distro_features(d, "foo bar", "foo-and-bar.inc")
-  oe.utils.any_distro_features(d, "foo bar", "foo-or-bar.inc")
-
--- 
-Best Regards, Patrick Ohly
-
-The content of this message is my personal opinion only and although
-I am an employee of Intel, the statements I make here in no way
-represent Intel's position on the issue, nor am I authorized to speak
-on behalf of Intel on this matter.
-
-
-
+Sm9uYXRoYW4sDQoNClllcCB0aGF0IGZpeGVkIGl0Lg0KDQpUaGFua3MsDQpNaWtlDQoNCg0KLS0t
+LS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCkZyb206IEpvbmF0aGFuIExpdSBbbWFpbHRvOm5ldDE0
+N0BnbWFpbC5jb21dIA0KU2VudDogVGh1cnNkYXksIEp1bmUgMDgsIDIwMTcgNjowOCBBTQ0KVG86
+IERhdmlzLCBNaWNoYWVsDQpDYzogb3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVk
+Lm9yZw0KU3ViamVjdDogUmU6IFtPRS1jb3JlXSBbb2UtY29yZV0gRElTS19TSUdOQVRVUkUgbm8g
+bG9uZ2VyIGZ1bmN0aW9uYWwNCg0KSGkgTWljaGFlbCwNCg0KSSBoYXZlIHNlbnQgYSBwYXRjaCB0
+byB0aGUgbWFpbGluZyBsaXN0IGFuZCBDQy1lZCB5b3UuDQpMZXQgbWUga25vdyBpZiBpdCBmaXhl
+cyB0aGUgaXNzdWUuDQoNClJlZ2FyZHMsDQpKb25hdGhhbg0KDQpPbiA4IEp1bmUgMjAxNyBhdCAw
+MjoxMiwgRGF2aXMsIE1pY2hhZWwgPG1pY2hhZWwuZGF2aXNAZXNzdm90ZS5jb20+IHdyb3RlOg0K
+PiBJIHRyaWVkIHVzaW5nICBST09UX1ZNID0gInJvb3Q9UEFSVFVVSUQ9JHtESVNLX1NJR05BVFVS
+RX0tMDIiDQo+DQo+IFRoZSByZXN1bHRpbmcgUEFSVFVVSUQgaW4gc3lzbGludXggYXBwZW5kIGxp
+bmUgc3RpbGwgZG9lc27igJl0IG1hdGNoIHRoZSBvbmUNCj4gb24gdGhlIGFjdHVhbCBkaXNrLg0K
+Pg0KPg0KPg0KPg0KPg0KPiBGcm9tOiBKb25hdGhhbiBMaXUgW21haWx0bzpuZXQxNDdAZ21haWwu
+Y29tXQ0KPiBTZW50OiBUdWVzZGF5LCBKdW5lIDA2LCAyMDE3IDU6MDEgUE0NCj4NCj4NCj4gVG86
+IERhdmlzLCBNaWNoYWVsDQo+IENjOiBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRk
+ZWQub3JnDQo+IFN1YmplY3Q6IFJlOiBbT0UtY29yZV0gW29lLWNvcmVdIERJU0tfU0lHTkFUVVJF
+IG5vIGxvbmdlciBmdW5jdGlvbmFsDQo+DQo+DQo+DQo+IEhpIE1pY2hhZWwsDQo+DQo+DQo+DQo+
+IFNlZSBodHRwczovL3BhdGNod29yay5vcGVuZW1iZWRkZWQub3JnL3BhdGNoLzEyODU2NS8uIFNZ
+U0xJTlVYX1JPT1Qgd2FzDQo+IHJlbmFtZWQgdG8gUk9PVF9WTSBpbiBLcm9nb3RoLg0KPg0KPg0K
+Pg0KPiBSZWdhcmRzLA0KPg0KPiBKb25hdGhhbg0KPg0KPg0KPg0KPiBPbiBUdWUuLCA2IEp1bi4g
+MjAxNyBhdCAxMToyOSBwbSwgRGF2aXMsIE1pY2hhZWwgPG1pY2hhZWwuZGF2aXNAZXNzdm90ZS5j
+b20+DQo+IHdyb3RlOg0KPg0KPiBQeXJvLg0KPg0KPiBHdWVzc2luZyBzb21ldGhpbmcgd2l0aCBh
+bGwgdGhlIG5ldyB3aWMgYWRkaXRpb25zIGtpbGxlZCBpdC4NCj4NCj4NCj4gLS0tLS1PcmlnaW5h
+bCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogSm9uYXRoYW4gTGl1IFttYWlsdG86bmV0MTQ3QGdtYWls
+LmNvbV0NCj4gU2VudDogTW9uZGF5LCBKdW5lIDA1LCAyMDE3IDc6MTcgUE0NCj4gVG86IERhdmlz
+LCBNaWNoYWVsDQo+IENjOiBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3Jn
+DQo+IFN1YmplY3Q6IFJlOiBbT0UtY29yZV0gW29lLWNvcmVdIERJU0tfU0lHTkFUVVJFIG5vIGxv
+bmdlciBmdW5jdGlvbmFsDQo+DQo+IEhpIE1pY2hhZWwsDQo+DQo+IE9uIDIxIE1heSAyMDE3IGF0
+IDAzOjE2LCBEYXZpcywgTWljaGFlbCA8bWljaGFlbC5kYXZpc0Blc3N2b3RlLmNvbT4gd3JvdGU6
+DQo+PiBJIGFtIHRyeWluZyB0byBjcmVhdGUgYSBnZW5lcmljIE1TRE9TIFBDX0JJT1MgaGRkZGly
+ZWN0IGltYWdlIHdpdGggYSByb290DQo+PiBwYXJ0aXRpb24gc2V0IGJ5IHRoZSBESVNLX1NJR05B
+VFVSRS4NCj4+DQo+PiBTWVNMSU5VWF9ST09UID0gInJvb3Q9UEFSVFVVSUQ9JHtESVNLX1NJR05B
+VFVSRX0tMDIiDQo+Pg0KPj4NCj4+DQo+PiBIb3dldmVyIHRoZSBzaWduYXR1cmUgZ2VuZXJhdGVk
+IGluIHN5c2xpbnV4LmNmZyBhbmQgdGhlIG9uZSBvbiB0aGUgZGlzaw0KPj4gZG9u4oCZdCBtYXRj
+aC4NCj4+DQo+PiBJIHRyaWVkIGRlZmluaW5nIG15IG93biBzaWduYXR1cmUgYW5kIHRoZSBvbmUg
+aW4gc3lzbGludXggY2hhbmdlcywgYnV0IHRoZQ0KPj4gb25lIG9uIHRoZSBkaXNrIGRvZXNu4oCZ
+dCBtYXRjaC4NCj4+DQo+Pg0KPj4NCj4+IHJvb3Q9UEFSVFVVSUQ9MjJhYWY4M2ItMDINCj4+DQo+
+Pg0KPj4NCj4+IE5BTUUgICBQQVJUVVVJRA0KPj4NCj4+IHNkZA0KPj4NCj4+IOKUnOKUgHNkZDIg
+MzQxZTg0YTctMDINCj4+DQo+PiDilJzilIBzZGQzIDM0MWU4NGE3LTAzDQo+Pg0KPj4g4pSU4pSA
+c2RkMSAzNDFlODRhNy0wMQ0KPg0KPiBXaGljaCByZWxlYXNlIGRpZCBESVNLX1NJR05BVFVSRSBz
+dG9wIHdvcmtpbmc/DQo+DQo+IFJlZ2FyZHMsDQo+IEpvbmF0aGFuDQo=
 
