@@ -1,26 +1,30 @@
-Return-Path: <anibal.limon@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 1DBE778286
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by mail.openembedded.org (Postfix) with ESMTP id DF6707827E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Jun 2017 16:32:08 +0000 (UTC)
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	08 Jun 2017 09:32:09 -0700
+	Thu,  8 Jun 2017 16:35:06 +0000 (UTC)
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+	by orsmga104.jf.intel.com with ESMTP; 08 Jun 2017 09:35:06 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.39,315,1493708400"; d="scan'208";a="271875698"
-Received: from alimonb-mobl1.zpn.intel.com ([10.219.128.117])
-	by fmsmga004.fm.intel.com with ESMTP; 08 Jun 2017 09:32:08 -0700
-From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  8 Jun 2017 11:32:07 -0500
-Message-Id: <0ffac7a80b8afebf7d8f79c54d84f6a123f3b9c3.1496939387.git.anibal.limon@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <cover.1496939387.git.anibal.limon@linux.intel.com>
-References: <cover.1496939387.git.anibal.limon@linux.intel.com>
-In-Reply-To: <cover.1496939387.git.anibal.limon@linux.intel.com>
-References: <cover.1496939387.git.anibal.limon@linux.intel.com>
+X-IronPort-AV: E=Sophos;i="5.39,315,1493708400"; d="scan'208";a="110801032"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by orsmga005.jf.intel.com with ESMTP; 08 Jun 2017 09:35:05 -0700
+To: Jose Perez Carranza <jose.perez.carranza@linux.intel.com>,
+	"Burton, Ross" <ross.burton@intel.com>
+References: <a5c78ee6-8320-7508-18d1-16762bed364c@linux.intel.com>
+	<20170515135023.4090-1-jose.perez.carranza@linux.intel.com>
+	<CAJTo0LYe=7Ug3wJSWwPX5VT=cy7GDe0Kf79uPFmC1tMj-0b-6Q@mail.gmail.com>
+	<e1d6c111-bd9d-af76-ae44-d6921c723ba6@linux.intel.com>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <f3d6469c-b0a8-6f75-7c02-e8afd0cf04bd@linux.intel.com>
+Date: Thu, 8 Jun 2017 19:35:05 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.8.0
 MIME-Version: 1.0
-Subject: [PATCH 7/7] oeqa/core/loader: Fix filtering on test modules with submodules
+In-Reply-To: <e1d6c111-bd9d-af76-ae44-d6921c723ba6@linux.intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v3] runtime/dnf: Add new dnf test cases
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,140 +37,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Jun 2017 16:32:09 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 08 Jun 2017 16:35:07 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Our filtering allows to specify which tests to run using,
+On 06/07/2017 08:31 PM, Jose Perez Carranza wrote:
+> When I tried this test image was built without using states hence
+> "busybox*.rpm" and "curl*.rpm"where present under
+> "tmp/deploy/rpm/core2_64" hence the repo i taking tha packages form
+> there to add them to repo and used on the image, but when using sstates
+> those packages are not being built so are not present on local build
+> directory. is there any way to force those packages to be built to have
+> them available on tmp/deploy/rpm/core2_64?
 
-<module_name>.[test_class].[test_name]
+At least one of the failures has nothing to do with sstate or repositories:
 
-But the module name logic was restricted to only accept one level,
-for example: runtime_test vs oelib.types, to support multiple
-submodules use only the first part for filtering.
+   File 
+"/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-x32/build/meta/lib/oeqa/runtime/cases/dnf.py", 
+line 136, in test_dnf_exclude
+     if self.dnf('list curl %s' % excludepkg ,0):
+   File 
+"/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-x32/build/meta/lib/oeqa/runtime/cases/dnf.py", 
+line 18, in dnf
+     self.assertEqual(status, expected, message)
+AssertionError: 1 != 0 : dnf list curl curl-dev
+Error: No matching Packages to list
 
-This allows to run the whole tests in a module with more than tree
-levels.
 
-Due to the ambiguity on the test filtering options with test cases
-with more than tree levels the supported sytnax is,
+That line is asking if curl package is installed on the image, and, in 
+core-image-sato's case it isn't, and so failure occurs. The repositories 
+are not even accessed.
 
-<module>
+I haven't been able to reproduce the installroot failure, works fine here.
 
-or
 
-<module>.[submoduleN].[test_class].[test_name]
-
-[YOCTO #11632]
-
-Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
----
- meta/lib/oeqa/core/loader.py | 70 +++++++++++++++++++++-----------------------
- 1 file changed, 34 insertions(+), 36 deletions(-)
-
-diff --git a/meta/lib/oeqa/core/loader.py b/meta/lib/oeqa/core/loader.py
-index b9385ea..d110881 100644
---- a/meta/lib/oeqa/core/loader.py
-+++ b/meta/lib/oeqa/core/loader.py
-@@ -164,8 +164,11 @@ class OETestLoader(unittest.TestLoader):
-         """
-             Returns True if test case must be filtered, False otherwise.
-         """
--        # Filters by module.class.name
--        module_name = case.__module__
-+        # XXX; If the module has more than one namespace only use
-+        # the first to support run the whole module specifying the
-+        # <module_name>.[test_class].[test_name]
-+        module_name = case.__module__.split('.')[0]
-+
-         class_name = case.__class__.__name__
-         test_name = case._testMethodName
- 
-@@ -280,6 +283,33 @@ class OETestLoader(unittest.TestLoader):
- 
-         return self.suiteClass(cases) if cases else big_suite
- 
-+    def _filterModule(self, module):
-+        if module.__name__ in sys.builtin_module_names:
-+            msg = 'Tried to import %s test module but is a built-in'
-+            raise ImportError(msg % module.__name__)
-+
-+        # XXX; If the module has more than one namespace only use
-+        # the first to support run the whole module specifying the
-+        # <module_name>.[test_class].[test_name]
-+        module_name = module.__name__.split('.')[0]
-+
-+        # Normal test modules are loaded if no modules were specified,
-+        # if module is in the specified module list or if 'all' is in
-+        # module list.
-+        # Underscore modules are loaded only if specified in module list.
-+        load_module = True if not module_name.startswith('_') \
-+                              and (not self.modules \
-+                                   or module_name in self.modules \
-+                                   or 'all' in self.modules) \
-+                           else False
-+
-+        load_underscore = True if module_name.startswith('_') \
-+                                  and module_name in self.modules \
-+                               else False
-+
-+        return (load_module, load_underscore)
-+
-+
-     # XXX After Python 3.5, remove backward compatibility hacks for
-     # use_load_tests deprecation via *args and **kws.  See issue 16662.
-     if sys.version_info >= (3,5):
-@@ -287,23 +317,7 @@ class OETestLoader(unittest.TestLoader):
-             """
-                 Returns a suite of all tests cases contained in module.
-             """
--            if module.__name__ in sys.builtin_module_names:
--                msg = 'Tried to import %s test module but is a built-in'
--                raise ImportError(msg % module.__name__)
--
--            # Normal test modules are loaded if no modules were specified,
--            # if module is in the specified module list or if 'all' is in
--            # module list.
--            # Underscore modules are loaded only if specified in module list.
--            load_module = True if not module.__name__.startswith('_') \
--                                  and (not self.modules \
--                                       or module.__name__ in self.modules \
--                                       or 'all' in self.modules) \
--                               else False
--
--            load_underscore = True if module.__name__.startswith('_') \
--                                      and module.__name__ in self.modules \
--                                   else False
-+            load_module, load_underscore = self._filterModule(module)
- 
-             if load_module or load_underscore:
-                 return super(OETestLoader, self).loadTestsFromModule(
-@@ -315,23 +329,7 @@ class OETestLoader(unittest.TestLoader):
-             """
-                 Returns a suite of all tests cases contained in module.
-             """
--            if module.__name__ in sys.builtin_module_names:
--                msg = 'Tried to import %s test module but is a built-in'
--                raise ImportError(msg % module.__name__)
--
--            # Normal test modules are loaded if no modules were specified,
--            # if module is in the specified module list or if 'all' is in
--            # module list.
--            # Underscore modules are loaded only if specified in module list.
--            load_module = True if not module.__name__.startswith('_') \
--                                  and (not self.modules \
--                                       or module.__name__ in self.modules \
--                                       or 'all' in self.modules) \
--                               else False
--
--            load_underscore = True if module.__name__.startswith('_') \
--                                      and module.__name__ in self.modules \
--                                   else False
-+            load_module, load_underscore = self._filterModule(module)
- 
-             if load_module or load_underscore:
-                 return super(OETestLoader, self).loadTestsFromModule(
--- 
-2.1.4
+Alex
 
 
