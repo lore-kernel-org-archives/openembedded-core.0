@@ -1,27 +1,26 @@
 Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 9527F78205
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 2B36E7826A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Jun 2017 16:15:13 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	08 Jun 2017 09:15:15 -0700
+	Thu,  8 Jun 2017 16:15:14 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga105.fm.intel.com with ESMTP; 08 Jun 2017 09:15:16 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.39,315,1493708400"; d="scan'208";a="97154082"
+X-IronPort-AV: E=Sophos;i="5.39,315,1493708400"; d="scan'208";a="1179988989"
 Received: from linux.intel.com ([10.54.29.200])
-	by orsmga002.jf.intel.com with ESMTP; 08 Jun 2017 09:15:14 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 08 Jun 2017 09:15:15 -0700
 Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
-	by linux.intel.com (Postfix) with ESMTP id BCA8458029B
+	by linux.intel.com (Postfix) with ESMTP id C7A3558029B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Jun 2017 09:15:13 -0700 (PDT)
+	Thu,  8 Jun 2017 09:15:14 -0700 (PDT)
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  8 Jun 2017 19:12:44 +0300
-Message-Id: <de4d2c92ab42c22016ec59eb3ac23b34e160921f.1496938139.git.ed.bartosh@linux.intel.com>
+Date: Thu,  8 Jun 2017 19:12:45 +0300
+Message-Id: <450de9ab74bbf2a08e160d1241259d6914b28b67.1496938139.git.ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1496938139.git.ed.bartosh@linux.intel.com>
 References: <cover.1496938139.git.ed.bartosh@linux.intel.com>
-Subject: [PATCH 02/25] filemap: add parameter 'length' to sparse_copy
+Subject: [PATCH 03/25] bootimg-pcbios: make boot image file unique
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,56 +33,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Jun 2017 16:15:13 -0000
+X-List-Received-Date: Thu, 08 Jun 2017 16:15:15 -0000
 
-Added parameter 'length' to specify amount of data
-to write into destination file. This is useful when only
-part of source file should be written into destination file.
+Plugin code uses boot.img file name for an image file. If there are
+two partitions that use bootimg-pcbios wic breaks with an error
+"file already exists: boot.img"
+
+Made image file name unique by adding wks like number to it to fix
+the issue.
 
 Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 ---
- scripts/lib/wic/filemap.py | 15 ++++++++++++---
- 1 file changed, 12 insertions(+), 3 deletions(-)
+ scripts/lib/wic/plugins/source/bootimg-pcbios.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/scripts/lib/wic/filemap.py b/scripts/lib/wic/filemap.py
-index 585b7ea..8fe302a 100644
---- a/scripts/lib/wic/filemap.py
-+++ b/scripts/lib/wic/filemap.py
-@@ -530,7 +530,8 @@ def filemap(image, log=None):
-     except ErrorNotSupp:
-         return FilemapSeek(image, log)
+diff --git a/scripts/lib/wic/plugins/source/bootimg-pcbios.py b/scripts/lib/wic/plugins/source/bootimg-pcbios.py
+index 5890c12..98ad88b 100644
+--- a/scripts/lib/wic/plugins/source/bootimg-pcbios.py
++++ b/scripts/lib/wic/plugins/source/bootimg-pcbios.py
+@@ -186,7 +186,7 @@ class BootimgPcbiosPlugin(SourcePlugin):
+                      extra_blocks, part.mountpoint, blocks)
  
--def sparse_copy(src_fname, dst_fname, offset=0, skip=0, api=None):
-+def sparse_copy(src_fname, dst_fname, offset=0, skip=0,
-+                length=0, api=None):
-     """Efficiently copy sparse file to or into another file."""
-     if not api:
-         api = filemap
-@@ -541,6 +542,7 @@ def sparse_copy(src_fname, dst_fname, offset=0, skip=0, api=None):
-         dst_file = open(dst_fname, 'wb')
-         dst_file.truncate(os.path.getsize(src_fname))
+         # dosfs image, created by mkdosfs
+-        bootimg = "%s/boot.img" % cr_workdir
++        bootimg = "%s/boot%s.img" % (cr_workdir, part.lineno)
  
-+    written = 0
-     for first, last in fmap.get_mapped_ranges(0, fmap.blocks_cnt):
-         start = first * fmap.block_size
-         end = (last + 1) * fmap.block_size
-@@ -561,7 +563,14 @@ def sparse_copy(src_fname, dst_fname, offset=0, skip=0, api=None):
-         while read < to_read:
-             if read + chunk_size > to_read:
-                 chunk_size = to_read - read
--            chunk = fmap._f_image.read(chunk_size)
-+            size = chunk_size
-+            if length and written + size > length:
-+                size = length - written
-+            chunk = fmap._f_image.read(size)
-             dst_file.write(chunk)
--            read += chunk_size
-+            read += size
-+            written += size
-+            if written == length:
-+                dst_file.close()
-+                return
-     dst_file.close()
+         dosfs_cmd = "mkdosfs -n boot -S 512 -C %s %d" % (bootimg, blocks)
+         exec_native_cmd(dosfs_cmd, native_sysroot)
 -- 
 2.1.4
 
