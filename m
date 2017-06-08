@@ -1,46 +1,34 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f50.google.com (mail-wm0-f50.google.com [74.125.82.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 19E0F781F6
+Return-Path: <jose.perez.carranza@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 629F6781C8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Jun 2017 12:58:31 +0000 (UTC)
-Received: by mail-wm0-f50.google.com with SMTP id n195so30546907wmg.1
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 08 Jun 2017 05:58:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=DjU9fkkNLOwiCNSeLWSkuenwk8JX3pDLqe68ZUcmKX4=;
-	b=MnzhHXMuaL+2ZP4us81niBev9o5iva3B7F02fBSLaxw/oORTsdr9oLNO0OT6lpmKfH
-	XiDHnGrPRR7bW+HiVkT3U+MP2S8ocYpwKl2gKutRdkk6v7j4QRPupGybqtQ7MgExezMO
-	0WoBOY3Bq/M6eA7gD/ztW3CHu077RWxQfR00qaOJcHq7jdS+1FYnSGATA5iWADjcHSsl
-	xUbWQpb64f4NXnIMLIPtJj0QovanHWFG8jVQHiF1sdS/GgPFDp7Qf+bBEQaSrMKL9Hga
-	fTd+u2s872ibsoEZTy/c5l0+La1b+CP9qkeu/3my2X4ebyTGmEWeORib/D+dD/pJbewY
-	x/1Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=DjU9fkkNLOwiCNSeLWSkuenwk8JX3pDLqe68ZUcmKX4=;
-	b=KXWROjUwck9ljMS0Y3yNfVW0k+iL6mgeo2InrZgZaR66jDUTakQYMH4zC75s3kwiqj
-	w2Pw69IHPIPGlicyzigK0rgVo+rOpRYxskrFXz3+ijy4eM/+eEsLPbUkJjIi3e/afHwV
-	v9O81N2SX4/GpMLOiPIA7t21wZHdW/Dp0r92r56aIPZYkTa45HuRvO/k5MYo3UsU4npo
-	m9p1ZHewbqvBLAgfm+7gvxSG7X/6O5a9ptVXxKrZV1uHV50axEwMLnwiylYq8TOyL1zu
-	HW6Fn40sDus1KNKbeIDBswMUFAOZB0ONa/0cXxIY3lGP7KDLgcqSt9G80SMCGEZQPWiZ
-	XoyA==
-X-Gm-Message-State: AKS2vOxWF3AQEXp3heCQwh3rteRfBCy8O6bCPKY95sCZV2CY8+fX3dZO
-	XPsJRIlAPKeIz/nz5lU=
-X-Received: by 10.28.45.13 with SMTP id t13mr3354194wmt.98.1496926711785;
-	Thu, 08 Jun 2017 05:58:31 -0700 (PDT)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id m14sm4918503wmi.2.2017.06.08.05.58.30
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 08 Jun 2017 05:58:31 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  8 Jun 2017 13:58:29 +0100
-Message-Id: <1496926709-20617-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.8.1
-Subject: [PATCH] opkg-utils: if Python support is disabled, delete the Python scripts
+	Thu,  8 Jun 2017 13:09:13 +0000 (UTC)
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	08 Jun 2017 06:09:14 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.39,315,1493708400"; d="scan'208";a="112447413"
+Received: from jgperezc-mobl1.zpn.intel.com (HELO [10.219.4.33])
+	([10.219.4.33])
+	by fmsmga006.fm.intel.com with ESMTP; 08 Jun 2017 06:09:13 -0700
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>,
+	"Burton, Ross" <ross.burton@intel.com>
+References: <a5c78ee6-8320-7508-18d1-16762bed364c@linux.intel.com>
+	<20170515135023.4090-1-jose.perez.carranza@linux.intel.com>
+	<CAJTo0LYe=7Ug3wJSWwPX5VT=cy7GDe0Kf79uPFmC1tMj-0b-6Q@mail.gmail.com>
+	<e1d6c111-bd9d-af76-ae44-d6921c723ba6@linux.intel.com>
+	<1fc0defa-748a-bff4-2f72-7bc0d0f160d9@linux.intel.com>
+	<f602be74-9ed6-ceed-0a94-e1486f956add@linux.intel.com>
+	<3e99ba6b-5841-dbe3-b44b-25ffe906f04f@linux.intel.com>
+From: Jose Perez Carranza <jose.perez.carranza@linux.intel.com>
+Message-ID: <ffb7b2ad-adad-fa79-b01f-ae48f9f81195@linux.intel.com>
+Date: Thu, 8 Jun 2017 08:11:21 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.1.0
+MIME-Version: 1.0
+In-Reply-To: <3e99ba6b-5841-dbe3-b44b-25ffe906f04f@linux.intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v3] runtime/dnf: Add new dnf test cases
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,40 +41,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Jun 2017 12:58:32 -0000
+X-List-Received-Date: Thu, 08 Jun 2017 13:09:14 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 
-To make it obvious what is lost when python is disabled, actually delete the
-scripts so the user can't attempt to use them.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-devtools/opkg-utils/opkg-utils_git.bb | 5 +++++
- 1 file changed, 5 insertions(+)
 
-diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb b/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb
-index 06710b5..ed5980b 100644
---- a/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb
-+++ b/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb
-@@ -19,6 +19,7 @@ S = "${WORKDIR}/git"
- 
- TARGET_CC_ARCH += "${LDFLAGS}"
- 
-+# For native builds we use the host Python
- PYTHONRDEPS = "python3 python3-shell python3-io python3-math python3-crypt python3-logging python3-fcntl python3-subprocess python3-pickle python3-compression python3-textutils python3-stringold"
- PYTHONRDEPS_class-native = ""
- 
-@@ -31,6 +32,10 @@ do_install() {
- 	if ! ${@bb.utils.contains('PACKAGECONFIG', 'update-alternatives', 'true', 'false', d)}; then
- 		rm -f "${D}${bindir}/update-alternatives"
- 	fi
-+
-+    if ! ${@bb.utils.contains('PACKAGECONFIG', 'python', 'true', 'false', d)}; then
-+        grep -lZ "/usr/bin/env.*python" ${D}${bindir}/* | xargs -0 rm
-+    fi
- }
- 
- do_install_append_class-target() {
+On 06/08/2017 07:49 AM, Alexander Kanavin wrote:
+> On 06/08/2017 03:49 PM, Jose Perez Carranza wrote:
+>
+>> 1. bitbake core-image-sato using shared states (I'm using local sstates)
+>
+> When you do this, tmp/deploy/rpm should get re-populated with rpm 
+> packages, regardless of whether they're taken from sstate, or rebuilt.
+All those steps are done on a fresh build directory, so the first time 
+that image is built packages are not being populated when rebuilding the 
+image packages are get pupulated, but AB only built once the image and 
+then execute testimage.
+>
+> Can you check why this does not happen on your side?
+>
+> Alex
+
 -- 
-2.8.1
+Saludos
+José
 
 
