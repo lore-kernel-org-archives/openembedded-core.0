@@ -1,39 +1,33 @@
-Return-Path: <ismo.puustinen@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 2253265CC6
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 5004771ADD
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Jun 2017 10:20:53 +0000 (UTC)
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	08 Jun 2017 03:20:55 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.39,314,1493708400"; d="scan'208";a="112396785"
-Received: from irsmsx102.ger.corp.intel.com ([163.33.3.155])
-	by fmsmga006.fm.intel.com with ESMTP; 08 Jun 2017 03:20:54 -0700
-Received: from irsmsx112.ger.corp.intel.com (10.108.20.5) by
-	IRSMSX102.ger.corp.intel.com (163.33.3.155) with Microsoft SMTP Server
-	(TLS) id 14.3.319.2; Thu, 8 Jun 2017 11:20:53 +0100
-Received: from irsmsx107.ger.corp.intel.com ([169.254.10.129]) by
-	irsmsx112.ger.corp.intel.com ([169.254.1.42]) with mapi id
-	14.03.0319.002; Thu, 8 Jun 2017 11:20:52 +0100
-From: "Puustinen, Ismo" <ismo.puustinen@intel.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Thread-Topic: [OE-core] [PATCH v2] python3: make readline, gdbm, and db
-	support conditional.
-Thread-Index: AQHS35T4FenGFKJDF06RYftNXiAgH6IZX6oAgAFSNQA=
-Date: Thu, 8 Jun 2017 10:20:52 +0000
-Message-ID: <1496917250.23488.3.camel@intel.com>
-References: <20170607134942.13281-1-ismo.puustinen@intel.com>
-	<CAJTo0LbcEL78uNKy6CS0vUkDCT1OkW+X7ojk=KsYV-wTi-5S9Q@mail.gmail.com>
-In-Reply-To: <CAJTo0LbcEL78uNKy6CS0vUkDCT1OkW+X7ojk=KsYV-wTi-5S9Q@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.237.72.72]
-MIME-Version: 1.0
+	Thu,  8 Jun 2017 10:45:18 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	v58AjCQJ026473
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
+	verify=NOT); Thu, 8 Jun 2017 11:45:13 +0100
+Message-ID: <1496918712.6630.237.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patrick Ohly <patrick.ohly@intel.com>, Peter Kjellerstedt
+	<peter.kjellerstedt@axis.com>
+Date: Thu, 08 Jun 2017 11:45:12 +0100
+In-Reply-To: <1496901892.30163.119.camel@intel.com>
+References: <cover.8ea05a588020117b72a57015f699c7acd76b93e6.1496849345.git-series.patrick.ohly@intel.com>
+	<7942e5efccf0ee4fa360948d892b4508e3f1f00c.1496849345.git-series.patrick.ohly@intel.com>
+	<13cfc543313a4c59bb8c9688c91db3c4@XBOX02.axis.com>
+	<1496901892.30163.119.camel@intel.com>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.1 
+Mime-Version: 1.0
+X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.11
+	(dan.rpsys.net [192.168.3.1]);
+	Thu, 08 Jun 2017 11:45:13 +0100 (BST)
+X-Virus-Scanned: clamav-milter 0.99.2 at dan
+X-Virus-Status: Clean
 Cc: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] python3: make readline, gdbm, and db support conditional.
+Subject: Re: [PATCH 1/2] bitbake.conf: DISTRO_FEATURES as overrides
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,30 +40,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Jun 2017 10:20:54 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <06BE3C790EACE8488B10CD08D6B823CE@intel.com>
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Thu, 08 Jun 2017 10:45:20 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-T24gV2VkLCAyMDE3LTA2LTA3IGF0IDE1OjEwICswMTAwLCBCdXJ0b24sIFJvc3Mgd3JvdGU6DQo+
-IA0KPiBPbiA3IEp1bmUgMjAxNyBhdCAxNDo0OSwgSXNtbyBQdXVzdGluZW4gPGlzbW8ucHV1c3Rp
-bmVuQGludGVsLmNvbT4NCj4gd3JvdGU6DQo+ID4gK1JSRUNPTU1FTkRTXyR7UE59LWNvcmUgPSAi
-JHtAYmIudXRpbHMuY29udGFpbnMoJ1BBQ0tBR0VDT05GSUcnLA0KPiA+ICdyZWFkbGluZScsICck
-e1BOfS1yZWFkbGluZScsICcnLCBkKX0iDQo+ID4gDQo+IA0KPiBSZWNvbW1lbmRzIGNhbiBub3Qg
-ZXhpc3RzLCBzbyBJIHdvdWxkbid0IGJvdGhlciB3aXRoIHRoaXMNCj4gY29tcGxpY2F0aW9uLg0K
-DQpPaywgSSdsbCByZW1vdmUgaXQuDQoNCj4gPiArUkRFUEVORFNfJHtQTn0tbW9kdWxlc19yZW1v
-dmUgKz0gIiR7QGJiLnV0aWxzLmNvbnRhaW5zKCdQQUNLQUdFQ09ODQo+ID4gRklHJywgJ3JlYWRs
-aW5lJywgJycsICcke1BOfS1yZWFkbGluZScsIGQpfSINCj4gDQo+IChldGMpDQo+IA0KPiBEb24n
-dCB1c2UgX3JlbW92ZSBhbmQgKz0gYXMgaXQncyBjb25mdXNpbmcuDQoNCkknbGwgY2hhbmdlIHRo
-YXQuDQoNCj4gQnV0IGlmIGZvciBleGFtcGxlIHJlYWRsaW5lIGlzIGRpc2FibGVkLCB3aHkgd291
-bGQgdGhlIHBhY2thZ2UgYmUNCj4gY3JlYXRlZCBpbiB0aGUgZmlyc3QgcGxhY2U/DQoNClRoZSBw
-YWNrYWdlIGluZGVlZCBpc24ndCBjcmVhdGVkLiBIb3dldmVyLCBpdCdzIGFkZGVkIHRvDQpSREVQ
-RU5EU19weXRob24zLW1vZHVsZXMgaW4gcHl0aG9uMyBtYW5pZmVzdCBmaWxlIGhlcmU6DQoNCmh0
-dHBzOi8vZ2l0LnlvY3RvcHJvamVjdC5vcmcvY2dpdC9jZ2l0LmNnaS9wb2t5L3RyZWUvbWV0YS9y
-ZWNpcGVzLWRldnRvDQpvbHMvcHl0aG9uL3B5dGhvbi0zLjUtbWFuaWZlc3QuaW5jI24yODANCg0K
-VGhlIG90aGVyIHZhcmlhYmxlIGNoYW5nZXMgYXJlIGRvbmUgYWxzbyBpbiB0aGUgbWFuaWZlc3Qu
-IEhvd2V2ZXIsIHRoZQ0KbWFuaWZlc3QgZmlsZSB3YXJucyBhYm91dCBtb2RpZnlpbmcgaXQsIHNv
-IHRoZSBwYXRjaCAicmV2ZXJzZXMiIHRoZQ0KY2hhbmdlcyBiYXNlZCBvbiBQQUNLQUdFQ09ORklH
-IGZyb20gdGhlIHJlY2lwZS4NCg0KSXNtbw==
+On Thu, 2017-06-08 at 08:04 +0200, Patrick Ohly wrote:
+> On Wed, 2017-06-07 at 16:11 +0000, Peter Kjellerstedt wrote:
+> > 
+> > Rather than requiring that the wanted DISTRO_FEATURES that should
+> > be 
+> > available as overrides are defined in DISTRO_FEATURES_OVERRIDES
+> > (which 
+> > should not be confused with the similarly named
+> > DISTROFEATURESOVERRIDES 
+> > variable that you also add...),
+> I had thought about those names and in the end went ahead with the
+> similar names because the customizable one made sense to me and the
+> internal one is similar to the other entries in OVERRIDES.
+> 
+> > 
+> >  why not add them all but with a prefix. 
+> > I.e., similar to how package names are available as overrides
+> > prefixed 
+> > with "pn-", how about all distro features are made available as 
+> > overrides with a "df-" prefix?
+> That would be fine with me.
+> 
+> I just have a few concerns:
+>       * How performance-sensitive is OVERRIDES? How can the impact of
+>         both approaches be benchmarked? The idea behind the
+> configurable
+>         subset was to add only a few new overrides. We currently have
+>         almost 70 individual entries in DISTRO_FEATURES.
+>       * I've seen confusion about the pn- prefix. At least df- would
+> be
+>         named appropriately (in contrast to PN, which is historic),
+> but
+>         it's yet another convention that might not be immediately
+>         obvious. The same is true for selecting a subset with the
+> same
+>         name as the feature, though.
+>       * Can distro features contain characters that are invalid in an
+>         override? _ and : would have to be avoided, for example by
+>         mapping them to -.
+
+My feelings are:
+
+* We need to use a prefix. We've been burnt too many times in the past 
+  when not using these. "df-" is fine, users will just have to deal 
+  with it.
+
+* We should filter the list of overrides to those which the distro 
+  wants to nominate. I really don't want to encourage wider spread of 
+  things than we need to, these need to be conscious decisions.
+
+Cheers,
+
+Richard
+
+
+
+
 
