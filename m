@@ -1,29 +1,39 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 8B7A371AB3
+Return-Path: <ismo.puustinen@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 2253265CC6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Jun 2017 09:20:56 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	v589KrsG018590
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Thu, 8 Jun 2017 10:20:54 +0100
-Message-ID: <1496913653.6630.233.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patrick Ohly <patrick.ohly@intel.com>,
-	openembedded-core@lists.openembedded.org
-Date: Thu, 08 Jun 2017 10:20:53 +0100
-In-Reply-To: <4e9ae0188740bcab90705399321c8db4631ecbc0.1496849345.git-series.patrick.ohly@intel.com>
-References: <cover.8ea05a588020117b72a57015f699c7acd76b93e6.1496849345.git-series.patrick.ohly@intel.com>
-	<4e9ae0188740bcab90705399321c8db4631ecbc0.1496849345.git-series.patrick.ohly@intel.com>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.1 
-Mime-Version: 1.0
-X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.11
-	(dan.rpsys.net [192.168.3.1]);
-	Thu, 08 Jun 2017 10:20:55 +0100 (BST)
-X-Virus-Scanned: clamav-milter 0.99.2 at dan
-X-Virus-Status: Clean
-Subject: Re: [PATCH 2/2] utils.py: helper function for optional include files
+	Thu,  8 Jun 2017 10:20:53 +0000 (UTC)
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	08 Jun 2017 03:20:55 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.39,314,1493708400"; d="scan'208";a="112396785"
+Received: from irsmsx102.ger.corp.intel.com ([163.33.3.155])
+	by fmsmga006.fm.intel.com with ESMTP; 08 Jun 2017 03:20:54 -0700
+Received: from irsmsx112.ger.corp.intel.com (10.108.20.5) by
+	IRSMSX102.ger.corp.intel.com (163.33.3.155) with Microsoft SMTP Server
+	(TLS) id 14.3.319.2; Thu, 8 Jun 2017 11:20:53 +0100
+Received: from irsmsx107.ger.corp.intel.com ([169.254.10.129]) by
+	irsmsx112.ger.corp.intel.com ([169.254.1.42]) with mapi id
+	14.03.0319.002; Thu, 8 Jun 2017 11:20:52 +0100
+From: "Puustinen, Ismo" <ismo.puustinen@intel.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Thread-Topic: [OE-core] [PATCH v2] python3: make readline, gdbm, and db
+	support conditional.
+Thread-Index: AQHS35T4FenGFKJDF06RYftNXiAgH6IZX6oAgAFSNQA=
+Date: Thu, 8 Jun 2017 10:20:52 +0000
+Message-ID: <1496917250.23488.3.camel@intel.com>
+References: <20170607134942.13281-1-ismo.puustinen@intel.com>
+	<CAJTo0LbcEL78uNKy6CS0vUkDCT1OkW+X7ojk=KsYV-wTi-5S9Q@mail.gmail.com>
+In-Reply-To: <CAJTo0LbcEL78uNKy6CS0vUkDCT1OkW+X7ojk=KsYV-wTi-5S9Q@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.237.72.72]
+MIME-Version: 1.0
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] python3: make readline, gdbm, and db support conditional.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,56 +46,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Jun 2017 09:20:58 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 08 Jun 2017 10:20:54 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <06BE3C790EACE8488B10CD08D6B823CE@intel.com>
+Content-Transfer-Encoding: base64
 
-On Wed, 2017-06-07 at 17:31 +0200, Patrick Ohly wrote:
-> By using oe.utils.optional_includes(), developers can simplify the
-> code which selects which additional include files need to be included
-> in a .bbappend.
-> 
-> In the simple case (one distro feature and one include file) the code
-> is not shorter, but the intent is clearer than corresponding code
-> using bb.utils.contains():
-> 
->    require ${@ oe.utils.optional_includes(d, 'foo-feature:bar.inc') }
-> 
-> More complex cases are also supported, in particular include files
-> that are required for one of several distro features or multiple
-> different include files.
-> 
-> To keep the common use case simple, DISTRO_FEATURES are checked by
-> default. Checking IMAGE_FEATURES might also be useful.
-> 
-> The DISTRO_FEATURES default and the intended usage make this more
-> suitable for OE-core than bitbake.
-
-I'm honestly not sure this actually aids readability. Taking your
-example:
-
-require ${@oe.utils.optional_includes(d, "foo,bar:foo-or-bar.inc xyz:x.inc,y.inc,z.inc")}
-
-I think I actually prefer:
-
-require ${@oe.utils.optional_includes(d, "foo,bar:foo-or-bar.inc")}
-require ${@oe.utils.optional_includes(d, "xyz:x.inc,y.inc,z.inc")}
-
-since its more explict. Spelling this out with the existing syntax
-isn't so bad either, I probably still think that this is clearer too:
-
-require ${@bb.utils.contains(d, "DISTRO_FEATURES", "foo bar", "foo-or-bar.inc", "")}
-require ${@bb.utils.contains(d, "DISTRO_FEATURES", "xyz", "x.inc y.inc z.inc", "")}
-
-How about simply:
-
-require ${@oe.utils.distro_features(d, "foo bar", "foo-or-bar.inc")}
-require ${@bb.utils.distro_features(d, "xyz", "x.inc y.inc z.inc")}
-
-?
-
-Cheers,
-
-Richard
-
+T24gV2VkLCAyMDE3LTA2LTA3IGF0IDE1OjEwICswMTAwLCBCdXJ0b24sIFJvc3Mgd3JvdGU6DQo+
+IA0KPiBPbiA3IEp1bmUgMjAxNyBhdCAxNDo0OSwgSXNtbyBQdXVzdGluZW4gPGlzbW8ucHV1c3Rp
+bmVuQGludGVsLmNvbT4NCj4gd3JvdGU6DQo+ID4gK1JSRUNPTU1FTkRTXyR7UE59LWNvcmUgPSAi
+JHtAYmIudXRpbHMuY29udGFpbnMoJ1BBQ0tBR0VDT05GSUcnLA0KPiA+ICdyZWFkbGluZScsICck
+e1BOfS1yZWFkbGluZScsICcnLCBkKX0iDQo+ID4gDQo+IA0KPiBSZWNvbW1lbmRzIGNhbiBub3Qg
+ZXhpc3RzLCBzbyBJIHdvdWxkbid0IGJvdGhlciB3aXRoIHRoaXMNCj4gY29tcGxpY2F0aW9uLg0K
+DQpPaywgSSdsbCByZW1vdmUgaXQuDQoNCj4gPiArUkRFUEVORFNfJHtQTn0tbW9kdWxlc19yZW1v
+dmUgKz0gIiR7QGJiLnV0aWxzLmNvbnRhaW5zKCdQQUNLQUdFQ09ODQo+ID4gRklHJywgJ3JlYWRs
+aW5lJywgJycsICcke1BOfS1yZWFkbGluZScsIGQpfSINCj4gDQo+IChldGMpDQo+IA0KPiBEb24n
+dCB1c2UgX3JlbW92ZSBhbmQgKz0gYXMgaXQncyBjb25mdXNpbmcuDQoNCkknbGwgY2hhbmdlIHRo
+YXQuDQoNCj4gQnV0IGlmIGZvciBleGFtcGxlIHJlYWRsaW5lIGlzIGRpc2FibGVkLCB3aHkgd291
+bGQgdGhlIHBhY2thZ2UgYmUNCj4gY3JlYXRlZCBpbiB0aGUgZmlyc3QgcGxhY2U/DQoNClRoZSBw
+YWNrYWdlIGluZGVlZCBpc24ndCBjcmVhdGVkLiBIb3dldmVyLCBpdCdzIGFkZGVkIHRvDQpSREVQ
+RU5EU19weXRob24zLW1vZHVsZXMgaW4gcHl0aG9uMyBtYW5pZmVzdCBmaWxlIGhlcmU6DQoNCmh0
+dHBzOi8vZ2l0LnlvY3RvcHJvamVjdC5vcmcvY2dpdC9jZ2l0LmNnaS9wb2t5L3RyZWUvbWV0YS9y
+ZWNpcGVzLWRldnRvDQpvbHMvcHl0aG9uL3B5dGhvbi0zLjUtbWFuaWZlc3QuaW5jI24yODANCg0K
+VGhlIG90aGVyIHZhcmlhYmxlIGNoYW5nZXMgYXJlIGRvbmUgYWxzbyBpbiB0aGUgbWFuaWZlc3Qu
+IEhvd2V2ZXIsIHRoZQ0KbWFuaWZlc3QgZmlsZSB3YXJucyBhYm91dCBtb2RpZnlpbmcgaXQsIHNv
+IHRoZSBwYXRjaCAicmV2ZXJzZXMiIHRoZQ0KY2hhbmdlcyBiYXNlZCBvbiBQQUNLQUdFQ09ORklH
+IGZyb20gdGhlIHJlY2lwZS4NCg0KSXNtbw==
 
