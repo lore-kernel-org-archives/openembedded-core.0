@@ -1,46 +1,57 @@
-Return-Path: <changhyeok.bae@gmail.com>
-Received: from mail-pg0-f67.google.com (mail-pg0-f67.google.com [74.125.83.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 1CEE771AC1
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-io0-f170.google.com (mail-io0-f170.google.com
+	[209.85.223.170])
+	by mail.openembedded.org (Postfix) with ESMTP id ED6B46FF73
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Jun 2017 05:26:35 +0000 (UTC)
-Received: by mail-pg0-f67.google.com with SMTP id f127so3434807pgc.2
+	Thu,  8 Jun 2017 06:04:55 +0000 (UTC)
+Received: by mail-io0-f170.google.com with SMTP id i7so15993975ioe.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 07 Jun 2017 22:26:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=wDPbohjQUPsnQ+gaaSgjNPeg9Rzj5FAXmaYi8isj97I=;
-	b=czPpnWmB0TZkHY5w/GB3vqvf29K4MhHnIFAk1Bf+3zYuWdgEnUohGd+WaIeOKBsep5
-	yC0A9gff9y+eBi2lslRMXsID0FU0CvluCxeVxVZg8eh99r4g/JxEHjix9Iovnuympwbt
-	yRjCEAT9aSPtu8oErbvi8HiIzCEOel93HvR/rm556HU4Q7TizUOo3iHRVRhOhR1pWre0
-	bDQRtP6mFVPvb1wbtBY3+ELrchCjCu8bAaBqkvjbiA7QQqy/6mnBEX0ZZGtW0IuuM/v3
-	aqL5/ukVObwZ0kJ2J1TLZ8kxEN6fuqBP+uNtcgvyJpp+VY+EhdAsc49of3aid0u3PSOx
-	VQ6Q==
+	Wed, 07 Jun 2017 23:04:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:organization:mime-version:content-transfer-encoding;
+	bh=HV628ez/ZOi5VO2VeguEXlx3sZ2Dz6OSlza523Mf+WY=;
+	b=u/kEuIHmyKekMvCPu4YkBU2ExJQp7Bq8P3eMW7jMKx0Z5MzprfJWW3hRgfiGCi/PMu
+	lLmmQ+32toslJ3koXayYXJWe5q4n5Peb0Lg+rDsx8ZWJ+PfoaboED81SSD8OCdhxga5e
+	yRqZJFS8ggCZE2oyzB9U/8d5E+yE2K/ASNyrVocKg4qH5gjvMcxaTA238fMV8rSqUbfm
+	6WKqLeaBfIGqjB94OSTXOic/7JegTds4ME5jnkHdvdbIs0EtZ+ulevRsAOHJfW5APShH
+	dKJ6hLq+Gwjyavzs55kxvPKLh0loEUboUvPflDOwokvXN3sSgKa8Qb097W6FBvYf/0d/
+	05hQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=wDPbohjQUPsnQ+gaaSgjNPeg9Rzj5FAXmaYi8isj97I=;
-	b=ZKo+Q3LYKP5tc7W8lpCdkRm3d6AKGfdJ0kJrFWWJOjhvJK0HgIe4Xqy40GjQvuufk5
-	eBqPCnz3VYeD0wsxHU5TsLKHNvftJG/su9BRjigked1ibJ1nrp0JykmjJzrWJadkhnbM
-	PXq1Td2VaMCEHiRwpqEjcxu079WraRTgmnOeSYOVMYFv22OiXJsMFQdEVmqGhZKFcRXc
-	4q8M+c5JtxqjrjzBXdz664fUH8/83Td6crQmayf+UfOl4dKoR/B54Jko+FkCdbooBQQE
-	kRFL3RdCN1nYpU82uhxiAI8goR4N4VVF4DADaKlw2zmWzJdNqkDG+QD2C2SgPJ8XIhMf
-	+5Fw==
-X-Gm-Message-State: AODbwcBzYuTFiGhzgAinCNIkkGOVB/OswzC88yQT2b3xvZQ5UI0we7aD
-	HJoCF5PILC5Nxe8l
-X-Received: by 10.84.236.4 with SMTP id q4mr32813646plk.10.1496899596773;
-	Wed, 07 Jun 2017 22:26:36 -0700 (PDT)
-Received: from ip-172-31-15-204.ap-northeast-2.compute.internal
-	(ec2-13-124-88-129.ap-northeast-2.compute.amazonaws.com.
-	[13.124.88.129])
-	by smtp.gmail.com with ESMTPSA id 66sm7632534pfm.82.2017.06.07.22.26.35
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 07 Jun 2017 22:26:36 -0700 (PDT)
-From: Changhyeok Bae <changhyeok.bae@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  8 Jun 2017 05:26:27 +0000
-Message-Id: <1496899587-30479-1-git-send-email-changhyeok.bae@gmail.com>
-X-Mailer: git-send-email 2.7.4
-Subject: [PATCH] iproute2: Upgrade 4.10.0 -> 4.11.0
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:organization:mime-version:content-transfer-encoding;
+	bh=HV628ez/ZOi5VO2VeguEXlx3sZ2Dz6OSlza523Mf+WY=;
+	b=Zo9OTuPPzrUTF1ZyEchb4SayuwHd6XkqEeWu/nBG0+kwb3BlmX9+erZhMWXrm2i9YP
+	f47JtVF09bh9FyAklah4/PEFB1eWFpSvK3+kVRAeqteB+tU5oyU398M4tqyB1DKKvXFY
+	pRqfXHg1A+wJsnclVtJeiTVJaS8dtv1hOBhl97VGV6RphFs5n4qTeWiTnlKlN4nv8Fnj
+	Ymu4IFgapUh6b6vv/TslUWnoPTECyJZZ1fN0+ozf/P9bKPWGMn60jt00CzI0ZtCyv+2I
+	snRu8jRHlCV9VHtPQLa6OWiHR+avRYt4/eorszXlzwnEZSg6bKnTj6iT70zPlaklLd4U
+	nxFw==
+X-Gm-Message-State: AODbwcA48IcLttWvnViOnw1j2cL3+u0wcuUjCPLDcTWTll63JdvzJrnd
+	PoX0jDVFFfUJ//JqutU=
+X-Received: by 10.107.133.228 with SMTP id p97mr20430662ioi.69.1496901896781; 
+	Wed, 07 Jun 2017 23:04:56 -0700 (PDT)
+Received: from pohly-mobl1 (p5DE8CE54.dip0.t-ipconnect.de. [93.232.206.84])
+	by smtp.gmail.com with ESMTPSA id
+	136sm1771792ioo.41.2017.06.07.23.04.54
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 07 Jun 2017 23:04:55 -0700 (PDT)
+Message-ID: <1496901892.30163.119.camel@intel.com>
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+Date: Thu, 08 Jun 2017 08:04:52 +0200
+In-Reply-To: <13cfc543313a4c59bb8c9688c91db3c4@XBOX02.axis.com>
+References: <cover.8ea05a588020117b72a57015f699c7acd76b93e6.1496849345.git-series.patrick.ohly@intel.com>
+	<7942e5efccf0ee4fa360948d892b4508e3f1f00c.1496849345.git-series.patrick.ohly@intel.com>
+	<13cfc543313a4c59bb8c9688c91db3c4@XBOX02.axis.com>
+Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
+X-Mailer: Evolution 3.12.9-1+b1 
+Mime-Version: 1.0
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2] bitbake.conf: DISTRO_FEATURES as overrides
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,33 +64,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Jun 2017 05:26:36 -0000
+X-List-Received-Date: Thu, 08 Jun 2017 06:04:57 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Changhyeok Bae <changhyeok.bae@gmail.com>
----
- .../iproute2/{iproute2_4.10.0.bb => iproute2_4.11.0.bb}               | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-connectivity/iproute2/{iproute2_4.10.0.bb => iproute2_4.11.0.bb} (75%)
+On Wed, 2017-06-07 at 16:11 +0000, Peter Kjellerstedt wrote:
+> Rather than requiring that the wanted DISTRO_FEATURES that should be 
+> available as overrides are defined in DISTRO_FEATURES_OVERRIDES (which 
+> should not be confused with the similarly named DISTROFEATURESOVERRIDES 
+> variable that you also add...),
 
-diff --git a/meta/recipes-connectivity/iproute2/iproute2_4.10.0.bb b/meta/recipes-connectivity/iproute2/iproute2_4.11.0.bb
-similarity index 75%
-rename from meta/recipes-connectivity/iproute2/iproute2_4.10.0.bb
-rename to meta/recipes-connectivity/iproute2/iproute2_4.11.0.bb
-index 063d467..0ee0f21 100644
---- a/meta/recipes-connectivity/iproute2/iproute2_4.10.0.bb
-+++ b/meta/recipes-connectivity/iproute2/iproute2_4.11.0.bb
-@@ -7,8 +7,8 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/net/${BPN}/${BP}.tar.xz \
-            file://0001-include-stdint.h-explicitly-for-UINT16_MAX.patch \
-           "
- 
--SRC_URI[md5sum] = "b94a2b0edefaeac124dc8f5d006931b9"
--SRC_URI[sha256sum] = "22b1e1c1fc704ad35837e5a66103739727b8b48ac90b48c13f79b7367ff0a9a8"
-+SRC_URI[md5sum] = "7a9498de88bcca95c305df6108ae197e"
-+SRC_URI[sha256sum] = "72671028bda696d0cb8f48ec8e702581c3a501caeed33eec3a81d7041cbc8026"
- 
- # CFLAGS are computed in Makefile and reference CCOPTS
- #
+I had thought about those names and in the end went ahead with the
+similar names because the customizable one made sense to me and the
+internal one is similar to the other entries in OVERRIDES.
+
+>  why not add them all but with a prefix. 
+> I.e., similar to how package names are available as overrides prefixed 
+> with "pn-", how about all distro features are made available as 
+> overrides with a "df-" prefix?
+
+That would be fine with me.
+
+I just have a few concerns:
+      * How performance-sensitive is OVERRIDES? How can the impact of
+        both approaches be benchmarked? The idea behind the configurable
+        subset was to add only a few new overrides. We currently have
+        almost 70 individual entries in DISTRO_FEATURES.
+      * I've seen confusion about the pn- prefix. At least df- would be
+        named appropriately (in contrast to PN, which is historic), but
+        it's yet another convention that might not be immediately
+        obvious. The same is true for selecting a subset with the same
+        name as the feature, though.
+      * Can distro features contain characters that are invalid in an
+        override? _ and : would have to be avoided, for example by
+        mapping them to -.
+
 -- 
-2.7.4
+Best Regards, Patrick Ohly
+
+The content of this message is my personal opinion only and although
+I am an employee of Intel, the statements I make here in no way
+represent Intel's position on the issue, nor am I authorized to speak
+on behalf of Intel on this matter.
+
+
 
 
