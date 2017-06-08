@@ -1,60 +1,21 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-it0-f54.google.com (mail-it0-f54.google.com
-	[209.85.214.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 6316178271
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 224F778273
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Jun 2017 14:38:57 +0000 (UTC)
-Received: by mail-it0-f54.google.com with SMTP id m47so20295617iti.0
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 08 Jun 2017 07:38:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:organization:mime-version:content-transfer-encoding;
-	bh=2Pn5u3O3sPxL+Ivwhx3DhpANJJWGQ/5ohCd+OezSTdk=;
-	b=IPMuyc5RWT8q613V0CBlSM3jLdtO6BAsm3GcjJnUIYZ1siOVC49TcH9BQr3LjDbDQ+
-	uYj87Tpz6aul1/YRJ09WlvuvIaoBcm6V/PLVzc6i/XrI0Wu9tcSnoznSu3NhjjuSSDBb
-	53xBoXxRn548L87Cf0Lp+CgDzUKzUcHFlKz/hplhY2KI6hSWuTixuDkVqltgn9/iLgRQ
-	FLKf7hJ6LXCc9N9yuPbAYhajmwbG4FW80LGXepgdfPAdaD2WmWsbLDbHoYFNpd7kKSsg
-	AGeDKT5mh7KvQjNcpd+rYwnlNcakoZWBWi7Vp/jn+f6eSRm9LWKnM0C8xudDP9bZ72lp
-	/7Eg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:organization:mime-version:content-transfer-encoding;
-	bh=2Pn5u3O3sPxL+Ivwhx3DhpANJJWGQ/5ohCd+OezSTdk=;
-	b=Ifiyn93hzj7Ok56ecqzLBoSEiB+rc+JFmSfZp05F1lmzJWOAVyjIT4AS+fbj6ZkAAr
-	vYQveTpI7eWZEfYZ0bidt06SN/E36Uq+QQhSPTiWCWtcxrDY+ttoxOnAQd6r2qtR99Vg
-	CZfOopx2jaET4mAegOEbmgGSjaTegipfrB/lJyJHwF33DSvwOspi/jBLMu0IF47vyXTM
-	bYDUzCDMEQDYSzJLAUsEYCtjHeGgGLmznEouSj+mQI6irv4gqa0cVHZ60TLtwJJUyId8
-	IfdCRh447UgtlTau04LhihX0Z2FD9iW67VpOJjzR8eillRDRKOGi2oX/wJg6MRSPneHP
-	11gA==
-X-Gm-Message-State: AODbwcBZ+7HeKNMHdxusSW7w6o5foLDa3gutm3P+ThOsAksHfVtc8NiD
-	ZeZn8pdmeftWKR1e
-X-Received: by 10.36.111.139 with SMTP id x133mr5874683itb.25.1496932738938;
-	Thu, 08 Jun 2017 07:38:58 -0700 (PDT)
-Received: from pohly-mobl1 (p5DE8CE54.dip0.t-ipconnect.de. [93.232.206.84])
-	by smtp.gmail.com with ESMTPSA id
-	t76sm2473074ita.22.2017.06.08.07.38.57
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 08 Jun 2017 07:38:57 -0700 (PDT)
-Message-ID: <1496932734.30163.137.camel@intel.com>
-From: Patrick Ohly <patrick.ohly@intel.com>
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-Date: Thu, 08 Jun 2017 16:38:54 +0200
-In-Reply-To: <a0a0eb57632c422ab7ab8fac7654dd80@XBOX02.axis.com>
-References: <cover.8ea05a588020117b72a57015f699c7acd76b93e6.1496849345.git-series.patrick.ohly@intel.com>
-	<7942e5efccf0ee4fa360948d892b4508e3f1f00c.1496849345.git-series.patrick.ohly@intel.com>
-	<13cfc543313a4c59bb8c9688c91db3c4@XBOX02.axis.com>
-	<1496901892.30163.119.camel@intel.com>
-	<1496918712.6630.237.camel@linuxfoundation.org>
-	<a0a0eb57632c422ab7ab8fac7654dd80@XBOX02.axis.com>
-Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
-X-Mailer: Evolution 3.12.9-1+b1 
-Mime-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] bitbake.conf: DISTRO_FEATURES as overrides
+	Thu,  8 Jun 2017 14:42:12 +0000 (UTC)
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	08 Jun 2017 07:42:14 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.39,315,1493708400"; d="scan'208";a="95969694"
+Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
+	by orsmga004.jf.intel.com with ESMTP; 08 Jun 2017 07:42:13 -0700
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  8 Jun 2017 17:42:08 +0300
+Message-Id: <cover.1496932793.git.alexander.kanavin@linux.intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCHv2 0/2] Multi-threaded RPM support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -67,39 +28,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Jun 2017 14:38:58 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 08 Jun 2017 14:42:13 -0000
 
-On Thu, 2017-06-08 at 13:16 +0000, Peter Kjellerstedt wrote:
-> > My feelings are:
-> > 
-> > * We need to use a prefix. We've been burnt too many times in the past
-> >   when not using these. "df-" is fine, users will just have to deal
-> >   with it.
+Changes in version 2: use openmp for multi-processing instead of NSPR library, as
+requested by upstream. Add a link to the upstream submission to patches.
 
-Fine with me.
+These two patches add multi-threaded features to RPM to speed up the do_package_write_rpm task.
 
-> > * We should filter the list of overrides to those which the distro
-> >   wants to nominate. I really don't want to encourage wider spread of
-> >   things than we need to, these need to be conscious decisions.
-> 
-> Isn't there a risk that will be confusing? I.e., recipes that use, e.g., 
-> bb.utils.contains() to check if a distro feature is set will be affected 
-> as soon as the feature is added to DISTRO_FEATURES, but recipes that 
-> use the override will only be affected if the feature has also been 
-> added to some filter variable.
+Specifically:
 
-I'm not sure. I guess it boils down to proper documentation.
+1) Multi-threaded xz compressor is used instead of default single-threaded gz. This has the most
+dramatic effect when a recipe produces a smaller number of large-sized packages.
+
+2) Packages creation is run in multiple threads via thread pools. This is most beneficial when
+a recipe produces a large amount of small packages.
+
+Some not very scientific benchmarks for time and .rpm sizes
+(time is measured for do_package_write_rpm tasks only):
+
+webkitgtk
+before: 9m12s 1550M
+after: 1m40s 858M
+
+glibc-locale
+before: 2m52s 125M
+after: 30s 56M
+
+glibc
+before: 46s 54M
+after: 13s 38M
+
+perl
+before: 1m09s 63M
+after: 45s 42M
+
+python3
+before: 30s 38M
+after: 18s 24M
+
+The following changes since commit 576821ea0a7558b626ccc87e9ae0e9ee40864956:
+
+  bitbake: bitbake-layers: check layer dependencies before adding (2017-06-06 19:52:51 +0100)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib akanavin/parallel-rpm
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=akanavin/parallel-rpm
+
+Alexander Kanavin (2):
+  package_rpm.bbclass: use multithreaded xz compression
+  rpm: run binary package generation via thread pools
+
+ meta/classes/package_rpm.bbclass                   |   2 +
+ ...y-package-building-into-a-separate-functi.patch |  83 ++++++++
+ ...-binary-package-creation-via-thread-pools.patch | 125 ++++++++++++
+ ...c-make-operations-over-string-pools-threa.patch | 207 ++++++++++++++++++++
+ ...c-remove-static-local-variables-from-buil.patch | 216 +++++++++++++++++++++
+ meta/recipes-devtools/rpm/rpm_git.bb               |   4 +
+ 6 files changed, 637 insertions(+)
+ create mode 100644 meta/recipes-devtools/rpm/files/0001-Split-binary-package-building-into-a-separate-functi.patch
+ create mode 100644 meta/recipes-devtools/rpm/files/0002-Run-binary-package-creation-via-thread-pools.patch
+ create mode 100644 meta/recipes-devtools/rpm/files/0003-rpmstrpool.c-make-operations-over-string-pools-threa.patch
+ create mode 100644 meta/recipes-devtools/rpm/files/0004-build-pack.c-remove-static-local-variables-from-buil.patch
 
 -- 
-Best Regards, Patrick Ohly
-
-The content of this message is my personal opinion only and although
-I am an employee of Intel, the statements I make here in no way
-represent Intel's position on the issue, nor am I authorized to speak
-on behalf of Intel on this matter.
-
-
+2.11.0
 
 
