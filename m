@@ -1,29 +1,46 @@
-Return-Path: <petter@technux.se>
-Received: from bin-vsp-out-01.atm.binero.net (vsp-unauthed02.binero.net
-	[195.74.38.227])
-	by mail.openembedded.org (Postfix) with ESMTP id 6A2C96FF56
+Return-Path: <changhyeok.bae@gmail.com>
+Received: from mail-pg0-f67.google.com (mail-pg0-f67.google.com [74.125.83.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 1CEE771AC1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Jun 2017 20:46:12 +0000 (UTC)
-X-Halon-ID: 55ff22f8-4bc2-11e7-b75a-005056917a89
-Authorized-sender: petter@technux.se
-Received: from webmail.binero.se (unknown [195.74.38.9])
-	by bin-vsp-out-01.atm.binero.net (Halon Mail Gateway) with ESMTPA;
-	Wed,  7 Jun 2017 22:46:09 +0200 (CEST)
-MIME-Version: 1.0
-Date: Wed, 07 Jun 2017 22:46:33 +0200
-From: =?UTF-8?Q?Petter_Mab=C3=A4cker?= <petter@technux.se>
-To: <openembedded-core@lists.openembedded.org>, Ross burton
-	<ross.burton@intel.com>
-Organization: Technux
-Reply-To: <petter@technux.se>
-Mail-Reply-To: <petter@technux.se>
-In-Reply-To: <7c0aa8330757a50d9a69a4c23be83e4cc045566c.1494796923.git.petter@technux.se>
-References: <cover.1494796923.git.petter@technux.se>
-	<7c0aa8330757a50d9a69a4c23be83e4cc045566c.1494796923.git.petter@technux.se>
-Message-ID: <52ce814f7d286b1687a40874eadb0646@technux.se>
-X-Sender: petter@technux.se
-User-Agent: Binero Webmail/0.8.4
-Subject: Re: [PATCH v2 1/1] multilib.bbclass: fix faulty redefinition of STAGING_KERNEL_DIR
+	Thu,  8 Jun 2017 05:26:35 +0000 (UTC)
+Received: by mail-pg0-f67.google.com with SMTP id f127so3434807pgc.2
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 07 Jun 2017 22:26:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=wDPbohjQUPsnQ+gaaSgjNPeg9Rzj5FAXmaYi8isj97I=;
+	b=czPpnWmB0TZkHY5w/GB3vqvf29K4MhHnIFAk1Bf+3zYuWdgEnUohGd+WaIeOKBsep5
+	yC0A9gff9y+eBi2lslRMXsID0FU0CvluCxeVxVZg8eh99r4g/JxEHjix9Iovnuympwbt
+	yRjCEAT9aSPtu8oErbvi8HiIzCEOel93HvR/rm556HU4Q7TizUOo3iHRVRhOhR1pWre0
+	bDQRtP6mFVPvb1wbtBY3+ELrchCjCu8bAaBqkvjbiA7QQqy/6mnBEX0ZZGtW0IuuM/v3
+	aqL5/ukVObwZ0kJ2J1TLZ8kxEN6fuqBP+uNtcgvyJpp+VY+EhdAsc49of3aid0u3PSOx
+	VQ6Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=wDPbohjQUPsnQ+gaaSgjNPeg9Rzj5FAXmaYi8isj97I=;
+	b=ZKo+Q3LYKP5tc7W8lpCdkRm3d6AKGfdJ0kJrFWWJOjhvJK0HgIe4Xqy40GjQvuufk5
+	eBqPCnz3VYeD0wsxHU5TsLKHNvftJG/su9BRjigked1ibJ1nrp0JykmjJzrWJadkhnbM
+	PXq1Td2VaMCEHiRwpqEjcxu079WraRTgmnOeSYOVMYFv22OiXJsMFQdEVmqGhZKFcRXc
+	4q8M+c5JtxqjrjzBXdz664fUH8/83Td6crQmayf+UfOl4dKoR/B54Jko+FkCdbooBQQE
+	kRFL3RdCN1nYpU82uhxiAI8goR4N4VVF4DADaKlw2zmWzJdNqkDG+QD2C2SgPJ8XIhMf
+	+5Fw==
+X-Gm-Message-State: AODbwcBzYuTFiGhzgAinCNIkkGOVB/OswzC88yQT2b3xvZQ5UI0we7aD
+	HJoCF5PILC5Nxe8l
+X-Received: by 10.84.236.4 with SMTP id q4mr32813646plk.10.1496899596773;
+	Wed, 07 Jun 2017 22:26:36 -0700 (PDT)
+Received: from ip-172-31-15-204.ap-northeast-2.compute.internal
+	(ec2-13-124-88-129.ap-northeast-2.compute.amazonaws.com.
+	[13.124.88.129])
+	by smtp.gmail.com with ESMTPSA id 66sm7632534pfm.82.2017.06.07.22.26.35
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 07 Jun 2017 22:26:36 -0700 (PDT)
+From: Changhyeok Bae <changhyeok.bae@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  8 Jun 2017 05:26:27 +0000
+Message-Id: <1496899587-30479-1-git-send-email-changhyeok.bae@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH] iproute2: Upgrade 4.10.0 -> 4.11.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,150 +53,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Jun 2017 20:46:13 -0000
-Content-Type: multipart/alternative;
-	boundary="=_6dae2f184753a1f86694dc4c078bac87"
+X-List-Received-Date: Thu, 08 Jun 2017 05:26:36 -0000
 
---=_6dae2f184753a1f86694dc4c078bac87
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset=UTF-8
-
- 
-
-Hi, 
-
-Just realized this change was never merged into master, so see
-this as a friendly reminder about this change-set (might have been lost
-in the flood of changes in this time-frame). Not the most common use
-case I guess, but would be good to finally get rid of the problem. If
-you have any concerns about the change, please let me know. The solution
-was briefly discussed with Richard on irc a couple of month ago, but if
-someone thinks this should be solved in some other way, please initiate
-a discussion :) 
-
-BR Petter 
-
-2017-05-15 06:17 skrev Petter Mabäcker:
-
-
-> Due to the problem fixed in
-> '56c677a multilib: Move redefinition
-of STAGING_DIR_KERNEL'
-> STAGING_KERNEL_DIR must be redefined for lib32
-in multilib.bbclass.
-> However this redefinition expanded
-STAGING_KERNEL_DIR to an absolute
-> path. This unconsciously added the
-TMPDIR path in the sstate object,
-> causing packages depended on
-STAGING_KERNEL_DIR being rebuild if the
-> TMPDIR was changed.
-> 
-> Solve
-this by forcing the unexpanded TMPDIR variable to remain in the
->
-beginning of STAGING_DIR_KERNEL (as default). Since TMPDIR is included
-in
-> BB_HASHBASE_WHITELIST, the sstate object will not be depended on
-the
-> expanded path anymore.
-> 
-> Signed-off-by: Petter Mabäcker
-<petter@technux.se>
-> ---
-> meta/classes/multilib.bbclass | 4 +++-
-> 1
-file changed, 3 insertions(+), 1 deletion(-)
-> 
-> diff --git
-a/meta/classes/multilib.bbclass b/meta/classes/multilib.bbclass
-> index
-ab04597..816f54e 100644
-> --- a/meta/classes/multilib.bbclass
-> +++
-b/meta/classes/multilib.bbclass
-> @@ -4,7 +4,9 @@ python
-multilib_virtclass_handler () {
-> if cls != "multilib" or not variant:
->
-return
-> 
-> - e.data.setVar('STAGING_KERNEL_DIR',
-e.data.getVar('STAGING_KERNEL_DIR'))
-> + localdata =
-bb.data.createCopy(e.data)
-> + localdata.delVar('TMPDIR')
-> +
-e.data.setVar('STAGING_KERNEL_DIR',
-localdata.getVar('STAGING_KERNEL_DIR'))
-> 
-> # There should only be one
-kernel in multilib configs
-> # We also skip multilib setup for module
-packages.
-> -- 
-> 1.9.1
- 
-
---=_6dae2f184753a1f86694dc4c078bac87
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/html; charset=UTF-8
-
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">
-<html><body style=3D'font-family: Helvetica,Arial,sans-serif'>
-<p>Hi,</p>
-<p>Just realized this change was never merged into master, so see this as a=
- friendly reminder about this change-set (might have been lost in the flood=
- of changes in this time-frame). Not the most common use case I guess, but =
-would be good to finally get rid of the problem. If you have any concerns a=
-bout the change, please let me know. The solution was briefly discussed wit=
-h Richard on irc a couple of month ago, but if someone thinks this should b=
-e solved in some other way, please initiate a discussion :)</p>
-<p>BR Petter</p>
-<p>2017-05-15 06:17 skrev Petter Mab&auml;cker:</p>
-<blockquote type=3D"cite" style=3D"padding-left:5px; border-left:#1010ff 2p=
-x solid; margin-left:5px; width:100%"><!-- html ignored --><!-- head ignore=
-d --><!-- meta ignored -->
-<pre>Due to the problem fixed in
-'56c677a multilib: Move redefinition of STAGING_DIR_KERNEL'
-STAGING_KERNEL_DIR must be redefined for lib32 in multilib.bbclass.
-However this redefinition expanded STAGING_KERNEL_DIR to an absolute
-path. This unconsciously added the TMPDIR path in the sstate object,
-causing packages depended on STAGING_KERNEL_DIR being rebuild if the
-TMPDIR was changed.
-
-Solve this by forcing the unexpanded TMPDIR variable to remain in the
-beginning of STAGING_DIR_KERNEL (as default). Since TMPDIR is included in
-BB_HASHBASE_WHITELIST, the sstate object will not be depended on the
-expanded path anymore.
-
-Signed-off-by: Petter Mab&auml;cker &lt;<a href=3D"mailto:petter@technux.se=
-">petter@technux.se</a>&gt;
+Signed-off-by: Changhyeok Bae <changhyeok.bae@gmail.com>
 ---
- meta/classes/multilib.bbclass | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ .../iproute2/{iproute2_4.10.0.bb => iproute2_4.11.0.bb}               | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-connectivity/iproute2/{iproute2_4.10.0.bb => iproute2_4.11.0.bb} (75%)
 
-diff --git a/meta/classes/multilib.bbclass b/meta/classes/multilib.bbclass
-index ab04597..816f54e 100644
---- a/meta/classes/multilib.bbclass
-+++ b/meta/classes/multilib.bbclass
-@@ -4,7 +4,9 @@ python multilib_virtclass_handler () {
-     if cls !=3D "multilib" or not variant:
-         return
-=20
--    e.data.setVar('STAGING_KERNEL_DIR', e.data.getVar('STAGING_KERNEL_DIR'=
-))
-+    localdata =3D bb.data.createCopy(e.data)
-+    localdata.delVar('TMPDIR')
-+    e.data.setVar('STAGING_KERNEL_DIR', localdata.getVar('STAGING_KERNEL_D=
-IR'))
-=20
-     # There should only be one kernel in multilib configs
-     # We also skip multilib setup for module packages.
-<span class=3D"sig">--=20
-1.9.1
-</span></pre>
-</blockquote>
-</body></html>
+diff --git a/meta/recipes-connectivity/iproute2/iproute2_4.10.0.bb b/meta/recipes-connectivity/iproute2/iproute2_4.11.0.bb
+similarity index 75%
+rename from meta/recipes-connectivity/iproute2/iproute2_4.10.0.bb
+rename to meta/recipes-connectivity/iproute2/iproute2_4.11.0.bb
+index 063d467..0ee0f21 100644
+--- a/meta/recipes-connectivity/iproute2/iproute2_4.10.0.bb
++++ b/meta/recipes-connectivity/iproute2/iproute2_4.11.0.bb
+@@ -7,8 +7,8 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/net/${BPN}/${BP}.tar.xz \
+            file://0001-include-stdint.h-explicitly-for-UINT16_MAX.patch \
+           "
+ 
+-SRC_URI[md5sum] = "b94a2b0edefaeac124dc8f5d006931b9"
+-SRC_URI[sha256sum] = "22b1e1c1fc704ad35837e5a66103739727b8b48ac90b48c13f79b7367ff0a9a8"
++SRC_URI[md5sum] = "7a9498de88bcca95c305df6108ae197e"
++SRC_URI[sha256sum] = "72671028bda696d0cb8f48ec8e702581c3a501caeed33eec3a81d7041cbc8026"
+ 
+ # CFLAGS are computed in Makefile and reference CCOPTS
+ #
+-- 
+2.7.4
 
---=_6dae2f184753a1f86694dc4c078bac87--
+
