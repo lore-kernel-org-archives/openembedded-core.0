@@ -1,27 +1,26 @@
 Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id F41C378267
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by mail.openembedded.org (Postfix) with ESMTP id DAF4478267
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Jun 2017 16:15:28 +0000 (UTC)
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	08 Jun 2017 09:15:30 -0700
+	Thu,  8 Jun 2017 16:15:29 +0000 (UTC)
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+	by orsmga104.jf.intel.com with ESMTP; 08 Jun 2017 09:15:31 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.39,315,1493708400"; d="scan'208";a="110792839"
+X-IronPort-AV: E=Sophos;i="5.39,315,1493708400"; d="scan'208";a="112530311"
 Received: from linux.intel.com ([10.54.29.200])
-	by orsmga005.jf.intel.com with ESMTP; 08 Jun 2017 09:15:30 -0700
+	by fmsmga006.fm.intel.com with ESMTP; 08 Jun 2017 09:15:30 -0700
 Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
-	by linux.intel.com (Postfix) with ESMTP id 938A55806E6
+	by linux.intel.com (Postfix) with ESMTP id 9E97E58029B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Jun 2017 09:15:28 -0700 (PDT)
+	Thu,  8 Jun 2017 09:15:29 -0700 (PDT)
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  8 Jun 2017 19:12:58 +0300
-Message-Id: <c40774cb74a2c870997ad7c9413ffd863b4b151d.1496938139.git.ed.bartosh@linux.intel.com>
+Date: Thu,  8 Jun 2017 19:12:59 +0300
+Message-Id: <8b401f961091841f46df56a2c82f0c3dcf084e4a.1496938139.git.ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1496938139.git.ed.bartosh@linux.intel.com>
 References: <cover.1496938139.git.ed.bartosh@linux.intel.com>
-Subject: [PATCH 16/25] filemap: calculate dst size correctly
+Subject: [PATCH 17/25] wic: add Disk._put_part_image method
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,34 +33,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Jun 2017 16:15:29 -0000
+X-List-Received-Date: Thu, 08 Jun 2017 16:15:30 -0000
 
-Fixed calculation of the dst file size using skip, seek and
-length parameters. Current code does it incorrectly which
-causes sparse_copy API to create unnecessary big output files.
+This method copies partition image into the wic image.
+It will be used in 'wic cp' and 'wic rm' subcommands
+to copy changed partition back into wic image.
 
 Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 ---
- scripts/lib/wic/filemap.py | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ scripts/lib/wic/engine.py | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/scripts/lib/wic/filemap.py b/scripts/lib/wic/filemap.py
-index 764dbbe..6d11355 100644
---- a/scripts/lib/wic/filemap.py
-+++ b/scripts/lib/wic/filemap.py
-@@ -549,7 +549,11 @@ def sparse_copy(src_fname, dst_fname, skip=0, seek=0,
-         dst_file = open(dst_fname, 'r+b')
-     except IOError:
-         dst_file = open(dst_fname, 'wb')
--        dst_file.truncate(os.path.getsize(src_fname))
-+        if length:
-+            dst_size = length + seek
-+        else:
-+            dst_size = os.path.getsize(src_fname) + seek - skip
-+        dst_file.truncate(dst_size)
+diff --git a/scripts/lib/wic/engine.py b/scripts/lib/wic/engine.py
+index f24fb9a..6a4f55f 100644
+--- a/scripts/lib/wic/engine.py
++++ b/scripts/lib/wic/engine.py
+@@ -300,6 +300,11 @@ class Disk:
  
-     written = 0
-     for first, last in fmap.get_mapped_ranges(0, fmap.blocks_cnt):
+         return self._partimages[pnum]
+ 
++    def _put_part_image(self, pnum):
++        """Put partition image into partitioned image."""
++        sparse_copy(self._partimages[pnum], self.imagepath,
++                    seek=self.partitions[pnum].start)
++
+     def dir(self, pnum, path):
+         return exec_cmd("{} -i {} ::{}".format(self.mdir,
+                                                self._get_part_image(pnum),
 -- 
 2.1.4
 
