@@ -1,47 +1,31 @@
-Return-Path: <net147@gmail.com>
-Received: from mail-it0-f68.google.com (mail-it0-f68.google.com
-	[209.85.214.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 82B18781F0
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id A5DB1781F2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Jun 2017 11:21:52 +0000 (UTC)
-Received: by mail-it0-f68.google.com with SMTP id 185so736547itv.3
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 08 Jun 2017 04:21:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=/kvnY6wGfRJKYJ4Wl/pNCWP1cSVFMnrWcu4PDzZX59w=;
-	b=twAMvhO7xkBDe2EKcZBySCv9jMK0tNwm94ycif+Ski9NBmQNjlOOkldXr1R4Uqe1IJ
-	EXH8vZNLzOOKbscLETwexNr86kkegWqlQAGeX7ApK800GufQXdUxMpBFb2hTdkFF7YDq
-	MI9svoJWliQlI4v/CGRZbe+dbE3O6g97cztfbWqkxLtCfPwpTL8TmztFkB3lF0xvJyEe
-	wtji/diOOPzt+DNyggWO34MwNfrbl47j8VlW6UXy53LnttjTCSpC8LvOyFCiJzYbvoFL
-	sNLl0vTN+JjKOwm5a7duAF/j90K2QTDhFcy+2cp402jMJkpuMg2sUqn1St+WKO6uwW2N
-	IXtA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=/kvnY6wGfRJKYJ4Wl/pNCWP1cSVFMnrWcu4PDzZX59w=;
-	b=cTw8o3j4ffECkCOTbKq0HUBsMUFoqfpnxWfXbK/Tx8jk0TgJG+gZGa0+iMnt0b19b8
-	NYGOmI05w5wXye47LnB+jDnk9Q9cNyCxF47pldwO041StWFu+6mQnSdk0jvWo/4VtDcB
-	SgwmxG5C1vNf1WUQiBx1pc8uYON/KEv9POqcNMYrCdBMuUQGhmtqkq3M1etItdRKU9pJ
-	KSAgGDt/PIgsdmLh3QOo9jyua7YJqEyZWZV6z9RuVvDWajnbRJ8UxhgOeBdwCKCBcAVD
-	1Y7Z6Mi3ckrQcXebsE9uE7KE1l2DxvTwUA0ndLLxIpy1e/XNJ+2vCFYRiF3dMZV+/039
-	H5Bw==
-X-Gm-Message-State: AODbwcC1OTD17saFuDvLjJNxCkOSlrkdPycmo7oymG5uItVoLZRIpnqj
-	4e8dz4ez7zAQhQwgoB9tJy0SzRNTMQ==
-X-Received: by 10.36.107.201 with SMTP id v192mr4875503itc.81.1496920913479;
-	Thu, 08 Jun 2017 04:21:53 -0700 (PDT)
+	Thu,  8 Jun 2017 11:31:13 +0000 (UTC)
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	08 Jun 2017 04:31:14 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.39,314,1493708400"; d="scan'208";a="110683094"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by orsmga005.jf.intel.com with ESMTP; 08 Jun 2017 04:31:13 -0700
+To: Jose Perez Carranza <jose.perez.carranza@linux.intel.com>,
+	"Burton, Ross" <ross.burton@intel.com>
+References: <a5c78ee6-8320-7508-18d1-16762bed364c@linux.intel.com>
+	<20170515135023.4090-1-jose.perez.carranza@linux.intel.com>
+	<CAJTo0LYe=7Ug3wJSWwPX5VT=cy7GDe0Kf79uPFmC1tMj-0b-6Q@mail.gmail.com>
+	<e1d6c111-bd9d-af76-ae44-d6921c723ba6@linux.intel.com>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <1fc0defa-748a-bff4-2f72-7bc0d0f160d9@linux.intel.com>
+Date: Thu, 8 Jun 2017 14:31:13 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.8.0
 MIME-Version: 1.0
-Received: by 10.107.131.68 with HTTP; Thu, 8 Jun 2017 04:21:52 -0700 (PDT)
-In-Reply-To: <CAJTo0LZcKVgrHp4M+7JizD+KM2S-qCxi=yKDnGBJ9AvziLikuQ@mail.gmail.com>
-References: <20170608110754.32445-1-net147@gmail.com>
-	<CAJTo0LZcKVgrHp4M+7JizD+KM2S-qCxi=yKDnGBJ9AvziLikuQ@mail.gmail.com>
-From: Jonathan Liu <net147@gmail.com>
-Date: Thu, 8 Jun 2017 21:21:52 +1000
-Message-ID: <CANwerB08=Ae416bR-HQXcJ2-yJ=0ezfu51YSKexcDxzHSUfw-Q@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
+In-Reply-To: <e1d6c111-bd9d-af76-ae44-d6921c723ba6@linux.intel.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [master][pyro][PATCH] image-vm: Avoid use of fold, tac and paste commands for DISK_SIGNATURE
+Subject: Re: [PATCH v3] runtime/dnf: Add new dnf test cases
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,32 +38,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Jun 2017 11:21:52 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 08 Jun 2017 11:31:13 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Ross,
+On 06/07/2017 08:31 PM, Jose Perez Carranza wrote:
+> When I tried this test image was built without using states hence
+> "busybox*.rpm" and "curl*.rpm"where present under
+> "tmp/deploy/rpm/core2_64" hence the repo i taking tha packages form
+> there to add them to repo and used on the image, but when using sstates
+> those packages are not being built so are not present on local build
+> directory. is there any way to force those packages to be built to have
+> them available on tmp/deploy/rpm/core2_64?
 
-It is the shell not awk.
+I can try to help if you provide steps to reproduce: if I merely do
 
-For example:
-$ echo $(false)
+rm -rf build/tmp
+bitbake core-image-sato
 
-$ echo $?
-0
+then the build/tmp/deploy/rpm directory gets fully re-populated.
 
-Regards,
-Jonathan
 
-On 8 June 2017 at 21:18, Burton, Ross <ross.burton@intel.com> wrote:
->
-> On 8 June 2017 at 12:07, Jonathan Liu <net147@gmail.com> wrote:
->>
->> These commands are not whitelisted by the HOSTTOOLS variable which
->> silently prevents the MBR disk signature from being written to the
->> image.
->
->
-> Silently, ouch.  Thanks, awk.
->
-> Ross
+Alex
+
 
