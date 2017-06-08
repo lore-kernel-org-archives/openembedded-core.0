@@ -1,26 +1,26 @@
 Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id 271C47828E
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id D14DF78272
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Jun 2017 16:15:34 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga105.jf.intel.com with ESMTP; 08 Jun 2017 09:15:36 -0700
+	Thu,  8 Jun 2017 16:15:36 +0000 (UTC)
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+	by fmsmga105.fm.intel.com with ESMTP; 08 Jun 2017 09:15:38 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.39,315,1493708400"; d="scan'208";a="1179989129"
+X-IronPort-AV: E=Sophos;i="5.39,315,1493708400"; d="scan'208";a="112031913"
 Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga002.fm.intel.com with ESMTP; 08 Jun 2017 09:15:36 -0700
+	by fmsmga005.fm.intel.com with ESMTP; 08 Jun 2017 09:15:38 -0700
 Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
-	by linux.intel.com (Postfix) with ESMTP id EAB1E5807BC
+	by linux.intel.com (Postfix) with ESMTP id 16CFD5806E6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Jun 2017 09:15:34 -0700 (PDT)
+	Thu,  8 Jun 2017 09:15:36 -0700 (PDT)
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  8 Jun 2017 19:13:04 +0300
-Message-Id: <4c6f8b3653618fb6e11c6afd6c2abc426e3bef92.1496938139.git.ed.bartosh@linux.intel.com>
+Date: Thu,  8 Jun 2017 19:13:06 +0300
+Message-Id: <c9a5fa4b2b4b8f72403cff0574270a4639cf03a1.1496938139.git.ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1496938139.git.ed.bartosh@linux.intel.com>
 References: <cover.1496938139.git.ed.bartosh@linux.intel.com>
-Subject: [PATCH 22/25] wic: add 'wic rm' command
+Subject: [PATCH 24/25] wic: implement removing directories
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,76 +33,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Jun 2017 16:15:35 -0000
+X-List-Received-Date: Thu, 08 Jun 2017 16:15:37 -0000
 
-Added empty 'wic rm' command that does nothing.
-The functionality will be added by the next commits.
+Added support for removing directories using mdeltree
+utility to Disk.del method
 
 [YOCTO #11283]
 
 Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 ---
- scripts/lib/wic/engine.py |  7 +++++++
- scripts/wic               | 14 ++++++++++++++
- 2 files changed, 21 insertions(+)
+ scripts/lib/wic/engine.py | 22 ++++++++++++++++++----
+ 1 file changed, 18 insertions(+), 4 deletions(-)
 
 diff --git a/scripts/lib/wic/engine.py b/scripts/lib/wic/engine.py
-index a48c4ad..9a8055c 100644
+index 6fc8bb7..2c899dd 100644
 --- a/scripts/lib/wic/engine.py
 +++ b/scripts/lib/wic/engine.py
-@@ -340,6 +340,13 @@ def wic_cp(args, native_sysroot):
-     disk = Disk(args.dest.image, native_sysroot)
-     disk.copy(args.src, args.dest.part, args.dest.path)
+@@ -239,6 +239,7 @@ class Disk:
+         self._mdir = None
+         self._mcopy = None
+         self._mdel = None
++        self._mdeltree = None
+         self._partimages = {}
  
-+def wic_rm(args, native_sysroot):
-+    """
-+    Remove files or directories from the vfat partition of
-+    partitioned image.
-+    """
-+    pass
-+
- def find_canned(scripts_path, file_name):
-     """
-     Find a file either by its path or by name in the canned files dir.
-diff --git a/scripts/wic b/scripts/wic
-index fc192ec..da14f47 100755
---- a/scripts/wic
-+++ b/scripts/wic
-@@ -248,6 +248,13 @@ def wic_cp_subcommand(args, usage_str):
-     """
-     engine.wic_cp(args, args.native_sysroot)
+         # find parted
+@@ -290,6 +291,10 @@ class Disk:
+     def mdel(self):
+         return self._prop("mdel")
  
-+def wic_rm_subcommand(args, usage_str):
-+    """
-+    Command-line handling for removing files/dirs from images.
-+    The real work is done by engine.wic_rm()
-+    """
-+    engine.wic_rm(args, args.native_sysroot)
++    @property
++    def mdeltree(self):
++        return self._prop("mdeltree")
 +
- def wic_help_subcommand(args, usage_str):
-     """
-     Command-line handling for help subcommand to keep the current
-@@ -286,6 +293,9 @@ helptopics = {
-     "cp":        [wic_help_topic_subcommand,
-                   wic_help_topic_usage,
-                   hlp.wic_cp_help],
-+    "rm":        [wic_help_topic_subcommand,
-+                  wic_help_topic_usage,
-+                  hlp.wic_rm_help],
-     "list":      [wic_help_topic_subcommand,
-                   wic_help_topic_usage,
-                   hlp.wic_list_help]
-@@ -409,6 +419,10 @@ subcommands = {
-                   hlp.wic_cp_usage,
-                   hlp.wic_cp_help,
-                   wic_init_parser_cp],
-+    "rm":        [wic_rm_subcommand,
-+                  hlp.wic_rm_usage,
-+                  hlp.wic_rm_help,
-+                  wic_init_parser_rm],
-     "help":      [wic_help_subcommand,
-                   wic_help_topic_usage,
-                   hlp.wic_help_help,
+     def _get_part_image(self, pnum):
+         if pnum not in self.partitions:
+             raise WicError("Partition %s is not in the image")
+@@ -325,10 +330,19 @@ class Disk:
+ 
+     def remove(self, pnum, path):
+         """Remove files/dirs from the partition."""
+-        cmd = "{} -i {} ::{}".format(self.mdel,
+-                                     self._get_part_image(pnum),
+-                                     path)
+-        exec_cmd(cmd)
++        partimg = self._get_part_image(pnum)
++        cmd = "{} -i {} ::{}".format(self.mdel, partimg, path)
++        try:
++            exec_cmd(cmd)
++        except WicError as err:
++            if "not found" in str(err) or "non empty" in str(err):
++                # mdel outputs 'File ... not found' or 'directory .. non empty"
++                # try to use mdeltree as path could be a directory
++                cmd = "{} -i {} ::{}".format(self.mdeltree,
++                                             partimg, path)
++                exec_cmd(cmd)
++            else:
++                raise err
+         self._put_part_image(pnum)
+ 
+ def wic_ls(args, native_sysroot):
 -- 
 2.1.4
 
