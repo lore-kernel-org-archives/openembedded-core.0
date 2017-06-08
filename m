@@ -1,44 +1,55 @@
-Return-Path: <denys.zagorui@globallogic.com>
-Received: from mail-lf0-f49.google.com (mail-lf0-f49.google.com
-	[209.85.215.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 7A97278203
+Return-Path: <jpewhacker@gmail.com>
+Received: from mail-io0-f172.google.com (mail-io0-f172.google.com
+	[209.85.223.172])
+	by mail.openembedded.org (Postfix) with ESMTP id D925478261
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Jun 2017 13:42:17 +0000 (UTC)
-Received: by mail-lf0-f49.google.com with SMTP id p189so18211607lfe.2
+	Thu,  8 Jun 2017 13:55:42 +0000 (UTC)
+Received: by mail-io0-f172.google.com with SMTP id k93so20406252ioi.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 08 Jun 2017 06:42:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=globallogic.com; s=google;
-	h=from:to:cc:subject:date:message-id;
-	bh=PIEzv/By33kjR9gwVmesq8sRSCs+N1IxnwZKuCLrn0A=;
-	b=SxHOIHqg+Z9IiiE0N9392LahtGIs7+NUNefZv1THHQw+Ud0h4DmlodhiBoH5M6bvKz
-	jueUZ5Nr1glk0ItHJCEQH8rSJPsp62oyfNeuNJqs85yD7RDMZzqo+HsuSupcSU8NYrC8
-	Wt0XF6HnYqvykITNUsyKRN68E+eR9ixVhkl4w=
+	Thu, 08 Jun 2017 06:55:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:message-id:subject:to:date:in-reply-to:references:mime-version
+	:content-transfer-encoding;
+	bh=58qqEWJ22qsij/ZqWxZuIp7S/mAr1NX38iD+DDbTGt0=;
+	b=lMypEtId5nhX79QA/zyWkfamIe7OrnK1E9zUfowGT4CMNpqTvpBO3DwG+sJw3yeAXL
+	RZecDI8Xx2vJyEEsyVdwItS4aEDVjW9rtGCpl40tH+NlTrYEDtMFM1S1Kt5PIK0VPWzp
+	/C3z8V6hUUdxxkX+iz9qVB1WwQB6XWTeDswa+wuU/nyqyM6QhXLveJxcQCbuGq30+GR3
+	6tTIF1eDkm01Cmcxy3+wKTcwOvdp556FmWhH7HzyAzyj1CliWmQujrplIOSm+ylV+/cw
+	hU7Fut1u3iX7cSwVJqdnzz1KU2dLPRDxMGrHjz8e9FhbdK17hQsSCBsry8vPBxv4PQru
+	EBYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=PIEzv/By33kjR9gwVmesq8sRSCs+N1IxnwZKuCLrn0A=;
-	b=iA/uQMMdoGEgJcU0WXi4caDuvMsBUq5VPcBhAi8YrsxXk9jzPuNMAS2VTGwZnwifkb
-	wiaDw1sLxQOTD0qjXFujfcocq3ywCiDhNWgbCp7Y1OlvnUILHiCKAHPk6ptcwMNLDgC2
-	1vSgk3ZPlUs+n/qZj89H79JAxaZTKFK2ZwQlzT5r3y4rm3qq3OyYmDMQsQygnuT75APk
-	nqdSkvPtf1ejtBhd6mNYJ8VHh6PU9t4dXQD3gmNRzWfUv5OqEYQuj+6bJH2tdC5tAqSq
-	d1+d8j3DWv831LPXRdy+ryRdxK22ZPOETdfOkdFqoREflfZf3yt6TTHmhDMxBAXB+Uu+
-	oN0w==
-X-Gm-Message-State: AODbwcCfqzNl8rS2bU93jshAFCK8IF6ZrLjW27QXLySUYGMC29bV9avr
-	Mr9h4hU7VagmE0cj+5rR/w==
-X-Received: by 10.46.20.76 with SMTP id 12mr11570753lju.11.1496929338001;
-	Thu, 08 Jun 2017 06:42:18 -0700 (PDT)
-Received: from kbp1-ldl-f65370.synapse.com ([195.238.92.168])
-	by smtp.gmail.com with ESMTPSA id
-	h10sm1036501ljb.50.2017.06.08.06.42.17
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 08 Jun 2017 06:42:17 -0700 (PDT)
-From: Denys Zagorui <denys.zagorui@globallogic.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  8 Jun 2017 16:42:02 +0300
-Message-Id: <1496929322-29788-1-git-send-email-denys.zagorui@globallogic.com>
-X-Mailer: git-send-email 1.9.1
-Subject: [PATCH v4] gzip: add ptest
+	h=x-gm-message-state:from:message-id:subject:to:date:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=58qqEWJ22qsij/ZqWxZuIp7S/mAr1NX38iD+DDbTGt0=;
+	b=EIFOXpW0WymayuC251gOifacZeO+r7pjv5olSqpm4diyrzuM9ajPnwMvwlWUESqR30
+	ZE7tvLT2Sa/IKa97y7byEhQPKnM6R4SB6wbWmN/PIm0tmikOAgFjXzm9zyRPf6Pb278q
+	ejX2kWTZbxi1ug81hjxilnXvALS6YGoZoTssIDa0/3Qv/5aDyOKH4YzFFiUcMuXNfkn5
+	KDoHTRosbXCQociOb0LtXdl9N8ABqUQSfdyFeIV459HYvY6Ih12B5/TISt9vesUAqa3W
+	kwip2CaFP2pdzRpNyF8D+AvXyK6P6JOzjHLy+7jriJofYeOU3ZCz9PEFTW7RJWy4o0ds
+	jRZA==
+X-Gm-Message-State: AODbwcAFvKWm6H+WES2RD0RKqchSFBjKS9873RqjQwahJbkRyHeT/pQN
+	6bLFT9EnGGVq5Q==
+X-Received: by 10.107.135.224 with SMTP id r93mr26674818ioi.36.1496930144418; 
+	Thu, 08 Jun 2017 06:55:44 -0700 (PDT)
+Received: from ola-842mrw1.ad.garmin.com ([204.77.163.55])
+	by smtp.googlemail.com with ESMTPSA id
+	l19sm2174254ioe.3.2017.06.08.06.55.43
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Thu, 08 Jun 2017 06:55:43 -0700 (PDT)
+From: Joshua Watt <jpewhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+Message-ID: <1496930142.8427.2.camel@gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>, Patrick Ohly
+	<patrick.ohly@intel.com>, openembedded-core@lists.openembedded.org
+Date: Thu, 08 Jun 2017 08:55:42 -0500
+In-Reply-To: <1496912216.6630.225.camel@linuxfoundation.org>
+References: <cover.8ea05a588020117b72a57015f699c7acd76b93e6.1496849345.git-series.patrick.ohly@intel.com>
+	<1496850184.21235.1.camel@gmail.com>
+	<1496912216.6630.225.camel@linuxfoundation.org>
+X-Mailer: Evolution 3.22.6 (3.22.6-2.fc25) 
+Mime-Version: 1.0
+Subject: Re: [PATCH 0/2] Yocto Compatible 2.0 support code
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,132 +62,124 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Jun 2017 13:42:21 -0000
+X-List-Received-Date: Thu, 08 Jun 2017 13:55:47 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
----
- .../0001-gzip-port-zdiff-zless-to-Busybox.patch    | 59 ++++++++++++++++++++++
- meta/recipes-extended/gzip/files/run-ptest         |  6 +++
- meta/recipes-extended/gzip/gzip_1.8.bb             | 20 +++++++-
- 3 files changed, 84 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-extended/gzip/files/0001-gzip-port-zdiff-zless-to-Busybox.patch
- create mode 100644 meta/recipes-extended/gzip/files/run-ptest
+On Thu, 2017-06-08 at 09:56 +0100, Richard Purdie wrote:
+> On Wed, 2017-06-07 at 10:43 -0500, Joshua Watt wrote:
+> > On Wed, 2017-06-07 at 17:31 +0200, Patrick Ohly wrote:
+> > > 
+> > > As discussed in the "[Openembedded-architecture] Yocto Compatible
+> > > 2.0
+> > > + signature changes" mail thread, changes in a .bbappend cannot
+> > > be
+> > > done unconditionally. Making _append and _remove depend on
+> > > overrides
+> > > which get set based on DISTRO_FEATURES is one way of achieving
+> > > this.
+> > > 
+> > > The oe.utils.optional_includes() helper function has not been
+> > > discussed before. It's an attempt to address concerns by
+> > > developers
+> > > that having to write code for (potentially complex) condition
+> > > checking
+> > > is error prone and hard to read.
+> > 
+> > I promise I'm not trying to start a flame war here, and perhaps
+> > there
+> > is history behind this that I'm not aware of but...
+> > 
+> > Why doesn't bitbake support some sort of "if" statement? It seems
+> > like most of what we are trying to do could be accomplished with
+> > much
+> > less fuss if one could simply do this in the bb file:
+> > 
+> >  if bb.utils.contains('DISTRO_FEATURES', 'my-feature', d):
+> >     include foo.inc
+> 
+> This wouldn't actually solve as much of the problem as you think it
+> might at first glance and probably causes others, at least as I
+> understand it (as someone who's worked on bitbake's override code).
+> 
+> For example, at what point does this get evaluated? Most bitbake
+> variables are expanded at usage time, not parse time but here, the
+> way
+> the parser works today, it would have to do an immediate expansion of
+> DISTRO_FEATURES to decide whether to include this file (or code
+> block).
 
-diff --git a/meta/recipes-extended/gzip/files/0001-gzip-port-zdiff-zless-to-Busybox.patch b/meta/recipes-extended/gzip/files/0001-gzip-port-zdiff-zless-to-Busybox.patch
-new file mode 100644
-index 0000000..20d5a19
---- /dev/null
-+++ b/meta/recipes-extended/gzip/files/0001-gzip-port-zdiff-zless-to-Busybox.patch
-@@ -0,0 +1,59 @@
-+From 5f712621829ed81a758077431226a86df37fbc3b Mon Sep 17 00:00:00 2001
-+From: Denys Zagorui <denys.zagorui@globallogic.com>
-+Date: Thu, 8 Jun 2017 16:05:50 +0300
-+Subject: [PATCH] gzip: port zdiff, zless to Busybox
-+
-+Problem reported by Denys Zagorui (Bug#26088).
-+* tests/zdiff: Check that diff uses POSIX-format output.
-+* zless.in (less_version): Don't exit merely because 'less -V'
-+fails; instead, assume 'less' is compatible with an old version of
-+the original 'less'.  Busybox 'less -V' fails, but apparently its
-+'less' works anyway somehow.
-+
-+Signed-off-by: Denys Zagorui <denys.zagorui@globallogic.com>
-+
-+Upstream-Status: Accepted
-+---
-+ tests/zdiff | 4 +++-
-+ zless.in    | 2 +-
-+ 2 files changed, 4 insertions(+), 2 deletions(-)
-+
-+diff --git a/tests/zdiff b/tests/zdiff
-+index 0bb7c7d..9cd4fd4 100755
-+--- a/tests/zdiff
-++++ b/tests/zdiff
-+@@ -22,7 +22,6 @@
-+ 
-+ echo a > a || framework_failure_
-+ echo b > b || framework_failure_
-+-gzip a b || framework_failure_
-+ 
-+ cat <<EOF > exp
-+ 1c1
-+@@ -31,7 +30,10 @@ cat <<EOF > exp
-+ > b
-+ EOF
-+ 
-++diff a b | diff exp - || skip_ "diff output format is incompatible with POSIX"
-++
-+ fail=0
-++gzip a b || fail=1
-+ zdiff a.gz b.gz > out 2>&1
-+ test $? = 1 || fail=1
-+ 
-+diff --git a/zless.in b/zless.in
-+index e634af6..9759ae6 100644
-+--- a/zless.in
-++++ b/zless.in
-+@@ -47,7 +47,7 @@ if test "${LESSMETACHARS+set}" != set; then
-+   export LESSMETACHARS
-+ fi
-+ 
-+-less_version=`less -V` || exit
-++less_version=`less -V 2>/dev/null`
-+ case $less_version in
-+ less' '45[1-9]* | \
-+ less' '4[6-9][0-9]* | \
-+-- 
-+1.9.1
-+
-diff --git a/meta/recipes-extended/gzip/files/run-ptest b/meta/recipes-extended/gzip/files/run-ptest
-new file mode 100644
-index 0000000..cf7c649
---- /dev/null
-+++ b/meta/recipes-extended/gzip/files/run-ptest
-@@ -0,0 +1,6 @@
-+#!/bin/sh
-+
-+cd src/tests
-+
-+make check
-+
-diff --git a/meta/recipes-extended/gzip/gzip_1.8.bb b/meta/recipes-extended/gzip/gzip_1.8.bb
-index 11be846..a0dec14 100644
---- a/meta/recipes-extended/gzip/gzip_1.8.bb
-+++ b/meta/recipes-extended/gzip/gzip_1.8.bb
-@@ -2,7 +2,9 @@ require gzip.inc
- 
- LICENSE = "GPLv3+"
- 
--SRC_URI = "${GNU_MIRROR}/gzip/${BP}.tar.gz"
-+SRC_URI = "${GNU_MIRROR}/gzip/${BP}.tar.gz \
-+            file://0001-gzip-port-zdiff-zless-to-Busybox.patch \
-+            file://run-ptest"
- SRC_URI_append_class-target = " file://wrong-path-fix.patch"
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504 \
-@@ -12,6 +14,22 @@ PROVIDES_append_class-native = " gzip-replacement-native"
- 
- BBCLASSEXTEND = "native"
- 
-+inherit ptest
-+
-+do_install_ptest() {
-+	mkdir -p ${D}${PTEST_PATH}/src/build-aux
-+	cp ${S}/build-aux/test-driver ${D}${PTEST_PATH}/src/build-aux/
-+	mkdir -p ${D}${PTEST_PATH}/src/tests
-+	cp -r ${S}/tests/* ${D}${PTEST_PATH}/src/tests
-+	sed -e 's/^abs_srcdir = ..*/abs_srcdir = \.\./' \
-+            -e 's/^top_srcdir = ..*/top_srcdir = \.\./' \
-+            -e 's/^GREP = ..*/GREP = grep/'             \
-+            -e 's/^AWK = ..*/AWK = awk/'                \
-+            -e 's/^srcdir = ..*/srcdir = \./'           \
-+            -e 's/^Makefile: ..*/Makefile: /'           \
-+            ${B}/tests/Makefile > ${D}${PTEST_PATH}/src/tests/Makefile
-+}
-+
- SRC_URI[md5sum] = "732553152814b22dc35aa0267df5286c"
- SRC_URI[sha256sum] = "1ff7aedb3d66a0d73f442f6261e4b3860df6fd6c94025c2cb31a202c9c60fe0e"
- 
--- 
-1.9.1
+Doesn't this same argument apply to doing a conditional include of a
+file? When bitbake goes to resolve the file name while evaluating the
+AST, it has to evaluate DISTRO_FEATURES which might not be complete. If
+the conditional in an "if" statement were also evaluated when
+evaluating the AST, I believe the following snipet:
+
+ require ${@ oe.utils.optional_includes(d, 'foo-feature:bar.inc') }
+
+Would be (functionally) identical to something (sort of) like:
+
+ if oe.utils.optional_includes(d, 'foo-feature:True'):
+     <All of the content of bar.inc>
+
+Without requiring splitting the recipe content up into multiple files.
+
+
+> So ok, lets assume we change bitbake massively and defer the
+> expansion
+> somehow. What if foo.inc influences the contents of DISTRO_FEATURES?
+> Should it then "unparse" foo.inc if my-feature was removed? or error?
+> or silently ignore that?
+> 
+> bitbake's main conditional today is through overrides and these do
+> allow a controlled delayed expansion of metadata in most cases. In
+> some
+> cases such as include and inherit statements there is still the
+> immediate expansion issue above but at least there aren't huge
+> changes
+> to the parser required to make it work so its the best of both
+> worlds.
+
+I was curious as to what it would it would actually take to make "if"
+statements like the one I described above work (and I wanted to learn
+more about the bitbake internals), so I did a proof of concept on
+GitHub:
+https://github.com/JPEWdev/poky/commit/998a00f122154bb509d22b412fba0773
+97f6e433
+
+It's actually not particularly terrible IMHO, but I'm sure it could be
+better.
+
+I can repost it to the bitbake mailing list as an RFC if you think that
+would be helpful.
+
+> 
+> > One could even eliminate the separate inc file and simply put its
+> > contents under the conditional (as much fun as it seems to have to
+> > open
+> > a new file just to see what a recipe is doing with a distro
+> > feature...)
+> > 
+> > It would also appear that this could make a lot of other things
+> > simpler as well (and may even negate the need to backfill
+> > DISTRO_FEATURES into overrides?)
+> 
+> See if the above gives food for thought on that...
+> 
+> The big problems are the corner cases. If we do add new syntax it
+> needs
+> to avoid these as we already have some pretty nasty ones, thankfully
+> most people don't hit them though.
+
+That's fine. I"m not particularly trying to say that an "if" statement
+is the magic bullet for corner cases, but I think it is equivalent
+functionality to conditional includes and more readable and
+maintainable for people writing recipes. Maybe that means
+DISTRO_FEATURES still need to become OVERRIDES, IDK.
+
+> 
+> Cheers,
+> 
+> Richard
 
 
