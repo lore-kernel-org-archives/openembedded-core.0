@@ -1,46 +1,48 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f178.google.com (mail-pf0-f178.google.com
-	[209.85.192.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 2DB0971AD9
+Received: from mail-pg0-f66.google.com (mail-pg0-f66.google.com [74.125.83.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 7683478273
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  9 Jun 2017 03:41:27 +0000 (UTC)
-Received: by mail-pf0-f178.google.com with SMTP id 83so23818022pfr.0
+	Fri,  9 Jun 2017 03:41:45 +0000 (UTC)
+Received: by mail-pg0-f66.google.com with SMTP id v14so6456618pgn.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 08 Jun 2017 20:41:29 -0700 (PDT)
+	Thu, 08 Jun 2017 20:41:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=XHL856Rh+0qhERI1ptAbHYTeu/2W5VT72yA53ksWYjI=;
-	b=QgrD4WyLxagcFsbSA7DtxeLpqVj1Cqg+gTX9k9pLRn/1RuybMTrRpTjWaWNBN0Pq2U
-	7/RT0zJJmkM4mYqZpZbcjl5cXGRAVj8vYN+wUUnFKyKkDZ8balCawAolaBaF72GzRZEn
-	iv/gwEEql3Ob2hc5PcqOQ/cxKXa4YsTL7i93IFLF2rWqPHjy2teUpA3iZhzjc8Aa0aNc
-	DqIUlh8izSJe8roiOSSOEJ5NgiYdm92ZnLKfi1/dofJ1gQjwjGYK0mIvhaSqE2vfd2Ku
-	SQ7C+VSgGseYuBT/7DzxsFIY1ey1J92ieDY49xDJos1+Idr25zsRfsyH2wqIFn0krWMi
-	jVKg==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=pYpP+1spuccw0hK4Ef6GUam8PMFMSPWD14OnQFdvYPc=;
+	b=vghv7aeniwIkBrlM4ZbTtt4HWuse3oqB2fq/xGVYE5+UGgx1wbol8iOuz0aYTcZR0A
+	Z41HLgEctBEaIwUXuf1fen3YdGp2SqQ1306jMtdt4GZp7BnLVVxlC1UJJWUndQrRCOI1
+	jB6klaYzMLv+p+MGRzEwydISlXI+Gww9W7HFGIdIYiBs/wpxKO4IamPvxIfs7Qo5G1Rc
+	QFQzPAthdtb7T/d3OKX5g60au9N0sNnI/DycL8GaaJDDMdx+RtFg4ALJd2IqX4rikHNO
+	kjYrqmjcMeytXQeZQ8yBXrjllY9gM4DaNvFKok+vfwixsNwknJGIaUiD08oJ/k96Bnp2
+	moQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=XHL856Rh+0qhERI1ptAbHYTeu/2W5VT72yA53ksWYjI=;
-	b=psyYuG8zwgpogoejkZb00bYRXRiaNpPF7Qwkiboot+KKLnFMqF6aMooGOvgWviXN9z
-	jpqmwS5YwazmEQeQOE3ALkHvWmgcOcKL2zFby4sPT/3V5385tgIsTps9hrvRA9IGLymR
-	GsN0eh1jOsLkJ62Abupi3hq2HMELuKkedccAjLi83KAxL+fgUDSpLM6RjLxaV/jrfjvg
-	/aLp0yhb9Ijqc8Z0qy8N962T57ewelz1DPbz3/UwHmRBiYeO1pKh1xHG6pdEjgkiNDuw
-	XpeNshjDfLTAJAL5zd25RZXX6Paj3j5RO2VP2mvI4170jxQvav5YJCFXMgmggyypo3MY
-	noHA==
-X-Gm-Message-State: AODbwcBLb+Yk1dSy04BzxOktlws60ZT3e/vN13pQpmAdS4bTM/75mkDO
-	QwulxFD/YuVlOy3u
-X-Received: by 10.101.85.14 with SMTP id f14mr41104612pgr.112.1496979688132;
-	Thu, 08 Jun 2017 20:41:28 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=pYpP+1spuccw0hK4Ef6GUam8PMFMSPWD14OnQFdvYPc=;
+	b=fnDCY95weAzdhWgU/+eSXi8NUgbXsU4mZeozXYijt0OvB3xeEAvYOyWg+UcVbdfbt9
+	yDQNc8jsw/31LEQuL3cpijm0cPl1ZLFt7HsaJ+D0q4ehDLBi8Goz9PeS8aaSp7tyWsnu
+	Q2WYdZ650lKF4npKOlddWMGdxGzzc8JmLC6jPa+2NUcQPlXzJiY30uOZcztJrrN4ClKt
+	WH5Y8Df0nY2VOR01rsky6hulTM9S2cLGNlX7bIXOq7JRXqr57SEl5jlX86SyloxbRr2g
+	Ms/cflAAo4X8H2J1EajdON5GMKCanOy4ckwgCUJNTZ+00noKalVQcEmHRZNoDaVFz/B8
+	HJWA==
+X-Gm-Message-State: AODbwcDoOchryyqSSE8eTyVhTKSgdrDcEJ9A3sx2OYSYu822z1PkJqra
+	Rbu12sKGVid7LfTA
+X-Received: by 10.101.76.201 with SMTP id n9mr42033918pgt.40.1496979706562;
+	Thu, 08 Jun 2017 20:41:46 -0700 (PDT)
 Received: from localhost.localdomain ([2601:646:8882:b8c::264a])
 	by smtp.gmail.com with ESMTPSA id
-	w3sm10733343pfw.19.2017.06.08.20.41.26
+	z64sm12587357pfd.20.2017.06.08.20.41.45
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 08 Jun 2017 20:41:26 -0700 (PDT)
+	Thu, 08 Jun 2017 20:41:45 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  8 Jun 2017 20:41:19 -0700
-Message-Id: <cover.1496979431.git.raj.khem@gmail.com>
+Date: Thu,  8 Jun 2017 20:41:33 -0700
+Message-Id: <f871750ba329cb80968e2f090a312d39e4c4950b.1496979431.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.13.1
-Subject: [PATCH 0/3] Fix imagetests with harderning flags
+In-Reply-To: <cover.1496979431.git.raj.khem@gmail.com>
+References: <cover.1496979431.git.raj.khem@gmail.com>
+Subject: [PATCH 1/3] testimage.bbclass: Correct the comment to state right dir for test cases
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,55 +55,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 Jun 2017 03:41:38 -0000
+X-List-Received-Date: Fri, 09 Jun 2017 03:41:45 -0000
 
-This patchset is fixing packages to build without textrels when
-security flags are turned on. When testing the image built with musl
-it clearly segfaults and results in failures in imagetest
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/classes/testimage.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Tested with MACHINE=qemux86 TCLIBC=musl bitbake -ctestimage core-image-sato
-
-ore-image-sato-1.0-r0 do_testimage_auto: SUMMARY:
-core-image-sato-1.0-r0 do_testimage_auto: core-image-sato () - Ran 13 tests in 19.907s
-core-image-sato-1.0-r0 do_testimage_auto: core-image-sato - OK - All required tests passed
-core-image-sato-1.0-r0 do_testimage_auto: RESULTS:
-core-image-sato-1.0-r0 do_testimage_auto: RESULTS - connman.ConnmanTest.test_connmand_help - Testcase 961: PASSED
-core-image-sato-1.0-r0 do_testimage_auto: RESULTS - connman.ConnmanTest.test_connmand_running - Testcase 221: PASSED
-core-image-sato-1.0-r0 do_testimage_auto: RESULTS - date.DateTest.test_date - Testcase 211: PASSED
-core-image-sato-1.0-r0 do_testimage_auto: RESULTS - df.DfTest.test_df - Testcase 234: PASSED
-core-image-sato-1.0-r0 do_testimage_auto: RESULTS - oe_syslog.SyslogTest.test_syslog_running - Testcase 201: PASSED
-core-image-sato-1.0-r0 do_testimage_auto: RESULTS - oe_syslog.SyslogTestConfig.test_syslog_logger - Testcase 1149: PASSED
-core-image-sato-1.0-r0 do_testimage_auto: RESULTS - oe_syslog.SyslogTestConfig.test_syslog_restart - Testcase 1150: PASSED
-core-image-sato-1.0-r0 do_testimage_auto: RESULTS - oe_syslog.SyslogTestConfig.test_syslog_startup_config - Testcase 202: PASSED
-core-image-sato-1.0-r0 do_testimage_auto: RESULTS - parselogs.ParseLogsTest.test_parselogs - Testcase 1059: PASSED
-core-image-sato-1.0-r0 do_testimage_auto: RESULTS - ping.PingTest.test_ping - Testcase 964: PASSED
-core-image-sato-1.0-r0 do_testimage_auto: RESULTS - scp.ScpTest.test_scp_file - Testcase 220: PASSED
-core-image-sato-1.0-r0 do_testimage_auto: RESULTS - ssh.SSHTest.test_ssh - Testcase 224: PASSED
-core-image-sato-1.0-r0 do_testimage_auto: RESULTS - xorg.XorgTest.test_xorg_running - Testcase 1151: PASSED
-NOTE: Tasks Summary: Attempted 5732 tasks of which 5717 didn't need to be rerun and all succeeded.
-
-The following changes since commit 186882ca62bf683b93cd7a250963921b89ba071f:
-
-  buildhistory: skip tests if GitPython module is missing (2017-06-07 16:00:43 +0100)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib kraj/hardening-fixes
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=kraj/hardening-fixes
-
-Khem Raj (3):
-  testimage.bbclass: Correct the comment to state right dir for test
-    cases
-  pulseaudio: disable PIE flags when hardened flags are enabled
-  rng-tools: Fix textrels on 32bit x86
-
- meta/classes/testimage.bbclass                     |   2 +-
- .../pulseaudio/pulseaudio_10.0.bb                  |   2 +
- .../rng-tools-5-fix-textrels-on-PIC-x86.patch      | 104 +++++++++++++++++++++
- meta/recipes-support/rng-tools/rng-tools_5.bb      |   1 +
- 4 files changed, 108 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-support/rng-tools/rng-tools/rng-tools-5-fix-textrels-on-PIC-x86.patch
-
+diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.bbclass
+index 1185593a1b..589ef5db93 100644
+--- a/meta/classes/testimage.bbclass
++++ b/meta/classes/testimage.bbclass
+@@ -13,7 +13,7 @@
+ 
+ # You can set (or append to) TEST_SUITES in local.conf to select the tests
+ # which you want to run for your target.
+-# The test names are the module names in meta/lib/oeqa/runtime.
++# The test names are the module names in meta/lib/oeqa/runtime/cases.
+ # Each name in TEST_SUITES represents a required test for the image. (no skipping allowed)
+ # Appending "auto" means that it will try to run all tests that are suitable for the image (each test decides that on it's own).
+ # Note that order in TEST_SUITES is relevant: tests are run in an order such that
 -- 
 2.13.1
 
