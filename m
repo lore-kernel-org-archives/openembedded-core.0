@@ -1,55 +1,55 @@
 Return-Path: <peter.kjellerstedt@axis.com>
 Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
-	by mail.openembedded.org (Postfix) with ESMTP id 1616E78334
+	by mail.openembedded.org (Postfix) with ESMTP id 00ECA7831C
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  9 Jun 2017 19:34:50 +0000 (UTC)
+	Fri,  9 Jun 2017 19:34:51 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by bes.se.axis.com (Postfix) with ESMTP id 44D852E6BD
+	by bes.se.axis.com (Postfix) with ESMTP id 25A522E6C3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  9 Jun 2017 21:34:51 +0200 (CEST)
+	Fri,  9 Jun 2017 21:34:52 +0200 (CEST)
 X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
 Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
 	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id JEjnf-n54eFa
+	port 10024) with LMTP id GUZRjFW8YbiM
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  9 Jun 2017 21:34:45 +0200 (CEST)
+	Fri,  9 Jun 2017 21:34:44 +0200 (CEST)
 Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
-	by bes.se.axis.com (Postfix) with ESMTPS id 908562E6D9
+	by bes.se.axis.com (Postfix) with ESMTPS id F241B2E6E1
 	for <openembedded-core@lists.openembedded.org>;
 	Fri,  9 Jun 2017 21:34:42 +0200 (CEST)
 Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 752841A08C
+	by IMSVA (Postfix) with ESMTP id B18EB1A08F
 	for <openembedded-core@lists.openembedded.org>;
 	Fri,  9 Jun 2017 21:34:42 +0200 (CEST)
 Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 740771A089
+	by IMSVA (Postfix) with ESMTP id B08E81A08E
 	for <openembedded-core@lists.openembedded.org>;
 	Fri,  9 Jun 2017 21:34:42 +0200 (CEST)
-Received: from seth.se.axis.com (unknown [10.0.2.172])
+Received: from thoth.se.axis.com (unknown [10.0.2.173])
 	by boulder02.se.axis.com (Postfix) with ESMTP
 	for <openembedded-core@lists.openembedded.org>;
 	Fri,  9 Jun 2017 21:34:42 +0200 (CEST)
 Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
-	by seth.se.axis.com (Postfix) with ESMTP id 687A82C15
+	by thoth.se.axis.com (Postfix) with ESMTP id A4DA32C64
 	for <openembedded-core@lists.openembedded.org>;
 	Fri,  9 Jun 2017 21:34:42 +0200 (CEST)
 Received: from saur-2.se.axis.com (localhost [127.0.0.1])
-	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id v59JYgHS010975
+	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id v59JYhpE010991
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 9 Jun 2017 21:34:42 +0200
+	Fri, 9 Jun 2017 21:34:43 +0200
 Received: (from pkj@localhost)
-	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id v59JYgBE010974
+	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id v59JYhC0010990
 	for openembedded-core@lists.openembedded.org;
-	Fri, 9 Jun 2017 21:34:42 +0200
+	Fri, 9 Jun 2017 21:34:43 +0200
 From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  9 Jun 2017 21:34:28 +0200
-Message-Id: <87e41d981398d47b718cd1761d9509326f507f8c.1497036762.git.pkj@axis.com>
+Date: Fri,  9 Jun 2017 21:34:32 +0200
+Message-Id: <5374819a2a849418e1522a563e5547bde9bf1602.1497036762.git.pkj@axis.com>
 X-Mailer: git-send-email 2.12.0
 In-Reply-To: <cover.1497036762.git.pkj@axis.com>
 References: <cover.1497036762.git.pkj@axis.com>
 X-TM-AS-GCONF: 00
-Subject: [PATCH 06/13] toaster.bbclass: Simplify parsing of depends.dot
+Subject: [PATCH 10/13] rpm: Do not require that ELF binaries are executable to be identifiable
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,57 +62,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 Jun 2017 19:34:50 -0000
+X-List-Received-Date: Fri, 09 Jun 2017 19:34:51 -0000
 
-By using a single regular expression, the parsing of the depends.dot
-file can be simplified a lot. This should also make it less
-susceptible to formatting changes in that file.
+There is nothing that requires, e.g., a DSO to be executable, but it
+is still an ELF binary and should be identified as such.
 
 Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 ---
- meta/classes/toaster.bbclass | 28 +++++++++++++---------------
- 1 file changed, 13 insertions(+), 15 deletions(-)
+ ...ire-that-ELF-binaries-are-executable-to-b.patch | 32 ++++++++++++++++++++++
+ meta/recipes-devtools/rpm/rpm_git.bb               |  1 +
+ 2 files changed, 33 insertions(+)
+ create mode 100644 meta/recipes-devtools/rpm/files/0011-Do-not-require-that-ELF-binaries-are-executable-to-b.patch
 
-diff --git a/meta/classes/toaster.bbclass b/meta/classes/toaster.bbclass
-index 296e4764f0..fbf463bbb7 100644
---- a/meta/classes/toaster.bbclass
-+++ b/meta/classes/toaster.bbclass
-@@ -270,22 +270,20 @@ python toaster_buildhistory_dump() {
-                     images[target][pname.strip()] = {'size':int(psize)*1024, 'depends' : []}
- 
-             with open("%s/depends.dot" % installed_img_path, "r") as fin:
--                p = re.compile(r' -> ')
--                dot = re.compile(r'.*style=dotted')
-+                p = re.compile(r'\s*"(?P<name>[^"]+)"\s*->\s*"(?P<dep>[^"]+)"(?P<rec>.*?\[style=dotted\])?')
-                 for line in fin:
--                    line = line.rstrip(';')
--                    linesplit = p.split(line)
--                    if len(linesplit) == 2:
--                        pname = linesplit[0].rstrip('"').strip('"')
--                        dependsname = linesplit[1].split(" ")[0].strip().strip(";").strip('"').rstrip('"')
--                        deptype = "depends"
--                        if dot.match(line):
--                            deptype = "recommends"
--                        if not pname in images[target]:
--                            images[target][pname] = {'size': 0, 'depends' : []}
--                        if not dependsname in images[target]:
--                            images[target][dependsname] = {'size': 0, 'depends' : []}
--                        images[target][pname]['depends'].append((dependsname, deptype))
-+                    m = p.match(line)
-+                    if not m:
-+                        continue
-+                    pname = m.group('name')
-+                    dependsname = m.group('dep')
-+                    deptype = 'recommends' if m.group('rec') else 'depends'
+diff --git a/meta/recipes-devtools/rpm/files/0011-Do-not-require-that-ELF-binaries-are-executable-to-b.patch b/meta/recipes-devtools/rpm/files/0011-Do-not-require-that-ELF-binaries-are-executable-to-b.patch
+new file mode 100644
+index 0000000000..c910a478ee
+--- /dev/null
++++ b/meta/recipes-devtools/rpm/files/0011-Do-not-require-that-ELF-binaries-are-executable-to-b.patch
+@@ -0,0 +1,32 @@
++From d65d6e8760afbd7f70b22a1f3297a037bc475fea Mon Sep 17 00:00:00 2001
++From: Peter Kjellerstedt <pkj@axis.com>
++Date: Mon, 15 May 2017 10:21:08 +0200
++Subject: [PATCH 11/13] Do not require that ELF binaries are executable to be
++ identifiable
 +
-+                    if not pname in images[target]:
-+                        images[target][pname] = {'size': 0, 'depends' : []}
-+                    if not dependsname in images[target]:
-+                        images[target][dependsname] = {'size': 0, 'depends' : []}
-+                    images[target][pname]['depends'].append((dependsname, deptype))
++There is nothing that requires, e.g., a DSO to be executable, but it
++is still an ELF binary and should be identified as such.
++
++Upstream probably expects all ELF binaries to be marked as executable,
++but rather than imposing such a limitation for OE, allow any file to
++be identified as an ELF binary regardless of whether it is executable
++or not.
++
++Upstream-Status: Inappropriate
++Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
++---
++ fileattrs/elf.attr | 1 -
++ 1 file changed, 1 deletion(-)
++
++diff --git a/fileattrs/elf.attr b/fileattrs/elf.attr
++index 595b33e09..bac52649d 100644
++--- a/fileattrs/elf.attr
+++++ b/fileattrs/elf.attr
++@@ -1,4 +1,3 @@
++ %__elf_provides		%{_rpmconfigdir}/elfdeps --provides %{?__filter_GLIBC_PRIVATE:--filter-private}
++ %__elf_requires		%{_rpmconfigdir}/elfdeps --requires %{?__filter_GLIBC_PRIVATE:--filter-private}
++ %__elf_magic		^(setuid )?(setgid )?(sticky )?ELF (32|64)-bit.*$
++-%__elf_flags		exeonly
++-- 
++2.12.0
++
+diff --git a/meta/recipes-devtools/rpm/rpm_git.bb b/meta/recipes-devtools/rpm/rpm_git.bb
+index 7665d54cdc..15880377b8 100644
+--- a/meta/recipes-devtools/rpm/rpm_git.bb
++++ b/meta/recipes-devtools/rpm/rpm_git.bb
+@@ -35,6 +35,7 @@ SRC_URI = "git://github.com/rpm-software-management/rpm \
+            file://0001-Fix-build-with-musl-C-library.patch \
+            file://0001-Add-a-color-setting-for-mips64_n32-binaries.patch \
+            file://0001-Add-PYTHON_ABI-when-searching-for-python-libraries.patch \
++           file://0011-Do-not-require-that-ELF-binaries-are-executable-to-b.patch \
+            "
  
-             # files-in-image.txt is only generated if an image file is created,
-             # so the file entries ('syms', 'dirs', 'files') for a target will be
+ PV = "4.13.90+git${SRCPV}"
 -- 
 2.12.0
 
