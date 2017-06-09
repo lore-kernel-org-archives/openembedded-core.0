@@ -1,55 +1,48 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
-	by mail.openembedded.org (Postfix) with ESMTP id 00ECA7831C
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qt0-f181.google.com (mail-qt0-f181.google.com
+	[209.85.216.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 3AE997833B
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  9 Jun 2017 19:34:51 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bes.se.axis.com (Postfix) with ESMTP id 25A522E6C3
+	Fri,  9 Jun 2017 19:56:51 +0000 (UTC)
+Received: by mail-qt0-f181.google.com with SMTP id u19so87876690qta.3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  9 Jun 2017 21:34:52 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
-Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id GUZRjFW8YbiM
-	for <openembedded-core@lists.openembedded.org>;
-	Fri,  9 Jun 2017 21:34:44 +0200 (CEST)
-Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
-	by bes.se.axis.com (Postfix) with ESMTPS id F241B2E6E1
-	for <openembedded-core@lists.openembedded.org>;
-	Fri,  9 Jun 2017 21:34:42 +0200 (CEST)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id B18EB1A08F
-	for <openembedded-core@lists.openembedded.org>;
-	Fri,  9 Jun 2017 21:34:42 +0200 (CEST)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id B08E81A08E
-	for <openembedded-core@lists.openembedded.org>;
-	Fri,  9 Jun 2017 21:34:42 +0200 (CEST)
-Received: from thoth.se.axis.com (unknown [10.0.2.173])
-	by boulder02.se.axis.com (Postfix) with ESMTP
-	for <openembedded-core@lists.openembedded.org>;
-	Fri,  9 Jun 2017 21:34:42 +0200 (CEST)
-Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
-	by thoth.se.axis.com (Postfix) with ESMTP id A4DA32C64
-	for <openembedded-core@lists.openembedded.org>;
-	Fri,  9 Jun 2017 21:34:42 +0200 (CEST)
-Received: from saur-2.se.axis.com (localhost [127.0.0.1])
-	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id v59JYhpE010991
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 9 Jun 2017 21:34:43 +0200
-Received: (from pkj@localhost)
-	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id v59JYhC0010990
-	for openembedded-core@lists.openembedded.org;
-	Fri, 9 Jun 2017 21:34:43 +0200
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  9 Jun 2017 21:34:32 +0200
-Message-Id: <5374819a2a849418e1522a563e5547bde9bf1602.1497036762.git.pkj@axis.com>
-X-Mailer: git-send-email 2.12.0
-In-Reply-To: <cover.1497036762.git.pkj@axis.com>
-References: <cover.1497036762.git.pkj@axis.com>
-X-TM-AS-GCONF: 00
-Subject: [PATCH 10/13] rpm: Do not require that ELF binaries are executable to be identifiable
+	Fri, 09 Jun 2017 12:56:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=cKuRE2YQwRi1UdtcI5FHcCtrMSfX2rcWOLVzqG3XHoc=;
+	b=mIcn2TaPBSCujohN/ibvPfw8g9Tjghq82CubsletKwBU9MovjkM/CshPIsOlo6zlL3
+	8H9hfXjIVbVnSN6Nj7r/yl+PtGTw4Y4vSK7YGiVXrot1Olb/qyDmkNBhmR00/vJnlLDw
+	vfp/z2QzTalTFiFtDBQeQThdiLz2NuVHkns5TknsYD0PQMrIn7IIG3YLTzsklDOFYZWi
+	qyaP7sqt3GQiRGFxYsdtp+zhTUxbMK0NyIF8NV0qifcqzSUZhYMI/6OsBa3KiFm8/1rC
+	NaNuWEDzzNJbDbGnCfVfHEp++gEyxllmOLymtOXAqbozJWPBgZ75OezHeVHXwqwuq6Sz
+	RkYQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=cKuRE2YQwRi1UdtcI5FHcCtrMSfX2rcWOLVzqG3XHoc=;
+	b=eIToFJ1cPJtLrS0nRTNzAC27GrDl0KfH2HjxRBcDVxcPJEsGS3yKTrwB7Kju9ENwsW
+	hiTF7RIMemiDngc2Iv8L+AiZh9eOQ2p0W8SKMX/7kceqrEbl8SeOEFe44RaciTic8jhx
+	LDRTpn0PBqiekdJD8LNsCeONU51c3bf00r6aKz/WtmAZF1g887TFdFRihAdw6xm9NF8+
+	H2dd2iIL8hI4GdmOrRdVEBFw/8kbL7KWlPEvYPncLTEInLgacAfTlrH0/KgaOj1vk0AC
+	4hd0ATUAFDhyl6G9mzIjn0fiHOEDVEP9EF30753ww9lobWuGqKYy5P5nbN8xO4qXWVpq
+	DWyw==
+X-Gm-Message-State: AKS2vOym+N22zeh1yLYshicKewHNmmXhEBKTcc5GFvZAdUcvtnx1giYa
+	U32kyXOWTOiF2JRqJFsIpfCyTzjRf0H0
+X-Received: by 10.237.40.97 with SMTP id r88mr43940159qtd.27.1497038212561;
+	Fri, 09 Jun 2017 12:56:52 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.35.103 with HTTP; Fri, 9 Jun 2017 12:56:32 -0700 (PDT)
+In-Reply-To: <20170609190157.GM28053@denix.org>
+References: <1496972359-6459-1-git-send-email-fan.xin@jp.fujitsu.com>
+	<20170609190157.GM28053@denix.org>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 9 Jun 2017 20:56:32 +0100
+Message-ID: <CAJTo0LYOBWbkjC=s=5b9KSCTx+AaMEEfVU1bGLPxDSvzb-dZVg@mail.gmail.com>
+To: Denys Dmytriyenko <denis@denix.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] flex: Upgrade to 2.6.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,69 +55,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 Jun 2017 19:34:51 -0000
+X-List-Received-Date: Fri, 09 Jun 2017 19:56:55 -0000
+Content-Type: multipart/alternative; boundary="94eb2c068b34e012cc05518c5ec9"
 
-There is nothing that requires, e.g., a DSO to be executable, but it
-is still an ELF binary and should be identified as such.
+--94eb2c068b34e012cc05518c5ec9
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
----
- ...ire-that-ELF-binaries-are-executable-to-b.patch | 32 ++++++++++++++++++++++
- meta/recipes-devtools/rpm/rpm_git.bb               |  1 +
- 2 files changed, 33 insertions(+)
- create mode 100644 meta/recipes-devtools/rpm/files/0011-Do-not-require-that-ELF-binaries-are-executable-to-b.patch
+On 9 June 2017 at 20:01, Denys Dmytriyenko <denis@denix.org> wrote:
 
-diff --git a/meta/recipes-devtools/rpm/files/0011-Do-not-require-that-ELF-binaries-are-executable-to-b.patch b/meta/recipes-devtools/rpm/files/0011-Do-not-require-that-ELF-binaries-are-executable-to-b.patch
-new file mode 100644
-index 0000000000..c910a478ee
---- /dev/null
-+++ b/meta/recipes-devtools/rpm/files/0011-Do-not-require-that-ELF-binaries-are-executable-to-b.patch
-@@ -0,0 +1,32 @@
-+From d65d6e8760afbd7f70b22a1f3297a037bc475fea Mon Sep 17 00:00:00 2001
-+From: Peter Kjellerstedt <pkj@axis.com>
-+Date: Mon, 15 May 2017 10:21:08 +0200
-+Subject: [PATCH 11/13] Do not require that ELF binaries are executable to be
-+ identifiable
-+
-+There is nothing that requires, e.g., a DSO to be executable, but it
-+is still an ELF binary and should be identified as such.
-+
-+Upstream probably expects all ELF binaries to be marked as executable,
-+but rather than imposing such a limitation for OE, allow any file to
-+be identified as an ELF binary regardless of whether it is executable
-+or not.
-+
-+Upstream-Status: Inappropriate
-+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-+---
-+ fileattrs/elf.attr | 1 -
-+ 1 file changed, 1 deletion(-)
-+
-+diff --git a/fileattrs/elf.attr b/fileattrs/elf.attr
-+index 595b33e09..bac52649d 100644
-+--- a/fileattrs/elf.attr
-++++ b/fileattrs/elf.attr
-+@@ -1,4 +1,3 @@
-+ %__elf_provides		%{_rpmconfigdir}/elfdeps --provides %{?__filter_GLIBC_PRIVATE:--filter-private}
-+ %__elf_requires		%{_rpmconfigdir}/elfdeps --requires %{?__filter_GLIBC_PRIVATE:--filter-private}
-+ %__elf_magic		^(setuid )?(setgid )?(sticky )?ELF (32|64)-bit.*$
-+-%__elf_flags		exeonly
-+-- 
-+2.12.0
-+
-diff --git a/meta/recipes-devtools/rpm/rpm_git.bb b/meta/recipes-devtools/rpm/rpm_git.bb
-index 7665d54cdc..15880377b8 100644
---- a/meta/recipes-devtools/rpm/rpm_git.bb
-+++ b/meta/recipes-devtools/rpm/rpm_git.bb
-@@ -35,6 +35,7 @@ SRC_URI = "git://github.com/rpm-software-management/rpm \
-            file://0001-Fix-build-with-musl-C-library.patch \
-            file://0001-Add-a-color-setting-for-mips64_n32-binaries.patch \
-            file://0001-Add-PYTHON_ABI-when-searching-for-python-libraries.patch \
-+           file://0011-Do-not-require-that-ELF-binaries-are-executable-to-b.patch \
-            "
- 
- PV = "4.13.90+git${SRCPV}"
--- 
-2.12.0
+> There were numerous issues with flex > 2.6.0 (e.g. doxygen), so all
+> previous
+> updates were reverted. Is 2.6.4 now safe? I doubt that, considering the new
+> version was not published on sourceforge...
+>
 
+Yes, I doubt it too.
 
+Ross
+
+--94eb2c068b34e012cc05518c5ec9
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 9 June 2017 at 20:01, Denys Dmytriyenko <span dir=3D"ltr">&lt;<a href=3D=
+"mailto:denis@denix.org" target=3D"_blank">denis@denix.org</a>&gt;</span> w=
+rote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;borde=
+r-left:1px #ccc solid;padding-left:1ex"><div id=3D":3qy" class=3D"a3s aXjCH=
+ m15c8e3ca6511432a">There were numerous issues with flex &gt; 2.6.0 (e.g. d=
+oxygen), so all previous<br>
+updates were reverted. Is 2.6.4 now safe? I doubt that, considering the new=
+<br>
+version was not published on sourceforge...<br></div></blockquote><div><br>=
+</div><div>Yes, I doubt it too.=C2=A0</div><div><br></div><div>Ross=C2=A0</=
+div></div><br></div></div>
+
+--94eb2c068b34e012cc05518c5ec9--
