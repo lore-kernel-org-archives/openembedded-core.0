@@ -1,23 +1,42 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id D0E14782C1
+Return-Path: <andre.draszik@gmail.com>
+Received: from mail-wr0-f196.google.com (mail-wr0-f196.google.com
+	[209.85.128.196])
+	by mail.openembedded.org (Postfix) with ESMTP id E931378299
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  9 Jun 2017 13:51:12 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga104.jf.intel.com with ESMTP; 09 Jun 2017 06:51:14 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.39,317,1493708400"; d="scan'208";a="1139632838"
-Received: from therfet-mobl.ger.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.252.41.2])
-	by orsmga001.jf.intel.com with ESMTP; 09 Jun 2017 06:51:12 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
+	Fri,  9 Jun 2017 13:53:41 +0000 (UTC)
+Received: by mail-wr0-f196.google.com with SMTP id e23so6987280wre.3
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 09 Jun 2017 06:53:43 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=AYEQroe0ri0o2OOjR9hLbLNsTfD8ntvFrp5SD9JlYts=;
+	b=FvJBbwbFk9YNWTioGNxH6oPubbvv/Nv65ktN8MZXVjKGGKWWlCbf3XX9K4b1zGcB4c
+	Myn4zRqrGjU33opaKEVbDXXhgRgdSpY16UHrGAlGMJ4vvqyr/WtmJwiAIDYy0wgznsu0
+	BsggboYz230c2IHLudJyMqCe+8pLf7uLMiBqHedbmOg6oymvXLJZohhnVTYZrF82ewF5
+	gXyW4UY4aieiX54RROYbpM06fi5vBGFel7cKQKKPMV0qqVsbRNoVaDBnTGpZY5pnmNxM
+	R8bB+nuM9yzeQfmXcnHS7K4rDRgFGfnEKRIKOBU0pGqHnZU5YaNHmeB3u1SFHakcyUTz
+	FYkw==
+X-Gm-Message-State: AODbwcBQ/DsjK0OaR6pnof/XYx1Wr+jdfeoM+mgVM1fJ+pEK9MjsK0zG
+	d3XteOw4uBb8uI4hUXM=
+X-Received: by 10.223.138.194 with SMTP id z2mr32807086wrz.66.1497016422473;
+	Fri, 09 Jun 2017 06:53:42 -0700 (PDT)
+Received: from tfsielt31850 ([77.107.218.170])
+	by smtp.gmail.com with ESMTPSA id
+	l93sm1736568wrc.46.2017.06.09.06.53.41
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Fri, 09 Jun 2017 06:53:41 -0700 (PDT)
+Message-ID: <1497016420.4561.13.camel@andred.net>
+From: =?ISO-8859-1?Q?Andr=E9?= Draszik <git@andred.net>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  9 Jun 2017 15:50:40 +0200
-Message-Id: <84c62c20eb28477836a756fbaa71fb6c2e4d7343.1497016071.git.paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 2.9.4
-In-Reply-To: <cover.1497016071.git.paul.eggleton@linux.intel.com>
-References: <cover.1497016071.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 2/2] classes/buildhistory: use BB_CMDLINE to get bitbake command line
+Date: Fri, 09 Jun 2017 14:53:40 +0100
+In-Reply-To: <20170609070429.17376-1-freesilicon@gmail.com>
+References: <20170609070429.17376-1-freesilicon@gmail.com>
+X-Mailer: Evolution 3.22.6-1 
+Mime-Version: 1.0
+Subject: Re: [PATCH RESEND 0/3] openssh: Package server configuration
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,46 +49,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 Jun 2017 13:51:13 -0000
+X-List-Received-Date: Fri, 09 Jun 2017 13:53:42 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-We put the bitbake command line in the buildhistory commit message for
-informational purposes, but calling sys.argv to get that as we were
-previously doesn't really work in memory resident mode - that gives you
-the command used to start the bitbake server which is much less
-interesting. Use the just-introduced BB_CMDLINE variable instead.
+Hi.
 
-Part of the fix for [YOCTO #11634].
+On Fri, 2017-06-09 at 09:04 +0200, David Vincent wrote:
+> This serie of patches provides a way to package OpenSSH sshd
+> configuration. This
+> way, it should be easier to change the configuration either in distro
+> and/or BSP
+> layers.
+> It also simplifies management for R/O rootfs
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
----
- meta/classes/buildhistory.bbclass | 13 ++++++++-----
- 1 file changed, 8 insertions(+), 5 deletions(-)
+Looking at some previous patches and comments, this split seems to have been
+done with the intention to better support R/O rootfs.
+I have a sent a patch that addresses the R/O rootfs issue in a different
+way, which I believe to be a simpler and less intrusive approach. We've been
+using this for a while.
 
-diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
-index 3e907fc..74b837e 100644
---- a/meta/classes/buildhistory.bbclass
-+++ b/meta/classes/buildhistory.bbclass
-@@ -696,11 +696,14 @@ def buildhistory_get_sdkvars(d):
- 
- 
- def buildhistory_get_cmdline(d):
--    if sys.argv[0].endswith('bin/bitbake'):
--        bincmd = 'bitbake'
--    else:
--        bincmd = sys.argv[0]
--    return '%s %s' % (bincmd, ' '.join(sys.argv[1:]))
-+    argv = d.getVar('BB_CMDLINE', False)
-+    if argv:
-+        if argv[0].endswith('bin/bitbake'):
-+            bincmd = 'bitbake'
-+        else:
-+            bincmd = argv[0]
-+        return '%s %s' % (bincmd, ' '.join(argv[1:]))
-+    return ''
- 
- 
- buildhistory_single_commit() {
--- 
-2.9.4
+http://lists.openembedded.org/pipermail/openembedded-core/2017-June/137848.html
 
+Let me know what you think.
+
+
+Cheers,
+Andre'
+
+
+> David Vincent (3):
+>   openssh: Package server configuration
+>   core-image: Set default sshd configuration
+>   rootfs-postcommands: Modify ssh-related commands
+> 
+>  meta/classes/core-image.bbclass                    |  3 +-
+>  meta/classes/rootfs-postcommands.bbclass           | 17 +++-----
+>  meta/recipes-connectivity/openssh/openssh_7.5p1.bb | 51
+> ++++++++++++++++++----
+>  3 files changed, 50 insertions(+), 21 deletions(-)
+> 
+> -- 
+> 2.13.0
+> 
 
