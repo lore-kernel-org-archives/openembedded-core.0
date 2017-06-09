@@ -1,20 +1,22 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id 2ED2D71A60
+	by mail.openembedded.org (Postfix) with ESMTP id 3208278287
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  9 Jun 2017 11:14:01 +0000 (UTC)
+	Fri,  9 Jun 2017 11:14:03 +0000 (UTC)
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-	by orsmga104.jf.intel.com with ESMTP; 09 Jun 2017 04:14:03 -0700
+	by orsmga104.jf.intel.com with ESMTP; 09 Jun 2017 04:14:04 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.39,317,1493708400"; d="scan'208";a="112882971"
+X-IronPort-AV: E=Sophos;i="5.39,317,1493708400"; d="scan'208";a="112882978"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by fmsmga006.fm.intel.com with ESMTP; 09 Jun 2017 04:14:02 -0700
+	by fmsmga006.fm.intel.com with ESMTP; 09 Jun 2017 04:14:03 -0700
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  9 Jun 2017 14:13:57 +0300
-Message-Id: <cover.1497006675.git.alexander.kanavin@linux.intel.com>
+Date: Fri,  9 Jun 2017 14:13:58 +0300
+Message-Id: <bab5e65ef2cda4ce8dc0892312e9243b0a26738c.1497006675.git.alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.11.0
-Subject: [PATCHv3 0/2] Multi-threaded RPM support
+In-Reply-To: <cover.1497006675.git.alexander.kanavin@linux.intel.com>
+References: <cover.1497006675.git.alexander.kanavin@linux.intel.com>
+Subject: [PATCHv3 1/2] package_rpm.bbclass: use multithreaded xz compression
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,71 +29,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 Jun 2017 11:14:02 -0000
+X-List-Received-Date: Fri, 09 Jun 2017 11:14:03 -0000
 
-Changes in version 3: fix up indentation inconsistencies, fix a nasty variable name typo
+RPM's default is single-threaded gz; the change greatly helps with
+both buildtimes (when there is a small number of large-sized packages)
+and disk space taken by resulting rpms.
 
-Changes in version 2: use openmp for multi-processing instead of NSPR library, as
-requested by upstream. Add a link to the upstream submission to patches.
+Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+---
+ meta/classes/package_rpm.bbclass | 2 ++
+ 1 file changed, 2 insertions(+)
 
-These two patches add multi-threaded features to RPM to speed up the do_package_write_rpm task.
-
-Specifically:
-
-1) Multi-threaded xz compressor is used instead of default single-threaded gz. This has the most
-dramatic effect when a recipe produces a smaller number of large-sized packages.
-
-2) Packages creation is run in multiple threads via thread pools. This is most beneficial when
-a recipe produces a large amount of small packages.
-
-Some not very scientific benchmarks for time and .rpm sizes
-(time is measured for do_package_write_rpm tasks only):
-
-webkitgtk
-before: 9m12s 1550M
-after: 1m40s 858M
-
-glibc-locale
-before: 2m52s 125M
-after: 30s 56M
-
-glibc
-before: 46s 54M
-after: 13s 38M
-
-perl
-before: 1m09s 63M
-after: 45s 42M
-
-python3
-before: 30s 38M
-after: 18s 24M
-
-The following changes since commit 576821ea0a7558b626ccc87e9ae0e9ee40864956:
-
-  bitbake: bitbake-layers: check layer dependencies before adding (2017-06-06 19:52:51 +0100)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib akanavin/parallel-rpm
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=akanavin/parallel-rpm
-
-Alexander Kanavin (2):
-  package_rpm.bbclass: use multithreaded xz compression
-  rpm: run binary package generation via thread pools
-
- meta/classes/package_rpm.bbclass                   |   2 +
- ...y-package-building-into-a-separate-functi.patch |  84 ++++++++
- ...-binary-package-creation-via-thread-pools.patch | 126 ++++++++++++
- ...c-make-operations-over-string-pools-threa.patch | 207 ++++++++++++++++++++
- ...c-remove-static-local-variables-from-buil.patch | 216 +++++++++++++++++++++
- meta/recipes-devtools/rpm/rpm_git.bb               |   4 +
- 6 files changed, 639 insertions(+)
- create mode 100644 meta/recipes-devtools/rpm/files/0001-Split-binary-package-building-into-a-separate-functi.patch
- create mode 100644 meta/recipes-devtools/rpm/files/0002-Run-binary-package-creation-via-thread-pools.patch
- create mode 100644 meta/recipes-devtools/rpm/files/0003-rpmstrpool.c-make-operations-over-string-pools-threa.patch
- create mode 100644 meta/recipes-devtools/rpm/files/0004-build-pack.c-remove-static-local-variables-from-buil.patch
-
+diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
+index a844c4d4360..dc241975c3b 100644
+--- a/meta/classes/package_rpm.bbclass
++++ b/meta/classes/package_rpm.bbclass
+@@ -644,6 +644,8 @@ python do_package_rpm () {
+     cmd = cmd + " --define '_build_name_fmt %%{NAME}-%%{VERSION}-%%{RELEASE}.%%{ARCH}.rpm'"
+     cmd = cmd + " --define '_use_internal_dependency_generator 0'"
+     cmd = cmd + " --define '_binaries_in_noarch_packages_terminate_build 0'"
++    cmd = cmd + " --define '_binary_payload w6T.xzdio'"
++    cmd = cmd + " --define '_source_payload w6T.xzdio'"
+     if perfiledeps:
+         cmd = cmd + " --define '__find_requires " + outdepends + "'"
+         cmd = cmd + " --define '__find_provides " + outprovides + "'"
 -- 
 2.11.0
 
