@@ -1,55 +1,55 @@
 Return-Path: <peter.kjellerstedt@axis.com>
 Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
-	by mail.openembedded.org (Postfix) with ESMTP id 9E00778318
+	by mail.openembedded.org (Postfix) with ESMTP id D26CE78312
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  9 Jun 2017 19:34:47 +0000 (UTC)
+	Fri,  9 Jun 2017 19:34:48 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by bes.se.axis.com (Postfix) with ESMTP id 3202E2E6BF
+	by bes.se.axis.com (Postfix) with ESMTP id E35982E6BD
 	for <openembedded-core@lists.openembedded.org>;
 	Fri,  9 Jun 2017 21:34:49 +0200 (CEST)
 X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
 Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
 	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id aSaXJkjwDwAZ
+	port 10024) with LMTP id yrAqyRtMGIaw
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  9 Jun 2017 21:34:44 +0200 (CEST)
-Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
-	by bes.se.axis.com (Postfix) with ESMTPS id DDEBD2E6DD
+	Fri,  9 Jun 2017 21:34:45 +0200 (CEST)
+Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
+	by bes.se.axis.com (Postfix) with ESMTPS id 0AC702E6E8
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  9 Jun 2017 21:34:42 +0200 (CEST)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id ADCAA1A089
-	for <openembedded-core@lists.openembedded.org>;
-	Fri,  9 Jun 2017 21:34:42 +0200 (CEST)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id A1B3C1A08B
+	Fri,  9 Jun 2017 21:34:43 +0200 (CEST)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id E225F1E07D
 	for <openembedded-core@lists.openembedded.org>;
 	Fri,  9 Jun 2017 21:34:42 +0200 (CEST)
-Received: from thoth.se.axis.com (unknown [10.0.2.173])
-	by boulder02.se.axis.com (Postfix) with ESMTP
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id D77261E07A
+	for <openembedded-core@lists.openembedded.org>;
+	Fri,  9 Jun 2017 21:34:42 +0200 (CEST)
+Received: from seth.se.axis.com (unknown [10.0.2.172])
+	by boulder03.se.axis.com (Postfix) with ESMTP
 	for <openembedded-core@lists.openembedded.org>;
 	Fri,  9 Jun 2017 21:34:42 +0200 (CEST)
 Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
-	by thoth.se.axis.com (Postfix) with ESMTP id 964A02C64
+	by seth.se.axis.com (Postfix) with ESMTP id CBE4C2C15
 	for <openembedded-core@lists.openembedded.org>;
 	Fri,  9 Jun 2017 21:34:42 +0200 (CEST)
 Received: from saur-2.se.axis.com (localhost [127.0.0.1])
-	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id v59JYhFf010987
+	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id v59JYhlu010999
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 9 Jun 2017 21:34:43 +0200
 Received: (from pkj@localhost)
-	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id v59JYgZp010986
+	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id v59JYhjp010998
 	for openembedded-core@lists.openembedded.org;
 	Fri, 9 Jun 2017 21:34:43 +0200
 From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  9 Jun 2017 21:34:31 +0200
-Message-Id: <412a5ca6a88898206733caa13b8d1c727b005c00.1497036762.git.pkj@axis.com>
+Date: Fri,  9 Jun 2017 21:34:34 +0200
+Message-Id: <b561ecf7af41987d3fa3eea5e360685bf191e20f.1497036762.git.pkj@axis.com>
 X-Mailer: git-send-email 2.12.0
 In-Reply-To: <cover.1497036762.git.pkj@axis.com>
 References: <cover.1497036762.git.pkj@axis.com>
 X-TM-AS-GCONF: 00
-Subject: [PATCH 09/13] rpm: Create a wrapper for the native rpmdeps tool
+Subject: [PATCH 12/13] rpm: Add a new option --alldeps to rpmdeps
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,29 +62,192 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 Jun 2017 19:34:48 -0000
+X-List-Received-Date: Fri, 09 Jun 2017 19:34:49 -0000
 
-Rather than trying to call rpmdeps with the correct arguments to work
-with the sysroot as was done in package.bbclass, create a wrapper for
-it like all the other native tools already had.
+This will send the output from rpmfcPrint() to stdout. This is an
+alternative to using the --rpmfcdebug option, which will send the same
+output to stderr. The two options have totally different use cases
+though. While --alldeps is used when the output from rpmfcPrint() is
+what is wanted, --rpmfcdebug can be used together with the other
+output options, e.g., --requires, without affecting their output.
 
 Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 ---
- meta/recipes-devtools/rpm/rpm_git.bb | 1 +
- 1 file changed, 1 insertion(+)
+ .../0013-Add-a-new-option-alldeps-to-rpmdeps.patch | 152 +++++++++++++++++++++
+ meta/recipes-devtools/rpm/rpm_git.bb               |   1 +
+ 2 files changed, 153 insertions(+)
+ create mode 100644 meta/recipes-devtools/rpm/files/0013-Add-a-new-option-alldeps-to-rpmdeps.patch
 
+diff --git a/meta/recipes-devtools/rpm/files/0013-Add-a-new-option-alldeps-to-rpmdeps.patch b/meta/recipes-devtools/rpm/files/0013-Add-a-new-option-alldeps-to-rpmdeps.patch
+new file mode 100644
+index 0000000000..faaf62960c
+--- /dev/null
++++ b/meta/recipes-devtools/rpm/files/0013-Add-a-new-option-alldeps-to-rpmdeps.patch
+@@ -0,0 +1,152 @@
++From 3bf20a6116ae3e1a5a3a6907bee7e881b17efb2f Mon Sep 17 00:00:00 2001
++From: Peter Kjellerstedt <pkj@axis.com>
++Date: Mon, 15 May 2017 11:23:26 +0200
++Subject: [PATCH 13/13] Add a new option --alldeps to rpmdeps
++
++This will send the output from rpmfcPrint() to stdout. This is an
++alternative to using the --rpmfcdebug option, which will send the same
++output to stderr. The two options have totally different use cases
++though. While --alldeps is used when the output from rpmfcPrint() is
++what is wanted, --rpmfcdebug can be used together with the other
++output options, e.g., --requires, without affecting their output.
++
++Upstream-Status: Submitted [https://github.com/rpm-software-management/rpm/pull/220]
++Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
++---
++ build/rpmfc.c   | 27 ++++++++++++++-------------
++ build/rpmfc.h   |  1 -
++ tools/rpmdeps.c | 44 +++++++++++++++++++++++++-------------------
++ 3 files changed, 39 insertions(+), 33 deletions(-)
++
++diff --git a/build/rpmfc.c b/build/rpmfc.c
++index c8e2f876a..44f1cdc9a 100644
++--- a/build/rpmfc.c
+++++ b/build/rpmfc.c
++@@ -732,7 +732,6 @@ static rpm_color_t rpmfcColor(const char * fmstr)
++ 
++ void rpmfcPrint(const char * msg, rpmfc fc, FILE * fp)
++ {
++-    rpm_color_t fcolor;
++     int ndx;
++     int dx;
++     int fx;
++@@ -744,21 +743,23 @@ void rpmfcPrint(const char * msg, rpmfc fc, FILE * fp)
++ 
++     if (fc)
++     for (fx = 0; fx < fc->nfiles; fx++) {
++-	rpmsid cx = fc->fcdictx[fx] + 1; /* id's are one off */
++-	fcolor = fc->fcolor[fx];
++-	ARGV_t fattrs = fc->fattrs[fx];
++-
++ 	fprintf(fp, "%3d %s", fx, fc->fn[fx]);
++-	if (fcolor != RPMFC_BLACK)
+++	if (_rpmfc_debug) {
+++	    rpmsid cx = fc->fcdictx[fx] + 1; /* id's are one off */
+++	    rpm_color_t fcolor = fc->fcolor[fx];
+++	    ARGV_t fattrs = fc->fattrs[fx];
+++
+++	    if (fcolor != RPMFC_BLACK)
++ 		fprintf(fp, "\t0x%x", fc->fcolor[fx]);
++-	else
+++	    else
++ 		fprintf(fp, "\t%s", rpmstrPoolStr(fc->cdict, cx));
++-	if (fattrs) {
++-	    char *attrs = argvJoin(fattrs, ",");
++-	    fprintf(fp, " [%s]", attrs);
++-	    free(attrs);
++-	} else {
++-	    fprintf(fp, " [none]");
+++	    if (fattrs) {
+++		char *attrs = argvJoin(fattrs, ",");
+++		fprintf(fp, " [%s]", attrs);
+++		free(attrs);
+++	    } else {
+++		fprintf(fp, " [none]");
+++	    }
++ 	}
++ 	fprintf(fp, "\n");
++ 
++diff --git a/build/rpmfc.h b/build/rpmfc.h
++index dae8ea5b1..3d87b31cf 100644
++--- a/build/rpmfc.h
+++++ b/build/rpmfc.h
++@@ -45,7 +45,6 @@ typedef const struct rpmfcTokens_s * rpmfcToken;
++ 
++ /** \ingroup rpmfc
++  * Print results of file classification.
++- * @todo Remove debugging routine.
++  * @param msg		message prefix (NULL for none)
++  * @param fc		file classifier
++  * @param fp		output file handle (NULL for stderr)
++diff --git a/tools/rpmdeps.c b/tools/rpmdeps.c
++index a414b6343..f260a38c4 100644
++--- a/tools/rpmdeps.c
+++++ b/tools/rpmdeps.c
++@@ -23,6 +23,8 @@ static int print_conflicts;
++ 
++ static int print_obsoletes;
++ 
+++static int print_alldeps;
+++
++ static void rpmdsPrint(const char * msg, rpmds ds, FILE * fp)
++ {
++     if (fp == NULL) fp = stderr;
++@@ -57,6 +59,8 @@ static struct poptOption optionsTable[] = {
++         NULL, NULL },
++  { "obsoletes", '\0', POPT_ARG_VAL, &print_obsoletes, -1,
++         NULL, NULL },
+++ { "alldeps", '\0', POPT_ARG_VAL, &print_alldeps, -1,
+++        NULL, NULL },
++ 
++    POPT_AUTOALIAS
++    POPT_AUTOHELP
++@@ -100,25 +104,27 @@ main(int argc, char *argv[])
++     if (rpmfcClassify(fc, av, NULL) || rpmfcApply(fc))
++ 	goto exit;
++ 
++-    if (_rpmfc_debug)
++-	rpmfcPrint(buf, fc, NULL);
++-
++-    if (print_provides)
++-	rpmdsPrint(NULL, rpmfcProvides(fc), stdout);
++-    if (print_requires)
++-	rpmdsPrint(NULL, rpmfcRequires(fc), stdout);
++-    if (print_recommends)
++-	rpmdsPrint(NULL, rpmfcRecommends(fc), stdout);
++-    if (print_suggests)
++-	rpmdsPrint(NULL, rpmfcSuggests(fc), stdout);
++-    if (print_supplements)
++-	rpmdsPrint(NULL, rpmfcSupplements(fc), stdout);
++-    if (print_enhances)
++-	rpmdsPrint(NULL, rpmfcEnhances(fc), stdout);
++-    if (print_conflicts)
++-	rpmdsPrint(NULL, rpmfcConflicts(fc), stdout);
++-    if (print_obsoletes)
++-	rpmdsPrint(NULL, rpmfcObsoletes(fc), stdout);
+++    if (print_alldeps || _rpmfc_debug)
+++	rpmfcPrint(NULL, fc, print_alldeps ? stdout : NULL);
+++
+++    if (!print_alldeps) {
+++	if (print_provides)
+++	    rpmdsPrint(NULL, rpmfcProvides(fc), stdout);
+++	if (print_requires)
+++	    rpmdsPrint(NULL, rpmfcRequires(fc), stdout);
+++	if (print_recommends)
+++	    rpmdsPrint(NULL, rpmfcRecommends(fc), stdout);
+++	if (print_suggests)
+++	    rpmdsPrint(NULL, rpmfcSuggests(fc), stdout);
+++	if (print_supplements)
+++	    rpmdsPrint(NULL, rpmfcSupplements(fc), stdout);
+++	if (print_enhances)
+++	    rpmdsPrint(NULL, rpmfcEnhances(fc), stdout);
+++	if (print_conflicts)
+++	    rpmdsPrint(NULL, rpmfcConflicts(fc), stdout);
+++	if (print_obsoletes)
+++	    rpmdsPrint(NULL, rpmfcObsoletes(fc), stdout);
+++    }
++ 
++     ec = 0;
++ 
++-- 
++2.12.0
++
 diff --git a/meta/recipes-devtools/rpm/rpm_git.bb b/meta/recipes-devtools/rpm/rpm_git.bb
-index 531669ae73..7665d54cdc 100644
+index 7c5f649a8b..5fe52b83ec 100644
 --- a/meta/recipes-devtools/rpm/rpm_git.bb
 +++ b/meta/recipes-devtools/rpm/rpm_git.bb
-@@ -77,6 +77,7 @@ do_install_append_class-native() {
-                 ${bindir}/rpmkeys \
-                 ${bindir}/rpmsign \
-                 ${bindir}/rpmspec \
-+                ${libdir}/rpm/rpmdeps \
-         "
+@@ -37,6 +37,7 @@ SRC_URI = "git://github.com/rpm-software-management/rpm \
+            file://0001-Add-PYTHON_ABI-when-searching-for-python-libraries.patch \
+            file://0011-Do-not-require-that-ELF-binaries-are-executable-to-b.patch \
+            file://0012-Use-conditional-to-access-_docdir-in-macros.in.patch \
++           file://0013-Add-a-new-option-alldeps-to-rpmdeps.patch \
+            "
  
-         for tool in $tools; do
+ PV = "4.13.90+git${SRCPV}"
 -- 
 2.12.0
 
