@@ -1,55 +1,55 @@
 Return-Path: <peter.kjellerstedt@axis.com>
 Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
-	by mail.openembedded.org (Postfix) with ESMTP id 3EAE678320
+	by mail.openembedded.org (Postfix) with ESMTP id 9E00778318
 	for <openembedded-core@lists.openembedded.org>;
 	Fri,  9 Jun 2017 19:34:47 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by bes.se.axis.com (Postfix) with ESMTP id C4A312E6BD
+	by bes.se.axis.com (Postfix) with ESMTP id 3202E2E6BF
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  9 Jun 2017 21:34:48 +0200 (CEST)
+	Fri,  9 Jun 2017 21:34:49 +0200 (CEST)
 X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
 Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
 	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id nz3aKLZmorHx
+	port 10024) with LMTP id aSaXJkjwDwAZ
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  9 Jun 2017 21:34:43 +0200 (CEST)
+	Fri,  9 Jun 2017 21:34:44 +0200 (CEST)
 Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
-	by bes.se.axis.com (Postfix) with ESMTPS id 7300A2E6CB
+	by bes.se.axis.com (Postfix) with ESMTPS id DDEBD2E6DD
 	for <openembedded-core@lists.openembedded.org>;
 	Fri,  9 Jun 2017 21:34:42 +0200 (CEST)
 Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 616F61A08B
+	by IMSVA (Postfix) with ESMTP id ADCAA1A089
 	for <openembedded-core@lists.openembedded.org>;
 	Fri,  9 Jun 2017 21:34:42 +0200 (CEST)
 Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 56BB61A08C
+	by IMSVA (Postfix) with ESMTP id A1B3C1A08B
 	for <openembedded-core@lists.openembedded.org>;
 	Fri,  9 Jun 2017 21:34:42 +0200 (CEST)
-Received: from seth.se.axis.com (unknown [10.0.2.172])
+Received: from thoth.se.axis.com (unknown [10.0.2.173])
 	by boulder02.se.axis.com (Postfix) with ESMTP
 	for <openembedded-core@lists.openembedded.org>;
 	Fri,  9 Jun 2017 21:34:42 +0200 (CEST)
 Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
-	by seth.se.axis.com (Postfix) with ESMTP id 4B2952C15
+	by thoth.se.axis.com (Postfix) with ESMTP id 964A02C64
 	for <openembedded-core@lists.openembedded.org>;
 	Fri,  9 Jun 2017 21:34:42 +0200 (CEST)
 Received: from saur-2.se.axis.com (localhost [127.0.0.1])
-	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id v59JYgj1010967
+	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id v59JYhFf010987
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 9 Jun 2017 21:34:42 +0200
+	Fri, 9 Jun 2017 21:34:43 +0200
 Received: (from pkj@localhost)
-	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id v59JYghw010966
+	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id v59JYgZp010986
 	for openembedded-core@lists.openembedded.org;
-	Fri, 9 Jun 2017 21:34:42 +0200
+	Fri, 9 Jun 2017 21:34:43 +0200
 From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  9 Jun 2017 21:34:26 +0200
-Message-Id: <ca4ca424fef382b04da6e43f242728f5de3d8256.1497036762.git.pkj@axis.com>
+Date: Fri,  9 Jun 2017 21:34:31 +0200
+Message-Id: <412a5ca6a88898206733caa13b8d1c727b005c00.1497036762.git.pkj@axis.com>
 X-Mailer: git-send-email 2.12.0
 In-Reply-To: <cover.1497036762.git.pkj@axis.com>
 References: <cover.1497036762.git.pkj@axis.com>
 X-TM-AS-GCONF: 00
-Subject: [PATCH 04/13] insane.bbclass: Improve the handling of runtime file dependencies
+Subject: [PATCH 09/13] rpm: Create a wrapper for the native rpmdeps tool
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,68 +62,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 Jun 2017 19:34:47 -0000
+X-List-Received-Date: Fri, 09 Jun 2017 19:34:48 -0000
 
-This makes the file-rdeps test support:
-* versioned dependencies, e.g., "perl (>= 5.000)", and
-* package dependencies among the file dependencies, e.g., "perl".
-
-It also ignores all "perl(...)" dependencies since it is expected that
-these are generated and handled by rpm itself and there is no reason
-to second guess what it is doing.
+Rather than trying to call rpmdeps with the correct arguments to work
+with the sysroot as was done in package.bbclass, create a wrapper for
+it like all the other native tools already had.
 
 Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 ---
- meta/classes/insane.bbclass | 16 ++++++++++------
- 1 file changed, 10 insertions(+), 6 deletions(-)
+ meta/recipes-devtools/rpm/rpm_git.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-index 258856266e..fa932ef576 100644
---- a/meta/classes/insane.bbclass
-+++ b/meta/classes/insane.bbclass
-@@ -912,8 +912,9 @@ def package_qa_check_rdepends(pkg, pkgdest, skip, taskdeps, packages, d):
-             rdep_data = oe.packagedata.read_subpkgdata(pkg, d)
-             for key in rdep_data:
-                 if key.startswith("FILERDEPENDS_"):
--                    for subkey in rdep_data[key].split():
--                        if subkey not in ignored_file_rdeps:
-+                    for subkey in bb.utils.explode_deps(rdep_data[key]):
-+                        if subkey not in ignored_file_rdeps and \
-+                                not subkey.startswith('perl('):
-                             # We already know it starts with FILERDEPENDS_
-                             filerdepends[subkey] = key[13:]
+diff --git a/meta/recipes-devtools/rpm/rpm_git.bb b/meta/recipes-devtools/rpm/rpm_git.bb
+index 531669ae73..7665d54cdc 100644
+--- a/meta/recipes-devtools/rpm/rpm_git.bb
++++ b/meta/recipes-devtools/rpm/rpm_git.bb
+@@ -77,6 +77,7 @@ do_install_append_class-native() {
+                 ${bindir}/rpmkeys \
+                 ${bindir}/rpmsign \
+                 ${bindir}/rpmspec \
++                ${libdir}/rpm/rpmdeps \
+         "
  
-@@ -928,11 +929,10 @@ def package_qa_check_rdepends(pkg, pkgdest, skip, taskdeps, packages, d):
-                         sub_rdeps = rdep_data.get("RDEPENDS_" + rdep)
-                         if not sub_rdeps:
-                             continue
--                        for sub_rdep in sub_rdeps.split():
-+                        for sub_rdep in bb.utils.explode_deps(sub_rdeps):
-                             if sub_rdep in done:
-                                 continue
--                            if not sub_rdep.startswith('(') and \
--                                    oe.packagedata.has_subpkgdata(sub_rdep, d):
-+                            if oe.packagedata.has_subpkgdata(sub_rdep, d):
-                                 # It's a new rdep
-                                 done.append(sub_rdep)
-                                 new.append(sub_rdep)
-@@ -950,11 +950,15 @@ def package_qa_check_rdepends(pkg, pkgdest, skip, taskdeps, packages, d):
-                         filerdepends.pop("/usr/bin/python",None)
-                         done.remove(py)
-                 for rdep in done:
-+                    # The file dependencies may contain package names, e.g.,
-+                    # perl
-+                    filerdepends.pop(rdep,None)
-+
-                     # For Saving the FILERPROVIDES, RPROVIDES and FILES_INFO
-                     rdep_data = oe.packagedata.read_subpkgdata(rdep, d)
-                     for key in rdep_data:
-                         if key.startswith("FILERPROVIDES_") or key.startswith("RPROVIDES_"):
--                            for subkey in rdep_data[key].split():
-+                            for subkey in bb.utils.explode_deps(rdep_data[key]):
-                                 filerdepends.pop(subkey,None)
-                         # Add the files list to the rprovides
-                         if key == "FILES_INFO":
+         for tool in $tools; do
 -- 
 2.12.0
 
