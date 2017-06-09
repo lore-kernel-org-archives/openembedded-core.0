@@ -1,21 +1,18 @@
-Return-Path: <ismo.puustinen@intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id A1D7378291
-	for <openembedded-core@lists.openembedded.org>;
-	Fri,  9 Jun 2017 07:44:08 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	09 Jun 2017 00:44:09 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.39,317,1493708400"; d="scan'208";a="978697493"
-Received: from ipuustin-desk.fi.intel.com ([10.237.72.72])
-	by orsmga003.jf.intel.com with ESMTP; 09 Jun 2017 00:43:49 -0700
-From: Ismo Puustinen <ismo.puustinen@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  9 Jun 2017 10:43:46 +0300
-Message-Id: <20170609074346.23974-1-ismo.puustinen@intel.com>
-X-Mailer: git-send-email 2.9.4
-Subject: [PATCH v3] python3: make readline and gdbm support conditional.
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 1D424601F2;
+	Fri,  9 Jun 2017 08:01:37 +0000 (UTC)
+MIME-Version: 1.0
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Jussi Kukkonen <jussi.kukkonen@intel.com>
+Date: Fri, 09 Jun 2017 08:01:38 -0000
+Message-ID: <20170609080138.1043.31076@do.openembedded.org>
+References: <cover.1496993458.git.jussi.kukkonen@intel.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <cover.1496993458.git.jussi.kukkonen@intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgU21hbGwgZml4ZXM=?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,74 +25,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 Jun 2017 07:44:08 -0000
+X-List-Received-Date: Fri, 09 Jun 2017 08:01:37 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-The two libraries' (readline and gdbm) licenses belong to the GPLv3
-family. Add them to to PACKAGECONFIG so they can be switched off if the
-licensing doesn't allow using them. Python build system autodetects the
-dependencies but doesn't allow them to be explicitly disabled, so just
-deal with the dependencies.
+== Series Details ==
 
-The defaults in PACKAGECONFIG are the same as before, so there should be
-no change to current users.
+Series: Small fixes
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/7157/
+State : failure
 
-Signed-off-by: Ismo Puustinen <ismo.puustinen@intel.com>
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Patch            [1/2] Enable parallel compilation for python3-numpy
+ Issue             Shortlog does not follow expected format [test_shortlog_format] 
+  Suggested fix    Commit shortlog (first line of commit message) should follow the format "<target>: <summary>"
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- meta/recipes-devtools/python/python3_3.5.3.bb | 23 +++++++++++++++++++++--
- 1 file changed, 21 insertions(+), 2 deletions(-)
-
-diff --git a/meta/recipes-devtools/python/python3_3.5.3.bb b/meta/recipes-devtools/python/python3_3.5.3.bb
-index d7c29f2..a85c3d6 100644
---- a/meta/recipes-devtools/python/python3_3.5.3.bb
-+++ b/meta/recipes-devtools/python/python3_3.5.3.bb
-@@ -1,6 +1,6 @@
- require recipes-devtools/python/python.inc
- 
--DEPENDS = "python3-native libffi bzip2 db gdbm openssl readline sqlite3 zlib virtual/libintl xz"
-+DEPENDS = "python3-native libffi bzip2 db openssl sqlite3 zlib virtual/libintl xz"
- PR = "${INC_PR}.0"
- PYTHON_MAJMIN = "3.5"
- PYTHON_BINABI= "${PYTHON_MAJMIN}m"
-@@ -76,6 +76,10 @@ export CROSSPYTHONPATH = "${STAGING_LIBDIR_NATIVE}/python${PYTHON_MAJMIN}/lib-dy
- # No ctypes option for python 3
- PYTHONLSBOPTS = ""
- 
-+PACKAGECONFIG ??= "readline gdbm"
-+PACKAGECONFIG[readline] = ",,readline"
-+PACKAGECONFIG[gdbm] = ",,gdbm"
-+
- do_configure_append() {
- 	rm -f ${S}/Makefile.orig
- 	autoreconf -Wcross --verbose --install --force --exclude=autopoint ../Python-${PV}/Modules/_ctypes/libffi
-@@ -194,7 +198,7 @@ require python-${PYTHON_MAJMIN}-manifest.inc
- 
- # manual dependency additions
- RPROVIDES_${PN}-modules = "${PN}"
--RRECOMMENDS_${PN}-core = "${PN}-readline"
-+RRECOMMENDS_${PN}-core = "${@bb.utils.contains('PACKAGECONFIG', 'readline', '${PN}-readline', '', d)}"
- RRECOMMENDS_${PN}-crypt = "openssl"
- RRECOMMENDS_${PN}-crypt_class-nativesdk = "nativesdk-openssl"
- 
-@@ -222,3 +226,18 @@ PACKAGES += "${PN}-man"
- FILES_${PN}-man = "${datadir}/man"
- 
- BBCLASSEXTEND = "nativesdk"
-+
-+# If readline is not there, don't create python3-readline package and
-+# also do not depend on it. Same goes for gdbm.
-+PACKAGES_remove = " \
-+    ${@bb.utils.contains('PACKAGECONFIG', 'readline', '', '${PN}-readline', d)} \
-+    ${@bb.utils.contains('PACKAGECONFIG', 'gdbm', '', '${PN}-gdbm', d)} \
-+"
-+PROVIDES_remove = " \
-+    ${@bb.utils.contains('PACKAGECONFIG', 'readline', '', '${PN}-readline', d)} \
-+    ${@bb.utils.contains('PACKAGECONFIG', 'gdbm', '', '${PN}-gdbm', d)} \
-+"
-+RDEPENDS_${PN}-modules_remove = " \
-+    ${@bb.utils.contains('PACKAGECONFIG', 'readline', '', '${PN}-readline', d)} \
-+    ${@bb.utils.contains('PACKAGECONFIG', 'gdbm', '', '${PN}-gdbm', d)} \
-+"
--- 
-2.9.4
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
