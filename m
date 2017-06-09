@@ -1,28 +1,32 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 23CD57825F
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id A7D9D7827E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  9 Jun 2017 09:13:13 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	09 Jun 2017 02:13:15 -0700
+	Fri,  9 Jun 2017 09:22:01 +0000 (UTC)
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	09 Jun 2017 02:22:03 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.39,317,1493708400"; d="scan'208";a="1139569990"
+X-IronPort-AV: E=Sophos;i="5.39,317,1493708400"; d="scan'208";a="111114391"
 Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
 	([10.237.68.161])
-	by orsmga001.jf.intel.com with ESMTP; 09 Jun 2017 02:13:14 -0700
-To: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
-References: <cover.1496932793.git.alexander.kanavin@linux.intel.com>
-	<1496956519.26945.171.camel@linux.intel.com>
+	by orsmga005.jf.intel.com with ESMTP; 09 Jun 2017 02:22:02 -0700
+To: Jose Perez Carranza <jose.perez.carranza@linux.intel.com>,
+	"Burton, Ross" <ross.burton@intel.com>
+References: <a5c78ee6-8320-7508-18d1-16762bed364c@linux.intel.com>
+	<20170515135023.4090-1-jose.perez.carranza@linux.intel.com>
+	<CAJTo0LYe=7Ug3wJSWwPX5VT=cy7GDe0Kf79uPFmC1tMj-0b-6Q@mail.gmail.com>
+	<e1d6c111-bd9d-af76-ae44-d6921c723ba6@linux.intel.com>
+	<f3d6469c-b0a8-6f75-7c02-e8afd0cf04bd@linux.intel.com>
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <ee386b4e-eb83-d201-da7e-28940c1202ff@linux.intel.com>
-Date: Fri, 9 Jun 2017 12:13:15 +0300
+Message-ID: <77fb98df-ff8a-c3d7-c995-7c8de3c4cf3d@linux.intel.com>
+Date: Fri, 9 Jun 2017 12:22:03 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
 	Thunderbird/45.8.0
 MIME-Version: 1.0
-In-Reply-To: <1496956519.26945.171.camel@linux.intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCHv2 0/2] Multi-threaded RPM support
+In-Reply-To: <f3d6469c-b0a8-6f75-7c02-e8afd0cf04bd@linux.intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v3] runtime/dnf: Add new dnf test cases
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,39 +39,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 Jun 2017 09:13:14 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
+X-List-Received-Date: Fri, 09 Jun 2017 09:22:02 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 06/09/2017 12:15 AM, Leonardo Sandoval wrote:
-> On Thu, 2017-06-08 at 17:42 +0300, Alexander Kanavin wrote:
->> Changes in version 2: use openmp for multi-processing instead of NSPR library, as
->> requested by upstream. Add a link to the upstream submission to patches.
->>
->> These two patches add multi-threaded features to RPM to speed up the do_package_write_rpm task.
->>
->> Specifically:
->>
->> 1) Multi-threaded xz compressor is used instead of default single-threaded gz. This has the most
->> dramatic effect when a recipe produces a smaller number of large-sized packages.
->>
->> 2) Packages creation is run in multiple threads via thread pools. This is most beneficial when
->> a recipe produces a large amount of small packages.
->>
->> Some not very scientific benchmarks for time and .rpm sizes
->> (time is measured for do_package_write_rpm tasks only):
->>
->
-> Tried v2 again and I am getting this problem (segmentation faults):
->
-> http://errors.yoctoproject.org/Errors/Build/38812/
->
->
-> The idea I have is to get some numbers from buildstats and have better
-> insight of the impact of this series. BTW, I tried core-image-sato.
+On 06/08/2017 07:35 PM, Alexander Kanavin wrote:
+> I haven't been able to reproduce the installroot failure, works fine here.
 
-Now I see the issue locally, even though it does not crash, but I think 
-it's the same issue :) Bear with me, it's my first openmp adventure ever.
+The installroot issue is most likely due to dnf architectures not being 
+properly configured (which causes breakage when the architecture is not 
+one of the standard ones that the upstream has hardcoded). Yes, the 
+error message is unhelpful and leads one to think the repo is somehow 
+broken or is missing packages :)
+
+Copy the contents of /etc/rpm and /etc/dnf into installroot dir before 
+running dnf, and you should be good to go. Test on x32, for example.
 
 Alex
 
