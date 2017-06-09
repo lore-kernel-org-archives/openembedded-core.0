@@ -1,51 +1,56 @@
-Return-Path: <trini@konsulko.com>
-Received: from mail-yb0-f175.google.com (mail-yb0-f175.google.com
-	[209.85.213.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 48F017829C
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
+	by mail.openembedded.org (Postfix) with ESMTP id 2C018782DD
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  9 Jun 2017 19:28:22 +0000 (UTC)
-Received: by mail-yb0-f175.google.com with SMTP id 202so17748887ybd.0
+	Fri,  9 Jun 2017 19:34:43 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bes.se.axis.com (Postfix) with ESMTP id 1F9272E6C2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 09 Jun 2017 12:28:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=drclpPYp5ouzWnVgFNJ2AWiVwMkz6FcpcGxCDo5hJFU=;
-	b=dzFW8BrK6PrJ97hGp4pcahox//dKesanZax5HQwgkMA8kWVDN79LAnuerp+EaoG48b
-	UAXn99r5bSwGGDMRiquZMX124vMBjF57y0et2BLleCfCZCT+HBiu3XzhIw553vZhKyz4
-	Qx2zMcRizsdUlRnpTjxlwPNDoT4Qq7/B162So=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=drclpPYp5ouzWnVgFNJ2AWiVwMkz6FcpcGxCDo5hJFU=;
-	b=CMmwZKfmLkEXcw28JmFhHTO/CcLJic2ZoU0I2t/x+mQEH+acKSdhAZOx7f7/X+8AQW
-	boRiHit6wSR3ocQIo8Ksok5KmnywbsnmIjgZ6WncYNZn/W4m0DP0S+xxnnfpJDBPl3mg
-	uNYDv3wmsuB/E6trH3o8s52hjbFGYG1I67HSQqOWlF1FHt2MJcKXRk2hK9dvF1WfKHzv
-	7CRRysrSNv4TSi2xprrb8STCWwK9886vVKIjcEEaAFqoDMRJZl8wPzsXLrq8H845uf2q
-	BDAZ9RGS5CgzGX2K7GqLDO7B937zD4rqBuXzjAoHn0kau4I0L+Rgodd1zZdUUfW/u1r5
-	hWWA==
-X-Gm-Message-State: AODbwcAf4vbWlsj1LArXy/I2APdfXWCPwV/xruds2Bi4g9blZvmxcerg
-	ApSUNak4wRdkYdWr
-X-Received: by 10.37.81.67 with SMTP id f64mr16416969ybb.22.1497036504086;
-	Fri, 09 Jun 2017 12:28:24 -0700 (PDT)
-Received: from bill-the-cat (cpe-75-180-228-133.ec.res.rr.com.
-	[75.180.228.133])
-	by smtp.gmail.com with ESMTPSA id k7sm518289ywd.60.2017.06.09.12.28.23
-	(version=TLS1_2 cipher=AES128-SHA bits=128/128);
-	Fri, 09 Jun 2017 12:28:23 -0700 (PDT)
-Date: Fri, 9 Jun 2017 15:28:40 -0400
-From: Tom Rini <trini@konsulko.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Message-ID: <20170609192840.GL10782@bill-the-cat>
-References: <1496966441-30260-1-git-send-email-trini@konsulko.com>
-	<1496966441-30260-2-git-send-email-trini@konsulko.com>
-	<CAJTo0LbUHNxxQMPz=RH+xxMk2=sN4tcg6MXtNHkz7-R_bY4g1A@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <CAJTo0LbUHNxxQMPz=RH+xxMk2=sN4tcg6MXtNHkz7-R_bY4g1A@mail.gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/3] dpkg: Fix perl modules by moving them to the versioned perl directory
+	Fri,  9 Jun 2017 21:34:43 +0200 (CEST)
+X-Axis-NonUser-Spam: YES
+X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
+Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP id bXf0P57jdEtL
+	for <openembedded-core@lists.openembedded.org>;
+	Fri,  9 Jun 2017 21:34:42 +0200 (CEST)
+Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
+	by bes.se.axis.com (Postfix) with ESMTPS id 59DEC2E6C3
+	for <openembedded-core@lists.openembedded.org>;
+	Fri,  9 Jun 2017 21:34:42 +0200 (CEST)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 457181A089
+	for <openembedded-core@lists.openembedded.org>;
+	Fri,  9 Jun 2017 21:34:42 +0200 (CEST)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 39B5F1A088
+	for <openembedded-core@lists.openembedded.org>;
+	Fri,  9 Jun 2017 21:34:42 +0200 (CEST)
+Received: from seth.se.axis.com (unknown [10.0.2.172])
+	by boulder02.se.axis.com (Postfix) with ESMTP
+	for <openembedded-core@lists.openembedded.org>;
+	Fri,  9 Jun 2017 21:34:42 +0200 (CEST)
+Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
+	by seth.se.axis.com (Postfix) with ESMTP id 2DD852C15
+	for <openembedded-core@lists.openembedded.org>;
+	Fri,  9 Jun 2017 21:34:42 +0200 (CEST)
+Received: from saur-2.se.axis.com (localhost [127.0.0.1])
+	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id v59JYgKs010959
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 9 Jun 2017 21:34:42 +0200
+Received: (from pkj@localhost)
+	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id v59JYgcJ010958
+	for openembedded-core@lists.openembedded.org;
+	Fri, 9 Jun 2017 21:34:42 +0200
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  9 Jun 2017 21:34:24 +0200
+Message-Id: <34ba7db0a1f81057a5713104ebdeb937c4af815a.1497036762.git.pkj@axis.com>
+X-Mailer: git-send-email 2.12.0
+In-Reply-To: <cover.1497036762.git.pkj@axis.com>
+References: <cover.1497036762.git.pkj@axis.com>
+X-TM-AS-GCONF: 00
+Subject: [PATCH 02/13] libxml2: Make ptest run the Python tests if Python support is enabled
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,58 +63,167 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 Jun 2017 19:28:23 -0000
-X-Groupsio-MsgNum: 98480
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="fbGaB/N4l6zMtENL"
-Content-Disposition: inline
+X-List-Received-Date: Fri, 09 Jun 2017 19:34:44 -0000
 
---fbGaB/N4l6zMtENL
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Since we go through the trouble of copying the Python tests, we may as
+well actually run them...
 
-On Fri, Jun 09, 2017 at 05:15:07PM +0100, Burton, Ross wrote:
-> On 9 June 2017 at 01:00, Tom Rini <trini@konsulko.com> wrote:
->=20
-> > In order for the dpkg perl modules to be used the must reside in the
-> > versioned perl library directory (as to be in the default include path).
-> > Be explicit about this location in our FILES_${PN}-perl directive, so
-> > that if this breaks in the future, the recipe will fail).  We can now
-> > drop the custom do_configure as it wasn't fixing this problem.
-> >
->=20
->   * FILES: removed "/usr/lib/perl", added "/usr/lib/perl/None"
->=20
-> Obviously something didn't work right!
+This also avoids the following QA issue:
 
-Oh, I see.  Yes, an existing feature is that if perl isn't built yet
-then no, you don't get a sane PERLVERSION.  That's true today, for
-example, see liburi-perl.
+  ERROR: libxml2-2.9.4-r0 do_package_qa: QA Issue:
+  /usr/lib/libxml2/ptest/python/tests/push.py contained in package
+  libxml2-ptest requires /usr/bin/python, but no providers found in
+  RDEPENDS_libxml2-ptest? [file-rdeps]
 
---=20
-Tom
+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+---
+ ...run-the-python-tests-if-python-is-enabled.patch | 99 ++++++++++++++++++++++
+ meta/recipes-core/libxml/libxml2_2.9.4.bb          | 11 ++-
+ 2 files changed, 108 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-core/libxml/libxml2/0001-Make-ptest-run-the-python-tests-if-python-is-enabled.patch
 
---fbGaB/N4l6zMtENL
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+diff --git a/meta/recipes-core/libxml/libxml2/0001-Make-ptest-run-the-python-tests-if-python-is-enabled.patch b/meta/recipes-core/libxml/libxml2/0001-Make-ptest-run-the-python-tests-if-python-is-enabled.patch
+new file mode 100644
+index 0000000000..d1ad55116a
+--- /dev/null
++++ b/meta/recipes-core/libxml/libxml2/0001-Make-ptest-run-the-python-tests-if-python-is-enabled.patch
+@@ -0,0 +1,99 @@
++From 78dbd4c09d617a9cb730d796f94ee4d93840d3cc Mon Sep 17 00:00:00 2001
++From: Peter Kjellerstedt <pkj@axis.com>
++Date: Fri, 9 Jun 2017 17:50:46 +0200
++Subject: [PATCH] Make ptest run the python tests if python is enabled
++
++One of the tests (tstLastError.py) needed a minor correction. It might
++be due to the fact that the tests are forced to run with Python 3.
++
++Upstream-Status: Inappropriate [OE specific]
++Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
++---
++ Makefile.am                  |  2 +-
++ python/Makefile.am           |  9 +++++++++
++ python/tests/Makefile.am     | 12 ++++++++++--
++ python/tests/tstLastError.py |  2 +-
++ 4 files changed, 21 insertions(+), 4 deletions(-)
++
++diff --git a/Makefile.am b/Makefile.am
++index e181ee0..7960e7d 100644
++--- a/Makefile.am
+++++ b/Makefile.am
++@@ -207,9 +207,9 @@ install-ptest:
++ 	install $(noinst_PROGRAMS) $(DESTDIR))
++ 	cp -r $(srcdir)/test $(DESTDIR)
++ 	cp -r $(srcdir)/result $(DESTDIR)
++-	cp -r $(srcdir)/python $(DESTDIR)
++ 	cp Makefile $(DESTDIR)
++ 	sed -i -e 's|^Makefile:|_Makefile:|' $(DESTDIR)/Makefile
+++	$(MAKE) -C python install-ptest
++ 
++ runtests:
++ 	[ -d test   ] || $(LN_S) $(srcdir)/test   .
++diff --git a/python/Makefile.am b/python/Makefile.am
++index 34aed96..ba3ec6a 100644
++--- a/python/Makefile.am
+++++ b/python/Makefile.am
++@@ -48,7 +48,16 @@ GENERATED = libxml2class.py libxml2class.txt $(BUILT_SOURCES)
++ 
++ $(GENERATED): $(srcdir)/generator.py $(API_DESC)
++ 	$(PYTHON) $(srcdir)/generator.py $(srcdir)
+++
+++install-ptest:
+++	cp -r $(srcdir) $(DESTDIR)
+++	sed -e 's|^Makefile:|_Makefile:|' \
+++	    -e 's|^\(tests test:\) all|\1|' Makefile >$(DESTDIR)/python/Makefile
+++	$(MAKE) -C tests install-ptest
+++else
+++install-ptest:
++ endif
++ 
+++.PHONY: tests test
++ tests test: all
++ 	cd tests && $(MAKE) tests
++diff --git a/python/tests/Makefile.am b/python/tests/Makefile.am
++index 95ebead..418e21e 100644
++--- a/python/tests/Makefile.am
+++++ b/python/tests/Makefile.am
++@@ -59,6 +59,11 @@ XMLS=		\
++ CLEANFILES = core tmp.xml *.pyc
++ 
++ if WITH_PYTHON
+++install-ptest:
+++	cp -r $(srcdir) $(DESTDIR)/python
+++	sed -e 's|^Makefile:|_Makefile:|' \
+++	    -e 's|^\(srcdir = \).*|\1.|' Makefile >$(DESTDIR)/python/tests/Makefile
+++
++ tests: $(PYTESTS)
++ 	@for f in $(XMLS) ; do test -f $$f || $(LN_S) $(srcdir)/$$f . ; done
++ 	@echo "## running Python regression tests"
++@@ -68,8 +73,11 @@ tests: $(PYTESTS)
++ 	   export LD_LIBRARY_PATH; \
++ 	   for test in $(PYTESTS) ; \
++ 	   do log=`$(PYTHON) $(srcdir)/$$test` ; \
++-	   if [ "`echo $$log | grep OK`" = "" ] ; then \
++-	   echo "-- $$test" ; echo "$$log" ; fi ; done)
+++	   if [ "`echo $$log | grep OK`" ]; then \
+++	   echo "PASS: $$test"; else \
+++	   echo "$$log"; echo "FAIL: $$test"; fi; done)
++ else
+++install-ptest:
+++
++ tests:
++ endif
++diff --git a/python/tests/tstLastError.py b/python/tests/tstLastError.py
++index d5f9be7..3e5bef8 100755
++--- a/python/tests/tstLastError.py
+++++ b/python/tests/tstLastError.py
++@@ -25,7 +25,7 @@ class TestCase(unittest.TestCase):
++         when the exception is raised, check the libxml2.lastError for
++         expected values."""
++         # disable the default error handler
++-        libxml2.registerErrorHandler(None,None)
+++        libxml2.registerErrorHandler(lambda ctx,str: None,None)
++         try:
++             f(*args)
++         except exc:
++-- 
++2.12.0
++
+diff --git a/meta/recipes-core/libxml/libxml2_2.9.4.bb b/meta/recipes-core/libxml/libxml2_2.9.4.bb
+index ea0d3b88af..4f60781d22 100644
+--- a/meta/recipes-core/libxml/libxml2_2.9.4.bb
++++ b/meta/recipes-core/libxml/libxml2_2.9.4.bb
+@@ -24,7 +24,8 @@ SRC_URI = "ftp://xmlsoft.org/libxml2/libxml2-${PV}.tar.gz;name=libtar \
+            file://libxml2-CVE-2016-4658.patch \
+            file://libxml2-fix_NULL_pointer_derefs.patch \
+            file://CVE-2016-9318.patch \
+-          "
++           file://0001-Make-ptest-run-the-python-tests-if-python-is-enabled.patch \
++           "
+ 
+ SRC_URI[libtar.md5sum] = "ae249165c173b1ff386ee8ad676815f5"
+ SRC_URI[libtar.sha256sum] = "ffb911191e509b966deb55de705387f14156e1a56b21824357cdf0053233633c"
+@@ -43,7 +44,7 @@ inherit autotools pkgconfig binconfig-disabled ptest
+ 
+ inherit ${@bb.utils.contains('PACKAGECONFIG', 'python', 'python3native', '', d)}
+ 
+-RDEPENDS_${PN}-ptest += "make ${@bb.utils.contains('PACKAGECONFIG', 'python', 'python3-core', '', d)}"
++RDEPENDS_${PN}-ptest += "make ${@bb.utils.contains('PACKAGECONFIG', 'python', 'libgcc python3-core python3-argparse python3-logging python3-shell python3-signal python3-stringold python3-threading python3-unittest ${PN}-python', '', d)}"
+ 
+ RDEPENDS_${PN}-python += "${@bb.utils.contains('PACKAGECONFIG', 'python', 'python3-core', '', d)}"
+ 
+@@ -77,6 +78,12 @@ do_configure_prepend () {
+ 
+ do_install_ptest () {
+ 	cp -r ${WORKDIR}/xmlconf ${D}${PTEST_PATH}
++	if [ "${@bb.utils.filter('PACKAGECONFIG', 'python', d)}" ]; then
++		sed -i -e 's|^\(PYTHON = \).*|\1${USRBINPATH}/${PYTHON_PN}|' \
++		    ${D}${PTEST_PATH}/python/tests/Makefile
++		grep -lrZ '#!/usr/bin/python' ${D}${PTEST_PATH}/python |
++			xargs -0 sed -i -e 's|/usr/bin/python|${USRBINPATH}/${PYTHON_PN}|'
++	fi
+ }
+ 
+ do_install_append_class-native () {
+-- 
+2.12.0
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
 
-iQIcBAEBAgAGBQJZOvboAAoJEIf59jXTHXZSmfwP/RrM+snFvrtAVhidCxw83QUv
-QoWR0Vf90itb8/cjjYKGeliGauFPvlZhIEa7joqNRRXo4ZZqeWTiE+Ib4Hg59Ec0
-QNpERj0gn53Z1F9fEmBTzBJnh97gOZtPGS72MRhkljXHp2CN3NYxyYAD1nakU+vU
-n/CLymsOxV4kOcJp/dXNfvMMzoD0uWjQZm9D5kDqfdMZryFvJFBbyIvWR2PG4yTP
-DhLC5mgkPTHdnVmHi3Zg8VTnejmEueaUX342GsmrNelMDMbO1UJVOm+YgtZDqoyg
-nDJhLC9eI6DryE1iZR0gC3A5UjofUmD3WGEZ3TAz8pPzDxZZ+0Z7cUkQnjqhsTnX
-k7R2MFRAw2wVCKtYlxuifPpvr1rl1hYnXROkJmOtJHCXFWu0DVZxRK/wgrtOSTUQ
-FgIEJ5OMqwk2iBZnR0tsBwCjTSJesry/QWUh+jJfQLSczbj3qAw1lqdRxyWvo0vx
-vHtXI6VjyWkHeWQ5w1IcKnGMGpv8LGcUhE/5qRdkUs5V0vDpfBiwV6J8Fu2YnjQj
-b1b5p3ce1yThz7WI0dAFcgTRV+roXoV3Gh73nrqrv0vT6oIfPQhucOWPeEEimaUw
-YbZgcTHPTF5q38jhUv4BOavE+kn2GIhZoyeZn9b9Xxi0bHDmtMdUCTzZ/5OTtcTY
-siLY0nRQeIAyHR08CEsm
-=HvTo
------END PGP SIGNATURE-----
-
---fbGaB/N4l6zMtENL--
