@@ -1,47 +1,20 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qt0-f173.google.com (mail-qt0-f173.google.com
-	[209.85.216.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 314F66612D
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by mail.openembedded.org (Postfix) with ESMTP id 2ED2D71A60
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  9 Jun 2017 11:06:57 +0000 (UTC)
-Received: by mail-qt0-f173.google.com with SMTP id w1so71257541qtg.2
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 09 Jun 2017 04:06:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=qbTUrsX44K8dLlJ+oxRPE8wkkqXJTd4nMoVHWe6I/0I=;
-	b=Tj/UZOS8UzQYNS4uPITFp/jniLbjqe2f0Emv1Q2cyuoKVC/70NLgGuBgTSUu/gvmYF
-	XhaJMYzX8VhKim9CbGvkE5lK9aF8eaRuDQRZWTtiHMnJ8AG9podNjIw+2q7dgtt+BJ1R
-	LveJl4GDSl8YmPo81LKsjwVBZf3MD+hOUUpyuet5bkEt4VbHYClwN49PsRCZBgozBS+T
-	y5YQdPMtXM43S2reJtmuIO8BQ/UfAhbKy2noBMxQo5r6lFBuqfpkkPe4a4bZcgMG2ZSt
-	HW3sSzzjMiXNFUDxybf3mWsK6vVDwL0pLYyIJT92YQfP2BsZ7EI/hcqtmv7H0nSdor+E
-	zTqQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=qbTUrsX44K8dLlJ+oxRPE8wkkqXJTd4nMoVHWe6I/0I=;
-	b=Pg27FOK5YhRFj0XUckLAOmT5mnRtzW6DidQmY9k1OZwHPfk/op+xvkZFDBuO43qjDV
-	CtKpGXd0xy7naO+PARojyFQAtCiVbwhd3ETQZcYsPzgVND1z6lAPI92GD0EJWDEVEcRE
-	1L9PESXROd/fH8O0AzjsTFWldbrmWqoQqY8z4wHTDGt+BD5W9jSaqDb0iMVJURQI4F22
-	+wnCNI0xRpZgpSZg+3WyquFqDpQofuHn2lpjK0GKzLrzOMhTx2zs1PSst3cSZbSD1Z/5
-	FDHmf1WNTc7n5FXAvWIJADQcdpfaH3Bf6yYFlJaIntED0UShXnup9W85WzL1Oa/6zN/R
-	0LRw==
-X-Gm-Message-State: AODbwcBHSerq6WUfWinLI//6S2Asu53MnOYh7MBF2V+DntK8yvwAa8MN
-	R/TBCeewVjd/UWH/dLnxYgZZSq7Xy3TK
-X-Received: by 10.200.62.25 with SMTP id z25mr37194627qtf.139.1497006418766;
-	Fri, 09 Jun 2017 04:06:58 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.35.103 with HTTP; Fri, 9 Jun 2017 04:06:38 -0700 (PDT)
-In-Reply-To: <1496926311-12090-1-git-send-email-changhyeok.bae@gmail.com>
-References: <1496926311-12090-1-git-send-email-changhyeok.bae@gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 9 Jun 2017 12:06:38 +0100
-Message-ID: <CAJTo0LYqAfsfkKqcViGt92_JK8g3q3LXAgX57z+mmMSgqA5uOw@mail.gmail.com>
-To: Changhyeok Bae <changhyeok.bae@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] openssl: Upgrade 1.0.2k -> 1.0.2l
+	Fri,  9 Jun 2017 11:14:01 +0000 (UTC)
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+	by orsmga104.jf.intel.com with ESMTP; 09 Jun 2017 04:14:03 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.39,317,1493708400"; d="scan'208";a="112882971"
+Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
+	by fmsmga006.fm.intel.com with ESMTP; 09 Jun 2017 04:14:02 -0700
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  9 Jun 2017 14:13:57 +0300
+Message-Id: <cover.1497006675.git.alexander.kanavin@linux.intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCHv3 0/2] Multi-threaded RPM support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,63 +27,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 Jun 2017 11:07:00 -0000
-Content-Type: multipart/alternative; boundary="f403045ee67ed140d4055184f7df"
+X-List-Received-Date: Fri, 09 Jun 2017 11:14:02 -0000
 
---f403045ee67ed140d4055184f7df
-Content-Type: text/plain; charset="UTF-8"
+Changes in version 3: fix up indentation inconsistencies, fix a nasty variable name typo
 
-On 8 June 2017 at 13:51, Changhyeok Bae <changhyeok.bae@gmail.com> wrote:
+Changes in version 2: use openmp for multi-processing instead of NSPR library, as
+requested by upstream. Add a link to the upstream submission to patches.
 
-> Dropped obsolete patches, because the new version contains them:
->   - fix-cipher-des-ede3-cfb1.patch
->   - openssl-avoid-NULL-pointer-dereference-in-EVP_DigestInit_ex.patch
->
-This failed all over the autobuilder:
+These two patches add multi-threaded features to RPM to speed up the do_package_write_rpm task.
 
-http://errors.yoctoproject.org/Errors/Details/144268/:
+Specifically:
 
-mips64-poky-linux-objcopy: Unable to recognise the format of the input file
-`TOPDIR/tmp/work/mips64-poky-linux/openssl/1.0.2l-r0/package/usr/lib/openssl/ptest/test/x509aux'
+1) Multi-threaded xz compressor is used instead of default single-threaded gz. This has the most
+dramatic effect when a recipe produces a smaller number of large-sized packages.
 
-http://errors.yoctoproject.org/Errors/Details/144261/:
-Architecture did not match (x86-64, expected x86) on
-/work/i586-poky-linux/openssl/1.0.2l-r0/packages-split/openssl-ptest/usr/lib/openssl/ptest/test/x509aux
-[arch]
+2) Packages creation is run in multiple threads via thread pools. This is most beneficial when
+a recipe produces a large amount of small packages.
 
-If that file is an ELF (which is unlikely) then removing the executable bit
-should be enough.
+Some not very scientific benchmarks for time and .rpm sizes
+(time is measured for do_package_write_rpm tasks only):
 
-Ross
+webkitgtk
+before: 9m12s 1550M
+after: 1m40s 858M
 
---f403045ee67ed140d4055184f7df
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+glibc-locale
+before: 2m52s 125M
+after: 30s 56M
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 8 June 2017 at 13:51, Changhyeok Bae <span dir=3D"ltr">&lt;<a href=3D"ma=
-ilto:changhyeok.bae@gmail.com" target=3D"_blank">changhyeok.bae@gmail.com</=
-a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0=
-px 0px 0px 0.8ex;border-left-width:1px;border-left-style:solid;border-left-=
-color:rgb(204,204,204);padding-left:1ex"><div id=3D"gmail-:24q" class=3D"gm=
-ail-a3s gmail-aXjCH gmail-m15c87c34368033c0">Dropped obsolete patches, beca=
-use the new version contains them:<br>
-=C2=A0 - fix-cipher-des-ede3-cfb1.patch<br>
-=C2=A0 - <span class=3D"gmail-il">openssl</span>-avoid-NULL-pointer-<wbr>de=
-reference-in-EVP_DigestInit_<wbr>ex.patch<br></div></blockquote></div>This =
-failed all over the autobuilder:<br><br><a href=3D"http://errors.yoctoproje=
-ct.org/Errors/Details/144268/">http://errors.yoctoproject.org/Errors/Detail=
-s/144268/</a>:</div><div class=3D"gmail_extra"><br></div><div class=3D"gmai=
-l_extra">mips64-poky-linux-objcopy: Unable to recognise the format of the i=
-nput file `TOPDIR/tmp/work/mips64-poky-linux/openssl/1.0.2l-r0/package/usr/=
-lib/openssl/ptest/test/x509aux&#39;<br><br><div class=3D"gmail_extra"><a hr=
-ef=3D"http://errors.yoctoproject.org/Errors/Details/144261/">http://errors.=
-yoctoproject.org/Errors/Details/144261/</a>:</div><div class=3D"gmail_extra=
-">Architecture did not match (x86-64, expected x86) on /work/i586-poky-linu=
-x/openssl/1.0.2l-r0/packages-split/openssl-ptest/usr/lib/openssl/ptest/test=
-/x509aux [arch]</div></div><div class=3D"gmail_extra"><br></div><div class=
-=3D"gmail_extra">If that file is an ELF (which is unlikely) then removing t=
-he executable bit should be enough.</div><div class=3D"gmail_extra"><br></d=
-iv><div class=3D"gmail_extra">Ross</div></div>
+glibc
+before: 46s 54M
+after: 13s 38M
 
---f403045ee67ed140d4055184f7df--
+perl
+before: 1m09s 63M
+after: 45s 42M
+
+python3
+before: 30s 38M
+after: 18s 24M
+
+The following changes since commit 576821ea0a7558b626ccc87e9ae0e9ee40864956:
+
+  bitbake: bitbake-layers: check layer dependencies before adding (2017-06-06 19:52:51 +0100)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib akanavin/parallel-rpm
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=akanavin/parallel-rpm
+
+Alexander Kanavin (2):
+  package_rpm.bbclass: use multithreaded xz compression
+  rpm: run binary package generation via thread pools
+
+ meta/classes/package_rpm.bbclass                   |   2 +
+ ...y-package-building-into-a-separate-functi.patch |  84 ++++++++
+ ...-binary-package-creation-via-thread-pools.patch | 126 ++++++++++++
+ ...c-make-operations-over-string-pools-threa.patch | 207 ++++++++++++++++++++
+ ...c-remove-static-local-variables-from-buil.patch | 216 +++++++++++++++++++++
+ meta/recipes-devtools/rpm/rpm_git.bb               |   4 +
+ 6 files changed, 639 insertions(+)
+ create mode 100644 meta/recipes-devtools/rpm/files/0001-Split-binary-package-building-into-a-separate-functi.patch
+ create mode 100644 meta/recipes-devtools/rpm/files/0002-Run-binary-package-creation-via-thread-pools.patch
+ create mode 100644 meta/recipes-devtools/rpm/files/0003-rpmstrpool.c-make-operations-over-string-pools-threa.patch
+ create mode 100644 meta/recipes-devtools/rpm/files/0004-build-pack.c-remove-static-local-variables-from-buil.patch
+
+-- 
+2.11.0
+
+
