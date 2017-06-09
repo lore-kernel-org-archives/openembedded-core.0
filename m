@@ -1,55 +1,55 @@
 Return-Path: <peter.kjellerstedt@axis.com>
 Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
-	by mail.openembedded.org (Postfix) with ESMTP id 90B0878320
+	by mail.openembedded.org (Postfix) with ESMTP id E43137831C
 	for <openembedded-core@lists.openembedded.org>;
 	Fri,  9 Jun 2017 19:34:46 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by bes.se.axis.com (Postfix) with ESMTP id B8E3D2E6BF
+	by bes.se.axis.com (Postfix) with ESMTP id 1E54E2E6C2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  9 Jun 2017 21:34:47 +0200 (CEST)
+	Fri,  9 Jun 2017 21:34:48 +0200 (CEST)
 X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
 Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
 	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id 2wMrCGPFrFsi
+	port 10024) with LMTP id 9ZrQL5-jvJnS
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  9 Jun 2017 21:34:43 +0200 (CEST)
+	Fri,  9 Jun 2017 21:34:42 +0200 (CEST)
 Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
-	by bes.se.axis.com (Postfix) with ESMTPS id 886D82E6D1
+	by bes.se.axis.com (Postfix) with ESMTPS id 655B92E6C7
 	for <openembedded-core@lists.openembedded.org>;
 	Fri,  9 Jun 2017 21:34:42 +0200 (CEST)
 Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 700E41A088
+	by IMSVA (Postfix) with ESMTP id 558E61A088
 	for <openembedded-core@lists.openembedded.org>;
 	Fri,  9 Jun 2017 21:34:42 +0200 (CEST)
 Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 6590D1A08E
+	by IMSVA (Postfix) with ESMTP id 499451A08B
 	for <openembedded-core@lists.openembedded.org>;
 	Fri,  9 Jun 2017 21:34:42 +0200 (CEST)
-Received: from seth.se.axis.com (unknown [10.0.2.172])
+Received: from thoth.se.axis.com (unknown [10.0.2.173])
 	by boulder02.se.axis.com (Postfix) with ESMTP
 	for <openembedded-core@lists.openembedded.org>;
 	Fri,  9 Jun 2017 21:34:42 +0200 (CEST)
 Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
-	by seth.se.axis.com (Postfix) with ESMTP id 5A43C2C15
+	by thoth.se.axis.com (Postfix) with ESMTP id 3DEB22C64
 	for <openembedded-core@lists.openembedded.org>;
 	Fri,  9 Jun 2017 21:34:42 +0200 (CEST)
 Received: from saur-2.se.axis.com (localhost [127.0.0.1])
-	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id v59JYg3m010971
+	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id v59JYgpF010963
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 9 Jun 2017 21:34:42 +0200
 Received: (from pkj@localhost)
-	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id v59JYgmK010970
+	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id v59JYgsq010962
 	for openembedded-core@lists.openembedded.org;
 	Fri, 9 Jun 2017 21:34:42 +0200
 From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  9 Jun 2017 21:34:27 +0200
-Message-Id: <0accf7bbb6bebc395f4237bed744fa380156084c.1497036762.git.pkj@axis.com>
+Date: Fri,  9 Jun 2017 21:34:25 +0200
+Message-Id: <f3a878cd8bfa1e9da54e14de5cc811948fce351b.1497036762.git.pkj@axis.com>
 X-Mailer: git-send-email 2.12.0
 In-Reply-To: <cover.1497036762.git.pkj@axis.com>
 References: <cover.1497036762.git.pkj@axis.com>
 X-TM-AS-GCONF: 00
-Subject: [PATCH 05/13] buildhistory.bbclass: Improve the generated depends.dot file
+Subject: [PATCH 03/13] insane.bbclass: Report all file-rdeps errors, not just the first
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,50 +64,23 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 09 Jun 2017 19:34:47 -0000
 
-* Convert incorrectly formatted dependencies such as:
-    "bar -> "foo" ">=" "1.2.3"
-  into dependencies with edge labels:
-    "bar -> "foo" [label=">= 1.2.3"]
-* Remove rpmlib() and config() dependencies such as:
-    "foo" -> "rpmlib(CompressedFileNames)" [label="<= 3.0.4-1"]
-  and:
-    "base-files" -> "config(base-files)" [label="= 3.0.14-r89.49"]
-* Remove the trailing semicolon that was added to each line. It fills
-  no purpose.
-
 Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 ---
- meta/classes/buildhistory.bbclass | 15 +++++++++++----
- 1 file changed, 11 insertions(+), 4 deletions(-)
+ meta/classes/insane.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
-index 3e907fc3f9..4ee7094348 100644
---- a/meta/classes/buildhistory.bbclass
-+++ b/meta/classes/buildhistory.bbclass
-@@ -434,13 +434,20 @@ buildhistory_get_installed() {
+diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+index 5a3d017004..258856266e 100644
+--- a/meta/classes/insane.bbclass
++++ b/meta/classes/insane.bbclass
+@@ -968,7 +968,7 @@ def package_qa_check_rdepends(pkg, pkgdest, skip, taskdeps, packages, d):
+                 for key in filerdepends:
+                     error_msg = "%s contained in package %s requires %s, but no providers found in RDEPENDS_%s?" % \
+                             (filerdepends[key].replace("_%s" % pkg, "").replace("@underscore@", "_"), pkg, key, pkg)
+-                package_qa_handle_error("file-rdeps", error_msg, d)
++                    package_qa_handle_error("file-rdeps", error_msg, d)
  
- 	# Produce dependency graph
- 	# First, quote each name to handle characters that cause issues for dot
--	sed 's:\([^| ]*\):"\1":g' ${WORKDIR}/bh_installed_pkgs_deps.txt > $1/depends.tmp && \
-+	sed 's:\([^| ]*\):"\1":g' ${WORKDIR}/bh_installed_pkgs_deps.txt > $1/depends.tmp &&
- 		rm ${WORKDIR}/bh_installed_pkgs_deps.txt
--	# Change delimiter from pipe to -> and set style for recommend lines
--	sed -i -e 's:|: -> :' -e 's:"\[REC\]":[style=dotted]:' -e 's:$:;:' $1/depends.tmp
-+	# Remove lines with rpmlib(...) and config(...) dependencies, change the
-+	# delimiter from pipe to "->", set the style for recommend lines and
-+	# turn versioned dependencies into edge labels.
-+	sed -i -e '/rpmlib(/d' \
-+	       -e '/config(/d' \
-+	       -e 's:|: -> :' \
-+	       -e 's:"\[REC\]":[style=dotted]:' \
-+	       -e 's:"\([<>=]\+\)" "\([^"]*\)":[label="\1 \2"]:' \
-+		$1/depends.tmp
- 	# Add header, sorted and de-duped contents and footer and then delete the temp file
- 	printf "digraph depends {\n    node [shape=plaintext]\n" > $1/depends.dot
--	cat $1/depends.tmp | sort | uniq >> $1/depends.dot
-+	cat $1/depends.tmp | sort -u >> $1/depends.dot
- 	echo "}" >>  $1/depends.dot
- 	rm $1/depends.tmp
+ def package_qa_check_deps(pkg, pkgdest, skip, d):
  
 -- 
 2.12.0
