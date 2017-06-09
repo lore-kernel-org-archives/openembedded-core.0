@@ -1,50 +1,31 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-wr0-f178.google.com (mail-wr0-f178.google.com
-	[209.85.128.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 7979371B86
+Return-Path: <denis@denix.org>
+Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.17])
+	by mail.openembedded.org (Postfix) with ESMTP id ED7DA782FD
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  9 Jun 2017 17:11:05 +0000 (UTC)
-Received: by mail-wr0-f178.google.com with SMTP id q97so39870801wrb.2
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 09 Jun 2017 10:11:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=LGyHIozzwR0eocilmURnClZ3Pl2rDQa5asVKcRjU9GM=;
-	b=lS045zAnEHrsYVpokq90eWCPlDG95mxGdhpBlzEFTfgGwv4RNzXNHoVhEiw/3UuBt/
-	Ae2nNI4c+fSnPz8M7lzQjn64Fkp7P0HgGV7n1t99Pj8F4Co2KpQUyBoOK+zbV3Y66IaW
-	atDMoOoMZEPIwi40z94Q8PJwD0EffaCkElhnPpH7Vva+lmigm+9F+IP1W7ECuRlKLw4V
-	Be8TBJjxXphPRKpt1gP7kJJs6q4lgGUu68r4+ylncdiG8G+03UkChurWisNPmq9ecjSP
-	C8NBO5IDZ4lL8sFMmAA5WHDGacMz24g7J3tE/8m3eGuPdc2MwifK3eoyLfWHrp3pDJtv
-	QaUw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=LGyHIozzwR0eocilmURnClZ3Pl2rDQa5asVKcRjU9GM=;
-	b=mE9QGRAFV3eztLDkJJsYilsInG8CQI2ppiK7EvGJ4VaHE0EYBJH5vq9Tn9g8Y65Ri9
-	IjpmhSQkHJJUhgdj+ZjUd9DQNQcFZRC5Syfbsk+8yRgSjVfsbdJ5CftvLCbQDq4imJ0i
-	119ZBTWJ351+lgX8rqEdm2PaQJfCn/zcJcJZaroE5uxerOA10kd8RfFU9h47CRVAKpmo
-	+JCtOOoHow4Lx2PlBkbqxO/NfknhGnbRb9ekt9DMEp83fciYIEVrczLJ4OdiSQy0fg2G
-	tQXakZ0bW4vYiq1oNQUYWU88GRSpJek2zowg4IynxrE2BEj/j590A1gfDkxrNG1WUaUs
-	NAdw==
-X-Gm-Message-State: AODbwcC10vF+vDTFox8aievHmNGCChTUQph8Yy/656l6zXLPm8PHNV+k
-	4Qctz9vcgT9W0Max6Egu2N3k1ctqGw==
-X-Received: by 10.80.143.227 with SMTP id y90mr34336301edy.131.1497028265912; 
-	Fri, 09 Jun 2017 10:11:05 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.80.153.222 with HTTP; Fri, 9 Jun 2017 10:10:35 -0700 (PDT)
-In-Reply-To: <1497026309.2435.5.camel@iki.fi>
-References: <cover.1496979431.git.raj.khem@gmail.com>
-	<c0e598696af9be3f567751a8641effb08431a7d2.1496979431.git.raj.khem@gmail.com>
-	<CAJTo0La6u=Tzzsow5ZYwqmWHY8RzyvgVqT=J4J9UpKy8uKbb9A@mail.gmail.com>
-	<CAMKF1srdVU0p-e4gPJx5rNEhk4aQdsiELuz+-1AsD_tgG6b_Gw@mail.gmail.com>
-	<1497026309.2435.5.camel@iki.fi>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 9 Jun 2017 10:10:35 -0700
-Message-ID: <CAMKF1soH0BshzDQorBw7mmXGCgCg_OF=uc5pX1q=J_-ZPqtGMg@mail.gmail.com>
-To: Tanu Kaskinen <tanuk@iki.fi>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/3] pulseaudio: disable PIE flags when hardened flags are enabled
+	Fri,  9 Jun 2017 18:41:42 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by mailout4.zoneedit.com (Postfix) with ESMTP id 493C720BAF;
+	Fri,  9 Jun 2017 18:41:43 +0000 (UTC)
+Received: from mailout4.zoneedit.com ([127.0.0.1])
+	by localhost (zmo03-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
+	port 10024)
+	with ESMTP id crVenbo5kFei; Fri,  9 Jun 2017 18:41:43 +0000 (UTC)
+Received: from mail.denix.org (pool-100-15-85-143.washdc.fios.verizon.net
+	[100.15.85.143])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 286A6207BD;
+	Fri,  9 Jun 2017 18:41:42 +0000 (UTC)
+Received: from gimli.denix (gimli [192.168.0.6])
+	by mail.denix.org (Postfix) with ESMTP id 8E67C1624D4;
+	Fri,  9 Jun 2017 14:41:41 -0400 (EDT)
+From: Denys Dmytriyenko <denis@denix.org>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  9 Jun 2017 14:41:35 -0400
+Message-Id: <1497033695-138298-1-git-send-email-denis@denix.org>
+X-Mailer: git-send-email 2.7.4
+Cc: Denys Dmytriyenko <denys@ti.com>
+Subject: [PATCH] uboot-config: check UBOOT_CONFIG variable, not flags, for error conditions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,53 +38,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 Jun 2017 17:11:06 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 09 Jun 2017 18:41:43 -0000
 
-On Fri, Jun 9, 2017 at 9:38 AM, Tanu Kaskinen <tanuk@iki.fi> wrote:
-> On Fri, 2017-06-09 at 13:07 +0000, Khem Raj wrote:
->> On Fri, Jun 9, 2017 at 5:56 AM Burton, Ross <ross.burton@intel.com> wrote:
->>
->> >
->> > On 9 June 2017 at 04:41, Khem Raj <raj.khem@gmail.com> wrote:
->> >
->> > > +SECURITY_CFLAGS = "${SECURITY_NO_PIE_CFLAGS}"
->> > >
->> >
->> > These tend to go into security-flags.inc, not the recipe.
->> >
->>
->> I know that's been the case but I think having a global file is error prone
->> its better to have it in recipe context since it can get attention at
->> upgrade time to test if this has been fixed in new release etc
->
-> Do you mean that there's some bug in pulseaudio, and this is a
-> workaround for it? Is the bug that there are textrels? Ross saw
-> textrels in pulseaudio before (see the discussion starting at [1]), but
-> I was unable to reproduce that. If you give instructions for
-> reproducing the problem, I'll see if I can fix pulseaudio (until then
-> I'm fine with having a workaround).
->
+From: Denys Dmytriyenko <denys@ti.com>
 
-yes there is a bug lurking when compiling with hardening flags are turned on
-so you can do something like
+Sometimes there's a need to change existing UBOOT_CONFIG setting from a recipe,
+distro or local config, such as an override or even switch back to UBOOT_MACHINE.
+Unfortunately, there's no easy way to override or unset flags, so using them as
+an error condition is rather heavy-handed. Change those conditions to check the
+UBOOT_CONFIG variable itself, not its flags.
 
-in local.conf
+Signed-off-by: Denys Dmytriyenko <denys@ti.com>
+---
+ meta/classes/uboot-config.bbclass | 11 +++--------
+ 1 file changed, 3 insertions(+), 8 deletions(-)
 
-require conf/distro/include/security_flags.inc
+diff --git a/meta/classes/uboot-config.bbclass b/meta/classes/uboot-config.bbclass
+index 10013b7..8f1ded4 100644
+--- a/meta/classes/uboot-config.bbclass
++++ b/meta/classes/uboot-config.bbclass
+@@ -20,24 +20,21 @@ python () {
+     ubootbinaries = d.getVar('UBOOT_BINARIES')
+     # The "doc" varflag is special, we don't want to see it here
+     ubootconfigflags.pop('doc', None)
++    ubootconfig = (d.getVar('UBOOT_CONFIG') or "").split()
+ 
+-    if not ubootmachine and not ubootconfigflags:
++    if not ubootmachine and len(ubootconfig) == 0:
+         PN = d.getVar("PN")
+         FILE = os.path.basename(d.getVar("FILE"))
+         bb.debug(1, "To build %s, see %s for instructions on \
+                  setting up your machine config" % (PN, FILE))
+         raise bb.parse.SkipPackage("Either UBOOT_MACHINE or UBOOT_CONFIG must be set in the %s machine configuration." % d.getVar("MACHINE"))
+ 
+-    if ubootmachine and ubootconfigflags:
++    if ubootmachine and len(ubootconfig) > 0:
+         raise bb.parse.SkipPackage("You cannot use UBOOT_MACHINE and UBOOT_CONFIG at the same time.")
+ 
+     if ubootconfigflags and ubootbinaries:
+         raise bb.parse.SkipPackage("You cannot use UBOOT_BINARIES as it is internal to uboot_config.bbclass.")
+ 
+-    if not ubootconfigflags:
+-        return
+-
+-    ubootconfig = (d.getVar('UBOOT_CONFIG') or "").split()
+     if len(ubootconfig) > 0:
+         for config in ubootconfig:
+             for f, v in ubootconfigflags.items():
+@@ -57,6 +54,4 @@ python () {
+                         bb.debug(1, "Appending '%s' to UBOOT_BINARIES." % ubootbinary)
+                         d.appendVar('UBOOT_BINARIES', ' ' + ubootbinary)
+                     break
+-    elif len(ubootconfig) == 0:
+-       raise bb.parse.SkipPackage('You must set a default in UBOOT_CONFIG.')
+ }
+-- 
+2.7.4
 
-then
-
-MACHINE=qemux86 bitbake pulseaudio
-
-it also happens on arm so qemuarm will reproduce it too.
-
-some assembly code is probably missing using GOT relative accesses
-
-> [1] http://lists.openembedded.org/pipermail/openembedded-core/2017-February/133215.html
->
-> --
-> Tanu
->
-> https://www.patreon.com/tanuk
 
