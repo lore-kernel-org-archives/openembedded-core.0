@@ -1,31 +1,53 @@
-Return-Path: <denis@denix.org>
-Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.17])
-	by mail.openembedded.org (Postfix) with ESMTP id 815FB7829C
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-it0-f41.google.com (mail-it0-f41.google.com
+	[209.85.214.41])
+	by mail.openembedded.org (Postfix) with ESMTP id D9C0D7829C
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  9 Jun 2017 19:13:44 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mailout4.zoneedit.com (Postfix) with ESMTP id 0576920BAF;
-	Fri,  9 Jun 2017 19:13:45 +0000 (UTC)
-Received: from mailout4.zoneedit.com ([127.0.0.1])
-	by localhost (zmo03-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
-	port 10024)
-	with ESMTP id r5hSi3tFzKDp; Fri,  9 Jun 2017 19:13:44 +0000 (UTC)
-Received: from mail.denix.org (pool-100-15-85-143.washdc.fios.verizon.net
-	[100.15.85.143])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mailout4.zoneedit.com (Postfix) with ESMTPSA id D26DF207BD;
-	Fri,  9 Jun 2017 19:13:43 +0000 (UTC)
-Received: from gimli.denix (gimli [192.168.0.6])
-	by mail.denix.org (Postfix) with ESMTP id 5B4841624C6;
-	Fri,  9 Jun 2017 15:13:43 -0400 (EDT)
-From: Denys Dmytriyenko <denis@denix.org>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  9 Jun 2017 15:13:41 -0400
-Message-Id: <1497035621-66174-1-git-send-email-denis@denix.org>
-X-Mailer: git-send-email 2.7.4
-Cc: Denys Dmytriyenko <denys@ti.com>
-Subject: [PATCH] util-linux: upgrade to 2.30
+	Fri,  9 Jun 2017 19:26:24 +0000 (UTC)
+Received: by mail-it0-f41.google.com with SMTP id m47so2419862iti.1
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 09 Jun 2017 12:26:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:organization:mime-version:content-transfer-encoding;
+	bh=UaVqOWbyID+25LHVudXphtCbBw2WtxcYakaV0lPXjsM=;
+	b=leUZq3G5JaQhpL9vj/R+qsakbVnEwCNx4JN17jICwlbzJiv1pVemPK3I4nOi1SLiN6
+	klvbNxFNk+mRD2fqBh7xNuYYeno2hhrtZdnO8bQ2Sk//OEkrifiukG6EDIOlQzzLHZLv
+	oO4dXpckjo82sWzvg8aQx+dBPGyEaydpcnih3u5a8Hgqd2D6LPmkNZe6OfTo3MOtnhue
+	zRCLBk/cyvKiLRv9TpRh7YQ9kDyrUrUh0ayYk45UVlmmymIwqgL/umjM2hRdo53+c1dO
+	piJcDpyuK/Nx0enWpGxDwIbBsINl/1zhvAXJgmHbwwSUBdNgMDynZsP/kWdWGNwnKLYx
+	VSxw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:organization:mime-version:content-transfer-encoding;
+	bh=UaVqOWbyID+25LHVudXphtCbBw2WtxcYakaV0lPXjsM=;
+	b=uYE3zUTC+2ZKoTC+/tC/sifErxW2+xl80Ls5ijubBsehUVTxR5AvpIxEguhAFJdVRt
+	mwfVELV3SQ7TPASpHDd46XHFYE5dbqaxJfXrrPg4p8Vk3buvdypHDGr80QHrI5UNvpXT
+	fdaC0O454sQnI23ufr+3ZV5ILP1hTJMsi3IS2qMcArAerzhV1lls7dhIwxuADnDZ/Km5
+	YcHAV1np9mB93nfWtKJ4hev3LgYtObxuJaPyICKwKfUXsW4cmZWLRdeULySHK7E/jGyL
+	1MHsaY7UTXt5bTwWxBy1qjI+GtqI1iUbh218YvRGSJ4CbStT6JBg2UkVBaDY0MzhOujs
+	ex5Q==
+X-Gm-Message-State: AODbwcCuQEyoxjX3XfM7xp6036FRHlTtODKzoFWd4x52iVapNi9ljs6P
+	KOIz1BpnQ+EzJ+G4
+X-Received: by 10.36.211.69 with SMTP id n66mr1121739itg.36.1497036385430;
+	Fri, 09 Jun 2017 12:26:25 -0700 (PDT)
+Received: from pohly-mobl1 (p5DE8C0DE.dip0.t-ipconnect.de. [93.232.192.222])
+	by smtp.gmail.com with ESMTPSA id w14sm260976itb.28.2017.06.09.12.26.22
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 09 Jun 2017 12:26:23 -0700 (PDT)
+Message-ID: <1497036380.30163.221.camel@intel.com>
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: Fan Xin <fan.xin@jp.fujitsu.com>
+Date: Fri, 09 Jun 2017 21:26:20 +0200
+In-Reply-To: <1496638270-4482-1-git-send-email-fan.xin@jp.fujitsu.com>
+References: <1496638270-4482-1-git-send-email-fan.xin@jp.fujitsu.com>
+Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
+X-Mailer: Evolution 3.12.9-1+b1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] acpica: Upgrade 20150515 -> 20170303
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,153 +60,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 Jun 2017 19:13:46 -0000
+X-List-Received-Date: Fri, 09 Jun 2017 19:26:25 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: Denys Dmytriyenko <denys@ti.com>
+On Mon, 2017-06-05 at 13:51 +0900, Fan Xin wrote:
+> -@@ -569,6 +574,8 @@ FlOpenMiscOutputFiles (
+> +@@ -607,6 +611,8 @@ FlOpenMiscOutputFiles (
+>   
+>       if (Gbl_DebugFlag)
+>       {
+> -+        int fd;
+> ++      int fd;
 
-Drop uuid-test-error-api.patch as it's been fixed upstream differently:
-https://github.com/karelzak/util-linux/commit/b770b487004778f4425639c7ed1bb6ca22d157bf
+Looks like you (accidentally?) also changed whitespaces while rebasing
+the patch...
 
-Signed-off-by: Denys Dmytriyenko <denys@ti.com>
----
- .../util-linux/uuid-test-error-api.patch           | 99 ----------------------
- .../{util-linux_2.29.2.bb => util-linux_2.30.bb}   |  7 +-
- 2 files changed, 3 insertions(+), 103 deletions(-)
- delete mode 100644 meta/recipes-core/util-linux/util-linux/uuid-test-error-api.patch
- rename meta/recipes-core/util-linux/{util-linux_2.29.2.bb => util-linux_2.30.bb} (80%)
 
-diff --git a/meta/recipes-core/util-linux/util-linux/uuid-test-error-api.patch b/meta/recipes-core/util-linux/util-linux/uuid-test-error-api.patch
-deleted file mode 100644
-index a6fde5d..0000000
---- a/meta/recipes-core/util-linux/util-linux/uuid-test-error-api.patch
-+++ /dev/null
-@@ -1,99 +0,0 @@
--This patch adds error() API implementation for non-glibc system C libs
--
--Upstream-Status: Pending
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
--
-----
-- misc-utils/test_uuidd.c | 62 ++++++++++++++++++++++++++++++++++++++++++++++++-
-- 1 file changed, 61 insertions(+), 1 deletion(-)
--
--diff --git a/misc-utils/test_uuidd.c b/misc-utils/test_uuidd.c
--index 36f3b3d..7d579ce 100644
----- a/misc-utils/test_uuidd.c
--+++ b/misc-utils/test_uuidd.c
--@@ -23,7 +23,6 @@
--  *
--  *	make uuidd uuidgen localstatedir=/var
--  */
---#include <error.h>
-- #include <pthread.h>
-- #include <stdio.h>
-- #include <stdlib.h>
--@@ -38,6 +37,17 @@
-- #include "xalloc.h"
-- #include "strutils.h"
-- 
--+#ifdef __GLIBC__
--+#include <error.h>
--+#else
--+extern void (*error_print_progname)(void);
--+extern unsigned int error_message_count;
--+extern int error_one_per_line;
--+
--+void error(int, int, const char *, ...);
--+void error_at_line(int, int, const char *, unsigned int, const char *, ...);
--+#endif
--+
-- #define LOG(level,args) if (loglev >= level) { fprintf args; }
-- 
-- size_t nprocesses = 4;
--@@ -256,6 +266,56 @@ static void object_dump(size_t idx, object_t *obj)
-- 	fprintf(stderr, "}\n");
-- }
-- 
--+#ifndef __GLIBC__
--+extern char *__progname;
--+
--+void (*error_print_progname)(void) = 0;
--+unsigned int error_message_count = 0;
--+int error_one_per_line = 0;
--+
--+static void eprint(int status, int e, const char *file, unsigned int line, const char *fmt, va_list ap)
--+{
--+	if (file && error_one_per_line) {
--+		static const char *oldfile;
--+		static unsigned int oldline;
--+		if (line == oldline && strcmp(file, oldfile) == 0)
--+			return;
--+		oldfile = file;
--+		oldline = line;
--+	}
--+	if (error_print_progname)
--+		error_print_progname();
--+	else
--+		fprintf(stderr, "%s: ", __progname);
--+	if (file)
--+		fprintf(stderr, "%s:%u: ", file, line);
--+	vfprintf(stderr, fmt, ap);
--+	if (e)
--+		fprintf(stderr, ": %s", strerror(e));
--+	putc('\n', stderr);
--+	fflush(stderr);
--+	error_message_count++;
--+	if (status)
--+		exit(status);
--+}
--+
--+void error(int status, int e, const char *fmt, ...)
--+{
--+	va_list ap;
--+	va_start(ap,fmt);
--+	eprint(status, e, 0, 0, fmt, ap);
--+	va_end(ap);
--+}
--+
--+void error_at_line(int status, int e, const char *file, unsigned int line, const char *fmt, ...)
--+{
--+	va_list ap;
--+	va_start(ap,fmt);
--+	eprint(status, e, file, line, fmt, ap);
--+	va_end(ap);
--+}
--+#endif /* __GLIBC__ */
--+
-- int main(int argc, char *argv[])
-- {
-- 	size_t i, nfailed = 0, nignored = 0;
---- 
--2.8.3
--
-diff --git a/meta/recipes-core/util-linux/util-linux_2.29.2.bb b/meta/recipes-core/util-linux/util-linux_2.30.bb
-similarity index 80%
-rename from meta/recipes-core/util-linux/util-linux_2.29.2.bb
-rename to meta/recipes-core/util-linux/util-linux_2.30.bb
-index 11303f8..6b309b5 100644
---- a/meta/recipes-core/util-linux/util-linux_2.29.2.bb
-+++ b/meta/recipes-core/util-linux/util-linux_2.30.bb
-@@ -1,4 +1,4 @@
--MAJOR_VERSION = "2.29"
-+MAJOR_VERSION = "2.30"
- require util-linux.inc
- 
- # To support older hosts, we need to patch and/or revert
-@@ -14,10 +14,9 @@ SRC_URI += "file://configure-sbindir.patch \
-             file://run-ptest \
-             file://display_testname_for_subtest.patch \
-             file://avoid_parallel_tests.patch \
--            file://uuid-test-error-api.patch \
- "
--SRC_URI[md5sum] = "63c40c2068fcbb7e1d5c1d281115d973"
--SRC_URI[sha256sum] = "accea4d678209f97f634f40a93b7e9fcad5915d1f4749f6c47bee6bf110fe8e3"
-+SRC_URI[md5sum] = "eaa3429150268027908a1b8ae6ee9a62"
-+SRC_URI[sha256sum] = "c208a4ff6906cb7f57940aa5bc3a6eed146e50a7cc0a092f52ef2ab65057a08d"
- 
- CACHED_CONFIGUREVARS += "scanf_cv_alloc_modifier=ms"
- 
+> +@@ -635,6 +641,8 @@ FlOpenMiscOutputFiles (
+> +             exit (1);
+>           }
+> -+        Gbl_Files[ASL_FILE_DEBUG_OUTPUT].Handle = stderr;
+>   
+> ++        Gbl_Files[ASL_FILE_DEBUG_OUTPUT].Handle = stderr;
+> ++
+
+... and added lines.
+
+Not a big deal, but you diff could have been smaller if you hadn't made
+these unnecessary changes.
+
 -- 
-2.7.4
+Best Regards, Patrick Ohly
+
+The content of this message is my personal opinion only and although
+I am an employee of Intel, the statements I make here in no way
+represent Intel's position on the issue, nor am I authorized to speak
+on behalf of Intel on this matter.
+
+
 
 
