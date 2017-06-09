@@ -1,28 +1,50 @@
-Return-Path: <anibal.limon@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id BBDD8782E5
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-wr0-f178.google.com (mail-wr0-f178.google.com
+	[209.85.128.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 7979371B86
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  9 Jun 2017 17:01:58 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	09 Jun 2017 10:01:27 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.39,317,1493708400"; d="scan'208";a="97608074"
-Received: from alimonb-mobl1.zpn.intel.com ([10.219.128.117])
-	by orsmga002.jf.intel.com with ESMTP; 09 Jun 2017 10:01:26 -0700
-From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  9 Jun 2017 12:01:26 -0500
-Message-Id: <cbf50173c089bdd3ca50f9a6286a3e04ef1f73d2.1497027624.git.anibal.limon@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <cover.1497027624.git.anibal.limon@linux.intel.com>
-References: <cover.1497027624.git.anibal.limon@linux.intel.com>
-In-Reply-To: <cover.1497027624.git.anibal.limon@linux.intel.com>
-References: <cover.1497027624.git.anibal.limon@linux.intel.com>
+	Fri,  9 Jun 2017 17:11:05 +0000 (UTC)
+Received: by mail-wr0-f178.google.com with SMTP id q97so39870801wrb.2
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 09 Jun 2017 10:11:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=LGyHIozzwR0eocilmURnClZ3Pl2rDQa5asVKcRjU9GM=;
+	b=lS045zAnEHrsYVpokq90eWCPlDG95mxGdhpBlzEFTfgGwv4RNzXNHoVhEiw/3UuBt/
+	Ae2nNI4c+fSnPz8M7lzQjn64Fkp7P0HgGV7n1t99Pj8F4Co2KpQUyBoOK+zbV3Y66IaW
+	atDMoOoMZEPIwi40z94Q8PJwD0EffaCkElhnPpH7Vva+lmigm+9F+IP1W7ECuRlKLw4V
+	Be8TBJjxXphPRKpt1gP7kJJs6q4lgGUu68r4+ylncdiG8G+03UkChurWisNPmq9ecjSP
+	C8NBO5IDZ4lL8sFMmAA5WHDGacMz24g7J3tE/8m3eGuPdc2MwifK3eoyLfWHrp3pDJtv
+	QaUw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=LGyHIozzwR0eocilmURnClZ3Pl2rDQa5asVKcRjU9GM=;
+	b=mE9QGRAFV3eztLDkJJsYilsInG8CQI2ppiK7EvGJ4VaHE0EYBJH5vq9Tn9g8Y65Ri9
+	IjpmhSQkHJJUhgdj+ZjUd9DQNQcFZRC5Syfbsk+8yRgSjVfsbdJ5CftvLCbQDq4imJ0i
+	119ZBTWJ351+lgX8rqEdm2PaQJfCn/zcJcJZaroE5uxerOA10kd8RfFU9h47CRVAKpmo
+	+JCtOOoHow4Lx2PlBkbqxO/NfknhGnbRb9ekt9DMEp83fciYIEVrczLJ4OdiSQy0fg2G
+	tQXakZ0bW4vYiq1oNQUYWU88GRSpJek2zowg4IynxrE2BEj/j590A1gfDkxrNG1WUaUs
+	NAdw==
+X-Gm-Message-State: AODbwcC10vF+vDTFox8aievHmNGCChTUQph8Yy/656l6zXLPm8PHNV+k
+	4Qctz9vcgT9W0Max6Egu2N3k1ctqGw==
+X-Received: by 10.80.143.227 with SMTP id y90mr34336301edy.131.1497028265912; 
+	Fri, 09 Jun 2017 10:11:05 -0700 (PDT)
 MIME-Version: 1.0
-Cc: Francisco Pedraza <francisco.j.pedraza.gonzalez@intel.com>,
-	paul.eggleton@linux.intel.com
-Subject: [PATCH 2/4] meta/classes/populate_sdk: Adds support for generating eSDK manifest files
+Received: by 10.80.153.222 with HTTP; Fri, 9 Jun 2017 10:10:35 -0700 (PDT)
+In-Reply-To: <1497026309.2435.5.camel@iki.fi>
+References: <cover.1496979431.git.raj.khem@gmail.com>
+	<c0e598696af9be3f567751a8641effb08431a7d2.1496979431.git.raj.khem@gmail.com>
+	<CAJTo0La6u=Tzzsow5ZYwqmWHY8RzyvgVqT=J4J9UpKy8uKbb9A@mail.gmail.com>
+	<CAMKF1srdVU0p-e4gPJx5rNEhk4aQdsiELuz+-1AsD_tgG6b_Gw@mail.gmail.com>
+	<1497026309.2435.5.camel@iki.fi>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 9 Jun 2017 10:10:35 -0700
+Message-ID: <CAMKF1soH0BshzDQorBw7mmXGCgCg_OF=uc5pX1q=J_-ZPqtGMg@mail.gmail.com>
+To: Tanu Kaskinen <tanuk@iki.fi>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/3] pulseaudio: disable PIE flags when hardened flags are enabled
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,155 +57,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 Jun 2017 17:01:58 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 09 Jun 2017 17:11:06 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-From: Francisco Pedraza <francisco.j.pedraza.gonzalez@intel.com>
+On Fri, Jun 9, 2017 at 9:38 AM, Tanu Kaskinen <tanuk@iki.fi> wrote:
+> On Fri, 2017-06-09 at 13:07 +0000, Khem Raj wrote:
+>> On Fri, Jun 9, 2017 at 5:56 AM Burton, Ross <ross.burton@intel.com> wrote:
+>>
+>> >
+>> > On 9 June 2017 at 04:41, Khem Raj <raj.khem@gmail.com> wrote:
+>> >
+>> > > +SECURITY_CFLAGS = "${SECURITY_NO_PIE_CFLAGS}"
+>> > >
+>> >
+>> > These tend to go into security-flags.inc, not the recipe.
+>> >
+>>
+>> I know that's been the case but I think having a global file is error prone
+>> its better to have it in recipe context since it can get attention at
+>> upgrade time to test if this has been fixed in new release etc
+>
+> Do you mean that there's some bug in pulseaudio, and this is a
+> workaround for it? Is the bug that there are textrels? Ross saw
+> textrels in pulseaudio before (see the discussion starting at [1]), but
+> I was unable to reproduce that. If you give instructions for
+> reproducing the problem, I'll see if I can fix pulseaudio (until then
+> I'm fine with having a workaround).
+>
 
-Add get_extra_sdk_info to reuse code in buildhistory
+yes there is a bug lurking when compiling with hardening flags are turned on
+so you can do something like
 
-The functionalities to generate SDK and eSDK manifest files are different,
-the SDK comes from package information and the eSDK comes from sstate artifacts.
-Only execute write_sdk_{host, target}_manifest when is on populate_sdk class.
+in local.conf
 
-Adds new functions write_sdk{host, target}_ext_manifest to execute on postprocess
-in populate_sdk_ext because at the end we have all the sstate artifacts to
-generate the manifest.
+require conf/distro/include/security_flags.inc
 
-[YOCTO #9038]
+then
 
-Signed-off-by: Francisco Pedraza <francisco.j.pedraza.gonzalez@intel.com>
-Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
----
- meta/classes/buildhistory.bbclass      |  1 -
- meta/classes/populate_sdk_base.bbclass | 44 +++++++++++++++++++---------------
- meta/classes/populate_sdk_ext.bbclass  | 33 +++++++++++++++++++++++++
- 3 files changed, 58 insertions(+), 20 deletions(-)
+MACHINE=qemux86 bitbake pulseaudio
 
-diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
-index bfcc88a..def7a64 100644
---- a/meta/classes/buildhistory.bbclass
-+++ b/meta/classes/buildhistory.bbclass
-@@ -581,7 +581,6 @@ END
- 
- python buildhistory_get_extra_sdkinfo() {
-     import operator
--    import math
-     from oe.sdk import get_extra_sdkinfo
- 
-     sstate_dir = d.expand('${SDK_OUTPUT}/${SDKPATH}/sstate-cache')
-diff --git a/meta/classes/populate_sdk_base.bbclass b/meta/classes/populate_sdk_base.bbclass
-index 563582e..01960ee 100644
---- a/meta/classes/populate_sdk_base.bbclass
-+++ b/meta/classes/populate_sdk_base.bbclass
-@@ -59,15 +59,19 @@ SDK_TITLE ?= "${@d.getVar('DISTRO_NAME') or d.getVar('DISTRO')} SDK"
- 
- SDK_TARGET_MANIFEST = "${SDKDEPLOYDIR}/${TOOLCHAIN_OUTPUTNAME}.target.manifest"
- SDK_HOST_MANIFEST = "${SDKDEPLOYDIR}/${TOOLCHAIN_OUTPUTNAME}.host.manifest"
-+SDK_EXT_TARGET_MANIFEST = "${SDK_DEPLOY}/${TOOLCHAINEXT_OUTPUTNAME}.target.manifest"
-+SDK_EXT_HOST_MANIFEST = "${SDK_DEPLOY}/${TOOLCHAINEXT_OUTPUTNAME}.host.manifest"
-+
- python write_target_sdk_manifest () {
--    from oe.sdk import sdk_list_installed_packages
--    from oe.utils import format_pkg_list
--    sdkmanifestdir = os.path.dirname(d.getVar("SDK_TARGET_MANIFEST"))
--    pkgs = sdk_list_installed_packages(d, True)
--    if not os.path.exists(sdkmanifestdir):
--        bb.utils.mkdirhier(sdkmanifestdir)
--    with open(d.getVar('SDK_TARGET_MANIFEST'), 'w') as output:
--        output.write(format_pkg_list(pkgs, 'ver'))
-+    if d.getVar('BB_CURRENTTASK') == 'populate_sdk':
-+        from oe.sdk import sdk_list_installed_packages
-+        from oe.utils import format_pkg_list
-+        sdkmanifestdir = os.path.dirname(d.getVar("SDK_TARGET_MANIFEST"))
-+        pkgs = sdk_list_installed_packages(d, True)
-+        if not os.path.exists(sdkmanifestdir):
-+            bb.utils.mkdirhier(sdkmanifestdir)
-+        with open(d.getVar('SDK_TARGET_MANIFEST'), 'w') as output:
-+            output.write(format_pkg_list(pkgs, 'ver'))
- }
- 
- python write_sdk_test_data() {
-@@ -78,20 +82,22 @@ python write_sdk_test_data() {
- }
- 
- python write_host_sdk_manifest () {
--    from oe.sdk import sdk_list_installed_packages
--    from oe.utils import format_pkg_list
--    sdkmanifestdir = os.path.dirname(d.getVar("SDK_HOST_MANIFEST"))
--    pkgs = sdk_list_installed_packages(d, False)
--    if not os.path.exists(sdkmanifestdir):
--        bb.utils.mkdirhier(sdkmanifestdir)
--    with open(d.getVar('SDK_HOST_MANIFEST'), 'w') as output:
--        output.write(format_pkg_list(pkgs, 'ver'))
-+    if d.getVar('BB_CURRENTTASK') == 'populate_sdk':
-+        from oe.sdk import sdk_list_installed_packages
-+        from oe.utils import format_pkg_list
-+        sdkmanifestdir = os.path.dirname(d.getVar("SDK_HOST_MANIFEST"))
-+        pkgs = sdk_list_installed_packages(d, False)
-+        if not os.path.exists(sdkmanifestdir):
-+            bb.utils.mkdirhier(sdkmanifestdir)
-+        with open(d.getVar('SDK_HOST_MANIFEST'), 'w') as output:
-+            output.write(format_pkg_list(pkgs, 'ver'))
- }
- 
--POPULATE_SDK_POST_TARGET_COMMAND_append = " write_target_sdk_manifest ; write_sdk_test_data ; "
--POPULATE_SDK_POST_HOST_COMMAND_append = " write_host_sdk_manifest; "
-+POPULATE_SDK_POST_TARGET_COMMAND_append = " write_sdk_test_data ; "
-+POPULATE_SDK_POST_TARGET_COMMAND_append_task-populate-sdk  = " write_target_sdk_manifest ; "
-+POPULATE_SDK_POST_HOST_COMMAND_append_task-populate-sdk = " write_host_sdk_manifest; "
- SDK_PACKAGING_COMMAND = "${@'${SDK_PACKAGING_FUNC};' if '${SDK_PACKAGING_FUNC}' else ''}"
--SDK_POSTPROCESS_COMMAND = " create_sdk_files; check_sdk_sysroots; tar_sdk; ${SDK_PACKAGING_COMMAND} "
-+SDK_POSTPROCESS_COMMAND = " create_sdk_files; check_sdk_sysroots; tar_sdk; write_target_sdk_manifest; write_host_sdk_manifest; ${SDK_PACKAGING_COMMAND} "
- 
- def populate_sdk_common(d):
-     from oe.sdk import populate_sdk
-diff --git a/meta/classes/populate_sdk_ext.bbclass b/meta/classes/populate_sdk_ext.bbclass
-index 69bc1d9..4791d74 100644
---- a/meta/classes/populate_sdk_ext.bbclass
-+++ b/meta/classes/populate_sdk_ext.bbclass
-@@ -83,6 +83,39 @@ TOOLCHAIN_OUTPUTNAME_task-populate-sdk-ext = "${TOOLCHAINEXT_OUTPUTNAME}"
- SDK_EXT_TARGET_MANIFEST = "${SDK_DEPLOY}/${TOOLCHAINEXT_OUTPUTNAME}.target.manifest"
- SDK_EXT_HOST_MANIFEST = "${SDK_DEPLOY}/${TOOLCHAINEXT_OUTPUTNAME}.host.manifest"
- 
-+python write_target_sdk_ext_manifest () {
-+    from oe.sdk import get_extra_sdkinfo
-+    sstate_dir = d.expand('${SDK_OUTPUT}/${SDKPATH}/sstate-cache')
-+    extra_info = get_extra_sdkinfo(sstate_dir)
-+
-+    target = d.getVar('TARGET_SYS')
-+    target_multimach = d.getVar('MULTIMACH_TARGET_SYS')
-+    real_target_multimach = d.getVar('REAL_MULTIMACH_TARGET_SYS')
-+
-+    pkgs = {}
-+    with open(d.getVar('SDK_EXT_TARGET_MANIFEST'), 'w') as f:
-+        for fn in extra_info['filesizes']:
-+            info = fn.split(':')
-+            if info[2] in (target, target_multimach, real_target_multimach) \
-+                    or info[5] == 'allarch':
-+                if not info[1] in pkgs:
-+                    f.write("%s %s %s\n" % (info[1], info[2], info[3]))
-+                    pkgs[info[1]] = {}
-+}
-+python write_host_sdk_ext_manifest () {
-+    from oe.sdk import get_extra_sdkinfo
-+    sstate_dir = d.expand('${SDK_OUTPUT}/${SDKPATH}/sstate-cache')
-+    extra_info = get_extra_sdkinfo(sstate_dir)
-+    host = d.getVar('BUILD_SYS')
-+    with open(d.getVar('SDK_EXT_HOST_MANIFEST'), 'w') as f:
-+        for fn in extra_info['filesizes']:
-+            info = fn.split(':')
-+            if info[2] == host:
-+                f.write("%s %s %s\n" % (info[1], info[2], info[3]))
-+}
-+
-+SDK_POSTPROCESS_COMMAND_append_task-populate-sdk-ext = "write_target_sdk_ext_manifest; write_host_sdk_ext_manifest; "    
-+
- SDK_TITLE_task-populate-sdk-ext = "${@d.getVar('DISTRO_NAME') or d.getVar('DISTRO')} Extensible SDK"
- 
- def clean_esdk_builddir(d, sdkbasepath):
--- 
-2.1.4
+it also happens on arm so qemuarm will reproduce it too.
 
+some assembly code is probably missing using GOT relative accesses
+
+> [1] http://lists.openembedded.org/pipermail/openembedded-core/2017-February/133215.html
+>
+> --
+> Tanu
+>
+> https://www.patreon.com/tanuk
 
