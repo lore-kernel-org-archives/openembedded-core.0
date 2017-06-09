@@ -1,31 +1,24 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	by mail.openembedded.org (Postfix) with ESMTP id ED1A278284
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 8D16978218
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  9 Jun 2017 11:18:42 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga105.fm.intel.com with ESMTP; 09 Jun 2017 04:18:43 -0700
+	Fri,  9 Jun 2017 11:50:30 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	09 Jun 2017 04:50:31 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.39,317,1493708400"; d="scan'208";a="97495534"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by orsmga002.jf.intel.com with ESMTP; 09 Jun 2017 04:18:42 -0700
-To: Mark Hatle <mark.hatle@windriver.com>,
-	openembedded-core@lists.openembedded.org
-References: <cover.1496932793.git.alexander.kanavin@linux.intel.com>
-	<ea2b0fd4184df2bf7cc703bc0e195aa2dda1049b.1496932793.git.alexander.kanavin@linux.intel.com>
-	<5cac68b8-6bf7-4453-d75a-45d8b9887d99@windriver.com>
-	<3ed4da32-b4c2-69f1-c93f-9cc5ffb83dd6@linux.intel.com>
-	<65c9f0c2-a269-904d-85ff-3a3c8484328c@windriver.com>
-	<b34441c5-e2a8-3791-4402-e0edcb745f06@linux.intel.com>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <124a1c9e-a6e8-374e-b549-7512410c6588@linux.intel.com>
-Date: Fri, 9 Jun 2017 14:18:43 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.8.0
-MIME-Version: 1.0
-In-Reply-To: <b34441c5-e2a8-3791-4402-e0edcb745f06@linux.intel.com>
-Subject: Re: [PATCHv2 2/2] rpm: run binary package generation via thread pools
+X-IronPort-AV: E=Sophos;i="5.39,317,1493708400"; d="scan'208";a="866229294"
+Received: from linux.intel.com ([10.54.29.200])
+	by FMSMGA003.fm.intel.com with ESMTP; 09 Jun 2017 04:50:31 -0700
+Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
+	by linux.intel.com (Postfix) with ESMTP id 39B3A5803A3;
+	Fri,  9 Jun 2017 04:50:29 -0700 (PDT)
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  9 Jun 2017 14:49:24 +0300
+Message-Id: <1497008964-16342-1-git-send-email-ed.bartosh@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] buildhistory: force writing SRCREV values
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,26 +31,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 Jun 2017 11:18:43 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 09 Jun 2017 11:50:30 -0000
 
-On 06/09/2017 12:02 PM, Alexander Kanavin wrote:
-> Ah, now I get you. You are saying that if these functions are executed
-> once at the start to pre-populate the static data, then they
-> subsequently become thread-safe. Unfortunately this is not the case: I
-> have no idea why this happens, as they would only read static data, but
-> when I did that (in the first iteration of the patch which used nspr
-> instead of openmp), there was a very rare, but still happening data
-> corruption issue. There was no explicit first call, but the first
-> package was built ahead of others (for other reasons, and it still is),
-> and that's where the first call happened.
+Enabling SSTATE_MIRRORS sometimes causes SRCREV values not
+to be written/updated in the build history. This happens more
+often if SRCREV is set to ${AUTOREV}
 
-Actually, looking at code again, that may not be true - building a first 
-package may not necessarily guarantee the pre-population of static data. 
-See what I mean about code that is hard to reason about? It's best to 
-get rid of static data altogether, even if it makes for a larger patch.
+Explicitly writing SRCREVs when recipe history is being written
+should fix this.
 
+[YOCTO: #10948]
 
-Alex
+Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+---
+ meta/classes/buildhistory.bbclass | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
+
+diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
+index 3e907fc..057a3cb 100644
+--- a/meta/classes/buildhistory.bbclass
++++ b/meta/classes/buildhistory.bbclass
+@@ -336,6 +336,7 @@ def write_recipehistory(rcpinfo, d):
+         f.write(u"PACKAGES = %s\n" %  rcpinfo.packages)
+         f.write(u"LAYER = %s\n" %  rcpinfo.layer)
+ 
++    write_latest_srcrev(d, pkghistdir)
+ 
+ def write_pkghistory(pkginfo, d):
+     bb.debug(2, "Writing package history for package %s" % pkginfo.name)
+@@ -853,7 +854,10 @@ def _get_srcrev_values(d):
+ do_fetch[postfuncs] += "write_srcrev"
+ do_fetch[vardepsexclude] += "write_srcrev"
+ python write_srcrev() {
+-    pkghistdir = d.getVar('BUILDHISTORY_DIR_PACKAGE')
++    write_latest_srcrev(d, d.getVar('BUILDHISTORY_DIR_PACKAGE'))
++}
++
++def write_latest_srcrev(d, pkghistdir):
+     srcrevfile = os.path.join(pkghistdir, 'latest_srcrev')
+ 
+     srcrevs, tag_srcrevs = _get_srcrev_values(d)
+@@ -891,4 +895,3 @@ python write_srcrev() {
+     else:
+         if os.path.exists(srcrevfile):
+             os.remove(srcrevfile)
+-}
+-- 
+2.1.4
+
 
