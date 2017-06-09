@@ -1,47 +1,47 @@
 Return-Path: <patrick.ohly@intel.com>
 Received: from mail-it0-f43.google.com (mail-it0-f43.google.com
 	[209.85.214.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 1145578299
+	by mail.openembedded.org (Postfix) with ESMTP id 1F887782AB
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  9 Jun 2017 14:11:58 +0000 (UTC)
-Received: by mail-it0-f43.google.com with SMTP id x129so1686388ite.0
+	Fri,  9 Jun 2017 14:24:20 +0000 (UTC)
+Received: by mail-it0-f43.google.com with SMTP id m62so137527500itc.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 09 Jun 2017 07:12:00 -0700 (PDT)
+	Fri, 09 Jun 2017 07:24:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=message-id:subject:from:to:cc:date:in-reply-to:references
 	:organization:mime-version:content-transfer-encoding;
-	bh=odymhwd91nBfuy1fgGaAKih8pHwSZo+cO1kvH/KyZRc=;
-	b=k0ewjE9cqgkIV/jYElBdpiqWHRIDioqu3sFtPyeA/4ZdTBY/OUOzmgk+RKXf/B+uz9
-	zq8L87auPIBUPpqobIQTbvVDKJ9KehK96pfUpIb19Lna3KolOrJUouB/bQRVBWPQ69HJ
-	kJ6yMhVrrTwAqAVSEEoKawmxY7vK8RkHyNOWWE2iRCcitWJkinngTKNaPEwqjV1VyOp+
-	pBOxSm5bK4pdUFmP2/MLoMz+STbMmu8cTOAOGBwH/yt6ZdcZaXGK2cmKFLrRUy2FXsci
-	Zfo0I9yYSWyO+icFiTthh2O18cIiVo7qVGBieM8VE8pUXQFLDwZ5Lj8d7/jxlPgcM7hr
-	1txQ==
+	bh=pf9bSZiiPohy/DjLeMSGGtiPTpGU7xkEtKdrk2cprSY=;
+	b=jsc224C97oQWPXK5T15UlxwiUgTqlJS+FO3LyKnb3sVzvaABONV2R1NYsrYIp3Bw1y
+	xR/YPfMUj8wRk49gBfKtxRUvKyGuXRAZseNcGwGOhIcaaXWLUpv3pmX8matyF7KwY7sU
+	UsSMprgb6r+dBQrR/C8Ln0MwVAetvj1owILRSHHvQULnKc9hrWlJ/BuIo16dR5SIpQ6P
+	EGLWYNX8cR3Z93aPFl46cgLM9VUdji8JHMeN2dFOFXEJkpEpFnXiDf6XHrP8RsGe+U5W
+	AhuTWHYZn3lssL+WsdAtnxceCJkIsDhLjpqn3UpOadJi4Go4IdFXy+C+wBKTnzzUNOVq
+	qsYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
 	:references:organization:mime-version:content-transfer-encoding;
-	bh=odymhwd91nBfuy1fgGaAKih8pHwSZo+cO1kvH/KyZRc=;
-	b=YYdu8Y/mggdqKdy8S3vb8A+zQ5xFZUTqDYW3zMZKb6srH3Sc2yWYNoGNsW2KEBSRIx
-	jIVbAjP11gQ8jESMZHs+A5us891iLnszFbMHggSsT1vDnRfFd2WihwM4PKFu6iutivFS
-	ooEgcd2/ng/bMwxxq1Y1BvuBAQ5F5bCgwk0Bw40Is4L2jpQTGr3yaiqVPRWJWUxopKwX
-	WATIIGksmYkHKxz0QK++R2/IxIdhOXJK3lsVVjhIj5/lrVXqU7GlBKIb0qQ2oPakTiBi
-	IV6FBC+sYAJ2VA9PpF55CbKrWicvCOGDXEEefCy2FTlYnlJtXsJjRGS1jOd5Fel26f4m
-	SVXQ==
-X-Gm-Message-State: AODbwcBRnDT/r+jQ2D5yfnqlhUeLDi2+x9eezsH8ZodB2qQLrKULT8DW
-	flL3+eR1wCrKPXoN
-X-Received: by 10.36.39.3 with SMTP id g3mr10745539ita.8.1497017519929;
-	Fri, 09 Jun 2017 07:11:59 -0700 (PDT)
+	bh=pf9bSZiiPohy/DjLeMSGGtiPTpGU7xkEtKdrk2cprSY=;
+	b=Ehdl9c8w27c+oPLnAtQxGkwAof+1g205F56D5tWu1Nuuir3T6XtFNhZfJk9t+lQbEG
+	7g/PNPolk9duKPkHHHOwjttiRW8o0AHui+rDGQp9Npajo7MY7Ga+nxCb9Rz5fjpd4LZx
+	rcWmZHLb7l7G01X6wDrzonN+k0p4hQMRNgpl7wK86smcmHtZYh9Ny3JMHRzMheSPmKgM
+	QMhIxzp9puXqxugnn0gfKpCg8jqwQ66tQMXA/Lio0lAHC4ixFTljfCPPwvoqwVKYF+fw
+	qzI3kOy1n3fotBQ2Ja16vfUz42U+xImk0ut9K55OwONYseIw92f7NuVYrDx0dDz7e4er
+	Cngw==
+X-Gm-Message-State: AODbwcCThNDyeKXXMrRt/t2w8wfoMZBfUG9NDPYMK4a88U04pTRSQ0iG
+	pJIsAR5XAFFABsT1
+X-Received: by 10.36.120.66 with SMTP id p63mr10812197itc.22.1497018262134;
+	Fri, 09 Jun 2017 07:24:22 -0700 (PDT)
 Received: from pohly-mobl1 (p5DE8C0DE.dip0.t-ipconnect.de. [93.232.192.222])
-	by smtp.gmail.com with ESMTPSA id l19sm497301ioe.3.2017.06.09.07.11.57
+	by smtp.gmail.com with ESMTPSA id 11sm234900iou.39.2017.06.09.07.24.19
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 09 Jun 2017 07:11:58 -0700 (PDT)
-Message-ID: <1497017515.30163.193.camel@intel.com>
+	Fri, 09 Jun 2017 07:24:21 -0700 (PDT)
+Message-ID: <1497018257.30163.200.camel@intel.com>
 From: Patrick Ohly <patrick.ohly@intel.com>
 To: Joshua Watt <jpewhacker@gmail.com>
-Date: Fri, 09 Jun 2017 16:11:55 +0200
-In-Reply-To: <1497016077.3131.5.camel@gmail.com>
+Date: Fri, 09 Jun 2017 16:24:17 +0200
+In-Reply-To: <1497017515.30163.193.camel@intel.com>
 References: <cover.8ea05a588020117b72a57015f699c7acd76b93e6.1496849345.git-series.patrick.ohly@intel.com>
 	<1496850184.21235.1.camel@gmail.com>
 	<1496912216.6630.225.camel@linuxfoundation.org>
@@ -51,6 +51,7 @@ References: <cover.8ea05a588020117b72a57015f699c7acd76b93e6.1496849345.git-serie
 	<1496950316.30163.152.camel@intel.com>
 	<1496995960.30163.175.camel@intel.com>
 	<1497016077.3131.5.camel@gmail.com>
+	<1497017515.30163.193.camel@intel.com>
 Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
 X-Mailer: Evolution 3.12.9-1+b1 
 Mime-Version: 1.0
@@ -68,104 +69,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 Jun 2017 14:11:59 -0000
+X-List-Received-Date: Fri, 09 Jun 2017 14:24:21 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Fri, 2017-06-09 at 08:47 -0500, Joshua Watt wrote:
-> On Fri, 2017-06-09 at 10:12 +0200, Patrick Ohly wrote:
-> > On Thu, 2017-06-08 at 21:31 +0200, Patrick Ohly wrote:
-> > > On Thu, 2017-06-08 at 10:28 -0500, Joshua Watt wrote:
-> > > > Sure. I wouldn't suggest using an if statement for "just
-> > > > anything", you
-> > > > can surely do terrible things that way. It would (by convention)
-> > > > be
-> > > > restricted to the same sorts of things that the conditional
-> > > > includes
-> > > > allow now. On a similar token, you can do the same sorts of
-> > > > terrible
-> > > > things with conditional includes as currently proposed because it
-> > > > has
-> > > > the same enforcement policy (i.e. "by convention").
-> > > 
-> > > I'm starting to wonder whether this "convention" can be
-> > > strengthened
-> > > with additional warnings. The code which currently evaluates the
-> > > include
-> > > parameter could record in the datastore the original expression and
-> > > what
-> > > it evaluated to, then later when the recipe gets finalized, an
-> > > event
-> > > handler can check whether evaluating the expression still gives the
-> > > same
-> > > result.
-> > 
-> > Below is a quick-and-dirty proof of concept. Example bmap-tools_
-> > %.bbappend:
-> > 
-> >         FOO = "bmap-tools-deploy.inc"
-> >         require ${FOO}
-> >         FOO = ""
-> > 
-> > Example warning:
-> > 
-> > WARNING: .../bmap-tools/bmap-tools_3.2.bb: .../bmap-
-> > tools_%.bbappend:2: include/require/inherit "${FOO}" resulted in
-> > including "bmap-tools-deploy.inc" while parsing. Variables effecting
-> > the parameter changed later such that nothing would have been
-> > included at the end of the recipe.
+On Fri, 2017-06-09 at 16:11 +0200, Patrick Ohly wrote:
+> On Fri, 2017-06-09 at 08:47 -0500, Joshua Watt wrote:
+> > Is there a currently known valid use for such a thing?
 > 
-> I like it. The error message could maybe use a little bit of work...
-> Maybe it needs some sort of short and unique key words in it, like
-> "conditional invariance violation" to help direct people who copy the
-> error into google when looking for an answer (or slightly better, grep
-> the Mega Manual).
-
-When doing it as sanity.bbclass check it would have a short ID string.
-
-> > Should this warning be entirely in bitbake or should it become part
-> > of
-> > OE's sanity.bbclass? The latter would have the advantage that it
-> > could
-> > be configured as fatal error. The downside is that bitbake needs to
-> > export data, which implies adding a semi-stable API.
+> Using LAYERDIR is one, although that particular example is probably
+> better caught by looking for that particular variable instead of
+> annotating all places where it gets used.
 > 
-> A fatal error would be nice.... anything that was 2.0 compatible should
-> be fatal, but I don't know if you would want it to make it fatal for
-> non-2.0 compatible (i.e. existing) layers, as it might break some
-> existing uses (or maybe we don't care about that?).
+> I'm unsure whether there are valid uses.
 
-It's independent of Yocto Compatible 2.0. The image type inheritance
-issue I mentioned is a basic usability problem, and this TARGET_SYS
-dependency looks like a genuine bug to me.
+Perhaps this one is a valid one:
 
-> > Do we want some suppression mechanism? Something like:
-> > 
-> > require ${PARSE_TIME_EVALUATION}${FOO}
-> > 
-> > where PARSE_TIME_EVALUATION is unset, but can be checked for in the
-> > code
-> > that normally would print the warning?
-> 
-> Is there a currently known valid use for such a thing?
+WARNING: .../libgcc-initial_6.3.bb:1: include/require/inherit "recipes-devtools/gcc/gcc-${PV}.inc" resulted in including "recipes-devtools/gcc/gcc-6.3.inc" while parsing. Variables effecting the parameter changed later such that "recipes-devtools/gcc/gcc-6.3.0.inc" would have been included at the end of the recipe.
 
-Using LAYERDIR is one, although that particular example is probably
-better caught by looking for that particular variable instead of
-annotating all places where it gets used.
-
-I'm unsure whether there are valid uses. I'm just worried that by the
-time someone shows up with one, it will be too late to add a suppression
-mechanism (as in "I've just updated from 2.3 to 2.4, how do I disable
-this warning?").
-
->  I'd just as soon
-> add it once we know it is needed (otherwise, the top search result for
-> "conditional invariance violation" will end up being some blog that
-> says "Just prefix it with ${PARSE_TIME_EVALUATION} and everything will
-> be fine" :)
-
-I would add such an explanation to the error message itself and warn
-about using it, then hopefully no-one writes such stupid blog posts ;-}
+PV changes, but that must have been anticipated as it clearly works as
+intended.
 
 -- 
 Best Regards, Patrick Ohly
