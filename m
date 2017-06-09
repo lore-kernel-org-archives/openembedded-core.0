@@ -1,47 +1,33 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qt0-f172.google.com (mail-qt0-f172.google.com
-	[209.85.216.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 4968B7828D
+Return-Path: <jose.perez.carranza@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id A7D4A7828D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  9 Jun 2017 12:51:54 +0000 (UTC)
-Received: by mail-qt0-f172.google.com with SMTP id u19so74330219qta.3
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 09 Jun 2017 05:51:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=B92d7lHJnAfaPvMhCou9rUYyEVd/gYzdfJmikdDZbBc=;
-	b=VG0iDYf85wwBH7Hg3Hg5WsvUz033Pb9M1jAcfxxFqBJ4z80l7Rd+v61FYym8j3B7qb
-	L7EffTBBZu044SnjKOePYCNo7fM6dVQ+XgVaKd5BuKboNJcC84onohtB2+3JWYAKnd0w
-	caIYbmsi8ECmsUg5aXNYWba2aI6ZiUnFYYObOatZJEXxC/iABGxkEBsaAw+BMtm5VhIO
-	FQ3Y7hOV1eFWNEaorRHu7YYrAVNF7hJ4kDGNsT4VSgktc5WlfSWp9eu1r2588o+gkPn+
-	uIxOwGDMve3/xVaNGlLoD9BASu7VkUWSt2gakfkwh0xYOfNqchNbpXtGhvI4lD8uE64S
-	BGag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=B92d7lHJnAfaPvMhCou9rUYyEVd/gYzdfJmikdDZbBc=;
-	b=d/vD7T0eE4hyMTAIwtJbaUxtP1Ma3X/4AF/B3YtOUFhtwUNA1c2jI3YiLlrsKVYw5Y
-	/im5TITwdu2DXrsDe1rnLjaV5z+yIqMU88V1IIRb0Y3921kFz6+WHJhsAgeNxY2T5hXs
-	5ZWaYD++DurDxztKjSu711eil4ccUOdJKevb6zIy4oN8GGTtHTM5b7dCkAAt7+QJ+8k8
-	fm56bKmxGOdqPdjIBV5c4bhDsx4Jq6JFpb4pFp0fFAfYWHsKlHs+m3ptLjQbsWA9XGSk
-	j/77WBmTercXUaembI6U3LqdDEsprwiaa43mHJ66VzRCSsbQUa9w2dZsCewcW0EBXloK
-	YFhA==
-X-Gm-Message-State: AKS2vOxA2HEZGQ65tWAJV0i9oYtZHmhxEoRzOea3ysetipE8ZOu7+IbR
-	sdjS6WdC2k7EjWin9XsYduvNam8xtm0U
-X-Received: by 10.55.221.24 with SMTP id n24mr28887631qki.46.1497012715979;
-	Fri, 09 Jun 2017 05:51:55 -0700 (PDT)
+	Fri,  9 Jun 2017 12:52:11 +0000 (UTC)
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	09 Jun 2017 05:52:12 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.39,317,1493708400"; d="scan'208";a="112913580"
+Received: from jgperezc-mobl1.zpn.intel.com (HELO [10.219.4.33])
+	([10.219.4.33])
+	by fmsmga006.fm.intel.com with ESMTP; 09 Jun 2017 05:52:11 -0700
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>,
+	"Burton, Ross" <ross.burton@intel.com>
+References: <a5c78ee6-8320-7508-18d1-16762bed364c@linux.intel.com>
+	<20170515135023.4090-1-jose.perez.carranza@linux.intel.com>
+	<CAJTo0LYe=7Ug3wJSWwPX5VT=cy7GDe0Kf79uPFmC1tMj-0b-6Q@mail.gmail.com>
+	<e1d6c111-bd9d-af76-ae44-d6921c723ba6@linux.intel.com>
+	<f3d6469c-b0a8-6f75-7c02-e8afd0cf04bd@linux.intel.com>
+	<77fb98df-ff8a-c3d7-c995-7c8de3c4cf3d@linux.intel.com>
+From: Jose Perez Carranza <jose.perez.carranza@linux.intel.com>
+Message-ID: <7026ae1f-e4d1-d712-5636-580c8c658fe0@linux.intel.com>
+Date: Fri, 9 Jun 2017 07:54:20 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.1.0
 MIME-Version: 1.0
-Received: by 10.140.35.103 with HTTP; Fri, 9 Jun 2017 05:51:35 -0700 (PDT)
-In-Reply-To: <20170608204022.427-1-leonardo.sandoval.gonzalez@linux.intel.com>
-References: <20170608204022.427-1-leonardo.sandoval.gonzalez@linux.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 9 Jun 2017 13:51:35 +0100
-Message-ID: <CAJTo0LZHv-h9Kna7o1HXc8n+XaxTbYtW_=+vbFOd79KgKD=-tA@mail.gmail.com>
-To: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+In-Reply-To: <77fb98df-ff8a-c3d7-c995-7c8de3c4cf3d@linux.intel.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] context: allow test execution with buildhistory unless version-going-backwards is present
+Subject: Re: [PATCH v3] runtime/dnf: Add new dnf test cases
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,47 +40,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 Jun 2017 12:51:55 -0000
-Content-Type: multipart/alternative; boundary="001a11466c482939260551866fad"
+X-List-Received-Date: Fri, 09 Jun 2017 12:52:11 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 
---001a11466c482939260551866fad
-Content-Type: text/plain; charset="UTF-8"
+Thank you Alex !
 
-On 8 June 2017 at 21:40, <leonardo.sandoval.gonzalez@linux.intel.com> wrote:
+I will work on a patch with your approach
 
-> -        if "buildhistory.bbclass" in self.tc.td["BBINCLUDED"]:
-> +        # buildhistory introduce QA 'version-going-backwards' errors so
-> stop if the latter are enabled
-> +        if "buildhistory.bbclass" in self.tc.td["BBINCLUDED"] and
-> 'version-going-backwards' in self.tc.td['ERROR_QA']:
+On 06/09/2017 04:22 AM, Alexander Kanavin wrote:
+> On 06/08/2017 07:35 PM, Alexander Kanavin wrote:
+>> I haven't been able to reproduce the installroot failure, works fine 
+>> here.
+>
+> The installroot issue is most likely due to dnf architectures not 
+> being properly configured (which causes breakage when the architecture 
+> is not one of the standard ones that the upstream has hardcoded). Yes, 
+> the error message is unhelpful and leads one to think the repo is 
+> somehow broken or is missing packages :)
+>
+> Copy the contents of /etc/rpm and /etc/dnf into installroot dir before 
+> running dnf, and you should be good to go. Test on x32, for example.
+>
+> Alex
 >
 
-Would it be possible instead to remove version-going-backwards from
-ERROR_QA?
+-- 
+Saludos
+José
 
-Ross
 
---001a11466c482939260551866fad
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 8 June 2017 at 21:40,  <span dir=3D"ltr">&lt;<a href=3D"mailto:leonardo.=
-sandoval.gonzalez@linux.intel.com" target=3D"_blank">leonardo.sandoval.gonz=
-alez@linux.intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_qu=
-ote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex=
-"><div id=3D":1zq" class=3D"a3s aXjCH m15c8970c82c744b9">-=C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 if &quot;buildhistory.bbclass&quot; in <a href=3D"http://self.tc=
-.td" rel=3D"noreferrer" target=3D"_blank">self.tc.td</a>[&quot;BBINCLUDED&q=
-uot;]:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 # buildhistory introduce QA &#39;version-going=
--backwards&#39; errors so stop if the latter are enabled<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if &quot;buildhistory.bbclass&quot; in <a href=
-=3D"http://self.tc.td" rel=3D"noreferrer" target=3D"_blank">self.tc.td</a>[=
-&quot;BBINCLUDED&quot;] and &#39;version-going-backwards&#39; in <a href=3D=
-"http://self.tc.td" rel=3D"noreferrer" target=3D"_blank">self.tc.td</a>[&#3=
-9;ERROR_QA&#39;]:<br></div></blockquote></div><br>Would it be possible inst=
-ead to remove version-going-backwards from ERROR_QA?</div><div class=3D"gma=
-il_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
-
---001a11466c482939260551866fad--
