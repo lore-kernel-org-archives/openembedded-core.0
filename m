@@ -1,56 +1,55 @@
 Return-Path: <peter.kjellerstedt@axis.com>
 Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
-	by mail.openembedded.org (Postfix) with ESMTP id 2C018782DD
+	by mail.openembedded.org (Postfix) with ESMTP id 2CEB5782DE
 	for <openembedded-core@lists.openembedded.org>;
 	Fri,  9 Jun 2017 19:34:43 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by bes.se.axis.com (Postfix) with ESMTP id 1F9272E6C2
+	by bes.se.axis.com (Postfix) with ESMTP id 05F9E2E6E7
 	for <openembedded-core@lists.openembedded.org>;
 	Fri,  9 Jun 2017 21:34:43 +0200 (CEST)
-X-Axis-NonUser-Spam: YES
 X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
 Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
 	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id bXf0P57jdEtL
+	port 10024) with LMTP id B0zr1F6lt8dS
 	for <openembedded-core@lists.openembedded.org>;
 	Fri,  9 Jun 2017 21:34:42 +0200 (CEST)
-Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
-	by bes.se.axis.com (Postfix) with ESMTPS id 59DEC2E6C3
+Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
+	by bes.se.axis.com (Postfix) with ESMTPS id 3586A2E6C2
 	for <openembedded-core@lists.openembedded.org>;
 	Fri,  9 Jun 2017 21:34:42 +0200 (CEST)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 457181A089
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 23A231E07A
 	for <openembedded-core@lists.openembedded.org>;
 	Fri,  9 Jun 2017 21:34:42 +0200 (CEST)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 39B5F1A088
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 18E431E07D
 	for <openembedded-core@lists.openembedded.org>;
 	Fri,  9 Jun 2017 21:34:42 +0200 (CEST)
 Received: from seth.se.axis.com (unknown [10.0.2.172])
-	by boulder02.se.axis.com (Postfix) with ESMTP
+	by boulder03.se.axis.com (Postfix) with ESMTP
 	for <openembedded-core@lists.openembedded.org>;
 	Fri,  9 Jun 2017 21:34:42 +0200 (CEST)
 Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
-	by seth.se.axis.com (Postfix) with ESMTP id 2DD852C15
+	by seth.se.axis.com (Postfix) with ESMTP id 0D5532C15
 	for <openembedded-core@lists.openembedded.org>;
 	Fri,  9 Jun 2017 21:34:42 +0200 (CEST)
 Received: from saur-2.se.axis.com (localhost [127.0.0.1])
-	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id v59JYgKs010959
+	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id v59JYgKk010955
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 9 Jun 2017 21:34:42 +0200
 Received: (from pkj@localhost)
-	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id v59JYgcJ010958
+	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id v59JYgW2010954
 	for openembedded-core@lists.openembedded.org;
 	Fri, 9 Jun 2017 21:34:42 +0200
 From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  9 Jun 2017 21:34:24 +0200
-Message-Id: <34ba7db0a1f81057a5713104ebdeb937c4af815a.1497036762.git.pkj@axis.com>
+Date: Fri,  9 Jun 2017 21:34:23 +0200
+Message-Id: <f0852ef44baa55da0980825ec546dd889c624579.1497036762.git.pkj@axis.com>
 X-Mailer: git-send-email 2.12.0
 In-Reply-To: <cover.1497036762.git.pkj@axis.com>
 References: <cover.1497036762.git.pkj@axis.com>
 X-TM-AS-GCONF: 00
-Subject: [PATCH 02/13] libxml2: Make ptest run the Python tests if Python support is enabled
+Subject: [PATCH 01/13] package_manager.py: Generate correct RPM package names again
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -65,164 +64,44 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 09 Jun 2017 19:34:44 -0000
 
-Since we go through the trouble of copying the Python tests, we may as
-well actually run them...
+During the transition to RPM4, the package names returned by
+RpmPM.list_installed() changed from the expected names of the packages
+that were installed into the image to some fictitious source RPM
+names.
 
-This also avoids the following QA issue:
-
-  ERROR: libxml2-2.9.4-r0 do_package_qa: QA Issue:
-  /usr/lib/libxml2/ptest/python/tests/push.py contained in package
-  libxml2-ptest requires /usr/bin/python, but no providers found in
-  RDEPENDS_libxml2-ptest? [file-rdeps]
+This restores the original functionality so that the
+installed-packages.txt files produced by inheriting buildhistory yet
+again contains a list of the names of the installed packages.
 
 Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 ---
- ...run-the-python-tests-if-python-is-enabled.patch | 99 ++++++++++++++++++++++
- meta/recipes-core/libxml/libxml2_2.9.4.bb          | 11 ++-
- 2 files changed, 108 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-core/libxml/libxml2/0001-Make-ptest-run-the-python-tests-if-python-is-enabled.patch
+ meta/lib/oe/package_manager.py | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-core/libxml/libxml2/0001-Make-ptest-run-the-python-tests-if-python-is-enabled.patch b/meta/recipes-core/libxml/libxml2/0001-Make-ptest-run-the-python-tests-if-python-is-enabled.patch
-new file mode 100644
-index 0000000000..d1ad55116a
---- /dev/null
-+++ b/meta/recipes-core/libxml/libxml2/0001-Make-ptest-run-the-python-tests-if-python-is-enabled.patch
-@@ -0,0 +1,99 @@
-+From 78dbd4c09d617a9cb730d796f94ee4d93840d3cc Mon Sep 17 00:00:00 2001
-+From: Peter Kjellerstedt <pkj@axis.com>
-+Date: Fri, 9 Jun 2017 17:50:46 +0200
-+Subject: [PATCH] Make ptest run the python tests if python is enabled
-+
-+One of the tests (tstLastError.py) needed a minor correction. It might
-+be due to the fact that the tests are forced to run with Python 3.
-+
-+Upstream-Status: Inappropriate [OE specific]
-+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-+---
-+ Makefile.am                  |  2 +-
-+ python/Makefile.am           |  9 +++++++++
-+ python/tests/Makefile.am     | 12 ++++++++++--
-+ python/tests/tstLastError.py |  2 +-
-+ 4 files changed, 21 insertions(+), 4 deletions(-)
-+
-+diff --git a/Makefile.am b/Makefile.am
-+index e181ee0..7960e7d 100644
-+--- a/Makefile.am
-++++ b/Makefile.am
-+@@ -207,9 +207,9 @@ install-ptest:
-+ 	install $(noinst_PROGRAMS) $(DESTDIR))
-+ 	cp -r $(srcdir)/test $(DESTDIR)
-+ 	cp -r $(srcdir)/result $(DESTDIR)
-+-	cp -r $(srcdir)/python $(DESTDIR)
-+ 	cp Makefile $(DESTDIR)
-+ 	sed -i -e 's|^Makefile:|_Makefile:|' $(DESTDIR)/Makefile
-++	$(MAKE) -C python install-ptest
-+ 
-+ runtests:
-+ 	[ -d test   ] || $(LN_S) $(srcdir)/test   .
-+diff --git a/python/Makefile.am b/python/Makefile.am
-+index 34aed96..ba3ec6a 100644
-+--- a/python/Makefile.am
-++++ b/python/Makefile.am
-+@@ -48,7 +48,16 @@ GENERATED = libxml2class.py libxml2class.txt $(BUILT_SOURCES)
-+ 
-+ $(GENERATED): $(srcdir)/generator.py $(API_DESC)
-+ 	$(PYTHON) $(srcdir)/generator.py $(srcdir)
-++
-++install-ptest:
-++	cp -r $(srcdir) $(DESTDIR)
-++	sed -e 's|^Makefile:|_Makefile:|' \
-++	    -e 's|^\(tests test:\) all|\1|' Makefile >$(DESTDIR)/python/Makefile
-++	$(MAKE) -C tests install-ptest
-++else
-++install-ptest:
-+ endif
-+ 
-++.PHONY: tests test
-+ tests test: all
-+ 	cd tests && $(MAKE) tests
-+diff --git a/python/tests/Makefile.am b/python/tests/Makefile.am
-+index 95ebead..418e21e 100644
-+--- a/python/tests/Makefile.am
-++++ b/python/tests/Makefile.am
-+@@ -59,6 +59,11 @@ XMLS=		\
-+ CLEANFILES = core tmp.xml *.pyc
-+ 
-+ if WITH_PYTHON
-++install-ptest:
-++	cp -r $(srcdir) $(DESTDIR)/python
-++	sed -e 's|^Makefile:|_Makefile:|' \
-++	    -e 's|^\(srcdir = \).*|\1.|' Makefile >$(DESTDIR)/python/tests/Makefile
-++
-+ tests: $(PYTESTS)
-+ 	@for f in $(XMLS) ; do test -f $$f || $(LN_S) $(srcdir)/$$f . ; done
-+ 	@echo "## running Python regression tests"
-+@@ -68,8 +73,11 @@ tests: $(PYTESTS)
-+ 	   export LD_LIBRARY_PATH; \
-+ 	   for test in $(PYTESTS) ; \
-+ 	   do log=`$(PYTHON) $(srcdir)/$$test` ; \
-+-	   if [ "`echo $$log | grep OK`" = "" ] ; then \
-+-	   echo "-- $$test" ; echo "$$log" ; fi ; done)
-++	   if [ "`echo $$log | grep OK`" ]; then \
-++	   echo "PASS: $$test"; else \
-++	   echo "$$log"; echo "FAIL: $$test"; fi; done)
-+ else
-++install-ptest:
-++
-+ tests:
-+ endif
-+diff --git a/python/tests/tstLastError.py b/python/tests/tstLastError.py
-+index d5f9be7..3e5bef8 100755
-+--- a/python/tests/tstLastError.py
-++++ b/python/tests/tstLastError.py
-+@@ -25,7 +25,7 @@ class TestCase(unittest.TestCase):
-+         when the exception is raised, check the libxml2.lastError for
-+         expected values."""
-+         # disable the default error handler
-+-        libxml2.registerErrorHandler(None,None)
-++        libxml2.registerErrorHandler(lambda ctx,str: None,None)
-+         try:
-+             f(*args)
-+         except exc:
-+-- 
-+2.12.0
-+
-diff --git a/meta/recipes-core/libxml/libxml2_2.9.4.bb b/meta/recipes-core/libxml/libxml2_2.9.4.bb
-index ea0d3b88af..4f60781d22 100644
---- a/meta/recipes-core/libxml/libxml2_2.9.4.bb
-+++ b/meta/recipes-core/libxml/libxml2_2.9.4.bb
-@@ -24,7 +24,8 @@ SRC_URI = "ftp://xmlsoft.org/libxml2/libxml2-${PV}.tar.gz;name=libtar \
-            file://libxml2-CVE-2016-4658.patch \
-            file://libxml2-fix_NULL_pointer_derefs.patch \
-            file://CVE-2016-9318.patch \
--          "
-+           file://0001-Make-ptest-run-the-python-tests-if-python-is-enabled.patch \
-+           "
+diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
+index f1b65bdbbc..caccd7baa9 100644
+--- a/meta/lib/oe/package_manager.py
++++ b/meta/lib/oe/package_manager.py
+@@ -647,7 +647,7 @@ class RpmPM(PackageManager):
+                             symlinks=True)
  
- SRC_URI[libtar.md5sum] = "ae249165c173b1ff386ee8ad676815f5"
- SRC_URI[libtar.sha256sum] = "ffb911191e509b966deb55de705387f14156e1a56b21824357cdf0053233633c"
-@@ -43,7 +44,7 @@ inherit autotools pkgconfig binconfig-disabled ptest
- 
- inherit ${@bb.utils.contains('PACKAGECONFIG', 'python', 'python3native', '', d)}
- 
--RDEPENDS_${PN}-ptest += "make ${@bb.utils.contains('PACKAGECONFIG', 'python', 'python3-core', '', d)}"
-+RDEPENDS_${PN}-ptest += "make ${@bb.utils.contains('PACKAGECONFIG', 'python', 'libgcc python3-core python3-argparse python3-logging python3-shell python3-signal python3-stringold python3-threading python3-unittest ${PN}-python', '', d)}"
- 
- RDEPENDS_${PN}-python += "${@bb.utils.contains('PACKAGECONFIG', 'python', 'python3-core', '', d)}"
- 
-@@ -77,6 +78,12 @@ do_configure_prepend () {
- 
- do_install_ptest () {
- 	cp -r ${WORKDIR}/xmlconf ${D}${PTEST_PATH}
-+	if [ "${@bb.utils.filter('PACKAGECONFIG', 'python', d)}" ]; then
-+		sed -i -e 's|^\(PYTHON = \).*|\1${USRBINPATH}/${PYTHON_PN}|' \
-+		    ${D}${PTEST_PATH}/python/tests/Makefile
-+		grep -lrZ '#!/usr/bin/python' ${D}${PTEST_PATH}/python |
-+			xargs -0 sed -i -e 's|/usr/bin/python|${USRBINPATH}/${PYTHON_PN}|'
-+	fi
- }
- 
- do_install_append_class-native () {
+     def list_installed(self):
+-        output = self._invoke_dnf(["repoquery", "--installed", "--queryformat", "Package: %{name} %{arch} %{version} %{sourcerpm}\nDependencies:\n%{requires}\nRecommendations:\n%{recommends}\nDependenciesEndHere:\n"],
++        output = self._invoke_dnf(["repoquery", "--installed", "--queryformat", "Package: %{name} %{arch} %{version} %{name}-%{version}-%{release}.%{arch}.rpm\nDependencies:\n%{requires}\nRecommendations:\n%{recommends}\nDependenciesEndHere:\n"],
+                                   print_output = False)
+         packages = {}
+         current_package = None
+@@ -659,8 +659,8 @@ class RpmPM(PackageManager):
+                 current_package = package_info[0]
+                 package_arch = package_info[1]
+                 package_version = package_info[2]
+-                package_srpm = package_info[3]
+-                packages[current_package] = {"arch":package_arch, "ver":package_version, "filename":package_srpm}
++                package_rpm = package_info[3]
++                packages[current_package] = {"arch":package_arch, "ver":package_version, "filename":package_rpm}
+                 current_deps = []
+             elif line.startswith("Dependencies:"):
+                 current_state = "dependencies"
 -- 
 2.12.0
 
