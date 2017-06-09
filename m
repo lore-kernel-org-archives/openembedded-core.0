@@ -1,25 +1,38 @@
-Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 53CCB78286
+Return-Path: <tom.rini@gmail.com>
+Received: from mail-yw0-f196.google.com (mail-yw0-f196.google.com
+	[209.85.161.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 7FD0778267
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Jun 2017 21:06:29 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	08 Jun 2017 14:06:30 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.39,315,1493708400"; d="scan'208";a="97265262"
-Received: from lsandov1-mobl2.zpn.intel.com ([10.219.128.119])
-	by orsmga002.jf.intel.com with ESMTP; 08 Jun 2017 14:06:30 -0700
-Message-ID: <1496956519.26945.171.camel@linux.intel.com>
-From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Date: Thu, 08 Jun 2017 16:15:19 -0500
-In-Reply-To: <cover.1496932793.git.alexander.kanavin@linux.intel.com>
-References: <cover.1496932793.git.alexander.kanavin@linux.intel.com>
-X-Mailer: Evolution 3.12.9-1+b1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCHv2 0/2] Multi-threaded RPM support
+	Fri,  9 Jun 2017 00:00:27 +0000 (UTC)
+Received: by mail-yw0-f196.google.com with SMTP id p144so2772135ywp.2
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 08 Jun 2017 17:00:28 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=Y/DKNXFde0JWIUkvqgweCEkmhLWNhyKeKUbxKrX5OYM=;
+	b=lmBOeUKtGvv9h5d213Tzb6/aI7QkIfpdBFk636yRHm7jpFUpoQNNdIGokrQAxiM+Ag
+	bCOaxCSV6tLoApzZ0yiW//gFoqQ2SjlYzvLMJ4DJVMrU9KHobdv3/h5044H2KZkanku7
+	gGkOkD5lDQvC+lFMKZv07f7WH3zFg55YVvnwEHFLE0+zVfufFBEGEiwXhALkUR6RS/kH
+	50q9OEWiyfBgkoCU7P7N2rUX3AT+RLPr2/XjSB1JiYqxzhME11pJL/ISVZyX3TY/DcnB
+	oWHIWOfVOrhM7SJfUkWlL+9CMGz4723XPfz7POv3jGnNdkW7ZHQRq8UJxsW/a9tQKPQG
+	eQWg==
+X-Gm-Message-State: AODbwcBh2zi1968l6vsSRfD2gDP41ux7c0e0x0XKVfjs9VkTfQvr8Kmq
+	Bbm4dfYbwz4ZLWGs
+X-Received: by 10.13.196.4 with SMTP id g4mr1674829ywd.266.1496966427032;
+	Thu, 08 Jun 2017 17:00:27 -0700 (PDT)
+Received: from localhost.localdomain (cpe-75-180-228-133.ec.res.rr.com.
+	[75.180.228.133]) by smtp.gmail.com with ESMTPSA id
+	w191sm3085796ywg.10.2017.06.08.17.00.25
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 08 Jun 2017 17:00:26 -0700 (PDT)
+From: Tom Rini <trini@konsulko.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  8 Jun 2017 20:00:39 -0400
+Message-Id: <1496966441-30260-1-git-send-email-trini@konsulko.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH 1/3] cpan-base.bbclass: Move PERLVERSION logic to a new file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,86 +45,93 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Jun 2017 21:06:30 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 09 Jun 2017 00:00:27 -0000
 
-On Thu, 2017-06-08 at 17:42 +0300, Alexander Kanavin wrote:
-> Changes in version 2: use openmp for multi-processing instead of NSPR library, as
-> requested by upstream. Add a link to the upstream submission to patches.
-> 
-> These two patches add multi-threaded features to RPM to speed up the do_package_write_rpm task.
-> 
-> Specifically:
-> 
-> 1) Multi-threaded xz compressor is used instead of default single-threaded gz. This has the most
-> dramatic effect when a recipe produces a smaller number of large-sized packages.
-> 
-> 2) Packages creation is run in multiple threads via thread pools. This is most beneficial when
-> a recipe produces a large amount of small packages.
-> 
-> Some not very scientific benchmarks for time and .rpm sizes
-> (time is measured for do_package_write_rpm tasks only):
-> 
+It is possible for non-CPAN recipes to contain perl modules.  These perl
+modules must reside in the versioned perl library directory in order to
+work in normal circumstances..  Export this logic to a separate class so
+that it can be reused without the rest of the cpan logic.
 
-Tried v2 again and I am getting this problem (segmentation faults):
+Without this, dpkg will not export its perl code to the correct location
+and will not be found by utilities that expect to use it.
 
-http://errors.yoctoproject.org/Errors/Build/38812/
+Signed-off-by: Tom Rini <trini@konsulko.com>
+---
+ meta/classes/cpan-base.bbclass    | 24 +-----------------------
+ meta/classes/perl-version.bbclass | 24 ++++++++++++++++++++++++
+ 2 files changed, 25 insertions(+), 23 deletions(-)
+ create mode 100644 meta/classes/perl-version.bbclass
 
-
-The idea I have is to get some numbers from buildstats and have better
-insight of the impact of this series. BTW, I tried core-image-sato.
-
-
-
-> webkitgtk
-> before: 9m12s 1550M
-> after: 1m40s 858M
-> 
-> glibc-locale
-> before: 2m52s 125M
-> after: 30s 56M
-> 
-> glibc
-> before: 46s 54M
-> after: 13s 38M
-> 
-> perl
-> before: 1m09s 63M
-> after: 45s 42M
-> 
-> python3
-> before: 30s 38M
-> after: 18s 24M
-> 
-> The following changes since commit 576821ea0a7558b626ccc87e9ae0e9ee40864956:
-> 
->   bitbake: bitbake-layers: check layer dependencies before adding (2017-06-06 19:52:51 +0100)
-> 
-> are available in the git repository at:
-> 
->   git://git.yoctoproject.org/poky-contrib akanavin/parallel-rpm
->   http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=akanavin/parallel-rpm
-> 
-> Alexander Kanavin (2):
->   package_rpm.bbclass: use multithreaded xz compression
->   rpm: run binary package generation via thread pools
-> 
->  meta/classes/package_rpm.bbclass                   |   2 +
->  ...y-package-building-into-a-separate-functi.patch |  83 ++++++++
->  ...-binary-package-creation-via-thread-pools.patch | 125 ++++++++++++
->  ...c-make-operations-over-string-pools-threa.patch | 207 ++++++++++++++++++++
->  ...c-remove-static-local-variables-from-buil.patch | 216 +++++++++++++++++++++
->  meta/recipes-devtools/rpm/rpm_git.bb               |   4 +
->  6 files changed, 637 insertions(+)
->  create mode 100644 meta/recipes-devtools/rpm/files/0001-Split-binary-package-building-into-a-separate-functi.patch
->  create mode 100644 meta/recipes-devtools/rpm/files/0002-Run-binary-package-creation-via-thread-pools.patch
->  create mode 100644 meta/recipes-devtools/rpm/files/0003-rpmstrpool.c-make-operations-over-string-pools-threa.patch
->  create mode 100644 meta/recipes-devtools/rpm/files/0004-build-pack.c-remove-static-local-variables-from-buil.patch
-> 
-> -- 
-> 2.11.0
-> 
-
+diff --git a/meta/classes/cpan-base.bbclass b/meta/classes/cpan-base.bbclass
+index 55ac0526953a..577fcd63ce9f 100644
+--- a/meta/classes/cpan-base.bbclass
++++ b/meta/classes/cpan-base.bbclass
+@@ -7,27 +7,7 @@ FILES_${PN} += "${libdir}/perl ${datadir}/perl"
+ DEPENDS  += "${@["perl", "perl-native"][(bb.data.inherits_class('native', d))]}"
+ RDEPENDS_${PN} += "${@["perl", ""][(bb.data.inherits_class('native', d))]}"
+ 
+-PERL_OWN_DIR = "${@["", "/perl-native"][(bb.data.inherits_class('native', d))]}"
+-
+-# Determine the staged version of perl from the perl configuration file
+-# Assign vardepvalue, because otherwise signature is changed before and after
+-# perl is built (from None to real version in config.sh).
+-get_perl_version[vardepvalue] = "${PERL_OWN_DIR}"
+-def get_perl_version(d):
+-    import re
+-    cfg = d.expand('${STAGING_LIBDIR}${PERL_OWN_DIR}/perl/config.sh')
+-    try:
+-        f = open(cfg, 'r')
+-    except IOError:
+-        return None
+-    l = f.readlines();
+-    f.close();
+-    r = re.compile("^version='(\d*\.\d*\.\d*)'")
+-    for s in l:
+-        m = r.match(s)
+-        if m:
+-            return m.group(1)
+-    return None
++inherit perl-version
+ 
+ def is_target(d):
+     if not bb.data.inherits_class('native', d):
+@@ -36,5 +16,3 @@ def is_target(d):
+ 
+ PERLLIBDIRS = "${libdir}/perl"
+ PERLLIBDIRS_class-native = "${libdir}/perl-native"
+-PERLVERSION := "${@get_perl_version(d)}"
+-PERLVERSION[vardepvalue] = ""
+diff --git a/meta/classes/perl-version.bbclass b/meta/classes/perl-version.bbclass
+new file mode 100644
+index 000000000000..fafe68a775f7
+--- /dev/null
++++ b/meta/classes/perl-version.bbclass
+@@ -0,0 +1,24 @@
++PERL_OWN_DIR = "${@["", "/perl-native"][(bb.data.inherits_class('native', d))]}"
++
++# Determine the staged version of perl from the perl configuration file
++# Assign vardepvalue, because otherwise signature is changed before and after
++# perl is built (from None to real version in config.sh).
++get_perl_version[vardepvalue] = "${PERL_OWN_DIR}"
++def get_perl_version(d):
++    import re
++    cfg = d.expand('${STAGING_LIBDIR}${PERL_OWN_DIR}/perl/config.sh')
++    try:
++        f = open(cfg, 'r')
++    except IOError:
++        return None
++    l = f.readlines();
++    f.close();
++    r = re.compile("^version='(\d*\.\d*\.\d*)'")
++    for s in l:
++        m = r.match(s)
++        if m:
++            return m.group(1)
++    return None
++
++PERLVERSION := "${@get_perl_version(d)}"
++PERLVERSION[vardepvalue] = ""
+-- 
+1.9.1
 
 
