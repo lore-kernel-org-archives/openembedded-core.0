@@ -1,25 +1,61 @@
-Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id 5783D78299
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-it0-f43.google.com (mail-it0-f43.google.com
+	[209.85.214.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 1145578299
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  9 Jun 2017 14:10:55 +0000 (UTC)
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-	by orsmga105.jf.intel.com with ESMTP; 09 Jun 2017 07:10:57 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.39,317,1493708400"; d="scan'208";a="112945516"
-Received: from lsandov1-mobl2.zpn.intel.com ([10.219.128.119])
-	by fmsmga006.fm.intel.com with ESMTP; 09 Jun 2017 07:10:56 -0700
-Message-ID: <1497017987.26945.178.camel@linux.intel.com>
-From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 09 Jun 2017 09:19:47 -0500
-In-Reply-To: <CAJTo0LZHv-h9Kna7o1HXc8n+XaxTbYtW_=+vbFOd79KgKD=-tA@mail.gmail.com>
-References: <20170608204022.427-1-leonardo.sandoval.gonzalez@linux.intel.com>
-	<CAJTo0LZHv-h9Kna7o1HXc8n+XaxTbYtW_=+vbFOd79KgKD=-tA@mail.gmail.com>
+	Fri,  9 Jun 2017 14:11:58 +0000 (UTC)
+Received: by mail-it0-f43.google.com with SMTP id x129so1686388ite.0
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 09 Jun 2017 07:12:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:organization:mime-version:content-transfer-encoding;
+	bh=odymhwd91nBfuy1fgGaAKih8pHwSZo+cO1kvH/KyZRc=;
+	b=k0ewjE9cqgkIV/jYElBdpiqWHRIDioqu3sFtPyeA/4ZdTBY/OUOzmgk+RKXf/B+uz9
+	zq8L87auPIBUPpqobIQTbvVDKJ9KehK96pfUpIb19Lna3KolOrJUouB/bQRVBWPQ69HJ
+	kJ6yMhVrrTwAqAVSEEoKawmxY7vK8RkHyNOWWE2iRCcitWJkinngTKNaPEwqjV1VyOp+
+	pBOxSm5bK4pdUFmP2/MLoMz+STbMmu8cTOAOGBwH/yt6ZdcZaXGK2cmKFLrRUy2FXsci
+	Zfo0I9yYSWyO+icFiTthh2O18cIiVo7qVGBieM8VE8pUXQFLDwZ5Lj8d7/jxlPgcM7hr
+	1txQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:organization:mime-version:content-transfer-encoding;
+	bh=odymhwd91nBfuy1fgGaAKih8pHwSZo+cO1kvH/KyZRc=;
+	b=YYdu8Y/mggdqKdy8S3vb8A+zQ5xFZUTqDYW3zMZKb6srH3Sc2yWYNoGNsW2KEBSRIx
+	jIVbAjP11gQ8jESMZHs+A5us891iLnszFbMHggSsT1vDnRfFd2WihwM4PKFu6iutivFS
+	ooEgcd2/ng/bMwxxq1Y1BvuBAQ5F5bCgwk0Bw40Is4L2jpQTGr3yaiqVPRWJWUxopKwX
+	WATIIGksmYkHKxz0QK++R2/IxIdhOXJK3lsVVjhIj5/lrVXqU7GlBKIb0qQ2oPakTiBi
+	IV6FBC+sYAJ2VA9PpF55CbKrWicvCOGDXEEefCy2FTlYnlJtXsJjRGS1jOd5Fel26f4m
+	SVXQ==
+X-Gm-Message-State: AODbwcBRnDT/r+jQ2D5yfnqlhUeLDi2+x9eezsH8ZodB2qQLrKULT8DW
+	flL3+eR1wCrKPXoN
+X-Received: by 10.36.39.3 with SMTP id g3mr10745539ita.8.1497017519929;
+	Fri, 09 Jun 2017 07:11:59 -0700 (PDT)
+Received: from pohly-mobl1 (p5DE8C0DE.dip0.t-ipconnect.de. [93.232.192.222])
+	by smtp.gmail.com with ESMTPSA id l19sm497301ioe.3.2017.06.09.07.11.57
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 09 Jun 2017 07:11:58 -0700 (PDT)
+Message-ID: <1497017515.30163.193.camel@intel.com>
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: Joshua Watt <jpewhacker@gmail.com>
+Date: Fri, 09 Jun 2017 16:11:55 +0200
+In-Reply-To: <1497016077.3131.5.camel@gmail.com>
+References: <cover.8ea05a588020117b72a57015f699c7acd76b93e6.1496849345.git-series.patrick.ohly@intel.com>
+	<1496850184.21235.1.camel@gmail.com>
+	<1496912216.6630.225.camel@linuxfoundation.org>
+	<1496930142.8427.2.camel@gmail.com>
+	<1496932400.6630.250.camel@linuxfoundation.org>
+	<1496935714.8427.7.camel@gmail.com>
+	<1496950316.30163.152.camel@intel.com>
+	<1496995960.30163.175.camel@intel.com>
+	<1497016077.3131.5.camel@gmail.com>
+Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
 X-Mailer: Evolution 3.12.9-1+b1 
 Mime-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] context: allow test execution with buildhistory unless version-going-backwards is present
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 0/2] Yocto Compatible 2.0 support code
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,32 +68,113 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 Jun 2017 14:10:56 -0000
+X-List-Received-Date: Fri, 09 Jun 2017 14:11:59 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Fri, 2017-06-09 at 13:51 +0100, Burton, Ross wrote:
+On Fri, 2017-06-09 at 08:47 -0500, Joshua Watt wrote:
+> On Fri, 2017-06-09 at 10:12 +0200, Patrick Ohly wrote:
+> > On Thu, 2017-06-08 at 21:31 +0200, Patrick Ohly wrote:
+> > > On Thu, 2017-06-08 at 10:28 -0500, Joshua Watt wrote:
+> > > > Sure. I wouldn't suggest using an if statement for "just
+> > > > anything", you
+> > > > can surely do terrible things that way. It would (by convention)
+> > > > be
+> > > > restricted to the same sorts of things that the conditional
+> > > > includes
+> > > > allow now. On a similar token, you can do the same sorts of
+> > > > terrible
+> > > > things with conditional includes as currently proposed because it
+> > > > has
+> > > > the same enforcement policy (i.e. "by convention").
+> > > 
+> > > I'm starting to wonder whether this "convention" can be
+> > > strengthened
+> > > with additional warnings. The code which currently evaluates the
+> > > include
+> > > parameter could record in the datastore the original expression and
+> > > what
+> > > it evaluated to, then later when the recipe gets finalized, an
+> > > event
+> > > handler can check whether evaluating the expression still gives the
+> > > same
+> > > result.
+> > 
+> > Below is a quick-and-dirty proof of concept. Example bmap-tools_
+> > %.bbappend:
+> > 
+> >         FOO = "bmap-tools-deploy.inc"
+> >         require ${FOO}
+> >         FOO = ""
+> > 
+> > Example warning:
+> > 
+> > WARNING: .../bmap-tools/bmap-tools_3.2.bb: .../bmap-
+> > tools_%.bbappend:2: include/require/inherit "${FOO}" resulted in
+> > including "bmap-tools-deploy.inc" while parsing. Variables effecting
+> > the parameter changed later such that nothing would have been
+> > included at the end of the recipe.
 > 
-> On 8 June 2017 at 21:40, <leonardo.sandoval.gonzalez@linux.intel.com>
-> wrote:
->         -        if "buildhistory.bbclass" in
->         self.tc.td["BBINCLUDED"]:
->         +        # buildhistory introduce QA 'version-going-backwards'
->         errors so stop if the latter are enabled
->         +        if "buildhistory.bbclass" in self.tc.td["BBINCLUDED"]
->         and 'version-going-backwards' in self.tc.td['ERROR_QA']:
->         
-> 
-> Would it be possible instead to remove version-going-backwards from
-> ERROR_QA?
+> I like it. The error message could maybe use a little bit of work...
+> Maybe it needs some sort of short and unique key words in it, like
+> "conditional invariance violation" to help direct people who copy the
+> error into google when looking for an answer (or slightly better, grep
+> the Mega Manual).
 
-At the bug entry, there is a discussion around this. The idea is to keep
-buildhistory disable while oe-selftest is executing, but if user really
-needs this, 'force' the user to remove this check from the ERROR_QA
-string on his/her local.conf.
+When doing it as sanity.bbclass check it would have a short ID string.
+
+> > Should this warning be entirely in bitbake or should it become part
+> > of
+> > OE's sanity.bbclass? The latter would have the advantage that it
+> > could
+> > be configured as fatal error. The downside is that bitbake needs to
+> > export data, which implies adding a semi-stable API.
 > 
+> A fatal error would be nice.... anything that was 2.0 compatible should
+> be fatal, but I don't know if you would want it to make it fatal for
+> non-2.0 compatible (i.e. existing) layers, as it might break some
+> existing uses (or maybe we don't care about that?).
+
+It's independent of Yocto Compatible 2.0. The image type inheritance
+issue I mentioned is a basic usability problem, and this TARGET_SYS
+dependency looks like a genuine bug to me.
+
+> > Do we want some suppression mechanism? Something like:
+> > 
+> > require ${PARSE_TIME_EVALUATION}${FOO}
+> > 
+> > where PARSE_TIME_EVALUATION is unset, but can be checked for in the
+> > code
+> > that normally would print the warning?
 > 
-> Ross
+> Is there a currently known valid use for such a thing?
+
+Using LAYERDIR is one, although that particular example is probably
+better caught by looking for that particular variable instead of
+annotating all places where it gets used.
+
+I'm unsure whether there are valid uses. I'm just worried that by the
+time someone shows up with one, it will be too late to add a suppression
+mechanism (as in "I've just updated from 2.3 to 2.4, how do I disable
+this warning?").
+
+>  I'd just as soon
+> add it once we know it is needed (otherwise, the top search result for
+> "conditional invariance violation" will end up being some blog that
+> says "Just prefix it with ${PARSE_TIME_EVALUATION} and everything will
+> be fine" :)
+
+I would add such an explanation to the error message itself and warn
+about using it, then hopefully no-one writes such stupid blog posts ;-}
+
+-- 
+Best Regards, Patrick Ohly
+
+The content of this message is my personal opinion only and although
+I am an employee of Intel, the statements I make here in no way
+represent Intel's position on the issue, nor am I authorized to speak
+on behalf of Intel on this matter.
+
 
 
 
