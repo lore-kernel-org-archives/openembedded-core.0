@@ -1,42 +1,36 @@
-Return-Path: <tom.rini@gmail.com>
-Received: from mail-yw0-f193.google.com (mail-yw0-f193.google.com
-	[209.85.161.193])
-	by mail.openembedded.org (Postfix) with ESMTP id E1323781F3
+Return-Path: <denis@denix.org>
+Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.17])
+	by mail.openembedded.org (Postfix) with ESMTP id E0CF671BEE
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 11 Jun 2017 12:36:15 +0000 (UTC)
-Received: by mail-yw0-f193.google.com with SMTP id h82so5251457ywb.3
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 11 Jun 2017 05:36:17 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references:in-reply-to;
-	bh=TstDLeu+DqWp2f4BMsFf5bs2Hcnb3jdVKrsTxWzGJ1I=;
-	b=R8IdVjvfig7aqjQ9p0YtRYYxC8o4RoRV/ldqu5CqzHxZXobBq65UzkCkT1teSYkkdX
-	d6TRxw9pYy8v+5le3tSsZXCkVYgEiUGap0cxuKoz0vp3efxlejVlg+kki2p5N859PeUm
-	4aekbQaI2yRElcpTS0Do6uhRx5DMPfcxG4gFVF3uKM1L59loyVF1HjQtajsmCyHAF2T9
-	z/kvE23xj0aBItv+TBlbCrwEyO85XlkEkx1Y90WZR8pOXMv8BiU4BuTsTEv4zW92sult
-	6A6xG2vKCFnK+iwvuHI8crwgZLtzgph45AEVdBsg1HwLezrYm81Bo260JH/X3XpdIFa1
-	dbAQ==
-X-Gm-Message-State: AODbwcBu7ma4efzZcXpF+JZ3RcyGbU23bOcTfidbR4La1yiE7ttCIVZE
-	Bj00mJf2LyOedFHx
-X-Received: by 10.129.174.81 with SMTP id g17mr16082822ywk.53.1497184576676;
-	Sun, 11 Jun 2017 05:36:16 -0700 (PDT)
-Received: from localhost.localdomain (cpe-75-180-228-133.ec.res.rr.com.
-	[75.180.228.133]) by smtp.gmail.com with ESMTPSA id
-	v75sm2629901ywa.51.2017.06.11.05.36.15
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 11 Jun 2017 05:36:15 -0700 (PDT)
-From: Tom Rini <trini@konsulko.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sun, 11 Jun 2017 08:36:32 -0400
-Message-Id: <1497184592-28388-2-git-send-email-trini@konsulko.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1497184592-28388-1-git-send-email-trini@konsulko.com>
-References: <1497184592-28388-1-git-send-email-trini@konsulko.com>
-In-Reply-To: 1496966441-30260-2-git-send-email-trini@konsulko.com
-Subject: [PATCHv2 2/3] dpkg: Fix perl modules by moving them to the versioned perl directory
+	Sun, 11 Jun 2017 16:54:26 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by mailout4.zoneedit.com (Postfix) with ESMTP id 7432D20879;
+	Sun, 11 Jun 2017 16:54:27 +0000 (UTC)
+Received: from mailout4.zoneedit.com ([127.0.0.1])
+	by localhost (zmo03-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
+	port 10024)
+	with ESMTP id uY5EXGAxEG0a; Sun, 11 Jun 2017 16:54:27 +0000 (UTC)
+Received: from mail.denix.org (pool-100-15-85-143.washdc.fios.verizon.net
+	[100.15.85.143])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 53505204E0;
+	Sun, 11 Jun 2017 16:54:26 +0000 (UTC)
+Received: by mail.denix.org (Postfix, from userid 1000)
+	id CBA651624E9; Sun, 11 Jun 2017 12:54:25 -0400 (EDT)
+Date: Sun, 11 Jun 2017 12:54:25 -0400
+From: Denys Dmytriyenko <denis@denix.org>
+To: Trevor Woerner <twoerner@gmail.com>
+Message-ID: <20170611165425.GO28053@denix.org>
+References: <20170611064757.5937-1-twoerner@gmail.com>
+	<20170611070133.1039.98132@do.openembedded.org>
+	<CAHUNapQpfSojDV5MjE6cewKK39YjQ4d6stbLswCRxhfkG7iBuQ@mail.gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <CAHUNapQpfSojDV5MjE6cewKK39YjQ4d6stbLswCRxhfkG7iBuQ@mail.gmail.com>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: =?UTF-8?B?UmU6IOKclyBwYXRjaHRlc3Q6IGZhaWx1cmUgZm9yIG1lc2EuaW5jOiBwb3RlbnRpYWxseSBlbmFibGUgdGV4dHVyZSBmbG9hdCBmb3IgZ2FsbGl1bQ==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,70 +43,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 11 Jun 2017 12:36:16 -0000
+X-List-Received-Date: Sun, 11 Jun 2017 16:54:27 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-In order for the dpkg perl modules to be used the must reside in the
-versioned perl library directory (as to be in the default include path).
-Be explicit about this location in our FILES_${PN}-perl directive, so
-that if this breaks in the future, the recipe will fail).  We can now
-drop the custom do_configure as it wasn't fixing this problem.
+On Sun, Jun 11, 2017 at 03:09:39AM -0400, Trevor Woerner wrote:
+> On Sun, Jun 11, 2017 at 3:01 AM, Patchwork
+> <patchwork@patchwork.openembedded.org> wrote:
+> > * Issue             Added patch file is missing Upstream-Status in the header [test_upstream_status_presence]
+> >   Suggested fix    Add Upstream-Status: <status> to the header of meta/recipes-graphics/mesa/files/0002-hardware-gloat.patch (possible values: Pending, Submitted, Accepted, Backport, Denied, Inappropriate)
+> 
+> 
+> If I didn't write the patch, how am I responsible for its upstream status?
 
-Signed-off-by: Tom Rini <trini@konsulko.com>
----
-Changes in v2:
-Use ${@get_perl_version(d)} not $[PERLVERSION} as only the former
-evaluates correctly with per-recipe sysroots.
----
- meta/recipes-devtools/dpkg/dpkg.inc | 14 ++++----------
- 1 file changed, 4 insertions(+), 10 deletions(-)
-
-diff --git a/meta/recipes-devtools/dpkg/dpkg.inc b/meta/recipes-devtools/dpkg/dpkg.inc
-index 870117a3250c..3dd8193f7fa3 100644
---- a/meta/recipes-devtools/dpkg/dpkg.inc
-+++ b/meta/recipes-devtools/dpkg/dpkg.inc
-@@ -9,7 +9,7 @@ RDEPENDS_${PN}_class-native = ""
- 
- UPSTREAM_CHECK_URI = "${DEBIAN_MIRROR}/main/d/dpkg/"
- 
--inherit autotools gettext perlnative pkgconfig systemd
-+inherit autotools gettext perlnative pkgconfig systemd perl-version
- 
- python () {
-     if not bb.utils.contains('DISTRO_FEATURES', 'sysvinit', True, False, d):
-@@ -20,8 +20,8 @@ python () {
- export PERL = "${bindir}/perl"
- PERL_class-native = "${STAGING_BINDIR_NATIVE}/perl-native/perl"
- 
--export PERL_LIBDIR = "${libdir}/perl"
--PERL_LIBDIR_class-native = "${libdir}/perl-native/perl"
-+export PERL_LIBDIR = "${libdir}/perl/${@get_perl_version(d)}"
-+PERL_LIBDIR_class-native = "${libdir}/perl-native/perl/${@get_perl_version(d)}"
- 
- EXTRA_OECONF = "\
- 		--disable-dselect \
-@@ -37,12 +37,6 @@ PACKAGECONFIG[liblzma] = "--with-liblzma,--without-liblzma, xz"
- EXTRA_OECONF += "TAR=tar"
- EXTRA_OECONF_append_class-target = " DEB_HOST_ARCH=${DPKG_ARCH}"
- 
--do_configure () {
--    echo >> ${S}/m4/compiler.m4
--    sed -i -e 's#PERL_LIBDIR=.*$#PERL_LIBDIR="${libdir}/perl"#' ${S}/configure
--    autotools_do_configure
--}
--
- do_install_append () {
- 	if [ "${PN}" = "dpkg-native" ]; then
- 		# update-alternatives doesn't have an offline mode
-@@ -73,7 +67,7 @@ FILES_update-alternatives-dpkg = "${bindir}/update-alternatives ${localstatedir}
- RPROVIDES_update-alternatives-dpkg += "update-alternatives"
- 
- PACKAGES += "${PN}-perl"
--FILES_${PN}-perl = "${libdir}/perl"
-+FILES_${PN}-perl = "${libdir}/perl/${@get_perl_version(d)}"
- 
- # Split out start-stop-daemon to its own package.  Note that it
- # is installed in a different directory than the one used for
--- 
-1.9.1
-
+https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines#Patch_Header_Recommendations
 
