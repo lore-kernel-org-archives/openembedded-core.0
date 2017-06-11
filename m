@@ -1,35 +1,34 @@
 Return-Path: <denis@denix.org>
 Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.17])
-	by mail.openembedded.org (Postfix) with ESMTP id EC8EA6FEE0
+	by mail.openembedded.org (Postfix) with ESMTP id 2F2666FEE0
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 11 Jun 2017 18:44:01 +0000 (UTC)
+	Sun, 11 Jun 2017 18:47:01 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by mailout4.zoneedit.com (Postfix) with ESMTP id E9C3320879;
-	Sun, 11 Jun 2017 18:44:02 +0000 (UTC)
+	by mailout4.zoneedit.com (Postfix) with ESMTP id AF99320879;
+	Sun, 11 Jun 2017 18:47:02 +0000 (UTC)
 Received: from mailout4.zoneedit.com ([127.0.0.1])
 	by localhost (zmo03-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
 	port 10024)
-	with ESMTP id pZ7o-Rj8LbrS; Sun, 11 Jun 2017 18:44:02 +0000 (UTC)
+	with ESMTP id bGIqTaSs7rVd; Sun, 11 Jun 2017 18:47:02 +0000 (UTC)
 Received: from mail.denix.org (pool-100-15-85-143.washdc.fios.verizon.net
 	[100.15.85.143])
 	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mailout4.zoneedit.com (Postfix) with ESMTPSA id C0142207AF;
-	Sun, 11 Jun 2017 18:44:00 +0000 (UTC)
+	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 8CC52207AF;
+	Sun, 11 Jun 2017 18:47:01 +0000 (UTC)
 Received: by mail.denix.org (Postfix, from userid 1000)
-	id 4EA4C1624EA; Sun, 11 Jun 2017 14:44:00 -0400 (EDT)
-Date: Sun, 11 Jun 2017 14:44:00 -0400
+	id 279D01624EA; Sun, 11 Jun 2017 14:47:01 -0400 (EDT)
+Date: Sun, 11 Jun 2017 14:47:01 -0400
 From: Denys Dmytriyenko <denis@denix.org>
-To: Khem Raj <raj.khem@gmail.com>
-Message-ID: <20170611184400.GP28053@denix.org>
-References: <20170611165839.26175-1-net147@gmail.com>
-	<CAMKF1spiqofNf6r_0v6Hg208zH38x13-pX09e9OfCTbiGHEyBg@mail.gmail.com>
+To: Patrick Ohly <patrick.ohly@intel.com>
+Message-ID: <20170611184701.GQ28053@denix.org>
+References: <cover.8ea05a588020117b72a57015f699c7acd76b93e6.1496849345.git-series.patrick.ohly@intel.com>
+	<cover.85d08ae286e0b2f8503f9e657148201e6b90edde.1497013310.git-series.patrick.ohly@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <CAMKF1spiqofNf6r_0v6Hg208zH38x13-pX09e9OfCTbiGHEyBg@mail.gmail.com>
+In-Reply-To: <cover.85d08ae286e0b2f8503f9e657148201e6b90edde.1497013310.git-series.patrick.ohly@intel.com>
 User-Agent: Mutt/1.5.20 (2009-06-14)
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [master][pyro][PATCH] bitbake.conf: Add whoami to HOSTTOOLS
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v2 0/2] Yocto Compatible 2.0 support code
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,40 +41,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 11 Jun 2017 18:44:03 -0000
+X-List-Received-Date: Sun, 11 Jun 2017 18:47:02 -0000
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-On Sun, Jun 11, 2017 at 10:22:58AM -0700, Khem Raj wrote:
-> On Sun, Jun 11, 2017 at 9:58 AM, Jonathan Liu <net147@gmail.com> wrote:
-> > The whoami command is used when building the Linux kernel in
-> > scripts/mkcompile_h to embed the build user that is visible
-> > in /proc/version.
-> >
-> > Signed-off-by: Jonathan Liu <net147@gmail.com>
-> > ---
-> >  meta/conf/bitbake.conf | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-> > index 3ad905c917..4f20aa3d1c 100644
-> > --- a/meta/conf/bitbake.conf
-> > +++ b/meta/conf/bitbake.conf
-> > @@ -465,7 +465,7 @@ HOSTTOOLS += " \
-> >      mktemp mv nm objcopy objdump od patch perl pod2man pr printf pwd python python2 \
-> >      python2.7 python3 ranlib readelf readlink rm rmdir rpcgen sed sh sha256sum \
-> >      sleep sort split stat strings strip tail tar tee test touch tr true uname \
-> > -    uniq wc wget which xargs \
-> > +    uniq wc wget which whoami xargs \
+On Fri, Jun 09, 2017 at 03:04:02PM +0200, Patrick Ohly wrote:
+> As discussed in the "[Openembedded-architecture] Yocto Compatible 2.0
+> + signature changes" mail thread, changes in a .bbappend cannot be
+> done unconditionally. Making _append and _remove depend on overrides
+> which get set based on DISTRO_FEATURES is one way of achieving this.
+
+Just wanted to confirm that this feature is going to be optional, right?
+
+
+> Conditional includes can have unexpected results when used with checks
+> that still change during parsing. Helper functions might make this a bit
+> safer and easier to review by limiting the check to DISTRO_FEATURES.
 > 
-> I think it might be better to not use whoami at all to begin with, it
-> might be good for reproducibility too.
-
-There was this whole discussion about adding whoami couple months ago - 
-Richard won't accept the change:
-
-http://lists.openembedded.org/pipermail/openembedded-core/2017-March/134878.html
-
--- 
-Denys
+> Changes in V2:
+>   - added df- prefix to distro feature overrides
+>   - replaced too complex optional_includes() with simpler
+>     all/any_distro_features()
+> 
+> Patrick Ohly (2):
+>   bitbake.conf: DISTRO_FEATURES as overrides
+>   utils.py: helper function for optional include files
+> 
+>  meta/conf/bitbake.conf | 17 ++++++++++++++++-
+>  meta/lib/oe/utils.py   | 40 ++++++++++++++++++++++++++++++++++++++++
+>  2 files changed, 56 insertions(+), 1 deletion(-)
+> 
+> base-commit: 186882ca62bf683b93cd7a250963921b89ba071f
+> -- 
+> git-series 0.9.1
+> -- 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
