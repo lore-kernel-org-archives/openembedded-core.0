@@ -1,47 +1,52 @@
-Return-Path: <twoerner@gmail.com>
-Received: from mail-ua0-f181.google.com (mail-ua0-f181.google.com
-	[209.85.217.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 657BD60762
+Return-Path: <trini@konsulko.com>
+Received: from mail-yw0-f170.google.com (mail-yw0-f170.google.com
+	[209.85.161.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 47086781F4
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 11 Jun 2017 07:09:38 +0000 (UTC)
-Received: by mail-ua0-f181.google.com with SMTP id q15so46691862uaa.2
+	Sun, 11 Jun 2017 12:16:28 +0000 (UTC)
+Received: by mail-yw0-f170.google.com with SMTP id e142so21935223ywa.1
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 11 Jun 2017 00:09:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to; 
-	bh=18Qotn9FcBFJB03pEXddrlN95Gw7FEFJhikq/z5Z0jw=;
-	b=QsHPWMgob98Y/lnrfy2lNmeL0ju+IpxfDWVy/UWxNLunWYcuMDWkkJPOuoyd39IQXq
-	n2WHOJsVEKU0NMiCvmeMuGSWFloeB4twZnA2MRzSHVHF2OTLMwWY2z84FZGCXvzuDkd0
-	umqvphCQJMec0PzIFFhWRC8gsA5ff3LymBrLvE+3+RNjqWthEjMRWhmjUez8cP7fJmcD
-	yd5lxuYCJucEhg0ACHVaQk/MtE0JyG+VveAUfIpwog46vltqr/vBXaRFHUIpoBc8ib1l
-	kDjtLAsU464uGdzytI1jhB2t/HqXa6ydVN3cIYyQxjfmOjMNrJFzZyuLLleXk/zjIsQY
-	PPsA==
+	Sun, 11 Jun 2017 05:16:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=kBY+/NNYj1ONo17ApOmB1E1tZoj4pdHngua+h2rJUaY=;
+	b=uhWslfTqIgycvn1R5Qri0VKOfHNN9X6cVZ6+fdNIun0N8y0OGFXlE1jMcojK6hfZ0K
+	cDLGG8hmuk2TSEuViahnzF1dk0r+A9mbmqusZZEWenhXUBNaaqw//8YCiukd7pRXDXRv
+	wchBQ4WJvChKVPtN3j3ofor2Dq9rmNV9EaBh8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to;
-	bh=18Qotn9FcBFJB03pEXddrlN95Gw7FEFJhikq/z5Z0jw=;
-	b=FHkqR5ZVA8dVJas2DvpWc0clPtNOmWD7HhdmrnkpR7wVWrvE/L+PvifcQqgXmAtTnL
-	6PQ9kkMI5OSe4T2QaGY4rKEdZhk6xutUiWy3IOkPBovqHzkiQFqs56KLFOHyNkjdftgi
-	BEtRWTTYVU7W8q+5OV5wx2gxG0NQILx3LLmz2Nq1bpUcDSSdJm8DMwmxB1bMdtxwyhY5
-	dIVwWdZb3ObVM4/hza0wsz/imw6G8W4Wyu4ZrUMYUYLh7IIjfHSCgd6xWGEQUSmEGy/l
-	uLcUHgUGWsliMht1XnvHcFm2YNd6k3ZPstaHe0ut3tcbBWhYLbdg1pbllQ8Jc+pTqzDk
-	yDgg==
-X-Gm-Message-State: AODbwcA7dpN4hMClJQsnz6DO95FuSyMBYsLCnPiKqDyvk045Nv9Uex6T
-	f2E6iHI+vmmiebhgsq/bENSdLmBbUSal
-X-Received: by 10.159.57.99 with SMTP id i35mr29435121uag.17.1497164980010;
-	Sun, 11 Jun 2017 00:09:40 -0700 (PDT)
+	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=kBY+/NNYj1ONo17ApOmB1E1tZoj4pdHngua+h2rJUaY=;
+	b=jkeZgI3yOOQ5e5hnnZybD/PrpOMgqQjAasxzLBzJjem1j6c3AQnAVY/LENmvvpYWV0
+	H5ykefjMTciZJAIZHcthECgtwwK2GdLcmlsc9nA48qKluH5GgDHxRnpw4cJW6J+CXJib
+	lMJpBhAFlWThQHVqKOoRSyh6DtHdvM6ngGlXuLyShTaqtIAL7CN6okxo5A/51KbdP9+4
+	OJBTFo8BI4lehU10risDpT/cU0RvASUyWE2Goi6RBfGMAJNfjAE4hP4J9/M/ZrubXnXY
+	2B+8HqQO3DEZA4GGWat1SEkfRJfV1ntYbkH52T21pQ7NioLbYq9fi8JaEvi7hgA9Rg9t
+	FRjg==
+X-Gm-Message-State: AODbwcC4FSXffCnYCJeFO8sHHxDI2ln6guLq1AoZfr5rnMQs1xZ+KOmL
+	4CeuQy4Mz47Y5VnH
+X-Received: by 10.13.245.71 with SMTP id e68mr20551232ywf.269.1497183388968;
+	Sun, 11 Jun 2017 05:16:28 -0700 (PDT)
+Received: from bill-the-cat (cpe-75-180-228-133.ec.res.rr.com.
+	[75.180.228.133])
+	by smtp.gmail.com with ESMTPSA id x3sm2571078ywf.46.2017.06.11.05.16.28
+	(version=TLS1_2 cipher=AES128-SHA bits=128/128);
+	Sun, 11 Jun 2017 05:16:28 -0700 (PDT)
+Date: Sun, 11 Jun 2017 08:16:48 -0400
+From: Tom Rini <trini@konsulko.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Message-ID: <20170611121648.GP10782@bill-the-cat>
+References: <1496966441-30260-1-git-send-email-trini@konsulko.com>
+	<1496966441-30260-2-git-send-email-trini@konsulko.com>
+	<CAJTo0LbUHNxxQMPz=RH+xxMk2=sN4tcg6MXtNHkz7-R_bY4g1A@mail.gmail.com>
+	<20170609192840.GL10782@bill-the-cat>
 MIME-Version: 1.0
-Received: by 10.103.7.2 with HTTP; Sun, 11 Jun 2017 00:09:39 -0700 (PDT)
-In-Reply-To: <20170611070133.1039.98132@do.openembedded.org>
-References: <20170611064757.5937-1-twoerner@gmail.com>
-	<20170611070133.1039.98132@do.openembedded.org>
-From: Trevor Woerner <twoerner@gmail.com>
-Date: Sun, 11 Jun 2017 03:09:39 -0400
-Message-ID: <CAHUNapQpfSojDV5MjE6cewKK39YjQ4d6stbLswCRxhfkG7iBuQ@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: =?UTF-8?B?UmU6IOKclyBwYXRjaHRlc3Q6IGZhaWx1cmUgZm9yIG1lc2EuaW5jOiBwb3RlbnRpYWxseSBlbmFibGUgdGV4dHVyZSBmbG9hdCBmb3IgZ2FsbGl1bQ==?=
+In-Reply-To: <20170609192840.GL10782@bill-the-cat>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/3] dpkg: Fix perl modules by moving them to the versioned perl directory
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,14 +59,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 11 Jun 2017 07:09:39 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Sun, 11 Jun 2017 12:16:39 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Sun, Jun 11, 2017 at 3:01 AM, Patchwork
-<patchwork@patchwork.openembedded.org> wrote:
-> * Issue             Added patch file is missing Upstream-Status in the header [test_upstream_status_presence]
->   Suggested fix    Add Upstream-Status: <status> to the header of meta/recipes-graphics/mesa/files/0002-hardware-gloat.patch (possible values: Pending, Submitted, Accepted, Backport, Denied, Inappropriate)
+On Fri, Jun 09, 2017 at 03:28:40PM -0400, Tom Rini wrote:
+> On Fri, Jun 09, 2017 at 05:15:07PM +0100, Burton, Ross wrote:
+> > On 9 June 2017 at 01:00, Tom Rini <trini@konsulko.com> wrote:
+> > 
+> > > In order for the dpkg perl modules to be used the must reside in the
+> > > versioned perl library directory (as to be in the default include path).
+> > > Be explicit about this location in our FILES_${PN}-perl directive, so
+> > > that if this breaks in the future, the recipe will fail).  We can now
+> > > drop the custom do_configure as it wasn't fixing this problem.
+> > >
+> > 
+> >   * FILES: removed "/usr/lib/perl", added "/usr/lib/perl/None"
+> > 
+> > Obviously something didn't work right!
+> 
+> Oh, I see.  Yes, an existing feature is that if perl isn't built yet
+> then no, you don't get a sane PERLVERSION.  That's true today, for
+> example, see liburi-perl.
 
+Oh oh, I see.  Sorry, hit a per recipe staging issue.  I've reproduced
+and figured out the fix.
 
-If I didn't write the patch, how am I responsible for its upstream status?
+-- 
+Tom
 
