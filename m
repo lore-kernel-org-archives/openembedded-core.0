@@ -1,47 +1,46 @@
-Return-Path: <changhyeok.bae@gmail.com>
-Received: from mail-pf0-f194.google.com (mail-pf0-f194.google.com
-	[209.85.192.194])
-	by mail.openembedded.org (Postfix) with ESMTP id B1314776D1
+Return-Path: <twoerner@gmail.com>
+Received: from mail-io0-f193.google.com (mail-io0-f193.google.com
+	[209.85.223.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 2363971A5A
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 10 Jun 2017 04:41:18 +0000 (UTC)
-Received: by mail-pf0-f194.google.com with SMTP id y7so10489042pfd.3
+	Sun, 11 Jun 2017 06:48:04 +0000 (UTC)
+Received: by mail-io0-f193.google.com with SMTP id i93so8131015iod.3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 09 Jun 2017 21:41:20 -0700 (PDT)
+	Sat, 10 Jun 2017 23:48:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=UgizXMhF7MmkDQ5xTpwb9d5AEthzJXX73WX0TLBlLUI=;
-	b=pD/Mmb+mKtyFlviOOjVROKXbIwNFTEcgitBJdutlVbUFlvfQqnznirApvsNpsPchXE
-	v70Mgls/gVM427avGQzOE0pLiYqqYVVOqjWw5XGyY/3nvjg0pRCe6VK5OaqNMZkQ99TU
-	RDoqF0w9/fTeOMINN+miZ6zEZ5u5pr3abIlD9ATbkHnAqo6iYPKrO13eqXZTrkicoX7o
-	j33WMWvqOQXfWz8193oaG2Cvn8aoy9eI9F8kUmEnM1Ye91LXhhTYATmMjsS/qzs1Nhem
-	iGDVR5+Z4oxaroDnDK1qZdr1uu8ZH70OfG3kWuzTmA7glTg9Wkl+sD0lw0JMsrD+loXS
-	6bew==
+	h=from:to:subject:date:message-id;
+	bh=bsQwv0MpBl3KVpj5RnQzf6D5DcJzu9hy15JGW8+dA6o=;
+	b=XCgzVPkpmetiMA3ScPIF4kWPwebP0uDAMb6Pb4xG6vs0+iFXBrSbcuLnDJKlTcUqf2
+	VSqcu3A9j6CoFDUEP5jYBfffwta4DTAMAl1uCq1lBCNSB2DicuFeb93sdzhP7dsbd8Vu
+	01I6N3bdK0u2UQ2xhRZ9sDlNU/4iXN/7yEJSb8Qpz5kbiMuYHVKdQCcxIupyxs/jpCp7
+	fG6dtcehAlwxqikoHWr8CQfV+119srqQOIi0FaeRG3EPcFfqCrGszJhs8zxSOKzXvewt
+	1k2IO4lZ9zHcu6xecEg4dyx/byHsifTV273RNM9PFvXWhD0HlxgtOrSPzEjKXwBotW4e
+	0eFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=UgizXMhF7MmkDQ5xTpwb9d5AEthzJXX73WX0TLBlLUI=;
-	b=ClBYANTlTKcDz4QjEPhbJCwtlv2lal7wLhwJYhRdlXzcv9wpr1gg7UNcx2p40K+vg/
-	WuaYcnhovGUrWK0Rm/1kVYp76x2JlSbtnu22b52i70Dh0/wqkZ8FZFUzMqK4DSI/KTrf
-	sYg3Cfz6acPwoHMPB++Jhk0ZD8HFjNjmUGvJhC4AHn2oAb6b4hCwqlc9Rlpver7Dv5uu
-	+Cp+Bh2WlGAvCOmMkuzZj6ICCX7MBLoO5uAnwKhsELl07MVlBugYVqBAWMCSaI3ptZrK
-	wvFK+K1kmPRZzvGxHJIh+7gLCTGl0bCwhBY5Qmk9Fzx+iyNKgXfRWugJUqjE14MjBCEf
-	FUBA==
-X-Gm-Message-State: AODbwcDMOFoYZBuBQO08dDd0RRVqEf0Ma1yqpxFW+YtbiOzKLQGCfa+F
-	Tp/1ZS+8Hrwj3hPrfW4=
-X-Received: by 10.84.230.134 with SMTP id e6mr43869429plk.256.1497069679628;
-	Fri, 09 Jun 2017 21:41:19 -0700 (PDT)
-Received: from ip-172-31-15-204.ap-northeast-2.compute.internal
-	(ec2-13-124-88-129.ap-northeast-2.compute.amazonaws.com.
-	[13.124.88.129])
-	by smtp.gmail.com with ESMTPSA id v8sm5476011pfa.10.2017.06.09.21.41.17
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=bsQwv0MpBl3KVpj5RnQzf6D5DcJzu9hy15JGW8+dA6o=;
+	b=AJPZzcKAZhm6Wo0kJX6ZgCjVme9dsTQzdgLPtQWKEyAEAGK23uTwCqRKFg/8gm1qgt
+	XXz1BxQZRFNGLtIZWVF+k38171GwOqN10a8ZIExnRUBvOr5anU7PBxlNDyxDUb63Q0K+
+	8FpPT5pkL8sljhTHLJA/RpFxrJtHdBG7ilSGSkMEOtt9qc4urxihC0o98ojtiAxzaS04
+	CH6ZGu8r2M7g+ySuv3Qt4B1zYVIVhUoOL+zBP8sj3A1EufW30mz6LfptcUmvlQ+ZTEyp
+	lg2lcnR2XF3RgTUlWWXTu+xYJ/kUCXw1t6PYhhv4zGnj4PKKGJq+Ux28w93WbF0hEI/i
+	OYXg==
+X-Gm-Message-State: AODbwcASH2Gucaj/GscE8TeqlkpZ1VCyPvTOsaVdsi8Xo26e5h8U+teG
+	srIxGmo2FTLfST+dTdI=
+X-Received: by 10.107.29.131 with SMTP id d125mr46080468iod.8.1497163685738;
+	Sat, 10 Jun 2017 23:48:05 -0700 (PDT)
+Received: from linux-uys3.suse ([206.248.190.95])
+	by smtp.gmail.com with ESMTPSA id e81sm2382006ite.6.2017.06.10.23.48.04
+	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 09 Jun 2017 21:41:18 -0700 (PDT)
-From: Changhyeok Bae <changhyeok.bae@gmail.com>
+	Sat, 10 Jun 2017 23:48:05 -0700 (PDT)
+From: Trevor Woerner <twoerner@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 10 Jun 2017 04:41:12 +0000
-Message-Id: <1497069672-2012-1-git-send-email-changhyeok.bae@gmail.com>
-X-Mailer: git-send-email 2.7.4
-Subject: [PATCH v3] openssl: Upgrade 1.0.2k -> 1.0.2l
+Date: Sun, 11 Jun 2017 02:47:57 -0400
+Message-Id: <20170611064757.5937-1-twoerner@gmail.com>
+X-Mailer: git-send-email 2.13.0
+Subject: [PATCH v2] mesa.inc: potentially enable texture float for gallium
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,129 +53,114 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 10 Jun 2017 04:41:18 -0000
+X-List-Received-Date: Sun, 11 Jun 2017 06:48:05 -0000
 
-Dropped obsolete patches, because the new version contains them:
-  - fix-cipher-des-ede3-cfb1.patch
-  - openssl-avoid-NULL-pointer-dereference-in-EVP_DigestInit_ex.patch
+Following the lead from Fedora (as suggested by Rob Clark) always enable
+--enable-texture-float for all gallium drivers, but then modify the code to
+not enable it where the implementation isn't backed by hardware.
 
-Test binaries (x86-64) are included in source code. So remove those
-only for ptest.
+Somewhere along the path from OpenGL ES 2.0 to OpenGL ES 3.0 are some
+algorithms that are encumbered by patents. These algorithms are enabled
+with mesa's --enable-texture-float configure flag. However, if hardware
+acceleration is being used and the hardware supports --enable-texture-float,
+it means the hardware vendor has paid for the patents.
 
-Signed-off-by: Changhyeok Bae <changhyeok.bae@gmail.com>
+Note that with this solution, non-hardware gallium drivers (e.g. swrast) can't
+--enable-texture-float, which might cause issues with some piglit tests.
+
+This solution was disgussed and agreed-to on the mailing list:
+http://lists.openembedded.org/pipermail/openembedded-core/2017-May/137233.html
+
+Signed-off-by: Trevor Woerner <twoerner@gmail.com>
 ---
- .../openssl/openssl/fix-cipher-des-ede3-cfb1.patch | 21 --------------------
- ...-pointer-dereference-in-EVP_DigestInit_ex.patch | 23 ----------------------
- .../{openssl_1.0.2k.bb => openssl_1.0.2l.bb}       | 15 +++++++++-----
- 3 files changed, 10 insertions(+), 49 deletions(-)
- delete mode 100644 meta/recipes-connectivity/openssl/openssl/fix-cipher-des-ede3-cfb1.patch
- delete mode 100644 meta/recipes-connectivity/openssl/openssl/openssl-avoid-NULL-pointer-dereference-in-EVP_DigestInit_ex.patch
- rename meta/recipes-connectivity/openssl/{openssl_1.0.2k.bb => openssl_1.0.2l.bb} (85%)
+ .../mesa/files/0002-hardware-gloat.patch           | 50 ++++++++++++++++++++++
+ meta/recipes-graphics/mesa/mesa.inc                |  2 +-
+ meta/recipes-graphics/mesa/mesa_17.1.1.bb          |  1 +
+ 3 files changed, 52 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-graphics/mesa/files/0002-hardware-gloat.patch
 
-diff --git a/meta/recipes-connectivity/openssl/openssl/fix-cipher-des-ede3-cfb1.patch b/meta/recipes-connectivity/openssl/openssl/fix-cipher-des-ede3-cfb1.patch
-deleted file mode 100644
-index 2a318a4..0000000
---- a/meta/recipes-connectivity/openssl/openssl/fix-cipher-des-ede3-cfb1.patch
-+++ /dev/null
-@@ -1,21 +0,0 @@
--Upstream-Status: Submitted
--
--This patch adds the fix for one of the ciphers used in openssl, namely
--the cipher des-ede3-cfb1. Complete bug log and patch is present here:
--http://rt.openssl.org/Ticket/Display.html?id=2867
--
--Signed-off-by: Muhammad Shakeel <muhammad_shakeel@mentor.com>
--
--Index: openssl-1.0.2/crypto/evp/e_des3.c
--===================================================================
----- openssl-1.0.2.orig/crypto/evp/e_des3.c
--+++ openssl-1.0.2/crypto/evp/e_des3.c
--@@ -211,7 +211,7 @@ static int des_ede3_cfb1_cipher(EVP_CIPH
--     size_t n;
--     unsigned char c[1], d[1];
-- 
---    for (n = 0; n < inl; ++n) {
--+    for (n = 0; n * 8 < inl; ++n) {
--         c[0] = (in[n / 8] & (1 << (7 - n % 8))) ? 0x80 : 0;
--         DES_ede3_cfb_encrypt(c, d, 1, 1,
--                              &data(ctx)->ks1, &data(ctx)->ks2,
-diff --git a/meta/recipes-connectivity/openssl/openssl/openssl-avoid-NULL-pointer-dereference-in-EVP_DigestInit_ex.patch b/meta/recipes-connectivity/openssl/openssl/openssl-avoid-NULL-pointer-dereference-in-EVP_DigestInit_ex.patch
-deleted file mode 100644
-index f736e5c..0000000
---- a/meta/recipes-connectivity/openssl/openssl/openssl-avoid-NULL-pointer-dereference-in-EVP_DigestInit_ex.patch
-+++ /dev/null
-@@ -1,23 +0,0 @@
--openssl: avoid NULL pointer dereference in EVP_DigestInit_ex()
--
--We should avoid accessing the type pointer if it's NULL,
--this could happen if ctx->digest is not NULL.
--
--Upstream-Status: Submitted
--http://www.mail-archive.com/openssl-dev@openssl.org/msg32860.html
--
--Signed-off-by: Xufeng Zhang <xufeng.zhang@windriver.com>
-----
--Index: openssl-1.0.2h/crypto/evp/digest.c
--===================================================================
----- openssl-1.0.2h.orig/crypto/evp/digest.c
--+++ openssl-1.0.2h/crypto/evp/digest.c
--@@ -211,7 +211,7 @@ int EVP_DigestInit_ex(EVP_MD_CTX *ctx, c
--         type = ctx->digest;
--     }
-- #endif
---    if (ctx->digest != type) {
--+    if (type && (ctx->digest != type)) {
--         if (ctx->digest && ctx->digest->ctx_size) {
--             OPENSSL_free(ctx->md_data);
--             ctx->md_data = NULL;
-diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.2k.bb b/meta/recipes-connectivity/openssl/openssl_1.0.2l.bb
-similarity index 85%
-rename from meta/recipes-connectivity/openssl/openssl_1.0.2k.bb
-rename to meta/recipes-connectivity/openssl/openssl_1.0.2l.bb
-index 83d1a50..3638414 100644
---- a/meta/recipes-connectivity/openssl/openssl_1.0.2k.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_1.0.2l.bb
-@@ -7,7 +7,7 @@ DEPENDS += "cryptodev-linux"
- CFLAG += "-DHAVE_CRYPTODEV -DUSE_CRYPTODEV_DIGESTS"
- CFLAG_append_class-native = " -fPIC"
- 
--LIC_FILES_CHKSUM = "file://LICENSE;md5=27ffa5d74bb5a337056c14b2ef93fbf6"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=057d9218c6180e1d9ee407572b2dd225"
- 
- export DIRS = "crypto ssl apps engines"
- export OE_LDFLAGS="${LDFLAGS}"
-@@ -32,8 +32,6 @@ SRC_URI += "file://find.pl;subdir=${BP}/util/ \
-             file://debian1.0.2/version-script.patch \
-             file://debian1.0.2/soname.patch \
-             file://openssl_fix_for_x32.patch \
--            file://fix-cipher-des-ede3-cfb1.patch \
--            file://openssl-avoid-NULL-pointer-dereference-in-EVP_DigestInit_ex.patch \
-             file://openssl-fix-des.pod-error.patch \
-             file://Makefiles-ptest.patch \
-             file://ptest-deps.patch \
-@@ -45,8 +43,8 @@ SRC_URI += "file://find.pl;subdir=${BP}/util/ \
-             file://Use-SHA256-not-MD5-as-default-digest.patch \
-             file://0001-Fix-build-with-clang-using-external-assembler.patch \
-             "
--SRC_URI[md5sum] = "f965fc0bf01bf882b31314b61391ae65"
--SRC_URI[sha256sum] = "6b3977c61f2aedf0f96367dcfb5c6e578cf37e7b8d913b4ecb6643c3cb88d8c0"
-+SRC_URI[md5sum] = "f85123cd390e864dfbe517e7616e6566"
-+SRC_URI[sha256sum] = "ce07195b659e75f4e1db43552860070061f156a98bb37b672b101ba6e3ddf30c"
- 
- PACKAGES =+ "${PN}-engines"
- FILES_${PN}-engines = "${libdir}/ssl/engines/*.so ${libdir}/engines"
-@@ -60,3 +58,10 @@ do_configure_prepend() {
- 		bbfatal "The perl module 'bignum' was not found but this is required to build openssl.  Please install this module (often packaged as perl-bignum) and re-run bitbake."
- 	fi
- }
+diff --git a/meta/recipes-graphics/mesa/files/0002-hardware-gloat.patch b/meta/recipes-graphics/mesa/files/0002-hardware-gloat.patch
+new file mode 100644
+index 0000000000..9af9ae3b4b
+--- /dev/null
++++ b/meta/recipes-graphics/mesa/files/0002-hardware-gloat.patch
+@@ -0,0 +1,50 @@
++From 00bcd599310dc7fce4fe336ffd85902429051a0c Mon Sep 17 00:00:00 2001
++From: Igor Gnatenko <i.gnatenko.brain@gmail.com>
++Date: Sun, 20 Mar 2016 13:27:04 +0100
++Subject: [PATCH 2/4] hardware gloat
 +
-+do_install_ptest() {
-+    # exclude binary files or the package won't install
-+    for d in ssltest_old v3ext x509aux; do
-+        rm -rf ${D}${libdir}/${PN}/ptest/test/$d
-+    done
-+}
++Signed-off-by: Igor Gnatenko <i.gnatenko.brain@gmail.com>
++---
++ src/gallium/drivers/llvmpipe/lp_screen.c | 7 +++++++
++ src/gallium/drivers/softpipe/sp_screen.c | 7 +++++++
++ 2 files changed, 14 insertions(+)
++
++diff --git a/src/gallium/drivers/llvmpipe/lp_screen.c b/src/gallium/drivers/llvmpipe/lp_screen.c
++index 4f61de8..3b0ec77 100644
++--- a/src/gallium/drivers/llvmpipe/lp_screen.c
+++++ b/src/gallium/drivers/llvmpipe/lp_screen.c
++@@ -411,6 +411,13 @@ llvmpipe_is_format_supported( struct pipe_screen *_screen,
++    if (!format_desc)
++       return FALSE;
++ 
+++   if ((bind & PIPE_BIND_RENDER_TARGET) &&
+++       format != PIPE_FORMAT_R9G9B9E5_FLOAT &&
+++       format != PIPE_FORMAT_R11G11B10_FLOAT &&
+++       util_format_is_float(format)) {
+++      return FALSE;
+++   }
+++
++    assert(target == PIPE_BUFFER ||
++           target == PIPE_TEXTURE_1D ||
++           target == PIPE_TEXTURE_1D_ARRAY ||
++diff --git a/src/gallium/drivers/softpipe/sp_screen.c b/src/gallium/drivers/softpipe/sp_screen.c
++index 031602b..c279120 100644
++--- a/src/gallium/drivers/softpipe/sp_screen.c
+++++ b/src/gallium/drivers/softpipe/sp_screen.c
++@@ -358,6 +358,13 @@ softpipe_is_format_supported( struct pipe_screen *screen,
++    if (!format_desc)
++       return FALSE;
++ 
+++   if ((bind & PIPE_BIND_RENDER_TARGET) &&
+++       format != PIPE_FORMAT_R9G9B9E5_FLOAT &&
+++       format != PIPE_FORMAT_R11G11B10_FLOAT &&
+++       util_format_is_float(format)) {
+++      return FALSE;
+++   }
+++
++    if (sample_count > 1)
++       return FALSE;
++ 
++-- 
++2.7.4
++
+diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
+index 014044f381..04285f209a 100644
+--- a/meta/recipes-graphics/mesa/mesa.inc
++++ b/meta/recipes-graphics/mesa/mesa.inc
+@@ -64,7 +64,7 @@ GALLIUMDRIVERS_LLVM = "r300,svga,nouveau${@',${GALLIUMDRIVERS_LLVM33}' if ${GALL
+ GALLIUMDRIVERS_append_x86 = "${@bb.utils.contains('PACKAGECONFIG', 'gallium-llvm', ',${GALLIUMDRIVERS_LLVM}', '', d)}"
+ GALLIUMDRIVERS_append_x86-64 = "${@bb.utils.contains('PACKAGECONFIG', 'gallium-llvm', ',${GALLIUMDRIVERS_LLVM}', '', d)}"
+ # keep --with-gallium-drivers separate, because when only one of gallium versions is enabled, other 2 were adding --without-gallium-drivers
+-PACKAGECONFIG[gallium]      = "--with-gallium-drivers=${GALLIUMDRIVERS}, --without-gallium-drivers"
++PACKAGECONFIG[gallium]      = "--enable-texture-float --with-gallium-drivers=${GALLIUMDRIVERS}, --without-gallium-drivers"
+ MESA_LLVM_RELEASE ?= "3.3"
+ PACKAGECONFIG[gallium-llvm] = "--enable-gallium-llvm --enable-llvm-shared-libs, --disable-gallium-llvm, llvm${MESA_LLVM_RELEASE} \
+                                ${@'elfutils' if ${GALLIUMDRIVERS_LLVM33_ENABLED} else ''}"
+diff --git a/meta/recipes-graphics/mesa/mesa_17.1.1.bb b/meta/recipes-graphics/mesa/mesa_17.1.1.bb
+index 060a279015..ff84015aee 100644
+--- a/meta/recipes-graphics/mesa/mesa_17.1.1.bb
++++ b/meta/recipes-graphics/mesa/mesa_17.1.1.bb
+@@ -5,6 +5,7 @@ SRC_URI = "ftp://ftp.freedesktop.org/pub/mesa/mesa-${PV}.tar.xz \
+            file://disable-asm-on-non-gcc.patch \
+            file://0001-Use-wayland-scanner-in-the-path.patch \
+            file://0001-util-rand_xor-add-missing-include-statements.patch \
++           file://0002-hardware-gloat.patch \
+ "
+ 
+ SRC_URI[md5sum] = "a4844bc6052578574f9629458bcbb749"
 -- 
-2.7.4
+2.13.0
 
 
