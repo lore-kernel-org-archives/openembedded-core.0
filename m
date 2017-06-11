@@ -1,36 +1,47 @@
-Return-Path: <denis@denix.org>
-Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.17])
-	by mail.openembedded.org (Postfix) with ESMTP id E0CF671BEE
+Return-Path: <net147@gmail.com>
+Received: from mail-pf0-f196.google.com (mail-pf0-f196.google.com
+	[209.85.192.196])
+	by mail.openembedded.org (Postfix) with ESMTP id CA54871BEE
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 11 Jun 2017 16:54:26 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mailout4.zoneedit.com (Postfix) with ESMTP id 7432D20879;
-	Sun, 11 Jun 2017 16:54:27 +0000 (UTC)
-Received: from mailout4.zoneedit.com ([127.0.0.1])
-	by localhost (zmo03-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
-	port 10024)
-	with ESMTP id uY5EXGAxEG0a; Sun, 11 Jun 2017 16:54:27 +0000 (UTC)
-Received: from mail.denix.org (pool-100-15-85-143.washdc.fios.verizon.net
-	[100.15.85.143])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 53505204E0;
-	Sun, 11 Jun 2017 16:54:26 +0000 (UTC)
-Received: by mail.denix.org (Postfix, from userid 1000)
-	id CBA651624E9; Sun, 11 Jun 2017 12:54:25 -0400 (EDT)
-Date: Sun, 11 Jun 2017 12:54:25 -0400
-From: Denys Dmytriyenko <denis@denix.org>
-To: Trevor Woerner <twoerner@gmail.com>
-Message-ID: <20170611165425.GO28053@denix.org>
-References: <20170611064757.5937-1-twoerner@gmail.com>
-	<20170611070133.1039.98132@do.openembedded.org>
-	<CAHUNapQpfSojDV5MjE6cewKK39YjQ4d6stbLswCRxhfkG7iBuQ@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <CAHUNapQpfSojDV5MjE6cewKK39YjQ4d6stbLswCRxhfkG7iBuQ@mail.gmail.com>
-User-Agent: Mutt/1.5.20 (2009-06-14)
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: =?UTF-8?B?UmU6IOKclyBwYXRjaHRlc3Q6IGZhaWx1cmUgZm9yIG1lc2EuaW5jOiBwb3RlbnRpYWxseSBlbmFibGUgdGV4dHVyZSBmbG9hdCBmb3IgZ2FsbGl1bQ==?=
+	Sun, 11 Jun 2017 16:57:50 +0000 (UTC)
+Received: by mail-pf0-f196.google.com with SMTP id w12so4051273pfk.0
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 11 Jun 2017 09:57:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=AurDQ4fRjgrb/W+LAwIGpfHmqmg4Jt3SEbchY+crRZc=;
+	b=GH/nhw/hH7nYNO6Xn6F9AxCT3OTkTTwMKbrfJmzHsY4M+QUZhxnW8MnOZFALCEy0Tp
+	oMqMtn3hR9v8cTG3HqFyAjej2sgmiDhPAbOXg6C7NFqrWxfGvp/AHD2zO46cIKklW1Af
+	4hUE4qSj/t70GFGBBuFSWWz5pFVwo5tBF4s9vQbUO8ENYVEF0gkFNupyg3gymrIFJRun
+	C+GLKNwxA8HnuPtPcdVve8AIRNmo3ujgqJwrGz4kSMrNJGcCvVGO9zyUDR5OkHMQmn8e
+	Ehu/IVNDSggKqbhdP7lKpRcYjjilwqOByWf9Lp350adKGxSEh7LaSsFv4A2juQ9NtEPW
+	3XyQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=AurDQ4fRjgrb/W+LAwIGpfHmqmg4Jt3SEbchY+crRZc=;
+	b=Fe4l8RaBEFAMbKIacN3+7nn/KIVMLIANLAB/gb003Gu+ambKAVYwVsuYcPQrNdmCwf
+	1gzKVvcmp8Rd3I/jp2SbwrGesLSRecAEG/6dGFQZZEZCON52HjzDAJWU7Ov1xBeTiqH1
+	+Zcu9EiXCVv9Fj2ChQ8PxpR2pfovumXgNQM/ldj9Lu2U/rsuj4ROp0cgbxD1bu+b9pYi
+	1WWkD7UAqpbiI6Oc8d6DM3YHc56eSs02GK+mOZXLJHPOV1e3KmxI+Os2VrhPCuXh6atb
+	49QeZUrxpxi136oAnHHYpSuH0W5QhbZ7qDMeTcZ+dPauirmiu1+4zBnptrSgpVrA6xud
+	lieA==
+X-Gm-Message-State: AODbwcDdrNBsuySLUYerdRDGObQ6N0gZnoofdXRLuXt16aiAH+3kLjPc
+	AssdCGnqAVUjEw==
+X-Received: by 10.84.211.7 with SMTP id b7mr22397102pli.124.1497200271633;
+	Sun, 11 Jun 2017 09:57:51 -0700 (PDT)
+Received: from 60-242-179-244.static.tpgi.com.au
+	(60-242-179-244.static.tpgi.com.au. [60.242.179.244])
+	by smtp.gmail.com with ESMTPSA id
+	g13sm14041512pgu.54.2017.06.11.09.57.50
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Sun, 11 Jun 2017 09:57:50 -0700 (PDT)
+From: Jonathan Liu <net147@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 12 Jun 2017 02:58:39 +1000
+Message-Id: <20170611165839.26175-1-net147@gmail.com>
+X-Mailer: git-send-email 2.12.2
+Subject: [master][pyro][PATCH] bitbake.conf: Add whoami to HOSTTOOLS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,18 +54,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 11 Jun 2017 16:54:27 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Sun, 11 Jun 2017 16:57:51 -0000
 
-On Sun, Jun 11, 2017 at 03:09:39AM -0400, Trevor Woerner wrote:
-> On Sun, Jun 11, 2017 at 3:01 AM, Patchwork
-> <patchwork@patchwork.openembedded.org> wrote:
-> > * Issue             Added patch file is missing Upstream-Status in the header [test_upstream_status_presence]
-> >   Suggested fix    Add Upstream-Status: <status> to the header of meta/recipes-graphics/mesa/files/0002-hardware-gloat.patch (possible values: Pending, Submitted, Accepted, Backport, Denied, Inappropriate)
-> 
-> 
-> If I didn't write the patch, how am I responsible for its upstream status?
+The whoami command is used when building the Linux kernel in
+scripts/mkcompile_h to embed the build user that is visible
+in /proc/version.
 
-https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines#Patch_Header_Recommendations
+Signed-off-by: Jonathan Liu <net147@gmail.com>
+---
+ meta/conf/bitbake.conf | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 3ad905c917..4f20aa3d1c 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -465,7 +465,7 @@ HOSTTOOLS += " \
+     mktemp mv nm objcopy objdump od patch perl pod2man pr printf pwd python python2 \
+     python2.7 python3 ranlib readelf readlink rm rmdir rpcgen sed sh sha256sum \
+     sleep sort split stat strings strip tail tar tee test touch tr true uname \
+-    uniq wc wget which xargs \
++    uniq wc wget which whoami xargs \
+ "
+ 
+ # Tools needed to run testimage runtime image testing
+-- 
+2.12.2
+
 
