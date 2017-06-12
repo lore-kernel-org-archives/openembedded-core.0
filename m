@@ -1,47 +1,24 @@
-Return-Path: <liu.ming50@gmail.com>
-Received: from mail-wr0-f194.google.com (mail-wr0-f194.google.com
-	[209.85.128.194])
-	by mail.openembedded.org (Postfix) with ESMTP id F3EA978232
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 0EE267825E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Jun 2017 07:26:01 +0000 (UTC)
-Received: by mail-wr0-f194.google.com with SMTP id e23so19920839wre.3
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Jun 2017 00:26:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=k8gvl182BLhVAYPabDxIgvIknKx+rQguOh0fMjOkhqs=;
-	b=PpUK6lpFx1SlVDNKwXQGYo3nFrn2+iFl51T+YzPKMfJqnRLE6r5UG8wNic2Uj6mXbp
-	LalaX/aY4M9AgpWQ7bC+4uiuOBBui0PxvSDDELvcA1KJ4UctTQi4cOt2gS0fg2pUpOpj
-	w/OACdwo4ait9WRCbXjh0vV53JGGCAaIW34ZK3t11WmgBZFOttMnhahql+HgrQ7+M+Pg
-	jZMF7h10hbKFGTYtVo3N5BMfMhu9Yo4ZRyjPmsYYfTnHl43ibKIjivnNyVBGppmbGuQN
-	lr9ya9vWYoguzGcAk6HtyL+Uvo7kxBd9uITxQnFyp5gng3n4VQj3rRViMHKOYxqyEA8F
-	L75A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=k8gvl182BLhVAYPabDxIgvIknKx+rQguOh0fMjOkhqs=;
-	b=OfpdaVBjIwhyITW4iv1VMX9zp3d4tcL5Defn+8GZ3AX1R/ieG5h+cCCtU74BhoZxYl
-	GbtaRZtdd3aaZGQvTWj47lhFvAkDTA+KmNwdrmhQnYsG3B3xKSHE+gGoIrD2KFlViZuv
-	oD4IQPtV0LCvXg+f3MU/oB4t+jV/mdH4X9GbpxxoehgKq6h3wTVI6nosqnaWPTmUi9dx
-	eIl08T3DrUVKx7mrcLcSM4QoVolJiPEitKjsZ9h1U2qPbG+DoBmLfND0anc9twABms64
-	zT3NeFQHoftauTAMwDY6TWKm4jRm9WSJwi/StUhdJZgtz9lg1LChN+TCiOFMM4VmGXC/
-	zMlg==
-X-Gm-Message-State: AODbwcDlPEOiwrE4bvrKRWKUSxoJIAq8ZpZcDA6NRbWXS7Ugpg6A1kku
-	sXSRLbm3kgv6B7A8
-X-Received: by 10.80.142.219 with SMTP id x27mr33292155edx.3.1497252362174;
-	Mon, 12 Jun 2017 00:26:02 -0700 (PDT)
-Received: from peterliu-Precision-M4800.emea.group.atlascopco.com
-	([27.191.206.46]) by smtp.gmail.com with ESMTPSA id
-	b53sm5688416eda.50.2017.06.12.00.26.00
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 12 Jun 2017 00:26:01 -0700 (PDT)
-From: liu.ming50@gmail.com
+	Mon, 12 Jun 2017 08:13:08 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	12 Jun 2017 01:13:09 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.39,332,1493708400"; d="scan'208";a="866953142"
+Received: from linux.intel.com ([10.54.29.200])
+	by FMSMGA003.fm.intel.com with ESMTP; 12 Jun 2017 01:13:08 -0700
+Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
+	by linux.intel.com (Postfix) with ESMTP id 9B3FD58057E;
+	Mon, 12 Jun 2017 01:13:07 -0700 (PDT)
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 12 Jun 2017 09:25:52 +0200
-Message-Id: <1497252352-5270-1-git-send-email-liu.ming50@gmail.com>
-X-Mailer: git-send-email 2.7.4
-Cc: Ming Liu <peter.x.liu@external.atlascopco.com>
-Subject: [PATCH] rpm: add explicit dependency on bzip2-replacement-native for native builds
+Date: Mon, 12 Jun 2017 11:11:54 +0300
+Message-Id: <1497255114-28043-1-git-send-email-ed.bartosh@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH v2] buildhistory: force writing SRCREV values
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,35 +31,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Jun 2017 07:26:02 -0000
+X-List-Received-Date: Mon, 12 Jun 2017 08:13:10 -0000
 
-From: Ming Liu <peter.x.liu@external.atlascopco.com>
+Enabling SSTATE_MIRRORS sometimes causes SRCREV values not
+to be written/updated in the build history. This happens more
+often if SRCREV is set to ${AUTOREV}
 
-This fixes a following error:
-| recipe-sysroot-native/usr/lib/rpm/debugedit: error while loading shared libraries: \
-| libbz2.so.1: cannot open shared object file: No such file or directory
+Explicitly writing SRCREVs when recipe history is being written
+should fix this.
 
-Signed-off-by: Ming Liu <peter.x.liu@external.atlascopco.com>
+[YOCTO #10948]
+
+Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 ---
- meta/recipes-devtools/rpm/rpm_git.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/classes/buildhistory.bbclass | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-devtools/rpm/rpm_git.bb b/meta/recipes-devtools/rpm/rpm_git.bb
-index 2310ee6..e7cba98 100644
---- a/meta/recipes-devtools/rpm/rpm_git.bb
-+++ b/meta/recipes-devtools/rpm/rpm_git.bb
-@@ -43,8 +43,8 @@ SRCREV = "a8e51b3bb05c6acb1d9b2e3d34f859ddda1677be"
+diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
+index 3e907fc..057a3cb 100644
+--- a/meta/classes/buildhistory.bbclass
++++ b/meta/classes/buildhistory.bbclass
+@@ -336,6 +336,7 @@ def write_recipehistory(rcpinfo, d):
+         f.write(u"PACKAGES = %s\n" %  rcpinfo.packages)
+         f.write(u"LAYER = %s\n" %  rcpinfo.layer)
  
- S = "${WORKDIR}/git"
++    write_latest_srcrev(d, pkghistdir)
  
--DEPENDS = "nss libarchive db file popt xz dbus elfutils python3"
--DEPENDS_append_class-native = " file-replacement-native"
-+DEPENDS = "nss libarchive db file popt xz bzip2 dbus elfutils python3"
-+DEPENDS_append_class-native = " file-replacement-native bzip2-replacement-native"
+ def write_pkghistory(pkginfo, d):
+     bb.debug(2, "Writing package history for package %s" % pkginfo.name)
+@@ -853,7 +854,10 @@ def _get_srcrev_values(d):
+ do_fetch[postfuncs] += "write_srcrev"
+ do_fetch[vardepsexclude] += "write_srcrev"
+ python write_srcrev() {
+-    pkghistdir = d.getVar('BUILDHISTORY_DIR_PACKAGE')
++    write_latest_srcrev(d, d.getVar('BUILDHISTORY_DIR_PACKAGE'))
++}
++
++def write_latest_srcrev(d, pkghistdir):
+     srcrevfile = os.path.join(pkghistdir, 'latest_srcrev')
  
- inherit autotools gettext pkgconfig python3native
- export PYTHON_ABI
+     srcrevs, tag_srcrevs = _get_srcrev_values(d)
+@@ -891,4 +895,3 @@ python write_srcrev() {
+     else:
+         if os.path.exists(srcrevfile):
+             os.remove(srcrevfile)
+-}
 -- 
-2.7.4
+2.1.4
 
 
