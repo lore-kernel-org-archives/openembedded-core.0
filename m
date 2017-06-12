@@ -1,24 +1,29 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 0EE267825E
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id C28D278262
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Jun 2017 08:13:08 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	12 Jun 2017 01:13:09 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.39,332,1493708400"; d="scan'208";a="866953142"
-Received: from linux.intel.com ([10.54.29.200])
-	by FMSMGA003.fm.intel.com with ESMTP; 12 Jun 2017 01:13:08 -0700
-Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
-	by linux.intel.com (Postfix) with ESMTP id 9B3FD58057E;
-	Mon, 12 Jun 2017 01:13:07 -0700 (PDT)
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 12 Jun 2017 11:11:54 +0300
-Message-Id: <1497255114-28043-1-git-send-email-ed.bartosh@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH v2] buildhistory: force writing SRCREV values
+	Mon, 12 Jun 2017 10:06:54 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	v5CA6mxp005677
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
+	verify=NOT); Mon, 12 Jun 2017 11:06:50 +0100
+Message-ID: <1497262008.3942.4.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Jussi Kukkonen <jussi.kukkonen@intel.com>,
+	openembedded-core@lists.openembedded.org
+Date: Mon, 12 Jun 2017 11:06:48 +0100
+In-Reply-To: <0c83f6d3e761aa93c07528c5a3730e2ddc43d748.1496993458.git.jussi.kukkonen@intel.com>
+References: <cover.1496993458.git.jussi.kukkonen@intel.com>
+	<0c83f6d3e761aa93c07528c5a3730e2ddc43d748.1496993458.git.jussi.kukkonen@intel.com>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
+Mime-Version: 1.0
+X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.11
+	(dan.rpsys.net [192.168.3.1]);
+	Mon, 12 Jun 2017 11:06:51 +0100 (BST)
+X-Virus-Scanned: clamav-milter 0.99.2 at dan
+X-Virus-Status: Clean
+Subject: Re: [PATCH 1/2] Enable parallel compilation for python3-numpy
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,52 +36,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Jun 2017 08:13:10 -0000
+X-List-Received-Date: Mon, 12 Jun 2017 10:06:56 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Enabling SSTATE_MIRRORS sometimes causes SRCREV values not
-to be written/updated in the build history. This happens more
-often if SRCREV is set to ${AUTOREV}
+On Fri, 2017-06-09 at 10:36 +0300, Jussi Kukkonen wrote:
+> Support for "-j N" does not seem like a generic distutils thing
+> but numpy supports it.
+> 
+> This improves compile time by 2 minutes (real time).
 
-Explicitly writing SRCREVs when recipe history is being written
-should fix this.
+Sorry:
 
-[YOCTO #10948]
+https://autobuilder.yocto.io/builders/nightly-musl/builds/298/steps/BuildImages/logs/stdio
 
-Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
----
- meta/classes/buildhistory.bbclass | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+Appears to have races?
 
-diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
-index 3e907fc..057a3cb 100644
---- a/meta/classes/buildhistory.bbclass
-+++ b/meta/classes/buildhistory.bbclass
-@@ -336,6 +336,7 @@ def write_recipehistory(rcpinfo, d):
-         f.write(u"PACKAGES = %s\n" %  rcpinfo.packages)
-         f.write(u"LAYER = %s\n" %  rcpinfo.layer)
- 
-+    write_latest_srcrev(d, pkghistdir)
- 
- def write_pkghistory(pkginfo, d):
-     bb.debug(2, "Writing package history for package %s" % pkginfo.name)
-@@ -853,7 +854,10 @@ def _get_srcrev_values(d):
- do_fetch[postfuncs] += "write_srcrev"
- do_fetch[vardepsexclude] += "write_srcrev"
- python write_srcrev() {
--    pkghistdir = d.getVar('BUILDHISTORY_DIR_PACKAGE')
-+    write_latest_srcrev(d, d.getVar('BUILDHISTORY_DIR_PACKAGE'))
-+}
-+
-+def write_latest_srcrev(d, pkghistdir):
-     srcrevfile = os.path.join(pkghistdir, 'latest_srcrev')
- 
-     srcrevs, tag_srcrevs = _get_srcrev_values(d)
-@@ -891,4 +895,3 @@ python write_srcrev() {
-     else:
-         if os.path.exists(srcrevfile):
-             os.remove(srcrevfile)
--}
--- 
-2.1.4
+Cheers,
 
+Richard
 
