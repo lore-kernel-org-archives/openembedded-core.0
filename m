@@ -1,30 +1,47 @@
-Return-Path: <Dengke.Du@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id ADF3D780A3
+Return-Path: <changhyeok.bae@gmail.com>
+Received: from mail-pf0-f193.google.com (mail-pf0-f193.google.com
+	[209.85.192.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 59F1478211
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Jun 2017 05:42:30 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v5C5gVJF005056
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Sun, 11 Jun 2017 22:42:31 -0700
-Received: from [128.224.162.194] (128.224.162.194) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.294.0;
-	Sun, 11 Jun 2017 22:42:30 -0700
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <cover.1497001417.git.dengke.du@windriver.com>
-	<d3fa5353a75efd6bc2253bc09974b763112e8b5a.1497001417.git.dengke.du@windriver.com>
-	<CAJTo0LZM6ZCxYHY9Jy=mObo29DKrUJChm-fCr=Fk0HPPSa+6Vg@mail.gmail.com>
-From: Dengke Du <dengke.du@windriver.com>
-Message-ID: <8863a9c6-c22f-dca4-a2a7-19d55fb44c66@windriver.com>
-Date: Mon, 12 Jun 2017 13:42:27 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.1.1
-MIME-Version: 1.0
-In-Reply-To: <CAJTo0LZM6ZCxYHY9Jy=mObo29DKrUJChm-fCr=Fk0HPPSa+6Vg@mail.gmail.com>
-X-Originating-IP: [128.224.162.194]
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] archiver.bbclass: add task do_prepare_recipe_sysroot before do_configure
+	Mon, 12 Jun 2017 05:44:35 +0000 (UTC)
+Received: by mail-pf0-f193.google.com with SMTP id d5so3115677pfe.1
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 11 Jun 2017 22:44:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=xfD+M94z2uU4R4u7dKM7SksL7YomdCRJgbJqCHlO0ks=;
+	b=jOCeItcMGq5oB5gvUV+/fXp52IrejJaJOHeVCBnnPnKVncu3YNcRZz3qXF0VrImzlW
+	M0MXhVwjNf2RWqTv+HzJK0Zq0Cu/PqjI6WtcOhMOOkdLkIhTDbmfP2zLIhX95ZKzFs2K
+	gRFYNV3ZN/NE9XjOWZfnZihp1B1NqFOPvug4VSvEK+9PJSmYkYbZQfZ05Raso6PzhY7L
+	iFvXfzuS1JQva4dZ5f+vgdEX3kQ6kRFkkyZRqlsLwBUlTW4gtYmZMb0fty9LREZUcDLi
+	lpg2F6ZxYP8fPFKkaMv9KuzVaNUTCvXE2nOZu1V7+NX0Vw6kwKHXhQ91x7oYL79vMBAN
+	g2WQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=xfD+M94z2uU4R4u7dKM7SksL7YomdCRJgbJqCHlO0ks=;
+	b=oYgMrsDwKD4XBRAC9gKKhBrQRQQrhtfb1y6jiuGeOxSqiRLHnDjZgLRX/wnzHDYNEt
+	zfI4uVtzLq+RAnYRLEmSJhAffzzYRbW5PCXVWRIxKRdsxDuYolQbS4rJJRLvNZETggb6
+	jePNs/csQf7ABKrP6+DD2aCzAe3cYfLqAD5P4/ZQXAnqWzRadPf2Q0AwVMYEODK/8lOD
+	b8amG52G9nQPZQyjpO96CVXRLIlBdBlZIUX/gzkLH+JdBUF70/VOTc4DZ40X67U0WjZJ
+	8ydM7xMsnwPbLP4u7fKdE1pXex/pgSBTAyDXUxMzqFwaFXATvTQxE3CgN+nAMdDL5iDu
+	98OQ==
+X-Gm-Message-State: AODbwcA88N75Mi1MoinYRtUFCpgDa21wI6iocTsjtDwcl/Vaa6TnKKvR
+	IpjufXVaHycFU7De
+X-Received: by 10.84.142.129 with SMTP id 1mr53372371plx.84.1497246276237;
+	Sun, 11 Jun 2017 22:44:36 -0700 (PDT)
+Received: from ip-172-31-15-204.ap-northeast-2.compute.internal
+	(ec2-13-124-88-129.ap-northeast-2.compute.amazonaws.com.
+	[13.124.88.129]) by smtp.gmail.com with ESMTPSA id
+	a187sm16011875pge.45.2017.06.11.22.44.34
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Sun, 11 Jun 2017 22:44:35 -0700 (PDT)
+From: Changhyeok Bae <changhyeok.bae@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 12 Jun 2017 05:44:30 +0000
+Message-Id: <1497246270-17253-1-git-send-email-changhyeok.bae@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH v2] iproute2: Upgrade 4.10.0 -> 4.11.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,83 +54,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Jun 2017 05:42:32 -0000
-Content-Type: multipart/alternative;
-	boundary="------------22A758AD0C431E7268C85CF7"
-Content-Language: en-US
+X-List-Received-Date: Mon, 12 Jun 2017 05:44:36 -0000
 
---------------22A758AD0C431E7268C85CF7
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+0001-ip-Remove-unneed-header.patch is to fix build error
+built with musl.
 
-Thanks, that commit works, please ignore this patch.
+Signed-off-by: Changhyeok Bae <changhyeok.bae@gmail.com>
+---
+ .../iproute2/0001-ip-Remove-unneed-header.patch    | 30 ++++++++++++++++++++++
+ .../{iproute2_4.10.0.bb => iproute2_4.11.0.bb}     |  5 ++--
+ 2 files changed, 33 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-connectivity/iproute2/iproute2/0001-ip-Remove-unneed-header.patch
+ rename meta/recipes-connectivity/iproute2/{iproute2_4.10.0.bb => iproute2_4.11.0.bb} (69%)
 
-On 2017年06月10日 00:38, Burton, Ross wrote:
->
-> On 9 June 2017 at 10:45, Dengke Du <dengke.du@windriver.com 
-> <mailto:dengke.du@windriver.com>> wrote:
->
->     When recipe inherit archiver.bbclass and enable:
->
->         ARCHIVER_MODE[src] = "configured"
->
->     output errors:
->
->         automake: command not found
->
->
-> I think oe-core aa2240657b015d46e9ba4bcb6264709a82313d83 fixes this 
-> already, can you verify?
->
-> Ross
+diff --git a/meta/recipes-connectivity/iproute2/iproute2/0001-ip-Remove-unneed-header.patch b/meta/recipes-connectivity/iproute2/iproute2/0001-ip-Remove-unneed-header.patch
+new file mode 100644
+index 0000000..a9f8db6
+--- /dev/null
++++ b/meta/recipes-connectivity/iproute2/iproute2/0001-ip-Remove-unneed-header.patch
+@@ -0,0 +1,30 @@
++From f58fc99c88a54135e55a6e0956ce8ae71078d1cc Mon Sep 17 00:00:00 2001
++From: Changhyeok Bae <changhyeok.bae@gmail.com>
++Date: Mon, 12 Jun 2017 04:29:07 +0000
++Subject: [PATCH] ip: Remove unneed header
++
++Fix redefinition of struct ethhdr with a suitably patched musl libc
++that suppresses the kernel if_ether.h.
++
++Signed-off-by: Changhyeok Bae <changhyeok.bae@gmail.com>
++
++Upstream-Status: Submitted [netdev@vger.kernel.org]
++---
++ ip/iplink_bridge.c | 1 -
++ 1 file changed, 1 deletion(-)
++
++diff --git a/ip/iplink_bridge.c b/ip/iplink_bridge.c
++index 818b43c..f065b22 100644
++--- a/ip/iplink_bridge.c
+++++ b/ip/iplink_bridge.c
++@@ -15,7 +15,6 @@
++ #include <netinet/in.h>
++ #include <linux/if_link.h>
++ #include <linux/if_bridge.h>
++-#include <netinet/ether.h>
++ #include <net/if.h>
++ 
++ #include "rt_names.h"
++-- 
++2.7.4
++
+diff --git a/meta/recipes-connectivity/iproute2/iproute2_4.10.0.bb b/meta/recipes-connectivity/iproute2/iproute2_4.11.0.bb
+similarity index 69%
+rename from meta/recipes-connectivity/iproute2/iproute2_4.10.0.bb
+rename to meta/recipes-connectivity/iproute2/iproute2_4.11.0.bb
+index 063d467..dbd0545 100644
+--- a/meta/recipes-connectivity/iproute2/iproute2_4.10.0.bb
++++ b/meta/recipes-connectivity/iproute2/iproute2_4.11.0.bb
+@@ -5,10 +5,11 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/net/${BPN}/${BP}.tar.xz \
+            file://0001-iproute2-de-bash-scripts.patch \
+            file://0001-libc-compat.h-add-musl-workaround.patch \
+            file://0001-include-stdint.h-explicitly-for-UINT16_MAX.patch \
++           file://0001-ip-Remove-unneed-header.patch \
+           "
+ 
+-SRC_URI[md5sum] = "b94a2b0edefaeac124dc8f5d006931b9"
+-SRC_URI[sha256sum] = "22b1e1c1fc704ad35837e5a66103739727b8b48ac90b48c13f79b7367ff0a9a8"
++SRC_URI[md5sum] = "7a9498de88bcca95c305df6108ae197e"
++SRC_URI[sha256sum] = "72671028bda696d0cb8f48ec8e702581c3a501caeed33eec3a81d7041cbc8026"
+ 
+ # CFLAGS are computed in Makefile and reference CCOPTS
+ #
+-- 
+2.7.4
 
 
---------------22A758AD0C431E7268C85CF7
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  </head>
-  <body text="#000000" bgcolor="#FFFFFF">
-    Thanks, that commit works, please ignore this patch.<br>
-    <br>
-    <div class="moz-cite-prefix">On 2017年06月10日 00:38, Burton, Ross
-      wrote:<br>
-    </div>
-    <blockquote type="cite"
-cite="mid:CAJTo0LZM6ZCxYHY9Jy=mObo29DKrUJChm-fCr=Fk0HPPSa+6Vg@mail.gmail.com">
-      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-      <div dir="ltr">
-        <div class="gmail_extra"><br>
-          <div class="gmail_quote">On 9 June 2017 at 10:45, Dengke Du <span
-              dir="ltr">&lt;<a href="mailto:dengke.du@windriver.com"
-                target="_blank" moz-do-not-send="true">dengke.du@windriver.com</a>&gt;</span>
-            wrote:<br>
-            <blockquote class="gmail_quote" style="margin:0px 0px 0px
-0.8ex;border-left-width:1px;border-left-style:solid;border-left-color:rgb(204,204,204);padding-left:1ex">
-              <div id="gmail-:4rc" class="gmail-a3s gmail-aXjCH
-                gmail-m15c8c3f3160b262c">When recipe inherit
-                archiver.bbclass and enable:<br>
-                <br>
-                    ARCHIVER_MODE[src] = "configured"<br>
-                <br>
-                output errors:<br>
-                <br>
-                    automake: command not found</div>
-            </blockquote>
-          </div>
-          <br>
-          I think oe-core aa2240657b015d46e9ba4bcb6264709a82313d83 fixes
-          this already, can you verify?</div>
-        <div class="gmail_extra"><br>
-        </div>
-        <div class="gmail_extra">Ross</div>
-      </div>
-    </blockquote>
-    <br>
-  </body>
-</html>
-
---------------22A758AD0C431E7268C85CF7--
