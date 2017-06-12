@@ -1,46 +1,28 @@
-Return-Path: <changhyeok.bae@gmail.com>
-Received: from mail-pg0-f65.google.com (mail-pg0-f65.google.com [74.125.83.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 014B7601A5
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 2BA49780A8
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Jun 2017 12:27:34 +0000 (UTC)
-Received: by mail-pg0-f65.google.com with SMTP id f127so14185715pgc.2
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Jun 2017 05:27:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=jcHHWML8fDHJNFIdCO0AmqOKepJSTJwRsr+hhX0b6fQ=;
-	b=ln28sX3vjKGMoUoWdWJg/NPvtP9F+d6e2vckT8Hm8j7nkjJYZxMx7zGtFvhxK/YyA1
-	tQsk2CwRJloh3pl3O3zfd9dQLvpCn4/FgTET+WKOpVRFZAuUPxEmGJMG3NqVQNk2MLAj
-	QSL+KlAK+E6sEwsdzcCn8vKR993TBhkwYWMNjShIFq0eNXZtaxhJCRZFL5dWTcZYjlAu
-	4dOr797AgFOeN5Cv/PF4oL6x2+nwhi0Dvpx14++1kqLJIOt7NMG+bSW9tcAxLPUIKJq/
-	vU6AMY6B6I35Nwr8QLisbfTw/9h/LTvmFm0469lbdMzLZgzBsDm6LM67oMjJFZqrmBRW
-	J3IQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=jcHHWML8fDHJNFIdCO0AmqOKepJSTJwRsr+hhX0b6fQ=;
-	b=q/jeb9P+HV3poJAMOduRrNuzhJkNwZsirMEtuYDQ6Onl8TidnLONQ2jZsmvf56/oYG
-	RSAbuKmHjTifmXLp+rZnjMVGkjsUR46+hzLGnrZQyMhnhUelPVQQ4qVaOEBw3mKCc7oo
-	a3ubF2VGbsM9tt2ZpRhzJd5heXg78kr914TgGYjhVQOcYPJS0//otrZZXevrEvIQkBiX
-	lP/ZPg6DEdMPQeJf8/EaBCm2/9h3ceWK0X4/k84ukoKUmgIv1YNWJbQt8yxY8hwNSAcJ
-	qQIdIcLqEEGRhZfk+Ja7uol1YOqt1DrK/QChPz2o+ahbe8Z1byX7gcWvzVGxjLg4Rr2O
-	VFnQ==
-X-Gm-Message-State: AODbwcBRLXDC2i2CqPtVWZmKKyDD+C74P2p4zbQRXyvlzLVc7BbNPTO6
-	qhaw7cd0HZPWBJVv
-X-Received: by 10.98.80.140 with SMTP id g12mr24714407pfj.146.1497270456014;
-	Mon, 12 Jun 2017 05:27:36 -0700 (PDT)
-Received: from ip-172-31-15-204.ap-northeast-2.compute.internal
-	(ec2-13-124-88-129.ap-northeast-2.compute.amazonaws.com.
-	[13.124.88.129])
-	by smtp.gmail.com with ESMTPSA id j6sm22806850pgc.1.2017.06.12.05.27.34
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 12 Jun 2017 05:27:35 -0700 (PDT)
-From: Changhyeok Bae <changhyeok.bae@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 12 Jun 2017 12:27:30 +0000
-Message-Id: <1497270450-8104-1-git-send-email-changhyeok.bae@gmail.com>
-X-Mailer: git-send-email 2.7.4
-Subject: [PATCH v5] openssl: Upgrade 1.0.2k -> 1.0.2l
+	Mon, 12 Jun 2017 13:43:27 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	12 Jun 2017 06:43:27 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.39,333,1493708400"; d="scan'208";a="98448288"
+Received: from stritsch-mobl.ger.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.252.63.199])
+	by orsmga002.jf.intel.com with ESMTP; 12 Jun 2017 06:43:27 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: leonardo.sandoval.gonzalez@linux.intel.com
+Date: Mon, 12 Jun 2017 15:43:26 +0200
+Message-ID: <3871616.NMVemBk3WT@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+In-Reply-To: <278df1a63621364835b29b777d86d54696a70a27.1496423434.git.leonardo.sandoval.gonzalez@linux.intel.com>
+References: <cover.1495747168.git.leonardo.sandoval.gonzalez@linux.intel.com>
+	<cover.1496423434.git.leonardo.sandoval.gonzalez@linux.intel.com>
+	<278df1a63621364835b29b777d86d54696a70a27.1496423434.git.leonardo.sandoval.gonzalez@linux.intel.com>
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v2 1/3] export: new plugin to export the devtool workspace
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,129 +35,176 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Jun 2017 12:27:38 -0000
+X-List-Received-Date: Mon, 12 Jun 2017 13:43:28 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-1. Dropped obsolete patches, because the new version contains them:
-  - fix-cipher-des-ede3-cfb1.patch
-  - openssl-avoid-NULL-pointer-dereference-in-EVP_DigestInit_ex.patch
-2. LICENSE checksum change due to copyright years and wording tweak.
-3. Test binaries (x86-64) are included in source code. So remove those
-only for ptest.
+Hi Leo,
 
-Signed-off-by: Changhyeok Bae <changhyeok.bae@gmail.com>
----
- .../openssl/openssl/fix-cipher-des-ede3-cfb1.patch | 21 --------------------
- ...-pointer-dereference-in-EVP_DigestInit_ex.patch | 23 ----------------------
- .../{openssl_1.0.2k.bb => openssl_1.0.2l.bb}       | 15 +++++++++-----
- 3 files changed, 10 insertions(+), 49 deletions(-)
- delete mode 100644 meta/recipes-connectivity/openssl/openssl/fix-cipher-des-ede3-cfb1.patch
- delete mode 100644 meta/recipes-connectivity/openssl/openssl/openssl-avoid-NULL-pointer-dereference-in-EVP_DigestInit_ex.patch
- rename meta/recipes-connectivity/openssl/{openssl_1.0.2k.bb => openssl_1.0.2l.bb} (85%)
+This looks OK. However I just noticed - the output tarfile isn't compressed. Can we enable gzip compression? In practice that means mode should be 'w:gz' when writing out and also .tar.gz instead of .tar extension.
 
-diff --git a/meta/recipes-connectivity/openssl/openssl/fix-cipher-des-ede3-cfb1.patch b/meta/recipes-connectivity/openssl/openssl/fix-cipher-des-ede3-cfb1.patch
-deleted file mode 100644
-index 2a318a4..0000000
---- a/meta/recipes-connectivity/openssl/openssl/fix-cipher-des-ede3-cfb1.patch
-+++ /dev/null
-@@ -1,21 +0,0 @@
--Upstream-Status: Submitted
--
--This patch adds the fix for one of the ciphers used in openssl, namely
--the cipher des-ede3-cfb1. Complete bug log and patch is present here:
--http://rt.openssl.org/Ticket/Display.html?id=2867
--
--Signed-off-by: Muhammad Shakeel <muhammad_shakeel@mentor.com>
--
--Index: openssl-1.0.2/crypto/evp/e_des3.c
--===================================================================
----- openssl-1.0.2.orig/crypto/evp/e_des3.c
--+++ openssl-1.0.2/crypto/evp/e_des3.c
--@@ -211,7 +211,7 @@ static int des_ede3_cfb1_cipher(EVP_CIPH
--     size_t n;
--     unsigned char c[1], d[1];
-- 
---    for (n = 0; n < inl; ++n) {
--+    for (n = 0; n * 8 < inl; ++n) {
--         c[0] = (in[n / 8] & (1 << (7 - n % 8))) ? 0x80 : 0;
--         DES_ede3_cfb_encrypt(c, d, 1, 1,
--                              &data(ctx)->ks1, &data(ctx)->ks2,
-diff --git a/meta/recipes-connectivity/openssl/openssl/openssl-avoid-NULL-pointer-dereference-in-EVP_DigestInit_ex.patch b/meta/recipes-connectivity/openssl/openssl/openssl-avoid-NULL-pointer-dereference-in-EVP_DigestInit_ex.patch
-deleted file mode 100644
-index f736e5c..0000000
---- a/meta/recipes-connectivity/openssl/openssl/openssl-avoid-NULL-pointer-dereference-in-EVP_DigestInit_ex.patch
-+++ /dev/null
-@@ -1,23 +0,0 @@
--openssl: avoid NULL pointer dereference in EVP_DigestInit_ex()
--
--We should avoid accessing the type pointer if it's NULL,
--this could happen if ctx->digest is not NULL.
--
--Upstream-Status: Submitted
--http://www.mail-archive.com/openssl-dev@openssl.org/msg32860.html
--
--Signed-off-by: Xufeng Zhang <xufeng.zhang@windriver.com>
-----
--Index: openssl-1.0.2h/crypto/evp/digest.c
--===================================================================
----- openssl-1.0.2h.orig/crypto/evp/digest.c
--+++ openssl-1.0.2h/crypto/evp/digest.c
--@@ -211,7 +211,7 @@ int EVP_DigestInit_ex(EVP_MD_CTX *ctx, c
--         type = ctx->digest;
--     }
-- #endif
---    if (ctx->digest != type) {
--+    if (type && (ctx->digest != type)) {
--         if (ctx->digest && ctx->digest->ctx_size) {
--             OPENSSL_free(ctx->md_data);
--             ctx->md_data = NULL;
-diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.2k.bb b/meta/recipes-connectivity/openssl/openssl_1.0.2l.bb
-similarity index 85%
-rename from meta/recipes-connectivity/openssl/openssl_1.0.2k.bb
-rename to meta/recipes-connectivity/openssl/openssl_1.0.2l.bb
-index 83d1a50..08c478f 100644
---- a/meta/recipes-connectivity/openssl/openssl_1.0.2k.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_1.0.2l.bb
-@@ -7,7 +7,7 @@ DEPENDS += "cryptodev-linux"
- CFLAG += "-DHAVE_CRYPTODEV -DUSE_CRYPTODEV_DIGESTS"
- CFLAG_append_class-native = " -fPIC"
- 
--LIC_FILES_CHKSUM = "file://LICENSE;md5=27ffa5d74bb5a337056c14b2ef93fbf6"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=057d9218c6180e1d9ee407572b2dd225"
- 
- export DIRS = "crypto ssl apps engines"
- export OE_LDFLAGS="${LDFLAGS}"
-@@ -32,8 +32,6 @@ SRC_URI += "file://find.pl;subdir=${BP}/util/ \
-             file://debian1.0.2/version-script.patch \
-             file://debian1.0.2/soname.patch \
-             file://openssl_fix_for_x32.patch \
--            file://fix-cipher-des-ede3-cfb1.patch \
--            file://openssl-avoid-NULL-pointer-dereference-in-EVP_DigestInit_ex.patch \
-             file://openssl-fix-des.pod-error.patch \
-             file://Makefiles-ptest.patch \
-             file://ptest-deps.patch \
-@@ -45,8 +43,8 @@ SRC_URI += "file://find.pl;subdir=${BP}/util/ \
-             file://Use-SHA256-not-MD5-as-default-digest.patch \
-             file://0001-Fix-build-with-clang-using-external-assembler.patch \
-             "
--SRC_URI[md5sum] = "f965fc0bf01bf882b31314b61391ae65"
--SRC_URI[sha256sum] = "6b3977c61f2aedf0f96367dcfb5c6e578cf37e7b8d913b4ecb6643c3cb88d8c0"
-+SRC_URI[md5sum] = "f85123cd390e864dfbe517e7616e6566"
-+SRC_URI[sha256sum] = "ce07195b659e75f4e1db43552860070061f156a98bb37b672b101ba6e3ddf30c"
- 
- PACKAGES =+ "${PN}-engines"
- FILES_${PN}-engines = "${libdir}/ssl/engines/*.so ${libdir}/engines"
-@@ -60,3 +58,10 @@ do_configure_prepend() {
- 		bbfatal "The perl module 'bignum' was not found but this is required to build openssl.  Please install this module (often packaged as perl-bignum) and re-run bitbake."
- 	fi
- }
-+
-+do_install_ptest_append() {
-+    # exclude binary files or the package won't install
-+    for d in ssltest_old v3ext x509aux; do
-+        rm -rf ${D}${libdir}/${PN}/ptest/test/$d
-+    done
-+}
+A couple of minor message notes below as well.
+
+
+On Friday, 2 June 2017 7:12:59 PM CEST leonardo.sandoval.gonzalez@linux.intel.com wrote:
+> From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+> 
+> By default, exports the whole workspace (all recipes) including the source code.
+> User can also limit what is exported with --included/--excluded flags. As
+> a result of this operation, a tar archive containing only workspace metadata
+> and its corresponding source code is created, which can be properly imported
+> with 'devtool import'.
+> 
+> https://bugzilla.yoctoproject.org/show_bug.cgi?id=10510
+> 
+> [YOCTO #10510]
+> 
+> Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+> ---
+>  scripts/lib/devtool/export.py | 120 ++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 120 insertions(+)
+>  create mode 100644 scripts/lib/devtool/export.py
+> 
+> diff --git a/scripts/lib/devtool/export.py b/scripts/lib/devtool/export.py
+> new file mode 100644
+> index 0000000000..64ac85162b
+> --- /dev/null
+> +++ b/scripts/lib/devtool/export.py
+> @@ -0,0 +1,120 @@
+> +# Development tool - export command plugin
+> +#
+> +# Copyright (C) 2014-2017 Intel Corporation
+> +#
+> +# This program is free software; you can redistribute it and/or modify
+> +# it under the terms of the GNU General Public License version 2 as
+> +# published by the Free Software Foundation.
+> +#
+> +# This program is distributed in the hope that it will be useful,
+> +# but WITHOUT ANY WARRANTY; without even the implied warranty of
+> +# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+> +# GNU General Public License for more details.
+> +#
+> +# You should have received a copy of the GNU General Public License along
+> +# with this program; if not, write to the Free Software Foundation, Inc.,
+> +# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+> +"""Devtool export plugin"""
+> +
+> +import os
+> +import argparse
+> +import tarfile
+> +import logging
+> +import datetime
+> +import json
+> +
+> +logger = logging.getLogger('devtool')
+> +
+> +# output files
+> +default_arcname_prefix = "workspace-export"
+> +default_arcname_link = default_arcname_prefix + '.tar'
+> +metadata = '.export_metadata'
+> +
+> +def export(args, config, basepath, workspace):
+> +    """Entry point for the devtool 'export' subcommand"""
+> +
+> +    def add_metadata(tar):
+> +        """Archive the workspace object"""
+> +        # finally store the workspace metadata
+> +        with open(metadata, 'w') as fd:
+> +            fd.write(json.dumps((config.workspace_path, workspace)))
+> +        tar.add(metadata)
+> +        os.unlink(metadata)
+> +
+> +    def add_recipe(tar, recipe, data):
+> +        """Archive recipe with proper arcname"""
+> +        # Create a map of name/arcnames
+> +        arcnames = []
+> +        for key, name in data.items():
+> +            if name:
+> +                if key == 'srctree':
+> +                    # all sources, no matter where are located, goes into the sources directory
+> +                    arcname = 'sources/%s' % recipe
+> +                else:
+> +                    arcname = name.replace(config.workspace_path, '')
+> +                arcnames.append((name, arcname))
+> +
+> +        for name, arcname in arcnames:
+> +            tar.add(name, arcname=arcname)
+> +
+> +
+> +    # Make sure workspace is non-empty and possible listed include/excluded recipes are in workspace
+> +    if not workspace:
+> +        logger.info('Workspace has not recipes, nothing to export')
+
+"Workspace has not recipes" -> "Workspace contains no recipes"
+
+
+> +        return 0
+> +    else:
+> +        for param, recipes in {'include':args.include,'exclude':args.exclude}.items():
+> +            for recipe in recipes:
+> +                if recipe not in workspace:
+> +                    logger.error('Recipe (%s) on %s argument not in the current workspace' % (recipe, param))
+> +                    return 1
+> +
+> +    name = args.file
+> +
+> +    default_name = "%s-%s.tar" % (default_arcname_prefix, datetime.datetime.now().strftime('%Y%m%d%H%M%S'))
+> +    if not name:
+> +        name = default_name
+> +    else:
+> +        # if name is a directory, append the default name
+> +        if os.path.isdir(name):
+> +            name = os.path.join(name, default_name)
+> +
+> +    if os.path.exists(name) and not args.overwrite:
+> +        logger.error('Tar archive %s exists. Use --overwrite/-o to overwrite it')
+> +        return 1
+> +
+> +    # if all workspace is excluded, quit
+> +    if not len(set(workspace.keys()).difference(set(args.exclude))):
+> +        logger.warn('All recipes in workspace excluded, no tar archive created')
+
+"no tar archive created" -> "nothing to export"
+
+
+> +        return 0
+> +
+> +    exported = []
+> +    with tarfile.open(name, 'w') as tar:
+> +        if args.include:
+> +            for recipe in args.include:
+> +                add_recipe(tar, recipe, workspace[recipe])
+> +                exported.append(recipe)
+> +        else:
+> +            for recipe, data in workspace.items():
+> +                if recipe not in args.exclude:
+> +                    add_recipe(tar, recipe, data)
+> +                    exported.append(recipe)
+> +
+> +        add_metadata(tar)
+> +
+> +    logger.info('Tar archive created at %s with the following recipes: %s' % (name, ' '.join(exported)))
+
+', '.join() makes for a slightly more readable output.
+
+> +    return 0
+> +
+> +def register_commands(subparsers, context):
+> +    """Register devtool export subcommands"""
+> +    parser = subparsers.add_parser('export',
+> +                                   help='Export workspace into a tar archive',
+> +                                   description='Export one or more recipes from current workspace into a tar archive',
+> +                                   group='advanced')
+> +
+> +    parser.add_argument('--file', '-f', help='Use archive file or device')
+
+For the -f help text I think we ought to just say "Output archive file name".
+
+Cheers,
+Paul
+
 -- 
-2.7.4
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
