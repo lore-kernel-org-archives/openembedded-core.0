@@ -1,28 +1,27 @@
 Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 2BA49780A8
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 01BD1780A3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Jun 2017 13:43:27 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	12 Jun 2017 06:43:27 -0700
+	Mon, 12 Jun 2017 14:19:56 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga105.fm.intel.com with ESMTP; 12 Jun 2017 07:19:55 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.39,333,1493708400"; d="scan'208";a="98448288"
+X-IronPort-AV: E=Sophos;i="5.39,333,1493708400"; d="scan'208";a="1140411703"
 Received: from stritsch-mobl.ger.corp.intel.com (HELO
 	peggleto-mobl.ger.corp.intel.com) ([10.252.63.199])
-	by orsmga002.jf.intel.com with ESMTP; 12 Jun 2017 06:43:27 -0700
+	by orsmga001.jf.intel.com with ESMTP; 12 Jun 2017 07:19:54 -0700
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: leonardo.sandoval.gonzalez@linux.intel.com
-Date: Mon, 12 Jun 2017 15:43:26 +0200
-Message-ID: <3871616.NMVemBk3WT@peggleto-mobl.ger.corp.intel.com>
+Date: Mon, 12 Jun 2017 16:19:53 +0200
+Message-ID: <3141634.Z718jrWpIV@peggleto-mobl.ger.corp.intel.com>
 Organization: Intel Corporation
-In-Reply-To: <278df1a63621364835b29b777d86d54696a70a27.1496423434.git.leonardo.sandoval.gonzalez@linux.intel.com>
+In-Reply-To: <fcb8ce082d06472414385f997f332f5f08581bd1.1496423434.git.leonardo.sandoval.gonzalez@linux.intel.com>
 References: <cover.1495747168.git.leonardo.sandoval.gonzalez@linux.intel.com>
 	<cover.1496423434.git.leonardo.sandoval.gonzalez@linux.intel.com>
-	<278df1a63621364835b29b777d86d54696a70a27.1496423434.git.leonardo.sandoval.gonzalez@linux.intel.com>
+	<fcb8ce082d06472414385f997f332f5f08581bd1.1496423434.git.leonardo.sandoval.gonzalez@linux.intel.com>
 MIME-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2 1/3] export: new plugin to export the devtool workspace
+Subject: Re: [PATCH v2 3/3] import: new plugin to import the devtool workspace
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,25 +34,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Jun 2017 13:43:28 -0000
+X-List-Received-Date: Mon, 12 Jun 2017 14:19:58 -0000
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
 
 Hi Leo,
 
-This looks OK. However I just noticed - the output tarfile isn't compressed. Can we enable gzip compression? In practice that means mode should be 'w:gz' when writing out and also .tar.gz instead of .tar extension.
-
-A couple of minor message notes below as well.
+A few comments below.
 
 
-On Friday, 2 June 2017 7:12:59 PM CEST leonardo.sandoval.gonzalez@linux.intel.com wrote:
+On Friday, 2 June 2017 7:13:01 PM CEST leonardo.sandoval.gonzalez@linux.intel.com wrote:
 > From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
 > 
-> By default, exports the whole workspace (all recipes) including the source code.
-> User can also limit what is exported with --included/--excluded flags. As
-> a result of this operation, a tar archive containing only workspace metadata
-> and its corresponding source code is created, which can be properly imported
-> with 'devtool import'.
+> Takes a tar archive created by 'devtool export' and export it (untar) to
+> workspace. By default, the whole tar archive is imported, thus there is no
+> way to limit what is imported.
 > 
 > https://bugzilla.yoctoproject.org/show_bug.cgi?id=10510
 > 
@@ -61,17 +56,17 @@ On Friday, 2 June 2017 7:12:59 PM CEST leonardo.sandoval.gonzalez@linux.intel.co
 > 
 > Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
 > ---
->  scripts/lib/devtool/export.py | 120 ++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 120 insertions(+)
->  create mode 100644 scripts/lib/devtool/export.py
+>  scripts/lib/devtool/import.py | 130 ++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 130 insertions(+)
+>  create mode 100644 scripts/lib/devtool/import.py
 > 
-> diff --git a/scripts/lib/devtool/export.py b/scripts/lib/devtool/export.py
+> diff --git a/scripts/lib/devtool/import.py b/scripts/lib/devtool/import.py
 > new file mode 100644
-> index 0000000000..64ac85162b
+> index 0000000000..5b85571669
 > --- /dev/null
-> +++ b/scripts/lib/devtool/export.py
-> @@ -0,0 +1,120 @@
-> +# Development tool - export command plugin
+> +++ b/scripts/lib/devtool/import.py
+> @@ -0,0 +1,130 @@
+> +# Development tool - import command plugin
 > +#
 > +# Copyright (C) 2014-2017 Intel Corporation
 > +#
@@ -87,118 +82,173 @@ On Friday, 2 June 2017 7:12:59 PM CEST leonardo.sandoval.gonzalez@linux.intel.co
 > +# You should have received a copy of the GNU General Public License along
 > +# with this program; if not, write to the Free Software Foundation, Inc.,
 > +# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-> +"""Devtool export plugin"""
+> +"""Devtool import plugin"""
 > +
 > +import os
-> +import argparse
 > +import tarfile
 > +import logging
-> +import datetime
+> +import re
+> +from devtool import standard, setup_tinfoil
+> +from devtool import export
+> +
+> +import oeqa.utils.ftools as ftools
+
+So, this is importing something from oeqa to use outside of the QA scripts.
+Aside from that structural oddity, I have to be honest and say I'd rather we
+did it the replacement in specific code here rather than creating and using
+a generic function (especially seeing as we don't already have one) - then
+we avoid the need to open the file and process all lines multiple times.
+
+
 > +import json
 > +
 > +logger = logging.getLogger('devtool')
 > +
-> +# output files
-> +default_arcname_prefix = "workspace-export"
-> +default_arcname_link = default_arcname_prefix + '.tar'
-> +metadata = '.export_metadata'
+> +def devimport(args, config, basepath, workspace):
+> +    """Entry point for the devtool 'import' subcommand"""
 > +
-> +def export(args, config, basepath, workspace):
-> +    """Entry point for the devtool 'export' subcommand"""
-> +
-> +    def add_metadata(tar):
-> +        """Archive the workspace object"""
-> +        # finally store the workspace metadata
-> +        with open(metadata, 'w') as fd:
-> +            fd.write(json.dumps((config.workspace_path, workspace)))
-> +        tar.add(metadata)
-> +        os.unlink(metadata)
-> +
-> +    def add_recipe(tar, recipe, data):
-> +        """Archive recipe with proper arcname"""
-> +        # Create a map of name/arcnames
-> +        arcnames = []
-> +        for key, name in data.items():
-> +            if name:
-> +                if key == 'srctree':
-> +                    # all sources, no matter where are located, goes into the sources directory
-> +                    arcname = 'sources/%s' % recipe
-> +                else:
-> +                    arcname = name.replace(config.workspace_path, '')
-> +                arcnames.append((name, arcname))
-> +
-> +        for name, arcname in arcnames:
-> +            tar.add(name, arcname=arcname)
-> +
-> +
-> +    # Make sure workspace is non-empty and possible listed include/excluded recipes are in workspace
-> +    if not workspace:
-> +        logger.info('Workspace has not recipes, nothing to export')
+> +    def get_pn(name):
+> +        dirpath, recipe = os.path.split(name)
+> +        pn = ""
+> +        for sep in "_ .".split():
+> +            if sep in recipe:
+> +                pn = recipe.split(sep)[0]
+> +                break
+> +        return pn
 
-"Workspace has not recipes" -> "Workspace contains no recipes"
+This function is a little worrying. Recipe names can legally have dots
+in the PN part of the name. See below for a recommended alternative.
 
-
-> +        return 0
-> +    else:
-> +        for param, recipes in {'include':args.include,'exclude':args.exclude}.items():
-> +            for recipe in recipes:
-> +                if recipe not in workspace:
-> +                    logger.error('Recipe (%s) on %s argument not in the current workspace' % (recipe, param))
-> +                    return 1
+> +    
+> +    # match exported workspace folders
+> +    prog = re.compile('recipes|appends|sources')
 > +
-> +    name = args.file
-> +
-> +    default_name = "%s-%s.tar" % (default_arcname_prefix, datetime.datetime.now().strftime('%Y%m%d%H%M%S'))
-> +    if not name:
-> +        name = default_name
-> +    else:
-> +        # if name is a directory, append the default name
-> +        if os.path.isdir(name):
-> +            name = os.path.join(name, default_name)
-> +
-> +    if os.path.exists(name) and not args.overwrite:
-> +        logger.error('Tar archive %s exists. Use --overwrite/-o to overwrite it')
+> +    if not os.path.exists(args.file):
+> +        logger.error('Tar archive %s does not exist. Export your workspace using "devtool export"')
 > +        return 1
 > +
-> +    # if all workspace is excluded, quit
-> +    if not len(set(workspace.keys()).difference(set(args.exclude))):
-> +        logger.warn('All recipes in workspace excluded, no tar archive created')
+> +    # get current recipes
+> +    current_recipes = []
+> +    try:
+> +        tinfoil = setup_tinfoil(config_only=False, basepath=basepath)
 
-"no tar archive created" -> "nothing to export"
+The setup_tinfoil() here should be outside of the try...finally or if it fails
+to start it will still try to shut it down.
 
 
-> +        return 0
+> +        current_recipes = [recipe[1] for recipe in tinfoil.cooker.recipecaches[''].pkg_fn.items()]
+> +    finally:
+> +        tinfoil.shutdown()
 > +
-> +    exported = []
-> +    with tarfile.open(name, 'w') as tar:
-> +        if args.include:
-> +            for recipe in args.include:
-> +                add_recipe(tar, recipe, workspace[recipe])
-> +                exported.append(recipe)
-> +        else:
-> +            for recipe, data in workspace.items():
-> +                if recipe not in args.exclude:
-> +                    add_recipe(tar, recipe, data)
-> +                    exported.append(recipe)
+> +    imported = []
+> +    with tarfile.open(args.file) as tar:
 > +
-> +        add_metadata(tar)
+> +        # get exported metadata so values containing paths can be automatically replaced it
+> +        export_workspace_path = export_workspace = None
+> +        try:
+> +            metadata = tar.getmember(export.metadata)
+> +            tar.extract(metadata)
+> +            with open(metadata.name) as fdm:
+> +                export_workspace_path, export_workspace = json.load(fdm)
+> +            os.unlink(metadata.name)
+> +        except KeyError as ke:
+> +            logger.warn('The export metadata file created by "devtool export" was not found')
+> +            logger.warn('Manual editing is needed to correct paths on imported recipes/appends')
+
+We should just fail if the metadata file isn't there - we don't need to
+support users importing any random tarball; if the metadata file
+isn't there we can safely assume that it wasn't exported with
+devtool export.
+
 > +
-> +    logger.info('Tar archive created at %s with the following recipes: %s' % (name, ' '.join(exported)))
+> +        members = [member for member in tar.getmembers() if member.name != export.metadata]
+> +        for member in members:
+> +            # make sure imported bbappend has its corresponding recipe (bb)
+> +            if member.name.startswith('appends'):
+> +                bbappend = get_pn(member.name)
+> +                if bbappend:
+> +                    if bbappend not in current_recipes:
+> +                        # check that the recipe is not in the tar archive being imported
+> +                        if bbappend not in export_workspace:
+> +                            logger.warn('No recipe to append %s, skipping' % bbappend)
+> +                            continue
+> +                else:
+> +                    logger.warn('bbappend name %s could not be detected' % member.name)
+> +                    continue
 
-', '.join() makes for a slightly more readable output.
+This isn't the right way to check this - PN isn't guaranteed to be the same
+as the name part of the filename, for one. It's much safer to iterate over
+tinfoil.cooker.recipecaches[''].pkg_fn (keys, i.e. filenames, not PN values)
+and see if the bbappend matches the item, breaking out on first match.
+Remember that a bbappend might be the exact same name as the bb file or
+it might use a % wildcard. (You could cheat and replace this % with a * and
+then use fnmatch.fnmatch() to make this a bit easier). 
 
+Given the moderate expense of computing this we should probably do it
+once as part of the initial check and store it in a dict so we can use it later
+(I see get_pn() is called again later on).
+
+> +            # extract file from tar
+> +            path = os.path.join(config.workspace_path, member.name)
+> +            if os.path.exists(path):
+> +                if args.overwrite:
+> +                    try:
+> +                        tar.extract(member, path=config.workspace_path)
+> +                    except PermissionError as pe:
+> +                        logger.warn(pe)
+
+If a recipe is already in someone's workspace, is this going to leave the
+user with a mix of files extracted from the tarball and whatever happens to
+already be in the source tree? If so, that could be problematic. I think I
+would first check if the recipe's source tree exists at all and if so, either
+skip it with a warning or overwrite it entirely dependent on whether -o
+has been specified.
+
+
+> +                else:
+> +                    logger.warn('File already present. Use --overwrite/-o to overwrite it: %s' % member.name)
+> +            else:
+> +                tar.extract(member, path=config.workspace_path)
+> +
+> +            if member.name.startswith('appends'):
+> +                recipe = get_pn(member.name)
+> +
+> +                # Update EXTERNARLSRC
+
+Typo - EXTERNALSRC.
+
+> +                if export_workspace_path:
+> +                    # appends created by 'devtool modify' just need to update the workspace
+> +                    ftools.replace_from_file(path, export_workspace_path, config.workspace_path)
+> +
+> +                    # appends created by 'devtool add' need replacement of exported source tree
+> +                    exported_srctree = export_workspace[recipe]['srctree']
+> +                    if exported_srctree:
+> +                        ftools.replace_from_file(path, exported_srctree, os.path.join(config.workspace_path, 'sources', recipe))
+> +
+> +                # update .devtool_md5 file
+> +                standard._add_md5(config, recipe, path)
+> +                if recipe not in imported:
+> +                    imported.append(recipe)
+> +
+> +    logger.info('Imported recipes into workspace %s: %s' % (config.workspace_path, ' '.join(imported)))
 > +    return 0
 > +
 > +def register_commands(subparsers, context):
-> +    """Register devtool export subcommands"""
-> +    parser = subparsers.add_parser('export',
-> +                                   help='Export workspace into a tar archive',
-> +                                   description='Export one or more recipes from current workspace into a tar archive',
-> +                                   group='advanced')
-> +
-> +    parser.add_argument('--file', '-f', help='Use archive file or device')
+> +    """Register devtool import subcommands"""
+> +    parser = subparsers.add_parser('import',
+> +                                   help='Import tar archive into workspace',
+> +                                   description='Import previously created tar archive into the workspace',
 
-For the -f help text I think we ought to just say "Output archive file name".
+We should be specific - 'Import exported tar archive into workspace' and
+'Import tar archive previously created by "devtool export" into workspace'.
+
+> +                                   group='advanced')
+> +    parser.add_argument('file', metavar='FILE', help='Name of the tar archive to import')
+> +    parser.add_argument('--overwrite', '-o', action="store_true", help='Overwrite previous export tar archive')
+
+We're not writing out a tar archive so this should be "Overwrite files when
+extracting" or similar.
 
 Cheers,
 Paul
