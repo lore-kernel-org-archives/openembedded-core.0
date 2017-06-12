@@ -1,29 +1,27 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <richard@rpsys.net>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id C28D278262
+	by mail.openembedded.org (Postfix) with ESMTP id 61FF9781F2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Jun 2017 10:06:54 +0000 (UTC)
+	Mon, 12 Jun 2017 10:25:29 +0000 (UTC)
 Received: from hex ([192.168.3.34]) (authenticated bits=0)
 	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	v5CA6mxp005677
+	v5CAPSDX007082
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Mon, 12 Jun 2017 11:06:50 +0100
-Message-ID: <1497262008.3942.4.camel@linuxfoundation.org>
+	verify=NOT); Mon, 12 Jun 2017 11:25:29 +0100
+Received: from richard by hex with local (Exim 4.86_2)
+	(envelope-from <richard@rpsys.net>)
+	id 1dKMXI-00041A-Eq; Mon, 12 Jun 2017 11:25:28 +0100
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Jussi Kukkonen <jussi.kukkonen@intel.com>,
-	openembedded-core@lists.openembedded.org
-Date: Mon, 12 Jun 2017 11:06:48 +0100
-In-Reply-To: <0c83f6d3e761aa93c07528c5a3730e2ddc43d748.1496993458.git.jussi.kukkonen@intel.com>
-References: <cover.1496993458.git.jussi.kukkonen@intel.com>
-	<0c83f6d3e761aa93c07528c5a3730e2ddc43d748.1496993458.git.jussi.kukkonen@intel.com>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
-Mime-Version: 1.0
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 12 Jun 2017 11:25:27 +0100
+Message-Id: <1497263127-15406-1-git-send-email-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.7.4
 X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.11
 	(dan.rpsys.net [192.168.3.1]);
-	Mon, 12 Jun 2017 11:06:51 +0100 (BST)
+	Mon, 12 Jun 2017 11:25:29 +0100 (BST)
 X-Virus-Scanned: clamav-milter 0.99.2 at dan
 X-Virus-Status: Clean
-Subject: Re: [PATCH 1/2] Enable parallel compilation for python3-numpy
+Subject: [PATCH] native/nativesdk: Ensure DISTRO_FEATURES is determistic
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,23 +34,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Jun 2017 10:06:56 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 12 Jun 2017 10:25:30 -0000
 
-On Fri, 2017-06-09 at 10:36 +0300, Jussi Kukkonen wrote:
-> Support for "-j N" does not seem like a generic distutils thing
-> but numpy supports it.
-> 
-> This improves compile time by 2 minutes (real time).
+set() order is random and hence the filtered native/nativesdk DISTRO_FEATURES
+could be set to random ordering. We've been lucky so far this tended not to
+cause issues but some queued changes highedlighted this. Thrown in a sorted()
+so the order is deterministic and we get consistent hash checksums between runs
+and between machines.
 
-Sorry:
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/classes/native.bbclass    | 2 +-
+ meta/classes/nativesdk.bbclass | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-https://autobuilder.yocto.io/builders/nightly-musl/builds/298/steps/BuildImages/logs/stdio
+diff --git a/meta/classes/native.bbclass b/meta/classes/native.bbclass
+index b8f839a..6b7f3dd 100644
+--- a/meta/classes/native.bbclass
++++ b/meta/classes/native.bbclass
+@@ -129,7 +129,7 @@ python native_virtclass_handler () {
+     # from modifying native distro features
+     features = set(d.getVar("DISTRO_FEATURES_NATIVE").split())
+     filtered = set(bb.utils.filter("DISTRO_FEATURES", d.getVar("DISTRO_FEATURES_FILTER_NATIVE"), d).split())
+-    d.setVar("DISTRO_FEATURES", " ".join(features | filtered))
++    d.setVar("DISTRO_FEATURES", " ".join(sorted(features | filtered)))
+ 
+     classextend = e.data.getVar('BBCLASSEXTEND') or ""
+     if "native" not in classextend:
+diff --git a/meta/classes/nativesdk.bbclass b/meta/classes/nativesdk.bbclass
+index 655b456..69fb45c8 100644
+--- a/meta/classes/nativesdk.bbclass
++++ b/meta/classes/nativesdk.bbclass
+@@ -74,7 +74,7 @@ python nativesdk_virtclass_handler () {
+     # from modifying nativesdk distro features
+     features = set(d.getVar("DISTRO_FEATURES_NATIVESDK").split())
+     filtered = set(bb.utils.filter("DISTRO_FEATURES", d.getVar("DISTRO_FEATURES_FILTER_NATIVESDK"), d).split())
+-    d.setVar("DISTRO_FEATURES", " ".join(features | filtered))
++    d.setVar("DISTRO_FEATURES", " ".join(sorted(features | filtered)))
+ 
+     e.data.setVar("MLPREFIX", "nativesdk-")
+     e.data.setVar("PN", "nativesdk-" + e.data.getVar("PN").replace("-nativesdk", "").replace("nativesdk-", ""))
+-- 
+2.7.4
 
-Appears to have races?
-
-Cheers,
-
-Richard
 
