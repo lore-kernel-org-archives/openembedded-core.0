@@ -1,27 +1,25 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 2CBA47826F
+Return-Path: <maxin.john@intel.com>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by mail.openembedded.org (Postfix) with ESMTP id B3518780C3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Jun 2017 15:02:41 +0000 (UTC)
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	12 Jun 2017 08:02:12 -0700
+	Mon, 12 Jun 2017 15:10:42 +0000 (UTC)
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+	by orsmga104.jf.intel.com with ESMTP; 12 Jun 2017 08:10:43 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.39,333,1493708400"; d="scan'208";a="97126423"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by orsmga004.jf.intel.com with ESMTP; 12 Jun 2017 08:02:11 -0700
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <20170612145805.11599-1-alexander.kanavin@linux.intel.com>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <c1bdfae3-8ee8-a281-413b-e56083480097@linux.intel.com>
-Date: Mon, 12 Jun 2017 18:02:15 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.8.0
-MIME-Version: 1.0
-In-Reply-To: <20170612145805.11599-1-alexander.kanavin@linux.intel.com>
-Subject: Re: [PATCH] rpm: run binary package generation via thread pools
+X-IronPort-AV: E=Sophos;i="5.39,333,1493708400"; d="scan'208";a="113358564"
+Received: from linux.intel.com ([10.54.29.200])
+	by fmsmga005.fm.intel.com with ESMTP; 12 Jun 2017 08:10:43 -0700
+Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
+	[10.237.72.84])
+	by linux.intel.com (Postfix) with ESMTP id C10895806E6
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 12 Jun 2017 08:10:42 -0700 (PDT)
+From: "Maxin B. John" <maxin.john@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 12 Jun 2017 18:10:20 +0300
+Message-Id: <1497280222-11549-1-git-send-email-maxin.john@intel.com>
+X-Mailer: git-send-email 2.4.0
+Subject: [PATCH 0/2] [RFC] fix systemd-resolved and connman boot in read only rootfs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,23 +32,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Jun 2017 15:02:42 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 12 Jun 2017 15:10:42 -0000
 
-On 06/12/2017 05:58 PM, Alexander Kanavin wrote:
-> This greatly reduces build times when there is a large amount of small
-> rpm packages to produce. The patches are rather invasive,
-> and so will be submitted upstream.
+1. Enable systemd-resolved and systemd-networkd by default
+2. Fix systemd-resolved in read only rootfs
+3. Fix connman for read-only rootfs
+4. Resolve the conflict with systemd-resolved and connman
 
-The changes in this version of the patch:
+Maxin B. John (2):
+  systemd: enable resolved and networkd
+  connman: correct the systemd boot in read only rootfs
 
-- fixed (hopefully) the segfaults seen on autobuilder with older 
-versions of gcc
+ meta/recipes-connectivity/connman/connman.inc      | 15 ++++++++++-
+ ...vice-stop-systemd-resolved-when-we-use-co.patch | 29 ++++++++++++++++++++++
+ meta/recipes-connectivity/connman/connman_1.34.bb  |  1 +
+ meta/recipes-core/systemd/systemd_232.bb           | 13 +++++++---
+ 4 files changed, 54 insertions(+), 4 deletions(-)
+ create mode 100644 meta/recipes-connectivity/connman/connman/0001-connman.service-stop-systemd-resolved-when-we-use-co.patch
 
-- made sure that build host and build time are set only once, and are 
-the same in all output files.
-
-Alex
+-- 
+2.4.0
 
 
