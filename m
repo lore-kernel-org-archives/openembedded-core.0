@@ -1,49 +1,55 @@
-Return-Path: <changhyeok.bae@gmail.com>
-Received: from mail-io0-f181.google.com (mail-io0-f181.google.com
-	[209.85.223.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 05DEA78234
+Return-Path: <jpewhacker@gmail.com>
+Received: from mail-it0-f65.google.com (mail-it0-f65.google.com
+	[209.85.214.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 523DE601A5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Jun 2017 12:07:14 +0000 (UTC)
-Received: by mail-io0-f181.google.com with SMTP id y77so54101321ioe.3
+	Mon, 12 Jun 2017 12:25:00 +0000 (UTC)
+Received: by mail-it0-f65.google.com with SMTP id 201so9362022itu.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Jun 2017 05:07:16 -0700 (PDT)
+	Mon, 12 Jun 2017 05:25:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=S4RWPDhH/c9ZVwCjjDQ7vEZpBSj2CQN26FffsDkRayA=;
-	b=fBrGEpg9jLbLsci4l7slEHcFxiFceKcmfpJV+m/XMgPYixXXVG0pd07Ku1eGKtZ0FP
-	BgGeGIknVZKyiiOd8lh6Y8eJN9BapqA/mPCrrRKYpyI6gIgbFvuciUVb+0YjmaW3AeX2
-	z+b9O5I36v6rMnRcVTQKv09gRgs76bpZnOxRrITlKHBbCAkuLwGVySI5OXPzr1MIHzZ6
-	ygbIkR3Y0Ras5mUaYJL41klTKKJPjFCCMGTemFduJd7JA6yhy9Q3pVjrWk5JVMlHTP1/
-	JYZYNBGSBdyjSRQ1GRSPFT0rt+aokkGSs9oEiJ7CVKinTvbMdN++rXpCtrX2MNlcAZTw
-	OFUQ==
+	h=from:message-id:subject:to:date:in-reply-to:references:mime-version
+	:content-transfer-encoding;
+	bh=QxPsh0HBZGhLeYL7DBt9pIlYDxa+LPy4sHv00i54CFE=;
+	b=WIUt51X68KA85Hy2nch46swo2rHaP/leaXeZyqjg3sKbyf8VtVopT/tho8dduUSxDj
+	8bsFjrVFYJx/8t4/5G8KcpaV/NAF+dS8fEEiuzqgqzLutEaewtlRbycTqd2i2Lg432h3
+	3Xmi6f2o8639GYl6amRFWMjMhS2vmlZ4eTAuXfpZZ3OulYyQJgA9RVgeShDDMN1LAqhU
+	RZTQ0uEXSL/zZGn35wpKiO9jTB7/t0YK9Vrp1J+R5W7Y6ycSKzYVwfe4xmudTBiFTHQO
+	cIoPzlW2rwVMn0sjRbmFjGxevzwUsvQ0qlz3fyNzRfS4zri4yzycQweOfM7hnlaRQ26s
+	XhzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=S4RWPDhH/c9ZVwCjjDQ7vEZpBSj2CQN26FffsDkRayA=;
-	b=W7gAXVwAIASeVNychysFvAvUYQrECFR3Mw7YCBcIIknNpxQvBcc9KREOXRnUkN4uIE
-	FGuZOjnK5VarTv2DY28ROdxr4UKB4oofSNRM40btD/U1Bae3DrhrDP0fZuBJs3/XRiwX
-	t+gDKCxPswH/rbfV28lxsGlsheW3iZ4zYpW6N4M/669J587nsM4Zw7a/3+8zrYJSDYYn
-	e9/z/laWcCnSOjWdFTSTgmWOV/8oQM9/LTRElDHicLkVdlDVkdwcj4v+qYIsdRJ8+mJp
-	cqJloaHtdIcLnKTRMRFsz8IcJWbTUzE0ZTUZbXVx12UClybLJupO/EWqnOVnyTNKYzAl
-	Kp6g==
-X-Gm-Message-State: AODbwcCoMJmK1CdldU8v9ekL6GU1whaFVem8QwjiwTOsIlVXdKIAZCsP
-	HFWlxJvi5LyWe+EW1sv1sriVcH7S8Q==
-X-Received: by 10.107.172.5 with SMTP id v5mr52667239ioe.63.1497269236029;
-	Mon, 12 Jun 2017 05:07:16 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.107.34.16 with HTTP; Mon, 12 Jun 2017 05:07:15 -0700 (PDT)
-In-Reply-To: <CAJTo0LbmvxbMpbopc8g6Bh+VAq3S79qfzL0UvBb8s4ngPAzySA@mail.gmail.com>
-References: <1497265861-2562-1-git-send-email-changhyeok.bae@gmail.com>
-	<CAJTo0LY_O+BctxPoraFsYpSnTBksq+Cz7e=UZT2bHYyzpt94aw@mail.gmail.com>
-	<CACrLJgCAdBwC8jWSdAMxdHAEyuW31AQchSA=rHZ-5-UTbMMY5Q@mail.gmail.com>
-	<CAJTo0LbmvxbMpbopc8g6Bh+VAq3S79qfzL0UvBb8s4ngPAzySA@mail.gmail.com>
-From: Changhyeok Bae <changhyeok.bae@gmail.com>
-Date: Mon, 12 Jun 2017 21:07:15 +0900
-Message-ID: <CACrLJgB3bSVMYYR9rg6ex3p3kgT9U0U5CnDcY7eDFcX7iU1sog@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v4] openssl: Upgrade 1.0.2k -> 1.0.2l
+	h=x-gm-message-state:from:message-id:subject:to:date:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=QxPsh0HBZGhLeYL7DBt9pIlYDxa+LPy4sHv00i54CFE=;
+	b=bZvodUdyciK1dn6Y9XgVCHyyeuAOA9YHiUgCmbN3OqwqWH0YhOxuw6zJYq8xoMbxuQ
+	/g3EnFxdaG+tqWQnEcgEcgSfjP1X8vLv//WqNjbhymLlNl/i97ZGoeeFJjo524fFoDiV
+	ufu/KSoWTCP8oI9jNUI5WtL9xfUjimfut3DhNo6SRSybz7DUZ7OU1cXFv+JwdUpCavP7
+	1nkaYUnFFkmDJRWn0wAEvnWpHCeIEuNzaQTpBHUFvPhXHp6PAGtyyLOsSHi8p41uIUJM
+	eo9fHsQFD4hJd+CmVoibHhW4plc83B7zPpibbdCsYCLZUHx5jnlMQlhw3jDjo6eIjXvl
+	3r2g==
+X-Gm-Message-State: AODbwcDVxxrk53O3C6KqCmH2w53Pb6rpLSvyqHw6uy52I1D0WRkS+L+q
+	wRQ1X5GlWNfYmEu784E=
+X-Received: by 10.36.194.71 with SMTP id i68mr11878939itg.106.1497270302011;
+	Mon, 12 Jun 2017 05:25:02 -0700 (PDT)
+Received: from ola-842mrw1.ad.garmin.com ([204.77.163.55])
+	by smtp.googlemail.com with ESMTPSA id
+	b70sm4569097ioe.57.2017.06.12.05.25.00
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Mon, 12 Jun 2017 05:25:00 -0700 (PDT)
+From: Joshua Watt <jpewhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+Message-ID: <1497270300.1888.0.camel@gmail.com>
+To: OE-core <openembedded-core@lists.openembedded.org>
+Date: Mon, 12 Jun 2017 07:25:00 -0500
+In-Reply-To: <CAJdd5GY3pvJY0VvkANRvDkZxWU8AFCcn5sWu=K9-gnMDmRjHrw@mail.gmail.com>
+References: <CAJdd5GYuBbqarXs38M91atDyQhz17EcPDE9yKme-oiwDjCtaaA@mail.gmail.com>
+	<20170601030557.9337-1-JPEWhacker@gmail.com>
+	<CAJdd5GY3pvJY0VvkANRvDkZxWU8AFCcn5sWu=K9-gnMDmRjHrw@mail.gmail.com>
+X-Mailer: Evolution 3.22.6 (3.22.6-2.fc25) 
+Mime-Version: 1.0
+Subject: Re: [PATCH v7] openssh: Atomically generate host keys
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,107 +62,203 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Jun 2017 12:07:16 -0000
-Content-Type: multipart/alternative; boundary="94eb2c05a8aaf264f30551c228ce"
-
---94eb2c05a8aaf264f30551c228ce
+X-List-Received-Date: Mon, 12 Jun 2017 12:25:01 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Ok. Thanks for your comments. I'll add it soon
+On Tue, 2017-06-06 at 22:30 -0500, Joshua Watt wrote:
+> On Wed, May 31, 2017 at 10:05 PM, Joshua Watt <jpewhacker@gmail.com>
+> wrote:
+> > Generating the host keys atomically prevents power interruptions
+> > during
+> > the first boot from leaving the key files incomplete, which often
+> > prevents users from being able to ssh into the device.
+> > 
+> > Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+> > ---
+> >  meta/recipes-connectivity/openssh/openssh/init     | 22 ++++----
+> > ------
+> >  .../openssh/openssh/sshd-check-key                 | 35
+> > ++++++++++++++++++++++
+> >  .../openssh/openssh/sshdgenkeys.service            | 25 ++++++++
+> > --------
+> >  meta/recipes-connectivity/openssh/openssh_7.5p1.bb |  8 +++++
+> >  4 files changed, 61 insertions(+), 29 deletions(-)
+> >  create mode 100644 meta/recipes-connectivity/openssh/openssh/sshd-
+> > check-key
+> > 
+> > diff --git a/meta/recipes-connectivity/openssh/openssh/init
+> > b/meta/recipes-connectivity/openssh/openssh/init
+> > index 1f63725..e02c479 100644
+> > --- a/meta/recipes-connectivity/openssh/openssh/init
+> > +++ b/meta/recipes-connectivity/openssh/openssh/init
+> > @@ -45,23 +45,11 @@ check_config() {
+> >  }
+> > 
+> >  check_keys() {
+> > -       # create keys if necessary
+> > -       if [ ! -f $HOST_KEY_RSA ]; then
+> > -               echo "  generating ssh RSA key..."
+> > -               ssh-keygen -q -f $HOST_KEY_RSA -N '' -t rsa
+> > -       fi
+> > -       if [ ! -f $HOST_KEY_ECDSA ]; then
+> > -               echo "  generating ssh ECDSA key..."
+> > -               ssh-keygen -q -f $HOST_KEY_ECDSA -N '' -t ecdsa
+> > -       fi
+> > -       if [ ! -f $HOST_KEY_DSA ]; then
+> > -               echo "  generating ssh DSA key..."
+> > -               ssh-keygen -q -f $HOST_KEY_DSA -N '' -t dsa
+> > -       fi
+> > -       if [ ! -f $HOST_KEY_ED25519 ]; then
+> > -               echo "  generating ssh ED25519 key..."
+> > -               ssh-keygen -q -f $HOST_KEY_ED25519 -N '' -t ed25519
+> > -       fi
+> > +    @LIBEXECDIR@/sshd-check-key $HOST_KEY_RSA rsa
+> > +    @LIBEXECDIR@/sshd-check-key $HOST_KEY_ECDSA ecdsa
+> > +    @LIBEXECDIR@/sshd-check-key $HOST_KEY_DSA dsa
+> > +    @LIBEXECDIR@/sshd-check-key $HOST_KEY_ED25519 ed25519
+> > +    @BASE_BINDIR@/sync
+> >  }
+> > 
+> >  export PATH="${PATH:+$PATH:}/usr/sbin:/sbin"
+> > diff --git a/meta/recipes-connectivity/openssh/openssh/sshd-check-
+> > key b/meta/recipes-connectivity/openssh/openssh/sshd-check-key
+> > new file mode 100644
+> > index 0000000..3afdb8b
+> > --- /dev/null
+> > +++ b/meta/recipes-connectivity/openssh/openssh/sshd-check-key
+> > @@ -0,0 +1,35 @@
+> > +#! /bin/sh
+> > +NAME="$1"
+> > +TYPE="$2"
+> > +
+> > +if [ -z "$NAME" ] || [ -z "$TYPE" ]; then
+> > +    echo "Usage: $0 NAME TYPE"
+> > +    exit 1
+> > +fi
+> > +
+> > +
+> > +if [ ! -f "$NAME" ]; then
+> > +    DIR="$(dirname "$NAME")"
+> > +
+> > +    echo "  generating ssh $TYPE key..."
+> > +    ssh-keygen -q -f "${NAME}.tmp" -N '' -t $TYPE
+> > +
+> > +    # Move (Atomically rename) files
+> > +    mv -f "${NAME}.tmp.pub" "${NAME}.pub"
+> > +
+> > +    # This sync does double duty: Ensuring that the data in the
+> > temporary
+> > +    # private key file is on disk before the rename, and ensuring
+> > that the
+> > +    # public key rename is completed before the private key
+> > rename, since we
+> > +    # switch on the existence of the private key to trigger key
+> > generation.
+> > +    # This does mean it is possible for the public key to exist,
+> > but be garbage
+> > +    # but this is OK because in that case the private key won't
+> > exist and the
+> > +    # keys will be regenerated.
+> > +    #
+> > +    # In the event that sync understands arguments that limit what
+> > it tries to
+> > +    # fsync(), we provided them. If it does not, it will simply
+> > call sync()
+> > +    # which is just as well
+> > +    sync "${NAME}.pub" "$DIR" "${NAME}.tmp"
+> > +
+> > +    mv "${NAME}.tmp" "$NAME"
+> > +fi
+> > +
+> > diff --git a/meta/recipes-
+> > connectivity/openssh/openssh/sshdgenkeys.service b/meta/recipes-
+> > connectivity/openssh/openssh/sshdgenkeys.service
+> > index 148e6ad..23fd351 100644
+> > --- a/meta/recipes-connectivity/openssh/openssh/sshdgenkeys.service
+> > +++ b/meta/recipes-connectivity/openssh/openssh/sshdgenkeys.service
+> > @@ -1,22 +1,23 @@
+> >  [Unit]
+> >  Description=OpenSSH Key Generation
+> >  RequiresMountsFor=/var /run
+> > -ConditionPathExists=!/var/run/ssh/ssh_host_rsa_key
+> > -ConditionPathExists=!/var/run/ssh/ssh_host_dsa_key
+> > -ConditionPathExists=!/var/run/ssh/ssh_host_ecdsa_key
+> > -ConditionPathExists=!/var/run/ssh/ssh_host_ed25519_key
+> > -ConditionPathExists=!/etc/ssh/ssh_host_rsa_key
+> > -ConditionPathExists=!/etc/ssh/ssh_host_dsa_key
+> > -ConditionPathExists=!/etc/ssh/ssh_host_ecdsa_key
+> > -ConditionPathExists=!/etc/ssh/ssh_host_ed25519_key
+> > +ConditionPathExists=|!/var/run/ssh/ssh_host_rsa_key
+> > +ConditionPathExists=|!/var/run/ssh/ssh_host_dsa_key
+> > +ConditionPathExists=|!/var/run/ssh/ssh_host_ecdsa_key
+> > +ConditionPathExists=|!/var/run/ssh/ssh_host_ed25519_key
+> > +ConditionPathExists=|!/etc/ssh/ssh_host_rsa_key
+> > +ConditionPathExists=|!/etc/ssh/ssh_host_dsa_key
+> > +ConditionPathExists=|!/etc/ssh/ssh_host_ecdsa_key
+> > +ConditionPathExists=|!/etc/ssh/ssh_host_ed25519_key
+> > 
+> >  [Service]
+> >  Environment="SYSCONFDIR=/etc/ssh"
+> >  EnvironmentFile=-/etc/default/ssh
+> >  ExecStart=@BASE_BINDIR@/mkdir -p $SYSCONFDIR
+> > -ExecStart=@BINDIR@/ssh-keygen -q -f ${SYSCONFDIR}/ssh_host_rsa_key
+> > -N '' -t rsa
+> > -ExecStart=@BINDIR@/ssh-keygen -q -f ${SYSCONFDIR}/ssh_host_dsa_key
+> > -N '' -t dsa
+> > -ExecStart=@BINDIR@/ssh-keygen -q -f
+> > ${SYSCONFDIR}/ssh_host_ecdsa_key -N '' -t ecdsa
+> > -ExecStart=@BINDIR@/ssh-keygen -q -f
+> > ${SYSCONFDIR}/ssh_host_ed25519_key -N '' -t ed25519
+> > +ExecStart=@LIBEXECDIR@/sshd-check-key
+> > ${SYSCONFDIR}/ssh_host_rsa_key rsa
+> > +ExecStart=@LIBEXECDIR@/sshd-check-key
+> > ${SYSCONFDIR}/ssh_host_dsa_key dsa
+> > +ExecStart=@LIBEXECDIR@/sshd-check-key
+> > ${SYSCONFDIR}/ssh_host_ecdsa_key ecdsa
+> > +ExecStart=@LIBEXECDIR@/sshd-check-key
+> > ${SYSCONFDIR}/ssh_host_ed25519_key ed25519
+> > +ExecStart=@BASE_BINDIR@/sync
+> >  Type=oneshot
+> >  RemainAfterExit=yes
+> > diff --git a/meta/recipes-connectivity/openssh/openssh_7.5p1.bb
+> > b/meta/recipes-connectivity/openssh/openssh_7.5p1.bb
+> > index 5b96745..ec4b55f 100644
+> > --- a/meta/recipes-connectivity/openssh/openssh_7.5p1.bb
+> > +++ b/meta/recipes-connectivity/openssh/openssh_7.5p1.bb
+> > @@ -25,6 +25,7 @@ SRC_URI = "http://ftp.openbsd.org/pub/OpenBSD/Ope
+> > nSSH/portable/openssh-${PV}.tar
+> >             file://openssh-7.1p1-conditional-compile-des-in-
+> > cipher.patch \
+> >             file://openssh-7.1p1-conditional-compile-des-in-
+> > pkcs11.patch \
+> >             file://fix-potential-signed-overflow-in-pointer-
+> > arithmatic.patch \
+> > +           file://sshd-check-key \
+> >             "
+> > 
+> >  PAM_SRC_URI = "file://sshd"
+> > @@ -124,7 +125,14 @@ do_install_append () {
+> >         sed -i -e 's,@BASE_BINDIR@,${base_bindir},g' \
+> >                 -e 's,@SBINDIR@,${sbindir},g' \
+> >                 -e 's,@BINDIR@,${bindir},g' \
+> > +               -e 's,@LIBEXECDIR@,${libexecdir}/${BPN},g' \
+> >                 ${D}${systemd_unitdir}/system/sshd.socket
+> > ${D}${systemd_unitdir}/system/*.service
+> > +
+> > +       sed -i -e 's,@LIBEXECDIR@,${libexecdir}/${BPN},g' \
+> > +               -e 's,@BASE_BINDIR@,${base_bindir},g' \
+> > +               ${D}${sysconfdir}/init.d/sshd
+> > +
+> > +       install -D -m 0755 ${WORKDIR}/sshd-check-key
+> > ${D}${libexecdir}/${BPN}
+> >  }
+> > 
+> >  do_install_ptest () {
+> > --
+> > 2.9.4
+> > 
+> 
+> Ping?
 
-Thanks
-Changhyeok
 
-2017-06-12 21:03 GMT+09:00 Burton, Ross <ross.burton@intel.com>:
-
->
-> On 12 June 2017 at 13:02, Changhyeok Bae <changhyeok.bae@gmail.com> wrote:
->
->> I think that do_install_ptest is fine. Why would you think that?
->>
->
-> packages/corei7-64-poky-linux/openssl/openssl-ptest:
->   * PKGSIZE changed from 6192634 to 26 (-99%)
->   * FILELIST: removed "/usr/lib/openssl/ptest/test/dtlstest.c
-> /usr/lib/openssl/ptest/test/certs/pss1.pem /usr/lib/openssl/ptest/test/destest.c
-> /usr/lib/openssl/ptest/test/md5test.o /usr/lib/openssl/ptest/test/rsa_test.o
-> /usr/lib/openssl/ptest/test/evp_extra_test.o /usr/lib/openssl/ptest/certs/README.RootCerts
-> /usr/lib/openssl/ptest/include/openssl/asn1.h /usr/lib/openssl/ptest/test/ocsp-tests/D3_Issuer_Root.pem
-> /usr/lib/openssl/ptest/libcrypto.a /usr/lib/openssl/ptest/test/srptest.o
-> /usr/lib/openssl/ptest/test/ocsp-tests/WSNIC_D2_Issuer_Root.pem
-> /usr/lib/openssl/ptest/test/certs/rootCA.key /usr/lib/openssl/ptest/test/VMSca-response.2
-> /usr/lib/openssl/ptest/test/ocsp-tests/WKIC_ND1_Issuer_ICA.pem
-> /usr/lib/openssl/ptest/test/ideatest.c /usr/lib/openssl/ptest/test/certs/rootCA.pem
-> /usr/lib/openssl/ptest/test/ocsp-tests/D1_Cert_EE.pem
-> /usr/lib/openssl/ptest/certs/demo/73912336.0 /usr/lib/openssl/ptest/test/hmactest.o
-> /usr/lib/openssl/ptest/test/maketests.com /usr/lib/openssl/ptest/test/smime-certs/smec1.pem
-> /usr/lib/openssl/ptest/certs/demo/cbdbd8bc.0 /usr/lib/openssl/ptest/test/
-> ocsp-tests/WKIC_D2_Issuer_Root.pem /usr/lib/openssl/ptest/test/verify_extra_test.c
-> /usr/lib/openssl/ptest/test/serverinfo.pem /usr/lib/openssl/ptest/test/shatest.c
-> /usr/lib/openssl/ptest/test/CAss.cnf ...
->
-> (lots more lines)
->
-> None of the test suite is actually being installed.
->
-> Ross
->
-
-
-
--- 
-Thanks
-Changhyeok
-
---94eb2c05a8aaf264f30551c228ce
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Ok. Thanks for your comments. I&#39;ll add it soon<div><br=
-></div><div>Thanks</div><div>Changhyeok</div></div><div class=3D"gmail_extr=
-a"><br><div class=3D"gmail_quote">2017-06-12 21:03 GMT+09:00 Burton, Ross <=
-span dir=3D"ltr">&lt;<a href=3D"mailto:ross.burton@intel.com" target=3D"_bl=
-ank">ross.burton@intel.com</a>&gt;</span>:<br><blockquote class=3D"gmail_qu=
-ote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex=
-"><div dir=3D"ltr"><div class=3D"gmail_extra"><span class=3D""><br><div cla=
-ss=3D"gmail_quote">On 12 June 2017 at 13:02, Changhyeok Bae <span dir=3D"lt=
-r">&lt;<a href=3D"mailto:changhyeok.bae@gmail.com" target=3D"_blank">changh=
-yeok.bae@gmail.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quot=
-e" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-styl=
-e:solid;border-left-color:rgb(204,204,204);padding-left:1ex"><div dir=3D"lt=
-r">I think that do_install_ptest is fine. Why would you think that?<div></d=
-iv></div></blockquote></div><br></span><div class=3D"gmail_extra">packages/=
-corei7-64-poky-linux/<wbr>openssl/openssl-ptest:</div><div class=3D"gmail_e=
-xtra">=C2=A0 * PKGSIZE changed from 6192634 to 26 (-99%)</div><div class=3D=
-"gmail_extra">=C2=A0 * FILELIST: removed &quot;/usr/lib/openssl/ptest/test/=
-<wbr>dtlstest.c /usr/lib/openssl/ptest/test/<wbr>certs/pss1.pem /usr/lib/op=
-enssl/ptest/test/<wbr>destest.c /usr/lib/openssl/ptest/test/<wbr>md5test.o =
-/usr/lib/openssl/ptest/test/<wbr>rsa_test.o /usr/lib/openssl/ptest/test/<wb=
-r>evp_extra_test.o /usr/lib/openssl/ptest/certs/<wbr>README.RootCerts /usr/=
-lib/openssl/ptest/<wbr>include/openssl/asn1.h /usr/lib/openssl/ptest/test/<=
-wbr>ocsp-tests/D3_Issuer_Root.pem /usr/lib/openssl/ptest/<wbr>libcrypto.a /=
-usr/lib/openssl/ptest/test/<wbr>srptest.o /usr/lib/openssl/ptest/test/<wbr>=
-ocsp-tests/WSNIC_D2_Issuer_<wbr>Root.pem /usr/lib/openssl/ptest/test/<wbr>c=
-erts/rootCA.key /usr/lib/openssl/ptest/test/<wbr>VMSca-response.2 /usr/lib/=
-openssl/ptest/test/<wbr>ocsp-tests/WKIC_ND1_Issuer_<wbr>ICA.pem /usr/lib/op=
-enssl/ptest/test/<wbr>ideatest.c /usr/lib/openssl/ptest/test/<wbr>certs/roo=
-tCA.pem /usr/lib/openssl/ptest/test/<wbr>ocsp-tests/D1_Cert_EE.pem /usr/lib=
-/openssl/ptest/certs/<wbr>demo/73912336.0 /usr/lib/openssl/ptest/test/<wbr>=
-hmactest.o /usr/lib/openssl/ptest/test/<a href=3D"http://maketests.com" tar=
-get=3D"_blank">ma<wbr>ketests.com</a> /usr/lib/openssl/ptest/test/<wbr>smim=
-e-certs/smec1.pem /usr/lib/openssl/ptest/certs/<wbr>demo/cbdbd8bc.0 /usr/li=
-b/openssl/ptest/test/<wbr>ocsp-tests/WKIC_D2_Issuer_<wbr>Root.pem /usr/lib/=
-openssl/ptest/test/<wbr>verify_extra_test.c /usr/lib/openssl/ptest/test/<wb=
-r>serverinfo.pem /usr/lib/openssl/ptest/test/<wbr>shatest.c /usr/lib/openss=
-l/ptest/test/<wbr>CAss.cnf ...</div><div class=3D"gmail_extra"><br></div><d=
-iv class=3D"gmail_extra">(lots more lines)</div><div class=3D"gmail_extra">=
-<br></div><div class=3D"gmail_extra">None of the test suite is actually bei=
-ng installed.</div><span class=3D"HOEnZb"><font color=3D"#888888"><div clas=
-s=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></font></s=
-pan></div></div>
-</blockquote></div><br><br clear=3D"all"><div><br></div>-- <br><div class=
-=3D"gmail_signature" data-smartmail=3D"gmail_signature"><div dir=3D"ltr">Th=
-anks<div>Changhyeok</div></div></div>
-</div>
-
---94eb2c05a8aaf264f30551c228ce--
