@@ -1,39 +1,20 @@
-Return-Path: <stephen.k.jolley@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id ECAC160797
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by mail.openembedded.org (Postfix) with ESMTP id 48158780C3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Jun 2017 14:53:17 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	12 Jun 2017 07:53:18 -0700
+	Mon, 12 Jun 2017 14:58:01 +0000 (UTC)
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+	by orsmga104.jf.intel.com with ESMTP; 12 Jun 2017 07:58:03 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.39,333,1493708400"; 
-	d="scan'208,217";a="1159489428"
-Received: from fmsmsx103.amr.corp.intel.com ([10.18.124.201])
-	by fmsmga001.fm.intel.com with ESMTP; 12 Jun 2017 07:53:17 -0700
-Received: from fmsmsx155.amr.corp.intel.com (10.18.116.71) by
-	FMSMSX103.amr.corp.intel.com (10.18.124.201) with Microsoft SMTP Server
-	(TLS) id 14.3.319.2; Mon, 12 Jun 2017 07:51:11 -0700
-Received: from fmsmsx111.amr.corp.intel.com ([169.254.12.2]) by
-	FMSMSX155.amr.corp.intel.com ([169.254.5.48]) with mapi id
-	14.03.0319.002; Mon, 12 Jun 2017 07:51:11 -0700
-From: "Jolley, Stephen K" <stephen.k.jolley@intel.com>
-To: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: =?Windows-1252?Q?Yocto_Project_Status_WW24=9217?=
-Thread-Index: AdLjiudWnR65yVl9ToGB10S23SbJKg==
-Date: Mon, 12 Jun 2017 14:51:10 +0000
-Message-ID: <9ADD3FDE8B189B4AA2F8A3C711F8155E981E4C84@fmsmsx111.amr.corp.intel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-Auto-Response-Suppress: DR, OOF, AutoReply
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.1.200.106]
-x-ctpclassification: CTP_IC
-x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiZjkwYmE0ZGMtMDE0MS00NjZiLWIzNzUtNDczYTY2ODIyY2U2IiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX0lDIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE2LjUuOS4zIiwiVHJ1c3RlZExhYmVsSGFzaCI6Ik5WWWVkc1RrQzBmd1ZjSlN3R0xTZzlVXC8xNTNNcjZwbVwvcVcra2ZcLzluQ2c9In0=
-MIME-Version: 1.0
-Subject: =?UTF-8?B?WW9jdG8gUHJvamVjdCBTdGF0dXMgV1cyNOKAmTE3?=
+X-IronPort-AV: E=Sophos;i="5.39,333,1493708400"; d="scan'208";a="112130181"
+Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
+	by orsmga005.jf.intel.com with ESMTP; 12 Jun 2017 07:58:01 -0700
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 12 Jun 2017 17:58:05 +0300
+Message-Id: <20170612145805.11599-1-alexander.kanavin@linux.intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH] rpm: run binary package generation via thread pools
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,595 +27,820 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Jun 2017 14:53:18 -0000
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_9ADD3FDE8B189B4AA2F8A3C711F8155E981E4C84fmsmsx111amrcor_"
+X-List-Received-Date: Mon, 12 Jun 2017 14:58:02 -0000
 
---_000_9ADD3FDE8B189B4AA2F8A3C711F8155E981E4C84fmsmsx111amrcor_
-Content-Type: text/plain; charset="Windows-1252"
-Content-Transfer-Encoding: quoted-printable
+This greatly reduces build times when there is a large amount of small
+rpm packages to produce. The patches are rather invasive,
+and so will be submitted upstream.
 
-Current Dev Position: Preparing for YP 2.4 M1
+Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+---
+ ...y-package-building-into-a-separate-functi.patch |  84 +++++
+ ...-binary-package-creation-via-thread-pools.patch | 127 ++++++++
+ ...c-make-operations-over-string-pools-threa.patch | 207 +++++++++++++
+ ...c-remove-static-local-variables-from-buil.patch | 337 +++++++++++++++++++++
+ meta/recipes-devtools/rpm/rpm_git.bb               |   4 +
+ 5 files changed, 759 insertions(+)
+ create mode 100644 meta/recipes-devtools/rpm/files/0001-Split-binary-package-building-into-a-separate-functi.patch
+ create mode 100644 meta/recipes-devtools/rpm/files/0002-Run-binary-package-creation-via-thread-pools.patch
+ create mode 100644 meta/recipes-devtools/rpm/files/0003-rpmstrpool.c-make-operations-over-string-pools-threa.patch
+ create mode 100644 meta/recipes-devtools/rpm/files/0004-build-pack.c-remove-static-local-variables-from-buil.patch
 
-Next Deadline: YP 2.4 M1 Cut off is June 12, 2017
+diff --git a/meta/recipes-devtools/rpm/files/0001-Split-binary-package-building-into-a-separate-functi.patch b/meta/recipes-devtools/rpm/files/0001-Split-binary-package-building-into-a-separate-functi.patch
+new file mode 100644
+index 00000000000..6e44f0b7fc9
+--- /dev/null
++++ b/meta/recipes-devtools/rpm/files/0001-Split-binary-package-building-into-a-separate-functi.patch
+@@ -0,0 +1,84 @@
++From 721a660a507d6d062e7aecafad886c643970a5d5 Mon Sep 17 00:00:00 2001
++From: Alexander Kanavin <alex.kanavin@gmail.com>
++Date: Thu, 25 May 2017 18:15:27 +0300
++Subject: [PATCH 1/4] Split binary package building into a separate function
++
++So that it can be run as a thread pool task.
++
++Upstream-Status: Submitted [https://github.com/rpm-software-management/rpm/pull/226]
++Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
++
++---
++ build/pack.c | 33 +++++++++++++++++++++------------
++ 1 file changed, 21 insertions(+), 12 deletions(-)
++
++diff --git a/build/pack.c b/build/pack.c
++index 518f4e92a..ccfd614cc 100644
++--- a/build/pack.c
+++++ b/build/pack.c
++@@ -546,18 +546,13 @@ static rpmRC checkPackages(char *pkgcheck)
++     return RPMRC_OK;
++ }
++ 
++-rpmRC packageBinaries(rpmSpec spec, const char *cookie, int cheating)
+++static rpmRC packageBinary(rpmSpec spec, Package pkg, const char *cookie, int cheating, char** filename)
++ {
++-    rpmRC rc;
++-    const char *errorString;
++-    Package pkg;
++-    char *pkglist = NULL;
++-
++-    for (pkg = spec->packages; pkg != NULL; pkg = pkg->next) {
++-	char *fn;
+++	const char *errorString;
+++	rpmRC rc = RPMRC_OK;
++ 
++ 	if (pkg->fileList == NULL)
++-	    continue;
+++	    return rc;
++ 
++ 	if ((rc = processScriptFiles(spec, pkg)))
++ 	    return rc;
++@@ -587,7 +582,7 @@ rpmRC packageBinaries(rpmSpec spec, const char *cookie, int cheating)
++ 		     headerGetString(pkg->header, RPMTAG_NAME), errorString);
++ 		return RPMRC_FAIL;
++ 	    }
++-	    fn = rpmGetPath("%{_rpmdir}/", binRpm, NULL);
+++	    *filename = rpmGetPath("%{_rpmdir}/", binRpm, NULL);
++ 	    if ((binDir = strchr(binRpm, '/')) != NULL) {
++ 		struct stat st;
++ 		char *dn;
++@@ -609,14 +604,28 @@ rpmRC packageBinaries(rpmSpec spec, const char *cookie, int cheating)
++ 	    free(binRpm);
++ 	}
++ 
++-	rc = writeRPM(pkg, NULL, fn, NULL);
+++	rc = writeRPM(pkg, NULL, *filename, NULL);
++ 	if (rc == RPMRC_OK) {
++ 	    /* Do check each written package if enabled */
++-	    char *pkgcheck = rpmExpand("%{?_build_pkgcheck} ", fn, NULL);
+++	    char *pkgcheck = rpmExpand("%{?_build_pkgcheck} ", *filename, NULL);
++ 	    if (pkgcheck[0] != ' ') {
++ 		rc = checkPackages(pkgcheck);
++ 	    }
++ 	    free(pkgcheck);
+++	}
+++	return rc;
+++}
+++
+++rpmRC packageBinaries(rpmSpec spec, const char *cookie, int cheating)
+++{
+++    rpmRC rc;
+++    Package pkg;
+++    char *pkglist = NULL;
+++
+++    for (pkg = spec->packages; pkg != NULL; pkg = pkg->next) {
+++	char *fn = NULL;
+++	rc = packageBinary(spec, pkg, cookie, cheating, &fn);
+++	if (rc == RPMRC_OK) {
++ 	    rstrcat(&pkglist, fn);
++ 	    rstrcat(&pkglist, " ");
++ 	}
++-- 
++2.11.0
++
+diff --git a/meta/recipes-devtools/rpm/files/0002-Run-binary-package-creation-via-thread-pools.patch b/meta/recipes-devtools/rpm/files/0002-Run-binary-package-creation-via-thread-pools.patch
+new file mode 100644
+index 00000000000..d10041c2e14
+--- /dev/null
++++ b/meta/recipes-devtools/rpm/files/0002-Run-binary-package-creation-via-thread-pools.patch
+@@ -0,0 +1,127 @@
++From 513200cf76758de4668312c628d6362bdabfaf4b Mon Sep 17 00:00:00 2001
++From: Alexander Kanavin <alex.kanavin@gmail.com>
++Date: Thu, 25 May 2017 19:30:20 +0300
++Subject: [PATCH 1/3] Run binary package creation via thread pools.
++
++Upstream-Status: Submitted [https://github.com/rpm-software-management/rpm/pull/226]
++Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
++
++---
++ build/pack.c | 81 +++++++++++++++++++++++++++++++++++++++++++++++++-----------
++ configure.ac |  3 +++
++ 2 files changed, 70 insertions(+), 14 deletions(-)
++
++diff --git a/build/pack.c b/build/pack.c
++index ccfd614cc..ed5b9ab4e 100644
++--- a/build/pack.c
+++++ b/build/pack.c
++@@ -616,25 +616,78 @@ static rpmRC packageBinary(rpmSpec spec, Package pkg, const char *cookie, int ch
++ 	return rc;
++ }
++ 
++-rpmRC packageBinaries(rpmSpec spec, const char *cookie, int cheating)
+++struct binaryPackageTaskData
++ {
++-    rpmRC rc;
++     Package pkg;
+++    char *filename;
+++    rpmRC result;
+++    struct binaryPackageTaskData *next;
+++};
+++
+++static struct binaryPackageTaskData* runBinaryPackageTasks(rpmSpec spec, const char *cookie, int cheating)
+++{
+++    struct binaryPackageTaskData *tasks = NULL;
+++    struct binaryPackageTaskData *task = NULL;
+++    struct binaryPackageTaskData *prev = NULL;
+++
+++    for (Package pkg = spec->packages; pkg != NULL; pkg = pkg->next) {
+++        task = rcalloc(1, sizeof(*task));
+++        task->pkg = pkg;
+++        if (pkg == spec->packages) {
+++            // the first package needs to be processed ahead of others, as they copy
+++            // changelog data from it, and so otherwise data races would happen
+++            task->result = packageBinary(spec, pkg, cookie, cheating, &(task->filename));
+++            rpmlog(RPMLOG_NOTICE, _("Finished binary package job, result %d, filename %s\n"), task->result, task->filename);
+++            tasks = task;
+++        }
+++        if (prev != NULL) {
+++            prev->next = task;
+++        }
+++        prev = task;
+++    }
+++
+++    #pragma omp parallel
+++    #pragma omp single
+++    // re-declaring task variable is necessary, or older gcc versions will produce code that segfaults
+++    for (struct binaryPackageTaskData *task = tasks; task != NULL; task = task->next) {
+++        if (task != tasks)
+++        #pragma omp task
+++        {
+++            task->result = packageBinary(spec, task->pkg, cookie, cheating, &(task->filename));
+++            rpmlog(RPMLOG_NOTICE, _("Finished binary package job, result %d, filename %s\n"), task->result, task->filename);
+++        }
+++    }
+++
+++    return tasks;
+++}
+++
+++static void freeBinaryPackageTasks(struct binaryPackageTaskData* tasks)
+++{
+++    while (tasks != NULL) {
+++        struct binaryPackageTaskData* next = tasks->next;
+++        rfree(tasks->filename);
+++        rfree(tasks);
+++        tasks = next;
+++    }
+++}
+++
+++rpmRC packageBinaries(rpmSpec spec, const char *cookie, int cheating)
+++{
++     char *pkglist = NULL;
++ 
++-    for (pkg = spec->packages; pkg != NULL; pkg = pkg->next) {
++-	char *fn = NULL;
++-	rc = packageBinary(spec, pkg, cookie, cheating, &fn);
++-	if (rc == RPMRC_OK) {
++-	    rstrcat(&pkglist, fn);
++-	    rstrcat(&pkglist, " ");
++-	}
++-	free(fn);
++-	if (rc != RPMRC_OK) {
++-	    pkglist = _free(pkglist);
++-	    return rc;
++-	}
+++    struct binaryPackageTaskData *tasks = runBinaryPackageTasks(spec, cookie, cheating);
+++
+++    for (struct binaryPackageTaskData *task = tasks; task != NULL; task = task->next) {
+++        if (task->result == RPMRC_OK) {
+++            rstrcat(&pkglist, task->filename);
+++            rstrcat(&pkglist, " ");
+++        } else {
+++            _free(pkglist);
+++            freeBinaryPackageTasks(tasks);
+++            return RPMRC_FAIL;
+++        }
++     }
+++    freeBinaryPackageTasks(tasks);
++ 
++     /* Now check the package set if enabled */
++     if (pkglist != NULL) {
++diff --git a/configure.ac b/configure.ac
++index a506ec819..59fa0acaf 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -17,6 +17,9 @@ AC_DISABLE_STATIC
++ 
++ PKG_PROG_PKG_CONFIG
++ 
+++AC_OPENMP
+++RPMCFLAGS="$OPENMP_CFLAGS $RPMCFLAGS"
+++
++ dnl Checks for programs.
++ AC_PROG_CXX
++ AC_PROG_AWK
++-- 
++2.11.0
++
+diff --git a/meta/recipes-devtools/rpm/files/0003-rpmstrpool.c-make-operations-over-string-pools-threa.patch b/meta/recipes-devtools/rpm/files/0003-rpmstrpool.c-make-operations-over-string-pools-threa.patch
+new file mode 100644
+index 00000000000..c348ae5330e
+--- /dev/null
++++ b/meta/recipes-devtools/rpm/files/0003-rpmstrpool.c-make-operations-over-string-pools-threa.patch
+@@ -0,0 +1,207 @@
++From c80892f17e44331206c8318d53b63bb6a99554d0 Mon Sep 17 00:00:00 2001
++From: Alexander Kanavin <alex.kanavin@gmail.com>
++Date: Tue, 30 May 2017 13:58:30 +0300
++Subject: [PATCH 3/4] rpmstrpool.c: make operations over string pools
++ thread-safe
++
++Otherwise multithreaded rpm building explodes in various ways due
++to data races.
++
++Upstream-Status: Submitted [https://github.com/rpm-software-management/rpm/pull/226]
++Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
++
++---
++ rpmio/rpmstrpool.c | 56 +++++++++++++++++++++++++++++++++++++++++++++---------
++ 1 file changed, 47 insertions(+), 9 deletions(-)
++
++diff --git a/rpmio/rpmstrpool.c b/rpmio/rpmstrpool.c
++index 30a57eb10..58ba95a02 100644
++--- a/rpmio/rpmstrpool.c
+++++ b/rpmio/rpmstrpool.c
++@@ -113,6 +113,8 @@ static poolHash poolHashCreate(int numBuckets)
++     return ht;
++ }
++ 
+++static const char * rpmstrPoolStrNoLock(rpmstrPool pool, rpmsid sid);
+++
++ static void poolHashResize(rpmstrPool pool, int numBuckets)
++ {
++     poolHash ht = pool->hash;
++@@ -120,7 +122,7 @@ static void poolHashResize(rpmstrPool pool, int numBuckets)
++ 
++     for (int i=0; i<ht->numBuckets; i++) {
++         if (!ht->buckets[i].keyid) continue;
++-        unsigned int keyHash = rstrhash(rpmstrPoolStr(pool, ht->buckets[i].keyid));
+++        unsigned int keyHash = rstrhash(rpmstrPoolStrNoLock(pool, ht->buckets[i].keyid));
++         for (unsigned int j=0;;j++) {
++             unsigned int hash = hashbucket(keyHash, j) % numBuckets;
++             if (!buckets[hash].keyid) {
++@@ -149,7 +151,7 @@ static void poolHashAddHEntry(rpmstrPool pool, const char * key, unsigned int ke
++             ht->buckets[hash].keyid = keyid;
++             ht->keyCount++;
++             break;
++-        } else if (!strcmp(rpmstrPoolStr(pool, ht->buckets[hash].keyid), key)) {
+++        } else if (!strcmp(rpmstrPoolStrNoLock(pool, ht->buckets[hash].keyid), key)) {
++             return;
++         }
++     }
++@@ -191,7 +193,7 @@ static void poolHashPrintStats(rpmstrPool pool)
++     int maxcollisions = 0;
++ 
++     for (i=0; i<ht->numBuckets; i++) {
++-        unsigned int keyHash = rstrhash(rpmstrPoolStr(pool, ht->buckets[i].keyid));
+++        unsigned int keyHash = rstrhash(rpmstrPoolStrNoLock(pool, ht->buckets[i].keyid));
++         for (unsigned int j=0;;j++) {
++             unsigned int hash = hashbucket(keyHash, i) % ht->numBuckets;
++             if (hash==i) {
++@@ -221,7 +223,7 @@ static void rpmstrPoolRehash(rpmstrPool pool)
++ 
++     pool->hash = poolHashCreate(sizehint);
++     for (int i = 1; i <= pool->offs_size; i++)
++-	poolHashAddEntry(pool, rpmstrPoolStr(pool, i), i);
+++	poolHashAddEntry(pool, rpmstrPoolStrNoLock(pool, i), i);
++ }
++ 
++ rpmstrPool rpmstrPoolCreate(void)
++@@ -245,6 +247,8 @@ rpmstrPool rpmstrPoolCreate(void)
++ 
++ rpmstrPool rpmstrPoolFree(rpmstrPool pool)
++ {
+++    #pragma omp critical(rpmstrpool)
+++    {
++     if (pool) {
++ 	if (pool->nrefs > 1) {
++ 	    pool->nrefs--;
++@@ -260,18 +264,24 @@ rpmstrPool rpmstrPoolFree(rpmstrPool pool)
++ 	    free(pool);
++ 	}
++     }
+++    }
++     return NULL;
++ }
++ 
++ rpmstrPool rpmstrPoolLink(rpmstrPool pool)
++ {
+++    #pragma omp critical(rpmstrpool)
+++    {
++     if (pool)
++ 	pool->nrefs++;
+++    }
++     return pool;
++ }
++ 
++ void rpmstrPoolFreeze(rpmstrPool pool, int keephash)
++ {
+++    #pragma omp critical(rpmstrpool)
+++    {
++     if (pool && !pool->frozen) {
++ 	if (!keephash) {
++ 	    pool->hash = poolHashFree(pool->hash);
++@@ -281,16 +291,20 @@ void rpmstrPoolFreeze(rpmstrPool pool, int keephash)
++ 			      pool->offs_alloced * sizeof(*pool->offs));
++ 	pool->frozen = 1;
++     }
+++    }
++ }
++ 
++ void rpmstrPoolUnfreeze(rpmstrPool pool)
++ {
+++    #pragma omp critical(rpmstrpool)
+++    {
++     if (pool) {
++ 	if (pool->hash == NULL) {
++ 	    rpmstrPoolRehash(pool);
++ 	}
++ 	pool->frozen = 0;
++     }
+++    }
++ }
++ 
++ static rpmsid rpmstrPoolPut(rpmstrPool pool, const char *s, size_t slen, unsigned int hash)
++@@ -350,7 +364,7 @@ static rpmsid rpmstrPoolGet(rpmstrPool pool, const char * key, size_t keylen,
++             return 0;
++         }
++ 
++-	s = rpmstrPoolStr(pool, ht->buckets[hash].keyid);
+++	s = rpmstrPoolStrNoLock(pool, ht->buckets[hash].keyid);
++ 	/* pool string could be longer than keylen, require exact matche */
++ 	if (strncmp(s, key, keylen) == 0 && s[keylen] == '\0')
++ 	    return ht->buckets[hash].keyid;
++@@ -373,27 +387,31 @@ static inline rpmsid strn2id(rpmstrPool pool, const char *s, size_t slen,
++ rpmsid rpmstrPoolIdn(rpmstrPool pool, const char *s, size_t slen, int create)
++ {
++     rpmsid sid = 0;
++-
+++    #pragma omp critical(rpmstrpool)
+++    {
++     if (s != NULL) {
++ 	unsigned int hash = rstrnhash(s, slen);
++ 	sid = strn2id(pool, s, slen, hash, create);
++     }
+++    }
++     return sid;
++ }
++ 
++ rpmsid rpmstrPoolId(rpmstrPool pool, const char *s, int create)
++ {
++     rpmsid sid = 0;
++-
+++    #pragma omp critical(rpmstrpool)
+++    {
++     if (s != NULL) {
++ 	size_t slen;
++ 	unsigned int hash = rstrlenhash(s, &slen);
++ 	sid = strn2id(pool, s, slen, hash, create);
++     }
+++    }
++     return sid;
++ }
++ 
++-const char * rpmstrPoolStr(rpmstrPool pool, rpmsid sid)
+++static const char * rpmstrPoolStrNoLock(rpmstrPool pool, rpmsid sid)
++ {
++     const char *s = NULL;
++     if (pool && sid > 0 && sid <= pool->offs_size)
++@@ -401,12 +419,25 @@ const char * rpmstrPoolStr(rpmstrPool pool, rpmsid sid)
++     return s;
++ }
++ 
+++const char * rpmstrPoolStr(rpmstrPool pool, rpmsid sid)
+++{
+++    const char *s = NULL;
+++    #pragma omp critical(rpmstrpool)
+++    {
+++    s = rpmstrPoolStrNoLock(pool, sid);
+++    }
+++    return s;
+++}
+++
++ size_t rpmstrPoolStrlen(rpmstrPool pool, rpmsid sid)
++ {
++     size_t slen = 0;
+++    #pragma omp critical(rpmstrpool)
+++    {
++     if (pool && sid > 0 && sid <= pool->offs_size) {
++ 	slen = strlen(pool->offs[sid]);
++     }
+++    }
++     return slen;
++ }
++ 
++@@ -421,5 +452,12 @@ int rpmstrPoolStreq(rpmstrPool poolA, rpmsid sidA,
++ 
++ rpmsid rpmstrPoolNumStr(rpmstrPool pool)
++ {
++-    return (pool != NULL) ? pool->offs_size : 0;
+++    rpmsid id = 0;
+++    #pragma omp critical(rpmstrpool)
+++    {
+++    if (pool) {
+++	id = pool->offs_size;
+++    }
+++    }
+++    return id;
++ }
++-- 
++2.11.0
++
+diff --git a/meta/recipes-devtools/rpm/files/0004-build-pack.c-remove-static-local-variables-from-buil.patch b/meta/recipes-devtools/rpm/files/0004-build-pack.c-remove-static-local-variables-from-buil.patch
+new file mode 100644
+index 00000000000..64a5651f7e1
+--- /dev/null
++++ b/meta/recipes-devtools/rpm/files/0004-build-pack.c-remove-static-local-variables-from-buil.patch
+@@ -0,0 +1,337 @@
++From ec305795a302d226343e69031ff2024dfcde69c0 Mon Sep 17 00:00:00 2001
++From: Alexander Kanavin <alex.kanavin@gmail.com>
++Date: Thu, 8 Jun 2017 17:08:09 +0300
++Subject: [PATCH 3/3] build/pack.c: remove static local variables from
++ buildHost() and getBuildTime()
++
++Their use is causing difficult to diagnoze data races when building multiple
++packages in parallel, and is a bad idea in general, as it also makes it more
++difficult to reason about code.
++
++Upstream-Status: Submitted [https://github.com/rpm-software-management/rpm/pull/226]
++Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
++
++
++Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
++---
++ build/build.c             | 54 ++++++++++++++++++++++++++++--
++ build/pack.c              | 84 +++++++++--------------------------------------
++ build/rpmbuild_internal.h |  8 +++--
++ 3 files changed, 74 insertions(+), 72 deletions(-)
++
++diff --git a/build/build.c b/build/build.c
++index 5f99c8db7..09a1311c5 100644
++--- a/build/build.c
+++++ b/build/build.c
++@@ -6,6 +6,8 @@
++ #include "system.h"
++ 
++ #include <errno.h>
+++#include <netdb.h>
+++#include <time.h>
++ #include <sys/wait.h>
++ 
++ #include <rpm/rpmlog.h>
++@@ -16,6 +18,50 @@
++ 
++ #include "debug.h"
++ 
+++static rpm_time_t getBuildTime(void)
+++{
+++    rpm_time_t buildTime = 0;
+++    char *srcdate;
+++    time_t epoch;
+++    char *endptr;
+++
+++    srcdate = getenv("SOURCE_DATE_EPOCH");
+++    if (srcdate) {
+++        errno = 0;
+++        epoch = strtol(srcdate, &endptr, 10);
+++        if (srcdate == endptr || *endptr || errno != 0)
+++            rpmlog(RPMLOG_ERR, _("unable to parse SOURCE_DATE_EPOCH\n"));
+++        else
+++            buildTime = (int32_t) epoch;
+++    } else
+++        buildTime = (int32_t) time(NULL);
+++
+++    return buildTime;
+++}
+++
+++static char * buildHost(void)
+++{
+++    char* hostname;
+++    struct hostent *hbn;
+++    char *bhMacro;
+++
+++    bhMacro = rpmExpand("%{?_buildhost}", NULL);
+++    if (strcmp(bhMacro, "") != 0) {
+++        rasprintf(&hostname, "%s", bhMacro);
+++    } else {
+++        hostname = rcalloc(1024, sizeof(*hostname));
+++        (void) gethostname(hostname, 1024);
+++        hbn = gethostbyname(hostname);
+++        if (hbn)
+++            strcpy(hostname, hbn->h_name);
+++        else
+++            rpmlog(RPMLOG_WARNING,
+++                    _("Could not canonicalize hostname: %s\n"), hostname);
+++    }
+++    free(bhMacro);
+++    return(hostname);
+++}
+++
++ /**
++  */
++ static rpmRC doRmSource(rpmSpec spec)
++@@ -203,6 +249,9 @@ static rpmRC buildSpec(BTA_t buildArgs, rpmSpec spec, int what)
++     rpmRC rc = RPMRC_OK;
++     int test = (what & RPMBUILD_NOBUILD);
++     char *cookie = buildArgs->cookie ? xstrdup(buildArgs->cookie) : NULL;
+++    const char* host = buildHost();
+++    rpm_time_t buildTime = getBuildTime();
+++
++ 
++     if (rpmExpandNumeric("%{?source_date_epoch_from_changelog}") &&
++ 	getenv("SOURCE_DATE_EPOCH") == NULL) {
++@@ -271,11 +320,11 @@ static rpmRC buildSpec(BTA_t buildArgs, rpmSpec spec, int what)
++ 		goto exit;
++ 
++ 	if (((what & RPMBUILD_PACKAGESOURCE) && !test) &&
++-	    (rc = packageSources(spec, &cookie)))
+++	    (rc = packageSources(spec, &cookie, buildTime, host)))
++ 		return rc;
++ 
++ 	if (((what & RPMBUILD_PACKAGEBINARY) && !test) &&
++-	    (rc = packageBinaries(spec, cookie, (didBuild == 0))))
+++	    (rc = packageBinaries(spec, cookie, (didBuild == 0), buildTime, host)))
++ 		goto exit;
++ 	
++ 	if ((what & RPMBUILD_CLEAN) &&
++@@ -295,6 +344,7 @@ static rpmRC buildSpec(BTA_t buildArgs, rpmSpec spec, int what)
++ 	(void) unlink(spec->specFile);
++ 
++ exit:
+++    free(host);
++     free(cookie);
++     spec->rootDir = NULL;
++     if (rc != RPMRC_OK && rpmlogGetNrecs() > 0) {
++diff --git a/build/pack.c b/build/pack.c
++index ed5b9ab4e..62427065a 100644
++--- a/build/pack.c
+++++ b/build/pack.c
++@@ -6,8 +6,6 @@
++ #include "system.h"
++ 
++ #include <errno.h>
++-#include <netdb.h>
++-#include <time.h>
++ #include <sys/wait.h>
++ 
++ #include <rpm/rpmlib.h>			/* RPMSIGTAG*, rpmReadPackageFile */
++@@ -151,57 +149,6 @@ exit:
++     return rc;
++ }
++ 
++-static rpm_time_t * getBuildTime(void)
++-{
++-    static rpm_time_t buildTime[1];
++-    char *srcdate;
++-    time_t epoch;
++-    char *endptr;
++-
++-    if (buildTime[0] == 0) {
++-        srcdate = getenv("SOURCE_DATE_EPOCH");
++-        if (srcdate) {
++-            errno = 0;
++-            epoch = strtol(srcdate, &endptr, 10);
++-            if (srcdate == endptr || *endptr || errno != 0)
++-                rpmlog(RPMLOG_ERR, _("unable to parse SOURCE_DATE_EPOCH\n"));
++-            else
++-                buildTime[0] = (int32_t) epoch;
++-        } else
++-            buildTime[0] = (int32_t) time(NULL);
++-    }
++-
++-    return buildTime;
++-}
++-
++-static const char * buildHost(void)
++-{
++-    static char hostname[1024];
++-    static int oneshot = 0;
++-    struct hostent *hbn;
++-    char *bhMacro;
++-
++-    if (! oneshot) {
++-        bhMacro = rpmExpand("%{?_buildhost}", NULL);
++-        if (strcmp(bhMacro, "") != 0 && strlen(bhMacro) < 1024) {
++-            strcpy(hostname, bhMacro);
++-        } else {
++-            if (strcmp(bhMacro, "") != 0)
++-                rpmlog(RPMLOG_WARNING, _("The _buildhost macro is too long\n"));
++-            (void) gethostname(hostname, sizeof(hostname));
++-            hbn = gethostbyname(hostname);
++-            if (hbn)
++-                strcpy(hostname, hbn->h_name);
++-            else
++-                rpmlog(RPMLOG_WARNING,
++-                        _("Could not canonicalize hostname: %s\n"), hostname);
++-        }
++-        free(bhMacro);
++-        oneshot = 1;
++-    }
++-    return(hostname);
++-}
++-
++ static rpmRC processScriptFiles(rpmSpec spec, Package pkg)
++ {
++     struct TriggerFileEntry *p;
++@@ -308,7 +255,8 @@ static int haveRichDep(Package pkg)
++ }
++ 
++ static rpmRC writeRPM(Package pkg, unsigned char ** pkgidp,
++-		      const char *fileName, char **cookie)
+++		      const char *fileName, char **cookie,
+++		      rpm_time_t buildTime, const char* buildHost)
++ {
++     FD_t fd = NULL;
++     char * rpmio_flags = NULL;
++@@ -397,7 +345,7 @@ static rpmRC writeRPM(Package pkg, unsigned char ** pkgidp,
++ 
++     /* Create and add the cookie */
++     if (cookie) {
++-	rasprintf(cookie, "%s %d", buildHost(), (int) (*getBuildTime()));
+++	rasprintf(cookie, "%s %d", buildHost, buildTime);
++ 	headerPutString(pkg->header, RPMTAG_COOKIE, *cookie);
++     }
++     
++@@ -546,7 +494,7 @@ static rpmRC checkPackages(char *pkgcheck)
++     return RPMRC_OK;
++ }
++ 
++-static rpmRC packageBinary(rpmSpec spec, Package pkg, const char *cookie, int cheating, char** filename)
+++static rpmRC packageBinary(rpmSpec spec, Package pkg, const char *cookie, int cheating, char** filename, rpm_time_t buildTime, const char* buildHost)
++ {
++ 	const char *errorString;
++ 	rpmRC rc = RPMRC_OK;
++@@ -565,8 +513,8 @@ static rpmRC packageBinary(rpmSpec spec, Package pkg, const char *cookie, int ch
++ 	headerCopyTags(spec->packages->header, pkg->header, copyTags);
++ 	
++ 	headerPutString(pkg->header, RPMTAG_RPMVERSION, VERSION);
++-	headerPutString(pkg->header, RPMTAG_BUILDHOST, buildHost());
++-	headerPutUint32(pkg->header, RPMTAG_BUILDTIME, getBuildTime(), 1);
+++	headerPutString(pkg->header, RPMTAG_BUILDHOST, buildHost);
+++	headerPutUint32(pkg->header, RPMTAG_BUILDTIME, &buildTime, 1);
++ 
++ 	if (spec->sourcePkgId != NULL) {
++ 	    headerPutBin(pkg->header, RPMTAG_SOURCEPKGID, spec->sourcePkgId,16);
++@@ -604,7 +552,7 @@ static rpmRC packageBinary(rpmSpec spec, Package pkg, const char *cookie, int ch
++ 	    free(binRpm);
++ 	}
++ 
++-	rc = writeRPM(pkg, NULL, *filename, NULL);
+++	rc = writeRPM(pkg, NULL, *filename, NULL, buildTime, buildHost);
++ 	if (rc == RPMRC_OK) {
++ 	    /* Do check each written package if enabled */
++ 	    char *pkgcheck = rpmExpand("%{?_build_pkgcheck} ", *filename, NULL);
++@@ -624,7 +572,7 @@ struct binaryPackageTaskData
++     struct binaryPackageTaskData *next;
++ };
++ 
++-static struct binaryPackageTaskData* runBinaryPackageTasks(rpmSpec spec, const char *cookie, int cheating)
+++static struct binaryPackageTaskData* runBinaryPackageTasks(rpmSpec spec, const char *cookie, int cheating, rpm_time_t buildTime, char* buildHost)
++ {
++     struct binaryPackageTaskData *tasks = NULL;
++     struct binaryPackageTaskData *task = NULL;
++@@ -636,7 +584,7 @@ static struct binaryPackageTaskData* runBinaryPackageTasks(rpmSpec spec, const c
++         if (pkg == spec->packages) {
++             // the first package needs to be processed ahead of others, as they copy
++             // changelog data from it, and so otherwise data races would happen
++-            task->result = packageBinary(spec, pkg, cookie, cheating, &(task->filename));
+++            task->result = packageBinary(spec, pkg, cookie, cheating, &(task->filename), buildTime, buildHost);
++             rpmlog(RPMLOG_NOTICE, _("Finished binary package job, result %d, filename %s\n"), task->result, task->filename);
++             tasks = task;
++         }
++@@ -653,7 +601,7 @@ static struct binaryPackageTaskData* runBinaryPackageTasks(rpmSpec spec, const c
++         if (task != tasks)
++         #pragma omp task
++         {
++-            task->result = packageBinary(spec, task->pkg, cookie, cheating, &(task->filename));
+++            task->result = packageBinary(spec, task->pkg, cookie, cheating, &(task->filename), buildTime, buildHost);
++             rpmlog(RPMLOG_NOTICE, _("Finished binary package job, result %d, filename %s\n"), task->result, task->filename);
++         }
++     }
++@@ -671,11 +619,11 @@ static void freeBinaryPackageTasks(struct binaryPackageTaskData* tasks)
++     }
++ }
++ 
++-rpmRC packageBinaries(rpmSpec spec, const char *cookie, int cheating)
+++rpmRC packageBinaries(rpmSpec spec, const char *cookie, int cheating, rpm_time_t buildTime, char* buildHost)
++ {
++     char *pkglist = NULL;
++ 
++-    struct binaryPackageTaskData *tasks = runBinaryPackageTasks(spec, cookie, cheating);
+++    struct binaryPackageTaskData *tasks = runBinaryPackageTasks(spec, cookie, cheating, buildTime, buildHost);
++ 
++     for (struct binaryPackageTaskData *task = tasks; task != NULL; task = task->next) {
++         if (task->result == RPMRC_OK) {
++@@ -702,22 +650,22 @@ rpmRC packageBinaries(rpmSpec spec, const char *cookie, int cheating)
++     return RPMRC_OK;
++ }
++ 
++-rpmRC packageSources(rpmSpec spec, char **cookie)
+++rpmRC packageSources(rpmSpec spec, char **cookie, rpm_time_t buildTime, char* buildHost)
++ {
++     Package sourcePkg = spec->sourcePackage;
++     rpmRC rc;
++ 
++     /* Add some cruft */
++     headerPutString(sourcePkg->header, RPMTAG_RPMVERSION, VERSION);
++-    headerPutString(sourcePkg->header, RPMTAG_BUILDHOST, buildHost());
++-    headerPutUint32(sourcePkg->header, RPMTAG_BUILDTIME, getBuildTime(), 1);
+++    headerPutString(sourcePkg->header, RPMTAG_BUILDHOST, buildHost);
+++    headerPutUint32(sourcePkg->header, RPMTAG_BUILDTIME, &buildTime, 1);
++ 
++     /* XXX this should be %_srpmdir */
++     {	char *fn = rpmGetPath("%{_srcrpmdir}/", spec->sourceRpmName,NULL);
++ 	char *pkgcheck = rpmExpand("%{?_build_pkgcheck_srpm} ", fn, NULL);
++ 
++ 	spec->sourcePkgId = NULL;
++-	rc = writeRPM(sourcePkg, &spec->sourcePkgId, fn, cookie);
+++	rc = writeRPM(sourcePkg, &spec->sourcePkgId, fn, cookie, buildTime, buildHost);
++ 
++ 	/* Do check SRPM package if enabled */
++ 	if (rc == RPMRC_OK && pkgcheck[0] != ' ') {
++diff --git a/build/rpmbuild_internal.h b/build/rpmbuild_internal.h
++index 8351a6a34..797337ca7 100644
++--- a/build/rpmbuild_internal.h
+++++ b/build/rpmbuild_internal.h
++@@ -408,19 +408,23 @@ rpmRC processSourceFiles(rpmSpec spec, rpmBuildPkgFlags pkgFlags);
++  * @param spec		spec file control structure
++  * @param cookie	build identifier "cookie" or NULL
++  * @param cheating	was build shortcircuited?
+++ * @param buildTime	the build timestamp that goes into packages
+++ * @param buildHost	the hostname where the build is happening
++  * @return		RPMRC_OK on success
++  */
++ RPM_GNUC_INTERNAL
++-rpmRC packageBinaries(rpmSpec spec, const char *cookie, int cheating);
+++rpmRC packageBinaries(rpmSpec spec, const char *cookie, int cheating, rpm_time_t buildTime, char* buildHost);
++ 
++ /** \ingroup rpmbuild
++  * Generate source package.
++  * @param spec		spec file control structure
++  * @retval cookie	build identifier "cookie" or NULL
+++ * @param buildTime	the build timestamp that goes into packages
+++ * @param buildHost	the hostname where the build is happening
++  * @return		RPMRC_OK on success
++  */
++ RPM_GNUC_INTERNAL
++-rpmRC packageSources(rpmSpec spec, char **cookie);
+++rpmRC packageSources(rpmSpec spec, char **cookie, rpm_time_t buildTime, char* buildHost);
++ 
++ RPM_GNUC_INTERNAL
++ int addLangTag(rpmSpec spec, Header h, rpmTagVal tag,
++-- 
++2.11.0
++
+diff --git a/meta/recipes-devtools/rpm/rpm_git.bb b/meta/recipes-devtools/rpm/rpm_git.bb
+index 2310ee6b09e..b95b4719c19 100644
+--- a/meta/recipes-devtools/rpm/rpm_git.bb
++++ b/meta/recipes-devtools/rpm/rpm_git.bb
+@@ -35,6 +35,10 @@ SRC_URI = "git://github.com/rpm-software-management/rpm \
+            file://0001-Fix-build-with-musl-C-library.patch \
+            file://0001-Add-a-color-setting-for-mips64_n32-binaries.patch \
+            file://0001-Add-PYTHON_ABI-when-searching-for-python-libraries.patch \
++           file://0001-Split-binary-package-building-into-a-separate-functi.patch \
++           file://0002-Run-binary-package-creation-via-thread-pools.patch \
++           file://0003-rpmstrpool.c-make-operations-over-string-pools-threa.patch \
++           file://0004-build-pack.c-remove-static-local-variables-from-buil.patch \
+            "
+ 
+ PV = "4.13.90+git${SRCPV}"
+-- 
+2.11.0
 
 
-
-SWAT team rotation: Todor -> Alejandro on June 9, 2017.
-
-SWAT team rotation: Alejandro -> Jussi on June 16, 2017.
-
-https://wiki.yoctoproject.org/wiki/Yocto_Build_Failure_Swat_Team
-
-
-
-Key Status/Updates:
-
-=B7        Patch merging for 2.4 M1 is continuing and we hope to have a bui=
-ld into QA this week. The sheer number of failures we=92re finding with sub=
-mitted patches means patch merging is slow.
-
-=B7        We have fixed some key bugs in memres bitbake (thanks Paul!). I=
-=92d love more people to start using that and to report any issues since we=
- would like to make it the default by M2.
-
-=B7        Due to various issues mean we=92re going to repsin Morty 2.2.2 a=
-nd put a second rc through QA when we have time after 2.4 M1 is in QA.
-
-=B7        The no-x11 and musl issues in krogoth were resolved and we put 2=
-.1.3 into QA.  See: https://wiki.yoctoproject.org/wiki/2.1_QA_Status#Summar=
-y_Report
-
-=B7        We are planning a build of the pyro point release soon, if you h=
-ave patches you want to see in that stable series, please let us know. We d=
-id backport a number of CVEs already.
-
-=B7        Armin is looking after the pyro stable series at this point but =
-we are all overloaded and help would be appreciated.
-
-
-
-Planned upcoming dot releases:
-
-YP 2.1.3 Cut off May 22, 2017 - In QA now.
-
-YP 2.1.3 Release by June 3, 2017
-
-YP 2.3.1 Cut off May 30, 2017 - Running late, but should go into QA after Y=
-P 2.4 M1 is done.
-
-YP 2.3.1 Release by June 9, 2017
-
-YP 2.2.2 Cut off June 5, 2017 - Will respin and run through QA after YP 2.4=
- M1 is done.
-
-YP 2.2.2 Release by June, 16 2017
-
-YP 2.3.2 Cut off Aug 7, 2017
-
-YP 2.3.2 Release by Aug. 18, 2017
-
-
-
-Key YP 2.4 Dates are:
-
-YP 2.4 M1 Cut off is June 12, 2017
-
-YP 2.4 M1 Release by June 23, 2017
-
-YP 2.4 M2 Cut off is July 17, 2017
-
-YP 2.4 M2 Release by July 28, 2017
-
-YP 2.4 M3 Cut off is Aug. 21, 2017
-
-YP 2.4 M3 Release by Sept. 1, 2017
-
-YP 2.4 M4 (Final) Cut off is Sept. 18, 2017
-
-YP 2.4 M4 (Final) Release by Oct. 20, 2017
-
-
-
-Tracking Metrics:
-
-            WDD 2748 (last week 2793)
-
-(https://wiki.yoctoproject.org/charts/combo.html)
-
-
-
-Key Status Links for YP:
-
-https://wiki.yoctoproject.org/wiki/Yocto_Project_v2.4_Status
-
-https://wiki.yoctoproject.org/wiki/Yocto_2.4_Schedule
-
-https://wiki.yoctoproject.org/wiki/Yocto_2.4_Features
-
-
-
-[If anyone has suggestions for other information you=92d like to see on thi=
-s weekly status update, let us know!]
-
-Thanks,
-
-Stephen K. Jolley
-Yocto Project Program Manager
-INTEL, MS JF1-255, 2111 N.E. 25th Avenue, Hillsboro, OR 97124
-=95   Work Telephone:        (503) 712-0534
-=95    Cell:               (208) 244-4460
-=95 Email:                            stephen.k.jolley@intel.com
-
-
---_000_9ADD3FDE8B189B4AA2F8A3C711F8155E981E4C84fmsmsx111amrcor_
-Content-Type: text/html; charset="Windows-1252"
-Content-Transfer-Encoding: quoted-printable
-
-<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
-osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
-xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
-//www.w3.org/TR/REC-html40">
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3DWindows-1=
-252">
-<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
-<style><!--
-/* Font Definitions */
-@font-face
-	{font-family:Wingdings;
-	panose-1:5 0 0 0 0 0 0 0 0 0;}
-@font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;}
-@font-face
-	{font-family:Tahoma;
-	panose-1:2 11 6 4 3 5 4 4 2 4;}
-@font-face
-	{font-family:"Comic Sans MS";
-	panose-1:3 15 7 2 3 3 2 2 2 4;}
-@font-face
-	{font-family:"MS Sans Serif";}
-@font-face
-	{font-family:Consolas;
-	panose-1:2 11 6 9 2 2 4 3 2 4;}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0in;
-	margin-bottom:.0001pt;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;}
-a:link, span.MsoHyperlink
-	{mso-style-priority:99;
-	color:#0563C1;
-	text-decoration:underline;}
-a:visited, span.MsoHyperlinkFollowed
-	{mso-style-priority:99;
-	color:#954F72;
-	text-decoration:underline;}
-p
-	{mso-style-priority:99;
-	mso-margin-top-alt:auto;
-	margin-right:0in;
-	mso-margin-bottom-alt:auto;
-	margin-left:0in;
-	font-size:12.0pt;
-	font-family:"Times New Roman",serif;}
-span.EmailStyle18
-	{mso-style-type:personal-compose;
-	font-family:"Calibri",sans-serif;
-	color:windowtext;}
-span.apple-tab-span
-	{mso-style-name:apple-tab-span;}
-.MsoChpDefault
-	{mso-style-type:export-only;
-	font-size:10.0pt;}
-@page WordSection1
-	{size:8.5in 11.0in;
-	margin:1.0in 1.0in 1.0in 1.0in;}
-div.WordSection1
-	{page:WordSection1;}
-/* List Definitions */
-@list l0
-	{mso-list-id:548810574;
-	mso-list-template-ids:469949948;}
-@list l0:level1
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0B7;
-	mso-level-tab-stop:.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Symbol;}
-@list l0:level2
-	{mso-level-number-format:bullet;
-	mso-level-text:o;
-	mso-level-tab-stop:1.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:"Courier New";
-	mso-bidi-font-family:"Times New Roman";}
-@list l0:level3
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:1.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l0:level4
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l0:level5
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l0:level6
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l0:level7
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l0:level8
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l0:level9
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l1
-	{mso-list-id:1788042051;
-	mso-list-template-ids:-1294185584;}
-@list l1:level1
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0B7;
-	mso-level-tab-stop:.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Symbol;}
-@list l1:level2
-	{mso-level-number-format:bullet;
-	mso-level-text:o;
-	mso-level-tab-stop:1.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:"Courier New";
-	mso-bidi-font-family:"Times New Roman";}
-@list l1:level3
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:1.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l1:level4
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l1:level5
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l1:level6
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l1:level7
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l1:level8
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l1:level9
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-ol
-	{margin-bottom:0in;}
-ul
-	{margin-bottom:0in;}
---></style><!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
-</xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext=3D"edit">
-<o:idmap v:ext=3D"edit" data=3D"1" />
-</o:shapelayout></xml><![endif]-->
-</head>
-<body lang=3D"EN-US" link=3D"#0563C1" vlink=3D"#954F72">
-<div class=3D"WordSection1">
-<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
-pt;font-family:&quot;Arial&quot;,sans-serif;color:black">Current Dev Positi=
-on: Preparing for YP 2.4 M1</span><o:p></o:p></p>
-<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
-pt;font-family:&quot;Arial&quot;,sans-serif;color:black">Next Deadline: YP =
-2.4 M1 Cut off is June 12, 2017</span><o:p></o:p></p>
-<p style=3D"margin:0in;margin-bottom:.0001pt">&nbsp;<o:p></o:p></p>
-<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
-pt;font-family:&quot;Arial&quot;,sans-serif;color:black">SWAT team rotation=
-: Todor -&gt; Alejandro on June 9, 2017.</span><o:p></o:p></p>
-<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
-pt;font-family:&quot;Arial&quot;,sans-serif;color:black">SWAT team rotation=
-: Alejandro -&gt; Jussi on June 16, 2017.</span><o:p></o:p></p>
-<p style=3D"margin:0in;margin-bottom:.0001pt"><a href=3D"https://wiki.yocto=
-project.org/wiki/Yocto_Build_Failure_Swat_Team"><span style=3D"font-size:11=
-.0pt;font-family:Consolas;color:#1155CC">https://wiki.yoctoproject.org/wiki=
-/Yocto_Build_Failure_Swat_Team</span></a><o:p></o:p></p>
-<p style=3D"margin:0in;margin-bottom:.0001pt">&nbsp;<o:p></o:p></p>
-<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
-pt;font-family:&quot;Arial&quot;,sans-serif;color:black">Key Status/Updates=
-:</span><o:p></o:p></p>
-<p style=3D"mso-margin-top-alt:0in;margin-right:0in;margin-bottom:0in;margi=
-n-left:.5in;margin-bottom:.0001pt;text-indent:-.25in;mso-list:l0 level1 lfo=
-3;vertical-align:baseline">
-<![if !supportLists]><span style=3D"font-size:10.0pt;font-family:Symbol;col=
-or:black"><span style=3D"mso-list:Ignore">=B7<span style=3D"font:7.0pt &quo=
-t;Times New Roman&quot;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</span></span></span><![endif]><span style=3D"font-size:11.0pt;font-family:=
-&quot;Arial&quot;,sans-serif;color:black">Patch merging for 2.4 M1 is conti=
-nuing and we hope to have a build into QA this week. The sheer number of fa=
-ilures we=92re finding with submitted patches
- means patch merging is slow.<o:p></o:p></span></p>
-<p style=3D"mso-margin-top-alt:0in;margin-right:0in;margin-bottom:0in;margi=
-n-left:.5in;margin-bottom:.0001pt;text-indent:-.25in;mso-list:l0 level1 lfo=
-3;vertical-align:baseline">
-<![if !supportLists]><span style=3D"font-size:10.0pt;font-family:Symbol;col=
-or:black"><span style=3D"mso-list:Ignore">=B7<span style=3D"font:7.0pt &quo=
-t;Times New Roman&quot;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</span></span></span><![endif]><span style=3D"font-size:11.0pt;font-family:=
-&quot;Arial&quot;,sans-serif;color:black">We have fixed some key bugs in me=
-mres bitbake (thanks Paul!). I=92d love more people to start using that and=
- to report any issues since we would like to make
- it the default by M2.<o:p></o:p></span></p>
-<p style=3D"mso-margin-top-alt:0in;margin-right:0in;margin-bottom:0in;margi=
-n-left:.5in;margin-bottom:.0001pt;text-indent:-.25in;mso-list:l0 level1 lfo=
-3;vertical-align:baseline">
-<![if !supportLists]><span style=3D"font-size:10.0pt;font-family:Symbol;col=
-or:black"><span style=3D"mso-list:Ignore">=B7<span style=3D"font:7.0pt &quo=
-t;Times New Roman&quot;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</span></span></span><![endif]><span style=3D"font-size:11.0pt;font-family:=
-&quot;Arial&quot;,sans-serif;color:black">Due to various issues mean we=92r=
-e going to repsin Morty 2.2.2 and put a second rc through QA when we have t=
-ime after 2.4 M1 is in QA.<o:p></o:p></span></p>
-<p style=3D"mso-margin-top-alt:0in;margin-right:0in;margin-bottom:0in;margi=
-n-left:.5in;margin-bottom:.0001pt;text-indent:-.25in;mso-list:l0 level1 lfo=
-3;vertical-align:baseline">
-<![if !supportLists]><span style=3D"font-size:10.0pt;font-family:Symbol;col=
-or:black"><span style=3D"mso-list:Ignore">=B7<span style=3D"font:7.0pt &quo=
-t;Times New Roman&quot;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</span></span></span><![endif]><span style=3D"font-size:11.0pt;font-family:=
-&quot;Arial&quot;,sans-serif;color:black">The no-x11 and musl issues in kro=
-goth were resolved and we put 2.1.3 into QA. &nbsp;See:
-<a href=3D"https://wiki.yoctoproject.org/wiki/2.1_QA_Status#Summary_Report"=
-><span style=3D"color:#1155CC">https://wiki.yoctoproject.org/wiki/2.1_QA_St=
-atus#Summary_Report</span></a><o:p></o:p></span></p>
-<p style=3D"mso-margin-top-alt:0in;margin-right:0in;margin-bottom:0in;margi=
-n-left:.5in;margin-bottom:.0001pt;text-indent:-.25in;mso-list:l0 level1 lfo=
-3;vertical-align:baseline">
-<![if !supportLists]><span style=3D"font-size:10.0pt;font-family:Symbol;col=
-or:black"><span style=3D"mso-list:Ignore">=B7<span style=3D"font:7.0pt &quo=
-t;Times New Roman&quot;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</span></span></span><![endif]><span style=3D"font-size:11.0pt;font-family:=
-&quot;Arial&quot;,sans-serif;color:black">We are planning a build of the py=
-ro point release soon, if you have patches you want to see in that stable s=
-eries, please let us know. We did backport a
- number of CVEs already.<o:p></o:p></span></p>
-<p style=3D"mso-margin-top-alt:0in;margin-right:0in;margin-bottom:0in;margi=
-n-left:.5in;margin-bottom:.0001pt;text-indent:-.25in;mso-list:l0 level1 lfo=
-3;vertical-align:baseline">
-<![if !supportLists]><span style=3D"font-size:10.0pt;font-family:Symbol;col=
-or:black"><span style=3D"mso-list:Ignore">=B7<span style=3D"font:7.0pt &quo=
-t;Times New Roman&quot;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</span></span></span><![endif]><span style=3D"font-size:11.0pt;font-family:=
-&quot;Arial&quot;,sans-serif;color:black">Armin is looking after the pyro s=
-table series at this point but we are all overloaded and help would be appr=
-eciated.<o:p></o:p></span></p>
-<p style=3D"margin:0in;margin-bottom:.0001pt">&nbsp;<o:p></o:p></p>
-<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
-pt;font-family:&quot;Arial&quot;,sans-serif;color:black">Planned upcoming d=
-ot releases:</span><o:p></o:p></p>
-<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
-pt;font-family:&quot;Arial&quot;,sans-serif;color:black">YP 2.1.3 Cut off M=
-ay 22, 2017 - In QA now.</span><o:p></o:p></p>
-<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
-pt;font-family:&quot;Arial&quot;,sans-serif;color:black">YP 2.1.3 Release b=
-y June 3, 2017</span><o:p></o:p></p>
-<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
-pt;font-family:&quot;Arial&quot;,sans-serif;color:black">YP 2.3.1 Cut off M=
-ay 30, 2017 - Running late, but should go into QA after YP 2.4 M1 is done.<=
-/span><o:p></o:p></p>
-<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
-pt;font-family:&quot;Arial&quot;,sans-serif;color:black">YP 2.3.1 Release b=
-y June 9, 2017</span><o:p></o:p></p>
-<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
-pt;font-family:&quot;Arial&quot;,sans-serif;color:black">YP 2.2.2 Cut off J=
-une 5, 2017 - Will respin and run through QA after YP 2.4 M1 is done.</span=
-><o:p></o:p></p>
-<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
-pt;font-family:&quot;Arial&quot;,sans-serif;color:black">YP 2.2.2 Release b=
-y June, 16 2017</span><o:p></o:p></p>
-<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
-pt;font-family:&quot;Arial&quot;,sans-serif;color:black">YP 2.3.2 Cut off A=
-ug 7, 2017</span><o:p></o:p></p>
-<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
-pt;font-family:&quot;Arial&quot;,sans-serif;color:black">YP 2.3.2 Release b=
-y Aug. 18, 2017</span><o:p></o:p></p>
-<p style=3D"margin:0in;margin-bottom:.0001pt">&nbsp;<o:p></o:p></p>
-<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
-pt;font-family:&quot;Arial&quot;,sans-serif;color:black">Key YP 2.4 Dates a=
-re:</span><o:p></o:p></p>
-<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
-pt;font-family:&quot;Arial&quot;,sans-serif;color:black">YP 2.4 M1 Cut off =
-is June 12, 2017</span><o:p></o:p></p>
-<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
-pt;font-family:&quot;Arial&quot;,sans-serif;color:black">YP 2.4 M1 Release =
-by June 23, 2017</span><o:p></o:p></p>
-<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
-pt;font-family:&quot;Arial&quot;,sans-serif;color:black">YP 2.4 M2 Cut off =
-is July 17, 2017</span><o:p></o:p></p>
-<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
-pt;font-family:&quot;Arial&quot;,sans-serif;color:black">YP 2.4 M2 Release =
-by July 28, 2017</span><o:p></o:p></p>
-<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
-pt;font-family:&quot;Arial&quot;,sans-serif;color:black">YP 2.4 M3 Cut off =
-is Aug. 21, 2017</span><o:p></o:p></p>
-<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
-pt;font-family:&quot;Arial&quot;,sans-serif;color:black">YP 2.4 M3 Release =
-by Sept. 1, 2017</span><o:p></o:p></p>
-<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
-pt;font-family:&quot;Arial&quot;,sans-serif;color:black">YP 2.4 M4 (Final) =
-Cut off is Sept. 18, 2017</span><o:p></o:p></p>
-<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
-pt;font-family:&quot;Arial&quot;,sans-serif;color:black">YP 2.4 M4 (Final) =
-Release by Oct. 20, 2017</span><o:p></o:p></p>
-<p style=3D"margin:0in;margin-bottom:.0001pt">&nbsp;<o:p></o:p></p>
-<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
-pt;font-family:&quot;Arial&quot;,sans-serif;color:black">Tracking Metrics:<=
-/span><o:p></o:p></p>
-<p style=3D"margin:0in;margin-bottom:.0001pt"><span class=3D"apple-tab-span=
-"><span style=3D"font-size:11.0pt;font-family:&quot;Arial&quot;,sans-serif;=
-color:black">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;
-</span></span><span style=3D"font-size:11.0pt;font-family:&quot;Arial&quot;=
-,sans-serif;color:black">WDD 2748 (last week 2793)</span><o:p></o:p></p>
-<p style=3D"margin:0in;margin-bottom:.0001pt;text-indent:.5in"><span style=
-=3D"font-size:11.0pt;font-family:Consolas;color:black">(</span><a href=3D"h=
-ttps://wiki.yoctoproject.org/charts/combo.html"><span style=3D"font-size:11=
-.0pt;font-family:&quot;Arial&quot;,sans-serif;color:#1155CC">https://wiki.y=
-octoproject.org/charts/combo.html</span></a><span style=3D"font-size:11.0pt=
-;font-family:Consolas;color:black">)</span><o:p></o:p></p>
-<p style=3D"margin:0in;margin-bottom:.0001pt">&nbsp;<o:p></o:p></p>
-<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
-pt;font-family:&quot;Arial&quot;,sans-serif;color:black">Key Status Links f=
-or YP:</span><o:p></o:p></p>
-<p style=3D"margin:0in;margin-bottom:.0001pt"><a href=3D"https://wiki.yocto=
-project.org/wiki/Yocto_Project_v2.4_Status"><span style=3D"font-size:11.0pt=
-;font-family:Consolas;color:#1155CC">https://wiki.yoctoproject.org/wiki/Yoc=
-to_Project_v2.4_Status</span></a><o:p></o:p></p>
-<p style=3D"margin:0in;margin-bottom:.0001pt"><a href=3D"https://wiki.yocto=
-project.org/wiki/Yocto_2.4_Schedule"><span style=3D"font-size:11.0pt;font-f=
-amily:Consolas;color:#1155CC">https://wiki.yoctoproject.org/wiki/Yocto_2.4_=
-Schedule</span></a><o:p></o:p></p>
-<p style=3D"margin:0in;margin-bottom:.0001pt"><a href=3D"https://wiki.yocto=
-project.org/wiki/Yocto_2.4_Features"><span style=3D"font-size:11.0pt;font-f=
-amily:Consolas;color:#1155CC">https://wiki.yoctoproject.org/wiki/Yocto_2.4_=
-Features</span></a><o:p></o:p></p>
-<p style=3D"margin:0in;margin-bottom:.0001pt">&nbsp;<o:p></o:p></p>
-<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
-pt;font-family:&quot;Arial&quot;,sans-serif;color:black">[If anyone has sug=
-gestions for other information you=92d like to see on this weekly status up=
-date, let us know!]</span><o:p></o:p></p>
-<p class=3D"MsoNormal"><span style=3D"font-family:&quot;Arial&quot;,sans-se=
-rif;color:black"><o:p>&nbsp;</o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-family:&quot;Arial&quot;,sans-se=
-rif;color:black">Thanks,</span><o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal" style=3D"page-break-after:avoid;text-autospace:none"=
-><b><i><span style=3D"font-size:16.0pt;font-family:&quot;Times New Roman&qu=
-ot;,serif;color:purple">Stephen K. Jolley</span></i></b><b><i><span style=
-=3D"font-size:16.0pt;font-family:&quot;Tahoma&quot;,sans-serif;color:purple=
-"><o:p></o:p></span></i></b></p>
-<p class=3D"MsoNormal"><b><span style=3D"font-size:8.0pt;font-family:&quot;=
-Courier New&quot;;color:blue">Yocto Project Program Manager<o:p></o:p></spa=
-n></b></p>
-<p class=3D"MsoNormal" style=3D"page-break-after:avoid;text-autospace:none"=
-><b><span style=3D"font-size:10.0pt;font-family:&quot;Courier New&quot;;col=
-or:fuchsia">INTEL, MS JF1-255, 2111 N.E. 25th Avenue, Hillsboro, OR 97124
-<o:p></o:p></span></b></p>
-<p class=3D"MsoNormal"><span style=3D"font-family:Wingdings;color:black">(<=
-/span><span style=3D"font-family:&quot;MS Sans Serif&quot;;color:teal">
-</span><span style=3D"font-size:8.0pt;font-family:&quot;MS Sans Serif&quot;=
-;color:teal">&nbsp;&nbsp;</span><b><span style=3D"font-size:8.0pt;font-fami=
-ly:&quot;Comic Sans MS&quot;;color:teal">Work Telephone</span></b><span sty=
-le=3D"font-family:&quot;MS Sans Serif&quot;;color:teal">:&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;
-</span><span style=3D"font-size:9.0pt;font-family:&quot;MS Sans Serif&quot;=
-">(503) 712-0534<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:9.0pt;font-family:Wingdings=
-;color:black">(</span><span style=3D"font-size:9.0pt;font-family:&quot;MS S=
-ans Serif&quot;;color:teal">&nbsp;&nbsp;&nbsp;
-</span><b><span style=3D"font-size:8.0pt;font-family:&quot;Comic Sans MS&qu=
-ot;;color:teal">Cell</span></b><span style=3D"font-size:9.0pt;font-family:&=
-quot;MS Sans Serif&quot;;color:teal">:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</span><span style=3D"font-size:9.0pt;font-family:&quot;MS Sans Serif&quot;=
-">(208) 244-4460<span style=3D"color:black"><o:p></o:p></span></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:9.0pt;font-family:Wingdings=
-">* </span>
-<b><span lang=3D"FR" style=3D"font-size:8.0pt;font-family:&quot;Comic Sans =
-MS&quot;;color:teal">Email</span></b><span lang=3D"FR" style=3D"font-size:9=
-.0pt;font-family:&quot;MS Sans Serif&quot;;color:teal">:</span><span lang=
-=3D"FR" style=3D"font-size:9.0pt;font-family:&quot;MS Sans Serif&quot;">&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;
-<u><span style=3D"color:blue">stephen.k.jolley@intel.com</span></u></span><=
-span lang=3D"FR" style=3D"font-size:12.0pt;font-family:&quot;Arial&quot;,sa=
-ns-serif"><o:p></o:p></span></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-</div>
-</body>
-</html>
-
---_000_9ADD3FDE8B189B4AA2F8A3C711F8155E981E4C84fmsmsx111amrcor_--
