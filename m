@@ -1,45 +1,47 @@
-Return-Path: <changhyeok.bae@gmail.com>
-Received: from mail-io0-f171.google.com (mail-io0-f171.google.com
-	[209.85.223.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 02AE178234
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qt0-f170.google.com (mail-qt0-f170.google.com
+	[209.85.216.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 318DF78234
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Jun 2017 12:02:20 +0000 (UTC)
-Received: by mail-io0-f171.google.com with SMTP id y77so54049084ioe.3
+	Mon, 12 Jun 2017 12:03:48 +0000 (UTC)
+Received: by mail-qt0-f170.google.com with SMTP id w1so122167395qtg.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Jun 2017 05:02:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	Mon, 12 Jun 2017 05:03:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=8KlGVZdmPjTjVVucauoMssGVxXDC5snkCNXQVINSpz8=;
-	b=Hus2Y4rJ12ibkq/j/JEqWUswL4DJDT/8iZLXA1nlILlLSyIwjmWWtXskmlP+wqWWLK
-	p00OpqQw1OmAs74FrvUalmOqFmfU+juUP3ebqU1pRBr03yq8iTqiZmZsYqjY1buzOvsk
-	gJqoszDeG2fr4To+vlGxdQ3WYmaMqYmKQpNNnxp7dt1cviNjhh/S65TGzGkldepTL0S3
-	67OC7cILIML+X6yjBxaS+9KTM7GJXcjIpFz1qbcDcfv7i9//tsHWLT1YU/RHTUVhr/W7
-	8MIxyrNgqrRnLhUcgRNpwcwd9FyvvxOxqeC3kpyTJlXaHMx/MoftAZ/vL5xg7xTmJ+3D
-	dW0Q==
+	:cc; bh=0KZjebqjqR0/Q+IX3ywumuGDzA8KyOCo5nOpFsClXoU=;
+	b=WqngslMT7rebQTVOktzRub1WCbdr6xJvY/zkNhBVddZqn1nnk5xBh1ojgFAjq2MrPO
+	0nn5BgKcq0maitb1FzYlq3oACwndjak8TWA/IvfjpPp3wmhjJjo1d54pTHb7YaQidnfR
+	QHBaBEwMtR2rkENOwhO/o8mUoQxW2gAOuIx1nRnygdYrlsQJO3nrQu2AYDjBed3daCHx
+	OVyDGF7jT6wVujeTe6fEwF8izzTfwqiWguALv40pnp+6r4QH7gkQXBT2Bo5urqYilCm1
+	1+qNE62KzwW4F4t+ZRVhsIaS6aRwbmz9+hTsDVidiIxQi0zfv0dQYml9aoPjqmGAVXcf
+	62ug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=8KlGVZdmPjTjVVucauoMssGVxXDC5snkCNXQVINSpz8=;
-	b=jILJFprenPGRW9Uyzepk97+WLf80c1V6AexysPbG+rjgW0SQ5+sHdMojub+SJas5vq
-	8BaN8ZoRIBUfkeOBDcLERblohI2J5P6rdlHrr/mA/9I2ZcvLxgkNliyFdQbKhYUiOBg/
-	TcmKjWs4IW2w90GmQTfv9zYxtJlcl8lWKwsrp7sFDBxiLrocRGGe7BIJTMePx33a8AuJ
-	6v55MbTpSP0+ZRwEqK0RT6qt5r82Sxs5T+vCBKgjfUFlMEQ4XqONB+2HBJ1dEna5ayKD
-	kCyWKWtsOxtFLhjHzVG2p6tcvImuvAFVuehIfKxcg8lt0zPZ4B4Iw7JWgazGJv9XcSkQ
-	eJDA==
-X-Gm-Message-State: AKS2vOxufSRvSXTdyzGpN1Em6bMz0kEqVDc4c96e7wMRrWOpWgz7Axn4
-	CzOSg0uDE0UHIH2IV5QiVZ8U3qAVjw==
-X-Received: by 10.107.9.160 with SMTP id 32mr9338823ioj.212.1497268941729;
-	Mon, 12 Jun 2017 05:02:21 -0700 (PDT)
+	bh=0KZjebqjqR0/Q+IX3ywumuGDzA8KyOCo5nOpFsClXoU=;
+	b=MsXwaYX5qRTFvD3G0u/i/Ir62agtBK5rg/MR3hxXkO7pQ2FYPBTJHy7MWv/x1pddpl
+	WqOlk/sU+9LN2zPlZFDalvO9JbCeZF5CkjLWk9ZX1jIypYXnwhdJW0RLIh3T55kPqC0c
+	1mE4B+bP2AqGZk9dAuZlg0hNfOLEj0sZyVrlvFWWTH/OFFyT/E+stPrJqWNp2q9XZm8X
+	16Gup8p7HJA+DwkTF3bvAeWUp9mkPsPq6kpxJWBp+CHYl7AStFosp/b7ZCa02Hi/dKi+
+	YqQlot+v3qzQurv9WkJKBOoD0YkiNhnFAuFNej/csY2xZlE8JNp0GNZQcwWKy5Mky1Ja
+	/A6Q==
+X-Gm-Message-State: AKS2vOwVIva9Lr1fvDjkl914i+LJgFD7OqvRDIIoj7x4kfjLXvhh3PeG
+	lQLUKUUeFD7oA20DEr+IXMVHgQvu6z8X
+X-Received: by 10.55.214.221 with SMTP id p90mr5287440qkl.228.1497269029977;
+	Mon, 12 Jun 2017 05:03:49 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.107.34.16 with HTTP; Mon, 12 Jun 2017 05:02:21 -0700 (PDT)
-In-Reply-To: <CAJTo0LY_O+BctxPoraFsYpSnTBksq+Cz7e=UZT2bHYyzpt94aw@mail.gmail.com>
+Received: by 10.140.35.103 with HTTP; Mon, 12 Jun 2017 05:03:29 -0700 (PDT)
+In-Reply-To: <CACrLJgCAdBwC8jWSdAMxdHAEyuW31AQchSA=rHZ-5-UTbMMY5Q@mail.gmail.com>
 References: <1497265861-2562-1-git-send-email-changhyeok.bae@gmail.com>
 	<CAJTo0LY_O+BctxPoraFsYpSnTBksq+Cz7e=UZT2bHYyzpt94aw@mail.gmail.com>
-From: Changhyeok Bae <changhyeok.bae@gmail.com>
-Date: Mon, 12 Jun 2017 21:02:21 +0900
-Message-ID: <CACrLJgCAdBwC8jWSdAMxdHAEyuW31AQchSA=rHZ-5-UTbMMY5Q@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
+	<CACrLJgCAdBwC8jWSdAMxdHAEyuW31AQchSA=rHZ-5-UTbMMY5Q@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 12 Jun 2017 13:03:29 +0100
+Message-ID: <CAJTo0LbmvxbMpbopc8g6Bh+VAq3S79qfzL0UvBb8s4ngPAzySA@mail.gmail.com>
+To: Changhyeok Bae <changhyeok.bae@gmail.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH v4] openssl: Upgrade 1.0.2k -> 1.0.2l
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -54,73 +56,86 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Jun 2017 12:02:21 -0000
-Content-Type: multipart/alternative; boundary="001a113eac9a67da2a0551c2173b"
+X-List-Received-Date: Mon, 12 Jun 2017 12:03:49 -0000
+Content-Type: multipart/alternative; boundary="001a1147a418ab007e0551c21c87"
 
---001a113eac9a67da2a0551c2173b
+--001a1147a418ab007e0551c21c87
 Content-Type: text/plain; charset="UTF-8"
 
-I think that do_install_ptest is fine. Why would you think that?
+On 12 June 2017 at 13:02, Changhyeok Bae <changhyeok.bae@gmail.com> wrote:
 
-Thanks
-Changhyeok
-
-2017-06-12 20:51 GMT+09:00 Burton, Ross <ross.burton@intel.com>:
-
->
-> On 12 June 2017 at 12:11, Changhyeok Bae <changhyeok.bae@gmail.com> wrote:
->
->> +do_install_ptest() {
->> +    # exclude binary files or the package won't install
->> +    for d in ssltest_old v3ext x509aux; do
->> +        rm -rf ${D}${libdir}/${PN}/ptest/test/$d
->> +    done
->> +}
->>
->
-> I think you meant do_install_ptest_append here?
->
-> Ross
+> I think that do_install_ptest is fine. Why would you think that?
 >
 
+packages/corei7-64-poky-linux/openssl/openssl-ptest:
+  * PKGSIZE changed from 6192634 to 26 (-99%)
+  * FILELIST: removed "/usr/lib/openssl/ptest/test/dtlstest.c
+/usr/lib/openssl/ptest/test/certs/pss1.pem
+/usr/lib/openssl/ptest/test/destest.c /usr/lib/openssl/ptest/test/md5test.o
+/usr/lib/openssl/ptest/test/rsa_test.o
+/usr/lib/openssl/ptest/test/evp_extra_test.o
+/usr/lib/openssl/ptest/certs/README.RootCerts
+/usr/lib/openssl/ptest/include/openssl/asn1.h
+/usr/lib/openssl/ptest/test/ocsp-tests/D3_Issuer_Root.pem
+/usr/lib/openssl/ptest/libcrypto.a /usr/lib/openssl/ptest/test/srptest.o
+/usr/lib/openssl/ptest/test/ocsp-tests/WSNIC_D2_Issuer_Root.pem
+/usr/lib/openssl/ptest/test/certs/rootCA.key
+/usr/lib/openssl/ptest/test/VMSca-response.2
+/usr/lib/openssl/ptest/test/ocsp-tests/WKIC_ND1_Issuer_ICA.pem
+/usr/lib/openssl/ptest/test/ideatest.c
+/usr/lib/openssl/ptest/test/certs/rootCA.pem
+/usr/lib/openssl/ptest/test/ocsp-tests/D1_Cert_EE.pem
+/usr/lib/openssl/ptest/certs/demo/73912336.0
+/usr/lib/openssl/ptest/test/hmactest.o /usr/lib/openssl/ptest/test/
+maketests.com /usr/lib/openssl/ptest/test/smime-certs/smec1.pem
+/usr/lib/openssl/ptest/certs/demo/cbdbd8bc.0
+/usr/lib/openssl/ptest/test/ocsp-tests/WKIC_D2_Issuer_Root.pem
+/usr/lib/openssl/ptest/test/verify_extra_test.c
+/usr/lib/openssl/ptest/test/serverinfo.pem
+/usr/lib/openssl/ptest/test/shatest.c /usr/lib/openssl/ptest/test/CAss.cnf
+...
 
+(lots more lines)
 
--- 
-Thanks
-Changhyeok
+None of the test suite is actually being installed.
 
---001a113eac9a67da2a0551c2173b
+Ross
+
+--001a1147a418ab007e0551c21c87
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">I think that do_install_ptest is fine. Why would you think=
- that?<div><br></div><div>Thanks</div><div>Changhyeok</div></div><div class=
-=3D"gmail_extra"><br><div class=3D"gmail_quote">2017-06-12 20:51 GMT+09:00 =
-Burton, Ross <span dir=3D"ltr">&lt;<a href=3D"mailto:ross.burton@intel.com"=
- target=3D"_blank">ross.burton@intel.com</a>&gt;</span>:<br><blockquote cla=
-ss=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;pa=
-dding-left:1ex"><div dir=3D"ltr"><div class=3D"gmail_extra"><span class=3D"=
-"><br><div class=3D"gmail_quote">On 12 June 2017 at 12:11, Changhyeok Bae <=
-span dir=3D"ltr">&lt;<a href=3D"mailto:changhyeok.bae@gmail.com" target=3D"=
-_blank">changhyeok.bae@gmail.com</a>&gt;</span> wrote:<br><blockquote class=
-=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padd=
-ing-left:1ex"><div id=3D"m_-4299528920085873015:5n1" class=3D"m_-4299528920=
-085873015a3s m_-4299528920085873015aXjCH m_-4299528920085873015m15c9c011b8a=
-b5e36">+do_install_ptest() {<br>
-+=C2=A0 =C2=A0 # exclude binary files or the package won&#39;t install<br>
-+=C2=A0 =C2=A0 for d in ssltest_old v3ext x509aux; do<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 rm -rf ${D}${libdir}/${PN}/ptest/test<wbr>/$d<=
-br>
-+=C2=A0 =C2=A0 done<br>
-+}<div class=3D"m_-4299528920085873015yj6qo m_-4299528920085873015ajU"><div=
- id=3D"m_-4299528920085873015:5o9" class=3D"m_-4299528920085873015ajR"></di=
-v></div></div></blockquote></div><br></span>I think you meant do_install_pt=
-est_append here?</div><span class=3D"HOEnZb"><font color=3D"#888888"><div c=
-lass=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></font>=
-</span></div>
-</blockquote></div><br><br clear=3D"all"><div><br></div>-- <br><div class=
-=3D"gmail_signature" data-smartmail=3D"gmail_signature"><div dir=3D"ltr">Th=
-anks<div>Changhyeok</div></div></div>
-</div>
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 12 June 2017 at 13:02, Changhyeok Bae <span dir=3D"ltr">&lt;<a href=3D"m=
+ailto:changhyeok.bae@gmail.com" target=3D"_blank">changhyeok.bae@gmail.com<=
+/a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:=
+0px 0px 0px 0.8ex;border-left-width:1px;border-left-style:solid;border-left=
+-color:rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr">I think that do_=
+install_ptest is fine. Why would you think that?<div></div></div></blockquo=
+te></div><br><div class=3D"gmail_extra">packages/corei7-64-poky-linux/opens=
+sl/openssl-ptest:</div><div class=3D"gmail_extra">=C2=A0 * PKGSIZE changed =
+from 6192634 to 26 (-99%)</div><div class=3D"gmail_extra">=C2=A0 * FILELIST=
+: removed &quot;/usr/lib/openssl/ptest/test/dtlstest.c /usr/lib/openssl/pte=
+st/test/certs/pss1.pem /usr/lib/openssl/ptest/test/destest.c /usr/lib/opens=
+sl/ptest/test/md5test.o /usr/lib/openssl/ptest/test/rsa_test.o /usr/lib/ope=
+nssl/ptest/test/evp_extra_test.o /usr/lib/openssl/ptest/certs/README.RootCe=
+rts /usr/lib/openssl/ptest/include/openssl/asn1.h /usr/lib/openssl/ptest/te=
+st/ocsp-tests/D3_Issuer_Root.pem /usr/lib/openssl/ptest/libcrypto.a /usr/li=
+b/openssl/ptest/test/srptest.o /usr/lib/openssl/ptest/test/ocsp-tests/WSNIC=
+_D2_Issuer_Root.pem /usr/lib/openssl/ptest/test/certs/rootCA.key /usr/lib/o=
+penssl/ptest/test/VMSca-response.2 /usr/lib/openssl/ptest/test/ocsp-tests/W=
+KIC_ND1_Issuer_ICA.pem /usr/lib/openssl/ptest/test/ideatest.c /usr/lib/open=
+ssl/ptest/test/certs/rootCA.pem /usr/lib/openssl/ptest/test/ocsp-tests/D1_C=
+ert_EE.pem /usr/lib/openssl/ptest/certs/demo/73912336.0 /usr/lib/openssl/pt=
+est/test/hmactest.o /usr/lib/openssl/ptest/test/<a href=3D"http://maketests=
+.com">maketests.com</a> /usr/lib/openssl/ptest/test/smime-certs/smec1.pem /=
+usr/lib/openssl/ptest/certs/demo/cbdbd8bc.0 /usr/lib/openssl/ptest/test/ocs=
+p-tests/WKIC_D2_Issuer_Root.pem /usr/lib/openssl/ptest/test/verify_extra_te=
+st.c /usr/lib/openssl/ptest/test/serverinfo.pem /usr/lib/openssl/ptest/test=
+/shatest.c /usr/lib/openssl/ptest/test/CAss.cnf ...</div><div class=3D"gmai=
+l_extra"><br></div><div class=3D"gmail_extra">(lots more lines)</div><div c=
+lass=3D"gmail_extra"><br></div><div class=3D"gmail_extra">None of the test =
+suite is actually being installed.</div><div class=3D"gmail_extra"><br></di=
+v><div class=3D"gmail_extra">Ross</div></div></div>
 
---001a113eac9a67da2a0551c2173b--
+--001a1147a418ab007e0551c21c87--
