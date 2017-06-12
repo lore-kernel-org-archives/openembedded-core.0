@@ -1,18 +1,27 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id E8E817825B;
-	Mon, 12 Jun 2017 15:01:47 +0000 (UTC)
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id 2CBA47826F
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 12 Jun 2017 15:02:41 +0000 (UTC)
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	12 Jun 2017 08:02:12 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.39,333,1493708400"; d="scan'208";a="97126423"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by orsmga004.jf.intel.com with ESMTP; 12 Jun 2017 08:02:11 -0700
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <20170612145805.11599-1-alexander.kanavin@linux.intel.com>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <c1bdfae3-8ee8-a281-413b-e56083480097@linux.intel.com>
+Date: Mon, 12 Jun 2017 18:02:15 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.8.0
 MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 12 Jun 2017 15:01:49 -0000
-Message-ID: <20170612150149.1042.86315@do.openembedded.org>
-References: <cover.1497279306.git.raj.khem@gmail.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <cover.1497279306.git.raj.khem@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgTWlzYyByZWNpcGUgZml4ZXMgYW5kIHVwZGF0ZXM=?=
+In-Reply-To: <20170612145805.11599-1-alexander.kanavin@linux.intel.com>
+Subject: Re: [PATCH] rpm: run binary package generation via thread pools
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,47 +34,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Jun 2017 15:01:48 -0000
-Content-Type: text/plain; charset="utf-8"
+X-List-Received-Date: Mon, 12 Jun 2017 15:02:42 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
 Content-Transfer-Encoding: 7bit
 
-== Series Details ==
+On 06/12/2017 05:58 PM, Alexander Kanavin wrote:
+> This greatly reduces build times when there is a large amount of small
+> rpm packages to produce. The patches are rather invasive,
+> and so will be submitted upstream.
 
-Series: Misc recipe fixes and updates
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/7197/
-State : failure
+The changes in this version of the patch:
 
-== Summary ==
+- fixed (hopefully) the segfaults seen on autobuilder with older 
+versions of gcc
 
+- made sure that build host and build time are set only once, and are 
+the same in all output files.
 
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Issue             Added patch file is missing Upstream-Status in the header [test_upstream_status_presence] 
-  Suggested fix    Add Upstream-Status: <status> to the header of meta/recipes-core/ovmf/ovmf/no-stack-protector-all-archs.patch (possible values: Pending, Submitted, Accepted, Backport, Denied, Inappropriate)
-
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  master (currently at aea90e9ee6)
-
-* Issue             A patch file has been added, but does not have a Signed-off-by tag [test_signed_off_by_presence] 
-  Suggested fix    Sign off the added patch file (meta/recipes-core/ovmf/ovmf/no-stack-protector-all-archs.patch)
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
----
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+Alex
 
 
