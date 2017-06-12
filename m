@@ -1,32 +1,53 @@
-Return-Path: <denis@denix.org>
-Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.17])
-	by mail.openembedded.org (Postfix) with ESMTP id 50D2D782A5
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-io0-f172.google.com (mail-io0-f172.google.com
+	[209.85.223.172])
+	by mail.openembedded.org (Postfix) with ESMTP id CC9E478234
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Jun 2017 19:46:36 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mailout4.zoneedit.com (Postfix) with ESMTP id B287320B84;
-	Mon, 12 Jun 2017 19:46:37 +0000 (UTC)
-Received: from mailout4.zoneedit.com ([127.0.0.1])
-	by localhost (zmo03-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
-	port 10024)
-	with ESMTP id 5iPDmeO9MT9V; Mon, 12 Jun 2017 19:46:37 +0000 (UTC)
-Received: from mail.denix.org (pool-100-15-85-143.washdc.fios.verizon.net
-	[100.15.85.143])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 88D03207AF;
-	Mon, 12 Jun 2017 19:46:35 +0000 (UTC)
-Received: by mail.denix.org (Postfix, from userid 1000)
-	id 2C6A31624F4; Mon, 12 Jun 2017 15:46:35 -0400 (EDT)
-Date: Mon, 12 Jun 2017 15:46:35 -0400
-From: Denys Dmytriyenko <denis@denix.org>
-To: Patrick Ohly <patrick.ohly@intel.com>
-Message-ID: <20170612194635.GX28053@denix.org>
+	Mon, 12 Jun 2017 21:05:22 +0000 (UTC)
+Received: by mail-io0-f172.google.com with SMTP id y77so62259373ioe.3
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 12 Jun 2017 14:05:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:organization:mime-version:content-transfer-encoding;
+	bh=r/ohYpTwh3vWZBYTnEuS+bTzzbJeLSYWtZT+jsPW0Jw=;
+	b=rbw6mKn1Nj1ldD95uBtD05HxSjaKNojCBklsWoFgky416AjdKCA4BWa+dzeNiQea0/
+	HlmDvjkWHdzrtRiOLCVAkzKm1Fi3nXyw2GhMPgUayahoKxZ9hTiN1AFuxiV1ybzfk4Kh
+	PuHvem6BbX7SxBUyR60VMRTQeeazAkhSJhzCAbrME+1e3cA7P99uLxbehDk5yFGJwx1B
+	5WwofJtalSBOQTeEFfWjbR1OHaFakqMMUuD34WrnuS7NlHJUfd0g0jjgzFie7/bqziWF
+	i8onAUy+Yrk5+58K5se+5hBGDlLI/x5wQ9BmvwTMZi8KwGOpFslM/SF3QqmPeftJAakT
+	JRfg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:organization:mime-version:content-transfer-encoding;
+	bh=r/ohYpTwh3vWZBYTnEuS+bTzzbJeLSYWtZT+jsPW0Jw=;
+	b=Y619Km1jsrPtRiYiLoWH2zRKUxu4RXge6zTaaKuK/1KrxxA9kOrW1+P+6nzBjYjVFM
+	gx2Xwl9gRNVVOy9QfpXah7ggMR22daOlEr4OoW7qH6N45QLiOnBg1/mG/nPaKwdxLxUY
+	Y4BbXVfBaLwzmKbGZhi0AHYTsGVvUgCYJpNdupw0l7hPxEbdIgvFsFzYP4PLUzAUnIOz
+	DrTodgQMvuhGUMeAGYU5sHV9oXI8kHGZREvemH6FsWwcOETjcYkeJIer3M1AR+TvyoH9
+	BrAGdh3pUmkCXKVeFwVOl4cDHGmZcoOhue9kcyVYcoFKMwRWzahX+qGM6grTN0qXq+/m
+	/8ww==
+X-Gm-Message-State: AODbwcCTiRuWd0PCqQUCsXHQdv+A6sMtJuLnfONZe/WWsM2lxVABfRIa
+	LBcxIZ6bXez6Dj7u
+X-Received: by 10.107.137.83 with SMTP id l80mr37661566iod.215.1497301523656; 
+	Mon, 12 Jun 2017 14:05:23 -0700 (PDT)
+Received: from pohly-mobl1 (p5DE8DFA4.dip0.t-ipconnect.de. [93.232.223.164])
+	by smtp.gmail.com with ESMTPSA id 21sm658322itz.6.2017.06.12.14.05.21
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 12 Jun 2017 14:05:22 -0700 (PDT)
+Message-ID: <1497301519.30163.288.camel@intel.com>
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: Denys Dmytriyenko <denis@denix.org>
+Date: Mon, 12 Jun 2017 23:05:19 +0200
+In-Reply-To: <20170612194635.GX28053@denix.org>
 References: <cover.85d08ae286e0b2f8503f9e657148201e6b90edde.1497013310.git-series.patrick.ohly@intel.com>
 	<9dfd9eff13b3831c7e88c97318f97d2daeac9a78.1497013310.git-series.patrick.ohly@intel.com>
-MIME-Version: 1.0
-In-Reply-To: <9dfd9eff13b3831c7e88c97318f97d2daeac9a78.1497013310.git-series.patrick.ohly@intel.com>
-User-Agent: Mutt/1.5.20 (2009-06-14)
+	<20170612194635.GX28053@denix.org>
+Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
+X-Mailer: Evolution 3.12.9-1+b1 
+Mime-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH v2 1/2] bitbake.conf: DISTRO_FEATURES as overrides
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -41,98 +62,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Jun 2017 19:46:38 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Mon, 12 Jun 2017 21:05:23 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-This now breaks parsing my distro config on these lines:
+On Mon, 2017-06-12 at 15:46 -0400, Denys Dmytriyenko wrote:
+> This now breaks parsing my distro config on these lines:
+> 
+> ENABLE_SYSVINIT ?= "0"
+> DISTRO_FEATURES_append = "${@base_conditional("ENABLE_SYSVINIT", "1", "", " systemd", d)}"
+> 
+> 
+> Here's the log:
+> 
+> ERROR: Unable to parse /OE/arago-master/sources/bitbake/lib/bb/data_smart.py
+> Traceback (most recent call last):
+>   File "/OE/arago-master/sources/bitbake/lib/bb/data_smart.py", line 426, in DataSmart.expandWithRefs(s='${@base_conditional("ENABLE_SYSVINIT", "1", "", " systemd", d)}', varname='DISTRO_FEATURES_append'):
+>                  except Exception as exc:
+>     >                raise ExpansionError(varname, s, exc) from exc
+>      
+> bb.data_smart.ExpansionError: Failure expanding variable DISTRO_FEATURES_append, expression was ${@base_conditional("ENABLE_SYSVINIT", "1", "", " systemd", d)} which triggered exception NameError: name 'base_conditional' is not defined
 
-ENABLE_SYSVINIT ?= "0"
-DISTRO_FEATURES_append = "${@base_conditional("ENABLE_SYSVINIT", "1", "", " systemd", d)}"
+base_conditional() seems to come from utils.bbclass, which gets
+inherited by base.bbclass. Looks like DISTRO_FEATURES and thus this
+DISTRO_FEATURES_append end up getting expanded before these classes are
+fully parsed.
 
-
-Here's the log:
-
-ERROR: Unable to parse /OE/arago-master/sources/bitbake/lib/bb/data_smart.py
-Traceback (most recent call last):
-  File "/OE/arago-master/sources/bitbake/lib/bb/data_smart.py", line 426, in DataSmart.expandWithRefs(s='${@base_conditional("ENABLE_SYSVINIT", "1", "", " systemd", d)}', varname='DISTRO_FEATURES_append'):
-                 except Exception as exc:
-    >                raise ExpansionError(varname, s, exc) from exc
-     
-bb.data_smart.ExpansionError: Failure expanding variable DISTRO_FEATURES_append, expression was ${@base_conditional("ENABLE_SYSVINIT", "1", "", " systemd", d)} which triggered exception NameError: name 'base_conditional' is not defined
+I'll need to discuss this with Richard tomorrow.
 
 -- 
-Denys
+Best Regards, Patrick Ohly
+
+The content of this message is my personal opinion only and although
+I am an employee of Intel, the statements I make here in no way
+represent Intel's position on the issue, nor am I authorized to speak
+on behalf of Intel on this matter.
 
 
-On Fri, Jun 09, 2017 at 03:04:03PM +0200, Patrick Ohly wrote:
-> As discussed in "[Openembedded-architecture] Yocto Compatible 2.0 +
-> signature changes", changes in .bbappend must depend on some explicit
-> configuration change, typically selecting a distro feature.
-> 
-> For _append and _remove, adding an override that is set only when the
-> corresponding entry is in DISTRO_FEATURES achieves that:
-> 
-> In local.conf:
->   DISTRO_FEATURES_append = " my-distro-feature"
-> 
-> In layer.conf:
->   DISTRO_FEATURES_OVERRIDES += "my-distro-feature"
-> 
-> In a .bbappend:
->   do_install_append_df-my-distro-feature () {
->        ...
->   }
-> 
-> The subset of DISTRO_FEATURES that are made available as overrides
-> must be configured explicitly because using them this way should
-> be a conscious decision.
-> 
-> Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
-> ---
->  meta/conf/bitbake.conf | 17 ++++++++++++++++-
->  1 file changed, 16 insertions(+), 1 deletion(-)
-> 
-> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-> index 3ad905c..fce1882 100644
-> --- a/meta/conf/bitbake.conf
-> +++ b/meta/conf/bitbake.conf
-> @@ -713,7 +713,7 @@ DISTRO_NAME ??= "OpenEmbedded"
->  #
->  # This works for  functions as well, they are really just environment variables.
->  # Default OVERRIDES to make compilation fail fast in case of build system misconfiguration.
-> -OVERRIDES = "${TARGET_OS}:${TRANSLATED_TARGET_ARCH}:build-${BUILD_OS}:pn-${PN}:${MACHINEOVERRIDES}:${DISTROOVERRIDES}:${CLASSOVERRIDE}:forcevariable"
-> +OVERRIDES = "${TARGET_OS}:${TRANSLATED_TARGET_ARCH}:build-${BUILD_OS}:pn-${PN}:${MACHINEOVERRIDES}:${DISTROOVERRIDES}${DISTROFEATURESOVERRIDES}:${CLASSOVERRIDE}:forcevariable"
->  OVERRIDES[vardepsexclude] = "MACHINEOVERRIDES"
->  CLASSOVERRIDE ?= "class-target"
->  DISTROOVERRIDES ?= "${@d.getVar('DISTRO') or ''}"
-> @@ -722,6 +722,21 @@ MACHINEOVERRIDES[vardepsexclude] = "MACHINE"
->  
->  FILESOVERRIDES = "${TRANSLATED_TARGET_ARCH}:${MACHINEOVERRIDES}:${DISTROOVERRIDES}"
->  
-> +# Turns certain DISTRO_FEATURES into overrides of the same name
-> +# or (optionally) some other name. Ensures that these special
-> +# distro features remain set also for native and nativesdk
-> +# recipes, so that these overrides can also be used there.
-> +#
-> +# Beware that this part of OVERRIDES changes during parsing, so usage
-> +# of these overrides should be limited to .bb and .bbappend files,
-> +# because then DISTRO_FEATURES is final.
-> +DISTRO_FEATURES_OVERRIDES ??= ""
-> +DISTRO_FEATURES_OVERRIDES[doc] = "A space-separated list of <feature> entries. \
-> +Each entry is added to OVERRIDES as df-<feature> if <feature> is in DISTRO_FEATURES."
-> +DISTRO_FEATURES_FILTER_NATIVE_append = " ${DISTRO_FEATURES_OVERRIDES}"
-> +DISTRO_FEATURES_FILTER_NATIVESDK_append = " ${DISTRO_FEATURES_OVERRIDES}"
-> +DISTROFEATURESOVERRIDES = "${@ ''.join([':df-' + x for x in (set(d.getVar('DISTRO_FEATURES_OVERRIDES').split()) & set((d.getVar('DISTRO_FEATURES') or '').split()))]) }"
-> +
->  ##################################################################
->  # Include the rest of the config files.
->  ##################################################################
-> -- 
-> git-series 0.9.1
-> -- 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
 
