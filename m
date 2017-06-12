@@ -1,27 +1,47 @@
-Return-Path: <richard@rpsys.net>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 61FF9781F2
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qt0-f175.google.com (mail-qt0-f175.google.com
+	[209.85.216.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 696077825C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Jun 2017 10:25:29 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	v5CAPSDX007082
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Mon, 12 Jun 2017 11:25:29 +0100
-Received: from richard by hex with local (Exim 4.86_2)
-	(envelope-from <richard@rpsys.net>)
-	id 1dKMXI-00041A-Eq; Mon, 12 Jun 2017 11:25:28 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 12 Jun 2017 11:25:27 +0100
-Message-Id: <1497263127-15406-1-git-send-email-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.7.4
-X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.11
-	(dan.rpsys.net [192.168.3.1]);
-	Mon, 12 Jun 2017 11:25:29 +0100 (BST)
-X-Virus-Scanned: clamav-milter 0.99.2 at dan
-X-Virus-Status: Clean
-Subject: [PATCH] native/nativesdk: Ensure DISTRO_FEATURES is determistic
+	Mon, 12 Jun 2017 11:01:11 +0000 (UTC)
+Received: by mail-qt0-f175.google.com with SMTP id w1so120553102qtg.2
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 12 Jun 2017 04:01:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=p1jkqigFjgwIdPvlmLoYHrn3Mn/8WJOfdGIXq4b99E4=;
+	b=flcl6+1XkqRKMewcOCxF8gfNDIYqKojwk5HiGkLJhKnbIX+7po6ztUN5ItChyzCMaU
+	xFP2J/85L8qUYaodNts75OsxgDmjSrGCi4kNHwGc8GY2rcXY+lpn/pkwXiTDg8oBuDTG
+	RkFt8mHubi5YmbecRHDwAQ4+kfy0sGdJTeVoQI9RUwoIkg6fsAs9OnvubSEeOdQj8LZA
+	MRglFFlBdWZ+J8Hbiclxv8+ncWOM3QNwm1PfckbFqFj+kdQ6uu+lcVxpW+m3lyluUACn
+	CxeNPAVTnfPpKM+Nn25epUvLYcXA2i7Kt3lbBQ2UNoanifezxUHiiCN67WzKY/bAv9pi
+	2X2g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=p1jkqigFjgwIdPvlmLoYHrn3Mn/8WJOfdGIXq4b99E4=;
+	b=JfJsraJaKam5fQ+gA20ohgwieipbGIRPqwbFh6AymBKe9LbZ4qsENrxo0kUJPOAWd+
+	7en+VOJBXYCoxcR+WuyP91vWiMDyNeCap6HDmwuly0bvYi5i3IxK3JEhuLzqRFFHRq8T
+	FaOnHVU8MVsx/CI/8LPTPVx+F556uG5YCpxtnzY99UXGekbdjhTME10bL9d9iEk1LxZ5
+	onh02/2t43dFY6F4x+FeU+aBsmrVTg19mDEhwKGpOg2YXq4Ec+KYay49fTASWWrSnj10
+	YG8Q2pyW320wyuKriX8XJblVf97jVebFayO36T+80V9wVdGCP1IBu0+d3XimY1HCvb6/
+	tEFw==
+X-Gm-Message-State: AODbwcB/eLCqxtmuj6YbDfxeCMsUJPRVDdKI1VOjai5SajsS5yNx2/Dx
+	JZ8Cfeff7KH/ulCCLvWI4+9AJWhlkIKU
+X-Received: by 10.55.24.201 with SMTP id 70mr60593309qky.171.1497265272502;
+	Mon, 12 Jun 2017 04:01:12 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.35.103 with HTTP; Mon, 12 Jun 2017 04:00:52 -0700 (PDT)
+In-Reply-To: <1497069672-2012-1-git-send-email-changhyeok.bae@gmail.com>
+References: <1497069672-2012-1-git-send-email-changhyeok.bae@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 12 Jun 2017 12:00:52 +0100
+Message-ID: <CAJTo0LbyKHf=FR8vPta5QhpvYC9dYvtgg26y5L3m02a=4fU4+Q@mail.gmail.com>
+To: Changhyeok Bae <changhyeok.bae@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v3] openssl: Upgrade 1.0.2k -> 1.0.2l
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,47 +54,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Jun 2017 10:25:30 -0000
+X-List-Received-Date: Mon, 12 Jun 2017 11:01:11 -0000
+Content-Type: multipart/alternative; boundary="001a114418acb3dd610551c13c3b"
 
-set() order is random and hence the filtered native/nativesdk DISTRO_FEATURES
-could be set to random ordering. We've been lucky so far this tended not to
-cause issues but some queued changes highedlighted this. Thrown in a sorted()
-so the order is deterministic and we get consistent hash checksums between runs
-and between machines.
+--001a114418acb3dd610551c13c3b
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/classes/native.bbclass    | 2 +-
- meta/classes/nativesdk.bbclass | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+Of course openssl would be shipping pre-compiled binaries...  :/
 
-diff --git a/meta/classes/native.bbclass b/meta/classes/native.bbclass
-index b8f839a..6b7f3dd 100644
---- a/meta/classes/native.bbclass
-+++ b/meta/classes/native.bbclass
-@@ -129,7 +129,7 @@ python native_virtclass_handler () {
-     # from modifying native distro features
-     features = set(d.getVar("DISTRO_FEATURES_NATIVE").split())
-     filtered = set(bb.utils.filter("DISTRO_FEATURES", d.getVar("DISTRO_FEATURES_FILTER_NATIVE"), d).split())
--    d.setVar("DISTRO_FEATURES", " ".join(features | filtered))
-+    d.setVar("DISTRO_FEATURES", " ".join(sorted(features | filtered)))
- 
-     classextend = e.data.getVar('BBCLASSEXTEND') or ""
-     if "native" not in classextend:
-diff --git a/meta/classes/nativesdk.bbclass b/meta/classes/nativesdk.bbclass
-index 655b456..69fb45c8 100644
---- a/meta/classes/nativesdk.bbclass
-+++ b/meta/classes/nativesdk.bbclass
-@@ -74,7 +74,7 @@ python nativesdk_virtclass_handler () {
-     # from modifying nativesdk distro features
-     features = set(d.getVar("DISTRO_FEATURES_NATIVESDK").split())
-     filtered = set(bb.utils.filter("DISTRO_FEATURES", d.getVar("DISTRO_FEATURES_FILTER_NATIVESDK"), d).split())
--    d.setVar("DISTRO_FEATURES", " ".join(features | filtered))
-+    d.setVar("DISTRO_FEATURES", " ".join(sorted(features | filtered)))
- 
-     e.data.setVar("MLPREFIX", "nativesdk-")
-     e.data.setVar("PN", "nativesdk-" + e.data.getVar("PN").replace("-nativesdk", "").replace("nativesdk-", ""))
--- 
-2.7.4
+On 10 June 2017 at 05:41, Changhyeok Bae <changhyeok.bae@gmail.com> wrote:
 
+> -LIC_FILES_CHKSUM = "file://LICENSE;md5=27ffa5d74bb5a337056c14b2ef93fbf6"
+> +LIC_FILES_CHKSUM = "file://LICENSE;md5=057d9218c6180e1d9ee407572b2dd225"
+>
 
+Still not explaining why this change is needed.
+
+Ross
+
+--001a114418acb3dd610551c13c3b
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra">Of course openssl would be ship=
+ping pre-compiled binaries... =C2=A0:/</div><div class=3D"gmail_extra"><br>=
+</div><div class=3D"gmail_extra"><div class=3D"gmail_quote">On 10 June 2017=
+ at 05:41, Changhyeok Bae <span dir=3D"ltr">&lt;<a href=3D"mailto:changhyeo=
+k.bae@gmail.com" target=3D"_blank">changhyeok.bae@gmail.com</a>&gt;</span> =
+wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bord=
+er-left:1px #ccc solid;padding-left:1ex"><span class=3D"">-LIC_FILES_CHKSUM=
+ =3D &quot;file://LICENSE;md5=3D<wbr>27ffa5d74bb5a337056c14b2ef93fb<wbr>f6&=
+quot;<br>
++LIC_FILES_CHKSUM =3D &quot;file://LICENSE;md5=3D<wbr>057d9218c6180e1d9ee40=
+7572b2dd2<wbr>25&quot;<br></span></blockquote></div><div class=3D"gmail_ext=
+ra"><br></div>Still not explaining why this change is needed.</div><div cla=
+ss=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+
+--001a114418acb3dd610551c13c3b--
