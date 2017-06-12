@@ -1,48 +1,48 @@
 Return-Path: <jpewhacker@gmail.com>
 Received: from mail-it0-f65.google.com (mail-it0-f65.google.com
 	[209.85.214.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 523DE601A5
+	by mail.openembedded.org (Postfix) with ESMTP id 10BFE7826D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Jun 2017 12:25:00 +0000 (UTC)
-Received: by mail-it0-f65.google.com with SMTP id 201so9362022itu.1
+	Mon, 12 Jun 2017 12:25:40 +0000 (UTC)
+Received: by mail-it0-f65.google.com with SMTP id l6so11153864iti.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Jun 2017 05:25:02 -0700 (PDT)
+	Mon, 12 Jun 2017 05:25:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:message-id:subject:to:date:in-reply-to:references:mime-version
 	:content-transfer-encoding;
-	bh=QxPsh0HBZGhLeYL7DBt9pIlYDxa+LPy4sHv00i54CFE=;
-	b=WIUt51X68KA85Hy2nch46swo2rHaP/leaXeZyqjg3sKbyf8VtVopT/tho8dduUSxDj
-	8bsFjrVFYJx/8t4/5G8KcpaV/NAF+dS8fEEiuzqgqzLutEaewtlRbycTqd2i2Lg432h3
-	3Xmi6f2o8639GYl6amRFWMjMhS2vmlZ4eTAuXfpZZ3OulYyQJgA9RVgeShDDMN1LAqhU
-	RZTQ0uEXSL/zZGn35wpKiO9jTB7/t0YK9Vrp1J+R5W7Y6ycSKzYVwfe4xmudTBiFTHQO
-	cIoPzlW2rwVMn0sjRbmFjGxevzwUsvQ0qlz3fyNzRfS4zri4yzycQweOfM7hnlaRQ26s
-	XhzA==
+	bh=bbW8zrJ1glizkZxpPeEMeH2xqm5Wg3LAcWYlu/61rsE=;
+	b=b7zI0phgsPhu/rrJFpzcdLr2xhn9LBvkriiHIrv0+R3W/kCczrNqMzHLOpwNxsxy3z
+	tB+iLJOf2bobpc2xLjmKlMC9TN3cuosHtlKW/MLm9KeZLVfOd3iEf7c9RayzJsZ25m0Q
+	gLNBhd9X1mJyzK7Gdy7i4PHylzg2dhCPpvhmkY4bd9geave4U0pyG2Uq/mQwtwxtpk/5
+	zWfSPCrKYx0IwoPxYOKUk13Cd2brG5aeoMw6nkzCGqgGPb855Nayopd5PZdzKlwfWdmK
+	H6bI0Y7c4YspttwXZ6T/J6Yycn0HdOmN9CmYd2mCKtPnLZ/Kh0e8YSUe/28mQE5VcFMo
+	h51w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:message-id:subject:to:date:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=QxPsh0HBZGhLeYL7DBt9pIlYDxa+LPy4sHv00i54CFE=;
-	b=bZvodUdyciK1dn6Y9XgVCHyyeuAOA9YHiUgCmbN3OqwqWH0YhOxuw6zJYq8xoMbxuQ
-	/g3EnFxdaG+tqWQnEcgEcgSfjP1X8vLv//WqNjbhymLlNl/i97ZGoeeFJjo524fFoDiV
-	ufu/KSoWTCP8oI9jNUI5WtL9xfUjimfut3DhNo6SRSybz7DUZ7OU1cXFv+JwdUpCavP7
-	1nkaYUnFFkmDJRWn0wAEvnWpHCeIEuNzaQTpBHUFvPhXHp6PAGtyyLOsSHi8p41uIUJM
-	eo9fHsQFD4hJd+CmVoibHhW4plc83B7zPpibbdCsYCLZUHx5jnlMQlhw3jDjo6eIjXvl
-	3r2g==
-X-Gm-Message-State: AODbwcDVxxrk53O3C6KqCmH2w53Pb6rpLSvyqHw6uy52I1D0WRkS+L+q
-	wRQ1X5GlWNfYmEu784E=
-X-Received: by 10.36.194.71 with SMTP id i68mr11878939itg.106.1497270302011;
-	Mon, 12 Jun 2017 05:25:02 -0700 (PDT)
+	bh=bbW8zrJ1glizkZxpPeEMeH2xqm5Wg3LAcWYlu/61rsE=;
+	b=VschKd8B0DlQ5sQRcuZlzjwbnef2YJu3aqObwecg33kaNP7JVzax+9uT0UHsLebBZq
+	SorKRTR6nuEAAlMeWghjpdc28MyR+4RnlbT5qMBrgHqTHFC0UM0SsD1sfhTTIRUrfhRr
+	xoDvuSnNIFb4Gi4PRDwZv9eavfi7gr+OOTLEIVpcS4ql5XFtNE4GYTzHK2Q4wnwRfn/C
+	zKo0Mn7ekelZrKO2YsBN12cz85sCLMIKnRlJrv0tdQSn/M5t/XaqBoBEL2rvLgeve8Ai
+	4JRWd4tvp2HaTssYcSzUxNNahxIubzM0phDJCcjdQcNg6E1T2evJ5TDUSDq3KBPu48TU
+	Tm+Q==
+X-Gm-Message-State: AODbwcAULvwFKhLay0rqpoziHKQ2DO9BBeWOSKIOCXpmWb1wm0Q2ieMD
+	KVd2sXBpURoNUDvDyH4=
+X-Received: by 10.36.99.14 with SMTP id j14mr11296669itc.121.1497270341720;
+	Mon, 12 Jun 2017 05:25:41 -0700 (PDT)
 Received: from ola-842mrw1.ad.garmin.com ([204.77.163.55])
 	by smtp.googlemail.com with ESMTPSA id
-	b70sm4569097ioe.57.2017.06.12.05.25.00
+	q8sm4132ioe.69.2017.06.12.05.25.40
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Mon, 12 Jun 2017 05:25:00 -0700 (PDT)
+	Mon, 12 Jun 2017 05:25:40 -0700 (PDT)
 From: Joshua Watt <jpewhacker@gmail.com>
 X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
-Message-ID: <1497270300.1888.0.camel@gmail.com>
+Message-ID: <1497270340.1888.1.camel@gmail.com>
 To: OE-core <openembedded-core@lists.openembedded.org>
-Date: Mon, 12 Jun 2017 07:25:00 -0500
+Date: Mon, 12 Jun 2017 07:25:40 -0500
 In-Reply-To: <CAJdd5GY3pvJY0VvkANRvDkZxWU8AFCcn5sWu=K9-gnMDmRjHrw@mail.gmail.com>
 References: <CAJdd5GYuBbqarXs38M91atDyQhz17EcPDE9yKme-oiwDjCtaaA@mail.gmail.com>
 	<20170601030557.9337-1-JPEWhacker@gmail.com>
@@ -62,7 +62,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Jun 2017 12:25:01 -0000
+X-List-Received-Date: Mon, 12 Jun 2017 12:25:41 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
@@ -260,5 +260,7 @@ On Tue, 2017-06-06 at 22:30 -0500, Joshua Watt wrote:
 > > 
 > 
 > Ping?
+
+Ping? Am I missing something to get this merged?
 
 
