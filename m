@@ -1,35 +1,31 @@
 Return-Path: <denis@denix.org>
 Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.17])
-	by mail.openembedded.org (Postfix) with ESMTP id CDA13782A5
+	by mail.openembedded.org (Postfix) with ESMTP id 08ED4782A5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Jun 2017 18:23:11 +0000 (UTC)
+	Mon, 12 Jun 2017 18:47:51 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by mailout4.zoneedit.com (Postfix) with ESMTP id 911BB20B84
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Jun 2017 18:23:12 +0000 (UTC)
+	by mailout4.zoneedit.com (Postfix) with ESMTP id 0479C20B84;
+	Mon, 12 Jun 2017 18:47:52 +0000 (UTC)
 Received: from mailout4.zoneedit.com ([127.0.0.1])
 	by localhost (zmo03-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
-	port 10024) with ESMTP id VCWIe_jPE9XO
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Jun 2017 18:23:12 +0000 (UTC)
+	port 10024)
+	with ESMTP id TFHUA92ahMWC; Mon, 12 Jun 2017 18:47:51 +0000 (UTC)
 Received: from mail.denix.org (pool-100-15-85-143.washdc.fios.verizon.net
 	[100.15.85.143])
 	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 778AD20156
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Jun 2017 18:23:12 +0000 (UTC)
-Received: by mail.denix.org (Postfix, from userid 1000)
-	id 08F591624F4; Mon, 12 Jun 2017 14:23:12 -0400 (EDT)
-Date: Mon, 12 Jun 2017 14:23:11 -0400
+	by mailout4.zoneedit.com (Postfix) with ESMTPSA id DD9E020156;
+	Mon, 12 Jun 2017 18:47:50 +0000 (UTC)
+Received: from gimli.denix (gimli [192.168.0.6])
+	by mail.denix.org (Postfix) with ESMTP id 7333D1624EB;
+	Mon, 12 Jun 2017 14:47:50 -0400 (EDT)
 From: Denys Dmytriyenko <denis@denix.org>
 To: openembedded-core@lists.openembedded.org
-Message-ID: <20170612182311.GU28053@denix.org>
-References: <1497035621-66174-1-git-send-email-denis@denix.org>
-MIME-Version: 1.0
-In-Reply-To: <1497035621-66174-1-git-send-email-denis@denix.org>
-User-Agent: Mutt/1.5.20 (2009-06-14)
-Subject: Re: [PATCH] util-linux: upgrade to 2.30
+Date: Mon, 12 Jun 2017 14:47:49 -0400
+Message-Id: <1497293269-51979-1-git-send-email-denis@denix.org>
+X-Mailer: git-send-email 2.7.4
+Cc: Denys Dmytriyenko <denys@ti.com>
+Subject: [PATCH v2] uboot-config: check UBOOT_CONFIG variable, not flags, for error conditions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,164 +38,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Jun 2017 18:23:12 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Mon, 12 Jun 2017 18:47:52 -0000
 
-Ping. Any comments, issues?
+From: Denys Dmytriyenko <denys@ti.com>
 
+Sometimes there's a need to change existing UBOOT_CONFIG setting from a recipe,
+distro or local config, such as an override or even switch back to UBOOT_MACHINE.
+Unfortunately, there's no easy way to override or unset flags, so using them as
+an error condition is rather heavy-handed. Change those conditions to check the
+UBOOT_CONFIG variable itself, not its flags.
 
-On Fri, Jun 09, 2017 at 03:13:41PM -0400, Denys Dmytriyenko wrote:
-> From: Denys Dmytriyenko <denys@ti.com>
-> 
-> Drop uuid-test-error-api.patch as it's been fixed upstream differently:
-> https://github.com/karelzak/util-linux/commit/b770b487004778f4425639c7ed1bb6ca22d157bf
-> 
-> Signed-off-by: Denys Dmytriyenko <denys@ti.com>
-> ---
->  .../util-linux/uuid-test-error-api.patch           | 99 ----------------------
->  .../{util-linux_2.29.2.bb => util-linux_2.30.bb}   |  7 +-
->  2 files changed, 3 insertions(+), 103 deletions(-)
->  delete mode 100644 meta/recipes-core/util-linux/util-linux/uuid-test-error-api.patch
->  rename meta/recipes-core/util-linux/{util-linux_2.29.2.bb => util-linux_2.30.bb} (80%)
-> 
-> diff --git a/meta/recipes-core/util-linux/util-linux/uuid-test-error-api.patch b/meta/recipes-core/util-linux/util-linux/uuid-test-error-api.patch
-> deleted file mode 100644
-> index a6fde5d..0000000
-> --- a/meta/recipes-core/util-linux/util-linux/uuid-test-error-api.patch
-> +++ /dev/null
-> @@ -1,99 +0,0 @@
-> -This patch adds error() API implementation for non-glibc system C libs
-> -
-> -Upstream-Status: Pending
-> -Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> -
-> ----
-> - misc-utils/test_uuidd.c | 62 ++++++++++++++++++++++++++++++++++++++++++++++++-
-> - 1 file changed, 61 insertions(+), 1 deletion(-)
-> -
-> -diff --git a/misc-utils/test_uuidd.c b/misc-utils/test_uuidd.c
-> -index 36f3b3d..7d579ce 100644
-> ---- a/misc-utils/test_uuidd.c
-> -+++ b/misc-utils/test_uuidd.c
-> -@@ -23,7 +23,6 @@
-> -  *
-> -  *	make uuidd uuidgen localstatedir=/var
-> -  */
-> --#include <error.h>
-> - #include <pthread.h>
-> - #include <stdio.h>
-> - #include <stdlib.h>
-> -@@ -38,6 +37,17 @@
-> - #include "xalloc.h"
-> - #include "strutils.h"
-> - 
-> -+#ifdef __GLIBC__
-> -+#include <error.h>
-> -+#else
-> -+extern void (*error_print_progname)(void);
-> -+extern unsigned int error_message_count;
-> -+extern int error_one_per_line;
-> -+
-> -+void error(int, int, const char *, ...);
-> -+void error_at_line(int, int, const char *, unsigned int, const char *, ...);
-> -+#endif
-> -+
-> - #define LOG(level,args) if (loglev >= level) { fprintf args; }
-> - 
-> - size_t nprocesses = 4;
-> -@@ -256,6 +266,56 @@ static void object_dump(size_t idx, object_t *obj)
-> - 	fprintf(stderr, "}\n");
-> - }
-> - 
-> -+#ifndef __GLIBC__
-> -+extern char *__progname;
-> -+
-> -+void (*error_print_progname)(void) = 0;
-> -+unsigned int error_message_count = 0;
-> -+int error_one_per_line = 0;
-> -+
-> -+static void eprint(int status, int e, const char *file, unsigned int line, const char *fmt, va_list ap)
-> -+{
-> -+	if (file && error_one_per_line) {
-> -+		static const char *oldfile;
-> -+		static unsigned int oldline;
-> -+		if (line == oldline && strcmp(file, oldfile) == 0)
-> -+			return;
-> -+		oldfile = file;
-> -+		oldline = line;
-> -+	}
-> -+	if (error_print_progname)
-> -+		error_print_progname();
-> -+	else
-> -+		fprintf(stderr, "%s: ", __progname);
-> -+	if (file)
-> -+		fprintf(stderr, "%s:%u: ", file, line);
-> -+	vfprintf(stderr, fmt, ap);
-> -+	if (e)
-> -+		fprintf(stderr, ": %s", strerror(e));
-> -+	putc('\n', stderr);
-> -+	fflush(stderr);
-> -+	error_message_count++;
-> -+	if (status)
-> -+		exit(status);
-> -+}
-> -+
-> -+void error(int status, int e, const char *fmt, ...)
-> -+{
-> -+	va_list ap;
-> -+	va_start(ap,fmt);
-> -+	eprint(status, e, 0, 0, fmt, ap);
-> -+	va_end(ap);
-> -+}
-> -+
-> -+void error_at_line(int status, int e, const char *file, unsigned int line, const char *fmt, ...)
-> -+{
-> -+	va_list ap;
-> -+	va_start(ap,fmt);
-> -+	eprint(status, e, file, line, fmt, ap);
-> -+	va_end(ap);
-> -+}
-> -+#endif /* __GLIBC__ */
-> -+
-> - int main(int argc, char *argv[])
-> - {
-> - 	size_t i, nfailed = 0, nignored = 0;
-> --- 
-> -2.8.3
-> -
-> diff --git a/meta/recipes-core/util-linux/util-linux_2.29.2.bb b/meta/recipes-core/util-linux/util-linux_2.30.bb
-> similarity index 80%
-> rename from meta/recipes-core/util-linux/util-linux_2.29.2.bb
-> rename to meta/recipes-core/util-linux/util-linux_2.30.bb
-> index 11303f8..6b309b5 100644
-> --- a/meta/recipes-core/util-linux/util-linux_2.29.2.bb
-> +++ b/meta/recipes-core/util-linux/util-linux_2.30.bb
-> @@ -1,4 +1,4 @@
-> -MAJOR_VERSION = "2.29"
-> +MAJOR_VERSION = "2.30"
->  require util-linux.inc
->  
->  # To support older hosts, we need to patch and/or revert
-> @@ -14,10 +14,9 @@ SRC_URI += "file://configure-sbindir.patch \
->              file://run-ptest \
->              file://display_testname_for_subtest.patch \
->              file://avoid_parallel_tests.patch \
-> -            file://uuid-test-error-api.patch \
->  "
-> -SRC_URI[md5sum] = "63c40c2068fcbb7e1d5c1d281115d973"
-> -SRC_URI[sha256sum] = "accea4d678209f97f634f40a93b7e9fcad5915d1f4749f6c47bee6bf110fe8e3"
-> +SRC_URI[md5sum] = "eaa3429150268027908a1b8ae6ee9a62"
-> +SRC_URI[sha256sum] = "c208a4ff6906cb7f57940aa5bc3a6eed146e50a7cc0a092f52ef2ab65057a08d"
->  
->  CACHED_CONFIGUREVARS += "scanf_cv_alloc_modifier=ms"
->  
-> -- 
-> 2.7.4
-> 
-> -- 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Signed-off-by: Denys Dmytriyenko <denys@ti.com>
+---
+v2 - check ubootconfig var directly, instead of its len()
+
+ meta/classes/uboot-config.bbclass | 11 +++--------
+ 1 file changed, 3 insertions(+), 8 deletions(-)
+
+diff --git a/meta/classes/uboot-config.bbclass b/meta/classes/uboot-config.bbclass
+index 10013b7..533e175 100644
+--- a/meta/classes/uboot-config.bbclass
++++ b/meta/classes/uboot-config.bbclass
+@@ -20,24 +20,21 @@ python () {
+     ubootbinaries = d.getVar('UBOOT_BINARIES')
+     # The "doc" varflag is special, we don't want to see it here
+     ubootconfigflags.pop('doc', None)
++    ubootconfig = (d.getVar('UBOOT_CONFIG') or "").split()
+ 
+-    if not ubootmachine and not ubootconfigflags:
++    if not ubootmachine and not ubootconfig:
+         PN = d.getVar("PN")
+         FILE = os.path.basename(d.getVar("FILE"))
+         bb.debug(1, "To build %s, see %s for instructions on \
+                  setting up your machine config" % (PN, FILE))
+         raise bb.parse.SkipPackage("Either UBOOT_MACHINE or UBOOT_CONFIG must be set in the %s machine configuration." % d.getVar("MACHINE"))
+ 
+-    if ubootmachine and ubootconfigflags:
++    if ubootmachine and ubootconfig:
+         raise bb.parse.SkipPackage("You cannot use UBOOT_MACHINE and UBOOT_CONFIG at the same time.")
+ 
+     if ubootconfigflags and ubootbinaries:
+         raise bb.parse.SkipPackage("You cannot use UBOOT_BINARIES as it is internal to uboot_config.bbclass.")
+ 
+-    if not ubootconfigflags:
+-        return
+-
+-    ubootconfig = (d.getVar('UBOOT_CONFIG') or "").split()
+     if len(ubootconfig) > 0:
+         for config in ubootconfig:
+             for f, v in ubootconfigflags.items():
+@@ -57,6 +54,4 @@ python () {
+                         bb.debug(1, "Appending '%s' to UBOOT_BINARIES." % ubootbinary)
+                         d.appendVar('UBOOT_BINARIES', ' ' + ubootbinary)
+                     break
+-    elif len(ubootconfig) == 0:
+-       raise bb.parse.SkipPackage('You must set a default in UBOOT_CONFIG.')
+ }
+-- 
+2.7.4
+
 
