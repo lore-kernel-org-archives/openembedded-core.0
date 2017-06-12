@@ -1,18 +1,18 @@
 Return-Path: <patchwork@patchwork.openembedded.org>
 Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id EC5137825B;
-	Mon, 12 Jun 2017 15:01:45 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id EC2097826F;
+	Mon, 12 Jun 2017 15:01:46 +0000 (UTC)
 MIME-Version: 1.0
 From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 12 Jun 2017 15:01:47 -0000
-Message-ID: <20170612150147.1040.68226@do.openembedded.org>
-References: <cover.1497278129.git.raj.khem@gmail.com>
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Date: Mon, 12 Jun 2017 15:01:48 -0000
+Message-ID: <20170612150148.1043.59788@do.openembedded.org>
+References: <20170612145805.11599-1-alexander.kanavin@linux.intel.com>
 Reply-To: openembedded-core@lists.openembedded.org
 X-Patchwork-Hint: ignore
-In-Reply-To: <cover.1497278129.git.raj.khem@gmail.com>
+In-Reply-To: <20170612145805.11599-1-alexander.kanavin@linux.intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgQWRkIEdDQyA3LjEgcmVjaXBlcw==?=
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgcnBtOiBydW4gYmluYXJ5IHBhY2thZ2UgZ2VuZXJhdGlvbiB2aWEgdGhyZWFkIHBvb2xz?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,15 +25,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Jun 2017 15:01:46 -0000
+X-List-Received-Date: Mon, 12 Jun 2017 15:01:47 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
 == Series Details ==
 
-Series: Add GCC 7.1 recipes
+Series: rpm: run binary package generation via thread pools
 Revision: 1
-URL   : https://patchwork.openembedded.org/series/7195/
+URL   : https://patchwork.openembedded.org/series/7196/
 State : failure
 
 == Summary ==
@@ -45,10 +45,9 @@ series by patchtest resulting in the following failures:
 
 
 
-* Issue             Series cannot be parsed correctly due to malformed diff lines [test_mbox_format] 
-  Suggested fix    Create the series again using git-format-patch and ensure it can be applied using git am
-  Diff line         diff --git a/meta/recipes-devtools/gcc/gcc-7.1/0044-libgcc-Add-knob-to-use-ldbl-128-on-ppc.patch b/meta/recipes-devtools/gcc/gcc-7.1/0044-libgcc-Add-knob-to-use-ldbl-128-on-ppc.patch
-
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at aea90e9ee6)
 
 
 
