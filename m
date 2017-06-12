@@ -1,18 +1,18 @@
 Return-Path: <patchwork@patchwork.openembedded.org>
 Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id EC2097826F;
-	Mon, 12 Jun 2017 15:01:46 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id E8E817825B;
+	Mon, 12 Jun 2017 15:01:47 +0000 (UTC)
 MIME-Version: 1.0
 From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Date: Mon, 12 Jun 2017 15:01:48 -0000
-Message-ID: <20170612150148.1043.59788@do.openembedded.org>
-References: <20170612145805.11599-1-alexander.kanavin@linux.intel.com>
+To: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 12 Jun 2017 15:01:49 -0000
+Message-ID: <20170612150149.1042.86315@do.openembedded.org>
+References: <cover.1497279306.git.raj.khem@gmail.com>
 Reply-To: openembedded-core@lists.openembedded.org
 X-Patchwork-Hint: ignore
-In-Reply-To: <20170612145805.11599-1-alexander.kanavin@linux.intel.com>
+In-Reply-To: <cover.1497279306.git.raj.khem@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgcnBtOiBydW4gYmluYXJ5IHBhY2thZ2UgZ2VuZXJhdGlvbiB2aWEgdGhyZWFkIHBvb2xz?=
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgTWlzYyByZWNpcGUgZml4ZXMgYW5kIHVwZGF0ZXM=?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,15 +25,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Jun 2017 15:01:47 -0000
+X-List-Received-Date: Mon, 12 Jun 2017 15:01:48 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
 == Series Details ==
 
-Series: rpm: run binary package generation via thread pools
+Series: Misc recipe fixes and updates
 Revision: 1
-URL   : https://patchwork.openembedded.org/series/7196/
+URL   : https://patchwork.openembedded.org/series/7197/
 State : failure
 
 == Summary ==
@@ -45,9 +45,15 @@ series by patchtest resulting in the following failures:
 
 
 
+* Issue             Added patch file is missing Upstream-Status in the header [test_upstream_status_presence] 
+  Suggested fix    Add Upstream-Status: <status> to the header of meta/recipes-core/ovmf/ovmf/no-stack-protector-all-archs.patch (possible values: Pending, Submitted, Accepted, Backport, Denied, Inappropriate)
+
 * Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
   Suggested fix    Rebase your series on top of targeted branch
   Targeted branch  master (currently at aea90e9ee6)
+
+* Issue             A patch file has been added, but does not have a Signed-off-by tag [test_signed_off_by_presence] 
+  Suggested fix    Sign off the added patch file (meta/recipes-core/ovmf/ovmf/no-stack-protector-all-archs.patch)
 
 
 
