@@ -1,49 +1,48 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f178.google.com (mail-pf0-f178.google.com
-	[209.85.192.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 94E41782D3
+Received: from mail-pg0-f66.google.com (mail-pg0-f66.google.com [74.125.83.66])
+	by mail.openembedded.org (Postfix) with ESMTP id A38BC782C6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Jun 2017 14:59:18 +0000 (UTC)
-Received: by mail-pf0-f178.google.com with SMTP id x63so52405297pff.3
+	Mon, 12 Jun 2017 14:59:19 +0000 (UTC)
+Received: by mail-pg0-f66.google.com with SMTP id f127so14504662pgc.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Jun 2017 07:59:20 -0700 (PDT)
+	Mon, 12 Jun 2017 07:59:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=LLF31kdM3ZxNOoBGLMIbn9lXAzeXpbjn18lIn67hUDM=;
-	b=qR/mjmBbRan1GPzfQNRp7nJwzEAzb8ghi/W/hU6hdPswRjLl7mKk7AIcnu+AZWJWcQ
-	PTo2ypj79DEYyPwp5baZGqWxL6hyH2Pa20yV0AAlQ6txS3M+6pPksZ1y8IJWUzuNTJvl
-	Y7HD886eQQMIQdVZW3cOEepk7wv6+oMqpIBchCOYzVK8Um04bGzTst+SsedaIEW3Rvj1
-	6rnl3X4Hxt9p/c2Ye372CPjgZB2t+se4mSJCqr3wQ2jU3KGFA3kL6Kiwkw0hMuL0zp83
-	b2pDKUmFkWf03lru1kcsaNHKbNcDIa+ebnILIoHO28gh9IQEHpLDv1/C+5YpsSjN1NpW
-	Bvlg==
+	bh=yVA4fmEBY2xIKz9AOeWa32aPIVHxXFY9y8YH4kDzy60=;
+	b=txpTfQx/YsIJdC2Xosmqlmh8geEoR8kloOJn+3kfP5R1PDRzR96RbleNG0yY2/ztYB
+	wtUQlf5aMKFJe/wBcTZs7RCrL737AhKke0dmbJv92nhmVmlZnwqw7c92nEoclwUBAoVX
+	4QueUGCBguhjUhDtlFlRuTNVZqVOlJ/5Zm+iyKf0i2Ye+LUuGKFVhrKcdGAKUbSQXtys
+	+YnsFXe+8TnaX2Fj3GJHzYUgcH+GVOVtv9/s9O3xwU/j94qrqTGS9HQFtjqXqWKWXiyM
+	DdBTpnbcvBEk2qM9qsBH9QyqW/CSgxWrDb6HubpHr/wNfWjXMQl24PrOZxG3yjl79Tmp
+	0CMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=LLF31kdM3ZxNOoBGLMIbn9lXAzeXpbjn18lIn67hUDM=;
-	b=IOuPBwK+8u6iBHZ/a02OOV5wuBDD8mw4WdfQim0kpLaxpNDyuTFai5Kf9ZcMvhQ3jI
-	TIG8XS7WDdNHUEktmpArg79qFiYRJqWCL12LFXtrsmmc2FaPgHkHnCXctEyp7pHfNBQu
-	V8v9y9PVTcX7oIUZaxWGidk+m2DNbhqmg6KrCOmc0nyWEVqhrjJ1Wzmd0DPEi4mkNIgI
-	YPqXupCsna5A6QQ+KhI710Eoxd3WT/Eo/rM74bnYqjT9q9/R6YrCfSvtAh33aD2/aTsM
-	auRWMswPE/ytQIOuNz6/5QqLAVMD4W4p8eGzhFfYSpJwxAFCvzCR6SPQ2rluOHt+HObB
-	dovg==
-X-Gm-Message-State: AODbwcDgOMLZv2sm5jVJT+dTcdawWeB8G/gFlwgx48V9zaja5CbXAUUd
-	ZLlmQQbTiSpKBX/S
-X-Received: by 10.84.174.3 with SMTP id q3mr56431030plb.52.1497279559276;
-	Mon, 12 Jun 2017 07:59:19 -0700 (PDT)
+	bh=yVA4fmEBY2xIKz9AOeWa32aPIVHxXFY9y8YH4kDzy60=;
+	b=nBnPS+jVJ+jaINks5FyZ5xg83t//1/a9lx7pEo033h1CJD0rdJC85UXMUAobcjMz5t
+	oA9ur6lZFbu6YuZ4K4uGFSoigG8+bZfzJuUZpjhu18BCdgWs9FlfzjKyjsJIYngPZs+C
+	VkCdxLcF3XsTVvzPqDKaVpM9kdFa1ntRsE17tnklrcymkzaVNPAQllUWJ5xdfg/eiVU5
+	OLmUinqvbmagBJn5aVsyHnjF1BgukHgg4JQYhnHnhxB5sbxoSiA+YXo4+XOBwrWU/jPe
+	aiZDtyGz7oPU5nTFj/XfW0fRBb5SDap9X1GK3mizMHO0HkslEX7GNc9D0DlyiNO6u9SA
+	KdSQ==
+X-Gm-Message-State: AODbwcDg+4FNZCMkmhiYCWRIluVWFbFgMPk72qOU4MYFomhDaOlUiwKJ
+	E9S6KWCad4FBIC38
+X-Received: by 10.99.119.130 with SMTP id s124mr46814265pgc.33.1497279560580; 
+	Mon, 12 Jun 2017 07:59:20 -0700 (PDT)
 Received: from localhost.localdomain ([2601:646:8882:b8c::264a])
 	by smtp.gmail.com with ESMTPSA id
-	i17sm20554732pgn.60.2017.06.12.07.59.17
+	i17sm20554732pgn.60.2017.06.12.07.59.19
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 12 Jun 2017 07:59:18 -0700 (PDT)
+	Mon, 12 Jun 2017 07:59:19 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 12 Jun 2017 07:59:03 -0700
-Message-Id: <641a9bf59b213e6f31546db6afb4ddefa132a002.1497279306.git.raj.khem@gmail.com>
+Date: Mon, 12 Jun 2017 07:59:04 -0700
+Message-Id: <9b48a0208d92b5c6ba013f5b43218777b2349c2c.1497279306.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.13.1
 In-Reply-To: <cover.1497279306.git.raj.khem@gmail.com>
 References: <cover.1497279306.git.raj.khem@gmail.com>
-Subject: [PATCH 3/7] ltp: Include stdint.h for uintptr_t
+Subject: [PATCH 4/7] libnsl2: Include stdint.h
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,65 +57,58 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 12 Jun 2017 14:59:19 -0000
 
-Fixes build with musl and upcoming glibc
+uintptr_t is defined in stdint.h
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../ltp/ltp/0001-dirtyc0w-Include-stdint.h.patch   | 34 ++++++++++++++++++++++
- meta/recipes-extended/ltp/ltp_20170516.bb          |  1 +
- 2 files changed, 35 insertions(+)
- create mode 100644 meta/recipes-extended/ltp/ltp/0001-dirtyc0w-Include-stdint.h.patch
+ ...Include-stdint.h-for-uintptr_t-definition.patch | 27 ++++++++++++++++++++++
+ meta/recipes-extended/libnsl/libnsl2_git.bb        |  1 +
+ 2 files changed, 28 insertions(+)
+ create mode 100644 meta/recipes-extended/libnsl/libnsl2/0001-nis_call.c-Include-stdint.h-for-uintptr_t-definition.patch
 
-diff --git a/meta/recipes-extended/ltp/ltp/0001-dirtyc0w-Include-stdint.h.patch b/meta/recipes-extended/ltp/ltp/0001-dirtyc0w-Include-stdint.h.patch
+diff --git a/meta/recipes-extended/libnsl/libnsl2/0001-nis_call.c-Include-stdint.h-for-uintptr_t-definition.patch b/meta/recipes-extended/libnsl/libnsl2/0001-nis_call.c-Include-stdint.h-for-uintptr_t-definition.patch
 new file mode 100644
-index 0000000000..5c73be440b
+index 0000000000..e9ae517107
 --- /dev/null
-+++ b/meta/recipes-extended/ltp/ltp/0001-dirtyc0w-Include-stdint.h.patch
-@@ -0,0 +1,34 @@
-+From 1b30d8dac1a37dc0abbb3b545db2824d6489e23f Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-extended/libnsl/libnsl2/0001-nis_call.c-Include-stdint.h-for-uintptr_t-definition.patch
+@@ -0,0 +1,27 @@
++From d71cbeb3b76e54778a4d5eec6d387cce653537ca Mon Sep 17 00:00:00 2001
 +From: Khem Raj <raj.khem@gmail.com>
-+Date: Fri, 9 Jun 2017 09:32:13 -0700
-+Subject: [PATCH] dirtyc0w: Include stdint.h
-+
-+uintptr_t is defined in stdint.h
-+
-+Fixes
-+| dirtyc0w_child.c:76:15: error: 'uintptr_t' undeclared (first use in this function); did you mean 'intptr_t'?
-+|    lseek(mfd, (uintptr_t) map, SEEK_SET);
-+|                ^~~~~~~~~
++Date: Fri, 9 Jun 2017 09:49:35 -0700
++Subject: [PATCH] nis_call.c: Include stdint.h for uintptr_t definition
 +
 +Signed-off-by: Khem Raj <raj.khem@gmail.com>
 +---
-+Upstream-Status: Submitted
++Upstream-Status: Pending
 +
-+ testcases/kernel/security/dirtyc0w/dirtyc0w_child.c | 1 +
++ src/nisplus/nis_call.c | 1 +
 + 1 file changed, 1 insertion(+)
 +
-+diff --git a/testcases/kernel/security/dirtyc0w/dirtyc0w_child.c b/testcases/kernel/security/dirtyc0w/dirtyc0w_child.c
-+index 5328a9bc4..49abdd6ba 100644
-+--- a/testcases/kernel/security/dirtyc0w/dirtyc0w_child.c
-++++ b/testcases/kernel/security/dirtyc0w/dirtyc0w_child.c
++diff --git a/src/nisplus/nis_call.c b/src/nisplus/nis_call.c
++index 1a2b90c..1dc982d 100644
++--- a/src/nisplus/nis_call.c
+++++ b/src/nisplus/nis_call.c
 +@@ -23,6 +23,7 @@
-+ #include <sys/stat.h>
++ #include <errno.h>
++ #include <fcntl.h>
 + #include <string.h>
-+ #include <stdlib.h>
 ++#include <stdint.h>
-+ #include <pwd.h>
-+ 
-+ #include "tst_safe_pthread.h"
++ #include <libintl.h>
++ #include <rpc/rpc.h>
++ #include <rpc/auth.h>
 +-- 
 +2.13.1
 +
-diff --git a/meta/recipes-extended/ltp/ltp_20170516.bb b/meta/recipes-extended/ltp/ltp_20170516.bb
-index 012c43de35..31f339461f 100644
---- a/meta/recipes-extended/ltp/ltp_20170516.bb
-+++ b/meta/recipes-extended/ltp/ltp_20170516.bb
-@@ -50,6 +50,7 @@ SRC_URI = "git://github.com/linux-test-project/ltp.git \
-            file://0034-periodic_output.patch \
-            file://0035-fix-test_proc_kill-hang.patch \
-            file://0036-testcases-network-nfsv4-acl-acl1.c-Security-fix-on-s.patch \
-+           file://0001-dirtyc0w-Include-stdint.h.patch \
-            "
+diff --git a/meta/recipes-extended/libnsl/libnsl2_git.bb b/meta/recipes-extended/libnsl/libnsl2_git.bb
+index 1698f69edb..18e37a1ac9 100644
+--- a/meta/recipes-extended/libnsl/libnsl2_git.bb
++++ b/meta/recipes-extended/libnsl/libnsl2_git.bb
+@@ -18,6 +18,7 @@ SRCREV = "dfa2f313524aff9243c4d8ce1bace73786478356"
+ SRC_URI = "git://github.com/thkukuk/libnsl \
+            file://0001-include-sys-cdefs.h-explicitly.patch \
+            file://0002-Define-glibc-specific-macros.patch \
++           file://0001-nis_call.c-Include-stdint.h-for-uintptr_t-definition.patch \
+           "
  
  S = "${WORKDIR}/git"
 -- 
