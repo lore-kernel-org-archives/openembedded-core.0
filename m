@@ -1,47 +1,50 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qt0-f175.google.com (mail-qt0-f175.google.com
-	[209.85.216.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 696077825C
+Return-Path: <jussi.kukkonen@intel.com>
+Received: from mail-it0-f45.google.com (mail-it0-f45.google.com
+	[209.85.214.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 5F9927826B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Jun 2017 11:01:11 +0000 (UTC)
-Received: by mail-qt0-f175.google.com with SMTP id w1so120553102qtg.2
+	Mon, 12 Jun 2017 11:01:19 +0000 (UTC)
+Received: by mail-it0-f45.google.com with SMTP id m47so18745968iti.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Jun 2017 04:01:12 -0700 (PDT)
+	Mon, 12 Jun 2017 04:01:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=p1jkqigFjgwIdPvlmLoYHrn3Mn/8WJOfdGIXq4b99E4=;
-	b=flcl6+1XkqRKMewcOCxF8gfNDIYqKojwk5HiGkLJhKnbIX+7po6ztUN5ItChyzCMaU
-	xFP2J/85L8qUYaodNts75OsxgDmjSrGCi4kNHwGc8GY2rcXY+lpn/pkwXiTDg8oBuDTG
-	RkFt8mHubi5YmbecRHDwAQ4+kfy0sGdJTeVoQI9RUwoIkg6fsAs9OnvubSEeOdQj8LZA
-	MRglFFlBdWZ+J8Hbiclxv8+ncWOM3QNwm1PfckbFqFj+kdQ6uu+lcVxpW+m3lyluUACn
-	CxeNPAVTnfPpKM+Nn25epUvLYcXA2i7Kt3lbBQ2UNoanifezxUHiiCN67WzKY/bAv9pi
-	2X2g==
+	:cc; bh=1LkgT1G+pApfolLj97IRhv/3f4PbRkq7kwvLmZuOQI8=;
+	b=SOnKigbuoILFAUfTwJ1kMOkb0CFhFxqLI7V4xcgHteTMyV49bxH4XLdLlEZ8WhYGZk
+	IfvapbmwcGg3KcwQsxAaKtQsOB2EO7JgTCaZmPTeV1lif+tdPqNZ71zigmO+OWJzRe58
+	urvk7V2g31GWqojJP+akPHuJCdwSN76t8cDlIuFfvlRGRflQPux/PKBVtsSuS9ZBF5Z3
+	1rIREkP2aQcp5mJFjN5d2LET+ul/FRZdri1O4W3qCfOVMuAatn8+nyPiddXMfCevtoF0
+	cyP+l2d3Y7t4kMbWJFWNbawWqHqjWw4OUTN9VC3rHpZdW4nh5wxweZip83FlqFD7I45k
+	yHbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=p1jkqigFjgwIdPvlmLoYHrn3Mn/8WJOfdGIXq4b99E4=;
-	b=JfJsraJaKam5fQ+gA20ohgwieipbGIRPqwbFh6AymBKe9LbZ4qsENrxo0kUJPOAWd+
-	7en+VOJBXYCoxcR+WuyP91vWiMDyNeCap6HDmwuly0bvYi5i3IxK3JEhuLzqRFFHRq8T
-	FaOnHVU8MVsx/CI/8LPTPVx+F556uG5YCpxtnzY99UXGekbdjhTME10bL9d9iEk1LxZ5
-	onh02/2t43dFY6F4x+FeU+aBsmrVTg19mDEhwKGpOg2YXq4Ec+KYay49fTASWWrSnj10
-	YG8Q2pyW320wyuKriX8XJblVf97jVebFayO36T+80V9wVdGCP1IBu0+d3XimY1HCvb6/
-	tEFw==
-X-Gm-Message-State: AODbwcB/eLCqxtmuj6YbDfxeCMsUJPRVDdKI1VOjai5SajsS5yNx2/Dx
-	JZ8Cfeff7KH/ulCCLvWI4+9AJWhlkIKU
-X-Received: by 10.55.24.201 with SMTP id 70mr60593309qky.171.1497265272502;
-	Mon, 12 Jun 2017 04:01:12 -0700 (PDT)
+	bh=1LkgT1G+pApfolLj97IRhv/3f4PbRkq7kwvLmZuOQI8=;
+	b=bGVtQ3lGDeViTTrqikLJP4IImKbPifbuXwBY/MghiMJAbtJ/+ZlMphFRz8rkheaSNb
+	Zp/CkJ94nQps0/VhxKEYFjTNKHVlUIgF5oM4efJjlJ7xgBnVD4jSyIf/n3Jii3jjAJt7
+	ohrkTK3zwtyQCbJpQUWqPpD3Dsepm2lv+UWmSWHCEe/zENyn7Yqk0gG9wQGCTwrijTI0
+	13EDJZGhO/2klKl+sYP2gCZm8FPQYYaFBIR4FxKNERIYq5FFns9/Nt24M5HHm4myFflO
+	G3chOSkZHmMqJmyv3W+zmR0I5ku9nEBsA2qCK8ZfNE5fh8T0ScY9C8Uz2lrTRbl3LUgl
+	rdEA==
+X-Gm-Message-State: AODbwcCQxuAjCPOKENI1TkNlI2vv0mG+I9dR5czQaxp3mCjtih8SzQWQ
+	nKdkXVfziNmBoRa70cFGEYqQ51A0k6WN
+X-Received: by 10.36.17.6 with SMTP id 6mr11191545itf.17.1497265281174; Mon,
+	12 Jun 2017 04:01:21 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.140.35.103 with HTTP; Mon, 12 Jun 2017 04:00:52 -0700 (PDT)
-In-Reply-To: <1497069672-2012-1-git-send-email-changhyeok.bae@gmail.com>
-References: <1497069672-2012-1-git-send-email-changhyeok.bae@gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 12 Jun 2017 12:00:52 +0100
-Message-ID: <CAJTo0LbyKHf=FR8vPta5QhpvYC9dYvtgg26y5L3m02a=4fU4+Q@mail.gmail.com>
-To: Changhyeok Bae <changhyeok.bae@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v3] openssl: Upgrade 1.0.2k -> 1.0.2l
+Received: by 10.107.20.130 with HTTP; Mon, 12 Jun 2017 04:00:50 -0700 (PDT)
+In-Reply-To: <1497262008.3942.4.camel@linuxfoundation.org>
+References: <cover.1496993458.git.jussi.kukkonen@intel.com>
+	<0c83f6d3e761aa93c07528c5a3730e2ddc43d748.1496993458.git.jussi.kukkonen@intel.com>
+	<1497262008.3942.4.camel@linuxfoundation.org>
+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+Date: Mon, 12 Jun 2017 14:00:50 +0300
+Message-ID: <CAHiDW_EUkhm3fhda+mwhq=jPx6L_qqA6adnA+jW84cHEt-ZiqA@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2] Enable parallel compilation for python3-numpy
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,40 +57,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Jun 2017 11:01:11 -0000
-Content-Type: multipart/alternative; boundary="001a114418acb3dd610551c13c3b"
+X-List-Received-Date: Mon, 12 Jun 2017 11:01:20 -0000
+Content-Type: multipart/alternative; boundary="001a1143eb483828e50551c13de4"
 
---001a114418acb3dd610551c13c3b
+--001a1143eb483828e50551c13de4
 Content-Type: text/plain; charset="UTF-8"
 
-Of course openssl would be shipping pre-compiled binaries...  :/
+On 12 June 2017 at 13:06, Richard Purdie <richard.purdie@linuxfoundation.org
+> wrote:
 
-On 10 June 2017 at 05:41, Changhyeok Bae <changhyeok.bae@gmail.com> wrote:
-
-> -LIC_FILES_CHKSUM = "file://LICENSE;md5=27ffa5d74bb5a337056c14b2ef93fbf6"
-> +LIC_FILES_CHKSUM = "file://LICENSE;md5=057d9218c6180e1d9ee407572b2dd225"
+> On Fri, 2017-06-09 at 10:36 +0300, Jussi Kukkonen wrote:
+> > Support for "-j N" does not seem like a generic distutils thing
+> > but numpy supports it.
+> >
+> > This improves compile time by 2 minutes (real time).
+>
+> Sorry:
+>
+> https://autobuilder.yocto.io/builders/nightly-musl/builds/
+> 298/steps/BuildImages/logs/stdio
+>
+> Appears to have races?
 >
 
-Still not explaining why this change is needed.
 
-Ross
+Indeed, thanks. I'll have a look but could be that there will be no v2 (I
+couldn't reproduce earlier and distutils isn't really my cup of tea).
 
---001a114418acb3dd610551c13c3b
+Jussi
+
+--001a1143eb483828e50551c13de4
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra">Of course openssl would be ship=
-ping pre-compiled binaries... =C2=A0:/</div><div class=3D"gmail_extra"><br>=
-</div><div class=3D"gmail_extra"><div class=3D"gmail_quote">On 10 June 2017=
- at 05:41, Changhyeok Bae <span dir=3D"ltr">&lt;<a href=3D"mailto:changhyeo=
-k.bae@gmail.com" target=3D"_blank">changhyeok.bae@gmail.com</a>&gt;</span> =
-wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bord=
-er-left:1px #ccc solid;padding-left:1ex"><span class=3D"">-LIC_FILES_CHKSUM=
- =3D &quot;file://LICENSE;md5=3D<wbr>27ffa5d74bb5a337056c14b2ef93fb<wbr>f6&=
-quot;<br>
-+LIC_FILES_CHKSUM =3D &quot;file://LICENSE;md5=3D<wbr>057d9218c6180e1d9ee40=
-7572b2dd2<wbr>25&quot;<br></span></blockquote></div><div class=3D"gmail_ext=
-ra"><br></div>Still not explaining why this change is needed.</div><div cla=
-ss=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+<div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_quote">On 1=
+2 June 2017 at 13:06, Richard Purdie <span dir=3D"ltr">&lt;<a href=3D"mailt=
+o:richard.purdie@linuxfoundation.org" target=3D"_blank">richard.purdie@linu=
+xfoundation.org</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" =
+style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><sp=
+an class=3D"">On Fri, 2017-06-09 at 10:36 +0300, Jussi Kukkonen wrote:<br>
+&gt; Support for &quot;-j N&quot; does not seem like a generic distutils th=
+ing<br>
+&gt; but numpy supports it.<br>
+&gt;<br>
+&gt; This improves compile time by 2 minutes (real time).<br>
+<br>
+</span>Sorry:<br>
+<br>
+<a href=3D"https://autobuilder.yocto.io/builders/nightly-musl/builds/298/st=
+eps/BuildImages/logs/stdio" rel=3D"noreferrer" target=3D"_blank">https://au=
+tobuilder.yocto.io/<wbr>builders/nightly-musl/builds/<wbr>298/steps/BuildIm=
+ages/logs/<wbr>stdio</a><br>
+<br>
+Appears to have races?<br></blockquote><div><br></div><div><br></div><div>I=
+ndeed, thanks. I&#39;ll have a look but could be that there will be no v2 (=
+I couldn&#39;t reproduce earlier and distutils isn&#39;t really my cup of t=
+ea).</div><div><br></div><div>Jussi</div></div></div></div>
 
---001a114418acb3dd610551c13c3b--
+--001a1143eb483828e50551c13de4--
