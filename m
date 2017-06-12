@@ -1,31 +1,48 @@
-Return-Path: <denis@denix.org>
-Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.17])
-	by mail.openembedded.org (Postfix) with ESMTP id 08ED4782A5
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wr0-f176.google.com (mail-wr0-f176.google.com
+	[209.85.128.176])
+	by mail.openembedded.org (Postfix) with ESMTP id CD34078255
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Jun 2017 18:47:51 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mailout4.zoneedit.com (Postfix) with ESMTP id 0479C20B84;
-	Mon, 12 Jun 2017 18:47:52 +0000 (UTC)
-Received: from mailout4.zoneedit.com ([127.0.0.1])
-	by localhost (zmo03-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
-	port 10024)
-	with ESMTP id TFHUA92ahMWC; Mon, 12 Jun 2017 18:47:51 +0000 (UTC)
-Received: from mail.denix.org (pool-100-15-85-143.washdc.fios.verizon.net
-	[100.15.85.143])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mailout4.zoneedit.com (Postfix) with ESMTPSA id DD9E020156;
-	Mon, 12 Jun 2017 18:47:50 +0000 (UTC)
-Received: from gimli.denix (gimli [192.168.0.6])
-	by mail.denix.org (Postfix) with ESMTP id 7333D1624EB;
-	Mon, 12 Jun 2017 14:47:50 -0400 (EDT)
-From: Denys Dmytriyenko <denis@denix.org>
+	Mon, 12 Jun 2017 19:07:58 +0000 (UTC)
+Received: by mail-wr0-f176.google.com with SMTP id g76so106956723wrd.1
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 12 Jun 2017 12:08:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=hIclBL3ewL5R1OjcVYzuonl3+rmFfxrTpRJwStF5DcQ=;
+	b=RsSmumn/pUIynOOWrLw8v/4pKBIOi5XcADlmKolSDzHc0MPnRPKLyLeaLCDeOZMSUx
+	OFRVSFBBdqIOM8WtJVM4kl5uUuTcKHrNrgImjQe7XFAKW1pAkz7m4yn/j3fbkX5dBvW1
+	/oGc+u0jAZFIeFZdk2qsNiRfNPwSHxfqSulJBE+uiKe1dscZSZ7xxhTHdqwbo+A9bs0V
+	CGO8RpaFV/qz5jERoPOVMIx5lg5dKkDvkVtc+oI9BHAJ7Sq9JxDDanQvfMG69NuPGrvi
+	Ob5KwXyfzyZhQIaA4o3gz6Jz6gLHOWpcGl4rJnZb/ae7YAQjECcyAoCHI9QS/I5KjPgQ
+	sdqg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=hIclBL3ewL5R1OjcVYzuonl3+rmFfxrTpRJwStF5DcQ=;
+	b=qe/4nHOHVot9Q6Mah/D7PUZoEe6buqbddYDjQSvPPu2v9fFyxcUqbxnGE8c8lXQIh0
+	wYc5tiWTtPrdHUDs9h9YMbZkG0HC2WBT9ZZc9Q4U4n5CnLczaGptESkNCDDSjABxvoM3
+	1op+kBK3SZtF+jfNDS/bZkoqjxycwCihIR7nHjnNEaJ42OB46R+Scev9Z2t7pkk7C87F
+	FwPBuj2W3wVfkGTcBakJyg/W/wO/MeA2bCq7YGQ/2X6kr6k55jf0EsippvOCNgh/22FM
+	7IH5e1NM6xmDuWBlK5T5ShtXRfI6iwHmp6lnxKBYxDqybBHryjerzME23aCwq1h192cc
+	yHcQ==
+X-Gm-Message-State: AKS2vOxRqFSmi4bFDE1MvDbo+HG1cc2kNWvxc3bFXNX1IcRRhRIaM6BQ
+	a2SUYor6JonmV1tiLgs=
+X-Received: by 10.223.133.181 with SMTP id 50mr312175wrt.27.1497294478148;
+	Mon, 12 Jun 2017 12:07:58 -0700 (PDT)
+Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id
+	l16sm6773997wre.25.2017.06.12.12.07.57
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 12 Jun 2017 12:07:57 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 12 Jun 2017 14:47:49 -0400
-Message-Id: <1497293269-51979-1-git-send-email-denis@denix.org>
-X-Mailer: git-send-email 2.7.4
-Cc: Denys Dmytriyenko <denys@ti.com>
-Subject: [PATCH v2] uboot-config: check UBOOT_CONFIG variable, not flags, for error conditions
+Date: Mon, 12 Jun 2017 20:07:56 +0100
+Message-Id: <1497294476-22590-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.8.1
+Subject: [PATCH] linux-firmware: don't package check_whence.py
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,63 +55,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Jun 2017 18:47:52 -0000
+X-List-Received-Date: Mon, 12 Jun 2017 19:07:59 -0000
 
-From: Denys Dmytriyenko <denys@ti.com>
+There's no need for this script on the target, and now that rpmdeps is fixed the
+QA code wants a dependency on Python in the firmware package, which clearly
+isn't appropriate.
 
-Sometimes there's a need to change existing UBOOT_CONFIG setting from a recipe,
-distro or local config, such as an override or even switch back to UBOOT_MACHINE.
-Unfortunately, there's no easy way to override or unset flags, so using them as
-an error condition is rather heavy-handed. Change those conditions to check the
-UBOOT_CONFIG variable itself, not its flags.
-
-Signed-off-by: Denys Dmytriyenko <denys@ti.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
-v2 - check ubootconfig var directly, instead of its len()
+ meta/recipes-kernel/linux-firmware/linux-firmware_git.bb | 4 ++++
+ 1 file changed, 4 insertions(+)
 
- meta/classes/uboot-config.bbclass | 11 +++--------
- 1 file changed, 3 insertions(+), 8 deletions(-)
-
-diff --git a/meta/classes/uboot-config.bbclass b/meta/classes/uboot-config.bbclass
-index 10013b7..533e175 100644
---- a/meta/classes/uboot-config.bbclass
-+++ b/meta/classes/uboot-config.bbclass
-@@ -20,24 +20,21 @@ python () {
-     ubootbinaries = d.getVar('UBOOT_BINARIES')
-     # The "doc" varflag is special, we don't want to see it here
-     ubootconfigflags.pop('doc', None)
-+    ubootconfig = (d.getVar('UBOOT_CONFIG') or "").split()
+diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
+index 4558daf..316d674 100644
+--- a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
++++ b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
+@@ -672,6 +672,10 @@ FILES_${PN} += "${nonarch_base_libdir}/firmware/*"
+ RDEPENDS_${PN} += "${PN}-license"
+ RDEPENDS_${PN} += "${PN}-whence-license"
  
--    if not ubootmachine and not ubootconfigflags:
-+    if not ubootmachine and not ubootconfig:
-         PN = d.getVar("PN")
-         FILE = os.path.basename(d.getVar("FILE"))
-         bb.debug(1, "To build %s, see %s for instructions on \
-                  setting up your machine config" % (PN, FILE))
-         raise bb.parse.SkipPackage("Either UBOOT_MACHINE or UBOOT_CONFIG must be set in the %s machine configuration." % d.getVar("MACHINE"))
- 
--    if ubootmachine and ubootconfigflags:
-+    if ubootmachine and ubootconfig:
-         raise bb.parse.SkipPackage("You cannot use UBOOT_MACHINE and UBOOT_CONFIG at the same time.")
- 
-     if ubootconfigflags and ubootbinaries:
-         raise bb.parse.SkipPackage("You cannot use UBOOT_BINARIES as it is internal to uboot_config.bbclass.")
- 
--    if not ubootconfigflags:
--        return
--
--    ubootconfig = (d.getVar('UBOOT_CONFIG') or "").split()
-     if len(ubootconfig) > 0:
-         for config in ubootconfig:
-             for f, v in ubootconfigflags.items():
-@@ -57,6 +54,4 @@ python () {
-                         bb.debug(1, "Appending '%s' to UBOOT_BINARIES." % ubootbinary)
-                         d.appendVar('UBOOT_BINARIES', ' ' + ubootbinary)
-                     break
--    elif len(ubootconfig) == 0:
--       raise bb.parse.SkipPackage('You must set a default in UBOOT_CONFIG.')
- }
++do_install_append() {
++	rm ${D}${nonarch_base_libdir}/firmware/check_whence.py
++}
++
+ # Make linux-firmware depend on all of the split-out packages.
+ # Make linux-firmware-iwlwifi depend on all of the split-out iwlwifi packages.
+ python populate_packages_prepend () {
 -- 
-2.7.4
+2.8.1
 
 
