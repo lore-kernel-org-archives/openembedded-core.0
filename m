@@ -1,55 +1,46 @@
-Return-Path: <jpewhacker@gmail.com>
-Received: from mail-it0-f65.google.com (mail-it0-f65.google.com
-	[209.85.214.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 10BFE7826D
+Return-Path: <changhyeok.bae@gmail.com>
+Received: from mail-pg0-f65.google.com (mail-pg0-f65.google.com [74.125.83.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 014B7601A5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Jun 2017 12:25:40 +0000 (UTC)
-Received: by mail-it0-f65.google.com with SMTP id l6so11153864iti.0
+	Mon, 12 Jun 2017 12:27:34 +0000 (UTC)
+Received: by mail-pg0-f65.google.com with SMTP id f127so14185715pgc.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Jun 2017 05:25:42 -0700 (PDT)
+	Mon, 12 Jun 2017 05:27:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:message-id:subject:to:date:in-reply-to:references:mime-version
-	:content-transfer-encoding;
-	bh=bbW8zrJ1glizkZxpPeEMeH2xqm5Wg3LAcWYlu/61rsE=;
-	b=b7zI0phgsPhu/rrJFpzcdLr2xhn9LBvkriiHIrv0+R3W/kCczrNqMzHLOpwNxsxy3z
-	tB+iLJOf2bobpc2xLjmKlMC9TN3cuosHtlKW/MLm9KeZLVfOd3iEf7c9RayzJsZ25m0Q
-	gLNBhd9X1mJyzK7Gdy7i4PHylzg2dhCPpvhmkY4bd9geave4U0pyG2Uq/mQwtwxtpk/5
-	zWfSPCrKYx0IwoPxYOKUk13Cd2brG5aeoMw6nkzCGqgGPb855Nayopd5PZdzKlwfWdmK
-	H6bI0Y7c4YspttwXZ6T/J6Yycn0HdOmN9CmYd2mCKtPnLZ/Kh0e8YSUe/28mQE5VcFMo
-	h51w==
+	h=from:to:cc:subject:date:message-id;
+	bh=jcHHWML8fDHJNFIdCO0AmqOKepJSTJwRsr+hhX0b6fQ=;
+	b=ln28sX3vjKGMoUoWdWJg/NPvtP9F+d6e2vckT8Hm8j7nkjJYZxMx7zGtFvhxK/YyA1
+	tQsk2CwRJloh3pl3O3zfd9dQLvpCn4/FgTET+WKOpVRFZAuUPxEmGJMG3NqVQNk2MLAj
+	QSL+KlAK+E6sEwsdzcCn8vKR993TBhkwYWMNjShIFq0eNXZtaxhJCRZFL5dWTcZYjlAu
+	4dOr797AgFOeN5Cv/PF4oL6x2+nwhi0Dvpx14++1kqLJIOt7NMG+bSW9tcAxLPUIKJq/
+	vU6AMY6B6I35Nwr8QLisbfTw/9h/LTvmFm0469lbdMzLZgzBsDm6LM67oMjJFZqrmBRW
+	J3IQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:message-id:subject:to:date:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=bbW8zrJ1glizkZxpPeEMeH2xqm5Wg3LAcWYlu/61rsE=;
-	b=VschKd8B0DlQ5sQRcuZlzjwbnef2YJu3aqObwecg33kaNP7JVzax+9uT0UHsLebBZq
-	SorKRTR6nuEAAlMeWghjpdc28MyR+4RnlbT5qMBrgHqTHFC0UM0SsD1sfhTTIRUrfhRr
-	xoDvuSnNIFb4Gi4PRDwZv9eavfi7gr+OOTLEIVpcS4ql5XFtNE4GYTzHK2Q4wnwRfn/C
-	zKo0Mn7ekelZrKO2YsBN12cz85sCLMIKnRlJrv0tdQSn/M5t/XaqBoBEL2rvLgeve8Ai
-	4JRWd4tvp2HaTssYcSzUxNNahxIubzM0phDJCcjdQcNg6E1T2evJ5TDUSDq3KBPu48TU
-	Tm+Q==
-X-Gm-Message-State: AODbwcAULvwFKhLay0rqpoziHKQ2DO9BBeWOSKIOCXpmWb1wm0Q2ieMD
-	KVd2sXBpURoNUDvDyH4=
-X-Received: by 10.36.99.14 with SMTP id j14mr11296669itc.121.1497270341720;
-	Mon, 12 Jun 2017 05:25:41 -0700 (PDT)
-Received: from ola-842mrw1.ad.garmin.com ([204.77.163.55])
-	by smtp.googlemail.com with ESMTPSA id
-	q8sm4132ioe.69.2017.06.12.05.25.40
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Mon, 12 Jun 2017 05:25:40 -0700 (PDT)
-From: Joshua Watt <jpewhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
-Message-ID: <1497270340.1888.1.camel@gmail.com>
-To: OE-core <openembedded-core@lists.openembedded.org>
-Date: Mon, 12 Jun 2017 07:25:40 -0500
-In-Reply-To: <CAJdd5GY3pvJY0VvkANRvDkZxWU8AFCcn5sWu=K9-gnMDmRjHrw@mail.gmail.com>
-References: <CAJdd5GYuBbqarXs38M91atDyQhz17EcPDE9yKme-oiwDjCtaaA@mail.gmail.com>
-	<20170601030557.9337-1-JPEWhacker@gmail.com>
-	<CAJdd5GY3pvJY0VvkANRvDkZxWU8AFCcn5sWu=K9-gnMDmRjHrw@mail.gmail.com>
-X-Mailer: Evolution 3.22.6 (3.22.6-2.fc25) 
-Mime-Version: 1.0
-Subject: Re: [PATCH v7] openssh: Atomically generate host keys
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=jcHHWML8fDHJNFIdCO0AmqOKepJSTJwRsr+hhX0b6fQ=;
+	b=q/jeb9P+HV3poJAMOduRrNuzhJkNwZsirMEtuYDQ6Onl8TidnLONQ2jZsmvf56/oYG
+	RSAbuKmHjTifmXLp+rZnjMVGkjsUR46+hzLGnrZQyMhnhUelPVQQ4qVaOEBw3mKCc7oo
+	a3ubF2VGbsM9tt2ZpRhzJd5heXg78kr914TgGYjhVQOcYPJS0//otrZZXevrEvIQkBiX
+	lP/ZPg6DEdMPQeJf8/EaBCm2/9h3ceWK0X4/k84ukoKUmgIv1YNWJbQt8yxY8hwNSAcJ
+	qQIdIcLqEEGRhZfk+Ja7uol1YOqt1DrK/QChPz2o+ahbe8Z1byX7gcWvzVGxjLg4Rr2O
+	VFnQ==
+X-Gm-Message-State: AODbwcBRLXDC2i2CqPtVWZmKKyDD+C74P2p4zbQRXyvlzLVc7BbNPTO6
+	qhaw7cd0HZPWBJVv
+X-Received: by 10.98.80.140 with SMTP id g12mr24714407pfj.146.1497270456014;
+	Mon, 12 Jun 2017 05:27:36 -0700 (PDT)
+Received: from ip-172-31-15-204.ap-northeast-2.compute.internal
+	(ec2-13-124-88-129.ap-northeast-2.compute.amazonaws.com.
+	[13.124.88.129])
+	by smtp.gmail.com with ESMTPSA id j6sm22806850pgc.1.2017.06.12.05.27.34
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 12 Jun 2017 05:27:35 -0700 (PDT)
+From: Changhyeok Bae <changhyeok.bae@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 12 Jun 2017 12:27:30 +0000
+Message-Id: <1497270450-8104-1-git-send-email-changhyeok.bae@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH v5] openssl: Upgrade 1.0.2k -> 1.0.2l
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,205 +53,129 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Jun 2017 12:25:41 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 12 Jun 2017 12:27:38 -0000
 
-On Tue, 2017-06-06 at 22:30 -0500, Joshua Watt wrote:
-> On Wed, May 31, 2017 at 10:05 PM, Joshua Watt <jpewhacker@gmail.com>
-> wrote:
-> > Generating the host keys atomically prevents power interruptions
-> > during
-> > the first boot from leaving the key files incomplete, which often
-> > prevents users from being able to ssh into the device.
-> > 
-> > Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
-> > ---
-> >  meta/recipes-connectivity/openssh/openssh/init     | 22 ++++----
-> > ------
-> >  .../openssh/openssh/sshd-check-key                 | 35
-> > ++++++++++++++++++++++
-> >  .../openssh/openssh/sshdgenkeys.service            | 25 ++++++++
-> > --------
-> >  meta/recipes-connectivity/openssh/openssh_7.5p1.bb |  8 +++++
-> >  4 files changed, 61 insertions(+), 29 deletions(-)
-> >  create mode 100644 meta/recipes-connectivity/openssh/openssh/sshd-
-> > check-key
-> > 
-> > diff --git a/meta/recipes-connectivity/openssh/openssh/init
-> > b/meta/recipes-connectivity/openssh/openssh/init
-> > index 1f63725..e02c479 100644
-> > --- a/meta/recipes-connectivity/openssh/openssh/init
-> > +++ b/meta/recipes-connectivity/openssh/openssh/init
-> > @@ -45,23 +45,11 @@ check_config() {
-> >  }
-> > 
-> >  check_keys() {
-> > -       # create keys if necessary
-> > -       if [ ! -f $HOST_KEY_RSA ]; then
-> > -               echo "  generating ssh RSA key..."
-> > -               ssh-keygen -q -f $HOST_KEY_RSA -N '' -t rsa
-> > -       fi
-> > -       if [ ! -f $HOST_KEY_ECDSA ]; then
-> > -               echo "  generating ssh ECDSA key..."
-> > -               ssh-keygen -q -f $HOST_KEY_ECDSA -N '' -t ecdsa
-> > -       fi
-> > -       if [ ! -f $HOST_KEY_DSA ]; then
-> > -               echo "  generating ssh DSA key..."
-> > -               ssh-keygen -q -f $HOST_KEY_DSA -N '' -t dsa
-> > -       fi
-> > -       if [ ! -f $HOST_KEY_ED25519 ]; then
-> > -               echo "  generating ssh ED25519 key..."
-> > -               ssh-keygen -q -f $HOST_KEY_ED25519 -N '' -t ed25519
-> > -       fi
-> > +    @LIBEXECDIR@/sshd-check-key $HOST_KEY_RSA rsa
-> > +    @LIBEXECDIR@/sshd-check-key $HOST_KEY_ECDSA ecdsa
-> > +    @LIBEXECDIR@/sshd-check-key $HOST_KEY_DSA dsa
-> > +    @LIBEXECDIR@/sshd-check-key $HOST_KEY_ED25519 ed25519
-> > +    @BASE_BINDIR@/sync
-> >  }
-> > 
-> >  export PATH="${PATH:+$PATH:}/usr/sbin:/sbin"
-> > diff --git a/meta/recipes-connectivity/openssh/openssh/sshd-check-
-> > key b/meta/recipes-connectivity/openssh/openssh/sshd-check-key
-> > new file mode 100644
-> > index 0000000..3afdb8b
-> > --- /dev/null
-> > +++ b/meta/recipes-connectivity/openssh/openssh/sshd-check-key
-> > @@ -0,0 +1,35 @@
-> > +#! /bin/sh
-> > +NAME="$1"
-> > +TYPE="$2"
-> > +
-> > +if [ -z "$NAME" ] || [ -z "$TYPE" ]; then
-> > +    echo "Usage: $0 NAME TYPE"
-> > +    exit 1
-> > +fi
-> > +
-> > +
-> > +if [ ! -f "$NAME" ]; then
-> > +    DIR="$(dirname "$NAME")"
-> > +
-> > +    echo "  generating ssh $TYPE key..."
-> > +    ssh-keygen -q -f "${NAME}.tmp" -N '' -t $TYPE
-> > +
-> > +    # Move (Atomically rename) files
-> > +    mv -f "${NAME}.tmp.pub" "${NAME}.pub"
-> > +
-> > +    # This sync does double duty: Ensuring that the data in the
-> > temporary
-> > +    # private key file is on disk before the rename, and ensuring
-> > that the
-> > +    # public key rename is completed before the private key
-> > rename, since we
-> > +    # switch on the existence of the private key to trigger key
-> > generation.
-> > +    # This does mean it is possible for the public key to exist,
-> > but be garbage
-> > +    # but this is OK because in that case the private key won't
-> > exist and the
-> > +    # keys will be regenerated.
-> > +    #
-> > +    # In the event that sync understands arguments that limit what
-> > it tries to
-> > +    # fsync(), we provided them. If it does not, it will simply
-> > call sync()
-> > +    # which is just as well
-> > +    sync "${NAME}.pub" "$DIR" "${NAME}.tmp"
-> > +
-> > +    mv "${NAME}.tmp" "$NAME"
-> > +fi
-> > +
-> > diff --git a/meta/recipes-
-> > connectivity/openssh/openssh/sshdgenkeys.service b/meta/recipes-
-> > connectivity/openssh/openssh/sshdgenkeys.service
-> > index 148e6ad..23fd351 100644
-> > --- a/meta/recipes-connectivity/openssh/openssh/sshdgenkeys.service
-> > +++ b/meta/recipes-connectivity/openssh/openssh/sshdgenkeys.service
-> > @@ -1,22 +1,23 @@
-> >  [Unit]
-> >  Description=OpenSSH Key Generation
-> >  RequiresMountsFor=/var /run
-> > -ConditionPathExists=!/var/run/ssh/ssh_host_rsa_key
-> > -ConditionPathExists=!/var/run/ssh/ssh_host_dsa_key
-> > -ConditionPathExists=!/var/run/ssh/ssh_host_ecdsa_key
-> > -ConditionPathExists=!/var/run/ssh/ssh_host_ed25519_key
-> > -ConditionPathExists=!/etc/ssh/ssh_host_rsa_key
-> > -ConditionPathExists=!/etc/ssh/ssh_host_dsa_key
-> > -ConditionPathExists=!/etc/ssh/ssh_host_ecdsa_key
-> > -ConditionPathExists=!/etc/ssh/ssh_host_ed25519_key
-> > +ConditionPathExists=|!/var/run/ssh/ssh_host_rsa_key
-> > +ConditionPathExists=|!/var/run/ssh/ssh_host_dsa_key
-> > +ConditionPathExists=|!/var/run/ssh/ssh_host_ecdsa_key
-> > +ConditionPathExists=|!/var/run/ssh/ssh_host_ed25519_key
-> > +ConditionPathExists=|!/etc/ssh/ssh_host_rsa_key
-> > +ConditionPathExists=|!/etc/ssh/ssh_host_dsa_key
-> > +ConditionPathExists=|!/etc/ssh/ssh_host_ecdsa_key
-> > +ConditionPathExists=|!/etc/ssh/ssh_host_ed25519_key
-> > 
-> >  [Service]
-> >  Environment="SYSCONFDIR=/etc/ssh"
-> >  EnvironmentFile=-/etc/default/ssh
-> >  ExecStart=@BASE_BINDIR@/mkdir -p $SYSCONFDIR
-> > -ExecStart=@BINDIR@/ssh-keygen -q -f ${SYSCONFDIR}/ssh_host_rsa_key
-> > -N '' -t rsa
-> > -ExecStart=@BINDIR@/ssh-keygen -q -f ${SYSCONFDIR}/ssh_host_dsa_key
-> > -N '' -t dsa
-> > -ExecStart=@BINDIR@/ssh-keygen -q -f
-> > ${SYSCONFDIR}/ssh_host_ecdsa_key -N '' -t ecdsa
-> > -ExecStart=@BINDIR@/ssh-keygen -q -f
-> > ${SYSCONFDIR}/ssh_host_ed25519_key -N '' -t ed25519
-> > +ExecStart=@LIBEXECDIR@/sshd-check-key
-> > ${SYSCONFDIR}/ssh_host_rsa_key rsa
-> > +ExecStart=@LIBEXECDIR@/sshd-check-key
-> > ${SYSCONFDIR}/ssh_host_dsa_key dsa
-> > +ExecStart=@LIBEXECDIR@/sshd-check-key
-> > ${SYSCONFDIR}/ssh_host_ecdsa_key ecdsa
-> > +ExecStart=@LIBEXECDIR@/sshd-check-key
-> > ${SYSCONFDIR}/ssh_host_ed25519_key ed25519
-> > +ExecStart=@BASE_BINDIR@/sync
-> >  Type=oneshot
-> >  RemainAfterExit=yes
-> > diff --git a/meta/recipes-connectivity/openssh/openssh_7.5p1.bb
-> > b/meta/recipes-connectivity/openssh/openssh_7.5p1.bb
-> > index 5b96745..ec4b55f 100644
-> > --- a/meta/recipes-connectivity/openssh/openssh_7.5p1.bb
-> > +++ b/meta/recipes-connectivity/openssh/openssh_7.5p1.bb
-> > @@ -25,6 +25,7 @@ SRC_URI = "http://ftp.openbsd.org/pub/OpenBSD/Ope
-> > nSSH/portable/openssh-${PV}.tar
-> >             file://openssh-7.1p1-conditional-compile-des-in-
-> > cipher.patch \
-> >             file://openssh-7.1p1-conditional-compile-des-in-
-> > pkcs11.patch \
-> >             file://fix-potential-signed-overflow-in-pointer-
-> > arithmatic.patch \
-> > +           file://sshd-check-key \
-> >             "
-> > 
-> >  PAM_SRC_URI = "file://sshd"
-> > @@ -124,7 +125,14 @@ do_install_append () {
-> >         sed -i -e 's,@BASE_BINDIR@,${base_bindir},g' \
-> >                 -e 's,@SBINDIR@,${sbindir},g' \
-> >                 -e 's,@BINDIR@,${bindir},g' \
-> > +               -e 's,@LIBEXECDIR@,${libexecdir}/${BPN},g' \
-> >                 ${D}${systemd_unitdir}/system/sshd.socket
-> > ${D}${systemd_unitdir}/system/*.service
-> > +
-> > +       sed -i -e 's,@LIBEXECDIR@,${libexecdir}/${BPN},g' \
-> > +               -e 's,@BASE_BINDIR@,${base_bindir},g' \
-> > +               ${D}${sysconfdir}/init.d/sshd
-> > +
-> > +       install -D -m 0755 ${WORKDIR}/sshd-check-key
-> > ${D}${libexecdir}/${BPN}
-> >  }
-> > 
-> >  do_install_ptest () {
-> > --
-> > 2.9.4
-> > 
-> 
-> Ping?
+1. Dropped obsolete patches, because the new version contains them:
+  - fix-cipher-des-ede3-cfb1.patch
+  - openssl-avoid-NULL-pointer-dereference-in-EVP_DigestInit_ex.patch
+2. LICENSE checksum change due to copyright years and wording tweak.
+3. Test binaries (x86-64) are included in source code. So remove those
+only for ptest.
 
-Ping? Am I missing something to get this merged?
+Signed-off-by: Changhyeok Bae <changhyeok.bae@gmail.com>
+---
+ .../openssl/openssl/fix-cipher-des-ede3-cfb1.patch | 21 --------------------
+ ...-pointer-dereference-in-EVP_DigestInit_ex.patch | 23 ----------------------
+ .../{openssl_1.0.2k.bb => openssl_1.0.2l.bb}       | 15 +++++++++-----
+ 3 files changed, 10 insertions(+), 49 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/openssl/openssl/fix-cipher-des-ede3-cfb1.patch
+ delete mode 100644 meta/recipes-connectivity/openssl/openssl/openssl-avoid-NULL-pointer-dereference-in-EVP_DigestInit_ex.patch
+ rename meta/recipes-connectivity/openssl/{openssl_1.0.2k.bb => openssl_1.0.2l.bb} (85%)
+
+diff --git a/meta/recipes-connectivity/openssl/openssl/fix-cipher-des-ede3-cfb1.patch b/meta/recipes-connectivity/openssl/openssl/fix-cipher-des-ede3-cfb1.patch
+deleted file mode 100644
+index 2a318a4..0000000
+--- a/meta/recipes-connectivity/openssl/openssl/fix-cipher-des-ede3-cfb1.patch
++++ /dev/null
+@@ -1,21 +0,0 @@
+-Upstream-Status: Submitted
+-
+-This patch adds the fix for one of the ciphers used in openssl, namely
+-the cipher des-ede3-cfb1. Complete bug log and patch is present here:
+-http://rt.openssl.org/Ticket/Display.html?id=2867
+-
+-Signed-off-by: Muhammad Shakeel <muhammad_shakeel@mentor.com>
+-
+-Index: openssl-1.0.2/crypto/evp/e_des3.c
+-===================================================================
+---- openssl-1.0.2.orig/crypto/evp/e_des3.c
+-+++ openssl-1.0.2/crypto/evp/e_des3.c
+-@@ -211,7 +211,7 @@ static int des_ede3_cfb1_cipher(EVP_CIPH
+-     size_t n;
+-     unsigned char c[1], d[1];
+- 
+--    for (n = 0; n < inl; ++n) {
+-+    for (n = 0; n * 8 < inl; ++n) {
+-         c[0] = (in[n / 8] & (1 << (7 - n % 8))) ? 0x80 : 0;
+-         DES_ede3_cfb_encrypt(c, d, 1, 1,
+-                              &data(ctx)->ks1, &data(ctx)->ks2,
+diff --git a/meta/recipes-connectivity/openssl/openssl/openssl-avoid-NULL-pointer-dereference-in-EVP_DigestInit_ex.patch b/meta/recipes-connectivity/openssl/openssl/openssl-avoid-NULL-pointer-dereference-in-EVP_DigestInit_ex.patch
+deleted file mode 100644
+index f736e5c..0000000
+--- a/meta/recipes-connectivity/openssl/openssl/openssl-avoid-NULL-pointer-dereference-in-EVP_DigestInit_ex.patch
++++ /dev/null
+@@ -1,23 +0,0 @@
+-openssl: avoid NULL pointer dereference in EVP_DigestInit_ex()
+-
+-We should avoid accessing the type pointer if it's NULL,
+-this could happen if ctx->digest is not NULL.
+-
+-Upstream-Status: Submitted
+-http://www.mail-archive.com/openssl-dev@openssl.org/msg32860.html
+-
+-Signed-off-by: Xufeng Zhang <xufeng.zhang@windriver.com>
+----
+-Index: openssl-1.0.2h/crypto/evp/digest.c
+-===================================================================
+---- openssl-1.0.2h.orig/crypto/evp/digest.c
+-+++ openssl-1.0.2h/crypto/evp/digest.c
+-@@ -211,7 +211,7 @@ int EVP_DigestInit_ex(EVP_MD_CTX *ctx, c
+-         type = ctx->digest;
+-     }
+- #endif
+--    if (ctx->digest != type) {
+-+    if (type && (ctx->digest != type)) {
+-         if (ctx->digest && ctx->digest->ctx_size) {
+-             OPENSSL_free(ctx->md_data);
+-             ctx->md_data = NULL;
+diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.2k.bb b/meta/recipes-connectivity/openssl/openssl_1.0.2l.bb
+similarity index 85%
+rename from meta/recipes-connectivity/openssl/openssl_1.0.2k.bb
+rename to meta/recipes-connectivity/openssl/openssl_1.0.2l.bb
+index 83d1a50..08c478f 100644
+--- a/meta/recipes-connectivity/openssl/openssl_1.0.2k.bb
++++ b/meta/recipes-connectivity/openssl/openssl_1.0.2l.bb
+@@ -7,7 +7,7 @@ DEPENDS += "cryptodev-linux"
+ CFLAG += "-DHAVE_CRYPTODEV -DUSE_CRYPTODEV_DIGESTS"
+ CFLAG_append_class-native = " -fPIC"
+ 
+-LIC_FILES_CHKSUM = "file://LICENSE;md5=27ffa5d74bb5a337056c14b2ef93fbf6"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=057d9218c6180e1d9ee407572b2dd225"
+ 
+ export DIRS = "crypto ssl apps engines"
+ export OE_LDFLAGS="${LDFLAGS}"
+@@ -32,8 +32,6 @@ SRC_URI += "file://find.pl;subdir=${BP}/util/ \
+             file://debian1.0.2/version-script.patch \
+             file://debian1.0.2/soname.patch \
+             file://openssl_fix_for_x32.patch \
+-            file://fix-cipher-des-ede3-cfb1.patch \
+-            file://openssl-avoid-NULL-pointer-dereference-in-EVP_DigestInit_ex.patch \
+             file://openssl-fix-des.pod-error.patch \
+             file://Makefiles-ptest.patch \
+             file://ptest-deps.patch \
+@@ -45,8 +43,8 @@ SRC_URI += "file://find.pl;subdir=${BP}/util/ \
+             file://Use-SHA256-not-MD5-as-default-digest.patch \
+             file://0001-Fix-build-with-clang-using-external-assembler.patch \
+             "
+-SRC_URI[md5sum] = "f965fc0bf01bf882b31314b61391ae65"
+-SRC_URI[sha256sum] = "6b3977c61f2aedf0f96367dcfb5c6e578cf37e7b8d913b4ecb6643c3cb88d8c0"
++SRC_URI[md5sum] = "f85123cd390e864dfbe517e7616e6566"
++SRC_URI[sha256sum] = "ce07195b659e75f4e1db43552860070061f156a98bb37b672b101ba6e3ddf30c"
+ 
+ PACKAGES =+ "${PN}-engines"
+ FILES_${PN}-engines = "${libdir}/ssl/engines/*.so ${libdir}/engines"
+@@ -60,3 +58,10 @@ do_configure_prepend() {
+ 		bbfatal "The perl module 'bignum' was not found but this is required to build openssl.  Please install this module (often packaged as perl-bignum) and re-run bitbake."
+ 	fi
+ }
++
++do_install_ptest_append() {
++    # exclude binary files or the package won't install
++    for d in ssltest_old v3ext x509aux; do
++        rm -rf ${D}${libdir}/${PN}/ptest/test/$d
++    done
++}
+-- 
+2.7.4
 
 
