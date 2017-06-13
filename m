@@ -1,20 +1,20 @@
 Return-Path: <richard@rpsys.net>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 01DBC782E8
+	by mail.openembedded.org (Postfix) with ESMTP id 01623782E4
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 13 Jun 2017 09:49:55 +0000 (UTC)
 Received: from hex ([192.168.3.34]) (authenticated bits=0)
 	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	v5D9nrsA024615
+	v5D9nrTD024616
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
 	verify=NOT); Tue, 13 Jun 2017 10:49:54 +0100
 Received: from richard by hex with local (Exim 4.86_2)
 	(envelope-from <richard@rpsys.net>)
-	id 1dKiSP-0002YW-QE; Tue, 13 Jun 2017 10:49:53 +0100
+	id 1dKiSP-0002Yb-Qo; Tue, 13 Jun 2017 10:49:53 +0100
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 13 Jun 2017 10:49:49 +0100
-Message-Id: <1497347392-9776-2-git-send-email-richard.purdie@linuxfoundation.org>
+Date: Tue, 13 Jun 2017 10:49:50 +0100
+Message-Id: <1497347392-9776-3-git-send-email-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1497347392-9776-1-git-send-email-richard.purdie@linuxfoundation.org>
 References: <1497347392-9776-1-git-send-email-richard.purdie@linuxfoundation.org>
@@ -23,7 +23,7 @@ X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.11
 	Tue, 13 Jun 2017 10:49:54 +0100 (BST)
 X-Virus-Scanned: clamav-milter 0.99.2 at dan
 X-Virus-Status: Clean
-Subject: [PATCH 2/5] insane: Don't depend on OVERRIDES
+Subject: [PATCH 3/5] utils: Exclude OVERRIDES from hashes in multilib functions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,27 +38,30 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 13 Jun 2017 09:49:56 -0000
 
-In common with the other package handling functions, don't depend on the
-value of OVERRIDES. This means when we change MACHINE, we don't have to
-repackage everything.
-
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/classes/insane.bbclass | 1 +
- 1 file changed, 1 insertion(+)
+ meta/classes/utils.bbclass | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-index fa932ef..f6fd7c7 100644
---- a/meta/classes/insane.bbclass
-+++ b/meta/classes/insane.bbclass
-@@ -973,6 +973,7 @@ def package_qa_check_rdepends(pkg, pkgdest, skip, taskdeps, packages, d):
-                     error_msg = "%s contained in package %s requires %s, but no providers found in RDEPENDS_%s?" % \
-                             (filerdepends[key].replace("_%s" % pkg, "").replace("@underscore@", "_"), pkg, key, pkg)
-                     package_qa_handle_error("file-rdeps", error_msg, d)
-+package_qa_check_rdepends[vardepsexclude] = "OVERRIDES"
+diff --git a/meta/classes/utils.bbclass b/meta/classes/utils.bbclass
+index 96463ab..081e662 100644
+--- a/meta/classes/utils.bbclass
++++ b/meta/classes/utils.bbclass
+@@ -369,6 +369,7 @@ def get_multilib_datastore(variant, d):
+     localdata.setVar("OVERRIDES", overrides)
+     localdata.setVar("MLPREFIX", variant + "-")
+     return localdata
++get_multilib_datastore[vardepsexclude] = "OVERRIDES"
  
- def package_qa_check_deps(pkg, pkgdest, skip, d):
+ def all_multilib_tune_values(d, var, unique = True, need_split = True, delim = ' '):
+     """Return a string of all ${var} in all multilib tune configuration"""
+@@ -431,6 +432,7 @@ def all_multilib_tune_list(vars, d):
+         values[v].append(localdata.getVar(v))
+         values['ml'].append(item)
+     return values
++all_multilib_tune_list[vardepsexclude] = "OVERRIDES"
  
+ # If the user hasn't set up their name/email, set some defaults
+ check_git_config() {
 -- 
 2.7.4
 
