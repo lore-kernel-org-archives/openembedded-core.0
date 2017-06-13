@@ -1,27 +1,26 @@
 Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 0996F782EE
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 915AC7833A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Jun 2017 11:24:21 +0000 (UTC)
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	13 Jun 2017 04:24:22 -0700
+	Tue, 13 Jun 2017 11:24:22 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga105.fm.intel.com with ESMTP; 13 Jun 2017 04:24:23 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.39,338,1493708400"; d="scan'208";a="114273146"
+X-IronPort-AV: E=Sophos;i="5.39,338,1493708400"; d="scan'208";a="98869800"
 Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga006.fm.intel.com with ESMTP; 13 Jun 2017 04:24:22 -0700
+	by orsmga002.jf.intel.com with ESMTP; 13 Jun 2017 04:24:23 -0700
 Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
-	by linux.intel.com (Postfix) with ESMTP id 02DFD58010F
+	by linux.intel.com (Postfix) with ESMTP id 228CF5800CE
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Jun 2017 04:24:21 -0700 (PDT)
+	Tue, 13 Jun 2017 04:24:22 -0700 (PDT)
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 13 Jun 2017 14:22:10 +0300
-Message-Id: <77a8da7c72830e7fc886736229e0d7c169b2f4ef.1497348496.git.ed.bartosh@linux.intel.com>
+Date: Tue, 13 Jun 2017 14:22:11 +0300
+Message-Id: <8523c88dc742dcfa4c86c603d2cd1e18c11367e4.1497348496.git.ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1497348496.git.ed.bartosh@linux.intel.com>
 References: <cover.1497348496.git.ed.bartosh@linux.intel.com>
-Subject: [PATCH v2 22/26] wic: add help and usage content for 'wic rm'
+Subject: [PATCH v2 23/26] wic: add 'wic rm' command
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,94 +33,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Jun 2017 11:24:21 -0000
+X-List-Received-Date: Tue, 13 Jun 2017 11:24:22 -0000
 
-Added wic_rm_help and wic_rm_usage variables to help.py.
-These variables contain help content that will be used in
-'wic rm help' and 'wic rm --help' output.
+Added empty 'wic rm' command that does nothing.
+The functionality will be added by the next commits.
+
+[YOCTO #11283]
 
 Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 ---
- scripts/lib/wic/help.py | 59 ++++++++++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 58 insertions(+), 1 deletion(-)
+ scripts/lib/wic/engine.py |  7 +++++++
+ scripts/wic               | 14 ++++++++++++++
+ 2 files changed, 21 insertions(+)
 
-diff --git a/scripts/lib/wic/help.py b/scripts/lib/wic/help.py
-index e93ac4b..23d943c 100644
---- a/scripts/lib/wic/help.py
-+++ b/scripts/lib/wic/help.py
-@@ -395,7 +395,7 @@ DESCRIPTION
-     The second form of the command copies file or directory to the specified directory
-     on the vfat partition:
-        $ wic cp test tmp/deploy/images/qemux86-64/core-image-minimal-qemux86-64.wic:1/efi/
--       $ wic ls tmp/deploy/images/qemux86-64/core-image-minimal-qemux86-64.wic:1/eti/
-+       $ wic ls tmp/deploy/images/qemux86-64/core-image-minimal-qemux86-64.wic:1/efi/
-        Volume in drive : is boot
-         Volume Serial Number is DB4C-FD4C
-        Directory for ::/efi
-@@ -411,6 +411,63 @@ DESCRIPTION
-     containing the tools(parted and mtools) to use.
- """
+diff --git a/scripts/lib/wic/engine.py b/scripts/lib/wic/engine.py
+index a48c4ad..9a8055c 100644
+--- a/scripts/lib/wic/engine.py
++++ b/scripts/lib/wic/engine.py
+@@ -340,6 +340,13 @@ def wic_cp(args, native_sysroot):
+     disk = Disk(args.dest.image, native_sysroot)
+     disk.copy(args.src, args.dest.part, args.dest.path)
  
-+wic_rm_usage = """
++def wic_rm(args, native_sysroot):
++    """
++    Remove files or directories from the vfat partition of
++    partitioned image.
++    """
++    pass
 +
-+ Remove files or directories from the vfat partitions
-+
-+ usage: wic rm <image>:<vfat partition><path> [--native-sysroot <path>]
-+
-+ This command  removes files or directories from the vfat partitions of partitioned
-+ image.
-+
-+ See 'wic help rm' for more detailed instructions.
-+
-+"""
-+
-+wic_rm_help = """
-+
-+NAME
-+    wic rm - remove files or directories from the vfat partitions
-+
-+SYNOPSIS
-+    wic rm <src> <image>:<vfat partition><path>
-+    wic rm <src> <image>:<vfat partition><path> --native-sysroot <path>
-+
-+DESCRIPTION
-+    This command removes files or directories from the vfat partition of the
-+    wic image:
-+
-+        $ wic ls ./tmp/deploy/images/qemux86-64/core-image-minimal-qemux86-64.wic:1
-+        Volume in drive : is boot
-+         Volume Serial Number is 11D0-DE21
-+        Directory for ::/
-+
-+        libcom32 c32    186500 2017-06-02  15:15
-+        libutil  c32     24148 2017-06-02  15:15
-+        syslinux cfg       209 2017-06-02  15:15
-+        vesamenu c32     27104 2017-06-02  15:15
-+        vmlinuz        6926384 2017-06-02  15:15
-+                5 files           7 164 345 bytes
-+                                 16 582 656 bytes free
-+
-+        $ wic rm ./tmp/deploy/images/qemux86-64/core-image-minimal-qemux86-64.wic:1/libutil.c32
-+
-+        $ wic ls ./tmp/deploy/images/qemux86-64/core-image-minimal-qemux86-64.wic:1
-+        Volume in drive : is boot
-+         Volume Serial Number is 11D0-DE21
-+        Directory for ::/
-+
-+        libcom32 c32    186500 2017-06-02  15:15
-+        syslinux cfg       209 2017-06-02  15:15
-+        vesamenu c32     27104 2017-06-02  15:15
-+        vmlinuz        6926384 2017-06-02  15:15
-+                4 files           7 140 197 bytes
-+                                 16 607 232 bytes free
-+
-+    The -n option is used to specify the path to the native sysroot
-+    containing the tools(parted and mtools) to use.
-+"""
-+
- wic_plugins_help = """
+ def find_canned(scripts_path, file_name):
+     """
+     Find a file either by its path or by name in the canned files dir.
+diff --git a/scripts/wic b/scripts/wic
+index fc192ec..da14f47 100755
+--- a/scripts/wic
++++ b/scripts/wic
+@@ -248,6 +248,13 @@ def wic_cp_subcommand(args, usage_str):
+     """
+     engine.wic_cp(args, args.native_sysroot)
  
- NAME
++def wic_rm_subcommand(args, usage_str):
++    """
++    Command-line handling for removing files/dirs from images.
++    The real work is done by engine.wic_rm()
++    """
++    engine.wic_rm(args, args.native_sysroot)
++
+ def wic_help_subcommand(args, usage_str):
+     """
+     Command-line handling for help subcommand to keep the current
+@@ -286,6 +293,9 @@ helptopics = {
+     "cp":        [wic_help_topic_subcommand,
+                   wic_help_topic_usage,
+                   hlp.wic_cp_help],
++    "rm":        [wic_help_topic_subcommand,
++                  wic_help_topic_usage,
++                  hlp.wic_rm_help],
+     "list":      [wic_help_topic_subcommand,
+                   wic_help_topic_usage,
+                   hlp.wic_list_help]
+@@ -409,6 +419,10 @@ subcommands = {
+                   hlp.wic_cp_usage,
+                   hlp.wic_cp_help,
+                   wic_init_parser_cp],
++    "rm":        [wic_rm_subcommand,
++                  hlp.wic_rm_usage,
++                  hlp.wic_rm_help,
++                  wic_init_parser_rm],
+     "help":      [wic_help_subcommand,
+                   wic_help_topic_usage,
+                   hlp.wic_help_help,
 -- 
 2.1.4
 
