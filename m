@@ -1,27 +1,28 @@
 Return-Path: <maxin.john@intel.com>
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id BE9E978303
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id B0D22782F7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Jun 2017 14:30:19 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga104.jf.intel.com with ESMTP; 13 Jun 2017 07:30:20 -0700
+	Tue, 13 Jun 2017 14:30:21 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	13 Jun 2017 07:30:21 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.39,338,1493708400"; d="scan'208";a="1159937042"
+X-IronPort-AV: E=Sophos;i="5.39,338,1493708400"; d="scan'208";a="1181889925"
 Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga001.fm.intel.com with ESMTP; 13 Jun 2017 07:30:20 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 13 Jun 2017 07:30:21 -0700
 Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
 	[10.237.72.84])
-	by linux.intel.com (Postfix) with ESMTP id BE0155800CE
+	by linux.intel.com (Postfix) with ESMTP id CE0E358010F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Jun 2017 07:30:19 -0700 (PDT)
+	Tue, 13 Jun 2017 07:30:20 -0700 (PDT)
 From: "Maxin B. John" <maxin.john@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 13 Jun 2017 17:29:52 +0300
-Message-Id: <1497364193-519-7-git-send-email-maxin.john@intel.com>
+Date: Tue, 13 Jun 2017 17:29:53 +0300
+Message-Id: <1497364193-519-8-git-send-email-maxin.john@intel.com>
 X-Mailer: git-send-email 2.4.0
 In-Reply-To: <1497364193-519-1-git-send-email-maxin.john@intel.com>
 References: <1497364193-519-1-git-send-email-maxin.john@intel.com>
-Subject: [PATCH 6/7] libid3tag: switch from ftp to http
+Subject: [PATCH 7/7] grub: switch from ftp to https
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,29 +35,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Jun 2017 14:30:19 -0000
+X-List-Received-Date: Tue, 13 Jun 2017 14:30:21 -0000
 
 For the same reasons as Debian:
 https://www.debian.org/News/2017/20170425
 
 Signed-off-by: Maxin B. John <maxin.john@intel.com>
 ---
- meta/recipes-multimedia/libid3tag/libid3tag_0.15.1b.bb | 2 +-
+ meta/recipes-bsp/grub/grub2.inc | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-multimedia/libid3tag/libid3tag_0.15.1b.bb b/meta/recipes-multimedia/libid3tag/libid3tag_0.15.1b.bb
-index 05a8a47..cc48bae 100644
---- a/meta/recipes-multimedia/libid3tag/libid3tag_0.15.1b.bb
-+++ b/meta/recipes-multimedia/libid3tag/libid3tag_0.15.1b.bb
-@@ -9,7 +9,7 @@ SECTION = "libs"
- DEPENDS = "zlib gperf-native"
- PR = "r7"
+diff --git a/meta/recipes-bsp/grub/grub2.inc b/meta/recipes-bsp/grub/grub2.inc
+index bb6ebdd..da6aad2 100644
+--- a/meta/recipes-bsp/grub/grub2.inc
++++ b/meta/recipes-bsp/grub/grub2.inc
+@@ -11,7 +11,7 @@ SECTION = "bootloaders"
+ LICENSE = "GPLv3"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
  
--SRC_URI = "ftp://ftp.mars.org/pub/mpeg/libid3tag-${PV}.tar.gz \
-+SRC_URI = "${SOURCEFORGE_MIRROR}/mad/libid3tag-${PV}.tar.gz \
-            file://addpkgconfig.patch \
-            file://obsolete_automake_macros.patch \
- "
+-SRC_URI = "ftp://ftp.gnu.org/gnu/grub/grub-${PV}.tar.gz \
++SRC_URI = "https://ftp.gnu.org/gnu/grub/grub-${PV}.tar.gz \
+            file://0001-Disable-mfpmath-sse-as-well-when-SSE-is-disabled.patch \
+            file://0001-Unset-need_charset_alias-when-building-for-musl.patch \
+            file://autogen.sh-exclude-pc.patch \
 -- 
 2.4.0
 
