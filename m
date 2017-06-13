@@ -1,29 +1,18 @@
-Return-Path: <richard@rpsys.net>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 01CD0782E7
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Jun 2017 09:49:55 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	v5D9nrjp024617
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Tue, 13 Jun 2017 10:49:54 +0100
-Received: from richard by hex with local (Exim 4.86_2)
-	(envelope-from <richard@rpsys.net>)
-	id 1dKiSP-0002Yg-RX; Tue, 13 Jun 2017 10:49:53 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 13 Jun 2017 10:49:51 +0100
-Message-Id: <1497347392-9776-4-git-send-email-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1497347392-9776-1-git-send-email-richard.purdie@linuxfoundation.org>
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 2924C7831C;
+	Tue, 13 Jun 2017 10:01:30 +0000 (UTC)
+MIME-Version: 1.0
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Date: Tue, 13 Jun 2017 10:01:31 -0000
+Message-ID: <20170613100131.1042.99471@do.openembedded.org>
 References: <1497347392-9776-1-git-send-email-richard.purdie@linuxfoundation.org>
-X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.11
-	(dan.rpsys.net [192.168.3.1]);
-	Tue, 13 Jun 2017 10:49:54 +0100 (BST)
-X-Virus-Scanned: clamav-milter 0.99.2 at dan
-X-Virus-Status: Clean
-Subject: [PATCH 4/5] sstatetests: Use higher parallelism value
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <1497347392-9776-1-git-send-email-richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgImFsbGFyY2g6IEFwcGVuZCB0byB2YXJkZXBzZXhjbC4uLiIgYW5kIDQgbW9yZQ==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,39 +25,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Jun 2017 09:49:56 -0000
+X-List-Received-Date: Tue, 13 Jun 2017 10:01:31 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-Since the processing code for signature generation is now threaded,
-use higher thread values as examples in this code for better performance.
+== Series Details ==
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Series: "allarch: Append to vardepsexcl..." and 4 more
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/7211/
+State : failure
+
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Patch            [3/5] utils: Exclude OVERRIDES from hashes in multilib functions
+ Issue             Patch is missing Signed-off-by [test_signed_off_by_presence] 
+  Suggested fix    Sign off the patch (either manually or with "git commit --amend -s")
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- meta/lib/oeqa/selftest/cases/sstatetests.py | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/meta/lib/oeqa/selftest/cases/sstatetests.py b/meta/lib/oeqa/selftest/cases/sstatetests.py
-index 8d05e30..feadf3c 100644
---- a/meta/lib/oeqa/selftest/cases/sstatetests.py
-+++ b/meta/lib/oeqa/selftest/cases/sstatetests.py
-@@ -418,7 +418,7 @@ DEFAULTTUNE_virtclass-multilib-lib32 = "x86"
- 
-         self.write_config("""
- TMPDIR = "${TOPDIR}/tmp-sstatesamehash"
--BB_NUMBER_THREADS = "1"
-+BB_NUMBER_THREADS = "${@oe.utils.cpu_count()}"
- PARALLEL_MAKE = "-j 1"
- DL_DIR = "${TOPDIR}/download1"
- TIME = "111111"
-@@ -431,7 +431,7 @@ http_proxy = ""
-         bitbake("world meta-toolchain -S none")
-         self.write_config("""
- TMPDIR = "${TOPDIR}/tmp-sstatesamehash2"
--BB_NUMBER_THREADS = "2"
-+BB_NUMBER_THREADS = "${@oe.utils.cpu_count()-1}"
- PARALLEL_MAKE = "-j 2"
- DL_DIR = "${TOPDIR}/download2"
- TIME = "222222"
--- 
-2.7.4
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
