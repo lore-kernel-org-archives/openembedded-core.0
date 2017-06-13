@@ -1,56 +1,48 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qt0-f175.google.com (mail-qt0-f175.google.com
-	[209.85.216.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 379F6782F6
+Received: from mail-qt0-f178.google.com (mail-qt0-f178.google.com
+	[209.85.216.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 6006C782EA
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Jun 2017 16:38:32 +0000 (UTC)
-Received: by mail-qt0-f175.google.com with SMTP id u19so179554385qta.3
+	Tue, 13 Jun 2017 16:44:01 +0000 (UTC)
+Received: by mail-qt0-f178.google.com with SMTP id c10so179651312qtd.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Jun 2017 09:38:34 -0700 (PDT)
+	Tue, 13 Jun 2017 09:44:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=q2JqBQgRCtXk+W/v/3PUCK243iXlCpjIBu6mp22zeNo=;
-	b=ucX2Os7NtX+DyVkAiW1CXzvC3fPBZTaYsEe0mTWm6Bc7eJ+4GbyB3TC7K9BBDmkIKj
-	O+GaEkq3clqydz4E2/KRdemO3ql1ibVtS5R7OAbMo2exkPK2e9lGAvVrEs02MFBF3H+u
-	G4+wuwzWxJN39/83kaLGlDf9f7eN8inypb4U7ui0TwIgS3uQ+MJf2uu+IQP8bUYj7XDP
-	8dKJjqeMi6Q3dKgHklq7eC8Pa93C5dr+26DCT6WTeOve6fkHXCcyVeODWh6cY8BKUxR+
-	GXY2bTvK4Kw0XQasl44ZmrpjlX4/fsbDNNJq6jy9i7/5ekl9xO7WIeajwgchekkWrRvr
-	V2Wg==
+	:cc; bh=zzMWL0Cc06cyMnbzkF0ojOJKOZzRA7nUk7CrdikdWOk=;
+	b=lui54s1sRvfx8V2nX7K4JP3Z8kslN7Og8rcP7FLoxoaAQtoeeIzIo9O1z07bzcslJr
+	5WHxiaS5kxTqkhb8ZH7qfh3MH0xm+B4emHrvPKy60yntHhBpmduzPwqic1TpenboYnQq
+	J0rOa5JCeTi0pGCNcFdYTYWQwTM2UxSEkhdtDOpCTCk5f3FlsgxVJL+TQ8Ha31tsTwUw
+	tU1G6gZVNgVpX9agQtzvNdFTsNCWoqbYwuhE177YBYfIG3RCka96FMY8bwiQrbeOR3XR
+	P7x4JN8HTEF0Is6dkcXR3gjc1oBwtDuL+yJYiTPfIl/FZ3aitu7ib13HEBuV/zE3tukZ
+	GpNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=q2JqBQgRCtXk+W/v/3PUCK243iXlCpjIBu6mp22zeNo=;
-	b=sd8OpNJ7h3oCdfKNYwUDuX1LP1ZUJMe6dzaB1tUsVo1LxiZNMlQRZB51KCCSSJ7KOC
-	TFC9uGlbFYFLHJFgWiMwxaaiBBT8CqoVcpkGrwxJH0o7tF0i1nhCIgMgKkL7hgOw+LXB
-	8mIzYpMp3WYE1f5IZDicbKFc8T0IhdtMYyEPCEY4kbA5n64bNwf6dQCOdM4JB9qdCvlc
-	UDlhlDWSWJ8rlrTpLBeK96raXAKsQpRlrpEawsVFDVbAE1qLqZWocV/ulOvkRHA6Mojk
-	NBnvkYqtmFvYKHjy9ByJcj1ko5Q2CZwme5paGeKu+1JQtm13IdnSePhe19aBM5yDWMHa
-	8nOA==
-X-Gm-Message-State: AKS2vOxg8dLuKVxnL351AnqLVbyUIEp4ITXIg8UYKa/zvuo8qyDJLkb4
-	G2ChqngpIWqxd6tTl68Zc/mIG6g8PSAo
-X-Received: by 10.200.45.206 with SMTP id q14mr1058986qta.177.1497371914067;
-	Tue, 13 Jun 2017 09:38:34 -0700 (PDT)
+	bh=zzMWL0Cc06cyMnbzkF0ojOJKOZzRA7nUk7CrdikdWOk=;
+	b=JVTtauM44PVQNnmlWzaFNY67fSWck84ONEl8ua7bh3cc1hX14zKqRAtsmqKi+3WThj
+	S28ltxPhEsOH90siUSpTEb5PjWCfkd8ceWgckCz90yBys11B+JR6OwfjF4XeQLSDWgB2
+	oN/c/lkOg0WSPYAV+gM61lk+PBZmTSszrClXp2mzSzaAV2gARIUTTk5gE188s7uKFeMQ
+	Qck6uAb1BXpEj0sVCgsTh9Prn6dKmuX6/5ErV8lo0pLPt6emJuapTBb03G3auidV8rIJ
+	4jMZRiDHrx+0wdSQJoauVy/fAbLQnwJuKME6n7FW6qLT3OlzGQvFPXg6CyMK7AMSKGrs
+	Lwdg==
+X-Gm-Message-State: AKS2vOzbmCPYIQn29oa/f3Bsxari+mA+ciBgUVPOXUzzaKILtJnuwJOF
+	RJuAv9IrvMGVR/7ScIfT56kDEqo5vi9+
+X-Received: by 10.237.59.147 with SMTP id r19mr1090109qte.47.1497372243305;
+	Tue, 13 Jun 2017 09:44:03 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.140.35.103 with HTTP; Tue, 13 Jun 2017 09:38:13 -0700 (PDT)
-In-Reply-To: <55c25692-acb4-01d7-5c6d-c180508b8729@xevo.com>
-References: <3bd366a6-a31c-e4c8-688c-e24e84f1520c@web.de>
-	<2af19119-fac3-8ce3-fb36-c4aaf64163b7@xevo.com>
-	<4e18dc00-1800-f2dd-797a-7e0a380467c4@xevo.com>
-	<b51b0f8b-e21b-087b-5225-38fb8040479f@siemens.com>
-	<8098d7e7-b887-4c4f-6dba-db9065c97571@xevo.com>
-	<CAJTo0LbrkS8oG1s05KcMu6mREZwd-+h2aGwo7cLXjJc08XrMeA@mail.gmail.com>
-	<f64173c1-2746-06cc-d283-6d42c670cb69@xevo.com>
-	<CAJTo0LbpaXG07FouMMN5qa7zVUqkgxAG5OciFXQmhCzoSxrrEQ@mail.gmail.com>
-	<55c25692-acb4-01d7-5c6d-c180508b8729@xevo.com>
+Received: by 10.140.35.103 with HTTP; Tue, 13 Jun 2017 09:43:42 -0700 (PDT)
+In-Reply-To: <a89c0a82e00721ba4063c9197e0951d1d63c7e40.1497279306.git.raj.khem@gmail.com>
+References: <cover.1497279306.git.raj.khem@gmail.com>
+	<a89c0a82e00721ba4063c9197e0951d1d63c7e40.1497279306.git.raj.khem@gmail.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 13 Jun 2017 17:38:13 +0100
-Message-ID: <CAJTo0Lagk3XBDGYsCb0UpjmYDNWPQwjqnTsAMDPd9DSP5Xq7Uw@mail.gmail.com>
-To: Martin Kelly <mkelly@xevo.com>
-Cc: Jan Kiszka <jan.kiszka@siemens.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] tcf-agent: Fix daemon termination
+Date: Tue, 13 Jun 2017 17:43:42 +0100
+Message-ID: <CAJTo0LbO4-dU4-=JTc2akzCQ_PqKzB7fTUtwPmA2-P+CaVyxEw@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 7/7] ovmf: Update to latest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,32 +55,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Jun 2017 16:38:33 -0000
-Content-Type: multipart/alternative; boundary="001a1137925608f8b10551da1179"
+X-List-Received-Date: Tue, 13 Jun 2017 16:44:02 -0000
+Content-Type: multipart/alternative; boundary="94eb2c1923c8a8ba930551da2426"
 
---001a1137925608f8b10551da1179
+--94eb2c1923c8a8ba930551da2426
 Content-Type: text/plain; charset="UTF-8"
 
-On 13 June 2017 at 17:35, Martin Kelly <mkelly@xevo.com> wrote:
+On 12 June 2017 at 15:59, Khem Raj <raj.khem@gmail.com> wrote:
 
-> Alright, makes sense. Do the patches look OK to you?
+> Fix build with gcc7
+>
+> clang can not compile it therefore mark it gcc only recipe
 >
 
-Yes, they're both in master now.
+This doesn't apply to master, can you rebase?
 
 Ross
 
---001a1137925608f8b10551da1179
+--94eb2c1923c8a8ba930551da2426
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 13 June 2017 at 17:35, Martin Kelly <span dir=3D"ltr">&lt;<a href=3D"mai=
-lto:mkelly@xevo.com" target=3D"_blank">mkelly@xevo.com</a>&gt;</span> wrote=
-:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-le=
-ft:1px #ccc solid;padding-left:1ex"><div id=3D":9p" class=3D"a3s aXjCH m15c=
-a24ffcdebbabb">Alright, makes sense. Do the patches look OK to you?</div></=
-blockquote><div><br></div><div>Yes, they&#39;re both in master now.</div><d=
-iv><br></div><div>Ross=C2=A0</div></div></div></div>
+On 12 June 2017 at 15:59, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"mailto:=
+raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</span> wro=
+te:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-=
+left:1px #ccc solid;padding-left:1ex"><div id=3D":24k" class=3D"a3s aXjCH m=
+15c9cd1c9fd5dcb2">Fix build with gcc7<br>
+<br>
+clang can not compile it therefore mark it gcc only recipe<br></div></block=
+quote></div><br>This doesn&#39;t apply to master, can you rebase?</div><div=
+ class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div=
+>
 
---001a1137925608f8b10551da1179--
+--94eb2c1923c8a8ba930551da2426--
