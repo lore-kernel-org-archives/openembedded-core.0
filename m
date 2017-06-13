@@ -1,24 +1,23 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id CAC93782FC
+Return-Path: <amarnath.valluri@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 16CBD6FEFE
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Jun 2017 13:13:40 +0000 (UTC)
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	13 Jun 2017 06:13:42 -0700
+	Tue, 13 Jun 2017 13:22:59 +0000 (UTC)
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	13 Jun 2017 06:23:01 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.39,338,1493708400"; d="scan'208";a="97482067"
-Received: from linux.intel.com ([10.54.29.200])
-	by orsmga004.jf.intel.com with ESMTP; 13 Jun 2017 06:13:41 -0700
-Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
-	by linux.intel.com (Postfix) with ESMTP id 4BCDC5800CE;
-	Tue, 13 Jun 2017 06:13:41 -0700 (PDT)
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
+X-IronPort-AV: E=Sophos;i="5.39,338,1493708400"; d="scan'208";a="273651101"
+Received: from avallurigigabyte.fi.intel.com ([10.237.72.170])
+	by fmsmga004.fm.intel.com with ESMTP; 13 Jun 2017 06:22:59 -0700
+From: Amarnath Valluri <amarnath.valluri@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 13 Jun 2017 16:12:18 +0300
-Message-Id: <1497359538-18146-1-git-send-email-ed.bartosh@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] buildhistory-diff: exclude paths from the output
+Date: Tue, 13 Jun 2017 16:23:33 +0300
+Message-Id: <1497360213-27709-1-git-send-email-amarnath.valluri@intel.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <5b5d7bf2edde4d1a9bcffe8c9e6c6644@XBOX02.axis.com>
+References: <5b5d7bf2edde4d1a9bcffe8c9e6c6644@XBOX02.axis.com>
+Subject: [PATCH v4 7/8] image: create symlinks needed for merged /usr
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,148 +30,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Jun 2017 13:13:42 -0000
+X-List-Received-Date: Tue, 13 Jun 2017 13:23:00 -0000
 
-Implemented -e/--exclude-path command line option to
-exclude paths from buildhistory-diff output.
+Prepare the symlinks required for merged /usr at the time of rootfs creation.
 
-[YOCTO #11459]
+The links created in rootfs are:
+/bin --> /usr/sbin
+/sbin --> /usr/sbin
+/lib --> /usr/lib
+/lib64 --> /usr/lib64
 
-Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+We cannot make these symlinks as part of 'base-files' or some other package.
+Because at rootfs creation, installation of the package(say kernel) that depends
+on these root folders/links fails, if package manager installs this package
+prior to base-files.
+
+These symbolic links in top level folder should be present as long as
+ - kernel tools use /lib/{module,firmware}
+ - shell scripts uses "#!/bin/sh"
+
+Signed-off-by: Amarnath Valluri <amarnath.valluri@intel.com>
 ---
- meta/lib/oe/buildhistory_analysis.py | 51 ++++++++++++++++++++++++------------
- scripts/buildhistory-diff            | 12 ++++++---
- 2 files changed, 43 insertions(+), 20 deletions(-)
+ meta/classes/image.bbclass | 21 +++++++++++++++++++++
+ 1 file changed, 21 insertions(+)
 
-diff --git a/meta/lib/oe/buildhistory_analysis.py b/meta/lib/oe/buildhistory_analysis.py
-index 3a5b7b6..3e86a46 100644
---- a/meta/lib/oe/buildhistory_analysis.py
-+++ b/meta/lib/oe/buildhistory_analysis.py
-@@ -143,22 +143,25 @@ class ChangeRecord:
-             out += '\n  '.join(list(diff)[2:])
-             out += '\n  --'
-         elif self.fieldname in img_monitor_files or '/image-files/' in self.path:
--            fieldname = self.fieldname
--            if '/image-files/' in self.path:
--                fieldname = os.path.join('/' + self.path.split('/image-files/')[1], self.fieldname)
--                out = 'Changes to %s:\n  ' % fieldname
--            else:
--                if outer:
--                    prefix = 'Changes to %s ' % self.path
--                out = '(%s):\n  ' % self.fieldname
--            if self.filechanges:
--                out += '\n  '.join(['%s' % i for i in self.filechanges])
-+            if self.filechanges or (self.oldvalue and self.newvalue):
-+                fieldname = self.fieldname
-+                if '/image-files/' in self.path:
-+                    fieldname = os.path.join('/' + self.path.split('/image-files/')[1], self.fieldname)
-+                    out = 'Changes to %s:\n  ' % fieldname
-+                else:
-+                    if outer:
-+                        prefix = 'Changes to %s ' % self.path
-+                    out = '(%s):\n  ' % self.fieldname
-+                if self.filechanges:
-+                    out += '\n  '.join(['%s' % i for i in self.filechanges])
-+                else:
-+                    alines = self.oldvalue.splitlines()
-+                    blines = self.newvalue.splitlines()
-+                    diff = difflib.unified_diff(alines, blines, fieldname, fieldname, lineterm='')
-+                    out += '\n  '.join(list(diff))
-+                    out += '\n  --'
-             else:
--                alines = self.oldvalue.splitlines()
--                blines = self.newvalue.splitlines()
--                diff = difflib.unified_diff(alines, blines, fieldname, fieldname, lineterm='')
--                out += '\n  '.join(list(diff))
--                out += '\n  --'
-+                out = ''
-         else:
-             out = '%s changed from "%s" to "%s"' % (self.fieldname, self.oldvalue, self.newvalue)
- 
-@@ -169,7 +172,7 @@ class ChangeRecord:
-                 for line in chg._str_internal(False).splitlines():
-                     out += '\n  * %s' % line
- 
--        return '%s%s' % (prefix, out)
-+        return '%s%s' % (prefix, out) if out else ''
- 
- class FileChange:
-     changetype_add = 'A'
-@@ -508,7 +511,8 @@ def compare_siglists(a_blob, b_blob, taskdiff=False):
-     return '\n'.join(out)
- 
- 
--def process_changes(repopath, revision1, revision2='HEAD', report_all=False, report_ver=False, sigs=False, sigsdiff=False):
-+def process_changes(repopath, revision1, revision2='HEAD', report_all=False, report_ver=False,
-+                    sigs=False, sigsdiff=False, exclude_path=None):
-     repo = git.Repo(repopath)
-     assert repo.bare == False
-     commit = repo.commit(revision1)
-@@ -601,6 +605,19 @@ def process_changes(repopath, revision1, revision2='HEAD', report_all=False, rep
-                     elif chg.path == chg2.path and chg.path.startswith('packages/') and chg2.fieldname in ['PE', 'PV', 'PR']:
-                         chg.related.append(chg2)
- 
-+    # filter out unwanted paths
-+    if exclude_path:
-+        for chg in changes:
-+            if chg.filechanges:
-+                fchgs = []
-+                for fchg in chg.filechanges:
-+                    for epath in exclude_path:
-+                        if fchg.path.startswith(epath):
-+                           break
-+                    else:
-+                        fchgs.append(fchg)
-+                chg.filechanges = fchgs
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+index 85f6b9a..2a3c1e3 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -617,3 +617,24 @@ do_bundle_initramfs () {
+ 	:
+ }
+ addtask bundle_initramfs after do_image_complete
 +
-     if report_all:
-         return changes
-     else:
-diff --git a/scripts/buildhistory-diff b/scripts/buildhistory-diff
-index dd9745e..1b2e0d1 100755
---- a/scripts/buildhistory-diff
-+++ b/scripts/buildhistory-diff
-@@ -39,6 +39,8 @@ def main():
-     parser.add_option("-S", "--signatures-with-diff",
-             help = "Report on actual signature differences instead of output (requires signature data to have been generated, either by running the actual tasks or using bitbake -S)",
-             action="store_true", dest="sigsdiff", default=False)
-+    parser.add_option("-e", "--exclude-path", action="append",
-+            help = "exclude path from the output")
- 
-     options, args = parser.parse_args(sys.argv)
- 
-@@ -75,7 +77,7 @@ def main():
-         sys.stderr.write("Unable to find bitbake by searching parent directory of this script or PATH\n")
-         sys.exit(1)
- 
--    import oe.buildhistory_analysis
-+    from oe.buildhistory_analysis import process_changes
- 
-     fromrev = 'build-minus-1'
-     torev = 'HEAD'
-@@ -92,7 +94,9 @@ def main():
- 
-     import gitdb
-     try:
--        changes = oe.buildhistory_analysis.process_changes(options.buildhistory_dir, fromrev, torev, options.report_all, options.report_ver, options.sigs, options.sigsdiff)
-+        changes = process_changes(options.buildhistory_dir, fromrev, torev,
-+                                  options.report_all, options.report_ver, options.sigs,
-+                                  options.sigsdiff, options.exclude_path)
-     except gitdb.exc.BadObject as e:
-         if len(args) == 1:
-             sys.stderr.write("Unable to find previous build revision in buildhistory repository\n\n")
-@@ -102,7 +106,9 @@ def main():
-         sys.exit(1)
- 
-     for chg in changes:
--        print('%s' % chg)
-+        out = str(chg)
-+        if out:
-+            print(out)
- 
-     sys.exit(0)
- 
++# Prepare the root links to point to the /usr counterparts.
++create_merged_usr_symlinks() {
++    install -d ${IMAGE_ROOTFS}${base_bindir} ${IMAGE_ROOTFS}${base_sbindir} ${IMAGE_ROOTFS}${base_libdir}
++    lnr ${IMAGE_ROOTFS}${base_bindir} ${IMAGE_ROOTFS}/bin
++    lnr ${IMAGE_ROOTFS}${base_sbindir} ${IMAGE_ROOTFS}/sbin
++    lnr ${IMAGE_ROOTFS}${base_libdir} ${IMAGE_ROOTFS}/${baselib}
++
++    if [ "${nonarch_base_libdir}" != "${base_libdir}" ]; then
++       install -d ${IMAGE_ROOTFS}${nonarch_base_libdir}
++       lnr ${IMAGE_ROOTFS}${nonarch_base_libdir} ${IMAGE_ROOTFS}/lib
++    fi
++
++    # create base links for multilibs
++    multi_libdirs="${@d.getVar('MULTILIB_VARIANTS')}"
++    for d in $multi_libdirs; do
++        install -d ${IMAGE_ROOTFS}${exec_prefix}/$d
++        lnr ${IMAGE_ROOTFS}${exec_prefix}/$d ${IMAGE_ROOTFS}/$d
++    done
++}
++ROOTFS_PREPROCESS_COMMAND += "${@bb.utils.contains('DISTRO_FEATURES', 'usrmerge', 'create_merged_usr_symlinks; ', '',d)}"
 -- 
-2.1.4
+2.7.4
 
 
