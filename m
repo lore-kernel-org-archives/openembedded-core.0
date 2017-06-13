@@ -1,30 +1,40 @@
-Return-Path: <mac@mcrowe.com>
-Received: from avasout05.plus.net (avasout05.plus.net [84.93.230.250])
-	by mail.openembedded.org (Postfix) with ESMTP id 4B16777AB3
+Return-Path: <andre.draszik@gmail.com>
+Received: from mail-wr0-f195.google.com (mail-wr0-f195.google.com
+	[209.85.128.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 094BF782B0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Jun 2017 09:09:26 +0000 (UTC)
-Received: from deneb ([80.229.24.9]) by avasout05 with smtp
-	id Y99S1v0040BmcFC0199TvZ; Tue, 13 Jun 2017 10:09:27 +0100
-X-CM-Score: 0.00
-X-CNFS-Analysis: v=2.2 cv=Iav3YSia c=1 sm=1 tr=0
-	a=E/9URZZQ5L3bK/voZ0g0HQ==:117 a=E/9URZZQ5L3bK/voZ0g0HQ==:17
-	a=kj9zAlcOel0A:10 a=LWSFodeU3zMA:10 a=-An2I_7KAAAA:8 a=D9tCBEehAAAA:8
-	a=Q4-j1AaZAAAA:8 a=fJ-HYHWxux5eLquFiX4A:9 a=CjuIK1q_8ugA:10
-	a=Sq34B_EcNBM9_nrAYB9S:22 a=Q0Uz2dhPmm7nD8Nyg-vj:22
-	a=9H3Qd4_ONW2Ztcrla5EB:22
-Received: from mac by deneb with local (Exim 4.84_2)
-	(envelope-from <mac@mcrowe.com>) id 1dKhpG-0000hm-4D
-	for openembedded-core@lists.openembedded.org;
-	Tue, 13 Jun 2017 10:09:26 +0100
-Date: Tue, 13 Jun 2017 10:09:26 +0100
-From: Mike Crowe <mac@mcrowe.com>
+	Tue, 13 Jun 2017 09:36:45 +0000 (UTC)
+Received: by mail-wr0-f195.google.com with SMTP id v104so28059821wrb.0
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 13 Jun 2017 02:36:47 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:date:mime-version
+	:content-transfer-encoding;
+	bh=4+x6nYQZI2YcdjuQyI1+n6T6hMudnFiWAafAjG/QjrI=;
+	b=SXJdyYIaEPJCPDlWyiDzdNWggcpt5zMIXJJBUOFV4XCONvqk32g5glSjEJD70BFZiA
+	Xbc2KwNoxiU+XQX/vHmXYAfKC6d/qQuRBIkZ70g3iPWU8ZIDfl2ryzFvEi1RBYBCQaA3
+	tzGF++6NG1hwC6yOqK+DZ+0ollUgmi6quOQ90i473OODDBXn7kiSdW9nDMi3fkAXAxIs
+	oSGLfrTJMym7jxhJVCWpIxbYEkGpLvi3oj18qTsLXTSWDEzwwzSmM0xTWw8Ozf7GMBTm
+	BP/xWSFJK0oEcUyHJ06hbxkp27arEXkEJjRozXOod5hYygGltA2Ey6VRZItRIYF6x1t+
+	tKsw==
+X-Gm-Message-State: AKS2vOwUwGItINIHNMesfGcEqY+2Uw9j5kpgietH+LEsvL5S30c9mFv5
+	TiPwWXMetGJbPts1Swg=
+X-Received: by 10.223.130.151 with SMTP id 23mr2324612wrc.16.1497346605980;
+	Tue, 13 Jun 2017 02:36:45 -0700 (PDT)
+Received: from tfsielt31850 ([77.107.218.170])
+	by smtp.gmail.com with ESMTPSA id
+	q98sm16876989wrb.3.2017.06.13.02.36.45
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Tue, 13 Jun 2017 02:36:45 -0700 (PDT)
+Message-ID: <1497346604.30860.4.camel@andred.net>
+From: =?ISO-8859-1?Q?Andr=E9?= Draszik <git@andred.net>
 To: openembedded-core@lists.openembedded.org
-Message-ID: <20170613090926.GA1963@mcrowe.com>
-References: <20170516124000.21432-1-mac@mcrowe.com>
-MIME-Version: 1.0
-In-Reply-To: <20170516124000.21432-1-mac@mcrowe.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Subject: Re: [PATCH] gcc-cross-canadian: Use ${target_includedir} for compatibility with meta-micro
+Date: Tue, 13 Jun 2017 10:36:44 +0100
+X-Mailer: Evolution 3.22.6-1 
+Mime-Version: 1.0
+Subject: busybox update?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,51 +47,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Jun 2017 09:09:27 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Tue, 13 Jun 2017 09:36:46 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Tuesday 16 May 2017 at 13:40:00 +0100, Mike Crowe wrote:
-> meta-micro puts headers in /include rather than /usr/include in the
-> sysroot. ${target_includedir} means that the correct path will be used
-> automatically.
-> 
-> Signed-off-by: Mike Crowe <mac@mcrowe.com>
-> Acked-by: Phil Blundell <pb@pbcl.net>
-> ---
->  meta/recipes-devtools/gcc/gcc-cross-canadian.inc | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/meta/recipes-devtools/gcc/gcc-cross-canadian.inc b/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
-> index ec1d281800..91a6fa6994 100644
-> --- a/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
-> +++ b/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
-> @@ -80,7 +80,7 @@ FILES_${PN} = "\
->      ${includedir}/c++/${BINV} \
->      ${prefix}/${TARGET_SYS}/bin/* \
->      ${prefix}/${TARGET_SYS}/lib/* \
-> -    ${prefix}/${TARGET_SYS}/usr/include/* \
-> +    ${prefix}/${TARGET_SYS}${target_includedir}/* \
->  "
->  INSANE_SKIP_${PN} += "dev-so"
->  
-> @@ -153,7 +153,7 @@ ELFUTILS = "nativesdk-elfutils"
->  DEPENDS += "nativesdk-gmp nativesdk-mpfr nativesdk-libmpc ${ELFUTILS} nativesdk-zlib"
->  RDEPENDS_${PN} += "nativesdk-mpfr nativesdk-libmpc ${ELFUTILS}"
->  
-> -SYSTEMHEADERS = "/usr/include"
-> +SYSTEMHEADERS = "${target_includedir}/"
->  SYSTEMLIBS = "${target_base_libdir}/"
->  SYSTEMLIBS1 = "${target_libdir}/"
->  
-> -- 
-> 2.11.0
+Hi,
 
-This patch ended up in https://patchwork.openembedded.org/patch/139908/ .
-There don't appear to have been any objections. Is there any chance it
-could go in?
+Just wondering if there's any reason why the version of busybox is stuck at
+1.24.1, from October 2015? Is it simply that nobody cares? Or other reasons?
 
-Thanks.
-
-Mike.
+Cheers,
+Andre'
 
