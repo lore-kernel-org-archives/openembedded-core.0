@@ -1,26 +1,48 @@
-Return-Path: <joe.slater@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id AAF5278310
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-wr0-f193.google.com (mail-wr0-f193.google.com
+	[209.85.128.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 8537978299
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Jun 2017 18:32:31 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v5DIWXiS007113
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue, 13 Jun 2017 18:33:38 +0000 (UTC)
+Received: by mail-wr0-f193.google.com with SMTP id u101so32993331wrc.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Jun 2017 11:32:33 -0700 (PDT)
-Received: from ala-jslater-lx3.wrs.com (147.11.152.42) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.294.0; Tue, 13 Jun 2017 11:32:32 -0700
-From: Joe Slater <jslater@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 13 Jun 2017 11:32:27 -0700
-Message-ID: <1497378747-30702-5-git-send-email-jslater@windriver.com>
-X-Mailer: git-send-email 1.7.3.4
-In-Reply-To: <1497378747-30702-1-git-send-email-jslater@windriver.com>
-References: <1497378747-30702-1-git-send-email-jslater@windriver.com>
+	Tue, 13 Jun 2017 11:33:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=0ZMmugIR47FfCP8rLnZlebJV2/mv1A2pzPcQXo5AgMY=;
+	b=uMPTHVBBP4AAFYP2B7LH0PvCrHmnQ8QnC1Uxzq3DxvBWOIT/2pEafwS3H6BCD9rkjr
+	nT0v3lclnvR3BljUexrDR1GAeQLzmOuki0EsS1IPLeeS+T5Juy6e1sW8OTC2RTxMhT7h
+	KRvWZZ2vGH+uKQ/OOeLmsTqz53NzKnabSHFiG/caUqJF216wvd0RhPDDVGlut9FZgmkn
+	U0TMr85rGM1IRJK8NYRD+9/vzOx2nafjx5vktfibkPRks5IPZ+IEVFBavqiZO6CWLDIy
+	5KhuHXTTnDhiyj3w9HFKY+33k02rXrJI/dUwlOOX5WUs+KV2nezAg8X7Px+IeShXERjU
+	XC2w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=0ZMmugIR47FfCP8rLnZlebJV2/mv1A2pzPcQXo5AgMY=;
+	b=t7/o7TXzGY/qZU62928B80l7snmBMT29iS64UlWDd+C9xRK3QPevwgmnZi9pZv7zOa
+	o2ilL/gQnAcVVbR2TpMgtNje9pyaxvmgVLIi3+V3PTLl9/9EjrfmXY0opOD7RtcwRHHP
+	S0g29NWlGpgfMkK/wl9YOUrTLLLDmXN7Ox1LXdBE5CZUSdAWdsprMHIHbtmW2pv2IBGG
+	qfo/3s6sOoohL/qPiA+SYcoGThjVZEg/snGd0eH3sYQV9DlxKN8b5RWv0iYduizT9biR
+	9xn2bgcOc3qzPYMCZOLxEhSU45xcIeeU9FaPdvhA+jJUnXAemoPfT/3XJSbpDx8YtihZ
+	FJnA==
+X-Gm-Message-State: AKS2vOw5dk7e5G7/qn8NITMcttZGHK9GbCc2lPDHe3WU1DPl2LZjscip
+	Nqz0m20kUf6GI2FOLxVIi1Hp0whv4A==
+X-Received: by 10.80.137.36 with SMTP id e33mr964597ede.67.1497378819183; Tue,
+	13 Jun 2017 11:33:39 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [-oe-core][v2][PATCH 3/3] ghostscript: specify CUPSCONFIG
+Received: by 10.80.153.222 with HTTP; Tue, 13 Jun 2017 11:33:08 -0700 (PDT)
+In-Reply-To: <20170613090926.GA1963@mcrowe.com>
+References: <20170516124000.21432-1-mac@mcrowe.com>
+	<20170613090926.GA1963@mcrowe.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 13 Jun 2017 11:33:08 -0700
+Message-ID: <CAMKF1sr0-=SZgXPBVsgMi1t6-MhVk+tst=Zy3B0Ex+GM+dFRDQ@mail.gmail.com>
+To: Mike Crowe <mac@mcrowe.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] gcc-cross-canadian: Use ${target_includedir} for compatibility with meta-micro
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,38 +55,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Jun 2017 18:32:31 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 13 Jun 2017 18:33:38 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-configure for version 9.21 finds, but rejects, pkg-config
-and cups-config.  We need cups-config, so we short circuit
-the test for it.
+On Tue, Jun 13, 2017 at 2:09 AM, Mike Crowe <mac@mcrowe.com> wrote:
+> On Tuesday 16 May 2017 at 13:40:00 +0100, Mike Crowe wrote:
+>> meta-micro puts headers in /include rather than /usr/include in the
+>> sysroot. ${target_includedir} means that the correct path will be used
+>> automatically.
+>>
 
-Signed-off-by: Joe Slater <jslater@windriver.com>
----
- meta/recipes-extended/ghostscript/ghostscript_9.21.bb | 4 ++++
- 1 file changed, 4 insertions(+)
+patch looks ok to me
 
-diff --git a/meta/recipes-extended/ghostscript/ghostscript_9.21.bb b/meta/recipes-extended/ghostscript/ghostscript_9.21.bb
-index 74e7a3f..94d4cc6 100644
---- a/meta/recipes-extended/ghostscript/ghostscript_9.21.bb
-+++ b/meta/recipes-extended/ghostscript/ghostscript_9.21.bb
-@@ -64,10 +64,14 @@ PACKAGECONFIG[x11] = "--with-x --x-includes=${STAGING_INCDIR} --x-libraries=${ST
-                       --without-x, virtual/libx11 libxext libxt gtk+3\
-                       "
- 
-+# For 9.21, configure rejects the pkg-config and cups-config it finds.
-+# We can live without pkg-config, but we need cups-config.
-+#
- EXTRA_OECONF = "--with-system-libtiff --without-jbig2dec \
-                 --with-fontpath=${datadir}/fonts \
-                 --without-libidn --with-cups-serverbin=${exec_prefix}/lib/cups \
-                 --with-cups-datadir=${datadir}/cups \
-+                CUPSCONFIG="${STAGING_BINDIR_CROSS}/cups-config" \
-                 "
- 
- EXTRA_OECONF_append_mipsarcho32 = " --with-large_color_index=0"
--- 
-2.7.4
-
+>> Signed-off-by: Mike Crowe <mac@mcrowe.com>
+>> Acked-by: Phil Blundell <pb@pbcl.net>
+>> ---
+>>  meta/recipes-devtools/gcc/gcc-cross-canadian.inc | 4 ++--
+>>  1 file changed, 2 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/meta/recipes-devtools/gcc/gcc-cross-canadian.inc b/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
+>> index ec1d281800..91a6fa6994 100644
+>> --- a/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
+>> +++ b/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
+>> @@ -80,7 +80,7 @@ FILES_${PN} = "\
+>>      ${includedir}/c++/${BINV} \
+>>      ${prefix}/${TARGET_SYS}/bin/* \
+>>      ${prefix}/${TARGET_SYS}/lib/* \
+>> -    ${prefix}/${TARGET_SYS}/usr/include/* \
+>> +    ${prefix}/${TARGET_SYS}${target_includedir}/* \
+>>  "
+>>  INSANE_SKIP_${PN} += "dev-so"
+>>
+>> @@ -153,7 +153,7 @@ ELFUTILS = "nativesdk-elfutils"
+>>  DEPENDS += "nativesdk-gmp nativesdk-mpfr nativesdk-libmpc ${ELFUTILS} nativesdk-zlib"
+>>  RDEPENDS_${PN} += "nativesdk-mpfr nativesdk-libmpc ${ELFUTILS}"
+>>
+>> -SYSTEMHEADERS = "/usr/include"
+>> +SYSTEMHEADERS = "${target_includedir}/"
+>>  SYSTEMLIBS = "${target_base_libdir}/"
+>>  SYSTEMLIBS1 = "${target_libdir}/"
+>>
+>> --
+>> 2.11.0
+>
+> This patch ended up in https://patchwork.openembedded.org/patch/139908/ .
+> There don't appear to have been any objections. Is there any chance it
+> could go in?
+>
+> Thanks.
+>
+> Mike.
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
