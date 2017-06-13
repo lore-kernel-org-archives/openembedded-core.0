@@ -1,34 +1,21 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 46BD071ADD
+Return-Path: <amarnath.valluri@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id A468E78265
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Jun 2017 06:33:26 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	v5D6XOQL007298
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Tue, 13 Jun 2017 07:33:25 +0100
-Message-ID: <1497335604.3942.16.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Martin Jansa <martin.jansa@gmail.com>, akuster808 <akuster808@gmail.com>
-Date: Tue, 13 Jun 2017 07:33:24 +0100
-In-Reply-To: <CA+chaQeLNdfn5piAtuXnpEsO=z=qz=Vh-=_P10xOgBw1fZPxpg@mail.gmail.com>
-References: <1490031500-38242-1-git-send-email-denis@denix.org>
-	<20170421231816.GC20419@denix.org>
-	<0fa0e630-137b-73ba-f212-0049b92e5199@gmail.com>
-	<20170516215021.GO28053@denix.org>
-	<d5b89969-7833-d1a7-8685-71468968b93f@gmail.com>
-	<CA+chaQeLNdfn5piAtuXnpEsO=z=qz=Vh-=_P10xOgBw1fZPxpg@mail.gmail.com>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
-Mime-Version: 1.0
-X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.11
-	(dan.rpsys.net [192.168.3.1]);
-	Tue, 13 Jun 2017 07:33:25 +0100 (BST)
-X-Virus-Scanned: clamav-milter 0.99.2 at dan
-X-Virus-Status: Clean
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [morty][PATCH] sstate.bbclass: update .siginfo atime
+	Tue, 13 Jun 2017 06:56:08 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	12 Jun 2017 23:56:09 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.39,337,1493708400"; d="scan'208";a="980108454"
+Received: from avallurigigabyte.fi.intel.com ([10.237.72.170])
+	by orsmga003.jf.intel.com with ESMTP; 12 Jun 2017 23:56:07 -0700
+From: Amarnath Valluri <amarnath.valluri@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 13 Jun 2017 09:52:32 +0300
+Message-Id: <1497336760-36835-1-git-send-email-amarnath.valluri@intel.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH v3 0/8] Fix for #7040 - Support for /usr merge
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,23 +28,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Jun 2017 06:33:27 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 13 Jun 2017 06:56:08 -0000
 
-On Tue, 2017-06-13 at 08:21 +0200, Martin Jansa wrote:
-> Unfortunately this nice change breaks quite common scenario when
-> developers have read-only mount of sstate mirror and this touch
-> causes all _setscene tasks to fail, because they fail to update atime
-> on symlink which points to read-only mount.
-> 
-> Please backport the fix for this as well ASAP:
-> http://git.openembedded.org/openembedded-core/commit/meta/classes/sst
-> ate.bbclass?id=b8f26c011d5ed888d85fef040bd821400d54c8fe
+This set of patches implements the long-standing feature - merging of /bin,
+/sbin, /libs to their /usr counterparts.
 
-Done.
+It introduces a 'usrmerge' DISTRO_FEATURE, when it's enabled:
+    - other than native all base paths(base_{bin,sbin,lib}dir) points to
+      ${exec_prefix}/{bin,sbin,lib}
+    - base-files package adds the needed root links(/bin, /sbin, /lib{32,64})
+      points to /usr counterparts
+    - As most of shell scripts refer "#!/bin/{sh,bash}" inside script, so makes
+      sure that get added to RPROVIDES_ list by those packages to satisfy the
+      build dependencies.
 
-Cheers,
+The assumption is that no recipe uses hard coded paths in recipes where
+pre-defined bitbake configuration variables are available. I have fixed quite
+many recipes that i found which violates this assumption. A sanity check is
+added for reporting these broken recipies.
 
-Richard
+I have tested this change on core-minimal, sato, windriver cube-desktop and
+intel-iot-refkit image builds.  And i would prefer to run autobuilder tests
+prior to merging.
+
+Changes in v2:
+    - Moved root links creation out from 'base-files' to pre-rootfs.
+    - Fixes to lsb, lttng-modules recipes., that are failed in autobuilder
+      tests.
+    - Added insane check to usrmerge feature.
+    - Fixed typos in commit messages.
+
+Changes in v3:
+    - Rebased against master and dropped patches those got already merged.
+    - As per review comments added new configuration variable ${root_prefix}
+      that will be altered based on 'usrmerge' distro feature.
+    - Made use of ${root_prefix} in place of ${base_preix} both in systemd
+      recipe and cross.bbclass
+    - Dropped patch that is touching nativesdk configuration.
+
+
+Amarnath Valluri (8):
+  bitbake.conf: support for merged usr with DISTRO_FEATURE usrmerge
+  cross.bbclass: merged /usr support
+  systemd: chagnes to support merged /usr
+  bash: changes to support merged /usr
+  busybox: changes to support merged /usr
+  sed: changes to support merged /usr
+  image: create symlinks needed for merged /usr
+  insane.bbclass: Add package QA check for merged /usr.
+
+ meta/classes/cross.bbclass               |  4 ++--
+ meta/classes/image.bbclass               | 23 +++++++++++++++++++++++
+ meta/classes/insane.bbclass              | 16 ++++++++++++++++
+ meta/conf/bitbake.conf                   | 10 ++++++----
+ meta/recipes-core/busybox/busybox.inc    |  2 ++
+ meta/recipes-core/systemd/systemd_232.bb |  6 +++---
+ meta/recipes-extended/bash/bash.inc      |  2 ++
+ meta/recipes-extended/sed/sed_4.2.2.bb   |  1 +
+ 8 files changed, 55 insertions(+), 9 deletions(-)
+
+-- 
+2.7.4
+
 
