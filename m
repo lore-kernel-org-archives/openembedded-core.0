@@ -1,49 +1,40 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-wr0-f171.google.com (mail-wr0-f171.google.com
-	[209.85.128.171])
-	by mail.openembedded.org (Postfix) with ESMTP id E36A77829E
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-qt0-f196.google.com (mail-qt0-f196.google.com
+	[209.85.216.196])
+	by mail.openembedded.org (Postfix) with ESMTP id E729A78301
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Jun 2017 17:15:17 +0000 (UTC)
-Received: by mail-wr0-f171.google.com with SMTP id v104so144086301wrb.0
+	Tue, 13 Jun 2017 17:37:28 +0000 (UTC)
+Received: by mail-qt0-f196.google.com with SMTP id s33so36348307qtg.3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Jun 2017 10:15:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=dLj8rOJaNLSfn/nq6cLesAGQm8CKFpP2qT7GrtEO0Uc=;
-	b=Ym5lOQV4mDgOoqDHv76GoMmqO+RkYbAbt3qGkZL3MbRM+T3K1NXc+WUbD4C3l3UhfR
-	WScqlU8CvVyq04rydHlJXqmq+jsjnrZ4VQ+hMum1bAaVTuFpHee612ecJ3zKnUcHFBGs
-	bMpNaRLUDuw5Pf3i9AqxSB1OUHFHiEklI3NlAMbP4KCZdBNqnnydGYPimi2ZCcGZKm0q
-	ITf5ZcD0xQvUDdWBSwviFoIqbvGJR7pzHWm7VPw9aUh6t3uWHIKMp4UXbcLFjRM2MsEs
-	k/IY+Mb4PBtJhwnpAlSLjqodVls4nHitLKU6dwbcNVZRJ+Y8jbeNiuW63KCOgVo6IV5Z
-	dZ0A==
+	Tue, 13 Jun 2017 10:37:30 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=dLj8rOJaNLSfn/nq6cLesAGQm8CKFpP2qT7GrtEO0Uc=;
-	b=ipbheA9AtiZUab4IfUhiAAKHE/j8FQknfGU+5I92PNwbQeIAxrEyRj+sro+kPJazAP
-	EFFb472xMDgSqoJa/n48ZYfkqOz10LfyM+d14/zEo4mKiUjIQX0757JXB3hicTpBfKia
-	AclGetOoWtVlKn4l9VHXHS9+56Qc3mSlW2R58HHsEwDGWIYyg/zS5WeqMLkOeSQ0p5qk
-	wE5+zEY/nYXHFivdrz94FEa6ua2Tidafzzj6MbXHvsGcRaygJ2LjvJiw+fHONDtXVHjv
-	B/r140tEhKxng1ghzOnekkTG1ICP5cwPWL2YRsxCNQG47QtY1YQhdHQRNh0RhVVBuInd
-	W7yA==
-X-Gm-Message-State: AKS2vOwLMJ8tJSEne6dJNm/Lii6j1rbOKW9sN2w5LSavM2qHmGnTdRQQ
-	yDnsaVPStb44hkATQNcNdCQL/h1IeA==
-X-Received: by 10.80.171.197 with SMTP id u63mr697622edc.127.1497374116673;
-	Tue, 13 Jun 2017 10:15:16 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.80.153.222 with HTTP; Tue, 13 Jun 2017 10:14:46 -0700 (PDT)
-In-Reply-To: <CAMKF1srN+hjKPreaiBHo8v-oJy_0ZgZ2FfzfM3DZU2z4ykNOVA@mail.gmail.com>
-References: <cover.1497279306.git.raj.khem@gmail.com>
-	<a89c0a82e00721ba4063c9197e0951d1d63c7e40.1497279306.git.raj.khem@gmail.com>
-	<CAJTo0LbO4-dU4-=JTc2akzCQ_PqKzB7fTUtwPmA2-P+CaVyxEw@mail.gmail.com>
-	<CAMKF1srN+hjKPreaiBHo8v-oJy_0ZgZ2FfzfM3DZU2z4ykNOVA@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 13 Jun 2017 10:14:46 -0700
-Message-ID: <CAMKF1sp5G_-jSLkujf9hXeb+dT-iTfs+tuu2C=SjLS-sG2sKeA@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 7/7] ovmf: Update to latest
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:organization;
+	bh=H36qibXZF+bso2pyKDwFV9/O1+sJGUnSRIXTmcTCwxs=;
+	b=X54K1eW8OnJqWuUynHMqmzTYWrfTmY6i/43u8JOQ63wDRQGe25URubNTd2X/03KDUb
+	JdZ0W7vLgZbGEVwywJuhzEZyXuoclQA40ZICxaQj0/yK5jWjqWLzAzM7l1ESj+rDoNUh
+	NyM/wzs6B/mSiHofNt7UZj07JbAW2iyQZULJkmwiSM2Cz4lQqfrzLDks3u5oK/tEj0/p
+	oXHY3rlIJ6mi5GC24rwVbTbur4uYNPPf5KOfg+g//5rLp12XCxTBcLgzZ6N3N2WoBFZR
+	Eghulj5i0OVx7mN8gDGoW73Ux3t/dKLqWPQD9Gj7/8BSGF1UlieghUNQ1KrFAWrfV8gg
+	EnCw==
+X-Gm-Message-State: AKS2vOyLUPveC+wxetdKBNk5jrRgdv93YmpTiVdLfarPi2ApKG0bSFBS
+	U3ItqpWw7rA9nCPp
+X-Received: by 10.200.9.59 with SMTP id t56mr1482864qth.107.1497375449070;
+	Tue, 13 Jun 2017 10:37:29 -0700 (PDT)
+Received: from localhost.localdomain ([189.35.69.200])
+	by smtp.gmail.com with ESMTPSA id 34sm9573649qtp.17.2017.06.13.10.37.25
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Tue, 13 Jun 2017 10:37:27 -0700 (PDT)
+Received: by localhost.localdomain (sSMTP sendmail emulation);
+	Tue, 13 Jun 2017 14:37:19 -0300
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Date: Tue, 13 Jun 2017 14:37:18 -0300
+Message-Id: <20170613173718.16101-1-otavio@ossystems.com.br>
+X-Mailer: git-send-email 2.13.1
+Organization: O.S. Systems Software LTDA.
+Cc: Otavio Salvador <otavio@ossystems.com.br>
+Subject: [PATCH] mesa: Upgrade to 17.1.2 release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,26 +47,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Jun 2017 17:15:18 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 13 Jun 2017 17:37:29 -0000
 
-On Tue, Jun 13, 2017 at 10:10 AM, Khem Raj <raj.khem@gmail.com> wrote:
-> On Tue, Jun 13, 2017 at 9:43 AM, Burton, Ross <ross.burton@intel.com> wrote:
->>
->> On 12 June 2017 at 15:59, Khem Raj <raj.khem@gmail.com> wrote:
->>>
->>> Fix build with gcc7
->>>
->>> clang can not compile it therefore mark it gcc only recipe
->>
->>
->> This doesn't apply to master, can you rebase?
+Bug fixes
 
-applied the rebased patch to kraj/pu
+Bug 98833 - [REGRESSION, bisected] Wayland revert commit breaks non-Vsync fullscreen frame updates
+Bug 100741 - Chromium - Memory leak
+Bug 100877 - vulkan/tests/block_pool_no_free regression
+Bug 101110 - Build failure in GNOME Continuous
 
->>
->
-> ok.
->
->> Ross
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+---
+
+ meta/recipes-graphics/mesa/{mesa-gl_17.1.1.bb => mesa-gl_17.1.2.bb} | 0
+ meta/recipes-graphics/mesa/{mesa_17.1.1.bb => mesa_17.1.2.bb}       | 4 ++--
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/mesa/{mesa-gl_17.1.1.bb => mesa-gl_17.1.2.bb} (100%)
+ rename meta/recipes-graphics/mesa/{mesa_17.1.1.bb => mesa_17.1.2.bb} (85%)
+
+diff --git a/meta/recipes-graphics/mesa/mesa-gl_17.1.1.bb b/meta/recipes-graphics/mesa/mesa-gl_17.1.2.bb
+similarity index 100%
+rename from meta/recipes-graphics/mesa/mesa-gl_17.1.1.bb
+rename to meta/recipes-graphics/mesa/mesa-gl_17.1.2.bb
+diff --git a/meta/recipes-graphics/mesa/mesa_17.1.1.bb b/meta/recipes-graphics/mesa/mesa_17.1.2.bb
+similarity index 85%
+rename from meta/recipes-graphics/mesa/mesa_17.1.1.bb
+rename to meta/recipes-graphics/mesa/mesa_17.1.2.bb
+index ff84015aee..5f27020470 100644
+--- a/meta/recipes-graphics/mesa/mesa_17.1.1.bb
++++ b/meta/recipes-graphics/mesa/mesa_17.1.2.bb
+@@ -8,8 +8,8 @@ SRC_URI = "ftp://ftp.freedesktop.org/pub/mesa/mesa-${PV}.tar.xz \
+            file://0002-hardware-gloat.patch \
+ "
+ 
+-SRC_URI[md5sum] = "a4844bc6052578574f9629458bcbb749"
+-SRC_URI[sha256sum] = "aed503f94c0c1630a162a3e276f4ee12a86764cee4cb92338ea2dea99a04e7ef"
++SRC_URI[md5sum] = "4d2eaf5955740b044afd95ed167c906c"
++SRC_URI[sha256sum] = "0937804f43746339b1f9540d8f9c8b4a1bb3d3eec0e4020eac283b8799798239"
+ 
+ #because we cannot rely on the fact that all apps will use pkgconfig,
+ #make eglplatform.h independent of MESA_EGL_NO_X11_HEADER
+-- 
+2.13.1
+
 
