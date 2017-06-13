@@ -1,40 +1,47 @@
-Return-Path: <andre.draszik@gmail.com>
-Received: from mail-wr0-f195.google.com (mail-wr0-f195.google.com
-	[209.85.128.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 094BF782B0
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qt0-f177.google.com (mail-qt0-f177.google.com
+	[209.85.216.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 2DB8C782B0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Jun 2017 09:36:45 +0000 (UTC)
-Received: by mail-wr0-f195.google.com with SMTP id v104so28059821wrb.0
+	Tue, 13 Jun 2017 09:40:20 +0000 (UTC)
+Received: by mail-qt0-f177.google.com with SMTP id c10so163239829qtd.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Jun 2017 02:36:47 -0700 (PDT)
+	Tue, 13 Jun 2017 02:40:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=wH3Xq4uQ9gXRU61JDzkuib8pDUyWPf2XVDoncL2b5Dg=;
+	b=erNxqqznQaTw4+ZtfwTVDiautyi4vZcdxyGElwhkdVaxiB+hXILCTPpvA6j2RuKNvj
+	I6bFeKREwpGGfEiKFFGOt5mxIegs/TgKrdU2h4SG1GQnDbUH0pVh4O4Uag+Tf8meA+VF
+	beMDZ/UTFqlyxT8f+vYin9rwkfOUcNN7E2Alrnl9bOpK1Yz5oYFwDSL8PL4+0aFv4YfE
+	3dl3nUnaqrPF9uZX7GQVO1XG664L4DfLfeX7jRwNTdYbTs0TgnImZa8MXEDdMmGspYpE
+	V6HZmMXwSg5XHq/7h6qijgYEXgncP5rU7M+aoJYEgMEUEqQSMvYPtRzkVc5g/TN3j6sf
+	Xwqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:mime-version
-	:content-transfer-encoding;
-	bh=4+x6nYQZI2YcdjuQyI1+n6T6hMudnFiWAafAjG/QjrI=;
-	b=SXJdyYIaEPJCPDlWyiDzdNWggcpt5zMIXJJBUOFV4XCONvqk32g5glSjEJD70BFZiA
-	Xbc2KwNoxiU+XQX/vHmXYAfKC6d/qQuRBIkZ70g3iPWU8ZIDfl2ryzFvEi1RBYBCQaA3
-	tzGF++6NG1hwC6yOqK+DZ+0ollUgmi6quOQ90i473OODDBXn7kiSdW9nDMi3fkAXAxIs
-	oSGLfrTJMym7jxhJVCWpIxbYEkGpLvi3oj18qTsLXTSWDEzwwzSmM0xTWw8Ozf7GMBTm
-	BP/xWSFJK0oEcUyHJ06hbxkp27arEXkEJjRozXOod5hYygGltA2Ey6VRZItRIYF6x1t+
-	tKsw==
-X-Gm-Message-State: AKS2vOwUwGItINIHNMesfGcEqY+2Uw9j5kpgietH+LEsvL5S30c9mFv5
-	TiPwWXMetGJbPts1Swg=
-X-Received: by 10.223.130.151 with SMTP id 23mr2324612wrc.16.1497346605980;
-	Tue, 13 Jun 2017 02:36:45 -0700 (PDT)
-Received: from tfsielt31850 ([77.107.218.170])
-	by smtp.gmail.com with ESMTPSA id
-	q98sm16876989wrb.3.2017.06.13.02.36.45
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Tue, 13 Jun 2017 02:36:45 -0700 (PDT)
-Message-ID: <1497346604.30860.4.camel@andred.net>
-From: =?ISO-8859-1?Q?Andr=E9?= Draszik <git@andred.net>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 13 Jun 2017 10:36:44 +0100
-X-Mailer: Evolution 3.22.6-1 
-Mime-Version: 1.0
-Subject: busybox update?
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=wH3Xq4uQ9gXRU61JDzkuib8pDUyWPf2XVDoncL2b5Dg=;
+	b=McgGjYlt/00Ba02lvXH/2aLE82IPEV1bHE1B250gRiQGftSZBDSIyFysy+KKIU4Av1
+	SdM6pN46ck+OhgCnM/aMtySbxBM5BOUJubtg70FglLeMM6veUcPD++IGkOaR0Xdk3HY+
+	1sVJaHy5yskTHpoAnqhuesdw0KqTyIQX5yQFJPoicO0HIyadmIXs5BTWK05ZKF7VjdWa
+	2K/yQY7QF9JrdoGMDpgziOR/vPDmPaYK8g4TVLVLIgO2BNbRO0rH8XwYD96PshdliPzf
+	sva+iVbKMbBarmm+PYVIYPWJesXANnaVpXqzO7YPL3sblxbt09zwVOtYBv/GgPcRq2m0
+	/ztg==
+X-Gm-Message-State: AKS2vOwHI2URYFUQPV+HEH3crCnLic39zOsv8UxjXUU8TZvLM6RLuByG
+	Ktv80QzF8A9QQZj/EpoJsstXbT/OE5D9
+X-Received: by 10.55.120.1 with SMTP id t1mr2859473qkc.171.1497346821995; Tue,
+	13 Jun 2017 02:40:21 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.35.103 with HTTP; Tue, 13 Jun 2017 02:40:01 -0700 (PDT)
+In-Reply-To: <1497346604.30860.4.camel@andred.net>
+References: <1497346604.30860.4.camel@andred.net>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 13 Jun 2017 10:40:01 +0100
+Message-ID: <CAJTo0LbzMmvp_xTk64Z4x7z1p7jJ_8Fg2jd2HeGFJK9Ccy4O_w@mail.gmail.com>
+To: =?UTF-8?Q?Andr=C3=A9_Draszik?= <git@andred.net>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: busybox update?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,15 +54,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Jun 2017 09:36:46 -0000
+X-List-Received-Date: Tue, 13 Jun 2017 09:40:21 -0000
+Content-Type: multipart/alternative; boundary="94eb2c06686a6e867d0551d43937"
+
+--94eb2c06686a6e867d0551d43937
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 
-Hi,
+On 13 June 2017 at 10:36, Andr=C3=A9 Draszik <git@andred.net> wrote:
 
-Just wondering if there's any reason why the version of busybox is stuck at
-1.24.1, from October 2015? Is it simply that nobody cares? Or other reasons?
+> Just wondering if there's any reason why the version of busybox is stuck =
+at
+> 1.24.1, from October 2015? Is it simply that nobody cares? Or other
+> reasons?
+>
 
-Cheers,
-Andre'
+The last upgrade that was sent ended up making /bin/sh suid root so that
+was rejected.  Nothing else since.
 
+Ross
+
+--94eb2c06686a6e867d0551d43937
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 13 June 2017 at 10:36, Andr=C3=A9 Draszik <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:git@andred.net" target=3D"_blank">git@andred.net</a>&gt;</span> =
+wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bord=
+er-left:1px #ccc solid;padding-left:1ex"><div id=3D":2do" class=3D"a3s aXjC=
+H m15ca0d0b5324dad3">Just wondering if there&#39;s any reason why the versi=
+on of busybox is stuck at<br>
+1.24.1, from October 2015? Is it simply that nobody cares? Or other reasons=
+?<br></div></blockquote></div><br>The last upgrade that was sent ended up m=
+aking /bin/sh suid root so that was rejected.=C2=A0 Nothing else since.</di=
+v><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div=
+></div>
+
+--94eb2c06686a6e867d0551d43937--
