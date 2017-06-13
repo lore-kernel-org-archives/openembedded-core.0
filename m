@@ -1,29 +1,27 @@
 Return-Path: <richard@rpsys.net>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 014DC782CD
+	by mail.openembedded.org (Postfix) with ESMTP id 01BC0782E6
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 13 Jun 2017 09:49:55 +0000 (UTC)
 Received: from hex ([192.168.3.34]) (authenticated bits=0)
 	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	v5D9nrk7024618
+	v5D9nr4u024614
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
 	verify=NOT); Tue, 13 Jun 2017 10:49:54 +0100
 Received: from richard by hex with local (Exim 4.86_2)
 	(envelope-from <richard@rpsys.net>)
-	id 1dKiSP-0002Yl-SE; Tue, 13 Jun 2017 10:49:53 +0100
+	id 1dKiSP-0002YT-Pk; Tue, 13 Jun 2017 10:49:53 +0100
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 13 Jun 2017 10:49:52 +0100
-Message-Id: <1497347392-9776-5-git-send-email-richard.purdie@linuxfoundation.org>
+Date: Tue, 13 Jun 2017 10:49:48 +0100
+Message-Id: <1497347392-9776-1-git-send-email-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1497347392-9776-1-git-send-email-richard.purdie@linuxfoundation.org>
-References: <1497347392-9776-1-git-send-email-richard.purdie@linuxfoundation.org>
 X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.11
 	(dan.rpsys.net [192.168.3.1]);
-	Tue, 13 Jun 2017 10:49:55 +0100 (BST)
+	Tue, 13 Jun 2017 10:49:54 +0100 (BST)
 X-Virus-Scanned: clamav-milter 0.99.2 at dan
 X-Virus-Status: Clean
-Subject: [PATCH 5/5] bitbake.conf: Don't exclude MACHINE/MACHINEOVERRIDES from hashes
+Subject: [PATCH 1/5] allarch: Append to vardepsexclude, not overwrite
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,45 +36,29 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 13 Jun 2017 09:49:56 -0000
 
-A long time ago (6 years), this seemed like a good idea. The reality is
-that OVERRIDES should not be being added to hashes and if it is, it likely
-needs excluding in its own right. This was a nice workaround but we need
-to fix the real underlying issues now. In some cases this means excluding
-OVERRIDES from the variables dependency using the vardepsexclude flag however
-caution is needed to ensure this is safe.
-
-Variable values used to construct hashes are unexpanded but the values used
-are computed after the application of OVERRIDES. The important detail is if
-the end resulting unexpanded value changes, not the value of the OVERRIDES
-used in the construction of that unexpanded value. This is why dependencies
-on OVERRIDES itself shouldn't be in the hashes in general.
-
-The recent DISTRO_FEATURES changes adding in override mappings for them
-highlighted this issue. We have some good sstate tests which are effective
-at highlighting where potential issues arrive with OVERRIDES contamination
-(oe-selftest -r sstatetests.SStateTests).
+These have values set elsewhere and this code was overwriting them leading
+to odd signature issues. Append instead preserving the original values.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/conf/bitbake.conf | 2 --
- 1 file changed, 2 deletions(-)
+ meta/classes/allarch.bbclass | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index bc438cc..5d5ddec 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -714,11 +714,9 @@ DISTRO_NAME ??= "OpenEmbedded"
- # This works for  functions as well, they are really just environment variables.
- # Default OVERRIDES to make compilation fail fast in case of build system misconfiguration.
- OVERRIDES = "${TARGET_OS}:${TRANSLATED_TARGET_ARCH}:build-${BUILD_OS}:pn-${PN}:${MACHINEOVERRIDES}:${DISTROOVERRIDES}${DISTROFEATURESOVERRIDES}:${CLASSOVERRIDE}:forcevariable"
--OVERRIDES[vardepsexclude] = "MACHINEOVERRIDES"
- CLASSOVERRIDE ?= "class-target"
- DISTROOVERRIDES ?= "${@d.getVar('DISTRO') or ''}"
- MACHINEOVERRIDES ?= "${MACHINE}"
--MACHINEOVERRIDES[vardepsexclude] = "MACHINE"
+diff --git a/meta/classes/allarch.bbclass b/meta/classes/allarch.bbclass
+index a7ce024..51ba509c 100644
+--- a/meta/classes/allarch.bbclass
++++ b/meta/classes/allarch.bbclass
+@@ -43,8 +43,8 @@ python () {
+         d.setVar("INHIBIT_PACKAGE_STRIP", "1")
  
- FILESOVERRIDES = "${TRANSLATED_TARGET_ARCH}:${MACHINEOVERRIDES}:${DISTROOVERRIDES}"
- 
+         # These multilib values shouldn't change allarch packages so exclude them
+-        d.setVarFlag("emit_pkgdata", "vardepsexclude", "MULTILIB_VARIANTS")
+-        d.setVarFlag("write_specfile", "vardepsexclude", "MULTILIBS")
++        d.appendVarFlag("emit_pkgdata", "vardepsexclude", " MULTILIB_VARIANTS")
++        d.appendVarFlag("write_specfile", "vardepsexclude", " MULTILIBS")
+     elif bb.data.inherits_class('packagegroup', d) and not bb.data.inherits_class('nativesdk', d):
+         bb.error("Please ensure recipe %s sets PACKAGE_ARCH before inherit packagegroup" % d.getVar("FILE"))
+ }
 -- 
 2.7.4
 
