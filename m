@@ -1,21 +1,47 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 0ED2D78319
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-wr0-f196.google.com (mail-wr0-f196.google.com
+	[209.85.128.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 9069E782D4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Jun 2017 15:41:36 +0000 (UTC)
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	13 Jun 2017 08:41:38 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.39,338,1493708400"; d="scan'208";a="114371187"
-Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by fmsmga006.fm.intel.com with ESMTP; 13 Jun 2017 08:41:35 -0700
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 13 Jun 2017 18:41:40 +0300
-Message-Id: <20170613154140.42655-1-alexander.kanavin@linux.intel.com>
-X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] adwaita-icon-theme: add a patch to speed up the do_install() task
+	Tue, 13 Jun 2017 15:55:29 +0000 (UTC)
+Received: by mail-wr0-f196.google.com with SMTP id z45so520485wrb.2
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 13 Jun 2017 08:55:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=N7CSJaFq2v4np3fQ+fxxIbsWrHCjk/D1UY6FecN8wLw=;
+	b=dvfRHOKKo3SiZ5Eiip7KzhBkdMLXLy4nyZaTiN3aNmMq9L8NhPZ3Whgigv+tVWY7gi
+	XSsOvnvjyp0mOv5rsvwKt8ROqSoS1MscwhSJpzyW21hiML8GMn0oWsDKqQP3UNo53RQQ
+	0jna7CfnD/JNwJvKZ5lIacpUy8nkbFBaaYY6CCwaeCXLVvcAH0uCRslRopf1Xux1vvLz
+	ge4m5/e7GPv/gxwQZR/sXIDJUif7CK89iKPg1ws0W9gUVZJzsg3HVsNIx/N+LakB6Qgb
+	rntS6Z75MpfYewCPXhK6CuvlN+l6ydpMnWFGsCXZRsVma2UkRmPKaOunIiY8vRuimitm
+	l8Pg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=N7CSJaFq2v4np3fQ+fxxIbsWrHCjk/D1UY6FecN8wLw=;
+	b=Lu+vQAvWWjAp7Q+BEYzfLjakXT6QZHUeeoYAIBsuRr/Wa5W7Du8ETfrNfIgKKFKmCi
+	2MpE+RP+Jq5QyXeK0VnMUOFJ0vRf7g+6jLRQ017j+DrhcdhOaJszQSD6yjGxhjXoNnze
+	da5lNF6KPoC9FKGGNRYH21mNm7AcWK2E1snEF66SSSkZiXl4lGamFT62LhlVWZO1aWhF
+	TVTsdXk/hfRDKz0ZnMUTVo1V5huVDfasksVQubRmCs9tx7doii5eFViN6WpMlp140wSD
+	Z1dRll4bQ2XoGrLvyj43tiTkEiYkwjhXF1I15U6+8aQ+irvetNy9nD37UoHyRezRjJc6
+	JrjA==
+X-Gm-Message-State: AKS2vOxbYkWQU8zcZEh7kUzU+oSHuDOfDithkMYs32dOyPOYecQvHaVR
+	Q+7b5RJF8PHSL75Aa5TqJjLd5oACdw==
+X-Received: by 10.223.136.131 with SMTP id f3mr3791577wrf.151.1497369330227;
+	Tue, 13 Jun 2017 08:55:30 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.223.176.170 with HTTP; Tue, 13 Jun 2017 08:55:29 -0700 (PDT)
+In-Reply-To: <1497347392-9776-4-git-send-email-richard.purdie@linuxfoundation.org>
+References: <1497347392-9776-1-git-send-email-richard.purdie@linuxfoundation.org>
+	<1497347392-9776-4-git-send-email-richard.purdie@linuxfoundation.org>
+From: Andre McCurdy <armccurdy@gmail.com>
+Date: Tue, 13 Jun 2017 08:55:29 -0700
+Message-ID: <CAJ86T=UvrqetBfC0_RgJJbiOUYzEatksZb7txh4H5d7RFaoeKQ@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 4/5] sstatetests: Use higher parallelism value
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,124 +54,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Jun 2017 15:41:37 -0000
+X-List-Received-Date: Tue, 13 Jun 2017 15:55:30 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Goes down to 40 seconds from over 4 minutes :)
+On Tue, Jun 13, 2017 at 2:49 AM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> Since the processing code for signature generation is now threaded,
+> use higher thread values as examples in this code for better performance.
+>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> ---
+>  meta/lib/oeqa/selftest/cases/sstatetests.py | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/meta/lib/oeqa/selftest/cases/sstatetests.py b/meta/lib/oeqa/selftest/cases/sstatetests.py
+> index 8d05e30..feadf3c 100644
+> --- a/meta/lib/oeqa/selftest/cases/sstatetests.py
+> +++ b/meta/lib/oeqa/selftest/cases/sstatetests.py
+> @@ -418,7 +418,7 @@ DEFAULTTUNE_virtclass-multilib-lib32 = "x86"
+>
+>          self.write_config("""
+>  TMPDIR = "${TOPDIR}/tmp-sstatesamehash"
+> -BB_NUMBER_THREADS = "1"
+> +BB_NUMBER_THREADS = "${@oe.utils.cpu_count()}"
+>  PARALLEL_MAKE = "-j 1"
+>  DL_DIR = "${TOPDIR}/download1"
+>  TIME = "111111"
+> @@ -431,7 +431,7 @@ http_proxy = ""
+>          bitbake("world meta-toolchain -S none")
+>          self.write_config("""
+>  TMPDIR = "${TOPDIR}/tmp-sstatesamehash2"
+> -BB_NUMBER_THREADS = "2"
+> +BB_NUMBER_THREADS = "${@oe.utils.cpu_count()-1}"
 
-Note that there is no control over the amount of shell jobs; on my machine
-this is not a problem, but if it's a problem on less capable hardware,
-we can add some kind of limiter.
+What happens here if I have one CPU core?
 
-Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
----
- ...1-Run-installation-commands-as-shell-jobs.patch | 82 ++++++++++++++++++++++
- .../gnome/adwaita-icon-theme_3.24.0.bb             |  3 +-
- 2 files changed, 84 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-gnome/gnome/adwaita-icon-theme/0001-Run-installation-commands-as-shell-jobs.patch
-
-diff --git a/meta/recipes-gnome/gnome/adwaita-icon-theme/0001-Run-installation-commands-as-shell-jobs.patch b/meta/recipes-gnome/gnome/adwaita-icon-theme/0001-Run-installation-commands-as-shell-jobs.patch
-new file mode 100644
-index 00000000000..6c38e237f40
---- /dev/null
-+++ b/meta/recipes-gnome/gnome/adwaita-icon-theme/0001-Run-installation-commands-as-shell-jobs.patch
-@@ -0,0 +1,82 @@
-+From 8dcd73b45a660dbdc560676835ba46f495334f14 Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex.kanavin@gmail.com>
-+Date: Tue, 13 Jun 2017 18:10:06 +0300
-+Subject: [PATCH] Run installation commands as shell jobs
-+
-+This greatly speeds up installation time on multi-core systems.
-+
-+Upstream-Status: Pending
-+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-+---
-+ src/fullcolor/Makefile.am | 3 ++-
-+ src/spinner/Makefile.am   | 5 +++--
-+ src/symbolic/Makefile.am  | 7 ++++---
-+ 3 files changed, 9 insertions(+), 6 deletions(-)
-+
-+diff --git a/src/fullcolor/Makefile.am b/src/fullcolor/Makefile.am
-+index 1c940a5..3998ee6 100644
-+--- a/src/fullcolor/Makefile.am
-++++ b/src/fullcolor/Makefile.am
-+@@ -9,9 +9,10 @@ install-data-local:
-+ 		for file in `cd $(top_srcdir)/$(SVGOUTDIR)/$$size && find . -name "*.png"`; do \
-+ 			context="`dirname $$file`"; \
-+ 			$(mkdir_p) $(DESTDIR)$(themedir)/$$size/$$context; \
-+-			$(install_sh_DATA) $(top_srcdir)/$(SVGOUTDIR)/$$size/$$file $(DESTDIR)$(themedir)/$$size/$$file; \
-++			$(install_sh_DATA) $(top_srcdir)/$(SVGOUTDIR)/$$size/$$file $(DESTDIR)$(themedir)/$$size/$$file & \
-+ 		done; \
-+ 	done;
-++	wait
-+ 
-+ ## FIXME we should add a way to remove links generated by icon mapping
-+ uninstall-local:
-+diff --git a/src/spinner/Makefile.am b/src/spinner/Makefile.am
-+index 86f4d7c..3fae8c1 100644
-+--- a/src/spinner/Makefile.am
-++++ b/src/spinner/Makefile.am
-+@@ -24,13 +24,14 @@ install-data-local:
-+ 	      for file in `cd $(top_srcdir)/$(SVGOUTDIR)/$$size; find . -name "*.png"`; do \
-+ 		      context="`dirname $$file`"; \
-+ 		      $(mkdir_p) $(DESTDIR)$(themedir)/$$size/$$context; \
-+-		      $(install_sh_DATA) $(top_srcdir)/$(SVGOUTDIR)/$$size/$$file $(DESTDIR)$(themedir)/$$size/$$file; \
-++		      $(install_sh_DATA) $(top_srcdir)/$(SVGOUTDIR)/$$size/$$file $(DESTDIR)$(themedir)/$$size/$$file & \
-+ 	      done; \
-+ 	for file in `cd $(top_srcdir)/$(SVGOUTDIR)/scalable-up-to-32; find . -name "*.svg"`; do \
-+ 		context="`dirname $$file`"; \
-+ 		$(mkdir_p) $(DESTDIR)$(themedir)/scalable-up-to-32/$$context; \
-+-		$(install_sh_DATA) $(top_srcdir)/$(SVGOUTDIR)/scalable-up-to-32/$$file $(DESTDIR)$(themedir)/scalable-up-to-32/$$file; \
-++		$(install_sh_DATA) $(top_srcdir)/$(SVGOUTDIR)/scalable-up-to-32/$$file $(DESTDIR)$(themedir)/scalable-up-to-32/$$file & \
-+ 	done
-++	wait
-+ 
-+ uninstall-local:
-+ 	      for file in `cd $(top_srcdir)/$(SVGOUTDIR)/scalable-up-to-32; find . -name "*.svg"`; do \
-+diff --git a/src/symbolic/Makefile.am b/src/symbolic/Makefile.am
-+index 24aac9b..61ba071 100644
-+--- a/src/symbolic/Makefile.am
-++++ b/src/symbolic/Makefile.am
-+@@ -25,18 +25,19 @@ install-data-local:
-+ 		for file in `cd $(top_srcdir)/$(SVGOUTDIR)/$$size; find . -name "*.png"`; do \
-+ 			context="`dirname $$file`"; \
-+ 			$(mkdir_p) $(DESTDIR)$(themedir)/$$size/$$context; \
-+-			$(install_sh_DATA) $(top_srcdir)/$(SVGOUTDIR)/$$size/$$file $(DESTDIR)$(themedir)/$$size/$$file; \
-++			$(install_sh_DATA) $(top_srcdir)/$(SVGOUTDIR)/$$size/$$file $(DESTDIR)$(themedir)/$$size/$$file & \
-+ 		done; \
-+ 	done
-+ 	for file in `cd $(top_srcdir)/$(SVGOUTDIR)/scalable; find . -name "*.svg"`; do \
-+ 		context="`dirname $$file`"; \
-+ 		$(mkdir_p) $(DESTDIR)$(themedir)/scalable/$$context; \
-+-		$(install_sh_DATA) $(top_srcdir)/$(SVGOUTDIR)/scalable/$$file $(DESTDIR)$(themedir)/scalable/$$file; \
-++		$(install_sh_DATA) $(top_srcdir)/$(SVGOUTDIR)/scalable/$$file $(DESTDIR)$(themedir)/scalable/$$file & \
-+ 		for size in $(symbolic_encode_sizes); do \
-+ 			$(mkdir_p) $(DESTDIR)$(themedir)/$$size/$$context; \
-+-			$(GTK_ENCODE_SYMBOLIC_SVG) $(top_srcdir)/$(SVGOUTDIR)/scalable/$$file $$size -o $(DESTDIR)$(themedir)/$$size/$$context; \
-++			$(GTK_ENCODE_SYMBOLIC_SVG) $(top_srcdir)/$(SVGOUTDIR)/scalable/$$file $$size -o $(DESTDIR)$(themedir)/$$size/$$context & \
-+ 		done \
-+ 	done
-++	wait
-+ 
-+ uninstall-local:
-+ 	for file in `cd $(top_srcdir)/$(SVGOUTDIR)/scalable; find . -name "*.svg"`; do \
-+-- 
-+2.11.0
-+
-diff --git a/meta/recipes-gnome/gnome/adwaita-icon-theme_3.24.0.bb b/meta/recipes-gnome/gnome/adwaita-icon-theme_3.24.0.bb
-index 5fdc71d1e38..d340536f0f3 100644
---- a/meta/recipes-gnome/gnome/adwaita-icon-theme_3.24.0.bb
-+++ b/meta/recipes-gnome/gnome/adwaita-icon-theme_3.24.0.bb
-@@ -12,7 +12,8 @@ inherit allarch autotools pkgconfig gettext gtk-icon-cache upstream-version-is-e
- MAJ_VER = "${@oe.utils.trim_version("${PV}", 2)}"
- SRC_URI = "${GNOME_MIRROR}/${BPN}/${MAJ_VER}/${BPN}-${PV}.tar.xz \
-            file://0001-Don-t-use-AC_CANONICAL_HOST.patch \
--          "
-+           file://0001-Run-installation-commands-as-shell-jobs.patch \
-+           "
- 
- SRC_URI[md5sum] = "3ccac0d600ffc936d2adfb80e9245bc5"
- SRC_URI[sha256sum] = "ccf79ff3bd340254737ce4d28b87f0ccee4b3358cd3cd5cd11dc7b42f41b272a"
--- 
-2.11.0
-
+>  PARALLEL_MAKE = "-j 2"
+>  DL_DIR = "${TOPDIR}/download2"
+>  TIME = "222222"
+> --
+> 2.7.4
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
