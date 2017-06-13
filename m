@@ -1,25 +1,21 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id 0D5C77829E
+Return-Path: <mikko.ylinen@linux.intel.com>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by mail.openembedded.org (Postfix) with ESMTP id 9C9B07831C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Jun 2017 14:35:49 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga105.jf.intel.com with ESMTP; 13 Jun 2017 07:35:51 -0700
+	Tue, 13 Jun 2017 15:39:18 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga104.jf.intel.com with ESMTP; 13 Jun 2017 08:39:18 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.39,338,1493708400"; d="scan'208";a="1181892488"
-Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga002.fm.intel.com with ESMTP; 13 Jun 2017 07:35:50 -0700
-Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
-	by linux.intel.com (Postfix) with ESMTP id B63F458010F;
-	Tue, 13 Jun 2017 07:35:49 -0700 (PDT)
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
+X-IronPort-AV: E=Sophos;i="5.39,338,1493708400"; d="scan'208";a="1140826696"
+Received: from pkuronen-mobl2.ger.corp.intel.com (HELO
+	summit.ger.corp.intel.com) ([10.252.20.198])
+	by orsmga001.jf.intel.com with ESMTP; 13 Jun 2017 08:39:16 -0700
+From: Mikko Ylinen <mikko.ylinen@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 13 Jun 2017 17:34:02 +0300
-Message-Id: <1497364442-23446-1-git-send-email-ed.bartosh@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <CAJTo0LYMK_QA0oBOpU5t9pNgYM+XmiB_B37AcAFR-hQa0RE9fA@mail.gmail.com>
-References: <CAJTo0LYMK_QA0oBOpU5t9pNgYM+XmiB_B37AcAFR-hQa0RE9fA@mail.gmail.com>
-Subject: [PATCH v4] mtools-native: disable reading host configs
+Date: Tue, 13 Jun 2017 18:39:09 +0300
+Message-Id: <20170613153909.28112-1-mikko.ylinen@linux.intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH] runqemu: change terminal settings for valid tty's
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,65 +28,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Jun 2017 14:35:52 -0000
+X-List-Received-Date: Tue, 13 Jun 2017 15:39:18 -0000
 
-Removed code that reads /etc/mtools.conf, /etc/default/mtools.conf,
-/etc/mtools and /etc/default/mtools to ensure that mtools output
-doesn't depend on the global host configs.
+runqemu uses stty to change terminal settings to give users
+better control to qemu. However, stty does not work when
+runqemu is run directly or indirectly via oe-selftest in
+a Docker container (presumably some problems with Docker's
+pseudo-tty implementation).
 
-It's still possible to use ~/.mtoolsrc config or point MTOOLSRC
-environment variable to any configuration file if user want
-to configure mtools.
+The error reported is:
+stty: 'standard input': Inappropriate ioctl for device
 
-Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+As runqemu recently moved to subprocess.check_call() for
+stty calls we now get thrown an error and all runqemu
+runs fail.
+
+sys.stdin.isatty() does proper job in detecting if the stty
+calls can work so we use that check before running the stty
+subprocess operations.
+
+Signed-off-by: Mikko Ylinen <mikko.ylinen@linux.intel.com>
 ---
- .../mtools/mtools/disable-hardcoded-configs.patch  | 23 ++++++++++++++++++++++
- meta/recipes-devtools/mtools/mtools_4.0.18.bb      |  1 +
- 2 files changed, 24 insertions(+)
- create mode 100644 meta/recipes-devtools/mtools/mtools/disable-hardcoded-configs.patch
+ scripts/runqemu | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/meta/recipes-devtools/mtools/mtools/disable-hardcoded-configs.patch b/meta/recipes-devtools/mtools/mtools/disable-hardcoded-configs.patch
-new file mode 100644
-index 0000000..01455f1
---- /dev/null
-+++ b/meta/recipes-devtools/mtools/mtools/disable-hardcoded-configs.patch
-@@ -0,0 +1,23 @@
-+Disabled reading host configs.
-+
-+Upstream-Status: Inappropriate [native]
-+
-+Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
-+
-+--- mtools-4.0.18/config.c.orig	2017-06-13 12:27:38.644000000 +0300
-++++ mtools-4.0.18/config.c	2017-06-13 12:28:47.576000000 +0300
-+@@ -701,14 +701,6 @@
-+ 	memcpy(devices, const_devices,
-+ 	       nr_const_devices*sizeof(struct device));
-+ 
-+-    (void) ((parse(CONF_FILE,1) |
-+-	     parse(LOCAL_CONF_FILE,1) |
-+-	     parse(SYS_CONF_FILE,1)) ||
-+-	    (parse(OLD_CONF_FILE,1) |
-+-	     parse(OLD_LOCAL_CONF_FILE,1)));
-+-    /* the old-name configuration files only get executed if none of the
-+-     * new-name config files were used */
-+-
-+     homedir = get_homedir();
-+     if ( homedir ){
-+ 	strncpy(conf_file, homedir, MAXPATHLEN );
-diff --git a/meta/recipes-devtools/mtools/mtools_4.0.18.bb b/meta/recipes-devtools/mtools/mtools_4.0.18.bb
-index b0efc9e..5d84001 100644
---- a/meta/recipes-devtools/mtools/mtools_4.0.18.bb
-+++ b/meta/recipes-devtools/mtools/mtools_4.0.18.bb
-@@ -33,6 +33,7 @@ SRC_URI = "${GNU_MIRROR}/mtools/mtools-${PV}.tar.bz2 \
-            file://0001-Continue-even-if-fs-size-is-not-divisible-by-sectors.patch \
-            "
+diff --git a/scripts/runqemu b/scripts/runqemu
+index 311fbebdf4..26328e5b51 100755
+--- a/scripts/runqemu
++++ b/scripts/runqemu
+@@ -955,8 +955,8 @@ class BaseConfig(object):
+     def setup_network(self):
+         if self.get('QB_NET') == 'none':
+             return
+-        cmd = "stty -g"
+-        self.saved_stty = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE).stdout.read().decode('utf-8')
++        if sys.stdin.isatty():
++            self.saved_stty = subprocess.check_output("stty -g", shell=True).decode('utf-8')
+         self.network_device = self.get('QB_NETWORK_DEVICE') or self.network_device
+         if self.slirp_enabled:
+             self.setup_slirp()
+@@ -1096,9 +1096,9 @@ class BaseConfig(object):
+             self.qemu_opt += " -snapshot"
  
-+SRC_URI_append_class-native = " file://disable-hardcoded-configs.patch"
+         if self.serialstdio:
+-            logger.info("Interrupt character is '^]'")
+-            cmd = "stty intr ^]"
+-            subprocess.check_call(cmd, shell=True)
++            if sys.stdin.isatty():
++                subprocess.check_call("stty intr ^]", shell=True)
++                logger.info("Interrupt character is '^]'")
  
- inherit autotools texinfo
- 
+             first_serial = ""
+             if not re.search("-nographic", self.qemu_opt):
 -- 
-2.1.4
+2.11.0
 
 
