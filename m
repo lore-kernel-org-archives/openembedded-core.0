@@ -1,20 +1,20 @@
 Return-Path: <richard@rpsys.net>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 01623782E4
+	by mail.openembedded.org (Postfix) with ESMTP id 01CD0782E7
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 13 Jun 2017 09:49:55 +0000 (UTC)
 Received: from hex ([192.168.3.34]) (authenticated bits=0)
 	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	v5D9nrTD024616
+	v5D9nrjp024617
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
 	verify=NOT); Tue, 13 Jun 2017 10:49:54 +0100
 Received: from richard by hex with local (Exim 4.86_2)
 	(envelope-from <richard@rpsys.net>)
-	id 1dKiSP-0002Yb-Qo; Tue, 13 Jun 2017 10:49:53 +0100
+	id 1dKiSP-0002Yg-RX; Tue, 13 Jun 2017 10:49:53 +0100
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 13 Jun 2017 10:49:50 +0100
-Message-Id: <1497347392-9776-3-git-send-email-richard.purdie@linuxfoundation.org>
+Date: Tue, 13 Jun 2017 10:49:51 +0100
+Message-Id: <1497347392-9776-4-git-send-email-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1497347392-9776-1-git-send-email-richard.purdie@linuxfoundation.org>
 References: <1497347392-9776-1-git-send-email-richard.purdie@linuxfoundation.org>
@@ -23,7 +23,7 @@ X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.11
 	Tue, 13 Jun 2017 10:49:54 +0100 (BST)
 X-Virus-Scanned: clamav-milter 0.99.2 at dan
 X-Virus-Status: Clean
-Subject: [PATCH 3/5] utils: Exclude OVERRIDES from hashes in multilib functions
+Subject: [PATCH 4/5] sstatetests: Use higher parallelism value
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,30 +38,36 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 13 Jun 2017 09:49:56 -0000
 
----
- meta/classes/utils.bbclass | 2 ++
- 1 file changed, 2 insertions(+)
+Since the processing code for signature generation is now threaded,
+use higher thread values as examples in this code for better performance.
 
-diff --git a/meta/classes/utils.bbclass b/meta/classes/utils.bbclass
-index 96463ab..081e662 100644
---- a/meta/classes/utils.bbclass
-+++ b/meta/classes/utils.bbclass
-@@ -369,6 +369,7 @@ def get_multilib_datastore(variant, d):
-     localdata.setVar("OVERRIDES", overrides)
-     localdata.setVar("MLPREFIX", variant + "-")
-     return localdata
-+get_multilib_datastore[vardepsexclude] = "OVERRIDES"
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/lib/oeqa/selftest/cases/sstatetests.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/meta/lib/oeqa/selftest/cases/sstatetests.py b/meta/lib/oeqa/selftest/cases/sstatetests.py
+index 8d05e30..feadf3c 100644
+--- a/meta/lib/oeqa/selftest/cases/sstatetests.py
++++ b/meta/lib/oeqa/selftest/cases/sstatetests.py
+@@ -418,7 +418,7 @@ DEFAULTTUNE_virtclass-multilib-lib32 = "x86"
  
- def all_multilib_tune_values(d, var, unique = True, need_split = True, delim = ' '):
-     """Return a string of all ${var} in all multilib tune configuration"""
-@@ -431,6 +432,7 @@ def all_multilib_tune_list(vars, d):
-         values[v].append(localdata.getVar(v))
-         values['ml'].append(item)
-     return values
-+all_multilib_tune_list[vardepsexclude] = "OVERRIDES"
- 
- # If the user hasn't set up their name/email, set some defaults
- check_git_config() {
+         self.write_config("""
+ TMPDIR = "${TOPDIR}/tmp-sstatesamehash"
+-BB_NUMBER_THREADS = "1"
++BB_NUMBER_THREADS = "${@oe.utils.cpu_count()}"
+ PARALLEL_MAKE = "-j 1"
+ DL_DIR = "${TOPDIR}/download1"
+ TIME = "111111"
+@@ -431,7 +431,7 @@ http_proxy = ""
+         bitbake("world meta-toolchain -S none")
+         self.write_config("""
+ TMPDIR = "${TOPDIR}/tmp-sstatesamehash2"
+-BB_NUMBER_THREADS = "2"
++BB_NUMBER_THREADS = "${@oe.utils.cpu_count()-1}"
+ PARALLEL_MAKE = "-j 2"
+ DL_DIR = "${TOPDIR}/download2"
+ TIME = "222222"
 -- 
 2.7.4
 
