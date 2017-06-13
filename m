@@ -1,27 +1,18 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 317E178347
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Jun 2017 11:24:25 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	13 Jun 2017 04:24:27 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.39,338,1493708400"; d="scan'208";a="980201309"
-Received: from linux.intel.com ([10.54.29.200])
-	by orsmga003.jf.intel.com with ESMTP; 13 Jun 2017 04:24:27 -0700
-Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
-	by linux.intel.com (Postfix) with ESMTP id 722315800CE
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Jun 2017 04:24:26 -0700 (PDT)
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 13 Jun 2017 14:22:14 +0300
-Message-Id: <506ce6f79238857c3f5f2ac9c00db05cc0501a0d.1497348496.git.ed.bartosh@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <cover.1497348496.git.ed.bartosh@linux.intel.com>
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 217A1606B2;
+	Tue, 13 Jun 2017 11:31:58 +0000 (UTC)
+MIME-Version: 1.0
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Ed Bartosh <ed.bartosh@linux.intel.com>
+Date: Tue, 13 Jun 2017 11:31:59 -0000
+Message-ID: <20170613113159.1043.49436@do.openembedded.org>
 References: <cover.1497348496.git.ed.bartosh@linux.intel.com>
-Subject: [PATCH v2 26/26] selftest: add test_wic_rm test case
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <cover.1497348496.git.ed.bartosh@linux.intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgIzExMjgzIHdpYyBscyAmIGNwICYgcm0gKHJldjIp?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,56 +25,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Jun 2017 11:24:26 -0000
+X-List-Received-Date: Tue, 13 Jun 2017 11:31:58 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-Added test case for "wic rm" functionality.
-    - remove file from vfat partition
-    - remove directory from vfat partition
+== Series Details ==
 
-Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+Series: #11283 wic ls & cp & rm (rev2)
+Revision: 2
+URL   : https://patchwork.openembedded.org/series/7139/
+State : failure
+
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             Added patch file is missing Upstream-Status in the header [test_upstream_status_presence] 
+  Suggested fix    Add Upstream-Status: <status> to the header of meta/recipes-devtools/mtools/mtools/disable-hardcoded-configs.patch (possible values: Pending, Submitted, Accepted, Backport, Denied, Inappropriate)
+
+* Issue             A patch file has been added, but does not have a Signed-off-by tag [test_signed_off_by_presence] 
+  Suggested fix    Sign off the added patch file (meta/recipes-devtools/mtools/mtools/disable-hardcoded-configs.patch)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- meta/lib/oeqa/selftest/cases/wic.py | 30 ++++++++++++++++++++++++++++++
- 1 file changed, 30 insertions(+)
-
-diff --git a/meta/lib/oeqa/selftest/cases/wic.py b/meta/lib/oeqa/selftest/cases/wic.py
-index 5034587..ee9ff0f 100644
---- a/meta/lib/oeqa/selftest/cases/wic.py
-+++ b/meta/lib/oeqa/selftest/cases/wic.py
-@@ -855,3 +855,33 @@ part /etc --source rootfs --ondisk mmcblk0 --fstype=ext4 --exclude-path bin/ --r
-             self.assertEqual(0, result.status)
-             self.assertEqual(8, len(result.output.split('\n')))
-             self.assertTrue(os.path.basename(testdir) in result.output)
-+
-+    def test_wic_rm(self):
-+        """Test removing files and directories from the the wic image."""
-+        self.assertEqual(0, runCmd("wic create mkefidisk "
-+                                   "--image-name=core-image-minimal "
-+                                   "-D -o %s" % self.resultdir).status)
-+        images = glob(self.resultdir + "mkefidisk-*.direct")
-+        self.assertEqual(1, len(images))
-+
-+        sysroot = get_bb_var('RECIPE_SYSROOT_NATIVE', 'wic-tools')
-+
-+        # list directory content of the first partition
-+        result = runCmd("wic ls %s:1 -n %s" % (images[0], sysroot))
-+        self.assertEqual(0, result.status)
-+        self.assertIn('\nBZIMAGE        ', result.output)
-+        self.assertIn('\nEFI          <DIR>     ', result.output)
-+
-+        # remove file
-+        result = runCmd("wic rm %s:1/bzimage -n %s" % (images[0], sysroot))
-+        self.assertEqual(0, result.status)
-+
-+        # remove directory
-+        result = runCmd("wic rm %s:1/efi -n %s" % (images[0], sysroot))
-+        self.assertEqual(0, result.status)
-+
-+        # check if they're removed
-+        result = runCmd("wic ls %s:1 -n %s" % (images[0], sysroot))
-+        self.assertEqual(0, result.status)
-+        self.assertNotIn('\nBZIMAGE        ', result.output)
-+        self.assertNotIn('\nEFI          <DIR>     ', result.output)
--- 
-2.1.4
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
