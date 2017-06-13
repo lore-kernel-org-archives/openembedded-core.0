@@ -1,58 +1,30 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-io0-f174.google.com (mail-io0-f174.google.com
-	[209.85.223.174])
-	by mail.openembedded.org (Postfix) with ESMTP id BDD3277AB3
+Return-Path: <mac@mcrowe.com>
+Received: from avasout05.plus.net (avasout05.plus.net [84.93.230.250])
+	by mail.openembedded.org (Postfix) with ESMTP id 4B16777AB3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Jun 2017 08:31:14 +0000 (UTC)
-Received: by mail-io0-f174.google.com with SMTP id y77so69058037ioe.3
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Jun 2017 01:31:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:organization:mime-version:content-transfer-encoding;
-	bh=jaL9jryNU5m6W6XdyG285g2u9jgr0uNF8hc6jAzrbJs=;
-	b=atPGBKJqxlD4UUD3+XDNEGyXZ1oSVpuaFwuCfZHARxxXIipjPAh6PEr6xyncP6572z
-	Z9SYEnzR2H7UOoSelToOL4pB+JUts7p9a1+KAmyi/3YmslQPDk/epZgAQP5svv9UhV66
-	ZbGLn0iaxCaPiPfdrtn8U0fvGjpjCUmZ+Psb5t9Pa7z3Hz3XUTG1Pkpt8xolLLo2UTiR
-	bXSk4DuD6tDHTj9HFrkEpQg+6wIdniH4xFtJLlrcrD5YjxIkxy3KN+EtlohCbn74F3vX
-	+HvCsld4aZrDzIFP4UxwHdbbUY3svtQxNv181WxtvEC0xnxeaK+XrFu9He1/KpZ1jr7C
-	bcuw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:organization:mime-version:content-transfer-encoding;
-	bh=jaL9jryNU5m6W6XdyG285g2u9jgr0uNF8hc6jAzrbJs=;
-	b=HjhWD2NHEp2m57zuXyeuNdrfJkERWvMGChM4fSClZfPuBocjUY1hvzgLSswCcqnhhQ
-	ms3K2REDL7tmN5CDiCs54gSS0G4c4nOHlJSLpWeW1MJanpE0Gyg2J3nQiB8DjvymOYYE
-	Q+eYNww1bK2R24/9eZqG9a8azzyx5DflKTWKzKv28mCHk9Uv6n6Z/xZuoi6Ba0kZS8Fk
-	MKqtWZWUFCdrdVgMRzmUvmxQU4RfULQVZHGVyn62qzKXlyBt92YXlhss8WjhFU3UgiJJ
-	zgTXDSQCcevcfGni7j1Z7JXOM3fhhUKaBCGWR1HOAOIWo/3c6s0VpnP3VnWyXP7Ceqou
-	IAyA==
-X-Gm-Message-State: AODbwcCSDvtdk5opPuagRklFXtR6rP2nyot8YGOFAh7dvw3lzqIAUxVR
-	p0pFvJkggdzd9Pls
-X-Received: by 10.107.20.150 with SMTP id 144mr42463275iou.25.1497342675551;
-	Tue, 13 Jun 2017 01:31:15 -0700 (PDT)
-Received: from pohly-mobl1 (p5DE8D5A8.dip0.t-ipconnect.de. [93.232.213.168])
-	by smtp.gmail.com with ESMTPSA id 10sm4804860ioz.20.2017.06.13.01.31.13
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 13 Jun 2017 01:31:14 -0700 (PDT)
-Message-ID: <1497342671.30163.346.camel@intel.com>
-From: Patrick Ohly <patrick.ohly@intel.com>
-To: Denys Dmytriyenko <denis@denix.org>
-Date: Tue, 13 Jun 2017 10:31:11 +0200
-In-Reply-To: <1497338044.30163.324.camel@intel.com>
-References: <cover.85d08ae286e0b2f8503f9e657148201e6b90edde.1497013310.git-series.patrick.ohly@intel.com>
-	<9dfd9eff13b3831c7e88c97318f97d2daeac9a78.1497013310.git-series.patrick.ohly@intel.com>
-	<20170612194635.GX28053@denix.org>
-	<1497301519.30163.288.camel@intel.com>
-	<20170612232345.GA28053@denix.org>
-	<1497338044.30163.324.camel@intel.com>
-Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
-X-Mailer: Evolution 3.12.9-1+b1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2 1/2] bitbake.conf: DISTRO_FEATURES as overrides
+	Tue, 13 Jun 2017 09:09:26 +0000 (UTC)
+Received: from deneb ([80.229.24.9]) by avasout05 with smtp
+	id Y99S1v0040BmcFC0199TvZ; Tue, 13 Jun 2017 10:09:27 +0100
+X-CM-Score: 0.00
+X-CNFS-Analysis: v=2.2 cv=Iav3YSia c=1 sm=1 tr=0
+	a=E/9URZZQ5L3bK/voZ0g0HQ==:117 a=E/9URZZQ5L3bK/voZ0g0HQ==:17
+	a=kj9zAlcOel0A:10 a=LWSFodeU3zMA:10 a=-An2I_7KAAAA:8 a=D9tCBEehAAAA:8
+	a=Q4-j1AaZAAAA:8 a=fJ-HYHWxux5eLquFiX4A:9 a=CjuIK1q_8ugA:10
+	a=Sq34B_EcNBM9_nrAYB9S:22 a=Q0Uz2dhPmm7nD8Nyg-vj:22
+	a=9H3Qd4_ONW2Ztcrla5EB:22
+Received: from mac by deneb with local (Exim 4.84_2)
+	(envelope-from <mac@mcrowe.com>) id 1dKhpG-0000hm-4D
+	for openembedded-core@lists.openembedded.org;
+	Tue, 13 Jun 2017 10:09:26 +0100
+Date: Tue, 13 Jun 2017 10:09:26 +0100
+From: Mike Crowe <mac@mcrowe.com>
+To: openembedded-core@lists.openembedded.org
+Message-ID: <20170613090926.GA1963@mcrowe.com>
+References: <20170516124000.21432-1-mac@mcrowe.com>
+MIME-Version: 1.0
+In-Reply-To: <20170516124000.21432-1-mac@mcrowe.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Subject: Re: [PATCH] gcc-cross-canadian: Use ${target_includedir} for compatibility with meta-micro
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -65,77 +37,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Jun 2017 08:31:14 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 13 Jun 2017 09:09:27 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Tue, 2017-06-13 at 09:14 +0200, Patrick Ohly wrote:
-> Let me also point out that the approach below completely sidesteps
-> potential vardeps problems, because the dependency of OVERRIDES on
-> DISTRO_FEATURES_OVERRIDES and DISTRO_FEATURES is hidden. My expectation
-> is that OVERRIDES are part of the base hash and that thus tracking of
-> how it gets computed isn't necessary. It seems to work in practice for
-> me:
+On Tuesday 16 May 2017 at 13:40:00 +0100, Mike Crowe wrote:
+> meta-micro puts headers in /include rather than /usr/include in the
+> sysroot. ${target_includedir} means that the correct path will be used
+> automatically.
 > 
-> DISTRO_FEATURES_append = " systemd"
-> DISTRO_FEATURES_OVERRIDES += "bar"
-> DISTRO_FEATURES_append = " bar"
-> PACKAGECONFIG_append_pn-systemd_df-bar = " gcrypt"
+> Signed-off-by: Mike Crowe <mac@mcrowe.com>
+> Acked-by: Phil Blundell <pb@pbcl.net>
+> ---
+>  meta/recipes-devtools/gcc/gcc-cross-canadian.inc | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> Changing either DISTRO_FEATURES_OVERRIDES or the DISTRO_FEATURES_append
-> changes the signature of systemd:do_configure as expected.
-> 
-> We are currently having a problem with the yocto-compat-layer.py
-> signature check in refkit where it complains about:
->         List of dependencies for variable DISTROOVERRIDES changed from
->         '{'DISTRO'}' to '{'DISTRO_FEATURES', 'DISTRO',
->         'DISTROFEATURES2OVERRIDES'}'
-> 
-> That's for a slightly older OE-core and the distrooverrides.bbclass
-> approach. I don't know yet why that is now failing (it was working for
-> OE-core 2.3), but my expectation is that the approach below would avoid
-> it.
+> diff --git a/meta/recipes-devtools/gcc/gcc-cross-canadian.inc b/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
+> index ec1d281800..91a6fa6994 100644
+> --- a/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
+> +++ b/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
+> @@ -80,7 +80,7 @@ FILES_${PN} = "\
+>      ${includedir}/c++/${BINV} \
+>      ${prefix}/${TARGET_SYS}/bin/* \
+>      ${prefix}/${TARGET_SYS}/lib/* \
+> -    ${prefix}/${TARGET_SYS}/usr/include/* \
+> +    ${prefix}/${TARGET_SYS}${target_includedir}/* \
+>  "
+>  INSANE_SKIP_${PN} += "dev-so"
+>  
+> @@ -153,7 +153,7 @@ ELFUTILS = "nativesdk-elfutils"
+>  DEPENDS += "nativesdk-gmp nativesdk-mpfr nativesdk-libmpc ${ELFUTILS} nativesdk-zlib"
+>  RDEPENDS_${PN} += "nativesdk-mpfr nativesdk-libmpc ${ELFUTILS}"
+>  
+> -SYSTEMHEADERS = "/usr/include"
+> +SYSTEMHEADERS = "${target_includedir}/"
+>  SYSTEMLIBS = "${target_base_libdir}/"
+>  SYSTEMLIBS1 = "${target_libdir}/"
+>  
+> -- 
+> 2.11.0
 
-I've not figured out why it started failing. Because it's using the
-custom distrooverrides.bbclass approach I've not investigated further.
+This patch ended up in https://patchwork.openembedded.org/patch/139908/ .
+There don't appear to have been any objections. Is there any chance it
+could go in?
 
-What I was able to test now is the
-refkit_poky.TestRefkitPoky.test_refkit_conf_signature selftest in
-combination with OE-core/bitbake master (it wasn't working until
-recently because of the OEQA selftest changes that we hadn't adapted to
-yet).
+Thanks.
 
-That test checks that activating the refkit distro configuration without
-using any of the refkit distro features doesn't change signatures.
-That's a slightly stronger guarantee than required by Yocto Compatible
-2.0; it's useful because it makes it possible to add the refkit distro
-configuration without causing side effects when the developer doesn't
-use the features.
-
-When using the current bitbake.conf DISTRO_FEATURES_OVERRIDES support
-from OE-core master, that test fails because adding the refkit distro
-configuration needs to extend that variable, which shows up as (picking
-one example):
-   zlib:do_package_qa: a124d530af2a0531e4c18780f9c75c15 -> 56da5c6a55996ec5a4817d1d4003e5ed
-      bitbake-diffsigs --task zlib do_package_qa --signature a124d530af2a0531e4c18780f9c75c15 56da5c6a55996ec5a4817d1d4003e5ed
-      basehash changed from 870d9161cf8d10dfae610cf55b54612b to 528a46f1120a679282ff8e55bf2791cb
-      Variable DISTRO_FEATURES_OVERRIDES value changed from '' to '      refkit-config     refkit-firewall     refkit-computervision     refkit-gateway '
-
-This does not occur with the patch below.
-
-On IRC Richard corrected me and explained that it isn't OVERRIDES which
-gets tracked. My systemd example was working because variable values get
-recorded after applying overrides, so indirectly OVERRIDES and thus
-DISTRO_FEATURES_OVERRIDES+DISTRO_FEATURES change signatures.
-
--- 
-Best Regards, Patrick Ohly
-
-The content of this message is my personal opinion only and although
-I am an employee of Intel, the statements I make here in no way
-represent Intel's position on the issue, nor am I authorized to speak
-on behalf of Intel on this matter.
-
-
-
+Mike.
 
