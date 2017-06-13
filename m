@@ -1,26 +1,26 @@
 Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id 9D50478320
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 1BD8A782EE
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Jun 2017 11:24:02 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga105.jf.intel.com with ESMTP; 13 Jun 2017 04:24:03 -0700
+	Tue, 13 Jun 2017 11:24:03 +0000 (UTC)
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+	by fmsmga105.fm.intel.com with ESMTP; 13 Jun 2017 04:24:05 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.39,338,1493708400"; d="scan'208";a="1140753850"
+X-IronPort-AV: E=Sophos;i="5.39,338,1493708400"; d="scan'208";a="114272970"
 Received: from linux.intel.com ([10.54.29.200])
-	by orsmga001.jf.intel.com with ESMTP; 13 Jun 2017 04:24:03 -0700
+	by fmsmga006.fm.intel.com with ESMTP; 13 Jun 2017 04:24:05 -0700
 Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
-	by linux.intel.com (Postfix) with ESMTP id 3FB2D58010F
+	by linux.intel.com (Postfix) with ESMTP id 560BE5800CE
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Jun 2017 04:24:03 -0700 (PDT)
+	Tue, 13 Jun 2017 04:24:04 -0700 (PDT)
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 13 Jun 2017 14:21:53 +0300
-Message-Id: <97faad6c27f835382cfcc2ce9a39dcd3d02ab2fa.1497348496.git.ed.bartosh@linux.intel.com>
+Date: Tue, 13 Jun 2017 14:21:54 +0300
+Message-Id: <9ba60a0f93a531c8fac3d717e38a67667f5d43f5.1497348496.git.ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1497348496.git.ed.bartosh@linux.intel.com>
 References: <cover.1497348496.git.ed.bartosh@linux.intel.com>
-Subject: [PATCH v2 05/26] wic: add wic_init_parser_ls
+Subject: [PATCH v2 06/26] wic: add help and usage content for 'wic ls'
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,58 +33,94 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Jun 2017 11:24:02 -0000
+X-List-Received-Date: Tue, 13 Jun 2017 11:24:04 -0000
 
-Added parser for 'wic ls' command.
+Added wic_ls_help and wic_ls_usage variables to
+help.py. These variables contain help content that
+will be used in 'wic ls help' and 'wic ls --help'
+output.
 
 Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 ---
- scripts/wic | 25 +++++++++++++++++++++++++
- 1 file changed, 25 insertions(+)
+ scripts/lib/wic/help.py | 65 +++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 65 insertions(+)
 
-diff --git a/scripts/wic b/scripts/wic
-index 49cad86..6c9a30d 100755
---- a/scripts/wic
-+++ b/scripts/wic
-@@ -35,6 +35,8 @@ import os
- import sys
- import argparse
- import logging
-+
-+from collections import namedtuple
- from distutils import spawn
+diff --git a/scripts/lib/wic/help.py b/scripts/lib/wic/help.py
+index f9f7268..bb3c749 100644
+--- a/scripts/lib/wic/help.py
++++ b/scripts/lib/wic/help.py
+@@ -284,6 +284,71 @@ DESCRIPTION
+     details.
+ """
  
- # External modules
-@@ -317,6 +319,29 @@ def wic_init_parser_list(subparser):
-                              "defined inside the .wks file")
-     return
++wic_ls_usage = """
++
++ List content of a partitioned image
++
++ usage: wic ls <image>[:<vfat partition>[<path>]] [--native-sysroot <path>]
++
++ This command  outputs either list of image partitions or directory contents
++ of vfat partitions.
++
++ See 'wic help ls' for more detailed instructions.
++
++"""
++
++wic_ls_help = """
++
++NAME
++    wic ls - List contents of partitioned image or vfat partitions
++
++SYNOPSIS
++    wic ls <image>
++    wic ls <image>:<vfat partition>
++    wic ls <image>:<vfat partition><path>
++    wic ls <image>:<vfat partition><path> --native-sysroot <path>
++
++DESCRIPTION
++    This command lists either partitions of the image or directory contents
++    of vfat partitions.
++
++    The first form it lists partitions of the image.
++    For example:
++        $ wic ls tmp/deploy/images/qemux86-64/core-image-minimal-qemux86-64.wic
++        Num     Start        End          Size      Fstype
++        1        1048576     24438783     23390208  fat16
++        2       25165824     50315263     25149440  ext4
++
++    Second and third form list directory content of vfat partition:
++        $ wic ls tmp/deploy/images/qemux86-64/core-image-minimal-qemux86-64.wic:1
++        Volume in drive : is boot
++         Volume Serial Number is 2DF2-5F02
++        Directory for ::/
++
++        efi          <DIR>     2017-05-11  10:54
++        startup  nsh        26 2017-05-11  10:54
++        vmlinuz        6922288 2017-05-11  10:54
++                3 files           6 922 314 bytes
++                                 15 818 752 bytes free
++
++
++        $ wic ls tmp/deploy/images/qemux86-64/core-image-minimal-qemux86-64.wic:1/EFI/boot/
++        Volume in drive : is boot
++         Volume Serial Number is 2DF2-5F02
++        Directory for ::/EFI/boot
++
++        .            <DIR>     2017-05-11  10:54
++        ..           <DIR>     2017-05-11  10:54
++        grub     cfg       679 2017-05-11  10:54
++        bootx64  efi    571392 2017-05-11  10:54
++                4 files             572 071 bytes
++                                 15 818 752 bytes free
++
++    The -n option is used to specify the path to the native sysroot
++    containing the tools(parted and mtools) to use.
++
++"""
++
+ wic_plugins_help = """
  
-+def imgtype(arg):
-+    """
-+    Custom type for ArgumentParser
-+    Converts path spec to named tuple: (image, partition, path)
-+    """
-+    image = arg
-+    part = path = None
-+    if ':' in image:
-+        image, part = image.split(':')
-+        if '/' in part:
-+            part, path = part.split('/', 1)
-+
-+    if not os.path.isfile(image):
-+        err = "%s is not a regular file or symlink" % image
-+        raise argparse.ArgumentTypeError(err)
-+
-+    return namedtuple('ImgType', 'image part path')(image, part, path)
-+
-+def wic_init_parser_ls(subparser):
-+    subparser.add_argument("path", type=imgtype,
-+                        help="image spec: <image>[:<vfat partition>[<path>]]")
-+    subparser.add_argument("-n", "--native-sysroot",
-+                        help="path to the native sysroot containing the tools")
- 
- def wic_init_parser_help(subparser):
-     helpparsers = subparser.add_subparsers(dest='help_topic', help=hlp.wic_usage)
+ NAME
 -- 
 2.1.4
 
