@@ -1,48 +1,48 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qt0-f178.google.com (mail-qt0-f178.google.com
-	[209.85.216.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 6006C782EA
+Received: from mail-wr0-f170.google.com (mail-wr0-f170.google.com
+	[209.85.128.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 1CA54782EC
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Jun 2017 16:44:01 +0000 (UTC)
-Received: by mail-qt0-f178.google.com with SMTP id c10so179651312qtd.1
+	Tue, 13 Jun 2017 16:44:55 +0000 (UTC)
+Received: by mail-wr0-f170.google.com with SMTP id 77so4240389wrb.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Jun 2017 09:44:03 -0700 (PDT)
+	Tue, 13 Jun 2017 09:44:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=zzMWL0Cc06cyMnbzkF0ojOJKOZzRA7nUk7CrdikdWOk=;
-	b=lui54s1sRvfx8V2nX7K4JP3Z8kslN7Og8rcP7FLoxoaAQtoeeIzIo9O1z07bzcslJr
-	5WHxiaS5kxTqkhb8ZH7qfh3MH0xm+B4emHrvPKy60yntHhBpmduzPwqic1TpenboYnQq
-	J0rOa5JCeTi0pGCNcFdYTYWQwTM2UxSEkhdtDOpCTCk5f3FlsgxVJL+TQ8Ha31tsTwUw
-	tU1G6gZVNgVpX9agQtzvNdFTsNCWoqbYwuhE177YBYfIG3RCka96FMY8bwiQrbeOR3XR
-	P7x4JN8HTEF0Is6dkcXR3gjc1oBwtDuL+yJYiTPfIl/FZ3aitu7ib13HEBuV/zE3tukZ
-	GpNA==
+	h=from:to:subject:date:message-id;
+	bh=gGehZeOhlaH6RTo3roSv/gaXp9EHJ13+9mXYwjkhPAI=;
+	b=kji4G/z3cr6rlV3Gt8J+TZYv57apW36Dl0h8pXxvpcZsP+7LZwIli+kI4Ht2AQhNPX
+	WKzyHz7JgEFfq0bvOw8k9xwQyDzoW/LvkHoPLUcd+mpi0qzLrFoAtrunoBiwRcnPDMp+
+	RE8gczlCqYB3zxZUOLkKZ6rTFUM+e9CjX2Lon2cGudgyqu7U2mQOtvXFKP2+vIFjmwaJ
+	VTBgIjIfKqpXD4OhT1EADoLc3QvEcLGe+ZQ7JwqYB0ewZz4QZckWPH/w6xEydVBbUnlD
+	wHp8k56dsCNtclCVhXebEr//uSj1R/dsNgCKUkf7KwmnZuUM7uwiJ935k+c8cJGWXPdP
+	YOWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=zzMWL0Cc06cyMnbzkF0ojOJKOZzRA7nUk7CrdikdWOk=;
-	b=JVTtauM44PVQNnmlWzaFNY67fSWck84ONEl8ua7bh3cc1hX14zKqRAtsmqKi+3WThj
-	S28ltxPhEsOH90siUSpTEb5PjWCfkd8ceWgckCz90yBys11B+JR6OwfjF4XeQLSDWgB2
-	oN/c/lkOg0WSPYAV+gM61lk+PBZmTSszrClXp2mzSzaAV2gARIUTTk5gE188s7uKFeMQ
-	Qck6uAb1BXpEj0sVCgsTh9Prn6dKmuX6/5ErV8lo0pLPt6emJuapTBb03G3auidV8rIJ
-	4jMZRiDHrx+0wdSQJoauVy/fAbLQnwJuKME6n7FW6qLT3OlzGQvFPXg6CyMK7AMSKGrs
-	Lwdg==
-X-Gm-Message-State: AKS2vOzbmCPYIQn29oa/f3Bsxari+mA+ciBgUVPOXUzzaKILtJnuwJOF
-	RJuAv9IrvMGVR/7ScIfT56kDEqo5vi9+
-X-Received: by 10.237.59.147 with SMTP id r19mr1090109qte.47.1497372243305;
-	Tue, 13 Jun 2017 09:44:03 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.35.103 with HTTP; Tue, 13 Jun 2017 09:43:42 -0700 (PDT)
-In-Reply-To: <a89c0a82e00721ba4063c9197e0951d1d63c7e40.1497279306.git.raj.khem@gmail.com>
-References: <cover.1497279306.git.raj.khem@gmail.com>
-	<a89c0a82e00721ba4063c9197e0951d1d63c7e40.1497279306.git.raj.khem@gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 13 Jun 2017 17:43:42 +0100
-Message-ID: <CAJTo0LbO4-dU4-=JTc2akzCQ_PqKzB7fTUtwPmA2-P+CaVyxEw@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 7/7] ovmf: Update to latest
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=gGehZeOhlaH6RTo3roSv/gaXp9EHJ13+9mXYwjkhPAI=;
+	b=OjoDIapjmtoCGzqe81L1QqNJtU+dxSC/KzvVsBzjS2DL4qz/LLs0js19tkQUtMSVhu
+	juJQlVGLGeMfotwrRY4T8uohKcHXe5Qf1f82ZrUNMFGTwJak+KhUS+z43BlYcXZNgRKQ
+	ES3IdyFEneGmtQL+7tLl4crh5zPQnHNJC7LdCgG4Xz4nAcbu7ABfxcBjiwVUNmS2Yp/a
+	uwBMLN5CqggI5jK3dbHmaJwMl48K869seMZoAfMpMGMLM+CN34ggb5nEFrSw7vsJW1/x
+	oe8dxg0rMZZVz5EMLXS5vqr4Yjb5Ge7NAekPkSdQ4WrSQdiUlsfsZCtV92I76nYVxNwo
+	KK3A==
+X-Gm-Message-State: AKS2vOwwvDNAvBlEyzidGmsR+f3C05ZA/FeYJ7K1WHeB1T9cif40o+AQ
+	G4MLpkGYqFdsrLscIdU=
+X-Received: by 10.28.93.79 with SMTP id r76mr11996612wmb.64.1497372296267;
+	Tue, 13 Jun 2017 09:44:56 -0700 (PDT)
+Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id
+	r142sm3962867wmg.24.2017.06.13.09.44.55
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 13 Jun 2017 09:44:55 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 13 Jun 2017 17:44:54 +0100
+Message-Id: <1497372294-21326-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.8.1
+Subject: [PATCH] externalsrc: verify that EXTERNALSRC/EXTERNALSRC_BUILD are absolute paths
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,37 +55,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Jun 2017 16:44:02 -0000
-Content-Type: multipart/alternative; boundary="94eb2c1923c8a8ba930551da2426"
+X-List-Received-Date: Tue, 13 Jun 2017 16:44:56 -0000
 
---94eb2c1923c8a8ba930551da2426
-Content-Type: text/plain; charset="UTF-8"
+If these are set to URLs then the errors produced are not helpful.
 
-On 12 June 2017 at 15:59, Khem Raj <raj.khem@gmail.com> wrote:
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/classes/externalsrc.bbclass | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-> Fix build with gcc7
->
-> clang can not compile it therefore mark it gcc only recipe
->
+diff --git a/meta/classes/externalsrc.bbclass b/meta/classes/externalsrc.bbclass
+index d64af6a..529be49 100644
+--- a/meta/classes/externalsrc.bbclass
++++ b/meta/classes/externalsrc.bbclass
+@@ -29,6 +29,12 @@ EXTERNALSRC_SYMLINKS ?= "oe-workdir:${WORKDIR} oe-logs:${T}"
+ 
+ python () {
+     externalsrc = d.getVar('EXTERNALSRC')
++    externalsrcbuild = d.getVar('EXTERNALSRC_BUILD')
++
++    if externalsrc and not externalsrc.startswith("/"):
++        bb.error("EXTERNALSRC must be an absolute path")
++    if externalsrcbuild and not externalsrcbuild.startswith("/"):
++        bb.error("EXTERNALSRC_BUILD must be an absolute path")
+ 
+     # If this is the base recipe and EXTERNALSRC is set for it or any of its
+     # derivatives, then enable BB_DONT_CACHE to force the recipe to always be
+@@ -48,7 +54,6 @@ python () {
+ 
+     if externalsrc:
+         d.setVar('S', externalsrc)
+-        externalsrcbuild = d.getVar('EXTERNALSRC_BUILD')
+         if externalsrcbuild:
+             d.setVar('B', externalsrcbuild)
+         else:
+-- 
+2.8.1
 
-This doesn't apply to master, can you rebase?
 
-Ross
-
---94eb2c1923c8a8ba930551da2426
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 12 June 2017 at 15:59, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"mailto:=
-raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</span> wro=
-te:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-=
-left:1px #ccc solid;padding-left:1ex"><div id=3D":24k" class=3D"a3s aXjCH m=
-15c9cd1c9fd5dcb2">Fix build with gcc7<br>
-<br>
-clang can not compile it therefore mark it gcc only recipe<br></div></block=
-quote></div><br>This doesn&#39;t apply to master, can you rebase?</div><div=
- class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div=
->
-
---94eb2c1923c8a8ba930551da2426--
