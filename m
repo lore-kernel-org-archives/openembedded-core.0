@@ -1,28 +1,27 @@
 Return-Path: <maxin.john@intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id E6A34782F6
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by mail.openembedded.org (Postfix) with ESMTP id BE9E978303
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Jun 2017 14:30:17 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	13 Jun 2017 07:30:19 -0700
+	Tue, 13 Jun 2017 14:30:19 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga104.jf.intel.com with ESMTP; 13 Jun 2017 07:30:20 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.39,338,1493708400"; d="scan'208";a="980274648"
+X-IronPort-AV: E=Sophos;i="5.39,338,1493708400"; d="scan'208";a="1159937042"
 Received: from linux.intel.com ([10.54.29.200])
-	by orsmga003.jf.intel.com with ESMTP; 13 Jun 2017 07:30:19 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 13 Jun 2017 07:30:20 -0700
 Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
 	[10.237.72.84])
-	by linux.intel.com (Postfix) with ESMTP id AFCA858010F
+	by linux.intel.com (Postfix) with ESMTP id BE0155800CE
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Jun 2017 07:30:18 -0700 (PDT)
+	Tue, 13 Jun 2017 07:30:19 -0700 (PDT)
 From: "Maxin B. John" <maxin.john@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 13 Jun 2017 17:29:51 +0300
-Message-Id: <1497364193-519-6-git-send-email-maxin.john@intel.com>
+Date: Tue, 13 Jun 2017 17:29:52 +0300
+Message-Id: <1497364193-519-7-git-send-email-maxin.john@intel.com>
 X-Mailer: git-send-email 2.4.0
 In-Reply-To: <1497364193-519-1-git-send-email-maxin.john@intel.com>
 References: <1497364193-519-1-git-send-email-maxin.john@intel.com>
-Subject: [PATCH 5/7] libglu: switch from ftp to https
+Subject: [PATCH 6/7] libid3tag: switch from ftp to http
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,29 +34,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Jun 2017 14:30:18 -0000
+X-List-Received-Date: Tue, 13 Jun 2017 14:30:19 -0000
 
 For the same reasons as Debian:
 https://www.debian.org/News/2017/20170425
 
 Signed-off-by: Maxin B. John <maxin.john@intel.com>
 ---
- meta/recipes-graphics/mesa/libglu_9.0.0.bb | 2 +-
+ meta/recipes-multimedia/libid3tag/libid3tag_0.15.1b.bb | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-graphics/mesa/libglu_9.0.0.bb b/meta/recipes-graphics/mesa/libglu_9.0.0.bb
-index 8b94613..eeb898f 100644
---- a/meta/recipes-graphics/mesa/libglu_9.0.0.bb
-+++ b/meta/recipes-graphics/mesa/libglu_9.0.0.bb
-@@ -12,7 +12,7 @@ LIC_FILES_CHKSUM = "file://include/GL/glu.h;endline=29;md5=6b79c570f644363b35645
- PE = "2"
- PR = "0"
+diff --git a/meta/recipes-multimedia/libid3tag/libid3tag_0.15.1b.bb b/meta/recipes-multimedia/libid3tag/libid3tag_0.15.1b.bb
+index 05a8a47..cc48bae 100644
+--- a/meta/recipes-multimedia/libid3tag/libid3tag_0.15.1b.bb
++++ b/meta/recipes-multimedia/libid3tag/libid3tag_0.15.1b.bb
+@@ -9,7 +9,7 @@ SECTION = "libs"
+ DEPENDS = "zlib gperf-native"
+ PR = "r7"
  
--SRC_URI = "ftp://ftp.freedesktop.org/pub/mesa/glu/glu-${PV}.tar.bz2"
-+SRC_URI = "https://mesa.freedesktop.org/archive/glu/glu-${PV}.tar.bz2"
- 
- SRC_URI[md5sum] = "be9249132ff49275461cf92039083030"
- SRC_URI[sha256sum] = "1f7ad0d379a722fcbd303aa5650c6d7d5544fde83196b42a73d1193568a4df12"
+-SRC_URI = "ftp://ftp.mars.org/pub/mpeg/libid3tag-${PV}.tar.gz \
++SRC_URI = "${SOURCEFORGE_MIRROR}/mad/libid3tag-${PV}.tar.gz \
+            file://addpkgconfig.patch \
+            file://obsolete_automake_macros.patch \
+ "
 -- 
 2.4.0
 
