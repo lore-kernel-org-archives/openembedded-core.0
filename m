@@ -1,24 +1,48 @@
-Return-Path: <jose.perez.carranza@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 96C21782B6
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qt0-f177.google.com (mail-qt0-f177.google.com
+	[209.85.216.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 53C46782CE
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Jun 2017 19:54:06 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	13 Jun 2017 12:54:06 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.39,339,1493708400"; d="scan'208";a="980413235"
-Received: from jgperezc-mobl1.zpn.intel.com ([10.219.4.33])
-	by orsmga003.jf.intel.com with ESMTP; 13 Jun 2017 12:54:05 -0700
-From: jose.perez.carranza@linux.intel.com
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 13 Jun 2017 14:56:20 -0500
-Message-Id: <20170613195620.24139-1-jose.perez.carranza@linux.intel.com>
-X-Mailer: git-send-email 2.11.0
-In-Reply-To: <20170515135023.4090-1-jose.perez.carranza@linux.intel.com>
-References: <20170515135023.4090-1-jose.perez.carranza@linux.intel.com>
+	Tue, 13 Jun 2017 20:13:47 +0000 (UTC)
+Received: by mail-qt0-f177.google.com with SMTP id w1so187441497qtg.2
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 13 Jun 2017 13:13:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=MwJzwaUJHCgkVoddf5uFeXP4Pi4UrZ5zZAW+U/XmApE=;
+	b=q41pDJxWc0eXZgW3SyffYryaPsPvDDlmQxAZhmgJWKCihievikw5OkTdTxhAvYvHSk
+	QL6e8JCMA1PDHllH23aua+hZtX3kOo/1foMw2mJ53dXQfEyXhPGFR1O89HngM4osyLBX
+	xvJacn89P9STIyWgaILoN37H9q/LwOZTxK8R69VFvrotcvbRhw3ICUbM2yhPhZBAHsK+
+	7P6zs+ocjsPuNU+SNselq3vdnOdBTV2+faJbRIKei2X6dGnEMOjdEW0FTaO6AaKX9FnB
+	hFadyY9XcBN1kRIp3uHEMvzhVywWXIYIgxyxqKaAYZv20KEn12r3C8aZ/yqB1FCUwun9
+	KW7Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=MwJzwaUJHCgkVoddf5uFeXP4Pi4UrZ5zZAW+U/XmApE=;
+	b=pur8Ei/oxYnbRIMMNgsaJbT7MtYZ5e6WqolGLDk+5YKz44VOKcaqJhQsuPQaT3ffom
+	RS8UID8yu/UorJqQ0idSfK7gdzO6j+1I1juWIqms9rIdUtBodVXaToCtNoPyugr21HQQ
+	v5fCLJcdWl8ah40DjW4Sl/Z6w4jg6NC6j0+6NSW0ibeloNRWaIYSgXsZVFfZb8A89Jyz
+	m4t24gncIEouDyZ5bYEhdqSkOfAAiIeKzeOV7MXuroO/JqcvponGnrhafE/E230Al53L
+	kyipX2+3W7GIxFk654NXo6tcvJnE1xb2W6sWrvbT1xeSgu3ZT80TN5o4dmyCnP2CJPEE
+	8RGQ==
+X-Gm-Message-State: AKS2vOy3sBlY9bhK+0CPuu+hlVhbamFJvVrSRhEwYwpdvnbQ7W57KkDo
+	5f3yFn6yFPo1+qViciHcLr6fRYdHqqzS
+X-Received: by 10.55.102.214 with SMTP id a205mr2283711qkc.154.1497384828901; 
+	Tue, 13 Jun 2017 13:13:48 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH v4] runtime/dnf: Add new dnf test cases
+Received: by 10.140.35.103 with HTTP; Tue, 13 Jun 2017 13:13:28 -0700 (PDT)
+In-Reply-To: <4368246.Ra2jL4npuG@yow-masselst-lx1>
+References: <1497377291-489-1-git-send-email-mark.asselstine@windriver.com>
+	<4368246.Ra2jL4npuG@yow-masselst-lx1>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 13 Jun 2017 21:13:28 +0100
+Message-ID: <CAJTo0LZM24U_5KuSFbkXUrQnvEh0DWNsogUrPCHtoyHS1U_gVw@mail.gmail.com>
+To: Mark Asselstine <mark.asselstine@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] attr: Fix build failure when image includes man-pages pkg
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,85 +55,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Jun 2017 19:54:08 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 13 Jun 2017 20:13:48 -0000
+Content-Type: multipart/alternative; boundary="94eb2c0580a8d1b2710551dd129c"
 
-From: Jose Perez Carranza <jose.perez.carranza@linux.intel.com>
+--94eb2c0580a8d1b2710551dd129c
+Content-Type: text/plain; charset="UTF-8"
 
-Add test cases to test “exclude” and “installroot“ options, also modify
-the logic of filtering packages on the feed to have all the packages
-needed by the tests.
+On 13 June 2017 at 19:46, Mark Asselstine <mark.asselstine@windriver.com>
+wrote:
 
-[YOCTO #10744]
+> Yet the 'Upstream-status' is marked in the same way for both patches. So I
+> am
+> ingnoring this unless someone is able to see the issue which I can not.
+>
 
-Signed-off-by: Jose Perez Carranza <jose.perez.carranza@linux.intel.com>
----
- meta/classes/testimage.bbclass     | 11 ++++++++---
- meta/lib/oeqa/runtime/cases/dnf.py | 22 ++++++++++++++++++++++
- 2 files changed, 30 insertions(+), 3 deletions(-)
+The test is picky:
 
-diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.bbclass
-index 6fa2d6fd9f..d76d64d442 100644
---- a/meta/classes/testimage.bbclass
-+++ b/meta/classes/testimage.bbclass
-@@ -329,6 +329,7 @@ def create_index(arg):
-     return None
- 
- def create_rpm_index(d):
-+    import glob
-     # Index RPMs
-     rpm_createrepo = bb.utils.which(os.getenv('PATH'), "createrepo_c")
-     index_cmds = []
-@@ -345,9 +346,13 @@ def create_rpm_index(d):
-         lf = bb.utils.lockfile(lockfilename, False)
-         oe.path.copyhardlinktree(rpm_dir, idx_path)
-         # Full indexes overload a 256MB image so reduce the number of rpms
--        # in the feed. Filter to r* since we use the run-postinst packages and
--        # this leaves some allarch and machine arch packages too.
--        bb.utils.remove(idx_path + "*/[a-qs-z]*.rpm")
-+        # in the feed by filtering to specific packages needed by the tests.
-+        package_list = glob.glob(idx_path + "*/*.rpm")
-+
-+        for pkg in package_list:
-+            if not os.path.basename(pkg).startswith(("rpm", "run-postinsts", "busybox", "bash", "update-alternatives", "libc6", "curl")):
-+                bb.utils.remove(pkg)
-+
-         bb.utils.unlockfile(lf)
-         cmd = '%s --update -q %s' % (rpm_createrepo, idx_path)
- 
-diff --git a/meta/lib/oeqa/runtime/cases/dnf.py b/meta/lib/oeqa/runtime/cases/dnf.py
-index 2f87296b4e..25db9bacd2 100644
---- a/meta/lib/oeqa/runtime/cases/dnf.py
-+++ b/meta/lib/oeqa/runtime/cases/dnf.py
-@@ -120,4 +120,26 @@ class DnfRepoTest(DnfTest):
-     def test_dnf_reinstall(self):
-         self.dnf_with_repo('reinstall -y run-postinsts-dev')
- 
-+    @OETestDepends(['dnf.DnfRepoTest.test_dnf_makecache'])
-+    @OETestID(1771)
-+    def test_dnf_installroot(self):
-+        rootpath = '/home/root/chroot/test'
-+        self.target.run('mkdir -p %s/etc' % rootpath, 1500)
-+        self.target.run('cp -r /etc/rpm %s/etc' % rootpath, 1500)
-+        self.target.run('cp -r /etc/dnf %s/etc' % rootpath, 1500)
-+        self.dnf_with_repo('install --installroot=%s -v -y busybox run-postinsts' % rootpath)
-+        status, output = self.target.run('test -e %s/var/cache/dnf' % rootpath, 1500)
-+        self.assertEqual(0, status, output)
-+        status, output = self.target.run('test -e %s/bin/busybox' % rootpath, 1500)
-+        self.assertEqual(0, status, output)
- 
-+    @OETestDepends(['dnf.DnfRepoTest.test_dnf_makecache'])
-+    @OETestID(1772)
-+    def test_dnf_exclude(self):
-+        excludepkg = 'curl-dev'
-+        self.dnf_with_repo('install -y curl*')
-+        self.dnf('list %s' % excludepkg, 0)
-+        self.dnf_with_repo('remove -y curl*')
-+        self.dnf('list %s' % excludepkg, 1)
-+        self.dnf_with_repo('install -y --exclude=%s curl*' % excludepkg)
-+        self.dnf('list %s' % excludepkg, 1)
--- 
-2.11.0
++Upstream-status: Backport
 
+The correct string (as machines are stupid) is Upstream-Status.
 
+Ross
+
+--94eb2c0580a8d1b2710551dd129c
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 13 June 2017 at 19:46, Mark Asselstine <span dir=3D"ltr">&lt;<a href=3D"=
+mailto:mark.asselstine@windriver.com" target=3D"_blank">mark.asselstine@win=
+driver.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=
+=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-style:solid;=
+border-left-color:rgb(204,204,204);padding-left:1ex"><div id=3D"gmail-:36g"=
+ class=3D"gmail-a3s gmail-aXjCH gmail-m15ca2c7bcb1c229a">Yet the &#39;Upstr=
+eam-status&#39; is marked in the same way for both patches. So I am<br>
+ingnoring this unless someone is able to see the issue which I can not.<br>=
+</div></blockquote></div><br>The test is picky:</div><div class=3D"gmail_ex=
+tra"><br></div><div class=3D"gmail_extra"><span style=3D"font-size:12.80000=
+0190734863px">+Upstream-status: Backport</span><br style=3D"font-size:12.80=
+0000190734863px"></div><div class=3D"gmail_extra"><span style=3D"font-size:=
+12.800000190734863px"><br></span></div><div class=3D"gmail_extra"><span sty=
+le=3D"font-size:12.800000190734863px">The correct string (as machines are s=
+tupid) is Upstream-Status.</span></div><div class=3D"gmail_extra"><span sty=
+le=3D"font-size:12.800000190734863px"><br></span></div><div class=3D"gmail_=
+extra"><span style=3D"font-size:12.800000190734863px">Ross</span></div></di=
+v>
+
+--94eb2c0580a8d1b2710551dd129c--
