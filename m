@@ -1,26 +1,24 @@
-Return-Path: <joe.slater@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 1B4A778305
+Return-Path: <jose.perez.carranza@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 96C21782B6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Jun 2017 19:50:27 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v5DJoT1W029510
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Jun 2017 12:50:29 -0700 (PDT)
-Received: from ala-jslater-lx3.wrs.com (147.11.152.42) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.294.0; Tue, 13 Jun 2017 12:50:28 -0700
-From: Joe Slater <jslater@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 13 Jun 2017 12:50:27 -0700
-Message-ID: <1497383427-31099-3-git-send-email-jslater@windriver.com>
-X-Mailer: git-send-email 1.7.3.4
-In-Reply-To: <1497383427-31099-1-git-send-email-jslater@windriver.com>
-References: <1497383427-31099-1-git-send-email-jslater@windriver.com>
+	Tue, 13 Jun 2017 19:54:06 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	13 Jun 2017 12:54:06 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.39,339,1493708400"; d="scan'208";a="980413235"
+Received: from jgperezc-mobl1.zpn.intel.com ([10.219.4.33])
+	by orsmga003.jf.intel.com with ESMTP; 13 Jun 2017 12:54:05 -0700
+From: jose.perez.carranza@linux.intel.com
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 13 Jun 2017 14:56:20 -0500
+Message-Id: <20170613195620.24139-1-jose.perez.carranza@linux.intel.com>
+X-Mailer: git-send-email 2.11.0
+In-Reply-To: <20170515135023.4090-1-jose.perez.carranza@linux.intel.com>
+References: <20170515135023.4090-1-jose.perez.carranza@linux.intel.com>
 MIME-Version: 1.0
-Subject: [v3][PATCH 3/3] ghostscript: specify CUPSCONFIG
+Subject: [PATCH v4] runtime/dnf: Add new dnf test cases
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,38 +31,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Jun 2017 19:50:28 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 13 Jun 2017 19:54:08 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-configure for version 9.21 finds, but rejects, pkg-config
-and cups-config.  We need cups-config, so we short circuit
-the test for it.
+From: Jose Perez Carranza <jose.perez.carranza@linux.intel.com>
 
-Signed-off-by: Joe Slater <jslater@windriver.com>
+Add test cases to test “exclude” and “installroot“ options, also modify
+the logic of filtering packages on the feed to have all the packages
+needed by the tests.
+
+[YOCTO #10744]
+
+Signed-off-by: Jose Perez Carranza <jose.perez.carranza@linux.intel.com>
 ---
- meta/recipes-extended/ghostscript/ghostscript_9.21.bb | 4 ++++
- 1 file changed, 4 insertions(+)
+ meta/classes/testimage.bbclass     | 11 ++++++++---
+ meta/lib/oeqa/runtime/cases/dnf.py | 22 ++++++++++++++++++++++
+ 2 files changed, 30 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-extended/ghostscript/ghostscript_9.21.bb b/meta/recipes-extended/ghostscript/ghostscript_9.21.bb
-index 74e7a3f..94d4cc6 100644
---- a/meta/recipes-extended/ghostscript/ghostscript_9.21.bb
-+++ b/meta/recipes-extended/ghostscript/ghostscript_9.21.bb
-@@ -64,10 +64,14 @@ PACKAGECONFIG[x11] = "--with-x --x-includes=${STAGING_INCDIR} --x-libraries=${ST
-                       --without-x, virtual/libx11 libxext libxt gtk+3\
-                       "
+diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.bbclass
+index 6fa2d6fd9f..d76d64d442 100644
+--- a/meta/classes/testimage.bbclass
++++ b/meta/classes/testimage.bbclass
+@@ -329,6 +329,7 @@ def create_index(arg):
+     return None
  
-+# For 9.21, configure rejects the pkg-config and cups-config it finds.
-+# We can live without pkg-config, but we need cups-config.
-+#
- EXTRA_OECONF = "--with-system-libtiff --without-jbig2dec \
-                 --with-fontpath=${datadir}/fonts \
-                 --without-libidn --with-cups-serverbin=${exec_prefix}/lib/cups \
-                 --with-cups-datadir=${datadir}/cups \
-+                CUPSCONFIG="${STAGING_BINDIR_CROSS}/cups-config" \
-                 "
+ def create_rpm_index(d):
++    import glob
+     # Index RPMs
+     rpm_createrepo = bb.utils.which(os.getenv('PATH'), "createrepo_c")
+     index_cmds = []
+@@ -345,9 +346,13 @@ def create_rpm_index(d):
+         lf = bb.utils.lockfile(lockfilename, False)
+         oe.path.copyhardlinktree(rpm_dir, idx_path)
+         # Full indexes overload a 256MB image so reduce the number of rpms
+-        # in the feed. Filter to r* since we use the run-postinst packages and
+-        # this leaves some allarch and machine arch packages too.
+-        bb.utils.remove(idx_path + "*/[a-qs-z]*.rpm")
++        # in the feed by filtering to specific packages needed by the tests.
++        package_list = glob.glob(idx_path + "*/*.rpm")
++
++        for pkg in package_list:
++            if not os.path.basename(pkg).startswith(("rpm", "run-postinsts", "busybox", "bash", "update-alternatives", "libc6", "curl")):
++                bb.utils.remove(pkg)
++
+         bb.utils.unlockfile(lf)
+         cmd = '%s --update -q %s' % (rpm_createrepo, idx_path)
  
- EXTRA_OECONF_append_mipsarcho32 = " --with-large_color_index=0"
+diff --git a/meta/lib/oeqa/runtime/cases/dnf.py b/meta/lib/oeqa/runtime/cases/dnf.py
+index 2f87296b4e..25db9bacd2 100644
+--- a/meta/lib/oeqa/runtime/cases/dnf.py
++++ b/meta/lib/oeqa/runtime/cases/dnf.py
+@@ -120,4 +120,26 @@ class DnfRepoTest(DnfTest):
+     def test_dnf_reinstall(self):
+         self.dnf_with_repo('reinstall -y run-postinsts-dev')
+ 
++    @OETestDepends(['dnf.DnfRepoTest.test_dnf_makecache'])
++    @OETestID(1771)
++    def test_dnf_installroot(self):
++        rootpath = '/home/root/chroot/test'
++        self.target.run('mkdir -p %s/etc' % rootpath, 1500)
++        self.target.run('cp -r /etc/rpm %s/etc' % rootpath, 1500)
++        self.target.run('cp -r /etc/dnf %s/etc' % rootpath, 1500)
++        self.dnf_with_repo('install --installroot=%s -v -y busybox run-postinsts' % rootpath)
++        status, output = self.target.run('test -e %s/var/cache/dnf' % rootpath, 1500)
++        self.assertEqual(0, status, output)
++        status, output = self.target.run('test -e %s/bin/busybox' % rootpath, 1500)
++        self.assertEqual(0, status, output)
+ 
++    @OETestDepends(['dnf.DnfRepoTest.test_dnf_makecache'])
++    @OETestID(1772)
++    def test_dnf_exclude(self):
++        excludepkg = 'curl-dev'
++        self.dnf_with_repo('install -y curl*')
++        self.dnf('list %s' % excludepkg, 0)
++        self.dnf_with_repo('remove -y curl*')
++        self.dnf('list %s' % excludepkg, 1)
++        self.dnf_with_repo('install -y --exclude=%s curl*' % excludepkg)
++        self.dnf('list %s' % excludepkg, 1)
 -- 
-2.7.4
+2.11.0
 
 
