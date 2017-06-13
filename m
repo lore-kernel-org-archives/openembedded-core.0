@@ -1,50 +1,56 @@
-Return-Path: <freesilicon@gmail.com>
-Received: from mail-wr0-f194.google.com (mail-wr0-f194.google.com
-	[209.85.128.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 441F4782DE
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 8B501782DA
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Jun 2017 07:42:58 +0000 (UTC)
-Received: by mail-wr0-f194.google.com with SMTP id g76so27279519wrd.2
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Jun 2017 00:43:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=6863jVFAmhCSsoMCfiwSkciJ/+OzQ53tSXJxTb4QQM0=;
-	b=tis2frJuPHhmjZpSXa+aHSRorvLVSgk+JRfQUd2komjlOur9g+Fn2K8viMINJ9KFYI
-	wBx4rbv5E2uwJFB07mKob+oREZxYuXuAh17rLJgaT7F02D1qxeDDGX8sHSWVKQ5fPYtH
-	GmbRvRL8+A96qfg0wdY/i0vAMD8qyqpKVYTTEFSI2j25LvY0xWQVMZtNgHpbFnE8FCic
-	UFKRqiwI3ieqaDRX3PNmPwtFM8fzbWtUO81uGantLklD7tISSVs9phO0QE5W0GCH5/oK
-	830fdsjbE7c6K/bVJrQhtMH29uyQ+oU+QJxku9Ozh5lpA/MutTg4oS3uvKHGR0+IdqFT
-	lUEg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=6863jVFAmhCSsoMCfiwSkciJ/+OzQ53tSXJxTb4QQM0=;
-	b=gDTaWSgWXxVuzVELIPWf/jGKvJblLNPv2hAimSzx7KaC7dFlX81l+ln3efG76MWgcJ
-	TiD4lGkA7zxqWgVTk4PotX+vHREw+ausG0etxN0e4rMV9GO12XupjKFLnb6uSGuU0qmz
-	RXpcmWCfEWhY788MNQYBlF+WbPoim3ibL/uozBXuL4JxBAriuFUI9MQkt7SvQmhsq8pY
-	xiRytYpfhwQA+YIO6/pY4CXUTmkajZtXXHjo1NYORENckitFfFSXO4uccBODCVSEGIeB
-	NEsETdDUlHRErmA/irStVswHKwOc64/nYs1+qeqbfuh7FwIzAl/72C17IADQbkZshNun
-	swZg==
-X-Gm-Message-State: AKS2vOwTNuDMI69bvfuEyhe7oZy18Zs/AV231qEsiE/zvGQuJp3vzXDq
-	HrR0dNEL1uITJ8apHiA=
-X-Received: by 10.223.150.39 with SMTP id b36mr1977849wra.149.1497339779874;
-	Tue, 13 Jun 2017 00:42:59 -0700 (PDT)
-Received: from crde-port-20.cahors.local ([185.47.80.46])
-	by smtp.gmail.com with ESMTPSA id t70sm3320916wmd.1.2017.06.13.00.42.59
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 13 Jun 2017 00:42:59 -0700 (PDT)
-From: David Vincent <freesilicon@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 13 Jun 2017 09:42:58 +0200
-Message-ID: <5375953.mqpsrmuyJB@crde-port-20.cahors.local>
-In-Reply-To: <1497016420.4561.13.camel@andred.net>
-References: <20170609070429.17376-1-freesilicon@gmail.com>
-	<1497016420.4561.13.camel@andred.net>
+	Tue, 13 Jun 2017 07:52:17 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id 117D018466;
+	Tue, 13 Jun 2017 09:52:18 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024)
+	with LMTP id FR-bImo5Fzvk; Tue, 13 Jun 2017 09:52:17 +0200 (CEST)
+Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
+	by bastet.se.axis.com (Postfix) with ESMTPS id 15A8218491;
+	Tue, 13 Jun 2017 09:52:15 +0200 (CEST)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id BF7D41A0B5;
+	Tue, 13 Jun 2017 09:52:15 +0200 (CEST)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id B49191A0B3;
+	Tue, 13 Jun 2017 09:52:15 +0200 (CEST)
+Received: from seth.se.axis.com (unknown [10.0.2.172])
+	by boulder02.se.axis.com (Postfix) with ESMTP;
+	Tue, 13 Jun 2017 09:52:15 +0200 (CEST)
+Received: from XBOX02.axis.com (xbox02.axis.com [10.0.5.16])
+	by seth.se.axis.com (Postfix) with ESMTP id A83572F15;
+	Tue, 13 Jun 2017 09:52:15 +0200 (CEST)
+Received: from XBOX02.axis.com (10.0.5.16) by XBOX02.axis.com (10.0.5.16) with
+	Microsoft SMTP Server (TLS) id 15.0.1210.3;
+	Tue, 13 Jun 2017 09:52:15 +0200
+Received: from XBOX02.axis.com ([fe80::d00f:cb52:1b56:20d]) by XBOX02.axis.com
+	([fe80::d00f:cb52:1b56:20d%21]) with mapi id 15.00.1210.000;
+	Tue, 13 Jun 2017 09:52:15 +0200
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: Amarnath Valluri <amarnath.valluri@intel.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH v3 2/8] cross.bbclass: merged /usr support
+Thread-Index: AQHS5BIx8573WIJKfU6UeE4FrV7QnaIiaz3A
+Date: Tue, 13 Jun 2017 07:52:15 +0000
+Message-ID: <6c245347ca324b9ea7b88bcaf920e35f@XBOX02.axis.com>
+References: <1497336760-36835-1-git-send-email-amarnath.valluri@intel.com>
+	<1497336760-36835-3-git-send-email-amarnath.valluri@intel.com>
+In-Reply-To: <1497336760-36835-3-git-send-email-amarnath.valluri@intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.60]
 MIME-Version: 1.0
-Subject: Re: [PATCH RESEND 0/3] openssh: Package server configuration
+X-TM-AS-GCONF: 00
+Subject: Re: [PATCH v3 2/8] cross.bbclass: merged /usr support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,60 +63,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Jun 2017 07:42:59 -0000
+X-List-Received-Date: Tue, 13 Jun 2017 07:52:20 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
 
-On vendredi 9 juin 2017 15:53:40 CEST Andr=C3=A9 Draszik wrote:
-> Hi.
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org
+> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
+> Amarnath Valluri
+> Sent: den 13 juni 2017 08:53
+> To: openembedded-core@lists.openembedded.org
+> Subject: [OE-core] [PATCH v3 2/8] cross.bbclass: merged /usr support
 >=20
-> On Fri, 2017-06-09 at 09:04 +0200, David Vincent wrote:
-> > This serie of patches provides a way to package OpenSSH sshd
-> > configuration. This
-> > way, it should be easier to change the configuration either in distro
-> > and/or BSP
-> > layers.
-> > It also simplifies management for R/O rootfs
+> To be align with base configuration change, use ${root_prefix} while
+> preparing
+> ${target_base_libdir}.
 >=20
-> Looking at some previous patches and comments, this split seems to have b=
-een
-> done with the intention to better support R/O rootfs.
-Not only, it has been done with the intention of providing a completely cus=
-tom=20
-configuration. But maybe it wasn't the proper way to do it.
-> I have a sent a patch that addresses the R/O rootfs issue in a different
-> way, which I believe to be a simpler and less intrusive approach. We've b=
-een
-> using this for a while.
-Yes, I saw it has been merged recently. I'm not sure it addresses the probl=
-em=20
-I had in mind but I agree it simplifies the configuration for R/O rootfs.
+> Signed-off-by: Amarnath Valluri <amarnath.valluri@intel.com>
+> ---
+>  meta/classes/cross.bbclass | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 >=20
-> http://lists.openembedded.org/pipermail/openembedded-core/2017-June/13784=
-8.h
-> tml
->=20
-> Let me know what you think.
->=20
->=20
-> Cheers,
-> Andre'
->=20
-> > David Vincent (3):
-> >   openssh: Package server configuration
-> >   core-image: Set default sshd configuration
-> >   rootfs-postcommands: Modify ssh-related commands
-> >=20
-> >  meta/classes/core-image.bbclass                    |  3 +-
-> >  meta/classes/rootfs-postcommands.bbclass           | 17 +++-----
-> >  meta/recipes-connectivity/openssh/openssh_7.5p1.bb | 51
-> > ++++++++++++++++++----
-> >  3 files changed, 50 insertions(+), 21 deletions(-)
-> >=20
-> > --=20
-> > 2.13.0
+> diff --git a/meta/classes/cross.bbclass b/meta/classes/cross.bbclass
+> index 8757303..7720185 100644
+> --- a/meta/classes/cross.bbclass
+> +++ b/meta/classes/cross.bbclass
+> @@ -50,10 +50,10 @@ SSTATE_SCAN_CMD ?=3D "${SSTATE_SCAN_CMD_NATIVE}"
+>  # Path mangling needed by the cross packaging
+>  # Note that we use :=3D here to ensure that libdir and includedir are
+>  # target paths.
+> -target_base_prefix :=3D "${base_prefix}"
+> +target_root_prefix :=3D "${root_prefix}"
 
+It is probably better to do:
 
-=2D-
-David
+target_base_prefix :=3D "${root_prefix}"
+
+I.e., maintain the target_base_prefix variable, in case it is used=20
+in some external layer.
+
+>  target_prefix :=3D "${prefix}"
+>  target_exec_prefix :=3D "${exec_prefix}"
+> -target_base_libdir =3D "${target_base_prefix}/${baselib}"
+> +target_base_libdir =3D "${target_root_prefix}/${baselib}"
+>  target_libdir =3D "${target_exec_prefix}/${baselib}"
+>  target_includedir :=3D "${includedir}"
+>=20
+> --
+> 2.7.4
+
+//Peter
+
 
