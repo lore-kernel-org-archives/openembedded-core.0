@@ -1,27 +1,27 @@
 Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id C9A9D782EE
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id ACB9278320
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Jun 2017 11:24:18 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	13 Jun 2017 04:24:20 -0700
+	Tue, 13 Jun 2017 11:24:20 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	13 Jun 2017 04:24:21 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.39,338,1493708400"; d="scan'208";a="1181818506"
+X-IronPort-AV: E=Sophos;i="5.39,338,1493708400"; d="scan'208";a="1140753932"
 Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga002.fm.intel.com with ESMTP; 13 Jun 2017 04:24:20 -0700
+	by orsmga001.jf.intel.com with ESMTP; 13 Jun 2017 04:24:21 -0700
 Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
-	by linux.intel.com (Postfix) with ESMTP id C135D58010F
+	by linux.intel.com (Postfix) with ESMTP id E0F885800CE
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Jun 2017 04:24:19 -0700 (PDT)
+	Tue, 13 Jun 2017 04:24:20 -0700 (PDT)
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 13 Jun 2017 14:22:08 +0300
-Message-Id: <664b354eed6e2b03083feb7218195232fbc6832c.1497348496.git.ed.bartosh@linux.intel.com>
+Date: Tue, 13 Jun 2017 14:22:09 +0300
+Message-Id: <a78550c10270e7fd1a6ab8baf426fdb9c50aa55d.1497348496.git.ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1497348496.git.ed.bartosh@linux.intel.com>
 References: <cover.1497348496.git.ed.bartosh@linux.intel.com>
-Subject: [PATCH v2 20/26] selftest: add test_wic_cp test case
+Subject: [PATCH v2 21/26] wic: add wic_init_parser_rm
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,78 +34,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Jun 2017 11:24:18 -0000
+X-List-Received-Date: Tue, 13 Jun 2017 11:24:20 -0000
 
-Added test case for "wic cp" functionality.
-     - copy file to vfat partition
-     - copy directory to vfat partition
+Add parser for 'wic rm' subcommand.
 
 Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 ---
- meta/lib/oeqa/selftest/cases/wic.py | 46 ++++++++++++++++++++++++++++++++++++-
- 1 file changed, 45 insertions(+), 1 deletion(-)
+ scripts/wic | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/meta/lib/oeqa/selftest/cases/wic.py b/meta/lib/oeqa/selftest/cases/wic.py
-index 5d67395..5034587 100644
---- a/meta/lib/oeqa/selftest/cases/wic.py
-+++ b/meta/lib/oeqa/selftest/cases/wic.py
-@@ -28,7 +28,7 @@ import sys
- import unittest
+diff --git a/scripts/wic b/scripts/wic
+index 5e81fad..fc192ec 100755
+--- a/scripts/wic
++++ b/scripts/wic
+@@ -379,6 +379,12 @@ def wic_init_parser_cp(subparser):
+     subparser.add_argument("-n", "--native-sysroot",
+                         help="path to the native sysroot containing the tools")
  
- from glob import glob
--from shutil import rmtree
-+from shutil import rmtree, copy
- from functools import wraps, lru_cache
- from tempfile import NamedTemporaryFile
- 
-@@ -811,3 +811,47 @@ part /etc --source rootfs --ondisk mmcblk0 --fstype=ext4 --exclude-path bin/ --r
-         result = runCmd("wic ls %s:1/ -n %s" % (images[0], sysroot))
-         self.assertEqual(0, result.status)
-         self.assertEqual(6, len(result.output.split('\n')))
++def wic_init_parser_rm(subparser):
++    subparser.add_argument("path", type=imgpathtype,
++                        help="path: <image>:<vfat partition><path>")
++    subparser.add_argument("-n", "--native-sysroot",
++                        help="path to the native sysroot containing the tools")
 +
-+    def test_wic_cp(self):
-+        """Test copy files and directories to the the wic image."""
-+        self.assertEqual(0, runCmd("wic create wictestdisk "
-+                                   "--image-name=core-image-minimal "
-+                                   "-D -o %s" % self.resultdir).status)
-+        images = glob(self.resultdir + "wictestdisk-*.direct")
-+        self.assertEqual(1, len(images))
-+
-+        sysroot = get_bb_var('RECIPE_SYSROOT_NATIVE', 'wic-tools')
-+
-+        # list directory content of the first partition
-+        result = runCmd("wic ls %s:1/ -n %s" % (images[0], sysroot))
-+        self.assertEqual(0, result.status)
-+        self.assertEqual(6, len(result.output.split('\n')))
-+
-+        with NamedTemporaryFile("w", suffix=".wic-cp") as testfile:
-+            testfile.write("test")
-+
-+            # copy file to the partition
-+            result = runCmd("wic cp %s %s:1/ -n %s" % (testfile.name, images[0], sysroot))
-+            self.assertEqual(0, result.status)
-+
-+            # check if file is there
-+            result = runCmd("wic ls %s:1/ -n %s" % (images[0], sysroot))
-+            self.assertEqual(0, result.status)
-+            self.assertEqual(7, len(result.output.split('\n')))
-+            self.assertTrue(os.path.basename(testfile.name) in result.output)
-+
-+            # prepare directory
-+            testdir = os.path.join(self.resultdir, 'wic-test-cp-dir')
-+            testsubdir = os.path.join(testdir, 'subdir')
-+            os.makedirs(os.path.join(testsubdir))
-+            copy(testfile.name, testdir)
-+
-+            # copy directory to the partition
-+            result = runCmd("wic cp %s %s:1/ -n %s" % (testdir, images[0], sysroot))
-+            self.assertEqual(0, result.status)
-+
-+            # check if directory is there
-+            result = runCmd("wic ls %s:1/ -n %s" % (images[0], sysroot))
-+            self.assertEqual(0, result.status)
-+            self.assertEqual(8, len(result.output.split('\n')))
-+            self.assertTrue(os.path.basename(testdir) in result.output)
+ def wic_init_parser_help(subparser):
+     helpparsers = subparser.add_subparsers(dest='help_topic', help=hlp.wic_usage)
+     for helptopic in helptopics:
 -- 
 2.1.4
 
