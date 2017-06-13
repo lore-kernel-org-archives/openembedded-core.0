@@ -1,58 +1,54 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-it0-f43.google.com (mail-it0-f43.google.com
-	[209.85.214.43])
-	by mail.openembedded.org (Postfix) with ESMTP id B8049782D3
+Return-Path: <freesilicon@gmail.com>
+Received: from mail-wr0-f179.google.com (mail-wr0-f179.google.com
+	[209.85.128.179])
+	by mail.openembedded.org (Postfix) with ESMTP id AE817782DF
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Jun 2017 07:14:07 +0000 (UTC)
-Received: by mail-it0-f43.google.com with SMTP id m47so32575807iti.0
+	Tue, 13 Jun 2017 07:34:44 +0000 (UTC)
+Received: by mail-wr0-f179.google.com with SMTP id g76so125351130wrd.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Jun 2017 00:14:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:organization:mime-version:content-transfer-encoding;
-	bh=nVIUNTvq7OEO0H82SZ5PrnYcrob5jkTUvD8x3K+WULU=;
-	b=P9keK6kRJxEVVKe7NZcCsSKMFfiLMjLYq3pG3qlAUFSDJWsvZUtvOp8a+WAHyLw4S0
-	6fWiGW+ptKBdsAAy2rVRaYeG6xU0qjEIvTiaIrDkuCJykdmSa2IzOfNQl2B1dVhlDJPh
-	39ygnsTuluCfiI2gob/5GMyigd01HWqxFBzrHA7a2s0GaQHBOwHI5XLmx14q2njaaueD
-	amgdGCIkAAxwva55KJQIpT2wFHKfNuWOfkbGnPsFzfY8dTEnSVza5cIZ2L+MpTxRgcvP
-	Am0Z6yRah+ugjE28FsCkNP26K4MXzsgrOuhwvCvmCOeU0UBbHGAEVtFT20aswX8W3N9E
-	QqZg==
+	Tue, 13 Jun 2017 00:34:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=OCd/XS+tsamGnD8DxA4TakKSgpVSZScf4Bi2YT0py9s=;
+	b=F7IlkujiXJ9AfO6WKCZiJ6s/UxW4nB0shJbaqUF1Wefwr/BfHS0gfBom1Ic2BZEBCE
+	Hp+zn1g+1hGWR/z8MTCYx05aDK7e+fueg6SlgsVKtKVEShVB1/ZHczkTtA8VJP1uFGqe
+	GHPRjSGa6ni2M6sEttqvA0VYDHGzX1j1NKj0J/RXUXrATqRIb8p+iVflVT0m2Un3TQ4e
+	IhDfqF7QpJIBn5o2/gvStFXtiBZZQfLIdA0E5Q5AC6KUQlPsZWCOIcqutZ2d6KQKscV7
+	KX4a7LQBYNqZ8TYYT1/PW8wfIL7w3PrEynBVw+ALR6t6usZ2ORR31JsDHrbKhBqljbyh
+	YQqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:organization:mime-version:content-transfer-encoding;
-	bh=nVIUNTvq7OEO0H82SZ5PrnYcrob5jkTUvD8x3K+WULU=;
-	b=n6xytIn2jaK7dV/vQxpuH2m+w8whmFD6VpqjoG8orfOGaFp/UgDp/c3jPgXbTOLCH5
-	BLzss3d0u5YkiI8AcYGBmUpOOtgEB7ErsY107SncrDmN1iGSTBJKPna4Qnl1dPvqJnYW
-	aLcuCRTkv3xRyp51T6ljGHaVec7g/t5GZe8sg6VIVfAnHwIXae8cizRiNFh7GykmYYlJ
-	3RVHvTotpvdiDvkGG9ouDdvLVX16xZgY+jnzruhOyNcxyVSvZ73FCXmf4ey+vDBq1eo5
-	Bzp3Me4x8t+SjNZTV07gGu9hteGtftcEj9DAJImK8PITQ8JJwfvjaATF0xYpRCBY2POA
-	byNA==
-X-Gm-Message-State: AODbwcBZN715H4IRZI67JAIW7YRWgUQFu6SvMBcMh+xDdh/bX+6J1pbC
-	TbvaDfic0NM3/jyjpbI=
-X-Received: by 10.36.172.84 with SMTP id m20mr15300151iti.119.1497338048571;
-	Tue, 13 Jun 2017 00:14:08 -0700 (PDT)
-Received: from pohly-mobl1 (p5DE8D5A8.dip0.t-ipconnect.de. [93.232.213.168])
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=OCd/XS+tsamGnD8DxA4TakKSgpVSZScf4Bi2YT0py9s=;
+	b=Ufn8anvSye0Ao3UXpSmARmsSc9XMKnPFBLKYm2F8rjxdq7u2XKmMpSs2MO4fofCFKn
+	XXHiknhnyF2Yacp6kXKWKL3NybWlJ3B0qcdmJM7sVeWJW1l1YWnShVU7XWTXqP2nnNBY
+	CBXji6vyMh3N4NMqFeEDdLae8b0nXue1WfX1zxk/5sahDq3inmhyCClVqD84yXusve8Y
+	cOuQve8VbkDhsoGEORXqqn+4Zy378EQFQjY7CzyFAvQdN0YFlXGUWvH3dvYg4UvBQmRL
+	wSfvN0jlHIsVXboHQCI21yTDrtg683E6uu0oJ2jjUhyeEWhNUlqLOMp7LbvwBn+PCFLl
+	sFDw==
+X-Gm-Message-State: AKS2vOzEarhj+L+JTJlv+kyxzYZ3HT8Q5jKH0WaYaw39bxYgD9uZyxvS
+	aIPhFLVeQRqi5D3xbWk=
+X-Received: by 10.223.161.154 with SMTP id u26mr1658026wru.191.1497339279606; 
+	Tue, 13 Jun 2017 00:34:39 -0700 (PDT)
+Received: from crde-port-20.cahors.local ([185.47.80.46])
 	by smtp.gmail.com with ESMTPSA id
-	z31sm5269060ita.25.2017.06.13.00.14.06
+	22sm23265473wrt.36.2017.06.13.00.34.39
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 13 Jun 2017 00:14:07 -0700 (PDT)
-Message-ID: <1497338044.30163.324.camel@intel.com>
-From: Patrick Ohly <patrick.ohly@intel.com>
-To: Denys Dmytriyenko <denis@denix.org>
-Date: Tue, 13 Jun 2017 09:14:04 +0200
-In-Reply-To: <20170612232345.GA28053@denix.org>
-References: <cover.85d08ae286e0b2f8503f9e657148201e6b90edde.1497013310.git-series.patrick.ohly@intel.com>
-	<9dfd9eff13b3831c7e88c97318f97d2daeac9a78.1497013310.git-series.patrick.ohly@intel.com>
-	<20170612194635.GX28053@denix.org>
-	<1497301519.30163.288.camel@intel.com>
-	<20170612232345.GA28053@denix.org>
-Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
-X-Mailer: Evolution 3.12.9-1+b1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2 1/2] bitbake.conf: DISTRO_FEATURES as overrides
+	Tue, 13 Jun 2017 00:34:39 -0700 (PDT)
+From: David Vincent <freesilicon@gmail.com>
+To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+Date: Tue, 13 Jun 2017 09:33:19 +0200
+Message-ID: <3868265.O3YA757UyB@crde-port-20.cahors.local>
+In-Reply-To: <45a1aae1e696405fa99267c23ba63fcf@XBOX02.axis.com>
+References: <20170609070429.17376-1-freesilicon@gmail.com>
+	<20170609070429.17376-2-freesilicon@gmail.com>
+	<45a1aae1e696405fa99267c23ba63fcf@XBOX02.axis.com>
+MIME-Version: 1.0
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH RESEND 1/3] openssh: Package server configuration
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -65,165 +61,202 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Jun 2017 07:14:08 -0000
+X-List-Received-Date: Tue, 13 Jun 2017 07:34:45 -0000
+Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-On Mon, 2017-06-12 at 19:23 -0400, Denys Dmytriyenko wrote:
-> On Mon, Jun 12, 2017 at 11:05:19PM +0200, Patrick Ohly wrote:
-> > On Mon, 2017-06-12 at 15:46 -0400, Denys Dmytriyenko wrote:
-> > > This now breaks parsing my distro config on these lines:
-> > > 
-> > > ENABLE_SYSVINIT ?= "0"
-> > > DISTRO_FEATURES_append = "${@base_conditional("ENABLE_SYSVINIT", "1", "", " systemd", d)}"
-> > > 
-> > > 
-> > > Here's the log:
-> > > 
-> > > ERROR: Unable to parse /OE/arago-master/sources/bitbake/lib/bb/data_smart.py
-> > > Traceback (most recent call last):
-> > >   File "/OE/arago-master/sources/bitbake/lib/bb/data_smart.py", line 426, in DataSmart.expandWithRefs(s='${@base_conditional("ENABLE_SYSVINIT", "1", "", " systemd", d)}', varname='DISTRO_FEATURES_append'):
-> > >                  except Exception as exc:
-> > >     >                raise ExpansionError(varname, s, exc) from exc
-> > >      
-> > > bb.data_smart.ExpansionError: Failure expanding variable DISTRO_FEATURES_append, expression was ${@base_conditional("ENABLE_SYSVINIT", "1", "", " systemd", d)} which triggered exception NameError: name 'base_conditional' is not defined
+On vendredi 9 juin 2017 11:41:25 CEST Peter Kjellerstedt wrote:
+> > -----Original Message-----
+> > From: openembedded-core-bounces@lists.openembedded.org
+> > [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
+> > David Vincent
+> > Sent: den 9 juni 2017 09:04
+> > To: openembedded-core@lists.openembedded.org
+> > Subject: [OE-core] [PATCH RESEND 1/3] openssh: Package server
+> > configuration
 > > 
-> > base_conditional() seems to come from utils.bbclass, which gets
-> > inherited by base.bbclass. Looks like DISTRO_FEATURES and thus this
-> > DISTRO_FEATURES_append end up getting expanded before these classes are
-> > fully parsed.
+> > Split sshd configuration for read-write/read-only rootfs in two
+> > distinct
+> > packages. Also, add a package dependency between openssh-sshd package
+> > and a provider of sshd-config.
+> > 
+> > Signed-off-by: David Vincent <freesilicon@gmail.com>
+> > ---
+> > 
+> >  meta/recipes-connectivity/openssh/openssh_7.5p1.bb | 51
+> > 
+> > ++++++++++++++++++----
+> > 
+> >  1 file changed, 42 insertions(+), 9 deletions(-)
+> > 
+> > diff --git a/meta/recipes-connectivity/openssh/openssh_7.5p1.bb
+> > b/meta/recipes-connectivity/openssh/openssh_7.5p1.bb
+> > index 5b96745aae..e22e6c672d 100644
+> > --- a/meta/recipes-connectivity/openssh/openssh_7.5p1.bb
+> > +++ b/meta/recipes-connectivity/openssh/openssh_7.5p1.bb
+> > @@ -91,13 +91,17 @@ do_compile_ptest() {
+> > 
+> >  }
+> >  
+> >  do_install_append () {
+> > 
+> > -	if [ "${@bb.utils.filter('DISTRO_FEATURES', 'pam', d)}" ]; then
+> > +	# Create default config files
+> > +	install -m 0644 ${D}${sysconfdir}/ssh/sshd_config
+> > ${D}${sysconfdir}/ssh/sshd_config_default +	rm -f
+> > ${D}${sysconfdir}/ssh/sshd_config
+> > +
+> > +	if [ "${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam', '', d)}" =
+> > "pam" ]; then> 
+> >  		install -D -m 0644 ${WORKDIR}/sshd ${D}${sysconfdir}/pam.d/sshd
+> > 
+> > -		sed -i -e 's:#UsePAM no:UsePAM yes:' ${D}${sysconfdir}/ssh/
+sshd_config
+> > +		sed -i -e 's:#UsePAM no:UsePAM yes:'
+> > ${D}${sysconfdir}/ssh/sshd_config_default> 
+> >  	fi
+> > 
+> > -	if [ "${@bb.utils.filter('DISTRO_FEATURES', 'x11', d)}" ]; then
+> > -		sed -i -e 's:#X11Forwarding no:X11Forwarding yes:'
+> > ${D}${sysconfdir}/ssh/sshd_config +	if [
+> > "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', '', d)}" = "x11"
+> > ]; then +		sed -i -e 's:#X11Forwarding no:X11Forwarding yes:'
+> > ${D}${sysconfdir}/ssh/sshd_config_default> 
+> >  	fi
 > 
-> FWIW, replacing it with oe.utils.conditional() doesn't help.
+> Instead of all the changes above you could just do this here instead:
+Yes, it is simpler that way. If a v2 is to be sent, I will do that change.
+> 
+> 	mv ${D}${sysconfdir}/ssh/sshd_config
+> ${D}${sysconfdir}/ssh/sshd_config_default
+> >  	install -d ${D}${sysconfdir}/init.d
+> > 
+> > @@ -110,7 +114,7 @@ do_install_append () {
+> > 
+> >  	# Create config files for read-only rootfs
+> >  	install -d ${D}${sysconfdir}/ssh
+> 
+> Creating the directory here again is unnecessary.
+That's the old code, maybe it should be dropped.
+> 
+> > -	install -m 644 ${D}${sysconfdir}/ssh/sshd_config
+> > ${D}${sysconfdir}/ssh/sshd_config_readonly +	install -m 644
+> > ${D}${sysconfdir}/ssh/sshd_config_default
+> > ${D}${sysconfdir}/ssh/sshd_config_readonly> 
+> >  	sed -i '/HostKey/d' ${D}${sysconfdir}/ssh/sshd_config_readonly
+> >  	echo "HostKey /var/run/ssh/ssh_host_rsa_key" >>
+> >  	${D}${sysconfdir}/ssh/sshd_config_readonly echo "HostKey
+> >  	/var/run/ssh/ssh_host_dsa_key" >>
+> >  	${D}${sysconfdir}/ssh/sshd_config_readonly> 
+> > @@ -134,30 +138,59 @@ do_install_ptest () {
+> > 
+> >  ALLOW_EMPTY_${PN} = "1"
+> > 
+> > -PACKAGES =+ "${PN}-keygen ${PN}-scp ${PN}-ssh ${PN}-sshd ${PN}-sftp
+> > ${PN}-misc ${PN}-sftp-server" +PACKAGES =+ "${PN}-keygen ${PN}-scp
+> > ${PN}-ssh ${PN}-sshd-config ${PN}-sshd-config-readonly ${PN}-sshd
+> > ${PN}-sftp ${PN}-misc ${PN}-sftp-server"> 
+> >  FILES_${PN}-scp = "${bindir}/scp.${BPN}"
+> >  FILES_${PN}-ssh = "${bindir}/ssh.${BPN} ${sysconfdir}/ssh/ssh_config"
+> > 
+> > +FILES_${PN}-sshd-config = "${sysconfdir}/ssh/sshd_config_default"
+> > +FILES_${PN}-sshd-config-readonly =
+> > "${sysconfdir}/ssh/sshd_config_readonly"> 
+> >  FILES_${PN}-sshd = "${sbindir}/sshd ${sysconfdir}/init.d/sshd
+> >  ${systemd_unitdir}/system"> 
+> > -FILES_${PN}-sshd += "${sysconfdir}/ssh/moduli
+> > ${sysconfdir}/ssh/sshd_config ${sysconfdir}/ssh/sshd_config_readonly
+> > ${sysconfdir}/default/volatiles/99_sshd ${sysconfdir}/pam.d/sshd"
+> > +FILES_${PN}-sshd += "${sysconfdir}/ssh/moduli
+> > ${sysconfdir}/default/volatiles/99_sshd ${sysconfdir}/pam.d/sshd"> 
+> >  FILES_${PN}-sftp = "${bindir}/sftp"
+> >  FILES_${PN}-sftp-server = "${libexecdir}/sftp-server"
+> >  FILES_${PN}-misc = "${bindir}/ssh* ${libexecdir}/ssh*"
+> >  FILES_${PN}-keygen = "${bindir}/ssh-keygen"
+> >  
+> >  RDEPENDS_${PN} += "${PN}-scp ${PN}-ssh ${PN}-sshd ${PN}-keygen"
+> > 
+> > -RDEPENDS_${PN}-sshd += "${PN}-keygen
+> > ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam-plugin-keyinit
+> > pam-plugin-loginuid', '', d)}" +RDEPENDS_${PN}-sshd += "${PN}-keygen
+> > sshd-config ${@bb.utils.contains('DISTRO_FEATURES', 'pam',
+> > 'pam-plugin-keyinit pam-plugin-loginuid', '', d)}"> 
+> >  RDEPENDS_${PN}-ptest += "${PN}-sftp ${PN}-misc ${PN}-sftp-server make"
+> >  
+> >  RPROVIDES_${PN}-ssh = "ssh"
+> > 
+> > +RPROVIDES_${PN}-sshd-config = "sshd-config"
+> > +RPROVIDES_${PN}-sshd-config-readonly = "sshd-config"
+> > 
+> >  RPROVIDES_${PN}-sshd = "sshd"
+> >  
+> >  RCONFLICTS_${PN} = "dropbear"
+> > 
+> > +RCONFLICTS_${PN}-sshd-config = "${PN}-sshd-config-readonly"
+> > +RCONFLICTS_${PN}-sshd-config-readonly = "${PN}-sshd-config"
+> > 
+> >  RCONFLICTS_${PN}-sshd = "dropbear"
+> >  RCONFLICTS_${PN}-keygen = "ssh-keygen"
+> > 
+> > -CONFFILES_${PN}-sshd = "${sysconfdir}/ssh/sshd_config"
+> > +CONFFILES_${PN}-sshd-config = "${sysconfdir}/ssh/sshd_config_default"
+> > +CONFFILES_${PN}-sshd-config-readonly =
+> > "${sysconfdir}/ssh/sshd_config_readonly"> 
+> >  CONFFILES_${PN}-ssh = "${sysconfdir}/ssh/ssh_config"
+> > 
+> > +pkg_postinst_${PN}-sshd-config () {
+> > +#!/bin/sh
+> > +if [ -e $D${sysconfdir}/ssh/sshd_config ]; then
+> > +    rm $D${sysconfdir}/ssh/sshd_config
+> > +fi
+> > +
+> > +# Make sure destination directory exists, before creating the symlink
+> > +mkdir -p $D${sysconfdir}/ssh
+> > +ln -s sshd_config_default $D${sysconfdir}/ssh/sshd_config
+> > +}
+> > +
+> > +pkg_postinst_${PN}-sshd-config-readonly () {
+> > +#!/bin/sh
+> > +if [ -e $D${sysconfdir}/ssh/sshd_config ]; then
+> > +    rm $D${sysconfdir}/ssh/sshd_config
+> > +fi
+> > +
+> > +# Make sure destination directory exists, before creating the symlink
+> > +mkdir -p $D${sysconfdir}/ssh
+> > +ln -s sshd_config_readonly $D${sysconfdir}/ssh/sshd_config
+> > +}
+> > +
+> 
+> I do not like changing /etc/ssh/sshd_config to be a link. I know at least
+> we have our own rootfs-postcommands that will be affected by such a change.
+> 
+> How about you use a PACKAGESPLITFUNCS function instead and move the files
+> back into place before they are packaged, so that both configuration
+> packages contain the /etc/ssh/sshd_config file.
+I have another problem, when I package my configuration, I do not want any 
+postcommand tasks to modify it unpredictibly in my release builds. Maybe I 
+should find another workaround to not break the current workflows.
+> 
+> Something like this should work (totally untested):
+> 
+> PACKAGESPLITFUNCS += "restore_sshd_config"
+> 
+> restore_sshd_config() {
+> 	for file in ${PKGDEST}/*${sysconfdir}/sshd/sshd_config_*; do
+> 		mv $file ${file%_*}
+> 	done
+> }
+> 
+> >  ALTERNATIVE_PRIORITY = "90"
+> >  ALTERNATIVE_${PN}-scp = "scp"
+> >  ALTERNATIVE_${PN}-ssh = "ssh"
+> > 
+> > --
+> > 2.13.0
+> 
+> //Peter
 
-How about the following patch? It solves the problem for me.
 
-It also addresses some unease that I had when Richard proposed the
-distro overrides approach (cyclic dependency of "DISTRO_FEATURES depends
-on OVERRIDES which depends on DISTRO_FEATURES") by setting the overrides
-once for the DISTRO_FEATURES as they are set at the end of the base
-configuration. That's more deterministic; previously OVERRIDES could
-basically change randomly during base configuration parsing.
-
-I couldn't give a good example for this cyclic dependency at the time.
-Let me add that now.
-
-This code has an obvious cyclic dependency, and it indeed fails as I had
-expected:
-
-DISTRO_FEATURES_append = " ${@ bb.utils.contains('DISTRO_FEATURES', 'foo', 'bar', '', d) }"
-DISTRO_FEATURES_append = " foo"
-
-=> bb.data_smart.ExpansionError: Failure expanding variable
-DISTRO_FEATURES, expression was ${@ bb.utils.contains('DISTRO_FEATURES',
-'foo', 'bar', '', d) } which triggered exception RuntimeError: maximum
-recursion depth exceeded
-
-In this code, the cyclic dependency is a bit more hidden, and depending
-on when things get evaluated, one gets foo and bar in DISTRO_FEATURES
-(for example, in "bitbake -e" and thus recipes):
-DISTRO_FEATURES_OVERRIDES += "bar"
-DISTRO_FEATURES_append = " bar"
-DISTRO_FEATURES_append_df-bar = " foo"
-
-That last example still works with the patch below, but I would argue
-that because of the conceptual issue (DISTRO_FEATURES depending on
-content of DISTRO_FEATURES) it cannot be expected to work.
-
-Once things get more complicated, it just fails in other unexpected
-ways:
-DISTRO_FEATURES_OVERRIDES += "bar foo"
-DISTRO_FEATURES_append = " bar"
-DISTRO_FEATURES_append_df-bar = " foo"
-
-This adds bar and foo to DISTRO_FEATURES, but only bar ends up in
-OVERRIDES when using the patch below. It was working with code
-that sets distro overrides dynamically. This might be seen as a drawback
-of the approach below, but as it only affects code that (IMHO) isn't
-valid, I'm not too worried about that.
-
-Let me also point out that the approach below completely sidesteps
-potential vardeps problems, because the dependency of OVERRIDES on
-DISTRO_FEATURES_OVERRIDES and DISTRO_FEATURES is hidden. My expectation
-is that OVERRIDES are part of the base hash and that thus tracking of
-how it gets computed isn't necessary. It seems to work in practice for
-me:
-
-DISTRO_FEATURES_append = " systemd"
-DISTRO_FEATURES_OVERRIDES += "bar"
-DISTRO_FEATURES_append = " bar"
-PACKAGECONFIG_append_pn-systemd_df-bar = " gcrypt"
-
-Changing either DISTRO_FEATURES_OVERRIDES or the DISTRO_FEATURES_append
-changes the signature of systemd:do_configure as expected.
-
-We are currently having a problem with the yocto-compat-layer.py
-signature check in refkit where it complains about:
-        List of dependencies for variable DISTROOVERRIDES changed from
-        '{'DISTRO'}' to '{'DISTRO_FEATURES', 'DISTRO',
-        'DISTROFEATURES2OVERRIDES'}'
-
-That's for a slightly older OE-core and the distrooverrides.bbclass
-approach. I don't know yet why that is now failing (it was working for
-OE-core 2.3), but my expectation is that the approach below would avoid
-it.
-
-diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
-index 78926656d77..356aeba72ad 100644
---- a/meta/classes/base.bbclass
-+++ b/meta/classes/base.bbclass
-@@ -234,6 +234,11 @@ python base_eventhandler() {
-         # Works with the line in layer.conf which changes PATH to point here
-         setup_hosttools_dir(d.getVar('HOSTTOOLS_DIR'), 'HOSTTOOLS', d)
-         setup_hosttools_dir(d.getVar('HOSTTOOLS_DIR'), 'HOSTTOOLS_NONFATAL', d, fatal=False)
-+        # Base configuration complete, DISTRO_FEATURES finalized => convert selected features
-+        # into overrides.
-+        e.data.setVar('DISTROFEATURESOVERRIDES',
-+                      ''.join([':df-' + x for x in sorted(set(d.getVar('DISTRO_FEATURES_OVERRIDES').split()) & set(d.getVar('DISTRO_FEATURES').split()))]))
-+
- 
-     if isinstance(e, bb.event.BuildStarted):
-         localdata = bb.data.createCopy(e.data)
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index bc438cca826..6069130f488 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -727,15 +727,23 @@ FILESOVERRIDES = "${TRANSLATED_TARGET_ARCH}:${MACHINEOVERRIDES}:${DISTROOVERRIDE
- # distro features remain set also for native and nativesdk
- # recipes, so that these overrides can also be used there.
- #
--# Beware that this part of OVERRIDES changes during parsing, so usage
--# of these overrides should be limited to .bb and .bbappend files,
--# because then DISTRO_FEATURES is final.
-+# Beware that DISTRO_FEATURES change during parsing of the
-+# base configuration. These overrides can be used when setting
-+# variables in the base configuration, but variable expansion
-+# will only have the desired effect in recipes.
-+#
-+# Even worse, DISTRO_FEATURES might not be even usable during base
-+# configuration parsing. For example, embedded Python code with calls
-+# to base_conditional() can fail because the function is not defined.
-+# yet. Therefore these conditionals are set by base.bbclass only after
-+# parsing the base configuration is complete.
- DISTRO_FEATURES_OVERRIDES ??= ""
- DISTRO_FEATURES_OVERRIDES[doc] = "A space-separated list of <feature> entries. \
- Each entry is added to OVERRIDES as df-<feature> if <feature> is in DISTRO_FEATURES."
- DISTRO_FEATURES_FILTER_NATIVE_append = " ${DISTRO_FEATURES_OVERRIDES}"
- DISTRO_FEATURES_FILTER_NATIVESDK_append = " ${DISTRO_FEATURES_OVERRIDES}"
--DISTROFEATURESOVERRIDES = "${@ ''.join([':df-' + x for x in (set(d.getVar('DISTRO_FEATURES_OVERRIDES').split()) & set((d.getVar('DISTRO_FEATURES') or '').split()))]) }"
-+# Initially empty, set once when DISTRO_FEATURES is stable.
-+DISTROFEATURESOVERRIDES = ""
- 
- ##################################################################
- # Include the rest of the config files.
-
--- 
-Best Regards, Patrick Ohly
-
-The content of this message is my personal opinion only and although
-I am an employee of Intel, the statements I make here in no way
-represent Intel's position on the issue, nor am I authorized to speak
-on behalf of Intel on this matter.
-
-
-
+--
+David
 
