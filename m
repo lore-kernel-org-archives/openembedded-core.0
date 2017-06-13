@@ -1,27 +1,27 @@
 Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 096757833A
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id C9A9D782EE
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Jun 2017 11:24:17 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	13 Jun 2017 04:24:19 -0700
+	Tue, 13 Jun 2017 11:24:18 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	13 Jun 2017 04:24:20 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.39,338,1493708400"; d="scan'208";a="1159868651"
+X-IronPort-AV: E=Sophos;i="5.39,338,1493708400"; d="scan'208";a="1181818506"
 Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga001.fm.intel.com with ESMTP; 13 Jun 2017 04:24:19 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 13 Jun 2017 04:24:20 -0700
 Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
-	by linux.intel.com (Postfix) with ESMTP id AB19E5800CE
+	by linux.intel.com (Postfix) with ESMTP id C135D58010F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Jun 2017 04:24:18 -0700 (PDT)
+	Tue, 13 Jun 2017 04:24:19 -0700 (PDT)
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 13 Jun 2017 14:22:07 +0300
-Message-Id: <82321133a8343621af9da0f0c6829d250c88e6c3.1497348496.git.ed.bartosh@linux.intel.com>
+Date: Tue, 13 Jun 2017 14:22:08 +0300
+Message-Id: <664b354eed6e2b03083feb7218195232fbc6832c.1497348496.git.ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1497348496.git.ed.bartosh@linux.intel.com>
 References: <cover.1497348496.git.ed.bartosh@linux.intel.com>
-Subject: [PATCH v2 19/26] wic: fully implement 'wic cp'
+Subject: [PATCH v2 20/26] selftest: add test_wic_cp test case
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,46 +36,76 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 13 Jun 2017 11:24:18 -0000
 
-Added implementation of Disk.copy method and wic_cp
-function that copies files/directories to the vfat partition
-of the partitioned image.
-
-[YOCTO #11283]
+Added test case for "wic cp" functionality.
+     - copy file to vfat partition
+     - copy directory to vfat partition
 
 Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 ---
- scripts/lib/wic/engine.py | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
+ meta/lib/oeqa/selftest/cases/wic.py | 46 ++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 45 insertions(+), 1 deletion(-)
 
-diff --git a/scripts/lib/wic/engine.py b/scripts/lib/wic/engine.py
-index 6a4f55f..a48c4ad 100644
---- a/scripts/lib/wic/engine.py
-+++ b/scripts/lib/wic/engine.py
-@@ -310,6 +310,14 @@ class Disk:
-                                                self._get_part_image(pnum),
-                                                path))
+diff --git a/meta/lib/oeqa/selftest/cases/wic.py b/meta/lib/oeqa/selftest/cases/wic.py
+index 5d67395..5034587 100644
+--- a/meta/lib/oeqa/selftest/cases/wic.py
++++ b/meta/lib/oeqa/selftest/cases/wic.py
+@@ -28,7 +28,7 @@ import sys
+ import unittest
  
-+    def copy(self, src, pnum, path):
-+        """Copy partition image into wic image."""
-+        cmd = "{} -i {} -snop {} ::{}".format(self.mcopy,
-+                                              self._get_part_image(pnum),
-+                                              src, path)
-+        exec_cmd(cmd)
-+        self._put_part_image(pnum)
+ from glob import glob
+-from shutil import rmtree
++from shutil import rmtree, copy
+ from functools import wraps, lru_cache
+ from tempfile import NamedTemporaryFile
+ 
+@@ -811,3 +811,47 @@ part /etc --source rootfs --ondisk mmcblk0 --fstype=ext4 --exclude-path bin/ --r
+         result = runCmd("wic ls %s:1/ -n %s" % (images[0], sysroot))
+         self.assertEqual(0, result.status)
+         self.assertEqual(6, len(result.output.split('\n')))
 +
- def wic_ls(args, native_sysroot):
-     """List contents of partitioned image or vfat partition."""
-     disk = Disk(args.path.image, native_sysroot)
-@@ -329,7 +337,8 @@ def wic_cp(args, native_sysroot):
-     Copy local file or directory to the vfat partition of
-     partitioned image.
-     """
--    pass
-+    disk = Disk(args.dest.image, native_sysroot)
-+    disk.copy(args.src, args.dest.part, args.dest.path)
- 
- def find_canned(scripts_path, file_name):
-     """
++    def test_wic_cp(self):
++        """Test copy files and directories to the the wic image."""
++        self.assertEqual(0, runCmd("wic create wictestdisk "
++                                   "--image-name=core-image-minimal "
++                                   "-D -o %s" % self.resultdir).status)
++        images = glob(self.resultdir + "wictestdisk-*.direct")
++        self.assertEqual(1, len(images))
++
++        sysroot = get_bb_var('RECIPE_SYSROOT_NATIVE', 'wic-tools')
++
++        # list directory content of the first partition
++        result = runCmd("wic ls %s:1/ -n %s" % (images[0], sysroot))
++        self.assertEqual(0, result.status)
++        self.assertEqual(6, len(result.output.split('\n')))
++
++        with NamedTemporaryFile("w", suffix=".wic-cp") as testfile:
++            testfile.write("test")
++
++            # copy file to the partition
++            result = runCmd("wic cp %s %s:1/ -n %s" % (testfile.name, images[0], sysroot))
++            self.assertEqual(0, result.status)
++
++            # check if file is there
++            result = runCmd("wic ls %s:1/ -n %s" % (images[0], sysroot))
++            self.assertEqual(0, result.status)
++            self.assertEqual(7, len(result.output.split('\n')))
++            self.assertTrue(os.path.basename(testfile.name) in result.output)
++
++            # prepare directory
++            testdir = os.path.join(self.resultdir, 'wic-test-cp-dir')
++            testsubdir = os.path.join(testdir, 'subdir')
++            os.makedirs(os.path.join(testsubdir))
++            copy(testfile.name, testdir)
++
++            # copy directory to the partition
++            result = runCmd("wic cp %s %s:1/ -n %s" % (testdir, images[0], sysroot))
++            self.assertEqual(0, result.status)
++
++            # check if directory is there
++            result = runCmd("wic ls %s:1/ -n %s" % (images[0], sysroot))
++            self.assertEqual(0, result.status)
++            self.assertEqual(8, len(result.output.split('\n')))
++            self.assertTrue(os.path.basename(testdir) in result.output)
 -- 
 2.1.4
 
