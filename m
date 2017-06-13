@@ -1,21 +1,21 @@
-Return-Path: <mikko.ylinen@linux.intel.com>
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id 9C9B07831C
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 0ED2D78319
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Jun 2017 15:39:18 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga104.jf.intel.com with ESMTP; 13 Jun 2017 08:39:18 -0700
+	Tue, 13 Jun 2017 15:41:36 +0000 (UTC)
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	13 Jun 2017 08:41:38 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.39,338,1493708400"; d="scan'208";a="1140826696"
-Received: from pkuronen-mobl2.ger.corp.intel.com (HELO
-	summit.ger.corp.intel.com) ([10.252.20.198])
-	by orsmga001.jf.intel.com with ESMTP; 13 Jun 2017 08:39:16 -0700
-From: Mikko Ylinen <mikko.ylinen@linux.intel.com>
+X-IronPort-AV: E=Sophos;i="5.39,338,1493708400"; d="scan'208";a="114371187"
+Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
+	by fmsmga006.fm.intel.com with ESMTP; 13 Jun 2017 08:41:35 -0700
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 13 Jun 2017 18:39:09 +0300
-Message-Id: <20170613153909.28112-1-mikko.ylinen@linux.intel.com>
+Date: Tue, 13 Jun 2017 18:41:40 +0300
+Message-Id: <20170613154140.42655-1-alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] runqemu: change terminal settings for valid tty's
+Subject: [PATCH] adwaita-icon-theme: add a patch to speed up the do_install() task
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,58 +28,123 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Jun 2017 15:39:18 -0000
+X-List-Received-Date: Tue, 13 Jun 2017 15:41:37 -0000
 
-runqemu uses stty to change terminal settings to give users
-better control to qemu. However, stty does not work when
-runqemu is run directly or indirectly via oe-selftest in
-a Docker container (presumably some problems with Docker's
-pseudo-tty implementation).
+Goes down to 40 seconds from over 4 minutes :)
 
-The error reported is:
-stty: 'standard input': Inappropriate ioctl for device
+Note that there is no control over the amount of shell jobs; on my machine
+this is not a problem, but if it's a problem on less capable hardware,
+we can add some kind of limiter.
 
-As runqemu recently moved to subprocess.check_call() for
-stty calls we now get thrown an error and all runqemu
-runs fail.
-
-sys.stdin.isatty() does proper job in detecting if the stty
-calls can work so we use that check before running the stty
-subprocess operations.
-
-Signed-off-by: Mikko Ylinen <mikko.ylinen@linux.intel.com>
+Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- scripts/runqemu | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ ...1-Run-installation-commands-as-shell-jobs.patch | 82 ++++++++++++++++++++++
+ .../gnome/adwaita-icon-theme_3.24.0.bb             |  3 +-
+ 2 files changed, 84 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-gnome/gnome/adwaita-icon-theme/0001-Run-installation-commands-as-shell-jobs.patch
 
-diff --git a/scripts/runqemu b/scripts/runqemu
-index 311fbebdf4..26328e5b51 100755
---- a/scripts/runqemu
-+++ b/scripts/runqemu
-@@ -955,8 +955,8 @@ class BaseConfig(object):
-     def setup_network(self):
-         if self.get('QB_NET') == 'none':
-             return
--        cmd = "stty -g"
--        self.saved_stty = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE).stdout.read().decode('utf-8')
-+        if sys.stdin.isatty():
-+            self.saved_stty = subprocess.check_output("stty -g", shell=True).decode('utf-8')
-         self.network_device = self.get('QB_NETWORK_DEVICE') or self.network_device
-         if self.slirp_enabled:
-             self.setup_slirp()
-@@ -1096,9 +1096,9 @@ class BaseConfig(object):
-             self.qemu_opt += " -snapshot"
+diff --git a/meta/recipes-gnome/gnome/adwaita-icon-theme/0001-Run-installation-commands-as-shell-jobs.patch b/meta/recipes-gnome/gnome/adwaita-icon-theme/0001-Run-installation-commands-as-shell-jobs.patch
+new file mode 100644
+index 00000000000..6c38e237f40
+--- /dev/null
++++ b/meta/recipes-gnome/gnome/adwaita-icon-theme/0001-Run-installation-commands-as-shell-jobs.patch
+@@ -0,0 +1,82 @@
++From 8dcd73b45a660dbdc560676835ba46f495334f14 Mon Sep 17 00:00:00 2001
++From: Alexander Kanavin <alex.kanavin@gmail.com>
++Date: Tue, 13 Jun 2017 18:10:06 +0300
++Subject: [PATCH] Run installation commands as shell jobs
++
++This greatly speeds up installation time on multi-core systems.
++
++Upstream-Status: Pending
++Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
++---
++ src/fullcolor/Makefile.am | 3 ++-
++ src/spinner/Makefile.am   | 5 +++--
++ src/symbolic/Makefile.am  | 7 ++++---
++ 3 files changed, 9 insertions(+), 6 deletions(-)
++
++diff --git a/src/fullcolor/Makefile.am b/src/fullcolor/Makefile.am
++index 1c940a5..3998ee6 100644
++--- a/src/fullcolor/Makefile.am
+++++ b/src/fullcolor/Makefile.am
++@@ -9,9 +9,10 @@ install-data-local:
++ 		for file in `cd $(top_srcdir)/$(SVGOUTDIR)/$$size && find . -name "*.png"`; do \
++ 			context="`dirname $$file`"; \
++ 			$(mkdir_p) $(DESTDIR)$(themedir)/$$size/$$context; \
++-			$(install_sh_DATA) $(top_srcdir)/$(SVGOUTDIR)/$$size/$$file $(DESTDIR)$(themedir)/$$size/$$file; \
+++			$(install_sh_DATA) $(top_srcdir)/$(SVGOUTDIR)/$$size/$$file $(DESTDIR)$(themedir)/$$size/$$file & \
++ 		done; \
++ 	done;
+++	wait
++ 
++ ## FIXME we should add a way to remove links generated by icon mapping
++ uninstall-local:
++diff --git a/src/spinner/Makefile.am b/src/spinner/Makefile.am
++index 86f4d7c..3fae8c1 100644
++--- a/src/spinner/Makefile.am
+++++ b/src/spinner/Makefile.am
++@@ -24,13 +24,14 @@ install-data-local:
++ 	      for file in `cd $(top_srcdir)/$(SVGOUTDIR)/$$size; find . -name "*.png"`; do \
++ 		      context="`dirname $$file`"; \
++ 		      $(mkdir_p) $(DESTDIR)$(themedir)/$$size/$$context; \
++-		      $(install_sh_DATA) $(top_srcdir)/$(SVGOUTDIR)/$$size/$$file $(DESTDIR)$(themedir)/$$size/$$file; \
+++		      $(install_sh_DATA) $(top_srcdir)/$(SVGOUTDIR)/$$size/$$file $(DESTDIR)$(themedir)/$$size/$$file & \
++ 	      done; \
++ 	for file in `cd $(top_srcdir)/$(SVGOUTDIR)/scalable-up-to-32; find . -name "*.svg"`; do \
++ 		context="`dirname $$file`"; \
++ 		$(mkdir_p) $(DESTDIR)$(themedir)/scalable-up-to-32/$$context; \
++-		$(install_sh_DATA) $(top_srcdir)/$(SVGOUTDIR)/scalable-up-to-32/$$file $(DESTDIR)$(themedir)/scalable-up-to-32/$$file; \
+++		$(install_sh_DATA) $(top_srcdir)/$(SVGOUTDIR)/scalable-up-to-32/$$file $(DESTDIR)$(themedir)/scalable-up-to-32/$$file & \
++ 	done
+++	wait
++ 
++ uninstall-local:
++ 	      for file in `cd $(top_srcdir)/$(SVGOUTDIR)/scalable-up-to-32; find . -name "*.svg"`; do \
++diff --git a/src/symbolic/Makefile.am b/src/symbolic/Makefile.am
++index 24aac9b..61ba071 100644
++--- a/src/symbolic/Makefile.am
+++++ b/src/symbolic/Makefile.am
++@@ -25,18 +25,19 @@ install-data-local:
++ 		for file in `cd $(top_srcdir)/$(SVGOUTDIR)/$$size; find . -name "*.png"`; do \
++ 			context="`dirname $$file`"; \
++ 			$(mkdir_p) $(DESTDIR)$(themedir)/$$size/$$context; \
++-			$(install_sh_DATA) $(top_srcdir)/$(SVGOUTDIR)/$$size/$$file $(DESTDIR)$(themedir)/$$size/$$file; \
+++			$(install_sh_DATA) $(top_srcdir)/$(SVGOUTDIR)/$$size/$$file $(DESTDIR)$(themedir)/$$size/$$file & \
++ 		done; \
++ 	done
++ 	for file in `cd $(top_srcdir)/$(SVGOUTDIR)/scalable; find . -name "*.svg"`; do \
++ 		context="`dirname $$file`"; \
++ 		$(mkdir_p) $(DESTDIR)$(themedir)/scalable/$$context; \
++-		$(install_sh_DATA) $(top_srcdir)/$(SVGOUTDIR)/scalable/$$file $(DESTDIR)$(themedir)/scalable/$$file; \
+++		$(install_sh_DATA) $(top_srcdir)/$(SVGOUTDIR)/scalable/$$file $(DESTDIR)$(themedir)/scalable/$$file & \
++ 		for size in $(symbolic_encode_sizes); do \
++ 			$(mkdir_p) $(DESTDIR)$(themedir)/$$size/$$context; \
++-			$(GTK_ENCODE_SYMBOLIC_SVG) $(top_srcdir)/$(SVGOUTDIR)/scalable/$$file $$size -o $(DESTDIR)$(themedir)/$$size/$$context; \
+++			$(GTK_ENCODE_SYMBOLIC_SVG) $(top_srcdir)/$(SVGOUTDIR)/scalable/$$file $$size -o $(DESTDIR)$(themedir)/$$size/$$context & \
++ 		done \
++ 	done
+++	wait
++ 
++ uninstall-local:
++ 	for file in `cd $(top_srcdir)/$(SVGOUTDIR)/scalable; find . -name "*.svg"`; do \
++-- 
++2.11.0
++
+diff --git a/meta/recipes-gnome/gnome/adwaita-icon-theme_3.24.0.bb b/meta/recipes-gnome/gnome/adwaita-icon-theme_3.24.0.bb
+index 5fdc71d1e38..d340536f0f3 100644
+--- a/meta/recipes-gnome/gnome/adwaita-icon-theme_3.24.0.bb
++++ b/meta/recipes-gnome/gnome/adwaita-icon-theme_3.24.0.bb
+@@ -12,7 +12,8 @@ inherit allarch autotools pkgconfig gettext gtk-icon-cache upstream-version-is-e
+ MAJ_VER = "${@oe.utils.trim_version("${PV}", 2)}"
+ SRC_URI = "${GNOME_MIRROR}/${BPN}/${MAJ_VER}/${BPN}-${PV}.tar.xz \
+            file://0001-Don-t-use-AC_CANONICAL_HOST.patch \
+-          "
++           file://0001-Run-installation-commands-as-shell-jobs.patch \
++           "
  
-         if self.serialstdio:
--            logger.info("Interrupt character is '^]'")
--            cmd = "stty intr ^]"
--            subprocess.check_call(cmd, shell=True)
-+            if sys.stdin.isatty():
-+                subprocess.check_call("stty intr ^]", shell=True)
-+                logger.info("Interrupt character is '^]'")
- 
-             first_serial = ""
-             if not re.search("-nographic", self.qemu_opt):
+ SRC_URI[md5sum] = "3ccac0d600ffc936d2adfb80e9245bc5"
+ SRC_URI[sha256sum] = "ccf79ff3bd340254737ce4d28b87f0ccee4b3358cd3cd5cd11dc7b42f41b272a"
 -- 
 2.11.0
 
