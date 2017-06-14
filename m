@@ -1,49 +1,29 @@
-Return-Path: <tobias.hagelborn@axis.com>
-Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
-	by mail.openembedded.org (Postfix) with ESMTP id 4928B72F24
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id E714278353
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Jun 2017 11:35:50 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bes.se.axis.com (Postfix) with ESMTP id 846FA2E633;
-	Wed, 14 Jun 2017 13:35:51 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
-Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id acXhweea6SNA; Wed, 14 Jun 2017 13:35:51 +0200 (CEST)
-Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
-	by bes.se.axis.com (Postfix) with ESMTPS id 0A01D2E37A;
-	Wed, 14 Jun 2017 13:35:50 +0200 (CEST)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id DF1E01E0A2;
-	Wed, 14 Jun 2017 13:35:50 +0200 (CEST)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id D3AE81E0A0;
-	Wed, 14 Jun 2017 13:35:50 +0200 (CEST)
-Received: from thoth.se.axis.com (unknown [10.0.2.173])
-	by boulder03.se.axis.com (Postfix) with ESMTP;
-	Wed, 14 Jun 2017 13:35:50 +0200 (CEST)
-Received: from XBOX02.axis.com (xbox02.axis.com [10.0.5.16])
-	by thoth.se.axis.com (Postfix) with ESMTP id C73DFDBD;
-	Wed, 14 Jun 2017 13:35:50 +0200 (CEST)
-Received: from [10.94.62.1] (10.0.5.60) by XBOX02.axis.com (10.0.5.16) with
-	Microsoft SMTP Server (TLS) id 15.0.1210.3;
-	Wed, 14 Jun 2017 13:35:50 +0200
-To: Richard Purdie <richard.purdie@linuxfoundation.org>, Tobias Hagelborn
-	<tobiasha@axis.com>, <openembedded-core@lists.openembedded.org>
-References: <1497421480-21923-1-git-send-email-tobiasha@axis.com>
-	<1497432535.3942.40.camel@linuxfoundation.org>
-From: Tobias Hagelborn <tobias.hagelborn@axis.com>
-Message-ID: <a7b43ac4-0c9a-b6df-bd97-3a0de1d1be47@axis.com>
-Date: Wed, 14 Jun 2017 13:35:50 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.8.0
-MIME-Version: 1.0
-In-Reply-To: <1497432535.3942.40.camel@linuxfoundation.org>
-X-Originating-IP: [10.0.5.60]
-X-ClientProxiedBy: XBOX01.axis.com (10.0.5.15) To XBOX02.axis.com (10.0.5.16)
-X-TM-AS-GCONF: 00
-Subject: Re: [PATCH] devtool: deploy-target: Support stripped libs and execs
+	Wed, 14 Jun 2017 11:49:02 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	v5EBmwTv024873
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
+	verify=NOT); Wed, 14 Jun 2017 12:49:00 +0100
+Message-ID: <1497440938.3942.48.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Amarnath Valluri <amarnath.valluri@intel.com>,
+	openembedded-core@lists.openembedded.org
+Date: Wed, 14 Jun 2017 12:48:58 +0100
+In-Reply-To: <1497439848-29967-2-git-send-email-amarnath.valluri@intel.com>
+References: <1497439848-29967-1-git-send-email-amarnath.valluri@intel.com>
+	<1497439848-29967-2-git-send-email-amarnath.valluri@intel.com>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
+Mime-Version: 1.0
+X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.11
+	(dan.rpsys.net [192.168.3.1]);
+	Wed, 14 Jun 2017 12:49:00 +0100 (BST)
+X-Virus-Scanned: clamav-milter 0.99.2 at dan
+X-Virus-Status: Clean
+Subject: Re: [PATCH v4 1/7] bitbake.conf: support for merged usr with DISTRO_FEATURE usrmerge
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,38 +36,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Jun 2017 11:35:58 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 14 Jun 2017 11:49:03 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On 06/14/2017 11:28 AM, Richard Purdie wrote:
-> On Wed, 2017-06-14 at 08:24 +0200, Tobias Hagelborn wrote:
->> New devtool deploy-target option --strip which enables deploying
->> stripped binaries, saving some space on target.
->>
->> * Copies the files of ${D} into a new directory and strips them in
->> place
->> * Based on sysroot_strip from staging.bbclass
->> * Added devtool.conf option "strip" for changing default behavior
->> * Added .ko strip support compared to original function sysroot_strip
->
-> This looks very like the original strip function. Would it be possible
-> to create one generic strip function in lib/oe which we could call from
-> the various places rather than duplicating this again?
->
-> (I think staging.bbclass and lib/oe/package.py:runstrip() are already
-> similar code).
->
-> Cheers,
->
-> Richard
->
-I did think if this but I felt these are quite central functions and I 
-didn't have enough tests locally to cover for those classes (staging / 
-package)
+On Wed, 2017-06-14 at 14:30 +0300, Amarnath Valluri wrote:
+> A new configuration variable ${root_prefix} added, which shall be used by all
+> base_{lib,bin,sbin}dir variables. When usrmerge DISTRO_FEATURE is enabled
+> ${root_prefix} points to ${exec_prefix} otherwise to ${base_prefix}
+> 
+> Signed-off-by: Amarnath Valluri <amarnath.valluri@intel.com>
+> ---
+>  meta/conf/bitbake.conf | 10 ++++++----
+>  1 file changed, 6 insertions(+), 4 deletions(-)
+> 
+> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+> index 5d5ddec..8c497fd 100644
+> --- a/meta/conf/bitbake.conf
+> +++ b/meta/conf/bitbake.conf
+> @@ -17,11 +17,13 @@ export base_prefix = ""
+>  export prefix = "/usr"
+>  export exec_prefix = "${prefix}"
+>  
+> +export root_prefix = "${@bb.utils.contains('DISTRO_FEATURES', 'usrmerge', '${exec_prefix}', '${base_prefix}', d)}"
+> +
 
-I can supply another version of this patch where the strip function is 
-merged into lib/oe.
+This is a really small nitpick but with changes to the core files we
+need to get this right. Could you drop the "export " above please?
 
-//Tobias
+The reason is that we want to ultimately reduce the number of variables
+we export into the global shell environment. Where we create new ones
+like this which aren't needed in the global scope, we might as well not
+export them right from the start...
+
+Cheers,
+
+Richard
+
 
