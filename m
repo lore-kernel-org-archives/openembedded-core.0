@@ -1,21 +1,39 @@
-Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
+Return-Path: <juro.bystricky@intel.com>
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id AB4267823F
+	by mail.openembedded.org (Postfix) with ESMTP id C5F08782CA
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 14 Jun 2017 20:50:52 +0000 (UTC)
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
 	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
 	14 Jun 2017 13:50:34 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.39,341,1493708400"; d="scan'208";a="868035042"
-Received: from yctb05.ostc.intel.com ([10.54.69.59])
+X-IronPort-AV: E=Sophos;i="5.39,341,1493708400"; 
+	d="scan'208,217";a="868035044"
+Received: from orsmsx107.amr.corp.intel.com ([10.22.240.5])
 	by FMSMGA003.fm.intel.com with ESMTP; 14 Jun 2017 13:50:33 -0700
-From: leonardo.sandoval.gonzalez@linux.intel.com
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 14 Jun 2017 13:50:30 -0700
-Message-Id: <20170614205030.9985-1-leonardo.sandoval.gonzalez@linux.intel.com>
-X-Mailer: git-send-email 2.12.0
-Subject: [PATCH] depmodwrapper-cross: conditionally inherit nopackages
+Received: from orsmsx112.amr.corp.intel.com ([169.254.3.182]) by
+	ORSMSX107.amr.corp.intel.com ([169.254.1.201]) with mapi id
+	14.03.0319.002; Wed, 14 Jun 2017 13:50:32 -0700
+From: "Bystricky, Juro" <juro.bystricky@intel.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Thread-Topic: [PATCH v2 2/6] base.bbclass: initial support for binary
+	reproducibility
+Thread-Index: AQHSwr3HMJQCx56iAk+9CAhEfeqxG6IlihyA//+N9sA=
+Date: Wed, 14 Jun 2017 20:50:31 +0000
+Message-ID: <6E51916E4A1F32428260031F4C7CD2B61198C2F5@ORSMSX112.amr.corp.intel.com>
+References: <1493672344-21965-1-git-send-email-juro.bystricky@intel.com>
+	<1493672344-21965-3-git-send-email-juro.bystricky@intel.com>,
+	<CA+chaQdJ_GDPA86bOkXJdJv_U0P853UT2t_3C9kaqWpt+18P2g@mail.gmail.com>
+In-Reply-To: <CA+chaQdJ_GDPA86bOkXJdJv_U0P853UT2t_3C9kaqWpt+18P2g@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.19.9.46]
+MIME-Version: 1.0
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>,
+	Juro Bystricky <jurobystricky@hotmail.com>
+Subject: Re: [PATCH v2 2/6] base.bbclass: initial support for binary reproducibility
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,40 +46,642 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Jun 2017 20:50:52 -0000
+X-List-Received-Date: Wed, 14 Jun 2017 20:50:53 -0000
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_6E51916E4A1F32428260031F4C7CD2B61198C2F5ORSMSX112amrcor_"
 
-From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+--_000_6E51916E4A1F32428260031F4C7CD2B61198C2F5ORSMSX112amrcor_
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
-The class nopackages deletes tasks needed by the archiver, so in case
-the latter is globally inherited, do not inherit nopackages. Without
-this patch, the following error occurs:
+Thanks, it seems there is not-too-great error checking implemented. There i=
+s an assumption if there is
+a git folder there is also a git repo (and "git" binary in PATH). Seems the=
+ assumption is wrong.
+I'll add some error checking/improved error message. The problem with git r=
+epos is they modify the
+file mod timestamps upon checkout, so it is not possible to find the one th=
+at is truly the youngest.
+So the code tries to get the timestamp of the top commit instead.
 
-    ERROR: Task do_deploy_archives in .../meta/recipes-kernel/kmod/depmodwrapper-cross_1.0.bb depends upon non-existent task do_package_write_rpm in \
-                                      .../meta/recipes-kernel/kmod/depmodwrapper-cross_1.0.bb
-    ERROR: Command execution failed: 1
+________________________________
+From: Martin Jansa [martin.jansa@gmail.com]
+Sent: Wednesday, June 14, 2017 1:30 PM
+To: Bystricky, Juro
+Cc: Patches and discussions about the oe-core layer; Richard Purdie; Joshua=
+ G Lock; Burton, Ross; Khem Raj; Juro Bystricky
+Subject: Re: [PATCH v2 2/6] base.bbclass: initial support for binary reprod=
+ucibility
 
-The solution was suggested by J. Richardson, mentioned on the bugzilla
-entry.
+For some recipes (llvm, chromium, chromium-wayland) I've noticed this funct=
+ion to fail with:
 
-[YOCTO #11121]
 
-Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+ERROR: llvm3.3-3.3-r0 do_unpack: Error executing a python function in exec_=
+python_func() autogenerated:
+
+The stack trace of python calls that resulted in this exception/failure was=
+:
+File: 'exec_python_func() autogenerated', lineno: 2, function: <module>
+     0001:
+ *** 0002:base_do_unpack(d)
+     0003:
+File: '/home/jenkins/oe/world/shr-core/openembedded-core/meta/classes/base.=
+bbclass', lineno: 215, function: base_do_unpack
+     0211:
+     0212:    try:
+     0213:        fetcher =3D bb.fetch2.Fetch(src_uri, d)
+     0214:        fetcher.unpack(d.getVar('WORKDIR'))
+ *** 0215:        create_src_date_epoch_stamp(d)
+     0216:    except bb.fetch2.BBFetchException as e:
+     0217:        bb.fatal(str(e))
+     0218:}
+     0219:
+File: '/home/jenkins/oe/world/shr-core/openembedded-core/meta/classes/base.=
+bbclass', lineno: 34, function: create_src_date_epoch_stamp
+     0030:            exclude =3D set(["temp", "licenses", "patches", "reci=
+pe-sysroot-native", "recipe-sysroot" ])
+     0031:            for root, dirs, files in os.walk(path, topdown=3DTrue=
+):
+     0032:                dirs[:] =3D [d for d in dirs if d not in exclude]
+     0033:                if root.endswith('/git'):
+ *** 0034:                    src_date_epoch =3D get_git_src_date_epoch(d, =
+root)
+     0035:                    break
+     0036:
+     0037:                for fname in files:
+     0038:                    filename =3D os.path.join(root, fname)
+File: '/home/jenkins/oe/world/shr-core/openembedded-core/meta/classes/base.=
+bbclass', lineno: 17, function: get_git_src_date_epoch
+     0013:def get_git_src_date_epoch(d, path):
+     0014:    import subprocess
+     0015:    saved_cwd =3D os.getcwd()
+     0016:    os.chdir(path)
+ *** 0017:    src_date_epoch =3D int(subprocess.check_output(['git','log','=
+-1','--pretty=3D%ct']))
+     0018:    os.chdir(saved_cwd)
+     0019:    return src_date_epoch
+     0020:
+     0021:def create_src_date_epoch_stamp(d):
+File: '/usr/lib/python3.5/subprocess.py', lineno: 626, function: check_outp=
+ut
+     0622:        # empty string. That is maintained here for backwards com=
+patibility.
+     0623:        kwargs['input'] =3D '' if kwargs.get('universal_newlines'=
+, False) else b''
+     0624:
+     0625:    return run(*popenargs, stdout=3DPIPE, timeout=3Dtimeout, chec=
+k=3DTrue,
+ *** 0626:               **kwargs).stdout
+     0627:
+     0628:
+     0629:class CompletedProcess(object):
+     0630:    """A process that has finished running.
+File: '/usr/lib/python3.5/subprocess.py', lineno: 708, function: run
+     0704:            raise
+     0705:        retcode =3D process.poll()
+     0706:        if check and retcode:
+     0707:            raise CalledProcessError(retcode, process.args,
+ *** 0708:                                     output=3Dstdout, stderr=3Dst=
+derr)
+     0709:    return CompletedProcess(process.args, retcode, stdout, stderr=
+)
+     0710:
+     0711:
+     0712:def list2cmdline(seq):
+Exception: subprocess.CalledProcessError: Command '['git', 'log', '-1', '--=
+pretty=3D%ct']' returned non-zero exit status 128
+
+ERROR: llvm3.3-3.3-r0 do_unpack: Function failed: base_do_unpack
+ERROR: Logfile of failure stored in: /home/jenkins/oe/world/shr-core/tmp-gl=
+ibc/work/i586-oe-linux/llvm3.3/3.3-r0/temp/log.do_unpack.25005
+NOTE: recipe llvm3.3-3.3-r0: task do_unpack: Failed
+ERROR: Task (/home/jenkins/oe/world/shr-core/meta-openembedded/meta-oe/reci=
+pes-core/llvm/llvm3.3_3.3.bb:do_unpack) failed with exit code '1'
+
+
+Maybe I don't have the latest version of this patch (I'm not using your pok=
+y-contrib branch yet), but it should fail with nicer message when git log f=
+ails for whatever reason.
+
+On Mon, May 1, 2017 at 10:59 PM, Juro Bystricky <juro.bystricky@intel.com<m=
+ailto:juro.bystricky@intel.com>> wrote:
+Conditionally set some environment variables in order to achieve
+improved binary reproducibility. Providing BUILD_REPRODUCIBLE_BINARIES is
+set to "1", we set the following environment variables:
+
+export PYTHONHASHSEED=3D0
+export PERL_HASH_SEED=3D0
+export TZ=3D"UTC"
+
+We also export and set SOURCE_DATE_EPOCH. The value for this variable
+is obtained after source code for a recipe has been unpacked, but before it=
+ is
+patched. If the code comes from a GIT repo, we get the timestamp from the t=
+op
+commit. (This usually corresponds to the mktime of "changelog".)
+Otherwise we go through all files and get the timestamp from the youngest
+one. We create a timestamp for each recipe. The timestamp is stored in the =
+file
+'src_date_epoch.txt'. Later on, each task reads this file and sets SOURCE_D=
+ATE_EPOCH
+based on the value found in the file.
+
+[YOCTO#11178]
+[YOCTO#11179]
+
+Signed-off-by: Juro Bystricky <juro.bystricky@intel.com<mailto:juro.bystric=
+ky@intel.com>>
 ---
- meta/recipes-kernel/kmod/depmodwrapper-cross_1.0.bb | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ meta/classes/base.bbclass | 82 +++++++++++++++++++++++++++++++++++++++++++=
+++++
+ 1 file changed, 82 insertions(+)
 
-diff --git a/meta/recipes-kernel/kmod/depmodwrapper-cross_1.0.bb b/meta/recipes-kernel/kmod/depmodwrapper-cross_1.0.bb
-index 44d013f29d..a0ae9bbb61 100644
---- a/meta/recipes-kernel/kmod/depmodwrapper-cross_1.0.bb
-+++ b/meta/recipes-kernel/kmod/depmodwrapper-cross_1.0.bb
-@@ -45,4 +45,5 @@ EOF
- 
- SYSROOT_DIRS += "${bindir_crossscripts}"
- 
--inherit nopackages
-+# The archiver requires tasks that nopackages deletes.
-+inherit ${@'nopackages' if not bb.data.inherits_class('archiver', d) else ''}
--- 
-2.12.0
+diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+index e29821f..f2b2d97 100644
+--- a/meta/classes/base.bbclass
++++ b/meta/classes/base.bbclass
+@@ -10,6 +10,52 @@ inherit utility-tasks
+ inherit metadata_scm
+ inherit logging
+
++def get_git_src_date_epoch(d, path):
++    import subprocess
++    saved_cwd =3D os.getcwd()
++    os.chdir(path)
++    src_date_epoch =3D int(subprocess.check_output(['git','log','-1','--pr=
+etty=3D%ct']))
++    os.chdir(saved_cwd)
++    return src_date_epoch
++
++def create_src_date_epoch_stamp(d):
++    if d.getVar('BUILD_REPRODUCIBLE_BINARIES') =3D=3D '1':
++        path =3D d.getVar('S')
++        src_date_epoch =3D 0
++        filename_dbg =3D None
++
++        if path.endswith('/git'):
++            src_date_epoch =3D get_git_src_date_epoch(d, path)
++        else:
++            exclude =3D set(["temp", "licenses", "patches", "recipe-sysroo=
+t-native", "recipe-sysroot" ])
++            for root, dirs, files in os.walk(path, topdown=3DTrue):
++                dirs[:] =3D [d for d in dirs if d not in exclude]
++                if root.endswith('/git'):
++                    src_date_epoch =3D get_git_src_date_epoch(d, root)
++                    break
++
++                for fname in files:
++                    filename =3D os.path.join(root, fname)
++                    try:
++                        mtime =3D int(os.path.getmtime(filename))
++                    except:
++                        mtime =3D 0
++                    if mtime > src_date_epoch:
++                        src_date_epoch =3D mtime
++                        filename_dbg =3D filename
++
++        # Most likely an empty folder
++        if src_date_epoch =3D=3D 0:
++            bb.warn("Unable to determine src_date_epoch! path:%s" % path)
++
++        f =3D open(os.path.join(path,'src_date_epoch.txt'), 'w')
++        f.write(str(src_date_epoch))
++        f.close()
++
++        if filename_dbg !=3D None:
++            bb.debug(1," src_date_epoch %d derived from: %s" % (src_date_e=
+poch, filename_dbg))
++
++
+ OE_IMPORTS +=3D "os sys time oe.path oe.utils oe.types oe.package oe.packa=
+gegroup oe.sstatesig oe.lsb oe.cachedpath oe.license"
+ OE_IMPORTS[type] =3D "list"
+
+@@ -173,6 +219,7 @@ python base_do_unpack() {
+     try:
+         fetcher =3D bb.fetch2.Fetch(src_uri, d)
+         fetcher.unpack(d.getVar('WORKDIR'))
++        create_src_date_epoch_stamp(d)
+     except bb.fetch2.BBFetchException as e:
+         bb.fatal(str(e))
+ }
+@@ -383,9 +430,43 @@ def set_packagetriplet(d):
+
+     settriplet(d, "PKGMLTRIPLETS", archs, tos, tvs)
+
++
++export PYTHONHASHSEED
++export PERL_HASH_SEED
++export SOURCE_DATE_EPOCH
++
++BB_HASHBASE_WHITELIST +=3D "SOURCE_DATE_EPOCH PYTHONHASHSEED PERL_HASH_SEE=
+D "
++
+ python () {
+     import string, re
+
++    # Create reproducible_environment
++
++    if d.getVar('BUILD_REPRODUCIBLE_BINARIES') =3D=3D '1':
++        import subprocess
++        d.setVar('PYTHONHASHSEED', '0')
++        d.setVar('PERL_HASH_SEED', '0')
++        d.setVar('TZ', 'UTC')
++
++        path =3D d.getVar('S')
++        epochfile =3D os.path.join(path,'src_date_epoch.txt')
++        if os.path.isfile(epochfile):
++            f =3D open(epochfile, 'r')
++            src_date_epoch =3D f.read()
++            f.close()
++            bb.debug(1, "src_date_epoch stamp found ---> stamp %s" % src_d=
+ate_epoch)
++            d.setVar('SOURCE_DATE_EPOCH', src_date_epoch)
++        else:
++            bb.debug(1, "src_date_epoch stamp not found.")
++            d.setVar('SOURCE_DATE_EPOCH', '0')
++    else:
++        if 'PYTHONHASHSEED' in os.environ:
++            del os.environ['PYTHONHASHSEED']
++        if 'PERL_HASH_SEED' in os.environ:
++            del os.environ['PERL_HASH_SEED']
++        if 'SOURCE_DATE_EPOCH' in os.environ:
++            del os.environ['SOURCE_DATE_EPOCH']
++
+     # Handle PACKAGECONFIG
+     #
+     # These take the form:
+@@ -678,6 +759,7 @@ python () {
+             bb.warn("Recipe %s is marked as only being architecture specif=
+ic but seems to have machine specific packages?! The recipe may as well mar=
+k itself as machine specific directly." % d.getVar("PN"))
+ }
+
++
+ addtask cleansstate after do_clean
+ python do_cleansstate() {
+         sstate_clean_cachefiles(d)
+--
+2.7.4
 
 
+
+--_000_6E51916E4A1F32428260031F4C7CD2B61198C2F5ORSMSX112amrcor_
+Content-Type: text/html; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+
+<html dir=3D"ltr">
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
+1">
+<style type=3D"text/css" id=3D"owaParaStyle">P {margin-top:0;margin-bottom:=
+0;}</style>
+</head>
+<body fpstyle=3D"1" ocsi=3D"0">
+<div style=3D"direction: ltr;font-family: Tahoma;color: #000000;font-size: =
+10pt;">Thanks, it seems there is not-too-great error checking implemented. =
+There is an assumption if there is
+<br>
+a git folder there is also a git repo (and &quot;git&quot; binary in PATH).=
+ Seems the assumption is wrong.<br>
+I'll add some error checking/improved error message. The problem with git r=
+epos is they modify the
+<br>
+file mod timestamps upon checkout, so it is not possible to find the one th=
+at is truly the youngest.<br>
+So the code tries to get the timestamp of the top commit instead.<br>
+<br>
+<div style=3D"font-family: Times New Roman; color: #000000; font-size: 16px=
+">
+<hr tabindex=3D"-1">
+<div id=3D"divRpF897323" style=3D"direction: ltr;"><font size=3D"2" color=
+=3D"#000000" face=3D"Tahoma"><b>From:</b> Martin Jansa [martin.jansa@gmail.=
+com]<br>
+<b>Sent:</b> Wednesday, June 14, 2017 1:30 PM<br>
+<b>To:</b> Bystricky, Juro<br>
+<b>Cc:</b> Patches and discussions about the oe-core layer; Richard Purdie;=
+ Joshua G Lock; Burton, Ross; Khem Raj; Juro Bystricky<br>
+<b>Subject:</b> Re: [PATCH v2 2/6] base.bbclass: initial support for binary=
+ reproducibility<br>
+</font><br>
+</div>
+<div></div>
+<div>
+<div dir=3D"ltr">For some recipes (llvm, chromium, chromium-wayland) I've n=
+oticed this function to fail with:
+<div><br>
+</div>
+<div>
+<pre style=3D"white-space:pre-wrap; word-wrap:break-word; margin-top:0px; m=
+argin-bottom:0px; color:rgb(51,51,51); font-size:14px">ERROR: llvm3.3-3.3-r=
+0 do_unpack: Error executing a python function in exec_python_func() autoge=
+nerated:=0A=
+=0A=
+The stack trace of python calls that resulted in this exception/failure was=
+:=0A=
+File: 'exec_python_func() autogenerated', lineno: 2, function: &lt;module&g=
+t;=0A=
+     0001:=0A=
+ *** 0002:base_do_unpack(d)=0A=
+     0003:=0A=
+File: '/home/jenkins/oe/world/shr-core/openembedded-core/meta/classes/base.=
+bbclass', lineno: 215, function: base_do_unpack=0A=
+     0211:=0A=
+     0212:    try:=0A=
+     0213:        fetcher =3D bb.fetch2.Fetch(src_uri, d)=0A=
+     0214:        fetcher.unpack(d.getVar('WORKDIR'))=0A=
+ *** 0215:        create_src_date_epoch_stamp(d)=0A=
+     0216:    except bb.fetch2.BBFetchException as e:=0A=
+     0217:        bb.fatal(str(e))=0A=
+     0218:}=0A=
+     0219:=0A=
+File: '/home/jenkins/oe/world/shr-core/openembedded-core/meta/classes/base.=
+bbclass', lineno: 34, function: create_src_date_epoch_stamp=0A=
+     0030:            exclude =3D set([&quot;temp&quot;, &quot;licenses&quo=
+t;, &quot;patches&quot;, &quot;recipe-sysroot-native&quot;, &quot;recipe-sy=
+sroot&quot; ])=0A=
+     0031:            for root, dirs, files in os.walk(path, topdown=3DTrue=
+):=0A=
+     0032:                dirs[:] =3D [d for d in dirs if d not in exclude]=
+=0A=
+     0033:                if root.endswith('/git'):=0A=
+ *** 0034:                    src_date_epoch =3D get_git_src_date_epoch(d, =
+root)=0A=
+     0035:                    break=0A=
+     0036:=0A=
+     0037:                for fname in files:=0A=
+     0038:                    filename =3D os.path.join(root, fname)=0A=
+File: '/home/jenkins/oe/world/shr-core/openembedded-core/meta/classes/base.=
+bbclass', lineno: 17, function: get_git_src_date_epoch=0A=
+     0013:def get_git_src_date_epoch(d, path):=0A=
+     0014:    import subprocess=0A=
+     0015:    saved_cwd =3D os.getcwd()=0A=
+     0016:    os.chdir(path)=0A=
+ *** 0017:    src_date_epoch =3D int(subprocess.check_output(['git','log','=
+-1','--pretty=3D%ct']))=0A=
+     0018:    os.chdir(saved_cwd)=0A=
+     0019:    return src_date_epoch=0A=
+     0020:=0A=
+     0021:def create_src_date_epoch_stamp(d):=0A=
+File: '/usr/lib/python3.5/subprocess.py', lineno: 626, function: check_outp=
+ut=0A=
+     0622:        # empty string. That is maintained here for backwards com=
+patibility.=0A=
+     0623:        kwargs['input'] =3D '' if kwargs.get('universal_newlines'=
+, False) else b''=0A=
+     0624:=0A=
+     0625:    return run(*popenargs, stdout=3DPIPE, timeout=3Dtimeout, chec=
+k=3DTrue,=0A=
+ *** 0626:               **kwargs).stdout=0A=
+     0627:=0A=
+     0628:=0A=
+     0629:class CompletedProcess(object):=0A=
+     0630:    &quot;&quot;&quot;A process that has finished running.=0A=
+File: '/usr/lib/python3.5/subprocess.py', lineno: 708, function: run=0A=
+     0704:            raise=0A=
+     0705:        retcode =3D process.poll()=0A=
+     0706:        if check and retcode:=0A=
+     0707:            raise CalledProcessError(retcode, process.args,=0A=
+ *** 0708:                                     output=3Dstdout, stderr=3Dst=
+derr)=0A=
+     0709:    return CompletedProcess(process.args, retcode, stdout, stderr=
+)=0A=
+     0710:=0A=
+     0711:=0A=
+     0712:def list2cmdline(seq):=0A=
+Exception: subprocess.CalledProcessError: Command '['git', 'log', '-1', '--=
+pretty=3D%ct']' returned non-zero exit status 128=0A=
+=0A=
+ERROR: llvm3.3-3.3-r0 do_unpack: Function failed: base_do_unpack=0A=
+ERROR: Logfile of failure stored in: /home/jenkins/oe/world/shr-core/tmp-gl=
+ibc/work/i586-oe-linux/llvm3.3/3.3-r0/temp/log.do_unpack.25005=0A=
+NOTE: recipe llvm3.3-3.3-r0: task do_unpack: Failed=0A=
+ERROR: Task (/home/jenkins/oe/world/shr-core/meta-openembedded/meta-oe/reci=
+pes-core/llvm/llvm3.3_3.3.bb:do_unpack) failed with exit code '1'</pre>
+<pre style=3D"white-space:pre-wrap; word-wrap:break-word; margin-top:0px; m=
+argin-bottom:0px; color:rgb(51,51,51); font-size:14px"><br></pre>
+<pre style=3D"white-space:pre-wrap; word-wrap:break-word; margin-top:0px; m=
+argin-bottom:0px; color:rgb(51,51,51); font-size:14px">Maybe I don't have t=
+he latest version of this patch (I'm not using your poky-contrib branch yet=
+), but it should fail with nicer message when git log fails for whatever re=
+ason.</pre>
+</div>
+</div>
+<div class=3D"gmail_extra"><br>
+<div class=3D"gmail_quote">On Mon, May 1, 2017 at 10:59 PM, Juro Bystricky =
+<span dir=3D"ltr">
+&lt;<a href=3D"mailto:juro.bystricky@intel.com" target=3D"_blank">juro.byst=
+ricky@intel.com</a>&gt;</span> wrote:<br>
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex; border-left:1=
+px #ccc solid; padding-left:1ex">
+Conditionally set some environment variables in order to achieve<br>
+improved binary reproducibility. Providing BUILD_REPRODUCIBLE_BINARIES is<b=
+r>
+set to &quot;1&quot;, we set the following environment variables:<br>
+<br>
+export PYTHONHASHSEED=3D0<br>
+export PERL_HASH_SEED=3D0<br>
+export TZ=3D&quot;UTC&quot;<br>
+<br>
+We also export and set SOURCE_DATE_EPOCH. The value for this variable<br>
+is obtained after source code for a recipe has been unpacked, but before it=
+ is<br>
+patched. If the code comes from a GIT repo, we get the timestamp from the t=
+op<br>
+commit. (This usually corresponds to the mktime of &quot;changelog&quot;.)<=
+br>
+Otherwise we go through all files and get the timestamp from the youngest<b=
+r>
+one. We create a timestamp for each recipe. The timestamp is stored in the =
+file<br>
+'src_date_epoch.txt'. Later on, each task reads this file and sets SOURCE_D=
+ATE_EPOCH<br>
+based on the value found in the file.<br>
+<br>
+[YOCTO#11178]<br>
+[YOCTO#11179]<br>
+<br>
+Signed-off-by: Juro Bystricky &lt;<a href=3D"mailto:juro.bystricky@intel.co=
+m" target=3D"_blank">juro.bystricky@intel.com</a>&gt;<br>
+---<br>
+&nbsp;meta/classes/base.bbclass | 82 &#43;&#43;&#43;&#43;&#43;&#43;&#43;&#4=
+3;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#4=
+3;&#43;&#43;&#43;&#43;&#43;&#43;&#43;<wbr>&#43;&#43;&#43;&#43;&#43;&#43;&#4=
+3;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;<br>
+&nbsp;1 file changed, 82 insertions(&#43;)<br>
+<br>
+diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass<br>
+index e29821f..f2b2d97 100644<br>
+--- a/meta/classes/base.bbclass<br>
+&#43;&#43;&#43; b/meta/classes/base.bbclass<br>
+@@ -10,6 &#43;10,52 @@ inherit utility-tasks<br>
+&nbsp;inherit metadata_scm<br>
+&nbsp;inherit logging<br>
+<br>
+&#43;def get_git_src_date_epoch(d, path):<br>
+&#43;&nbsp; &nbsp; import subprocess<br>
+&#43;&nbsp; &nbsp; saved_cwd =3D os.getcwd()<br>
+&#43;&nbsp; &nbsp; os.chdir(path)<br>
+&#43;&nbsp; &nbsp; src_date_epoch =3D int(subprocess.check_output(['<wbr>gi=
+t','log','-1','--pretty=3D%ct'<wbr>]))<br>
+&#43;&nbsp; &nbsp; os.chdir(saved_cwd)<br>
+&#43;&nbsp; &nbsp; return src_date_epoch<br>
+&#43;<br>
+&#43;def create_src_date_epoch_stamp(d)<wbr>:<br>
+&#43;&nbsp; &nbsp; if d.getVar('BUILD_REPRODUCIBLE_<wbr>BINARIES') =3D=3D '=
+1':<br>
+&#43;&nbsp; &nbsp; &nbsp; &nbsp; path =3D d.getVar('S')<br>
+&#43;&nbsp; &nbsp; &nbsp; &nbsp; src_date_epoch =3D 0<br>
+&#43;&nbsp; &nbsp; &nbsp; &nbsp; filename_dbg =3D None<br>
+&#43;<br>
+&#43;&nbsp; &nbsp; &nbsp; &nbsp; if path.endswith('/git'):<br>
+&#43;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; src_date_epoch =3D get_git_s=
+rc_date_epoch(d, path)<br>
+&#43;&nbsp; &nbsp; &nbsp; &nbsp; else:<br>
+&#43;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; exclude =3D set([&quot;temp&=
+quot;, &quot;licenses&quot;, &quot;patches&quot;, &quot;recipe-sysroot-nati=
+ve&quot;, &quot;recipe-sysroot&quot; ])<br>
+&#43;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; for root, dirs, files in os.=
+walk(path, topdown=3DTrue):<br>
+&#43;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; dirs[:] =3D [d=
+ for d in dirs if d not in exclude]<br>
+&#43;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if root.endswi=
+th('/git'):<br>
+&#43;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
+src_date_epoch =3D get_git_src_date_epoch(d, root)<br>
+&#43;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
+break<br>
+&#43;<br>
+&#43;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; for fname in f=
+iles:<br>
+&#43;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
+filename =3D os.path.join(root, fname)<br>
+&#43;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
+try:<br>
+&#43;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
+&nbsp; &nbsp; mtime =3D int(os.path.getmtime(filename)<wbr>)<br>
+&#43;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
+except:<br>
+&#43;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
+&nbsp; &nbsp; mtime =3D 0<br>
+&#43;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
+if mtime &gt; src_date_epoch:<br>
+&#43;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
+&nbsp; &nbsp; src_date_epoch =3D mtime<br>
+&#43;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
+&nbsp; &nbsp; filename_dbg =3D filename<br>
+&#43;<br>
+&#43;&nbsp; &nbsp; &nbsp; &nbsp; # Most likely an empty folder<br>
+&#43;&nbsp; &nbsp; &nbsp; &nbsp; if src_date_epoch =3D=3D 0:<br>
+&#43;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; bb.warn(&quot;Unable to dete=
+rmine src_date_epoch! path:%s&quot; % path)<br>
+&#43;<br>
+&#43;&nbsp; &nbsp; &nbsp; &nbsp; f =3D open(os.path.join(path,'src_<wbr>dat=
+e_epoch.txt'), 'w')<br>
+&#43;&nbsp; &nbsp; &nbsp; &nbsp; f.write(str(src_date_epoch))<br>
+&#43;&nbsp; &nbsp; &nbsp; &nbsp; f.close()<br>
+&#43;<br>
+&#43;&nbsp; &nbsp; &nbsp; &nbsp; if filename_dbg !=3D None:<br>
+&#43;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; bb.debug(1,&quot; src_date_e=
+poch %d derived from: %s&quot; % (src_date_epoch, filename_dbg))<br>
+&#43;<br>
+&#43;<br>
+&nbsp;OE_IMPORTS &#43;=3D &quot;os sys time oe.path oe.utils oe.types oe.pa=
+ckage oe.packagegroup oe.sstatesig oe.lsb oe.cachedpath oe.license&quot;<br=
+>
+&nbsp;OE_IMPORTS[type] =3D &quot;list&quot;<br>
+<br>
+@@ -173,6 &#43;219,7 @@ python base_do_unpack() {<br>
+&nbsp; &nbsp; &nbsp;try:<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;fetcher =3D bb.fetch2.Fetch(src_uri, d)<b=
+r>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;fetcher.unpack(d.getVar('<wbr>WORKDIR'))<=
+br>
+&#43;&nbsp; &nbsp; &nbsp; &nbsp; create_src_date_epoch_stamp(d)<br>
+&nbsp; &nbsp; &nbsp;except bb.fetch2.BBFetchException as e:<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;bb.fatal(str(e))<br>
+&nbsp;}<br>
+@@ -383,9 &#43;430,43 @@ def set_packagetriplet(d):<br>
+<br>
+&nbsp; &nbsp; &nbsp;settriplet(d, &quot;PKGMLTRIPLETS&quot;, archs, tos, tv=
+s)<br>
+<br>
+&#43;<br>
+&#43;export PYTHONHASHSEED<br>
+&#43;export PERL_HASH_SEED<br>
+&#43;export SOURCE_DATE_EPOCH<br>
+&#43;<br>
+&#43;BB_HASHBASE_WHITELIST &#43;=3D &quot;SOURCE_DATE_EPOCH PYTHONHASHSEED =
+PERL_HASH_SEED &quot;<br>
+&#43;<br>
+&nbsp;python () {<br>
+&nbsp; &nbsp; &nbsp;import string, re<br>
+<br>
+&#43;&nbsp; &nbsp; # Create reproducible_environment<br>
+&#43;<br>
+&#43;&nbsp; &nbsp; if d.getVar('BUILD_REPRODUCIBLE_<wbr>BINARIES') =3D=3D '=
+1':<br>
+&#43;&nbsp; &nbsp; &nbsp; &nbsp; import subprocess<br>
+&#43;&nbsp; &nbsp; &nbsp; &nbsp; d.setVar('PYTHONHASHSEED', '0')<br>
+&#43;&nbsp; &nbsp; &nbsp; &nbsp; d.setVar('PERL_HASH_SEED', '0')<br>
+&#43;&nbsp; &nbsp; &nbsp; &nbsp; d.setVar('TZ', 'UTC')<br>
+&#43;<br>
+&#43;&nbsp; &nbsp; &nbsp; &nbsp; path =3D d.getVar('S')<br>
+&#43;&nbsp; &nbsp; &nbsp; &nbsp; epochfile =3D os.path.join(path,'src_date_=
+<wbr>epoch.txt')<br>
+&#43;&nbsp; &nbsp; &nbsp; &nbsp; if os.path.isfile(epochfile):<br>
+&#43;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; f =3D open(epochfile, 'r')<b=
+r>
+&#43;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; src_date_epoch =3D f.read()<=
+br>
+&#43;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; f.close()<br>
+&#43;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; bb.debug(1, &quot;src_date_e=
+poch stamp found ---&gt; stamp %s&quot; % src_date_epoch)<br>
+&#43;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; d.setVar('SOURCE_DATE_EPOCH'=
+, src_date_epoch)<br>
+&#43;&nbsp; &nbsp; &nbsp; &nbsp; else:<br>
+&#43;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; bb.debug(1, &quot;src_date_e=
+poch stamp not found.&quot;)<br>
+&#43;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; d.setVar('SOURCE_DATE_EPOCH'=
+, '0')<br>
+&#43;&nbsp; &nbsp; else:<br>
+&#43;&nbsp; &nbsp; &nbsp; &nbsp; if 'PYTHONHASHSEED' in os.environ:<br>
+&#43;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; del os.environ['PYTHONHASHSE=
+ED']<br>
+&#43;&nbsp; &nbsp; &nbsp; &nbsp; if 'PERL_HASH_SEED' in os.environ:<br>
+&#43;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; del os.environ['PERL_HASH_SE=
+ED']<br>
+&#43;&nbsp; &nbsp; &nbsp; &nbsp; if 'SOURCE_DATE_EPOCH' in os.environ:<br>
+&#43;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; del os.environ['SOURCE_DATE_=
+EPOCH'<wbr>]<br>
+&#43;<br>
+&nbsp; &nbsp; &nbsp;# Handle PACKAGECONFIG<br>
+&nbsp; &nbsp; &nbsp;#<br>
+&nbsp; &nbsp; &nbsp;# These take the form:<br>
+@@ -678,6 &#43;759,7 @@ python () {<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;bb.warn(&quot;Recipe %s is =
+marked as only being architecture specific but seems to have machine specif=
+ic packages?! The recipe may as well mark itself as machine specific direct=
+ly.&quot; % d.getVar(&quot;PN&quot;))<br>
+&nbsp;}<br>
+<br>
+&#43;<br>
+&nbsp;addtask cleansstate after do_clean<br>
+&nbsp;python do_cleansstate() {<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;sstate_clean_cachefiles(d)<br>
+<span class=3D"HOEnZb"><font color=3D"#888888">--<br>
+2.7.4<br>
+<br>
+</font></span></blockquote>
+</div>
+<br>
+</div>
+</div>
+</div>
+</div>
+</body>
+</html>
+
+--_000_6E51916E4A1F32428260031F4C7CD2B61198C2F5ORSMSX112amrcor_--
