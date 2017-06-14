@@ -1,58 +1,50 @@
 Return-Path: <patrick.ohly@intel.com>
-Received: from mail-it0-f51.google.com (mail-it0-f51.google.com
-	[209.85.214.51])
-	by mail.openembedded.org (Postfix) with ESMTP id C34B678344
+Received: from mail-it0-f47.google.com (mail-it0-f47.google.com
+	[209.85.214.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 5AA0F782DF
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Jun 2017 10:32:05 +0000 (UTC)
-Received: by mail-it0-f51.google.com with SMTP id m47so56486780iti.1
+	Wed, 14 Jun 2017 10:33:55 +0000 (UTC)
+Received: by mail-it0-f47.google.com with SMTP id l6so44636453iti.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Jun 2017 03:32:06 -0700 (PDT)
+	Wed, 14 Jun 2017 03:33:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:organization:mime-version:content-transfer-encoding;
-	bh=4iErDgOCb+70gO9QS34YzGLdbL8pnRU/6KH677bJ0yQ=;
-	b=tfu/vgI5BTRkWW8mkprAPCMYhK85pQA55In3736QOlAXRq3vCzrgIMt/mG9gCZYLec
-	wIhHD8CbFQcBnskwwLIr93kEfnswYNBul0uTbuFfk9O5pTioAJ5kpGKyM7iKhoBNHOM6
-	+A0n8WMMRplf+86nmTJ5RHxQK+VWLlT3yC5nlf7eKRoENDzb6PoniubfPy4O9jBqiJ2q
-	HYkz6tz2gHsN366Qe/l3xHOvVt4Cs7kVJ0htQJFohkGJwqBD4eJd/AIXZe9/qa9Ym50V
-	3OTwWC0EMwZpY6JCHaO4St1ui6hUUVcQurmsmwgffoWMxNCc0KpTNB4kYsXFCwrZVzDf
-	E7MQ==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=h6CuyQS9vhnoNmc1h5sxpYYRBY1NdBbBHa8eiYqFMtQ=;
+	b=X+GLyvZVx/ves9WrYNyfnxLsTmWT35KxKQ2fbS3li5CsUAvNFj3Lx28nG/2u4UIItS
+	0Qix3sRBqvU7SOGZt91dV/FPC/CgyzFw8SQtUhW5fIaJUBjuK6WFMRIR8EPAW/FXsGpm
+	lOu1zFGPdPCOwOfEZdttmuD6iVEthDjRS769F7Xsur5LQcEgb3H9OVrSyH+Akw1BpkVE
+	RtBh58aA3hSM10EBIGhntjxOCqaezCGjWxzm7XNvEmd+as2GabeRe0FmLF1AFW1aDX9D
+	bovSe3koTmOLEw/ixG71as2PjdKKIg8NBMb/1Z3bac7bRSxgQBk+ed4VrX2eakKplYSB
+	oqQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:organization:mime-version:content-transfer-encoding;
-	bh=4iErDgOCb+70gO9QS34YzGLdbL8pnRU/6KH677bJ0yQ=;
-	b=INXx5GMy7jAdMBjPq2EfVpV+nx02cvoNfKRP7FVcdOw1mdHpfLQkyL8xPLgD/5qlUN
-	TkW390Xp80YOOIUVz6HgSgaaE/yUGBXFRc+XxN6ZfsNLttl/djX9noZLqYsO6ydVrdNG
-	Wc+RnEU146jN5gBzwmPLMPh0hcIvDWakxs/KmhDAaxcYBclKTOSLrz3KEVvcj7EmcQL+
-	HzDJjl9DByC4TzVz1pnttMF0YoW22eEwK5IBbDfeuSZ7+Up1w2tPOIxPcTv9SIQDGHS0
-	7jCsBJmKuUlicITOPo6GsXR1Thbua6jN92HL/TYE+us0bXjU3CMKJbGVPxHOn4/GgraG
-	LzeA==
-X-Gm-Message-State: AKS2vOzfMsGkxvI3l0ZZKC9bCCYe0BYzb7HS9ZpkrHHgMI5fxiCRdyY3
-	0K/+T0S5bRLOuJmA
-X-Received: by 10.36.103.143 with SMTP id u137mr464858itc.118.1497436326483;
-	Wed, 14 Jun 2017 03:32:06 -0700 (PDT)
-Received: from pohly-mobl1 (p5DE8E312.dip0.t-ipconnect.de. [93.232.227.18])
-	by smtp.gmail.com with ESMTPSA id x29sm180351ioi.14.2017.06.14.03.32.04
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 14 Jun 2017 03:32:05 -0700 (PDT)
-Message-ID: <1497436322.30163.375.camel@intel.com>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=h6CuyQS9vhnoNmc1h5sxpYYRBY1NdBbBHa8eiYqFMtQ=;
+	b=UyMN6zFFz3bMbdtMd2tIgqfgEjBWJeS97vPN96WCJeZChY8EPLaUMmiR3yNFZ7k8rM
+	7hEfNFuUGHErnzzGXkgCu3X0NGSEeuLVcXjmvdu1ilTaeKYuycHEE9KWl25FWZ7jPbCW
+	yFg3uCrm3Pmrz1Q69YrWGEJ13QP3dodIwXg6/dGGpaJ7r8fryL4rpKyeyxjJMsd4ZZlk
+	GNzhRkjzjbREmc6mUcjgBLRq2rie9bjeMkQ3AxD8eNqHitDfh4sS5SW6AbvpHDVBM2jK
+	Dw7Ry6OyT/UHlIPw09Fs4cASeRJ61pAuOyQxRPYWkSrqKEKz2tiTu7dbfNembtukdZFV
+	PS0A==
+X-Gm-Message-State: AKS2vOxmW/VLwm7Emtsr1HR78DIBpfwUKwnpDz4n6h6VWXb2dwghpLjk
+	4p219ZmfHTThMnfdwak=
+X-Received: by 10.36.80.14 with SMTP id m14mr15973131itb.31.1497436437039;
+	Wed, 14 Jun 2017 03:33:57 -0700 (PDT)
+Received: from pohly-desktop.fritz.box (p5DE8E312.dip0.t-ipconnect.de.
+	[93.232.227.18])
+	by smtp.gmail.com with ESMTPSA id j62sm175673iod.29.2017.06.14.03.33.55
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 14 Jun 2017 03:33:55 -0700 (PDT)
 From: Patrick Ohly <patrick.ohly@intel.com>
-To: Denys Dmytriyenko <denis@denix.org>
-Date: Wed, 14 Jun 2017 12:32:02 +0200
-In-Reply-To: <1497338044.30163.324.camel@intel.com>
-References: <cover.85d08ae286e0b2f8503f9e657148201e6b90edde.1497013310.git-series.patrick.ohly@intel.com>
-	<9dfd9eff13b3831c7e88c97318f97d2daeac9a78.1497013310.git-series.patrick.ohly@intel.com>
-	<20170612194635.GX28053@denix.org>
-	<1497301519.30163.288.camel@intel.com>
-	<20170612232345.GA28053@denix.org>
-	<1497338044.30163.324.camel@intel.com>
-Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
-X-Mailer: Evolution 3.12.9-1+b1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2 1/2] bitbake.conf: DISTRO_FEATURES as overrides
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 14 Jun 2017 12:33:49 +0200
+Message-Id: <3389cda98c8b515e1f9b1e87457042274e88689b.1497436409.git-series.patrick.ohly@intel.com>
+X-Mailer: git-send-email 2.11.0
+In-Reply-To: <1497436322.30163.375.camel@intel.com>
+References: <1497436322.30163.375.camel@intel.com>
+Subject: [PATCH 1/2] Revert "bitbake.conf: DISTRO_FEATURES as overrides"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -65,54 +57,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Jun 2017 10:32:05 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 14 Jun 2017 10:33:56 -0000
 
-On Tue, 2017-06-13 at 09:14 +0200, Patrick Ohly wrote:
-> On Mon, 2017-06-12 at 19:23 -0400, Denys Dmytriyenko wrote:
-> > On Mon, Jun 12, 2017 at 11:05:19PM +0200, Patrick Ohly wrote:
-> > > On Mon, 2017-06-12 at 15:46 -0400, Denys Dmytriyenko wrote:
-> > > > This now breaks parsing my distro config on these lines:
-> > > > 
-> > > > ENABLE_SYSVINIT ?= "0"
-> > > > DISTRO_FEATURES_append = "${@base_conditional("ENABLE_SYSVINIT", "1", "", " systemd", d)}"
-> > > > 
-> > > > 
-> > > > Here's the log:
-> > > > 
-> > > > ERROR: Unable to parse /OE/arago-master/sources/bitbake/lib/bb/data_smart.py
-> > > > Traceback (most recent call last):
-> > > >   File "/OE/arago-master/sources/bitbake/lib/bb/data_smart.py", line 426, in DataSmart.expandWithRefs(s='${@base_conditional("ENABLE_SYSVINIT", "1", "", " systemd", d)}', varname='DISTRO_FEATURES_append'):
-> > > >                  except Exception as exc:
-> > > >     >                raise ExpansionError(varname, s, exc) from exc
-> > > >      
-> > > > bb.data_smart.ExpansionError: Failure expanding variable DISTRO_FEATURES_append, expression was ${@base_conditional("ENABLE_SYSVINIT", "1", "", " systemd", d)} which triggered exception NameError: name 'base_conditional' is not defined
-> > > 
-> > > base_conditional() seems to come from utils.bbclass, which gets
-> > > inherited by base.bbclass. Looks like DISTRO_FEATURES and thus this
-> > > DISTRO_FEATURES_append end up getting expanded before these classes are
-> > > fully parsed.
-> > 
-> > FWIW, replacing it with oe.utils.conditional() doesn't help.
-> 
-> How about the following patch? It solves the problem for me.
+This reverts commit 3b3ae91a22d6f685e804df4f32cdeebe1bd6bd88.
 
-Richard had concerns about rewriting OVERRIDES in an event handler,
-therefore we agreed to use the .bbclass approach that I originally
-started with. I'm still testing that in refkit (blocked by trying to
-move towards bleeding edge OE-core master-next, on which my patch was
-based), but it should be ready at least for OE-core master-next, so I'll
-post it now.
+It turned out that the code which expands DISTRO_FEATURES early during
+base config parsing can fail because some entries in DISTRO_FEATURES
+might call Python functions like base_conditional() from base.bbclass
+which aren't defined yet.
 
+A different solution will be needed.
+
+Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
+---
+ meta/conf/bitbake.conf | 17 +----------------
+ 1 file changed, 1 insertion(+), 16 deletions(-)
+
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 5d5ddec..80baec8 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -713,28 +713,13 @@ DISTRO_NAME ??= "OpenEmbedded"
+ #
+ # This works for  functions as well, they are really just environment variables.
+ # Default OVERRIDES to make compilation fail fast in case of build system misconfiguration.
+-OVERRIDES = "${TARGET_OS}:${TRANSLATED_TARGET_ARCH}:build-${BUILD_OS}:pn-${PN}:${MACHINEOVERRIDES}:${DISTROOVERRIDES}${DISTROFEATURESOVERRIDES}:${CLASSOVERRIDE}:forcevariable"
++OVERRIDES = "${TARGET_OS}:${TRANSLATED_TARGET_ARCH}:build-${BUILD_OS}:pn-${PN}:${MACHINEOVERRIDES}:${DISTROOVERRIDES}:${CLASSOVERRIDE}:forcevariable"
+ CLASSOVERRIDE ?= "class-target"
+ DISTROOVERRIDES ?= "${@d.getVar('DISTRO') or ''}"
+ MACHINEOVERRIDES ?= "${MACHINE}"
+ 
+ FILESOVERRIDES = "${TRANSLATED_TARGET_ARCH}:${MACHINEOVERRIDES}:${DISTROOVERRIDES}"
+ 
+-# Turns certain DISTRO_FEATURES into overrides of the same name
+-# or (optionally) some other name. Ensures that these special
+-# distro features remain set also for native and nativesdk
+-# recipes, so that these overrides can also be used there.
+-#
+-# Beware that this part of OVERRIDES changes during parsing, so usage
+-# of these overrides should be limited to .bb and .bbappend files,
+-# because then DISTRO_FEATURES is final.
+-DISTRO_FEATURES_OVERRIDES ??= ""
+-DISTRO_FEATURES_OVERRIDES[doc] = "A space-separated list of <feature> entries. \
+-Each entry is added to OVERRIDES as df-<feature> if <feature> is in DISTRO_FEATURES."
+-DISTRO_FEATURES_FILTER_NATIVE_append = " ${DISTRO_FEATURES_OVERRIDES}"
+-DISTRO_FEATURES_FILTER_NATIVESDK_append = " ${DISTRO_FEATURES_OVERRIDES}"
+-DISTROFEATURESOVERRIDES = "${@ ''.join([':df-' + x for x in (set(d.getVar('DISTRO_FEATURES_OVERRIDES').split()) & set((d.getVar('DISTRO_FEATURES') or '').split()))]) }"
+-
+ ##################################################################
+ # Include the rest of the config files.
+ ##################################################################
+
+base-commit: 6073813151383121f9fbd3dab9f33033ddf21ee2
 -- 
-Best Regards, Patrick Ohly
-
-The content of this message is my personal opinion only and although
-I am an employee of Intel, the statements I make here in no way
-represent Intel's position on the issue, nor am I authorized to speak
-on behalf of Intel on this matter.
-
-
-
+git-series 0.9.1
 
