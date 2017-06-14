@@ -1,55 +1,50 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-wr0-f175.google.com (mail-wr0-f175.google.com
-	[209.85.128.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 476557823D
+Return-Path: <jpewhacker@gmail.com>
+Received: from mail-it0-f53.google.com (mail-it0-f53.google.com
+	[209.85.214.53])
+	by mail.openembedded.org (Postfix) with ESMTP id D0DF1780F3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Jun 2017 22:13:30 +0000 (UTC)
-Received: by mail-wr0-f175.google.com with SMTP id q97so163362959wrb.2
+	Wed, 14 Jun 2017 03:32:23 +0000 (UTC)
+Received: by mail-it0-f53.google.com with SMTP id m47so48819006iti.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Jun 2017 15:13:32 -0700 (PDT)
+	Tue, 13 Jun 2017 20:32:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=AonIGe/Xy74KCwPITzWsIbJCzj6Syr0xNgW26Xo+e74=;
-	b=MZb9yWJ5uW2yDhaWARl/1yhduCpKudsigv1+d4bcs2Qu2zYadN0IqmEtEfRFmOxZGF
-	dRSJbMRj1acr1hx7aYQQPyuqENQDG1si2L1B5SLC6h7sPKVLdsFllYbsqL6Hpusy/Ydc
-	1MJuNT5Pe2Xc7f36jm4hZ2qfXw/VZ4CSiHLk9KGEnf8ssvdUmQKgeglyYTxRIb9oEuBK
-	0F34rlvl5sXfVJALsmXxwdMujUAYFnCqtBZ3+jDtJFF9VMs6JNajZfj+xSAygzySHc0C
-	/O0Y3YoTnao4lm+OmO/nxnMiuC4h2DqdpO6hBXI5ntMRN7GR6q9q4yN0njUwIRucWBwM
-	g52w==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=S2yWLU3X1ayLFGI4GFZX+7tu4wZHdNu8OZnRpc3eNWI=;
+	b=cQFMRmocl+gZHSBNoeNxiiUWNmUMAiDxylDj7qfILoKIOvsE3ToAzlRAJ9Y561dcaW
+	QE55K+WEYWVTfgFe/jUFKwBzQUn9S2rUApw9eXcHuXN1G1b3KfL/9yNdWC0GxXKBs3pe
+	0E9vkBSWeL1IJGxfeK28z7dmVPHVIds2Wg9LgkFfERhxI+Rhsxbp4SmbX5ZrAHZKeqYN
+	H55oQE60QXaQl+txgIHXB9SwZ0/eHoZmuSdSgbzYbVjMdGCogzRIEXyLpCozA66jygnv
+	OBql+1QFVQbVtfLK/HfVykuz64kBDwUxTCspcorATpxCnu7E60ixtrrIFe2AMkPhedPm
+	9E9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=AonIGe/Xy74KCwPITzWsIbJCzj6Syr0xNgW26Xo+e74=;
-	b=E5AHXw2ZbjX+bbdDhrcUNFAnHLnkxiv8IdR0x10qM7GFhnBDyHAm/SiZbyF6qmhz95
-	gwuc2SDsaFJvHfYovr+/eJP27enEgCvilLu7+Xw8lDdHJgVdjPKRuwGPGfoVoGTrOpiq
-	3o86rvsTyfGB3fnsnDdsha2o8/NxRLYeoAqIkc1S+UJsqELYstii5SeIvyphMJ24HoX9
-	KceGvrTWMcr1V58TNhh2kLO49h0bC5Mt9YltkFZcooYXt0yhI7E+xv/Apzy7w5vHUCX1
-	8o2m4uFIsJk+tV389C8mLCXwEI+LGve+OdoJbvaKaBUvB0VsBIj/cj8XPlD3Vh3Dx58K
-	sNAg==
-X-Gm-Message-State: AKS2vOyyhaa0GfFZhzmzwcGKK3NCwUxYbUkGOXn57ZhVzkSeIzwYqqfN
-	MEREPpO3KdryaWXFxB+wyzoKKc0o4Q==
-X-Received: by 10.80.131.6 with SMTP id 6mr1432676edh.178.1497392011541; Tue,
-	13 Jun 2017 15:13:31 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.80.153.222 with HTTP; Tue, 13 Jun 2017 15:13:01 -0700 (PDT)
-In-Reply-To: <20170613213940.GC3088@jama>
-References: <cover.1489267743.git.raj.khem@gmail.com>
-	<5124b899-8410-1d30-c397-65237f9d0a90@gmail.com>
-	<CA+chaQdT-TRBD4mA5hHuXWBtJupOE6tfe=tqehu8DLVa78e=OA@mail.gmail.com>
-	<CAMKF1sqGsV22S7MFVCMBgDxbSKFgqF1iZSviSU-e6pS0Ljx6aQ@mail.gmail.com>
-	<20170331150810.GA3897@jama>
-	<CAMKF1soVTYoZKuNumi+qOw8sgSQqpcXkLW2skhM9v_warvRgkw@mail.gmail.com>
-	<CA+chaQdj48R74vNax1XPzc_mB6EQe7y+bgwXmOW417BQxtguoQ@mail.gmail.com>
-	<CAMKF1sozG3W+axiBRVLs7ht+ficrp1Wj45SW38cJEB3bGZNx6Q@mail.gmail.com>
-	<20170613213940.GC3088@jama>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 13 Jun 2017 15:13:01 -0700
-Message-ID: <CAMKF1soTEa9paNsyPjNbrfNCY2OxydNp3s5KA5DcUjO01R5rMQ@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/1] mesa: Contain configure search for llvm
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=S2yWLU3X1ayLFGI4GFZX+7tu4wZHdNu8OZnRpc3eNWI=;
+	b=lHPXe3ZbWAB+qwQ0bND5m7daWpggTBU0gunrgjfNw8lPv3Cb9Fl+2D8hoCj2L6pVUb
+	cxFCyHQl858jbDk4/yW6e1XyYgsSOkUXsLWUiObHNn1FEPM/rhfIePsu/QRjjDk/60dM
+	OJ3VmnuJVICaFab66ORJZXAnlCNShJdQ8Usx1yFKXURxOOqxU6pPTkM/yHjmVF4kMQXu
+	ZbzxZ8hdX+oIvITxwLBod+ROeaFn2Hmssw+zATB1AJaJfMnBM66FiSGS4dZhrfmN8s/M
+	4n/0DdAJXOu4UgPxVLoXmMsLSTHjQcirneV8E7wW9p4MTcY6oGsRoS3r99Tzk7cVfhRV
+	3w5A==
+X-Gm-Message-State: AKS2vOzbT+mQKGP4NoaunsLTlkR7ibn589Jn1yhRi05hL3iFzQjOYZDX
+	GmaTdGFxFo34AjhDAHM=
+X-Received: by 10.36.13.16 with SMTP id 16mr116959itx.22.1497411144365;
+	Tue, 13 Jun 2017 20:32:24 -0700 (PDT)
+Received: from localhost.localdomain ([2605:a601:a83:3700:10fb:b4c1:2c33:798c])
+	by smtp.gmail.com with ESMTPSA id
+	c77sm7397798iod.24.2017.06.13.20.32.22
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 13 Jun 2017 20:32:23 -0700 (PDT)
+From: Joshua Watt <jpewhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 13 Jun 2017 22:31:34 -0500
+Message-Id: <20170614033134.4733-1-JPEWhacker@gmail.com>
+X-Mailer: git-send-email 2.9.4
+In-Reply-To: <CAJdd5GYuBbqarXs38M91atDyQhz17EcPDE9yKme-oiwDjCtaaA@mail.gmail.com>
+References: <CAJdd5GYuBbqarXs38M91atDyQhz17EcPDE9yKme-oiwDjCtaaA@mail.gmail.com>
+Subject: [PATCH v8] openssh: Atomically generate host keys
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,141 +57,151 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Jun 2017 22:13:31 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 14 Jun 2017 03:32:24 -0000
 
-On Tue, Jun 13, 2017 at 2:39 PM, Martin Jansa <martin.jansa@gmail.com> wrote:
-> On Sat, Apr 01, 2017 at 08:21:16AM -0700, Khem Raj wrote:
->> On Fri, Mar 31, 2017 at 10:52 PM, Martin Jansa <martin.jansa@gmail.com> wrote:
->> > Why is it needed?
->>
->> If you have clang/llvm installed on your build host then it defaults to that
->> thats why its needed.
->
-> And where does meta-clang install it? Because if it doesn't match with
-> the location used by meta-oe's llvm then we cannot have the same flag
-> which suits both providers.
->
-> As it is now I still have this change reverted in my branches and I've
-> noticed some layers which just use EXTRA_OECONF_remove to just remove
-> this with-llvm-prefix to unblock the builds with Pyro and Rocko.
->
->> > Without this change mesa was finding llvm-config correctly, that's why I've
->> > just reverted this to continue building.
+Generating the host keys atomically prevents power interruptions during
+the first boot from leaving the key files incomplete, which often
+prevents users from being able to ssh into the device.
 
-The problem is mainly when you have clang/llvm installed on build host
-now that we prune hosttools this might not be an issue anymore, although
-this needs to be tested.
+Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+---
+ meta/recipes-connectivity/openssh/openssh/init     | 24 +++--------------
+ .../openssh/openssh/sshd-check-key                 | 30 ++++++++++++++++++++++
+ .../openssh/openssh/sshdgenkeys.service            | 16 +++---------
+ meta/recipes-connectivity/openssh/openssh_7.5p1.bb |  8 ++++++
+ 4 files changed, 46 insertions(+), 32 deletions(-)
+ create mode 100644 meta/recipes-connectivity/openssh/openssh/sshd-check-key
 
->>
->>
->> >
->> > On Fri, Mar 31, 2017 at 5:57 PM, Khem Raj <raj.khem@gmail.com> wrote:
->> >>
->> >> On Fri, Mar 31, 2017 at 8:08 AM, Martin Jansa <martin.jansa@gmail.com>
->> >> wrote:
->> >> > On Thu, Mar 23, 2017 at 10:31:07AM -0700, Khem Raj wrote:
->> >> >> On Thu, Mar 23, 2017 at 12:51 AM, Martin Jansa <martin.jansa@gmail.com>
->> >> >> wrote:
->> >> >> > I'm not sure if this is the root cause, but last qemux86 build shows:
->> >> >> >
->> >> >> >
->> >> >> > | configure: error: --enable-gallium-llvm selected but llvm-config is
->> >> >> > not
->> >> >> > found
->> >> >> > | ERROR: Function failed: do_configure (log file is located at
->> >> >> >
->> >> >> > /home/jenkins/oe/world/shr-core/tmp-glibc/work/i586-oe-linux/mesa/2_17.0.1-r0/temp/log.do_configure.11359)
->> >> >> >
->> >> >>
->> >> >> can you point where is llvm-config installed in sysroot ? its possible
->> >> >> its not in native sysroot location ${STAGING_BINDIR_NATIVE}
->> >> >
->> >> > OE qemux86@ ~/build/oe-core $ find
->> >> > tmp-glibc/work/i586-oe-linux/mesa/2_17.0.2-r0/recipe-sysroot* -name llvm\*
->> >> >
->> >> > tmp-glibc/work/i586-oe-linux/mesa/2_17.0.2-r0/recipe-sysroot/usr/bin/crossscripts/llvm-config
->> >> >
->> >> > tmp-glibc/work/i586-oe-linux/mesa/2_17.0.2-r0/recipe-sysroot/usr/bin/crossscripts/llvm-config3.3
->> >> >
->> >> > tmp-glibc/work/i586-oe-linux/mesa/2_17.0.2-r0/recipe-sysroot/usr/include/llvm3.3
->> >> >
->> >> > tmp-glibc/work/i586-oe-linux/mesa/2_17.0.2-r0/recipe-sysroot/usr/include/llvm3.3/llvm-c
->> >> >
->> >> > tmp-glibc/work/i586-oe-linux/mesa/2_17.0.2-r0/recipe-sysroot/usr/include/llvm3.3/llvm
->> >> >
->> >> > tmp-glibc/work/i586-oe-linux/mesa/2_17.0.2-r0/recipe-sysroot/usr/include/llvm3.3/llvm/Config/llvm-config.h
->> >> >
->> >> > tmp-glibc/work/i586-oe-linux/mesa/2_17.0.2-r0/recipe-sysroot/usr/lib/llvm3.3
->> >> >
->> >> > tmp-glibc/work/i586-oe-linux/mesa/2_17.0.2-r0/recipe-sysroot/sysroot-providers/llvm-common
->> >> >
->> >> > tmp-glibc/work/i586-oe-linux/mesa/2_17.0.2-r0/recipe-sysroot/sysroot-providers/llvm3.3
->> >> >
->> >> > tmp-glibc/work/i586-oe-linux/mesa/2_17.0.2-r0/recipe-sysroot-native/installeddeps/llvm3.3.complete
->> >> >
->> >> > tmp-glibc/work/i586-oe-linux/mesa/2_17.0.2-r0/recipe-sysroot-native/installeddeps/llvm-common.complete
->> >> >
->> >> > tmp-glibc/work/i586-oe-linux/mesa/2_17.0.2-r0/recipe-sysroot-native/installeddeps/llvm-common.6be6a4ae98ee0dff7c2a4c4df17f026a
->> >> >
->> >> > tmp-glibc/work/i586-oe-linux/mesa/2_17.0.2-r0/recipe-sysroot-native/installeddeps/llvm-common
->> >> >
->> >> > tmp-glibc/work/i586-oe-linux/mesa/2_17.0.2-r0/recipe-sysroot-native/installeddeps/llvm3.3.388adaa288ab3b1d35e01a43b6542368
->> >> >
->> >> > tmp-glibc/work/i586-oe-linux/mesa/2_17.0.2-r0/recipe-sysroot-native/installeddeps/llvm3.3
->> >> >
->> >>
->> >> so it seems it should point to <recipe-sysroot>/usr/bin/crossscripts
->> >> can you try changing -with-llvm-prefix to point to this dir ?
->> >>
->> >> >>
->> >> >> >
->> >> >> > I've noticed some llvm changes for meta-clang, do we need similar
->> >> >> > changes
->> >> >> > for meta-oe version of llvm?
->> >> >> >
->> >> >> >
->> >> >> > On Sun, Mar 12, 2017 at 12:16 AM, Khem Raj <raj.khem@gmail.com>
->> >> >> > wrote:
->> >> >> >>
->> >> >> >>
->> >> >> >>
->> >> >> >> On 3/11/17 1:30 PM, Khem Raj wrote:
->> >> >> >> > The following changes since commit
->> >> >> >> > a47e64d985a610535449730806651f5bfd75d9ec:
->> >> >> >> >
->> >> >> >> >   libcomps: add a recipe (2017-03-11 16:08:50 +0000)
->> >> >> >> >
->> >> >> >> > are available in the git repository at:
->> >> >> >> >
->> >> >> >> >   git://git.openembedded.org/openembedded-core-contrib kraj/pu
->> >> >> >> >
->> >> >> >> > http://cgit.openembedded.org/openembedded-core-contrib/log/?h=kraj/pu
->> >> >> >> >
->> >> >> >> > Khem Raj (1):
->> >> >> >> >   mesa: Contain configure search for llvm
->> >> >> >> >
->> >> >> >>
->> >> >> >> I added another fix for mesa-gl to remove one of obsolete
->> >> >> >> packageconfigs
->> >> >> >> and its on the same pull branch now.
->> >> >> >>
->> >> >> >> >  meta/recipes-graphics/mesa/mesa.inc | 2 +-
->> >> >> >> >  1 file changed, 1 insertion(+), 1 deletion(-)
->> >> >> >> >
->> >> >> >> --
->> >> >> >> _______________________________________________
->> >> >> >> Openembedded-core mailing list
->> >> >> >> Openembedded-core@lists.openembedded.org
->> >> >> >> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->> >> >> >
->> >> >> >
->> >> >
->> >> > --
->> >> > Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
->> >
->> >
->
-> --
-> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+diff --git a/meta/recipes-connectivity/openssh/openssh/init b/meta/recipes-connectivity/openssh/openssh/init
+index 386628a..acb35c3 100644
+--- a/meta/recipes-connectivity/openssh/openssh/init
++++ b/meta/recipes-connectivity/openssh/openssh/init
+@@ -80,26 +80,10 @@ check_keys() {
+ 	[ -z "${HOST_KEY_ED25519}" ] && HOST_KEY_ED25519=$SYSCONFDIR/ssh_host_ed25519_key
+ 
+ 	# create keys if necessary
+-	if [ ! -f $HOST_KEY_RSA ]; then
+-		echo "  generating ssh RSA key..."
+-		mkdir -p $(dirname $HOST_KEY_RSA)
+-		ssh-keygen -q -f $HOST_KEY_RSA -N '' -t rsa
+-	fi
+-	if [ ! -f $HOST_KEY_ECDSA ]; then
+-		echo "  generating ssh ECDSA key..."
+-		mkdir -p $(dirname $HOST_KEY_ECDSA)
+-		ssh-keygen -q -f $HOST_KEY_ECDSA -N '' -t ecdsa
+-	fi
+-	if [ ! -f $HOST_KEY_DSA ]; then
+-		echo "  generating ssh DSA key..."
+-		mkdir -p $(dirname $HOST_KEY_DSA)
+-		ssh-keygen -q -f $HOST_KEY_DSA -N '' -t dsa
+-	fi
+-	if [ ! -f $HOST_KEY_ED25519 ]; then
+-		echo "  generating ssh ED25519 key..."
+-		mkdir -p $(dirname $HOST_KEY_ED25519)
+-		ssh-keygen -q -f $HOST_KEY_ED25519 -N '' -t ed25519
+-	fi
++	@LIBEXECDIR@/sshd-check-key $HOST_KEY_RSA rsa
++	@LIBEXECDIR@/sshd-check-key $HOST_KEY_ECDSA ecdsa
++	@LIBEXECDIR@/sshd-check-key $HOST_KEY_DSA dsa
++	@LIBEXECDIR@/sshd-check-key $HOST_KEY_ED25519 ed25519
+ }
+ 
+ export PATH="${PATH:+$PATH:}/usr/sbin:/sbin"
+diff --git a/meta/recipes-connectivity/openssh/openssh/sshd-check-key b/meta/recipes-connectivity/openssh/openssh/sshd-check-key
+new file mode 100644
+index 0000000..4999af2
+--- /dev/null
++++ b/meta/recipes-connectivity/openssh/openssh/sshd-check-key
+@@ -0,0 +1,30 @@
++#! /bin/sh
++set -e
++
++NAME="$1"
++TYPE="$2"
++
++if [ -z "$NAME" ] || [ -z "$TYPE" ]; then
++    echo "Usage: $0 NAME TYPE"
++    exit 1;
++fi
++
++if [ ! -f "$NAME" ]; then
++    mkdir -p "$(dirname "$NAME")"
++
++    echo "  generating ssh $TYPE key..."
++    ssh-keygen -q -f "${NAME}.tmp" -N '' -t $TYPE
++
++    # Sync to ensure data is written to temp file before renaming
++    sync
++
++    # Move (Atomically rename) files
++    # Rename the .pub file first, since the check that triggers a
++    # key generation is based on the private file.
++    mv -f "${NAME}.tmp.pub" "${NAME}.pub"
++    sync
++
++    mv -f "${NAME}.tmp" "${NAME}"
++    sync
++fi
++
+diff --git a/meta/recipes-connectivity/openssh/openssh/sshdgenkeys.service b/meta/recipes-connectivity/openssh/openssh/sshdgenkeys.service
+index 148e6ad..af56404 100644
+--- a/meta/recipes-connectivity/openssh/openssh/sshdgenkeys.service
++++ b/meta/recipes-connectivity/openssh/openssh/sshdgenkeys.service
+@@ -1,22 +1,14 @@
+ [Unit]
+ Description=OpenSSH Key Generation
+ RequiresMountsFor=/var /run
+-ConditionPathExists=!/var/run/ssh/ssh_host_rsa_key
+-ConditionPathExists=!/var/run/ssh/ssh_host_dsa_key
+-ConditionPathExists=!/var/run/ssh/ssh_host_ecdsa_key
+-ConditionPathExists=!/var/run/ssh/ssh_host_ed25519_key
+-ConditionPathExists=!/etc/ssh/ssh_host_rsa_key
+-ConditionPathExists=!/etc/ssh/ssh_host_dsa_key
+-ConditionPathExists=!/etc/ssh/ssh_host_ecdsa_key
+-ConditionPathExists=!/etc/ssh/ssh_host_ed25519_key
+ 
+ [Service]
+ Environment="SYSCONFDIR=/etc/ssh"
+ EnvironmentFile=-/etc/default/ssh
+ ExecStart=@BASE_BINDIR@/mkdir -p $SYSCONFDIR
+-ExecStart=@BINDIR@/ssh-keygen -q -f ${SYSCONFDIR}/ssh_host_rsa_key -N '' -t rsa
+-ExecStart=@BINDIR@/ssh-keygen -q -f ${SYSCONFDIR}/ssh_host_dsa_key -N '' -t dsa
+-ExecStart=@BINDIR@/ssh-keygen -q -f ${SYSCONFDIR}/ssh_host_ecdsa_key -N '' -t ecdsa
+-ExecStart=@BINDIR@/ssh-keygen -q -f ${SYSCONFDIR}/ssh_host_ed25519_key -N '' -t ed25519
++ExecStart=@LIBEXECDIR@/sshd-check-key ${SYSCONFDIR}/ssh_host_rsa_key rsa
++ExecStart=@LIBEXECDIR@/sshd-check-key ${SYSCONFDIR}/ssh_host_dsa_key dsa
++ExecStart=@LIBEXECDIR@/sshd-check-key ${SYSCONFDIR}/ssh_host_ecdsa_key ecdsa
++ExecStart=@LIBEXECDIR@/sshd-check-key ${SYSCONFDIR}/ssh_host_ed25519_key ed25519
+ Type=oneshot
+ RemainAfterExit=yes
+diff --git a/meta/recipes-connectivity/openssh/openssh_7.5p1.bb b/meta/recipes-connectivity/openssh/openssh_7.5p1.bb
+index 5b96745..ede8823 100644
+--- a/meta/recipes-connectivity/openssh/openssh_7.5p1.bb
++++ b/meta/recipes-connectivity/openssh/openssh_7.5p1.bb
+@@ -25,6 +25,7 @@ SRC_URI = "http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar
+            file://openssh-7.1p1-conditional-compile-des-in-cipher.patch \
+            file://openssh-7.1p1-conditional-compile-des-in-pkcs11.patch \
+            file://fix-potential-signed-overflow-in-pointer-arithmatic.patch \
++           file://sshd-check-key \
+            "
+ 
+ PAM_SRC_URI = "file://sshd"
+@@ -124,7 +125,14 @@ do_install_append () {
+ 	sed -i -e 's,@BASE_BINDIR@,${base_bindir},g' \
+ 		-e 's,@SBINDIR@,${sbindir},g' \
+ 		-e 's,@BINDIR@,${bindir},g' \
++		-e 's,@LIBEXECDIR@,${libexecdir}/${BPN},g' \
+ 		${D}${systemd_unitdir}/system/sshd.socket ${D}${systemd_unitdir}/system/*.service
++
++	sed -i -e 's,@LIBEXECDIR@,${libexecdir}/${BPN},g' \
++		${D}${sysconfdir}/init.d/sshd
++
++	install -d ${D}${libexecdir}/${BPN}
++	install -m 0755 ${WORKDIR}/sshd-check-key ${D}${libexecdir}/${BPN}
+ }
+ 
+ do_install_ptest () {
+-- 
+2.9.4
+
 
