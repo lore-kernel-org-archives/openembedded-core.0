@@ -1,26 +1,29 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 1342A782EA
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id B93C77833A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Jun 2017 09:09:01 +0000 (UTC)
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-	by fmsmga105.fm.intel.com with ESMTP; 14 Jun 2017 02:09:02 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.39,340,1493708400"; d="scan'208";a="113021625"
-Received: from linux.intel.com ([10.54.29.200])
-	by orsmga005.jf.intel.com with ESMTP; 14 Jun 2017 02:09:02 -0700
-Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
-	by linux.intel.com (Postfix) with ESMTP id 6509D5804B3
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Jun 2017 02:09:01 -0700 (PDT)
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 14 Jun 2017 12:07:05 +0300
-Message-Id: <202f15c7a6835bfc17f42bfa3b54d2282e68f8b9.1497430965.git.ed.bartosh@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <cover.1497430965.git.ed.bartosh@linux.intel.com>
-References: <cover.1497430965.git.ed.bartosh@linux.intel.com>
-Subject: [PATCH 2/3] image.bbclass: improve setup of flags
+	Wed, 14 Jun 2017 09:28:58 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	v5E9StxK012091
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
+	verify=NOT); Wed, 14 Jun 2017 10:28:56 +0100
+Message-ID: <1497432535.3942.40.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Tobias Hagelborn <tobias.hagelborn@axis.com>,
+	openembedded-core@lists.openembedded.org
+Date: Wed, 14 Jun 2017 10:28:55 +0100
+In-Reply-To: <1497421480-21923-1-git-send-email-tobiasha@axis.com>
+References: <1497421480-21923-1-git-send-email-tobiasha@axis.com>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
+Mime-Version: 1.0
+X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.11
+	(dan.rpsys.net [192.168.3.1]);
+	Wed, 14 Jun 2017 10:28:56 +0100 (BST)
+X-Virus-Scanned: clamav-milter 0.99.2 at dan
+X-Virus-Status: Clean
+Cc: Tobias Hagelborn <tobiasha@axis.com>
+Subject: Re: [PATCH] devtool: deploy-target: Support stripped libs and execs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,38 +36,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Jun 2017 09:09:02 -0000
+X-List-Received-Date: Wed, 14 Jun 2017 09:29:00 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Replaced setVarFlag calls to appendVarFlag to allow
-modification of prefuncs, postfuncs and subimages flags
-in inherited image classes.
+On Wed, 2017-06-14 at 08:24 +0200, Tobias Hagelborn wrote:
+> New devtool deploy-target option --strip which enables deploying
+> stripped binaries, saving some space on target.
+> 
+> * Copies the files of ${D} into a new directory and strips them in
+> place
+> * Based on sysroot_strip from staging.bbclass
+> * Added devtool.conf option "strip" for changing default behavior
+> * Added .ko strip support compared to original function sysroot_strip
 
-[YOCTO #11372]
+This looks very like the original strip function. Would it be possible
+to create one generic strip function in lib/oe which we could call from
+the various places rather than duplicating this again?
 
-Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
----
- meta/classes/image.bbclass | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+(I think staging.bbclass and lib/oe/package.py:runstrip() are already
+similar code).
 
-diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index ff4eda1..e18ac72 100644
---- a/meta/classes/image.bbclass
-+++ b/meta/classes/image.bbclass
-@@ -496,9 +496,10 @@ python () {
-         d.setVar(task, '\n'.join(cmds))
-         d.setVarFlag(task, 'func', '1')
-         d.setVarFlag(task, 'fakeroot', '1')
--        d.setVarFlag(task, 'prefuncs', debug + 'set_image_size')
--        d.setVarFlag(task, 'postfuncs', 'create_symlinks')
--        d.setVarFlag(task, 'subimages', ' '.join(subimages))
-+
-+        d.appendVarFlag(task, 'prefuncs', ' ' + debug + ' set_image_size')
-+        d.appendVarFlag(task, 'postfuncs', ' create_symlinks')
-+        d.appendVarFlag(task, 'subimages', ' ' + ' '.join(subimages))
-         d.appendVarFlag(task, 'vardeps', ' '.join(vardeps))
-         d.appendVarFlag(task, 'vardepsexclude', 'DATETIME')
- 
--- 
-2.1.4
+Cheers,
 
+Richard
 
