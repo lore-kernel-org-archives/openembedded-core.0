@@ -1,48 +1,47 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f175.google.com (mail-pf0-f175.google.com
-	[209.85.192.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 9CED4783A6
+Received: from mail-pg0-f66.google.com (mail-pg0-f66.google.com [74.125.83.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 5BAFE7838F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Jun 2017 15:23:43 +0000 (UTC)
-Received: by mail-pf0-f175.google.com with SMTP id l89so1851280pfi.2
+	Wed, 14 Jun 2017 15:23:44 +0000 (UTC)
+Received: by mail-pg0-f66.google.com with SMTP id v14so478137pgn.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Jun 2017 08:23:45 -0700 (PDT)
+	Wed, 14 Jun 2017 08:23:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=Ctq5UgEmecwvr4R7WbvxFafUEqan5yfhTGC5/XMmMVc=;
-	b=RGMV3tWnmYOd5PkfQRu299pT9+A0LFmZ2ksgMWXHEUBelogbM7d600CjXG8rIqgGYw
-	uMfNexLcBbRd2/lZ6EEBoaKqoDntAoawISG9/4zkoxIJu/eEPTZOQrQfqOpU+9/H7noF
-	VE+FaDuNzpalNS6bjmbryZEcRuRWSswOMoc8ct2FKMvA5aoG8DFytRc+nGa17cT0rSe2
-	NYHEGanIgmsYxEj7TOdhaVXw+YXAuWJLFFk3o81Lld8PwhSNFHJibyPmp/TJ4V04EwPn
-	Nnbne3V0Q3qesfRhNjnbR4pIOubNzli/TkIrXJ8xj8xsQo5EDm6TqWVLCmhPKKT+qlD2
-	sfrQ==
+	bh=rE2/zVRkkOgYolNmJl3JpUrDHVhFy24/kunJzoF1Ks8=;
+	b=TDRTznFwFJy79NDkJojGEnA2e/Yqj/b7wNuZOu9hnmDYYN3X1djEc1tm2+8k51i49S
+	V0XvWfF4xQ52c8svpnEzNdbz02Fac6SvkIyMxWhrGfH4gBug+zhkuKCt7j54iWds3c/b
+	3pTXXBzd4AxYGNH2wyE7VO1pdhYbX0F8BEaaUkbHsFaI2xcJmkLmL/0P7xaQ9GXg+a4s
+	1OFwWKle2w6n9zjOTsLMV1L3J/EuEZveSpFi8iBRi/pY9Fmu+eF7YjzUorbAH1w0uZl2
+	3isRF1ZPkSQN06phxJ+E40bDpGMkl1V7kUGQmlg02Tww6s+e411QM7ozy02X0ztZIST5
+	8pPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=Ctq5UgEmecwvr4R7WbvxFafUEqan5yfhTGC5/XMmMVc=;
-	b=aYfeDkPeT53zs5gnhUCTomWimrWIcXkAqfg959XqPjQJaoQzLPKGTBdqu4uThdSo2u
-	QBm+0hvj6o+YSglm6lzjvDm7skB179bqzKQ9DwDaInt8YxbX+LhHvyPD7waqQL3/mzyH
-	ckDoXTNvxIrvCKsFVp8iQircdNME5uGRWnGfwNWJd3oUZ28mz/T3QpLXC3ZoYz+SWzdG
-	bJTvW5MxGqXQOygFwAIHGaEd3jhMeH3v4DdiH1D3ZE8qZ7RZ6rarYqk/taYnRuMJHLAu
-	2RmVb5Yw9i8W5WJeruc74Km0BpFYmS5AwvcLnmcTAwLzHVlfXY8JdVB4YH+HRD3NHh2k
-	gSjQ==
-X-Gm-Message-State: AKS2vOyEsMFypAlNCTqJDuuGhjMzAo+wYRKUj86H1FNOa8GSn6mTR2bP
-	cd0VmFF1d/OBvIRi
-X-Received: by 10.84.233.130 with SMTP id l2mr694891plk.212.1497453824530;
-	Wed, 14 Jun 2017 08:23:44 -0700 (PDT)
+	bh=rE2/zVRkkOgYolNmJl3JpUrDHVhFy24/kunJzoF1Ks8=;
+	b=o36rWxaU8XpB4S0FsHw/RlvuImL572KISEW5OhDzcbknTxMZ5i36Z10sUV1lBO0qv2
+	6pDS+AxPv0Dln1+6EYQwZAiEPwXl0DmqVv7/AZ/NqX/mmdPTB26LZsiL5ffHtMnSvhQn
+	XEfOOnes8D/PxvMvS4WObTnfSPArT3f4AM182Vab6nxMzErhdJ4OvU8RvqN3QHZDkgPK
+	EektDTTR9yBTi7EcGhW892O9mYHNGN1AGCTBnoy5FZ09zoVmaDk+SYL3DZiUSN9+/4gN
+	ZsVMXvfTS2fymBIdy2aNz1kaBUEP2u+M7ypIzOCOHGdo7rpMNC0KgIcNAH7b6hASm1+D
+	UVyQ==
+X-Gm-Message-State: AKS2vOz1x6XaynCClyCEmfqMQqoKHAl5Y+7O1KW3coesZIxaJmhnLt5Y
+	A97OuXT4STYLC+2P
+X-Received: by 10.84.217.141 with SMTP id p13mr635048pli.271.1497453825920;
+	Wed, 14 Jun 2017 08:23:45 -0700 (PDT)
 Received: from localhost.localdomain ([2601:646:8882:b8c::264a])
-	by smtp.gmail.com with ESMTPSA id i2sm502948pfe.89.2017.06.14.08.23.43
+	by smtp.gmail.com with ESMTPSA id i2sm502948pfe.89.2017.06.14.08.23.44
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 14 Jun 2017 08:23:43 -0700 (PDT)
+	Wed, 14 Jun 2017 08:23:44 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 14 Jun 2017 08:23:23 -0700
-Message-Id: <332b26d3b81ceb83fe3d6eda1a0476ad80156808.1497453168.git.raj.khem@gmail.com>
+Date: Wed, 14 Jun 2017 08:23:24 -0700
+Message-Id: <1fcd2f1adf3506cc8d22cbbc538ffb7e1eebbf8f.1497453168.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.13.1
 In-Reply-To: <cover.1497453168.git.raj.khem@gmail.com>
 References: <cover.1497453168.git.raj.khem@gmail.com>
-Subject: [PATCH 04/10] ffmpeg: Upgrade to 3.3.2 stable
+Subject: [PATCH 05/10] gobject-introspection: Disable generating static lbraries
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,88 +54,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Jun 2017 15:23:43 -0000
-
-* Fix mips/mips64 along the way, it was broken in 3.3 as well
+X-List-Received-Date: Wed, 14 Jun 2017 15:23:45 -0000
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../ffmpeg/ffmpeg/0001-build-fix-for-mips.patch    | 44 ++++++++++++++++++++++
- .../ffmpeg/{ffmpeg_3.3.bb => ffmpeg_3.3.2.bb}      |  5 ++-
- 2 files changed, 47 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/0001-build-fix-for-mips.patch
- rename meta/recipes-multimedia/ffmpeg/{ffmpeg_3.3.bb => ffmpeg_3.3.2.bb} (97%)
+ meta/recipes-gnome/gobject-introspection/gobject-introspection_1.50.0.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg/0001-build-fix-for-mips.patch b/meta/recipes-multimedia/ffmpeg/ffmpeg/0001-build-fix-for-mips.patch
-new file mode 100644
-index 0000000000..3f8224aa07
---- /dev/null
-+++ b/meta/recipes-multimedia/ffmpeg/ffmpeg/0001-build-fix-for-mips.patch
-@@ -0,0 +1,44 @@
-+From f34c567045bea5a7ded9bcfa8e785cfd24cc7dde Mon Sep 17 00:00:00 2001
-+From: Shivraj Patil <shivraj.patil@imgtec.com>
-+Date: Tue, 4 Apr 2017 18:56:01 +0530
-+Subject: [PATCH] build fix for mips
-+
-+Signed-off-by: Shivraj Patil <shivraj.patil@imgtec.com>
-+Signed-off-by: Ronald S. Bultje <rsbultje@gmail.com>
-+---
-+Upstream-Status: Backport
-+
-+ libavcodec/mips/hevcpred_init_mips.c | 3 ++-
-+ libavcodec/mips/hevcpred_msa.c       | 2 +-
-+ 2 files changed, 3 insertions(+), 2 deletions(-)
-+
-+diff --git a/libavcodec/mips/hevcpred_init_mips.c b/libavcodec/mips/hevcpred_init_mips.c
-+index 331cfac115..e987698d66 100644
-+--- a/libavcodec/mips/hevcpred_init_mips.c
-++++ b/libavcodec/mips/hevcpred_init_mips.c
-+@@ -18,7 +18,8 @@
-+  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
-+  */
-+ 
-+-#include "libavcodec/hevc.h"
-++#include "config.h"
-++#include "libavutil/attributes.h"
-+ #include "libavcodec/mips/hevcpred_mips.h"
-+ 
-+ #if HAVE_MSA
-+diff --git a/libavcodec/mips/hevcpred_msa.c b/libavcodec/mips/hevcpred_msa.c
-+index 6a3b2815fd..963c64c861 100644
-+--- a/libavcodec/mips/hevcpred_msa.c
-++++ b/libavcodec/mips/hevcpred_msa.c
-+@@ -18,7 +18,7 @@
-+  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
-+  */
-+ 
-+-#include "libavcodec/hevc.h"
-++#include "libavcodec/hevcdec.h"
-+ #include "libavutil/mips/generic_macros_msa.h"
-+ #include "hevcpred_mips.h"
-+ 
-+-- 
-+2.13.1
-+
-diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_3.3.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_3.3.2.bb
-similarity index 97%
-rename from meta/recipes-multimedia/ffmpeg/ffmpeg_3.3.bb
-rename to meta/recipes-multimedia/ffmpeg/ffmpeg_3.3.2.bb
-index c2b570e85c..f4bb2ba1f5 100644
---- a/meta/recipes-multimedia/ffmpeg/ffmpeg_3.3.bb
-+++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_3.3.2.bb
-@@ -25,9 +25,10 @@ LIC_FILES_CHKSUM = "file://COPYING.GPLv2;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
- 
- SRC_URI = "https://www.ffmpeg.org/releases/${BP}.tar.xz \
-            file://mips64_cpu_detection.patch \
-+           file://0001-build-fix-for-mips.patch \
-           "
--SRC_URI[md5sum] = "368f1fff4bdadaf2823934cc0aadd71d"
--SRC_URI[sha256sum] = "599e7f7c017221c22011c4037b88bdcd1c47cd40c1e466838bc3c465f3e9569d"
-+SRC_URI[md5sum] = "d6c09c84e3d0d9ca8a51f481da660603"
-+SRC_URI[sha256sum] = "1998de1ab32616cbf2ff86efc3f1f26e76805ec5dc51e24c041c79edd8262785"
- 
- # Build fails when thumb is enabled: https://bugzilla.yoctoproject.org/show_bug.cgi?id=7717
- ARM_INSTRUCTION_SET = "arm"
+diff --git a/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.50.0.bb b/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.50.0.bb
+index 509fc5fa59..ce31097da6 100644
+--- a/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.50.0.bb
++++ b/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.50.0.bb
+@@ -99,6 +99,7 @@ EOF
+ # Configure target build to use native tools of itself and to use a qemu wrapper
+ # and optionally to generate introspection data
+ EXTRA_OECONF_class-target += "--enable-host-gi \
++                              --disable-static \
+                               --enable-gi-cross-wrapper=${B}/g-ir-scanner-qemuwrapper \
+                               --enable-gi-ldd-wrapper=${B}/g-ir-scanner-lddwrapper \
+                               ${@bb.utils.contains('GI_DATA_ENABLED', 'True', '--enable-introspection-data', '--disable-introspection-data', d)} \
 -- 
 2.13.1
 
