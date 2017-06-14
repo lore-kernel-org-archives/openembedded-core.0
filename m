@@ -1,27 +1,49 @@
-Return-Path: <jose.a.lamego@linux.intel.com>
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id AF0B2607A4
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pf0-f174.google.com (mail-pf0-f174.google.com
+	[209.85.192.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 88F13782A4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Jun 2017 18:55:48 +0000 (UTC)
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by orsmga104.jf.intel.com with ESMTP; 14 Jun 2017 11:55:45 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.39,341,1493708400"; 
-	d="asc'?scan'208";a="274323356"
-Received: from jalamego-mobl2.zpn.intel.com (HELO [10.219.128.123])
-	([10.219.128.123])
-	by fmsmga004.fm.intel.com with ESMTP; 14 Jun 2017 11:55:45 -0700
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <CA+chaQf0chop2q_9UD9aqDe+9dZbMdEXtB2Y636REOTFXoDBkw@mail.gmail.com>
-From: Jose Lamego <jose.a.lamego@linux.intel.com>
-Message-ID: <fd3a8d0e-bcc9-22dc-2799-25a59f28341d@linux.intel.com>
-Date: Wed, 14 Jun 2017 13:55:45 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.1.1
-MIME-Version: 1.0
-In-Reply-To: <CA+chaQf0chop2q_9UD9aqDe+9dZbMdEXtB2Y636REOTFXoDBkw@mail.gmail.com>
-Subject: Re: Patchwork git hooks for meta-oe repository
+	Wed, 14 Jun 2017 19:38:53 +0000 (UTC)
+Received: by mail-pf0-f174.google.com with SMTP id x63so4979804pff.3
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 14 Jun 2017 12:38:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=EV/dyjDNJ/lg8qXjqOcp8PsTevIWZ4JKTQ13ai29S70=;
+	b=umwZHrT6qjsH0ln5bXGjKva00D0OOeLyCmjeKj+tmofHMx7+jo4OGJUiZ9GfQax6Zu
+	1q+HIIUxrWQoRyzSu8dUK67Z14nAq8y1UHxCLfeybtkI1uxPPw3jMbgUNyedpvgNnvn7
+	+WBfBW2iy/6ImCBoETF4IooPhs0kpcqoofZq4deMOlDA01t6qQ+jJzt9vaU3s002EZHx
+	1ghP7MwMYURhOUtjSW6qcYUBWkNTyCF2THmnHALZ9kxFyumcYNKyE+jr7t71nuR6NrJi
+	tteCZ0dWfI2RRTNX83Wm6FKik76C2BIHKH6wwDr1BLLNPMlgJugHguVgIQ2lpfpCRbm3
+	PiqQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=EV/dyjDNJ/lg8qXjqOcp8PsTevIWZ4JKTQ13ai29S70=;
+	b=pFCz52fO36gzBPKjkgF+XDqvdslvznFv7N5DgE4F6pp/rKTkG2q2FX0G6LIkvM2ELb
+	7Rh9N08f0OInf5v0xb5d3sVxn7W+O5QPqKGmiAwJGYIHl/syr1G83bBp3OZ+5YyajNRQ
+	Brv0Eul+tAe2pZft4JCcWv2mzPys7wHGowp4QSI8cKXlwhJz7tQGDEqOlbBYdGQKM8rj
+	HXe2hE53d5e5W4FKTJpYBf6CRBOx00o5CU+nkkGOj0vlLujXM8mR+LsxYqi0bVYLS9Tl
+	9qb/QsY2aB5zgxWyUSUNi/ne8hIks1/iAkERKnfS+nQ6kxHywamwbx22roxv9zrX/Fv2
+	VIfQ==
+X-Gm-Message-State: AKS2vOycqPTOO3/AZ9vr9W3bbnY/nQi3VPq5T/4w0/b+OVr7BGv7htwy
+	naa+U3zLuhKoDszy
+X-Received: by 10.84.209.236 with SMTP id y99mr1818119plh.198.1497469133638;
+	Wed, 14 Jun 2017 12:38:53 -0700 (PDT)
+Received: from localhost.localdomain ([2601:646:8882:b8c::36d3])
+	by smtp.gmail.com with ESMTPSA id
+	r77sm1318101pfg.95.2017.06.14.12.38.52
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 14 Jun 2017 12:38:52 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 14 Jun 2017 12:38:38 -0700
+Message-Id: <5e352b7889189ad21fa09130e7b5ccc0c80a44b1.1497468975.git.raj.khem@gmail.com>
+X-Mailer: git-send-email 2.13.1
+In-Reply-To: <cover.1497468975.git.raj.khem@gmail.com>
+References: <cover.1497468975.git.raj.khem@gmail.com>
+Subject: [PATCH 11/11] webkitgtk: Upgrade to 2.16.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,190 +56,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Jun 2017 18:55:56 -0000
-X-Groupsio-MsgNum: 98770
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature";
-	boundary="OE7wAu91JlDFDqwri77XduObX1sPDO7af"
+X-List-Received-Date: Wed, 14 Jun 2017 19:38:54 -0000
 
---OE7wAu91JlDFDqwri77XduObX1sPDO7af
-Content-Type: multipart/mixed; boundary="s5VfdFmtwxQlFETDHMitodIwoGqdOna5R";
- protected-headers="v1"
-From: Jose Lamego <jose.a.lamego@linux.intel.com>
-To: Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>
-Message-ID: <fd3a8d0e-bcc9-22dc-2799-25a59f28341d@linux.intel.com>
-Subject: Re: Patchwork git hooks for meta-oe repository
-References: <CA+chaQf0chop2q_9UD9aqDe+9dZbMdEXtB2Y636REOTFXoDBkw@mail.gmail.com>
-In-Reply-To: <CA+chaQf0chop2q_9UD9aqDe+9dZbMdEXtB2Y636REOTFXoDBkw@mail.gmail.com>
+Use bfd linker on ppc, this is because gold fails to link
+webkit libraries when PIE is enabled
 
---s5VfdFmtwxQlFETDHMitodIwoGqdOna5R
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/recipes-sato/webkit/webkitgtk/ppc-musl-fix.patch        | 12 ++++++------
+ .../webkit/{webkitgtk_2.16.1.bb => webkitgtk_2.16.3.bb}      |  5 +++--
+ 2 files changed, 9 insertions(+), 8 deletions(-)
+ rename meta/recipes-sato/webkit/{webkitgtk_2.16.1.bb => webkitgtk_2.16.3.bb} (96%)
 
-
-
-On 06/14/2017 07:57 AM, Martin Jansa wrote:
-> I don't know if they are supposed to work now, but the output from git
-> remote indicates that they probably don't work:
->=20
-Yes, we found this issue when enabling the hook for automated updates
-for all the Patchwork projects.
-I've disabled the hook while finding a fix. Thanks for the heads up and
-sorry for any inconvenience.
-
-Jose Lamego
-> remote: /usr/local/patchwork/tools/post-receive_standalone.hook: line
-> 65: $4: unbound variable
->=20
-> remote: ++ git -C Next rev-parse
-> remote: ++ git -C Next rev-list --stdin --no-merges --reverse
-> cd021470e9055422992a1adeae3f1f1ec59deab6..3e6defe4735b9a0
-> c5757bd25eea6158c7e9d567f  =20
-> remote: fatal: Cannot change to 'Next': No such file or directory
-> remote: fatal: Cannot change to 'Next': No such file or directory
->=20
->=20
-> Whole output from 2 pushes today:
->=20
-> OE @~/meta-openembedded $git push origin master
-> Counting objects: 170, done.
-> Delta compression using up to 8 threads.
-> Compressing objects: 100% (161/161), done.
-> Writing objects: 100% (170/170), 34.85 KiB | 0 bytes/s, done.
-> Total 170 (delta 89), reused 1 (delta 0)
-> remote: +
-> STATE_MAP=3D'refs/heads/master:Accepted;refs/heads/master-next:Master
-> Next;refs/heads/ross/mut:Master U
-> nder Test'
-> remote: + EXCLUDE=3D
-> remote: + PWDIR=3D/usr/local/patchwork/patchwork
-> remote: + '[' -d /usr/local/patchwork/patchwork ']'
-> remote: + '[' '!' -w /usr/local/patchwork/patchwork/post-receive_logs '=
-]'
-> remote: + do_exit=3D0
-> remote: + trap do_exit=3D1 INT
-> remote: +
-> ERR_LOG_FILE=3D/usr/local/patchwork/patchwork/post-receive_logs/post_re=
-ceive_standalone.log
->=20
-> remote: + '[' '!' -f
-> /usr/local/patchwork/patchwork/post-receive_logs/post_receive_standalon=
-e.log
-> ']'
-> remote: + read oldrev newrev refname workdir
-> remote: + found=3D0
-> remote: + IFS=3D';'
-> remote: + for i in '$STATE_MAP'
-> remote: + key=3Drefs/heads/master
-> remote: + IFS=3D' '
-> remote: + '[' refs/heads/master =3D refs/heads/master ']'
-> remote: ++ date
-> remote: + echo -e 'Wed Jun 14 12:51:55 UTC 2017 I: Started patch-update=
-
-> attempt using commit d3dd8bc3721f3958eb7ddeb026
-> f7221d48daa986.\n'
-> remote: + update_patches 0abf5af3ffd3d13c009a8ffcd5a6f045c36be837
-> d3dd8bc3721f3958eb7ddeb026f7221d48daa986 Accepted
-> remote: + local cnt
-> remote: + cnt=3D0
-> remote: + local workdir
-> remote: /usr/local/patchwork/tools/post-receive_standalone.hook: line
-> 65: $4: unbound variable
-> remote: Sending notification emails to:
-> openembedded-commits@lists.openembedded.org
-> <mailto:openembedded-commits@lists.openembedded.org>
-> To git.openembedded.org:meta-openembedded
->   0abf5af3f..d3dd8bc37  master -> master
->=20
-> OE @~/meta-openembedded $git push -f origin master-next
-> Counting objects: 183, done.
-> Delta compression using up to 8 threads.
-> Compressing objects: 100% (144/144), done.
-> Writing objects: 100% (183/183), 60.26 KiB | 0 bytes/s, done.
-> Total 183 (delta 89), reused 85 (delta 31)
-> remote: +
-> STATE_MAP=3D'refs/heads/master:Accepted;refs/heads/master-next:Master
-> Next;refs/heads/ross/mut:Master Under Tes
-> t'
-> remote: + EXCLUDE=3D
-> remote: + PWDIR=3D/usr/local/patchwork/patchwork
-> remote: + '[' -d /usr/local/patchwork/patchwork ']'
-> remote: + '[' '!' -w /usr/local/patchwork/patchwork/post-receive_logs '=
-]'
-> remote: + do_exit=3D0
-> remote: + trap do_exit=3D1 INT
-> remote: +
-> ERR_LOG_FILE=3D/usr/local/patchwork/patchwork/post-receive_logs/post_re=
-ceive_standalone.log
->=20
-> remote: + '[' '!' -f
-> /usr/local/patchwork/patchwork/post-receive_logs/post_receive_standalon=
-e.log
-> ']'
-> remote: + read oldrev newrev refname workdir
-> remote: + found=3D0
-> remote: + IFS=3D';'
-> remote: + for i in '$STATE_MAP'
-> remote: + key=3Drefs/heads/master
-> remote: + IFS=3D' '
-> remote: + '[' refs/heads/master =3D refs/heads/master-next ']'
-> remote: + for i in '$STATE_MAP'
-> remote: + key=3Drefs/heads/master-next
-> remote: + IFS=3D' '
-> remote: + '[' refs/heads/master-next =3D refs/heads/master-next ']'
-> remote: ++ date
-> remote: + echo -e 'Wed Jun 14 12:52:04 UTC 2017 I: Started patch-update=
-
-> attempt using commit 3e6defe4735b9a0c5757bd25ee
-> a6158c7e9d567f.\n'
-> remote: + update_patches cd021470e9055422992a1adeae3f1f1ec59deab6
-> 3e6defe4735b9a0c5757bd25eea6158c7e9d567f Master Next
-> remote: + local cnt
-> remote: + cnt=3D0
-> remote: + local workdir
-> remote: + workdir=3DNext
-> remote: + local revparse   =20
-> remote: + local revs
-> remote: + '[' -z '' ']'
-> remote: + revparse=3Drev-parse
-> remote: ++ git -C Next rev-parse
-> remote: ++ git -C Next rev-list --stdin --no-merges --reverse
-> cd021470e9055422992a1adeae3f1f1ec59deab6..3e6defe4735b9a0
-> c5757bd25eea6158c7e9d567f  =20
-> remote: fatal: Cannot change to 'Next': No such file or directory
-> remote: fatal: Cannot change to 'Next': No such file or directory
-> remote: + revs=3D
-> remote: Sending notification emails to:
-> openembedded-commits@lists.openembedded.org
-> <mailto:openembedded-commits@lists.openembedded.org>
-> To git.openembedded.org:meta-openembedded
-> + cd021470e...3e6defe47 master-next -> master-next (forced update)
->=20
->=20
-
---=20
-Jose Lamego | OTC Embedded Platforms & Tools | GDC
+diff --git a/meta/recipes-sato/webkit/webkitgtk/ppc-musl-fix.patch b/meta/recipes-sato/webkit/webkitgtk/ppc-musl-fix.patch
+index 5f58e4953e..a1ad248aac 100644
+--- a/meta/recipes-sato/webkit/webkitgtk/ppc-musl-fix.patch
++++ b/meta/recipes-sato/webkit/webkitgtk/ppc-musl-fix.patch
+@@ -11,16 +11,16 @@ Upstream-Status: Pending
+ 
+ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+ 
+-Index: webkitgtk-2.12.3/Source/JavaScriptCore/heap/MachineStackMarker.cpp
++Index: webkitgtk-2.16.3/Source/JavaScriptCore/heap/MachineStackMarker.cpp
+ ===================================================================
+---- webkitgtk-2.12.3.orig/Source/JavaScriptCore/heap/MachineStackMarker.cpp
+-+++ webkitgtk-2.12.3/Source/JavaScriptCore/heap/MachineStackMarker.cpp
+-@@ -86,7 +86,7 @@ static void pthreadSignalHandlerSuspendR
++--- webkitgtk-2.16.3.orig/Source/JavaScriptCore/heap/MachineStackMarker.cpp
+++++ webkitgtk-2.16.3/Source/JavaScriptCore/heap/MachineStackMarker.cpp
++@@ -88,7 +88,7 @@ static void pthreadSignalHandlerSuspendR
+      }
+  
+      ucontext_t* userContext = static_cast<ucontext_t*>(ucontext);
+ -#if CPU(PPC)
+ +#if CPU(PPC) && defined(__GLIBC__)
+-     thread->suspendedMachineContext = *userContext->uc_mcontext.uc_regs;
++     threadData->suspendedMachineContext = *userContext->uc_mcontext.uc_regs;
+  #else
+-     thread->suspendedMachineContext = userContext->uc_mcontext;
++     threadData->suspendedMachineContext = userContext->uc_mcontext;
+diff --git a/meta/recipes-sato/webkit/webkitgtk_2.16.1.bb b/meta/recipes-sato/webkit/webkitgtk_2.16.3.bb
+similarity index 96%
+rename from meta/recipes-sato/webkit/webkitgtk_2.16.1.bb
+rename to meta/recipes-sato/webkit/webkitgtk_2.16.3.bb
+index a52d93cfbe..5feca17be3 100644
+--- a/meta/recipes-sato/webkit/webkitgtk_2.16.1.bb
++++ b/meta/recipes-sato/webkit/webkitgtk_2.16.3.bb
+@@ -22,8 +22,8 @@ SRC_URI = "http://www.webkitgtk.org/releases/${BPN}-${PV}.tar.xz \
+            file://gcc7.patch \
+            file://detect-atomics-during-configure.patch \
+            "
+-SRC_URI[md5sum] = "d3bcf995a667fd9febb9ab991acf0ca7"
+-SRC_URI[sha256sum] = "eb92383232328ce655b703c64370ed3795662479719ad1b4a869ed46769d2945"
++SRC_URI[md5sum] = "34dbbcad8a87a929519d93c67edd6d87"
++SRC_URI[sha256sum] = "204e9131da0101b9bc8765716e70a897121af04b964d9827cd9f20816a77b512"
+ 
+ inherit cmake pkgconfig gobject-introspection perlnative distro_features_check upstream-version-is-even gtk-doc
+ 
+@@ -76,6 +76,7 @@ EXTRA_OECMAKE_append_armv4 = " -DENABLE_JIT=OFF "
+ # https://sourceware.org/bugzilla/show_bug.cgi?id=18430
+ EXTRA_OECMAKE_append_aarch64 = " -DUSE_LD_GOLD=OFF "
+ EXTRA_OECMAKE_append_mipsarch = " -DUSE_LD_GOLD=OFF "
++EXTRA_OECMAKE_append_powerpc = " -DUSE_LD_GOLD=OFF "
+ EXTRA_OECMAKE_append_toolchain-clang = " -DUSE_LD_GOLD=OFF "
+ 
+ EXTRA_OECMAKE_append_aarch64 = " -DWTF_CPU_ARM64_CORTEXA53=ON"
+-- 
+2.13.1
 
 
---s5VfdFmtwxQlFETDHMitodIwoGqdOna5R--
-
---OE7wAu91JlDFDqwri77XduObX1sPDO7af
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iQEcBAEBCAAGBQJZQYaxAAoJEFJAtowlSEbniy8H/jlJILfRayRRVbWvTXgc9APh
-ZQd83kwhcx1s55WVFpBlKyD3/Ru1GflRRhyQHPsue/kSGPhpRAGvkvcgzU/SRpDP
-Il0MBUHmy8t6ANP9ggOCUS5l++WXlcdaYkg5+udwCvHxabK1RfPoVufMChmlAjee
-eBdun+Q9cIWvREieg+gg0sTGBrp7sK6W2yKNPYdJhfLvXTaM6jktxNrDVcZIwOAa
-YQE7iTD8JoffaF7vOYul5YINfd6kBW6AOcKZTQ4UjR73K3SC04NeSa1SdsJFLpAa
-N5cm28kK90BKGP7NvBkKrgvrF2xvtJJTlp2l7VbBdlMAzd3/S7ynZRRK/X9XbV0=
-=jVRR
------END PGP SIGNATURE-----
-
---OE7wAu91JlDFDqwri77XduObX1sPDO7af--
