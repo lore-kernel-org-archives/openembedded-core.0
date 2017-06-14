@@ -1,45 +1,48 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f193.google.com (mail-pf0-f193.google.com
-	[209.85.192.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 231B1783A0
+Received: from mail-pf0-f194.google.com (mail-pf0-f194.google.com
+	[209.85.192.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 8AC1F783AC
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Jun 2017 15:23:25 +0000 (UTC)
-Received: by mail-pf0-f193.google.com with SMTP id y7so490805pfd.3
+	Wed, 14 Jun 2017 15:23:39 +0000 (UTC)
+Received: by mail-pf0-f194.google.com with SMTP id w12so510238pfk.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Jun 2017 08:23:27 -0700 (PDT)
+	Wed, 14 Jun 2017 08:23:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=ES51+tqDI22jKbjSd1tPMCrs5skYT03TWt3wZVFhvEg=;
-	b=Rqe5ThC6H7h6lEsXRRvz/0H+bYKmEiMSbGJfMEpCGuDdr9oQ97mpsGx4jH/W2pZCBf
-	a3lQzZLIsQWxdi+NpJ2KekD3ti8kErc/BoOv4Qlut+Op+bYd1fN7EdFrJSxeiwnx2uED
-	QKYiNaBToNFw6/E0jTpi4q4q2NDK7nJRdhJWTd4eSirey0VMnVeGujnvBjm3bcVmMwWc
-	LCfCVzehpW+/CW4/snwf6Le5XUrUHXSGWoAPTRuJlA6TighCEyD82pkuUBf7Hx3Oeosf
-	KBt4dx/HbBkrb8HYKak6xLB1C02pm4ZD2pV4gePV7n5h4rFksCti1pvUfBJeXdgAQf+9
-	AvlQ==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=VkzQlCvNcZ6kAcUD2E30XR2J99tpzScwVWpndwntAps=;
+	b=ZwjfOhyAssbehakL87+Tj5lzzvVwnAtAKKd/pYdY2U4TS0J2aRGoot/cgorR6ApQjI
+	Q9Uhaa9LYk8G7YUHy4Td4oZal+vnuibRM73XW6tcc7lKuOUFDz+bBMuPfmIp6jYV1Vzd
+	J2mdvfiamxR8LwdsaFN6KnUtirXWvjTSmErNqj4FM5LjjdExwKjUZ4k7yYFv5vUmTFq2
+	bzAFsrahR84P3rzEKy/UVYMrx4cBtZ9slzIWXbInWLcW5E35mmOU34Di8Snkmw1ZxTjg
+	qoV+gA3FjV7G9AmPXcdSTF8Q3lVq+9tYM0CaI6OpC9uZfiK246ZxgGHXsGdQj52HUy87
+	rrEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=ES51+tqDI22jKbjSd1tPMCrs5skYT03TWt3wZVFhvEg=;
-	b=p6xnCwhGTcqgMgnFOdVTuSW93tQjXyvYj9iFMxbptAAPZ7fZc9NIIlRs7yU7ZNorKC
-	ONdbzYB7oayO+Rid9SU9pk7a/SRUOA164Efa+w4xf8SY7j0BjDi0o7vs2JkvqnQ7bBP5
-	2SwEr3Vh0FJG6sPNOcjd75O3YDJwq0E3jCdMR5tuwDJEjHBp2kqZzePClp0VpEOn2Eex
-	TRVBHsetLxd+nl+Mk3ByfNYF7PLs7Ww+cFHPp9NP0xrLY3hiSiiPihwiD1gPNDcfnFnW
-	OCs7HGIg/W+LfiTBY6t9W2na4/o+DU+0GpoogO/u1RdRCFdiCDKwc6L5vkTo5wlMEyuO
-	LiVA==
-X-Gm-Message-State: AKS2vOwq9Ylfuc1J5+I8jSf7wtqmCY79PrvLoNC9EZFcn8oarmpMd+6L
-	2RlGdRNKEgOjm0K7
-X-Received: by 10.84.224.14 with SMTP id r14mr635224plj.285.1497453806802;
-	Wed, 14 Jun 2017 08:23:26 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=VkzQlCvNcZ6kAcUD2E30XR2J99tpzScwVWpndwntAps=;
+	b=TcFdRTnUo5DgelTgMmNkgDq1tdqrSTLu7ot/VGnbHoPybOAO1fdlq7WCLYvo0HAiIJ
+	TSXGVUUdMg3Z50y/S3kuXqtDwkBRj+nr8xX89z88TyGgM1oimFOiYyofhEE+pUc4kIJT
+	qR0RWTIexFp9v0QC80YP98KeDZnVwUeYM5nkmefG/PZW2+d3BhtFX4KjrLvbzF0X8nmc
+	KBFQxWYfEwMf5RCfkmsZ0CAZq8cqhzcBzy5npGMBXAenzEWPu9zimFeWkpCWXKrT2yET
+	ff5ZLYv4ykBklE5Z2VXIjIgQQY+lkPYKYzp2dzvWgbYfJOvP4huvv/1vtMvub3YnHMiY
+	KQsw==
+X-Gm-Message-State: AKS2vOwbiFpXwDB5PUph1NdHGk5FRldEDNMCJ/XSJV+Fdk1Zgttm+hs1
+	CoeY6qvGp6v2851G
+X-Received: by 10.84.236.66 with SMTP id h2mr657897pln.233.1497453820291;
+	Wed, 14 Jun 2017 08:23:40 -0700 (PDT)
 Received: from localhost.localdomain ([2601:646:8882:b8c::264a])
-	by smtp.gmail.com with ESMTPSA id 62sm521898pfz.39.2017.06.14.08.23.25
+	by smtp.gmail.com with ESMTPSA id i2sm502948pfe.89.2017.06.14.08.23.38
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 14 Jun 2017 08:23:25 -0700 (PDT)
+	Wed, 14 Jun 2017 08:23:39 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 14 Jun 2017 08:23:10 -0700
-Message-Id: <cover.1497453168.git.raj.khem@gmail.com>
+Date: Wed, 14 Jun 2017 08:23:20 -0700
+Message-Id: <68f0709c949f9264e5164d549c12bf67b773374b.1497453168.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.13.1
-Subject: [PATCH 00/10] Add GCCPIE knob to configure gcc with --enable-default-pie
+In-Reply-To: <cover.1497453168.git.raj.khem@gmail.com>
+References: <cover.1497453168.git.raj.khem@gmail.com>
+Subject: [PATCH 01/10] gcc: Introduce a knob to configure gcc to default to PIE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,55 +55,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Jun 2017 15:23:26 -0000
+X-List-Received-Date: Wed, 14 Jun 2017 15:23:39 -0000
 
-* This patchset add a switch to configure gcc driver with PIE defaults
-* Add support for generating static PIE in gcc
-* Gets rid of lot of bandaids from distro security flags file
-* Adjust recipes for new way of specifying pie
-* Upgrade and Fix mips build for ffmpeg along the way
+GCCPIE flag which is empty by default adds "--enable-default-pie"
+configure option for harderned distros
 
-The following changes since commit 059846662f1ea1c82804cfce5f91afcb2980ec8a:
+We do not require to add -fpie -pie flag externally anymore
 
-  mtools-native: fix Upstream-Status (2017-06-14 14:45:01 +0100)
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/conf/distro/include/security_flags.inc        | 4 +++-
+ meta/recipes-devtools/gcc/gcc-configure-common.inc | 3 +++
+ 2 files changed, 6 insertions(+), 1 deletion(-)
 
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib kraj/hardening-fixes
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=kraj/hardening-fixes
-
-Khem Raj (10):
-  gcc: Introduce a knob to configure gcc to default to PIE
-  security_flags.inc: Delete pinnings for SECURITY_NO_PIE_CFLAGS
-  distutils,setuptools: Delete use of SECURITY_NO_PIE_CFLAGS
-  ffmpeg: Upgrade to 3.3.2 stable
-  gobject-introspection: Disable generating static lbraries
-  zlib: Pass pre-calculate uname enable re-entrant flags
-  gcc-sanitizer: Fix build with glibc 2.26
-  gcc7: Enable static PIE
-  libunwind: We set -fPIE in security flags now if gcc is not configured
-    for default PIE
-  valgrind: Remove -no-pie from cflags
-
- meta/classes/distutils-common-base.bbclass         |   2 -
- meta/classes/setuptools.bbclass                    |   2 -
- meta/conf/distro/include/security_flags.inc        |  85 ++++-------
- meta/recipes-core/zlib/zlib_1.2.11.bb              |  12 +-
- meta/recipes-devtools/gcc/gcc-7.1.inc              |   2 +
- ...r-Use-stack_t-instead-of-struct-sigaltsta.patch | 160 +++++++++++++++++++++
- .../gcc/gcc-7.1/0049-gcc-Enable-static-PIE.patch   |  37 +++++
- meta/recipes-devtools/gcc/gcc-configure-common.inc |   3 +
- meta/recipes-devtools/valgrind/valgrind_3.12.0.bb  |   1 -
- .../gobject-introspection_1.50.0.bb                |   1 +
- .../ffmpeg/ffmpeg/0001-build-fix-for-mips.patch    |  44 ++++++
- .../ffmpeg/{ffmpeg_3.3.bb => ffmpeg_3.3.2.bb}      |   5 +-
- meta/recipes-support/libunwind/libunwind_1.2.bb    |   4 -
- 13 files changed, 281 insertions(+), 77 deletions(-)
- create mode 100644 meta/recipes-devtools/gcc/gcc-7.1/0048-libsanitizer-Use-stack_t-instead-of-struct-sigaltsta.patch
- create mode 100644 meta/recipes-devtools/gcc/gcc-7.1/0049-gcc-Enable-static-PIE.patch
- create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/0001-build-fix-for-mips.patch
- rename meta/recipes-multimedia/ffmpeg/{ffmpeg_3.3.bb => ffmpeg_3.3.2.bb} (97%)
-
+diff --git a/meta/conf/distro/include/security_flags.inc b/meta/conf/distro/include/security_flags.inc
+index e162abeb3d..d3b7257240 100644
+--- a/meta/conf/distro/include/security_flags.inc
++++ b/meta/conf/distro/include/security_flags.inc
+@@ -5,6 +5,8 @@
+ # From a Yocto Project perspective, this file is included and tested
+ # in the DISTRO="poky-lsb" configuration.
+ 
++GCCPIE ?= "--enable-default-pie"
++
+ # _FORTIFY_SOURCE requires -O1 or higher, so disable in debug builds as they use
+ # -O0 which then results in a compiler warning.
+ lcl_maybe_fortify = "${@base_conditional('DEBUG_BUILD','1','','-D_FORTIFY_SOURCE=2',d)}"
+@@ -12,7 +14,7 @@ lcl_maybe_fortify = "${@base_conditional('DEBUG_BUILD','1','','-D_FORTIFY_SOURCE
+ # Error on use of format strings that represent possible security problems
+ SECURITY_STRINGFORMAT ?= "-Wformat -Wformat-security -Werror=format-security"
+ 
+-SECURITY_CFLAGS ?= "-fstack-protector-strong -pie -fpie ${lcl_maybe_fortify} ${SECURITY_STRINGFORMAT}"
++SECURITY_CFLAGS ?= "-fstack-protector-strong ${lcl_maybe_fortify} ${SECURITY_STRINGFORMAT}"
+ SECURITY_NO_PIE_CFLAGS ?= "-fstack-protector-strong ${lcl_maybe_fortify} ${SECURITY_STRINGFORMAT}"
+ 
+ SECURITY_LDFLAGS ?= "-fstack-protector-strong -Wl,-z,relro,-z,now"
+diff --git a/meta/recipes-devtools/gcc/gcc-configure-common.inc b/meta/recipes-devtools/gcc/gcc-configure-common.inc
+index 086525997e..af3575355c 100644
+--- a/meta/recipes-devtools/gcc/gcc-configure-common.inc
++++ b/meta/recipes-devtools/gcc/gcc-configure-common.inc
+@@ -22,6 +22,8 @@ EXTRA_OECONF_INITIAL ?= ""
+ GCCMULTILIB ?= "--disable-multilib"
+ GCCTHREADS ?= "posix"
+ 
++GCCPIE ??= ""
++
+ EXTRA_OECONF = "\
+     ${@['--enable-clocale=generic', ''][d.getVar('USE_NLS') != 'no']} \
+     --with-gnu-ld \
+@@ -29,6 +31,7 @@ EXTRA_OECONF = "\
+     --enable-languages=${LANGUAGES} \
+     --enable-threads=${GCCTHREADS} \
+     ${GCCMULTILIB} \
++    ${GCCPIE} \
+     --enable-c99 \
+     --enable-long-long \
+     --enable-symvers=gnu \
 -- 
 2.13.1
 
