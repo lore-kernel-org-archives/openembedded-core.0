@@ -1,48 +1,27 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f196.google.com (mail-pf0-f196.google.com
-	[209.85.192.196])
-	by mail.openembedded.org (Postfix) with ESMTP id AB5D4783C2
+Return-Path: <andrej.valek@siemens.com>
+Received: from thoth.sbs.de (thoth.sbs.de [192.35.17.2])
+	by mail.openembedded.org (Postfix) with ESMTP id 0A2E7783A0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Jun 2017 15:23:52 +0000 (UTC)
-Received: by mail-pf0-f196.google.com with SMTP id s66so499637pfs.2
+	Wed, 14 Jun 2017 15:27:00 +0000 (UTC)
+Received: from mail1.siemens.de (mail1.siemens.de [139.23.33.14])
+	by thoth.sbs.de (8.15.2/8.15.2) with ESMTPS id v5EFR0Yu002833
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Jun 2017 08:23:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=e90r7N2D0mPTwcdBq7bVCyf6fUmFuk1PvAjnZMeewWQ=;
-	b=RTIArWM85S8FZXGujywZX4QaWvtgLXA47R7kNhxJgH2tpzGi4FUnzgyMIFIUl68/oE
-	wig0tvxw2cwOmuoZcHc/4qP+CjasCoAi/AOG6GnfzVEH9RsxeBdt5NDZ7FltewlXxv6h
-	Kx8ETpZKo5e7jG331G4m174FKvCNy3dubgEYb8tDL1X/32zaca8ueq72sLZruNnQc9Fd
-	FTHN+/GpEwGXGSLp/Mmhbxjq0GBS2pyiGx5iXC9v+Pjr+lcaxF5/MF8e1TUd9e4PSI7p
-	pZr23NLfC3x66CQ3pp290QdjqWcFB8Fp8Vv+Gc4cOXAUcYi533Yu5eWDcjTPwWbSDBFT
-	Q8pw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=e90r7N2D0mPTwcdBq7bVCyf6fUmFuk1PvAjnZMeewWQ=;
-	b=ChYUeWKktSGYgD6G2kAcD7FWrbFvNkqFk6AI28nbU0yJClUJxKb50dbjL5fkM/U1A2
-	B0qK8nSldVA60YvSzOa/MLRTOsI1PdE2yHSgznco6JujC/Yx+zS+hDp03Z5pGKL7zK+h
-	Q3ypnSvyAFrgTCtT+LbmpeqAK64TE7ze86pZ6fYXA0D12D6jtyJyxBBkVN5HFgTvztdY
-	e3fff02fcby6D6dFN2XdJkD+Y3HtKD7ow9K4dfRU2lG0s+QW10dvpoiB6VJDgoPney2H
-	w00EVEkUfd0Q6oR79B6clneJoaIhMVbYX5TTg6MITrEWENMtoB1dEXQkqNVIEK2HhHLV
-	K8Mw==
-X-Gm-Message-State: AKS2vOza3t6FRVltqLJdl/9Jq0J3yLUosSVj1EWlKAc/BKP3P+4ZKwBp
-	gFIs9R27iYkdkdKo
-X-Received: by 10.99.161.25 with SMTP id b25mr633207pgf.26.1497453833568;
-	Wed, 14 Jun 2017 08:23:53 -0700 (PDT)
-Received: from localhost.localdomain ([2601:646:8882:b8c::264a])
-	by smtp.gmail.com with ESMTPSA id i2sm502948pfe.89.2017.06.14.08.23.52
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 14 Jun 2017 08:23:52 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
+	Wed, 14 Jun 2017 17:27:00 +0200
+Received: from dev.sbt.siemens.com ([163.242.56.100])
+	by mail1.siemens.de (8.15.2/8.15.2) with ESMTP id v5EFR0Ub023632;
+	Wed, 14 Jun 2017 17:27:00 +0200
+Received: from dev.sbt.siemens.com (localhost [127.0.0.1])
+	by dev.sbt.siemens.com (Postfix) with ESMTP id 169E4108752;
+	Wed, 14 Jun 2017 17:27:01 +0200 (CEST)
+From: Andrej Valek <andrej.valek@siemens.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 14 Jun 2017 08:23:29 -0700
-Message-Id: <479041378c1cad9534e3bac14cb261d2b0aebccd.1497453168.git.raj.khem@gmail.com>
-X-Mailer: git-send-email 2.13.1
-In-Reply-To: <cover.1497453168.git.raj.khem@gmail.com>
-References: <cover.1497453168.git.raj.khem@gmail.com>
-Subject: [PATCH 10/10] valgrind: Remove -no-pie from cflags
+Date: Wed, 14 Jun 2017 17:26:42 +0200
+Message-Id: <1497454006-13902-4-git-send-email-andrej.valek@siemens.com>
+X-Mailer: git-send-email 2.1.4
+In-Reply-To: <1497454006-13902-1-git-send-email-andrej.valek@siemens.com>
+References: <1497454006-13902-1-git-send-email-andrej.valek@siemens.com>
+Subject: [PATCH 3/7] libxml2: Fix CVE-2017-9047 and CVE-2017-9048
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,28 +34,167 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Jun 2017 15:23:53 -0000
+X-List-Received-Date: Wed, 14 Jun 2017 15:27:01 -0000
 
-It has been moved to distro security include file
+xmlSnprintfElementContent failed to correctly check the available
+buffer space in two locations.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Fixes bug 781333 and bug 781701
+
+CVE: CVE-2017-9047 CVE-2017-9048
+Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
 ---
- meta/recipes-devtools/valgrind/valgrind_3.12.0.bb | 1 -
- 1 file changed, 1 deletion(-)
+ .../libxml2-CVE-2017-9047_CVE-2017-9048.patch      | 103 +++++++++++++++++++++
+ meta/recipes-core/libxml/libxml2_2.9.4.bb          |   1 +
+ 2 files changed, 104 insertions(+)
+ create mode 100644 meta/recipes-core/libxml/libxml2/libxml2-CVE-2017-9047_CVE-2017-9048.patch
 
-diff --git a/meta/recipes-devtools/valgrind/valgrind_3.12.0.bb b/meta/recipes-devtools/valgrind/valgrind_3.12.0.bb
-index d7b6d77000..65e9563291 100644
---- a/meta/recipes-devtools/valgrind/valgrind_3.12.0.bb
-+++ b/meta/recipes-devtools/valgrind/valgrind_3.12.0.bb
-@@ -74,7 +74,6 @@ CACHED_CONFIGUREVARS += "ac_cv_path_PERL='/usr/bin/env perl'"
- SELECTED_OPTIMIZATION = "${DEBUG_FLAGS}"
- 
- CFLAGS_append_libc-uclibc = " -D__UCLIBC__ "
--CFLAGS += "-no-pie"
- 
- def get_mcpu(d):
-     for arg in (d.getVar('TUNE_CCARGS') or '').split():
+diff --git a/meta/recipes-core/libxml/libxml2/libxml2-CVE-2017-9047_CVE-2017-9048.patch b/meta/recipes-core/libxml/libxml2/libxml2-CVE-2017-9047_CVE-2017-9048.patch
+new file mode 100644
+index 0000000..a045acf
+--- /dev/null
++++ b/meta/recipes-core/libxml/libxml2/libxml2-CVE-2017-9047_CVE-2017-9048.patch
+@@ -0,0 +1,103 @@
++libxml2-2.9.4: Fix CVE-2017-9047 and CVE-2017-9048
++
++[No upstream tracking] -- https://bugzilla.gnome.org/show_bug.cgi?id=781333
++ -- https://bugzilla.gnome.org/show_bug.cgi?id=781701
++
++valid: Fix buffer size checks in xmlSnprintfElementContent
++
++xmlSnprintfElementContent failed to correctly check the available
++buffer space in two locations.
++
++Fixes bug 781333 and bug 781701
++
++Upstream-Status: Backported [https://git.gnome.org/browse/libxml2/commit/?id=932cc9896ab41475d4aa429c27d9afd175959d74]
++CVE: CVE-2017-9047 CVE-2017-9048
++Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
++
++diff --git a/result/valid/781333.xml b/result/valid/781333.xml
++new file mode 100644
++index 0000000..01baf11
++--- /dev/null
+++++ b/result/valid/781333.xml
++@@ -0,0 +1,5 @@
+++<?xml version="1.0"?>
+++<!DOCTYPE a [
+++<!ELEMENT a (pppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp!
+ ppppppppp
+ pppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp!
+ ppppppppp
+ pppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp!
+ ppppppppp
+ pppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp!
+ ppppppppp
+ pppppppppppppppppppppppppp:lllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll!
+ lllllllll
+ llllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll!
+ lllllllll
+ lllllllllllllllllllllllllllllllll)>
+++]>
+++<a/>
++diff --git a/result/valid/781333.xml.err b/result/valid/781333.xml.err
++new file mode 100644
++index 0000000..2176200
++--- /dev/null
+++++ b/result/valid/781333.xml.err
++@@ -0,0 +1,3 @@
+++./test/valid/781333.xml:4: element a: validity error : Element a content does not follow the DTD, expecting ( ..., got 
+++<a/>
+++    ^
++diff --git a/result/valid/781333.xml.err.rdr b/result/valid/781333.xml.err.rdr
++new file mode 100644
++index 0000000..1195a04
++--- /dev/null
+++++ b/result/valid/781333.xml.err.rdr
++@@ -0,0 +1,6 @@
+++./test/valid/781333.xml:4: element a: validity error : Element a content does not follow the DTD, expecting ( ..., got 
+++<a/>
+++    ^
+++./test/valid/781333.xml:5: element a: validity error : Element a content does not follow the DTD, Expecting more child
+++
+++^
++diff --git a/test/valid/781333.xml b/test/valid/781333.xml
++new file mode 100644
++index 0000000..bceac9c
++--- /dev/null
+++++ b/test/valid/781333.xml
++@@ -0,0 +1,4 @@
+++<!DOCTYPE a [
+++    <!ELEMENT a (pppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp!
+ ppppppppp
+ pppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp!
+ ppppppppp
+ pppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp!
+ ppppppppp
+ pppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp!
+ ppppppppp
+ pppppppppppppppppppppppppppppp:lllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll!
+ lllllllll
+ llllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll!
+ lllllllll
+ lllllllllllllllllllllllllllllllllllll)>
+++]>
+++<a/>
++diff --git a/valid.c b/valid.c
++index 19f84b8..aaa30f6 100644
++--- a/valid.c
+++++ b/valid.c
++@@ -1262,22 +1262,23 @@ xmlSnprintfElementContent(char *buf, int size, xmlElementContentPtr content, int
++         case XML_ELEMENT_CONTENT_PCDATA:
++             strcat(buf, "#PCDATA");
++ 	    break;
++-	case XML_ELEMENT_CONTENT_ELEMENT:
+++	case XML_ELEMENT_CONTENT_ELEMENT: {
+++            int qnameLen = xmlStrlen(content->name);
+++
+++	    if (content->prefix != NULL)
+++                qnameLen += xmlStrlen(content->prefix) + 1;
+++	    if (size - len < qnameLen + 10) {
+++		strcat(buf, " ...");
+++		return;
+++	    }
++ 	    if (content->prefix != NULL) {
++-		if (size - len < xmlStrlen(content->prefix) + 10) {
++-		    strcat(buf, " ...");
++-		    return;
++-		}
++ 		strcat(buf, (char *) content->prefix);
++ 		strcat(buf, ":");
++ 	    }
++-	    if (size - len < xmlStrlen(content->name) + 10) {
++-		strcat(buf, " ...");
++-		return;
++-	    }
++ 	    if (content->name != NULL)
++ 		strcat(buf, (char *) content->name);
++ 	    break;
+++	}
++ 	case XML_ELEMENT_CONTENT_SEQ:
++ 	    if ((content->c1->type == XML_ELEMENT_CONTENT_OR) ||
++ 	        (content->c1->type == XML_ELEMENT_CONTENT_SEQ))
++@@ -1319,6 +1320,7 @@ xmlSnprintfElementContent(char *buf, int size, xmlElementContentPtr content, int
++ 		xmlSnprintfElementContent(buf, size, content->c2, 0);
++ 	    break;
++     }
+++    if (size - strlen(buf) <= 2) return;
++     if (englob)
++         strcat(buf, ")");
++     switch (content->ocur) {
+diff --git a/meta/recipes-core/libxml/libxml2_2.9.4.bb b/meta/recipes-core/libxml/libxml2_2.9.4.bb
+index 0577ad6..dd2e034 100644
+--- a/meta/recipes-core/libxml/libxml2_2.9.4.bb
++++ b/meta/recipes-core/libxml/libxml2_2.9.4.bb
+@@ -24,6 +24,7 @@ SRC_URI = "ftp://xmlsoft.org/libxml2/libxml2-${PV}.tar.gz;name=libtar \
+            file://libxml2-CVE-2016-4658.patch \
+            file://libxml2-fix_NULL_pointer_derefs.patch \
+            file://libxml2-fix_and_simplify_xmlParseStartTag2.patch \
++           file://libxml2-CVE-2017-9047_CVE-2017-9048.patch \
+            file://CVE-2016-9318.patch \
+            file://0001-Make-ptest-run-the-python-tests-if-python-is-enabled.patch \
+            "
 -- 
-2.13.1
+2.1.4
 
 
