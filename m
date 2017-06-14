@@ -1,23 +1,49 @@
-Return-Path: <amarnath.valluri@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 63CD77834A
+Return-Path: <tobias.hagelborn@axis.com>
+Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
+	by mail.openembedded.org (Postfix) with ESMTP id 4928B72F24
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Jun 2017 11:32:29 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	14 Jun 2017 04:32:31 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.39,340,1493708400"; d="scan'208";a="980709721"
-Received: from avallurigigabyte.fi.intel.com ([10.237.72.170])
-	by orsmga003.jf.intel.com with ESMTP; 14 Jun 2017 04:32:29 -0700
-From: Amarnath Valluri <amarnath.valluri@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 14 Jun 2017 14:30:48 +0300
-Message-Id: <1497439848-29967-8-git-send-email-amarnath.valluri@intel.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1497439848-29967-1-git-send-email-amarnath.valluri@intel.com>
-References: <1497439848-29967-1-git-send-email-amarnath.valluri@intel.com>
-Subject: [PATCH v4 7/7] image.bbclass: create root symlinks in nativesdk target sysroot
+	Wed, 14 Jun 2017 11:35:50 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bes.se.axis.com (Postfix) with ESMTP id 846FA2E633;
+	Wed, 14 Jun 2017 13:35:51 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
+Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024)
+	with LMTP id acXhweea6SNA; Wed, 14 Jun 2017 13:35:51 +0200 (CEST)
+Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
+	by bes.se.axis.com (Postfix) with ESMTPS id 0A01D2E37A;
+	Wed, 14 Jun 2017 13:35:50 +0200 (CEST)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id DF1E01E0A2;
+	Wed, 14 Jun 2017 13:35:50 +0200 (CEST)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id D3AE81E0A0;
+	Wed, 14 Jun 2017 13:35:50 +0200 (CEST)
+Received: from thoth.se.axis.com (unknown [10.0.2.173])
+	by boulder03.se.axis.com (Postfix) with ESMTP;
+	Wed, 14 Jun 2017 13:35:50 +0200 (CEST)
+Received: from XBOX02.axis.com (xbox02.axis.com [10.0.5.16])
+	by thoth.se.axis.com (Postfix) with ESMTP id C73DFDBD;
+	Wed, 14 Jun 2017 13:35:50 +0200 (CEST)
+Received: from [10.94.62.1] (10.0.5.60) by XBOX02.axis.com (10.0.5.16) with
+	Microsoft SMTP Server (TLS) id 15.0.1210.3;
+	Wed, 14 Jun 2017 13:35:50 +0200
+To: Richard Purdie <richard.purdie@linuxfoundation.org>, Tobias Hagelborn
+	<tobiasha@axis.com>, <openembedded-core@lists.openembedded.org>
+References: <1497421480-21923-1-git-send-email-tobiasha@axis.com>
+	<1497432535.3942.40.camel@linuxfoundation.org>
+From: Tobias Hagelborn <tobias.hagelborn@axis.com>
+Message-ID: <a7b43ac4-0c9a-b6df-bd97-3a0de1d1be47@axis.com>
+Date: Wed, 14 Jun 2017 13:35:50 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.8.0
+MIME-Version: 1.0
+In-Reply-To: <1497432535.3942.40.camel@linuxfoundation.org>
+X-Originating-IP: [10.0.5.60]
+X-ClientProxiedBy: XBOX01.axis.com (10.0.5.15) To XBOX02.axis.com (10.0.5.16)
+X-TM-AS-GCONF: 00
+Subject: Re: [PATCH] devtool: deploy-target: Support stripped libs and execs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,65 +56,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Jun 2017 11:32:29 -0000
+X-List-Received-Date: Wed, 14 Jun 2017 11:35:58 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-To match with the target image, the generated nativesdk's target sysroot also
-should have the root symlinks(/lib*, /bin/, /sbin). So, extended the
-'create_merged_usr_symlinks' to reuse symlink creation part even for nativesdk
-using POPULATE_SDK_PRE_TARGET_COMMAND.
+On 06/14/2017 11:28 AM, Richard Purdie wrote:
+> On Wed, 2017-06-14 at 08:24 +0200, Tobias Hagelborn wrote:
+>> New devtool deploy-target option --strip which enables deploying
+>> stripped binaries, saving some space on target.
+>>
+>> * Copies the files of ${D} into a new directory and strips them in
+>> place
+>> * Based on sysroot_strip from staging.bbclass
+>> * Added devtool.conf option "strip" for changing default behavior
+>> * Added .ko strip support compared to original function sysroot_strip
+>
+> This looks very like the original strip function. Would it be possible
+> to create one generic strip function in lib/oe which we could call from
+> the various places rather than duplicating this again?
+>
+> (I think staging.bbclass and lib/oe/package.py:runstrip() are already
+> similar code).
+>
+> Cheers,
+>
+> Richard
+>
+I did think if this but I felt these are quite central functions and I 
+didn't have enough tests locally to cover for those classes (staging / 
+package)
 
-Signed-off-by: Amarnath Valluri <amarnath.valluri@intel.com>
----
- meta/classes/image.bbclass | 29 ++++++++++++++++++++---------
- 1 file changed, 20 insertions(+), 9 deletions(-)
+I can supply another version of this patch where the strip function is 
+merged into lib/oe.
 
-diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index 2a3c1e3..b6c3866 100644
---- a/meta/classes/image.bbclass
-+++ b/meta/classes/image.bbclass
-@@ -620,21 +620,32 @@ addtask bundle_initramfs after do_image_complete
- 
- # Prepare the root links to point to the /usr counterparts.
- create_merged_usr_symlinks() {
--    install -d ${IMAGE_ROOTFS}${base_bindir} ${IMAGE_ROOTFS}${base_sbindir} ${IMAGE_ROOTFS}${base_libdir}
--    lnr ${IMAGE_ROOTFS}${base_bindir} ${IMAGE_ROOTFS}/bin
--    lnr ${IMAGE_ROOTFS}${base_sbindir} ${IMAGE_ROOTFS}/sbin
--    lnr ${IMAGE_ROOTFS}${base_libdir} ${IMAGE_ROOTFS}/${baselib}
-+    root="$1"
-+    install -d ${root}${base_bindir} ${root}${base_sbindir} ${root}${base_libdir}
-+    lnr ${root}${base_bindir} ${root}/bin
-+    lnr ${root}${base_sbindir} ${root}/sbin
-+    lnr ${root}${base_libdir} ${root}/${baselib}
- 
-     if [ "${nonarch_base_libdir}" != "${base_libdir}" ]; then
--       install -d ${IMAGE_ROOTFS}${nonarch_base_libdir}
--       lnr ${IMAGE_ROOTFS}${nonarch_base_libdir} ${IMAGE_ROOTFS}/lib
-+       install -m 0755 -d ${root}${nonarch_base_libdir}
-+       lnr ${root}${nonarch_base_libdir} ${root}/lib
-     fi
- 
-     # create base links for multilibs
-     multi_libdirs="${@d.getVar('MULTILIB_VARIANTS')}"
-     for d in $multi_libdirs; do
--        install -d ${IMAGE_ROOTFS}${exec_prefix}/$d
--        lnr ${IMAGE_ROOTFS}${exec_prefix}/$d ${IMAGE_ROOTFS}/$d
-+        install -m 0755 -d ${root}${exec_prefix}/$d
-+        lnr ${root}${exec_prefix}/$d ${root}/$d
-     done
- }
--ROOTFS_PREPROCESS_COMMAND += "${@bb.utils.contains('DISTRO_FEATURES', 'usrmerge', 'create_merged_usr_symlinks; ', '',d)}"
-+
-+create_merged_usr_symlinks_rootfs() {
-+    create_merged_usr_symlinks ${IMAGE_ROOTFS}
-+}
-+
-+create_merged_usr_symlinks_sdk() {
-+    create_merged_usr_symlinks ${SDK_OUTPUT}${SDKTARGETSYSROOT}
-+}
-+
-+ROOTFS_PREPROCESS_COMMAND += "${@bb.utils.contains('DISTRO_FEATURES', 'usrmerge', 'create_merged_usr_symlinks_rootfs; ', '',d)}"
-+POPULATE_SDK_PRE_TARGET_COMMAND += "${@bb.utils.contains('DISTRO_FEATURES', 'usrmerge', 'create_merged_usr_symlinks_sdk; ', '',d)}"
--- 
-2.7.4
-
+//Tobias
 
