@@ -1,18 +1,18 @@
 Return-Path: <patchwork@patchwork.openembedded.org>
 Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 6518B782DF;
-	Wed, 14 Jun 2017 11:01:29 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id 580CE782DF;
+	Wed, 14 Jun 2017 11:01:30 +0000 (UTC)
 MIME-Version: 1.0
 From: Patchwork <patchwork@patchwork.openembedded.org>
 To: Patrick Ohly <patrick.ohly@intel.com>
-Date: Wed, 14 Jun 2017 11:01:31 -0000
-Message-ID: <20170614110131.1044.35052@do.openembedded.org>
+Date: Wed, 14 Jun 2017 11:01:32 -0000
+Message-ID: <20170614110132.1039.58689@do.openembedded.org>
 References: <cover.85d08ae286e0b2f8503f9e657148201e6b90edde.1497013310.git-series.patrick.ohly@intel.com>
 Reply-To: openembedded-core@lists.openembedded.org
 X-Patchwork-Hint: ignore
 In-Reply-To: <cover.85d08ae286e0b2f8503f9e657148201e6b90edde.1497013310.git-series.patrick.ohly@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgIlt2Ml0gYml0YmFrZS5jb25mOiBESVNUUk9fRkVBVC4uLiIgYW5kIDEgbW9yZSAocmV2Mik=?=
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgIlt2Ml0gYml0YmFrZS5jb25mOiBESVNUUk9fRkVBVC4uLiIgYW5kIDEgbW9yZSAocmV2Myk=?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,14 +25,14 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Jun 2017 11:01:29 -0000
+X-List-Received-Date: Wed, 14 Jun 2017 11:01:30 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
 == Series Details ==
 
-Series: "[v2] bitbake.conf: DISTRO_FEAT..." and 1 more (rev2)
-Revision: 2
+Series: "[v2] bitbake.conf: DISTRO_FEAT..." and 1 more (rev3)
+Revision: 3
 URL   : https://patchwork.openembedded.org/series/7163/
 State : failure
 
