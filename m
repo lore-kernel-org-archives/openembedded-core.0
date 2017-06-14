@@ -1,29 +1,27 @@
 Return-Path: <richard@rpsys.net>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id DBA3178380
+	by mail.openembedded.org (Postfix) with ESMTP id DCC317838F
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 14 Jun 2017 13:42:39 +0000 (UTC)
 Received: from hex ([192.168.3.34]) (authenticated bits=0)
 	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	v5EDgbYF004024
+	v5EDgbaU004022
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
 	verify=NOT); Wed, 14 Jun 2017 14:42:38 +0100
 Received: from richard by hex with local (Exim 4.86_2)
 	(envelope-from <richard@rpsys.net>)
-	id 1dL8ZB-000843-Ss; Wed, 14 Jun 2017 14:42:37 +0100
+	id 1dL8ZB-00083v-Rk; Wed, 14 Jun 2017 14:42:37 +0100
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 14 Jun 2017 14:42:37 +0100
-Message-Id: <1497447757-30951-3-git-send-email-richard.purdie@linuxfoundation.org>
+Date: Wed, 14 Jun 2017 14:42:35 +0100
+Message-Id: <1497447757-30951-1-git-send-email-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1497447757-30951-1-git-send-email-richard.purdie@linuxfoundation.org>
-References: <1497447757-30951-1-git-send-email-richard.purdie@linuxfoundation.org>
 X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.11
 	(dan.rpsys.net [192.168.3.1]);
-	Wed, 14 Jun 2017 14:42:39 +0100 (BST)
+	Wed, 14 Jun 2017 14:42:38 +0100 (BST)
 X-Virus-Scanned: clamav-milter 0.99.2 at dan
 X-Virus-Status: Clean
-Subject: [PATCH 3/3] package_ipk: Parallelise ipk creation
+Subject: [PATCH 1/3] pseudo: Handle too many files deadlock
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,54 +36,101 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 14 Jun 2017 13:42:40 -0000
 
-Allow the creation of ipks to happen in parallel, making best use of resources
-on multiprocessor systems.
+If we have large amounts of parallelism, pseudo can end up with too
+many open connections and will no longer accept further connections,
+hanging. This patch works around that by closing some clients, allowing
+turnover of connections and unblocking the system. The downside is a small
+but theoretical window of data loss. This is likely better than locking
+up entirely though. Discussions with Peter are onging about how we could
+better fix this.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/classes/package_ipk.bbclass | 19 +++++++++++++++++--
- 1 file changed, 17 insertions(+), 2 deletions(-)
+ .../pseudo/files/toomanyfiles.patch                | 62 ++++++++++++++++++++++
+ meta/recipes-devtools/pseudo/pseudo_1.8.2.bb       |  1 +
+ 2 files changed, 63 insertions(+)
+ create mode 100644 meta/recipes-devtools/pseudo/files/toomanyfiles.patch
 
-diff --git a/meta/classes/package_ipk.bbclass b/meta/classes/package_ipk.bbclass
-index d2ce3b3..282d212 100644
---- a/meta/classes/package_ipk.bbclass
-+++ b/meta/classes/package_ipk.bbclass
-@@ -17,6 +17,8 @@ OPKG_ARGS += "${@['', '--add-exclude ' + ' --add-exclude '.join((d.getVar('PACKA
- OPKGLIBDIR = "${localstatedir}/lib"
- 
- python do_package_ipk () {
-+    from multiprocessing import Process
+diff --git a/meta/recipes-devtools/pseudo/files/toomanyfiles.patch b/meta/recipes-devtools/pseudo/files/toomanyfiles.patch
+new file mode 100644
+index 0000000..14a8975
+--- /dev/null
++++ b/meta/recipes-devtools/pseudo/files/toomanyfiles.patch
+@@ -0,0 +1,62 @@
++Currently if we max out the maximum number of files, pseudo can deadlock, unable to
++accept new connections yet unable to move forward and unblock the other processes
++waiting either.
 +
-     oldcwd = os.getcwd()
++Rather than hang, when this happens, close out inactive connections, allowing us
++to accept the new ones. The disconnected clients will simply reconnect. There is
++a small risk of data loss here sadly but its better than hanging.
++
++RP
++2017/4/25
++
++Upstream-Status: Pending [Peter is aware of the issue]
++
++Index: pseudo-1.8.2/pseudo_server.c
++===================================================================
++--- pseudo-1.8.2.orig/pseudo_server.c
+++++ pseudo-1.8.2/pseudo_server.c
++@@ -581,6 +581,7 @@ pseudo_server_loop(void) {
++ 	int rc;
++ 	int fd;
++ 	int loop_timeout = pseudo_server_timeout;
+++	int hitmaxfiles;
++ 
++ 	clients = malloc(16 * sizeof(*clients));
++ 
++@@ -597,6 +598,7 @@ pseudo_server_loop(void) {
++ 	active_clients = 1;
++ 	max_clients = 16;
++ 	highest_client = 0;
+++	hitmaxfiles = 0;
++ 
++ 	pseudo_debug(PDBGF_SERVER, "server loop started.\n");
++ 	if (listen_fd < 0) {
++@@ -663,10 +665,18 @@ pseudo_server_loop(void) {
++ 						message_time.tv_usec -= 1000000;
++ 						++message_time.tv_sec;
++ 					}
+++				} else if (hitmaxfiles) {
+++					/* In theory there is a potential race here where if we close a client, 
+++					   it may have sent us a fastop message which we don't act upon.
+++					   If we don't close a filehandle we'll loop indefinitely thought. 
+++					   Only close one per loop iteration in the interests of caution */
+++					close_client(i);
+++					histmaxfiles = 0;
++ 				}
++ 				if (die_forcefully)
++ 					break;
++ 			}
+++			hitmaxfiles = 0;
++ 			if (!die_forcefully && 
++ 			    (FD_ISSET(clients[0].fd, &events) ||
++ 			     FD_ISSET(clients[0].fd, &reads))) {
++@@ -688,6 +698,9 @@ pseudo_server_loop(void) {
++                                          */
++                                         pseudo_server_timeout = DEFAULT_PSEUDO_SERVER_TIMEOUT;
++                                         die_peacefully = 0;
+++				} else if (errno == EMFILE) {
+++					hitmaxfiles = 1;
+++					pseudo_debug(PDBGF_SERVER, "Hit max open files, dropping a client.\n");
++ 				}
++ 			}
++ 			pseudo_debug(PDBGF_SERVER, "server loop complete [%d clients left]\n", active_clients);
+diff --git a/meta/recipes-devtools/pseudo/pseudo_1.8.2.bb b/meta/recipes-devtools/pseudo/pseudo_1.8.2.bb
+index b427b9a..9bcd031 100644
+--- a/meta/recipes-devtools/pseudo/pseudo_1.8.2.bb
++++ b/meta/recipes-devtools/pseudo/pseudo_1.8.2.bb
+@@ -7,6 +7,7 @@ SRC_URI = "http://downloads.yoctoproject.org/releases/pseudo/${BPN}-${PV}.tar.bz
+            file://moreretries.patch \
+            file://efe0be279901006f939cd357ccee47b651c786da.patch \
+            file://b6b68db896f9963558334aff7fca61adde4ec10f.patch \
++           file://toomanyfiles.patch \
+            "
  
-     workdir = d.getVar('WORKDIR')
-@@ -37,11 +39,24 @@ python do_package_ipk () {
-     if os.access(os.path.join(tmpdir, "stamps", "IPK_PACKAGE_INDEX_CLEAN"), os.R_OK):
-         os.unlink(os.path.join(tmpdir, "stamps", "IPK_PACKAGE_INDEX_CLEAN"))
- 
--    for pkg in packages.split():
--        ipk_write_pkg(pkg, d)
-+    max_process = int(d.getVar("BB_NUMBER_THREADS") or os.cpu_count() or 1)
-+    launched = []
-+    pkgs = packages.split()
-+    while pkgs:
-+        if len(launched) < max_process:
-+            p = Process(target=ipk_write_pkg, args=(pkgs.pop(), d))
-+            p.start()
-+            launched.append(p)
-+        for q in launched:
-+            # The finished processes are joined when calling is_alive()
-+            if not q.is_alive():
-+                launched.remove(q)
-+    for p in launched:
-+        p.join()
- 
-     os.chdir(oldcwd)
- }
-+do_package_ipk[vardepsexclude] = "BB_NUMBER_THREADS"
- 
- def ipk_write_pkg(pkg, d):
-     import re, copy
+ SRC_URI[md5sum] = "7d41e72188fbea1f696c399c1a435675"
 -- 
 2.7.4
 
