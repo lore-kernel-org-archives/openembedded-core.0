@@ -1,24 +1,48 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id B8A6878398
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qt0-f182.google.com (mail-qt0-f182.google.com
+	[209.85.216.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 3489C783AE
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Jun 2017 12:27:33 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	15 Jun 2017 05:27:34 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.39,343,1493708400"; d="scan'208";a="981182085"
-Received: from linux.intel.com ([10.54.29.200])
-	by orsmga003.jf.intel.com with ESMTP; 15 Jun 2017 05:27:34 -0700
-Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
-	by linux.intel.com (Postfix) with ESMTP id 5E951580363;
-	Thu, 15 Jun 2017 05:27:33 -0700 (PDT)
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 15 Jun 2017 15:26:10 +0300
-Message-Id: <1497529570-28418-1-git-send-email-ed.bartosh@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] wic: add /boot mount point to fstab by default
+	Thu, 15 Jun 2017 12:31:21 +0000 (UTC)
+Received: by mail-qt0-f182.google.com with SMTP id u19so18221096qta.3
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 15 Jun 2017 05:31:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=QM2wZ2dV5EmBOKdF9+5rV1qR4E6H957whXzGZ3i7Kyw=;
+	b=uBR8aUPVfidI1+4ZcBMTfDvtJocYSRyuWPqQvDiuR3aA64rVSWMhFlRcl44Wl/eNHl
+	vq5iEJvVPYAQdPCEBK7iW8uE8pNAj2wa9MR9Ae+oroNoWgxkcY+pLtZ8m+RJsWjswdss
+	fx8UENeCil00dxXIpa//1UApXsecwxtB8kvtJMTGEkLAUKObgSKANvFoxSw5K5rFbVQZ
+	gEZkCEEK4nOZ7r84WtHKcq0+tgPR/38pNXsijgSvSI7GeQM4pwLxJQwigqlLJc323h+y
+	XxbOA7zE28kthntrZ5CHTOEUz3+RHA1fkFCCpADYfkcLUyJIbRWYPOe97l4ebsupkv9X
+	pUKA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=QM2wZ2dV5EmBOKdF9+5rV1qR4E6H957whXzGZ3i7Kyw=;
+	b=IJh5PtxeQ/b8WE821whdkdVdyf6tR8olgyKTWtjJQhj4YoNpXDra4pu5nQTdZOFkQ5
+	/fnDGWUJIka0508Yjs/Nfl5vWqy8rifs9iVoYX3+ccZufOXBJ/6XHtJHiH+HaQL6XkQF
+	6jVmvRtBsjgRqe4OchaAhakYRbD8cVuKDs4Tcaj/dv6lumM/9casAsdUCFGor1uueEeX
+	ek8wBNU1QYsqgP0vPExXx8RYFyLdtlrdSqh2rg1TDiCwXtQE1XCU9haits1oT7V7kWLx
+	5IJM0D7h0hXPYZPNRcPJK86yMo36414VEaAKwcarVpOMVEGDuKd6wnf4GUxwxiB2i2o0
+	HNNQ==
+X-Gm-Message-State: AKS2vOyk2OuPbZKavGu44bNmbfg58QtjqdEiOnSDyJF0f6paYqvsRkrD
+	1x1jx7R0gLyqKSnnq7G8Dsp3TRlZTrcG
+X-Received: by 10.237.52.33 with SMTP id w30mr5867229qtd.139.1497529882379;
+	Thu, 15 Jun 2017 05:31:22 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.35.103 with HTTP; Thu, 15 Jun 2017 05:31:02 -0700 (PDT)
+In-Reply-To: <22aa14ac1a926e97fb676743cb1e440ff2aaae1f.1496218782.git.jackie.huang@windriver.com>
+References: <cover.1496218782.git.jackie.huang@windriver.com>
+	<22aa14ac1a926e97fb676743cb1e440ff2aaae1f.1496218782.git.jackie.huang@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 15 Jun 2017 13:31:02 +0100
+Message-ID: <CAJTo0LbG_JMejjRPoK+g4Kq5+G8eszwPj4+oWcUjhpJ4-7esNg@mail.gmail.com>
+To: "jackie.huang@windriver.com" <jackie.huang@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2] ncurses: add SYSROOT_DESTDIR for siteconfig_gencache
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,36 +55,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Jun 2017 12:27:34 -0000
+X-List-Received-Date: Thu, 15 Jun 2017 12:31:22 -0000
+Content-Type: multipart/alternative; boundary="001a114dc03eae1e4d0551fed862"
 
-wic avoided adding /boot to fstab for no reason.
-This exception was hardcoded in the wic code.
+--001a114dc03eae1e4d0551fed862
+Content-Type: text/plain; charset="UTF-8"
 
-There is no need for this as mountpoint in .wks file is an optional
-field. It can be added only if its needed to have partitions
-automatically mounted on system boot.
+On 31 May 2017 at 09:27, <jackie.huang@windriver.com> wrote:
 
-[YOCTO #11662]
+> +EXTRASITECONFIG = "CFLAGS='${CFLAGS} -I${SYSROOT_DESTDIR}${includedir}'"
+>
 
-Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
----
- scripts/lib/wic/plugins/imager/direct.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Why is this ncurses specific, it sounds like something which will impact
+all users of siteconfig?
 
-diff --git a/scripts/lib/wic/plugins/imager/direct.py b/scripts/lib/wic/plugins/imager/direct.py
-index 3cdedd1..f252697 100644
---- a/scripts/lib/wic/plugins/imager/direct.py
-+++ b/scripts/lib/wic/plugins/imager/direct.py
-@@ -127,7 +127,7 @@ class DirectPlugin(ImagerPlugin):
-         updated = False
-         for part in parts:
-             if not part.realnum or not part.mountpoint \
--               or part.mountpoint in ("/", "/boot"):
-+               or part.mountpoint == "/":
-                 continue
- 
-             # mmc device partitions are named mmcblk0p1, mmcblk0p2..
--- 
-2.1.4
+Ross
 
+--001a114dc03eae1e4d0551fed862
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 31 May 2017 at 09:27,  <span dir=3D"ltr">&lt;<a href=3D"mailto:jackie.hu=
+ang@windriver.com" target=3D"_blank">jackie.huang@windriver.com</a>&gt;</sp=
+an> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;=
+border-left:1px #ccc solid;padding-left:1ex"><div id=3D":mi" class=3D"a3s a=
+XjCH m15c5d9f69337bb63">+EXTRASITECONFIG =3D &quot;CFLAGS=3D&#39;${CFLAGS} =
+-I${SYSROOT_DESTDIR}${<wbr>includedir}&#39;&quot;<br></div></blockquote></d=
+iv><br>Why is this ncurses specific, it sounds like something which will im=
+pact all users of siteconfig?</div><div class=3D"gmail_extra"><br></div><di=
+v class=3D"gmail_extra">Ross</div></div>
+
+--001a114dc03eae1e4d0551fed862--
