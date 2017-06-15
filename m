@@ -1,30 +1,25 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 69EAC783AF
+Return-Path: <andrej.valek@siemens.com>
+Received: from thoth.sbs.de (thoth.sbs.de [192.35.17.2])
+	by mail.openembedded.org (Postfix) with ESMTP id 09844781E2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Jun 2017 13:27:35 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	v5FDRTig010124
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Thu, 15 Jun 2017 14:27:30 +0100
-Message-ID: <1497533249.3942.94.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: "Burton, Ross" <ross.burton@intel.com>, Ed Bartosh
-	<ed.bartosh@linux.intel.com>
-Date: Thu, 15 Jun 2017 14:27:29 +0100
-In-Reply-To: <CAJTo0LbEz_8uDR0xqSiyD4ZvcxRX4bFCS2Fyx1qn8g_xKTbsaw@mail.gmail.com>
-References: <1497527986-20808-1-git-send-email-ed.bartosh@linux.intel.com>
-	<CAJTo0LbEz_8uDR0xqSiyD4ZvcxRX4bFCS2Fyx1qn8g_xKTbsaw@mail.gmail.com>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
-Mime-Version: 1.0
-X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.11
-	(dan.rpsys.net [192.168.3.1]);
-	Thu, 15 Jun 2017 14:27:30 +0100 (BST)
-X-Virus-Scanned: clamav-milter 0.99.2 at dan
-X-Virus-Status: Clean
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] image_types.bbclass: get rid of IMAGE_DEPENDS
+	Thu, 15 Jun 2017 13:44:13 +0000 (UTC)
+Received: from mail1.siemens.de (mail1.siemens.de [139.23.33.14])
+	by thoth.sbs.de (8.15.2/8.15.2) with ESMTPS id v5FDiDbu003686
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 15 Jun 2017 15:44:13 +0200
+Received: from dev.sbt.siemens.com ([163.242.56.100])
+	by mail1.siemens.de (8.15.2/8.15.2) with ESMTP id v5FDiDn5016527;
+	Thu, 15 Jun 2017 15:44:13 +0200
+Received: from dev.sbt.siemens.com (localhost [127.0.0.1])
+	by dev.sbt.siemens.com (Postfix) with ESMTP id 2FD8F42EB;
+	Thu, 15 Jun 2017 15:44:13 +0200 (CEST)
+From: Andrej Valek <andrej.valek@siemens.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 15 Jun 2017 15:43:44 +0200
+Message-Id: <1497534224-21937-1-git-send-email-andrej.valek@siemens.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [yocto-security][PATCH] package_ipk: Remove Source entry from ipk packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,28 +32,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Jun 2017 13:27:36 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 15 Jun 2017 13:44:14 -0000
 
-On Thu, 2017-06-15 at 14:25 +0100, Burton, Ross wrote:
-> 
-> On 15 June 2017 at 12:59, Ed Bartosh <ed.bartosh@linux.intel.com>
-> wrote:
-> > The IMAGE_DEPENDS variable can be overriden to add dependencies for
-> > individual image types.  Those dependencies are added to the
-> > do_rootfs
-> > task, while they really should be added to the specific image type
-> > tasks.
-> > 
-> Other layers such as meta-raspberrypi use IMAGE_DEPENDS, should we
-> move oe-core to use [depends] but handle IMAGE_DEPENDS (with a
-> deprecation warning) for some of the 2.4 cycle?
+There is the potential for sensitive information to leak through the urls
+there and removing it brings this into the behavior of the other package
+backends since filtering it is likely error prone.
 
-Yes, a fatal error if IMAGE_DEPENDS is set and telling the user what to
-change it to would be best IMO.
+Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
+---
+ meta/classes/package_ipk.bbclass | 4 ----
+ 1 file changed, 4 deletions(-)
 
-Cheers,
+diff --git a/meta/classes/package_ipk.bbclass b/meta/classes/package_ipk.bbclass
+index d2ce3b3..2a291b0 100644
+--- a/meta/classes/package_ipk.bbclass
++++ b/meta/classes/package_ipk.bbclass
+@@ -205,10 +205,6 @@ def ipk_write_pkg(pkg, d):
+             ctrlfile.write("Replaces: %s\n" % bb.utils.join_deps(rreplaces))
+         if rconflicts:
+             ctrlfile.write("Conflicts: %s\n" % bb.utils.join_deps(rconflicts))
+-        src_uri = localdata.getVar("SRC_URI").strip() or "None"
+-        if src_uri:
+-            src_uri = re.sub("\s+", " ", src_uri)
+-            ctrlfile.write("Source: %s\n" % " ".join(src_uri.split()))
+         ctrlfile.close()
+ 
+         for script in ["preinst", "postinst", "prerm", "postrm"]:
+-- 
+2.1.4
 
-Richard
 
