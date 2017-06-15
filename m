@@ -1,26 +1,50 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 4F794783E1
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qt0-f169.google.com (mail-qt0-f169.google.com
+	[209.85.216.169])
+	by mail.openembedded.org (Postfix) with ESMTP id F009E783E4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Jun 2017 16:21:13 +0000 (UTC)
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	15 Jun 2017 09:21:15 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.39,343,1493708400"; d="scan'208";a="115371094"
-Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga006.fm.intel.com with ESMTP; 15 Jun 2017 09:21:15 -0700
-Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
-	by linux.intel.com (Postfix) with ESMTP id 169CC58010F;
-	Thu, 15 Jun 2017 09:21:13 -0700 (PDT)
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 15 Jun 2017 19:19:45 +0300
-Message-Id: <1497543585-32012-1-git-send-email-ed.bartosh@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <1497533249.3942.94.camel@linuxfoundation.org>
-References: <1497533249.3942.94.camel@linuxfoundation.org>
-Subject: [PATCH v2] image_types.bbclass: get rid of IMAGE_DEPENDS
+	Thu, 15 Jun 2017 16:38:09 +0000 (UTC)
+Received: by mail-qt0-f169.google.com with SMTP id c10so27504491qtd.1
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 15 Jun 2017 09:38:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=svjErx0qqyZrh1NoWJWMKPB2lG/Vumuk7w/0RcDEmFg=;
+	b=Y/ZysARWhPJc8bE/0oTTiog0HO5gI1ptSsVJQQ4fBWUx5I2ilyaDMoo4DLAusMkMcX
+	Fj/UK7RXt+d2b2pXxqSzVmQE45AqF0lt6Pm3+7H2/sxv4rAh5dDu7KpS1Hixb5YqYR8/
+	drDH9c4FPeyw3qvL+DOWHgG2TDjIsyCad4n77iqyBbg9Su6P3L4sxxAFLZaRfyf7euGe
+	WUqHm3UzoSzsGf6iKmPeW9kbdTNFD2tcdPZ11/oN0NKQgU8uYFPm0xodLQlfdb3E15t4
+	fv4e7nV5iN6VyhMGgYxfJunJo1mc8QbYeb76u/IY3zAE21zx14O2d6jhgAGlhnkWm+ei
+	/utg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=svjErx0qqyZrh1NoWJWMKPB2lG/Vumuk7w/0RcDEmFg=;
+	b=Twx+Mzeu8v+fsuuELRZltK0MYL7ZdFGAvukpUe6PBP5uzEH1If4FhER2wZZfQWCoG7
+	s3co8kqyL90BGby6yocS7x65Iq9yW8TNcKYJYFADK9WCSFHv4triNxVrpzBm48Hyb1yF
+	+Ne6lHMgxOX2Ho5IXnAsZKyfnK2sucrYBbUXjiy/M2JRHezT0SOjTBj4kKb3okbBQQH+
+	wcNXy1NlV8KIfG66oFnIrJ5xpv13fUZcgR0E/mrI9UfMZ09rPpsUOunN1bY0FF/LW3rB
+	JREMumlBmnQnnziu81MRjC0NG5RX41v/0cNEmK7FvErOOzNd96Pe8nfMQykpzzf7JiWd
+	RQtw==
+X-Gm-Message-State: AKS2vOzGVVzFxWbPZ+apl1RVEoAUmSQlrddzQQ9zdDgQKXb7++g/G3aY
+	hjFiMQOFJgIw0uD3QAyY6O/ebO2jRXsv
+X-Received: by 10.55.31.162 with SMTP id n34mr7402300qkh.46.1497544690869;
+	Thu, 15 Jun 2017 09:38:10 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.35.103 with HTTP; Thu, 15 Jun 2017 09:37:50 -0700 (PDT)
+In-Reply-To: <2607b2d4-c37f-5693-1002-db17f9e1024d@xevo.com>
+References: <1493752813-18913-1-git-send-email-mkelly@xevo.com>
+	<CAJTo0Lb+GDpEMbZP7tgVuMtpw1=38u486VXoQL1NFGnFpTD4Mw@mail.gmail.com>
+	<2607b2d4-c37f-5693-1002-db17f9e1024d@xevo.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 15 Jun 2017 17:37:50 +0100
+Message-ID: <CAJTo0LavpmZCQPHSTrsuJwEZHLT2eAhKLQR8A7Fj3kX6BTC0wg@mail.gmail.com>
+To: Martin Kelly <mkelly@xevo.com>
+Cc: Joshua G Lock <joshua.g.lock@intel.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH resend] qemuboot.conf: make cpus match built artifacts
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,91 +57,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Jun 2017 16:21:15 -0000
+X-List-Received-Date: Thu, 15 Jun 2017 16:38:10 -0000
+Content-Type: multipart/alternative; boundary="001a1147e5f855bd110552024bf3"
 
-The IMAGE_DEPENDS variable can be overriden to add dependencies for
-individual image types.  Those dependencies are added to the do_rootfs
-task, while they really should be added to the specific image type tasks.
+--001a1147e5f855bd110552024bf3
+Content-Type: text/plain; charset="UTF-8"
 
-Also, the IMAGE_DEPENDS variable is not documented anywhere.
+On 15 June 2017 at 17:17, Martin Kelly <mkelly@xevo.com> wrote:
 
-Replaced usage of IMAGE_DEPENDS with explicitly added
-dependencies to do_image_<image type> tasks.
+> I am no expert, but running qemu -cpu help just says:
+>
+> kvm32 - "Common 32-bit KVM processor"
+> kvm64 - "Common 64-bit KVM processor"
+>
+> My best guess is that, running on qemu without kvm, both cases will be
+> slow (since it's all software emulation). But, using qemu -kvm, it should
+> be fast as long as you run on a native CPU that is core2duo or better, as
+> the native instructions can just be exposed and passed through to the host.
+> Since core2duo is very old by now, it should be fast for virtually everyone
+> building on x86.
+>
 
-[YOCTO #11302]
+Right, I did some digging.  Assuming you have KVM enabled then in the
+general case the -cpu option is irrelevant as the instructions are handled
+natively.  -cpu just changes what CPUID flags the userspace sees, and so
+this is the Right Thing To Do.
 
-Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
----
- meta/classes/image_types.bbclass | 41 +++++++++++++++++++---------------------
- 1 file changed, 19 insertions(+), 22 deletions(-)
+Ross
 
-diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
-index 7749b00..cca2a07 100644
---- a/meta/classes/image_types.bbclass
-+++ b/meta/classes/image_types.bbclass
-@@ -29,12 +29,6 @@ def imagetypes_getdepends(d):
-     deps = set()
-     for typestring in fstypes:
-         basetype, resttypes = split_types(typestring)
--        adddep(d.getVar('IMAGE_DEPENDS_%s' % basetype) , deps)
--
--        for typedepends in (d.getVar("IMAGE_TYPEDEP_%s" % basetype) or "").split():
--            base, rest = split_types(typedepends)
--            adddep(d.getVar('IMAGE_DEPENDS_%s' % base) , deps)
--            resttypes += rest
- 
-         for ctype in resttypes:
-             adddep(d.getVar("CONVERSION_DEPENDS_%s" % ctype), deps)
-@@ -101,7 +95,7 @@ IMAGE_CMD_squashfs-lzo = "mksquashfs ${IMAGE_ROOTFS} ${IMGDEPLOYDIR}/${IMAGE_NAM
- # you need special parameters (like --xattrs) which are only supported
- # by GNU tar upstream >= 1.27, then override that default:
- # IMAGE_CMD_TAR = "tar --xattrs --xattrs-include=*"
--# IMAGE_DEPENDS_tar_append = " tar-replacement-native"
-+# do_image_tar[depends] += "tar-replacement-native:do_populate_sysroot"
- # EXTRANATIVEPATH += "tar-native"
- #
- # The GNU documentation does not specify whether --xattrs-include is necessary.
-@@ -209,21 +203,24 @@ EXTRA_IMAGECMD_ext4 ?= "-i 4096"
- EXTRA_IMAGECMD_btrfs ?= "-n 4096"
- EXTRA_IMAGECMD_elf ?= ""
- 
--IMAGE_DEPENDS = ""
--IMAGE_DEPENDS_jffs2 = "mtd-utils-native"
--IMAGE_DEPENDS_cramfs = "util-linux-native"
--IMAGE_DEPENDS_ext2 = "e2fsprogs-native"
--IMAGE_DEPENDS_ext3 = "e2fsprogs-native"
--IMAGE_DEPENDS_ext4 = "e2fsprogs-native"
--IMAGE_DEPENDS_btrfs = "btrfs-tools-native"
--IMAGE_DEPENDS_squashfs = "squashfs-tools-native"
--IMAGE_DEPENDS_squashfs-xz = "squashfs-tools-native"
--IMAGE_DEPENDS_squashfs-lzo = "squashfs-tools-native"
--IMAGE_DEPENDS_elf = "virtual/kernel mkelfimage-native"
--IMAGE_DEPENDS_ubi = "mtd-utils-native"
--IMAGE_DEPENDS_ubifs = "mtd-utils-native"
--IMAGE_DEPENDS_multiubi = "mtd-utils-native"
--IMAGE_DEPENDS_wic = "parted-native"
-+python () {
-+    if d.getVar('IMAGE_DEPENDS') != None:
-+        bb.fatal('IMAGE_DEPENDS is deprecated. Use do_image_<type>[depends] += "<recipe>:<task>>" instead')
-+}
-+
-+do_image_jffs2[depends] += "mtd-utils-native:do_populate_sysroot"
-+do_image_cramfs[depends] += "util-linux-native:do_populate_sysroot"
-+do_image_ext2[depends] += "e2fsprogs-native:do_populate_sysroot"
-+do_image_ext3[depends] += "e2fsprogs-native:do_populate_sysroot"
-+do_image_ext4[depends] += "e2fsprogs-native:do_populate_sysroot"
-+do_image_btrfs[depends] += "btrfs-tools-native:do_populate_sysroot"
-+do_image_squashfs[depends] += "squashfs-tools-native:do_populate_sysroot"
-+do_image_squashfs-xz[depends] += "squashfs-tools-native:do_populate_sysroot"
-+do_image_squashfs-lzo[depends] += "squashfs-tools-native:do_populate_sysroot"
-+do_image_elf[depends] += "virtual/kernel-native:do_populate_sysroot mkelfimage-native:do_populate_sysroot"
-+do_image_ubi[depends] += "mtd-utils-native:do_populate_sysroot"
-+do_image_ubifs[depends] += "mtd-utils-native:do_populate_sysroot"
-+do_image_multiubi[depends] += "mtd-utils-native:do_populate_sysroot"
- 
- # This variable is available to request which values are suitable for IMAGE_FSTYPES
- IMAGE_TYPES = " \
--- 
-2.1.4
+--001a1147e5f855bd110552024bf3
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 15 June 2017 at 17:17, Martin Kelly <span dir=3D"ltr">&lt;<a href=3D"mai=
+lto:mkelly@xevo.com" target=3D"_blank">mkelly@xevo.com</a>&gt;</span> wrote=
+:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-le=
+ft:1px #ccc solid;padding-left:1ex"><div id=3D":o8" class=3D"a3s aXjCH m15c=
+ac8c4d2e0031d">I am no expert, but running qemu -cpu help just says:<br>
+<br>
+kvm32 - &quot;Common 32-bit KVM processor&quot;<br>
+kvm64 - &quot;Common 64-bit KVM processor&quot;<br>
+<br>
+My best guess is that, running on qemu without kvm, both cases will be slow=
+ (since it&#39;s all software emulation). But, using qemu -kvm, it should b=
+e fast as long as you run on a native CPU that is core2duo or better, as th=
+e native instructions can just be exposed and passed through to the host. S=
+ince core2duo is very old by now, it should be fast for virtually everyone =
+building on x86.</div></blockquote></div><br>Right, I did some digging.=C2=
+=A0 Assuming you have KVM enabled then in the general case the -cpu option =
+is irrelevant as the instructions are handled natively. =C2=A0-cpu just cha=
+nges what CPUID flags the userspace sees, and so this is the Right Thing To=
+ Do.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">R=
+oss</div></div>
 
+--001a1147e5f855bd110552024bf3--
