@@ -1,37 +1,48 @@
-Return-Path: <yin.thong.choong@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id EE47E78361
+Return-Path: <andrea.adami@gmail.com>
+Received: from mail-lf0-f66.google.com (mail-lf0-f66.google.com
+	[209.85.215.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 350BE71A32
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Jun 2017 07:53:14 +0000 (UTC)
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	15 Jun 2017 00:53:13 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.39,342,1493708400"; d="scan'208";a="115192297"
-Received: from pgsmsx101.gar.corp.intel.com ([10.221.44.78])
-	by fmsmga006.fm.intel.com with ESMTP; 15 Jun 2017 00:52:42 -0700
-Received: from pgsmsx105.gar.corp.intel.com ([169.254.4.197]) by
-	PGSMSX101.gar.corp.intel.com ([169.254.1.101]) with mapi id
-	14.03.0319.002; Thu, 15 Jun 2017 15:52:36 +0800
-From: "Choong, Yin Thong" <yin.thong.choong@intel.com>
-To: Andrea Adami <andrea.adami@gmail.com>
-Thread-Topic: [OE-core] [PATCH v2] image_types.bbclass: Added default
-	argument for ubi and ubifs image creation
-Thread-Index: AQHS5af0o7HTUxIj1kypeWFmE2alkqIliiHA
-Date: Thu, 15 Jun 2017 07:52:35 +0000
-Message-ID: <CF0C948DE8E2634BB64BF489FF9EF7E7CD0723@PGSMSX105.gar.corp.intel.com>
+	Thu, 15 Jun 2017 08:09:47 +0000 (UTC)
+Received: by mail-lf0-f66.google.com with SMTP id u62so623922lfg.0
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 15 Jun 2017 01:09:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=cmGPLeEFC4UU1ftgk/DQ780rW0uGmo9yeNEnidz7qHU=;
+	b=bPU+Pm2ZJXBKiweYqYyXwAy+j+efYXFm7XMsRxeqlhnX/HSM8FLrMzJaituHRecOvo
+	HzzMoya/FfUPSlrXopP9P03trbF6N63/9WVdyBIYuM2o834eUA5EhSvnJheFazQ23eVf
+	hwBxeZ1/ZBM3TW+wqJeVtaf5UerDJ9V08LfWyi3GjufqF584dDMNY9mCy9gbPyCc3x6m
+	y58Tnlt3bA1rhRn33dIogtqm7JVjQsK14XJ6J6SQxwg1dWoGwU8rRGScGl/JE8bfoCQV
+	/GsCVXWtjM7r2l4p5o2tl9B7iN4VjcgtFB6YCBfXdnDN3Q4H3yY3Ed6X8A8A5jFbgzI1
+	G/Qg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=cmGPLeEFC4UU1ftgk/DQ780rW0uGmo9yeNEnidz7qHU=;
+	b=RTXjUQsQEpBq1cTznnvhRXul4XJL7oMmc1MlAMvqZcVFKpS/i1r9g2CUS0JXGOivFs
+	lI89cg833uDCnxYBA4yPLRaF3nTpzuAquA0hezzktb4Ow50Uyd4cC08kdb0wmggw57bb
+	re5Geomso9goDfjUDKXF9Amu7VcNaZn82yV8R3JEjTUGzMt4TxETx2eZWr2M23vAlygN
+	OzM7OGleC6hAYo6Qkw593T19upad79KUisGycZnKeHz7hDyN9qOTOpgxCLOnh6PEecqU
+	zG1zYkWm7nw+t13gnE4RRcl3Jwr5RdkXoNbfsWB/s1dIEgQRmdvWk140RVNLm/dPPSWT
+	mL+A==
+X-Gm-Message-State: AKS2vOwSAOXf1kuWGhUX+avCdkvtHMam08Kt0V+P0xP3DueSGDo9YMf2
+	kUI833csRLNGcLFy9BvQ4NEsPSli1g==
+X-Received: by 10.80.160.231 with SMTP id 94mr2574678edo.173.1497514188476;
+	Thu, 15 Jun 2017 01:09:48 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.80.172.100 with HTTP; Thu, 15 Jun 2017 01:09:48 -0700 (PDT)
+In-Reply-To: <CF0C948DE8E2634BB64BF489FF9EF7E7CD0723@PGSMSX105.gar.corp.intel.com>
 References: <1497481558-144957-1-git-send-email-yin.thong.choong@intel.com>
 	<1497481558-144957-2-git-send-email-yin.thong.choong@intel.com>
 	<CAAQYJAurJSt2HCD4jcDzctbNtx8MiqU16g0EGPnDh4TTSY2XYQ@mail.gmail.com>
-In-Reply-To: <CAAQYJAurJSt2HCD4jcDzctbNtx8MiqU16g0EGPnDh4TTSY2XYQ@mail.gmail.com>
-Accept-Language: en-SG, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-version: 10.0.102.7
-dlp-reaction: no-action
-x-originating-ip: [172.30.20.206]
-MIME-Version: 1.0
+	<CF0C948DE8E2634BB64BF489FF9EF7E7CD0723@PGSMSX105.gar.corp.intel.com>
+From: Andrea Adami <andrea.adami@gmail.com>
+Date: Thu, 15 Jun 2017 10:09:48 +0200
+Message-ID: <CAAQYJAvrVsjFjDUa_UfS7MWTvoUTn4xFC8mrkOH-cJ8emmTifQ@mail.gmail.com>
+To: "Choong, Yin Thong" <yin.thong.choong@intel.com>
 Cc: "otc-pg-team@eclists.intel.com" <otc-pg-team@eclists.intel.com>, "Eggleton,
 	Paul" <paul.eggleton@intel.com>, "Wold, Saul" <saul.wold@intel.com>,
 	OE-core <openembedded-core@lists.openembedded.org>
@@ -48,69 +59,143 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Jun 2017 07:53:16 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Thu, 15 Jun 2017 08:09:49 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-SSBnZXQgdGhlIGluZm9ybWF0aW9uIHRocnUgdGhlIG9mZmljaWFsIHViaSBhbmQgdWJpZnMgd2Vi
-c2l0ZS4gaHR0cDovL3d3dy5saW51eC1tdGQuaW5mcmFkZWFkLm9yZy9mYXEvdWJpZnMuaHRtbA0K
-QmVzaWRlcyBJIGFsc28gdGVzdGVkIHdpdGggY29yZS1pbWFnZS1zYXRvLXNkayBidWlsZCB3aGlj
-aCByZXF1aXJlZCBtb3JlIC1jIG1heGltdW0gc2l6ZSB0byBjcmVhdGUgdGhlIGltYWdlLiBJZiB0
-aGUgY29uZmlndXJhdGlvbiBzaXplIGlzIG5vIHN1ZmZpY2llbnQgZXJyb3Igd2lsbCBoaWdobGln
-aHQgYW5kIGJ1aWxkIGZhaWwuDQoNCkRlZmF1bHQgLWMgaXMgMjA0Ny4gSWYgYnVpbGQgY29yZS1p
-bWFnZS1zYXRvLXNkay4gLWMgcGFyYW1ldGVyIGhhcyB0byBiZSBpbmNyZWFzZWQgdG8gODc0OSB3
-aGljaCB3aWxsIGJlIGhpZ2hsaWdodCBvbiB0aGUgYnVpbGQgZXJyb3IuDQoNClRoYW5rcyBhbmQg
-UmVnYXJkcw0KQ2hvb25nIFlpblRob25nDQoNCi0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQpG
-cm9tOiBBbmRyZWEgQWRhbWkgW21haWx0bzphbmRyZWEuYWRhbWlAZ21haWwuY29tXSANClNlbnQ6
-IFRodXJzZGF5LCBKdW5lIDE1LCAyMDE3IDM6MjAgUE0NClRvOiBDaG9vbmcsIFlpbiBUaG9uZyA8
-eWluLnRob25nLmNob29uZ0BpbnRlbC5jb20+DQpDYzogT0UtY29yZSA8b3BlbmVtYmVkZGVkLWNv
-cmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZz47IG90Yy1wZy10ZWFtQGVjbGlzdHMuaW50ZWwuY29t
-OyBFZ2dsZXRvbiwgUGF1bCA8cGF1bC5lZ2dsZXRvbkBpbnRlbC5jb20+OyBXb2xkLCBTYXVsIDxz
-YXVsLndvbGRAaW50ZWwuY29tPg0KU3ViamVjdDogUmU6IFtPRS1jb3JlXSBbUEFUQ0ggdjJdIGlt
-YWdlX3R5cGVzLmJiY2xhc3M6IEFkZGVkIGRlZmF1bHQgYXJndW1lbnQgZm9yIHViaSBhbmQgdWJp
-ZnMgaW1hZ2UgY3JlYXRpb24NCg0KT24gVGh1LCBKdW4gMTUsIDIwMTcgYXQgMTowNSBBTSwgIDx5
-aW4udGhvbmcuY2hvb25nQGludGVsLmNvbT4gd3JvdGU6DQo+IEZyb206IENob29uZyBZaW5UaG9u
-ZyA8eWluLnRob25nLmNob29uZ0BpbnRlbC5jb20+DQo+DQo+IEFkZGVkIGRlZmF1bHQgYXJndW1l
-bnQgZm9yIHViaSBhbmQgdWJpZnMgaW1hZ2UgY3JlYXRpb24uDQoNCkhlbGxvLA0KDQpJcyBpdCBi
-ZXR0ZXIgdG8gZXJyb3Igb3V0ICpiZWZvcmUqIG90IHRvIGNyZWF0ZSBhbiAqaW52YWxpZCogaW1h
-Z2U/DQpIb3cgY2FuIHlvdSBndWVzcyBzdWNoIGRlZmF1bHRzPw0KDQpDaGVlcnMNCkFuZHJlYQ0K
-DQoNCg0KPiBNS1VCSUZTX0FSR1MgYW5kIFVCSU5JWkVfQVJHUyBib3RoIGFyZ3VtZW50IHN0aWxs
-IGFibGUgdG8gZWRpdCBpbiANCj4gbG9jYWwuY29uZg0KPg0KPiBbWU9DVE8gIzExNTg5XQ0KPg0K
-PiBTaWduZWQtb2ZmLWJ5OiBDaG9vbmcgWWluVGhvbmcgPHlpbi50aG9uZy5jaG9vbmdAaW50ZWwu
-Y29tPg0KPiAtLS0NCj4gIG1ldGEvY2xhc3Nlcy9pbWFnZV90eXBlcy5iYmNsYXNzIHwgOSArKysr
-KysrKysNCj4gIDEgZmlsZSBjaGFuZ2VkLCA5IGluc2VydGlvbnMoKykNCj4NCj4gZGlmZiAtLWdp
-dCBhL21ldGEvY2xhc3Nlcy9pbWFnZV90eXBlcy5iYmNsYXNzIA0KPiBiL21ldGEvY2xhc3Nlcy9p
-bWFnZV90eXBlcy5iYmNsYXNzDQo+IGluZGV4IDc3NDliMDAuLmJiZGUwOGQgMTAwNjQ0DQo+IC0t
-LSBhL21ldGEvY2xhc3Nlcy9pbWFnZV90eXBlcy5iYmNsYXNzDQo+ICsrKyBiL21ldGEvY2xhc3Nl
-cy9pbWFnZV90eXBlcy5iYmNsYXNzDQo+IEBAIC0yOTIsMyArMjkyLDEyIEBAIElNQUdFX0VYVEVO
-U0lPTl9saXZlID0gImhkZGltZyBpc28iDQo+ICAjIFRoZSBJTUFHRV9UWVBFU19NQVNLRUQgdmFy
-aWFibGUgd2lsbCBiZSB1c2VkIHRvIG1hc2sgb3V0IGZyb20gdGhlIA0KPiBJTUFHRV9GU1RZUEVT
-LCAgIyBpbWFnZXMgdGhhdCB3aWxsIG5vdCBiZSBidWlsdCBhdCBkb19yb290ZnMgdGltZTogdm1k
-aywgdmRpLCBxY293MiwgaGRkZGlyZWN0LCBoZGRpbWcsIGlzbywgZXRjLg0KPiAgSU1BR0VfVFlQ
-RVNfTUFTS0VEID89ICIiDQo+ICsNCj4gKyMgRGVmYXVsdCBhcmd1bWVudCB0byBjcmVhdGUgdWJp
-IGFuZCB1YmlmcyBpbWFnZSB3aXRoIA0KPiArY29yZS1pbWFnZS1zYXRvLXNkayANCj4gKyhodHRw
-Oi8vd3d3LmxpbnV4LW10ZC5pbmZyYWRlYWQub3JnL2ZhcS91Ymlmcy5odG1sKQ0KPiArIyAtbSAy
-MDQ4OiB0ZWxscyBta2ZzLnViaWZzIHRoYXQgdGhlIG1pbmltdW0gaW5wdXQvb3V0cHV0IHVuaXQg
-c2l6ZSANCj4gK29mIHRoZSBmbGFzaCB0aGlzIFVCSUZTIGltYWdlIGlzIGNyZWF0ZWQgZm9yIGlz
-IDIwNDggYnl0ZXMgKE5BTkQgcGFnZSANCj4gK2luIHRoaXMgY2FzZSk7ICMgLWUgMTI5MDI0OiBs
-b2dpY2FsIGVyYXNlYmxvY2sgc2l6ZSBvZiB0aGUgVUJJIHZvbHVtZSB0aGlzIGltYWdlIGlzIGNy
-ZWF0ZWQgZm9yOyAjIC1jIDg3NDk6IHNwZWNpZmllcyBtYXhpbXVtIGZpbGUtc3lzdGVtIHNpemUg
-aW4gbG9naWNhbCBlcmFzZWJsb2NrczsgdGhpcyBtZWFucyB0aGF0IGl0IHdpbGwgYmUgcG9zc2li
-bGUgdG8gdXNlIHRoZSByZXN1bHRpbmcgZmlsZS1zeXN0ZW0gb24gdm9sdW1lcyB1cCB0byB0aGlz
-IHNpemUgKGxlc3Mgb3IgZXF1aXZhbGVudCk7IHNvIGluIHRoaXMgcGFydGljdWxhciBjYXNlLCB0
-aGUgcmVzdWx0aW5nIEZTIG1heSBiZSBwdXQgb24gdm9sdW1lcyB1cCB0byBhYm91dCAyNTFNaUIg
-KDEyOTAyNCBtdWx0aXBsaWVkIGJ5IDIwNDcpOyBTZWUgdGhpcyBzZWN0aW9uIGZvciBtb3JlIGRl
-dGFpbHMuDQo+ICsjIC1wIDEyOEtpQjogdGVsbHMgdWJpbml6ZSB0aGF0IHBoeXNpY2FsIGVyYXNl
-YmxvY2sgc2l6ZSBvZiB0aGUgZmxhc2ggDQo+ICtjaGlwIHRoZSBVQkkgaW1hZ2UgaXMgY3JlYXRl
-ZCBmb3IgaXMgMTI4S2lCICgxMjggKiAxMDI0IGJ5dGVzKTsgIyAtcyA1MTI6IHRlbGxzIHViaW5p
-emUgdGhhdCB0aGUgZmxhc2ggc3VwcG9ydHMgc3ViLXBhZ2VzIGFuZCBzdWItcGFnZSBzaXplIGlz
-IDUxMiBieXRlczsgdWJpbml6ZSB3aWxsIHRha2UgdGhpcyBpbnRvIGFjY291bnQgYW5kIHB1dCB0
-aGUgVklEIGhlYWRlciB0byB0aGUgc2FtZSBOQU5EIHBhZ2UgYXMgdGhlIEVDIGhlYWRlci4NCj4g
-K01LVUJJRlNfQVJHUyA/Pz0gIiAtbSAyMDQ4IC1lIDEyOTAyNCAtYyA4NzQ5ICINCj4gK1VCSU5J
-WkVfQVJHUyA/Pz0gIiAtcCAxMjhLaUIgLW0gMjA0OCAtcyA1MTIgIg0KPiAtLQ0KPiAyLjcuNA0K
-Pg0KPiAtLQ0KPiBfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-Xw0KPiBPcGVuZW1iZWRkZWQtY29yZSBtYWlsaW5nIGxpc3QNCj4gT3BlbmVtYmVkZGVkLWNvcmVA
-bGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KPiBodHRwOi8vbGlzdHMub3BlbmVtYmVkZGVkLm9yZy9t
-YWlsbWFuL2xpc3RpbmZvL29wZW5lbWJlZGRlZC1jb3JlDQo=
+On Thu, Jun 15, 2017 at 9:52 AM, Choong, Yin Thong
+<yin.thong.choong@intel.com> wrote:
+> I get the information thru the official ubi and ubifs website. http://www=
+.linux-mtd.infradead.org/faq/ubifs.html
+> Besides I also tested with core-image-sato-sdk build which required more =
+-c maximum size to create the image. If the configuration size is no suffic=
+ient error will highlight and build fail.
+>
+> Default -c is 2047. If build core-image-sato-sdk. -c parameter has to be =
+increased to 8749 which will be highlight on the build error.
+>
+> Thanks and Regards
+> Choong YinThong
+>
+> -----Original Message-----
+> From: Andrea Adami [mailto:andrea.adami@gmail.com]
+> Sent: Thursday, June 15, 2017 3:20 PM
+> To: Choong, Yin Thong <yin.thong.choong@intel.com>
+> Cc: OE-core <openembedded-core@lists.openembedded.org>; otc-pg-team@eclis=
+ts.intel.com; Eggleton, Paul <paul.eggleton@intel.com>; Wold, Saul <saul.wo=
+ld@intel.com>
+> Subject: Re: [OE-core] [PATCH v2] image_types.bbclass: Added default argu=
+ment for ubi and ubifs image creation
+>
+> On Thu, Jun 15, 2017 at 1:05 AM,  <yin.thong.choong@intel.com> wrote:
+>> From: Choong YinThong <yin.thong.choong@intel.com>
+>>
+>> Added default argument for ubi and ubifs image creation.
+>
+> Hello,
+>
+> Is it better to error out *before* ot to create an *invalid* image?
+> How can you guess such defaults?
+>
+> Cheers
+> Andrea
+>
+>
+>
+>> MKUBIFS_ARGS and UBINIZE_ARGS both argument still able to edit in
+>> local.conf
+>>
+>> [YOCTO #11589]
+>>
+>> Signed-off-by: Choong YinThong <yin.thong.choong@intel.com>
+>> ---
+>>  meta/classes/image_types.bbclass | 9 +++++++++
+>>  1 file changed, 9 insertions(+)
+>>
+>> diff --git a/meta/classes/image_types.bbclass
+>> b/meta/classes/image_types.bbclass
+>> index 7749b00..bbde08d 100644
+>> --- a/meta/classes/image_types.bbclass
+>> +++ b/meta/classes/image_types.bbclass
+>> @@ -292,3 +292,12 @@ IMAGE_EXTENSION_live =3D "hddimg iso"
+>>  # The IMAGE_TYPES_MASKED variable will be used to mask out from the
+>> IMAGE_FSTYPES,  # images that will not be built at do_rootfs time: vmdk,=
+ vdi, qcow2, hdddirect, hddimg, iso, etc.
+>>  IMAGE_TYPES_MASKED ?=3D ""
+>> +
+>> +# Default argument to create ubi and ubifs image with
+>> +core-image-sato-sdk
+>> +(http://www.linux-mtd.infradead.org/faq/ubifs.html)
+>> +# -m 2048: tells mkfs.ubifs that the minimum input/output unit size
+>> +of the flash this UBIFS image is created for is 2048 bytes (NAND page
+>> +in this case); # -e 129024: logical eraseblock size of the UBI volume t=
+his image is created for; # -c 8749: specifies maximum file-system size in =
+logical eraseblocks; this means that it will be possible to use the resulti=
+ng file-system on volumes up to this size (less or equivalent); so in this =
+particular case, the resulting FS may be put on volumes up to about 251MiB =
+(129024 multiplied by 2047); See this section for more details.
+>> +# -p 128KiB: tells ubinize that physical eraseblock size of the flash
+>> +chip the UBI image is created for is 128KiB (128 * 1024 bytes); # -s 51=
+2: tells ubinize that the flash supports sub-pages and sub-page size is 512=
+ bytes; ubinize will take this into account and put the VID header to the s=
+ame NAND page as the EC header.
+>> +MKUBIFS_ARGS ??=3D " -m 2048 -e 129024 -c 8749 "
+>> +UBINIZE_ARGS ??=3D " -p 128KiB -m 2048 -s 512 "
+
+Hello,
+
+the linux-mtd faq starts with "The below example... " it's just this,
+an example.
+
+I am building ubi/ubifs images since some years and basically each
+device needs to customize that in a config file:
+My examples:
+
+# UBI: max collie (14.125 =3D 113 PEBs)
+# 14.125 x 1024 : 128 =3D 113 PEBs
+MKUBIFS_ARGS =3D "-m 1 -e 130944 -c 113 -x zlib"
+UBINIZE_ARGS =3D "-m 1 -p 131072"
+
+# UBI: max akita (128-7 MiB =3D 968 PEBs)
+# 121 x 1024 : 128 =3D 968 PEBs
+MKUBIFS_ARGS =3D "-m 2048 -e 129024 -c 968 -x zlib"
+UBINIZE_ARGS =3D "-m 2048 -p 131072 -s 512"
+
+# UBI: max c7x0 (128-7 MiB =3D 7744 PEBs)
+# 121 x 1024 : 16 =3D 7744 PEBs
+MKUBIFS_ARGS =3D "-m 512 -e 15872 -c 7744 -x zlib"
+UBINIZE_ARGS =3D "-m 512 -p 16384 -s 256"
+
+# UBI: max poodle (64-7 MiB =3D 3648 PEBs)
+# 57 x 1024 : 16 =3D 3648 PEBs
+MKUBIFS_ARGS =3D "-m 512 -e 15872 -c 3648 -x zlib"
+UBINIZE_ARGS =3D "-m 512 -p 16384 -s 256"
+
+What I am saying is that with the 'defaults' you obtain almost surely
+an unbootable image....
+I'd prefer a prompt about the missing settings.
+
+My 2 cents
+
+Andrea
+
+P.S.
+There is one more issue since some time:
+I use IMAGE_FSTYPES ?=3D "tar.gz jffs2 jffs2.sum ubi ubifs"
+
+if the ubi image fails then bitbake aborts and the other valid rootfs
+(tar.gx, jffs2,...) are not created
+This happens with the first device above, having only 113 PEBs
+
+Worth to check and maybe fire a bug.
+
+
+>> --
+>> 2.7.4
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
