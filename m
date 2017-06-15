@@ -1,55 +1,55 @@
 Return-Path: <peter.kjellerstedt@axis.com>
 Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
-	by mail.openembedded.org (Postfix) with ESMTP id E8BAA783B3
+	by mail.openembedded.org (Postfix) with ESMTP id 43E6F783C5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Jun 2017 13:53:18 +0000 (UTC)
+	Thu, 15 Jun 2017 13:53:19 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by bes.se.axis.com (Postfix) with ESMTP id 6EAAF2E180
+	by bes.se.axis.com (Postfix) with ESMTP id CC9CC2E1A8
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 15 Jun 2017 15:53:20 +0200 (CEST)
 X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
 Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
 	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id bEpevJ5ERNsz
+	port 10024) with LMTP id R-vog7KvNPez
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 15 Jun 2017 15:53:16 +0200 (CEST)
-Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
-	by bes.se.axis.com (Postfix) with ESMTPS id 334F82E258
+Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
+	by bes.se.axis.com (Postfix) with ESMTPS id 267F92E21D
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 15 Jun 2017 15:53:16 +0200 (CEST)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 16D671E070
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id EDB101A07B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Jun 2017 15:53:16 +0200 (CEST)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 0C1361E056
+	Thu, 15 Jun 2017 15:53:15 +0200 (CEST)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id E19D21A075
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Jun 2017 15:53:16 +0200 (CEST)
-Received: from thoth.se.axis.com (unknown [10.0.2.173])
-	by boulder03.se.axis.com (Postfix) with ESMTP
+	Thu, 15 Jun 2017 15:53:15 +0200 (CEST)
+Received: from seth.se.axis.com (unknown [10.0.2.172])
+	by boulder02.se.axis.com (Postfix) with ESMTP
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Jun 2017 15:53:16 +0200 (CEST)
+	Thu, 15 Jun 2017 15:53:15 +0200 (CEST)
 Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
-	by thoth.se.axis.com (Postfix) with ESMTP id 00811312F
+	by seth.se.axis.com (Postfix) with ESMTP id D62DFDDF
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Jun 2017 15:53:16 +0200 (CEST)
+	Thu, 15 Jun 2017 15:53:15 +0200 (CEST)
 Received: from saur-2.se.axis.com (localhost [127.0.0.1])
-	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id v5FDrFvv010402
+	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id v5FDrFVA010393
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 15 Jun 2017 15:53:15 +0200
 Received: (from pkj@localhost)
-	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id v5FDrFRU010401
+	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id v5FDrFhg010392
 	for openembedded-core@lists.openembedded.org;
 	Thu, 15 Jun 2017 15:53:15 +0200
 From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 15 Jun 2017 15:53:11 +0200
-Message-Id: <08af10d045a72ea2101d9f3fae9c3fccd7b4a565.1497534748.git.pkj@axis.com>
+Date: Thu, 15 Jun 2017 15:53:09 +0200
+Message-Id: <c889d79e52d9a86ad4c7a5de5555aa4e49e0610d.1497534748.git.pkj@axis.com>
 X-Mailer: git-send-email 2.12.0
 In-Reply-To: <cover.1497534748.git.pkj@axis.com>
 References: <cover.1497534748.git.pkj@axis.com>
 X-TM-AS-GCONF: 00
-Subject: [PATCH 09/11] package_rpm.bbclass: Filter out unwanted file deps for nativesdk packages
+Subject: [PATCH 07/11] git: Do not install git cvsserver and git svn
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,69 +64,48 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 15 Jun 2017 13:53:19 -0000
 
-Filter out any file dependencies on absolute paths and any
-dependencies on Perl modules for nativesdk packages. It is assumed
-that they will be provided by the native host if needed, and they mess
-up the dependency handling if they are present.
+These git commands require Perl modules that do not exist in OE-Core.
 
 Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 ---
- meta/classes/package_rpm.bbclass | 25 +++++++++++++++++++++++--
- 1 file changed, 23 insertions(+), 2 deletions(-)
+ meta/recipes-devtools/git/git.inc | 14 +++++++++++---
+ 1 file changed, 11 insertions(+), 3 deletions(-)
 
-diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
-index dc241975c3..5f29b45180 100644
---- a/meta/classes/package_rpm.bbclass
-+++ b/meta/classes/package_rpm.bbclass
-@@ -7,10 +7,28 @@ RPMBUILD="rpmbuild"
- 
- PKGWRITEDIRRPM = "${WORKDIR}/deploy-rpms"
- 
--# Maintaining the perfile dependencies has singificant overhead when writing the 
-+# Maintaining the perfile dependencies has singificant overhead when writing the
- # packages. When set, this value merges them for efficiency.
- MERGEPERFILEDEPS = "1"
- 
-+# Filter dependencies based on a provided function.
-+def filter_deps(var, f):
-+    import collections
+diff --git a/meta/recipes-devtools/git/git.inc b/meta/recipes-devtools/git/git.inc
+index 9b0d328bad..3ce4642ae7 100644
+--- a/meta/recipes-devtools/git/git.inc
++++ b/meta/recipes-devtools/git/git.inc
+@@ -54,6 +54,17 @@ perl_native_fixup () {
+ 	mkdir -p ${D}${libdir}
+ 	mv ${D}${exec_prefix}/lib/perl-native/perl ${D}${libdir}
+ 	rmdir -p ${D}${exec_prefix}/lib/perl-native || true
 +
-+    depends_dict = bb.utils.explode_dep_versions2(var)
-+    newdeps_dict = collections.OrderedDict()
-+    for dep in depends_dict:
-+        if f(dep):
-+            newdeps_dict[dep] = depends_dict[dep]
-+    return bb.utils.join_deps(newdeps_dict, commasep=False)
++	# Remove git cvsserver as it requires the DBI Perl module, which does
++	# not exist in OE-Core.
++	rm ${D}${libexecdir}/git-core/git-cvsserver \
++	   ${D}${bindir}/git-cvsserver
 +
-+# Filter out absolute paths (typically /bin/sh and /usr/bin/env) and any perl
-+# dependencies for nativesdk packages.
-+def filter_nativesdk_deps(srcname, var):
-+    if var and srcname.startswith("nativesdk-"):
-+        var = filter_deps(var, lambda dep: not dep.startswith('/') and dep != 'perl' and not dep.startswith('perl('))
-+    return var
-+
- # Construct per file dependencies file
- def write_rpm_perfiledata(srcname, d):
-     workdir = d.getVar('WORKDIR')
-@@ -26,7 +44,8 @@ def write_rpm_perfiledata(srcname, d):
-             dependsflist = (d.getVar(dependsflist_key) or "")
-             for dfile in dependsflist.split():
-                 key = "FILE" + varname + "_" + dfile + "_" + pkg
--                depends_dict = bb.utils.explode_dep_versions(d.getVar(key) or "")
-+                deps = filter_nativesdk_deps(srcname, d.getVar(key) or "")
-+                depends_dict = bb.utils.explode_dep_versions(deps)
-                 file = dfile.replace("@underscore@", "_")
-                 file = file.replace("@closebrace@", "]")
-                 file = file.replace("@openbrace@", "[")
-@@ -359,6 +378,8 @@ python write_specfile () {
-             splitrdepends = splitrdepends + " " + get_perfile('RDEPENDS', pkg, d)
-             splitrprovides = splitrprovides + " " + get_perfile('RPROVIDES', pkg, d)
++	# Remove git svn and all Git::SVN Perl modules as they require the
++	# SVN::Core Perl module, which does not exist in OE-Core.
++	rm -r ${D}${libexecdir}/git-core/git-svn \
++	      ${D}${libdir}/perl/site_perl/*/Git/SVN*
++	sed -i -e '/SVN/d' ${D}${libdir}/perl/site_perl/*/auto/Git/.packlist
+ }
  
-+        splitrdepends = filter_nativesdk_deps(srcname, splitrdepends)
-+
-         # Gather special src/first package data
-         if srcname == splitname:
-             srcrdepends    = splitrdepends
+ REL_GIT_EXEC_PATH = "${@os.path.relpath(libexecdir, bindir)}/git-core"
+@@ -83,12 +94,9 @@ PERLTOOLS = " \
+     ${libexecdir}/git-core/git-archimport \
+     ${libexecdir}/git-core/git-cvsexportcommit \
+     ${libexecdir}/git-core/git-cvsimport \
+-    ${libexecdir}/git-core/git-cvsserver \
+-    ${bindir}/git-cvsserver \
+     ${libexecdir}/git-core/git-difftool \
+     ${libexecdir}/git-core/git-relink \
+     ${libexecdir}/git-core/git-send-email \
+-    ${libexecdir}/git-core/git-svn \
+     ${libexecdir}/git-core/git-instaweb \
+     ${libexecdir}/git-core/git-submodule \
+     ${libexecdir}/git-core/git-am \
 -- 
 2.12.0
 
