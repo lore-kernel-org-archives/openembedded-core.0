@@ -1,46 +1,27 @@
-Return-Path: <liu.ming50@gmail.com>
-Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 89324782B4
+Return-Path: <richard@rpsys.net>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id D4476783F4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Jun 2017 17:16:12 +0000 (UTC)
-Received: by mail-wm0-f68.google.com with SMTP id 70so909806wme.1
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Jun 2017 10:16:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=dA1iN4RGzdZ0e5ftFeatCX9URfCyaLvFqHMW0DjgX0Y=;
-	b=JfMbdjrX91S5LyzN3IwYIrJeP5Rm4vD2RmqVzq/Z2+wRma5MMp8F2WP8w5erSbAj7Q
-	4thx+VWITnf4R0MHOul06T6pawdE/Ko97jnDn1ub81ltIZrbZBmc8CwN7KwAmYF9Yhbw
-	mhJ/NdxnOs9uHA/tae2otOgncOiFDA6CA5rVQLly6wOt4TSsDLamdWZTgnb0XtUG7wfm
-	R4ZEFZyj8wg2oWVjDoDhm9Hes3ZmyUfjTVxG9r5xEF33EE3CcEltBZ2IuSCuJNA4P4qq
-	jbHg5H1xdf1nJv+YFlRh8mz6EuR4O2JP3Eugs7qRoA9y/swEpsynGVJSf5y79oQgtbeu
-	3ZyQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=dA1iN4RGzdZ0e5ftFeatCX9URfCyaLvFqHMW0DjgX0Y=;
-	b=N6VbVCRBXV92utb8hHWsCK/9b/GQqEkg2/mCNWHGAdQ8u7nCNqcDb79yWxWZL8PEMf
-	eH8LeuEoeKUGexJo//Ni3o7IdQUw+G0P7U4B238FQ3TVHb4xaWslqrz81uJMObKdSkJ7
-	lbNS3eMVjq5rkmzvHIwAcNBzq6hLc3EGqvM4eXsC6Oic9/9UZHDk7l6MpJDo+o8nQVnJ
-	tcIYrFj2WpSq4vLX3cauduRs/45kkb1/oNAS0Mc18/eIUgqYFlPd/vjej5hyL7i2tR1Y
-	E2yAmQwHkOTCRpYHxUkkR44K7iUPBeTJcHSL45j+9O0OmgnpFreReOUnmudgG3U886Mz
-	4ajA==
-X-Gm-Message-State: AKS2vOxay2S9Lfwpx3s+r0bNYbVQXPBBonuONjDZjcl+hoUe9o4nI4+l
-	OyKv2KauXQdXPxz4
-X-Received: by 10.80.144.68 with SMTP id z4mr4201508edz.143.1497546972943;
-	Thu, 15 Jun 2017 10:16:12 -0700 (PDT)
-Received: from peterliu-Precision-M4800.emea.group.atlascopco.com
-	([27.191.206.46])
-	by smtp.gmail.com with ESMTPSA id i38sm363684eda.18.2017.06.15.10.16.11
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 15 Jun 2017 10:16:12 -0700 (PDT)
-From: liu.ming50@gmail.com
+	Thu, 15 Jun 2017 18:05:13 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	v5FI5BfJ005222
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
+	verify=NOT); Thu, 15 Jun 2017 19:05:12 +0100
+Received: from richard by hex with local (Exim 4.86_2)
+	(envelope-from <richard@rpsys.net>)
+	id 1dLZ8p-0005lx-Mg; Thu, 15 Jun 2017 19:05:11 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 15 Jun 2017 19:16:05 +0200
-Message-Id: <1497546965-25081-1-git-send-email-liu.ming50@gmail.com>
+Date: Thu, 15 Jun 2017 19:05:07 +0100
+Message-Id: <1497549909-22148-1-git-send-email-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.7.4
-Cc: Ming Liu <peter.x.liu@external.atlascopco.com>
-Subject: [PATCH] core-image-sato: drop packagegroup-core-x11-sato-games from IMAGE_INSTALL
+X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.11
+	(dan.rpsys.net [192.168.3.1]);
+	Thu, 15 Jun 2017 19:05:12 +0100 (BST)
+X-Virus-Scanned: clamav-milter 0.99.2 at dan
+X-Virus-Status: Clean
+Subject: [PATCH 1/3] package_deb: Drop obsolete comments/variables
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,37 +34,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Jun 2017 17:16:13 -0000
+X-List-Received-Date: Thu, 15 Jun 2017 18:05:15 -0000
 
-From: Ming Liu <peter.x.liu@external.atlascopco.com>
+These comments/variables appear to be long dead, remove them.
 
-packagegroup-core-x11-sato-games package is being RDEPENDS by
-packagegroup-core-x11-sato, hence will be installed if x11-sato is
-choosen in IMAGE_FEATURES. So it's unnecessary appending it into
-IMAGE_INSTALL.
-
-Even worse, it's causing the following error when x11 is not
-in DISTRO_FEATURES:
-| ERROR: Required build target 'core-image-sato' has no buildable providers.
-| Missing or unbuildable dependency chain was: ['core-image-sato', 'packagegroup-core-x11-sato-games']
-
-Signed-off-by: Ming Liu <peter.x.liu@external.atlascopco.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-sato/images/core-image-sato.bb | 2 --
- 1 file changed, 2 deletions(-)
+ meta/classes/package_deb.bbclass | 10 ----------
+ meta/classes/rootfs_deb.bbclass  |  3 ---
+ 2 files changed, 13 deletions(-)
 
-diff --git a/meta/recipes-sato/images/core-image-sato.bb b/meta/recipes-sato/images/core-image-sato.bb
-index 99dad11..b897950 100644
---- a/meta/recipes-sato/images/core-image-sato.bb
-+++ b/meta/recipes-sato/images/core-image-sato.bb
-@@ -8,7 +8,5 @@ LICENSE = "MIT"
+diff --git a/meta/classes/package_deb.bbclass b/meta/classes/package_deb.bbclass
+index 9cab80b..7bfdf81 100644
+--- a/meta/classes/package_deb.bbclass
++++ b/meta/classes/package_deb.bbclass
+@@ -39,16 +39,6 @@ def debian_arch_map(arch, tune):
+     if arch == "arm":
+         return arch + ["el", "hf"]["callconvention-hard" in tune_features]
+     return arch
+-#
+-# install a bunch of packages using apt
+-# the following shell variables needs to be set before calling this func:
+-# INSTALL_ROOTFS_DEB - install root dir
+-# INSTALL_BASEARCH_DEB - install base architecutre
+-# INSTALL_ARCHS_DEB - list of available archs
+-# INSTALL_PACKAGES_NORMAL_DEB - packages to be installed
+-# INSTALL_PACKAGES_ATTEMPTONLY_DEB - packages attempted to be installed only
+-# INSTALL_PACKAGES_LINGUAS_DEB - additional packages for uclibc
+-# INSTALL_TASK_DEB - task name
  
- inherit core-image
- 
--IMAGE_INSTALL += "packagegroup-core-x11-sato-games"
+ python do_package_deb () {
+     from multiprocessing import Process
+diff --git a/meta/classes/rootfs_deb.bbclass b/meta/classes/rootfs_deb.bbclass
+index 10af4b5..12002c4 100644
+--- a/meta/classes/rootfs_deb.bbclass
++++ b/meta/classes/rootfs_deb.bbclass
+@@ -32,6 +32,3 @@ python () {
+     elif darch == "arm":
+          d.setVar('DEB_SDK_ARCH', 'armel')
+ }
 -
- TOOLCHAIN_HOST_TASK_append = " nativesdk-intltool nativesdk-glib-2.0"
- TOOLCHAIN_HOST_TASK_remove_task-populate-sdk-ext = " nativesdk-intltool nativesdk-glib-2.0"
+-# This will of course only work after rootfs_deb_do_rootfs or populate_sdk_deb has been called
+-DPKG_QUERY_COMMAND = "${STAGING_BINDIR_NATIVE}/dpkg-query --admindir=$INSTALL_ROOTFS_DEB/var/lib/dpkg"
 -- 
 2.7.4
 
