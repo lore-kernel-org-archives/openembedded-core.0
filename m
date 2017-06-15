@@ -1,27 +1,27 @@
 Return-Path: <andrej.valek@siemens.com>
 Received: from david.siemens.de (david.siemens.de [192.35.17.14])
-	by mail.openembedded.org (Postfix) with ESMTP id 7E0BF783A7
+	by mail.openembedded.org (Postfix) with ESMTP id 7B320783A2
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 15 Jun 2017 12:09:05 +0000 (UTC)
-Received: from mail2.siemens.de (mail2.siemens.de [139.25.208.11])
-	by david.siemens.de (8.15.2/8.15.2) with ESMTPS id v5FC96f5014286
+Received: from mail3.siemens.de (mail3.siemens.de [139.25.208.14])
+	by david.siemens.de (8.15.2/8.15.2) with ESMTPS id v5FC96RN014303
 	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 15 Jun 2017 14:09:06 +0200
 Received: from dev.sbt.siemens.com ([163.242.56.100])
-	by mail2.siemens.de (8.15.2/8.15.2) with ESMTP id v5FC95b7028350;
-	Thu, 15 Jun 2017 14:09:05 +0200
+	by mail3.siemens.de (8.15.2/8.15.2) with ESMTP id v5FC96WP008860;
+	Thu, 15 Jun 2017 14:09:06 +0200
 Received: from dev.sbt.siemens.com (localhost [127.0.0.1])
-	by dev.sbt.siemens.com (Postfix) with ESMTP id A9101108752;
+	by dev.sbt.siemens.com (Postfix) with ESMTP id C92FC1DDA39;
 	Thu, 15 Jun 2017 14:09:05 +0200 (CEST)
 From: Andrej Valek <andrej.valek@siemens.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 15 Jun 2017 14:08:35 +0200
-Message-Id: <1497528519-19425-4-git-send-email-andrej.valek@siemens.com>
+Date: Thu, 15 Jun 2017 14:08:38 +0200
+Message-Id: <1497528519-19425-7-git-send-email-andrej.valek@siemens.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <1497528519-19425-1-git-send-email-andrej.valek@siemens.com>
 References: <1497528519-19425-1-git-send-email-andrej.valek@siemens.com>
-Subject: [PATCH v3 3/7] libxml2: Fix CVE-2017-9047 and CVE-2017-9048
+Subject: [PATCH v3 6/7] libxml2: Fix CVE-2017-0663
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,161 +36,76 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 15 Jun 2017 12:09:07 -0000
 
-xmlSnprintfElementContent failed to correctly check the available
-buffer space in two locations.
+Fix type confusion in xmlValidateOneNamespace
 
-Fixes bug 781333 and bug 781701
+Comment out code that casts xmlNsPtr to xmlAttrPtr. ID types
+on namespace declarations make no practical sense anyway.
 
-CVE: CVE-2017-9047 CVE-2017-9048
+Fixes bug 780228
+
+CVE: CVE-2017-0663
 Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
 ---
- .../libxml2-CVE-2017-9047_CVE-2017-9048.patch      | 103 +++++++++++++++++++++
- meta/recipes-core/libxml/libxml2_2.9.4.bb          |   1 +
- 2 files changed, 104 insertions(+)
- create mode 100644 meta/recipes-core/libxml/libxml2/libxml2-CVE-2017-9047_CVE-2017-9048.patch
+ .../libxml/libxml2/libxml2-CVE-2017-0663.patch     | 40 ++++++++++++++++++++++
+ meta/recipes-core/libxml/libxml2_2.9.4.bb          |  1 +
+ 2 files changed, 41 insertions(+)
+ create mode 100644 meta/recipes-core/libxml/libxml2/libxml2-CVE-2017-0663.patch
 
-diff --git a/meta/recipes-core/libxml/libxml2/libxml2-CVE-2017-9047_CVE-2017-9048.patch b/meta/recipes-core/libxml/libxml2/libxml2-CVE-2017-9047_CVE-2017-9048.patch
+diff --git a/meta/recipes-core/libxml/libxml2/libxml2-CVE-2017-0663.patch b/meta/recipes-core/libxml/libxml2/libxml2-CVE-2017-0663.patch
 new file mode 100644
-index 0000000..8b03456
+index 0000000..0108265
 --- /dev/null
-+++ b/meta/recipes-core/libxml/libxml2/libxml2-CVE-2017-9047_CVE-2017-9048.patch
-@@ -0,0 +1,103 @@
-+libxml2-2.9.4: Fix CVE-2017-9047 and CVE-2017-9048
++++ b/meta/recipes-core/libxml/libxml2/libxml2-CVE-2017-0663.patch
+@@ -0,0 +1,40 @@
++libxml2: Fix CVE-2017-0663
 +
-+[No upstream tracking] -- https://bugzilla.gnome.org/show_bug.cgi?id=781333
-+ -- https://bugzilla.gnome.org/show_bug.cgi?id=781701
++[No upstream tracking] -- https://bugzilla.gnome.org/show_bug.cgi?id=780228
 +
-+valid: Fix buffer size checks in xmlSnprintfElementContent
++valid: Fix type confusion in xmlValidateOneNamespace
 +
-+xmlSnprintfElementContent failed to correctly check the available
-+buffer space in two locations.
++Comment out code that casts xmlNsPtr to xmlAttrPtr. ID types
++on namespace declarations make no practical sense anyway.
 +
-+Fixes bug 781333 and bug 781701
++Fixes bug 780228
 +
-+Upstream-Status: Backport [https://git.gnome.org/browse/libxml2/commit/?id=932cc9896ab41475d4aa429c27d9afd175959d74]
-+CVE: CVE-2017-9047 CVE-2017-9048
++Upstream-Status: Backport [https://git.gnome.org/browse/libxml2/commit/?id=92b9e8c8b3787068565a1820ba575d042f9eec66]
++CVE: CVE-2017-0663
 +Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
 +
-+diff --git a/result/valid/781333.xml b/result/valid/781333.xml
-+new file mode 100644
-+index 0000000..01baf11
-+--- /dev/null
-++++ b/result/valid/781333.xml
-+@@ -0,0 +1,5 @@
-++<?xml version="1.0"?>
-++<!DOCTYPE a [
-++<!ELEMENT a (pppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp!
- ppppppppp
- pppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp!
- ppppppppp
- pppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp!
- ppppppppp
- pppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp!
- ppppppppp
- pppppppppppppppppppppppppp:lllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll!
- lllllllll
- llllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll!
- lllllllll
- lllllllllllllllllllllllllllllllll)>
-++]>
-++<a/>
-+diff --git a/result/valid/781333.xml.err b/result/valid/781333.xml.err
-+new file mode 100644
-+index 0000000..2176200
-+--- /dev/null
-++++ b/result/valid/781333.xml.err
-+@@ -0,0 +1,3 @@
-++./test/valid/781333.xml:4: element a: validity error : Element a content does not follow the DTD, expecting ( ..., got 
-++<a/>
-++    ^
-+diff --git a/result/valid/781333.xml.err.rdr b/result/valid/781333.xml.err.rdr
-+new file mode 100644
-+index 0000000..1195a04
-+--- /dev/null
-++++ b/result/valid/781333.xml.err.rdr
-+@@ -0,0 +1,6 @@
-++./test/valid/781333.xml:4: element a: validity error : Element a content does not follow the DTD, expecting ( ..., got 
-++<a/>
-++    ^
-++./test/valid/781333.xml:5: element a: validity error : Element a content does not follow the DTD, Expecting more child
-++
-++^
-+diff --git a/test/valid/781333.xml b/test/valid/781333.xml
-+new file mode 100644
-+index 0000000..bceac9c
-+--- /dev/null
-++++ b/test/valid/781333.xml
-+@@ -0,0 +1,4 @@
-++<!DOCTYPE a [
-++    <!ELEMENT a (pppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp!
- ppppppppp
- pppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp!
- ppppppppp
- pppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp!
- ppppppppp
- pppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp!
- ppppppppp
- pppppppppppppppppppppppppppppp:lllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll!
- lllllllll
- llllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll!
- lllllllll
- lllllllllllllllllllllllllllllllllllll)>
-++]>
-++<a/>
 +diff --git a/valid.c b/valid.c
-+index 19f84b8..aaa30f6 100644
++index 19f84b8..e03d35e 100644
 +--- a/valid.c
 ++++ b/valid.c
-+@@ -1262,22 +1262,23 @@ xmlSnprintfElementContent(char *buf, int size, xmlElementContentPtr content, int
-+         case XML_ELEMENT_CONTENT_PCDATA:
-+             strcat(buf, "#PCDATA");
-+ 	    break;
-+-	case XML_ELEMENT_CONTENT_ELEMENT:
-++	case XML_ELEMENT_CONTENT_ELEMENT: {
-++            int qnameLen = xmlStrlen(content->name);
-++
-++	    if (content->prefix != NULL)
-++                qnameLen += xmlStrlen(content->prefix) + 1;
-++	    if (size - len < qnameLen + 10) {
-++		strcat(buf, " ...");
-++		return;
-++	    }
-+ 	    if (content->prefix != NULL) {
-+-		if (size - len < xmlStrlen(content->prefix) + 10) {
-+-		    strcat(buf, " ...");
-+-		    return;
-+-		}
-+ 		strcat(buf, (char *) content->prefix);
-+ 		strcat(buf, ":");
-+ 	    }
-+-	    if (size - len < xmlStrlen(content->name) + 10) {
-+-		strcat(buf, " ...");
-+-		return;
-+-	    }
-+ 	    if (content->name != NULL)
-+ 		strcat(buf, (char *) content->name);
-+ 	    break;
-++	}
-+ 	case XML_ELEMENT_CONTENT_SEQ:
-+ 	    if ((content->c1->type == XML_ELEMENT_CONTENT_OR) ||
-+ 	        (content->c1->type == XML_ELEMENT_CONTENT_SEQ))
-+@@ -1319,6 +1320,7 @@ xmlSnprintfElementContent(char *buf, int size, xmlElementContentPtr content, int
-+ 		xmlSnprintfElementContent(buf, size, content->c2, 0);
-+ 	    break;
++@@ -4621,6 +4621,12 @@ xmlNodePtr elem, const xmlChar *prefix, xmlNsPtr ns, const xmlChar *value) {
++ 	}
 +     }
-++    if (size - strlen(buf) <= 2) return;
-+     if (englob)
-+         strcat(buf, ")");
-+     switch (content->ocur) {
++ 
+++    /*
+++     * Casting ns to xmlAttrPtr is wrong. We'd need separate functions
+++     * xmlAddID and xmlAddRef for namespace declarations, but it makes
+++     * no practical sense to use ID types anyway.
+++     */
+++#if 0
++     /* Validity Constraint: ID uniqueness */
++     if (attrDecl->atype == XML_ATTRIBUTE_ID) {
++         if (xmlAddID(ctxt, doc, value, (xmlAttrPtr) ns) == NULL)
++@@ -4632,6 +4638,7 @@ xmlNodePtr elem, const xmlChar *prefix, xmlNsPtr ns, const xmlChar *value) {
++         if (xmlAddRef(ctxt, doc, value, (xmlAttrPtr) ns) == NULL)
++ 	    ret = 0;
++     }
+++#endif
++ 
++     /* Validity Constraint: Notation Attributes */
++     if (attrDecl->atype == XML_ATTRIBUTE_NOTATION) {
 diff --git a/meta/recipes-core/libxml/libxml2_2.9.4.bb b/meta/recipes-core/libxml/libxml2_2.9.4.bb
-index 0577ad6..dd2e034 100644
+index 2996809..677d8c9 100644
 --- a/meta/recipes-core/libxml/libxml2_2.9.4.bb
 +++ b/meta/recipes-core/libxml/libxml2_2.9.4.bb
-@@ -24,6 +24,7 @@ SRC_URI = "ftp://xmlsoft.org/libxml2/libxml2-${PV}.tar.gz;name=libtar \
-            file://libxml2-CVE-2016-4658.patch \
-            file://libxml2-fix_NULL_pointer_derefs.patch \
-            file://libxml2-fix_and_simplify_xmlParseStartTag2.patch \
-+           file://libxml2-CVE-2017-9047_CVE-2017-9048.patch \
+@@ -27,6 +27,7 @@ SRC_URI = "ftp://xmlsoft.org/libxml2/libxml2-${PV}.tar.gz;name=libtar \
+            file://libxml2-CVE-2017-9047_CVE-2017-9048.patch \
+            file://libxml2-CVE-2017-9049_CVE-2017-9050.patch \
+            file://libxml2-CVE-2017-5969.patch \
++           file://libxml2-CVE-2017-0663.patch \
             file://CVE-2016-9318.patch \
             file://0001-Make-ptest-run-the-python-tests-if-python-is-enabled.patch \
             "
