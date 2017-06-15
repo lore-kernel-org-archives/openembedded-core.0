@@ -1,55 +1,55 @@
 Return-Path: <peter.kjellerstedt@axis.com>
 Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
-	by mail.openembedded.org (Postfix) with ESMTP id BA37578388
+	by mail.openembedded.org (Postfix) with ESMTP id BB3287839F
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 15 Jun 2017 13:53:15 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by bes.se.axis.com (Postfix) with ESMTP id A80772E1B7
+	by bes.se.axis.com (Postfix) with ESMTP id 2D2762E227
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 15 Jun 2017 15:53:16 +0200 (CEST)
 X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
 Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
 	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id J1wTk4nIqAem
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Jun 2017 15:53:16 +0200 (CEST)
-Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
-	by bes.se.axis.com (Postfix) with ESMTPS id 1B1642E216
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Jun 2017 15:53:16 +0200 (CEST)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id E17651A073
+	port 10024) with LMTP id 9eURTTfzFHRj
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 15 Jun 2017 15:53:15 +0200 (CEST)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id D6A791A069
+Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
+	by bes.se.axis.com (Postfix) with ESMTPS id 9E0A92E1B7
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 15 Jun 2017 15:53:15 +0200 (CEST)
-Received: from thoth.se.axis.com (unknown [10.0.2.173])
-	by boulder02.se.axis.com (Postfix) with ESMTP
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 84BD51E070
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 15 Jun 2017 15:53:15 +0200 (CEST)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 79F691E056
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 15 Jun 2017 15:53:15 +0200 (CEST)
+Received: from seth.se.axis.com (unknown [10.0.2.172])
+	by boulder03.se.axis.com (Postfix) with ESMTP
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 15 Jun 2017 15:53:15 +0200 (CEST)
 Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
-	by thoth.se.axis.com (Postfix) with ESMTP id C1D0A312F
+	by seth.se.axis.com (Postfix) with ESMTP id 6E625DDF
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 15 Jun 2017 15:53:15 +0200 (CEST)
 Received: from saur-2.se.axis.com (localhost [127.0.0.1])
-	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id v5FDrF5P010389
+	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id v5FDrFKo010373
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 15 Jun 2017 15:53:15 +0200
 Received: (from pkj@localhost)
-	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id v5FDrFJt010388
+	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id v5FDrFdh010372
 	for openembedded-core@lists.openembedded.org;
 	Thu, 15 Jun 2017 15:53:15 +0200
 From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 15 Jun 2017 15:53:08 +0200
-Message-Id: <bef64f91462d82e9e6c3d5a6dd310e7f8c138197.1497534748.git.pkj@axis.com>
+Date: Thu, 15 Jun 2017 15:53:04 +0200
+Message-Id: <476c8b3225354bf86d0cda86c7da3798e50dbfe1.1497534748.git.pkj@axis.com>
 X-Mailer: git-send-email 2.12.0
 In-Reply-To: <cover.1497534748.git.pkj@axis.com>
 References: <cover.1497534748.git.pkj@axis.com>
 X-TM-AS-GCONF: 00
-Subject: [PATCH 06/11] git: Add a dependency on perl for gitweb
+Subject: [PATCH 02/11] perl: Do not generate file dependencies for perl-ptest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,23 +64,26 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 15 Jun 2017 13:53:16 -0000
 
+The perl-ptest package contains Perl internal modules and generating
+file dependencies for it causes problems.
+
 Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 ---
- meta/recipes-devtools/git/git.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-devtools/perl/perl-ptest.inc | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/meta/recipes-devtools/git/git.inc b/meta/recipes-devtools/git/git.inc
-index ade99ecfe0..9b0d328bad 100644
---- a/meta/recipes-devtools/git/git.inc
-+++ b/meta/recipes-devtools/git/git.inc
-@@ -118,6 +118,6 @@ FILES_${PN}-tk = " \
+diff --git a/meta/recipes-devtools/perl/perl-ptest.inc b/meta/recipes-devtools/perl/perl-ptest.inc
+index 04406d5744..1f549af1b3 100644
+--- a/meta/recipes-devtools/perl/perl-ptest.inc
++++ b/meta/recipes-devtools/perl/perl-ptest.inc
+@@ -39,3 +39,7 @@ python populate_packages_prepend() {
+ }
  
- PACKAGES =+ "gitweb"
- FILES_gitweb = "${datadir}/gitweb/"
--
-+RDEPENDS_gitweb = "perl"
- 
- BBCLASSEXTEND = "native nativesdk"
+ RDEPENDS_${PN}-ptest += "${PN}-modules ${PN}-doc ${PN}-misc sed libssp"
++
++# The perl-ptest package contains Perl internal modules and generating file
++# dependencies for it causes problems.
++SKIP_FILEDEPS_${PN}-ptest = '1'
 -- 
 2.12.0
 
