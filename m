@@ -1,60 +1,24 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
-	by mail.openembedded.org (Postfix) with ESMTP id 56ADD77BE9
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by mail.openembedded.org (Postfix) with ESMTP id 349F878389
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Jun 2017 09:32:38 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bes.se.axis.com (Postfix) with ESMTP id 022592E5E8;
-	Thu, 15 Jun 2017 11:32:39 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
-Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id Fq59c3TPtuLe; Thu, 15 Jun 2017 11:32:38 +0200 (CEST)
-Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
-	by bes.se.axis.com (Postfix) with ESMTPS id E79912E61F;
-	Thu, 15 Jun 2017 11:32:37 +0200 (CEST)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id BDAF51E075;
-	Thu, 15 Jun 2017 11:32:37 +0200 (CEST)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id B2B231E074;
-	Thu, 15 Jun 2017 11:32:37 +0200 (CEST)
-Received: from thoth.se.axis.com (unknown [10.0.2.173])
-	by boulder03.se.axis.com (Postfix) with ESMTP;
-	Thu, 15 Jun 2017 11:32:37 +0200 (CEST)
-Received: from XBOX03.axis.com (xbox03.axis.com [10.0.5.17])
-	by thoth.se.axis.com (Postfix) with ESMTP id A6B2AEBA;
-	Thu, 15 Jun 2017 11:32:37 +0200 (CEST)
-Received: from xbox11.axis.com (10.0.5.25) by XBOX03.axis.com (10.0.5.17) with
-	Microsoft SMTP Server (TLS) id 15.0.1210.3;
-	Thu, 15 Jun 2017 11:32:37 +0200
-Received: from XBOX02.axis.com (10.0.5.16) by xbox11.axis.com (10.0.5.25) with
-	Microsoft SMTP Server (TLS) id 15.0.1210.3;
-	Thu, 15 Jun 2017 11:32:37 +0200
-Received: from XBOX02.axis.com ([fe80::d00f:cb52:1b56:20d]) by XBOX02.axis.com
-	([fe80::d00f:cb52:1b56:20d%21]) with mapi id 15.00.1210.000;
-	Thu, 15 Jun 2017 11:32:37 +0200
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Amarnath Valluri <amarnath.valluri@intel.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH v5] image.bbclass: create root symlinks in
-	nativesdk target sysroot
-Thread-Index: AQHS5bIBn8LN11Bfvk+zx1gYLhLldKIlqHkg
-Date: Thu, 15 Jun 2017 09:32:37 +0000
-Message-ID: <ba4d34ea616f45249fb2bed1c4a4e3a3@XBOX02.axis.com>
-References: <c575a866af5f4e5bbf8af4ca2128cecf@XBOX02.axis.com>
-	<1497515577-40707-1-git-send-email-amarnath.valluri@intel.com>
-In-Reply-To: <1497515577-40707-1-git-send-email-amarnath.valluri@intel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.60]
-MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-Subject: Re: [PATCH v5] image.bbclass: create root symlinks in	nativesdk target sysroot
+	Thu, 15 Jun 2017 09:45:36 +0000 (UTC)
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+	by orsmga104.jf.intel.com with ESMTP; 15 Jun 2017 02:45:37 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.39,343,1493708400"; d="scan'208";a="115225955"
+Received: from linux.intel.com ([10.54.29.200])
+	by fmsmga006.fm.intel.com with ESMTP; 15 Jun 2017 02:45:37 -0700
+Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
+	by linux.intel.com (Postfix) with ESMTP id CA86C5803BE
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 15 Jun 2017 02:45:36 -0700 (PDT)
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 15 Jun 2017 12:43:59 +0300
+Message-Id: <cover.1497519337.git.ed.bartosh@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH v5 0/6] #10073: generic EFI for wic
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -67,93 +31,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Jun 2017 09:32:40 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 15 Jun 2017 09:45:41 -0000
 
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org
-> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
-> Amarnath Valluri
-> Sent: den 15 juni 2017 10:33
-> To: openembedded-core@lists.openembedded.org
-> Subject: [OE-core] [PATCH v5] image.bbclass: create root symlinks in
-> nativesdk target sysroot
->=20
-> To match with the target image, the generated nativesdk's target sysroot =
-also
-> should have the root symlinks(/lib*, /bin/, /sbin). So, extended the
-> 'create_merged_usr_symlinks' to reuse symlink creation part even for nati=
-vesdk
-> using POPULATE_SDK_PRE_TARGET_COMMAND.
->=20
-> Signed-off-by: Amarnath Valluri <amarnath.valluri@intel.com>
-> ---
->  meta/classes/image.bbclass | 29 ++++++++++++++++++++---------
->  1 file changed, 20 insertions(+), 9 deletions(-)
->=20
-> diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-> index 2a3c1e3..7c5cfc5 100644
-> --- a/meta/classes/image.bbclass
-> +++ b/meta/classes/image.bbclass
-> @@ -620,21 +620,32 @@ addtask bundle_initramfs after do_image_complete
->=20
->  # Prepare the root links to point to the /usr counterparts.
->  create_merged_usr_symlinks() {
-> -    install -d ${IMAGE_ROOTFS}${base_bindir} ${IMAGE_ROOTFS}${base_sbind=
-ir} ${IMAGE_ROOTFS}${base_libdir}
-> -    lnr ${IMAGE_ROOTFS}${base_bindir} ${IMAGE_ROOTFS}/bin
-> -    lnr ${IMAGE_ROOTFS}${base_sbindir} ${IMAGE_ROOTFS}/sbin
-> -    lnr ${IMAGE_ROOTFS}${base_libdir} ${IMAGE_ROOTFS}/${baselib}
-> +    root=3D"$1"
-> +    install -d $root${base_bindir} $root${base_sbindir} $root${base_libd=
-ir}
-> +    lnr $root${base_bindir} $root/bin
-> +    lnr $root${base_sbindir} $root/sbin
-> +    lnr $root${base_libdir} $root/${baselib}
->=20
->      if [ "${nonarch_base_libdir}" !=3D "${base_libdir}" ]; then
-> -       install -d ${IMAGE_ROOTFS}${nonarch_base_libdir}
-> -       lnr ${IMAGE_ROOTFS}${nonarch_base_libdir} ${IMAGE_ROOTFS}/lib
-> +       install -m 0755 -d $root${nonarch_base_libdir}
+Hi,
 
-Meh, missed this the first time, but you reintroduce an unnecessary
--m 0755 here.
+This patchset is an implementation of generic EFI approach for wic images.
 
-> +       lnr $root${nonarch_base_libdir} $root/lib
->      fi
->=20
->      # create base links for multilibs
->      multi_libdirs=3D"${@d.getVar('MULTILIB_VARIANTS')}"
->      for d in $multi_libdirs; do
-> -        install -d ${IMAGE_ROOTFS}${exec_prefix}/$d
-> -        lnr ${IMAGE_ROOTFS}${exec_prefix}/$d ${IMAGE_ROOTFS}/$d
-> +        install -m 0755 -d $root${exec_prefix}/$d
+Instead of introducing yet another wic plugin it uses existing APIs from
+EFI_PROVIDER classes to populate ${WORKDIR}/bootfs directory with EFI artifacts
+and bootloader configuration. This directory can be used by wic rootfs plugin
+to put into boot partition of the image.
 
-And the same here.
+Example kickstart file and 2 test cases were added to wic test suite to better
+illustrate the approach.
 
-> +        lnr $root${exec_prefix}/$d $root/$d
->      done
->  }
-> -ROOTFS_PREPROCESS_COMMAND +=3D "${@bb.utils.contains('DISTRO_FEATURES', =
-'usrmerge', 'create_merged_usr_symlinks; ', '',d)}"
-> +
-> +create_merged_usr_symlinks_rootfs() {
-> +    create_merged_usr_symlinks ${IMAGE_ROOTFS}
-> +}
-> +
-> +create_merged_usr_symlinks_sdk() {
-> +    create_merged_usr_symlinks ${SDK_OUTPUT}${SDKTARGETSYSROOT}
-> +}
-> +
-> +ROOTFS_PREPROCESS_COMMAND +=3D "${@bb.utils.contains('DISTRO_FEATURES', =
-'usrmerge', 'create_merged_usr_symlinks_rootfs; ', '',d)}"
-> +POPULATE_SDK_PRE_TARGET_COMMAND +=3D "${@bb.utils.contains('DISTRO_FEATU=
-RES', 'usrmerge', 'create_merged_usr_symlinks_sdk; ', '',d)}"
-> --
-> 2.7.4
+I personally like this approach much better than duplicating oe image creation
+functionality in wic plugins. This way we can have the code in one place and
+bootloaders can be configured the same way for oe and wic images.
 
-//Peter
+Changes in v2:
+ - added patch: fixed default value of GRUB_ROOT
+ - fixed typo in commit message: timage_types_wic > image_types_wic
+
+Changes in v3:
+ - scheduled do_prepare_wic_build as earlier as possible
+
+Changes in v4:
+ - fixed build on platforms that don't support EFI
+ - fixed non-gpl3 build
+ - fixed build failure in systemd-boot code caused by rescheduled
+   do_populate_bootfs to run earlier
+
+Changes in v5:
+ - yet another fix for scheduling of do_prepare_wic_build: explicitly
+   added dependencies do_prepare_wic_build -> EFI_PROVIDER:do_deploy
+   in efi provider classes
+
+   NOTE: to make this working on meta-intel we'll need to add dependency
+         do_prepare_wic_build -> "${MLPREFIX}rmc-db:do_deploy"
+         I'll send patch for this as soon as this patchset is accepted.
+
+The following changes since commit 6964efddd31c479386d1643c1025bc102710392f:
+
+  bitbake: cooker: ensure graceful exit after exception during BuildCompleted handler (2017-06-14 14:54:25 +0100)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib ed/wip
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=ed/wip
+
+Ed Bartosh (6):
+  efi: add efi_bootfs_populate API
+  image_types_wic: add do_populate_bootfs task
+  image_types_wic: merged 2 tasks
+  grub-efi: fixed default value of GRUB_ROOT
+  image_types_wic: schedule prepare_wic_build correctly
+  oe-selftest: add wic tests for generic EFI
+
+ meta-selftest/wic/test_generic_efi.wks.in |  9 ++++
+ meta/classes/grub-efi.bbclass             | 15 ++++--
+ meta/classes/image_types_wic.bbclass      | 84 +++++++++++++++++++++++--------
+ meta/classes/systemd-boot.bbclass         |  7 +++
+ meta/lib/oeqa/selftest/cases/wic.py       | 36 +++++++++++++
+ 5 files changed, 125 insertions(+), 26 deletions(-)
+ create mode 100644 meta-selftest/wic/test_generic_efi.wks.in
+
+-- 
+2.1.4
 
 
