@@ -1,26 +1,21 @@
-Return-Path: <joe.slater@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id E8F3765D35
+Return-Path: <anibal.limon@linux.intel.com>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by mail.openembedded.org (Postfix) with ESMTP id 4046F783BC
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Jun 2017 21:35:28 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v5FLZSH3024879
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Jun 2017 14:35:29 -0700 (PDT)
-Received: from ala-jslater-lx3.wrs.com (147.11.152.42) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.294.0; Thu, 15 Jun 2017 14:35:28 -0700
-From: Joe Slater <jslater@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 15 Jun 2017 14:35:27 -0700
-Message-ID: <1497562527-13137-2-git-send-email-jslater@windriver.com>
-X-Mailer: git-send-email 1.7.3.4
-In-Reply-To: <1497562527-13137-1-git-send-email-jslater@windriver.com>
-References: <1497562527-13137-1-git-send-email-jslater@windriver.com>
+	Thu, 15 Jun 2017 22:09:52 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga104.jf.intel.com with ESMTP; 15 Jun 2017 15:09:52 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.39,345,1493708400"; d="scan'208";a="1141724375"
+Received: from alimonb-mobl1.zpn.intel.com ([10.219.128.121])
+	by orsmga001.jf.intel.com with ESMTP; 15 Jun 2017 15:09:51 -0700
+From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 15 Jun 2017 17:09:48 -0500
+Message-Id: <1497564590-18707-1-git-send-email-anibal.limon@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
 MIME-Version: 1.0
-Subject: [v4][PATCH 2/2] ghostscript: add X11 PACKAGECONFIG info
+Subject: [PATCH 1/3] oeqa/core/threaded: Don't assume that results exists on logDetails
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,47 +28,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Jun 2017 21:35:29 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 15 Jun 2017 22:09:54 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Add information necessary to build for x11, but
-do not enable that option.
-
-Fix parallel build directory creation issue.
-
-Signed-off-by: Joe Slater <jslater@windriver.com>
+Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
 ---
- meta/recipes-extended/ghostscript/ghostscript_9.21.bb | 16 +++++++++++++++-
- 1 file changed, 15 insertions(+), 1 deletion(-)
+ meta/lib/oeqa/core/threaded.py | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-extended/ghostscript/ghostscript_9.21.bb b/meta/recipes-extended/ghostscript/ghostscript_9.21.bb
-index ed0fd43..fb36a13 100644
---- a/meta/recipes-extended/ghostscript/ghostscript_9.21.bb
-+++ b/meta/recipes-extended/ghostscript/ghostscript_9.21.bb
-@@ -48,7 +48,21 @@ SRC_URI_class-native = "${SRC_URI_BASE} \
- SRC_URI[md5sum] = "5f213281761d2750fcf27476c404d17f"
- SRC_URI[sha256sum] = "02bceadbc4dddeb6f2eec9c8b1623d945d355ca11b8b4df035332b217d58ce85"
+diff --git a/meta/lib/oeqa/core/threaded.py b/meta/lib/oeqa/core/threaded.py
+index c6058a3..2cafe03 100644
+--- a/meta/lib/oeqa/core/threaded.py
++++ b/meta/lib/oeqa/core/threaded.py
+@@ -185,9 +185,10 @@ class OETestResultThreaded(object):
+         self.tc.logger.info(msg)
  
--EXTRA_OECONF = "--without-x --with-system-libtiff --without-jbig2dec \
-+# Put something like
-+#
-+#   PACKAGECONFIG_append_pn-ghostscript = " x11"
-+#
-+# in local.conf to enable building with X11.  Be careful.  The order
-+# of the overrides matters!
-+#
-+#PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', '', d)}"
-+PACKAGECONFIG_class-native = ""
-+
-+PACKAGECONFIG[x11] = "--with-x --x-includes=${STAGING_INCDIR} --x-libraries=${STAGING_LIBDIR}, \
-+                      --without-x, virtual/libx11 libxext libxt gtk+3\
-+                      "
-+
-+EXTRA_OECONF = "--with-system-libtiff --without-jbig2dec \
-                 --with-fontpath=${datadir}/fonts \
-                 --without-libidn --with-cups-serverbin=${exec_prefix}/lib/cups \
-                 --with-cups-datadir=${datadir}/cups \
+     def logDetails(self):
+-        tid = list(self._results)[0]
+-        result = self._results[tid]['result']
+-        result.logDetails()
++        if list(self._results):
++            tid = list(self._results)[0]
++            result = self._results[tid]['result']
++            result.logDetails()
+ 
+ class _Worker(threading.Thread):
+     """Thread executing tasks from a given tasks queue"""
 -- 
-2.7.4
+2.1.4
 
 
