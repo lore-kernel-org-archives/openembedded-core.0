@@ -1,29 +1,48 @@
-Return-Path: <andrej.valek@siemens.com>
-Received: from thoth.sbs.de (thoth.sbs.de [192.35.17.2])
-	by mail.openembedded.org (Postfix) with ESMTP id B596878372
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qt0-f178.google.com (mail-qt0-f178.google.com
+	[209.85.216.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 5A56278372
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Jun 2017 11:42:29 +0000 (UTC)
-Received: from mail2.sbs.de (mail2.sbs.de [192.129.41.66])
-	by thoth.sbs.de (8.15.2/8.15.2) with ESMTPS id v5FBgNXw016509
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK); 
-	Thu, 15 Jun 2017 13:42:25 +0200
-Received: from [192.168.253.100] ([163.242.56.100])
-	by mail2.sbs.de (8.15.2/8.15.2) with ESMTPS id v5FBgNc6020977
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Thu, 15 Jun 2017 13:42:23 +0200
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <1497454006-13902-1-git-send-email-andrej.valek@siemens.com>
-	<1497508479-18852-2-git-send-email-andrej.valek@siemens.com>
-	<CAJTo0Lb41uTXQp7Hbh7xBWd-B088ygi9gdTOAVJgGdMaYKfq0g@mail.gmail.com>
-From: Andrej Valek <andrej.valek@siemens.com>
-Message-ID: <58ae27c5-8cd0-3787-6e3a-87b708cf28a2@siemens.com>
-Date: Thu, 15 Jun 2017 13:42:23 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.8.0
+	Thu, 15 Jun 2017 11:45:20 +0000 (UTC)
+Received: by mail-qt0-f178.google.com with SMTP id u12so16673956qth.0
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 15 Jun 2017 04:45:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=yRzWoVbxYJfTfVQQP7/NJGr202eCF0o4byYbLoB6/Sk=;
+	b=Xktip8ohroDzMpahrsA3WXo4msQh09zINBLN3LJsQArFY+bUamxLWxTZ6MRzaX6jC4
+	o1UQJo6/iavLTNzvjy3lxnAqcO4uqzNQIX9yGVCQlD6tuL2uoU3yuL5bABjkmS+RphIH
+	DopaiUGdQmkB1GnIG9z0b9N2iIeb7dJnJDVR/Nt1MJF4Am/MI+fBtJbcheOscO6/7vwt
+	4EZOfLKcFi1Akd9QkEwY/VaZKHoGTMX2ZcTmGQ1pZDvYhvKnI4v3hLbhtSqLk6vLlt6S
+	GaPHkLGHhmGnlf9zqlF3mRsynJchK4o0m0NYXSeLTjWtmZrC1TLR2VrKDl3LhlDcbjV+
+	xzQA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=yRzWoVbxYJfTfVQQP7/NJGr202eCF0o4byYbLoB6/Sk=;
+	b=o5N79M3EjC5sxnvuqQqXGbxKHWx9H7aGLGk00qFbmON7PctXKhYgS83PFb1Zw1FSIW
+	xWkyzV644zs3ZQBMrWFvzWLDQs4+tKx5AVdMj9RgM+rTrXi6vNnMECUWVVHS5HSj8wST
+	lJ2ONeV5BhZojV2X2VZ6ketC0PXXLy9SujJROTSkJ0LUl/DERESVhKde8pHwt0/z9KqB
+	zGyu4jpQgMrvTlxIETPw/G0zObWOE6JWVl8qlTeZkaYPIgeQ23UDiZRUq+UESwgQH1n9
+	mfnYPz8IQyC+nLF7ZXXlUPRckp4gAYV8phhdQzBN7UiBpIhebNZEeA152x6hbN1CZJo8
+	KV/w==
+X-Gm-Message-State: AKS2vOwXty0F7z+SV7Eio2BY7CI1YbaxYEsOSjDpy41YAd3UhthreXoo
+	6uDGWMMEYKuESEPWehGdWsRfmsLk/ufl
+X-Received: by 10.200.58.38 with SMTP id w35mr5636784qte.93.1497527122367;
+	Thu, 15 Jun 2017 04:45:22 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0Lb41uTXQp7Hbh7xBWd-B088ygi9gdTOAVJgGdMaYKfq0g@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2 1/7] libxml2: Disable LeakSanitizer when running API tests
+Received: by 10.140.35.103 with HTTP; Thu, 15 Jun 2017 04:45:01 -0700 (PDT)
+In-Reply-To: <1493752813-18913-1-git-send-email-mkelly@xevo.com>
+References: <1493752813-18913-1-git-send-email-mkelly@xevo.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 15 Jun 2017 12:45:01 +0100
+Message-ID: <CAJTo0Lb+GDpEMbZP7tgVuMtpw1=38u486VXoQL1NFGnFpTD4Mw@mail.gmail.com>
+To: Martin Kelly <mkelly@xevo.com>
+Cc: Joshua G Lock <joshua.g.lock@intel.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH resend] qemuboot.conf: make cpus match built artifacts
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,37 +55,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Jun 2017 11:42:30 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 15 Jun 2017 11:45:21 -0000
+Content-Type: multipart/alternative; boundary="94eb2c0ca10c2ba92b0551fe348e"
 
-I am modifying already existing patch not creating the new one. Is it
-necessary to change Upstream-Status to backported?
+--94eb2c0ca10c2ba92b0551fe348e
+Content-Type: text/plain; charset="UTF-8"
 
-If yes, is it possible to fix only this patch, or do I need to push the
-whole series?
+On 2 May 2017 at 20:20, Martin Kelly <mkelly@xevo.com> wrote:
 
-Andrej
+> -QB_CPU_KVM_x86-64 = "-cpu kvm64"
+> +QB_CPU_KVM_x86-64 = "-cpu core2duo"
+>
 
-On 06/15/2017 01:31 PM, Burton, Ross wrote:
-> 
-> On 15 June 2017 at 07:34, Andrej Valek <andrej.valek@siemens.com 
-> <mailto:andrej.valek@siemens.com>> wrote:
-> 
->     Upstream-Status: Backported -
->     [https://git.gnome.org/browse/libxml2/commit/?id=ac9a4560ee85b18811ff8ab7791ddfff7b144b0a
->     <https://git.gnome.org/browse/libxml2/commit/?id=ac9a4560ee85b18811ff8ab7791ddfff7b144b0a>]
-> 
-> 
->     --- a/meta/recipes-core/libxml/libxml2/runtest.patch
->     +++ b/meta/recipes-core/libxml/libxml2/runtest.patch
->     @@ -5,9 +5,9 @@ Signed-off-by: Mihaela Sendrea <mihaela.sendrea@enea.com
->     <mailto:mihaela.sendrea@enea.com>>
->       Upstream-Status: Pending
-> 
-> 
-> Upstream-Status goes into the path file itself, not the commit log.
-> 
-> Ross
-> 
+What's the actual meaning of the "kvm64" and "kvm32" CPUs?  Is there a
+performance hit?  Should we be instead changing the qemu machine to target
+a different instruction set?
 
+Ross
+
+--94eb2c0ca10c2ba92b0551fe348e
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 2 May 2017 at 20:20, Martin Kelly <span dir=3D"ltr">&lt;<a href=3D"mailt=
+o:mkelly@xevo.com" target=3D"_blank">mkelly@xevo.com</a>&gt;</span> wrote:<=
+br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left=
+:1px #ccc solid;padding-left:1ex"><div id=3D":y2" class=3D"a3s aXjCH m15bca=
+b6ffa5390bd">-QB_CPU_KVM_x86-64 =3D &quot;-cpu kvm64&quot;<br>
++QB_CPU_KVM_x86-64 =3D &quot;-cpu core2duo&quot;<br></div></blockquote></di=
+v><br>What&#39;s the actual meaning of the &quot;kvm64&quot; and &quot;kvm3=
+2&quot; CPUs?=C2=A0 Is there a performance hit?=C2=A0 Should we be instead =
+changing the qemu machine to target a different instruction set?</div><div =
+class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+
+--94eb2c0ca10c2ba92b0551fe348e--
