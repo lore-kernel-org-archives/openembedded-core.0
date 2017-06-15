@@ -1,43 +1,23 @@
-Return-Path: <yin.thong.choong@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id E3F6978280
+Return-Path: <amarnath.valluri@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 8433E6FF73
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Jun 2017 08:21:59 +0000 (UTC)
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	15 Jun 2017 01:21:58 -0700
+	Thu, 15 Jun 2017 08:32:33 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	15 Jun 2017 01:32:34 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.39,342,1493708400"; d="scan'208";a="115201864"
-Received: from pgsmsx104.gar.corp.intel.com ([10.221.44.91])
-	by fmsmga006.fm.intel.com with ESMTP; 15 Jun 2017 01:21:58 -0700
-Received: from pgsmsx105.gar.corp.intel.com ([169.254.4.197]) by
-	PGSMSX104.gar.corp.intel.com ([169.254.3.151]) with mapi id
-	14.03.0319.002; Thu, 15 Jun 2017 16:21:57 +0800
-From: "Choong, Yin Thong" <yin.thong.choong@intel.com>
-To: Andrea Adami <andrea.adami@gmail.com>
-Thread-Topic: [OE-core] [PATCH v2] image_types.bbclass: Added default
-	argument for ubi and ubifs image creation
-Thread-Index: AQHS5af0o7HTUxIj1kypeWFmE2alkqIliiHA//+B9QCAAIg4AA==
-Date: Thu, 15 Jun 2017 08:21:56 +0000
-Message-ID: <CF0C948DE8E2634BB64BF489FF9EF7E7CD0777@PGSMSX105.gar.corp.intel.com>
-References: <1497481558-144957-1-git-send-email-yin.thong.choong@intel.com>
-	<1497481558-144957-2-git-send-email-yin.thong.choong@intel.com>
-	<CAAQYJAurJSt2HCD4jcDzctbNtx8MiqU16g0EGPnDh4TTSY2XYQ@mail.gmail.com>
-	<CF0C948DE8E2634BB64BF489FF9EF7E7CD0723@PGSMSX105.gar.corp.intel.com>
-	<CAAQYJAvrVsjFjDUa_UfS7MWTvoUTn4xFC8mrkOH-cJ8emmTifQ@mail.gmail.com>
-In-Reply-To: <CAAQYJAvrVsjFjDUa_UfS7MWTvoUTn4xFC8mrkOH-cJ8emmTifQ@mail.gmail.com>
-Accept-Language: en-SG, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-version: 10.0.102.7
-dlp-reaction: no-action
-x-originating-ip: [172.30.20.206]
-MIME-Version: 1.0
-Cc: "otc-pg-team@eclists.intel.com" <otc-pg-team@eclists.intel.com>, "Eggleton,
-	Paul" <paul.eggleton@intel.com>, "Wold, Saul" <saul.wold@intel.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] image_types.bbclass: Added default argument for ubi and ubifs image creation
+X-IronPort-AV: E=Sophos;i="5.39,342,1493708400"; d="scan'208";a="99749148"
+Received: from avallurigigabyte.fi.intel.com ([10.237.72.170])
+	by orsmga002.jf.intel.com with ESMTP; 15 Jun 2017 01:32:33 -0700
+From: Amarnath Valluri <amarnath.valluri@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 15 Jun 2017 11:32:57 +0300
+Message-Id: <1497515577-40707-1-git-send-email-amarnath.valluri@intel.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <c575a866af5f4e5bbf8af4ca2128cecf@XBOX02.axis.com>
+References: <c575a866af5f4e5bbf8af4ca2128cecf@XBOX02.axis.com>
+Subject: [PATCH v5] image.bbclass: create root symlinks in nativesdk target sysroot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,106 +30,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Jun 2017 08:22:00 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Thu, 15 Jun 2017 08:32:34 -0000
 
-SGVsbG8sDQpHb29kIHNoYXJpbmcuIFRoZW4gSSdsbCB0cnkgdG8gZml4IHdpdGggZXJyb3Igb3V0
-IGFwcHJvYWNoLg0KDQpUaGFua3MgYW5kIFJlZ2FyZHMNCkNob29uZyBZaW5UaG9uZw0KDQoNCi0t
-LS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQpGcm9tOiBBbmRyZWEgQWRhbWkgW21haWx0bzphbmRy
-ZWEuYWRhbWlAZ21haWwuY29tXSANClNlbnQ6IFRodXJzZGF5LCBKdW5lIDE1LCAyMDE3IDQ6MTAg
-UE0NClRvOiBDaG9vbmcsIFlpbiBUaG9uZyA8eWluLnRob25nLmNob29uZ0BpbnRlbC5jb20+DQpD
-YzogT0UtY29yZSA8b3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZz47IG90
-Yy1wZy10ZWFtQGVjbGlzdHMuaW50ZWwuY29tOyBFZ2dsZXRvbiwgUGF1bCA8cGF1bC5lZ2dsZXRv
-bkBpbnRlbC5jb20+OyBXb2xkLCBTYXVsIDxzYXVsLndvbGRAaW50ZWwuY29tPg0KU3ViamVjdDog
-UmU6IFtPRS1jb3JlXSBbUEFUQ0ggdjJdIGltYWdlX3R5cGVzLmJiY2xhc3M6IEFkZGVkIGRlZmF1
-bHQgYXJndW1lbnQgZm9yIHViaSBhbmQgdWJpZnMgaW1hZ2UgY3JlYXRpb24NCg0KT24gVGh1LCBK
-dW4gMTUsIDIwMTcgYXQgOTo1MiBBTSwgQ2hvb25nLCBZaW4gVGhvbmcgPHlpbi50aG9uZy5jaG9v
-bmdAaW50ZWwuY29tPiB3cm90ZToNCj4gSSBnZXQgdGhlIGluZm9ybWF0aW9uIHRocnUgdGhlIG9m
-ZmljaWFsIHViaSBhbmQgdWJpZnMgd2Vic2l0ZS4gDQo+IGh0dHA6Ly93d3cubGludXgtbXRkLmlu
-ZnJhZGVhZC5vcmcvZmFxL3ViaWZzLmh0bWwNCj4gQmVzaWRlcyBJIGFsc28gdGVzdGVkIHdpdGgg
-Y29yZS1pbWFnZS1zYXRvLXNkayBidWlsZCB3aGljaCByZXF1aXJlZCBtb3JlIC1jIG1heGltdW0g
-c2l6ZSB0byBjcmVhdGUgdGhlIGltYWdlLiBJZiB0aGUgY29uZmlndXJhdGlvbiBzaXplIGlzIG5v
-IHN1ZmZpY2llbnQgZXJyb3Igd2lsbCBoaWdobGlnaHQgYW5kIGJ1aWxkIGZhaWwuDQo+DQo+IERl
-ZmF1bHQgLWMgaXMgMjA0Ny4gSWYgYnVpbGQgY29yZS1pbWFnZS1zYXRvLXNkay4gLWMgcGFyYW1l
-dGVyIGhhcyB0byBiZSBpbmNyZWFzZWQgdG8gODc0OSB3aGljaCB3aWxsIGJlIGhpZ2hsaWdodCBv
-biB0aGUgYnVpbGQgZXJyb3IuDQo+DQo+IFRoYW5rcyBhbmQgUmVnYXJkcw0KPiBDaG9vbmcgWWlu
-VGhvbmcNCj4NCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogQW5kcmVhIEFk
-YW1pIFttYWlsdG86YW5kcmVhLmFkYW1pQGdtYWlsLmNvbV0NCj4gU2VudDogVGh1cnNkYXksIEp1
-bmUgMTUsIDIwMTcgMzoyMCBQTQ0KPiBUbzogQ2hvb25nLCBZaW4gVGhvbmcgPHlpbi50aG9uZy5j
-aG9vbmdAaW50ZWwuY29tPg0KPiBDYzogT0UtY29yZSA8b3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMu
-b3BlbmVtYmVkZGVkLm9yZz47IA0KPiBvdGMtcGctdGVhbUBlY2xpc3RzLmludGVsLmNvbTsgRWdn
-bGV0b24sIFBhdWwgDQo+IDxwYXVsLmVnZ2xldG9uQGludGVsLmNvbT47IFdvbGQsIFNhdWwgPHNh
-dWwud29sZEBpbnRlbC5jb20+DQo+IFN1YmplY3Q6IFJlOiBbT0UtY29yZV0gW1BBVENIIHYyXSBp
-bWFnZV90eXBlcy5iYmNsYXNzOiBBZGRlZCBkZWZhdWx0IA0KPiBhcmd1bWVudCBmb3IgdWJpIGFu
-ZCB1YmlmcyBpbWFnZSBjcmVhdGlvbg0KPg0KPiBPbiBUaHUsIEp1biAxNSwgMjAxNyBhdCAxOjA1
-IEFNLCAgPHlpbi50aG9uZy5jaG9vbmdAaW50ZWwuY29tPiB3cm90ZToNCj4+IEZyb206IENob29u
-ZyBZaW5UaG9uZyA8eWluLnRob25nLmNob29uZ0BpbnRlbC5jb20+DQo+Pg0KPj4gQWRkZWQgZGVm
-YXVsdCBhcmd1bWVudCBmb3IgdWJpIGFuZCB1YmlmcyBpbWFnZSBjcmVhdGlvbi4NCj4NCj4gSGVs
-bG8sDQo+DQo+IElzIGl0IGJldHRlciB0byBlcnJvciBvdXQgKmJlZm9yZSogb3QgdG8gY3JlYXRl
-IGFuICppbnZhbGlkKiBpbWFnZT8NCj4gSG93IGNhbiB5b3UgZ3Vlc3Mgc3VjaCBkZWZhdWx0cz8N
-Cj4NCj4gQ2hlZXJzDQo+IEFuZHJlYQ0KPg0KPg0KPg0KPj4gTUtVQklGU19BUkdTIGFuZCBVQklO
-SVpFX0FSR1MgYm90aCBhcmd1bWVudCBzdGlsbCBhYmxlIHRvIGVkaXQgaW4gDQo+PiBsb2NhbC5j
-b25mDQo+Pg0KPj4gW1lPQ1RPICMxMTU4OV0NCj4+DQo+PiBTaWduZWQtb2ZmLWJ5OiBDaG9vbmcg
-WWluVGhvbmcgPHlpbi50aG9uZy5jaG9vbmdAaW50ZWwuY29tPg0KPj4gLS0tDQo+PiAgbWV0YS9j
-bGFzc2VzL2ltYWdlX3R5cGVzLmJiY2xhc3MgfCA5ICsrKysrKysrKw0KPj4gIDEgZmlsZSBjaGFu
-Z2VkLCA5IGluc2VydGlvbnMoKykNCj4+DQo+PiBkaWZmIC0tZ2l0IGEvbWV0YS9jbGFzc2VzL2lt
-YWdlX3R5cGVzLmJiY2xhc3MNCj4+IGIvbWV0YS9jbGFzc2VzL2ltYWdlX3R5cGVzLmJiY2xhc3MN
-Cj4+IGluZGV4IDc3NDliMDAuLmJiZGUwOGQgMTAwNjQ0DQo+PiAtLS0gYS9tZXRhL2NsYXNzZXMv
-aW1hZ2VfdHlwZXMuYmJjbGFzcw0KPj4gKysrIGIvbWV0YS9jbGFzc2VzL2ltYWdlX3R5cGVzLmJi
-Y2xhc3MNCj4+IEBAIC0yOTIsMyArMjkyLDEyIEBAIElNQUdFX0VYVEVOU0lPTl9saXZlID0gImhk
-ZGltZyBpc28iDQo+PiAgIyBUaGUgSU1BR0VfVFlQRVNfTUFTS0VEIHZhcmlhYmxlIHdpbGwgYmUg
-dXNlZCB0byBtYXNrIG91dCBmcm9tIHRoZSANCj4+IElNQUdFX0ZTVFlQRVMsICAjIGltYWdlcyB0
-aGF0IHdpbGwgbm90IGJlIGJ1aWx0IGF0IGRvX3Jvb3RmcyB0aW1lOiB2bWRrLCB2ZGksIHFjb3cy
-LCBoZGRkaXJlY3QsIGhkZGltZywgaXNvLCBldGMuDQo+PiAgSU1BR0VfVFlQRVNfTUFTS0VEID89
-ICIiDQo+PiArDQo+PiArIyBEZWZhdWx0IGFyZ3VtZW50IHRvIGNyZWF0ZSB1YmkgYW5kIHViaWZz
-IGltYWdlIHdpdGggDQo+PiArY29yZS1pbWFnZS1zYXRvLXNkaw0KPj4gKyhodHRwOi8vd3d3Lmxp
-bnV4LW10ZC5pbmZyYWRlYWQub3JnL2ZhcS91Ymlmcy5odG1sKQ0KPj4gKyMgLW0gMjA0ODogdGVs
-bHMgbWtmcy51YmlmcyB0aGF0IHRoZSBtaW5pbXVtIGlucHV0L291dHB1dCB1bml0IHNpemUgDQo+
-PiArb2YgdGhlIGZsYXNoIHRoaXMgVUJJRlMgaW1hZ2UgaXMgY3JlYXRlZCBmb3IgaXMgMjA0OCBi
-eXRlcyAoTkFORCANCj4+ICtwYWdlIGluIHRoaXMgY2FzZSk7ICMgLWUgMTI5MDI0OiBsb2dpY2Fs
-IGVyYXNlYmxvY2sgc2l6ZSBvZiB0aGUgVUJJIHZvbHVtZSB0aGlzIGltYWdlIGlzIGNyZWF0ZWQg
-Zm9yOyAjIC1jIDg3NDk6IHNwZWNpZmllcyBtYXhpbXVtIGZpbGUtc3lzdGVtIHNpemUgaW4gbG9n
-aWNhbCBlcmFzZWJsb2NrczsgdGhpcyBtZWFucyB0aGF0IGl0IHdpbGwgYmUgcG9zc2libGUgdG8g
-dXNlIHRoZSByZXN1bHRpbmcgZmlsZS1zeXN0ZW0gb24gdm9sdW1lcyB1cCB0byB0aGlzIHNpemUg
-KGxlc3Mgb3IgZXF1aXZhbGVudCk7IHNvIGluIHRoaXMgcGFydGljdWxhciBjYXNlLCB0aGUgcmVz
-dWx0aW5nIEZTIG1heSBiZSBwdXQgb24gdm9sdW1lcyB1cCB0byBhYm91dCAyNTFNaUIgKDEyOTAy
-NCBtdWx0aXBsaWVkIGJ5IDIwNDcpOyBTZWUgdGhpcyBzZWN0aW9uIGZvciBtb3JlIGRldGFpbHMu
-DQo+PiArIyAtcCAxMjhLaUI6IHRlbGxzIHViaW5pemUgdGhhdCBwaHlzaWNhbCBlcmFzZWJsb2Nr
-IHNpemUgb2YgdGhlIA0KPj4gK2ZsYXNoIGNoaXAgdGhlIFVCSSBpbWFnZSBpcyBjcmVhdGVkIGZv
-ciBpcyAxMjhLaUIgKDEyOCAqIDEwMjQgYnl0ZXMpOyAjIC1zIDUxMjogdGVsbHMgdWJpbml6ZSB0
-aGF0IHRoZSBmbGFzaCBzdXBwb3J0cyBzdWItcGFnZXMgYW5kIHN1Yi1wYWdlIHNpemUgaXMgNTEy
-IGJ5dGVzOyB1YmluaXplIHdpbGwgdGFrZSB0aGlzIGludG8gYWNjb3VudCBhbmQgcHV0IHRoZSBW
-SUQgaGVhZGVyIHRvIHRoZSBzYW1lIE5BTkQgcGFnZSBhcyB0aGUgRUMgaGVhZGVyLg0KPj4gK01L
-VUJJRlNfQVJHUyA/Pz0gIiAtbSAyMDQ4IC1lIDEyOTAyNCAtYyA4NzQ5ICINCj4+ICtVQklOSVpF
-X0FSR1MgPz89ICIgLXAgMTI4S2lCIC1tIDIwNDggLXMgNTEyICINCg0KSGVsbG8sDQoNCnRoZSBs
-aW51eC1tdGQgZmFxIHN0YXJ0cyB3aXRoICJUaGUgYmVsb3cgZXhhbXBsZS4uLiAiIGl0J3MganVz
-dCB0aGlzLCBhbiBleGFtcGxlLg0KDQpJIGFtIGJ1aWxkaW5nIHViaS91YmlmcyBpbWFnZXMgc2lu
-Y2Ugc29tZSB5ZWFycyBhbmQgYmFzaWNhbGx5IGVhY2ggZGV2aWNlIG5lZWRzIHRvIGN1c3RvbWl6
-ZSB0aGF0IGluIGEgY29uZmlnIGZpbGU6DQpNeSBleGFtcGxlczoNCg0KIyBVQkk6IG1heCBjb2xs
-aWUgKDE0LjEyNSA9IDExMyBQRUJzKQ0KIyAxNC4xMjUgeCAxMDI0IDogMTI4ID0gMTEzIFBFQnMN
-Ck1LVUJJRlNfQVJHUyA9ICItbSAxIC1lIDEzMDk0NCAtYyAxMTMgLXggemxpYiINClVCSU5JWkVf
-QVJHUyA9ICItbSAxIC1wIDEzMTA3MiINCg0KIyBVQkk6IG1heCBha2l0YSAoMTI4LTcgTWlCID0g
-OTY4IFBFQnMpDQojIDEyMSB4IDEwMjQgOiAxMjggPSA5NjggUEVCcw0KTUtVQklGU19BUkdTID0g
-Ii1tIDIwNDggLWUgMTI5MDI0IC1jIDk2OCAteCB6bGliIg0KVUJJTklaRV9BUkdTID0gIi1tIDIw
-NDggLXAgMTMxMDcyIC1zIDUxMiINCg0KIyBVQkk6IG1heCBjN3gwICgxMjgtNyBNaUIgPSA3NzQ0
-IFBFQnMpDQojIDEyMSB4IDEwMjQgOiAxNiA9IDc3NDQgUEVCcw0KTUtVQklGU19BUkdTID0gIi1t
-IDUxMiAtZSAxNTg3MiAtYyA3NzQ0IC14IHpsaWIiDQpVQklOSVpFX0FSR1MgPSAiLW0gNTEyIC1w
-IDE2Mzg0IC1zIDI1NiINCg0KIyBVQkk6IG1heCBwb29kbGUgKDY0LTcgTWlCID0gMzY0OCBQRUJz
-KSAjIDU3IHggMTAyNCA6IDE2ID0gMzY0OCBQRUJzIE1LVUJJRlNfQVJHUyA9ICItbSA1MTIgLWUg
-MTU4NzIgLWMgMzY0OCAteCB6bGliIg0KVUJJTklaRV9BUkdTID0gIi1tIDUxMiAtcCAxNjM4NCAt
-cyAyNTYiDQoNCldoYXQgSSBhbSBzYXlpbmcgaXMgdGhhdCB3aXRoIHRoZSAnZGVmYXVsdHMnIHlv
-dSBvYnRhaW4gYWxtb3N0IHN1cmVseSBhbiB1bmJvb3RhYmxlIGltYWdlLi4uLg0KSSdkIHByZWZl
-ciBhIHByb21wdCBhYm91dCB0aGUgbWlzc2luZyBzZXR0aW5ncy4NCg0KTXkgMiBjZW50cw0KDQpB
-bmRyZWENCg0KUC5TLg0KVGhlcmUgaXMgb25lIG1vcmUgaXNzdWUgc2luY2Ugc29tZSB0aW1lOg0K
-SSB1c2UgSU1BR0VfRlNUWVBFUyA/PSAidGFyLmd6IGpmZnMyIGpmZnMyLnN1bSB1YmkgdWJpZnMi
-DQoNCmlmIHRoZSB1YmkgaW1hZ2UgZmFpbHMgdGhlbiBiaXRiYWtlIGFib3J0cyBhbmQgdGhlIG90
-aGVyIHZhbGlkIHJvb3RmcyAodGFyLmd4LCBqZmZzMiwuLi4pIGFyZSBub3QgY3JlYXRlZCBUaGlz
-IGhhcHBlbnMgd2l0aCB0aGUgZmlyc3QgZGV2aWNlIGFib3ZlLCBoYXZpbmcgb25seSAxMTMgUEVC
-cw0KDQpXb3J0aCB0byBjaGVjayBhbmQgbWF5YmUgZmlyZSBhIGJ1Zy4NCg0KDQo+PiAtLQ0KPj4g
-Mi43LjQNCj4+DQo+PiAtLQ0KPj4gX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX18NCj4+IE9wZW5lbWJlZGRlZC1jb3JlIG1haWxpbmcgbGlzdA0KPj4gT3BlbmVt
-YmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KPj4gaHR0cDovL2xpc3RzLm9wZW5l
-bWJlZGRlZC5vcmcvbWFpbG1hbi9saXN0aW5mby9vcGVuZW1iZWRkZWQtY29yZQ0K
+To match with the target image, the generated nativesdk's target sysroot also
+should have the root symlinks(/lib*, /bin/, /sbin). So, extended the
+'create_merged_usr_symlinks' to reuse symlink creation part even for nativesdk
+using POPULATE_SDK_PRE_TARGET_COMMAND.
+
+Signed-off-by: Amarnath Valluri <amarnath.valluri@intel.com>
+---
+ meta/classes/image.bbclass | 29 ++++++++++++++++++++---------
+ 1 file changed, 20 insertions(+), 9 deletions(-)
+
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+index 2a3c1e3..7c5cfc5 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -620,21 +620,32 @@ addtask bundle_initramfs after do_image_complete
+ 
+ # Prepare the root links to point to the /usr counterparts.
+ create_merged_usr_symlinks() {
+-    install -d ${IMAGE_ROOTFS}${base_bindir} ${IMAGE_ROOTFS}${base_sbindir} ${IMAGE_ROOTFS}${base_libdir}
+-    lnr ${IMAGE_ROOTFS}${base_bindir} ${IMAGE_ROOTFS}/bin
+-    lnr ${IMAGE_ROOTFS}${base_sbindir} ${IMAGE_ROOTFS}/sbin
+-    lnr ${IMAGE_ROOTFS}${base_libdir} ${IMAGE_ROOTFS}/${baselib}
++    root="$1"
++    install -d $root${base_bindir} $root${base_sbindir} $root${base_libdir}
++    lnr $root${base_bindir} $root/bin
++    lnr $root${base_sbindir} $root/sbin
++    lnr $root${base_libdir} $root/${baselib}
+ 
+     if [ "${nonarch_base_libdir}" != "${base_libdir}" ]; then
+-       install -d ${IMAGE_ROOTFS}${nonarch_base_libdir}
+-       lnr ${IMAGE_ROOTFS}${nonarch_base_libdir} ${IMAGE_ROOTFS}/lib
++       install -m 0755 -d $root${nonarch_base_libdir}
++       lnr $root${nonarch_base_libdir} $root/lib
+     fi
+ 
+     # create base links for multilibs
+     multi_libdirs="${@d.getVar('MULTILIB_VARIANTS')}"
+     for d in $multi_libdirs; do
+-        install -d ${IMAGE_ROOTFS}${exec_prefix}/$d
+-        lnr ${IMAGE_ROOTFS}${exec_prefix}/$d ${IMAGE_ROOTFS}/$d
++        install -m 0755 -d $root${exec_prefix}/$d
++        lnr $root${exec_prefix}/$d $root/$d
+     done
+ }
+-ROOTFS_PREPROCESS_COMMAND += "${@bb.utils.contains('DISTRO_FEATURES', 'usrmerge', 'create_merged_usr_symlinks; ', '',d)}"
++
++create_merged_usr_symlinks_rootfs() {
++    create_merged_usr_symlinks ${IMAGE_ROOTFS}
++}
++
++create_merged_usr_symlinks_sdk() {
++    create_merged_usr_symlinks ${SDK_OUTPUT}${SDKTARGETSYSROOT}
++}
++
++ROOTFS_PREPROCESS_COMMAND += "${@bb.utils.contains('DISTRO_FEATURES', 'usrmerge', 'create_merged_usr_symlinks_rootfs; ', '',d)}"
++POPULATE_SDK_PRE_TARGET_COMMAND += "${@bb.utils.contains('DISTRO_FEATURES', 'usrmerge', 'create_merged_usr_symlinks_sdk; ', '',d)}"
+-- 
+2.7.4
+
 
