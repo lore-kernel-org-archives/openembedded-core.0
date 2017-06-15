@@ -1,29 +1,48 @@
-Return-Path: <andrej.valek@siemens.com>
-Received: from goliath.siemens.de (goliath.siemens.de [192.35.17.28])
-	by mail.openembedded.org (Postfix) with ESMTP id 78F727199D
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-yw0-f171.google.com (mail-yw0-f171.google.com
+	[209.85.161.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 2343C7199D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Jun 2017 06:37:05 +0000 (UTC)
-Received: from mail2.siemens.de (mail2.siemens.de [139.25.208.11])
-	by goliath.siemens.de (8.15.2/8.15.2) with ESMTPS id v5F6b6tQ002283
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
+	Thu, 15 Jun 2017 06:41:36 +0000 (UTC)
+Received: by mail-yw0-f171.google.com with SMTP id l75so1864199ywc.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Jun 2017 08:37:06 +0200
-Received: from dev.sbt.siemens.com ([163.242.56.100])
-	by mail2.siemens.de (8.15.2/8.15.2) with ESMTP id v5F6b6KZ023725;
-	Thu, 15 Jun 2017 08:37:06 +0200
-Received: from dev.sbt.siemens.com (localhost [127.0.0.1])
-	by dev.sbt.siemens.com (Postfix) with ESMTP id 02F1F108752;
-	Thu, 15 Jun 2017 08:37:06 +0200 (CEST)
-From: Andrej Valek <andrej.valek@siemens.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 15 Jun 2017 08:34:39 +0200
-Message-Id: <1497508479-18852-8-git-send-email-andrej.valek@siemens.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <1497508479-18852-1-git-send-email-andrej.valek@siemens.com>
-References: <1497508479-18852-1-git-send-email-andrej.valek@siemens.com>
-In-Reply-To: <1497454006-13902-1-git-send-email-andrej.valek@siemens.com>
-References: <1497454006-13902-1-git-send-email-andrej.valek@siemens.com>
-Subject: [PATCH v2 7/7] libxml2: Revert "Add an XML_PARSE_NOXXE flag to block all entities loading even local"
+	Wed, 14 Jun 2017 23:41:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=uIw/CCZhuFYI0gQMJHduPuc8MOHmtRA+4fUIPzzO0Fg=;
+	b=ZOVvvzyKlAHciY52dXTQgBZpYt4196OnfgAgcyG2WyoWCnYXQ0/d51FLld7v/miLgb
+	7d60FhEaVqe+/YS4x+QfF7B7d5ErO3xaRrhyaytmz/yGfAJM0+CE+GocKjLRCDlm5dGe
+	TYiDHroWLI31kf4ncX/+KLmJgRC5jsPikS0p1NKvd2b+b+SKTEnxvcgJN0yB6WMDOiRn
+	qFZa4qp78mPLmRiGblNcY4I/r9/uFDPdvOB5c87cWrG0GUCXz8+uaBSO6ukENvFblpWV
+	VVmAEJpS4VHCdOLJfAudIqxYwpIVOzr0U9fo57mf/s3D8ID1rVptw7okjH+tnsoFaenC
+	F/4g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=uIw/CCZhuFYI0gQMJHduPuc8MOHmtRA+4fUIPzzO0Fg=;
+	b=KVYudExtc20KyPl4tFXVgPmlS6XJ8nUMecbaiBBAAe2xAOXSon3H2yN5M6aSQAO2Lx
+	OivYisYotIiQVszkGhCv1IEUYjNEbOmAzl4RTVzILvLhxzjQKW6DAZDsB6tvjzMPC4hw
+	F6GpYhuroLn4FQBYMWJAt/Ra1eDcVvvtzVdfM92IrWzUoa+WRcaCP9CS3Jzj2aHEPgjr
+	Y/kLPz53y/mL5v5hChyI43XOxq1D4CMA2mze7v3aBt3PlQP5Nsa1/ERTFBRLj7wVjp/1
+	+uDD5lTjxml7MVbh8N+BtXdVSBAo5kJRkw45GJteyLyKwaqE5F6uweF2zkU9b24R30Dc
+	1JNg==
+X-Gm-Message-State: AKS2vOxPcMT+dKZtCZIzxJSXGqz6RB9BGDgl/m0RR4XxiJwMzBTdhqJf
+	bS8z2wE75Dmg7lBwGZQTGhJQQ7JTng==
+X-Received: by 10.129.80.193 with SMTP id e184mr3353236ywb.44.1497508897656;
+	Wed, 14 Jun 2017 23:41:37 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.37.181.204 with HTTP; Wed, 14 Jun 2017 23:41:37 -0700 (PDT)
+In-Reply-To: <4e21f51a683e80b8e0098504f05d524de10421fa.1497278129.git.raj.khem@gmail.com>
+References: <cover.1497278129.git.raj.khem@gmail.com>
+	<4e21f51a683e80b8e0098504f05d524de10421fa.1497278129.git.raj.khem@gmail.com>
+From: Martin Jansa <martin.jansa@gmail.com>
+Date: Thu, 15 Jun 2017 08:41:37 +0200
+Message-ID: <CA+chaQc2z4XkSsmVBLOzcK6iu4Xfx708M5+M6s10NdX-7XaPkQ@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2] gcc: Add recipes for gcc-7
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,243 +55,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Jun 2017 06:37:05 -0000
+X-List-Received-Date: Thu, 15 Jun 2017 06:41:38 -0000
+Content-Type: multipart/alternative; boundary="001a1147e4e2e497310551f9f506"
 
-The new flag doesn't work and the change even broke the XML_PARSE_NONET option.
+--001a1147e4e2e497310551f9f506
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
----
- .../libxml/libxml2/CVE-2016-9318.patch             | 207 ---------------------
- meta/recipes-core/libxml/libxml2_2.9.4.bb          |   1 -
- 2 files changed, 208 deletions(-)
- delete mode 100644 meta/recipes-core/libxml/libxml2/CVE-2016-9318.patch
+On Mon, Jun 12, 2017 at 4:38 PM, Khem Raj <raj.khem@gmail.com> wrote:
 
-diff --git a/meta/recipes-core/libxml/libxml2/CVE-2016-9318.patch b/meta/recipes-core/libxml/libxml2/CVE-2016-9318.patch
-deleted file mode 100644
-index 3581ab8..0000000
---- a/meta/recipes-core/libxml/libxml2/CVE-2016-9318.patch
-+++ /dev/null
-@@ -1,207 +0,0 @@
--From 7fa1cd31552d52d50a9101f07c816ff6dd2d9f19 Mon Sep 17 00:00:00 2001
--From: Doran Moppert <dmoppert@redhat.com>
--Date: Fri, 7 Apr 2017 16:45:56 +0200
--Subject: [PATCH] Add an XML_PARSE_NOXXE flag to block all entities loading
-- even local
--
--For https://bugzilla.gnome.org/show_bug.cgi?id=772726
--
--* include/libxml/parser.h: Add a new parser flag XML_PARSE_NOXXE
--* elfgcchack.h, xmlIO.h, xmlIO.c: associated loading routine
--* include/libxml/xmlerror.h: new error raised
--* xmllint.c: adds --noxxe flag to activate the option
--
--Upstream-Status: Backport
--CVE: CVE-2016-9318
--
--Signed-off-by: Catalin Enache <catalin.enache@windriver.com>
-----
-- elfgcchack.h              | 10 ++++++++++
-- include/libxml/parser.h   |  3 ++-
-- include/libxml/xmlIO.h    |  8 ++++++++
-- include/libxml/xmlerror.h |  1 +
-- parser.c                  |  4 ++++
-- xmlIO.c                   | 40 +++++++++++++++++++++++++++++++++++-----
-- xmllint.c                 |  5 +++++
-- 7 files changed, 65 insertions(+), 6 deletions(-)
--
--diff --git a/elfgcchack.h b/elfgcchack.h
--index 8c52884..1b81dcd 100644
----- a/elfgcchack.h
--+++ b/elfgcchack.h
--@@ -6547,6 +6547,16 @@ extern __typeof (xmlNoNetExternalEntityLoader) xmlNoNetExternalEntityLoader__int
-- #endif
-- #endif
-- 
--+#ifdef bottom_xmlIO
--+#undef xmlNoXxeExternalEntityLoader
--+extern __typeof (xmlNoXxeExternalEntityLoader) xmlNoXxeExternalEntityLoader __attribute((alias("xmlNoXxeExternalEntityLoader__internal_alias")));
--+#else
--+#ifndef xmlNoXxeExternalEntityLoader
--+extern __typeof (xmlNoXxeExternalEntityLoader) xmlNoXxeExternalEntityLoader__internal_alias __attribute((visibility("hidden")));
--+#define xmlNoXxeExternalEntityLoader xmlNoXxeExternalEntityLoader__internal_alias
--+#endif
--+#endif
--+
-- #ifdef bottom_tree
-- #undef xmlNodeAddContent
-- extern __typeof (xmlNodeAddContent) xmlNodeAddContent __attribute((alias("xmlNodeAddContent__internal_alias")));
--diff --git a/include/libxml/parser.h b/include/libxml/parser.h
--index 47fbec0..63ca1b9 100644
----- a/include/libxml/parser.h
--+++ b/include/libxml/parser.h
--@@ -1111,7 +1111,8 @@ typedef enum {
--     XML_PARSE_HUGE      = 1<<19,/* relax any hardcoded limit from the parser */
--     XML_PARSE_OLDSAX    = 1<<20,/* parse using SAX2 interface before 2.7.0 */
--     XML_PARSE_IGNORE_ENC= 1<<21,/* ignore internal document encoding hint */
---    XML_PARSE_BIG_LINES = 1<<22 /* Store big lines numbers in text PSVI field */
--+    XML_PARSE_BIG_LINES = 1<<22,/* Store big lines numbers in text PSVI field */
--+    XML_PARSE_NOXXE	= 1<<23 /* Forbid any external entity loading */
-- } xmlParserOption;
-- 
-- XMLPUBFUN void XMLCALL
--diff --git a/include/libxml/xmlIO.h b/include/libxml/xmlIO.h
--index 3e41744..8d3fdef 100644
----- a/include/libxml/xmlIO.h
--+++ b/include/libxml/xmlIO.h
--@@ -300,6 +300,14 @@ XMLPUBFUN xmlParserInputPtr XMLCALL
-- 					 xmlParserCtxtPtr ctxt);
-- 
-- /*
--+ * A predefined entity loader external entity expansion
--+ */
--+XMLPUBFUN xmlParserInputPtr XMLCALL
--+	xmlNoXxeExternalEntityLoader	(const char *URL,
--+					 const char *ID,
--+					 xmlParserCtxtPtr ctxt);
--+
--+/*
--  * xmlNormalizeWindowsPath is obsolete, don't use it.
--  * Check xmlCanonicPath in uri.h for a better alternative.
--  */
--diff --git a/include/libxml/xmlerror.h b/include/libxml/xmlerror.h
--index 037c16d..3036062 100644
----- a/include/libxml/xmlerror.h
--+++ b/include/libxml/xmlerror.h
--@@ -470,6 +470,7 @@ typedef enum {
--     XML_IO_EADDRINUSE, /* 1554 */
--     XML_IO_EALREADY, /* 1555 */
--     XML_IO_EAFNOSUPPORT, /* 1556 */
--+    XML_IO_ILLEGAL_XXE, /* 1557 */
--     XML_XINCLUDE_RECURSION=1600,
--     XML_XINCLUDE_PARSE_VALUE, /* 1601 */
--     XML_XINCLUDE_ENTITY_DEF_MISMATCH, /* 1602 */
--diff --git a/parser.c b/parser.c
--index 53a6b7f..609a270 100644
----- a/parser.c
--+++ b/parser.c
--@@ -15350,6 +15350,10 @@ xmlCtxtUseOptionsInternal(xmlParserCtxtPtr ctxt, int options, const char *encodi
-- 	ctxt->options |= XML_PARSE_NONET;
--         options -= XML_PARSE_NONET;
--     }
--+    if (options & XML_PARSE_NOXXE) {
--+	ctxt->options |= XML_PARSE_NOXXE;
--+        options -= XML_PARSE_NOXXE;
--+    }
--     if (options & XML_PARSE_COMPACT) {
-- 	ctxt->options |= XML_PARSE_COMPACT;
--         options -= XML_PARSE_COMPACT;
--diff --git a/xmlIO.c b/xmlIO.c
--index 1a79c09..304f822 100644
----- a/xmlIO.c
--+++ b/xmlIO.c
--@@ -210,6 +210,7 @@ static const char *IOerr[] = {
--     "adddress in use",		/* EADDRINUSE */
--     "already in use",		/* EALREADY */
--     "unknown address familly",	/* EAFNOSUPPORT */
--+    "Attempt to load external entity %s", /* XML_IO_ILLEGAL_XXE */
-- };
-- 
-- #if defined(_WIN32) || defined (__DJGPP__) && !defined (__CYGWIN__)
--@@ -4053,13 +4054,22 @@ xmlDefaultExternalEntityLoader(const char *URL, const char *ID,
--     xmlGenericError(xmlGenericErrorContext,
--                     "xmlDefaultExternalEntityLoader(%s, xxx)\n", URL);
-- #endif
---    if ((ctxt != NULL) && (ctxt->options & XML_PARSE_NONET)) {
--+    if (ctxt != NULL) {
--         int options = ctxt->options;
-- 
---	ctxt->options -= XML_PARSE_NONET;
---        ret = xmlNoNetExternalEntityLoader(URL, ID, ctxt);
---	ctxt->options = options;
---	return(ret);
--+        if (options & XML_PARSE_NOXXE) {
--+            ctxt->options -= XML_PARSE_NOXXE;
--+            ret = xmlNoXxeExternalEntityLoader(URL, ID, ctxt);
--+            ctxt->options = options;
--+            return(ret);
--+        }
--+ 
--+        if (options & XML_PARSE_NONET) {
--+            ctxt->options -= XML_PARSE_NONET;
--+            ret = xmlNoNetExternalEntityLoader(URL, ID, ctxt);
--+            ctxt->options = options;
--+            return(ret);
--+        }
--     }
-- #ifdef LIBXML_CATALOG_ENABLED
--     resource = xmlResolveResourceFromCatalog(URL, ID, ctxt);
--@@ -4160,6 +4170,13 @@ xmlNoNetExternalEntityLoader(const char *URL, const char *ID,
--     xmlParserInputPtr input = NULL;
--     xmlChar *resource = NULL;
-- 
--+    if (ctxt == NULL) {
--+        return(NULL);
--+    }
--+    if (ctxt->input_id == 1) {
--+        return xmlDefaultExternalEntityLoader((const char *) URL, ID, ctxt);
--+    }
--+
-- #ifdef LIBXML_CATALOG_ENABLED
--     resource = xmlResolveResourceFromCatalog(URL, ID, ctxt);
-- #endif
--@@ -4182,5 +4199,18 @@ xmlNoNetExternalEntityLoader(const char *URL, const char *ID,
--     return(input);
-- }
-- 
--+xmlParserInputPtr
--+xmlNoXxeExternalEntityLoader(const char *URL, const char *ID,
--+                          xmlParserCtxtPtr ctxt) {
--+    if (ctxt == NULL) {
--+        return(NULL);
--+    }
--+    if (ctxt->input_id == 1) {
--+        return xmlDefaultExternalEntityLoader((const char *) URL, ID, ctxt);
--+    }
--+    xmlIOErr(XML_IO_ILLEGAL_XXE, (const char *) URL);
--+    return(NULL);
--+}
--+
-- #define bottom_xmlIO
-- #include "elfgcchack.h"
--diff --git a/xmllint.c b/xmllint.c
--index 67f7adb..d9368c1 100644
----- a/xmllint.c
--+++ b/xmllint.c
--@@ -3019,6 +3019,7 @@ static void usage(const char *name) {
--     printf("\t--path 'paths': provide a set of paths for resources\n");
--     printf("\t--load-trace : print trace of all external entities loaded\n");
--     printf("\t--nonet : refuse to fetch DTDs or entities over network\n");
--+    printf("\t--noxxe : forbid any external entity loading\n");
--     printf("\t--nocompact : do not generate compact text nodes\n");
--     printf("\t--htmlout : output results as HTML\n");
--     printf("\t--nowrap : do not put HTML doc wrapper\n");
--@@ -3461,6 +3462,10 @@ main(int argc, char **argv) {
--                    (!strcmp(argv[i], "--nonet"))) {
-- 	    options |= XML_PARSE_NONET;
-- 	    xmlSetExternalEntityLoader(xmlNoNetExternalEntityLoader);
--+        } else if ((!strcmp(argv[i], "-noxxe")) ||
--+                   (!strcmp(argv[i], "--noxxe"))) {
--+	    options |= XML_PARSE_NOXXE;
--+	    xmlSetExternalEntityLoader(xmlNoXxeExternalEntityLoader);
--         } else if ((!strcmp(argv[i], "-nocompact")) ||
--                    (!strcmp(argv[i], "--nocompact"))) {
-- 	    options &= ~XML_PARSE_COMPACT;
---- 
--2.10.2
--
-diff --git a/meta/recipes-core/libxml/libxml2_2.9.4.bb b/meta/recipes-core/libxml/libxml2_2.9.4.bb
-index 677d8c9..f67c47d 100644
---- a/meta/recipes-core/libxml/libxml2_2.9.4.bb
-+++ b/meta/recipes-core/libxml/libxml2_2.9.4.bb
-@@ -28,7 +28,6 @@ SRC_URI = "ftp://xmlsoft.org/libxml2/libxml2-${PV}.tar.gz;name=libtar \
-            file://libxml2-CVE-2017-9049_CVE-2017-9050.patch \
-            file://libxml2-CVE-2017-5969.patch \
-            file://libxml2-CVE-2017-0663.patch \
--           file://CVE-2016-9318.patch \
-            file://0001-Make-ptest-run-the-python-tests-if-python-is-enabled.patch \
-            "
- 
--- 
-2.1.4
+> Switch default compiler to gcc 7
+>
 
+I'll try to switch back to gcc 6 to confirm this, but something in latest
+oe-core upgrade made WORKDIR to be significantly bigger (even when using
+rm_work and building in smaller steps) so now it doesn't fit in tmpfs I've
+available on jenkins.
 
+Any idea what might be causing this?
+
+--001a1147e4e2e497310551f9f506
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_quote">On M=
+on, Jun 12, 2017 at 4:38 PM, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"mail=
+to:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</span> =
+wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bord=
+er-left:1px #ccc solid;padding-left:1ex">Switch default compiler to gcc 7<b=
+r></blockquote><div><br></div><div>I&#39;ll try to switch back to gcc 6 to =
+confirm this, but something in latest oe-core upgrade made WORKDIR to be si=
+gnificantly bigger (even when using rm_work and building in smaller steps) =
+so now it doesn&#39;t fit in tmpfs I&#39;ve available on jenkins.</div><div=
+><br></div><div>Any idea what might be causing this?=C2=A0</div></div></div=
+></div>
+
+--001a1147e4e2e497310551f9f506--
