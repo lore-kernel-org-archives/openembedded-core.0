@@ -1,48 +1,50 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qt0-f178.google.com (mail-qt0-f178.google.com
-	[209.85.216.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 5A56278372
+Received: from mail-qt0-f175.google.com (mail-qt0-f175.google.com
+	[209.85.216.175])
+	by mail.openembedded.org (Postfix) with ESMTP id F2C4178390
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Jun 2017 11:45:20 +0000 (UTC)
-Received: by mail-qt0-f178.google.com with SMTP id u12so16673956qth.0
+	Thu, 15 Jun 2017 11:47:56 +0000 (UTC)
+Received: by mail-qt0-f175.google.com with SMTP id w1so16636315qtg.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Jun 2017 04:45:22 -0700 (PDT)
+	Thu, 15 Jun 2017 04:47:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=yRzWoVbxYJfTfVQQP7/NJGr202eCF0o4byYbLoB6/Sk=;
-	b=Xktip8ohroDzMpahrsA3WXo4msQh09zINBLN3LJsQArFY+bUamxLWxTZ6MRzaX6jC4
-	o1UQJo6/iavLTNzvjy3lxnAqcO4uqzNQIX9yGVCQlD6tuL2uoU3yuL5bABjkmS+RphIH
-	DopaiUGdQmkB1GnIG9z0b9N2iIeb7dJnJDVR/Nt1MJF4Am/MI+fBtJbcheOscO6/7vwt
-	4EZOfLKcFi1Akd9QkEwY/VaZKHoGTMX2ZcTmGQ1pZDvYhvKnI4v3hLbhtSqLk6vLlt6S
-	GaPHkLGHhmGnlf9zqlF3mRsynJchK4o0m0NYXSeLTjWtmZrC1TLR2VrKDl3LhlDcbjV+
-	xzQA==
+	:cc; bh=6OS8D3SENlf0nxn7/ZmJoSFxwIJaJm72+MxxeD3Rq/0=;
+	b=US99SPDHG9ymiqAND8Nhx6CEkt5XIZltgmjLEL920gW5QfnBAjhQ19LXXoEXkak5hA
+	HdqagPcbWFJvHuusb88kAJwrv9cpnBZloZUuBRzQCJLV/8ApOXFu1i+TOYdfxVyxTLr/
+	+16B7NL+9kS+0gJUoAEtYum6ev30VtMrPwJX/e9fVnTT5aik4xmWbvgNvDGAU2vEyzvr
+	7khykWIvbynKKKiCBHGPxsvCN5SxYavqnT8Qu3gH4kbJFCenG14kHHzTXDvb1dWtDNYK
+	9uZzrgGMjfjxWJLO/7rKXmBrOZwH0xMEh3QLp6OhuVyiGfzVca/zxSYGQM72P3lZfTkQ
+	fRWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=yRzWoVbxYJfTfVQQP7/NJGr202eCF0o4byYbLoB6/Sk=;
-	b=o5N79M3EjC5sxnvuqQqXGbxKHWx9H7aGLGk00qFbmON7PctXKhYgS83PFb1Zw1FSIW
-	xWkyzV644zs3ZQBMrWFvzWLDQs4+tKx5AVdMj9RgM+rTrXi6vNnMECUWVVHS5HSj8wST
-	lJ2ONeV5BhZojV2X2VZ6ketC0PXXLy9SujJROTSkJ0LUl/DERESVhKde8pHwt0/z9KqB
-	zGyu4jpQgMrvTlxIETPw/G0zObWOE6JWVl8qlTeZkaYPIgeQ23UDiZRUq+UESwgQH1n9
-	mfnYPz8IQyC+nLF7ZXXlUPRckp4gAYV8phhdQzBN7UiBpIhebNZEeA152x6hbN1CZJo8
-	KV/w==
-X-Gm-Message-State: AKS2vOwXty0F7z+SV7Eio2BY7CI1YbaxYEsOSjDpy41YAd3UhthreXoo
-	6uDGWMMEYKuESEPWehGdWsRfmsLk/ufl
-X-Received: by 10.200.58.38 with SMTP id w35mr5636784qte.93.1497527122367;
-	Thu, 15 Jun 2017 04:45:22 -0700 (PDT)
+	bh=6OS8D3SENlf0nxn7/ZmJoSFxwIJaJm72+MxxeD3Rq/0=;
+	b=LVoI1C8A45lgaWBK64xiBks7bSVTd+rRKWHqlX+0b6Md0qtAbZ3fFWvjPhhfb3VSQQ
+	YdbaLgcDMQZokdLomZPUNZIwtzS/ZsIolqZkciR0iRfqQQzwDonkQEiZcCzk2RC4V4qe
+	U8eKgHKaPeXVMhy2MCJJ6xEJ1vaxW7/X022awE1CNrLUeLkPRpgz1v4S75OCO6aF1ca+
+	lDxB9nJnye75x67y5+q6HWtmbrpqrm25sUwLWs+SLqEukIekhkPcKxxGBBb7VBTzKhEl
+	G2o2umh4AghD9SQxxAkYEbzRph2HIy6FBMVZYBXR20mKcFFXoL+WLSxD1gaowgIklHQN
+	4rkA==
+X-Gm-Message-State: AKS2vOyL/fxgd98YCGbj1Nvspu8ggHxV9txwdG0AI54i6codzUQoBFwR
+	gRcJTVJSn77XhxAF8De9BccR6SS2qUeQ
+X-Received: by 10.237.49.41 with SMTP id 38mr5954751qtg.161.1497527277902;
+	Thu, 15 Jun 2017 04:47:57 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.140.35.103 with HTTP; Thu, 15 Jun 2017 04:45:01 -0700 (PDT)
-In-Reply-To: <1493752813-18913-1-git-send-email-mkelly@xevo.com>
-References: <1493752813-18913-1-git-send-email-mkelly@xevo.com>
+Received: by 10.140.35.103 with HTTP; Thu, 15 Jun 2017 04:47:37 -0700 (PDT)
+In-Reply-To: <58ae27c5-8cd0-3787-6e3a-87b708cf28a2@siemens.com>
+References: <1497454006-13902-1-git-send-email-andrej.valek@siemens.com>
+	<1497508479-18852-2-git-send-email-andrej.valek@siemens.com>
+	<CAJTo0Lb41uTXQp7Hbh7xBWd-B088ygi9gdTOAVJgGdMaYKfq0g@mail.gmail.com>
+	<58ae27c5-8cd0-3787-6e3a-87b708cf28a2@siemens.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 15 Jun 2017 12:45:01 +0100
-Message-ID: <CAJTo0Lb+GDpEMbZP7tgVuMtpw1=38u486VXoQL1NFGnFpTD4Mw@mail.gmail.com>
-To: Martin Kelly <mkelly@xevo.com>
-Cc: Joshua G Lock <joshua.g.lock@intel.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH resend] qemuboot.conf: make cpus match built artifacts
+Date: Thu, 15 Jun 2017 12:47:37 +0100
+Message-ID: <CAJTo0LasesWRaRaacOETxM4DDV4hiKjM31XCyhND46LPeHZVuQ@mail.gmail.com>
+To: Andrej Valek <andrej.valek@siemens.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2 1/7] libxml2: Disable LeakSanitizer when running API tests
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,38 +57,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Jun 2017 11:45:21 -0000
-Content-Type: multipart/alternative; boundary="94eb2c0ca10c2ba92b0551fe348e"
+X-List-Received-Date: Thu, 15 Jun 2017 11:47:57 -0000
+Content-Type: multipart/alternative; boundary="94eb2c0c955c70e97a0551fe3d4f"
 
---94eb2c0ca10c2ba92b0551fe348e
+--94eb2c0c955c70e97a0551fe3d4f
 Content-Type: text/plain; charset="UTF-8"
 
-On 2 May 2017 at 20:20, Martin Kelly <mkelly@xevo.com> wrote:
+On 15 June 2017 at 12:42, Andrej Valek <andrej.valek@siemens.com> wrote:
 
-> -QB_CPU_KVM_x86-64 = "-cpu kvm64"
-> +QB_CPU_KVM_x86-64 = "-cpu core2duo"
+> I am modifying already existing patch not creating the new one. Is it
+> necessary to change Upstream-Status to backported?
+>
+> If yes, is it possible to fix only this patch, or do I need to push the
+> whole series?
 >
 
-What's the actual meaning of the "kvm64" and "kvm32" CPUs?  Is there a
-performance hit?  Should we be instead changing the qemu machine to target
-a different instruction set?
+If the patch is backported from upstream then please correct the status to
+be backported, and remove the U-S from the commit message.
+
+Also a later patch in the series uses "Backported" when the status is
+Backport, please verify that all the patches have the right tags as there
+are scripts which read the values.
 
 Ross
 
---94eb2c0ca10c2ba92b0551fe348e
+--94eb2c0c955c70e97a0551fe3d4f
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 2 May 2017 at 20:20, Martin Kelly <span dir=3D"ltr">&lt;<a href=3D"mailt=
-o:mkelly@xevo.com" target=3D"_blank">mkelly@xevo.com</a>&gt;</span> wrote:<=
-br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left=
-:1px #ccc solid;padding-left:1ex"><div id=3D":y2" class=3D"a3s aXjCH m15bca=
-b6ffa5390bd">-QB_CPU_KVM_x86-64 =3D &quot;-cpu kvm64&quot;<br>
-+QB_CPU_KVM_x86-64 =3D &quot;-cpu core2duo&quot;<br></div></blockquote></di=
-v><br>What&#39;s the actual meaning of the &quot;kvm64&quot; and &quot;kvm3=
-2&quot; CPUs?=C2=A0 Is there a performance hit?=C2=A0 Should we be instead =
-changing the qemu machine to target a different instruction set?</div><div =
-class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+On 15 June 2017 at 12:42, Andrej Valek <span dir=3D"ltr">&lt;<a href=3D"mai=
+lto:andrej.valek@siemens.com" target=3D"_blank">andrej.valek@siemens.com</a=
+>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 =
+0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D"m_37518415=
+44437310062:zl" class=3D"m_3751841544437310062a3s m_3751841544437310062aXjC=
+H m_3751841544437310062m15cab8ffa23a8de2">I am modifying already existing p=
+atch not creating the new one. Is it<br>
+necessary to change Upstream-Status to backported?<br>
+<br>
+If yes, is it possible to fix only this patch, or do I need to push the<br>
+whole series?</div></blockquote></div><br>If the patch is backported from u=
+pstream then please correct the status to be backported, and remove the U-S=
+ from the commit message.</div><div class=3D"gmail_extra"><br></div><div cl=
+ass=3D"gmail_extra">Also a later patch in the series uses &quot;Backported&=
+quot; when the status is Backport, please verify that all the patches have =
+the right tags as there are scripts which read the values.</div><div class=
+=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
 
---94eb2c0ca10c2ba92b0551fe348e--
+--94eb2c0c955c70e97a0551fe3d4f--
