@@ -1,18 +1,31 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id BA157783F8;
-	Thu, 15 Jun 2017 18:31:31 +0000 (UTC)
-MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Date: Thu, 15 Jun 2017 18:31:33 -0000
-Message-ID: <20170615183133.1043.30046@do.openembedded.org>
-References: <1497549909-22148-1-git-send-email-richard.purdie@linuxfoundation.org>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <1497549909-22148-1-git-send-email-richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgInBhY2thZ2VfZGViOiBEcm9wIG9ic29sZXRlIGNvbS4uLiIgYW5kIDIgbW9yZQ==?=
+Return-Path: <denis@denix.org>
+Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.17])
+	by mail.openembedded.org (Postfix) with ESMTP id 159E9783EA
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 15 Jun 2017 19:09:52 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by mailout4.zoneedit.com (Postfix) with ESMTP id 959F120B86;
+	Thu, 15 Jun 2017 19:09:53 +0000 (UTC)
+Received: from mailout4.zoneedit.com ([127.0.0.1])
+	by localhost (zmo03-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
+	port 10024)
+	with ESMTP id xwYvUHoTS-nH; Thu, 15 Jun 2017 19:09:53 +0000 (UTC)
+Received: from mail.denix.org (pool-100-15-85-143.washdc.fios.verizon.net
+	[100.15.85.143])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 739A5207AF;
+	Thu, 15 Jun 2017 19:09:52 +0000 (UTC)
+Received: from gimli.denix (gimli [192.168.0.6])
+	by mail.denix.org (Postfix) with ESMTP id EF60B1624E1;
+	Thu, 15 Jun 2017 15:09:51 -0400 (EDT)
+From: Denys Dmytriyenko <denis@denix.org>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 15 Jun 2017 15:09:49 -0400
+Message-Id: <1497553789-126570-1-git-send-email-denis@denix.org>
+X-Mailer: git-send-email 2.7.4
+Cc: Denys Dmytriyenko <denys@ti.com>
+Subject: [PATCH] toolchain-scripts: add check for LD_LIBRARY_PATH in the SDK env setup script
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,46 +38,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Jun 2017 18:31:32 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 15 Jun 2017 19:09:53 -0000
 
-== Series Details ==
+From: Denys Dmytriyenko <denys@ti.com>
 
-Series: "package_deb: Drop obsolete com..." and 2 more
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/7274/
-State : failure
+Provide a descriptive error message and exit the environment-setup script,
+when LD_LIBRARY_PATH is set on the host system.
 
-== Summary ==
-
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Issue             Series cannot be parsed correctly due to malformed diff lines [test_mbox_format] 
-  Suggested fix    Create the series again using git-format-patch and ensure it can be applied using git am
-  Diff line         diff --git a/meta/recipes-devtools/gcc/gcc-5.4/0054-support-ffile-prefix-map.patch b/meta/recipes-devtools/gcc/gcc-5.4/0054-support-ffile-prefix-map.patch
-
-
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  master (currently at 059846662f)
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
+Signed-off-by: Denys Dmytriyenko <denys@ti.com>
 ---
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+ meta/classes/toolchain-scripts.bbclass | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
+
+diff --git a/meta/classes/toolchain-scripts.bbclass b/meta/classes/toolchain-scripts.bbclass
+index 260ece9..ef7b26f 100644
+--- a/meta/classes/toolchain-scripts.bbclass
++++ b/meta/classes/toolchain-scripts.bbclass
+@@ -25,6 +25,21 @@ toolchain_create_sdk_env_script () {
+ 	script=${1:-${SDK_OUTPUT}/${SDKPATH}/environment-setup-$multimach_target_sys}
+ 	rm -f $script
+ 	touch $script
++
++	echo '# Check for LD_LIBRARY_PATH being set, which can break SDK and generally is a bad practice' >> $script
++	echo '# http://tldp.org/HOWTO/Program-Library-HOWTO/shared-libraries.html#AEN80' >> $script
++	echo '# http://xahlee.info/UnixResource_dir/_/ldpath.html' >> $script
++	echo '# Only disable this check if you are absolutely know what you are doing!' >> $script
++	echo 'if [ ! -z "$LD_LIBRARY_PATH" ]; then' >> $script
++	echo "    echo \"Your environment is misconfigured, you probably need to 'unset LD_LIBRARY_PATH'\"" >> $script
++	echo "    echo \"but please check why this was set in the first place and that it's safe to unset.\"" >> $script
++	echo '    echo "The SDK will not operate correctly in most cases when LD_LIBRARY_PATH is set."' >> $script
++	echo '    echo "For more references see:"' >> $script
++	echo '    echo "  http://tldp.org/HOWTO/Program-Library-HOWTO/shared-libraries.html#AEN80"' >> $script
++	echo '    echo "  http://xahlee.info/UnixResource_dir/_/ldpath.html"' >> $script
++	echo '    return 1' >> $script
++	echo 'fi' >> $script
++
+ 	echo 'export SDKTARGETSYSROOT='"$sysroot" >> $script
+ 	EXTRAPATH=""
+ 	for i in ${CANADIANEXTRAOS}; do
+-- 
+2.7.4
 
 
