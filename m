@@ -1,29 +1,18 @@
-Return-Path: <stephano.cetola@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 41C4178409
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Jun 2017 18:05:40 +0000 (UTC)
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	15 Jun 2017 11:05:42 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.39,344,1493708400"; d="scan'208";a="98370477"
-Received: from scetola-mac01.jf.intel.com (HELO
-	ptan20-mobl.gar.corp.intel.com) ([10.54.74.147])
-	by orsmga004.jf.intel.com with ESMTP; 15 Jun 2017 11:05:41 -0700
-Date: Thu, 15 Jun 2017 11:05:42 -0700
-From: Stephano Cetola <stephano.cetola@linux.intel.com>
-To: "Zeeshan Ali (Khattak)" <zeeshanak@gnome.org>
-Message-ID: <20170615180542.GA16912@ptan20-mobl.gar.corp.intel.com>
-References: <20170529060935.8093-1-erik.boto@pelagicore.com>
-	<20170529060935.8093-2-erik.boto@pelagicore.com>
-	<CAAa3hFMMxVRMRNufBenQ7E1G3stW0Xvu8xeE94MPfOa-J35axA@mail.gmail.com>
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id BA157783F8;
+	Thu, 15 Jun 2017 18:31:31 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <CAAa3hFMMxVRMRNufBenQ7E1G3stW0Xvu8xeE94MPfOa-J35axA@mail.gmail.com>
-User-Agent: Mutt/1.8.3 (2017-05-23)
-Cc: Leonardo Sandoval Gonzalez <leonardo.sandoval.gonzalez@intel.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2 1/4] masterimage.py: fix issue with calling reboot on masterimage/DUT
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Date: Thu, 15 Jun 2017 18:31:33 -0000
+Message-ID: <20170615183133.1043.30046@do.openembedded.org>
+References: <1497549909-22148-1-git-send-email-richard.purdie@linuxfoundation.org>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <1497549909-22148-1-git-send-email-richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgInBhY2thZ2VfZGViOiBEcm9wIG9ic29sZXRlIGNvbS4uLiIgYW5kIDIgbW9yZQ==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,26 +25,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Jun 2017 18:05:41 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Thu, 15 Jun 2017 18:31:32 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-On 06/15, Zeeshan Ali (Khattak) wrote:
-> Hi,
-> 
-> Has this been already merged? I ask cause there is a small change
-> needed for large-enough rootfs:
-> 
-This has not been merged yet.
+== Series Details ==
 
-Erik, could you please send a V3?
+Series: "package_deb: Drop obsolete com..." and 2 more
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/7274/
+State : failure
 
-When you do so, please reference the bug in the commit messages like this:
+== Summary ==
 
-[YOCTO #11524]
 
-Thanks!
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
 
-Cheers,
-Stephano
+
+
+* Issue             Series cannot be parsed correctly due to malformed diff lines [test_mbox_format] 
+  Suggested fix    Create the series again using git-format-patch and ensure it can be applied using git am
+  Diff line         diff --git a/meta/recipes-devtools/gcc/gcc-5.4/0054-support-ffile-prefix-map.patch b/meta/recipes-devtools/gcc/gcc-5.4/0054-support-ffile-prefix-map.patch
+
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at 059846662f)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
+---
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+
 
