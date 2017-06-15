@@ -1,24 +1,27 @@
 Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id 349F878389
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 4A50178389
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Jun 2017 09:45:36 +0000 (UTC)
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-	by orsmga104.jf.intel.com with ESMTP; 15 Jun 2017 02:45:37 -0700
+	Thu, 15 Jun 2017 09:45:45 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	15 Jun 2017 02:45:46 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.39,343,1493708400"; d="scan'208";a="115225955"
+X-IronPort-AV: E=Sophos;i="5.39,343,1493708400"; d="scan'208";a="868215174"
 Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga006.fm.intel.com with ESMTP; 15 Jun 2017 02:45:37 -0700
+	by FMSMGA003.fm.intel.com with ESMTP; 15 Jun 2017 02:45:46 -0700
 Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
-	by linux.intel.com (Postfix) with ESMTP id CA86C5803BE
+	by linux.intel.com (Postfix) with ESMTP id 9DCE85803BE
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Jun 2017 02:45:36 -0700 (PDT)
+	Thu, 15 Jun 2017 02:45:45 -0700 (PDT)
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 15 Jun 2017 12:43:59 +0300
-Message-Id: <cover.1497519337.git.ed.bartosh@linux.intel.com>
+Date: Thu, 15 Jun 2017 12:44:01 +0300
+Message-Id: <b4233fd8a9bef27452ceecbb559bd0ccfe1f4c18.1497519337.git.ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
-Subject: [PATCH v5 0/6] #10073: generic EFI for wic
+In-Reply-To: <cover.1497519337.git.ed.bartosh@linux.intel.com>
+References: <cover.1497519337.git.ed.bartosh@linux.intel.com>
+Subject: [PATCH v5 2/6] image_types_wic: add do_populate_bootfs task
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,71 +34,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Jun 2017 09:45:41 -0000
+X-List-Received-Date: Thu, 15 Jun 2017 09:45:46 -0000
 
-Hi,
+This task generates root partition UUID and calls efi_bootfs_populate
+API of current EFI provider to populate bootfs directory with
+EFI artifacts.
 
-This patchset is an implementation of generic EFI approach for wic images.
+[YOCTO #10073]
 
-Instead of introducing yet another wic plugin it uses existing APIs from
-EFI_PROVIDER classes to populate ${WORKDIR}/bootfs directory with EFI artifacts
-and bootloader configuration. This directory can be used by wic rootfs plugin
-to put into boot partition of the image.
+Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+---
+ meta/classes/image_types_wic.bbclass | 37 ++++++++++++++++++++++++++++++++++++
+ 1 file changed, 37 insertions(+)
 
-Example kickstart file and 2 test cases were added to wic test suite to better
-illustrate the approach.
-
-I personally like this approach much better than duplicating oe image creation
-functionality in wic plugins. This way we can have the code in one place and
-bootloaders can be configured the same way for oe and wic images.
-
-Changes in v2:
- - added patch: fixed default value of GRUB_ROOT
- - fixed typo in commit message: timage_types_wic > image_types_wic
-
-Changes in v3:
- - scheduled do_prepare_wic_build as earlier as possible
-
-Changes in v4:
- - fixed build on platforms that don't support EFI
- - fixed non-gpl3 build
- - fixed build failure in systemd-boot code caused by rescheduled
-   do_populate_bootfs to run earlier
-
-Changes in v5:
- - yet another fix for scheduling of do_prepare_wic_build: explicitly
-   added dependencies do_prepare_wic_build -> EFI_PROVIDER:do_deploy
-   in efi provider classes
-
-   NOTE: to make this working on meta-intel we'll need to add dependency
-         do_prepare_wic_build -> "${MLPREFIX}rmc-db:do_deploy"
-         I'll send patch for this as soon as this patchset is accepted.
-
-The following changes since commit 6964efddd31c479386d1643c1025bc102710392f:
-
-  bitbake: cooker: ensure graceful exit after exception during BuildCompleted handler (2017-06-14 14:54:25 +0100)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib ed/wip
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=ed/wip
-
-Ed Bartosh (6):
-  efi: add efi_bootfs_populate API
-  image_types_wic: add do_populate_bootfs task
-  image_types_wic: merged 2 tasks
-  grub-efi: fixed default value of GRUB_ROOT
-  image_types_wic: schedule prepare_wic_build correctly
-  oe-selftest: add wic tests for generic EFI
-
- meta-selftest/wic/test_generic_efi.wks.in |  9 ++++
- meta/classes/grub-efi.bbclass             | 15 ++++--
- meta/classes/image_types_wic.bbclass      | 84 +++++++++++++++++++++++--------
- meta/classes/systemd-boot.bbclass         |  7 +++
- meta/lib/oeqa/selftest/cases/wic.py       | 36 +++++++++++++
- 5 files changed, 125 insertions(+), 26 deletions(-)
- create mode 100644 meta-selftest/wic/test_generic_efi.wks.in
-
+diff --git a/meta/classes/image_types_wic.bbclass b/meta/classes/image_types_wic.bbclass
+index 5cd1c08..275f1d7 100644
+--- a/meta/classes/image_types_wic.bbclass
++++ b/meta/classes/image_types_wic.bbclass
+@@ -115,3 +115,40 @@ python do_rootfs_wicenv () {
+ addtask do_rootfs_wicenv after do_image before do_image_wic
+ do_rootfs_wicenv[vardeps] += "${WICVARS}"
+ do_rootfs_wicenv[prefuncs] = 'set_image_size'
++
++# Set variables for efi_bootfs_populate
++GRUB_CFG ?= "${WORKDIR}/grub_wic.cfg"
++SYSTEMD_BOOT_CFG ?= "${WORKDIR}/loader_wic.conf"
++GRUB_GFXSERIAL ?= "1"
++LABELS_WIC ?= "boot install"
++LABELS ?= "${LABELS_WIC}"
++
++EFI_PROVIDER ?= "systemd-boot"
++EFI_CLASS = "${@bb.utils.contains("MACHINE_FEATURES", "efi", "${EFI_PROVIDER}", "", d)}"
++inherit ${EFI_CLASS}
++
++python do_populate_bootfs() {
++    def populate_bootfs(partuuid):
++        # remove bootfs dir as it may have files from previous build
++        bootfs = os.path.join(d.getVar("WORKDIR"), 'bootfs')
++        if os.path.exists(bootfs):
++            import shutil
++            shutil.rmtree(bootfs)
++
++        d.setVar("APPEND", "root=PARTUUID=%s" % partuuid)
++        bb.build.exec_func('build_efi_cfg', d)
++
++        bb.build.exec_func('efi_bootfs_populate', d)
++
++    if d.getVar('USING_WIC'):
++        # Generate parition UUID
++        from uuid import uuid4
++        partuuid = str(uuid4())
++        d.setVar("ROOTFS_PARTUUID", partuuid)
++
++        if d.getVar("EFI_CLASS"):
++            populate_bootfs(partuuid)
++}
++
++addtask do_populate_bootfs before do_image_wic
++do_populate_bootfs[depends] = "${MLPREFIX}${EFI_PROVIDER}:do_deploy virtual/kernel:do_deploy"
 -- 
 2.1.4
 
