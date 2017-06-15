@@ -1,31 +1,36 @@
-Return-Path: <denis@denix.org>
-Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.17])
-	by mail.openembedded.org (Postfix) with ESMTP id 159E9783EA
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	by mail.openembedded.org (Postfix) with ESMTP id 13C6B783D9
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Jun 2017 19:09:52 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mailout4.zoneedit.com (Postfix) with ESMTP id 959F120B86;
-	Thu, 15 Jun 2017 19:09:53 +0000 (UTC)
-Received: from mailout4.zoneedit.com ([127.0.0.1])
-	by localhost (zmo03-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
-	port 10024)
-	with ESMTP id xwYvUHoTS-nH; Thu, 15 Jun 2017 19:09:53 +0000 (UTC)
-Received: from mail.denix.org (pool-100-15-85-143.washdc.fios.verizon.net
-	[100.15.85.143])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 739A5207AF;
-	Thu, 15 Jun 2017 19:09:52 +0000 (UTC)
-Received: from gimli.denix (gimli [192.168.0.6])
-	by mail.denix.org (Postfix) with ESMTP id EF60B1624E1;
-	Thu, 15 Jun 2017 15:09:51 -0400 (EDT)
-From: Denys Dmytriyenko <denis@denix.org>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 15 Jun 2017 15:09:49 -0400
-Message-Id: <1497553789-126570-1-git-send-email-denis@denix.org>
-X-Mailer: git-send-email 2.7.4
-Cc: Denys Dmytriyenko <denys@ti.com>
-Subject: [PATCH] toolchain-scripts: add check for LD_LIBRARY_PATH in the SDK env setup script
+	Thu, 15 Jun 2017 20:44:02 +0000 (UTC)
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+	by orsmga105.jf.intel.com with ESMTP; 15 Jun 2017 13:44:03 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.39,344,1493708400"; d="scan'208";a="98417147"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by orsmga004.jf.intel.com with ESMTP; 15 Jun 2017 13:44:01 -0700
+To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
+	"Burton, Ross" <ross.burton@intel.com>
+References: <cover.1497534748.git.pkj@axis.com>
+	<4b8a955e4779a8fc3a113947622d09f47e71b00e.1497534748.git.pkj@axis.com>
+	<CAJTo0LZ3utZx6+rbKxs2RbjhEVHG1eGMGrX7qSf-s=TB6PwPmA@mail.gmail.com>
+	<c1d410c6cb3d4e66bef8b80a78a07267@XBOX02.axis.com>
+	<febb07f5-af96-82ba-69c1-46f9c7294b00@linux.intel.com>
+	<8b3d9920b9bb447bb6c7574a7ae42b6e@XBOX02.axis.com>
+	<55a5ee84-9b57-8f96-5a0f-fd66b495e42b@linux.intel.com>
+	<e5fb0af1b0b3455b93562ef4ecc15f12@XBOX02.axis.com>
+	<3d43fd13-b3c2-48cd-b8bf-e16ff8f7c9a8@linux.intel.com>
+	<1efb5ad739604a94872885a72ec9b4b8@XBOX02.axis.com>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <1c056ee5-a38f-b79c-1e2f-47bdf8be6fcd@linux.intel.com>
+Date: Thu, 15 Jun 2017 23:44:10 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.8.0
+MIME-Version: 1.0
+In-Reply-To: <1efb5ad739604a94872885a72ec9b4b8@XBOX02.axis.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 01/11] gtk+3: Update the patches to work without PATCHTOOL = "git"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,45 +43,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Jun 2017 19:09:53 -0000
+X-List-Received-Date: Thu, 15 Jun 2017 20:44:03 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Denys Dmytriyenko <denys@ti.com>
+On 06/15/2017 06:33 PM, Peter Kjellerstedt wrote:
+> It turns out the problem is only seen if opengl is enabled in
+> DISTRO_FEATURES. However, since that is the default for poky, that still
+> does not explain why others do not see the problem
+>
+> I have included the log.do_compile file where one can see that the
+> file gdkx-with-gl-context.h is missing (that is the file that was
+> supposed to be renamed from gdkx.h by the patch). When I look in
+> tmp/work/i586-poky-linux/gtk+3/3.22.15-r0/gtk+-3.22.15/gdk/x11 I see
+> gdkx.h and gdkx-without-gl-context.h, instead of the expected
+> gdkx-with-gl-context.h and gdkx-without-gl-context.h...
 
-Provide a descriptive error message and exit the environment-setup script,
-when LD_LIBRARY_PATH is set on the host system.
+I guess Jussi needs to look at this, as he's maintaining the patches and 
+the recipe.
 
-Signed-off-by: Denys Dmytriyenko <denys@ti.com>
----
- meta/classes/toolchain-scripts.bbclass | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
-
-diff --git a/meta/classes/toolchain-scripts.bbclass b/meta/classes/toolchain-scripts.bbclass
-index 260ece9..ef7b26f 100644
---- a/meta/classes/toolchain-scripts.bbclass
-+++ b/meta/classes/toolchain-scripts.bbclass
-@@ -25,6 +25,21 @@ toolchain_create_sdk_env_script () {
- 	script=${1:-${SDK_OUTPUT}/${SDKPATH}/environment-setup-$multimach_target_sys}
- 	rm -f $script
- 	touch $script
-+
-+	echo '# Check for LD_LIBRARY_PATH being set, which can break SDK and generally is a bad practice' >> $script
-+	echo '# http://tldp.org/HOWTO/Program-Library-HOWTO/shared-libraries.html#AEN80' >> $script
-+	echo '# http://xahlee.info/UnixResource_dir/_/ldpath.html' >> $script
-+	echo '# Only disable this check if you are absolutely know what you are doing!' >> $script
-+	echo 'if [ ! -z "$LD_LIBRARY_PATH" ]; then' >> $script
-+	echo "    echo \"Your environment is misconfigured, you probably need to 'unset LD_LIBRARY_PATH'\"" >> $script
-+	echo "    echo \"but please check why this was set in the first place and that it's safe to unset.\"" >> $script
-+	echo '    echo "The SDK will not operate correctly in most cases when LD_LIBRARY_PATH is set."' >> $script
-+	echo '    echo "For more references see:"' >> $script
-+	echo '    echo "  http://tldp.org/HOWTO/Program-Library-HOWTO/shared-libraries.html#AEN80"' >> $script
-+	echo '    echo "  http://xahlee.info/UnixResource_dir/_/ldpath.html"' >> $script
-+	echo '    return 1' >> $script
-+	echo 'fi' >> $script
-+
- 	echo 'export SDKTARGETSYSROOT='"$sysroot" >> $script
- 	EXTRAPATH=""
- 	for i in ${CANADIANEXTRAOS}; do
--- 
-2.7.4
+Alex
 
 
