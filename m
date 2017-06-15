@@ -1,50 +1,49 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 13A00783EC
+Return-Path: <trini@konsulko.com>
+Received: from mail-yw0-f178.google.com (mail-yw0-f178.google.com
+	[209.85.161.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 564ED783FC
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Jun 2017 23:28:26 +0000 (UTC)
-Received: by mail-wm0-f67.google.com with SMTP id 70so2123922wme.1
+	Thu, 15 Jun 2017 23:45:45 +0000 (UTC)
+Received: by mail-yw0-f178.google.com with SMTP id 63so13046964ywr.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Jun 2017 16:28:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=GczL+LKatx0lSI0O/m1Rh9ndJMruqtX0VKGrFH3zdbw=;
-	b=fcqYliFtxY+7wDnX1LJMWmTc5gWPCWs5QkSChz1mTKbYtszeccnjglfjVIhnQEMRic
-	+kJc76kSsjkjE4MyWZa6wo9paP7pGTPcUmFvogcf8B5GILeNd8I+Vh5Ytd5y3PGX/5fc
-	3PDA+XqQCtse/+h6X26DfqIlpmZ1Gm2ZnzePJ7x8lBnPGSWg+V4lcweoWT9kDlym0EOE
-	wjP0l8Vp3nfcJazHVoJaLtQE8A4HGnkcN3/wDYdzaHq1lCAM7OlgNIHEyjRGmmg9PJV2
-	w/FGhWLtqBtET8woPZ8v4W9PQBseQUpATx1BAVn8oDyhzgJFLMVApXut0No+IlG4TGAs
-	Y6Tg==
+	Thu, 15 Jun 2017 16:45:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=Dn9Z5yKsd6vUGmt+Kr2e96Wto8q+8C+XQahKPIjW3KQ=;
+	b=N4j1w4POr6psYJ4aQF1ga2lU75YyJPQuQiCTYyOyEAph3psnLuBGSYU+mRH2EeUMkI
+	D5hM390r2WGfqxiUG7K5RhIHI4gm93mAsK5rX7f0OZdENaAL7nf7lrWvOnkz7Xy2WE5b
+	PvknlK1OTBu6gAFJfilr2C+IJF7m6SnJDMReA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=GczL+LKatx0lSI0O/m1Rh9ndJMruqtX0VKGrFH3zdbw=;
-	b=KUYwfaMUIaiAf4VrTKatNrtyIFNq+QtISZml4y9AZp28dQMgFo7DsBhZF/4B6bUArk
-	mdFzn+UH6jlV/pKg8hp0feNo0IV2NAFKua7EUTuUkaUjRyMCXW5SeQrYhZzosLPCQlDT
-	r2PvkEPD9sMs9aQZWlS+MxsgFUjHqD6YU03HFDc0t5Nt2apAwfDD7ldHR6YTshcAKzga
-	5zrGt0xAvCnDp33nzU+iTl+Iq6hBiQHbIoYoncrsSHdItKZIAjefuvt23c/n5+uZW0zd
-	EsVqqsMPFhy0oN8Hfrt4tPNdC0wHinRhZ0N7k8su2Knac9Pd8D+6/3KygEda3qsxLtse
-	GqBw==
-X-Gm-Message-State: AKS2vOyDK/8Z3QCIhBPkitkiU1IhMqPPPLFLUWBKgB78sUXQaDrTvSSO
-	OY9yyAHWJ9YOa8THnN38DtqL2O096A==
-X-Received: by 10.80.154.129 with SMTP id p1mr5292437edb.131.1497569307416;
-	Thu, 15 Jun 2017 16:28:27 -0700 (PDT)
+	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=Dn9Z5yKsd6vUGmt+Kr2e96Wto8q+8C+XQahKPIjW3KQ=;
+	b=PRFTAUs05ttHdS1wazYMXvz4ylMIad3E2rkXVzWnsvKEJ0qgqNICmEjwZIDXFFQ9go
+	X5xE2buiEE/zrZPsm9oR49s/dm4K887pHZTC0g/K8xhmJ9IXQ0NFEgu0sq7EDUcog4X7
+	/HTYJA4502JOHpuxhudnEyq1SN+QBNyzMlFwdCjVFo2r/sR7s9G6TVXc4YplAEVGQwxd
+	iQsDJmNN9918DCNEZrMB5zgbWcmAb4WohogoLynQzdjFSJBxJhJWFLmERhMBgxoQWvcu
+	Y56fV4bL1cHHE4zT3UCTJX3NV91U01wsdYmJV7l2gPsp5aIFcPIio55T2KsSrZnA8VWn
+	71Zw==
+X-Gm-Message-State: AKS2vOy9Xa/JoSHZo3lMP0P4N4xOWAu9RkL0E1dXImkYvTlYWhhBf87U
+	+nl1xapL9BZpQ72M
+X-Received: by 10.129.98.65 with SMTP id w62mr7142751ywb.145.1497570346993;
+	Thu, 15 Jun 2017 16:45:46 -0700 (PDT)
+Received: from bill-the-cat (cpe-75-180-228-133.ec.res.rr.com.
+	[75.180.228.133])
+	by smtp.gmail.com with ESMTPSA id w4sm306524ywe.56.2017.06.15.16.45.46
+	(version=TLS1_2 cipher=AES128-SHA bits=128/128);
+	Thu, 15 Jun 2017 16:45:46 -0700 (PDT)
+Date: Thu, 15 Jun 2017 19:46:11 -0400
+From: Tom Rini <trini@konsulko.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Message-ID: <20170615234611.GO10782@bill-the-cat>
+References: <1497549909-22148-1-git-send-email-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
-Received: by 10.80.153.222 with HTTP; Thu, 15 Jun 2017 16:27:56 -0700 (PDT)
-In-Reply-To: <db9dab56-437e-3568-94ef-dcffd637caee@linux.intel.com>
-References: <cover.1497453168.git.raj.khem@gmail.com>
-	<1fcd2f1adf3506cc8d22cbbc538ffb7e1eebbf8f.1497453168.git.raj.khem@gmail.com>
-	<225c958a-3bd3-b8b7-8447-53dc8a4d34ec@linux.intel.com>
-	<CAMKF1sotA4FHmA3oinKzF95P2+aSr54JbbT4UdCMiATO9Zuj7w@mail.gmail.com>
-	<db9dab56-437e-3568-94ef-dcffd637caee@linux.intel.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 15 Jun 2017 16:27:56 -0700
-Message-ID: <CAMKF1spduTHP16Bx9trpkUbqnzpm_Hk96XNKSgm5aXGdaDaPRQ@mail.gmail.com>
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 05/10] gobject-introspection: Disable generating static lbraries
+In-Reply-To: <1497549909-22148-1-git-send-email-richard.purdie@linuxfoundation.org>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/3] package_deb: Drop obsolete comments/variables
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,35 +56,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Jun 2017 23:28:27 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 15 Jun 2017 23:45:46 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Thu, Jun 15, 2017 at 1:46 PM, Alexander Kanavin
-<alexander.kanavin@linux.intel.com> wrote:
-> On 06/15/2017 07:02 PM, Khem Raj wrote:
->>
->> On Thu, Jun 15, 2017 at 2:50 AM, Alexander Kanavin
->> <alexander.kanavin@linux.intel.com> wrote:
->>>
->>> On 06/14/2017 06:23 PM, Khem Raj wrote:
->>>>
->>>>
->>>> Signed-off-by: Khem Raj <raj.khem@gmail.com>
->>>
->>>
->>>
->>> Why? You need to add an explanation to the commit message.
->>>
->> sure, its to avoid linking with .a when using pie
->
->
->
-> Can you resend the patch please?
+On Thu, Jun 15, 2017 at 07:05:07PM +0100, Richard Purdie wrote:
 
-Updated on pull request branch
-http://git.openembedded.org/openembedded-core-contrib/commit/?h=kraj/hardening-fixes&id=ea442af4b3a7669485a18d57fbb043d9093189bc
+> These comments/variables appear to be long dead, remove them.
+> 
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
->
-> Alex
->
+Reviewed-by: Tom Rini <trini@konsulko.com>
+
+-- 
+Tom
 
