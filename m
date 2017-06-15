@@ -1,49 +1,54 @@
-Return-Path: <trini@konsulko.com>
-Received: from mail-yw0-f178.google.com (mail-yw0-f178.google.com
-	[209.85.161.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 564ED783FC
+Return-Path: <alejandro.delcastillo@ni.com>
+X-Greylist: delayed 5180 seconds by postgrey-1.34 at layers.openembedded.org;
+	Fri, 16 Jun 2017 00:43:48 UTC
+Received: from mx0b-00010702.pphosted.com (mx0a-00010702.pphosted.com
+	[148.163.156.75])
+	by mail.openembedded.org (Postfix) with ESMTP id C98A178415
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Jun 2017 23:45:45 +0000 (UTC)
-Received: by mail-yw0-f178.google.com with SMTP id 63so13046964ywr.0
+	Fri, 16 Jun 2017 00:43:48 +0000 (UTC)
+Received: from pps.filterd (m0098781.ppops.net [127.0.0.1])
+	by mx0a-00010702.pphosted.com (8.16.0.20/8.16.0.20) with SMTP id
+	v5FNG4t4006540 for <openembedded-core@lists.openembedded.org>;
+	Thu, 15 Jun 2017 18:17:29 -0500
+Received: from ni.com (skprod2.natinst.com [130.164.80.23])
+	by mx0a-00010702.pphosted.com with ESMTP id 2b43qw00cj-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=NOT) for <openembedded-core@lists.openembedded.org>;
+	Thu, 15 Jun 2017 18:17:29 -0500
+Received: from us-aus-exch1.ni.corp.natinst.com
+	(us-aus-exch1.ni.corp.natinst.com [130.164.68.11])
+	by us-aus-skprod2.natinst.com (8.16.0.17/8.16.0.17) with ESMTPS id
+	v5FNHSql023467
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Jun 2017 16:45:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=Dn9Z5yKsd6vUGmt+Kr2e96Wto8q+8C+XQahKPIjW3KQ=;
-	b=N4j1w4POr6psYJ4aQF1ga2lU75YyJPQuQiCTYyOyEAph3psnLuBGSYU+mRH2EeUMkI
-	D5hM390r2WGfqxiUG7K5RhIHI4gm93mAsK5rX7f0OZdENaAL7nf7lrWvOnkz7Xy2WE5b
-	PvknlK1OTBu6gAFJfilr2C+IJF7m6SnJDMReA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=Dn9Z5yKsd6vUGmt+Kr2e96Wto8q+8C+XQahKPIjW3KQ=;
-	b=PRFTAUs05ttHdS1wazYMXvz4ylMIad3E2rkXVzWnsvKEJ0qgqNICmEjwZIDXFFQ9go
-	X5xE2buiEE/zrZPsm9oR49s/dm4K887pHZTC0g/K8xhmJ9IXQ0NFEgu0sq7EDUcog4X7
-	/HTYJA4502JOHpuxhudnEyq1SN+QBNyzMlFwdCjVFo2r/sR7s9G6TVXc4YplAEVGQwxd
-	iQsDJmNN9918DCNEZrMB5zgbWcmAb4WohogoLynQzdjFSJBxJhJWFLmERhMBgxoQWvcu
-	Y56fV4bL1cHHE4zT3UCTJX3NV91U01wsdYmJV7l2gPsp5aIFcPIio55T2KsSrZnA8VWn
-	71Zw==
-X-Gm-Message-State: AKS2vOy9Xa/JoSHZo3lMP0P4N4xOWAu9RkL0E1dXImkYvTlYWhhBf87U
-	+nl1xapL9BZpQ72M
-X-Received: by 10.129.98.65 with SMTP id w62mr7142751ywb.145.1497570346993;
-	Thu, 15 Jun 2017 16:45:46 -0700 (PDT)
-Received: from bill-the-cat (cpe-75-180-228-133.ec.res.rr.com.
-	[75.180.228.133])
-	by smtp.gmail.com with ESMTPSA id w4sm306524ywe.56.2017.06.15.16.45.46
-	(version=TLS1_2 cipher=AES128-SHA bits=128/128);
-	Thu, 15 Jun 2017 16:45:46 -0700 (PDT)
-Date: Thu, 15 Jun 2017 19:46:11 -0400
-From: Tom Rini <trini@konsulko.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Message-ID: <20170615234611.GO10782@bill-the-cat>
-References: <1497549909-22148-1-git-send-email-richard.purdie@linuxfoundation.org>
+	Thu, 15 Jun 2017 18:17:28 -0500
+Received: from us-aus-exch3.ni.corp.natinst.com (130.164.68.13) by
+	us-aus-exch1.ni.corp.natinst.com (130.164.68.11) with Microsoft SMTP
+	Server (TLS) id 15.0.1156.6; Thu, 15 Jun 2017 18:17:28 -0500
+Received: from us-aus-exhub1.ni.corp.natinst.com (130.164.68.41) by
+	us-aus-exch3.ni.corp.natinst.com (130.164.68.13) with Microsoft SMTP
+	Server (TLS) id 15.0.1156.6; Thu, 15 Jun 2017 18:17:28 -0500
+Received: from delcastillo2.amer.corp.natinst.com (130.164.49.7) by
+	us-aus-exhub1.ni.corp.natinst.com (130.164.68.41) with Microsoft SMTP
+	Server
+	id 15.0.1156.6 via Frontend Transport; Thu, 15 Jun 2017 18:17:28 -0500
+From: Alejandro del Castillo <alejandro.delcastillo@ni.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 15 Jun 2017 18:17:26 -0500
+Message-ID: <1497568647-2740-1-git-send-email-alejandro.delcastillo@ni.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-In-Reply-To: <1497549909-22148-1-git-send-email-richard.purdie@linuxfoundation.org>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/3] package_deb: Drop obsolete comments/variables
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
+	definitions=2017-06-15_11:, , signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_policy_notspam policy=outbound_policy
+	score=30
+	priorityscore=1501 malwarescore=0 suspectscore=4 phishscore=0
+	bulkscore=0
+	spamscore=0 clxscore=1011 lowpriorityscore=0 impostorscore=0
+	adultscore=0
+	classifier=spam adjust=30 reason=mlx scancount=1
+	engine=8.0.1-1703280000 definitions=main-1706150402
+Subject: [PATCH 1/2] opkg-utils: bump PV to 0.3.5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,18 +61,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Jun 2017 23:45:46 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Fri, 16 Jun 2017 00:43:49 -0000
+Content-Type: text/plain
 
-On Thu, Jun 15, 2017 at 07:05:07PM +0100, Richard Purdie wrote:
+Signed-off-by: Alejandro del Castillo <alejandro.delcastillo@ni.com>
+---
+ meta/recipes-devtools/opkg-utils/opkg-utils_git.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> These comments/variables appear to be long dead, remove them.
-> 
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-
-Reviewed-by: Tom Rini <trini@konsulko.com>
-
+diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb b/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb
+index ed5980b..f72b7a4 100644
+--- a/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb
++++ b/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb
+@@ -8,7 +8,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
+ PROVIDES += "${@bb.utils.contains('PACKAGECONFIG', 'update-alternatives', 'virtual/update-alternatives', '', d)}"
+ 
+ SRCREV = "1a708fd73d10c2b7677dd4cc4e017746ebbb9166"
+-PV = "0.3.4+git${SRCPV}"
++PV = "0.3.5+git${SRCPV}"
+ 
+ SRC_URI = "git://git.yoctoproject.org/opkg-utils \
+            file://0001-Switch-all-scripts-to-use-Python-3.x.patch \
 -- 
-Tom
+2.7.4
+
 
