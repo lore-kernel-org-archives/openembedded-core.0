@@ -1,28 +1,27 @@
 Return-Path: <andrej.valek@siemens.com>
-Received: from david.siemens.de (david.siemens.de [192.35.17.14])
-	by mail.openembedded.org (Postfix) with ESMTP id 7D1B9783A6
+Received: from goliath.siemens.de (goliath.siemens.de [192.35.17.28])
+	by mail.openembedded.org (Postfix) with ESMTP id C94D4783A9
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 15 Jun 2017 12:09:05 +0000 (UTC)
-Received: from mail2.siemens.de (mail2.siemens.de [139.25.208.11])
-	by david.siemens.de (8.15.2/8.15.2) with ESMTPS id v5FC96NQ014292
+Received: from mail3.siemens.de (mail3.siemens.de [139.25.208.14])
+	by goliath.siemens.de (8.15.2/8.15.2) with ESMTPS id v5FC96JM032631
 	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 15 Jun 2017 14:09:06 +0200
 Received: from dev.sbt.siemens.com ([163.242.56.100])
-	by mail2.siemens.de (8.15.2/8.15.2) with ESMTP id v5FC95ex028349;
-	Thu, 15 Jun 2017 14:09:05 +0200
+	by mail3.siemens.de (8.15.2/8.15.2) with ESMTP id v5FC96xC008863;
+	Thu, 15 Jun 2017 14:09:06 +0200
 Received: from dev.sbt.siemens.com (localhost [127.0.0.1])
-	by dev.sbt.siemens.com (Postfix) with ESMTP id 9D7724F2E3;
+	by dev.sbt.siemens.com (Postfix) with ESMTP id D3D0B1DDA3B;
 	Thu, 15 Jun 2017 14:09:05 +0200 (CEST)
 From: Andrej Valek <andrej.valek@siemens.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 15 Jun 2017 14:08:34 +0200
-Message-Id: <1497528519-19425-3-git-send-email-andrej.valek@siemens.com>
+Date: Thu, 15 Jun 2017 14:08:39 +0200
+Message-Id: <1497528519-19425-8-git-send-email-andrej.valek@siemens.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <1497528519-19425-1-git-send-email-andrej.valek@siemens.com>
 References: <1497528519-19425-1-git-send-email-andrej.valek@siemens.com>
-MIME-Version: 1.0
-Subject: [PATCH v3 2/7] libxml2: Avoid reparsing and simplify control flow in xmlParseStartTag2
+Subject: [PATCH v3 7/7] libxml2: Revert "Add an XML_PARSE_NOXXE flag to block all entities loading even local"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,641 +34,242 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Jun 2017 12:09:07 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 15 Jun 2017 12:09:08 -0000
+
+The new flag doesn't work and the change even broke the XML_PARSE_NONET option.
 
 Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
 ---
- ...ibxml2-fix_and_simplify_xmlParseStartTag2.patch | 590 +++++++++++++++++++++
- meta/recipes-core/libxml/libxml2_2.9.4.bb          |   1 +
- 2 files changed, 591 insertions(+)
- create mode 100644 meta/recipes-core/libxml/libxml2/libxml2-fix_and_simplify_xmlParseStartTag2.patch
+ .../libxml/libxml2/CVE-2016-9318.patch             | 207 ---------------------
+ meta/recipes-core/libxml/libxml2_2.9.4.bb          |   1 -
+ 2 files changed, 208 deletions(-)
+ delete mode 100644 meta/recipes-core/libxml/libxml2/CVE-2016-9318.patch
 
-diff --git a/meta/recipes-core/libxml/libxml2/libxml2-fix_and_simplify_xmlParseStartTag2.patch b/meta/recipes-core/libxml/libxml2/libxml2-fix_and_simplify_xmlParseStartTag2.patch
-new file mode 100644
-index 0000000..faa5770
---- /dev/null
-+++ b/meta/recipes-core/libxml/libxml2/libxml2-fix_and_simplify_xmlParseStartTag2.patch
-@@ -0,0 +1,590 @@
-+libxml2-2.9.4: Avoid reparsing and simplify control flow in xmlParseStartTag2
-+
-+[No upstream tracking]
-+
-+parser: Avoid reparsing in xmlParseStartTag2
-+
-+The code in xmlParseStartTag2 must handle the case that the input
-+buffer was grown and reallocated which can invalidate pointers to
-+attribute values. Before, this was handled by detecting changes of
-+the input buffer "base" pointer and, in case of a change, jumping
-+back to the beginning of the function and reparsing the start tag.
-+
-+The major problem of this approach is that whether an input buffer is
-+reallocated is nondeterministic, resulting in seemingly random test
-+failures. See the mailing list thread "runtest mystery bug: name2.xml
-+error case regression test" from 2012, for example.
-+
-+If a reallocation was detected, the code also made no attempts to
-+continue parsing in case of errors which makes a difference in
-+the lax "recover" mode.
-+
-+Now we store the current input buffer "base" pointer for each (not
-+separately allocated) attribute in the namespace URI field, which isn't
-+used until later. After the whole start tag was parsed, the pointers to
-+the attribute values are reconstructed using the offset between the
-+new and the old input buffer. This relies on arithmetic on dangling
-+pointers which is technically undefined behavior. But it seems like
-+the easiest and most efficient fix and a similar approach is used in
-+xmlParserInputGrow.
-+
-+This changes the error output of several tests, typically making it
-+more verbose because we try harder to continue parsing in case of errors.
-+
-+(Another possible solution is to check not only the "base" pointer
-+but the size of the input buffer as well. But this would result in
-+even more reparsing.)
-+
-+Remove some goto labels and deduplicate a bit of code after handling
-+namespaces.
-+
-+There were two bugs where parameter-entity references could lead to an
-+unexpected change of the input buffer in xmlParseNameComplex and
-+xmlDictLookup being called with an invalid pointer.
-+
-+
-+Upstream-Status: Backport
-+ - [https://git.gnome.org/browse/libxml2/commit/?id=07b7428b69c368611d215a140fe630b2d1e61349]
-+ - [https://git.gnome.org/browse/libxml2/commit/?id=855c19efb7cd30d927d673b3658563c4959ca6f0]
-+Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
-+
-+diff --git a/parser.c b/parser.c
-+index 609a270..74016e3 100644
-+--- a/parser.c
-++++ b/parser.c
-+@@ -43,6 +43,7 @@
-+ #include <limits.h>
-+ #include <string.h>
-+ #include <stdarg.h>
-++#include <stddef.h>
-+ #include <libxml/xmlmemory.h>
-+ #include <libxml/threads.h>
-+ #include <libxml/globals.h>
-+@@ -9377,8 +9378,7 @@ xmlParseStartTag2(xmlParserCtxtPtr ctxt, const xmlChar **pref,
-+     const xmlChar **atts = ctxt->atts;
-+     int maxatts = ctxt->maxatts;
-+     int nratts, nbatts, nbdef;
-+-    int i, j, nbNs, attval, oldline, oldcol, inputNr;
-+-    const xmlChar *base;
-++    int i, j, nbNs, attval;
-+     unsigned long cur;
-+     int nsNr = ctxt->nsNr;
-+ 
-+@@ -9392,13 +9392,8 @@ xmlParseStartTag2(xmlParserCtxtPtr ctxt, const xmlChar **pref,
-+      *       The Shrinking is only possible once the full set of attribute
-+      *       callbacks have been done.
-+      */
-+-reparse:
-+     SHRINK;
-+-    base = ctxt->input->base;
-+     cur = ctxt->input->cur - ctxt->input->base;
-+-    inputNr = ctxt->inputNr;
-+-    oldline = ctxt->input->line;
-+-    oldcol = ctxt->input->col;
-+     nbatts = 0;
-+     nratts = 0;
-+     nbdef = 0;
-+@@ -9422,8 +9417,6 @@ reparse:
-+      */
-+     SKIP_BLANKS;
-+     GROW;
-+-    if ((ctxt->input->base != base) || (inputNr != ctxt->inputNr))
-+-        goto base_changed;
-+ 
-+     while (((RAW != '>') &&
-+ 	   ((RAW != '/') || (NXT(1) != '>')) &&
-+@@ -9434,203 +9427,174 @@ reparse:
-+ 
-+ 	attname = xmlParseAttribute2(ctxt, prefix, localname,
-+ 	                             &aprefix, &attvalue, &len, &alloc);
-+-	if ((ctxt->input->base != base) || (inputNr != ctxt->inputNr)) {
-+-	    if ((attvalue != NULL) && (alloc != 0))
-+-	        xmlFree(attvalue);
-+-	    attvalue = NULL;
-+-	    goto base_changed;
-+-	}
-+-        if ((attname != NULL) && (attvalue != NULL)) {
-+-	    if (len < 0) len = xmlStrlen(attvalue);
-+-            if ((attname == ctxt->str_xmlns) && (aprefix == NULL)) {
-+-	        const xmlChar *URL = xmlDictLookup(ctxt->dict, attvalue, len);
-+-		xmlURIPtr uri;
-+-
-+-                if (URL == NULL) {
-+-		    xmlErrMemory(ctxt, "dictionary allocation failure");
-+-		    if ((attvalue != NULL) && (alloc != 0))
-+-			xmlFree(attvalue);
-+-		    return(NULL);
-+-		}
-+-                if (*URL != 0) {
-+-		    uri = xmlParseURI((const char *) URL);
-+-		    if (uri == NULL) {
-+-			xmlNsErr(ctxt, XML_WAR_NS_URI,
-+-			         "xmlns: '%s' is not a valid URI\n",
-+-					   URL, NULL, NULL);
-+-		    } else {
-+-			if (uri->scheme == NULL) {
-+-			    xmlNsWarn(ctxt, XML_WAR_NS_URI_RELATIVE,
-+-				      "xmlns: URI %s is not absolute\n",
-+-				      URL, NULL, NULL);
-+-			}
-+-			xmlFreeURI(uri);
-+-		    }
-+-		    if (URL == ctxt->str_xml_ns) {
-+-			if (attname != ctxt->str_xml) {
-+-			    xmlNsErr(ctxt, XML_NS_ERR_XML_NAMESPACE,
-+-			 "xml namespace URI cannot be the default namespace\n",
-+-				     NULL, NULL, NULL);
-+-			}
-+-			goto skip_default_ns;
-+-		    }
-+-		    if ((len == 29) &&
-+-			(xmlStrEqual(URL,
-+-				 BAD_CAST "http://www.w3.org/2000/xmlns/"))) {
-+-			xmlNsErr(ctxt, XML_NS_ERR_XML_NAMESPACE,
-+-			     "reuse of the xmlns namespace name is forbidden\n",
-+-				 NULL, NULL, NULL);
-+-			goto skip_default_ns;
-+-		    }
-+-		}
-+-		/*
-+-		 * check that it's not a defined namespace
-+-		 */
-+-		for (j = 1;j <= nbNs;j++)
-+-		    if (ctxt->nsTab[ctxt->nsNr - 2 * j] == NULL)
-+-			break;
-+-		if (j <= nbNs)
-+-		    xmlErrAttributeDup(ctxt, NULL, attname);
-+-		else
-+-		    if (nsPush(ctxt, NULL, URL) > 0) nbNs++;
-+-skip_default_ns:
-+-		if ((attvalue != NULL) && (alloc != 0)) {
-+-		    xmlFree(attvalue);
-+-		    attvalue = NULL;
-+-		}
-+-		if ((RAW == '>') || (((RAW == '/') && (NXT(1) == '>'))))
-+-		    break;
-+-		if (!IS_BLANK_CH(RAW)) {
-+-		    xmlFatalErrMsg(ctxt, XML_ERR_SPACE_REQUIRED,
-+-				   "attributes construct error\n");
-+-		    break;
-+-		}
-+-		SKIP_BLANKS;
-+-		if ((ctxt->input->base != base) || (inputNr != ctxt->inputNr))
-+-		    goto base_changed;
-+-		continue;
-+-	    }
-+-            if (aprefix == ctxt->str_xmlns) {
-+-	        const xmlChar *URL = xmlDictLookup(ctxt->dict, attvalue, len);
-+-		xmlURIPtr uri;
-+-
-+-                if (attname == ctxt->str_xml) {
-+-		    if (URL != ctxt->str_xml_ns) {
-+-		        xmlNsErr(ctxt, XML_NS_ERR_XML_NAMESPACE,
-+-			         "xml namespace prefix mapped to wrong URI\n",
-+-			         NULL, NULL, NULL);
-+-		    }
-+-		    /*
-+-		     * Do not keep a namespace definition node
-+-		     */
-+-		    goto skip_ns;
-+-		}
-++        if ((attname == NULL) || (attvalue == NULL))
-++            goto next_attr;
-++	if (len < 0) len = xmlStrlen(attvalue);
-++
-++        if ((attname == ctxt->str_xmlns) && (aprefix == NULL)) {
-++            const xmlChar *URL = xmlDictLookup(ctxt->dict, attvalue, len);
-++            xmlURIPtr uri;
-++
-++            if (URL == NULL) {
-++                xmlErrMemory(ctxt, "dictionary allocation failure");
-++                if ((attvalue != NULL) && (alloc != 0))
-++                    xmlFree(attvalue);
-++                return(NULL);
-++            }
-++            if (*URL != 0) {
-++                uri = xmlParseURI((const char *) URL);
-++                if (uri == NULL) {
-++                    xmlNsErr(ctxt, XML_WAR_NS_URI,
-++                             "xmlns: '%s' is not a valid URI\n",
-++                                       URL, NULL, NULL);
-++                } else {
-++                    if (uri->scheme == NULL) {
-++                        xmlNsWarn(ctxt, XML_WAR_NS_URI_RELATIVE,
-++                                  "xmlns: URI %s is not absolute\n",
-++                                  URL, NULL, NULL);
-++                    }
-++                    xmlFreeURI(uri);
-++                }
-+                 if (URL == ctxt->str_xml_ns) {
-+-		    if (attname != ctxt->str_xml) {
-+-		        xmlNsErr(ctxt, XML_NS_ERR_XML_NAMESPACE,
-+-			         "xml namespace URI mapped to wrong prefix\n",
-+-			         NULL, NULL, NULL);
-+-		    }
-+-		    goto skip_ns;
-+-		}
-+-                if (attname == ctxt->str_xmlns) {
-+-		    xmlNsErr(ctxt, XML_NS_ERR_XML_NAMESPACE,
-+-			     "redefinition of the xmlns prefix is forbidden\n",
-+-			     NULL, NULL, NULL);
-+-		    goto skip_ns;
-+-		}
-+-		if ((len == 29) &&
-+-		    (xmlStrEqual(URL,
-+-		                 BAD_CAST "http://www.w3.org/2000/xmlns/"))) {
-+-		    xmlNsErr(ctxt, XML_NS_ERR_XML_NAMESPACE,
-+-			     "reuse of the xmlns namespace name is forbidden\n",
-+-			     NULL, NULL, NULL);
-+-		    goto skip_ns;
-+-		}
-+-		if ((URL == NULL) || (URL[0] == 0)) {
-+-		    xmlNsErr(ctxt, XML_NS_ERR_XML_NAMESPACE,
-+-		             "xmlns:%s: Empty XML namespace is not allowed\n",
-+-			          attname, NULL, NULL);
-+-		    goto skip_ns;
-+-		} else {
-+-		    uri = xmlParseURI((const char *) URL);
-+-		    if (uri == NULL) {
-+-			xmlNsErr(ctxt, XML_WAR_NS_URI,
-+-			     "xmlns:%s: '%s' is not a valid URI\n",
-+-					   attname, URL, NULL);
-+-		    } else {
-+-			if ((ctxt->pedantic) && (uri->scheme == NULL)) {
-+-			    xmlNsWarn(ctxt, XML_WAR_NS_URI_RELATIVE,
-+-				      "xmlns:%s: URI %s is not absolute\n",
-+-				      attname, URL, NULL);
-+-			}
-+-			xmlFreeURI(uri);
-+-		    }
-+-		}
-+-
-+-		/*
-+-		 * check that it's not a defined namespace
-+-		 */
-+-		for (j = 1;j <= nbNs;j++)
-+-		    if (ctxt->nsTab[ctxt->nsNr - 2 * j] == attname)
-+-			break;
-+-		if (j <= nbNs)
-+-		    xmlErrAttributeDup(ctxt, aprefix, attname);
-+-		else
-+-		    if (nsPush(ctxt, attname, URL) > 0) nbNs++;
-+-skip_ns:
-+-		if ((attvalue != NULL) && (alloc != 0)) {
-+-		    xmlFree(attvalue);
-+-		    attvalue = NULL;
-+-		}
-+-		if ((RAW == '>') || (((RAW == '/') && (NXT(1) == '>'))))
-+-		    break;
-+-		if (!IS_BLANK_CH(RAW)) {
-+-		    xmlFatalErrMsg(ctxt, XML_ERR_SPACE_REQUIRED,
-+-				   "attributes construct error\n");
-+-		    break;
-+-		}
-+-		SKIP_BLANKS;
-+-		if ((ctxt->input->base != base) || (inputNr != ctxt->inputNr))
-+-		    goto base_changed;
-+-		continue;
-+-	    }
-++                    if (attname != ctxt->str_xml) {
-++                        xmlNsErr(ctxt, XML_NS_ERR_XML_NAMESPACE,
-++                     "xml namespace URI cannot be the default namespace\n",
-++                                 NULL, NULL, NULL);
-++                    }
-++                    goto next_attr;
-++                }
-++                if ((len == 29) &&
-++                    (xmlStrEqual(URL,
-++                             BAD_CAST "http://www.w3.org/2000/xmlns/"))) {
-++                    xmlNsErr(ctxt, XML_NS_ERR_XML_NAMESPACE,
-++                         "reuse of the xmlns namespace name is forbidden\n",
-++                             NULL, NULL, NULL);
-++                    goto next_attr;
-++                }
-++            }
-++            /*
-++             * check that it's not a defined namespace
-++             */
-++            for (j = 1;j <= nbNs;j++)
-++                if (ctxt->nsTab[ctxt->nsNr - 2 * j] == NULL)
-++                    break;
-++            if (j <= nbNs)
-++                xmlErrAttributeDup(ctxt, NULL, attname);
-++            else
-++                if (nsPush(ctxt, NULL, URL) > 0) nbNs++;
-++
-++        } else if (aprefix == ctxt->str_xmlns) {
-++            const xmlChar *URL = xmlDictLookup(ctxt->dict, attvalue, len);
-++            xmlURIPtr uri;
-++
-++            if (attname == ctxt->str_xml) {
-++                if (URL != ctxt->str_xml_ns) {
-++                    xmlNsErr(ctxt, XML_NS_ERR_XML_NAMESPACE,
-++                             "xml namespace prefix mapped to wrong URI\n",
-++                             NULL, NULL, NULL);
-++                }
-++                /*
-++                 * Do not keep a namespace definition node
-++                 */
-++                goto next_attr;
-++            }
-++            if (URL == ctxt->str_xml_ns) {
-++                if (attname != ctxt->str_xml) {
-++                    xmlNsErr(ctxt, XML_NS_ERR_XML_NAMESPACE,
-++                             "xml namespace URI mapped to wrong prefix\n",
-++                             NULL, NULL, NULL);
-++                }
-++                goto next_attr;
-++            }
-++            if (attname == ctxt->str_xmlns) {
-++                xmlNsErr(ctxt, XML_NS_ERR_XML_NAMESPACE,
-++                         "redefinition of the xmlns prefix is forbidden\n",
-++                         NULL, NULL, NULL);
-++                goto next_attr;
-++            }
-++            if ((len == 29) &&
-++                (xmlStrEqual(URL,
-++                             BAD_CAST "http://www.w3.org/2000/xmlns/"))) {
-++                xmlNsErr(ctxt, XML_NS_ERR_XML_NAMESPACE,
-++                         "reuse of the xmlns namespace name is forbidden\n",
-++                         NULL, NULL, NULL);
-++                goto next_attr;
-++            }
-++            if ((URL == NULL) || (URL[0] == 0)) {
-++                xmlNsErr(ctxt, XML_NS_ERR_XML_NAMESPACE,
-++                         "xmlns:%s: Empty XML namespace is not allowed\n",
-++                              attname, NULL, NULL);
-++                goto next_attr;
-++            } else {
-++                uri = xmlParseURI((const char *) URL);
-++                if (uri == NULL) {
-++                    xmlNsErr(ctxt, XML_WAR_NS_URI,
-++                         "xmlns:%s: '%s' is not a valid URI\n",
-++                                       attname, URL, NULL);
-++                } else {
-++                    if ((ctxt->pedantic) && (uri->scheme == NULL)) {
-++                        xmlNsWarn(ctxt, XML_WAR_NS_URI_RELATIVE,
-++                                  "xmlns:%s: URI %s is not absolute\n",
-++                                  attname, URL, NULL);
-++                    }
-++                    xmlFreeURI(uri);
-++                }
-++            }
-+ 
-+-	    /*
-+-	     * Add the pair to atts
-+-	     */
-+-	    if ((atts == NULL) || (nbatts + 5 > maxatts)) {
-+-	        if (xmlCtxtGrowAttrs(ctxt, nbatts + 5) < 0) {
-+-		    if (attvalue[len] == 0)
-+-			xmlFree(attvalue);
-+-		    goto failed;
-+-		}
-+-	        maxatts = ctxt->maxatts;
-+-		atts = ctxt->atts;
-+-	    }
-+-	    ctxt->attallocs[nratts++] = alloc;
-+-	    atts[nbatts++] = attname;
-+-	    atts[nbatts++] = aprefix;
-+-	    atts[nbatts++] = NULL; /* the URI will be fetched later */
-+-	    atts[nbatts++] = attvalue;
-+-	    attvalue += len;
-+-	    atts[nbatts++] = attvalue;
-+-	    /*
-+-	     * tag if some deallocation is needed
-+-	     */
-+-	    if (alloc != 0) attval = 1;
-+-	} else {
-+-	    if ((attvalue != NULL) && (attvalue[len] == 0))
-+-		xmlFree(attvalue);
-+-	}
-++            /*
-++             * check that it's not a defined namespace
-++             */
-++            for (j = 1;j <= nbNs;j++)
-++                if (ctxt->nsTab[ctxt->nsNr - 2 * j] == attname)
-++                    break;
-++            if (j <= nbNs)
-++                xmlErrAttributeDup(ctxt, aprefix, attname);
-++            else
-++                if (nsPush(ctxt, attname, URL) > 0) nbNs++;
-++
-++        } else {
-++            /*
-++             * Add the pair to atts
-++             */
-++            if ((atts == NULL) || (nbatts + 5 > maxatts)) {
-++                if (xmlCtxtGrowAttrs(ctxt, nbatts + 5) < 0) {
-++                    goto next_attr;
-++                }
-++                maxatts = ctxt->maxatts;
-++                atts = ctxt->atts;
-++            }
-++            ctxt->attallocs[nratts++] = alloc;
-++            atts[nbatts++] = attname;
-++            atts[nbatts++] = aprefix;
-++            /*
-++             * The namespace URI field is used temporarily to point at the
-++             * base of the current input buffer for non-alloced attributes.
-++             * When the input buffer is reallocated, all the pointers become
-++             * invalid, but they can be reconstructed later.
-++             */
-++            if (alloc)
-++                atts[nbatts++] = NULL;
-++            else
-++                atts[nbatts++] = ctxt->input->base;
-++            atts[nbatts++] = attvalue;
-++            attvalue += len;
-++            atts[nbatts++] = attvalue;
-++            /*
-++             * tag if some deallocation is needed
-++             */
-++            if (alloc != 0) attval = 1;
-++            attvalue = NULL; /* moved into atts */
-++        }
-+ 
-+-failed:
-++next_attr:
-++        if ((attvalue != NULL) && (alloc != 0)) {
-++            xmlFree(attvalue);
-++            attvalue = NULL;
-++        }
-+ 
-+ 	GROW
-+         if (ctxt->instate == XML_PARSER_EOF)
-+             break;
-+-	if ((ctxt->input->base != base) || (inputNr != ctxt->inputNr))
-+-	    goto base_changed;
-+ 	if ((RAW == '>') || (((RAW == '/') && (NXT(1) == '>'))))
-+ 	    break;
-+ 	if (!IS_BLANK_CH(RAW)) {
-+@@ -9646,8 +9610,20 @@ failed:
-+ 	    break;
-+ 	}
-+         GROW;
-+-	if ((ctxt->input->base != base) || (inputNr != ctxt->inputNr))
-+-	    goto base_changed;
-++    }
-++
-++    /* Reconstruct attribute value pointers. */
-++    for (i = 0, j = 0; j < nratts; i += 5, j++) {
-++        if (atts[i+2] != NULL) {
-++            /*
-++             * Arithmetic on dangling pointers is technically undefined
-++             * behavior, but well...
-++             */
-++            ptrdiff_t offset = ctxt->input->base - atts[i+2];
-++            atts[i+2]  = NULL;    /* Reset repurposed namespace URI */
-++            atts[i+3] += offset;  /* value */
-++            atts[i+4] += offset;  /* valuend */
-++        }
-+     }
-+ 
-+     /*
-+@@ -9804,34 +9780,6 @@ failed:
-+     }
-+ 
-+     return(localname);
-+-
-+-base_changed:
-+-    /*
-+-     * the attribute strings are valid iif the base didn't changed
-+-     */
-+-    if (attval != 0) {
-+-	for (i = 3,j = 0; j < nratts;i += 5,j++)
-+-	    if ((ctxt->attallocs[j] != 0) && (atts[i] != NULL))
-+-	        xmlFree((xmlChar *) atts[i]);
-+-    }
-+-
-+-    /*
-+-     * We can't switch from one entity to another in the middle
-+-     * of a start tag
-+-     */
-+-    if (inputNr != ctxt->inputNr) {
-+-        xmlFatalErrMsg(ctxt, XML_ERR_ENTITY_BOUNDARY,
-+-		    "Start tag doesn't start and stop in the same entity\n");
-+-	return(NULL);
-+-    }
-+-
-+-    ctxt->input->cur = ctxt->input->base + cur;
-+-    ctxt->input->line = oldline;
-+-    ctxt->input->col = oldcol;
-+-    if (ctxt->wellFormed == 1) {
-+-	goto reparse;
-+-    }
-+-    return(NULL);
-+ }
-+ 
-+ /**
-+diff --git a/result/errors/759398.xml.err b/result/errors/759398.xml.err
-+index e08d9bf..f6036a3 100644
-+--- a/result/errors/759398.xml.err
-++++ b/result/errors/759398.xml.err
-+@@ -1,9 +1,12 @@
-+ ./test/errors/759398.xml:210: parser error : StartTag: invalid element name
-+ need to worry about parsers whi<! don't expand PErefs finding
-+                                 ^
-+-./test/errors/759398.xml:309: parser error : Opening and ending tag mismatch: spec line 50 and termdef
-++./test/errors/759398.xml:309: parser error : Opening and ending tag mismatch: №№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№!
- №№№
- №№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№�!
- ��№№�
- ��№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№�!
- �№№�
- �№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№m line 308 and termdef
-+ and provide access to their content and structure.</termdef> <termdef
-+                                                             ^
-+-./test/errors/759398.xml:309: parser error : Extra content at the end of the document
-+-and provide access to their content and structure.</termdef> <termdef
-+-                                                             ^
-++./test/errors/759398.xml:314: parser error : Opening and ending tag mismatch: spec line 50 and p
-++data and the information it must provide to the application.</p>
-++                                                                ^
-++./test/errors/759398.xml:316: parser error : Extra content at the end of the document
-++<div2 id='sec-origin-goals'>
-++^
-+diff --git a/result/errors/attr1.xml.err b/result/errors/attr1.xml.err
-+index 4f08538..c4c4fc8 100644
-+--- a/result/errors/attr1.xml.err
-++++ b/result/errors/attr1.xml.err
-+@@ -1,6 +1,9 @@
-+ ./test/errors/attr1.xml:2: parser error : AttValue: ' expected
-+ 
-+ ^
-+-./test/errors/attr1.xml:1: parser error : Extra content at the end of the document
-+-<foo foo="oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo
-+- ^
-++./test/errors/attr1.xml:2: parser error : attributes construct error
-++
-++^
-++./test/errors/attr1.xml:2: parser error : Couldn't find end of Start Tag foo line 1
-++
-++^
-+diff --git a/result/errors/attr2.xml.err b/result/errors/attr2.xml.err
-+index c8a9c7d..77e342e 100644
-+--- a/result/errors/attr2.xml.err
-++++ b/result/errors/attr2.xml.err
-+@@ -1,6 +1,9 @@
-+ ./test/errors/attr2.xml:2: parser error : AttValue: ' expected
-+ 
-+ ^
-+-./test/errors/attr2.xml:1: parser error : Extra content at the end of the document
-+-<foo foo=">ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo
-+- ^
-++./test/errors/attr2.xml:2: parser error : attributes construct error
-++
-++^
-++./test/errors/attr2.xml:2: parser error : Couldn't find end of Start Tag foo line 1
-++
-++^
-+diff --git a/result/errors/name2.xml.err b/result/errors/name2.xml.err
-+index a6649a1..8a6acee 100644
-+--- a/result/errors/name2.xml.err
-++++ b/result/errors/name2.xml.err
-+@@ -1,6 +1,9 @@
-+ ./test/errors/name2.xml:2: parser error : Specification mandate value for attribute foooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo!
- ooooooooo
- oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo!
- ooooooooo
- oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo!
- ooooooooo
- oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo!
- ooooooooo
- oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo!
- ooooooooo
- ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo
-+ 
-+ ^
-+-./test/errors/name2.xml:1: parser error : Extra content at the end of the document
-+-<foo foooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo
-+- ^
-++./test/errors/name2.xml:2: parser error : attributes construct error
-++
-++^
-++./test/errors/name2.xml:2: parser error : Couldn't find end of Start Tag foo line 1
-++
-++^
+diff --git a/meta/recipes-core/libxml/libxml2/CVE-2016-9318.patch b/meta/recipes-core/libxml/libxml2/CVE-2016-9318.patch
+deleted file mode 100644
+index 3581ab8..0000000
+--- a/meta/recipes-core/libxml/libxml2/CVE-2016-9318.patch
++++ /dev/null
+@@ -1,207 +0,0 @@
+-From 7fa1cd31552d52d50a9101f07c816ff6dd2d9f19 Mon Sep 17 00:00:00 2001
+-From: Doran Moppert <dmoppert@redhat.com>
+-Date: Fri, 7 Apr 2017 16:45:56 +0200
+-Subject: [PATCH] Add an XML_PARSE_NOXXE flag to block all entities loading
+- even local
+-
+-For https://bugzilla.gnome.org/show_bug.cgi?id=772726
+-
+-* include/libxml/parser.h: Add a new parser flag XML_PARSE_NOXXE
+-* elfgcchack.h, xmlIO.h, xmlIO.c: associated loading routine
+-* include/libxml/xmlerror.h: new error raised
+-* xmllint.c: adds --noxxe flag to activate the option
+-
+-Upstream-Status: Backport
+-CVE: CVE-2016-9318
+-
+-Signed-off-by: Catalin Enache <catalin.enache@windriver.com>
+----
+- elfgcchack.h              | 10 ++++++++++
+- include/libxml/parser.h   |  3 ++-
+- include/libxml/xmlIO.h    |  8 ++++++++
+- include/libxml/xmlerror.h |  1 +
+- parser.c                  |  4 ++++
+- xmlIO.c                   | 40 +++++++++++++++++++++++++++++++++++-----
+- xmllint.c                 |  5 +++++
+- 7 files changed, 65 insertions(+), 6 deletions(-)
+-
+-diff --git a/elfgcchack.h b/elfgcchack.h
+-index 8c52884..1b81dcd 100644
+---- a/elfgcchack.h
+-+++ b/elfgcchack.h
+-@@ -6547,6 +6547,16 @@ extern __typeof (xmlNoNetExternalEntityLoader) xmlNoNetExternalEntityLoader__int
+- #endif
+- #endif
+- 
+-+#ifdef bottom_xmlIO
+-+#undef xmlNoXxeExternalEntityLoader
+-+extern __typeof (xmlNoXxeExternalEntityLoader) xmlNoXxeExternalEntityLoader __attribute((alias("xmlNoXxeExternalEntityLoader__internal_alias")));
+-+#else
+-+#ifndef xmlNoXxeExternalEntityLoader
+-+extern __typeof (xmlNoXxeExternalEntityLoader) xmlNoXxeExternalEntityLoader__internal_alias __attribute((visibility("hidden")));
+-+#define xmlNoXxeExternalEntityLoader xmlNoXxeExternalEntityLoader__internal_alias
+-+#endif
+-+#endif
+-+
+- #ifdef bottom_tree
+- #undef xmlNodeAddContent
+- extern __typeof (xmlNodeAddContent) xmlNodeAddContent __attribute((alias("xmlNodeAddContent__internal_alias")));
+-diff --git a/include/libxml/parser.h b/include/libxml/parser.h
+-index 47fbec0..63ca1b9 100644
+---- a/include/libxml/parser.h
+-+++ b/include/libxml/parser.h
+-@@ -1111,7 +1111,8 @@ typedef enum {
+-     XML_PARSE_HUGE      = 1<<19,/* relax any hardcoded limit from the parser */
+-     XML_PARSE_OLDSAX    = 1<<20,/* parse using SAX2 interface before 2.7.0 */
+-     XML_PARSE_IGNORE_ENC= 1<<21,/* ignore internal document encoding hint */
+--    XML_PARSE_BIG_LINES = 1<<22 /* Store big lines numbers in text PSVI field */
+-+    XML_PARSE_BIG_LINES = 1<<22,/* Store big lines numbers in text PSVI field */
+-+    XML_PARSE_NOXXE	= 1<<23 /* Forbid any external entity loading */
+- } xmlParserOption;
+- 
+- XMLPUBFUN void XMLCALL
+-diff --git a/include/libxml/xmlIO.h b/include/libxml/xmlIO.h
+-index 3e41744..8d3fdef 100644
+---- a/include/libxml/xmlIO.h
+-+++ b/include/libxml/xmlIO.h
+-@@ -300,6 +300,14 @@ XMLPUBFUN xmlParserInputPtr XMLCALL
+- 					 xmlParserCtxtPtr ctxt);
+- 
+- /*
+-+ * A predefined entity loader external entity expansion
+-+ */
+-+XMLPUBFUN xmlParserInputPtr XMLCALL
+-+	xmlNoXxeExternalEntityLoader	(const char *URL,
+-+					 const char *ID,
+-+					 xmlParserCtxtPtr ctxt);
+-+
+-+/*
+-  * xmlNormalizeWindowsPath is obsolete, don't use it.
+-  * Check xmlCanonicPath in uri.h for a better alternative.
+-  */
+-diff --git a/include/libxml/xmlerror.h b/include/libxml/xmlerror.h
+-index 037c16d..3036062 100644
+---- a/include/libxml/xmlerror.h
+-+++ b/include/libxml/xmlerror.h
+-@@ -470,6 +470,7 @@ typedef enum {
+-     XML_IO_EADDRINUSE, /* 1554 */
+-     XML_IO_EALREADY, /* 1555 */
+-     XML_IO_EAFNOSUPPORT, /* 1556 */
+-+    XML_IO_ILLEGAL_XXE, /* 1557 */
+-     XML_XINCLUDE_RECURSION=1600,
+-     XML_XINCLUDE_PARSE_VALUE, /* 1601 */
+-     XML_XINCLUDE_ENTITY_DEF_MISMATCH, /* 1602 */
+-diff --git a/parser.c b/parser.c
+-index 53a6b7f..609a270 100644
+---- a/parser.c
+-+++ b/parser.c
+-@@ -15350,6 +15350,10 @@ xmlCtxtUseOptionsInternal(xmlParserCtxtPtr ctxt, int options, const char *encodi
+- 	ctxt->options |= XML_PARSE_NONET;
+-         options -= XML_PARSE_NONET;
+-     }
+-+    if (options & XML_PARSE_NOXXE) {
+-+	ctxt->options |= XML_PARSE_NOXXE;
+-+        options -= XML_PARSE_NOXXE;
+-+    }
+-     if (options & XML_PARSE_COMPACT) {
+- 	ctxt->options |= XML_PARSE_COMPACT;
+-         options -= XML_PARSE_COMPACT;
+-diff --git a/xmlIO.c b/xmlIO.c
+-index 1a79c09..304f822 100644
+---- a/xmlIO.c
+-+++ b/xmlIO.c
+-@@ -210,6 +210,7 @@ static const char *IOerr[] = {
+-     "adddress in use",		/* EADDRINUSE */
+-     "already in use",		/* EALREADY */
+-     "unknown address familly",	/* EAFNOSUPPORT */
+-+    "Attempt to load external entity %s", /* XML_IO_ILLEGAL_XXE */
+- };
+- 
+- #if defined(_WIN32) || defined (__DJGPP__) && !defined (__CYGWIN__)
+-@@ -4053,13 +4054,22 @@ xmlDefaultExternalEntityLoader(const char *URL, const char *ID,
+-     xmlGenericError(xmlGenericErrorContext,
+-                     "xmlDefaultExternalEntityLoader(%s, xxx)\n", URL);
+- #endif
+--    if ((ctxt != NULL) && (ctxt->options & XML_PARSE_NONET)) {
+-+    if (ctxt != NULL) {
+-         int options = ctxt->options;
+- 
+--	ctxt->options -= XML_PARSE_NONET;
+--        ret = xmlNoNetExternalEntityLoader(URL, ID, ctxt);
+--	ctxt->options = options;
+--	return(ret);
+-+        if (options & XML_PARSE_NOXXE) {
+-+            ctxt->options -= XML_PARSE_NOXXE;
+-+            ret = xmlNoXxeExternalEntityLoader(URL, ID, ctxt);
+-+            ctxt->options = options;
+-+            return(ret);
+-+        }
+-+ 
+-+        if (options & XML_PARSE_NONET) {
+-+            ctxt->options -= XML_PARSE_NONET;
+-+            ret = xmlNoNetExternalEntityLoader(URL, ID, ctxt);
+-+            ctxt->options = options;
+-+            return(ret);
+-+        }
+-     }
+- #ifdef LIBXML_CATALOG_ENABLED
+-     resource = xmlResolveResourceFromCatalog(URL, ID, ctxt);
+-@@ -4160,6 +4170,13 @@ xmlNoNetExternalEntityLoader(const char *URL, const char *ID,
+-     xmlParserInputPtr input = NULL;
+-     xmlChar *resource = NULL;
+- 
+-+    if (ctxt == NULL) {
+-+        return(NULL);
+-+    }
+-+    if (ctxt->input_id == 1) {
+-+        return xmlDefaultExternalEntityLoader((const char *) URL, ID, ctxt);
+-+    }
+-+
+- #ifdef LIBXML_CATALOG_ENABLED
+-     resource = xmlResolveResourceFromCatalog(URL, ID, ctxt);
+- #endif
+-@@ -4182,5 +4199,18 @@ xmlNoNetExternalEntityLoader(const char *URL, const char *ID,
+-     return(input);
+- }
+- 
+-+xmlParserInputPtr
+-+xmlNoXxeExternalEntityLoader(const char *URL, const char *ID,
+-+                          xmlParserCtxtPtr ctxt) {
+-+    if (ctxt == NULL) {
+-+        return(NULL);
+-+    }
+-+    if (ctxt->input_id == 1) {
+-+        return xmlDefaultExternalEntityLoader((const char *) URL, ID, ctxt);
+-+    }
+-+    xmlIOErr(XML_IO_ILLEGAL_XXE, (const char *) URL);
+-+    return(NULL);
+-+}
+-+
+- #define bottom_xmlIO
+- #include "elfgcchack.h"
+-diff --git a/xmllint.c b/xmllint.c
+-index 67f7adb..d9368c1 100644
+---- a/xmllint.c
+-+++ b/xmllint.c
+-@@ -3019,6 +3019,7 @@ static void usage(const char *name) {
+-     printf("\t--path 'paths': provide a set of paths for resources\n");
+-     printf("\t--load-trace : print trace of all external entities loaded\n");
+-     printf("\t--nonet : refuse to fetch DTDs or entities over network\n");
+-+    printf("\t--noxxe : forbid any external entity loading\n");
+-     printf("\t--nocompact : do not generate compact text nodes\n");
+-     printf("\t--htmlout : output results as HTML\n");
+-     printf("\t--nowrap : do not put HTML doc wrapper\n");
+-@@ -3461,6 +3462,10 @@ main(int argc, char **argv) {
+-                    (!strcmp(argv[i], "--nonet"))) {
+- 	    options |= XML_PARSE_NONET;
+- 	    xmlSetExternalEntityLoader(xmlNoNetExternalEntityLoader);
+-+        } else if ((!strcmp(argv[i], "-noxxe")) ||
+-+                   (!strcmp(argv[i], "--noxxe"))) {
+-+	    options |= XML_PARSE_NOXXE;
+-+	    xmlSetExternalEntityLoader(xmlNoXxeExternalEntityLoader);
+-         } else if ((!strcmp(argv[i], "-nocompact")) ||
+-                    (!strcmp(argv[i], "--nocompact"))) {
+- 	    options &= ~XML_PARSE_COMPACT;
+--- 
+-2.10.2
+-
 diff --git a/meta/recipes-core/libxml/libxml2_2.9.4.bb b/meta/recipes-core/libxml/libxml2_2.9.4.bb
-index 4f60781..0577ad6 100644
+index 677d8c9..f67c47d 100644
 --- a/meta/recipes-core/libxml/libxml2_2.9.4.bb
 +++ b/meta/recipes-core/libxml/libxml2_2.9.4.bb
-@@ -23,6 +23,7 @@ SRC_URI = "ftp://xmlsoft.org/libxml2/libxml2-${PV}.tar.gz;name=libtar \
-            file://libxml2-CVE-2016-5131.patch \
-            file://libxml2-CVE-2016-4658.patch \
-            file://libxml2-fix_NULL_pointer_derefs.patch \
-+           file://libxml2-fix_and_simplify_xmlParseStartTag2.patch \
-            file://CVE-2016-9318.patch \
+@@ -28,7 +28,6 @@ SRC_URI = "ftp://xmlsoft.org/libxml2/libxml2-${PV}.tar.gz;name=libtar \
+            file://libxml2-CVE-2017-9049_CVE-2017-9050.patch \
+            file://libxml2-CVE-2017-5969.patch \
+            file://libxml2-CVE-2017-0663.patch \
+-           file://CVE-2016-9318.patch \
             file://0001-Make-ptest-run-the-python-tests-if-python-is-enabled.patch \
             "
+ 
 -- 
 2.1.4
 
