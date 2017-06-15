@@ -1,50 +1,24 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qt0-f175.google.com (mail-qt0-f175.google.com
-	[209.85.216.175])
-	by mail.openembedded.org (Postfix) with ESMTP id F2C4178390
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 83F1A78390
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Jun 2017 11:47:56 +0000 (UTC)
-Received: by mail-qt0-f175.google.com with SMTP id w1so16636315qtg.2
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Jun 2017 04:47:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=6OS8D3SENlf0nxn7/ZmJoSFxwIJaJm72+MxxeD3Rq/0=;
-	b=US99SPDHG9ymiqAND8Nhx6CEkt5XIZltgmjLEL920gW5QfnBAjhQ19LXXoEXkak5hA
-	HdqagPcbWFJvHuusb88kAJwrv9cpnBZloZUuBRzQCJLV/8ApOXFu1i+TOYdfxVyxTLr/
-	+16B7NL+9kS+0gJUoAEtYum6ev30VtMrPwJX/e9fVnTT5aik4xmWbvgNvDGAU2vEyzvr
-	7khykWIvbynKKKiCBHGPxsvCN5SxYavqnT8Qu3gH4kbJFCenG14kHHzTXDvb1dWtDNYK
-	9uZzrgGMjfjxWJLO/7rKXmBrOZwH0xMEh3QLp6OhuVyiGfzVca/zxSYGQM72P3lZfTkQ
-	fRWQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=6OS8D3SENlf0nxn7/ZmJoSFxwIJaJm72+MxxeD3Rq/0=;
-	b=LVoI1C8A45lgaWBK64xiBks7bSVTd+rRKWHqlX+0b6Md0qtAbZ3fFWvjPhhfb3VSQQ
-	YdbaLgcDMQZokdLomZPUNZIwtzS/ZsIolqZkciR0iRfqQQzwDonkQEiZcCzk2RC4V4qe
-	U8eKgHKaPeXVMhy2MCJJ6xEJ1vaxW7/X022awE1CNrLUeLkPRpgz1v4S75OCO6aF1ca+
-	lDxB9nJnye75x67y5+q6HWtmbrpqrm25sUwLWs+SLqEukIekhkPcKxxGBBb7VBTzKhEl
-	G2o2umh4AghD9SQxxAkYEbzRph2HIy6FBMVZYBXR20mKcFFXoL+WLSxD1gaowgIklHQN
-	4rkA==
-X-Gm-Message-State: AKS2vOyL/fxgd98YCGbj1Nvspu8ggHxV9txwdG0AI54i6codzUQoBFwR
-	gRcJTVJSn77XhxAF8De9BccR6SS2qUeQ
-X-Received: by 10.237.49.41 with SMTP id 38mr5954751qtg.161.1497527277902;
-	Thu, 15 Jun 2017 04:47:57 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.35.103 with HTTP; Thu, 15 Jun 2017 04:47:37 -0700 (PDT)
-In-Reply-To: <58ae27c5-8cd0-3787-6e3a-87b708cf28a2@siemens.com>
-References: <1497454006-13902-1-git-send-email-andrej.valek@siemens.com>
-	<1497508479-18852-2-git-send-email-andrej.valek@siemens.com>
-	<CAJTo0Lb41uTXQp7Hbh7xBWd-B088ygi9gdTOAVJgGdMaYKfq0g@mail.gmail.com>
-	<58ae27c5-8cd0-3787-6e3a-87b708cf28a2@siemens.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 15 Jun 2017 12:47:37 +0100
-Message-ID: <CAJTo0LasesWRaRaacOETxM4DDV4hiKjM31XCyhND46LPeHZVuQ@mail.gmail.com>
-To: Andrej Valek <andrej.valek@siemens.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2 1/7] libxml2: Disable LeakSanitizer when running API tests
+	Thu, 15 Jun 2017 12:01:15 +0000 (UTC)
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	15 Jun 2017 05:01:16 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.39,343,1493708400"; d="scan'208";a="274618131"
+Received: from linux.intel.com ([10.54.29.200])
+	by fmsmga004.fm.intel.com with ESMTP; 15 Jun 2017 05:01:16 -0700
+Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
+	by linux.intel.com (Postfix) with ESMTP id 9384E58010F;
+	Thu, 15 Jun 2017 05:01:15 -0700 (PDT)
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 15 Jun 2017 14:59:46 +0300
+Message-Id: <1497527986-20808-1-git-send-email-ed.bartosh@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] image_types.bbclass: get rid of IMAGE_DEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,51 +31,86 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Jun 2017 11:47:57 -0000
-Content-Type: multipart/alternative; boundary="94eb2c0c955c70e97a0551fe3d4f"
+X-List-Received-Date: Thu, 15 Jun 2017 12:01:20 -0000
 
---94eb2c0c955c70e97a0551fe3d4f
-Content-Type: text/plain; charset="UTF-8"
+The IMAGE_DEPENDS variable can be overriden to add dependencies for
+individual image types.  Those dependencies are added to the do_rootfs
+task, while they really should be added to the specific image type tasks.
 
-On 15 June 2017 at 12:42, Andrej Valek <andrej.valek@siemens.com> wrote:
+Also, the IMAGE_DEPENDS variable is not documented anywhere.
 
-> I am modifying already existing patch not creating the new one. Is it
-> necessary to change Upstream-Status to backported?
->
-> If yes, is it possible to fix only this patch, or do I need to push the
-> whole series?
->
+Replaced usage of IMAGE_DEPENDS with explicitly added
+dependencies to do_image_<image type> tasks.
 
-If the patch is backported from upstream then please correct the status to
-be backported, and remove the U-S from the commit message.
+[YOCTO #11302]
 
-Also a later patch in the series uses "Backported" when the status is
-Backport, please verify that all the patches have the right tags as there
-are scripts which read the values.
+Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+---
+ meta/classes/image_types.bbclass | 36 ++++++++++++++----------------------
+ 1 file changed, 14 insertions(+), 22 deletions(-)
 
-Ross
+diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
+index 7749b00..ea55c05 100644
+--- a/meta/classes/image_types.bbclass
++++ b/meta/classes/image_types.bbclass
+@@ -29,12 +29,6 @@ def imagetypes_getdepends(d):
+     deps = set()
+     for typestring in fstypes:
+         basetype, resttypes = split_types(typestring)
+-        adddep(d.getVar('IMAGE_DEPENDS_%s' % basetype) , deps)
+-
+-        for typedepends in (d.getVar("IMAGE_TYPEDEP_%s" % basetype) or "").split():
+-            base, rest = split_types(typedepends)
+-            adddep(d.getVar('IMAGE_DEPENDS_%s' % base) , deps)
+-            resttypes += rest
+ 
+         for ctype in resttypes:
+             adddep(d.getVar("CONVERSION_DEPENDS_%s" % ctype), deps)
+@@ -101,7 +95,7 @@ IMAGE_CMD_squashfs-lzo = "mksquashfs ${IMAGE_ROOTFS} ${IMGDEPLOYDIR}/${IMAGE_NAM
+ # you need special parameters (like --xattrs) which are only supported
+ # by GNU tar upstream >= 1.27, then override that default:
+ # IMAGE_CMD_TAR = "tar --xattrs --xattrs-include=*"
+-# IMAGE_DEPENDS_tar_append = " tar-replacement-native"
++# do_image_tar[depends] += "tar-replacement-native:do_populate_sysroot"
+ # EXTRANATIVEPATH += "tar-native"
+ #
+ # The GNU documentation does not specify whether --xattrs-include is necessary.
+@@ -209,21 +203,19 @@ EXTRA_IMAGECMD_ext4 ?= "-i 4096"
+ EXTRA_IMAGECMD_btrfs ?= "-n 4096"
+ EXTRA_IMAGECMD_elf ?= ""
+ 
+-IMAGE_DEPENDS = ""
+-IMAGE_DEPENDS_jffs2 = "mtd-utils-native"
+-IMAGE_DEPENDS_cramfs = "util-linux-native"
+-IMAGE_DEPENDS_ext2 = "e2fsprogs-native"
+-IMAGE_DEPENDS_ext3 = "e2fsprogs-native"
+-IMAGE_DEPENDS_ext4 = "e2fsprogs-native"
+-IMAGE_DEPENDS_btrfs = "btrfs-tools-native"
+-IMAGE_DEPENDS_squashfs = "squashfs-tools-native"
+-IMAGE_DEPENDS_squashfs-xz = "squashfs-tools-native"
+-IMAGE_DEPENDS_squashfs-lzo = "squashfs-tools-native"
+-IMAGE_DEPENDS_elf = "virtual/kernel mkelfimage-native"
+-IMAGE_DEPENDS_ubi = "mtd-utils-native"
+-IMAGE_DEPENDS_ubifs = "mtd-utils-native"
+-IMAGE_DEPENDS_multiubi = "mtd-utils-native"
+-IMAGE_DEPENDS_wic = "parted-native"
++do_image_jffs2[depends] += "mtd-utils-native:do_populate_sysroot"
++do_image_cramfs[depends] += "util-linux-native:do_populate_sysroot"
++do_image_ext2[depends] += "e2fsprogs-native:do_populate_sysroot"
++do_image_ext3[depends] += "e2fsprogs-native:do_populate_sysroot"
++do_image_ext4[depends] += "e2fsprogs-native:do_populate_sysroot"
++do_image_btrfs[depends] += "btrfs-tools-native:do_populate_sysroot"
++do_image_squashfs[depends] += "squashfs-tools-native:do_populate_sysroot"
++do_image_squashfs-xz[depends] += "squashfs-tools-native:do_populate_sysroot"
++do_image_squashfs-lzo[depends] += "squashfs-tools-native:do_populate_sysroot"
++do_image_elf[depends] += "virtual/kernel-native:do_populate_sysroot mkelfimage-native:do_populate_sysroot"
++do_image_ubi[depends] += "mtd-utils-native:do_populate_sysroot"
++do_image_ubifs[depends] += "mtd-utils-native:do_populate_sysroot"
++do_image_multiubi[depends] += "mtd-utils-native:do_populate_sysroot"
+ 
+ # This variable is available to request which values are suitable for IMAGE_FSTYPES
+ IMAGE_TYPES = " \
+-- 
+2.1.4
 
---94eb2c0c955c70e97a0551fe3d4f
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 15 June 2017 at 12:42, Andrej Valek <span dir=3D"ltr">&lt;<a href=3D"mai=
-lto:andrej.valek@siemens.com" target=3D"_blank">andrej.valek@siemens.com</a=
->&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 =
-0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D"m_37518415=
-44437310062:zl" class=3D"m_3751841544437310062a3s m_3751841544437310062aXjC=
-H m_3751841544437310062m15cab8ffa23a8de2">I am modifying already existing p=
-atch not creating the new one. Is it<br>
-necessary to change Upstream-Status to backported?<br>
-<br>
-If yes, is it possible to fix only this patch, or do I need to push the<br>
-whole series?</div></blockquote></div><br>If the patch is backported from u=
-pstream then please correct the status to be backported, and remove the U-S=
- from the commit message.</div><div class=3D"gmail_extra"><br></div><div cl=
-ass=3D"gmail_extra">Also a later patch in the series uses &quot;Backported&=
-quot; when the status is Backport, please verify that all the patches have =
-the right tags as there are scripts which read the values.</div><div class=
-=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
-
---94eb2c0c955c70e97a0551fe3d4f--
