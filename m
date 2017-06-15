@@ -1,24 +1,27 @@
-Return-Path: <yin.thong.choong@intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 401297836E
+Return-Path: <andrej.valek@siemens.com>
+Received: from goliath.siemens.de (unknown [192.35.17.28])
+	by mail.openembedded.org (Postfix) with ESMTP id 774547199D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Jun 2017 06:16:50 +0000 (UTC)
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	14 Jun 2017 23:16:51 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.39,342,1493708400"; d="scan'208";a="114661297"
-Received: from platypus.jf.intel.com ([10.54.77.139])
-	by fmsmga005.fm.intel.com with ESMTP; 14 Jun 2017 23:16:51 -0700
-From: yin.thong.choong@intel.com
+	Thu, 15 Jun 2017 06:35:52 +0000 (UTC)
+Received: from mail2.siemens.de (mail2.siemens.de [139.25.208.11])
+	by goliath.siemens.de (8.15.2/8.15.2) with ESMTPS id v5F6ZlRC031001
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 15 Jun 2017 08:35:47 +0200
+Received: from dev.sbt.siemens.com ([163.242.56.100])
+	by mail2.siemens.de (8.15.2/8.15.2) with ESMTP id v5F6Zl9b020906;
+	Thu, 15 Jun 2017 08:35:47 +0200
+Received: from dev.sbt.siemens.com (localhost [127.0.0.1])
+	by dev.sbt.siemens.com (Postfix) with ESMTP id 3A607108752;
+	Thu, 15 Jun 2017 08:35:47 +0200 (CEST)
+From: Andrej Valek <andrej.valek@siemens.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 14 Jun 2017 16:05:58 -0700
-Message-Id: <1497481558-144957-2-git-send-email-yin.thong.choong@intel.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1497481558-144957-1-git-send-email-yin.thong.choong@intel.com>
-References: <1497481558-144957-1-git-send-email-yin.thong.choong@intel.com>
-Cc: otc-pg-team@eclists.intel.com, paul.eggleton@intel.com, saul.wold@intel.com
-Subject: [PATCH v2] image_types.bbclass: Added default argument for ubi and ubifs image creation
+Date: Thu, 15 Jun 2017 08:34:32 +0200
+Message-Id: <1497508479-18852-1-git-send-email-andrej.valek@siemens.com>
+X-Mailer: git-send-email 2.1.4
+In-Reply-To: <1497454006-13902-1-git-send-email-andrej.valek@siemens.com>
+References: <1497454006-13902-1-git-send-email-andrej.valek@siemens.com>
+Subject: [PATCH v2 0/7] libxml2: Fix multiple CVEs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,39 +34,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Jun 2017 06:16:51 -0000
+X-List-Received-Date: Thu, 15 Jun 2017 06:35:58 -0000
 
-From: Choong YinThong <yin.thong.choong@intel.com>
+Fix CVE:
+ - CVE-2017-0663
+ - CVE-2017-9047
+ - CVE-2017-9048
+ - CVE-2017-9049
+ - CVE-2017-9050
+ - CVE-2017-5969
+ - Sync necessary changes for CVE fixing from master.
 
-Added default argument for ubi and ubifs image creation.
-MKUBIFS_ARGS and UBINIZE_ARGS both argument still able to
-edit in local.conf
+Andrej Valek (7):
+  libxml2: Disable LeakSanitizer when running API tests
+  libxml2: Avoid reparsing and simplify control flow in
+    xmlParseStartTag2
+  libxml2: Fix CVE-2017-9047 and CVE-2017-9048
+  libxml2: Fix CVE-2017-9049 and CVE-2017-9050
+  libxml2: Fix CVE-2017-5969
+  libxml2: Fix CVE-2017-0663
+  libxml2: Revert "Add an XML_PARSE_NOXXE flag to block all entities
+    loading even local"
 
-[YOCTO #11589]
+ .../libxml/libxml2/CVE-2016-9318.patch             | 207 --------
+ .../libxml/libxml2/libxml2-CVE-2017-0663.patch     |  40 ++
+ .../libxml/libxml2/libxml2-CVE-2017-5969.patch     |  62 +++
+ .../libxml2-CVE-2017-9047_CVE-2017-9048.patch      | 103 ++++
+ .../libxml2-CVE-2017-9049_CVE-2017-9050.patch      | 291 ++++++++++
+ ...ibxml2-fix_and_simplify_xmlParseStartTag2.patch | 590 +++++++++++++++++++++
+ meta/recipes-core/libxml/libxml2/runtest.patch     |  22 +-
+ meta/recipes-core/libxml/libxml2_2.9.4.bb          |   6 +-
+ 8 files changed, 1109 insertions(+), 212 deletions(-)
+ delete mode 100644 meta/recipes-core/libxml/libxml2/CVE-2016-9318.patch
+ create mode 100644 meta/recipes-core/libxml/libxml2/libxml2-CVE-2017-0663.patch
+ create mode 100644 meta/recipes-core/libxml/libxml2/libxml2-CVE-2017-5969.patch
+ create mode 100644 meta/recipes-core/libxml/libxml2/libxml2-CVE-2017-9047_CVE-2017-9048.patch
+ create mode 100644 meta/recipes-core/libxml/libxml2/libxml2-CVE-2017-9049_CVE-2017-9050.patch
+ create mode 100644 meta/recipes-core/libxml/libxml2/libxml2-fix_and_simplify_xmlParseStartTag2.patch
 
-Signed-off-by: Choong YinThong <yin.thong.choong@intel.com>
----
- meta/classes/image_types.bbclass | 9 +++++++++
- 1 file changed, 9 insertions(+)
-
-diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
-index 7749b00..bbde08d 100644
---- a/meta/classes/image_types.bbclass
-+++ b/meta/classes/image_types.bbclass
-@@ -292,3 +292,12 @@ IMAGE_EXTENSION_live = "hddimg iso"
- # The IMAGE_TYPES_MASKED variable will be used to mask out from the IMAGE_FSTYPES,
- # images that will not be built at do_rootfs time: vmdk, vdi, qcow2, hdddirect, hddimg, iso, etc.
- IMAGE_TYPES_MASKED ?= ""
-+
-+# Default argument to create ubi and ubifs image with core-image-sato-sdk (http://www.linux-mtd.infradead.org/faq/ubifs.html)
-+# -m 2048: tells mkfs.ubifs that the minimum input/output unit size of the flash this UBIFS image is created for is 2048 bytes (NAND page in this case);
-+# -e 129024: logical eraseblock size of the UBI volume this image is created for;
-+# -c 8749: specifies maximum file-system size in logical eraseblocks; this means that it will be possible to use the resulting file-system on volumes up to this size (less or equivalent); so in this particular case, the resulting FS may be put on volumes up to about 251MiB (129024 multiplied by 2047); See this section for more details.
-+# -p 128KiB: tells ubinize that physical eraseblock size of the flash chip the UBI image is created for is 128KiB (128 * 1024 bytes);
-+# -s 512: tells ubinize that the flash supports sub-pages and sub-page size is 512 bytes; ubinize will take this into account and put the VID header to the same NAND page as the EC header.
-+MKUBIFS_ARGS ??= " -m 2048 -e 129024 -c 8749 "
-+UBINIZE_ARGS ??= " -p 128KiB -m 2048 -s 512 "
 -- 
-2.7.4
+2.1.4
 
 
