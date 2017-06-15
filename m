@@ -1,27 +1,25 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id B3015606CB
+Return-Path: <gchoc-openembedded-core@m.gmane.org>
+X-Greylist: delayed 907 seconds by postgrey-1.34 at layers.openembedded.org;
+	Thu, 15 Jun 2017 10:25:18 UTC
+Received: from blaine.gmane.org (unknown [195.159.176.226])
+	by mail.openembedded.org (Postfix) with ESMTP id 113457838D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Jun 2017 09:50:30 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	15 Jun 2017 02:50:31 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.39,343,1493708400"; d="scan'208";a="1160783407"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by fmsmga001.fm.intel.com with ESMTP; 15 Jun 2017 02:50:30 -0700
-To: Khem Raj <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org
-References: <cover.1497453168.git.raj.khem@gmail.com>
-	<1fcd2f1adf3506cc8d22cbbc538ffb7e1eebbf8f.1497453168.git.raj.khem@gmail.com>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <225c958a-3bd3-b8b7-8447-53dc8a4d34ec@linux.intel.com>
-Date: Thu, 15 Jun 2017 12:50:38 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.8.0
-MIME-Version: 1.0
-In-Reply-To: <1fcd2f1adf3506cc8d22cbbc538ffb7e1eebbf8f.1497453168.git.raj.khem@gmail.com>
-Subject: Re: [PATCH 05/10] gobject-introspection: Disable generating static lbraries
+	Thu, 15 Jun 2017 10:25:18 +0000 (UTC)
+Received: from list by blaine.gmane.org with local (Exim 4.84_2)
+	(envelope-from <gchoc-openembedded-core@m.gmane.org>)
+	id 1dLRj4-0008T4-Bo for openembedded-core@lists.openembedded.org;
+	Thu, 15 Jun 2017 12:10:06 +0200
+X-Injected-Via-Gmane: http://gmane.org/
+To: openembedded-core@lists.openembedded.org
+From: Anton Eliasson <anton.eliasson@axis.com>
+Date: Thu, 15 Jun 2017 09:50:53 +0000 (UTC)
+Message-ID: <ohtl9t$i6i$1@blaine.gmane.org>
+References: <1497336760-36835-1-git-send-email-amarnath.valluri@intel.com>
+	<1497336760-36835-5-git-send-email-amarnath.valluri@intel.com>
+Mime-Version: 1.0
+X-Complaints-To: usenet@blaine.gmane.org
+User-Agent: Pan/0.139 (Sexual Chocolate; GIT bf56508 git://git.gnome.org/pan2)
+Subject: Re: [PATCH v3 4/8] bash: changes to support merged /usr
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,15 +32,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Jun 2017 09:50:31 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 15 Jun 2017 10:25:19 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On 06/14/2017 06:23 PM, Khem Raj wrote:
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+On Tue, 13 Jun 2017 09:52:36 +0300, Amarnath Valluri wrote:
 
-Why? You need to add an explanation to the commit message.
+> Most of shell scripts refer to '#!/bin/{sh,bash}' inside the script. But
+> when 'usrmege' feature is enabled this path will be /usr/bin/{sh, bash}.
+usrmege -> usrmerge
 
-Alex
+Also in next patch.
+> 
+> so to satisify build dependency add '/bin/{sh,bash}' to its providers
+> list.
+> 
+> Signed-off-by: Amarnath Valluri
+> <amarnath.valluri@intel.com>
+> ---
+
+Best Regards, Anton Eliasson
 
 
