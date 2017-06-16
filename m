@@ -1,23 +1,23 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 85D45784D2
+	by mail.openembedded.org (Postfix) with ESMTP id A04E3784D3
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 16 Jun 2017 12:29:28 +0000 (UTC)
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
 	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	16 Jun 2017 05:29:10 -0700
+	16 Jun 2017 05:29:12 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.39,347,1493708400"; d="scan'208";a="1161279583"
+X-IronPort-AV: E=Sophos;i="5.39,347,1493708400"; d="scan'208";a="1161279589"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by fmsmga001.fm.intel.com with ESMTP; 16 Jun 2017 05:29:09 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 16 Jun 2017 05:29:11 -0700
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 16 Jun 2017 15:28:44 +0300
-Message-Id: <ee4472c02baf0402a080d3cb3dbc0f16b130a0fc.1497615866.git.alexander.kanavin@linux.intel.com>
+Date: Fri, 16 Jun 2017 15:28:46 +0300
+Message-Id: <e4df2bb22b82730ec9d91e752f5853ae3bb951b9.1497615866.git.alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <cover.1497615866.git.alexander.kanavin@linux.intel.com>
 References: <cover.1497615866.git.alexander.kanavin@linux.intel.com>
-Subject: [PATCH 21/32] epiphany: update to 3.24.2
+Subject: [PATCH 23/32] webkitgtk: Upgrade to 2.16.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,45 +32,72 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 16 Jun 2017 12:29:29 -0000
 
-epiphany has been relicensed to GPLv3+:
-https://git.gnome.org/browse/epiphany/commit/?id=e54cb1c7e97ddca58977a8ee01a138ff57ba6f2c
+From: Khem Raj <raj.khem@gmail.com>
 
+Use bfd linker on ppc, this is because gold fails to link
+webkit libraries when PIE is enabled
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- .../epiphany/{epiphany_3.22.6.bb => epiphany_3.24.2.bb}        | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
- rename meta/recipes-gnome/epiphany/{epiphany_3.22.6.bb => epiphany_3.24.2.bb} (67%)
+ meta/recipes-sato/webkit/webkitgtk/ppc-musl-fix.patch        | 12 ++++++------
+ .../webkit/{webkitgtk_2.16.1.bb => webkitgtk_2.16.3.bb}      |  5 +++--
+ 2 files changed, 9 insertions(+), 8 deletions(-)
+ rename meta/recipes-sato/webkit/{webkitgtk_2.16.1.bb => webkitgtk_2.16.3.bb} (96%)
 
-diff --git a/meta/recipes-gnome/epiphany/epiphany_3.22.6.bb b/meta/recipes-gnome/epiphany/epiphany_3.24.2.bb
-similarity index 67%
-rename from meta/recipes-gnome/epiphany/epiphany_3.22.6.bb
-rename to meta/recipes-gnome/epiphany/epiphany_3.24.2.bb
-index 651fef1bf08..75deca800e2 100644
---- a/meta/recipes-gnome/epiphany/epiphany_3.22.6.bb
-+++ b/meta/recipes-gnome/epiphany/epiphany_3.24.2.bb
-@@ -1,17 +1,17 @@
- SUMMARY = "WebKit based web browser for GNOME"
--LICENSE = "GPLv2+"
--LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
-+LICENSE = "GPLv3+"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
+diff --git a/meta/recipes-sato/webkit/webkitgtk/ppc-musl-fix.patch b/meta/recipes-sato/webkit/webkitgtk/ppc-musl-fix.patch
+index 5f58e4953e7..a1ad248aac0 100644
+--- a/meta/recipes-sato/webkit/webkitgtk/ppc-musl-fix.patch
++++ b/meta/recipes-sato/webkit/webkitgtk/ppc-musl-fix.patch
+@@ -11,16 +11,16 @@ Upstream-Status: Pending
  
- DEPENDS = "libsoup-2.4 webkitgtk gtk+3 iso-codes avahi libnotify gcr \
- 	   gsettings-desktop-schemas gnome-desktop3 libxml2-native \
--	   intltool-native glib-2.0 glib-2.0-native"
-+	   intltool-native glib-2.0 glib-2.0-native json-glib"
+ Signed-off-by: Khem Raj <raj.khem@gmail.com>
  
- inherit gnomebase gsettings distro_features_check upstream-version-is-even gettext
- REQUIRED_DISTRO_FEATURES = "x11"
+-Index: webkitgtk-2.12.3/Source/JavaScriptCore/heap/MachineStackMarker.cpp
++Index: webkitgtk-2.16.3/Source/JavaScriptCore/heap/MachineStackMarker.cpp
+ ===================================================================
+---- webkitgtk-2.12.3.orig/Source/JavaScriptCore/heap/MachineStackMarker.cpp
+-+++ webkitgtk-2.12.3/Source/JavaScriptCore/heap/MachineStackMarker.cpp
+-@@ -86,7 +86,7 @@ static void pthreadSignalHandlerSuspendR
++--- webkitgtk-2.16.3.orig/Source/JavaScriptCore/heap/MachineStackMarker.cpp
+++++ webkitgtk-2.16.3/Source/JavaScriptCore/heap/MachineStackMarker.cpp
++@@ -88,7 +88,7 @@ static void pthreadSignalHandlerSuspendR
+      }
+  
+      ucontext_t* userContext = static_cast<ucontext_t*>(ucontext);
+ -#if CPU(PPC)
+ +#if CPU(PPC) && defined(__GLIBC__)
+-     thread->suspendedMachineContext = *userContext->uc_mcontext.uc_regs;
++     threadData->suspendedMachineContext = *userContext->uc_mcontext.uc_regs;
+  #else
+-     thread->suspendedMachineContext = userContext->uc_mcontext;
++     threadData->suspendedMachineContext = userContext->uc_mcontext;
+diff --git a/meta/recipes-sato/webkit/webkitgtk_2.16.1.bb b/meta/recipes-sato/webkit/webkitgtk_2.16.3.bb
+similarity index 96%
+rename from meta/recipes-sato/webkit/webkitgtk_2.16.1.bb
+rename to meta/recipes-sato/webkit/webkitgtk_2.16.3.bb
+index a52d93cfbe4..5feca17be3f 100644
+--- a/meta/recipes-sato/webkit/webkitgtk_2.16.1.bb
++++ b/meta/recipes-sato/webkit/webkitgtk_2.16.3.bb
+@@ -22,8 +22,8 @@ SRC_URI = "http://www.webkitgtk.org/releases/${BPN}-${PV}.tar.xz \
+            file://gcc7.patch \
+            file://detect-atomics-during-configure.patch \
+            "
+-SRC_URI[md5sum] = "d3bcf995a667fd9febb9ab991acf0ca7"
+-SRC_URI[sha256sum] = "eb92383232328ce655b703c64370ed3795662479719ad1b4a869ed46769d2945"
++SRC_URI[md5sum] = "34dbbcad8a87a929519d93c67edd6d87"
++SRC_URI[sha256sum] = "204e9131da0101b9bc8765716e70a897121af04b964d9827cd9f20816a77b512"
  
- SRC_URI += "file://0001-yelp.m4-drop-the-check-for-itstool.patch"
--SRC_URI[archive.md5sum] = "e08762c6bb01c4d291b3d22c7adb1a65"
--SRC_URI[archive.sha256sum] = "de7ea87dc450702bde620033f9e2ce807859727d007396d86b09f2b82397fcc2"
-+SRC_URI[archive.md5sum] = "e035dc6f64f0c1909de823e03f16b2f3"
-+SRC_URI[archive.sha256sum] = "5abc0d0c60591df5236ac9b8979dc9f7d9acbb8ad0902b4772d2b7beea81c58d"
+ inherit cmake pkgconfig gobject-introspection perlnative distro_features_check upstream-version-is-even gtk-doc
  
- EXTRA_OECONF += " --with-distributor-name=${DISTRO}"
+@@ -76,6 +76,7 @@ EXTRA_OECMAKE_append_armv4 = " -DENABLE_JIT=OFF "
+ # https://sourceware.org/bugzilla/show_bug.cgi?id=18430
+ EXTRA_OECMAKE_append_aarch64 = " -DUSE_LD_GOLD=OFF "
+ EXTRA_OECMAKE_append_mipsarch = " -DUSE_LD_GOLD=OFF "
++EXTRA_OECMAKE_append_powerpc = " -DUSE_LD_GOLD=OFF "
+ EXTRA_OECMAKE_append_toolchain-clang = " -DUSE_LD_GOLD=OFF "
  
+ EXTRA_OECMAKE_append_aarch64 = " -DWTF_CPU_ARM64_CORTEXA53=ON"
 -- 
 2.11.0
 
