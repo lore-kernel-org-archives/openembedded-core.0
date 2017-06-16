@@ -1,23 +1,23 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id A6A8E784D6
+	by mail.openembedded.org (Postfix) with ESMTP id BC10B784D7
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 16 Jun 2017 12:29:28 +0000 (UTC)
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
 	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
 	16 Jun 2017 05:29:13 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.39,347,1493708400"; d="scan'208";a="1161279592"
+X-IronPort-AV: E=Sophos;i="5.39,347,1493708400"; d="scan'208";a="1161279595"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by fmsmga001.fm.intel.com with ESMTP; 16 Jun 2017 05:29:12 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 16 Jun 2017 05:29:13 -0700
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 16 Jun 2017 15:28:47 +0300
-Message-Id: <c406a5def5d15e1d8bcfc549354c7784786e2d93.1497615866.git.alexander.kanavin@linux.intel.com>
+Date: Fri, 16 Jun 2017 15:28:48 +0300
+Message-Id: <4c18906737c964851be21becb0b199a027541e2c.1497615866.git.alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <cover.1497615866.git.alexander.kanavin@linux.intel.com>
 References: <cover.1497615866.git.alexander.kanavin@linux.intel.com>
-Subject: [PATCH 24/32] python3-pygobject: update to 3.24.1
+Subject: [PATCH 25/32] vala: upgrade to 0.36.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,30 +32,29 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 16 Jun 2017 12:29:29 -0000
 
+From: Upgrade Helper <auh@auh.yoctoproject.org>
+
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- .../{python3-pygobject_3.22.0.bb => python3-pygobject_3.24.1.bb}      | 4 ++--
+ meta/recipes-devtools/vala/{vala_0.36.2.bb => vala_0.36.3.bb} | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/python/{python3-pygobject_3.22.0.bb => python3-pygobject_3.24.1.bb} (87%)
+ rename meta/recipes-devtools/vala/{vala_0.36.2.bb => vala_0.36.3.bb} (56%)
 
-diff --git a/meta/recipes-devtools/python/python3-pygobject_3.22.0.bb b/meta/recipes-devtools/python/python3-pygobject_3.24.1.bb
-similarity index 87%
-rename from meta/recipes-devtools/python/python3-pygobject_3.22.0.bb
-rename to meta/recipes-devtools/python/python3-pygobject_3.24.1.bb
-index 143048d9ef2..5795ae31da1 100644
---- a/meta/recipes-devtools/python/python3-pygobject_3.22.0.bb
-+++ b/meta/recipes-devtools/python/python3-pygobject_3.24.1.bb
-@@ -13,8 +13,8 @@ SRC_URI = " \
-     file://0001-configure.ac-add-sysroot-path-to-GI_DATADIR-don-t-se.patch \
+diff --git a/meta/recipes-devtools/vala/vala_0.36.2.bb b/meta/recipes-devtools/vala/vala_0.36.3.bb
+similarity index 56%
+rename from meta/recipes-devtools/vala/vala_0.36.2.bb
+rename to meta/recipes-devtools/vala/vala_0.36.3.bb
+index 9cea5b6a795..e5707c88434 100644
+--- a/meta/recipes-devtools/vala/vala_0.36.2.bb
++++ b/meta/recipes-devtools/vala/vala_0.36.3.bb
+@@ -4,5 +4,5 @@ SRC_URI += " file://0001-git-version-gen-don-t-append-dirty-if-we-re-not-in-g.pa
+              file://0001-vapigen.m4-use-PKG_CONFIG_SYSROOT_DIR.patch \
  "
  
--SRC_URI[md5sum] = "ed4117ed5d554d25fd7718807fbf819f"
--SRC_URI[sha256sum] = "08b29cfb08efc80f7a8630a2734dec65a99c1b59f1e5771c671d2e4ed8a5cbe7"
-+SRC_URI[md5sum] = "69a843311d0f0385dff376e11a2d83d2"
-+SRC_URI[sha256sum] = "a628a95aa0909e13fb08230b1b98fc48adef10b220932f76d62f6821b3fdbffd"
- 
- S = "${WORKDIR}/${SRCNAME}-${PV}"
- 
+-SRC_URI[md5sum] = "481774eb4f0f5aa6987e5ea30a0aea31"
+-SRC_URI[sha256sum] = "863dbfb399d59289dfc34379c0cd34d94e505a49787497550588810310cdf689"
++SRC_URI[md5sum] = "ff093f46e1d2e0b179543ec43cf27d76"
++SRC_URI[sha256sum] = "ac8a4ecd01f62d0c5f62ba50b7290d8c5a1edb308eec772a65b8e79be68f061c"
 -- 
 2.11.0
 
