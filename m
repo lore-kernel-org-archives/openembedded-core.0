@@ -1,18 +1,18 @@
 Return-Path: <patchwork@patchwork.openembedded.org>
 Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 6465E78263;
-	Fri, 16 Jun 2017 09:01:35 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id 64AA578263;
+	Fri, 16 Jun 2017 09:01:36 +0000 (UTC)
 MIME-Version: 1.0
 From: Patchwork <patchwork@patchwork.openembedded.org>
 To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Date: Fri, 16 Jun 2017 09:01:37 -0000
-Message-ID: <20170616090137.1043.45733@do.openembedded.org>
-References: <1497602550-1491-1-git-send-email-richard.purdie@linuxfoundation.org>
+Date: Fri, 16 Jun 2017 09:01:38 -0000
+Message-ID: <20170616090138.1044.62287@do.openembedded.org>
+References: <1497602780-1744-1-git-send-email-richard.purdie@linuxfoundation.org>
 Reply-To: openembedded-core@lists.openembedded.org
 X-Patchwork-Hint: ignore
-In-Reply-To: <1497602550-1491-1-git-send-email-richard.purdie@linuxfoundation.org>
+In-Reply-To: <1497602780-1744-1-git-send-email-richard.purdie@linuxfoundation.org>
 Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgIm1ldGE6IFJlbW92ZSBmdXJ0aGVyIHVjbGliYyByZS4uLiIgYW5kIDMgbW9yZQ==?=
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgcGFja2FnZV9pcGs6IENsZWFuIHVwIFNvdXJjZSBlbnRyeSBpbiBpcGsgcGFja2FnZXM=?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,15 +25,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Jun 2017 09:01:35 -0000
+X-List-Received-Date: Fri, 16 Jun 2017 09:01:36 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
 == Series Details ==
 
-Series: "meta: Remove further uclibc re..." and 3 more
+Series: package_ipk: Clean up Source entry in ipk packages
 Revision: 1
-URL   : https://patchwork.openembedded.org/series/7285/
+URL   : https://patchwork.openembedded.org/series/7286/
 State : failure
 
 == Summary ==
