@@ -1,47 +1,47 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-qt0-f179.google.com (mail-qt0-f179.google.com
-	[209.85.216.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 1B3137851B
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm0-f43.google.com (mail-wm0-f43.google.com [74.125.82.43])
+	by mail.openembedded.org (Postfix) with ESMTP id C9EF078451
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Jun 2017 19:02:00 +0000 (UTC)
-Received: by mail-qt0-f179.google.com with SMTP id u19so75432064qta.3
+	Fri, 16 Jun 2017 19:20:50 +0000 (UTC)
+Received: by mail-wm0-f43.google.com with SMTP id x70so33770270wme.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Jun 2017 12:02:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=jNPcH/PhXKzTxpE3dUDy7ZIQaQ7bsVwBOYMHJ0Mvv6E=;
-	b=NLhxZGIV++gUS9MIyqjEs58/5Nx3xP4XiROB17wTuxmzezgp8wQjwykSoiALNL+ZRP
-	GoJ/ABJGbWD6TzMrEpc4tRpVWADuEVQeu4829I1e2D+UQAPY2SZQnHoyGDhw03Pczfgt
-	ApiVi/hU4PzuZAvr757kdneIcVkFrvM16N1u5ZFuF6Y26wkkRgysqjZ/qyJTGRWDzu9s
-	d5WKxoKiYM0s8pr9EAmRAdhYZMWJkt70gCJe67yBMsHHqjL+vw2lbM13t8gK09ErCtQc
-	93EsXqO0X8rvPljDQ1E/UVlgHJp8eUaowhqmDnDd0T8S4SnEv23tDOoEfER+QzAoQt6p
-	OUuQ==
+	Fri, 16 Jun 2017 12:20:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=gk8u80Backc+CtYqiGx5o8/zsIDDNnCSXOZKA+QuAKM=;
+	b=yhAtZAIOdTUe+M+Bpa98USrLnF2Jt6puS1ewvgVUSyEIWM5L/1pBUoz2LrYK/5bq93
+	oZgexQqV4qULSQFAwndw2WMkx2EbrJslnfiuSadekpIMVbv38A9sCEk9N3Z7zqPnUVnX
+	9KvES62QOQg7E3x0mZz00CfDAUVLXJokt2BCGyB00M3gxCNpm1wt1hZWc0seKVUYJ9Fm
+	+H9jnF19JwYUCLPQ7amxlbw6IHRsNg6/KdKuX5hQZOQeNmfH5b5ztWh20OnF5TcP+rxA
+	OLBCIAhlvcP3mLRVSYwMptTwdn88Tlj4/58BMoR6CPb6ufa6z7XbUCv54EjTVoNKNJuU
+	mDDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=jNPcH/PhXKzTxpE3dUDy7ZIQaQ7bsVwBOYMHJ0Mvv6E=;
-	b=gO2Hfv5Gi1IdFjUb9fr4cbjoClXtVaMlkItkxxPiZo3q/NoMznYXyH6DxYjG0GZ5g3
-	GVt93RyjrKU7cRL5C4tBaLgRlh80nMgBuCM/kdVpEMy+jnXt5WzFiQGnUTpyQ+tygd0/
-	Jp9KXVgJvdGuKwCFnKloNhRUDoWlk4LF2uo2BbNSymIdzY3Xpp+xKgM2WFAPCjIBTiFg
-	ozl0HcCkyQ0JQ9OdBEweUNe/rZjQ83RLkPJ2eQyvHyWA9ayW1ChrXvkuiNiMgcfbZGZA
-	RddRQ8Ra+9wvfeDAm3UroAyFrkS6a8tipWnOYHzpsslHx1lEY5hx0JgBxCsT6v5QCDI+
-	c9QQ==
-X-Gm-Message-State: AKS2vOyNBpmM2YwSEASQ+NjUrdmmK65kY8LwvjzED9U+bSBJrN05ukgJ
-	UQMvw+v1i1QVOaqPag765tZ8ztFi4g==
-X-Received: by 10.200.39.214 with SMTP id x22mr14684514qtx.80.1497639721663;
-	Fri, 16 Jun 2017 12:02:01 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.12.209.28 with HTTP; Fri, 16 Jun 2017 12:02:01 -0700 (PDT)
-In-Reply-To: <CA+chaQeJVOrExYkyWCsyx+mtARAuvhge6a_ds=n_pXXuYofaXw@mail.gmail.com>
-References: <CA+chaQeJVOrExYkyWCsyx+mtARAuvhge6a_ds=n_pXXuYofaXw@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Fri, 16 Jun 2017 15:02:01 -0400
-Message-ID: <CADkTA4O4Py_Xteuero=gd+8=hh_+4U_LGoCT1VDm8fRQcYpDeA@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: New warning from linux-yocto
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=gk8u80Backc+CtYqiGx5o8/zsIDDNnCSXOZKA+QuAKM=;
+	b=uVT8jpKvqaJHNf8kT9MPPGf3JdyNCb1YGe7mi0VJ0cK0TQSa+eKkhTRnZiAbgOjXLU
+	FaqEfCAM+x0Thaawe2Yq68zMtQM6jKPXQKzwmWCUMW8t9xlNL1fBe3Dczn6kFhH0irHT
+	oENmFO1J39wAZmg1FXZ+5XgTqqN5eKkh1+J3If7kxOXvE7+HPpP+elhopJXYzXr/zRiE
+	QZyL1sw+A+JJPtOvXEb4n5gtn0d5RXZWp3nD3suP7h/9XBQFgEbCF8b/gmGAixerkIVz
+	cx14reTaOYBC1iUhTQsMitIzcYRNWqlL3+5baiG7X8aC7JL23k+0gRSjIWr7Trci2wC6
+	S1Kg==
+X-Gm-Message-State: AKS2vOwxV0TqWtUGa3DAYoEeu65qwehIbAVP5Kz7S32R/PYVnn+gWaGl
+	10xbcRq+e7V3sCC+UYM=
+X-Received: by 10.28.91.209 with SMTP id p200mr8201013wmb.67.1497640851167;
+	Fri, 16 Jun 2017 12:20:51 -0700 (PDT)
+Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id
+	v96sm3055147wrc.53.2017.06.16.12.20.50
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 16 Jun 2017 12:20:50 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 16 Jun 2017 20:20:47 +0100
+Message-Id: <1497640847-9108-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.8.1
+Subject: [PATCH] epiphany: remove unused intltool build-dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,86 +54,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Jun 2017 19:02:01 -0000
-Content-Type: multipart/alternative; boundary="001a11402b5c9c828a0552186b2d"
+X-List-Received-Date: Fri, 16 Jun 2017 19:20:51 -0000
 
---001a11402b5c9c828a0552186b2d
-Content-Type: text/plain; charset="UTF-8"
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-gnome/epiphany/epiphany_3.24.2.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Yep, this was reported on the list (and IRC) and apparently someone was
-looking
-into it.
-
-I still haven't seen a patch, so I'll have a look at it myself soon.
-
-Bruce
-
-On Fri, Jun 16, 2017 at 2:39 PM, Martin Jansa <martin.jansa@gmail.com>
-wrote:
-
-> New linux-yocto version.. new warning..
->
-> WARNING: linux-yocto-4.10.17+gitAUTOINC+4b89f331d4_6648a34e00-r0 do_kernel_configcheck: [kernel config]: specified values did not make it into the kernel's final configuration:
->
-> ---------- CONFIG_X86_BIGSMP -----------------
-> Config: CONFIG_X86_BIGSMP
-> From: /home/jenkins/oe/world/shr-core/tmp-glibc/work-shared/qemux86-64/kernel-source/.kernel-meta/configs/standard/cfg/smp.cfg
-> Requested value:  CONFIG_X86_BIGSMP=y
-> Actual value:
->
->
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
->
-
-
+diff --git a/meta/recipes-gnome/epiphany/epiphany_3.24.2.bb b/meta/recipes-gnome/epiphany/epiphany_3.24.2.bb
+index b51f54f..77c1933 100644
+--- a/meta/recipes-gnome/epiphany/epiphany_3.24.2.bb
++++ b/meta/recipes-gnome/epiphany/epiphany_3.24.2.bb
+@@ -4,7 +4,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
+ 
+ DEPENDS = "libsoup-2.4 webkitgtk gtk+3 iso-codes avahi libnotify gcr \
+ 	   gsettings-desktop-schemas gnome-desktop3 libxml2-native \
+-	   intltool-native glib-2.0 glib-2.0-native json-glib"
++	   glib-2.0 glib-2.0-native json-glib"
+ 
+ inherit gnomebase gsettings distro_features_check upstream-version-is-even gettext
+ REQUIRED_DISTRO_FEATURES = "x11"
 -- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await thee
-at its end"
+2.8.1
 
---001a11402b5c9c828a0552186b2d
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">Yep, this was reported on the list (and IRC) and apparentl=
-y someone was looking<div>into it.</div><div><br></div><div>I still haven&#=
-39;t seen a patch, so I&#39;ll have a look at it myself soon.</div><div><br=
-></div><div>Bruce<br><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
-te">On Fri, Jun 16, 2017 at 2:39 PM, Martin Jansa <span dir=3D"ltr">&lt;<a =
-href=3D"mailto:martin.jansa@gmail.com" target=3D"_blank">martin.jansa@gmail=
-.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"ma=
-rgin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div dir=3D"lt=
-r">New linux-yocto version.. new warning..<div><br></div><div><pre style=3D=
-"box-sizing:border-box;white-space:pre-wrap;word-wrap:break-word;margin-top=
-:0px;margin-bottom:0px;color:rgb(51,51,51);font-size:14px">WARNING: linux-y=
-octo-4.10.17+<wbr>gitAUTOINC+4b89f331d4_<wbr>6648a34e00-r0 do_kernel_config=
-check: [kernel config]: specified values did not make it into the kernel&#3=
-9;s final configuration:
-
----------- CONFIG_X86_BIGSMP -----------------
-Config: CONFIG_X86_BIGSMP
-From: /home/jenkins/oe/world/shr-<wbr>core/tmp-glibc/work-shared/<wbr>qemux=
-86-64/kernel-source/.<wbr>kernel-meta/configs/standard/<wbr>cfg/smp.cfg
-Requested value:  CONFIG_X86_BIGSMP=3Dy
-Actual value:    =20
-</pre></div><div><br></div></div>
-<br>--<br>
-______________________________<wbr>_________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
-re@lists.<wbr>openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
-ailman/listinfo/openembedded-<wbr>core</a><br>
-<br></blockquote></div><br><br clear=3D"all"><div><br></div>-- <br><div cla=
-ss=3D"gmail_signature" data-smartmail=3D"gmail_signature">&quot;Thou shalt =
-not follow the NULL pointer, for chaos and madness await thee at its end&qu=
-ot;</div>
-</div></div></div>
-
---001a11402b5c9c828a0552186b2d--
