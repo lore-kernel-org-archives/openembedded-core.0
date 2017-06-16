@@ -1,18 +1,29 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 102077825A;
-	Fri, 16 Jun 2017 22:01:35 +0000 (UTC)
-MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Nathan Lynch <nathan_lynch@mentor.com>
-Date: Fri, 16 Jun 2017 22:01:36 -0000
-Message-ID: <20170616220136.1044.49322@do.openembedded.org>
-References: <20170616213952.35679-1-nathan_lynch@mentor.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <20170616213952.35679-1-nathan_lynch@mentor.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgTFRUbmcgdXBkYXRlcw==?=
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 06C5A78243
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 16 Jun 2017 22:11:05 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	v5GMB5qU031028
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
+	verify=NOT); Fri, 16 Jun 2017 23:11:06 +0100
+Message-ID: <1497651065.24449.25.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Alejandro del Castillo <alejandro.delcastillo@ni.com>,
+	openembedded-core@lists.openembedded.org
+Date: Fri, 16 Jun 2017 23:11:05 +0100
+In-Reply-To: <3a189ae0-064c-299c-84ad-55f9c1ce1331@ni.com>
+References: <1497602780-1744-1-git-send-email-richard.purdie@linuxfoundation.org>
+	<3a189ae0-064c-299c-84ad-55f9c1ce1331@ni.com>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
+Mime-Version: 1.0
+X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.11
+	(dan.rpsys.net [192.168.3.1]);
+	Fri, 16 Jun 2017 23:11:06 +0100 (BST)
+X-Virus-Scanned: clamav-milter 0.99.2 at dan
+X-Virus-Status: Clean
+Subject: Re: [PATCH] package_ipk: Clean up Source entry in ipk packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,41 +36,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Jun 2017 22:01:35 -0000
-Content-Type: text/plain; charset="utf-8"
+X-List-Received-Date: Fri, 16 Jun 2017 22:11:11 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-== Series Details ==
+On Fri, 2017-06-16 at 13:43 -0500, Alejandro del Castillo wrote:
+> 
+> On 06/16/2017 03:46 AM, Richard Purdie wrote:
+> > 
+> > There is the potential for sensitive information to leak through
+> > the urls
+> > there and removing it brings this into the behavior of the other
+> > package
+> > backends since filtering it is likely error prone.
+> > 
+> > Since ipks don't appear to be generated at all if we don't set
+> > this, set
+> > the field to the recipe name used (basename only, no paths). This
+> > avoids
+> > information leaking. We may want to drop the field if opkg can
+> > allow that
+> > at a future point but the recipe name is a suitable identifier for
+> > now.
+> Looking at opkg-build, opkg requires:
+> 
+> 	Package, Version, Architecture, Maintainer, Section, Priority,
+> Source
+> 
+> while deb requires:
+> 
+> 	Package, Version, Maintainer, Description
+> 
+> It does makes sense to require Architecture, but doesn't make sense
+> to me to make Section, Priority and Source mandatory. Opkg does
+> process packages that lack those fields.
+> 
+> This should be a trivial change to opkg-build, which I can submit
+> into opkg-utils. Including that patch in the opkg-utils recipe may
+> simplify things here.
 
-Series: LTTng updates
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/7334/
-State : failure
+I agree, I think that may be a worthwhile change. I was a little
+surprised it didn't do that already and appears to silently fail if
+Source: isn't set (or we fail to check the exit code).
 
-== Summary ==
+I also have found out some people are using this Source: data to find
+recipe information so we likely do need some way to map it back to the
+recipe, I'm hoping the filename is good enough for that purpose...
 
+Cheers,
 
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Patch            [3/3] lttng-modules: update to 2.9.3
- Issue             Patch is missing Signed-off-by [test_signed_off_by_presence] 
-  Suggested fix    Sign off the patch (either manually or with "git commit --amend -s")
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
----
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
-
+Richard
 
