@@ -1,23 +1,23 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 75F3C7845A
+	by mail.openembedded.org (Postfix) with ESMTP id 85D45784D2
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 16 Jun 2017 12:29:28 +0000 (UTC)
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
 	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	16 Jun 2017 05:29:11 -0700
+	16 Jun 2017 05:29:10 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.39,347,1493708400"; d="scan'208";a="1161279586"
+X-IronPort-AV: E=Sophos;i="5.39,347,1493708400"; d="scan'208";a="1161279583"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by fmsmga001.fm.intel.com with ESMTP; 16 Jun 2017 05:29:10 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 16 Jun 2017 05:29:09 -0700
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 16 Jun 2017 15:28:45 +0300
-Message-Id: <1dcf74a2c67d4e30a0bd03b15b462b0e6937c71a.1497615866.git.alexander.kanavin@linux.intel.com>
+Date: Fri, 16 Jun 2017 15:28:44 +0300
+Message-Id: <ee4472c02baf0402a080d3cb3dbc0f16b130a0fc.1497615866.git.alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <cover.1497615866.git.alexander.kanavin@linux.intel.com>
 References: <cover.1497615866.git.alexander.kanavin@linux.intel.com>
-Subject: [PATCH 22/32] gobject-introspection: update to 1.52.1
+Subject: [PATCH 21/32] epiphany: update to 3.24.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,38 +32,45 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 16 Jun 2017 12:29:29 -0000
 
+epiphany has been relicensed to GPLv3+:
+https://git.gnome.org/browse/epiphany/commit/?id=e54cb1c7e97ddca58977a8ee01a138ff57ba6f2c
+
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- ...ject-introspection_1.50.0.bb => gobject-introspection_1.52.1.bb} | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-gnome/gobject-introspection/{gobject-introspection_1.50.0.bb => gobject-introspection_1.52.1.bb} (97%)
+ .../epiphany/{epiphany_3.22.6.bb => epiphany_3.24.2.bb}        | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
+ rename meta/recipes-gnome/epiphany/{epiphany_3.22.6.bb => epiphany_3.24.2.bb} (67%)
 
-diff --git a/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.50.0.bb b/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.52.1.bb
-similarity index 97%
-rename from meta/recipes-gnome/gobject-introspection/gobject-introspection_1.50.0.bb
-rename to meta/recipes-gnome/gobject-introspection/gobject-introspection_1.52.1.bb
-index 509fc5fa592..5df981a0e0a 100644
---- a/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.50.0.bb
-+++ b/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.52.1.bb
-@@ -8,15 +8,15 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=90d577535a3898e1ae5dbf0ae3509a8c \
-                     file://giscanner/sourcescanner.c;endline=22;md5=194d6e0c1d00662f32d030ce44de8d39 \
-                     file://girepository/giregisteredtypeinfo.c;endline=21;md5=661847611ae6979465415f31a759ba27"
+diff --git a/meta/recipes-gnome/epiphany/epiphany_3.22.6.bb b/meta/recipes-gnome/epiphany/epiphany_3.24.2.bb
+similarity index 67%
+rename from meta/recipes-gnome/epiphany/epiphany_3.22.6.bb
+rename to meta/recipes-gnome/epiphany/epiphany_3.24.2.bb
+index 651fef1bf08..75deca800e2 100644
+--- a/meta/recipes-gnome/epiphany/epiphany_3.22.6.bb
++++ b/meta/recipes-gnome/epiphany/epiphany_3.24.2.bb
+@@ -1,17 +1,17 @@
+ SUMMARY = "WebKit based web browser for GNOME"
+-LICENSE = "GPLv2+"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
++LICENSE = "GPLv3+"
++LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
  
--SRC_URI = "${GNOME_MIRROR}/${BPN}/1.50/${BPN}-${PV}.tar.xz \
-+SRC_URI = "${GNOME_MIRROR}/${BPN}/1.52/${BPN}-${PV}.tar.xz \
-            file://0001-Revert-an-incomplete-upstream-attempt-at-cross-compi.patch \
-            file://0002-configure.ac-add-host-gi-gi-cross-wrapper-gi-ldd-wra.patch \
-            file://0003-giscanner-add-use-binary-wrapper-option.patch \
-            file://0004-giscanner-add-a-use-ldd-wrapper-option.patch \
-            file://0005-Prefix-pkg-config-paths-with-PKG_CONFIG_SYSROOT_DIR-.patch \
-            "
--SRC_URI[md5sum] = "5af8d724f25d0c9cfbe6df41b77e5dc0"
--SRC_URI[sha256sum] = "1c6597c666f543c70ef3d7c893ab052968afae620efdc080c36657f4226337c5"
-+SRC_URI[md5sum] = "34157073991f9eeb0ed953351b65eb61"
-+SRC_URI[sha256sum] = "2ed0c38d52fe1aa6fc4def0c868fe481cb87b532fc694756b26d6cfab29faff4"
+ DEPENDS = "libsoup-2.4 webkitgtk gtk+3 iso-codes avahi libnotify gcr \
+ 	   gsettings-desktop-schemas gnome-desktop3 libxml2-native \
+-	   intltool-native glib-2.0 glib-2.0-native"
++	   intltool-native glib-2.0 glib-2.0-native json-glib"
  
- inherit autotools pkgconfig gtk-doc python3native qemu gobject-introspection-data upstream-version-is-even
- BBCLASSEXTEND = "native"
+ inherit gnomebase gsettings distro_features_check upstream-version-is-even gettext
+ REQUIRED_DISTRO_FEATURES = "x11"
+ 
+ SRC_URI += "file://0001-yelp.m4-drop-the-check-for-itstool.patch"
+-SRC_URI[archive.md5sum] = "e08762c6bb01c4d291b3d22c7adb1a65"
+-SRC_URI[archive.sha256sum] = "de7ea87dc450702bde620033f9e2ce807859727d007396d86b09f2b82397fcc2"
++SRC_URI[archive.md5sum] = "e035dc6f64f0c1909de823e03f16b2f3"
++SRC_URI[archive.sha256sum] = "5abc0d0c60591df5236ac9b8979dc9f7d9acbb8ad0902b4772d2b7beea81c58d"
+ 
+ EXTRA_OECONF += " --with-distributor-name=${DISTRO}"
+ 
 -- 
 2.11.0
 
