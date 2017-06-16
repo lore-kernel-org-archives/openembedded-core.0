@@ -1,51 +1,65 @@
-Return-Path: <alejandro.delcastillo@ni.com>
-Received: from mx0b-00010702.pphosted.com (mx0a-00010702.pphosted.com
-	[148.163.156.75])
-	by mail.openembedded.org (Postfix) with ESMTP id 060397854D
+Return-Path: <lgonza@us.ibm.com>
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com
+	[148.163.156.1])
+	by mail.openembedded.org (Postfix) with ESMTP id 2073F784BF
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Jun 2017 19:48:29 +0000 (UTC)
-Received: from pps.filterd (m0098780.ppops.net [127.0.0.1])
-	by mx0a-00010702.pphosted.com (8.16.0.20/8.16.0.20) with SMTP id
-	v5GJkPTH025919 for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Jun 2017 14:48:31 -0500
-Received: from ni.com (skprod3.natinst.com [130.164.80.24])
-	by mx0a-00010702.pphosted.com with ESMTP id 2b4nsh008f-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=NOT) for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Jun 2017 14:48:30 -0500
-Received: from us-aus-exch2.ni.corp.natinst.com
-	(us-aus-exch2.ni.corp.natinst.com [130.164.68.12])
-	by us-aus-skprod3.natinst.com (8.16.0.17/8.16.0.17) with ESMTPS id
-	v5GJmUKB011353
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT)
+	Fri, 16 Jun 2017 20:30:39 +0000 (UTC)
+Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.16.0.20/8.16.0.20) with SMTP id
+	v5GKTFKB105318 for <openembedded-core@lists.openembedded.org>;
+	Fri, 16 Jun 2017 16:30:40 -0400
+Received: from e11.ny.us.ibm.com (e11.ny.us.ibm.com [129.33.205.201])
+	by mx0a-001b2d01.pphosted.com with ESMTP id 2b4kaqphx9-1
+	(version=TLSv1.2 cipher=AES256-SHA bits=256 verify=NOT)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Jun 2017 14:48:30 -0500
-Received: from us-aus-exhub1.ni.corp.natinst.com (130.164.68.41) by
-	us-aus-exch2.ni.corp.natinst.com (130.164.68.12) with Microsoft SMTP
-	Server (TLS) id 15.0.1156.6; Fri, 16 Jun 2017 14:48:29 -0500
-Received: from delcastillo2.amer.corp.natinst.com (130.164.49.7) by
-	us-aus-exhub1.ni.corp.natinst.com (130.164.68.41) with Microsoft SMTP
-	Server
-	id 15.0.1156.6 via Frontend Transport; Fri, 16 Jun 2017 14:48:29 -0500
-From: Alejandro del Castillo <alejandro.delcastillo@ni.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 16 Jun 2017 14:48:27 -0500
-Message-ID: <1497642507-23287-1-git-send-email-alejandro.delcastillo@ni.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <CAJTo0Lab=4CGgXFoH3BNdXo12WdobaZ_MBb8NaWAhA7Cfm-6OA@mail.gmail.com>
-References: <CAJTo0Lab=4CGgXFoH3BNdXo12WdobaZ_MBb8NaWAhA7Cfm-6OA@mail.gmail.com>
-MIME-Version: 1.0
+	Fri, 16 Jun 2017 16:30:40 -0400
+Received: from localhost
+	by e11.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+	Violators will be prosecuted
+	for <openembedded-core@lists.openembedded.org> from <lgonza@us.ibm.com>;
+	Fri, 16 Jun 2017 16:30:39 -0400
+Received: from b01cxnp23032.gho.pok.ibm.com (9.57.198.27)
+	by e11.ny.us.ibm.com (146.89.104.198) with IBM ESMTP SMTP Gateway:
+	Authorized Use Only! Violators will be prosecuted; 
+	Fri, 16 Jun 2017 16:30:37 -0400
+Received: from b01ledav006.gho.pok.ibm.com (b01ledav006.gho.pok.ibm.com
+	[9.57.199.111])
+	by b01cxnp23032.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+	v5GKUbEk21168206; Fri, 16 Jun 2017 20:30:37 GMT
+Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id D0513AC046;
+	Fri, 16 Jun 2017 16:30:35 -0400 (EDT)
+Received: from gfw162.aus.stglabs.ibm.com (unknown [9.3.62.92])
+	by b01ledav006.gho.pok.ibm.com (Postfix) with ESMTP id B5C94AC043;
+	Fri, 16 Jun 2017 16:30:35 -0400 (EDT)
+Received: by gfw162.aus.stglabs.ibm.com (Postfix, from userid 569833)
+	id AE995F54; Fri, 16 Jun 2017 15:30:36 -0500 (CDT)
+From: Leonel Gonzalez <lgonzalez@us.ibm.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 16 Jun 2017 15:30:34 -0500
+X-Mailer: git-send-email 1.8.3.1
+X-TM-AS-GCONF: 00
+x-cbid: 17061620-2213-0000-0000-000001DF6E33
+X-IBM-SpamModules-Scores: 
+X-IBM-SpamModules-Versions: BY=3.00007244; HX=3.00000241; KW=3.00000007;
+	PH=3.00000004; SC=3.00000214; SDB=6.00875762; UDB=6.00436066;
+	IPR=6.00655850; 
+	BA=6.00005425; NDR=6.00000001; ZLA=6.00000005; ZF=6.00000009;
+	ZB=6.00000000; 
+	ZP=6.00000000; ZH=6.00000000; ZU=6.00000002; MB=3.00015856;
+	XFM=3.00000015; UTC=2017-06-16 20:30:38
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 17061620-2214-0000-0000-00005688914D
+Message-Id: <1497645034-3917-1-git-send-email-lgonzalez@us.ibm.com>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
 	definitions=2017-06-16_11:, , signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_policy_notspam policy=outbound_policy
-	score=30
-	priorityscore=1501 malwarescore=0 suspectscore=4 phishscore=0
-	bulkscore=0
-	spamscore=0 clxscore=1015 lowpriorityscore=0 impostorscore=0
-	adultscore=0
-	classifier=spam adjust=30 reason=mlx scancount=1
-	engine=8.0.1-1703280000 definitions=main-1706160331
-Subject: [PATCH v2] opkg-utils: rename recipe to follow versioned releases
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+	spamscore=0 suspectscore=1
+	malwarescore=0 phishscore=0 adultscore=0 bulkscore=0 classifier=spam
+	adjust=0 reason=mlx scancount=1 engine=8.0.1-1703280000
+	definitions=main-1706160345
+Cc: Leonel Gonzalez <lgonzalez@us.ibm.com>
+Subject: [PATCH v3] rng-tools: Add service file and systemd package config to rngd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,42 +72,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Jun 2017 19:48:30 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 16 Jun 2017 20:30:41 -0000
 
-Signed-off-by: Alejandro del Castillo <alejandro.delcastillo@ni.com>
+Signed-off-by: Leonel Gonzalez <lgonzalez@us.ibm.com>
 ---
- .../opkg-utils/{opkg-utils_git.bb => opkg-utils_0.3.5.bb}         | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
- rename meta/recipes-devtools/opkg-utils/{opkg-utils_git.bb => opkg-utils_0.3.5.bb} (91%)
+ meta/recipes-support/rng-tools/rng-tools/rngd.service |  8 ++++++++
+ meta/recipes-support/rng-tools/rng-tools_5.bb         | 17 +++++++++++++++--
+ 2 files changed, 23 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-support/rng-tools/rng-tools/rngd.service
 
-diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb b/meta/recipes-devtools/opkg-utils/opkg-utils_0.3.5.bb
-similarity index 91%
-rename from meta/recipes-devtools/opkg-utils/opkg-utils_git.bb
-rename to meta/recipes-devtools/opkg-utils/opkg-utils_0.3.5.bb
-index ed5980b..646cc8f 100644
---- a/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb
-+++ b/meta/recipes-devtools/opkg-utils/opkg-utils_0.3.5.bb
-@@ -7,15 +7,13 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
-                     file://opkg.py;beginline=2;endline=18;md5=63ce9e6bcc445181cd9e4baf4b4ccc35"
- PROVIDES += "${@bb.utils.contains('PACKAGECONFIG', 'update-alternatives', 'virtual/update-alternatives', '', d)}"
+diff --git a/meta/recipes-support/rng-tools/rng-tools/rngd.service b/meta/recipes-support/rng-tools/rng-tools/rngd.service
+new file mode 100644
+index 0000000..7b0e9a7
+--- /dev/null
++++ b/meta/recipes-support/rng-tools/rng-tools/rngd.service
+@@ -0,0 +1,8 @@
++[Unit]
++Description=Hardware RNG Entropy Gatherer Daemon
++
++[Service]
++ExecStart=@SBINDIR@/rngd -f
++
++[Install]
++WantedBy=multi-user.target
+diff --git a/meta/recipes-support/rng-tools/rng-tools_5.bb b/meta/recipes-support/rng-tools/rng-tools_5.bb
+index e2acaba..c6d08e6 100644
+--- a/meta/recipes-support/rng-tools/rng-tools_5.bb
++++ b/meta/recipes-support/rng-tools/rng-tools_5.bb
+@@ -9,7 +9,8 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/gkernel/${BP}.tar.gz \
+            file://uclibc-libuargp-configure.patch \
+            file://rng-tools-5-fix-textrels-on-PIC-x86.patch \
+            file://init \
+-           file://default"
++           file://default \
++           file://rngd.service"
  
--SRCREV = "1a708fd73d10c2b7677dd4cc4e017746ebbb9166"
--PV = "0.3.4+git${SRCPV}"
--
--SRC_URI = "git://git.yoctoproject.org/opkg-utils \
-+SRC_URI = "http://git.yoctoproject.org/cgit/cgit.cgi/${BPN}/snapshot/${BPN}-${PV}.tar.gz \
-            file://0001-Switch-all-scripts-to-use-Python-3.x.patch \
- "
- SRC_URI_append_class-native = " file://tar_ignore_error.patch"
+ SRC_URI[md5sum] = "6726cdc6fae1f5122463f24ae980dd68"
+ SRC_URI[sha256sum] = "60a102b6603bbcce2da341470cad42eeaa9564a16b4490e7867026ca11a3078e"
+@@ -21,7 +22,7 @@ python () {
+         d.setVar("INHIBIT_UPDATERCD_BBCLASS", "1")
+ }
  
--S = "${WORKDIR}/git"
-+SRC_URI[md5sum] = "a19e09c79bf1152aac62e8a120d679ff"
-+SRC_URI[sha256sum] = "7f4b08912e26a3f4f6f423f3b4e7157a73b1f3a7483fc59b216d1a80b50b0c38"
+-inherit autotools update-rc.d
++inherit autotools update-rc.d systemd
  
- TARGET_CC_ARCH += "${LDFLAGS}"
+ PACKAGECONFIG = "libgcrypt"
+ PACKAGECONFIG_libc-musl = "libargp"
+@@ -29,6 +30,7 @@ PACKAGECONFIG_libc-uclibc = "libuargp"
+ PACKAGECONFIG[libargp] = "--with-libargp,--without-libargp,argp-standalone,"
+ PACKAGECONFIG[libuargp] = "--enable-uclibc,,,"
+ PACKAGECONFIG[libgcrypt] = "--with-libgcrypt,--without-libgcrypt,libgcrypt,"
++PACKAGECONFIG[systemd] = "--with-systemd=${systemd_unitdir}/system,--without-systemd,systemd"
  
+ do_install_append() {
+     # Only install the init script when 'sysvinit' is in DISTRO_FEATURES.
+@@ -41,7 +43,18 @@ do_install_append() {
+         install -d "${D}${sysconfdir}/default"
+         install -m 0644 ${WORKDIR}/default ${D}${sysconfdir}/default/rng-tools
+     fi
++
++    if ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'true', 'false', d)}; then
++        install -d ${D}${systemd_unitdir}/system
++        install -m 644 ${WORKDIR}/rngd.service ${D}${systemd_unitdir}/system
++        sed -i -e 's,@SBINDIR@,${sbindir},g' ${D}${systemd_unitdir}/system/rngd.service
++    fi
+ }
+ 
+ INITSCRIPT_NAME = "rng-tools"
+ INITSCRIPT_PARAMS = "start 30 2 3 4 5 . stop 30 0 6 1 ."
++
++RPROVIDES_${PN} += "${PN}-systemd"
++RREPLACES_${PN} += "${PN}-systemd"
++RCONFLICTS_${PN} += "${PN}-systemd"
++SYSTEMD_SERVICE_${PN} = "rngd.service"
 -- 
-2.7.4
+1.8.3.1
 
 
