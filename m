@@ -1,27 +1,18 @@
-Return-Path: <Nathan_Lynch@mentor.com>
-Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id 7E1187838C
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Jun 2017 21:48:24 +0000 (UTC)
-Received: from svr-orw-mbx-02.mgc.mentorg.com ([147.34.90.202])
-	by relay1.mentorg.com with esmtp 
-	id 1dLz6Q-0003Hi-Dq from Nathan_Lynch@mentor.com 
-	for openembedded-core@lists.openembedded.org;
-	Fri, 16 Jun 2017 14:48:26 -0700
-Received: from localhost (147.34.91.1) by svr-orw-mbx-02.mgc.mentorg.com
-	(147.34.90.202) with Microsoft SMTP Server (TLS) id 15.0.1263.5;
-	Fri, 16 Jun 2017 14:48:24 -0700
-From: Nathan Lynch <nathan_lynch@mentor.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 16 Jun 2017 16:48:22 -0500
-Message-ID: <20170616214822.36244-1-nathan_lynch@mentor.com>
-X-Mailer: git-send-email 2.9.4
-In-Reply-To: <20170616213952.35679-4-nathan_lynch@mentor.com>
-References: <20170616213952.35679-4-nathan_lynch@mentor.com>
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 102077825A;
+	Fri, 16 Jun 2017 22:01:35 +0000 (UTC)
 MIME-Version: 1.0
-X-ClientProxiedBy: svr-orw-mbx-02.mgc.mentorg.com (147.34.90.202) To
-	svr-orw-mbx-02.mgc.mentorg.com (147.34.90.202)
-Subject: [PATCH v2 3/3] lttng-modules: update to 2.9.3
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Nathan Lynch <nathan_lynch@mentor.com>
+Date: Fri, 16 Jun 2017 22:01:36 -0000
+Message-ID: <20170616220136.1044.49322@do.openembedded.org>
+References: <20170616213952.35679-1-nathan_lynch@mentor.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <20170616213952.35679-1-nathan_lynch@mentor.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgTFRUbmcgdXBkYXRlcw==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,40 +25,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Jun 2017 21:48:25 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 16 Jun 2017 22:01:35 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-Miscellaneous fixes and support for 4.12-rc kernels.
+== Series Details ==
 
-Signed-off-by: Nathan Lynch <nathan_lynch@mentor.com>
+Series: LTTng updates
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/7334/
+State : failure
+
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Patch            [3/3] lttng-modules: update to 2.9.3
+ Issue             Patch is missing Signed-off-by [test_signed_off_by_presence] 
+  Suggested fix    Sign off the patch (either manually or with "git commit --amend -s")
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
-
-Changes since v1:
-* Add missing signoff.
-
- .../lttng/{lttng-modules_2.9.2.bb => lttng-modules_2.9.3.bb}          | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-kernel/lttng/{lttng-modules_2.9.2.bb => lttng-modules_2.9.3.bb} (89%)
-
-diff --git a/meta/recipes-kernel/lttng/lttng-modules_2.9.2.bb b/meta/recipes-kernel/lttng/lttng-modules_2.9.3.bb
-similarity index 89%
-rename from meta/recipes-kernel/lttng/lttng-modules_2.9.2.bb
-rename to meta/recipes-kernel/lttng/lttng-modules_2.9.3.bb
-index 9b21bb40dcfd..acd76b54b30d 100644
---- a/meta/recipes-kernel/lttng/lttng-modules_2.9.2.bb
-+++ b/meta/recipes-kernel/lttng/lttng-modules_2.9.3.bb
-@@ -14,8 +14,8 @@ SRC_URI = "https://lttng.org/files/${BPN}/${BPN}-${PV}.tar.bz2 \
-            file://Makefile-Do-not-fail-if-CONFIG_TRACEPOINTS-is-not-en.patch \
-            file://BUILD_RUNTIME_BUG_ON-vs-gcc7.patch"
- 
--SRC_URI[md5sum] = "6c02645c77fd4d6475a4f83bda1d75ff"
--SRC_URI[sha256sum] = "9d70d54becd8c34c21eb0d5c1ffe6adadb6be5bec80b6667044c47dfd428dc66"
-+SRC_URI[md5sum] = "9abf694dddcc197988189ef65b496f4c"
-+SRC_URI[sha256sum] = "f911bca81b02a787474f3d100390dad7447f952525e6d041f50991940246bafe"
- 
- export INSTALL_MOD_DIR="kernel/lttng-modules"
- 
--- 
-2.9.4
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
