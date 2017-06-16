@@ -1,56 +1,25 @@
-Return-Path: <tobias.hagelborn@axis.com>
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id D18BD78366
+Return-Path: <jan.kiszka@siemens.com>
+Received: from thoth.sbs.de (thoth.sbs.de [192.35.17.2])
+	by mail.openembedded.org (Postfix) with ESMTP id 885C478447
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Jun 2017 05:12:48 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id AC60A18512
+	Fri, 16 Jun 2017 07:28:09 +0000 (UTC)
+Received: from mail2.siemens.de (mail2.siemens.de [139.25.208.11])
+	by thoth.sbs.de (8.15.2/8.15.2) with ESMTPS id v5G7S6K2019395
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Jun 2017 07:12:48 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id yioyZ8Xw5B9R
+	Fri, 16 Jun 2017 09:28:06 +0200
+Received: from md1f2u6c.ww002.siemens.net ([146.254.78.90])
+	by mail2.siemens.de (8.15.2/8.15.2) with ESMTP id v5G7S6lV027073
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Jun 2017 07:12:48 +0200 (CEST)
-Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
-	by bastet.se.axis.com (Postfix) with ESMTPS id 1E4A918399
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Jun 2017 07:12:48 +0200 (CEST)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 06CCA1E06E
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Jun 2017 07:12:48 +0200 (CEST)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id F03D21E06A
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Jun 2017 07:12:47 +0200 (CEST)
-Received: from thoth.se.axis.com (unknown [10.0.2.173])
-	by boulder03.se.axis.com (Postfix) with ESMTP
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Jun 2017 07:12:47 +0200 (CEST)
-Received: from XBOX02.axis.com (xbox02.axis.com [10.0.5.16])
-	by thoth.se.axis.com (Postfix) with ESMTP id E48ED1A6
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Jun 2017 07:12:47 +0200 (CEST)
-Received: from [10.94.62.1] (10.0.5.60) by XBOX02.axis.com (10.0.5.16) with
-	Microsoft SMTP Server (TLS) id 15.0.1210.3;
-	Fri, 16 Jun 2017 07:12:48 +0200
-To: <openembedded-core@lists.openembedded.org>
-References: <1497421480-21923-1-git-send-email-tobiasha@axis.com>
-	<1497432535.3942.40.camel@linuxfoundation.org>
-	<a7b43ac4-0c9a-b6df-bd97-3a0de1d1be47@axis.com>
-From: Tobias Hagelborn <tobias.hagelborn@axis.com>
-Message-ID: <23486835-eebd-890a-4698-9599dfb787e1@axis.com>
-Date: Fri, 16 Jun 2017 07:12:47 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.8.0
+	Fri, 16 Jun 2017 09:28:06 +0200
+To: OE-core <openembedded-core@lists.openembedded.org>
+From: Jan Kiszka <jan.kiszka@siemens.com>
+Message-ID: <7424d317-958a-e976-6aa8-ab3629fc0e58@siemens.com>
+Date: Fri, 16 Jun 2017 09:28:05 +0200
+User-Agent: Mozilla/5.0 (X11; U; Linux i686 (x86_64); de; rv:1.8.1.12)
+	Gecko/20080226 SUSE/2.0.0.12-1.1 Thunderbird/2.0.0.12 Mnenhy/0.7.5.666
 MIME-Version: 1.0
-In-Reply-To: <a7b43ac4-0c9a-b6df-bd97-3a0de1d1be47@axis.com>
-X-Originating-IP: [10.0.5.60]
-X-ClientProxiedBy: XBOX01.axis.com (10.0.5.15) To XBOX02.axis.com (10.0.5.16)
-X-TM-AS-GCONF: 00
-Subject: Re: [PATCH] devtool: deploy-target: Support stripped libs and execs
+Subject: [PATCH] tzdata: Install zone1970.tab
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,44 +32,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Jun 2017 05:12:49 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
+X-List-Received-Date: Fri, 16 Jun 2017 07:28:11 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 
-On 06/14/2017 01:35 PM, Tobias Hagelborn wrote:
-> On 06/14/2017 11:28 AM, Richard Purdie wrote:
->> On Wed, 2017-06-14 at 08:24 +0200, Tobias Hagelborn wrote:
->>> New devtool deploy-target option --strip which enables deploying
->>> stripped binaries, saving some space on target.
->>>
->>> * Copies the files of ${D} into a new directory and strips them in
->>> place
->>> * Based on sysroot_strip from staging.bbclass
->>> * Added devtool.conf option "strip" for changing default behavior
->>> * Added .ko strip support compared to original function sysroot_strip
->>
->> This looks very like the original strip function. Would it be possible
->> to create one generic strip function in lib/oe which we could call from
->> the various places rather than duplicating this again?
->>
->> (I think staging.bbclass and lib/oe/package.py:runstrip() are already
->> similar code).
->>
->> Cheers,
->>
->> Richard
->>
-> I did think if this but I felt these are quite central functions and I
-> didn't have enough tests locally to cover for those classes (staging /
-> package)
->
-> I can supply another version of this patch where the strip function is
-> merged into lib/oe.
->
-> //Tobias
+The modern version of zone.tab is required by tzselect e.g.
 
-It should be fairly straightforward to do for staging.bbclass.
-I also looked into package.bbclass which has a similar one 
-(split_and_strip_files) but that one is very convoluted with the package 
-splitting so I want to leave that one for now.
+Signed-off-by: Jan Kiszka <jan.kiszka@siemens.com>
+---
+ meta/recipes-extended/tzdata/tzdata_2017b.bb | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/meta/recipes-extended/tzdata/tzdata_2017b.bb b/meta/recipes-extended/tzdata/tzdata_2017b.bb
+index 2e4277f794..55e89767fc 100644
+--- a/meta/recipes-extended/tzdata/tzdata_2017b.bb
++++ b/meta/recipes-extended/tzdata/tzdata_2017b.bb
+@@ -45,6 +45,7 @@ do_install () {
+         cp -pPR ${S}/$exec_prefix ${D}/
+         # libc is removing zoneinfo files from package
+         cp -pP "${S}/zone.tab" ${D}${datadir}/zoneinfo
++        cp -pP "${S}/zone1970.tab" ${D}${datadir}/zoneinfo
+         cp -pP "${S}/iso3166.tab" ${D}${datadir}/zoneinfo
+ 
+         # Install default timezone
+@@ -206,6 +207,7 @@ FILES_${PN} += "${datadir}/zoneinfo/Pacific/Honolulu     \
+                 ${datadir}/zoneinfo/WET                  \
+                 ${datadir}/zoneinfo/Zulu                 \
+                 ${datadir}/zoneinfo/zone.tab             \
++                ${datadir}/zoneinfo/zone1970.tab         \
+                 ${datadir}/zoneinfo/iso3166.tab          \
+                 ${datadir}/zoneinfo/Etc/*"
+ 
+-- 
+2.12.3
 
