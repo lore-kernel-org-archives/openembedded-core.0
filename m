@@ -1,46 +1,41 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qt0-f173.google.com (mail-qt0-f173.google.com
-	[209.85.216.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 447B9783FE
+Return-Path: <humberto.ibarra.lopez@intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 94A1F782C5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Jun 2017 17:07:46 +0000 (UTC)
-Received: by mail-qt0-f173.google.com with SMTP id u12so71334275qth.0
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Jun 2017 10:07:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=QPw1TeZOxhPuqjPwV0hdGynxNXQdaA0/JOxxUZFKRzg=;
-	b=ZIUp2mUBzw6hKWpcJnSPvbu2FuoeXHyr77JIceWDfh+noJqqQ7gGuNbKXOgiNbRI5h
-	t5a+Kga76Lndjkn0/qbLc1AkWw2YHkkfyJUfOSx01IEszSlRcpew5cXWmLTjyGL5VAYV
-	DBq53GBMmxMx1mNNw4Y/i9MQOkJQVaXEnBFLoaRZP7Z+vasRopeOytwHY+SsLugfqaU2
-	WrE/gQwFKVfSHhKLCK9M/WYAfu8i+aanYxzS7vcLUf0COhRWG/ggsS1CAZ2kxOCtMTgE
-	m0cD2c4h1VQKqPrWXArQRa7XeZJ7AKwdOCghEcpC2jOHyRQkH1USMSVKNJC2OUvLlq2E
-	qVrg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=QPw1TeZOxhPuqjPwV0hdGynxNXQdaA0/JOxxUZFKRzg=;
-	b=NTRZvWHjB4Vnz8IFHfV/m35WOsFYEPv9AfsuJHb/NpUAhHxVbOjSeNR87LEoBVn+T4
-	VzKT7Qjob5aCe4TNFymhDnHGBJuakzhZuVMcoMdY1ZsrEiSK1BreNQZGPlh0RF6EghBs
-	G7ncRAVVMlJh7LrR1bBSyzyKqjjdk/u8oz4b93jq8MKkGsDIirhKEpOW7xuO69Y7V4FW
-	dSCwrkCfYtiE6abPmEHmnSZcNxX7/nG21h0fqwgPBwkdY7farCfYrKfrlDjgPAz3OaIK
-	mOVDktvlSsBU9LId+6jfZhKNsn4XXoQllsBtRI0edU1YeVmsO7kdOsdRggUwFBImYUQR
-	9zuA==
-X-Gm-Message-State: AKS2vOzGBlyVL7SVmrGOJs+YwV82pR8+S/46gaHkI2uiaqz0WcTEw3kQ
-	SM3RrNlLNatrA61RpRCHQyFON3bBhp3L
-X-Received: by 10.55.102.214 with SMTP id a205mr13770268qkc.154.1497632868011; 
-	Fri, 16 Jun 2017 10:07:48 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.35.103 with HTTP; Fri, 16 Jun 2017 10:07:27 -0700 (PDT)
-In-Reply-To: <7dc39347ac14d76dbdeb4d29cb63254dc559001f.1497632387.git.humberto.ibarra.lopez@intel.com>
+	Fri, 16 Jun 2017 17:37:49 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	16 Jun 2017 10:37:50 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.39,348,1493708400"; 
+	d="scan'208,217";a="1161378903"
+Received: from fmsmsx104.amr.corp.intel.com ([10.18.124.202])
+	by fmsmga001.fm.intel.com with ESMTP; 16 Jun 2017 10:37:50 -0700
+Received: from fmsmsx157.amr.corp.intel.com (10.18.116.73) by
+	fmsmsx104.amr.corp.intel.com (10.18.124.202) with Microsoft SMTP Server
+	(TLS) id 14.3.319.2; Fri, 16 Jun 2017 10:37:48 -0700
+Received: from fmsmsx106.amr.corp.intel.com ([169.254.5.16]) by
+	FMSMSX157.amr.corp.intel.com ([169.254.14.168]) with mapi id
+	14.03.0319.002; Fri, 16 Jun 2017 10:37:48 -0700
+From: "Ibarra Lopez, Humberto" <humberto.ibarra.lopez@intel.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Thread-Topic: [OE-core] [PATCH 1/1] imagefeatures.py: Added testcase to
+	track IMAGE_GEN_DEBUGFS
+Thread-Index: AQHS5sGarWjfHlUfNEy4PJQPzr8huKIoLeWA//+SlYA=
+Date: Fri, 16 Jun 2017 17:37:47 +0000
+Message-ID: <F187383F84EB304A88D055C304958879468479EE@FMSMSX106.amr.corp.intel.com>
 References: <cover.1497632387.git.humberto.ibarra.lopez@intel.com>
 	<7dc39347ac14d76dbdeb4d29cb63254dc559001f.1497632387.git.humberto.ibarra.lopez@intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 16 Jun 2017 18:07:27 +0100
-Message-ID: <CAJTo0LbyA6q5ywJhKj6WUiozesJNo0ZqWrZsMhvW+k0Cei2QGw@mail.gmail.com>
-To: Humberto Ibarra <humberto.ibarra.lopez@intel.com>
+	<CAJTo0LbyA6q5ywJhKj6WUiozesJNo0ZqWrZsMhvW+k0Cei2QGw@mail.gmail.com>
+In-Reply-To: <CAJTo0LbyA6q5ywJhKj6WUiozesJNo0ZqWrZsMhvW+k0Cei2QGw@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-version: 10.0.102.7
+dlp-reaction: no-action
+x-originating-ip: [10.1.200.108]
+MIME-Version: 1.0
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 1/1] imagefeatures.py: Added testcase to track IMAGE_GEN_DEBUGFS
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -55,97 +50,161 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Jun 2017 17:07:47 -0000
-Content-Type: multipart/alternative; boundary="94eb2c0580a81a24e7055216d3de"
+X-List-Received-Date: Fri, 16 Jun 2017 17:37:51 -0000
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_F187383F84EB304A88D055C304958879468479EEFMSMSX106amrcor_"
 
---94eb2c0580a81a24e7055216d3de
-Content-Type: text/plain; charset="UTF-8"
+--_000_F187383F84EB304A88D055C304958879468479EEFMSMSX106amrcor_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On 16 June 2017 at 18:01, Humberto Ibarra <humberto.ibarra.lopez@intel.com>
-wrote:
+VGhvdWdodCBhYm91dCB0ZXN0aW5nIGRlYnVnIHBhY2thZ2VzIGJlY2F1c2UgdGhlIGJ1ZyBjb21t
+ZW50cyBtZW50aW9uZWQgaXRlcmF0aW5nIHRocm91Z2ggcnBtLCBkZWIgYW5kIGlway4gSWYgdGhl
+cmUgaXMgbm8gdmFsdWUgdG8gdGhpcyBwYXJ0IEkgY291bGQgZHJvcCBpdCBhbmQgb25seSB0ZXN0
+IGZvciB0aGUgZGVidWcgZmlsZXN5c3RlbS4gSW4gdGhpcyBjYXNlcyB0aGVyZSBhbnkgdmFsdWUg
+dG8gY2hlY2sgdGhlIGRlYnVnIGZpbGVzeXN0ZW0gaW4gYWxsIHRocmVlIHBhY2thZ2UgY2xhc3Nl
+cz8NCg0KSHVtYmVydG8NCg0KRnJvbTogQnVydG9uLCBSb3NzIFttYWlsdG86cm9zcy5idXJ0b25A
+aW50ZWwuY29tXQ0KU2VudDogRnJpZGF5LCBKdW5lIDE2LCAyMDE3IDEyOjA3IFBNDQpUbzogSWJh
+cnJhIExvcGV6LCBIdW1iZXJ0byA8aHVtYmVydG8uaWJhcnJhLmxvcGV6QGludGVsLmNvbT4NCkNj
+OiBPRS1jb3JlIDxvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnPg0KU3Vi
+amVjdDogUmU6IFtPRS1jb3JlXSBbUEFUQ0ggMS8xXSBpbWFnZWZlYXR1cmVzLnB5OiBBZGRlZCB0
+ZXN0Y2FzZSB0byB0cmFjayBJTUFHRV9HRU5fREVCVUdGUw0KDQoNCk9uIDE2IEp1bmUgMjAxNyBh
+dCAxODowMSwgSHVtYmVydG8gSWJhcnJhIDxodW1iZXJ0by5pYmFycmEubG9wZXpAaW50ZWwuY29t
+PG1haWx0bzpodW1iZXJ0by5pYmFycmEubG9wZXpAaW50ZWwuY29tPj4gd3JvdGU6DQorICAgICAg
+ICBpbWFnZV9uYW1lID0gJ2NvcmUtaW1hZ2UtbWluaW1hbCcNCisgICAgICAgIGNsZWFuX2NtZCA9
+ICctYyBjbGVhbiAlcycgJSBpbWFnZV9uYW1lDQorICAgICAgICBkZXBsb3lfZGlyX2ltYWdlID0g
+Z2V0X2JiX3ZhcignREVQTE9ZX0RJUl9JTUFHRScpDQorDQorICAgICAgICBmb3IgcGFja19jbGFz
+cyBpbiBbICJycG0iLCAiZGViIiwgImlwayJdOg0KKyAgICAgICAgICAgIGJpdGJha2UoY2xlYW5f
+Y21kKQ0KKyAgICAgICAgICAgIGZlYXR1cmVzID0gJ0lNQUdFX0dFTl9ERUJVR0ZTID0gIjEiXG4n
+DQorICAgICAgICAgICAgZmVhdHVyZXMgKz0gJ0lNQUdFX0ZTVFlQRVNfREVCVUdGUyA9ICJ0YXIu
+YnoyIlxuJw0KKyAgICAgICAgICAgIGZlYXR1cmVzICs9ICdQQUNLQUdFX0NMQVNTRVMgPSAicGFj
+a2FnZV8lcyInICUgcGFja19jbGFzcw0KKyAgICAgICAgICAgIHNlbGYud3JpdGVfY29uZmlnKGZl
+YXR1cmVzKQ0KKw0KKyAgICAgICAgICAgIGJpdGJha2UoaW1hZ2VfbmFtZSkNCisgICAgICAgICAg
+ICBkZWJ1Z19maWxlcyA9IGdsb2IuZ2xvYihvcy5wYXRoLmpvaW4oZGVwbG95X2Rpcl9pbWFnZSwi
+Ki1kYmcucm9vdGZzLnRhci5iejIiKSkNCisgICAgICAgICAgICBzZWxmLmFzc2VydE5vdEVxdWFs
+KGxlbihkZWJ1Z19maWxlcyksIDAsDQorICAgICAgICAgICAgICAgICAgICAnZGVidWcgZmlsZXN5
+c3RlbSBub3QgZ2VuZXJhdGVkIGZvciAlcycgJSBwYWNrX2NsYXNzKQ0KKw0KKyAgICAgICAgICAg
+IGRlcGxveV9wYWNrYWdlc192YXIgPSAnREVQTE9ZX0RJUl8lcycgJSBwYWNrX2NsYXNzLnVwcGVy
+KCkNCisgICAgICAgICAgICBkZWJ1Z19wYWNrX2ZpbGVzID0gZ2xvYi5nbG9iKG9zLnBhdGguam9p
+bihnZXRfYmJfdmFyKGRlcGxveV9wYWNrYWdlc192YXIpLA0KKyAgICAgICAgICAgICAgICAgICAg
+Z2V0X2JiX3ZhcigiTUFDSElORSIpLnJlcGxhY2UoIi0iLCJfIiksICIqLWRiZyoiKSkNCisgICAg
+ICAgICAgICBzZWxmLmFzc2VydE5vdEVxdWFsKGxlbihkZWJ1Z19wYWNrX2ZpbGVzKSwgMCwNCisg
+ICAgICAgICAgICAgICAgICAgICdkZWJ1ZyBwYWNrYWdlcyBub3QgZ2VuZXJhdGVkIGZvciAlcycg
+JSBwYWNrX2NsYXNzKQ0KDQpFYWNoIGNhbGwgdG8gZ2V0X2JiX3ZhcigpIGlzIGEgY2FsbCB0byBi
+aXRiYWtlLCBzbyBpdCdzIGJlc3QgdG8gYmF0Y2ggdXAgdGhlc2UgYXMgbXVjaCBhcyBwb3NzaWJs
+ZSBpbnRvIGEgc2luZ2xlIGdldF9iYl92YXJzKCkgY2FsbC4NCg0KQWxzbyBpcyB0aGVyZSBhbnkg
+cG9pbnQgdG8gY2hlY2tpbmcgdGhhdCBkYmcgcGFja2FnZXMgd2VyZSBjcmVhdGVkPw0KDQpSb3Nz
+DQo=
 
-> +        image_name = 'core-image-minimal'
-> +        clean_cmd = '-c clean %s' % image_name
-> +        deploy_dir_image = get_bb_var('DEPLOY_DIR_IMAGE')
-> +
-> +        for pack_class in [ "rpm", "deb", "ipk"]:
-> +            bitbake(clean_cmd)
-> +            features = 'IMAGE_GEN_DEBUGFS = "1"\n'
-> +            features += 'IMAGE_FSTYPES_DEBUGFS = "tar.bz2"\n'
-> +            features += 'PACKAGE_CLASSES = "package_%s"' % pack_class
-> +            self.write_config(features)
-> +
-> +            bitbake(image_name)
-> +            debug_files = glob.glob(os.path.join(deploy_
-> dir_image,"*-dbg.rootfs.tar.bz2"))
-> +            self.assertNotEqual(len(debug_files), 0,
-> +                    'debug filesystem not generated for %s' % pack_class)
-> +
-> +            deploy_packages_var = 'DEPLOY_DIR_%s' % pack_class.upper()
-> +            debug_pack_files = glob.glob(os.path.join(get_bb_
-> var(deploy_packages_var),
-> +                    get_bb_var("MACHINE").replace("-","_"), "*-dbg*"))
-> +            self.assertNotEqual(len(debug_pack_files), 0,
-> +                    'debug packages not generated for %s' % pack_class)
->
+--_000_F187383F84EB304A88D055C304958879468479EEFMSMSX106amrcor_
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Each call to get_bb_var() is a call to bitbake, so it's best to batch up
-these as much as possible into a single get_bb_vars() call.
+PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
+bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
+YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
+cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
+VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
+Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
+ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
+PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
+IkNhbWJyaWEgTWF0aCI7DQoJcGFub3NlLTE6MiA0IDUgMyA1IDQgNiAzIDIgNDt9DQpAZm9udC1m
+YWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIgMiAyIDQgMyAy
+IDQ7fQ0KLyogU3R5bGUgRGVmaW5pdGlvbnMgKi8NCnAuTXNvTm9ybWFsLCBsaS5Nc29Ob3JtYWws
+IGRpdi5Nc29Ob3JtYWwNCgl7bWFyZ2luOjBpbjsNCgltYXJnaW4tYm90dG9tOi4wMDAxcHQ7DQoJ
+Zm9udC1zaXplOjEyLjBwdDsNCglmb250LWZhbWlseToiVGltZXMgTmV3IFJvbWFuIixzZXJpZjt9
+DQphOmxpbmssIHNwYW4uTXNvSHlwZXJsaW5rDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsNCglj
+b2xvcjpibHVlOw0KCXRleHQtZGVjb3JhdGlvbjp1bmRlcmxpbmU7fQ0KYTp2aXNpdGVkLCBzcGFu
+Lk1zb0h5cGVybGlua0ZvbGxvd2VkDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsNCgljb2xvcjpw
+dXJwbGU7DQoJdGV4dC1kZWNvcmF0aW9uOnVuZGVybGluZTt9DQpzcGFuLkVtYWlsU3R5bGUxNw0K
+CXttc28tc3R5bGUtdHlwZTpwZXJzb25hbC1yZXBseTsNCglmb250LWZhbWlseToiQ2FsaWJyaSIs
+c2Fucy1zZXJpZjsNCgljb2xvcjojMUY0OTdEO30NCi5Nc29DaHBEZWZhdWx0DQoJe21zby1zdHls
+ZS10eXBlOmV4cG9ydC1vbmx5Ow0KCWZvbnQtZmFtaWx5OiJDYWxpYnJpIixzYW5zLXNlcmlmO30N
+CkBwYWdlIFdvcmRTZWN0aW9uMQ0KCXtzaXplOjguNWluIDExLjBpbjsNCgltYXJnaW46MS4waW4g
+MS4waW4gMS4waW4gMS4waW47fQ0KZGl2LldvcmRTZWN0aW9uMQ0KCXtwYWdlOldvcmRTZWN0aW9u
+MTt9DQotLT48L3N0eWxlPjwhLS1baWYgZ3RlIG1zbyA5XT48eG1sPg0KPG86c2hhcGVkZWZhdWx0
+cyB2OmV4dD0iZWRpdCIgc3BpZG1heD0iMTAyNiIgLz4NCjwveG1sPjwhW2VuZGlmXS0tPjwhLS1b
+aWYgZ3RlIG1zbyA5XT48eG1sPg0KPG86c2hhcGVsYXlvdXQgdjpleHQ9ImVkaXQiPg0KPG86aWRt
+YXAgdjpleHQ9ImVkaXQiIGRhdGE9IjEiIC8+DQo8L286c2hhcGVsYXlvdXQ+PC94bWw+PCFbZW5k
+aWZdLS0+DQo8L2hlYWQ+DQo8Ym9keSBsYW5nPSJFTi1VUyIgbGluaz0iYmx1ZSIgdmxpbms9InB1
+cnBsZSI+DQo8ZGl2IGNsYXNzPSJXb3JkU2VjdGlvbjEiPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+
+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZx
+dW90OyxzYW5zLXNlcmlmO2NvbG9yOiMxRjQ5N0QiPlRob3VnaHQgYWJvdXQgdGVzdGluZyBkZWJ1
+ZyBwYWNrYWdlcyBiZWNhdXNlIHRoZSBidWcgY29tbWVudHMgbWVudGlvbmVkIGl0ZXJhdGluZyB0
+aHJvdWdoIHJwbSwgZGViIGFuZCBpcGsuIElmIHRoZXJlIGlzIG5vIHZhbHVlIHRvIHRoaXMgcGFy
+dCBJIGNvdWxkIGRyb3AgaXQNCiBhbmQgb25seSB0ZXN0IGZvciB0aGUgZGVidWcgZmlsZXN5c3Rl
+bS4gSW4gdGhpcyBjYXNlcyB0aGVyZSBhbnkgdmFsdWUgdG8gY2hlY2sgdGhlIGRlYnVnIGZpbGVz
+eXN0ZW0gaW4gYWxsIHRocmVlIHBhY2thZ2UgY2xhc3Nlcz88bzpwPjwvbzpwPjwvc3Bhbj48L3A+
+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250
+LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWY7Y29sb3I6IzFGNDk3RCI+PG86
+cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5
+bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OyxzYW5z
+LXNlcmlmO2NvbG9yOiMxRjQ5N0QiPkh1bWJlcnRvPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAg
+Y2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1p
+bHk6JnF1b3Q7Q2FsaWJyaSZxdW90OyxzYW5zLXNlcmlmO2NvbG9yOiMxRjQ5N0QiPjxvOnA+Jm5i
+c3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxiPjxzcGFuIHN0eWxl
+PSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1z
+ZXJpZiI+RnJvbTo8L3NwYW4+PC9iPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQt
+ZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJpZiI+IEJ1cnRvbiwgUm9zcyBbbWFp
+bHRvOnJvc3MuYnVydG9uQGludGVsLmNvbV0NCjxicj4NCjxiPlNlbnQ6PC9iPiBGcmlkYXksIEp1
+bmUgMTYsIDIwMTcgMTI6MDcgUE08YnI+DQo8Yj5Ubzo8L2I+IEliYXJyYSBMb3BleiwgSHVtYmVy
+dG8gJmx0O2h1bWJlcnRvLmliYXJyYS5sb3BlekBpbnRlbC5jb20mZ3Q7PGJyPg0KPGI+Q2M6PC9i
+PiBPRS1jb3JlICZsdDtvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnJmd0
+Ozxicj4NCjxiPlN1YmplY3Q6PC9iPiBSZTogW09FLWNvcmVdIFtQQVRDSCAxLzFdIGltYWdlZmVh
+dHVyZXMucHk6IEFkZGVkIHRlc3RjYXNlIHRvIHRyYWNrIElNQUdFX0dFTl9ERUJVR0ZTPG86cD48
+L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PG86cD4mbmJzcDs8L286cD48
+L3A+DQo8ZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+
+PC9wPg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPk9uIDE2IEp1bmUgMjAxNyBhdCAxODow
+MSwgSHVtYmVydG8gSWJhcnJhICZsdDs8YSBocmVmPSJtYWlsdG86aHVtYmVydG8uaWJhcnJhLmxv
+cGV6QGludGVsLmNvbSIgdGFyZ2V0PSJfYmxhbmsiPmh1bWJlcnRvLmliYXJyYS5sb3BlekBpbnRl
+bC5jb208L2E+Jmd0OyB3cm90ZTo8bzpwPjwvbzpwPjwvcD4NCjxibG9ja3F1b3RlIHN0eWxlPSJi
+b3JkZXI6bm9uZTtib3JkZXItbGVmdDpzb2xpZCAjQ0NDQ0NDIDEuMHB0O3BhZGRpbmc6MGluIDBp
+biAwaW4gNi4wcHQ7bWFyZ2luLWxlZnQ6NC44cHQ7bWFyZ2luLXJpZ2h0OjBpbiI+DQo8ZGl2IGlk
+PSI6NG1jIj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPiYjNDM7Jm5ic3A7ICZuYnNwOyAmbmJzcDsg
+Jm5ic3A7IGltYWdlX25hbWUgPSAnY29yZS1pbWFnZS1taW5pbWFsJzxicj4NCiYjNDM7Jm5ic3A7
+ICZuYnNwOyAmbmJzcDsgJm5ic3A7IGNsZWFuX2NtZCA9ICctYyBjbGVhbiAlcycgJSBpbWFnZV9u
+YW1lPGJyPg0KJiM0MzsmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgZGVwbG95X2Rpcl9pbWFn
+ZSA9IGdldF9iYl92YXIoJ0RFUExPWV9ESVJfSU1BR0UnKTxicj4NCiYjNDM7PGJyPg0KJiM0Mzsm
+bmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgZm9yIHBhY2tfY2xhc3MgaW4gWyAmcXVvdDtycG0m
+cXVvdDssICZxdW90O2RlYiZxdW90OywgJnF1b3Q7aXBrJnF1b3Q7XTo8YnI+DQomIzQzOyZuYnNw
+OyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7IGJpdGJha2UoY2xlYW5fY21kKTxi
+cj4NCiYjNDM7Jm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgZmVhdHVy
+ZXMgPSAnSU1BR0VfR0VOX0RFQlVHRlMgPSAmcXVvdDsxJnF1b3Q7XG4nPGJyPg0KJiM0MzsmbmJz
+cDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyBmZWF0dXJlcyAmIzQzOz0gJ0lN
+QUdFX0ZTVFlQRVNfREVCVUdGUyA9ICZxdW90O3Rhci5iejImcXVvdDtcbic8YnI+DQomIzQzOyZu
+YnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7IGZlYXR1cmVzICYjNDM7PSAn
+UEFDS0FHRV9DTEFTU0VTID0gJnF1b3Q7cGFja2FnZV8lcyZxdW90OycgJSBwYWNrX2NsYXNzPGJy
+Pg0KJiM0MzsmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyBzZWxmLndy
+aXRlX2NvbmZpZyhmZWF0dXJlcyk8YnI+DQomIzQzOzxicj4NCiYjNDM7Jm5ic3A7ICZuYnNwOyAm
+bmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgYml0YmFrZShpbWFnZV9uYW1lKTxicj4NCiYjNDM7
+Jm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgZGVidWdfZmlsZXMgPSBn
+bG9iLmdsb2Iob3MucGF0aC5qb2luKGRlcGxveV9kaXJfaW1hZ2UsJnF1b3Q7Ki1kYmcucm9vdGZz
+LnRhci5iejImcXVvdDspKTxicj4NCiYjNDM7Jm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZu
+YnNwOyAmbmJzcDsgc2VsZi5hc3NlcnROb3RFcXVhbChsZW4oZGVidWdfZmlsZXMpLCAwLDxicj4N
+CiYjNDM7Jm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZu
+YnNwOyAmbmJzcDsgJm5ic3A7ICdkZWJ1ZyBmaWxlc3lzdGVtIG5vdCBnZW5lcmF0ZWQgZm9yICVz
+JyAlIHBhY2tfY2xhc3MpPGJyPg0KJiM0Mzs8YnI+DQomIzQzOyZuYnNwOyAmbmJzcDsgJm5ic3A7
+ICZuYnNwOyAmbmJzcDsgJm5ic3A7IGRlcGxveV9wYWNrYWdlc192YXIgPSAnREVQTE9ZX0RJUl8l
+cycgJSBwYWNrX2NsYXNzLnVwcGVyKCk8YnI+DQomIzQzOyZuYnNwOyAmbmJzcDsgJm5ic3A7ICZu
+YnNwOyAmbmJzcDsgJm5ic3A7IGRlYnVnX3BhY2tfZmlsZXMgPSBnbG9iLmdsb2Iob3MucGF0aC5q
+b2luKGdldF9iYl92YXIoZGVwbG95X3BhY2thZ2VzX3ZhciksPGJyPg0KJiM0MzsmbmJzcDsgJm5i
+c3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJz
+cDsgZ2V0X2JiX3ZhcigmcXVvdDtNQUNISU5FJnF1b3Q7KS5yZXBsYWNlKCZxdW90Oy0mcXVvdDss
+JnF1b3Q7XyZxdW90OyksICZxdW90OyotZGJnKiZxdW90OykpPGJyPg0KJiM0MzsmbmJzcDsgJm5i
+c3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyBzZWxmLmFzc2VydE5vdEVxdWFsKGxlbihk
+ZWJ1Z19wYWNrX2ZpbGVzKSwgMCw8YnI+DQomIzQzOyZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNw
+OyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAnZGVidWcgcGFja2Fn
+ZXMgbm90IGdlbmVyYXRlZCBmb3IgJXMnICUgcGFja19jbGFzcyk8bzpwPjwvbzpwPjwvcD4NCjwv
+ZGl2Pg0KPC9ibG9ja3F1b3RlPg0KPC9kaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48YnI+DQpF
+YWNoIGNhbGwgdG8gZ2V0X2JiX3ZhcigpIGlzIGEgY2FsbCB0byBiaXRiYWtlLCBzbyBpdCdzIGJl
+c3QgdG8gYmF0Y2ggdXAgdGhlc2UgYXMgbXVjaCBhcyBwb3NzaWJsZSBpbnRvIGEgc2luZ2xlIGdl
+dF9iYl92YXJzKCkgY2FsbC48bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNz
+PSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xh
+c3M9Ik1zb05vcm1hbCI+QWxzbyBpcyB0aGVyZSBhbnkgcG9pbnQgdG8gY2hlY2tpbmcgdGhhdCBk
+YmcgcGFja2FnZXMgd2VyZSBjcmVhdGVkPzxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0K
+PHAgY2xhc3M9Ik1zb05vcm1hbCI+PG86cD4mbmJzcDs8L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+
+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj5Sb3NzPG86cD48L286cD48L3A+DQo8L2Rpdj4NCjwvZGl2
+Pg0KPC9kaXY+DQo8L2JvZHk+DQo8L2h0bWw+DQo=
 
-Also is there any point to checking that dbg packages were created?
-
-Ross
-
---94eb2c0580a81a24e7055216d3de
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 16 June 2017 at 18:01, Humberto Ibarra <span dir=3D"ltr">&lt;<a href=3D"=
-mailto:humberto.ibarra.lopez@intel.com" target=3D"_blank">humberto.ibarra.l=
-opez@intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" s=
-tyle=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div=
- id=3D":4mc" class=3D"a3s aXjCH m15cb1d6d7846f822">+=C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 image_name =3D &#39;core-image-minimal&#39;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 clean_cmd =3D &#39;-c clean %s&#39; % image_na=
-me<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 deploy_dir_image =3D get_bb_var(&#39;DEPLOY_DI=
-R_IMAGE&#39;)<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 for pack_class in [ &quot;rpm&quot;, &quot;deb=
-&quot;, &quot;ipk&quot;]:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bitbake(clean_cmd)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 features =3D &#39;IMAGE_GEN_DEBU=
-GFS =3D &quot;1&quot;\n&#39;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 features +=3D &#39;IMAGE_FSTYPES=
-_DEBUGFS =3D &quot;tar.bz2&quot;\n&#39;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 features +=3D &#39;PACKAGE_CLASS=
-ES =3D &quot;package_%s&quot;&#39; % pack_class<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.write_config(features)<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bitbake(image_name)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 debug_files =3D glob.glob(os.pat=
-h.join(deploy_<wbr>dir_image,&quot;*-dbg.rootfs.tar.<wbr>bz2&quot;))<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.assertNotEqual(len(debug_<w=
-br>files), 0,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39=
-;debug filesystem not generated for %s&#39; % pack_class)<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 deploy_packages_var =3D &#39;DEP=
-LOY_DIR_%s&#39; % pack_class.upper()<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 debug_pack_files =3D glob.glob(o=
-s.path.join(get_bb_<wbr>var(deploy_packages_var),<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 get_=
-bb_var(&quot;MACHINE&quot;).replace(<wbr>&quot;-&quot;,&quot;_&quot;), &quo=
-t;*-dbg*&quot;))<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.assertNotEqual(len(debug_<w=
-br>pack_files), 0,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39=
-;debug packages not generated for %s&#39; % pack_class)</div></blockquote><=
-/div><br>Each call to get_bb_var() is a call to bitbake, so it&#39;s best t=
-o batch up these as much as possible into a single get_bb_vars() call.</div=
-><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Also is th=
-ere any point to checking that dbg packages were created?</div><div class=
-=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
-
---94eb2c0580a81a24e7055216d3de--
+--_000_F187383F84EB304A88D055C304958879468479EEFMSMSX106amrcor_--
