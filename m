@@ -1,43 +1,54 @@
-Return-Path: <humberto.ibarra.lopez@intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 94A1F782C5
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pf0-f196.google.com (mail-pf0-f196.google.com
+	[209.85.192.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 5B260782DD
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Jun 2017 17:37:49 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	16 Jun 2017 10:37:50 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.39,348,1493708400"; 
-	d="scan'208,217";a="1161378903"
-Received: from fmsmsx104.amr.corp.intel.com ([10.18.124.202])
-	by fmsmga001.fm.intel.com with ESMTP; 16 Jun 2017 10:37:50 -0700
-Received: from fmsmsx157.amr.corp.intel.com (10.18.116.73) by
-	fmsmsx104.amr.corp.intel.com (10.18.124.202) with Microsoft SMTP Server
-	(TLS) id 14.3.319.2; Fri, 16 Jun 2017 10:37:48 -0700
-Received: from fmsmsx106.amr.corp.intel.com ([169.254.5.16]) by
-	FMSMSX157.amr.corp.intel.com ([169.254.14.168]) with mapi id
-	14.03.0319.002; Fri, 16 Jun 2017 10:37:48 -0700
-From: "Ibarra Lopez, Humberto" <humberto.ibarra.lopez@intel.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Thread-Topic: [OE-core] [PATCH 1/1] imagefeatures.py: Added testcase to
-	track IMAGE_GEN_DEBUGFS
-Thread-Index: AQHS5sGarWjfHlUfNEy4PJQPzr8huKIoLeWA//+SlYA=
-Date: Fri, 16 Jun 2017 17:37:47 +0000
-Message-ID: <F187383F84EB304A88D055C304958879468479EE@FMSMSX106.amr.corp.intel.com>
-References: <cover.1497632387.git.humberto.ibarra.lopez@intel.com>
-	<7dc39347ac14d76dbdeb4d29cb63254dc559001f.1497632387.git.humberto.ibarra.lopez@intel.com>
-	<CAJTo0LbyA6q5ywJhKj6WUiozesJNo0ZqWrZsMhvW+k0Cei2QGw@mail.gmail.com>
-In-Reply-To: <CAJTo0LbyA6q5ywJhKj6WUiozesJNo0ZqWrZsMhvW+k0Cei2QGw@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-version: 10.0.102.7
-dlp-reaction: no-action
-x-originating-ip: [10.1.200.108]
+	Fri, 16 Jun 2017 17:54:56 +0000 (UTC)
+Received: by mail-pf0-f196.google.com with SMTP id d5so7579419pfe.1
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 16 Jun 2017 10:54:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=subject:to:references:from:message-id:date:user-agent:mime-version
+	:in-reply-to; bh=vjSCJ222YYkv5yetYbyEAvYbddWhlOObZHye0nr+ueU=;
+	b=ib64zH231XyV9/SyU4DL9bBJyti6oBCckYCejHNREMqAHVDDBoi7iiKvu10+It/ALS
+	0JUvUZ7R2UcF9wvadH+MfsjshKdab24ojot7wTaAULL3T/DWwQC6bk08ksmp6iU0s0Wr
+	MNEtt8SEwaZ/K9//BZyqH4tLQUUT59Rkeuvyq7ZAo3Sw7jJv9Oz9DGXG+pq5GnIfJR/9
+	4M9cX4iR0hPe+mTqSpZdlk74uUxwkAZMWTYuCgRNWFw9UF2PzoXPXO4vum9ZsarHqHM4
+	khx+wweaUsyVR4vUjsJymTvS1KNEJezixDx8LPHBiRWF/R+Z3qDt3I7bFbpNJajw/3Qp
+	R6gQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:subject:to:references:from:message-id:date
+	:user-agent:mime-version:in-reply-to;
+	bh=vjSCJ222YYkv5yetYbyEAvYbddWhlOObZHye0nr+ueU=;
+	b=FI1s3DM3gtgIE7x9qtM/7JmlWYXa0twzKi9QP4x4pthYCnXIm/GrOcXEvbJ+X7p7ql
+	8aXDQYtEgf9gF2VZYi6n4mGxaqJtPCmaM58edDvwA9gsdPzS5zn3qJNRFTQAcRklx7Pa
+	4Xdzj/8cajC/RV3a+xuYR/F2Hb/i/jEmVO4UiERaD27TdVwU7m4x7m5+8XF2a79izX/b
+	sLXA6xC3wyVx71QlSI7dlR/mY5RqvSe8k6t/RVvBw130DdLSoA9QYO7Cg+OsVIe1AsPv
+	03H5PrapfmPBqbX8LVPD7Z7yGOD3Oqz7mKhhJqcmrahU6ov1ZPDyQ8/s0DFLXlGEIuQT
+	BU7g==
+X-Gm-Message-State: AKS2vOylqKJ8/TONu3XEqOJs+LZ/9EGOXryPtDqogdXfMHLpelgBYFnb
+	DFQFCHVpZYInncNAxco=
+X-Received: by 10.84.214.150 with SMTP id j22mr14082756pli.137.1497635697896; 
+	Fri, 16 Jun 2017 10:54:57 -0700 (PDT)
+Received: from ?IPv6:2601:646:8882:b8c:745f:c6ab:d92d:5f3f?
+	([2601:646:8882:b8c:745f:c6ab:d92d:5f3f])
+	by smtp.gmail.com with ESMTPSA id
+	z66sm6602545pfl.13.2017.06.16.10.54.56
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 16 Jun 2017 10:54:56 -0700 (PDT)
+To: openembedded-core@lists.openembedded.org
+References: <cover.1497615866.git.alexander.kanavin@linux.intel.com>
+	<d8d07071866bfeac6bccb8e50f099d9cb3113d2a.1497615866.git.alexander.kanavin@linux.intel.com>
+From: Khem Raj <raj.khem@gmail.com>
+Message-ID: <642953f4-8927-acdc-a469-6970a3fb450d@gmail.com>
+Date: Fri, 16 Jun 2017 10:54:50 -0700
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:54.0)
+	Gecko/20100101 Thunderbird/54.0
 MIME-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] imagefeatures.py: Added testcase to track IMAGE_GEN_DEBUGFS
+In-Reply-To: <d8d07071866bfeac6bccb8e50f099d9cb3113d2a.1497615866.git.alexander.kanavin@linux.intel.com>
+Subject: Re: [PATCH 20/32] icu: update to 59.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,161 +61,115 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Jun 2017 17:37:51 -0000
+X-List-Received-Date: Fri, 16 Jun 2017 17:54:57 -0000
+X-Groupsio-MsgNum: 99005
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature";
+	boundary="KhHrafaKCJUF80vrKnbQ4thNLHrat8X6A"
+
+--KhHrafaKCJUF80vrKnbQ4thNLHrat8X6A
+Content-Type: multipart/mixed; boundary="kwneEVvlffw5ME8VtX4Vi7xBvXIAwDknA";
+ protected-headers="v1"
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Message-ID: <642953f4-8927-acdc-a469-6970a3fb450d@gmail.com>
+Subject: Re: [OE-core] [PATCH 20/32] icu: update to 59.1
+References: <cover.1497615866.git.alexander.kanavin@linux.intel.com>
+ <d8d07071866bfeac6bccb8e50f099d9cb3113d2a.1497615866.git.alexander.kanavin@linux.intel.com>
+In-Reply-To: <d8d07071866bfeac6bccb8e50f099d9cb3113d2a.1497615866.git.alexander.kanavin@linux.intel.com>
+
+--kwneEVvlffw5ME8VtX4Vi7xBvXIAwDknA
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_F187383F84EB304A88D055C304958879468479EEFMSMSX106amrcor_"
+Content-Transfer-Encoding: quoted-printable
 
---_000_F187383F84EB304A88D055C304958879468479EEFMSMSX106amrcor_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+On 6/16/17 5:28 AM, Alexander Kanavin wrote:
+> License checksum change due to copyright year update.
+>=20
+> Latest icu will not compile with anything less than C++11, so
+> drop the enforcement of an earlier C++ version. This should be okay,
+> as there is now a fix in place for the problem of mixing native gcc 4/5=
 
-VGhvdWdodCBhYm91dCB0ZXN0aW5nIGRlYnVnIHBhY2thZ2VzIGJlY2F1c2UgdGhlIGJ1ZyBjb21t
-ZW50cyBtZW50aW9uZWQgaXRlcmF0aW5nIHRocm91Z2ggcnBtLCBkZWIgYW5kIGlway4gSWYgdGhl
-cmUgaXMgbm8gdmFsdWUgdG8gdGhpcyBwYXJ0IEkgY291bGQgZHJvcCBpdCBhbmQgb25seSB0ZXN0
-IGZvciB0aGUgZGVidWcgZmlsZXN5c3RlbS4gSW4gdGhpcyBjYXNlcyB0aGVyZSBhbnkgdmFsdWUg
-dG8gY2hlY2sgdGhlIGRlYnVnIGZpbGVzeXN0ZW0gaW4gYWxsIHRocmVlIHBhY2thZ2UgY2xhc3Nl
-cz8NCg0KSHVtYmVydG8NCg0KRnJvbTogQnVydG9uLCBSb3NzIFttYWlsdG86cm9zcy5idXJ0b25A
-aW50ZWwuY29tXQ0KU2VudDogRnJpZGF5LCBKdW5lIDE2LCAyMDE3IDEyOjA3IFBNDQpUbzogSWJh
-cnJhIExvcGV6LCBIdW1iZXJ0byA8aHVtYmVydG8uaWJhcnJhLmxvcGV6QGludGVsLmNvbT4NCkNj
-OiBPRS1jb3JlIDxvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnPg0KU3Vi
-amVjdDogUmU6IFtPRS1jb3JlXSBbUEFUQ0ggMS8xXSBpbWFnZWZlYXR1cmVzLnB5OiBBZGRlZCB0
-ZXN0Y2FzZSB0byB0cmFjayBJTUFHRV9HRU5fREVCVUdGUw0KDQoNCk9uIDE2IEp1bmUgMjAxNyBh
-dCAxODowMSwgSHVtYmVydG8gSWJhcnJhIDxodW1iZXJ0by5pYmFycmEubG9wZXpAaW50ZWwuY29t
-PG1haWx0bzpodW1iZXJ0by5pYmFycmEubG9wZXpAaW50ZWwuY29tPj4gd3JvdGU6DQorICAgICAg
-ICBpbWFnZV9uYW1lID0gJ2NvcmUtaW1hZ2UtbWluaW1hbCcNCisgICAgICAgIGNsZWFuX2NtZCA9
-ICctYyBjbGVhbiAlcycgJSBpbWFnZV9uYW1lDQorICAgICAgICBkZXBsb3lfZGlyX2ltYWdlID0g
-Z2V0X2JiX3ZhcignREVQTE9ZX0RJUl9JTUFHRScpDQorDQorICAgICAgICBmb3IgcGFja19jbGFz
-cyBpbiBbICJycG0iLCAiZGViIiwgImlwayJdOg0KKyAgICAgICAgICAgIGJpdGJha2UoY2xlYW5f
-Y21kKQ0KKyAgICAgICAgICAgIGZlYXR1cmVzID0gJ0lNQUdFX0dFTl9ERUJVR0ZTID0gIjEiXG4n
-DQorICAgICAgICAgICAgZmVhdHVyZXMgKz0gJ0lNQUdFX0ZTVFlQRVNfREVCVUdGUyA9ICJ0YXIu
-YnoyIlxuJw0KKyAgICAgICAgICAgIGZlYXR1cmVzICs9ICdQQUNLQUdFX0NMQVNTRVMgPSAicGFj
-a2FnZV8lcyInICUgcGFja19jbGFzcw0KKyAgICAgICAgICAgIHNlbGYud3JpdGVfY29uZmlnKGZl
-YXR1cmVzKQ0KKw0KKyAgICAgICAgICAgIGJpdGJha2UoaW1hZ2VfbmFtZSkNCisgICAgICAgICAg
-ICBkZWJ1Z19maWxlcyA9IGdsb2IuZ2xvYihvcy5wYXRoLmpvaW4oZGVwbG95X2Rpcl9pbWFnZSwi
-Ki1kYmcucm9vdGZzLnRhci5iejIiKSkNCisgICAgICAgICAgICBzZWxmLmFzc2VydE5vdEVxdWFs
-KGxlbihkZWJ1Z19maWxlcyksIDAsDQorICAgICAgICAgICAgICAgICAgICAnZGVidWcgZmlsZXN5
-c3RlbSBub3QgZ2VuZXJhdGVkIGZvciAlcycgJSBwYWNrX2NsYXNzKQ0KKw0KKyAgICAgICAgICAg
-IGRlcGxveV9wYWNrYWdlc192YXIgPSAnREVQTE9ZX0RJUl8lcycgJSBwYWNrX2NsYXNzLnVwcGVy
-KCkNCisgICAgICAgICAgICBkZWJ1Z19wYWNrX2ZpbGVzID0gZ2xvYi5nbG9iKG9zLnBhdGguam9p
-bihnZXRfYmJfdmFyKGRlcGxveV9wYWNrYWdlc192YXIpLA0KKyAgICAgICAgICAgICAgICAgICAg
-Z2V0X2JiX3ZhcigiTUFDSElORSIpLnJlcGxhY2UoIi0iLCJfIiksICIqLWRiZyoiKSkNCisgICAg
-ICAgICAgICBzZWxmLmFzc2VydE5vdEVxdWFsKGxlbihkZWJ1Z19wYWNrX2ZpbGVzKSwgMCwNCisg
-ICAgICAgICAgICAgICAgICAgICdkZWJ1ZyBwYWNrYWdlcyBub3QgZ2VuZXJhdGVkIGZvciAlcycg
-JSBwYWNrX2NsYXNzKQ0KDQpFYWNoIGNhbGwgdG8gZ2V0X2JiX3ZhcigpIGlzIGEgY2FsbCB0byBi
-aXRiYWtlLCBzbyBpdCdzIGJlc3QgdG8gYmF0Y2ggdXAgdGhlc2UgYXMgbXVjaCBhcyBwb3NzaWJs
-ZSBpbnRvIGEgc2luZ2xlIGdldF9iYl92YXJzKCkgY2FsbC4NCg0KQWxzbyBpcyB0aGVyZSBhbnkg
-cG9pbnQgdG8gY2hlY2tpbmcgdGhhdCBkYmcgcGFja2FnZXMgd2VyZSBjcmVhdGVkPw0KDQpSb3Nz
-DQo=
+> compiled code:
+> http://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/?id=3Dc21cec84886=
+d9c70396e9be0ceb9a8ef300b54be
+>=20
+> Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+> ---
+>  meta/conf/distro/include/uninative-flags.inc          | 4 ----
+>  meta/recipes-support/icu/{icu_58.2.bb =3D> icu_59.1.bb} | 6 +++---
+>  2 files changed, 3 insertions(+), 7 deletions(-)
+>  rename meta/recipes-support/icu/{icu_58.2.bb =3D> icu_59.1.bb} (77%)
+>=20
+> diff --git a/meta/conf/distro/include/uninative-flags.inc b/meta/conf/d=
+istro/include/uninative-flags.inc
+> index f5b15471a4b..febf2a53e52 100644
+> --- a/meta/conf/distro/include/uninative-flags.inc
+> +++ b/meta/conf/distro/include/uninative-flags.inc
+> @@ -1,7 +1,3 @@
+> -# icu configure defaults to CXX11 if no -std=3D option is passed in CX=
+XFLAGS
+> -# therefore pass one
+> -BUILD_CXXFLAGS_append_pn-icu-native =3D " -std=3Dc++98"
+> -
 
---_000_F187383F84EB304A88D055C304958879468479EEFMSMSX106amrcor_
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: base64
+I think this change should be tried on oldest supported distro for build
+host like centos, I wonder if the std option was papering over c++11
+missing bits on gcc 4.8
 
-PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
-bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
-YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
-cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
-VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
-Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
-ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
-PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
-IkNhbWJyaWEgTWF0aCI7DQoJcGFub3NlLTE6MiA0IDUgMyA1IDQgNiAzIDIgNDt9DQpAZm9udC1m
-YWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIgMiAyIDQgMyAy
-IDQ7fQ0KLyogU3R5bGUgRGVmaW5pdGlvbnMgKi8NCnAuTXNvTm9ybWFsLCBsaS5Nc29Ob3JtYWws
-IGRpdi5Nc29Ob3JtYWwNCgl7bWFyZ2luOjBpbjsNCgltYXJnaW4tYm90dG9tOi4wMDAxcHQ7DQoJ
-Zm9udC1zaXplOjEyLjBwdDsNCglmb250LWZhbWlseToiVGltZXMgTmV3IFJvbWFuIixzZXJpZjt9
-DQphOmxpbmssIHNwYW4uTXNvSHlwZXJsaW5rDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsNCglj
-b2xvcjpibHVlOw0KCXRleHQtZGVjb3JhdGlvbjp1bmRlcmxpbmU7fQ0KYTp2aXNpdGVkLCBzcGFu
-Lk1zb0h5cGVybGlua0ZvbGxvd2VkDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsNCgljb2xvcjpw
-dXJwbGU7DQoJdGV4dC1kZWNvcmF0aW9uOnVuZGVybGluZTt9DQpzcGFuLkVtYWlsU3R5bGUxNw0K
-CXttc28tc3R5bGUtdHlwZTpwZXJzb25hbC1yZXBseTsNCglmb250LWZhbWlseToiQ2FsaWJyaSIs
-c2Fucy1zZXJpZjsNCgljb2xvcjojMUY0OTdEO30NCi5Nc29DaHBEZWZhdWx0DQoJe21zby1zdHls
-ZS10eXBlOmV4cG9ydC1vbmx5Ow0KCWZvbnQtZmFtaWx5OiJDYWxpYnJpIixzYW5zLXNlcmlmO30N
-CkBwYWdlIFdvcmRTZWN0aW9uMQ0KCXtzaXplOjguNWluIDExLjBpbjsNCgltYXJnaW46MS4waW4g
-MS4waW4gMS4waW4gMS4waW47fQ0KZGl2LldvcmRTZWN0aW9uMQ0KCXtwYWdlOldvcmRTZWN0aW9u
-MTt9DQotLT48L3N0eWxlPjwhLS1baWYgZ3RlIG1zbyA5XT48eG1sPg0KPG86c2hhcGVkZWZhdWx0
-cyB2OmV4dD0iZWRpdCIgc3BpZG1heD0iMTAyNiIgLz4NCjwveG1sPjwhW2VuZGlmXS0tPjwhLS1b
-aWYgZ3RlIG1zbyA5XT48eG1sPg0KPG86c2hhcGVsYXlvdXQgdjpleHQ9ImVkaXQiPg0KPG86aWRt
-YXAgdjpleHQ9ImVkaXQiIGRhdGE9IjEiIC8+DQo8L286c2hhcGVsYXlvdXQ+PC94bWw+PCFbZW5k
-aWZdLS0+DQo8L2hlYWQ+DQo8Ym9keSBsYW5nPSJFTi1VUyIgbGluaz0iYmx1ZSIgdmxpbms9InB1
-cnBsZSI+DQo8ZGl2IGNsYXNzPSJXb3JkU2VjdGlvbjEiPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+
-PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZx
-dW90OyxzYW5zLXNlcmlmO2NvbG9yOiMxRjQ5N0QiPlRob3VnaHQgYWJvdXQgdGVzdGluZyBkZWJ1
-ZyBwYWNrYWdlcyBiZWNhdXNlIHRoZSBidWcgY29tbWVudHMgbWVudGlvbmVkIGl0ZXJhdGluZyB0
-aHJvdWdoIHJwbSwgZGViIGFuZCBpcGsuIElmIHRoZXJlIGlzIG5vIHZhbHVlIHRvIHRoaXMgcGFy
-dCBJIGNvdWxkIGRyb3AgaXQNCiBhbmQgb25seSB0ZXN0IGZvciB0aGUgZGVidWcgZmlsZXN5c3Rl
-bS4gSW4gdGhpcyBjYXNlcyB0aGVyZSBhbnkgdmFsdWUgdG8gY2hlY2sgdGhlIGRlYnVnIGZpbGVz
-eXN0ZW0gaW4gYWxsIHRocmVlIHBhY2thZ2UgY2xhc3Nlcz88bzpwPjwvbzpwPjwvc3Bhbj48L3A+
-DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250
-LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWY7Y29sb3I6IzFGNDk3RCI+PG86
-cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5
-bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OyxzYW5z
-LXNlcmlmO2NvbG9yOiMxRjQ5N0QiPkh1bWJlcnRvPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAg
-Y2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1p
-bHk6JnF1b3Q7Q2FsaWJyaSZxdW90OyxzYW5zLXNlcmlmO2NvbG9yOiMxRjQ5N0QiPjxvOnA+Jm5i
-c3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxiPjxzcGFuIHN0eWxl
-PSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1z
-ZXJpZiI+RnJvbTo8L3NwYW4+PC9iPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQt
-ZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJpZiI+IEJ1cnRvbiwgUm9zcyBbbWFp
-bHRvOnJvc3MuYnVydG9uQGludGVsLmNvbV0NCjxicj4NCjxiPlNlbnQ6PC9iPiBGcmlkYXksIEp1
-bmUgMTYsIDIwMTcgMTI6MDcgUE08YnI+DQo8Yj5Ubzo8L2I+IEliYXJyYSBMb3BleiwgSHVtYmVy
-dG8gJmx0O2h1bWJlcnRvLmliYXJyYS5sb3BlekBpbnRlbC5jb20mZ3Q7PGJyPg0KPGI+Q2M6PC9i
-PiBPRS1jb3JlICZsdDtvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnJmd0
-Ozxicj4NCjxiPlN1YmplY3Q6PC9iPiBSZTogW09FLWNvcmVdIFtQQVRDSCAxLzFdIGltYWdlZmVh
-dHVyZXMucHk6IEFkZGVkIHRlc3RjYXNlIHRvIHRyYWNrIElNQUdFX0dFTl9ERUJVR0ZTPG86cD48
-L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PG86cD4mbmJzcDs8L286cD48
-L3A+DQo8ZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+
-PC9wPg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPk9uIDE2IEp1bmUgMjAxNyBhdCAxODow
-MSwgSHVtYmVydG8gSWJhcnJhICZsdDs8YSBocmVmPSJtYWlsdG86aHVtYmVydG8uaWJhcnJhLmxv
-cGV6QGludGVsLmNvbSIgdGFyZ2V0PSJfYmxhbmsiPmh1bWJlcnRvLmliYXJyYS5sb3BlekBpbnRl
-bC5jb208L2E+Jmd0OyB3cm90ZTo8bzpwPjwvbzpwPjwvcD4NCjxibG9ja3F1b3RlIHN0eWxlPSJi
-b3JkZXI6bm9uZTtib3JkZXItbGVmdDpzb2xpZCAjQ0NDQ0NDIDEuMHB0O3BhZGRpbmc6MGluIDBp
-biAwaW4gNi4wcHQ7bWFyZ2luLWxlZnQ6NC44cHQ7bWFyZ2luLXJpZ2h0OjBpbiI+DQo8ZGl2IGlk
-PSI6NG1jIj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPiYjNDM7Jm5ic3A7ICZuYnNwOyAmbmJzcDsg
-Jm5ic3A7IGltYWdlX25hbWUgPSAnY29yZS1pbWFnZS1taW5pbWFsJzxicj4NCiYjNDM7Jm5ic3A7
-ICZuYnNwOyAmbmJzcDsgJm5ic3A7IGNsZWFuX2NtZCA9ICctYyBjbGVhbiAlcycgJSBpbWFnZV9u
-YW1lPGJyPg0KJiM0MzsmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgZGVwbG95X2Rpcl9pbWFn
-ZSA9IGdldF9iYl92YXIoJ0RFUExPWV9ESVJfSU1BR0UnKTxicj4NCiYjNDM7PGJyPg0KJiM0Mzsm
-bmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgZm9yIHBhY2tfY2xhc3MgaW4gWyAmcXVvdDtycG0m
-cXVvdDssICZxdW90O2RlYiZxdW90OywgJnF1b3Q7aXBrJnF1b3Q7XTo8YnI+DQomIzQzOyZuYnNw
-OyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7IGJpdGJha2UoY2xlYW5fY21kKTxi
-cj4NCiYjNDM7Jm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgZmVhdHVy
-ZXMgPSAnSU1BR0VfR0VOX0RFQlVHRlMgPSAmcXVvdDsxJnF1b3Q7XG4nPGJyPg0KJiM0MzsmbmJz
-cDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyBmZWF0dXJlcyAmIzQzOz0gJ0lN
-QUdFX0ZTVFlQRVNfREVCVUdGUyA9ICZxdW90O3Rhci5iejImcXVvdDtcbic8YnI+DQomIzQzOyZu
-YnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7IGZlYXR1cmVzICYjNDM7PSAn
-UEFDS0FHRV9DTEFTU0VTID0gJnF1b3Q7cGFja2FnZV8lcyZxdW90OycgJSBwYWNrX2NsYXNzPGJy
-Pg0KJiM0MzsmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyBzZWxmLndy
-aXRlX2NvbmZpZyhmZWF0dXJlcyk8YnI+DQomIzQzOzxicj4NCiYjNDM7Jm5ic3A7ICZuYnNwOyAm
-bmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgYml0YmFrZShpbWFnZV9uYW1lKTxicj4NCiYjNDM7
-Jm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgZGVidWdfZmlsZXMgPSBn
-bG9iLmdsb2Iob3MucGF0aC5qb2luKGRlcGxveV9kaXJfaW1hZ2UsJnF1b3Q7Ki1kYmcucm9vdGZz
-LnRhci5iejImcXVvdDspKTxicj4NCiYjNDM7Jm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZu
-YnNwOyAmbmJzcDsgc2VsZi5hc3NlcnROb3RFcXVhbChsZW4oZGVidWdfZmlsZXMpLCAwLDxicj4N
-CiYjNDM7Jm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZu
-YnNwOyAmbmJzcDsgJm5ic3A7ICdkZWJ1ZyBmaWxlc3lzdGVtIG5vdCBnZW5lcmF0ZWQgZm9yICVz
-JyAlIHBhY2tfY2xhc3MpPGJyPg0KJiM0Mzs8YnI+DQomIzQzOyZuYnNwOyAmbmJzcDsgJm5ic3A7
-ICZuYnNwOyAmbmJzcDsgJm5ic3A7IGRlcGxveV9wYWNrYWdlc192YXIgPSAnREVQTE9ZX0RJUl8l
-cycgJSBwYWNrX2NsYXNzLnVwcGVyKCk8YnI+DQomIzQzOyZuYnNwOyAmbmJzcDsgJm5ic3A7ICZu
-YnNwOyAmbmJzcDsgJm5ic3A7IGRlYnVnX3BhY2tfZmlsZXMgPSBnbG9iLmdsb2Iob3MucGF0aC5q
-b2luKGdldF9iYl92YXIoZGVwbG95X3BhY2thZ2VzX3ZhciksPGJyPg0KJiM0MzsmbmJzcDsgJm5i
-c3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJz
-cDsgZ2V0X2JiX3ZhcigmcXVvdDtNQUNISU5FJnF1b3Q7KS5yZXBsYWNlKCZxdW90Oy0mcXVvdDss
-JnF1b3Q7XyZxdW90OyksICZxdW90OyotZGJnKiZxdW90OykpPGJyPg0KJiM0MzsmbmJzcDsgJm5i
-c3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyBzZWxmLmFzc2VydE5vdEVxdWFsKGxlbihk
-ZWJ1Z19wYWNrX2ZpbGVzKSwgMCw8YnI+DQomIzQzOyZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNw
-OyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAnZGVidWcgcGFja2Fn
-ZXMgbm90IGdlbmVyYXRlZCBmb3IgJXMnICUgcGFja19jbGFzcyk8bzpwPjwvbzpwPjwvcD4NCjwv
-ZGl2Pg0KPC9ibG9ja3F1b3RlPg0KPC9kaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48YnI+DQpF
-YWNoIGNhbGwgdG8gZ2V0X2JiX3ZhcigpIGlzIGEgY2FsbCB0byBiaXRiYWtlLCBzbyBpdCdzIGJl
-c3QgdG8gYmF0Y2ggdXAgdGhlc2UgYXMgbXVjaCBhcyBwb3NzaWJsZSBpbnRvIGEgc2luZ2xlIGdl
-dF9iYl92YXJzKCkgY2FsbC48bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNz
-PSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xh
-c3M9Ik1zb05vcm1hbCI+QWxzbyBpcyB0aGVyZSBhbnkgcG9pbnQgdG8gY2hlY2tpbmcgdGhhdCBk
-YmcgcGFja2FnZXMgd2VyZSBjcmVhdGVkPzxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0K
-PHAgY2xhc3M9Ik1zb05vcm1hbCI+PG86cD4mbmJzcDs8L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+
-DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj5Sb3NzPG86cD48L286cD48L3A+DQo8L2Rpdj4NCjwvZGl2
-Pg0KPC9kaXY+DQo8L2JvZHk+DQo8L2h0bWw+DQo=
+>  # Some distros (ubuntu 16.10, debian-testing) default to gcc configure=
+d with
+>  # --enable-default-pie (see gcc -v). This breaks e.g. prelink-native o=
+n a pie
+>  # default system if binutils-native was built on a system which is not=
+ pie default
+> diff --git a/meta/recipes-support/icu/icu_58.2.bb b/meta/recipes-suppor=
+t/icu/icu_59.1.bb
+> similarity index 77%
+> rename from meta/recipes-support/icu/icu_58.2.bb
+> rename to meta/recipes-support/icu/icu_59.1.bb
+> index 4d062ebf941..55087c336dc 100644
+> --- a/meta/recipes-support/icu/icu_58.2.bb
+> +++ b/meta/recipes-support/icu/icu_59.1.bb
+> @@ -1,6 +1,6 @@
+>  require icu.inc
+> =20
+> -LIC_FILES_CHKSUM =3D "file://../LICENSE;md5=3D1b3b75c1777cd49ad5c6a24c=
+d338cfc9"
+> +LIC_FILES_CHKSUM =3D "file://../LICENSE;md5=3Dfe9e1f2c500466d8f18df2cd=
+068e4b74"
+> =20
+>  def icu_download_version(d):
+>      pvsplit =3D d.getVar('PV').split('.')
+> @@ -21,8 +21,8 @@ SRC_URI =3D "${BASE_SRC_URI} \
+>  SRC_URI_append_class-target =3D "\
+>             file://0001-Disable-LDFLAGSICUDT-for-Linux.patch \
+>            "
+> -SRC_URI[md5sum] =3D "fac212b32b7ec7ab007a12dff1f3aea1"
+> -SRC_URI[sha256sum] =3D "2b0a4410153a9b20de0e20c7d8b66049a72aef244b5368=
+3d0d7521371683da0c"
+> +SRC_URI[md5sum] =3D "54923fa9fab5b2b83f235fb72523de37"
+> +SRC_URI[sha256sum] =3D "7132fdaf9379429d004005217f10e00b7d2319d0fea22b=
+dfddef8991c45b75fe"
+> =20
+>  UPSTREAM_CHECK_REGEX =3D "(?P<pver>\d+(\.\d+)+)/"
+>  UPSTREAM_CHECK_URI =3D "http://download.icu-project.org/files/icu4c/"
+>=20
 
---_000_F187383F84EB304A88D055C304958879468479EEFMSMSX106amrcor_--
+
+
+--kwneEVvlffw5ME8VtX4Vi7xBvXIAwDknA--
+
+--KhHrafaKCJUF80vrKnbQ4thNLHrat8X6A
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iEYEARECAAYFAllEG24ACgkQuwUzVZGdMxTZ8wCcCNkCO6gtQ0jo2xuPvBa4WA3H
+7twAn0H/vROldpPBl6IIo8qM4ChblvYn
+=g6nL
+-----END PGP SIGNATURE-----
+
+--KhHrafaKCJUF80vrKnbQ4thNLHrat8X6A--
