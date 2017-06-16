@@ -1,65 +1,37 @@
-Return-Path: <lgonza@us.ibm.com>
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com
-	[148.163.156.1])
-	by mail.openembedded.org (Postfix) with ESMTP id EFC45784BC
+Return-Path: <denis@denix.org>
+Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.17])
+	by mail.openembedded.org (Postfix) with ESMTP id BE475784CE
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Jun 2017 16:36:42 +0000 (UTC)
-Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.16.0.20/8.16.0.20) with SMTP id
-	v5GGYRtd033060 for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Jun 2017 12:36:43 -0400
-Received: from e16.ny.us.ibm.com (e16.ny.us.ibm.com [129.33.205.206])
-	by mx0a-001b2d01.pphosted.com with ESMTP id 2b4g5efgd5-1
-	(version=TLSv1.2 cipher=AES256-SHA bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Jun 2017 12:36:43 -0400
-Received: from localhost
-	by e16.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
-	Violators will be prosecuted
-	for <openembedded-core@lists.openembedded.org> from <lgonza@us.ibm.com>;
-	Fri, 16 Jun 2017 12:36:42 -0400
-Received: from b01cxnp23033.gho.pok.ibm.com (9.57.198.28)
-	by e16.ny.us.ibm.com (146.89.104.203) with IBM ESMTP SMTP Gateway:
-	Authorized Use Only! Violators will be prosecuted; 
-	Fri, 16 Jun 2017 12:36:40 -0400
-Received: from b01ledav006.gho.pok.ibm.com (b01ledav006.gho.pok.ibm.com
-	[9.57.199.111])
-	by b01cxnp23033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
-	v5GGadZb2556308; Fri, 16 Jun 2017 16:36:39 GMT
-Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 79E19AC048;
-	Fri, 16 Jun 2017 12:36:38 -0400 (EDT)
-Received: from gfw162.aus.stglabs.ibm.com (unknown [9.3.62.92])
-	by b01ledav006.gho.pok.ibm.com (Postfix) with ESMTP id 5F29AAC040;
-	Fri, 16 Jun 2017 12:36:38 -0400 (EDT)
-Received: by gfw162.aus.stglabs.ibm.com (Postfix, from userid 569833)
-	id 6940BF51; Fri, 16 Jun 2017 11:36:39 -0500 (CDT)
-From: Leonel Gonzalez <lgonzalez@us.ibm.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 16 Jun 2017 11:36:37 -0500
-X-Mailer: git-send-email 1.8.3.1
-X-TM-AS-GCONF: 00
-x-cbid: 17061616-0024-0000-0000-000002956461
-X-IBM-SpamModules-Scores: 
-X-IBM-SpamModules-Versions: BY=3.00007243; HX=3.00000241; KW=3.00000007;
-	PH=3.00000004; SC=3.00000214; SDB=6.00875684; UDB=6.00436019;
-	IPR=6.00655773; 
-	BA=6.00005425; NDR=6.00000001; ZLA=6.00000005; ZF=6.00000009;
-	ZB=6.00000000; 
-	ZP=6.00000000; ZH=6.00000000; ZU=6.00000002; MB=3.00015853;
-	XFM=3.00000015; UTC=2017-06-16 16:36:42
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 17061616-0025-0000-0000-0000446944B1
-Message-Id: <1497630997-13100-1-git-send-email-lgonzalez@us.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
-	definitions=2017-06-16_09:, , signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
-	spamscore=0 suspectscore=1
-	malwarescore=0 phishscore=0 adultscore=0 bulkscore=0 classifier=spam
-	adjust=0 reason=mlx scancount=1 engine=8.0.1-1703280000
-	definitions=main-1706160275
-Cc: Leonel Gonzalez <lgonzalez@us.ibm.com>
-Subject: [PATCH v2] rngd: Add service file and systemd package config to rngd
+	Fri, 16 Jun 2017 16:41:50 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by mailout4.zoneedit.com (Postfix) with ESMTP id 4296320B7A;
+	Fri, 16 Jun 2017 16:41:52 +0000 (UTC)
+Received: from mailout4.zoneedit.com ([127.0.0.1])
+	by localhost (zmo03-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
+	port 10024)
+	with ESMTP id WhR_s2ts0A7x; Fri, 16 Jun 2017 16:41:52 +0000 (UTC)
+Received: from mail.denix.org (pool-100-15-85-143.washdc.fios.verizon.net
+	[100.15.85.143])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 1C1EA207A3;
+	Fri, 16 Jun 2017 16:41:50 +0000 (UTC)
+Received: by mail.denix.org (Postfix, from userid 1000)
+	id A67DA162504; Fri, 16 Jun 2017 12:41:49 -0400 (EDT)
+Date: Fri, 16 Jun 2017 12:41:49 -0400
+From: Denys Dmytriyenko <denis@denix.org>
+To: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+Message-ID: <20170616164149.GJ28053@denix.org>
+References: <1497627437-1903-1-git-send-email-lgonzalez@us.ibm.com>
+	<20170616160130.1043.88925@do.openembedded.org>
+	<20170616160902.GH28053@denix.org>
+	<1497630202.29576.29.camel@linux.intel.com>
+MIME-Version: 1.0
+In-Reply-To: <1497630202.29576.29.camel@linux.intel.com>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Cc: Leonel Gonzalez <lgonzalez@us.ibm.com>,
+	openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?UmU6IOKclyBwYXRjaHRlc3Q6IGZhaWx1cmUgZm9yIEFkZCBzZXJ2aWNlIGZpbGUgYW5kIHN5c3RlbWQgcGFja2FnZSBjb25maWcgdG8gcm5nZA==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -72,80 +44,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Jun 2017 16:36:46 -0000
+X-List-Received-Date: Fri, 16 Jun 2017 16:41:52 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Signed-off-by: Leonel Gonzalez <lgonzalez@us.ibm.com>
----
- meta/recipes-support/rng-tools/rng-tools/rngd.service |  8 ++++++++
- meta/recipes-support/rng-tools/rng-tools_5.bb         | 17 +++++++++++++++--
- 2 files changed, 23 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-support/rng-tools/rng-tools/rngd.service
+On Fri, Jun 16, 2017 at 11:23:22AM -0500, Leonardo Sandoval wrote:
+> On Fri, 2017-06-16 at 12:09 -0400, Denys Dmytriyenko wrote:
+> > On Fri, Jun 16, 2017 at 04:01:30PM -0000, Patchwork wrote:
+> > > == Series Details ==
+> > > 
+> > > Series: Add service file and systemd package config to rngd
+> > > Revision: 1
+> > > URL   : https://patchwork.openembedded.org/series/7298/
+> > > State : failure
+> > > 
+> > > == Summary ==
+> > > 
+> > > 
+> > > Thank you for submitting this patch series to OpenEmbedded Core. This is
+> > > an automated response. Several tests have been executed on the proposed
+> > > series by patchtest resulting in the following failures:
+> > > 
+> > > 
+> > > 
+> > > * Patch            Add service file and systemd package config to rngd
+> > >  Issue             Shortlog does not follow expected format [test_shortlog_format] 
+> > >   Suggested fix    Commit shortlog (first line of commit message) should follow the format "<target>: <summary>"
+> > 
+> > For more details:
+> > https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+> 
+> I believe is time to add that URL on the patchwork email!
 
-diff --git a/meta/recipes-support/rng-tools/rng-tools/rngd.service b/meta/recipes-support/rng-tools/rng-tools/rngd.service
-new file mode 100644
-index 0000000..7b0e9a7
---- /dev/null
-+++ b/meta/recipes-support/rng-tools/rng-tools/rngd.service
-@@ -0,0 +1,8 @@
-+[Unit]
-+Description=Hardware RNG Entropy Gatherer Daemon
-+
-+[Service]
-+ExecStart=@SBINDIR@/rngd -f
-+
-+[Install]
-+WantedBy=multi-user.target
-diff --git a/meta/recipes-support/rng-tools/rng-tools_5.bb b/meta/recipes-support/rng-tools/rng-tools_5.bb
-index e2acaba..c6d08e6 100644
---- a/meta/recipes-support/rng-tools/rng-tools_5.bb
-+++ b/meta/recipes-support/rng-tools/rng-tools_5.bb
-@@ -9,7 +9,8 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/gkernel/${BP}.tar.gz \
-            file://uclibc-libuargp-configure.patch \
-            file://rng-tools-5-fix-textrels-on-PIC-x86.patch \
-            file://init \
--           file://default"
-+           file://default \
-+           file://rngd.service"
- 
- SRC_URI[md5sum] = "6726cdc6fae1f5122463f24ae980dd68"
- SRC_URI[sha256sum] = "60a102b6603bbcce2da341470cad42eeaa9564a16b4490e7867026ca11a3078e"
-@@ -21,7 +22,7 @@ python () {
-         d.setVar("INHIBIT_UPDATERCD_BBCLASS", "1")
- }
- 
--inherit autotools update-rc.d
-+inherit autotools update-rc.d systemd
- 
- PACKAGECONFIG = "libgcrypt"
- PACKAGECONFIG_libc-musl = "libargp"
-@@ -29,6 +30,7 @@ PACKAGECONFIG_libc-uclibc = "libuargp"
- PACKAGECONFIG[libargp] = "--with-libargp,--without-libargp,argp-standalone,"
- PACKAGECONFIG[libuargp] = "--enable-uclibc,,,"
- PACKAGECONFIG[libgcrypt] = "--with-libgcrypt,--without-libgcrypt,libgcrypt,"
-+PACKAGECONFIG[systemd] = "--with-systemd=${systemd_unitdir}/system,--without-systemd,systemd"
- 
- do_install_append() {
-     # Only install the init script when 'sysvinit' is in DISTRO_FEATURES.
-@@ -41,7 +43,18 @@ do_install_append() {
-         install -d "${D}${sysconfdir}/default"
-         install -m 0644 ${WORKDIR}/default ${D}${sysconfdir}/default/rng-tools
-     fi
-+
-+    if ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'true', 'false', d)}; then
-+        install -d ${D}${systemd_unitdir}/system
-+        install -m 644 ${WORKDIR}/rngd.service ${D}${systemd_unitdir}/system
-+        sed -i -e 's,@SBINDIR@,${sbindir},g' ${D}${systemd_unitdir}/system/rngd.service
-+    fi
- }
- 
- INITSCRIPT_NAME = "rng-tools"
- INITSCRIPT_PARAMS = "start 30 2 3 4 5 . stop 30 0 6 1 ."
-+
-+RPROVIDES_${PN} += "${PN}-systemd"
-+RREPLACES_${PN} += "${PN}-systemd"
-+RCONFLICTS_${PN} += "${PN}-systemd"
-+SYSTEMD_SERVICE_${PN} = "rngd.service"
--- 
-1.8.3.1
+Finally! :) As I had requested this before...
+The same URL can be used for missing S-o-B or Upstream-Status lines.
 
+
+> > > If you believe any of these test results are incorrect, please reply to the
+> > > mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+> > > Otherwise we would appreciate you correcting the issues and submitting a new
+> > > version of the patchset if applicable. Please ensure you add/increment the
+> > > version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+> > > [PATCH v3] -> ...).
+> > > 
+> > > ---
+> > > Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+> > > Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+> > > 
+> > > -- 
+> > > _______________________________________________
+> > > Openembedded-core mailing list
+> > > Openembedded-core@lists.openembedded.org
+> > > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> 
+> 
 
