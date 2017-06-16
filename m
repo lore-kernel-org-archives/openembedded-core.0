@@ -1,57 +1,26 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
-	by mail.openembedded.org (Postfix) with ESMTP id 176D9784A7
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 2F5EC78469
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Jun 2017 13:29:12 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bes.se.axis.com (Postfix) with ESMTP id 041652E5D3;
-	Fri, 16 Jun 2017 15:29:12 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
-Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id LF-dvCZtHxxN; Fri, 16 Jun 2017 15:29:11 +0200 (CEST)
-Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
-	by bes.se.axis.com (Postfix) with ESMTPS id 3FDC02E5CF;
-	Fri, 16 Jun 2017 15:29:11 +0200 (CEST)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 2E5571E070;
-	Fri, 16 Jun 2017 15:29:11 +0200 (CEST)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 2359E1E06A;
-	Fri, 16 Jun 2017 15:29:11 +0200 (CEST)
-Received: from thoth.se.axis.com (unknown [10.0.2.173])
-	by boulder03.se.axis.com (Postfix) with ESMTP;
-	Fri, 16 Jun 2017 15:29:11 +0200 (CEST)
-Received: from XBOX04.axis.com (xbox04.axis.com [10.0.5.18])
-	by thoth.se.axis.com (Postfix) with ESMTP id 175E021E;
-	Fri, 16 Jun 2017 15:29:11 +0200 (CEST)
-Received: from XBOX02.axis.com (10.0.5.16) by XBOX04.axis.com (10.0.5.18) with
-	Microsoft SMTP Server (TLS) id 15.0.1210.3;
-	Fri, 16 Jun 2017 15:29:11 +0200
-Received: from XBOX02.axis.com ([fe80::d00f:cb52:1b56:20d]) by XBOX02.axis.com
-	([fe80::d00f:cb52:1b56:20d%21]) with mapi id 15.00.1210.000;
-	Fri, 16 Jun 2017 15:29:11 +0200
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Thread-Topic: [OE-core] [PATCH 3/4] kconfig-frontends: Remove as only needed
-	for	eglibc
-Thread-Index: AQHS5nyH6Dj3GXQIck+MD18Grfa4w6Ine6Qg
-Date: Fri, 16 Jun 2017 13:29:10 +0000
-Message-ID: <88402d9533be44aab2c675d33606b4b2@XBOX02.axis.com>
-References: <1497602550-1491-1-git-send-email-richard.purdie@linuxfoundation.org>
-	<1497602550-1491-3-git-send-email-richard.purdie@linuxfoundation.org>
-In-Reply-To: <1497602550-1491-3-git-send-email-richard.purdie@linuxfoundation.org>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.60]
-MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/4] kconfig-frontends: Remove as only needed for	eglibc
+	Fri, 16 Jun 2017 14:17:17 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	16 Jun 2017 07:17:19 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.39,347,1493708400"; d="scan'208";a="1183359940"
+Received: from linux.intel.com ([10.54.29.200])
+	by fmsmga002.fm.intel.com with ESMTP; 16 Jun 2017 07:17:18 -0700
+Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
+	by linux.intel.com (Postfix) with ESMTP id 60BA5580399;
+	Fri, 16 Jun 2017 07:17:17 -0700 (PDT)
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 16 Jun 2017 17:15:32 +0300
+Message-Id: <1497622532-8768-1-git-send-email-ed.bartosh@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+In-Reply-To: <1497603165.24449.6.camel@linuxfoundation.org>
+References: <1497603165.24449.6.camel@linuxfoundation.org>
+Subject: [PATCH v4] image_types.bbclass: get rid of IMAGE_DEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,83 +33,92 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Jun 2017 13:29:14 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 16 Jun 2017 14:17:18 -0000
 
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org
-> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
-> Richard Purdie
-> Sent: den 16 juni 2017 10:42
-> To: openembedded-core@lists.openembedded.org
-> Subject: [OE-core] [PATCH 3/4] kconfig-frontends: Remove as only needed
-> for eglibc
->=20
-> This was only added for eglibc. That is gone so we can drop this too.
->=20
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> ---
->  meta/conf/distro/include/distro_alias.inc          |  1 -
->  .../kconfig-frontends_4.10.0.1.bb                  | 42 --------------
-> --------
->  2 files changed, 43 deletions(-)
->  delete mode 100644 meta/recipes-devtools/kconfig-frontends/kconfig-
-> frontends_4.10.0.1.bb
->=20
-> diff --git a/meta/conf/distro/include/distro_alias.inc
-> b/meta/conf/distro/include/distro_alias.inc
-> index 489f5ea..bbeb105 100644
-> --- a/meta/conf/distro/include/distro_alias.inc
-> +++ b/meta/conf/distro/include/distro_alias.inc
-> @@ -153,7 +153,6 @@ DISTRO_PN_ALIAS_pn-inputproto =3D "Meego=3Dxorg-x11-
-> proto-inputproto"
->  DISTRO_PN_ALIAS_pn-iproute2 =3D "OSPDT"
->  DISTRO_PN_ALIAS_pn-jpeg =3D "OpenSuSE=3Dlibjpeg Ubuntu=3Dlibjpeg62"
->  DISTRO_PN_ALIAS_pn-kbproto =3D "Meego=3Dxorg-x11-proto-kbproto Ubuntu=3D=
-x11proto-kb-dev Debian=3Dx11proto-kb-dev"
-> -DISTRO_PN_ALIAS_pn-kconfig-frontends =3D "OSPDT"
->  DISTRO_PN_ALIAS_pn-kernel-devsrc =3D "Debian=3Dlinux-base Ubuntu=3Dlinux=
-"
->  DISTRO_PN_ALIAS_pn-kernelshark =3D "Mandriva=3Dkernelshark Ubuntu=3Dkern=
-elshark"
->  DISTRO_PN_ALIAS_pn-kern-tools-native =3D "Windriver"
-> diff --git a/meta/recipes-devtools/kconfig-frontends/kconfig-
-> frontends_4.10.0.1.bb b/meta/recipes-devtools/kconfig-
-> frontends/kconfig-frontends_4.10.0.1.bb
-> deleted file mode 100644
-> index d427e98..0000000
-> --- a/meta/recipes-devtools/kconfig-frontends/kconfig-
-> frontends_4.10.0.1.bb
-> +++ /dev/null
-> @@ -1,42 +0,0 @@
-> -# Copyright (C) 2012 Khem Raj <raj.khem@gmail.com>
-> -# Released under the MIT license (see COPYING.MIT for the terms)
-> -
-> -SUMMARY =3D "Linux kernel style configuration framework for other projec=
-ts"
-> -DESCRIPTION =3D "The kconfig-frontends project aims at centralising \
-> -the effort of keeping an up-to-date, out-of-tree, packaging of the \
-> -kconfig infrastructure, ready for use by third-party projects. \
-> -The kconfig-frontends package provides the kconfig parser, as well as al=
-l \
-> -the frontends"
-> -HOMEPAGE =3D "http://ymorin.is-a-geek.org/projects/kconfig-frontends"
-> -LICENSE =3D "GPL-2.0"
-> -LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D9b8cf60ff39767ff04b671fca8302=
-408"
-> -SECTION =3D "devel"
-> -DEPENDS +=3D "ncurses flex bison gperf-native"
-> -RDEPENDS_${PN} +=3D "python3 bash"
-> -SRC_URI =3D "git://ymorin.is-a-geek.org/kconfig-frontends;branch=3D4.10.=
-x \
-> -           file://0001-Fix-installation-of-.pc-files.patch \
-> -           file://0001-Switch-utils-kconfig-diff-to-use-Python-3.patch \
-> -           file://missing-mkdir.patch"
+The IMAGE_DEPENDS_<type> variables can be set to add dependencies for
+individual image types.  Those dependencies are added to the do_rootfs
+task, while they really should be added to the specific image type tasks.
 
-You forgot to remove the actual patch files.
+These variables are not documented anywhere.
 
-//Peter
+Replaced usage of IMAGE_DEPENDS_<type> with explicitly added
+dependencies to do_image_<type> tasks.
+
+[YOCTO #11302]
+
+Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+---
+ meta/classes/image_types.bbclass | 40 +++++++++++++++++++++-------------------
+ 1 file changed, 21 insertions(+), 19 deletions(-)
+
+diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
+index 7749b00..ae6ac7a 100644
+--- a/meta/classes/image_types.bbclass
++++ b/meta/classes/image_types.bbclass
+@@ -29,11 +29,8 @@ def imagetypes_getdepends(d):
+     deps = set()
+     for typestring in fstypes:
+         basetype, resttypes = split_types(typestring)
+-        adddep(d.getVar('IMAGE_DEPENDS_%s' % basetype) , deps)
+-
+         for typedepends in (d.getVar("IMAGE_TYPEDEP_%s" % basetype) or "").split():
+             base, rest = split_types(typedepends)
+-            adddep(d.getVar('IMAGE_DEPENDS_%s' % base) , deps)
+             resttypes += rest
+ 
+         for ctype in resttypes:
+@@ -101,7 +98,7 @@ IMAGE_CMD_squashfs-lzo = "mksquashfs ${IMAGE_ROOTFS} ${IMGDEPLOYDIR}/${IMAGE_NAM
+ # you need special parameters (like --xattrs) which are only supported
+ # by GNU tar upstream >= 1.27, then override that default:
+ # IMAGE_CMD_TAR = "tar --xattrs --xattrs-include=*"
+-# IMAGE_DEPENDS_tar_append = " tar-replacement-native"
++# do_image_tar[depends] += "tar-replacement-native:do_populate_sysroot"
+ # EXTRANATIVEPATH += "tar-native"
+ #
+ # The GNU documentation does not specify whether --xattrs-include is necessary.
+@@ -209,21 +206,26 @@ EXTRA_IMAGECMD_ext4 ?= "-i 4096"
+ EXTRA_IMAGECMD_btrfs ?= "-n 4096"
+ EXTRA_IMAGECMD_elf ?= ""
+ 
+-IMAGE_DEPENDS = ""
+-IMAGE_DEPENDS_jffs2 = "mtd-utils-native"
+-IMAGE_DEPENDS_cramfs = "util-linux-native"
+-IMAGE_DEPENDS_ext2 = "e2fsprogs-native"
+-IMAGE_DEPENDS_ext3 = "e2fsprogs-native"
+-IMAGE_DEPENDS_ext4 = "e2fsprogs-native"
+-IMAGE_DEPENDS_btrfs = "btrfs-tools-native"
+-IMAGE_DEPENDS_squashfs = "squashfs-tools-native"
+-IMAGE_DEPENDS_squashfs-xz = "squashfs-tools-native"
+-IMAGE_DEPENDS_squashfs-lzo = "squashfs-tools-native"
+-IMAGE_DEPENDS_elf = "virtual/kernel mkelfimage-native"
+-IMAGE_DEPENDS_ubi = "mtd-utils-native"
+-IMAGE_DEPENDS_ubifs = "mtd-utils-native"
+-IMAGE_DEPENDS_multiubi = "mtd-utils-native"
+-IMAGE_DEPENDS_wic = "parted-native"
++python () {
++    vars = [key for key in d if key.startswith('IMAGE_DEPENDS')]
++    if vars:
++        bb.fatal('Deprecated variable(s) found: "%s". '
++                 'Use do_image_<type>[depends] += "<recipe>:<task>" instead' % ', '.join(vars))
++}
++
++do_image_jffs2[depends] += "mtd-utils-native:do_populate_sysroot"
++do_image_cramfs[depends] += "util-linux-native:do_populate_sysroot"
++do_image_ext2[depends] += "e2fsprogs-native:do_populate_sysroot"
++do_image_ext3[depends] += "e2fsprogs-native:do_populate_sysroot"
++do_image_ext4[depends] += "e2fsprogs-native:do_populate_sysroot"
++do_image_btrfs[depends] += "btrfs-tools-native:do_populate_sysroot"
++do_image_squashfs[depends] += "squashfs-tools-native:do_populate_sysroot"
++do_image_squashfs-xz[depends] += "squashfs-tools-native:do_populate_sysroot"
++do_image_squashfs-lzo[depends] += "squashfs-tools-native:do_populate_sysroot"
++do_image_elf[depends] += "virtual/kernel-native:do_populate_sysroot mkelfimage-native:do_populate_sysroot"
++do_image_ubi[depends] += "mtd-utils-native:do_populate_sysroot"
++do_image_ubifs[depends] += "mtd-utils-native:do_populate_sysroot"
++do_image_multiubi[depends] += "mtd-utils-native:do_populate_sysroot"
+ 
+ # This variable is available to request which values are suitable for IMAGE_FSTYPES
+ IMAGE_TYPES = " \
+-- 
+2.1.4
 
 
