@@ -1,29 +1,18 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 5D52E7016E
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Jun 2017 08:52:46 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	v5G8qjK9024477
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Fri, 16 Jun 2017 09:52:46 +0100
-Message-ID: <1497603165.24449.6.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Ed Bartosh <ed.bartosh@linux.intel.com>,
-	openembedded-core@lists.openembedded.org
-Date: Fri, 16 Jun 2017 09:52:45 +0100
-In-Reply-To: <1497602452-2535-1-git-send-email-ed.bartosh@linux.intel.com>
-References: <1497545468.29576.22.camel@linux.intel.com>
-	<1497602452-2535-1-git-send-email-ed.bartosh@linux.intel.com>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
-Mime-Version: 1.0
-X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.11
-	(dan.rpsys.net [192.168.3.1]);
-	Fri, 16 Jun 2017 09:52:46 +0100 (BST)
-X-Virus-Scanned: clamav-milter 0.99.2 at dan
-X-Virus-Status: Clean
-Subject: Re: [PATCH v3] image_types.bbclass: get rid of IMAGE_DEPENDS
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 6465E78263;
+	Fri, 16 Jun 2017 09:01:35 +0000 (UTC)
+MIME-Version: 1.0
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Date: Fri, 16 Jun 2017 09:01:37 -0000
+Message-ID: <20170616090137.1043.45733@do.openembedded.org>
+References: <1497602550-1491-1-git-send-email-richard.purdie@linuxfoundation.org>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <1497602550-1491-1-git-send-email-richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgIm1ldGE6IFJlbW92ZSBmdXJ0aGVyIHVjbGliYyByZS4uLiIgYW5kIDMgbW9yZQ==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,51 +25,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Jun 2017 08:52:47 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 16 Jun 2017 09:01:35 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-On Fri, 2017-06-16 at 11:40 +0300, Ed Bartosh wrote:
-> The IMAGE_DEPENDS variable can be overriden to add dependencies for
-> individual image types.  Those dependencies are added to the
-> do_rootfs
-> task, while they really should be added to the specific image type
-> tasks.
-> 
-> Also, the IMAGE_DEPENDS variable is not documented anywhere.
-> 
-> Replaced usage of IMAGE_DEPENDS with explicitly added
-> dependencies to do_image_<image type> tasks.
-> 
-> [YOCTO #11302]
-> 
-> Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
-> ---
->  meta/classes/image_types.bbclass | 41 +++++++++++++++++++-----------
-> ----------
->  1 file changed, 19 insertions(+), 22 deletions(-)
-> 
-> diff --git a/meta/classes/image_types.bbclass
-> b/meta/classes/image_types.bbclass
-> index 7749b00..0d7c27e 100644
-> --- a/meta/classes/image_types.bbclass
-> +++ b/meta/classes/image_types.bbclass
-> @@ -29,12 +29,6 @@ def imagetypes_getdepends(d):
->      deps = set()
->      for typestring in fstypes:
->          basetype, resttypes = split_types(typestring)
-> -        adddep(d.getVar('IMAGE_DEPENDS_%s' % basetype) , deps)
-> -
-> -        for typedepends in (d.getVar("IMAGE_TYPEDEP_%s" % basetype)
-> or "").split():
-> -            base, rest = split_types(typedepends)
-> -            adddep(d.getVar('IMAGE_DEPENDS_%s' % base) , deps)
+== Series Details ==
 
-You need to do the compatibility checking here I'm afraid
-since d.getVar('IMAGE_DEPENDS') is not the same thing
-as d.getVar('IMAGE_DEPENDS_%s' % base.
+Series: "meta: Remove further uclibc re..." and 3 more
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/7285/
+State : failure
 
-Cheers,
+== Summary ==
 
-Richard
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at ec7feb9d31)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
+---
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+
 
