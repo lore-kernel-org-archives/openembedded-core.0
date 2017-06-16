@@ -1,60 +1,47 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 0BE177849D
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wr0-f179.google.com (mail-wr0-f179.google.com
+	[209.85.128.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 696907849D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Jun 2017 13:17:40 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id A100D1852A;
-	Fri, 16 Jun 2017 15:17:41 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id tJ0sif10xdRS; Fri, 16 Jun 2017 15:17:40 +0200 (CEST)
-Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
-	by bastet.se.axis.com (Postfix) with ESMTPS id 4755B18525;
-	Fri, 16 Jun 2017 15:17:40 +0200 (CEST)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 21EFE1E07B;
-	Fri, 16 Jun 2017 15:17:40 +0200 (CEST)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 15C9C1E079;
-	Fri, 16 Jun 2017 15:17:40 +0200 (CEST)
-Received: from thoth.se.axis.com (unknown [10.0.2.173])
-	by boulder03.se.axis.com (Postfix) with ESMTP;
-	Fri, 16 Jun 2017 15:17:40 +0200 (CEST)
-Received: from XBOX01.axis.com (xbox01.axis.com [10.0.5.15])
-	by thoth.se.axis.com (Postfix) with ESMTP id 0972421B;
-	Fri, 16 Jun 2017 15:17:40 +0200 (CEST)
-Received: from XBOX02.axis.com (10.0.5.16) by XBOX01.axis.com (10.0.5.15) with
-	Microsoft SMTP Server (TLS) id 15.0.1210.3;
-	Fri, 16 Jun 2017 15:17:40 +0200
-Received: from XBOX02.axis.com ([fe80::d00f:cb52:1b56:20d]) by XBOX02.axis.com
-	([fe80::d00f:cb52:1b56:20d%21]) with mapi id 15.00.1210.000;
-	Fri, 16 Jun 2017 15:17:40 +0200
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>, Richard Purdie
-	<richard.purdie@linuxfoundation.org>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH 3/4] kconfig-frontends: Remove as only needed
-	for eglibc
-Thread-Index: AQHS5qDVJYsehOjbikKJ0oGWyOAuQaIneH3w
-Date: Fri, 16 Jun 2017 13:17:39 +0000
-Message-ID: <d9c463b9eac74d80a38f5a1a15e3029d@XBOX02.axis.com>
-References: <1497602550-1491-1-git-send-email-richard.purdie@linuxfoundation.org>
-	<1497602550-1491-3-git-send-email-richard.purdie@linuxfoundation.org>
-	<867deeaf462e453b8de99a2fa9f609ec@XBOX02.axis.com>
-	<ca0a4fe0-c6ad-32f5-7d12-4ddf918ea295@linux.intel.com>
-In-Reply-To: <ca0a4fe0-c6ad-32f5-7d12-4ddf918ea295@linux.intel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.60]
-MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-Subject: Re: [PATCH 3/4] kconfig-frontends: Remove as only needed for eglibc
+	Fri, 16 Jun 2017 13:18:53 +0000 (UTC)
+Received: by mail-wr0-f179.google.com with SMTP id r103so38539340wrb.0
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 16 Jun 2017 06:18:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=21tXFJMBrzQfAB3326z0jaHSCUhlH5teNNc8Ml0jYCo=;
+	b=omGuVB/zWJo1aCgbtCuI+HVZuSIs/b11TLN9DvLxANR4riD89KBdZsAYTa0TaldjCv
+	Nic9s7wZLsRxwt7PDoUg6VXaccKDBK2ufMbN00B5jvwceatTJDbYjqgLCQgtmFOznHI7
+	ug68SkU35ALMjdPzlTS0gLv8i9UI33WMjYeWz1fAJ08YtWBH+0XW689VHgeDl7R2PaMx
+	zfKN2js4pzEuhquOR/Jmwc4TbgUKX633gHJ1o5ttgx40wk1CscGnl0VN7Rp7n+1yhjKN
+	IHQOCjoCBeDY4FFqH80swnVFzhidnM/ezDAwcTKDWCY7IJMMbl8QxVVsgGONRfKlLHkt
+	4xtw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=21tXFJMBrzQfAB3326z0jaHSCUhlH5teNNc8Ml0jYCo=;
+	b=gKliMIVGRZ+IYh+ny+UTDWfOrJaHAwiVW4sV5RlZF9yGHeIxef+dURA/lX+FQu57xj
+	DCIOTu4XM0KDH9Qb4jCjxpjel6gZEve4b8H//foUfvuawhdd2UvF0D+lsQLEJkSG63m1
+	8JJfIxJHvCLzE+tn87TnpkaMlCVpDg09Z/klVjT+qWGObcmXjf9BkM8aXwrFxyxbyeLO
+	2N0hdqFYkgTF2YNcv08Ai6DGrIZcIyDTsjUUtk3ZZolETns94XNKqEu/lFnBsWiU6hlR
+	bivY19H0Yn7kcafv5bZ+gMQfr1w1vXWYPWp0yF7ADYT1jGafddvwgEOOIJTvwuGzwRfc
+	GNEA==
+X-Gm-Message-State: AKS2vOwQj4a/0UEb9wBXNQ7QLOnoe/7dDAb137UJpeVSqUlpUvNRAJmE
+	esP7uCULWuuRFBf88eQ=
+X-Received: by 10.223.172.231 with SMTP id o94mr7445257wrc.201.1497619133986; 
+	Fri, 16 Jun 2017 06:18:53 -0700 (PDT)
+Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id 31sm1325484wrd.20.2017.06.16.06.18.53
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 16 Jun 2017 06:18:53 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 16 Jun 2017 14:18:52 +0100
+Message-Id: <1497619132-14498-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.8.1
+Subject: [PATCH] libpcap: apply fix from upstream to fix build race
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -67,32 +54,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Jun 2017 13:17:41 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 16 Jun 2017 13:18:53 -0000
 
-> -----Original Message-----
-> From: Alexander Kanavin [mailto:alexander.kanavin@linux.intel.com]
-> Sent: den 16 juni 2017 15:03
-> To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>; Richard Purdie
-> <richard.purdie@linuxfoundation.org>; openembedded-
-> core@lists.openembedded.org
-> Subject: Re: [OE-core] [PATCH 3/4] kconfig-frontends: Remove as only
-> needed for eglibc
->=20
-> On 06/16/2017 03:36 PM, Peter Kjellerstedt wrote:
->=20
-> > Please move it to meta-oe if you remove it from OE-core. We rely on
-> > it.
->=20
-> Peter, may I suggest that you create this patch? It's trivial to do,
-> and sets a better precedent, in my opinion.
->=20
-> Alex
+../libpcap-1.8.1/grammar.y:78:10:
+fatal error: scanner.h: No such file or directory
 
-Hmm, ok. Will do...
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ .../libpcap/libpcap/fix-grammar-deps.patch         | 29 ++++++++++++++++++++++
+ meta/recipes-connectivity/libpcap/libpcap_1.8.1.bb |  1 +
+ 2 files changed, 30 insertions(+)
+ create mode 100644 meta/recipes-connectivity/libpcap/libpcap/fix-grammar-deps.patch
 
-//Peter
+diff --git a/meta/recipes-connectivity/libpcap/libpcap/fix-grammar-deps.patch b/meta/recipes-connectivity/libpcap/libpcap/fix-grammar-deps.patch
+new file mode 100644
+index 0000000..f40e655
+--- /dev/null
++++ b/meta/recipes-connectivity/libpcap/libpcap/fix-grammar-deps.patch
+@@ -0,0 +1,29 @@
++Fix a missing dependency that can result in:
++
++../libpcap-1.8.1/grammar.y:78:10: fatal error: scanner.h: No such file or directory
++
++Upstream-Status: Backport
++Signed-off-by: Ross Burton <ross.burton@intel.com>
++
++From 0dd90a6bdbce4dca14106859eee63ef643a106e2 Mon Sep 17 00:00:00 2001
++From: Alfredo Alvarez Fernandez <alfredoalvarezernandez@gmail.com>
++Date: Tue, 21 Feb 2017 11:41:43 +0100
++Subject: [PATCH] Makefile.in: Fix missing dependency
++
++---
++ Makefile.in | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/Makefile.in b/Makefile.in
++index 7044f043..f5d443ae 100644
++--- a/Makefile.in
+++++ b/Makefile.in
++@@ -465,7 +465,7 @@ grammar.h: grammar.c
++ 		$(MAKE) $(MAKEFLAGS) grammar.c; \
++ 	fi
++ 
++-grammar.o: grammar.c
+++grammar.o: grammar.c scanner.h
++ 	$(CC) $(FULL_CFLAGS) -c grammar.c
++ 
++ gencode.o: $(srcdir)/gencode.c grammar.h scanner.h
+diff --git a/meta/recipes-connectivity/libpcap/libpcap_1.8.1.bb b/meta/recipes-connectivity/libpcap/libpcap_1.8.1.bb
+index 1893e67..13dfbd6 100644
+--- a/meta/recipes-connectivity/libpcap/libpcap_1.8.1.bb
++++ b/meta/recipes-connectivity/libpcap/libpcap_1.8.1.bb
+@@ -5,6 +5,7 @@ SRC_URI += " \
+     file://0001-Fix-compiler_state_t.ai-usage-when-INET6-is-not-defi.patch \
+     file://0002-Add-missing-compiler_state_t-parameter.patch \
+     file://disable-remote.patch \
++    file://fix-grammar-deps.patch \
+ "
+ 
+ SRC_URI[md5sum] = "3d48f9cd171ff12b0efd9134b52f1447"
+-- 
+2.8.1
 
 
