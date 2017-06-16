@@ -1,49 +1,18 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wr0-f196.google.com (mail-wr0-f196.google.com
-	[209.85.128.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 91DDD7843C
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Jun 2017 10:46:08 +0000 (UTC)
-Received: by mail-wr0-f196.google.com with SMTP id y25so3954463wrd.1
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Jun 2017 03:46:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=Ay1gXWEf8SmGZ6TPVe5D3pm1J7EYJW7mq93cAr+7Dc0=;
-	b=oc9W26uTlCahzQGUpejCVksYy6PKbDf9cFxFFGTuKnup4nhgyT1OsOiFePkgZHl3zv
-	+WwKnBVIx+KGBSWfyIXZzZd/HLsAIa+GiHOn1sM0tKI19z2U4XbTjxsazgooaYYR8fqA
-	ZK/RimCzjCyF91XhLZgR3AccIacH+2NCPKXy/qqAcvNmlk9gbS5O4ZJTSwRx40LEtTCk
-	iaRzHVaQ//G3XVbXkjcUkF/q9Ib6W9xtBa0jSNeIjo/vBxK1yu01BHRqIzqbZb3josXm
-	3c8AjG4J+sq7gHsfZVH8WIi7vfV7b+muovZ3FrClyeMX/HH8pG7BON5YKKhx03Ixuylg
-	e5iA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=Ay1gXWEf8SmGZ6TPVe5D3pm1J7EYJW7mq93cAr+7Dc0=;
-	b=FMUrDZpdJSKd911RHbohvgykmHDasXDijTicUNG2NHmpy3QlLfuRPjRJ0wZPdM4khZ
-	LLHxPhMEEsd+KZs2y+H62dJwsDk5UkaE5rtubtyC8jSqWGagDBKl5vLbl00LQATa2F/G
-	BbJg50MjBRE+EZ0/Imf6fpLyCHCd7QYSxkTTmRKe9MxXCIXwtU8gIzHRg5hQ07jFMdzn
-	t+1AsCsnDZtwn/os0dk5DuMmrrs2KDgEbnbXcBxbSbOBkbMW3XRAj11+T5XUqGU4RyPG
-	v+QyB7q2VqGCGnML38a+7eYhSxcSQEn0EpAhOBC+G1NfnCeVymAZqbkgGPcKkfwCxHdo
-	9GfA==
-X-Gm-Message-State: AKS2vOx4N4M7/OTIs75If23tEpAA4HCYsaQnw83XJ9TtR0BAEfmNL/OP
-	wyLHZdynZuP0+lT3
-X-Received: by 10.223.134.161 with SMTP id 30mr7399563wrx.20.1497609969249;
-	Fri, 16 Jun 2017 03:46:09 -0700 (PDT)
-Received: from localhost ([217.30.68.212]) by smtp.gmail.com with ESMTPSA id
-	x94sm1368367wrb.47.2017.06.16.03.46.08
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 16 Jun 2017 03:46:08 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 16 Jun 2017 12:46:09 +0200
-Message-Id: <20170616104609.13755-2-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.13.1
-In-Reply-To: <20170616104609.13755-1-Martin.Jansa@gmail.com>
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 9B10178439;
+	Fri, 16 Jun 2017 11:01:59 +0000 (UTC)
+MIME-Version: 1.0
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Martin Jansa <martin.jansa@gmail.com>
+Date: Fri, 16 Jun 2017 11:02:01 -0000
+Message-ID: <20170616110201.1039.56692@do.openembedded.org>
 References: <20170616104609.13755-1-Martin.Jansa@gmail.com>
-Subject: [PATCH][resend 2/2] sstate-sysroot-cruft.sh: Extend the whitelist
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <20170616104609.13755-1-Martin.Jansa@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgIltyZXNlbmRdIHY4NmQsIHFlbXVib290LXg4Ni5pbi4uLiIgYW5kIDEgbW9yZQ==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,30 +25,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Jun 2017 10:46:08 -0000
+X-List-Received-Date: Fri, 16 Jun 2017 11:02:00 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-* add more php5 entries
+== Series Details ==
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+Series: "[resend] v86d, qemuboot-x86.in..." and 1 more
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/7289/
+State : failure
+
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Patch            [resend, 1/2] v86d, qemuboot-x86.inc: use KERNEL_MODULE_AUTOLOAD+KERNEL_MODULE_PROBECONF for uvesafb instead of fbsetup init script
+ Issue             Commit shortlog is too long [test_shortlog_length] 
+  Suggested fix    Edit shortlog so that it is 90 characters or less (currently 117 characters)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- scripts/sstate-sysroot-cruft.sh | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/scripts/sstate-sysroot-cruft.sh b/scripts/sstate-sysroot-cruft.sh
-index b6166aa1b2..d9917f5152 100755
---- a/scripts/sstate-sysroot-cruft.sh
-+++ b/scripts/sstate-sysroot-cruft.sh
-@@ -105,7 +105,9 @@ WHITELIST="${WHITELIST} \
- 
- # generated by php
- WHITELIST="${WHITELIST} \
-+  .*/usr/lib/php5/php/.channels \
-   .*/usr/lib/php5/php/.channels/.* \
-+  .*/usr/lib/php5/php/.registry \
-   .*/usr/lib/php5/php/.registry/.* \
-   .*/usr/lib/php5/php/.depdb \
-   .*/usr/lib/php5/php/.depdblock \
--- 
-2.13.1
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
