@@ -1,27 +1,27 @@
 Return-Path: <Nathan_Lynch@mentor.com>
 Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id DA2FC78518
+	by mail.openembedded.org (Postfix) with ESMTP id 7E1187838C
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Jun 2017 21:40:06 +0000 (UTC)
+	Fri, 16 Jun 2017 21:48:24 +0000 (UTC)
 Received: from svr-orw-mbx-02.mgc.mentorg.com ([147.34.90.202])
 	by relay1.mentorg.com with esmtp 
-	id 1dLyyO-0001vV-MK from Nathan_Lynch@mentor.com 
+	id 1dLz6Q-0003Hi-Dq from Nathan_Lynch@mentor.com 
 	for openembedded-core@lists.openembedded.org;
-	Fri, 16 Jun 2017 14:40:08 -0700
+	Fri, 16 Jun 2017 14:48:26 -0700
 Received: from localhost (147.34.91.1) by svr-orw-mbx-02.mgc.mentorg.com
 	(147.34.90.202) with Microsoft SMTP Server (TLS) id 15.0.1263.5;
-	Fri, 16 Jun 2017 14:40:06 -0700
+	Fri, 16 Jun 2017 14:48:24 -0700
 From: Nathan Lynch <nathan_lynch@mentor.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 16 Jun 2017 16:39:52 -0500
-Message-ID: <20170616213952.35679-4-nathan_lynch@mentor.com>
+Date: Fri, 16 Jun 2017 16:48:22 -0500
+Message-ID: <20170616214822.36244-1-nathan_lynch@mentor.com>
 X-Mailer: git-send-email 2.9.4
-In-Reply-To: <20170616213952.35679-1-nathan_lynch@mentor.com>
-References: <20170616213952.35679-1-nathan_lynch@mentor.com>
+In-Reply-To: <20170616213952.35679-4-nathan_lynch@mentor.com>
+References: <20170616213952.35679-4-nathan_lynch@mentor.com>
 MIME-Version: 1.0
-X-ClientProxiedBy: svr-orw-mbx-03.mgc.mentorg.com (147.34.90.203) To
+X-ClientProxiedBy: svr-orw-mbx-02.mgc.mentorg.com (147.34.90.202) To
 	svr-orw-mbx-02.mgc.mentorg.com (147.34.90.202)
-Subject: [PATCH 3/3] lttng-modules: update to 2.9.3
+Subject: [PATCH v2 3/3] lttng-modules: update to 2.9.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,11 +34,17 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Jun 2017 21:40:06 -0000
+X-List-Received-Date: Fri, 16 Jun 2017 21:48:25 -0000
 Content-Type: text/plain
 
 Miscellaneous fixes and support for 4.12-rc kernels.
+
+Signed-off-by: Nathan Lynch <nathan_lynch@mentor.com>
 ---
+
+Changes since v1:
+* Add missing signoff.
+
  .../lttng/{lttng-modules_2.9.2.bb => lttng-modules_2.9.3.bb}          | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
  rename meta/recipes-kernel/lttng/{lttng-modules_2.9.2.bb => lttng-modules_2.9.3.bb} (89%)
