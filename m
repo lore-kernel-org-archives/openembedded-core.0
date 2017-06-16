@@ -1,27 +1,24 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 8B88F783B0
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 74D7478429
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Jun 2017 11:24:06 +0000 (UTC)
+	Fri, 16 Jun 2017 12:03:37 +0000 (UTC)
 Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	16 Jun 2017 04:24:07 -0700
+	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	16 Jun 2017 05:03:38 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.39,346,1493708400"; d="scan'208";a="115227153"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by fmsmga005.fm.intel.com with ESMTP; 16 Jun 2017 04:24:06 -0700
-To: Patrick Ohly <patrick.ohly@intel.com>,
-	openembedded-core@lists.openembedded.org
-References: <22146d3f8ce5f2c3da42f8f19cad49f9f4ffc175.1497606816.git-series.patrick.ohly@intel.com>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <7d05fe3e-ae22-fd9b-a94c-4f1dce40b2ba@linux.intel.com>
-Date: Fri, 16 Jun 2017 14:24:15 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.8.0
-MIME-Version: 1.0
-In-Reply-To: <22146d3f8ce5f2c3da42f8f19cad49f9f4ffc175.1497606816.git-series.patrick.ohly@intel.com>
-Subject: Re: [PATCH] ovmf: fix secureboot PACKAGECONFIG + OpenSSL update
+X-IronPort-AV: E=Sophos;i="5.39,347,1493708400"; d="scan'208";a="115237241"
+Received: from linux.intel.com ([10.54.29.200])
+	by fmsmga005.fm.intel.com with ESMTP; 16 Jun 2017 05:03:37 -0700
+Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
+	by linux.intel.com (Postfix) with ESMTP id 0878958027E;
+	Fri, 16 Jun 2017 05:03:36 -0700 (PDT)
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 16 Jun 2017 15:02:07 +0300
+Message-Id: <1497614527-25454-1-git-send-email-ed.bartosh@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] image.bbclass: use prependVarFlag for postfuncs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,24 +31,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Jun 2017 11:24:06 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 16 Jun 2017 12:03:37 -0000
 
-On 06/16/2017 12:53 PM, Patrick Ohly wrote:
-> The recent ovmf update broke secureboot because upstream changed the
-> +OPENSSL_RELEASE = "openssl-1.1.0e"
-> +
->  SRC_URI_append_class-target = " \
-> -	${@bb.utils.contains('PACKAGECONFIG', 'secureboot', 'http://www.openssl.org/source/openssl-1.0.2j.tar.gz;name=openssl;subdir=${S}/CryptoPkg/Library/OpensslLib', '', d)} \
-> +	${@bb.utils.contains('PACKAGECONFIG', 'secureboot', 'http://www.openssl.org/source/${OPENSSL_RELEASE}.tar.gz;name=openssl;subdir=${S}/CryptoPkg/Library/OpensslLib', '', d)} \
+It would be possible to achieve any order of calling functions if
+prefuncs are added with appendVarFlag and postfuncs with prependVarFlag.
+Then image_X.bbclass can add code with either pre/post-funcs or
+do_image_x_append or _prepend.
 
-Is it possible to make ovmf use an externally built openssl (that is, 
-the one that is provided by the openssl recipe)?
+The execution order would be:
 
-Given openssl's baggage of major security issues, I really do not want 
-to have more than one copy of it in oe-core.
+image_X prefuncs
+image prefuncs
+do_image_X_prepend from image_X.bbclass
+do_image_X from image.bbclass
+do_image_X_append from image_X.bbclass
+image postfuncs
+image_X postfuncs
 
-Alex
+[YOCTO #11372]
+
+Thanks to Ola Nillsson for the idea.
+
+Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+---
+ meta/classes/image.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+index 9a04b43..be8c9dd 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -498,7 +498,7 @@ python () {
+         d.setVarFlag(task, 'fakeroot', '1')
+ 
+         d.appendVarFlag(task, 'prefuncs', ' ' + debug + ' set_image_size')
+-        d.appendVarFlag(task, 'postfuncs', ' create_symlinks')
++        d.prependVarFlag(task, 'postfuncs', ' create_symlinks')
+         d.appendVarFlag(task, 'subimages', ' ' + ' '.join(subimages))
+         d.appendVarFlag(task, 'vardeps', ' ' + ' '.join(vardeps))
+         d.appendVarFlag(task, 'vardepsexclude', 'DATETIME')
+-- 
+2.1.4
 
 
