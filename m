@@ -1,48 +1,31 @@
-Return-Path: <nathan@nathanrossi.com>
-Received: from mail-pg0-f65.google.com (mail-pg0-f65.google.com [74.125.83.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 38A5F7845A
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 0CD9478491
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Jun 2017 12:38:56 +0000 (UTC)
-Received: by mail-pg0-f65.google.com with SMTP id u62so381135pgb.0
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Jun 2017 05:38:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=nathanrossi.com; s=google;
-	h=date:message-id:from:to:cc:subject:mime-version
-	:content-transfer-encoding;
-	bh=TraOGVqJPLRWchRrPOj+FayXMBZR08OzB7BhtjjJQOc=;
-	b=OCbUH6bRjZ95VdzXJlzG7CDOztSiLl05rgAmNhbSIkvgwoUsgg/F8JZS5SYZM16+rc
-	qgqge8HvBv3djvu576/YArWoqejGBLgBXYEAWJzq1MlMqrEAOTW4KBdq2UesPys9EnI4
-	D3SQW+SxBpJ7vDSvXsY7RXOHaA7d+a5arBbnb1uZ9zF2zHdrw6ahyu45sZJOiM1Cy7oE
-	IB6+EZdNJrV0oq7GrTntgj+VgXgIvOSroFd1RCSwYFddizpmfQqfUCAPbGK4u/ZNPtzN
-	TNGBiDqW1k5Ax4Ca5kxDksCtsmkZpu4kpA5rymAc1gyl7l728nxZ1nNAY4z1P0vKrZ5A
-	yq6g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:message-id:from:to:cc:subject:mime-version
-	:content-transfer-encoding;
-	bh=TraOGVqJPLRWchRrPOj+FayXMBZR08OzB7BhtjjJQOc=;
-	b=khWFJg/q+4B3Mc5prVJIwb7d4QQOrPmJBZxWDh82bMFY9Ia/Tu2QsKLsbeKXY7LrBm
-	FSd+4mEP2LL+M/h2oYyyoUEP7BLpWI56C1znEwqAqUCL7rL7eo9WfOwXX91RO1Tm1Pz6
-	tk2xvW9QcD0wESUcn3gTwsI91WVkX86MUbqM9pvLOWp5Oly+ZKkK+Mwz95lh6MFi+HlZ
-	RCYdr2xOXC0CPUOmJ1xFK83u/0zMG6Og6YvV2hi0um6rEuHJadlMpq77BkUG027SzWlM
-	uTubGb/YwtiLXSIkhBExfZ0UPJItGmkUBvjJ+sN2LBGzQM3IYETpIuojx9DzlyLd9Nmn
-	F+RQ==
-X-Gm-Message-State: AKS2vOxBywozWrWlkAU5JFd1nkHRD+HqVLZqZgE8PxrtgQ+VS2NfN+L1
-	cLLhoHWv8Z2wcdzM0ByRZQ==
-X-Received: by 10.99.149.14 with SMTP id p14mr11242382pgd.148.1497616738220;
-	Fri, 16 Jun 2017 05:38:58 -0700 (PDT)
-Received: from [127.0.1.1] (CPE-123-211-74-254.lnse4.cha.bigpond.net.au.
-	[123.211.74.254]) by smtp.gmail.com with ESMTPSA id
-	189sm4441828pgi.66.2017.06.16.05.38.56
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 16 Jun 2017 05:38:57 -0700 (PDT)
-Date: Fri, 16 Jun 2017 22:38:49 +1000
-Message-Id: <20170616123849.32150-1-nathan@nathanrossi.com>
-From: Nathan Rossi <nathan@nathanrossi.com>
-To: openembedded-core@lists.openembedded.org
+	Fri, 16 Jun 2017 13:02:35 +0000 (UTC)
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	16 Jun 2017 06:02:36 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.39,347,1493708400"; d="scan'208";a="98629631"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by orsmga004.jf.intel.com with ESMTP; 16 Jun 2017 06:02:35 -0700
+To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+References: <1497602550-1491-1-git-send-email-richard.purdie@linuxfoundation.org>
+	<1497602550-1491-3-git-send-email-richard.purdie@linuxfoundation.org>
+	<867deeaf462e453b8de99a2fa9f609ec@XBOX02.axis.com>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <ca0a4fe0-c6ad-32f5-7d12-4ddf918ea295@linux.intel.com>
+Date: Fri, 16 Jun 2017 16:02:44 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.8.0
 MIME-Version: 1.0
-Subject: [PATCH] kernel-uimage.bbclass: Fix up generation of uImage from vmlinux
+In-Reply-To: <867deeaf462e453b8de99a2fa9f609ec@XBOX02.axis.com>
+Subject: Re: [PATCH 3/4] kconfig-frontends: Remove as only needed for eglibc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,70 +38,17 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Jun 2017 12:38:57 -0000
-Content-Type: text/plain; charset="utf-8"
+X-List-Received-Date: Fri, 16 Jun 2017 13:02:36 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
 Content-Transfer-Encoding: 7bit
 
-Fix up the generation of uImage from vmlinux when KEEPUIMAGE != 'yes'.
-This fixes up the working directory that do_uboot_mkimage is run from,
-such that it is run from the ${B} directory to access built artefacts.
+On 06/16/2017 03:36 PM, Peter Kjellerstedt wrote:
 
-Simplify the logic in the task so that the parse step either adds the
-task or not if the conditions are met. This reduces the need for the
-task to run in cases when it is not used. The task is also changed to
-depend on the kernel_link_images task as arch/<arch>/boot/* is not
-available until after kernel_link_images in certain cases (e.g.
-vmlinux/uImage only KERNEL_IMAGETYPES).
+> Please move it to meta-oe if you remove it from OE-core. We rely on it.
 
-Fix up the use of ${S}/vmlinux when pulling the entry symbols
-address so that it accesses the vmlinux in ${B}.
+Peter, may I suggest that you create this patch? It's trivial to do, and 
+sets a better precedent, in my opinion.
 
-Signed-off-by: Nathan Rossi <nathan@nathanrossi.com>
----
- meta/classes/kernel-uimage.bbclass | 26 ++++++++++++--------------
- 1 file changed, 12 insertions(+), 14 deletions(-)
-
-diff --git a/meta/classes/kernel-uimage.bbclass b/meta/classes/kernel-uimage.bbclass
-index 19c6ade507..7c026abf0b 100644
---- a/meta/classes/kernel-uimage.bbclass
-+++ b/meta/classes/kernel-uimage.bbclass
-@@ -15,23 +15,21 @@ python __anonymous () {
-             typeformake = d.getVar("KERNEL_IMAGETYPE_FOR_MAKE") or ""
-             if "uImage" in typeformake.split():
-                 d.setVar('KERNEL_IMAGETYPE_FOR_MAKE', typeformake.replace('uImage', 'vmlinux'))
-+
-+            # Enable building of uImage with mkimage
-+            bb.build.addtask('do_uboot_mkimage', 'do_install', 'do_kernel_link_images', d)
- }
- 
-+do_uboot_mkimage[dirs] += "${B}"
- do_uboot_mkimage() {
--	if echo "${KERNEL_IMAGETYPES}" | grep -wq "uImage"; then
--		if test "x${KEEPUIMAGE}" != "xyes" ; then
--			uboot_prep_kimage
--
--			ENTRYPOINT=${UBOOT_ENTRYPOINT}
--			if [ -n "${UBOOT_ENTRYSYMBOL}" ]; then
--				ENTRYPOINT=`${HOST_PREFIX}nm ${S}/vmlinux | \
--					awk '$3=="${UBOOT_ENTRYSYMBOL}" {print $1}'`
--			fi
-+	uboot_prep_kimage
- 
--			uboot-mkimage -A ${UBOOT_ARCH} -O linux -T kernel -C "${linux_comp}" -a ${UBOOT_LOADADDRESS} -e $ENTRYPOINT -n "${DISTRO_NAME}/${PV}/${MACHINE}" -d linux.bin ${B}/arch/${ARCH}/boot/uImage
--			rm -f linux.bin
--		fi
-+	ENTRYPOINT=${UBOOT_ENTRYPOINT}
-+	if [ -n "${UBOOT_ENTRYSYMBOL}" ]; then
-+		ENTRYPOINT=`${HOST_PREFIX}nm ${B}/vmlinux | \
-+			awk '$3=="${UBOOT_ENTRYSYMBOL}" {print $1}'`
- 	fi
--}
- 
--addtask uboot_mkimage before do_install after do_compile
-+	uboot-mkimage -A ${UBOOT_ARCH} -O linux -T kernel -C "${linux_comp}" -a ${UBOOT_LOADADDRESS} -e $ENTRYPOINT -n "${DISTRO_NAME}/${PV}/${MACHINE}" -d linux.bin ${B}/arch/${ARCH}/boot/uImage
-+	rm -f linux.bin
-+}
--- 
-2.11.0
+Alex
 
 
