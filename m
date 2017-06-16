@@ -1,27 +1,26 @@
 Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 2C648784C0
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	by mail.openembedded.org (Postfix) with ESMTP id 366B2784C9
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Jun 2017 13:21:39 +0000 (UTC)
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	16 Jun 2017 06:21:40 -0700
+	Fri, 16 Jun 2017 13:21:40 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga105.jf.intel.com with ESMTP; 16 Jun 2017 06:21:42 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.39,347,1493708400"; d="scan'208";a="98633542"
+X-IronPort-AV: E=Sophos;i="5.39,347,1493708400"; d="scan'208";a="1161293466"
 Received: from linux.intel.com ([10.54.29.200])
-	by orsmga004.jf.intel.com with ESMTP; 16 Jun 2017 06:21:41 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 16 Jun 2017 06:21:42 -0700
 Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
-	by linux.intel.com (Postfix) with ESMTP id A2C19580399
+	by linux.intel.com (Postfix) with ESMTP id A8239580399
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Jun 2017 06:21:40 -0700 (PDT)
+	Fri, 16 Jun 2017 06:21:41 -0700 (PDT)
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 16 Jun 2017 16:19:28 +0300
-Message-Id: <df7d1aaa4dd376035dda7535e3038a838abe948e.1497618833.git.ed.bartosh@linux.intel.com>
+Date: Fri, 16 Jun 2017 16:19:29 +0300
+Message-Id: <61dfd1133b0e83fb3acfc45ab5bcce3e94561abf.1497618833.git.ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1497618833.git.ed.bartosh@linux.intel.com>
 References: <cover.1497618833.git.ed.bartosh@linux.intel.com>
-Subject: [PATCH 2/4] wic: flatten directory structure
+Subject: [PATCH 3/4] wic: code cleanup
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,185 +33,96 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Jun 2017 13:21:40 -0000
+X-List-Received-Date: Fri, 16 Jun 2017 13:21:41 -0000
 
-Moved misc.py from wic/utils/ to wic/
-Removed wic/utils directory
+Split long lines.
+Removed unused imports.
 
 Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 ---
- scripts/lib/wic/engine.py                            | 2 +-
- scripts/lib/wic/{utils => }/misc.py                  | 0
- scripts/lib/wic/partition.py                         | 2 +-
- scripts/lib/wic/pluginbase.py                        | 2 +-
- scripts/lib/wic/plugins/imager/direct.py             | 2 +-
- scripts/lib/wic/plugins/source/bootimg-efi.py        | 4 ++--
- scripts/lib/wic/plugins/source/bootimg-partition.py  | 2 +-
- scripts/lib/wic/plugins/source/bootimg-pcbios.py     | 5 ++---
- scripts/lib/wic/plugins/source/isoimage-isohybrid.py | 2 +-
- scripts/lib/wic/plugins/source/rawcopy.py            | 2 +-
- scripts/lib/wic/plugins/source/rootfs.py             | 2 +-
- scripts/lib/wic/utils/__init__.py                    | 0
- scripts/wic                                          | 2 +-
- 13 files changed, 13 insertions(+), 14 deletions(-)
- rename scripts/lib/wic/{utils => }/misc.py (100%)
- delete mode 100644 scripts/lib/wic/utils/__init__.py
+ scripts/lib/wic/filemap.py               | 8 ++------
+ scripts/lib/wic/misc.py                  | 4 ++--
+ scripts/lib/wic/partition.py             | 1 -
+ scripts/lib/wic/pluginbase.py            | 1 -
+ scripts/lib/wic/plugins/source/rootfs.py | 2 +-
+ 5 files changed, 5 insertions(+), 11 deletions(-)
 
-diff --git a/scripts/lib/wic/engine.py b/scripts/lib/wic/engine.py
-index 2c899dd..2dc2fd5 100644
---- a/scripts/lib/wic/engine.py
-+++ b/scripts/lib/wic/engine.py
-@@ -38,7 +38,7 @@ from distutils.spawn import find_executable
- from wic import WicError
- from wic.filemap import sparse_copy
- from wic.pluginbase import PluginMgr
--from wic.utils.misc import get_bitbake_var, exec_cmd
-+from wic.misc import get_bitbake_var, exec_cmd
+diff --git a/scripts/lib/wic/filemap.py b/scripts/lib/wic/filemap.py
+index 6d11355..77e32b9 100644
+--- a/scripts/lib/wic/filemap.py
++++ b/scripts/lib/wic/filemap.py
+@@ -34,13 +34,9 @@ def get_block_size(file_obj):
+     Returns block size for file object 'file_obj'. Errors are indicated by the
+     'IOError' exception.
+     """
+-
+-    from fcntl import ioctl
+-    import struct
+-
+     # Get the block size of the host file-system for the image file by calling
+     # the FIGETBSZ ioctl (number 2).
+-    binary_data = ioctl(file_obj, 2, struct.pack('I', 0))
++    binary_data = fcntl.ioctl(file_obj, 2, struct.pack('I', 0))
+     return struct.unpack('I', binary_data)[0]
  
- logger = logging.getLogger('wic')
+ class ErrorNotSupp(Exception):
+@@ -228,7 +224,7 @@ class FilemapSeek(_FilemapBase):
+         try:
+             tmp_obj = tempfile.TemporaryFile("w+", dir=directory)
+         except IOError as err:
+-            raise ErrorNotSupp("cannot create a temporary in \"%s\": %s"
++            raise ErrorNotSupp("cannot create a temporary in \"%s\": %s" \
+                               % (directory, err))
  
-diff --git a/scripts/lib/wic/utils/misc.py b/scripts/lib/wic/misc.py
-similarity index 100%
-rename from scripts/lib/wic/utils/misc.py
-rename to scripts/lib/wic/misc.py
+         try:
+diff --git a/scripts/lib/wic/misc.py b/scripts/lib/wic/misc.py
+index e1df824..3ebae0a 100644
+--- a/scripts/lib/wic/misc.py
++++ b/scripts/lib/wic/misc.py
+@@ -164,8 +164,8 @@ def exec_native_cmd(cmd_and_args, native_sysroot, pseudo=""):
+               "was not found (see details above).\n\n" % prog
+         recipe = NATIVE_RECIPES.get(prog)
+         if recipe:
+-            msg += "Please make sure wic-tools have %s-native in its DEPENDS, bake it with 'bitbake wic-tools' "\
+-                   "and try again.\n" % recipe
++            msg += "Please make sure wic-tools have %s-native in its DEPENDS, "\
++                   "build it with 'bitbake wic-tools' and try again.\n" % recipe
+         else:
+             msg += "Wic failed to find a recipe to build native %s. Please "\
+                    "file a bug against wic.\n" % prog
 diff --git a/scripts/lib/wic/partition.py b/scripts/lib/wic/partition.py
-index 939e667..1851c4a 100644
+index 1851c4a..5aa68c9 100644
 --- a/scripts/lib/wic/partition.py
 +++ b/scripts/lib/wic/partition.py
-@@ -29,7 +29,7 @@ import os
- import tempfile
+@@ -26,7 +26,6 @@
+ 
+ import logging
+ import os
+-import tempfile
  
  from wic import WicError
--from wic.utils.misc import exec_cmd, exec_native_cmd, get_bitbake_var
-+from wic.misc import exec_cmd, exec_native_cmd, get_bitbake_var
- from wic.pluginbase import PluginMgr
- 
- logger = logging.getLogger('wic')
+ from wic.misc import exec_cmd, exec_native_cmd, get_bitbake_var
 diff --git a/scripts/lib/wic/pluginbase.py b/scripts/lib/wic/pluginbase.py
-index fb3d179..08f9979 100644
+index 08f9979..c009820 100644
 --- a/scripts/lib/wic/pluginbase.py
 +++ b/scripts/lib/wic/pluginbase.py
-@@ -24,7 +24,7 @@ from collections import defaultdict
- from importlib.machinery import SourceFileLoader
- 
- from wic import WicError
--from wic.utils.misc import get_bitbake_var
-+from wic.misc import get_bitbake_var
- 
- PLUGIN_TYPES = ["imager", "source"]
- 
-diff --git a/scripts/lib/wic/plugins/imager/direct.py b/scripts/lib/wic/plugins/imager/direct.py
-index f252697..e09350b 100644
---- a/scripts/lib/wic/plugins/imager/direct.py
-+++ b/scripts/lib/wic/plugins/imager/direct.py
-@@ -36,7 +36,7 @@ from wic import WicError
- from wic.filemap import sparse_copy
- from wic.ksparser import KickStart, KickStartError
- from wic.pluginbase import PluginMgr, ImagerPlugin
--from wic.utils.misc import get_bitbake_var, exec_cmd, exec_native_cmd
-+from wic.misc import get_bitbake_var, exec_cmd, exec_native_cmd
- 
- logger = logging.getLogger('wic')
- 
-diff --git a/scripts/lib/wic/plugins/source/bootimg-efi.py b/scripts/lib/wic/plugins/source/bootimg-efi.py
-index 9879cb9..4c4f36a 100644
---- a/scripts/lib/wic/plugins/source/bootimg-efi.py
-+++ b/scripts/lib/wic/plugins/source/bootimg-efi.py
-@@ -31,8 +31,8 @@ import shutil
- from wic import WicError
- from wic.engine import get_custom_config
- from wic.pluginbase import SourcePlugin
--from wic.utils.misc import (exec_cmd, exec_native_cmd, get_bitbake_var,
--                            BOOTDD_EXTRA_SPACE)
-+from wic.misc import (exec_cmd, exec_native_cmd,
-+                      get_bitbake_var, BOOTDD_EXTRA_SPACE)
- 
- logger = logging.getLogger('wic')
- 
-diff --git a/scripts/lib/wic/plugins/source/bootimg-partition.py b/scripts/lib/wic/plugins/source/bootimg-partition.py
-index 13fddbd..ca074a3 100644
---- a/scripts/lib/wic/plugins/source/bootimg-partition.py
-+++ b/scripts/lib/wic/plugins/source/bootimg-partition.py
-@@ -31,7 +31,7 @@ from glob import glob
- 
- from wic import WicError
- from wic.pluginbase import SourcePlugin
--from wic.utils.misc import exec_cmd, get_bitbake_var
-+from wic.misc import exec_cmd, get_bitbake_var
- 
- logger = logging.getLogger('wic')
- 
-diff --git a/scripts/lib/wic/plugins/source/bootimg-pcbios.py b/scripts/lib/wic/plugins/source/bootimg-pcbios.py
-index 98ad88b..e3518d2 100644
---- a/scripts/lib/wic/plugins/source/bootimg-pcbios.py
-+++ b/scripts/lib/wic/plugins/source/bootimg-pcbios.py
-@@ -29,10 +29,9 @@ import os
- 
- from wic import WicError
- from wic.engine import get_custom_config
--from wic.utils import runner
- from wic.pluginbase import SourcePlugin
--from wic.utils.misc import (exec_cmd, exec_native_cmd,
--                            get_bitbake_var, BOOTDD_EXTRA_SPACE)
-+from wic.misc import (exec_cmd, exec_native_cmd,
-+                      get_bitbake_var, BOOTDD_EXTRA_SPACE)
- 
- logger = logging.getLogger('wic')
- 
-diff --git a/scripts/lib/wic/plugins/source/isoimage-isohybrid.py b/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
-index b464263..db77113 100644
---- a/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
-+++ b/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
-@@ -29,7 +29,7 @@ import shutil
- from wic import WicError
- from wic.engine import get_custom_config
- from wic.pluginbase import SourcePlugin
--from wic.utils.misc import exec_cmd, exec_native_cmd, get_bitbake_var
-+from wic.misc import exec_cmd, exec_native_cmd, get_bitbake_var
- 
- logger = logging.getLogger('wic')
- 
-diff --git a/scripts/lib/wic/plugins/source/rawcopy.py b/scripts/lib/wic/plugins/source/rawcopy.py
-index e1c4f5e..424ed26 100644
---- a/scripts/lib/wic/plugins/source/rawcopy.py
-+++ b/scripts/lib/wic/plugins/source/rawcopy.py
-@@ -20,7 +20,7 @@ import os
- 
- from wic import WicError
- from wic.pluginbase import SourcePlugin
--from wic.utils.misc import exec_cmd, get_bitbake_var
-+from wic.misc import exec_cmd, get_bitbake_var
- from wic.filemap import sparse_copy
- 
- logger = logging.getLogger('wic')
+@@ -137,4 +137,3 @@ class SourcePlugin(metaclass=PluginMeta):
+         'prepares' the partition to be incorporated into the image.
+         """
+         logger.debug("SourcePlugin: do_prepare_partition: part: %s", part)
+-
 diff --git a/scripts/lib/wic/plugins/source/rootfs.py b/scripts/lib/wic/plugins/source/rootfs.py
-index 944ec5f..1b9f68b 100644
+index 1b9f68b..4dc4cb8 100644
 --- a/scripts/lib/wic/plugins/source/rootfs.py
 +++ b/scripts/lib/wic/plugins/source/rootfs.py
 @@ -34,7 +34,7 @@ from oe.path import copyhardlinktree
  
  from wic import WicError
  from wic.pluginbase import SourcePlugin
--from wic.utils.misc import get_bitbake_var, exec_cmd
-+from wic.misc import get_bitbake_var, exec_cmd
+-from wic.misc import get_bitbake_var, exec_cmd
++from wic.misc import get_bitbake_var
  
  logger = logging.getLogger('wic')
- 
-diff --git a/scripts/lib/wic/utils/__init__.py b/scripts/lib/wic/utils/__init__.py
-deleted file mode 100644
-index e69de29..0000000
-diff --git a/scripts/wic b/scripts/wic
-index da14f47..81fc85d 100755
---- a/scripts/wic
-+++ b/scripts/wic
-@@ -56,7 +56,7 @@ else:
-     bitbake_main = None
- 
- from wic import WicError
--from wic.utils.misc import get_bitbake_var, BB_VARS
-+from wic.misc import get_bitbake_var, BB_VARS
- from wic import engine
- from wic import help as hlp
  
 -- 
 2.1.4
