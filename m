@@ -1,40 +1,26 @@
-Return-Path: <andre.draszik@gmail.com>
-Received: from mail-wm0-f45.google.com (mail-wm0-f45.google.com [74.125.82.45])
-	by mail.openembedded.org (Postfix) with ESMTP id A18F960621
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id 57D8778202
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Jun 2017 08:30:55 +0000 (UTC)
-Received: by mail-wm0-f45.google.com with SMTP id m125so19468611wmm.1
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Jun 2017 01:30:57 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=zO+H8+LVfB9XKaRad0MWkoluPv9SsNB5FbrQOMwY9iA=;
-	b=HBuVy4mIuraMTatHTpbB5epbUWNvDKyBtAZ93oElkmVReW5edJurELeuFBc7uUbTjP
-	8Skcpc7hdM8KDJ5NCwPIZV0XQHBXgnkU0veUcCCEt/cf3fL9bmJbFh4KWCjXbh6PTVf6
-	12oiBlBreEeiOFakmStgJ/3ZZQCZ/PbWswZprahKri+BAg3bUgeTrd9Nv9gWX/zth9E/
-	pkqFFYlN9b3Q1Tc7szkdTaKccLYTV9cB8jU9JhKykPRQZTfQns4fOa/rpymkzahfvArC
-	gDpjhpXldwvSaCjzN/2kBlwNQVyqlJAQ1njNNUU/C9HjDRMXYTLz+KCG7Z+PXJelh6y3
-	7cHg==
-X-Gm-Message-State: AKS2vOy4ajJb8Nvz0iG5l4uRanHAJdA2/i3pEGhyIQ/q/U6faezU7i6p
-	NWmtZYzHxsa3vwpysXE=
-X-Received: by 10.80.186.120 with SMTP id 53mr6449166eds.47.1497601856867;
-	Fri, 16 Jun 2017 01:30:56 -0700 (PDT)
-Received: from tfsielt31850 ([77.107.218.170])
-	by smtp.gmail.com with ESMTPSA id y4sm1005082edc.40.2017.06.16.01.30.55
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Fri, 16 Jun 2017 01:30:55 -0700 (PDT)
-Message-ID: <1497601854.19546.29.camel@andred.net>
-From: =?ISO-8859-1?Q?Andr=E9?= Draszik <git@andred.net>
+	Fri, 16 Jun 2017 08:42:19 +0000 (UTC)
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	16 Jun 2017 01:42:21 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.39,346,1493708400"; d="scan'208";a="115179677"
+Received: from linux.intel.com ([10.54.29.200])
+	by fmsmga005.fm.intel.com with ESMTP; 16 Jun 2017 01:42:21 -0700
+Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
+	by linux.intel.com (Postfix) with ESMTP id EE39F5800BF;
+	Fri, 16 Jun 2017 01:42:19 -0700 (PDT)
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 16 Jun 2017 09:30:54 +0100
-In-Reply-To: <OFC3B840C2.31FE1246-ON88258141.0000F82B-88258141.00016B00@selinc.com>
-References: <OFC3B840C2.31FE1246-ON88258141.0000F82B-88258141.00016B00@selinc.com>
-X-Mailer: Evolution 3.22.6-1 
-Mime-Version: 1.0
-Subject: Re: extensible SDK doesn't install when initramfs is bundled with kernel?
+Date: Fri, 16 Jun 2017 11:40:52 +0300
+Message-Id: <1497602452-2535-1-git-send-email-ed.bartosh@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+In-Reply-To: <1497545468.29576.22.camel@linux.intel.com>
+References: <1497545468.29576.22.camel@linux.intel.com>
+Subject: [PATCH v3] image_types.bbclass: get rid of IMAGE_DEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,48 +33,91 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Jun 2017 08:30:57 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 16 Jun 2017 08:42:21 -0000
 
-On Thu, 2017-06-15 at 17:15 -0700, Aaron_Wright@selinc.com wrote:
-> > Hi,
-> > 
-> > It looks like I can't install the extensible SDK if my initramfs is 
-> 
-> bundled
-> > with the kernel.
-> > 
-> > I am building two images - my-image & my-image-initramfs (which are 
-> 
-> mostly
-> > identical at the moment). I have also set
-> > INITRAMFS_IMAGE = "my-image-initramfs"
-> > INITRAMFS_IMAGE_BUNDLE = "1"
-> > 
-> > So far so good and things work as expected, I can build image +
-> > kernel/initramfs fine.
-> > 
-> > 
-> > Installation of the extensible SDK generated using
-> > bitbake -c populate_sdk_ext my-image or
-> > bitbake -c populate_sdk_ext my-image-initramfs
-> > fails though:
-> > 
-> > 
-...
-> I'm running up against this problem right now on morty. Was this ever 
-> resolved?
+The IMAGE_DEPENDS variable can be overriden to add dependencies for
+individual image types.  Those dependencies are added to the do_rootfs
+task, while they really should be added to the specific image type tasks.
 
-I never got this to work, and then had no time to look at it any further...
-It'd definitely be nice to have that working.
+Also, the IMAGE_DEPENDS variable is not documented anywhere.
 
-That said, I don't know if it's working on master these days and something
-could be cherry-picked.
+Replaced usage of IMAGE_DEPENDS with explicitly added
+dependencies to do_image_<image type> tasks.
 
+[YOCTO #11302]
 
-Cheers,
-Andre'
+Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+---
+ meta/classes/image_types.bbclass | 41 +++++++++++++++++++---------------------
+ 1 file changed, 19 insertions(+), 22 deletions(-)
 
+diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
+index 7749b00..0d7c27e 100644
+--- a/meta/classes/image_types.bbclass
++++ b/meta/classes/image_types.bbclass
+@@ -29,12 +29,6 @@ def imagetypes_getdepends(d):
+     deps = set()
+     for typestring in fstypes:
+         basetype, resttypes = split_types(typestring)
+-        adddep(d.getVar('IMAGE_DEPENDS_%s' % basetype) , deps)
+-
+-        for typedepends in (d.getVar("IMAGE_TYPEDEP_%s" % basetype) or "").split():
+-            base, rest = split_types(typedepends)
+-            adddep(d.getVar('IMAGE_DEPENDS_%s' % base) , deps)
+-            resttypes += rest
+ 
+         for ctype in resttypes:
+             adddep(d.getVar("CONVERSION_DEPENDS_%s" % ctype), deps)
+@@ -101,7 +95,7 @@ IMAGE_CMD_squashfs-lzo = "mksquashfs ${IMAGE_ROOTFS} ${IMGDEPLOYDIR}/${IMAGE_NAM
+ # you need special parameters (like --xattrs) which are only supported
+ # by GNU tar upstream >= 1.27, then override that default:
+ # IMAGE_CMD_TAR = "tar --xattrs --xattrs-include=*"
+-# IMAGE_DEPENDS_tar_append = " tar-replacement-native"
++# do_image_tar[depends] += "tar-replacement-native:do_populate_sysroot"
+ # EXTRANATIVEPATH += "tar-native"
+ #
+ # The GNU documentation does not specify whether --xattrs-include is necessary.
+@@ -209,21 +203,24 @@ EXTRA_IMAGECMD_ext4 ?= "-i 4096"
+ EXTRA_IMAGECMD_btrfs ?= "-n 4096"
+ EXTRA_IMAGECMD_elf ?= ""
+ 
+-IMAGE_DEPENDS = ""
+-IMAGE_DEPENDS_jffs2 = "mtd-utils-native"
+-IMAGE_DEPENDS_cramfs = "util-linux-native"
+-IMAGE_DEPENDS_ext2 = "e2fsprogs-native"
+-IMAGE_DEPENDS_ext3 = "e2fsprogs-native"
+-IMAGE_DEPENDS_ext4 = "e2fsprogs-native"
+-IMAGE_DEPENDS_btrfs = "btrfs-tools-native"
+-IMAGE_DEPENDS_squashfs = "squashfs-tools-native"
+-IMAGE_DEPENDS_squashfs-xz = "squashfs-tools-native"
+-IMAGE_DEPENDS_squashfs-lzo = "squashfs-tools-native"
+-IMAGE_DEPENDS_elf = "virtual/kernel mkelfimage-native"
+-IMAGE_DEPENDS_ubi = "mtd-utils-native"
+-IMAGE_DEPENDS_ubifs = "mtd-utils-native"
+-IMAGE_DEPENDS_multiubi = "mtd-utils-native"
+-IMAGE_DEPENDS_wic = "parted-native"
++python () {
++    if d.getVar('IMAGE_DEPENDS') != None:
++        bb.fatal('IMAGE_DEPENDS is deprecated. Use do_image_<type>[depends] += "<recipe>:<task>" instead')
++}
++
++do_image_jffs2[depends] += "mtd-utils-native:do_populate_sysroot"
++do_image_cramfs[depends] += "util-linux-native:do_populate_sysroot"
++do_image_ext2[depends] += "e2fsprogs-native:do_populate_sysroot"
++do_image_ext3[depends] += "e2fsprogs-native:do_populate_sysroot"
++do_image_ext4[depends] += "e2fsprogs-native:do_populate_sysroot"
++do_image_btrfs[depends] += "btrfs-tools-native:do_populate_sysroot"
++do_image_squashfs[depends] += "squashfs-tools-native:do_populate_sysroot"
++do_image_squashfs-xz[depends] += "squashfs-tools-native:do_populate_sysroot"
++do_image_squashfs-lzo[depends] += "squashfs-tools-native:do_populate_sysroot"
++do_image_elf[depends] += "virtual/kernel-native:do_populate_sysroot mkelfimage-native:do_populate_sysroot"
++do_image_ubi[depends] += "mtd-utils-native:do_populate_sysroot"
++do_image_ubifs[depends] += "mtd-utils-native:do_populate_sysroot"
++do_image_multiubi[depends] += "mtd-utils-native:do_populate_sysroot"
+ 
+ # This variable is available to request which values are suitable for IMAGE_FSTYPES
+ IMAGE_TYPES = " \
+-- 
+2.1.4
 
 
