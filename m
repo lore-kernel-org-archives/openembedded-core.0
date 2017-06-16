@@ -1,18 +1,27 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 92D8A78416;
-	Fri, 16 Jun 2017 19:31:29 +0000 (UTC)
-MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Ross Burton <ross.burton@intel.com>
-Date: Fri, 16 Jun 2017 19:31:31 -0000
-Message-ID: <20170616193131.1043.55245@do.openembedded.org>
-References: <1497640847-9108-1-git-send-email-ross.burton@intel.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <1497640847-9108-1-git-send-email-ross.burton@intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgZXBpcGhhbnk6IHJlbW92ZSB1bnVzZWQgaW50bHRvb2wgYnVpbGQtZGVwZW5kZW5jeQ==?=
+Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 38A077854D
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 16 Jun 2017 19:47:02 +0000 (UTC)
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	16 Jun 2017 12:47:01 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.39,348,1493708400"; d="scan'208";a="114138353"
+Received: from lsandov1-mobl2.zpn.intel.com ([10.219.128.119])
+	by orsmga005.jf.intel.com with ESMTP; 16 Jun 2017 12:47:00 -0700
+Message-ID: <1497642962.29576.32.camel@linux.intel.com>
+From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 16 Jun 2017 14:56:02 -0500
+In-Reply-To: <CAJTo0LanhF0x4yvucSpffYdGB2CbKN9mQH_ppTbX+rts=P_m9Q@mail.gmail.com>
+References: <cover.1497615866.git.alexander.kanavin@linux.intel.com>
+	<00bb214ae7913ff1b6b95285c2945acb868012dd.1497615866.git.alexander.kanavin@linux.intel.com>
+	<CAJTo0LanhF0x4yvucSpffYdGB2CbKN9mQH_ppTbX+rts=P_m9Q@mail.gmail.com>
+X-Mailer: Evolution 3.12.9-1+b1 
+Mime-Version: 1.0
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 27/32] btrfs-tools: upgrade to 4.11
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,41 +34,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Jun 2017 19:31:30 -0000
-Content-Type: text/plain; charset="utf-8"
+X-List-Received-Date: Fri, 16 Jun 2017 19:47:04 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-== Series Details ==
+On Fri, 2017-06-16 at 20:26 +0100, Burton, Ross wrote:
+> 
+> On 16 June 2017 at 13:28, Alexander Kanavin
+> <alexander.kanavin@linux.intel.com> wrote:
+>         From: Upgrade Helper <auh@auh.yoctoproject.org>
+>         
+> 
+> This and two others need to be re-authored by you (git commit --amend
+> --reset-author during a rebase will do it).
 
-Series: epiphany: remove unused intltool build-dependency
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/7323/
-State : failure
+patchtest has a test that check author, and this is correct on this
+patch, the problem is that the commit message contains the AUH stuff. I
+include (patchtest) test for the latter.
 
-== Summary ==
+Leo
 
+> 
+> 
+> Ross
+> -- 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  master (currently at 1d9a88f635)
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
----
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
