@@ -1,54 +1,37 @@
-Return-Path: <alejandro.delcastillo@ni.com>
-Received: from mx0b-00010702.pphosted.com (mx0a-00010702.pphosted.com
-	[148.163.156.75])
-	by mail.openembedded.org (Postfix) with ESMTP id 282F678408
+Return-Path: <huangqy.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
+	by mail.openembedded.org (Postfix) with ESMTP id 0691978408
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Jun 2017 01:06:43 +0000 (UTC)
-Received: from pps.filterd (m0098781.ppops.net [127.0.0.1])
-	by mx0a-00010702.pphosted.com (8.16.0.20/8.16.0.20) with SMTP id
-	v5FNG4t5006540 for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Jun 2017 18:17:29 -0500
-Received: from ni.com (skprod3.natinst.com [130.164.80.24])
-	by mx0a-00010702.pphosted.com with ESMTP id 2b43qw00ck-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=NOT) for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Jun 2017 18:17:29 -0500
-Received: from us-aus-exch1.ni.corp.natinst.com
-	(us-aus-exch1.ni.corp.natinst.com [130.164.68.11])
-	by us-aus-skprod3.natinst.com (8.16.0.17/8.16.0.17) with ESMTPS id
-	v5FNHSYu006005
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT)
+	Fri, 16 Jun 2017 01:48:04 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.22,518,1449504000"; d="scan'208";a="20097321"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 16 Jun 2017 09:48:05 +0800
+Received: from G08CNEXCHPEKD01.g08.fujitsu.local (unknown [10.167.33.80])
+	by cn.fujitsu.com (Postfix) with ESMTP id 206A547C7C69
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Jun 2017 18:17:28 -0500
-Received: from us-aus-exch5.ni.corp.natinst.com (130.164.68.15) by
-	us-aus-exch1.ni.corp.natinst.com (130.164.68.11) with Microsoft SMTP
-	Server (TLS) id 15.0.1156.6; Thu, 15 Jun 2017 18:17:28 -0500
-Received: from us-aus-exhub1.ni.corp.natinst.com (130.164.68.41) by
-	us-aus-exch5.ni.corp.natinst.com (130.164.68.15) with Microsoft SMTP
-	Server (TLS) id 15.0.1156.6; Thu, 15 Jun 2017 18:17:28 -0500
-Received: from delcastillo2.amer.corp.natinst.com (130.164.49.7) by
-	us-aus-exhub1.ni.corp.natinst.com (130.164.68.41) with Microsoft SMTP
-	Server
-	id 15.0.1156.6 via Frontend Transport; Thu, 15 Jun 2017 18:17:28 -0500
-From: Alejandro del Castillo <alejandro.delcastillo@ni.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 15 Jun 2017 18:17:27 -0500
-Message-ID: <1497568647-2740-2-git-send-email-alejandro.delcastillo@ni.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1497568647-2740-1-git-send-email-alejandro.delcastillo@ni.com>
-References: <1497568647-2740-1-git-send-email-alejandro.delcastillo@ni.com>
+	Fri, 16 Jun 2017 09:48:05 +0800 (CST)
+Received: from G08CNEXMBPEKD03.g08.fujitsu.local ([10.167.33.86]) by
+	G08CNEXCHPEKD01.g08.fujitsu.local ([10.167.33.80]) with mapi id
+	14.03.0319.002; Fri, 16 Jun 2017 09:48:04 +0800
+From: "Huang, Qiyu" <huangqy.fnst@cn.fujitsu.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH] libnewt: 0.52.19 -> 0.52.20
+Thread-Index: AQHSzSpDyBEQ2A0wk0aO3UhFBwN1+6Im6tEA
+Date: Fri, 16 Jun 2017 01:48:02 +0000
+Message-ID: <97F7C8E70D26E94FA7E05578493F65C60E01F6C2@G08CNEXMBPEKD03.g08.fujitsu.local>
+References: <1494818427-18931-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
+In-Reply-To: <1494818427-18931-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.167.226.81]
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
-	definitions=2017-06-15_11:, , signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_policy_notspam policy=outbound_policy
-	score=30
-	priorityscore=1501 malwarescore=0 suspectscore=15 phishscore=0
-	bulkscore=0
-	spamscore=0 clxscore=1015 lowpriorityscore=0 impostorscore=0
-	adultscore=0
-	classifier=spam adjust=30 reason=mlx scancount=1
-	engine=8.0.1-1703280000 definitions=main-1706150402
-Subject: [PATCH 2/2] opkg: upgrade to v0.3.5
+X-yoursite-MailScanner-ID: 206A547C7C69.AB818
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: huangqy.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Subject: Re: [PATCH] libnewt: 0.52.19 -> 0.52.20
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,116 +44,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Jun 2017 01:06:47 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 16 Jun 2017 01:48:05 -0000
+Content-Language: zh-CN
+Content-Type: text/plain; charset="gb2312"
+Content-Transfer-Encoding: base64
 
-Drop status-conffile.patch, present in 0.3.5.
-
-Signed-off-by: Alejandro del Castillo <alejandro.delcastillo@ni.com>
----
- .../opkg/opkg/status-conffile.patch                | 69 ----------------------
- .../opkg/{opkg_0.3.4.bb => opkg_0.3.5.bb}          |  5 +-
- 2 files changed, 2 insertions(+), 72 deletions(-)
- delete mode 100644 meta/recipes-devtools/opkg/opkg/status-conffile.patch
- rename meta/recipes-devtools/opkg/{opkg_0.3.4.bb => opkg_0.3.5.bb} (93%)
-
-diff --git a/meta/recipes-devtools/opkg/opkg/status-conffile.patch b/meta/recipes-devtools/opkg/opkg/status-conffile.patch
-deleted file mode 100644
-index 6fc405b..0000000
---- a/meta/recipes-devtools/opkg/opkg/status-conffile.patch
-+++ /dev/null
-@@ -1,69 +0,0 @@
--Upstream-Status: Submitted
--Signed-off-by: Ross Burton <ross.burton@intel.com>
--
--From 086d5083dfe0102368cb7c8ce89b0c06b64ca773 Mon Sep 17 00:00:00 2001
--From: Ross Burton <ross.burton@intel.com>
--Date: Tue, 10 Jan 2017 15:24:59 +0000
--Subject: [PATCH 1/2] opkg_cmd: only look at conffile status if we're going to
-- output it
--
--The loop to compare the recorded conffile hash with their hash on disk is
--outputted at level INFO but the loop was executed at level NOTICE and higher.
--
--This means that if a conffile had been deleted the status operation would
--produce error messages for output it isn't displaying.
--
--Signed-off-by: Ross Burton <ross.burton@intel.com>
-----
-- libopkg/opkg_cmd.c | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/libopkg/opkg_cmd.c b/libopkg/opkg_cmd.c
--index ba57c6a..37416fd 100644
----- a/libopkg/opkg_cmd.c
--+++ b/libopkg/opkg_cmd.c
--@@ -638,7 +638,7 @@ static int opkg_info_status_cmd(int argc, char **argv, int installed_only)
-- 
--         pkg_formatted_info(stdout, pkg);
-- 
---        if (opkg_config->verbosity >= NOTICE) {
--+        if (opkg_config->verbosity >= INFO) {
--             conffile_list_elt_t *iter;
--             for (iter = nv_pair_list_first(&pkg->conffiles); iter;
--                  iter = nv_pair_list_next(&pkg->conffiles, iter)) {
---- 
--2.8.1
--
--From 225e30e0f9fa7cfeaa3f89e2713e5147ab371def Mon Sep 17 00:00:00 2001
--From: Ross Burton <ross.burton@intel.com>
--Date: Tue, 10 Jan 2017 15:28:47 +0000
--Subject: [PATCH 2/2] conffile: gracefully handle deleted conffiles in
-- conffile_has_been_modified
--
--Handle conffiles that don't exist gracefully so that instead of showing an error
--message from file_md5sum_alloc() a notice that the file has been deleted is
--shown instead.
--
--Signed-off-by: Ross Burton <ross.burton@intel.com>
-----
-- libopkg/conffile.c | 5 +++++
-- 1 file changed, 5 insertions(+)
--
--diff --git a/libopkg/conffile.c b/libopkg/conffile.c
--index b2f2469..7b4b87b 100644
----- a/libopkg/conffile.c
--+++ b/libopkg/conffile.c
--@@ -51,6 +51,11 @@ int conffile_has_been_modified(conffile_t * conffile)
--     }
-- 
--     root_filename = root_filename_alloc(filename);
--+    if (!file_exists(root_filename)) {
--+        opkg_msg(INFO, "Conffile %s deleted\n", conffile->name);
--+        free(root_filename);
--+        return 1;
--+    }
-- 
--     md5sum = file_md5sum_alloc(root_filename);
-- 
---- 
--2.8.1
-diff --git a/meta/recipes-devtools/opkg/opkg_0.3.4.bb b/meta/recipes-devtools/opkg/opkg_0.3.5.bb
-similarity index 93%
-rename from meta/recipes-devtools/opkg/opkg_0.3.4.bb
-rename to meta/recipes-devtools/opkg/opkg_0.3.5.bb
-index a21fde1..3e511b6 100644
---- a/meta/recipes-devtools/opkg/opkg_0.3.4.bb
-+++ b/meta/recipes-devtools/opkg/opkg_0.3.5.bb
-@@ -15,11 +15,10 @@ SRC_URI = "http://downloads.yoctoproject.org/releases/${BPN}/${BPN}-${PV}.tar.gz
-            file://opkg-configure.service \
-            file://opkg.conf \
-            file://0001-opkg_conf-create-opkg.lock-in-run-instead-of-var-run.patch \
--           file://status-conffile.patch \
- "
- 
--SRC_URI[md5sum] = "6c52a065499056a196e0b45a27e392de"
--SRC_URI[sha256sum] = "750b900b53b62a9b280b601a196f02da81091eda2f3478c509512aa5a1ec93be"
-+SRC_URI[md5sum] = "d202d09ea0932943071b842626cab13c"
-+SRC_URI[sha256sum] = "734bc21dea11262113fa86b928d09812618b3966f352350cf916a6ae0d343f32"
- 
- inherit autotools pkgconfig systemd
- 
--- 
-2.7.4
-
+cGluZw0KDQo+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+IEZyb206
+IEh1YW5nLCBRaXl1L7vGIOf50+4NCj4gU2VudDogTW9uZGF5LCBNYXkgMTUs
+IDIwMTcgMTE6MjAgQU0NCj4gVG86IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3Rz
+Lm9wZW5lbWJlZGRlZC5vcmcNCj4gQ2M6IEh1YW5nLCBRaXl1L7vGIOf50+4g
+PGh1YW5ncXkuZm5zdEBjbi5mdWppdHN1LmNvbT4NCj4gU3ViamVjdDogW09F
+LWNvcmVdIFtQQVRDSF0gbGlibmV3dDogMC41Mi4xOSAtPiAwLjUyLjIwDQo+
+IA0KPiBVcGdyYWRlIGxpYm5ld3QgZnJvbSAwLjUyLjE5IHRvIDAuNTIuMjAu
+DQo+IA0KPiBTaWduZWQtb2ZmLWJ5OiBIdWFuZyBRaXl1IDxodWFuZ3F5LmZu
+c3RAY24uZnVqaXRzdS5jb20+DQo+IC0tLQ0KPiAgLi4uL25ld3Qve2xpYm5l
+d3QtcHl0aG9uXzAuNTIuMTkuYmIgPT4gbGlibmV3dC1weXRob25fMC41Mi4y
+MC5iYn0gICAgIHwgMA0KPiAgbWV0YS9yZWNpcGVzLWV4dGVuZGVkL25ld3Qv
+e2xpYm5ld3RfMC41Mi4xOS5iYiA9PiBsaWJuZXd0XzAuNTIuMjAuYmJ9IHwg
+NA0KPiArKy0tDQo+ICAyIGZpbGVzIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygr
+KSwgMiBkZWxldGlvbnMoLSkgIHJlbmFtZQ0KPiBtZXRhL3JlY2lwZXMtZXh0
+ZW5kZWQvbmV3dC97bGlibmV3dC1weXRob25fMC41Mi4xOS5iYiA9Pg0KPiBs
+aWJuZXd0LXB5dGhvbl8wLjUyLjIwLmJifSAoMTAwJSkgIHJlbmFtZQ0KPiBt
+ZXRhL3JlY2lwZXMtZXh0ZW5kZWQvbmV3dC97bGlibmV3dF8wLjUyLjE5LmJi
+ID0+IGxpYm5ld3RfMC41Mi4yMC5iYn0NCj4gKDkwJSkNCj4gDQo+IGRpZmYg
+LS1naXQgYS9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvbmV3dC9saWJuZXd0LXB5
+dGhvbl8wLjUyLjE5LmJiDQo+IGIvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL25l
+d3QvbGlibmV3dC1weXRob25fMC41Mi4yMC5iYg0KPiBzaW1pbGFyaXR5IGlu
+ZGV4IDEwMCUNCj4gcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWV4dGVuZGVk
+L25ld3QvbGlibmV3dC1weXRob25fMC41Mi4xOS5iYg0KPiByZW5hbWUgdG8g
+bWV0YS9yZWNpcGVzLWV4dGVuZGVkL25ld3QvbGlibmV3dC1weXRob25fMC41
+Mi4yMC5iYg0KPiBkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWV4dGVuZGVk
+L25ld3QvbGlibmV3dF8wLjUyLjE5LmJiDQo+IGIvbWV0YS9yZWNpcGVzLWV4
+dGVuZGVkL25ld3QvbGlibmV3dF8wLjUyLjIwLmJiDQo+IHNpbWlsYXJpdHkg
+aW5kZXggOTAlDQo+IHJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1leHRlbmRl
+ZC9uZXd0L2xpYm5ld3RfMC41Mi4xOS5iYg0KPiByZW5hbWUgdG8gbWV0YS9y
+ZWNpcGVzLWV4dGVuZGVkL25ld3QvbGlibmV3dF8wLjUyLjIwLmJiDQo+IGlu
+ZGV4IGRlNzZjZTIuLjY1Y2U3MGMgMTAwNjQ0DQo+IC0tLSBhL21ldGEvcmVj
+aXBlcy1leHRlbmRlZC9uZXd0L2xpYm5ld3RfMC41Mi4xOS5iYg0KPiArKysg
+Yi9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvbmV3dC9saWJuZXd0XzAuNTIuMjAu
+YmINCj4gQEAgLTI1LDggKzI1LDggQEAgU1JDX1VSSSA9DQo+ICJodHRwczov
+L3JlbGVhc2VzLnBhZ3VyZS5vcmcvbmV3dC9uZXd0LSR7UFZ9LnRhci5neiBc
+DQo+ICAgICAgICAgICAgIGZpbGU6Ly8wMDAxLWRldGVjdC1nb2xkLWFzLUdO
+VS1saW5rZXItdG9vLnBhdGNoIFwgICINCj4gDQo+IC1TUkNfVVJJW21kNXN1
+bV0gPSAiZTRhYTBmNzk0M2VkZDM5YzUyNDgxYTg3ZjY4ZjQxMmEiDQo+IC1T
+UkNfVVJJW3NoYTI1NnN1bV0gPQ0KPiAiMDhjMGRiNTZjMjE5OTZhZjZhN2Ni
+YWI5OTQ5MWI3NzRjNmMwOWNlZjkxY2Q5YjAzOTAzYzg0NjM0YmZmMmU4MCIN
+Cj4gK1NSQ19VUklbbWQ1c3VtXSA9ICI3MGIyODhmODIxMjM0NTkzYThlNzky
+MGU0MzViMjU5YiINCj4gK1NSQ19VUklbc2hhMjU2c3VtXSA9DQo+ICI4ZDY2
+YmE2YmVmZmMzZjc4NmQ0Y2NmZWU5ZDJiNDNkOTM0ODQ2ODBlZjhkYjkzOTdh
+NGZiNzBiNWFkYmI2ZGJjIg0KPiANCj4gIFMgPSAiJHtXT1JLRElSfS9uZXd0
+LSR7UFZ9Ig0KPiANCj4gLS0NCj4gMi43LjQNCg0KCgo=
 
