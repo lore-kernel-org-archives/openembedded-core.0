@@ -1,23 +1,24 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 3EAB778466
+	by mail.openembedded.org (Postfix) with ESMTP id 3327F7845A
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Jun 2017 12:28:54 +0000 (UTC)
+	Fri, 16 Jun 2017 12:28:55 +0000 (UTC)
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
 	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	16 Jun 2017 05:28:55 -0700
+	16 Jun 2017 05:28:56 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.39,347,1493708400"; d="scan'208";a="1161279519"
+X-IronPort-AV: E=Sophos;i="5.39,347,1493708400"; d="scan'208";a="1161279522"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by fmsmga001.fm.intel.com with ESMTP; 16 Jun 2017 05:28:55 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 16 Jun 2017 05:28:56 -0700
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 16 Jun 2017 15:28:29 +0300
-Message-Id: <21e13a89719ff1a57d7dcfdba72ac5b91f14aa20.1497615866.git.alexander.kanavin@linux.intel.com>
+Date: Fri, 16 Jun 2017 15:28:30 +0300
+Message-Id: <021775a1999ba7c6e925532b4dfc02a278fc50d1.1497615866.git.alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.11.0
+MIME-Version: 1.0
 In-Reply-To: <cover.1497615866.git.alexander.kanavin@linux.intel.com>
 References: <cover.1497615866.git.alexander.kanavin@linux.intel.com>
-Subject: [PATCH 06/32] recipes-lsb4/perl: remove the recipes
+Subject: [PATCH 07/32] mailx: remove the recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,225 +31,669 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Jun 2017 12:28:54 -0000
+X-List-Received-Date: Fri, 16 Jun 2017 12:28:55 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-These were required by LSB 4.1 tests; there's no other reason to continue
-carrying them in oe-core.
+This recipe was carried only for LSB compatibility,
+with upstream being defunct for a long time; if there is a need
+for a modern, supported implementation of mail/mailx, then
+s-nail (http://sdaoden.eu/code.html) or mailutils (http://mailutils.org/)
+should be used.
 
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- .../packagegroups/packagegroup-core-lsb.bb         |  6 ----
- meta/recipes-lsb4/perl/libclass-isa-perl_0.36.bb   | 31 ---------------------
- meta/recipes-lsb4/perl/libdumpvalue-perl_1.17.bb   | 18 ------------
- meta/recipes-lsb4/perl/libenv-perl_1.04.bb         | 21 --------------
- .../perl/libfile-checktree-perl_4.41.bb            | 32 ----------------------
- .../recipes-lsb4/perl/libi18n-collate-perl_1.02.bb | 21 --------------
- meta/recipes-lsb4/perl/libpod-plainer-perl_1.04.bb | 23 ----------------
- 7 files changed, 152 deletions(-)
- delete mode 100644 meta/recipes-lsb4/perl/libclass-isa-perl_0.36.bb
- delete mode 100644 meta/recipes-lsb4/perl/libdumpvalue-perl_1.17.bb
- delete mode 100644 meta/recipes-lsb4/perl/libenv-perl_1.04.bb
- delete mode 100644 meta/recipes-lsb4/perl/libfile-checktree-perl_4.41.bb
- delete mode 100644 meta/recipes-lsb4/perl/libi18n-collate-perl_1.02.bb
- delete mode 100644 meta/recipes-lsb4/perl/libpod-plainer-perl_1.04.bb
+ ...e-weak-symbol-optopt-to-fix-FTBFS-on-mips.patch |  59 -----------
+ ...-SSL2-support-since-it-is-no-longer-suppo.patch |  41 --------
+ ...ntian-warning-warning-macro-N-not-defined.patch |  25 -----
+ .../0011-outof-Introduce-expandaddr-flag.patch     |  71 -------------
+ ...ble-option-processing-for-email-addresses.patch |  79 --------------
+ ...c-Unconditionally-require-wordexp-support.patch | 113 ---------------------
+ ...4-globname-Invoke-wordexp-with-WRDE_NOCMD.patch |  31 ------
+ .../mailx/files/0015-usr-sbin-sendmail.patch       |  38 -------
+ .../files/explicitly.disable.krb5.support.patch    |  46 ---------
+ meta/recipes-extended/mailx/mailx_12.5-5.bb        |  53 ----------
+ .../packagegroups/packagegroup-core-lsb.bb         |   1 -
+ 11 files changed, 557 deletions(-)
+ delete mode 100644 meta/recipes-extended/mailx/files/0001-Don-t-reuse-weak-symbol-optopt-to-fix-FTBFS-on-mips.patch
+ delete mode 100644 meta/recipes-extended/mailx/files/0002-Patched-out-SSL2-support-since-it-is-no-longer-suppo.patch
+ delete mode 100644 meta/recipes-extended/mailx/files/0003-Fixed-Lintian-warning-warning-macro-N-not-defined.patch
+ delete mode 100644 meta/recipes-extended/mailx/files/0011-outof-Introduce-expandaddr-flag.patch
+ delete mode 100644 meta/recipes-extended/mailx/files/0012-unpack-Disable-option-processing-for-email-addresses.patch
+ delete mode 100644 meta/recipes-extended/mailx/files/0013-fio.c-Unconditionally-require-wordexp-support.patch
+ delete mode 100644 meta/recipes-extended/mailx/files/0014-globname-Invoke-wordexp-with-WRDE_NOCMD.patch
+ delete mode 100644 meta/recipes-extended/mailx/files/0015-usr-sbin-sendmail.patch
+ delete mode 100644 meta/recipes-extended/mailx/files/explicitly.disable.krb5.support.patch
+ delete mode 100644 meta/recipes-extended/mailx/mailx_12.5-5.bb
 
-diff --git a/meta/recipes-extended/packagegroups/packagegroup-core-lsb.bb b/meta/recipes-extended/packagegroups/packagegroup-core-lsb.bb
-index a6fb3023052..112fe7bf11d 100644
---- a/meta/recipes-extended/packagegroups/packagegroup-core-lsb.bb
-+++ b/meta/recipes-extended/packagegroups/packagegroup-core-lsb.bb
-@@ -239,10 +239,4 @@ RDEPENDS_packagegroup-core-lsb-runtime-add = "\
-     glibc-localedata-posix \
-     glibc-extra-nss \
-     glibc-pcprofile \
--    libclass-isa-perl \
--    libenv-perl \
--    libdumpvalue-perl \
--    libfile-checktree-perl \
--    libi18n-collate-perl \
--    libpod-plainer-perl \
- "
-diff --git a/meta/recipes-lsb4/perl/libclass-isa-perl_0.36.bb b/meta/recipes-lsb4/perl/libclass-isa-perl_0.36.bb
+diff --git a/meta/recipes-extended/mailx/files/0001-Don-t-reuse-weak-symbol-optopt-to-fix-FTBFS-on-mips.patch b/meta/recipes-extended/mailx/files/0001-Don-t-reuse-weak-symbol-optopt-to-fix-FTBFS-on-mips.patch
 deleted file mode 100644
-index f93841dc7f1..00000000000
---- a/meta/recipes-lsb4/perl/libclass-isa-perl_0.36.bb
+index 77da33321d3..00000000000
+--- a/meta/recipes-extended/mailx/files/0001-Don-t-reuse-weak-symbol-optopt-to-fix-FTBFS-on-mips.patch
++++ /dev/null
+@@ -1,59 +0,0 @@
+-From: Luk Claes <luk@debian.org>
+-Date: Sat, 4 Jul 2009 10:54:53 +0200
+-Subject: Don't reuse weak symbol optopt to fix FTBFS on mips*
+-
+-This patch is taken from 
+-ftp://ftp.debian.org/debian/pool/main/h/heirloom-mailx/heirloom-mailx_12.5-5.debian.tar.xz
+-
+-Upstream-Status: Inappropriate [upstream is dead]
+----
+- getopt.c |   10 +++++-----
+- 1 file changed, 5 insertions(+), 5 deletions(-)
+-
+-diff --git a/getopt.c b/getopt.c
+-index 83ce628..82e983c 100644
+---- a/getopt.c
+-+++ b/getopt.c
+-@@ -43,7 +43,7 @@ typedef	int	ssize_t;
+- char	*optarg;
+- int	optind = 1;
+- int	opterr = 1;
+--int	optopt;
+-+int	optoptc;
+- 
+- static void
+- error(const char *s, int c)
+-@@ -69,7 +69,7 @@ error(const char *s, int c)
+- 		*bp++ = *s++;
+- 	while (*msg)
+- 		*bp++ = *msg++;
+--	*bp++ = optopt;
+-+	*bp++ = optoptc;
+- 	*bp++ = '\n';
+- 	write(2, buf, bp - buf);
+- 	ac_free(buf);
+-@@ -101,13 +101,13 @@ getopt(int argc, char *const argv[], const char *optstring)
+- 		}
+- 		curp = &argv[optind][1];
+- 	}
+--	optopt = curp[0] & 0377;
+-+	optoptc = curp[0] & 0377;
+- 	while (optstring[0]) {
+- 		if (optstring[0] == ':') {
+- 			optstring++;
+- 			continue;
+- 		}
+--		if ((optstring[0] & 0377) == optopt) {
+-+		if ((optstring[0] & 0377) == optoptc) {
+- 			if (optstring[1] == ':') {
+- 				if (curp[1] != '\0') {
+- 					optarg = (char *)&curp[1];
+-@@ -127,7 +127,7 @@ getopt(int argc, char *const argv[], const char *optstring)
+- 					optind++;
+- 				optarg = 0;
+- 			}
+--			return optopt;
+-+			return optoptc;
+- 		}
+- 		optstring++;
+- 	}
+diff --git a/meta/recipes-extended/mailx/files/0002-Patched-out-SSL2-support-since-it-is-no-longer-suppo.patch b/meta/recipes-extended/mailx/files/0002-Patched-out-SSL2-support-since-it-is-no-longer-suppo.patch
+deleted file mode 100644
+index 6bad433ea6c..00000000000
+--- a/meta/recipes-extended/mailx/files/0002-Patched-out-SSL2-support-since-it-is-no-longer-suppo.patch
++++ /dev/null
+@@ -1,41 +0,0 @@
+-From: Hilko Bengen <bengen@debian.org>
+-Date: Wed, 27 Apr 2011 00:18:42 +0200
+-Subject: Patched out SSL2 support since it is no longer supported by OpenSSL.
+-
+-This patch is taken from
+-ftp://ftp.debian.org/debian/pool/main/h/heirloom-mailx/heirloom-mailx_12.5-5.debian.tar.xz
+-
+-Upstream-Status: Inappropriate [upstream is dead]
+----
+- mailx.1   |    2 +-
+- openssl.c |    4 +---
+- 2 files changed, 2 insertions(+), 4 deletions(-)
+-
+-diff --git a/mailx.1 b/mailx.1
+-index 417ea04..a02e430 100644
+---- a/mailx.1
+-+++ b/mailx.1
+-@@ -3575,7 +3575,7 @@ Only applicable if SSL/TLS support is built using OpenSSL.
+- .TP
+- .B ssl-method
+- Selects a SSL/TLS protocol version;
+--valid values are `ssl2', `ssl3', and `tls1'.
+-+valid values are `ssl3', and `tls1'.
+- If unset, the method is selected automatically,
+- if possible.
+- .TP
+-diff --git a/openssl.c b/openssl.c
+-index b4e33fc..44fe4e5 100644
+---- a/openssl.c
+-+++ b/openssl.c
+-@@ -216,9 +216,7 @@ ssl_select_method(const char *uhp)
+- 
+- 	cp = ssl_method_string(uhp);
+- 	if (cp != NULL) {
+--		if (equal(cp, "ssl2"))
+--			method = SSLv2_client_method();
+--		else if (equal(cp, "ssl3"))
+-+		if (equal(cp, "ssl3"))
+- 			method = SSLv3_client_method();
+- 		else if (equal(cp, "tls1"))
+- 			method = TLSv1_client_method();
+diff --git a/meta/recipes-extended/mailx/files/0003-Fixed-Lintian-warning-warning-macro-N-not-defined.patch b/meta/recipes-extended/mailx/files/0003-Fixed-Lintian-warning-warning-macro-N-not-defined.patch
+deleted file mode 100644
+index 13b73ae593f..00000000000
+--- a/meta/recipes-extended/mailx/files/0003-Fixed-Lintian-warning-warning-macro-N-not-defined.patch
++++ /dev/null
+@@ -1,25 +0,0 @@
+-From: Hilko Bengen <bengen@debian.org>
+-Date: Sat, 14 Apr 2012 20:22:43 +0200
+-Subject: Fixed Lintian warning (warning: macro `N' not defined)
+-
+-This patch is taken from
+-ftp://ftp.debian.org/debian/pool/main/h/heirloom-mailx/heirloom-mailx_12.5-5.debian.tar.xz
+-
+-Upstream-Status: Inappropriate [upstream is dead]
+----
+- mailx.1 |    2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/mailx.1 b/mailx.1
+-index a02e430..b0723bd 100644
+---- a/mailx.1
+-+++ b/mailx.1
+-@@ -3781,7 +3781,7 @@ you could examine the first message by giving the command:
+- .sp
+- .fi
+- which might cause
+--.N mailx
+-+.I mailx
+- to respond with, for example:
+- .nf
+- .sp
+diff --git a/meta/recipes-extended/mailx/files/0011-outof-Introduce-expandaddr-flag.patch b/meta/recipes-extended/mailx/files/0011-outof-Introduce-expandaddr-flag.patch
+deleted file mode 100644
+index 13b955c4b5c..00000000000
+--- a/meta/recipes-extended/mailx/files/0011-outof-Introduce-expandaddr-flag.patch
++++ /dev/null
+@@ -1,71 +0,0 @@
+-From 9984ae5cb0ea0d61df1612b06952a61323c083d9 Mon Sep 17 00:00:00 2001
+-From: Florian Weimer <fweimer@redhat.com>
+-Date: Mon, 17 Nov 2014 11:13:38 +0100
+-Subject: [PATCH 1/4] outof: Introduce expandaddr flag
+-
+-Document that address expansion is disabled unless the expandaddr
+-binary option is set.
+-
+-This has been assigned CVE-2014-7844 for BSD mailx, but it is not
+-a vulnerability in Heirloom mailx because this feature was documented.
+-
+-This patch is taken from
+-ftp://ftp.debian.org/debian/pool/main/h/heirloom-mailx/heirloom-mailx_12.5-5.debian.tar.xz
+-
+-Upstream-Status: Inappropriate [upstream is dead]
+-CVE: CVE-2014-7844
+----
+- mailx.1 | 14 ++++++++++++++
+- names.c |  3 +++
+- 2 files changed, 17 insertions(+)
+-
+-diff --git a/mailx.1 b/mailx.1
+-index 70a7859..22a171b 100644
+---- a/mailx.1
+-+++ b/mailx.1
+-@@ -656,6 +656,14 @@ but any reply returned to the machine
+- will have the system wide alias expanded
+- as all mail goes through sendmail.
+- .SS "Recipient address specifications"
+-+If the
+-+.I expandaddr
+-+option is not set (the default), recipient addresses must be names of
+-+local mailboxes or Internet mail addresses.
+-+.PP
+-+If the
+-+.I expandaddr
+-+option is set, the following rules apply:
+- When an address is used to name a recipient
+- (in any of To, Cc, or Bcc),
+- names of local mail folders
+-@@ -2391,6 +2399,12 @@ and exits immediately.
+- If this option is set,
+- \fImailx\fR starts even with an empty mailbox.
+- .TP
+-+.B expandaddr
+-+Causes
+-+.I mailx
+-+to expand message recipient addresses, as explained in the section,
+-+Recipient address specifications.
+-+.TP
+- .B flipr
+- Exchanges the
+- .I Respond
+-diff --git a/names.c b/names.c
+-index 66e976b..c69560f 100644
+---- a/names.c
+-+++ b/names.c
+-@@ -268,6 +268,9 @@ outof(struct name *names, FILE *fo, struct header *hp)
+- 	FILE *fout, *fin;
+- 	int ispipe;
+- 
+-+	if (value("expandaddr") == NULL)
+-+		return names;
+-+
+- 	top = names;
+- 	np = names;
+- 	time(&now);
+--- 
+-1.9.3
+-
+-
+diff --git a/meta/recipes-extended/mailx/files/0012-unpack-Disable-option-processing-for-email-addresses.patch b/meta/recipes-extended/mailx/files/0012-unpack-Disable-option-processing-for-email-addresses.patch
+deleted file mode 100644
+index 8cdbfd8b038..00000000000
+--- a/meta/recipes-extended/mailx/files/0012-unpack-Disable-option-processing-for-email-addresses.patch
++++ /dev/null
+@@ -1,79 +0,0 @@
+-From e34e2ac67b80497080ebecccec40c3b61456167d Mon Sep 17 00:00:00 2001
+-From: Florian Weimer <fweimer@redhat.com>
+-Date: Mon, 17 Nov 2014 11:14:06 +0100
+-Subject: [PATCH 2/4] unpack: Disable option processing for email addresses
+- when calling sendmail
+-
+-This patch is taken from
+-ftp://ftp.debian.org/debian/pool/main/h/heirloom-mailx/heirloom-mailx_12.5-5.debian.tar.xz
+-
+-Upstream-Status: Inappropriate [upstream is dead]
+----
+- extern.h  | 2 +-
+- names.c   | 8 ++++++--
+- sendout.c | 2 +-
+- 3 files changed, 8 insertions(+), 4 deletions(-)
+-
+-diff --git a/extern.h b/extern.h
+-index 6b85ba0..8873fe8 100644
+---- a/extern.h
+-+++ b/extern.h
+-@@ -396,7 +396,7 @@ struct name *outof(struct name *names, FILE *fo, struct header *hp);
+- int is_fileaddr(char *name);
+- struct name *usermap(struct name *names);
+- struct name *cat(struct name *n1, struct name *n2);
+--char **unpack(struct name *np);
+-+char **unpack(struct name *smopts, struct name *np);
+- struct name *elide(struct name *names);
+- int count(struct name *np);
+- struct name *delete_alternates(struct name *np);
+-diff --git a/names.c b/names.c
+-index c69560f..45bbaed 100644
+---- a/names.c
+-+++ b/names.c
+-@@ -549,7 +549,7 @@ cat(struct name *n1, struct name *n2)
+-  * Return an error if the name list won't fit.
+-  */
+- char **
+--unpack(struct name *np)
+-+unpack(struct name *smopts, struct name *np)
+- {
+- 	char **ap, **top;
+- 	struct name *n;
+-@@ -564,7 +564,7 @@ unpack(struct name *np)
+- 	 * the terminating 0 pointer.  Additional spots may be needed
+- 	 * to pass along -f to the host mailer.
+- 	 */
+--	extra = 2;
+-+	extra = 3 + count(smopts);
+- 	extra++;
+- 	metoo = value("metoo") != NULL;
+- 	if (metoo)
+-@@ -581,6 +581,10 @@ unpack(struct name *np)
+- 		*ap++ = "-m";
+- 	if (verbose)
+- 		*ap++ = "-v";
+-+	for (; smopts != NULL; smopts = smopts->n_flink)
+-+		if ((smopts->n_type & GDEL) == 0)
+-+			*ap++ = smopts->n_name;
+-+	*ap++ = "--";
+- 	for (; n != NULL; n = n->n_flink)
+- 		if ((n->n_type & GDEL) == 0)
+- 			*ap++ = n->n_name;
+-diff --git a/sendout.c b/sendout.c
+-index 7b7f2eb..c52f15d 100644
+---- a/sendout.c
+-+++ b/sendout.c
+-@@ -835,7 +835,7 @@ start_mta(struct name *to, struct name *mailargs, FILE *input,
+- #endif	/* HAVE_SOCKETS */
+- 
+- 	if ((smtp = value("smtp")) == NULL) {
+--		args = unpack(cat(mailargs, to));
+-+		args = unpack(mailargs, to);
+- 		if (debug || value("debug")) {
+- 			printf(catgets(catd, CATSET, 181,
+- 					"Sendmail arguments:"));
+--- 
+-1.9.3
+-
+-
+diff --git a/meta/recipes-extended/mailx/files/0013-fio.c-Unconditionally-require-wordexp-support.patch b/meta/recipes-extended/mailx/files/0013-fio.c-Unconditionally-require-wordexp-support.patch
+deleted file mode 100644
+index 5558d8639fe..00000000000
+--- a/meta/recipes-extended/mailx/files/0013-fio.c-Unconditionally-require-wordexp-support.patch
++++ /dev/null
+@@ -1,113 +0,0 @@
+-From 2bae8ecf04ec2ba6bb9f0af5b80485dd0edb427d Mon Sep 17 00:00:00 2001
+-From: Florian Weimer <fweimer@redhat.com>
+-Date: Mon, 17 Nov 2014 12:48:25 +0100
+-Subject: [PATCH 3/4] fio.c: Unconditionally require wordexp support
+-
+-This patch is taken from
+-ftp://ftp.debian.org/debian/pool/main/h/heirloom-mailx/heirloom-mailx_12.5-5.debian.tar.xz
+-
+-Upstream-Status: Inappropriate [upstream is dead]
+----
+- fio.c | 67 +++++--------------------------------------------------------------
+- 1 file changed, 5 insertions(+), 62 deletions(-)
+-
+-diff --git a/fio.c b/fio.c
+-index 65e8f10..1529236 100644
+---- a/fio.c
+-+++ b/fio.c
+-@@ -43,12 +43,15 @@ static char sccsid[] = "@(#)fio.c	2.76 (gritter) 9/16/09";
+- #endif /* not lint */
+- 
+- #include "rcv.h"
+-+
+-+#ifndef HAVE_WORDEXP
+-+#error wordexp support is required
+-+#endif
+-+
+- #include <sys/stat.h>
+- #include <sys/file.h>
+- #include <sys/wait.h>
+--#ifdef	HAVE_WORDEXP
+- #include <wordexp.h>
+--#endif	/* HAVE_WORDEXP */
+- #include <unistd.h>
+- 
+- #if defined (USE_NSS)
+-@@ -481,7 +484,6 @@ next:
+- static char *
+- globname(char *name)
+- {
+--#ifdef	HAVE_WORDEXP
+- 	wordexp_t we;
+- 	char *cp;
+- 	sigset_t nset;
+-@@ -527,65 +529,6 @@ globname(char *name)
+- 	}
+- 	wordfree(&we);
+- 	return cp;
+--#else	/* !HAVE_WORDEXP */
+--	char xname[PATHSIZE];
+--	char cmdbuf[PATHSIZE];		/* also used for file names */
+--	int pid, l;
+--	char *cp, *shell;
+--	int pivec[2];
+--	extern int wait_status;
+--	struct stat sbuf;
+--
+--	if (pipe(pivec) < 0) {
+--		perror("pipe");
+--		return name;
+--	}
+--	snprintf(cmdbuf, sizeof cmdbuf, "echo %s", name);
+--	if ((shell = value("SHELL")) == NULL)
+--		shell = SHELL;
+--	pid = start_command(shell, 0, -1, pivec[1], "-c", cmdbuf, NULL);
+--	if (pid < 0) {
+--		close(pivec[0]);
+--		close(pivec[1]);
+--		return NULL;
+--	}
+--	close(pivec[1]);
+--again:
+--	l = read(pivec[0], xname, sizeof xname);
+--	if (l < 0) {
+--		if (errno == EINTR)
+--			goto again;
+--		perror("read");
+--		close(pivec[0]);
+--		return NULL;
+--	}
+--	close(pivec[0]);
+--	if (wait_child(pid) < 0 && WTERMSIG(wait_status) != SIGPIPE) {
+--		fprintf(stderr, catgets(catd, CATSET, 81,
+--				"\"%s\": Expansion failed.\n"), name);
+--		return NULL;
+--	}
+--	if (l == 0) {
+--		fprintf(stderr, catgets(catd, CATSET, 82,
+--					"\"%s\": No match.\n"), name);
+--		return NULL;
+--	}
+--	if (l == sizeof xname) {
+--		fprintf(stderr, catgets(catd, CATSET, 83,
+--				"\"%s\": Expansion buffer overflow.\n"), name);
+--		return NULL;
+--	}
+--	xname[l] = 0;
+--	for (cp = &xname[l-1]; *cp == '\n' && cp > xname; cp--)
+--		;
+--	cp[1] = '\0';
+--	if (strchr(xname, ' ') && stat(xname, &sbuf) < 0) {
+--		fprintf(stderr, catgets(catd, CATSET, 84,
+--				"\"%s\": Ambiguous.\n"), name);
+--		return NULL;
+--	}
+--	return savestr(xname);
+--#endif	/* !HAVE_WORDEXP */
+- }
+- 
+- /*
+--- 
+-1.9.3
+-
+-
+diff --git a/meta/recipes-extended/mailx/files/0014-globname-Invoke-wordexp-with-WRDE_NOCMD.patch b/meta/recipes-extended/mailx/files/0014-globname-Invoke-wordexp-with-WRDE_NOCMD.patch
+deleted file mode 100644
+index ae14b8acfe5..00000000000
+--- a/meta/recipes-extended/mailx/files/0014-globname-Invoke-wordexp-with-WRDE_NOCMD.patch
 +++ /dev/null
 @@ -1,31 +0,0 @@
--SUMMARY = "Perl module for reporting the search path for a class's ISA tree"
--DESCRIPTION = "Suppose you have a class (like Food::Fish::Fishstick) that is derived, \
--via its @ISA, from one or more superclasses (as Food::Fish::Fishstick is from Food::Fish,\
--Life::Fungus, and Chemicals), and some of those superclasses may themselves each be\
--derived, via its @ISA, from one or more superclasses (as above).\
--\
--When, then, you call a method in that class ($fishstick->calories), Perl first searches\
--there for that method, but if it's not there, it goes searching in its superclasses, and\
--so on, in a depth-first (or maybe "height-first" is the word) search. In the above example,\
--it'd first look in Food::Fish, then Food, then Matter, then Life::Fungus, then Life, then\
--Chemicals.\
--\
--This library, Class::ISA, provides functions that return that list -- the list\
--(in order) of names of classes Perl would search to find a method, with no duplicates."
+-From 73fefa0c1ac70043ec84f2d8b8f9f683213f168d Mon Sep 17 00:00:00 2001
+-From: Florian Weimer <fweimer@redhat.com>
+-Date: Mon, 17 Nov 2014 13:11:32 +0100
+-Subject: [PATCH 4/4] globname: Invoke wordexp with WRDE_NOCMD (CVE-2004-2771)
 -
--HOMEPAGE = "http://search.cpan.org/dist/Class-ISA/"
--SECTION = "libs"
--LICENSE = "Artistic-1.0 | GPL-1.0+"
+-This patch is taken from
+-ftp://ftp.debian.org/debian/pool/main/h/heirloom-mailx/heirloom-mailx_12.5-5.debian.tar.xz
 -
--LIC_FILES_CHKSUM = "file://README;beginline=107;endline=111;md5=6a5c6842a63cfe4dab1f66e2350e4d25"
+-Upstream-Status: Inappropriate [upstream is dead]
+-CVE: CVE-2004-2771
+----
+- fio.c | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
 -
--SRC_URI = "http://search.cpan.org/CPAN/authors/id/S/SM/SMUELLER/Class-ISA-${PV}.tar.gz"
+-diff --git a/fio.c b/fio.c
+-index 1529236..774a204 100644
+---- a/fio.c
+-+++ b/fio.c
+-@@ -497,7 +497,7 @@ globname(char *name)
+- 	sigemptyset(&nset);
+- 	sigaddset(&nset, SIGCHLD);
+- 	sigprocmask(SIG_BLOCK, &nset, NULL);
+--	i = wordexp(name, &we, 0);
+-+	i = wordexp(name, &we, WRDE_NOCMD);
+- 	sigprocmask(SIG_UNBLOCK, &nset, NULL);
+- 	switch (i) {
+- 	case 0:
+--- 
+-1.9.3
 -
--SRC_URI[md5sum] = "3a2ad203c8dc87d6c9de16215d00af47"
--SRC_URI[sha256sum] = "8816f34e9a38e849a10df756030dccf9fe061a196c11ac3faafd7113c929b964"
 -
--S = "${WORKDIR}/Class-ISA-${PV}"
--
--inherit cpan
--
--BBCLASSEXTEND = "native"
-diff --git a/meta/recipes-lsb4/perl/libdumpvalue-perl_1.17.bb b/meta/recipes-lsb4/perl/libdumpvalue-perl_1.17.bb
+diff --git a/meta/recipes-extended/mailx/files/0015-usr-sbin-sendmail.patch b/meta/recipes-extended/mailx/files/0015-usr-sbin-sendmail.patch
 deleted file mode 100644
-index 9a7461463a8..00000000000
---- a/meta/recipes-lsb4/perl/libdumpvalue-perl_1.17.bb
+index 2b5991425bb..00000000000
+--- a/meta/recipes-extended/mailx/files/0015-usr-sbin-sendmail.patch
 +++ /dev/null
-@@ -1,18 +0,0 @@
--SUMMARY = "Perl module for provides screen dump of Perl data"
+@@ -1,38 +0,0 @@
+-Description: Sendmail is at /usr/sbin/sendmail
+- As per Debian Policy §11.6
+-Author: Ryan Kavanagh <rak@debian.org>
+-Origin: Debian
+-Forwarded: no
+----
+-This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
+-Index: heirloom-mailx-12.5/Makefile
+-===================================================================
+-This patch is taken from
+-ftp://ftp.debian.org/debian/pool/main/h/heirloom-mailx/heirloom-mailx_12.5-5.debian.tar.xz
 -
--HOMEPAGE = "http://search.cpan.org/~flora/Dumpvalue/"
--SECTION = "libs"
--LICENSE = "Artistic-1.0 | GPL-1.0+"
+-Upstream-Status: Inappropriate [upstream is dead]
 -
--LIC_FILES_CHKSUM = "file://LICENSE;md5=f736bec5ada1fc5e39b2a8e7e06bbcbb"
--
--SRC_URI = "http://search.cpan.org/CPAN/authors/id/F/FL/FLORA/Dumpvalue-${PV}.tar.gz"
--
--SRC_URI[md5sum] = "6ede9f693d4a9c4555541cb1a1cc2006"
--SRC_URI[sha256sum] = "9ea74606b545f769a787ec2ae229549a2ad0a8e3cd4b14eff2ce3841836b3bdb"
--
--S = "${WORKDIR}/Dumpvalue-${PV}"
--
--inherit cpan
--
--BBCLASSEXTEND = "native"
-diff --git a/meta/recipes-lsb4/perl/libenv-perl_1.04.bb b/meta/recipes-lsb4/perl/libenv-perl_1.04.bb
+---- heirloom-mailx-12.5.orig/Makefile	2011-04-26 17:23:22.000000000 -0400
+-+++ heirloom-mailx-12.5/Makefile	2015-01-27 13:20:04.733542801 -0500
+-@@ -13,7 +13,7 @@
+- 
+- MAILRC		= $(SYSCONFDIR)/nail.rc
+- MAILSPOOL	= /var/mail
+--SENDMAIL	= /usr/lib/sendmail
+-+SENDMAIL	= /usr/sbin/sendmail
+- 
+- DESTDIR		=
+- 
+-Index: heirloom-mailx-12.5/mailx.1
+-===================================================================
+---- heirloom-mailx-12.5.orig/mailx.1	2015-01-27 13:18:49.000000000 -0500
+-+++ heirloom-mailx-12.5/mailx.1	2015-01-27 13:20:32.382336867 -0500
+-@@ -4922,7 +4922,7 @@
+- which just acts as a proxy.
+- .PP
+- \fIMailx\fR immediately contacts the SMTP server (or
+--.IR \%/usr/lib/sendmail )
+-+.IR \%/usr/sbin/sendmail )
+- even when operating in
+- .I disconnected
+- mode.
+diff --git a/meta/recipes-extended/mailx/files/explicitly.disable.krb5.support.patch b/meta/recipes-extended/mailx/files/explicitly.disable.krb5.support.patch
 deleted file mode 100644
-index dd8e1159ee5..00000000000
---- a/meta/recipes-lsb4/perl/libenv-perl_1.04.bb
+index b74fd0472eb..00000000000
+--- a/meta/recipes-extended/mailx/files/explicitly.disable.krb5.support.patch
 +++ /dev/null
-@@ -1,21 +0,0 @@
--SUMMARY = "Perl module that imports environment variables as scalars or arrays"
--DESCRIPTION = "Perl maintains environment variables in a special hash named %ENV. \
--For when this access method is inconvenient, the Perl module Env allows environment \
--variables to be treated as scalar or array variables."
+@@ -1,46 +0,0 @@
+-krb5 support is autodetected from sysroot making builds undeterministic
+-feel free to improve this to support explicitly enabling/disabling it
 -
--HOMEPAGE = "http://search.cpan.org/~flora/Env/"
--SECTION = "libs"
--LICENSE = "Artistic-1.0 | GPL-1.0+"
+-Upstream-Status: Pending
 -
--LIC_FILES_CHKSUM = "file://LICENSE;md5=76c1cbf18db56b3340d91cb947943bd3"
+-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 -
--SRC_URI = "http://search.cpan.org/CPAN/authors/id/F/FL/FLORA/Env-${PV}.tar.gz"
--
--SRC_URI[md5sum] = "fdba5c0690e66972c96fee112cf5f25c"
--SRC_URI[sha256sum] = "d94a3d412df246afdc31a2199cbd8ae915167a3f4684f7b7014ce1200251ebb0"
--
--S = "${WORKDIR}/Env-${PV}"
--
--inherit cpan
--
--BBCLASSEXTEND = "native"
-diff --git a/meta/recipes-lsb4/perl/libfile-checktree-perl_4.41.bb b/meta/recipes-lsb4/perl/libfile-checktree-perl_4.41.bb
+---- a/makeconfig	2013-07-21 15:06:11.177792334 +0200
+-+++ b/makeconfig	2013-07-21 15:07:20.028793994 +0200
+-@@ -424,36 +424,6 @@
+- }
+- !
+- 
+--<$tmp2.c link_check gssapi 'for GSSAPI in libgss' \
+--		'#define USE_GSSAPI' '-lgss' ||
+--	<$tmp2.c link_check gssapi 'for GSSAPI in libgssapi_krb5' \
+--			'#define USE_GSSAPI' '-lgssapi_krb5' ||
+--		link_check gssapi 'for GSSAPI in libgssapi_krb5, old-style' \
+--				'#define USE_GSSAPI
+--#define GSSAPI_OLD_STYLE' '-lgssapi_krb5' <<\! || \
+--			link_check gssapi 'for GSSAPI in libgssapi' \
+--				'#define USE_GSSAPI
+--#define	GSSAPI_REG_INCLUDE' '-lgssapi' <<\%
+--#include <gssapi/gssapi.h>
+--#include <gssapi/gssapi_generic.h>
+--
+--int main(void)
+--{
+--	gss_import_name(0, 0, gss_nt_service_name, 0);
+--	gss_init_sec_context(0,0,0,0,0,0,0,0,0,0,0,0,0);
+--	return 0;
+--}
+--!
+--#include <gssapi.h>
+--
+--int main(void)
+--{
+--	gss_import_name(0, 0, GSS_C_NT_HOSTBASED_SERVICE, 0);
+--	gss_init_sec_context(0,0,0,0,0,0,0,0,0,0,0,0,0);
+--	return 0;
+--}
+--%
+--
+- cat >$tmp2.c <<\!
+- #include "config.h"
+- #ifdef HAVE_NL_LANGINFO
+diff --git a/meta/recipes-extended/mailx/mailx_12.5-5.bb b/meta/recipes-extended/mailx/mailx_12.5-5.bb
 deleted file mode 100644
-index ce37c72ca87..00000000000
---- a/meta/recipes-lsb4/perl/libfile-checktree-perl_4.41.bb
+index 9dd710a7181..00000000000
+--- a/meta/recipes-extended/mailx/mailx_12.5-5.bb
 +++ /dev/null
-@@ -1,32 +0,0 @@
--SUMMARY = "Perl module that run many filetest checks on a tree"
--DESCRIPTION = "The validate() routine takes a single multiline string consisting \
--of directives, each containing a filename plus a file test to try on it. (The file \
--test may also be a "cd", causing subsequent relative filenames to be interpreted \
--relative to that directory.) After the file test you may put || die to make it a \
--fatal error if the file test fails. The default is || warn. The file test may \
--optionally have a "!' prepended to test for the opposite condition. If you do a \
--cd and then list some relative filenames, you may want to indent them slightly for \
--readability. If you supply your own die() or warn() message, you can use $file to \
--interpolate the filename. \
--\
--Filetests may be bunched: "-rwx" tests for all of -r, -w, and -x. Only the first failed \
--test of the bunch will produce a warning. \
--\
--The routine returns the number of warnings issued."
+@@ -1,53 +0,0 @@
+-SUMMARY = "mailx is the traditional command-line-mode mail user agent"
 -
--HOMEPAGE = "http://search.cpan.org/~flora/File-CheckTree/"
--SECTION = "libs"
--LICENSE = "Artistic-1.0 | GPL-1.0+"
+-DESCRIPTION = "Mailx is derived from Berkeley Mail and is intended provide the \
+-functionality of the POSIX mailx command with additional support \
+-for MIME, IMAP, POP3, SMTP, and S/MIME."
 -
--LIC_FILES_CHKSUM = "file://LICENSE;md5=c6fcacc5df80e037060300a7f4b93bf9"
+-HOMEPAGE = "http://heirloom.sourceforge.net/mailx.html"
+-SECTION = "console/network"
+-LICENSE = "BSD & MPL-1"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=4202a0a62910cf94f7af8a3436a2a2dd"
 -
--SRC_URI = "http://search.cpan.org/CPAN/authors/id/F/FL/FLORA/File-CheckTree-${PV}.tar.gz"
+-DEPENDS = "openssl"
 -
--SRC_URI[md5sum] = "519c82aa7e5b7f752b4da14a6c8ad740"
--SRC_URI[sha256sum] = "fc99ab6bb5af4664832715974b5a19e328071dc9202ab72e5d5a594ebd46a729"
+-SRC_URI = "http://snapshot.debian.org/archive/debian/20160728T043443Z/pool/main/h/heirloom-mailx/heirloom-mailx_12.5.orig.tar.gz;name=archive \
+-           file://0001-Don-t-reuse-weak-symbol-optopt-to-fix-FTBFS-on-mips.patch \
+-           file://0002-Patched-out-SSL2-support-since-it-is-no-longer-suppo.patch \
+-           file://0003-Fixed-Lintian-warning-warning-macro-N-not-defined.patch \
+-           file://0011-outof-Introduce-expandaddr-flag.patch \
+-           file://0012-unpack-Disable-option-processing-for-email-addresses.patch \
+-           file://0013-fio.c-Unconditionally-require-wordexp-support.patch \
+-           file://0014-globname-Invoke-wordexp-with-WRDE_NOCMD.patch \
+-           file://0015-usr-sbin-sendmail.patch \
+-           file://explicitly.disable.krb5.support.patch \
+-          "
 -
--S = "${WORKDIR}/File-CheckTree-${PV}"
+-SRC_URI[archive.md5sum] = "29a6033ef1412824d02eb9d9213cb1f2"
+-SRC_URI[archive.sha256sum] = "015ba4209135867f37a0245d22235a392b8bbed956913286b887c2e2a9a421ad"
 -
--inherit cpan
+-# for this package we're mostly interested in tracking debian patches,
+-# and not in the upstream version where all development has effectively stopped
+-UPSTREAM_CHECK_URI = "${DEBIAN_MIRROR}/main/h/heirloom-mailx/"
+-UPSTREAM_CHECK_REGEX = "(?P<pver>((\d+\.*)+)-((\d+\.*)+))\.(diff|debian\.tar)\.(gz|xz)"
 -
--BBCLASSEXTEND = "native"
-diff --git a/meta/recipes-lsb4/perl/libi18n-collate-perl_1.02.bb b/meta/recipes-lsb4/perl/libi18n-collate-perl_1.02.bb
-deleted file mode 100644
-index f1839e0cf97..00000000000
---- a/meta/recipes-lsb4/perl/libi18n-collate-perl_1.02.bb
-+++ /dev/null
-@@ -1,21 +0,0 @@
--SUMMARY = "Perl module that compare 8-bit scalar data according to the current locale"
--DESCRIPTION = "This module provides you with objects that will collate according to \
--your national character set, provided that the POSIX setlocale() function is supported \
--on your system."
+-S = "${WORKDIR}/heirloom-mailx-12.5"
 -
--HOMEPAGE = "http://search.cpan.org/~flora/I18N-Collate/"
--SECTION = "libs"
--LICENSE = "Artistic-1.0 | GPL-1.0+"
+-inherit autotools-brokensep
 -
--LIC_FILES_CHKSUM = "file://LICENSE;md5=ff6d629144a6ec1ea8c300f75760184f"
+-CFLAGS_append = " -D_BSD_SOURCE -DDEBIAN -I${S}/EXT"
 -
--SRC_URI = "http://search.cpan.org/CPAN/authors/id/F/FL/FLORA/I18N-Collate-${PV}.tar.gz"
+-# "STRIP=true" means that 'true' command will be used to 'strip' files which will achieve the effect of not stripping them
+-# mailx's Makefile doesn't allow a more straightforward way to avoid stripping
+-EXTRA_OEMAKE = "SENDMAIL=${sbindir}/sendmail IPv6=-DHAVE_IPv6_FUNCS PREFIX=/usr UCBINSTALL=/usr/bin/install STRIP=true"
 -
--SRC_URI[md5sum] = "72ddb6d1c59cfdf31aa3b04799b86af0"
--SRC_URI[sha256sum] = "9174506bc903eda89690394e3f45558ab7e013114227896d8569d6164648fe37"
+-# The makeconfig can't run parallelly, otherwise the checking results
+-# might be incorrect and lead to errors:
+-# fio.c:56:17: fatal error: ssl.h: No such file or directory
+-# #include <ssl.h>
+-PARALLEL_MAKE = ""
 -
--S = "${WORKDIR}/I18N-Collate-${PV}"
--
--inherit cpan
--
--BBCLASSEXTEND = "native"
-diff --git a/meta/recipes-lsb4/perl/libpod-plainer-perl_1.04.bb b/meta/recipes-lsb4/perl/libpod-plainer-perl_1.04.bb
-deleted file mode 100644
-index a3e58f031ec..00000000000
---- a/meta/recipes-lsb4/perl/libpod-plainer-perl_1.04.bb
-+++ /dev/null
-@@ -1,23 +0,0 @@
--SUMMARY = "Perl extension for converting Pod to old-style Pod"
--DESCRIPTION = "Pod::Plainer uses Pod::Parser which takes Pod with the (new) 'C<< .. >>' \
--constructs and returns the old(er) style with just 'C<>'; '<' and '>' are replaced by \
--'E<lt>' and 'E<gt>'. \
--\
--This can be used to pre-process Pod before using tools which do not recognise the new style Pods."
--
--HOMEPAGE = "http://search.cpan.org/dist/Pod-Plainer/"
--SECTION = "libs"
--LICENSE = "Artistic-1.0 | GPL-1.0+"
--
--LIC_FILES_CHKSUM = "file://README;beginline=27;md5=227cf83970fc61264845825d9d2bf6f8"
--
--SRC_URI = "http://search.cpan.org/CPAN/authors/id/R/RM/RMBARKER/Pod-Plainer-${PV}.tar.gz"
--
--SRC_URI[md5sum] = "f502eacd1a40894b9dfea55fc2cd5e7d"
--SRC_URI[sha256sum] = "1bbfbf7d1d4871e5a83bab2137e22d089078206815190eb1d5c1260a3499456f"
--
--S = "${WORKDIR}/Pod-Plainer-${PV}"
--
--inherit cpan
--
--BBCLASSEXTEND = "native"
+-# Causes gcc to get stuck and eat all available memory in qemuarm builds
+-# http://errors.yoctoproject.org/Errors/Details/20488/
+-ARM_INSTRUCTION_SET_armv4 = "arm"
+-ARM_INSTRUCTION_SET_armv5 = "arm"
+diff --git a/meta/recipes-extended/packagegroups/packagegroup-core-lsb.bb b/meta/recipes-extended/packagegroups/packagegroup-core-lsb.bb
+index 112fe7bf11d..5baaf351e18 100644
+--- a/meta/recipes-extended/packagegroups/packagegroup-core-lsb.bb
++++ b/meta/recipes-extended/packagegroups/packagegroup-core-lsb.bb
+@@ -153,7 +153,6 @@ RDEPENDS_packagegroup-core-lsb-core = "\
+     localedef \
+     lsb \
+     m4 \
+-    mailx \
+     make \
+     man \
+     man-pages \
 -- 
 2.11.0
 
