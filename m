@@ -1,23 +1,23 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 082F378487
+	by mail.openembedded.org (Postfix) with ESMTP id 129C278478
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Jun 2017 12:28:57 +0000 (UTC)
+	Fri, 16 Jun 2017 12:28:58 +0000 (UTC)
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
 	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	16 Jun 2017 05:28:58 -0700
+	16 Jun 2017 05:28:59 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.39,347,1493708400"; d="scan'208";a="1161279529"
+X-IronPort-AV: E=Sophos;i="5.39,347,1493708400"; d="scan'208";a="1161279538"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by fmsmga001.fm.intel.com with ESMTP; 16 Jun 2017 05:28:57 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 16 Jun 2017 05:28:59 -0700
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 16 Jun 2017 15:28:32 +0300
-Message-Id: <cf325ab69815c7e0105f3b842daf723168e56ea5.1497615866.git.alexander.kanavin@linux.intel.com>
+Date: Fri, 16 Jun 2017 15:28:33 +0300
+Message-Id: <ca6c489179bb29adc7cd122f97e8a8f8e77ae611.1497615866.git.alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <cover.1497615866.git.alexander.kanavin@linux.intel.com>
 References: <cover.1497615866.git.alexander.kanavin@linux.intel.com>
-Subject: [PATCH 09/32] trace-cmd: update to 2.6.1
+Subject: [PATCH 10/32] oe-selftest: add a test for upstream version check regressions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,121 +30,106 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Jun 2017 12:28:57 -0000
+X-List-Received-Date: Fri, 16 Jun 2017 12:28:58 -0000
 
-License change is due to update in FSF address.
+The test runs an upstream version check, and then compares the
+list of recipes that failed the check (i.e. those where latest
+upstream version could not be established) against the list of
+known-broken upstreams. Mismatches either way (upstream check failed,
+recipe not in the exception list, or upstream check worked,
+recipe in exception list) fail the test.
 
-Library path needs to be specified in absolute form now.
-
-Remove bash completion file from kernelshark package as it will cause
-a conflict with trace-cmd package.
-
-Add a patch to resolve musl build issues.
+[YOCTO #11031]
 
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- meta/recipes-kernel/trace-cmd/kernelshark_git.bb   |  3 ++-
- meta/recipes-kernel/trace-cmd/trace-cmd.inc        |  5 ++--
- ...its.h-so-that-PATH_MAX-is-defined-an-issu.patch | 27 ++++++++++++++++++++++
- meta/recipes-kernel/trace-cmd/trace-cmd_git.bb     |  4 ++--
- 4 files changed, 34 insertions(+), 5 deletions(-)
- create mode 100644 meta/recipes-kernel/trace-cmd/trace-cmd/0001-Include-limits.h-so-that-PATH_MAX-is-defined-an-issu.patch
+ meta-selftest/files/distrodata/checkpkg_exceptions | 26 +++++++++++++
+ meta/lib/oeqa/selftest/cases/distrodata.py         | 43 ++++++++++++++++++++++
+ 2 files changed, 69 insertions(+)
+ create mode 100644 meta-selftest/files/distrodata/checkpkg_exceptions
+ create mode 100644 meta/lib/oeqa/selftest/cases/distrodata.py
 
-diff --git a/meta/recipes-kernel/trace-cmd/kernelshark_git.bb b/meta/recipes-kernel/trace-cmd/kernelshark_git.bb
-index 563182c89fe..9a5e8006c78 100644
---- a/meta/recipes-kernel/trace-cmd/kernelshark_git.bb
-+++ b/meta/recipes-kernel/trace-cmd/kernelshark_git.bb
-@@ -15,7 +15,7 @@ ANY_OF_DISTRO_FEATURES = "${GTK2DISTROFEATURES}"
- EXTRA_OEMAKE = "\
-     'prefix=${prefix}' \
-     'bindir_relative=${@oe.path.relative(prefix, bindir)}' \
--    'libdir=${@oe.path.relative(prefix, libdir)}' \
-+    'libdir=${libdir}' \
-     NO_PYTHON=1 \
-     gui \
- "
-@@ -28,5 +28,6 @@ do_install() {
-     oe_runmake DESTDIR="${D}" install_gui
-     rm ${D}${bindir}/trace-cmd
-     rm -rf ${D}${libdir}/trace-cmd
-+    rm -rf ${D}${sysconfdir}/bash_completion.d/trace-cmd.bash
-     rmdir ${D}${libdir}
- }
-diff --git a/meta/recipes-kernel/trace-cmd/trace-cmd.inc b/meta/recipes-kernel/trace-cmd/trace-cmd.inc
-index 3ad06fad81b..002ee65fda7 100644
---- a/meta/recipes-kernel/trace-cmd/trace-cmd.inc
-+++ b/meta/recipes-kernel/trace-cmd/trace-cmd.inc
-@@ -1,5 +1,5 @@
--SRCREV = "9be5d74805830a291615f2f34a27c903f6a37b1e"
--PV = "2.6"
-+SRCREV = "021710e1073fe203341b427cd1a4bac577ec899c"
-+PV = "2.6.1"
- 
- inherit pkgconfig
- 
-@@ -7,6 +7,7 @@ FILESEXTRAPATHS =. "${FILE_DIRNAME}/trace-cmd:"
- 
- SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/rostedt/trace-cmd.git;branch=trace-cmd-stable-v2.6 \
-            file://blktrace-api-compatibility.patch \
-+           file://0001-Include-limits.h-so-that-PATH_MAX-is-defined-an-issu.patch \
- "
- 
- S = "${WORKDIR}/git"
-diff --git a/meta/recipes-kernel/trace-cmd/trace-cmd/0001-Include-limits.h-so-that-PATH_MAX-is-defined-an-issu.patch b/meta/recipes-kernel/trace-cmd/trace-cmd/0001-Include-limits.h-so-that-PATH_MAX-is-defined-an-issu.patch
+diff --git a/meta-selftest/files/distrodata/checkpkg_exceptions b/meta-selftest/files/distrodata/checkpkg_exceptions
 new file mode 100644
-index 00000000000..57630835695
+index 00000000000..f0d1f674872
 --- /dev/null
-+++ b/meta/recipes-kernel/trace-cmd/trace-cmd/0001-Include-limits.h-so-that-PATH_MAX-is-defined-an-issu.patch
-@@ -0,0 +1,27 @@
-+From 9488f92c1d0c7931c3e17950d1f9eea2aeb3e2bd Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex.kanavin@gmail.com>
-+Date: Wed, 14 Jun 2017 15:56:18 +0300
-+Subject: [PATCH] Include limits.h so that PATH_MAX is defined (an issue on
-+ musl).
++++ b/meta-selftest/files/distrodata/checkpkg_exceptions
+@@ -0,0 +1,26 @@
++build-compare
++calibrateproto
++dbus-wait
++distcc
++fstests
++gnu-config
++gst-player
++kmscube
++libxcalibrate
++linux-firmware
++lsb
++mmc-utils
++ovmf
++piglit
++psplash
++puzzles
++rpm
++squashfs-tools
++tcf-agent
++unzip
++update-rc.d
++x264
++xcursor-transparent-theme
++xinetd
++xvideo-tests
++zip
+diff --git a/meta/lib/oeqa/selftest/cases/distrodata.py b/meta/lib/oeqa/selftest/cases/distrodata.py
+new file mode 100644
+index 00000000000..d5d286d5cc3
+--- /dev/null
++++ b/meta/lib/oeqa/selftest/cases/distrodata.py
+@@ -0,0 +1,43 @@
++from oeqa.selftest.case import OESelftestTestCase
++from oeqa.utils.commands import runCmd, bitbake, get_bb_var, get_bb_vars
++from oeqa.utils.decorators import testcase
++from oeqa.utils.ftools import write_file
 +
-+Upstream-Status: Pending
-+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-+---
-+ trace-listen.c | 1 +
-+ 1 file changed, 1 insertion(+)
++class Distrodata(OESelftestTestCase):
 +
-+diff --git a/trace-listen.c b/trace-listen.c
-+index 17ff9d8..838d6bc 100644
-+--- a/trace-listen.c
-++++ b/trace-listen.c
-+@@ -31,6 +31,7 @@
-+ #include <fcntl.h>
-+ #include <signal.h>
-+ #include <errno.h>
-++#include <limits.h>
-+ 
-+ #include "trace-local.h"
-+ #include "trace-msg.h"
-+-- 
-+2.11.0
++    @classmethod
++    def setUpClass(cls):
++        super(Distrodata, cls).setUpClass()
++        cls.exceptions_path = os.path.join(cls.testlayer_path, 'files', 'distrodata', "checkpkg_exceptions")
 +
-diff --git a/meta/recipes-kernel/trace-cmd/trace-cmd_git.bb b/meta/recipes-kernel/trace-cmd/trace-cmd_git.bb
-index dd9a8a0ded6..fa9ffa3dc8f 100644
---- a/meta/recipes-kernel/trace-cmd/trace-cmd_git.bb
-+++ b/meta/recipes-kernel/trace-cmd/trace-cmd_git.bb
-@@ -5,7 +5,7 @@ require trace-cmd.inc
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe \
-                     file://trace-cmd.c;beginline=6;endline=8;md5=2c22c965a649ddd7973d7913c5634a5e \
--                    file://COPYING.LIB;md5=bbb461211a33b134d42ed5ee802b37ff \
-+                    file://COPYING.LIB;md5=edb195fe538e4552c1f6ca0fd7bf4f0a \
-                     file://trace-input.c;beginline=5;endline=8;md5=3ec82f43bbe0cfb5951ff414ef4d44d0 \
- "
- 
-@@ -17,7 +17,7 @@ EXTRA_OEMAKE = "\
-     'img_install=${datadir}/kernelshark/html/images' \
-     \
-     'bindir_relative=${@oe.path.relative(prefix, bindir)}' \
--    'libdir=${@oe.path.relative(prefix, libdir)}' \
-+    'libdir=${libdir}' \
-     \
-     NO_PYTHON=1 \
- "
++    def test_checkpkg(self):
++        """
++        Summary:     Test that upstream version checks do not regress
++        Expected:    Upstream version checks should succeed except for the recipes listed in the exception list.
++        Product:     oe-core
++        Author:      Alexander Kanavin <alexander.kanavin@intel.com>
++        """
++        feature = 'INHERIT += "distrodata"\n'
++        feature += 'LICENSE_FLAGS_WHITELIST += " commercial"\n'
++
++        self.write_config(feature)
++        bitbake('-c checkpkg world')
++        checkpkg_result = open(os.path.join(get_bb_var("LOG_DIR"), "checkpkg.csv")).readlines()[1:]
++        exceptions = [exc.strip() for exc in open(self.exceptions_path).readlines()]
++        failed_upstream_checks = [pkg_data[0] for pkg_data in [pkg_line.split('\t') for pkg_line in checkpkg_result] if pkg_data[11] == '']
++        regressed_failures = set(failed_upstream_checks) - set(exceptions)
++        regressed_successes = set(exceptions) - set(failed_upstream_checks)
++        msg = ""
++        if len(regressed_failures) > 0:
++            msg = msg + """
++The following packages failed upstream version checks. Please fix them using UPSTREAM_CHECK_URI/UPSTREAM_CHECK_REGEX
++(when using tarballs) or UPSTREAM_CHECK_GITTAGREGEX (when using git). If an upstream version check cannot be performed
++(for example, if upstream does not use git tags), you can add the package to list of exceptions in
++meta-selftest/files/distrodata/checkpkg_exceptions.
++""" + "\n".join(regressed_failures)
++        if len(regressed_successes) > 0:
++            msg = msg + """
++The following packages have been checked successfully for upstream versions (or they no longer exist in oe-core),
++but are in the exceptions list in meta-selftest/files/distrodata/checkpkg_exceptions. Please remove them from that list.
++""" + "\n".join(regressed_successes)
++        self.assertTrue(len(regressed_failures) == 0 and len(regressed_successes) == 0, msg)
 -- 
 2.11.0
 
