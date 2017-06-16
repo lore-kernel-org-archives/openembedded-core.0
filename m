@@ -1,55 +1,21 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-it0-f52.google.com (mail-it0-f52.google.com
-	[209.85.214.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 1EFA4783CF
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id BA2CA783CF
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Jun 2017 12:24:11 +0000 (UTC)
-Received: by mail-it0-f52.google.com with SMTP id m47so34133389iti.1
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Jun 2017 05:24:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:organization:mime-version:content-transfer-encoding;
-	bh=EOOaPK5uqoRh8tZf+mC1ju30ryQ7w5I7OE5dCEyYcFQ=;
-	b=fKRmBLMy0Y9ZbjLlWVohVWypImA2qgJoXbeCk7ecX4YfV1hwasMmhxKYO1f6l2azux
-	Scr361ByOBYy6AG7g/MDOlOrDb+AI/U1fKj59PpilurObUC1OhFv8/dWNofgVS1D1BEI
-	FL68WDrRWUmbBoR911+lprnAg+H19B0Yid8jJPMrrywgTSj4lRdnkXb8Qd/5N3CfNZ/E
-	XrZ3pX9AliTpQbcXyOhOD31bvXyJ8p/njq1d4MkOVHv+aNT5Hh9G49e2d5UsUyEvGkRL
-	CFHqkV6JuAl8kqNYr0BwZtgv23uZxjksYp09Z1/WWS18Z+xCoOsLquUxVUgvRh6YveAR
-	3m9g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:organization:mime-version:content-transfer-encoding;
-	bh=EOOaPK5uqoRh8tZf+mC1ju30ryQ7w5I7OE5dCEyYcFQ=;
-	b=BbaJewoXAi0IRVEBgOUAQWxSoihYpET8Wvd3C03MW9NVtliUXxX8IoI987fZDA/MX5
-	0aiVTsxFBLjyM3IazBzWEecut4TMg3Q25eeqazuidSWHqmcubpzMhc5+VOXhQohKDA0m
-	8Dqt5C3Z56UGipnoKydO4UTTqGBFeCmOCrKj1uuLHbaksnqguLRJANtDFsYr3QOSajPR
-	ySElvoYRtXP+/MKiyfabQHm2YLHhBR31/3auPSczQ8yONzGbp6D6Hc0Le45bmMS7t6Nb
-	TtMMh3LkmME+5tQ9h9tZDl8iWfi3zTyd4soIbpxQ8Wq0aQHX6htKdYpf91r9U1qhfOtN
-	olWw==
-X-Gm-Message-State: AKS2vOwaderE+ZBvpReMUBHwvGel4IGYfVF5g+h2izgzlCrsjPKmW/lF
-	/mN51MhbY+iCOhuK
-X-Received: by 10.36.178.75 with SMTP id h11mr10612063iti.16.1497615853174;
-	Fri, 16 Jun 2017 05:24:13 -0700 (PDT)
-Received: from pohly-mobl1 (p5DE8EEFB.dip0.t-ipconnect.de. [93.232.238.251])
-	by smtp.gmail.com with ESMTPSA id
-	s131sm1344350ita.25.2017.06.16.05.24.11
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 16 Jun 2017 05:24:11 -0700 (PDT)
-Message-ID: <1497615849.30163.419.camel@intel.com>
-From: Patrick Ohly <patrick.ohly@intel.com>
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Date: Fri, 16 Jun 2017 14:24:09 +0200
-In-Reply-To: <7d05fe3e-ae22-fd9b-a94c-4f1dce40b2ba@linux.intel.com>
-References: <22146d3f8ce5f2c3da42f8f19cad49f9f4ffc175.1497606816.git-series.patrick.ohly@intel.com>
-	<7d05fe3e-ae22-fd9b-a94c-4f1dce40b2ba@linux.intel.com>
-Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
-X-Mailer: Evolution 3.12.9-1+b1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] ovmf: fix secureboot PACKAGECONFIG + OpenSSL update
+	Fri, 16 Jun 2017 12:28:47 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	16 Jun 2017 05:28:49 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.39,347,1493708400"; d="scan'208";a="1161279493"
+Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
+	by fmsmga001.fm.intel.com with ESMTP; 16 Jun 2017 05:28:48 -0700
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 16 Jun 2017 15:28:23 +0300
+Message-Id: <cover.1497615866.git.alexander.kanavin@linux.intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH 00/32] Version updates and recipe removals
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,43 +28,220 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Jun 2017 12:24:12 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 16 Jun 2017 12:28:49 -0000
 
-On Fri, 2017-06-16 at 14:24 +0300, Alexander Kanavin wrote:
-> On 06/16/2017 12:53 PM, Patrick Ohly wrote:
-> > The recent ovmf update broke secureboot because upstream changed the
-> > +OPENSSL_RELEASE = "openssl-1.1.0e"
-> > +
-> >  SRC_URI_append_class-target = " \
-> > -	${@bb.utils.contains('PACKAGECONFIG', 'secureboot', 'http://www.openssl.org/source/openssl-1.0.2j.tar.gz;name=openssl;subdir=${S}/CryptoPkg/Library/OpensslLib', '', d)} \
-> > +	${@bb.utils.contains('PACKAGECONFIG', 'secureboot', 'http://www.openssl.org/source/${OPENSSL_RELEASE}.tar.gz;name=openssl;subdir=${S}/CryptoPkg/Library/OpensslLib', '', d)} \
-> 
-> Is it possible to make ovmf use an externally built openssl (that is, 
-> the one that is provided by the openssl recipe)?
+This patchset has the usual bunch of version updates and upstream check fixes.
 
-I very much doubt it. The externally build openssl depends on the libc
-of the target system, and that isn't part of the environment in which
-the OVMF firmware runs.
+It also carries a number of recipe removals for the stuff that is no longer
+needed in oe-core. In particular recipes mandated by LSB4 are trimmed down
+(https://bugzilla.yoctoproject.org/show_bug.cgi?id=11316).
 
-> Given openssl's baggage of major security issues, I really do not want 
-> to have more than one copy of it in oe-core.
+There's also an new selftest which detects regressions in upstream version checks
+(https://bugzilla.yoctoproject.org/show_bug.cgi?id=11031).
 
-Now that OVMF seems more flexible regarding the actual OpenSSL
-implementation that it uses (previously, one had to use pretty much
-exactly the version chosen by the upstream OVMF developers), we could
-try to make the OpenSSL version to use a distro setting and ensure that
-both openssl .bb and ovmf .bb use that version.
+The following changes since commit 9ea5a31776440abd6468f003c5e1905f079446d3:
+
+  ovmf: fix secureboot PACKAGECONFIG + OpenSSL update (2017-06-16 10:58:23 +0100)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib akanavin/package-version-updates
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=akanavin/package-version-updates
+
+Alexander Kanavin (28):
+  libiconv: remove recipe
+  python-pycurl: remove the recipe
+  python: remove unused 2.x versions of several packages
+  packagegroup-core-lsb: do not include Qt4 anymore
+  libpng12: remove the recipe
+  recipes-lsb4/perl: remove the recipes
+  mailx: remove the recipe
+  README.LSB: describe oe-core's deviations from the LSB spec
+  trace-cmd: update to 2.6.1
+  oe-selftest: add a test for upstream version check regressions
+  logrotate: fix upstream version check
+  speex: fix upstream version check
+  libid3tag: fix upstream version check
+  grub2: remove autogen dependency
+  autogen-native: remove the recipe
+  remake: remove the recipe
+  guile: remove the recipe
+  bdwgc: remove the recipe
+  uninative-flags.inc: do not default to old C++ ABI
+  icu: update to 59.1
+  epiphany: update to 3.24.2
+  gobject-introspection: update to 1.52.1
+  python3-pygobject: update to 3.24.1
+  gettext: relocate msgfmt utility for all recipes
+  gnomebase.bbclass: add datadir/icons and datadir/appdata to standard
+    FILES list
+  liburcu: update to 0.10.0
+  npth: update to 1.5
+  dmidecode: update to 3.1
+
+Khem Raj (1):
+  webkitgtk: Upgrade to 2.16.3
+
+Upgrade Helper (3):
+  vala: upgrade to 0.36.3
+  libfakekey: upgrade to 0.3+gitAUTOINC+7ad885912e
+  btrfs-tools: upgrade to 4.11
+
+ README.LSB                                         |   25 +
+ meta-selftest/files/distrodata/checkpkg_exceptions |   26 +
+ meta/classes/gnomebase.bbclass                     |    2 +
+ meta/conf/distro/include/distro_alias.inc          |    2 -
+ meta/conf/distro/include/security_flags.inc        |    2 -
+ meta/conf/distro/include/uninative-flags.inc       |   10 -
+ meta/lib/oeqa/selftest/cases/distrodata.py         |   43 +
+ meta/recipes-bsp/grub/grub2.inc                    |    2 +-
+ meta/recipes-core/gettext/gettext_0.19.8.1.bb      |    4 +
+ .../autogen/autogen-native_5.18.12.bb              |   40 -
+ ...pts.m4-regenerate-it-from-config-libopts..patch |   39 -
+ ...2-autoopts-mk-tpl-config.sh-fix-perl-path.patch |   32 -
+ .../fix-script-err-when-processing-libguile.patch  |   37 -
+ .../autogen/autogen/increase-timeout-limit.patch   |   30 -
+ ...ig.sh-force-exit-value-to-be-0-in-subproc.patch |   30 -
+ .../{btrfs-tools_4.10.2.bb => btrfs-tools_4.11.bb} |    2 +-
+ .../{dmidecode_3.0.bb => dmidecode_3.1.bb}         |    4 +-
+ .../recipes-devtools/guile/files/arm_aarch64.patch |   19 -
+ .../guile/files/arm_endianness.patch               |   23 -
+ ...-modules-are-removed-gc-test-as-unresolve.patch |   39 -
+ ...with-owner-not-retained-threads-test-as-u.patch |   33 -
+ .../guile/files/guile_2.0.6_fix_sed_error.patch    |   24 -
+ .../guile/files/libguile-Makefile.am-hook.patch    |   42 -
+ .../guile/files/opensuse/guile-64bit.patch         |   39 -
+ .../files/workaround-ice-ssa-corruption.patch      |   60 -
+ meta/recipes-devtools/guile/guile_2.0.14.bb        |  125 -
+ meta/recipes-devtools/python/python-async_0.6.2.bb |    5 -
+ meta/recipes-devtools/python/python-git_2.1.3.bb   |    7 -
+ meta/recipes-devtools/python/python-gitdb_0.6.4.bb |    7 -
+ meta/recipes-devtools/python/python-mako_1.0.6.bb  |   17 -
+ .../python/python-pexpect_4.2.1.bb                 |   28 -
+ .../python/python-ptyprocess_0.5.1.bb              |   23 -
+ meta/recipes-devtools/python/python-pycurl.inc     |   31 -
+ .../python/python-pycurl/no-static-link.patch      |   17 -
+ .../python/python-pycurl_7.21.5.bb                 |    3 -
+ meta/recipes-devtools/python/python-six_1.10.0.bb  |    4 -
+ meta/recipes-devtools/python/python-smmap_0.9.0.bb |    5 -
+ .../python/python3-pycurl_7.21.5.bb                |    5 -
+ ...bject_3.22.0.bb => python3-pygobject_3.24.1.bb} |    4 +-
+ meta/recipes-devtools/remake/remake.inc            |   16 -
+ .../remake/remake/version-remake.texi.patch        |   16 -
+ meta/recipes-devtools/remake/remake_4.1+dbg-1.1.bb |   28 -
+ .../vala/{vala_0.36.2.bb => vala_0.36.3.bb}        |    4 +-
+ meta/recipes-extended/logrotate/logrotate_3.9.1.bb |    1 +
+ ...e-weak-symbol-optopt-to-fix-FTBFS-on-mips.patch |   59 -
+ ...-SSL2-support-since-it-is-no-longer-suppo.patch |   41 -
+ ...ntian-warning-warning-macro-N-not-defined.patch |   25 -
+ .../0011-outof-Introduce-expandaddr-flag.patch     |   71 -
+ ...ble-option-processing-for-email-addresses.patch |   79 -
+ ...c-Unconditionally-require-wordexp-support.patch |  113 -
+ ...4-globname-Invoke-wordexp-with-WRDE_NOCMD.patch |   31 -
+ .../mailx/files/0015-usr-sbin-sendmail.patch       |   38 -
+ .../files/explicitly.disable.krb5.support.patch    |   46 -
+ meta/recipes-extended/mailx/mailx_12.5-5.bb        |   53 -
+ .../packagegroups/packagegroup-core-lsb.bb         |   34 -
+ .../{epiphany_3.22.6.bb => epiphany_3.24.2.bb}     |   12 +-
+ ...n_1.50.0.bb => gobject-introspection_1.52.1.bb} |    6 +-
+ meta/recipes-graphics/libfakekey/libfakekey_git.bb |    4 +-
+ meta/recipes-kernel/sysprof/sysprof_3.24.1.bb      |    5 -
+ meta/recipes-kernel/trace-cmd/kernelshark_git.bb   |    3 +-
+ meta/recipes-kernel/trace-cmd/trace-cmd.inc        |    5 +-
+ ...its.h-so-that-PATH_MAX-is-defined-an-issu.patch |   27 +
+ meta/recipes-kernel/trace-cmd/trace-cmd_git.bb     |    4 +-
+ meta/recipes-lsb4/libpng/libpng12_1.2.57.bb        |   36 -
+ meta/recipes-lsb4/perl/libclass-isa-perl_0.36.bb   |   31 -
+ meta/recipes-lsb4/perl/libdumpvalue-perl_1.17.bb   |   18 -
+ meta/recipes-lsb4/perl/libenv-perl_1.04.bb         |   21 -
+ .../perl/libfile-checktree-perl_4.41.bb            |   32 -
+ .../recipes-lsb4/perl/libi18n-collate-perl_1.02.bb |   21 -
+ meta/recipes-lsb4/perl/libpod-plainer-perl_1.04.bb |   23 -
+ .../libid3tag/libid3tag_0.15.1b.bb                 |    2 +
+ meta/recipes-multimedia/speex/speex_1.2.0.bb       |    1 +
+ .../webkit/webkitgtk/ppc-musl-fix.patch            |   12 +-
+ .../{webkitgtk_2.16.1.bb => webkitgtk_2.16.3.bb}   |    5 +-
+ ...ac-add-check-for-NO_GETCONTEXT-definition.patch |   29 -
+ .../bdwgc/bdwgc/musl_header_fix.patch              |   27 -
+ meta/recipes-support/bdwgc/bdwgc_7.6.0.bb          |   42 -
+ .../icu/{icu_58.2.bb => icu_59.1.bb}               |    6 +-
+ .../libiconv-1.14/add-relocatable-module.patch     | 5008 --------------------
+ .../libiconv/libiconv-1.14/autoconf.patch          |   50 -
+ meta/recipes-support/libiconv/libiconv_1.14.bb     |   52 -
+ .../0001-Support-for-NIOS2-architecture.patch      |  145 -
+ .../{liburcu_0.9.3.bb => liburcu_0.10.0.bb}        |    9 +-
+ .../npth/{npth_1.3.bb => npth_1.5.bb}              |    9 +-
+ 84 files changed, 177 insertions(+), 7013 deletions(-)
+ create mode 100644 README.LSB
+ create mode 100644 meta-selftest/files/distrodata/checkpkg_exceptions
+ create mode 100644 meta/lib/oeqa/selftest/cases/distrodata.py
+ delete mode 100644 meta/recipes-devtools/autogen/autogen-native_5.18.12.bb
+ delete mode 100644 meta/recipes-devtools/autogen/autogen/0001-config-libopts.m4-regenerate-it-from-config-libopts..patch
+ delete mode 100644 meta/recipes-devtools/autogen/autogen/0002-autoopts-mk-tpl-config.sh-fix-perl-path.patch
+ delete mode 100644 meta/recipes-devtools/autogen/autogen/fix-script-err-when-processing-libguile.patch
+ delete mode 100644 meta/recipes-devtools/autogen/autogen/increase-timeout-limit.patch
+ delete mode 100644 meta/recipes-devtools/autogen/autogen/mk-tpl-config.sh-force-exit-value-to-be-0-in-subproc.patch
+ rename meta/recipes-devtools/btrfs-tools/{btrfs-tools_4.10.2.bb => btrfs-tools_4.11.bb} (95%)
+ rename meta/recipes-devtools/dmidecode/{dmidecode_3.0.bb => dmidecode_3.1.bb} (80%)
+ delete mode 100644 meta/recipes-devtools/guile/files/arm_aarch64.patch
+ delete mode 100644 meta/recipes-devtools/guile/files/arm_endianness.patch
+ delete mode 100644 meta/recipes-devtools/guile/files/debian/0002-Mark-Unused-modules-are-removed-gc-test-as-unresolve.patch
+ delete mode 100644 meta/recipes-devtools/guile/files/debian/0003-Mark-mutex-with-owner-not-retained-threads-test-as-u.patch
+ delete mode 100644 meta/recipes-devtools/guile/files/guile_2.0.6_fix_sed_error.patch
+ delete mode 100644 meta/recipes-devtools/guile/files/libguile-Makefile.am-hook.patch
+ delete mode 100644 meta/recipes-devtools/guile/files/opensuse/guile-64bit.patch
+ delete mode 100644 meta/recipes-devtools/guile/files/workaround-ice-ssa-corruption.patch
+ delete mode 100644 meta/recipes-devtools/guile/guile_2.0.14.bb
+ delete mode 100644 meta/recipes-devtools/python/python-async_0.6.2.bb
+ delete mode 100644 meta/recipes-devtools/python/python-git_2.1.3.bb
+ delete mode 100644 meta/recipes-devtools/python/python-gitdb_0.6.4.bb
+ delete mode 100644 meta/recipes-devtools/python/python-mako_1.0.6.bb
+ delete mode 100644 meta/recipes-devtools/python/python-pexpect_4.2.1.bb
+ delete mode 100644 meta/recipes-devtools/python/python-ptyprocess_0.5.1.bb
+ delete mode 100644 meta/recipes-devtools/python/python-pycurl.inc
+ delete mode 100644 meta/recipes-devtools/python/python-pycurl/no-static-link.patch
+ delete mode 100644 meta/recipes-devtools/python/python-pycurl_7.21.5.bb
+ delete mode 100644 meta/recipes-devtools/python/python-six_1.10.0.bb
+ delete mode 100644 meta/recipes-devtools/python/python-smmap_0.9.0.bb
+ delete mode 100644 meta/recipes-devtools/python/python3-pycurl_7.21.5.bb
+ rename meta/recipes-devtools/python/{python3-pygobject_3.22.0.bb => python3-pygobject_3.24.1.bb} (87%)
+ delete mode 100644 meta/recipes-devtools/remake/remake.inc
+ delete mode 100644 meta/recipes-devtools/remake/remake/version-remake.texi.patch
+ delete mode 100644 meta/recipes-devtools/remake/remake_4.1+dbg-1.1.bb
+ rename meta/recipes-devtools/vala/{vala_0.36.2.bb => vala_0.36.3.bb} (56%)
+ delete mode 100644 meta/recipes-extended/mailx/files/0001-Don-t-reuse-weak-symbol-optopt-to-fix-FTBFS-on-mips.patch
+ delete mode 100644 meta/recipes-extended/mailx/files/0002-Patched-out-SSL2-support-since-it-is-no-longer-suppo.patch
+ delete mode 100644 meta/recipes-extended/mailx/files/0003-Fixed-Lintian-warning-warning-macro-N-not-defined.patch
+ delete mode 100644 meta/recipes-extended/mailx/files/0011-outof-Introduce-expandaddr-flag.patch
+ delete mode 100644 meta/recipes-extended/mailx/files/0012-unpack-Disable-option-processing-for-email-addresses.patch
+ delete mode 100644 meta/recipes-extended/mailx/files/0013-fio.c-Unconditionally-require-wordexp-support.patch
+ delete mode 100644 meta/recipes-extended/mailx/files/0014-globname-Invoke-wordexp-with-WRDE_NOCMD.patch
+ delete mode 100644 meta/recipes-extended/mailx/files/0015-usr-sbin-sendmail.patch
+ delete mode 100644 meta/recipes-extended/mailx/files/explicitly.disable.krb5.support.patch
+ delete mode 100644 meta/recipes-extended/mailx/mailx_12.5-5.bb
+ rename meta/recipes-gnome/epiphany/{epiphany_3.22.6.bb => epiphany_3.24.2.bb} (57%)
+ rename meta/recipes-gnome/gobject-introspection/{gobject-introspection_1.50.0.bb => gobject-introspection_1.52.1.bb} (97%)
+ create mode 100644 meta/recipes-kernel/trace-cmd/trace-cmd/0001-Include-limits.h-so-that-PATH_MAX-is-defined-an-issu.patch
+ delete mode 100644 meta/recipes-lsb4/libpng/libpng12_1.2.57.bb
+ delete mode 100644 meta/recipes-lsb4/perl/libclass-isa-perl_0.36.bb
+ delete mode 100644 meta/recipes-lsb4/perl/libdumpvalue-perl_1.17.bb
+ delete mode 100644 meta/recipes-lsb4/perl/libenv-perl_1.04.bb
+ delete mode 100644 meta/recipes-lsb4/perl/libfile-checktree-perl_4.41.bb
+ delete mode 100644 meta/recipes-lsb4/perl/libi18n-collate-perl_1.02.bb
+ delete mode 100644 meta/recipes-lsb4/perl/libpod-plainer-perl_1.04.bb
+ rename meta/recipes-sato/webkit/{webkitgtk_2.16.1.bb => webkitgtk_2.16.3.bb} (96%)
+ delete mode 100644 meta/recipes-support/bdwgc/bdwgc/0001-configure.ac-add-check-for-NO_GETCONTEXT-definition.patch
+ delete mode 100644 meta/recipes-support/bdwgc/bdwgc/musl_header_fix.patch
+ delete mode 100644 meta/recipes-support/bdwgc/bdwgc_7.6.0.bb
+ rename meta/recipes-support/icu/{icu_58.2.bb => icu_59.1.bb} (77%)
+ delete mode 100644 meta/recipes-support/libiconv/libiconv-1.14/add-relocatable-module.patch
+ delete mode 100644 meta/recipes-support/libiconv/libiconv-1.14/autoconf.patch
+ delete mode 100644 meta/recipes-support/libiconv/libiconv_1.14.bb
+ delete mode 100644 meta/recipes-support/liburcu/liburcu/0001-Support-for-NIOS2-architecture.patch
+ rename meta/recipes-support/liburcu/{liburcu_0.9.3.bb => liburcu_0.10.0.bb} (51%)
+ rename meta/recipes-support/npth/{npth_1.3.bb => npth_1.5.bb} (61%)
 
 -- 
-Best Regards, Patrick Ohly
-
-The content of this message is my personal opinion only and although
-I am an employee of Intel, the statements I make here in no way
-represent Intel's position on the issue, nor am I authorized to speak
-on behalf of Intel on this matter.
-
-
+2.11.0
 
 
