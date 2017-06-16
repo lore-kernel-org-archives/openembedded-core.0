@@ -1,29 +1,28 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 06C5A78243
+Return-Path: <alejandro.hernandez@linux.intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id A586E6010D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Jun 2017 22:11:05 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	v5GMB5qU031028
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Fri, 16 Jun 2017 23:11:06 +0100
-Message-ID: <1497651065.24449.25.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alejandro del Castillo <alejandro.delcastillo@ni.com>,
-	openembedded-core@lists.openembedded.org
-Date: Fri, 16 Jun 2017 23:11:05 +0100
-In-Reply-To: <3a189ae0-064c-299c-84ad-55f9c1ce1331@ni.com>
-References: <1497602780-1744-1-git-send-email-richard.purdie@linuxfoundation.org>
-	<3a189ae0-064c-299c-84ad-55f9c1ce1331@ni.com>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
-Mime-Version: 1.0
-X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.11
-	(dan.rpsys.net [192.168.3.1]);
-	Fri, 16 Jun 2017 23:11:06 +0100 (BST)
-X-Virus-Scanned: clamav-milter 0.99.2 at dan
-X-Virus-Status: Clean
-Subject: Re: [PATCH] package_ipk: Clean up Source entry in ipk packages
+	Fri, 16 Jun 2017 23:12:09 +0000 (UTC)
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	16 Jun 2017 16:12:10 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.39,348,1493708400"; 
+	d="scan'208,217";a="115956118"
+Received: from srprakas-mobl3.amr.corp.intel.com (HELO [10.252.250.206])
+	([10.252.250.206])
+	by fmsmga006.fm.intel.com with ESMTP; 16 Jun 2017 16:12:10 -0700
+To: openembedded-core@lists.openembedded.org
+References: <CA+chaQeJVOrExYkyWCsyx+mtARAuvhge6a_ds=n_pXXuYofaXw@mail.gmail.com>
+	<CADkTA4O4Py_Xteuero=gd+8=hh_+4U_LGoCT1VDm8fRQcYpDeA@mail.gmail.com>
+From: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
+Message-ID: <cc2f5e2b-2140-7ec0-39b4-50e35bc48256@linux.intel.com>
+Date: Fri, 16 Jun 2017 18:12:09 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.0
+MIME-Version: 1.0
+In-Reply-To: <CADkTA4O4Py_Xteuero=gd+8=hh_+4U_LGoCT1VDm8fRQcYpDeA@mail.gmail.com>
+Subject: Re: New warning from linux-yocto
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,54 +35,162 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Jun 2017 22:11:11 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 16 Jun 2017 23:12:10 -0000
+Content-Type: multipart/alternative;
+	boundary="------------5E0225FF536CC1AACEB0ED81"
+Content-Language: en-US
+
+--------------5E0225FF536CC1AACEB0ED81
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Fri, 2017-06-16 at 13:43 -0500, Alejandro del Castillo wrote:
-> 
-> On 06/16/2017 03:46 AM, Richard Purdie wrote:
-> > 
-> > There is the potential for sensitive information to leak through
-> > the urls
-> > there and removing it brings this into the behavior of the other
-> > package
-> > backends since filtering it is likely error prone.
-> > 
-> > Since ipks don't appear to be generated at all if we don't set
-> > this, set
-> > the field to the recipe name used (basename only, no paths). This
-> > avoids
-> > information leaking. We may want to drop the field if opkg can
-> > allow that
-> > at a future point but the recipe name is a suitable identifier for
-> > now.
-> Looking at opkg-build, opkg requires:
-> 
-> 	Package, Version, Architecture, Maintainer, Section, Priority,
-> Source
-> 
-> while deb requires:
-> 
-> 	Package, Version, Maintainer, Description
-> 
-> It does makes sense to require Architecture, but doesn't make sense
-> to me to make Section, Priority and Source mandatory. Opkg does
-> process packages that lack those fields.
-> 
-> This should be a trivial change to opkg-build, which I can submit
-> into opkg-utils. Including that patch in the opkg-utils recipe may
-> simplify things here.
+Hey guys,
 
-I agree, I think that may be a worthwhile change. I was a little
-surprised it didn't do that already and appears to silently fail if
-Source: isn't set (or we fail to check the exit code).
 
-I also have found out some people are using this Source: data to find
-recipe information so we likely do need some way to map it back to the
-recipe, I'm hoping the filename is good enough for that purpose...
+Yup, this was caused by a patch that solved another warning, a patch is 
+in the works to solve this by separating smp.cfg into smp-32.cfg and 
+smp-64.cfg to be able to satisfy
 
-Cheers,
+all dependencies for the different architectures.
 
-Richard
 
+Alejandro
+
+
+On 06/16/2017 02:02 PM, Bruce Ashfield wrote:
+> Yep, this was reported on the list (and IRC) and apparently someone 
+> was looking
+> into it.
+>
+> I still haven't seen a patch, so I'll have a look at it myself soon.
+>
+> Bruce
+>
+> On Fri, Jun 16, 2017 at 2:39 PM, Martin Jansa <martin.jansa@gmail.com 
+> <mailto:martin.jansa@gmail.com>> wrote:
+>
+>     New linux-yocto version.. new warning..
+>
+>     WARNING: linux-yocto-4.10.17+gitAUTOINC+4b89f331d4_6648a34e00-r0 do_kernel_configcheck: [kernel config]: specified values did not make it into the kernel's final configuration:
+>
+>     ---------- CONFIG_X86_BIGSMP -----------------
+>     Config: CONFIG_X86_BIGSMP
+>     From: /home/jenkins/oe/world/shr-core/tmp-glibc/work-shared/qemux86-64/kernel-source/.kernel-meta/configs/standard/cfg/smp.cfg
+>     Requested value:  CONFIG_X86_BIGSMP=y
+>     Actual value:
+>
+>
+>
+>     --
+>     _______________________________________________
+>     Openembedded-core mailing list
+>     Openembedded-core@lists.openembedded.org
+>     <mailto:Openembedded-core@lists.openembedded.org>
+>     http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>     <http://lists.openembedded.org/mailman/listinfo/openembedded-core>
+>
+>
+>
+>
+> -- 
+> "Thou shalt not follow the NULL pointer, for chaos and madness await 
+> thee at its end"
+>
+>
+
+
+--------------5E0225FF536CC1AACEB0ED81
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 7bit
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  </head>
+  <body text="#000000" bgcolor="#FFFFFF">
+    <p>Hey guys,</p>
+    <p><br>
+    </p>
+    <p>Yup, this was caused by a patch that solved another warning, a
+      patch is in the works to solve this by separating smp.cfg into
+      smp-32.cfg and smp-64.cfg to be able to satisfy</p>
+    <p>all dependencies for the different architectures.</p>
+    <p><br>
+    </p>
+    <p>Alejandro<br>
+    </p>
+    <br>
+    <div class="moz-cite-prefix">On 06/16/2017 02:02 PM, Bruce Ashfield
+      wrote:<br>
+    </div>
+    <blockquote type="cite"
+cite="mid:CADkTA4O4Py_Xteuero=gd+8=hh_+4U_LGoCT1VDm8fRQcYpDeA@mail.gmail.com">
+      <div dir="ltr">Yep, this was reported on the list (and IRC) and
+        apparently someone was looking
+        <div>into it.</div>
+        <div><br>
+        </div>
+        <div>I still haven't seen a patch, so I'll have a look at it
+          myself soon.</div>
+        <div><br>
+        </div>
+        <div>Bruce<br>
+          <div class="gmail_extra"><br>
+            <div class="gmail_quote">On Fri, Jun 16, 2017 at 2:39 PM,
+              Martin Jansa <span dir="ltr">&lt;<a
+                  href="mailto:martin.jansa@gmail.com" target="_blank"
+                  moz-do-not-send="true">martin.jansa@gmail.com</a>&gt;</span>
+              wrote:<br>
+              <blockquote class="gmail_quote" style="margin:0 0 0
+                .8ex;border-left:1px #ccc solid;padding-left:1ex">
+                <div dir="ltr">New linux-yocto version.. new warning..
+                  <div><br>
+                  </div>
+                  <div>
+                    <pre style="box-sizing:border-box;white-space:pre-wrap;word-wrap:break-word;margin-top:0px;margin-bottom:0px;color:rgb(51,51,51);font-size:14px">WARNING: linux-yocto-4.10.17+<wbr>gitAUTOINC+4b89f331d4_<wbr>6648a34e00-r0 do_kernel_configcheck: [kernel config]: specified values did not make it into the kernel's final configuration:
+
+---------- CONFIG_X86_BIGSMP -----------------
+Config: CONFIG_X86_BIGSMP
+From: /home/jenkins/oe/world/shr-<wbr>core/tmp-glibc/work-shared/<wbr>qemux86-64/kernel-source/.<wbr>kernel-meta/configs/standard/<wbr>cfg/smp.cfg
+Requested value:  CONFIG_X86_BIGSMP=y
+Actual value:     
+</pre>
+                  </div>
+                  <div><br>
+                  </div>
+                </div>
+                <br>
+                --<br>
+                ______________________________<wbr>_________________<br>
+                Openembedded-core mailing list<br>
+                <a
+                  href="mailto:Openembedded-core@lists.openembedded.org"
+                  moz-do-not-send="true">Openembedded-core@lists.<wbr>openembedded.org</a><br>
+                <a
+                  href="http://lists.openembedded.org/mailman/listinfo/openembedded-core"
+                  rel="noreferrer" target="_blank"
+                  moz-do-not-send="true">http://lists.openembedded.org/<wbr>mailman/listinfo/openembedded-<wbr>core</a><br>
+                <br>
+              </blockquote>
+            </div>
+            <br>
+            <br clear="all">
+            <div><br>
+            </div>
+            -- <br>
+            <div class="gmail_signature"
+              data-smartmail="gmail_signature">"Thou shalt not follow
+              the NULL pointer, for chaos and madness await thee at its
+              end"</div>
+          </div>
+        </div>
+      </div>
+      <br>
+      <fieldset class="mimeAttachmentHeader"></fieldset>
+      <br>
+    </blockquote>
+    <br>
+  </body>
+</html>
+
+--------------5E0225FF536CC1AACEB0ED81--
