@@ -1,27 +1,51 @@
-Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 38A077854D
+Return-Path: <alejandro.delcastillo@ni.com>
+Received: from mx0b-00010702.pphosted.com (mx0a-00010702.pphosted.com
+	[148.163.156.75])
+	by mail.openembedded.org (Postfix) with ESMTP id 060397854D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Jun 2017 19:47:02 +0000 (UTC)
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	16 Jun 2017 12:47:01 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.39,348,1493708400"; d="scan'208";a="114138353"
-Received: from lsandov1-mobl2.zpn.intel.com ([10.219.128.119])
-	by orsmga005.jf.intel.com with ESMTP; 16 Jun 2017 12:47:00 -0700
-Message-ID: <1497642962.29576.32.camel@linux.intel.com>
-From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 16 Jun 2017 14:56:02 -0500
-In-Reply-To: <CAJTo0LanhF0x4yvucSpffYdGB2CbKN9mQH_ppTbX+rts=P_m9Q@mail.gmail.com>
-References: <cover.1497615866.git.alexander.kanavin@linux.intel.com>
-	<00bb214ae7913ff1b6b95285c2945acb868012dd.1497615866.git.alexander.kanavin@linux.intel.com>
-	<CAJTo0LanhF0x4yvucSpffYdGB2CbKN9mQH_ppTbX+rts=P_m9Q@mail.gmail.com>
-X-Mailer: Evolution 3.12.9-1+b1 
-Mime-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 27/32] btrfs-tools: upgrade to 4.11
+	Fri, 16 Jun 2017 19:48:29 +0000 (UTC)
+Received: from pps.filterd (m0098780.ppops.net [127.0.0.1])
+	by mx0a-00010702.pphosted.com (8.16.0.20/8.16.0.20) with SMTP id
+	v5GJkPTH025919 for <openembedded-core@lists.openembedded.org>;
+	Fri, 16 Jun 2017 14:48:31 -0500
+Received: from ni.com (skprod3.natinst.com [130.164.80.24])
+	by mx0a-00010702.pphosted.com with ESMTP id 2b4nsh008f-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=NOT) for <openembedded-core@lists.openembedded.org>;
+	Fri, 16 Jun 2017 14:48:30 -0500
+Received: from us-aus-exch2.ni.corp.natinst.com
+	(us-aus-exch2.ni.corp.natinst.com [130.164.68.12])
+	by us-aus-skprod3.natinst.com (8.16.0.17/8.16.0.17) with ESMTPS id
+	v5GJmUKB011353
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 16 Jun 2017 14:48:30 -0500
+Received: from us-aus-exhub1.ni.corp.natinst.com (130.164.68.41) by
+	us-aus-exch2.ni.corp.natinst.com (130.164.68.12) with Microsoft SMTP
+	Server (TLS) id 15.0.1156.6; Fri, 16 Jun 2017 14:48:29 -0500
+Received: from delcastillo2.amer.corp.natinst.com (130.164.49.7) by
+	us-aus-exhub1.ni.corp.natinst.com (130.164.68.41) with Microsoft SMTP
+	Server
+	id 15.0.1156.6 via Frontend Transport; Fri, 16 Jun 2017 14:48:29 -0500
+From: Alejandro del Castillo <alejandro.delcastillo@ni.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 16 Jun 2017 14:48:27 -0500
+Message-ID: <1497642507-23287-1-git-send-email-alejandro.delcastillo@ni.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <CAJTo0Lab=4CGgXFoH3BNdXo12WdobaZ_MBb8NaWAhA7Cfm-6OA@mail.gmail.com>
+References: <CAJTo0Lab=4CGgXFoH3BNdXo12WdobaZ_MBb8NaWAhA7Cfm-6OA@mail.gmail.com>
+MIME-Version: 1.0
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
+	definitions=2017-06-16_11:, , signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_policy_notspam policy=outbound_policy
+	score=30
+	priorityscore=1501 malwarescore=0 suspectscore=4 phishscore=0
+	bulkscore=0
+	spamscore=0 clxscore=1015 lowpriorityscore=0 impostorscore=0
+	adultscore=0
+	classifier=spam adjust=30 reason=mlx scancount=1
+	engine=8.0.1-1703280000 definitions=main-1706160331
+Subject: [PATCH v2] opkg-utils: rename recipe to follow versioned releases
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,34 +58,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Jun 2017 19:47:04 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 16 Jun 2017 19:48:30 -0000
+Content-Type: text/plain
 
-On Fri, 2017-06-16 at 20:26 +0100, Burton, Ross wrote:
-> 
-> On 16 June 2017 at 13:28, Alexander Kanavin
-> <alexander.kanavin@linux.intel.com> wrote:
->         From: Upgrade Helper <auh@auh.yoctoproject.org>
->         
-> 
-> This and two others need to be re-authored by you (git commit --amend
-> --reset-author during a rebase will do it).
+Signed-off-by: Alejandro del Castillo <alejandro.delcastillo@ni.com>
+---
+ .../opkg-utils/{opkg-utils_git.bb => opkg-utils_0.3.5.bb}         | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
+ rename meta/recipes-devtools/opkg-utils/{opkg-utils_git.bb => opkg-utils_0.3.5.bb} (91%)
 
-patchtest has a test that check author, and this is correct on this
-patch, the problem is that the commit message contains the AUH stuff. I
-include (patchtest) test for the latter.
-
-Leo
-
-> 
-> 
-> Ross
-> -- 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
+diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb b/meta/recipes-devtools/opkg-utils/opkg-utils_0.3.5.bb
+similarity index 91%
+rename from meta/recipes-devtools/opkg-utils/opkg-utils_git.bb
+rename to meta/recipes-devtools/opkg-utils/opkg-utils_0.3.5.bb
+index ed5980b..646cc8f 100644
+--- a/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb
++++ b/meta/recipes-devtools/opkg-utils/opkg-utils_0.3.5.bb
+@@ -7,15 +7,13 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
+                     file://opkg.py;beginline=2;endline=18;md5=63ce9e6bcc445181cd9e4baf4b4ccc35"
+ PROVIDES += "${@bb.utils.contains('PACKAGECONFIG', 'update-alternatives', 'virtual/update-alternatives', '', d)}"
+ 
+-SRCREV = "1a708fd73d10c2b7677dd4cc4e017746ebbb9166"
+-PV = "0.3.4+git${SRCPV}"
+-
+-SRC_URI = "git://git.yoctoproject.org/opkg-utils \
++SRC_URI = "http://git.yoctoproject.org/cgit/cgit.cgi/${BPN}/snapshot/${BPN}-${PV}.tar.gz \
+            file://0001-Switch-all-scripts-to-use-Python-3.x.patch \
+ "
+ SRC_URI_append_class-native = " file://tar_ignore_error.patch"
+ 
+-S = "${WORKDIR}/git"
++SRC_URI[md5sum] = "a19e09c79bf1152aac62e8a120d679ff"
++SRC_URI[sha256sum] = "7f4b08912e26a3f4f6f423f3b4e7157a73b1f3a7483fc59b216d1a80b50b0c38"
+ 
+ TARGET_CC_ARCH += "${LDFLAGS}"
+ 
+-- 
+2.7.4
 
 
