@@ -1,37 +1,35 @@
-Return-Path: <huangqy.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 0691978408
+Return-Path: <Jackie.Huang@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 26DC07835C
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Jun 2017 01:48:04 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.22,518,1449504000"; d="scan'208";a="20097321"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 16 Jun 2017 09:48:05 +0800
-Received: from G08CNEXCHPEKD01.g08.fujitsu.local (unknown [10.167.33.80])
-	by cn.fujitsu.com (Postfix) with ESMTP id 206A547C7C69
+	Fri, 16 Jun 2017 01:57:44 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v5G1viP1006372
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Jun 2017 09:48:05 +0800 (CST)
-Received: from G08CNEXMBPEKD03.g08.fujitsu.local ([10.167.33.86]) by
-	G08CNEXCHPEKD01.g08.fujitsu.local ([10.167.33.80]) with mapi id
-	14.03.0319.002; Fri, 16 Jun 2017 09:48:04 +0800
-From: "Huang, Qiyu" <huangqy.fnst@cn.fujitsu.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH] libnewt: 0.52.19 -> 0.52.20
-Thread-Index: AQHSzSpDyBEQ2A0wk0aO3UhFBwN1+6Im6tEA
-Date: Fri, 16 Jun 2017 01:48:02 +0000
-Message-ID: <97F7C8E70D26E94FA7E05578493F65C60E01F6C2@G08CNEXMBPEKD03.g08.fujitsu.local>
-References: <1494818427-18931-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
-In-Reply-To: <1494818427-18931-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
-Accept-Language: en-US
+	Thu, 15 Jun 2017 18:57:45 -0700
+Received: from ALA-MBD.corp.ad.wrs.com ([fe80::d894:a649:cd4c:89b7]) by
+	ALA-HCB.corp.ad.wrs.com ([147.11.189.41]) with mapi id 14.03.0294.000;
+	Thu, 15 Jun 2017 18:57:44 -0700
+From: "Huang, Jie (Jackie)" <Jackie.Huang@windriver.com>
+To: "BURTON, ROSS" <ross.burton@intel.com>
+Thread-Topic: [OE-core] [PATCH 1/2] ncurses: add SYSROOT_DESTDIR for
+	siteconfig_gencache
+Thread-Index: AQHS5dNNSEaLfOMVwkyg0JzsrmjvqKImr43g
+Date: Fri, 16 Jun 2017 01:57:43 +0000
+Message-ID: <1B858668EC6A94408DCA5225FDFA85AA014B7F1F6C@ALA-MBD.corp.ad.wrs.com>
+References: <cover.1496218782.git.jackie.huang@windriver.com>
+	<22aa14ac1a926e97fb676743cb1e440ff2aaae1f.1496218782.git.jackie.huang@windriver.com>
+	<CAJTo0LbG_JMejjRPoK+g4Kq5+G8eszwPj4+oWcUjhpJ4-7esNg@mail.gmail.com>
+In-Reply-To: <CAJTo0LbG_JMejjRPoK+g4Kq5+G8eszwPj4+oWcUjhpJ4-7esNg@mail.gmail.com>
+Accept-Language: en-US, zh-CN
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-x-originating-ip: [10.167.226.81]
+x-originating-ip: [128.224.162.168]
 MIME-Version: 1.0
-X-yoursite-MailScanner-ID: 206A547C7C69.AB818
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: huangqy.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Subject: Re: [PATCH] libnewt: 0.52.19 -> 0.52.20
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2] ncurses: add SYSROOT_DESTDIR for siteconfig_gencache
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,54 +42,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Jun 2017 01:48:05 -0000
-Content-Language: zh-CN
-Content-Type: text/plain; charset="gb2312"
+X-List-Received-Date: Fri, 16 Jun 2017 01:57:46 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
 
-cGluZw0KDQo+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+IEZyb206
-IEh1YW5nLCBRaXl1L7vGIOf50+4NCj4gU2VudDogTW9uZGF5LCBNYXkgMTUs
-IDIwMTcgMTE6MjAgQU0NCj4gVG86IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3Rz
-Lm9wZW5lbWJlZGRlZC5vcmcNCj4gQ2M6IEh1YW5nLCBRaXl1L7vGIOf50+4g
-PGh1YW5ncXkuZm5zdEBjbi5mdWppdHN1LmNvbT4NCj4gU3ViamVjdDogW09F
-LWNvcmVdIFtQQVRDSF0gbGlibmV3dDogMC41Mi4xOSAtPiAwLjUyLjIwDQo+
-IA0KPiBVcGdyYWRlIGxpYm5ld3QgZnJvbSAwLjUyLjE5IHRvIDAuNTIuMjAu
-DQo+IA0KPiBTaWduZWQtb2ZmLWJ5OiBIdWFuZyBRaXl1IDxodWFuZ3F5LmZu
-c3RAY24uZnVqaXRzdS5jb20+DQo+IC0tLQ0KPiAgLi4uL25ld3Qve2xpYm5l
-d3QtcHl0aG9uXzAuNTIuMTkuYmIgPT4gbGlibmV3dC1weXRob25fMC41Mi4y
-MC5iYn0gICAgIHwgMA0KPiAgbWV0YS9yZWNpcGVzLWV4dGVuZGVkL25ld3Qv
-e2xpYm5ld3RfMC41Mi4xOS5iYiA9PiBsaWJuZXd0XzAuNTIuMjAuYmJ9IHwg
-NA0KPiArKy0tDQo+ICAyIGZpbGVzIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygr
-KSwgMiBkZWxldGlvbnMoLSkgIHJlbmFtZQ0KPiBtZXRhL3JlY2lwZXMtZXh0
-ZW5kZWQvbmV3dC97bGlibmV3dC1weXRob25fMC41Mi4xOS5iYiA9Pg0KPiBs
-aWJuZXd0LXB5dGhvbl8wLjUyLjIwLmJifSAoMTAwJSkgIHJlbmFtZQ0KPiBt
-ZXRhL3JlY2lwZXMtZXh0ZW5kZWQvbmV3dC97bGlibmV3dF8wLjUyLjE5LmJi
-ID0+IGxpYm5ld3RfMC41Mi4yMC5iYn0NCj4gKDkwJSkNCj4gDQo+IGRpZmYg
-LS1naXQgYS9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvbmV3dC9saWJuZXd0LXB5
-dGhvbl8wLjUyLjE5LmJiDQo+IGIvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL25l
-d3QvbGlibmV3dC1weXRob25fMC41Mi4yMC5iYg0KPiBzaW1pbGFyaXR5IGlu
-ZGV4IDEwMCUNCj4gcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWV4dGVuZGVk
-L25ld3QvbGlibmV3dC1weXRob25fMC41Mi4xOS5iYg0KPiByZW5hbWUgdG8g
-bWV0YS9yZWNpcGVzLWV4dGVuZGVkL25ld3QvbGlibmV3dC1weXRob25fMC41
-Mi4yMC5iYg0KPiBkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWV4dGVuZGVk
-L25ld3QvbGlibmV3dF8wLjUyLjE5LmJiDQo+IGIvbWV0YS9yZWNpcGVzLWV4
-dGVuZGVkL25ld3QvbGlibmV3dF8wLjUyLjIwLmJiDQo+IHNpbWlsYXJpdHkg
-aW5kZXggOTAlDQo+IHJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1leHRlbmRl
-ZC9uZXd0L2xpYm5ld3RfMC41Mi4xOS5iYg0KPiByZW5hbWUgdG8gbWV0YS9y
-ZWNpcGVzLWV4dGVuZGVkL25ld3QvbGlibmV3dF8wLjUyLjIwLmJiDQo+IGlu
-ZGV4IGRlNzZjZTIuLjY1Y2U3MGMgMTAwNjQ0DQo+IC0tLSBhL21ldGEvcmVj
-aXBlcy1leHRlbmRlZC9uZXd0L2xpYm5ld3RfMC41Mi4xOS5iYg0KPiArKysg
-Yi9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvbmV3dC9saWJuZXd0XzAuNTIuMjAu
-YmINCj4gQEAgLTI1LDggKzI1LDggQEAgU1JDX1VSSSA9DQo+ICJodHRwczov
-L3JlbGVhc2VzLnBhZ3VyZS5vcmcvbmV3dC9uZXd0LSR7UFZ9LnRhci5neiBc
-DQo+ICAgICAgICAgICAgIGZpbGU6Ly8wMDAxLWRldGVjdC1nb2xkLWFzLUdO
-VS1saW5rZXItdG9vLnBhdGNoIFwgICINCj4gDQo+IC1TUkNfVVJJW21kNXN1
-bV0gPSAiZTRhYTBmNzk0M2VkZDM5YzUyNDgxYTg3ZjY4ZjQxMmEiDQo+IC1T
-UkNfVVJJW3NoYTI1NnN1bV0gPQ0KPiAiMDhjMGRiNTZjMjE5OTZhZjZhN2Ni
-YWI5OTQ5MWI3NzRjNmMwOWNlZjkxY2Q5YjAzOTAzYzg0NjM0YmZmMmU4MCIN
-Cj4gK1NSQ19VUklbbWQ1c3VtXSA9ICI3MGIyODhmODIxMjM0NTkzYThlNzky
-MGU0MzViMjU5YiINCj4gK1NSQ19VUklbc2hhMjU2c3VtXSA9DQo+ICI4ZDY2
-YmE2YmVmZmMzZjc4NmQ0Y2NmZWU5ZDJiNDNkOTM0ODQ2ODBlZjhkYjkzOTdh
-NGZiNzBiNWFkYmI2ZGJjIg0KPiANCj4gIFMgPSAiJHtXT1JLRElSfS9uZXd0
-LSR7UFZ9Ig0KPiANCj4gLS0NCj4gMi43LjQNCg0KCgo=
+PiANCj4gDQo+IEZyb206IEJ1cnRvbiwgUm9zcyBbbWFpbHRvOnJvc3MuYnVydG9uQGludGVsLmNv
+bV0gDQo+IFNlbnQ6IFRodXJzZGF5LCBKdW5lIDE1LCAyMDE3IDIwOjMxDQo+IFRvOiBIdWFuZywg
+SmllIChKYWNraWUpDQo+IENjOiBPRS1jb3JlDQo+IFN1YmplY3Q6IFJlOiBbT0UtY29yZV0gW1BB
+VENIIDEvMl0gbmN1cnNlczogYWRkIFNZU1JPT1RfREVTVERJUiBmb3Igc2l0ZWNvbmZpZ19nZW5j
+YWNoZQ0KPiANCj4gDQo+IE9uIDMxIE1heSAyMDE3IGF0IDA5OjI3LCA8amFja2llLmh1YW5nQHdp
+bmRyaXZlci5jb20+IHdyb3RlOg0KPiArRVhUUkFTSVRFQ09ORklHID0gIkNGTEFHUz0nJHtDRkxB
+R1N9IC1JJHtTWVNST09UX0RFU1RESVJ9JHtpbmNsdWRlZGlyfSciDQo+IA0KPiBXaHkgaXMgdGhp
+cyBuY3Vyc2VzIHNwZWNpZmljLCBpdCBzb3VuZHMgbGlrZSBzb21ldGhpbmcgd2hpY2ggd2lsbCBp
+bXBhY3QgYWxsIHVzZXJzIG9mIHNpdGVjb25maWc/DQoNCk15IG9yaWdpbmFsIGlzc3VlIGlzIG5v
+dCBuY3Vyc2VzIHNwZWNpZmljLCB0aGF0IGlzOg0KQWZ0ZXIgc3dpdGNoaW5nIHRvIFJTUywgdGhl
+IHNpdGVjb25maWcgY2FjaGUgZmlsZXMgaW4gQUNMT0NBTERJUiBzZXR1cCBieSBhdXRvdG9vbHMu
+YmJjbGFzcyB3YXMgZHJvcHBlZCwgc28gc2VhcmNoaW5nDQp0aGUgcGF0aCBBQ0xPQ0FMRElSIGZv
+ciBzaXRlY29uZmlnIGZpbGVzIGVuZGVkIHVwIHdpdGggbm90aGluZywgd2hpY2ggY2F1c2VkIHNv
+bWUgcGFja2FnZSAobGlrZSBvcGVuaHBpKSBmYWlsIHRvIGNvbmZpZ3VyZSwgDQpzbyB0aGUgIlBB
+VENIIDIvMiIgY2hhbmdlIGl0IGJhY2sgdG8gc2VhcmNoIFNJVEVDT05GSUdfU1lTUk9PVENBQ0hF
+Lg0KDQpCdXQgSSBtZXQgdGhlIHNlY29uZCBpc3N1ZSBhZnRlciB0aGUgdGhhdDoNCnV0aWwtbGlu
+dXggZGVwZW5kcyBvbiBuY3Vyc2VzIGJ1dCB0aGUgc2l0ZWluZm8gaW4gbmN1cnNlc19jb25maWcg
+d2hpY2ggaXMgcG9wdWxhdGVkIHRvIFNJVEVDT05GSUdfU1lTUk9PVENBQ0hFICBpcyBub3QgY29y
+cmVjdDoNCmFjX2N2X2hlYWRlcl9jdXJzZXNfaD0ke2FjX2N2X2hlYWRlcl9jdXJzZXNfaD1ub30N
+CmFjX2N2X2hlYWRlcl9uY3Vyc2VzX2g9JHthY19jdl9oZWFkZXJfbmN1cnNlc19oPW5vfQ0KDQp0
+aGVuIGl0IGZhaWxzIHRvIGJ1aWxkIChpdCBzaG91bGQgYmUgdGhlIHNhbWUgaXNzdWUgZm9yIG90
+aGVyIHBhY2thZ2UgdGhhdCBkZXBlbmQgb24gbmN1cnNlcyksIHNvIHRoaXMgcGF0Y2ggaXMgbmVl
+ZGVkLg0KQW5kIHRoZSBwYXRjaCB3aWxsIG9ubHkgaW1wYWN0IHRoZSBwYWNrYWdlcyB0aGF0IGRl
+cGVuZCBvbiBuY3Vyc2VzLCBmb3IgdGhvc2Ugd2l0aG91dCBkZXBlbmRlbmN5IG9uIG5jdXJzZXMs
+IHRoZXJlIA0KaXMgbm8gbmN1cnNlc19jb25maWcgYXQgYWxsIGluIHRoZWlyIG93biByZWNpcGUt
+c3lzcm9vdC4NCg0KVGhhbmtzLA0KSmFja2llDQoNCj4gDQo+IFJvc3MNCj4NCg==
 
