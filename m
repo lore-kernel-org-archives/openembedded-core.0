@@ -1,49 +1,46 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f180.google.com (mail-qk0-f180.google.com
-	[209.85.220.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 4EB4460939
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wr0-f193.google.com (mail-wr0-f193.google.com
+	[209.85.128.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 8DF1078096
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 17 Jun 2017 08:28:42 +0000 (UTC)
-Received: by mail-qk0-f180.google.com with SMTP id g83so6333206qkb.3
+	Sat, 17 Jun 2017 17:45:25 +0000 (UTC)
+Received: by mail-wr0-f193.google.com with SMTP id y25so7167943wrd.1
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 17 Jun 2017 01:28:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=g7k78K4xHN4HkPWSce1DsWHBUnBmVDxDy4JoG4w1N3A=;
-	b=D6XLa01NzxTSH33LAG2kxqQ9+/FZ+HP3g78kV48atcbvbEXDfZY9H4o59KaTN3a4dD
-	5aWdvQgDhCPjycU9ggqQfI68BCbmQJgWCTmCEB8S2Q9//yx48lxCdp17PfCaZJosqPKV
-	jaZVq+iRPZWCVFA/pko1ur2OaoZ1FS9NnVkxXlotzX4sKqAAuOUymMyAna6V/L7piHdU
-	jS59ekQmGq/WbfT11I8DKXQFILOOsOVIT81iCjC4fv1f9dgdkyte/oYB2CWxNP9HkIO+
-	rQvz6GFp5VNZKKk3vrc3Hk3W/XTY7zG1Cr48YJAwlkMcCv2bioNfAuSApkH/sOmIDzht
-	Pl+w==
+	Sat, 17 Jun 2017 10:45:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=1XTfE9WwimAqyybfKCnn7PY3khJZVGavHn9xYAQxM5E=;
+	b=IK0rmksjypAylpZvqoURkNTyO+Y3p+peY1Yr2b4kU/PEqmjN6HsAt4s7+ZfcsQJHpq
+	igXUMI7mEkDQTnHAf4hAaMGV6V1djGO6BfgSQ5R8s4R1oQAHbUEkNSPXajRbIo6urehp
+	LEibqlgszHDrW4jYncS5zOncLo3jeH3gOs38bK579oZS/CucHSqR70u3X/gczatjuyQ+
+	vvE19xBATzLaXQVrYMwh33vG7o7k1uUEhjc4EZjnD7wAGQmNALNxLehBaLJr8V0BXoVM
+	qBLSctQ4loyDy2YkeeOlxXxfCqU1U6yl/AaZgVAFoUNf629UF0+yYWtBCC6wxqFeWIrv
+	2rLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=g7k78K4xHN4HkPWSce1DsWHBUnBmVDxDy4JoG4w1N3A=;
-	b=MtsjBb1lnPZOxeXTmPn62K0TURjzS5T2c6LEXULKQrNW5IKXtA6Rcz3N8YpBpAPPQa
-	7a0Vro21QB9tPQBjx447VuuM/PR4qiXFLtG8xxW+S3ILbavieOz2SuIQeqfx5pxZ+1Zk
-	ebK9rxqKlj4iM2nREabXFODC3MPpzt7MCmc80pWQZteCil/yr9xf3r2676aNmC48ih1V
-	Haoq8biX39LKDENX03PsNVtnWkV7F1A5oo7FzxdtXaoba2dSdfYcVl9k5WdzGciPwd5a
-	q6+sC+v2u4ANN3LpJ/H3OZjeRcsFy7kucb6k/HZxcqbwT6b60rY5hfsWHqJDMUH0+N9r
-	AeRA==
-X-Gm-Message-State: AKS2vOx1V3r/Qzt05z5PxYBTO5m9FJNmFKPnYVmkPgg6NWG/qII1RHV0
-	xuqreVakytMcK7M0t8+LwOQfXvAMIDl4
-X-Received: by 10.55.181.69 with SMTP id e66mr16561125qkf.109.1497688123550;
-	Sat, 17 Jun 2017 01:28:43 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.35.103 with HTTP; Sat, 17 Jun 2017 01:28:23 -0700 (PDT)
-In-Reply-To: <CAMKF1so4Lz2T5Gc1NNCWKLAjV9N_BVEdJFDUxKFqTAzdUyNAfw@mail.gmail.com>
-References: <1497640847-9108-1-git-send-email-ross.burton@intel.com>
-	<CAMKF1so4Lz2T5Gc1NNCWKLAjV9N_BVEdJFDUxKFqTAzdUyNAfw@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Sat, 17 Jun 2017 09:28:23 +0100
-Message-ID: <CAJTo0LbP+XTWdXy8xcfuoQm7Nf1T+tOeoTFjyeW-L4gt+axgyQ@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] epiphany: remove unused intltool build-dependency
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=1XTfE9WwimAqyybfKCnn7PY3khJZVGavHn9xYAQxM5E=;
+	b=fBlCHChwLLzLUpcpjih8Daifn6w+2s06Tef197IGoEYEP/cB4OAiqifzlgHbqr+Inr
+	ycmM0a+3taIHnqJc6IVRk7LgaqeetBX6/jytgmSmWuUHGHWgqkT3x94YHt0F9FgK00JZ
+	FMBf3sxYA3XgIwry5UtH7yp4LPn0Dg40iSUp/bUOYtWc8+95PhVz5J3cNUA3uCRa9o0a
+	/FOTPbxxi8xJd1iSOdcB7/BzC0BzI4B/eyVgjcvGiHUoYOWFTj6vr926PQdc/jWoUtBL
+	8wlCIY+ZbsV57/6Z5mug1+S/uec3Hb/vnzFB0bFKtWanbo//xWBnp5xVnWrpqZVq1RVk
+	c9SQ==
+X-Gm-Message-State: AKS2vOxWwqxgwaoroR6stlpNUby9hqIViTpe04vNF+6ftSh4ZRz5ZiDC
+	xAS5zdZnt04GilA0
+X-Received: by 10.223.128.65 with SMTP id 59mr12159981wrk.0.1497721526700;
+	Sat, 17 Jun 2017 10:45:26 -0700 (PDT)
+Received: from localhost ([217.30.68.212]) by smtp.gmail.com with ESMTPSA id
+	139sm2180586wmu.34.2017.06.17.10.45.25
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sat, 17 Jun 2017 10:45:26 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sat, 17 Jun 2017 19:45:30 +0200
+Message-Id: <20170617174530.24693-1-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.13.1
+Subject: [PATCH] expect: use u-a for mkpasswd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,47 +53,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 17 Jun 2017 08:28:44 -0000
-Content-Type: multipart/alternative; boundary="94eb2c05d22296bd19055223b0ef"
+X-List-Received-Date: Sat, 17 Jun 2017 17:45:28 -0000
 
---94eb2c05d22296bd19055223b0ef
-Content-Type: text/plain; charset="UTF-8"
+* when busybox is built with CONFIG_CRYPTPW=y, then it will provide
+  alternative for mkpasswd, which will fail in postinst, because
+  mkpasswd from expect wasn't using u-a:
+  update-alternatives: Error: not linking rootfs/usr/bin/mkpasswd to
+  /bin/busybox.nosuid since rootfs/usr/bin/mkpasswd exists and is not
+  a link
 
-On 17 June 2017 at 02:11, Khem Raj <raj.khem@gmail.com> wrote:
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ meta/recipes-devtools/expect/expect_5.45.bb | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-> is https://bugzilla.yoctoproject.org/show_bug.cgi?id=9374
-> no more relevant then ?
->
+diff --git a/meta/recipes-devtools/expect/expect_5.45.bb b/meta/recipes-devtools/expect/expect_5.45.bb
+index 630f2e4649..e2d24e8d85 100644
+--- a/meta/recipes-devtools/expect/expect_5.45.bb
++++ b/meta/recipes-devtools/expect/expect_5.45.bb
+@@ -16,7 +16,7 @@ LIC_FILES_CHKSUM = "file://license.terms;md5=fbf2de7e9102505b1439db06fc36ce5c"
+ DEPENDS += "tcl"
+ RDEPENDS_${PN} = "tcl"
+ 
+-inherit autotools
++inherit autotools update-alternatives
+ 
+ PR = "r1"
+ 
+@@ -57,6 +57,11 @@ EXTRA_OECONF += "--with-tcl=${STAGING_LIBDIR} \
+                 "
+ EXTRA_OEMAKE_install = " 'SCRIPTS=' "
+ 
++ALTERNATIVE_${PN}  = "mkpasswd"
++ALTERNATIVE_LINK_NAME[mkpasswd] = "${bindir}/mkpasswd"
++# Use lower priority than busybox's mkpasswd (created when built with CONFIG_CRYPTPW)
++ALTERNATIVE_PRIORITY[mkpasswd] = "40"
++
+ FILES_${PN}-dev = "${libdir_native}/expect${PV}/libexpect*.so \
+                    ${includedir}/expect.h \
+                    ${includedir}/expect_tcl.h \
+-- 
+2.13.1
 
-Correct: I've a local extension to insane.bbclass that checks for intltool
-build dependencies but no use of intltool macros.
 
-https://git.gnome.org/browse/epiphany/commit/configure.ac?h=3.24.2&id=b74f5c614e4cb9886e8ff6404f220b23df212be4
-was the upstream commit to move away from intltool to standard gettext.
-
-Ross
-
---94eb2c05d22296bd19055223b0ef
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 17 June 2017 at 02:11, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"mailto:=
-raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</span> wro=
-te:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;=
-border-left-width:1px;border-left-style:solid;border-left-color:rgb(204,204=
-,204);padding-left:1ex"><div id=3D"gmail-:75b" class=3D"gmail-a3s gmail-aXj=
-CH gmail-m15cb39ba3861c4c5">is <a href=3D"https://bugzilla.yoctoproject.org=
-/show_bug.cgi?id=3D9374" rel=3D"noreferrer" target=3D"_blank">https://bugzi=
-lla.yoctoproject.<wbr>org/show_bug.cgi?id=3D9374</a><br>
-no more relevant then ?<br></div></blockquote><div><br></div><div>Correct: =
-I&#39;ve a local extension to insane.bbclass that checks for intltool build=
- dependencies but no use of intltool macros.</div><div><br></div><div><a hr=
-ef=3D"https://git.gnome.org/browse/epiphany/commit/configure.ac?h=3D3.24.2&=
-amp;id=3Db74f5c614e4cb9886e8ff6404f220b23df212be4">https://git.gnome.org/br=
-owse/epiphany/commit/configure.ac?h=3D3.24.2&amp;id=3Db74f5c614e4cb9886e8ff=
-6404f220b23df212be4</a> was the upstream commit to move away from intltool =
-to standard gettext.</div><div><br></div><div>Ross=C2=A0</div></div><br></d=
-iv></div>
-
---94eb2c05d22296bd19055223b0ef--
