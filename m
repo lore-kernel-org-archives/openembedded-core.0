@@ -1,156 +1,57 @@
-Return-Path: <chunrong.guo@nxp.com>
-Received: from NAM01-SN1-obe.outbound.protection.outlook.com
-	(mail-sn1nam01on0139.outbound.protection.outlook.com [104.47.32.139])
-	by mail.openembedded.org (Postfix) with ESMTP id 1CC017827A
+Return-Path: <kristian.amlie@mender.io>
+Received: from mail-lf0-f48.google.com (mail-lf0-f48.google.com
+	[209.85.215.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 47DAA78274
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Jun 2017 08:47:55 +0000 (UTC)
+	Mon, 19 Jun 2017 09:01:42 +0000 (UTC)
+Received: by mail-lf0-f48.google.com with SMTP id v20so51472509lfa.1
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 19 Jun 2017 02:01:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=freescale.onmicrosoft.com; s=selector1-freescale-onmicrosoft-com;
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
-	bh=PaqUevdwWytm8ZGAESRr7hjQgSXHIendxb1kVZ+JPo4=;
-	b=iiu+MIOWN//MK1szITK88T0nJItj7qhgLYM1dGp6uyB9NwnjbKvLo4fF2OhR3xVAutZwYjuHEYpPa278eFt6tLzMAJr0xO4w92zCwzCJ0qll/XPleHe58Sx7TVBeOoBP+cGi66nijjm+XiYHOsZJXoi5yTD/KbO7W1Bwk/yprTw=
-Received: from CY4PR03CA0086.namprd03.prod.outlook.com (10.171.242.155) by
-	DM5PR03MB3178.namprd03.prod.outlook.com (10.174.240.31) with Microsoft
-	SMTP Server (version=TLS1_2,
-	cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
-	15.1.1178.14; Mon, 19 Jun 2017 08:32:36 +0000
-Received: from BL2FFO11FD027.protection.gbl (2a01:111:f400:7c09::123) by
-	CY4PR03CA0086.outlook.office365.com (2603:10b6:910:4d::27) with
-	Microsoft SMTP Server (version=TLS1_2,
-	cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1178.14 via
-	Frontend Transport; Mon, 19 Jun 2017 08:32:36 +0000
-Authentication-Results: spf=neutral (sender IP is 192.88.168.50)
-	smtp.mailfrom=freescale.com; nxp.com; dkim=none (message not signed)
-	header.d=none; nxp.com; dmarc=none action=none header.from=freescale.com;
-Received-SPF: Neutral (protection.outlook.com: 192.88.168.50 is neither
-	permitted nor denied by domain of freescale.com)
-Received: from tx30smr01.am.freescale.net (192.88.168.50) by
-	BL2FFO11FD027.mail.protection.outlook.com (10.173.161.106) with
-	Microsoft
-	SMTP Server (version=TLS1_0, cipher=TLS_RSA_WITH_AES_256_CBC_SHA) id
-	15.1.1157.12 via Frontend Transport; Mon, 19 Jun 2017 08:32:36 +0000
-Received: from sun.ap.freescale.net (sun.ap.freescale.net [10.192.208.75])
-	by tx30smr01.am.freescale.net (8.14.3/8.14.0) with ESMTP id
-	v5J8WOHR028076; Mon, 19 Jun 2017 01:32:34 -0700
-From: Chunrong Guo <B40290@freescale.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 19 Jun 2017 16:32:16 +0800
-Message-ID: <1497861136-27345-3-git-send-email-B40290@freescale.com>
-X-Mailer: git-send-email 1.9.0
-In-Reply-To: <1497861136-27345-1-git-send-email-B40290@freescale.com>
-References: <1497861136-27345-1-git-send-email-B40290@freescale.com>
-X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-HT: Tenant
-X-Forefront-Antispam-Report: CIP:192.88.168.50; IPV:NLI; CTRY:US; EFV:NLI;
-	SFV:NSPM;
-	SFS:(10019020)(6009001)(39860400002)(39840400002)(39410400002)(39450400003)(39400400002)(39850400002)(2980300002)(189002)(199003)(9170700003)(36756003)(50226002)(2351001)(54906002)(105586002)(189998001)(106466001)(47776003)(81166006)(4326008)(305945005)(5003940100001)(356003)(8676002)(5660300001)(8936002)(6666003)(77096006)(107886003)(110136004)(38730400002)(104016004)(76176999)(50986999)(6916009)(498600001)(2950100002)(8656002)(42882006)(48376002)(53936002)(2906002);
-	DIR:OUT; SFP:1102; SCL:1; SRVR:DM5PR03MB3178;
-	H:tx30smr01.am.freescale.net; FPR:; SPF:Neutral; MLV:sfv; MX:1;
-	A:1; LANG:en; 
-X-Microsoft-Exchange-Diagnostics: 1; BL2FFO11FD027;
-	1:EPyN0hWm3YZKqDq6YBBcwLtdiix//XgCsJyVLN3v41Dh/MFmja8BcEF1dl8GCT8iWfovYuQd1bT5JaubZeV8I8OsOYt6+aSgL/Lp1Eusb4hsYcT3UbeRoMj9EQBzRW6eBTNrJFy2anyeo1KI5oEQnQ17AohfY+iD4wZej/1/jCG+XkA/oHzvqSkCAAbfgKoYZszHcErjbSBT4YHOAE+zx9NCjMWSYgXA4izGwWCbwi4eW42QoEaosAQiLQGQOQyJp9gZVB3uCwhCMBTf57fu3ZdO//b4Ajdopdrl1TxA+5tuB84wWD0lOPv2S4KU9Bf0aPemIvA9BjTSlKmLNpkV7zWXBFk+c1Mu6EucSonjlhSonT2cP2JcjT+ec7i1u3PaoR64XK5BjX/BYVg0GDLUkp2CT86UtQeEMNEKAmf1TaOolQ3c43BwMIzTO16bFRGMPsRdCZMuVnu9c2nXukFSlkKmHE1qQFwohu25jnj6GXSkj1/1B7f7R5PsfpYdX3ORm81NiJmOEGsv5yo8hmJ4e6wL8pD8avvctKNdwl17N3I=
+	d=mender-io.20150623.gappssmtp.com; s=20150623;
+	h=subject:to:references:cc:from:message-id:date:user-agent
+	:mime-version:in-reply-to:content-language:content-transfer-encoding;
+	bh=caFmtgL6/OrNx7uoa8nfStdc5jbBYwPx2usCRAu/98g=;
+	b=stupuRHVdYxLcmxwvfMhGKP17Yuz0PQETQno9OxOQ/oUNDXcPm7XFwK80eOvpD+fAu
+	/NsAcpAZ9OaaSQn+WhptEp9gSmhkd69P42YoP7wJ7bBLJIT0sZwBg1GgPM5DSDJhjUUK
+	sabJhSvO8wK+s+X4Qyr0e1Nf3/aOlovcicgOlH9O2Al5wG+v1B5+/Yr3Q/4HKCWmueZd
+	8N3p4p0JsgNsmQ8mSHZlhFuCR9JTo+iEVDj8L8fVgd5IXCmymlgepViLQZvy5TYgMLNg
+	bUv/LKmo8BWSlAr9+KkfM6tYc3sJC8UnlRyb313UoyM5x2VCdK7P1kjx/FRY2UqTy9ND
+	Zm8w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:subject:to:references:cc:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=caFmtgL6/OrNx7uoa8nfStdc5jbBYwPx2usCRAu/98g=;
+	b=Bv+CHWWPnd3WGtEVvN4HrHJHFs1/Wy5e9Ge9W1aaxkTeAgk0zdD72qrCRhkiPTPyzp
+	UjsiXcIor/7S6NwlO+mVeQk05uUXqhfiNqUH6pet8Yow7jbBjoJALRFGYWxkY1/7H4B0
+	PY5O6Zl39TRcQEJPnE9nBDNNfV+6Yk4ecLUVLt9WYPgtQizDYd0bQtb8yBM5c0uyEsQm
+	wnBJr2ilnVR4ERsWg/JcUZK/pKV9db/C9+iEk8uJTvDN/I61gA8uqfoeOr4n8xzvAqTa
+	mISwwW8PzF+wj/v2pstzgv/H/aivkkU7btJcGcmLOxPwCRyNpMV3ZoOV6yrAludyfOLL
+	r2Sw==
+X-Gm-Message-State: AKS2vOwcSTG9M0CZ5/MzCZ87T6r2nppoajIxVKWXmWFBpyt7swxA6OH5
+	ieP+YFu61+kWnoc04EVuAA==
+X-Received: by 10.25.15.157 with SMTP id 29mr6548307lfp.10.1497862902742;
+	Mon, 19 Jun 2017 02:01:42 -0700 (PDT)
+Received: from [10.20.33.170] ([195.159.234.190])
+	by smtp.googlemail.com with ESMTPSA id
+	z10sm2193774lja.6.2017.06.19.02.01.41
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 19 Jun 2017 02:01:41 -0700 (PDT)
+To: Kristian Amlie <kristian.amlie@mender.io>,
+	openembedded-core@lists.openembedded.org
+References: <8e87fb4b-6180-efdc-6f60-4e8ca6d5564c@mender.io>
+	<1496130382-852-1-git-send-email-kristian.amlie@mender.io>
+	<1496130382-852-2-git-send-email-kristian.amlie@mender.io>
+From: Kristian Amlie <kristian.amlie@mender.io>
+Message-ID: <e818cf0a-65b7-7b6a-28ed-3b58d4e7d710@mender.io>
+Date: Mon, 19 Jun 2017 11:01:41 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.1.1
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 0f2295cf-4710-4432-0106-08d4b6edbd28
-X-Microsoft-Antispam: UriScan:; BCL:0; PCL:0;
-	RULEID:(22001)(2017030254075)(201703131423075)(201703031133081);
-	SRVR:DM5PR03MB3178; 
-X-Microsoft-Exchange-Diagnostics: 1; DM5PR03MB3178;
-	3:+3RxSItMB77LKlId61KYYXQZWSV2B6UjBxMBxoIFoeBhppaJ/hDteEIXRG8TT2Hc9OR5tDDZX9UaB7xN+LyA5gFPnmGAwEV0xmOlZQk6SvqjwgPuwbBhqN7qqu3YXcGT1rYd1gEpnOEf2cRK+f0vzLgKiUahV8mHMxbOs2pS/o0e/PbQjFxjLrug+N7TbJHJv09QjCW7UNu35+PIr9wI06cIAcghm8E2MB/gpjP2/CZbvnZlkUnKuY3Lkmgg9eKsaIpLn5UPN73svnBISxsviSZWuXC/NybRNTzArAiAaK5QExG82DdB4fop8fqKik/WNa0dhzPdNVGHRgsiEnirJlY5rrdU5niIdBQo/gmi1xHH6jRfI5W5lX4xgAAzdsyhMs7c+2yPVEexGerIM0EqmXs4Mdr2RuoyYZgs7RtEX3Cj5nGO6DNKXTzk7dcjWySswoIpU3owC+NWenO29kP4mA==
-X-MS-TrafficTypeDiagnostic: DM5PR03MB3178:
-X-Microsoft-Exchange-Diagnostics: 1; DM5PR03MB3178;
-	25:ODrSDUn95Ydkf4FW99GI/49bLM4z83ELofpv7ySL0HVW8GGhkf7QAlz0wEvMQeLIfevRfjFWT5jQgZ+eS6HdZJiAwcr+6/dcGtZNdHiuuHYP/jJDCALpdqIbSlyqUA4Fg6nf3rA2s/Of2veztBzdD4Sr2iQt3H22XpjkwZeFfQOy4g5pi+AJHEaKYmsrHVIqxuAphlr8Tco+5799REbZnvPjMjPxa/jXDCLrkn+MRdwRGZHe8ez/HGak7cuVwes57g7bMxCXX5kKb7486aFCxD5pqFguyUT/v5cdgkG3oMcn/mz2C3EYChXEfJMDp4E7QI7H+Jtk43IJveVkOnTKIQVX83qxbl681CotPVDwNyKlxTVMUY7HMIUjobTfFNWbTpcSqy03bz4mmOmKLP6RabEHkTzpkWn/wqP84UUzsBunXDiccVT2C2D51KxkIhpkC4gtJubXCNsNrNY+9n8F/fDZy43x/rKkbmLqyapq9cA=;
-	31:aHU9GfkBgzXpAb8pzN3ykIu/jilZgVl4Vyl10vDk8SFJwGtsByG6tyIYwU2+2Fuf7C/Mer81WfJ0vypuOVBZHXgfnq7+fO45WxJ90xyvBq8XMLr8EUfuXA/nvUUfd2gJqyUin2GVUe6Ekb6426/5PdySuv1ZS3g6kEQlsPTF4XvMOhwEGTTAnJ6FxtAsc4mz25V/gDzbOh1gPSwbMO0liHeGMBraY53AobQmkm62bOYsxdRNdKTPJva/gQplIn+t5of075+WPH2ImBiN8/KIaw==
-X-LD-Processed: 710a03f5-10f6-4d38-9ff4-a80b81da590d,ExtAddr
-X-Microsoft-Exchange-Diagnostics: 1; DM5PR03MB3178;
-	20:ACOVnuUw/3oHH4SfiXltJYhRPYv3z62ufwPYWNbH6bZV2B+e+1MDDaRklQ3WM1nMZlIvRIsPAPML0b6bLEMAq8KTlaG1B2ZYaQ23yPwOu6kjWDc1ahRk1qWwLy06L9/epQboKoV2+3ck0zSyNmtb0/W8BFlVShJxHsMFgE2QNRlJjT4pfh9Cuyi/6ImyqGXhtNvnA0OUIz8V16AfJBWKfMzrEzk0+5mSO+rEal9r7HSVDqERC9BF46xV6oES1Sz49i6WP69xwNvFJBaj2ovS/vHsGAhAm22WpgDNYwySACcCZOCKN4MciiLzFIOxVq5N7llbsy2L/vpoyZZALTMoepqzfWD1qVfj/6hXvO5SACg4vk/vR5ML7kzzJeZUER/LBVz3nZmxdQsryQwP74OHhMEsBrrLR67WZoSBp4HyGP3NMHXICOQndOguAjXofPTAppdBjWwy0qikgQ6jQRRpmmovYkMK+M84rZ7mOYzX4multmX9QFbsH162lKFqkPV+zs5orxAIc1w1npSQ+UIMQJrh98eY91L6C/s7+L6hMQK9A3nsCjI2P9ua3lsVSMZiwxQLDvmrbirYPlHCVivHCh+z8uHw0fBeC/dY6fvembg=
-X-Microsoft-Antispam-PRVS: <DM5PR03MB317817878A3EDDF49801574984C40@DM5PR03MB3178.namprd03.prod.outlook.com>
-X-Exchange-Antispam-Report-Test: UriScan:(101931422205132);
-X-Exchange-Antispam-Report-CFA-Test: BCL:0; PCL:0;
-	RULEID:(100000700101)(100105000095)(100000701101)(100105300095)(100000702101)(100105100095)(6040450)(601004)(2401047)(13016025)(5005006)(8121501046)(13018025)(3002001)(93006095)(100000703101)(100105400095)(10201501046)(6055026)(6041248)(20161123558100)(20161123560025)(201703131423075)(201702281528075)(201703061421075)(201703061750153)(20161123555025)(20161123562025)(20161123564025)(6072148)(100000704101)(100105200095)(100000705101)(100105500095);
-	SRVR:DM5PR03MB3178; BCL:0; PCL:0;
-	RULEID:(100000800101)(100110000095)(100000801101)(100110300095)(100000802101)(100110100095)(100000803101)(100110400095)(100000804101)(100110200095)(100000805101)(100110500095);
-	SRVR:DM5PR03MB3178; 
-X-Microsoft-Exchange-Diagnostics: =?us-ascii?Q?1; DM5PR03MB3178;
-	4:hE/B7YZcC0S5/s3xDss1EtQtXVl5peoOhCD3YdVxWt?=
-	=?us-ascii?Q?ypiOhkeawOVVB+ctSoudKy1PEzYl5jLE3IUk/jovf51is1oi2o1yyiJCeUdv?=
-	=?us-ascii?Q?+20p1xeyvPIY31AJu0SQ6+Vn+X4HT5Mj+dIkL8jCzL28NVgDHmL7qTjLTlA3?=
-	=?us-ascii?Q?ds5DTJaIv8r+JER5oZDFcAq/IMT8w+bL/KpQzmvldgBy1jrisxIoAux8L13g?=
-	=?us-ascii?Q?MVQf5lEvsduRw/Tiovu5QrlwK5V5c2OxZStK71ubkO+9/ubOHiy+yfgwziLc?=
-	=?us-ascii?Q?TUtL1ok2Su0wSWJ887seeOthEocM1+9PDcWh0ZoePKMc8GH5eCQafMzjBQ8h?=
-	=?us-ascii?Q?BQyDOopbob7TI1JbHXHmnddzvR2zdhoLw2m4LapbuPxs+WZchmKON6cJ8YS9?=
-	=?us-ascii?Q?vDNybvFTEnVJhn4Ku6cm8HfA0wmFCL1X+iPeitwVI+0Dh5c4EunYc+UWW7ZK?=
-	=?us-ascii?Q?iYs12g9neAcGlcQLyP1kkvesFOrh2f8/Zbibk0Bgl/jwhqVkJpHFWf0UrSuQ?=
-	=?us-ascii?Q?QJBNk8PO27hCBNkiXsYM0MzyUutygjKSjGC64cXmvyNQSmTlKbXUJfkLk1ac?=
-	=?us-ascii?Q?Nw0xDeoNpIr0DuSRkA22zNzGwCzvKdmfAFDVrO3fTXU6IbEXbaHhgfUH56AP?=
-	=?us-ascii?Q?1P02YVDH5ZjZwOmgtdxNAka6mw91jHJe3isi1VXrow25CrmAfxu3eWy2Wdyh?=
-	=?us-ascii?Q?Ov7DdmSY2DvlTcSZU/mynNZLJ+b8HlZX651ejAee8SHBv9LojsxRWYKgqVb9?=
-	=?us-ascii?Q?NC/hMvreBI4CGX0K/po9FYm0SFUWo2eEfHP64sNgFpMHu6oDB6UvsJMTasB1?=
-	=?us-ascii?Q?CRH3PIWNTkSyghgrosMyGJqrtNPd2sZbWR29eAd0JNmI7d7qtn+B9BfxdgVJ?=
-	=?us-ascii?Q?AZOOHeFnjUW0i5Gx81Z5FecLriMn0fuy4OT9kt1eLQthNVpqF1/TnF0K9n8W?=
-	=?us-ascii?Q?jXv5Os6WcrDn4gDDZPeKNtn5WX+erBsPXZlE6yOpi99Q4342ayOb3WfMbC78?=
-	=?us-ascii?Q?41/3k/kKkEOegMUjKt6aZrta3K2ZT4Sqb6Y6uukc4FIZVZDAvVL4vZVwQzWd?=
-	=?us-ascii?Q?/Eaxij8YLqq/+aCi+NmofHjY8FK9a5FqE+N6vrziI8mmm8Iap4wrQpsw9aNC?=
-	=?us-ascii?Q?5QH+H8d74LA12m42Xd04v9MKouE7PFT3P30oowGbL12J76UnCuDrwEEOCAE0?=
-	=?us-ascii?Q?ngKofLFBXNln/NOJLSAsaqGTTmfo2MYKu12BrytjrD6KcOyPUXrrkyJg=3D?=
-	=?us-ascii?Q?=3D?=
-X-Forefront-PRVS: 0343AC1D30
-X-Microsoft-Exchange-Diagnostics: =?us-ascii?Q?1; DM5PR03MB3178;
-	23:a+A3MJpj/zaFz5NfGy7UCa10pwoqBON5w5JTyKnDK?=
-	=?us-ascii?Q?X4OLtmfOF9cmDcp91nUdKgBN+tl7jupfs0fkMGptBg3OnYxkYFOVr+VAYBfx?=
-	=?us-ascii?Q?MgqglbWfkhnrPKVP97Vtg7o7pOToiiN7ky9ADCZYirZxo5iIl4RCn8KlBOHM?=
-	=?us-ascii?Q?obxVdF3CaPDcEWW+At9cZzMWRWcbEsuVAQyaFelN4ya80PEE2uvsnwjcnCiN?=
-	=?us-ascii?Q?AxXrs+Z3vxrsS760JTQzeEx1KN5uRJ4OfrYjyyI4NlwuRBicxwEXB99Xv0Sl?=
-	=?us-ascii?Q?2eJgx4BzqzlwtSfAaei/kGEV6I/BjlxJccW9jmxCqmT0K53cn2Vq8L7Lb86S?=
-	=?us-ascii?Q?MOFOI/MGi+gJQLVsSNlHstEpDK5YYrbTF+K6aeqzGRDTSojzc766NAgVM4hr?=
-	=?us-ascii?Q?I48BZrCFw/Di1IKKYQSAQNCMHbTTbdAq8klSiSuHJBpCi+AO5X9ZE8ugg0XP?=
-	=?us-ascii?Q?6J+WfsKMmo7kgkU57UuK11A/CNfSyzZLUyoA+2RiEkgbdl6oJVRn6XYn9Fjb?=
-	=?us-ascii?Q?ZVZw7Uuzk7e9JUa3ibWpZXMpuR2qnIBpgICGZzkCT4LSEz1Zk4E0ksPeC5Mm?=
-	=?us-ascii?Q?d2wW6RNBaioWHwtzTJV037l/bnFKnFWApoFznatnSVKhhaywiIIHaL64fqAH?=
-	=?us-ascii?Q?Dvw48iBFZJIV9f0ZBWVly67zXGuDB1c08a0nXvOVk3AqYlWk/awjGlarPoAG?=
-	=?us-ascii?Q?+neEsPUGn7XIHuK/MxgQJK0df02KYVMmqeffjIKvwzbV1vLMEFBkT0zqkuq5?=
-	=?us-ascii?Q?LA38KvCBu03bJKrkxQh1rep+eMnawk/hiJul9e3fTbU0gSGp9Xv8bPYpdDV4?=
-	=?us-ascii?Q?Z8PF5FrFqZeJX4QJmUQYl5Z+j8NRSNHbCvv//jn2sM2azEVkXLzwo4kyT9ib?=
-	=?us-ascii?Q?qDRhu/HQcYNn1HeybTeY1nBnBGqCpyF2nUfD55fGV5WJbYfQKXfEd1i2rT9l?=
-	=?us-ascii?Q?iZ6iyMrS7+v8hfv0veZ7ytKWwaeJapfGXMoJm+EWCiYayWreTrhBMeKwsO6q?=
-	=?us-ascii?Q?Nlla/8oHkhiDxGDaZI6GbnBdMXqByN04SPFCL13oU1B6PRwg1E7iXrUzTQeO?=
-	=?us-ascii?Q?ldYpf/Z3BUymkbUOB08k6iGl7BhrDSOt/OPqGdfv/XlRQCTuw=3D=3D?=
-X-Microsoft-Exchange-Diagnostics: =?us-ascii?Q?1; DM5PR03MB3178;
-	6:ylF+6Zc2m1JqRXc08aWac69EghG6aTuBexTc+H+2Uc?=
-	=?us-ascii?Q?BR/2U9m3XCQgQX5JY7jxF14RhonvxqHox1TCN31GVK7FevI4S0yIJWIE+y24?=
-	=?us-ascii?Q?TGaSm8tphH/4lbJVGepuLcbOtNFPUV2IUkgyqEKPGcQB/ZqDuI4b7+vVUKjz?=
-	=?us-ascii?Q?wayuzDozpluHfeJXXD+/pvb93LZ/bKR8xLL/r6gcRLPNutIBZXSie9i1H52a?=
-	=?us-ascii?Q?S7WEPV1HgPxYrgOGm7K94rdxkIU7E8ETfXzbCAuXWMIj6b9VlOPnN0y1PsU9?=
-	=?us-ascii?Q?s+jYkS9Zqna43C9WmMqgde+nbG9nRRgfjqYFv9159zX/5RipgbpBGh1GGYE9?=
-	=?us-ascii?Q?jB5yJaXB53PWsxO1Cso+w7PHJWcNpBc0wrpdvidXUpUU27r0XgnMG6GRQsEk?=
-	=?us-ascii?Q?duHpHmeoxK/S0KO42dAyrInqx3tnYOa6PPeY5DoBCQvXqPjmiWJGbXJU0Geo?=
-	=?us-ascii?Q?eyumtrnXBQ4JvrItBXkuFQzPNQTKaGf/IA/1PpjjZBAF8POsnu+E8ar2wT0k?=
-	=?us-ascii?Q?+vsdN3bjzFniV1cV55RS+DD5EaNEF79nfuHOJ2Yu04zLwMHptIhXMqBJC8nk?=
-	=?us-ascii?Q?jeQm5PWr5QaO44Mwdo0OuIkPnzOH+GqcBB9lETEfGBjDwIoxKnckCKi5zbWp?=
-	=?us-ascii?Q?iU9kS63cGpa/7MT5uGxGWOIAY4bqqoYh3EYvbvMFzdiRB9fXtVkbfCpIM3QI?=
-	=?us-ascii?Q?5XYmObDTF/1nKfTzSgH0tQzthc+uuVgzI3rvicLet35Z3MnwMlq3jgQYxKtU?=
-	=?us-ascii?Q?PwtlXcg9qS6lINyQv3XpqX3gYsubk9B5g65wXAWbXefFyrdO1CvB1Bm9rZSw?=
-	=?us-ascii?Q?cZiu6z8KBy/a0V+tg6FA9U1gHGAkHXXMV2s66v8TSxqugCtp76EWMxr2Cd3j?=
-	=?us-ascii?Q?8FIXRvmZeTMmMBhlpvNgAoJYNUndJF2rHJdq9fEab+Jcrz4SWpPaCqb+sZrj?=
-	=?us-ascii?Q?2IRQ1Q7RxJxCt5Lu70W8ATRlDHb9e/ICk/02rsXX+Bj64+qkvWmmM5UHPmYJ?=
-	=?us-ascii?Q?zd7jNdtUOWBbAE8SJ3yeWMHP7tLVXV00xT/1BR1SnNm1SAmaYuSY3Blsqlsn?=
-	=?us-ascii?Q?4pM9c=3D?=
-X-Microsoft-Exchange-Diagnostics: 1; DM5PR03MB3178;
-	5:Alwik9B29VaVzV+0oRvrZZ5Zv7Pu8YaIIPTtqKx0VM74yWMlH+PQNJeaOn4+j0wXgAkGB1WpWDPqk818/rIqxWVsfR2mGqZAmS4gcEv9TuPk17JxztU99cbDACzM2N4oHgQ4OyUrCMIKT9WWesrf+2qRS/9TxgUJh/QnV/tH5Vfu4aKNL7JXENJ8T+qX8Tir6J3x3acZAb55WYf+tMBGlEhKffT50ZSUTBVEOGVPmv9NYx2y2ccCaiAfdrHS122pid/dRlHRMypdTnPYkXOeo2sFYTC07IwUgnBkKDV7ujdmMj+WUNm1nxyfqGlu5bNvaQKc3EJJW0Am4p54vNm1qINxJooBot8fJDgroUWbJscWx+B9Zh+qDo+tRcv0fI6SqlSMFtel5fdJH674Zm7NYjidFWhYHAuX165n0LEAsjUF9y9swTTwb1veiZjHC0myAwJKqEBDHuzMdOdpTLL1YkI6M9+R+FY3rH9iCfgPRQj1xMBhRqjtIqPY3luf9Nuw;
-	24:0TlsRAVRXGQ5XO1w/ibQnaAj2/9EfswWYGBXEDtDeKngz0A4rbQJ6UrMDcW0W0fM+DB7dWJ9eEOOBR7lORKgLDT7jakb1sLZzIfF3bMdWR4=
-SpamDiagnosticOutput: 1:99
-SpamDiagnosticMetadata: NSPM
-X-Microsoft-Exchange-Diagnostics: 1; DM5PR03MB3178;
-	7:gAxn3WCQC8zGkHzHylrJYOPdoJbgEIK/O0+gvUhvZbV0XeQLxZYyYXBRiGUSRvEC1vN19YJ11CiFyXGT52RIHXsqNbFPUs57MQQUNreiJk0pqn8q5JOZqAYQniKR4MM+rlZH5M77Mxvi9dy8KSaI3E6fdsFPaJH5ZFSYKrowP4P6UmyOO5DW/4aJEJNTFcUmPKyeLcQOXUZr+z+XJfQdpQb9sMMUEqpRbxGhVZOeZg+8mHVJfaZ9wB6fYRkhbGsgrrQ3f/pudfeMBVkrufmoHO/qY1oShxbvrUFATTP3cud5HL8gQlNqTzybfabmjCT8qZ+beYS5mk/EJ7oMvF5ten+wVzXClBFAEpvZog4zeAnSMZG0jyYjqQc1N13PhfSeW3XsloHoQ51xiFhcuD4iqnKGp+5HArwUSOSFIfFtO0g0D5g0E/XJxhp0i75dJY8+YijgFndaONzyKMMovcW+salh+yQ2BXxYrexrF1uKcNJSuFdYGuCkr68biG9VbI1gDuabclQ707Sz/SjSH4tyfwU0ZDc0mr1nMGvZech/c6pPb7b5vDsyT6bLdAYe+KaoRGIRFNzgu3McW6z37TrYO01WsYyLgdWjxnmk2SQJxcmDWmxAox56a/wQr0Dn/ZbbkSyJqQloi/4o2g1w+/rtugoiW3CmcbZzbujcknah3mCe72ajsRnYOb+nSUWYR4FBgitQOXGI5z9jM8nbzlNoCGDhsc0Pygm8nWtsWu7r4tGfVOG4nUtkOa2Qd04DQE+cMtXX1Bu3o1Xx5JxWXJWugidKqpdS5Ih2FZ/Nqg6mkd0=
-X-OriginatorOrg: freescale.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Jun 2017 08:32:36.1542 (UTC)
-X-MS-Exchange-CrossTenant-Id: 710a03f5-10f6-4d38-9ff4-a80b81da590d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=710a03f5-10f6-4d38-9ff4-a80b81da590d;
-	Ip=[192.88.168.50]; Helo=[tx30smr01.am.freescale.net]
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR03MB3178
-Cc: chunrong.guo@nxp.com
-Subject: [PATCH v3 3/3] kernel-fitimage: fix KERNEL_DEVICETREE includes subdirectory issue
+In-Reply-To: <1496130382-852-2-git-send-email-kristian.amlie@mender.io>
+Subject: Re: [PATCH v2] do_image: Implement IMAGE_ROOTFS_EXCLUDE_PATH feature.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -163,34 +64,270 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Jun 2017 08:47:55 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 19 Jun 2017 09:01:42 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-     * For example:
-       KERNEL_DEVICETREE ?= "freescale/fsl-ls1046a-rdb.dtb"
+Ping. I created https://bugzilla.yoctoproject.org/show_bug.cgi?id=11688
+to help track this.
 
-       ${DTB}= "freescale/fsl-ls1046a-rdb.dtb"
-
-       but only fsl-ls1046a-rdb.dtb  should be used in fit-image.its
-
-Signed-off-by: Chunrong Guo <B40290@freescale.com>
----
- meta/classes/kernel-fitimage.bbclass | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/meta/classes/kernel-fitimage.bbclass b/meta/classes/kernel-fitimage.bbclass
-index 9fa836f..08644ea 100644
---- a/meta/classes/kernel-fitimage.bbclass
-+++ b/meta/classes/kernel-fitimage.bbclass
-@@ -347,6 +347,7 @@ fitimage_assemble() {
- 				DTB=`basename ${DTB} | sed 's,\.dts$,.dtb,g'`
- 			fi
- 			DTB_PATH="arch/${ARCH}/boot/dts/${DTB}"
-+                        DTB=`basename ${DTB}`
- 			if [ ! -e "${DTB_PATH}" ]; then
- 				DTB_PATH="arch/${ARCH}/boot/${DTB}"
- 			fi
 -- 
-1.9.0
+Kristian
+
+On 30/05/17 09:46, Kristian Amlie wrote:
+> This is a direct followup from the earlier f6a064d969f414 commit in
+> wic. It works more or less the same way: The variable specifies a list
+> of directories relative to the root of the rootfs, and these
+> directories will be excluded from the resulting rootfs image. If an
+> entry ends with a slash, only the contents are omitted, not the
+> directory itself.
+> 
+> Since the intended use of the variable is to exclude certain
+> directories from the rootfs, and then include said directories in
+> other partitions, it is not natural for this variable to be respected
+> for image creators that create multi partition images. Therefore the
+> default is to ignore the variable, and image creators that create
+> single root filesystems need to set
+> 
+>   do_image_myfs[respect_exclude_path] = "1"
+> 
+> in order to honor it. Specifically, "wic" and "multiubi" have not
+> received this variable flag, while others have.
+> 
+> Signed-off-by: Kristian Amlie <kristian.amlie@mender.io>
+> ---
+>  documentation/ref-manual/ref-variables.xml | 35 +++++++++++++
+>  meta/classes/image.bbclass                 | 83 ++++++++++++++++++++++++++++--
+>  meta/classes/image_types.bbclass           | 13 +++++
+>  3 files changed, 128 insertions(+), 3 deletions(-)
+> 
+> diff --git a/documentation/ref-manual/ref-variables.xml b/documentation/ref-manual/ref-variables.xml
+> index 94558df..27f8b8e 100644
+> --- a/documentation/ref-manual/ref-variables.xml
+> +++ b/documentation/ref-manual/ref-variables.xml
+> @@ -6041,6 +6041,41 @@
+>              </glossdef>
+>          </glossentry>
+>  
+> +        <glossentry id='var-IMAGE_ROOTFS_EXCLUDE_PATH'><glossterm>IMAGE_ROOTFS_EXCLUDE_PATH</glossterm>
+> +            <info>
+> +                IMAGE_ROOTFS_EXCLUDE_PATH[doc] = "Specifies paths to omit from the rootfs."
+> +            </info>
+> +            <glossdef>
+> +                <para role="glossdeffirst">
+> +<!--                <para role="glossdeffirst"><imagedata fileref="figures/define-generic.png" /> -->
+> +                    Specifies paths that should be omitted from the root filesystem, separated by
+> +                    spaces. The paths must be relative to the root of the filesystem (for example
+> +                    "usr"). Single root filesystem images will not include the path in the
+> +                    filesystem, except if the path ends with a slash, then the directory will be
+> +                    included, but without any content.
+> +                    <literallayout class='monospaced'>
+> +     # Omit /usr completely from rootfs.
+> +     IMAGE_ROOTFS_EXCLUDE_PATH += "<replaceable>usr</replaceable> ..."
+> +     # Include the directory /usr in rootfs, but not its content.
+> +     IMAGE_ROOTFS_EXCLUDE_PATH += "<replaceable>usr/</replaceable> ..."
+> +                    </literallayout>
+> +                </para>
+> +                <para>
+> +                    Image creators that create multi partition images typically do not honor this
+> +                    variable, and must provide their own method to split the directory
+> +                    structure. For example, <filename>wic</filename> has
+> +                    <filename>--exclude-path</filename> and <filename>--rootfs-dir</filename>.
+> +                </para>
+> +                <para>
+> +                    The default for custom image creators is to ignore this variable. Those that
+> +                    need to honor it must set:
+> +                    <literallayout class='monospaced'>
+> +     do_image_<replaceable>custom</replaceable>[respect_exclude_path] = "1"
+> +                    </literallayout>
+> +                </para>
+> +            </glossdef>
+> +        </glossentry>
+> +
+>          <glossentry id='var-IMAGE_ROOTFS_EXTRA_SPACE'><glossterm>IMAGE_ROOTFS_EXTRA_SPACE</glossterm>
+>              <info>
+>                  IMAGE_ROOTFS_EXTRA_SPACE[doc] = "Defines additional free disk space created in the image in Kbytes. By default, this variable is set to '0'."
+> diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+> index 85f6b9a..c53e383 100644
+> --- a/meta/classes/image.bbclass
+> +++ b/meta/classes/image.bbclass
+> @@ -118,7 +118,7 @@ def rootfs_variables(d):
+>                   'IMAGE_ROOTFS_MAXSIZE','IMAGE_NAME','IMAGE_LINK_NAME','IMAGE_MANIFEST','DEPLOY_DIR_IMAGE','IMAGE_FSTYPES','IMAGE_INSTALL_COMPLEMENTARY','IMAGE_LINGUAS',
+>                   'MULTILIBRE_ALLOW_REP','MULTILIB_TEMP_ROOTFS','MULTILIB_VARIANTS','MULTILIBS','ALL_MULTILIB_PACKAGE_ARCHS','MULTILIB_GLOBAL_VARIANTS','BAD_RECOMMENDATIONS','NO_RECOMMENDATIONS',
+>                   'PACKAGE_ARCHS','PACKAGE_CLASSES','TARGET_VENDOR','TARGET_ARCH','TARGET_OS','OVERRIDES','BBEXTENDVARIANT','FEED_DEPLOYDIR_BASE_URI','INTERCEPT_DIR','USE_DEVFS',
+> -                 'CONVERSIONTYPES', 'IMAGE_GEN_DEBUGFS', 'ROOTFS_RO_UNNEEDED', 'IMGDEPLOYDIR', 'PACKAGE_EXCLUDE_COMPLEMENTARY']
+> +                 'CONVERSIONTYPES', 'IMAGE_GEN_DEBUGFS', 'ROOTFS_RO_UNNEEDED', 'IMGDEPLOYDIR', 'PACKAGE_EXCLUDE_COMPLEMENTARY', 'IMAGE_ROOTFS_EXCLUDE_PATH']
+>      variables.extend(rootfs_command_variables(d))
+>      variables.extend(variable_depends(d))
+>      return " ".join(variables)
+> @@ -496,8 +496,8 @@ python () {
+>          d.setVar('do_image_%s' % t, '\n'.join(cmds))
+>          d.setVarFlag('do_image_%s' % t, 'func', '1')
+>          d.setVarFlag('do_image_%s' % t, 'fakeroot', '1')
+> -        d.setVarFlag('do_image_%s' % t, 'prefuncs', debug + 'set_image_size')
+> -        d.setVarFlag('do_image_%s' % t, 'postfuncs', 'create_symlinks')
+> +        d.setVarFlag('do_image_%s' % t, 'prefuncs', debug + 'set_image_size prepare_excluded_directories')
+> +        d.setVarFlag('do_image_%s' % t, 'postfuncs', 'create_symlinks cleanup_excluded_directories')
+>          d.setVarFlag('do_image_%s' % t, 'subimages', ' '.join(subimages))
+>          d.appendVarFlag('do_image_%s' % t, 'vardeps', ' '.join(vardeps))
+>          d.appendVarFlag('do_image_%s' % t, 'vardepsexclude', 'DATETIME')
+> @@ -506,6 +506,83 @@ python () {
+>          bb.build.addtask('do_image_%s' % t, 'do_image_complete', after, d)
+>  }
+>  
+> +python prepare_excluded_directories() {
+> +    exclude_var = d.getVar('IMAGE_ROOTFS_EXCLUDE_PATH')
+> +    if not exclude_var:
+> +        return
+> +
+> +    taskname = d.getVar("BB_CURRENTTASK")
+> +
+> +    if d.getVarFlag('do_%s' % taskname, 'respect_exclude_path') != '1':
+> +        return
+> +
+> +    import shutil
+> +    from oe.path import copyhardlinktree
+> +
+> +    exclude_list = exclude_var.split()
+> +
+> +    rootfs_orig = d.getVar('IMAGE_ROOTFS')
+> +    # We need a new rootfs directory we can delete files from. Copy to
+> +    # workdir.
+> +    new_rootfs = os.path.realpath(os.path.join(d.getVar("WORKDIR"), "rootfs.%s" % taskname))
+> +
+> +    if os.path.lexists(new_rootfs):
+> +        shutil.rmtree(os.path.join(new_rootfs))
+> +
+> +    copyhardlinktree(rootfs_orig, new_rootfs)
+> +
+> +    for orig_path in exclude_list:
+> +        path = orig_path
+> +        if os.path.isabs(path):
+> +            bb.fatal("IMAGE_ROOTFS_EXCLUDE_PATH: Must be relative: %s" % orig_path)
+> +
+> +        full_path = os.path.realpath(os.path.join(new_rootfs, path))
+> +
+> +        # Disallow climbing outside of parent directory using '..',
+> +        # because doing so could be quite disastrous (we will delete the
+> +        # directory).
+> +        if not full_path.startswith(new_rootfs):
+> +            bb.fatal("'%s' points to a path outside the rootfs" % orig_path)
+> +
+> +        if path.endswith(os.sep):
+> +            # Delete content only.
+> +            for entry in os.listdir(full_path):
+> +                full_entry = os.path.join(full_path, entry)
+> +                if os.path.isdir(full_entry) and not os.path.islink(full_entry):
+> +                    shutil.rmtree(full_entry)
+> +                else:
+> +                    os.remove(full_entry)
+> +        else:
+> +            # Delete whole directory.
+> +            shutil.rmtree(full_path)
+> +
+> +    # Save old value for cleanup later.
+> +    d.setVar('IMAGE_ROOTFS_ORIG', rootfs_orig)
+> +    d.setVar('IMAGE_ROOTFS', new_rootfs)
+> +}
+> +
+> +python cleanup_excluded_directories() {
+> +    exclude_var = d.getVar('IMAGE_ROOTFS_EXCLUDE_PATH')
+> +    if not exclude_var:
+> +        return
+> +
+> +    taskname = d.getVar("BB_CURRENTTASK")
+> +
+> +    if d.getVarFlag('do_%s' % taskname, 'respect_exclude_path') != '1':
+> +        return
+> +
+> +    import shutil
+> +
+> +    rootfs_dirs_excluded = d.getVar('IMAGE_ROOTFS')
+> +    rootfs_orig = d.getVar('IMAGE_ROOTFS_ORIG')
+> +    # This should never happen, since we should have set it to a different
+> +    # directory in the prepare function.
+> +    assert rootfs_dirs_excluded != rootfs_orig
+> +
+> +    shutil.rmtree(rootfs_dirs_excluded)
+> +    d.setVar('IMAGE_ROOTFS', rootfs_orig)
+> +}
+> +
+>  #
+>  # Compute the rootfs size
+>  #
+> diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
+> index 7749b00..b27dfe3 100644
+> --- a/meta/classes/image_types.bbclass
+> +++ b/meta/classes/image_types.bbclass
+> @@ -51,8 +51,10 @@ ZIP_COMPRESSION_LEVEL ?= "-9"
+>  
+>  JFFS2_SUM_EXTRA_ARGS ?= ""
+>  IMAGE_CMD_jffs2 = "mkfs.jffs2 --root=${IMAGE_ROOTFS} --faketime --output=${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.jffs2 ${EXTRA_IMAGECMD}"
+> +do_image_jffs2[respect_exclude_path] = "1"
+>  
+>  IMAGE_CMD_cramfs = "mkfs.cramfs ${IMAGE_ROOTFS} ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.cramfs ${EXTRA_IMAGECMD}"
+> +do_image_cramfs[respect_exclude_path] = "1"
+>  
+>  oe_mkext234fs () {
+>  	fstype=$1
+> @@ -81,6 +83,9 @@ oe_mkext234fs () {
+>  IMAGE_CMD_ext2 = "oe_mkext234fs ext2 ${EXTRA_IMAGECMD}"
+>  IMAGE_CMD_ext3 = "oe_mkext234fs ext3 ${EXTRA_IMAGECMD}"
+>  IMAGE_CMD_ext4 = "oe_mkext234fs ext4 ${EXTRA_IMAGECMD}"
+> +do_image_ext2[respect_exclude_path] = "1"
+> +do_image_ext3[respect_exclude_path] = "1"
+> +do_image_ext4[respect_exclude_path] = "1"
+>  
+>  MIN_BTRFS_SIZE ?= "16384"
+>  IMAGE_CMD_btrfs () {
+> @@ -92,10 +97,14 @@ IMAGE_CMD_btrfs () {
+>  	dd if=/dev/zero of=${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.btrfs count=${size} bs=1024
+>  	mkfs.btrfs ${EXTRA_IMAGECMD} -r ${IMAGE_ROOTFS} ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.btrfs
+>  }
+> +do_image_btrfs[respect_exclude_path] = "1"
+>  
+>  IMAGE_CMD_squashfs = "mksquashfs ${IMAGE_ROOTFS} ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.squashfs ${EXTRA_IMAGECMD} -noappend"
+>  IMAGE_CMD_squashfs-xz = "mksquashfs ${IMAGE_ROOTFS} ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.squashfs-xz ${EXTRA_IMAGECMD} -noappend -comp xz"
+>  IMAGE_CMD_squashfs-lzo = "mksquashfs ${IMAGE_ROOTFS} ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.squashfs-lzo ${EXTRA_IMAGECMD} -noappend -comp lzo"
+> +do_image_squashfs[respect_exclude_path] = "1"
+> +do_image_squashfs-xz[respect_exclude_path] = "1"
+> +do_image_squashfs-lzo[respect_exclude_path] = "1"
+>  
+>  # By default, tar from the host is used, which can be quite old. If
+>  # you need special parameters (like --xattrs) which are only supported
+> @@ -109,6 +118,7 @@ IMAGE_CMD_squashfs-lzo = "mksquashfs ${IMAGE_ROOTFS} ${IMGDEPLOYDIR}/${IMAGE_NAM
+>  # required when extracting, but it seems prudent to use it in both cases.
+>  IMAGE_CMD_TAR ?= "tar"
+>  IMAGE_CMD_tar = "${IMAGE_CMD_TAR} -cvf ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.tar -C ${IMAGE_ROOTFS} ."
+> +do_image_tar[respect_exclude_path] = "1"
+>  
+>  do_image_cpio[cleandirs] += "${WORKDIR}/cpio_append"
+>  IMAGE_CMD_cpio () {
+> @@ -129,6 +139,7 @@ IMAGE_CMD_cpio () {
+>  		fi
+>  	fi
+>  }
+> +do_image_cpio[respect_exclude_path] = "1"
+>  
+>  ELF_KERNEL ?= "${DEPLOY_DIR_IMAGE}/${KERNEL_IMAGETYPE}"
+>  ELF_APPEND ?= "ramdisk_size=32768 root=/dev/ram0 rw console="
+> @@ -137,6 +148,7 @@ IMAGE_CMD_elf () {
+>  	test -f ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.elf && rm -f ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.elf
+>  	mkelfImage --kernel=${ELF_KERNEL} --initrd=${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}.cpio.gz --output=${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.elf --append='${ELF_APPEND}' ${EXTRA_IMAGECMD}
+>  }
+> +do_image_elf[respect_exclude_path] = "1"
+>  
+>  IMAGE_TYPEDEP_elf = "cpio.gz"
+>  
+> @@ -194,6 +206,7 @@ IMAGE_CMD_ubi () {
+>  }
+>  
+>  IMAGE_CMD_ubifs = "mkfs.ubifs -r ${IMAGE_ROOTFS} -o ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.ubifs ${MKUBIFS_ARGS}"
+> +do_image_ubifs[respect_exclude_path] = "1"
+>  
+>  EXTRA_IMAGECMD = ""
+>  
+> 
 
 
