@@ -1,41 +1,38 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-vk0-f66.google.com (mail-vk0-f66.google.com
-	[209.85.213.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 409F078222
+Return-Path: <michael.davis@essvote.com>
+Received: from mail1.essvote.com (mail1.essvote.com [66.37.226.19])
+	by mail.openembedded.org (Postfix) with ESMTP id 5EF9D71BFC
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Jun 2017 19:50:51 +0000 (UTC)
-Received: by mail-vk0-f66.google.com with SMTP id 19so7975888vkd.2
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Jun 2017 12:50:53 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:organization;
-	bh=eom6PFVuI6j5knajHTmTd+/X92NHDiBZMcnK2gaJVSA=;
-	b=jTYmCR/aD+gw2N1NeztK1HOAKq/+AcketclDrlvwBYyAPs/AJ+awIen36LFRy1jXN/
-	siYl7hrQD+4umjjiNfgxXkGdqCZMW6FSPI3bfESPXjMH7QX3ciEf+jbR+DugEuem8Af5
-	7r0ZjVFoksKmtZOK9ofOqDjOArO4qAWI7MWkooMcwL0YvTmDx0QYEXpGPeZhsU78lRKL
-	BUNheMHibxSii/gEzKRy17oKl72pqJNNV0+gF8VB5CSaZW4rjeJPa/bHMJwlXfb/+oNk
-	b7UZQmJj56B3SGWfVJ8FhKmS3nW0Uk6nGbO1igFclZOCnZhIjxpmDd+ddCnh3DcGxNYd
-	2xBA==
-X-Gm-Message-State: AKS2vOwkTp8m9O/9ylaGBwjB99DdMp0wMKBZmMeuicfwAqXqqpr5tapR
-	wieCoeW7d4sNJioa
-X-Received: by 10.31.130.144 with SMTP id e138mr14906659vkd.91.1497901852641; 
-	Mon, 19 Jun 2017 12:50:52 -0700 (PDT)
-Received: from localhost.localdomain ([189.35.69.200])
-	by smtp.gmail.com with ESMTPSA id
-	j10sm3933349vke.32.2017.06.19.12.50.49
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Mon, 19 Jun 2017 12:50:51 -0700 (PDT)
-Received: by localhost.localdomain (sSMTP sendmail emulation);
-	Mon, 19 Jun 2017 16:50:45 -0300
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Mon, 19 Jun 2017 16:50:44 -0300
-Message-Id: <20170619195044.19102-1-otavio@ossystems.com.br>
-X-Mailer: git-send-email 2.13.1
-Organization: O.S. Systems Software LTDA.
-Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH v2] mesa: Upgrade to 17.1.2 release
+	Mon, 19 Jun 2017 20:15:37 +0000 (UTC)
+X-AuditID: 0a000213-2b5ff70000000e57-57-594830e89c7d
+Received: from ESS-EX01.essvote.corp.local (Unknown_Domain [172.16.110.40])
+	by mail1.essvote.com (Symantec Messaging Gateway) with SMTP id
+	D4.BC.03671.8E038495; Mon, 19 Jun 2017 15:15:38 -0500 (CDT)
+Received: from ESS-EX01.essvote.corp.local ([::1]) by
+	ESS-EX01.essvote.corp.local ([::1]) with mapi id 14.03.0301.000;
+	Mon, 19 Jun 2017 15:15:36 -0500
+From: "Davis, Michael" <michael.davis@essvote.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-CORE][pyro] Cmake Alias Broken
+Thread-Index: AdLpOM8k6H17wLJ9RnOmIon1BDuGBQ==
+Date: Mon, 19 Jun 2017 20:15:35 +0000
+Message-ID: <655290B7709079438B7932553958E60DA131936D@ESS-EX01.essvote.corp.local>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.1.20.77]
+MIME-Version: 1.0
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprDLMWRmVeSWpSXmKPExsWyRiBPQ/eVgUekwYrzIhZ3fr5jd2D0OLdx
+	BWMAYxSXTUpqTmZZapG+XQJXxonXj9kK9mhUPLhS3MD4SrmLkZNDQsBE4vv39exdjFwcQgIn
+	GCU+3mljhXBmMUpMXvSeGaSKTcBI4tz1TYwgtohAtMTSGTPZQWxhAW2JY0vWsULEDSRubbjO
+	DmHrSVx+2sEEYrMIqEr0NkD08goESSya2coCYjMKiEl8P7UGrIZZQFzi1pP5TBAXCUgs2XOe
+	GcIWlXj5+B8rhC0n8a6pjRWiPl/i8flHrBAzBSVOznzCMoFRcBaSUbOQlM1CUraAkXkVo2Bu
+	YmaOoV5qcXFZfkmqXnJ+7iZGYEhyMTAJ72BcMCP2EKMAB6MSD++C1+6RQqyJZcWVuYcYpTlY
+	lMR5xUItIoUE0hNLUrNTUwtSi+KLSnNSiw8xMnFwggguqQbGUjuJxDuNXf8WfHj6yeO2Z8Vj
+	yfYFxRoSm2/Upi5cKf7RL/eStMaeY69+K3zt2cF9b/KKGl35i/bs+Uumzbo3e4N175uX67qa
+	t6hvXWklXBxUJnQxhk94o/cK4ztH73+p8ml9G3ygQU407O4LnrtHqzS/ntklfzC8KSWq93S1
+	Y5y1s4NFsou0EktxRqKhFnNRcSIA4SSKJy8CAAA=
+Subject: [pyro] Cmake Alias Broken
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,50 +45,138 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Jun 2017 19:50:52 -0000
+X-List-Received-Date: Mon, 19 Jun 2017 20:15:38 -0000
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_655290B7709079438B7932553958E60DA131936DESSEX01essvotec_"
 
-Bug fixes
+--_000_655290B7709079438B7932553958E60DA131936DESSEX01essvotec_
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-Bug 98833 - [REGRESSION, bisected] Wayland revert commit breaks non-Vsync fullscreen frame updates
-Bug 100741 - Chromium - Memory leak
-Bug 100877 - vulkan/tests/block_pool_no_free regression
-Bug 101110 - Build failure in GNOME Continuous
+The cmake alias is no longer functioning properly.
+It puts the alias configure script in /path/toolchain/buildtools/sysroots/x=
+86_64-pokysdk-linux/ environment-setup.d/ cmake.sh
+The actual file goes into /path /toolchain/buildtools/sysroots/x86_64-pokys=
+dk-linux/usr/share/cmake/ OEToolchainConfig.cmake
 
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
----
-
-Changes in v2:
-- rebase on top of master
-
- meta/recipes-graphics/mesa/{mesa-gl_17.1.1.bb => mesa-gl_17.1.2.bb} | 0
- meta/recipes-graphics/mesa/{mesa_17.1.1.bb => mesa_17.1.2.bb}       | 4 ++--
- 2 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/mesa/{mesa-gl_17.1.1.bb => mesa-gl_17.1.2.bb} (100%)
- rename meta/recipes-graphics/mesa/{mesa_17.1.1.bb => mesa_17.1.2.bb} (85%)
-
-diff --git a/meta/recipes-graphics/mesa/mesa-gl_17.1.1.bb b/meta/recipes-graphics/mesa/mesa-gl_17.1.2.bb
-similarity index 100%
-rename from meta/recipes-graphics/mesa/mesa-gl_17.1.1.bb
-rename to meta/recipes-graphics/mesa/mesa-gl_17.1.2.bb
-diff --git a/meta/recipes-graphics/mesa/mesa_17.1.1.bb b/meta/recipes-graphics/mesa/mesa_17.1.2.bb
-similarity index 85%
-rename from meta/recipes-graphics/mesa/mesa_17.1.1.bb
-rename to meta/recipes-graphics/mesa/mesa_17.1.2.bb
-index 55c6f71ab4..20e24397cb 100644
---- a/meta/recipes-graphics/mesa/mesa_17.1.1.bb
-+++ b/meta/recipes-graphics/mesa/mesa_17.1.2.bb
-@@ -8,8 +8,8 @@ SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
-            file://0002-hardware-gloat.patch \
- "
- 
--SRC_URI[md5sum] = "a4844bc6052578574f9629458bcbb749"
--SRC_URI[sha256sum] = "aed503f94c0c1630a162a3e276f4ee12a86764cee4cb92338ea2dea99a04e7ef"
-+SRC_URI[md5sum] = "4d2eaf5955740b044afd95ed167c906c"
-+SRC_URI[sha256sum] = "0937804f43746339b1f9540d8f9c8b4a1bb3d3eec0e4020eac283b8799798239"
- 
- #because we cannot rely on the fact that all apps will use pkgconfig,
- #make eglplatform.h independent of MESA_EGL_NO_X11_HEADER
--- 
-2.13.1
+This falls outside the:
+export SDKTARGETSYSROOT=3D/path/toolchain/tmp/sysroots/core-toolchain
+export OECORE_NATIVE_SYSROOT=3D"/path/toolchain/tmp/sysroots/x86_64"
+# Append environment subscripts
+if [ -d "$OECORE_TARGET_SYSROOT/environment-setup.d" ]; then
+    for envfile in $OECORE_TARGET_SYSROOT/environment-setup.d/*.sh; do
+                    . $envfile
+    done
+fi
+if [ -d "$OECORE_NATIVE_SYSROOT/environment-setup.d" ]; then
+    for envfile in $OECORE_NATIVE_SYSROOT/environment-setup.d/*.sh; do
+                    . $envfile
+    done
+fi
 
 
+I am guessing where the file is installed on the cmake recipe needs to chan=
+ge.  Just not sure what to change it to.
+
+
+--_000_655290B7709079438B7932553958E60DA131936DESSEX01essvotec_
+Content-Type: text/html; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
+osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
+//www.w3.org/TR/REC-html40">
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
+>
+<meta name=3D"Generator" content=3D"Microsoft Word 12 (filtered medium)">
+<style>
+<!--
+ /* Font Definitions */
+ @font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+ /* Style Definitions */
+ p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0in;
+	margin-bottom:.0001pt;
+	font-size:11.0pt;
+	font-family:"Calibri","sans-serif";}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:blue;
+	text-decoration:underline;}
+a:visited, span.MsoHyperlinkFollowed
+	{mso-style-priority:99;
+	color:purple;
+	text-decoration:underline;}
+span.EmailStyle17
+	{mso-style-type:personal-compose;
+	font-family:"Calibri","sans-serif";
+	color:windowtext;}
+.MsoChpDefault
+	{mso-style-type:export-only;}
+@page Section1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;}
+div.Section1
+	{page:Section1;}
+-->
+</style><!--[if gte mso 9]><xml>
+ <o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+ <o:shapelayout v:ext=3D"edit">
+  <o:idmap v:ext=3D"edit" data=3D"1" />
+ </o:shapelayout></xml><![endif]-->
+</head>
+<body lang=3D"EN-US" link=3D"blue" vlink=3D"purple">
+<div class=3D"Section1">
+<p class=3D"MsoNormal">The cmake alias is no longer functioning properly.<o=
+:p></o:p></p>
+<p class=3D"MsoNormal">It puts the alias configure script in /path/toolchai=
+n/buildtools/sysroots/x86_64-pokysdk-linux/ environment-setup.d/ cmake.sh<o=
+:p></o:p></p>
+<p class=3D"MsoNormal">The actual file goes into /path /toolchain/buildtool=
+s/sysroots/x86_64-pokysdk-linux/usr/share/cmake/ OEToolchainConfig.cmake<o:=
+p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">This falls outside the:<o:p></o:p></p>
+<p class=3D"MsoNormal">export SDKTARGETSYSROOT=3D/path/toolchain/tmp/sysroo=
+ts/core-toolchain<o:p></o:p></p>
+<p class=3D"MsoNormal">export OECORE_NATIVE_SYSROOT=3D&quot;/path/toolchain=
+/tmp/sysroots/x86_64&quot;<o:p></o:p></p>
+<p class=3D"MsoNormal"># Append environment subscripts<o:p></o:p></p>
+<p class=3D"MsoNormal">if [ -d &quot;$OECORE_TARGET_SYSROOT/environment-set=
+up.d&quot; ]; then<o:p></o:p></p>
+<p class=3D"MsoNormal">&nbsp;&nbsp;&nbsp; for envfile in $OECORE_TARGET_SYS=
+ROOT/environment-setup.d/*.sh; do<o:p></o:p></p>
+<p class=3D"MsoNormal">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; . $envfile<o:p></=
+o:p></p>
+<p class=3D"MsoNormal">&nbsp;&nbsp;&nbsp; done<o:p></o:p></p>
+<p class=3D"MsoNormal">fi<o:p></o:p></p>
+<p class=3D"MsoNormal">if [ -d &quot;$OECORE_NATIVE_SYSROOT/environment-set=
+up.d&quot; ]; then<o:p></o:p></p>
+<p class=3D"MsoNormal">&nbsp;&nbsp;&nbsp; for envfile in $OECORE_NATIVE_SYS=
+ROOT/environment-setup.d/*.sh; do<o:p></o:p></p>
+<p class=3D"MsoNormal">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; . $envfile<o:p></=
+o:p></p>
+<p class=3D"MsoNormal">&nbsp;&nbsp;&nbsp; done<o:p></o:p></p>
+<p class=3D"MsoNormal">fi<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">I am guessing where the file is installed on the cma=
+ke recipe needs to change.&nbsp; Just not sure what to change it to.<o:p></=
+o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+</div>
+</body>
+</html>
+
+--_000_655290B7709079438B7932553958E60DA131936DESSEX01essvotec_--
