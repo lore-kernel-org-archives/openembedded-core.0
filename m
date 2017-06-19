@@ -1,27 +1,29 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id C312373120
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id A2EE878210
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Jun 2017 11:42:02 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga105.jf.intel.com with ESMTP; 19 Jun 2017 04:42:03 -0700
+	Mon, 19 Jun 2017 11:46:08 +0000 (UTC)
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	19 Jun 2017 04:46:09 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.39,360,1493708400"; d="scan'208";a="1162119471"
+X-IronPort-AV: E=Sophos;i="5.39,360,1493708400"; d="scan'208";a="116119116"
 Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
 	([10.237.68.161])
-	by fmsmga001.fm.intel.com with ESMTP; 19 Jun 2017 04:42:02 -0700
-To: Khem Raj <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org
+	by fmsmga005.fm.intel.com with ESMTP; 19 Jun 2017 04:46:08 -0700
+To: "Burton, Ross" <ross.burton@intel.com>
 References: <cover.1497615866.git.alexander.kanavin@linux.intel.com>
-	<671fa9c476269908cd092f0d033e03ae477119c7.1497615866.git.alexander.kanavin@linux.intel.com>
-	<3606dfa4-74a6-d44d-f902-1733cbdf6e1a@gmail.com>
+	<00bb214ae7913ff1b6b95285c2945acb868012dd.1497615866.git.alexander.kanavin@linux.intel.com>
+	<CAJTo0LanhF0x4yvucSpffYdGB2CbKN9mQH_ppTbX+rts=P_m9Q@mail.gmail.com>
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <70c8e1d6-fbb6-a238-8b10-47eecab479a3@linux.intel.com>
-Date: Mon, 19 Jun 2017 14:42:15 +0300
+Message-ID: <8a7d68d8-e5e1-955e-380b-25fd3c981414@linux.intel.com>
+Date: Mon, 19 Jun 2017 14:46:21 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
 	Thunderbird/45.8.0
 MIME-Version: 1.0
-In-Reply-To: <3606dfa4-74a6-d44d-f902-1733cbdf6e1a@gmail.com>
-Subject: Re: [PATCH 28/32] gettext: relocate msgfmt utility for all recipes
+In-Reply-To: <CAJTo0LanhF0x4yvucSpffYdGB2CbKN9mQH_ppTbX+rts=P_m9Q@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 27/32] btrfs-tools: upgrade to 4.11
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,22 +36,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Jun 2017 11:42:03 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
+X-List-Received-Date: Mon, 19 Jun 2017 11:46:08 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 06/16/2017 08:57 PM, Khem Raj wrote:
->>  	rm ${D}${datadir}/gettext/po/Makefile.in.in
->>  	rm ${D}${datadir}/gettext/po/remove-potcdate.sin
->> +
->> +        create_wrapper ${D}${bindir}/msgfmt \
->> +                GETTEXTDATADIR="${STAGING_DATADIR_NATIVE}/gettext-0.19.8/"
->> +
-> while here, perhaps it will be worth looking at automating the partial
-> PV use here
+On 06/16/2017 10:26 PM, Burton, Ross wrote:
+>
+> On 16 June 2017 at 13:28, Alexander Kanavin
+> <alexander.kanavin@linux.intel.com
+> <mailto:alexander.kanavin@linux.intel.com>> wrote:
+>
+>     From: Upgrade Helper <auh@auh.yoctoproject.org
+>     <mailto:auh@auh.yoctoproject.org>>
+>
+>
+> This and two others need to be re-authored by you (git commit --amend
+> --reset-author during a rebase will do it).
 
-How about when the next gettext is out :) Then we can maybe just put PV 
-in there; 4-number version seems rare in gettext releases.
+Yes; I have force pushed the updated patches.
 
 Alex
 
