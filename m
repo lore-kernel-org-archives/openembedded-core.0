@@ -1,49 +1,30 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-wm0-f44.google.com (mail-wm0-f44.google.com [74.125.82.44])
-	by mail.openembedded.org (Postfix) with ESMTP id EFAD47807C
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Jun 2017 14:04:16 +0000 (UTC)
-Received: by mail-wm0-f44.google.com with SMTP id u195so59495146wmd.1
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Jun 2017 07:04:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=gs5duJcO6b7G1lKkWiUSGVJX/NQMBCfWqQjD40hk9po=;
-	b=KlexDA5Ksdi3j/ymWeCkoLWXsVq9tXcmRNPsdhVL5SLKLYlMdKKjudxphEMle3YUdC
-	mlaZyRoo1uj72gq+aUATiWS2e+KeFMrDdh1lp1xVf56jHgFxXCKTLL6l2wgypD71sCLF
-	k9RFcCV7rU+3JQUTF0dySezJTM2ZDWeU0KtgHmLLY5nk1NmhIsYn6+v836r/EJPJrUVU
-	lWG5W7eh43drp/Rw55tiAJOf1WOHMDOqOpgwImm46FLGq8xyiJPS1RvzWB7ckSLJZHBV
-	RngqaCbvQIpb56sf04D0+0AONGX1WyGBQKY2HjzWWH8JbhnrWl4vi3zLrFNvaVxlFFUP
-	d9OA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=gs5duJcO6b7G1lKkWiUSGVJX/NQMBCfWqQjD40hk9po=;
-	b=eewRBF3HlAcU1cWCjBKkVUwrmyt9K8rI0Z0LU/2IWafKT54f2l/jNjOCypDbyohdoL
-	WhVhc0pyepNcS4TeKdBeg8Ccx2u3n6mJYRhez2BobhY/7JGX7Bg207iHPEhQ5WYT0atS
-	3X8Iicq1yBvTeOaT+yanxD5/Qo2e1eMPGTZYdFZ/Xf4b3DcHF8NaXgYdWCETFiBYe6in
-	SUgZjG8Fc1iIQeLJQyoC24HR9JDrrxdhg2IjBsbBlz+RpJKJnA1ZJKBtys1sUWBRUnqG
-	1TKVshUF5FQoo6Zd036VnycL1Lh8/prFRvBkfuhtcZdt9Xn9nY9wdrVoNq3Ji1nlUBU5
-	unHA==
-X-Gm-Message-State: AKS2vOyo71EWuxnuguZ331f2dKHoKl83OCpj7Ts66IVTZNNnO6ZisHYD
-	LrJ9RfUJoE9yvryPJNY6LFufMqWgGw==
-X-Received: by 10.80.144.68 with SMTP id z4mr16846283edz.143.1497881057296;
-	Mon, 19 Jun 2017 07:04:17 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.80.153.222 with HTTP; Mon, 19 Jun 2017 07:04:16 -0700 (PDT)
-In-Reply-To: <e905342f-1cf6-73ef-c6d9-d3782129a036@linux.intel.com>
-References: <cover.1497615866.git.alexander.kanavin@linux.intel.com>
-	<d8d07071866bfeac6bccb8e50f099d9cb3113d2a.1497615866.git.alexander.kanavin@linux.intel.com>
-	<642953f4-8927-acdc-a469-6970a3fb450d@gmail.com>
-	<e905342f-1cf6-73ef-c6d9-d3782129a036@linux.intel.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 19 Jun 2017 07:04:16 -0700
-Message-ID: <CAMKF1spA=Wu9TtxpCVR5MvyoLC1wksTYZYB2CiSC4XevYiTeow@mail.gmail.com>
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Cc: "openembedded-core@lists.openembedded.org"
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 73D2C7808D;
+	Mon, 19 Jun 2017 14:05:19 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v5JE555Z020054
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Mon, 19 Jun 2017 07:05:05 -0700
+Received: from soho-mhatle-m.local (172.25.36.227) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
+	Mon, 19 Jun 2017 07:05:04 -0700
+To: Philip Balister <philip@balister.org>, Richard Purdie
+	<richard.purdie@linuxfoundation.org>, openembedded-architecture
+	<openembedded-architecture@lists.openembedded.org>, openembedded-core
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 20/32] icu: update to 59.1
+References: <1497868738.24449.41.camel@linuxfoundation.org>
+	<cbc4d73d-be96-309d-a749-0ad344572a22@balister.org>
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+Message-ID: <a34e53ad-edce-faf4-0d4f-f7621f05d57a@windriver.com>
+Date: Mon, 19 Jun 2017 09:05:10 -0500
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:52.0)
+	Gecko/20100101 Thunderbird/52.2.0
+MIME-Version: 1.0
+In-Reply-To: <cbc4d73d-be96-309d-a749-0ad344572a22@balister.org>
+Subject: Re: [Openembedded-architecture] OE-Core/Yocto Project's first CVE (CVE-2017-9731)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,79 +37,88 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Jun 2017 14:04:17 -0000
-Content-Type: multipart/alternative; boundary="f403045c2b78560a4f0552509c94"
+X-List-Received-Date: Mon, 19 Jun 2017 14:05:21 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 
---f403045c2b78560a4f0552509c94
-Content-Type: text/plain; charset="UTF-8"
-
-On Monday, June 19, 2017, Alexander Kanavin <
-alexander.kanavin@linux.intel.com> wrote:
-
-> On 06/16/2017 08:54 PM, Khem Raj wrote:
->
-> -# icu configure defaults to CXX11 if no -std= option is passed in CXXFLAGS
->>> -# therefore pass one
->>> -BUILD_CXXFLAGS_append_pn-icu-native = " -std=c++98"
->>> -
->>>
+On 6/19/17 8:20 AM, Philip Balister wrote:
+> On 06/19/2017 06:38 AM, Richard Purdie wrote:
+>> I suspect this has been missed by some people so I want to spell it
+>> out. We have our first CVE in OE-Core itself.
 >>
->> I think this change should be tried on oldest supported distro for build
->> host like centos, I wonder if the std option was papering over c++11
->> missing bits on gcc 4.8
+>> The issue is limited to binary ipks potentially exposing sensitive
+>> information through the "Source:" field which contained the full
+>> SRC_URI. Those urls could potentially contain sensitive information
+>> about servers and credentials.
+> 
+> So the issue is leaking credentials, not build system paths? I mention
+> this because we do leak build system paths into images in other places.
+
+Build systems paths would be unrelated to this, assuming I understand it properly.
+
+Information leak of the build user, time of build, and build system paths can
+all occur.  (This is part of the overall binary reproducible stuff as well.)
+
+When it comes to information leaks, specifically build system leaks.  As long as
+they don't contain credential information then it is a point of mitigation vs a
+'bug' in my opinion.  We clearly want to move toward a binary reproducible build
+-- doing so will further limit the leaks (or at least make them understood.)
+
+For build user, hostname, directories and build time/date issues -- we've
+already mitigated many of them.  Directory structure was done when we started to
+use the compilers path replacement operations.  (It's probably not 100%
+effective, but I'd say any items that are left are reasonable bug candidates.)
+We've also made passes to remove many of the other items, but I'd simply
+consider them regular bugs at this point...  but information leaks like this are
+something people often don't think about and probably should be made aware of.
+
+It would be reasonable to write up a 'best practices' type document.  Explaining
+that simply due to the nature of building many of these things will be 'leaked'
+and where some of them are leaked through.  (Package generation, compilation,
+etc for instance.)
+
+Controlling your 'production' build environment can mitigate many of the
+potential issues here.  By using non-confidential path names (i.e. don't include
+confidential 'customer', code-name, etc in build paths), changing or otherwise
+managing the host name on your build system (i.e. instead of
+my-product.my-company.internal.com... something like 'build-1' as a hostname can
+help hide many of these things.)  Using a 'build user' who doesn't have any
+network credentials, other then on the build system itself...
+
+--Mark
+
+> Philip
+> 
+> 
 >>
->
-> At least centos has officially supported gcc 6.x packages, so those can
-> and should be used (and required by Yocto documentation). We should not be
-> held back by default compiler versions which may be too old.
+>> After discussion, I ended up changing the field to contain the recipe
+>> filename (no path). There was talk of filtering the urls however if you
+>> try, it becomes clear that sensitive elements can remain and no
+>> solution is likely 100% effective. The other package backends don't do
+>> this at all so this brings ipk more into line with them. Simply
+>> clearing the field doesn't work with the current opkg-utils. It can be
+>> changed but the change becomes more invasive.
+>>
+>> This fix has been merged to master.
+>>
+>> I also did take the decision to backport this change back to
+>> pyro/morty/krogoth too. I appreciate this can cause some disruption to
+>> people who rely on SRC_URI being in the Source: field however I
+>> couldn't see any other realistic way forward.
+>>
+>> Cheers,
+>>
+>> Richard
+>> _______________________________________________
+>> Openembedded-architecture mailing list
+>> Openembedded-architecture@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-architecture
+>>
+> _______________________________________________
+> Openembedded-architecture mailing list
+> Openembedded-architecture@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-architecture
+> 
 
 
-If that should be ok if we have documented that process as defaults on
-those supported systems
-
->
->
-> Alex
->
->
-
---f403045c2b78560a4f0552509c94
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<br><br>On Monday, June 19, 2017, Alexander Kanavin &lt;<a href=3D"mailto:a=
-lexander.kanavin@linux.intel.com">alexander.kanavin@linux.intel.com</a>&gt;=
- wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bor=
-der-left:1px #ccc solid;padding-left:1ex">On 06/16/2017 08:54 PM, Khem Raj =
-wrote:<br>
-<br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex"><blockquote class=3D"gmail_quote" style=3D"m=
-argin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
--# icu configure defaults to CXX11 if no -std=3D option is passed in CXXFLA=
-GS<br>
--# therefore pass one<br>
--BUILD_CXXFLAGS_append_pn-icu-<wbr>native =3D &quot; -std=3Dc++98&quot;<br>
--<br>
-</blockquote>
-<br>
-I think this change should be tried on oldest supported distro for build<br=
->
-host like centos, I wonder if the std option was papering over c++11<br>
-missing bits on gcc 4.8<br>
-</blockquote>
-<br>
-At least centos has officially supported gcc 6.x packages, so those can and=
- should be used (and required by Yocto documentation). We should not be hel=
-d back by default compiler versions which may be too old.</blockquote><div>=
-<br></div><div>If that should be ok if we have documented that process as d=
-efaults on those supported systems=C2=A0=C2=A0</div><blockquote class=3D"gm=
-ail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-le=
-ft:1ex">
-<br>
-<br>
-Alex<br>
-<br>
-</blockquote>
-
---f403045c2b78560a4f0552509c94--
