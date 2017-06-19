@@ -1,51 +1,50 @@
 Return-Path: <zeenix@gmail.com>
-Received: from mail-wr0-f193.google.com (mail-wr0-f193.google.com
-	[209.85.128.193])
-	by mail.openembedded.org (Postfix) with ESMTP id E7FDE780BE
+Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 7A90378170
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Jun 2017 15:12:49 +0000 (UTC)
-Received: by mail-wr0-f193.google.com with SMTP id y25so11861692wrd.1
+	Mon, 19 Jun 2017 15:12:59 +0000 (UTC)
+Received: by mail-wm0-f67.google.com with SMTP id 70so16984946wme.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Jun 2017 08:12:51 -0700 (PDT)
+	Mon, 19 Jun 2017 08:13:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:mime-version:content-transfer-encoding;
-	bh=BkzyEHHZECEdrb58CVvvhbjuF4GorOL7paEDCOV4QSE=;
-	b=u3MGEBSvO/hn1NoNj2WMUv5ACI9nt6DToNeKac8FSlQOvmdPoBWW4m2A3W2IDWAH5R
-	m5GKFStsqg5ZK2vKH+pA8AetGbOs6G0NbmEsIbFH+FZRm68qJmaihDy6/Nezm77cYox1
-	Hl4o7dSEDnyDhYk6jrmqEnOjmKTcrz3cWkNtE4AG7+tMWMJdextqugp+jCr2OA5TEnys
-	pFxy1nbZnWsm440GMym5yiAzBqkCQPHAlv/r+IwkeVyeeVuCIkJ6421N9jqk4pTdqCCZ
-	IW+AetheAuU5O4x9u2InPv2DWCEWePPOQvqmIRutjXMFyk5n8egisqBfgS2yOu6YLd3t
-	78IA==
+	bh=axJleG6vpzvK82Lv2gxNe6w1EuBaUtDJnJAu0ecLb8o=;
+	b=MteoP/3Ep9ysO4FB/joEDbNU9KogMX2GYj2Am8HWqmYjW+8Zt2lQcfp4WwNkqm3hlh
+	vFfw2DlerXKjGs3VOZmZ1K6yJB3Fp+qT4yJ/EnpxQiWI8G45AgftNRXRn5O+4y5JElDq
+	QjotAJqbans41x95ssKFdaGzLaPZbHV7rXliimnFh8RQ+sv83kNWAm/JUfQy0UIHPqOs
+	ryW+iLod0ngzomYoUX2vN2LH/KKdpIH2PVnhUFe6uNM9APAMSQlCOyo4I4w4OH0USgAl
+	/0coHmH1xsRxw+LeH2srpYDXTdo2aeUV5ozqdColCPkuQpo2uBeplpsYgpqJDPQEIo5Q
+	mURw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=BkzyEHHZECEdrb58CVvvhbjuF4GorOL7paEDCOV4QSE=;
-	b=kyuc1f0aemGiXin+GbjwQoM5r0T5KCz0S2785Wzn58dJzOiGOYAxWCkVYLxw0A0fWC
-	tv7Hr7ITwezE5tc1Likql2+5klzIdv/QJ0QYQd0k5CjBptclsTINBBLLTftInsh5Pgak
-	k5TiiX8rER+B5LDspMWyXbgxnx8dvEPdrlBZBt9wVdhSKC5z5lu7IpBuI0bnwqqtXXxS
-	FKbBDq3wx0rc/w31I/+nzJZ2UOKC3xVlUuoVDn167KLtHqAXfKlshT9Hs/0b1RWY7fEo
-	/FXltV/NgalA4kIcFpjem6YG2Mslq+JCdqLGE/2d0HrWjUyDCzrIgzm0vH8S9XKCZf7a
-	PomA==
-X-Gm-Message-State: AKS2vOxDnlGfn7DAGePbLPM5vvRNHLYQXBWgfvSc7y0/MXmknWjutuP7
-	I3fcA6yxq3CF8w6NP+M=
-X-Received: by 10.223.141.146 with SMTP id o18mr13263845wrb.110.1497885170528; 
-	Mon, 19 Jun 2017 08:12:50 -0700 (PDT)
+	bh=axJleG6vpzvK82Lv2gxNe6w1EuBaUtDJnJAu0ecLb8o=;
+	b=rA/ziO3GgouawB6hBrrHVjQPBaX+PeBGZWeQ+NyjQUfEyeDMxkrIuhPgrYPApYWpns
+	rJsqrqvBGhLjAfgAi0j0Y7fdS7qFs5u7ayyW+bxl+AFY9H8prpeFSYTsQmhG0mVdYsrA
+	4grPphlCCp93+3iDb4XL6DUXZgi17ZzTQK4QR2Is6pMxXR7ulh1wLxdW+ZLMWiTUd54o
+	viPG4aSwy6gbgQFwlV9GC/mRY/ghX/YIe/8PoeGAU/vK1rmFSKs/inCopf+QOGHxU+5W
+	jslMu+Nf2YWd/NqGbxTMOghmyWz7hiRGG+RFFSGTCYqJX8Qu8Y5JoiPDWi9Voo6BhnD3
+	urZA==
+X-Gm-Message-State: AKS2vOzQ4vGxTA89ZsJE2WCHkQjuUdysjtzS8MlnkEugqI7N+m5ZHgW2
+	6BMBgYqg7ls7ZhokP6U=
+X-Received: by 10.28.236.205 with SMTP id h74mr16127153wmi.58.1497885180117;
+	Mon, 19 Jun 2017 08:13:00 -0700 (PDT)
 Received: from zeelaptop.luxoft.com (h-79-136-12-196.NA.cust.bahnhof.se.
 	[79.136.12.196])
-	by smtp.gmail.com with ESMTPSA id c55sm7996108wrc.7.2017.06.19.08.12.49
+	by smtp.gmail.com with ESMTPSA id c55sm7996108wrc.7.2017.06.19.08.12.51
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 19 Jun 2017 08:12:50 -0700 (PDT)
+	Mon, 19 Jun 2017 08:12:51 -0700 (PDT)
 From: Zeeshan Ali <zeenix@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 19 Jun 2017 17:12:09 +0200
-Message-Id: <20170619151210.7692-4-zeenix@gmail.com>
+Date: Mon, 19 Jun 2017 17:12:10 +0200
+Message-Id: <20170619151210.7692-5-zeenix@gmail.com>
 X-Mailer: git-send-email 2.9.4
 In-Reply-To: <20170619151210.7692-1-zeenix@gmail.com>
 References: <20170619151210.7692-1-zeenix@gmail.com>
 MIME-Version: 1.0
-Subject: [PATCH v3 3/4] masterimage.py: fix stop()
+Subject: [PATCH v3 4/4] sshcontrol.py: in copy_to() always use scp
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,36 +57,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Jun 2017 15:12:50 -0000
+X-List-Received-Date: Mon, 19 Jun 2017 15:12:59 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
 From: Erik Botö <erik.boto@pelagicore.com>
 
-The stop() function is called in the context of the masterimage,
-so self.master should be used instead of self.connection which is
-undefined at that time.
+The current implementation is broken when the localpath is a link.
+Then only a symlink would be created on the target, instead of copying
+the actual file.
 
 [YOCTO #11524]
 
 Signed-off-by: Erik Botö <erik.boto@pelagicore.com>
 ---
- meta/lib/oeqa/controllers/masterimage.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/lib/oeqa/utils/sshcontrol.py | 9 +++------
+ 1 file changed, 3 insertions(+), 6 deletions(-)
 
-diff --git a/meta/lib/oeqa/controllers/masterimage.py b/meta/lib/oeqa/controllers/masterimage.py
-index bc783bd..1f87927 100644
---- a/meta/lib/oeqa/controllers/masterimage.py
-+++ b/meta/lib/oeqa/controllers/masterimage.py
-@@ -156,7 +156,7 @@ class MasterImageHardwareTarget(oeqa.targetcontrol.BaseTarget, metaclass=ABCMeta
+diff --git a/meta/lib/oeqa/utils/sshcontrol.py b/meta/lib/oeqa/utils/sshcontrol.py
+index 05d6502..d292893 100644
+--- a/meta/lib/oeqa/utils/sshcontrol.py
++++ b/meta/lib/oeqa/utils/sshcontrol.py
+@@ -150,12 +150,9 @@ class SSHControl(object):
  
-     def stop(self):
-         bb.plain("%s - reboot/powercycle target" % self.pn)
--        self.power_cycle(self.connection)
-+        self.power_cycle(self.master)
+     def copy_to(self, localpath, remotepath):
+         if os.path.islink(localpath):
+-            link = os.readlink(localpath)
+-            dst_dir, dst_base = os.path.split(remotepath)
+-            return self.run("cd %s; ln -s %s %s" % (dst_dir, link, dst_base))
+-        else:
+-            command = self.scp + [localpath, '%s@%s:%s' % (self.user, self.ip, remotepath)]
+-            return self._internal_run(command, ignore_status=False)
++            localpath = os.path.dirname(localpath) + "/" + os.readlink(localpath)
++        command = self.scp + [localpath, '%s@%s:%s' % (self.user, self.ip, remotepath)]
++        return self._internal_run(command, ignore_status=False)
  
- 
- class GummibootTarget(MasterImageHardwareTarget):
+     def copy_from(self, remotepath, localpath):
+         command = self.scp + ['%s@%s:%s' % (self.user, self.ip, remotepath), localpath]
 -- 
 2.9.4
 
