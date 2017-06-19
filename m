@@ -1,46 +1,47 @@
-Return-Path: <twoerner@gmail.com>
-Received: from mail-it0-f68.google.com (mail-it0-f68.google.com
-	[209.85.214.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 5408078077
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f176.google.com (mail-qk0-f176.google.com
+	[209.85.220.176])
+	by mail.openembedded.org (Postfix) with ESMTP id AFD1A71A84
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Jun 2017 14:14:33 +0000 (UTC)
-Received: by mail-it0-f68.google.com with SMTP id f20so12008968itb.2
+	Mon, 19 Jun 2017 14:20:18 +0000 (UTC)
+Received: by mail-qk0-f176.google.com with SMTP id d14so34424815qkb.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Jun 2017 07:14:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id;
-	bh=9oOF+2xYMNhRGekI4RvuzaAB84ORMWvsLUtlsrA5UKg=;
-	b=hIrQGQTX05+8DUrDome/wsNNErKoUY9t3qnWv+TPCvQS7sbxvMi8cKiwUx+XRMM7fU
-	hOxbeifFJ1I5UoU16xxKond/7kPgadsW4ef0DeqRqd6qQs450LCsaqFfOHR5mvDNUWCx
-	I1Od2jj1IOk8ZgQAsgB9eoMgd/IwyA7X7FrbRvuQTAzfDZDC06v6y8pqxBJFFdT0LNF5
-	HDW8DMQiNVbPih5Ft9Wwv/Dj/1lMlsZExrUYWrhaRMdrIWOdlwqzlc1yQ+6aH9ATuRXt
-	efwEuXU4sB4rsrYmXyeKembwZeRtYkPCUNxC4nRkzGoJ6TZEcY/drqujOjkljsQ8TEzU
-	QjzQ==
+	Mon, 19 Jun 2017 07:20:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=nlOK8ns4alwBqYvgHJrtKKszAjqsoT6USHh/uORmK00=;
+	b=PEG/gCV0yXE+v2sxn1LQfqI+bA8GTvKWZssVx33j2sP/ewbyiJ4BPmlx4ypufk8zd1
+	ny94Z6k+/aYcns3tbvhNdCGmMzRWOEySnRoPCUC7TYECpuZLr94chYgqnjx/d82EbyjH
+	qnygTJ0gsvBZDzLigniZuVoAl1MpaLMQ6C47rQGxFouh/Yw1eq24b/0GzIp+s9aZfyFY
+	8bwttMQ26O7mzU6fnKOBF4fTN72nynGHFYZg3XJ2be/hZgoajhpFuPPVP2FSGakkzY41
+	wsKDLpW0+l2ZJnmZcVY8UD5vFsKwISEmL2V047BBj0X6kXjCWs1Aj56mbK6RdY9E8ss7
+	2Reg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=9oOF+2xYMNhRGekI4RvuzaAB84ORMWvsLUtlsrA5UKg=;
-	b=BpOo3x/O/RWAdDXRSDr7dOyHllNbBXZIcig5YQe2R9cM8LKY3kik7VgIWMGvrybCjf
-	aHcJxPJXzSdCZCybr6dnnxspczCgpN5fZUijsO0A9tciOh8Og2LWZPHl8s+JAMai6psq
-	fF+qDB14SzKosTmJKeaBWjDpymTlPfuUbPD24g1k0qWDBSIF1nWwTMHqiGlKc+nIbc7b
-	A7nWqrG7oJ3YogNGQVSFt1SvvRDk8CbeNg4iGc9N2N+UQTK6CA2mOiNa8tZujF1CmzIu
-	3uJySc79GqlOGvlOCfb3pkXueOpofDaGOBS/WAa/7obOuTNWtPJvXmn/5nLXXAOyQ45I
-	V3gQ==
-X-Gm-Message-State: AKS2vOxDF3Th7/SEvDv1zxdCtYtVyEZ/+BLug79hZQxj62mwrQ8DFM89
-	IzfSMR/GKdA0SHmwDjw=
-X-Received: by 10.36.31.70 with SMTP id d67mr23154304itd.80.1497881674591;
-	Mon, 19 Jun 2017 07:14:34 -0700 (PDT)
-Received: from linux-uys3.suse ([206.248.190.95])
-	by smtp.gmail.com with ESMTPSA id 65sm6628390itm.1.2017.06.19.07.14.32
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 19 Jun 2017 07:14:33 -0700 (PDT)
-From: Trevor Woerner <twoerner@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 19 Jun 2017 10:14:19 -0400
-Message-Id: <20170619141419.28739-1-twoerner@gmail.com>
-X-Mailer: git-send-email 2.13.0
-Subject: [PATCH] mesa.inc: replace deprecated configure options
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=nlOK8ns4alwBqYvgHJrtKKszAjqsoT6USHh/uORmK00=;
+	b=jNlNJtJ8Wa4stkaleB9bVe82Sh3tJK20SUQOZobTU3DkYReIT0qTuss7FncMkLtdxm
+	n8YHZYzR18/lmHV3SrcQOOZoIeTyyqzqHe4RAGd/IxsSQQ+kpUTW9zVCzwFph6tngMiY
+	DMP175UudSuGNFIlAvqL5NbApU0631EYvycWIhcpIatb20jXfxy0OrPF3cTr/SmGVAUp
+	ED/MhSLBCi3DEgHqWApfFmj57pci5xsZkn5wRBv9c4DeJkKJ1UnGyjGpsPb9W4BQCjDi
+	Z2dMtcnyW6debZymCdOGp8DT+/b0nai6W0iZ75UhXUGatnK/aFymuq16I2HdX+WCy3yb
+	Hbog==
+X-Gm-Message-State: AKS2vOz5NKn7vNvhrjPG31/2KR+pW9uwfWBixOwqv8COs2oijgbQFeOh
+	mmW+CYTRjD/1DJvZ6bqnalnN/JbAHium
+X-Received: by 10.55.120.1 with SMTP id t1mr26741178qkc.171.1497882019479;
+	Mon, 19 Jun 2017 07:20:19 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.35.103 with HTTP; Mon, 19 Jun 2017 07:19:59 -0700 (PDT)
+In-Reply-To: <1497872882-15011-1-git-send-email-gabriel.ionescu@enea.com>
+References: <1497872882-15011-1-git-send-email-gabriel.ionescu@enea.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 19 Jun 2017 15:19:59 +0100
+Message-ID: <CAJTo0LaEb+bZ5fmCqy-CjNb3GyKm_xYem3y_92ziK_N4Ya8K-A@mail.gmail.com>
+To: Gabriel Ionescu <gabriel.ionescu@enea.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [pyro][PATCH] autogen-native: Set POSIX_SHELL to /bin/sh
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,39 +54,118 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Jun 2017 14:14:36 -0000
+X-List-Received-Date: Mon, 19 Jun 2017 14:20:19 -0000
+Content-Type: multipart/alternative; boundary="94eb2c06686ab03b49055250d585"
 
---with-egl-platforms -> --with-platforms
---enable-gallium-llvm -> --enable-llvm
+--94eb2c06686ab03b49055250d585
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Trevor Woerner <twoerner@gmail.com>
----
- meta/recipes-graphics/mesa/mesa.inc | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Why pyro and not master?
 
-diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
-index 04285f209a..41747cffc8 100644
---- a/meta/recipes-graphics/mesa/mesa.inc
-+++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -49,7 +49,7 @@ PACKAGECONFIG[gles] = "--enable-gles1 --enable-gles2, --disable-gles1 --disable-
- EGL_PLATFORMS  = "drm"
- EGL_PLATFORMS .="${@bb.utils.contains('PACKAGECONFIG', 'x11', ',x11', '', d)}"
- EGL_PLATFORMS .="${@bb.utils.contains('PACKAGECONFIG', 'wayland', ',wayland', '', d)}"
--PACKAGECONFIG[egl] = "--enable-egl --with-egl-platforms=${EGL_PLATFORMS}, --disable-egl"
-+PACKAGECONFIG[egl] = "--enable-egl --with-platforms=${EGL_PLATFORMS}, --disable-egl"
- 
- PACKAGECONFIG[etnaviv] = ""
- PACKAGECONFIG[imx] = ""
-@@ -66,7 +66,7 @@ GALLIUMDRIVERS_append_x86-64 = "${@bb.utils.contains('PACKAGECONFIG', 'gallium-l
- # keep --with-gallium-drivers separate, because when only one of gallium versions is enabled, other 2 were adding --without-gallium-drivers
- PACKAGECONFIG[gallium]      = "--enable-texture-float --with-gallium-drivers=${GALLIUMDRIVERS}, --without-gallium-drivers"
- MESA_LLVM_RELEASE ?= "3.3"
--PACKAGECONFIG[gallium-llvm] = "--enable-gallium-llvm --enable-llvm-shared-libs, --disable-gallium-llvm, llvm${MESA_LLVM_RELEASE} \
-+PACKAGECONFIG[gallium-llvm] = "--enable-llvm --enable-llvm-shared-libs, --disable-llvm, llvm${MESA_LLVM_RELEASE} \
-                                ${@'elfutils' if ${GALLIUMDRIVERS_LLVM33_ENABLED} else ''}"
- export WANT_LLVM_RELEASE = "${MESA_LLVM_RELEASE}"
- PACKAGECONFIG[xa]  = "--enable-xa, --disable-xa"
--- 
-2.13.0
+Ross
 
+On 19 June 2017 at 12:48, Gabriel Ionescu <gabriel.ionescu@enea.com> wrote:
 
+> Setting POSIX_SHELL to "/usr/bin/env sh" fails when tested in
+> libopts.m4 with test -x "$POSIX_SHELL", because test -x needs
+> a file as an argument (e.g. test -x FILE).
+>
+> Due to the above failure, the build system will use a shell available
+> in tmp/hosttools, which can generate shebang lines longer than 128.
+>
+> This patch sets the POSIX_SHELL variable to "/bin/sh".
+>
+> Signed-off-by: Gabriel Ionescu <gabriel.ionescu@enea.com>
+> ---
+>  meta/recipes-devtools/autogen/autogen-native_5.18.12.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-devtools/autogen/autogen-native_5.18.12.bb
+> b/meta/recipes-devtools/autogen/autogen-native_5.18.12.bb
+> index 853477c..9be03fc 100644
+> --- a/meta/recipes-devtools/autogen/autogen-native_5.18.12.bb
+> +++ b/meta/recipes-devtools/autogen/autogen-native_5.18.12.bb
+> @@ -31,7 +31,7 @@ inherit autotools texinfo native pkgconfig
+>  export GUILE_LOAD_PATH = "${STAGING_DATADIR_NATIVE}/guile/2.0"
+>  export GUILE_LOAD_COMPILED_PATH = "${STAGING_LIBDIR_NATIVE}/
+> guile/2.0/ccache"
+>
+> -export POSIX_SHELL = "/usr/bin/env sh"
+> +export POSIX_SHELL = "/bin/sh"
+>
+>  do_install_append () {
+>         create_wrapper ${D}/${bindir}/autogen \
+> --
+> 2.7.4
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+
+--94eb2c06686ab03b49055250d585
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Why pyro and not master?<div><br></div><div>Ross</div></di=
+v><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">On 19 June 2017=
+ at 12:48, Gabriel Ionescu <span dir=3D"ltr">&lt;<a href=3D"mailto:gabriel.=
+ionescu@enea.com" target=3D"_blank">gabriel.ionescu@enea.com</a>&gt;</span>=
+ wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bor=
+der-left:1px #ccc solid;padding-left:1ex">Setting POSIX_SHELL to &quot;/usr=
+/bin/env sh&quot; fails when tested in<br>
+libopts.m4 with test -x &quot;$POSIX_SHELL&quot;, because test -x needs<br>
+a file as an argument (e.g. test -x FILE).<br>
+<br>
+Due to the above failure, the build system will use a shell available<br>
+in tmp/hosttools, which can generate shebang lines longer than 128.<br>
+<br>
+This patch sets the POSIX_SHELL variable to &quot;/bin/sh&quot;.<br>
+<br>
+Signed-off-by: Gabriel Ionescu &lt;<a href=3D"mailto:gabriel.ionescu@enea.c=
+om">gabriel.ionescu@enea.com</a>&gt;<br>
+---<br>
+=C2=A0meta/recipes-devtools/autogen/<a href=3D"http://autogen-native_5.18.1=
+2.bb" rel=3D"noreferrer" target=3D"_blank"><wbr>autogen-native_5.18.12.bb</=
+a> | 2 +-<br>
+=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
+<br>
+diff --git a/meta/recipes-devtools/<wbr>autogen/<a href=3D"http://autogen-n=
+ative_5.18.12.bb" rel=3D"noreferrer" target=3D"_blank">autogen-native_5.18.=
+<wbr>12.bb</a> b/meta/recipes-devtools/<wbr>autogen/<a href=3D"http://autog=
+en-native_5.18.12.bb" rel=3D"noreferrer" target=3D"_blank">autogen-native_5=
+.18.<wbr>12.bb</a><br>
+index 853477c..9be03fc 100644<br>
+--- a/meta/recipes-devtools/<wbr>autogen/<a href=3D"http://autogen-native_5=
+.18.12.bb" rel=3D"noreferrer" target=3D"_blank">autogen-native_5.18.<wbr>12=
+.bb</a><br>
++++ b/meta/recipes-devtools/<wbr>autogen/<a href=3D"http://autogen-native_5=
+.18.12.bb" rel=3D"noreferrer" target=3D"_blank">autogen-native_5.18.<wbr>12=
+.bb</a><br>
+@@ -31,7 +31,7 @@ inherit autotools texinfo native pkgconfig<br>
+=C2=A0export GUILE_LOAD_PATH =3D &quot;${STAGING_DATADIR_NATIVE}/<wbr>guile=
+/2.0&quot;<br>
+=C2=A0export GUILE_LOAD_COMPILED_PATH =3D &quot;${STAGING_LIBDIR_NATIVE}/<w=
+br>guile/2.0/ccache&quot;<br>
+<br>
+-export POSIX_SHELL =3D &quot;/usr/bin/env sh&quot;<br>
++export POSIX_SHELL =3D &quot;/bin/sh&quot;<br>
+<br>
+=C2=A0do_install_append () {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 create_wrapper ${D}/${bindir}/autogen \<br>
+--<br>
+2.7.4<br>
+<span class=3D"HOEnZb"><font color=3D"#888888"><br>
+--<br>
+______________________________<wbr>_________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
+re@lists.<wbr>openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
+ailman/listinfo/openembedded-<wbr>core</a><br>
+</font></span></blockquote></div><br></div>
+
+--94eb2c06686ab03b49055250d585--
