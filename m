@@ -1,53 +1,64 @@
-Return-Path: <zeenix@gmail.com>
-Received: from mail-qk0-f181.google.com (mail-qk0-f181.google.com
-	[209.85.220.181])
-	by mail.openembedded.org (Postfix) with ESMTP id E4EDB780CB
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
+	by mail.openembedded.org (Postfix) with ESMTP id E813F780AA
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Jun 2017 14:40:23 +0000 (UTC)
-Received: by mail-qk0-f181.google.com with SMTP id d14so34934942qkb.1
+	Mon, 19 Jun 2017 14:53:09 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bes.se.axis.com (Postfix) with ESMTP id 41A882E315
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Jun 2017 07:40:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc;
-	bh=GbFfBwMvqUmmHNQwSRfGMzwQX5QoN03QYsmNAiD/eHg=;
-	b=FwTCRGNRjJeaTT9sMUggpPdfVAIV+nmM2E5ThYL0Vij1rXvvtreSgTpXpIaaV63qeb
-	wVaybQ4Sab1Tkm7Ohkum9dYUxv9Lb6czKJsiiHz8btcOo2wNX5SPbSc4f+2DDh5apENQ
-	imVhTshv8mBL95HxWJ8/85jG0Yl6DymLQ56qx7C68a9sNjtLAeP5pJPhDa/pl/F+OYe1
-	wZunxBvzsHltOGRePcgWq+x5eJRksGlyvMOd72lPXc0PsEV0WpXOAt68CBOixKH7pI4t
-	RLjBTXEh7VxtU4I7XkSpdtfoRRnEsxQk8BOm6jJaDoRy48RCgYZnAZqqPZrqnFsR/96m
-	nVtw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
-	:date:message-id:subject:to:cc;
-	bh=GbFfBwMvqUmmHNQwSRfGMzwQX5QoN03QYsmNAiD/eHg=;
-	b=uj1OT9dlu1etjmqbvnN33VN7m/tFN9LgH0fncUnhqXed1aiojnirUIi2XfeQoFw/Vg
-	5Na0fN0JZHnEyoaGZ7kbQnR89acFWrml8tRSQUSPN/zixFJabb6NItF9QTlfIqTIUlov
-	CUBONPcSI92JEuGyDsDBCKW1Me3fLcL5pWTa2Xh3RiXtMIF3fiFlccie+knB0f3I0mZl
-	DQwzV0K1chm8RYd1wZ/tqqzkZyzuNU3IIvyW8e8fbHhj6UmVnjfunAqvHFCNBaiHiOsv
-	GM3pE7nAnnqYI35y//w3SCmgXoe8MMlfPq92jWZzvR418C9l9SgxmFGeeTv00xAhvwXm
-	hpIQ==
-X-Gm-Message-State: AKS2vOxioznYaefO6LU7uTkGVm8SaxsZuCMUSA7O/buJRQyl1i53im+T
-	Nyrba+By1yCPNa1lDGj99BpgE9ZA2A==
-X-Received: by 10.55.114.2 with SMTP id n2mr26515778qkc.157.1497883224837;
-	Mon, 19 Jun 2017 07:40:24 -0700 (PDT)
+	Mon, 19 Jun 2017 16:53:10 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
+Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP id Ps7_BQawVeb2
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 19 Jun 2017 16:53:07 +0200 (CEST)
+Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
+	by bes.se.axis.com (Postfix) with ESMTPS id DCB872E272
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 19 Jun 2017 16:53:07 +0200 (CEST)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 911211E081
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 19 Jun 2017 16:53:07 +0200 (CEST)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 85E681E080
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 19 Jun 2017 16:53:07 +0200 (CEST)
+Received: from thoth.se.axis.com (unknown [10.0.2.173])
+	by boulder03.se.axis.com (Postfix) with ESMTP
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 19 Jun 2017 16:53:07 +0200 (CEST)
+Received: from XBOX03.axis.com (xbox03.axis.com [10.0.5.17])
+	by thoth.se.axis.com (Postfix) with ESMTP id 7A480118A
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 19 Jun 2017 16:53:07 +0200 (CEST)
+Received: from XBOX02.axis.com (10.0.5.16) by XBOX03.axis.com (10.0.5.17) with
+	Microsoft SMTP Server (TLS) id 15.0.1210.3;
+	Mon, 19 Jun 2017 16:53:07 +0200
+Received: from XBOX02.axis.com ([fe80::d00f:cb52:1b56:20d]) by XBOX02.axis.com
+	([fe80::d00f:cb52:1b56:20d%21]) with mapi id 15.00.1210.000;
+	Mon, 19 Jun 2017 16:53:07 +0200
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: Peter Kjellerstedt <pkj@axis.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCHv2 1/1] base-files: profile: Avoid using
+	"command"	to determine if programs exist
+Thread-Index: AQHStFG25407gFtAtEW2zNryFv62gaIsrsuA
+Date: Mon, 19 Jun 2017 14:53:07 +0000
+Message-ID: <106084978a804bf8a2b3aa10195bfa9f@XBOX02.axis.com>
+References: <cover.1492086566.git.pkj@axis.com>
+	<0991deba9e90e3c32f8566fdfc758cb88790bde4.1492086566.git.pkj@axis.com>
+In-Reply-To: <0991deba9e90e3c32f8566fdfc758cb88790bde4.1492086566.git.pkj@axis.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.60]
 MIME-Version: 1.0
-Sender: zeenix@gmail.com
-Received: by 10.200.11.203 with HTTP; Mon, 19 Jun 2017 07:40:24 -0700 (PDT)
-In-Reply-To: <20170615180542.GA16912@ptan20-mobl.gar.corp.intel.com>
-References: <20170529060935.8093-1-erik.boto@pelagicore.com>
-	<20170529060935.8093-2-erik.boto@pelagicore.com>
-	<CAAa3hFMMxVRMRNufBenQ7E1G3stW0Xvu8xeE94MPfOa-J35axA@mail.gmail.com>
-	<20170615180542.GA16912@ptan20-mobl.gar.corp.intel.com>
-From: "Zeeshan Ali (Khattak)" <zeeshanak@gnome.org>
-Date: Mon, 19 Jun 2017 16:40:24 +0200
-X-Google-Sender-Auth: zLvtdjpx6r9EVEYeY9tXFGwA7wA
-Message-ID: <CAAa3hFNkLE98Zk3=if9=tp5OGqiQMJE-zrTFKkPZs2gLW3Gw5g@mail.gmail.com>
-To: Stephano Cetola <stephano.cetola@linux.intel.com>
-Cc: Leonardo Sandoval Gonzalez <leonardo.sandoval.gonzalez@intel.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2 1/4] masterimage.py: fix issue with calling reboot on masterimage/DUT
+X-TM-AS-GCONF: 00
+Subject: Re: [PATCHv2 1/1] base-files: profile: Avoid using "command"	to determine if programs exist
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,29 +71,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Jun 2017 14:40:24 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 19 Jun 2017 14:53:10 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Stephano,
+*ping*
 
-On 15 June 2017 at 20:05, Stephano Cetola
-<stephano.cetola@linux.intel.com> wrote:
-> On 06/15, Zeeshan Ali (Khattak) wrote:
->> Hi,
->>
->> Has this been already merged? I ask cause there is a small change
->> needed for large-enough rootfs:
->>
-> This has not been merged yet.
->
-> Erik, could you please send a V3?
->
-> When you do so, please reference the bug in the commit messages like this:
+//Peter
 
-Erik is on a long vacation+paternity leave so I'll do this on his behalf.
-
--- 
-Regards,
-
-Zeeshan Ali
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org
+> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
+> Peter Kjellerstedt
+> Sent: den 13 april 2017 14:30
+> To: openembedded-core@lists.openembedded.org
+> Subject: [OE-core] [PATCHv2 1/1] base-files: profile: Avoid using
+> "command" to determine if programs exist
+>=20
+> Since the existence of "command" in itself is not guaranteed, using it
+> to determine if other executables exist is moot. Instead just run the
+> executables and let the shell determine if they exist. By piping stderr
+> to /dev/null we avoid unnecessary warnings in case they do not exist.
+>=20
+> Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+> ---
+>  meta/recipes-core/base-files/base-files/profile | 14 ++++++--------
+>  1 file changed, 6 insertions(+), 8 deletions(-)
+>=20
+> diff --git a/meta/recipes-core/base-files/base-files/profile
+> b/meta/recipes-core/base-files/base-files/profile
+> index ceaf15f799..e05c8840db 100644
+> --- a/meta/recipes-core/base-files/base-files/profile
+> +++ b/meta/recipes-core/base-files/base-files/profile
+> @@ -22,14 +22,12 @@ if [ -d /etc/profile.d ]; then
+>  	unset i
+>  fi
+>=20
+> -if command -v resize >/dev/null && command -v tty >/dev/null; then
+> -	# Make sure we are on a serial console (i.e. the device used
+> starts with
+> -	# /dev/tty[A-z]), otherwise we confuse e.g. the eclipse
+> launcher which
+> -	# tries do use ssh
+> -	case $(tty) in
+> -		/dev/tty[A-z]*) resize >/dev/null;;
+> -	esac
+> -fi
+> +# Make sure we are on a serial console (i.e. the device used starts
+> with
+> +# /dev/tty[A-z]), otherwise we confuse e.g. the eclipse launcher which
+> tries do
+> +# use ssh
+> +case $(tty 2>/dev/null) in
+> +	/dev/tty[A-z]*) resize >/dev/null 2>&1;;
+> +esac
+>=20
+>  export PATH PS1 OPIEDIR QPEDIR QTDIR EDITOR TERM
+>=20
+> --
+> 2.12.0
+>=20
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
