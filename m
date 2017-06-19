@@ -1,45 +1,33 @@
-Return-Path: <Gabriel.Ionescu@enea.com>
-X-Greylist: delayed 586 seconds by postgrey-1.34 at layers.openembedded.org;
-	Mon, 19 Jun 2017 11:58:01 UTC
-Received: from smtp-out10.electric.net (smtp-out10.electric.net
-	[185.38.180.36])
-	by mail.openembedded.org (Postfix) with ESMTP id AD0DE78210
+Return-Path: <obi@opendreambox.org>
+Received: from mail.dream-property.net (mail.dream-property.net
+	[82.149.226.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 40E4178217
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Jun 2017 11:58:01 +0000 (UTC)
-Received: from 1dMvAF-0007yc-UF by out10d.electric.net with emc1-ok (Exim 4.87)
-	(envelope-from <Gabriel.Ionescu@enea.com>) id 1dMvAF-000806-Ur
-	for openembedded-core@lists.openembedded.org;
-	Mon, 19 Jun 2017 04:48:15 -0700
-Received: by emcmailer; Mon, 19 Jun 2017 04:48:15 -0700
-Received: from [192.36.1.72] (helo=mx-3.enea.com)
-	by out10d.electric.net with esmtps (TLSv1:ECDHE-RSA-AES256-SHA:256)
-	(Exim 4.87) (envelope-from <Gabriel.Ionescu@enea.com>)
-	id 1dMvAF-0007yc-UF for openembedded-core@lists.openembedded.org;
-	Mon, 19 Jun 2017 04:48:15 -0700
-Received: from sestofb11.enea.se (172.21.3.152) by smtp.enea.com
-	(172.21.1.208) with Microsoft SMTP Server id 14.3.319.2;
-	Mon, 19 Jun 2017 13:48:15 +0200
-Received: by sestofb11.enea.se (Postfix, from userid 4567)	id 2C1E54404C4;
-	Mon, 19 Jun 2017 13:48:15 +0200 (CEST)
-From: Gabriel Ionescu <gabriel.ionescu@enea.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 19 Jun 2017 13:48:02 +0200
-Message-ID: <1497872882-15011-1-git-send-email-gabriel.ionescu@enea.com>
-X-Mailer: git-send-email 2.7.4
+	Mon, 19 Jun 2017 12:02:28 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.dream-property.net (Postfix) with ESMTP id 0367032039C4
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 19 Jun 2017 14:02:29 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
+Received: from mail.dream-property.net ([127.0.0.1])
+	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP id PoVoVVwH0u7G
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 19 Jun 2017 14:02:26 +0200 (CEST)
+Received: from t460p (p57A610EC.dip0.t-ipconnect.de [87.166.16.236])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mail.dream-property.net (Postfix) with ESMTPSA id CB22C32005CA
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 19 Jun 2017 14:02:26 +0200 (CEST)
+Date: Mon, 19 Jun 2017 14:02:25 +0200
+From: Andreas Oberritter <obi@opendreambox.org>
+To: openembedded-core@lists.openembedded.org
+Message-ID: <20170619140225.5cfdc2a6@t460p>
+In-Reply-To: <20170619103238.2626-1-git@andred.net>
+References: <20170619103238.2626-1-git@andred.net>
 MIME-Version: 1.0
-Received-SPF: None (SESTOEX08.enea.se: gabriel.ionescu@enea.com does not
-	designate permitted sender hosts)
-X-Outbound-IP: 192.36.1.72
-X-Env-From: Gabriel.Ionescu@enea.com
-X-Proto: esmtps
-X-Revdns: mx-3.enea.com
-X-HELO: mx-3.enea.com
-X-TLS: TLSv1:ECDHE-RSA-AES256-SHA:256
-X-Authenticated_ID: 
-X-PolicySMART: 6551647
-X-Virus-Status: Scanned by VirusSMART (c)
-X-Virus-Status: Scanned by VirusSMART (s)
-Subject: [pyro][PATCH] autogen-native: Set POSIX_SHELL to /bin/sh
+Subject: Re: [PATCH] connman: fix nftables dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,37 +40,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Jun 2017 11:58:02 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 19 Jun 2017 12:02:29 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Setting POSIX_SHELL to "/usr/bin/env sh" fails when tested in
-libopts.m4 with test -x "$POSIX_SHELL", because test -x needs
-a file as an argument (e.g. test -x FILE).
+Hi Andr=C3=A9,
 
-Due to the above failure, the build system will use a shell available
-in tmp/hosttools, which can generate shebang lines longer than 128.
+On Mon, 19 Jun 2017 11:32:38 +0100
+Andr=C3=A9 Draszik <git@andred.net> wrote:
 
-This patch sets the POSIX_SHELL variable to "/bin/sh".
+> From: Andr=C3=A9 Draszik <adraszik@tycoint.com>
+>=20
+> When building with nftables support, connman doesn't ever
+> depend on the nftables command line tool.
+>=20
+> connman will depend on libmnl and libnftnl at build and
+> run time. In addition, the nftables rules it creates
+> depend on various kernel modules being present.
+>=20
+> Update the PACKAGECONFIG to reflect this.
+>=20
 
-Signed-off-by: Gabriel Ionescu <gabriel.ionescu@enea.com>
----
- meta/recipes-devtools/autogen/autogen-native_5.18.12.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+packageconfig creates runtime dependencies for the modules you added. This
+will cause problems if the modules are built into the kernel binary. You
+should add runtime recommendations instead.
 
-diff --git a/meta/recipes-devtools/autogen/autogen-native_5.18.12.bb b/meta/recipes-devtools/autogen/autogen-native_5.18.12.bb
-index 853477c..9be03fc 100644
---- a/meta/recipes-devtools/autogen/autogen-native_5.18.12.bb
-+++ b/meta/recipes-devtools/autogen/autogen-native_5.18.12.bb
-@@ -31,7 +31,7 @@ inherit autotools texinfo native pkgconfig
- export GUILE_LOAD_PATH = "${STAGING_DATADIR_NATIVE}/guile/2.0"
- export GUILE_LOAD_COMPILED_PATH = "${STAGING_LIBDIR_NATIVE}/guile/2.0/ccache"
+Regards,
+Andreas
 
--export POSIX_SHELL = "/usr/bin/env sh"
-+export POSIX_SHELL = "/bin/sh"
-
- do_install_append () {
- 	create_wrapper ${D}/${bindir}/autogen \
---
-2.7.4
+> Signed-off-by: Andr=C3=A9 Draszik <adraszik@tycoint.com>
+> Acked-by: Sylvain Lemieux <slemieux@tycoint.com>
+> ---
+>  meta/recipes-connectivity/connman/connman.inc | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/meta/recipes-connectivity/connman/connman.inc b/meta/recipes=
+-connectivity/connman/connman.inc
+> index ab18f2fe01..132a58ff40 100644
+> --- a/meta/recipes-connectivity/connman/connman.inc
+> +++ b/meta/recipes-connectivity/connman/connman.inc
+> @@ -51,7 +51,7 @@ PACKAGECONFIG[l2tp] =3D "--enable-l2tp --with-l2tp=3D${=
+sbindir}/xl2tpd,--disable-l2t
+>  PACKAGECONFIG[pptp] =3D "--enable-pptp --with-pptp=3D${sbindir}/pptp,--d=
+isable-pptp,,pptp-linux"
+>  # WISPr support for logging into hotspots, requires TLS
+>  PACKAGECONFIG[wispr] =3D "--enable-wispr,--disable-wispr,gnutls,"
+> -PACKAGECONFIG[nftables] =3D "--with-firewall=3Dnftables ,,nftables,nftab=
+les"
+> +PACKAGECONFIG[nftables] =3D "--with-firewall=3Dnftables ,,libmnl libnftn=
+l,kernel-module-nf-tables-ipv4 kernel-module-nft-chain-nat-ipv4 kernel-modu=
+le-nft-chain-route-ipv4 kernel-module-nft-meta kernel-module-nft-masq-ipv4 =
+kernel-module-nft-nat"
+>  PACKAGECONFIG[iptables] =3D "--with-firewall=3Diptables ,,iptables,iptab=
+les"
+> =20
+>  INITSCRIPT_NAME =3D "connman"
 
 
