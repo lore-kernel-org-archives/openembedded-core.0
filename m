@@ -1,47 +1,28 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qt0-f178.google.com (mail-qt0-f178.google.com
-	[209.85.216.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 26F9878049
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 3E3BC73120
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Jun 2017 11:22:48 +0000 (UTC)
-Received: by mail-qt0-f178.google.com with SMTP id u12so107968090qth.0
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Jun 2017 04:22:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=cwiZUh9sq5z/yD2Uft8rheSJRGgcwGA8jBOzBwENVRg=;
-	b=D992yPe5yaStBw77kLERhu7BPBUTxunrS1JUIuy6CRUSg1Lz9KlqrMQN6Ezcq7Df6x
-	QcFaRt5ToLYrUfXvH6r4AwSALS6HtD1SUTzrNjEu5wi0Ix0V6fvczGUmI6XidtHD9JtX
-	l/IoieAa3TMIL37imMeAQ9i+m1RBcKK3RC0X8DyfLrEwdOVZoCdOUyeYGG6pfTzwb+Ao
-	Il98DJCTniAKFXZ0pBoZTD2+kQz1ygeaQk6onuwk+dqcU3CxInPcjdZG5dK5JhHym6Y9
-	hajlDnewN3KNYlp4f+oogY5sfQqda/gWqPLIfAy8drLQK3i4HR4RuxMgA1baFcr6T2ap
-	TMfQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=cwiZUh9sq5z/yD2Uft8rheSJRGgcwGA8jBOzBwENVRg=;
-	b=PKviZbpXhGlZyxTsxZVuNFALtk76/lRcx32m0/+0bqf0O/BtNXb5gl+8pQs7srX7fK
-	sLf66fABxVMOy3g2fNXtUgp6UmNoOSz5LCW/UKuhCNRBbPZ62GkFLNzoK7DKiNK/wNQi
-	+vuHqTbrt506ohi9BKpha4gzIUcGrA8IsJexUZAS9b77+ALPf05m/nvy+NHnQN9ujEoH
-	28HhjL6hRbl9deLeiyV30zO5Y2TnYEhZw/ocehWkjmueN8EWRtfpjlEX8qkqo93kTnMd
-	Tk1wS9t5V/jp5lmvl/yseLX3ZVzT7Pj4mqC7kDhEyQSqjt9mrTK57w4Rya/CMqTGnmkp
-	mQgg==
-X-Gm-Message-State: AKS2vOwtA4CZgF0quQvwl3BchQyQGI1ZxBQ1BxUYIaDK7BdGNSZNVwaX
-	zSeott+MpkTVkRiOeGZWRf0RrlOdRpAA
-X-Received: by 10.200.58.38 with SMTP id w35mr25640438qte.93.1497871370127;
-	Mon, 19 Jun 2017 04:22:50 -0700 (PDT)
+	Mon, 19 Jun 2017 11:40:20 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	19 Jun 2017 04:40:22 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.39,360,1493708400"; d="scan'208";a="1162119136"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by fmsmga001.fm.intel.com with ESMTP; 19 Jun 2017 04:40:21 -0700
+To: Khem Raj <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org
+References: <cover.1497615866.git.alexander.kanavin@linux.intel.com>
+	<d8d07071866bfeac6bccb8e50f099d9cb3113d2a.1497615866.git.alexander.kanavin@linux.intel.com>
+	<642953f4-8927-acdc-a469-6970a3fb450d@gmail.com>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <e905342f-1cf6-73ef-c6d9-d3782129a036@linux.intel.com>
+Date: Mon, 19 Jun 2017 14:40:33 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.8.0
 MIME-Version: 1.0
-Received: by 10.140.35.103 with HTTP; Mon, 19 Jun 2017 04:22:29 -0700 (PDT)
-In-Reply-To: <20170619102050.32072-1-git@andred.net>
-References: <20170619102050.32072-1-git@andred.net>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 19 Jun 2017 12:22:29 +0100
-Message-ID: <CAJTo0Lavp4EiwoY0WJh8Gc9qEsMokfUzjAqFpTnYO0K-c=1F3Q@mail.gmail.com>
-To: =?UTF-8?Q?Andr=C3=A9_Draszik?= <git@andred.net>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gdb: fix gdbserver not working in musl/mips context
+In-Reply-To: <642953f4-8927-acdc-a469-6970a3fb450d@gmail.com>
+Subject: Re: [PATCH 20/32] icu: update to 59.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,41 +35,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Jun 2017 11:22:49 -0000
-Content-Type: multipart/alternative; boundary="94eb2c0ca10cef9e2605524e5a1e"
+X-List-Received-Date: Mon, 19 Jun 2017 11:40:23 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
---94eb2c0ca10cef9e2605524e5a1e
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On 06/16/2017 08:54 PM, Khem Raj wrote:
 
-On 19 June 2017 at 11:20, Andr=C3=A9 Draszik <git@andred.net> wrote:
-
-> +Upstream-Status: Inappropriate [cherry-picked from LEDE
-> https://bugs.lede-project.org/index.php?do=3Ddetails&task_id=3D
-> 637&openedfrom=3D-1%2Bweek]
+>> -# icu configure defaults to CXX11 if no -std= option is passed in CXXFLAGS
+>> -# therefore pass one
+>> -BUILD_CXXFLAGS_append_pn-icu-native = " -std=c++98"
+>> -
 >
+> I think this change should be tried on oldest supported distro for build
+> host like centos, I wonder if the std option was papering over c++11
+> missing bits on gcc 4.8
 
-Doesn't sound inappropriate to me...  Pending if nobody else has submitted
-the bug upstream.
+At least centos has officially supported gcc 6.x packages, so those can 
+and should be used (and required by Yocto documentation). We should not 
+be held back by default compiler versions which may be too old.
 
-Ross
 
---94eb2c0ca10cef9e2605524e5a1e
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Alex
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 19 June 2017 at 11:20, Andr=C3=A9 Draszik <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:git@andred.net" target=3D"_blank">git@andred.net</a>&gt;</span> =
-wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bord=
-er-left:1px #ccc solid;padding-left:1ex"><div id=3D":7z1" class=3D"a3s aXjC=
-H m15cbfdeea22302ff">+Upstream-Status: Inappropriate [cherry-picked from LE=
-DE <a href=3D"https://bugs.lede-project.org/index.php?do=3Ddetails&amp;task=
-_id=3D637&amp;openedfrom=3D-1%2Bweek" rel=3D"noreferrer" target=3D"_blank">=
-https://bugs.lede-project.org/<wbr>index.php?do=3Ddetails&amp;task_id=3D<wb=
-r>637&amp;openedfrom=3D-1%2Bweek</a>]<br></div></blockquote></div><br>Doesn=
-&#39;t sound inappropriate to me...=C2=A0 Pending if nobody else has submit=
-ted the bug upstream.</div><div class=3D"gmail_extra"><br></div><div class=
-=3D"gmail_extra">Ross</div></div>
 
---94eb2c0ca10cef9e2605524e5a1e--
