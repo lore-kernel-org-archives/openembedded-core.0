@@ -1,34 +1,25 @@
-Return-Path: <obi@opendreambox.org>
-Received: from mail.dream-property.net (mail.dream-property.net
-	[82.149.226.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 8EB7677D9F
+Return-Path: <maxin.john@intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 07AD678219
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Jun 2017 12:30:46 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.dream-property.net (Postfix) with ESMTP id D008A32039D3
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Jun 2017 14:30:47 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
-Received: from mail.dream-property.net ([127.0.0.1])
-	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id PKJry_cSrbGZ
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Jun 2017 14:30:45 +0200 (CEST)
-Received: from t460p (p57A610EC.dip0.t-ipconnect.de [87.166.16.236])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mail.dream-property.net (Postfix) with ESMTPSA id 9581D32039D0
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Jun 2017 14:30:45 +0200 (CEST)
-Date: Mon, 19 Jun 2017 14:30:44 +0200
-From: Andreas Oberritter <obi@opendreambox.org>
-To: openembedded-core@lists.openembedded.org
-Message-ID: <20170619143044.780a7feb@t460p>
-In-Reply-To: <1497874001.25895.5.camel@andred.net>
+	Mon, 19 Jun 2017 12:41:16 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	19 Jun 2017 05:41:17 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.39,361,1493708400"; d="scan'208";a="101115588"
+Received: from mbabyjoh-desk.fi.intel.com (HELO
+	mbabyjoh-desk.ger.corp.intel.com) ([10.237.72.84])
+	by orsmga002.jf.intel.com with ESMTP; 19 Jun 2017 05:41:16 -0700
+Date: Mon, 19 Jun 2017 15:40:44 +0300
+From: "Maxin B. John" <maxin.john@intel.com>
+To: =?iso-8859-1?Q?Andr=E9?= Draszik <git@andred.net>
+Message-ID: <20170619124044.GA5375@mbabyjoh-desk.ger.corp.intel.com>
 References: <20170619103238.2626-1-git@andred.net>
-	<20170619140225.5cfdc2a6@t460p>
-	<1497874001.25895.5.camel@andred.net>
 MIME-Version: 1.0
+In-Reply-To: <20170619103238.2626-1-git@andred.net>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH] connman: fix nftables dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -42,50 +33,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Jun 2017 12:30:47 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 19 Jun 2017 12:41:17 -0000
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-On Mon, 19 Jun 2017 13:06:41 +0100
-Andr=C3=A9 Draszik <git@andred.net> wrote:
+Hi,
 
-> On Mon, 2017-06-19 at 14:02 +0200, Andreas Oberritter wrote:
-> > Hi Andr=C3=A9,
-> >=20
-> > On Mon, 19 Jun 2017 11:32:38 +0100
-> > Andr=C3=A9 Draszik <git@andred.net> wrote:
-> >  =20
-> > > From: Andr=C3=A9 Draszik <adraszik@tycoint.com>
-> > >=20
-> > > When building with nftables support, connman doesn't ever
-> > > depend on the nftables command line tool.
-> > >=20
-> > > connman will depend on libmnl and libnftnl at build and
-> > > run time. In addition, the nftables rules it creates
-> > > depend on various kernel modules being present.
-> > >=20
-> > > Update the PACKAGECONFIG to reflect this.
-> > >  =20
-> >=20
-> > packageconfig creates runtime dependencies for the modules you added. T=
-his
-> > will cause problems if the modules are built into the kernel binary. You
-> > should add runtime recommendations instead. =20
->=20
-> But they should all be fulfilled because of PACKAGES_DYNAMIC in
-> kernel.bbclass, no?
+On Mon, Jun 19, 2017 at 11:32:38AM +0100, André Draszik wrote:
+> From: André Draszik <adraszik@tycoint.com>
+> 
+> When building with nftables support, connman doesn't ever
+> depend on the nftables command line tool.
+> 
+> connman will depend on libmnl and libnftnl at build and
+> run time. In addition, the nftables rules it creates
+> depend on various kernel modules being present.
+> 
+> Update the PACKAGECONFIG to reflect this.
+> 
+> Signed-off-by: André Draszik <adraszik@tycoint.com>
+> Acked-by: Sylvain Lemieux <slemieux@tycoint.com>
+> ---
+>  meta/recipes-connectivity/connman/connman.inc | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/meta/recipes-connectivity/connman/connman.inc b/meta/recipes-connectivity/connman/connman.inc
+> index ab18f2fe01..132a58ff40 100644
+> --- a/meta/recipes-connectivity/connman/connman.inc
+> +++ b/meta/recipes-connectivity/connman/connman.inc
+> @@ -51,7 +51,7 @@ PACKAGECONFIG[l2tp] = "--enable-l2tp --with-l2tp=${sbindir}/xl2tpd,--disable-l2t
+>  PACKAGECONFIG[pptp] = "--enable-pptp --with-pptp=${sbindir}/pptp,--disable-pptp,,pptp-linux"
+>  # WISPr support for logging into hotspots, requires TLS
+>  PACKAGECONFIG[wispr] = "--enable-wispr,--disable-wispr,gnutls,"
+> -PACKAGECONFIG[nftables] = "--with-firewall=nftables ,,nftables,nftables"
+> +PACKAGECONFIG[nftables] = "--with-firewall=nftables ,,libmnl libnftnl,kernel-module-nf-tables-ipv4 kernel-module-nft-chain-nat-ipv4 kernel-module-nft-chain-route-ipv4 kernel-module-nft-meta kernel-module-nft-masq-ipv4 kernel-module-nft-nat"
+>  PACKAGECONFIG[iptables] = "--with-firewall=iptables ,,iptables,iptables"
 
-This will let the build succeed, but the package manager still aborts
-when trying to install connman if some runtime dependencies don't exist
-on the package feed. Runtime recommendations get ignored if missing, but
-get installed by default otherwise.
+Thanks for fixing this. However, this patch introduces some warnings:
 
-Regards,
-Andreas
+WARNING: connman-1.34-r0 do_package_qa: QA Issue: connman rdepends on kernel-module-nf-tables-ipv4, but it isn't a build dependency? [build-deps]
+WARNING: connman-1.34-r0 do_package_qa: QA Issue: connman rdepends on kernel-module-nft-chain-nat-ipv4, but it isn't a build dependency? [build-deps]
+WARNING: connman-1.34-r0 do_package_qa: QA Issue: connman rdepends on kernel-module-nft-chain-route-ipv4, but it isn't a build dependency? [build-deps]
+WARNING: connman-1.34-r0 do_package_qa: QA Issue: connman rdepends on kernel-module-nft-masq-ipv4, but it isn't a build dependency? [build-deps]
+WARNING: connman-1.34-r0 do_package_qa: QA Issue: connman rdepends on kernel-module-nft-meta, but it isn't a build dependency? [build-deps]
+WARNING: connman-1.34-r0 do_package_qa: QA Issue: connman rdepends on kernel-module-nft-nat, but it isn't a build dependency? [build-deps]
+NOTE: Tasks Summary: Attempted 2032 tasks of which 2000 didn't need to be rerun and all succeeded.
 
->=20
-> Cheers,
-> Andre'
->=20
+Please consider fixing this as well.
 
+Best Regards,
+Maxin
 
