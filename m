@@ -1,51 +1,49 @@
-Return-Path: <kristian.amlie@mender.io>
-Received: from mail-lf0-f54.google.com (mail-lf0-f54.google.com
-	[209.85.215.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 79C3B78077
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-wm0-f44.google.com (mail-wm0-f44.google.com [74.125.82.44])
+	by mail.openembedded.org (Postfix) with ESMTP id EFAD47807C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Jun 2017 14:02:08 +0000 (UTC)
-Received: by mail-lf0-f54.google.com with SMTP id v20so57131491lfa.1
+	Mon, 19 Jun 2017 14:04:16 +0000 (UTC)
+Received: by mail-wm0-f44.google.com with SMTP id u195so59495146wmd.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Jun 2017 07:02:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=mender-io.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=udWiM0G/UVRhfvC3qmXfPTgibPsIOABSIfirUqUwsYM=;
-	b=X/CYeBlCMlAfDGcUWD++wrl4ay2Dm1em5VhWNx6bzVm7s99OsH+f2J4iMiJAfiGDKX
-	qE/3D8FFW62JD+s89xnBVQGHapW4ggJNuDYdfYAUuEFEP9Rm6gKbI1HJIJOrYLaqxA6a
-	aLmpegb4RsBStWGrb8MGDoEJWPCXTiWGKXHD5jrXeax/I9mz9/3hlr9m8FV2jK2eGtwj
-	asmL46VsiXWt0Sv6cnC5gjm/V00fOMjGKokTEHkOFqS0ToNhSt3KdSz9nOcJyTrELca1
-	r87/PtSO4sLOf0oD5BgICDMOjvBZh6kFaXjEPMIUBBza+NXwIbTFqGv7h6FmbKkpEAO3
-	bYJw==
+	Mon, 19 Jun 2017 07:04:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=gs5duJcO6b7G1lKkWiUSGVJX/NQMBCfWqQjD40hk9po=;
+	b=KlexDA5Ksdi3j/ymWeCkoLWXsVq9tXcmRNPsdhVL5SLKLYlMdKKjudxphEMle3YUdC
+	mlaZyRoo1uj72gq+aUATiWS2e+KeFMrDdh1lp1xVf56jHgFxXCKTLL6l2wgypD71sCLF
+	k9RFcCV7rU+3JQUTF0dySezJTM2ZDWeU0KtgHmLLY5nk1NmhIsYn6+v836r/EJPJrUVU
+	lWG5W7eh43drp/Rw55tiAJOf1WOHMDOqOpgwImm46FLGq8xyiJPS1RvzWB7ckSLJZHBV
+	RngqaCbvQIpb56sf04D0+0AONGX1WyGBQKY2HjzWWH8JbhnrWl4vi3zLrFNvaVxlFFUP
+	d9OA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=udWiM0G/UVRhfvC3qmXfPTgibPsIOABSIfirUqUwsYM=;
-	b=CbDKk4XeOc1UjA5d8PGuxGvoesJ3/uRMPEP6mSxGEOvsY1hZNT1+az+dd/bJezx6Yw
-	z/xYH1kvDAAVvBJPVhuU6137CAf3xQC4j6oFXGW9KahoPERUgkAUnYnb9nRzXw8SLOIB
-	PsEmcAylWYqzdPGoYXrU7MrMdRWIMA2u7FXJnAVf135Vmv3yVT0lHyDcrkCBMYkSncUC
-	umoORmw1nV4wrncighyYP2GEVqX1d/xygTUSZcS7ru5T6AYI1BH1q0ZI27P7JfMH6fR2
-	qprwtOqmNhXFxP+qMBLDOr+eV3cL9S99DnMPKKkdGvwQk1cnObj8LzeWJB1CsE/GrYv3
-	l4Zg==
-X-Gm-Message-State: AKS2vOw2yLFdSNxTKIuM1MIXKUhT0FxmIfcgbUXzghrNdbJ/3mB3w7pR
-	IS5IX/1lGFRMAsOZCgTKjw==
-X-Received: by 10.46.69.212 with SMTP id s203mr6964776lja.67.1497880929565;
-	Mon, 19 Jun 2017 07:02:09 -0700 (PDT)
-Received: from localhost.localdomain ([195.159.234.190])
-	by smtp.googlemail.com with ESMTPSA id
-	g79sm3133642lfk.15.2017.06.19.07.02.08
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 19 Jun 2017 07:02:08 -0700 (PDT)
-From: Kristian Amlie <kristian.amlie@mender.io>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 19 Jun 2017 16:01:46 +0200
-Message-Id: <1497880906-18170-2-git-send-email-kristian.amlie@mender.io>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1497880906-18170-1-git-send-email-kristian.amlie@mender.io>
-References: <e818cf0a-65b7-7b6a-28ed-3b58d4e7d710@mender.io>
-	<1497880906-18170-1-git-send-email-kristian.amlie@mender.io>
-Subject: [PATCH v3] do_image: Implement IMAGE_ROOTFS_EXCLUDE_PATH feature.
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=gs5duJcO6b7G1lKkWiUSGVJX/NQMBCfWqQjD40hk9po=;
+	b=eewRBF3HlAcU1cWCjBKkVUwrmyt9K8rI0Z0LU/2IWafKT54f2l/jNjOCypDbyohdoL
+	WhVhc0pyepNcS4TeKdBeg8Ccx2u3n6mJYRhez2BobhY/7JGX7Bg207iHPEhQ5WYT0atS
+	3X8Iicq1yBvTeOaT+yanxD5/Qo2e1eMPGTZYdFZ/Xf4b3DcHF8NaXgYdWCETFiBYe6in
+	SUgZjG8Fc1iIQeLJQyoC24HR9JDrrxdhg2IjBsbBlz+RpJKJnA1ZJKBtys1sUWBRUnqG
+	1TKVshUF5FQoo6Zd036VnycL1Lh8/prFRvBkfuhtcZdt9Xn9nY9wdrVoNq3Ji1nlUBU5
+	unHA==
+X-Gm-Message-State: AKS2vOyo71EWuxnuguZ331f2dKHoKl83OCpj7Ts66IVTZNNnO6ZisHYD
+	LrJ9RfUJoE9yvryPJNY6LFufMqWgGw==
+X-Received: by 10.80.144.68 with SMTP id z4mr16846283edz.143.1497881057296;
+	Mon, 19 Jun 2017 07:04:17 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.80.153.222 with HTTP; Mon, 19 Jun 2017 07:04:16 -0700 (PDT)
+In-Reply-To: <e905342f-1cf6-73ef-c6d9-d3782129a036@linux.intel.com>
+References: <cover.1497615866.git.alexander.kanavin@linux.intel.com>
+	<d8d07071866bfeac6bccb8e50f099d9cb3113d2a.1497615866.git.alexander.kanavin@linux.intel.com>
+	<642953f4-8927-acdc-a469-6970a3fb450d@gmail.com>
+	<e905342f-1cf6-73ef-c6d9-d3782129a036@linux.intel.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 19 Jun 2017 07:04:16 -0700
+Message-ID: <CAMKF1spA=Wu9TtxpCVR5MvyoLC1wksTYZYB2CiSC4XevYiTeow@mail.gmail.com>
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 20/32] icu: update to 59.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,261 +56,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Jun 2017 14:02:10 -0000
+X-List-Received-Date: Mon, 19 Jun 2017 14:04:17 -0000
+Content-Type: multipart/alternative; boundary="f403045c2b78560a4f0552509c94"
 
-This is a direct followup from the earlier f6a064d969f414 commit in
-wic. It works more or less the same way: The variable specifies a list
-of directories relative to the root of the rootfs, and these
-directories will be excluded from the resulting rootfs image. If an
-entry ends with a slash, only the contents are omitted, not the
-directory itself.
+--f403045c2b78560a4f0552509c94
+Content-Type: text/plain; charset="UTF-8"
 
-Since the intended use of the variable is to exclude certain
-directories from the rootfs, and then include said directories in
-other partitions, it is not natural for this variable to be respected
-for image creators that create multi partition images. Therefore the
-default is to ignore the variable, and image creators that create
-single root filesystems need to set
+On Monday, June 19, 2017, Alexander Kanavin <
+alexander.kanavin@linux.intel.com> wrote:
 
-  do_image_myfs[respect_exclude_path] = "1"
-
-in order to honor it. Specifically, "wic" and "multiubi" have not
-received this variable flag, while others have.
-
-Signed-off-by: Kristian Amlie <kristian.amlie@mender.io>
----
- documentation/ref-manual/ref-variables.xml | 35 +++++++++++++
- meta/classes/image.bbclass                 | 83 ++++++++++++++++++++++++++++--
- meta/classes/image_types.bbclass           | 13 +++++
- 3 files changed, 128 insertions(+), 3 deletions(-)
-
-diff --git a/documentation/ref-manual/ref-variables.xml b/documentation/ref-manual/ref-variables.xml
-index bd9e517..8456445 100644
---- a/documentation/ref-manual/ref-variables.xml
-+++ b/documentation/ref-manual/ref-variables.xml
-@@ -6041,6 +6041,41 @@
-             </glossdef>
-         </glossentry>
- 
-+        <glossentry id='var-IMAGE_ROOTFS_EXCLUDE_PATH'><glossterm>IMAGE_ROOTFS_EXCLUDE_PATH</glossterm>
-+            <info>
-+                IMAGE_ROOTFS_EXCLUDE_PATH[doc] = "Specifies paths to omit from the rootfs."
-+            </info>
-+            <glossdef>
-+                <para role="glossdeffirst">
-+<!--                <para role="glossdeffirst"><imagedata fileref="figures/define-generic.png" /> -->
-+                    Specifies paths that should be omitted from the root filesystem, separated by
-+                    spaces. The paths must be relative to the root of the filesystem (for example
-+                    "usr"). Single root filesystem images will not include the path in the
-+                    filesystem, except if the path ends with a slash, then the directory will be
-+                    included, but without any content.
-+                    <literallayout class='monospaced'>
-+     # Omit /usr completely from rootfs.
-+     IMAGE_ROOTFS_EXCLUDE_PATH += "<replaceable>usr</replaceable> ..."
-+     # Include the directory /usr in rootfs, but not its content.
-+     IMAGE_ROOTFS_EXCLUDE_PATH += "<replaceable>usr/</replaceable> ..."
-+                    </literallayout>
-+                </para>
-+                <para>
-+                    Image creators that create multi partition images typically do not honor this
-+                    variable, and must provide their own method to split the directory
-+                    structure. For example, <filename>wic</filename> has
-+                    <filename>--exclude-path</filename> and <filename>--rootfs-dir</filename>.
-+                </para>
-+                <para>
-+                    The default for custom image creators is to ignore this variable. Those that
-+                    need to honor it must set:
-+                    <literallayout class='monospaced'>
-+     do_image_<replaceable>custom</replaceable>[respect_exclude_path] = "1"
-+                    </literallayout>
-+                </para>
-+            </glossdef>
-+        </glossentry>
-+
-         <glossentry id='var-IMAGE_ROOTFS_EXTRA_SPACE'><glossterm>IMAGE_ROOTFS_EXTRA_SPACE</glossterm>
-             <info>
-                 IMAGE_ROOTFS_EXTRA_SPACE[doc] = "Defines additional free disk space created in the image in Kbytes. By default, this variable is set to '0'."
-diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index 9a04b43..e4c97b1 100644
---- a/meta/classes/image.bbclass
-+++ b/meta/classes/image.bbclass
-@@ -118,7 +118,7 @@ def rootfs_variables(d):
-                  'IMAGE_ROOTFS_MAXSIZE','IMAGE_NAME','IMAGE_LINK_NAME','IMAGE_MANIFEST','DEPLOY_DIR_IMAGE','IMAGE_FSTYPES','IMAGE_INSTALL_COMPLEMENTARY','IMAGE_LINGUAS',
-                  'MULTILIBRE_ALLOW_REP','MULTILIB_TEMP_ROOTFS','MULTILIB_VARIANTS','MULTILIBS','ALL_MULTILIB_PACKAGE_ARCHS','MULTILIB_GLOBAL_VARIANTS','BAD_RECOMMENDATIONS','NO_RECOMMENDATIONS',
-                  'PACKAGE_ARCHS','PACKAGE_CLASSES','TARGET_VENDOR','TARGET_ARCH','TARGET_OS','OVERRIDES','BBEXTENDVARIANT','FEED_DEPLOYDIR_BASE_URI','INTERCEPT_DIR','USE_DEVFS',
--                 'CONVERSIONTYPES', 'IMAGE_GEN_DEBUGFS', 'ROOTFS_RO_UNNEEDED', 'IMGDEPLOYDIR', 'PACKAGE_EXCLUDE_COMPLEMENTARY']
-+                 'CONVERSIONTYPES', 'IMAGE_GEN_DEBUGFS', 'ROOTFS_RO_UNNEEDED', 'IMGDEPLOYDIR', 'PACKAGE_EXCLUDE_COMPLEMENTARY', 'IMAGE_ROOTFS_EXCLUDE_PATH']
-     variables.extend(rootfs_command_variables(d))
-     variables.extend(variable_depends(d))
-     return " ".join(variables)
-@@ -497,8 +497,8 @@ python () {
-         d.setVarFlag(task, 'func', '1')
-         d.setVarFlag(task, 'fakeroot', '1')
- 
--        d.appendVarFlag(task, 'prefuncs', ' ' + debug + ' set_image_size')
--        d.appendVarFlag(task, 'postfuncs', ' create_symlinks')
-+        d.appendVarFlag(task, 'prefuncs', ' ' + debug + ' set_image_size prepare_excluded_directories')
-+        d.appendVarFlag(task, 'postfuncs', ' create_symlinks cleanup_excluded_directories')
-         d.appendVarFlag(task, 'subimages', ' ' + ' '.join(subimages))
-         d.appendVarFlag(task, 'vardeps', ' ' + ' '.join(vardeps))
-         d.appendVarFlag(task, 'vardepsexclude', 'DATETIME')
-@@ -507,6 +507,83 @@ python () {
-         bb.build.addtask(task, 'do_image_complete', after, d)
- }
- 
-+python prepare_excluded_directories() {
-+    exclude_var = d.getVar('IMAGE_ROOTFS_EXCLUDE_PATH')
-+    if not exclude_var:
-+        return
-+
-+    taskname = d.getVar("BB_CURRENTTASK")
-+
-+    if d.getVarFlag('do_%s' % taskname, 'respect_exclude_path') != '1':
-+        return
-+
-+    import shutil
-+    from oe.path import copyhardlinktree
-+
-+    exclude_list = exclude_var.split()
-+
-+    rootfs_orig = d.getVar('IMAGE_ROOTFS')
-+    # We need a new rootfs directory we can delete files from. Copy to
-+    # workdir.
-+    new_rootfs = os.path.realpath(os.path.join(d.getVar("WORKDIR"), "rootfs.%s" % taskname))
-+
-+    if os.path.lexists(new_rootfs):
-+        shutil.rmtree(os.path.join(new_rootfs))
-+
-+    copyhardlinktree(rootfs_orig, new_rootfs)
-+
-+    for orig_path in exclude_list:
-+        path = orig_path
-+        if os.path.isabs(path):
-+            bb.fatal("IMAGE_ROOTFS_EXCLUDE_PATH: Must be relative: %s" % orig_path)
-+
-+        full_path = os.path.realpath(os.path.join(new_rootfs, path))
-+
-+        # Disallow climbing outside of parent directory using '..',
-+        # because doing so could be quite disastrous (we will delete the
-+        # directory).
-+        if not full_path.startswith(new_rootfs):
-+            bb.fatal("'%s' points to a path outside the rootfs" % orig_path)
-+
-+        if path.endswith(os.sep):
-+            # Delete content only.
-+            for entry in os.listdir(full_path):
-+                full_entry = os.path.join(full_path, entry)
-+                if os.path.isdir(full_entry) and not os.path.islink(full_entry):
-+                    shutil.rmtree(full_entry)
-+                else:
-+                    os.remove(full_entry)
-+        else:
-+            # Delete whole directory.
-+            shutil.rmtree(full_path)
-+
-+    # Save old value for cleanup later.
-+    d.setVar('IMAGE_ROOTFS_ORIG', rootfs_orig)
-+    d.setVar('IMAGE_ROOTFS', new_rootfs)
-+}
-+
-+python cleanup_excluded_directories() {
-+    exclude_var = d.getVar('IMAGE_ROOTFS_EXCLUDE_PATH')
-+    if not exclude_var:
-+        return
-+
-+    taskname = d.getVar("BB_CURRENTTASK")
-+
-+    if d.getVarFlag('do_%s' % taskname, 'respect_exclude_path') != '1':
-+        return
-+
-+    import shutil
-+
-+    rootfs_dirs_excluded = d.getVar('IMAGE_ROOTFS')
-+    rootfs_orig = d.getVar('IMAGE_ROOTFS_ORIG')
-+    # This should never happen, since we should have set it to a different
-+    # directory in the prepare function.
-+    assert rootfs_dirs_excluded != rootfs_orig
-+
-+    shutil.rmtree(rootfs_dirs_excluded)
-+    d.setVar('IMAGE_ROOTFS', rootfs_orig)
-+}
-+
- #
- # Compute the rootfs size
- #
-diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
-index 7749b00..b27dfe3 100644
---- a/meta/classes/image_types.bbclass
-+++ b/meta/classes/image_types.bbclass
-@@ -51,8 +51,10 @@ ZIP_COMPRESSION_LEVEL ?= "-9"
- 
- JFFS2_SUM_EXTRA_ARGS ?= ""
- IMAGE_CMD_jffs2 = "mkfs.jffs2 --root=${IMAGE_ROOTFS} --faketime --output=${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.jffs2 ${EXTRA_IMAGECMD}"
-+do_image_jffs2[respect_exclude_path] = "1"
- 
- IMAGE_CMD_cramfs = "mkfs.cramfs ${IMAGE_ROOTFS} ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.cramfs ${EXTRA_IMAGECMD}"
-+do_image_cramfs[respect_exclude_path] = "1"
- 
- oe_mkext234fs () {
- 	fstype=$1
-@@ -81,6 +83,9 @@ oe_mkext234fs () {
- IMAGE_CMD_ext2 = "oe_mkext234fs ext2 ${EXTRA_IMAGECMD}"
- IMAGE_CMD_ext3 = "oe_mkext234fs ext3 ${EXTRA_IMAGECMD}"
- IMAGE_CMD_ext4 = "oe_mkext234fs ext4 ${EXTRA_IMAGECMD}"
-+do_image_ext2[respect_exclude_path] = "1"
-+do_image_ext3[respect_exclude_path] = "1"
-+do_image_ext4[respect_exclude_path] = "1"
- 
- MIN_BTRFS_SIZE ?= "16384"
- IMAGE_CMD_btrfs () {
-@@ -92,10 +97,14 @@ IMAGE_CMD_btrfs () {
- 	dd if=/dev/zero of=${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.btrfs count=${size} bs=1024
- 	mkfs.btrfs ${EXTRA_IMAGECMD} -r ${IMAGE_ROOTFS} ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.btrfs
- }
-+do_image_btrfs[respect_exclude_path] = "1"
- 
- IMAGE_CMD_squashfs = "mksquashfs ${IMAGE_ROOTFS} ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.squashfs ${EXTRA_IMAGECMD} -noappend"
- IMAGE_CMD_squashfs-xz = "mksquashfs ${IMAGE_ROOTFS} ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.squashfs-xz ${EXTRA_IMAGECMD} -noappend -comp xz"
- IMAGE_CMD_squashfs-lzo = "mksquashfs ${IMAGE_ROOTFS} ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.squashfs-lzo ${EXTRA_IMAGECMD} -noappend -comp lzo"
-+do_image_squashfs[respect_exclude_path] = "1"
-+do_image_squashfs-xz[respect_exclude_path] = "1"
-+do_image_squashfs-lzo[respect_exclude_path] = "1"
- 
- # By default, tar from the host is used, which can be quite old. If
- # you need special parameters (like --xattrs) which are only supported
-@@ -109,6 +118,7 @@ IMAGE_CMD_squashfs-lzo = "mksquashfs ${IMAGE_ROOTFS} ${IMGDEPLOYDIR}/${IMAGE_NAM
- # required when extracting, but it seems prudent to use it in both cases.
- IMAGE_CMD_TAR ?= "tar"
- IMAGE_CMD_tar = "${IMAGE_CMD_TAR} -cvf ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.tar -C ${IMAGE_ROOTFS} ."
-+do_image_tar[respect_exclude_path] = "1"
- 
- do_image_cpio[cleandirs] += "${WORKDIR}/cpio_append"
- IMAGE_CMD_cpio () {
-@@ -129,6 +139,7 @@ IMAGE_CMD_cpio () {
- 		fi
- 	fi
- }
-+do_image_cpio[respect_exclude_path] = "1"
- 
- ELF_KERNEL ?= "${DEPLOY_DIR_IMAGE}/${KERNEL_IMAGETYPE}"
- ELF_APPEND ?= "ramdisk_size=32768 root=/dev/ram0 rw console="
-@@ -137,6 +148,7 @@ IMAGE_CMD_elf () {
- 	test -f ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.elf && rm -f ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.elf
- 	mkelfImage --kernel=${ELF_KERNEL} --initrd=${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}.cpio.gz --output=${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.elf --append='${ELF_APPEND}' ${EXTRA_IMAGECMD}
- }
-+do_image_elf[respect_exclude_path] = "1"
- 
- IMAGE_TYPEDEP_elf = "cpio.gz"
- 
-@@ -194,6 +206,7 @@ IMAGE_CMD_ubi () {
- }
- 
- IMAGE_CMD_ubifs = "mkfs.ubifs -r ${IMAGE_ROOTFS} -o ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.ubifs ${MKUBIFS_ARGS}"
-+do_image_ubifs[respect_exclude_path] = "1"
- 
- EXTRA_IMAGECMD = ""
- 
--- 
-2.7.4
+> On 06/16/2017 08:54 PM, Khem Raj wrote:
+>
+> -# icu configure defaults to CXX11 if no -std= option is passed in CXXFLAGS
+>>> -# therefore pass one
+>>> -BUILD_CXXFLAGS_append_pn-icu-native = " -std=c++98"
+>>> -
+>>>
+>>
+>> I think this change should be tried on oldest supported distro for build
+>> host like centos, I wonder if the std option was papering over c++11
+>> missing bits on gcc 4.8
+>>
+>
+> At least centos has officially supported gcc 6.x packages, so those can
+> and should be used (and required by Yocto documentation). We should not be
+> held back by default compiler versions which may be too old.
 
 
+If that should be ok if we have documented that process as defaults on
+those supported systems
+
+>
+>
+> Alex
+>
+>
+
+--f403045c2b78560a4f0552509c94
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<br><br>On Monday, June 19, 2017, Alexander Kanavin &lt;<a href=3D"mailto:a=
+lexander.kanavin@linux.intel.com">alexander.kanavin@linux.intel.com</a>&gt;=
+ wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bor=
+der-left:1px #ccc solid;padding-left:1ex">On 06/16/2017 08:54 PM, Khem Raj =
+wrote:<br>
+<br>
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex"><blockquote class=3D"gmail_quote" style=3D"m=
+argin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
+-# icu configure defaults to CXX11 if no -std=3D option is passed in CXXFLA=
+GS<br>
+-# therefore pass one<br>
+-BUILD_CXXFLAGS_append_pn-icu-<wbr>native =3D &quot; -std=3Dc++98&quot;<br>
+-<br>
+</blockquote>
+<br>
+I think this change should be tried on oldest supported distro for build<br=
+>
+host like centos, I wonder if the std option was papering over c++11<br>
+missing bits on gcc 4.8<br>
+</blockquote>
+<br>
+At least centos has officially supported gcc 6.x packages, so those can and=
+ should be used (and required by Yocto documentation). We should not be hel=
+d back by default compiler versions which may be too old.</blockquote><div>=
+<br></div><div>If that should be ok if we have documented that process as d=
+efaults on those supported systems=C2=A0=C2=A0</div><blockquote class=3D"gm=
+ail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-le=
+ft:1ex">
+<br>
+<br>
+Alex<br>
+<br>
+</blockquote>
+
+--f403045c2b78560a4f0552509c94--
