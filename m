@@ -1,26 +1,33 @@
-Return-Path: <maxin.john@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 07AD678219
+Return-Path: <denis@denix.org>
+Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.17])
+	by mail.openembedded.org (Postfix) with ESMTP id 4F8AD77D9F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Jun 2017 12:41:16 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	19 Jun 2017 05:41:17 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.39,361,1493708400"; d="scan'208";a="101115588"
-Received: from mbabyjoh-desk.fi.intel.com (HELO
-	mbabyjoh-desk.ger.corp.intel.com) ([10.237.72.84])
-	by orsmga002.jf.intel.com with ESMTP; 19 Jun 2017 05:41:16 -0700
-Date: Mon, 19 Jun 2017 15:40:44 +0300
-From: "Maxin B. John" <maxin.john@intel.com>
-To: =?iso-8859-1?Q?Andr=E9?= Draszik <git@andred.net>
-Message-ID: <20170619124044.GA5375@mbabyjoh-desk.ger.corp.intel.com>
-References: <20170619103238.2626-1-git@andred.net>
+	Mon, 19 Jun 2017 12:56:11 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by mailout4.zoneedit.com (Postfix) with ESMTP id 19D7720873;
+	Mon, 19 Jun 2017 12:56:13 +0000 (UTC)
+Received: from mailout4.zoneedit.com ([127.0.0.1])
+	by localhost (zmo03-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
+	port 10024)
+	with ESMTP id Jzz6F1ZA4eev; Mon, 19 Jun 2017 12:56:13 +0000 (UTC)
+Received: from mail.denix.org (pool-100-15-85-143.washdc.fios.verizon.net
+	[100.15.85.143])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mailout4.zoneedit.com (Postfix) with ESMTPSA id E2C5220065;
+	Mon, 19 Jun 2017 12:56:10 +0000 (UTC)
+Received: by mail.denix.org (Postfix, from userid 1000)
+	id 6E0B11624F9; Mon, 19 Jun 2017 08:56:10 -0400 (EDT)
+Date: Mon, 19 Jun 2017 08:56:10 -0400
+From: Denys Dmytriyenko <denis@denix.org>
+To: Chunrong Guo <B40290@freescale.com>
+Message-ID: <20170619125610.GL28053@denix.org>
+References: <1497861136-27345-1-git-send-email-B40290@freescale.com>
 MIME-Version: 1.0
-In-Reply-To: <20170619103238.2626-1-git@andred.net>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] connman: fix nftables dependency
+In-Reply-To: <1497861136-27345-1-git-send-email-B40290@freescale.com>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Cc: chunrong.guo@nxp.com, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v3 1/3] kernel-fitimage: Support ext2.gz filesystems
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,55 +40,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Jun 2017 12:41:17 -0000
-Content-Type: text/plain; charset=iso-8859-1
+X-List-Received-Date: Mon, 19 Jun 2017 12:56:12 -0000
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
-Hi,
+What has changed in v3 compared to v2 and v1?
 
-On Mon, Jun 19, 2017 at 11:32:38AM +0100, André Draszik wrote:
-> From: André Draszik <adraszik@tycoint.com>
-> 
-> When building with nftables support, connman doesn't ever
-> depend on the nftables command line tool.
-> 
-> connman will depend on libmnl and libnftnl at build and
-> run time. In addition, the nftables rules it creates
-> depend on various kernel modules being present.
-> 
-> Update the PACKAGECONFIG to reflect this.
-> 
-> Signed-off-by: André Draszik <adraszik@tycoint.com>
-> Acked-by: Sylvain Lemieux <slemieux@tycoint.com>
+
+On Mon, Jun 19, 2017 at 04:32:14PM +0800, Chunrong Guo wrote:
+> Signed-off-by: Chunrong Guo <B40290@freescale.com>
 > ---
->  meta/recipes-connectivity/connman/connman.inc | 2 +-
+>  meta/classes/kernel-fitimage.bbclass | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/meta/recipes-connectivity/connman/connman.inc b/meta/recipes-connectivity/connman/connman.inc
-> index ab18f2fe01..132a58ff40 100644
-> --- a/meta/recipes-connectivity/connman/connman.inc
-> +++ b/meta/recipes-connectivity/connman/connman.inc
-> @@ -51,7 +51,7 @@ PACKAGECONFIG[l2tp] = "--enable-l2tp --with-l2tp=${sbindir}/xl2tpd,--disable-l2t
->  PACKAGECONFIG[pptp] = "--enable-pptp --with-pptp=${sbindir}/pptp,--disable-pptp,,pptp-linux"
->  # WISPr support for logging into hotspots, requires TLS
->  PACKAGECONFIG[wispr] = "--enable-wispr,--disable-wispr,gnutls,"
-> -PACKAGECONFIG[nftables] = "--with-firewall=nftables ,,nftables,nftables"
-> +PACKAGECONFIG[nftables] = "--with-firewall=nftables ,,libmnl libnftnl,kernel-module-nf-tables-ipv4 kernel-module-nft-chain-nat-ipv4 kernel-module-nft-chain-route-ipv4 kernel-module-nft-meta kernel-module-nft-masq-ipv4 kernel-module-nft-nat"
->  PACKAGECONFIG[iptables] = "--with-firewall=iptables ,,iptables,iptables"
-
-Thanks for fixing this. However, this patch introduces some warnings:
-
-WARNING: connman-1.34-r0 do_package_qa: QA Issue: connman rdepends on kernel-module-nf-tables-ipv4, but it isn't a build dependency? [build-deps]
-WARNING: connman-1.34-r0 do_package_qa: QA Issue: connman rdepends on kernel-module-nft-chain-nat-ipv4, but it isn't a build dependency? [build-deps]
-WARNING: connman-1.34-r0 do_package_qa: QA Issue: connman rdepends on kernel-module-nft-chain-route-ipv4, but it isn't a build dependency? [build-deps]
-WARNING: connman-1.34-r0 do_package_qa: QA Issue: connman rdepends on kernel-module-nft-masq-ipv4, but it isn't a build dependency? [build-deps]
-WARNING: connman-1.34-r0 do_package_qa: QA Issue: connman rdepends on kernel-module-nft-meta, but it isn't a build dependency? [build-deps]
-WARNING: connman-1.34-r0 do_package_qa: QA Issue: connman rdepends on kernel-module-nft-nat, but it isn't a build dependency? [build-deps]
-NOTE: Tasks Summary: Attempted 2032 tasks of which 2000 didn't need to be rerun and all succeeded.
-
-Please consider fixing this as well.
-
-Best Regards,
-Maxin
+> diff --git a/meta/classes/kernel-fitimage.bbclass b/meta/classes/kernel-fitimage.bbclass
+> index 2630b47..f40fbf3 100644
+> --- a/meta/classes/kernel-fitimage.bbclass
+> +++ b/meta/classes/kernel-fitimage.bbclass
+> @@ -369,7 +369,7 @@ fitimage_assemble() {
+>  	#
+>  	if [ "x${ramdiskcount}" = "x1" ] ; then
+>  		# Find and use the first initramfs image archive type we find
+> -		for img in cpio.lz4 cpio.lzo cpio.lzma cpio.xz cpio.gz cpio; do
+> +		for img in cpio.lz4 cpio.lzo cpio.lzma cpio.xz cpio.gz ext2.gz cpio; do
+>  			initramfs_path="${DEPLOY_DIR_IMAGE}/${INITRAMFS_IMAGE_NAME}.${img}"
+>  			echo "Using $initramfs_path"
+>  			if [ -e "${initramfs_path}" ]; then
+> -- 
+> 1.9.0
+> 
+> -- 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
