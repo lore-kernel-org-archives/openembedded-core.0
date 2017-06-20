@@ -1,37 +1,24 @@
-Return-Path: <sstrogin@cisco.com>
-X-Greylist: delayed 597 seconds by postgrey-1.34 at layers.openembedded.org;
-	Tue, 20 Jun 2017 16:31:42 UTC
-Received: from aer-iport-3.cisco.com (aer-iport-3.cisco.com [173.38.203.53])
-	by mail.openembedded.org (Postfix) with ESMTP id E868E6FFED
+Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 1083471B0B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Jun 2017 16:31:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=cisco.com; i=@cisco.com; l=4284; q=dns/txt; s=iport;
-	t=1497976305; x=1499185905;
-	h=from:to:cc:subject:date:message-id;
-	bh=OKcgsXr0rIpwcOMVHaJ8XOKRjHPUXorNZWT7QWEAGOs=;
-	b=FmI8vEW7QsbLDvYAOiCnJdOdxp3kBXHkz3lqHMVsQhRdiGs5zmUaJ3cM
-	MInkZ6UN+mkgYrhfnSvWzUEa2e3ZEw090vtWNcwAFAeev69gN95/uH6Pk
-	3MQMWyjAwrYqvBISpnPVHMLvDw+G4rZ2TNChwVfY3NcOUmyjnI1G+Bl5I 4=;
-X-IronPort-AV: E=Sophos;i="5.39,364,1493683200"; d="scan'208";a="653741911"
-Received: from aer-iport-nat.cisco.com (HELO aer-core-1.cisco.com)
-	([173.38.203.22])
-	by aer-iport-3.cisco.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	20 Jun 2017 16:21:46 +0000
-Received: from vycislitel.cisco.com (ams3-vpn-dhcp5160.cisco.com [10.61.84.39])
-	(authenticated bits=0)
-	by aer-core-1.cisco.com (8.14.5/8.14.5) with ESMTP id v5KGLUn4027560
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NO); Tue, 20 Jun 2017 16:21:45 GMT
-From: Stefan Strogin <sstrogin@cisco.com>
+	Tue, 20 Jun 2017 18:30:10 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	20 Jun 2017 11:30:08 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.39,364,1493708400"; d="scan'208";a="1143169558"
+Received: from yctb05.ostc.intel.com ([10.54.69.59])
+	by orsmga001.jf.intel.com with ESMTP; 20 Jun 2017 11:30:07 -0700
+From: leonardo.sandoval.gonzalez@linux.intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 20 Jun 2017 19:21:02 +0300
-Message-Id: <20170620162102.27948-1-sstrogin@cisco.com>
-X-Mailer: git-send-email 2.11.0
-X-Auto-Response-Suppress: DR, OOF, AutoReply
-X-Authenticated-User: sstrogin
-Cc: xe-linux-external@cisco.com
-Subject: [PATCH v3] slang: add ptest
+Date: Tue, 20 Jun 2017 11:30:03 -0700
+Message-Id: <58eea93bc4decfa591a2b7faa7a2864f9567d70f.1497983224.git.leonardo.sandoval.gonzalez@linux.intel.com>
+X-Mailer: git-send-email 2.12.0
+In-Reply-To: <cover.1497983224.git.leonardo.sandoval.gonzalez@linux.intel.com>
+References: <cover.1496423434.git.leonardo.sandoval.gonzalez@linux.intel.com>
+	<cover.1497983224.git.leonardo.sandoval.gonzalez@linux.intel.com>
+Subject: [PATCH v3 1/3] export: new plugin to export the devtool workspace
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,121 +31,152 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Jun 2017 16:31:44 -0000
+X-List-Received-Date: Tue, 20 Jun 2017 18:30:12 -0000
 
-This patch adds ptest for slang, it uses `make runtests` to run tests.
-The Makefile runs runtests.sh for each *.sl and *.slc tests.
-runtests.sh is patched for printing test results in a common format,
-Makefile is patched in order not to compile any dependencies.
+From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
 
-Changes v2->v3: rebased on the latest master (1d9a88f6).
+By default, exports the whole workspace (all recipes) including the source code.
+User can also limit what is exported with --included/--excluded flags. As
+a result of this operation, a tar archive containing only workspace metadata
+and its corresponding source code is created, which can be properly imported
+with 'devtool import'.
 
-Signed-off-by: Stefan Strogin <sstrogin@cisco.com>
-Cc: xe-linux-external@cisco.com
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=10510
+
+[YOCTO #10510]
+
+Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
 ---
- meta/recipes-extended/slang/slang/run-ptest        |  3 +++
- ...-add-output-in-the-format-result-testname.patch | 30 ++++++++++++++++++++++
- meta/recipes-extended/slang/slang_2.3.1a.bb        | 25 +++++++++++++++++-
- 3 files changed, 57 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-extended/slang/slang/run-ptest
- create mode 100644 meta/recipes-extended/slang/slang/test-add-output-in-the-format-result-testname.patch
+ scripts/lib/devtool/export.py | 119 ++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 119 insertions(+)
+ create mode 100644 scripts/lib/devtool/export.py
 
-diff --git a/meta/recipes-extended/slang/slang/run-ptest b/meta/recipes-extended/slang/slang/run-ptest
+diff --git a/scripts/lib/devtool/export.py b/scripts/lib/devtool/export.py
 new file mode 100644
-index 0000000000..39f474af31
+index 0000000000..13ee258e7a
 --- /dev/null
-+++ b/meta/recipes-extended/slang/slang/run-ptest
-@@ -0,0 +1,3 @@
-+#!/bin/sh
++++ b/scripts/lib/devtool/export.py
+@@ -0,0 +1,119 @@
++# Development tool - export command plugin
++#
++# Copyright (C) 2014-2017 Intel Corporation
++#
++# This program is free software; you can redistribute it and/or modify
++# it under the terms of the GNU General Public License version 2 as
++# published by the Free Software Foundation.
++#
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU General Public License for more details.
++#
++# You should have received a copy of the GNU General Public License along
++# with this program; if not, write to the Free Software Foundation, Inc.,
++# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
++"""Devtool export plugin"""
 +
-+make -C test runtests
-diff --git a/meta/recipes-extended/slang/slang/test-add-output-in-the-format-result-testname.patch b/meta/recipes-extended/slang/slang/test-add-output-in-the-format-result-testname.patch
-new file mode 100644
-index 0000000000..27a9bb87ea
---- /dev/null
-+++ b/meta/recipes-extended/slang/slang/test-add-output-in-the-format-result-testname.patch
-@@ -0,0 +1,30 @@
-+From 38688ee2754415cf2a1935dafb8278861b7315e7 Mon Sep 17 00:00:00 2001
-+From: Stefan Strogin <sstrogin@cisco.com>
-+Date: Thu, 2 Mar 2017 00:26:31 +0200
-+Subject: [PATCH] test: add output in the format "result: testname"
++import os
++import argparse
++import tarfile
++import logging
++import datetime
++import json
 +
-+Upstream-Status: Inappropriate [oe specific]
++logger = logging.getLogger('devtool')
 +
-+Signed-off-by: Stefan Strogin <sstrogin@cisco.com>
-+---
-+ src/test/runtests.sh | 2 ++
-+ 1 file changed, 2 insertions(+)
++# output files
++default_arcname_prefix = "workspace-export"
++metadata = '.export_metadata'
 +
-+diff --git a/src/test/runtests.sh b/src/test/runtests.sh
-+index a3eaad0..64f0705 100755
-+--- a/src/test/runtests.sh
-++++ b/src/test/runtests.sh
-+@@ -34,8 +34,10 @@ do
-+     then
-+ 	n_failed=`expr ${n_failed} + 1`
-+ 	tests_failed="$tests_failed $testfile"
-++	echo "FAIL: $testfile"
-+     else
-+         touch lastrun/$testfile
-++	echo "PASS: $testfile"
-+     fi
-+ done
-+ 
-+-- 
-+2.11.0
++def export(args, config, basepath, workspace):
++    """Entry point for the devtool 'export' subcommand"""
 +
-diff --git a/meta/recipes-extended/slang/slang_2.3.1a.bb b/meta/recipes-extended/slang/slang_2.3.1a.bb
-index c71d80481f..b302104ee1 100644
---- a/meta/recipes-extended/slang/slang_2.3.1a.bb
-+++ b/meta/recipes-extended/slang/slang_2.3.1a.bb
-@@ -17,6 +17,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=a52a18a472d4f7e45479b06563717c02"
- SRC_URI = "http://www.jedsoft.org/releases/${BPN}/${BP}.tar.bz2 \
-            file://no-x.patch \
-            file://dont-link-to-host.patch \
-+           file://test-add-output-in-the-format-result-testname.patch \
-+           file://run-ptest \
-           "
- 
- SRC_URI[md5sum] = "c5235313042ed0e71ec708f7b85ec241"
-@@ -25,7 +27,7 @@ SRC_URI[sha256sum] = "54f0c3007fde918039c058965dffdfd6c5aec0bad0f4227192cc486021
- UPSTREAM_CHECK_URI = "http://www.jedsoft.org/releases/slang/"
- PREMIRRORS_append = "\n http://www.jedsoft.org/releases/slang/.* http://www.jedsoft.org/releases/slang/old/ \n"
- 
--inherit autotools-brokensep
-+inherit autotools-brokensep ptest
- CLEANBROKEN = "1"
- 
- EXTRA_OECONF = "--without-onig"
-@@ -49,6 +51,27 @@ do_configure_prepend() {
-     cd ${B}
- }
- 
-+do_compile_ptest() {
-+	oe_runmake -C src static
-+	oe_runmake -C src/test sltest
-+}
++    def add_metadata(tar):
++        """Archive the workspace object"""
++        # finally store the workspace metadata
++        with open(metadata, 'w') as fd:
++            fd.write(json.dumps((config.workspace_path, workspace)))
++        tar.add(metadata)
++        os.unlink(metadata)
 +
-+do_install_ptest() {
-+	mkdir ${D}${PTEST_PATH}/test
-+	for f in Makefile sltest runtests.sh *.sl *.inc; do
-+		cp ${S}/src/test/$f ${D}${PTEST_PATH}/test/
-+	done
-+	sed -e 's/\ \$(TEST_PGM)\.c\ assoc\.c\ list\.c\ \$(SLANGLIB)\/libslang\.a//' \
-+	    -e '/\$(CC).*(TEST_PGM)/d' \
-+	    -i ${D}${PTEST_PATH}/test/Makefile
++    def add_recipe(tar, recipe, data):
++        """Archive recipe with proper arcname"""
++        # Create a map of name/arcnames
++        arcnames = []
++        for key, name in data.items():
++            if name:
++                if key == 'srctree':
++                    # all sources, no matter where are located, goes into the sources directory
++                    arcname = 'sources/%s' % recipe
++                else:
++                    arcname = name.replace(config.workspace_path, '')
++                arcnames.append((name, arcname))
 +
-+	cp ${S}/slsh/lib/require.sl ${D}${PTEST_PATH}/test/
-+	sed -i 's/\.\.\/\.\.\/slsh\/lib\/require\.sl/require\.sl/' ${D}${PTEST_PATH}/test/req.sl
++        for name, arcname in arcnames:
++            tar.add(name, arcname=arcname)
 +
-+	cp ${S}/doc/text/slangfun.txt ${D}${PTEST_PATH}/test/
-+	sed -i 's/\.\.\/\.\.\/doc\/text\/slangfun\.txt/slangfun\.txt/' ${D}${PTEST_PATH}/test/docfun.sl
-+}
 +
- FILES_${PN} += "${libdir}/${BPN}/v2/modules/ ${datadir}/slsh/"
- 
- PARALLEL_MAKE = ""
++    # Make sure workspace is non-empty and possible listed include/excluded recipes are in workspace
++    if not workspace:
++        logger.info('Workspace contains no recipes, nothing to export')
++        return 0
++    else:
++        for param, recipes in {'include':args.include,'exclude':args.exclude}.items():
++            for recipe in recipes:
++                if recipe not in workspace:
++                    logger.error('Recipe (%s) on %s argument not in the current workspace' % (recipe, param))
++                    return 1
++
++    name = args.file
++
++    default_name = "%s-%s.tar.gz" % (default_arcname_prefix, datetime.datetime.now().strftime('%Y%m%d%H%M%S'))
++    if not name:
++        name = default_name
++    else:
++        # if name is a directory, append the default name
++        if os.path.isdir(name):
++            name = os.path.join(name, default_name)
++
++    if os.path.exists(name) and not args.overwrite:
++        logger.error('Tar archive %s exists. Use --overwrite/-o to overwrite it')
++        return 1
++
++    # if all workspace is excluded, quit
++    if not len(set(workspace.keys()).difference(set(args.exclude))):
++        logger.warn('All recipes in workspace excluded, nothing to export')
++        return 0
++
++    exported = []
++    with tarfile.open(name, 'w:gz') as tar:
++        if args.include:
++            for recipe in args.include:
++                add_recipe(tar, recipe, workspace[recipe])
++                exported.append(recipe)
++        else:
++            for recipe, data in workspace.items():
++                if recipe not in args.exclude:
++                    add_recipe(tar, recipe, data)
++                    exported.append(recipe)
++
++        add_metadata(tar)
++
++    logger.info('Tar archive created at %s with the following recipes: %s' % (name, ', '.join(exported)))
++    return 0
++
++def register_commands(subparsers, context):
++    """Register devtool export subcommands"""
++    parser = subparsers.add_parser('export',
++                                   help='Export workspace into a tar archive',
++                                   description='Export one or more recipes from current workspace into a tar archive',
++                                   group='advanced')
++
++    parser.add_argument('--file', '-f', help='Output archive file name')
++    parser.add_argument('--overwrite', '-o', action="store_true", help='Overwrite previous export tar archive')
++    group = parser.add_mutually_exclusive_group()
++    group.add_argument('--include', '-i', nargs='+', default=[], help='Include recipes into the tar archive')
++    group.add_argument('--exclude', '-e', nargs='+', default=[], help='Exclude recipes into the tar archive')
++    parser.set_defaults(func=export)
 -- 
-2.11.0
+2.12.0
 
 
