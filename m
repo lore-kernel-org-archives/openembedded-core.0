@@ -1,41 +1,21 @@
-Return-Path: <marex@denx.de>
-Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.10])
-	by mail.openembedded.org (Postfix) with ESMTP id D87647198A
+Return-Path: <alejandro.hernandez@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 6358B7808D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Jun 2017 21:44:59 +0000 (UTC)
-Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
-	by mail-out.m-online.net (Postfix) with ESMTP id 3wshG36JBMz1qrds;
-	Tue, 20 Jun 2017 23:44:59 +0200 (CEST)
-Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
-	by mail.m-online.net (Postfix) with ESMTP id 3wshG34s5Rz3jRB4;
-	Tue, 20 Jun 2017 23:44:59 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at mnet-online.de
-Received: from mail.mnet-online.de ([192.168.8.182])
-	by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new,
-	port 10024)
-	with ESMTP id g0CEJSMdGDr5; Tue, 20 Jun 2017 23:44:58 +0200 (CEST)
-X-Auth-Info: A2MoqsqzR525NMeQJrf7IvvxKwVmvA4p+hnYxCBREsg=
-Received: from [IPv6:::1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mail.mnet-online.de (Postfix) with ESMTPSA;
-	Tue, 20 Jun 2017 23:44:58 +0200 (CEST)
-To: Otavio Salvador <otavio.salvador@ossystems.com.br>,
-	Brad Mouring <brad.mouring@ni.com>
-References: <20170620204029.19499-1-brad.mouring@ni.com>
-	<f35ef85f-1868-ef13-1003-3bf1cfc58b89@denx.de>
-	<20170620205349.GA19584@zardoz.amer.corp.natinst.com>
-	<CAP9ODKoR2bZgeNzzBhNmDzJw6KOvqfboYpY3cj1JMnoqS4YKMQ@mail.gmail.com>
-From: Marek Vasut <marex@denx.de>
-Message-ID: <ae378e9f-5646-41fc-642c-9716a2a03ac4@denx.de>
-Date: Tue, 20 Jun 2017 23:16:37 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.8.0
-MIME-Version: 1.0
-In-Reply-To: <CAP9ODKoR2bZgeNzzBhNmDzJw6KOvqfboYpY3cj1JMnoqS4YKMQ@mail.gmail.com>
-Cc: Tom Rini <trini@konsulko.com>,
-	Openembedded Core <openembedded-core@lists.openembedded.org>
-Subject: Re: [RFC] u-boot-fw-utils: Allow target-specific fw_env.config
+	Tue, 20 Jun 2017 21:46:16 +0000 (UTC)
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	20 Jun 2017 14:45:58 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.39,366,1493708400"; d="scan'208";a="276634031"
+Received: from aehernan-mobl1.zpn.intel.com ([10.219.25.105])
+	by fmsmga004.fm.intel.com with ESMTP; 20 Jun 2017 14:45:57 -0700
+From: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 20 Jun 2017 16:45:51 -0500
+Message-Id: <20170620214551.11550-1-alejandro.hernandez@linux.intel.com>
+X-Mailer: git-send-email 2.12.2
+Subject: [PATCH][krogoth] initrdscripts/init-install*: Add rootwait when installing to USB devices
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,51 +28,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Jun 2017 21:45:00 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 20 Jun 2017 21:46:17 -0000
 
-On 06/20/2017 10:57 PM, Otavio Salvador wrote:
-> On Tue, Jun 20, 2017 at 5:53 PM, Brad Mouring <brad.mouring@ni.com> wrote:
->> On Tue, Jun 20, 2017 at 10:43:51PM +0200, Marek Vasut wrote:
->>> On 06/20/2017 10:40 PM, Brad Mouring wrote:
->>>> As implemented currently, the fw-utils recipe does not allow for
->>>> ...
->>>> +# by the U-Boot environment utilities "fw_printenv" and "fw_setenv".
->>>> +# By default, use the default included in the U-Boot source
->>>> +UBOOT_FW_ENV_CONFIG ??= "${S}/tools/env/fw_env.config"
->>>> +
->>>>  inherit uboot-config
->>>>
->>>>  do_compile () {
->>>> @@ -19,7 +24,7 @@ do_install () {
->>>>     install -d ${D}${sysconfdir}
->>>>     install -m 755 ${S}/tools/env/fw_printenv ${D}${base_sbindir}/fw_printenv
->>>>     install -m 755 ${S}/tools/env/fw_printenv ${D}${base_sbindir}/fw_setenv
->>>> -   install -m 0644 ${S}/tools/env/fw_env.config ${D}${sysconfdir}/fw_env.config
->>>> +   install -m 0644 ${UBOOT_FW_ENV_CONFIG} ${D}${sysconfdir}/fw_env.config
->>>
->>> Do we really need yet another variable ? Wouldn't it make more sense to
->>> add do_install_append_yourmachine() {} in your meta-whatever to
->>> u-boot-fw-utils_%.bbappend and install whatever additional files you need ?
->>
->> This is (kinda) what we were doing, there was some discussion as to
->> whether or not this made sense upstream. I was unsure of the
->> acceptability of a do_install_append.*() clobbering a file of the
->> original do_install().
->>
->> Thanks for the input.
-> 
-> Or split up the configuration to u-boot-fw-utils-config package and
-> make u-boot-fw-utils generic? So we can have the configuration in a
-> specific package.
+From: California Sullivan <california.l.sullivan@intel.com>
 
-Keep in mind that u-boot-fw-utils is actually built for particular
-machine (it contains ie. the default env for that machine) so bundling
-the config file with it is IMO OK. No need to introduce additional
-packages for every simple file.
+It can take a bit for USB devices to be detected, so if a USB device is
+your rootfs and you don't set rootwait you will most likely get a kernel
+panic. Fix this by adding rootwait to the kernel command line on
+installation.
 
+Fixes [YOCTO #9462].
+
+(From OE-Core rev: 40e2d36573a7a6bce377b1f9653607065ba5ffb6)
+
+Signed-off-by: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
+Signed-off-by: California Sullivan <california.l.sullivan@intel.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/recipes-core/initrdscripts/files/init-install-efi.sh | 6 ++++++
+ meta/recipes-core/initrdscripts/files/init-install.sh     | 5 +++++
+ 2 files changed, 11 insertions(+)
+
+diff --git a/meta/recipes-core/initrdscripts/files/init-install-efi.sh b/meta/recipes-core/initrdscripts/files/init-install-efi.sh
+index f564f4e2d6a..bf8a76b96bb 100644
+--- a/meta/recipes-core/initrdscripts/files/init-install-efi.sh
++++ b/meta/recipes-core/initrdscripts/files/init-install-efi.sh
+@@ -144,6 +144,12 @@ if [ ! "${device#/dev/mmcblk}" = "${device}" ]; then
+     part_prefix="p"
+     rootwait="rootwait"
+ fi
++
++# USB devices also require rootwait
++if [ -n `readlink /dev/disk/by-id/usb* | grep $TARGET_DEVICE_NAME` ]; then
++    rootwait="rootwait"
++fi
++
+ bootfs=${device}${part_prefix}1
+ rootfs=${device}${part_prefix}2
+ swap=${device}${part_prefix}3
+diff --git a/meta/recipes-core/initrdscripts/files/init-install.sh b/meta/recipes-core/initrdscripts/files/init-install.sh
+index 72ce92b9640..5f2599e7242 100644
+--- a/meta/recipes-core/initrdscripts/files/init-install.sh
++++ b/meta/recipes-core/initrdscripts/files/init-install.sh
+@@ -152,6 +152,11 @@ if [ ! "${device#/dev/mmcblk}" = "${device}" ]; then
+     rootwait="rootwait"
+ fi
+ 
++# USB devices also require rootwait
++if [ -n `readlink /dev/disk/by-id/usb* | grep $TARGET_DEVICE_NAME` ]; then
++    rootwait="rootwait"
++fi
++
+ if [ $grub_version -eq 0 ] ; then
+     bios_boot=''
+     bootfs=${device}${part_prefix}1
 -- 
-Best regards,
-Marek Vasut
+2.12.2
+
 
