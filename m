@@ -1,66 +1,42 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-wr0-f180.google.com (mail-wr0-f180.google.com
-	[209.85.128.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 11A1A77BBF
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-ua0-f194.google.com (mail-ua0-f194.google.com
+	[209.85.217.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 11D2B7198A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Jun 2017 22:08:04 +0000 (UTC)
-Received: by mail-wr0-f180.google.com with SMTP id 77so109556169wrb.1
+	Tue, 20 Jun 2017 22:15:23 +0000 (UTC)
+Received: by mail-ua0-f194.google.com with SMTP id j53so4633001uaa.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Jun 2017 15:08:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
-	:cc; bh=0oe1VNZEkRiAmBymK1P6jcyrh/XZ6fmKhRfSoPxVtp0=;
-	b=bzjbk0I9hYUGvY4bUv26aiKbOQsvtts2g1uZ3vVXXQcdQIHLqjXloXh174YPNeRjQJ
-	oIK1wUzB6eK3DI8nHqTqsG+0d3gUlfIKgKB4NxLFBJcfrhnhqZd889wlhAw35akyfJcv
-	ZoOGgwA3+SxvBsDhI/4ndG+1Pqy/j/VumsJtaZqsqERYVeapCW7HkRbW+ga+pLFgZjwF
-	bvBNrkkMkc7dFc9qVSHc0L6jdaNnw+Yf4OI0frnUSjYCfmyIBALqKV5/Hv9K5xLfCrkt
-	SGjzxVYUjZni45Hf/WAanwQo2StjoTZ+loea6PTed3nR0C3J+s6dZyzGvCK8HZL9qRrJ
-	/hoA==
+	Tue, 20 Jun 2017 15:15:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
-	:message-id:subject:to:cc;
-	bh=0oe1VNZEkRiAmBymK1P6jcyrh/XZ6fmKhRfSoPxVtp0=;
-	b=aYasS3takulG0MMsDqm0tlQMefiVzmWjgEtiONeY/6q8q5A/diWLOLYhmdihK8SsZ6
-	Uq1InUjkSfR2qsihNKUVnqqyzIhPthqbWWGTsOfiaJKAQeNvWqAR3ESeEFyn3JT8340q
-	cVIQpQJhkvwLKWweHcXFmhKyin0mha0dJhx7TO2c6Wk0/Z95Kes+kZK3JJc6azTR0ORI
-	UZaa1WryXaLeGEfWDjmfy9zcqbVTBIXWwiQshdttJHNvl5XQ28/j+d6i/bV5VF1jouo4
-	q7o2PkQi0W4o2hCNvgOXcyYTbUvRV7By+A/CqG+C4zEs4+8lUPGqTTWOeNJbZ7SHc/8y
-	feQw==
-X-Gm-Message-State: AKS2vOwn1PjyDccOIByYGiPXh6nSsXIBz6SaV8bn/gnrTXVAfr5x24zr
-	F+6fZXF0As58z8Bd8kw=
-X-Received: by 10.28.8.19 with SMTP id 19mr4211100wmi.18.1497996485401;
-	Tue, 20 Jun 2017 15:08:05 -0700 (PDT)
-Received: from mail-wr0-f171.google.com (mail-wr0-f171.google.com.
-	[209.85.128.171]) by smtp.gmail.com with ESMTPSA id
-	l46sm1392230wrl.15.2017.06.20.15.08.04
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 20 Jun 2017 15:08:04 -0700 (PDT)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-wr0-f171.google.com with SMTP id y25so70266322wrd.2
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Jun 2017 15:08:04 -0700 (PDT)
-X-Received: by 10.223.138.252 with SMTP id z57mr24067092wrz.66.1497996483809; 
-	Tue, 20 Jun 2017 15:08:03 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.28.176.5 with HTTP; Tue, 20 Jun 2017 15:08:03 -0700 (PDT)
-In-Reply-To: <ae378e9f-5646-41fc-642c-9716a2a03ac4@denx.de>
-References: <20170620204029.19499-1-brad.mouring@ni.com>
-	<f35ef85f-1868-ef13-1003-3bf1cfc58b89@denx.de>
-	<20170620205349.GA19584@zardoz.amer.corp.natinst.com>
-	<CAP9ODKoR2bZgeNzzBhNmDzJw6KOvqfboYpY3cj1JMnoqS4YKMQ@mail.gmail.com>
-	<ae378e9f-5646-41fc-642c-9716a2a03ac4@denx.de>
-Date: Tue, 20 Jun 2017 19:08:03 -0300
-X-Gmail-Original-Message-ID: <CAP9ODKpNqhY8nj8e2yPe_b+Nk0adK3fx_4FgZt58Pk8-09j5OA@mail.gmail.com>
-Message-ID: <CAP9ODKpNqhY8nj8e2yPe_b+Nk0adK3fx_4FgZt58Pk8-09j5OA@mail.gmail.com>
-To: Marek Vasut <marex@denx.de>
-Cc: Tom Rini <trini@konsulko.com>,
-	Openembedded Core <openembedded-core@lists.openembedded.org>,
-	Brad Mouring <brad.mouring@ni.com>
-Subject: Re: [RFC] u-boot-fw-utils: Allow target-specific fw_env.config
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:organization;
+	bh=SyLsdXlI5wPfUTxuDtAEjVFI9p0lTt21iL1xBmeK0bA=;
+	b=BzCwc43fGLwjFIAbv0dXWdymaxrvdhmJpVSL2WJHl+ZcLBd73RCjr9qaJLpvBSnGxC
+	WDMp2T/UwGiL2fYI/M97bkNAELFCTrzsPHqSUrcJ6+UxjfCUh9petPpdWQauvHOiY2dp
+	u3PiIh61s3adNzECqkGVEGhtvwDl8QbK55diQUx+1cWD/ZR0WGhJPj262rtLg9M04hus
+	brVKRb16500oqIpLgq/wU+nyTnCYKUt8HW+7DQ4rVM+CE00Aq+NbsnaV35bixiAA/hbT
+	V49AE3lchFaCSGL2tIfjQ3k3zrjE5vkmYTGfkZ30O0SJqYZAdyzgpD7kZebEV+xhR9xK
+	S+hA==
+X-Gm-Message-State: AKS2vOygndScoqmS+zMFGZGgY72yf8CfOSd5zduQvf9ar/iKUMRdO12o
+	tLLZyulxsTJIN+8G
+X-Received: by 10.176.92.198 with SMTP id z6mr22115502uaf.27.1497996924452;
+	Tue, 20 Jun 2017 15:15:24 -0700 (PDT)
+Received: from localhost.localdomain ([189.35.69.200])
+	by smtp.gmail.com with ESMTPSA id
+	q75sm5148892vke.15.2017.06.20.15.15.21
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Tue, 20 Jun 2017 15:15:23 -0700 (PDT)
+Received: by localhost.localdomain (sSMTP sendmail emulation);
+	Tue, 20 Jun 2017 19:15:16 -0300
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Date: Tue, 20 Jun 2017 19:15:12 -0300
+Message-Id: <20170620221512.21860-1-otavio@ossystems.com.br>
+X-Mailer: git-send-email 2.13.1
+Organization: O.S. Systems Software LTDA.
+Cc: marex@denx.de, trini@konsulko.com,
+	Otavio Salvador <otavio@ossystems.com.br>, brad.mouring@ni.com
+Subject: [PATCH] u-boot-fw-utils: Allow replacement of fw_env.config
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -73,54 +49,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Jun 2017 22:08:07 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 20 Jun 2017 22:15:24 -0000
 
-On Tue, Jun 20, 2017 at 6:16 PM, Marek Vasut <marex@denx.de> wrote:
-> On 06/20/2017 10:57 PM, Otavio Salvador wrote:
->> On Tue, Jun 20, 2017 at 5:53 PM, Brad Mouring <brad.mouring@ni.com> wrote:
->>> On Tue, Jun 20, 2017 at 10:43:51PM +0200, Marek Vasut wrote:
->>>> On 06/20/2017 10:40 PM, Brad Mouring wrote:
->>>>> As implemented currently, the fw-utils recipe does not allow for
->>>>> ...
->>>>> +# by the U-Boot environment utilities "fw_printenv" and "fw_setenv".
->>>>> +# By default, use the default included in the U-Boot source
->>>>> +UBOOT_FW_ENV_CONFIG ??= "${S}/tools/env/fw_env.config"
->>>>> +
->>>>>  inherit uboot-config
->>>>>
->>>>>  do_compile () {
->>>>> @@ -19,7 +24,7 @@ do_install () {
->>>>>     install -d ${D}${sysconfdir}
->>>>>     install -m 755 ${S}/tools/env/fw_printenv ${D}${base_sbindir}/fw_printenv
->>>>>     install -m 755 ${S}/tools/env/fw_printenv ${D}${base_sbindir}/fw_setenv
->>>>> -   install -m 0644 ${S}/tools/env/fw_env.config ${D}${sysconfdir}/fw_env.config
->>>>> +   install -m 0644 ${UBOOT_FW_ENV_CONFIG} ${D}${sysconfdir}/fw_env.config
->>>>
->>>> Do we really need yet another variable ? Wouldn't it make more sense to
->>>> add do_install_append_yourmachine() {} in your meta-whatever to
->>>> u-boot-fw-utils_%.bbappend and install whatever additional files you need ?
->>>
->>> This is (kinda) what we were doing, there was some discussion as to
->>> whether or not this made sense upstream. I was unsure of the
->>> acceptability of a do_install_append.*() clobbering a file of the
->>> original do_install().
->>>
->>> Thanks for the input.
->>
->> Or split up the configuration to u-boot-fw-utils-config package and
->> make u-boot-fw-utils generic? So we can have the configuration in a
->> specific package.
->
-> Keep in mind that u-boot-fw-utils is actually built for particular
-> machine (it contains ie. the default env for that machine) so bundling
-> the config file with it is IMO OK. No need to introduce additional
-> packages for every simple file.
+If a fw_env.config file is found in workdir, this is preferred over
+the U-Boot example.
 
-I will propose one patch. See what you think ...
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+---
 
+ meta/recipes-bsp/u-boot/u-boot-fw-utils_2017.05.bb | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
+
+diff --git a/meta/recipes-bsp/u-boot/u-boot-fw-utils_2017.05.bb b/meta/recipes-bsp/u-boot/u-boot-fw-utils_2017.05.bb
+index c2e8f0fb84..0682f9274b 100644
+--- a/meta/recipes-bsp/u-boot/u-boot-fw-utils_2017.05.bb
++++ b/meta/recipes-bsp/u-boot/u-boot-fw-utils_2017.05.bb
+@@ -19,7 +19,14 @@ do_install () {
+ 	install -d ${D}${sysconfdir}
+ 	install -m 755 ${S}/tools/env/fw_printenv ${D}${base_sbindir}/fw_printenv
+ 	install -m 755 ${S}/tools/env/fw_printenv ${D}${base_sbindir}/fw_setenv
+-	install -m 0644 ${S}/tools/env/fw_env.config ${D}${sysconfdir}/fw_env.config
++
++	# If a specific file is added in a .bbappend, this is used instead
++	# of the generic one
++	if [ -e ${WORKDIR}/fw_env.config ]; then
++		install -m 0644 ${WORKDIR}/fw_env.config ${D}${sysconfdir}/fw_env.config
++	else
++		install -m 0644 ${S}/tools/env/fw_env.config ${D}${sysconfdir}/fw_env.config.example
++	fi
+ }
+ 
+ do_install_class-cross () {
 -- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+2.13.1
+
 
