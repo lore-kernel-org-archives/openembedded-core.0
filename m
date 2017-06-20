@@ -1,51 +1,24 @@
-Return-Path: <brad.mouring@ni.com>
-Received: from mx0b-00010702.pphosted.com (mx0a-00010702.pphosted.com
-	[148.163.156.75])
-	by mail.openembedded.org (Postfix) with ESMTP id E66B477D16
+Return-Path: <stephano.cetola@linux.intel.com>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 6591D7198A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Jun 2017 21:30:12 +0000 (UTC)
-Received: from pps.filterd (m0098780.ppops.net [127.0.0.1])
-	by mx0a-00010702.pphosted.com (8.16.0.20/8.16.0.20) with SMTP id
-	v5KKejFY019088; Tue, 20 Jun 2017 15:40:48 -0500
-Received: from ni.com (skprod3.natinst.com [130.164.80.24])
-	by mx0a-00010702.pphosted.com with ESMTP id 2b51xptugc-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=NOT); Tue, 20 Jun 2017 15:40:48 -0500
-Received: from us-aus-exch2.ni.corp.natinst.com
-	(us-aus-exch2.ni.corp.natinst.com [130.164.68.12])
-	by us-aus-skprod3.natinst.com (8.16.0.17/8.16.0.17) with ESMTPS id
-	v5KKelYA020079
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
-	Tue, 20 Jun 2017 15:40:47 -0500
-Received: from us-aus-exch5.ni.corp.natinst.com (130.164.68.15) by
-	us-aus-exch2.ni.corp.natinst.com (130.164.68.12) with Microsoft SMTP
-	Server (TLS) id 15.0.1156.6; Tue, 20 Jun 2017 15:40:47 -0500
-Received: from us-aus-exhub1.ni.corp.natinst.com (130.164.68.41) by
-	us-aus-exch5.ni.corp.natinst.com (130.164.68.15) with Microsoft SMTP
-	Server (TLS) id 15.0.1156.6; Tue, 20 Jun 2017 15:40:45 -0500
-Received: from ni.com (130.164.49.7) by us-aus-exhub1.ni.corp.natinst.com
-	(130.164.68.41) with Microsoft SMTP Server id 15.0.1156.6 via Frontend
-	Transport; Tue, 20 Jun 2017 15:40:45 -0500
-Received: by ni.com (sSMTP sendmail emulation); Tue, 20 Jun 2017 15:40:45 -0500
-From: Brad Mouring <brad.mouring@ni.com>
-To: Openembedded Core <openembedded-core@lists.openembedded.org>
-Date: Tue, 20 Jun 2017 15:40:29 -0500
-Message-ID: <20170620204029.19499-1-brad.mouring@ni.com>
-X-Mailer: git-send-email 2.13.1
+	Tue, 20 Jun 2017 21:34:13 +0000 (UTC)
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+	by fmsmga105.fm.intel.com with ESMTP; 20 Jun 2017 14:34:13 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.39,366,1493708400"; d="scan'208";a="116794991"
+Received: from unknown (HELO scetola-mac01.local) ([10.252.131.195])
+	by fmsmga005.fm.intel.com with ESMTP; 20 Jun 2017 14:34:13 -0700
+Date: Tue, 20 Jun 2017 14:34:13 -0700
+From: Stephano Cetola <stephano.cetola@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Message-ID: <20170620213413.GA88738@scetola-mac01.local>
+References: <20170619151210.7692-1-zeenix@gmail.com>
+	<20170619153127.1043.10102@do.openembedded.org>
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
-	definitions=2017-06-20_10:, , signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_policy_notspam policy=outbound_policy
-	score=30
-	priorityscore=1501 malwarescore=0 suspectscore=2 phishscore=0
-	bulkscore=0
-	spamscore=0 clxscore=1011 lowpriorityscore=0 impostorscore=0
-	adultscore=0
-	classifier=spam adjust=30 reason=mlx scancount=1
-	engine=8.0.1-1703280000 definitions=main-1706200357
-Cc: Marek Vasut <marex@denx.de>, Tom Rini <trini@konsulko.com>,
-	Brad Mouring <brad.mouring@ni.com>
-Subject: [RFC] u-boot-fw-utils: Allow target-specific fw_env.config
+In-Reply-To: <20170619153127.1043.10102@do.openembedded.org>
+User-Agent: Mutt/1.8.3 (2017-05-23)
+Subject: =?UTF-8?B?UmU6IOKclyBwYXRjaHRlc3Q6IGZhaWx1cmUgZm9yIG9lcWE6IGZpeCBydW50aW1lIHRlc3RpbmcgdXNpbmcgc3lzdGVtZC1ib290IHRhcmdldCAocmV2Mik=?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,47 +31,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Jun 2017 21:30:13 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 20 Jun 2017 21:34:13 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-As implemented currently, the fw-utils recipe does not allow for
-a board- or distro-specific fw_env.config override, instead opting
-to include the default (commented, example-filled) fw_env.config
-from the u-boot source. This change introduces a variable that allows
-for overriding this, while defaulting to the example config file from
-the u-boot source.
+Hey Zeeshan,
 
-Signed-off-by: Brad Mouring <brad.mouring@ni.com>
----
- meta/recipes-bsp/u-boot/u-boot-fw-utils_2017.05.bb | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+Let me know if you need any help with this. This probably requires
+that you do a rebase with master and resubmit a V4.
 
-diff --git a/meta/recipes-bsp/u-boot/u-boot-fw-utils_2017.05.bb b/meta/recipes-bsp/u-boot/u-boot-fw-utils_2017.05.bb
-index c2e8f0fb84..b06282ac03 100644
---- a/meta/recipes-bsp/u-boot/u-boot-fw-utils_2017.05.bb
-+++ b/meta/recipes-bsp/u-boot/u-boot-fw-utils_2017.05.bb
-@@ -7,6 +7,11 @@ INSANE_SKIP_${PN} = "already-stripped"
- EXTRA_OEMAKE_class-target = 'CROSS_COMPILE=${TARGET_PREFIX} CC="${CC} ${CFLAGS} ${LDFLAGS}" HOSTCC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}" V=1'
- EXTRA_OEMAKE_class-cross = 'ARCH=${TARGET_ARCH} CC="${CC} ${CFLAGS} ${LDFLAGS}" V=1'
- 
-+# U-Boot environment configuration file variables. This file is used
-+# by the U-Boot environment utilities "fw_printenv" and "fw_setenv".
-+# By default, use the default included in the U-Boot source
-+UBOOT_FW_ENV_CONFIG ??= "${S}/tools/env/fw_env.config"
-+
- inherit uboot-config
- 
- do_compile () {
-@@ -19,7 +24,7 @@ do_install () {
- 	install -d ${D}${sysconfdir}
- 	install -m 755 ${S}/tools/env/fw_printenv ${D}${base_sbindir}/fw_printenv
- 	install -m 755 ${S}/tools/env/fw_printenv ${D}${base_sbindir}/fw_setenv
--	install -m 0644 ${S}/tools/env/fw_env.config ${D}${sysconfdir}/fw_env.config
-+	install -m 0644 ${UBOOT_FW_ENV_CONFIG} ${D}${sysconfdir}/fw_env.config
- }
- 
- do_install_class-cross () {
--- 
-2.13.1
+Cheers,
+Stephano
 
+On 06/19, Patchwork wrote:
+> == Series Details ==
+> 
+> Series: oeqa: fix runtime testing using systemd-boot target (rev2)
+> Revision: 2
+> URL   : https://patchwork.openembedded.org/series/6953/
+> State : failure
+> 
+> == Summary ==
+> 
+> 
+> Thank you for submitting this patch series to OpenEmbedded Core. This is
+> an automated response. Several tests have been executed on the proposed
+> series by patchtest resulting in the following failures:
+> 
+> 
+> 
+> * Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+>   Suggested fix    Rebase your series on top of targeted branch
+>   Targeted branch  master (currently at 1d9a88f635)
+> 
+> 
+> 
+> If you believe any of these test results are incorrect, please reply to the
+> mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+> Otherwise we would appreciate you correcting the issues and submitting a new
+> version of the patchset if applicable. Please ensure you add/increment the
+> version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+> [PATCH v3] -> ...).
+> 
+> ---
+> Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+> Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+> 
+> -- 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
