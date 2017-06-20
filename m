@@ -1,36 +1,36 @@
 Return-Path: <tobias.hagelborn@axis.com>
 Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
-	by mail.openembedded.org (Postfix) with ESMTP id 9AEB6773D5
+	by mail.openembedded.org (Postfix) with ESMTP id 63A7578222
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Jun 2017 07:42:58 +0000 (UTC)
+	Tue, 20 Jun 2017 07:42:59 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by bes.se.axis.com (Postfix) with ESMTP id B166A2E3EB
+	by bes.se.axis.com (Postfix) with ESMTP id 7AC302E3ED
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Jun 2017 09:42:58 +0200 (CEST)
+	Tue, 20 Jun 2017 09:43:00 +0200 (CEST)
 X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
 Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
 	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id nybUr97zfN0Z
+	port 10024) with LMTP id eERB2_zxlSno
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Jun 2017 09:42:57 +0200 (CEST)
+	Tue, 20 Jun 2017 09:42:58 +0200 (CEST)
 Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
-	by bes.se.axis.com (Postfix) with ESMTPS id ADC202E3E2
+	by bes.se.axis.com (Postfix) with ESMTPS id ED3802E3E8
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 20 Jun 2017 09:42:57 +0200 (CEST)
 Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 9719B1E082
+	by IMSVA (Postfix) with ESMTP id D82561E082
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 20 Jun 2017 09:42:57 +0200 (CEST)
 Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 8C0F51E06A
+	by IMSVA (Postfix) with ESMTP id CD1AA1E06A
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 20 Jun 2017 09:42:57 +0200 (CEST)
-Received: from seth.se.axis.com (unknown [10.0.2.172])
+Received: from thoth.se.axis.com (unknown [10.0.2.173])
 	by boulder03.se.axis.com (Postfix) with ESMTP
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 20 Jun 2017 09:42:57 +0200 (CEST)
 Received: from XBOX02.axis.com (xbox02.axis.com [10.0.5.16])
-	by seth.se.axis.com (Postfix) with ESMTP id 8108C16DE
+	by thoth.se.axis.com (Postfix) with ESMTP id C1FDA16DF
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 20 Jun 2017 09:42:57 +0200 (CEST)
 Received: from lnxtobiasha.se.axis.com (10.0.5.60) by XBOX02.axis.com
@@ -38,8 +38,8 @@ Received: from lnxtobiasha.se.axis.com (10.0.5.60) by XBOX02.axis.com
 	Tue, 20 Jun 2017 09:42:57 +0200
 From: Tobias Hagelborn <tobias.hagelborn@axis.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 20 Jun 2017 09:42:43 +0200
-Message-ID: <1497944565-7498-2-git-send-email-tobiasha@axis.com>
+Date: Tue, 20 Jun 2017 09:42:45 +0200
+Message-ID: <1497944565-7498-4-git-send-email-tobiasha@axis.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <1497944565-7498-1-git-send-email-tobiasha@axis.com>
 References: <1497944565-7498-1-git-send-email-tobiasha@axis.com>
@@ -48,7 +48,7 @@ X-Originating-IP: [10.0.5.60]
 X-ClientProxiedBy: XBOX02.axis.com (10.0.5.16) To XBOX02.axis.com (10.0.5.16)
 X-TM-AS-GCONF: 00
 Cc: Tobias Hagelborn <tobiasha@axis.com>
-Subject: [PATCH v3 2/4] staging.bbclass: Make use of oe.package.strip_execs
+Subject: [PATCH v3 4/4] devtool: deploy-target: Support stripped libs and execs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,134 +64,108 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Tue, 20 Jun 2017 07:42:59 -0000
 Content-Type: text/plain
 
-Make use of the library function oe.package.strip_execs for stripping
-sysroot executables. oe.packge.strip_execs is based on code previously
-residing in sysroot_strip.
+New devtool deploy-target option --strip which enables deploying
+stripped binaries, saving some space on target.
+
+* Copies the files of ${D} into a new directory and strips them in place
+* Used oe.package.strip_execs for stripping directory
+* Added devtool.conf option "strip" for changing default behavior
+
+Config example:
+[Deploy]
+strip = true
+
+[YOCTO #11227]
 
 Signed-off-by: Tobias Hagelborn <tobiasha@axis.com>
 ---
- meta/classes/staging.bbclass | 108 ++++++-------------------------------------
- 1 file changed, 13 insertions(+), 95 deletions(-)
+ scripts/lib/devtool/deploy.py | 32 ++++++++++++++++++++++++++++----
+ 1 file changed, 28 insertions(+), 4 deletions(-)
 
-diff --git a/meta/classes/staging.bbclass b/meta/classes/staging.bbclass
-index 1bb22aa..fe82294 100644
---- a/meta/classes/staging.bbclass
-+++ b/meta/classes/staging.bbclass
-@@ -68,101 +68,19 @@ sysroot_stage_all() {
- }
+diff --git a/scripts/lib/devtool/deploy.py b/scripts/lib/devtool/deploy.py
+index 04c34cb..96b877e 100644
+--- a/scripts/lib/devtool/deploy.py
++++ b/scripts/lib/devtool/deploy.py
+@@ -16,12 +16,16 @@
+ # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ """Devtool plugin containing the deploy subcommands"""
  
- python sysroot_strip () {
--    import stat, errno
--
--    dvar = d.getVar('SYSROOT_DESTDIR')
--    pn = d.getVar('PN')
--
--    os.chdir(dvar)
--
--    # Return type (bits):
--    # 0 - not elf
--    # 1 - ELF
--    # 2 - stripped
--    # 4 - executable
--    # 8 - shared library
--    # 16 - kernel module
--    def isELF(path):
--        type = 0
--        ret, result = oe.utils.getstatusoutput("file \"%s\"" % path.replace("\"", "\\\""))
--
--        if ret:
--            bb.error("sysroot_strip: 'file %s' failed" % path)
--            return type
--
--        # Not stripped
--        if "ELF" in result:
--            type |= 1
--            if "not stripped" not in result:
--                type |= 2
--            if "executable" in result:
--                type |= 4
--            if "shared" in result:
--                type |= 8
--        return type
--
--
--    elffiles = {}
--    inodes = {}
--    libdir = os.path.abspath(dvar + os.sep + d.getVar("libdir"))
--    baselibdir = os.path.abspath(dvar + os.sep + d.getVar("base_libdir"))
--    if (d.getVar('INHIBIT_SYSROOT_STRIP') != '1'):
--        #
--        # First lets figure out all of the files we may have to process
--        #
--        for root, dirs, files in os.walk(dvar):
--            for f in files:
--                file = os.path.join(root, f)
--
--                try:
--                    ltarget = oe.path.realpath(file, dvar, False)
--                    s = os.lstat(ltarget)
--                except OSError as e:
--                    (err, strerror) = e.args
--                    if err != errno.ENOENT:
--                        raise
--                    # Skip broken symlinks
--                    continue
--                if not s:
--                    continue
--                # Check its an excutable
--                if (s[stat.ST_MODE] & stat.S_IXUSR) or (s[stat.ST_MODE] & stat.S_IXGRP) or (s[stat.ST_MODE] & stat.S_IXOTH) \
--                        or ((file.startswith(libdir) or file.startswith(baselibdir)) and ".so" in f):
--                    # If it's a symlink, and points to an ELF file, we capture the readlink target
--                    if os.path.islink(file):
--                        continue
--
--                    # It's a file (or hardlink), not a link
--                    # ...but is it ELF, and is it already stripped?
--                    elf_file = isELF(file)
--                    if elf_file & 1:
--                        if elf_file & 2:
--                            if 'already-stripped' in (d.getVar('INSANE_SKIP_' + pn) or "").split():
--                                bb.note("Skipping file %s from %s for already-stripped QA test" % (file[len(dvar):], pn))
--                            else:
--                                bb.warn("File '%s' from %s was already stripped, this will prevent future debugging!" % (file[len(dvar):], pn))
--                            continue
--
--                        if s.st_ino in inodes:
--                            os.unlink(file)
--                            os.link(inodes[s.st_ino], file)
--                        else:
--                            inodes[s.st_ino] = file
--                            # break hardlink
--                            bb.utils.copyfile(file, file)
--                            elffiles[file] = elf_file
--
--        #
--        # Now strip them (in parallel)
--        #
--        strip = d.getVar("STRIP")
--        sfiles = []
--        for file in elffiles:
--            elf_file = int(elffiles[file])
--            #bb.note("Strip %s" % file)
--            sfiles.append((file, elf_file, strip))
--
--        oe.utils.multiprocess_exec(sfiles, oe.package.runstrip)
-+    inhibit_sysroot = d.getVar('INHIBIT_SYSROOT_STRIP', True)
-+    if inhibit_sysroot and oe.types.boolean(inhibit_sysroot):
-+        return 0
++import logging
+ import os
++import shutil
+ import subprocess
+-import logging
+ import tempfile
+-import shutil
 +
-+    dstdir = d.getVar('SYSROOT_DESTDIR', True)
-+    pn = d.getVar('PN', True)
-+    libdir = os.path.abspath(dstdir + os.sep + d.getVar("libdir", True))
-+    base_libdir = os.path.abspath(dstdir + os.sep + d.getVar("base_libdir", True))
-+    qa_already_stripped = 'already-stripped' in (d.getVar('INSANE_SKIP_' + pn, True) or "").split()
-+    strip_cmd = d.getVar("STRIP", True)
++import bb.utils
+ import argparse_oe
++import oe
 +
-+    oe.package.strip_execs(pn, dstdir, strip_cmd, libdir, base_libdir,
-+                           qa_already_stripped=qa_already_stripped)
- }
+ from devtool import exec_fakeroot, setup_tinfoil, check_workspace_recipe, DevtoolError
  
- do_populate_sysroot[dirs] = "${SYSROOT_DESTDIR}"
+ logger = logging.getLogger('devtool')
+@@ -140,9 +144,9 @@ def _prepare_remote_script(deploy, verbose=False, dryrun=False, undeployall=Fals
+     return '\n'.join(lines)
+ 
+ 
++
+ def deploy(args, config, basepath, workspace):
+     """Entry point for the devtool 'deploy' subcommand"""
+-    import re
+     import math
+     import oe.recipeutils
+ 
+@@ -170,6 +174,17 @@ def deploy(args, config, basepath, workspace):
+                             'recipe? If so, the install step has not installed '
+                             'any files.' % args.recipename)
+ 
++        if args.strip and not args.dry_run:
++            # Fakeroot copy to new destination
++            srcdir = recipe_outdir
++            recipe_outdir = os.path.join(rd.getVar('WORKDIR', True), 'deploy-target-stripped')
++            if os.path.isdir(recipe_outdir):
++                bb.utils.remove(recipe_outdir, True)
++            exec_fakeroot(rd, "cp -af %s %s" % (os.path.join(srcdir, '.'), recipe_outdir), shell=True)
++            os.environ['PATH'] = ':'.join([os.environ['PATH'], rd.getVar('PATH', True) or ''])
++            oe.package.strip_execs(args.recipename, recipe_outdir, rd.getVar('STRIP', True), rd.getVar('libdir', True),
++                        rd.getVar('base_libdir', True))
++
+         filelist = []
+         ftotalsize = 0
+         for root, _, files in os.walk(recipe_outdir):
+@@ -189,7 +204,6 @@ def deploy(args, config, basepath, workspace):
+                 print('  %s' % item)
+             return 0
+ 
+-
+         extraoptions = ''
+         if args.no_host_check:
+             extraoptions += '-o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no'
+@@ -301,6 +315,7 @@ def undeploy(args, config, basepath, workspace):
+ 
+ def register_commands(subparsers, context):
+     """Register devtool subcommands from the deploy plugin"""
++
+     parser_deploy = subparsers.add_parser('deploy-target',
+                                           help='Deploy recipe output files to live target machine',
+                                           description='Deploys a recipe\'s build output (i.e. the output of the do_install task) to a live target machine over ssh. By default, any existing files will be preserved instead of being overwritten and will be restored if you run devtool undeploy-target. Note: this only deploys the recipe itself and not any runtime dependencies, so it is assumed that those have been installed on the target beforehand.',
+@@ -313,6 +328,15 @@ def register_commands(subparsers, context):
+     parser_deploy.add_argument('-p', '--no-preserve', help='Do not preserve existing files', action='store_true')
+     parser_deploy.add_argument('--no-check-space', help='Do not check for available space before deploying', action='store_true')
+     parser_deploy.add_argument('-P', '--port', default='22', help='Port to use for connection to the target')
++
++    strip_opts = parser_deploy.add_mutually_exclusive_group(required=False)
++    strip_opts.add_argument('-S', '--strip',
++                               help='Strip executables prior to deploying (default: %(default)s). '
++                                    'The default value of this option can be controlled by setting the strip option in the [Deploy] section to True or False.',
++                               default=oe.types.boolean(context.config.get('Deploy', 'strip', default='0')),
++                               action='store_true')
++    strip_opts.add_argument('--no-strip', help='Do not strip executables prior to deploy', dest='strip', action='store_false')
++
+     parser_deploy.set_defaults(func=deploy)
+ 
+     parser_undeploy = subparsers.add_parser('undeploy-target',
 -- 
 2.1.4
 
