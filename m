@@ -1,35 +1,54 @@
-Return-Path: <fan.xin@jp.fujitsu.com>
-Received: from mgwym03.jp.fujitsu.com (mgwym03.jp.fujitsu.com [211.128.242.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 1FA2C7823D
+Return-Path: <tobias.hagelborn@axis.com>
+Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
+	by mail.openembedded.org (Postfix) with ESMTP id 9AEB6773D5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Jun 2017 04:51:48 +0000 (UTC)
-Received: from yt-mxoi2.gw.nic.fujitsu.com (unknown [192.168.229.69]) by
-	mgwym03.jp.fujitsu.com with smtp
-	id 674c_4b48_93b9f259_6725_4db7_b0a7_85c4d0983780;
-	Tue, 20 Jun 2017 13:51:42 +0900
-Received: from g01jpfmpwkw03.exch.g01.fujitsu.local
-	(g01jpfmpwkw03.exch.g01.fujitsu.local [10.0.193.57])
-	by yt-mxoi2.gw.nic.fujitsu.com (Postfix) with ESMTP id E315BAC00A6
+	Tue, 20 Jun 2017 07:42:58 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bes.se.axis.com (Postfix) with ESMTP id B166A2E3EB
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Jun 2017 13:51:41 +0900 (JST)
-Received: from G01JPEXCHKW17.g01.fujitsu.local
-	(G01JPEXCHKW17.g01.fujitsu.local [10.0.194.56])
-	by g01jpfmpwkw03.exch.g01.fujitsu.local (Postfix) with ESMTP id
-	B09E4BD66AB for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Jun 2017 13:51:40 +0900 (JST)
-Received: from localhost.localdomain (10.24.19.99) by
-	G01JPEXCHKW17.g01.fujitsu.local (10.0.194.56) with Microsoft SMTP
-	Server id 14.3.266.1; Tue, 20 Jun 2017 13:51:40 +0900
-From: Fan Xin <fan.xin@jp.fujitsu.com>
+	Tue, 20 Jun 2017 09:42:58 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
+Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP id nybUr97zfN0Z
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 20 Jun 2017 09:42:57 +0200 (CEST)
+Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
+	by bes.se.axis.com (Postfix) with ESMTPS id ADC202E3E2
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 20 Jun 2017 09:42:57 +0200 (CEST)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 9719B1E082
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 20 Jun 2017 09:42:57 +0200 (CEST)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 8C0F51E06A
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 20 Jun 2017 09:42:57 +0200 (CEST)
+Received: from seth.se.axis.com (unknown [10.0.2.172])
+	by boulder03.se.axis.com (Postfix) with ESMTP
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 20 Jun 2017 09:42:57 +0200 (CEST)
+Received: from XBOX02.axis.com (xbox02.axis.com [10.0.5.16])
+	by seth.se.axis.com (Postfix) with ESMTP id 8108C16DE
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 20 Jun 2017 09:42:57 +0200 (CEST)
+Received: from lnxtobiasha.se.axis.com (10.0.5.60) by XBOX02.axis.com
+	(10.0.5.16) with Microsoft SMTP Server (TLS) id 15.0.1210.3;
+	Tue, 20 Jun 2017 09:42:57 +0200
+From: Tobias Hagelborn <tobias.hagelborn@axis.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 20 Jun 2017 13:53:06 +0900
-Message-ID: <1497934386-25305-1-git-send-email-fan.xin@jp.fujitsu.com>
-X-Mailer: git-send-email 1.9.1
+Date: Tue, 20 Jun 2017 09:42:43 +0200
+Message-ID: <1497944565-7498-2-git-send-email-tobiasha@axis.com>
+X-Mailer: git-send-email 2.1.4
+In-Reply-To: <1497944565-7498-1-git-send-email-tobiasha@axis.com>
+References: <1497944565-7498-1-git-send-email-tobiasha@axis.com>
 MIME-Version: 1.0
-X-SecurityPolicyCheck-GC: OK by FENCE-Mail
-X-Encrypted: FENCE-Mail/3.1.1
-X-TM-AS-MML: disable
-Subject: [PATCH] file: 5.30 -> 5.31
+X-Originating-IP: [10.0.5.60]
+X-ClientProxiedBy: XBOX02.axis.com (10.0.5.16) To XBOX02.axis.com (10.0.5.16)
+X-TM-AS-GCONF: 00
+Cc: Tobias Hagelborn <tobiasha@axis.com>
+Subject: [PATCH v3 2/4] staging.bbclass: Make use of oe.package.strip_execs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,76 +61,138 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Jun 2017 04:51:51 -0000
+X-List-Received-Date: Tue, 20 Jun 2017 07:42:59 -0000
 Content-Type: text/plain
 
-1. Upgrade file from 5.30 to 5.31
+Make use of the library function oe.package.strip_execs for stripping
+sysroot executables. oe.packge.strip_execs is based on code previously
+residing in sysroot_strip.
 
-2. Rebase the following patch file.
-   debian-742262.patch
-
-Signed-off-by: Fan Xin <fan.xin@jp.fujitsu.com>
+Signed-off-by: Tobias Hagelborn <tobiasha@axis.com>
 ---
- meta/recipes-devtools/file/file/debian-742262.patch     | 17 ++++++++++++++---
- .../file/{file_5.30.bb => file_5.31.bb}                 |  2 +-
- 2 files changed, 15 insertions(+), 4 deletions(-)
- rename meta/recipes-devtools/file/{file_5.30.bb => file_5.31.bb} (96%)
+ meta/classes/staging.bbclass | 108 ++++++-------------------------------------
+ 1 file changed, 13 insertions(+), 95 deletions(-)
 
-diff --git a/meta/recipes-devtools/file/file/debian-742262.patch b/meta/recipes-devtools/file/file/debian-742262.patch
-index 1ef485e..d31ac59 100644
---- a/meta/recipes-devtools/file/file/debian-742262.patch
-+++ b/meta/recipes-devtools/file/file/debian-742262.patch
-@@ -1,19 +1,30 @@
--The awk pattern was checked *before* the Perl pattern, so the perl
--script with BEGIN{...} would be reported as awk, this patch fixes it.
-+The awk pattern was checked *before* the Perl pattern, so the
-+perl script with BEGIN{...} would be reported as awk, this patch fixes it.
+diff --git a/meta/classes/staging.bbclass b/meta/classes/staging.bbclass
+index 1bb22aa..fe82294 100644
+--- a/meta/classes/staging.bbclass
++++ b/meta/classes/staging.bbclass
+@@ -68,101 +68,19 @@ sysroot_stage_all() {
+ }
  
- Upstream-Status: Backport [debian]
+ python sysroot_strip () {
+-    import stat, errno
+-
+-    dvar = d.getVar('SYSROOT_DESTDIR')
+-    pn = d.getVar('PN')
+-
+-    os.chdir(dvar)
+-
+-    # Return type (bits):
+-    # 0 - not elf
+-    # 1 - ELF
+-    # 2 - stripped
+-    # 4 - executable
+-    # 8 - shared library
+-    # 16 - kernel module
+-    def isELF(path):
+-        type = 0
+-        ret, result = oe.utils.getstatusoutput("file \"%s\"" % path.replace("\"", "\\\""))
+-
+-        if ret:
+-            bb.error("sysroot_strip: 'file %s' failed" % path)
+-            return type
+-
+-        # Not stripped
+-        if "ELF" in result:
+-            type |= 1
+-            if "not stripped" not in result:
+-                type |= 2
+-            if "executable" in result:
+-                type |= 4
+-            if "shared" in result:
+-                type |= 8
+-        return type
+-
+-
+-    elffiles = {}
+-    inodes = {}
+-    libdir = os.path.abspath(dvar + os.sep + d.getVar("libdir"))
+-    baselibdir = os.path.abspath(dvar + os.sep + d.getVar("base_libdir"))
+-    if (d.getVar('INHIBIT_SYSROOT_STRIP') != '1'):
+-        #
+-        # First lets figure out all of the files we may have to process
+-        #
+-        for root, dirs, files in os.walk(dvar):
+-            for f in files:
+-                file = os.path.join(root, f)
+-
+-                try:
+-                    ltarget = oe.path.realpath(file, dvar, False)
+-                    s = os.lstat(ltarget)
+-                except OSError as e:
+-                    (err, strerror) = e.args
+-                    if err != errno.ENOENT:
+-                        raise
+-                    # Skip broken symlinks
+-                    continue
+-                if not s:
+-                    continue
+-                # Check its an excutable
+-                if (s[stat.ST_MODE] & stat.S_IXUSR) or (s[stat.ST_MODE] & stat.S_IXGRP) or (s[stat.ST_MODE] & stat.S_IXOTH) \
+-                        or ((file.startswith(libdir) or file.startswith(baselibdir)) and ".so" in f):
+-                    # If it's a symlink, and points to an ELF file, we capture the readlink target
+-                    if os.path.islink(file):
+-                        continue
+-
+-                    # It's a file (or hardlink), not a link
+-                    # ...but is it ELF, and is it already stripped?
+-                    elf_file = isELF(file)
+-                    if elf_file & 1:
+-                        if elf_file & 2:
+-                            if 'already-stripped' in (d.getVar('INSANE_SKIP_' + pn) or "").split():
+-                                bb.note("Skipping file %s from %s for already-stripped QA test" % (file[len(dvar):], pn))
+-                            else:
+-                                bb.warn("File '%s' from %s was already stripped, this will prevent future debugging!" % (file[len(dvar):], pn))
+-                            continue
+-
+-                        if s.st_ino in inodes:
+-                            os.unlink(file)
+-                            os.link(inodes[s.st_ino], file)
+-                        else:
+-                            inodes[s.st_ino] = file
+-                            # break hardlink
+-                            bb.utils.copyfile(file, file)
+-                            elffiles[file] = elf_file
+-
+-        #
+-        # Now strip them (in parallel)
+-        #
+-        strip = d.getVar("STRIP")
+-        sfiles = []
+-        for file in elffiles:
+-            elf_file = int(elffiles[file])
+-            #bb.note("Strip %s" % file)
+-            sfiles.append((file, elf_file, strip))
+-
+-        oe.utils.multiprocess_exec(sfiles, oe.package.runstrip)
++    inhibit_sysroot = d.getVar('INHIBIT_SYSROOT_STRIP', True)
++    if inhibit_sysroot and oe.types.boolean(inhibit_sysroot):
++        return 0
++
++    dstdir = d.getVar('SYSROOT_DESTDIR', True)
++    pn = d.getVar('PN', True)
++    libdir = os.path.abspath(dstdir + os.sep + d.getVar("libdir", True))
++    base_libdir = os.path.abspath(dstdir + os.sep + d.getVar("base_libdir", True))
++    qa_already_stripped = 'already-stripped' in (d.getVar('INSANE_SKIP_' + pn, True) or "").split()
++    strip_cmd = d.getVar("STRIP", True)
++
++    oe.package.strip_execs(pn, dstdir, strip_cmd, libdir, base_libdir,
++                           qa_already_stripped=qa_already_stripped)
+ }
  
- Signed-off-by: Christoph Biedl <debian.axhn@manchmal.in-ulm.de>
- Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-+
-+Rebase on 5.31
-+
-+Signed-off-by: Fan Xin <fan.xin@jp.fujitsu.com>
- ---
-+ magic/Magdir/commands | 1 +
-+ 1 file changed, 1 insertion(+)
-+
- diff --git a/magic/Magdir/commands b/magic/Magdir/commands
-+index 1a46efd..255c04b 100644
- --- a/magic/Magdir/commands
- +++ b/magic/Magdir/commands
- @@ -57,6 +57,7 @@
-  0	string/wt	#!\ /usr/bin/awk	awk script text executable
-  !:mime	text/x-awk
-- 0	regex/4096	=^\\s{0,100}BEGIN\\s{0,100}[{]	awk or perl script text
-+ 0	regex/4096	=^[A-Za-z0-9_]{0,100}BEGIN[A-Za-z0-9_]{0,100}[{]	awk or perl script text
- +!:strength - 12
-  
-  # AT&T Bell Labs' Plan 9 shell
-  0	string/wt	#!\ /bin/rc	Plan 9 rc shell script text executable
-+-- 
-+1.9.1
-+
-diff --git a/meta/recipes-devtools/file/file_5.30.bb b/meta/recipes-devtools/file/file_5.31.bb
-similarity index 96%
-rename from meta/recipes-devtools/file/file_5.30.bb
-rename to meta/recipes-devtools/file/file_5.31.bb
-index 0998fcf..1b1f502 100644
---- a/meta/recipes-devtools/file/file_5.30.bb
-+++ b/meta/recipes-devtools/file/file_5.31.bb
-@@ -19,7 +19,7 @@ SRC_URI = "git://github.com/file/file.git \
-         file://0001-Add-P-prompt-into-Usage-info.patch \
-         "
- 
--SRCREV = "79814950aafb81ecd6a910c2a8a3b8ec12f3e4a6"
-+SRCREV = "70c5f15060c7ad81150177de83a3e64500a54c9f"
- S = "${WORKDIR}/git"
- 
- inherit autotools
+ do_populate_sysroot[dirs] = "${SYSROOT_DESTDIR}"
 -- 
-2.7.4
+2.1.4
 
 
