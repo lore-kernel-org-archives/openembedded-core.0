@@ -1,21 +1,25 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 6540F6069C
+Return-Path: <sgw@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id DA959781D3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Jun 2017 13:59:12 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	20 Jun 2017 06:59:12 -0700
+	Tue, 20 Jun 2017 14:03:28 +0000 (UTC)
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	20 Jun 2017 07:03:10 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.39,364,1493708400"; d="scan'208";a="1162599807"
-Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by fmsmga001.fm.intel.com with ESMTP; 20 Jun 2017 06:59:11 -0700
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 20 Jun 2017 16:56:23 +0300
-Message-Id: <20170620135624.15549-1-alexander.kanavin@linux.intel.com>
-X-Mailer: git-send-email 2.11.0
-Subject: [PATCHv2 1/2] libdnf: update to 0.9.1
+X-IronPort-AV: E=Sophos;i="5.39,364,1493708400"; d="scan'208";a="116621337"
+Received: from swold-mobl2.amr.corp.intel.com ([10.254.183.143])
+	by fmsmga005.fm.intel.com with ESMTP; 20 Jun 2017 07:03:10 -0700
+Message-ID: <1497967390.13914.61.camel@linux.intel.com>
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org, 
+	richard.purdie@linuxfoundation.org
+Date: Tue, 20 Jun 2017 07:03:10 -0700
+In-Reply-To: <1497448981-8637-1-git-send-email-sgw@linux.intel.com>
+References: <1497448981-8637-1-git-send-email-sgw@linux.intel.com>
+X-Mailer: Evolution 3.20.5 (3.20.5-1.fc24) 
+Mime-Version: 1.0
+Subject: Re: [PATCH] pkg-config: allow kernel to be build with esdk
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,32 +32,117 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Jun 2017 13:59:14 -0000
+X-List-Received-Date: Tue, 20 Jun 2017 14:03:29 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
----
- meta/recipes-devtools/libdnf/{libdnf_git.bb => libdnf_0.9.1.bb} | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
- rename meta/recipes-devtools/libdnf/{libdnf_git.bb => libdnf_0.9.1.bb} (94%)
 
-diff --git a/meta/recipes-devtools/libdnf/libdnf_git.bb b/meta/recipes-devtools/libdnf/libdnf_0.9.1.bb
-similarity index 94%
-rename from meta/recipes-devtools/libdnf/libdnf_git.bb
-rename to meta/recipes-devtools/libdnf/libdnf_0.9.1.bb
-index 2acbd89659a..e5c47bf8dbe 100644
---- a/meta/recipes-devtools/libdnf/libdnf_git.bb
-+++ b/meta/recipes-devtools/libdnf/libdnf_0.9.1.bb
-@@ -10,8 +10,7 @@ SRC_URI = "git://github.com/rpm-software-management/libdnf \
-            file://0001-Get-parameters-for-both-libsolv-and-libsolvext-libdn.patch \
-            "
- 
--PV = "0.8.1"
--SRCREV = "233287f4f80e24a917d5f6a26967f54080ffa255"
-+SRCREV = "d5ecb17c0fde4f99c6a80e6f162510465b8d28f9"
- 
- S = "${WORKDIR}/git"
- 
--- 
-2.11.0
+Ping on this patch?
 
+It has been tested with a variety of shells (sh, bash, dash, ash).  Is
+there any further concerns?
+
+Sau!
+
+
+On Wed, 2017-06-14 at 07:03 -0700, Saul Wold wrote:
+> When the kernel's menuconfig target is called while using the esdk or
+> an
+> esdk-based container, the pkg-config info that is found is not
+> correct.
+> The pkg-config info is for the target, but we need the eSDK's
+> information
+> in order to build the host based menuconfig.
+> 
+> The new pkg-config script checks both that it's in SDK and being
+> called
+> from the check-lxdialog script in order to limit the scope of when
+> the
+> pkg-config automagically switches to pkg-config-native.
+> 
+> This script also replaces the default pkg-config-native script.
+> 
+> [YOCTO #11155]
+> 
+> Signed-off-by: Saul Wold <sgw@linux.intel.com>
+> ---
+>  .../pkgconfig/pkgconfig/pkg-config.in              | 22
+> ++++++++++++++++++++++
+>  meta/recipes-devtools/pkgconfig/pkgconfig_git.bb   | 14 ++++++++++
+> ----
+>  2 files changed, 32 insertions(+), 4 deletions(-)
+>  create mode 100644 meta/recipes-devtools/pkgconfig/pkgconfig/pkg-
+> config.in
+> 
+> diff --git a/meta/recipes-devtools/pkgconfig/pkgconfig/pkg-config.in
+> b/meta/recipes-devtools/pkgconfig/pkgconfig/pkg-config.in
+> new file mode 100644
+> index 0000000..dabec47
+> --- /dev/null
+> +++ b/meta/recipes-devtools/pkgconfig/pkgconfig/pkg-config.in
+> @@ -0,0 +1,22 @@
+> +#!/bin/sh
+> +
+> +do_native=0
+> +
+> +parentpid=`ps -o ppid= -p $$`
+> +parentpid_info=`ps -wo comm= -o args= -p $parentpid`
+> +
+> +# in this case we are in the esdk and being called from
+> +# the kernel's make menuconfig
+> +if [ "pkg-config-native" = "`basename $0`" ] ||
+> +   ([ "$OE_SKIP_SDK_CHECK" = "1" ] &&
+> +    ( echo $parentpid_info | grep -q check-lxdialog )) ; then
+> +	do_native=1
+> +fi
+> +
+> +if [ $do_native -eq 1 ] ; then
+> +	PKG_CONFIG_PATH="@PATH_NATIVE@"
+> +	PKG_CONFIG_LIBDIR="@LIBDIR_NATIVE@"
+> +	unset PKG_CONFIG_SYSROOT_DIR
+> +fi
+> +
+> +pkg-config.real "$@"
+> diff --git a/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb
+> b/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb
+> index e634021..3ec7458 100644
+> --- a/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb
+> +++ b/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb
+> @@ -12,6 +12,7 @@ SRCREV = "edf8e6f0ea77ede073f07bff0d2ae1fc7a38103b"
+>  PV = "0.29.2+git${SRCPV}"
+>  
+>  SRC_URI = "git://anongit.freedesktop.org/pkg-config \
+> +           file://pkg-config.in \
+>             file://pkg-config-native.in \
+>             file://fix-glib-configure-libtool-usage.patch \
+>             file://0001-glib-gettext.m4-Update-AM_GLIB_GNU_GETTEXT-
+> to-match-.patch \
+> @@ -47,11 +48,16 @@ FILES_${PN} += "${datadir}/aclocal/pkg.m4"
+>  # specifying an appropriate provide.
+>  RPROVIDES_${PN} += "pkgconfig(pkg-config)"
+>  
+> +do_install_append () {
+> +	mv ${D}${bindir}/pkg-config ${D}${bindir}/pkg-config.real
+> +	sed -e "s|@PATH_NATIVE@|${PKG_CONFIG_PATH}|" \
+> +		-e "s|@LIBDIR_NATIVE@|${PKG_CONFIG_LIBDIR}|" \
+> +		< ${WORKDIR}/pkg-config.in > ${B}/pkg-config
+> +	install -m755 ${B}/pkg-config ${D}${bindir}/pkg-config
+> +}
+> +
+>  # Install a pkg-config-native wrapper that will use the native
+> sysroot instead
+>  # of the MACHINE sysroot, for using pkg-config when building native
+> tools.
+>  do_install_append_class-native () {
+> -    sed -e "s|@PATH_NATIVE@|${PKG_CONFIG_PATH}|" \
+> -        -e "s|@LIBDIR_NATIVE@|${PKG_CONFIG_LIBDIR}|" \
+> -        < ${WORKDIR}/pkg-config-native.in > ${B}/pkg-config-native
+> -    install -m755 ${B}/pkg-config-native ${D}${bindir}/pkg-config-
+> native
+> +	install -m755 ${B}/pkg-config ${D}${bindir}/pkg-config-
+> native
+>  }
+> -- 
+> 2.7.4
+> 
 
