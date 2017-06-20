@@ -1,25 +1,43 @@
-Return-Path: <maxin.john@intel.com>
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id 8BA89719E2
+Return-Path: <uol@pengutronix.de>
+X-Greylist: delayed 997 seconds by postgrey-1.34 at layers.openembedded.org;
+	Tue, 20 Jun 2017 09:09:33 UTC
+Received: from metis.ext.4.pengutronix.de (metis.ext.4.pengutronix.de
+	[92.198.50.35])
+	by mail.openembedded.org (Postfix) with ESMTP id E48B377E58
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Jun 2017 08:35:45 +0000 (UTC)
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-	by orsmga105.jf.intel.com with ESMTP; 20 Jun 2017 01:35:44 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.39,364,1493708400"; d="scan'208";a="116518001"
-Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga005.fm.intel.com with ESMTP; 20 Jun 2017 01:35:44 -0700
-Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
-	[10.237.72.84])
-	by linux.intel.com (Postfix) with ESMTP id 207D15804B8
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Jun 2017 01:35:43 -0700 (PDT)
-From: "Maxin B. John" <maxin.john@intel.com>
+	Tue, 20 Jun 2017 09:09:33 +0000 (UTC)
+Received: from dude.hi.pengutronix.de ([2001:67c:670:100:1d::7])
+	by metis.ext.pengutronix.de with esmtps
+	(TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.84_2)
+	(envelope-from <uol@pengutronix.de>) id 1dNEu9-0003Ce-AK
+	for openembedded-core@lists.openembedded.org;
+	Tue, 20 Jun 2017 10:52:57 +0200
+Received: from uol by dude.hi.pengutronix.de with local (Exim 4.89)
+	(envelope-from <uol@pengutronix.de>) id 1dNEu8-00077B-QX
+	for openembedded-core@lists.openembedded.org;
+	Tue, 20 Jun 2017 10:52:56 +0200
+Date: Tue, 20 Jun 2017 10:52:56 +0200
+From: Ulrich =?iso-8859-1?Q?=D6lmann?= <u.oelmann@pengutronix.de>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 20 Jun 2017 11:35:40 +0300
-Message-Id: <1497947740-25438-1-git-send-email-maxin.john@intel.com>
-X-Mailer: git-send-email 2.4.0
-Subject: [PATCH] connman: fix build-time warning with sysvinit
+Message-ID: <20170620085256.okya3zax2xhdshiz@pengutronix.de>
+References: <20170507013304.30165-1-JPEWhacker@gmail.com>
+	<CAJTo0Lafr6dearC1uiQpumEUHA9ggAC59MhtvFWVvYi-Oc_8TQ@mail.gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <CAJTo0Lafr6dearC1uiQpumEUHA9ggAC59MhtvFWVvYi-Oc_8TQ@mail.gmail.com>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-IRC: #ptxdist @freenode
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-Uptime: 10:41:34 up 9 days, 20:39, 134 users,  load average: 40.57, 20.42,
+	16.94
+User-Agent: NeoMutt/20170113 (1.7.2)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::7
+X-SA-Exim-Mail-From: uol@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+	SAEximRunCond expanded to false
+X-PTX-Original-Recipient: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] openssh: Atomically generate host keys
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,39 +50,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Jun 2017 08:35:47 -0000
+X-List-Received-Date: Tue, 20 Jun 2017 09:09:34 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Due to recent modifications related to systemd, sysvinit builds began
-to show this warning:
+On Tue, May 23, 2017 at 03:37:16PM +0100, Burton, Ross wrote:
+> On 7 May 2017 at 02:33, Joshua Watt <jpewhacker@gmail.com> wrote:
+> > diff --git a/meta/recipes-connectivity/openssh/openssh/sshdgenkeys.service
+> > b/meta/recipes-connectivity/openssh/openssh/sshdgenkeys.service
+> > index 148e6ad..af56404 100644
+> > --- a/meta/recipes-connectivity/openssh/openssh/sshdgenkeys.service
+> > +++ b/meta/recipes-connectivity/openssh/openssh/sshdgenkeys.service
+> > @@ -1,22 +1,14 @@
+> >  [Unit]
+> >  Description=OpenSSH Key Generation
+> >  RequiresMountsFor=/var /run
+> > -ConditionPathExists=!/var/run/ssh/ssh_host_rsa_key
+> > -ConditionPathExists=!/var/run/ssh/ssh_host_dsa_key
+> > -ConditionPathExists=!/var/run/ssh/ssh_host_ecdsa_key
+> > -ConditionPathExists=!/var/run/ssh/ssh_host_ed25519_key
+> > -ConditionPathExists=!/etc/ssh/ssh_host_rsa_key
+> > -ConditionPathExists=!/etc/ssh/ssh_host_dsa_key
+> > -ConditionPathExists=!/etc/ssh/ssh_host_ecdsa_key
+> > -ConditionPathExists=!/etc/ssh/ssh_host_ed25519_key
+> >
+> 
+> Can you not continue to use ConditionPathExists to only run this unit if it
+> needs to run?  You can prepend the argument with | to make them logical OR
+> instead of logical AND, if I'm reading this documentation correctly.
 
-WARNING: connman-1.34-r0 do_package: connman: NOT adding alternative
-provide /etc/resolv.conf: /etc/resolv-conf.connman does not exist
+Am I right that if we have a read-write mounted root-FS with already existing
+keys in /etc/ssh the service unit will nevertheless be started on _every_ boot
+now as the files which are checked for existance in /var/run/ssh are missing?
 
-Fix this warning by making those updates specific to systemd.
-
-Signed-off-by: Maxin B. John <maxin.john@intel.com>
----
- meta/recipes-connectivity/connman/connman.inc | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/meta/recipes-connectivity/connman/connman.inc b/meta/recipes-connectivity/connman/connman.inc
-index ab18f2f..7e05c80 100644
---- a/meta/recipes-connectivity/connman/connman.inc
-+++ b/meta/recipes-connectivity/connman/connman.inc
-@@ -70,9 +70,9 @@ SYSTEMD_SERVICE_${PN}-vpn = "connman-vpn.service"
- SYSTEMD_SERVICE_${PN}-wait-online = "connman-wait-online.service"
- 
- ALTERNATIVE_PRIORITY = "100"
--ALTERNATIVE_${PN} ="resolv-conf"
--ALTERNATIVE_TARGET[resolv-conf] = "${sysconfdir}/resolv-conf.connman"
--ALTERNATIVE_LINK_NAME[resolv-conf] = "${sysconfdir}/resolv.conf"
-+ALTERNATIVE_${PN} = "${@bb.utils.contains('DISTRO_FEATURES','systemd','resolv-conf','',d)}"
-+ALTERNATIVE_TARGET[resolv-conf] = "${@bb.utils.contains('DISTRO_FEATURES','systemd','${sysconfdir}/resolv-conf.connman','',d)}"
-+ALTERNATIVE_LINK_NAME[resolv-conf] = "${@bb.utils.contains('DISTRO_FEATURES','systemd','${sysconfdir}/resolv.conf','',d)}"
- 
- do_install_append() {
- 	if ${@bb.utils.contains('DISTRO_FEATURES','sysvinit','true','false',d)}; then
+Best regards
+Ulrich
 -- 
-2.4.0
-
+Pengutronix e.K.                           |                             |
+Industrial Linux Solutions                 | http://www.pengutronix.de/  |
+Peiner Str. 6-8, 31137 Hildesheim, Germany | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
 
