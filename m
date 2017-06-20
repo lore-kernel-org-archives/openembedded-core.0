@@ -1,18 +1,24 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 333D477FF6;
-	Wed, 21 Jun 2017 03:01:25 +0000 (UTC)
-MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Randy MacLeod <randy.macleod@windriver.com>
-Date: Wed, 21 Jun 2017 03:01:27 -0000
-Message-ID: <20170621030127.1043.43044@do.openembedded.org>
-References: <1498012112-27453-1-git-send-email-Randy.MacLeod@windriver.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <1498012112-27453-1-git-send-email-Randy.MacLeod@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3Igc3lzdGVtZDogd29yay1hcm91bmQgcHBjIGdvbGQgbGlua2VyIGVycm9y?=
+Return-Path: <yin.thong.choong@intel.com>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	by mail.openembedded.org (Postfix) with ESMTP id 54F9077FED
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 21 Jun 2017 03:34:25 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga105.jf.intel.com with ESMTP; 20 Jun 2017 20:34:27 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.39,367,1493708400"; d="scan'208";a="101840897"
+Received: from platypus.jf.intel.com ([10.54.77.139])
+	by orsmga002.jf.intel.com with ESMTP; 20 Jun 2017 20:34:26 -0700
+From: yin.thong.choong@intel.com
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 20 Jun 2017 13:23:38 -0700
+Message-Id: <1497990218-94260-2-git-send-email-yin.thong.choong@intel.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1497990218-94260-1-git-send-email-yin.thong.choong@intel.com>
+References: <1497990218-94260-1-git-send-email-yin.thong.choong@intel.com>
+Cc: otc-pg-team@eclists.intel.com, paul.eggleton@intel.com,
+	core-dev@eclists.intel.com, saul.wold@intel.com
+Subject: [PATCH v4] image_types.bbclass: Prompt error message on missing setting in UBI and UBIFS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,43 +31,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Jun 2017 03:01:25 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 21 Jun 2017 03:34:25 -0000
 
-== Series Details ==
+From: Choong YinThong <yin.thong.choong@intel.com>
 
-Series: systemd: work-around ppc gold linker error
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/7390/
-State : failure
+Prompt error message to guide user add argument
+MKUBIFS_ARGS and UBINIZE_ARGS in local.conf on
+every UBI and UBIFS image creation.
 
-== Summary ==
+[YOCTO #11589]
 
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Issue             Added patch file is missing Upstream-Status in the header [test_upstream_status_presence] 
-  Suggested fix    Add Upstream-Status: <status> to the header of meta/recipes-core/systemd/systemd/systemd-drop-gold-use-bfd.patch (possible values: Pending, Submitted, Accepted, Backport, Denied, Inappropriate)
-
-* Issue             A patch file has been added, but does not have a Signed-off-by tag [test_signed_off_by_presence] 
-  Suggested fix    Sign off the added patch file (meta/recipes-core/systemd/systemd/systemd-drop-gold-use-bfd.patch)
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
+Signed-off-by: Choong YinThong <yin.thong.choong@intel.com>
 ---
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+ meta/classes/image_types.bbclass | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
+index 7749b00..e496385 100644
+--- a/meta/classes/image_types.bbclass
++++ b/meta/classes/image_types.bbclass
+@@ -145,6 +145,14 @@ UBI_VOLNAME ?= "${MACHINE}-rootfs"
+ multiubi_mkfs() {
+ 	local mkubifs_args="$1"
+ 	local ubinize_args="$2"
++    
++        # Added prompt error message for ubi and ubifs image creation.
++        if [ -z "$mkubifs_args"] || [ -z "$ubinize_args" ]; then
++            bberror "MKUBIFS_ARGS and UBINIZE_ARGS argument have to set in machine.conf for UBI and UBIFS image creation."
++            bberror "Detail please visit this link http://www.linux-mtd.infradead.org/faq/ubifs.html"
++            return
++        fi
++    
+ 	if [ -z "$3" ]; then
+ 		local vname=""
+ 	else
+-- 
+2.7.4
 
 
