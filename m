@@ -1,42 +1,22 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-ua0-f194.google.com (mail-ua0-f194.google.com
-	[209.85.217.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 11D2B7198A
+Return-Path: <stephano.cetola@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 6CAC17808D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Jun 2017 22:15:23 +0000 (UTC)
-Received: by mail-ua0-f194.google.com with SMTP id j53so4633001uaa.2
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Jun 2017 15:15:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:organization;
-	bh=SyLsdXlI5wPfUTxuDtAEjVFI9p0lTt21iL1xBmeK0bA=;
-	b=BzCwc43fGLwjFIAbv0dXWdymaxrvdhmJpVSL2WJHl+ZcLBd73RCjr9qaJLpvBSnGxC
-	WDMp2T/UwGiL2fYI/M97bkNAELFCTrzsPHqSUrcJ6+UxjfCUh9petPpdWQauvHOiY2dp
-	u3PiIh61s3adNzECqkGVEGhtvwDl8QbK55diQUx+1cWD/ZR0WGhJPj262rtLg9M04hus
-	brVKRb16500oqIpLgq/wU+nyTnCYKUt8HW+7DQ4rVM+CE00Aq+NbsnaV35bixiAA/hbT
-	V49AE3lchFaCSGL2tIfjQ3k3zrjE5vkmYTGfkZ30O0SJqYZAdyzgpD7kZebEV+xhR9xK
-	S+hA==
-X-Gm-Message-State: AKS2vOygndScoqmS+zMFGZGgY72yf8CfOSd5zduQvf9ar/iKUMRdO12o
-	tLLZyulxsTJIN+8G
-X-Received: by 10.176.92.198 with SMTP id z6mr22115502uaf.27.1497996924452;
-	Tue, 20 Jun 2017 15:15:24 -0700 (PDT)
-Received: from localhost.localdomain ([189.35.69.200])
-	by smtp.gmail.com with ESMTPSA id
-	q75sm5148892vke.15.2017.06.20.15.15.21
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Tue, 20 Jun 2017 15:15:23 -0700 (PDT)
-Received: by localhost.localdomain (sSMTP sendmail emulation);
-	Tue, 20 Jun 2017 19:15:16 -0300
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Tue, 20 Jun 2017 19:15:12 -0300
-Message-Id: <20170620221512.21860-1-otavio@ossystems.com.br>
+	Tue, 20 Jun 2017 23:11:36 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	20 Jun 2017 16:11:33 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.39,366,1493708400"; d="scan'208";a="1184998605"
+Received: from unknown (HELO localhost.localdomain) ([10.252.131.195])
+	by fmsmga002.fm.intel.com with ESMTP; 20 Jun 2017 16:11:32 -0700
+From: Stephano Cetola <stephano.cetola@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 20 Jun 2017 16:10:25 -0700
+Message-Id: <20170620231029.90760-1-stephano.cetola@linux.intel.com>
 X-Mailer: git-send-email 2.13.1
-Organization: O.S. Systems Software LTDA.
-Cc: marex@denx.de, trini@konsulko.com,
-	Otavio Salvador <otavio@ossystems.com.br>, brad.mouring@ni.com
-Subject: [PATCH] u-boot-fw-utils: Allow replacement of fw_env.config
+MIME-Version: 1.0
+Subject: [PATCH v4 0/4] fix runtime testing using systemd-boot targe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,37 +29,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Jun 2017 22:15:24 -0000
+X-List-Received-Date: Tue, 20 Jun 2017 23:11:43 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-If a fw_env.config file is found in workdir, this is preferred over
-the U-Boot example.
+I'm sending this on behalf of Zeeshan Ali <zeenix@gmail.com>. One of
+the patches required a rebase and he is on vacation. This fixes
+[YOCTO #11524].
 
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
----
+Erik Botö (4):
+  sshcontrol.py: in copy_to() always use scp
+  masterimage.py: fix stop()
+  masterimage.py: rename parameter "params" in start() to
+    "extra_bootparams"
+  masterimage.py: fix issue with calling reboot on masterimage/DUT
 
- meta/recipes-bsp/u-boot/u-boot-fw-utils_2017.05.bb | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+ meta/lib/oeqa/controllers/masterimage.py | 6 +++---
+ meta/lib/oeqa/utils/sshcontrol.py        | 9 +++------
+ 2 files changed, 6 insertions(+), 9 deletions(-)
 
-diff --git a/meta/recipes-bsp/u-boot/u-boot-fw-utils_2017.05.bb b/meta/recipes-bsp/u-boot/u-boot-fw-utils_2017.05.bb
-index c2e8f0fb84..0682f9274b 100644
---- a/meta/recipes-bsp/u-boot/u-boot-fw-utils_2017.05.bb
-+++ b/meta/recipes-bsp/u-boot/u-boot-fw-utils_2017.05.bb
-@@ -19,7 +19,14 @@ do_install () {
- 	install -d ${D}${sysconfdir}
- 	install -m 755 ${S}/tools/env/fw_printenv ${D}${base_sbindir}/fw_printenv
- 	install -m 755 ${S}/tools/env/fw_printenv ${D}${base_sbindir}/fw_setenv
--	install -m 0644 ${S}/tools/env/fw_env.config ${D}${sysconfdir}/fw_env.config
-+
-+	# If a specific file is added in a .bbappend, this is used instead
-+	# of the generic one
-+	if [ -e ${WORKDIR}/fw_env.config ]; then
-+		install -m 0644 ${WORKDIR}/fw_env.config ${D}${sysconfdir}/fw_env.config
-+	else
-+		install -m 0644 ${S}/tools/env/fw_env.config ${D}${sysconfdir}/fw_env.config.example
-+	fi
- }
- 
- do_install_class-cross () {
 -- 
 2.13.1
 
