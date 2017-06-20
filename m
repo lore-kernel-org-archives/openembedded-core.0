@@ -1,47 +1,47 @@
-Return-Path: <ricardo.ribalda@gmail.com>
-Received: from mail-lf0-f67.google.com (mail-lf0-f67.google.com
-	[209.85.215.67])
-	by mail.openembedded.org (Postfix) with ESMTP id B5CFD780EC
+Return-Path: <fathi.boudra@linaro.org>
+Received: from mail-lf0-f42.google.com (mail-lf0-f42.google.com
+	[209.85.215.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 8D67471AFC
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Jun 2017 14:23:43 +0000 (UTC)
-Received: by mail-lf0-f67.google.com with SMTP id n136so3462408lfn.2
+	Tue, 20 Jun 2017 15:30:59 +0000 (UTC)
+Received: by mail-lf0-f42.google.com with SMTP id o83so76737326lff.3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Jun 2017 07:23:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=Nbgw42gD/qELVKAIUDOZXGImdt7eSF+nvVbz7cSX0KA=;
-	b=YCIGG5QxwtaHPlVDRwQDi7lyUvwKu0l46hT/M32XUdPn/XbtRl6ESgPmaMP420L9Ck
-	XnSmRmg7zag9VEX/HfCzPdNNkxvAPd+k2yuEc3Tyiq+UyXExhM0WHorAEZxKYVbE35kl
-	XMxGZ2fIYuVZUZY3Moy3aoivUeSeMs85SOnMFmf/bXlY6u3eLF1MJ4VKxvbEMRTaRy20
-	SP9lwB17pFfa8t15UbQAvHLYuq4/aKvBk3HPjGw3nbi2MPfmZ+Oq85Ye8BgCru7erzRn
-	pfPUKtwZUE6adgRql+xyNhY0qpmicJ+64CEjwA4E3CkqpwI4mWSf9NpYiPRjj+5GUjKC
-	i9+Q==
+	Tue, 20 Jun 2017 08:31:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=Db7+Mr92Tw9KU1ta6OIImfPIVHFD7YBEHCOfvfVhsUQ=;
+	b=HUTlR1YcWO+l/yPGQql7OzddKFa3baYJlhv9BONYKRN8fx4Z+uaosxpsvg/RwnLC1/
+	lBindprdGiZVsSump3tO9VO+iWIOiAFdPPon2j/BKl1syBQlMqK6B2udc/SeOzP2iMMi
+	m11wX2fTumYouigtuyoroyOPSZOIH9HwQG1EQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=Nbgw42gD/qELVKAIUDOZXGImdt7eSF+nvVbz7cSX0KA=;
-	b=mgsU74ggAaD7Fl5p4UH633+wqgkQwLis/1euvF2fsRc4Ir45l5sCq9vOkz6Y9X44W/
-	XicQ9EP4O5atTeQPavDSAwhbh6jW22s39NX1RZZoKAVWovYmUgCzo4vXeMkyp3+PInJx
-	4Kre13xrreVLgCae6jkTKHjd2kbdPHvISVXh/a3N9dKcaly31AV9Q4tIauu6ihzPtRWE
-	PVMJ8TvvSl43GHmE7HmNGKaz1zv1+VKezDTaEIqa1+9jFCb2DrgjMsj3oysVCpX6r7BT
-	lytm/jR5fO33LTlmCsL7+/8j2AEhSFkIBXkN0/ht6l7u/6CNLpDw47Yq8rdAb1GnWhk6
-	3jSA==
-X-Gm-Message-State: AKS2vOxqj/lH6Jzk8HZIEez6CelPYicHgi3aiszx/GfU3ujy1ejPZ3Rz
-	NYpsCk6h//8OxPFfopw=
-X-Received: by 10.46.84.92 with SMTP id y28mr8525182ljd.78.1497968624084;
-	Tue, 20 Jun 2017 07:23:44 -0700 (PDT)
-Received: from neopili.qtec.com
-	(cpe.xe-3-0-1-778.vbrnqe10.dk.customer.tdc.net. [80.197.57.18])
-	by smtp.gmail.com with ESMTPSA id
-	j200sm3413857lfe.68.2017.06.20.07.23.42
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 20 Jun 2017 07:23:43 -0700 (PDT)
-From: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=Db7+Mr92Tw9KU1ta6OIImfPIVHFD7YBEHCOfvfVhsUQ=;
+	b=DFT8oGT4nZ9gMGVq0As0f9dE/2mA6IsVzUsvVRQtRAPPzYiUxCAlcOQ1Ijqh6IUXSg
+	AdoA0eAac4sMDalYdFdOZEd8sIRTsFaMHwrLRjImixmSCOFaDJrcCN00iC3npYPf/mNZ
+	C/NYCGJ16TVClzZUufzCUCS4corwNWtNfTCuVoE8Bxr0HP7lG8mK9gsn1ErjAYEaFgmc
+	CtAFNHnJAT1V+jMwFhrpUMwWaARN3Y3zjhshiqcdmOu0F7+Cm7sBUOvhQnbme5nzl6La
+	WBI1a+Sowg+S87lSI3kGnG7PZ46jnfWV08fvZpru2HedI9aMJObGPcamdU7e0O01yvca
+	0jkQ==
+X-Gm-Message-State: AKS2vOxsTjjp1hXUVMlsHZ86CSgu5NG2/J7qcugo1g6JrhopLevDiIo0
+	YFPheFHluHjitvflSpSGVg==
+X-Received: by 10.25.151.213 with SMTP id z204mr10491157lfd.67.1497972659206; 
+	Tue, 20 Jun 2017 08:30:59 -0700 (PDT)
+Received: from localhost.localdomain (a91-156-68-101.elisa-laajakaista.fi.
+	[91.156.68.101]) by smtp.gmail.com with ESMTPSA id
+	u19sm3067734ljd.34.2017.06.20.08.30.57
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 20 Jun 2017 08:30:58 -0700 (PDT)
+From: Fathi Boudra <fathi.boudra@linaro.org>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 20 Jun 2017 16:23:39 +0200
-Message-Id: <20170620142339.9527-1-ricardo.ribalda@gmail.com>
-X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] bitbake.conf: Fix typo on variable name
+Date: Tue, 20 Jun 2017 18:30:54 +0300
+Message-Id: <20170620153054.22732-1-fathi.boudra@linaro.org>
+X-Mailer: git-send-email 2.13.0
+MIME-Version: 1.0
+Cc: naresh.kamboju@linaro.org
+Subject: [PATCH] ltp: use upstream patch to fix faccessat/fchmodat build warnings
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,32 +54,195 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Jun 2017 14:23:44 -0000
+X-List-Received-Date: Tue, 20 Jun 2017 15:31:07 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-The variable is called ASSUME_PROVIDED, not ASSUME_PROVIDES.
+Use 0037-faccessat-and-fchmodat-Fx-build-warnings.patch instead of
+0012-fix-faccessat01.c-build-fails-with-security-flags.patch.
+The new patch has been merged upstream and will be available in next LTP
+release.
 
-Without this patch sdl-config is not properly linked into
-build/tmp/hosttools and bitbake fails to find it.
-
-Signed-off-by: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
+Signed-off-by: Fathi Boudra <fathi.boudra@linaro.org>
 ---
- meta/conf/bitbake.conf | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ ...essat01.c-build-fails-with-security-flags.patch | 70 ----------------------
+ ...faccessat-and-fchmodat-Fix-build-warnings.patch | 68 +++++++++++++++++++++
+ meta/recipes-extended/ltp/ltp_20170516.bb          |  2 +-
+ 3 files changed, 69 insertions(+), 71 deletions(-)
+ delete mode 100644 meta/recipes-extended/ltp/ltp/0012-fix-faccessat01.c-build-fails-with-security-flags.patch
+ create mode 100644 meta/recipes-extended/ltp/ltp/0037-faccessat-and-fchmodat-Fix-build-warnings.patch
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 80baec8d40d2..aa54e9266ba8 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -472,7 +472,7 @@ HOSTTOOLS += " \
- HOSTTOOLS += "ip ping ps scp ssh stty"
+diff --git a/meta/recipes-extended/ltp/ltp/0012-fix-faccessat01.c-build-fails-with-security-flags.patch b/meta/recipes-extended/ltp/ltp/0012-fix-faccessat01.c-build-fails-with-security-flags.patch
+deleted file mode 100644
+index 2600bd60d0..0000000000
+--- a/meta/recipes-extended/ltp/ltp/0012-fix-faccessat01.c-build-fails-with-security-flags.patch
++++ /dev/null
+@@ -1,70 +0,0 @@
+-From 32f563008f95975d26d1c4fcb266c72c56f934be Mon Sep 17 00:00:00 2001
+-From: Dengke Du <dengke.du@windriver.com>
+-Date: Wed, 22 Feb 2017 01:21:55 -0500
+-Subject: [PATCH] fix faccessat01.c build fails with security flags
+-
+-When the distro is poky-lsb, fix the following error:
+-
+-| In file included from ../../../../include/old/test.h:47:0,
+-|                  from faccessat01.c:44:
+-| faccessat01.c: In function 'setup':
+-| ../../../../include/old/old_safe_file_ops.h:55:27: error: format not a string literal and no format arguments [-Werror=format-security]
+-|                    (path), (fmt), ## __VA_ARGS__)
+-|                            ^
+-| faccessat01.c:132:2: note: in expansion of macro 'SAFE_FILE_PRINTF'
+-|   SAFE_FILE_PRINTF(cleanup, testfile, testfile);
+-|   ^~~~~~~~~~~~~~~~
+-| ../../../../include/old/old_safe_file_ops.h:55:27: error: format not a string literal and no format arguments [-Werror=format-security]
+-|                    (path), (fmt), ## __VA_ARGS__)
+-|                            ^
+-| faccessat01.c:133:2: note: in expansion of macro 'SAFE_FILE_PRINTF'
+-|   SAFE_FILE_PRINTF(cleanup, testfile2, testfile2);
+-|   ^~~~~~~~~~~~~~~~
+-
+-This is because in macro "SAFE_FILE_PRINTF", its third argument should be a
+-format arguments, but in file faccessat01.c, it passed the same argument to
+-macro "SAFE_FILE_PRINTF", so it results in the fails. It should pass the format
+-string to the third argument.
+-
+-The same for file fchmodat01.c.
+-
+-Signed-off-by: Dengke Du <dengke.du@windriver.com>
+-Upstream-Status: Pending
+----
+- testcases/kernel/syscalls/faccessat/faccessat01.c | 4 ++--
+- testcases/kernel/syscalls/fchmodat/fchmodat01.c   | 4 ++--
+- 2 files changed, 4 insertions(+), 4 deletions(-)
+-
+-diff --git a/testcases/kernel/syscalls/faccessat/faccessat01.c b/testcases/kernel/syscalls/faccessat/faccessat01.c
+-index 622dfd3..1ca90e9 100644
+---- a/testcases/kernel/syscalls/faccessat/faccessat01.c
+-+++ b/testcases/kernel/syscalls/faccessat/faccessat01.c
+-@@ -129,8 +129,8 @@ void setup(void)
+- 	fds[0] = SAFE_OPEN(cleanup, pathname, O_DIRECTORY);
+- 	fds[1] = fds[4] = fds[0];
+- 
+--	SAFE_FILE_PRINTF(cleanup, testfile, testfile);
+--	SAFE_FILE_PRINTF(cleanup, testfile2, testfile2);
+-+	SAFE_FILE_PRINTF(cleanup, testfile, "faccessattestfile%d.txt");
+-+	SAFE_FILE_PRINTF(cleanup, testfile2, "%s/faccessattestfile%d.txt");
+- 
+- 	fds[2] = SAFE_OPEN(cleanup, testfile3, O_CREAT | O_RDWR, 0600);
+- 
+-diff --git a/testcases/kernel/syscalls/fchmodat/fchmodat01.c b/testcases/kernel/syscalls/fchmodat/fchmodat01.c
+-index 6bf66d8..89d072a 100644
+---- a/testcases/kernel/syscalls/fchmodat/fchmodat01.c
+-+++ b/testcases/kernel/syscalls/fchmodat/fchmodat01.c
+-@@ -127,8 +127,8 @@ void setup(void)
+- 	fds[0] = SAFE_OPEN(cleanup, pathname, O_DIRECTORY);
+- 	fds[1] = fds[4] = fds[0];
+- 
+--	SAFE_FILE_PRINTF(cleanup, testfile, testfile);
+--	SAFE_FILE_PRINTF(cleanup, testfile2, testfile2);
+-+	SAFE_FILE_PRINTF(cleanup, testfile, "fchmodattest%d.txt");
+-+	SAFE_FILE_PRINTF(cleanup, testfile2, "%s/fchmodattest%d.txt");
+- 
+- 	fds[2] = SAFE_OPEN(cleanup, testfile3, O_CREAT | O_RDWR, 0600);
+- 	fds[3] = 100;
+--- 
+-2.8.1
+-
+diff --git a/meta/recipes-extended/ltp/ltp/0037-faccessat-and-fchmodat-Fix-build-warnings.patch b/meta/recipes-extended/ltp/ltp/0037-faccessat-and-fchmodat-Fix-build-warnings.patch
+new file mode 100644
+index 0000000000..99497d655a
+--- /dev/null
++++ b/meta/recipes-extended/ltp/ltp/0037-faccessat-and-fchmodat-Fix-build-warnings.patch
+@@ -0,0 +1,68 @@
++From 4141bdb441f7576a2e73abeb2a0fb1c7b8bd8647 Mon Sep 17 00:00:00 2001
++From: Naresh Kamboju <naresh.kamboju@linaro.org>
++Date: Mon, 19 Jun 2017 19:01:21 +0530
++Subject: [PATCH 1/7] faccessat and fchmodat: Fix build warnings
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
++
++Fixing below build warnings.
++
++ltp-full-20170516/testcases/kernel/syscalls/faccessat$ make
++In file included from ../../../../include/old/test.h:51:0,
++                 from faccessat01.c:44:
++faccessat01.c: In function ‘setup’:
++../../../../include/old/old_safe_file_ops.h:55:27:
++warning: format not a string literal and no format arguments [-Wformat-security]
++                   (path), (fmt), ## __VA_ARGS__)
++                           ^
++faccessat01.c:132:2: note: in expansion of macro ‘SAFE_FILE_PRINTF’
++  SAFE_FILE_PRINTF(cleanup, testfile, testfile);
++  ^
++../../../../include/old/old_safe_file_ops.h:55:27:
++warning: format not a string literal and no format arguments [-Wformat-security]
++                   (path), (fmt), ## __VA_ARGS__)
++                           ^
++faccessat01.c:133:2: note: in expansion of macro ‘SAFE_FILE_PRINTF’
++  SAFE_FILE_PRINTF(cleanup, testfile2, testfile2);
++
++Signed-off-by: Naresh Kamboju <naresh.kamboju@linaro.org>
++Upstream-Status: Accepted [https://github.com/linux-test-project/ltp/commit/4141bdb441f7576a2e73abeb2a0fb1c7b8bd8647]
++---
++ testcases/kernel/syscalls/faccessat/faccessat01.c | 4 ++--
++ testcases/kernel/syscalls/fchmodat/fchmodat01.c   | 4 ++--
++ 2 files changed, 4 insertions(+), 4 deletions(-)
++
++diff --git a/testcases/kernel/syscalls/faccessat/faccessat01.c b/testcases/kernel/syscalls/faccessat/faccessat01.c
++index 622dfd3b0..def7fa755 100644
++--- a/testcases/kernel/syscalls/faccessat/faccessat01.c
+++++ b/testcases/kernel/syscalls/faccessat/faccessat01.c
++@@ -129,8 +129,8 @@ void setup(void)
++ 	fds[0] = SAFE_OPEN(cleanup, pathname, O_DIRECTORY);
++ 	fds[1] = fds[4] = fds[0];
++ 
++-	SAFE_FILE_PRINTF(cleanup, testfile, testfile);
++-	SAFE_FILE_PRINTF(cleanup, testfile2, testfile2);
+++	SAFE_FILE_PRINTF(cleanup, testfile, "%s", testfile);
+++	SAFE_FILE_PRINTF(cleanup, testfile2, "%s", testfile2);
++ 
++ 	fds[2] = SAFE_OPEN(cleanup, testfile3, O_CREAT | O_RDWR, 0600);
++ 
++diff --git a/testcases/kernel/syscalls/fchmodat/fchmodat01.c b/testcases/kernel/syscalls/fchmodat/fchmodat01.c
++index 6bf66d8b8..7856ed3fa 100644
++--- a/testcases/kernel/syscalls/fchmodat/fchmodat01.c
+++++ b/testcases/kernel/syscalls/fchmodat/fchmodat01.c
++@@ -127,8 +127,8 @@ void setup(void)
++ 	fds[0] = SAFE_OPEN(cleanup, pathname, O_DIRECTORY);
++ 	fds[1] = fds[4] = fds[0];
++ 
++-	SAFE_FILE_PRINTF(cleanup, testfile, testfile);
++-	SAFE_FILE_PRINTF(cleanup, testfile2, testfile2);
+++	SAFE_FILE_PRINTF(cleanup, testfile, "%s", testfile);
+++	SAFE_FILE_PRINTF(cleanup, testfile2, "%s", testfile2);
++ 
++ 	fds[2] = SAFE_OPEN(cleanup, testfile3, O_CREAT | O_RDWR, 0600);
++ 	fds[3] = 100;
++-- 
++2.13.0
++
+diff --git a/meta/recipes-extended/ltp/ltp_20170516.bb b/meta/recipes-extended/ltp/ltp_20170516.bb
+index 31f339461f..f537d60c15 100644
+--- a/meta/recipes-extended/ltp/ltp_20170516.bb
++++ b/meta/recipes-extended/ltp/ltp_20170516.bb
+@@ -35,7 +35,6 @@ SRC_URI = "git://github.com/linux-test-project/ltp.git \
+            file://0009-fix-redefinition-of-struct-msgbuf-error-building-wit.patch \
+            file://0010-replace-__BEGIN_DECLS-and-__END_DECLS.patch \
+            file://0011-Rename-sigset-variable-to-sigset1.patch \
+-           file://0012-fix-faccessat01.c-build-fails-with-security-flags.patch \
+            file://0018-guard-mallocopt-with-__GLIBC__.patch \
+            file://0020-getdents-define-getdents-getdents64-only-for-glibc.patch \
+            file://0021-Define-_GNU_SOURCE-for-MREMAP_MAYMOVE-definition.patch \
+@@ -51,6 +50,7 @@ SRC_URI = "git://github.com/linux-test-project/ltp.git \
+            file://0035-fix-test_proc_kill-hang.patch \
+            file://0036-testcases-network-nfsv4-acl-acl1.c-Security-fix-on-s.patch \
+            file://0001-dirtyc0w-Include-stdint.h.patch \
++           file://0037-faccessat-and-fchmodat-Fix-build-warnings.patch \
+            "
  
- # Link to sdl-config if using host SDL
--HOSTTOOLS += "${@bb.utils.contains('ASSUME_PROVIDES', 'libsdl-native', 'sdl-config', '', d)}"
-+HOSTTOOLS += "${@bb.utils.contains('ASSUME_PROVIDED', 'libsdl-native', 'sdl-config', '', d)}"
- 
- # Link to these if present
- HOSTTOOLS_NONFATAL += "aws ccache gcc-ar gpg ld.bfd ld.gold nc sftp socat sudo"
+ S = "${WORKDIR}/git"
 -- 
-2.11.0
+2.13.0
 
 
