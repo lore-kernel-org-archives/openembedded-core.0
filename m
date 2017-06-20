@@ -1,26 +1,37 @@
-Return-Path: <humberto.ibarra.lopez@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 72EE7780BE
+Return-Path: <sstrogin@cisco.com>
+X-Greylist: delayed 597 seconds by postgrey-1.34 at layers.openembedded.org;
+	Tue, 20 Jun 2017 16:31:42 UTC
+Received: from aer-iport-3.cisco.com (aer-iport-3.cisco.com [173.38.203.53])
+	by mail.openembedded.org (Postfix) with ESMTP id E868E6FFED
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Jun 2017 16:17:25 +0000 (UTC)
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	20 Jun 2017 09:17:26 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.39,364,1493708400"; d="scan'208";a="276513577"
-Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga004.fm.intel.com with ESMTP; 20 Jun 2017 09:17:25 -0700
-Received: from localhost.zpn.intel.com (unknown [10.219.4.140])
-	by linux.intel.com (Postfix) with ESMTP id AED215803BB;
-	Tue, 20 Jun 2017 09:17:25 -0700 (PDT)
-From: Humberto Ibarra <humberto.ibarra.lopez@intel.com>
+	Tue, 20 Jun 2017 16:31:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=cisco.com; i=@cisco.com; l=4284; q=dns/txt; s=iport;
+	t=1497976305; x=1499185905;
+	h=from:to:cc:subject:date:message-id;
+	bh=OKcgsXr0rIpwcOMVHaJ8XOKRjHPUXorNZWT7QWEAGOs=;
+	b=FmI8vEW7QsbLDvYAOiCnJdOdxp3kBXHkz3lqHMVsQhRdiGs5zmUaJ3cM
+	MInkZ6UN+mkgYrhfnSvWzUEa2e3ZEw090vtWNcwAFAeev69gN95/uH6Pk
+	3MQMWyjAwrYqvBISpnPVHMLvDw+G4rZ2TNChwVfY3NcOUmyjnI1G+Bl5I 4=;
+X-IronPort-AV: E=Sophos;i="5.39,364,1493683200"; d="scan'208";a="653741911"
+Received: from aer-iport-nat.cisco.com (HELO aer-core-1.cisco.com)
+	([173.38.203.22])
+	by aer-iport-3.cisco.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	20 Jun 2017 16:21:46 +0000
+Received: from vycislitel.cisco.com (ams3-vpn-dhcp5160.cisco.com [10.61.84.39])
+	(authenticated bits=0)
+	by aer-core-1.cisco.com (8.14.5/8.14.5) with ESMTP id v5KGLUn4027560
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-GCM-SHA256 bits=128
+	verify=NO); Tue, 20 Jun 2017 16:21:45 GMT
+From: Stefan Strogin <sstrogin@cisco.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 20 Jun 2017 11:22:00 -0500
-Message-Id: <0da0f61da7d2a62088369ceea0d5c250125b419a.1497975577.git.humberto.ibarra.lopez@intel.com>
-X-Mailer: git-send-email 2.7.5
-In-Reply-To: <cover.1497975577.git.humberto.ibarra.lopez@intel.com>
-References: <cover.1497975577.git.humberto.ibarra.lopez@intel.com>
-Subject: [PATCH v2 1/1] imagefeatures.py: Added testcase to track IMAGE_GEN_DEBUGFS
+Date: Tue, 20 Jun 2017 19:21:02 +0300
+Message-Id: <20170620162102.27948-1-sstrogin@cisco.com>
+X-Mailer: git-send-email 2.11.0
+X-Auto-Response-Suppress: DR, OOF, AutoReply
+X-Authenticated-User: sstrogin
+Cc: xe-linux-external@cisco.com
+Subject: [PATCH v3] slang: add ptest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,60 +44,121 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Jun 2017 16:17:25 -0000
+X-List-Received-Date: Tue, 20 Jun 2017 16:31:44 -0000
 
-Add new testcase to check varibale IMAGE_GEN_DEBUGFS. Test makes
-sure that debug filesystem is created accordingly.
+This patch adds ptest for slang, it uses `make runtests` to run tests.
+The Makefile runs runtests.sh for each *.sl and *.slc tests.
+runtests.sh is patched for printing test results in a common format,
+Makefile is patched in order not to compile any dependencies.
 
-[YOCTO #10906]
+Changes v2->v3: rebased on the latest master (1d9a88f6).
 
-Signed-off-by: Humberto Ibarra <humberto.ibarra.lopez@intel.com>
+Signed-off-by: Stefan Strogin <sstrogin@cisco.com>
+Cc: xe-linux-external@cisco.com
 ---
- meta/lib/oeqa/selftest/cases/imagefeatures.py | 26 ++++++++++++++++++++++++++
- 1 file changed, 26 insertions(+)
+ meta/recipes-extended/slang/slang/run-ptest        |  3 +++
+ ...-add-output-in-the-format-result-testname.patch | 30 ++++++++++++++++++++++
+ meta/recipes-extended/slang/slang_2.3.1a.bb        | 25 +++++++++++++++++-
+ 3 files changed, 57 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-extended/slang/slang/run-ptest
+ create mode 100644 meta/recipes-extended/slang/slang/test-add-output-in-the-format-result-testname.patch
 
-diff --git a/meta/lib/oeqa/selftest/cases/imagefeatures.py b/meta/lib/oeqa/selftest/cases/imagefeatures.py
-index 45a06fe..9a26253 100644
---- a/meta/lib/oeqa/selftest/cases/imagefeatures.py
-+++ b/meta/lib/oeqa/selftest/cases/imagefeatures.py
-@@ -3,6 +3,7 @@ from oeqa.utils.commands import runCmd, bitbake, get_bb_var, runqemu
- from oeqa.core.decorator.oeid import OETestID
- from oeqa.utils.sshcontrol import SSHControl
- import os
-+import glob
+diff --git a/meta/recipes-extended/slang/slang/run-ptest b/meta/recipes-extended/slang/slang/run-ptest
+new file mode 100644
+index 0000000000..39f474af31
+--- /dev/null
++++ b/meta/recipes-extended/slang/slang/run-ptest
+@@ -0,0 +1,3 @@
++#!/bin/sh
++
++make -C test runtests
+diff --git a/meta/recipes-extended/slang/slang/test-add-output-in-the-format-result-testname.patch b/meta/recipes-extended/slang/slang/test-add-output-in-the-format-result-testname.patch
+new file mode 100644
+index 0000000000..27a9bb87ea
+--- /dev/null
++++ b/meta/recipes-extended/slang/slang/test-add-output-in-the-format-result-testname.patch
+@@ -0,0 +1,30 @@
++From 38688ee2754415cf2a1935dafb8278861b7315e7 Mon Sep 17 00:00:00 2001
++From: Stefan Strogin <sstrogin@cisco.com>
++Date: Thu, 2 Mar 2017 00:26:31 +0200
++Subject: [PATCH] test: add output in the format "result: testname"
++
++Upstream-Status: Inappropriate [oe specific]
++
++Signed-off-by: Stefan Strogin <sstrogin@cisco.com>
++---
++ src/test/runtests.sh | 2 ++
++ 1 file changed, 2 insertions(+)
++
++diff --git a/src/test/runtests.sh b/src/test/runtests.sh
++index a3eaad0..64f0705 100755
++--- a/src/test/runtests.sh
+++++ b/src/test/runtests.sh
++@@ -34,8 +34,10 @@ do
++     then
++ 	n_failed=`expr ${n_failed} + 1`
++ 	tests_failed="$tests_failed $testfile"
+++	echo "FAIL: $testfile"
++     else
++         touch lastrun/$testfile
+++	echo "PASS: $testfile"
++     fi
++ done
++ 
++-- 
++2.11.0
++
+diff --git a/meta/recipes-extended/slang/slang_2.3.1a.bb b/meta/recipes-extended/slang/slang_2.3.1a.bb
+index c71d80481f..b302104ee1 100644
+--- a/meta/recipes-extended/slang/slang_2.3.1a.bb
++++ b/meta/recipes-extended/slang/slang_2.3.1a.bb
+@@ -17,6 +17,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=a52a18a472d4f7e45479b06563717c02"
+ SRC_URI = "http://www.jedsoft.org/releases/${BPN}/${BP}.tar.bz2 \
+            file://no-x.patch \
+            file://dont-link-to-host.patch \
++           file://test-add-output-in-the-format-result-testname.patch \
++           file://run-ptest \
+           "
  
- class ImageFeatures(OESelftestTestCase):
+ SRC_URI[md5sum] = "c5235313042ed0e71ec708f7b85ec241"
+@@ -25,7 +27,7 @@ SRC_URI[sha256sum] = "54f0c3007fde918039c058965dffdfd6c5aec0bad0f4227192cc486021
+ UPSTREAM_CHECK_URI = "http://www.jedsoft.org/releases/slang/"
+ PREMIRRORS_append = "\n http://www.jedsoft.org/releases/slang/.* http://www.jedsoft.org/releases/slang/old/ \n"
  
-@@ -123,3 +124,28 @@ class ImageFeatures(OESelftestTestCase):
-         # check if result image is sparse
-         image_stat = os.stat(image_path)
-         self.assertTrue(image_stat.st_size > image_stat.st_blocks * 512)
+-inherit autotools-brokensep
++inherit autotools-brokensep ptest
+ CLEANBROKEN = "1"
+ 
+ EXTRA_OECONF = "--without-onig"
+@@ -49,6 +51,27 @@ do_configure_prepend() {
+     cd ${B}
+ }
+ 
++do_compile_ptest() {
++	oe_runmake -C src static
++	oe_runmake -C src/test sltest
++}
 +
-+    def test_image_gen_debugfs(self):
-+        """
-+        Summary:     Check debugfs generation
-+        Expected:    1. core-image-minimal can be build with IMAGE_GEN_DEBUGFS variable set
-+                     2. debug filesystem is created when variable set
-+        Product:     oe-core
-+        Author:      Humberto Ibarra <humberto.ibarra.lopez@intel.com>
-+        """
++do_install_ptest() {
++	mkdir ${D}${PTEST_PATH}/test
++	for f in Makefile sltest runtests.sh *.sl *.inc; do
++		cp ${S}/src/test/$f ${D}${PTEST_PATH}/test/
++	done
++	sed -e 's/\ \$(TEST_PGM)\.c\ assoc\.c\ list\.c\ \$(SLANGLIB)\/libslang\.a//' \
++	    -e '/\$(CC).*(TEST_PGM)/d' \
++	    -i ${D}${PTEST_PATH}/test/Makefile
 +
-+        image_name = 'core-image-minimal'
-+        clean_cmd = '-c clean %s' % image_name
-+        deploy_dir_image = get_bb_var('DEPLOY_DIR_IMAGE')
++	cp ${S}/slsh/lib/require.sl ${D}${PTEST_PATH}/test/
++	sed -i 's/\.\.\/\.\.\/slsh\/lib\/require\.sl/require\.sl/' ${D}${PTEST_PATH}/test/req.sl
 +
-+        for pack_class in [ "rpm", "deb", "ipk"]:
-+            bitbake(clean_cmd)
-+            features = 'IMAGE_GEN_DEBUGFS = "1"\n'
-+            features += 'IMAGE_FSTYPES_DEBUGFS = "tar.bz2"\n'
-+            features += 'PACKAGE_CLASSES = "package_%s"' % pack_class
-+            self.write_config(features)
++	cp ${S}/doc/text/slangfun.txt ${D}${PTEST_PATH}/test/
++	sed -i 's/\.\.\/\.\.\/doc\/text\/slangfun\.txt/slangfun\.txt/' ${D}${PTEST_PATH}/test/docfun.sl
++}
 +
-+            bitbake(image_name)
-+            debug_files = glob.glob(os.path.join(deploy_dir_image,"*-dbg.rootfs.tar.bz2"))
-+            self.assertNotEqual(len(debug_files), 0,
-+                    'debug filesystem not generated for %s' % pack_class)
+ FILES_${PN} += "${libdir}/${BPN}/v2/modules/ ${datadir}/slsh/"
+ 
+ PARALLEL_MAKE = ""
 -- 
-2.7.5
+2.11.0
 
 
