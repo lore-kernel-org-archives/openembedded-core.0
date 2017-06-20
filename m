@@ -1,24 +1,34 @@
-Return-Path: <stephano.cetola@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 739B678094
+Return-Path: <denis@denix.org>
+Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.17])
+	by mail.openembedded.org (Postfix) with ESMTP id DE1046FFA1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Jun 2017 23:11:42 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	20 Jun 2017 16:11:33 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.39,366,1493708400"; d="scan'208";a="1184998609"
-Received: from unknown (HELO localhost.localdomain) ([10.252.131.195])
-	by fmsmga002.fm.intel.com with ESMTP; 20 Jun 2017 16:11:33 -0700
-From: Stephano Cetola <stephano.cetola@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 20 Jun 2017 16:10:27 -0700
-Message-Id: <20170620231029.90760-3-stephano.cetola@linux.intel.com>
-X-Mailer: git-send-email 2.13.1
-In-Reply-To: <20170620231029.90760-1-stephano.cetola@linux.intel.com>
-References: <20170620231029.90760-1-stephano.cetola@linux.intel.com>
+	Tue, 20 Jun 2017 23:55:48 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by mailout4.zoneedit.com (Postfix) with ESMTP id 12FFD208AD;
+	Tue, 20 Jun 2017 23:55:49 +0000 (UTC)
+Received: from mailout4.zoneedit.com ([127.0.0.1])
+	by localhost (zmo03-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
+	port 10024)
+	with ESMTP id ILXj9lc_V1fR; Tue, 20 Jun 2017 23:55:49 +0000 (UTC)
+Received: from mail.denix.org (pool-100-15-85-143.washdc.fios.verizon.net
+	[100.15.85.143])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mailout4.zoneedit.com (Postfix) with ESMTPSA id CC274204E0;
+	Tue, 20 Jun 2017 23:55:44 +0000 (UTC)
+Received: by mail.denix.org (Postfix, from userid 1000)
+	id 42C7516250F; Tue, 20 Jun 2017 19:55:44 -0400 (EDT)
+Date: Tue, 20 Jun 2017 19:55:44 -0400
+From: Denys Dmytriyenko <denis@denix.org>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Message-ID: <20170620235544.GO28053@denix.org>
+References: <20170620221512.21860-1-otavio@ossystems.com.br>
 MIME-Version: 1.0
-Subject: [PATCH v4 2/4] masterimage.py: fix stop()
+In-Reply-To: <20170620221512.21860-1-otavio@ossystems.com.br>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Cc: marex@denx.de, trini@konsulko.com, brad.mouring@ni.com,
+	OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] u-boot-fw-utils: Allow replacement of fw_env.config
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,37 +41,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Jun 2017 23:11:43 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 20 Jun 2017 23:55:49 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-From: Erik Botö <erik.boto@pelagicore.com>
+On Tue, Jun 20, 2017 at 07:15:12PM -0300, Otavio Salvador wrote:
+> If a fw_env.config file is found in workdir, this is preferred over
+> the U-Boot example.
+> 
+> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+> ---
+> 
+>  meta/recipes-bsp/u-boot/u-boot-fw-utils_2017.05.bb | 9 ++++++++-
+>  1 file changed, 8 insertions(+), 1 deletion(-)
+> 
+> diff --git a/meta/recipes-bsp/u-boot/u-boot-fw-utils_2017.05.bb b/meta/recipes-bsp/u-boot/u-boot-fw-utils_2017.05.bb
+> index c2e8f0fb84..0682f9274b 100644
+> --- a/meta/recipes-bsp/u-boot/u-boot-fw-utils_2017.05.bb
+> +++ b/meta/recipes-bsp/u-boot/u-boot-fw-utils_2017.05.bb
+> @@ -19,7 +19,14 @@ do_install () {
+>  	install -d ${D}${sysconfdir}
+>  	install -m 755 ${S}/tools/env/fw_printenv ${D}${base_sbindir}/fw_printenv
+>  	install -m 755 ${S}/tools/env/fw_printenv ${D}${base_sbindir}/fw_setenv
+> -	install -m 0644 ${S}/tools/env/fw_env.config ${D}${sysconfdir}/fw_env.config
+> +
+> +	# If a specific file is added in a .bbappend, this is used instead
+> +	# of the generic one
+> +	if [ -e ${WORKDIR}/fw_env.config ]; then
+> +		install -m 0644 ${WORKDIR}/fw_env.config ${D}${sysconfdir}/fw_env.config
 
-The stop() function is called in the context of the masterimage,
-so self.master should be used instead of self.connection which is
-undefined at that time.
+I don't get it - if it's expected that a .bbappend will be adding a more 
+specific version of fw_env.config, why that .bbappend can't simply install 
+it with do_install_append()?
 
-[YOCTO #11524]
 
-Signed-off-by: Erik Botö <erik.boto@pelagicore.com>
----
- meta/lib/oeqa/controllers/masterimage.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/lib/oeqa/controllers/masterimage.py b/meta/lib/oeqa/controllers/masterimage.py
-index 07418fcda1..6aa7fba6eb 100644
---- a/meta/lib/oeqa/controllers/masterimage.py
-+++ b/meta/lib/oeqa/controllers/masterimage.py
-@@ -156,7 +156,7 @@ class MasterImageHardwareTarget(oeqa.targetcontrol.BaseTarget, metaclass=ABCMeta
- 
-     def stop(self):
-         bb.plain("%s - reboot/powercycle target" % self.pn)
--        self.power_cycle(self.connection)
-+        self.power_cycle(self.master)
- 
- 
- class SystemdbootTarget(MasterImageHardwareTarget):
--- 
-2.13.1
-
+> +	else
+> +		install -m 0644 ${S}/tools/env/fw_env.config ${D}${sysconfdir}/fw_env.config.example
+> +	fi
+>  }
+>  
+>  do_install_class-cross () {
+> -- 
+> 2.13.1
+> 
+> -- 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
