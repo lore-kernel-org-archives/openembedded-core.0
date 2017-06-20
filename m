@@ -1,47 +1,66 @@
-Return-Path: <zeenix@gmail.com>
-Received: from mail-qk0-f177.google.com (mail-qk0-f177.google.com
-	[209.85.220.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 7C6EF78082
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-wr0-f180.google.com (mail-wr0-f180.google.com
+	[209.85.128.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 11A1A77BBF
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Jun 2017 21:58:15 +0000 (UTC)
-Received: by mail-qk0-f177.google.com with SMTP id a199so68801023qkb.2
+	Tue, 20 Jun 2017 22:08:04 +0000 (UTC)
+Received: by mail-wr0-f180.google.com with SMTP id 77so109556169wrb.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Jun 2017 14:58:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=5mTItvOfZlisH8PD+4AmLVQdFXUU7DLwze9sAqoXCZw=;
-	b=kASep37sFgMNgOfsSrVkQoEZHFs5UX9kle71EjkrP3Un+TzvB5SnlNZ4FntM20zVRw
-	A2odC/clUqIVBaZAEfi3vvBmct0ZRvB5a9vEL9cgdn76G0H7aVV5qP3nJGYh0jk3ijOv
-	rnDIy89hM91I3mkC1l5dE1d5e/eWASec5VpO0FWO6oS9PASbMQhrQWXccJS0WBcyt0mT
-	uFzPPM5MBnxXDoXpovriQUIlCkdVds1KRPu80JfASz1d0FUTz3upKL/NBDHDwfjdWvee
-	+aONA7HPuJ/vT7W5R3egQunU76nJwjB+Xz91cNfOegHwmRQ0ACbYux5HSG5Lqdz6lMgN
-	DhjA==
+	Tue, 20 Jun 2017 15:08:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
+	:cc; bh=0oe1VNZEkRiAmBymK1P6jcyrh/XZ6fmKhRfSoPxVtp0=;
+	b=bzjbk0I9hYUGvY4bUv26aiKbOQsvtts2g1uZ3vVXXQcdQIHLqjXloXh174YPNeRjQJ
+	oIK1wUzB6eK3DI8nHqTqsG+0d3gUlfIKgKB4NxLFBJcfrhnhqZd889wlhAw35akyfJcv
+	ZoOGgwA3+SxvBsDhI/4ndG+1Pqy/j/VumsJtaZqsqERYVeapCW7HkRbW+ga+pLFgZjwF
+	bvBNrkkMkc7dFc9qVSHc0L6jdaNnw+Yf4OI0frnUSjYCfmyIBALqKV5/Hv9K5xLfCrkt
+	SGjzxVYUjZni45Hf/WAanwQo2StjoTZ+loea6PTed3nR0C3J+s6dZyzGvCK8HZL9qRrJ
+	/hoA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
 	:message-id:subject:to:cc;
-	bh=5mTItvOfZlisH8PD+4AmLVQdFXUU7DLwze9sAqoXCZw=;
-	b=K+qLto0y1l6KqJlZq4aO5/CXa0fBCjgEsYcPnVMIWhyYJC6h06wVDh6f3971QmwfCv
-	SB0xn+Sm0KxMyKeMmkB+/Avo6ZwKtI//TfBVPi251aeKuC5T8JqeAm1VOMqq1HVU6y6T
-	Yo+MVKYohnaDBq1v4pDFbQ7xOkH+oy6XashqHd/5NnC/XRAtUfVxWOk+vhHRWzDjGSRG
-	K8V7xQdMAdFHvgzf9rLClhcSBHwZgQ6ucO4XY0JB8/Xj74Dy3ollldz62HrHuegubjfp
-	Te/+wIyIOCMIrxyZsHn1XdygW6nPzyJyxnfKwctvUrKN2rkLzBj6BzQEkc4qcwQsB3/X
-	fb9g==
-X-Gm-Message-State: AKS2vOx9IJEYPydXoePWQWONUIVkprYXEfgAoSs1YOpJsj+feAHA3mNP
-	FhmQMUCwgZfz6WBCJ4yagLj14bil4w==
-X-Received: by 10.55.45.198 with SMTP id t189mr37263357qkh.108.1497995897084; 
-	Tue, 20 Jun 2017 14:58:17 -0700 (PDT)
+	bh=0oe1VNZEkRiAmBymK1P6jcyrh/XZ6fmKhRfSoPxVtp0=;
+	b=aYasS3takulG0MMsDqm0tlQMefiVzmWjgEtiONeY/6q8q5A/diWLOLYhmdihK8SsZ6
+	Uq1InUjkSfR2qsihNKUVnqqyzIhPthqbWWGTsOfiaJKAQeNvWqAR3ESeEFyn3JT8340q
+	cVIQpQJhkvwLKWweHcXFmhKyin0mha0dJhx7TO2c6Wk0/Z95Kes+kZK3JJc6azTR0ORI
+	UZaa1WryXaLeGEfWDjmfy9zcqbVTBIXWwiQshdttJHNvl5XQ28/j+d6i/bV5VF1jouo4
+	q7o2PkQi0W4o2hCNvgOXcyYTbUvRV7By+A/CqG+C4zEs4+8lUPGqTTWOeNJbZ7SHc/8y
+	feQw==
+X-Gm-Message-State: AKS2vOwn1PjyDccOIByYGiPXh6nSsXIBz6SaV8bn/gnrTXVAfr5x24zr
+	F+6fZXF0As58z8Bd8kw=
+X-Received: by 10.28.8.19 with SMTP id 19mr4211100wmi.18.1497996485401;
+	Tue, 20 Jun 2017 15:08:05 -0700 (PDT)
+Received: from mail-wr0-f171.google.com (mail-wr0-f171.google.com.
+	[209.85.128.171]) by smtp.gmail.com with ESMTPSA id
+	l46sm1392230wrl.15.2017.06.20.15.08.04
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 20 Jun 2017 15:08:04 -0700 (PDT)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-wr0-f171.google.com with SMTP id y25so70266322wrd.2
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 20 Jun 2017 15:08:04 -0700 (PDT)
+X-Received: by 10.223.138.252 with SMTP id z57mr24067092wrz.66.1497996483809; 
+	Tue, 20 Jun 2017 15:08:03 -0700 (PDT)
 MIME-Version: 1.0
-References: <20170619151210.7692-1-zeenix@gmail.com>
-	<20170619153127.1043.10102@do.openembedded.org>
-	<20170620213413.GA88738@scetola-mac01.local>
-In-Reply-To: <20170620213413.GA88738@scetola-mac01.local>
-From: Zeeshan Ali <zeenix@gmail.com>
-Date: Tue, 20 Jun 2017 21:58:05 +0000
-Message-ID: <CAAa3hFMLLYX3KGS+Uy01J0B-_k711byjYRv7Nccqz5FggQ89sA@mail.gmail.com>
-To: Stephano Cetola <stephano.cetola@linux.intel.com>, 
-	openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?UmU6IOKclyBwYXRjaHRlc3Q6IGZhaWx1cmUgZm9yIG9lcWE6IGZpeCBydW50aW1lIHRlc3RpbmcgdXNpbmcgc3lzdGVtZC1ib290IHRhcmdldCAocmV2Mik=?=
+Received: by 10.28.176.5 with HTTP; Tue, 20 Jun 2017 15:08:03 -0700 (PDT)
+In-Reply-To: <ae378e9f-5646-41fc-642c-9716a2a03ac4@denx.de>
+References: <20170620204029.19499-1-brad.mouring@ni.com>
+	<f35ef85f-1868-ef13-1003-3bf1cfc58b89@denx.de>
+	<20170620205349.GA19584@zardoz.amer.corp.natinst.com>
+	<CAP9ODKoR2bZgeNzzBhNmDzJw6KOvqfboYpY3cj1JMnoqS4YKMQ@mail.gmail.com>
+	<ae378e9f-5646-41fc-642c-9716a2a03ac4@denx.de>
+Date: Tue, 20 Jun 2017 19:08:03 -0300
+X-Gmail-Original-Message-ID: <CAP9ODKpNqhY8nj8e2yPe_b+Nk0adK3fx_4FgZt58Pk8-09j5OA@mail.gmail.com>
+Message-ID: <CAP9ODKpNqhY8nj8e2yPe_b+Nk0adK3fx_4FgZt58Pk8-09j5OA@mail.gmail.com>
+To: Marek Vasut <marex@denx.de>
+Cc: Tom Rini <trini@konsulko.com>,
+	Openembedded Core <openembedded-core@lists.openembedded.org>,
+	Brad Mouring <brad.mouring@ni.com>
+Subject: Re: [RFC] u-boot-fw-utils: Allow target-specific fw_env.config
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,154 +73,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Jun 2017 21:58:17 -0000
-Content-Type: multipart/alternative; boundary="001a114f50b052214e05526b595d"
-
---001a114f50b052214e05526b595d
+X-List-Received-Date: Tue, 20 Jun 2017 22:08:07 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-Hi Stephano,
-
-Thanks. I'm already on my 2 weeks vacation so if you could kindly rebase
-the patch series, that'd be very nice. Otherwise, I'll just do it after I
-return. Thanks.
-
-On Tue, 20 Jun 2017, 23:34 Stephano Cetola, <stephano.cetola@linux.intel.com>
-wrote:
-
-> Hey Zeeshan,
+On Tue, Jun 20, 2017 at 6:16 PM, Marek Vasut <marex@denx.de> wrote:
+> On 06/20/2017 10:57 PM, Otavio Salvador wrote:
+>> On Tue, Jun 20, 2017 at 5:53 PM, Brad Mouring <brad.mouring@ni.com> wrote:
+>>> On Tue, Jun 20, 2017 at 10:43:51PM +0200, Marek Vasut wrote:
+>>>> On 06/20/2017 10:40 PM, Brad Mouring wrote:
+>>>>> As implemented currently, the fw-utils recipe does not allow for
+>>>>> ...
+>>>>> +# by the U-Boot environment utilities "fw_printenv" and "fw_setenv".
+>>>>> +# By default, use the default included in the U-Boot source
+>>>>> +UBOOT_FW_ENV_CONFIG ??= "${S}/tools/env/fw_env.config"
+>>>>> +
+>>>>>  inherit uboot-config
+>>>>>
+>>>>>  do_compile () {
+>>>>> @@ -19,7 +24,7 @@ do_install () {
+>>>>>     install -d ${D}${sysconfdir}
+>>>>>     install -m 755 ${S}/tools/env/fw_printenv ${D}${base_sbindir}/fw_printenv
+>>>>>     install -m 755 ${S}/tools/env/fw_printenv ${D}${base_sbindir}/fw_setenv
+>>>>> -   install -m 0644 ${S}/tools/env/fw_env.config ${D}${sysconfdir}/fw_env.config
+>>>>> +   install -m 0644 ${UBOOT_FW_ENV_CONFIG} ${D}${sysconfdir}/fw_env.config
+>>>>
+>>>> Do we really need yet another variable ? Wouldn't it make more sense to
+>>>> add do_install_append_yourmachine() {} in your meta-whatever to
+>>>> u-boot-fw-utils_%.bbappend and install whatever additional files you need ?
+>>>
+>>> This is (kinda) what we were doing, there was some discussion as to
+>>> whether or not this made sense upstream. I was unsure of the
+>>> acceptability of a do_install_append.*() clobbering a file of the
+>>> original do_install().
+>>>
+>>> Thanks for the input.
+>>
+>> Or split up the configuration to u-boot-fw-utils-config package and
+>> make u-boot-fw-utils generic? So we can have the configuration in a
+>> specific package.
 >
-> Let me know if you need any help with this. This probably requires
-> that you do a rebase with master and resubmit a V4.
->
-> Cheers,
-> Stephano
->
-> On 06/19, Patchwork wrote:
-> > == Series Details ==
-> >
-> > Series: oeqa: fix runtime testing using systemd-boot target (rev2)
-> > Revision: 2
-> > URL   : https://patchwork.openembedded.org/series/6953/
-> > State : failure
-> >
-> > == Summary ==
-> >
-> >
-> > Thank you for submitting this patch series to OpenEmbedded Core. This is
-> > an automated response. Several tests have been executed on the proposed
-> > series by patchtest resulting in the following failures:
-> >
-> >
-> >
-> > * Issue             Series does not apply on top of target branch
-> [test_series_merge_on_head]
-> >   Suggested fix    Rebase your series on top of targeted branch
-> >   Targeted branch  master (currently at 1d9a88f635)
-> >
-> >
-> >
-> > If you believe any of these test results are incorrect, please reply to
-> the
-> > mailing list (openembedded-core@lists.openembedded.org) raising your
-> concerns.
-> > Otherwise we would appreciate you correcting the issues and submitting a
-> new
-> > version of the patchset if applicable. Please ensure you add/increment
-> the
-> > version number when sending the new version (i.e. [PATCH] -> [PATCH v2]
-> ->
-> > [PATCH v3] -> ...).
-> >
-> > ---
-> > Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-> > Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
-> >
-> > --
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
+> Keep in mind that u-boot-fw-utils is actually built for particular
+> machine (it contains ie. the default env for that machine) so bundling
+> the config file with it is IMO OK. No need to introduce additional
+> packages for every simple file.
 
---001a114f50b052214e05526b595d
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+I will propose one patch. See what you think ...
 
-<p dir=3D"ltr">Hi Stephano,</p>
-<p dir=3D"ltr">Thanks. I&#39;m already on my 2 weeks vacation so if you cou=
-ld kindly rebase the patch series, that&#39;d be very nice. Otherwise, I&#3=
-9;ll just do it after I return. Thanks.</p>
-<br><div class=3D"gmail_quote"><div dir=3D"ltr">On Tue, 20 Jun 2017, 23:34 =
-Stephano Cetola, &lt;<a href=3D"mailto:stephano.cetola@linux.intel.com">ste=
-phano.cetola@linux.intel.com</a>&gt; wrote:<br></div><blockquote class=3D"g=
-mail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-l=
-eft:1ex">Hey Zeeshan,<br>
-<br>
-Let me know if you need any help with this. This probably requires<br>
-that you do a rebase with master and resubmit a V4.<br>
-<br>
-Cheers,<br>
-Stephano<br>
-<br>
-On 06/19, Patchwork wrote:<br>
-&gt; =3D=3D Series Details =3D=3D<br>
-&gt;<br>
-&gt; Series: oeqa: fix runtime testing using systemd-boot target (rev2)<br>
-&gt; Revision: 2<br>
-&gt; URL=C2=A0 =C2=A0: <a href=3D"https://patchwork.openembedded.org/series=
-/6953/" rel=3D"noreferrer" target=3D"_blank">https://patchwork.openembedded=
-.org/series/6953/</a><br>
-&gt; State : failure<br>
-&gt;<br>
-&gt; =3D=3D Summary =3D=3D<br>
-&gt;<br>
-&gt;<br>
-&gt; Thank you for submitting this patch series to OpenEmbedded Core. This =
-is<br>
-&gt; an automated response. Several tests have been executed on the propose=
-d<br>
-&gt; series by patchtest resulting in the following failures:<br>
-&gt;<br>
-&gt;<br>
-&gt;<br>
-&gt; * Issue=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Series does not=
- apply on top of target branch [test_series_merge_on_head]<br>
-&gt;=C2=A0 =C2=A0Suggested fix=C2=A0 =C2=A0 Rebase your series on top of ta=
-rgeted branch<br>
-&gt;=C2=A0 =C2=A0Targeted branch=C2=A0 master (currently at 1d9a88f635)<br>
-&gt;<br>
-&gt;<br>
-&gt;<br>
-&gt; If you believe any of these test results are incorrect, please reply t=
-o the<br>
-&gt; mailing list (<a href=3D"mailto:openembedded-core@lists.openembedded.o=
-rg" target=3D"_blank">openembedded-core@lists.openembedded.org</a>) raising=
- your concerns.<br>
-&gt; Otherwise we would appreciate you correcting the issues and submitting=
- a new<br>
-&gt; version of the patchset if applicable. Please ensure you add/increment=
- the<br>
-&gt; version number when sending the new version (i.e. [PATCH] -&gt; [PATCH=
- v2] -&gt;<br>
-&gt; [PATCH v3] -&gt; ...).<br>
-&gt;<br>
-&gt; ---<br>
-&gt; Test framework: <a href=3D"http://git.yoctoproject.org/cgit/cgit.cgi/p=
-atchtest" rel=3D"noreferrer" target=3D"_blank">http://git.yoctoproject.org/=
-cgit/cgit.cgi/patchtest</a><br>
-&gt; Test suite:=C2=A0 =C2=A0 =C2=A0<a href=3D"http://git.yoctoproject.org/=
-cgit/cgit.cgi/patchtest-oe" rel=3D"noreferrer" target=3D"_blank">http://git=
-.yoctoproject.org/cgit/cgit.cgi/patchtest-oe</a><br>
-&gt;<br>
-&gt; --<br>
-&gt; _______________________________________________<br>
-&gt; Openembedded-core mailing list<br>
-&gt; <a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"=
-_blank">Openembedded-core@lists.openembedded.org</a><br>
-&gt; <a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded=
--core" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/m=
-ailman/listinfo/openembedded-core</a><br>
-</blockquote></div>
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
---001a114f50b052214e05526b595d--
