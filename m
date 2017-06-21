@@ -1,24 +1,18 @@
-Return-Path: <yin.thong.choong@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 63A577806D
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Jun 2017 06:51:05 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	20 Jun 2017 23:51:06 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.39,367,1493708400"; d="scan'208";a="870166557"
-Received: from echidna.jf.intel.com ([10.54.77.34])
-	by FMSMGA003.fm.intel.com with ESMTP; 20 Jun 2017 23:50:56 -0700
-From: Choong YinThong <yin.thong.choong@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 20 Jun 2017 16:41:13 -0700
-Message-Id: <1498002073-168422-2-git-send-email-yin.thong.choong@intel.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1498002073-168422-1-git-send-email-yin.thong.choong@intel.com>
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 1D18F77FF6;
+	Wed, 21 Jun 2017 07:01:25 +0000 (UTC)
+MIME-Version: 1.0
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: yin.thong.choong@intel.com
+Date: Wed, 21 Jun 2017 07:01:26 -0000
+Message-ID: <20170621070126.1043.6922@do.openembedded.org>
 References: <1498002073-168422-1-git-send-email-yin.thong.choong@intel.com>
-Cc: paul.eggleton@intel.com, core-dev@eclists.intel.com, saul.wold@intel.com
-Subject: [PATCH] script/yocto-bsp: Fail to add kernel feature in custom linux kernel
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <1498002073-168422-1-git-send-email-yin.thong.choong@intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3Igc2NyaXB0L3lvY3RvLWJzcDogRmFpbCB0byBhZGQga2VybmVsIGZlYXR1cmUgaW4gY3VzdG9tIGxpbnV4IGtlcm5lbA==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,42 +25,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Jun 2017 06:51:05 -0000
+X-List-Received-Date: Wed, 21 Jun 2017 07:01:26 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-Missing file {machine}-user-feature.scc on
-yocto-bsp custom linux kernel creation
-and causes failure in yocto-kernel feature add.
+== Series Details ==
 
-[YOCTO #11585]
+Series: script/yocto-bsp: Fail to add kernel feature in custom linux kernel
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/7393/
+State : failure
 
-Signed-off-by: Choong YinThong <yin.thong.choong@intel.com>
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at 1d9a88f635)
+
+* Issue             Series sent to the wrong mailing list or some patches from the series correspond to different mailing lists [test_target_mailing_list] 
+  Suggested fix    Send the series again to the correct mailing list (ML)
+  Suggested ML     poky@yoctoproject.org [http://git.yoctoproject.org/cgit/cgit.cgi/poky/]
+  Patch's path:    scripts/lib/bsp/substrate/target/arch/common/recipes-kernel/linux/linux-yocto-custom.bb
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- .../target/arch/common/recipes-kernel/linux/linux-yocto-custom.bb        | 1 +
- .../recipes-kernel/linux/linux-yocto-custom/machine-user-features.scc    | 1 +
- 2 files changed, 2 insertions(+)
- create mode 100644 scripts/lib/bsp/substrate/target/arch/common/recipes-kernel/linux/linux-yocto-custom/machine-user-features.scc
-
-diff --git a/scripts/lib/bsp/substrate/target/arch/common/recipes-kernel/linux/linux-yocto-custom.bb b/scripts/lib/bsp/substrate/target/arch/common/recipes-kernel/linux/linux-yocto-custom.bb
-index fda955b..3ba4226 100644
---- a/scripts/lib/bsp/substrate/target/arch/common/recipes-kernel/linux/linux-yocto-custom.bb
-+++ b/scripts/lib/bsp/substrate/target/arch/common/recipes-kernel/linux/linux-yocto-custom.bb
-@@ -42,6 +42,7 @@ SRC_URI += "file://{{=machine}}.scc \
-             file://{{=machine}}.cfg \
-             file://{{=machine}}-user-config.cfg \
-             file://{{=machine}}-user-patches.scc \
-+            file://{{=machine}}-user-features.scc \
-            "
- 
- {{ if kernel_choice == "custom" and custom_kernel_need_kbranch == "y" and custom_kernel_kbranch and custom_kernel_kbranch != "master": }}
-diff --git a/scripts/lib/bsp/substrate/target/arch/common/recipes-kernel/linux/linux-yocto-custom/machine-user-features.scc b/scripts/lib/bsp/substrate/target/arch/common/recipes-kernel/linux/linux-yocto-custom/machine-user-features.scc
-new file mode 100644
-index 0000000..85be26d
---- /dev/null
-+++ b/scripts/lib/bsp/substrate/target/arch/common/recipes-kernel/linux/linux-yocto-custom/machine-user-features.scc
-@@ -0,0 +1 @@
-+# yocto-bsp-filename {{=machine}}-user-features.scc
-\ No newline at end of file
--- 
-2.7.4
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
