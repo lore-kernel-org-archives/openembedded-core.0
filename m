@@ -1,18 +1,18 @@
 Return-Path: <patchwork@patchwork.openembedded.org>
 Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id AAD387806E;
-	Wed, 21 Jun 2017 08:31:45 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id 58D237809C;
+	Wed, 21 Jun 2017 08:31:47 +0000 (UTC)
 MIME-Version: 1.0
 From: Patchwork <patchwork@patchwork.openembedded.org>
 To: Anton Novikov <a.novikov@yadro.com>
-Date: Wed, 21 Jun 2017 08:31:47 -0000
-Message-ID: <20170621083147.1043.50456@do.openembedded.org>
-References: <da612536-8f62-1de5-45d1-e4f660ed0c64@yadro.com>
+Date: Wed, 21 Jun 2017 08:31:49 -0000
+Message-ID: <20170621083149.1039.67213@do.openembedded.org>
+References: <3893ec34-996e-a3f3-6869-2d25c71620f0@yadro.com>
 Reply-To: openembedded-core@lists.openembedded.org
 X-Patchwork-Hint: ignore
-In-Reply-To: <da612536-8f62-1de5-45d1-e4f660ed0c64@yadro.com>
+In-Reply-To: <3893ec34-996e-a3f3-6869-2d25c71620f0@yadro.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgbWFzdGVyOiBmaXggcGVybCByZWdleCBpbiBBdXRvbWFrZQ==?=
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgKG1vcnR5KSBhdXRvbWFrZTogZml4IFBlcmwgcmVnZXg=?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,15 +25,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Jun 2017 08:31:46 -0000
+X-List-Received-Date: Wed, 21 Jun 2017 08:31:47 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
 == Series Details ==
 
-Series: master: fix perl regex in Automake
+Series: (morty) automake: fix Perl regex
 Revision: 1
-URL   : https://patchwork.openembedded.org/series/7396/
+URL   : https://patchwork.openembedded.org/series/7398/
 State : failure
 
 == Summary ==
@@ -47,6 +47,10 @@ series by patchtest resulting in the following failures:
 
 * Issue             Added patch file is missing Upstream-Status in the header [test_upstream_status_presence] 
   Suggested fix    Add Upstream-Status: <status> to the header of meta/recipes-devtools/automake/automake/perl-regex-curly.patch (possible values: Pending, Submitted, Accepted, Backport, Denied, Inappropriate)
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at 1d9a88f635)
 
 * Issue             A patch file has been added, but does not have a Signed-off-by tag [test_signed_off_by_presence] 
   Suggested fix    Sign off the added patch file (meta/recipes-devtools/automake/automake/perl-regex-curly.patch)
