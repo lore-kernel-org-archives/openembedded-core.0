@@ -1,53 +1,44 @@
-Return-Path: <a.novikov@yadro.com>
-X-Greylist: delayed 385 seconds by postgrey-1.34 at layers.openembedded.org;
-	Wed, 21 Jun 2017 07:11:00 UTC
-Received: from mta-01.yadro.com (mta-01.yadro.com [89.207.88.251])
-	by mail.openembedded.org (Postfix) with ESMTP id A8EAB71A60
+Return-Path: <nicolas.dechesne@linaro.org>
+Received: from mail-qk0-f171.google.com (mail-qk0-f171.google.com
+	[209.85.220.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 62C8D77BC4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Jun 2017 07:11:00 +0000 (UTC)
-Received: from localhost (unknown [127.0.0.1])
-	by mta-01.yadro.com (Postfix) with ESMTP id 03E5A40418
+	Wed, 21 Jun 2017 07:27:36 +0000 (UTC)
+Received: by mail-qk0-f171.google.com with SMTP id p21so3646173qke.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Jun 2017 07:04:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
-	content-language:content-type:content-type:in-reply-to
-	:mime-version:user-agent:date:date:message-id:from:from
-	:references:subject:subject:received:received:received; s=
-	mta-01; t=1498028674; x=1499843075; bh=klERLTh8YKP9HCs7MJq9KXn7e
-	X6rxZq0MweslL3bJEQ=; b=S7Ge3dEk0yCdvWdDO32XcCy8K2/PKfTpFT+mGDSnS
-	z/Q/SnHobGLYmyluBH0WQ5AVaCrutPleCE4RHsJ3tYT0H0uR2pPet3RlH5bly8zy
-	YM+bSOdLJ5TdyGAa5BSNjmFUChLVnQJzDHT8yfjR65RI0V7dj4H+OFwijiPygY4w
-	68=
-X-Virus-Scanned: amavisd-new at yadro.com
-Received: from mta-01.yadro.com ([127.0.0.1])
-	by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Pr423Gm8O6fL
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Jun 2017 10:04:34 +0300 (MSK)
-Received: from T-EXCH-02.corp.yadro.com (t-exch-02.corp.yadro.com
-	[172.17.10.102])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mta-01.yadro.com (Postfix) with ESMTPS id 7A9FB40416
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Jun 2017 10:04:34 +0300 (MSK)
-Received: from [172.17.15.41] (172.17.15.41) by T-EXCH-02.corp.yadro.com
-	(172.17.10.102) with Microsoft SMTP Server (version=TLS1_2,
-	cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32;
-	Wed, 21 Jun 2017 10:04:34 +0300
-References: <CAMKF1sp3SnGKG7OGuNJAwXZiSUBLDykr8Ds982WdXwJxZ5sNfQ@mail.gmail.com>
-To: <openembedded-core@lists.openembedded.org>
-From: Anton Novikov <a.novikov@yadro.com>
-X-Forwarded-Message-Id: <CAMKF1sp3SnGKG7OGuNJAwXZiSUBLDykr8Ds982WdXwJxZ5sNfQ@mail.gmail.com>
-Message-ID: <641d1df8-77f2-3b96-30d5-d770a5e44a9e@yadro.com>
-Date: Wed, 21 Jun 2017 10:04:37 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.2.0
+	Wed, 21 Jun 2017 00:27:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=DcDCxFK2qQIVW8Mb9Vf1YPqhgMVdm/l3aEh1uA4QiOE=;
+	b=LtncMoYJxNwJqBydaSoPRoU/X8Fjq8B0Icn7bljreyTgi4nnoZH5O7yxGnXFd5jeb8
+	y65Qc7QytzHkC+GUh0UQU1e6QY4/u7rKlqepW+5A3U+c/xRXwFW8dZ99Yg99nE1R3IFv
+	Z6g5wOIzD+Ix6A4u2oSYzSj8YpbElo81sxR7k=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=DcDCxFK2qQIVW8Mb9Vf1YPqhgMVdm/l3aEh1uA4QiOE=;
+	b=eAsBnReVlGSRVjeXYxHFX11dJHXH4Cvmgyrb3ltjvFs61jFrrDf3zOcf2xfjkwYJPN
+	pvq7xMRwTatySftPGRjqGM+8KBxLeNlZ6KoP00evnrtlmOVOCiAkrCxp7bOcyexP07rY
+	L0/ySDTWGHIVdfLMrtwQC7LuXRIX/5mZIuCpUL0CGkFCw3gY1JVsPrXPmYqGMcaFXoRP
+	0vIliNpuZ5eE6PqA6JyJamDMBjc87eOpClgpR1ZxQkiCtUrU/4rIrai959PvZic9OmuK
+	AZkAPqUJxT55/siH8od0AiuY5Lh8V5ucKT+IByq4tqd9x/U0CVJVoknLN8k1CGOzLWUX
+	RpAw==
+X-Gm-Message-State: AKS2vOy/XgP8VET8WQCbT/dQbc8C4f4V8YPLuwXaGSi0yr/rp75BT9YN
+	hmitJ+pKsG+Lmi3pl09JvT8tXECS2qD3
+X-Received: by 10.55.124.194 with SMTP id x185mr35822180qkc.215.1498030057293; 
+	Wed, 21 Jun 2017 00:27:37 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAMKF1sp3SnGKG7OGuNJAwXZiSUBLDykr8Ds982WdXwJxZ5sNfQ@mail.gmail.com>
-X-Originating-IP: [172.17.15.41]
-X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
-	T-EXCH-02.corp.yadro.com (172.17.10.102)
+Received: by 10.140.104.204 with HTTP; Wed, 21 Jun 2017 00:27:16 -0700 (PDT)
+In-Reply-To: <641d1df8-77f2-3b96-30d5-d770a5e44a9e@yadro.com>
+References: <CAMKF1sp3SnGKG7OGuNJAwXZiSUBLDykr8Ds982WdXwJxZ5sNfQ@mail.gmail.com>
+	<641d1df8-77f2-3b96-30d5-d770a5e44a9e@yadro.com>
+From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+Date: Wed, 21 Jun 2017 09:27:16 +0200
+Message-ID: <CAP71WjwskmSHF3ns94gihZsmq7t4Oe+o2_JKKQ57RKQ57nBwvw@mail.gmail.com>
+To: Anton Novikov <a.novikov@yadro.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
 Subject: Re: [yocto] Some Arch Linux build fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -61,178 +52,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Jun 2017 07:11:01 -0000
-Content-Type: multipart/alternative;
-	boundary="------------8840830BCBC299DF257DA8A0"
-Content-Language: en-US
+X-List-Received-Date: Wed, 21 Jun 2017 07:27:36 -0000
+Content-Type: text/plain; charset="UTF-8"
 
---------------8840830BCBC299DF257DA8A0
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+hi,
 
-Hi all,
-
-people at yocto@yoctoproject.org sent me here.
-
-Please review my commits and apply them or provide me with help to
-
-do it myself.
-
-Thanks,
-
-Anton
-
-
-
--------- Forwarded Message --------
-Subject: 	Re: [yocto] Some Arch Linux build fixes
-Date: 	Tue, 20 Jun 2017 23:05:16 -0400
-From: 	Khem Raj <raj.khem@gmail.com>
-To: 	Anton Novikov <a.novikov@yadro.com>
-CC: 	yocto@yoctoproject.org <yocto@yoctoproject.org>
-
-
-
-On Tue, Jun 20, 2017 at 10:09 AM, Anton Novikov <a.novikov@yadro.com> wrote:
-> Hi, and all have a nice day.
+On Wed, Jun 21, 2017 at 9:04 AM, Anton Novikov <a.novikov@yadro.com> wrote:
 >
+> Hi all,
 >
-> My company contributes to OpenBMC project, whose code has an
-> 'import-layers/yocto-poky'
+> people at yocto@yoctoproject.org sent me here.
 >
-> git subtree. I'm trying to build it on Arch Linux, which is a rolling
-> release distribution, and
+> Please review my commits and apply them or provide me with help to
 >
-> has pretty recent package versions, which triggers some bugs, which I'm
-> fixing.
->
->
-> Patrick, an OpenBMC maintainer, sent me here, as the code in this folder
-> seems to be
->
-> synchronized with Yocto code. So somebody, please look at
-> https://github.com/openbmc/openbmc/pull/1817
+> do it myself.
 
-this are good fixes. Please send them to openembedded-core@ mailing list
-for review and inclusion in branches they are required. Please be aware
-that rolling releases are hard to use for a time based release like Yocto
-since over period of time things will change unless you keep using master
-of yocto. I would suggest to consider this fact.
+Patches need to be sent to the mailing list as inline patch, we wont'
+do review on github.
 
->
-> and comment on it here. I want to either re-contribute the changes to Yocto,
-> or just maintain arch-fixes
->
-> branch of github.com/an146/openbmc and have someone else to adapt the fixes
-> to Yocto.
->
->
-> Thanks,
->
-> Anton
->
-> --
-> _______________________________________________
-> yocto mailing list
-> yocto@yoctoproject.org
-> https://lists.yoctoproject.org/listinfo/yocto
+please have a look at
 
+http://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEmbedded
 
---------------8840830BCBC299DF257DA8A0
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-
-<html>
-  <head>
-
-    <meta http-equiv="content-type" content="text/html; charset=utf-8">
-  </head>
-  <body text="#000000" bgcolor="#FFFFFF">
-    <p>Hi all,</p>
-    <p>people at <a class="moz-txt-link-abbreviated" href="mailto:yocto@yoctoproject.org">yocto@yoctoproject.org</a> sent me here.</p>
-    <p>Please review my commits and apply them or provide me with help
-      to</p>
-    <p>do it myself.</p>
-    <p>Thanks,</p>
-    <p>Anton<br>
-    </p>
-    <div class="moz-forward-container"><br>
-      <br>
-      -------- Forwarded Message --------
-      <table class="moz-email-headers-table" cellspacing="0"
-        cellpadding="0" border="0">
-        <tbody>
-          <tr>
-            <th valign="BASELINE" align="RIGHT" nowrap="nowrap">Subject:
-            </th>
-            <td>Re: [yocto] Some Arch Linux build fixes</td>
-          </tr>
-          <tr>
-            <th valign="BASELINE" align="RIGHT" nowrap="nowrap">Date: </th>
-            <td>Tue, 20 Jun 2017 23:05:16 -0400</td>
-          </tr>
-          <tr>
-            <th valign="BASELINE" align="RIGHT" nowrap="nowrap">From: </th>
-            <td>Khem Raj <a class="moz-txt-link-rfc2396E" href="mailto:raj.khem@gmail.com">&lt;raj.khem@gmail.com&gt;</a></td>
-          </tr>
-          <tr>
-            <th valign="BASELINE" align="RIGHT" nowrap="nowrap">To: </th>
-            <td>Anton Novikov <a class="moz-txt-link-rfc2396E" href="mailto:a.novikov@yadro.com">&lt;a.novikov@yadro.com&gt;</a></td>
-          </tr>
-          <tr>
-            <th valign="BASELINE" align="RIGHT" nowrap="nowrap">CC: </th>
-            <td><a class="moz-txt-link-abbreviated" href="mailto:yocto@yoctoproject.org">yocto@yoctoproject.org</a> <a class="moz-txt-link-rfc2396E" href="mailto:yocto@yoctoproject.org">&lt;yocto@yoctoproject.org&gt;</a></td>
-          </tr>
-        </tbody>
-      </table>
-      <br>
-      <br>
-      <pre>On Tue, Jun 20, 2017 at 10:09 AM, Anton Novikov <a class="moz-txt-link-rfc2396E" href="mailto:a.novikov@yadro.com">&lt;a.novikov@yadro.com&gt;</a> wrote:
-&gt; Hi, and all have a nice day.
-&gt;
-&gt;
-&gt; My company contributes to OpenBMC project, whose code has an
-&gt; 'import-layers/yocto-poky'
-&gt;
-&gt; git subtree. I'm trying to build it on Arch Linux, which is a rolling
-&gt; release distribution, and
-&gt;
-&gt; has pretty recent package versions, which triggers some bugs, which I'm
-&gt; fixing.
-&gt;
-&gt;
-&gt; Patrick, an OpenBMC maintainer, sent me here, as the code in this folder
-&gt; seems to be
-&gt;
-&gt; synchronized with Yocto code. So somebody, please look at
-&gt; <a class="moz-txt-link-freetext" href="https://github.com/openbmc/openbmc/pull/1817">https://github.com/openbmc/openbmc/pull/1817</a>
-
-this are good fixes. Please send them to openembedded-core@ mailing list
-for review and inclusion in branches they are required. Please be aware
-that rolling releases are hard to use for a time based release like Yocto
-since over period of time things will change unless you keep using master
-of yocto. I would suggest to consider this fact.
-
-&gt;
-&gt; and comment on it here. I want to either re-contribute the changes to Yocto,
-&gt; or just maintain arch-fixes
-&gt;
-&gt; branch of github.com/an146/openbmc and have someone else to adapt the fixes
-&gt; to Yocto.
-&gt;
-&gt;
-&gt; Thanks,
-&gt;
-&gt; Anton
-&gt;
-&gt; --
-&gt; _______________________________________________
-&gt; yocto mailing list
-&gt; <a class="moz-txt-link-abbreviated" href="mailto:yocto@yoctoproject.org">yocto@yoctoproject.org</a>
-&gt; <a class="moz-txt-link-freetext" href="https://lists.yoctoproject.org/listinfo/yocto">https://lists.yoctoproject.org/listinfo/yocto</a>
-</pre>
-    </div>
-  </body>
-</html>
-
---------------8840830BCBC299DF257DA8A0--
