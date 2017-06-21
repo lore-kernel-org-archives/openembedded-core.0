@@ -1,67 +1,29 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-wr0-f176.google.com (mail-wr0-f176.google.com
-	[209.85.128.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 0A17571E4B
+Return-Path: <california.l.sullivan@intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 9195C71975
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Jun 2017 18:01:39 +0000 (UTC)
-Received: by mail-wr0-f176.google.com with SMTP id l5so2042616wre.2
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Jun 2017 11:01:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
-	:cc; bh=fhB5KsFtMpZsFqddBp8itClrq1WKs6hbWSgL2WLuTVY=;
-	b=KzJFPmegCP1AGr5SL5x0SoLRH1F3dcNMY0jIds9NXnF6IhbIOaQWN/RrzIm5Vs/vFP
-	ucHcul1Tp9xO1fYCPCKOEck2Wqlf7vVCKqvsh5tjTNK1rgM4LJUzY4x5gCgU02InGwy4
-	Mx3lTlPuoHpDkxlHqQxwiDD2Yd8WDlyhmCKDgmB9iRPIfwJUZw5LYqHGZbu8y0S+oqoG
-	pjw79V4e5XmiE2Jk/InTNLobX/QE2ytjANhGqzNeQvPKfFGgAdrjTvbXeRTKEeZGaW1c
-	4obfI7IwmNgzxGFJ4LCaNjHTbtBJXFSKvE6dLC86cxHMBGt6TyxLV6UoThbZTQvd9BM9
-	81EA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
-	:message-id:subject:to:cc;
-	bh=fhB5KsFtMpZsFqddBp8itClrq1WKs6hbWSgL2WLuTVY=;
-	b=gowpqeDpzokYuyO3gqtzefs6rcUN+Gk2YBKvwSOHIyrMyc2H+O5WLDAfWH+kf+Ukzs
-	K5pAQNMaeKuIX31oH/BKlxBefDctewRZ0eiaZF94HYwqhFqXC9ss5e9gJMuTJLX/WcU5
-	j93rIdmTsJuJKZNqZla5NV5OhCSfvuIP2GOZCqfYthSiacq3n9fZhq6MMx6xNdqDHVOj
-	biFzkf5gbiXm6pDFtGThwyxqIxAKcGFAvX9/atMxjKRrULz7lkrxhFkHDSLVMguw4Ofp
-	X6OIW5f8Zb3vEVM/eaHDvxRTLMC9FHxfHmDAY/AQfIPMzQEba21Zg2cELhEb2l/bp/ys
-	7CDw==
-X-Gm-Message-State: AKS2vOyEVSqxx8o80gmme78K3OSYA65x8GGkfCq4INRCiwpe+1IR66xT
-	BkwxMmxB8pFoIForbuw=
-X-Received: by 10.223.172.15 with SMTP id v15mr28664850wrc.84.1498068099505;
-	Wed, 21 Jun 2017 11:01:39 -0700 (PDT)
-Received: from mail-wr0-f177.google.com (mail-wr0-f177.google.com.
-	[209.85.128.177])
-	by smtp.gmail.com with ESMTPSA id o7sm15697139wmd.0.2017.06.21.11.01.37
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 21 Jun 2017 11:01:37 -0700 (PDT)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-wr0-f177.google.com with SMTP id 77so145220999wrb.1
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Jun 2017 11:01:37 -0700 (PDT)
-X-Received: by 10.223.163.197 with SMTP id m5mr11825713wrb.128.1498068097086; 
-	Wed, 21 Jun 2017 11:01:37 -0700 (PDT)
+	Wed, 21 Jun 2017 18:11:07 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	21 Jun 2017 11:11:08 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.39,370,1493708400"; 
+	d="scan'208,217";a="1143523101"
+Received: from clsulliv.jf.intel.com ([10.7.201.36])
+	by orsmga001.jf.intel.com with ESMTP; 21 Jun 2017 11:11:08 -0700
+To: Christopher Larson <kergoth@gmail.com>
+References: <1498004059-12231-1-git-send-email-california.l.sullivan@intel.com>
+	<CABcZANmLQno0gXMoaBPz22WpsoPCvkCySe1JY+m7L4n5TTqsLw@mail.gmail.com>
+From: Cal Sullivan <california.l.sullivan@intel.com>
+Message-ID: <376a5ff8-a6ef-0055-eafb-514be875a1bd@intel.com>
+Date: Wed, 21 Jun 2017 11:11:08 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.4.0
 MIME-Version: 1.0
-Received: by 10.28.176.5 with HTTP; Wed, 21 Jun 2017 11:01:36 -0700 (PDT)
-In-Reply-To: <20170621165256.GL27196@bill-the-cat>
-References: <20170620221512.21860-1-otavio@ossystems.com.br>
-	<20170620235544.GO28053@denix.org>
-	<20170621120317.GG27196@bill-the-cat>
-	<20170621155023.GQ28053@denix.org>
-	<20170621165256.GL27196@bill-the-cat>
-Date: Wed, 21 Jun 2017 15:01:36 -0300
-X-Gmail-Original-Message-ID: <CAP9ODKqZoPwo128rHr1kJfnP9590YySU4GCb3gDOTxPeG4WGrA@mail.gmail.com>
-Message-ID: <CAP9ODKqZoPwo128rHr1kJfnP9590YySU4GCb3gDOTxPeG4WGrA@mail.gmail.com>
-To: Tom Rini <trini@konsulko.com>
-Cc: Marek Vasut <marex@denx.de>,
-	OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>,
-	Otavio Salvador <otavio@ossystems.com.br>,
-	Brad Mouring <brad.mouring@ni.com>
-Subject: Re: [PATCH] u-boot-fw-utils: Allow replacement of fw_env.config
+In-Reply-To: <CABcZANmLQno0gXMoaBPz22WpsoPCvkCySe1JY+m7L4n5TTqsLw@mail.gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] x86-base.inc: Don't add live to IMAGE_FSTYPES, default instead
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -74,25 +36,171 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Jun 2017 18:01:41 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 21 Jun 2017 18:11:07 -0000
+Content-Type: multipart/alternative;
+	boundary="------------8B20365CF7741F9E58D1A962"
 
-On Wed, Jun 21, 2017 at 1:52 PM, Tom Rini <trini@konsulko.com> wrote:
-> On Wed, Jun 21, 2017 at 11:50:23AM -0400, Denys Dmytriyenko wrote:
->> What I'm arguing against here is some partial solution - modifying the global
->> recipe in oe-core, but still require .bbappend to provide a file. It's should
->> either be "do everything in .bbappend, like we all do now" or "do everything
->> in main oe-core recipe and let machine.conf define it".
+--------------8B20365CF7741F9E58D1A962
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+
+
+
+On 06/21/2017 08:28 AM, Christopher Larson wrote:
 >
-> OK, we should do it globally with a ??= of the in-tree example only?  Or
-> just let u-boot-fw-utils fail to build?
+> On Tue, Jun 20, 2017 at 5:14 PM, California Sullivan 
+> <california.l.sullivan@intel.com 
+> <mailto:california.l.sullivan@intel.com>> wrote:
+>
+>     Using += makes it difficult to remove. Soft-set with ?= instead.
+>
+>     Signed-off-by: California Sullivan
+>     <california.l.sullivan@intel.com
+>     <mailto:california.l.sullivan@intel.com>>
+>     ---
+>      meta/conf/machine/include/x86-base.inc | 2 +-
+>      1 file changed, 1 insertion(+), 1 deletion(-)
+>
+>     diff --git a/meta/conf/machine/include/x86-base.inc
+>     b/meta/conf/machine/include/x86-base.inc
+>     index 7365953..bfacdf5 100644
+>     --- a/meta/conf/machine/include/x86-base.inc
+>     +++ b/meta/conf/machine/include/x86-base.inc
+>     @@ -10,7 +10,7 @@ MACHINE_FEATURES += "screen keyboard pci usbhost
+>     ext2 ext3 x86 \
+>
+>      MACHINE_EXTRA_RRECOMMENDS += "kernel-modules"
+>
+>     -IMAGE_FSTYPES += "live"
+>     +IMAGE_FSTYPES ?= "live"
+>
+>
+> I’m assuming you verified that none of the existing machines including 
+> this were depending on the += behavior to add to the current value? 
+> And this would almost certainly result in a different default for any 
+> machines that don’t adjust IMAGE_FSTYPES at all, since it’d be adding 
+> to the bitbake.conf or distro default.
 
-Maybe the best is to allow for boards to have its fw_env.config inside
-U-Boot so people can provide a 'good' base for users. Doing so, we can
-teach the recipe to install it?
+I tested genericx86, genericx86-64, intel-corei7-64 and intel-core2-32, 
+and their IMAGE_FSTYPES values were the same with and without this patch.
 
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+x86-base.inc is the first thing parsed that sets IMAGE_FSTYPES for all 
+these machines, and since += is applied immediately its effectively 
+setting a default value. A ?= from bitbake.conf for distro conf won't 
+actually get applied with or without this patch.
 
+I'm not aware of other machines that inherit x86-base.inc, but I'd think 
+it would be the same for them.
+
+Thanks,
+Cal
+
+> -- 
+> Christopher Larson
+> kergoth at gmail dot com
+> Founder - BitBake, OpenEmbedded, OpenZaurus
+> Senior Software Engineer, Mentor Graphics
+
+
+--------------8B20365CF7741F9E58D1A962
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+  </head>
+  <body bgcolor="#FFFFFF" text="#000000">
+    <br>
+    <br>
+    <div class="moz-cite-prefix">On 06/21/2017 08:28 AM, Christopher
+      Larson wrote:<br>
+    </div>
+    <blockquote
+cite="mid:CABcZANmLQno0gXMoaBPz22WpsoPCvkCySe1JY+m7L4n5TTqsLw@mail.gmail.com"
+      type="cite">
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <div dir="ltr">
+        <div class="gmail_extra"><br>
+          <div class="gmail_quote">On Tue, Jun 20, 2017 at 5:14 PM,
+            California Sullivan <span dir="ltr">&lt;<a
+                moz-do-not-send="true"
+                href="mailto:california.l.sullivan@intel.com"
+                target="_blank">california.l.sullivan@intel.com</a>&gt;</span>
+            wrote:<br>
+            <blockquote class="gmail_quote" style="margin:0 0 0
+              .8ex;border-left:1px #ccc solid;padding-left:1ex">
+              <div id=":12j" class="a3s aXjCH m15cc800708907dec">Using
+                += makes it difficult to remove. Soft-set with ?=
+                instead.<br>
+                <br>
+                Signed-off-by: California Sullivan &lt;<a
+                  moz-do-not-send="true"
+                  href="mailto:california.l.sullivan@intel.com">california.l.sullivan@intel.<wbr>com</a>&gt;<br>
+                ---<br>
+                 meta/conf/machine/include/x86-<wbr>base.inc | 2 +-<br>
+                 1 file changed, 1 insertion(+), 1 deletion(-)<br>
+                <br>
+                diff --git a/meta/conf/machine/include/<wbr>x86-base.inc
+                b/meta/conf/machine/include/<wbr>x86-base.inc<br>
+                index 7365953..bfacdf5 100644<br>
+                --- a/meta/conf/machine/include/<wbr>x86-base.inc<br>
+                +++ b/meta/conf/machine/include/<wbr>x86-base.inc<br>
+                @@ -10,7 +10,7 @@ MACHINE_FEATURES += "screen keyboard
+                pci usbhost ext2 ext3 x86 \<br>
+                <br>
+                 MACHINE_EXTRA_RRECOMMENDS += "kernel-modules"<br>
+                <br>
+                -IMAGE_FSTYPES += "live"<br>
+                +IMAGE_FSTYPES ?= "live"</div>
+            </blockquote>
+          </div>
+          <br>
+          I’m assuming you verified that none of the existing machines
+          including this were depending on the += behavior to add to the
+          current value? And this would almost certainly result in a
+          different default for any machines that don’t adjust
+          IMAGE_FSTYPES at all, since it’d be adding to the bitbake.conf
+          or distro default.<br>
+        </div>
+      </div>
+    </blockquote>
+    <br>
+    I tested genericx86, genericx86-64, intel-corei7-64 and
+    intel-core2-32, and their IMAGE_FSTYPES values were the same with
+    and without this patch.<br>
+    <br>
+    x86-base.inc is the first thing parsed that sets IMAGE_FSTYPES for
+    all these machines, and since += is applied immediately its
+    effectively setting a default value. A ?= from bitbake.conf for
+    distro conf won't actually get applied with or without this patch.<br>
+    <br>
+    I'm not aware of other machines that inherit x86-base.inc, but I'd
+    think it would be the same for them.<br>
+    <br>
+    Thanks,<br>
+    Cal<br>
+    <br>
+    <blockquote
+cite="mid:CABcZANmLQno0gXMoaBPz22WpsoPCvkCySe1JY+m7L4n5TTqsLw@mail.gmail.com"
+      type="cite">
+      <div dir="ltr">
+        <div class="gmail_extra">-- <br>
+          <div class="gmail_signature" data-smartmail="gmail_signature">
+            <div dir="ltr">
+              <div>
+                <div dir="ltr">Christopher Larson<br>
+                  kergoth at gmail dot com<br>
+                  Founder - BitBake, OpenEmbedded, OpenZaurus<br>
+                  Senior Software Engineer, Mentor Graphics</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </blockquote>
+    <br>
+  </body>
+</html>
+
+--------------8B20365CF7741F9E58D1A962--
