@@ -1,61 +1,26 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-wr0-f179.google.com (mail-wr0-f179.google.com
-	[209.85.128.179])
-	by mail.openembedded.org (Postfix) with ESMTP id EA70377E83
+Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	by mail.openembedded.org (Postfix) with ESMTP id 7BDFE719A4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Jun 2017 13:54:51 +0000 (UTC)
-Received: by mail-wr0-f179.google.com with SMTP id c11so80724795wrc.3
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Jun 2017 06:54:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
-	:cc; bh=8ifGnSdADHQ75I1L6i3Un5Z2aWMwDd0kgx0cRSC7H00=;
-	b=UluwD1VmHRkzpbNVyXs9nMmx82fNhwIk0Lb3+PM5QXmGwGM7y22wKloXIP2p1D4pa6
-	UBYwTmRBgI8HU022UN3Df13an6X8WAZ93emRK1jcJk20LN+igcohMELqxa6K4AJqVOYa
-	i6ZklYfsFnav4mOgYq+1Y+aagYDiGptHln/Fs2t0HtEgB0w3iOqEq1lpqTr7rfDV/U43
-	RT/dxKzz6dxMXHJfHcjX5Y02iqVqTuShNq4x3uWQYYdzRYin8BswFjfpaXbav9C1wRT1
-	ulNmbLOTF8QefgWXL8ua0QB5wvzl1GzTqRWCzkATIl6gqONioLTzcknjcD+uD+3qGyVe
-	u2xQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
-	:message-id:subject:to:cc;
-	bh=8ifGnSdADHQ75I1L6i3Un5Z2aWMwDd0kgx0cRSC7H00=;
-	b=jDvvY4dBugNT7HQgXlcg8uqHLi8oN8kPJFIO4kRsj8bRU9P73/bFt2tia3Gb1/b3eH
-	VGxvm3mcwGF7mcC3FaB4hh6VuXPbkbPUqSbaZUq4iiXoKSzGYeXgm6OdT6jFH2TrqJhC
-	yEZi242hPASLz+BWA3S+D2WSwvH5zDU2ReS1k3fSSyQjyGRFDRet570AYa+L1G9VOxaW
-	PcVrgr4mRWAfiSCoX+1RS788TnFvi/1rXgIV3++U/4z3AmHjiVHql8L9Obkiim+hUkCv
-	8LqOJDHl1cAzpdThHdicmya7DOAXB0KmAPdoMIUUuNZ+C+BdtTC6juLgtgaoUd8PVHQR
-	jKWw==
-X-Gm-Message-State: AKS2vOwx9uC96rKt0vpsufwP66DVnCRMMkLQsFrqMblg+cI3Z+ZGIbDJ
-	LEkVgu/yPmh4jP8PFfo=
-X-Received: by 10.223.150.89 with SMTP id c25mr23343229wra.15.1498053292214;
-	Wed, 21 Jun 2017 06:54:52 -0700 (PDT)
-Received: from mail-wr0-f182.google.com (mail-wr0-f182.google.com.
-	[209.85.128.182]) by smtp.gmail.com with ESMTPSA id
-	e77sm13080772wma.32.2017.06.21.06.54.51
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 21 Jun 2017 06:54:51 -0700 (PDT)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-wr0-f182.google.com with SMTP id c11so80723850wrc.3
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Jun 2017 06:54:51 -0700 (PDT)
-X-Received: by 10.28.105.85 with SMTP id e82mr6883961wmc.122.1498053290967;
-	Wed, 21 Jun 2017 06:54:50 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.28.176.5 with HTTP; Wed, 21 Jun 2017 06:54:50 -0700 (PDT)
-In-Reply-To: <14e5f528-a64b-94e2-4e86-7a22770623d6@yadro.com>
-References: <14e5f528-a64b-94e2-4e86-7a22770623d6@yadro.com>
-Date: Wed, 21 Jun 2017 10:54:50 -0300
-X-Gmail-Original-Message-ID: <CAP9ODKqsE05hFa5GnCptTYwhr=e8r7csjwymC=xKMwfsvyJvrg@mail.gmail.com>
-Message-ID: <CAP9ODKqsE05hFa5GnCptTYwhr=e8r7csjwymC=xKMwfsvyJvrg@mail.gmail.com>
-To: Anton Novikov <a.novikov@yadro.com>
+	Wed, 21 Jun 2017 14:51:55 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by orsmga105.jf.intel.com with ESMTP; 21 Jun 2017 07:51:56 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.39,369,1493708400"; d="scan'208";a="870300409"
+Received: from lsandov1-mobl2.zpn.intel.com ([10.219.128.119])
+	by FMSMGA003.fm.intel.com with ESMTP; 21 Jun 2017 07:51:55 -0700
+Message-ID: <1498057264.31575.22.camel@linux.intel.com>
+From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+To: Jussi Kukkonen <jussi.kukkonen@intel.com>
+Date: Wed, 21 Jun 2017 10:01:04 -0500
+In-Reply-To: <CAHiDW_F6Q9aNgRz5=HntGAMJQNLiMURUDW=ym=FojmTErA30zw@mail.gmail.com>
+References: <20170619143936.20912-1-leonardo.sandoval.gonzalez@linux.intel.com>
+	<CAHiDW_F6Q9aNgRz5=HntGAMJQNLiMURUDW=ym=FojmTErA30zw@mail.gmail.com>
+X-Mailer: Evolution 3.12.9-1+b1 
+Mime-Version: 1.0
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCHv2] (morty) Arch Linux build fixes
+Subject: Re: [PATCH 1/2] commands: send stderr to a new pipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -68,16 +33,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Jun 2017 13:54:52 -0000
+X-List-Received-Date: Wed, 21 Jun 2017 14:51:59 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Wed, Jun 21, 2017 at 6:05 AM, Anton Novikov <a.novikov@yadro.com> wrote:
-> Thanks,
+On Wed, 2017-06-21 at 13:56 +0300, Jussi Kukkonen wrote:
+> On 19 June 2017 at 17:39, <leonardo.sandoval.gonzalez@linux.intel.com>
+> wrote:
+> >
+> > From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+> >
+> > Do not mix the stderr into stdout, allowing test cases to query
+> > the specific output.
+> 
+> I wonder if this patch could be related to the strange selftest
+> failures where command output seems to be missing completely, e.g.
+>     AssertionError: '' != 'ERROR: Unable to find any package producing
+> path /not/exist'
+> 
+> https://autobuilder.yocto.io/builders/nightly-oe-selftest/builds/349/steps/Running%20oe-selftest/logs/stdio
 
-I support those too; I've been using it here as well.
 
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+I double check this series on local AB and I saw green in all tests, so
+I am not sure what is going on.
+
+This patch basically separates stdout and stderr, so now tests look into
+stderr for errors instead of stdout.
+
+Leo
+
+> 
+> Jussi
+> 
+> >
+> > [YOCTO #9693]
+> >
+> > Signed-off-by: Leonardo Sandoval
+> <leonardo.sandoval.gonzalez@linux.intel.com>
+> > ---
+> >  meta/lib/oeqa/utils/commands.py | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/meta/lib/oeqa/utils/commands.py
+> b/meta/lib/oeqa/utils/commands.py
+> > index 57286fcb10..4ef0e874ff 100644
+> > --- a/meta/lib/oeqa/utils/commands.py
+> > +++ b/meta/lib/oeqa/utils/commands.py
+> > @@ -29,7 +29,7 @@ class Command(object):
+> >
+> >          self.defaultopts = {
+> >              "stdout": subprocess.PIPE,
+> > -            "stderr": subprocess.STDOUT,
+> > +            "stderr": subprocess.PIPE,
+> >              "stdin": None,
+> >              "shell": False,
+> >              "bufsize": -1,
+> > --
+> > 2.12.0
+> >
+> > --
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> 
+
+
 
