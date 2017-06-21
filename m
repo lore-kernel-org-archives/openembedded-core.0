@@ -1,49 +1,52 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f174.google.com (mail-qk0-f174.google.com
-	[209.85.220.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 2B06F77EA5
+Return-Path: <razvan.heghedus@ni.com>
+Received: from mx0b-00010702.pphosted.com (mx0a-00010702.pphosted.com
+	[148.163.156.75])
+	by mail.openembedded.org (Postfix) with ESMTP id 0076271ABC
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Jun 2017 11:08:57 +0000 (UTC)
-Received: by mail-qk0-f174.google.com with SMTP id a199so79153769qkb.2
+	Wed, 21 Jun 2017 11:58:59 +0000 (UTC)
+Received: from pps.filterd (m0098780.ppops.net [127.0.0.1])
+	by mx0a-00010702.pphosted.com (8.16.0.20/8.16.0.20) with SMTP id
+	v5LBtdvE004468 for <openembedded-core@lists.openembedded.org>;
+	Wed, 21 Jun 2017 06:59:01 -0500
+Received: from ni.com (skprod2.natinst.com [130.164.80.23])
+	by mx0a-00010702.pphosted.com with ESMTP id 2b51xq0866-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=NOT) for <openembedded-core@lists.openembedded.org>;
+	Wed, 21 Jun 2017 06:59:01 -0500
+Received: from us-aus-exch1.ni.corp.natinst.com
+	(us-aus-exch1.ni.corp.natinst.com [130.164.68.11])
+	by us-aus-skprod2.natinst.com (8.16.0.17/8.16.0.17) with ESMTPS id
+	v5LBx0lf028965
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Jun 2017 04:08:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=XE7oLYSoIUHh+GSSXxHjULjNZ1DhGTXiZobnb+OBbMI=;
-	b=IbusGdhMNSyri20AL9GCnrRzn3ujRFqbsS7V+XCM+fOq2kdhdJZtrXP3NQvD+Z/sJR
-	9FYG3A8NlnLivSP+QkTEvtPhm74f7icLAzvqXUt25At03eZ3Tjeu1tc89S3J2syJqw/9
-	v4Gyh6PosDMsRIZWhz3ehxAwN4axjtLvs7k74js7t6odKyuSBQbJKWdSaxmwLvSt021r
-	3ykI6eCoKKMsIT2IfoeMqU0UTcU2qz4rI336DzRs8Ox7Ue2Ly1OrNfwXDJpC+f37FN3i
-	cr9rqhm7rRyMDQiTh/57SNnVl7xYcvjIAbNpb6U9NheWC3jSji+3wqwCgkWhlOVkbXWF
-	1Q0A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=XE7oLYSoIUHh+GSSXxHjULjNZ1DhGTXiZobnb+OBbMI=;
-	b=a45gCZLoSMuTbj32+kyEUye5+SyHGaDSTq2xczymHfI8/oWjN8QaCQ/9Q1rMI+AUo2
-	lSJi5l6JYY860SLs4QIpk+amXSOUttqFN+LevRWdheYA8CdQ9ngEBf9+lFmbIFz3k4L+
-	2OoNx1a4r1sntRGlJsE7JeUeF+r9kNx+heHTjuW4HSKb0Um5sTk7mUmiNQT1SzAwekrY
-	oBEOPvTM8saqEzH7vw2vKU8oqJ6ITy4TApHDxpn1j8CWcDzEnVG0p84tFuzooVws/iba
-	8bUfQkHYkQ2l+F7Fs+m25/4gEFNgrPPT9Y0dfhOvD33+vymvjIJNszvLOiDx2FZ54BOi
-	3eqQ==
-X-Gm-Message-State: AKS2vOwZYz6gMgMOalV6UReUB7FME+wGjFGDigwDr9Vuvt3v5/Zc/0aP
-	hNo8sjeziqcvQjC5niPQabwOg9qmrhsg
-X-Received: by 10.55.31.162 with SMTP id n34mr37405804qkh.46.1498043338907;
-	Wed, 21 Jun 2017 04:08:58 -0700 (PDT)
+	Wed, 21 Jun 2017 06:59:00 -0500
+Received: from us-aus-exch3.ni.corp.natinst.com (130.164.68.13) by
+	us-aus-exch1.ni.corp.natinst.com (130.164.68.11) with Microsoft SMTP
+	Server (TLS) id 15.0.1156.6; Wed, 21 Jun 2017 06:59:00 -0500
+Received: from us-aus-exhub1.ni.corp.natinst.com (130.164.68.41) by
+	us-aus-exch3.ni.corp.natinst.com (130.164.68.13) with Microsoft SMTP
+	Server (TLS) id 15.0.1156.6; Wed, 21 Jun 2017 06:58:59 -0500
+Received: from razvanh-ro.natinst.com (130.164.49.7) by
+	us-aus-exhub1.ni.corp.natinst.com (130.164.68.41) with Microsoft SMTP
+	Server
+	id 15.0.1156.6 via Frontend Transport; Wed, 21 Jun 2017 06:58:59 -0500
+From: Heghedus Razvan <razvan.heghedus@ni.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 21 Jun 2017 15:00:02 +0300
+Message-ID: <20170621120003.6440-1-razvan.heghedus@ni.com>
+X-Mailer: git-send-email 2.13.1
 MIME-Version: 1.0
-Received: by 10.140.35.103 with HTTP; Wed, 21 Jun 2017 04:08:38 -0700 (PDT)
-In-Reply-To: <CAHiDW_F6Q9aNgRz5=HntGAMJQNLiMURUDW=ym=FojmTErA30zw@mail.gmail.com>
-References: <20170619143936.20912-1-leonardo.sandoval.gonzalez@linux.intel.com>
-	<CAHiDW_F6Q9aNgRz5=HntGAMJQNLiMURUDW=ym=FojmTErA30zw@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 21 Jun 2017 12:08:38 +0100
-Message-ID: <CAJTo0LaS--GkQ6XtKHhU5cBQjPUrztKekrVjy1KyKBpo_ceBAw@mail.gmail.com>
-To: Jussi Kukkonen <jussi.kukkonen@intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] commands: send stderr to a new pipe
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
+	definitions=2017-06-21_03:, , signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_policy_notspam policy=outbound_policy
+	score=30
+	priorityscore=1501 malwarescore=0 suspectscore=4 phishscore=0
+	bulkscore=0
+	spamscore=0 clxscore=1015 lowpriorityscore=0 impostorscore=0
+	adultscore=0
+	classifier=spam adjust=30 reason=mlx scancount=1
+	engine=8.0.1-1703280000 definitions=main-1706210204
+Subject: [PATCH 1/2] kernel: add package version in dependencies for kernel packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,42 +59,108 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Jun 2017 11:08:58 -0000
-Content-Type: multipart/alternative; boundary="001a1147e5f8130661055276657a"
+X-List-Received-Date: Wed, 21 Jun 2017 11:59:00 -0000
+Content-Type: text/plain
 
---001a1147e5f8130661055276657a
-Content-Type: text/plain; charset="UTF-8"
+Make all dependencies from kernel family packages which depend
+on another kernel related package to depend on the same version.
+This creates a consistent state where kernel, kernel images and
+kernel modules have the same version, making a kernel upgrade
+leading to upgrades of the image and modules.
 
-On 21 June 2017 at 11:56, Jussi Kukkonen <jussi.kukkonen@intel.com> wrote:
+The upgrade works only if the KERNEL_VERSION_PKG_NAME remains
+the same for the newer versions.
 
-> I wonder if this patch could be related to the strange selftest failures
-> where command output seems to be missing completely, e.g.
->     AssertionError: '' != 'ERROR: Unable to find any package producing
-> path /not/exist'
->
+Signed-off-by: Heghedus Razvan <razvan.heghedus@ni.com>
+---
+ meta/classes/kernel-module-split.bbclass  |  7 ++++---
+ meta/classes/kernel.bbclass               | 15 +++++++++------
+ meta/recipes-kernel/linux/linux-yocto.inc |  4 ++++
+ 3 files changed, 17 insertions(+), 9 deletions(-)
 
-I'll admit that my first thought when I saw this patch was "this is going
-to break selftest" but I failed to run a single build of it before firing
-nightly.
+diff --git a/meta/classes/kernel-module-split.bbclass b/meta/classes/kernel-module-split.bbclass
+index 5e10dcf735..e247e66901 100644
+--- a/meta/classes/kernel-module-split.bbclass
++++ b/meta/classes/kernel-module-split.bbclass
+@@ -33,7 +33,7 @@ PACKAGESPLITFUNCS_prepend = "split_kernel_module_packages "
+ KERNEL_MODULES_META_PACKAGE ?= "kernel-modules"
+ 
+ KERNEL_MODULE_PACKAGE_PREFIX ?= ""
+-KERNEL_MODULE_PACKAGE_SUFFIX ?= "-${KERNEL_VERSION}"
++KERNEL_MODULE_PACKAGE_SUFFIX ?= "-${KERNEL_VERSION_PKG_NAME}"
+ KERNEL_MODULE_PROVIDE_VIRTUAL ?= "1"
+ 
+ python split_kernel_module_packages () {
+@@ -114,6 +114,7 @@ python split_kernel_module_packages () {
+             for dep in vals["depends"].split(","):
+                 on = legitimize_package_name(dep)
+                 dependency_pkg = format % on
++                dependency_pkg += ' ${@get_full_package_version(d)}'
+                 modinfo_deps.append(dependency_pkg)
+         for dep in modinfo_deps:
+             if not dep in rdepends:
+@@ -138,10 +139,10 @@ python split_kernel_module_packages () {
+     postinst = d.getVar('pkg_postinst_modules')
+     postrm = d.getVar('pkg_postrm_modules')
+ 
+-    modules = do_split_packages(d, root='${nonarch_base_libdir}/modules', file_regex=module_regex, output_pattern=module_pattern, description='%s kernel module', postinst=postinst, postrm=postrm, recursive=True, hook=frob_metadata, extra_depends='kernel-%s' % (d.getVar("KERNEL_VERSION")))
++    modules = do_split_packages(d, root='${nonarch_base_libdir}/modules', file_regex=module_regex, output_pattern=module_pattern, description='%s kernel module', postinst=postinst, postrm=postrm, recursive=True, hook=frob_metadata, extra_depends='kernel-%s %s' % (d.getVar("KERNEL_VERSION_PKG_NAME"), get_full_package_version(d)))
+     if modules:
+         metapkg = d.getVar('KERNEL_MODULES_META_PACKAGE')
+-        d.appendVar('RDEPENDS_' + metapkg, ' '+' '.join(modules))
++        d.appendVar('RDEPENDS_' + metapkg, ' '+' '.join(['{0} {1}'.format(module, get_full_package_version(d)) for module in modules]))
+ 
+     # If modules-load.d and modprobe.d are empty at this point, remove them to
+     # avoid warnings. removedirs only raises an OSError if an empty
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index 7a134d5c29..605c101e62 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -55,7 +55,7 @@ python __anonymous () {
+ 
+         d.setVar('FILES_kernel-image-' + typelower, '/' + imagedest + '/' + type + '-${KERNEL_VERSION_NAME}')
+ 
+-        d.appendVar('RDEPENDS_kernel-image', ' ' + 'kernel-image-' + typelower)
++        d.appendVar('RDEPENDS_kernel-image', ' ' + 'kernel-image-' + typelower + ' ${@get_full_package_version(d)}')
+ 
+         d.setVar('PKG_kernel-image-' + typelower, 'kernel-image-' + typelower + '-${KERNEL_VERSION_PKG_NAME}')
+ 
+@@ -493,14 +493,17 @@ FILES_kernel-image = ""
+ FILES_kernel-dev = "/boot/System.map* /boot/Module.symvers* /boot/config* ${KERNEL_SRC_PATH} ${nonarch_base_libdir}/modules/${KERNEL_VERSION}/build"
+ FILES_kernel-vmlinux = "/boot/vmlinux-${KERNEL_VERSION_NAME}"
+ FILES_kernel-modules = ""
+-RDEPENDS_kernel = "kernel-base"
++RDEPENDS_kernel = "kernel-base ${@get_full_package_version(d)}"
+ # Allow machines to override this dependency if kernel image files are
+ # not wanted in images as standard
+-RDEPENDS_kernel-base ?= "kernel-image"
+-PKG_kernel-image = "kernel-image-${@legitimize_package_name('${KERNEL_VERSION}')}"
++RDEPENDS_kernel-base ?= "kernel-image ${@get_full_package_version(d)}"
++PKG_kernel-image = "kernel-image-${KERNEL_VERSION_PKG_NAME}"
+ RDEPENDS_kernel-image += "${@base_conditional('KERNEL_IMAGETYPE', 'vmlinux', 'kernel-vmlinux', '', d)}"
+-PKG_kernel-base = "kernel-${@legitimize_package_name('${KERNEL_VERSION}')}"
+-RPROVIDES_kernel-base += "kernel-${KERNEL_VERSION}"
++PKG_kernel-base = "kernel-${KERNEL_VERSION_PKG_NAME}"
++RPROVIDES_kernel-base += "kernel-${KERNEL_VERSION_PKG_NAME}"
++PKG_kernel-vmlinux = "kernel-vmlinux-${KERNEL_VERSION_PKG_NAME}"
++PKG_kernel-modules = "kernel-modules-${KERNEL_VERSION_PKG_NAME}"
++PKG_kernel-dev = "kernel-dev-${KERNEL_VERSION_PKG_NAME}"
+ ALLOW_EMPTY_kernel = "1"
+ ALLOW_EMPTY_kernel-base = "1"
+ ALLOW_EMPTY_kernel-image = "1"
+diff --git a/meta/recipes-kernel/linux/linux-yocto.inc b/meta/recipes-kernel/linux/linux-yocto.inc
+index 637506a2a8..c3d1284ad2 100644
+--- a/meta/recipes-kernel/linux/linux-yocto.inc
++++ b/meta/recipes-kernel/linux/linux-yocto.inc
+@@ -67,3 +67,7 @@ do_install_append(){
+ addtask kernel_version_sanity_check after do_kernel_metadata do_kernel_checkout before do_compile
+ addtask validate_branches before do_patch after do_kernel_checkout
+ addtask kernel_configcheck after do_configure before do_compile
++
++def get_full_package_version(d):
++    return "(= " + d.getVar("PKGV") + "-" + d.getVar("PKGR") + ")"
++
+-- 
+2.13.1
 
-Ross
 
---001a1147e5f8130661055276657a
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 21 June 2017 at 11:56, Jussi Kukkonen <span dir=3D"ltr">&lt;<a href=3D"m=
-ailto:jussi.kukkonen@intel.com" target=3D"_blank">jussi.kukkonen@intel.com<=
-/a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:=
-0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div dir=3D"ltr">I =
-wonder if this patch could be related to the strange selftest failures wher=
-e command output seems to be missing completely, e.g.<br><div>=C2=A0 =C2=A0=
- AssertionError: &#39;&#39; !=3D &#39;ERROR: Unable to find any package pro=
-ducing path /not/exist&#39;<br></div></div></blockquote></div><br>I&#39;ll =
-admit that my first thought when I saw this patch was &quot;this is going t=
-o break selftest&quot; but I failed to run a single build of it before firi=
-ng nightly.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_e=
-xtra">Ross</div></div>
-
---001a1147e5f8130661055276657a--
