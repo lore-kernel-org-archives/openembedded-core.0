@@ -1,58 +1,20 @@
-Return-Path: <brad.mouring@ni.com>
-Received: from mx0b-00010702.pphosted.com (mx0a-00010702.pphosted.com
-	[148.163.156.75])
-	by mail.openembedded.org (Postfix) with ESMTP id 9328177E09
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 21B3077E09
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Jun 2017 12:57:01 +0000 (UTC)
-Received: from pps.filterd (m0098780.ppops.net [127.0.0.1])
-	by mx0a-00010702.pphosted.com (8.16.0.20/8.16.0.20) with SMTP id
-	v5LCp3o7008146; Wed, 21 Jun 2017 07:56:05 -0500
-Received: from ni.com (skprod2.natinst.com [130.164.80.23])
-	by mx0a-00010702.pphosted.com with ESMTP id 2b51xq0vh6-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=NOT); Wed, 21 Jun 2017 07:56:05 -0500
-Received: from us-aus-exch2.ni.corp.natinst.com
-	(us-aus-exch2.ni.corp.natinst.com [130.164.68.12])
-	by us-aus-skprod2.natinst.com (8.16.0.17/8.16.0.17) with ESMTPS id
-	v5LCu4xD016651
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
-	Wed, 21 Jun 2017 07:56:04 -0500
-Received: from us-aus-exch4.ni.corp.natinst.com (130.164.68.14) by
-	us-aus-exch2.ni.corp.natinst.com (130.164.68.12) with Microsoft SMTP
-	Server (TLS) id 15.0.1156.6; Wed, 21 Jun 2017 07:56:04 -0500
-Received: from us-aus-exhub2.ni.corp.natinst.com (130.164.68.32) by
-	us-aus-exch4.ni.corp.natinst.com (130.164.68.14) with Microsoft SMTP
-	Server (TLS) id 15.0.1156.6; Wed, 21 Jun 2017 07:56:03 -0500
-Received: from ni.com (130.164.49.7) by us-aus-exhub2.ni.corp.natinst.com
-	(130.164.68.32) with Microsoft SMTP Server id 15.0.1156.6 via Frontend
-	Transport; Wed, 21 Jun 2017 07:56:02 -0500
-Received: by ni.com (sSMTP sendmail emulation); Wed, 21 Jun 2017 07:56:02 -0500
-Date: Wed, 21 Jun 2017 07:56:02 -0500
-From: Brad Mouring <brad.mouring@ni.com>
-To: Denys Dmytriyenko <denis@denix.org>
-Message-ID: <20170621125602.GA23040@zardoz.amer.corp.natinst.com>
-References: <20170620204029.19499-1-brad.mouring@ni.com>
-	<f35ef85f-1868-ef13-1003-3bf1cfc58b89@denx.de>
-	<20170620205349.GA19584@zardoz.amer.corp.natinst.com>
-	<89778545-bbd2-56d0-a636-b0c182079b05@denx.de>
-	<20170621023324.GA20875@zardoz.amer.corp.natinst.com>
-	<20170621052258.GP28053@denix.org>
-MIME-Version: 1.0
-In-Reply-To: <20170621052258.GP28053@denix.org>
-User-Agent: Mutt/1.8.3 (2017-05-23)
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
-	definitions=2017-06-21_03:, , signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_policy_notspam policy=outbound_policy
-	score=30
-	priorityscore=1501 malwarescore=0 suspectscore=2 phishscore=0
-	bulkscore=0
-	spamscore=0 clxscore=1015 lowpriorityscore=0 impostorscore=0
-	adultscore=0
-	classifier=spam adjust=30 reason=mlx scancount=1
-	engine=8.0.1-1703280000 definitions=main-1706210219
-Cc: Marek Vasut <marex@denx.de>, Tom Rini <trini@konsulko.com>,
-	Openembedded Core <openembedded-core@lists.openembedded.org>
-Subject: Re: [RFC] u-boot-fw-utils: Allow target-specific fw_env.config
+	Wed, 21 Jun 2017 13:01:13 +0000 (UTC)
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by fmsmga105.fm.intel.com with ESMTP; 21 Jun 2017 06:01:15 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.39,369,1493708400"; d="scan'208";a="276893150"
+Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
+	by fmsmga004.fm.intel.com with ESMTP; 21 Jun 2017 06:01:10 -0700
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 21 Jun 2017 15:58:19 +0300
+Message-Id: <20170621125821.18091-1-alexander.kanavin@linux.intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCHv2 1/3] libdnf: update to 0.9.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -65,62 +27,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Jun 2017 12:57:02 -0000
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
+X-List-Received-Date: Wed, 21 Jun 2017 13:01:14 -0000
 
-On Wed, Jun 21, 2017 at 01:22:58AM -0400, Denys Dmytriyenko wrote:
-> On Tue, Jun 20, 2017 at 09:33:24PM -0500, Brad Mouring wrote:
-> > On Tue, Jun 20, 2017 at 10:59:55PM +0200, Marek Vasut wrote:
-> > > On 06/20/2017 10:53 PM, Brad Mouring wrote:
-> > > > On Tue, Jun 20, 2017 at 10:43:51PM +0200, Marek Vasut wrote:
-> > > >> On 06/20/2017 10:40 PM, Brad Mouring wrote:
-> > > >>> As implemented currently, the fw-utils recipe does not allow for
-> > > >>> ...
-> > > >>
-> > > >> Do we really need yet another variable ? Wouldn't it make more sense to
-> > > >> add do_install_append_yourmachine() {} in your meta-whatever to
-> > > >> u-boot-fw-utils_%.bbappend and install whatever additional files you need ?
-> > > > 
-> > > > This is (kinda) what we were doing, there was some discussion as to
-> > > > whether or not this made sense upstream.
-> > > 
-> > > Link?
-> > 
-> > I know it's not a great answer, but we've not pushed the version of the
-> > branch where these changes are going in. Eventually, they'll end up in
-> > this repo:
-> > 
-> > https://github.com/ni/meta-nilrt
-> > 
-> > > > I was unsure of the
-> > > > acceptability of a do_install_append.*() clobbering a file of the
-> > > > original do_install().
-> > > 
-> > > That's probably what really needs to be discussed.
-> > > 
-> > > We can probably add some task which by default installs the
-> > > fw_env.config example and can be overridden in meta-whatever . Maybe the
-> > > others can jump into here and explain how to handle overriding the
-> > > default config file best.
-> > 
-> > That sounds like a solution that would certainly work for this
-> > use-case, if no one pipes up with objections or a currently-unseen
-> > silver bullet solution, I'll try to whip something together tomorrow
-> > and post. Thanks for the idea.
-> > 
-> > Denys, I know you keep pushing the "shove it in a do_install_append()",
-> > but to me and my under-informed sensibilities, this seems weird and
-> > unclean to clobber a file in a _append(), would it cause some QA failure?
-> 
-> Hmm, I mentioned it only once... To a patch that does already mention 
-> appending stuff...
+Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+---
+ meta/recipes-devtools/libdnf/{libdnf_git.bb => libdnf_0.9.1.bb} | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+ rename meta/recipes-devtools/libdnf/{libdnf_git.bb => libdnf_0.9.1.bb} (94%)
 
-Fair. I thought you'd also mentioned it on irc, but it doesn't really
-matter. After sleeping on it, I think I've gotten over my distaste for
-overwriting a file when we're already glomming changes atop the original
-recipe. I'll just take that approach.
+diff --git a/meta/recipes-devtools/libdnf/libdnf_git.bb b/meta/recipes-devtools/libdnf/libdnf_0.9.1.bb
+similarity index 94%
+rename from meta/recipes-devtools/libdnf/libdnf_git.bb
+rename to meta/recipes-devtools/libdnf/libdnf_0.9.1.bb
+index 2acbd89659a..e5c47bf8dbe 100644
+--- a/meta/recipes-devtools/libdnf/libdnf_git.bb
++++ b/meta/recipes-devtools/libdnf/libdnf_0.9.1.bb
+@@ -10,8 +10,7 @@ SRC_URI = "git://github.com/rpm-software-management/libdnf \
+            file://0001-Get-parameters-for-both-libsolv-and-libsolvext-libdn.patch \
+            "
+ 
+-PV = "0.8.1"
+-SRCREV = "233287f4f80e24a917d5f6a26967f54080ffa255"
++SRCREV = "d5ecb17c0fde4f99c6a80e6f162510465b8d28f9"
+ 
+ S = "${WORKDIR}/git"
+ 
+-- 
+2.11.0
 
-Thanks,
-Brad Mouring
 
