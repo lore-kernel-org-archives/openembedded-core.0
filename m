@@ -1,34 +1,20 @@
-Return-Path: <denis@denix.org>
-Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.17])
-	by mail.openembedded.org (Postfix) with ESMTP id DE1046FFA1
+Return-Path: <california.l.sullivan@intel.com>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by mail.openembedded.org (Postfix) with ESMTP id B854E71AFA
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Jun 2017 23:55:48 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mailout4.zoneedit.com (Postfix) with ESMTP id 12FFD208AD;
-	Tue, 20 Jun 2017 23:55:49 +0000 (UTC)
-Received: from mailout4.zoneedit.com ([127.0.0.1])
-	by localhost (zmo03-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
-	port 10024)
-	with ESMTP id ILXj9lc_V1fR; Tue, 20 Jun 2017 23:55:49 +0000 (UTC)
-Received: from mail.denix.org (pool-100-15-85-143.washdc.fios.verizon.net
-	[100.15.85.143])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mailout4.zoneedit.com (Postfix) with ESMTPSA id CC274204E0;
-	Tue, 20 Jun 2017 23:55:44 +0000 (UTC)
-Received: by mail.denix.org (Postfix, from userid 1000)
-	id 42C7516250F; Tue, 20 Jun 2017 19:55:44 -0400 (EDT)
-Date: Tue, 20 Jun 2017 19:55:44 -0400
-From: Denys Dmytriyenko <denis@denix.org>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Message-ID: <20170620235544.GO28053@denix.org>
-References: <20170620221512.21860-1-otavio@ossystems.com.br>
-MIME-Version: 1.0
-In-Reply-To: <20170620221512.21860-1-otavio@ossystems.com.br>
-User-Agent: Mutt/1.5.20 (2009-06-14)
-Cc: marex@denx.de, trini@konsulko.com, brad.mouring@ni.com,
-	OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] u-boot-fw-utils: Allow replacement of fw_env.config
+	Wed, 21 Jun 2017 00:14:19 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by orsmga104.jf.intel.com with ESMTP; 20 Jun 2017 17:14:21 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.39,366,1493708400"; d="scan'208";a="983285193"
+Received: from clsulliv.jf.intel.com ([10.7.201.36])
+	by orsmga003.jf.intel.com with ESMTP; 20 Jun 2017 17:14:20 -0700
+From: California Sullivan <california.l.sullivan@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 20 Jun 2017 17:14:19 -0700
+Message-Id: <1498004059-12231-1-git-send-email-california.l.sullivan@intel.com>
+X-Mailer: git-send-email 2.5.5
+Subject: [PATCH] x86-base.inc: Don't add live to IMAGE_FSTYPES, default instead
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,52 +27,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Jun 2017 23:55:49 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Wed, 21 Jun 2017 00:14:19 -0000
 
-On Tue, Jun 20, 2017 at 07:15:12PM -0300, Otavio Salvador wrote:
-> If a fw_env.config file is found in workdir, this is preferred over
-> the U-Boot example.
-> 
-> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
-> ---
-> 
->  meta/recipes-bsp/u-boot/u-boot-fw-utils_2017.05.bb | 9 ++++++++-
->  1 file changed, 8 insertions(+), 1 deletion(-)
-> 
-> diff --git a/meta/recipes-bsp/u-boot/u-boot-fw-utils_2017.05.bb b/meta/recipes-bsp/u-boot/u-boot-fw-utils_2017.05.bb
-> index c2e8f0fb84..0682f9274b 100644
-> --- a/meta/recipes-bsp/u-boot/u-boot-fw-utils_2017.05.bb
-> +++ b/meta/recipes-bsp/u-boot/u-boot-fw-utils_2017.05.bb
-> @@ -19,7 +19,14 @@ do_install () {
->  	install -d ${D}${sysconfdir}
->  	install -m 755 ${S}/tools/env/fw_printenv ${D}${base_sbindir}/fw_printenv
->  	install -m 755 ${S}/tools/env/fw_printenv ${D}${base_sbindir}/fw_setenv
-> -	install -m 0644 ${S}/tools/env/fw_env.config ${D}${sysconfdir}/fw_env.config
-> +
-> +	# If a specific file is added in a .bbappend, this is used instead
-> +	# of the generic one
-> +	if [ -e ${WORKDIR}/fw_env.config ]; then
-> +		install -m 0644 ${WORKDIR}/fw_env.config ${D}${sysconfdir}/fw_env.config
+Using += makes it difficult to remove. Soft-set with ?= instead.
 
-I don't get it - if it's expected that a .bbappend will be adding a more 
-specific version of fw_env.config, why that .bbappend can't simply install 
-it with do_install_append()?
+Signed-off-by: California Sullivan <california.l.sullivan@intel.com>
+---
+ meta/conf/machine/include/x86-base.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/meta/conf/machine/include/x86-base.inc b/meta/conf/machine/include/x86-base.inc
+index 7365953..bfacdf5 100644
+--- a/meta/conf/machine/include/x86-base.inc
++++ b/meta/conf/machine/include/x86-base.inc
+@@ -10,7 +10,7 @@ MACHINE_FEATURES += "screen keyboard pci usbhost ext2 ext3 x86 \
+ 
+ MACHINE_EXTRA_RRECOMMENDS += "kernel-modules"
+ 
+-IMAGE_FSTYPES += "live"
++IMAGE_FSTYPES ?= "live"
+ 
+ KERNEL_IMAGETYPE ?= "bzImage"
+ 
+-- 
+2.5.5
 
-> +	else
-> +		install -m 0644 ${S}/tools/env/fw_env.config ${D}${sysconfdir}/fw_env.config.example
-> +	fi
->  }
->  
->  do_install_class-cross () {
-> -- 
-> 2.13.1
-> 
-> -- 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
