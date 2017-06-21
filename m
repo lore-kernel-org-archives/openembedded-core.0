@@ -1,48 +1,50 @@
-Return-Path: <a.novikov@yadro.com>
-Received: from mta-01.yadro.com (mta-01.yadro.com [89.207.88.251])
-	by mail.openembedded.org (Postfix) with ESMTP id 5E5D57804E
+Return-Path: <jussi.kukkonen@intel.com>
+Received: from mail-it0-f49.google.com (mail-it0-f49.google.com
+	[209.85.214.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 811AF77F79
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Jun 2017 09:05:23 +0000 (UTC)
-Received: from localhost (unknown [127.0.0.1])
-	by mta-01.yadro.com (Postfix) with ESMTP id D107240418
+	Wed, 21 Jun 2017 10:09:48 +0000 (UTC)
+Received: by mail-it0-f49.google.com with SMTP id m62so30010297itc.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Jun 2017 09:05:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
-	content-language:content-type:content-type:mime-version
-	:user-agent:date:date:message-id:subject:subject:from:from
-	:received:received:received; s=mta-01; t=1498035917; x=
-	1499850318; bh=jaZdiNojqVIv528Mw7mC0IEBKdVoi1NK5XgK0GfAIw0=; b=M
-	4ThghIkUOcXnIZ3HBIy3dQtVgmzS1N+fKYwgxlEWXJZZ/V+5g4uqA2EFlJr0UVa4
-	nbOwBa4GZMvTgJB09Ia+Z0DSxGnOZZ94GRO7fokMhd/JyHuRsiOez3f62LvaLHCA
-	dBeXRNfTPhxMGSuwDHT006TdWm4/Rffg+CYIf3N9+w=
-X-Virus-Scanned: amavisd-new at yadro.com
-Received: from mta-01.yadro.com ([127.0.0.1])
-	by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id kTiCdaeCIzKQ
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Jun 2017 12:05:17 +0300 (MSK)
-Received: from T-EXCH-02.corp.yadro.com (t-exch-02.corp.yadro.com
-	[172.17.10.102])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mta-01.yadro.com (Postfix) with ESMTPS id 89E63400F6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Jun 2017 12:05:17 +0300 (MSK)
-Received: from [172.17.15.41] (172.17.15.41) by T-EXCH-02.corp.yadro.com
-	(172.17.10.102) with Microsoft SMTP Server (version=TLS1_2,
-	cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32;
-	Wed, 21 Jun 2017 12:05:17 +0300
-To: <openembedded-core@lists.openembedded.org>
-From: Anton Novikov <a.novikov@yadro.com>
-Message-ID: <14e5f528-a64b-94e2-4e86-7a22770623d6@yadro.com>
-Date: Wed, 21 Jun 2017 12:05:20 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.2.0
+	Wed, 21 Jun 2017 03:09:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=jG2WJHu9lzuUviYHppP964yd8ebwE4puApJOba/nZr4=;
+	b=MVfXUaPyfHcNKgkVofuY/T4e+Vl11FbK3TD8W0OxJBVktbVRh646ecbD+kgI1B1Xc/
+	JFYgUJMOqyeesO9tynSd/nwxb2FQ4fGPZqD+c5rjGlWIRZMHTHxcDXx5Q9O6tKa2M+NT
+	/3k1K1qN0CE6ixp0cVqWO1soPMxGWCc1AV7Yj+tFJkQewKrvYBAAAHTKX5Lwia3H8jSa
+	JaBONMRxqZTiksLjns9lKPp0uTURFrG52slDgf9Hs7S79qwjUypKRQP1MRn5NdMZ5ssX
+	vXGXtAilKJKjozvVBkBkK0XjCpMLkLbx0lOsEADj9s4ZqMjemYaHG7FFSeWWlbYPMrAH
+	VyfA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=jG2WJHu9lzuUviYHppP964yd8ebwE4puApJOba/nZr4=;
+	b=GlHeZ5Ngrtwq6UAWDPLXFGhnWWeEUH+78dHKbTJlpRHGht8KomDwGcjsIbWWdplGv4
+	5ZVeeuP0JiWuwBCYqyVzC7SeL236Taj4ABdghLjgC/VVytXQV4nt+AfzZrhgMT9YWq7L
+	9A0/kQjCWHUIFP7Pqqr7VfcV6ikyAWdd9g3Q0M15G2vHfQdE6xB6STVR1PVddBf/DJcL
+	G9aklVfgVv0/ckMfwDycp7BYSp2y8HYcgFbZ+B32dwxYJ3h0cAzsQm7p+nKY0ZmJKk1t
+	ohwynqjbeGQrusfpqLO1iVFtDmhVqT9+CKw5rPVjUvKF2mju2UQLw3ev8BlnrO7kfo6y
+	5tnw==
+X-Gm-Message-State: AKS2vOyWImYtN39SXPPlMLVVOnD2Vri0vaH6bBwDxVLguqwKnhqZ4iMF
+	MxQR7Rp2P65Ix4rbMf5Xs34H5hA7bzHr7CM=
+X-Received: by 10.36.167.65 with SMTP id s1mr7946746iti.98.1498039789363; Wed,
+	21 Jun 2017 03:09:49 -0700 (PDT)
 MIME-Version: 1.0
-X-Originating-IP: [172.17.15.41]
-X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
-	T-EXCH-02.corp.yadro.com (172.17.10.102)
-Subject: [PATCHv2] (morty) Arch Linux build fixes
+Received: by 10.107.20.130 with HTTP; Wed, 21 Jun 2017 03:09:18 -0700 (PDT)
+In-Reply-To: <1497944565-7498-4-git-send-email-tobiasha@axis.com>
+References: <1497944565-7498-1-git-send-email-tobiasha@axis.com>
+	<1497944565-7498-4-git-send-email-tobiasha@axis.com>
+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+Date: Wed, 21 Jun 2017 13:09:18 +0300
+Message-ID: <CAHiDW_HETPL7K_UV6Vc-DqEepBAaxxMM2mVQLTmwfBA-dewdoA@mail.gmail.com>
+To: Tobias Hagelborn <tobias.hagelborn@axis.com>
+Cc: Tobias Hagelborn <tobiasha@axis.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v3 4/4] devtool: deploy-target: Support stripped libs and execs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,815 +57,336 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Jun 2017 09:05:25 -0000
-X-Groupsio-MsgNum: 99175
-Content-Type: multipart/mixed; boundary="------------7DF3212E7FFF6EE8499CF9B7"
-Content-Language: en-US
+X-List-Received-Date: Wed, 21 Jun 2017 10:09:48 -0000
+Content-Type: multipart/alternative; boundary="f403045fbfd8816f5805527591ed"
 
---------------7DF3212E7FFF6EE8499CF9B7
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+--f403045fbfd8816f5805527591ed
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Thanks,
+On 20 June 2017 at 10:42, Tobias Hagelborn <tobias.hagelborn@axis.com>
+wrote:
+>
+> New devtool deploy-target option --strip which enables deploying
+> stripped binaries, saving some space on target.
+>
+> * Copies the files of ${D} into a new directory and strips them in place
+> * Used oe.package.strip_execs for stripping directory
+> * Added devtool.conf option "strip" for changing default behavior
+>
+> Config example:
+> [Deploy]
+> strip =3D true
+>
+> [YOCTO #11227]
+>
+> Signed-off-by: Tobias Hagelborn <tobiasha@axis.com>
+> ---
+>  scripts/lib/devtool/deploy.py | 32 ++++++++++++++++++++++++++++----
+>  1 file changed, 28 insertions(+), 4 deletions(-)
+>
+> diff --git a/scripts/lib/devtool/deploy.py b/scripts/lib/devtool/deploy.p=
+y
+> index 04c34cb..96b877e 100644
+> --- a/scripts/lib/devtool/deploy.py
+> +++ b/scripts/lib/devtool/deploy.py
+> @@ -16,12 +16,16 @@
+>  # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+>  """Devtool plugin containing the deploy subcommands"""
+>
+> +import logging
+>  import os
+> +import shutil
+>  import subprocess
+> -import logging
+>  import tempfile
+> -import shutil
+> +
+> +import bb.utils
+>  import argparse_oe
+> +import oe
+> +
+>  from devtool import exec_fakeroot, setup_tinfoil,
+check_workspace_recipe, DevtoolError
+>
+>  logger =3D logging.getLogger('devtool')
+> @@ -140,9 +144,9 @@ def _prepare_remote_script(deploy, verbose=3DFalse,
+dryrun=3DFalse, undeployall=3DFals
+>      return '\n'.join(lines)
+>
+>
+> +
+>  def deploy(args, config, basepath, workspace):
+>      """Entry point for the devtool 'deploy' subcommand"""
+> -    import re
+>      import math
+>      import oe.recipeutils
+>
+> @@ -170,6 +174,17 @@ def deploy(args, config, basepath, workspace):
+>                              'recipe? If so, the install step has not
+installed '
+>                              'any files.' % args.recipename)
+>
+> +        if args.strip and not args.dry_run:
+> +            # Fakeroot copy to new destination
+> +            srcdir =3D recipe_outdir
+> +            recipe_outdir =3D os.path.join(rd.getVar('WORKDIR', True),
+'deploy-target-stripped')
+> +            if os.path.isdir(recipe_outdir):
+> +                bb.utils.remove(recipe_outdir, True)
+> +            exec_fakeroot(rd, "cp -af %s %s" % (os.path.join(srcdir,
+'.'), recipe_outdir), shell=3DTrue)
+> +            os.environ['PATH'] =3D ':'.join([os.environ['PATH'],
+rd.getVar('PATH', True) or ''])
+> +            oe.package.strip_execs(args.recipename, recipe_outdir,
+rd.getVar('STRIP', True), rd.getVar('libdir', True),
+> +                        rd.getVar('base_libdir', True))
+> +
+>          filelist =3D []
+>          ftotalsize =3D 0
+>          for root, _, files in os.walk(recipe_outdir):
+> @@ -189,7 +204,6 @@ def deploy(args, config, basepath, workspace):
+>                  print('  %s' % item)
+>              return 0
+>
+> -
+>          extraoptions =3D ''
+>          if args.no_host_check:
+>              extraoptions +=3D '-o UserKnownHostsFile=3D/dev/null -o
+StrictHostKeyChecking=3Dno'
+> @@ -301,6 +315,7 @@ def undeploy(args, config, basepath, workspace):
+>
+>  def register_commands(subparsers, context):
+>      """Register devtool subcommands from the deploy plugin"""
+> +
+>      parser_deploy =3D subparsers.add_parser('deploy-target',
+>                                            help=3D'Deploy recipe output
+files to live target machine',
+>                                            description=3D'Deploys a
+recipe\'s build output (i.e. the output of the do_install task) to a live
+target machine over ssh. By default, any existing files will be preserved
+instead of being overwritten and will be restored if you run devtool
+undeploy-target. Note: this only deploys the recipe itself and not any
+runtime dependencies, so it is assumed that those have been installed on
+the target beforehand.',
+> @@ -313,6 +328,15 @@ def register_commands(subparsers, context):
+>      parser_deploy.add_argument('-p', '--no-preserve', help=3D'Do not
+preserve existing files', action=3D'store_true')
+>      parser_deploy.add_argument('--no-check-space', help=3D'Do not check
+for available space before deploying', action=3D'store_true')
+>      parser_deploy.add_argument('-P', '--port', default=3D'22', help=3D'P=
+ort
+to use for connection to the target')
+> +
+> +    strip_opts =3D
+parser_deploy.add_mutually_exclusive_group(required=3DFalse)
+> +    strip_opts.add_argument('-S', '--strip',
+> +                               help=3D'Strip executables prior to
+deploying (default: %(default)s). '
+> +                                    'The default value of this option
+can be controlled by setting the strip option in the [Deploy] section to
+True or False.',
+> +
+default=3Doe.types.boolean(context.config.get('Deploy', 'strip',
+default=3D'0')),
+> +                               action=3D'store_true')
 
-Anton
+Autobuilder is complaining about this:
 
+Exception: bb.process.ExecutionError: Execution of 'devtool --bbpath
+/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-x86-64/build/meta-po=
+ky:/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-x86-64/build/buil=
+d:/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-x86-64/build/meta:=
+/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-x86-64/build/meta-yo=
+cto-bsp
+--basepath
+/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-x86-64/build/build/t=
+mp/work/qemux86_64-poky-linux/core-image-minimal/1.0-r0/sdk-ext/image//opt/=
+poky/2.3
+create-workspace --create-only
+/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-x86-64/build/build/t=
+mp/work/qemux86_64-poky-linux/core-image-minimal/1.0-r0/sdk-ext/image//opt/=
+poky/2.3/workspace'
+failed with exit code 1:
+Traceback (most recent call last):
+  File
+"/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-x86-64/build/script=
+s/devtool",
+line 351, in <module>
+    ret =3D main()
+  File
+"/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-x86-64/build/script=
+s/devtool",
+line 329, in main
+    plugin.register_commands(subparsers, context)
+  File
+"/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-x86-64/build/script=
+s/lib/devtool/deploy.py",
+line 336, in register_commands
+    default=3Doe.types.boolean(context.config.get('Deploy', 'strip',
+default=3D'0')),
+AttributeError: module 'oe' has no attribute 'types'
 
---------------7DF3212E7FFF6EE8499CF9B7
-Content-Type: text/x-patch; name="0001-fix-GCC-build.patch"
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="0001-fix-GCC-build.patch"
-
-From 3731250f61917f59f0a1aaf0d94310fbf68eb512 Mon Sep 17 00:00:00 2001
-From: Anton Novikov <a.novikov@yadro.com>
-Date: Tue, 20 Jun 2017 15:42:34 +0300
-Subject: [PATCH 1/3] fix GCC build
-
-GCC 6.2 build with recent GCC was failing (for example, on my Arch system).
-Patch fixing it was added from GCC upstream commit. Part of it adding noise to
-ChangeLog was skipped, as it wasn't applying for some reason.
-
-https://gnu.googlesource.com/gcc/+/c0c52589c6a7265e8fc6b77706a83d22aa1ef0ce
-
-Signed-off-by: Anton Novikov <a.novikov@yadro.com>
----
- meta/recipes-devtools/gcc/gcc-6.2.inc              |  1 +
- .../0049-ubsan-empty-string-check-fix.patch        | 28 ++++++++++++++++++++++
- 2 files changed, 29 insertions(+)
- create mode 100644 meta/recipes-devtools/gcc/gcc-6.2/0049-ubsan-empty-string-check-fix.patch
-
-diff --git a/meta/recipes-devtools/gcc/gcc-6.2.inc b/meta/recipes-devtools/gcc/gcc-6.2.inc
-index b118995e1d..97ee7bfbc5 100644
---- a/meta/recipes-devtools/gcc/gcc-6.2.inc
-+++ b/meta/recipes-devtools/gcc/gcc-6.2.inc
-@@ -78,6 +78,7 @@ SRC_URI = "\
-            file://0045-libgcc-Add-knob-to-use-ldbl-128-on-ppc.patch \
-            file://0046-Link-libgcc-using-LDFLAGS-not-just-SHLIB_LDFLAGS.patch \
-            file://0047-libgcc_s-Use-alias-for-__cpu_indicator_init-instead-.patch \
-+           file://0049-ubsan-empty-string-check-fix.patch \
-            ${BACKPORTS} \
- "
- BACKPORTS = ""
-diff --git a/meta/recipes-devtools/gcc/gcc-6.2/0049-ubsan-empty-string-check-fix.patch b/meta/recipes-devtools/gcc/gcc-6.2/0049-ubsan-empty-string-check-fix.patch
-new file mode 100644
-index 0000000000..80cd03751e
---- /dev/null
-+++ b/meta/recipes-devtools/gcc/gcc-6.2/0049-ubsan-empty-string-check-fix.patch
-@@ -0,0 +1,28 @@
-+Signed-off-by: Anton Novikov <a.novikov@yadro.com>
-+Upstream-Status: Backport
-+
-+2017-01-26  Richard Biener  <rguenther@suse.de>
-+
-+	Backport from mainline
-+	2016-09-03  Kirill Yukhin  <kirill.yukhin@intel.com>
-+
-+	* ubsan.c (ubsan_use_new_style_p): Fix check for empty string.
-+
-+
-+git-svn-id: svn+ssh://gcc.gnu.org/svn/gcc/branches/gcc-6-branch@244923 138bc75d-0d04-0410-961f-82ee72b054a4
-+
-+diff --git a/gcc/ubsan.c b/gcc/ubsan.c
-+index 56637d8..1093824 100644
-+--- a/gcc/ubsan.c
-++++ b/gcc/ubsan.c
-+
-+@@ -1471,7 +1471,7 @@
-+ 
-+   expanded_location xloc = expand_location (loc);
-+   if (xloc.file == NULL || strncmp (xloc.file, "\1", 2) == 0
-+-      || xloc.file == '\0' || xloc.file[0] == '\xff'
-++      || xloc.file[0] == '\0' || xloc.file[0] == '\xff'
-+       || xloc.file[1] == '\xff')
-+     return false;
-+ 
-+
--- 
-2.13.1
-
-
---------------7DF3212E7FFF6EE8499CF9B7
-Content-Type: text/x-patch;
-	name="0002-fix-case-fallthrough-and-printf-overflow-warnings.patch"
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename="0002-fix-case-fallthrough-and-printf-overflow-warnings.patch"
-
-From 6defa3a1e824526dc49b37e382a1a4117d1c5490 Mon Sep 17 00:00:00 2001
-From: Anton Novikov <a.novikov@yadro.com>
-Date: Tue, 20 Jun 2017 18:13:50 +0300
-Subject: [PATCH 2/3] fix case fallthrough and printf overflow warnings
-
-apply patch from:
-https://lists.yoctoproject.org/pipermail/yocto/2017-April/035863.html
-and do some similar changes
-
-Signed-off-by: Anton Novikov <a.novikov@yadro.com>
----
- .../0001-Fix-fallthrough-warnings.patch            | 237 +++++++++++++++++++++
- .../0002-Fix-printf-overflow-warnings.patch        |  57 +++++
- .../0004-Fix-fallthrough-warnings.patch            | 216 +++++++++++++++++++
- .../0005-Fix-printf-overflow-warnings.patch        |  57 +++++
- meta/recipes-devtools/elfutils/elfutils_0.148.bb   |   2 +
- meta/recipes-devtools/elfutils/elfutils_0.166.bb   |   2 +
- 6 files changed, 571 insertions(+)
- create mode 100644 meta/recipes-devtools/elfutils/elfutils-0.148/0001-Fix-fallthrough-warnings.patch
- create mode 100644 meta/recipes-devtools/elfutils/elfutils-0.148/0002-Fix-printf-overflow-warnings.patch
- create mode 100644 meta/recipes-devtools/elfutils/elfutils-0.166/0004-Fix-fallthrough-warnings.patch
- create mode 100644 meta/recipes-devtools/elfutils/elfutils-0.166/0005-Fix-printf-overflow-warnings.patch
-
-diff --git a/meta/recipes-devtools/elfutils/elfutils-0.148/0001-Fix-fallthrough-warnings.patch b/meta/recipes-devtools/elfutils/elfutils-0.148/0001-Fix-fallthrough-warnings.patch
-new file mode 100644
-index 0000000000..04298b3cbb
---- /dev/null
-+++ b/meta/recipes-devtools/elfutils/elfutils-0.148/0001-Fix-fallthrough-warnings.patch
-@@ -0,0 +1,237 @@
-+From d70d92889c4a8b0781207343a73b1dc4eccdffd3 Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem at gmail.com>
-+Date: Tue, 25 Apr 2017 15:50:55 -0700
-+Subject: [PATCH 1/2] Fix fallthrough warnings
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Khem Raj <raj.khem at gmail.com>
-+---
-+ backends/i386_regs.c       | 1 +
-+ backends/i386_retval.c     | 1 +
-+ backends/linux-core-note.c | 4 ++--
-+ backends/mips_retval.c     | 2 +-
-+ backends/parisc_retval.c   | 2 +-
-+ backends/ppc_regs.c        | 2 +-
-+ backends/x86_64_regs.c     | 1 +
-+ libcpu/i386_disasm.c       | 2 +-
-+ libdw/cfi.c                | 3 +++
-+ libdw/encoded-value.h      | 1 +
-+ libdwfl/dwfl_report_elf.c  | 1 +
-+ src/addr2line.c            | 1 +
-+ src/elflint.c              | 4 +++-
-+ src/objdump.c              | 2 +-
-+ 14 files changed, 19 insertions(+), 8 deletions(-)
-+
-+diff --git a/backends/i386_regs.c b/backends/i386_regs.c
-+index 5cf0d81..11b0bcb 100644
-+--- a/backends/i386_regs.c
-++++ b/backends/i386_regs.c
-+@@ -89,6 +89,7 @@ i386_register_info (Ebl *ebl __attribute__ ((unused)),
-+     case 5:
-+     case 8:
-+       *type = DW_ATE_address;
-++      /* fallthru */
-+     case 0 ... 3:
-+     case 6 ... 7:
-+       name[0] = 'e';
-+diff --git a/backends/i386_retval.c b/backends/i386_retval.c
-+index c3bab10..ffbf901 100644
-+--- a/backends/i386_retval.c
-++++ b/backends/i386_retval.c
-+@@ -137,6 +137,7 @@ i386_return_value_location (Dwarf_Die *functypedie, const Dwarf_Op **locp)
-+ 
-+ 	/* Else fall through.  */
-+       }
-++    /* fallthru */
-+ 
-+     case DW_TAG_structure_type:
-+     case DW_TAG_class_type:
-+diff --git a/backends/linux-core-note.c b/backends/linux-core-note.c
-+index 9d01219..a6cd5ab 100644
-+--- a/backends/linux-core-note.c
-++++ b/backends/linux-core-note.c
-+@@ -194,8 +194,8 @@ EBLHOOK(core_note) (nhdr, name, regs_offset, nregloc, reglocs, nitems, items)
-+     case sizeof "CORE":
-+       if (memcmp (name, "CORE", nhdr->n_namesz) == 0)
-+ 	break;
-+-      /* Buggy old Linux kernels didn't terminate "LINUX".
-+-         Fall through.  */
-++      /* Buggy old Linux kernels didn't terminate "LINUX". */
-++      /* fallthru  */
-+ 
-+     case sizeof "LINUX":
-+       if (memcmp (name, "LINUX", nhdr->n_namesz) == 0)
-+diff --git a/backends/mips_retval.c b/backends/mips_retval.c
-+index 33f12a7..b25b1b7 100644
-+--- a/backends/mips_retval.c
-++++ b/backends/mips_retval.c
-+@@ -300,7 +300,7 @@ mips_return_value_location (Dwarf_Die *functypedie, const Dwarf_Op **locp)
-+ 
-+ 	/* Else fall through. Shouldn't happen though (at least with gcc) */
-+       }
-+-
-++      /* fallthrough */
-+     case DW_TAG_structure_type:
-+     case DW_TAG_class_type:
-+     case DW_TAG_union_type:
-+diff --git a/backends/parisc_retval.c b/backends/parisc_retval.c
-+index 592a702..7aa5b17 100644
-+--- a/backends/parisc_retval.c
-++++ b/backends/parisc_retval.c
-+@@ -167,7 +167,7 @@ parisc_return_value_location_ (Dwarf_Die *functypedie, const Dwarf_Op **locp, in
-+ 
-+ 	/* Else fall through.  */
-+       }
-+-
-++      /* fallthru */
-+     case DW_TAG_structure_type:
-+     case DW_TAG_class_type:
-+     case DW_TAG_union_type:
-+diff --git a/backends/ppc_regs.c b/backends/ppc_regs.c
-+index 637c25d..8277c54 100644
-+--- a/backends/ppc_regs.c
-++++ b/backends/ppc_regs.c
-+@@ -137,7 +137,7 @@ ppc_register_info (Ebl *ebl __attribute__ ((unused)),
-+     case 100:
-+       if (*bits == 32)
-+ 	return stpcpy (name, "mq") + 1 - name;
-+-
-++      /* fallthru */
-+     case 102 ... 107:
-+       name[0] = 's';
-+       name[1] = 'p';
-+diff --git a/backends/x86_64_regs.c b/backends/x86_64_regs.c
-+index 8eb0d33..e941cf3 100644
-+--- a/backends/x86_64_regs.c
-++++ b/backends/x86_64_regs.c
-+@@ -84,6 +84,7 @@ x86_64_register_info (Ebl *ebl __attribute__ ((unused)),
-+ 
-+     case 6 ... 7:
-+       *type = DW_ATE_address;
-++      /* fallthru */
-+     case 0 ... 5:
-+       name[0] = 'r';
-+       name[1] = baseregs[regno][0];
-+diff --git a/libcpu/i386_disasm.c b/libcpu/i386_disasm.c
-+index 0eabe0a..84b85d0 100644
-+--- a/libcpu/i386_disasm.c
-++++ b/libcpu/i386_disasm.c
-+@@ -788,7 +788,7 @@ i386_disasm (const uint8_t **startp, const uint8_t *end, GElf_Addr addr,
-+ 			      ++param_start;
-+ 			      break;
-+ 			    }
-+-
-++			  /* fallthru */
-+ 			default:
-+ 			  assert (! "INVALID not handled");
-+ 			  abort ();
-+diff --git a/libdw/cfi.c b/libdw/cfi.c
-+index aeb48e6..38b3050 100644
-+--- a/libdw/cfi.c
-++++ b/libdw/cfi.c
-+@@ -143,6 +143,7 @@ execute_cfi (Dwarf_CFI *cache,
-+ 
-+ 	case DW_CFA_advance_loc1:
-+ 	  operand = *program++;
-++	  /* fallthru */
-+ 	case DW_CFA_advance_loc + 0 ... DW_CFA_advance_loc + CFI_PRIMARY_MAX:
-+ 	advance_loc:
-+ 	  loc += operand * cie->code_alignment_factor;
-+@@ -227,6 +228,7 @@ execute_cfi (Dwarf_CFI *cache,
-+ 
-+ 	case DW_CFA_offset_extended:
-+ 	  get_uleb128 (operand, program);
-++	  cfi_assert (program < end);
-+ 	case DW_CFA_offset + 0 ... DW_CFA_offset + CFI_PRIMARY_MAX:
-+ 	  get_uleb128 (offset, program);
-+ 	  offset *= cie->data_alignment_factor;
-+@@ -290,6 +292,7 @@ execute_cfi (Dwarf_CFI *cache,
-+ 
-+ 	case DW_CFA_restore_extended:
-+ 	  get_uleb128 (operand, program);
-++	  /* fallthru */
-+ 	case DW_CFA_restore + 0 ... DW_CFA_restore + CFI_PRIMARY_MAX:
-+ 
-+ 	  if (unlikely (abi_cfi) && likely (opcode == DW_CFA_restore))
-+diff --git a/libdw/encoded-value.h b/libdw/encoded-value.h
-+index e118a1c..17190c8 100644
-+--- a/libdw/encoded-value.h
-++++ b/libdw/encoded-value.h
-+@@ -82,6 +82,7 @@ encoded_value_size (const Elf_Data *data, const unsigned char e_ident[],
-+ 	    if (*end++ & 0x80u)
-+ 	      return end - p;
-+ 	}
-++      return 0;
-+ 
-+     default:
-+       abort ();
-+diff --git a/libdwfl/dwfl_report_elf.c b/libdwfl/dwfl_report_elf.c
-+index 062a647..8a30816 100644
-+--- a/libdwfl/dwfl_report_elf.c
-++++ b/libdwfl/dwfl_report_elf.c
-+@@ -185,6 +185,7 @@ __libdwfl_report_elf (Dwfl *dwfl, const char *name, const char *file_name,
-+     case ET_CORE:
-+       /* An assigned base address is meaningless for these.  */
-+       base = 0;
-++      /* fallthru */
-+ 
-+     case ET_DYN:
-+     default:;
-+diff --git a/src/addr2line.c b/src/addr2line.c
-+index 48f017b..4a2cc5b 100644
-+--- a/src/addr2line.c
-++++ b/src/addr2line.c
-+@@ -457,6 +457,7 @@ handle_address (const char *string, Dwfl *dwfl)
-+ 	case 1:
-+ 	  addr = 0;
-+ 	  j = i;
-++          /* fallthru */
-+ 	case 2:
-+ 	  if (string[j] != '\0')
-+ 	    break;
-+diff --git a/src/elflint.c b/src/elflint.c
-+index a25af97..3d75391 100644
-+--- a/src/elflint.c
-++++ b/src/elflint.c
-+@@ -218,6 +218,7 @@ parse_opt (int key, char *arg __attribute__ ((unused)),
-+ 
-+     case 'd':
-+       is_debuginfo = true;
-++      break;
-+ 
-+     case ARGP_gnuld:
-+       gnuld = true;
-+@@ -3735,6 +3736,7 @@ section [%2zu] '%s': merge flag set but entry size is zero\n"),
-+ 	    case SHT_NOBITS:
-+ 	      if (is_debuginfo)
-+ 		break;
-++		/* fallthru */
-+ 	    default:
-+ 	      ERROR (gettext ("\
-+ section [%2zu] '%s' has unexpected type %d for an executable section\n"),
-+@@ -4036,7 +4038,7 @@ section [%2d] '%s': unknown core file note type %" PRIu32
-+ 	    if (nhdr.n_namesz == sizeof "Linux"
-+ 		&& !memcmp (data->d_buf + name_offset, "Linux", sizeof "Linux"))
-+ 	      break;
-+-
-++	    /* fallthru */
-+ 	  default:
-+ 	    if (shndx == 0)
-+ 	      ERROR (gettext ("\
-+diff --git a/src/objdump.c b/src/objdump.c
-+index 1234c79..8c39a5b 100644
-+--- a/src/objdump.c
-++++ b/src/objdump.c
-+@@ -238,7 +238,7 @@ parse_opt (int key, char *arg,
-+ 		     program_invocation_short_name);
-+ 	  exit (EXIT_FAILURE);
-+ 	}
-+-
-++      /* fallthru */
-+     default:
-+       return ARGP_ERR_UNKNOWN;
-+     }
-+-- 
-+2.12.2
-+
-diff --git a/meta/recipes-devtools/elfutils/elfutils-0.148/0002-Fix-printf-overflow-warnings.patch b/meta/recipes-devtools/elfutils/elfutils-0.148/0002-Fix-printf-overflow-warnings.patch
-new file mode 100644
-index 0000000000..32c0c10918
---- /dev/null
-+++ b/meta/recipes-devtools/elfutils/elfutils-0.148/0002-Fix-printf-overflow-warnings.patch
-@@ -0,0 +1,57 @@
-+From 471f7e4e72feea16f06d806c47b05719c3d77d8f Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem at gmail.com>
-+Date: Tue, 25 Apr 2017 15:57:33 -0700
-+Subject: [PATCH 2/2] Fix printf overflow warnings
-+
-+Fixes
-+
-+../../elfutils-0.148/src/ar.c:865:49: error: '__builtin___snprintf_chk' output truncated before the last format character [-Werror=format-truncation=]
-+       snprintf (tmpbuf, sizeof (tmpbuf), "/%-*ld",
-+                                                 ^
-+In file included from /mnt/a/build/tmp-glibc/work/cortexa7hf-neon-vfpv4-oe-linux-gnueabi/elfutils/0.148-r11/recipe-sysroot/usr/include/stdio.h:889:0,
-+                 from /mnt/a/build/tmp-glibc/work/cortexa7hf-neon-vfpv4-oe-linux-gnueabi/elfutils/0.148-r11/recipe-sysroot/usr/include/argp.h:23,
-+                 from ../../elfutils-0.148/src/ar.c:30:
-+/mnt/a/build/tmp-glibc/work/cortexa7hf-neon-vfpv4-oe-linux-gnueabi/elfutils/0.148-r11/recipe-sysroot/usr/include/bits/stdio2.h:64:10: note: '__builtin___snprintf_chk' output 18 b
-+ytes into a destination of size 17
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Khem Raj <raj.khem at gmail.com>
-+---
-+ src/ar.c | 6 +++---
-+ 1 file changed, 3 insertions(+), 3 deletions(-)
-+
-+diff --git a/src/ar.c b/src/ar.c
-+index 8e2abbe..0bf5051 100644
-+--- a/src/ar.c
-++++ b/src/ar.c
-+@@ -853,7 +853,7 @@ write_member (struct armem *memb, off_t *startp, off_t *lenp, Elf *elf,
-+ 	      off_t end_off, int newfd)
-+ {
-+   struct ar_hdr arhdr;
-+-  char tmpbuf[sizeof (arhdr.ar_name) + 1];
-++  char tmpbuf[sizeof (arhdr.ar_name) + 2];
-+ 
-+   bool changed_header = memb->long_name_off != -1;
-+   if (changed_header)
-+@@ -1454,7 +1454,7 @@ do_oper_insert (int oper, const char *arfname, char **argv, int argc,
-+ 
-+ 	      /* Create the header.  */
-+ 	      struct ar_hdr arhdr;
-+-	      char tmpbuf[sizeof (arhdr.ar_name) + 1];
-++	      char tmpbuf[sizeof (arhdr.ar_name) + 2];
-+ 	      if (all->long_name_off == -1)
-+ 		{
-+ 		  size_t namelen = strlen (all->name);
-+@@ -1464,7 +1464,7 @@ do_oper_insert (int oper, const char *arfname, char **argv, int argc,
-+ 		}
-+ 	      else
-+ 		{
-+-		  snprintf (tmpbuf, sizeof (arhdr.ar_name) + 1, "/%-*ld",
-++		  snprintf (tmpbuf, sizeof (tmpbuf), "/%-*ld",
-+ 			    (int) sizeof (arhdr.ar_name), all->long_name_off);
-+ 		  memcpy (arhdr.ar_name, tmpbuf, sizeof (arhdr.ar_name));
-+ 		}
-+-- 
-+2.12.2
-+
-diff --git a/meta/recipes-devtools/elfutils/elfutils-0.166/0004-Fix-fallthrough-warnings.patch b/meta/recipes-devtools/elfutils/elfutils-0.166/0004-Fix-fallthrough-warnings.patch
-new file mode 100644
-index 0000000000..fe45605a7e
---- /dev/null
-+++ b/meta/recipes-devtools/elfutils/elfutils-0.166/0004-Fix-fallthrough-warnings.patch
-@@ -0,0 +1,216 @@
-+Signed-off-by: Anton Novikov <a.novikov@yadro.com>
-+Upstream-Status: Pending
-+Subject: fix case fallthrough warnings
-+
-+diff --git a/backends/i386_regs.c b/backends/i386_regs.c
-+index fb8ded3..3dda6cc 100644
-+--- a/backends/i386_regs.c
-++++ b/backends/i386_regs.c
-+@@ -92,6 +92,7 @@ i386_register_info (Ebl *ebl __attribute__ ((unused)),
-+     case 5:
-+     case 8:
-+       *type = DW_ATE_address;
-++      /* fallthru */
-+     case 0 ... 3:
-+     case 6 ... 7:
-+       name[0] = 'e';
-+diff --git a/backends/i386_retval.c b/backends/i386_retval.c
-+index 9da797d..4fed964 100644
-+--- a/backends/i386_retval.c
-++++ b/backends/i386_retval.c
-+@@ -125,6 +125,7 @@ i386_return_value_location (Dwarf_Die *functypedie, const Dwarf_Op **locp)
-+ 
-+ 	/* Else fall through.  */
-+       }
-++    /* fallthru */
-+ 
-+     case DW_TAG_structure_type:
-+     case DW_TAG_class_type:
-+diff --git a/backends/linux-core-note.c b/backends/linux-core-note.c
-+index ff2b226..58da291 100644
-+--- a/backends/linux-core-note.c
-++++ b/backends/linux-core-note.c
-+@@ -219,8 +219,8 @@ EBLHOOK(core_note) (const GElf_Nhdr *nhdr, const char *name,
-+     case sizeof "CORE":
-+       if (memcmp (name, "CORE", nhdr->n_namesz) == 0)
-+ 	break;
-+-      /* Buggy old Linux kernels didn't terminate "LINUX".
-+-         Fall through.  */
-++      /* Buggy old Linux kernels didn't terminate "LINUX". */
-++      /* fallthru  */
-+ 
-+     case sizeof "LINUX":
-+       if (memcmp (name, "LINUX", nhdr->n_namesz) == 0)
-+diff --git a/backends/mips_retval.c b/backends/mips_retval.c
-+index 57487bb..807db86 100644
-+--- a/backends/mips_retval.c
-++++ b/backends/mips_retval.c
-+@@ -390,6 +390,7 @@ mips_return_value_location (Dwarf_Die *functypedie, const Dwarf_Op **locp)
-+         }
-+ 
-+       /* Fallthrough to handle large types */
-++      /* fallthru */
-+ 
-+     case DW_TAG_array_type:
-+     large:
-+diff --git a/backends/parisc_retval.c b/backends/parisc_retval.c
-+index df7ec3a..7d6db9d 100644
-+--- a/backends/parisc_retval.c
-++++ b/backends/parisc_retval.c
-+@@ -167,7 +167,7 @@ parisc_return_value_location_ (Dwarf_Die *functypedie, const Dwarf_Op **locp, in
-+ 
-+ 	/* Else fall through.  */
-+       }
-+-
-++      /* fallthru */
-+     case DW_TAG_structure_type:
-+     case DW_TAG_class_type:
-+     case DW_TAG_union_type:
-+diff --git a/backends/ppc_regs.c b/backends/ppc_regs.c
-+index 4b92a9a..91cf790 100644
-+--- a/backends/ppc_regs.c
-++++ b/backends/ppc_regs.c
-+@@ -140,7 +140,7 @@ ppc_register_info (Ebl *ebl __attribute__ ((unused)),
-+     case 100:
-+       if (*bits == 32)
-+ 	return stpcpy (name, "mq") + 1 - name;
-+-
-++      /* fallthru */
-+     case 102 ... 107:
-+       name[0] = 's';
-+       name[1] = 'p';
-+diff --git a/backends/x86_64_regs.c b/backends/x86_64_regs.c
-+index 2172d9f..affeac3 100644
-+--- a/backends/x86_64_regs.c
-++++ b/backends/x86_64_regs.c
-+@@ -87,6 +87,7 @@ x86_64_register_info (Ebl *ebl __attribute__ ((unused)),
-+ 
-+     case 6 ... 7:
-+       *type = DW_ATE_address;
-++      /* fallthru */
-+     case 0 ... 5:
-+       name[0] = 'r';
-+       name[1] = baseregs[regno][0];
-+diff --git a/libcpu/i386_disasm.c b/libcpu/i386_disasm.c
-+index baca620..921d964 100644
-+--- a/libcpu/i386_disasm.c
-++++ b/libcpu/i386_disasm.c
-+@@ -819,7 +819,7 @@ i386_disasm (const uint8_t **startp, const uint8_t *end, GElf_Addr addr,
-+ 			      ++param_start;
-+ 			      break;
-+ 			    }
-+-
-++			  /* fallthru */
-+ 			default:
-+ 			  str = "";
-+ 			  assert (! "INVALID not handled");
-+diff --git a/libdw/cfi.c b/libdw/cfi.c
-+index 1fd668d..fd75fe6 100644
-+--- a/libdw/cfi.c
-++++ b/libdw/cfi.c
-+@@ -138,6 +138,7 @@ execute_cfi (Dwarf_CFI *cache,
-+ 
-+ 	case DW_CFA_advance_loc1:
-+ 	  operand = *program++;
-++	  /* fallthru */
-+ 	case DW_CFA_advance_loc + 0 ... DW_CFA_advance_loc + CFI_PRIMARY_MAX:
-+ 	advance_loc:
-+ 	  loc += operand * cie->code_alignment_factor;
-+@@ -300,6 +301,7 @@ execute_cfi (Dwarf_CFI *cache,
-+ 
-+ 	case DW_CFA_restore_extended:
-+ 	  get_uleb128 (operand, program, end);
-++	  /* fallthru */
-+ 	case DW_CFA_restore + 0 ... DW_CFA_restore + CFI_PRIMARY_MAX:
-+ 
-+ 	  if (unlikely (abi_cfi) && likely (opcode == DW_CFA_restore))
-+diff --git a/libdw/encoded-value.h b/libdw/encoded-value.h
-+index 48d868f..f0df4ce 100644
-+--- a/libdw/encoded-value.h
-++++ b/libdw/encoded-value.h
-+@@ -64,6 +64,7 @@ encoded_value_size (const Elf_Data *data, const unsigned char e_ident[],
-+ 	    if (*end++ & 0x80u)
-+ 	      return end - p;
-+ 	}
-++      return 0;
-+ 
-+     default:
-+       return 0;
-+diff --git a/libdwfl/dwfl_report_elf.c b/libdwfl/dwfl_report_elf.c
-+index 1c6e401..bb1e574 100644
-+--- a/libdwfl/dwfl_report_elf.c
-++++ b/libdwfl/dwfl_report_elf.c
-+@@ -170,6 +170,7 @@ __libdwfl_elf_address_range (Elf *elf, GElf_Addr base, bool add_p_vaddr,
-+       /* An assigned base address is meaningless for these.  */
-+       base = 0;
-+       add_p_vaddr = true;
-++      /* fallthru */
-+ 
-+     case ET_DYN:
-+     default:;
-+diff --git a/src/addr2line.c b/src/addr2line.c
-+index 0ce854f..5892c42 100644
-+--- a/src/addr2line.c
-++++ b/src/addr2line.c
-+@@ -632,6 +632,7 @@ handle_address (const char *string, Dwfl *dwfl)
-+ 	case 1:
-+ 	  addr = 0;
-+ 	  j = i;
-++          /* fallthru */
-+ 	case 2:
-+ 	  if (string[j] != '\0')
-+ 	    break;
-+diff --git a/src/elfcompress.c b/src/elfcompress.c
-+index d0ca469..4d63880 100644
-+--- a/src/elfcompress.c
-++++ b/src/elfcompress.c
-+@@ -154,6 +154,7 @@ parse_opt (int key, char *arg __attribute__ ((unused)),
-+ 		    N_("Only one input file allowed together with '-o'"));
-+       /* We only use this for checking the number of arguments, we don't
-+ 	 actually want to consume them, so fallthrough.  */
-++      /* fallthru */
-+     default:
-+       return ARGP_ERR_UNKNOWN;
-+     }
-+diff --git a/src/elflint.c b/src/elflint.c
-+index 15b12f6..efa460f 100644
-+--- a/src/elflint.c
-++++ b/src/elflint.c
-+@@ -210,6 +210,7 @@ parse_opt (int key, char *arg __attribute__ ((unused)),
-+ 
-+     case 'd':
-+       is_debuginfo = true;
-++      break;
-+ 
-+     case ARGP_gnuld:
-+       gnuld = true;
-+@@ -3963,6 +3964,7 @@ section [%2zu] '%s': merge flag set but entry size is zero\n"),
-+ 	    case SHT_NOBITS:
-+ 	      if (is_debuginfo)
-+ 		break;
-++		/* fallthru */
-+ 	    default:
-+ 	      ERROR (gettext ("\
-+ section [%2zu] '%s' has unexpected type %d for an executable section\n"),
-+@@ -4305,7 +4307,7 @@ section [%2d] '%s': unknown core file note type %" PRIu32
-+ 	    if (nhdr.n_namesz == sizeof "Linux"
-+ 		&& !memcmp (data->d_buf + name_offset, "Linux", sizeof "Linux"))
-+ 	      break;
-+-
-++	    /* fallthru */
-+ 	  default:
-+ 	    if (shndx == 0)
-+ 	      ERROR (gettext ("\
-+diff --git a/src/objdump.c b/src/objdump.c
-+index 0aa41e8..84236f7 100644
-+--- a/src/objdump.c
-++++ b/src/objdump.c
-+@@ -234,7 +234,7 @@ parse_opt (int key, char *arg,
-+ 		     program_invocation_short_name);
-+ 	  exit (EXIT_FAILURE);
-+ 	}
-+-
-++      /* fallthru */
-+     default:
-+       return ARGP_ERR_UNKNOWN;
-+     }
-diff --git a/meta/recipes-devtools/elfutils/elfutils-0.166/0005-Fix-printf-overflow-warnings.patch b/meta/recipes-devtools/elfutils/elfutils-0.166/0005-Fix-printf-overflow-warnings.patch
-new file mode 100644
-index 0000000000..32c0c10918
---- /dev/null
-+++ b/meta/recipes-devtools/elfutils/elfutils-0.166/0005-Fix-printf-overflow-warnings.patch
-@@ -0,0 +1,57 @@
-+From 471f7e4e72feea16f06d806c47b05719c3d77d8f Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem at gmail.com>
-+Date: Tue, 25 Apr 2017 15:57:33 -0700
-+Subject: [PATCH 2/2] Fix printf overflow warnings
-+
-+Fixes
-+
-+../../elfutils-0.148/src/ar.c:865:49: error: '__builtin___snprintf_chk' output truncated before the last format character [-Werror=format-truncation=]
-+       snprintf (tmpbuf, sizeof (tmpbuf), "/%-*ld",
-+                                                 ^
-+In file included from /mnt/a/build/tmp-glibc/work/cortexa7hf-neon-vfpv4-oe-linux-gnueabi/elfutils/0.148-r11/recipe-sysroot/usr/include/stdio.h:889:0,
-+                 from /mnt/a/build/tmp-glibc/work/cortexa7hf-neon-vfpv4-oe-linux-gnueabi/elfutils/0.148-r11/recipe-sysroot/usr/include/argp.h:23,
-+                 from ../../elfutils-0.148/src/ar.c:30:
-+/mnt/a/build/tmp-glibc/work/cortexa7hf-neon-vfpv4-oe-linux-gnueabi/elfutils/0.148-r11/recipe-sysroot/usr/include/bits/stdio2.h:64:10: note: '__builtin___snprintf_chk' output 18 b
-+ytes into a destination of size 17
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Khem Raj <raj.khem at gmail.com>
-+---
-+ src/ar.c | 6 +++---
-+ 1 file changed, 3 insertions(+), 3 deletions(-)
-+
-+diff --git a/src/ar.c b/src/ar.c
-+index 8e2abbe..0bf5051 100644
-+--- a/src/ar.c
-++++ b/src/ar.c
-+@@ -853,7 +853,7 @@ write_member (struct armem *memb, off_t *startp, off_t *lenp, Elf *elf,
-+ 	      off_t end_off, int newfd)
-+ {
-+   struct ar_hdr arhdr;
-+-  char tmpbuf[sizeof (arhdr.ar_name) + 1];
-++  char tmpbuf[sizeof (arhdr.ar_name) + 2];
-+ 
-+   bool changed_header = memb->long_name_off != -1;
-+   if (changed_header)
-+@@ -1454,7 +1454,7 @@ do_oper_insert (int oper, const char *arfname, char **argv, int argc,
-+ 
-+ 	      /* Create the header.  */
-+ 	      struct ar_hdr arhdr;
-+-	      char tmpbuf[sizeof (arhdr.ar_name) + 1];
-++	      char tmpbuf[sizeof (arhdr.ar_name) + 2];
-+ 	      if (all->long_name_off == -1)
-+ 		{
-+ 		  size_t namelen = strlen (all->name);
-+@@ -1464,7 +1464,7 @@ do_oper_insert (int oper, const char *arfname, char **argv, int argc,
-+ 		}
-+ 	      else
-+ 		{
-+-		  snprintf (tmpbuf, sizeof (arhdr.ar_name) + 1, "/%-*ld",
-++		  snprintf (tmpbuf, sizeof (tmpbuf), "/%-*ld",
-+ 			    (int) sizeof (arhdr.ar_name), all->long_name_off);
-+ 		  memcpy (arhdr.ar_name, tmpbuf, sizeof (arhdr.ar_name));
-+ 		}
-+-- 
-+2.12.2
-+
-diff --git a/meta/recipes-devtools/elfutils/elfutils_0.148.bb b/meta/recipes-devtools/elfutils/elfutils_0.148.bb
-index d18b732fe2..dfe8b8132d 100644
---- a/meta/recipes-devtools/elfutils/elfutils_0.148.bb
-+++ b/meta/recipes-devtools/elfutils/elfutils_0.148.bb
-@@ -34,6 +34,8 @@ SRC_URI += "\
-         file://elf_begin.c-CVE-2014-9447-fix.patch \
-         file://fix-build-gcc-4.8.patch \
-         file://gcc6.patch \
-+        file://0001-Fix-fallthrough-warnings.patch \
-+        file://0002-Fix-printf-overflow-warnings.patch \
- "
- # Only apply when building uclibc based target recipe
- SRC_URI_append_libc-uclibc = " file://uclibc-support-for-elfutils-0.148.patch"
-diff --git a/meta/recipes-devtools/elfutils/elfutils_0.166.bb b/meta/recipes-devtools/elfutils/elfutils_0.166.bb
-index 5d934281b3..b54007bef0 100644
---- a/meta/recipes-devtools/elfutils/elfutils_0.166.bb
-+++ b/meta/recipes-devtools/elfutils/elfutils_0.166.bb
-@@ -34,6 +34,8 @@ SRC_URI += "\
-         file://0001-Ignore-differences-between-mips-machine-identifiers.patch \
-         file://0002-Add-support-for-mips64-abis-in-mips_retval.c.patch \
-         file://0003-Add-mips-n64-relocation-format-hack.patch \
-+        file://0004-Fix-fallthrough-warnings.patch \
-+        file://0005-Fix-printf-overflow-warnings.patch \
-         file://uclibc-support.patch \
-         file://elfcmp-fix-self-comparision.patch \
- "
--- 
-2.13.1
+See
+https://autobuilder.yocto.io/builders/nightly-x86-64/builds/333/steps/Build=
+Images_2/logs/stdio
+for context.
 
 
---------------7DF3212E7FFF6EE8499CF9B7
-Content-Type: text/x-patch;
-	name="0003-add-perl-regex-fix-for-Automake.patch"
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename="0003-add-perl-regex-fix-for-Automake.patch"
+> +    strip_opts.add_argument('--no-strip', help=3D'Do not strip executabl=
+es
+prior to deploy', dest=3D'strip', action=3D'store_false')
+> +
+>      parser_deploy.set_defaults(func=3Ddeploy)
+>
+>      parser_undeploy =3D subparsers.add_parser('undeploy-target',
+> --
+> 2.1.4
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
-From b712ae02f97eb6cb469104ee5a420e1bf945d5ff Mon Sep 17 00:00:00 2001
-From: Anton Novikov <a.novikov@yadro.com>
-Date: Tue, 20 Jun 2017 14:33:20 +0300
-Subject: [PATCH 3/3] add perl regex fix for Automake
+--f403045fbfd8816f5805527591ed
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Build was failing on Arch Linux due to recent Perl giving error on unescaped
-curly braces. Patch fixing it was copied from Arch Build System.
+<div dir=3D"ltr"><br><br>On 20 June 2017 at 10:42, Tobias Hagelborn &lt;<a =
+href=3D"mailto:tobias.hagelborn@axis.com">tobias.hagelborn@axis.com</a>&gt;=
+ wrote:<br>&gt;<br>&gt; New devtool deploy-target option --strip which enab=
+les deploying<br>&gt; stripped binaries, saving some space on target.<br>&g=
+t;<br>&gt; * Copies the files of ${D} into a new directory and strips them =
+in place<br>&gt; * Used oe.package.strip_execs for stripping directory<br>&=
+gt; * Added devtool.conf option &quot;strip&quot; for changing default beha=
+vior<br>&gt;<br>&gt; Config example:<br>&gt; [Deploy]<br>&gt; strip =3D tru=
+e<br>&gt;<br>&gt; [YOCTO #11227]<br>&gt;<br>&gt; Signed-off-by: Tobias Hage=
+lborn &lt;<a href=3D"mailto:tobiasha@axis.com">tobiasha@axis.com</a>&gt;<br=
+>&gt; ---<br>&gt; =C2=A0scripts/lib/devtool/deploy.py | 32 ++++++++++++++++=
+++++++++++++----<br>&gt; =C2=A01 file changed, 28 insertions(+), 4 deletion=
+s(-)<br>&gt;<br>&gt; diff --git a/scripts/lib/devtool/deploy.py b/scripts/l=
+ib/devtool/deploy.py<br>&gt; index 04c34cb..96b877e 100644<br>&gt; --- a/sc=
+ripts/lib/devtool/deploy.py<br>&gt; +++ b/scripts/lib/devtool/deploy.py<br>=
+&gt; @@ -16,12 +16,16 @@<br>&gt; =C2=A0# 51 Franklin Street, Fifth Floor, B=
+oston, MA 02110-1301 USA.<br>&gt; =C2=A0&quot;&quot;&quot;Devtool plugin co=
+ntaining the deploy subcommands&quot;&quot;&quot;<br>&gt;<br>&gt; +import l=
+ogging<br>&gt; =C2=A0import os<br>&gt; +import shutil<br>&gt; =C2=A0import =
+subprocess<br>&gt; -import logging<br>&gt; =C2=A0import tempfile<br>&gt; -i=
+mport shutil<br>&gt; +<br>&gt; +import bb.utils<br>&gt; =C2=A0import argpar=
+se_oe<br>&gt; +import oe<br>&gt; +<br>&gt; =C2=A0from devtool import exec_f=
+akeroot, setup_tinfoil, check_workspace_recipe, DevtoolError<br>&gt;<br>&gt=
+; =C2=A0logger =3D logging.getLogger(&#39;devtool&#39;)<br>&gt; @@ -140,9 +=
+144,9 @@ def _prepare_remote_script(deploy, verbose=3DFalse, dryrun=3DFalse=
+, undeployall=3DFals<br>&gt; =C2=A0 =C2=A0 =C2=A0return &#39;\n&#39;.join(l=
+ines)<br>&gt;<br>&gt;<br>&gt; +<br>&gt; =C2=A0def deploy(args, config, base=
+path, workspace):<br>&gt; =C2=A0 =C2=A0 =C2=A0&quot;&quot;&quot;Entry point=
+ for the devtool &#39;deploy&#39; subcommand&quot;&quot;&quot;<br>&gt; - =
+=C2=A0 =C2=A0import re<br>&gt; =C2=A0 =C2=A0 =C2=A0import math<br>&gt; =C2=
+=A0 =C2=A0 =C2=A0import oe.recipeutils<br>&gt;<br>&gt; @@ -170,6 +174,17 @@=
+ def deploy(args, config, basepath, workspace):<br>&gt; =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0&#39;recipe? If so, the install step has not installed &#39;<b=
+r>&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;any files.&#39; % args.recipenam=
+e)<br>&gt;<br>&gt; + =C2=A0 =C2=A0 =C2=A0 =C2=A0if args.strip and not args.=
+dry_run:<br>&gt; + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# Fakeroot copy=
+ to new destination<br>&gt; + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0srcd=
+ir =3D recipe_outdir<br>&gt; + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0rec=
+ipe_outdir =3D os.path.join(rd.getVar(&#39;WORKDIR&#39;, True), &#39;deploy=
+-target-stripped&#39;)<br>&gt; + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0i=
+f os.path.isdir(recipe_outdir):<br>&gt; + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0bb.utils.remove(recipe_outdir, True)<br>&gt; + =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0exec_fakeroot(rd, &quot;cp -af %s %s&=
+quot; % (os.path.join(srcdir, &#39;.&#39;), recipe_outdir), shell=3DTrue)<b=
+r>&gt; + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0os.environ[&#39;PATH&#39;=
+] =3D &#39;:&#39;.join([os.environ[&#39;PATH&#39;], rd.getVar(&#39;PATH&#39=
+;, True) or &#39;&#39;])<br>&gt; + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0oe.package.strip_execs(args.recipename, recipe_outdir, rd.getVar(&#39;ST=
+RIP&#39;, True), rd.getVar(&#39;libdir&#39;, True),<br>&gt; + =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0rd.ge=
+tVar(&#39;base_libdir&#39;, True))<br>&gt; +<br>&gt; =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0filelist =3D []<br>&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ftot=
+alsize =3D 0<br>&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0for root, _, files i=
+n os.walk(recipe_outdir):<br>&gt; @@ -189,7 +204,6 @@ def deploy(args, conf=
+ig, basepath, workspace):<br>&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0print(&#39; =C2=A0%s&#39; % item)<br>&gt; =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return 0<br>&gt;<br>&gt; -<br>&gt; =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0extraoptions =3D &#39;&#39;<br>&gt; =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if args.no_host_check:<br>&gt; =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0extraoptions +=3D &#39;-o UserKnownHosts=
+File=3D/dev/null -o StrictHostKeyChecking=3Dno&#39;<br>&gt; @@ -301,6 +315,=
+7 @@ def undeploy(args, config, basepath, workspace):<br>&gt;<br>&gt; =C2=
+=A0def register_commands(subparsers, context):<br>&gt; =C2=A0 =C2=A0 =C2=A0=
+&quot;&quot;&quot;Register devtool subcommands from the deploy plugin&quot;=
+&quot;&quot;<br>&gt; +<br>&gt; =C2=A0 =C2=A0 =C2=A0parser_deploy =3D subpar=
+sers.add_parser(&#39;deploy-target&#39;,<br>&gt; =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0help=3D&#39;Deploy r=
+ecipe output files to live target machine&#39;,<br>&gt; =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0description=
+=3D&#39;Deploys a recipe\&#39;s build output (i.e. the output of the do_ins=
+tall task) to a live target machine over ssh. By default, any existing file=
+s will be preserved instead of being overwritten and will be restored if yo=
+u run devtool undeploy-target. Note: this only deploys the recipe itself an=
+d not any runtime dependencies, so it is assumed that those have been insta=
+lled on the target beforehand.&#39;,<br>&gt; @@ -313,6 +328,15 @@ def regis=
+ter_commands(subparsers, context):<br>&gt; =C2=A0 =C2=A0 =C2=A0parser_deplo=
+y.add_argument(&#39;-p&#39;, &#39;--no-preserve&#39;, help=3D&#39;Do not pr=
+eserve existing files&#39;, action=3D&#39;store_true&#39;)<br>&gt; =C2=A0 =
+=C2=A0 =C2=A0parser_deploy.add_argument(&#39;--no-check-space&#39;, help=3D=
+&#39;Do not check for available space before deploying&#39;, action=3D&#39;=
+store_true&#39;)<br>&gt; =C2=A0 =C2=A0 =C2=A0parser_deploy.add_argument(&#3=
+9;-P&#39;, &#39;--port&#39;, default=3D&#39;22&#39;, help=3D&#39;Port to us=
+e for connection to the target&#39;)<br>&gt; +<br>&gt; + =C2=A0 =C2=A0strip=
+_opts =3D parser_deploy.add_mutually_exclusive_group(required=3DFalse)<br>&=
+gt; + =C2=A0 =C2=A0strip_opts.add_argument(&#39;-S&#39;, &#39;--strip&#39;,=
+<br>&gt; + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 help=3D&#39;Strip executables pri=
+or to deploying (default: %(default)s). &#39;<br>&gt; + =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;The default value of this option can=
+ be controlled by setting the strip option in the [Deploy] section to True =
+or False.&#39;,<br>&gt; + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 default=3Doe.types.=
+boolean(context.config.get(&#39;Deploy&#39;, &#39;strip&#39;, default=3D&#3=
+9;0&#39;)),<br>&gt; + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 action=3D&#39;store_tr=
+ue&#39;)<br><br>Autobuilder is complaining about this:<br><br>Exception: bb=
+.process.ExecutionError: Execution of &#39;devtool --bbpath /home/pokybuild=
+/yocto-autobuilder/yocto-worker/nightly-x86-64/build/meta-poky:/home/pokybu=
+ild/yocto-autobuilder/yocto-worker/nightly-x86-64/build/build:/home/pokybui=
+ld/yocto-autobuilder/yocto-worker/nightly-x86-64/build/meta:/home/pokybuild=
+/yocto-autobuilder/yocto-worker/nightly-x86-64/build/meta-yocto-bsp --basep=
+ath /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-x86-64/build/bui=
+ld/tmp/work/qemux86_64-poky-linux/core-image-minimal/1.0-r0/sdk-ext/image//=
+opt/poky/2.3 create-workspace --create-only /home/pokybuild/yocto-autobuild=
+er/yocto-worker/nightly-x86-64/build/build/tmp/work/qemux86_64-poky-linux/c=
+ore-image-minimal/1.0-r0/sdk-ext/image//opt/poky/2.3/workspace&#39; failed =
+with exit code 1:<br>Traceback (most recent call last):<br>=C2=A0 File &quo=
+t;/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-x86-64/build/scrip=
+ts/devtool&quot;, line 351, in &lt;module&gt;<br>=C2=A0 =C2=A0 ret =3D main=
+()<br>=C2=A0 File &quot;/home/pokybuild/yocto-autobuilder/yocto-worker/nigh=
+tly-x86-64/build/scripts/devtool&quot;, line 329, in main<br>=C2=A0 =C2=A0 =
+plugin.register_commands(subparsers, context)<br>=C2=A0 File &quot;/home/po=
+kybuild/yocto-autobuilder/yocto-worker/nightly-x86-64/build/scripts/lib/dev=
+tool/deploy.py&quot;, line 336, in register_commands<br>=C2=A0 =C2=A0 defau=
+lt=3Doe.types.boolean(context.config.get(&#39;Deploy&#39;, &#39;strip&#39;,=
+ default=3D&#39;0&#39;)),<br>AttributeError: module &#39;oe&#39; has no att=
+ribute &#39;types&#39;<br><br>See=C2=A0<a href=3D"https://autobuilder.yocto=
+.io/builders/nightly-x86-64/builds/333/steps/BuildImages_2/logs/stdio">http=
+s://autobuilder.yocto.io/builders/nightly-x86-64/builds/333/steps/BuildImag=
+es_2/logs/stdio</a> for context.<br><br><br>&gt; + =C2=A0 =C2=A0strip_opts.=
+add_argument(&#39;--no-strip&#39;, help=3D&#39;Do not strip executables pri=
+or to deploy&#39;, dest=3D&#39;strip&#39;, action=3D&#39;store_false&#39;)<=
+br>&gt; +<br>&gt; =C2=A0 =C2=A0 =C2=A0parser_deploy.set_defaults(func=3Ddep=
+loy)<br>&gt;<br>&gt; =C2=A0 =C2=A0 =C2=A0parser_undeploy =3D subparsers.add=
+_parser(&#39;undeploy-target&#39;,<br>&gt; --<br>&gt; 2.1.4<br>&gt;<br>&gt;=
+ --<br>&gt; _______________________________________________<br>&gt; Openemb=
+edded-core mailing list<br>&gt; <a href=3D"mailto:Openembedded-core@lists.o=
+penembedded.org">Openembedded-core@lists.openembedded.org</a><br>&gt; <a hr=
+ef=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core">htt=
+p://lists.openembedded.org/mailman/listinfo/openembedded-core</a><br></div>
 
-Signed-off-by: Anton Novikov <a.novikov@yadro.com>
----
- .../automake/automake/perl-regex-curly.patch       | 29 ++++++++++++++++++++++
- meta/recipes-devtools/automake/automake_1.15.bb    |  1 +
- 2 files changed, 30 insertions(+)
- create mode 100644 meta/recipes-devtools/automake/automake/perl-regex-curly.patch
-
-diff --git a/meta/recipes-devtools/automake/automake/perl-regex-curly.patch b/meta/recipes-devtools/automake/automake/perl-regex-curly.patch
-new file mode 100644
-index 0000000000..910650ab25
---- /dev/null
-+++ b/meta/recipes-devtools/automake/automake/perl-regex-curly.patch
-@@ -0,0 +1,29 @@
-+From 13f00eb4493c217269b76614759e452d8302955e Mon Sep 17 00:00:00 2001
-+From: Paul Eggert <eggert@cs.ucla.edu>
-+Date: Thu, 31 Mar 2016 23:35:29 +0000
-+Subject: automake: port to Perl 5.22 and later
-+
-+Without this change, Perl 5.22 complains "Unescaped left brace in
-+regex is deprecated" and this is planned to become a hard error in
-+Perl 5.26.  See:
-+http://search.cpan.org/dist/perl-5.22.0/pod/perldelta.pod#A_literal_%22{%22_should_now_be_escaped_in_a_pattern
-+* bin/automake.in (substitute_ac_subst_variables): Escape left brace.
-+
-+Signed-off-by: Anton Novikov <a.novikov@yadro.com>
-+Upstream-Status: Pending
-+---
-+diff --git a/bin/automake.in b/bin/automake.in
-+index a3a0aa3..2c8f31e 100644
-+--- a/bin/automake.in
-++++ b/bin/automake.in
-+@@ -3878,7 +3878,7 @@ sub substitute_ac_subst_variables_worker
-+ sub substitute_ac_subst_variables
-+ {
-+   my ($text) = @_;
-+-  $text =~ s/\${([^ \t=:+{}]+)}/substitute_ac_subst_variables_worker ($1)/ge;
-++  $text =~ s/\$[{]([^ \t=:+{}]+)}/substitute_ac_subst_variables_worker ($1)/ge;
-+   return $text;
-+ }
-+ 
-+--
-+cgit v0.9.0.2
-diff --git a/meta/recipes-devtools/automake/automake_1.15.bb b/meta/recipes-devtools/automake/automake_1.15.bb
-index a3c72fd334..0ad250bed0 100644
---- a/meta/recipes-devtools/automake/automake_1.15.bb
-+++ b/meta/recipes-devtools/automake/automake_1.15.bb
-@@ -21,6 +21,7 @@ RDEPENDS_${PN}_class-native = "autoconf-native hostperl-runtime-native"
- SRC_URI += " file://python-libdir.patch \
-             file://buildtest.patch \
-             file://performance.patch \
-+            file://perl-regex-curly.patch \
-             file://new_rt_path_for_test-driver.patch"
- 
- SRC_URI[md5sum] = "716946a105ca228ab545fc37a70df3a3"
--- 
-2.13.1
-
-
---------------7DF3212E7FFF6EE8499CF9B7--
+--f403045fbfd8816f5805527591ed--
