@@ -1,29 +1,57 @@
-Return-Path: <california.l.sullivan@intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 9195C71975
+Return-Path: <trini@konsulko.com>
+Received: from mail-yw0-f176.google.com (mail-yw0-f176.google.com
+	[209.85.161.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 767597199D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Jun 2017 18:11:07 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	21 Jun 2017 11:11:08 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.39,370,1493708400"; 
-	d="scan'208,217";a="1143523101"
-Received: from clsulliv.jf.intel.com ([10.7.201.36])
-	by orsmga001.jf.intel.com with ESMTP; 21 Jun 2017 11:11:08 -0700
-To: Christopher Larson <kergoth@gmail.com>
-References: <1498004059-12231-1-git-send-email-california.l.sullivan@intel.com>
-	<CABcZANmLQno0gXMoaBPz22WpsoPCvkCySe1JY+m7L4n5TTqsLw@mail.gmail.com>
-From: Cal Sullivan <california.l.sullivan@intel.com>
-Message-ID: <376a5ff8-a6ef-0055-eafb-514be875a1bd@intel.com>
-Date: Wed, 21 Jun 2017 11:11:08 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.4.0
+	Wed, 21 Jun 2017 18:16:52 +0000 (UTC)
+Received: by mail-yw0-f176.google.com with SMTP id v7so67610938ywc.2
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 21 Jun 2017 11:16:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=KhPo+NaJ/cLV9NNIdvw5Kw44KJ3p27R9mByXkej6dcQ=;
+	b=F0g9X4iLVkZWIxdnhvwK7eP2D4M5kIagz0b0hr9Nb6l6FtowhZp1+0vUXKsogHujbC
+	APy+ZXGwmfkuv59OKaWBVP0xgxIoAsY4MvxaWqiFgGmrDwcSXZxrnuOWYe1KPiHXUU99
+	3xDaFSuhrPd7YkVaU5dFjtIykquNdBKOzpFJw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=KhPo+NaJ/cLV9NNIdvw5Kw44KJ3p27R9mByXkej6dcQ=;
+	b=VCxxbddE4R0qBJKgbn6aOyuY9Z79er+sKhwImrEYeNmq4xjEMeciVpjY7k1D4JT+JC
+	PW6gdJL8810dZrru2ilVQ6NMLWaY9F/SwcTsCpbXbHyU7sdKnssv53fc0JjKBaD0FJaK
+	TBkUmR0KlbjhomB85K2d2uieV6CH3iy5J8nxHPKRb5BT+upbFy074QnUJToVo+VgGhbU
+	jLWZ/tgTiBja7FINVk0K7sUrDTPs+UCLiFl4J2c9hREgtCFYBdj1U8haUZlJ5Zd7lRFa
+	KX4PXM3vwDpqpugsZlQG8AGvK63VYZ/ZneD00TdvlWy3T63WSitH3HVesh/ixbvspmYi
+	bzSw==
+X-Gm-Message-State: AKS2vOwW6wIsb1mYy+cr8ZFXTzg1TlFR6vSLde329N4PR4c2LbR7HOjN
+	f5P0f+9ybQ6a1FEj
+X-Received: by 10.129.99.87 with SMTP id x84mr28313271ywb.119.1498069013484;
+	Wed, 21 Jun 2017 11:16:53 -0700 (PDT)
+Received: from bill-the-cat (cpe-75-180-228-133.ec.res.rr.com.
+	[75.180.228.133]) by smtp.gmail.com with ESMTPSA id
+	y195sm7048028ywg.65.2017.06.21.11.16.52
+	(version=TLS1_2 cipher=AES128-SHA bits=128/128);
+	Wed, 21 Jun 2017 11:16:52 -0700 (PDT)
+Date: Wed, 21 Jun 2017 14:17:25 -0400
+From: Tom Rini <trini@konsulko.com>
+To: Otavio Salvador <otavio.salvador@ossystems.com.br>
+Message-ID: <20170621181725.GM27196@bill-the-cat>
+References: <20170620221512.21860-1-otavio@ossystems.com.br>
+	<20170620235544.GO28053@denix.org>
+	<20170621120317.GG27196@bill-the-cat>
+	<20170621155023.GQ28053@denix.org>
+	<20170621165256.GL27196@bill-the-cat>
+	<CAP9ODKqZoPwo128rHr1kJfnP9590YySU4GCb3gDOTxPeG4WGrA@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <CABcZANmLQno0gXMoaBPz22WpsoPCvkCySe1JY+m7L4n5TTqsLw@mail.gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] x86-base.inc: Don't add live to IMAGE_FSTYPES, default instead
+In-Reply-To: <CAP9ODKqZoPwo128rHr1kJfnP9590YySU4GCb3gDOTxPeG4WGrA@mail.gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: Marek Vasut <marex@denx.de>,
+	OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>,
+	Otavio Salvador <otavio@ossystems.com.br>,
+	Brad Mouring <brad.mouring@ni.com>
+Subject: Re: [PATCH] u-boot-fw-utils: Allow replacement of fw_env.config
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,171 +64,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Jun 2017 18:11:07 -0000
-Content-Type: multipart/alternative;
-	boundary="------------8B20365CF7741F9E58D1A962"
+X-List-Received-Date: Wed, 21 Jun 2017 18:16:52 -0000
+X-Groupsio-MsgNum: 99204
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="ICrdrp3pM9DyZLTK"
+Content-Disposition: inline
 
---------------8B20365CF7741F9E58D1A962
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+--ICrdrp3pM9DyZLTK
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+On Wed, Jun 21, 2017 at 03:01:36PM -0300, Otavio Salvador wrote:
+> On Wed, Jun 21, 2017 at 1:52 PM, Tom Rini <trini@konsulko.com> wrote:
+> > On Wed, Jun 21, 2017 at 11:50:23AM -0400, Denys Dmytriyenko wrote:
+> >> What I'm arguing against here is some partial solution - modifying the=
+ global
+> >> recipe in oe-core, but still require .bbappend to provide a file. It's=
+ should
+> >> either be "do everything in .bbappend, like we all do now" or "do ever=
+ything
+> >> in main oe-core recipe and let machine.conf define it".
+> >
+> > OK, we should do it globally with a ??=3D of the in-tree example only? =
+ Or
+> > just let u-boot-fw-utils fail to build?
+>=20
+> Maybe the best is to allow for boards to have its fw_env.config inside
+> U-Boot so people can provide a 'good' base for users. Doing so, we can
+> teach the recipe to install it?
 
+No, I don't like that.  One could generate probably-correct config for
+NAND/NOR.  But UBI and FAT (and EXT4) start to become a per-distro
+thing.  This is even somewhat true of MMC where it's more likely that
+you'll know what maps out to /dev/mmcblk0 vs /dev/mmcblk1, and upstream
+U-Boot won't know what kernel people are going to boot and then have
+give a device name.
 
-On 06/21/2017 08:28 AM, Christopher Larson wrote:
->
-> On Tue, Jun 20, 2017 at 5:14 PM, California Sullivan 
-> <california.l.sullivan@intel.com 
-> <mailto:california.l.sullivan@intel.com>> wrote:
->
->     Using += makes it difficult to remove. Soft-set with ?= instead.
->
->     Signed-off-by: California Sullivan
->     <california.l.sullivan@intel.com
->     <mailto:california.l.sullivan@intel.com>>
->     ---
->      meta/conf/machine/include/x86-base.inc | 2 +-
->      1 file changed, 1 insertion(+), 1 deletion(-)
->
->     diff --git a/meta/conf/machine/include/x86-base.inc
->     b/meta/conf/machine/include/x86-base.inc
->     index 7365953..bfacdf5 100644
->     --- a/meta/conf/machine/include/x86-base.inc
->     +++ b/meta/conf/machine/include/x86-base.inc
->     @@ -10,7 +10,7 @@ MACHINE_FEATURES += "screen keyboard pci usbhost
->     ext2 ext3 x86 \
->
->      MACHINE_EXTRA_RRECOMMENDS += "kernel-modules"
->
->     -IMAGE_FSTYPES += "live"
->     +IMAGE_FSTYPES ?= "live"
->
->
-> I’m assuming you verified that none of the existing machines including 
-> this were depending on the += behavior to add to the current value? 
-> And this would almost certainly result in a different default for any 
-> machines that don’t adjust IMAGE_FSTYPES at all, since it’d be adding 
-> to the bitbake.conf or distro default.
+--=20
+Tom
 
-I tested genericx86, genericx86-64, intel-corei7-64 and intel-core2-32, 
-and their IMAGE_FSTYPES values were the same with and without this patch.
+--ICrdrp3pM9DyZLTK
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
-x86-base.inc is the first thing parsed that sets IMAGE_FSTYPES for all 
-these machines, and since += is applied immediately its effectively 
-setting a default value. A ?= from bitbake.conf for distro conf won't 
-actually get applied with or without this patch.
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
 
-I'm not aware of other machines that inherit x86-base.inc, but I'd think 
-it would be the same for them.
+iQIcBAEBAgAGBQJZSrg1AAoJEIf59jXTHXZSYewP/jS4CiJqu4zP/KIiuJq2J3F+
+3kCiLtD6CqXh03gb6C9VfYDOK4X3wBg7ccaR/FDxYmAmNqjaw+H9PClHXK79k3VL
+K/I0wDyoSXrKdOBlMNdud1Q0X3rItvTLnoEM3/nlB9a9KyG+5vIawBI8ll7NESrB
+cuD5pq895goL5UnCOjsb0ZaIqexe3U8/9BhPRlvFWoz9nZEW1WaA0RPRVaVGuhN9
+GJIRNd2TvtXIwpKnR4MxKSg7LfBHbsVdxuT09QHZ4ra322tvHSbn71e1zMiBqhuu
+7RJ50mTu0McZp+ei6bELaDoKDaLSZnoqx6nVju03rsBke0NbgVc1ZXfUL4EPkgUO
+Kd9QBigRFB6/0EdSKu2PdU+BfSnbBKdOuduGokxlp9UQ0ilF5FxiKbwhzYO/NaIZ
+E357vYHrT6sM6/8qGW5MnhnzYIK1Brxhae76Vq9VvznspZTAkI3FahkGuLELumE5
+eJiPBJyvpovTV6XmnaSSPT05nJ02Ieedm16noMo489UBhX/rBu7Z/9JyZfwxtLIH
+v3d9OzJwOZOLjw7ywfcQNI1AGcXB0pq8T7FlMy+dxK8QR6p2SqGzqtIuxn72iRrl
+MVxso2Y3Z9lS6X6+HoX+g5/1guQyiq3pWj7djKzm1Qj8j80ERqYHyapN+mu7g7Cf
+2hDcvVgZoYtu5qP/isD0
+=NOrb
+-----END PGP SIGNATURE-----
 
-Thanks,
-Cal
-
-> -- 
-> Christopher Larson
-> kergoth at gmail dot com
-> Founder - BitBake, OpenEmbedded, OpenZaurus
-> Senior Software Engineer, Mentor Graphics
-
-
---------------8B20365CF7741F9E58D1A962
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-  </head>
-  <body bgcolor="#FFFFFF" text="#000000">
-    <br>
-    <br>
-    <div class="moz-cite-prefix">On 06/21/2017 08:28 AM, Christopher
-      Larson wrote:<br>
-    </div>
-    <blockquote
-cite="mid:CABcZANmLQno0gXMoaBPz22WpsoPCvkCySe1JY+m7L4n5TTqsLw@mail.gmail.com"
-      type="cite">
-      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-      <div dir="ltr">
-        <div class="gmail_extra"><br>
-          <div class="gmail_quote">On Tue, Jun 20, 2017 at 5:14 PM,
-            California Sullivan <span dir="ltr">&lt;<a
-                moz-do-not-send="true"
-                href="mailto:california.l.sullivan@intel.com"
-                target="_blank">california.l.sullivan@intel.com</a>&gt;</span>
-            wrote:<br>
-            <blockquote class="gmail_quote" style="margin:0 0 0
-              .8ex;border-left:1px #ccc solid;padding-left:1ex">
-              <div id=":12j" class="a3s aXjCH m15cc800708907dec">Using
-                += makes it difficult to remove. Soft-set with ?=
-                instead.<br>
-                <br>
-                Signed-off-by: California Sullivan &lt;<a
-                  moz-do-not-send="true"
-                  href="mailto:california.l.sullivan@intel.com">california.l.sullivan@intel.<wbr>com</a>&gt;<br>
-                ---<br>
-                 meta/conf/machine/include/x86-<wbr>base.inc | 2 +-<br>
-                 1 file changed, 1 insertion(+), 1 deletion(-)<br>
-                <br>
-                diff --git a/meta/conf/machine/include/<wbr>x86-base.inc
-                b/meta/conf/machine/include/<wbr>x86-base.inc<br>
-                index 7365953..bfacdf5 100644<br>
-                --- a/meta/conf/machine/include/<wbr>x86-base.inc<br>
-                +++ b/meta/conf/machine/include/<wbr>x86-base.inc<br>
-                @@ -10,7 +10,7 @@ MACHINE_FEATURES += "screen keyboard
-                pci usbhost ext2 ext3 x86 \<br>
-                <br>
-                 MACHINE_EXTRA_RRECOMMENDS += "kernel-modules"<br>
-                <br>
-                -IMAGE_FSTYPES += "live"<br>
-                +IMAGE_FSTYPES ?= "live"</div>
-            </blockquote>
-          </div>
-          <br>
-          I’m assuming you verified that none of the existing machines
-          including this were depending on the += behavior to add to the
-          current value? And this would almost certainly result in a
-          different default for any machines that don’t adjust
-          IMAGE_FSTYPES at all, since it’d be adding to the bitbake.conf
-          or distro default.<br>
-        </div>
-      </div>
-    </blockquote>
-    <br>
-    I tested genericx86, genericx86-64, intel-corei7-64 and
-    intel-core2-32, and their IMAGE_FSTYPES values were the same with
-    and without this patch.<br>
-    <br>
-    x86-base.inc is the first thing parsed that sets IMAGE_FSTYPES for
-    all these machines, and since += is applied immediately its
-    effectively setting a default value. A ?= from bitbake.conf for
-    distro conf won't actually get applied with or without this patch.<br>
-    <br>
-    I'm not aware of other machines that inherit x86-base.inc, but I'd
-    think it would be the same for them.<br>
-    <br>
-    Thanks,<br>
-    Cal<br>
-    <br>
-    <blockquote
-cite="mid:CABcZANmLQno0gXMoaBPz22WpsoPCvkCySe1JY+m7L4n5TTqsLw@mail.gmail.com"
-      type="cite">
-      <div dir="ltr">
-        <div class="gmail_extra">-- <br>
-          <div class="gmail_signature" data-smartmail="gmail_signature">
-            <div dir="ltr">
-              <div>
-                <div dir="ltr">Christopher Larson<br>
-                  kergoth at gmail dot com<br>
-                  Founder - BitBake, OpenEmbedded, OpenZaurus<br>
-                  Senior Software Engineer, Mentor Graphics</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </blockquote>
-    <br>
-  </body>
-</html>
-
---------------8B20365CF7741F9E58D1A962--
+--ICrdrp3pM9DyZLTK--
