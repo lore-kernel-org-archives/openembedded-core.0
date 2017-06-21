@@ -1,30 +1,18 @@
-Return-Path: <Randy.MacLeod@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 4D7F978038
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Jun 2017 02:58:25 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v5L2wPMC008300
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Tue, 20 Jun 2017 19:58:25 -0700
-Received: from [172.25.44.7] (172.25.44.7) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
-	Tue, 20 Jun 2017 19:58:25 -0700
-To: Khem Raj <raj.khem@gmail.com>
-References: <1498012112-27453-1-git-send-email-Randy.MacLeod@windriver.com>
-	<CAMKF1sr6jktZh7936pMndka5XBxGs1iPzkeSTtxQ=0Nj8iuV6A@mail.gmail.com>
-From: Randy MacLeod <randy.macleod@windriver.com>
-Message-ID: <e31fb941-a8b0-6b75-cbc1-7575a6cac150@windriver.com>
-Date: Tue, 20 Jun 2017 22:58:23 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.1.1
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 333D477FF6;
+	Wed, 21 Jun 2017 03:01:25 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <CAMKF1sr6jktZh7936pMndka5XBxGs1iPzkeSTtxQ=0Nj8iuV6A@mail.gmail.com>
-X-Originating-IP: [172.25.44.7]
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] systemd: work-around ppc gold linker error
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Randy MacLeod <randy.macleod@windriver.com>
+Date: Wed, 21 Jun 2017 03:01:27 -0000
+Message-ID: <20170621030127.1043.43044@do.openembedded.org>
+References: <1498012112-27453-1-git-send-email-Randy.MacLeod@windriver.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <1498012112-27453-1-git-send-email-Randy.MacLeod@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3Igc3lzdGVtZDogd29yay1hcm91bmQgcHBjIGdvbGQgbGlua2VyIGVycm9y?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,92 +25,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Jun 2017 02:58:26 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-GB
+X-List-Received-Date: Wed, 21 Jun 2017 03:01:25 -0000
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
-On 2017-06-20 10:41 PM, Khem Raj wrote:
-> On Tue, Jun 20, 2017 at 10:28 PM, Randy MacLeod
-> <Randy.MacLeod@windriver.com> wrote:
->> Signed-off-by: Randy MacLeod <Randy.MacLeod@windriver.com>
->> ---
->>   .../systemd/systemd/systemd-drop-gold-use-bfd.patch           | 11 +++++++++++
->>   meta/recipes-core/systemd/systemd_232.bb                      |  2 ++
->>   2 files changed, 13 insertions(+)
->>   create mode 100644 meta/recipes-core/systemd/systemd/systemd-drop-gold-use-bfd.patch
->>
->> diff --git a/meta/recipes-core/systemd/systemd/systemd-drop-gold-use-bfd.patch b/meta/recipes-core/systemd/systemd/systemd-drop-gold-use-bfd.patch
->> new file mode 100644
->> index 0000000..eac2199
->> --- /dev/null
->> +++ b/meta/recipes-core/systemd/systemd/systemd-drop-gold-use-bfd.patch
->> @@ -0,0 +1,11 @@
->> +--- a/configure.ac
->> ++++ b/configure.ac
->> +@@ -260,7 +260,7 @@
->> +         -Wl,-z,relro \
->> +         -Wl,-z,now \
->> +         -pie \
->> +-        -Wl,-fuse-ld=gold])
->> ++        -Wl,-fuse-ld=bfd])
->> + AC_SUBST([OUR_LDFLAGS], "$with_ldflags $sanitizer_ldflags")
->> +
->> + AC_CHECK_SIZEOF(pid_t)
-> 
-> may be a sed expression in do_configure_prepend is better
+== Series Details ==
 
-Maybe?... hmmm.
+Series: systemd: work-around ppc gold linker error
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/7390/
+State : failure
 
-I could do but this works and is intended to be reverted once
-the proper fix is merged so unless you or someone else insists
-and explains why it's better to do it in configure_prepend,
-I'll leave it as is.
-> 
->> diff --git a/meta/recipes-core/systemd/systemd_232.bb b/meta/recipes-core/systemd/systemd_232.bb
->> index 1007360..1ce9dc1 100644
->> --- a/meta/recipes-core/systemd/systemd_232.bb
->> +++ b/meta/recipes-core/systemd/systemd_232.bb
->> @@ -41,6 +41,8 @@ SRC_URI_append_libc-uclibc = "\
->>   "
->>   SRC_URI_append_qemuall = " file://0001-core-device.c-Change-the-default-device-timeout-to-2.patch"
->>
->> +SRC_URI_append_qemuppc = " file://systemd-drop-gold-use-bfd.patch"
-> 
-> is it specific to qemu alone ? 
-
-Probably not. I'll figure out a better pattern for v2.
-
-> if its generic across ppc then this is not
-> right override. Infact you should also describe what the problem is in detail
-> here.
-
-Right. I'll do that in v2.
-
-Meanwhile, some details are here for those interested:
-	https://bugzilla.yoctoproject.org/show_bug.cgi?id=11696
-
-Thanks for the review.
-
-../Randy
-
-> 
->> +
->>   PACKAGECONFIG ??= "xz \
->>                      ${@bb.utils.filter('DISTRO_FEATURES', 'efi pam selinux ldconfig', d)} \
->>                      ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'xkbcommon', '', d)} \
->> --
->> 2.7.4
->>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+== Summary ==
 
 
--- 
-# Randy MacLeod. SMTS, Linux, Wind River
-Direct: 613.963.1350 | 350 Terry Fox Drive, Suite 200, Ottawa, ON, 
-Canada, K2K 2W5
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             Added patch file is missing Upstream-Status in the header [test_upstream_status_presence] 
+  Suggested fix    Add Upstream-Status: <status> to the header of meta/recipes-core/systemd/systemd/systemd-drop-gold-use-bfd.patch (possible values: Pending, Submitted, Accepted, Backport, Denied, Inappropriate)
+
+* Issue             A patch file has been added, but does not have a Signed-off-by tag [test_signed_off_by_presence] 
+  Suggested fix    Sign off the added patch file (meta/recipes-core/systemd/systemd/systemd-drop-gold-use-bfd.patch)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
+---
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+
 
