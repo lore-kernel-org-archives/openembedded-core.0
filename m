@@ -1,30 +1,22 @@
-Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 912B471AD9
+Return-Path: <jose.perez.carranza@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id C8B6471AD9
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Jun 2017 16:09:26 +0000 (UTC)
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	22 Jun 2017 09:09:20 -0700
+	Thu, 22 Jun 2017 16:16:39 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	22 Jun 2017 09:16:39 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.39,373,1493708400"; d="scan'208";a="118079069"
-Received: from lsandov1-mobl2.zpn.intel.com ([10.219.128.119])
-	by fmsmga006.fm.intel.com with ESMTP; 22 Jun 2017 09:09:20 -0700
-Message-ID: <1498148311.31575.56.camel@linux.intel.com>
-From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
-To: Patrick Ohly <patrick.ohly@intel.com>
-Date: Thu, 22 Jun 2017 11:18:31 -0500
-In-Reply-To: <1498147164.22706.30.camel@intel.com>
-References: <20170619143936.20912-1-leonardo.sandoval.gonzalez@linux.intel.com>
-	<1498141053.22706.4.camel@intel.com>
-	<1498143522.31575.41.camel@linux.intel.com>
-	<1498144469.22706.10.camel@intel.com>
-	<1498145851.31575.50.camel@linux.intel.com>
-	<1498147164.22706.30.camel@intel.com>
-X-Mailer: Evolution 3.12.9-1+b1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/2] commands: send stderr to a new pipe
+X-IronPort-AV: E=Sophos;i="5.39,373,1493708400"; d="scan'208";a="1163523708"
+Received: from yctb06.ostc.intel.com ([10.54.69.60])
+	by fmsmga001.fm.intel.com with ESMTP; 22 Jun 2017 09:16:39 -0700
+From: jose.perez.carranza@linux.intel.com
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 22 Jun 2017 09:16:32 -0700
+Message-Id: <20170622161632.42163-1-jose.perez.carranza@linux.intel.com>
+X-Mailer: git-send-email 2.12.0
+Cc: Mariano Lopez <mariano.lopez@linux.intel.com>
+Subject: [PATCH] selftest/seltest.py: Add test to check imports from other layers
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,77 +29,104 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Jun 2017 16:09:27 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 22 Jun 2017 16:16:42 -0000
 
-On Thu, 2017-06-22 at 17:59 +0200, Patrick Ohly wrote:
-> On Thu, 2017-06-22 at 10:37 -0500, Leonardo Sandoval wrote:
-> > On Thu, 2017-06-22 at 17:14 +0200, Patrick Ohly wrote:
-> > > On Thu, 2017-06-22 at 09:58 -0500, Leonardo Sandoval wrote:
-> > > > On Thu, 2017-06-22 at 16:17 +0200, Patrick Ohly wrote:
-> > > > > On Mon, 2017-06-19 at 07:39 -0700,
-> > > > > leonardo.sandoval.gonzalez@linux.intel.com wrote:
-> > > > > > From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
-> > > > > > 
-> > > > > > Do not mix the stderr into stdout, allowing test cases to query
-> > > > > > the specific output.
-> > > > > 
-> > > > > This changes the behavior of functions that are also used outside of
-> > > > > OE-core in a way that won't be easy to notice. I also don't think that
-> > > > > it is the right default. For example, for bitbake it is easier to
-> > > > > understand where an error occurred when stderr goes to the same stream
-> > > > > as stdout.
-> > > > 
-> > > > how would that make it easier?
-> > > 
-> > > Because then output will be properly interleaved, as it would be on a
-> > > console.
-> > > 
-> > > Actually, the entire error reporting in runCmd() only prints
-> > > result.output, so with stderr going to result.error by default, you
-> > > won't get the actual errors reported anymore at all, will you? 
-> > > 
-> > 
-> > process stderr will go into result.error and process stdout into
-> > result.output. So when the process is executed ignoring the return
-> > status, then test must check result.error. I find the latter cleaner
-> > that checking errors into stdout.
-> 
-> It depends on how the result is used. That you prefer split output for
-> some tests does not mean that everyone wants the same in their tests. I
-> don't want it in my own usage of runCmd() or bitbake() because I don't
-> care about where a message was printed. I just want it in proper order.
-> 
-> If you change the default, then you will also have to enhance runCmd()'s
-> error handling to include results.error. That's currently missing in
-> your patch.
+From: Jose Perez Carranza <jose.perez.carranza@linux.intel.com>
 
-it is not missing, it is on 2/2, but yes, the latter should be on 1/2. I
-can re-factor and send v2 but lets see other opinions.
+This tests adds a check of selftest itself to verify if can
+add test from other layers.
 
-Leo
+[YOCTO #9770]
 
-> 
-> > > > > Can't you keep the current semantic and just override it explicitly in
-> > > > > those tests that need separate stdout/stderr?
-> > > > > 
-> > > > 
-> > > > My proposed patch was mainly based on a RP's comment [1], suggesting to
-> > > > split std[out|err].
-> > > 
-> > > He did not suggest to change the default behavior. I agree that using
-> > > split stdout/stderr in those specific tests which specifically want to
-> > > check for error messages makes sense, but only in those tests.
-> > 
-> > No tests require splitting the output (all tests pass with and without
-> > this series). The series is actually an enhancement and without it, we
-> > saw (specially when the python 2 to 3 was going on) past warnings going
-> > into stdout, so Chris and RP suggested the approach.
-> 
-> Richard, can you please comment on whether changing the default is
-> really what you meant?
-> 
+Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
+Signed-off-by: Jose Perez Carranza <jose.perez.carranza@linux.intel.com>
+---
+ .../lib/oeqa/selftest/cases/external-layer.py      | 16 +++++++
+ meta/lib/oeqa/selftest/cases/selftest.py           | 51 ++++++++++++++++++++++
+ 2 files changed, 67 insertions(+)
+ create mode 100644 meta-selftest/lib/oeqa/selftest/cases/external-layer.py
+ create mode 100644 meta/lib/oeqa/selftest/cases/selftest.py
 
+diff --git a/meta-selftest/lib/oeqa/selftest/cases/external-layer.py b/meta-selftest/lib/oeqa/selftest/cases/external-layer.py
+new file mode 100644
+index 00000000000..59b1afab7d1
+--- /dev/null
++++ b/meta-selftest/lib/oeqa/selftest/cases/external-layer.py
+@@ -0,0 +1,16 @@
++#from oeqa.selftest.base import oeSelfTest
++from oeqa.selftest.case import OESelftestTestCase
++#from oeqa.utils.decorators import testcase
++
++
++class ImportedTests(OESelftestTestCase):
++
++    def test_unconditional_pass(self):
++        """
++        Summary: Doesn't check anything, used to check import test from other layers.
++        Expected: 1. Pass unconditionally
++        Product: oe-core
++        Author: Mariano Lopez <mariano.lopez@intel.com
++        """
++
++        self.assertEqual(True, True, msg = "Impossible to fail this test")
+diff --git a/meta/lib/oeqa/selftest/cases/selftest.py b/meta/lib/oeqa/selftest/cases/selftest.py
+new file mode 100644
+index 00000000000..4b3cb144638
+--- /dev/null
++++ b/meta/lib/oeqa/selftest/cases/selftest.py
+@@ -0,0 +1,51 @@
++import importlib
++from oeqa.utils.commands import runCmd
++import oeqa.selftest
++from oeqa.selftest.case import OESelftestTestCase
++from oeqa.core.decorator.oeid import OETestID
++
++class ExternalLayer(OESelftestTestCase):
++
++    @OETestID(1885)
++    def test_list_imported(self):
++        """
++        Summary: Checks functionality to import tests from other layers.
++        Expected: 1. File "external-layer.py" must be in
++        oeqa.selftest.__path__
++                  2. test_unconditional_pas method must exists
++                     in ImportedTests class
++        Product: oe-core
++        Author: Mariano Lopez <mariano.lopez@intel.com>
++        """
++
++        test_file = "external-layer.py"
++        test_module = "oeqa.selftest.cases.external-layer"
++        method_name = "test_unconditional_pass"
++
++        # Check if "external-layer.py" is in oeqa path
++        found_file = search_test_file(test_file)
++        self.assertTrue(found_file, msg="Can't find %s in the oeqa path" % test_file)
++
++        # Import oeqa.selftest.external-layer module and search for
++        # test_unconditional_pass method of ImportedTests class
++        found_method = search_method(test_module, method_name)
++        self.assertTrue(method_name, msg="Can't find %s method" % method_name)
++
++def search_test_file(file_name):
++    for layer_path in oeqa.selftest.__path__:
++        for _, _, files in os.walk(layer_path):
++            for f in files:
++                if f == file_name:
++                    return True
++    return False
++
++def search_method(module, method):
++    modlib = importlib.import_module(module)
++    for var in vars(modlib):
++        klass = vars(modlib)[var]
++        if isinstance(klass, type(OESelftestTestCase)) and issubclass(klass, OESelftestTestCase):
++            for m in dir(klass):
++                if m == method:
++                    return True
++    return False
++
+-- 
+2.12.0
 
 
