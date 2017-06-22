@@ -1,46 +1,45 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-wr0-f181.google.com (mail-wr0-f181.google.com
-	[209.85.128.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 57ABD71AB9
+Received: from mail-wr0-f193.google.com (mail-wr0-f193.google.com
+	[209.85.128.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 052B671AB9
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Jun 2017 22:22:42 +0000 (UTC)
-Received: by mail-wr0-f181.google.com with SMTP id c11so41801059wrc.3
+	Thu, 22 Jun 2017 22:27:08 +0000 (UTC)
+Received: by mail-wr0-f193.google.com with SMTP id 77so8039060wrb.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Jun 2017 15:22:43 -0700 (PDT)
+	Thu, 22 Jun 2017 15:27:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to; 
-	bh=l4DGVV3dhn5dVbKJNGJA7mwG1EaMGAeEoW4SCMmIrGg=;
-	b=jjfA+a5fDLBKDk58R3d0r6cipj1xC03zsEIgq4zjqonFHmNGefbrQqFXQQsQyeaigp
-	U/DMq5vHnqK9hw5KOAuUYN33huVod1R76fgeotlKijNrxrBRLLfbtO8shhvFpBt4cOP9
-	KqT9thURnj65lWyL5qzu/ofh/TzUrxvjL0yjyO3WRGwsTqhawnSj/Klm+2GF/cist9a8
-	cGIUjpSWsm26AW3Da4ILNJytT+xI0wBMCtOn7htFBHBUVymmeuGFXzUBolavCawm7PGZ
-	ve1xvlMn+UpwU9pp7hrOxAX41sCqB/9ae/RA+gIYcJ/RipxZuzXGumnJSW1J+ZNt2bYO
-	jIlg==
+	bh=mVRubVPLBzZanHTAPzQJb52G5GPCbYvwNGDm06qsBaM=;
+	b=FfgVypfA0B+uzvAy0qFa91c3L/YEgZgjZF0kW6eTnUQLktlmOEGsdype6G9ewGha5t
+	JPa1N6ZbWySq2ql9yWwmh/SKC/xMUhcFzY/8o7sLBwuT0/Gw+uMDKaNskM6VCeO2l9QQ
+	iiFbI+j+8RxBFZ6sH5n2QdTTGBls6pIssmSfaGGrI7HpiJbOBDlsbvCNVn8QY6BEPsuK
+	yaUZiYugx5d4CiZBhH/FY51N4BRF1skNxco2tJcxpCr7+IBC9nnlWOQcZrQIy21KBnay
+	uxt8wLGUUXXmJzjxYNixh3/1EwhvpRZa/OazSlEtGN/QwlN+il0CHpYQCXm2pNniIqOz
+	a/lA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to;
-	bh=l4DGVV3dhn5dVbKJNGJA7mwG1EaMGAeEoW4SCMmIrGg=;
-	b=qlsMhorZgrhzjI72/c97/KLbj2voekavBNeaINB+ELtkxPLg7OCienja11+YbnxMES
-	LbgO6VMjF3M3vI8HG4G1PLi88JbJWKQYAsLW1OHiwZvcBLmdEtchmPfmpE/wnne/x0Zm
-	q+Ake2t5qoKzlyKVTv/LyrZryvj8a6wiPlVd8iCOHUv5iS+Mssnoh7u/Ru+TrxJlj/yK
-	nwsGyjM0NAqP5ijZJSScKfWTe05RYHwX7XKrV7054rb6MGytYDJRhTHMUgVI0gsNw1Ce
-	Rl/3yaQKQa2L/p/HJDDOkJUrdPzbGLLm0YGBMbMKPMFGWWJb9K+A2x6aQVFTYr0Jf/Ch
-	bp4w==
-X-Gm-Message-State: AKS2vOxl2tWU2PjlSoAFAOVqa8/5NEKO69KeKF3k1R4HeGLtVbwkZdp5
-	ON1K3zCgDspm/nd12AnObsA5k86EjA==
-X-Received: by 10.80.180.188 with SMTP id w57mr4029013edd.42.1498170162989;
-	Thu, 22 Jun 2017 15:22:42 -0700 (PDT)
+	bh=mVRubVPLBzZanHTAPzQJb52G5GPCbYvwNGDm06qsBaM=;
+	b=jpOOpuihqa51uIBgGfDb3HQVsn7kkXN0eUIbw6Xaktmw+1kc7Ukilao0ccxBAgNFO1
+	ccGk2AnYYVSXk4gZYseULxIfm+oWdwQ4MU5WBo4l35xuasrynE7joZqfWkuos/6ykTC8
+	qkn4WF3cpv9P/FhQb/+Jp7QKLwapZ1KLt4l03yrgb2pCkd6foFALWlRonZL+Im1xIwQa
+	+KISqZmlUC+91B3IXYB849S2gpYGsfIEJaTmNWzUAM3X1lHt3q4depQioqZSkwARppkp
+	c86jo9M0YM23RL0r4HnDPiTaMxAR7EtQA+pEc5SDm8kCFBB56ARwDm4caaT0Oo9gbpUv
+	gfTg==
+X-Gm-Message-State: AKS2vOwkcYPRqpQub/ZtEiS2w/O9c7Vn8RiaCSlEDKpRsH08LEwfAZn6
+	ZZd13FqSxBHW44+1NFgZuHXxMRyD/Q==
+X-Received: by 10.80.131.6 with SMTP id 6mr4117643edh.178.1498170429694; Thu,
+	22 Jun 2017 15:27:09 -0700 (PDT)
 MIME-Version: 1.0
-References: <1498097697-12564-1-git-send-email-Randy.MacLeod@windriver.com>
-	<d194290a-fad9-3c63-b3a4-379b50074fd5@windriver.com>
-In-Reply-To: <d194290a-fad9-3c63-b3a4-379b50074fd5@windriver.com>
+References: <20170622151404.27496-1-git@andred.net>
+In-Reply-To: <20170622151404.27496-1-git@andred.net>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 22 Jun 2017 22:22:32 +0000
-Message-ID: <CAMKF1sqNKaRB0Dagz8aKG5HR6QPHcw6XZMGcMrBnFogP3fbhgw@mail.gmail.com>
-To: Randy MacLeod <randy.macleod@windriver.com>,
+Date: Thu, 22 Jun 2017 22:26:58 +0000
+Message-ID: <CAMKF1spVoW38edBHwvV8vGg9C00K1tQvqRC1LR2NXofZm5DkEA@mail.gmail.com>
+To: =?UTF-8?Q?Andr=C3=A9_Draszik?= <git@andred.net>, 
 	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2] systemd: work-around ppc gold linker error
+Subject: Re: [PATCH] linux-libc-headers: fix duplicate IFF_LOWER_UP DORMANT ECHO on musl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,109 +52,169 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Jun 2017 22:22:44 -0000
-Content-Type: multipart/alternative; boundary="94eb2c0edf7460cee2055293ec31"
+X-List-Received-Date: Thu, 22 Jun 2017 22:27:09 -0000
+Content-Type: multipart/alternative; boundary="94eb2c0da3a2466eae055293fc5e"
 
---94eb2c0edf7460cee2055293ec31
+--94eb2c0da3a2466eae055293fc5e
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-What's the link to upstream bug in linker
+I would rather fix the package instead of kernel headers unless kernel
+community accepts this patch
 
-On Thu, Jun 22, 2017 at 12:34 AM Randy MacLeod <randy.macleod@windriver.com>
-wrote:
+On Thu, Jun 22, 2017 at 11:14 AM Andr=C3=A9 Draszik <git@andred.net> wrote:
 
-> Merge if you like or wait for the real fix to binutils.
+> From: Andr=C3=A9 Draszik <adraszik@tycoint.com>
 >
-> This bug has been around for more than a week
-> since the binutils upgrade was merged and
-> no one else seems to have noticed so it doesn't
-> seem urgent.
+> musl _does_ define IFF_LOWER_UP DORMANT ECHO so we should
+> prevent redefinition of these when on musl.
 >
-> I needed the work-around to keep our auto-builders happy.
-> Oh and I did basic sanity testing to show that booting
-> and systemctl status works on qemuppc.
+> As per the included patch, this can be triggered by
+> (from connman 6to4.c):
+>     include <errno.h>
+>     include <stdio.h>
+>     include <stdlib.h>
+>     include <string.h>
+>     include <sys/socket.h>
+>     include <netinet/in.h>
+>     include <arpa/inet.h>
+>     include <net/if.h>
+>     include <linux/ip.h>
+>     include <linux/if_tunnel.h>
+>     include <linux/netlink.h>
+>     include <linux/rtnetlink.h>
+>     include <sys/ioctl.h>
+>     include <unistd.h>
 >
-> ../Randy
+> In file included from ../git/src/6to4.c:34:0:
+> .../usr/include/linux/if.h:97:2: error: expected identifier before numeri=
+c
+> constant
+>   IFF_LOWER_UP   =3D 1<<16, /* __volatile__ */
+>   ^
 >
-> On 2017-06-21 10:14 PM, Randy MacLeod wrote:
-> > If you enable systemd and build for qemuppc, then the
-> > compile of systemd fails due to a gold linker failure:
-> >
-> >     .../powerpc-oe-linux-ld.gold:
-> >     error: invalid STB_LOCAL symbol in external symbols
-> >     error: linker defined: multiple definition of
-> '00000001.plt_call.memcpy+8000'
-> >     command line: previous definition here
-> >
-> > A git bisect confirms that the commit:
-> >     0b0f545 binutils-2.28: Update to latest on release branch
-> > is the problem. This is only known to affect powerpc machines.
-> >
-> > Work-around this for powerpc by getting configure to use
-> > the bfd linker rather than the gold linker.
-> >
-> > This unblocks powerpc use until the linker bug can be resolved.
-> >
-> > Signed-off-by: Randy MacLeod <Randy.MacLeod@windriver.com>
-> > ---
-> >   .../systemd/systemd/systemd-drop-gold-use-bfd.patch   | 19
-> +++++++++++++++++++
-> >   meta/recipes-core/systemd/systemd_232.bb              |  2 ++
-> >   2 files changed, 21 insertions(+)
-> >   create mode 100644
-> meta/recipes-core/systemd/systemd/systemd-drop-gold-use-bfd.patch
-> >
-> > diff --git
-> a/meta/recipes-core/systemd/systemd/systemd-drop-gold-use-bfd.patch
-> b/meta/recipes-core/systemd/systemd/systemd-drop-gold-use-bfd.patch
-> > new file mode 100644
-> > index 0000000..e0eb0bd
-> > --- /dev/null
-> > +++ b/meta/recipes-core/systemd/systemd/systemd-drop-gold-use-bfd.patch
-> > @@ -0,0 +1,19 @@
-> > +Upstream-Status: Inappropriate [other]
-> > +
-> > +The patch is not appropriate for upstream since it's a temporary
-> > +work-around for only ppc arches. Once the binutils defect in the
-> > +gold linker is resolved, this patch can be dropped.
-> > +
-> > +Signed-off-by: Randy MacLeod <Randy.MacLeod@windriver.com>
-> > +
-> > +--- a/configure.ac
-> > ++++ b/configure.ac
-> > +@@ -260,7 +260,7 @@
-> > +         -Wl,-z,relro \
-> > +         -Wl,-z,now \
-> > +         -pie \
-> > +-        -Wl,-fuse-ld=gold])
-> > ++        -Wl,-fuse-ld=bfd])
-> > + AC_SUBST([OUR_LDFLAGS], "$with_ldflags $sanitizer_ldflags")
-> > +
-> > + AC_CHECK_SIZEOF(pid_t)
-> > diff --git a/meta/recipes-core/systemd/systemd_232.bb
-> b/meta/recipes-core/systemd/systemd_232.bb
-> > index 1007360..1e8dffe 100644
-> > --- a/meta/recipes-core/systemd/systemd_232.bb
-> > +++ b/meta/recipes-core/systemd/systemd_232.bb
-> > @@ -41,6 +41,8 @@ SRC_URI_append_libc-uclibc = "\
-> >   "
-> >   SRC_URI_append_qemuall = "
-> file://0001-core-device.c-Change-the-default-device-timeout-to-2.patch"
-> >
-> > +SRC_URI_append_powerpc = " file://systemd-drop-gold-use-bfd.patch"
-> > +
-> >   PACKAGECONFIG ??= "xz \
-> >                      ${@bb.utils.filter('DISTRO_FEATURES', 'efi pam
-> selinux ldconfig', d)} \
-> >                      ${@bb.utils.contains('DISTRO_FEATURES', 'x11',
-> 'xkbcommon', '', d)} \
-> >
+> This is because at that time, IFF_LOWER_UP has been converted
+> to 0x10000 already:
+> enum net_device_flags {
+>  0x10000 =3D 1<<16,
+>  0x20000 =3D 1<<17,
+>  0x40000 =3D 1<<18,
 >
+> };
 >
+> By defining __UAPI_DEF_IF_NET_DEVICE_FLAGS_LOWER_UP_DORMANT_ECHO
+> to 0, we avoid the duplicated definition.
+>
+> Signed-off-by: Andr=C3=A9 Draszik <adraszik@tycoint.com>
+> ---
+>  ....h-musl-_does_-define-IFF_LOWER_UP-DORMAN.patch | 62
+> ++++++++++++++++++++++
+>  .../linux-libc-headers/linux-libc-headers_4.10.bb  |  1 +
+>  2 files changed, 63 insertions(+)
+>  create mode 100644
+> meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0001-libc-compa=
+t.h-musl-_does_-define-IFF_LOWER_UP-DORMAN.patch
+>
+> diff --git
+> a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0001-libc-com=
+pat.h-musl-_does_-define-IFF_LOWER_UP-DORMAN.patch
+> b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0001-libc-com=
+pat.h-musl-_does_-define-IFF_LOWER_UP-DORMAN.patch
+> new file mode 100644
+> index 0000000000..fd1bb9edb8
+> --- /dev/null
+> +++
+> b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0001-libc-com=
+pat.h-musl-_does_-define-IFF_LOWER_UP-DORMAN.patch
+> @@ -0,0 +1,62 @@
+> +From 08a04c025395b0580913285045f2af36ee0985db Mon Sep 17 00:00:00 2001
+> +From: =3D?UTF-8?q?Andr=3DC3=3DA9=3D20Draszik?=3D <adraszik@tycoint.com>
+> +Date: Thu, 15 Jun 2017 16:55:33 +0100
+> +Subject: [PATCH] libc-compat.h: musl _does_ define IFF_LOWER_UP DORMANT
+> ECHO
+> +MIME-Version: 1.0
+> +Content-Type: text/plain; charset=3DUTF-8
+> +Content-Transfer-Encoding: 8bit
+> +
+> +To trigger this (from connman 6to4.c):
+> +    include <errno.h>
+> +    include <stdio.h>
+> +    include <stdlib.h>
+> +    include <string.h>
+> +    include <sys/socket.h>
+> +    include <netinet/in.h>
+> +    include <arpa/inet.h>
+> +    include <net/if.h>
+> +    include <linux/ip.h>
+> +    include <linux/if_tunnel.h>
+> +    include <linux/netlink.h>
+> +    include <linux/rtnetlink.h>
+> +    include <sys/ioctl.h>
+> +    include <unistd.h>
+> +
+> +In file included from ../git/src/6to4.c:34:0:
+> +/scratch/yocto/build-tgm-r3-poky-fpp-tgm.pyro/tmp/work/tgm_r3-poky-linux=
+-musl/connman/1.33-git4+AUTOINC+aa5b3dc12b-r0/recipe-sysroot/usr/include/li=
+nux/if.h:97:2:
+> error: expected identifier before numeric constant
+> +  IFF_LOWER_UP   =3D 1<<16, /* __volatile__ */
+> +  ^
+> +
+> +This is because at that time, IFF_LOWER_UP has been converted
+> +to 0x10000 already:
+> +enum net_device_flags {
+> + 0x10000 =3D 1<<16,
+> + 0x20000 =3D 1<<17,
+> + 0x40000 =3D 1<<18,
+> +
+> +};
+> +
+> +Upstream-Status: Pending
+> +Signed-off-by: Andr=C3=A9 Draszik <adraszik@tycoint.com>
+> +Acked-by: Stephane Ayotte <sayotte@tycoint.com>
+> +---
+> + include/uapi/linux/libc-compat.h | 3 ++-
+> + 1 file changed, 2 insertions(+), 1 deletion(-)
+> +
+> +diff --git a/include/uapi/linux/libc-compat.h
+> b/include/uapi/linux/libc-compat.h
+> +index f11ec0e..2003ae4 100644
+> +--- a/include/uapi/linux/libc-compat.h
+> ++++ b/include/uapi/linux/libc-compat.h
+> +@@ -70,7 +70,8 @@
+> + #define __UAPI_DEF_IF_NET_DEVICE_FLAGS 0
+> + /* For the future if glibc adds IFF_LOWER_UP, IFF_DORMANT and IFF_ECHO =
+*/
+> + #ifndef __UAPI_DEF_IF_NET_DEVICE_FLAGS_LOWER_UP_DORMANT_ECHO
+> +-#define __UAPI_DEF_IF_NET_DEVICE_FLAGS_LOWER_UP_DORMANT_ECHO 1
+> ++/* musl has these defined */
+> ++#define __UAPI_DEF_IF_NET_DEVICE_FLAGS_LOWER_UP_DORMANT_ECHO 0
+> + #endif /* __UAPI_DEF_IF_NET_DEVICE_FLAGS_LOWER_UP_DORMANT_ECHO */
+> +
+> + #else /* _NET_IF_H */
+> +--
+> +2.11.0
+> +
+> diff --git a/meta/recipes-kernel/linux-libc-headers/
+> linux-libc-headers_4.10.bb b/meta/recipes-kernel/linux-libc-headers/
+> linux-libc-headers_4.10.bb
+> index 108446aa34..29262789a8 100644
+> --- a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_4.10.bb
+> +++ b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_4.10.bb
+> @@ -4,6 +4,7 @@ SRC_URI_append_libc-musl =3D "\
+>      file://0001-libc-compat.h-fix-some-issues-arising-from-in6.h.patch \
+>      file://0002-libc-compat.h-prevent-redefinition-of-struct-ethhdr.patc=
+h
+> \
+>      file://0003-remove-inclusion-of-sysinfo.h-in-kernel.h.patch \
+> +
+> file://0001-libc-compat.h-musl-_does_-define-IFF_LOWER_UP-DORMAN.patch \
+>     "
+>
+>  SRC_URI[md5sum] =3D "b5e7f6b9b2fe1b6cc7bc56a3a0bfc090"
 > --
-> # Randy MacLeod. SMTS, Linux, Wind River
-> Direct: 613.963.1350 | 350 Terry Fox Drive, Suite 200, Ottawa, ON,
-> Canada, K2K 2W5
+> 2.11.0
+>
 > --
 > _______________________________________________
 > Openembedded-core mailing list
@@ -163,125 +222,176 @@ wrote:
 > http://lists.openembedded.org/mailman/listinfo/openembedded-core
 >
 
---94eb2c0edf7460cee2055293ec31
+--94eb2c0da3a2466eae055293fc5e
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div><div dir=3D"auto">What&#39;s the link to upstream bug in linker=C2=A0<=
-/div><br><div class=3D"gmail_quote"><div>On Thu, Jun 22, 2017 at 12:34 AM R=
-andy MacLeod &lt;<a href=3D"mailto:randy.macleod@windriver.com">randy.macle=
-od@windriver.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" =
-style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">Mer=
-ge if you like or wait for the real fix to binutils.<br>
+<div><div dir=3D"auto">I would rather fix the package instead of kernel hea=
+ders unless kernel community accepts this patch=C2=A0</div><br><div class=
+=3D"gmail_quote"><div>On Thu, Jun 22, 2017 at 11:14 AM Andr=C3=A9 Draszik &=
+lt;<a href=3D"mailto:git@andred.net">git@andred.net</a>&gt; wrote:<br></div=
+><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1=
+px #ccc solid;padding-left:1ex">From: Andr=C3=A9 Draszik &lt;<a href=3D"mai=
+lto:adraszik@tycoint.com" target=3D"_blank">adraszik@tycoint.com</a>&gt;<br=
+>
 <br>
-This bug has been around for more than a week<br>
-since the binutils upgrade was merged and<br>
-no one else seems to have noticed so it doesn&#39;t<br>
-seem urgent.<br>
+musl _does_ define IFF_LOWER_UP DORMANT ECHO so we should<br>
+prevent redefinition of these when on musl.<br>
 <br>
-I needed the work-around to keep our auto-builders happy.<br>
-Oh and I did basic sanity testing to show that booting<br>
-and systemctl status works on qemuppc.<br>
+As per the included patch, this can be triggered by<br>
+(from connman 6to4.c):<br>
+=C2=A0 =C2=A0 include &lt;errno.h&gt;<br>
+=C2=A0 =C2=A0 include &lt;stdio.h&gt;<br>
+=C2=A0 =C2=A0 include &lt;stdlib.h&gt;<br>
+=C2=A0 =C2=A0 include &lt;string.h&gt;<br>
+=C2=A0 =C2=A0 include &lt;sys/socket.h&gt;<br>
+=C2=A0 =C2=A0 include &lt;netinet/in.h&gt;<br>
+=C2=A0 =C2=A0 include &lt;arpa/inet.h&gt;<br>
+=C2=A0 =C2=A0 include &lt;net/if.h&gt;<br>
+=C2=A0 =C2=A0 include &lt;linux/ip.h&gt;<br>
+=C2=A0 =C2=A0 include &lt;linux/if_tunnel.h&gt;<br>
+=C2=A0 =C2=A0 include &lt;linux/netlink.h&gt;<br>
+=C2=A0 =C2=A0 include &lt;linux/rtnetlink.h&gt;<br>
+=C2=A0 =C2=A0 include &lt;sys/ioctl.h&gt;<br>
+=C2=A0 =C2=A0 include &lt;unistd.h&gt;<br>
 <br>
-../Randy<br>
+In file included from ../git/src/6to4.c:34:0:<br>
+.../usr/include/linux/if.h:97:2: error: expected identifier before numeric =
+constant<br>
+=C2=A0 IFF_LOWER_UP=C2=A0 =C2=A0=3D 1&lt;&lt;16, /* __volatile__ */<br>
+=C2=A0 ^<br>
 <br>
-On 2017-06-21 10:14 PM, Randy MacLeod wrote:<br>
-&gt; If you enable systemd and build for qemuppc, then the<br>
-&gt; compile of systemd fails due to a gold linker failure:<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0.../powerpc-oe-linux-ld.gold:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0error: invalid STB_LOCAL symbol in external symbols=
+This is because at that time, IFF_LOWER_UP has been converted<br>
+to 0x10000 already:<br>
+enum net_device_flags {<br>
+=C2=A00x10000 =3D 1&lt;&lt;16,<br>
+=C2=A00x20000 =3D 1&lt;&lt;17,<br>
+=C2=A00x40000 =3D 1&lt;&lt;18,<br>
 <br>
-&gt;=C2=A0 =C2=A0 =C2=A0error: linker defined: multiple definition of &#39;=
-00000001.plt_call.memcpy+8000&#39;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0command line: previous definition here<br>
-&gt;<br>
-&gt; A git bisect confirms that the commit:<br>
-&gt;=C2=A0 =C2=A0 =C2=A00b0f545 binutils-2.28: Update to latest on release =
-branch<br>
-&gt; is the problem. This is only known to affect powerpc machines.<br>
-&gt;<br>
-&gt; Work-around this for powerpc by getting configure to use<br>
-&gt; the bfd linker rather than the gold linker.<br>
-&gt;<br>
-&gt; This unblocks powerpc use until the linker bug can be resolved.<br>
-&gt;<br>
-&gt; Signed-off-by: Randy MacLeod &lt;<a href=3D"mailto:Randy.MacLeod@windr=
-iver.com" target=3D"_blank">Randy.MacLeod@windriver.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 =C2=A0.../systemd/systemd/systemd-drop-gold-use-bfd.patch=C2=A0 =
-=C2=A0| 19 +++++++++++++++++++<br>
-&gt;=C2=A0 =C2=A0meta/recipes-core/systemd/<a href=3D"http://systemd_232.bb=
-" rel=3D"noreferrer" target=3D"_blank">systemd_232.bb</a>=C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 2 ++<br>
-&gt;=C2=A0 =C2=A02 files changed, 21 insertions(+)<br>
-&gt;=C2=A0 =C2=A0create mode 100644 meta/recipes-core/systemd/systemd/syste=
-md-drop-gold-use-bfd.patch<br>
-&gt;<br>
-&gt; diff --git a/meta/recipes-core/systemd/systemd/systemd-drop-gold-use-b=
-fd.patch b/meta/recipes-core/systemd/systemd/systemd-drop-gold-use-bfd.patc=
-h<br>
-&gt; new file mode 100644<br>
-&gt; index 0000000..e0eb0bd<br>
-&gt; --- /dev/null<br>
-&gt; +++ b/meta/recipes-core/systemd/systemd/systemd-drop-gold-use-bfd.patc=
-h<br>
-&gt; @@ -0,0 +1,19 @@<br>
-&gt; +Upstream-Status: Inappropriate [other]<br>
-&gt; +<br>
-&gt; +The patch is not appropriate for upstream since it&#39;s a temporary<=
-br>
-&gt; +work-around for only ppc arches. Once the binutils defect in the<br>
-&gt; +gold linker is resolved, this patch can be dropped.<br>
-&gt; +<br>
-&gt; +Signed-off-by: Randy MacLeod &lt;<a href=3D"mailto:Randy.MacLeod@wind=
-river.com" target=3D"_blank">Randy.MacLeod@windriver.com</a>&gt;<br>
-&gt; +<br>
-&gt; +--- a/<a href=3D"http://configure.ac" rel=3D"noreferrer" target=3D"_b=
-lank">configure.ac</a><br>
-&gt; ++++ b/<a href=3D"http://configure.ac" rel=3D"noreferrer" target=3D"_b=
-lank">configure.ac</a><br>
-&gt; +@@ -260,7 +260,7 @@<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-Wl,-z,relro \<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-Wl,-z,now \<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-pie \<br>
-&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 -Wl,-fuse-ld=3Dgold])<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 -Wl,-fuse-ld=3Dbfd])<br>
-&gt; + AC_SUBST([OUR_LDFLAGS], &quot;$with_ldflags $sanitizer_ldflags&quot;=
-)<br>
-&gt; +<br>
-&gt; + AC_CHECK_SIZEOF(pid_t)<br>
-&gt; diff --git a/meta/recipes-core/systemd/<a href=3D"http://systemd_232.b=
-b" rel=3D"noreferrer" target=3D"_blank">systemd_232.bb</a> b/meta/recipes-c=
-ore/systemd/<a href=3D"http://systemd_232.bb" rel=3D"noreferrer" target=3D"=
-_blank">systemd_232.bb</a><br>
-&gt; index 1007360..1e8dffe 100644<br>
-&gt; --- a/meta/recipes-core/systemd/<a href=3D"http://systemd_232.bb" rel=
-=3D"noreferrer" target=3D"_blank">systemd_232.bb</a><br>
-&gt; +++ b/meta/recipes-core/systemd/<a href=3D"http://systemd_232.bb" rel=
-=3D"noreferrer" target=3D"_blank">systemd_232.bb</a><br>
-&gt; @@ -41,6 +41,8 @@ SRC_URI_append_libc-uclibc =3D &quot;\<br>
-&gt;=C2=A0 =C2=A0&quot;<br>
-&gt;=C2=A0 =C2=A0SRC_URI_append_qemuall =3D &quot; file://0001-core-device.=
-c-Change-the-default-device-timeout-to-2.patch&quot;<br>
-&gt;<br>
-&gt; +SRC_URI_append_powerpc =3D &quot; file://systemd-drop-gold-use-bfd.pa=
-tch&quot;<br>
-&gt; +<br>
-&gt;=C2=A0 =C2=A0PACKAGECONFIG ??=3D &quot;xz \<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 ${@bb.utils.filter(&#39;DISTRO_FEATURES&#39;, &#39;efi pam selinux l=
-dconfig&#39;, d)} \<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 ${@bb.utils.contains(&#39;DISTRO_FEATURES&#39;, &#39;x11&#39;, &#39;=
-xkbcommon&#39;, &#39;&#39;, d)} \<br>
-&gt;<br>
+};<br>
 <br>
+By defining __UAPI_DEF_IF_NET_DEVICE_FLAGS_LOWER_UP_DORMANT_ECHO<br>
+to 0, we avoid the duplicated definition.<br>
 <br>
+Signed-off-by: Andr=C3=A9 Draszik &lt;<a href=3D"mailto:adraszik@tycoint.co=
+m" target=3D"_blank">adraszik@tycoint.com</a>&gt;<br>
+---<br>
+=C2=A0....h-musl-_does_-define-IFF_LOWER_UP-DORMAN.patch | 62 +++++++++++++=
++++++++++<br>
+=C2=A0.../linux-libc-headers/<a href=3D"http://linux-libc-headers_4.10.bb" =
+rel=3D"noreferrer" target=3D"_blank">linux-libc-headers_4.10.bb</a>=C2=A0 |=
+=C2=A0 1 +<br>
+=C2=A02 files changed, 63 insertions(+)<br>
+=C2=A0create mode 100644 meta/recipes-kernel/linux-libc-headers/linux-libc-=
+headers/0001-libc-compat.h-musl-_does_-define-IFF_LOWER_UP-DORMAN.patch<br>
+<br>
+diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0001=
+-libc-compat.h-musl-_does_-define-IFF_LOWER_UP-DORMAN.patch b/meta/recipes-=
+kernel/linux-libc-headers/linux-libc-headers/0001-libc-compat.h-musl-_does_=
+-define-IFF_LOWER_UP-DORMAN.patch<br>
+new file mode 100644<br>
+index 0000000000..fd1bb9edb8<br>
+--- /dev/null<br>
++++ b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0001-libc-c=
+ompat.h-musl-_does_-define-IFF_LOWER_UP-DORMAN.patch<br>
+@@ -0,0 +1,62 @@<br>
++From 08a04c025395b0580913285045f2af36ee0985db Mon Sep 17 00:00:00 2001<br>
++From: =3D?UTF-8?q?Andr=3DC3=3DA9=3D20Draszik?=3D &lt;<a href=3D"mailto:adr=
+aszik@tycoint.com" target=3D"_blank">adraszik@tycoint.com</a>&gt;<br>
++Date: Thu, 15 Jun 2017 16:55:33 +0100<br>
++Subject: [PATCH] libc-compat.h: musl _does_ define IFF_LOWER_UP DORMANT EC=
+HO<br>
++MIME-Version: 1.0<br>
++Content-Type: text/plain; charset=3DUTF-8<br>
++Content-Transfer-Encoding: 8bit<br>
++<br>
++To trigger this (from connman 6to4.c):<br>
++=C2=A0 =C2=A0 include &lt;errno.h&gt;<br>
++=C2=A0 =C2=A0 include &lt;stdio.h&gt;<br>
++=C2=A0 =C2=A0 include &lt;stdlib.h&gt;<br>
++=C2=A0 =C2=A0 include &lt;string.h&gt;<br>
++=C2=A0 =C2=A0 include &lt;sys/socket.h&gt;<br>
++=C2=A0 =C2=A0 include &lt;netinet/in.h&gt;<br>
++=C2=A0 =C2=A0 include &lt;arpa/inet.h&gt;<br>
++=C2=A0 =C2=A0 include &lt;net/if.h&gt;<br>
++=C2=A0 =C2=A0 include &lt;linux/ip.h&gt;<br>
++=C2=A0 =C2=A0 include &lt;linux/if_tunnel.h&gt;<br>
++=C2=A0 =C2=A0 include &lt;linux/netlink.h&gt;<br>
++=C2=A0 =C2=A0 include &lt;linux/rtnetlink.h&gt;<br>
++=C2=A0 =C2=A0 include &lt;sys/ioctl.h&gt;<br>
++=C2=A0 =C2=A0 include &lt;unistd.h&gt;<br>
++<br>
++In file included from ../git/src/6to4.c:34:0:<br>
++/scratch/yocto/build-tgm-r3-poky-fpp-tgm.pyro/tmp/work/tgm_r3-poky-linux-m=
+usl/connman/1.33-git4+AUTOINC+aa5b3dc12b-r0/recipe-sysroot/usr/include/linu=
+x/if.h:97:2: error: expected identifier before numeric constant<br>
++=C2=A0 IFF_LOWER_UP=C2=A0 =C2=A0=3D 1&lt;&lt;16, /* __volatile__ */<br>
++=C2=A0 ^<br>
++<br>
++This is because at that time, IFF_LOWER_UP has been converted<br>
++to 0x10000 already:<br>
++enum net_device_flags {<br>
++ 0x10000 =3D 1&lt;&lt;16,<br>
++ 0x20000 =3D 1&lt;&lt;17,<br>
++ 0x40000 =3D 1&lt;&lt;18,<br>
++<br>
++};<br>
++<br>
++Upstream-Status: Pending<br>
++Signed-off-by: Andr=C3=A9 Draszik &lt;<a href=3D"mailto:adraszik@tycoint.c=
+om" target=3D"_blank">adraszik@tycoint.com</a>&gt;<br>
++Acked-by: Stephane Ayotte &lt;<a href=3D"mailto:sayotte@tycoint.com" targe=
+t=3D"_blank">sayotte@tycoint.com</a>&gt;<br>
++---<br>
++ include/uapi/linux/libc-compat.h | 3 ++-<br>
++ 1 file changed, 2 insertions(+), 1 deletion(-)<br>
++<br>
++diff --git a/include/uapi/linux/libc-compat.h b/include/uapi/linux/libc-co=
+mpat.h<br>
++index f11ec0e..2003ae4 100644<br>
++--- a/include/uapi/linux/libc-compat.h<br>
+++++ b/include/uapi/linux/libc-compat.h<br>
++@@ -70,7 +70,8 @@<br>
++ #define __UAPI_DEF_IF_NET_DEVICE_FLAGS 0<br>
++ /* For the future if glibc adds IFF_LOWER_UP, IFF_DORMANT and IFF_ECHO */=
+<br>
++ #ifndef __UAPI_DEF_IF_NET_DEVICE_FLAGS_LOWER_UP_DORMANT_ECHO<br>
++-#define __UAPI_DEF_IF_NET_DEVICE_FLAGS_LOWER_UP_DORMANT_ECHO 1<br>
+++/* musl has these defined */<br>
+++#define __UAPI_DEF_IF_NET_DEVICE_FLAGS_LOWER_UP_DORMANT_ECHO 0<br>
++ #endif /* __UAPI_DEF_IF_NET_DEVICE_FLAGS_LOWER_UP_DORMANT_ECHO */<br>
++<br>
++ #else /* _NET_IF_H */<br>
++--<br>
++2.11.0<br>
++<br>
+diff --git a/meta/recipes-kernel/linux-libc-headers/<a href=3D"http://linux=
+-libc-headers_4.10.bb" rel=3D"noreferrer" target=3D"_blank">linux-libc-head=
+ers_4.10.bb</a> b/meta/recipes-kernel/linux-libc-headers/<a href=3D"http://=
+linux-libc-headers_4.10.bb" rel=3D"noreferrer" target=3D"_blank">linux-libc=
+-headers_4.10.bb</a><br>
+index 108446aa34..29262789a8 100644<br>
+--- a/meta/recipes-kernel/linux-libc-headers/<a href=3D"http://linux-libc-h=
+eaders_4.10.bb" rel=3D"noreferrer" target=3D"_blank">linux-libc-headers_4.1=
+0.bb</a><br>
++++ b/meta/recipes-kernel/linux-libc-headers/<a href=3D"http://linux-libc-h=
+eaders_4.10.bb" rel=3D"noreferrer" target=3D"_blank">linux-libc-headers_4.1=
+0.bb</a><br>
+@@ -4,6 +4,7 @@ SRC_URI_append_libc-musl =3D &quot;\<br>
+=C2=A0 =C2=A0 =C2=A0file://0001-libc-compat.h-fix-some-issues-arising-from-=
+in6.h.patch \<br>
+=C2=A0 =C2=A0 =C2=A0file://0002-libc-compat.h-prevent-redefinition-of-struc=
+t-ethhdr.patch \<br>
+=C2=A0 =C2=A0 =C2=A0file://0003-remove-inclusion-of-sysinfo.h-in-kernel.h.p=
+atch \<br>
++=C2=A0 =C2=A0 file://0001-libc-compat.h-musl-_does_-define-IFF_LOWER_UP-DO=
+RMAN.patch \<br>
+=C2=A0 =C2=A0 &quot;<br>
+<br>
+=C2=A0SRC_URI[md5sum] =3D &quot;b5e7f6b9b2fe1b6cc7bc56a3a0bfc090&quot;<br>
 --<br>
-# Randy MacLeod. SMTS, Linux, Wind River<br>
-Direct: 613.963.1350 | 350 Terry Fox Drive, Suite 200, Ottawa, ON,<br>
-Canada, K2K 2W5<br>
+2.11.0<br>
+<br>
 --<br>
 _______________________________________________<br>
 Openembedded-core mailing list<br>
@@ -292,4 +402,4 @@ k">Openembedded-core@lists.openembedded.org</a><br>
 n/listinfo/openembedded-core</a><br>
 </blockquote></div></div>
 
---94eb2c0edf7460cee2055293ec31--
+--94eb2c0da3a2466eae055293fc5e--
