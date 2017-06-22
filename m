@@ -1,24 +1,34 @@
-Return-Path: <Randy.MacLeod@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id C1C6B77DB3
+Return-Path: <fan.xin@jp.fujitsu.com>
+Received: from mgwym02.jp.fujitsu.com (mgwym02.jp.fujitsu.com [211.128.242.41])
+	by mail.openembedded.org (Postfix) with ESMTP id BD76977DB3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Jun 2017 02:23:15 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v5M2NFdN009088
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	Thu, 22 Jun 2017 02:28:55 +0000 (UTC)
+Received: from yt-mxq.gw.nic.fujitsu.com (unknown [192.168.229.66]) by
+	mgwym02.jp.fujitsu.com with smtp
+	id 5143_d9f7_84802bfb_b49e_4d80_9b5b_4fefc2ed863a;
+	Thu, 22 Jun 2017 11:28:52 +0900
+Received: from g01jpfmpwyt01.exch.g01.fujitsu.local
+	(g01jpfmpwyt01.exch.g01.fujitsu.local [10.128.193.38])
+	by yt-mxq.gw.nic.fujitsu.com (Postfix) with ESMTP id A79F3AC0090
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Jun 2017 19:23:16 -0700
-Received: from yow-rmacleod-lx3.wrs.com (128.224.56.85) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.294.0; Wed, 21 Jun 2017 19:23:15 -0700
-From: Randy MacLeod <Randy.MacLeod@windriver.com>
+	Thu, 22 Jun 2017 11:28:51 +0900 (JST)
+Received: from g01jpexchyt36.g01.fujitsu.local (unknown [10.128.193.4])
+	by g01jpfmpwyt01.exch.g01.fujitsu.local (Postfix) with ESMTP id
+	A09446D6611 for <openembedded-core@lists.openembedded.org>;
+	Thu, 22 Jun 2017 11:28:50 +0900 (JST)
+Received: from localhost.localdomain (10.24.19.99) by
+	g01jpexchyt36.g01.fujitsu.local (10.128.193.54) with Microsoft SMTP
+	Server id 14.3.266.1; Thu, 22 Jun 2017 11:28:50 +0900
+From: Fan Xin <fan.xin@jp.fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 21 Jun 2017 22:14:57 -0400
-Message-ID: <1498097697-12564-1-git-send-email-Randy.MacLeod@windriver.com>
-X-Mailer: git-send-email 2.7.4
+Date: Thu, 22 Jun 2017 11:30:17 +0900
+Message-ID: <1498098617-6855-1-git-send-email-fan.xin@jp.fujitsu.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Subject: [PATCH v2] systemd: work-around ppc gold linker error
+X-SecurityPolicyCheck-GC: OK by FENCE-Mail
+X-Encrypted: FENCE-Mail/3.1.1
+X-TM-AS-MML: disable
+Subject: [PATCH] libcroco: Upgrade 0.6.11 -> 0.6.12
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,71 +41,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Jun 2017 02:23:16 -0000
+X-List-Received-Date: Thu, 22 Jun 2017 02:28:56 -0000
 Content-Type: text/plain
 
-If you enable systemd and build for qemuppc, then the
-compile of systemd fails due to a gold linker failure:
-
-   .../powerpc-oe-linux-ld.gold:
-   error: invalid STB_LOCAL symbol in external symbols
-   error: linker defined: multiple definition of '00000001.plt_call.memcpy+8000'
-   command line: previous definition here
-
-A git bisect confirms that the commit:
-   0b0f545 binutils-2.28: Update to latest on release branch
-is the problem. This is only known to affect powerpc machines.
-
-Work-around this for powerpc by getting configure to use
-the bfd linker rather than the gold linker.
-
-This unblocks powerpc use until the linker bug can be resolved.
-
-Signed-off-by: Randy MacLeod <Randy.MacLeod@windriver.com>
+Signed-off-by: Fan Xin <fan.xin@jp.fujitsu.com>
 ---
- .../systemd/systemd/systemd-drop-gold-use-bfd.patch   | 19 +++++++++++++++++++
- meta/recipes-core/systemd/systemd_232.bb              |  2 ++
- 2 files changed, 21 insertions(+)
- create mode 100644 meta/recipes-core/systemd/systemd/systemd-drop-gold-use-bfd.patch
+ .../libcroco/{libcroco_0.6.11.bb => libcroco_0.6.12.bb}               | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-support/libcroco/{libcroco_0.6.11.bb => libcroco_0.6.12.bb} (81%)
 
-diff --git a/meta/recipes-core/systemd/systemd/systemd-drop-gold-use-bfd.patch b/meta/recipes-core/systemd/systemd/systemd-drop-gold-use-bfd.patch
-new file mode 100644
-index 0000000..e0eb0bd
---- /dev/null
-+++ b/meta/recipes-core/systemd/systemd/systemd-drop-gold-use-bfd.patch
-@@ -0,0 +1,19 @@
-+Upstream-Status: Inappropriate [other]
-+
-+The patch is not appropriate for upstream since it's a temporary
-+work-around for only ppc arches. Once the binutils defect in the
-+gold linker is resolved, this patch can be dropped.
-+
-+Signed-off-by: Randy MacLeod <Randy.MacLeod@windriver.com>
-+
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -260,7 +260,7 @@
-+         -Wl,-z,relro \
-+         -Wl,-z,now \
-+         -pie \
-+-        -Wl,-fuse-ld=gold])
-++        -Wl,-fuse-ld=bfd])
-+ AC_SUBST([OUR_LDFLAGS], "$with_ldflags $sanitizer_ldflags")
-+ 
-+ AC_CHECK_SIZEOF(pid_t)
-diff --git a/meta/recipes-core/systemd/systemd_232.bb b/meta/recipes-core/systemd/systemd_232.bb
-index 1007360..1e8dffe 100644
---- a/meta/recipes-core/systemd/systemd_232.bb
-+++ b/meta/recipes-core/systemd/systemd_232.bb
-@@ -41,6 +41,8 @@ SRC_URI_append_libc-uclibc = "\
- "
- SRC_URI_append_qemuall = " file://0001-core-device.c-Change-the-default-device-timeout-to-2.patch"
+diff --git a/meta/recipes-support/libcroco/libcroco_0.6.11.bb b/meta/recipes-support/libcroco/libcroco_0.6.12.bb
+similarity index 81%
+rename from meta/recipes-support/libcroco/libcroco_0.6.11.bb
+rename to meta/recipes-support/libcroco/libcroco_0.6.12.bb
+index 9df7923..b0af759 100644
+--- a/meta/recipes-support/libcroco/libcroco_0.6.11.bb
++++ b/meta/recipes-support/libcroco/libcroco_0.6.12.bb
+@@ -16,5 +16,5 @@ BINCONFIG = "${bindir}/croco-0.6-config"
  
-+SRC_URI_append_powerpc = " file://systemd-drop-gold-use-bfd.patch"
-+
- PACKAGECONFIG ??= "xz \
-                    ${@bb.utils.filter('DISTRO_FEATURES', 'efi pam selinux ldconfig', d)} \
-                    ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'xkbcommon', '', d)} \
+ inherit autotools pkgconfig gnomebase gtk-doc binconfig-disabled
+ 
+-SRC_URI[archive.md5sum] = "dabc1911dfbfa85f8e6859ca47863168"
+-SRC_URI[archive.sha256sum] = "132b528a948586b0dfa05d7e9e059901bca5a3be675b6071a90a90b81ae5a056"
++SRC_URI[archive.md5sum] = "bc0984fce078ba2ce29f9500c6b9ddce"
++SRC_URI[archive.sha256sum] = "ddc4b5546c9fb4280a5017e2707fbd4839034ed1aba5b7d4372212f34f84f860"
 -- 
 2.7.4
 
