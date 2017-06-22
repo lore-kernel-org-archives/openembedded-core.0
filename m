@@ -1,24 +1,43 @@
-Return-Path: <patrick@stwcx.xyz>
-X-Greylist: delayed 905 seconds by postgrey-1.34 at layers.openembedded.org;
-	Thu, 22 Jun 2017 05:30:45 UTC
-Received: from sender-of-o51.zoho.com (sender-of-o51.zoho.com [135.84.80.216])
-	by mail.openembedded.org (Postfix) with ESMTP id 9BE636B6EA
+Return-Path: <andre.draszik@gmail.com>
+Received: from mail-lf0-f67.google.com (mail-lf0-f67.google.com
+	[209.85.215.67])
+	by mail.openembedded.org (Postfix) with ESMTP id A422E77E58
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Jun 2017 05:30:45 +0000 (UTC)
-Received: from localhost (125.16.236.161 [125.16.236.161]) by mx.zohomail.com
-	with SMTPS id 1498108536614964.0406900554373;
-	Wed, 21 Jun 2017 22:15:36 -0700 (PDT)
-Date: Thu, 22 Jun 2017 00:15:24 -0500
-From: Patrick Williams <patrick@stwcx.xyz>
-To: openembedded-core@lists.openembedded.org
-Message-ID: <20170622051524.GB1200@asimov.in.ibm.com>
-MIME-Version: 1.0
-In-Reply-To: <1497645034-3917-1-git-send-email-lgonzalez@us.ibm.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-Zoho-Virus-Status: 1
-X-ZohoMailClient: External
-Cc: Leonel Gonzalez <lgonzalez@us.ibm.com>
-Subject: [PATCH v3] rng-tools: Add service file and systemd package config to rngd
+	Thu, 22 Jun 2017 08:24:58 +0000 (UTC)
+Received: by mail-lf0-f67.google.com with SMTP id u62so1167741lfg.0
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 22 Jun 2017 01:25:00 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=Zrxy//XzcevtwFEf00YVs/J2lVfxzTkpg8ZNkLQh++w=;
+	b=OxdrvgcPniE8jGzaiv5S6U5pmosdgceQWkU+YN3whpcrfamWvE8DHExGPlWCkf0ZS/
+	8lAfqO+uprx53g+I7ZDb8udGtx2TM7aTejh/U5Qqev8VsLLoHFbrzKO7JzvHkT5Q/MFD
+	c6xATcBsJhw+2eh6pp0TrWIuaXrKpOklo9XFpJ/0vfZ8OzKyohxb2XsTi79CkiT8Wjm+
+	uZteuUe4uXSPXDmP0I9kOymlMZ2xfAnz2B23Z6djshf+eTb8EtaflBI+JZm/8l81VdV5
+	gdkyiIiOG7tV+obPGhoaItI/awrHzWI0Vab4eGlWIBRVagihvRGBuIOgj8TndmNsfZIb
+	DeVw==
+X-Gm-Message-State: AKS2vOw8PdXl+Zw6ZJEjXalcgqMStseFhbWMRcNgF/sFFvK9q7aGE6NQ
+	2bFhvDpgO7H5CpAGFjm3Tw==
+X-Received: by 10.80.225.8 with SMTP id h8mr1716057edl.21.1498119899536;
+	Thu, 22 Jun 2017 01:24:59 -0700 (PDT)
+Received: from tfsielt31850 ([77.107.218.170])
+	by smtp.gmail.com with ESMTPSA id z31sm602039edd.17.2017.06.22.01.24.57
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Thu, 22 Jun 2017 01:24:57 -0700 (PDT)
+Message-ID: <1498119896.25895.13.camel@andred.net>
+From: =?ISO-8859-1?Q?Andr=E9?= Draszik <git@andred.net>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Thu, 22 Jun 2017 09:24:56 +0100
+In-Reply-To: <CAMKF1srvQxvQasFKo_Gc9eYO5KmCbnsEnTw34UhkvjnGK+fxqA@mail.gmail.com>
+References: <20170619101917.31865-1-git@andred.net>
+	<CAHiDW_FCUwov8fBMZMSs+yaDms6oNWMgSfua4LEW8JezntGrqA@mail.gmail.com>
+	<CAMKF1srvQxvQasFKo_Gc9eYO5KmCbnsEnTw34UhkvjnGK+fxqA@mail.gmail.com>
+X-Mailer: Evolution 3.22.6-1 
+Mime-Version: 1.0
+Subject: Re: [RFC][PATCH] tclibc-musl: use musl's virtual/gettext implementation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,49 +50,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Jun 2017 05:30:46 -0000
-X-Groupsio-MsgNum: 99218
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="cvVnyQ+4j833TQvp"
-Content-Disposition: inline
+X-List-Received-Date: Thu, 22 Jun 2017 08:25:00 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
---cvVnyQ+4j833TQvp
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Wed, 2017-06-21 at 12:27 +0000, Khem Raj wrote:
+> On Wed, Jun 21, 2017 at 6:27 AM Jussi Kukkonen <jussi.kukkonen@intel.com>
+> wrote:
+> 
+> > $ bitbake -k core-image-minimal core-image-full-cmdline core-image-sato
+> > world
+> > That seems to fail with musl on the autobuilder with "Nothing RPROVIDES
+> > 'gettext-runtime' "
+> > 
+> > 
+> > https://autobuilder.yocto.io/builders/nightly-musl/builds/313/steps/Buil
+> > dImages/logs/stdio
+> > 
+> 
+> Andre can you take care of adding it
 
-> Signed-off-by: Leonel Gonzalez <lgonzalez at us.ibm.com>
-> ---
->  meta/recipes-support/rng-tools/rng-tools/rngd.service |  8 ++++++++
->  meta/recipes-support/rng-tools/rng-tools_5.bb         | 17 +++++++++++++=
-++--
->  2 files changed, 23 insertions(+), 2 deletions(-)
->  create mode 100644 meta/recipes-support/rng-tools/rng-tools/rngd.service
+OK, I'll have a look. core-image-minimal works fine, the other targets
+require GPLv3 & X11, which might take me a few days to set up to reproduce.
 
-Reviewed-by: Patrick Williams <patrick@stwcx.xyz>
+Cheers,
+Andre'
 
---=20
-Patrick Williams
 
---cvVnyQ+4j833TQvp
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEBGD9ii4LE9cNbqJBqwNHzC0AwRkFAllLUmoACgkQqwNHzC0A
-wRndcA//TWpyEetWZ0cjdsXh8d5aqdkzYZNsEkGcD6gkDeo5Fgk4u6FN2JkYWqup
-eSrJDWSr7Ur6HuQfXSbCpE6kWA2GEQVepVVPp5hA4FUNWYKY1zu4okkRnXnneNX9
-gA/wkjiBoue8fgUFUOl5xtVfxCNfOLXpmIySFEiprciCUgeyb6SrnZEC2iNXjjwS
-aTO3aDPu2nLW9DbgnsNVxE9wKqwC7dV7ITwJx9lR2TYWILavqvpcHtJrLsVY4uws
-xJi1LWwHlkQIAUzuOOGv7yxe4EpZAjvBRf2L8E2vXc5pFQTbonAkszCnp0stEKZD
-kRCWRg63ZG/oGvj7qr7qgsaKaXELfkGn6/RU+vyE0Z2lRyTjdlbz/wy8uwN6DMxf
-GyLDkKddJmFpwR1OJtTU2hEBrZ5lWIHtquFATStHomGYpxu5qEP5fzxrvw0P/qLV
-zLQEZjsEFs2LFrtOmKNaBGkm1y3IQlFayqhQFzUb7W8R9vMbgb2+SULTAndM67Qc
-+dD6kY+C2Ed6Z5F1iZhePLu+hSCUS9kgnztNexc+toM1edpO7vsizwdqLrHrmOPQ
-bBs5dEvve6Xr2gQK5lMQ0ruuYSf5GjWki9At7uurNFuJzccuemZP2AN0PQTs9j4t
-rFD2Ku/GM4LPZPcaJ7JXkd2GSyPcoG0czXlqSd8xVUq4Pz/vAfk=
-=MKGL
------END PGP SIGNATURE-----
-
---cvVnyQ+4j833TQvp--
