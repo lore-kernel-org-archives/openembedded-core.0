@@ -1,47 +1,45 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qt0-f174.google.com (mail-qt0-f174.google.com
-	[209.85.216.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 43128600BB
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-wr0-f176.google.com (mail-wr0-f176.google.com
+	[209.85.128.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 37F3F77E50
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Jun 2017 21:51:45 +0000 (UTC)
-Received: by mail-qt0-f174.google.com with SMTP id u12so22554312qth.0
+	Thu, 22 Jun 2017 22:19:48 +0000 (UTC)
+Received: by mail-wr0-f176.google.com with SMTP id c11so41731616wrc.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Jun 2017 14:51:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=V+1w/NdzpLZvB4sWUDtm4oO4MbLoIPQiK6KNQX2jIZ8=;
-	b=aS7qsvVrjgih9Zmn1NBgVSrDA4VDNyK4fSTU6mlsnyDVvKj73ZVKy4WygHEej7T5Zd
-	iJ33q7oETZLMuwfyWSNl/wTN/+YtTSIrcaQGugsr+x5wbrdRNGQAwkbvWthLmZYkdzi6
-	iav+591v4kcyiaaJp0h6/tFBdlnI3D7dMlqUIKmiuBseikOtb3YRtC7Fto/KOUwFNJJw
-	iAIyWGrvRqTwd+mycxL0w54ynu4tf8rKp3SPUytPZ0eWjY1Dhk3qFA9trJr+cCbQXvFT
-	AW/6Z+7t3izdY2y1jy4A27MHeEf6b2IWfiozWhwM7DSqB4PfsE03KV2QpnhBp80hMNFS
-	dfzw==
+	Thu, 22 Jun 2017 15:19:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to; 
+	bh=SD+2pamrZHWrjjphwhyytitW27ED/pdP6ZeQ/KcyPQE=;
+	b=TlRlVZPdNCcXLIq+4jj4u9/ch8Vhm0Q/WIFT3GJWILj5N2h+gozMs/gzqwhBihWPmS
+	HYAxsGN1eNZovaRiEmLsKXO/6RJGEOne7cKFYa9SoyuucH46gIv9aNZA77Zw6xj6nw6z
+	OInK6x1O44REdZrpEbgPbkrs2/FwqQALF1e+giIiKELi2Yv+LnZeoDwMGaLtyTDGZp9+
+	svBSFmalWghXpRuuSkDyAGslaBfbMv69JK6JQxvtKRodCSOwT+jWT8ohhSZeeSftDwFk
+	a8x9ybowInZEXMOasnY4z7gPkbiHqeNaXIr5jOiZWx4+vrwjeYJKkPTms9ZHUi7D5Qnr
+	bGsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=V+1w/NdzpLZvB4sWUDtm4oO4MbLoIPQiK6KNQX2jIZ8=;
-	b=btFNNDD72m1Zh0G7dXeeEkynyvL0FM/WHivVTu4x+JMzOa0Gb1lRZbKV2azvx+HGrW
-	0mdQLBGPkuJWwh1k5rG++FJjjZiZqo8rdIb9Sz/V23xFunpU4KrAI2lJ0Ku/oMyOuVoz
-	bmFL3Y4YjUMh4u2xVs3ldvz9kIUsmiXNggb+XPUDe1GqONkjgnAfenZarev3H7gK+llV
-	euV/X/RMsIR1hfayldiI3KvTI35gsmRs4uBAKzUNZ7mUbWrl4T+yLVtY0IOyrhvU3dYl
-	seH2z3bDtXEEJbW0o4zuW8HnF/KylE4X3CMZlBBviofE5gHrVETLDpZyZjEgkGqXBvwz
-	MhXg==
-X-Gm-Message-State: AKS2vOw5snKYZy+2rwv6a1WSntbpl1I8vOmb3aHj46opksdInwhdbGwk
-	66eSW62v6+0fiVyfQw3UOdbOLIh6aG1p
-X-Received: by 10.200.45.221 with SMTP id q29mr5873831qta.177.1498168306798;
-	Thu, 22 Jun 2017 14:51:46 -0700 (PDT)
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to;
+	bh=SD+2pamrZHWrjjphwhyytitW27ED/pdP6ZeQ/KcyPQE=;
+	b=iaXTuxX6af/M9A+IT/b6uQUaSksTGecDLGGD4+dZSOamwEA9ZFZA4CzQuvsMGxXSLb
+	6yH16eMV5hd9MxYsOjXOkeTYnyZ5Pu5vg1CxYuSVhdGLRksY0VG0EiO+uRwh6bpXnPze
+	mFHEDeYRwa/nvIZzEXDJimai6ciGEeH1+FIAOOe9Agm+Owm/+o9QolUn9o1EcV7pZt51
+	+RC1tiBJCiIOC33FoVNgv2by4b/AvV1DofDOUh4EIQSjLqqu2E2LwTF/5beGqixMmfF6
+	9ljWP+9FCsC7WEXYr7XAtuCFnJOhm1pUhtxtz/2Kpxg8IGG7JoekjLY6UcU3imYvcBgb
+	VetA==
+X-Gm-Message-State: AKS2vOz19I8pS0XrSkooa7vl4PItpT3lkRIgl8j1vUmNniFvLpBTiyrT
+	LDfqZLZQ4lDJnuOEkQd7snPjv6PS9g==
+X-Received: by 10.80.154.129 with SMTP id p1mr4020805edb.131.1498169989629;
+	Thu, 22 Jun 2017 15:19:49 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.140.35.103 with HTTP; Thu, 22 Jun 2017 14:51:26 -0700 (PDT)
-In-Reply-To: <20170622104209.260f4563@loki02>
-References: <20170622104209.260f4563@loki02>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 22 Jun 2017 22:51:26 +0100
-Message-ID: <CAJTo0LbmHft+JXd7ce7r3JCza4G182D4Hnt78hU89DO+TYCNDQ@mail.gmail.com>
-To: Adam Trhon <adam.trhon@tbs-biometrics.com>
-Cc: Openembedded Core <openembedded-core@lists.openembedded.org>
-Subject: Re: how to load cmake args from git?
+References: <1498093514-5501-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+In-Reply-To: <1498093514-5501-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 22 Jun 2017 22:19:37 +0000
+Message-ID: <CAMKF1srN1h3fU9ko=jVNfQCe-D_H6D1z721VGyBdBXcz9zb39Q@mail.gmail.com>
+To: openembedded-core@lists.openembedded.org, 
+	zhengrq <zhengrq.fnst@cn.fujitsu.com>
+Subject: Re: [PATCH v2] (jethro) rpm: Fix the Bug of SRPM String error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,62 +52,308 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Jun 2017 21:51:53 -0000
-Content-Type: multipart/alternative; boundary="001a114516d0bde4af0552937da9"
+X-List-Received-Date: Thu, 22 Jun 2017 22:19:49 -0000
+Content-Type: multipart/alternative; boundary="f403045c27740b8f12055293e2ba"
 
---001a114516d0bde4af0552937da9
+--f403045c27740b8f12055293e2ba
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 22 June 2017 at 09:42, Adam Trhon <adam.trhon@tbs-biometrics.com> wrote:
+On Wed, Jun 21, 2017 at 9:06 PM zhengrq <zhengrq.fnst@cn.fujitsu.com> wrote=
+:
 
-> but I am not very happy about using PACKAGECONFIG_CONFARGS - it feels
-> hacky, the
-> arguments are not shown in cmake fail log and it cannot handle argumetns
-> containing
-> spaces. Is there a cleaner way to achieve this?
+> Add a patch 0001-Fix-the-Bug-of-SRPM-String-error.patch to fix SRPM bug
+>
+> When use bitbake to build a SRPM package, some sections of SRPM can't be
+> displayed normally.
+> For example:
+> $ rpm -qpi zlib-1.2.8-r0.src.rpm
+> warning: zlib-1.2.8-r0.src.rpm: Header V4 DSA/SHA1 Signature, key ID
+> e64962a6: NOKEY
+> Name        : zlib
+> Version     : 1.2.8
+> Release     : r0
+> Architecture: i586
+> Install Date: (not installed)
+> Group       : =EF=BA=A9
+> Size        : 633007
+> License     : Zlib
+> Signature   : DSA/SHA1, 2017=E5=B9=B404=E6=9C=8822=E6=97=A5 00=E6=99=8238=
+=E5=88=8603=E7=A7=92, Key ID bc5e0520e64962a6
+> Source RPM  : (none)
+> Build Date  : 2017=E5=B9=B404=E6=9C=8822=E6=97=A5 00=E6=99=8238=E5=88=860=
+3=E7=A7=92
+> Build Host  : force
+> Relocations : (not relocatable)
+> Packager    : Poky <poky@yoctoproject.org>
+> URL         : http://zlib.net/
+> Summary     : =C2=A8=C2=AF
+> Description :
+
+
+We need to get rid of special chsrtacters in commit message
+
+>
+> =EF=BA=A9
+>
+> Signed-off-by: zhengrq <zhengrq.fnst@cn.fujitsu.com>
+> ---
+>  .../0001-Fix-the-Bug-of-SRPM-String-error.patch    | 48
+> ++++++++++++++++++++++
+>  meta/recipes-devtools/rpm/rpm_5.4.14.bb            |  1 +
+>  2 files changed, 49 insertions(+)
+>  create mode 100644
+> meta/recipes-devtools/rpm/rpm/0001-Fix-the-Bug-of-SRPM-String-error.patch
+>
+> diff --git
+> a/meta/recipes-devtools/rpm/rpm/0001-Fix-the-Bug-of-SRPM-String-error.pat=
+ch
+> b/meta/recipes-devtools/rpm/rpm/0001-Fix-the-Bug-of-SRPM-String-error.pat=
+ch
+> new file mode 100644
+> index 0000000..b962617
+> --- /dev/null
+> +++
+> b/meta/recipes-devtools/rpm/rpm/0001-Fix-the-Bug-of-SRPM-String-error.pat=
+ch
+> @@ -0,0 +1,48 @@
+> +Subject: [PATCH] Fix the Bug of SRPM String error
+> +
+> +Upstream-Status: Pending
+> +$ rpm -qpi zlib-1.2.8-r0.src.rpm
+> +warning: zlib-1.2.8-r0.src.rpm: Header V4 DSA/SHA1 Signature, key ID
+> e64962a6: NOKEY
+> +Name        : zlib
+> +Version     : 1.2.8
+> +Release     : r0
+> +Architecture: i586
+> +Install Date: (not installed)
+> +Group       : =EF=BA=A9
+> +Size        : 633007
+> +License     : Zlib
+> +Signature   : DSA/SHA1, 2017=E5=B9=B404=E6=9C=8822=E6=97=A5 00=E6=99=823=
+8=E5=88=8603=E7=A7=92, Key ID bc5e0520e64962a6
+> +Source RPM  : (none)
+> +Build Date  : 2017=E5=B9=B404=E6=9C=8822=E6=97=A5 00=E6=99=8238=E5=88=86=
+03=E7=A7=92
+> +Build Host  : force
+> +Relocations : (not relocatable)
+> +Packager    : Poky <poky@yoctoproject.org>
+> +URL         : http://zlib.net/
+> +Summary     : =C2=A8=C2=AF
+> +Description :
+> +=EF=BA=A9
+> +
+> +Signed-off-by: zhengrq <zhengrq.fnst@cn.fujitsu.com>
+> +---
+> + rpmdb/tagname.c | 4 ++--
+> + 1 file changed, 2 insertions(+), 2 deletions(-)
+> +
+> +diff --git a/rpmdb/tagname.c b/rpmdb/tagname.c
+> +index cfd1459..dbcafd1 100644
+> +--- a/rpmdb/tagname.c
+> ++++ b/rpmdb/tagname.c
+> +@@ -518,9 +518,9 @@ tagStore_t tagStoreFree(tagStore_t dbiTags, size_t
+> dbiNTags)
+> + void tagTypeValidate(HE_t he);
+> + void tagTypeValidate(HE_t he)
+> + {
+> +-    /* XXX Re-map RPM_I18NSTRING_TYPE -> RPM_STRING_TYPE */
+> ++    /* XXX RPM_I18NSTRING_TYPE is treated as strings. */
+> +     if (he->t =3D=3D RPM_I18NSTRING_TYPE)
+> +-      he->t =3D RPM_STRING_TYPE;
+> ++      return;
+> +
+> +     /* XXX Arbitrary tags are always strings. */
+> +     if ((he->tag & 0x40000000)
+> +--
+> +2.7.4
+> +
+> diff --git a/meta/recipes-devtools/rpm/rpm_5.4.14.bb
+> b/meta/recipes-devtools/rpm/rpm_5.4.14.bb
+> index 73b3734..f8bdfe9 100644
+> --- a/meta/recipes-devtools/rpm/rpm_5.4.14.bb
+> +++ b/meta/recipes-devtools/rpm/rpm_5.4.14.bb
+> @@ -100,6 +100,7 @@ SRC_URI =3D "
+> http://www.rpm5.org/files/rpm/rpm-5.4/rpm-5.4.14-0.20131024.src.rpm;e
+>            file://rpm-macros.in-disable-external-key-server.patch \
+>            file://rpm-opendb-before-verifyscript-to-avoid-null-point.patc=
+h
+> \
+>            file://configure.ac-check-for-both-gpg2-and-gpg.patch \
+> +          file://0001-Fix-the-Bug-of-SRPM-String-error.patch \
+>           "
+>
+>  # Uncomment the following line to enable platform score debugging
+> --
+> 2.7.4
+>
+>
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 >
 
-Definitely don't use PACKAGECONFIG_CONFARGS: that has a well defined
-meaning and use, and that isn't it.
-
-I don't see why as you control the repository why can't you just set the
-arguments in cmakelists, or the recipe itself?  Either they're useful
-everywhere (cmakelists) or in OE builds (recipe).
-
-Anyway, you could do something like this:
-
-python() {
-  d.appendVar("EXTRA_OECMAKE", " " +
-open(d.expand("${S}/oe_arguments.txt")).read()
-}
-
-Ross
-
---001a114516d0bde4af0552937da9
+--f403045c27740b8f12055293e2ba
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 22 June 2017 at 09:42, Adam Trhon <span dir=3D"ltr">&lt;<a href=3D"mailt=
-o:adam.trhon@tbs-biometrics.com" target=3D"_blank">adam.trhon@tbs-biometric=
-s.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"m=
-argin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":3=
-pe" class=3D"a3s aXjCH m15cd172facb50c68">but I am not very happy about usi=
-ng PACKAGECONFIG_CONFARGS - it feels hacky, the<br>
-arguments are not shown in cmake fail log and it cannot handle argumetns co=
-ntaining<br>
-spaces. Is there a cleaner way to achieve this?<br></div></blockquote></div=
-><br>Definitely don&#39;t use PACKAGECONFIG_CONFARGS: that has a well defin=
-ed meaning and use, and that isn&#39;t it.</div><div class=3D"gmail_extra">=
-<br></div><div class=3D"gmail_extra">I don&#39;t see why as you control the=
- repository why can&#39;t you just set the arguments in cmakelists, or the =
-recipe itself?=C2=A0 Either they&#39;re useful everywhere (cmakelists) or i=
-n OE builds (recipe).</div><div class=3D"gmail_extra"><br></div><div class=
-=3D"gmail_extra">Anyway, you could do something like this:</div><div class=
-=3D"gmail_extra"><br></div><div class=3D"gmail_extra">python() {</div><div =
-class=3D"gmail_extra">=C2=A0 d.appendVar(&quot;EXTRA_OECMAKE&quot;, &quot; =
-&quot; + open(d.expand(&quot;${S}/oe_arguments.txt&quot;)).read()</div><div=
- class=3D"gmail_extra">}</div><div class=3D"gmail_extra"><br></div><div cla=
-ss=3D"gmail_extra">Ross</div></div>
+<div><br><div class=3D"gmail_quote"><div dir=3D"auto">On Wed, Jun 21, 2017 =
+at 9:06 PM zhengrq &lt;<a href=3D"mailto:zhengrq.fnst@cn.fujitsu.com">zheng=
+rq.fnst@cn.fujitsu.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_q=
+uote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1e=
+x">Add a patch 0001-Fix-the-Bug-of-SRPM-String-error.patch to fix SRPM bug<=
+br>
+<br>
+When use bitbake to build a SRPM package, some sections of SRPM can&#39;t b=
+e displayed normally.<br>
+For example:<br>
+$ rpm -qpi zlib-1.2.8-r0.src.rpm<br>
+warning: zlib-1.2.8-r0.src.rpm: Header V4 DSA/SHA1 Signature, key ID e64962=
+a6: NOKEY<br>
+Name=C2=A0 =C2=A0 =C2=A0 =C2=A0 : zlib<br>
+Version=C2=A0 =C2=A0 =C2=A0: 1.2.8<br>
+Release=C2=A0 =C2=A0 =C2=A0: r0<br>
+Architecture: i586<br>
+Install Date: (not installed)<br>
+Group=C2=A0 =C2=A0 =C2=A0 =C2=A0: =EF=BA=A9<br>
+Size=C2=A0 =C2=A0 =C2=A0 =C2=A0 : 633007<br>
+License=C2=A0 =C2=A0 =C2=A0: Zlib<br>
+Signature=C2=A0 =C2=A0: DSA/SHA1, 2017=E5=B9=B404=E6=9C=8822=E6=97=A5 00=E6=
+=99=8238=E5=88=8603=E7=A7=92, Key ID bc5e0520e64962a6<br>
+Source RPM=C2=A0 : (none)<br>
+Build Date=C2=A0 : 2017=E5=B9=B404=E6=9C=8822=E6=97=A5 00=E6=99=8238=E5=88=
+=8603=E7=A7=92<br>
+Build Host=C2=A0 : force<br>
+Relocations : (not relocatable)<br>
+Packager=C2=A0 =C2=A0 : Poky &lt;<a href=3D"mailto:poky@yoctoproject.org" t=
+arget=3D"_blank">poky@yoctoproject.org</a>&gt;<br>
+URL=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0: <a href=3D"http://zlib.net/" rel=3D"=
+noreferrer" target=3D"_blank">http://zlib.net/</a><br>
+Summary=C2=A0 =C2=A0 =C2=A0: =C2=A8=C2=AF<br>
+Description :</blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">We =
+need to get rid of special chsrtacters in commit message=C2=A0</div><blockq=
+uote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc =
+solid;padding-left:1ex"><br>
+=EF=BA=A9<br>
+<br>
+Signed-off-by: zhengrq &lt;<a href=3D"mailto:zhengrq.fnst@cn.fujitsu.com" t=
+arget=3D"_blank">zhengrq.fnst@cn.fujitsu.com</a>&gt;<br>
+---<br>
+=C2=A0.../0001-Fix-the-Bug-of-SRPM-String-error.patch=C2=A0 =C2=A0 | 48 +++=
++++++++++++++++++++<br>
+=C2=A0meta/recipes-devtools/rpm/<a href=3D"http://rpm_5.4.14.bb" rel=3D"nor=
+eferrer" target=3D"_blank">rpm_5.4.14.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 |=C2=A0 1 +<br>
+=C2=A02 files changed, 49 insertions(+)<br>
+=C2=A0create mode 100644 meta/recipes-devtools/rpm/rpm/0001-Fix-the-Bug-of-=
+SRPM-String-error.patch<br>
+<br>
+diff --git a/meta/recipes-devtools/rpm/rpm/0001-Fix-the-Bug-of-SRPM-String-=
+error.patch b/meta/recipes-devtools/rpm/rpm/0001-Fix-the-Bug-of-SRPM-String=
+-error.patch<br>
+new file mode 100644<br>
+index 0000000..b962617<br>
+--- /dev/null<br>
++++ b/meta/recipes-devtools/rpm/rpm/0001-Fix-the-Bug-of-SRPM-String-error.p=
+atch<br>
+@@ -0,0 +1,48 @@<br>
++Subject: [PATCH] Fix the Bug of SRPM String error<br>
++<br>
++Upstream-Status: Pending<br>
++$ rpm -qpi zlib-1.2.8-r0.src.rpm<br>
++warning: zlib-1.2.8-r0.src.rpm: Header V4 DSA/SHA1 Signature, key ID e6496=
+2a6: NOKEY<br>
++Name=C2=A0 =C2=A0 =C2=A0 =C2=A0 : zlib<br>
++Version=C2=A0 =C2=A0 =C2=A0: 1.2.8<br>
++Release=C2=A0 =C2=A0 =C2=A0: r0<br>
++Architecture: i586<br>
++Install Date: (not installed)<br>
++Group=C2=A0 =C2=A0 =C2=A0 =C2=A0: =EF=BA=A9<br>
++Size=C2=A0 =C2=A0 =C2=A0 =C2=A0 : 633007<br>
++License=C2=A0 =C2=A0 =C2=A0: Zlib<br>
++Signature=C2=A0 =C2=A0: DSA/SHA1, 2017=E5=B9=B404=E6=9C=8822=E6=97=A5 00=
+=E6=99=8238=E5=88=8603=E7=A7=92, Key ID bc5e0520e64962a6<br>
++Source RPM=C2=A0 : (none)<br>
++Build Date=C2=A0 : 2017=E5=B9=B404=E6=9C=8822=E6=97=A5 00=E6=99=8238=E5=88=
+=8603=E7=A7=92<br>
++Build Host=C2=A0 : force<br>
++Relocations : (not relocatable)<br>
++Packager=C2=A0 =C2=A0 : Poky &lt;<a href=3D"mailto:poky@yoctoproject.org" =
+target=3D"_blank">poky@yoctoproject.org</a>&gt;<br>
++URL=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0: <a href=3D"http://zlib.net/" rel=3D=
+"noreferrer" target=3D"_blank">http://zlib.net/</a><br>
++Summary=C2=A0 =C2=A0 =C2=A0: =C2=A8=C2=AF<br>
++Description :<br>
++=EF=BA=A9<br>
++<br>
++Signed-off-by: zhengrq &lt;<a href=3D"mailto:zhengrq.fnst@cn.fujitsu.com" =
+target=3D"_blank">zhengrq.fnst@cn.fujitsu.com</a>&gt;<br>
++---<br>
++ rpmdb/tagname.c | 4 ++--<br>
++ 1 file changed, 2 insertions(+), 2 deletions(-)<br>
++<br>
++diff --git a/rpmdb/tagname.c b/rpmdb/tagname.c<br>
++index cfd1459..dbcafd1 100644<br>
++--- a/rpmdb/tagname.c<br>
+++++ b/rpmdb/tagname.c<br>
++@@ -518,9 +518,9 @@ tagStore_t tagStoreFree(tagStore_t dbiTags, size_t dbi=
+NTags)<br>
++ void tagTypeValidate(HE_t he);<br>
++ void tagTypeValidate(HE_t he)<br>
++ {<br>
++-=C2=A0 =C2=A0 /* XXX Re-map RPM_I18NSTRING_TYPE -&gt; RPM_STRING_TYPE */<=
+br>
+++=C2=A0 =C2=A0 /* XXX RPM_I18NSTRING_TYPE is treated as strings. */<br>
++=C2=A0 =C2=A0 =C2=A0if (he-&gt;t =3D=3D RPM_I18NSTRING_TYPE)<br>
++-=C2=A0 =C2=A0 =C2=A0 he-&gt;t =3D RPM_STRING_TYPE;<br>
+++=C2=A0 =C2=A0 =C2=A0 return;<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0/* XXX Arbitrary tags are always strings. */<br>
++=C2=A0 =C2=A0 =C2=A0if ((he-&gt;tag &amp; 0x40000000)<br>
++--<br>
++2.7.4<br>
++<br>
+diff --git a/meta/recipes-devtools/rpm/<a href=3D"http://rpm_5.4.14.bb" rel=
+=3D"noreferrer" target=3D"_blank">rpm_5.4.14.bb</a> b/meta/recipes-devtools=
+/rpm/<a href=3D"http://rpm_5.4.14.bb" rel=3D"noreferrer" target=3D"_blank">=
+rpm_5.4.14.bb</a><br>
+index 73b3734..f8bdfe9 100644<br>
+--- a/meta/recipes-devtools/rpm/<a href=3D"http://rpm_5.4.14.bb" rel=3D"nor=
+eferrer" target=3D"_blank">rpm_5.4.14.bb</a><br>
++++ b/meta/recipes-devtools/rpm/<a href=3D"http://rpm_5.4.14.bb" rel=3D"nor=
+eferrer" target=3D"_blank">rpm_5.4.14.bb</a><br>
+@@ -100,6 +100,7 @@ SRC_URI =3D &quot;<a href=3D"http://www.rpm5.org/files/=
+rpm/rpm-5.4/rpm-5.4.14-0.20131024.src.rpm;e" rel=3D"noreferrer" target=3D"_=
+blank">http://www.rpm5.org/files/rpm/rpm-5.4/rpm-5.4.14-0.20131024.src.rpm;=
+e</a><br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://rpm-macros.in-disable-exter=
+nal-key-server.patch \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://rpm-opendb-before-verifyscr=
+ipt-to-avoid-null-point.patch \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://configure.ac-check-for-both=
+-gpg2-and-gpg.patch \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0001-Fix-the-Bug-of-SRPM-String-=
+error.patch \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<br>
+<br>
+=C2=A0# Uncomment the following line to enable platform score debugging<br>
+--<br>
+2.7.4<br>
+<br>
+<br>
+<br>
+--<br>
+_______________________________________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
+k">Openembedded-core@lists.openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
+n/listinfo/openembedded-core</a><br>
+</blockquote></div></div>
 
---001a114516d0bde4af0552937da9--
+--f403045c27740b8f12055293e2ba--
