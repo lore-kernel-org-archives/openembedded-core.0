@@ -1,47 +1,50 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f176.google.com (mail-qk0-f176.google.com
-	[209.85.220.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 787B771B86
+Received: from mail-qk0-f174.google.com (mail-qk0-f174.google.com
+	[209.85.220.174])
+	by mail.openembedded.org (Postfix) with ESMTP id D5B5C6FFEF
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Jun 2017 12:28:42 +0000 (UTC)
-Received: by mail-qk0-f176.google.com with SMTP id p21so10445314qke.3
+	Thu, 22 Jun 2017 12:38:34 +0000 (UTC)
+Received: by mail-qk0-f174.google.com with SMTP id r62so10691061qkf.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Jun 2017 05:28:43 -0700 (PDT)
+	Thu, 22 Jun 2017 05:38:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=rEg+uaDe1M61uDQTrsRkBy+SWau0CZ3Oz+dLYmS3qo8=;
-	b=G118aP8jYAdKXBOr9D9UR1nd8STuam4KENLwMRi8PuWzkD8FMfG4IojfKWgcDPB/CA
-	gAwytKgpNH7aYSrb8PAOwla0TxgM+t3vGJb4s07QNVmsVAqQSEeNbfL5NSotwZUKKKb7
-	pwcLtI28xj0ND/BFRIQPHXCzAD/6UANOIBoovqYEir6NM5US6yv9GPR/KyDVoWnPkjz8
-	ZqsHwqsP3OwoTDSBSie1HAsY5qhFPF2VuruEVWmHcgEH1/hsfi25J5kTjzoICCZ0Z4MX
-	9C536+L54/6ug7PLhm/+MRafS8PaRGb+Hgq//SiHzSjkPfHGdPtqGb2jbE2vvzTXxT4V
-	Uoeg==
+	:cc; bh=fDBYtT8HhOltb26YblC3km8h/pMAYvF3/SKW4n+XvYE=;
+	b=GvQ+OgQuEiX9+zVEwFpEt+QMgwg3R+Tl0DeiJJPjtyWuNaN3ikxvIqqq6OnGP/b5bV
+	jjMG5AUDeHmk6uuPuOJA8AqSQY187UTpZ8g52apnhlAnhVbjBAqqKEMFxPDMY1tN384+
+	elviIWXB0UTlGhDcJEbvFP7OuVj9n9DcU5/VoeXkqD+Fq7lQZ7WSNcB9HfQW17IkCOGg
+	SV/ViA+jDOq9O7bpxQvFd6hRXlRBZY1Cs7SEkqN1FHWETBc+cs6NO7PgRl/fhJpcWNbJ
+	XQhYAjqE0xCJBZekxmlSZM412SiV7j8ZwSKnpARV67OORyFP+B9xdxINW9ZmTD8IHvRo
+	zQbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=rEg+uaDe1M61uDQTrsRkBy+SWau0CZ3Oz+dLYmS3qo8=;
-	b=psOZbtMG5zgG0snyg+sPcPk9MRaugPYSb0KJUlZR2uGa47zoPXnJSLri1DFQa8L/Cm
-	a6CUgNcuAtjG6DDl0ltqlSGfxYanUg64oYT6mKCuswAQDorlesZW2jQ+5JjIEw2ky0YN
-	aZkFtzVshAbFO7WdHUsYH+ZQLoDwH7/skcnMtyOWTAz7nyLl1l70nPiWqJsdQ3D9EqMn
-	CV81dKcYBxfbu5ZuAihYuMk5j5AMcCN2q8zA37+kE/1iSZZC+fdgzfWCuCa/7dspnebb
-	YufN3yDgRn9vDlto2ktdhSLsN+e+fLyzowTw42BaObIFGaHwET0FTQnVXJM9BkxP8+Bu
-	DKHw==
-X-Gm-Message-State: AKS2vOwfWS7uZzAyisAcMmeGMURJdt4bhqFqjHDp5p/PYF2aaaCkAU3z
-	Ra0foBFmGJfCsd4Quj+EOjWGlSablskK
-X-Received: by 10.55.102.84 with SMTP id a81mr2458517qkc.154.1498134523433;
-	Thu, 22 Jun 2017 05:28:43 -0700 (PDT)
+	bh=fDBYtT8HhOltb26YblC3km8h/pMAYvF3/SKW4n+XvYE=;
+	b=geHlbglXuN2uJLbv9XApdq1A5bchCFEJFfTzUXnW/Yq9iQkIw18kmksN732Gxr3h3k
+	F+EYZ8UOynIFiGMAu6U/3L1SSj8EOguU8GsWc+/aHxFUIWpDrvpHY4bGgHnbGKOXjpsw
+	/7Ll3e+rsehvd3F6I1ctbj13zrVS9DQ28zCnR8u2WUSCdKPqdcDlK4LKv/nhCmYJbNeI
+	9yVDS/Aed4NkACQWiMZ9xvNfhQ3n5lNry3gevTbRqKuQlm5EV91sDZl+RpCrlHZ64fJs
+	Fn16Fntj85BTItR/PxKVOIlBEKfUZCvw0cZav6HyX+rKAzl309Ddb9Y0fjUVi4Hocs2U
+	UW7g==
+X-Gm-Message-State: AKS2vOybQ0rXJlvTzuNzNSD1ekdpkGilKYbcSDtkj5h/66hDpJNpqRZY
+	T8CRvQiT40CAtNJ9EDmT4fRu/gQ+1PJA
+X-Received: by 10.55.31.162 with SMTP id n34mr2420865qkh.46.1498135115536;
+	Thu, 22 Jun 2017 05:38:35 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.140.35.103 with HTTP; Thu, 22 Jun 2017 05:28:23 -0700 (PDT)
-In-Reply-To: <1497645034-3917-1-git-send-email-lgonzalez@us.ibm.com>
-References: <1497645034-3917-1-git-send-email-lgonzalez@us.ibm.com>
+Received: by 10.140.35.103 with HTTP; Thu, 22 Jun 2017 05:38:15 -0700 (PDT)
+In-Reply-To: <20170620124824.ndyxisbbwhqt6fn5@hiutale>
+References: <20170601125029.wli6reydiovo7xjk@hiutale>
+	<1496332394-6615-1-git-send-email-mikko.rapeli@bmw.de>
+	<20170620124824.ndyxisbbwhqt6fn5@hiutale>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 22 Jun 2017 13:28:23 +0100
-Message-ID: <CAJTo0LYQofRmeO+-BAb+VZGQ7AUJvwdvBt4YYJJNy1cJVskquQ@mail.gmail.com>
-To: Leonel Gonzalez <lgonzalez@us.ibm.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v3] rng-tools: Add service file and systemd package config to rngd
+Date: Thu, 22 Jun 2017 13:38:15 +0100
+Message-ID: <CAJTo0LZDtOq9_s=+NjGzZ6Y_V=1WQZK9V=fgqCx3pJmF6WXiiw@mail.gmail.com>
+To: Mikko Rapeli <Mikko.Rapeli@bmw.de>
+Cc: Poky Project <poky@yoctoproject.org>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [poky] [PATCH 3/3 v2] meta: Fix return value checks from subprocess.call()'s
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,36 +57,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Jun 2017 12:28:44 -0000
-Content-Type: multipart/alternative; boundary="94eb2c05760e18690305528ba0ad"
+X-List-Received-Date: Thu, 22 Jun 2017 12:38:36 -0000
+Content-Type: multipart/alternative; boundary="001a1147e5f8632e8705528bc3b2"
 
---94eb2c05760e18690305528ba0ad
+--001a1147e5f8632e8705528bc3b2
 Content-Type: text/plain; charset="UTF-8"
 
-On 16 June 2017 at 21:30, Leonel Gonzalez <lgonzalez@us.ibm.com> wrote:
+On 20 June 2017 at 13:48, <Mikko.Rapeli@bmw.de> wrote:
 
-> +PACKAGECONFIG[systemd] = "--with-systemd=${systemd_
-> unitdir}/system,--without-systemd,systemd"
+> The bitbake and scripts parts from this patch series were merged already,
+> but
+> this not.
+>
+> Are there problems with this patch?
 >
 
-Wouldn't you want this to respect the DISTRO_FEATURE so its enabled in
-systemd environments?
+Sorry, didn't get around to replying.  It doesn't apply to master, can you
+rebase please?
 
+Cheers,
 Ross
 
---94eb2c05760e18690305528ba0ad
+--001a1147e5f8632e8705528bc3b2
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 16 June 2017 at 21:30, Leonel Gonzalez <span dir=3D"ltr">&lt;<a href=3D"=
-mailto:lgonzalez@us.ibm.com" target=3D"_blank">lgonzalez@us.ibm.com</a>&gt;=
-</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .=
-8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":2fa" class=3D"=
-a3s aXjCH m15cb29a46a3204cd">+PACKAGECONFIG[systemd] =3D &quot;--with-syste=
-md=3D${systemd_<wbr>unitdir}/system,--without-<wbr>systemd,systemd&quot;<br=
-></div></blockquote></div><br>Wouldn&#39;t you want this to respect the DIS=
-TRO_FEATURE so its enabled in systemd environments?</div><div class=3D"gmai=
-l_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+On 20 June 2017 at 13:48,  <span dir=3D"ltr">&lt;<a href=3D"mailto:Mikko.Ra=
+peli@bmw.de" target=3D"_blank">Mikko.Rapeli@bmw.de</a>&gt;</span> wrote:<br=
+><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1=
+px #ccc solid;padding-left:1ex"><div id=3D":3c7" class=3D"a3s aXjCH m15cc58=
+c83867c775">The bitbake and scripts parts from this patch series were merge=
+d already, but<br>
+this not.<br>
+<br>
+Are there problems with this patch?<br></div></blockquote></div><br>Sorry, =
+didn&#39;t get around to replying.=C2=A0 It doesn&#39;t apply to master, ca=
+n you rebase please?</div><div class=3D"gmail_extra"><br></div><div class=
+=3D"gmail_extra">Cheers,</div><div class=3D"gmail_extra">Ross</div></div>
 
---94eb2c05760e18690305528ba0ad--
+--001a1147e5f8632e8705528bc3b2--
