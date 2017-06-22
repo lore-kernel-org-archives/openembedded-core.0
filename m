@@ -1,33 +1,23 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 115EA77E7A;
-	Thu, 22 Jun 2017 09:21:52 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	v5M9LiTH026643
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Thu, 22 Jun 2017 10:21:45 +0100
-Message-ID: <1498123304.24449.114.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Sean Hudson <sean_hudson@mentor.com>, Paul Eggleton
-	<paul.eggleton@linux.intel.com>,
-	openembedded-architecture@lists.openembedded.org
-Date: Thu, 22 Jun 2017 10:21:44 +0100
-In-Reply-To: <4358098a-6b7b-c5ae-66b2-da2beb052595@mentor.com>
-References: <1497868738.24449.41.camel@linuxfoundation.org>
-	<a34e53ad-edce-faf4-0d4f-f7621f05d57a@windriver.com>
-	<491966d0-a64f-3f51-250c-3d08a8140dec@mentor.com>
-	<1682970.JZPvjNPrtm@peggleto-mobl.ger.corp.intel.com>
-	<4358098a-6b7b-c5ae-66b2-da2beb052595@mentor.com>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
-Mime-Version: 1.0
-X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.11
-	(dan.rpsys.net [192.168.3.1]);
-	Thu, 22 Jun 2017 10:21:47 +0100 (BST)
-X-Virus-Scanned: clamav-milter 0.99.2 at dan
-X-Virus-Status: Clean
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [Openembedded-architecture] OE-Core/Yocto Project's first CVE (CVE-2017-9731)
+Return-Path: <jussi.kukkonen@intel.com>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id A325077E0D
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 22 Jun 2017 09:52:11 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga105.fm.intel.com with ESMTP; 22 Jun 2017 02:52:13 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.39,372,1493708400"; d="scan'208";a="1185671517"
+Received: from linux.intel.com ([10.54.29.200])
+	by fmsmga002.fm.intel.com with ESMTP; 22 Jun 2017 02:52:13 -0700
+Received: from theory.fi.intel.com (theory.fi.intel.com [10.237.72.53])
+	by linux.intel.com (Postfix) with ESMTP id 5E5A4580585;
+	Thu, 22 Jun 2017 02:52:12 -0700 (PDT)
+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 22 Jun 2017 12:52:06 +0300
+Message-Id: <1498125126-29091-1-git-send-email-jussi.kukkonen@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] gdk-pixbuf: Make loader.cache reproducible
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,62 +30,95 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Jun 2017 09:21:54 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 22 Jun 2017 09:52:14 -0000
 
-On Tue, 2017-06-20 at 08:27 -0500, Sean Hudson wrote:
-> On 2017-06-20 04:30 AM, Paul Eggleton wrote:
-> > 
-> > On Monday, 19 June 2017 5:31:10 PM CEST Sean Hudson wrote:
-> > > 
-> > > On 2017-06-19 09:05 AM, Mark Hatle wrote:
-> > > > 
-> > > > It would be reasonable to write up a 'best practices' type
-> > > > document. 
-> > > > Explaining that simply due to the nature of building many of
-> > > > these things
-> > > > will be 'leaked' and where some of them are leaked
-> > > > through.  (Package
-> > > > generation, compilation, etc for instance.)
-> > > That sounds reasonable, although, TBH, if someone is adding
-> > > credentials
-> > > to their SRC_URIs, I would expect that a best practice would be
-> > > ignored.
-> > >  Perhaps adding a detection routine that emitted a warning during
-> > > parsing for credentials in the SRC_URI might be
-> > > warranted?  Thoughts?
-> > This might be useful yes. I think the stumbling block is that at
-> > the moment we
-> > would have to have it off by default and then the user is almost
-> > certainly not
-> > going to know to turn it on. Perhaps this is another thing that we
-> > might check 
-> > in a "production" vs. "development" mode where the user can easily
-> > switch to
-> > the former to enable a set of more stringent checks.
-> I'm not sure I follow.  What would prevent us from turning on a warning
-> that detected credentials in a SRC_URI by default?  Even with Richard's
-> change to prevent the information from propagating into the .ipk, it
-> seems useful to notify the user.  Personally, I'd like to know if one of
-> the recipes I'm using has such information in it regardless of whether
-> I'm generating a development or a production image.
+Make the loader order in the file reliable to enable more reproducible
+builds.
 
-We can certainly do this, its technically not an issue. My worry is
-that if gives false security feelings since you can easily expose
-hostnames or other information as well as credentials. Where do we
-stop?
+[YOCTO #11610]
 
-We could go as far as to stop bitbake supporting usernames/passwords in
-urls. There are some usecases where that is useful though...
+Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+---
+ ...ueryloaders-Make-output-more-reproducible.patch | 56 ++++++++++++++++++++++
+ meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.36.6.bb |  1 +
+ 2 files changed, 57 insertions(+)
+ create mode 100644 meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0001-queryloaders-Make-output-more-reproducible.patch
 
-Cheers,
-
-Richard
-
-
-
-
-
+diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0001-queryloaders-Make-output-more-reproducible.patch b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0001-queryloaders-Make-output-more-reproducible.patch
+new file mode 100644
+index 0000000..aa21419
+--- /dev/null
++++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0001-queryloaders-Make-output-more-reproducible.patch
+@@ -0,0 +1,56 @@
++From 1049fbd887e52f94afeb03fc7942c01c143ebdfc Mon Sep 17 00:00:00 2001
++From: Jussi Kukkonen <jussi.kukkonen@intel.com>
++Date: Fri, 9 Jun 2017 12:01:25 +0300
++Subject: [PATCH] queryloaders: Make output more reproducible
++
++Reproducible builds are good: Sort the output by module name so that
++same input always leads to same output.
++
++This should also make gdk-pixbuf-print-mime-types output and
++gdk-pixbuf-thumbnailer.thumbnailer reproducible.
++
++https://bugzilla.gnome.org/show_bug.cgi?id=783592
++
++Upstream-Status: Submitted
++Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
++---
++ gdk-pixbuf/queryloaders.c | 12 ++++++++++--
++ 1 file changed, 10 insertions(+), 2 deletions(-)
++
++diff --git a/gdk-pixbuf/queryloaders.c b/gdk-pixbuf/queryloaders.c
++index 395674a..4ac9b28 100644
++--- a/gdk-pixbuf/queryloaders.c
+++++ b/gdk-pixbuf/queryloaders.c
++@@ -346,6 +346,7 @@ int main (int argc, char **argv)
++ #ifdef USE_GMODULE
++                 const char *path;
++                 GDir *dir;
+++                GList *l, *modules = NULL;
++ 
++                 path = g_getenv ("GDK_PIXBUF_MODULEDIR");
++ #ifdef G_OS_WIN32
++@@ -365,12 +366,19 @@ int main (int argc, char **argv)
++                                 gint len = strlen (dent);
++                                 if (len > SOEXT_LEN &&
++                                     strcmp (dent + len - SOEXT_LEN, SOEXT) == 0) {
+++                                        modules = g_list_prepend (modules,
+++                                                                  g_strdup (dent));
++-                                        if (!query_module (contents, path, dent))
++-                                                success = FALSE;
++                                 }
++                         }
++                         g_dir_close (dir);
++                 }
+++
+++                modules = g_list_sort (modules, (GCompareFunc)strcmp);
+++                for (l = modules; l != NULL; l = l->next)
+++                        if (!query_module (contents, path, l->data))
+++                                success = FALSE;
+++
+++                g_list_free_full (modules, g_free);
++ #else
++                 g_string_append_printf (contents, "# dynamic loading of modules not supported\n");
++ #endif
++-- 
++2.1.4
++
+diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.36.6.bb b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.36.6.bb
+index 8ea2ea6..fe3e636 100644
+--- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.36.6.bb
++++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.36.6.bb
+@@ -18,6 +18,7 @@ SRC_URI = "${GNOME_MIRROR}/${BPN}/${MAJ_VER}/${BPN}-${PV}.tar.xz \
+            file://run-ptest \
+            file://fatal-loader.patch \
+            file://0001-Work-around-thumbnailer-cross-compile-failure.patch \
++           file://0001-queryloaders-Make-output-more-reproducible.patch \
+            "
+ 
+ SRC_URI[md5sum] = "5dd53760750670d27c194ff6ace7eb51"
+-- 
+2.1.4
 
 
