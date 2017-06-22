@@ -1,50 +1,33 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f179.google.com (mail-qk0-f179.google.com
-	[209.85.220.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 0BB7F77E8F
+Return-Path: <denis@denix.org>
+Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.17])
+	by mail.openembedded.org (Postfix) with ESMTP id EA53471B99
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Jun 2017 10:07:11 +0000 (UTC)
-Received: by mail-qk0-f179.google.com with SMTP id d14so7988884qkb.1
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Jun 2017 03:07:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=K4CVGwaEjo9cO5D23pLoKvb8PXs2ujUhNkAUJG8qbOI=;
-	b=cXF3PXC7yJ0rPb+WisqC4gzdzpAJbQm/JDPRh6nxX2wYSob5/34ou9Tfd+BNNG1kX0
-	Ar5XcFcEL5CrqijCOwEo5y1htUdFCj/gffh/CWtRK7wZD08B785Fh0GN53aj2Onu/jRQ
-	kyojFCeAkZTscSY79n98snVtFAN+vivganH5qIB48ZIjktC3/TcsNpgtb1qFUNOYgVhU
-	Sd0H3e4uK0fYjddnnJCVGtGRz+3XakzyQ9Goylg1lM4R97KzkSPjvuAzQZ2SFBxbmYuR
-	BbGjeNx4w+nOnabXcOz266TR4hMjtZeo46aszykQcMOQi4HDhBZzOgJoGBLzBY1OC41+
-	b/1g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=K4CVGwaEjo9cO5D23pLoKvb8PXs2ujUhNkAUJG8qbOI=;
-	b=KPDdGOuS+O+fktMS0EL0aEYwS9uHSNq6WjlYzH9bCS0FbuD8HgLw4kT4mE65UuMMx2
-	/Y7xc+3StB/uz3l/gDQKo4yFUXWpZCdLKsGXfoQZCUtlS8KW1xYQWli++eThEs3Nl51W
-	K6Kp/nKwpGVn4u9i3urCPSe4xRVKyKM40b5bzOJNexX95wfh8FKygeR8jL0ZHU5X4ozv
-	Kt14KmIR0iTA+b+75tZcy3pIvHrhKquYqgnLGsWKjlKrWjyPceuExPKdsdaNMLA8Auvj
-	Dgz86yFU6DwH7BihlXZjHt86ypR2buXou2A9fjoen/KC3VPTUuJitcw/qkRKfHLmKBvx
-	rF+g==
-X-Gm-Message-State: AKS2vOysv9LMTw8ZD4Wh2q1iwKOoqiNR+Z9AbrUIG3UN4FdjE0+la2yR
-	8phNpYNEsD6m4ULwvdS1CaxPGCNxnwDi
-X-Received: by 10.55.102.84 with SMTP id a81mr1780097qkc.154.1498126032607;
-	Thu, 22 Jun 2017 03:07:12 -0700 (PDT)
+	Thu, 22 Jun 2017 11:32:34 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by mailout4.zoneedit.com (Postfix) with ESMTP id 437DE20900;
+	Thu, 22 Jun 2017 11:32:35 +0000 (UTC)
+Received: from mailout4.zoneedit.com ([127.0.0.1])
+	by localhost (zmo03-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
+	port 10024)
+	with ESMTP id QrU7kigR4pbD; Thu, 22 Jun 2017 11:32:35 +0000 (UTC)
+Received: from mail.denix.org (pool-100-15-85-143.washdc.fios.verizon.net
+	[100.15.85.143])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 20A83204D6;
+	Thu, 22 Jun 2017 11:32:34 +0000 (UTC)
+Received: by mail.denix.org (Postfix, from userid 1000)
+	id A2DCD16250F; Thu, 22 Jun 2017 07:32:33 -0400 (EDT)
+Date: Thu, 22 Jun 2017 07:32:33 -0400
+From: Denys Dmytriyenko <denis@denix.org>
+To: Fan Xin <fan.xin@jp.fujitsu.com>
+Message-ID: <20170622113226.GR28053@denix.org>
+References: <1498105835-7580-1-git-send-email-fan.xin@jp.fujitsu.com>
 MIME-Version: 1.0
-Received: by 10.140.35.103 with HTTP; Thu, 22 Jun 2017 03:06:52 -0700 (PDT)
-In-Reply-To: <CAHiDW_HgN8OpfohECj5dB6ux8tdNe7ALFOpRju-oFZNFwQaJYQ@mail.gmail.com>
-References: <1494933979-5139-1-git-send-email-dv@pseudoterminal.org>
-	<1494933979-5139-3-git-send-email-dv@pseudoterminal.org>
-	<CAHiDW_HgN8OpfohECj5dB6ux8tdNe7ALFOpRju-oFZNFwQaJYQ@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 22 Jun 2017 11:06:52 +0100
-Message-ID: <CAJTo0LYRhd6xdx+d4Dw++rw1Z9fjbzEvEKF5X7ct1_30yPvUkA@mail.gmail.com>
-To: Jussi Kukkonen <jussi.kukkonen@intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/9] gstreamer1.0-plugins-good: upgrade to version 1.12.0
+In-Reply-To: <1498105835-7580-1-git-send-email-fan.xin@jp.fujitsu.com>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] libinput: 1.6.1 -> 1.7.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,45 +40,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Jun 2017 10:07:13 -0000
-Content-Type: multipart/alternative; boundary="94eb2c05760e00b26b055289a685"
+X-List-Received-Date: Thu, 22 Jun 2017 11:32:36 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
---94eb2c05760e00b26b055289a685
-Content-Type: text/plain; charset="UTF-8"
+One of the previously-submitted patches:
+http://lists.openembedded.org/pipermail/openembedded-core/2017-June/138487.html
 
-On 21 June 2017 at 17:47, Jussi Kukkonen <jussi.kukkonen@intel.com> wrote:
 
-> I think this breaks gstreamer1.0-meta-base packagegroup because now
-> nothing provides gstreamer1.0-plugins-good-souphttpsrc. I've not tested
-> this but I'd bet money it's because of "Fix plugin filenames to match
-> plugin names" commit ** upstream: it probably leads to the plugin package
-> names changing.
->
-> The name in the package group should be changed. The question is do we
-> also need to add special case RPROVIDES for the old names?
->
+On Thu, Jun 22, 2017 at 01:30:35PM +0900, Fan Xin wrote:
+> Signed-off-by: Fan Xin <fan.xin@jp.fujitsu.com>
+> ---
+>  .../recipes-graphics/wayland/{libinput_1.6.1.bb => libinput_1.7.3.bb} | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>  rename meta/recipes-graphics/wayland/{libinput_1.6.1.bb => libinput_1.7.3.bb} (85%)
+> 
+> diff --git a/meta/recipes-graphics/wayland/libinput_1.6.1.bb b/meta/recipes-graphics/wayland/libinput_1.7.3.bb
+> similarity index 85%
+> rename from meta/recipes-graphics/wayland/libinput_1.6.1.bb
+> rename to meta/recipes-graphics/wayland/libinput_1.7.3.bb
+> index c8714f2..6194fba 100644
+> --- a/meta/recipes-graphics/wayland/libinput_1.6.1.bb
+> +++ b/meta/recipes-graphics/wayland/libinput_1.7.3.bb
+> @@ -10,8 +10,8 @@ DEPENDS = "libevdev udev mtdev"
+>  SRC_URI = "http://www.freedesktop.org/software/${BPN}/${BP}.tar.xz \
+>             file://touchpad-serial-synaptics-need-to-fake-new-touches-on-TRIPLETAP.patch \
+>  "
+> -SRC_URI[md5sum] = "7e282344f8ed7ec5cf87ca9fc22674fb"
+> -SRC_URI[sha256sum] = "9d816f13eee63bcca0e9c3bb652c52ab55f39be4d1b90b54e4bfd1dc92ef55a8"
+> +SRC_URI[md5sum] = "f2993b477db8d7ec0e785ce04ffecb03"
+> +SRC_URI[sha256sum] = "096d612d2711f0caa2de544976ff3729e6233511ab373808644cc2dd5affcb1d"
+>  
+>  inherit autotools pkgconfig
+>  
+> -- 
+> 2.7.4
+> 
+> -- 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
-Yes and yes, IMHO.
-
-Ross
-
---94eb2c05760e00b26b055289a685
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 21 June 2017 at 17:47, Jussi Kukkonen <span dir=3D"ltr">&lt;<a href=3D"m=
-ailto:jussi.kukkonen@intel.com" target=3D"_blank">jussi.kukkonen@intel.com<=
-/a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:=
-0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div dir=3D"ltr">I =
-think this breaks gstreamer1.0-meta-base packagegroup because now nothing p=
-rovides gstreamer1.0-plugins-good-<wbr>souphttpsrc. I&#39;ve not tested thi=
-s but I&#39;d bet money it&#39;s because of &quot;Fix plugin filenames to m=
-atch plugin names&quot; commit ** upstream: it probably leads to the plugin=
- package names changing.=C2=A0<div><br></div><div>The name in the package g=
-roup should be changed. The question is do we also need to add special case=
- RPROVIDES for the old names?=C2=A0<br></div></div></blockquote></div><br>Y=
-es and yes, IMHO.</div><div class=3D"gmail_extra"><br></div><div class=3D"g=
-mail_extra">Ross</div></div>
-
---94eb2c05760e00b26b055289a685--
