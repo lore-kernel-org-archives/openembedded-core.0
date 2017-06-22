@@ -1,30 +1,34 @@
-Return-Path: <zhengrq.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 33A0771BEE
+Return-Path: <fan.xin@jp.fujitsu.com>
+Received: from mgwkm01.jp.fujitsu.com (mgwkm01.jp.fujitsu.com [202.219.69.168])
+	by mail.openembedded.org (Postfix) with ESMTP id B552E6FF7F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Jun 2017 01:06:29 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.22,518,1449504000"; d="scan'208";a="20339053"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 22 Jun 2017 09:06:31 +0800
-Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
-	by cn.fujitsu.com (Postfix) with ESMTP id 509F147C7C9E
+	Thu, 22 Jun 2017 01:42:41 +0000 (UTC)
+Received: from kw-mxoi2.gw.nic.fujitsu.com (unknown [192.168.231.133]) by
+	mgwkm01.jp.fujitsu.com with smtp
+	id 1e67_d8d2_7489d0b1_c1c4_4c2b_9c51_3dcc3ebbf8fb;
+	Thu, 22 Jun 2017 10:42:38 +0900
+Received: from g01jpfmpwkw03.exch.g01.fujitsu.local
+	(g01jpfmpwkw03.exch.g01.fujitsu.local [10.0.193.57])
+	by kw-mxoi2.gw.nic.fujitsu.com (Postfix) with ESMTP id 9F24CAC0131
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Jun 2017 09:06:32 +0800 (CST)
-Received: from localhost.localdomain.localdomain (10.167.226.100) by
-	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.319.2; Thu, 22 Jun 2017 09:06:32 +0800
-From: zhengrq <zhengrq.fnst@cn.fujitsu.com>
+	Thu, 22 Jun 2017 10:42:37 +0900 (JST)
+Received: from g01jpexchkw33.g01.fujitsu.local (unknown [10.0.193.4])
+	by g01jpfmpwkw03.exch.g01.fujitsu.local (Postfix) with ESMTP id
+	93ED8BD6785 for <openembedded-core@lists.openembedded.org>;
+	Thu, 22 Jun 2017 10:42:36 +0900 (JST)
+Received: from localhost.localdomain (10.24.19.99) by
+	g01jpexchkw33.g01.fujitsu.local (10.0.193.36) with Microsoft SMTP
+	Server id 14.3.266.1; Thu, 22 Jun 2017 10:42:35 +0900
+From: Fan Xin <fan.xin@jp.fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 22 Jun 2017 09:06:22 +0800
-Message-ID: <1498093582-5587-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
+Date: Thu, 22 Jun 2017 10:44:02 +0900
+Message-ID: <1498095842-6455-1-git-send-email-fan.xin@jp.fujitsu.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-X-Originating-IP: [10.167.226.100]
-X-yoursite-MailScanner-ID: 509F147C7C9E.AC272
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: zhengrq.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Subject: [PATCH v2] (morty) rpm: Fix the Bug of SRPM String error
+X-SecurityPolicyCheck-GC: OK by FENCE-Mail
+X-Encrypted: FENCE-Mail/3.1.1
+X-TM-AS-MML: disable
+Subject: [PATCH] libsndfile1: Fix CVE-2017-6892
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,111 +41,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Jun 2017 01:06:30 -0000
-Content-Type: text/plain; charset="y"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 22 Jun 2017 01:42:43 -0000
+Content-Type: text/plain
 
-Add a patch 0001-Fix-the-Bug-of-SRPM-String-error.patch to fix SRPM bug
+Backport upstream patch to fix CVE-2017-6892.
 
-When use bitbake to build a SRPM package, some sections of SRPM can't be displayed normally.
-For example:
-$ rpm -qpi zlib-1.2.8-r0.src.rpm
-warning: zlib-1.2.8-r0.src.rpm: Header V4 DSA/SHA1 Signature, key ID e64962a6: NOKEY
-Name        : zlib
-Version     : 1.2.8
-Release     : r0
-Architecture: i586
-Install Date: (not installed)
-Group       : ﺩ
-Size        : 633007
-License     : Zlib
-Signature   : DSA/SHA1, 2017年04月22日 00時38分03秒, Key ID bc5e0520e64962a6
-Source RPM  : (none)
-Build Date  : 2017年04月22日 00時38分03秒
-Build Host  : force
-Relocations : (not relocatable)
-Packager    : Poky <poky@yoctoproject.org>
-URL         : http://zlib.net/
-Summary     : ¨¯
-Description :
-ﺩ
+CVE: CVE-2017-6892
 
-Signed-off-by: zhengrq <zhengrq.fnst@cn.fujitsu.com>
+Signed-off-by: Fan Xin <fan.xin@jp.fujitsu.com>
 ---
- .../0001-Fix-the-Bug-of-SRPM-String-error.patch    | 48 ++++++++++++++++++++++
- meta/recipes-devtools/rpm/rpm_5.4.16.bb            |  1 +
- 2 files changed, 49 insertions(+)
- create mode 100644 meta/recipes-devtools/rpm/rpm/0001-Fix-the-Bug-of-SRPM-String-error.patch
+ .../libsndfile/libsndfile1/CVE-2017-6892.patch     | 34 ++++++++++++++++++++++
+ .../libsndfile/libsndfile1_1.0.28.bb               |  4 ++-
+ 2 files changed, 37 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2017-6892.patch
 
-diff --git a/meta/recipes-devtools/rpm/rpm/0001-Fix-the-Bug-of-SRPM-String-error.patch b/meta/recipes-devtools/rpm/rpm/0001-Fix-the-Bug-of-SRPM-String-error.patch
+diff --git a/meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2017-6892.patch b/meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2017-6892.patch
 new file mode 100644
-index 0000000..b962617
+index 0000000..89552ac
 --- /dev/null
-+++ b/meta/recipes-devtools/rpm/rpm/0001-Fix-the-Bug-of-SRPM-String-error.patch
-@@ -0,0 +1,48 @@
-+Subject: [PATCH] Fix the Bug of SRPM String error
++++ b/meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2017-6892.patch
+@@ -0,0 +1,34 @@
++From f833c53cb596e9e1792949f762e0b33661822748 Mon Sep 17 00:00:00 2001
++From: Erik de Castro Lopo <erikd@mega-nerd.com>
++Date: Tue, 23 May 2017 20:15:24 +1000
++Subject: [PATCH] src/aiff.c: Fix a buffer read overflow
 +
-+Upstream-Status: Pending
-+$ rpm -qpi zlib-1.2.8-r0.src.rpm
-+warning: zlib-1.2.8-r0.src.rpm: Header V4 DSA/SHA1 Signature, key ID e64962a6: NOKEY
-+Name        : zlib
-+Version     : 1.2.8
-+Release     : r0
-+Architecture: i586
-+Install Date: (not installed)
-+Group       : ﺩ
-+Size        : 633007
-+License     : Zlib
-+Signature   : DSA/SHA1, 2017年04月22日 00時38分03秒, Key ID bc5e0520e64962a6
-+Source RPM  : (none)
-+Build Date  : 2017年04月22日 00時38分03秒
-+Build Host  : force
-+Relocations : (not relocatable)
-+Packager    : Poky <poky@yoctoproject.org>
-+URL         : http://zlib.net/
-+Summary     : ¨¯
-+Description :
-+ﺩ
++Secunia Advisory SA76717.
 +
-+Signed-off-by: zhengrq <zhengrq.fnst@cn.fujitsu.com>
++Found by: Laurent Delosieres, Secunia Research at Flexera Software
++
++CVE: CVE-2017-6892
++Upstream-Status: Backport
++
++Signed-off-by: Fan Xin <fan.xin@jp.fujitsu.com>
++
 +---
-+ rpmdb/tagname.c | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
++ src/aiff.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
 +
-+diff --git a/rpmdb/tagname.c b/rpmdb/tagname.c
-+index cfd1459..dbcafd1 100644
-+--- a/rpmdb/tagname.c
-++++ b/rpmdb/tagname.c
-+@@ -518,9 +518,9 @@ tagStore_t tagStoreFree(tagStore_t dbiTags, size_t dbiNTags)
-+ void tagTypeValidate(HE_t he);
-+ void tagTypeValidate(HE_t he)
-+ {
-+-    /* XXX Re-map RPM_I18NSTRING_TYPE -> RPM_STRING_TYPE */
-++    /* XXX RPM_I18NSTRING_TYPE is treated as strings. */
-+     if (he->t == RPM_I18NSTRING_TYPE)
-+-	he->t = RPM_STRING_TYPE;
-++	return;
++diff --git a/src/aiff.c b/src/aiff.c
++index 5b5f9f5..45864b7 100644
++--- a/src/aiff.c
+++++ b/src/aiff.c
++@@ -1759,7 +1759,7 @@ aiff_read_chanmap (SF_PRIVATE * psf, unsigned dword)
++ 		psf_binheader_readf (psf, "j", dword - bytesread) ;
 + 
-+     /* XXX Arbitrary tags are always strings. */
-+     if ((he->tag & 0x40000000)
++ 	if (map_info->channel_map != NULL)
++-	{	size_t chanmap_size = psf->sf.channels * sizeof (psf->channel_map [0]) ;
+++	{	size_t chanmap_size = SF_MIN (psf->sf.channels, layout_tag & 0xffff) * sizeof (psf->channel_map [0]) ;
++ 
++ 		free (psf->channel_map) ;
++ 
 +-- 
-+2.7.4
++1.9.1
 +
-diff --git a/meta/recipes-devtools/rpm/rpm_5.4.16.bb b/meta/recipes-devtools/rpm/rpm_5.4.16.bb
-index 497af8e..ae5e0c4 100644
---- a/meta/recipes-devtools/rpm/rpm_5.4.16.bb
-+++ b/meta/recipes-devtools/rpm/rpm_5.4.16.bb
-@@ -120,6 +120,7 @@ SRC_URI += " \
- 	   file://0001-system.h-query.c-support-nosignature.patch \
- 	   file://rpm-ensure-rpm2cpio-call-rpm-relocation-code.patch \
- 	   file://0001-macros-add-_gpg_sign_cmd_extra_args.patch \
-+	   file://0001-Fix-the-Bug-of-SRPM-String-error.patch \
- "
+diff --git a/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.28.bb b/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.28.bb
+index 248b292..6f242cfa 100644
+--- a/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.28.bb
++++ b/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.28.bb
+@@ -5,7 +5,9 @@ DEPENDS = "flac libogg libvorbis sqlite3"
+ SECTION = "libs/multimedia"
+ LICENSE = "LGPLv2.1"
  
- # OE specific changes
+-SRC_URI = "http://www.mega-nerd.com/libsndfile/files/libsndfile-${PV}.tar.gz"
++SRC_URI = "http://www.mega-nerd.com/libsndfile/files/libsndfile-${PV}.tar.gz \
++           file://CVE-2017-6892.patch \
++          "
+ 
+ SRC_URI[md5sum] = "646b5f98ce89ac60cdb060fcd398247c"
+ SRC_URI[sha256sum] = "1ff33929f042fa333aed1e8923aa628c3ee9e1eb85512686c55092d1e5a9dfa9"
 -- 
 2.7.4
-
-
 
 
