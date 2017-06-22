@@ -1,48 +1,34 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qt0-f178.google.com (mail-qt0-f178.google.com
-	[209.85.216.178])
-	by mail.openembedded.org (Postfix) with ESMTP id E84E77823A
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 65B9478224
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Jun 2017 16:25:22 +0000 (UTC)
-Received: by mail-qt0-f178.google.com with SMTP id f92so15868357qtb.2
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Jun 2017 09:25:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=lGvzySwlrTkyi3WGTPOBCmGT7HZOrDtmntY1+KowL1o=;
-	b=bcNwjEoE6UWe1ySBku5vaT4RVGiCtAIe1fmHkrkjohC/onEuUDiY/VmYhw28wIPxoh
-	TSoCejXX1Uf2BU3c53FuKO3FSWSyZLBVASotmR3Rg1ZllQMUu+QCO2SI9GUd7vAYNF1H
-	C9+r4tIfhBZ+CEXYVoiIptoHEMw3KL50pl1hPq6jIDGKBj8AZa1o/76sUrLO0g0YXZk1
-	U9L3e4sSE6yKby8SRsvFxKxTJoolsMOVr/0YYMCXskYYw35qDIhBsLoNYlASkyULVQMX
-	exivfh8nPFeJT5Ko2FEI2pI8GVjJ/unNZUHwshAQo0iPqMpfqWvooxaYtKlekT/21yvX
-	95Ig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=lGvzySwlrTkyi3WGTPOBCmGT7HZOrDtmntY1+KowL1o=;
-	b=S/ZpG9MxfXH3VcuYsNW7TJr86WLIHJdyfYrcqvRcMSkNw8lli1jnxl0mMVx7Rrk9/n
-	vYPuteqbXO7V1OFlzFsNAY/9qUu43jl0f0DmVjFlL/ouLz9WqRfOnqXjmLXsH9Vj5UfW
-	DtU/J+whOXCgGQEqALX0Nfap9svXt/0Ihz6gp5po+i5HcE3o4+/WgK4IN05gbxtMH+Ru
-	f3/huKtQDavwkhVk4x5hYd3ILBinpwy8p+gSzMEK3IOBxSaIeJxaOnRV/PmOhnrllRKQ
-	IP2vAAkSQLQwh8cQh4eUMx+hDP/6j0ZTtuwd34AqDYkCSUTVvr2/0Eah3WzXkoLrD2f/
-	pqgQ==
-X-Gm-Message-State: AKS2vOz+2cQl7ZWUl7u37Lih0VCLiAy0IEIrnMU6YnQ342bPE5u8XGwO
-	ibrA8epT7gdVrp17LDX7wp386nXwRFKR
-X-Received: by 10.237.59.134 with SMTP id r6mr3843971qte.47.1498148723512;
-	Thu, 22 Jun 2017 09:25:23 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.35.103 with HTTP; Thu, 22 Jun 2017 09:25:03 -0700 (PDT)
-In-Reply-To: <20170616213952.35679-3-nathan_lynch@mentor.com>
-References: <20170616213952.35679-1-nathan_lynch@mentor.com>
-	<20170616213952.35679-3-nathan_lynch@mentor.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 22 Jun 2017 17:25:03 +0100
-Message-ID: <CAJTo0La9rcpY8oxxuaWspjLM6NjJNugVopmdVEvps=sH2fMkcA@mail.gmail.com>
-To: Nathan Lynch <nathan_lynch@mentor.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/3] lttng-tools: update to 2.9.5
+	Thu, 22 Jun 2017 16:59:41 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	v5MGxZi8001378
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
+	verify=NOT); Thu, 22 Jun 2017 17:59:36 +0100
+Message-ID: <1498150775.24449.120.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patrick Ohly <patrick.ohly@intel.com>, Leonardo Sandoval
+	<leonardo.sandoval.gonzalez@linux.intel.com>
+Date: Thu, 22 Jun 2017 17:59:35 +0100
+In-Reply-To: <1498147164.22706.30.camel@intel.com>
+References: <20170619143936.20912-1-leonardo.sandoval.gonzalez@linux.intel.com>
+	<1498141053.22706.4.camel@intel.com>
+	<1498143522.31575.41.camel@linux.intel.com>
+	<1498144469.22706.10.camel@intel.com>
+	<1498145851.31575.50.camel@linux.intel.com>
+	<1498147164.22706.30.camel@intel.com>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
+Mime-Version: 1.0
+X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.11
+	(dan.rpsys.net [192.168.3.1]);
+	Thu, 22 Jun 2017 17:59:36 +0100 (BST)
+X-Virus-Scanned: clamav-milter 0.99.2 at dan
+X-Virus-Status: Clean
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/2] commands: send stderr to a new pipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,73 +41,113 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Jun 2017 16:25:23 -0000
-Content-Type: multipart/alternative; boundary="94eb2c1900407c6a4605528eee3b"
-
---94eb2c1900407c6a4605528eee3b
+X-List-Received-Date: Thu, 22 Jun 2017 16:59:42 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On 16 June 2017 at 22:39, Nathan Lynch <nathan_lynch@mentor.com> wrote:
+On Thu, 2017-06-22 at 17:59 +0200, Patrick Ohly wrote:
+> On Thu, 2017-06-22 at 10:37 -0500, Leonardo Sandoval wrote:
+> > 
+> > On Thu, 2017-06-22 at 17:14 +0200, Patrick Ohly wrote:
+> > > 
+> > > On Thu, 2017-06-22 at 09:58 -0500, Leonardo Sandoval wrote:
+> > > > 
+> > > > On Thu, 2017-06-22 at 16:17 +0200, Patrick Ohly wrote:
+> > > > > 
+> > > > > On Mon, 2017-06-19 at 07:39 -0700,
+> > > > > leonardo.sandoval.gonzalez@linux.intel.com wrote:
+> > > > > > 
+> > > > > > From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.i
+> > > > > > ntel.com>
+> > > > > > 
+> > > > > > Do not mix the stderr into stdout, allowing test cases to
+> > > > > > query
+> > > > > > the specific output.
+> > > > > This changes the behavior of functions that are also used
+> > > > > outside of
+> > > > > OE-core in a way that won't be easy to notice. I also don't
+> > > > > think that
+> > > > > it is the right default. For example, for bitbake it is
+> > > > > easier to
+> > > > > understand where an error occurred when stderr goes to the
+> > > > > same stream
+> > > > > as stdout.
+> > > > how would that make it easier?
+> > > Because then output will be properly interleaved, as it would be
+> > > on a
+> > > console.
+> > > 
+> > > Actually, the entire error reporting in runCmd() only prints
+> > > result.output, so with stderr going to result.error by default,
+> > > you
+> > > won't get the actual errors reported anymore at all, will you? 
+> > > 
+> > process stderr will go into result.error and process stdout into
+> > result.output. So when the process is executed ignoring the return
+> > status, then test must check result.error. I find the latter
+> > cleaner
+> > that checking errors into stdout.
+> It depends on how the result is used. That you prefer split output
+> for some tests does not mean that everyone wants the same in their
+> tests. I don't want it in my own usage of runCmd() or bitbake()
+> because I don't care about where a message was printed. I just want
+> it in proper order.
+> 
+> If you change the default, then you will also have to enhance
+> runCmd()'s error handling to include results.error. That's currently
+> missing in your patch.
+> 
+> > 
+> > > 
+> > > > 
+> > > > > 
+> > > > > Can't you keep the current semantic and just override it
+> > > > > explicitly in
+> > > > > those tests that need separate stdout/stderr?
+> > > > > 
+> > > > My proposed patch was mainly based on a RP's comment [1],
+> > > > suggesting to
+> > > > split std[out|err].
+> > > He did not suggest to change the default behavior. I agree that
+> > > using
+> > > split stdout/stderr in those specific tests which specifically
+> > > want to
+> > > check for error messages makes sense, but only in those tests.
+> > No tests require splitting the output (all tests pass with and
+> > without
+> > this series). The series is actually an enhancement and without it,
+> > we
+> > saw (specially when the python 2 to 3 was going on) past warnings
+> > going
+> > into stdout, so Chris and RP suggested the approach.
+> Richard, can you please comment on whether changing the default is
+> really what you meant?
 
-> Miscellaneous fixes.
->
+The problem here is that stdout and stderr are being mixed and that
+mixing is not accounting for newlines. bitbake itself does print
+different messages to both. The mixing depends on kernel page size and
+when the buffers are flushed.
 
-This isn't related to the upgrade as it was a problem in the old release
-too but I thought you should know:
+The key thing I'm not sure about from reading the bug is whether this
+output is from the same bitbake process or different ones?
 
-WARNING: lttng-tools-2.9.5-r0 do_package_qa: QA Issue: lttng-tools-ptest:
-/usr/lib/lttng-tools/ptest/tests/regression/tools/health/health_check looks
-like a libtool wrapper script [libtool-wrapper]
-WARNING: lttng-tools-2.9.5-r0 do_package_qa: QA Issue: lttng-tools-ptest:
-/usr/lib/lttng-tools/ptest/tests/regression/tools/health/health_check looks
-like a libtool wrapper script [libtool-wrapper]
-WARNING: lttng-tools-2.9.5-r0 do_package_qa: QA Issue: lttng-tools-ptest:
-/usr/lib/lttng-tools/ptest/tests/regression/tools/live/live_test looks like
-a libtool wrapper script [libtool-wrapper]
-WARNING: lttng-tools-2.9.5-r0 do_package_qa: QA Issue: lttng-tools-ptest:
-/usr/lib/lttng-tools/ptest/tests/regression/tools/live/live_test looks like
-a libtool wrapper script [libtool-wrapper]
-WARNING: lttng-tools-2.9.5-r0 do_package_qa: QA Issue: lttng-tools-ptest:
-/usr/lib/lttng-tools/ptest/tests/unit/ini_config/ini_config looks like a
-libtool wrapper script [libtool-wrapper]
-WARNING: lttng-tools-2.9.5-r0 do_package_qa: QA Issue: lttng-tools-ptest:
-/usr/lib/lttng-tools/ptest/tests/unit/ini_config/ini_config looks like a
-libtool wrapper script [libtool-wrapper]
+I can think of three things we can do here:
 
-Ross
+a) Add some flush calls somewhere assuming this is different calls.
+That somehow seems unlikely
 
---94eb2c1900407c6a4605528eee3b
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+b) Keep stdout and stderr separate as per Leo's change
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 16 June 2017 at 22:39, Nathan Lynch <span dir=3D"ltr">&lt;<a href=3D"mai=
-lto:nathan_lynch@mentor.com" target=3D"_blank">nathan_lynch@mentor.com</a>&=
-gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px =
-0px 0px 0.8ex;border-left-width:1px;border-left-style:solid;border-left-col=
-or:rgb(204,204,204);padding-left:1ex"><div id=3D"gmail-:23s" class=3D"gmail=
--a3s gmail-aXjCH gmail-m15cb2d9d64a29729">Miscellaneous fixes.<br></div></b=
-lockquote></div><div class=3D"gmail_extra"><br></div>This isn&#39;t related=
- to the upgrade as it was a problem in the old release too but I thought yo=
-u should know:</div><div class=3D"gmail_extra"><br><div class=3D"gmail_extr=
-a">WARNING: lttng-tools-2.9.5-r0 do_package_qa: QA Issue: lttng-tools-ptest=
-: /usr/lib/lttng-tools/ptest/tests/regression/tools/health/health_check loo=
-ks like a libtool wrapper script [libtool-wrapper]</div><div class=3D"gmail=
-_extra">WARNING: lttng-tools-2.9.5-r0 do_package_qa: QA Issue: lttng-tools-=
-ptest: /usr/lib/lttng-tools/ptest/tests/regression/tools/health/health_chec=
-k looks like a libtool wrapper script [libtool-wrapper]</div><div class=3D"=
-gmail_extra">WARNING: lttng-tools-2.9.5-r0 do_package_qa: QA Issue: lttng-t=
-ools-ptest: /usr/lib/lttng-tools/ptest/tests/regression/tools/live/live_tes=
-t looks like a libtool wrapper script [libtool-wrapper]</div><div class=3D"=
-gmail_extra">WARNING: lttng-tools-2.9.5-r0 do_package_qa: QA Issue: lttng-t=
-ools-ptest: /usr/lib/lttng-tools/ptest/tests/regression/tools/live/live_tes=
-t looks like a libtool wrapper script [libtool-wrapper]</div><div class=3D"=
-gmail_extra">WARNING: lttng-tools-2.9.5-r0 do_package_qa: QA Issue: lttng-t=
-ools-ptest: /usr/lib/lttng-tools/ptest/tests/unit/ini_config/ini_config loo=
-ks like a libtool wrapper script [libtool-wrapper]</div><div class=3D"gmail=
-_extra">WARNING: lttng-tools-2.9.5-r0 do_package_qa: QA Issue: lttng-tools-=
-ptest: /usr/lib/lttng-tools/ptest/tests/unit/ini_config/ini_config looks li=
-ke a libtool wrapper script [libtool-wrapper]</div><div class=3D"gmail_extr=
-a"><br></div><div class=3D"gmail_extra">Ross</div></div></div>
+c) Have a command version which merges stdout and stderr respecting
+newlines. I suspect this happens on a console but likely not on inter
+process pipes...
 
---94eb2c1900407c6a4605528eee3b--
+It does sound like we need to answer some questions on what exactly is
+happening before we can know which solution(s) might work.
+
+Cheers,
+
+Richard
+
+
+
