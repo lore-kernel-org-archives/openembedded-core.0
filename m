@@ -1,49 +1,52 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f174.google.com (mail-qk0-f174.google.com
-	[209.85.220.174])
-	by mail.openembedded.org (Postfix) with ESMTP id D5B5C6FFEF
+Return-Path: <prvs=339894f69=Mikko.Rapeli@bmw.de>
+Received: from esa8.bmw.c3s2.iphmx.com (esa8.bmw.c3s2.iphmx.com
+	[68.232.139.97])
+	by mail.openembedded.org (Postfix) with ESMTP id 50E3371B86
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Jun 2017 12:38:34 +0000 (UTC)
-Received: by mail-qk0-f174.google.com with SMTP id r62so10691061qkf.0
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Jun 2017 05:38:36 -0700 (PDT)
+	Thu, 22 Jun 2017 12:48:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=fDBYtT8HhOltb26YblC3km8h/pMAYvF3/SKW4n+XvYE=;
-	b=GvQ+OgQuEiX9+zVEwFpEt+QMgwg3R+Tl0DeiJJPjtyWuNaN3ikxvIqqq6OnGP/b5bV
-	jjMG5AUDeHmk6uuPuOJA8AqSQY187UTpZ8g52apnhlAnhVbjBAqqKEMFxPDMY1tN384+
-	elviIWXB0UTlGhDcJEbvFP7OuVj9n9DcU5/VoeXkqD+Fq7lQZ7WSNcB9HfQW17IkCOGg
-	SV/ViA+jDOq9O7bpxQvFd6hRXlRBZY1Cs7SEkqN1FHWETBc+cs6NO7PgRl/fhJpcWNbJ
-	XQhYAjqE0xCJBZekxmlSZM412SiV7j8ZwSKnpARV67OORyFP+B9xdxINW9ZmTD8IHvRo
-	zQbw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=fDBYtT8HhOltb26YblC3km8h/pMAYvF3/SKW4n+XvYE=;
-	b=geHlbglXuN2uJLbv9XApdq1A5bchCFEJFfTzUXnW/Yq9iQkIw18kmksN732Gxr3h3k
-	F+EYZ8UOynIFiGMAu6U/3L1SSj8EOguU8GsWc+/aHxFUIWpDrvpHY4bGgHnbGKOXjpsw
-	/7Ll3e+rsehvd3F6I1ctbj13zrVS9DQ28zCnR8u2WUSCdKPqdcDlK4LKv/nhCmYJbNeI
-	9yVDS/Aed4NkACQWiMZ9xvNfhQ3n5lNry3gevTbRqKuQlm5EV91sDZl+RpCrlHZ64fJs
-	Fn16Fntj85BTItR/PxKVOIlBEKfUZCvw0cZav6HyX+rKAzl309Ddb9Y0fjUVi4Hocs2U
-	UW7g==
-X-Gm-Message-State: AKS2vOybQ0rXJlvTzuNzNSD1ekdpkGilKYbcSDtkj5h/66hDpJNpqRZY
-	T8CRvQiT40CAtNJ9EDmT4fRu/gQ+1PJA
-X-Received: by 10.55.31.162 with SMTP id n34mr2420865qkh.46.1498135115536;
-	Thu, 22 Jun 2017 05:38:35 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.35.103 with HTTP; Thu, 22 Jun 2017 05:38:15 -0700 (PDT)
-In-Reply-To: <20170620124824.ndyxisbbwhqt6fn5@hiutale>
+	d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
+	t=1498135741; x=1529671741;
+	h=from:to:cc:subject:date:message-id:references:
+	in-reply-to:content-id:content-transfer-encoding: mime-version;
+	bh=ADo0IFYgjD2/z/Qyvc/llR/gM5jM/d0RzTWfw8yDo8k=;
+	b=ZOnG3Sju2YQkvoSfK9RipROH4s5KTppBJHZ10snkPv27xRFUyEHyfoHH
+	awvet9JKaaLJy+/fKYwmzIajeSy4yThv/uaoap5+kfH6kMMpZrzqO+wmh
+	Xrv+wp+xdJ3jqeIILzfQXECl1dqPvAv6MF0Xs/0cmuLmETQGn0sUaCzBp o=;
+Received: from esagw5.bmwgroup.com (HELO esagw5.muc) ([160.46.252.46]) by
+	esa8.bmw.c3s2.iphmx.com with ESMTP/TLS; 22 Jun 2017 14:48:58 +0200
+Received: from esabb4.muc ([160.50.100.33])  by esagw5.muc with ESMTP/TLS;
+	22 Jun 2017 14:48:57 +0200
+Received: from smucm10l.bmwgroup.net (HELO smucm10l.europe.bmw.corp)
+	([160.48.96.48])
+	by esabb4.muc with ESMTP/TLS; 22 Jun 2017 14:48:57 +0200
+Received: from smucm10k.europe.bmw.corp (160.48.96.47) by
+	smucm10l.europe.bmw.corp
+	(160.48.96.48) with Microsoft SMTP Server (TLS;
+	Thu, 22 Jun 2017 14:48:57 +0200
+Received: from smucm10k.europe.bmw.corp ([160.48.96.47]) by
+	smucm10k.europe.bmw.corp ([160.48.96.47]) with mapi id 15.00.1263.000;
+	Thu, 22 Jun 2017 14:48:57 +0200
+From: <Mikko.Rapeli@bmw.de>
+To: <ross.burton@intel.com>
+Thread-Topic: [poky] [PATCH 3/3 v2] meta: Fix return value checks from
+	subprocess.call()'s
+Thread-Index: AQHS2u8+zfBp/dq+j0+MybW5e6K6EKItr5wAgAMh1ICAAAL9gA==
+Date: Thu, 22 Jun 2017 12:48:57 +0000
+Message-ID: <20170622124857.jygx7aot2xm2kvll@hiutale>
 References: <20170601125029.wli6reydiovo7xjk@hiutale>
 	<1496332394-6615-1-git-send-email-mikko.rapeli@bmw.de>
 	<20170620124824.ndyxisbbwhqt6fn5@hiutale>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 22 Jun 2017 13:38:15 +0100
-Message-ID: <CAJTo0LZDtOq9_s=+NjGzZ6Y_V=1WQZK9V=fgqCx3pJmF6WXiiw@mail.gmail.com>
-To: Mikko Rapeli <Mikko.Rapeli@bmw.de>
-Cc: Poky Project <poky@yoctoproject.org>,
-	OE-core <openembedded-core@lists.openembedded.org>
+	<CAJTo0LZDtOq9_s=+NjGzZ6Y_V=1WQZK9V=fgqCx3pJmF6WXiiw@mail.gmail.com>
+In-Reply-To: <CAJTo0LZDtOq9_s=+NjGzZ6Y_V=1WQZK9V=fgqCx3pJmF6WXiiw@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [192.168.44.101]
+MIME-Version: 1.0
+Cc: poky@yoctoproject.org, openembedded-core@lists.openembedded.org
 Subject: Re: [poky] [PATCH 3/3 v2] meta: Fix return value checks from subprocess.call()'s
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -57,43 +60,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Jun 2017 12:38:36 -0000
-Content-Type: multipart/alternative; boundary="001a1147e5f8632e8705528bc3b2"
-
---001a1147e5f8632e8705528bc3b2
-Content-Type: text/plain; charset="UTF-8"
-
-On 20 June 2017 at 13:48, <Mikko.Rapeli@bmw.de> wrote:
-
-> The bitbake and scripts parts from this patch series were merged already,
-> but
-> this not.
->
-> Are there problems with this patch?
->
-
-Sorry, didn't get around to replying.  It doesn't apply to master, can you
-rebase please?
-
-Cheers,
-Ross
-
---001a1147e5f8632e8705528bc3b2
-Content-Type: text/html; charset="UTF-8"
+X-List-Received-Date: Thu, 22 Jun 2017 12:48:59 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <C3866D3510DE5646912C784901484313@bmwmail.corp>
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 20 June 2017 at 13:48,  <span dir=3D"ltr">&lt;<a href=3D"mailto:Mikko.Ra=
-peli@bmw.de" target=3D"_blank">Mikko.Rapeli@bmw.de</a>&gt;</span> wrote:<br=
-><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1=
-px #ccc solid;padding-left:1ex"><div id=3D":3c7" class=3D"a3s aXjCH m15cc58=
-c83867c775">The bitbake and scripts parts from this patch series were merge=
-d already, but<br>
-this not.<br>
-<br>
-Are there problems with this patch?<br></div></blockquote></div><br>Sorry, =
-didn&#39;t get around to replying.=C2=A0 It doesn&#39;t apply to master, ca=
-n you rebase please?</div><div class=3D"gmail_extra"><br></div><div class=
-=3D"gmail_extra">Cheers,</div><div class=3D"gmail_extra">Ross</div></div>
+On Thu, Jun 22, 2017 at 01:38:15PM +0100, Burton, Ross wrote:
+> On 20 June 2017 at 13:48, <Mikko.Rapeli@bmw.de> wrote:
+>=20
+> > The bitbake and scripts parts from this patch series were merged alread=
+y,
+> > but
+> > this not.
+> >
+> > Are there problems with this patch?
+> >
+>=20
+> Sorry, didn't get around to replying.  It doesn't apply to master, can yo=
+u
+> rebase please?
 
---001a1147e5f8632e8705528bc3b2--
+Sure, no problem. I'll rebase and send again.
+
+-Mikko=
+
