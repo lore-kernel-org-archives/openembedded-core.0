@@ -1,23 +1,30 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id AE8FA6E672
+Return-Path: <zhengrq.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
+	by mail.openembedded.org (Postfix) with ESMTP id 5FC0D71BEE
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Jun 2017 19:50:26 +0000 (UTC)
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-	by orsmga105.jf.intel.com with ESMTP; 21 Jun 2017 12:50:28 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.39,370,1493708400"; d="scan'208";a="100223417"
-Received: from novakdie-mobl1.ger.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.252.51.165])
-	by orsmga004.jf.intel.com with ESMTP; 21 Jun 2017 12:50:27 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 21 Jun 2017 21:49:54 +0200
-Message-Id: <8bfdc82b618ab4e097bd49de5157e21e581dc854.1498074579.git.paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 2.9.4
-In-Reply-To: <cover.1498074579.git.paul.eggleton@linux.intel.com>
-References: <cover.1498074579.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 1/1] oe-init-build-env-memres: swap parameter order
+	Thu, 22 Jun 2017 01:05:23 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.22,518,1449504000"; d="scan'208";a="20338957"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 22 Jun 2017 09:05:19 +0800
+Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
+	by cn.fujitsu.com (Postfix) with ESMTP id 069F547C7C84
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 22 Jun 2017 09:05:20 +0800 (CST)
+Received: from localhost.localdomain.localdomain (10.167.226.100) by
+	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.319.2; Thu, 22 Jun 2017 09:05:19 +0800
+From: zhengrq <zhengrq.fnst@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 22 Jun 2017 09:05:14 +0800
+Message-ID: <1498093514-5501-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
+MIME-Version: 1.0
+X-Originating-IP: [10.167.226.100]
+X-yoursite-MailScanner-ID: 069F547C7C84.ABEB6
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: zhengrq.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [PATCH v2] (jethro) rpm: Fix the Bug of SRPM String error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,50 +37,111 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Jun 2017 19:50:26 -0000
+X-List-Received-Date: Thu, 22 Jun 2017 01:05:25 -0000
+Content-Type: text/plain; charset="y"
+Content-Transfer-Encoding: 8bit
 
-This script expected the port number to be specified first, which is
-somewhat counter-intuitive especially if you're used to
-oe-init-build-env; besides, in local usage you are unlikely to need to
-specify a custom port. Given that few people are using this yet (based
-on the issues I have recently fixed), switch the arguments around so
-that the two scripts behave consistently.
+Add a patch 0001-Fix-the-Bug-of-SRPM-String-error.patch to fix SRPM bug
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+When use bitbake to build a SRPM package, some sections of SRPM can't be displayed normally.
+For example:
+$ rpm -qpi zlib-1.2.8-r0.src.rpm
+warning: zlib-1.2.8-r0.src.rpm: Header V4 DSA/SHA1 Signature, key ID e64962a6: NOKEY
+Name        : zlib
+Version     : 1.2.8
+Release     : r0
+Architecture: i586
+Install Date: (not installed)
+Group       : ﺩ
+Size        : 633007
+License     : Zlib
+Signature   : DSA/SHA1, 2017年04月22日 00時38分03秒, Key ID bc5e0520e64962a6
+Source RPM  : (none)
+Build Date  : 2017年04月22日 00時38分03秒
+Build Host  : force
+Relocations : (not relocatable)
+Packager    : Poky <poky@yoctoproject.org>
+URL         : http://zlib.net/
+Summary     : ¨¯
+Description :
+ﺩ
+
+Signed-off-by: zhengrq <zhengrq.fnst@cn.fujitsu.com>
 ---
- oe-init-build-env-memres | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ .../0001-Fix-the-Bug-of-SRPM-String-error.patch    | 48 ++++++++++++++++++++++
+ meta/recipes-devtools/rpm/rpm_5.4.14.bb            |  1 +
+ 2 files changed, 49 insertions(+)
+ create mode 100644 meta/recipes-devtools/rpm/rpm/0001-Fix-the-Bug-of-SRPM-String-error.patch
 
-diff --git a/oe-init-build-env-memres b/oe-init-build-env-memres
-index 9e1425e..3f0d239 100755
---- a/oe-init-build-env-memres
-+++ b/oe-init-build-env-memres
-@@ -19,18 +19,18 @@
- # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+diff --git a/meta/recipes-devtools/rpm/rpm/0001-Fix-the-Bug-of-SRPM-String-error.patch b/meta/recipes-devtools/rpm/rpm/0001-Fix-the-Bug-of-SRPM-String-error.patch
+new file mode 100644
+index 0000000..b962617
+--- /dev/null
++++ b/meta/recipes-devtools/rpm/rpm/0001-Fix-the-Bug-of-SRPM-String-error.patch
+@@ -0,0 +1,48 @@
++Subject: [PATCH] Fix the Bug of SRPM String error
++
++Upstream-Status: Pending
++$ rpm -qpi zlib-1.2.8-r0.src.rpm
++warning: zlib-1.2.8-r0.src.rpm: Header V4 DSA/SHA1 Signature, key ID e64962a6: NOKEY
++Name        : zlib
++Version     : 1.2.8
++Release     : r0
++Architecture: i586
++Install Date: (not installed)
++Group       : ﺩ
++Size        : 633007
++License     : Zlib
++Signature   : DSA/SHA1, 2017年04月22日 00時38分03秒, Key ID bc5e0520e64962a6
++Source RPM  : (none)
++Build Date  : 2017年04月22日 00時38分03秒
++Build Host  : force
++Relocations : (not relocatable)
++Packager    : Poky <poky@yoctoproject.org>
++URL         : http://zlib.net/
++Summary     : ¨¯
++Description :
++ﺩ
++
++Signed-off-by: zhengrq <zhengrq.fnst@cn.fujitsu.com>
++---
++ rpmdb/tagname.c | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/rpmdb/tagname.c b/rpmdb/tagname.c
++index cfd1459..dbcafd1 100644
++--- a/rpmdb/tagname.c
+++++ b/rpmdb/tagname.c
++@@ -518,9 +518,9 @@ tagStore_t tagStoreFree(tagStore_t dbiTags, size_t dbiNTags)
++ void tagTypeValidate(HE_t he);
++ void tagTypeValidate(HE_t he)
++ {
++-    /* XXX Re-map RPM_I18NSTRING_TYPE -> RPM_STRING_TYPE */
+++    /* XXX RPM_I18NSTRING_TYPE is treated as strings. */
++     if (he->t == RPM_I18NSTRING_TYPE)
++-	he->t = RPM_STRING_TYPE;
+++	return;
++ 
++     /* XXX Arbitrary tags are always strings. */
++     if ((he->tag & 0x40000000)
++-- 
++2.7.4
++
+diff --git a/meta/recipes-devtools/rpm/rpm_5.4.14.bb b/meta/recipes-devtools/rpm/rpm_5.4.14.bb
+index 73b3734..f8bdfe9 100644
+--- a/meta/recipes-devtools/rpm/rpm_5.4.14.bb
++++ b/meta/recipes-devtools/rpm/rpm_5.4.14.bb
+@@ -100,6 +100,7 @@ SRC_URI = "http://www.rpm5.org/files/rpm/rpm-5.4/rpm-5.4.14-0.20131024.src.rpm;e
+ 	   file://rpm-macros.in-disable-external-key-server.patch \
+ 	   file://rpm-opendb-before-verifyscript-to-avoid-null-point.patch \
+ 	   file://configure.ac-check-for-both-gpg2-and-gpg.patch \
++	   file://0001-Fix-the-Bug-of-SRPM-String-error.patch \
+ 	  "
  
- #
--# Normally this is called as '. ./oe-init-build-env-memres <portnumber> <builddir>'
-+# Normally this is called as '. ./oe-init-build-env-memres <builddir> [portnumber]'
- #
- # This works in most shells (not dash), but not all of them pass the arguments
--# when being sourced.  To workaround the shell limitation use "set <portnumber>
--# <builddir>" prior to sourcing this script.
-+# when being sourced.  To workaround the shell limitation use "set <builddir>
-+# [portnumber]" prior to sourcing this script.
- #
--if [ -z "$1" ]; then
-+if [ -z "$2" ]; then
-     echo "No port specified, using dynamically selected port"
-     port=-1
- else
--    port=$1
--    shift
-+    port=$2
-+    set -- "$1" "$3" "$4" "$5" "$6"
- fi
- 
- if [ -n "$BASH_SOURCE" ]; then
+ # Uncomment the following line to enable platform score debugging
 -- 
-2.9.4
+2.7.4
+
+
 
 
