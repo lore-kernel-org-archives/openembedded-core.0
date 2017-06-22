@@ -1,39 +1,55 @@
-Return-Path: <andre.draszik@gmail.com>
-Received: from mail-wr0-f196.google.com (mail-wr0-f196.google.com
-	[209.85.128.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 99A1C7822B
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-io0-f181.google.com (mail-io0-f181.google.com
+	[209.85.223.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 3946F78242
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Jun 2017 15:14:06 +0000 (UTC)
-Received: by mail-wr0-f196.google.com with SMTP id k67so5369961wrc.1
+	Thu, 22 Jun 2017 15:14:31 +0000 (UTC)
+Received: by mail-io0-f181.google.com with SMTP id c201so24843642ioe.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Jun 2017 08:14:07 -0700 (PDT)
+	Thu, 22 Jun 2017 08:14:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:organization:mime-version:content-transfer-encoding;
+	bh=aR/kQDvdzX6z4sguDzRTkmI6+HA+lnYso9jFJvVz2ag=;
+	b=eMsPguWbYWbdoJh6NdjjjbIHCNPMsqe1Jnu8aU4VPrmEJVkuIth5CWzwRUcSVsk5aF
+	QkdoXqB2VWFb6cHD5qAuhfF288qY4OaCXjKLQ92tta4spkj0qMv7pFw4E2XJmGD9q2+P
+	1Nltw0jjTGaFaRGE1MccBcDDgX2JTdb3ScOrBHi/6ye1yvv7vwhS0zBGnB+KUjYkdqON
+	YHKWvBXC6Ow/Gr7nhfGlf5syRqwkBXjcviqIirVYXVHEcPZD/Nm9tw4cIQtJdKWpAol8
+	mSf9Na4VXmjnIB2En6GWvKBVzafT1M1OtCY3j8Jae9GG/9mtJ6xQ2oqjFQ8BbG0EbCHn
+	5ydw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=/nFKdwMfZJswvX42AJRZpB0ILLZLNvnaqSxi+xs6q80=;
-	b=oWIb4/2eU07defb3E74B8KOwtBDqANM//6K0WLiL7eYplK7OyoGG2UEkaly35iYCEx
-	Fr7OvZL0PoxenCdC+HFpyNnie+tsSXKiO3cqQ0ZGK5MUdl9JWq3GxGSIwUYDntQj/WL/
-	xuIAdYy3G2EwrbuIZuzICqanrbIavWfQ32TWq6nG+n/mhJThgk5O/VYu9+y3H1E4s893
-	+pIA+iFLonHaG62jdrXNfFOdINQhdplR+H4jQ1Z9hI28EaBKTlhDUyQs8pFEQ511kECq
-	EPuMvVAePCEffKwjyITn2hi6FpGASoRN2HpKt4RiGumptVy+oGBuLCuDsp/Ua4glZXE0
-	iiKg==
-X-Gm-Message-State: AKS2vOzW5adOLLBUdPCCKFWBwUgXchRF1WlUqd2siKwCRiQWMRo4MVdF
-	qOdwDjmCGWVuqBwQ42M=
-X-Received: by 10.28.156.208 with SMTP id f199mr2035869wme.22.1498144446851;
-	Thu, 22 Jun 2017 08:14:06 -0700 (PDT)
-Received: from tfsielt31850.tycofs.com ([77.107.218.170])
-	by smtp.gmail.com with ESMTPSA id 55sm2229940wrt.36.2017.06.22.08.14.05
-	for <openembedded-core@lists.openembedded.org>
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:organization:mime-version:content-transfer-encoding;
+	bh=aR/kQDvdzX6z4sguDzRTkmI6+HA+lnYso9jFJvVz2ag=;
+	b=jnP6lRojIVoKASPaW1r2ei+hSzHH2feqDRu2d1o8NDaAlO4dpibg79RRb+sKjFoMX5
+	iUFFSnOYmGJBcx2G3z6MFNNwXbagE7deDaf3v4xTnCLsatoFUPbjsNMa/nZoxVxi6nlk
+	Pw0varDt6gh6e9k8v1/0xxVu9zLFwhqaiP/Cvbs6EYvI+OJcY4HQmGxh5yPJL1hRasvM
+	SYGrukoVYyBeBvG9OBnnBVLp5OvOrKuORk2kKh7rRavqkh46wANE/ts4Mt1hX/tPiZZV
+	QtLELl6kQtd+1wNmmaqTyFMHrehXJTXKqqHSBPM7Nc23U6TcGZPAWfcn5ZHRowbkBYxg
+	gYGw==
+X-Gm-Message-State: AKS2vOyDe9ow2pYMrfllqWyfR8wglbJVtAEpujL2I7bA348hkm8X/P88
+	RnJoDNLD39fXEG8S
+X-Received: by 10.107.154.5 with SMTP id c5mr3054800ioe.109.1498144473113;
+	Thu, 22 Jun 2017 08:14:33 -0700 (PDT)
+Received: from pohly-mobl1 (p5DE8EF96.dip0.t-ipconnect.de. [93.232.239.150])
+	by smtp.gmail.com with ESMTPSA id o14sm1122881itb.8.2017.06.22.08.14.31
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 22 Jun 2017 08:14:05 -0700 (PDT)
-From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <git@andred.net>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 22 Jun 2017 16:14:04 +0100
-Message-Id: <20170622151404.27496-1-git@andred.net>
-X-Mailer: git-send-email 2.11.0
-MIME-Version: 1.0
-Subject: [PATCH] linux-libc-headers: fix duplicate IFF_LOWER_UP DORMANT ECHO on musl
+	Thu, 22 Jun 2017 08:14:31 -0700 (PDT)
+Message-ID: <1498144469.22706.10.camel@intel.com>
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+Date: Thu, 22 Jun 2017 17:14:29 +0200
+In-Reply-To: <1498143522.31575.41.camel@linux.intel.com>
+References: <20170619143936.20912-1-leonardo.sandoval.gonzalez@linux.intel.com>
+	<1498141053.22706.4.camel@intel.com>
+	<1498143522.31575.41.camel@linux.intel.com>
+Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
+X-Mailer: Evolution 3.12.9-1+b1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/2] commands: send stderr to a new pipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,137 +62,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Jun 2017 15:14:07 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 22 Jun 2017 15:14:32 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: André Draszik <adraszik@tycoint.com>
+On Thu, 2017-06-22 at 09:58 -0500, Leonardo Sandoval wrote:
+> On Thu, 2017-06-22 at 16:17 +0200, Patrick Ohly wrote:
+> > On Mon, 2017-06-19 at 07:39 -0700,
+> > leonardo.sandoval.gonzalez@linux.intel.com wrote:
+> > > From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+> > > 
+> > > Do not mix the stderr into stdout, allowing test cases to query
+> > > the specific output.
+> > 
+> > This changes the behavior of functions that are also used outside of
+> > OE-core in a way that won't be easy to notice. I also don't think that
+> > it is the right default. For example, for bitbake it is easier to
+> > understand where an error occurred when stderr goes to the same stream
+> > as stdout.
+> 
+> how would that make it easier?
 
-musl _does_ define IFF_LOWER_UP DORMANT ECHO so we should
-prevent redefinition of these when on musl.
+Because then output will be properly interleaved, as it would be on a
+console.
 
-As per the included patch, this can be triggered by
-(from connman 6to4.c):
-    include <errno.h>
-    include <stdio.h>
-    include <stdlib.h>
-    include <string.h>
-    include <sys/socket.h>
-    include <netinet/in.h>
-    include <arpa/inet.h>
-    include <net/if.h>
-    include <linux/ip.h>
-    include <linux/if_tunnel.h>
-    include <linux/netlink.h>
-    include <linux/rtnetlink.h>
-    include <sys/ioctl.h>
-    include <unistd.h>
+Actually, the entire error reporting in runCmd() only prints
+result.output, so with stderr going to result.error by default, you
+won't get the actual errors reported anymore at all, will you? 
 
-In file included from ../git/src/6to4.c:34:0:
-.../usr/include/linux/if.h:97:2: error: expected identifier before numeric constant
-  IFF_LOWER_UP   = 1<<16, /* __volatile__ */
-  ^
+> > Can't you keep the current semantic and just override it explicitly in
+> > those tests that need separate stdout/stderr?
+> > 
+> 
+> My proposed patch was mainly based on a RP's comment [1], suggesting to
+> split std[out|err].
 
-This is because at that time, IFF_LOWER_UP has been converted
-to 0x10000 already:
-enum net_device_flags {
- 0x10000 = 1<<16,
- 0x20000 = 1<<17,
- 0x40000 = 1<<18,
+He did not suggest to change the default behavior. I agree that using
+split stdout/stderr in those specific tests which specifically want to
+check for error messages makes sense, but only in those tests.
 
-};
-
-By defining __UAPI_DEF_IF_NET_DEVICE_FLAGS_LOWER_UP_DORMANT_ECHO
-to 0, we avoid the duplicated definition.
-
-Signed-off-by: André Draszik <adraszik@tycoint.com>
----
- ....h-musl-_does_-define-IFF_LOWER_UP-DORMAN.patch | 62 ++++++++++++++++++++++
- .../linux-libc-headers/linux-libc-headers_4.10.bb  |  1 +
- 2 files changed, 63 insertions(+)
- create mode 100644 meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0001-libc-compat.h-musl-_does_-define-IFF_LOWER_UP-DORMAN.patch
-
-diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0001-libc-compat.h-musl-_does_-define-IFF_LOWER_UP-DORMAN.patch b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0001-libc-compat.h-musl-_does_-define-IFF_LOWER_UP-DORMAN.patch
-new file mode 100644
-index 0000000000..fd1bb9edb8
---- /dev/null
-+++ b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0001-libc-compat.h-musl-_does_-define-IFF_LOWER_UP-DORMAN.patch
-@@ -0,0 +1,62 @@
-+From 08a04c025395b0580913285045f2af36ee0985db Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <adraszik@tycoint.com>
-+Date: Thu, 15 Jun 2017 16:55:33 +0100
-+Subject: [PATCH] libc-compat.h: musl _does_ define IFF_LOWER_UP DORMANT ECHO
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+To trigger this (from connman 6to4.c):
-+    include <errno.h>
-+    include <stdio.h>
-+    include <stdlib.h>
-+    include <string.h>
-+    include <sys/socket.h>
-+    include <netinet/in.h>
-+    include <arpa/inet.h>
-+    include <net/if.h>
-+    include <linux/ip.h>
-+    include <linux/if_tunnel.h>
-+    include <linux/netlink.h>
-+    include <linux/rtnetlink.h>
-+    include <sys/ioctl.h>
-+    include <unistd.h>
-+
-+In file included from ../git/src/6to4.c:34:0:
-+/scratch/yocto/build-tgm-r3-poky-fpp-tgm.pyro/tmp/work/tgm_r3-poky-linux-musl/connman/1.33-git4+AUTOINC+aa5b3dc12b-r0/recipe-sysroot/usr/include/linux/if.h:97:2: error: expected identifier before numeric constant
-+  IFF_LOWER_UP   = 1<<16, /* __volatile__ */
-+  ^
-+
-+This is because at that time, IFF_LOWER_UP has been converted
-+to 0x10000 already:
-+enum net_device_flags {
-+ 0x10000 = 1<<16,
-+ 0x20000 = 1<<17,
-+ 0x40000 = 1<<18,
-+
-+};
-+
-+Upstream-Status: Pending
-+Signed-off-by: André Draszik <adraszik@tycoint.com>
-+Acked-by: Stephane Ayotte <sayotte@tycoint.com>
-+---
-+ include/uapi/linux/libc-compat.h | 3 ++-
-+ 1 file changed, 2 insertions(+), 1 deletion(-)
-+
-+diff --git a/include/uapi/linux/libc-compat.h b/include/uapi/linux/libc-compat.h
-+index f11ec0e..2003ae4 100644
-+--- a/include/uapi/linux/libc-compat.h
-++++ b/include/uapi/linux/libc-compat.h
-+@@ -70,7 +70,8 @@
-+ #define __UAPI_DEF_IF_NET_DEVICE_FLAGS 0
-+ /* For the future if glibc adds IFF_LOWER_UP, IFF_DORMANT and IFF_ECHO */
-+ #ifndef __UAPI_DEF_IF_NET_DEVICE_FLAGS_LOWER_UP_DORMANT_ECHO
-+-#define __UAPI_DEF_IF_NET_DEVICE_FLAGS_LOWER_UP_DORMANT_ECHO 1
-++/* musl has these defined */
-++#define __UAPI_DEF_IF_NET_DEVICE_FLAGS_LOWER_UP_DORMANT_ECHO 0
-+ #endif /* __UAPI_DEF_IF_NET_DEVICE_FLAGS_LOWER_UP_DORMANT_ECHO */
-+ 
-+ #else /* _NET_IF_H */
-+-- 
-+2.11.0
-+
-diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_4.10.bb b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_4.10.bb
-index 108446aa34..29262789a8 100644
---- a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_4.10.bb
-+++ b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_4.10.bb
-@@ -4,6 +4,7 @@ SRC_URI_append_libc-musl = "\
-     file://0001-libc-compat.h-fix-some-issues-arising-from-in6.h.patch \
-     file://0002-libc-compat.h-prevent-redefinition-of-struct-ethhdr.patch \
-     file://0003-remove-inclusion-of-sysinfo.h-in-kernel.h.patch \
-+    file://0001-libc-compat.h-musl-_does_-define-IFF_LOWER_UP-DORMAN.patch \
-    "
- 
- SRC_URI[md5sum] = "b5e7f6b9b2fe1b6cc7bc56a3a0bfc090"
 -- 
-2.11.0
+Best Regards, Patrick Ohly
+
+The content of this message is my personal opinion only and although
+I am an employee of Intel, the statements I make here in no way
+represent Intel's position on the issue, nor am I authorized to speak
+on behalf of Intel on this matter.
+
+
 
 
