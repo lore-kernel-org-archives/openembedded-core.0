@@ -1,32 +1,48 @@
-Return-Path: <mcfrisk@kapsi.fi>
-Received: from mail.kapsi.fi (mail.kapsi.fi [217.30.184.167])
-	by mail.openembedded.org (Postfix) with ESMTP id F3F0B607A5
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qt0-f172.google.com (mail-qt0-f172.google.com
+	[209.85.216.172])
+	by mail.openembedded.org (Postfix) with ESMTP id AB8C571993
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Jun 2017 13:23:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
-	s=20161220; 
-	h=References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From;
-	bh=SxkEXX1H/LnetR3+801HThuRNZaY/96eXduNZPm3UR8=; 
-	b=HNEuM2hl78KLyJgml0tq0vhcoHvhspVUE2NWajE74uaTMBk4chkxA5oka11wn/evNagFi71P+M4gqyDepN+uOdw1WoIXq86yS9jEFiJuMmu6p0SAhxHko1MeIRs1BMdveCa8bG/gle4xkyYh9s59IC8Ze5MSanswsk8VmaJAv21g4zMuSuRpHnT6TN3UciDowgTUMNTtWt/MSU82hAyWYYQf8Fpr3zp0P2IK+tAAmMiiAFneONwmJhUI0QaM/X9t8HIoYqLOx2tpC3OkbCciqx+xgtoa+0H5CDOVevj3zkguRpMfW9q3b58sAyIuG4KT/aHZlNKoDyQdqaEe7kSmcg==;
-Received: from lakka.kapsi.fi ([2001:1bc8:1004::1] ident=Debian-exim)
-	by mail.kapsi.fi with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-	(Exim 4.84_2) (envelope-from <mcfrisk@kapsi.fi>)
-	id 1dO257-0003lQ-Jr; Thu, 22 Jun 2017 16:23:33 +0300
-Received: from mcfrisk by lakka.kapsi.fi with local (Exim 4.84_2)
-	(envelope-from <mcfrisk@lakka.kapsi.fi>)
-	id 1dO257-00088j-IP; Thu, 22 Jun 2017 16:23:33 +0300
-From: Mikko Rapeli <mikko.rapeli@bmw.de>
-To: poky@yoctoproject.org
-Date: Thu, 22 Jun 2017 16:23:14 +0300
-Message-Id: <1498137794-29938-1-git-send-email-mikko.rapeli@bmw.de>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <20170622124857.jygx7aot2xm2kvll@hiutale>
-References: <20170622124857.jygx7aot2xm2kvll@hiutale>
-X-SA-Exim-Connect-IP: 2001:1bc8:1004::1
-X-SA-Exim-Mail-From: mcfrisk@kapsi.fi
-X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH v3] meta: Fix return value checks from subprocess.call()'s
+	Thu, 22 Jun 2017 13:31:13 +0000 (UTC)
+Received: by mail-qt0-f172.google.com with SMTP id f92so11621053qtb.2
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 22 Jun 2017 06:31:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=+xHK8T8y/4SJ3lQCmWfiPJ6CTYo8JkaizqDlfOkJHwI=;
+	b=Xg31NX0LWkeD/mkbpPxpX7J1VJOiyJp1wJK/RcAW+QVabcM8yYVRiR78IWWueZ/PVt
+	ADLOgGMc6JB57bK6BPcsGOjd2sI/gUbjv7dD/yAN0U1la0OeStZVMCXGnAnUGMpeP5gL
+	gUPUYqFbxIzftUbtxV4SHXBYjiewUMlSj7JqthSMppye8PSw8kB84E805Fi1Pbq4sRv0
+	Bc+u3VCoJOyrT7pQm4y9AOLE1UwT+77w6H56LdLnvzRnMrFum3R7sphJHAJVCVnueiIr
+	kFw3yL10LCTlz/oaBIDuKS+YG05sLGh/Yz3IG/+QYmJYGvvXsQg5frfR5FrXS6OnVmt1
+	QiBQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=+xHK8T8y/4SJ3lQCmWfiPJ6CTYo8JkaizqDlfOkJHwI=;
+	b=BeIUJO4oYGFSqgiPptx74SsSPZhvOVhiLa4S+GNWE/R0+pchSp5LyfLUlNZdo4IcA0
+	UgDpHl4ixVlolTbRh64seGkTeMPpZ92GB2/jAOtga8u1MFDEISKPlFlnZPzMz/JmN4Dv
+	bk/+XDNk1NWsVHWLrAcPLL0gphnXcC0dz1V8d8uCnUkt+Wc3K9W/wIXGSrD67GzhXAYr
+	3D0YuuTqgx607364IuTdGMXrVKOf1+/Xb+nXYIaDmMqqIeli9Hp2PoOHlS2EHL7oqvkC
+	4XQUrLDmcpnJ9naH6fVJ95uiRMhLMPZggvPG6B4RLfXoFNSYZrxXbP4Z5Vz7UlW0qMXL
+	hkeA==
+X-Gm-Message-State: AKS2vOxzKhGHUpNbzOY2VBPOZfax0Oal6Z54rUPXIm+suDEkAI+8YLVU
+	zb8zq1YrqwyKS0t3uTG1efU7ykPcXM/3
+X-Received: by 10.237.40.97 with SMTP id r88mr3193156qtd.27.1498138274387;
+	Thu, 22 Jun 2017 06:31:14 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.35.103 with HTTP; Thu, 22 Jun 2017 06:30:54 -0700 (PDT)
+In-Reply-To: <1498071972-142545-1-git-send-email-yin.thong.choong@intel.com>
+References: <1498071972-142545-1-git-send-email-yin.thong.choong@intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 22 Jun 2017 14:30:54 +0100
+Message-ID: <CAJTo0LZqiihq_nSm+An9fA9OJSKDcTSsZ_r3ni-XkFiLe5hOYw@mail.gmail.com>
+To: "Choong, Yin Thong" <yin.thong.choong@intel.com>
+Cc: Saul Wold <saul.wold@intel.com>, Paul Eggleton <paul.eggleton@intel.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v5] image_types.bbclass: Prompt error message on missing setting in UBI and UBIFS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,136 +55,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Jun 2017 13:23:36 -0000
+X-List-Received-Date: Thu, 22 Jun 2017 13:31:14 -0000
+Content-Type: multipart/alternative; boundary="94eb2c068b34ab701105528c7f00"
 
-Python function subprocess.call() returns the return value of the
-executed process. If return values are not checked, errors may
-go unnoticed and bad things can happen.
+--94eb2c068b34ab701105528c7f00
+Content-Type: text/plain; charset="UTF-8"
 
-Change all callers of subprocess.call() which do not check for
-the return value to use subprocess.check_call() which raises
-CalledProcessError if the subprocess returns with non-zero value.
+On 21 June 2017 at 20:06, <yin.thong.choong@intel.com> wrote:
 
-https://docs.python.org/2/library/subprocess.html#using-the-subprocess-module
+> +        if [ -z "$mkubifs_args"] || [ -z "$ubinize_args" ]; then
+> +            bberror "MKUBIFS_ARGS and UBINIZE_ARGS argument have to set
+> for UBI and UBIFS image creation."
+> +            bberror "Detail please visit this link http://www.linux-mtd.
+> infradead.org/faq/ubifs.html"
+> +            return
+> +        fi
+>
 
-All users of the function were found with:
+bberror isn't fatal but this is a fatal problem so the task needs to fail.
+You could emit the first line with bberror and the second with bbfatal, but
+its would be clearer if it was one line, such as:
 
-$ git grep "subprocess\.call" | \
-  egrep -v 'if.*subprocess\.call|=\ +subprocess\.call|return.*subprocess\.call'
+bbfatal "MKUBIFS_ARGS and UBINIZE_ARGS have to be set, see
+http://www.linux-mtd.infradead.org/faq/ubifs.html for details"
 
-Tested similar patch on top of yocto jethro. Only compile tested
-core-image-minimal on poky master branch.
+As bbfatal does an exit, there's no need for the return either.
 
-Signed-off-by: Mikko Rapeli <mikko.rapeli@bmw.de>
----
- meta/classes/cml1.bbclass                | 2 +-
- meta/classes/kernel-module-split.bbclass | 2 +-
- meta/classes/sstate.bbclass              | 4 ++--
- meta/lib/oeqa/utils/buildproject.py      | 2 +-
- meta/lib/oeqa/utils/targetbuild.py       | 4 ++--
- meta/recipes-extended/cups/cups.inc      | 2 +-
- 6 files changed, 8 insertions(+), 8 deletions(-)
+Ross
 
-v3:
-rebased
+--94eb2c068b34ab701105528c7f00
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-v2:
-split patches to bitbake, meta and scripts
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 21 June 2017 at 20:06,  <span dir=3D"ltr">&lt;<a href=3D"mailto:yin.thon=
+g.choong@intel.com" target=3D"_blank">yin.thong.choong@intel.com</a>&gt;</s=
+pan> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0p=
+x 0.8ex;border-left-width:1px;border-left-style:solid;border-left-color:rgb=
+(204,204,204);padding-left:1ex"><div id=3D"gmail-:17y" class=3D"gmail-a3s g=
+mail-aXjCH gmail-m15ccd97a3c51264e">+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if [ -z &q=
+uot;$mkubifs_args&quot;] || [ -z &quot;$ubinize_args&quot; ]; then<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bberror &quot;MKUBIFS_ARGS and U=
+BINIZE_ARGS argument have to set for UBI and UBIFS image creation.&quot;<br=
+>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bberror &quot;Detail please visi=
+t this link <a href=3D"http://www.linux-mtd.infradead.org/faq/ubifs.html" r=
+el=3D"noreferrer" target=3D"_blank">http://www.linux-mtd.<wbr>infradead.org=
+/faq/ubifs.html</a>&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 fi<br></div></blockquote></div><br>bberror isn=
+&#39;t fatal but this is a fatal problem so the task needs to fail.=C2=A0 Y=
+ou could emit the first line with bberror and the second with bbfatal, but =
+its would be clearer if it was one line, such as:</div><div class=3D"gmail_=
+extra"><br></div><div class=3D"gmail_extra">bbfatal &quot;MKUBIFS_ARGS and =
+UBINIZE_ARGS have to be set, see <a href=3D"http://www.linux-mtd.infradead.=
+org/faq/ubifs.html">http://www.linux-mtd.infradead.org/faq/ubifs.html</a> f=
+or details&quot;</div><div class=3D"gmail_extra"><br></div><div class=3D"gm=
+ail_extra">As bbfatal does an exit, there&#39;s no need for the return eith=
+er.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ro=
+ss</div></div>
 
-v1:
-http://lists.openembedded.org/pipermail/openembedded-core/2017-May/136901.html
-
-diff --git a/meta/classes/cml1.bbclass b/meta/classes/cml1.bbclass
-index 38e6613..eb8e790 100644
---- a/meta/classes/cml1.bbclass
-+++ b/meta/classes/cml1.bbclass
-@@ -63,7 +63,7 @@ python do_diffconfig() {
- 
-     if isdiff:
-         statement = 'diff --unchanged-line-format= --old-line-format= --new-line-format="%L" ' + configorig + ' ' + config + '>' + fragment
--        subprocess.call(statement, shell=True)
-+        subprocess.check_call(statement, shell=True)
- 
-         shutil.copy(configorig, config)
- 
-diff --git a/meta/classes/kernel-module-split.bbclass b/meta/classes/kernel-module-split.bbclass
-index 5e10dcf..1035525 100644
---- a/meta/classes/kernel-module-split.bbclass
-+++ b/meta/classes/kernel-module-split.bbclass
-@@ -47,7 +47,7 @@ python split_kernel_module_packages () {
-         tf = tempfile.mkstemp()
-         tmpfile = tf[1]
-         cmd = "%sobjcopy -j .modinfo -O binary %s %s" % (d.getVar("HOST_PREFIX") or "", file, tmpfile)
--        subprocess.call(cmd, shell=True)
-+        subprocess.check_call(cmd, shell=True)
-         f = open(tmpfile)
-         l = f.read().split("\000")
-         f.close()
-diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-index 0a12935..f446c3d 100644
---- a/meta/classes/sstate.bbclass
-+++ b/meta/classes/sstate.bbclass
-@@ -404,7 +404,7 @@ python sstate_hardcode_path_unpack () {
-             return
- 
-         bb.note("Replacing fixme paths in sstate package: %s" % (sstate_hardcode_cmd))
--        subprocess.call(sstate_hardcode_cmd, shell=True)
-+        subprocess.check_call(sstate_hardcode_cmd, shell=True)
- 
-         # Need to remove this or we'd copy it into the target directory and may 
-         # conflict with another writer
-@@ -453,7 +453,7 @@ def sstate_clean_manifest(manifest, d, prefix=None):
-     if os.path.exists(manifest + ".postrm"):
-         import subprocess
-         os.chmod(postrm, 0o755)
--        subprocess.call(postrm, shell=True)
-+        subprocess.check_call(postrm, shell=True)
-         oe.path.remove(postrm)
- 
-     oe.path.remove(manifest)
-diff --git a/meta/lib/oeqa/utils/buildproject.py b/meta/lib/oeqa/utils/buildproject.py
-index 487f08b..721f35d 100644
---- a/meta/lib/oeqa/utils/buildproject.py
-+++ b/meta/lib/oeqa/utils/buildproject.py
-@@ -52,4 +52,4 @@ class BuildProject(metaclass=ABCMeta):
- 
-     def clean(self):
-         self._run('rm -rf %s' % self.targetdir)
--        subprocess.call('rm -f %s' % self.localarchive, shell=True)
-+        subprocess.check_call('rm -f %s' % self.localarchive, shell=True)
-diff --git a/meta/lib/oeqa/utils/targetbuild.py b/meta/lib/oeqa/utils/targetbuild.py
-index 9249fa2..1202d57 100644
---- a/meta/lib/oeqa/utils/targetbuild.py
-+++ b/meta/lib/oeqa/utils/targetbuild.py
-@@ -69,7 +69,7 @@ class BuildProject(metaclass=ABCMeta):
- 
-     def clean(self):
-         self._run('rm -rf %s' % self.targetdir)
--        subprocess.call('rm -f %s' % self.localarchive, shell=True)
-+        subprocess.check_call('rm -f %s' % self.localarchive, shell=True)
-         pass
- 
- class TargetBuildProject(BuildProject):
-@@ -136,4 +136,4 @@ class SDKBuildProject(BuildProject):
- 
-     def _run(self, cmd):
-         self.log("Running . %s; " % self.sdkenv + cmd)
--        return subprocess.call(". %s; " % self.sdkenv + cmd, shell=True)
-+        return subprocess.check_call(". %s; " % self.sdkenv + cmd, shell=True)
-diff --git a/meta/recipes-extended/cups/cups.inc b/meta/recipes-extended/cups/cups.inc
-index c3fa459..699a34a 100644
---- a/meta/recipes-extended/cups/cups.inc
-+++ b/meta/recipes-extended/cups/cups.inc
-@@ -83,7 +83,7 @@ python do_package_append() {
-     import subprocess
-     # Change permissions back the way they were, they probably had a reason...
-     workdir = d.getVar('WORKDIR')
--    subprocess.call('chmod 0511 %s/install/cups/var/run/cups/certs' % workdir, shell=True)
-+    subprocess.check_call('chmod 0511 %s/install/cups/var/run/cups/certs' % workdir, shell=True)
- }
- 
- PACKAGES =+ "${PN}-lib ${PN}-libimage"
--- 
-1.9.1
-
-
+--94eb2c068b34ab701105528c7f00--
