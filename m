@@ -1,28 +1,24 @@
-Return-Path: <Randy.MacLeod@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 48CC577972
+Return-Path: <patrick@stwcx.xyz>
+X-Greylist: delayed 905 seconds by postgrey-1.34 at layers.openembedded.org;
+	Thu, 22 Jun 2017 05:30:45 UTC
+Received: from sender-of-o51.zoho.com (sender-of-o51.zoho.com [135.84.80.216])
+	by mail.openembedded.org (Postfix) with ESMTP id 9BE636B6EA
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Jun 2017 04:34:19 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v5M4YKtM004066
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Jun 2017 21:34:20 -0700 (PDT)
-Received: from [172.25.44.7] (172.25.44.7) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
-	Wed, 21 Jun 2017 21:34:19 -0700
-To: <openembedded-core@lists.openembedded.org>
-References: <1498097697-12564-1-git-send-email-Randy.MacLeod@windriver.com>
-From: Randy MacLeod <randy.macleod@windriver.com>
-Message-ID: <d194290a-fad9-3c63-b3a4-379b50074fd5@windriver.com>
-Date: Thu, 22 Jun 2017 00:34:18 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.1.1
+	Thu, 22 Jun 2017 05:30:45 +0000 (UTC)
+Received: from localhost (125.16.236.161 [125.16.236.161]) by mx.zohomail.com
+	with SMTPS id 1498108536614964.0406900554373;
+	Wed, 21 Jun 2017 22:15:36 -0700 (PDT)
+Date: Thu, 22 Jun 2017 00:15:24 -0500
+From: Patrick Williams <patrick@stwcx.xyz>
+To: openembedded-core@lists.openembedded.org
+Message-ID: <20170622051524.GB1200@asimov.in.ibm.com>
 MIME-Version: 1.0
-In-Reply-To: <1498097697-12564-1-git-send-email-Randy.MacLeod@windriver.com>
-X-Originating-IP: [172.25.44.7]
-Subject: Re: [PATCH v2] systemd: work-around ppc gold linker error
+In-Reply-To: <1497645034-3917-1-git-send-email-lgonzalez@us.ibm.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-Zoho-Virus-Status: 1
+X-ZohoMailClient: External
+Cc: Leonel Gonzalez <lgonzalez@us.ibm.com>
+Subject: [PATCH v3] rng-tools: Add service file and systemd package config to rngd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,92 +31,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Jun 2017 04:34:20 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 22 Jun 2017 05:30:46 -0000
+X-Groupsio-MsgNum: 99218
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="cvVnyQ+4j833TQvp"
+Content-Disposition: inline
 
-Merge if you like or wait for the real fix to binutils.
+--cvVnyQ+4j833TQvp
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-This bug has been around for more than a week
-since the binutils upgrade was merged and
-no one else seems to have noticed so it doesn't
-seem urgent.
-
-I needed the work-around to keep our auto-builders happy.
-Oh and I did basic sanity testing to show that booting
-and systemctl status works on qemuppc.
-
-../Randy
-
-On 2017-06-21 10:14 PM, Randy MacLeod wrote:
-> If you enable systemd and build for qemuppc, then the
-> compile of systemd fails due to a gold linker failure:
-> 
->     .../powerpc-oe-linux-ld.gold:
->     error: invalid STB_LOCAL symbol in external symbols
->     error: linker defined: multiple definition of '00000001.plt_call.memcpy+8000'
->     command line: previous definition here
-> 
-> A git bisect confirms that the commit:
->     0b0f545 binutils-2.28: Update to latest on release branch
-> is the problem. This is only known to affect powerpc machines.
-> 
-> Work-around this for powerpc by getting configure to use
-> the bfd linker rather than the gold linker.
-> 
-> This unblocks powerpc use until the linker bug can be resolved.
-> 
-> Signed-off-by: Randy MacLeod <Randy.MacLeod@windriver.com>
+> Signed-off-by: Leonel Gonzalez <lgonzalez at us.ibm.com>
 > ---
->   .../systemd/systemd/systemd-drop-gold-use-bfd.patch   | 19 +++++++++++++++++++
->   meta/recipes-core/systemd/systemd_232.bb              |  2 ++
->   2 files changed, 21 insertions(+)
->   create mode 100644 meta/recipes-core/systemd/systemd/systemd-drop-gold-use-bfd.patch
-> 
-> diff --git a/meta/recipes-core/systemd/systemd/systemd-drop-gold-use-bfd.patch b/meta/recipes-core/systemd/systemd/systemd-drop-gold-use-bfd.patch
-> new file mode 100644
-> index 0000000..e0eb0bd
-> --- /dev/null
-> +++ b/meta/recipes-core/systemd/systemd/systemd-drop-gold-use-bfd.patch
-> @@ -0,0 +1,19 @@
-> +Upstream-Status: Inappropriate [other]
-> +
-> +The patch is not appropriate for upstream since it's a temporary
-> +work-around for only ppc arches. Once the binutils defect in the
-> +gold linker is resolved, this patch can be dropped.
-> +
-> +Signed-off-by: Randy MacLeod <Randy.MacLeod@windriver.com>
-> +
-> +--- a/configure.ac
-> ++++ b/configure.ac
-> +@@ -260,7 +260,7 @@
-> +         -Wl,-z,relro \
-> +         -Wl,-z,now \
-> +         -pie \
-> +-        -Wl,-fuse-ld=gold])
-> ++        -Wl,-fuse-ld=bfd])
-> + AC_SUBST([OUR_LDFLAGS], "$with_ldflags $sanitizer_ldflags")
-> +
-> + AC_CHECK_SIZEOF(pid_t)
-> diff --git a/meta/recipes-core/systemd/systemd_232.bb b/meta/recipes-core/systemd/systemd_232.bb
-> index 1007360..1e8dffe 100644
-> --- a/meta/recipes-core/systemd/systemd_232.bb
-> +++ b/meta/recipes-core/systemd/systemd_232.bb
-> @@ -41,6 +41,8 @@ SRC_URI_append_libc-uclibc = "\
->   "
->   SRC_URI_append_qemuall = " file://0001-core-device.c-Change-the-default-device-timeout-to-2.patch"
->   
-> +SRC_URI_append_powerpc = " file://systemd-drop-gold-use-bfd.patch"
-> +
->   PACKAGECONFIG ??= "xz \
->                      ${@bb.utils.filter('DISTRO_FEATURES', 'efi pam selinux ldconfig', d)} \
->                      ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'xkbcommon', '', d)} \
-> 
+>  meta/recipes-support/rng-tools/rng-tools/rngd.service |  8 ++++++++
+>  meta/recipes-support/rng-tools/rng-tools_5.bb         | 17 +++++++++++++=
+++--
+>  2 files changed, 23 insertions(+), 2 deletions(-)
+>  create mode 100644 meta/recipes-support/rng-tools/rng-tools/rngd.service
 
+Reviewed-by: Patrick Williams <patrick@stwcx.xyz>
 
--- 
-# Randy MacLeod. SMTS, Linux, Wind River
-Direct: 613.963.1350 | 350 Terry Fox Drive, Suite 200, Ottawa, ON, 
-Canada, K2K 2W5
+--=20
+Patrick Williams
 
+--cvVnyQ+4j833TQvp
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEBGD9ii4LE9cNbqJBqwNHzC0AwRkFAllLUmoACgkQqwNHzC0A
+wRndcA//TWpyEetWZ0cjdsXh8d5aqdkzYZNsEkGcD6gkDeo5Fgk4u6FN2JkYWqup
+eSrJDWSr7Ur6HuQfXSbCpE6kWA2GEQVepVVPp5hA4FUNWYKY1zu4okkRnXnneNX9
+gA/wkjiBoue8fgUFUOl5xtVfxCNfOLXpmIySFEiprciCUgeyb6SrnZEC2iNXjjwS
+aTO3aDPu2nLW9DbgnsNVxE9wKqwC7dV7ITwJx9lR2TYWILavqvpcHtJrLsVY4uws
+xJi1LWwHlkQIAUzuOOGv7yxe4EpZAjvBRf2L8E2vXc5pFQTbonAkszCnp0stEKZD
+kRCWRg63ZG/oGvj7qr7qgsaKaXELfkGn6/RU+vyE0Z2lRyTjdlbz/wy8uwN6DMxf
+GyLDkKddJmFpwR1OJtTU2hEBrZ5lWIHtquFATStHomGYpxu5qEP5fzxrvw0P/qLV
+zLQEZjsEFs2LFrtOmKNaBGkm1y3IQlFayqhQFzUb7W8R9vMbgb2+SULTAndM67Qc
++dD6kY+C2Ed6Z5F1iZhePLu+hSCUS9kgnztNexc+toM1edpO7vsizwdqLrHrmOPQ
+bBs5dEvve6Xr2gQK5lMQ0ruuYSf5GjWki9At7uurNFuJzccuemZP2AN0PQTs9j4t
+rFD2Ku/GM4LPZPcaJ7JXkd2GSyPcoG0czXlqSd8xVUq4Pz/vAfk=
+=MKGL
+-----END PGP SIGNATURE-----
+
+--cvVnyQ+4j833TQvp--
