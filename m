@@ -1,43 +1,44 @@
-Return-Path: <avery.brian@gmail.com>
-Received: from mail-pg0-f45.google.com (mail-pg0-f45.google.com [74.125.83.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 1F31B77E7C
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-qt0-f172.google.com (mail-qt0-f172.google.com
+	[209.85.216.172])
+	by mail.openembedded.org (Postfix) with ESMTP id A373D7822B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Jun 2017 14:57:12 +0000 (UTC)
-Received: by mail-pg0-f45.google.com with SMTP id f127so8839064pgc.0
+	Thu, 22 Jun 2017 15:07:41 +0000 (UTC)
+Received: by mail-qt0-f172.google.com with SMTP id u12so14128168qth.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Jun 2017 07:57:14 -0700 (PDT)
+	Thu, 22 Jun 2017 08:07:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=RYKJ2NVOosCJJI1mBVYnWIMNT8LP5jKMBb1VXXvtan8=;
-	b=sM+CoJ0beFa57AsxXJ8eXQ23uRtAvjuGy0Ce8jEYu6vStHHOO9PQBiKtgLQy3CBND3
-	PkIBuigyXRNjzSzeFERmEV8FMwBmWTLG6AUNn5C9DAUbSdeA/JIYLkMBOaPULyZ+uiE1
-	k7BvgtJ+81vHB+wbzTVKL6ZAhp75IFeCSF4C1o1LCq+bbVbBT1XzaZh9Q9BIb/sEw/SC
-	8VIANugazfCwcmUcWPNxFT9reCCVmgrrAIJESPzjueIBiu4LWtIfBib0s07lKaVJlMCK
-	d8LPt1w5E8HPAvxSd7mOEvFDYwcfrzYz3dzPgc+Cj7gl52qGGxF1dvFdUcMwnU+qAFcb
-	61JA==
+	:cc; bh=PIx4g+IGZlmie4pInZGgQlWI1Pd7lXX0KwDIj766jsY=;
+	b=puJCksJ/f6uxsEHR1A8ASsxoeOShuAcppXcf4cW9iv95feVv4d28l90aTcU2jgkX2x
+	przGPEXpqfIYEBCUeZYixyhPFxoocYHb350nwugMQN+Cra4Q5N3xP35sc/2DWzpmag3n
+	39sp81cbYvQHjHY+sEFkFAYrKkhr6BZaSXKxAYzHZj94ahDLqQUEg5ZYBf8ggZu0yVO+
+	Y61YoeV4yFsDex3/mZaSLL/yw3LHlBagMzfY2jxZEVul2IDMZu2lM4q41ZauORm5GjNz
+	hxmMbidPJ8XLzwT/vsz8pn6nuAWwA/8xEM9gMc0fB0NI4ZzI5tGMaikqaIU7cp8tV9Ks
+	PYDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=RYKJ2NVOosCJJI1mBVYnWIMNT8LP5jKMBb1VXXvtan8=;
-	b=fIQCX7/gnpHEQ07g7IhP3GfzKSTKyDQY3qGwNU2pultEHel+RPBMuWkkegY03IeDDI
-	IasATdCtJ5hFJUxjaG3+N/u6RFGfedKKcGUwqQ8Jx6xna7fUgDpIBAvj/68VNQuN/pMm
-	kg9SjuPwXsceTX35dQcyvb22wmtSjwoXQCivS5Sv1DWPTKTl+K49eyy05zeq0OP50yEU
-	HYF0CW88/0Dxya38vHBWoNiXvQi5wGohv2CI5ZvTky4jm8P9Yamv1LJZfMD0TBteUzXe
-	O+aNA/VzA7UGHLbCjjHv1GlhI76NcYU1qIVo6uG5FNS0ahCAV6miy6NH8Xcs0S0PKK9+
-	1kqw==
-X-Gm-Message-State: AKS2vOwmBurm/twEHCu+JHumQPvjGuGSYk2vI8kzmF8y9dAIGam9mgom
-	e+3rtKO1B4td3jBWvu2f0/linZUHTQ==
-X-Received: by 10.98.75.79 with SMTP id y76mr3043514pfa.39.1498143433745; Thu,
-	22 Jun 2017 07:57:13 -0700 (PDT)
+	bh=PIx4g+IGZlmie4pInZGgQlWI1Pd7lXX0KwDIj766jsY=;
+	b=uTCCAoib64V/udUTfl5Cz+2zidAVF+uzItI6xXzqPQaKCbQ+0BIECP0e9aSOFNbUwc
+	RWxNmkECNzPZVzdW0kvzaDrOpGv1XHNZFJO8BEiYMowLg3KC8iE9fgaE5rtZUGYAWg8A
+	VBSsddNBdeNClT1I6XIVbFC0HOyIwBaDWT38NeCSKSR1n7L9I5aKtXkDUdThc42KTx/0
+	P/hMtbyfySwxvmVsbr9bAQehp3nlD5PQPVHQPS7nJ7NmgbXTpC9cGSF+fESoWc61v69u
+	bhOCPoCpTIGUKYnZOttHD7RNb+EEszav9n6BLcBMyDnexsUUjCo3jCe1veNnRu7NahuX
+	8jLw==
+X-Gm-Message-State: AKS2vOxPY8UxCmaxHEIFaPK+yLa2FAZzy4wqkYAesfk4Pxi/JbfBzpB+
+	5RK6vskpKwfsH899QaSrtziV5zH5Vg==
+X-Received: by 10.237.49.41 with SMTP id 38mr3453535qtg.161.1498144062607;
+	Thu, 22 Jun 2017 08:07:42 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.100.130.201 with HTTP; Thu, 22 Jun 2017 07:57:13 -0700 (PDT)
+Received: by 10.12.135.172 with HTTP; Thu, 22 Jun 2017 08:07:42 -0700 (PDT)
 In-Reply-To: <8134a5ecf72045c33cdfc80a0b647aee7674035e.1498120161.git.liezhi.yang@windriver.com>
 References: <cover.1498120161.git.liezhi.yang@windriver.com>
 	<8134a5ecf72045c33cdfc80a0b647aee7674035e.1498120161.git.liezhi.yang@windriver.com>
-From: Brian Avery <avery.brian@gmail.com>
-Date: Thu, 22 Jun 2017 07:57:13 -0700
-Message-ID: <CAKV_0eho-_vpFMb9m9swD7R19y=TNJBOWKu8B43P1dDsAwfYmw@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Thu, 22 Jun 2017 11:07:42 -0400
+Message-ID: <CADkTA4M7BXya=y=WgsBwAKahTwR1esPSv2u+Zz-wT_GhjgfQSw@mail.gmail.com>
 To: Robert Yang <liezhi.yang@windriver.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
@@ -54,18 +55,13 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Jun 2017 14:57:14 -0000
-Content-Type: multipart/alternative; boundary="001a1135dd1230e84605528db359"
+X-List-Received-Date: Thu, 22 Jun 2017 15:07:42 -0000
+Content-Type: multipart/alternative; boundary="94eb2c0c955cac9de505528dd843"
 
---001a1135dd1230e84605528db359
+--94eb2c0c955cac9de505528dd843
 Content-Type: text/plain; charset="UTF-8"
 
-looks good 2 me!
-ty,
-b
-an intel employee
-
-On Thu, Jun 22, 2017 at 1:30 AM, Robert Yang <liezhi.yang@windriver.com>
+On Thu, Jun 22, 2017 at 4:30 AM, Robert Yang <liezhi.yang@windriver.com>
 wrote:
 
 > The following commit has removed rpc ports from runqemu-export-rootfs, so
@@ -73,6 +69,16 @@ wrote:
 > use
 > abspath for nfsroot, otherwise it doesn't work when it is a relative path.
 >
+>
+That change in question was discussed on list and was supposed to be
+optional.
+
+Can you confirm that a non-root user can still do a NFS root with both of
+these changes applied ?
+
+Bruce
+
+
 > commit 6bb9860ef7ba9c84fe9bd3a81aa6555f67ebd38e
 > Author: Cody P Schafer <dev@codyps.com>
 > Date:   Tue Jun 6 18:30:49 2017 -0400
@@ -139,22 +145,32 @@ wrote:
 > http://lists.openembedded.org/mailman/listinfo/openembedded-core
 >
 
---001a1135dd1230e84605528db359
+
+
+-- 
+"Thou shalt not follow the NULL pointer, for chaos and madness await thee
+at its end"
+
+--94eb2c0c955cac9de505528dd843
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">looks good 2 me!<div>ty,</div><div>b=C2=A0</div><div>an in=
-tel employee</div></div><div class=3D"gmail_extra"><br><div class=3D"gmail_=
-quote">On Thu, Jun 22, 2017 at 1:30 AM, Robert Yang <span dir=3D"ltr">&lt;<=
-a href=3D"mailto:liezhi.yang@windriver.com" target=3D"_blank">liezhi.yang@w=
-indriver.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" sty=
-le=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">The fo=
-llowing commit has removed rpc ports from runqemu-export-rootfs, so<br>
+<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
+te">On Thu, Jun 22, 2017 at 4:30 AM, Robert Yang <span dir=3D"ltr">&lt;<a h=
+ref=3D"mailto:liezhi.yang@windriver.com" target=3D"_blank">liezhi.yang@wind=
+river.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=
+=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">The foll=
+owing commit has removed rpc ports from runqemu-export-rootfs, so<br>
 runqemu should also remove them, otherwise &quot;runqemu nfs&quot; doesn&#3=
 9;t work. And use<br>
 abspath for nfsroot, otherwise it doesn&#39;t work when it is a relative pa=
 th.<br>
-<br>
+<br></blockquote><div><br></div><div>That change in question was discussed =
+on list and was supposed to be optional.</div><div><br></div><div>Can you c=
+onfirm that a non-root user can still do a NFS root with both of these chan=
+ges applied ?</div><div><br></div><div>Bruce</div><div>=C2=A0</div><blockqu=
+ote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc s=
+olid;padding-left:1ex">
 commit 6bb9860ef7ba9c84fe9bd3a81aa655<wbr>5f67ebd38e<br>
 Author: Cody P Schafer &lt;<a href=3D"mailto:dev@codyps.com">dev@codyps.com=
 </a>&gt;<br>
@@ -243,6 +259,10 @@ re@lists.<wbr>openembedded.org</a><br>
 <a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
 " rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
 ailman/listinfo/openembedded-<wbr>core</a><br>
-</div></div></blockquote></div><br></div>
+</div></div></blockquote></div><br><br clear=3D"all"><div><br></div>-- <br>=
+<div class=3D"gmail_signature" data-smartmail=3D"gmail_signature">&quot;Tho=
+u shalt not follow the NULL pointer, for chaos and madness await thee at it=
+s end&quot;</div>
+</div></div>
 
---001a1135dd1230e84605528db359--
+--94eb2c0c955cac9de505528dd843--
