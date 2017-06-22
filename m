@@ -1,30 +1,30 @@
 Return-Path: <zhengrq.fnst@cn.fujitsu.com>
 Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
-	by mail.openembedded.org (Postfix) with ESMTP id CAABE77D4C
+	by mail.openembedded.org (Postfix) with ESMTP id 33A0771BEE
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Jun 2017 01:05:53 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.22,518,1449504000"; d="scan'208";a="20339021"
+	Thu, 22 Jun 2017 01:06:29 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.22,518,1449504000"; d="scan'208";a="20339053"
 Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 22 Jun 2017 09:05:54 +0800
+	by heian.cn.fujitsu.com with ESMTP; 22 Jun 2017 09:06:31 +0800
 Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
-	by cn.fujitsu.com (Postfix) with ESMTP id 570DE47C7C8F
+	by cn.fujitsu.com (Postfix) with ESMTP id 509F147C7C9E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Jun 2017 09:05:52 +0800 (CST)
+	Thu, 22 Jun 2017 09:06:32 +0800 (CST)
 Received: from localhost.localdomain.localdomain (10.167.226.100) by
 	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.319.2; Thu, 22 Jun 2017 09:05:52 +0800
+	Server (TLS) id 14.3.319.2; Thu, 22 Jun 2017 09:06:32 +0800
 From: zhengrq <zhengrq.fnst@cn.fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 22 Jun 2017 09:05:46 +0800
-Message-ID: <1498093546-5547-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+Date: Thu, 22 Jun 2017 09:06:22 +0800
+Message-ID: <1498093582-5587-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
 X-Originating-IP: [10.167.226.100]
-X-yoursite-MailScanner-ID: 570DE47C7C8F.ABE91
+X-yoursite-MailScanner-ID: 509F147C7C9E.AC272
 X-yoursite-MailScanner: Found to be clean
 X-yoursite-MailScanner-From: zhengrq.fnst@cn.fujitsu.com
 X-Spam-Status: No
-Subject: [PATCH v2] (krogoth) rpm: Fix the Bug of SRPM String error
+Subject: [PATCH v2] (morty) rpm: Fix the Bug of SRPM String error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,7 +37,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Jun 2017 01:05:54 -0000
+X-List-Received-Date: Thu, 22 Jun 2017 01:06:30 -0000
 Content-Type: text/plain; charset="y"
 Content-Transfer-Encoding: 8bit
 
@@ -128,13 +128,13 @@ index 0000000..b962617
 +2.7.4
 +
 diff --git a/meta/recipes-devtools/rpm/rpm_5.4.16.bb b/meta/recipes-devtools/rpm/rpm_5.4.16.bb
-index eb2d4f9..1c4699e 100644
+index 497af8e..ae5e0c4 100644
 --- a/meta/recipes-devtools/rpm/rpm_5.4.16.bb
 +++ b/meta/recipes-devtools/rpm/rpm_5.4.16.bb
-@@ -119,6 +119,7 @@ SRC_URI += " \
- 	   file://gcc6-stdlib.patch \
+@@ -120,6 +120,7 @@ SRC_URI += " \
  	   file://0001-system.h-query.c-support-nosignature.patch \
  	   file://rpm-ensure-rpm2cpio-call-rpm-relocation-code.patch \
+ 	   file://0001-macros-add-_gpg_sign_cmd_extra_args.patch \
 +	   file://0001-Fix-the-Bug-of-SRPM-String-error.patch \
  "
  
