@@ -1,48 +1,58 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wr0-f172.google.com (mail-wr0-f172.google.com
-	[209.85.128.172])
-	by mail.openembedded.org (Postfix) with ESMTP id AF4FD78229
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-io0-f181.google.com (mail-io0-f181.google.com
+	[209.85.223.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 2948277DB3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Jun 2017 15:34:46 +0000 (UTC)
-Received: by mail-wr0-f172.google.com with SMTP id c11so28273192wrc.3
+	Thu, 22 Jun 2017 15:59:26 +0000 (UTC)
+Received: by mail-io0-f181.google.com with SMTP id e63so16766299iod.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Jun 2017 08:34:47 -0700 (PDT)
+	Thu, 22 Jun 2017 08:59:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=1tQN1Z19Dydy61/nwlC2xwdsO7a++XAYFhZUIjCHP28=;
-	b=pcSm6jUbYIGTFuoJXtDPmZC5EWUllWq1+nqifdg0MX7hDf+fe6ySKhGHfUIy5FhxCj
-	flo224NU0UHTVfwo8hej8hlt/0xTKiCqPwovlPaI1CISV1PzElTo5SZ8JSZ+rIpa6rqZ
-	9Brwea79tCCtXkJUeVYiCfO4AMam5ukoKw+TgGnYXB70EjxrKq70bW84b4aPz+SwB2/w
-	/u+ta7LDr6mt3BqMzmsMUsQvrjBmlmyVaDamiqMB6HoDLTbEu1wqXogKxYzYlByN1VdV
-	Ic1voHXM1xR4NPdEB6avrv198uM/qjoctd3IMzVI9+tdrsgp7Pqqn1odXy74o84BrBnB
-	yw9A==
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:organization:mime-version:content-transfer-encoding;
+	bh=cnUJVTUUnOqYMuuGdnscOd6nDsUOXs4IbQZqgdQckZA=;
+	b=hn+kC8wZUfE8Ebk1JUnm/C++BpzILDoJ2BI45LFUWnt+fVFJf6U41XzfBkVzFdhkGX
+	PjSpYqIi8B0v2E8Ps1nb2moJNTRmDw9Q2eqaBBBLFAJab6zXi7rc1vDt7GxVTa3ZuiH6
+	0pAENjuD1Mp8i+pkH3X49hBnq0IhKFLkgw+wuQ5kLKg/TLkHEMI4BZ5l+yRSF8IRJDb0
+	+wFmte6m9d4Y5Esz74/y8mEamauj+M5HSpCyBNKhwrHCB8GYRkwvollxSFCWzUoTxafx
+	1Z4z7GBOSnid62jdw2VoOFr5haGQbodrY+gE1YCgwQEzrsLydtDX13IS3tG4LCjJycvr
+	2iLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=1tQN1Z19Dydy61/nwlC2xwdsO7a++XAYFhZUIjCHP28=;
-	b=fYO07yhylC9GnAjjFo1hj3GpO7Plmo+GEyo4XewS3ZiSsyKqhfVYcWdXSB92Ucb2sG
-	O4mfB1odxbDcqxdL43uA6Odqqp0QBO0uOlH1NBcizw/Y1+tNrBGXnikxSFr5pKN3+wiG
-	XlwABdGsG5ii/3COqefRfCkoKax6lhDpuk4JnLbCiUin6gUhJSO5TZCMjC7vFanVRouo
-	AB78PjofCAMNt9w/bGQjTps/gLpHXfpX2PTmE4aSVdyKsK0Oe7G6a8rY+mpqMCoqotcb
-	1n5SziUhZjNiUJH85WGvZ0RA/03zQI2h2grC+CsevuucK1AX0UcTn0tzAJgMRpDCCP7w
-	pAKQ==
-X-Gm-Message-State: AKS2vOxxO1HM4drbQaOTLiZOHH/5VnadOgLMIJsvRB3ASTupbsWTQuCs
-	e4L8m4e2n2DL7Crs2WI=
-X-Received: by 10.28.218.149 with SMTP id r143mr2209917wmg.74.1498145686779;
-	Thu, 22 Jun 2017 08:34:46 -0700 (PDT)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:organization:mime-version:content-transfer-encoding;
+	bh=cnUJVTUUnOqYMuuGdnscOd6nDsUOXs4IbQZqgdQckZA=;
+	b=FSgGlI9VQiZ7BeH5Lw7ByiZzxOp4HYo+yAzJtEBc6mUpC3FDIHyUeDjOMOL4QBmGLf
+	MHxKaYB3F4jpusn7Kvk+MOFKA7VMCDu4+QB/UX8R5PKcd6lL1hTIyOmjDaxxD9E54KDT
+	FxN7NudZsuDOTbha7lLizyU0ekRn7igB7rABSCN3cKHLq5+66jM5SMx4DX748aJo+HCe
+	c8u1vCaJSvxN39IqTRdkyCDKIK8v2XRyhZfN6vLEPPDSSgkA4iV+hqhEX0y9Buv3KAGh
+	vCTRIJFVlhO7YP4jag2GkoIT95iwgVbbljopk1Y7s0HJ1w9X8wFq1P8O6/4waHBjUMii
+	bA6A==
+X-Gm-Message-State: AKS2vOx1YAXnpXP85SvAZmApklAvbculvm3n8avDjAvgjZI+vPpbyxW7
+	f7DTGBA5ZchS9OfSUtA=
+X-Received: by 10.107.50.12 with SMTP id y12mr1064120ioy.98.1498147168130;
+	Thu, 22 Jun 2017 08:59:28 -0700 (PDT)
+Received: from pohly-mobl1 (p5DE8EF96.dip0.t-ipconnect.de. [93.232.239.150])
 	by smtp.gmail.com with ESMTPSA id
-	z101sm2271871wrb.41.2017.06.22.08.34.45
-	for <openembedded-core@lists.openembedded.org>
+	v10sm1266177iod.36.2017.06.22.08.59.25
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 22 Jun 2017 08:34:46 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 22 Jun 2017 16:34:44 +0100
-Message-Id: <20170622153444.28038-1-ross.burton@intel.com>
-X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] tcl: cleanups
+	Thu, 22 Jun 2017 08:59:26 -0700 (PDT)
+Message-ID: <1498147164.22706.30.camel@intel.com>
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+Date: Thu, 22 Jun 2017 17:59:24 +0200
+In-Reply-To: <1498145851.31575.50.camel@linux.intel.com>
+References: <20170619143936.20912-1-leonardo.sandoval.gonzalez@linux.intel.com>
+	<1498141053.22706.4.camel@intel.com>
+	<1498143522.31575.41.camel@linux.intel.com>
+	<1498144469.22706.10.camel@intel.com>
+	<1498145851.31575.50.camel@linux.intel.com>
+Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
+X-Mailer: Evolution 3.12.9-1+b1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/2] commands: send stderr to a new pipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,62 +65,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Jun 2017 15:34:47 -0000
+X-List-Received-Date: Thu, 22 Jun 2017 15:59:27 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-No need to set DEPENDS_class-native explicitly as self-dependencies are ignored
-now.
+On Thu, 2017-06-22 at 10:37 -0500, Leonardo Sandoval wrote:
+> On Thu, 2017-06-22 at 17:14 +0200, Patrick Ohly wrote:
+> > On Thu, 2017-06-22 at 09:58 -0500, Leonardo Sandoval wrote:
+> > > On Thu, 2017-06-22 at 16:17 +0200, Patrick Ohly wrote:
+> > > > On Mon, 2017-06-19 at 07:39 -0700,
+> > > > leonardo.sandoval.gonzalez@linux.intel.com wrote:
+> > > > > From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+> > > > > 
+> > > > > Do not mix the stderr into stdout, allowing test cases to query
+> > > > > the specific output.
+> > > > 
+> > > > This changes the behavior of functions that are also used outside of
+> > > > OE-core in a way that won't be easy to notice. I also don't think that
+> > > > it is the right default. For example, for bitbake it is easier to
+> > > > understand where an error occurred when stderr goes to the same stream
+> > > > as stdout.
+> > > 
+> > > how would that make it easier?
+> > 
+> > Because then output will be properly interleaved, as it would be on a
+> > console.
+> > 
+> > Actually, the entire error reporting in runCmd() only prints
+> > result.output, so with stderr going to result.error by default, you
+> > won't get the actual errors reported anymore at all, will you? 
+> > 
+> 
+> process stderr will go into result.error and process stdout into
+> result.output. So when the process is executed ignoring the return
+> status, then test must check result.error. I find the latter cleaner
+> that checking errors into stdout.
 
-Don't rewrite do_configure, autotools_do_configure works.
+It depends on how the result is used. That you prefer split output for
+some tests does not mean that everyone wants the same in their tests. I
+don't want it in my own usage of runCmd() or bitbake() because I don't
+care about where a message was printed. I just want it in proper order.
 
-Actually invoke the install-private-headers target (autotools_do_install doesn't
-take arguments).
+If you change the default, then you will also have to enhance runCmd()'s
+error handling to include results.error. That's currently missing in
+your patch.
 
-Remove redundant cd.
+> > > > Can't you keep the current semantic and just override it explicitly in
+> > > > those tests that need separate stdout/stderr?
+> > > > 
+> > > 
+> > > My proposed patch was mainly based on a RP's comment [1], suggesting to
+> > > split std[out|err].
+> > 
+> > He did not suggest to change the default behavior. I agree that using
+> > split stdout/stderr in those specific tests which specifically want to
+> > check for error messages makes sense, but only in those tests.
+> 
+> No tests require splitting the output (all tests pass with and without
+> this series). The series is actually an enhancement and without it, we
+> saw (specially when the python 2 to 3 was going on) past warnings going
+> into stdout, so Chris and RP suggested the approach.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-devtools/tcltk/tcl_8.6.6.bb | 13 ++-----------
- 1 file changed, 2 insertions(+), 11 deletions(-)
+Richard, can you please comment on whether changing the default is
+really what you meant?
 
-diff --git a/meta/recipes-devtools/tcltk/tcl_8.6.6.bb b/meta/recipes-devtools/tcltk/tcl_8.6.6.bb
-index 40cd18fb09a..5cecf65fb67 100644
---- a/meta/recipes-devtools/tcltk/tcl_8.6.6.bb
-+++ b/meta/recipes-devtools/tcltk/tcl_8.6.6.bb
-@@ -35,23 +35,15 @@ VER = "${PV}"
- 
- inherit autotools ptest binconfig
- 
--DEPENDS_class-native = "zlib-native"
--
- EXTRA_OECONF = "--enable-threads --disable-rpath --libdir=${libdir}"
- 
--do_configure() {
--	cd ${S}
--	gnu-configize
--	cd ${B}
--	oe_runconf
--}
--
- do_compile_prepend() {
- 	echo > ${S}/../compat/fixstrtod.c
- }
- 
- do_install() {
--	autotools_do_install install-private-headers
-+	autotools_do_install
-+	oe_runmake 'DESTDIR=${D}' install-private-headers
- 	ln -sf ./tclsh${VER} ${D}${bindir}/tclsh
- 	ln -sf tclsh8.6 ${D}${bindir}/tclsh${VER}
- 	sed -i "s;-L${B};-L${STAGING_LIBDIR};g" tclConfig.sh
-@@ -59,7 +51,6 @@ do_install() {
- 	install -d ${D}${bindir_crossscripts}
- 	install -m 0755 tclConfig.sh ${D}${bindir_crossscripts}
- 	install -m 0755 tclConfig.sh ${D}${libdir}
--	cd ..
- 	for dir in compat generic unix; do
- 		install -d ${D}${includedir}/${BPN}${VER}/$dir
- 		install -m 0644 ${S}/../$dir/*.h ${D}${includedir}/${BPN}${VER}/$dir/
 -- 
-2.11.0
+Best Regards, Patrick Ohly
+
+The content of this message is my personal opinion only and although
+I am an employee of Intel, the statements I make here in no way
+represent Intel's position on the issue, nor am I authorized to speak
+on behalf of Intel on this matter.
+
+
 
 
