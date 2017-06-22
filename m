@@ -1,55 +1,54 @@
 Return-Path: <patrick.ohly@intel.com>
-Received: from mail-it0-f44.google.com (mail-it0-f44.google.com
-	[209.85.214.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 59B507822E
+Received: from mail-io0-f173.google.com (mail-io0-f173.google.com
+	[209.85.223.173])
+	by mail.openembedded.org (Postfix) with ESMTP id CD29F77E7E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Jun 2017 17:39:17 +0000 (UTC)
-Received: by mail-it0-f44.google.com with SMTP id b205so24744245itg.1
+	Thu, 22 Jun 2017 19:35:04 +0000 (UTC)
+Received: by mail-io0-f173.google.com with SMTP id t87so28929164ioe.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Jun 2017 10:39:19 -0700 (PDT)
+	Thu, 22 Jun 2017 12:35:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=message-id:subject:from:to:cc:date:in-reply-to:references
 	:organization:mime-version:content-transfer-encoding;
-	bh=GHat7Uh6FJRg46ZiMY1Y2XEO7u35CB3fB+pLxrzlsKo=;
-	b=vXtcuQ+e1HBQd7wvBZpQGRykR4egiKqc/H/hLtJ60gYSXjfZY95Vx4w9ZM6S4Nz5LQ
-	OTqGLMqzUgVt+oGAAvBE5yktHcFy92nRTgoXb2TEM7FhkFsXxtQ4BUPnEn7KIsPqdmBa
-	xsZpmusnqPoxkzSVgi2PNZ1DJoVm/9xFxmJ+XacOppk6u2XnDJ1ciXCcLTABNps0Smdk
-	K4aXeVG9Kf9qzN4Bmygnflz+8UH0ZNiAqRKVnbjfSA2Ns1jLijZivjEBpPwrRi3K6PMY
-	ufiJ/6nb8QSE9AM5t/sfYcW64WXTp187cufCBxuFVEP5wikFDMc42pYWSos6Glkqgxlq
-	Vo/Q==
+	bh=Y7bs0nu1vzPqBHPkHMkhlwJbfma8A3NIDpnj8xwXD4I=;
+	b=vgNT8g0dIpmJRQS4fV1qtDClEQb4vz07ETw4KUsH57Zq6qR3ZWpQ9Tznx93pEL2iAC
+	hft1EDW1nJuPVGCluckJ8UkDrRBO1zHvDRdL3xR2MGB/5Tm/pBd6Pz3fN1FuMZUSRrSZ
+	dGD79I77mXpM07VHZLSl0beJd12IxS5bb1Jr6oowd1sEMn62Av76oiuFcTyhFKPzhXXv
+	waIh7mcVjnE4z70JjRxfdMdJhZa4xsAruR4+uB9nQfmRZn7tvjy7ud7whHtUgxsjmUYx
+	/gBulvW+2Egrl8bow7tz5Ld/E0SWTyoP6X1H6kLkQoQgvpbpw1a9TrW5a5kdeAr03pdz
+	xuFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
 	:references:organization:mime-version:content-transfer-encoding;
-	bh=GHat7Uh6FJRg46ZiMY1Y2XEO7u35CB3fB+pLxrzlsKo=;
-	b=W+D224O8T9vSC5mZXy6UmM3r3KRRI3w1dJoHcYdIgUdvLCP3B3pa9qRunomIk+VZi6
-	7ei4icI4SbsoZiPyuF+dZAKfMWD8umPqtrIIwgiWULjb+ssdJpQmqPlPjTITKqY/hiBw
-	d1zcm/bMXa0ECmxIVwizriTYLYivWcL9RK49aPpVIkpPnoaVclopEyKjVdLItCN/n+HP
-	1CSR25bbREvz8t7XSA9HTUBxoU2FfkmlstAnnJ//owsp8TYA6/WTsOhiR1hwgBBgmc4b
-	sKJXHFLjAkQ2QFMaOLSRgjVXAmA9mLFP+JnVS5Qimd1qzNJfAW6rx8zEJhprILP0rF4h
-	OLRw==
-X-Gm-Message-State: AKS2vOwZmVpDtRrWOe6avR0OjJEJMXYU9rEzF/fAGN90FE5uokVwwNnI
-	BClv8YL1A9Z6IRcz
-X-Received: by 10.36.106.5 with SMTP id l5mr3209723itc.95.1498153158664;
-	Thu, 22 Jun 2017 10:39:18 -0700 (PDT)
+	bh=Y7bs0nu1vzPqBHPkHMkhlwJbfma8A3NIDpnj8xwXD4I=;
+	b=Zr5OQj7pmrwjlLFT6BsS7NYV5TRAIqzvANsupBm0CFT42NfHN618B4/Gg9lfbLcXNo
+	jnQbZFWzd8ryY0DiB6qR2gtPPmAJ5eFjqoole1CDxjRJ7HkvlRvB5SJh2M9DVwl2QR5q
+	1ujUbAVNdDaRlAurAS90pdqpAJg57QtBXrK9a8VpUcZgAexfWKITCtXRI8aSwXW6gksT
+	WvYuq2sMhT3tiIypm8gwUSYS80za6HzJJVTDNeqk8OLvt7oCbxZ1yjk6Rh9hZDDEqyLu
+	th18/0ZsoyuEv9n9pEuAJlkfS/buP8V2roNdc+3AeVkIYABw62K3N1h2RJ+VwNa4Gnat
+	T9HA==
+X-Gm-Message-State: AKS2vOz9PclylrGFkVLLsJnpBX0uJXZcl8WJsWGvVg9PJr2U1DvjSnIg
+	DFVzAOzRt4Qy6Ama
+X-Received: by 10.107.160.1 with SMTP id j1mr4042672ioe.78.1498160105592;
+	Thu, 22 Jun 2017 12:35:05 -0700 (PDT)
 Received: from pohly-mobl1 (p5DE8EF96.dip0.t-ipconnect.de. [93.232.239.150])
-	by smtp.gmail.com with ESMTPSA id
-	131sm1322701itl.11.2017.06.22.10.39.15
+	by smtp.gmail.com with ESMTPSA id 33sm1575535iog.26.2017.06.22.12.35.03
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 22 Jun 2017 10:39:17 -0700 (PDT)
-Message-ID: <1498153154.22706.38.camel@intel.com>
+	Thu, 22 Jun 2017 12:35:04 -0700 (PDT)
+Message-ID: <1498160101.22706.53.camel@intel.com>
 From: Patrick Ohly <patrick.ohly@intel.com>
-To: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
-Date: Thu, 22 Jun 2017 19:39:14 +0200
-In-Reply-To: <1498148311.31575.56.camel@linux.intel.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Date: Thu, 22 Jun 2017 21:35:01 +0200
+In-Reply-To: <1498150775.24449.120.camel@linuxfoundation.org>
 References: <20170619143936.20912-1-leonardo.sandoval.gonzalez@linux.intel.com>
 	<1498141053.22706.4.camel@intel.com>
 	<1498143522.31575.41.camel@linux.intel.com>
 	<1498144469.22706.10.camel@intel.com>
 	<1498145851.31575.50.camel@linux.intel.com>
 	<1498147164.22706.30.camel@intel.com>
-	<1498148311.31575.56.camel@linux.intel.com>
+	<1498150775.24449.120.camel@linuxfoundation.org>
 Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
 X-Mailer: Evolution 3.12.9-1+b1 
 Mime-Version: 1.0
@@ -67,95 +66,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Jun 2017 17:39:19 -0000
+X-List-Received-Date: Thu, 22 Jun 2017 19:35:05 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Thu, 2017-06-22 at 11:18 -0500, Leonardo Sandoval wrote:
-> On Thu, 2017-06-22 at 17:59 +0200, Patrick Ohly wrote:
-> > On Thu, 2017-06-22 at 10:37 -0500, Leonardo Sandoval wrote:
-> > > On Thu, 2017-06-22 at 17:14 +0200, Patrick Ohly wrote:
-> > > > On Thu, 2017-06-22 at 09:58 -0500, Leonardo Sandoval wrote:
-> > > > > On Thu, 2017-06-22 at 16:17 +0200, Patrick Ohly wrote:
-> > > > > > On Mon, 2017-06-19 at 07:39 -0700,
-> > > > > > leonardo.sandoval.gonzalez@linux.intel.com wrote:
-> > > > > > > From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
-> > > > > > > 
-> > > > > > > Do not mix the stderr into stdout, allowing test cases to query
-> > > > > > > the specific output.
-> > > > > > 
-> > > > > > This changes the behavior of functions that are also used outside of
-> > > > > > OE-core in a way that won't be easy to notice. I also don't think that
-> > > > > > it is the right default. For example, for bitbake it is easier to
-> > > > > > understand where an error occurred when stderr goes to the same stream
-> > > > > > as stdout.
-> > > > > 
-> > > > > how would that make it easier?
-> > > > 
-> > > > Because then output will be properly interleaved, as it would be on a
-> > > > console.
-> > > > 
-> > > > Actually, the entire error reporting in runCmd() only prints
-> > > > result.output, so with stderr going to result.error by default, you
-> > > > won't get the actual errors reported anymore at all, will you? 
-> > > > 
-> > > 
-> > > process stderr will go into result.error and process stdout into
-> > > result.output. So when the process is executed ignoring the return
-> > > status, then test must check result.error. I find the latter cleaner
-> > > that checking errors into stdout.
-> > 
-> > It depends on how the result is used. That you prefer split output for
-> > some tests does not mean that everyone wants the same in their tests. I
-> > don't want it in my own usage of runCmd() or bitbake() because I don't
-> > care about where a message was printed. I just want it in proper order.
-> > 
-> > If you change the default, then you will also have to enhance runCmd()'s
-> > error handling to include results.error. That's currently missing in
-> > your patch.
+On Thu, 2017-06-22 at 17:59 +0100, Richard Purdie wrote:
+> The problem here is that stdout and stderr are being mixed and that
+> mixing is not accounting for newlines. bitbake itself does print
+> different messages to both. The mixing depends on kernel page size and
+> when the buffers are flushed.
+
+It's a single process were stdout and stderr share the same pipe.
+Caching outside of the kernel may be to blame, but kernel behavior
+should not have an effect.
+
+My guess is that "Parsing recipes..WARNING:
+File /etc/selftest-replaceme-patched..." comes from printing "Parsing
+recipes.." to stdout without newline and then printing "WARNING:
+File ..." to stderr.
+
+I don't know whether Python logging can coordinate two streams. The
+logic would have to be that when stdout/stderr go to the same stream and
+the last output to stdout did not end in a new line and there's a
+message to be printed on stderr, a newline should be inserted first.
+
+> The key thing I'm not sure about from reading the bug is whether this
+> output is from the same bitbake process or different ones?
+
+It's from a single "devtool" invocation, so whatever goes wrong with
+output handling is in that process.
+
+> I can think of three things we can do here:
 > 
-> it is not missing, it is on 2/2
+> a) Add some flush calls somewhere assuming this is different calls.
+> That somehow seems unlikely
+> b) Keep stdout and stderr separate as per Leo's change
 
-I'm talking about this code:
+That helps testing, but actual users will still see confusing output. So
+I would prefer to enhance output handling. However, it's probably more
+complicated than running tests with split output.
 
-def runCmd(command, ignore_status=False, timeout=None, assert_error=True,
-          native_sysroot=None, limit_exc_output=0, **options):
-...
-    if result.status and not ignore_status:
-        exc_output = result.output
-        if limit_exc_output > 0:
-            split = result.output.splitlines()
-            if len(split) > limit_exc_output:
-                exc_output = "\n... (last %d lines of output)\n" % limit_exc_output + \
-                             '\n'.join(split[-limit_exc_output:])
-        if assert_error:
-            raise AssertionError("Command '%s' returned non-zero exit status %d:\n%s" % (command, result.status, exc_output))
-        else:
-            raise CommandError(result.status, command, exc_output)
+> c) Have a command version which merges stdout and stderr respecting
+> newlines. I suspect this happens on a console but likely not on inter
+> process pipes...
 
-You are not extending that in either 2/2, are you? At the moment, when a
-command fails, one gets stdout+stderr. With your path, one only gets
-stdout, which typically won't have the error message that caused the
-non-zero status.
+In this case it happens for a pipe.
 
-Here's my proposal:
-     1. drop the "commands: send stderr to a new pipe" path, because
-        that has much wider implications for everyone else
-     2. in "selftest/cases: use stderr data when querying for errors",
-        explicitly change the bitbake() calls so that they have
-        stderr=subprocess.PIPE
+> It does sound like we need to answer some questions on what exactly is
+> happening before we can know which solution(s) might work.
 
-Example:
+Yes.
 
-     @OETestID(105)
-     def test_bitbake_invalid_recipe(self):
--        result = bitbake('-b asdf', ignore_status=True)
--        self.assertTrue("ERROR: Unable to find any recipe file matching 'asdf'" in result.output, msg = "Though asdf recipe doesn't exist, bitbake didn't output any err. message. bitbake output: %s" % result.output)
-+        invalid = 'asdf'
-+        result = bitbake('-b %s' % invalid, ignore_status=True, stderr=subprocess.PIPE)
-+        self.assertTrue("ERROR: Unable to find any recipe file matching '%s'" % invalid in result.error, msg = "Though %s recipe doesn't exist, bitbake didn't output any err. message. bitbake output: %s" % (invalid, result.error))
-
-
+And please, whatever we do, let's not change oeqa in a way that breaks
+existing tests, whether they are in OE-core or some other layer.
 
 -- 
 Best Regards, Patrick Ohly
