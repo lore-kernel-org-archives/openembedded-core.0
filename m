@@ -1,47 +1,29 @@
-Return-Path: <carlon.luca@gmail.com>
-Received: from mail-ot0-f179.google.com (mail-ot0-f179.google.com
-	[74.125.82.179])
-	by mail.openembedded.org (Postfix) with ESMTP id B065471AB9
+Return-Path: <Randy.MacLeod@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 57D0277DAF
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Jun 2017 22:31:59 +0000 (UTC)
-Received: by mail-ot0-f179.google.com with SMTP id 95so20892491ott.3
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Jun 2017 15:32:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to; 
-	bh=eUUuOmiJ76pYhLY2Cf8bpT9hY2oZ7VeZYRwF2qr7B24=;
-	b=oCxUOTsASUE9gmsIRE2B7UCs10XrMF1OFot6RFz9VsuXfCw2UXyMPUtWuQ6ZnE9ie0
-	WevpxEyD+m1xy8MYZk1ceMdHvLs52nOO3y7dev4TqHvSj7L30FFwcuu7e6USBYWCZI42
-	7F3XgJiU5xr70MJE6HLmKCYL8Ep/VgWJKJWjkUmetuXXbtwxVj26THwi/ptaYW52qmht
-	n5OBsZzP0WxMHPha6fIHSlw9hOo+hT3sFJsh8U5VRtNvHANYsRZgrs+LTD3QP4xQJrt9
-	YJPizlKTZAEWslpi4dxyzlfSlxdtJLghbqQuQQifJkNL4flZ3s/czR6eWAgHlYiiK0+n
-	zUZw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to;
-	bh=eUUuOmiJ76pYhLY2Cf8bpT9hY2oZ7VeZYRwF2qr7B24=;
-	b=cqZ7bGz0gQbYs6gESSL7BdnQuEdDq5iFb+CyXps2TapndGPk4iwvDLrJMw+TZmQEY7
-	ULMgZTuMhz3Y1I4lWtYnMf0TliYVmZA8NYZn5/q1qGqw4+CQjuvDWb404TJF9HvAfzgM
-	pygeulidbB2fgauYgBSBf9UVTzGpkr5DsF/ayDMM9GIv9A0qxMt/To3wzKL3BPeVth7/
-	rbGOlMu7vCr23jVmSD05b3Pl73AlOFlCLU9EoiDVeEd6WQMsVk5d/wR5JsYp/pv0AzV7
-	hNu0QR7iKt2Qqa2aFCXRo9OpTU9LgkjHK8YKVM1Q5nh3CtrJWpru77CuT2/qj8TcrXaw
-	PDDA==
-X-Gm-Message-State: AKS2vOzhCjRIAJq9zu2TxvFO5EtJrSHJcyu5J6qdlYSd0VLcgZ3wuGZj
-	O4CGXCvLjP9zijmqgWH7z/oscw/ROQ==
-X-Received: by 10.157.89.137 with SMTP id u9mr1663845oth.79.1498170720198;
-	Thu, 22 Jun 2017 15:32:00 -0700 (PDT)
+	Fri, 23 Jun 2017 00:30:58 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v5N0UwSX008891
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Thu, 22 Jun 2017 17:30:58 -0700
+Received: from [172.25.44.7] (172.25.44.7) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
+	Thu, 22 Jun 2017 17:30:58 -0700
+To: Khem Raj <raj.khem@gmail.com>, <openembedded-core@lists.openembedded.org>
+References: <1498097697-12564-1-git-send-email-Randy.MacLeod@windriver.com>
+	<d194290a-fad9-3c63-b3a4-379b50074fd5@windriver.com>
+	<CAMKF1sqNKaRB0Dagz8aKG5HR6QPHcw6XZMGcMrBnFogP3fbhgw@mail.gmail.com>
+From: Randy MacLeod <randy.macleod@windriver.com>
+Message-ID: <393805e4-6d27-42c4-41c4-253508e8527b@windriver.com>
+Date: Thu, 22 Jun 2017 20:30:56 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.1.1
 MIME-Version: 1.0
-Received: by 10.202.106.67 with HTTP; Thu, 22 Jun 2017 15:31:59 -0700 (PDT)
-Received: by 10.202.106.67 with HTTP; Thu, 22 Jun 2017 15:31:59 -0700 (PDT)
-In-Reply-To: <CAMC=D=uLt6mBCs=j=4vXDCOgFXLCS-2c-dqKauL5nKZ9uMw6TQ@mail.gmail.com>
-References: <CAMC=D=sR6i-TCufBgP=zCGgniC122pgX=349H4eGk7r4dv7BLg@mail.gmail.com>
-	<CAMC=D=uLt6mBCs=j=4vXDCOgFXLCS-2c-dqKauL5nKZ9uMw6TQ@mail.gmail.com>
-From: Luca Carlon <carlon.luca@gmail.com>
-Date: Fri, 23 Jun 2017 00:31:59 +0200
-Message-ID: <CAMC=D=t=A7fZQban6qpLarfyMEAOmNSXASKUUiQKpqiwoUJz-w@mail.gmail.com>
-To: openembedded-core@lists.openembedded.org
-Subject: Tune Cortex-A53 for 32bit armv8
+In-Reply-To: <CAMKF1sqNKaRB0Dagz8aKG5HR6QPHcw6XZMGcMrBnFogP3fbhgw@mail.gmail.com>
+X-Originating-IP: [172.25.44.7]
+Subject: Re: [PATCH v2] systemd: work-around ppc gold linker error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,34 +36,105 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Jun 2017 22:32:00 -0000
-Content-Type: multipart/alternative; boundary="f40304353f649725af0552940d22"
+X-List-Received-Date: Fri, 23 Jun 2017 00:30:59 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 
---f40304353f649725af0552940d22
-Content-Type: text/plain; charset="UTF-8"
+On 2017-06-22 06:22 PM, Khem Raj wrote:
+> What's the link to upstream bug in linker
 
-Hello! I see there is a patch to include the arch armv8 32bit and tunes for
-Cortex-A53 here: https://patchwork.openembedded.org/series/4000. According
-to the comments it seems it is not far from being usable: what do you think
-it is needed to integrate it?
-I would be interested in having it available as Raspberry Pi 3, which
-should be pretty widespread now, is a cortexa53.
-Regards.
+Do you mean: Have I created an upstream bug?
 
-Luca
+No, not yet but I'm just reading their email lists and
+trying to understand where and how to report the bug.
+If you'd like to do that and CC me, then the task will
+finish sooner and I'll know for next time. :)
 
---f40304353f649725af0552940d22
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"auto"><div dir=3D"ltr">Hello! I see there is a patch to include=
- the arch armv8 32bit and tunes for Cortex-A53 here:=C2=A0<a href=3D"https:=
-//patchwork.openembedded.org/series/4000" target=3D"_blank">https://patchwo=
-rk.openem<wbr>bedded.org/series/4000</a>. According to the comments it seem=
-s it is not far from being usable: what do you think it is needed to integr=
-ate it?<div>I would be interested in having it available as Raspberry Pi 3,=
- which should be pretty widespread now, is a cortexa53.</div><div dir=3D"au=
-to">Regards.</div><div dir=3D"auto"><br></div><div dir=3D"auto">Luca</div><=
-/div></div>
+I've been taking the opportunity to see how we manage
+binutils by adding a bintuils-2.29 this points to
+master but I haven't gotten very far yet. My intent is
+to see if this bug is reproducible on the bintuils
+master branch since looking at:
+    git log --oneline master ^binutils-2_28-branch gold/powerpc.cc
+only turned up:
 
---f40304353f649725af0552940d22--
+bdab445 [GOLD] PowerPC move plt indx_ out of unordered map key
+94de2a2 [GOLD] Avoid duplicate PLT stub symbols on ppc32
+590b87f PR21503, Gold doesn't create linker stub symbols on ppc64
+6528b6e PowerPC ld segfault on script discarding dynamic sections
+e666304 [GOLD] PowerPC64 TOC indirect to TOC relative segfault
+857e829 Gold: Fix build with GCC 4.2
+5edad15 [GOLD] PowerPC64 TOC indirect to TOC relative code editing
+f159cdb [GOLD] Add --secure-plt option for ppc32
+3254d32 [GOLD] Set sh_info of .rela.plt for powerpc
+0e123f6 [GOLD] powerpc.cc tidies
+2571583 Update year range in copyright notice of all files.
+
+and after an initial quick review it seems that those commits
+are either not relevant or have been cherry-picked back to
+binutils-2_28-branch already.
+
+I'll include my cleaned-up link failure summary below.
+-- 
+# Randy MacLeod. SMTS, Linux, Wind River
+Direct: 613.963.1350 | 350 Terry Fox Drive, Suite 200, Ottawa, ON, 
+Canada, K2K 2W5
+
+
+--------
+
+
+powerpc-oe-linux-libtool: link: powerpc-oe-linux-gcc  \
+   -m32 -mhard-float -mcpu=7400 -mno-spe \
+ 
+--sysroot=/.../tmp-glibc/work/ppc7400-oe-linux/systemd/1_232-r0/recipe-sysroot 
+\
+   -shared  -fPIC -DPIC  \
+   src/basic/.libs/libsystemd_shared_la-capability-util.o \
+   src/basic/.libs/libsystemd_shared_la-conf-files.o \
+   src/basic/.libs/libsystemd_shared_la-hostname-util.o \
+   ...
+   src/libudev/.libs/libsystemd_shared_la-libudev-queue.o \
+   src/libudev/.libs/libsystemd_shared_la-libudev-hwdb.o \
+   -lcap -lrt -lm -lresolv -llzma -lacl  \
+   -m32 -mhard-float -mcpu=7400 -mno-spe \
+ 
+--sysroot=/.../tmp-glibc/work/ppc7400-oe-linux/systemd/1_232-r0/recipe-sysroot 
+\
+   -fstack-protector -fstack-protector-strong -flto -fstack-protector 
+-fstack-protector-strong \
+   -flto -pthread -fstack-protector -fstack-protector-strong -flto 
+-fstack-protector -fstack-protector-strong \
+   -flto -O2 -g \
+   -Wl,--gc-sections -Wl,--as-needed -Wl,--no-undefined \
+   -Wl,-z -Wl,relro -Wl,-z -Wl,now -Wl,-fuse-ld=gold \
+   -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed   -pthread \
+   -Wl,-soname -Wl,libsystemd-shared-232.so \
+   -o .libs/libsystemd-shared-232.so
+----------------------------------------------->>>
+/.../tmp-glibc/work/ppc7400-oe-linux/systemd/1_232-r0/recipe-sysroot-native\
+/usr/bin/powerpc-oe-linux/powerpc-oe-linux-ld.gold:
+    error: invalid STB_LOCAL symbol in external symbols
+    error: linker defined: multiple definition of 
+'00000001.plt_call.memcpy+8000'
+    command line: previous definition here
+... <5577 more> ... with functions/symbols such as:
+'00000001.plt_call.fflush_and_check+8000'
+'00000001.plt_call.fileno+8000'
+'00000001.plt_call.fchmod+8000'
+
+| collect2: error: ld returned 1 exit status
+| Makefile:11575: recipe for target 'libsystemd-shared.la' failed
+| make[2]: *** [libsystemd-shared.la] Error 1
+| Makefile:21970: recipe for target 'all-recursive' failed
+| make[1]: *** [all-recursive] Error 1
+| Makefile:9900: recipe for target 'all' failed
+| make: *** [all] Error 2
+| ERROR: oe_runmake failed
+
+----------
+
+
+
