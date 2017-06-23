@@ -1,49 +1,47 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f171.google.com (mail-qk0-f171.google.com
-	[209.85.220.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 0476E78082
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-io0-f170.google.com (mail-io0-f170.google.com
+	[209.85.223.170])
+	by mail.openembedded.org (Postfix) with ESMTP id DAFC178082
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Jun 2017 12:53:24 +0000 (UTC)
-Received: by mail-qk0-f171.google.com with SMTP id 16so34639648qkg.2
+	Fri, 23 Jun 2017 13:05:12 +0000 (UTC)
+Received: by mail-io0-f170.google.com with SMTP id c201so40455473ioe.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Jun 2017 05:53:26 -0700 (PDT)
+	Fri, 23 Jun 2017 06:05:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=8yls07+BpTb/zr3eoRS8HY/tGMg+dXKBcqp1jo252vY=;
-	b=NuRED6FMDwFmEXb0hx0oPqsJcDOYuVZHtIm50+TfG4Lvf2OhfXD+kGMblCzBjYbbp2
-	u2R7e3nmE62i5Pb6vp+nrSHjaMUCilnD2NKCYQ+jKzRevJPbUIXAp97tFC0Bxt7qJN9g
-	WJy5gDz2TULDeNjM42okD6x7o9lWb89dCFIXRDNltOQ3bjrWuX4k6sK+J1DshxizixNg
-	Op0SB4iLi2QryE3D3EmRdmuw76kltuLuRBP53jL91tsOlWCmKeipNRoJLRvHUlb1Z8rJ
-	p809zL47XhVMhU46nZgeQmkvE4Vr/KkNyjs+53XqdyYYEUOlY3iL5ar+Tyq/b1ew838P
-	byZg==
+	h=from:to:cc:subject:date:message-id;
+	bh=ylWbS1J1PvgFC5QG7+ppx3PhtCUT0rt8b6EYsjyEn1w=;
+	b=EZb9ZzvTPY5sUmXK9RuLsswPq9wijRrVrKvenAODAHn0aH2OFyx2mjkofqqLAzvj0g
+	HuLvHVIOwzRGHWcoeyAP7mcfU0oFsuowFM480nqZrovLbbTbgUc3UgOtVLJv0b0wmfHJ
+	/gBnLD64F87bgphDP9kofvIZBdmQLU1dsOtVOR+jgcZEv1uAwj1+zfs1jeevuEgwPl24
+	BT2YkgvyIKq4LUBeh7tQPtxGU7fQ7mmtWVnc6NWaqjAUY8aGZqUeUXCEvxT1ADYjy0im
+	20i67NyeAXraI147Ja4liSyhKOI88VD3BnuvkA6GaquxHlle/ALJ9XD7FNXFezoGpc2I
+	whIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=8yls07+BpTb/zr3eoRS8HY/tGMg+dXKBcqp1jo252vY=;
-	b=dQWHrdYZM58mewLpGDBxib/C5uFG7brD/PncVKTfqPAi1S5IeeSDIt5Axs7YJh4UWR
-	zu+KTwOTEI7aALqZBlG6k2E9cB1mHd61sLd7z9wJbFl3Og9zEfjST4mhMgnfJFDx4uYj
-	ES8B/Ki0zQ/kJWnyDqSn/FX4/dwAR+oHbfiNKMGQBHr1J4unVzygJm9uQd5kk5qyUdAa
-	874smjhiQOB+hckOqkHQQrzLB22pYYm8dQhp8BC3kaxQt0x8UoR3cxAgqlzkHhNYbsih
-	EYND9vmuk2ow45Dzw6pTI1dqeEmN+MrQ/BKoC3C9XHLOCZoTBkKb8vopBli0p/TeDFwm
-	UuYg==
-X-Gm-Message-State: AKS2vOxz476q3FIkmps3ydzDkbcd/379vVX3BTkYY68wpE+/Z8V/HGNs
-	8r4z3LQYqCwtPLTkWJ11CxOB/OgaKb3d
-X-Received: by 10.55.31.162 with SMTP id n34mr8427719qkh.46.1498222406150;
-	Fri, 23 Jun 2017 05:53:26 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.35.103 with HTTP; Fri, 23 Jun 2017 05:53:05 -0700 (PDT)
-In-Reply-To: <20170623125705.08cf0025@loki02>
-References: <20170622104209.260f4563@loki02>
-	<CAJTo0LbmHft+JXd7ce7r3JCza4G182D4Hnt78hU89DO+TYCNDQ@mail.gmail.com>
-	<20170623125705.08cf0025@loki02>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 23 Jun 2017 13:53:05 +0100
-Message-ID: <CAJTo0LYhB1seMV_QyDf_PWkGF0fkubZb3WHpV2dcTfeU=ysckA@mail.gmail.com>
-To: Adam Trhon <adam.trhon@tbs-biometrics.com>
-Cc: Openembedded Core <openembedded-core@lists.openembedded.org>
-Subject: Re: how to load cmake args from git?
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=ylWbS1J1PvgFC5QG7+ppx3PhtCUT0rt8b6EYsjyEn1w=;
+	b=gZZqF/9iZvl46y5F2+Si6GqemGud/kJB4wrsML9qOCDlWdWEWd6X7RwzunTo/qSNJS
+	DKNZh1sDDa44MUvB+X5nTR46AO6/ixgD4JMQSW89TTfuyZmVDHgyHMUhik+6pN6kF6+H
+	XfXlTDSPo2zDNIGO7Rdkpt09mWJ9PSWugcMq2BIozcDXXfETB4pgtOQGtJdXhAEaDUFJ
+	zKKZp4a8c7PeQPVWywH1RlLw3InB+ZY5J0nEX8IQx84W+fcLgaADa5rNMZwCpcvyOWAt
+	C3BClD72fARbyqru0w11YGP9qA2hOSW4qz4XsytSyDrcY3iAxVAWvye3m1Esgo1wgeo6
+	8XfA==
+X-Gm-Message-State: AKS2vOzLeDqxa733wWolzMAfL79kGq2p95n7yij1MUPDhg2r72kS94hy
+	s0ZrCRANO2mWGGqmLMw=
+X-Received: by 10.107.27.134 with SMTP id b128mr7795048iob.175.1498223113185; 
+	Fri, 23 Jun 2017 06:05:13 -0700 (PDT)
+Received: from pohly-desktop.fritz.box (p5DE8DF06.dip0.t-ipconnect.de.
+	[93.232.223.6]) by smtp.gmail.com with ESMTPSA id
+	a191sm2966083ioe.1.2017.06.23.06.05.10
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 23 Jun 2017 06:05:12 -0700 (PDT)
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 23 Jun 2017 15:05:01 +0200
+Message-Id: <cover.15cc4e9137e8e3a07cae0cf09e9e2f2e4bcefa56.1498223057.git-series.patrick.ohly@intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH 0/2] enhance and test runCmd()
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,79 +54,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Jun 2017 12:53:25 -0000
-Content-Type: multipart/alternative; boundary="001a1147e5f85061d10552a016d4"
+X-List-Received-Date: Fri, 23 Jun 2017 13:05:13 -0000
 
---001a1147e5f85061d10552a016d4
-Content-Type: text/plain; charset="UTF-8"
+This is mostly motivated by some long-running build tests triggered in
+refkit where better output handling would be very desirable. I had
+this idea already before Leonardo proposed to change the runCmd()
+defaults, but as that's now a hot topic, it seemed like a good time to
+actually implement it.
 
-On 23 June 2017 at 11:57, Adam Trhon <adam.trhon@tbs-biometrics.com> wrote:
+The result.error encoding fix is something that Leonardo also had in
+his "[OE-core] [PATCH 2/2] selftest/cases: use stderr data when
+querying for errors" patch.
 
-> According to documentation, this is expanded during recipe parsing. At
-> that time ${S}/oe_arguments.txt does not yet exits (it exists only after
-> do_unpack). I tried it and the build failed with python Exception:
-> FileNotFound.
->
+Beware that this patch series conflicts with those patches because
+that same code is changed and because the current default semantic
+(joined stdout/stderr) gets explicitly tested.
 
-Yes, good point. In m defence it was late. :)
+Patrick Ohly (2):
+  commands.py: live output logging + result.error encoding fix
+  runcmd.py: unit testing for runCmd()
 
+ meta/lib/oeqa/selftest/cases/runcmd.py | 117 ++++++++++++++++++++++++++-
+ meta/lib/oeqa/utils/commands.py        | 103 ++++++++++++++++++-----
+ 2 files changed, 199 insertions(+), 21 deletions(-)
+ create mode 100644 meta/lib/oeqa/selftest/cases/runcmd.py
 
-> I tried
->
-> python do_setup_extra_oecmake() {
->     d.appendVar("EXTRA_OECMAKE", " " + open(d.expand("${S}/oe_
-> arguments.txt")).read())
->     print("adding "+d.expand("${S}/oe_arguments.txt"))
-> }
->
-> addtask do_setup_extra_oecmake after do_unpack before do_configure
->
-> but it did not work as well. The "adding.... " line is printed
-> correctly in log.do_setup_extra_oecmake, the file exists, but the
-> arguments in it are not used (I checked run.do_configure).
->
+base-commit: 1d9a88f635549e68562de681e297b9270ad02d4e
+-- 
+git-series 0.9.1
 
-Have a look at log.do_configure and verify what options are being passed.
-I'm also assuming that you're using the cmake class here.
-
-Ross
-
---001a1147e5f85061d10552a016d4
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 23 June 2017 at 11:57, Adam Trhon <span dir=3D"ltr">&lt;<a href=3D"mailt=
-o:adam.trhon@tbs-biometrics.com" target=3D"_blank">adam.trhon@tbs-biometric=
-s.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"m=
-argin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":4=
-e9" class=3D"a3s aXjCH m15cd499b0cbb16eb">According to documentation, this =
-is expanded during recipe parsing. At<br>
-that time ${S}/oe_arguments.txt does not yet exits (it exists only after<br=
->
-do_unpack). I tried it and the build failed with python Exception:<br>
-FileNotFound.<br></div></blockquote><div><br></div><div>Yes, good point. In=
- m defence it was late. :)</div><div>=C2=A0</div><blockquote class=3D"gmail=
-_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:=
-1ex"><div id=3D":4e9" class=3D"a3s aXjCH m15cd499b0cbb16eb">
-I tried<br>
-<br>
-python do_setup_extra_oecmake() {<br>
-=C2=A0 =C2=A0 d.appendVar(&quot;EXTRA_OECMAKE&quot;, &quot; &quot; + open(d=
-.expand(&quot;${S}/oe_<wbr>arguments.txt&quot;)).read())<br>
-=C2=A0 =C2=A0 print(&quot;adding &quot;+d.expand(&quot;${S}/oe_arguments.<w=
-br>txt&quot;))<br>
-}<br>
-<br>
-addtask do_setup_extra_oecmake after do_unpack before do_configure<br>
-<br>
-but it did not work as well. The &quot;adding.... &quot; line is printed<br=
->
-correctly in log.do_setup_extra_oecmake, the file exists, but the<br>
-arguments in it are not used (I checked run.do_configure).<br></div></block=
-quote></div><br>Have a look at log.do_configure and verify what options are=
- being passed.=C2=A0 I&#39;m also assuming that you&#39;re using the cmake =
-class here.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_e=
-xtra">Ross</div></div>
-
---001a1147e5f85061d10552a016d4--
