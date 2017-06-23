@@ -1,50 +1,47 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-it0-f44.google.com (mail-it0-f44.google.com
-	[209.85.214.44])
-	by mail.openembedded.org (Postfix) with ESMTP id B51AA780AF
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f175.google.com (mail-qk0-f175.google.com
+	[209.85.220.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 727CE78066
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Jun 2017 13:05:18 +0000 (UTC)
-Received: by mail-it0-f44.google.com with SMTP id m47so7873392iti.0
+	Fri, 23 Jun 2017 13:09:41 +0000 (UTC)
+Received: by mail-qk0-f175.google.com with SMTP id 16so35004643qkg.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Jun 2017 06:05:20 -0700 (PDT)
+	Fri, 23 Jun 2017 06:09:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=f1gKgVpbY+jkzfzO+FYYpUNW77Ko/YPh2+0CGiykAJA=;
-	b=ZZ3C0Uiz22KttWF2LJ6omk8YdorHvJik3/bwKhDYTcQNSf6d0T8+NAWWoMrDjlEm9j
-	coRCBMBe8suTd9wsp4vceqlcOBnwt84azK4JEh9lPrmeGdzD8RQAk8zXndVCPsp8/S9d
-	FGl1mMkL6Bq7nPpKaC+fRbp1tkqNqyc0yexdPEZwpTkx+QEg0rKlG1XBxXEt6h1KG8j2
-	giXNU6T2b0c12fov/PwMqUYgKIk8uW3ClJHp3eIh6RP5vHOBRbJdREhvP1ot2BhKlHUP
-	7tp5oSBw1aKBDYR+/MR8wHh7adRw50qi2r6YQk74D/iamvpK66uRO5uHKN9/QoJdJz4G
-	RIZA==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=sQEVmkcmJLA6IriEAdA2fHOllmWXNqQcMS7M00BjNbA=;
+	b=K6GBpES3LT9LvUNSNSbdsUFvrgR3sIvspKVAyME4oJM6iI1ZtA7Qyhhc/U3i9XldyM
+	ZFuEgFtQbNhxzprDetzYZbCE/jBT2Vm8n0Umz2hSMWzVMluLFKkI88tfN5v1+/GXpRyp
+	5f1IUaJh3q2MvJ61JYPz51KHNhO7wn5Sgp8CtsJPtiZTCaN8er+OwYkUGym4777fJDDX
+	rMMymjpu9Kkk4+GZ+amcluWoHea98pNcwzcsbTfYCd1sTKV9JmUsCkRhVWcVfHYSL+04
+	wySBRi2DioeoJVsRzItN+VEbGzjQNTR6/DaN2LHR00yzI1mmSa3TOo3nwtj26OnQ/mUc
+	SL9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=f1gKgVpbY+jkzfzO+FYYpUNW77Ko/YPh2+0CGiykAJA=;
-	b=RHTvjea3ta9ZpH4H7fIbTeU+t/i1nMlmb2o1FlAqYFyFf3vUUjA7w3mYySCSCWUtvm
-	3fbsV1XEH06To9GmJXRUS8ZG8tcbDNSNsj+mMh0NNZKO0dSJeuYctQG4N/L4WfJd+o1B
-	XLP5N01faGOZYv1OHjwvzThvTcAfk6ktnAPE+RQeSRdEcfZVTq2D24lWz90+oEdFpdFJ
-	/6O/iBAzdmKfDXYyKj5R5cyAUniCFW8oY2Jm1F2L3iZXUltaT9UfIwPU6TF2jNLJ2Ydb
-	XsiTnjmk0kkpoG5TZYpH6zPdidXKQK/DdaE7tlLIXV+AXghdFh4un6XEOg++TAk5YcXa
-	XafA==
-X-Gm-Message-State: AKS2vOzzPMrvs3yvHY+NU9r0XwuEnUeA/mdXP4dg2Ul+XrJCtEYIDjip
-	n9Az9jvt3eobYeW4Fiw=
-X-Received: by 10.36.203.135 with SMTP id u129mr6929840itg.3.1498223119356;
-	Fri, 23 Jun 2017 06:05:19 -0700 (PDT)
-Received: from pohly-desktop.fritz.box (p5DE8DF06.dip0.t-ipconnect.de.
-	[93.232.223.6]) by smtp.gmail.com with ESMTPSA id
-	a191sm2966083ioe.1.2017.06.23.06.05.17
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 23 Jun 2017 06:05:18 -0700 (PDT)
-From: Patrick Ohly <patrick.ohly@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 23 Jun 2017 15:05:03 +0200
-Message-Id: <ee8509b7cc9540ae0ddab95b1fd4092b639fdf59.1498223057.git-series.patrick.ohly@intel.com>
-X-Mailer: git-send-email 2.11.0
-In-Reply-To: <cover.15cc4e9137e8e3a07cae0cf09e9e2f2e4bcefa56.1498223057.git-series.patrick.ohly@intel.com>
-References: <cover.15cc4e9137e8e3a07cae0cf09e9e2f2e4bcefa56.1498223057.git-series.patrick.ohly@intel.com>
-Subject: [PATCH 2/2] runcmd.py: unit testing for runCmd()
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=sQEVmkcmJLA6IriEAdA2fHOllmWXNqQcMS7M00BjNbA=;
+	b=UlzHQGvmYxf/zjHbIbZQQCVs8cskBGqJsqQtGstc3Rlj0bDzGIklhjrb9q3He/BJLy
+	+XAq3OXkMU6RNPC2xzYf5Bqa7c8E0uEyHRFSQua851DX2Sf64X+T7k8oi+PiME/sMm6j
+	DupV9HISfXuBJ6W0NT2JR27aEuxdPGUbj1D7uh9Nl71cikToOUW65JGIzhQLtsMhr3Qv
+	bKovvLlIcmKfomnaMvOHKte/Bbn1oP89/4AcNj9kc9lFoNFwffZ1gNP2F/rCUylzhl8g
+	oFh6ISWHm75iBpXKjV5NwmmzTbxNK4GU3o/UyX2PZREldT4hGe9p9SXH6Mxg6LADw7vT
+	qvmg==
+X-Gm-Message-State: AKS2vOy2YpO1bfQEW0Y9UirQuAJnCwADxvZ4yqwPHTF7/6EZbCyu2XU1
+	ktDcsHIXU2RQRYEk2PlDs33gVRTJrNw9
+X-Received: by 10.55.214.221 with SMTP id p90mr8635681qkl.228.1498223382433;
+	Fri, 23 Jun 2017 06:09:42 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.35.103 with HTTP; Fri, 23 Jun 2017 06:09:22 -0700 (PDT)
+In-Reply-To: <20170619143145.11911-1-pkj@axis.com>
+References: <20170619143145.11911-1-pkj@axis.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 23 Jun 2017 14:09:22 +0100
+Message-ID: <CAJTo0LaBMEicpXpyOdA+U+=Wm9fVCepREHJMcsZ_LeMRRd7WaA@mail.gmail.com>
+To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCHv3] oe-pkgdata-util: package-info: Allow extra variables to be displayed
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,142 +54,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Jun 2017 13:05:19 -0000
+X-List-Received-Date: Fri, 23 Jun 2017 13:09:41 -0000
+Content-Type: multipart/alternative; boundary="001a1147a4188127600552a050a5"
 
-This covers the traditional API as well as the new output_log feature.
-While testing, it was noticed that killing hanging commands does not
-work when a shell is used to run the command(s). This might be worth
-fixing.
+--001a1147a4188127600552a050a5
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
----
- meta/lib/oeqa/selftest/cases/runcmd.py | 117 ++++++++++++++++++++++++++-
- 1 file changed, 117 insertions(+)
- create mode 100644 meta/lib/oeqa/selftest/cases/runcmd.py
+On 19 June 2017 at 15:31, Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+wrote:
 
-diff --git a/meta/lib/oeqa/selftest/cases/runcmd.py b/meta/lib/oeqa/selftest/cases/runcmd.py
-new file mode 100644
-index 0000000..6c785ca
---- /dev/null
-+++ b/meta/lib/oeqa/selftest/cases/runcmd.py
-@@ -0,0 +1,117 @@
-+from oeqa.selftest.case import OESelftestTestCase
-+from oeqa.utils.commands import runCmd
-+from oeqa.utils import CommandError
-+
-+import subprocess
-+import threading
-+import time
-+import signal
-+
-+class MemLogger(object):
-+    def __init__(self):
-+        self.info_msgs = []
-+        self.error_msgs = []
-+
-+    def info(self, msg):
-+        self.info_msgs.append(msg)
-+
-+    def error(self, msg):
-+        self.error_msgs.append(msg)
-+
-+class RunCmdTests(OESelftestTestCase):
-+    """ Basic tests for runCmd() utility function """
-+
-+    # The delta is intentionally smaller than the timeout, to detect cases where
-+    # we incorrectly apply the timeout more than once.
-+    TIMEOUT = 2
-+    DELTA = 1
-+
-+    def test_result_okay(self):
-+        result = runCmd("true")
-+        self.assertEqual(result.status, 0)
-+
-+    def test_result_false(self):
-+        result = runCmd("false", ignore_status=True)
-+        self.assertEqual(result.status, 1)
-+
-+    def test_shell(self):
-+        # A shell is used for all string commands.
-+        result = runCmd("false; true", ignore_status=True)
-+        self.assertEqual(result.status, 0)
-+
-+    def test_no_shell(self):
-+        self.assertRaises(FileNotFoundError,
-+                          runCmd, "false; true", shell=False)
-+
-+    def test_list_not_found(self):
-+        self.assertRaises(FileNotFoundError,
-+                          runCmd, ["false; true"])
-+
-+    def test_list_okay(self):
-+        result = runCmd(["true"])
-+        self.assertEqual(result.status, 0)
-+
-+    def test_result_assertion(self):
-+        self.assertRaisesRegexp(AssertionError, "Command 'echo .* false' returned non-zero exit status 1:\nfoobar",
-+                                runCmd, "echo foobar >&2; false", shell=True)
-+
-+    def test_result_exception(self):
-+        self.assertRaisesRegexp(CommandError, "Command 'echo .* false' returned non-zero exit status 1 with output: foobar",
-+                                runCmd, "echo foobar >&2; false", shell=True, assert_error=False)
-+
-+    def test_output(self):
-+        result = runCmd("echo stdout; echo stderr >&2", shell=True)
-+        self.assertEqual("stdout\nstderr", result.output)
-+        self.assertEqual("", result.error)
-+
-+    def test_output_split(self):
-+        result = runCmd("echo stdout; echo stderr >&2", shell=True, stderr=subprocess.PIPE)
-+        self.assertEqual("stdout", result.output)
-+        self.assertEqual("stderr", result.error)
-+
-+    def test_timeout(self):
-+        numthreads = threading.active_count()
-+        start = time.time()
-+        # Killing a hanging process only works when not using a shell?!
-+        result = runCmd(['sleep', '60'], timeout=self.TIMEOUT, ignore_status=True)
-+        self.assertEqual(result.status, -signal.SIGTERM)
-+        end = time.time()
-+        self.assertLess(end - start, self.TIMEOUT + self.DELTA)
-+        self.assertEqual(numthreads, threading.active_count())
-+
-+    def test_timeout_split(self):
-+        numthreads = threading.active_count()
-+        start = time.time()
-+        # Killing a hanging process only works when not using a shell?!
-+        result = runCmd(['sleep', '60'], timeout=self.TIMEOUT, ignore_status=True, stderr=subprocess.PIPE)
-+        self.assertEqual(result.status, -signal.SIGTERM)
-+        end = time.time()
-+        self.assertLess(end - start, self.TIMEOUT + self.DELTA)
-+        self.assertEqual(numthreads, threading.active_count())
-+
-+    def test_stdin(self):
-+        numthreads = threading.active_count()
-+        result = runCmd("cat", data=b"hello world", timeout=self.TIMEOUT)
-+        self.assertEqual("hello world", result.output)
-+        self.assertEqual(numthreads, threading.active_count())
-+
-+    def test_stdin_timeout(self):
-+        numthreads = threading.active_count()
-+        start = time.time()
-+        result = runCmd(['sleep', '60'], data=b"hello world", timeout=self.TIMEOUT, ignore_status=True)
-+        self.assertEqual(result.status, -signal.SIGTERM)
-+        end = time.time()
-+        self.assertLess(end - start, self.TIMEOUT + self.DELTA)
-+        self.assertEqual(numthreads, threading.active_count())
-+
-+    def test_log(self):
-+        log = MemLogger()
-+        result = runCmd("echo stdout; echo stderr >&2", shell=True, output_log=log)
-+        self.assertEqual(["Running: echo stdout; echo stderr >&2", "stdout", "stderr"], log.info_msgs)
-+        self.assertEqual([], log.error_msgs)
-+
-+    def test_log_split(self):
-+        log = MemLogger()
-+        result = runCmd("echo stdout; echo stderr >&2", shell=True, output_log=log, stderr=subprocess.PIPE)
-+        self.assertEqual(["Running: echo stdout; echo stderr >&2", "stdout"], log.info_msgs)
-+        self.assertEqual(["stderr"], log.error_msgs)
--- 
-git-series 0.9.1
+> +        if args.extra:
+> +            for val in args.extra:
+> +                src_uri = mappings[pkg][val].strip()
+> +                src_uri = re.sub(r'\s+', ' ', src_uri)
+> +                line += ' "%s"' % src_uri
+>
 
+I don't think you meant src_uri here.  :)
+
+Ross
+
+--001a1147a4188127600552a050a5
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 19 June 2017 at 15:31, Peter Kjellerstedt <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:peter.kjellerstedt@axis.com" target=3D"_blank">peter.kjellersted=
+t@axis.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=
+=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=
+=3D":511" class=3D"a3s aXjCH m15cc0c4a319ad830">+=C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 if args.extra:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 for val in args.extra:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 src_uri =3D mappin=
+gs[pkg][val].strip()<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 src_uri =3D re.sub=
+(r&#39;\s+&#39;, &#39; &#39;, src_uri)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 line +=3D &#39; &q=
+uot;%s&quot;&#39; % src_uri<br></div></blockquote><div><br></div><div>I don=
+&#39;t think you meant src_uri here. =C2=A0:)</div><div><br></div><div>Ross=
+=C2=A0</div></div></div></div>
+
+--001a1147a4188127600552a050a5--
