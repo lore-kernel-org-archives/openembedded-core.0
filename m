@@ -1,18 +1,18 @@
 Return-Path: <patchwork@patchwork.openembedded.org>
 Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id CC33177EAA;
-	Fri, 23 Jun 2017 02:01:36 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id C638777EA7;
+	Fri, 23 Jun 2017 02:01:37 +0000 (UTC)
 MIME-Version: 1.0
 From: Patchwork <patchwork@patchwork.openembedded.org>
 To: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
-Date: Fri, 23 Jun 2017 02:01:38 -0000
-Message-ID: <20170623020138.1040.52794@do.openembedded.org>
-References: <1498182899-27907-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+Date: Fri, 23 Jun 2017 02:01:39 -0000
+Message-ID: <20170623020139.1039.77332@do.openembedded.org>
+References: <1498182968-27962-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
 Reply-To: openembedded-core@lists.openembedded.org
 X-Patchwork-Hint: ignore
-In-Reply-To: <1498182899-27907-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+In-Reply-To: <1498182968-27962-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgKGtyb2dvdGgpIHJwbTogRml4IHRoZSBCdWcgb2YgU1JQTSBTdHJpbmcgZXJyb3IgKHJldjIp?=
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgKG1vcnR5KSBycG06IEZpeCB0aGUgQnVnIG9mIFNSUE0gU3RyaW5nIGVycm9yIChyZXYyKQ==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,9 +31,9 @@ Content-Transfer-Encoding: 7bit
 
 == Series Details ==
 
-Series: (krogoth) rpm: Fix the Bug of SRPM String error (rev2)
+Series: (morty) rpm: Fix the Bug of SRPM String error (rev2)
 Revision: 2
-URL   : https://patchwork.openembedded.org/series/7415/
+URL   : https://patchwork.openembedded.org/series/7416/
 State : failure
 
 == Summary ==
