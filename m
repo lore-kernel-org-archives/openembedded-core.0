@@ -1,35 +1,35 @@
 Return-Path: <denis@denix.org>
 Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.17])
-	by mail.openembedded.org (Postfix) with ESMTP id E7B9478077
+	by mail.openembedded.org (Postfix) with ESMTP id 26775781F2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Jun 2017 17:31:50 +0000 (UTC)
+	Fri, 23 Jun 2017 17:33:57 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by mailout4.zoneedit.com (Postfix) with ESMTP id 943CD208FB
+	by mailout4.zoneedit.com (Postfix) with ESMTP id 5CE18208FB
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Jun 2017 17:31:51 +0000 (UTC)
+	Fri, 23 Jun 2017 17:33:59 +0000 (UTC)
 Received: from mailout4.zoneedit.com ([127.0.0.1])
 	by localhost (zmo03-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
-	port 10024) with ESMTP id xM3X7s4IW8wj
+	port 10024) with ESMTP id PeMcjuOQwKaI
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Jun 2017 17:31:51 +0000 (UTC)
+	Fri, 23 Jun 2017 17:33:59 +0000 (UTC)
 Received: from mail.denix.org (pool-100-15-85-143.washdc.fios.verizon.net
 	[100.15.85.143])
 	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 7C4AB204E0
+	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 42B9D204E0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Jun 2017 17:31:51 +0000 (UTC)
+	Fri, 23 Jun 2017 17:33:59 +0000 (UTC)
 Received: by mail.denix.org (Postfix, from userid 1000)
-	id 04A01162513; Fri, 23 Jun 2017 13:31:46 -0400 (EDT)
-Date: Fri, 23 Jun 2017 13:31:45 -0400
+	id CD97E162513; Fri, 23 Jun 2017 13:33:58 -0400 (EDT)
+Date: Fri, 23 Jun 2017 13:33:58 -0400
 From: Denys Dmytriyenko <denis@denix.org>
 To: openembedded-core@lists.openembedded.org
-Message-ID: <20170623173145.GW28053@denix.org>
-References: <1497893408-105889-1-git-send-email-denis@denix.org>
+Message-ID: <20170623173358.GX28053@denix.org>
+References: <1497553789-126570-1-git-send-email-denis@denix.org>
 MIME-Version: 1.0
-In-Reply-To: <1497893408-105889-1-git-send-email-denis@denix.org>
+In-Reply-To: <1497553789-126570-1-git-send-email-denis@denix.org>
 User-Agent: Mutt/1.5.20 (2009-06-14)
-Subject: Re: [PATCH] libinput: upgrade to 1.7.3
+Subject: Re: [PATCH] toolchain-scripts: add check for LD_LIBRARY_PATH in the SDK env setup script
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,39 +42,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Jun 2017 17:31:58 -0000
+X-List-Received-Date: Fri, 23 Jun 2017 17:33:58 -0000
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 Ping.
 
-On Mon, Jun 19, 2017 at 01:30:08PM -0400, Denys Dmytriyenko wrote:
+On Thu, Jun 15, 2017 at 03:09:49PM -0400, Denys Dmytriyenko wrote:
 > From: Denys Dmytriyenko <denys@ti.com>
+> 
+> Provide a descriptive error message and exit the environment-setup script,
+> when LD_LIBRARY_PATH is set on the host system.
 > 
 > Signed-off-by: Denys Dmytriyenko <denys@ti.com>
 > ---
->  .../recipes-graphics/wayland/{libinput_1.6.1.bb => libinput_1.7.3.bb} | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->  rename meta/recipes-graphics/wayland/{libinput_1.6.1.bb => libinput_1.7.3.bb} (85%)
+>  meta/classes/toolchain-scripts.bbclass | 15 +++++++++++++++
+>  1 file changed, 15 insertions(+)
 > 
-> diff --git a/meta/recipes-graphics/wayland/libinput_1.6.1.bb b/meta/recipes-graphics/wayland/libinput_1.7.3.bb
-> similarity index 85%
-> rename from meta/recipes-graphics/wayland/libinput_1.6.1.bb
-> rename to meta/recipes-graphics/wayland/libinput_1.7.3.bb
-> index c8714f2..6194fba 100644
-> --- a/meta/recipes-graphics/wayland/libinput_1.6.1.bb
-> +++ b/meta/recipes-graphics/wayland/libinput_1.7.3.bb
-> @@ -10,8 +10,8 @@ DEPENDS = "libevdev udev mtdev"
->  SRC_URI = "http://www.freedesktop.org/software/${BPN}/${BP}.tar.xz \
->             file://touchpad-serial-synaptics-need-to-fake-new-touches-on-TRIPLETAP.patch \
->  "
-> -SRC_URI[md5sum] = "7e282344f8ed7ec5cf87ca9fc22674fb"
-> -SRC_URI[sha256sum] = "9d816f13eee63bcca0e9c3bb652c52ab55f39be4d1b90b54e4bfd1dc92ef55a8"
-> +SRC_URI[md5sum] = "f2993b477db8d7ec0e785ce04ffecb03"
-> +SRC_URI[sha256sum] = "096d612d2711f0caa2de544976ff3729e6233511ab373808644cc2dd5affcb1d"
->  
->  inherit autotools pkgconfig
->  
+> diff --git a/meta/classes/toolchain-scripts.bbclass b/meta/classes/toolchain-scripts.bbclass
+> index 260ece9..ef7b26f 100644
+> --- a/meta/classes/toolchain-scripts.bbclass
+> +++ b/meta/classes/toolchain-scripts.bbclass
+> @@ -25,6 +25,21 @@ toolchain_create_sdk_env_script () {
+>  	script=${1:-${SDK_OUTPUT}/${SDKPATH}/environment-setup-$multimach_target_sys}
+>  	rm -f $script
+>  	touch $script
+> +
+> +	echo '# Check for LD_LIBRARY_PATH being set, which can break SDK and generally is a bad practice' >> $script
+> +	echo '# http://tldp.org/HOWTO/Program-Library-HOWTO/shared-libraries.html#AEN80' >> $script
+> +	echo '# http://xahlee.info/UnixResource_dir/_/ldpath.html' >> $script
+> +	echo '# Only disable this check if you are absolutely know what you are doing!' >> $script
+> +	echo 'if [ ! -z "$LD_LIBRARY_PATH" ]; then' >> $script
+> +	echo "    echo \"Your environment is misconfigured, you probably need to 'unset LD_LIBRARY_PATH'\"" >> $script
+> +	echo "    echo \"but please check why this was set in the first place and that it's safe to unset.\"" >> $script
+> +	echo '    echo "The SDK will not operate correctly in most cases when LD_LIBRARY_PATH is set."' >> $script
+> +	echo '    echo "For more references see:"' >> $script
+> +	echo '    echo "  http://tldp.org/HOWTO/Program-Library-HOWTO/shared-libraries.html#AEN80"' >> $script
+> +	echo '    echo "  http://xahlee.info/UnixResource_dir/_/ldpath.html"' >> $script
+> +	echo '    return 1' >> $script
+> +	echo 'fi' >> $script
+> +
+>  	echo 'export SDKTARGETSYSROOT='"$sysroot" >> $script
+>  	EXTRAPATH=""
+>  	for i in ${CANADIANEXTRAOS}; do
 > -- 
 > 2.7.4
 > 
