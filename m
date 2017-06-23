@@ -1,18 +1,18 @@
 Return-Path: <patchwork@patchwork.openembedded.org>
 Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id C41D977EA6;
-	Fri, 23 Jun 2017 02:01:35 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id CC33177EAA;
+	Fri, 23 Jun 2017 02:01:36 +0000 (UTC)
 MIME-Version: 1.0
 From: Patchwork <patchwork@patchwork.openembedded.org>
 To: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
-Date: Fri, 23 Jun 2017 02:01:37 -0000
-Message-ID: <20170623020137.1042.31110@do.openembedded.org>
-References: <1498181734-27615-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+Date: Fri, 23 Jun 2017 02:01:38 -0000
+Message-ID: <20170623020138.1040.52794@do.openembedded.org>
+References: <1498182899-27907-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
 Reply-To: openembedded-core@lists.openembedded.org
 X-Patchwork-Hint: ignore
-In-Reply-To: <1498181734-27615-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+In-Reply-To: <1498182899-27907-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgKGpldGhybykgcnBtOiBGaXggdGhlIEJ1ZyBvZiBTUlBNIFN0cmluZyBlcnJvciAocmV2Mik=?=
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgKGtyb2dvdGgpIHJwbTogRml4IHRoZSBCdWcgb2YgU1JQTSBTdHJpbmcgZXJyb3IgKHJldjIp?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,15 +25,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Jun 2017 02:01:36 -0000
+X-List-Received-Date: Fri, 23 Jun 2017 02:01:37 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
 == Series Details ==
 
-Series: (jethro) rpm: Fix the Bug of SRPM String error (rev2)
+Series: (krogoth) rpm: Fix the Bug of SRPM String error (rev2)
 Revision: 2
-URL   : https://patchwork.openembedded.org/series/7414/
+URL   : https://patchwork.openembedded.org/series/7415/
 State : failure
 
 == Summary ==
