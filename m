@@ -1,53 +1,27 @@
-Return-Path: <prvs=340a7fc1c=Mikko.Rapeli@bmw.de>
-Received: from esa6.bmw.c3s2.iphmx.com (esa6.bmw.c3s2.iphmx.com
-	[68.232.139.124])
-	by mail.openembedded.org (Postfix) with ESMTP id 11787780C3
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 43485780F3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Jun 2017 14:17:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
-	t=1498227463; x=1529763463;
-	h=from:to:cc:subject:date:message-id:references:
-	in-reply-to:content-id:content-transfer-encoding: mime-version;
-	bh=H9H/gIDHaU6MVeowGWSAfI+NvurJZEr/JZYpI1yxaOQ=;
-	b=ZMdzwZkgXKqbzoN/bnRZqQNV+1TAueeo14ZwDoSWj77ScmSk7xXktAfE
-	MRroKiHOn3Ue8Ephwb5+cF9SUohOo7DRVkmKB63eHehmfA4UdnMkjmyP4
-	cLVVlH6HLSoGQUTQR7MGx3txwCwjGwtSIsPaZ/avhaS2AoK04gnIwT+V1 g=;
-Received: from esagw1.bmwgroup.com (HELO esagw1.muc) ([160.46.252.34]) by
-	esa6.bmw.c3s2.iphmx.com with ESMTP/TLS; 23 Jun 2017 16:17:39 +0200
-Received: from esabb5.muc ([160.50.100.47])  by esagw1.muc with ESMTP/TLS;
-	23 Jun 2017 16:17:38 +0200
-Received: from smucm10j.bmwgroup.net (HELO smucm10j.europe.bmw.corp)
-	([160.48.96.46])
-	by esabb5.muc with ESMTP/TLS; 23 Jun 2017 16:17:38 +0200
-Received: from smucm10k.europe.bmw.corp (160.48.96.47) by
-	smucm10j.europe.bmw.corp
-	(160.48.96.46) with Microsoft SMTP Server (TLS;
-	Fri, 23 Jun 2017 16:17:38 +0200
-Received: from smucm10k.europe.bmw.corp ([160.48.96.47]) by
-	smucm10k.europe.bmw.corp ([160.48.96.47]) with mapi id 15.00.1263.000;
-	Fri, 23 Jun 2017 16:17:38 +0200
-From: <Mikko.Rapeli@bmw.de>
-To: <raj.khem@gmail.com>
-Thread-Topic: [OE-core] [PATCH] linux-libc-headers: fix duplicate IFF_LOWER_UP
-	DORMANT ECHO on musl
-Thread-Index: AQHS66a59H4ggohTFUaw0slfF1ObNaIyIx8AgAAv3wCAAAsbgA==
-Date: Fri, 23 Jun 2017 14:17:38 +0000
-Message-ID: <20170623141737.bksn4w2qbd7fyhzs@hiutale>
-References: <20170622151404.27496-1-git@andred.net>
-	<CAMKF1spVoW38edBHwvV8vGg9C00K1tQvqRC1LR2NXofZm5DkEA@mail.gmail.com>
-	<1498214792.25895.23.camel@andred.net>
-	<CAMKF1sowVfO=avnnSJtDhYi=nda0hU_htvcTcmtdWydCxzOqvg@mail.gmail.com>
-In-Reply-To: <CAMKF1sowVfO=avnnSJtDhYi=nda0hU_htvcTcmtdWydCxzOqvg@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [192.168.44.101]
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] linux-libc-headers: fix duplicate IFF_LOWER_UP DORMANT ECHO on musl
+	Fri, 23 Jun 2017 14:47:50 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	v5NEllrK018055
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
+	verify=NOT); Fri, 23 Jun 2017 15:47:48 +0100
+Message-ID: <1498229267.24449.132.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Saul Wold <sgw@linux.intel.com>, openembedded-core@lists.openembedded.org
+Date: Fri, 23 Jun 2017 15:47:47 +0100
+In-Reply-To: <1497448981-8637-1-git-send-email-sgw@linux.intel.com>
+References: <1497448981-8637-1-git-send-email-sgw@linux.intel.com>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
+Mime-Version: 1.0
+X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.11
+	(dan.rpsys.net [192.168.3.1]);
+	Fri, 23 Jun 2017 15:47:48 +0100 (BST)
+X-Virus-Scanned: clamav-milter 0.99.2 at dan
+X-Virus-Status: Clean
+Subject: Re: [PATCH] pkg-config: allow kernel to be build with esdk
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,54 +34,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Jun 2017 14:17:41 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-ID: <AAD506F39C1F914B92591C316115C75C@bmwmail.corp>
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 23 Jun 2017 14:47:52 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Hi,
+On Wed, 2017-06-14 at 07:03 -0700, Saul Wold wrote:
+> When the kernel's menuconfig target is called while using the esdk or
+> an esdk-based container, the pkg-config info that is found is not
+> correct.
+> The pkg-config info is for the target, but we need the eSDK's
+> information in order to build the host based menuconfig.
+> 
+> The new pkg-config script checks both that it's in SDK and being
+> called from the check-lxdialog script in order to limit the scope of
+> when the pkg-config automagically switches to pkg-config-native.
+> 
+> This script also replaces the default pkg-config-native script.
+> 
+> [YOCTO #11155]
+> 
+> Signed-off-by: Saul Wold <sgw@linux.intel.com>
+> ---
 
-I'm chipping in since I've been messing with these things a bit in upstream
-Linux kernel.
+To be honest, I'm scared of adding this kind of complexity to the
+system. I appreciate the problem you're trying to solve but I worry
+adding this kind of change is complex, invasive and introduces too much
+risk.
 
-On Fri, Jun 23, 2017 at 06:37:52AM -0700, Khem Raj wrote:
-> On Fri, Jun 23, 2017 at 3:46 AM, Andr=E9 Draszik <git@andred.net> wrote:
-> > connman is not doing anything wrong here.
-> >
->=20
-> yes I am aware of this
->=20
-> > The kernel is redefining IFF_LOWER_UP, because it thinks the libc doesn=
-'t
-> > define it yet (and glibc doesn't).
-> >
-> > libc-compat.h is the way to solve these kind of issues. There also is h=
-ttps:
-> > //lkml.org/lkml/2017/3/12/238 which is very similar. I'll pick that ins=
-tead.
-> >
-> see the comment https://lkml.org/lkml/2017/3/16/121
-> that worries me for this patch
+I have some specific worries with this implementation too, in
+particular that it changes on target pkg-config, it really should only
+change nativesdk-pkgconfig? If we have risk, we want to minimise that
+risk and adding this wrapper everywhere doesn't seem to do that...
 
-I'm aware of those review comments but I have not seen any patches posted w=
-hich
-fix the problem in some other way. Thus I would propose to apply these patc=
-hes
-as a workaround until upstream fixes the issues.
+Cheers,
 
-These header files do not change that often either.
+Richard
 
-> I am not questioning the correctness of patch too. But
-> it would be better to get this patch accepted into kernel
-> before applying to OE since these are kind of patches which
-> you can get stuck with for life if upstream is not accepting it.
 
-Upstream-Status: Denied
-
-would be a correct marker for now I guess.
-
-Hope this helps,
-
--Mikko=
 
