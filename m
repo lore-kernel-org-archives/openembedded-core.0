@@ -1,39 +1,47 @@
-Return-Path: <denis@denix.org>
-Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.17])
-	by mail.openembedded.org (Postfix) with ESMTP id 4E1FB78218
+Return-Path: <jeff.dagenais@gmail.com>
+Received: from mail-io0-f194.google.com (mail-io0-f194.google.com
+	[209.85.223.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 4BEF978221
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Jun 2017 23:41:10 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mailout4.zoneedit.com (Postfix) with ESMTP id EA60A208FB;
-	Fri, 23 Jun 2017 23:41:11 +0000 (UTC)
-Received: from mailout4.zoneedit.com ([127.0.0.1])
-	by localhost (zmo03-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
-	port 10024)
-	with ESMTP id OWzaAhZvhupq; Fri, 23 Jun 2017 23:41:11 +0000 (UTC)
-Received: from mail.denix.org (pool-100-15-85-143.washdc.fios.verizon.net
-	[100.15.85.143])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mailout4.zoneedit.com (Postfix) with ESMTPSA id BFD6F204E0;
-	Fri, 23 Jun 2017 23:41:09 +0000 (UTC)
-Received: by mail.denix.org (Postfix, from userid 1000)
-	id 5D5CA162513; Fri, 23 Jun 2017 19:41:09 -0400 (EDT)
-Date: Fri, 23 Jun 2017 19:41:09 -0400
-From: Denys Dmytriyenko <denis@denix.org>
-To: Khem Raj <raj.khem@gmail.com>
-Message-ID: <20170623234109.GF28053@denix.org>
-References: <20170622151404.27496-1-git@andred.net>
-	<CAMKF1spVoW38edBHwvV8vGg9C00K1tQvqRC1LR2NXofZm5DkEA@mail.gmail.com>
-	<1498214792.25895.23.camel@andred.net>
-	<CAMKF1sowVfO=avnnSJtDhYi=nda0hU_htvcTcmtdWydCxzOqvg@mail.gmail.com>
-	<20170623141737.bksn4w2qbd7fyhzs@hiutale>
-	<CAMKF1spOU3HZ3JuG58CXzGrKgKmw79RcW+CzesouvQdBV+9Rjw@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <CAMKF1spOU3HZ3JuG58CXzGrKgKmw79RcW+CzesouvQdBV+9Rjw@mail.gmail.com>
-User-Agent: Mutt/1.5.20 (2009-06-14)
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] linux-libc-headers: fix duplicate IFF_LOWER_UP DORMANT ECHO on musl
+	Fri, 23 Jun 2017 23:42:16 +0000 (UTC)
+Received: by mail-io0-f194.google.com with SMTP id h134so8385397iof.3
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 23 Jun 2017 16:42:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=EYDVTYu4OGu/J+RWOsPaN9CzJ88zYYDgdYqYXBi7vUg=;
+	b=tDBunB0/M5nZiM11KnkvRDzvKKBvCoG6CcRz9SQWVE6SNDSCX7HYIQto49HMhwsVu2
+	BIGN2KlNLqlqXUdOG9x7272ATUFSHy9erJFd4KxqkGdBt1hMHzelUlmabBeagSEG38fF
+	xDzlaypRkyCYd6yH/yNXvCaaq50T1PUpfru2epvLTMUNk1hbzAYZ/haelPOS1sAogEHn
+	Na/lngybCxsH7iMNAGC7RuNuy0bbmsNKnk8zggeQ48SuEImQSj7G4HC25ks4YoNCpGTm
+	mDuww+SrKKZ1QyozsD12/p5RkqK4SDGtcuPssYt2CvT2ec9vwKQmoLx9KrebwZUy4nBQ
+	2yBQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=EYDVTYu4OGu/J+RWOsPaN9CzJ88zYYDgdYqYXBi7vUg=;
+	b=rzCijWQX315mpAm0Opbp6as9NCwrkM0KEagOuB8ej1aHxsGPskY1mwSk/wa6pVspm5
+	x7C/DCLFwo4AuZZ+02h4nRnD6vMOGTB4MkjY7l/YCCpX2jAX5k2OJLIy+7YVGvkUu+CG
+	LHq0tVwUjN70ArG0xmS5ZGb57lsq4eMnNmAmHiSr7Mz0pD//6udLDJkJPPttXxatqKeR
+	aAxi6tBIVFnoUZsKhBQTKK3n+27jh+oSYy9rgTE4F3ge+juf109p73l8+4hpWvmT5MaE
+	20QvOMgbC8rHREtSArLvUYBRHHpy5yS7PgoeG9fkGflbmTSYldFUODGrcM2b+GMiKut4
+	hsUQ==
+X-Gm-Message-State: AKS2vOy3oKlbfT5jumq8nIAakTnXEqkcfH4KAlwTGd5fOfrXFIjCr7lS
+	Ly5CuvYzDeuabirL
+X-Received: by 10.107.182.130 with SMTP id g124mr9905725iof.120.1498261337346; 
+	Fri, 23 Jun 2017 16:42:17 -0700 (PDT)
+Received: from jfddesk.Sonatest.net
+	(modemcable066.15-37-24.static.videotron.ca. [24.37.15.66])
+	by smtp.gmail.com with ESMTPSA id
+	131sm3744076itl.11.2017.06.23.16.42.16
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 23 Jun 2017 16:42:16 -0700 (PDT)
+From: Jean-Francois Dagenais <jeff.dagenais@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 23 Jun 2017 19:41:55 -0400
+Message-Id: <1498261315-7196-1-git-send-email-jeff.dagenais@gmail.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] wic: remove extra double-quote on documentation string
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,62 +54,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Jun 2017 23:41:11 -0000
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 23 Jun 2017 23:42:16 -0000
 
-On Fri, Jun 23, 2017 at 04:20:41PM -0700, Khem Raj wrote:
-> On Fri, Jun 23, 2017 at 7:17 AM,  <Mikko.Rapeli@bmw.de> wrote:
-> > Hi,
-> >
-> > I'm chipping in since I've been messing with these things a bit in upstream
-> > Linux kernel.
-> >
-> > On Fri, Jun 23, 2017 at 06:37:52AM -0700, Khem Raj wrote:
-> >> On Fri, Jun 23, 2017 at 3:46 AM, André Draszik <git@andred.net> wrote:
-> >> > connman is not doing anything wrong here.
-> >> >
-> >>
-> >> yes I am aware of this
-> >>
-> >> > The kernel is redefining IFF_LOWER_UP, because it thinks the libc doesn't
-> >> > define it yet (and glibc doesn't).
-> >> >
-> >> > libc-compat.h is the way to solve these kind of issues. There also is https:
-> >> > //lkml.org/lkml/2017/3/12/238 which is very similar. I'll pick that instead.
-> >> >
-> >> see the comment https://lkml.org/lkml/2017/3/16/121
-> >> that worries me for this patch
-> >
-> > I'm aware of those review comments but I have not seen any patches posted which
-> > fix the problem in some other way. Thus I would propose to apply these patches
-> > as a workaround until upstream fixes the issues.
-> >
-> > These header files do not change that often either.
-> 
-> problem is you become incompatible ABI forever that worries me.
+Signed-off-by: Jean-Francois Dagenais <jeff.dagenais@gmail.com>
+---
+ scripts/lib/wic/ksparser.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-+1
+diff --git a/scripts/lib/wic/ksparser.py b/scripts/lib/wic/ksparser.py
+index d026caa..47afda4 100644
+--- a/scripts/lib/wic/ksparser.py
++++ b/scripts/lib/wic/ksparser.py
+@@ -114,7 +114,7 @@ def systemidtype(arg):
+     return arg
+ 
+ class KickStart():
+-    """"Kickstart parser implementation."""
++    """Kickstart parser implementation."""
+ 
+     DEFAULT_EXTRA_SPACE = 10*1024
+     DEFAULT_OVERHEAD_FACTOR = 1.3
+-- 
+2.1.4
 
-
-> However if bruce is fine to carry this patch as part of linux-yocto
-> I might relent. It still will be hassle where folks will have to apply
-> this patch to there kernels if they are building musl based systems.
-
-Don't forget that not everyone is using linux-yocto kernel!
-
-
-> >> I am not questioning the correctness of patch too. But
-> >> it would be better to get this patch accepted into kernel
-> >> before applying to OE since these are kind of patches which
-> >> you can get stuck with for life if upstream is not accepting it.
-> >
-> > Upstream-Status: Denied
-> >
-> > would be a correct marker for now I guess.
-> 
-> I would rather see some progress made to get it resolved :)
-> we need to actually remove glibc'ness completely from kernel.
-> and this will fix itself.
 
