@@ -1,53 +1,41 @@
-Return-Path: <enrico.scholz@sigma-chemnitz.de>
-X-Greylist: delayed 1035 seconds by postgrey-1.34 at layers.openembedded.org;
-	Fri, 23 Jun 2017 11:36:36 UTC
-Received: from mail.cvg.de (mail.cvg.de [193.158.56.148])
-	by mail.openembedded.org (Postfix) with ESMTP id 8EA58780A1
+Return-Path: <andre.draszik@gmail.com>
+Received: from mail-wr0-f194.google.com (mail-wr0-f194.google.com
+	[209.85.128.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 7DBB477F69
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Jun 2017 11:36:36 +0000 (UTC)
-Received: from mail-mta-0.intern.sigma-chemnitz.de
-	(mail-mta-0.intern.sigma-chemnitz.de [192.168.12.76])
-	by mailout-1.intern.sigma-chemnitz.de (8.14.7/8.14.7) with ESMTP id
-	v5NBJLgY007556
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=OK) for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Jun 2017 13:19:22 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sigma-chemnitz.de;
-	s=v2012061000; t=1498216762;
-	bh=ZEdIVqwpjZGBWjASDpOQcupiPwpqAbCGIloxm454eR0=;
-	h=From:To:Cc:Subject:Date:Message-Id:Sender;
-	b=kqGL5i8uLXhYxRqROW4zxDNGDrWy68+W6UwfXONm3Zxp8EOdWdmbR586GWI4SwFvB
-	UJcs8QtQ1F0/oz0OSkaL/cRxY6IpI7D2odbRd9DoipcS0qewZBXhW/6qUpcXl3q225
-	1pOPagaYSXIsC6/Si084pmtWkblFhLtZ+cFkgcuU=
-Received: from reddoxx.intern.sigma-chemnitz.de
-	(reddoxx.intern.sigma-chemnitz.de [192.168.0.193])
-	by mail-mta-0.intern.sigma-chemnitz.de (8.14.7/8.14.7) with ESMTP id
-	v5NBJFQL012621 for <openembedded-core@lists.openembedded.org> from
-	enrico.scholz@sigma-chemnitz.de; Fri, 23 Jun 2017 13:19:15 +0200
-Received: from mail-msa-0.intern.sigma-chemnitz.de ( [192.168.12.77]) by
-	reddoxx.intern.sigma-chemnitz.de
-	(Reddoxx engine) with SMTP id 30925F9FB75;
-	Fri, 23 Jun 2017 13:16:04 +0200
-Received: from ensc-virt.intern.sigma-chemnitz.de
-	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
-	by mail-msa-0.intern.sigma-chemnitz.de (8.14.7/8.14.7) with ESMTP id
-	v5NBJCg0012618
-	(version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
-	Fri, 23 Jun 2017 13:19:13 +0200
-Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
-	4.87) (envelope-from <ensc@sigma-chemnitz.de>)
-	id 1dOMcK-0005x7-R7; Fri, 23 Jun 2017 13:19:12 +0200
-From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+	Fri, 23 Jun 2017 11:42:14 +0000 (UTC)
+Received: by mail-wr0-f194.google.com with SMTP id k67so11873916wrc.1
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 23 Jun 2017 04:42:16 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=Hj85tcvkXUAdmVdVARH8hY0oS/CC+nZQZ5Zn4e/MfRE=;
+	b=qiAbK4O4tbsj6/grBPZHeu02YM/RwZVQafQefEyXWk6EiHKGWKnP+aozHUPTvziMPf
+	VRKY0KY8rVIi3qI/pmaM3YHDJwOgvAqaqA8CCxZRJSqdCAaKIuRAaxKrWGKi7XujmWCU
+	16ZAmsrykAAMv9MQz9ohT02TU5jvvJIkeI4taYrqhSMtl7vRJ1IHPzv79offoZvs4nDW
+	XPK4NVWToNAP81QCMQzrue9n6emZok6XfeX3H/6SwNfCglZPjk65pMo8U2QrRw7rBJBI
+	duj1zlO4afRNdExMnTtTwsw9CiBV3f4VcDg+MPbiNz/VQXAOEFSZIKwUbabxvZYP4y/8
+	AhxA==
+X-Gm-Message-State: AKS2vOwGcdEdksxP8R29JiAX3k/PFksJDywg5k7g0S+9y490ZX2w+3eg
+	1ysStF3AANEhD0A2T9o=
+X-Received: by 10.80.135.175 with SMTP id a44mr1532458eda.90.1498218135327;
+	Fri, 23 Jun 2017 04:42:15 -0700 (PDT)
+Received: from tfsielt31850.garage.tyco.com ([77.107.218.170])
+	by smtp.gmail.com with ESMTPSA id j40sm2102750ede.0.2017.06.23.04.42.14
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 23 Jun 2017 04:42:14 -0700 (PDT)
+From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <git@andred.net>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 23 Jun 2017 13:19:12 +0200
-Message-Id: <20170623111912.22840-1-enrico.scholz@sigma-chemnitz.de>
-X-Mailer: git-send-email 2.9.4
-Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-X-Spam-Score: -0.5
-X-Spam-Tests: AWL,BAYES_00,DKIM_ADSP_ALL,SPF_NEUTRAL,T_RP_MATCHES_RCVD
-X-Scanned-By: MIMEDefang 2.79
-Cc: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-Subject: [PATCH] tzcode-native: quote ${CC}
+Date: Fri, 23 Jun 2017 12:42:13 +0100
+Message-Id: <20170623114213.30682-1-git@andred.net>
+X-Mailer: git-send-email 2.11.0
+In-Reply-To: <20170622151404.27496-1-git@andred.net>
+References: <20170622151404.27496-1-git@andred.net>
+MIME-Version: 1.0
+Subject: [PATCH v2] linux-libc-headers: fix duplicate IFF_LOWER_UP DORMANT ECHO on musl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,32 +48,120 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Jun 2017 11:36:38 -0000
+X-List-Received-Date: Fri, 23 Jun 2017 11:42:16 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-build fails else with
+From: André Draszik <adraszik@tycoint.com>
 
-| + make -j 8 -l 6 cc=ccache gcc
-| make: *** No rule to make target 'gcc'.  Stop.
+musl _does_ define IFF_LOWER_UP DORMANT ECHO so we should
+prevent redefinition of these when on musl.
 
-Signed-off-by: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+As per the included patch, this can be triggered by
+(from connman 6to4.c):
+    include <errno.h>
+    include <stdio.h>
+    include <stdlib.h>
+    include <string.h>
+    include <sys/socket.h>
+    include <netinet/in.h>
+    include <arpa/inet.h>
+    include <net/if.h>
+    include <linux/ip.h>
+    include <linux/if_tunnel.h>
+    include <linux/netlink.h>
+    include <linux/rtnetlink.h>
+    include <sys/ioctl.h>
+    include <unistd.h>
+
+In file included from ../git/src/6to4.c:34:0:
+.../usr/include/linux/if.h:97:2: error: expected identifier before numeric constant
+  IFF_LOWER_UP   = 1<<16, /* __volatile__ */
+  ^
+
+This is because at that time, IFF_LOWER_UP has been converted
+to 0x10000 already:
+enum net_device_flags {
+ 0x10000 = 1<<16,
+ 0x20000 = 1<<17,
+ 0x40000 = 1<<18,
+
+};
+
+Backport a patch that addresses this.
+
+Signed-off-by: André Draszik <adraszik@tycoint.com>
 ---
- meta/recipes-extended/tzcode/tzcode-native_2017b.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ ....h-musl-_does_-define-IFF_LOWER_UP-DORMAN.patch | 46 ++++++++++++++++++++++
+ .../linux-libc-headers/linux-libc-headers_4.10.bb  |  1 +
+ 2 files changed, 47 insertions(+)
+ create mode 100644 meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0001-libc-compat.h-musl-_does_-define-IFF_LOWER_UP-DORMAN.patch
 
-diff --git a/meta/recipes-extended/tzcode/tzcode-native_2017b.bb b/meta/recipes-extended/tzcode/tzcode-native_2017b.bb
-index 2084f79..165d2c6 100644
---- a/meta/recipes-extended/tzcode/tzcode-native_2017b.bb
-+++ b/meta/recipes-extended/tzcode/tzcode-native_2017b.bb
-@@ -18,7 +18,7 @@ S = "${WORKDIR}"
+diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0001-libc-compat.h-musl-_does_-define-IFF_LOWER_UP-DORMAN.patch b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0001-libc-compat.h-musl-_does_-define-IFF_LOWER_UP-DORMAN.patch
+new file mode 100644
+index 0000000000..bde2132ebf
+--- /dev/null
++++ b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0001-libc-compat.h-musl-_does_-define-IFF_LOWER_UP-DORMAN.patch
+@@ -0,0 +1,46 @@
++Content-Type: text/plain; charset="utf-8"
++MIME-Version: 1.0
++Content-Transfer-Encoding: 7bit
++Subject: [v2,2/3] uapi glibc compat: fix build if libc defines IFF_ECHO
++From: Hauke Mehrtens <hauke@hauke-m.de>
++X-Patchwork-Id: 9686293
++Message-Id: <20170418210036.26039-3-hauke@hauke-m.de>
++To: davem@davemloft.net, netdev@vger.kernel.org
++Cc: linux-kernel@vger.kernel.org, jarod@redhat.com, jogo@openwrt.org,
++ david.heidelberger@ixit.cz, maillist-linux@barfooze.de,
++ mikko.rapeli@iki.fi, dwmw2@infradead.org, Hauke Mehrtens <hauke@hauke-m.de>
++Date: Tue, 18 Apr 2017 23:00:35 +0200
++
++musl 1.1.15 defines IFF_ECHO and the other net_device_flags options.
++When a user application includes linux/if.h and net/if.h the compile
++will fail.
++
++Activate __UAPI_DEF_IF_NET_DEVICE_FLAGS_LOWER_UP_DORMANT_ECHO only when
++it is needed. This should also make this work in case glibc will add
++these defines.
++
++Acked-by: Mikko Rapeli <mikko.rapeli@iki.fi>
++Signed-off-by: Hauke Mehrtens <hauke@hauke-m.de>
++---
++Upstream-Status: Submitted [https://patchwork.kernel.org/patch/9686293/]
++Signed-off-by: André Draszik <adraszik@tycoint.com>
++Acked-by: Stephane Ayotte <sayotte@tycoint.com>
++ include/uapi/linux/libc-compat.h | 2 ++
++ 1 file changed, 2 insertions(+)
++
++diff --git a/include/uapi/linux/libc-compat.h b/include/uapi/linux/libc-compat.h
++index 43a81136ea6e..ce2fa8a4ced6 100644
++--- a/include/uapi/linux/libc-compat.h
+++++ b/include/uapi/linux/libc-compat.h
++@@ -64,9 +64,11 @@
++ /* Everything up to IFF_DYNAMIC, matches net/if.h until glibc 2.23 */
++ #define __UAPI_DEF_IF_NET_DEVICE_FLAGS 0
++ /* For the future if glibc adds IFF_LOWER_UP, IFF_DORMANT and IFF_ECHO */
+++#ifndef IFF_ECHO
++ #ifndef __UAPI_DEF_IF_NET_DEVICE_FLAGS_LOWER_UP_DORMANT_ECHO
++ #define __UAPI_DEF_IF_NET_DEVICE_FLAGS_LOWER_UP_DORMANT_ECHO 1
++ #endif /* __UAPI_DEF_IF_NET_DEVICE_FLAGS_LOWER_UP_DORMANT_ECHO */
+++#endif /* IFF_ECHO */
++ 
++ #else /* _NET_IF_H */
++ 
+diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_4.10.bb b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_4.10.bb
+index 108446aa34..29262789a8 100644
+--- a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_4.10.bb
++++ b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_4.10.bb
+@@ -4,6 +4,7 @@ SRC_URI_append_libc-musl = "\
+     file://0001-libc-compat.h-fix-some-issues-arising-from-in6.h.patch \
+     file://0002-libc-compat.h-prevent-redefinition-of-struct-ethhdr.patch \
+     file://0003-remove-inclusion-of-sysinfo.h-in-kernel.h.patch \
++    file://0001-libc-compat.h-musl-_does_-define-IFF_LOWER_UP-DORMAN.patch \
+    "
  
- inherit native
- 
--EXTRA_OEMAKE += "cc=${CC}"
-+EXTRA_OEMAKE += "cc='${CC}'"
- 
- do_install () {
-         install -d ${D}${bindir}/
+ SRC_URI[md5sum] = "b5e7f6b9b2fe1b6cc7bc56a3a0bfc090"
 -- 
-2.9.4
+2.11.0
 
 
