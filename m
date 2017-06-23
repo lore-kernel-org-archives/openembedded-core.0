@@ -1,52 +1,26 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-wr0-f196.google.com (mail-wr0-f196.google.com
-	[209.85.128.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 1437F781F2
+Return-Path: <sgw@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id D310C78239
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Jun 2017 23:21:10 +0000 (UTC)
-Received: by mail-wr0-f196.google.com with SMTP id x23so15948553wrb.0
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Jun 2017 16:21:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=gPFZzLw9iod/NVbn3dUUrkXlSR9N6XqIfq8Pb8Cu49A=;
-	b=h1tN3rrImHni2F4a9X1I13Li4l33Z7BftutcrpYtSZE++PuTNGMah30JBiFytUNrF/
-	+JcIAWX2AXkq6/uSu99ddY472hmVgC0GnwnM33KqqO5Aq3581xAQi9l/tRkFHu554t8A
-	5O/Lb2tJu5TFhDdotaYVjj7xGyjXfQ4HXTrjx0BpLECoQXYMgrYitWbJdCH/WOwmBo3v
-	ug+1LDE1nBU/kLXc+NCw4NRPl0Toi87jOqtU324YSX1bauYxccOzMh+9Mz8fK2tziS7g
-	0Y/yDUnfMAGQCSRYZ9BDQH7AR2cRO+uz+ARyFpissd1B7uzhE2XOKyJx4ErOm4w6+OMi
-	HhNg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=gPFZzLw9iod/NVbn3dUUrkXlSR9N6XqIfq8Pb8Cu49A=;
-	b=rGaW7RucRisJV5C+Rh/vckZQWBieexZQgdP0CSXWHQiP9JfEzDaJUp8dt3QwBro1h4
-	O6gGC6Rg8tG1ecj2m87f+3HmWb/nDRgG0wRn6EyIEBjUTPKrBs80IFkvMTgnV/6DtruT
-	t2PCTHUJK6sXBaO/FMVGGUzsPp8bwAYPBz5LAmne1iG9ORRWaJ6tZu6YNu6WeWgu4SbG
-	KGF8BflZqAlX2fbpKXws1y9my0JzJ8qC+wI3pu5L3Mye9r0QKZgm2LYHhobqyyONIopa
-	g/diWua+WzS+g7aiyQPEmsDDbwO7RS/GnD1rNF3cPuheZvGKGL1ouuMp290FOXxHrHne
-	gxHA==
-X-Gm-Message-State: AKS2vOwFWLe6FRAJB+wqXPWQB2gu+n6tEqu7n/XWjJyNChz2kzW2jpI/
-	zgoCz5FkgHBcZXHbwnIuB4u2oh73uA==
-X-Received: by 10.80.140.204 with SMTP id r12mr7875127edr.123.1498260072069;
-	Fri, 23 Jun 2017 16:21:12 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.80.165.198 with HTTP; Fri, 23 Jun 2017 16:20:41 -0700 (PDT)
-In-Reply-To: <20170623141737.bksn4w2qbd7fyhzs@hiutale>
-References: <20170622151404.27496-1-git@andred.net>
-	<CAMKF1spVoW38edBHwvV8vGg9C00K1tQvqRC1LR2NXofZm5DkEA@mail.gmail.com>
-	<1498214792.25895.23.camel@andred.net>
-	<CAMKF1sowVfO=avnnSJtDhYi=nda0hU_htvcTcmtdWydCxzOqvg@mail.gmail.com>
-	<20170623141737.bksn4w2qbd7fyhzs@hiutale>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 23 Jun 2017 16:20:41 -0700
-Message-ID: <CAMKF1spOU3HZ3JuG58CXzGrKgKmw79RcW+CzesouvQdBV+9Rjw@mail.gmail.com>
-To: Mikko.Rapeli@bmw.de
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] linux-libc-headers: fix duplicate IFF_LOWER_UP DORMANT ECHO on musl
+	Fri, 23 Jun 2017 23:38:28 +0000 (UTC)
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	23 Jun 2017 16:38:26 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.39,380,1493708400"; d="scan'208";a="100988043"
+Received: from swold-mobl2.amr.corp.intel.com ([10.252.133.197])
+	by orsmga004.jf.intel.com with ESMTP; 23 Jun 2017 16:38:26 -0700
+Message-ID: <1498261106.13914.248.camel@linux.intel.com>
+From: Saul Wold <sgw@linux.intel.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>, 
+	openembedded-core@lists.openembedded.org
+Date: Fri, 23 Jun 2017 16:38:26 -0700
+In-Reply-To: <1498229267.24449.132.camel@linuxfoundation.org>
+References: <1497448981-8637-1-git-send-email-sgw@linux.intel.com>
+	<1498229267.24449.132.camel@linuxfoundation.org>
+X-Mailer: Evolution 3.20.5 (3.20.5-1.fc24) 
+Mime-Version: 1.0
+Subject: Re: [PATCH] pkg-config: allow kernel to be build with esdk
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,65 +33,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Jun 2017 23:21:13 -0000
+X-List-Received-Date: Fri, 23 Jun 2017 23:38:30 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Fri, Jun 23, 2017 at 7:17 AM,  <Mikko.Rapeli@bmw.de> wrote:
-> Hi,
->
-> I'm chipping in since I've been messing with these things a bit in upstre=
-am
-> Linux kernel.
->
-> On Fri, Jun 23, 2017 at 06:37:52AM -0700, Khem Raj wrote:
->> On Fri, Jun 23, 2017 at 3:46 AM, Andr=C3=A9 Draszik <git@andred.net> wro=
-te:
->> > connman is not doing anything wrong here.
->> >
->>
->> yes I am aware of this
->>
->> > The kernel is redefining IFF_LOWER_UP, because it thinks the libc does=
-n't
->> > define it yet (and glibc doesn't).
->> >
->> > libc-compat.h is the way to solve these kind of issues. There also is =
-https:
->> > //lkml.org/lkml/2017/3/12/238 which is very similar. I'll pick that in=
-stead.
->> >
->> see the comment https://lkml.org/lkml/2017/3/16/121
->> that worries me for this patch
->
-> I'm aware of those review comments but I have not seen any patches posted=
- which
-> fix the problem in some other way. Thus I would propose to apply these pa=
-tches
-> as a workaround until upstream fixes the issues.
->
-> These header files do not change that often either.
+On Fri, 2017-06-23 at 15:47 +0100, Richard Purdie wrote:
+> On Wed, 2017-06-14 at 07:03 -0700, Saul Wold wrote:
+> > 
+> > When the kernel's menuconfig target is called while using the esdk
+> > or
+> > an esdk-based container, the pkg-config info that is found is not
+> > correct.
+> > The pkg-config info is for the target, but we need the eSDK's
+> > information in order to build the host based menuconfig.
+> > 
+> > The new pkg-config script checks both that it's in SDK and being
+> > called from the check-lxdialog script in order to limit the scope
+> > of
+> > when the pkg-config automagically switches to pkg-config-native.
+> > 
+> > This script also replaces the default pkg-config-native script.
+> > 
+> > [YOCTO #11155]
+> > 
+> > Signed-off-by: Saul Wold <sgw@linux.intel.com>
+> > ---
+> 
+> To be honest, I'm scared of adding this kind of complexity to the
+> system. I appreciate the problem you're trying to solve but I worry
+> adding this kind of change is complex, invasive and introduces too
+> much
+> risk.
+> 
+> I have some specific worries with this implementation too, in
+> particular that it changes on target pkg-config, it really should
+> only
+> change nativesdk-pkgconfig? If we have risk, we want to minimise that
+> risk and adding this wrapper everywhere doesn't seem to do that...
+> 
+There is no nativesdk-pkgconfig, but I had some confusion around the
+pkg-config-native and it's usage of a pkg-config binary.  I was getting
+some recursion initially and my feeble brain thought it was the target
+version :-(.
 
-problem is you become incompatible ABI forever that worries me.
-However if bruce is fine to carry this patch as part of linux-yocto
-I might relent. It still will be hassle where folks will have to apply
-this patch to there kernels if they are building musl based systems.
+I have rebuilt this patch and will send a V2 that ONLY affects the pkg-
+config-native, basically expands the script to check if it's being
+called as -native or from the Kernel's check-lxdialog.
 
->
->> I am not questioning the correctness of patch too. But
->> it would be better to get this patch accepted into kernel
->> before applying to OE since these are kind of patches which
->> you can get stuck with for life if upstream is not accepting it.
->
-> Upstream-Status: Denied
->
-> would be a correct marker for now I guess.
+I am also going to change the script such that it checks it's base name
+of pkg-config and only then add the parent pid name checking. 
 
-I would rather see some progress made to get it resolved :)
-we need to actually remove glibc'ness completely from kernel.
-and this will fix itself.
->
-> Hope this helps,
->
-> -Mikko
+I hope that will mitigate the risk.
+
+Sau!
+
+
+> Cheers,
+> 
+> Richard
+> 
+> 
 
