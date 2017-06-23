@@ -1,50 +1,50 @@
 Return-Path: <patrick.ohly@intel.com>
-Received: from mail-io0-f177.google.com (mail-io0-f177.google.com
-	[209.85.223.177])
-	by mail.openembedded.org (Postfix) with ESMTP id C56AB78082
+Received: from mail-it0-f44.google.com (mail-it0-f44.google.com
+	[209.85.214.44])
+	by mail.openembedded.org (Postfix) with ESMTP id B51AA780AF
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Jun 2017 13:05:15 +0000 (UTC)
-Received: by mail-io0-f177.google.com with SMTP id h64so2366735iod.0
+	Fri, 23 Jun 2017 13:05:18 +0000 (UTC)
+Received: by mail-it0-f44.google.com with SMTP id m47so7873392iti.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Jun 2017 06:05:17 -0700 (PDT)
+	Fri, 23 Jun 2017 06:05:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=U9LRtsoxOs8RnERvISxto/1X3QN9Swk96f3u8e1WuY8=;
-	b=gYSrdbFkWa3R4IilywTsvs5h6T7rOubn4we0mswX3Whur87SxU66wrFO7Bb+yrU9Bw
-	e4wOByCBMD70GcF+BCUhkfEGYxD72rlxpOjVSVM8HlOOrahGWX6ei1KPJ3SGfhAcQCaC
-	oWmOMOrCE7eIs3OhoJYngTaYxCGa+HtZeNCN20LaxCziUX5JHeGRWL2DJhf6csOk/036
-	EKXRR2WGcEeA35f68QDcpGcRsJP1vORioEglP8WuRzqxsbX2ajZMqbge7XgcIK+2BFzw
-	gxtvgvuGXC2bYIfRW2w/KDQzHqmdHlLJIWFmeBHPhX+xEi6j4t7mwywa57OElFSPwYgc
-	mK2w==
+	bh=f1gKgVpbY+jkzfzO+FYYpUNW77Ko/YPh2+0CGiykAJA=;
+	b=ZZ3C0Uiz22KttWF2LJ6omk8YdorHvJik3/bwKhDYTcQNSf6d0T8+NAWWoMrDjlEm9j
+	coRCBMBe8suTd9wsp4vceqlcOBnwt84azK4JEh9lPrmeGdzD8RQAk8zXndVCPsp8/S9d
+	FGl1mMkL6Bq7nPpKaC+fRbp1tkqNqyc0yexdPEZwpTkx+QEg0rKlG1XBxXEt6h1KG8j2
+	giXNU6T2b0c12fov/PwMqUYgKIk8uW3ClJHp3eIh6RP5vHOBRbJdREhvP1ot2BhKlHUP
+	7tp5oSBw1aKBDYR+/MR8wHh7adRw50qi2r6YQk74D/iamvpK66uRO5uHKN9/QoJdJz4G
+	RIZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=U9LRtsoxOs8RnERvISxto/1X3QN9Swk96f3u8e1WuY8=;
-	b=HVpcRmVW+hcu7cG+tvG+0t2zjyItCzUCF9DooRA65a6Y9w3M6AIA3jvoLuHHB1cuqF
-	8qF1w4VIOSY9KRnDr0eJJG+gV2GK2oJDvz8GqTU761xSpD8ifPatAqvSBB0BMQ4u5r9T
-	5UT6yooDZUyQxLo5C+Z/MFlSywv1TydwGW6OzJYclGg8biJ/5eg8DpvxzFKSTqoMIS0l
-	8JXGJe4JXJ5tHE8ZLQ4+EjBDncKE8tgKNozTMAZ/b6f7TBXJ8Y/z9ddW6jounJtgwMkO
-	beDjoFCUgDyvaULR1aboKVhDFmsINDIxDlRPCovQ2eEX4R+vnHAnOwGrRxdyYC5kXxEt
-	52Ug==
-X-Gm-Message-State: AKS2vOyDe8edi4hfu8n9lOpJbOfbUB3wwi3/IAS3+4IKFyFa6aTy2EtF
-	D+rUJ8ObJJMS9oEw88I=
-X-Received: by 10.107.3.84 with SMTP id 81mr1015110iod.233.1498223116358;
-	Fri, 23 Jun 2017 06:05:16 -0700 (PDT)
+	bh=f1gKgVpbY+jkzfzO+FYYpUNW77Ko/YPh2+0CGiykAJA=;
+	b=RHTvjea3ta9ZpH4H7fIbTeU+t/i1nMlmb2o1FlAqYFyFf3vUUjA7w3mYySCSCWUtvm
+	3fbsV1XEH06To9GmJXRUS8ZG8tcbDNSNsj+mMh0NNZKO0dSJeuYctQG4N/L4WfJd+o1B
+	XLP5N01faGOZYv1OHjwvzThvTcAfk6ktnAPE+RQeSRdEcfZVTq2D24lWz90+oEdFpdFJ
+	/6O/iBAzdmKfDXYyKj5R5cyAUniCFW8oY2Jm1F2L3iZXUltaT9UfIwPU6TF2jNLJ2Ydb
+	XsiTnjmk0kkpoG5TZYpH6zPdidXKQK/DdaE7tlLIXV+AXghdFh4un6XEOg++TAk5YcXa
+	XafA==
+X-Gm-Message-State: AKS2vOzzPMrvs3yvHY+NU9r0XwuEnUeA/mdXP4dg2Ul+XrJCtEYIDjip
+	n9Az9jvt3eobYeW4Fiw=
+X-Received: by 10.36.203.135 with SMTP id u129mr6929840itg.3.1498223119356;
+	Fri, 23 Jun 2017 06:05:19 -0700 (PDT)
 Received: from pohly-desktop.fritz.box (p5DE8DF06.dip0.t-ipconnect.de.
 	[93.232.223.6]) by smtp.gmail.com with ESMTPSA id
-	a191sm2966083ioe.1.2017.06.23.06.05.14
+	a191sm2966083ioe.1.2017.06.23.06.05.17
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 23 Jun 2017 06:05:15 -0700 (PDT)
+	Fri, 23 Jun 2017 06:05:18 -0700 (PDT)
 From: Patrick Ohly <patrick.ohly@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 23 Jun 2017 15:05:02 +0200
-Message-Id: <3a1d8e8b0b126051961e61b1ad50765392529a79.1498223057.git-series.patrick.ohly@intel.com>
+Date: Fri, 23 Jun 2017 15:05:03 +0200
+Message-Id: <ee8509b7cc9540ae0ddab95b1fd4092b639fdf59.1498223057.git-series.patrick.ohly@intel.com>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <cover.15cc4e9137e8e3a07cae0cf09e9e2f2e4bcefa56.1498223057.git-series.patrick.ohly@intel.com>
 References: <cover.15cc4e9137e8e3a07cae0cf09e9e2f2e4bcefa56.1498223057.git-series.patrick.ohly@intel.com>
-Subject: [PATCH 1/2] commands.py: live output logging + result.error encoding fix
+Subject: [PATCH 2/2] runcmd.py: unit testing for runCmd()
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,219 +57,142 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Jun 2017 13:05:15 -0000
+X-List-Received-Date: Fri, 23 Jun 2017 13:05:19 -0000
 
-Tests that use bitbake("my-test-image") can run for a long time
-without any indication to the user of oe-selftest about what's going
-on. The test author has to log the bitbake output explicitly,
-otherwise it is lost in case of test failures.
-
-Now it is possible to use bitbake("my-test-image",
-output_log=self.logger) to get more output both on the console and in
-the XML output (when xmlrunner is installed). Example output:
-
-2017-06-23 12:23:14,144 - oe-selftest - INFO - Running tests...
-2017-06-23 12:23:14,145 - oe-selftest - INFO - ----------------------------------------------------------------------
-2017-06-23 12:23:14,151 - oe-selftest - INFO - Running: bitbake my-test-image
-2017-06-23 12:23:16,363 - oe-selftest - INFO - Loading cache...done.
-2017-06-23 12:23:17,575 - oe-selftest - INFO - Loaded 3529 entries from dependency cache.
-2017-06-23 12:23:18,811 - oe-selftest - INFO - Parsing recipes...done.
-2017-06-23 12:23:19,659 - oe-selftest - INFO - Parsing of 2617 .bb files complete (2612 cached, 5 parsed). 3533 targets, 460 skipped, 0 masked, 0 errors.
-2017-06-23 12:23:19,659 - oe-selftest - INFO - NOTE: Resolving any missing task queue dependencies
-
-Because the implementation was already using threading, the same is
-done to decouple reading and writing the different pipes instead of
-trying to multiplex IO in a single thread.
-
-The most common case (no input data, joined stdout/stderr) still uses
-one extra thread and a single read(), so performance should be roughly
-the same as before.
-
-Probably unintentionally, result.error was left as byte string when
-migrating to Python3. OE-core doesn't seem to use runCmd() with split
-output at the moment, so changing result.error to be treated the same
-as result.output (i.e. decoded to a normal strings) seems like a
-relatively safe API change (or rather, implementation fix).
+This covers the traditional API as well as the new output_log feature.
+While testing, it was noticed that killing hanging commands does not
+work when a shell is used to run the command(s). This might be worth
+fixing.
 
 Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
 ---
- meta/lib/oeqa/utils/commands.py | 103 ++++++++++++++++++++++++++-------
- 1 file changed, 82 insertions(+), 21 deletions(-)
+ meta/lib/oeqa/selftest/cases/runcmd.py | 117 ++++++++++++++++++++++++++-
+ 1 file changed, 117 insertions(+)
+ create mode 100644 meta/lib/oeqa/selftest/cases/runcmd.py
 
-diff --git a/meta/lib/oeqa/utils/commands.py b/meta/lib/oeqa/utils/commands.py
-index 57286fc..cc93448 100644
---- a/meta/lib/oeqa/utils/commands.py
-+++ b/meta/lib/oeqa/utils/commands.py
-@@ -13,6 +13,7 @@ import sys
- import signal
- import subprocess
- import threading
+diff --git a/meta/lib/oeqa/selftest/cases/runcmd.py b/meta/lib/oeqa/selftest/cases/runcmd.py
+new file mode 100644
+index 0000000..6c785ca
+--- /dev/null
++++ b/meta/lib/oeqa/selftest/cases/runcmd.py
+@@ -0,0 +1,117 @@
++from oeqa.selftest.case import OESelftestTestCase
++from oeqa.utils.commands import runCmd
++from oeqa.utils import CommandError
++
++import subprocess
++import threading
 +import time
- import logging
- from oeqa.utils import CommandError
- from oeqa.utils import ftools
-@@ -25,7 +26,7 @@ except ImportError:
-     pass
- 
- class Command(object):
--    def __init__(self, command, bg=False, timeout=None, data=None, **options):
-+    def __init__(self, command, bg=False, timeout=None, data=None, output_log=None, **options):
- 
-         self.defaultopts = {
-             "stdout": subprocess.PIPE,
-@@ -48,40 +49,100 @@ class Command(object):
-         self.options.update(options)
- 
-         self.status = None
-+        # We collect chunks of output before joining them at the end.
-+        self._output_chunks = []
-+        self._error_chunks = []
-         self.output = None
-         self.error = None
--        self.thread = None
-+        self.threads = []
- 
-+        self.output_log = output_log
-         self.log = logging.getLogger("utils.commands")
- 
-     def run(self):
-         self.process = subprocess.Popen(self.cmd, **self.options)
- 
--        def commThread():
--            self.output, self.error = self.process.communicate(self.data)
--
--        self.thread = threading.Thread(target=commThread)
--        self.thread.start()
-+        def readThread(output, stream, logfunc):
-+            if logfunc:
-+                for line in stream:
-+                    output.append(line)
-+                    logfunc(line.decode("utf-8", errors='replace').rstrip())
-+            else:
-+                output.append(stream.read())
++import signal
 +
-+        def readStderrThread():
-+            readThread(self._error_chunks, self.process.stderr, self.output_log.error if self.output_log else None)
++class MemLogger(object):
++    def __init__(self):
++        self.info_msgs = []
++        self.error_msgs = []
 +
-+        def readStdoutThread():
-+            readThread(self._output_chunks, self.process.stdout, self.output_log.info if self.output_log else None)
++    def info(self, msg):
++        self.info_msgs.append(msg)
 +
-+        def writeThread():
-+            try:
-+                self.process.stdin.write(self.data)
-+                self.process.stdin.close()
-+            except OSError as ex:
-+                # It's not an error when the command does not consume all
-+                # of our data. subprocess.communicate() also ignores that.
-+                if ex.errno != EPIPE:
-+                    raise
++    def error(self, msg):
++        self.error_msgs.append(msg)
 +
-+        # We write in a separate thread because then we can read
-+        # without worrying about deadlocks. The additional thread is
-+        # expected to terminate by itself and we mark it as a daemon,
-+        # so even it should happen to not terminate for whatever
-+        # reason, the main process will still exit, which will then
-+        # kill the write thread.
-+        if self.data:
-+            threading.Thread(target=writeThread, daemon=True).start()
-+        if self.process.stderr:
-+            thread = threading.Thread(target=readStderrThread)
-+            thread.start()
-+            self.threads.append(thread)
-+        if self.output_log:
-+            self.output_log.info('Running: %s' % self.cmd)
-+        thread = threading.Thread(target=readStdoutThread)
-+        thread.start()
-+        self.threads.append(thread)
- 
-         self.log.debug("Running command '%s'" % self.cmd)
- 
-         if not self.bg:
--            self.thread.join(self.timeout)
-+            if self.timeout is None:
-+                for thread in self.threads:
-+                    thread.join()
-+            else:
-+                deadline = time.time() + self.timeout
-+                for thread in self.threads:
-+                    timeout = deadline - time.time() 
-+                    if timeout < 0:
-+                        timeout = 0
-+                    thread.join(timeout)
-             self.stop()
- 
-     def stop(self):
--        if self.thread.isAlive():
--            self.process.terminate()
-+        for thread in self.threads:
-+            if thread.isAlive():
-+                self.process.terminate()
-             # let's give it more time to terminate gracefully before killing it
--            self.thread.join(5)
--            if self.thread.isAlive():
-+            thread.join(5)
-+            if thread.isAlive():
-                 self.process.kill()
--                self.thread.join()
-+                thread.join()
- 
--        if not self.output:
--            self.output = ""
--        else:
--            self.output = self.output.decode("utf-8", errors='replace').rstrip()
-+        def finalize_output(data):
-+            if not data:
-+                data = ""
-+            else:
-+                data = b"".join(data)
-+                data = data.decode("utf-8", errors='replace').rstrip()
-+            return data
++class RunCmdTests(OESelftestTestCase):
++    """ Basic tests for runCmd() utility function """
 +
-+        self.output = finalize_output(self._output_chunks)
-+        self._output_chunks = None
-+        # self.error used to be a byte string earlier, probably unintentionally.
-+        # Now it is a normal string, just like self.output.
-+        self.error = finalize_output(self._error_chunks)
-+        self._error_chunks = None
-         self.status = self.process.poll()
- 
-         self.log.debug("Command '%s' returned %d as exit code." % (self.cmd, self.status))
-@@ -98,7 +159,7 @@ class Result(object):
- 
- 
- def runCmd(command, ignore_status=False, timeout=None, assert_error=True,
--          native_sysroot=None, limit_exc_output=0, **options):
-+          native_sysroot=None, limit_exc_output=0, output_log=None, **options):
-     result = Result()
- 
-     if native_sysroot:
-@@ -108,7 +169,7 @@ def runCmd(command, ignore_status=False, timeout=None, assert_error=True,
-         nenv['PATH'] = extra_paths + ':' + nenv.get('PATH', '')
-         options['env'] = nenv
- 
--    cmd = Command(command, timeout=timeout, **options)
-+    cmd = Command(command, timeout=timeout, output_log=output_log, **options)
-     cmd.run()
- 
-     result.command = command
-@@ -132,7 +193,7 @@ def runCmd(command, ignore_status=False, timeout=None, assert_error=True,
-     return result
- 
- 
--def bitbake(command, ignore_status=False, timeout=None, postconfig=None, **options):
-+def bitbake(command, ignore_status=False, timeout=None, postconfig=None, output_log=None, **options):
- 
-     if postconfig:
-         postconfig_file = os.path.join(os.environ.get('BUILDDIR'), 'oeqa-post.conf')
-@@ -147,7 +208,7 @@ def bitbake(command, ignore_status=False, timeout=None, postconfig=None, **optio
-         cmd = [ "bitbake" ] + [a for a in (command + extra_args.split(" ")) if a not in [""]]
- 
-     try:
--        return runCmd(cmd, ignore_status, timeout, **options)
-+        return runCmd(cmd, ignore_status, timeout, output_log=output_log, **options)
-     finally:
-         if postconfig:
-             os.remove(postconfig_file)
++    # The delta is intentionally smaller than the timeout, to detect cases where
++    # we incorrectly apply the timeout more than once.
++    TIMEOUT = 2
++    DELTA = 1
++
++    def test_result_okay(self):
++        result = runCmd("true")
++        self.assertEqual(result.status, 0)
++
++    def test_result_false(self):
++        result = runCmd("false", ignore_status=True)
++        self.assertEqual(result.status, 1)
++
++    def test_shell(self):
++        # A shell is used for all string commands.
++        result = runCmd("false; true", ignore_status=True)
++        self.assertEqual(result.status, 0)
++
++    def test_no_shell(self):
++        self.assertRaises(FileNotFoundError,
++                          runCmd, "false; true", shell=False)
++
++    def test_list_not_found(self):
++        self.assertRaises(FileNotFoundError,
++                          runCmd, ["false; true"])
++
++    def test_list_okay(self):
++        result = runCmd(["true"])
++        self.assertEqual(result.status, 0)
++
++    def test_result_assertion(self):
++        self.assertRaisesRegexp(AssertionError, "Command 'echo .* false' returned non-zero exit status 1:\nfoobar",
++                                runCmd, "echo foobar >&2; false", shell=True)
++
++    def test_result_exception(self):
++        self.assertRaisesRegexp(CommandError, "Command 'echo .* false' returned non-zero exit status 1 with output: foobar",
++                                runCmd, "echo foobar >&2; false", shell=True, assert_error=False)
++
++    def test_output(self):
++        result = runCmd("echo stdout; echo stderr >&2", shell=True)
++        self.assertEqual("stdout\nstderr", result.output)
++        self.assertEqual("", result.error)
++
++    def test_output_split(self):
++        result = runCmd("echo stdout; echo stderr >&2", shell=True, stderr=subprocess.PIPE)
++        self.assertEqual("stdout", result.output)
++        self.assertEqual("stderr", result.error)
++
++    def test_timeout(self):
++        numthreads = threading.active_count()
++        start = time.time()
++        # Killing a hanging process only works when not using a shell?!
++        result = runCmd(['sleep', '60'], timeout=self.TIMEOUT, ignore_status=True)
++        self.assertEqual(result.status, -signal.SIGTERM)
++        end = time.time()
++        self.assertLess(end - start, self.TIMEOUT + self.DELTA)
++        self.assertEqual(numthreads, threading.active_count())
++
++    def test_timeout_split(self):
++        numthreads = threading.active_count()
++        start = time.time()
++        # Killing a hanging process only works when not using a shell?!
++        result = runCmd(['sleep', '60'], timeout=self.TIMEOUT, ignore_status=True, stderr=subprocess.PIPE)
++        self.assertEqual(result.status, -signal.SIGTERM)
++        end = time.time()
++        self.assertLess(end - start, self.TIMEOUT + self.DELTA)
++        self.assertEqual(numthreads, threading.active_count())
++
++    def test_stdin(self):
++        numthreads = threading.active_count()
++        result = runCmd("cat", data=b"hello world", timeout=self.TIMEOUT)
++        self.assertEqual("hello world", result.output)
++        self.assertEqual(numthreads, threading.active_count())
++
++    def test_stdin_timeout(self):
++        numthreads = threading.active_count()
++        start = time.time()
++        result = runCmd(['sleep', '60'], data=b"hello world", timeout=self.TIMEOUT, ignore_status=True)
++        self.assertEqual(result.status, -signal.SIGTERM)
++        end = time.time()
++        self.assertLess(end - start, self.TIMEOUT + self.DELTA)
++        self.assertEqual(numthreads, threading.active_count())
++
++    def test_log(self):
++        log = MemLogger()
++        result = runCmd("echo stdout; echo stderr >&2", shell=True, output_log=log)
++        self.assertEqual(["Running: echo stdout; echo stderr >&2", "stdout", "stderr"], log.info_msgs)
++        self.assertEqual([], log.error_msgs)
++
++    def test_log_split(self):
++        log = MemLogger()
++        result = runCmd("echo stdout; echo stderr >&2", shell=True, output_log=log, stderr=subprocess.PIPE)
++        self.assertEqual(["Running: echo stdout; echo stderr >&2", "stdout"], log.info_msgs)
++        self.assertEqual(["stderr"], log.error_msgs)
 -- 
 git-series 0.9.1
 
