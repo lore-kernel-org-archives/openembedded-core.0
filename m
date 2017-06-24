@@ -1,18 +1,22 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 783AD7306B;
-	Sat, 24 Jun 2017 00:01:21 +0000 (UTC)
-MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Jean-Francois Dagenais <jeff.dagenais@gmail.com>
-Date: Sat, 24 Jun 2017 00:01:23 -0000
-Message-ID: <20170624000123.1044.43820@do.openembedded.org>
-References: <1498261315-7196-1-git-send-email-jeff.dagenais@gmail.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <1498261315-7196-1-git-send-email-jeff.dagenais@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3Igd2ljOiByZW1vdmUgZXh0cmEgZG91YmxlLXF1b3RlIG9uIGRvY3VtZW50YXRpb24gc3RyaW5nIChyZXYyKQ==?=
+Return-Path: <sgw@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 6495278231
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 24 Jun 2017 00:24:12 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	23 Jun 2017 17:24:14 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.39,381,1493708400"; d="scan'208";a="103089560"
+Received: from swold-mobl2.amr.corp.intel.com ([10.252.133.197])
+	by orsmga002.jf.intel.com with ESMTP; 23 Jun 2017 17:24:13 -0700
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org,
+	richard.purdie@linuxfoundation.org
+Date: Fri, 23 Jun 2017 17:24:12 -0700
+Message-Id: <1498263852-28043-1-git-send-email-sgw@linux.intel.com>
+X-Mailer: git-send-email 2.7.5
+Subject: [PATCH v2] pkg-config-native: allow kernel to be build with esdk
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,41 +29,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 24 Jun 2017 00:01:21 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 24 Jun 2017 00:24:14 -0000
 
-== Series Details ==
+When the kernel's menuconfig target is called while using the esdk or an
+esdk-based container, the pkg-config info that is found is not correct.
+The pkg-config info is for the target, but we need the eSDK's information
+in order to build the host based menuconfig.
 
-Series: wic: remove extra double-quote on documentation string (rev2)
-Revision: 2
-URL   : https://patchwork.openembedded.org/series/7446/
-State : failure
+The new pkg-config-native script checks both that it's in SDK and being
+called from the check-lxdialog script in order to limit the scope of when
+the pkg-config automagically switches to pkg-config-native.
 
-== Summary ==
+[YOCTO #11155]
 
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  master (currently at 20b3574749)
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+ .../pkgconfig/pkgconfig/pkg-config-native.in       | 25 ++++++++++++++++++----
+ meta/recipes-devtools/pkgconfig/pkgconfig_git.bb   | 10 +++++----
+ 2 files changed, 27 insertions(+), 8 deletions(-)
+
+diff --git a/meta/recipes-devtools/pkgconfig/pkgconfig/pkg-config-native.in b/meta/recipes-devtools/pkgconfig/pkgconfig/pkg-config-native.in
+index 5e44bb4..26da5b6 100644
+--- a/meta/recipes-devtools/pkgconfig/pkgconfig/pkg-config-native.in
++++ b/meta/recipes-devtools/pkgconfig/pkgconfig/pkg-config-native.in
+@@ -1,7 +1,24 @@
+ #! /bin/sh
+ 
+-PKG_CONFIG_PATH="@PATH_NATIVE@"
+-PKG_CONFIG_LIBDIR="@LIBDIR_NATIVE@"
+-unset PKG_CONFIG_SYSROOT_DIR
++# Orignal pkg-config-native action when called as pkg-config-native
++# NO Change here
++if [ "pkg-config-native" = "`basename $0`" ] ; then
++	PKG_CONFIG_PATH="@PATH_NATIVE@"
++	PKG_CONFIG_LIBDIR="@LIBDIR_NATIVE@"
++	unset PKG_CONFIG_SYSROOT_DIR
++else
++	# in this case we are in the esdk
++	if [ "$OE_SKIP_SDK_CHECK" = "1" ] ; then
++		parentpid=`ps -o ppid= -p $$`
++		parentpid_info=`ps -wo comm= -o args= -p $parentpid`
+ 
+-pkg-config "$@"
++		# check if we are being called from  the kernel's make menuconfig
++		if ( echo $parentpid_info | grep -q check-lxdialog ) ; then
++			PKG_CONFIG_PATH="@PATH_NATIVE@"
++			PKG_CONFIG_LIBDIR="@LIBDIR_NATIVE@"
++			unset PKG_CONFIG_SYSROOT_DIR
++		fi
++	fi
++fi
++
++pkg-config.real "$@"
+diff --git a/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb b/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb
+index e634021..37f1f74 100644
+--- a/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb
++++ b/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb
+@@ -50,8 +50,10 @@ RPROVIDES_${PN} += "pkgconfig(pkg-config)"
+ # Install a pkg-config-native wrapper that will use the native sysroot instead
+ # of the MACHINE sysroot, for using pkg-config when building native tools.
+ do_install_append_class-native () {
+-    sed -e "s|@PATH_NATIVE@|${PKG_CONFIG_PATH}|" \
+-        -e "s|@LIBDIR_NATIVE@|${PKG_CONFIG_LIBDIR}|" \
+-        < ${WORKDIR}/pkg-config-native.in > ${B}/pkg-config-native
+-    install -m755 ${B}/pkg-config-native ${D}${bindir}/pkg-config-native
++	mv ${D}${bindir}/pkg-config ${D}${bindir}/pkg-config.real
++	sed -e "s|@PATH_NATIVE@|${PKG_CONFIG_PATH}|" \
++		-e "s|@LIBDIR_NATIVE@|${PKG_CONFIG_LIBDIR}|" \
++		< ${WORKDIR}/pkg-config-native.in > ${B}/pkg-config-native
++	install -m755 ${B}/pkg-config-native ${D}${bindir}/pkg-config-native
++	ln -s pkg-config-native ${D}${bindir}/pkg-config
+ }
+-- 
+2.7.5
 
 
