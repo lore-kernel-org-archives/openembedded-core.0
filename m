@@ -1,41 +1,42 @@
 Return-Path: <andre.draszik@gmail.com>
-Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
-	by mail.openembedded.org (Postfix) with ESMTP id C99FC7199E
+Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 153CA7199E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Jun 2017 10:08:47 +0000 (UTC)
-Received: by mail-wm0-f65.google.com with SMTP id y5so620235wmh.3
+	Mon, 26 Jun 2017 10:08:48 +0000 (UTC)
+Received: by mail-wm0-f67.google.com with SMTP id f134so616972wme.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Jun 2017 03:08:49 -0700 (PDT)
+	Mon, 26 Jun 2017 03:08:50 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=8g2kkEVKitUTN3lkfDFpJXIPXopGN2nNXfnFyDKPJu8=;
-	b=qLGEQd2mi8Ypy7bIfmnkPt/O4S0gOHTXuXufPi8LQNj0zUCVvZltf9EFrCzbA6zOY0
-	EoivWUwmQNFcGiZ8ILDci14nvTLUv7xyCCo2VSJVhh5uP/j/l8JHYr9gv6ribkwNIRiB
-	dZ1OQM1X80z/7SFesgyLfcRQ7fVRFdprtsLLFf3KnYmNA+xHFCjKZ9I0EE10HGLqA/G+
-	4l6pRaDOmTSISv9zNd1g6PlJt8ui87ZHmmeXfB5Rt7pOrgrQin8iTZOuDfX5p20Jntpa
-	4lpa2YH2qQf1zHGaEeF+aUI51Vn/uqGvrjWbMtafWzUUbKnfW80+TRD2XOrpCsI2VAqf
-	vRAQ==
-X-Gm-Message-State: AKS2vOwPKrrXtxkTVpZK/uXNuWFEKLjNBM3TQ1tbndF5SRvonAgSrp4i
-	nyVgKlX1FtE64o3Ya7s=
-X-Received: by 10.28.156.17 with SMTP id f17mr12481950wme.17.1498471728034;
-	Mon, 26 Jun 2017 03:08:48 -0700 (PDT)
+	bh=bxnaPjeqFFpNtYkgBNSemJZiIL3ghKZIbfJK4zytMUk=;
+	b=GAQbo5NoBQ4lEfBnDDqTrXbi7PV0w0Bn9cS2IiCZL/U6rWPAM3K9mHiJi8k1GOw8Tk
+	wtz6PE/2N9HkLhfGAP7uk0CKlS+6hlKi0BaAbR+yLlRbmWehsWthxtP2LriNBGR1BqCQ
+	8mGdCHM6bHHvsECPtkvpvPyAWXg686iVkncbOK+X7mC+SMmx1A8XyuYoRbUwPjU6Srao
+	bzLAwR7WkkoUN2fmaTQIjJqnQzYE24YdD8wNlAJxR9bXwlglzJL5xEs2+XF5c5zdlyC3
+	EJRs/TVwkAypeVsN2yUT8fCLn3y4JTkqle9WNRWMO/7JA6Ne8SM6VoPXEJF1WsqsHAAo
+	UtPA==
+X-Gm-Message-State: AKS2vOzNMVZMjy6xbG05cR7o1r/VYSVmmLMBWw83fXGH5+Wgjqz5H1ld
+	TTRD8fdkULrlOumenBs=
+X-Received: by 10.28.18.201 with SMTP id 192mr12821332wms.2.1498471729576;
+	Mon, 26 Jun 2017 03:08:49 -0700 (PDT)
 Received: from tfsielt31850.tycofs.com ([77.107.218.170])
 	by smtp.gmail.com with ESMTPSA id
-	n31sm14295840wrn.59.2017.06.26.03.08.46
+	n31sm14295840wrn.59.2017.06.26.03.08.48
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 26 Jun 2017 03:08:47 -0700 (PDT)
+	Mon, 26 Jun 2017 03:08:48 -0700 (PDT)
 From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <git@andred.net>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 26 Jun 2017 11:08:45 +0100
-Message-Id: <20170626100846.3950-1-git@andred.net>
+Date: Mon, 26 Jun 2017 11:08:46 +0100
+Message-Id: <20170626100846.3950-2-git@andred.net>
 X-Mailer: git-send-email 2.11.0
-In-Reply-To: <20170619103238.2626-1-git@andred.net>
+In-Reply-To: <20170626100846.3950-1-git@andred.net>
 References: <20170619103238.2626-1-git@andred.net>
+	<20170626100846.3950-1-git@andred.net>
 MIME-Version: 1.0
-Subject: [PATCH v2 1/2] [RFC] base.bbclass: extend PACKAGECONFIG to also allow RRECOMMENDS
+Subject: [PATCH v2 2/2] connman: fix nftables dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,75 +49,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 26 Jun 2017 10:08:48 -0000
+X-List-Received-Date: Mon, 26 Jun 2017 10:08:49 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
 From: André Draszik <adraszik@tycoint.com>
 
-It can be useful to add RRECOMMENDS to packages created, based
-on certain PACKAGECONFIGs.
+When building with nftables support, connman doesn't ever
+depend on the nftables command line tool.
 
-In particular where a package depends on certain linux kernel
-infrastructure (kernel modules) which might or might not be
-built as a module, being able to RRECOMMENDS instead of
-RDEPENDS on the relevant packages avoids build failures in
-case those modules are built statically into the kernel, i.e.
-in case no package is being created for them.
+connman will depend on libmnl and libnftnl at build and
+run time. In addition, the nftables rules it creates
+depend on various kernel modules being present.
 
-Add another field to the PACKAGECONFIG syntax to achieve just
-that.
+Update the PACKAGECONFIG to reflect this. We use the
+just introduced RRECOMMENDS field so as to make the
+build still succeed if those kernel modules have been
+linked statically into the kernel, i.e. when the
+packages haven't actually been created.
 
 Signed-off-by: André Draszik <adraszik@tycoint.com>
+Acked-by: Sylvain Lemieux <slemieux@tycoint.com>
 ---
- meta/classes/base.bbclass | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
+ meta/recipes-connectivity/connman/connman.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
-index 78926656d7..3762c8addc 100644
---- a/meta/classes/base.bbclass
-+++ b/meta/classes/base.bbclass
-@@ -384,7 +384,7 @@ python () {
-     # These take the form:
-     #
-     # PACKAGECONFIG ??= "<default options>"
--    # PACKAGECONFIG[foo] = "--enable-foo,--disable-foo,foo_depends,foo_runtime_depends"
-+    # PACKAGECONFIG[foo] = "--enable-foo,--disable-foo,foo_depends,foo_runtime_depends,foo_runtime_recommends"
-     pkgconfigflags = d.getVarFlags("PACKAGECONFIG") or {}
-     if pkgconfigflags:
-         pkgconfig = (d.getVar('PACKAGECONFIG') or "").split()
-@@ -426,12 +426,13 @@ python () {
+diff --git a/meta/recipes-connectivity/connman/connman.inc b/meta/recipes-connectivity/connman/connman.inc
+index ab18f2fe01..141a464121 100644
+--- a/meta/recipes-connectivity/connman/connman.inc
++++ b/meta/recipes-connectivity/connman/connman.inc
+@@ -51,7 +51,7 @@ PACKAGECONFIG[l2tp] = "--enable-l2tp --with-l2tp=${sbindir}/xl2tpd,--disable-l2t
+ PACKAGECONFIG[pptp] = "--enable-pptp --with-pptp=${sbindir}/pptp,--disable-pptp,,pptp-linux"
+ # WISPr support for logging into hotspots, requires TLS
+ PACKAGECONFIG[wispr] = "--enable-wispr,--disable-wispr,gnutls,"
+-PACKAGECONFIG[nftables] = "--with-firewall=nftables ,,nftables,nftables"
++PACKAGECONFIG[nftables] = "--with-firewall=nftables ,,libmnl libnftnl,,kernel-module-nf-tables-ipv4 kernel-module-nft-chain-nat-ipv4 kernel-module-nft-chain-route-ipv4 kernel-module-nft-meta kernel-module-nft-masq-ipv4 kernel-module-nft-nat"
+ PACKAGECONFIG[iptables] = "--with-firewall=iptables ,,iptables,iptables"
  
-         extradeps = []
-         extrardeps = []
-+        extrarrecs = []
-         extraconf = []
-         for flag, flagval in sorted(pkgconfigflags.items()):
-             items = flagval.split(",")
-             num = len(items)
--            if num > 4:
--                bb.error("%s: PACKAGECONFIG[%s] Only enable,disable,depend,rdepend can be specified!"
-+            if num > 5:
-+                bb.error("%s: PACKAGECONFIG[%s] Only enable,disable,depend,rdepend,rrecommend can be specified!"
-                     % (d.getVar('PN'), flag))
- 
-             if flag in pkgconfig:
-@@ -439,12 +440,15 @@ python () {
-                     extradeps.append(items[2])
-                 if num >= 4 and items[3]:
-                     extrardeps.append(items[3])
-+                if num >= 5 and items[4]:
-+                    extrarrecs.append(items[4])
-                 if num >= 1 and items[0]:
-                     extraconf.append(items[0])
-             elif num >= 2 and items[1]:
-                     extraconf.append(items[1])
-         appendVar('DEPENDS', extradeps)
-         appendVar('RDEPENDS_${PN}', extrardeps)
-+        appendVar('RRECOMMENDS_${PN}', extrarrecs)
-         appendVar('PACKAGECONFIG_CONFARGS', extraconf)
- 
-     pn = d.getVar('PN')
+ INITSCRIPT_NAME = "connman"
 -- 
 2.11.0
 
