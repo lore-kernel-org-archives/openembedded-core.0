@@ -1,43 +1,49 @@
-Return-Path: <andre.draszik@gmail.com>
-Received: from mail-wr0-f169.google.com (mail-wr0-f169.google.com
-	[209.85.128.169])
-	by mail.openembedded.org (Postfix) with ESMTP id EAED571A15
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qt0-f169.google.com (mail-qt0-f169.google.com
+	[209.85.216.169])
+	by mail.openembedded.org (Postfix) with ESMTP id E531C606B2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Jun 2017 10:32:56 +0000 (UTC)
-Received: by mail-wr0-f169.google.com with SMTP id 77so142373706wrb.1
+	Mon, 26 Jun 2017 11:41:50 +0000 (UTC)
+Received: by mail-qt0-f169.google.com with SMTP id r30so25281283qtc.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Jun 2017 03:32:58 -0700 (PDT)
+	Mon, 26 Jun 2017 04:41:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=aa9ur4gIG6G/zHpp7IFHBSIat8mXtHXKBfCYNAzG7mQ=;
+	b=Npp86aCKBqmRDJvEbYJUTHcnRgXUllqC/kzJwTLSIh9sMr/A8J4zQYbPaXHaWbmHYB
+	zZMx3zyekDBSSztQF+/A/RusEAVPm1coTmzl8UU0cOqLgFpuEIjm12az431M8l7SqlLz
+	5NcxDwieFLcdPy6Xrs28AmDcDxEVXYIzJ6rYOjkfn8ryNhAEzvKWcGej3Rnh3HmtIR2d
+	gO1Y5xDVLMzipNeBn5zwnUpsuS1VuMS8hlW+55nyctMUOuZYY4cwZaXYCjnX2RHbSErU
+	+IJ9RZb8A7lK0pQ7UMu44qNaveUuOMAMfiGnyQo9p3AkY+/xeAc3VDMCZUPWdVX1G/gq
+	kUIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=AElnBkoxhcq9rwmhzmUAU6YbPm/3vtkHPomEEI322kk=;
-	b=hi5SluRUodaOjBo0gZr+XcNgAwqchgnYpucZeBN9HaHmZ4r2wf6kw+d9HlL1OMQZg4
-	+DwIhb+WBq69LOPlEz6wgIzIPs1UX26mPAEHdrE2OCLNOTMX09GxJB6ut9ErSSEoy+90
-	M8PH+LLDPvZ+VTfjx5m3Cbu2imXMMcaKYUCNjZmZsfwCm4Fh+13p9+EtRrSWV+mylVLk
-	9n2jESKr0SmzcMyTOW3wWyl2vxcnWOlFE4cJPoYmH01BoHKCEuJ7Iodrhm384O0XphVr
-	yDjxUwRFe13a2oIm+PqtuHMJRgbWJq9DR/AUvOOudKFG2tnw+E//JgZgIrix7hZP1iIf
-	+QWw==
-X-Gm-Message-State: AKS2vOzy+a7xnpWJM8kwVKDdVOekto2+bsn8twNHWwRcBkPSLXyUiZqY
-	P2a3diRR8agOvvKKIrY=
-X-Received: by 10.223.175.229 with SMTP id y37mr14063139wrd.61.1498473177445; 
-	Mon, 26 Jun 2017 03:32:57 -0700 (PDT)
-Received: from tfsielt31850 ([77.107.218.170])
-	by smtp.gmail.com with ESMTPSA id
-	m188sm7932076wmg.34.2017.06.26.03.32.56
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Mon, 26 Jun 2017 03:32:56 -0700 (PDT)
-Message-ID: <1498473175.25895.28.camel@andred.net>
-From: =?ISO-8859-1?Q?Andr=E9?= Draszik <git@andred.net>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 26 Jun 2017 11:32:55 +0100
-In-Reply-To: <20170626090130.2382.3945@do.openembedded.org>
-References: <20170623145924.21097-1-git@andred.net>
-	<20170626090130.2382.3945@do.openembedded.org>
-X-Mailer: Evolution 3.22.6-1 
-Mime-Version: 1.0
-Subject: =?UTF-8?B?UmU6IOKclyBwYXRjaHRlc3Q6IGZhaWx1cmUgZm9yICJzZWxmdGVzdC9hcmNoaXZlcjogYWRkIHRlc3RzIGYuLi4iIGFuZCAyIG1vcmUgKHJldjcp?=
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=aa9ur4gIG6G/zHpp7IFHBSIat8mXtHXKBfCYNAzG7mQ=;
+	b=CnpXsnZu84oC38SQCYjA2cHCMue5tB4HDRHlTnj8nj/cCsrIc0+nn1xcd6zqaessz+
+	rjPo/3de960j34SacxVFs2A1366I8cA0E6HJ1qVx6RsZDR4iVz+UWG73MeLEUXoef/K3
+	GN+C1Asb1lerEdv66HoAwFPuuqLxDsq99IQQpXka3f/KIHgRtZVaWrbZmtjlAUAyYmgn
+	Ow2dKtkQWX7/GIsvSh7RTXKnHe9+lYhZm4OuHpaTzM7GDucbFbBX1r/3WIZVwXebRZIY
+	ihw4q4SM8PP4/60r8TuYDCQ8y17VzeVXw0/4DL4ZuavmJVjvKJ+bSjVH5QX2uj6+8lOg
+	gj+w==
+X-Gm-Message-State: AKS2vOyUUL78FOr4FSHCdcS8alUny8XXhySQ88PENOR9+ZCvWUjRs1j5
+	vU4e6MXc4VYhwVNNI7gpghIJHN6HZ/a+
+X-Received: by 10.237.48.45 with SMTP id 42mr22646908qte.139.1498477311486;
+	Mon, 26 Jun 2017 04:41:51 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.31.118 with HTTP; Mon, 26 Jun 2017 04:41:31 -0700 (PDT)
+In-Reply-To: <1498161858-21494-2-git-send-email-juro.bystricky@intel.com>
+References: <1498161858-21494-1-git-send-email-juro.bystricky@intel.com>
+	<1498161858-21494-2-git-send-email-juro.bystricky@intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 26 Jun 2017 12:41:31 +0100
+Message-ID: <CAJTo0Lb7-5XapSWNeXKbm5H=t46Rz-ZgT0y40bNnxmnjMqjSxA@mail.gmail.com>
+To: Juro Bystricky <juro.bystricky@intel.com>
+Cc: Juro Bystricky <jurobystricky@hotmail.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] buildhistory.bbclass: buildhistory_list_files: remove folder size
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,37 +56,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 26 Jun 2017 10:32:57 -0000
+X-List-Received-Date: Mon, 26 Jun 2017 11:41:55 -0000
+Content-Type: multipart/alternative; boundary="94eb2c0c96eadb01960552db6f6d"
+
+--94eb2c0c96eadb01960552db6f6d
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
 
-On Mon, 2017-06-26 at 09:01 +0000, Patchwork wrote:
-> == Series Details ==
-> 
-> Series: "selftest/archiver: add tests f..." and 2 more (rev7)
-> Revision: 7
-> URL   : https://patchwork.openembedded.org/series/7443/
-> State : failure
-> 
-> == Summary ==
-> 
-> 
-> Thank you for submitting this patch series to OpenEmbedded Core. This is
-> an automated response. Several tests have been executed on the proposed
-> series by patchtest resulting in the following failures:
-> 
-> 
-> 
-> * Issue             Series does not apply on top of target branch
-> [test_series_merge_on_head] 
->   Suggested fix    Rebase your series on top of targeted branch
->   Targeted branch  master (currently at 20b3574749)
+On 22 June 2017 at 21:04, Juro Bystricky <juro.bystricky@intel.com> wrote:
 
-I'm not sure why this is failing, I made sure to rebase onto 20b3574749
-before submitting.
+> Considering that the listed folder size is meaningless anyway (it has no
+> relation to
+> the size of the package/image), this patch addresses the problem by
+> removing
+> the directory entry sizes entirely from the generated text files.
+>
 
+The alternative would be to show the size of the children of the
+directory.  For example we manually calculate the size of a package (for
+the PKGSIZE field in pkgdata) by adding up the size of files instead of
+using du for the same reason.
 
-Cheers,
-Andre'
+Ross
 
+--94eb2c0c96eadb01960552db6f6d
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 22 June 2017 at 21:04, Juro Bystricky <span dir=3D"ltr">&lt;<a href=3D"m=
+ailto:juro.bystricky@intel.com" target=3D"_blank">juro.bystricky@intel.com<=
+/a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:=
+0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":1h1" cl=
+ass=3D"a3s aXjCH m15cd168dff71cae9">Considering that the listed folder size=
+ is meaningless anyway (it has no relation to<br>
+the size of the package/image), this patch addresses the problem by removin=
+g<br>
+the directory entry sizes entirely from the generated text files.</div></bl=
+ockquote></div><br>The alternative would be to show the size of the childre=
+n of the directory.=C2=A0 For example we manually calculate the size of a p=
+ackage (for the PKGSIZE field in pkgdata) by adding up the size of files in=
+stead of using du for the same reason.</div><div class=3D"gmail_extra"><br>=
+</div><div class=3D"gmail_extra">Ross</div></div>
+
+--94eb2c0c96eadb01960552db6f6d--
