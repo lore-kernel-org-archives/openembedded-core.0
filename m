@@ -1,24 +1,30 @@
-Return-Path: <anibal.limon@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id DB58277E91
+Return-Path: <Randy.MacLeod@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 4984177D4C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Jun 2017 20:42:33 +0000 (UTC)
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	26 Jun 2017 13:42:34 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.39,397,1493708400"; d="scan'208";a="119041823"
-Received: from unknown (HELO alimonb-mobl1.zpn.intel.com) ([10.219.128.139])
-	by fmsmga005.fm.intel.com with ESMTP; 26 Jun 2017 13:42:34 -0700
-From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 26 Jun 2017 15:42:41 -0500
-Message-Id: <20170626204241.16149-2-anibal.limon@linux.intel.com>
-X-Mailer: git-send-email 2.11.0
-In-Reply-To: <20170626204241.16149-1-anibal.limon@linux.intel.com>
-References: <20170626204241.16149-1-anibal.limon@linux.intel.com>
+	Mon, 26 Jun 2017 21:21:56 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v5QLLuUk005059
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 26 Jun 2017 14:21:56 -0700 (PDT)
+Received: from [172.25.44.7] (172.25.44.7) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
+	Mon, 26 Jun 2017 14:21:56 -0700
+From: Randy MacLeod <randy.macleod@windriver.com>
+To: Khem Raj <raj.khem@gmail.com>, <openembedded-core@lists.openembedded.org>
+References: <1498097697-12564-1-git-send-email-Randy.MacLeod@windriver.com>
+	<d194290a-fad9-3c63-b3a4-379b50074fd5@windriver.com>
+	<CAMKF1sqNKaRB0Dagz8aKG5HR6QPHcw6XZMGcMrBnFogP3fbhgw@mail.gmail.com>
+	<393805e4-6d27-42c4-41c4-253508e8527b@windriver.com>
+Message-ID: <24dd3ea6-f685-8692-f31d-2df792bfcb57@windriver.com>
+Date: Mon, 26 Jun 2017 17:21:54 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.1.1
 MIME-Version: 1.0
-Subject: [PATCH 2/2] selftest/cases/package: Call parent setUpClass method
+In-Reply-To: <393805e4-6d27-42c4-41c4-253508e8527b@windriver.com>
+X-Originating-IP: [172.25.44.7]
+Subject: Re: [PATCH v2] systemd: work-around ppc gold linker error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,32 +37,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 26 Jun 2017 20:42:35 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 26 Jun 2017 21:21:58 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 
-Since config paths are now passed in Test context the setUpClass
-method is expected to be call.
+On 2017-06-22 08:30 PM, Randy MacLeod wrote:
+> On 2017-06-22 06:22 PM, Khem Raj wrote:
+>> What's the link to upstream bug in linker
+> 
+> Do you mean: Have I created an upstream bug?
+> 
+> No, not yet but I'm just reading their email lists and
+> trying to understand where and how to report the bug.
 
-Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
----
- meta/lib/oeqa/selftest/cases/package.py | 2 ++
- 1 file changed, 2 insertions(+)
+Done:
+    https://sourceware.org/bugzilla/show_bug.cgi?id=21678
 
-diff --git a/meta/lib/oeqa/selftest/cases/package.py b/meta/lib/oeqa/selftest/cases/package.py
-index 5b9a6d15851..b07d6ed0abe 100644
---- a/meta/lib/oeqa/selftest/cases/package.py
-+++ b/meta/lib/oeqa/selftest/cases/package.py
-@@ -17,6 +17,8 @@ class VersionOrdering(OESelftestTestCase):
- 
-     @classmethod
-     def setUpClass(cls):
-+        super(VersionOrdering, cls).setUpClass()
-+
-         # Build the tools we need and populate a sysroot
-         bitbake("dpkg-native opkg-native rpm-native python3-native")
-         bitbake("build-sysroots -c build_native_sysroot")
+I haven't made any progress on testing master.
+I should have time this week.
+
+Oh, webkitgtk_2.16.1 also fails for qemuppc with a similar error.
+
 -- 
-2.11.0
-
+# Randy MacLeod. SMTS, Linux, Wind River
+Direct: 613.963.1350 | 350 Terry Fox Drive, Suite 200, Ottawa, ON, 
+Canada, K2K 2W5
 
