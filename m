@@ -1,48 +1,41 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qt0-f176.google.com (mail-qt0-f176.google.com
-	[209.85.216.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 4B3CB7017D
+Return-Path: <andre.draszik@gmail.com>
+Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
+	by mail.openembedded.org (Postfix) with ESMTP id C99FC7199E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Jun 2017 09:56:24 +0000 (UTC)
-Received: by mail-qt0-f176.google.com with SMTP id r30so23834596qtc.0
+	Mon, 26 Jun 2017 10:08:47 +0000 (UTC)
+Received: by mail-wm0-f65.google.com with SMTP id y5so620235wmh.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Jun 2017 02:56:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=ntNuRDzji1voTPaPEi8Kj7fwG3i7EPoqycVnr8ape4o=;
-	b=SHzsDvYoiuXt6vhMeR4SmASiz54OuOonqlietKmqv6pqE8VMnED0v6HzSNL0tGecWn
-	ioDg8g2eDcu8vrUCQl7G7roJymNwSHidxAPOAIYcc8zVrZXqq+PnhXCBhsMlkR/ugmKY
-	nk2RBCcLvEQBig3cN5LiXDweFC+0DCH39hNC0sAdSi0Sbhknb085nKbfb8U4cjAQGF8Z
-	dXDiVJGxicz+dpDG9gbCn2MKcUrFF6mZB1+ZDYHmV5b7kAq7I7WAGmcp4VGWOOEtxVS8
-	H//+RnrZAXYtGo02t6lM0u7PWyKoDebY1HiBaP3BYyJty4WjdnbNPZmaKQokYsJQ8q9P
-	v1CQ==
+	Mon, 26 Jun 2017 03:08:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=ntNuRDzji1voTPaPEi8Kj7fwG3i7EPoqycVnr8ape4o=;
-	b=d2KpMdIcexELXC+MZFdIQV4lJT1wFtR//bQcchDr4gxoHa5+ThMIHyPWaWqgRJyIU0
-	k4iLq5Ys8ZV1sJAOelt4EpIpcLrEmJlHd4EQndK2KVRw6rFvHZB0ntp0ljkJhlRN4i3C
-	af8s3b1DNcmYoJ41/rClqnaC2j27fXYRiJb79InmOm2WXjvGCW3Dk0uE71LKecjpdTS4
-	CYPLPc4EEyVL0pRfJpbduv3Nl5UJiBn3PB9bmiGdcCd5iHOdP3IGPhsT8VwZixUPfsIO
-	YXxIlAanDw06+5SJcwwiH4ySqgIzUNJZQHkJluTCKjsYQOo5GX2G5JIi9mm6Nh4QOgek
-	ocmA==
-X-Gm-Message-State: AKS2vOytbIngcAHELmafrwoz5OLdswBjaSvMh/fByPiX9GqLExAvNf3X
-	EM71CzHNmMloLyojUYH/e831ZNbU4tP9
-X-Received: by 10.200.45.221 with SMTP id q29mr24257241qta.177.1498470986072; 
-	Mon, 26 Jun 2017 02:56:26 -0700 (PDT)
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=8g2kkEVKitUTN3lkfDFpJXIPXopGN2nNXfnFyDKPJu8=;
+	b=qLGEQd2mi8Ypy7bIfmnkPt/O4S0gOHTXuXufPi8LQNj0zUCVvZltf9EFrCzbA6zOY0
+	EoivWUwmQNFcGiZ8ILDci14nvTLUv7xyCCo2VSJVhh5uP/j/l8JHYr9gv6ribkwNIRiB
+	dZ1OQM1X80z/7SFesgyLfcRQ7fVRFdprtsLLFf3KnYmNA+xHFCjKZ9I0EE10HGLqA/G+
+	4l6pRaDOmTSISv9zNd1g6PlJt8ui87ZHmmeXfB5Rt7pOrgrQin8iTZOuDfX5p20Jntpa
+	4lpa2YH2qQf1zHGaEeF+aUI51Vn/uqGvrjWbMtafWzUUbKnfW80+TRD2XOrpCsI2VAqf
+	vRAQ==
+X-Gm-Message-State: AKS2vOwPKrrXtxkTVpZK/uXNuWFEKLjNBM3TQ1tbndF5SRvonAgSrp4i
+	nyVgKlX1FtE64o3Ya7s=
+X-Received: by 10.28.156.17 with SMTP id f17mr12481950wme.17.1498471728034;
+	Mon, 26 Jun 2017 03:08:48 -0700 (PDT)
+Received: from tfsielt31850.tycofs.com ([77.107.218.170])
+	by smtp.gmail.com with ESMTPSA id
+	n31sm14295840wrn.59.2017.06.26.03.08.46
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 26 Jun 2017 03:08:47 -0700 (PDT)
+From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <git@andred.net>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 26 Jun 2017 11:08:45 +0100
+Message-Id: <20170626100846.3950-1-git@andred.net>
+X-Mailer: git-send-email 2.11.0
+In-Reply-To: <20170619103238.2626-1-git@andred.net>
+References: <20170619103238.2626-1-git@andred.net>
 MIME-Version: 1.0
-Received: by 10.140.31.118 with HTTP; Mon, 26 Jun 2017 02:56:05 -0700 (PDT)
-In-Reply-To: <20170623173358.GX28053@denix.org>
-References: <1497553789-126570-1-git-send-email-denis@denix.org>
-	<20170623173358.GX28053@denix.org>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 26 Jun 2017 10:56:05 +0100
-Message-ID: <CAJTo0LZqg=8Z9z+ksNm-WYdUn8QMaQ71ss1PGZb9kDcVk3tZsw@mail.gmail.com>
-To: Denys Dmytriyenko <denis@denix.org>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] toolchain-scripts: add check for LD_LIBRARY_PATH in the SDK env setup script
+Subject: [PATCH v2 1/2] [RFC] base.bbclass: extend PACKAGECONFIG to also allow RRECOMMENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,32 +48,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 26 Jun 2017 09:56:25 -0000
-Content-Type: multipart/alternative; boundary="001a114516d0d4da600552d9f68c"
+X-List-Received-Date: Mon, 26 Jun 2017 10:08:48 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
---001a114516d0d4da600552d9f68c
-Content-Type: text/plain; charset="UTF-8"
+From: André Draszik <adraszik@tycoint.com>
 
-On 23 June 2017 at 18:33, Denys Dmytriyenko <denis@denix.org> wrote:
+It can be useful to add RRECOMMENDS to packages created, based
+on certain PACKAGECONFIGs.
 
-> Ping
->
+In particular where a package depends on certain linux kernel
+infrastructure (kernel modules) which might or might not be
+built as a module, being able to RRECOMMENDS instead of
+RDEPENDS on the relevant packages avoids build failures in
+case those modules are built statically into the kernel, i.e.
+in case no package is being created for them.
 
-This has been in mut for a while, should be in soon.
+Add another field to the PACKAGECONFIG syntax to achieve just
+that.
 
-Ross
+Signed-off-by: André Draszik <adraszik@tycoint.com>
+---
+ meta/classes/base.bbclass | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
 
---001a114516d0d4da600552d9f68c
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+index 78926656d7..3762c8addc 100644
+--- a/meta/classes/base.bbclass
++++ b/meta/classes/base.bbclass
+@@ -384,7 +384,7 @@ python () {
+     # These take the form:
+     #
+     # PACKAGECONFIG ??= "<default options>"
+-    # PACKAGECONFIG[foo] = "--enable-foo,--disable-foo,foo_depends,foo_runtime_depends"
++    # PACKAGECONFIG[foo] = "--enable-foo,--disable-foo,foo_depends,foo_runtime_depends,foo_runtime_recommends"
+     pkgconfigflags = d.getVarFlags("PACKAGECONFIG") or {}
+     if pkgconfigflags:
+         pkgconfig = (d.getVar('PACKAGECONFIG') or "").split()
+@@ -426,12 +426,13 @@ python () {
+ 
+         extradeps = []
+         extrardeps = []
++        extrarrecs = []
+         extraconf = []
+         for flag, flagval in sorted(pkgconfigflags.items()):
+             items = flagval.split(",")
+             num = len(items)
+-            if num > 4:
+-                bb.error("%s: PACKAGECONFIG[%s] Only enable,disable,depend,rdepend can be specified!"
++            if num > 5:
++                bb.error("%s: PACKAGECONFIG[%s] Only enable,disable,depend,rdepend,rrecommend can be specified!"
+                     % (d.getVar('PN'), flag))
+ 
+             if flag in pkgconfig:
+@@ -439,12 +440,15 @@ python () {
+                     extradeps.append(items[2])
+                 if num >= 4 and items[3]:
+                     extrardeps.append(items[3])
++                if num >= 5 and items[4]:
++                    extrarrecs.append(items[4])
+                 if num >= 1 and items[0]:
+                     extraconf.append(items[0])
+             elif num >= 2 and items[1]:
+                     extraconf.append(items[1])
+         appendVar('DEPENDS', extradeps)
+         appendVar('RDEPENDS_${PN}', extrardeps)
++        appendVar('RRECOMMENDS_${PN}', extrarrecs)
+         appendVar('PACKAGECONFIG_CONFARGS', extraconf)
+ 
+     pn = d.getVar('PN')
+-- 
+2.11.0
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 23 June 2017 at 18:33, Denys Dmytriyenko <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:denis@denix.org" target=3D"_blank">denis@denix.org</a>&gt;</span=
-> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bo=
-rder-left:1px #ccc solid;padding-left:1ex"><div id=3D":tj" class=3D"a3s aXj=
-CH m15cd604d619fab8c">Ping<br></div></blockquote><div><br></div><div>This h=
-as been in mut for a while, should be in soon.</div><div><br></div><div>Ros=
-s=C2=A0</div></div><br></div></div>
 
---001a114516d0d4da600552d9f68c--
