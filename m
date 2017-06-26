@@ -1,41 +1,41 @@
 Return-Path: <andre.draszik@gmail.com>
-Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
-	by mail.openembedded.org (Postfix) with ESMTP id C08A17782F
+Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
+	by mail.openembedded.org (Postfix) with ESMTP id D280577AA9
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Jun 2017 08:18:37 +0000 (UTC)
-Received: by mail-wm0-f67.google.com with SMTP id j85so164708wmj.0
+	Mon, 26 Jun 2017 08:18:39 +0000 (UTC)
+Received: by mail-wm0-f65.google.com with SMTP id 131so164561wmq.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Jun 2017 01:18:39 -0700 (PDT)
+	Mon, 26 Jun 2017 01:18:40 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=5IorJVNw711PwAyA+LUoDk28gPkTqJLMm72MfQrRmsU=;
-	b=nWB/2t6rAmlIHl24cZx5whRwLiHaOrpHcukMo/agYMEBg2j8RQZjLVzYUHDSeY/Pp9
-	97PaTedEah0ywkvA31FEI7yLgENxTQLDfUW9PmMjEsUJF9MBkhiPG6bdhXefQ0rUYE7T
-	Goc1EBW3SkzVZWn95zXnR1hKlsBI0TFyQGXlm0qfNmY1mI3MeS/JKezVv4kupHn8LA66
-	eFSmSZX66V+xuB/6x0P3HYkcdX2JbNcvFwbWPB6gckuVYmSHC0e/jDcTpc1JrEzWWbK8
-	sssI70BCJ6saN9eSiIEGHYbwdpp/tvudik1YLAFHMO8S4Blcheft7GrGqWSHhxLtp5iW
-	zJtw==
-X-Gm-Message-State: AKS2vOzI0TtCjv7gJSrH+Z4I2m8ghgS5Fp67fIxHffPqXCq/kxml5/8I
-	Y+vYCPQlYJeAK+7iY7E=
-X-Received: by 10.80.173.85 with SMTP id z21mr16285494edc.10.1498465118718;
-	Mon, 26 Jun 2017 01:18:38 -0700 (PDT)
+	bh=UXOH1wowpbzITHqw8NwnvEhRN3CfTY0e6DSIINmJyfU=;
+	b=GSvWczkSueMkOer6QKM2A9uehXqz9unTAH3WmA5PBQdfxCZKRGZ8JE1uiSGIO24nJy
+	kX78c5EpjvDH6FEGbcZCG3JwKyst3niK+qqAm1IASTJbsk8z+xEKcTTWlXNLCY4WriCX
+	Kar/Jj+3eiPIX9/tYmVHi2aJ005IxpkVn4mMwhatpN2jjZtRuDLGMJvnLuHF63uRWVxQ
+	QtGAwGx3eMm4josiCJuxuuwsshQc4XYgi0v6iujuFxPFOeF8YVsEVb42RD1OIDeSnZQU
+	T+0NCJCtl/PEyr0usV2Qk1EwJ36xj3XD68eGKjjLFSC/vPN5p63aB8/lZ0Daid/ZP553
+	yOXQ==
+X-Gm-Message-State: AKS2vOyTTET2kblEww8pdJirV2IIGqPO00bgbNyTvlTrxE/LFJ0JzpQx
+	n+XhA5VtIWHapBKsUhQ=
+X-Received: by 10.80.225.8 with SMTP id h8mr16387053edl.21.1498465119911;
+	Mon, 26 Jun 2017 01:18:39 -0700 (PDT)
 Received: from tfsielt31850.garage.tyco.com ([77.107.218.170])
-	by smtp.gmail.com with ESMTPSA id 2sm6954245edt.66.2017.06.26.01.18.37
+	by smtp.gmail.com with ESMTPSA id 2sm6954245edt.66.2017.06.26.01.18.38
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 26 Jun 2017 01:18:38 -0700 (PDT)
+	Mon, 26 Jun 2017 01:18:39 -0700 (PDT)
 From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <git@andred.net>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 26 Jun 2017 09:18:33 +0100
-Message-Id: <20170626081834.23832-2-git@andred.net>
+Date: Mon, 26 Jun 2017 09:18:34 +0100
+Message-Id: <20170626081834.23832-3-git@andred.net>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <20170626081834.23832-1-git@andred.net>
 References: <20170623145924.21097-1-git@andred.net>
 	<20170626081834.23832-1-git@andred.net>
 MIME-Version: 1.0
-Subject: [PATCH v2 2/3] selftest/archiver: only execute deploy_archives task
+Subject: [PATCH v2 3/3] copyleft_filter.bbclass: restore possiblity to filter on type
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,29 +54,68 @@ Content-Transfer-Encoding: 8bit
 
 From: André Draszik <adraszik@tycoint.com>
 
-There should be no reason to execute a full build, as we're
-just interested in the deployment of the archives.
+Since the changes introduced in ae9102bda398
+("copyleft_filter.bbclass: Allow to filter on name"), it is
+impossible to filter on the recipe type, all recipes are
+treated as though they should be included if the license
+matches, irrespective of the COPYLEFT_RECIPE_TYPES
+variable.
 
-The newly added tests already do the same.
+Fix this.
 
 Signed-off-by: André Draszik <adraszik@tycoint.com>
 ---
- meta/lib/oeqa/selftest/cases/archiver.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/classes/copyleft_filter.bbclass | 32 ++++++++++++++++----------------
+ 1 file changed, 16 insertions(+), 16 deletions(-)
 
-diff --git a/meta/lib/oeqa/selftest/cases/archiver.py b/meta/lib/oeqa/selftest/cases/archiver.py
-index 7ef92cddac..72026d573c 100644
---- a/meta/lib/oeqa/selftest/cases/archiver.py
-+++ b/meta/lib/oeqa/selftest/cases/archiver.py
-@@ -27,7 +27,7 @@ class Archiver(OESelftestTestCase):
-         self.write_config(features)
+diff --git a/meta/classes/copyleft_filter.bbclass b/meta/classes/copyleft_filter.bbclass
+index 5867bb9f7e..c36bce431a 100644
+--- a/meta/classes/copyleft_filter.bbclass
++++ b/meta/classes/copyleft_filter.bbclass
+@@ -47,27 +47,27 @@ def copyleft_should_include(d):
+     import oe.license
+     from fnmatch import fnmatchcase as fnmatch
  
-         bitbake('-c clean %s %s' % (include_recipe, exclude_recipe))
--        bitbake("%s %s" % (include_recipe, exclude_recipe))
-+        bitbake("-c deploy_archives %s %s" % (include_recipe, exclude_recipe))
+-    included, motive = False, 'recipe did not match anything'
+-
+     recipe_type = d.getVar('COPYLEFT_RECIPE_TYPE')
+     if recipe_type not in oe.data.typed_value('COPYLEFT_RECIPE_TYPES', d):
+-        include, motive = False, 'recipe type "%s" is excluded' % recipe_type
++        included, motive = False, 'recipe type "%s" is excluded' % recipe_type
++    else:
++        included, motive = False, 'recipe did not match anything'
  
-         bb_vars = get_bb_vars(['DEPLOY_DIR_SRC', 'TARGET_SYS'])
-         src_path = os.path.join(bb_vars['DEPLOY_DIR_SRC'], bb_vars['TARGET_SYS'])
+-    include = oe.data.typed_value('COPYLEFT_LICENSE_INCLUDE', d)
+-    exclude = oe.data.typed_value('COPYLEFT_LICENSE_EXCLUDE', d)
++        include = oe.data.typed_value('COPYLEFT_LICENSE_INCLUDE', d)
++        exclude = oe.data.typed_value('COPYLEFT_LICENSE_EXCLUDE', d)
+ 
+-    try:
+-        is_included, reason = oe.license.is_included(d.getVar('LICENSE'), include, exclude)
+-    except oe.license.LicenseError as exc:
+-        bb.fatal('%s: %s' % (d.getVar('PF'), exc))
+-    else:
+-        if is_included:
+-            if reason:
+-                included, motive = True, 'recipe has included licenses: %s' % ', '.join(reason)
+-            else:
+-                included, motive = False, 'recipe does not include a copyleft license'
++        try:
++            is_included, reason = oe.license.is_included(d.getVar('LICENSE'), include, exclude)
++        except oe.license.LicenseError as exc:
++            bb.fatal('%s: %s' % (d.getVar('PF'), exc))
+         else:
+-            included, motive = False, 'recipe has excluded licenses: %s' % ', '.join(reason)
++            if is_included:
++                if reason:
++                    included, motive = True, 'recipe has included licenses: %s' % ', '.join(reason)
++                else:
++                    included, motive = False, 'recipe does not include a copyleft license'
++            else:
++                included, motive = False, 'recipe has excluded licenses: %s' % ', '.join(reason)
+ 
+     if any(fnmatch(d.getVar('PN'), name) \
+             for name in oe.data.typed_value('COPYLEFT_PN_INCLUDE', d)):
 -- 
 2.11.0
 
