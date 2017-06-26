@@ -1,42 +1,48 @@
-Return-Path: <andre.draszik@gmail.com>
-Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 153CA7199E
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wr0-f178.google.com (mail-wr0-f178.google.com
+	[209.85.128.178])
+	by mail.openembedded.org (Postfix) with ESMTP id AAB72600BB
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Jun 2017 10:08:48 +0000 (UTC)
-Received: by mail-wm0-f67.google.com with SMTP id f134so616972wme.1
+	Mon, 26 Jun 2017 10:27:57 +0000 (UTC)
+Received: by mail-wr0-f178.google.com with SMTP id 77so142307225wrb.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Jun 2017 03:08:50 -0700 (PDT)
+	Mon, 26 Jun 2017 03:27:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=ZAufzgqKdtmmyOYvIa/g7K0b4UQDmQeXXx5BnI8DTeE=;
+	b=LQTECnRlrY8DqbS+6TFArITM/tAQKhJ4srZOjryyr4vLoUKv8GFty4/a16Oqb9y3bD
+	dkX8gokNRtyd9x9YOVTbCFqbygpqPVmpMeYLw23KVoTRnEWb03bwXB4rCoTpXPMuaGBb
+	YO4gYKBLVEBiwFVUASyC4xuoIgaDD0Dt4l9eWjJOWM/7wwNhPokYv7n19PjFQtPyfhFD
+	83j6/nI5MiQ7ZE4Yg0ALWTNlOePhfEgk+0nZfqzLvb4xOqNC8nPVo5QpSZF3VD2/z+08
+	gNRnMmN7QHtjNRYYeJthMOHtowPIKzPOd7CoB3PMxOuB0Ay1qLU2qxQxC5Oeg3SsgmxT
+	MGrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=bxnaPjeqFFpNtYkgBNSemJZiIL3ghKZIbfJK4zytMUk=;
-	b=GAQbo5NoBQ4lEfBnDDqTrXbi7PV0w0Bn9cS2IiCZL/U6rWPAM3K9mHiJi8k1GOw8Tk
-	wtz6PE/2N9HkLhfGAP7uk0CKlS+6hlKi0BaAbR+yLlRbmWehsWthxtP2LriNBGR1BqCQ
-	8mGdCHM6bHHvsECPtkvpvPyAWXg686iVkncbOK+X7mC+SMmx1A8XyuYoRbUwPjU6Srao
-	bzLAwR7WkkoUN2fmaTQIjJqnQzYE24YdD8wNlAJxR9bXwlglzJL5xEs2+XF5c5zdlyC3
-	EJRs/TVwkAypeVsN2yUT8fCLn3y4JTkqle9WNRWMO/7JA6Ne8SM6VoPXEJF1WsqsHAAo
-	UtPA==
-X-Gm-Message-State: AKS2vOzNMVZMjy6xbG05cR7o1r/VYSVmmLMBWw83fXGH5+Wgjqz5H1ld
-	TTRD8fdkULrlOumenBs=
-X-Received: by 10.28.18.201 with SMTP id 192mr12821332wms.2.1498471729576;
-	Mon, 26 Jun 2017 03:08:49 -0700 (PDT)
-Received: from tfsielt31850.tycofs.com ([77.107.218.170])
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=ZAufzgqKdtmmyOYvIa/g7K0b4UQDmQeXXx5BnI8DTeE=;
+	b=G/djSVsmZEDukNoQ/Ydc8HGGkogzYz54wq5eHZuYLN9Y7Jy09tfHKjHH9NIy9kbdKB
+	3kjuM+Vc0qfgoyFkq73I4e3IuYjeybavVlw965sF9GnTmn9YhpKZh2gH66CT8NOfofLf
+	xILv/GiP3eoQRZ+KDqrxg8cpKbf0keoINb8eg+fu5wM/xfvq2pnEFj0fFgTxR2V886h3
+	mxZY3IsLBSguZhJn0a728/JO1WiUXM6m0Ks/8msMzXhX/MTYT4+aNgZhmxHEU4ANS2vU
+	T4jjPkgbt0aRS+jy84FskqhFPL/5BjsAEoPnM4qPSpd5NW/IkxeOy1gvwFkGT8MRDn7B
+	ugjA==
+X-Gm-Message-State: AKS2vOxX4JuBAY3BZ2ZFVLQxLf05z9OuMbcz5kx3kiSON5h0Q7gMvPdr
+	XMzqOhrVyHYw6aHrIT4=
+X-Received: by 10.223.165.146 with SMTP id g18mr654019wrc.167.1498472878372;
+	Mon, 26 Jun 2017 03:27:58 -0700 (PDT)
+Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
 	by smtp.gmail.com with ESMTPSA id
-	n31sm14295840wrn.59.2017.06.26.03.08.48
+	i131sm14860609wmf.0.2017.06.26.03.27.57
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 26 Jun 2017 03:08:48 -0700 (PDT)
-From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <git@andred.net>
+	Mon, 26 Jun 2017 03:27:57 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 26 Jun 2017 11:08:46 +0100
-Message-Id: <20170626100846.3950-2-git@andred.net>
+Date: Mon, 26 Jun 2017 11:27:55 +0100
+Message-Id: <20170626102755.26076-1-ross.burton@intel.com>
 X-Mailer: git-send-email 2.11.0
-In-Reply-To: <20170626100846.3950-1-git@andred.net>
-References: <20170619103238.2626-1-git@andred.net>
-	<20170626100846.3950-1-git@andred.net>
-MIME-Version: 1.0
-Subject: [PATCH v2 2/2] connman: fix nftables dependency
+Subject: [PATCH] cups: don't change permissions of /var/run/cups/certs in do_package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,44 +55,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 26 Jun 2017 10:08:49 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 26 Jun 2017 10:27:59 -0000
 
-From: André Draszik <adraszik@tycoint.com>
+This directory is deleted by do_install, so luckily the lack of error checking
+meant this didn't break.
 
-When building with nftables support, connman doesn't ever
-depend on the nftables command line tool.
-
-connman will depend on libmnl and libnftnl at build and
-run time. In addition, the nftables rules it creates
-depend on various kernel modules being present.
-
-Update the PACKAGECONFIG to reflect this. We use the
-just introduced RRECOMMENDS field so as to make the
-build still succeed if those kernel modules have been
-linked statically into the kernel, i.e. when the
-packages haven't actually been created.
-
-Signed-off-by: André Draszik <adraszik@tycoint.com>
-Acked-by: Sylvain Lemieux <slemieux@tycoint.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-connectivity/connman/connman.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-extended/cups/cups.inc | 7 -------
+ 1 file changed, 7 deletions(-)
 
-diff --git a/meta/recipes-connectivity/connman/connman.inc b/meta/recipes-connectivity/connman/connman.inc
-index ab18f2fe01..141a464121 100644
---- a/meta/recipes-connectivity/connman/connman.inc
-+++ b/meta/recipes-connectivity/connman/connman.inc
-@@ -51,7 +51,7 @@ PACKAGECONFIG[l2tp] = "--enable-l2tp --with-l2tp=${sbindir}/xl2tpd,--disable-l2t
- PACKAGECONFIG[pptp] = "--enable-pptp --with-pptp=${sbindir}/pptp,--disable-pptp,,pptp-linux"
- # WISPr support for logging into hotspots, requires TLS
- PACKAGECONFIG[wispr] = "--enable-wispr,--disable-wispr,gnutls,"
--PACKAGECONFIG[nftables] = "--with-firewall=nftables ,,nftables,nftables"
-+PACKAGECONFIG[nftables] = "--with-firewall=nftables ,,libmnl libnftnl,,kernel-module-nf-tables-ipv4 kernel-module-nft-chain-nat-ipv4 kernel-module-nft-chain-route-ipv4 kernel-module-nft-meta kernel-module-nft-masq-ipv4 kernel-module-nft-nat"
- PACKAGECONFIG[iptables] = "--with-firewall=iptables ,,iptables,iptables"
+diff --git a/meta/recipes-extended/cups/cups.inc b/meta/recipes-extended/cups/cups.inc
+index c3fa45941c2..38d90b5ea9d 100644
+--- a/meta/recipes-extended/cups/cups.inc
++++ b/meta/recipes-extended/cups/cups.inc
+@@ -79,13 +79,6 @@ do_install () {
+ 	fi
+ }
  
- INITSCRIPT_NAME = "connman"
+-python do_package_append() {
+-    import subprocess
+-    # Change permissions back the way they were, they probably had a reason...
+-    workdir = d.getVar('WORKDIR')
+-    subprocess.call('chmod 0511 %s/install/cups/var/run/cups/certs' % workdir, shell=True)
+-}
+-
+ PACKAGES =+ "${PN}-lib ${PN}-libimage"
+ 
+ RDEPENDS_${PN} += "${@bb.utils.contains('DISTRO_FEATURES', 'sysvinit', 'procps', '', d)}"
 -- 
 2.11.0
 
