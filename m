@@ -1,48 +1,51 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-lf0-f66.google.com (mail-lf0-f66.google.com
-	[209.85.215.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 8AD6777E9C
+Return-Path: <maxime.roussinbelanger@gmail.com>
+Received: from mail-it0-f51.google.com (mail-it0-f51.google.com
+	[209.85.214.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 5F31371AFC
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Jun 2017 15:52:50 +0000 (UTC)
-Received: by mail-lf0-f66.google.com with SMTP id n136so491920lfn.2
+	Mon, 26 Jun 2017 18:34:35 +0000 (UTC)
+Received: by mail-it0-f51.google.com with SMTP id b205so3500776itg.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Jun 2017 08:52:51 -0700 (PDT)
+	Mon, 26 Jun 2017 11:34:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=/+1E1pH42WLnMif1cywh4pYODvn3plvD9+aiZC85xL0=;
-	b=PHD9buasdudRf6arkqfniPmpy+NUjqfKN93Lc9PTywQwFedYAtLYdk0DJJlr4zXVen
-	44VFf+N+KhZupdxzrR4tmDCYymaOHZAAR7gXilnhfF1VWTjSHCa5VW1RWn9kgikPU/xh
-	KLQEZlbmwtF3fR8LttXJRMHcI+x2oBQaYWR8y5NUQdgQoZQDu2Rqvdi2uptAzedwUwae
-	qi59p2Q6r1mgw5IXEBNokTDH64ZEdRh+f6vCbswLD+MlJbHtLc6kpLXSSKtBW1vLoWlc
-	VD3m/D0BtprVkYrm4gFjFsENrbgbm21MaCU+FFPt1ZTDlotW7CPxvbArTC/OY5D75rPI
-	JGSA==
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=v2bhSEo45H2bdxUDkBWtM/3ZsIlo05PfhGObVaWhEaM=;
+	b=u7aUuEEHXyK931a8wuAf1I+VqtIzEaHKgKDu0gJPjJmHCAxtPOB5amdWaSZlpfUSeE
+	OVPOHU2eEd7H9OM8gZ+pSqgNPXSSmkgfMmknu94NpL7NLanx7/6iSw+pgIXgWHjFDnbs
+	jodT+Ipzy5I/SRwRgPHbiJEMGV77g1Ch5uPQnFFtaTWFPgZCgK05dqVXbUQndfLz8hOP
+	xkWXANc2JvvyhIrnrUHTnP0KaHtRDhvcBduWFp/0NrmVDmrDvD4Tm2LR7qXm1RB3iqUH
+	3ZlYy4KNS4H8sNjkPed4ltkqAidk8FFSWQ/UkvXviuthkQOG1D6O8fsoIkPnUmHH7ztc
+	SmZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=/+1E1pH42WLnMif1cywh4pYODvn3plvD9+aiZC85xL0=;
-	b=H8tgJ8WRplv0USRkvOwAcu7oGUGcG4leptYHF4sJWPd26yREYiag7tm1ucBD8vtIZk
-	yfWZCOhUK+cAPmPZInyO/XJU8p1goXYoShcq6QjjyJpj9tQ/B1e5KzUgFKAbbol+qZpo
-	p0ELHlrNIj9eY0bzS74leSzp+UfloErZeKawRiBvwG9tXsF4ABBeBcAXI8/sBFN9FUjk
-	VkU4HTyjNjGYRyMkokuwBWFZFpqThUEuEPLjBELPDCTxenamBghwuCpJXdhqsXidph+n
-	FQn3toAWnFA/UvP9zRihkpxCvDmBnl1hPpS8z0iSX2d2iB88GyLrTF6lwVKTrMcthm08
-	J1DA==
-X-Gm-Message-State: AKS2vOz9aFzobBe/AfVnKC8o8BRd8uupa+i61VxgEN3VKohlaNAoR338
-	cXS6h0BDbEX/iuG1FxWdHst0b7jVDw==
-X-Received: by 10.25.27.2 with SMTP id b2mr256851lfb.24.1498492371043; Mon, 26
-	Jun 2017 08:52:51 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=v2bhSEo45H2bdxUDkBWtM/3ZsIlo05PfhGObVaWhEaM=;
+	b=M1Zu8fDYDHTNcry8U8fyiLRhv/2j0CLaX05iAz8XbPQAmaTjvE5pDNxNjKetjMIQoR
+	mHMtitYJwFv4Z2gSj2BuI/rI06S1erYu/E59H7OaOWqbNwwb6rDqO7oZt9bfRMR7aECn
+	OW87WIsr3157RIf34pjd5Q0UWaasTXX9oKLj/105fnu1E+ZkwgwDC2iMdMnoqy3zLnu6
+	E8Z+B86p/ELCsmu2l98dGLZPsJsjK4GQ0EeWcTMxrEVqidZjWck7B4hMvdpvlC89dZxE
+	/UBS/V2Bitc9LPndyYr6DYYFcYTEQHAB52Tml2JYHOllB+UHbsJaOv3+b3YvcRJRPftw
+	zbKQ==
+X-Gm-Message-State: AKS2vOzO5Aei6IkzgLC+IuW1fD6q0pjtqNB0XwCAlOL2eQzVMxM3bq7D
+	FD+Msq6T1doFow==
+X-Received: by 10.36.107.68 with SMTP id v65mr1358206itc.79.1498502077208;
+	Mon, 26 Jun 2017 11:34:37 -0700 (PDT)
+Received: from mbedesk.Sonatest.net
+	(modemcable066.15-37-24.static.videotron.ca. [24.37.15.66])
+	by smtp.googlemail.com with ESMTPSA id
+	s94sm429641ioi.20.2017.06.26.11.34.36
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 26 Jun 2017 11:34:36 -0700 (PDT)
+From: =?UTF-8?q?Maxime=20Roussin-B=C3=A9langer?=
+	<maxime.roussinbelanger@gmail.com>
+To: otavio.salvador@ossystems.com.br, openembedded-core@lists.openembedded.org
+Date: Mon, 26 Jun 2017 14:33:54 -0400
+Message-Id: <1498502034-13181-1-git-send-email-maxime.roussinbelanger@gmail.com>
+X-Mailer: git-send-email 2.1.4
 MIME-Version: 1.0
-Received: by 10.46.9.137 with HTTP; Mon, 26 Jun 2017 08:52:50 -0700 (PDT)
-In-Reply-To: <20170621120003.6440-2-razvan.heghedus@ni.com>
-References: <20170621120003.6440-1-razvan.heghedus@ni.com>
-	<20170621120003.6440-2-razvan.heghedus@ni.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Mon, 26 Jun 2017 11:52:50 -0400
-Message-ID: <CADkTA4NDO_5ch_unyr1Ydk9_wgxTaOzRkev3Kd=sXcSDtUMQoA@mail.gmail.com>
-To: Heghedus Razvan <razvan.heghedus@ni.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] kernel: user defined KERNEL_VERSION_PKG_NAME
+Subject: [PATCH] cmake: Use find_program if find_host_program is not available
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,168 +58,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 26 Jun 2017 15:52:50 -0000
-Content-Type: multipart/alternative; boundary="001a1140244c798c540552def10e"
+X-List-Received-Date: Mon, 26 Jun 2017 18:34:36 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
---001a1140244c798c540552def10e
-Content-Type: text/plain; charset="UTF-8"
+CMake does not define the `find_host_program` command we've
+been using in the cross-compiling code path.  It was
+provided by a widely used Android toolchain file.  For
+compatibility, continue to use `find_host_program` if
+available, but otherwise use just `find_program`.
 
-On Wed, Jun 21, 2017 at 8:00 AM, Heghedus Razvan <razvan.heghedus@ni.com>
-wrote:
+Signed-off-by: Maxime Roussin-Bélanger <maxime.roussinbelanger@gmail.com>
+---
+ meta/recipes-devtools/cmake/cmake.inc              |  1 +
+ ...e-find_program-if-find_host_program-is-no.patch | 36 ++++++++++++++++++++++
+ 2 files changed, 37 insertions(+)
+ create mode 100644 meta/recipes-devtools/cmake/cmake/0001-FindCUDA-Use-find_program-if-find_host_program-is-no.patch
 
-> Add possibility to set KERNEL_VERSION_PKG_NAME to a user
-> defined value.
->
-> Signed-off-by: Heghedus Razvan <razvan.heghedus@ni.com>
-> ---
->  meta/classes/kernel.bbclass | 8 ++++++--
->  1 file changed, 6 insertions(+), 2 deletions(-)
->
-> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-> index 605c101e62..02728d5a86 100644
-> --- a/meta/classes/kernel.bbclass
-> +++ b/meta/classes/kernel.bbclass
-> @@ -28,12 +28,16 @@ INITRAMFS_IMAGE_BUNDLE ?= ""
->  # LINUX_VERSION which is a constant.
->  KERNEL_VERSION_NAME = "${@d.getVar('KERNEL_VERSION') or ""}"
->  KERNEL_VERSION_NAME[vardepvalue] = "${LINUX_VERSION}"
-> -KERNEL_VERSION_PKG_NAME = "${@legitimize_package_name(d.
-> getVar('KERNEL_VERSION'))}"
-> -KERNEL_VERSION_PKG_NAME[vardepvalue] = "${LINUX_VERSION}"
->
->  python __anonymous () {
->      import re
->
-> +    if d.getVar('USER_KERNEL_VERSION_PKG') is None :
-> +        d.setVar('KERNEL_VERSION_PKG_NAME',
-> "${@legitimize_package_name(d.getVar('KERNEL_VERSION'))}")
-> +        d.setVar('KERNEL_VERSION_PKG_NAME[vardepvalue]',
-> "${LINUX_VERSION}")
-> +    else:
-> +        d.setVar('KERNEL_VERSION_PKG_NAME',
-> "${@legitimize_package_name(d.getVar('USER_KERNEL_VERSION_PKG'))}")
->
-
-This is introducing yet another variable that tweaks the already complex
-setting of
-the kernel version. Not to mention this code is already touchy with respect
-to
-parse time and rebuilding of the kernel.
-
-My concern is that if this is set, we are completely disassociated with the
-source
-code of the kernel.
-
-Where did you think this would be set ? local.conf ? distro config ?
-somewhere else ?
-
-If we had a way to simply override KERNEL_VERSION, we wouldn't need any
-extra
-variables.
-
-Bruce
-
-
-> +
->      # Merge KERNEL_IMAGETYPE and KERNEL_ALT_IMAGETYPE into
-> KERNEL_IMAGETYPES
->      type = d.getVar('KERNEL_IMAGETYPE') or ""
->      alttype = d.getVar('KERNEL_ALT_IMAGETYPE') or ""
-> --
-> 2.13.1
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
-
-
-
+diff --git a/meta/recipes-devtools/cmake/cmake.inc b/meta/recipes-devtools/cmake/cmake.inc
+index dbd34f5..6aeb25f 100644
+--- a/meta/recipes-devtools/cmake/cmake.inc
++++ b/meta/recipes-devtools/cmake/cmake.inc
+@@ -14,6 +14,7 @@ CMAKE_MAJOR_VERSION = "${@'.'.join(d.getVar('PV').split('.')[0:2])}"
+ SRC_URI = "https://cmake.org/files/v${CMAKE_MAJOR_VERSION}/cmake-${PV}.tar.gz \
+            file://support-oe-qt4-tools-names.patch \
+            file://qt4-fail-silent.patch \
++           file://0001-FindCUDA-Use-find_program-if-find_host_program-is-no.patch \
+            "
+ 
+ SRC_URI[md5sum] = "b5dff61f6a7f1305271ab3f6ae261419"
+diff --git a/meta/recipes-devtools/cmake/cmake/0001-FindCUDA-Use-find_program-if-find_host_program-is-no.patch b/meta/recipes-devtools/cmake/cmake/0001-FindCUDA-Use-find_program-if-find_host_program-is-no.patch
+new file mode 100644
+index 0000000..8a61f1f
+--- /dev/null
++++ b/meta/recipes-devtools/cmake/cmake/0001-FindCUDA-Use-find_program-if-find_host_program-is-no.patch
+@@ -0,0 +1,36 @@
++From 46d25e782ebd9b6c50771b6f30433c58fae03a51 Mon Sep 17 00:00:00 2001
++From: Maxime Roussin-Bélanger <maxime.roussinbelanger@gmail.com>
++Date: Mon, 26 Jun 2017 11:30:07 -0400
++Subject: [PATCH] cmake: Use find_program if find_host_program is not
++ available
++
++CMake does not define the `find_host_program` command we've been using
++in the cross-compiling code path.  It was provided by a widely used
++Android toolchain file.  For compatibility, continue to use
++`find_host_program` if available, but otherwise use just `find_program`.
++
++Signed-off-by: Maxime Roussin-Bélanger <maxime.roussinbelanger@gmail.com>
++---
++ Modules/FindCUDA.cmake | 6 +++++-
++ 1 file changed, 5 insertions(+), 1 deletion(-)
++
++diff --git a/Modules/FindCUDA.cmake b/Modules/FindCUDA.cmake
++index a4dca54..77ca351 100644
++--- a/Modules/FindCUDA.cmake
+++++ b/Modules/FindCUDA.cmake
++@@ -679,7 +679,11 @@ if(CMAKE_CROSSCOMPILING)
++   # add known CUDA targetr root path to the set of directories we search for programs, libraries and headers
++   set( CMAKE_FIND_ROOT_PATH "${CUDA_TOOLKIT_TARGET_DIR};${CMAKE_FIND_ROOT_PATH}")
++   macro( cuda_find_host_program )
++-    find_host_program( ${ARGN} )
+++    if (COMMAND find_host_program)
+++      find_host_program( ${ARGN} )
+++    else()
+++      find_program( ${ARGN} )
+++    endif()
++   endmacro()
++ else()
++   # for non-cross-compile, find_host_program == find_program and CUDA_TOOLKIT_TARGET_DIR == CUDA_TOOLKIT_ROOT_DIR
++--
++2.1.4
++
 -- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await thee
-at its end"
+2.1.4
 
---001a1140244c798c540552def10e
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
-te">On Wed, Jun 21, 2017 at 8:00 AM, Heghedus Razvan <span dir=3D"ltr">&lt;=
-<a href=3D"mailto:razvan.heghedus@ni.com" target=3D"_blank">razvan.heghedus=
-@ni.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D=
-"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">Add possibi=
-lity to set KERNEL_VERSION_PKG_NAME to a user<br>
-defined value.<br>
-<br>
-Signed-off-by: Heghedus Razvan &lt;<a href=3D"mailto:razvan.heghedus@ni.com=
-" target=3D"_blank">razvan.heghedus@ni.com</a>&gt;<br>
----<br>
-=C2=A0meta/classes/kernel.bbclass | 8 ++++++--<br>
-=C2=A01 file changed, 6 insertions(+), 2 deletions(-)<br>
-<br>
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass<br>
-index 605c101e62..02728d5a86 100644<br>
---- a/meta/classes/kernel.bbclass<br>
-+++ b/meta/classes/kernel.bbclass<br>
-@@ -28,12 +28,16 @@ INITRAMFS_IMAGE_BUNDLE ?=3D &quot;&quot;<br>
-=C2=A0# LINUX_VERSION which is a constant.<br>
-=C2=A0KERNEL_VERSION_NAME =3D &quot;${@d.getVar(&#39;KERNEL_VERSION&#39;) o=
-r &quot;&quot;}&quot;<br>
-=C2=A0KERNEL_VERSION_NAME[vardepval<wbr>ue] =3D &quot;${LINUX_VERSION}&quot=
-;<br>
--KERNEL_VERSION_PKG_NAME =3D &quot;${@legitimize_package_name(d.<wbr>getVar=
-(&#39;KERNEL_VERSION&#39;))}&quot;<br>
--KERNEL_VERSION_PKG_NAME[varde<wbr>pvalue] =3D &quot;${LINUX_VERSION}&quot;=
-<br>
-<br>
-=C2=A0python __anonymous () {<br>
-=C2=A0 =C2=A0 =C2=A0import re<br>
-<br>
-+=C2=A0 =C2=A0 if d.getVar(&#39;USER_KERNEL_VERSION_<wbr>PKG&#39;) is None =
-:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 d.setVar(&#39;KERNEL_VERSION_PKG_N<wbr>AME&#39=
-;, &quot;${@legitimize_package_name(d.<wbr>getVar(&#39;KERNEL_VERSION&#39;)=
-)}&quot;)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 d.setVar(&#39;KERNEL_VERSION_PKG_N<wbr>AME[var=
-depvalue]&#39;, &quot;${LINUX_VERSION}&quot;)<br>
-+=C2=A0 =C2=A0 else:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 d.setVar(&#39;KERNEL_VERSION_PKG_N<wbr>AME&#39=
-;, &quot;${@legitimize_package_name(d.<wbr>getVar(&#39;USER_KERNEL_VERSION_=
-PK<wbr>G&#39;))}&quot;)<br></blockquote><div><br></div><div>This is introdu=
-cing yet another variable that tweaks the already complex setting of</div><=
-div>the kernel version. Not to mention this code is already touchy with res=
-pect to</div><div>parse time and rebuilding of the kernel.</div><div><br></=
-div><div>My concern is that if this is set, we are completely disassociated=
- with the source</div><div>code of the kernel.</div><div><br></div><div>Whe=
-re did you think this would be set ? local.conf ? distro config ? somewhere=
- else ?</div><div><br></div><div>If we had a way to simply override KERNEL_=
-VERSION, we wouldn&#39;t need any extra</div><div>variables.</div><div><br>=
-</div><div>Bruce</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" st=
-yle=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
-+<br>
-=C2=A0 =C2=A0 =C2=A0# Merge KERNEL_IMAGETYPE and KERNEL_ALT_IMAGETYPE into =
-KERNEL_IMAGETYPES<br>
-=C2=A0 =C2=A0 =C2=A0type =3D d.getVar(&#39;KERNEL_IMAGETYPE&#39;) or &quot;=
-&quot;<br>
-=C2=A0 =C2=A0 =C2=A0alttype =3D d.getVar(&#39;KERNEL_ALT_IMAGETYPE<wbr>&#39=
-;) or &quot;&quot;<br>
-<span class=3D"m_-3599068778944099545HOEnZb"><font color=3D"#888888">--<br>
-2.13.1<br>
-<br>
---<br>
-______________________________<wbr>_________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
-k">Openembedded-core@lists.openem<wbr>bedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
-ailman/listinfo/openembedded-<wbr>core</a><br>
-</font></span></blockquote></div><br><br clear=3D"all"><div><br></div>-- <b=
-r><div class=3D"m_-3599068778944099545gmail_signature" data-smartmail=3D"gm=
-ail_signature">&quot;Thou shalt not follow the NULL pointer, for chaos and =
-madness await thee at its end&quot;</div>
-</div></div>
-
---001a1140244c798c540552def10e--
