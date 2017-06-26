@@ -1,45 +1,48 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg0-f68.google.com (mail-pg0-f68.google.com [74.125.83.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 89DA17782F
+Return-Path: <anders@chargestorm.se>
+Received: from mail-lf0-f53.google.com (mail-lf0-f53.google.com
+	[209.85.215.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 8585671A15
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Jun 2017 05:36:28 +0000 (UTC)
-Received: by mail-pg0-f68.google.com with SMTP id f127so14019512pgc.2
+	Mon, 26 Jun 2017 06:52:59 +0000 (UTC)
+Received: by mail-lf0-f53.google.com with SMTP id m77so55159328lfe.0
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 25 Jun 2017 22:36:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=rZSpOlIvc7mMXgqPnkMFpRsX4H/kPqeLzidJyU0+v+Q=;
-	b=OyPGLeXreQTNa38o2PFH+gLH7FGfh/RSVSLA6Vy/oIUljhbctWyb74IOevIIxtNX10
-	EjKt5GKLWR+r6BDi80KEfiYitH2JLcVFviJYA+ol95HgVZleTF+Rpw/155h839nqCSBJ
-	m77C82tXK4TtbdjbcgIeHe7twGAkH2XLTcArKe27hMQbtKlkS6qInTbQ7zEd9TuEPpTf
-	3vpQCDcnH3xWWjMdv2m2eO4Tj1RapNuX08yEg/iUlgU+gCT4yPRIGTrYcec24yf5P6BS
-	W5dgRWDD5WN5jtk7XYGpnt/9/QoUMh7m7fpmaP/20LiS4YXGhx0SR+zHy+B5vFpuVcg3
-	zY3A==
+	Sun, 25 Jun 2017 23:53:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=chargestorm-se.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=seCdmq+esdEHkp+0sWz/5Wb8I3jZh7QIc6QEayXmEQo=;
+	b=10BUpw2SlCZFJ8gA1vUa74Dli6ZB2Xfo4v7F3jYpbYeWfeKRhJMDNUc6M+ALoO3xTl
+	JR6JnrSxt3pRkRabPQSzlTSnv2Lij+azmgUwh/wpHEIlh8MyTH1F/oORJ4mYIqq/y421
+	bFt3gDf8JK+/gNiUgUQzfxSeh96EDQzebnx8MZwnMi3Bs+IdiOAoGoy/eQxodJ4d3vzd
+	tCum1HwENYlMDTsl2hpNRcOIl3ByQ4PXPaeo2yTZOVdEug8jKy+GphucPhRCZiWrOfce
+	e6F/x5nk+gKtwarUzPOKl8yKvXi6fMx2UOEuqF+VyRGsM3ESKIdwtEBV1vLQz4zqIUtt
+	/Bkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=rZSpOlIvc7mMXgqPnkMFpRsX4H/kPqeLzidJyU0+v+Q=;
-	b=KVD0+ZQagxuuvVgd5kwjt5CnJV1eE1/NLoMR5fLpSjSKoYcf6VWt06xqmPu+/qHMEx
-	fxzDo8K4Y68XFJRE/Zg4tqASKO17NXWGRwOiY4eyegM1SqwmMreJIhGJ6/fJ13dvXClm
-	Vv5KSD7vEjIWOnVrX6CyqdoI+/CM5Vo3l2m1j/LexNU3+aS3VP2yaIojtw/apulLx5Af
-	VomJbTH8kTFwc4eUDi77rtgyNqsU+q5iU338KRr9TsCqrFi6V1LI+B7GI9NdfB8gyUd1
-	JTWYnKtyAHoF5oWPACimJZYgiwGI9LQxVgt0KwGLm8o4Tb63iLFQAby0SdWmBguhEE+6
-	wNdQ==
-X-Gm-Message-State: AKS2vOxLLydBmiQVff6y/BF9Fe0lXHDh4ErxEhwtPOnbDL/hSVMz2zqr
-	z8bl7IpK9KL0d7pe
-X-Received: by 10.99.8.1 with SMTP id 1mr19648921pgi.15.1498455389401;
-	Sun, 25 Jun 2017 22:36:29 -0700 (PDT)
-Received: from localhost.localdomain ([2601:646:8882:b8c::3df3])
-	by smtp.gmail.com with ESMTPSA id
-	a79sm24095931pfj.5.2017.06.25.22.36.28
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 25 Jun 2017 22:36:28 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=seCdmq+esdEHkp+0sWz/5Wb8I3jZh7QIc6QEayXmEQo=;
+	b=RZH9wh8busws8L4BxsPoYajZSCzGSPmDL7aLlJVzTSA5gAW8rDX3C8ntNeeVKuR3vC
+	qiTxnYbE6MTY9PjA6RXDvpFm8oEARUZHdlUA75vqrvfHvLRZf0OuZvbBhgPrAeazajFt
+	IatIplI4j9+kUPDRn/MI9fa8kZtluC9eLAhd89vJom8Q7uTk/j7EinHYzdFlSqrhmkQn
+	+1ioM0msEI9Eha4gopxMOxaDxiWLK/WarnN8kn3lr44/Etz9DiAHAt+HXMcYV7hixk8p
+	iwzMcXMVKToopVKbGqIb0J/DZw6mhq+luVSJBcOEkS0A2ZggXV35STtRQVAEMsC08cPi
+	+f1A==
+X-Gm-Message-State: AKS2vOw54OHbeRhYTSwBIJUU+rm0Ky4jN7gKeD6tOtJS5XjUZuQ6XJ7x
+	FgNGHnEhCM4jsI8T4IksCw==
+X-Received: by 10.46.88.78 with SMTP id x14mr5640429ljd.108.1498459979694;
+	Sun, 25 Jun 2017 23:52:59 -0700 (PDT)
+Received: from localhost (194-237-220-218.customer.telia.com.
+	[194.237.220.218]) by smtp.gmail.com with ESMTPSA id
+	n132sm3490800lfn.61.2017.06.25.23.52.58
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Sun, 25 Jun 2017 23:52:58 -0700 (PDT)
+From: Anders Darander <anders@chargestorm.se>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 25 Jun 2017 22:36:19 -0700
-Message-Id: <20170626053619.38084-1-raj.khem@gmail.com>
+Date: Mon, 26 Jun 2017 08:52:53 +0200
+Message-Id: <cover.1498459830.git.anders@chargestorm.se>
 X-Mailer: git-send-email 2.13.1
-Subject: [PATCH] iptables: Apply 0001-fix-build-with-musl.patch unconditionally
+Subject: [pyro][PATCH 0/1] Backport fix for debugfs generation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,31 +55,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 26 Jun 2017 05:36:28 -0000
+X-List-Received-Date: Mon, 26 Jun 2017 06:53:00 -0000
 
-This patch is generic enough, That it can be applied universally
-and makes maintainence easier
+An older commit, which is in both master and pyro, broke the generation of 
+debugfs'. This has been fixed in master by Martin Jansa, so lets backport this to
+pyro.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/recipes-extended/iptables/iptables_1.6.1.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+The following changes since commit 0b5e0d072f93a958e4211a8aeb2fd8cc3c25cc21:
 
-diff --git a/meta/recipes-extended/iptables/iptables_1.6.1.bb b/meta/recipes-extended/iptables/iptables_1.6.1.bb
-index 4019e2a4a4..b37c55a64e 100644
---- a/meta/recipes-extended/iptables/iptables_1.6.1.bb
-+++ b/meta/recipes-extended/iptables/iptables_1.6.1.bb
-@@ -22,8 +22,8 @@ SRC_URI = "http://netfilter.org/projects/iptables/files/iptables-${PV}.tar.bz2 \
-            file://types.h-add-defines-that-are-required-for-if_packet.patch \
-            file://0001-configure-Add-option-to-enable-disable-libnfnetlink.patch \
-            file://0002-configure.ac-only-check-conntrack-when-libnfnetlink-enabled.patch \
--          "
--SRC_URI_append_libc-musl = " file://0001-fix-build-with-musl.patch"
-+           file://0001-fix-build-with-musl.patch \
-+"
- 
- SRC_URI[md5sum] = "ab38a33806b6182c6f53d6afb4619add"
- SRC_URI[sha256sum] = "0fc2d7bd5d7be11311726466789d4c65fb4c8e096c9182b56ce97440864f0cf5"
+  package_ipk: Clean up Source entry in ipk packages (2017-06-16 10:18:55 +0100)
+
+are available in the git repository at:
+
+  git://github.com/darander/openembedded-core pyro-debugfs
+  https://github.com/darander/openembedded-core/tree/pyro-debugfs
+
+Martin Jansa (1):
+  package_manager: flush installed_pkgs file before oe-pkgdata-util uses
+    it
+
+ meta/lib/oe/package_manager.py | 1 +
+ 1 file changed, 1 insertion(+)
+
 -- 
 2.13.1
 
