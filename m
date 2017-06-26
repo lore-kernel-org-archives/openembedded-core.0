@@ -1,48 +1,43 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wr0-f178.google.com (mail-wr0-f178.google.com
-	[209.85.128.178])
-	by mail.openembedded.org (Postfix) with ESMTP id AAB72600BB
+Return-Path: <andre.draszik@gmail.com>
+Received: from mail-wr0-f169.google.com (mail-wr0-f169.google.com
+	[209.85.128.169])
+	by mail.openembedded.org (Postfix) with ESMTP id EAED571A15
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Jun 2017 10:27:57 +0000 (UTC)
-Received: by mail-wr0-f178.google.com with SMTP id 77so142307225wrb.1
+	Mon, 26 Jun 2017 10:32:56 +0000 (UTC)
+Received: by mail-wr0-f169.google.com with SMTP id 77so142373706wrb.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Jun 2017 03:27:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=ZAufzgqKdtmmyOYvIa/g7K0b4UQDmQeXXx5BnI8DTeE=;
-	b=LQTECnRlrY8DqbS+6TFArITM/tAQKhJ4srZOjryyr4vLoUKv8GFty4/a16Oqb9y3bD
-	dkX8gokNRtyd9x9YOVTbCFqbygpqPVmpMeYLw23KVoTRnEWb03bwXB4rCoTpXPMuaGBb
-	YO4gYKBLVEBiwFVUASyC4xuoIgaDD0Dt4l9eWjJOWM/7wwNhPokYv7n19PjFQtPyfhFD
-	83j6/nI5MiQ7ZE4Yg0ALWTNlOePhfEgk+0nZfqzLvb4xOqNC8nPVo5QpSZF3VD2/z+08
-	gNRnMmN7QHtjNRYYeJthMOHtowPIKzPOd7CoB3PMxOuB0Ay1qLU2qxQxC5Oeg3SsgmxT
-	MGrg==
+	Mon, 26 Jun 2017 03:32:58 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=ZAufzgqKdtmmyOYvIa/g7K0b4UQDmQeXXx5BnI8DTeE=;
-	b=G/djSVsmZEDukNoQ/Ydc8HGGkogzYz54wq5eHZuYLN9Y7Jy09tfHKjHH9NIy9kbdKB
-	3kjuM+Vc0qfgoyFkq73I4e3IuYjeybavVlw965sF9GnTmn9YhpKZh2gH66CT8NOfofLf
-	xILv/GiP3eoQRZ+KDqrxg8cpKbf0keoINb8eg+fu5wM/xfvq2pnEFj0fFgTxR2V886h3
-	mxZY3IsLBSguZhJn0a728/JO1WiUXM6m0Ks/8msMzXhX/MTYT4+aNgZhmxHEU4ANS2vU
-	T4jjPkgbt0aRS+jy84FskqhFPL/5BjsAEoPnM4qPSpd5NW/IkxeOy1gvwFkGT8MRDn7B
-	ugjA==
-X-Gm-Message-State: AKS2vOxX4JuBAY3BZ2ZFVLQxLf05z9OuMbcz5kx3kiSON5h0Q7gMvPdr
-	XMzqOhrVyHYw6aHrIT4=
-X-Received: by 10.223.165.146 with SMTP id g18mr654019wrc.167.1498472878372;
-	Mon, 26 Jun 2017 03:27:58 -0700 (PDT)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=AElnBkoxhcq9rwmhzmUAU6YbPm/3vtkHPomEEI322kk=;
+	b=hi5SluRUodaOjBo0gZr+XcNgAwqchgnYpucZeBN9HaHmZ4r2wf6kw+d9HlL1OMQZg4
+	+DwIhb+WBq69LOPlEz6wgIzIPs1UX26mPAEHdrE2OCLNOTMX09GxJB6ut9ErSSEoy+90
+	M8PH+LLDPvZ+VTfjx5m3Cbu2imXMMcaKYUCNjZmZsfwCm4Fh+13p9+EtRrSWV+mylVLk
+	9n2jESKr0SmzcMyTOW3wWyl2vxcnWOlFE4cJPoYmH01BoHKCEuJ7Iodrhm384O0XphVr
+	yDjxUwRFe13a2oIm+PqtuHMJRgbWJq9DR/AUvOOudKFG2tnw+E//JgZgIrix7hZP1iIf
+	+QWw==
+X-Gm-Message-State: AKS2vOzy+a7xnpWJM8kwVKDdVOekto2+bsn8twNHWwRcBkPSLXyUiZqY
+	P2a3diRR8agOvvKKIrY=
+X-Received: by 10.223.175.229 with SMTP id y37mr14063139wrd.61.1498473177445; 
+	Mon, 26 Jun 2017 03:32:57 -0700 (PDT)
+Received: from tfsielt31850 ([77.107.218.170])
 	by smtp.gmail.com with ESMTPSA id
-	i131sm14860609wmf.0.2017.06.26.03.27.57
+	m188sm7932076wmg.34.2017.06.26.03.32.56
 	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 26 Jun 2017 03:27:57 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Mon, 26 Jun 2017 03:32:56 -0700 (PDT)
+Message-ID: <1498473175.25895.28.camel@andred.net>
+From: =?ISO-8859-1?Q?Andr=E9?= Draszik <git@andred.net>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 26 Jun 2017 11:27:55 +0100
-Message-Id: <20170626102755.26076-1-ross.burton@intel.com>
-X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] cups: don't change permissions of /var/run/cups/certs in do_package
+Date: Mon, 26 Jun 2017 11:32:55 +0100
+In-Reply-To: <20170626090130.2382.3945@do.openembedded.org>
+References: <20170623145924.21097-1-git@andred.net>
+	<20170626090130.2382.3945@do.openembedded.org>
+X-Mailer: Evolution 3.22.6-1 
+Mime-Version: 1.0
+Subject: =?UTF-8?B?UmU6IOKclyBwYXRjaHRlc3Q6IGZhaWx1cmUgZm9yICJzZWxmdGVzdC9hcmNoaXZlcjogYWRkIHRlc3RzIGYuLi4iIGFuZCAyIG1vcmUgKHJldjcp?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,35 +50,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 26 Jun 2017 10:27:59 -0000
+X-List-Received-Date: Mon, 26 Jun 2017 10:32:57 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-This directory is deleted by do_install, so luckily the lack of error checking
-meant this didn't break.
+On Mon, 2017-06-26 at 09:01 +0000, Patchwork wrote:
+> == Series Details ==
+> 
+> Series: "selftest/archiver: add tests f..." and 2 more (rev7)
+> Revision: 7
+> URL   : https://patchwork.openembedded.org/series/7443/
+> State : failure
+> 
+> == Summary ==
+> 
+> 
+> Thank you for submitting this patch series to OpenEmbedded Core. This is
+> an automated response. Several tests have been executed on the proposed
+> series by patchtest resulting in the following failures:
+> 
+> 
+> 
+> * Issue             Series does not apply on top of target branch
+> [test_series_merge_on_head] 
+>   Suggested fix    Rebase your series on top of targeted branch
+>   Targeted branch  master (currently at 20b3574749)
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-extended/cups/cups.inc | 7 -------
- 1 file changed, 7 deletions(-)
+I'm not sure why this is failing, I made sure to rebase onto 20b3574749
+before submitting.
 
-diff --git a/meta/recipes-extended/cups/cups.inc b/meta/recipes-extended/cups/cups.inc
-index c3fa45941c2..38d90b5ea9d 100644
---- a/meta/recipes-extended/cups/cups.inc
-+++ b/meta/recipes-extended/cups/cups.inc
-@@ -79,13 +79,6 @@ do_install () {
- 	fi
- }
- 
--python do_package_append() {
--    import subprocess
--    # Change permissions back the way they were, they probably had a reason...
--    workdir = d.getVar('WORKDIR')
--    subprocess.call('chmod 0511 %s/install/cups/var/run/cups/certs' % workdir, shell=True)
--}
--
- PACKAGES =+ "${PN}-lib ${PN}-libimage"
- 
- RDEPENDS_${PN} += "${@bb.utils.contains('DISTRO_FEATURES', 'sysvinit', 'procps', '', d)}"
--- 
-2.11.0
+
+Cheers,
+Andre'
 
 
