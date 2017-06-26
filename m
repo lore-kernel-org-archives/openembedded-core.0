@@ -1,55 +1,43 @@
-Return-Path: <maxime.roussinbelanger@gmail.com>
-Received: from mail-io0-f196.google.com (mail-io0-f196.google.com
-	[209.85.223.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 495836FF56
+Return-Path: <hi@andrew.im>
+Received: from mail-qk0-f171.google.com (mail-qk0-f171.google.com
+	[209.85.220.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 6719177E89
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Jun 2017 21:51:35 +0000 (UTC)
-Received: by mail-io0-f196.google.com with SMTP id j200so1220383ioe.0
+	Mon, 26 Jun 2017 22:03:32 +0000 (UTC)
+Received: by mail-qk0-f171.google.com with SMTP id r62so12386300qkf.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Jun 2017 14:51:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=date:from:to:subject:message-id:references:mime-version
-	:content-disposition:content-transfer-encoding:in-reply-to
-	:user-agent; bh=EnUPzbC+tgZhXOyhVnVEOfDRZkUiwyxjPzKYwdC62qE=;
-	b=D5S4hoM7OGeg9umPeiTLCftcEz/Fy+unXUIbsbkd6gIruxdV7Qv82N3Nudm6ATwQpt
-	n8HFbTxFihDLvMcYyGBiCdplKHuRncaakz6iTdlEWoV8y/xdHP8iVhJ4DzGjHTc3GVIS
-	/caOkxwzHaV2GtUonu8sAdp3+8NXVf//w0gPxeIwXxzpAkqTVrKAIXOeWviLZU2GBQnI
-	2G4SF6dV6V99x6EEM0F8IqqPZQEjpvvyyjj+d/Goh09P1O21Vo/tGUJ+yGkaSc7nCJfn
-	baCBjRfZeuHoJlpk4TMfmiDdANwgyTU7JNJUz1Io0eddnPGtt0POECChIeb+PyGi80XF
-	OI4g==
+	Mon, 26 Jun 2017 15:03:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=andrew-im.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:from:date:message-id:subject:to;
+	bh=ib3hWRufS7WrqtIe+5DvlrMk89Q4/Lbj6OBVkipDud4=;
+	b=XoLSu+jgCNHT0wqc/lrfPXAecCsu9wZrKKnhQXuOfH6znLCz4VWc/E1E1Lj5PvZgZK
+	fWbBevTyGU3YMBMuWfsc2r2jd6Pdx2tzVzBVayKx7Zxgl9x+zuV+ZDJedRq1By9Gdnlx
+	evRr2ovSZPQzzCM+NnEzepZn71PFGpKlNAKf+GZKvrWa/qma+xMYqXsrnFncmJBWWRA0
+	IcpQQGBXb3reeNJzi+wHu0RCmtzwpGJRbm2qxWeGc8+pKHEM5OErPhX9BxhRBxZA2yai
+	pAEvr4qFAqslQUp33ekPQRxQM8Gz2pAZmXfy+IhmVDWWOGrw5wrqX27sDgXUn6b6oalI
+	uNzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:from:to:subject:message-id:references
-	:mime-version:content-disposition:content-transfer-encoding
-	:in-reply-to:user-agent;
-	bh=EnUPzbC+tgZhXOyhVnVEOfDRZkUiwyxjPzKYwdC62qE=;
-	b=bzar+GZyC5wxEmM0SOd61Vj+sE9JuB6+KigTQHPhDbSdAhsJdOIkasiBDo8F+feS+X
-	mpXrAnPlMqzQrfS5kYB7mYH3/36aQJ1wSRjiCMxfGOTyaVZfB292FG8FGWWvW0poLwTQ
-	DzcWaJHeWXkctdgnbmllG2maSxElyfuFtt8cL6kEM3LNyNjVtCaLcmA00FsovIzkQbZS
-	jT9iPfNxXycv0/V08u1mg1a0WujRgUUmHLtIQX9HVFpi6YIYrMmk2zZ8eGh/FORG1Rju
-	eZQlAsJBVUwK9SK+a9+yb64nW7QPNmIDtAicau7Py+SM4aL7BJgfmNj6dqOkyppVEkKB
-	/Y7Q==
-X-Gm-Message-State: AKS2vOxotepEe/OKLdQwGCADZoBrcZ9rw2IGtV9kaVbn0lfPMEMVIalB
-	ltB12p5rGjp1eg==
-X-Received: by 10.107.52.198 with SMTP id b189mr3288243ioa.65.1498513896559;
-	Mon, 26 Jun 2017 14:51:36 -0700 (PDT)
-Received: from mbedesk.sonatest.net
-	(modemcable066.15-37-24.static.videotron.ca. [24.37.15.66])
-	by smtp.gmail.com with ESMTPSA id
-	c204sm659491ioc.51.2017.06.26.14.51.35
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 26 Jun 2017 14:51:36 -0700 (PDT)
-Date: Mon, 26 Jun 2017 17:51:33 -0400
-From: Maxime Roussin-Belanger <maxime.roussinbelanger@gmail.com>
-To: Otavio Salvador <otavio.salvador@ossystems.com.br>,
-	openembedded-core@lists.openembedded.org
-Message-ID: <20170626215132.GA11747@mbedesk.sonatest.net>
-References: <1498502034-13181-1-git-send-email-maxime.roussinbelanger@gmail.com>
-	<CAP9ODKp+-fKQSM97AcqDe5Tm9r256LFg_fgDdiuzCFnk5TB_Xw@mail.gmail.com>
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+	bh=ib3hWRufS7WrqtIe+5DvlrMk89Q4/Lbj6OBVkipDud4=;
+	b=jLBjGlwEq28jSTgz1YzRMPz6BRyoqN3jZoQlzvpI73TEuo7I4e4rsyr40p4PrECoUN
+	cm78YwxvHH5GgLFsnmLadFLTTDuBfMuMp+td7mzusSfRzAnYesvZcoAu92LNOBVVxk6H
+	YNpMsIbvZvq7hDgaMz2c4kygTq2YszDo3VvQ67tuAmCoxT+kzu5Oi/xJLhdmoFxpSODN
+	sVpx4KvTlfcAw++TFkOQwcclFoaAAwax0vviCyI+Qh7SQ5KFAnkCHDl9o88ZazYPc9FZ
+	2QYi2/al4bvIem7YJzPaFAPWviQLG+S66wKlXGOqBYzZTsCZF9n7wgLzsoLIi18RPz+4
+	UEtg==
+X-Gm-Message-State: AKS2vOy5M6y4785H/1PC0VC8im/tptxGyt26+GECPF2l7/NqxNZZrkvj
+	wKSnGKTwYsDEbdax4ocn6L5KcQe1kgmWgYxr4Q==
+X-Received: by 10.55.198.66 with SMTP id b63mr2846436qkj.224.1498514613671;
+	Mon, 26 Jun 2017 15:03:33 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAP9ODKp+-fKQSM97AcqDe5Tm9r256LFg_fgDdiuzCFnk5TB_Xw@mail.gmail.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Subject: Re: [PATCH] cmake: Use find_program if find_host_program is not available
+Received: by 10.140.108.201 with HTTP; Mon, 26 Jun 2017 15:03:33 -0700 (PDT)
+From: Andrew Sampson <hi@andrew.im>
+Date: Mon, 26 Jun 2017 18:03:33 -0400
+Message-ID: <CAKDhf7WqrrodexvZKQmyGJ2Zr2j2-jRKJfnDnMQOtMv6UJN-=A@mail.gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: Package Manager Conflicts
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,43 +50,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 26 Jun 2017 21:51:36 -0000
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 26 Jun 2017 22:03:33 -0000
+Content-Type: multipart/alternative; boundary="001a11499c043d28730552e41f16"
 
-On Mon, Jun 26, 2017 at 04:41:34PM -0300, Otavio Salvador wrote:
-> On Mon, Jun 26, 2017 at 3:33 PM, Maxime Roussin-Bélanger
-> <maxime.roussinbelanger@gmail.com> wrote:
-> > CMake does not define the `find_host_program` command we've
-> > been using in the cross-compiling code path.  It was
-> > provided by a widely used Android toolchain file.  For
-> > compatibility, continue to use `find_host_program` if
-> > available, but otherwise use just `find_program`.
-> >
-> > Signed-off-by: Maxime Roussin-Bélanger <maxime.roussinbelanger@gmail.com>
-> 
-> It sounds fine to me; the backward compatibility is maintained and it
-> fixes a real use-case so I see no reason to not apply EXCEPT:
-> 
-> - lack of Upstream-Status field
-> - lack of upstream bug about the issue, ideally the proposed patch
-> should be send to upstream so we can drop it in next releases
-> 
+--001a11499c043d28730552e41f16
+Content-Type: text/plain; charset="UTF-8"
 
-I just got r/w access to the poky-contrib repository. Do I have to create
-a pull-request/send-pull-request to get an upstream-status field? 
+I'm attempting to setup a package feed for a board which I don't have the
+ability to flash nor do I have access to the original image that is on it.
 
-Can we ignore this email and just use the pull-request script instead?
+The image on the board comes with Smart installed.
 
-If so, do I have to resend the same patch (V2 ?) to the same recipients?
-
-If not, how do I get an upstream-status? I just pushed my branch to contrib
-repository (mroussin/fix_cmake_find_cuda_not_android), does that mean pending?
+I build an image using the information in this guide:
+https://www.openembedded.org/wiki/OE-Core_Standalone_Setup
 
 
-> -- 
-> Otavio Salvador                             O.S. Systems
-> http://www.ossystems.com.br        http://code.ossystems.com.br
-> Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+and add my dependencies before doing: bitbake core-image-minimal and
+bitbake package-feed
 
+However when I attempt to install a package via smart I get this error
+
+Committing transaction...
+error: update-alternatives-opkg-0.3.4+git0+1a708fd73d-r0 conflicts with
+update-alternatives-cworth
+
+I can't find any information referencing this issue, is there a way I can
+completely strip opkg from the oe-core layer or a solution to this problem?
+
+--001a11499c043d28730552e41f16
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">I&#39;m attempting to setup a package feed for a board whi=
+ch I don&#39;t have the ability to flash nor do I have access to the origin=
+al image that is on it.=C2=A0<div><br></div><div>The image on the board com=
+es with Smart installed.</div><div><br></div><div>I build an image using th=
+e information in this guide:=C2=A0<a href=3D"https://www.openembedded.org/w=
+iki/OE-Core_Standalone_Setup">https://www.openembedded.org/wiki/OE-Core_Sta=
+ndalone_Setup</a></div><div><br></div><div><br></div><div>and add my depend=
+encies before doing:=C2=A0bitbake core-image-minimal and bitbake package-fe=
+ed</div><div><br></div><div>However when I attempt to install a package via=
+ smart I get this error=C2=A0</div><div><span style=3D"color:rgb(37,37,37);=
+font-family:monospace,Courier;font-size:14px"><br></span></div><div><span s=
+tyle=3D"color:rgb(37,37,37);font-family:monospace,Courier;font-size:14px">C=
+ommitting transaction...</span><br></div><div><div><font color=3D"#252525" =
+face=3D"monospace, Courier"><span style=3D"font-size:14px">error: update-al=
+ternatives-opkg-0.3.4+git0+1a708fd73d-r0 conflicts with update-alternatives=
+-cworth</span></font></div></div><div><font color=3D"#252525" face=3D"monos=
+pace, Courier"><span style=3D"font-size:14px"><br></span></font></div><div>=
+<font color=3D"#252525" face=3D"monospace, Courier"><span style=3D"font-siz=
+e:14px">I can&#39;t find any information referencing this issue, is there a=
+ way I can completely strip opkg from the oe-core layer or a solution to th=
+is problem?=C2=A0</span></font></div></div>
+
+--001a11499c043d28730552e41f16--
