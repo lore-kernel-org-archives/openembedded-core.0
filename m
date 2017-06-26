@@ -1,30 +1,55 @@
-Return-Path: <Randy.MacLeod@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 4984177D4C
+Return-Path: <maxime.roussinbelanger@gmail.com>
+Received: from mail-io0-f196.google.com (mail-io0-f196.google.com
+	[209.85.223.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 495836FF56
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Jun 2017 21:21:56 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v5QLLuUk005059
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 26 Jun 2017 14:21:56 -0700 (PDT)
-Received: from [172.25.44.7] (172.25.44.7) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
-	Mon, 26 Jun 2017 14:21:56 -0700
-From: Randy MacLeod <randy.macleod@windriver.com>
-To: Khem Raj <raj.khem@gmail.com>, <openembedded-core@lists.openembedded.org>
-References: <1498097697-12564-1-git-send-email-Randy.MacLeod@windriver.com>
-	<d194290a-fad9-3c63-b3a4-379b50074fd5@windriver.com>
-	<CAMKF1sqNKaRB0Dagz8aKG5HR6QPHcw6XZMGcMrBnFogP3fbhgw@mail.gmail.com>
-	<393805e4-6d27-42c4-41c4-253508e8527b@windriver.com>
-Message-ID: <24dd3ea6-f685-8692-f31d-2df792bfcb57@windriver.com>
-Date: Mon, 26 Jun 2017 17:21:54 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.1.1
+	Mon, 26 Jun 2017 21:51:35 +0000 (UTC)
+Received: by mail-io0-f196.google.com with SMTP id j200so1220383ioe.0
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 26 Jun 2017 14:51:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=date:from:to:subject:message-id:references:mime-version
+	:content-disposition:content-transfer-encoding:in-reply-to
+	:user-agent; bh=EnUPzbC+tgZhXOyhVnVEOfDRZkUiwyxjPzKYwdC62qE=;
+	b=D5S4hoM7OGeg9umPeiTLCftcEz/Fy+unXUIbsbkd6gIruxdV7Qv82N3Nudm6ATwQpt
+	n8HFbTxFihDLvMcYyGBiCdplKHuRncaakz6iTdlEWoV8y/xdHP8iVhJ4DzGjHTc3GVIS
+	/caOkxwzHaV2GtUonu8sAdp3+8NXVf//w0gPxeIwXxzpAkqTVrKAIXOeWviLZU2GBQnI
+	2G4SF6dV6V99x6EEM0F8IqqPZQEjpvvyyjj+d/Goh09P1O21Vo/tGUJ+yGkaSc7nCJfn
+	baCBjRfZeuHoJlpk4TMfmiDdANwgyTU7JNJUz1Io0eddnPGtt0POECChIeb+PyGi80XF
+	OI4g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:date:from:to:subject:message-id:references
+	:mime-version:content-disposition:content-transfer-encoding
+	:in-reply-to:user-agent;
+	bh=EnUPzbC+tgZhXOyhVnVEOfDRZkUiwyxjPzKYwdC62qE=;
+	b=bzar+GZyC5wxEmM0SOd61Vj+sE9JuB6+KigTQHPhDbSdAhsJdOIkasiBDo8F+feS+X
+	mpXrAnPlMqzQrfS5kYB7mYH3/36aQJ1wSRjiCMxfGOTyaVZfB292FG8FGWWvW0poLwTQ
+	DzcWaJHeWXkctdgnbmllG2maSxElyfuFtt8cL6kEM3LNyNjVtCaLcmA00FsovIzkQbZS
+	jT9iPfNxXycv0/V08u1mg1a0WujRgUUmHLtIQX9HVFpi6YIYrMmk2zZ8eGh/FORG1Rju
+	eZQlAsJBVUwK9SK+a9+yb64nW7QPNmIDtAicau7Py+SM4aL7BJgfmNj6dqOkyppVEkKB
+	/Y7Q==
+X-Gm-Message-State: AKS2vOxotepEe/OKLdQwGCADZoBrcZ9rw2IGtV9kaVbn0lfPMEMVIalB
+	ltB12p5rGjp1eg==
+X-Received: by 10.107.52.198 with SMTP id b189mr3288243ioa.65.1498513896559;
+	Mon, 26 Jun 2017 14:51:36 -0700 (PDT)
+Received: from mbedesk.sonatest.net
+	(modemcable066.15-37-24.static.videotron.ca. [24.37.15.66])
+	by smtp.gmail.com with ESMTPSA id
+	c204sm659491ioc.51.2017.06.26.14.51.35
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 26 Jun 2017 14:51:36 -0700 (PDT)
+Date: Mon, 26 Jun 2017 17:51:33 -0400
+From: Maxime Roussin-Belanger <maxime.roussinbelanger@gmail.com>
+To: Otavio Salvador <otavio.salvador@ossystems.com.br>,
+	openembedded-core@lists.openembedded.org
+Message-ID: <20170626215132.GA11747@mbedesk.sonatest.net>
+References: <1498502034-13181-1-git-send-email-maxime.roussinbelanger@gmail.com>
+	<CAP9ODKp+-fKQSM97AcqDe5Tm9r256LFg_fgDdiuzCFnk5TB_Xw@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <393805e4-6d27-42c4-41c4-253508e8527b@windriver.com>
-X-Originating-IP: [172.25.44.7]
-Subject: Re: [PATCH v2] systemd: work-around ppc gold linker error
+In-Reply-To: <CAP9ODKp+-fKQSM97AcqDe5Tm9r256LFg_fgDdiuzCFnk5TB_Xw@mail.gmail.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Subject: Re: [PATCH] cmake: Use find_program if find_host_program is not available
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,30 +62,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 26 Jun 2017 21:21:58 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 26 Jun 2017 21:51:36 -0000
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-On 2017-06-22 08:30 PM, Randy MacLeod wrote:
-> On 2017-06-22 06:22 PM, Khem Raj wrote:
->> What's the link to upstream bug in linker
+On Mon, Jun 26, 2017 at 04:41:34PM -0300, Otavio Salvador wrote:
+> On Mon, Jun 26, 2017 at 3:33 PM, Maxime Roussin-Bélanger
+> <maxime.roussinbelanger@gmail.com> wrote:
+> > CMake does not define the `find_host_program` command we've
+> > been using in the cross-compiling code path.  It was
+> > provided by a widely used Android toolchain file.  For
+> > compatibility, continue to use `find_host_program` if
+> > available, but otherwise use just `find_program`.
+> >
+> > Signed-off-by: Maxime Roussin-Bélanger <maxime.roussinbelanger@gmail.com>
 > 
-> Do you mean: Have I created an upstream bug?
+> It sounds fine to me; the backward compatibility is maintained and it
+> fixes a real use-case so I see no reason to not apply EXCEPT:
 > 
-> No, not yet but I'm just reading their email lists and
-> trying to understand where and how to report the bug.
+> - lack of Upstream-Status field
+> - lack of upstream bug about the issue, ideally the proposed patch
+> should be send to upstream so we can drop it in next releases
+> 
 
-Done:
-    https://sourceware.org/bugzilla/show_bug.cgi?id=21678
+I just got r/w access to the poky-contrib repository. Do I have to create
+a pull-request/send-pull-request to get an upstream-status field? 
 
-I haven't made any progress on testing master.
-I should have time this week.
+Can we ignore this email and just use the pull-request script instead?
 
-Oh, webkitgtk_2.16.1 also fails for qemuppc with a similar error.
+If so, do I have to resend the same patch (V2 ?) to the same recipients?
 
--- 
-# Randy MacLeod. SMTS, Linux, Wind River
-Direct: 613.963.1350 | 350 Terry Fox Drive, Suite 200, Ottawa, ON, 
-Canada, K2K 2W5
+If not, how do I get an upstream-status? I just pushed my branch to contrib
+repository (mroussin/fix_cmake_find_cuda_not_android), does that mean pending?
+
+
+> -- 
+> Otavio Salvador                             O.S. Systems
+> http://www.ossystems.com.br        http://code.ossystems.com.br
+> Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
