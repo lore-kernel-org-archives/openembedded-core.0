@@ -1,51 +1,55 @@
-Return-Path: <anders@chargestorm.se>
-Received: from mail-lf0-f48.google.com (mail-lf0-f48.google.com
-	[209.85.215.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 7A1AC77BBE
+Return-Path: <prvs=343312a63=Mikko.Rapeli@bmw.de>
+Received: from esa2.bmw.c3s2.iphmx.com (esa2.bmw.c3s2.iphmx.com
+	[68.232.133.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 5EAD077BBF
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Jun 2017 06:53:00 +0000 (UTC)
-Received: by mail-lf0-f48.google.com with SMTP id l13so55210938lfl.1
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 25 Jun 2017 23:53:01 -0700 (PDT)
+	Mon, 26 Jun 2017 07:02:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=chargestorm-se.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=YAHNuOTgsR1If3webNe57fGnCzWQhQfGPcnmp/mrViY=;
-	b=0v68mT7qXUzzNGumOWBilOmfzyA6Ymgcet73yEGTgQykFpk0QhQsQurYaCOpl3AYFa
-	z1DOHY7zk2w86rotJqSpWN3SBeOQMCPJBuUsCcQV/Vu4gT84NWsEdVi6RDZIcZdSsnFn
-	5Ag1VXHVz14rTJnt5pOnPPladtvSGouFSreoMl+EEovvk0AAoPjnnUUQwuaizR9mD0n+
-	dj5e+fWq/SZJzHWOxTk5LeurK6PF7GPK6bB905VkPWR/fUi4KhaHBTCmRXDEBuVXttwT
-	FZxTTN8H6fxCdCVAQacXKV6Yo8hhIZlRHksIDlt2HfGlx5S/KYiDD+1Bfn5IWgKNljYe
-	YHGw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=YAHNuOTgsR1If3webNe57fGnCzWQhQfGPcnmp/mrViY=;
-	b=VMBibsf5gBbECTKW6OYiDPAFqk9BTJ4+zawjZMJtyAGIk4byWyW2asdFC5R1dYowYK
-	HFI+S/zxKvaUXjl104spVQ2Z/56k237B+zxUG4VH+cHUrAQGMIlR8hy9x2a+Mf+tHPoZ
-	PXwRLfcgYncrvAlWljOLJfbBKB7Dsd/tOvjT7WRzPA8qvQIEVoxVjBTAmW6smqUgjZnU
-	XIyWl7yCPwenSMVy6AkjfFrlC6ukitX1URv/odi7Tt7D9g7o+f0KEgLty77nytLHYksY
-	B8egkmZRFBgG3r4VjldQDjPuCA8v+zCdIyTni3kHlUp0RymAymKdL4k1TZaBdDmQfs/k
-	UAhQ==
-X-Gm-Message-State: AKS2vOyoa2wLN5g3ORPtaO1nWVwHneVa0rzX3+EjGoKzMGyYb4HFuQD9
-	gvuAcZfL9vMs/mwQWbHmWQ==
-X-Received: by 10.25.99.21 with SMTP id x21mr6931050lfb.61.1498459980934;
-	Sun, 25 Jun 2017 23:53:00 -0700 (PDT)
-Received: from localhost (194-237-220-218.customer.telia.com.
-	[194.237.220.218]) by smtp.gmail.com with ESMTPSA id
-	136sm1910015ljf.29.2017.06.25.23.53.00
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Sun, 25 Jun 2017 23:53:00 -0700 (PDT)
-From: Anders Darander <anders@chargestorm.se>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 26 Jun 2017 08:52:54 +0200
-Message-Id: <25c15eb7fc3af2ec38a63ed73ae710e1e2172dad.1498459830.git.anders@chargestorm.se>
-X-Mailer: git-send-email 2.13.1
-In-Reply-To: <cover.1498459830.git.anders@chargestorm.se>
-References: <cover.1498459830.git.anders@chargestorm.se>
-Subject: [pyro][PATCH 1/1] package_manager: flush installed_pkgs file before oe-pkgdata-util uses it
+	d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
+	t=1498460567; x=1529996567;
+	h=from:to:cc:subject:date:message-id:references:
+	in-reply-to:content-id:content-transfer-encoding: mime-version;
+	bh=8Rv19qrrqEjvIEtTKI7DzH38iuMyqWcPrAntnYAZ9s8=;
+	b=Libqh1IJfRdYWlI/VE3KabPYWPuHf2/U07FSRaKfVNNR7e7RdV8Ud5Aj
+	DQJ8Gzmc2aN0Xh5cOGzLPEWqWmAfGWvom2PSLfcfS/5p6AlKwtULIyq7V
+	Ql12ARXkQ1GVkji5nbMILDBTzeVEg0YHL/AQ6mllBBZAX19tvINJm2BYm 0=;
+Received: from esagw2.bmwgroup.com (HELO esagw2.muc) ([160.46.252.38]) by
+	esa2.bmw.c3s2.iphmx.com with ESMTP/TLS; 26 Jun 2017 09:02:37 +0200
+Received: from esabb5.muc ([160.50.100.47])  by esagw2.muc with ESMTP/TLS;
+	26 Jun 2017 09:02:37 +0200
+Received: from smucm10k.bmwgroup.net (HELO smucm10k.europe.bmw.corp)
+	([160.48.96.47])
+	by esabb5.muc with ESMTP/TLS; 26 Jun 2017 09:02:37 +0200
+Received: from smucm10k.europe.bmw.corp (160.48.96.47) by
+	smucm10k.europe.bmw.corp
+	(160.48.96.47) with Microsoft SMTP Server (TLS;
+	Mon, 26 Jun 2017 09:02:36 +0200
+Received: from smucm10k.europe.bmw.corp ([160.48.96.47]) by
+	smucm10k.europe.bmw.corp ([160.48.96.47]) with mapi id 15.00.1263.000;
+	Mon, 26 Jun 2017 09:02:36 +0200
+From: <Mikko.Rapeli@bmw.de>
+To: <raj.khem@gmail.com>
+Thread-Topic: [OE-core] [PATCH] linux-libc-headers: fix duplicate IFF_LOWER_UP
+	DORMANT ECHO on musl
+Thread-Index: AQHS66a59H4ggohTFUaw0slfF1ObNaIyIx8AgAAv3wCAAAsbgIAAl7uAgAOluAA=
+Date: Mon, 26 Jun 2017 07:02:36 +0000
+Message-ID: <20170626070236.5p5rr7r7nqhes6nr@hiutale>
+References: <20170622151404.27496-1-git@andred.net>
+	<CAMKF1spVoW38edBHwvV8vGg9C00K1tQvqRC1LR2NXofZm5DkEA@mail.gmail.com>
+	<1498214792.25895.23.camel@andred.net>
+	<CAMKF1sowVfO=avnnSJtDhYi=nda0hU_htvcTcmtdWydCxzOqvg@mail.gmail.com>
+	<20170623141737.bksn4w2qbd7fyhzs@hiutale>
+	<CAMKF1spOU3HZ3JuG58CXzGrKgKmw79RcW+CzesouvQdBV+9Rjw@mail.gmail.com>
+In-Reply-To: <CAMKF1spOU3HZ3JuG58CXzGrKgKmw79RcW+CzesouvQdBV+9Rjw@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [192.168.44.101]
+MIME-Version: 1.0
+Cc: mikko.rapeli@iki.fi, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] linux-libc-headers: fix duplicate IFF_LOWER_UP DORMANT ECHO on musl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,49 +62,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 26 Jun 2017 06:53:00 -0000
+X-List-Received-Date: Mon, 26 Jun 2017 07:02:46 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-ID: <961EAD17699D1447B9C53431DDDDD126@bmwmail.corp>
+Content-Transfer-Encoding: quoted-printable
 
-From: Martin Jansa <martin.jansa@gmail.com>
+On Fri, Jun 23, 2017 at 04:20:41PM -0700, Khem Raj wrote:
+> On Fri, Jun 23, 2017 at 7:17 AM,  <Mikko.Rapeli@bmw.de> wrote:
+> > Hi,
+> >
+> > I'm chipping in since I've been messing with these things a bit in upst=
+ream
+> > Linux kernel.
+> >
+> > On Fri, Jun 23, 2017 at 06:37:52AM -0700, Khem Raj wrote:
+> >> On Fri, Jun 23, 2017 at 3:46 AM, Andr=E9 Draszik <git@andred.net> wrot=
+e:
+> >> > connman is not doing anything wrong here.
+> >> >
+> >>
+> >> yes I am aware of this
+> >>
+> >> > The kernel is redefining IFF_LOWER_UP, because it thinks the libc do=
+esn't
+> >> > define it yet (and glibc doesn't).
+> >> >
+> >> > libc-compat.h is the way to solve these kind of issues. There also i=
+s https:
+> >> > //lkml.org/lkml/2017/3/12/238 which is very similar. I'll pick that =
+instead.
+> >> >
+> >> see the comment https://lkml.org/lkml/2017/3/16/121
+> >> that worries me for this patch
+> >
+> > I'm aware of those review comments but I have not seen any patches post=
+ed which
+> > fix the problem in some other way. Thus I would propose to apply these =
+patches
+> > as a workaround until upstream fixes the issues.
+> >
+> > These header files do not change that often either.
+>=20
+> problem is you become incompatible ABI forever that worries me.
+> However if bruce is fine to carry this patch as part of linux-yocto
+> I might relent. It still will be hassle where folks will have to apply
+> this patch to there kernels if they are building musl based systems.
 
-* since this commit:
-  commit f5a1013ffa9815f22e13989e2bcb83f966e7ce2c
-  Author: Ross Burton <ross.burton@intel.com>
-  Date:   Tue Apr 18 16:19:12 2017 +0100
+API or ABI? But agreed this is a problem.
 
-    package_manager: don't race on a file when installing complementary
-    packages
+> >
+> >> I am not questioning the correctness of patch too. But
+> >> it would be better to get this patch accepted into kernel
+> >> before applying to OE since these are kind of patches which
+> >> you can get stuck with for life if upstream is not accepting it.
+> >
+> > Upstream-Status: Denied
+> >
+> > would be a correct marker for now I guess.
+>=20
+> I would rather see some progress made to get it resolved :)
+> we need to actually remove glibc'ness completely from kernel.
+> and this will fix itself.
 
-  the file isn't closed before oe-pkgdata-util uses it and this
-  temporary file might look empty to oe-pkgdata-util, because it
-  wasn't flushed yet. Which resulted in almost empty debugfs tarballs
-  and no locale packages in regular rootfs.
-* without this change:
-  124K May 30 07:41 core-image-full-cmdline-raspberrypi3-64-20170530054003-dbg.rootfs.tar.gz
-* with this change:
-  173M May 30 07:29 core-image-full-cmdline-raspberrypi3-64-20170530052715-dbg.rootfs.tar.gz
+Yes. With the glibc'ness in the kernel headers I was just following existin=
+g
+examples and adding some more. Some of those changes got accepted and only
+later came the resistance to remove glibc'ness completely. No-one else
+has proposed patches. Maybe I should invent some hobby project time again
+for this...
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-Signed-off-by: Ross Burton <ross.burton@intel.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 877d38db08aa7060d16405443cf70539c559fe82)
-Signed-off-by: Anders Darander <anders@chargestorm.se>
----
- meta/lib/oe/package_manager.py | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
-index f1b65bdbbc..2795dd3823 100644
---- a/meta/lib/oe/package_manager.py
-+++ b/meta/lib/oe/package_manager.py
-@@ -399,6 +399,7 @@ class PackageManager(object, metaclass=ABCMeta):
-             pkgs = self.list_installed()
-             output = oe.utils.format_pkg_list(pkgs, "arch")
-             installed_pkgs.write(output)
-+            installed_pkgs.flush()
- 
-             cmd = [bb.utils.which(os.getenv('PATH'), "oe-pkgdata-util"),
-                    "-p", self.d.getVar('PKGDATA_DIR'), "glob", installed_pkgs.name,
--- 
-2.13.1
-
+-Mikko=
 
