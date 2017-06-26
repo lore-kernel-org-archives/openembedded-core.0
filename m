@@ -1,54 +1,45 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-wr0-f193.google.com (mail-wr0-f193.google.com
-	[209.85.128.193])
-	by mail.openembedded.org (Postfix) with ESMTP id DB55A7821A
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pg0-f68.google.com (mail-pg0-f68.google.com [74.125.83.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 89DA17782F
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 24 Jun 2017 00:54:01 +0000 (UTC)
-Received: by mail-wr0-f193.google.com with SMTP id x23so16273090wrb.0
+	Mon, 26 Jun 2017 05:36:28 +0000 (UTC)
+Received: by mail-pg0-f68.google.com with SMTP id f127so14019512pgc.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Jun 2017 17:54:03 -0700 (PDT)
+	Sun, 25 Jun 2017 22:36:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=4xpdCWLTxvpxkxpfWE0mx/SFnbA5KBPKEOZGDIslLM0=;
-	b=liI7aI49+o/J8A6XOPRJ3OQFUGqels8Sn49rcVGpez83LUcOxW85YI4vSnoYYx5sII
-	/OqfI7bOZNEPWg374Kgk7Q6WScUtOzPzdgExFREeSasK/GRRgMF7GNWrsT16tpwyVTwK
-	Xg89g9Hb/dPNLt66ud7LpVTRS/9b2MsSJY7xqjjMGm32BQj0KAlGqOrHAGMLNDTjiWrC
-	Qq4NieP9Vt3d3Ri5YuQ538JYZKyKxI4YsY9mcAhKBW4XIlC3PUBfJRhjQbvZFmP6pvu1
-	PqyJ1bWc+a8zJ6FwqBq42AeE4QVDuK+kX0D6Nhya3Cfayi6mQf2h3fGrSuE5RKPxg5iz
-	aNNg==
+	h=from:to:cc:subject:date:message-id;
+	bh=rZSpOlIvc7mMXgqPnkMFpRsX4H/kPqeLzidJyU0+v+Q=;
+	b=OyPGLeXreQTNa38o2PFH+gLH7FGfh/RSVSLA6Vy/oIUljhbctWyb74IOevIIxtNX10
+	EjKt5GKLWR+r6BDi80KEfiYitH2JLcVFviJYA+ol95HgVZleTF+Rpw/155h839nqCSBJ
+	m77C82tXK4TtbdjbcgIeHe7twGAkH2XLTcArKe27hMQbtKlkS6qInTbQ7zEd9TuEPpTf
+	3vpQCDcnH3xWWjMdv2m2eO4Tj1RapNuX08yEg/iUlgU+gCT4yPRIGTrYcec24yf5P6BS
+	W5dgRWDD5WN5jtk7XYGpnt/9/QoUMh7m7fpmaP/20LiS4YXGhx0SR+zHy+B5vFpuVcg3
+	zY3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=4xpdCWLTxvpxkxpfWE0mx/SFnbA5KBPKEOZGDIslLM0=;
-	b=C2AcMjpZgzUTvtlvZNLth4Zq81QsFLw35kpsgwf8NYnZpNFD89FYgUpMrxasgUmwxR
-	jc+Yn4TdMv+WaY9A2wAhdOcS5a8CZGhonJ1SSBPwvCxxZQUIU1m9yO2aTuPdIGqPC7u1
-	QGtmDKip2/KlUNhNIKEWPH1M0ia2o3fIaRLTprp+2u3+an478UCPtI3fWF9DV47eJMFc
-	X7Z0e3NibiTLLB0D2YP44BbX4uof1TBCsQRPxIs00bG5yGEhHgWWSWpLC54hFsj8ho6J
-	vIa/B/d8+DwsXc4hD8io0/7f9mM5AJLiUZrEq9l0SxH3ycXdMNS8TElS0k+qt2X0zjdt
-	IGBA==
-X-Gm-Message-State: AKS2vOxAQS5CvD2S7JUeiZ0mj3XpKBUL9srCBiAf4tFPO5vydQv5oCSL
-	0cG4+NnK7peODgAK1BPCOoTLVoJplQ==
-X-Received: by 10.28.153.213 with SMTP id b204mr6738217wme.96.1498265642255;
-	Fri, 23 Jun 2017 17:54:02 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.223.176.170 with HTTP; Fri, 23 Jun 2017 17:54:01 -0700 (PDT)
-In-Reply-To: <20170623234109.GF28053@denix.org>
-References: <20170622151404.27496-1-git@andred.net>
-	<CAMKF1spVoW38edBHwvV8vGg9C00K1tQvqRC1LR2NXofZm5DkEA@mail.gmail.com>
-	<1498214792.25895.23.camel@andred.net>
-	<CAMKF1sowVfO=avnnSJtDhYi=nda0hU_htvcTcmtdWydCxzOqvg@mail.gmail.com>
-	<20170623141737.bksn4w2qbd7fyhzs@hiutale>
-	<CAMKF1spOU3HZ3JuG58CXzGrKgKmw79RcW+CzesouvQdBV+9Rjw@mail.gmail.com>
-	<20170623234109.GF28053@denix.org>
-From: Andre McCurdy <armccurdy@gmail.com>
-Date: Fri, 23 Jun 2017 17:54:01 -0700
-Message-ID: <CAJ86T=X3x7-Ndb2jC=U=6hrrrMCjTOEUWtv1G4i78UR25LZCGQ@mail.gmail.com>
-To: Denys Dmytriyenko <denis@denix.org>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] linux-libc-headers: fix duplicate IFF_LOWER_UP DORMANT ECHO on musl
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=rZSpOlIvc7mMXgqPnkMFpRsX4H/kPqeLzidJyU0+v+Q=;
+	b=KVD0+ZQagxuuvVgd5kwjt5CnJV1eE1/NLoMR5fLpSjSKoYcf6VWt06xqmPu+/qHMEx
+	fxzDo8K4Y68XFJRE/Zg4tqASKO17NXWGRwOiY4eyegM1SqwmMreJIhGJ6/fJ13dvXClm
+	Vv5KSD7vEjIWOnVrX6CyqdoI+/CM5Vo3l2m1j/LexNU3+aS3VP2yaIojtw/apulLx5Af
+	VomJbTH8kTFwc4eUDi77rtgyNqsU+q5iU338KRr9TsCqrFi6V1LI+B7GI9NdfB8gyUd1
+	JTWYnKtyAHoF5oWPACimJZYgiwGI9LQxVgt0KwGLm8o4Tb63iLFQAby0SdWmBguhEE+6
+	wNdQ==
+X-Gm-Message-State: AKS2vOxLLydBmiQVff6y/BF9Fe0lXHDh4ErxEhwtPOnbDL/hSVMz2zqr
+	z8bl7IpK9KL0d7pe
+X-Received: by 10.99.8.1 with SMTP id 1mr19648921pgi.15.1498455389401;
+	Sun, 25 Jun 2017 22:36:29 -0700 (PDT)
+Received: from localhost.localdomain ([2601:646:8882:b8c::3df3])
+	by smtp.gmail.com with ESMTPSA id
+	a79sm24095931pfj.5.2017.06.25.22.36.28
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sun, 25 Jun 2017 22:36:28 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sun, 25 Jun 2017 22:36:19 -0700
+Message-Id: <20170626053619.38084-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.13.1
+Subject: [PATCH] iptables: Apply 0001-fix-build-with-musl.patch unconditionally
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,75 +52,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 24 Jun 2017 00:54:04 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 26 Jun 2017 05:36:28 -0000
 
-On Fri, Jun 23, 2017 at 4:41 PM, Denys Dmytriyenko <denis@denix.org> wrote:
-> On Fri, Jun 23, 2017 at 04:20:41PM -0700, Khem Raj wrote:
->> On Fri, Jun 23, 2017 at 7:17 AM,  <Mikko.Rapeli@bmw.de> wrote:
->> > Hi,
->> >
->> > I'm chipping in since I've been messing with these things a bit in ups=
-tream
->> > Linux kernel.
->> >
->> > On Fri, Jun 23, 2017 at 06:37:52AM -0700, Khem Raj wrote:
->> >> On Fri, Jun 23, 2017 at 3:46 AM, Andr=C3=A9 Draszik <git@andred.net> =
-wrote:
->> >> > connman is not doing anything wrong here.
->> >> >
->> >>
->> >> yes I am aware of this
->> >>
->> >> > The kernel is redefining IFF_LOWER_UP, because it thinks the libc d=
-oesn't
->> >> > define it yet (and glibc doesn't).
->> >> >
->> >> > libc-compat.h is the way to solve these kind of issues. There also =
-is https:
->> >> > //lkml.org/lkml/2017/3/12/238 which is very similar. I'll pick that=
- instead.
->> >> >
->> >> see the comment https://lkml.org/lkml/2017/3/16/121
->> >> that worries me for this patch
->> >
->> > I'm aware of those review comments but I have not seen any patches pos=
-ted which
->> > fix the problem in some other way. Thus I would propose to apply these=
- patches
->> > as a workaround until upstream fixes the issues.
->> >
->> > These header files do not change that often either.
->>
->> problem is you become incompatible ABI forever that worries me.
->
-> +1
->
->> However if bruce is fine to carry this patch as part of linux-yocto
->> I might relent. It still will be hassle where folks will have to apply
->> this patch to there kernels if they are building musl based systems.
->
-> Don't forget that not everyone is using linux-yocto kernel!
+This patch is generic enough, That it can be applied universally
+and makes maintainence easier
 
-Neither is linux-libc-headers, so getting these musl patches into the
-linux-yocto kernel isn't going to change much...
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/recipes-extended/iptables/iptables_1.6.1.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
->> >> I am not questioning the correctness of patch too. But
->> >> it would be better to get this patch accepted into kernel
->> >> before applying to OE since these are kind of patches which
->> >> you can get stuck with for life if upstream is not accepting it.
->> >
->> > Upstream-Status: Denied
->> >
->> > would be a correct marker for now I guess.
->>
->> I would rather see some progress made to get it resolved :)
->> we need to actually remove glibc'ness completely from kernel.
->> and this will fix itself.
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+diff --git a/meta/recipes-extended/iptables/iptables_1.6.1.bb b/meta/recipes-extended/iptables/iptables_1.6.1.bb
+index 4019e2a4a4..b37c55a64e 100644
+--- a/meta/recipes-extended/iptables/iptables_1.6.1.bb
++++ b/meta/recipes-extended/iptables/iptables_1.6.1.bb
+@@ -22,8 +22,8 @@ SRC_URI = "http://netfilter.org/projects/iptables/files/iptables-${PV}.tar.bz2 \
+            file://types.h-add-defines-that-are-required-for-if_packet.patch \
+            file://0001-configure-Add-option-to-enable-disable-libnfnetlink.patch \
+            file://0002-configure.ac-only-check-conntrack-when-libnfnetlink-enabled.patch \
+-          "
+-SRC_URI_append_libc-musl = " file://0001-fix-build-with-musl.patch"
++           file://0001-fix-build-with-musl.patch \
++"
+ 
+ SRC_URI[md5sum] = "ab38a33806b6182c6f53d6afb4619add"
+ SRC_URI[sha256sum] = "0fc2d7bd5d7be11311726466789d4c65fb4c8e096c9182b56ce97440864f0cf5"
+-- 
+2.13.1
+
 
