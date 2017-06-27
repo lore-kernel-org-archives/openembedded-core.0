@@ -1,46 +1,46 @@
 Return-Path: <liu.ming50@gmail.com>
 Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 272F177FFE
+	by mail.openembedded.org (Postfix) with ESMTP id 4BC4477FDE
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Jun 2017 10:38:55 +0000 (UTC)
-Received: by mail-wm0-f66.google.com with SMTP id p204so157663wmg.1
+	Tue, 27 Jun 2017 10:39:20 +0000 (UTC)
+Received: by mail-wm0-f66.google.com with SMTP id y5so4968604wmh.3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Jun 2017 03:38:57 -0700 (PDT)
+	Tue, 27 Jun 2017 03:39:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id;
-	bh=CfugW67dmeg7RQpirbK0cqB368PDe6GE8ldAJNSU+s0=;
-	b=b4dd7H22YzrIn2PmtxbOYQ156jysdd0pc2hKJr7qjTCdzVoUr2QopQ3E+lLutEfOaR
-	Dq9nZ+rAawZC4puKP19wQLrHMDh8u+G3KZAvqHFGsXn+kszxYQIz3kYN95nOdcOHHyo1
-	c99FfzS+Zpu1PdhfNhyigkZEeIEfZmJCzf8xOj5jUD7+gZS+N+q87Db+5APBnDByo/db
-	mqq/EZYTeIWEY1ZPbnQyJQSQir5RjaMSuTnZaH+smsYr+pyWGo+890jh3hSEmlA6GuXi
-	8mUIIAcQ4zL4GYtAKNKC3ZPJxfZYLTLMxQldAZgvVCWX8CQHAPhVfra9v3fPzngowdzW
-	F2AA==
+	bh=2pNSfIjNDoMNhe0vy76mb64iy30aA7RZc1nV6KOObdI=;
+	b=Hv+SxDqsTy5PEURxeixsszXaCyvyH5yjamW2Cm8EcC5q5dfIaXRlTHUbFwNYXH9vGd
+	dPqzXdu3YwGhZpPV9I8+M6wqo9w6Oo4xPBTDZc4CVOZcMZ32BJBgh3JNbwmojENgnRVH
+	XjCPRBJhjMRlXdJqTPdyrg6haFrv37ih2KMCyJ3EtnovUlWi6baU+0VrS3bV3cnibzF+
+	PFLwliugKXaPe4GPdzgTHkkTdQDAPMB7fTGKohG5JWPL0Dk0RW8m3lwACmaXYM3wLn/P
+	OrjBRtI9jkCfbfnl4cMzPZ8pYAQC22RLrTcGbDli7ayYC7FmcsGd//TSfxm5uMrlaT7V
+	5UrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=CfugW67dmeg7RQpirbK0cqB368PDe6GE8ldAJNSU+s0=;
-	b=kFv3lY54VSzA+5ykYME/XR3lP8x0CkALBeadiqyJf5Yk0IEagypCBNmki5tfzqUQNf
-	E5I76OAzfuieN9B0nohjOIHCSt7WXsnNpYSCqlUo5Yb1LqTnMX3PhpA5w90ULTi++IJg
-	AxpAIg5w5ZModyNXJvcfYjA+SY/CseL3ND9pz/MB6HMECl/9w8Hj4wfjLkLlbQduEiT1
-	hNSJeBEoxoT1hbKpDOtciQJ5uOhE62Mxrf6xrwYMEAZEIFuxIgSekkregzbMgUzvo4Fe
-	Z02fw2cta3mm5CPEf1CYd080Iq3bhgCJUibMiv3nGXxre8UqRDdl+wjibTmhMi8Mdr/R
-	Pdkg==
-X-Gm-Message-State: AKS2vOy5CgWmLUcprHVUIZ2FroAG11ykiy9Yy+BP0dzIyCOzVqwrjjQK
-	3eEAiPl1JdLar7lR
-X-Received: by 10.80.161.69 with SMTP id 63mr3449091edj.142.1498559936604;
-	Tue, 27 Jun 2017 03:38:56 -0700 (PDT)
+	bh=2pNSfIjNDoMNhe0vy76mb64iy30aA7RZc1nV6KOObdI=;
+	b=Yhol0bXTbuMH09AtBxAe18cGG7UiwYIiUZJnYDhzmLjxiTbeAJKJZYWPN53U1c4kUw
+	qqyWm6GVLP2ditEDVyhhPEySqWYRgN9wQ1kHix/Z8SCu42MD+rxjlnunNNqRSUU/PS2p
+	qYGhQgTUWEFKGWNEaYQEcTTjfF1wWQICExMULjFZHxbMlyDoiTR9M5mV8VTzUgZ1Bj/E
+	LrPlbvdkuIUmAh7W7KMRHj8GneADrkND+9WCleay5cSee1408NcenlS8YG8gnP2Qq1IP
+	y5sFrXoTKgOeErFBbnQdeb7aV9j90oez/4n7eNfZdxiGGUGwnpRvKPZ8n8CG/YgOTRLE
+	n/gg==
+X-Gm-Message-State: AKS2vOysF9UMDn6cphXYJfed72wZgVWG9WfWPv6gg81rQwimxgfeVJoL
+	9VUcNq8hV9p+GE6X
+X-Received: by 10.80.179.209 with SMTP id t17mr3457129edd.62.1498559961325;
+	Tue, 27 Jun 2017 03:39:21 -0700 (PDT)
 Received: from peterliu-Precision-M4800.emea.group.atlascopco.com
-	([106.119.192.84])
-	by smtp.gmail.com with ESMTPSA id 4sm1389818eds.48.2017.06.27.03.38.54
+	([106.119.192.84]) by smtp.gmail.com with ESMTPSA id
+	e22sm1540196edd.26.2017.06.27.03.39.19
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 27 Jun 2017 03:38:56 -0700 (PDT)
+	Tue, 27 Jun 2017 03:39:20 -0700 (PDT)
 From: liu.ming50@gmail.com
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 27 Jun 2017 12:38:49 +0200
-Message-Id: <1498559929-17538-1-git-send-email-liu.ming50@gmail.com>
+Date: Tue, 27 Jun 2017 12:39:14 +0200
+Message-Id: <1498559954-17714-1-git-send-email-liu.ming50@gmail.com>
 X-Mailer: git-send-email 2.7.4
 Cc: Ming Liu <peter.x.liu@external.atlascopco.com>
-Subject: [PATCH] scripts/oe-find-native-sysroot: fix a incomplete regexp
+Subject: [PATCH] scripts/test-reexec: fix several incomplete regexp
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,37 +53,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Jun 2017 10:38:56 -0000
+X-List-Received-Date: Tue, 27 Jun 2017 10:39:20 -0000
 
 From: Ming Liu <peter.x.liu@external.atlascopco.com>
 
-A "=" is missing in the regexp, which leads it match multiple results
-if STAGING_DIR_NATIVE has overrides, for instance:
+Some "=" are missing in the regexp, which leads it match multiple results
+if the variables have overrides, for instance:
 ...
-STAGING_DIR_NATIVE="xxxx"
-STAGING_DIR_NATIVE_qemux86="yyyy"
+SSTATE_DIR="xxxx"
+SSTATE_DIR_qemux86="yyyy"
 ...
 
 it will match both of them without "=".
 
 Signed-off-by: Ming Liu <peter.x.liu@external.atlascopco.com>
 ---
- scripts/oe-find-native-sysroot | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ scripts/test-reexec | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/scripts/oe-find-native-sysroot b/scripts/oe-find-native-sysroot
-index 235a67c..350ea21 100755
---- a/scripts/oe-find-native-sysroot
-+++ b/scripts/oe-find-native-sysroot
-@@ -50,7 +50,7 @@ BITBAKE_E=""
- set_oe_native_sysroot(){
-     echo "Running bitbake -e $1"
-     BITBAKE_E="`bitbake -e $1`"
--    OECORE_NATIVE_SYSROOT=`echo "$BITBAKE_E" | grep ^STAGING_DIR_NATIVE | cut -d '"' -f2`
-+    OECORE_NATIVE_SYSROOT=`echo "$BITBAKE_E" | grep ^STAGING_DIR_NATIVE= | cut -d '"' -f2`
+diff --git a/scripts/test-reexec b/scripts/test-reexec
+index 9eaa96e..30e792c 100755
+--- a/scripts/test-reexec
++++ b/scripts/test-reexec
+@@ -38,9 +38,9 @@ mkdir -p $LOGS
+ function clearsstate {
+ 	target=$1
  
-     if [ "x$OECORE_NATIVE_SYSROOT" = "x" ]; then
-         # This indicates that there was an error running bitbake -e that
+-	sstate_dir=`bitbake $target -e | grep "^SSTATE_DIR" | cut -d "\"" -f 2`
+-	sstate_pkgspec=`bitbake $target -e | grep "^SSTATE_PKGSPEC" | cut -d "\"" -f 2`
+-	sstasks=`bitbake $target -e | grep "^SSTATETASKS" | cut -d "\"" -f 2`
++	sstate_dir=`bitbake $target -e | grep "^SSTATE_DIR=" | cut -d "\"" -f 2`
++	sstate_pkgspec=`bitbake $target -e | grep "^SSTATE_PKGSPEC=" | cut -d "\"" -f 2`
++	sstasks=`bitbake $target -e | grep "^SSTATETASKS=" | cut -d "\"" -f 2`
+ 
+ 	for sstask in $sstasks
+ 	do
 -- 
 2.7.4
 
