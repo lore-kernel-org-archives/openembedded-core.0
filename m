@@ -1,53 +1,21 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-it0-f42.google.com (mail-it0-f42.google.com
-	[209.85.214.42])
-	by mail.openembedded.org (Postfix) with ESMTP id EABC177E8A
+Return-Path: <jose.a.lamego@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id C277B77F69
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Jun 2017 18:43:37 +0000 (UTC)
-Received: by mail-it0-f42.google.com with SMTP id m68so18544466ith.1
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Jun 2017 11:43:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:organization:mime-version:content-transfer-encoding;
-	bh=YycIaWr3tTPdR1jYczl5qws2qwN6L7lRl3w8j8WNVf8=;
-	b=uRXOxPeT/JVgDnbVnALMBN6tgYQDWkrSmUxFRzh6qUwnbSLTuyKlcOV0qvVEhLERtv
-	MCO7zC6vxK07YmuE1mjwN6GT5F+I2fa5FLSj3Jbtr02/pgHvdWdAmwV5TpGXyl0FZaMZ
-	cnWMa7DkBj6yVS73n0civO9EO/bCSthqcptGiuHmbrSdWMnUAEPkjO2/nHmO17pj3PUH
-	LOU/2/TbaI8ZGbzZwGnCkOksjIlOTlY94UxSFBR/CqiXcNqA4Y0gowcrcok+Uu2iFnMk
-	WZEjaYmS3DiYdn6zzfW3/za5ldtmeTvwZL2ke643CyHRT+0Q754P/IxRSIuqX2wiPt+B
-	gCzg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:organization:mime-version:content-transfer-encoding;
-	bh=YycIaWr3tTPdR1jYczl5qws2qwN6L7lRl3w8j8WNVf8=;
-	b=ZmA9HNU8ASkR0uRqs8PLL7NWusd+3DRtqgvmJhmCOp5eyTdUw7sXDgqMSqp1mOTSws
-	ls7KDRNwWNy3xTTGr7gcl1jxb2MgX4/QhAqbeYPagfRX2ST1ntO+8MHFm4b4WSt8sDPT
-	c0xSSkCoarQF6xcFWct7ZQYd6yVK7luisq+Z7m4e/1fSpQ/RWLqFWBEPemEZNaveCPhF
-	tundAGZWVur3EQcnoD1bMFwNzV0oGIlC8ho7wvRrnS+N4U6apFAQx6xMDmKjJbbZrmjH
-	D+Kmz58io7H1q0utdbwefbzVPuKBJFkzn1HTYt+quWcstXe9Qm9OveJDZNMMDQAc3tWW
-	rimA==
-X-Gm-Message-State: AKS2vOxxLDT5WoAM8D2gpAo12FBZaOgJ7AAfFpsksf32mi1ewX/lj0md
-	5r6u4Y6cLHidztl1
-X-Received: by 10.36.1.205 with SMTP id 196mr3887311itk.33.1498589018721;
-	Tue, 27 Jun 2017 11:43:38 -0700 (PDT)
-Received: from pohly-mobl1 (p5DE8FB9F.dip0.t-ipconnect.de. [93.232.251.159])
-	by smtp.gmail.com with ESMTPSA id 128sm1950642ioe.6.2017.06.27.11.43.36
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 27 Jun 2017 11:43:37 -0700 (PDT)
-Message-ID: <1498589015.7464.60.camel@intel.com>
-From: Patrick Ohly <patrick.ohly@intel.com>
-To: =?ISO-8859-1?Q?An=EDbal_Lim=F3n?= <anibal.limon@linux.intel.com>
-Date: Tue, 27 Jun 2017 20:43:35 +0200
-In-Reply-To: <20170627163020.22521-1-anibal.limon@linux.intel.com>
-References: <20170627163020.22521-1-anibal.limon@linux.intel.com>
-Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
-X-Mailer: Evolution 3.12.9-1+b1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCHv2 1/2] oeqa/selftest/{context, case}: Handle KeyboardInterrupt/SIGINT and SIGTERM
+	Tue, 27 Jun 2017 20:13:12 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	27 Jun 2017 13:13:13 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.40,271,1496127600"; d="scan'208";a="1145380053"
+Received: from jalamego-mobl3.zpn.intel.com ([10.219.128.120])
+	by orsmga001.jf.intel.com with ESMTP; 27 Jun 2017 13:13:12 -0700
+From: Jose Lamego <jose.a.lamego@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 27 Jun 2017 15:13:04 -0500
+Message-Id: <1498594384-20590-1-git-send-email-jose.a.lamego@linux.intel.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH] python*-setuptools: upgrade to 36.0.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,31 +28,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Jun 2017 18:43:38 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 27 Jun 2017 20:13:13 -0000
 
-On Tue, 2017-06-27 at 11:30 -0500, Aníbal Limón wrote:
-> In order to avoid corrupt local.conf and bblayers.conf adds
-> signal handler for SIGTERM and use try/finally (KeyboardIntrrupt) block
-> to restore previously backuped configuration.
+Both python-setuptools and python3-setuptools need to be
+upgraded to latest upstream version.
 
-Thanks for pointing out that SIGTERM isn't going through the "finally"
-block - I thought it would, hence my previous question.
+license checksum is now targeted to be performed over the actual
+license text at license file.
 
-However, in this incarnation of your patch there's now cleanup code in
-various places. Would it be perhaps cleaner to just raise a suitable
-exception in the signal handler and leave all the cleanup code in the
-"finally" block?
+These changes were tested using qemux86 with core-image-minimal.
 
+Signed-off-by: Jose Lamego <jose.a.lamego@linux.intel.com>
+---
+ meta/recipes-devtools/python/python-setuptools.inc                | 8 ++++----
+ .../{python-setuptools_32.1.1.bb => python-setuptools_36.0.1.bb}  | 0
+ ...{python3-setuptools_32.1.1.bb => python3-setuptools_36.0.1.bb} | 0
+ 3 files changed, 4 insertions(+), 4 deletions(-)
+ rename meta/recipes-devtools/python/{python-setuptools_32.1.1.bb => python-setuptools_36.0.1.bb} (100%)
+ rename meta/recipes-devtools/python/{python3-setuptools_32.1.1.bb => python3-setuptools_36.0.1.bb} (100%)
+
+diff --git a/meta/recipes-devtools/python/python-setuptools.inc b/meta/recipes-devtools/python/python-setuptools.inc
+index 40f47d4..c441035 100644
+--- a/meta/recipes-devtools/python/python-setuptools.inc
++++ b/meta/recipes-devtools/python/python-setuptools.inc
+@@ -3,14 +3,14 @@ HOMEPAGE = "https://pypi.python.org/pypi/setuptools"
+ SECTION = "devel/python"
+ LICENSE = "MIT"
+ 
+-LIC_FILES_CHKSUM = "file://setup.py;beginline=146;endline=146;md5=3e8df024d6c1442d18e84acf8fbbc475"
++LIC_FILES_CHKSUM = "file://LICENSE;beginline=1;endline=19;md5=9a33897f1bca1160d7aad3835152e158"
+ 
+ SRCNAME = "setuptools"
+ 
+-SRC_URI = "https://files.pythonhosted.org/packages/source/s/${SRCNAME}/${SRCNAME}-${PV}.tar.gz"
++SRC_URI = "https://files.pythonhosted.org/packages/source/s/${SRCNAME}/${SRCNAME}-${PV}.zip"
+ 
+-SRC_URI[md5sum] = "8b67868c3430e978833ebd0d1b766694"
+-SRC_URI[sha256sum] = "8303fb24306385f09bf8b0e5a385c1548e42e8efc08558d64049bc0d55ea012d"
++SRC_URI[md5sum] = "430eb106788183eefe9f444a300007f0"
++SRC_URI[sha256sum] = "e17c4687fddd6d70a6604ac0ad25e33324cec71b5137267dd5c45e103c4b288a"
+ 
+ UPSTREAM_CHECK_URI = "https://pypi.python.org/pypi/setuptools"
+ 
+diff --git a/meta/recipes-devtools/python/python-setuptools_32.1.1.bb b/meta/recipes-devtools/python/python-setuptools_36.0.1.bb
+similarity index 100%
+rename from meta/recipes-devtools/python/python-setuptools_32.1.1.bb
+rename to meta/recipes-devtools/python/python-setuptools_36.0.1.bb
+diff --git a/meta/recipes-devtools/python/python3-setuptools_32.1.1.bb b/meta/recipes-devtools/python/python3-setuptools_36.0.1.bb
+similarity index 100%
+rename from meta/recipes-devtools/python/python3-setuptools_32.1.1.bb
+rename to meta/recipes-devtools/python/python3-setuptools_36.0.1.bb
 -- 
-Best Regards, Patrick Ohly
-
-The content of this message is my personal opinion only and although
-I am an employee of Intel, the statements I make here in no way
-represent Intel's position on the issue, nor am I authorized to speak
-on behalf of Intel on this matter.
-
-
+2.7.4
 
 
