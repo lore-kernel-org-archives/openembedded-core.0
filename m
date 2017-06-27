@@ -1,60 +1,53 @@
-Return-Path: <fabio.berton@ossystems.com.br>
-Received: from mail-ua0-f172.google.com (mail-ua0-f172.google.com
-	[209.85.217.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 744BB6AC37
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-it0-f44.google.com (mail-it0-f44.google.com
+	[209.85.214.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 06F7677FF5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Jun 2017 20:41:51 +0000 (UTC)
-Received: by mail-ua0-f172.google.com with SMTP id w19so5135853uac.0
+	Tue, 27 Jun 2017 20:42:00 +0000 (UTC)
+Received: by mail-it0-f44.google.com with SMTP id m84so22636394ita.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Jun 2017 13:41:52 -0700 (PDT)
+	Tue, 27 Jun 2017 13:42:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=subject:to:cc:references:from:organization:message-id:date
-	:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=M/oDduxU78pQIfywYgHl3BIaEWU0TsGnL/bxphx661I=;
-	b=2KFx+oPuu2KfRav2izRB5JRXP8eJIs67Fb09epTP3oroGDS+xL+GGGq6jwBvbnekHV
-	U5jUx37kybPkQ/FQn6uVo7hsaxYTrDyF6CsgGyA7L1m2fHL5uiI+0S5DPWJzGY1S3ydL
-	b2oMbjcJogj/QFr/O/KQStydHP1qGhEvb77vVUX9f0+PAMc+gaQgBVEnY9X8iWLb5qWU
-	yk4ZFBphiMtXNsc+8lnqlqbz7RH4I8KongAsJ9kASb9XCY6nEUcS4qRTyuaKdZU+Ty+X
-	tW6iyUeJURJTJDICvvJEXy8Sck/lMXuM4TqgH0AN9ncE23T3FOaitO0SIk71ZRSreuWn
-	olHA==
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:organization:mime-version:content-transfer-encoding;
+	bh=iocHfPU3K8WXMuP2K67pCi3eJHcV8nsIKiW5sbFYrEE=;
+	b=UBPiyKfjIXpP0jp32pL8FUARrpt1Lv/xQEIGaNuljeHJRPYL49xINIth63UA5aE0MN
+	i9TUAQGWEiFonpqktCvEBVY3NEtrFd6N7LqQpbNwZcJ17r4oqnOXAtSibdB/yRH6XDHH
+	Ps2qBi8qo8oGqqslmlqGBJb5JMuw8ghUOAnv0cRSSMXqgPFl7vfbPoEmbABmtu8cRX6+
+	n0p9igqF3I26i5p7GalaMQrAhmM0Pzq9yQIoxTv6Y9oFwBLXUhwuioXmBTQzOoaza/54
+	Nr9bUuuXXhWIwYx7+76zz7Fr6AiLzh55EL26HFfx5fPL19bPqVxATNICRzWmoL2P5JEl
+	u6Mg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:organization
-	:message-id:date:user-agent:mime-version:in-reply-to
-	:content-language:content-transfer-encoding;
-	bh=M/oDduxU78pQIfywYgHl3BIaEWU0TsGnL/bxphx661I=;
-	b=Dxq9USsbDVYOW5Np+lTM+qV6UYCgrVjEp2XabtDhETAbXwzfm+IZ9Gk9C9HtKEsfcz
-	x47zUKzC+3RzFKDLrK8e6zGCM3KVrl+rOJw6iK46JW7cQZs3Z5/hjJWHDCHslTrJHNgl
-	lhtaasDVF+DAj0SstaanCgwrpa0itJiaYObyTSDUuN1HtAiB5hTUoQI9+6iV7p9ZvjBB
-	NM+WQBI8UplSoyVvLOvUJDnrmfqaH98T8I5C+yB69lfXw+ebH8xx6NUA0BpDaZXzqoaw
-	ZfZ6kELS4lSZ6UZQ35030iWVJWF/kYLxPUztEB+kssi4AZAQsKIDerYrLxZKTJPXpXHE
-	/qAA==
-X-Gm-Message-State: AKS2vOy8ym53n71V6FVQOD1GGOBPUm2To/kZp2LVpTYOTSE0SQDOsG4M
-	XKYghphIArxSG0gpiSeYiw==
-X-Received: by 10.176.93.2 with SMTP id u2mr3833679uaf.109.1498596111794;
-	Tue, 27 Jun 2017 13:41:51 -0700 (PDT)
-Received: from [10.5.3.6] ([179.105.243.125])
-	by smtp.gmail.com with ESMTPSA id e186sm81990vkf.5.2017.06.27.13.41.49
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:organization:mime-version:content-transfer-encoding;
+	bh=iocHfPU3K8WXMuP2K67pCi3eJHcV8nsIKiW5sbFYrEE=;
+	b=Bt9pPU9/zmOoqq9vHeV7rdqaj1y7/hNZX4tzqzxpHhFdjLUlY6uZgKZtDGAnaUk0wB
+	TVJ0EMweBaMKujavyEf/K+gUL0BGm1WaeUzstSqwCH7S2n99jp337r3s+xecwzuOmeUo
+	3fPxdnj17fxA24KO5gxizPJEs74on+qXH5GSiniwx5wEJtQoyseIPJ7lpoQ7osf4dqfe
+	Gsemd4JEmFQSx9rToF1hbEx6CG1gO8gjoOV4AY8h76YTbCmWOC9uJf9v9RZX+rYkIIiM
+	1dYOguPvWhCLevot6yp/gKIlAntO6xjPf7GiTHLDgdkqTsP/hNvqxDGvo+Q9JtzByhl7
+	OJtw==
+X-Gm-Message-State: AKS2vOw6wsodgk9MG6VlhJmyHuHh6o9GMBDqULKoOnW9sy80vRJwunbF
+	MYwxJ8H8QQ8UIuEY
+X-Received: by 10.36.222.194 with SMTP id d185mr4361586itg.111.1498596122015; 
+	Tue, 27 Jun 2017 13:42:02 -0700 (PDT)
+Received: from pohly-mobl1 (p5DE8FB9F.dip0.t-ipconnect.de. [93.232.251.159])
+	by smtp.gmail.com with ESMTPSA id b6sm139668ioj.31.2017.06.27.13.42.00
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 27 Jun 2017 13:41:50 -0700 (PDT)
-To: Otavio Salvador <otavio.salvador@ossystems.com.br>,
-	Ed Bartosh <ed.bartosh@linux.intel.com>, "Burton, Ross"
-	<ross.burton@intel.com>
-References: <cover.1498569961.git.ed.bartosh@linux.intel.com>
-	<CAP9ODKopDxEYw9vereQjoHve=n2Of2v-3EHbxaiumZN3T0hH8Q@mail.gmail.com>
-From: Fabio Berton <fabio.berton@ossystems.com.br>
-Organization: OS Systems
-Message-ID: <823180ba-066d-747d-8112-a110633a03a8@ossystems.com.br>
-Date: Tue, 27 Jun 2017 17:41:45 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.2.0
-MIME-Version: 1.0
-In-Reply-To: <CAP9ODKopDxEYw9vereQjoHve=n2Of2v-3EHbxaiumZN3T0hH8Q@mail.gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2 0/5] #11662 - wic should mount /boot
+	Tue, 27 Jun 2017 13:42:01 -0700 (PDT)
+Message-ID: <1498596118.7464.80.camel@intel.com>
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: =?ISO-8859-1?Q?An=EDbal_Lim=F3n?= <anibal.limon@linux.intel.com>
+Date: Tue, 27 Jun 2017 22:41:58 +0200
+In-Reply-To: <20170627202512.32631-1-anibal.limon@linux.intel.com>
+References: <20170627202512.32631-1-anibal.limon@linux.intel.com>
+Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
+X-Mailer: Evolution 3.12.9-1+b1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCHv3 1/2] oeqa/selftest/{context, case}: Handle KeyboardInterrupt/SIGINT and SIGTERM
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -67,29 +60,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Jun 2017 20:41:53 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 27 Jun 2017 20:42:01 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-The last patch I sent is here: 
-https://patchwork.openembedded.org/patch/139252/
+On Tue, 2017-06-27 at 15:25 -0500, Aníbal Limón wrote:
+> In order to avoid corrupt local.conf and bblayers.conf adds
+> signal handler for SIGTERM and use try/finally (KeyboardIntrrupt) block
+> to restore previously backuped configuration.
 
-We're using this patch internally with Pyro branch. I can rework to 
-apply on master.
+Looks good to me now, with one minor nitpick which I should have noticed
+earlier: the second patch fixes a problem introduced by the first one
+(right?), so when applied in this order, bisecting gets broken. I think
+they should be merged the other way around to avoid that (calling the
+parent's setUpClass was fine before, it just wasn't required).
 
-On 06/27/2017 05:35 PM, Otavio Salvador wrote:
-> On Tue, Jun 27, 2017 at 10:28 AM, Ed Bartosh <ed.bartosh@linux.intel.com> wrote:
->> The patchset also fixes long standing bug: wic updated fstab
->> inplace in rootfs directory. This causes other tasks working with
->> rootfs directory to produce incorrect results or crash. This is
->> fixed by copying rootfs to the temporary directory before updating
->> fstab.
-> 
-> As you is working on this, please also include Fabio's patch on the
-> patchset. It includes a command like option to disable fstab change at
-> all. For delta-based updates this is imperative.
-> 
-> Fabio, could you point him the last patch revision?
-> 
+-- 
+Best Regards, Patrick Ohly
+
+The content of this message is my personal opinion only and although
+I am an employee of Intel, the statements I make here in no way
+represent Intel's position on the issue, nor am I authorized to speak
+on behalf of Intel on this matter.
+
+
+
 
