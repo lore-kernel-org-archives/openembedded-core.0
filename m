@@ -1,59 +1,57 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-wm0-f43.google.com (mail-wm0-f43.google.com [74.125.82.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 4AD9D77F7D
+Return-Path: <fabio.berton@ossystems.com.br>
+Received: from mail-ua0-f172.google.com (mail-ua0-f172.google.com
+	[209.85.217.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 744BB6AC37
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Jun 2017 20:35:10 +0000 (UTC)
-Received: by mail-wm0-f43.google.com with SMTP id 62so35178568wmw.1
+	Tue, 27 Jun 2017 20:41:51 +0000 (UTC)
+Received: by mail-ua0-f172.google.com with SMTP id w19so5135853uac.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Jun 2017 13:35:12 -0700 (PDT)
+	Tue, 27 Jun 2017 13:41:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
-	:cc; bh=BcfmqHn8VtDuz76BAq+eim2i6+6owvZ3ncMHw9IMzU0=;
-	b=xsQplVhZgUx+vMaKo4Yi5RmgntqSfD2eeRBRgni6AfSV99YU45HViVQ2orKP07ouoZ
-	cu+w/rLojO6tFn7FFFjFuFvRM5A1uxYrtHiQC3Zdphn4+dQDhbc343cATTixMm55aDSj
-	MB+Ut47fq5DzBbt048+YfML0kaq4PKn9yUTQ/MPagwuetsElqa2X0CcGkTXKIFWGFZA1
-	gFvLdcGAU9eN4itbhK85KBTuLa3SlUYjxV9ahbV8rA/VGybcPAbX/tmCoQ2SIX1+g62y
-	Inf4yDSgFVrdVqd5A1QnAeaDedWu0k0RUdA+r4gJisIKFkFAxvaYa1NGo/JGy4FBTPTu
-	xySQ==
+	h=subject:to:cc:references:from:organization:message-id:date
+	:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=M/oDduxU78pQIfywYgHl3BIaEWU0TsGnL/bxphx661I=;
+	b=2KFx+oPuu2KfRav2izRB5JRXP8eJIs67Fb09epTP3oroGDS+xL+GGGq6jwBvbnekHV
+	U5jUx37kybPkQ/FQn6uVo7hsaxYTrDyF6CsgGyA7L1m2fHL5uiI+0S5DPWJzGY1S3ydL
+	b2oMbjcJogj/QFr/O/KQStydHP1qGhEvb77vVUX9f0+PAMc+gaQgBVEnY9X8iWLb5qWU
+	yk4ZFBphiMtXNsc+8lnqlqbz7RH4I8KongAsJ9kASb9XCY6nEUcS4qRTyuaKdZU+Ty+X
+	tW6iyUeJURJTJDICvvJEXy8Sck/lMXuM4TqgH0AN9ncE23T3FOaitO0SIk71ZRSreuWn
+	olHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
-	:message-id:subject:to:cc;
-	bh=BcfmqHn8VtDuz76BAq+eim2i6+6owvZ3ncMHw9IMzU0=;
-	b=VjbqNL+BNPyw5xx8674tT32ztLWrnO0Eh3PHXhcAOTrP+hb3feMLmfhR06ey3wyvUS
-	2F78NoCuF/D7U1Rro2lN2gFXKs8lBsGdsibvZbJ/YuV6lXxBKnUi/n1PhmH40di0eSEF
-	sA5Fx/Q5rjgTIadg9l9haXpY0gGoHa814oy+4cbFFpsIp3ZbvNnZpsJ7o8VdGyppwxKX
-	Lh02vAguz+IG9PiYjzPj4VzXIQNVFBnnkIQzD7w+a3ibI4FTSaxGi+0KsR1oFR160fUO
-	YYk1JzvtvV8WicVXfRGsdmWxJcRyxsSgUz9jAvLFpNQBxpsHrPXbLTAtnVZy9UDFb+Il
-	n8hw==
-X-Gm-Message-State: AKS2vOy9lLWQM0e6u8hsB/4XGF/RAyrZT851edazR2p2EGLqSnQjGDiM
-	l78n5N7ozosLQd7MYxs=
-X-Received: by 10.28.1.8 with SMTP id 8mr4553547wmb.88.1498595711381;
-	Tue, 27 Jun 2017 13:35:11 -0700 (PDT)
-Received: from mail-wm0-f48.google.com (mail-wm0-f48.google.com.
-	[74.125.82.48])
-	by smtp.gmail.com with ESMTPSA id j125sm929283wmf.6.2017.06.27.13.35.09
-	for <openembedded-core@lists.openembedded.org>
+	h=x-gm-message-state:subject:to:cc:references:from:organization
+	:message-id:date:user-agent:mime-version:in-reply-to
+	:content-language:content-transfer-encoding;
+	bh=M/oDduxU78pQIfywYgHl3BIaEWU0TsGnL/bxphx661I=;
+	b=Dxq9USsbDVYOW5Np+lTM+qV6UYCgrVjEp2XabtDhETAbXwzfm+IZ9Gk9C9HtKEsfcz
+	x47zUKzC+3RzFKDLrK8e6zGCM3KVrl+rOJw6iK46JW7cQZs3Z5/hjJWHDCHslTrJHNgl
+	lhtaasDVF+DAj0SstaanCgwrpa0itJiaYObyTSDUuN1HtAiB5hTUoQI9+6iV7p9ZvjBB
+	NM+WQBI8UplSoyVvLOvUJDnrmfqaH98T8I5C+yB69lfXw+ebH8xx6NUA0BpDaZXzqoaw
+	ZfZ6kELS4lSZ6UZQ35030iWVJWF/kYLxPUztEB+kssi4AZAQsKIDerYrLxZKTJPXpXHE
+	/qAA==
+X-Gm-Message-State: AKS2vOy8ym53n71V6FVQOD1GGOBPUm2To/kZp2LVpTYOTSE0SQDOsG4M
+	XKYghphIArxSG0gpiSeYiw==
+X-Received: by 10.176.93.2 with SMTP id u2mr3833679uaf.109.1498596111794;
+	Tue, 27 Jun 2017 13:41:51 -0700 (PDT)
+Received: from [10.5.3.6] ([179.105.243.125])
+	by smtp.gmail.com with ESMTPSA id e186sm81990vkf.5.2017.06.27.13.41.49
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 27 Jun 2017 13:35:10 -0700 (PDT)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-wm0-f48.google.com with SMTP id w126so35071841wme.0
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Jun 2017 13:35:09 -0700 (PDT)
-X-Received: by 10.28.92.130 with SMTP id q124mr4925875wmb.21.1498595709811;
-	Tue, 27 Jun 2017 13:35:09 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.28.176.5 with HTTP; Tue, 27 Jun 2017 13:35:08 -0700 (PDT)
-In-Reply-To: <cover.1498569961.git.ed.bartosh@linux.intel.com>
+	Tue, 27 Jun 2017 13:41:50 -0700 (PDT)
+To: Otavio Salvador <otavio.salvador@ossystems.com.br>,
+	Ed Bartosh <ed.bartosh@linux.intel.com>, "Burton, Ross"
+	<ross.burton@intel.com>
 References: <cover.1498569961.git.ed.bartosh@linux.intel.com>
-Date: Tue, 27 Jun 2017 17:35:08 -0300
-X-Gmail-Original-Message-ID: <CAP9ODKopDxEYw9vereQjoHve=n2Of2v-3EHbxaiumZN3T0hH8Q@mail.gmail.com>
-Message-ID: <CAP9ODKopDxEYw9vereQjoHve=n2Of2v-3EHbxaiumZN3T0hH8Q@mail.gmail.com>
-To: Ed Bartosh <ed.bartosh@linux.intel.com>, 
-	Fabio Berton <fabio.berton@ossystems.com.br>, "Burton,
-	Ross" <ross.burton@intel.com>
+	<CAP9ODKopDxEYw9vereQjoHve=n2Of2v-3EHbxaiumZN3T0hH8Q@mail.gmail.com>
+From: Fabio Berton <fabio.berton@ossystems.com.br>
+Organization: OS Systems
+Message-ID: <823180ba-066d-747d-8112-a110633a03a8@ossystems.com.br>
+Date: Tue, 27 Jun 2017 17:41:45 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.2.0
+MIME-Version: 1.0
+In-Reply-To: <CAP9ODKopDxEYw9vereQjoHve=n2Of2v-3EHbxaiumZN3T0hH8Q@mail.gmail.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH v2 0/5] #11662 - wic should mount /boot
@@ -69,24 +67,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Jun 2017 20:35:11 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 27 Jun 2017 20:41:53 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-On Tue, Jun 27, 2017 at 10:28 AM, Ed Bartosh <ed.bartosh@linux.intel.com> wrote:
-> The patchset also fixes long standing bug: wic updated fstab
-> inplace in rootfs directory. This causes other tasks working with
-> rootfs directory to produce incorrect results or crash. This is
-> fixed by copying rootfs to the temporary directory before updating
-> fstab.
+The last patch I sent is here: 
+https://patchwork.openembedded.org/patch/139252/
 
-As you is working on this, please also include Fabio's patch on the
-patchset. It includes a command like option to disable fstab change at
-all. For delta-based updates this is imperative.
+We're using this patch internally with Pyro branch. I can rework to 
+apply on master.
 
-Fabio, could you point him the last patch revision?
-
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+On 06/27/2017 05:35 PM, Otavio Salvador wrote:
+> On Tue, Jun 27, 2017 at 10:28 AM, Ed Bartosh <ed.bartosh@linux.intel.com> wrote:
+>> The patchset also fixes long standing bug: wic updated fstab
+>> inplace in rootfs directory. This causes other tasks working with
+>> rootfs directory to produce incorrect results or crash. This is
+>> fixed by copying rootfs to the temporary directory before updating
+>> fstab.
+> 
+> As you is working on this, please also include Fabio's patch on the
+> patchset. It includes a command like option to disable fstab change at
+> all. For delta-based updates this is imperative.
+> 
+> Fabio, could you point him the last patch revision?
+> 
 
