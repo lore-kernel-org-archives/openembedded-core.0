@@ -1,50 +1,33 @@
-Return-Path: <net147@gmail.com>
-Received: from mail-io0-f174.google.com (mail-io0-f174.google.com
-	[209.85.223.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 32320771F5
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	by mail.openembedded.org (Postfix) with ESMTP id 47A1B7804A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Jun 2017 13:02:00 +0000 (UTC)
-Received: by mail-io0-f174.google.com with SMTP id z62so16856777ioi.3
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Jun 2017 06:02:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=f3UI2GR/TypPluhLffPTa2QbIK9IRFjMCe4+t36TAjQ=;
-	b=puGCom9QnGPG2z2/gaA2kAPsst11Rt/TQk/uqQAIQrGqZytvsYvL2ILjPTrU+n644h
-	tIT29I9dZMrAjle4WWixcWCx0wuv71J+xUnmyG/JSil4xQFFA5mxl7aAG6C2TGOo7vdL
-	sANPdXPy/cXPd2ldNOj8nq82HCDpEKyfhparKseUEvO20QY1KIdQpiZ2ehh4IxO788L1
-	jj5C93wYyrH91xuEfHI4t7uKTGLpMwfznObowEeYSPu30LNsQeu0T+PYEVOscyW8LQHl
-	XoUjHKJIfvktc5FSfEwbtpPYe5ECnuGbP08cp2R4HV7cp0kByhwB2SSBt6yv86QjaWCu
-	0U/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=f3UI2GR/TypPluhLffPTa2QbIK9IRFjMCe4+t36TAjQ=;
-	b=rOS/BqXHbW70lj4Z08MM1KdUwfN0ua3hiO6kg3yHbuliIAJkk9ucOD4qRgPro7wIkn
-	4FN6MlkhPGIWdDU96zE+C1hFWx7WQqZOoC3SVMsFv/PGClxaP5izh6TP+KTVeLhvQuPn
-	KefVIzI2pc8zjy+Qu8778frfhIKY0MXyUU06ctx541byAP4Re7h0PdVB6FWeNgC1xr5c
-	bmvOAyO8BYSv6/XyMFEbJGecTDnOuRsrLDEN7jqLxMFkjzJq7+ZBBezRFKjk6ruEJSf+
-	gERV4yPJfMpSo04/uX6FtV1XkZiBfGW1jfh8exkS9HiC3Zm5T1VTqeVD00M534+cBZCh
-	oX/A==
-X-Gm-Message-State: AKS2vOz8YNRGvWtBVsQY612/sApBaB/oX+zJG8e+TAeT0AtyYy9mvjJW
-	Qcp2XzNBmZk+Mm8lLZUEvoepw8dG6w==
-X-Received: by 10.107.202.195 with SMTP id a186mr5878422iog.37.1498568522047; 
-	Tue, 27 Jun 2017 06:02:02 -0700 (PDT)
+	Tue, 27 Jun 2017 13:12:01 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by orsmga105.jf.intel.com with ESMTP; 27 Jun 2017 06:12:03 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.39,399,1493708400"; d="scan'208";a="872161164"
+Received: from linux.intel.com ([10.54.29.200])
+	by FMSMGA003.fm.intel.com with ESMTP; 27 Jun 2017 06:12:02 -0700
+Received: from linux.intel.com (vmed.fi.intel.com [10.237.72.38])
+	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by linux.intel.com (Postfix) with ESMTPS id EAD8158075B;
+	Tue, 27 Jun 2017 06:12:01 -0700 (PDT)
+Date: Tue, 27 Jun 2017 16:09:59 +0300
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Message-ID: <20170627130959.GA4850@linux.intel.com>
+Reply-To: ed.bartosh@linux.intel.com
+References: <cover.1498557396.git.ed.bartosh@linux.intel.com>
+	<edaa061285116e1d87c27d76adb356352a83e9ef.1498557396.git.ed.bartosh@linux.intel.com>
+	<CAJTo0LaOHMuAiw1Rsm2AA-01cCuG2gqD0WhM+qisWpiQD0Ar9g@mail.gmail.com>
 MIME-Version: 1.0
-Received: by 10.107.9.104 with HTTP; Tue, 27 Jun 2017 06:02:01 -0700 (PDT)
-In-Reply-To: <CANwerB1ekM1MtG0-R7daQzhW_6mv_3gzhh5HK0gr4UJn5vz3pQ@mail.gmail.com>
-References: <20170601121552.27868-1-net147@gmail.com>
-	<1498554326.7464.33.camel@intel.com>
-	<1498568049.3124.10.camel@linuxfoundation.org>
-	<CANwerB1ekM1MtG0-R7daQzhW_6mv_3gzhh5HK0gr4UJn5vz3pQ@mail.gmail.com>
-From: Jonathan Liu <net147@gmail.com>
-Date: Tue, 27 Jun 2017 23:02:01 +1000
-Message-ID: <CANwerB2=6GOb8U98eufkgbsFRz_z38gEDK5+p=udNiGPGp=19g@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] bitbake.conf: Add sdl-config to HOSTTOOLS if using host SDL
+In-Reply-To: <CAJTo0LaOHMuAiw1Rsm2AA-01cCuG2gqD0WhM+qisWpiQD0Ar9g@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 5/7] wic: rootfs: make copied rootfs unique
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,70 +40,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Jun 2017 13:02:04 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 27 Jun 2017 13:12:03 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi Richard,
+On Tue, Jun 27, 2017 at 01:21:41PM +0100, Burton, Ross wrote:
+> Can you squash stuff like this into the first patch, the history doesn't
+> need to see your working.
+> 
+This commit doesn't fit to any other from my point of view.
+It's just a fix for rootfs plugin.
 
-On 27 June 2017 at 22:56, Jonathan Liu <net147@gmail.com> wrote:
-> Hi Richard,
->
-> On 27 June 2017 at 22:54, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
->> On Tue, 2017-06-27 at 11:05 +0200, Patrick Ohly wrote:
->>> On Thu, 2017-06-01 at 22:15 +1000, Jonathan Liu wrote:
->>> >
->>> > If ASSUME_PROVIDES contains libsdl-native, we need to add sdl-
->>> > config
->>> > to HOSTTOOLS to allow access to the host sdl-config.
->>> >
->>> > Signed-off-by: Jonathan Liu <net147@gmail.com>
->>> > ---
->>> >  meta/conf/bitbake.conf | 3 +++
->>> >  1 file changed, 3 insertions(+)
->>> >
->>> > diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
->>> > index 8e4f4bbb56..3ad905c917 100644
->>> > --- a/meta/conf/bitbake.conf
->>> > +++ b/meta/conf/bitbake.conf
->>> > @@ -471,6 +471,9 @@ HOSTTOOLS += " \
->>> >  # Tools needed to run testimage runtime image testing
->>> >  HOSTTOOLS += "ip ping ps scp ssh stty"
->>> >
->>> > +# Link to sdl-config if using host SDL
->>> > +HOSTTOOLS += "${@bb.utils.contains('ASSUME_PROVIDES', 'libsdl-
->>> > native', 'sdl-config', '', d)}"
->>> > +
->>> Why are you checking ASSUME_PROVIDES? The variable is called
->>> ASSUME_PROVIDED.
->>>
->>> Even if you had checked the right variable, is that really necessary?
->>> I'm building qemu with ASSUME_PROVIDED += "libsdl-native" just fine
->>> on Debian Jessie, without sdl-config in HOSTTOOLS.
->>>
->>> Sorry for the late reply, going through my backlog... I see that this
->>> has been merged. Probably needs to be reverted or fixed.
->>
->> I've reverted this since I can't see how it can actually work or help
->> anything, unless someone has set "ASSUME_PROVIDES" to test this (which
->> is a variable that doesn't exist or is used anywhere).
->>
->> Cheers,
->>
->> Richard
->
-> It is a typo. The fix is in ross/mut -
-> http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=ross/mut&id=7605eb1e507d4ebc0c5b8d98a358be7c55e4ddd2.
+I'll try to squash other commits.
 
-Also it was indeed tested after the fix but the sanity check was
-cached in build/conf/sanity_info and I didn't think to clear it.
-So the sanity check wasn't re-run after I deleted bitbake.lock,
-buildhistory, cache, sstate-cache, tmp and rebuilt.
+> Also, does the hardlink copy get cleaned up?
+> 
+Yes, it does. It's created in the temporary directory, which
+is removed after image is ready.
 
-Why is state data written into a "conf" folder anyway? Shouldn't this
-go into another folder like "cache"? Users don't generally think to
-wipe files in conf folder when they want to do a clean rebuild.
+> Ross
+> 
+> On 27 June 2017 at 10:57, Ed Bartosh <ed.bartosh@linux.intel.com> wrote:
+> 
+> > Used unique suffix (line number from .wks file) for the
+> > copied rootfs directory to avoid possible conflicts.
+> >
+> > Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+> > ---
+> >  scripts/lib/wic/plugins/source/rootfs.py | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/scripts/lib/wic/plugins/source/rootfs.py
+> > b/scripts/lib/wic/plugins/source/rootfs.py
+> > index e438158..aec720f 100644
+> > --- a/scripts/lib/wic/plugins/source/rootfs.py
+> > +++ b/scripts/lib/wic/plugins/source/rootfs.py
+> > @@ -88,7 +88,7 @@ class RootfsPlugin(SourcePlugin):
+> >          if part.exclude_path is not None:
+> >              # We need a new rootfs directory we can delete files from.
+> > Copy to
+> >              # workdir.
+> > -            new_rootfs = os.path.realpath(os.path.join(cr_workdir,
+> > "rootfs"))
+> > +            new_rootfs = os.path.realpath(os.path.join(cr_workdir,
+> > "rootfs%d" % part.lineno))
+> >
+> >              if os.path.lexists(new_rootfs):
+> >                  shutil.rmtree(os.path.join(new_rootfs))
+> > --
+> > 2.1.4
+> >
+> > --
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> >
 
+-- 
+--
 Regards,
-Jonathan
+Ed
 
