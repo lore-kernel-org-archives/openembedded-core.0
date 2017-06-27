@@ -1,53 +1,22 @@
-Return-Path: <jpewhacker@gmail.com>
-Received: from mail-io0-f181.google.com (mail-io0-f181.google.com
-	[209.85.223.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 3DF5477E91
+Return-Path: <anibal.limon@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 3608777F6D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Jun 2017 16:08:09 +0000 (UTC)
-Received: by mail-io0-f181.google.com with SMTP id h64so20356723iod.0
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Jun 2017 09:08:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:message-id:subject:to:date:in-reply-to:references:mime-version
-	:content-transfer-encoding;
-	bh=4w/PC5xOe7E0vIDARRPt4Y/qzvj2skB5XR1DHSNhjME=;
-	b=KH0sze/6JLU1GypcnM13n3neR7tItfe6waqYxooNrrTgjV/Vq6kM2GioM+L58K/ykc
-	tgQ6pFjWIahIoE7uyIeY+bYvcDakutIzklxmxFGBp3WK6COiLuUOx1pPHepPDIbA9fdP
-	wCnlXJZ3v2XCUjRTJwZGWYqxL3p2TKZmRuh4IE+QI7c+P1UqSlrKMqzxH9/6Zlitkivw
-	7WuVo2MGEzV59jOTKQmZO/gbEnTo0BYL1nH4F3Dp/L5xe2/e3VLOqm2CKZdDCh4Ry4A1
-	ijZlvmD6xElBk1HFsgZiSBpQGRLCiv4nORDF1UE3MDDooMjZBGcRiAZxApG9etd3kYBq
-	96vg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:message-id:subject:to:date:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=4w/PC5xOe7E0vIDARRPt4Y/qzvj2skB5XR1DHSNhjME=;
-	b=P3vZj3ky7KUexnjmhrD2rx3fqKeFM+rwpp3wYEgEm3bM5NKbN36ikKEWrANXA2nk/M
-	2WKjxWlNrxIA8V/qtwqMtrHO/nL5WMRvn2aCvVF7g61+Zi7swmLvgngBt72Y5kBhGUOF
-	PtMZegvt8iGlfzzW/nY0A6tud7tpGfwcCLm1JjXOWDZtrna2BS1kf2QC1h3e/MsyB8aH
-	H82zpe+HfUwx59eUOzrb+nMzzgX/CjGnU6LKUomx/RGp8HDKgMPnPuP3XuXAOtbjtsKr
-	AoBVoqtab/jbvf+Mnl3BMZnAZ98FOa54cW0RfDj425VUnZYue5x8No5QTYu/X9/dXEr7
-	OxiA==
-X-Gm-Message-State: AKS2vOzUR88hbc3HyYUo4rVgSnaqhbsi7avRiFEAgrkjskINch5OwBvd
-	VXRNx4tuorNX8mr79aA=
-X-Received: by 10.107.139.145 with SMTP id n139mr8007430iod.166.1498579690809; 
-	Tue, 27 Jun 2017 09:08:10 -0700 (PDT)
-Received: from ola-842mrw1.ad.garmin.com ([204.77.163.55])
-	by smtp.googlemail.com with ESMTPSA id
-	b17sm1573050itd.0.2017.06.27.09.08.09
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Tue, 27 Jun 2017 09:08:09 -0700 (PDT)
-From: Joshua Watt <jpewhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
-Message-ID: <1498579688.11937.3.camel@gmail.com>
+	Tue, 27 Jun 2017 16:30:13 +0000 (UTC)
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	27 Jun 2017 09:30:13 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.39,402,1493708400"; d="scan'208";a="119404095"
+Received: from alimonb-mobl1.zpn.intel.com ([10.219.128.139])
+	by fmsmga005.fm.intel.com with ESMTP; 27 Jun 2017 09:30:12 -0700
+From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 27 Jun 2017 11:08:08 -0500
-In-Reply-To: <20170606023049.6415-1-JPEWhacker@gmail.com>
-References: <20170606023049.6415-1-JPEWhacker@gmail.com>
-X-Mailer: Evolution 3.22.6 (3.22.6-2.fc25) 
-Mime-Version: 1.0
-Subject: Re: [morty][PATCH] archiver: Escape recipe name in regex
+Date: Tue, 27 Jun 2017 11:30:19 -0500
+Message-Id: <20170627163020.22521-1-anibal.limon@linux.intel.com>
+X-Mailer: git-send-email 2.11.0
+MIME-Version: 1.0
+Subject: [PATCHv2 1/2] oeqa/selftest/{context, case}: Handle KeyboardInterrupt/SIGINT and SIGTERM
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,42 +29,236 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Jun 2017 16:08:10 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 27 Jun 2017 16:30:14 -0000
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On Mon, 2017-06-05 at 21:30 -0500, Joshua Watt wrote:
-> From: Joshua Watt <jpewhacker@gmail.com>
-> 
-> The recipe name needs to be escaped when using it in a regular
-> expression so
-> that and special characters are treated literally
-> 
-> (From OE-Core rev: 53c8cceb744adda1bf899d62071d11b20a5dea98)
-> 
-> Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
-> ---
->  meta/classes/archiver.bbclass | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/meta/classes/archiver.bbclass
-> b/meta/classes/archiver.bbclass
-> index 3543ca9..188f8c0 100644
-> --- a/meta/classes/archiver.bbclass
-> +++ b/meta/classes/archiver.bbclass
-> @@ -349,8 +349,8 @@ python do_ar_recipe () {
->      bbappend_files = d.getVar('BBINCLUDED', True).split()
->      # If recipe name is aa, we need to match files like aa.bbappend
-> and aa_1.1.bbappend
->      # Files like aa1.bbappend or aa1_1.1.bbappend must be excluded.
-> -    bbappend_re = re.compile( r".*/%s_[^/]*\.bbappend$" %pn)
-> -    bbappend_re1 = re.compile( r".*/%s\.bbappend$" %pn)
-> +    bbappend_re = re.compile( r".*/%s_[^/]*\.bbappend$" %
-> re.escape(pn))
-> +    bbappend_re1 = re.compile( r".*/%s\.bbappend$" % re.escape(pn))
->      for file in bbappend_files:
->          if bbappend_re.match(file) or bbappend_re1.match(file):
->              shutil.copy(file, outdir)
+In order to avoid corrupt local.conf and bblayers.conf adds
+signal handler for SIGTERM and use try/finally (KeyboardIntrrupt) block
+to restore previously backuped configuration.
 
-Ping?
+[YOCTO #11650]
+
+Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
+---
+ meta/lib/oeqa/selftest/case.py    |  36 +++++++------
+ meta/lib/oeqa/selftest/context.py | 107 +++++++++++++++++++++++++++-----------
+ 2 files changed, 97 insertions(+), 46 deletions(-)
+
+diff --git a/meta/lib/oeqa/selftest/case.py b/meta/lib/oeqa/selftest/case.py
+index 31a11fddda9..871009c568b 100644
+--- a/meta/lib/oeqa/selftest/case.py
++++ b/meta/lib/oeqa/selftest/case.py
+@@ -13,28 +13,34 @@ from oeqa.utils.commands import runCmd, bitbake, get_bb_var
+ from oeqa.core.case import OETestCase
+ 
+ class OESelftestTestCase(OETestCase):
+-    builddir = os.environ.get("BUILDDIR") or ""
+-    localconf_path = os.path.join(builddir, "conf/local.conf")
+-    localconf_backup = os.path.join(builddir, "conf/local.bk")
+-    testinc_path = os.path.join(builddir, "conf/selftest.inc")
+-    local_bblayers_path = os.path.join(builddir, "conf/bblayers.conf")
+-    local_bblayers_backup = os.path.join(builddir, "conf/bblayers.bk")
+-    testinc_bblayers_path = os.path.join(builddir, "conf/bblayers.inc")
+-    machineinc_path = os.path.join(builddir, "conf/machine.inc")
+-
+     def __init__(self, methodName="runTest"):
+         self._extra_tear_down_commands = []
+-        self._track_for_cleanup = [
+-            self.testinc_path, self.testinc_bblayers_path,
+-            self.machineinc_path, self.localconf_backup,
+-            self.local_bblayers_backup]
+-
+         super(OESelftestTestCase, self).__init__(methodName)
+ 
+     @classmethod
+     def setUpClass(cls):
+         super(OESelftestTestCase, cls).setUpClass()
+-        cls.testlayer_path = cls.tc.testlayer_path
++
++        cls.testlayer_path = cls.tc.config_paths['testlayer_path']
++        cls.builddir = cls.tc.config_paths['builddir']
++
++        cls.localconf_path = cls.tc.config_paths['localconf']
++        cls.localconf_backup = cls.tc.config_paths['localconf_class_backup']
++        cls.local_bblayers_path = cls.tc.config_paths['bblayers']
++        cls.local_bblayers_backup = cls.tc.config_paths['bblayers_class_backup']
++
++        cls.testinc_path = os.path.join(cls.tc.config_paths['builddir'],
++                "conf/selftest.inc")
++        cls.testinc_bblayers_path = os.path.join(cls.tc.config_paths['builddir'],
++                "conf/bblayers.inc")
++        cls.machineinc_path = os.path.join(cls.tc.config_paths['builddir'],
++                "conf/machine.inc")
++
++        cls._track_for_cleanup = [
++            cls.testinc_path, cls.testinc_bblayers_path,
++            cls.machineinc_path, cls.localconf_backup,
++            cls.local_bblayers_backup]
++
+         cls.add_include()
+ 
+     @classmethod
+diff --git a/meta/lib/oeqa/selftest/context.py b/meta/lib/oeqa/selftest/context.py
+index ca87398224c..8a7ee26cd91 100644
+--- a/meta/lib/oeqa/selftest/context.py
++++ b/meta/lib/oeqa/selftest/context.py
+@@ -6,6 +6,8 @@ import time
+ import glob
+ import sys
+ import imp
++import signal
++from shutil import copyfile
+ from random import choice
+ 
+ import oeqa
+@@ -16,13 +18,12 @@ from oeqa.core.exception import OEQAPreRun
+ from oeqa.utils.commands import runCmd, get_bb_vars, get_test_layer
+ 
+ class OESelftestTestContext(OETestContext):
+-    def __init__(self, td=None, logger=None, machines=None, testlayer_path=None):
++    def __init__(self, td=None, logger=None, machines=None, config_paths=None):
+         super(OESelftestTestContext, self).__init__(td, logger)
+ 
+         self.machines = machines
+         self.custommachine = None
+-
+-        self.testlayer_path = testlayer_path
++        self.config_paths = config_paths
+ 
+     def runTests(self, machine=None):
+         if machine:
+@@ -108,7 +109,29 @@ class OESelftestTestContextExecutor(OETestContextExecutor):
+ 
+         self.tc_kwargs['init']['td'] = get_bb_vars()
+         self.tc_kwargs['init']['machines'] = self._get_available_machines()
+-        self.tc_kwargs['init']['testlayer_path'] = get_test_layer()
++
++        builddir = os.environ.get("BUILDDIR")
++        self.tc_kwargs['init']['config_paths'] = {}
++        self.tc_kwargs['init']['config_paths']['testlayer_path'] = \
++                get_test_layer()
++        self.tc_kwargs['init']['config_paths']['builddir'] = builddir
++        self.tc_kwargs['init']['config_paths']['localconf'] = \
++                os.path.join(builddir, "conf/local.conf")
++        self.tc_kwargs['init']['config_paths']['localconf_backup'] = \
++                os.path.join(builddir, "conf/local.conf.orig")
++        self.tc_kwargs['init']['config_paths']['localconf_class_backup'] = \
++                os.path.join(builddir, "conf/local.conf.bk")
++        self.tc_kwargs['init']['config_paths']['bblayers'] = \
++                os.path.join(builddir, "conf/bblayers.conf")
++        self.tc_kwargs['init']['config_paths']['bblayers_backup'] = \
++                os.path.join(builddir, "conf/bblayers.conf.orig")
++        self.tc_kwargs['init']['config_paths']['bblayers_class_backup'] = \
++                os.path.join(builddir, "conf/bblayers.conf.bk")
++
++        copyfile(self.tc_kwargs['init']['config_paths']['localconf'],
++                self.tc_kwargs['init']['config_paths']['localconf_backup'])
++        copyfile(self.tc_kwargs['init']['config_paths']['bblayers'], 
++                self.tc_kwargs['init']['config_paths']['bblayers_backup'])
+ 
+     def _pre_run(self):
+         def _check_required_env_variables(vars):
+@@ -131,7 +154,7 @@ class OESelftestTestContextExecutor(OETestContextExecutor):
+                     runCmd("bitbake-layers add-layer %s" %meta_selftestdir)
+                     # reload data is needed because a meta-selftest layer was add
+                     self.tc.td = get_bb_vars()
+-                    self.tc.testlayer_path = get_test_layer()
++                    self.tc.config_paths['testlayer_path'] = get_test_layer()
+                 else:
+                     self.tc.logger.error("could not locate meta-selftest in:\n%s" % meta_selftestdir)
+                     raise OEQAPreRun
+@@ -184,41 +207,63 @@ class OESelftestTestContextExecutor(OETestContextExecutor):
+             rc.logSummary(self.name)
+ 
+         return rc
++
++    def _signal_clean_handler(self, signum, frame):
++        config_paths = self.tc_kwargs['init']['config_paths']
++        if os.path.exists(config_paths['localconf_backup']):
++            copyfile(config_paths['localconf_backup'],
++                    config_paths['localconf'])
++            os.remove(config_paths['localconf_backup'])
++
++        if os.path.exists(config_paths['bblayers_backup']):
++            copyfile(config_paths['bblayers_backup'], 
++                    config_paths['bblayers'])
++            os.remove(config_paths['bblayers_backup'])
++
++        if os.path.exists(config_paths['localconf_class_backup']):
++            os.remove(config_paths['localconf_class_backup'])
++        if os.path.exists(config_paths['bblayers_class_backup']):
++            os.remove(config_paths['bblayers_class_backup'])
+     
+     def run(self, logger, args):
+         self._process_args(logger, args)
+-        rc = None
+ 
+-        if args.machine:
+-            logger.info('Custom machine mode enabled. MACHINE set to %s' %
+-                    args.machine)
++        signal.signal(signal.SIGTERM, self._signal_clean_handler)
+ 
+-            if args.machine == 'all':
+-                results = []
+-                for m in self.tc_kwargs['init']['machines']:
+-                    self.tc_kwargs['run']['machine'] = m
+-                    results.append(self._internal_run(logger, args))
++        rc = None
++        try:
++            if args.machine:
++                logger.info('Custom machine mode enabled. MACHINE set to %s' %
++                        args.machine)
++
++                if args.machine == 'all':
++                    results = []
++                    for m in self.tc_kwargs['init']['machines']:
++                        self.tc_kwargs['run']['machine'] = m
++                        results.append(self._internal_run(logger, args))
++
++                        # XXX: the oe-selftest script only needs to know if one
++                        # machine run fails
++                        for r in results:
++                            rc = r
++                            if not r.wasSuccessful():
++                                break
+ 
+-                    # XXX: the oe-selftest script only needs to know if one
+-                    # machine run fails
+-                    for r in results:
+-                        rc = r
+-                        if not r.wasSuccessful():
+-                            break
++                else:
++                    self.tc_kwargs['run']['machine'] = args.machine
++                    return self._internal_run(logger, args)
+ 
+             else:
+                 self.tc_kwargs['run']['machine'] = args.machine
+-                return self._internal_run(logger, args)
+-
+-        else:
+-            self.tc_kwargs['run']['machine'] = args.machine
+-            rc = self._internal_run(logger, args)
+-
+-        output_link = os.path.join(os.path.dirname(args.output_log),
+-                "%s-results.log" % self.name)
+-        if os.path.exists(output_link):
+-            os.remove(output_link)
+-        os.symlink(args.output_log, output_link)
++                rc = self._internal_run(logger, args)
++        finally:
++            output_link = os.path.join(os.path.dirname(args.output_log),
++                    "%s-results.log" % self.name)
++            if os.path.exists(output_link):
++                os.remove(output_link)
++            os.symlink(args.output_log, output_link)
++
++            self._signal_clean_handler(None, None)
+ 
+         return rc
+ 
+-- 
+2.11.0
+
 
