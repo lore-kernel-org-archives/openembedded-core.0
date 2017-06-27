@@ -1,21 +1,53 @@
-Return-Path: <jose.a.lamego@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id BCA4777F6D
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-it0-f42.google.com (mail-it0-f42.google.com
+	[209.85.214.42])
+	by mail.openembedded.org (Postfix) with ESMTP id EABC177E8A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Jun 2017 17:50:29 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	27 Jun 2017 10:50:30 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.40,271,1496127600"; d="scan'208";a="1165255070"
-Received: from jalamego-mobl3.zpn.intel.com ([10.219.128.120])
-	by fmsmga001.fm.intel.com with ESMTP; 27 Jun 2017 10:50:30 -0700
-From: Jose Lamego <jose.a.lamego@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 27 Jun 2017 12:50:26 -0500
-Message-Id: <1498585826-15752-1-git-send-email-jose.a.lamego@linux.intel.com>
-X-Mailer: git-send-email 2.7.4
-Subject: [PATCH] python*-git: Upgrade to version 2.1.5
+	Tue, 27 Jun 2017 18:43:37 +0000 (UTC)
+Received: by mail-it0-f42.google.com with SMTP id m68so18544466ith.1
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 27 Jun 2017 11:43:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:organization:mime-version:content-transfer-encoding;
+	bh=YycIaWr3tTPdR1jYczl5qws2qwN6L7lRl3w8j8WNVf8=;
+	b=uRXOxPeT/JVgDnbVnALMBN6tgYQDWkrSmUxFRzh6qUwnbSLTuyKlcOV0qvVEhLERtv
+	MCO7zC6vxK07YmuE1mjwN6GT5F+I2fa5FLSj3Jbtr02/pgHvdWdAmwV5TpGXyl0FZaMZ
+	cnWMa7DkBj6yVS73n0civO9EO/bCSthqcptGiuHmbrSdWMnUAEPkjO2/nHmO17pj3PUH
+	LOU/2/TbaI8ZGbzZwGnCkOksjIlOTlY94UxSFBR/CqiXcNqA4Y0gowcrcok+Uu2iFnMk
+	WZEjaYmS3DiYdn6zzfW3/za5ldtmeTvwZL2ke643CyHRT+0Q754P/IxRSIuqX2wiPt+B
+	gCzg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:organization:mime-version:content-transfer-encoding;
+	bh=YycIaWr3tTPdR1jYczl5qws2qwN6L7lRl3w8j8WNVf8=;
+	b=ZmA9HNU8ASkR0uRqs8PLL7NWusd+3DRtqgvmJhmCOp5eyTdUw7sXDgqMSqp1mOTSws
+	ls7KDRNwWNy3xTTGr7gcl1jxb2MgX4/QhAqbeYPagfRX2ST1ntO+8MHFm4b4WSt8sDPT
+	c0xSSkCoarQF6xcFWct7ZQYd6yVK7luisq+Z7m4e/1fSpQ/RWLqFWBEPemEZNaveCPhF
+	tundAGZWVur3EQcnoD1bMFwNzV0oGIlC8ho7wvRrnS+N4U6apFAQx6xMDmKjJbbZrmjH
+	D+Kmz58io7H1q0utdbwefbzVPuKBJFkzn1HTYt+quWcstXe9Qm9OveJDZNMMDQAc3tWW
+	rimA==
+X-Gm-Message-State: AKS2vOxxLDT5WoAM8D2gpAo12FBZaOgJ7AAfFpsksf32mi1ewX/lj0md
+	5r6u4Y6cLHidztl1
+X-Received: by 10.36.1.205 with SMTP id 196mr3887311itk.33.1498589018721;
+	Tue, 27 Jun 2017 11:43:38 -0700 (PDT)
+Received: from pohly-mobl1 (p5DE8FB9F.dip0.t-ipconnect.de. [93.232.251.159])
+	by smtp.gmail.com with ESMTPSA id 128sm1950642ioe.6.2017.06.27.11.43.36
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 27 Jun 2017 11:43:37 -0700 (PDT)
+Message-ID: <1498589015.7464.60.camel@intel.com>
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: =?ISO-8859-1?Q?An=EDbal_Lim=F3n?= <anibal.limon@linux.intel.com>
+Date: Tue, 27 Jun 2017 20:43:35 +0200
+In-Reply-To: <20170627163020.22521-1-anibal.limon@linux.intel.com>
+References: <20170627163020.22521-1-anibal.limon@linux.intel.com>
+Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
+X-Mailer: Evolution 3.12.9-1+b1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCHv2 1/2] oeqa/selftest/{context, case}: Handle KeyboardInterrupt/SIGINT and SIGTERM
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,67 +60,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Jun 2017 17:50:31 -0000
+X-List-Received-Date: Tue, 27 Jun 2017 18:43:38 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Both python-git and python3-git need to be upgraded to latest
-upstream version.
+On Tue, 2017-06-27 at 11:30 -0500, Aníbal Limón wrote:
+> In order to avoid corrupt local.conf and bblayers.conf adds
+> signal handler for SIGTERM and use try/finally (KeyboardIntrrupt) block
+> to restore previously backuped configuration.
 
-Two RDEPENDS are added: "git" and "python-unittest" to python-git recipe
-and "git" to python3-git recipe.
+Thanks for pointing out that SIGTERM isn't going through the "finally"
+block - I thought it would, hence my previous question.
 
-These changes were tested using qemux86 with core-image-minimal.
+However, in this incarnation of your patch there's now cleanup code in
+various places. Would it be perhaps cleaner to just raise a suitable
+exception in the signal handler and leave all the cleanup code in the
+"finally" block?
 
-Signed-off-by: Jose Lamego <jose.a.lamego@linux.intel.com>
----
- meta/recipes-devtools/python/python-git.inc                           | 4 ++--
- .../python/{python-git_2.1.3.bb => python-git_2.1.5.bb}               | 2 +-
- .../python/{python3-git_2.1.3.bb => python3-git_2.1.5.bb}             | 2 +-
- 3 files changed, 4 insertions(+), 4 deletions(-)
- rename meta/recipes-devtools/python/{python-git_2.1.3.bb => python-git_2.1.5.bb} (85%)
- rename meta/recipes-devtools/python/{python3-git_2.1.3.bb => python3-git_2.1.5.bb} (81%)
-
-diff --git a/meta/recipes-devtools/python/python-git.inc b/meta/recipes-devtools/python/python-git.inc
-index 825e795d9..777608c 100644
---- a/meta/recipes-devtools/python/python-git.inc
-+++ b/meta/recipes-devtools/python/python-git.inc
-@@ -10,8 +10,8 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=8b8d26c37c1d5a04f9b0186edbebc183"
- 
- SRC_URI = "https://files.pythonhosted.org/packages/source/G/GitPython/GitPython-${PV}.tar.gz"
- 
--SRC_URI[md5sum] = "6cd18008c03a767740f3bf6d89ef79bc"
--SRC_URI[sha256sum] = "3826185b11e1fc372e7d31251e9b65e11ccb7c27f82c771d619048bdb5b66c81"
-+SRC_URI[md5sum] = "df94212b19d270a625b67b4c84ac9a41"
-+SRC_URI[sha256sum] = "5c00cbd256e2b1d039381d4f7d71fcb7ee5cc196ca10c101ff7191bd82ab5d9c"
- 
- UPSTREAM_CHECK_URI = "https://pypi.python.org/pypi/GitPython/"
- UPSTREAM_CHECK_REGEX = "/GitPython/(?P<pver>(\d+[\.\-_]*)+)"
-diff --git a/meta/recipes-devtools/python/python-git_2.1.3.bb b/meta/recipes-devtools/python/python-git_2.1.5.bb
-similarity index 85%
-rename from meta/recipes-devtools/python/python-git_2.1.3.bb
-rename to meta/recipes-devtools/python/python-git_2.1.5.bb
-index e49dbea..779e606 100644
---- a/meta/recipes-devtools/python/python-git_2.1.3.bb
-+++ b/meta/recipes-devtools/python/python-git_2.1.5.bb
-@@ -4,4 +4,4 @@ DEPENDS = "python-gitdb"
- 
- inherit setuptools
- 
--RDEPENDS_${PN} += "python-gitdb python-lang python-io python-shell python-math python-re python-subprocess python-stringold python-unixadmin"
-+RDEPENDS_${PN} += "python-gitdb python-lang python-io python-shell python-math python-re python-subprocess python-stringold python-unixadmin python-unittest git"
-diff --git a/meta/recipes-devtools/python/python3-git_2.1.3.bb b/meta/recipes-devtools/python/python3-git_2.1.5.bb
-similarity index 81%
-rename from meta/recipes-devtools/python/python3-git_2.1.3.bb
-rename to meta/recipes-devtools/python/python3-git_2.1.5.bb
-index 7a2d452..4ac2a0e 100644
---- a/meta/recipes-devtools/python/python3-git_2.1.3.bb
-+++ b/meta/recipes-devtools/python/python3-git_2.1.5.bb
-@@ -4,4 +4,4 @@ DEPENDS = "python3-gitdb"
- 
- inherit setuptools3
- 
--RDEPENDS_${PN} += "python3-gitdb python3-lang python3-io python3-shell python3-math python3-re python3-subprocess python3-stringold python3-unixadmin python3-enum python3-logging python3-datetime python3-netclient python3-unittest python3-argparse"
-+RDEPENDS_${PN} += "python3-gitdb python3-lang python3-io python3-shell python3-math python3-re python3-subprocess python3-stringold python3-unixadmin python3-enum python3-logging python3-datetime python3-netclient python3-unittest python3-argparse git"
 -- 
-2.7.4
+Best Regards, Patrick Ohly
+
+The content of this message is my personal opinion only and although
+I am an employee of Intel, the statements I make here in no way
+represent Intel's position on the issue, nor am I authorized to speak
+on behalf of Intel on this matter.
+
+
 
 
