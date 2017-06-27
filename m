@@ -1,50 +1,50 @@
 Return-Path: <patrick.ohly@intel.com>
-Received: from mail-io0-f179.google.com (mail-io0-f179.google.com
-	[209.85.223.179])
-	by mail.openembedded.org (Postfix) with ESMTP id BF87677F7D
+Received: from mail-io0-f177.google.com (mail-io0-f177.google.com
+	[209.85.223.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 30A0377F7D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Jun 2017 15:33:54 +0000 (UTC)
-Received: by mail-io0-f179.google.com with SMTP id z62so19665274ioi.3
+	Tue, 27 Jun 2017 15:33:57 +0000 (UTC)
+Received: by mail-io0-f177.google.com with SMTP id h64so19718792iod.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Jun 2017 08:33:56 -0700 (PDT)
+	Tue, 27 Jun 2017 08:33:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=Jb8WxN5zp4yzOQGgQqV74Em2ntc+rnj0wghsZCvE1cE=;
-	b=XafcgHoT8djUcnMDlkaHaOkhaoPTjrCQixxyrnQFc+oTT+hrzgmYDMg+Lty2iupW2H
-	Cg1aUemUoWMtXqiuestUqnCX+ZcAR7nOoe5GfEvTO8wZeevyGmNQbc3vBG613qn33Mot
-	er2Yyu+ss/qh0dyn3aEmTyCAQwjAthTxwRQelte1oVSq0UUtBzRI7kOwI8gFSrqtB5o8
-	ktGC4zG41ZZnhJEw/JXcR1O+Nza2UUSMgINVWmWtrXaguKGRR3gwf3csT2Pogucc1LdG
-	CWnuiYJ7y/bYpCct0crbZWIXL4ymXbTKViOeVbZWov/RCZ1Xy2Fy3GGbh5g+9FFNb1Hj
-	KRBQ==
+	bh=Qnz0GNoSF9xaFC3NF4NAmTWsY5UTFcHtfBO/P4qPCW0=;
+	b=uakRt9tQmEMiLMRYm0fsxBbcWATNHyyTiHdXdv+rhX+dNg1aNWBzbDbZfq4KdiDcoN
+	ogjZnOMn5yxdOf99R3Sh9BmI7K/n0NyDV/JWkIv/X+3UQFsC1LwT+fZaAYQFmAl9vhd3
+	t2IdBt3RuUNVaeV5iAdov6GjKIgE5eIZM0+5ooCtA/7Lk2cghEkaHZpdpuyotTEzB89d
+	BeMfTFDZjQbFZzXlodQa775GFstrF8K5A6uol6aYHZMI4PjJsNTv+94dl7am+xy18gSv
+	lOvBDBuVbpE4bzRjgB3rqU2s/mKu7UFznMgX1gIJ2LEaLT/HTWwUT3DF1C+0+DHAor23
+	UgGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=Jb8WxN5zp4yzOQGgQqV74Em2ntc+rnj0wghsZCvE1cE=;
-	b=XWtCa5s/720DXW8IWwmIG/h3e6OLzZE4yvNpsgsb9w56El86NFjyhf6GOwT7Y8nYa7
-	D4At2jtHR1rIuqE8j+Wi58hb0+72KwxW8PLNbEGYA9CZhCIiIPEOgEjagwTPowJ4uZmj
-	WPsDIlBfJB+JMINMd0BriMveo2ZDWRPvqv2KYpQ2MYLtbRMuEjDpbZxhgTia2J+IqoYy
-	zapTWNWqVFxwgdNjoDKoajXqIyMfO0whxUiFXXQPoXijRsXwGGIP05bRtEO5Scltdllu
-	paO1r9rOHhCPkGLiu2yYDAyvKApvtL6CKxsVpZkV9No0M0rYrgAemt3jdzfLoenoA4JY
-	Jt9w==
-X-Gm-Message-State: AKS2vOwXMexyfif9ErVTvYyQ+F0H2mM5KYMzyTdhpg2XoiqLho6eSRMQ
-	11PRSP29oG5hkuKy+ys=
-X-Received: by 10.107.3.225 with SMTP id e94mr7889106ioi.64.1498577635342;
-	Tue, 27 Jun 2017 08:33:55 -0700 (PDT)
+	bh=Qnz0GNoSF9xaFC3NF4NAmTWsY5UTFcHtfBO/P4qPCW0=;
+	b=LGL0zT2FXgWxM0sllmdj3/3/JLEH2ZPGPB3nMi5zXTF8jgLlsDlKeevfQttH9DXNcq
+	E1VeUCV+xR7OLUNmmx1TDUN0higltrpSWe6DlLxJ2sPp/vBuo6eIAzT8sdTLOMK1qDeJ
+	WbmWP2EVlIGtP5peHTb1jS9PI1NJOMBntmJ+sUX8INSbVcCL5TUVRlR1x81aTJn8cqhs
+	7CPPSMQFmh0lRJMYgZ2jpezrmTm8HQ8+DIxaRmIgKj+PlnVanKeteRqq9NRzwqSxclvL
+	wz1cEqsVFRAjP7CUXTP9UMU1B4biLJFCfiMTtpHh2BN9Tbi43APC81jB5MMoGyRuvRg5
+	fe4Q==
+X-Gm-Message-State: AKS2vOzrEBWT9vp/pJiYFKnnwtFccQeYKYjUBKtVTn4A44LHphEe+XHe
+	ZK6PFxWM2SAmWz/FdaA=
+X-Received: by 10.107.174.42 with SMTP id x42mr6651624ioe.202.1498577638853;
+	Tue, 27 Jun 2017 08:33:58 -0700 (PDT)
 Received: from pohly-desktop.fritz.box (p5DE8FB9F.dip0.t-ipconnect.de.
 	[93.232.251.159]) by smtp.gmail.com with ESMTPSA id
-	f40sm1702550ioj.19.2017.06.27.08.33.53
+	f40sm1702550ioj.19.2017.06.27.08.33.56
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 27 Jun 2017 08:33:54 -0700 (PDT)
+	Tue, 27 Jun 2017 08:33:57 -0700 (PDT)
 From: Patrick Ohly <patrick.ohly@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 27 Jun 2017 17:33:38 +0200
-Message-Id: <89eb4c1de58d2de44df217a62c9cd791da16a9eb.1498577501.git-series.patrick.ohly@intel.com>
+Date: Tue, 27 Jun 2017 17:33:39 +0200
+Message-Id: <131b28b809e513e5a07abd9bc2ffd34957b4cc4e.1498577501.git-series.patrick.ohly@intel.com>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <cover.f2f002a814bb8f4571ff6f9fd7cb880b94cc611f.1498577501.git-series.patrick.ohly@intel.com>
 References: <cover.f2f002a814bb8f4571ff6f9fd7cb880b94cc611f.1498577501.git-series.patrick.ohly@intel.com>
-Subject: [PATCH v2 1/6] yocto-compat-layer.py: avoid adding layers more than once
+Subject: [PATCH v2 2/6] yocto-compat-layer.py: tolerate broken world builds during signature diff
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,56 +57,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Jun 2017 15:33:55 -0000
+X-List-Received-Date: Tue, 27 Jun 2017 15:33:58 -0000
 
-add_layer_dependencies() might get called more than once, or one of
-the layer dependencies might already be present. The function should
-not add layers again because doing so can cause warnings like:
-
-  WARNING: Duplicate inclusion for .../meta-openembedded/meta-oe/conf/distro/include/meta_oe_security_flags.inc in .../meta-openembedded/meta-oe/conf/layer.conf
+The "test_signatures" test ignored a broken world build when getting
+signatures, but the code which then tried to analyze a difference
+found by the test didn't, which prevented printing the difference.
 
 Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
 ---
- scripts/lib/compatlayer/__init__.py | 17 +++++++++++++++--
- 1 file changed, 15 insertions(+), 2 deletions(-)
+ scripts/lib/compatlayer/__init__.py     | 7 ++++++-
+ scripts/lib/compatlayer/cases/common.py | 2 +-
+ 2 files changed, 7 insertions(+), 2 deletions(-)
 
 diff --git a/scripts/lib/compatlayer/__init__.py b/scripts/lib/compatlayer/__init__.py
-index e35f8c0..eaae4e5 100644
+index eaae4e5..451e1de 100644
 --- a/scripts/lib/compatlayer/__init__.py
 +++ b/scripts/lib/compatlayer/__init__.py
-@@ -4,6 +4,7 @@
- # Released under the MIT license (see COPYING.MIT)
+@@ -290,7 +290,7 @@ def get_signatures(builddir, failsafe=False, machine=None):
  
- import os
-+import re
- import subprocess
- from enum import Enum
+     return (sigs, tune2tasks)
  
-@@ -189,10 +190,22 @@ def add_layer_dependencies(bblayersconf, layer, layers, logger):
-     if layer_depends is None:
-         return False
-     else:
-+        # Don't add a layer that is already present.
-+        added = set()
-+        output = check_command('Getting existing layers failed.', 'bitbake-layers show-layers').decode('utf-8')
-+        for layer, path, pri in re.findall(r'^(\S+) +([^\n]*?) +(\d+)$', output, re.MULTILINE):
-+            added.add(path)
-+
-         for layer_depend in layer_depends:
--            logger.info('Adding layer dependency %s' % layer_depend['name'])
-+            name = layer_depend['name']
-+            path = layer_depend['path']
-+            if path in added:
-+                continue
-+            else:
-+                added.add(path)
-+            logger.info('Adding layer dependency %s' % name)
-             with open(bblayersconf, 'a+') as f:
--                f.write("\nBBLAYERS += \"%s\"\n" % layer_depend['path'])
-+                f.write("\nBBLAYERS += \"%s\"\n" % path)
-     return True
+-def get_depgraph(targets=['world']):
++def get_depgraph(targets=['world'], failsafe=False):
+     '''
+     Returns the dependency graph for the given target(s).
+     The dependency graph is taken directly from DepTreeEvent.
+@@ -309,6 +309,11 @@ def get_depgraph(targets=['world']):
+                 elif isinstance(event, bb.command.CommandCompleted):
+                     break
+                 elif isinstance(event, bb.event.NoProvider):
++                    if failsafe:
++                        # The event is informational, we will get information about the
++                        # remaining dependencies eventually and thus can ignore this
++                        # here like we do in get_signatures(), if desired.
++                        continue
+                     if event._reasons:
+                         raise RuntimeError('Nothing provides %s: %s' % (event._item, event._reasons))
+                     else:
+diff --git a/scripts/lib/compatlayer/cases/common.py b/scripts/lib/compatlayer/cases/common.py
+index 8eeada9..2dfcbb1 100644
+--- a/scripts/lib/compatlayer/cases/common.py
++++ b/scripts/lib/compatlayer/cases/common.py
+@@ -50,7 +50,7 @@ class CommonCompatLayer(OECompatLayerTestCase):
+             def graph2sig(task):
+                 pn, taskname = task.rsplit('.', 1)
+                 return pn + ':' + taskname
+-            depgraph = get_depgraph()
++            depgraph = get_depgraph(failsafe=True)
+             depends = depgraph['tdepends']
  
- def add_layer(bblayersconf, layer, layers, logger):
+             # If a task A has a changed signature, but none of its
 -- 
 git-series 0.9.1
 
