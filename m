@@ -1,51 +1,50 @@
-Return-Path: <net147@gmail.com>
-Received: from mail-io0-f180.google.com (mail-io0-f180.google.com
-	[209.85.223.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 8885977DB1
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qt0-f169.google.com (mail-qt0-f169.google.com
+	[209.85.216.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 5CAAC77FF9
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Jun 2017 11:11:35 +0000 (UTC)
-Received: by mail-io0-f180.google.com with SMTP id z62so15408095ioi.3
+	Tue, 27 Jun 2017 11:20:37 +0000 (UTC)
+Received: by mail-qt0-f169.google.com with SMTP id r30so21630237qtc.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Jun 2017 04:11:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	Tue, 27 Jun 2017 04:20:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=4EaYRMMyHiAVd9ddZ0LbiK6RQI6V5QJ1SNqBTlQ80cQ=;
-	b=fYhzoIUIawYP43q88SWaMrgJLuUef33khEvhT0vw5afYHFkPBveOBNxzIBBdT31U30
-	xVb+d0RpCG/VpjKD/P9Rh+9t6gyFhhlcbh4f8l57Ba2Jwa6pPm7asGzxHAYNx7E0kSC8
-	poQohtOv+LVoDAzBcj+1+WTShAomnfgjppwJHfWGT7rv+Nuk+eVULdm1RF1Q625krxwG
-	/pgxuCI1P4qhlZdr4X8SOVxB8l//ZIJ8ZnQJwYHYJj20EtE6D5r2HEvECLbN3O++coq4
-	yL5SWroTz6y8EIobKkEszY9ouLM16hdy9eel9ku3pK7PCGthrvWrXcW5UjxrFNMjUfEZ
-	s9aQ==
+	:cc; bh=kNzDoJa2MJLquauoeifKbuv9aY6V6VhaRt90S7yPfvs=;
+	b=hwYiBb+L30MLZPusmQAYoqJ0+fSzBH1pa7xejFhE7NYbX+03ICs84s4VRPUsOuKS1W
+	mR9Glbx8ZbLypJyNPhOMcXMH8LFTWB4elcUSVxXwgUo8uSgTVMr7ADOBP1BdNbnw8NWc
+	LRPiMpiArenlACwWgalXM+6QN/qCGVkfRCXPFjlyFzdwDXP9iMxmFOsDmHihbKFO99cj
+	TL7ACZF18auOiV/wJkPYyIdT9YfVcn5tURMgj5UHSa0buZIt6SMd+ZGXqp4yV5Z0zJWn
+	9TyAYAxLNuKFoszBDtoQgQ7kzffbjlwa2OQjcOJI+JLqZDFCIewWGWsf00hv5/dZUDz1
+	k8yQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=4EaYRMMyHiAVd9ddZ0LbiK6RQI6V5QJ1SNqBTlQ80cQ=;
-	b=IR3OcuamyT0Btx5Q2Id0g94uqZzlCqwQnYPij8tRXJ20d/TEFy8ce7HqPrCx9pV/dP
-	A305sOktQCpmDssQqttTegMXpko+ePCMQOa//kp9TKYYekqeUmy2CcpMX29zm7tEEgUx
-	5ycgfOlZGQdoum/wer24j4BadS/u7nCC3+KTuScyEptxMa9AOm/EKog31etiEHnCJz/p
-	j/VSgmGHc2M0VTGTJkzsL1twQaLUEYxbMM7v3qHx1daB4V61JVUB2J+ZnxDcWQopKZ41
-	osu682Ahv3koclseUGhbwdl7MyiRcvSPrsP995smh4WH9hes+pem62uamusNuThMdrEz
-	0pzw==
-X-Gm-Message-State: AKS2vOzmKzqehnpYxwqRldOsqH3uy550iB7RKqh72lqnu9cG/ua4BYHP
-	KY4PDPEaTc1fnV6vGVfoYU/NMfQJwWqZ
-X-Received: by 10.107.9.160 with SMTP id 32mr5479763ioj.212.1498561897244;
-	Tue, 27 Jun 2017 04:11:37 -0700 (PDT)
+	bh=kNzDoJa2MJLquauoeifKbuv9aY6V6VhaRt90S7yPfvs=;
+	b=pRC+uk0g+ymgwZyzcDQsCoWpVcDbnx5CvlCp4ic5HaHqcdxbwyB5fyiTlug8v/r89E
+	aLjxpOYtnkeSJbWCJz4VCArTLEctQ8og/tcO44A9Xx5d93JT3s05ICA0Utq6ZdI5p65x
+	ZeZKVSP1INGy2CHw05MI9or+9xcDHFHKM6NvYkjmrLByXvQzxH5w1IO4t6KnxKNzMwDg
+	IeHtuyMvsZbGkkurkWGegLqNkB7JYmL15uYzbYGs6RluS3E+D6fTapmgA5pLA7PsCQJ9
+	BiEozK/TyE+9lyWAUH5IENtci3+t3bn5ooRNzUTnQg4FOf/MfwkUoCNxdBN80/3fhOkS
+	Cf4A==
+X-Gm-Message-State: AKS2vOxWyu4v7lW90KxrySGGbQt37LzbjnIbWCBeTQlkVNIbfMvATWJn
+	ahWNX2+bRyfRhoFoL0DcGYyhazZRBT2z
+X-Received: by 10.237.48.45 with SMTP id 42mr5468582qte.139.1498562439466;
+	Tue, 27 Jun 2017 04:20:39 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.107.9.104 with HTTP; Tue, 27 Jun 2017 04:11:36 -0700 (PDT)
-In-Reply-To: <1498559907.7464.42.camel@intel.com>
-References: <20170601121552.27868-1-net147@gmail.com>
-	<1498554326.7464.33.camel@intel.com>
-	<1498558903.7464.37.camel@intel.com>
-	<CANwerB3jfo=r=xcHdn8+yU1=r9JmK0_3MCnQWdf8uDh=Tn1AGA@mail.gmail.com>
-	<1498559907.7464.42.camel@intel.com>
-From: Jonathan Liu <net147@gmail.com>
-Date: Tue, 27 Jun 2017 21:11:36 +1000
-Message-ID: <CANwerB2qV6jEgUjzx6SGuWEYXFzPNo56PmmTJqHk5KnjA+O-AQ@mail.gmail.com>
-To: Patrick Ohly <patrick.ohly@intel.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] bitbake.conf: Add sdl-config to HOSTTOOLS if using host SDL
+Received: by 10.140.31.118 with HTTP; Tue, 27 Jun 2017 04:20:19 -0700 (PDT)
+In-Reply-To: <F187383F84EB304A88D055C304958879468479EE@FMSMSX106.amr.corp.intel.com>
+References: <cover.1497632387.git.humberto.ibarra.lopez@intel.com>
+	<7dc39347ac14d76dbdeb4d29cb63254dc559001f.1497632387.git.humberto.ibarra.lopez@intel.com>
+	<CAJTo0LbyA6q5ywJhKj6WUiozesJNo0ZqWrZsMhvW+k0Cei2QGw@mail.gmail.com>
+	<F187383F84EB304A88D055C304958879468479EE@FMSMSX106.amr.corp.intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 27 Jun 2017 12:20:19 +0100
+Message-ID: <CAJTo0LbEBRnsKJRiF4T7117iZmhbAQJoMPxX1LAKL1u3ijbbUw@mail.gmail.com>
+To: "Ibarra Lopez, Humberto" <humberto.ibarra.lopez@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] imagefeatures.py: Added testcase to track IMAGE_GEN_DEBUGFS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,54 +57,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Jun 2017 11:11:36 -0000
+X-List-Received-Date: Tue, 27 Jun 2017 11:20:38 -0000
+Content-Type: multipart/alternative; boundary="94eb2c0c96eae0e5f10552ef410c"
+
+--94eb2c0c96eae0e5f10552ef410c
 Content-Type: text/plain; charset="UTF-8"
 
-Hi Patrick,
+On 16 June 2017 at 18:37, Ibarra Lopez, Humberto <
+humberto.ibarra.lopez@intel.com> wrote:
 
-On 27 June 2017 at 20:38, Patrick Ohly <patrick.ohly@intel.com> wrote:
-> On Tue, 2017-06-27 at 20:24 +1000, Jonathan Liu wrote:
->> Hi Patrick,
->>
->> The original problem was that bitbake would print out the error:
->> "libsdl-native is set to be ASSUME_PROVIDED but sdl-config can't be
->> found in PATH. Please either install it, or configure qemu not to
->> require sdl.", if "libsdl-native" was in ASSUME_PROVIDED even if the
->> host has sdl-config in its PATH.
->>
->> This occurred really early for a clean build and bitbake would bail
->> out. The sanity check is in meta/classes/sanity.bbclass.
+> Thought about testing debug packages because the bug comments mentioned
+> iterating through rpm, deb and ipk. If there is no value to this part I
+> could drop it and only test for the debug filesystem. In this cases there
+> any value to check the debug filesystem in all three package classes?
 >
-> I've not hit that problem, probably because the sanity check was not run
-> again when I changed ASSUME_PROVIDED. I can reproduce it in a clean
-> build directory without conf/sanity_info.
 >
-> I think extending HOSTTOOLS merely to satisfy sanity.bbclass is the
-> wrong solution to the problem. It makes sdl-config available to all
-> recipes, which is unnecessary and potentially introduces back host
-> contamination.
->
-> It is unnecessary because the qemu recipe has special code that enables
-> the use of the host SDL when told to do so via ASSUME_PROVIDED.
->
-> Can you come up with a better solution, probably by patching
-> sanity.bbclass?
+The debugfs generation involves using the package manager, but we exercise
+those codepaths already so I'd be happy with just one package manager being
+used for speed.
 
-I can't think of any at this stage. Feel free to post a patch if you
-come up with something better.
+Ross
 
->
-> --
-> Best Regards, Patrick Ohly
->
-> The content of this message is my personal opinion only and although
-> I am an employee of Intel, the statements I make here in no way
-> represent Intel's position on the issue, nor am I authorized to speak
-> on behalf of Intel on this matter.
->
->
->
+--94eb2c0c96eae0e5f10552ef410c
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Regards,
-Jonathan
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 16 June 2017 at 18:37, Ibarra Lopez, Humberto <span dir=3D"ltr">&lt;<a h=
+ref=3D"mailto:humberto.ibarra.lopez@intel.com" target=3D"_blank">humberto.i=
+barra.lopez@intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_q=
+uote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1e=
+x"><p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot=
+;Calibri&quot;,sans-serif;color:#1f497d">Thought about testing debug packag=
+es because the bug comments mentioned iterating through rpm, deb and ipk. I=
+f there is no value to this part I could drop it
+ and only test for the debug filesystem. In this cases there any value to c=
+heck the debug filesystem in all three package classes?<u></u><u></u></span=
+></p>
+<p class=3D"MsoNormal"></p></blockquote></div><br></div><div class=3D"gmail=
+_extra">The debugfs generation involves using the package manager, but we e=
+xercise those codepaths already so I&#39;d be happy with just one package m=
+anager being used for speed.</div><div class=3D"gmail_extra"><br></div><div=
+ class=3D"gmail_extra">Ross</div></div>
 
+--94eb2c0c96eae0e5f10552ef410c--
