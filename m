@@ -1,59 +1,53 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-it0-f51.google.com (mail-it0-f51.google.com
-	[209.85.214.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 4F44E77FC7
+Return-Path: <jpewhacker@gmail.com>
+Received: from mail-io0-f181.google.com (mail-io0-f181.google.com
+	[209.85.223.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 3DF5477E91
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Jun 2017 15:50:35 +0000 (UTC)
-Received: by mail-it0-f51.google.com with SMTP id b205so17847023itg.1
+	Tue, 27 Jun 2017 16:08:09 +0000 (UTC)
+Received: by mail-io0-f181.google.com with SMTP id h64so20356723iod.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Jun 2017 08:50:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:organization:mime-version:content-transfer-encoding;
-	bh=l2HN7QWSHIt7t5cp5KVkArIyrRUtxgaiTKeTnhZkyLE=;
-	b=xWVl78OO4lj9g5y/4ork/rUwKfGnf9HKs5T6l50EamhkgssUNV7453Pq62X2CJSMdW
-	QsrH3Itazags+bYrnDgfNjhbvgOXCEMY13UEfe/dPjr2v294OrhsR7j2xpjJ0hVzSnl6
-	4rItw1CiZ4J1zD+BSNvKRpuqpWO1QGuUpeJSJn6tPayvmZCEtdTiSjmR2m3IIguHEW3O
-	tcB51p51dgAznvZM3zA+VgwVQEGTTuGSHMJIozGNE3DYWYhC+bF2utXcBJMMNiDcMe82
-	dPnHu/RW4Leu7IfMHLAgZaOJhNZRRV64y6cvDszvnvhR1NJpK3Wt3Ljtvy2ab0bU1TcM
-	ViAw==
+	Tue, 27 Jun 2017 09:08:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:message-id:subject:to:date:in-reply-to:references:mime-version
+	:content-transfer-encoding;
+	bh=4w/PC5xOe7E0vIDARRPt4Y/qzvj2skB5XR1DHSNhjME=;
+	b=KH0sze/6JLU1GypcnM13n3neR7tItfe6waqYxooNrrTgjV/Vq6kM2GioM+L58K/ykc
+	tgQ6pFjWIahIoE7uyIeY+bYvcDakutIzklxmxFGBp3WK6COiLuUOx1pPHepPDIbA9fdP
+	wCnlXJZ3v2XCUjRTJwZGWYqxL3p2TKZmRuh4IE+QI7c+P1UqSlrKMqzxH9/6Zlitkivw
+	7WuVo2MGEzV59jOTKQmZO/gbEnTo0BYL1nH4F3Dp/L5xe2/e3VLOqm2CKZdDCh4Ry4A1
+	ijZlvmD6xElBk1HFsgZiSBpQGRLCiv4nORDF1UE3MDDooMjZBGcRiAZxApG9etd3kYBq
+	96vg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:organization:mime-version:content-transfer-encoding;
-	bh=l2HN7QWSHIt7t5cp5KVkArIyrRUtxgaiTKeTnhZkyLE=;
-	b=owZwFvkOScie8vufBZUSbs7ZZRUP/Mfow8jyslx5/dJmMJSTZzLhJo3mYDeVEtSadX
-	5c9fIuS+kEz2AzEDEZPU4au8tQRgeEO3UMx5uwE/hqav1zaAAb1/CFPW0pIxTt01nky9
-	AfjWb60d6J2LollfnWVErq6hwRigE22hH78QKyuGtxpb9vSJdLtIg9tcCY3s+npOO1G8
-	ZCoZWdezNJDSQ4k7F0Squa9abNrcCq/giGWzMgK93voTRPBrtG2G0fdd3iATLnmG5qSt
-	x/RPdgYCXvHsNmPDfwHG/UOKMlYpk42tBSiktJys7reclphII4Fq2Hw90nYXk4uTNsKo
-	9tbg==
-X-Gm-Message-State: AKS2vOyuPBk1/BegYa7ovr7ERrG3VetZDp7Dz7tkDdqsbcN92CwePpvA
-	OiNfppmGZ861BufM
-X-Received: by 10.36.253.138 with SMTP id m132mr3245462ith.100.1498578637192; 
-	Tue, 27 Jun 2017 08:50:37 -0700 (PDT)
-Received: from pohly-mobl1 (p5DE8FB9F.dip0.t-ipconnect.de. [93.232.251.159])
-	by smtp.gmail.com with ESMTPSA id w80sm1528972ita.4.2017.06.27.08.50.34
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 27 Jun 2017 08:50:35 -0700 (PDT)
-Message-ID: <1498578633.7464.49.camel@intel.com>
-From: Patrick Ohly <patrick.ohly@intel.com>
-To: Jonathan Liu <net147@gmail.com>
-Date: Tue, 27 Jun 2017 17:50:33 +0200
-In-Reply-To: <CANwerB2qV6jEgUjzx6SGuWEYXFzPNo56PmmTJqHk5KnjA+O-AQ@mail.gmail.com>
-References: <20170601121552.27868-1-net147@gmail.com>
-	<1498554326.7464.33.camel@intel.com>
-	<1498558903.7464.37.camel@intel.com>
-	<CANwerB3jfo=r=xcHdn8+yU1=r9JmK0_3MCnQWdf8uDh=Tn1AGA@mail.gmail.com>
-	<1498559907.7464.42.camel@intel.com>
-	<CANwerB2qV6jEgUjzx6SGuWEYXFzPNo56PmmTJqHk5KnjA+O-AQ@mail.gmail.com>
-Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
-X-Mailer: Evolution 3.12.9-1+b1 
+	h=x-gm-message-state:from:message-id:subject:to:date:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=4w/PC5xOe7E0vIDARRPt4Y/qzvj2skB5XR1DHSNhjME=;
+	b=P3vZj3ky7KUexnjmhrD2rx3fqKeFM+rwpp3wYEgEm3bM5NKbN36ikKEWrANXA2nk/M
+	2WKjxWlNrxIA8V/qtwqMtrHO/nL5WMRvn2aCvVF7g61+Zi7swmLvgngBt72Y5kBhGUOF
+	PtMZegvt8iGlfzzW/nY0A6tud7tpGfwcCLm1JjXOWDZtrna2BS1kf2QC1h3e/MsyB8aH
+	H82zpe+HfUwx59eUOzrb+nMzzgX/CjGnU6LKUomx/RGp8HDKgMPnPuP3XuXAOtbjtsKr
+	AoBVoqtab/jbvf+Mnl3BMZnAZ98FOa54cW0RfDj425VUnZYue5x8No5QTYu/X9/dXEr7
+	OxiA==
+X-Gm-Message-State: AKS2vOzUR88hbc3HyYUo4rVgSnaqhbsi7avRiFEAgrkjskINch5OwBvd
+	VXRNx4tuorNX8mr79aA=
+X-Received: by 10.107.139.145 with SMTP id n139mr8007430iod.166.1498579690809; 
+	Tue, 27 Jun 2017 09:08:10 -0700 (PDT)
+Received: from ola-842mrw1.ad.garmin.com ([204.77.163.55])
+	by smtp.googlemail.com with ESMTPSA id
+	b17sm1573050itd.0.2017.06.27.09.08.09
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Tue, 27 Jun 2017 09:08:09 -0700 (PDT)
+From: Joshua Watt <jpewhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+Message-ID: <1498579688.11937.3.camel@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 27 Jun 2017 11:08:08 -0500
+In-Reply-To: <20170606023049.6415-1-JPEWhacker@gmail.com>
+References: <20170606023049.6415-1-JPEWhacker@gmail.com>
+X-Mailer: Evolution 3.22.6 (3.22.6-2.fc25) 
 Mime-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] bitbake.conf: Add sdl-config to HOSTTOOLS if using host SDL
+Subject: Re: [morty][PATCH] archiver: Escape recipe name in regex
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -66,69 +60,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Jun 2017 15:50:36 -0000
+X-List-Received-Date: Tue, 27 Jun 2017 16:08:10 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Tue, 2017-06-27 at 21:11 +1000, Jonathan Liu wrote:
-> Hi Patrick,
+On Mon, 2017-06-05 at 21:30 -0500, Joshua Watt wrote:
+> From: Joshua Watt <jpewhacker@gmail.com>
 > 
-> On 27 June 2017 at 20:38, Patrick Ohly <patrick.ohly@intel.com> wrote:
-> > On Tue, 2017-06-27 at 20:24 +1000, Jonathan Liu wrote:
-> >> Hi Patrick,
-> >>
-> >> The original problem was that bitbake would print out the error:
-> >> "libsdl-native is set to be ASSUME_PROVIDED but sdl-config can't be
-> >> found in PATH. Please either install it, or configure qemu not to
-> >> require sdl.", if "libsdl-native" was in ASSUME_PROVIDED even if the
-> >> host has sdl-config in its PATH.
-> >>
-> >> This occurred really early for a clean build and bitbake would bail
-> >> out. The sanity check is in meta/classes/sanity.bbclass.
-> >
-> > I've not hit that problem, probably because the sanity check was not run
-> > again when I changed ASSUME_PROVIDED. I can reproduce it in a clean
-> > build directory without conf/sanity_info.
-> >
-> > I think extending HOSTTOOLS merely to satisfy sanity.bbclass is the
-> > wrong solution to the problem. It makes sdl-config available to all
-> > recipes, which is unnecessary and potentially introduces back host
-> > contamination.
-> >
-> > It is unnecessary because the qemu recipe has special code that enables
-> > the use of the host SDL when told to do so via ASSUME_PROVIDED.
-> >
-> > Can you come up with a better solution, probably by patching
-> > sanity.bbclass?
+> The recipe name needs to be escaped when using it in a regular
+> expression so
+> that and special characters are treated literally
 > 
-> I can't think of any at this stage.
+> (From OE-Core rev: 53c8cceb744adda1bf899d62071d11b20a5dea98)
+> 
+> Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+> ---
+>  meta/classes/archiver.bbclass | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/meta/classes/archiver.bbclass
+> b/meta/classes/archiver.bbclass
+> index 3543ca9..188f8c0 100644
+> --- a/meta/classes/archiver.bbclass
+> +++ b/meta/classes/archiver.bbclass
+> @@ -349,8 +349,8 @@ python do_ar_recipe () {
+>      bbappend_files = d.getVar('BBINCLUDED', True).split()
+>      # If recipe name is aa, we need to match files like aa.bbappend
+> and aa_1.1.bbappend
+>      # Files like aa1.bbappend or aa1_1.1.bbappend must be excluded.
+> -    bbappend_re = re.compile( r".*/%s_[^/]*\.bbappend$" %pn)
+> -    bbappend_re1 = re.compile( r".*/%s\.bbappend$" %pn)
+> +    bbappend_re = re.compile( r".*/%s_[^/]*\.bbappend$" %
+> re.escape(pn))
+> +    bbappend_re1 = re.compile( r".*/%s\.bbappend$" % re.escape(pn))
+>      for file in bbappend_files:
+>          if bbappend_re.match(file) or bbappend_re1.match(file):
+>              shutil.copy(file, outdir)
 
-Here's what qemu.inc does:
-
-do_configure_prepend_class-native() {
-        # Append build host pkg-config paths for native target since the host may provide sdl
-        BHOST_PKGCONFIG_PATH=$(PATH=/usr/bin:/bin pkg-config --variable pc_path pkg-config || echo "")
-        if [ ! -z "$BHOST_PKGCONFIG_PATH" ]; then
-                export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:$BHOST_PKGCONFIG_PATH
-        fi
-
-insanity.bbclass could use the host pkg-config to ensure that sdl.pc is
-installed.
-
-> Feel free to post a patch if you come up with something better.
-
-Sorry, I don't have time for that. I've filed
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=11725 so that we don't
-forget about it.
-
--- 
-Best Regards, Patrick Ohly
-
-The content of this message is my personal opinion only and although
-I am an employee of Intel, the statements I make here in no way
-represent Intel's position on the issue, nor am I authorized to speak
-on behalf of Intel on this matter.
-
-
-
+Ping?
 
