@@ -1,46 +1,50 @@
-Return-Path: <liu.ming50@gmail.com>
-Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 4BC4477FDE
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-it0-f48.google.com (mail-it0-f48.google.com
+	[209.85.214.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 69AF077E4E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Jun 2017 10:39:20 +0000 (UTC)
-Received: by mail-wm0-f66.google.com with SMTP id y5so4968604wmh.3
+	Tue, 27 Jun 2017 11:03:46 +0000 (UTC)
+Received: by mail-it0-f48.google.com with SMTP id m68so11861895ith.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Jun 2017 03:39:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=2pNSfIjNDoMNhe0vy76mb64iy30aA7RZc1nV6KOObdI=;
-	b=Hv+SxDqsTy5PEURxeixsszXaCyvyH5yjamW2Cm8EcC5q5dfIaXRlTHUbFwNYXH9vGd
-	dPqzXdu3YwGhZpPV9I8+M6wqo9w6Oo4xPBTDZc4CVOZcMZ32BJBgh3JNbwmojENgnRVH
-	XjCPRBJhjMRlXdJqTPdyrg6haFrv37ih2KMCyJ3EtnovUlWi6baU+0VrS3bV3cnibzF+
-	PFLwliugKXaPe4GPdzgTHkkTdQDAPMB7fTGKohG5JWPL0Dk0RW8m3lwACmaXYM3wLn/P
-	OrjBRtI9jkCfbfnl4cMzPZ8pYAQC22RLrTcGbDli7ayYC7FmcsGd//TSfxm5uMrlaT7V
-	5UrA==
+	Tue, 27 Jun 2017 04:03:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=4IJc3kClcwS1izqTY3tE9QTXw90oswtmTb4Q3JFhVV8=;
+	b=kRmFCos6vCooRMvN94b/Hn71JxLS6AkZ63cIfm2beZDDnDi4Pasyorp0irGQSrmgSG
+	gZf4OdieP1359o2wLHaFFoIMbPWA7u2JkFiIOVTFg6QKHmdEnLoyjrzfAJe2n6OP3iU2
+	1e39ALuIaZgxnP42zAR0+UYLD/dZZ5n4BU/1djKv9sW+yp6OTK+LEIm/+uJn6rf8h2Qz
+	27WaHeH7jOCDtIJw4S0QiiKKN/YLBrNHjCXjdx5d6bRMPT1GyjiZXIFQBg2ojf6WmuJ0
+	zvmteuQZEW+JrDwvu2GzQTDQw02p63hXwEtaFjVvlqtzyC88VEg90uljXtEJ7vSmjP7t
+	5jKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=2pNSfIjNDoMNhe0vy76mb64iy30aA7RZc1nV6KOObdI=;
-	b=Yhol0bXTbuMH09AtBxAe18cGG7UiwYIiUZJnYDhzmLjxiTbeAJKJZYWPN53U1c4kUw
-	qqyWm6GVLP2ditEDVyhhPEySqWYRgN9wQ1kHix/Z8SCu42MD+rxjlnunNNqRSUU/PS2p
-	qYGhQgTUWEFKGWNEaYQEcTTjfF1wWQICExMULjFZHxbMlyDoiTR9M5mV8VTzUgZ1Bj/E
-	LrPlbvdkuIUmAh7W7KMRHj8GneADrkND+9WCleay5cSee1408NcenlS8YG8gnP2Qq1IP
-	y5sFrXoTKgOeErFBbnQdeb7aV9j90oez/4n7eNfZdxiGGUGwnpRvKPZ8n8CG/YgOTRLE
-	n/gg==
-X-Gm-Message-State: AKS2vOysF9UMDn6cphXYJfed72wZgVWG9WfWPv6gg81rQwimxgfeVJoL
-	9VUcNq8hV9p+GE6X
-X-Received: by 10.80.179.209 with SMTP id t17mr3457129edd.62.1498559961325;
-	Tue, 27 Jun 2017 03:39:21 -0700 (PDT)
-Received: from peterliu-Precision-M4800.emea.group.atlascopco.com
-	([106.119.192.84]) by smtp.gmail.com with ESMTPSA id
-	e22sm1540196edd.26.2017.06.27.03.39.19
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=4IJc3kClcwS1izqTY3tE9QTXw90oswtmTb4Q3JFhVV8=;
+	b=mVnMoYsFNAPq1EieHhzMKDWDuzczo804gDUc8HnpshaH2pA+Fa1JfNzsBHgx6JiTwl
+	BzCzK2+m0RyRRpl08wqP1vjRMul3rexcqWz0Hpvwt8Y0cVX615bvhO1JJSc/WQnwhlCe
+	beOV8K14zT96Lz7dG1sE8vst2zl+HGBUkXwSGYSfY5fUzKbU3wW5GcT1CRUPkFlaQvQb
+	dXdqXWlCLux4a/qZQA5z0mJPGYmA99H7MNhNo/lM6gh99vUQsPnsuvNt8uhC9ev41vGD
+	CmCdOwUdBQqvZmJWSy7dqASVLgla6/yyd14rn5aXdU4Q9CG6XUSe+MGvOdZSlglju84C
+	50dg==
+X-Gm-Message-State: AKS2vOx8yEqErJqW+zte9ACKhcseAb7jbpTMbjIdSJCroWu4DiY9ORdk
+	xF2+JDQtars8FslqroI=
+X-Received: by 10.36.124.5 with SMTP id a5mr2520521itd.41.1498561427061;
+	Tue, 27 Jun 2017 04:03:47 -0700 (PDT)
+Received: from pohly-desktop.fritz.box (p5DE8FB9F.dip0.t-ipconnect.de.
+	[93.232.251.159]) by smtp.gmail.com with ESMTPSA id
+	e14sm1182323itc.30.2017.06.27.04.03.44
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 27 Jun 2017 03:39:20 -0700 (PDT)
-From: liu.ming50@gmail.com
+	Tue, 27 Jun 2017 04:03:45 -0700 (PDT)
+From: Patrick Ohly <patrick.ohly@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 27 Jun 2017 12:39:14 +0200
-Message-Id: <1498559954-17714-1-git-send-email-liu.ming50@gmail.com>
-X-Mailer: git-send-email 2.7.4
-Cc: Ming Liu <peter.x.liu@external.atlascopco.com>
-Subject: [PATCH] scripts/test-reexec: fix several incomplete regexp
+Date: Tue, 27 Jun 2017 13:03:39 +0200
+Message-Id: <cover.6294f875f727127346587b794d369e08b84cc30e.1498561325.git-series.patrick.ohly@intel.com>
+X-Mailer: git-send-email 2.11.0
+In-Reply-To: <cover.15cc4e9137e8e3a07cae0cf09e9e2f2e4bcefa56.1498223057.git-series.patrick.ohly@intel.com>
+References: <cover.15cc4e9137e8e3a07cae0cf09e9e2f2e4bcefa56.1498223057.git-series.patrick.ohly@intel.com>
+Subject: [PATCH 0/2] enhance and test runCmd()
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,42 +57,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Jun 2017 10:39:20 -0000
+X-List-Received-Date: Tue, 27 Jun 2017 11:03:46 -0000
 
-From: Ming Liu <peter.x.liu@external.atlascopco.com>
+This is mostly motivated by some long-running build tests triggered in
+refkit where better output handling would be very desirable. I had
+this idea already before Leonardo proposed to change the runCmd()
+defaults, but as that's now a hot topic, it seemed like a good time to
+actually implement it.
 
-Some "=" are missing in the regexp, which leads it match multiple results
-if the variables have overrides, for instance:
-...
-SSTATE_DIR="xxxx"
-SSTATE_DIR_qemux86="yyyy"
-...
+The result.error encoding fix is something that Leonardo also had in
+his "[OE-core] [PATCH 2/2] selftest/cases: use stderr data when
+querying for errors" patch.
 
-it will match both of them without "=".
+Beware that this patch series conflicts with those patches because
+that same code is changed and because the current default semantic
+(joined stdout/stderr) gets explicitly tested.
 
-Signed-off-by: Ming Liu <peter.x.liu@external.atlascopco.com>
----
- scripts/test-reexec | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Change in V2:
+- fix race condition between "process has closed stdout/stderr" and
+  "process has terminated" by calling wait() instead of poll()
 
-diff --git a/scripts/test-reexec b/scripts/test-reexec
-index 9eaa96e..30e792c 100755
---- a/scripts/test-reexec
-+++ b/scripts/test-reexec
-@@ -38,9 +38,9 @@ mkdir -p $LOGS
- function clearsstate {
- 	target=$1
- 
--	sstate_dir=`bitbake $target -e | grep "^SSTATE_DIR" | cut -d "\"" -f 2`
--	sstate_pkgspec=`bitbake $target -e | grep "^SSTATE_PKGSPEC" | cut -d "\"" -f 2`
--	sstasks=`bitbake $target -e | grep "^SSTATETASKS" | cut -d "\"" -f 2`
-+	sstate_dir=`bitbake $target -e | grep "^SSTATE_DIR=" | cut -d "\"" -f 2`
-+	sstate_pkgspec=`bitbake $target -e | grep "^SSTATE_PKGSPEC=" | cut -d "\"" -f 2`
-+	sstasks=`bitbake $target -e | grep "^SSTATETASKS=" | cut -d "\"" -f 2`
- 
- 	for sstask in $sstasks
- 	do
+Patrick Ohly (2):
+  commands.py: live output logging + result.error encoding fix
+  runcmd.py: unit testing for runCmd()
+
+ meta/lib/oeqa/selftest/cases/runcmd.py | 117 ++++++++++++++++++++++++++-
+ meta/lib/oeqa/utils/commands.py        | 107 +++++++++++++++++++-----
+ 2 files changed, 202 insertions(+), 22 deletions(-)
+ create mode 100644 meta/lib/oeqa/selftest/cases/runcmd.py
+
+base-commit: 563cab8e823c3fde8ae4785ceaf4d68a5d3e25df
 -- 
-2.7.4
-
+git-series 0.9.1
 
