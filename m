@@ -1,63 +1,45 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-wm0-f41.google.com (mail-wm0-f41.google.com [74.125.82.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 2054B60234
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pg0-f65.google.com (mail-pg0-f65.google.com [74.125.83.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 6210177FC9
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Jun 2017 13:32:29 +0000 (UTC)
-Received: by mail-wm0-f41.google.com with SMTP id b184so58973632wme.1
+	Wed, 28 Jun 2017 16:04:18 +0000 (UTC)
+Received: by mail-pg0-f65.google.com with SMTP id f127so8704728pgc.2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Jun 2017 06:32:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
-	:cc; bh=/YEt0PpnbDrCMQnNKCdT0qXiKoZNix4Lgn9qozKxWLA=;
-	b=11u50hXYRR9ikQAdP7af92v7eBLMoqQ367oyZEuLcHUAeCDo2DHaF3jD4d2UKwJsdL
-	94IledtDsRY2lRBla0GweaSj5kjgTjCjSoFj2OBhoaTelbaEwLxq7aO0iAAU1ejpqUFE
-	sIOg9de9Kd9KA2vQyd81TKQpr/O4/NR9Eku7p6gd8A1h9VXXG7LEZQFYbCrzD2Ph9dlM
-	mXuR6AnNwHvUR36AP5Ro8ygQRW6Hg4zQXT1T646hMu+nD7zg81FZFLFe4CkKRbjxihFx
-	UDIpLwvX7HO158U7MhP5Lma7t8tw2i4F9CaBLBLFU+ocdVjBdrlMY/w8qRONz3kQpAy0
-	1Q+w==
+	Wed, 28 Jun 2017 09:04:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=WU7foQef7K952bniHph17K+OO1LTXuEnQg+E4vPSml8=;
+	b=nqhLvKXm8caT95k7pIDfjla3DKxFuY6NUhfZW/znPGf8btHVfO85Ag5cOFznjHGU9f
+	2urpIz2mKlcyvW+BojxHPwv6vxKLmzzsOrI3r8thU2NtLeZ79Ie/JgKMrUZrYKH7GsYI
+	PI8EBfcqDr783S+gKVEbO0/63mcrJ8Pgdx11b4vudioxloyqLHI6tnxYnJDAJVKK9UZG
+	iTGd6Rck71wU1G6afYutgHGXzeIrru+n7nrq5w4U7Ojg5m/e4PavsqhzeNqzpXjtkliX
+	1X2YyqMTBoGVzv6cZI8wtwqu+rxKHBrcIO3Ouu3D/RupBZC7MGsKwjbbLoFFjqO7J42E
+	R8gQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
-	:message-id:subject:to:cc;
-	bh=/YEt0PpnbDrCMQnNKCdT0qXiKoZNix4Lgn9qozKxWLA=;
-	b=TLnhcT62pNtpgt93E73+hj3hXNnDQBTDKsEiaw3KPwO6FkMXkwmsWerwaQKdR+bWRN
-	0nBipFCoWqzCnxL0AWBesUs43U9bH4Sb6YTLuBSDSPM5oWETl3ltBQapNX1RjrkmU5y4
-	aHihO4OrHAYYW5eu/NpqRBCl1HDZqyWaSNv242qxHQ/ZvTGPWiwC66wmYPqwYjaUnFC8
-	amLEGs66rG6KkqeNRjo6bnz75cGBUj7cAgaimeImAds0jXc+MX/whBmWm4My32aDmeZT
-	yWsIkw1kaGid9EOkYTaFe4V6FTAElbB8FpTkOEMHg0noRpID631o6Xy/JZ6ELJojZD3X
-	EdLQ==
-X-Gm-Message-State: AKS2vOw6VTXxennTTudo8JS9NCpKU2U39c2tVEK+JMC2M4nImrcYMFwt
-	mpqrIDfSGKloVlFbfT0=
-X-Received: by 10.28.69.9 with SMTP id s9mr7843756wma.71.1498656750287;
-	Wed, 28 Jun 2017 06:32:30 -0700 (PDT)
-Received: from mail-wm0-f41.google.com (mail-wm0-f41.google.com.
-	[74.125.82.41])
-	by smtp.gmail.com with ESMTPSA id v13sm7327623wmd.5.2017.06.28.06.32.29
-	for <openembedded-core@lists.openembedded.org>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=WU7foQef7K952bniHph17K+OO1LTXuEnQg+E4vPSml8=;
+	b=GZKQcBnkDXV712gCWFBQs7qygdFRdXmldUUyKw3XCEjJoqMJ6OPZAWlnlgTInTtHq1
+	VFpfW/Dxct2WYhj1CJ5kHCPnfqZ8KLx0lUMayizBc15dlTzZ11s6gU/02WacyipCRrqq
+	ov1hww7T+LSq1tONWvXkHEd+JtQFh86fgLMQ3h9wsWWGdB39IlyLTztUIfgMCz23ZJRZ
+	bQF44XNGNNN2Ss1TngUO3HX3M/s3oRQaKskIybLmal/L+IK1vOSLY6q/Z3WdrYtL1hbU
+	dX7BiXJeLBgKZCK1wYIDPpoWFZutTRo0/S2I5vxJjglfMAqxpm8HP8bz4PPV/bGSOhzf
+	GQKA==
+X-Gm-Message-State: AKS2vOxvo0Y3DQIiznqUtfpgWaGB5KO1pieZs+6yCcO6G95qSD3WzGaH
+	kn3NCdo3xuh1h4Gv
+X-Received: by 10.99.170.15 with SMTP id e15mr11257043pgf.239.1498665859999;
+	Wed, 28 Jun 2017 09:04:19 -0700 (PDT)
+Received: from localhost.localdomain ([2601:646:8882:b8c::3df3])
+	by smtp.gmail.com with ESMTPSA id
+	g184sm6397080pfb.3.2017.06.28.09.04.18
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 28 Jun 2017 06:32:29 -0700 (PDT)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-wm0-f41.google.com with SMTP id b184so58972603wme.1
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Jun 2017 06:32:29 -0700 (PDT)
-X-Received: by 10.28.105.85 with SMTP id e82mr7654267wmc.122.1498656748845;
-	Wed, 28 Jun 2017 06:32:28 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.28.176.5 with HTTP; Wed, 28 Jun 2017 06:32:27 -0700 (PDT)
-In-Reply-To: <20170628073121.GA11425@linux.intel.com>
-References: <cover.1498569961.git.ed.bartosh@linux.intel.com>
-	<CAP9ODKopDxEYw9vereQjoHve=n2Of2v-3EHbxaiumZN3T0hH8Q@mail.gmail.com>
-	<823180ba-066d-747d-8112-a110633a03a8@ossystems.com.br>
-	<20170628073121.GA11425@linux.intel.com>
-Date: Wed, 28 Jun 2017 10:32:27 -0300
-X-Gmail-Original-Message-ID: <CAP9ODKoxxaJv=QZXp5m=Qt14t36n1TPXS19D+Xs3eyrPDG79bg@mail.gmail.com>
-Message-ID: <CAP9ODKoxxaJv=QZXp5m=Qt14t36n1TPXS19D+Xs3eyrPDG79bg@mail.gmail.com>
-To: Ed Bartosh <ed.bartosh@linux.intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2 0/5] #11662 - wic should mount /boot
+	Wed, 28 Jun 2017 09:04:18 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 28 Jun 2017 09:04:05 -0700
+Message-Id: <cover.1498665211.git.raj.khem@gmail.com>
+X-Mailer: git-send-email 2.13.2
+Subject: [PATCH 00/10] Rework GCC PIE and security flags (take 2)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -70,44 +52,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Jun 2017 13:32:30 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 28 Jun 2017 16:04:20 -0000
 
-On Wed, Jun 28, 2017 at 4:31 AM, Ed Bartosh <ed.bartosh@linux.intel.com> wrote:
-> On Tue, Jun 27, 2017 at 05:41:45PM -0300, Fabio Berton wrote:
->> The last patch I sent is here:
->> https://patchwork.openembedded.org/patch/139252/
->>
->> We're using this patch internally with Pyro branch. I can rework to
->> apply on master.
->>
->> On 06/27/2017 05:35 PM, Otavio Salvador wrote:
->> >On Tue, Jun 27, 2017 at 10:28 AM, Ed Bartosh <ed.bartosh@linux.intel.com> wrote:
->> >>The patchset also fixes long standing bug: wic updated fstab
->> >>inplace in rootfs directory. This causes other tasks working with
->> >>rootfs directory to produce incorrect results or crash. This is
->> >>fixed by copying rootfs to the temporary directory before updating
->> >>fstab.
->> >
->> >As you is working on this, please also include Fabio's patch on the
->> >patchset. It includes a command like option to disable fstab change at
->> >all. For delta-based updates this is imperative.
->> >
->> >Fabio, could you point him the last patch revision?
->> >
->
-> Do we really need that?
->
-> JFYI: Mount point in .wks is an optional field. It makes sense to use it only
-> if partition needs to be mounted on boot. fstab will not be updated
-> unless it's explicitly requested by specifying mount points in .wks
+* This patchset add a switch to configure gcc driver with PIE defaults
+* Add support for generating static PIE in gcc
+* Gets rid of lot of bandaids from distro security flags file
+* Adjust recipes for new way of specifying pie
 
-It should have support to not touch it. For images which we intend to
-do delta updates, the content cannot be changed besides the original
-rootfs generation. So yes, we need that.
+v1->v2:
+
+* apply linking spec changes libssp_nonshared.a to musl alone
+* icu/iptable/gstreamer1.0-plugins-bad fixes are done on top not really depend on pie rework
+
+The following changes since commit 179b7ae2511974173ae4aa72dfb49384ff69c2e5:
+
+  meta/conf/layer.conf: bump layer version for LSB changes (2017-06-28 15:52:00 +0100)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib kraj/hardening-fixes
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=kraj/hardening-fixes
+
+Khem Raj (10):
+  gcc: Introduce a knob to configure gcc to default to PIE
+  security_flags.inc: Delete pinnings for SECURITY_NO_PIE_CFLAGS
+  distutils,setuptools: Delete use of SECURITY_NO_PIE_CFLAGS
+  gcc7: Enable static PIE
+  gcc: Link libssp_nonshared.a only on musl targets
+  libunwind: We set -fPIE in security flags now if gcc is not configured
+    for default PIE
+  valgrind: Remove -no-pie from cflags
+  iptables: Apply 0001-fix-build-with-musl.patch unconditionally
+  icu: Fix build with glibc 2.26
+  gstreamer1.0-plugins-bad: Fix missing library with bcm egl
+
+ meta/classes/distutils-common-base.bbclass         |  2 -
+ meta/classes/setuptools.bbclass                    |  2 -
+ meta/conf/distro/include/security_flags.inc        | 83 ++++++----------------
+ meta/recipes-devtools/gcc/gcc-7.1.inc              |  3 +-
+ ...shared-to-link-commandline-for-musl-targe.patch | 42 +++++++++++
+ .../gcc/gcc-7.1/0040-ssp_nonshared.patch           | 28 --------
+ .../gcc/gcc-7.1/0048-gcc-Enable-static-PIE.patch   | 37 ++++++++++
+ meta/recipes-devtools/gcc/gcc-configure-common.inc |  3 +
+ meta/recipes-devtools/valgrind/valgrind_3.12.0.bb  |  2 -
+ meta/recipes-extended/iptables/iptables_1.6.1.bb   |  4 +-
+ .../link-with-libvchostif.patch                    | 35 +++++++++
+ .../gstreamer/gstreamer1.0-plugins-bad_1.10.4.bb   |  1 +
+ .../icu/icu/0001-i18n-Drop-include-xlocale.h.patch | 31 ++++++++
+ meta/recipes-support/icu/icu_58.2.bb               |  3 +-
+ meta/recipes-support/libunwind/libunwind_1.2.bb    |  4 --
+ 15 files changed, 177 insertions(+), 103 deletions(-)
+ create mode 100644 meta/recipes-devtools/gcc/gcc-7.1/0040-Add-ssp_nonshared-to-link-commandline-for-musl-targe.patch
+ delete mode 100644 meta/recipes-devtools/gcc/gcc-7.1/0040-ssp_nonshared.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-7.1/0048-gcc-Enable-static-PIE.patch
+ create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/link-with-libvchostif.patch
+ create mode 100644 meta/recipes-support/icu/icu/0001-i18n-Drop-include-xlocale.h.patch
 
 -- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+2.13.2
+
 
