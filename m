@@ -1,49 +1,48 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f196.google.com (mail-pf0-f196.google.com
-	[209.85.192.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 6FB317805C
+Received: from mail-pg0-f45.google.com (mail-pg0-f45.google.com [74.125.83.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 8F06378072
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Jun 2017 16:04:48 +0000 (UTC)
-Received: by mail-pf0-f196.google.com with SMTP id e199so9590998pfh.0
+	Wed, 28 Jun 2017 16:04:50 +0000 (UTC)
+Received: by mail-pg0-f45.google.com with SMTP id u62so33929971pgb.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Jun 2017 09:04:50 -0700 (PDT)
+	Wed, 28 Jun 2017 09:04:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=qqEGhtyXi39gmPhJk3WIcZfF/wdykjKTl3fDxcWtwKM=;
-	b=SdUTtxczZWb8GmfhyrlCkK9exLhgpoAe+QHF+2pyCq9AtSsWkE+KkWTgM4H0gkerpI
-	B5Hwnfh4JWPQPsVRqzwgZqiMhhk7hkexqbQfw5WZp13Zq5rx/PUiviosq5vCsM4xVKli
-	u2Pua/UcS9iANewmAjIBi3mMcJgSPxjV0eTbNQsl1xR07Exro3IcJ6kvgx4rLaTtirXI
-	sHedn4BdqEzABfOiyWRrr7lMhMurNDynUOuzqbpNkWINJLTSsOuZ+hr7913IRw6ehBDO
-	LViZ0dt8SamBTFz+q8wbqM3f3AEN91wzrrDxJj1eddINTscIyq5oo7UYPzUF57UNEW0L
-	VSMA==
+	bh=ESW0DW78X4R2ggMhaQLbPZXDgL0HBc4voKsGJuXCFus=;
+	b=jrJnASyzMr+/H/or3dHfFWSSQXSrAg26nq1NqMP0sMWPfPv7UsqiYgqnKi0KJCcBE7
+	HfbysBCr6ro/u474Fb7m2AlbKwf5KbHtcZXK6d4nAT/P3/4TSR3ulKtwS+GCUt8QqyE7
+	Op8gMolhsoGv1O4qlyL1iMU5zdmqg7fGqXpHci6h9LwZBRfE6Sxg05elry1+NdNUZ8n+
+	zOqfNu/9xWEiRUzZrczEh6BskcVnnt+VlyiDgVppqyiMoljLdcML1/K8VBDpuZAW1JkA
+	vSMd7pVh0OVVNUOy2Kxdd7dBAjwbferEYObql1AvFQJ1z5jrk4psfcpAfggdzeTpmViN
+	Yv3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=qqEGhtyXi39gmPhJk3WIcZfF/wdykjKTl3fDxcWtwKM=;
-	b=oxHdtHMNAPBKjdeGq/A6m/VSq1MF6DQerQrvhb66w+cHkQtM+d6YnPRmyPmfU99zwd
-	tnq9RiOJI19j8+eeERL9bO+hv6/vajAr91CtHpW/5apVrY2EFQJHL9QY23vTN9WTcVTn
-	mYN+aEOtSIkGonqY7/Mg2zXEIdweDV9BZhSHZImT5ZsTXtoXutt4ZB5XgJl3Yn0UY7UX
-	fEymYURVAQK1n0+rfENhDYfJPpD95/1VGvtnJGpDB81Fp3PLWmFjWnejHgTcVv69HfLq
-	aKKFilsN2SVt7zGVbN+LtwrNvqP9VoSW2I+TsrJpOekitS/3LQaRFgEBuUuu6JzAs6mi
-	V2RA==
-X-Gm-Message-State: AKS2vOwIgPrmngJJFHUPS0H/HhgW8j45NZSUvYYy1vo1qafAKcEikCCn
-	lqRZ2l8jS8l28hms
-X-Received: by 10.84.178.4 with SMTP id y4mr12718940plb.158.1498665889398;
-	Wed, 28 Jun 2017 09:04:49 -0700 (PDT)
+	bh=ESW0DW78X4R2ggMhaQLbPZXDgL0HBc4voKsGJuXCFus=;
+	b=PxASupkyZg6/wnv8KN6U1KqZDhkTEBQ0wbdrWkSkuCBBbZIe32U6lN2JIcYdeZBhKU
+	+KO6Y+8DnJlJpDsZfTRTrRNN+TukPmdkYF7nTYpZ4ifUwBK3UvGTuYwYkfmRaMhtUGCa
+	+Mrc64j9AHzRRfzWS6q+k8f/JNbufp5dcjBagqAjMY7XEMQFK8WHntohqdZlIM+e8HWy
+	fmKiDpKHFBI4tM6fTjrTJ22BR620gpoweEnjcDebc6ASMFH6Qq8vkVuURjG2bBmyxo+C
+	L1aV75kXrucADB922Rnot/i2Dopy5UxkfKs1Nd+0Bl6ocJBl5g0pYmvKF60M2hhukd2u
+	E7+w==
+X-Gm-Message-State: AKS2vOxq9AecH4YwVcFM/dOK827hc8IJ7mcZ+0TNAsX8nyjFkVTFrHtk
+	gssd0fDclgS9qdtF
+X-Received: by 10.98.1.72 with SMTP id 69mr11480156pfb.124.1498665891282;
+	Wed, 28 Jun 2017 09:04:51 -0700 (PDT)
 Received: from localhost.localdomain ([2601:646:8882:b8c::3df3])
 	by smtp.gmail.com with ESMTPSA id
-	v62sm5243608pfb.124.2017.06.28.09.04.47
+	v62sm5243608pfb.124.2017.06.28.09.04.49
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 28 Jun 2017 09:04:48 -0700 (PDT)
+	Wed, 28 Jun 2017 09:04:50 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 28 Jun 2017 09:04:21 -0700
-Message-Id: <481664a364a330875a79bf80876b4d30ff8aaaff.1498665211.git.raj.khem@gmail.com>
+Date: Wed, 28 Jun 2017 09:04:22 -0700
+Message-Id: <9604c347c99ea49d1d533296265c3d2b39f9980d.1498665211.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.13.2
 In-Reply-To: <cover.1498665211.git.raj.khem@gmail.com>
 References: <cover.1498665211.git.raj.khem@gmail.com>
-Subject: [PATCH 08/10] iptables: Apply 0001-fix-build-with-musl.patch unconditionally
+Subject: [PATCH 09/10] icu: Fix build with glibc 2.26
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,31 +55,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Jun 2017 16:04:49 -0000
-
-This patch is generic enough, That it can be applied universally
-and makes maintainence easier
+X-List-Received-Date: Wed, 28 Jun 2017 16:04:50 -0000
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-extended/iptables/iptables_1.6.1.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ .../icu/icu/0001-i18n-Drop-include-xlocale.h.patch | 31 ++++++++++++++++++++++
+ meta/recipes-support/icu/icu_58.2.bb               |  3 ++-
+ 2 files changed, 33 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-support/icu/icu/0001-i18n-Drop-include-xlocale.h.patch
 
-diff --git a/meta/recipes-extended/iptables/iptables_1.6.1.bb b/meta/recipes-extended/iptables/iptables_1.6.1.bb
-index 4019e2a4a4..b37c55a64e 100644
---- a/meta/recipes-extended/iptables/iptables_1.6.1.bb
-+++ b/meta/recipes-extended/iptables/iptables_1.6.1.bb
-@@ -22,8 +22,8 @@ SRC_URI = "http://netfilter.org/projects/iptables/files/iptables-${PV}.tar.bz2 \
-            file://types.h-add-defines-that-are-required-for-if_packet.patch \
-            file://0001-configure-Add-option-to-enable-disable-libnfnetlink.patch \
-            file://0002-configure.ac-only-check-conntrack-when-libnfnetlink-enabled.patch \
+diff --git a/meta/recipes-support/icu/icu/0001-i18n-Drop-include-xlocale.h.patch b/meta/recipes-support/icu/icu/0001-i18n-Drop-include-xlocale.h.patch
+new file mode 100644
+index 0000000000..add0d765b7
+--- /dev/null
++++ b/meta/recipes-support/icu/icu/0001-i18n-Drop-include-xlocale.h.patch
+@@ -0,0 +1,31 @@
++From c4254fd8ff1888ca285e3242b812010357ce2b3e Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Sat, 24 Jun 2017 22:52:40 -0700
++Subject: [PATCH] i18n: Drop include <xlocale.h>
++
++glibc 2.26 drops this header
++
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++Upstream-Status: Pending
++
++ i18n/digitlst.cpp | 6 +-----
++ 1 file changed, 1 insertion(+), 5 deletions(-)
++
++Index: source/i18n/digitlst.cpp
++===================================================================
++--- source.orig/i18n/digitlst.cpp
+++++ source/i18n/digitlst.cpp
++@@ -61,11 +61,7 @@
++ #endif
++ 
++ #if U_USE_STRTOD_L
++-# if U_PLATFORM_USES_ONLY_WIN32_API || U_PLATFORM == U_PF_CYGWIN
++-#   include <locale.h>
++-# else
++-#   include <xlocale.h>
++-# endif
+++# include <locale.h>
++ #endif
++ 
++ // ***************************************************************************
+diff --git a/meta/recipes-support/icu/icu_58.2.bb b/meta/recipes-support/icu/icu_58.2.bb
+index 4d062ebf94..47684a6c8b 100644
+--- a/meta/recipes-support/icu/icu_58.2.bb
++++ b/meta/recipes-support/icu/icu_58.2.bb
+@@ -16,7 +16,8 @@ BASE_SRC_URI = "http://download.icu-project.org/files/icu4c/${PV}/icu4c-${ICU_PV
+ SRC_URI = "${BASE_SRC_URI} \
+            file://icu-pkgdata-large-cmd.patch \
+            file://fix-install-manx.patch \
 -          "
--SRC_URI_append_libc-musl = " file://0001-fix-build-with-musl.patch"
-+           file://0001-fix-build-with-musl.patch \
-+"
++           file://0001-i18n-Drop-include-xlocale.h.patch \
++           "
  
- SRC_URI[md5sum] = "ab38a33806b6182c6f53d6afb4619add"
- SRC_URI[sha256sum] = "0fc2d7bd5d7be11311726466789d4c65fb4c8e096c9182b56ce97440864f0cf5"
+ SRC_URI_append_class-target = "\
+            file://0001-Disable-LDFLAGSICUDT-for-Linux.patch \
 -- 
 2.13.2
 
