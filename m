@@ -1,23 +1,35 @@
-Return-Path: <rebecca.swee.fun.chang@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 4278A7807B
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by mail.openembedded.org (Postfix) with ESMTP id 31BB271C7E
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Jun 2017 01:59:27 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	27 Jun 2017 18:59:29 -0700
+	Wed, 28 Jun 2017 07:33:26 +0000 (UTC)
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+	by orsmga104.jf.intel.com with ESMTP; 28 Jun 2017 00:33:27 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.40,273,1496127600"; d="scan'208";a="985963857"
-Received: from rebeccas.png.intel.com ([172.30.199.118])
-	by orsmga003.jf.intel.com with ESMTP; 27 Jun 2017 18:59:28 -0700
-From: Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>
-To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Wed, 28 Jun 2017 09:59:19 +0800
-Message-Id: <1498615159-6719-4-git-send-email-rebecca.swee.fun.chang@intel.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1498615159-6719-1-git-send-email-rebecca.swee.fun.chang@intel.com>
-References: <1498615159-6719-1-git-send-email-rebecca.swee.fun.chang@intel.com>
-Subject: [PATCH 3/3] devtool: find-recipe: enable new subcommand for devtool
+X-IronPort-AV: E=Sophos;i="5.40,274,1496127600"; d="scan'208";a="118283934"
+Received: from linux.intel.com ([10.54.29.200])
+	by orsmga005.jf.intel.com with ESMTP; 28 Jun 2017 00:33:27 -0700
+Received: from linux.intel.com (vmed.fi.intel.com [10.237.72.38])
+	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by linux.intel.com (Postfix) with ESMTPS id 72EE358075B;
+	Wed, 28 Jun 2017 00:33:26 -0700 (PDT)
+Date: Wed, 28 Jun 2017 10:31:21 +0300
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: Fabio Berton <fabio.berton@ossystems.com.br>
+Message-ID: <20170628073121.GA11425@linux.intel.com>
+Reply-To: ed.bartosh@linux.intel.com
+References: <cover.1498569961.git.ed.bartosh@linux.intel.com>
+	<CAP9ODKopDxEYw9vereQjoHve=n2Of2v-3EHbxaiumZN3T0hH8Q@mail.gmail.com>
+	<823180ba-066d-747d-8112-a110633a03a8@ossystems.com.br>
+MIME-Version: 1.0
+In-Reply-To: <823180ba-066d-747d-8112-a110633a03a8@ossystems.com.br>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>,
+	Otavio Salvador <otavio.salvador@ossystems.com.br>
+Subject: Re: [PATCH v2 0/5] #11662 - wic should mount /boot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,68 +42,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Jun 2017 01:59:27 -0000
+X-List-Received-Date: Wed, 28 Jun 2017 07:33:29 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-devtool find-recipe will prints out the path to the recipe
-in a workspace.
+On Tue, Jun 27, 2017 at 05:41:45PM -0300, Fabio Berton wrote:
+> The last patch I sent is here:
+> https://patchwork.openembedded.org/patch/139252/
+> 
+> We're using this patch internally with Pyro branch. I can rework to
+> apply on master.
+> 
+> On 06/27/2017 05:35 PM, Otavio Salvador wrote:
+> >On Tue, Jun 27, 2017 at 10:28 AM, Ed Bartosh <ed.bartosh@linux.intel.com> wrote:
+> >>The patchset also fixes long standing bug: wic updated fstab
+> >>inplace in rootfs directory. This causes other tasks working with
+> >>rootfs directory to produce incorrect results or crash. This is
+> >>fixed by copying rootfs to the temporary directory before updating
+> >>fstab.
+> >
+> >As you is working on this, please also include Fabio's patch on the
+> >patchset. It includes a command like option to disable fstab change at
+> >all. For delta-based updates this is imperative.
+> >
+> >Fabio, could you point him the last patch revision?
+> >
 
-This subcommand can also help to find recipe outside of
-current workspace using "-a" or "--any-recipe" option.
+Do we really need that?
 
-This enhancement helps developer to get the recipe path
-when working with devtool.
+JFYI: Mount point in .wks is an optional field. It makes sense to use it only
+if partition needs to be mounted on boot. fstab will not be updated
+unless it's explicitly requested by specifying mount points in .wks
 
-[YOCTO #11434]
-
-Signed-off-by: Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>
----
- scripts/lib/devtool/utilcmds.py | 18 ++++++++++++++----
- 1 file changed, 14 insertions(+), 4 deletions(-)
-
-diff --git a/scripts/lib/devtool/utilcmds.py b/scripts/lib/devtool/utilcmds.py
-index 938d88a..c8cb760 100644
---- a/scripts/lib/devtool/utilcmds.py
-+++ b/scripts/lib/devtool/utilcmds.py
-@@ -30,9 +30,8 @@ from devtool import parse_recipe
- 
- logger = logging.getLogger('devtool')
- 
--
--def edit_recipe(args, config, basepath, workspace):
--    """Entry point for the devtool 'edit-recipe' subcommand"""
-+def find_recipe(args, config, basepath, workspace):
-+    """Entry point for the devtool 'find-recipe' subcommand"""
-     if args.any_recipe:
-         tinfoil = setup_tinfoil(config_only=False, basepath=basepath)
-         try:
-@@ -49,7 +48,10 @@ def edit_recipe(args, config, basepath, workspace):
-             raise DevtoolError("Recipe file for %s is not under the workspace" %
-                                args.recipename)
- 
--    return scriptutils.run_editor(recipefile, logger)
-+
-+def edit_recipe(args, config, basepath, workspace):
-+    """Entry point for the devtool 'edit-recipe' subcommand"""
-+    return scriptutils.run_editor(find_recipe(args, config, basepath, workspace), logger)
- 
- 
- def configure_help(args, config, basepath, workspace):
-@@ -220,6 +222,14 @@ def register_commands(subparsers, context):
-     parser_edit_recipe.add_argument('--any-recipe', '-a', action="store_true", help='Edit any recipe, not just where the recipe file itself is in the workspace')
-     parser_edit_recipe.set_defaults(func=edit_recipe)
- 
-+    # Find-recipe
-+    parser_find_recipe = subparsers.add_parser('find-recipe', help='Find a recipe file in your workspace',
-+                                         description='By default, this will find a recipe file in your workspace; you can override this with the -a/--any-recipe option.',
-+                                         group='working')
-+    parser_find_recipe.add_argument('recipename', help='Recipe to find')
-+    parser_find_recipe.add_argument('--any-recipe', '-a', action="store_true", help='Find any recipe, not just where the recipe file itself is in the workspace')
-+    parser_find_recipe.set_defaults(func=find_recipe)
-+
-     # NOTE: Needed to override the usage string here since the default
-     # gets the order wrong - recipename must come before --arg
-     parser_configure_help = subparsers.add_parser('configure-help', help='Get help on configure script options',
--- 
-2.7.4
-
+--
+Regards,
+Ed
 
