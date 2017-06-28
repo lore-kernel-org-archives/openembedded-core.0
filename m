@@ -1,56 +1,63 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-it0-f43.google.com (mail-it0-f43.google.com
-	[209.85.214.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 9D1A871993
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-wm0-f41.google.com (mail-wm0-f41.google.com [74.125.82.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 2054B60234
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Jun 2017 09:34:01 +0000 (UTC)
-Received: by mail-it0-f43.google.com with SMTP id v202so26710599itb.0
+	Wed, 28 Jun 2017 13:32:29 +0000 (UTC)
+Received: by mail-wm0-f41.google.com with SMTP id b184so58973632wme.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Jun 2017 02:34:03 -0700 (PDT)
+	Wed, 28 Jun 2017 06:32:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:organization:mime-version:content-transfer-encoding;
-	bh=lQkZg51RfvKWIMVsTnH+76uEedzqebBSkk/NCsQmiVM=;
-	b=nYu0SzO3DeX3bEoIBn4A8x7sz4eHdIJ5iPELhNs2IJa9eihg00QSwp3aDJlv+uD6Zw
-	KKBV4nuOAj0R2+9GVG/oqmC7b+yO4yB2AJBJMhZMsl85udoKtD3xjGXyeJjIvRRjsILr
-	w2kJH6YDJsYWwngiVt0UzEiiw0HBXNoLI+cOzS6zCT2UZRFYi0QAFOsd2sW8B1NzvP8Q
-	JDgQf0fPdOcNWriSkPdQVwYNvWzLS2XTK4RdUXNYdNizxVf33x0uxaI27eb/leYBy9QI
-	Y2b0ggPISBkYACFBEznfgNv2Jcs3/X6cD8kcqPdUx2evrDs7UFNUedqDzEFNuM8vsbmk
-	rZWQ==
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
+	:cc; bh=/YEt0PpnbDrCMQnNKCdT0qXiKoZNix4Lgn9qozKxWLA=;
+	b=11u50hXYRR9ikQAdP7af92v7eBLMoqQ367oyZEuLcHUAeCDo2DHaF3jD4d2UKwJsdL
+	94IledtDsRY2lRBla0GweaSj5kjgTjCjSoFj2OBhoaTelbaEwLxq7aO0iAAU1ejpqUFE
+	sIOg9de9Kd9KA2vQyd81TKQpr/O4/NR9Eku7p6gd8A1h9VXXG7LEZQFYbCrzD2Ph9dlM
+	mXuR6AnNwHvUR36AP5Ro8ygQRW6Hg4zQXT1T646hMu+nD7zg81FZFLFe4CkKRbjxihFx
+	UDIpLwvX7HO158U7MhP5Lma7t8tw2i4F9CaBLBLFU+ocdVjBdrlMY/w8qRONz3kQpAy0
+	1Q+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:organization:mime-version:content-transfer-encoding;
-	bh=lQkZg51RfvKWIMVsTnH+76uEedzqebBSkk/NCsQmiVM=;
-	b=PBfBjuIUoI+lo4OjevL7d7TRIpFdAudZYWFmzXf40rhDPrSeMRE20SG+Lv+I6//YKv
-	HFzmS+LNkYQXdkdSNoE6+CpCFPI9EpddSRghTkRIODlwyR6T+68ux88SxjBjDlJxxuQX
-	DifGA5zO+Zn6+dNI9pIDgcgj92EOrTa8eCGYrRvlzXGq73bL0Q+lALIQSq7nTgtz9/0Y
-	T1q9jhqZ7NDjEMGesUkvIVBQxYAJUm1oZWWHDHz5KiVkOTuKMh0Gsn8YZ6JNP9blaRfV
-	Zk5vUKTMQuwbut4IDoi+KRfh8WxoiByB9IJatnahdOjRL1qANRyFisQXQe2LqLrBejOb
-	6Jrg==
-X-Gm-Message-State: AKS2vOyJ5zjk1ri2LES/RdLN0q8iDf5I02rHrJb8exa83qrvt/v8FuuW
-	uOZb94NL44EipwA4
-X-Received: by 10.36.248.4 with SMTP id a4mr7154641ith.69.1498642442610;
-	Wed, 28 Jun 2017 02:34:02 -0700 (PDT)
-Received: from pohly-mobl1 (p5DE8F1CD.dip0.t-ipconnect.de. [93.232.241.205])
-	by smtp.gmail.com with ESMTPSA id
-	p184sm2654818itp.10.2017.06.28.02.34.00
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
+	:message-id:subject:to:cc;
+	bh=/YEt0PpnbDrCMQnNKCdT0qXiKoZNix4Lgn9qozKxWLA=;
+	b=TLnhcT62pNtpgt93E73+hj3hXNnDQBTDKsEiaw3KPwO6FkMXkwmsWerwaQKdR+bWRN
+	0nBipFCoWqzCnxL0AWBesUs43U9bH4Sb6YTLuBSDSPM5oWETl3ltBQapNX1RjrkmU5y4
+	aHihO4OrHAYYW5eu/NpqRBCl1HDZqyWaSNv242qxHQ/ZvTGPWiwC66wmYPqwYjaUnFC8
+	amLEGs66rG6KkqeNRjo6bnz75cGBUj7cAgaimeImAds0jXc+MX/whBmWm4My32aDmeZT
+	yWsIkw1kaGid9EOkYTaFe4V6FTAElbB8FpTkOEMHg0noRpID631o6Xy/JZ6ELJojZD3X
+	EdLQ==
+X-Gm-Message-State: AKS2vOw6VTXxennTTudo8JS9NCpKU2U39c2tVEK+JMC2M4nImrcYMFwt
+	mpqrIDfSGKloVlFbfT0=
+X-Received: by 10.28.69.9 with SMTP id s9mr7843756wma.71.1498656750287;
+	Wed, 28 Jun 2017 06:32:30 -0700 (PDT)
+Received: from mail-wm0-f41.google.com (mail-wm0-f41.google.com.
+	[74.125.82.41])
+	by smtp.gmail.com with ESMTPSA id v13sm7327623wmd.5.2017.06.28.06.32.29
+	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 28 Jun 2017 02:34:01 -0700 (PDT)
-Message-ID: <1498642439.7464.115.camel@intel.com>
-From: Patrick Ohly <patrick.ohly@intel.com>
-To: Mark Hatle <mark.hatle@windriver.com>
-Date: Wed, 28 Jun 2017 11:33:59 +0200
-In-Reply-To: <628a4bc1-c5cb-a1f8-9e12-4cb305f96dbb@windriver.com>
-References: <cover.f2f002a814bb8f4571ff6f9fd7cb880b94cc611f.1498577501.git-series.patrick.ohly@intel.com>
-	<2312c1a18a7a4154d99028405f5f865be42fa7a5.1498577501.git-series.patrick.ohly@intel.com>
-	<628a4bc1-c5cb-a1f8-9e12-4cb305f96dbb@windriver.com>
-Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
-X-Mailer: Evolution 3.12.9-1+b1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2 3/6] yocto-compat-layer.py: apply test_signatures to all layers
+	Wed, 28 Jun 2017 06:32:29 -0700 (PDT)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-wm0-f41.google.com with SMTP id b184so58972603wme.1
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 28 Jun 2017 06:32:29 -0700 (PDT)
+X-Received: by 10.28.105.85 with SMTP id e82mr7654267wmc.122.1498656748845;
+	Wed, 28 Jun 2017 06:32:28 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.28.176.5 with HTTP; Wed, 28 Jun 2017 06:32:27 -0700 (PDT)
+In-Reply-To: <20170628073121.GA11425@linux.intel.com>
+References: <cover.1498569961.git.ed.bartosh@linux.intel.com>
+	<CAP9ODKopDxEYw9vereQjoHve=n2Of2v-3EHbxaiumZN3T0hH8Q@mail.gmail.com>
+	<823180ba-066d-747d-8112-a110633a03a8@ossystems.com.br>
+	<20170628073121.GA11425@linux.intel.com>
+Date: Wed, 28 Jun 2017 10:32:27 -0300
+X-Gmail-Original-Message-ID: <CAP9ODKoxxaJv=QZXp5m=Qt14t36n1TPXS19D+Xs3eyrPDG79bg@mail.gmail.com>
+Message-ID: <CAP9ODKoxxaJv=QZXp5m=Qt14t36n1TPXS19D+Xs3eyrPDG79bg@mail.gmail.com>
+To: Ed Bartosh <ed.bartosh@linux.intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2 0/5] #11662 - wic should mount /boot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,53 +70,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Jun 2017 09:34:01 -0000
+X-List-Received-Date: Wed, 28 Jun 2017 13:32:30 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-On Wed, 2017-06-28 at 11:08 +0200, Mark Hatle wrote:
-> On 6/27/17 5:33 PM, Patrick Ohly wrote:
-> > Software layers were previously allowed to change signatures, but
-> > that's not desired for those layers either. The rule that a layer
-> > which is "Yocto Compatible 2.0" must not change signatures unless
-> > explicitly requested holds for all kinds of layers.
-> > 
-> > However, as this is something that software layers might not be able
-> > to do right away, testing for signature changes in software layers can
-> > be disabled. It's on by default, as that was Richard's
-> > recommendation. Whether that should change needs further discussion as
-> > part of finalizing "Yocto Compatible 2.0".
-> > 
-> > As it might still change, the tool now has both a with/without
-> > parameter so that users of the tool can choose the desired behavior
-> > without being affected by future changes to the default.
-> 
-> How would you regulate the behavior of a software layer that is doing bbappends
-> or similar to a system provided component.
+On Wed, Jun 28, 2017 at 4:31 AM, Ed Bartosh <ed.bartosh@linux.intel.com> wrote:
+> On Tue, Jun 27, 2017 at 05:41:45PM -0300, Fabio Berton wrote:
+>> The last patch I sent is here:
+>> https://patchwork.openembedded.org/patch/139252/
+>>
+>> We're using this patch internally with Pyro branch. I can rework to
+>> apply on master.
+>>
+>> On 06/27/2017 05:35 PM, Otavio Salvador wrote:
+>> >On Tue, Jun 27, 2017 at 10:28 AM, Ed Bartosh <ed.bartosh@linux.intel.com> wrote:
+>> >>The patchset also fixes long standing bug: wic updated fstab
+>> >>inplace in rootfs directory. This causes other tasks working with
+>> >>rootfs directory to produce incorrect results or crash. This is
+>> >>fixed by copying rootfs to the temporary directory before updating
+>> >>fstab.
+>> >
+>> >As you is working on this, please also include Fabio's patch on the
+>> >patchset. It includes a command like option to disable fstab change at
+>> >all. For delta-based updates this is imperative.
+>> >
+>> >Fabio, could you point him the last patch revision?
+>> >
+>
+> Do we really need that?
+>
+> JFYI: Mount point in .wks is an optional field. It makes sense to use it only
+> if partition needs to be mounted on boot. fstab will not be updated
+> unless it's explicitly requested by specifying mount points in .wks
 
-By adding a PACKAGECONFIG that is off by default?
-
-But I haven't tried this and whether it influences task signatures. Do
-you have a specific example?
-
-Regarding these patches, is it okay to merge them as they are now?
-Without them, we cannot test software layers for signature changes, so
-won't know how much of a problem it would be.
-
-The tool and "Yocto Compatible 2.0" are work in progress, so there's
-still time to refine it after merging. My motivation for getting them
-merged already now is a) to make the change available to others and b)
-to use the strict version of the check in refkit (where we currently
-satisfy the criteria).
+It should have support to not touch it. For images which we intend to
+do delta updates, the content cannot be changed besides the original
+rootfs generation. So yes, we need that.
 
 -- 
-Best Regards, Patrick Ohly
-
-The content of this message is my personal opinion only and although
-I am an employee of Intel, the statements I make here in no way
-represent Intel's position on the issue, nor am I authorized to speak
-on behalf of Intel on this matter.
-
-
-
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
