@@ -1,24 +1,21 @@
-Return-Path: <Randy.MacLeod@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id C794B77FF9
+Return-Path: <rebecca.swee.fun.chang@intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 2789B7806D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Jun 2017 01:43:40 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v5S1hg0K009398
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Jun 2017 18:43:42 -0700 (PDT)
-Received: from yow-rmacleod-lx3.wrs.com (128.224.56.85) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.294.0; Tue, 27 Jun 2017 18:43:42 -0700
-From: Randy MacLeod <Randy.MacLeod@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 27 Jun 2017 21:35:06 -0400
-Message-ID: <1498613706-16641-1-git-send-email-Randy.MacLeod@windriver.com>
+	Wed, 28 Jun 2017 01:59:24 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	27 Jun 2017 18:59:25 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.40,273,1496127600"; d="scan'208";a="985963827"
+Received: from rebeccas.png.intel.com ([172.30.199.118])
+	by orsmga003.jf.intel.com with ESMTP; 27 Jun 2017 18:59:23 -0700
+From: Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>
+To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Date: Wed, 28 Jun 2017 09:59:16 +0800
+Message-Id: <1498615159-6719-1-git-send-email-rebecca.swee.fun.chang@intel.com>
 X-Mailer: git-send-email 2.7.4
-MIME-Version: 1.0
-Subject: [PATCH] binutils: update SRCREV to fix powerpc gold link bug
+Subject: [PATCH 0/3] Enhancement on devtool edit-recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,42 +28,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Jun 2017 01:43:40 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 28 Jun 2017 01:59:25 -0000
 
-Update to the latest commit on the 2.28 branch to pick up:
-   a3e00a8 [GOLD] Avoid duplicate PLT stub symbols on ppc32
-along with several backported bug fixes for arm*, etc.
+Hi,
 
-This resolves the systemd link error for qemuppc
-with the error message:
-   .../powerpc-oe-linux-ld.gold:
-   error: invalid STB_LOCAL symbol in external symbols
-   error: linker defined: multiple definition of '00000001.plt_call.memcpy+8000'
-   command line: previous definition here
+The patches in this series are to enhance devtool edit-recipe as a request
+from Bugzilla #11434.
 
-described in:
+This first enhancement I did was to ensure devtool edit-recipe not to print
+out ugly tracebacks that is not informative by catching the exception.
 
-[YOCTO #11696]
+However, this has introduced new tracebacks where python complaints about
+NameError: name 'logger' is not defined in run_editor definition. We could
+pass in logger as a parameter from run_editor function call. This was fixed
+in the second patch in this series.
 
-Signed-off-by: Randy MacLeod <Randy.MacLeod@windriver.com>
----
- meta/recipes-devtools/binutils/binutils-2.28.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Lastly, I have enable additional subcommand 'find-recipe' for devtool. This
+will help users to find the path to the recipes in workspace and it can be
+extended to find recipe outside of workspace using '-a/--any-recipe' option.
 
-diff --git a/meta/recipes-devtools/binutils/binutils-2.28.inc b/meta/recipes-devtools/binutils/binutils-2.28.inc
-index 47bfa1a..477bcb2 100644
---- a/meta/recipes-devtools/binutils/binutils-2.28.inc
-+++ b/meta/recipes-devtools/binutils/binutils-2.28.inc
-@@ -18,7 +18,7 @@ BINUPV = "${@binutils_branch_version(d)}"
- 
- UPSTREAM_CHECK_GITTAGREGEX = "binutils-(?P<pver>\d+_(\d_?)*)"
- 
--SRCREV = "cb44d42ce6ef0c7a4eed7e2a3c272ac102166850"
-+SRCREV = "7ea1464297eadebe62aae92ad9bebb33f92c2454"
- SRC_URI = "\
-      git://sourceware.org/git/binutils-gdb.git;branch=binutils-${BINUPV}-branch;protocol=git \
-      file://0004-Point-scripts-location-to-libdir.patch \
+Regards,
+Rebecca
+
+Chang Rebecca Swee Fun (3):
+  scriptutils: exit politely when no text editor available
+  scriptutils: pass in logger as parameter
+  devtool: find-recipe: enable new subcommand for devtool
+
+ scripts/lib/devtool/utilcmds.py     | 18 ++++++++++++++----
+ scripts/lib/recipetool/newappend.py |  2 +-
+ scripts/lib/scriptutils.py          |  6 +++---
+ 3 files changed, 18 insertions(+), 8 deletions(-)
+
 -- 
 2.7.4
 
