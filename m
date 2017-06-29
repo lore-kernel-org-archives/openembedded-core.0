@@ -1,48 +1,52 @@
-Return-Path: <jpewhacker@gmail.com>
-Received: from mail-it0-f66.google.com (mail-it0-f66.google.com
-	[209.85.214.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 18B5377FDE
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-lf0-f67.google.com (mail-lf0-f67.google.com
+	[209.85.215.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 20C2877F90
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Jun 2017 12:30:28 +0000 (UTC)
-Received: by mail-it0-f66.google.com with SMTP id v193so890505itc.2
+	Thu, 29 Jun 2017 13:06:50 +0000 (UTC)
+Received: by mail-lf0-f67.google.com with SMTP id g21so7658828lfk.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Jun 2017 05:30:30 -0700 (PDT)
+	Thu, 29 Jun 2017 06:06:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=qJ3dxQAGem2QdL3q+gf9cwVmN9cUeX979zDHVrmZAsc=;
-	b=M8hfaHoO579XON+UFBfwmQ8ELpsBxqmGOt5Oq6oiW9pFLqUuRgC/OJhvIjX/GHLcE+
-	+JSJskCTsPyG+LIFKk+jKOHP6jowe8bwzZPwuEZj65o0eugFOWzvBaDVJjl8njMmpS0O
-	vywHxzKCr+6wDFRejYFM5JoCfnVcbibSlCRBtWBiql+JaA5fKB1ifjTpuAfqGjkTm7wW
-	WKKQrb4XiLFklH7mX9cB4o8HvUjgT5uDM9cZeb2RebMeHG1y78h6YEHJ5glj3yLAvaeL
-	YaQmjvClx/UUzf5umSiuIv/cFp9Wa0xtm+jRMVycg3pRt0qxJR0yXbHZIbj3J6p554/1
-	yy2Q==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=+yEtoc0ulcKxPREAO0jlxDOE6dDUAZBsscNx9y3jkUA=;
+	b=mH+tZUSXcWzzOqIqBGMgo37Wfj3/xsPvBWy+HadgpK10Nlb9apbu8AzOGeeSsg73AS
+	GgM4uiwdhLuqbvMGMzXoZ0nXJMyb2a5h9mefiuLamzd4byR8EE9ki2N/xR5pYchdLTRq
+	MkPAR24T1jDc4K2dIA0rx1FGG1Ub33HGT/uJ5y8pdDhdN3u2+p5Th/WkwT3SVdELaUAh
+	EcDdBDrSvtk1Upyt3lNp2msHnUF2pjvbYx3F0JOgJnljPlzP1SeccslMyys6GeeGXNI/
+	MExB7tlF4qC8GaFgiC4IbrzIXogowH9h3LwEtUElqcKZ35ZhTqjivJewARPiSf5mk1j9
+	2upQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=qJ3dxQAGem2QdL3q+gf9cwVmN9cUeX979zDHVrmZAsc=;
-	b=LJGnJq0LKlI0gpknsd4G0ZyPLiiTrhuXrdqIUQjQXaMgZRtUpYfl1OvoJ9DjD6tIsj
-	wXOsUiSmVUkLuZH3JsCnGd0e+wnq9oKfhVcFdN1XnyijNhw1qe31ZRB5OEcdE8E6/SUm
-	V2t93f6Y2YM3m8qmziznCr3EfBRrqvQBQUdmSD6hEFXNcoPzy+n8imgeDX1fO0bY4nu/
-	0Zi1HjEriFv6NhmPPeW5qe0qUl8RTmTL5z50hnnW2O3FF5EDw9lW7rr0/y91bhj46UFs
-	EWC6NQMqTWF3rvFM/7WZkQRruJXW3JpnwDFh5Lb4jgBkDSMJTn1VCx0gz4XEhjznCe8J
-	gOVQ==
-X-Gm-Message-State: AKS2vOxaFzElCI3rspAELEFjOZVNjfKmNEbLE+fRLatAGrV8lf1+0Oy5
-	5qPfcz+X6CgTeA==
-X-Received: by 10.36.84.144 with SMTP id t138mr12877687ita.76.1498739429662;
-	Thu, 29 Jun 2017 05:30:29 -0700 (PDT)
-Received: from localhost.localdomain ([2605:a601:a83:3700:10fb:b4c1:2c33:798c])
-	by smtp.gmail.com with ESMTPSA id
-	e77sm4354032itd.18.2017.06.29.05.30.28
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 29 Jun 2017 05:30:28 -0700 (PDT)
-From: Joshua Watt <jpewhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
-To: adraszik@tycoint.com,
-	openembedded-core@lists.openembedded.org
-Date: Thu, 29 Jun 2017 07:30:22 -0500
-Message-Id: <20170629123022.4580-1-JPEWhacker@gmail.com>
-X-Mailer: git-send-email 2.9.4
-Subject: [PATCH] openssh: Fix key generation with systemd
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=+yEtoc0ulcKxPREAO0jlxDOE6dDUAZBsscNx9y3jkUA=;
+	b=DG09DNQ40RU2lKeogTMvjADJR6m7k5J1ZTtv2QNdFW3UlJqWIW+wF2ddgVwMCsWyMl
+	2GGqzJFfU4U/RW7IT/GNcBmUF1iX2ajyBsISFL/op21teyGAFqbUqCUVuB6BHsTtxn7D
+	OSu8dwZ3PPUfBc+xgPc4YAmGfMTm3NHCWBGzrOPzOtQ1pdaRlrLIb8qZJedu7HM8vPUO
+	1xMaTPg2lSUoKATairBSzvPo0bQctJn7JjXhOvbcPjsLZ3M6ISugNSqkJWYnhpcBuMQ1
+	iWtFRcSQARkY0K01tHiiw8piqgGCeBkUlJaBCoAQJPXCrAx32cediWb1++ndd53kC5rd
+	cvEg==
+X-Gm-Message-State: AKS2vOywzvtSGEeiJ1i7c9/5mjnBoI4330fBMO8mmHggJYIw7xifcd1Y
+	lfSnLttxxic6bQw2kqHlg7R1zg9BRQ==
+X-Received: by 10.25.72.145 with SMTP id v139mr4711142lfa.18.1498741611351;
+	Thu, 29 Jun 2017 06:06:51 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.46.9.137 with HTTP; Thu, 29 Jun 2017 06:06:50 -0700 (PDT)
+In-Reply-To: <23f339ea-47ed-7a93-5583-a74b555c690c@ni.com>
+References: <20170621120003.6440-1-razvan.heghedus@ni.com>
+	<20170621120003.6440-2-razvan.heghedus@ni.com>
+	<CADkTA4NDO_5ch_unyr1Ydk9_wgxTaOzRkev3Kd=sXcSDtUMQoA@mail.gmail.com>
+	<945a7f98-d3f7-7d41-c440-0bd71bb4ee19@ni.com>
+	<CADkTA4MpEScpJ74MmtEQMTXPAe8_-wrMkYGTbEOAvPH7fpno1w@mail.gmail.com>
+	<23f339ea-47ed-7a93-5583-a74b555c690c@ni.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Thu, 29 Jun 2017 09:06:50 -0400
+Message-ID: <CADkTA4MR=dHJFu+9SOqX4DLxAqLSxgiBy5-rZVqTp=W3PMOwVQ@mail.gmail.com>
+To: Razvan Heghedus <razvan.heghedus@ni.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/2] kernel: user defined KERNEL_VERSION_PKG_NAME
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,261 +59,577 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Jun 2017 12:30:29 -0000
+X-List-Received-Date: Thu, 29 Jun 2017 13:06:51 -0000
+Content-Type: multipart/alternative; boundary="94eb2c0d00085ad399055318f9c8"
 
-106b59d9 broke SSH host key generation when systemd and a read-only root file
-system are in use because there isn't a way for systemd to get the optional
-weak assigment of SYSCONFDIR from /etc/default/sshd and still provide a default
-value if it is not specified. Instead, move the logic for determining if keys
-need to be created to a helper script that both the SysV init script and the
-systemd unit file can reference.
+--94eb2c0d00085ad399055318f9c8
+Content-Type: text/plain; charset="UTF-8"
 
-This does mean that the systemd unit file can't check for file existence to
-know if it should start the service, but it wasn't able to do that correctly
-anyway anymore. This should be a problem since the serivce is only run once per
-power cycle by systemd, and should exit quickly if the keys already exist
+On Thu, Jun 29, 2017 at 5:10 AM, Razvan Heghedus <razvan.heghedus@ni.com>
+wrote:
 
-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
----
- meta/recipes-connectivity/openssh/openssh/init     | 69 +---------------------
- .../openssh/openssh/sshd_check_keys                | 64 ++++++++++++++++++++
- .../openssh/openssh/sshdgenkeys.service            | 16 +----
- meta/recipes-connectivity/openssh/openssh_7.5p1.bb |  7 +++
- 4 files changed, 75 insertions(+), 81 deletions(-)
- create mode 100644 meta/recipes-connectivity/openssh/openssh/sshd_check_keys
+>
+>
+> On 06/28/2017 04:29 AM, Bruce Ashfield wrote:
+>
+>
+>
+> On Tue, Jun 27, 2017 at 5:15 AM, Razvan Heghedus <razvan.heghedus@ni.com>
+> wrote:
+>
+>>
+>>
+>> On 06/26/2017 06:52 PM, Bruce Ashfield wrote:
+>>
+>>
+>>
+>> On Wed, Jun 21, 2017 at 8:00 AM, Heghedus Razvan <razvan.heghedus@ni.com>
+>> wrote:
+>>
+>>> Add possibility to set KERNEL_VERSION_PKG_NAME to a user
+>>> defined value.
+>>>
+>>> Signed-off-by: Heghedus Razvan <razvan.heghedus@ni.com>
+>>> ---
+>>>  meta/classes/kernel.bbclass | 8 ++++++--
+>>>  1 file changed, 6 insertions(+), 2 deletions(-)
+>>>
+>>> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+>>> index 605c101e62..02728d5a86 100644
+>>> --- a/meta/classes/kernel.bbclass
+>>> +++ b/meta/classes/kernel.bbclass
+>>> @@ -28,12 +28,16 @@ INITRAMFS_IMAGE_BUNDLE ?= ""
+>>>  # LINUX_VERSION which is a constant.
+>>>  KERNEL_VERSION_NAME = "${@d.getVar('KERNEL_VERSION') or "
+>>> <$%7B@d.getVar%28%27KERNEL_VERSION%27%29or>"}"
+>>>  KERNEL_VERSION_NAME[vardepvalue] = "${LINUX_VERSION}"
+>>> -KERNEL_VERSION_PKG_NAME = "${@legitimize_package_name(d.
+>>> getVar('KERNEL_VERSION'))}"
+>>> -KERNEL_VERSION_PKG_NAME[vardepvalue] = "${LINUX_VERSION}"
+>>>
+>>>  python __anonymous () {
+>>>      import re
+>>>
+>>> +    if d.getVar('USER_KERNEL_VERSION_PKG') is None :
+>>> +        d.setVar('KERNEL_VERSION_PKG_NAME',
+>>> "${@legitimize_package_name(d.getVar('KERNEL_VERSION'))}")
+>>> +        d.setVar('KERNEL_VERSION_PKG_NAME[vardepvalue]',
+>>> "${LINUX_VERSION}")
+>>> +    else:
+>>> +        d.setVar('KERNEL_VERSION_PKG_NAME',
+>>> "${@legitimize_package_name(d.getVar('USER_KERNEL_VERSION_PKG'))}")
+>>>
+>>
+>> This is introducing yet another variable that tweaks the already complex
+>> setting of
+>> the kernel version. Not to mention this code is already touchy with
+>> respect to
+>> parse time and rebuilding of the kernel.
+>>
+>> My concern is that if this is set, we are completely disassociated with
+>> the source
+>> code of the kernel.
+>>
+>> Where did you think this would be set ? local.conf ? distro config ?
+>> somewhere else ?
+>>
+>> If we had a way to simply override KERNEL_VERSION, we wouldn't need any
+>> extra
+>> variables.
+>>
+>> Bruce
+>>
+>>
+>>> +
+>>>      # Merge KERNEL_IMAGETYPE and KERNEL_ALT_IMAGETYPE into
+>>> KERNEL_IMAGETYPES
+>>>      type = d.getVar('KERNEL_IMAGETYPE') or ""
+>>>      alttype = d.getVar('KERNEL_ALT_IMAGETYPE') or ""
+>>> --
+>>> 2.13.1
+>>>
+>>> --
+>>> _______________________________________________
+>>> Openembedded-core mailing list
+>>> Openembedded-core@lists.openembedded.org
+>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>>>
+>>
+>>
+>>
+>> --
+>> "Thou shalt not follow the NULL pointer, for chaos and madness await thee
+>> at its end"
+>>
+>> I have setting the variable in the kernel recipe. I need a way to
+>> override the KERNEL_VERSION because I want the kernel packages name to
+>> contain only a part of the version or nothing at all.
+>> I need this for the the kernel upgrade stuff, because if the package name
+>> is something like: kernel-4.9.8-{static_string} then I couldn't upgrade to
+>> a version like: kernel-4.9.10-{static_string}, because they are two
+>> different packages. I wanted a simple way to be able to have the package
+>> name : kernel-4.9-{static_string}, then I could do the upgrade for the new
+>> minor updates of the kernel.
+>>
+>
+> I could have sworn this (upgrading) was already possible via the version
+> string we
+> are currently using.  i.e. the PV is already picked up from the kernel
+> source, and
+> that should be doing the job.
+>
+> i.e. when I unpack my kernel-image-bzimage-4.10.15-y
+> octo-standard_4.10.15+git0+4d929fac34_d2c1ed3c0c-r0_qemux86_64.ipk
+> package, I see that it has:
+>
+>  Version: 4.10.15+git0+4d929fac34_d2c1ed3c0c-r0
+>  but obviously has the general provides: Provides: kernel-image-bzimage
+>
+> So that should be upgradable based on the version ... sure they have
+> different names, but the provides
+> and versions take care of things.
+>
+> The versioning, ability to install multiple kernels, upgrades, etc, have
+> really churned
+> these variables making them a mess to read.
+>
+> I'm probably misunderstanding your use case and error, can you elaborate
+> for me
+> and/or provide a log ? I'm more of a kernel guy than a package format guy
+> .. so
+> I'm probably missing something obvious.
+>
+> Bruce
+>
+>
+>
+> If I build a genericx86_64 core-image_sato without this patch, only with
+> the other patch which add the versions(only the parts that are in round
+> parenthesis) I have the following packages:
+>
+> Package: kernel-4.10.9-yocto-standard
+> Version: 4.10.9+git0+ad2e885015_fe0fb8da3d-r0
+> Depends: kernel-image-4.10.9-yocto-standard (=
+> 4.10.9+git0+ad2e885015_fe0fb8da3d-r0)
+> Provides: kernel-4.10.9-yocto-standard, kernel-base
+>
+> Package: kernel-image-4.10.9-yocto-standard
+> Version: 4.10.9+git0+ad2e885015_fe0fb8da3d-r0
+> Depends: kernel-image-bzimage-4.10.9-yocto-standard (=
+> 4.10.9+git0+ad2e885015_fe0fb8da3d-r0)
+> Provides: kernel-image
+>
+> Package: kernel-module-6lowpan-4.10.9-yocto-standard
+> Version: 4.10.9+git0+ad2e885015_fe0fb8da3d-r0
+> Depends: kernel-4.10.9-yocto-standard (= 4.10.9+git0+ad2e885015_fe0fb8d
+> a3d-r0)
+> Provides: kernel-module-6lowpan
+>
+> So the problem are the Depends field. We have the 4.10.9 part in the
+> dependents that is messing with the upgrade. If we want to do only some
+> minor update that doesn't change this value than everything is ok. It
+> works. But if we have a new value e.g. 4.10.10 than we couldn't do the
+> upgrade.
+> So that's why I came up with this patch to be able to modify the Depends
+> value to something like: kernel-image-4.10-yocto-standard, or even
+> kernel-image.
+>
 
-diff --git a/meta/recipes-connectivity/openssh/openssh/init b/meta/recipes-connectivity/openssh/openssh/init
-index 386628a..34ba0f8 100644
---- a/meta/recipes-connectivity/openssh/openssh/init
-+++ b/meta/recipes-connectivity/openssh/openssh/init
-@@ -19,25 +19,6 @@ fi
- [ -z "$SYSCONFDIR" ] && SYSCONFDIR=/etc/ssh
- mkdir -p $SYSCONFDIR
- 
--parse_sshd_opts() {
--    set -- ${SSHD_OPTS} --
--    sshd_config=/etc/ssh/sshd_config
--    while true ; do
--        case "$1" in
--        -f*) if [ "$1" = "-f" ] ; then
--                 sshd_config="$2"
--                 shift
--             else
--                 sshd_config="${1#-f}"
--             fi
--             shift
--             ;;
--        --) shift; break;;
--        *) shift;;
--        esac
--    done
--}
--
- check_for_no_start() {
-     # forget it if we're trying to start, and /etc/ssh/sshd_not_to_be_run exists
-     if [ -e $SYSCONFDIR/sshd_not_to_be_run ]; then
-@@ -58,57 +39,13 @@ check_config() {
- 	/usr/sbin/sshd -t $SSHD_OPTS || exit 1
- }
- 
--check_keys() {
--	# parse location of keys
--	local HOST_KEY_RSA
--	local HOST_KEY_DSA
--	local HOST_KEY_ECDSA
--	local HOST_KEY_ED25519
--
--	parse_sshd_opts
--	HOST_KEY_RSA=$(grep ^HostKey "${sshd_config}" | grep _rsa_ | tail -1 | awk ' { print $2 } ')
--	[ -z "${HOST_KEY_RSA}" ] && HOST_KEY_RSA=$(grep HostKey "${sshd_config}" | grep _rsa_ | tail -1 | awk ' { print $2 } ')
--	[ -z "${HOST_KEY_RSA}" ] && HOST_KEY_RSA=$SYSCONFDIR/ssh_host_rsa_key
--	HOST_KEY_DSA=$(grep ^HostKey "${sshd_config}" | grep _dsa_ | tail -1 | awk ' { print $2 } ')
--	[ -z "${HOST_KEY_DSA}" ] && HOST_KEY_DSA=$(grep HostKey "${sshd_config}" | grep _dsa_ | tail -1 | awk ' { print $2 } ')
--	[ -z "${HOST_KEY_DSA}" ] && HOST_KEY_DSA=$SYSCONFDIR/ssh_host_dsa_key
--	HOST_KEY_ECDSA=$(grep ^HostKey "${sshd_config}" | grep _ecdsa_ | tail -1 | awk ' { print $2 } ')
--	[ -z "${HOST_KEY_ECDSA}" ] && HOST_KEY_ECDSA=$(grep HostKey "${sshd_config}" | grep _ecdsa_ | tail -1 | awk ' { print $2 } ')
--	[ -z "${HOST_KEY_ECDSA}" ] && HOST_KEY_ECDSA=$SYSCONFDIR/ssh_host_ecdsa_key
--	HOST_KEY_ED25519=$(grep ^HostKey "${sshd_config}" | grep _ed25519_ | tail -1 | awk ' { print $2 } ')
--	[ -z "${HOST_KEY_ED25519}" ] && HOST_KEY_ED25519=$(grep HostKey "${sshd_config}" | grep _ed25519_ | tail -1 | awk ' { print $2 } ')
--	[ -z "${HOST_KEY_ED25519}" ] && HOST_KEY_ED25519=$SYSCONFDIR/ssh_host_ed25519_key
--
--	# create keys if necessary
--	if [ ! -f $HOST_KEY_RSA ]; then
--		echo "  generating ssh RSA key..."
--		mkdir -p $(dirname $HOST_KEY_RSA)
--		ssh-keygen -q -f $HOST_KEY_RSA -N '' -t rsa
--	fi
--	if [ ! -f $HOST_KEY_ECDSA ]; then
--		echo "  generating ssh ECDSA key..."
--		mkdir -p $(dirname $HOST_KEY_ECDSA)
--		ssh-keygen -q -f $HOST_KEY_ECDSA -N '' -t ecdsa
--	fi
--	if [ ! -f $HOST_KEY_DSA ]; then
--		echo "  generating ssh DSA key..."
--		mkdir -p $(dirname $HOST_KEY_DSA)
--		ssh-keygen -q -f $HOST_KEY_DSA -N '' -t dsa
--	fi
--	if [ ! -f $HOST_KEY_ED25519 ]; then
--		echo "  generating ssh ED25519 key..."
--		mkdir -p $(dirname $HOST_KEY_ED25519)
--		ssh-keygen -q -f $HOST_KEY_ED25519 -N '' -t ed25519
--	fi
--}
--
- export PATH="${PATH:+$PATH:}/usr/sbin:/sbin"
- 
- case "$1" in
-   start)
- 	check_for_no_start
- 	echo "Starting OpenBSD Secure Shell server: sshd"
--	check_keys
-+	@LIBEXECDIR@/sshd_check_keys
- 	check_privsep_dir
- 	start-stop-daemon -S -p $PIDFILE -x /usr/sbin/sshd -- $SSHD_OPTS
-         echo "done."
-@@ -121,7 +58,7 @@ case "$1" in
- 
-   reload|force-reload)
- 	check_for_no_start
--	check_keys
-+	@LIBEXECDIR@/sshd_check_keys
- 	check_config
-         echo -n "Reloading OpenBSD Secure Shell server's configuration"
- 	start-stop-daemon -K -p $PIDFILE -s 1 -x /usr/sbin/sshd
-@@ -129,7 +66,7 @@ case "$1" in
- 	;;
- 
-   restart)
--  	check_keys
-+	@LIBEXECDIR@/sshd_check_keys
- 	check_config
-         echo -n "Restarting OpenBSD Secure Shell server: sshd"
- 	start-stop-daemon -K -p $PIDFILE --oknodo -x /usr/sbin/sshd
-diff --git a/meta/recipes-connectivity/openssh/openssh/sshd_check_keys b/meta/recipes-connectivity/openssh/openssh/sshd_check_keys
-new file mode 100644
-index 0000000..f5bba53
---- /dev/null
-+++ b/meta/recipes-connectivity/openssh/openssh/sshd_check_keys
-@@ -0,0 +1,64 @@
-+#! /bin/sh
-+
-+# /etc/default/ssh may set SYSCONFDIR and SSHD_OPTS
-+if test -f /etc/default/ssh; then
-+    . /etc/default/ssh
-+fi
-+
-+[ -z "$SYSCONFDIR" ] && SYSCONFDIR=/etc/ssh
-+mkdir -p $SYSCONFDIR
-+
-+# parse sshd options
-+set -- ${SSHD_OPTS} --
-+sshd_config=/etc/ssh/sshd_config
-+while true ; do
-+    case "$1" in
-+    -f*) if [ "$1" = "-f" ] ; then
-+            sshd_config="$2"
-+            shift
-+        else
-+            sshd_config="${1#-f}"
-+        fi
-+        shift
-+        ;;
-+    --) shift; break;;
-+    *) shift;;
-+    esac
-+done
-+
-+# parse location of keys
-+HOST_KEY_RSA=$(grep ^HostKey "${sshd_config}" | grep _rsa_ | tail -1 | awk ' { print $2 } ')
-+[ -z "${HOST_KEY_RSA}" ] && HOST_KEY_RSA=$(grep HostKey "${sshd_config}" | grep _rsa_ | tail -1 | awk ' { print $2 } ')
-+[ -z "${HOST_KEY_RSA}" ] && HOST_KEY_RSA=$SYSCONFDIR/ssh_host_rsa_key
-+HOST_KEY_DSA=$(grep ^HostKey "${sshd_config}" | grep _dsa_ | tail -1 | awk ' { print $2 } ')
-+[ -z "${HOST_KEY_DSA}" ] && HOST_KEY_DSA=$(grep HostKey "${sshd_config}" | grep _dsa_ | tail -1 | awk ' { print $2 } ')
-+[ -z "${HOST_KEY_DSA}" ] && HOST_KEY_DSA=$SYSCONFDIR/ssh_host_dsa_key
-+HOST_KEY_ECDSA=$(grep ^HostKey "${sshd_config}" | grep _ecdsa_ | tail -1 | awk ' { print $2 } ')
-+[ -z "${HOST_KEY_ECDSA}" ] && HOST_KEY_ECDSA=$(grep HostKey "${sshd_config}" | grep _ecdsa_ | tail -1 | awk ' { print $2 } ')
-+[ -z "${HOST_KEY_ECDSA}" ] && HOST_KEY_ECDSA=$SYSCONFDIR/ssh_host_ecdsa_key
-+HOST_KEY_ED25519=$(grep ^HostKey "${sshd_config}" | grep _ed25519_ | tail -1 | awk ' { print $2 } ')
-+[ -z "${HOST_KEY_ED25519}" ] && HOST_KEY_ED25519=$(grep HostKey "${sshd_config}" | grep _ed25519_ | tail -1 | awk ' { print $2 } ')
-+[ -z "${HOST_KEY_ED25519}" ] && HOST_KEY_ED25519=$SYSCONFDIR/ssh_host_ed25519_key
-+
-+# create keys if necessary
-+if [ ! -f $HOST_KEY_RSA ]; then
-+    echo "  generating ssh RSA key..."
-+    mkdir -p $(dirname $HOST_KEY_RSA)
-+    ssh-keygen -q -f $HOST_KEY_RSA -N '' -t rsa
-+fi
-+if [ ! -f $HOST_KEY_ECDSA ]; then
-+    echo "  generating ssh ECDSA key..."
-+    mkdir -p $(dirname $HOST_KEY_ECDSA)
-+    ssh-keygen -q -f $HOST_KEY_ECDSA -N '' -t ecdsa
-+fi
-+if [ ! -f $HOST_KEY_DSA ]; then
-+    echo "  generating ssh DSA key..."
-+    mkdir -p $(dirname $HOST_KEY_DSA)
-+    ssh-keygen -q -f $HOST_KEY_DSA -N '' -t dsa
-+fi
-+if [ ! -f $HOST_KEY_ED25519 ]; then
-+    echo "  generating ssh ED25519 key..."
-+    mkdir -p $(dirname $HOST_KEY_ED25519)
-+    ssh-keygen -q -f $HOST_KEY_ED25519 -N '' -t ed25519
-+fi
-+
-diff --git a/meta/recipes-connectivity/openssh/openssh/sshdgenkeys.service b/meta/recipes-connectivity/openssh/openssh/sshdgenkeys.service
-index 148e6ad..603c337 100644
---- a/meta/recipes-connectivity/openssh/openssh/sshdgenkeys.service
-+++ b/meta/recipes-connectivity/openssh/openssh/sshdgenkeys.service
-@@ -1,22 +1,8 @@
- [Unit]
- Description=OpenSSH Key Generation
- RequiresMountsFor=/var /run
--ConditionPathExists=!/var/run/ssh/ssh_host_rsa_key
--ConditionPathExists=!/var/run/ssh/ssh_host_dsa_key
--ConditionPathExists=!/var/run/ssh/ssh_host_ecdsa_key
--ConditionPathExists=!/var/run/ssh/ssh_host_ed25519_key
--ConditionPathExists=!/etc/ssh/ssh_host_rsa_key
--ConditionPathExists=!/etc/ssh/ssh_host_dsa_key
--ConditionPathExists=!/etc/ssh/ssh_host_ecdsa_key
--ConditionPathExists=!/etc/ssh/ssh_host_ed25519_key
- 
- [Service]
--Environment="SYSCONFDIR=/etc/ssh"
--EnvironmentFile=-/etc/default/ssh
--ExecStart=@BASE_BINDIR@/mkdir -p $SYSCONFDIR
--ExecStart=@BINDIR@/ssh-keygen -q -f ${SYSCONFDIR}/ssh_host_rsa_key -N '' -t rsa
--ExecStart=@BINDIR@/ssh-keygen -q -f ${SYSCONFDIR}/ssh_host_dsa_key -N '' -t dsa
--ExecStart=@BINDIR@/ssh-keygen -q -f ${SYSCONFDIR}/ssh_host_ecdsa_key -N '' -t ecdsa
--ExecStart=@BINDIR@/ssh-keygen -q -f ${SYSCONFDIR}/ssh_host_ed25519_key -N '' -t ed25519
-+ExecStart=@LIBEXECDIR@/sshd_check_keys
- Type=oneshot
- RemainAfterExit=yes
-diff --git a/meta/recipes-connectivity/openssh/openssh_7.5p1.bb b/meta/recipes-connectivity/openssh/openssh_7.5p1.bb
-index 7bd313b..dd65642 100644
---- a/meta/recipes-connectivity/openssh/openssh_7.5p1.bb
-+++ b/meta/recipes-connectivity/openssh/openssh_7.5p1.bb
-@@ -25,6 +25,7 @@ SRC_URI = "http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar
-            file://openssh-7.1p1-conditional-compile-des-in-cipher.patch \
-            file://openssh-7.1p1-conditional-compile-des-in-pkcs11.patch \
-            file://fix-potential-signed-overflow-in-pointer-arithmatic.patch \
-+           file://sshd_check_keys \
-            "
- 
- PAM_SRC_URI = "file://sshd"
-@@ -118,7 +119,13 @@ do_install_append () {
- 	sed -i -e 's,@BASE_BINDIR@,${base_bindir},g' \
- 		-e 's,@SBINDIR@,${sbindir},g' \
- 		-e 's,@BINDIR@,${bindir},g' \
-+		-e 's,@LIBEXECDIR@,${libexecdir}/${BPN},g' \
- 		${D}${systemd_unitdir}/system/sshd.socket ${D}${systemd_unitdir}/system/*.service
-+
-+	sed -i -e 's,@LIBEXECDIR@,${libexecdir}/${BPN},g' \
-+		${D}${sysconfdir}/init.d/sshd
-+
-+	install -D -m 0755 ${WORKDIR}/sshd_check_keys ${D}${libexecdir}/${BPN}/sshd_check_keys
- }
- 
- do_install_ptest () {
+That's the point I'm trying to make.
+
+Patch 1/2 adds the depends, but there's no way to disable it. Without
+defining the variable
+that you have in patch 2/2, you can't upgrade the kernel packages .. which
+makes it not only
+a new variable, but a new requirement when working with the kernel
+recipes/packages.
+
+People have been upgrading the kernel before either of these patches (I
+can't say that
+I do very often .. but I know that users of the commercially supported
+distros do) .. unless
+it has been inadvertently broken, or there are more patches floating around
+that I've not
+seen.
+
+what is the upgrade behaviour with neither of these patches applied ? ..
+that's the behaviour that
+I'm most concerned about maintaining.
+
+Also, if we were to introduce something like this, the series needs to have
+documentation
+updates along with it .. or we'll surely forget to document it and catch
+people by surprise :(
+
+Bruce
+
+
+>
+>> This was the simple and cleanest way I could think of to achieve the my
+>> scenario. But if there is a better idea for this, let me know.
+>>
+>> --
+>>
+>> Razvan
+>>
+>>
+>
+>
+> --
+> "Thou shalt not follow the NULL pointer, for chaos and madness await thee
+> at its end"
+>
+>
+> --
+>
+> Razvan
+>
+>
+
+
 -- 
-2.9.4
+"Thou shalt not follow the NULL pointer, for chaos and madness await thee
+at its end"
 
+--94eb2c0d00085ad399055318f9c8
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
+te">On Thu, Jun 29, 2017 at 5:10 AM, Razvan Heghedus <span dir=3D"ltr">&lt;=
+<a href=3D"mailto:razvan.heghedus@ni.com" target=3D"_blank">razvan.heghedus=
+@ni.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D=
+"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
+ =20
+   =20
+ =20
+  <div text=3D"#000000" bgcolor=3D"#FFFFFF"><div><div class=3D"m_7077270757=
+819647348h5">
+    <p><br>
+    </p>
+    <br>
+    <div class=3D"m_7077270757819647348m_7647524976359667176moz-cite-prefix=
+">On 06/28/2017 04:29 AM, Bruce Ashfield
+      wrote:<br>
+    </div>
+    <blockquote type=3D"cite">
+     =20
+      <div dir=3D"ltr"><br>
+        <div class=3D"gmail_extra"><br>
+          <div class=3D"gmail_quote">On Tue, Jun 27, 2017 at 5:15 AM,
+            Razvan Heghedus <span dir=3D"ltr">&lt;<a href=3D"mailto:razvan.=
+heghedus@ni.com" target=3D"_blank">razvan.heghedus@ni.com</a>&gt;</span>
+            wrote:<br>
+            <blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0=
+.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+              <div bgcolor=3D"#FFFFFF">
+                <div>
+                  <div class=3D"m_7077270757819647348m_7647524976359667176g=
+mail-h5">
+                    <p><br>
+                    </p>
+                    <br>
+                    <div class=3D"m_7077270757819647348m_764752497635966717=
+6gmail-m_-2376083430806215195moz-cite-prefix">On
+                      06/26/2017 06:52 PM, Bruce Ashfield wrote:<br>
+                    </div>
+                    <blockquote type=3D"cite">
+                      <div dir=3D"ltr"><br>
+                        <div class=3D"gmail_extra"><br>
+                          <div class=3D"gmail_quote">On Wed, Jun 21, 2017
+                            at 8:00 AM, Heghedus Razvan <span dir=3D"ltr">&=
+lt;<a href=3D"mailto:razvan.heghedus@ni.com" target=3D"_blank">razvan.heghe=
+dus@ni.com</a>&gt;</span>
+                            wrote:<br>
+                            <blockquote class=3D"gmail_quote" style=3D"marg=
+in:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1e=
+x">Add
+                              possibility to set KERNEL_VERSION_PKG_NAME
+                              to a user<br>
+                              defined value.<br>
+                              <br>
+                              Signed-off-by: Heghedus Razvan &lt;<a href=3D=
+"mailto:razvan.heghedus@ni.com" target=3D"_blank">razvan.heghedus@ni.com</a=
+>&gt;<br>
+                              ---<br>
+                              =C2=A0meta/classes/kernel.bbclass | 8 ++++++-=
+-<br>
+                              =C2=A01 file changed, 6 insertions(+), 2
+                              deletions(-)<br>
+                              <br>
+                              diff --git a/meta/classes/kernel.bbclass
+                              b/meta/classes/kernel.bbclass<br>
+                              index 605c101e62..02728d5a86 100644<br>
+                              --- a/meta/classes/kernel.bbclass<br>
+                              +++ b/meta/classes/kernel.bbclass<br>
+                              @@ -28,12 +28,16 @@ INITRAMFS_IMAGE_BUNDLE
+                              ?=3D &quot;&quot;<br>
+                              =C2=A0# LINUX_VERSION which is a constant.<br=
+>
+                              =C2=A0KERNEL_VERSION_NAME =3D <a class=3D"m_7=
+077270757819647348m_7647524976359667176gmail-m_-2376083430806215195moz-txt-=
+link-rfc2396E" href=3D"mailto:$%7B@d.getVar%28%27KERNEL_VERSION%27%29or" ta=
+rget=3D"_blank">&quot;${@d.getVar(&#39;KERNEL_VERSION&#39;)
+                                or &quot;</a>&quot;}&quot;<br>
+                              =C2=A0KERNEL_VERSION_NAME[vardepval<wbr>ue] =
+=3D
+                              &quot;${LINUX_VERSION}&quot;<br>
+                              -KERNEL_VERSION_PKG_NAME =3D
+                              &quot;${@legitimize_package_name(d.<wbr>getVa=
+r(&#39;KERNEL_VERSION&#39;))}&quot;<br>
+                              -KERNEL_VERSION_PKG_NAME[varde<wbr>pvalue]
+                              =3D &quot;${LINUX_VERSION}&quot;<br>
+                              <br>
+                              =C2=A0python __anonymous () {<br>
+                              =C2=A0 =C2=A0 =C2=A0import re<br>
+                              <br>
+                              +=C2=A0 =C2=A0 if d.getVar(&#39;USER_KERNEL_V=
+ERSION_<wbr>PKG&#39;)
+                              is None :<br>
+                              +=C2=A0 =C2=A0 =C2=A0 =C2=A0 d.setVar(&#39;KE=
+RNEL_VERSION_PKG_N<wbr>AME&#39;,
+                              &quot;${@legitimize_package_name(d.<wbr>getVa=
+r(&#39;KERNEL_VERSION&#39;))}&quot;)<br>
+                              +=C2=A0 =C2=A0 =C2=A0 =C2=A0 d.setVar(&#39;KE=
+RNEL_VERSION_PKG_N<wbr>AME[vardepvalue]&#39;,
+                              &quot;${LINUX_VERSION}&quot;)<br>
+                              +=C2=A0 =C2=A0 else:<br>
+                              +=C2=A0 =C2=A0 =C2=A0 =C2=A0 d.setVar(&#39;KE=
+RNEL_VERSION_PKG_N<wbr>AME&#39;,
+                              &quot;${@legitimize_package_name(d.<wbr>getVa=
+r(&#39;USER_KERNEL_VERSION_PK<wbr>G&#39;))}&quot;)<br>
+                            </blockquote>
+                            <div><br>
+                            </div>
+                            <div>This is introducing yet another
+                              variable that tweaks the already complex
+                              setting of</div>
+                            <div>the kernel version. Not to mention this
+                              code is already touchy with respect to</div>
+                            <div>parse time and rebuilding of the
+                              kernel.</div>
+                            <div><br>
+                            </div>
+                            <div>My concern is that if this is set, we
+                              are completely disassociated with the
+                              source</div>
+                            <div>code of the kernel.</div>
+                            <div><br>
+                            </div>
+                            <div>Where did you think this would be set ?
+                              local.conf ? distro config ? somewhere
+                              else ?</div>
+                            <div><br>
+                            </div>
+                            <div>If we had a way to simply override
+                              KERNEL_VERSION, we wouldn&#39;t need any extr=
+a</div>
+                            <div>variables.</div>
+                            <div><br>
+                            </div>
+                            <div>Bruce</div>
+                            <div>=C2=A0</div>
+                            <blockquote class=3D"gmail_quote" style=3D"marg=
+in:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1e=
+x"> +<br>
+                              =C2=A0 =C2=A0 =C2=A0# Merge KERNEL_IMAGETYPE =
+and
+                              KERNEL_ALT_IMAGETYPE into
+                              KERNEL_IMAGETYPES<br>
+                              =C2=A0 =C2=A0 =C2=A0type =3D d.getVar(&#39;KE=
+RNEL_IMAGETYPE&#39;)
+                              or &quot;&quot;<br>
+                              =C2=A0 =C2=A0 =C2=A0alttype =3D
+                              d.getVar(&#39;KERNEL_ALT_IMAGETYPE<wbr>&#39;)=
+ or
+                              &quot;&quot;<br>
+                              <span class=3D"m_7077270757819647348m_7647524=
+976359667176gmail-m_-2376083430806215195m_-3599068778944099545HOEnZb"><font=
+ color=3D"#888888">--<br>
+                                  2.13.1<br>
+                                  <br>
+                                  --<br>
+                                  ______________________________<wbr>______=
+___________<br>
+                                  Openembedded-core mailing list<br>
+                                  <a href=3D"mailto:Openembedded-core@lists=
+.openembedded.org" target=3D"_blank">Openembedded-core@lists.openem<wbr>bed=
+ded.org</a><br>
+                                  <a href=3D"http://lists.openembedded.org/=
+mailman/listinfo/openembedded-core" rel=3D"noreferrer" target=3D"_blank">ht=
+tp://lists.openembedded.org/<wbr>mailman/listinfo/openembedded-<wbr>core</a=
+><br>
+                                </font></span></blockquote>
+                          </div>
+                          <br>
+                          <br clear=3D"all">
+                          <div><br>
+                          </div>
+                          -- <br>
+                          <div class=3D"m_7077270757819647348m_764752497635=
+9667176gmail-m_-2376083430806215195m_-3599068778944099545gmail_signature">&=
+quot;Thou
+                            shalt not follow the NULL pointer, for chaos
+                            and madness await thee at its end&quot;</div>
+                        </div>
+                      </div>
+                    </blockquote>
+                  </div>
+                </div>
+                I have setting the variable in the kernel recipe. I need
+                a way to override the KERNEL_VERSION because I want the
+                kernel packages name to contain only a part of the
+                version or nothing at all. <br>
+                I need this for the the kernel upgrade stuff, because if
+                the package name is something like:
+                kernel-4.9.8-{static_string} then I couldn&#39;t upgrade to
+                a version like: kernel-4.9.10-{static_string}, because
+                they are two different packages. I wanted a simple way
+                to be able to have the package name :
+                kernel-4.9-{static_string}, then I could do the upgrade
+                for the new minor updates of the kernel.<br>
+              </div>
+            </blockquote>
+            <div><br>
+            </div>
+            <div>I could have sworn this (upgrading) was already
+              possible via the version string we</div>
+            <div>are currently using. =C2=A0i.e. the PV is already picked u=
+p
+              from the kernel source, and</div>
+            <div>that should be doing the job.</div>
+            <div><br>
+            </div>
+            <div>i.e. when I unpack my
+kernel-image-bzimage-4.10.15-y<wbr>octo-standard_4.10.15+git0+4d9<wbr>29fac=
+34_d2c1ed3c0c-r0_qemux86_<wbr>64.ipk</div>
+            <div>package, I see that it has:<br>
+            </div>
+            <div><br>
+              =C2=A0Version: 4.10.15+git0+4d929fac34_d2c1ed<wbr>3c0c-r0<br>
+            </div>
+            <div>=C2=A0but obviously has the general provides: Provides:
+              kernel-image-bzimage<br>
+            </div>
+            <div><br>
+            </div>
+            <div>So that should be upgradable based on the version ...
+              sure they have different names, but the provides</div>
+            <div>and versions take care of things.</div>
+            <div><br>
+            </div>
+            <div>The versioning, ability to install multiple kernels,
+              upgrades, etc, have really churned</div>
+            <div>these variables making them a mess to read.</div>
+            <div><br>
+            </div>
+            <div>I&#39;m probably misunderstanding your use case and error,
+              can you elaborate for me</div>
+            <div>and/or provide a log ? I&#39;m more of a kernel guy than a
+              package format guy .. so</div>
+            <div>I&#39;m probably missing something obvious.</div>
+            <div><br>
+            </div>
+            <div>Bruce</div>
+            <div><br>
+            </div>
+            <div>=C2=A0</div>
+          </div>
+        </div>
+      </div>
+    </blockquote></div></div>
+    If I build a genericx86_64 core-image_sato without this patch, only
+    with the other patch which add the versions(only the parts that are
+    in round parenthesis) I have the following packages:<br>
+    <br>
+    Package: kernel-4.10.9-yocto-standard<br>
+    Version: 4.10.9+git0+ad2e885015_fe0fb8d<wbr>a3d-r0<br>
+    Depends: kernel-image-4.10.9-yocto-stan<wbr>dard (=3D
+    4.10.9+git0+ad2e885015_fe0fb8d<wbr>a3d-r0)<br>
+    Provides: kernel-4.10.9-yocto-standard, kernel-base<br>
+    <br>
+    Package: kernel-image-4.10.9-yocto-stan<wbr>dard<br>
+    Version: 4.10.9+git0+ad2e885015_fe0fb8d<wbr>a3d-r0<br>
+    Depends: kernel-image-bzimage-4.10.9-yo<wbr>cto-standard (=3D
+    4.10.9+git0+ad2e885015_fe0fb8d<wbr>a3d-r0)<br>
+    Provides: kernel-image<br>
+    <br>
+    Package: kernel-module-6lowpan-4.10.9-y<wbr>octo-standard<br>
+    Version: 4.10.9+git0+ad2e885015_fe0fb8d<wbr>a3d-r0<br>
+    Depends: kernel-4.10.9-yocto-standard (=3D
+    4.10.9+git0+ad2e885015_fe0fb8d<wbr>a3d-r0)<br>
+    Provides: kernel-module-6lowpan<br>
+    <br>
+    So the problem are the Depends field. We have the 4.10.9 part in the
+    dependents that is messing with the upgrade. If we want to do only
+    some minor update that doesn&#39;t change this value than everything is
+    ok. It works. But if we have a new value e.g. 4.10.10 than we
+    couldn&#39;t do the upgrade. <br>
+    So that&#39;s why I came up with this patch to be able to modify the
+    Depends value to something like: kernel-image-4.10-yocto-standa<wbr>rd,
+    or even kernel-image.</div></blockquote><div><br></div><div>That&#39;s =
+the point I&#39;m trying to make.</div><div><br></div><div>Patch 1/2 adds t=
+he depends, but there&#39;s no way to disable it. Without defining the vari=
+able</div><div>that you have in patch 2/2, you can&#39;t upgrade the kernel=
+ packages .. which makes it not only</div><div>a new variable, but a new re=
+quirement when working with the kernel recipes/packages.</div><div><br></di=
+v><div>People have been upgrading the kernel before either of these patches=
+ (I can&#39;t say that</div><div>I do very often .. but I know that users o=
+f the commercially supported distros do) .. unless</div><div>it has been in=
+advertently broken, or there are more patches floating around that I&#39;ve=
+ not</div><div>seen.</div><div><br></div><div>what is the upgrade behaviour=
+ with neither of these patches applied ? .. that&#39;s the behaviour that</=
+div><div>I&#39;m most concerned about maintaining.</div><div><br></div><div=
+>Also, if we were to introduce something like this, the series needs to hav=
+e documentation</div><div>updates along with it .. or we&#39;ll surely forg=
+et to document it and catch people by surprise :(</div><div><br></div><div>=
+Bruce</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"marg=
+in:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div text=3D"#00=
+0000" bgcolor=3D"#FFFFFF">
+    <span><blockquote type=3D"cite">
+      <div dir=3D"ltr">
+        <div class=3D"gmail_extra">
+          <div class=3D"gmail_quote">
+            <blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0=
+.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+              <div bgcolor=3D"#FFFFFF"> <br>
+                This was the simple and cleanest way I could think of to
+                achieve the my scenario. But if there is a better idea
+                for this, let me know.<span class=3D"m_7077270757819647348m=
+_7647524976359667176gmail-HOEnZb"><font color=3D"#888888"><br>
+                    <pre class=3D"m_7077270757819647348m_764752497635966717=
+6gmail-m_-2376083430806215195moz-signature" cols=3D"72">--=20
+
+Razvan
+</pre>
+                  </font></span></div>
+            </blockquote>
+          </div>
+          <br>
+          <br clear=3D"all">
+          <div><br>
+          </div>
+          -- <br>
+          <div class=3D"m_7077270757819647348m_7647524976359667176gmail_sig=
+nature">&quot;Thou shalt not follow the NULL
+            pointer, for chaos and madness await thee at its end&quot;</div=
+>
+        </div>
+      </div>
+    </blockquote>
+    <br>
+    </span><span class=3D"m_7077270757819647348HOEnZb"><font color=3D"#8888=
+88"><pre class=3D"m_7077270757819647348m_7647524976359667176moz-signature" =
+cols=3D"72">--=20
+
+Razvan
+</pre>
+  </font></span></div>
+
+</blockquote></div><br><br clear=3D"all"><div><br></div>-- <br><div class=
+=3D"m_7077270757819647348gmail_signature" data-smartmail=3D"gmail_signature=
+">&quot;Thou shalt not follow the NULL pointer, for chaos and madness await=
+ thee at its end&quot;</div>
+</div></div>
+
+--94eb2c0d00085ad399055318f9c8--
