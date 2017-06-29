@@ -1,41 +1,45 @@
 Return-Path: <razvan.heghedus@ni.com>
 Received: from mx0b-00010702.pphosted.com (mx0a-00010702.pphosted.com
 	[148.163.156.75])
-	by mail.openembedded.org (Postfix) with ESMTP id EC0397198D
+	by mail.openembedded.org (Postfix) with ESMTP id B6EBD78088
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Jun 2017 08:53:13 +0000 (UTC)
-Received: from pps.filterd (m0098780.ppops.net [127.0.0.1])
+	Thu, 29 Jun 2017 09:10:08 +0000 (UTC)
+Received: from pps.filterd (m0098781.ppops.net [127.0.0.1])
 	by mx0a-00010702.pphosted.com (8.16.0.20/8.16.0.20) with SMTP id
-	v5T8oiS8026645; Thu, 29 Jun 2017 03:53:13 -0500
-Received: from ni.com (skprod3.natinst.com [130.164.80.24])
-	by mx0a-00010702.pphosted.com with ESMTP id 2bcbe4bcem-1
+	v5T969Wh024135; Thu, 29 Jun 2017 04:10:09 -0500
+Received: from ni.com (skprod2.natinst.com [130.164.80.23])
+	by mx0a-00010702.pphosted.com with ESMTP id 2bcg81aart-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=NOT); Thu, 29 Jun 2017 03:53:13 -0500
-Received: from us-aus-exch2.ni.corp.natinst.com
-	(us-aus-exch2.ni.corp.natinst.com [130.164.68.12])
-	by us-aus-skprod3.natinst.com (8.16.0.17/8.16.0.17) with ESMTPS id
-	v5T8rCGa025678
+	verify=NOT); Thu, 29 Jun 2017 04:10:08 -0500
+Received: from us-aus-exhub2.ni.corp.natinst.com
+	(us-aus-exhub2.ni.corp.natinst.com [130.164.68.32])
+	by us-aus-skprod2.natinst.com (8.16.0.17/8.16.0.17) with ESMTPS id
+	v5T9A7KD031053
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
-	Thu, 29 Jun 2017 03:53:12 -0500
+	Thu, 29 Jun 2017 04:10:08 -0500
+Received: from us-aus-exch3.ni.corp.natinst.com (130.164.68.13) by
+	us-aus-exhub2.ni.corp.natinst.com (130.164.68.32) with Microsoft SMTP
+	Server (TLS) id 15.0.1156.6; Thu, 29 Jun 2017 04:08:57 -0500
 Received: from us-aus-exhub1.ni.corp.natinst.com (130.164.68.41) by
-	us-aus-exch2.ni.corp.natinst.com (130.164.68.12) with Microsoft SMTP
-	Server (TLS) id 15.0.1156.6; Thu, 29 Jun 2017 03:53:12 -0500
+	us-aus-exch3.ni.corp.natinst.com (130.164.68.13) with Microsoft SMTP
+	Server (TLS) id 15.0.1156.6; Thu, 29 Jun 2017 04:08:57 -0500
 Received: from [10.113.0.62] (130.164.49.7) by
 	us-aus-exhub1.ni.corp.natinst.com (130.164.68.41) with Microsoft SMTP
 	Server
-	id 15.0.1156.6 via Frontend Transport; Thu, 29 Jun 2017 03:53:11 -0500
+	id 15.0.1156.6 via Frontend Transport; Thu, 29 Jun 2017 04:08:56 -0500
 To: Bruce Ashfield <bruce.ashfield@gmail.com>
 References: <20170621120003.6440-1-razvan.heghedus@ni.com>
-	<CADkTA4PQB7Yi-UXSg6Y+CePfX+bh08Znmh9t-cMgwOLAJy3fZQ@mail.gmail.com>
-	<83c5936e-f9b9-93c8-ee14-29c0734d813e@ni.com>
-	<CADkTA4P8MjrFk720BzJbSq=_QBqfp8MAFghJXFRzsN4sAeuKAA@mail.gmail.com>
+	<20170621120003.6440-2-razvan.heghedus@ni.com>
+	<CADkTA4NDO_5ch_unyr1Ydk9_wgxTaOzRkev3Kd=sXcSDtUMQoA@mail.gmail.com>
+	<945a7f98-d3f7-7d41-c440-0bd71bb4ee19@ni.com>
+	<CADkTA4MpEScpJ74MmtEQMTXPAe8_-wrMkYGTbEOAvPH7fpno1w@mail.gmail.com>
 From: Razvan Heghedus <razvan.heghedus@ni.com>
-Message-ID: <a78c41e3-fe8d-72cd-890d-fb4a9002dc8a@ni.com>
-Date: Thu, 29 Jun 2017 11:54:37 +0300
+Message-ID: <23f339ea-47ed-7a93-5583-a74b555c690c@ni.com>
+Date: Thu, 29 Jun 2017 12:10:22 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
 	Thunderbird/52.2.1
 MIME-Version: 1.0
-In-Reply-To: <CADkTA4P8MjrFk720BzJbSq=_QBqfp8MAFghJXFRzsN4sAeuKAA@mail.gmail.com>
+In-Reply-To: <CADkTA4MpEScpJ74MmtEQMTXPAe8_-wrMkYGTbEOAvPH7fpno1w@mail.gmail.com>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
 	definitions=2017-06-29_06:, , signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_policy_notspam policy=outbound_policy
@@ -45,10 +49,10 @@ X-Proofpoint-Spam-Details: rule=outbound_policy_notspam policy=outbound_policy
 	spamscore=0 clxscore=1015 lowpriorityscore=0 impostorscore=0
 	adultscore=0
 	classifier=spam adjust=30 reason=mlx scancount=1
-	engine=8.0.1-1703280000 definitions=main-1706290144
+	engine=8.0.1-1703280000 definitions=main-1706290148
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] kernel: add package version in dependencies for kernel packages
+Subject: Re: [PATCH 2/2] kernel: user defined KERNEL_VERSION_PKG_NAME
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,237 +65,91 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Jun 2017 08:53:14 -0000
+X-List-Received-Date: Thu, 29 Jun 2017 09:10:09 -0000
 Content-Type: multipart/alternative;
-	boundary="------------4C89ACA566BAD9509DAF6FB3"
+	boundary="------------B2735724F9A205A338618CC6"
 Content-Language: en-US
 
---------------4C89ACA566BAD9509DAF6FB3
+--------------B2735724F9A205A338618CC6
 Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 
 
 
-On 06/28/2017 04:10 AM, Bruce Ashfield wrote:
+On 06/28/2017 04:29 AM, Bruce Ashfield wrote:
 >
 >
-> On Tue, Jun 27, 2017 at 4:51 AM, Razvan Heghedus 
+> On Tue, Jun 27, 2017 at 5:15 AM, Razvan Heghedus 
 > <razvan.heghedus@ni.com <mailto:razvan.heghedus@ni.com>> wrote:
 >
 >
 >
->     On 06/26/2017 06:50 PM, Bruce Ashfield wrote:
+>     On 06/26/2017 06:52 PM, Bruce Ashfield wrote:
 >>
 >>
 >>     On Wed, Jun 21, 2017 at 8:00 AM, Heghedus Razvan
 >>     <razvan.heghedus@ni.com <mailto:razvan.heghedus@ni.com>> wrote:
 >>
->>         Make all dependencies from kernel family packages which depend
->>         on another kernel related package to depend on the same version.
->>         This creates a consistent state where kernel, kernel images and
->>         kernel modules have the same version, making a kernel upgrade
->>         leading to upgrades of the image and modules.
->>
->>         The upgrade works only if the KERNEL_VERSION_PKG_NAME remains
->>         the same for the newer versions.
+>>         Add possibility to set KERNEL_VERSION_PKG_NAME to a user
+>>         defined value.
 >>
 >>         Signed-off-by: Heghedus Razvan <razvan.heghedus@ni.com
 >>         <mailto:razvan.heghedus@ni.com>>
 >>         ---
->>          meta/classes/kernel-module-split.bbclass |  7 ++++---
->>          meta/classes/kernel.bbclass  | 15 +++++++++------
->>          meta/recipes-kernel/linux/linux-yocto.inc |  4 ++++
->>          3 files changed, 17 insertions(+), 9 deletions(-)
+>>          meta/classes/kernel.bbclass | 8 ++++++--
+>>          1 file changed, 6 insertions(+), 2 deletions(-)
 >>
->>         diff --git a/meta/classes/kernel-module-split.bbclass
->>         b/meta/classes/kernel-module-split.bbclass
->>         index 5e10dcf735..e247e66901 100644
->>         --- a/meta/classes/kernel-module-split.bbclass
->>         +++ b/meta/classes/kernel-module-split.bbclass
->>         @@ -33,7 +33,7 @@ PACKAGESPLITFUNCS_prepend =
->>         "split_kernel_module_packages "
->>          KERNEL_MODULES_META_PACKAGE ?= "kernel-modules"
->>
->>          KERNEL_MODULE_PACKAGE_PREFIX ?= ""
->>         -KERNEL_MODULE_PACKAGE_SUFFIX ?= "-${KERNEL_VERSION}"
->>         +KERNEL_MODULE_PACKAGE_SUFFIX ?= "-${KERNEL_VERSION_PKG_NAME}"
->>          KERNEL_MODULE_PROVIDE_VIRTUAL ?= "1"
->>
->>          python split_kernel_module_packages () {
->>         @@ -114,6 +114,7 @@ python split_kernel_module_packages () {
->>                      for dep in vals["depends"].split(","):
->>                          on = legitimize_package_name(dep)
->>                          dependency_pkg = format % on
->>         +                dependency_pkg += '
->>         ${@get_full_package_version(d)}'
->>          modinfo_deps.append(dependency_pkg)
->>                  for dep in modinfo_deps:
->>                      if not dep in rdepends:
->>         @@ -138,10 +139,10 @@ python split_kernel_module_packages () {
->>              postinst = d.getVar('pkg_postinst_modules')
->>              postrm = d.getVar('pkg_postrm_modules')
->>
->>         -    modules = do_split_packages(d,
->>         root='${nonarch_base_libdir}/modules',
->>         file_regex=module_regex, output_pattern=module_pattern,
->>         description='%s kernel module', postinst=postinst,
->>         postrm=postrm, recursive=True, hook=frob_metadata,
->>         extra_depends='kernel-%s' % (d.getVar("KERNEL_VERSION")))
->>         +    modules = do_split_packages(d,
->>         root='${nonarch_base_libdir}/modules',
->>         file_regex=module_regex, output_pattern=module_pattern,
->>         description='%s kernel module', postinst=postinst,
->>         postrm=postrm, recursive=True, hook=frob_metadata,
->>         extra_depends='kernel-%s %s' %
->>         (d.getVar("KERNEL_VERSION_PKG_NAME"),
->>         get_full_package_version(d)))
->>              if modules:
->>                  metapkg = d.getVar('KERNEL_MODULES_META_PACKAGE')
->>         -        d.appendVar('RDEPENDS_' + metapkg, ' '+'
->>         '.join(modules))
->>         +        d.appendVar('RDEPENDS_' + metapkg, ' '+'
->>         '.join(['{0} {1}'.format(module, get_full_package_version(d))
->>         for module in modules]))
->>
->>              # If modules-load.d and modprobe.d are empty at this
->>         point, remove them to
->>              # avoid warnings. removedirs only raises an OSError if
->>         an empty
 >>         diff --git a/meta/classes/kernel.bbclass
 >>         b/meta/classes/kernel.bbclass
->>         index 7a134d5c29..605c101e62 100644
+>>         index 605c101e62..02728d5a86 100644
 >>         --- a/meta/classes/kernel.bbclass
 >>         +++ b/meta/classes/kernel.bbclass
->>         @@ -55,7 +55,7 @@ python __anonymous () {
+>>         @@ -28,12 +28,16 @@ INITRAMFS_IMAGE_BUNDLE ?= ""
+>>          # LINUX_VERSION which is a constant.
+>>          KERNEL_VERSION_NAME = "${@d.getVar('KERNEL_VERSION') or "
+>>         <mailto:$%7B@d.getVar%28%27KERNEL_VERSION%27%29or>"}"
+>>          KERNEL_VERSION_NAME[vardepvalue] = "${LINUX_VERSION}"
+>>         -KERNEL_VERSION_PKG_NAME =
+>>         "${@legitimize_package_name(d.getVar('KERNEL_VERSION'))}"
+>>         -KERNEL_VERSION_PKG_NAME[vardepvalue] = "${LINUX_VERSION}"
 >>
->>                  d.setVar('FILES_kernel-image-' + typelower, '/' +
->>         imagedest + '/' + type + '-${KERNEL_VERSION_NAME}')
+>>          python __anonymous () {
+>>              import re
 >>
->>         -        d.appendVar('RDEPENDS_kernel-image', ' ' +
->>         'kernel-image-' + typelower)
->>         +        d.appendVar('RDEPENDS_kernel-image', ' ' +
->>         'kernel-image-' + typelower + ' ${@get_full_package_version(d)}')
->>
->>                  d.setVar('PKG_kernel-image-' + typelower,
->>         'kernel-image-' + typelower + '-${KERNEL_VERSION_PKG_NAME}')
->>
->>         @@ -493,14 +493,17 @@ FILES_kernel-image = ""
->>          FILES_kernel-dev = "/boot/System.map* /boot/Module.symvers*
->>         /boot/config* ${KERNEL_SRC_PATH}
->>         ${nonarch_base_libdir}/modules/${KERNEL_VERSION}/build"
->>          FILES_kernel-vmlinux = "/boot/vmlinux-${KERNEL_VERSION_NAME}"
->>          FILES_kernel-modules = ""
->>         -RDEPENDS_kernel = "kernel-base"
->>         +RDEPENDS_kernel = "kernel-base ${@get_full_package_version(d)}"
->>
->>
->>     Is that really supposed to be a space, between kernel-base and
->>     the package version
->>     call ? I guess so, since I see the same thing below in the
->>     RDEPENDS_kernel-base
->>     line below .. but it just reads strange to me.  i.e. if that's a
->>     RDEPENDS, where is the
->>     package get_full_package_version(d) created ?
->>
->     Yes, the space is supposed to be there. If it's inconvenient here,
->     it can be moved in the string returned by get_full_package_version()
->>     Are you trying to set a generic versionless RDEPENDS and a
->>     versioned one that doesn't
->>     contain 'kernel-' in the name ?
->     This will create a versioned RDEPENDS. The syntax for a versioned
->     package is: "package_name (= package_version)". This only append
->     the version to the current value.
->
->
-> right. I was thinking of package rdepends, but not from the point of 
-> view of a
-> package manager.
->
-> I think it would be better to get it all from the utility function, 
-> since that makes it
-> clear that it is a constructed value of the form you mentioned.
->
-> Also, what if someone doesn't want the versioned depends ? If 
-> everything is in a
-> routine, they could override to get the behaviour they want.
-There isn't a way to disable the versioned depends. Theoretically there 
-shouldn't be problems, because this enforce that the modules and the 
-kernel are at the same version(I mean the kernel and it's modules needs 
-to be at the same version, so I don't see any problem with this). I 
-could add a conditionals everywhere, but that involves an another variable.
->
-> Out of curiosity .. have you tested this with both rpm and ipk ? I've 
-> run into problems
-> with versioned depends and ipk in the past, so it would be good to 
-> confirm that this
-> works consistently.
-I tested with all package types(deb, rmp and ipk) and I didn't have any 
-problem at all.
->
->
->>          # Allow machines to override this dependency if kernel image
->>         files are
->>          # not wanted in images as standard
->>         -RDEPENDS_kernel-base ?= "kernel-image"
->>         -PKG_kernel-image =
->>         "kernel-image-${@legitimize_package_name('${KERNEL_VERSION}')}"
->>         +RDEPENDS_kernel-base ?= "kernel-image
->>         ${@get_full_package_version(d)}"
->>         +PKG_kernel-image = "kernel-image-${KERNEL_VERSION_PKG_NAME}"
->>          RDEPENDS_kernel-image +=
->>         "${@base_conditional('KERNEL_IMAGETYPE', 'vmlinux',
->>         'kernel-vmlinux', '', d)}"
->>         -PKG_kernel-base =
->>         "kernel-${@legitimize_package_name('${KERNEL_VERSION}')}"
->>         -RPROVIDES_kernel-base += "kernel-${KERNEL_VERSION}"
->>         +PKG_kernel-base = "kernel-${KERNEL_VERSION_PKG_NAME}"
->>         +RPROVIDES_kernel-base += "kernel-${KERNEL_VERSION_PKG_NAME}"
->>         +PKG_kernel-vmlinux = "kernel-vmlinux-${KERNEL_VERSION_PKG_NAME}"
->>
->>         +PKG_kernel-modules = "kernel-modules-${KERNEL_VERSION_PKG_NAME}"
->>         +PKG_kernel-dev = "kernel-dev-${KERNEL_VERSION_PKG_NAME}"
->>          ALLOW_EMPTY_kernel = "1"
->>          ALLOW_EMPTY_kernel-base = "1"
->>          ALLOW_EMPTY_kernel-image = "1"
->>         diff --git a/meta/recipes-kernel/linux/linux-yocto.inc
->>         b/meta/recipes-kernel/linux/linux-yocto.inc
->>         index 637506a2a8..c3d1284ad2 100644
->>         --- a/meta/recipes-kernel/linux/linux-yocto.inc
->>         +++ b/meta/recipes-kernel/linux/linux-yocto.inc
->>         @@ -67,3 +67,7 @@ do_install_append(){
->>          addtask kernel_version_sanity_check after do_kernel_metadata
->>         do_kernel_checkout before do_compile
->>          addtask validate_branches before do_patch after
->>         do_kernel_checkout
->>          addtask kernel_configcheck after do_configure before do_compile
->>         +
->>         +def get_full_package_version(d):
->>         +    return "(= " + d.getVar("PKGV") + "-" + d.getVar("PKGR")
->>         + ")"
+>>         +    if d.getVar('USER_KERNEL_VERSION_PKG') is None :
+>>         +        d.setVar('KERNEL_VERSION_PKG_NAME',
+>>         "${@legitimize_package_name(d.getVar('KERNEL_VERSION'))}")
+>>         +        d.setVar('KERNEL_VERSION_PKG_NAME[vardepvalue]',
+>>         "${LINUX_VERSION}")
+>>         +    else:
+>>         +        d.setVar('KERNEL_VERSION_PKG_NAME',
+>>         "${@legitimize_package_name(d.getVar('USER_KERNEL_VERSION_PKG'))}")
 >>
 >>
->>     This doesn't belong in linux-yocto.inc, since it is called in
->>     kernel.bbclass. It needs to be in the base
->>     class and have a namespace that indicates it is specific to the
->>     kernel.
+>>     This is introducing yet another variable that tweaks the already
+>>     complex setting of
+>>     the kernel version. Not to mention this code is already touchy
+>>     with respect to
+>>     parse time and rebuilding of the kernel.
 >>
->     Yeah, you're right, this shouldn't be in linux-yocto.inc. I will
->     move it to the base class, but I need some info about namespace
->     thing, because I don't recall reading about it in documentations.
->
->
-> Nothing fancy here, more convention than something technical. If this 
-> is only working for
-> the kernel, it should be def kernel_get_full_package_version() so the 
-> context is clear and
-> if another class/package add something similar, we won't collide.
->
-> Bruce
->
->
+>>     My concern is that if this is set, we are completely
+>>     disassociated with the source
+>>     code of the kernel.
+>>
+>>     Where did you think this would be set ? local.conf ? distro
+>>     config ? somewhere else ?
+>>
+>>     If we had a way to simply override KERNEL_VERSION, we wouldn't
+>>     need any extra
+>>     variables.
+>>
 >>     Bruce
 >>
 >>         +
+>>              # Merge KERNEL_IMAGETYPE and KERNEL_ALT_IMAGETYPE into
+>>         KERNEL_IMAGETYPES
+>>              type = d.getVar('KERNEL_IMAGETYPE') or ""
+>>              alttype = d.getVar('KERNEL_ALT_IMAGETYPE') or ""
 >>         --
 >>         2.13.1
 >>
@@ -309,6 +167,81 @@ problem at all.
 >>     -- 
 >>     "Thou shalt not follow the NULL pointer, for chaos and madness
 >>     await thee at its end"
+>     I have setting the variable in the kernel recipe. I need a way to
+>     override the KERNEL_VERSION because I want the kernel packages
+>     name to contain only a part of the version or nothing at all.
+>     I need this for the the kernel upgrade stuff, because if the
+>     package name is something like: kernel-4.9.8-{static_string} then
+>     I couldn't upgrade to a version like:
+>     kernel-4.9.10-{static_string}, because they are two different
+>     packages. I wanted a simple way to be able to have the package
+>     name : kernel-4.9-{static_string}, then I could do the upgrade for
+>     the new minor updates of the kernel.
+>
+>
+> I could have sworn this (upgrading) was already possible via the 
+> version string we
+> are currently using.  i.e. the PV is already picked up from the kernel 
+> source, and
+> that should be doing the job.
+>
+> i.e. when I unpack my 
+> kernel-image-bzimage-4.10.15-yocto-standard_4.10.15+git0+4d929fac34_d2c1ed3c0c-r0_qemux86_64.ipk
+> package, I see that it has:
+>
+>  Version: 4.10.15+git0+4d929fac34_d2c1ed3c0c-r0
+>  but obviously has the general provides: Provides: kernel-image-bzimage
+>
+> So that should be upgradable based on the version ... sure they have 
+> different names, but the provides
+> and versions take care of things.
+>
+> The versioning, ability to install multiple kernels, upgrades, etc, 
+> have really churned
+> these variables making them a mess to read.
+>
+> I'm probably misunderstanding your use case and error, can you 
+> elaborate for me
+> and/or provide a log ? I'm more of a kernel guy than a package format 
+> guy .. so
+> I'm probably missing something obvious.
+>
+> Bruce
+>
+If I build a genericx86_64 core-image_sato without this patch, only with 
+the other patch which add the versions(only the parts that are in round 
+parenthesis) I have the following packages:
+
+Package: kernel-4.10.9-yocto-standard
+Version: 4.10.9+git0+ad2e885015_fe0fb8da3d-r0
+Depends: kernel-image-4.10.9-yocto-standard (= 
+4.10.9+git0+ad2e885015_fe0fb8da3d-r0)
+Provides: kernel-4.10.9-yocto-standard, kernel-base
+
+Package: kernel-image-4.10.9-yocto-standard
+Version: 4.10.9+git0+ad2e885015_fe0fb8da3d-r0
+Depends: kernel-image-bzimage-4.10.9-yocto-standard (= 
+4.10.9+git0+ad2e885015_fe0fb8da3d-r0)
+Provides: kernel-image
+
+Package: kernel-module-6lowpan-4.10.9-yocto-standard
+Version: 4.10.9+git0+ad2e885015_fe0fb8da3d-r0
+Depends: kernel-4.10.9-yocto-standard (= 
+4.10.9+git0+ad2e885015_fe0fb8da3d-r0)
+Provides: kernel-module-6lowpan
+
+So the problem are the Depends field. We have the 4.10.9 part in the 
+dependents that is messing with the upgrade. If we want to do only some 
+minor update that doesn't change this value than everything is ok. It 
+works. But if we have a new value e.g. 4.10.10 than we couldn't do the 
+upgrade.
+So that's why I came up with this patch to be able to modify the Depends 
+value to something like: kernel-image-4.10-yocto-standard, or even 
+kernel-image.
+>
+>
+>     This was the simple and cleanest way I could think of to achieve
+>     the my scenario. But if there is a better idea for this, let me know.
 >
 >     -- 
 >
@@ -326,7 +259,7 @@ problem at all.
 Razvan
 
 
---------------4C89ACA566BAD9509DAF6FB3
+--------------B2735724F9A205A338618CC6
 Content-Type: text/html; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
@@ -338,29 +271,31 @@ Content-Transfer-Encoding: 8bit
     <p><br>
     </p>
     <br>
-    <div class="moz-cite-prefix">On 06/28/2017 04:10 AM, Bruce Ashfield
+    <div class="moz-cite-prefix">On 06/28/2017 04:29 AM, Bruce Ashfield
       wrote:<br>
     </div>
     <blockquote type="cite"
-cite="mid:CADkTA4P8MjrFk720BzJbSq=_QBqfp8MAFghJXFRzsN4sAeuKAA@mail.gmail.com">
+cite="mid:CADkTA4MpEScpJ74MmtEQMTXPAe8_-wrMkYGTbEOAvPH7fpno1w@mail.gmail.com">
       <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
       <div dir="ltr"><br>
         <div class="gmail_extra"><br>
-          <div class="gmail_quote">On Tue, Jun 27, 2017 at 4:51 AM,
+          <div class="gmail_quote">On Tue, Jun 27, 2017 at 5:15 AM,
             Razvan Heghedus <span dir="ltr">&lt;<a
                 href="mailto:razvan.heghedus@ni.com" target="_blank"
                 moz-do-not-send="true">razvan.heghedus@ni.com</a>&gt;</span>
             wrote:<br>
-            <blockquote class="gmail_quote" style="margin:0 0 0
-              .8ex;border-left:1px #ccc solid;padding-left:1ex">
-              <div text="#000000" bgcolor="#FFFFFF">
+            <blockquote class="gmail_quote" style="margin:0px 0px 0px
+              0.8ex;border-left:1px solid
+              rgb(204,204,204);padding-left:1ex">
+              <div bgcolor="#FFFFFF">
                 <div>
-                  <div class="h5">
+                  <div class="gmail-h5">
                     <p><br>
                     </p>
                     <br>
-                    <div class="m_-2468894063971137113moz-cite-prefix">On
-                      06/26/2017 06:50 PM, Bruce Ashfield wrote:<br>
+                    <div
+                      class="gmail-m_-2376083430806215195moz-cite-prefix">On
+                      06/26/2017 06:52 PM, Bruce Ashfield wrote:<br>
                     </div>
                     <blockquote type="cite">
                       <div dir="ltr"><br>
@@ -373,379 +308,229 @@ cite="mid:CADkTA4P8MjrFk720BzJbSq=_QBqfp8MAFghJXFRzsN4sAeuKAA@mail.gmail.com">
                             <blockquote class="gmail_quote"
                               style="margin:0px 0px 0px
                               0.8ex;border-left:1px solid
-                              rgb(204,204,204);padding-left:1ex">Make
-                              all dependencies from kernel family
-                              packages which depend<br>
-                              on another kernel related package to
-                              depend on the same version.<br>
-                              This creates a consistent state where
-                              kernel, kernel images and<br>
-                              kernel modules have the same version,
-                              making a kernel upgrade<br>
-                              leading to upgrades of the image and
-                              modules.<br>
-                              <br>
-                              The upgrade works only if the
-                              KERNEL_VERSION_PKG_NAME remains<br>
-                              the same for the newer versions.<br>
+                              rgb(204,204,204);padding-left:1ex">Add
+                              possibility to set KERNEL_VERSION_PKG_NAME
+                              to a user<br>
+                              defined value.<br>
                               <br>
                               Signed-off-by: Heghedus Razvan &lt;<a
                                 href="mailto:razvan.heghedus@ni.com"
                                 target="_blank" moz-do-not-send="true">razvan.heghedus@ni.com</a>&gt;<br>
                               ---<br>
-                               meta/classes/kernel-module-sp<wbr>lit.bbclass 
-                              |  7 ++++---<br>
-                               meta/classes/kernel.bbclass             
-                               | 15 +++++++++------<br>
-                               meta/recipes-kernel/linux/lin<wbr>ux-yocto.inc
-                              |  4 ++++<br>
-                               3 files changed, 17 insertions(+), 9
+                               meta/classes/kernel.bbclass | 8 ++++++--<br>
+                               1 file changed, 6 insertions(+), 2
                               deletions(-)<br>
                               <br>
-                              diff --git a/meta/classes/kernel-module-s<wbr>plit.bbclass
-                              b/meta/classes/kernel-module-s<wbr>plit.bbclass<br>
-                              index 5e10dcf735..e247e66901 100644<br>
-                              --- a/meta/classes/kernel-module-s<wbr>plit.bbclass<br>
-                              +++ b/meta/classes/kernel-module-s<wbr>plit.bbclass<br>
-                              @@ -33,7 +33,7 @@
-                              PACKAGESPLITFUNCS_prepend =
-                              "split_kernel_module_packages "<br>
-                               KERNEL_MODULES_META_PACKAGE ?=
-                              "kernel-modules"<br>
-                              <br>
-                               KERNEL_MODULE_PACKAGE_PREFIX ?= ""<br>
-                              -KERNEL_MODULE_PACKAGE_SUFFIX ?=
-                              "-${KERNEL_VERSION}"<br>
-                              +KERNEL_MODULE_PACKAGE_SUFFIX ?=
-                              "-${KERNEL_VERSION_PKG_NAME}"<br>
-                               KERNEL_MODULE_PROVIDE_VIRTUAL ?= "1"<br>
-                              <br>
-                               python split_kernel_module_packages () {<br>
-                              @@ -114,6 +114,7 @@ python
-                              split_kernel_module_packages () {<br>
-                                           for dep in
-                              vals["depends"].split(","):<br>
-                                               on =
-                              legitimize_package_name(dep)<br>
-                                               dependency_pkg = format %
-                              on<br>
-                              +                dependency_pkg += '
-                              ${@get_full_package_version(d)<wbr>}'<br>
-                                             
-                               modinfo_deps.append(dependenc<wbr>y_pkg)<br>
-                                       for dep in modinfo_deps:<br>
-                                           if not dep in rdepends:<br>
-                              @@ -138,10 +139,10 @@ python
-                              split_kernel_module_packages () {<br>
-                                   postinst =
-                              d.getVar('pkg_postinst_modules<wbr>')<br>
-                                   postrm =
-                              d.getVar('pkg_postrm_modules')<br>
-                              <br>
-                              -    modules = do_split_packages(d,
-                              root='${nonarch_base_libdir}/m<wbr>odules',
-                              file_regex=module_regex,
-                              output_pattern=module_pattern,
-                              description='%s kernel module',
-                              postinst=postinst, postrm=postrm,
-                              recursive=True, hook=frob_metadata,
-                              extra_depends='kernel-%s' %
-                              (d.getVar("KERNEL_VERSION")))<br>
-                              +    modules = do_split_packages(d,
-                              root='${nonarch_base_libdir}/m<wbr>odules',
-                              file_regex=module_regex,
-                              output_pattern=module_pattern,
-                              description='%s kernel module',
-                              postinst=postinst, postrm=postrm,
-                              recursive=True, hook=frob_metadata,
-                              extra_depends='kernel-%s %s' %
-                              (d.getVar("KERNEL_VERSION_PKG_<wbr>NAME"),
-                              get_full_package_version(d)))<br>
-                                   if modules:<br>
-                                       metapkg =
-                              d.getVar('KERNEL_MODULES_META_<wbr>PACKAGE')<br>
-                              -        d.appendVar('RDEPENDS_' +
-                              metapkg, ' '+' '.join(modules))<br>
-                              +        d.appendVar('RDEPENDS_' +
-                              metapkg, ' '+' '.join(['{0}
-                              {1}'.format(module,
-                              get_full_package_version(d)) for module in
-                              modules]))<br>
-                              <br>
-                                   # If modules-load.d and modprobe.d
-                              are empty at this point, remove them to<br>
-                                   # avoid warnings. removedirs only
-                              raises an OSError if an empty<br>
                               diff --git a/meta/classes/kernel.bbclass
                               b/meta/classes/kernel.bbclass<br>
-                              index 7a134d5c29..605c101e62 100644<br>
+                              index 605c101e62..02728d5a86 100644<br>
                               --- a/meta/classes/kernel.bbclass<br>
                               +++ b/meta/classes/kernel.bbclass<br>
-                              @@ -55,7 +55,7 @@ python __anonymous () {<br>
+                              @@ -28,12 +28,16 @@ INITRAMFS_IMAGE_BUNDLE
+                              ?= ""<br>
+                               # LINUX_VERSION which is a constant.<br>
+                               KERNEL_VERSION_NAME = <a
+                                class="gmail-m_-2376083430806215195moz-txt-link-rfc2396E"
+href="mailto:$%7B@d.getVar%28%27KERNEL_VERSION%27%29or" target="_blank"
+                                moz-do-not-send="true">"${@d.getVar('KERNEL_VERSION')
+                                or "</a>"}"<br>
+                               KERNEL_VERSION_NAME[vardepval<wbr>ue] =
+                              "${LINUX_VERSION}"<br>
+                              -KERNEL_VERSION_PKG_NAME =
+                              "${@legitimize_package_name(d.<wbr>getVar('KERNEL_VERSION'))}"<br>
+                              -KERNEL_VERSION_PKG_NAME[varde<wbr>pvalue]
+                              = "${LINUX_VERSION}"<br>
                               <br>
-                                       d.setVar('FILES_kernel-image-<wbr>'
-                              + typelower, '/' + imagedest + '/' + type
-                              + '-${KERNEL_VERSION_NAME}')<br>
+                               python __anonymous () {<br>
+                                   import re<br>
                               <br>
-                              -        d.appendVar('RDEPENDS_kernel-i<wbr>mage',
-                              ' ' + 'kernel-image-' + typelower)<br>
-                              +        d.appendVar('RDEPENDS_kernel-i<wbr>mage',
-                              ' ' + 'kernel-image-' + typelower + '
-                              ${@get_full_package_version(d)<wbr>}')<br>
-                              <br>
-                                       d.setVar('PKG_kernel-image-' +
-                              typelower, 'kernel-image-' + typelower +
-                              '-${KERNEL_VERSION_PKG_NAME}')<br>
-                              <br>
-                              @@ -493,14 +493,17 @@ FILES_kernel-image =
+                              +    if d.getVar('USER_KERNEL_VERSION_<wbr>PKG')
+                              is None :<br>
+                              +        d.setVar('KERNEL_VERSION_PKG_N<wbr>AME',
+                              "${@legitimize_package_name(d.<wbr>getVar('KERNEL_VERSION'))}")<br>
+                              +        d.setVar('KERNEL_VERSION_PKG_N<wbr>AME[vardepvalue]',
+                              "${LINUX_VERSION}")<br>
+                              +    else:<br>
+                              +        d.setVar('KERNEL_VERSION_PKG_N<wbr>AME',
+                              "${@legitimize_package_name(d.<wbr>getVar('USER_KERNEL_VERSION_PK<wbr>G'))}")<br>
+                            </blockquote>
+                            <div><br>
+                            </div>
+                            <div>This is introducing yet another
+                              variable that tweaks the already complex
+                              setting of</div>
+                            <div>the kernel version. Not to mention this
+                              code is already touchy with respect to</div>
+                            <div>parse time and rebuilding of the
+                              kernel.</div>
+                            <div><br>
+                            </div>
+                            <div>My concern is that if this is set, we
+                              are completely disassociated with the
+                              source</div>
+                            <div>code of the kernel.</div>
+                            <div><br>
+                            </div>
+                            <div>Where did you think this would be set ?
+                              local.conf ? distro config ? somewhere
+                              else ?</div>
+                            <div><br>
+                            </div>
+                            <div>If we had a way to simply override
+                              KERNEL_VERSION, we wouldn't need any extra</div>
+                            <div>variables.</div>
+                            <div><br>
+                            </div>
+                            <div>Bruce</div>
+                            <div> </div>
+                            <blockquote class="gmail_quote"
+                              style="margin:0px 0px 0px
+                              0.8ex;border-left:1px solid
+                              rgb(204,204,204);padding-left:1ex"> +<br>
+                                   # Merge KERNEL_IMAGETYPE and
+                              KERNEL_ALT_IMAGETYPE into
+                              KERNEL_IMAGETYPES<br>
+                                   type = d.getVar('KERNEL_IMAGETYPE')
+                              or ""<br>
+                                   alttype =
+                              d.getVar('KERNEL_ALT_IMAGETYPE<wbr>') or
                               ""<br>
-                               FILES_kernel-dev = "/boot/System.map*
-                              /boot/Module.symvers* /boot/config*
-                              ${KERNEL_SRC_PATH}
-                              ${nonarch_base_libdir}/modules<wbr>/${KERNEL_VERSION}/build"<br>
-                               FILES_kernel-vmlinux =
-                              "/boot/vmlinux-${KERNEL_VERSIO<wbr>N_NAME}"<br>
-                               FILES_kernel-modules = ""<br>
-                              -RDEPENDS_kernel = "kernel-base"<br>
-                              +RDEPENDS_kernel = "kernel-base
-                              ${@get_full_package_version(d)<wbr>}"<br>
-                            </blockquote>
-                            <div><br>
-                            </div>
-                            <div>Is that really supposed to be a space,
-                              between kernel-base and the package
-                              version<br>
-                            </div>
-                            <div>call ? I guess so, since I see the same
-                              thing below in the RDEPENDS_kernel-base</div>
-                            <div>line below .. but it just reads strange
-                              to me.  i.e. if that's a RDEPENDS, where
-                              is the</div>
-                            <div>package get_full_package_version(d)
-                              created ?</div>
-                            <div><br>
-                            </div>
+                              <span
+                                class="gmail-m_-2376083430806215195m_-3599068778944099545HOEnZb"><font
+                                  color="#888888">--<br>
+                                  2.13.1<br>
+                                  <br>
+                                  --<br>
+                                  ______________________________<wbr>_________________<br>
+                                  Openembedded-core mailing list<br>
+                                  <a
+                                    href="mailto:Openembedded-core@lists.openembedded.org"
+                                    target="_blank"
+                                    moz-do-not-send="true">Openembedded-core@lists.openem<wbr>bedded.org</a><br>
+                                  <a
+                                    href="http://lists.openembedded.org/mailman/listinfo/openembedded-core"
+                                    rel="noreferrer" target="_blank"
+                                    moz-do-not-send="true">http://lists.openembedded.org/<wbr>mailman/listinfo/openembedded-<wbr>core</a><br>
+                                </font></span></blockquote>
                           </div>
+                          <br>
+                          <br clear="all">
+                          <div><br>
+                          </div>
+                          -- <br>
+                          <div
+class="gmail-m_-2376083430806215195m_-3599068778944099545gmail_signature">"Thou
+                            shalt not follow the NULL pointer, for chaos
+                            and madness await thee at its end"</div>
                         </div>
                       </div>
                     </blockquote>
                   </div>
                 </div>
-                Yes, the space is supposed to be there. If it's
-                inconvenient here, it can be moved in the string
-                returned by get_full_package_version()<span class=""><br>
-                  <blockquote type="cite">
-                    <div dir="ltr">
-                      <div class="gmail_extra">
-                        <div class="gmail_quote">
-                          <div>Are you trying to set a generic
-                            versionless RDEPENDS and a versioned one
-                            that doesn't</div>
-                          <div>contain 'kernel-' in the name ?</div>
-                          <div> </div>
-                        </div>
-                      </div>
-                    </div>
-                  </blockquote>
-                </span> This will create a versioned RDEPENDS. The
-                syntax for a versioned package is: "package_name (=
-                package_version)". This only append the version to the
-                current value.</div>
+                I have setting the variable in the kernel recipe. I need
+                a way to override the KERNEL_VERSION because I want the
+                kernel packages name to contain only a part of the
+                version or nothing at all. <br>
+                I need this for the the kernel upgrade stuff, because if
+                the package name is something like:
+                kernel-4.9.8-{static_string} then I couldn't upgrade to
+                a version like: kernel-4.9.10-{static_string}, because
+                they are two different packages. I wanted a simple way
+                to be able to have the package name :
+                kernel-4.9-{static_string}, then I could do the upgrade
+                for the new minor updates of the kernel.<br>
+              </div>
             </blockquote>
             <div><br>
             </div>
-            <div>right. I was thinking of package rdepends, but not from
-              the point of view of a</div>
-            <div>package manager.</div>
+            <div>I could have sworn this (upgrading) was already
+              possible via the version string we</div>
+            <div>are currently using.  i.e. the PV is already picked up
+              from the kernel source, and</div>
+            <div>that should be doing the job.</div>
             <div><br>
             </div>
-            <div>I think it would be better to get it all from the
-              utility function, since that makes it</div>
-            <div>clear that it is a constructed value of the form you
-              mentioned.</div>
+            <div>i.e. when I unpack my
+kernel-image-bzimage-4.10.15-yocto-standard_4.10.15+git0+4d929fac34_d2c1ed3c0c-r0_qemux86_64.ipk</div>
+            <div>package, I see that it has:<br>
+            </div>
+            <div><br>
+               Version: 4.10.15+git0+4d929fac34_d2c1ed3c0c-r0<br>
+            </div>
+            <div> but obviously has the general provides: Provides:
+              kernel-image-bzimage<br>
+            </div>
             <div><br>
             </div>
-            <div>Also, what if someone doesn't want the versioned
-              depends ? If everything is in a</div>
-            <div>routine, they could override to get the behaviour they
-              want.</div>
-          </div>
-        </div>
-      </div>
-    </blockquote>
-    There isn't a way to disable the versioned depends. Theoretically
-    there shouldn't be problems, because this enforce that the modules
-    and the kernel are at the same version(I mean the kernel and it's
-    modules needs to be at the same version, so I don't see any problem
-    with this). I could add a conditionals everywhere, but that involves
-    an another variable.<br>
-    <blockquote type="cite"
-cite="mid:CADkTA4P8MjrFk720BzJbSq=_QBqfp8MAFghJXFRzsN4sAeuKAA@mail.gmail.com">
-      <div dir="ltr">
-        <div class="gmail_extra">
-          <div class="gmail_quote">
+            <div>So that should be upgradable based on the version ...
+              sure they have different names, but the provides</div>
+            <div>and versions take care of things.</div>
             <div><br>
             </div>
-            <div>Out of curiosity .. have you tested this with both rpm
-              and ipk ? I've run into problems</div>
-            <div>with versioned depends and ipk in the past, so it would
-              be good to confirm that this</div>
-            <div>works consistently.</div>
-          </div>
-        </div>
-      </div>
-    </blockquote>
-    I tested with all package types(deb, rmp and ipk) and I didn't have
-    any problem at all.<br>
-    <blockquote type="cite"
-cite="mid:CADkTA4P8MjrFk720BzJbSq=_QBqfp8MAFghJXFRzsN4sAeuKAA@mail.gmail.com">
-      <div dir="ltr">
-        <div class="gmail_extra">
-          <div class="gmail_quote">
-            <div> </div>
-            <blockquote class="gmail_quote" style="margin:0 0 0
-              .8ex;border-left:1px #ccc solid;padding-left:1ex">
-              <div text="#000000" bgcolor="#FFFFFF">
-                <div>
-                  <div class="h5"><br>
-                    <blockquote type="cite">
-                      <div dir="ltr">
-                        <div class="gmail_extra">
-                          <div class="gmail_quote">
-                            <blockquote class="gmail_quote"
-                              style="margin:0px 0px 0px
-                              0.8ex;border-left:1px solid
-                              rgb(204,204,204);padding-left:1ex">  #
-                              Allow machines to override this dependency
-                              if kernel image files are<br>
-                               # not wanted in images as standard<br>
-                              -RDEPENDS_kernel-base ?= "kernel-image"<br>
-                              -PKG_kernel-image =
-                              "kernel-image-${@legitimize_pa<wbr>ckage_name('${KERNEL_VERSION}'<wbr>)}"<br>
-                              +RDEPENDS_kernel-base ?= "kernel-image
-                              ${@get_full_package_version(d)<wbr>}"<br>
-                              +PKG_kernel-image =
-                              "kernel-image-${KERNEL_VERSION<wbr>_PKG_NAME}"<br>
-                               RDEPENDS_kernel-image +=
-                              "${@base_conditional('KERNEL_I<wbr>MAGETYPE',
-                              'vmlinux', 'kernel-vmlinux', '', d)}"<br>
-                              -PKG_kernel-base =
-                              "kernel-${@legitimize_package_<wbr>name('${KERNEL_VERSION}')}"<br>
-                              -RPROVIDES_kernel-base +=
-                              "kernel-${KERNEL_VERSION}"<br>
-                              +PKG_kernel-base =
-                              "kernel-${KERNEL_VERSION_PKG_N<wbr>AME}"<br>
-                              +RPROVIDES_kernel-base +=
-                              "kernel-${KERNEL_VERSION_PKG_N<wbr>AME}"<br>
-                              +PKG_kernel-vmlinux =
-                              "kernel-vmlinux-${KERNEL_VERSI<wbr>ON_PKG_NAME}"<br>
-                            </blockquote>
-                            <blockquote class="gmail_quote"
-                              style="margin:0px 0px 0px
-                              0.8ex;border-left:1px solid
-                              rgb(204,204,204);padding-left:1ex">+PKG_kernel-modules
-                              = "kernel-modules-${KERNEL_VERSI<wbr>ON_PKG_NAME}"<br>
-                              +PKG_kernel-dev =
-                              "kernel-dev-${KERNEL_VERSION_P<wbr>KG_NAME}"<br>
-                               ALLOW_EMPTY_kernel = "1"<br>
-                               ALLOW_EMPTY_kernel-base = "1"<br>
-                               ALLOW_EMPTY_kernel-image = "1"<br>
-                              diff --git a/meta/recipes-kernel/linux/li<wbr>nux-yocto.inc
-                              b/meta/recipes-kernel/linux/li<wbr>nux-yocto.inc<br>
-                              index 637506a2a8..c3d1284ad2 100644<br>
-                              --- a/meta/recipes-kernel/linux/li<wbr>nux-yocto.inc<br>
-                              +++ b/meta/recipes-kernel/linux/li<wbr>nux-yocto.inc<br>
-                              @@ -67,3 +67,7 @@ do_install_append(){<br>
-                               addtask kernel_version_sanity_check after
-                              do_kernel_metadata do_kernel_checkout
-                              before do_compile<br>
-                               addtask validate_branches before do_patch
-                              after do_kernel_checkout<br>
-                               addtask kernel_configcheck after
-                              do_configure before do_compile<br>
-                              +<br>
-                              +def get_full_package_version(d):<br>
-                              +    return "(= " + d.getVar("PKGV") + "-"
-                              + d.getVar("PKGR") + ")"<br>
-                            </blockquote>
-                            <div><br>
-                            </div>
-                            <div>This doesn't belong in linux-yocto.inc,
-                              since it is called in kernel.bbclass. It
-                              needs to be in the base</div>
-                            <div>class and have a namespace that
-                              indicates it is specific to the kernel.</div>
-                            <div><br>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </blockquote>
-                  </div>
-                </div>
-                Yeah, you're right, this shouldn't be in
-                linux-yocto.inc. I will move it to the base class, but I
-                need some info about namespace thing, because I don't
-                recall reading about it in documentations.</div>
-            </blockquote>
+            <div>The versioning, ability to install multiple kernels,
+              upgrades, etc, have really churned</div>
+            <div>these variables making them a mess to read.</div>
             <div><br>
             </div>
-            <div>Nothing fancy here, more convention than something
-              technical. If this is only working for</div>
-            <div>the kernel, it should be def
-              kernel_get_full_package_version() so the context is clear
-              and</div>
-            <div>if another class/package add something similar, we
-              won't collide.</div>
+            <div>I'm probably misunderstanding your use case and error,
+              can you elaborate for me</div>
+            <div>and/or provide a log ? I'm more of a kernel guy than a
+              package format guy .. so</div>
+            <div>I'm probably missing something obvious.</div>
             <div><br>
             </div>
             <div>Bruce</div>
+            <div><br>
+            </div>
             <div> </div>
-            <blockquote class="gmail_quote" style="margin:0 0 0
-              .8ex;border-left:1px #ccc solid;padding-left:1ex">
-              <div text="#000000" bgcolor="#FFFFFF"><span class=""><br>
-                  <blockquote type="cite">
-                    <div dir="ltr">
-                      <div class="gmail_extra">
-                        <div class="gmail_quote">
-                          <div>Bruce</div>
-                          <div> </div>
-                          <blockquote class="gmail_quote"
-                            style="margin:0px 0px 0px
-                            0.8ex;border-left:1px solid
-                            rgb(204,204,204);padding-left:1ex"> +<br>
-                            <span
-                              class="m_-2468894063971137113gmail-HOEnZb"><font
-                                color="#888888">--<br>
-                                2.13.1<br>
-                                <br>
-                                --<br>
-                                ______________________________<wbr>_________________<br>
-                                Openembedded-core mailing list<br>
-                                <a
-                                  href="mailto:Openembedded-core@lists.openembedded.org"
-                                  target="_blank" moz-do-not-send="true">Openembedded-core@lists.openem<wbr>bedded.org</a><br>
-                                <a
-                                  href="http://lists.openembedded.org/mailman/listinfo/openembedded-core"
-                                  rel="noreferrer" target="_blank"
-                                  moz-do-not-send="true">http://lists.openembedded.org/<wbr>mailman/listinfo/openembedded-<wbr>core</a><br>
-                              </font></span></blockquote>
-                        </div>
-                        <br>
-                        <br clear="all">
-                        <div><br>
-                        </div>
-                        -- <br>
-                        <div
-                          class="m_-2468894063971137113gmail_signature">"Thou
-                          shalt not follow the NULL pointer, for chaos
-                          and madness await thee at its end"</div>
-                      </div>
-                    </div>
-                  </blockquote>
-                  <br>
-                </span><span class="HOEnZb"><font color="#888888">
-                    <pre class="m_-2468894063971137113moz-signature" cols="72">-- 
+          </div>
+        </div>
+      </div>
+    </blockquote>
+    If I build a genericx86_64 core-image_sato without this patch, only
+    with the other patch which add the versions(only the parts that are
+    in round parenthesis) I have the following packages:<br>
+    <br>
+    Package: kernel-4.10.9-yocto-standard<br>
+    Version: 4.10.9+git0+ad2e885015_fe0fb8da3d-r0<br>
+    Depends: kernel-image-4.10.9-yocto-standard (=
+    4.10.9+git0+ad2e885015_fe0fb8da3d-r0)<br>
+    Provides: kernel-4.10.9-yocto-standard, kernel-base<br>
+    <br>
+    Package: kernel-image-4.10.9-yocto-standard<br>
+    Version: 4.10.9+git0+ad2e885015_fe0fb8da3d-r0<br>
+    Depends: kernel-image-bzimage-4.10.9-yocto-standard (=
+    4.10.9+git0+ad2e885015_fe0fb8da3d-r0)<br>
+    Provides: kernel-image<br>
+    <br>
+    Package: kernel-module-6lowpan-4.10.9-yocto-standard<br>
+    Version: 4.10.9+git0+ad2e885015_fe0fb8da3d-r0<br>
+    Depends: kernel-4.10.9-yocto-standard (=
+    4.10.9+git0+ad2e885015_fe0fb8da3d-r0)<br>
+    Provides: kernel-module-6lowpan<br>
+    <br>
+    So the problem are the Depends field. We have the 4.10.9 part in the
+    dependents that is messing with the upgrade. If we want to do only
+    some minor update that doesn't change this value than everything is
+    ok. It works. But if we have a new value e.g. 4.10.10 than we
+    couldn't do the upgrade. <br>
+    So that's why I came up with this patch to be able to modify the
+    Depends value to something like: kernel-image-4.10-yocto-standard,
+    or even kernel-image.
+    <blockquote type="cite"
+cite="mid:CADkTA4MpEScpJ74MmtEQMTXPAe8_-wrMkYGTbEOAvPH7fpno1w@mail.gmail.com">
+      <div dir="ltr">
+        <div class="gmail_extra">
+          <div class="gmail_quote">
+            <blockquote class="gmail_quote" style="margin:0px 0px 0px
+              0.8ex;border-left:1px solid
+              rgb(204,204,204);padding-left:1ex">
+              <div bgcolor="#FFFFFF"> <br>
+                This was the simple and cleanest way I could think of to
+                achieve the my scenario. But if there is a better idea
+                for this, let me know.<span class="gmail-HOEnZb"><font
+                    color="#888888"><br>
+                    <pre class="gmail-m_-2376083430806215195moz-signature" cols="72">-- 
 
 Razvan
 </pre>
@@ -757,9 +542,8 @@ Razvan
           <div><br>
           </div>
           -- <br>
-          <div class="gmail_signature" data-smartmail="gmail_signature">"Thou
-            shalt not follow the NULL pointer, for chaos and madness
-            await thee at its end"</div>
+          <div class="gmail_signature">"Thou shalt not follow the NULL
+            pointer, for chaos and madness await thee at its end"</div>
         </div>
       </div>
     </blockquote>
@@ -771,4 +555,4 @@ Razvan
   </body>
 </html>
 
---------------4C89ACA566BAD9509DAF6FB3--
+--------------B2735724F9A205A338618CC6--
