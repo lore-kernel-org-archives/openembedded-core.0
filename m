@@ -1,26 +1,37 @@
-Return-Path: <Dengke.Du@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 27C226612D
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id A4A2777FF6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Jun 2017 07:57:14 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v5T7vGFZ015358
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Jun 2017 00:57:16 -0700
-Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.294.0;
-	Thu, 29 Jun 2017 00:57:15 -0700
-From: Dengke Du <dengke.du@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 29 Jun 2017 03:57:12 -0400
-Message-ID: <935b59af735ed9b3ece5bc41ff8d5dc0fe701bd4.1498722885.git.dengke.du@windriver.com>
-X-Mailer: git-send-email 2.11.0
-In-Reply-To: <cover.1498722885.git.dengke.du@windriver.com>
-References: <cover.1498722885.git.dengke.du@windriver.com>
+	Thu, 29 Jun 2017 08:41:53 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	29 Jun 2017 01:41:52 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.40,280,1496127600"; d="scan'208";a="1188417387"
+Received: from linux.intel.com ([10.54.29.200])
+	by fmsmga002.fm.intel.com with ESMTP; 29 Jun 2017 01:41:52 -0700
+Received: from linux.intel.com (vmed.fi.intel.com [10.237.72.38])
+	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by linux.intel.com (Postfix) with ESMTPS id 1CCCB580118;
+	Thu, 29 Jun 2017 01:41:50 -0700 (PDT)
+Date: Thu, 29 Jun 2017 11:39:42 +0300
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: Otavio Salvador <otavio.salvador@ossystems.com.br>
+Message-ID: <20170629083942.GA14649@linux.intel.com>
+Reply-To: ed.bartosh@linux.intel.com
+References: <cover.1498569961.git.ed.bartosh@linux.intel.com>
+	<CAP9ODKopDxEYw9vereQjoHve=n2Of2v-3EHbxaiumZN3T0hH8Q@mail.gmail.com>
+	<823180ba-066d-747d-8112-a110633a03a8@ossystems.com.br>
+	<20170628073121.GA11425@linux.intel.com>
+	<CAP9ODKoxxaJv=QZXp5m=Qt14t36n1TPXS19D+Xs3eyrPDG79bg@mail.gmail.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/1] expat: upgrade to 2.2.1
+In-Reply-To: <CAP9ODKoxxaJv=QZXp5m=Qt14t36n1TPXS19D+Xs3eyrPDG79bg@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2 0/5] #11662 - wic should mount /boot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,40 +44,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Jun 2017 07:57:15 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 29 Jun 2017 08:41:57 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Signed-off-by: Dengke Du <dengke.du@windriver.com>
----
- meta/recipes-core/expat/expat_2.2.0.bb | 5 -----
- meta/recipes-core/expat/expat_2.2.1.bb | 5 +++++
- 2 files changed, 5 insertions(+), 5 deletions(-)
- delete mode 100644 meta/recipes-core/expat/expat_2.2.0.bb
- create mode 100644 meta/recipes-core/expat/expat_2.2.1.bb
+On Wed, Jun 28, 2017 at 10:32:27AM -0300, Otavio Salvador wrote:
+> On Wed, Jun 28, 2017 at 4:31 AM, Ed Bartosh <ed.bartosh@linux.intel.com> wrote:
+> > On Tue, Jun 27, 2017 at 05:41:45PM -0300, Fabio Berton wrote:
+> >> The last patch I sent is here:
+> >> https://patchwork.openembedded.org/patch/139252/
+> >>
+> >> We're using this patch internally with Pyro branch. I can rework to
+> >> apply on master.
+> >>
+> >> On 06/27/2017 05:35 PM, Otavio Salvador wrote:
+> >> >On Tue, Jun 27, 2017 at 10:28 AM, Ed Bartosh <ed.bartosh@linux.intel.com> wrote:
+> >> >>The patchset also fixes long standing bug: wic updated fstab
+> >> >>inplace in rootfs directory. This causes other tasks working with
+> >> >>rootfs directory to produce incorrect results or crash. This is
+> >> >>fixed by copying rootfs to the temporary directory before updating
+> >> >>fstab.
+> >> >
+> >> >As you is working on this, please also include Fabio's patch on the
+> >> >patchset. It includes a command like option to disable fstab change at
+> >> >all. For delta-based updates this is imperative.
+> >> >
+> >> >Fabio, could you point him the last patch revision?
+> >> >
+> >
+> > Do we really need that?
+> >
+> > JFYI: Mount point in .wks is an optional field. It makes sense to use it only
+> > if partition needs to be mounted on boot. fstab will not be updated
+> > unless it's explicitly requested by specifying mount points in .wks
+> 
+> It should have support to not touch it. For images which we intend to
+> do delta updates, the content cannot be changed besides the original
+> rootfs generation. So yes, we need that.
 
-diff --git a/meta/recipes-core/expat/expat_2.2.0.bb b/meta/recipes-core/expat/expat_2.2.0.bb
-deleted file mode 100644
-index ef21a111a4..0000000000
---- a/meta/recipes-core/expat/expat_2.2.0.bb
-+++ /dev/null
-@@ -1,5 +0,0 @@
--require expat.inc
--LIC_FILES_CHKSUM = "file://COPYING;md5=9c3ee559c6f9dcee1043ead112139f4f"
--
--SRC_URI[md5sum] = "2f47841c829facb346eb6e3fab5212e2"
--SRC_URI[sha256sum] = "d9e50ff2d19b3538bd2127902a89987474e1a4db8e43a66a4d1a712ab9a504ff"
-diff --git a/meta/recipes-core/expat/expat_2.2.1.bb b/meta/recipes-core/expat/expat_2.2.1.bb
-new file mode 100644
-index 0000000000..47827c5576
---- /dev/null
-+++ b/meta/recipes-core/expat/expat_2.2.1.bb
-@@ -0,0 +1,5 @@
-+require expat.inc
-+LIC_FILES_CHKSUM = "file://COPYING;md5=5b8620d98e49772d95fc1d291c26aa79"
-+
-+SRC_URI[md5sum] = "d9c3baeab58774cefc2f04faf29f2cf8"
-+SRC_URI[sha256sum] = "1868cadae4c82a018e361e2b2091de103cd820aaacb0d6cfa49bd2cd83978885"
--- 
-2.11.0
+I'm not sure I understand this. If you don't want fstab to be changed
+you should not specify mount points in .wks
+There is only one reason to have mount points in .wks: to make wic to
+change /etc/fstab, which you apparently don't want. So, don't specify
+mount points and you'll have what you want.
 
+Having additional option for this looks redundand to me.
+
+--
+Regards,
+Ed
 
