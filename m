@@ -1,48 +1,48 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg0-f68.google.com (mail-pg0-f68.google.com [74.125.83.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 45AA377F79
+Received: from mail-pg0-f65.google.com (mail-pg0-f65.google.com [74.125.83.65])
+	by mail.openembedded.org (Postfix) with ESMTP id C161277F79
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Jun 2017 04:59:14 +0000 (UTC)
-Received: by mail-pg0-f68.google.com with SMTP id u36so10503848pgn.3
+	Thu, 29 Jun 2017 04:59:16 +0000 (UTC)
+Received: by mail-pg0-f65.google.com with SMTP id u36so10503918pgn.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Jun 2017 21:59:16 -0700 (PDT)
+	Wed, 28 Jun 2017 21:59:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=1V/oWnblBysSXU+25lOLCYVDcY4a942PnK4oSyYGLG4=;
-	b=M4B5/ggSjARQ1DzkLT8QG0QfV4BeMWuWKEOZQRktqWEHj0oIKezMKKTYnFzLyeBpup
-	zslTUhCrsHmtqyI0K6Xc4iyNy1WkpKRiH7miSZAaDuSUoUBazJzAK8v3GxV0Mi7pQBCb
-	bGtEHjAZ1WiSaBF0Y+nAd5VL7l0w69U5Ibs3O4zZTuBAC1kDGS/XqIOfNCapU1VOfxtN
-	bIxwntfWMVOsURGj5XJ8GVVsD34MZNOZLSBu5LCWDtEGoH4QEMD2vyx1QWOKHSsXgX/j
-	GvqpLP8Wbb+D3vojYLMMcyYqIiMwN2t+8VwD9tJHZTe+aOX7JArABFmm+GHiBbm2eAT6
-	7gog==
+	bh=fPE7CmQrvQ7RJD0gaQUOueRlwe6mkfkjwS09/1+/AwU=;
+	b=V2ukI622ymu8oC6+OLvDK/6dA1USv+sLZNMYpNdro8QsvmQuqOMCXQ9dfx3NMW0vGC
+	wfpH9shDTiVuI6UjP7G5WlFv7MMnZzDw4mzL0qVFBKZAIJQwgsU0rO7xSagApbjL4YZJ
+	f8tdAeJ3xs589JWkf0zdlB9dIiiHPC/B2n6H1O5ue1mRvktwlSC4ZSPwzuE3eht19wu3
+	Iy6e/Rbx39RKRrA+fcmjB2j4zsuZUszlFryrstvgSaktJI2TnModFW0Bro9f5MAACk8V
+	mAm+zaKaSTwG4FvD5DX7fOutV8yWL2UBrfZ18lFPHW9qGcnhKhNmzGM+rIoiQoIYEB3o
+	Fgqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=1V/oWnblBysSXU+25lOLCYVDcY4a942PnK4oSyYGLG4=;
-	b=ODh1ludP+eD9QMIeEKT1jhRUt4FwlN3J92XdNSttU0RRMgPVcf4V+D7CGsr5q3eC2u
-	FmjQbwn9Ps2yISt6NKiUlON5Z9NG4XzY4ukvwiYH4mHwbolhodSMFRAj62tKHSVCGepd
-	CxxfaY+/SFNnipwFGsdcC6wYKzqIlqj7ShuTgfxkSeYBJJjaJAW0VHewXbRxT9m9W9vq
-	ZZZj9i6dVI/8Jis7pEIwZZEXhuAiuwGsQRAgInHcqPeg/Zo+i7/B+yU/6H+zm2DOhjlq
-	Tk1jYA25TQwfQHd3RlZL5EPx4znPZVHwyOWub6/+jx2tssE9joFuG0Y4So3avUkr4mu+
-	5MSA==
-X-Gm-Message-State: AKS2vOwNT6pgsRQtxVmKl7I5ITHEMMHR0p8O21uGW+1G403UIUEcBJIJ
-	u0SZMxmESKt3uc52
-X-Received: by 10.84.236.76 with SMTP id h12mr16187092pln.10.1498712356031;
-	Wed, 28 Jun 2017 21:59:16 -0700 (PDT)
+	bh=fPE7CmQrvQ7RJD0gaQUOueRlwe6mkfkjwS09/1+/AwU=;
+	b=d9RW1FaEIvjaVcdQTOeYZ91Hf5RvE1eFU4dPtPoVWnrdqm8bdoPVln8EmQjZ/ZWa+r
+	zvvmb62SOEV24n9JevEHJZlkehhlbNNjFldK1f2NOiDaOlxUfY8SYwadKgdw2vTrMv9N
+	h736v/X/3nCWtczH6Qh+P6JTWeuTYwmt1mV+r2fkQiQHdSAE9bKhyENBjSRobiGb8cw9
+	5iGYJ2Zs0jivd7V0qleTjjDixIOKxiVGHgqC1W7OBUrEjHULiBsfdsM9Ayvw8HFSjNAp
+	JmcL4PEFVtUgJpBAuoEIBstNOXTk7RH85P9h+a6b10CT2ng3pqp/QhWzPK9ailMBigFw
+	idrA==
+X-Gm-Message-State: AKS2vOx1Cn2ZqAY4ApV3wqUyToiXy1iqled3d0gnYzWItHa/WLmyzoPN
+	DidPnY/EVsKyP2uz
+X-Received: by 10.84.131.78 with SMTP id 72mr15518951pld.43.1498712357607;
+	Wed, 28 Jun 2017 21:59:17 -0700 (PDT)
 Received: from localhost.localdomain ([2601:646:8882:b8c::3df3])
 	by smtp.gmail.com with ESMTPSA id
-	t26sm1831468pfl.41.2017.06.28.21.59.14
+	t26sm1831468pfl.41.2017.06.28.21.59.16
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 28 Jun 2017 21:59:15 -0700 (PDT)
+	Wed, 28 Jun 2017 21:59:16 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 28 Jun 2017 21:59:03 -0700
-Message-Id: <9daff9b7a42e6804e9e31f0175b5167144852b83.1498712182.git.raj.khem@gmail.com>
+Date: Wed, 28 Jun 2017 21:59:04 -0700
+Message-Id: <8779858b91eb1ac830e5fb3a4fa14395fe5a4318.1498712182.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.13.2
 In-Reply-To: <cover.1498712182.git.raj.khem@gmail.com>
 References: <cover.1498712182.git.raj.khem@gmail.com>
-Subject: [PATCH 2/4] strace: upgrade to 4.17
+Subject: [PATCH 3/4] qemu: Replace use of struct ucontext with ucontext_t
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,129 +55,348 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Jun 2017 04:59:15 -0000
-
-Fix build with upcoming glibc 2.26
+X-List-Received-Date: Thu, 29 Jun 2017 04:59:19 -0000
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- ...8-replace-struct-ucontext-with-ucontext_t.patch | 31 ++++++++++++++++++++++
- .../strace/strace/Makefile-ptest.patch             | 19 ++++++++-----
- .../strace/{strace_4.16.bb => strace_4.17.bb}      |  5 ++--
- 3 files changed, 47 insertions(+), 8 deletions(-)
- create mode 100644 meta/recipes-devtools/strace/strace/0008-replace-struct-ucontext-with-ucontext_t.patch
- rename meta/recipes-devtools/strace/{strace_4.16.bb => strace_4.17.bb} (87%)
+ ...lace-struct-ucontext-with-ucontext_t-type.patch | 265 +++++++++++++++++++++
+ meta/recipes-devtools/qemu/qemu_2.8.1.1.bb         |  46 ++--
+ 2 files changed, 286 insertions(+), 25 deletions(-)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/0001-replace-struct-ucontext-with-ucontext_t-type.patch
 
-diff --git a/meta/recipes-devtools/strace/strace/0008-replace-struct-ucontext-with-ucontext_t.patch b/meta/recipes-devtools/strace/strace/0008-replace-struct-ucontext-with-ucontext_t.patch
+diff --git a/meta/recipes-devtools/qemu/qemu/0001-replace-struct-ucontext-with-ucontext_t-type.patch b/meta/recipes-devtools/qemu/qemu/0001-replace-struct-ucontext-with-ucontext_t-type.patch
 new file mode 100644
-index 0000000000..1985d8104d
+index 0000000000..c3eb543ec0
 --- /dev/null
-+++ b/meta/recipes-devtools/strace/strace/0008-replace-struct-ucontext-with-ucontext_t.patch
-@@ -0,0 +1,31 @@
-+From 07f71a12cb88919c6113284fc43bf4967e5e2bc1 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-devtools/qemu/qemu/0001-replace-struct-ucontext-with-ucontext_t-type.patch
+@@ -0,0 +1,265 @@
++From 80954c03163fdbf8b905595a69008093096ee2f6 Mon Sep 17 00:00:00 2001
 +From: Khem Raj <raj.khem@gmail.com>
-+Date: Wed, 28 Jun 2017 11:36:57 -0700
-+Subject: [PATCH 8/8] replace struct ucontext with ucontext_t
++Date: Wed, 28 Jun 2017 13:28:37 -0700
++Subject: [PATCH] replace struct ucontext with ucontext_t type
 +
-+glibc >= 2.26 has dropped the tag struct ucontext
-+from ucontext_t type
-+
-+Upstream-Status: Submitted
++The ucontext_t type had a tag struct ucontext until now
++but newer glibc will drop it so we need to adjust and use
++the exposed type instead
 +
 +Signed-off-by: Khem Raj <raj.khem@gmail.com>
++Cc: Kamil Rytarowski <kamil@netbsd.org>
++Cc: Riku Voipio <riku.voipio@iki.fi>
++Cc: Laurent Vivier <laurent@vivier.eu>
++Cc: Paolo Bonzini <pbonzini@redhat.com>
++
++Upstream-Status: Submitted
 +---
-+ linux/arm/arch_sigreturn.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
++ linux-user/host/aarch64/hostdep.h |  2 +-
++ linux-user/host/arm/hostdep.h     |  2 +-
++ linux-user/host/i386/hostdep.h    |  2 +-
++ linux-user/host/ppc64/hostdep.h   |  2 +-
++ linux-user/host/s390x/hostdep.h   |  2 +-
++ linux-user/host/x86_64/hostdep.h  |  2 +-
++ linux-user/signal.c               | 10 +++++-----
++ tests/tcg/test-i386.c             |  4 ++--
++ user-exec.c                       | 18 +++++++++---------
++ 9 files changed, 22 insertions(+), 22 deletions(-)
 +
-+diff --git a/linux/arm/arch_sigreturn.c b/linux/arm/arch_sigreturn.c
-+index b60dad8..a2b7100 100644
-+--- a/linux/arm/arch_sigreturn.c
-++++ b/linux/arm/arch_sigreturn.c
-+@@ -9,7 +9,7 @@ arch_sigreturn(struct tcb *tcp)
-+ #ifdef AARCH64
-+ 		tcp->currpers == 0 ?
-+ 			(*aarch64_sp_ptr + SIZEOF_STRUCT_SIGINFO +
-+-			 offsetof(struct ucontext, uc_sigmask)) :
-++			 offsetof(ucontext_t, uc_sigmask)) :
++diff --git a/linux-user/host/aarch64/hostdep.h b/linux-user/host/aarch64/hostdep.h
++index 64f75cef49..a8d41a21ad 100644
++--- a/linux-user/host/aarch64/hostdep.h
+++++ b/linux-user/host/aarch64/hostdep.h
++@@ -24,7 +24,7 @@ extern char safe_syscall_end[];
++ /* Adjust the signal context to rewind out of safe-syscall if we're in it */
++ static inline void rewind_if_in_safe_syscall(void *puc)
++ {
++-    struct ucontext *uc = puc;
+++    ucontext_t *uc = puc;
++     __u64 *pcreg = &uc->uc_mcontext.pc;
++ 
++     if (*pcreg > (uintptr_t)safe_syscall_start
++diff --git a/linux-user/host/arm/hostdep.h b/linux-user/host/arm/hostdep.h
++index 5c1ae60120..9276fe6ceb 100644
++--- a/linux-user/host/arm/hostdep.h
+++++ b/linux-user/host/arm/hostdep.h
++@@ -24,7 +24,7 @@ extern char safe_syscall_end[];
++ /* Adjust the signal context to rewind out of safe-syscall if we're in it */
++ static inline void rewind_if_in_safe_syscall(void *puc)
++ {
++-    struct ucontext *uc = puc;
+++    ucontext_t *uc = puc;
++     unsigned long *pcreg = &uc->uc_mcontext.arm_pc;
++ 
++     if (*pcreg > (uintptr_t)safe_syscall_start
++diff --git a/linux-user/host/i386/hostdep.h b/linux-user/host/i386/hostdep.h
++index d834bd80ea..073be74d87 100644
++--- a/linux-user/host/i386/hostdep.h
+++++ b/linux-user/host/i386/hostdep.h
++@@ -24,7 +24,7 @@ extern char safe_syscall_end[];
++ /* Adjust the signal context to rewind out of safe-syscall if we're in it */
++ static inline void rewind_if_in_safe_syscall(void *puc)
++ {
++-    struct ucontext *uc = puc;
+++    ucontext_t *uc = puc;
++     greg_t *pcreg = &uc->uc_mcontext.gregs[REG_EIP];
++ 
++     if (*pcreg > (uintptr_t)safe_syscall_start
++diff --git a/linux-user/host/ppc64/hostdep.h b/linux-user/host/ppc64/hostdep.h
++index 0b0f5f7821..98979ad917 100644
++--- a/linux-user/host/ppc64/hostdep.h
+++++ b/linux-user/host/ppc64/hostdep.h
++@@ -24,7 +24,7 @@ extern char safe_syscall_end[];
++ /* Adjust the signal context to rewind out of safe-syscall if we're in it */
++ static inline void rewind_if_in_safe_syscall(void *puc)
++ {
++-    struct ucontext *uc = puc;
+++    ucontext_t *uc = puc;
++     unsigned long *pcreg = &uc->uc_mcontext.gp_regs[PT_NIP];
++ 
++     if (*pcreg > (uintptr_t)safe_syscall_start
++diff --git a/linux-user/host/s390x/hostdep.h b/linux-user/host/s390x/hostdep.h
++index 6f9da9c608..4f0171f36f 100644
++--- a/linux-user/host/s390x/hostdep.h
+++++ b/linux-user/host/s390x/hostdep.h
++@@ -24,7 +24,7 @@ extern char safe_syscall_end[];
++ /* Adjust the signal context to rewind out of safe-syscall if we're in it */
++ static inline void rewind_if_in_safe_syscall(void *puc)
++ {
++-    struct ucontext *uc = puc;
+++    ucontext_t *uc = puc;
++     unsigned long *pcreg = &uc->uc_mcontext.psw.addr;
++ 
++     if (*pcreg > (uintptr_t)safe_syscall_start
++diff --git a/linux-user/host/x86_64/hostdep.h b/linux-user/host/x86_64/hostdep.h
++index 3b4259633e..a4fefb5114 100644
++--- a/linux-user/host/x86_64/hostdep.h
+++++ b/linux-user/host/x86_64/hostdep.h
++@@ -24,7 +24,7 @@ extern char safe_syscall_end[];
++ /* Adjust the signal context to rewind out of safe-syscall if we're in it */
++ static inline void rewind_if_in_safe_syscall(void *puc)
++ {
++-    struct ucontext *uc = puc;
+++    ucontext_t *uc = puc;
++     greg_t *pcreg = &uc->uc_mcontext.gregs[REG_RIP];
++ 
++     if (*pcreg > (uintptr_t)safe_syscall_start
++diff --git a/linux-user/signal.c b/linux-user/signal.c
++index c750053edd..4638123dd8 100644
++--- a/linux-user/signal.c
+++++ b/linux-user/signal.c
++@@ -3170,7 +3170,7 @@ static void setup_rt_frame(int sig, struct target_sigaction *ka,
++     *
++     *   a0 = signal number
++     *   a1 = pointer to siginfo_t
++-    *   a2 = pointer to struct ucontext
+++    *   a2 = pointer to ucontext_t
++     *
++     * $25 and PC point to the signal handler, $29 points to the
++     * struct sigframe.
++@@ -3557,7 +3557,7 @@ struct target_signal_frame {
++ 
++ struct rt_signal_frame {
++     siginfo_t info;
++-    struct ucontext uc;
+++    ucontext_t uc;
++     uint32_t tramp[2];
++ };
++ 
++@@ -3773,7 +3773,7 @@ struct rt_signal_frame {
++     siginfo_t *pinfo;
++     void *puc;
++     siginfo_t info;
++-    struct ucontext uc;
+++    ucontext_t uc;
++     uint16_t retcode[4];      /* Trampoline code. */
++ };
++ 
++@@ -4074,7 +4074,7 @@ static void setup_rt_frame(int sig, struct target_sigaction *ka,
++         tswap_siginfo(&frame->info, info);
++     }
++ 
++-    /*err |= __clear_user(&frame->uc, offsetof(struct ucontext, uc_mcontext));*/
+++    /*err |= __clear_user(&frame->uc, offsetof(ucontext_t, uc_mcontext));*/
++     __put_user(0, &frame->uc.tuc_flags);
++     __put_user(0, &frame->uc.tuc_link);
++     __put_user(target_sigaltstack_used.ss_sp,
++@@ -4565,7 +4565,7 @@ enum {
++ 
++ struct target_ucontext {
++     target_ulong tuc_flags;
++-    target_ulong tuc_link;    /* struct ucontext __user * */
+++    target_ulong tuc_link;    /* ucontext_t __user * */
++     struct target_sigaltstack tuc_stack;
++ #if !defined(TARGET_PPC64)
++     int32_t tuc_pad[7];
++diff --git a/tests/tcg/test-i386.c b/tests/tcg/test-i386.c
++index 0f7b943b0c..9599204895 100644
++--- a/tests/tcg/test-i386.c
+++++ b/tests/tcg/test-i386.c
++@@ -1720,7 +1720,7 @@ int tab[2];
++ 
++ void sig_handler(int sig, siginfo_t *info, void *puc)
++ {
++-    struct ucontext *uc = puc;
+++    ucontext_t *uc = puc;
++ 
++     printf("si_signo=%d si_errno=%d si_code=%d",
++            info->si_signo, info->si_errno, info->si_code);
++@@ -1912,7 +1912,7 @@ void test_exceptions(void)
++ /* specific precise single step test */
++ void sig_trap_handler(int sig, siginfo_t *info, void *puc)
++ {
++-    struct ucontext *uc = puc;
+++    ucontext_t *uc = puc;
++     printf("EIP=" FMTLX "\n", (long)uc->uc_mcontext.gregs[REG_EIP]);
++ }
++ 
++diff --git a/user-exec.c b/user-exec.c
++index 6db075884d..3f1b899e3d 100644
++--- a/user-exec.c
+++++ b/user-exec.c
++@@ -155,7 +155,7 @@ int cpu_signal_handler(int host_signum, void *pinfo,
++ #elif defined(__OpenBSD__)
++     struct sigcontext *uc = puc;
++ #else
++-    struct ucontext *uc = puc;
+++    ucontext_t *uc = puc;
 + #endif
-+ 			(*arm_sp_ptr +
-+ 			 OFFSETOF_STRUCT_UCONTEXT_UC_SIGMASK);
++     unsigned long pc;
++     int trapno;
++@@ -210,7 +210,7 @@ int cpu_signal_handler(int host_signum, void *pinfo,
++ #elif defined(__OpenBSD__)
++     struct sigcontext *uc = puc;
++ #else
++-    struct ucontext *uc = puc;
+++    ucontext_t *uc = puc;
++ #endif
++ 
++     pc = PC_sig(uc);
++@@ -277,7 +277,7 @@ int cpu_signal_handler(int host_signum, void *pinfo,
++ #if defined(__FreeBSD__) || defined(__FreeBSD_kernel__)
++     ucontext_t *uc = puc;
++ #else
++-    struct ucontext *uc = puc;
+++    ucontext_t *uc = puc;
++ #endif
++     unsigned long pc;
++     int is_write;
++@@ -304,7 +304,7 @@ int cpu_signal_handler(int host_signum, void *pinfo,
++                            void *puc)
++ {
++     siginfo_t *info = pinfo;
++-    struct ucontext *uc = puc;
+++    ucontext_t *uc = puc;
++     uint32_t *pc = uc->uc_mcontext.sc_pc;
++     uint32_t insn = *pc;
++     int is_write = 0;
++@@ -402,7 +402,7 @@ int cpu_signal_handler(int host_signum, void *pinfo,
++ #if defined(__NetBSD__)
++     ucontext_t *uc = puc;
++ #else
++-    struct ucontext *uc = puc;
+++    ucontext_t *uc = puc;
++ #endif
++     unsigned long pc;
++     int is_write;
++@@ -429,7 +429,7 @@ int cpu_signal_handler(int host_signum, void *pinfo,
++ int cpu_signal_handler(int host_signum, void *pinfo, void *puc)
++ {
++     siginfo_t *info = pinfo;
++-    struct ucontext *uc = puc;
+++    ucontext_t *uc = puc;
++     uintptr_t pc = uc->uc_mcontext.pc;
++     uint32_t insn = *(uint32_t *)pc;
++     bool is_write;
++@@ -462,7 +462,7 @@ int cpu_signal_handler(int host_signum, void *pinfo, void *puc)
++ int cpu_signal_handler(int host_signum, void *pinfo, void *puc)
++ {
++     siginfo_t *info = pinfo;
++-    struct ucontext *uc = puc;
+++    ucontext_t *uc = puc;
++     unsigned long ip;
++     int is_write = 0;
++ 
++@@ -493,7 +493,7 @@ int cpu_signal_handler(int host_signum, void *pinfo,
++                        void *puc)
++ {
++     siginfo_t *info = pinfo;
++-    struct ucontext *uc = puc;
+++    ucontext_t *uc = puc;
++     unsigned long pc;
++     uint16_t *pinsn;
++     int is_write = 0;
++@@ -546,7 +546,7 @@ int cpu_signal_handler(int host_signum, void *pinfo,
++                        void *puc)
++ {
++     siginfo_t *info = pinfo;
++-    struct ucontext *uc = puc;
+++    ucontext_t *uc = puc;
++     greg_t pc = uc->uc_mcontext.pc;
++     int is_write;
++ 
 +-- 
 +2.13.2
 +
-diff --git a/meta/recipes-devtools/strace/strace/Makefile-ptest.patch b/meta/recipes-devtools/strace/strace/Makefile-ptest.patch
-index 876c2d8629..07ea0b37f2 100644
---- a/meta/recipes-devtools/strace/strace/Makefile-ptest.patch
-+++ b/meta/recipes-devtools/strace/strace/Makefile-ptest.patch
-@@ -1,19 +1,23 @@
--strace: Add ptest
-+From 0574ae9926308dcbca78bd8cd0f0f143f19cbcb5 Mon Sep 17 00:00:00 2001
-+From: Gabriel Barbu <gabriel.barbu@enea.com>
-+Date: Thu, 25 Jul 2013 15:28:33 +0200
-+Subject: [PATCH 4/8] strace: Add ptest
+diff --git a/meta/recipes-devtools/qemu/qemu_2.8.1.1.bb b/meta/recipes-devtools/qemu/qemu_2.8.1.1.bb
+index d37dd49064..a5dc70469d 100644
+--- a/meta/recipes-devtools/qemu/qemu_2.8.1.1.bb
++++ b/meta/recipes-devtools/qemu/qemu_2.8.1.1.bb
+@@ -7,37 +7,33 @@ RDEPENDS_${PN}-ptest = "bash make"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=441c28d2cf86e15a37fa47e15a72fbac \
+                     file://COPYING.LIB;endline=24;md5=c04def7ae38850e7d3ef548588159913"
  
- Upstream-Status: Inappropriate
+-SRC_URI += " \
+-            file://powerpc_rom.bin \
+-            file://disable-grabs.patch \
+-            file://exclude-some-arm-EABI-obsolete-syscalls.patch \
+-            file://wacom.patch \
+-            file://add-ptest-in-makefile.patch \
+-            file://run-ptest \
+-            file://configure-fix-Darwin-target-detection.patch \
+-            file://qemu-enlarge-env-entry-size.patch \
+-            file://no-valgrind.patch \
+-            file://pathlimit.patch \
+-            file://qemu-2.5.0-cflags.patch \
+-            file://glibc-2.25.patch \
+-"
+-
+-SRC_URI += " \
+-            file://0001-Provide-support-for-the-CUSE-TPM.patch \
+-            file://0002-Introduce-condition-to-notify-waiters-of-completed-c.patch \
+-            file://0003-Introduce-condition-in-TPM-backend-for-notification.patch \
+-            file://0004-Add-support-for-VM-suspend-resume-for-TPM-TIS.patch \
+-            file://CVE-2016-9908.patch \
+-            file://CVE-2016-9912.patch \
+-"
++SRC_URI = "http://wiki.qemu-project.org/download/${BP}.tar.bz2 \
++           file://powerpc_rom.bin \
++           file://disable-grabs.patch \
++           file://exclude-some-arm-EABI-obsolete-syscalls.patch \
++           file://wacom.patch \
++           file://add-ptest-in-makefile.patch \
++           file://run-ptest \
++           file://configure-fix-Darwin-target-detection.patch \
++           file://qemu-enlarge-env-entry-size.patch \
++           file://no-valgrind.patch \
++           file://pathlimit.patch \
++           file://qemu-2.5.0-cflags.patch \
++           file://glibc-2.25.patch \
++           file://0001-Provide-support-for-the-CUSE-TPM.patch \
++           file://0002-Introduce-condition-to-notify-waiters-of-completed-c.patch \
++           file://0003-Introduce-condition-in-TPM-backend-for-notification.patch \
++           file://0004-Add-support-for-VM-suspend-resume-for-TPM-TIS.patch \
++           file://CVE-2016-9908.patch \
++           file://CVE-2016-9912.patch \
++           file://0001-replace-struct-ucontext-with-ucontext_t-type.patch \
++           "
  
- Signed-off-by: Gabriel Barbu <gabriel.barbu@enea.com>
- Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
-+
- ---
-  configure.ac      |  2 +-
-  tests/Makefile.am | 18 ++++++++++++++++++
-  2 files changed, 19 insertions(+), 1 deletion(-)
+ SRC_URI_append_class-native = " \
+             file://fix-libcap-header-issue-on-some-distro.patch \
+             file://cpus.c-qemu_cpu_kick_thread_debugging.patch \
+             "
  
- diff --git a/configure.ac b/configure.ac
--index b2b03c6..464a9dc 100644
-+index 61d6425..6387c24 100644
- --- a/configure.ac
- +++ b/configure.ac
--@@ -39,7 +39,7 @@ AC_COPYRIGHT([Copyright (C) 1999-2017 The strace developers.])
-+@@ -41,7 +41,7 @@ AC_COPYRIGHT([Copyright (C) 1999-]copyright_year[ The strace developers.])
-  AC_CONFIG_SRCDIR([strace.c])
-  AC_CONFIG_AUX_DIR([.])
-  AC_CONFIG_HEADERS([config.h])
-@@ -23,11 +27,11 @@ index b2b03c6..464a9dc 100644
-  AM_MAINTAINER_MODE
-  AC_CANONICAL_HOST
- diff --git a/tests/Makefile.am b/tests/Makefile.am
--index 311d3bb..72f9022 100644
-+index 5aa7f89..a55a355 100644
- --- a/tests/Makefile.am
- +++ b/tests/Makefile.am
--@@ -960,3 +960,21 @@ $(objects): scno.h
-- CLEANFILES = ksysent.h $(TESTS:=.tmp)
-+@@ -379,3 +379,21 @@ clean-local-check:
-+ CLEANFILES = ksysent.h
-  
-  include ../scno.am
- +
-@@ -48,3 +52,6 @@ index 311d3bb..72f9022 100644
- +		sed -i -e 's/$${srcdir=.}/./g' $(DESTDIR)/$(TESTDIR)/$$file; \
- +	done
- +	for i in net net-fd scm_rights-fd sigaction; do sed -i -e 's/$$srcdir/./g' $(DESTDIR)/$(TESTDIR)/$$i.test; done
-+-- 
-+2.13.2
-+
-diff --git a/meta/recipes-devtools/strace/strace_4.16.bb b/meta/recipes-devtools/strace/strace_4.17.bb
-similarity index 87%
-rename from meta/recipes-devtools/strace/strace_4.16.bb
-rename to meta/recipes-devtools/strace/strace_4.17.bb
-index b6cd2ac9b9..72fa994489 100644
---- a/meta/recipes-devtools/strace/strace_4.16.bb
-+++ b/meta/recipes-devtools/strace/strace_4.17.bb
-@@ -13,10 +13,11 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/strace/strace-${PV}.tar.xz \
-            file://0001-Fix-build-when-using-non-glibc-libc-implementation-o.patch \
-            file://mips-SIGEMT.patch \
-            file://0001-caps-abbrev.awk-fix-gawk-s-path.patch \
-+           file://0008-replace-struct-ucontext-with-ucontext_t.patch \
-            "
- 
--SRC_URI[md5sum] = "2873366cac98770efcbed6e748d5ef23"
--SRC_URI[sha256sum] = "98487cb5178ec1259986cc9f6e2a844f50e5d1208c112cc22431a1e4d9adf0ef"
-+SRC_URI[md5sum] = "8d7eb10eba68bad83a269197e634b626"
-+SRC_URI[sha256sum] = "81f35b085fbb3cfa806eb521a8522ac3406deaccfe121ce35064bad268237419"
- 
- inherit autotools ptest bluetooth
+-SRC_URI =+ "http://wiki.qemu-project.org/download/${BP}.tar.bz2"
+-
+ SRC_URI[md5sum] = "a6a23a0c59fd0f8ec564b0fb89a79954"
+ SRC_URI[sha256sum] = "f62ab18a1fb9ff5b4c81ed44becc945b11581eff777618141bdb787da55d3638"
  
 -- 
 2.13.2
