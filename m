@@ -1,23 +1,30 @@
-Return-Path: <brian.avery@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 93B6F78212
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Jun 2017 21:38:18 +0000 (UTC)
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	29 Jun 2017 14:38:19 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.40,283,1496127600"; d="scan'208";a="102905112"
-Received: from bavery-ws-desk.jf.intel.com ([10.54.74.28])
-	by orsmga004.jf.intel.com with ESMTP; 29 Jun 2017 14:38:18 -0700
-From: brian avery <brian.avery@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 29 Jun 2017 14:41:37 -0700
-Message-Id: <2fd70db39e0dc8c9b75d1e13bad5523edf280b4e.1498760462.git.brian.avery@intel.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1498760462.git.brian.avery@intel.com>
-References: <cover.1498760462.git.brian.avery@intel.com>
-Subject: [PATCH 1/1] scripts/oe-setup-rpmrepo: leverage oe-run-native
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id A30C3780C3;
+	Thu, 29 Jun 2017 22:08:45 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	v5TM8hFT022766
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
+	verify=NOT); Thu, 29 Jun 2017 23:08:45 +0100
+Message-ID: <1498774123.9571.5.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Scott Murray <scott.murray@konsulko.com>
+Date: Thu, 29 Jun 2017 23:08:43 +0100
+In-Reply-To: <alpine.LFD.2.20.1706281335150.8288@godzilla.spiteful.org>
+References: <1497868738.24449.41.camel@linuxfoundation.org>
+	<alpine.LFD.2.20.1706281335150.8288@godzilla.spiteful.org>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
+Mime-Version: 1.0
+X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.11
+	(dan.rpsys.net [192.168.3.1]);
+	Thu, 29 Jun 2017 23:08:45 +0100 (BST)
+X-Virus-Scanned: clamav-milter 0.99.2 at dan
+X-Virus-Status: Clean
+Cc: openembedded-architecture
+	<openembedded-architecture@lists.openembedded.org>,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [Openembedded-architecture] OE-Core/Yocto Project's first CVE (CVE-2017-9731)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,58 +37,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Jun 2017 21:38:18 -0000
+X-List-Received-Date: Thu, 29 Jun 2017 22:08:48 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-RSS means we no longer have a large native sysroot to run binaries from.
-oe-run-native deals with this already, so this patch uses oe-run-native
-to call the createrepo_c native binary that we need to make the package
-feed indices.
+On Wed, 2017-06-28 at 13:38 -0400, Scott Murray wrote:
+> On Mon, 19 Jun 2017, Richard Purdie wrote:
+> 
+> > 
+> > I suspect this has been missed by some people so I want to spell it
+> > out. We have our first CVE in OE-Core itself.
+> > 
+> > The issue is limited to binary ipks potentially exposing sensitive
+> > information through the "Source:" field which contained the full
+> > SRC_URI. Those urls could potentially contain sensitive information
+> > about servers and credentials.
+> > 
+> > After discussion, I ended up changing the field to contain the
+> > recipe
+> > filename (no path). There was talk of filtering the urls however if
+> > you
+> > try, it becomes clear that sensitive elements can remain and no
+> > solution is likely 100% effective. The other package backends don't
+> > do
+> > this at all so this brings ipk more into line with them. Simply
+> > clearing the field doesn't work with the current opkg-utils. It can
+> > be
+> > changed but the change becomes more invasive.
+> > 
+> > This fix has been merged to master.
+> > 
+> > I also did take the decision to backport this change back to
+> > pyro/morty/krogoth too. I appreciate this can cause some disruption
+> > to
+> > people who rely on SRC_URI being in the Source: field however I
+> > couldn't see any other realistic way forward.
+> I noticed that this wasn't CC'ed to the yocto-security mailing list.
+> Was that just an oversight, or should that mailing list be considered
+> defunct at this point?
 
-[YOCTO #11706]
-Signed-off-by: brian avery <brian.avery@intel.com>
----
- scripts/oe-setup-rpmrepo | 21 +++++++++------------
- 1 file changed, 9 insertions(+), 12 deletions(-)
+Sorry, it was oversight...
 
-diff --git a/scripts/oe-setup-rpmrepo b/scripts/oe-setup-rpmrepo
-index df1c614..4e3d89e 100755
---- a/scripts/oe-setup-rpmrepo
-+++ b/scripts/oe-setup-rpmrepo
-@@ -72,7 +72,7 @@ setup_sysroot() {
- 		BUILD_SYS="$BUILD_ARCH-$BUILD_OS"
- 
- 		OECORE_NATIVE_SYSROOT=$TMPDIR/sysroots/$BUILD_SYS
--	fi 
-+	fi
- }
- 
- setup_sysroot
-@@ -88,16 +88,13 @@ if [ ! -d "$RPM_DIR" ]; then
-    	echo "Error: rpm dir $RPM_DIR doesn't exist"
- 	exit 1
- fi
--
--CREATEREPO=$OECORE_NATIVE_SYSROOT/usr/bin/createrepo_c
--if [ ! -e "$CREATEREPO" ]; then
--   	echo "Error: can't find createrepo binary"
--	echo "please run bitbake createrepo-native first"
--	exit 1
-+if ! oe-run-native createrepo-c-native createrepo_c "$RPM_DIR"&>/dev/null; then
-+    echo "Could not run createrepo_c, using bitbake to add to"
-+    echo "native sysroot and trying again..."
-+    bitbake createrepo-c-native -caddto_recipe_sysroot
-+    # this time show the error mesage in case it's helpful
-+    if ! oe-run-native createrepo-c-native createrepo_c "$RPM_DIR"; then
-+        exit 1
-+    fi
- fi
--
--export PATH=${PATH}:${OECORE_NATIVE_SYSROOT}/usr/bin
--
--$CREATEREPO "$RPM_DIR"
--
- exit 0
--- 
-1.9.1
+Cheers,
 
+Richard
 
