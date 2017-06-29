@@ -1,47 +1,48 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-lf0-f43.google.com (mail-lf0-f43.google.com
-	[209.85.215.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 1F903605BF
+Return-Path: <jpewhacker@gmail.com>
+Received: from mail-it0-f66.google.com (mail-it0-f66.google.com
+	[209.85.214.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 18B5377FDE
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Jun 2017 12:27:21 +0000 (UTC)
-Received: by mail-lf0-f43.google.com with SMTP id h22so51761431lfk.3
+	Thu, 29 Jun 2017 12:30:28 +0000 (UTC)
+Received: by mail-it0-f66.google.com with SMTP id v193so890505itc.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Jun 2017 05:27:23 -0700 (PDT)
+	Thu, 29 Jun 2017 05:30:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=HxNnxxY2CjiaX+Vy43zYHByOTapG23ZDM/ZInjPNBTw=;
-	b=JetcRBtZq3EUfx8luGkkiScTqepGvmRR67PAyc6Nr4XW1CoT931sjmGVSM70AdH23B
-	le2BKhTFBGOnMS7W5e/xd6/GPtjqFa1dxQlxhMEEvsmfj58ffbe8tc6wW+7VB0bWXw3p
-	C5sjv+2SZ3d4je70n/lIWAZriEMSTGS1oJP46+jhPCNCr3EDK/FugCauqSelNYWLexSP
-	qoiaXg13c3qXw4aBsBOFY96LEzJYXbjWTW8mh+plBJHmTqMKtzM64Cc+Qkh51knd2p1Q
-	ucWnglm1ngsgPr48+UIA3b6G9WQRLCholOiyEJ5IO2U3jeiiJwbPMjz+JwQPLJSqksdL
-	YqWA==
+	h=from:to:cc:subject:date:message-id;
+	bh=qJ3dxQAGem2QdL3q+gf9cwVmN9cUeX979zDHVrmZAsc=;
+	b=M8hfaHoO579XON+UFBfwmQ8ELpsBxqmGOt5Oq6oiW9pFLqUuRgC/OJhvIjX/GHLcE+
+	+JSJskCTsPyG+LIFKk+jKOHP6jowe8bwzZPwuEZj65o0eugFOWzvBaDVJjl8njMmpS0O
+	vywHxzKCr+6wDFRejYFM5JoCfnVcbibSlCRBtWBiql+JaA5fKB1ifjTpuAfqGjkTm7wW
+	WKKQrb4XiLFklH7mX9cB4o8HvUjgT5uDM9cZeb2RebMeHG1y78h6YEHJ5glj3yLAvaeL
+	YaQmjvClx/UUzf5umSiuIv/cFp9Wa0xtm+jRMVycg3pRt0qxJR0yXbHZIbj3J6p554/1
+	yy2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=HxNnxxY2CjiaX+Vy43zYHByOTapG23ZDM/ZInjPNBTw=;
-	b=DfVYQ96p9NB3G5BArvkREkn7XJVncVRm2TQK7QHQSVNf1e9SjYJ+BObYtOmjIPfAn4
-	fVJPJSxUQ0dSk0mikXZfV7CLnAaiXgxnWWuUrhA9o3focg0P9hZbpti/lmpPwc/vyzc8
-	IMaWF8TdG2gx4M9UcJT5f8XVNnARxVgkuZ91Rx/qob7NVO9T/BXVGySPgmRl8HonHJCG
-	A7rYa0RRMlivRzlAgQGznxXRiYyINvjepDxYpKNLzZrJ76xbl9VqCnoDR+WkWkw+VjKC
-	fYtqpjf74TlSZCp9PzwTbpiNbLxYdOfA9tdKXpqdGKYTFiYB54PvZZMRtNxIRPCRFRrp
-	kr9Q==
-X-Gm-Message-State: AKS2vOwZl9EE94rUpT5yds0IygWrvanItotXVaRHxjj+kqV8EtgTs52y
-	EKkUWmrTye5WA8etIPIJdZG+Ehsi9w==
-X-Received: by 10.25.27.2 with SMTP id b2mr4573053lfb.24.1498739242275; Thu,
-	29 Jun 2017 05:27:22 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.46.9.137 with HTTP; Thu, 29 Jun 2017 05:27:21 -0700 (PDT)
-In-Reply-To: <20170629093124.2381.27372@do.openembedded.org>
-References: <1498727946-3229-1-git-send-email-zhe.he@windriver.com>
-	<20170629093124.2381.27372@do.openembedded.org>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Thu, 29 Jun 2017 08:27:21 -0400
-Message-ID: <CADkTA4N+6USZboM2OrbB5XzFAz9nOHn17bkXAiG=yhO3QHU=0Q@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: =?UTF-8?B?UmU6IOKclyBwYXRjaHRlc3Q6IGZhaWx1cmUgZm9yIHNjaGVkdG9vbC1kbDogRml4IFNDSEVEX0RFQURMSU5FIHZhbHVlIG91dCBvZiByYW5nZQ==?=
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=qJ3dxQAGem2QdL3q+gf9cwVmN9cUeX979zDHVrmZAsc=;
+	b=LJGnJq0LKlI0gpknsd4G0ZyPLiiTrhuXrdqIUQjQXaMgZRtUpYfl1OvoJ9DjD6tIsj
+	wXOsUiSmVUkLuZH3JsCnGd0e+wnq9oKfhVcFdN1XnyijNhw1qe31ZRB5OEcdE8E6/SUm
+	V2t93f6Y2YM3m8qmziznCr3EfBRrqvQBQUdmSD6hEFXNcoPzy+n8imgeDX1fO0bY4nu/
+	0Zi1HjEriFv6NhmPPeW5qe0qUl8RTmTL5z50hnnW2O3FF5EDw9lW7rr0/y91bhj46UFs
+	EWC6NQMqTWF3rvFM/7WZkQRruJXW3JpnwDFh5Lb4jgBkDSMJTn1VCx0gz4XEhjznCe8J
+	gOVQ==
+X-Gm-Message-State: AKS2vOxaFzElCI3rspAELEFjOZVNjfKmNEbLE+fRLatAGrV8lf1+0Oy5
+	5qPfcz+X6CgTeA==
+X-Received: by 10.36.84.144 with SMTP id t138mr12877687ita.76.1498739429662;
+	Thu, 29 Jun 2017 05:30:29 -0700 (PDT)
+Received: from localhost.localdomain ([2605:a601:a83:3700:10fb:b4c1:2c33:798c])
+	by smtp.gmail.com with ESMTPSA id
+	e77sm4354032itd.18.2017.06.29.05.30.28
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 29 Jun 2017 05:30:28 -0700 (PDT)
+From: Joshua Watt <jpewhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+To: adraszik@tycoint.com,
+	openembedded-core@lists.openembedded.org
+Date: Thu, 29 Jun 2017 07:30:22 -0500
+Message-Id: <20170629123022.4580-1-JPEWhacker@gmail.com>
+X-Mailer: git-send-email 2.9.4
+Subject: [PATCH] openssh: Fix key generation with systemd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,151 +55,261 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Jun 2017 12:27:23 -0000
-Content-Type: multipart/alternative; boundary="001a1140244c259ac00553186c1c"
+X-List-Received-Date: Thu, 29 Jun 2017 12:30:29 -0000
 
---001a1140244c259ac00553186c1c
-Content-Type: text/plain; charset="UTF-8"
+106b59d9 broke SSH host key generation when systemd and a read-only root file
+system are in use because there isn't a way for systemd to get the optional
+weak assigment of SYSCONFDIR from /etc/default/sshd and still provide a default
+value if it is not specified. Instead, move the logic for determining if keys
+need to be created to a helper script that both the SysV init script and the
+systemd unit file can reference.
 
-Zhe emailed me, and this is actually for meta-realtime. The README
-indicates that
-changes should be sent to oe-core .. but obviously that isn't accurate
-anymore.
+This does mean that the systemd unit file can't check for file existence to
+know if it should start the service, but it wasn't able to do that correctly
+anyway anymore. This should be a problem since the serivce is only run once per
+power cycle by systemd, and should exit quickly if the keys already exist
 
-I'm updating the README, and this can be resent to the yocto mailing list
-with
-[meta-realtime] in the subject.
+Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+---
+ meta/recipes-connectivity/openssh/openssh/init     | 69 +---------------------
+ .../openssh/openssh/sshd_check_keys                | 64 ++++++++++++++++++++
+ .../openssh/openssh/sshdgenkeys.service            | 16 +----
+ meta/recipes-connectivity/openssh/openssh_7.5p1.bb |  7 +++
+ 4 files changed, 75 insertions(+), 81 deletions(-)
+ create mode 100644 meta/recipes-connectivity/openssh/openssh/sshd_check_keys
 
-Cheers,
-
-Bruce
-
-On Thu, Jun 29, 2017 at 5:31 AM, Patchwork <
-patchwork@patchwork.openembedded.org> wrote:
-
-> == Series Details ==
->
-> Series: schedtool-dl: Fix SCHED_DEADLINE value out of range
-> Revision: 1
-> URL   : https://patchwork.openembedded.org/series/7507/
-> State : failure
->
-> == Summary ==
->
->
-> Thank you for submitting this patch series to OpenEmbedded Core. This is
-> an automated response. Several tests have been executed on the proposed
-> series by patchtest resulting in the following failures:
->
->
->
-> * Issue             Series does not apply on top of target branch
-> [test_series_merge_on_head]
->   Suggested fix    Rebase your series on top of targeted branch
->   Targeted branch  master (currently at c594cacc88)
->
->
->
-> If you believe any of these test results are incorrect, please reply to the
-> mailing list (openembedded-core@lists.openembedded.org) raising your
-> concerns.
-> Otherwise we would appreciate you correcting the issues and submitting a
-> new
-> version of the patchset if applicable. Please ensure you add/increment the
-> version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-> [PATCH v3] -> ...).
->
-> ---
-> Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-> Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
-
-
-
+diff --git a/meta/recipes-connectivity/openssh/openssh/init b/meta/recipes-connectivity/openssh/openssh/init
+index 386628a..34ba0f8 100644
+--- a/meta/recipes-connectivity/openssh/openssh/init
++++ b/meta/recipes-connectivity/openssh/openssh/init
+@@ -19,25 +19,6 @@ fi
+ [ -z "$SYSCONFDIR" ] && SYSCONFDIR=/etc/ssh
+ mkdir -p $SYSCONFDIR
+ 
+-parse_sshd_opts() {
+-    set -- ${SSHD_OPTS} --
+-    sshd_config=/etc/ssh/sshd_config
+-    while true ; do
+-        case "$1" in
+-        -f*) if [ "$1" = "-f" ] ; then
+-                 sshd_config="$2"
+-                 shift
+-             else
+-                 sshd_config="${1#-f}"
+-             fi
+-             shift
+-             ;;
+-        --) shift; break;;
+-        *) shift;;
+-        esac
+-    done
+-}
+-
+ check_for_no_start() {
+     # forget it if we're trying to start, and /etc/ssh/sshd_not_to_be_run exists
+     if [ -e $SYSCONFDIR/sshd_not_to_be_run ]; then
+@@ -58,57 +39,13 @@ check_config() {
+ 	/usr/sbin/sshd -t $SSHD_OPTS || exit 1
+ }
+ 
+-check_keys() {
+-	# parse location of keys
+-	local HOST_KEY_RSA
+-	local HOST_KEY_DSA
+-	local HOST_KEY_ECDSA
+-	local HOST_KEY_ED25519
+-
+-	parse_sshd_opts
+-	HOST_KEY_RSA=$(grep ^HostKey "${sshd_config}" | grep _rsa_ | tail -1 | awk ' { print $2 } ')
+-	[ -z "${HOST_KEY_RSA}" ] && HOST_KEY_RSA=$(grep HostKey "${sshd_config}" | grep _rsa_ | tail -1 | awk ' { print $2 } ')
+-	[ -z "${HOST_KEY_RSA}" ] && HOST_KEY_RSA=$SYSCONFDIR/ssh_host_rsa_key
+-	HOST_KEY_DSA=$(grep ^HostKey "${sshd_config}" | grep _dsa_ | tail -1 | awk ' { print $2 } ')
+-	[ -z "${HOST_KEY_DSA}" ] && HOST_KEY_DSA=$(grep HostKey "${sshd_config}" | grep _dsa_ | tail -1 | awk ' { print $2 } ')
+-	[ -z "${HOST_KEY_DSA}" ] && HOST_KEY_DSA=$SYSCONFDIR/ssh_host_dsa_key
+-	HOST_KEY_ECDSA=$(grep ^HostKey "${sshd_config}" | grep _ecdsa_ | tail -1 | awk ' { print $2 } ')
+-	[ -z "${HOST_KEY_ECDSA}" ] && HOST_KEY_ECDSA=$(grep HostKey "${sshd_config}" | grep _ecdsa_ | tail -1 | awk ' { print $2 } ')
+-	[ -z "${HOST_KEY_ECDSA}" ] && HOST_KEY_ECDSA=$SYSCONFDIR/ssh_host_ecdsa_key
+-	HOST_KEY_ED25519=$(grep ^HostKey "${sshd_config}" | grep _ed25519_ | tail -1 | awk ' { print $2 } ')
+-	[ -z "${HOST_KEY_ED25519}" ] && HOST_KEY_ED25519=$(grep HostKey "${sshd_config}" | grep _ed25519_ | tail -1 | awk ' { print $2 } ')
+-	[ -z "${HOST_KEY_ED25519}" ] && HOST_KEY_ED25519=$SYSCONFDIR/ssh_host_ed25519_key
+-
+-	# create keys if necessary
+-	if [ ! -f $HOST_KEY_RSA ]; then
+-		echo "  generating ssh RSA key..."
+-		mkdir -p $(dirname $HOST_KEY_RSA)
+-		ssh-keygen -q -f $HOST_KEY_RSA -N '' -t rsa
+-	fi
+-	if [ ! -f $HOST_KEY_ECDSA ]; then
+-		echo "  generating ssh ECDSA key..."
+-		mkdir -p $(dirname $HOST_KEY_ECDSA)
+-		ssh-keygen -q -f $HOST_KEY_ECDSA -N '' -t ecdsa
+-	fi
+-	if [ ! -f $HOST_KEY_DSA ]; then
+-		echo "  generating ssh DSA key..."
+-		mkdir -p $(dirname $HOST_KEY_DSA)
+-		ssh-keygen -q -f $HOST_KEY_DSA -N '' -t dsa
+-	fi
+-	if [ ! -f $HOST_KEY_ED25519 ]; then
+-		echo "  generating ssh ED25519 key..."
+-		mkdir -p $(dirname $HOST_KEY_ED25519)
+-		ssh-keygen -q -f $HOST_KEY_ED25519 -N '' -t ed25519
+-	fi
+-}
+-
+ export PATH="${PATH:+$PATH:}/usr/sbin:/sbin"
+ 
+ case "$1" in
+   start)
+ 	check_for_no_start
+ 	echo "Starting OpenBSD Secure Shell server: sshd"
+-	check_keys
++	@LIBEXECDIR@/sshd_check_keys
+ 	check_privsep_dir
+ 	start-stop-daemon -S -p $PIDFILE -x /usr/sbin/sshd -- $SSHD_OPTS
+         echo "done."
+@@ -121,7 +58,7 @@ case "$1" in
+ 
+   reload|force-reload)
+ 	check_for_no_start
+-	check_keys
++	@LIBEXECDIR@/sshd_check_keys
+ 	check_config
+         echo -n "Reloading OpenBSD Secure Shell server's configuration"
+ 	start-stop-daemon -K -p $PIDFILE -s 1 -x /usr/sbin/sshd
+@@ -129,7 +66,7 @@ case "$1" in
+ 	;;
+ 
+   restart)
+-  	check_keys
++	@LIBEXECDIR@/sshd_check_keys
+ 	check_config
+         echo -n "Restarting OpenBSD Secure Shell server: sshd"
+ 	start-stop-daemon -K -p $PIDFILE --oknodo -x /usr/sbin/sshd
+diff --git a/meta/recipes-connectivity/openssh/openssh/sshd_check_keys b/meta/recipes-connectivity/openssh/openssh/sshd_check_keys
+new file mode 100644
+index 0000000..f5bba53
+--- /dev/null
++++ b/meta/recipes-connectivity/openssh/openssh/sshd_check_keys
+@@ -0,0 +1,64 @@
++#! /bin/sh
++
++# /etc/default/ssh may set SYSCONFDIR and SSHD_OPTS
++if test -f /etc/default/ssh; then
++    . /etc/default/ssh
++fi
++
++[ -z "$SYSCONFDIR" ] && SYSCONFDIR=/etc/ssh
++mkdir -p $SYSCONFDIR
++
++# parse sshd options
++set -- ${SSHD_OPTS} --
++sshd_config=/etc/ssh/sshd_config
++while true ; do
++    case "$1" in
++    -f*) if [ "$1" = "-f" ] ; then
++            sshd_config="$2"
++            shift
++        else
++            sshd_config="${1#-f}"
++        fi
++        shift
++        ;;
++    --) shift; break;;
++    *) shift;;
++    esac
++done
++
++# parse location of keys
++HOST_KEY_RSA=$(grep ^HostKey "${sshd_config}" | grep _rsa_ | tail -1 | awk ' { print $2 } ')
++[ -z "${HOST_KEY_RSA}" ] && HOST_KEY_RSA=$(grep HostKey "${sshd_config}" | grep _rsa_ | tail -1 | awk ' { print $2 } ')
++[ -z "${HOST_KEY_RSA}" ] && HOST_KEY_RSA=$SYSCONFDIR/ssh_host_rsa_key
++HOST_KEY_DSA=$(grep ^HostKey "${sshd_config}" | grep _dsa_ | tail -1 | awk ' { print $2 } ')
++[ -z "${HOST_KEY_DSA}" ] && HOST_KEY_DSA=$(grep HostKey "${sshd_config}" | grep _dsa_ | tail -1 | awk ' { print $2 } ')
++[ -z "${HOST_KEY_DSA}" ] && HOST_KEY_DSA=$SYSCONFDIR/ssh_host_dsa_key
++HOST_KEY_ECDSA=$(grep ^HostKey "${sshd_config}" | grep _ecdsa_ | tail -1 | awk ' { print $2 } ')
++[ -z "${HOST_KEY_ECDSA}" ] && HOST_KEY_ECDSA=$(grep HostKey "${sshd_config}" | grep _ecdsa_ | tail -1 | awk ' { print $2 } ')
++[ -z "${HOST_KEY_ECDSA}" ] && HOST_KEY_ECDSA=$SYSCONFDIR/ssh_host_ecdsa_key
++HOST_KEY_ED25519=$(grep ^HostKey "${sshd_config}" | grep _ed25519_ | tail -1 | awk ' { print $2 } ')
++[ -z "${HOST_KEY_ED25519}" ] && HOST_KEY_ED25519=$(grep HostKey "${sshd_config}" | grep _ed25519_ | tail -1 | awk ' { print $2 } ')
++[ -z "${HOST_KEY_ED25519}" ] && HOST_KEY_ED25519=$SYSCONFDIR/ssh_host_ed25519_key
++
++# create keys if necessary
++if [ ! -f $HOST_KEY_RSA ]; then
++    echo "  generating ssh RSA key..."
++    mkdir -p $(dirname $HOST_KEY_RSA)
++    ssh-keygen -q -f $HOST_KEY_RSA -N '' -t rsa
++fi
++if [ ! -f $HOST_KEY_ECDSA ]; then
++    echo "  generating ssh ECDSA key..."
++    mkdir -p $(dirname $HOST_KEY_ECDSA)
++    ssh-keygen -q -f $HOST_KEY_ECDSA -N '' -t ecdsa
++fi
++if [ ! -f $HOST_KEY_DSA ]; then
++    echo "  generating ssh DSA key..."
++    mkdir -p $(dirname $HOST_KEY_DSA)
++    ssh-keygen -q -f $HOST_KEY_DSA -N '' -t dsa
++fi
++if [ ! -f $HOST_KEY_ED25519 ]; then
++    echo "  generating ssh ED25519 key..."
++    mkdir -p $(dirname $HOST_KEY_ED25519)
++    ssh-keygen -q -f $HOST_KEY_ED25519 -N '' -t ed25519
++fi
++
+diff --git a/meta/recipes-connectivity/openssh/openssh/sshdgenkeys.service b/meta/recipes-connectivity/openssh/openssh/sshdgenkeys.service
+index 148e6ad..603c337 100644
+--- a/meta/recipes-connectivity/openssh/openssh/sshdgenkeys.service
++++ b/meta/recipes-connectivity/openssh/openssh/sshdgenkeys.service
+@@ -1,22 +1,8 @@
+ [Unit]
+ Description=OpenSSH Key Generation
+ RequiresMountsFor=/var /run
+-ConditionPathExists=!/var/run/ssh/ssh_host_rsa_key
+-ConditionPathExists=!/var/run/ssh/ssh_host_dsa_key
+-ConditionPathExists=!/var/run/ssh/ssh_host_ecdsa_key
+-ConditionPathExists=!/var/run/ssh/ssh_host_ed25519_key
+-ConditionPathExists=!/etc/ssh/ssh_host_rsa_key
+-ConditionPathExists=!/etc/ssh/ssh_host_dsa_key
+-ConditionPathExists=!/etc/ssh/ssh_host_ecdsa_key
+-ConditionPathExists=!/etc/ssh/ssh_host_ed25519_key
+ 
+ [Service]
+-Environment="SYSCONFDIR=/etc/ssh"
+-EnvironmentFile=-/etc/default/ssh
+-ExecStart=@BASE_BINDIR@/mkdir -p $SYSCONFDIR
+-ExecStart=@BINDIR@/ssh-keygen -q -f ${SYSCONFDIR}/ssh_host_rsa_key -N '' -t rsa
+-ExecStart=@BINDIR@/ssh-keygen -q -f ${SYSCONFDIR}/ssh_host_dsa_key -N '' -t dsa
+-ExecStart=@BINDIR@/ssh-keygen -q -f ${SYSCONFDIR}/ssh_host_ecdsa_key -N '' -t ecdsa
+-ExecStart=@BINDIR@/ssh-keygen -q -f ${SYSCONFDIR}/ssh_host_ed25519_key -N '' -t ed25519
++ExecStart=@LIBEXECDIR@/sshd_check_keys
+ Type=oneshot
+ RemainAfterExit=yes
+diff --git a/meta/recipes-connectivity/openssh/openssh_7.5p1.bb b/meta/recipes-connectivity/openssh/openssh_7.5p1.bb
+index 7bd313b..dd65642 100644
+--- a/meta/recipes-connectivity/openssh/openssh_7.5p1.bb
++++ b/meta/recipes-connectivity/openssh/openssh_7.5p1.bb
+@@ -25,6 +25,7 @@ SRC_URI = "http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar
+            file://openssh-7.1p1-conditional-compile-des-in-cipher.patch \
+            file://openssh-7.1p1-conditional-compile-des-in-pkcs11.patch \
+            file://fix-potential-signed-overflow-in-pointer-arithmatic.patch \
++           file://sshd_check_keys \
+            "
+ 
+ PAM_SRC_URI = "file://sshd"
+@@ -118,7 +119,13 @@ do_install_append () {
+ 	sed -i -e 's,@BASE_BINDIR@,${base_bindir},g' \
+ 		-e 's,@SBINDIR@,${sbindir},g' \
+ 		-e 's,@BINDIR@,${bindir},g' \
++		-e 's,@LIBEXECDIR@,${libexecdir}/${BPN},g' \
+ 		${D}${systemd_unitdir}/system/sshd.socket ${D}${systemd_unitdir}/system/*.service
++
++	sed -i -e 's,@LIBEXECDIR@,${libexecdir}/${BPN},g' \
++		${D}${sysconfdir}/init.d/sshd
++
++	install -D -m 0755 ${WORKDIR}/sshd_check_keys ${D}${libexecdir}/${BPN}/sshd_check_keys
+ }
+ 
+ do_install_ptest () {
 -- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await thee
-at its end"
+2.9.4
 
---001a1140244c259ac00553186c1c
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">Zhe emailed me, and this is actually for meta-realtime. Th=
-e README indicates that<div>changes should be sent to oe-core .. but obviou=
-sly that isn&#39;t accurate anymore.</div><div><br></div><div>I&#39;m updat=
-ing the README, and this can be resent to the yocto mailing list with</div>=
-<div>[meta-realtime] in the subject.</div><div><br></div><div>Cheers,</div>=
-<div><br></div><div>Bruce</div></div><div class=3D"gmail_extra"><br><div cl=
-ass=3D"gmail_quote">On Thu, Jun 29, 2017 at 5:31 AM, Patchwork <span dir=3D=
-"ltr">&lt;<a href=3D"mailto:patchwork@patchwork.openembedded.org" target=3D=
-"_blank">patchwork@patchwork.openembedded.org</a>&gt;</span> wrote:<br><blo=
-ckquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #c=
-cc solid;padding-left:1ex">=3D=3D Series Details =3D=3D<br>
-<br>
-Series: schedtool-dl: Fix SCHED_DEADLINE value out of range<br>
-Revision: 1<br>
-URL=C2=A0 =C2=A0: <a href=3D"https://patchwork.openembedded.org/series/7507=
-/" rel=3D"noreferrer" target=3D"_blank">https://patchwork.<wbr>openembedded=
-.org/series/7507/</a><br>
-State : failure<br>
-<br>
-=3D=3D Summary =3D=3D<br>
-<br>
-<br>
-Thank you for submitting this patch series to OpenEmbedded Core. This is<br=
->
-an automated response. Several tests have been executed on the proposed<br>
-series by patchtest resulting in the following failures:<br>
-<br>
-<br>
-<br>
-* Issue=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Series does not appl=
-y on top of target branch [test_series_merge_on_head]<br>
-=C2=A0 Suggested fix=C2=A0 =C2=A0 Rebase your series on top of targeted bra=
-nch<br>
-=C2=A0 Targeted branch=C2=A0 master (currently at c594cacc88)<br>
-<br>
-<br>
-<br>
-If you believe any of these test results are incorrect, please reply to the=
-<br>
-mailing list (<a href=3D"mailto:openembedded-core@lists.openembedded.org">o=
-penembedded-core@lists.<wbr>openembedded.org</a>) raising your concerns.<br=
->
-Otherwise we would appreciate you correcting the issues and submitting a ne=
-w<br>
-version of the patchset if applicable. Please ensure you add/increment the<=
-br>
-version number when sending the new version (i.e. [PATCH] -&gt; [PATCH v2] =
--&gt;<br>
-[PATCH v3] -&gt; ...).<br>
-<br>
----<br>
-Test framework: <a href=3D"http://git.yoctoproject.org/cgit/cgit.cgi/patcht=
-est" rel=3D"noreferrer" target=3D"_blank">http://git.yoctoproject.org/<wbr>=
-cgit/cgit.cgi/patchtest</a><br>
-Test suite:=C2=A0 =C2=A0 =C2=A0<a href=3D"http://git.yoctoproject.org/cgit/=
-cgit.cgi/patchtest-oe" rel=3D"noreferrer" target=3D"_blank">http://git.yoct=
-oproject.org/<wbr>cgit/cgit.cgi/patchtest-oe</a><br>
-<span class=3D"HOEnZb"><font color=3D"#888888"><br>
---<br>
-______________________________<wbr>_________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
-re@lists.<wbr>openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
-ailman/listinfo/openembedded-<wbr>core</a><br>
-</font></span></blockquote></div><br><br clear=3D"all"><div><br></div>-- <b=
-r><div class=3D"gmail_signature" data-smartmail=3D"gmail_signature">&quot;T=
-hou shalt not follow the NULL pointer, for chaos and madness await thee at =
-its end&quot;</div>
-</div>
-
---001a1140244c259ac00553186c1c--
