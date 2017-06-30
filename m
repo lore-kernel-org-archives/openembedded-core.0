@@ -1,30 +1,37 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id A30C3780C3;
-	Thu, 29 Jun 2017 22:08:45 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	v5TM8hFT022766
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Thu, 29 Jun 2017 23:08:45 +0100
-Message-ID: <1498774123.9571.5.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Scott Murray <scott.murray@konsulko.com>
-Date: Thu, 29 Jun 2017 23:08:43 +0100
-In-Reply-To: <alpine.LFD.2.20.1706281335150.8288@godzilla.spiteful.org>
-References: <1497868738.24449.41.camel@linuxfoundation.org>
-	<alpine.LFD.2.20.1706281335150.8288@godzilla.spiteful.org>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
-Mime-Version: 1.0
-X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.11
-	(dan.rpsys.net [192.168.3.1]);
-	Thu, 29 Jun 2017 23:08:45 +0100 (BST)
-X-Virus-Scanned: clamav-milter 0.99.2 at dan
-X-Virus-Status: Clean
-Cc: openembedded-architecture
-	<openembedded-architecture@lists.openembedded.org>,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [Openembedded-architecture] OE-Core/Yocto Project's first CVE (CVE-2017-9731)
+Return-Path: <Jackie.Huang@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id C88407821A
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 30 Jun 2017 01:03:59 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v5U13x4E009651
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 29 Jun 2017 18:04:00 -0700
+Received: from ALA-MBD.corp.ad.wrs.com ([fe80::d894:a649:cd4c:89b7]) by
+	ALA-HCB.corp.ad.wrs.com ([147.11.189.41]) with mapi id 14.03.0294.000;
+	Thu, 29 Jun 2017 18:03:58 -0700
+From: "Huang, Jie (Jackie)" <Jackie.Huang@windriver.com>
+To: "Huang, Jie (Jackie)" <Jackie.Huang@windriver.com>, "BURTON, ROSS"
+	<ross.burton@intel.com>
+Thread-Topic: [OE-core] [PATCH 1/2] ncurses: add SYSROOT_DESTDIR for
+	siteconfig_gencache
+Thread-Index: AQHS5dNNSEaLfOMVwkyg0JzsrmjvqKImr43ggBX8z6A=
+Date: Fri, 30 Jun 2017 01:03:57 +0000
+Message-ID: <1B858668EC6A94408DCA5225FDFA85AA014B81093E@ALA-MBD.corp.ad.wrs.com>
+References: <cover.1496218782.git.jackie.huang@windriver.com>
+	<22aa14ac1a926e97fb676743cb1e440ff2aaae1f.1496218782.git.jackie.huang@windriver.com>
+	<CAJTo0LbG_JMejjRPoK+g4Kq5+G8eszwPj4+oWcUjhpJ4-7esNg@mail.gmail.com>
+	<1B858668EC6A94408DCA5225FDFA85AA014B7F1F6C@ALA-MBD.corp.ad.wrs.com>
+In-Reply-To: <1B858668EC6A94408DCA5225FDFA85AA014B7F1F6C@ALA-MBD.corp.ad.wrs.com>
+Accept-Language: en-US, zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [128.224.176.87]
+MIME-Version: 1.0
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2] ncurses: add SYSROOT_DESTDIR for siteconfig_gencache
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,48 +44,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Jun 2017 22:08:48 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 30 Jun 2017 01:04:00 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, 2017-06-28 at 13:38 -0400, Scott Murray wrote:
-> On Mon, 19 Jun 2017, Richard Purdie wrote:
-> 
-> > 
-> > I suspect this has been missed by some people so I want to spell it
-> > out. We have our first CVE in OE-Core itself.
-> > 
-> > The issue is limited to binary ipks potentially exposing sensitive
-> > information through the "Source:" field which contained the full
-> > SRC_URI. Those urls could potentially contain sensitive information
-> > about servers and credentials.
-> > 
-> > After discussion, I ended up changing the field to contain the
-> > recipe
-> > filename (no path). There was talk of filtering the urls however if
-> > you
-> > try, it becomes clear that sensitive elements can remain and no
-> > solution is likely 100% effective. The other package backends don't
-> > do
-> > this at all so this brings ipk more into line with them. Simply
-> > clearing the field doesn't work with the current opkg-utils. It can
-> > be
-> > changed but the change becomes more invasive.
-> > 
-> > This fix has been merged to master.
-> > 
-> > I also did take the decision to backport this change back to
-> > pyro/morty/krogoth too. I appreciate this can cause some disruption
-> > to
-> > people who rely on SRC_URI being in the Source: field however I
-> > couldn't see any other realistic way forward.
-> I noticed that this wasn't CC'ed to the yocto-security mailing list.
-> Was that just an oversight, or should that mailing list be considered
-> defunct at this point?
 
-Sorry, it was oversight...
 
-Cheers,
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org
+> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
+> Huang, Jie (Jackie)
+> Sent: Friday, June 16, 2017 09:58
+> To: BURTON, ROSS
+> Cc: OE-core
+> Subject: Re: [OE-core] [PATCH 1/2] ncurses: add SYSROOT_DESTDIR for
+> siteconfig_gencache
+>=20
+> >
+> >
+> > From: Burton, Ross [mailto:ross.burton@intel.com]
+> > Sent: Thursday, June 15, 2017 20:31
+> > To: Huang, Jie (Jackie)
+> > Cc: OE-core
+> > Subject: Re: [OE-core] [PATCH 1/2] ncurses: add SYSROOT_DESTDIR for
+> siteconfig_gencache
+> >
+> >
+> > On 31 May 2017 at 09:27, <jackie.huang@windriver.com> wrote:
+> > +EXTRASITECONFIG =3D "CFLAGS=3D'${CFLAGS} -
+> I${SYSROOT_DESTDIR}${includedir}'"
+> >
+> > Why is this ncurses specific, it sounds like something which will impac=
+t all users
+> of siteconfig?
 
-Richard
+Ping.
+
+Is my explanation clear enough? What's the suggestion if it's not acceptabl=
+e?
+
+Thanks,
+Jackie
+
+>=20
+> My original issue is not ncurses specific, that is:
+> After switching to RSS, the siteconfig cache files in ACLOCALDIR setup by
+> autotools.bbclass was dropped, so searching
+> the path ACLOCALDIR for siteconfig files ended up with nothing, which cau=
+sed
+> some package (like openhpi) fail to configure,
+> so the "PATCH 2/2" change it back to search SITECONFIG_SYSROOTCACHE.
+>=20
+> But I met the second issue after the that:
+> util-linux depends on ncurses but the siteinfo in ncurses_config which is
+> populated to SITECONFIG_SYSROOTCACHE  is not correct:
+> ac_cv_header_curses_h=3D${ac_cv_header_curses_h=3Dno}
+> ac_cv_header_ncurses_h=3D${ac_cv_header_ncurses_h=3Dno}
+>=20
+> then it fails to build (it should be the same issue for other package tha=
+t depend
+> on ncurses), so this patch is needed.
+> And the patch will only impact the packages that depend on ncurses, for t=
+hose
+> without dependency on ncurses, there
+> is no ncurses_config at all in their own recipe-sysroot.
+>=20
+> Thanks,
+> Jackie
+>=20
+> >
+> > Ross
+> >
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
