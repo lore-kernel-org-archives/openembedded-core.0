@@ -1,37 +1,30 @@
-Return-Path: <Jackie.Huang@windriver.com>
+Return-Path: <Dengke.Du@windriver.com>
 Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id C88407821A
+	by mail.openembedded.org (Postfix) with ESMTP id C2CA378067
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Jun 2017 01:03:59 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v5U13x4E009651
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Jun 2017 18:04:00 -0700
-Received: from ALA-MBD.corp.ad.wrs.com ([fe80::d894:a649:cd4c:89b7]) by
-	ALA-HCB.corp.ad.wrs.com ([147.11.189.41]) with mapi id 14.03.0294.000;
-	Thu, 29 Jun 2017 18:03:58 -0700
-From: "Huang, Jie (Jackie)" <Jackie.Huang@windriver.com>
-To: "Huang, Jie (Jackie)" <Jackie.Huang@windriver.com>, "BURTON, ROSS"
-	<ross.burton@intel.com>
-Thread-Topic: [OE-core] [PATCH 1/2] ncurses: add SYSROOT_DESTDIR for
-	siteconfig_gencache
-Thread-Index: AQHS5dNNSEaLfOMVwkyg0JzsrmjvqKImr43ggBX8z6A=
-Date: Fri, 30 Jun 2017 01:03:57 +0000
-Message-ID: <1B858668EC6A94408DCA5225FDFA85AA014B81093E@ALA-MBD.corp.ad.wrs.com>
-References: <cover.1496218782.git.jackie.huang@windriver.com>
-	<22aa14ac1a926e97fb676743cb1e440ff2aaae1f.1496218782.git.jackie.huang@windriver.com>
-	<CAJTo0LbG_JMejjRPoK+g4Kq5+G8eszwPj4+oWcUjhpJ4-7esNg@mail.gmail.com>
-	<1B858668EC6A94408DCA5225FDFA85AA014B7F1F6C@ALA-MBD.corp.ad.wrs.com>
-In-Reply-To: <1B858668EC6A94408DCA5225FDFA85AA014B7F1F6C@ALA-MBD.corp.ad.wrs.com>
-Accept-Language: en-US, zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [128.224.176.87]
+	Fri, 30 Jun 2017 01:17:07 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v5U1H7c4009863
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Thu, 29 Jun 2017 18:17:07 -0700
+Received: from [128.224.162.194] (128.224.162.194) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.294.0;
+	Thu, 29 Jun 2017 18:17:06 -0700
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <cover.1498722885.git.dengke.du@windriver.com>
+	<935b59af735ed9b3ece5bc41ff8d5dc0fe701bd4.1498722885.git.dengke.du@windriver.com>
+	<CAJTo0LYztd+7eTx4_C6eZSzT-ssniZV2u-msiK_pd8KA0Zr8zA@mail.gmail.com>
+From: Dengke Du <dengke.du@windriver.com>
+Message-ID: <bf846d3b-652e-dd21-a96b-e22e3adafb89@windriver.com>
+Date: Fri, 30 Jun 2017 09:17:03 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.1.1
 MIME-Version: 1.0
+In-Reply-To: <CAJTo0LYztd+7eTx4_C6eZSzT-ssniZV2u-msiK_pd8KA0Zr8zA@mail.gmail.com>
+X-Originating-IP: [128.224.162.194]
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] ncurses: add SYSROOT_DESTDIR for siteconfig_gencache
+Subject: Re: [PATCH 1/1] expat: upgrade to 2.2.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,81 +37,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Jun 2017 01:04:00 -0000
+X-List-Received-Date: Fri, 30 Jun 2017 01:17:08 -0000
+Content-Type: multipart/alternative;
+	boundary="------------113C4A036D78370F2F0B9428"
 Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+
+--------------113C4A036D78370F2F0B9428
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+
+OK, I will, thanks!
 
 
+On 2017年06月29日 19:32, Burton, Ross wrote:
+>
+> On 29 June 2017 at 08:57, Dengke Du <dengke.du@windriver.com 
+> <mailto:dengke.du@windriver.com>> wrote:
+>
+>     -LIC_FILES_CHKSUM =
+>     "file://COPYING;md5=9c3ee559c6f9dcee1043ead112139f4f"
+>     +LIC_FILES_CHKSUM =
+>     "file://COPYING;md5=5b8620d98e49772d95fc1d291c26aa79"
+>
+>
+> Checksums changed, remember to always explain why in the commit log.
+>
+> Ross
+>
+>
 
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org
-> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
-> Huang, Jie (Jackie)
-> Sent: Friday, June 16, 2017 09:58
-> To: BURTON, ROSS
-> Cc: OE-core
-> Subject: Re: [OE-core] [PATCH 1/2] ncurses: add SYSROOT_DESTDIR for
-> siteconfig_gencache
->=20
-> >
-> >
-> > From: Burton, Ross [mailto:ross.burton@intel.com]
-> > Sent: Thursday, June 15, 2017 20:31
-> > To: Huang, Jie (Jackie)
-> > Cc: OE-core
-> > Subject: Re: [OE-core] [PATCH 1/2] ncurses: add SYSROOT_DESTDIR for
-> siteconfig_gencache
-> >
-> >
-> > On 31 May 2017 at 09:27, <jackie.huang@windriver.com> wrote:
-> > +EXTRASITECONFIG =3D "CFLAGS=3D'${CFLAGS} -
-> I${SYSROOT_DESTDIR}${includedir}'"
-> >
-> > Why is this ncurses specific, it sounds like something which will impac=
-t all users
-> of siteconfig?
 
-Ping.
+--------------113C4A036D78370F2F0B9428
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-Is my explanation clear enough? What's the suggestion if it's not acceptabl=
-e?
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  </head>
+  <body text="#000000" bgcolor="#FFFFFF">
+    <p>OK, I will, thanks!<br>
+    </p>
+    <br>
+    <div class="moz-cite-prefix">On 2017年06月29日 19:32, Burton, Ross
+      wrote:<br>
+    </div>
+    <blockquote type="cite"
+cite="mid:CAJTo0LYztd+7eTx4_C6eZSzT-ssniZV2u-msiK_pd8KA0Zr8zA@mail.gmail.com">
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <div dir="ltr">
+        <div class="gmail_extra"><br>
+          <div class="gmail_quote">On 29 June 2017 at 08:57, Dengke Du <span
+              dir="ltr">&lt;<a href="mailto:dengke.du@windriver.com"
+                target="_blank" moz-do-not-send="true">dengke.du@windriver.com</a>&gt;</span>
+            wrote:<br>
+            <blockquote class="gmail_quote" style="margin:0 0 0
+              .8ex;border-left:1px #ccc solid;padding-left:1ex">
+              <div id=":1yl" class="a3s aXjCH m15cf2dcb442202dd">-LIC_FILES_CHKSUM
+                = "<a class="moz-txt-link-freetext" href="file://COPYING;md5=">file://COPYING;md5=</a><wbr>9c3ee559c6f9dcee1043ead112139f<wbr>4f"<br>
+                +LIC_FILES_CHKSUM = "<a class="moz-txt-link-freetext" href="file://COPYING;md5=">file://COPYING;md5=</a><wbr>5b8620d98e49772d95fc1d291c26aa<wbr>79"<br>
+              </div>
+            </blockquote>
+            <div><br>
+            </div>
+            <div>Checksums changed, remember to always explain why in
+              the commit log.</div>
+            <div><br>
+            </div>
+            <div>Ross </div>
+          </div>
+          <br>
+          <br>
+        </div>
+      </div>
+    </blockquote>
+    <br>
+  </body>
+</html>
 
-Thanks,
-Jackie
-
->=20
-> My original issue is not ncurses specific, that is:
-> After switching to RSS, the siteconfig cache files in ACLOCALDIR setup by
-> autotools.bbclass was dropped, so searching
-> the path ACLOCALDIR for siteconfig files ended up with nothing, which cau=
-sed
-> some package (like openhpi) fail to configure,
-> so the "PATCH 2/2" change it back to search SITECONFIG_SYSROOTCACHE.
->=20
-> But I met the second issue after the that:
-> util-linux depends on ncurses but the siteinfo in ncurses_config which is
-> populated to SITECONFIG_SYSROOTCACHE  is not correct:
-> ac_cv_header_curses_h=3D${ac_cv_header_curses_h=3Dno}
-> ac_cv_header_ncurses_h=3D${ac_cv_header_ncurses_h=3Dno}
->=20
-> then it fails to build (it should be the same issue for other package tha=
-t depend
-> on ncurses), so this patch is needed.
-> And the patch will only impact the packages that depend on ncurses, for t=
-hose
-> without dependency on ncurses, there
-> is no ncurses_config at all in their own recipe-sysroot.
->=20
-> Thanks,
-> Jackie
->=20
-> >
-> > Ross
-> >
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
+--------------113C4A036D78370F2F0B9428--
