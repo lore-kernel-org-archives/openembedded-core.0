@@ -1,24 +1,38 @@
-Return-Path: <wei.tee.ng@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id C74E378246
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 88E0671AD9
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Jun 2017 07:40:56 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	30 Jun 2017 00:40:58 -0700
+	Fri, 30 Jun 2017 08:39:29 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	30 Jun 2017 01:39:31 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.40,285,1496127600"; d="scan'208";a="1188914011"
-Received: from platypus.jf.intel.com ([10.54.77.139])
-	by fmsmga002.fm.intel.com with ESMTP; 30 Jun 2017 00:40:58 -0700
-From: wei.tee.ng@intel.com
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 29 Jun 2017 17:30:18 -0700
-Message-Id: <47b026d2a54a16bf3ee8e0dfc0335dfceb0aff74.1498782014.git.wei.tee.ng@intel.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <cover.1498782014.git.wei.tee.ng@intel.com>
-References: <cover.1498782014.git.wei.tee.ng@intel.com>
-Cc: wei.tee.ng@intel.com
-Subject: [PATCH v2 3/3] initramfs-framwork: module to support boot live image
+X-IronPort-AV: E=Sophos;i="5.40,285,1496127600"; d="scan'208";a="1166542349"
+Received: from linux.intel.com ([10.54.29.200])
+	by fmsmga001.fm.intel.com with ESMTP; 30 Jun 2017 01:39:30 -0700
+Received: from linux.intel.com (vmed.fi.intel.com [10.237.72.38])
+	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by linux.intel.com (Postfix) with ESMTPS id E44955801BC;
+	Fri, 30 Jun 2017 01:39:29 -0700 (PDT)
+Date: Fri, 30 Jun 2017 11:37:17 +0300
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: Otavio Salvador <otavio.salvador@ossystems.com.br>
+Message-ID: <20170630083717.GA788@linux.intel.com>
+Reply-To: ed.bartosh@linux.intel.com
+References: <cover.1498569961.git.ed.bartosh@linux.intel.com>
+	<CAP9ODKopDxEYw9vereQjoHve=n2Of2v-3EHbxaiumZN3T0hH8Q@mail.gmail.com>
+	<823180ba-066d-747d-8112-a110633a03a8@ossystems.com.br>
+	<20170628073121.GA11425@linux.intel.com>
+	<CAP9ODKoxxaJv=QZXp5m=Qt14t36n1TPXS19D+Xs3eyrPDG79bg@mail.gmail.com>
+	<20170629083942.GA14649@linux.intel.com>
+MIME-Version: 1.0
+In-Reply-To: <20170629083942.GA14649@linux.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2 0/5] #11662 - wic should mount /boot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,54 +45,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Jun 2017 07:40:57 -0000
+X-List-Received-Date: Fri, 30 Jun 2017 08:39:30 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-From: "Ng, Wei Tee" <wei.tee.ng@intel.com>
+On Thu, Jun 29, 2017 at 11:39:42AM +0300, Ed Bartosh wrote:
+> On Wed, Jun 28, 2017 at 10:32:27AM -0300, Otavio Salvador wrote:
+> > On Wed, Jun 28, 2017 at 4:31 AM, Ed Bartosh <ed.bartosh@linux.intel.com> wrote:
+> > > On Tue, Jun 27, 2017 at 05:41:45PM -0300, Fabio Berton wrote:
+> > >> The last patch I sent is here:
+> > >> https://patchwork.openembedded.org/patch/139252/
+> > >>
+> > >> We're using this patch internally with Pyro branch. I can rework to
+> > >> apply on master.
+> > >>
+> > >> On 06/27/2017 05:35 PM, Otavio Salvador wrote:
+> > >> >On Tue, Jun 27, 2017 at 10:28 AM, Ed Bartosh <ed.bartosh@linux.intel.com> wrote:
+> > >> >>The patchset also fixes long standing bug: wic updated fstab
+> > >> >>inplace in rootfs directory. This causes other tasks working with
+> > >> >>rootfs directory to produce incorrect results or crash. This is
+> > >> >>fixed by copying rootfs to the temporary directory before updating
+> > >> >>fstab.
+> > >> >
+> > >> >As you is working on this, please also include Fabio's patch on the
+> > >> >patchset. It includes a command like option to disable fstab change at
+> > >> >all. For delta-based updates this is imperative.
+> > >> >
+> > >> >Fabio, could you point him the last patch revision?
+> > >> >
+> > >
+> > > Do we really need that?
+> > >
+> > > JFYI: Mount point in .wks is an optional field. It makes sense to use it only
+> > > if partition needs to be mounted on boot. fstab will not be updated
+> > > unless it's explicitly requested by specifying mount points in .wks
+> > 
+> > It should have support to not touch it. For images which we intend to
+> > do delta updates, the content cannot be changed besides the original
+> > rootfs generation. So yes, we need that.
+> 
+> I'm not sure I understand this. If you don't want fstab to be changed
+> you should not specify mount points in .wks
+> There is only one reason to have mount points in .wks: to make wic to
+> change /etc/fstab, which you apparently don't want. So, don't specify
+> mount points and you'll have what you want.
+> 
+> Having additional option for this looks redundand to me.
 
-setup-live module is a new module being introduced to integrate the
-functionality of init-live.sh into new scriptlet in order to
-support the live boot image. It gets to run before the rootfs
-and finish module.
+After thinking a bit more about it I'd propose to have global wic option
+to avoid rootfs content changes. Not just fstab updates, but any
+changes. For now this option (--no-rootfs-update ?) should prevent creating
+images if either mount points are specified or --exclude-path is used in .wks
+In future if any other rootfs changing functionality is added to wic it must
+conflict with this option.
 
-[YOCTO #11701]
+Does this make sense?
 
-Signed-off-by: Ng, Wei Tee <wei.tee.ng@intel.com>
----
- meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
-
-diff --git a/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb b/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
-index 6bbe4c1..f7b47d9 100644
---- a/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
-+++ b/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
-@@ -13,7 +13,8 @@ SRC_URI = "file://init \
-            file://mdev \
-            file://udev \
-            file://e2fs \
--           file://debug"
-+           file://debug \
-+           file://setup-live"
- 
- S = "${WORKDIR}"
- 
-@@ -24,6 +25,7 @@ do_install() {
-     install -m 0755 ${WORKDIR}/init ${D}/init
-     install -m 0755 ${WORKDIR}/rootfs ${D}/init.d/90-rootfs
-     install -m 0755 ${WORKDIR}/finish ${D}/init.d/99-finish
-+    install -m 0755 ${WORKDIR}/setup-live ${D}/init.d/80-setup-live
- 
-     # mdev
-     install -m 0755 ${WORKDIR}/mdev ${D}/init.d/01-mdev
-@@ -50,7 +52,7 @@ PACKAGES = "${PN}-base \
-             initramfs-module-rootfs \
-             initramfs-module-debug"
- 
--FILES_${PN}-base = "/init /init.d/99-finish /dev"
-+FILES_${PN}-base = "/init /init.d/99-finish /init.d/80-setup-live /dev"
- 
- # 99-finish in base depends on some other module which mounts
- # the rootfs, like 90-rootfs. To replace that default, use
--- 
-2.7.4
-
+--
+Regards,
+Ed
 
