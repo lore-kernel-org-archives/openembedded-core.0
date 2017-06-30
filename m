@@ -1,47 +1,50 @@
 Return-Path: <ricardo.ribalda@gmail.com>
-Received: from mail-lf0-f68.google.com (mail-lf0-f68.google.com
-	[209.85.215.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 80DA978237
+Received: from mail-lf0-f66.google.com (mail-lf0-f66.google.com
+	[209.85.215.66])
+	by mail.openembedded.org (Postfix) with ESMTP id AAAEE78237
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Jun 2017 09:25:51 +0000 (UTC)
-Received: by mail-lf0-f68.google.com with SMTP id n136so9546785lfn.2
+	Fri, 30 Jun 2017 09:25:52 +0000 (UTC)
+Received: by mail-lf0-f66.google.com with SMTP id f28so9548882lfi.3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Jun 2017 02:25:52 -0700 (PDT)
+	Fri, 30 Jun 2017 02:25:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=2sRhe+HEApWgE1Y6Yg/u5y6NMbpcUH6MD7xfKx+/d1k=;
-	b=rXiYp5ZUFp3zkMiEb1q3x5SGfksV9mBhNFdL3nRwd1rTHFUQ14dk/RdnjruAeVT/QJ
-	MRgKCnXo4sCxQ4JrAJXdw2lgGeN806CpvGjluw8o96LLKgYrKcZFN72/L1bmgxwirqUW
-	P3pOqPcfhYcRFN2AjVZASUMimGS52Qp+ef8gaJdcAYTSFTwwA18dtYlstvKQwP0HdnRi
-	AMEWJLcL5dRdiQwFSSX6oYtNyuBgp87q3eRWPtYRavOsIOwxwpYF8QZT+GaBZfA7QnGr
-	wAPWuis7A3+7/Q7/ixDlVavdiu61oP2CNPf4USADzROWbRRCVVf7CAPNC/rcccDOOiOl
-	ZCOQ==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=xNGzPlnE6ZOSnv3+9QMZdCraxIoLPYCE2gUGGHRyuqE=;
+	b=UsmysaUjckNn32ngZdGcT+qTgjp/1JTalBZYo49/CURAmEBfbtLvbhEs11dHlc+gqF
+	+zR9DsIGE53KuXNPGDeZtisaWkuP/tWL41JeT8z5relcOyaikmG9FNorrEmc3C+XFZ73
+	9Wf3Qxvl03T1uzDQFFF0ZorJEhBfo5WJa2qqY+EGJfAEHZdVfADoKGOcbDPXaT1Za3m5
+	QHPN8iY9Z5SZOsz19T6m/7qFSmhwOXcPMf8qUj1p7qrF/LGZB0OtbwfYse5nSrck6Qtc
+	oiE7EmoOUPC3cpKtFK1XtV9lvgpmJRdE7xS7fb8lru7l/TVvaQELsmnZnizuSNEGxMJv
+	oOMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=2sRhe+HEApWgE1Y6Yg/u5y6NMbpcUH6MD7xfKx+/d1k=;
-	b=C/Kyu2m0epu9yMSMLnm9qDhygWjtmcOjzuAvzU/lDWIbvSjPKeRhFSNpm4yqvAXarV
-	DH/rWhGw06kZtKp2auyR+WAUQSlrSDiue7r39QxTLTgd7JLHGNYLhc1IXcUvSL9bc6Om
-	fHRg6dcY0YBfjW7CCM5KGPqDk3Adbz4IyDH68WcSE0Izko9fbsq9GivGpDtmp8ik+ar8
-	XmA8VWX8wmzoa5rzIRA+epxu07sM5owMjEplYRNBNfBxJag+dqODBZVWVkszJGvlTjou
-	GHNDpCl7z2NmzL8eiugHtmc9CsZl5eB/PY+9+6BBJP2EYndDkkixRHn5mRN5rxV5toIo
-	Q71g==
-X-Gm-Message-State: AKS2vOwNnFxFeXEGq11LR5LgLUs2WgcScGnP9ihO5CoVWbvSUFrwZjWg
-	GgC7Z9i7R7LG0HidxNU=
-X-Received: by 10.25.28.70 with SMTP id c67mr7384890lfc.130.1498814751682;
-	Fri, 30 Jun 2017 02:25:51 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=xNGzPlnE6ZOSnv3+9QMZdCraxIoLPYCE2gUGGHRyuqE=;
+	b=BDCStQedKYXOzVkjeyeVFD4zJhSka9Cb1KhPRnddd7CKeq9KWNZrQtxFV5Bw3YOMxq
+	eAaoF2YnBnQhmB4hd68Nv0R0bNv5gBncfSYcCeu+606cQo9PPyJEn439yquqYekRTIHz
+	v+rEx9+D1NTSB2CGQubstRzgUZevI1RP4iIOrUMQJQMzsBlt2N4H799knuzRef7TI14f
+	6/xvMT+mL8OH2vaONDgSSmq4lMp59Zeo5NC5fIVHNFCuKCWQ3ZSO2q2n1H30UaKd7Zs1
+	oqFbA2yfTr/ags2BrSpvyFYn2/sk3uJUPaNWjp5JAvqBVmTQuUGbFnLZyyA4ueTmgq1Q
+	ImEQ==
+X-Gm-Message-State: AKS2vOxNvB5QZFoi7qIVinIslErtVrZSeHhcv5pyqapkeHTySqCYlrTw
+	qZ3U/fMGjiyCcVK991M=
+X-Received: by 10.25.201.3 with SMTP id z3mr6821424lff.72.1498814752954;
+	Fri, 30 Jun 2017 02:25:52 -0700 (PDT)
 Received: from neopili.qtec.com
 	(cpe.xe-3-0-1-778.vbrnqe10.dk.customer.tdc.net. [80.197.57.18])
 	by smtp.gmail.com with ESMTPSA id
-	g133sm1891377lfe.40.2017.06.30.02.25.50
+	g133sm1891377lfe.40.2017.06.30.02.25.51
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 30 Jun 2017 02:25:50 -0700 (PDT)
+	Fri, 30 Jun 2017 02:25:51 -0700 (PDT)
 From: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 30 Jun 2017 11:25:41 +0200
-Message-Id: <20170630092543.3151-1-ricardo.ribalda@gmail.com>
+Date: Fri, 30 Jun 2017 11:25:42 +0200
+Message-Id: <20170630092543.3151-2-ricardo.ribalda@gmail.com>
 X-Mailer: git-send-email 2.11.0
-Subject: [PATCH v2 1/3] gcc-6.3: Fix libgfortran build
+In-Reply-To: <20170630092543.3151-1-ricardo.ribalda@gmail.com>
+References: <20170630092543.3151-1-ricardo.ribalda@gmail.com>
+Subject: [PATCH v2 2/3] libgfortran: Add missing dependency gcc-cross
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,90 +59,27 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 30 Jun 2017 09:25:52 -0000
 
-Without this patch libbacktrace cannot be included/link during
-libgfortran build.
-
-libbtool: link: cannot find the library `../libbacktrace/libbacktrace.la'
-or unhandled argument `../libbacktrace/libbacktrace.la'
+Due to the fact that the recipe uses INHIBIT_DEFAULT_DEPS, we need to
+manually add the cross compiler as a dependency.
 
 Signed-off-by: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
 ---
- meta/recipes-devtools/gcc/gcc-6.3.inc              |  1 +
- .../gcc/gcc-6.3/0099-Fix-gfortran-build.patch      | 53 ++++++++++++++++++++++
- 2 files changed, 54 insertions(+)
- create mode 100644 meta/recipes-devtools/gcc/gcc-6.3/0099-Fix-gfortran-build.patch
+ meta/recipes-devtools/gcc/libgfortran.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/gcc/gcc-6.3.inc b/meta/recipes-devtools/gcc/gcc-6.3.inc
-index 86b3e9ff19a4..36a116d48fb4 100644
---- a/meta/recipes-devtools/gcc/gcc-6.3.inc
-+++ b/meta/recipes-devtools/gcc/gcc-6.3.inc
-@@ -74,6 +74,7 @@ SRC_URI = "\
-            file://0047-libgcc_s-Use-alias-for-__cpu_indicator_init-instead-.patch \
-            file://0048-sync-gcc-stddef.h-with-musl.patch \
-            file://0054_all_nopie-all-flags.patch \
-+           file://0099-Fix-gfortran-build.patch \
-            ${BACKPORTS} \
- "
- BACKPORTS = "\
-diff --git a/meta/recipes-devtools/gcc/gcc-6.3/0099-Fix-gfortran-build.patch b/meta/recipes-devtools/gcc/gcc-6.3/0099-Fix-gfortran-build.patch
-new file mode 100644
-index 000000000000..30b135b9780f
---- /dev/null
-+++ b/meta/recipes-devtools/gcc/gcc-6.3/0099-Fix-gfortran-build.patch
-@@ -0,0 +1,53 @@
-+Without this patch libbacktrace cannot be included/link during
-+libgfortran build.
-+
-+libbtool: link: cannot find the library `../libbacktrace/libbacktrace.la'
-+or unhandled argument `../libbacktrace/libbacktrace.la'
-+
-+Upstream-Status: Inappropriate [OE specific]
-+Signed-off-by: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
-+
-+diff --git a/libgfortran/Makefile.am b/libgfortran/Makefile.am
-+index 39d3e11d223c..b5efe6dfe195 100644
-+--- a/libgfortran/Makefile.am
-++++ b/libgfortran/Makefile.am
-+@@ -37,7 +37,7 @@ toolexeclib_LTLIBRARIES = libgfortran.la
-+ toolexeclib_DATA = libgfortran.spec
-+ libgfortran_la_LINK = $(LINK) $(libgfortran_la_LDFLAGS)
-+ libgfortran_la_LDFLAGS = -version-info `grep -v '^\#' $(srcdir)/libtool-version` \
-+-	$(LTLDFLAGS) $(LIBQUADLIB) ../libbacktrace/libbacktrace.la \
-++	$(LTLDFLAGS) $(LIBQUADLIB) ../../libbacktrace/libbacktrace.la \
-+ 	-lm $(extra_ldflags_libgfortran) \
-+ 	$(version_arg) -Wc,-shared-libgcc
-+ libgfortran_la_DEPENDENCIES = $(version_dep) libgfortran.spec $(LIBQUADLIB_DEP)
-+@@ -63,7 +63,7 @@ AM_CPPFLAGS = -iquote$(srcdir)/io -I$(srcdir)/$(MULTISRCTOP)../gcc \
-+ 	      -I$(MULTIBUILDTOP)../libgcc \
-+ 	      -I$(srcdir)/$(MULTISRCTOP)../libbacktrace \
-+ 	      -I$(MULTIBUILDTOP)../libbacktrace \
-+-	      -I../libbacktrace
-++	      -I../../libbacktrace
-+ 
-+ # Fortran rules for complex multiplication and division
-+ AM_CFLAGS += -fcx-fortran-rules
-+diff --git a/libgfortran/Makefile.in b/libgfortran/Makefile.in
-+index 7ed080cf7b0d..d197fbd6b683 100644
-+--- a/libgfortran/Makefile.in
-++++ b/libgfortran/Makefile.in
-+@@ -598,7 +598,7 @@ toolexeclib_LTLIBRARIES = libgfortran.la
-+ toolexeclib_DATA = libgfortran.spec
-+ libgfortran_la_LINK = $(LINK) $(libgfortran_la_LDFLAGS)
-+ libgfortran_la_LDFLAGS = -version-info `grep -v '^\#' $(srcdir)/libtool-version` \
-+-	$(LTLDFLAGS) $(LIBQUADLIB) ../libbacktrace/libbacktrace.la \
-++	$(LTLDFLAGS) $(LIBQUADLIB) ../../libbacktrace/libbacktrace.la \
-+ 	-lm $(extra_ldflags_libgfortran) \
-+ 	$(version_arg) -Wc,-shared-libgcc
-+ 
-+@@ -618,7 +618,7 @@ AM_CPPFLAGS = -iquote$(srcdir)/io -I$(srcdir)/$(MULTISRCTOP)../gcc \
-+ 	      -I$(MULTIBUILDTOP)../libgcc \
-+ 	      -I$(srcdir)/$(MULTISRCTOP)../libbacktrace \
-+ 	      -I$(MULTIBUILDTOP)../libbacktrace \
-+-	      -I../libbacktrace
-++	      -I../../libbacktrace
-+ 
-+ gfor_io_src = io/size_from_kind.c $(am__append_2)
-+ gfor_io_headers = \
+diff --git a/meta/recipes-devtools/gcc/libgfortran.inc b/meta/recipes-devtools/gcc/libgfortran.inc
+index 4846decbb834..3b94c1b85b70 100644
+--- a/meta/recipes-devtools/gcc/libgfortran.inc
++++ b/meta/recipes-devtools/gcc/libgfortran.inc
+@@ -37,7 +37,7 @@ do_install () {
+ }
+ 
+ INHIBIT_DEFAULT_DEPS = "1"
+-DEPENDS = "gcc-runtime"
++DEPENDS = "gcc-runtime gcc-cross-${TARGET_ARCH}"
+ 
+ BBCLASSEXTEND = "nativesdk"
+ 
 -- 
 2.11.0
 
