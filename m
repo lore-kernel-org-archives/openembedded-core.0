@@ -1,63 +1,53 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-io0-f173.google.com (mail-io0-f173.google.com
-	[209.85.223.173])
-	by mail.openembedded.org (Postfix) with ESMTP id DB42378271
+Return-Path: <jpewhacker@gmail.com>
+Received: from mail-it0-f66.google.com (mail-it0-f66.google.com
+	[209.85.214.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 8BF8978277
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Jun 2017 13:16:35 +0000 (UTC)
-Received: by mail-io0-f173.google.com with SMTP id z62so23730503ioi.3
+	Fri, 30 Jun 2017 13:52:15 +0000 (UTC)
+Received: by mail-it0-f66.google.com with SMTP id k3so2862012ita.3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Jun 2017 06:16:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:organization:mime-version:content-transfer-encoding;
-	bh=KxvI396EPfNtmo2pvrbG7TUCfgPpuH2T4EHiMIdCu4U=;
-	b=TFSORZcBabag4rnNpKkWUqGw8X1oUnW/ONjR8/+/KB3I1eBvVGJNyoMgcEjlmCwPg0
-	Tgr2t4MDkNUuiNGsTpYJA7sO8NiDphZOiim1oQTrwFNk6eTFaCFM1nG2S+wBYP/5OfJu
-	a6XNSo2/oZLkUvcfJhwSXK83wi9/r+ENI9MJASX2HDA9MovX8Yzhb/KVA9X2WaGqaGun
-	F+SOR3WZWpZ3rOvp4nD6IfmUyAq+rkYSkpJJvsKrVuNPkvTk4HfRflO/IeKxnycq+hL6
-	zsCH+5k8uBRsEuJlO3zgayrpnwv69vjfsbisOAB5CcQEYaKb6IgFIHeqeuIk0HpoMlXR
-	dQZg==
+	Fri, 30 Jun 2017 06:52:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:message-id:subject:to:date:in-reply-to:references:mime-version
+	:content-transfer-encoding;
+	bh=pyc2RonC0H1lxd8wr0DnnGT06cYBgmrWMeRL4a4Zeww=;
+	b=ifEIwiBQpTaHSnE9CiL2SoEA1KWCeHBXzGIkAVroFHZqrXmvk4PjjJ7dSynrD6HxpX
+	MtMWDEOHqhqGtdfZrpxbAoogzVO6YseUleqo8m/KnmKm5SVJGWNcWoJaXIQdYW7EHkr9
+	+mE1p7dGCSN2NqAPdHC1NKpYukhreAEZvczieIzzH/0++NgLODihEbola0cUjh14ILBW
+	yWXBz8Ks+UmxR/+VA2pa+aN8gglOp0OXlfh8sBDK/oUr8aenW3ud7gSiqqV5KstwiGMH
+	bwTOiz5GjEA0Bp8Ib050rf7fTttx64xpEuHu28mBs480RCjzEgZqW/2gmEf6zrxnDGxS
+	nXgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:organization:mime-version:content-transfer-encoding;
-	bh=KxvI396EPfNtmo2pvrbG7TUCfgPpuH2T4EHiMIdCu4U=;
-	b=s9cvqjjCCvXAl4X5fcpqHcgUPl/cAIdbFbw/dkZsBLNPzMep4dnhOuoEujyvBHRKc3
-	3X0MKpncbAFdV0Cq8U0NwZFhn5LyCv6C9/RFYE1o1gXH2uYlj4LKUJVLhppC0UJ1epUt
-	8ngiYppo3ly5OTOcK29VQ0H1Bfz64j5Rscchcw6WBuWNDQZA6UPdqnR0eAq3GyQDP+2H
-	mZsQxtQ8M90E+Z3zYhuvjnYeriRf9yTwM16cCdan++8Zg3G0S4+GpiIK3NVW+97utVVp
-	iDLaZORt2Kk1gzMs6DBLS8J9y4G2G3jQFyKf+Z/KVIt0HA9toEsboOPKbWhnJiivBROe
-	e1dQ==
-X-Gm-Message-State: AKS2vOwS+9fN6Ki5OUJCiD5oDnl0u6KcO1vQ0badmKTo6s9ClMjqZgiD
-	PmG7Q2dldyfFZMjh
-X-Received: by 10.107.11.37 with SMTP id v37mr12851212ioi.39.1498828596735;
-	Fri, 30 Jun 2017 06:16:36 -0700 (PDT)
-Received: from pohly-mobl1 (p5DE8FA66.dip0.t-ipconnect.de. [93.232.250.102])
-	by smtp.gmail.com with ESMTPSA id u15sm4155511iou.2.2017.06.30.06.16.34
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 30 Jun 2017 06:16:35 -0700 (PDT)
-Message-ID: <1498828593.5259.7.camel@intel.com>
-From: Patrick Ohly <patrick.ohly@intel.com>
-To: ed.bartosh@linux.intel.com
-Date: Fri, 30 Jun 2017 15:16:33 +0200
-In-Reply-To: <20170630122330.GA17125@linux.intel.com>
-References: <cover.1498569961.git.ed.bartosh@linux.intel.com>
-	<CAP9ODKopDxEYw9vereQjoHve=n2Of2v-3EHbxaiumZN3T0hH8Q@mail.gmail.com>
-	<823180ba-066d-747d-8112-a110633a03a8@ossystems.com.br>
-	<20170628073121.GA11425@linux.intel.com>
-	<CAP9ODKoxxaJv=QZXp5m=Qt14t36n1TPXS19D+Xs3eyrPDG79bg@mail.gmail.com>
-	<20170629083942.GA14649@linux.intel.com>
-	<20170630083717.GA788@linux.intel.com>
-	<1498813333.5259.4.camel@intel.com>
-	<20170630122330.GA17125@linux.intel.com>
-Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
-X-Mailer: Evolution 3.12.9-1+b1 
+	h=x-gm-message-state:from:message-id:subject:to:date:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=pyc2RonC0H1lxd8wr0DnnGT06cYBgmrWMeRL4a4Zeww=;
+	b=mVhH7bFTZWd6M+oJ27O7WSDQyAtyHOimIIHBToLQbYbateU2/dzE1CNBe3A+3fdyou
+	BTju8Vj396X0Xm5ERLHCzUgtCZHdtAt7s1gy0Y4VWA1t+6k8anAc0TE3k7WHD4/7n6WF
+	XJG8M0Zz6e4HZM4dXSmPlDWahRsv0Pgo1cQW3SjXZD4+3BRPdT7CtDbcKIGETpw6bhRH
+	Hu5MQqgBuN87xDruS9f+itnnK95KdMA9spKtOeq5TMNko5fcN/yZyjlseb7YHnGEwngh
+	szoVVbOM4cYN+5whW9NVm5VR3Ecs6ewlj//WW/PVJ9pvtYvYxFndsBf+e4xkuQtRDDJu
+	UvYg==
+X-Gm-Message-State: AKS2vOx5dO5DBMr/OEquFeqydzgCXlKTGLCec090hKQVn2HjjAhDin14
+	Jm0hPY2HlkeOv5YKgHQ=
+X-Received: by 10.36.178.75 with SMTP id h11mr20042086iti.61.1498830737042;
+	Fri, 30 Jun 2017 06:52:17 -0700 (PDT)
+Received: from ola-842mrw1.ad.garmin.com ([204.77.163.55])
+	by smtp.googlemail.com with ESMTPSA id
+	76sm3251539iou.59.2017.06.30.06.52.16
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Fri, 30 Jun 2017 06:52:16 -0700 (PDT)
+From: Joshua Watt <jpewhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+Message-ID: <1498830733.8274.5.camel@gmail.com>
+To: =?ISO-8859-1?Q?Andr=E9?= Draszik <git@andred.net>, 
+	openembedded-core@lists.openembedded.org
+Date: Fri, 30 Jun 2017 08:52:13 -0500
+In-Reply-To: <20170613082751.1163-1-git@andred.net>
+References: <20170613082751.1163-1-git@andred.net>
+X-Mailer: Evolution 3.22.6 (3.22.6-2.fc25) 
 Mime-Version: 1.0
-Cc: Otavio Salvador <otavio.salvador@ossystems.com.br>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2 0/5] #11662 - wic should mount /boot
+Subject: Re: [pyro][PATCH] openssh: allow to override OpenSSL HostKeys when read-only-rootfs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -70,50 +60,154 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Jun 2017 13:16:37 -0000
+X-List-Received-Date: Fri, 30 Jun 2017 13:52:16 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Fri, 2017-06-30 at 15:23 +0300, Ed Bartosh wrote:
-> On Fri, Jun 30, 2017 at 11:02:13AM +0200, Patrick Ohly wrote:
-> > On Fri, 2017-06-30 at 11:37 +0300, Ed Bartosh wrote:
-> > > > I'm not sure I understand this. If you don't want fstab to be
-> > > changed
-> > > > you should not specify mount points in .wks
-> > > > There is only one reason to have mount points in .wks: to make wic
-> > > to
-> > > > change /etc/fstab, which you apparently don't want. So, don't
-> > > specify
-> > > > mount points and you'll have what you want.
-> > > > 
-> > > > Having additional option for this looks redundand to me.
-> > > 
-> > > After thinking a bit more about it I'd propose to have global wic
-> > > option
-> > > to avoid rootfs content changes. Not just fstab updates, but any
-> > > changes. For now this option (--no-rootfs-update ?) should prevent
-> > > creating
-> > > images if either mount points are specified or --exclude-path is used
-> > > in .wks
-> > 
-> > Why does --exclude-path conflict with --no-rootfs-update? Is that a
-> > conceptual problem or an implementation problem?
-> >
+On Tue, 2017-06-13 at 09:27 +0100, André Draszik wrote:
+> From: André Draszik <adraszik@tycoint.com>
 > 
-> I thought that removing directories from original rootfs is a
-> modification.
+> With these changes it is possible to have a .bbappend that
+> - sets SYSCONFDIR to some persistent storage
+> - modifies SYSCONFDIR/sshd_config to use ssh host keys from
+>   the (writable) sysconfdir
+> 
+> Signed-off-by: André Draszik <adraszik@tycoint.com>
+> Reviewed-by: Stephane Ayotte <sayotte@tycoint.com>
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
+> (cherry picked from commit 106b59d9f96f70d133fa1421091ad280d27a5b6a)
+> ---
+>  meta/classes/rootfs-postcommands.bbclass       |  4 +--
+>  meta/recipes-connectivity/openssh/openssh/init | 46
+> +++++++++++++++++++++++---
+>  2 files changed, 44 insertions(+), 6 deletions(-)
+> 
+> diff --git a/meta/classes/rootfs-postcommands.bbclass
+> b/meta/classes/rootfs-postcommands.bbclass
+> index 498174a664..abf4e14f4c 100644
+> --- a/meta/classes/rootfs-postcommands.bbclass
+> +++ b/meta/classes/rootfs-postcommands.bbclass
+> @@ -91,10 +91,10 @@ read_only_rootfs_hook () {
+>  	# and the keys under /var/run/ssh.
+>  	if [ -d ${IMAGE_ROOTFS}/etc/ssh ]; then
+>  		if [ -e ${IMAGE_ROOTFS}/etc/ssh/ssh_host_rsa_key ];
+> then
+> -			echo "SYSCONFDIR=/etc/ssh" >>
+> ${IMAGE_ROOTFS}/etc/default/ssh
+> +			echo "SYSCONFDIR=\${SYSCONFDIR:-/etc/ssh}"
+> >> ${IMAGE_ROOTFS}/etc/default/ssh
+>  			echo "SSHD_OPTS=" >>
+> ${IMAGE_ROOTFS}/etc/default/ssh
+>  		else
+> -			echo "SYSCONFDIR=/var/run/ssh" >>
+> ${IMAGE_ROOTFS}/etc/default/ssh
+> +			echo "SYSCONFDIR=\${SYSCONFDIR:-
+> /var/run/ssh}" >> ${IMAGE_ROOTFS}/etc/default/ssh
+>  			echo "SSHD_OPTS='-f
+> /etc/ssh/sshd_config_readonly'" >> ${IMAGE_ROOTFS}/etc/default/ssh
+>  		fi
+>  	fi
+> diff --git a/meta/recipes-connectivity/openssh/openssh/init
+> b/meta/recipes-connectivity/openssh/openssh/init
+> index 1f63725cc0..386628afc8 100644
+> --- a/meta/recipes-connectivity/openssh/openssh/init
+> +++ b/meta/recipes-connectivity/openssh/openssh/init
+> @@ -19,10 +19,24 @@ fi
+>  [ -z "$SYSCONFDIR" ] && SYSCONFDIR=/etc/ssh
+>  mkdir -p $SYSCONFDIR
+>  
+> -HOST_KEY_RSA=$SYSCONFDIR/ssh_host_rsa_key
+> -HOST_KEY_DSA=$SYSCONFDIR/ssh_host_dsa_key
+> -HOST_KEY_ECDSA=$SYSCONFDIR/ssh_host_ecdsa_key
+> -HOST_KEY_ED25519=$SYSCONFDIR/ssh_host_ed25519_key
+> +parse_sshd_opts() {
+> +    set -- ${SSHD_OPTS} --
+> +    sshd_config=/etc/ssh/sshd_config
+> +    while true ; do
+> +        case "$1" in
+> +        -f*) if [ "$1" = "-f" ] ; then
+> +                 sshd_config="$2"
+> +                 shift
+> +             else
+> +                 sshd_config="${1#-f}"
+> +             fi
+> +             shift
+> +             ;;
+> +        --) shift; break;;
+> +        *) shift;;
+> +        esac
+> +    done
+> +}
+>  
+>  check_for_no_start() {
+>      # forget it if we're trying to start, and
+> /etc/ssh/sshd_not_to_be_run exists
+> @@ -45,21 +59,45 @@ check_config() {
+>  }
+>  
+>  check_keys() {
+> +	# parse location of keys
+> +	local HOST_KEY_RSA
+> +	local HOST_KEY_DSA
+> +	local HOST_KEY_ECDSA
+> +	local HOST_KEY_ED25519
+> +
+> +	parse_sshd_opts
+> +	HOST_KEY_RSA=$(grep ^HostKey "${sshd_config}" | grep _rsa_ |
+> tail -1 | awk ' { print $2 } ')
+> +	[ -z "${HOST_KEY_RSA}" ] && HOST_KEY_RSA=$(grep HostKey
+> "${sshd_config}" | grep _rsa_ | tail -1 | awk ' { print $2 } ')
+> +	[ -z "${HOST_KEY_RSA}" ] &&
+> HOST_KEY_RSA=$SYSCONFDIR/ssh_host_rsa_key
+> +	HOST_KEY_DSA=$(grep ^HostKey "${sshd_config}" | grep _dsa_ |
+> tail -1 | awk ' { print $2 } ')
+> +	[ -z "${HOST_KEY_DSA}" ] && HOST_KEY_DSA=$(grep HostKey
+> "${sshd_config}" | grep _dsa_ | tail -1 | awk ' { print $2 } ')
+> +	[ -z "${HOST_KEY_DSA}" ] &&
+> HOST_KEY_DSA=$SYSCONFDIR/ssh_host_dsa_key
+> +	HOST_KEY_ECDSA=$(grep ^HostKey "${sshd_config}" | grep
+> _ecdsa_ | tail -1 | awk ' { print $2 } ')
+> +	[ -z "${HOST_KEY_ECDSA}" ] && HOST_KEY_ECDSA=$(grep HostKey
+> "${sshd_config}" | grep _ecdsa_ | tail -1 | awk ' { print $2 } ')
+> +	[ -z "${HOST_KEY_ECDSA}" ] &&
+> HOST_KEY_ECDSA=$SYSCONFDIR/ssh_host_ecdsa_key
+> +	HOST_KEY_ED25519=$(grep ^HostKey "${sshd_config}" | grep
+> _ed25519_ | tail -1 | awk ' { print $2 } ')
+> +	[ -z "${HOST_KEY_ED25519}" ] && HOST_KEY_ED25519=$(grep
+> HostKey "${sshd_config}" | grep _ed25519_ | tail -1 | awk ' { print
+> $2 } ')
+> +	[ -z "${HOST_KEY_ED25519}" ] &&
+> HOST_KEY_ED25519=$SYSCONFDIR/ssh_host_ed25519_key
+> +
+>  	# create keys if necessary
+>  	if [ ! -f $HOST_KEY_RSA ]; then
+>  		echo "  generating ssh RSA key..."
+> +		mkdir -p $(dirname $HOST_KEY_RSA)
+>  		ssh-keygen -q -f $HOST_KEY_RSA -N '' -t rsa
+>  	fi
+>  	if [ ! -f $HOST_KEY_ECDSA ]; then
+>  		echo "  generating ssh ECDSA key..."
+> +		mkdir -p $(dirname $HOST_KEY_ECDSA)
+>  		ssh-keygen -q -f $HOST_KEY_ECDSA -N '' -t ecdsa
+>  	fi
+>  	if [ ! -f $HOST_KEY_DSA ]; then
+>  		echo "  generating ssh DSA key..."
+> +		mkdir -p $(dirname $HOST_KEY_DSA)
+>  		ssh-keygen -q -f $HOST_KEY_DSA -N '' -t dsa
+>  	fi
+>  	if [ ! -f $HOST_KEY_ED25519 ]; then
+>  		echo "  generating ssh ED25519 key..."
+> +		mkdir -p $(dirname $HOST_KEY_ED25519)
+>  		ssh-keygen -q -f $HOST_KEY_ED25519 -N '' -t ed25519
+>  	fi
+>  }
+> -- 
+> 2.11.0
+> 
 
-But it's not actually removed from the original roofs directory, right?
-For me, "not modified" refers to that and the files in it.
-
--- 
-Best Regards, Patrick Ohly
-
-The content of this message is my personal opinion only and although
-I am an employee of Intel, the statements I make here in no way
-represent Intel's position on the issue, nor am I authorized to speak
-on behalf of Intel on this matter.
-
+This patch breaks read-only-rootfs + systemd + openssh (see http://list
+s.openembedded.org/pipermail/openembedded-core/2017-June/138883.html).
+This should probably be fixed before backporting.
 
 
 
