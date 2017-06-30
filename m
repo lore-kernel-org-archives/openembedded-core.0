@@ -1,65 +1,54 @@
 Return-Path: <patrick.ohly@intel.com>
-Received: from mail-io0-f182.google.com (mail-io0-f182.google.com
-	[209.85.223.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 430E77829B
+Received: from mail-io0-f176.google.com (mail-io0-f176.google.com
+	[209.85.223.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 7A22878231
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Jun 2017 18:34:32 +0000 (UTC)
-Received: by mail-io0-f182.google.com with SMTP id r36so28684912ioi.1
+	Fri, 30 Jun 2017 18:43:44 +0000 (UTC)
+Received: by mail-io0-f176.google.com with SMTP id r36so28806621ioi.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Jun 2017 11:34:34 -0700 (PDT)
+	Fri, 30 Jun 2017 11:43:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=message-id:subject:from:to:cc:date:in-reply-to:references
 	:organization:mime-version:content-transfer-encoding;
-	bh=ICakEBWEhsNF4Mc2hsF7tgZR/t9/wadMWoautKa/QhE=;
-	b=0st1q3CsT51I396LsDghVzUYKvcBISVpNCZavDl2xlfz+M+eRcFNYcevozMaEduJbc
-	IJagP3GZoHjrBW53UosYJhhzr4htDMCOAvZQy4oXJzXpjvDJJ27UfyBE2ghyPg4sFd04
-	5+j/cF7JPD/bbunC7htLdS6Lde3X0kfQI6x/ji2dADx/wSNKHChNZzatrB+cTplJ4OTB
-	7XHjKAQH5MztBYx7+GYhrxwJBzEntAxlvoVYKqLfM4LA56PkxalTXxnk4R46UIIukgBI
-	LSRW4TWfu1d82nhS+wMaOxv2Dl4ihtSKYK+iLbxtc0t9RPGKO6I9jfBTI9FY+WNVvqxH
-	ScvQ==
+	bh=Ixsa3fWRRElu/Lqb4B0Gat9YHsgx6RQHoWqZgS8tQRo=;
+	b=fMwbmfncxmIq9lvBIrfPap/wT2L3/Kn0JmE1Z6HUPcPw2juEuaWhK/bhbvGFwMd2Wz
+	hwOBdaGB/L+zMcvqMRroUlaBeL8pfi/vtJTFCxrOwNbbazZ6AlSRdbPlqYrilWLVB4Dy
+	D/hM+PaDqOQv1XoEpwAnYqDj+C3VJbLoIhzISm0H3e6Jnfhfw+QBRrNcHEcIJL7NwW23
+	N8U0XHPtWwvhXUzcZz+lqHXkdXjHPl+0Baxvj3IVIc6qIScP/m2XyfJvl3k2di6FPMZr
+	Dy5R+dqD32qRs5lJ2VTvKowcGT7ye8gspHGJw9n+ZHnVYA9to6csdZT7+OBnfwKT65R1
+	2O5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
 	:references:organization:mime-version:content-transfer-encoding;
-	bh=ICakEBWEhsNF4Mc2hsF7tgZR/t9/wadMWoautKa/QhE=;
-	b=dZ0s8hhmgGd/pOliltrmu1U1CEwvdNgGith1iGBIgrlTV87IYDdw+wnIuKAru2HFTD
-	jPAOTrCLdZUFejTjdrp7wkmO/TZKeNntk2P4I6KoEvyyhiC0Y+4Mfq3W6OJx6BICxabX
-	2GRLWO8skDanUbD4AXt88ltFbuwyml9hfx8iEd3lnIYZNEi64+nAthoYberW2LjtlJPv
-	g/qEIrmQ7SGvkB7HEi4IHWS52xy67h+q1/DGFS6hF7uCvVE0s7SAhS1j9UNtR706Oebe
-	shqyHdj8t3O4yF1AhEr2vBcBAY9KIlMNc0YUY2ZbYIBPX68P/Fl0D7IiQOYomDSXHKGp
-	axhw==
-X-Gm-Message-State: AKS2vOzDo7JxiXJmMTB2FzGVFkUe/URPHUWak1qFNeF0Dsgevm6uGWeo
-	GlSFlYJ/27gETVR+
-X-Received: by 10.107.32.139 with SMTP id g133mr22630833iog.58.1498847674142; 
-	Fri, 30 Jun 2017 11:34:34 -0700 (PDT)
+	bh=Ixsa3fWRRElu/Lqb4B0Gat9YHsgx6RQHoWqZgS8tQRo=;
+	b=PrXKosr5b3xq4SgMIJm+AzYbpkN7I/z9BR8wVuTsdfmMG0SOSTlWBpd2Eevu870m/3
+	RSuiSRimNnsbHkZbSLMUwNJW2Eg1X765rInI2bEUsvu0CnlAvbBdHGlZStoxIO6EHnmu
+	29ulUUsqHUdseTx3vmf5QiwWRx8yRAmQquz9mi7lGp1xTP4Zm4u+FYc0rsekQ1/IvG4U
+	D6kv+PhsMH9P6oYTUcwqoGZzKfVNJw22H47GcJeiqnTMGf+UmHkKaEOKQ1CL5YF8ofgc
+	FzjcXM+wZNO2epR59vs5gSmNHZiTypgXT1EG4tp8cnR0BN/dwBpVF5ld4C3ScrwN3PFo
+	6Mjw==
+X-Gm-Message-State: AKS2vOzltJzHNQfW/BTGca+05PRYmvj05cQslhoJ+hmr3u3E+n7+n1t2
+	RWemEw6ZSG1eE5LU
+X-Received: by 10.107.168.39 with SMTP id r39mr23022550ioe.45.1498848226278;
+	Fri, 30 Jun 2017 11:43:46 -0700 (PDT)
 Received: from pohly-mobl1 (p5DE8FA66.dip0.t-ipconnect.de. [93.232.250.102])
-	by smtp.gmail.com with ESMTPSA id y18sm455413ioy.13.2017.06.30.11.34.31
+	by smtp.gmail.com with ESMTPSA id
+	y64sm6262474itb.31.2017.06.30.11.43.43
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 30 Jun 2017 11:34:32 -0700 (PDT)
-Message-ID: <1498847670.5259.9.camel@intel.com>
+	Fri, 30 Jun 2017 11:43:44 -0700 (PDT)
+Message-ID: <1498848221.5259.13.camel@intel.com>
 From: Patrick Ohly <patrick.ohly@intel.com>
-To: Otavio Salvador <otavio.salvador@ossystems.com.br>
-Date: Fri, 30 Jun 2017 20:34:30 +0200
-In-Reply-To: <CAP9ODKq3mB=0GBAZt21A3Ljw77TiNwBdCGZrSQt8L9rcr_i-Yw@mail.gmail.com>
-References: <cover.1498569961.git.ed.bartosh@linux.intel.com>
-	<CAP9ODKopDxEYw9vereQjoHve=n2Of2v-3EHbxaiumZN3T0hH8Q@mail.gmail.com>
-	<823180ba-066d-747d-8112-a110633a03a8@ossystems.com.br>
-	<20170628073121.GA11425@linux.intel.com>
-	<CAP9ODKoxxaJv=QZXp5m=Qt14t36n1TPXS19D+Xs3eyrPDG79bg@mail.gmail.com>
-	<20170629083942.GA14649@linux.intel.com>
-	<20170630083717.GA788@linux.intel.com>
-	<1498813333.5259.4.camel@intel.com>
-	<20170630122330.GA17125@linux.intel.com>
-	<1498828593.5259.7.camel@intel.com>
-	<20170630154456.GB28177@linux.intel.com>
-	<CAP9ODKq3mB=0GBAZt21A3Ljw77TiNwBdCGZrSQt8L9rcr_i-Yw@mail.gmail.com>
+To: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
+Date: Fri, 30 Jun 2017 20:43:41 +0200
+In-Reply-To: <20170630175330.33908-1-alejandro.hernandez@linux.intel.com>
+References: <20170630175330.33908-1-alejandro.hernandez@linux.intel.com>
 Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
 X-Mailer: Evolution 3.12.9-1+b1 
 Mime-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2 0/5] #11662 - wic should mount /boot
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] bootimg-efi.py: Use IMGDEPLOYDIR instead of DEPLOY_DIR_IMAGE for initrd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -72,21 +61,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Jun 2017 18:34:33 -0000
+X-List-Received-Date: Fri, 30 Jun 2017 18:43:46 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Fri, 2017-06-30 at 14:33 -0300, Otavio Salvador wrote:
-> Other possible rootfs changes also should be possible to be disabled
-> but IMO it should be per-feature (one for fstab, one for exclude,
-> ...).
+On Fri, 2017-06-30 at 10:53 -0700, Alejandro Hernandez wrote:
+> When using wic to create an image from a certain build, wic is expecting
+> to find initrd at the final destination of our images (DEPLOY_DIR_IMAGE),
+> which is wrong, since the initrd file has not been copied to the final
+> directory yet, so instead of trying to use an initrd file from 
+> DEPLOY_DIR_IMAGE we get it from IMGDEPLOYDIR, which is the directory 
+> where the resulting images are placed before their final destination, 
+> and its where we can find the correct initrd file for our image.
 
-I also think it should be per-feature, it necessary at all.
+Can you give an example with some real image and initramfs recipe where
+this works? In other words, provide an example where the old behavior
+fails and the new one works?
 
-I still do not fully understand under which circumstances wic modifies
-the rootfs. If that happens only when explicitly requested in the wks
-file as Ed said, then I don't see a need for any additional flags. Just
-don't use the features which result in a rootfs modification.
+When using core-image-minimal and core-image-minimal-initramfs, then
+both have different IMGDEPLOYDIRs, therefore code in core-image-minimal
+can only find the .cpio.gz in the DEPLOY_DIR_IMAGE. So to me, the
+current approach seems correct.
 
 -- 
 Best Regards, Patrick Ohly
