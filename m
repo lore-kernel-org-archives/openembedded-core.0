@@ -1,28 +1,27 @@
 Return-Path: <maxin.john@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id D53F078286
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by mail.openembedded.org (Postfix) with ESMTP id D973878286
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Jun 2017 14:56:21 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	30 Jun 2017 07:56:20 -0700
+	Fri, 30 Jun 2017 14:56:22 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga104.jf.intel.com with ESMTP; 30 Jun 2017 07:56:19 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.40,287,1496127600"; d="scan'208";a="1189056899"
+X-IronPort-AV: E=Sophos;i="5.40,286,1496127600"; d="scan'208";a="1166661830"
 Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga002.fm.intel.com with ESMTP; 30 Jun 2017 07:56:11 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 30 Jun 2017 07:56:18 -0700
 Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
 	[10.237.72.84])
-	by linux.intel.com (Postfix) with ESMTP id CFC635800C1
+	by linux.intel.com (Postfix) with ESMTP id 4DD175800C1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Jun 2017 07:56:10 -0700 (PDT)
+	Fri, 30 Jun 2017 07:56:18 -0700 (PDT)
 From: "Maxin B. John" <maxin.john@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 30 Jun 2017 17:56:12 +0300
-Message-Id: <1498834581-12279-3-git-send-email-maxin.john@intel.com>
+Date: Fri, 30 Jun 2017 17:56:20 +0300
+Message-Id: <1498834581-12279-11-git-send-email-maxin.john@intel.com>
 X-Mailer: git-send-email 2.4.0
 In-Reply-To: <1498834581-12279-1-git-send-email-maxin.john@intel.com>
 References: <1498834581-12279-1-git-send-email-maxin.john@intel.com>
-Subject: [PATCH 02/11] gst-player: remove workaround which disable visualizations
+Subject: [PATCH 10/11] gstreamer1.0-vaapi: upgrade 1.10.4 -> 1.12.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,549 +34,112 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Jun 2017 14:56:26 -0000
+X-List-Received-Date: Fri, 30 Jun 2017 14:56:27 -0000
 
-As we upgrade to libva 1.8.3, we can remove the workaround patch
-which disables visualizations in gst-player:
-        1. 0001-gtk-play-Disable-visualizations.patch
-
-Also remove the upstreamed patches:
-        1. filechooser.patch
-        2. Fix-pause-play.patch
-        3. Add-error-signal-emission-for-missing-plugins.patch
-
-Fixes [YOCTO #11437]
-
-We "should" move to the new home of gst-player:
-https://cgit.freedesktop.org/gstreamer/gst-examples
-
-However, the buildsystem of gst-player moved to meson.
-Waiting for meson to be in oe-core for this transition.
+Remove backport patch:
+        1. vaapivideobufferpool-create-allocator-if-needed.patch
 
 Signed-off-by: Maxin B. John <maxin.john@intel.com>
 ---
- .../0001-gtk-play-Disable-visualizations.patch     |  59 -----
- ...error-signal-emission-for-missing-plugins.patch | 252 ---------------------
- .../gstreamer/gst-player/Fix-pause-play.patch      | 107 ---------
- .../gstreamer/gst-player/filechooser.patch         |  54 -----
- .../recipes-multimedia/gstreamer/gst-player_git.bb |   4 -
- 5 files changed, 476 deletions(-)
- delete mode 100644 meta/recipes-multimedia/gstreamer/gst-player/0001-gtk-play-Disable-visualizations.patch
- delete mode 100644 meta/recipes-multimedia/gstreamer/gst-player/Add-error-signal-emission-for-missing-plugins.patch
- delete mode 100644 meta/recipes-multimedia/gstreamer/gst-player/Fix-pause-play.patch
- delete mode 100644 meta/recipes-multimedia/gstreamer/gst-player/filechooser.patch
+ ...ideobufferpool-create-allocator-if-needed.patch | 61 ----------------------
+ .../gstreamer/gstreamer1.0-vaapi_1.10.4.bb         |  7 ---
+ .../gstreamer/gstreamer1.0-vaapi_1.12.1.bb         |  5 ++
+ 3 files changed, 5 insertions(+), 68 deletions(-)
+ delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer-vaapi/vaapivideobufferpool-create-allocator-if-needed.patch
+ delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.10.4.bb
+ create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.12.1.bb
 
-diff --git a/meta/recipes-multimedia/gstreamer/gst-player/0001-gtk-play-Disable-visualizations.patch b/meta/recipes-multimedia/gstreamer/gst-player/0001-gtk-play-Disable-visualizations.patch
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer-vaapi/vaapivideobufferpool-create-allocator-if-needed.patch b/meta/recipes-multimedia/gstreamer/gstreamer-vaapi/vaapivideobufferpool-create-allocator-if-needed.patch
 deleted file mode 100644
-index ea88120..0000000
---- a/meta/recipes-multimedia/gstreamer/gst-player/0001-gtk-play-Disable-visualizations.patch
+index f666adc..0000000
+--- a/meta/recipes-multimedia/gstreamer/gstreamer-vaapi/vaapivideobufferpool-create-allocator-if-needed.patch
 +++ /dev/null
-@@ -1,59 +0,0 @@
--From 6cf42c468e93b0aaa171961e059bc3e2fb915889 Mon Sep 17 00:00:00 2001
--From: Jussi Kukkonen <jussi.kukkonen@intel.com>
--Date: Fri, 28 Apr 2017 14:35:19 +0300
--Subject: [PATCH] gtk-play: Disable visualizations
--
--This is a workaround for [YOCTO #11410] (audio playback is broken in
--mediaplayer if vaapi is used). It disables visualizations and makes
--sure we clear the window (otherwise nothing does that and result is
--very ugly).
--
--This patch should be removed when 11410 is fixed.
--
--Upstream-Status: Inappropriate [bug workaround]
+@@ -1,61 +0,0 @@
 -Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+-Upstream-Status: Backport [commit 59a731be6b in '1.10' branch]
+-
+-
+-From 02a6002c3a80b3a5301c0943b1a1518bbdf439fc Mon Sep 17 00:00:00 2001
+-From: =?UTF-8?q?V=C3=ADctor=20Manuel=20J=C3=A1quez=20Leal?=
+- <vjaquez@igalia.com>
+-Date: Fri, 21 Apr 2017 19:07:18 +0200
+-Subject: [PATCH] vaapivideobufferpool: create allocator if needed
+-
+-Backport to branch 1.10
+-
+-Sometimes a video decoder could set different buffer pool
+-configurations, because their frame size changes. In this case we
+-did not reconfigure the allocator.
+-
+-This patch enables this use case, creating a new allocator inside
+-the VAAPI buffer pool if the caps changed, if it is not dmabuf-based.
+-If so, it is just reconfigured, since it doesn't have a surface pool.
+-
+-https://bugzilla.gnome.org/show_bug.cgi?id=781577
 ----
-- gtk/gtk-play.c | 13 ++++++++++++-
-- 1 file changed, 12 insertions(+), 1 deletion(-)
+- gst/vaapi/gstvaapivideobufferpool.c | 21 +++++++++++++++++++++
+- 1 file changed, 21 insertions(+)
 -
--diff --git a/gtk/gtk-play.c b/gtk/gtk-play.c
--index 8ae0fea..63b9bb0 100644
----- a/gtk/gtk-play.c
--+++ b/gtk/gtk-play.c
--@@ -1401,6 +1401,15 @@ get_child_position (GtkOverlay * overlay, GtkWidget * widget,
--   return TRUE;
-- }
+-diff --git a/gst/vaapi/gstvaapivideobufferpool.c b/gst/vaapi/gstvaapivideobufferpool.c
+-index a3b9223f..9a50614b 100644
+---- a/gst/vaapi/gstvaapivideobufferpool.c
+-+++ b/gst/vaapi/gstvaapivideobufferpool.c
+-@@ -159,6 +159,27 @@ gst_vaapi_video_buffer_pool_set_config (GstBufferPool * pool,
+-     gst_object_replace ((GstObject **) & priv->allocator, NULL);
+-   priv->video_info = new_vip;
 - 
--+/* Hack to make sure something gets drawn if visualizations are disabled */
--+static gboolean
--+draw_cb (GtkWidget *widget, cairo_t *cr, gpointer data)
--+{
--+  cairo_set_source_rgb (cr, 0, 0, 0);
--+  cairo_paint (cr);
--+  return FALSE;
--+}
+-+  {
+-+    guint surface_alloc_flags;
+-+    gboolean vinfo_changed = FALSE;
 -+
-- static void
-- create_ui (GtkPlay * play)
-- {
--@@ -1431,6 +1440,8 @@ create_ui (GtkPlay * play)
--     play->video_area = gtk_drawing_area_new ();
--     g_signal_connect (play->video_area, "realize",
--         G_CALLBACK (video_area_realize_cb), play);
--+    g_signal_connect (play->video_area, "draw",
--+        G_CALLBACK (draw_cb), NULL);
--   }
--   gtk_widget_set_events (play->video_area, GDK_EXPOSURE_MASK
--       | GDK_LEAVE_NOTIFY_MASK
--@@ -1753,7 +1764,7 @@ gtk_play_constructor (GType type, guint n_construct_params,
-- 
--   /* enable visualization (by default playbin uses goom) */
--   /* if visualization is enabled then use the first element */
---  gst_player_set_visualization_enabled (self->player, TRUE);
--+  gst_player_set_visualization_enabled (self->player, FALSE);
-- 
--   g_signal_connect (G_OBJECT (self), "show", G_CALLBACK (show_cb), NULL);
-- 
---- 
--2.1.4
--
-diff --git a/meta/recipes-multimedia/gstreamer/gst-player/Add-error-signal-emission-for-missing-plugins.patch b/meta/recipes-multimedia/gstreamer/gst-player/Add-error-signal-emission-for-missing-plugins.patch
-deleted file mode 100644
-index 712d46d..0000000
---- a/meta/recipes-multimedia/gstreamer/gst-player/Add-error-signal-emission-for-missing-plugins.patch
-+++ /dev/null
-@@ -1,252 +0,0 @@
--From d64c7edb66f4a64ff49c4306cf77fd269b7079ab Mon Sep 17 00:00:00 2001
--From: Jussi Kukkonen <jussi.kukkonen@intel.com>
--Date: Mon, 16 Mar 2015 13:45:30 +0200
--Subject: [PATCH] Add error signal emission for missing plugins
--
--Add a missing plugins error signal to gst-player. Note that this error
--does not necessarily mean the playback has completely failed, but in
--practice the user experience will be bad (think, e.g. of a mp4 file
--where H.264 codec is missing: AAC playback still works...).
--
--Use the signal in gtk-play to show a infobar if plugins are missing.
--
--Submitted upstream at https://github.com/sdroege/gst-player/pull/11
--
--Upstream-Status: Submitted
--Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
-----
-- configure.ac               |  2 +-
-- gtk/gtk-play.c             | 54 +++++++++++++++++++++++++++++++++++++++++++++-
-- lib/gst/player/gstplayer.c | 22 +++++++++++++++++++
-- lib/gst/player/gstplayer.h |  3 ++-
-- 4 files changed, 78 insertions(+), 3 deletions(-)
--
--diff --git a/configure.ac b/configure.ac
--index 90ab74c..6cdb4eb 100644
----- a/configure.ac
--+++ b/configure.ac
--@@ -53,7 +53,7 @@ AC_SUBST(LT_AGE)
-- PKG_PROG_PKG_CONFIG
-- 
-- PKG_CHECK_MODULES(GLIB, [glib-2.0 gobject-2.0])
---PKG_CHECK_MODULES(GSTREAMER, [gstreamer-1.0 >= 1.4 gstreamer-video-1.0 >= 1.4])
--+PKG_CHECK_MODULES(GSTREAMER, [gstreamer-1.0 >= 1.4 gstreamer-video-1.0 >= 1.4 gstreamer-pbutils-1.0])
-- 
-- GLIB_PREFIX="`$PKG_CONFIG --variable=prefix glib-2.0`"
-- AC_SUBST(GLIB_PREFIX)
--diff --git a/gtk/gtk-play.c b/gtk/gtk-play.c
--index b92773b..e2b605a 100644
----- a/gtk/gtk-play.c
--+++ b/gtk/gtk-play.c
--@@ -30,6 +30,8 @@ typedef struct
--   GtkWidget *prev_button, *next_button;
--   GtkWidget *seekbar;
--   GtkWidget *video_area;
--+  GtkWidget *info_label;
--+  GtkWidget *info_bar;
--   GtkWidget *volume_button;
--   gulong seekbar_value_changed_signal_id;
--   gboolean playing;
--@@ -141,6 +143,13 @@ play_pause_clicked_cb (GtkButton * button, GtkPlay * play)
-- }
-- 
-- static void
--+clear_missing_plugins (GtkPlay * play)
--+{
--+  gtk_label_set_text (GTK_LABEL (play->info_label), "");
--+  gtk_widget_hide (play->info_bar);
--+}
--+
--+static void
-- skip_prev_clicked_cb (GtkButton * button, GtkPlay * play)
-- {
--   GList *prev;
--@@ -155,6 +164,7 @@ skip_prev_clicked_cb (GtkButton * button, GtkPlay * play)
-- 
--   gtk_widget_set_sensitive (play->next_button, TRUE);
--   gst_player_set_uri (play->player, prev->data);
--+  clear_missing_plugins (play);
--   gst_player_play (play->player);
--   set_title (play, prev->data);
--   gtk_widget_set_sensitive (play->prev_button, g_list_previous (prev) != NULL);
--@@ -175,6 +185,7 @@ skip_next_clicked_cb (GtkButton * button, GtkPlay * play)
-- 
--   gtk_widget_set_sensitive (play->prev_button, TRUE);
--   gst_player_set_uri (play->player, next->data);
--+  clear_missing_plugins (play);
--   gst_player_play (play->player);
--   set_title (play, next->data);
--   gtk_widget_set_sensitive (play->next_button, g_list_next (next) != NULL);
--@@ -193,10 +204,16 @@ volume_changed_cb (GtkScaleButton * button, gdouble value, GtkPlay * play)
--   gst_player_set_volume (play->player, value);
-- }
-- 
--+void
--+info_bar_response_cb (GtkInfoBar * bar, gint response, GtkPlay * play)
--+{
--+  gtk_widget_hide (GTK_WIDGET (bar));
--+}
--+
-- static void
-- create_ui (GtkPlay * play)
-- {
---  GtkWidget *controls, *main_hbox, *main_vbox;
--+  GtkWidget *controls, *main_hbox, *main_vbox, *info_bar, *content_area;
-- 
--   play->window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
--   g_signal_connect (G_OBJECT (play->window), "delete-event",
--@@ -208,6 +225,20 @@ create_ui (GtkPlay * play)
--   g_signal_connect (play->video_area, "realize",
--       G_CALLBACK (video_area_realize_cb), play);
-- 
--+  play->info_bar = gtk_info_bar_new ();
--+  gtk_info_bar_set_message_type (GTK_INFO_BAR (play->info_bar),
--+      GTK_MESSAGE_WARNING);
--+  //gtk_info_bar_set_show_close_button (GTK_INFO_BAR (play->info_bar),
--+  //    TRUE);
--+  gtk_widget_set_no_show_all (play->info_bar, TRUE);
--+  g_signal_connect (play->info_bar, "response",
--+      G_CALLBACK (info_bar_response_cb), play);
--+
--+  content_area = gtk_info_bar_get_content_area (GTK_INFO_BAR (play->info_bar));
--+  play->info_label = gtk_label_new ("");
--+  gtk_container_add (GTK_CONTAINER (content_area), play->info_label);
--+  gtk_widget_show (play->info_label);
--+
--   /* Unified play/pause button */
--   play->play_pause_button =
--       gtk_button_new_from_icon_name ("media-playback-pause",
--@@ -258,6 +289,7 @@ create_ui (GtkPlay * play)
-- 
--   main_vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
--   gtk_box_pack_start (GTK_BOX (main_vbox), main_hbox, TRUE, TRUE, 0);
--+  gtk_box_pack_start (GTK_BOX (main_vbox), play->info_bar, FALSE, FALSE, 0);
--   gtk_box_pack_start (GTK_BOX (main_vbox), controls, FALSE, FALSE, 0);
--   gtk_container_add (GTK_CONTAINER (play->window), main_vbox);
-- 
--@@ -322,6 +354,7 @@ eos_cb (GstPlayer * unused, GtkPlay * play)
--       gtk_widget_set_sensitive (play->next_button, g_list_next (next) != NULL);
-- 
--       gst_player_set_uri (play->player, next->data);
--+      clear_missing_plugins (play);
--       gst_player_play (play->player);
--       set_title (play, next->data);
--     } else {
--@@ -330,6 +363,24 @@ eos_cb (GstPlayer * unused, GtkPlay * play)
--   }
-- }
-- 
--+static void
--+error_cb (GstPlayer * player, GError * err, GtkPlay * play)
--+{
--+  char *message;
--+
--+  if (g_error_matches (err, gst_player_error_quark (),
--+      GST_PLAYER_ERROR_MISSING_PLUGIN)) {
--+    // add message to end of any existing message: there may be
--+    // multiple missing plugins.
--+    message = g_strdup_printf ("%s%s. ",
--+        gtk_label_get_text (GTK_LABEL (play->info_label)), err->message);
--+    gtk_label_set_text (GTK_LABEL (play->info_label), message);
--+    g_free (message);
--+
--+    gtk_widget_show (play->info_bar);
--+  }
--+}
--+
-- int
-- main (gint argc, gchar ** argv)
-- {
--@@ -422,6 +473,7 @@ main (gint argc, gchar ** argv)
--   g_signal_connect (play.player, "video-dimensions-changed",
--       G_CALLBACK (video_dimensions_changed_cb), &play);
--   g_signal_connect (play.player, "end-of-stream", G_CALLBACK (eos_cb), &play);
--+  g_signal_connect (play.player, "error", G_CALLBACK (error_cb), &play);
-- 
--   /* We have file(s) that need playing. */
--   set_title (&play, g_list_first (play.uris)->data);
--diff --git a/lib/gst/player/gstplayer.c b/lib/gst/player/gstplayer.c
--index bd682d9..78e7ba1 100644
----- a/lib/gst/player/gstplayer.c
--+++ b/lib/gst/player/gstplayer.c
--@@ -47,6 +47,7 @@
-- 
-- #include <gst/gst.h>
-- #include <gst/video/video.h>
--+#include <gst/pbutils/missing-plugins.h>
-- 
-- GST_DEBUG_CATEGORY_STATIC (gst_player_debug);
-- #define GST_CAT_DEFAULT gst_player_debug
--@@ -238,6 +239,7 @@ gst_player_class_init (GstPlayerClass * klass)
--       g_signal_new ("video-dimensions-changed", G_TYPE_FROM_CLASS (klass),
--       G_SIGNAL_RUN_LAST | G_SIGNAL_NO_RECURSE | G_SIGNAL_NO_HOOKS, 0, NULL,
--       NULL, NULL, G_TYPE_NONE, 2, G_TYPE_INT, G_TYPE_INT);
--+
-- }
-- 
-- static void
--@@ -619,6 +621,21 @@ error_cb (GstBus * bus, GstMessage * msg, gpointer user_data)
--   g_mutex_unlock (&self->priv->lock);
-- }
-- 
--+static void
--+element_cb (GstBus * bus, GstMessage * msg, gpointer user_data)
--+{
--+  GstPlayer *self = GST_PLAYER (user_data);
--+
--+  if (gst_is_missing_plugin_message (msg)) {
--+    gchar *desc;
--+
--+    desc = gst_missing_plugin_message_get_description (msg);
--+    emit_error (self, g_error_new (GST_PLAYER_ERROR,
--+        GST_PLAYER_ERROR_MISSING_PLUGIN, "Missing plugin '%s'", desc));
--+    g_free (desc);
--+  }
--+}
--+
-- static gboolean
-- eos_dispatch (gpointer user_data)
-- {
--@@ -1059,6 +1076,8 @@ gst_player_main (gpointer data)
--       NULL, NULL);
--   g_source_attach (bus_source, self->priv->context);
-- 
--+  g_signal_connect (G_OBJECT (bus), "message::element",
--+      G_CALLBACK (element_cb), self);
--   g_signal_connect (G_OBJECT (bus), "message::error", G_CALLBACK (error_cb),
--       self);
--   g_signal_connect (G_OBJECT (bus), "message::eos", G_CALLBACK (eos_cb), self);
--@@ -1560,6 +1579,7 @@ gst_player_error_get_type (void)
--   static gsize id = 0;
--   static const GEnumValue values[] = {
--     {C_ENUM (GST_PLAYER_ERROR_FAILED), "GST_PLAYER_ERROR_FAILED", "failed"},
--+    {C_ENUM (GST_PLAYER_ERROR_MISSING_PLUGIN), "GST_PLAYER_ERROR_MISSING_PLUGIN", "missing-plugin"},
--     {0, NULL, NULL}
--   };
-- 
--@@ -1577,6 +1597,8 @@ gst_player_error_get_name (GstPlayerError error)
--   switch (error) {
--     case GST_PLAYER_ERROR_FAILED:
--       return "failed";
--+    case GST_PLAYER_ERROR_MISSING_PLUGIN:
--+      return "missing-plugin";
--   }
-- 
--   g_assert_not_reached ();
--diff --git a/lib/gst/player/gstplayer.h b/lib/gst/player/gstplayer.h
--index c438513..35fb5bb 100644
----- a/lib/gst/player/gstplayer.h
--+++ b/lib/gst/player/gstplayer.h
--@@ -44,7 +44,8 @@ GType        gst_player_error_get_type                (void);
-- #define      GST_TYPE_PLAYER_ERROR                    (gst_player_error_get_type ())
-- 
-- typedef enum {
---  GST_PLAYER_ERROR_FAILED = 0
--+  GST_PLAYER_ERROR_FAILED = 0,
--+  GST_PLAYER_ERROR_MISSING_PLUGIN
-- } GstPlayerError;
-- 
-- const gchar *gst_player_error_get_name                (GstPlayerError error);
---- 
--2.1.4
--
-diff --git a/meta/recipes-multimedia/gstreamer/gst-player/Fix-pause-play.patch b/meta/recipes-multimedia/gstreamer/gst-player/Fix-pause-play.patch
-deleted file mode 100644
-index 783c42a..0000000
---- a/meta/recipes-multimedia/gstreamer/gst-player/Fix-pause-play.patch
-+++ /dev/null
-@@ -1,107 +0,0 @@
--Fix pause/play
--
--The current player state is now notified via the state-changed signal,
--and in the GTK UI it was only used to keep track of the desired state.
--
--This is a backport of upstream commit 738479c7a0.
--
--Upstream-Status: Backport
--Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
--
-----
-- gtk/gtk-play.c             |  8 ++++++--
-- lib/gst/player/gstplayer.c | 12 ------------
-- lib/gst/player/gstplayer.h |  2 --
-- 3 files changed, 6 insertions(+), 16 deletions(-)
--
--diff --git a/gtk/gtk-play.c b/gtk/gtk-play.c
--index 6e7a098..e2b605a 100644
----- a/gtk/gtk-play.c
--+++ b/gtk/gtk-play.c
--@@ -34,6 +34,7 @@ typedef struct
--   GtkWidget *info_bar;
--   GtkWidget *volume_button;
--   gulong seekbar_value_changed_signal_id;
--+  gboolean playing;
-- } GtkPlay;
-- 
-- /* Compat stubs */
--@@ -118,12 +119,13 @@ play_pause_clicked_cb (GtkButton * button, GtkPlay * play)
-- {
--   GtkWidget *image;
-- 
---  if (gst_player_is_playing (play->player)) {
--+  if (play->playing) {
--     gst_player_pause (play->player);
--     image =
--         gtk_image_new_from_icon_name ("media-playback-start",
--         GTK_ICON_SIZE_BUTTON);
--     gtk_button_set_image (GTK_BUTTON (play->play_pause_button), image);
--+    play->playing = FALSE;
--   } else {
--     gchar *title;
-- 
--@@ -136,6 +138,7 @@ play_pause_clicked_cb (GtkButton * button, GtkPlay * play)
--     title = gst_player_get_uri (play->player);
--     set_title (play, title);
--     g_free (title);
--+    play->playing = TRUE;
--   }
-- }
-- 
--@@ -335,7 +338,7 @@ video_dimensions_changed_cb (GstPlayer * unused, gint width, gint height,
-- static void
-- eos_cb (GstPlayer * unused, GtkPlay * play)
-- {
---  if (gst_player_is_playing (play->player)) {
--+  if (play->playing) {
--     GList *next = NULL;
--     gchar *uri;
-- 
--@@ -452,6 +455,7 @@ main (gint argc, gchar ** argv)
--   }
-- 
--   play.player = gst_player_new ();
--+  play.playing = TRUE;
-- 
--   g_object_set (play.player, "dispatch-to-main-context", TRUE, NULL);
-- 
--diff --git a/lib/gst/player/gstplayer.c b/lib/gst/player/gstplayer.c
--index 069b284..78e7ba1 100644
----- a/lib/gst/player/gstplayer.c
--+++ b/lib/gst/player/gstplayer.c
--@@ -1422,18 +1422,6 @@ gst_player_set_uri (GstPlayer * self, const gchar * val)
--   g_object_set (self, "uri", val, NULL);
-- }
-- 
---gboolean
---gst_player_is_playing (GstPlayer * self)
---{
---  gboolean val;
---
---  g_return_val_if_fail (GST_IS_PLAYER (self), FALSE);
---
---  g_object_get (self, "is-playing", &val, NULL);
---
---  return val;
---}
---
-- GstClockTime
-- gst_player_get_position (GstPlayer * self)
-- {
--diff --git a/lib/gst/player/gstplayer.h b/lib/gst/player/gstplayer.h
--index 6933dd7..35fb5bb 100644
----- a/lib/gst/player/gstplayer.h
--+++ b/lib/gst/player/gstplayer.h
--@@ -93,8 +93,6 @@ gchar *      gst_player_get_uri                       (GstPlayer    * player);
-- void         gst_player_set_uri                       (GstPlayer    * player,
--                                                        const gchar  * uri);
-- 
---gboolean     gst_player_is_playing                    (GstPlayer    * player);
---
-- GstClockTime gst_player_get_position                  (GstPlayer    * player);
-- GstClockTime gst_player_get_duration                  (GstPlayer    * player);
-- 
---- 
--2.1.4
--
-diff --git a/meta/recipes-multimedia/gstreamer/gst-player/filechooser.patch b/meta/recipes-multimedia/gstreamer/gst-player/filechooser.patch
-deleted file mode 100644
-index 7bf1b03..0000000
---- a/meta/recipes-multimedia/gstreamer/gst-player/filechooser.patch
-+++ /dev/null
-@@ -1,54 +0,0 @@
--Upstream-Status: Submitted
--Signed-off-by: Ross Burton <ross.burton@intel.com>
--
--From 43d4b19ab611d844156e26c4840cc54ddb73ae03 Mon Sep 17 00:00:00 2001
--From: Ross Burton <ross.burton@intel.com>
--Date: Thu, 26 Feb 2015 17:17:05 +0000
--Subject: [PATCH] gtk-play: show a file chooser if no URIs were passed
--
-----
-- gtk/gtk-play.c |   28 ++++++++++++++++++++++++++--
-- 1 file changed, 26 insertions(+), 2 deletions(-)
--
--diff --git a/gtk/gtk-play.c b/gtk/gtk-play.c
--index f015077..9766a72 100644
----- a/gtk/gtk-play.c
--+++ b/gtk/gtk-play.c
--@@ -319,8 +319,32 @@ main (gint argc, gchar ** argv)
--   // FIXME: Add support for playlists and stuff
--   /* Parse the list of the file names we have to play. */
--   if (!file_names) {
---    g_print ("Usage: %s FILE(s)|URI(s)\n", APP_NAME);
---    return 1;
--+    GtkWidget *chooser;
--+    int res;
--+
--+    chooser = gtk_file_chooser_dialog_new ("Select files to play", NULL,
--+                                          GTK_FILE_CHOOSER_ACTION_OPEN,
--+                                          "_Cancel", GTK_RESPONSE_CANCEL,
--+                                          "_Open", GTK_RESPONSE_ACCEPT,
--+                                          NULL);
--+    g_object_set (chooser,
--+                  "local-only", FALSE,
--+                  "select-multiple", TRUE,
--+                  NULL);
--+
--+    res = gtk_dialog_run (GTK_DIALOG (chooser));
--+    if (res == GTK_RESPONSE_ACCEPT) {
--+      GSList *l;
--+
--+      l = gtk_file_chooser_get_uris (GTK_FILE_CHOOSER (chooser));
--+      while (l) {
--+        play.uris = g_list_append (play.uris, l->data);
--+        l = g_slist_delete_link (l, l);
--+      }
--+    } else {
--+      return 0;
+-+    if (allocator) {
+-+      const GstVideoInfo *alloc_vinfo =
+-+          gst_allocator_get_vaapi_video_info (allocator, &surface_alloc_flags);
+-+      vinfo_changed = gst_video_info_changed (alloc_vinfo, &new_vip);
 -+    }
--+    gtk_widget_destroy (chooser);
--   } else {
--     guint i;
-- 
+-+
+-+    if (vinfo_changed && allocator && priv->use_dmabuf_memory) {
+-+      gst_allocator_set_vaapi_video_info (allocator, &new_vip,
+-+          surface_alloc_flags);
+-+    } else if (!priv->use_dmabuf_memory && (vinfo_changed || !allocator)) {
+-+      /* let's destroy the other allocator and create a new one */
+-+      allocator = gst_vaapi_video_allocator_new (priv->display, &new_vip,
+-+          surface_alloc_flags);
+-+      gst_buffer_pool_config_set_allocator (config, allocator, NULL);
+-+    }
+-+  }
+-+
+-   if (!gst_buffer_pool_config_has_option (config,
+-           GST_BUFFER_POOL_OPTION_VAAPI_VIDEO_META))
+-     goto error_no_vaapi_video_meta_option;
 --- 
--1.7.10.4
+-2.11.0
 -
-diff --git a/meta/recipes-multimedia/gstreamer/gst-player_git.bb b/meta/recipes-multimedia/gstreamer/gst-player_git.bb
-index cb12a46..6ecccca 100644
---- a/meta/recipes-multimedia/gstreamer/gst-player_git.bb
-+++ b/meta/recipes-multimedia/gstreamer/gst-player_git.bb
-@@ -5,10 +5,6 @@ LIC_FILES_CHKSUM = "file://gtk/gtk-play.c;beginline=1;endline=20;md5=f8c72dae3d3
- DEPENDS = "glib-2.0 gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-bad gtk+3 glib-2.0-native"
- 
- SRC_URI = "git://github.com/sdroege/gst-player.git \
--           file://filechooser.patch;apply=0 \
--           file://Fix-pause-play.patch;apply=0 \
--           file://Add-error-signal-emission-for-missing-plugins.patch;apply=0 \
--           file://0001-gtk-play-Disable-visualizations.patch \
-            file://gst-player.desktop"
- 
- SRCREV = "ee3c226c82767a089743e4e06058743e67f73cdb"
+-
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.10.4.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.10.4.bb
+deleted file mode 100644
+index 44c66de..0000000
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.10.4.bb
++++ /dev/null
+@@ -1,7 +0,0 @@
+-require gstreamer1.0-vaapi.inc
+-SRC_URI[md5sum] = "318af17f906637570b61dd7be9b5581d"
+-SRC_URI[sha256sum] = "03e690621594d9f9495d86c7dac8b8590b3a150462770ed070dc76f66a70de75"
+-
+-SRC_URI += "file://vaapivideobufferpool-create-allocator-if-needed.patch"
+-
+-DEPENDS += "gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-bad"
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.12.1.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.12.1.bb
+new file mode 100644
+index 0000000..e3ec98b
+--- /dev/null
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.12.1.bb
+@@ -0,0 +1,5 @@
++require gstreamer1.0-vaapi.inc
++SRC_URI[md5sum] = "e5c07f867640a9507b8590adf9fba589"
++SRC_URI[sha256sum] = "de4e9697a856660ccbf27f45ffa86b1a97af426f7823ec65a48f2e9daac9e4a1"
++
++DEPENDS += "gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-bad"
 -- 
 2.4.0
 
