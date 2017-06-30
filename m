@@ -1,71 +1,22 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-wr0-f196.google.com (mail-wr0-f196.google.com
-	[209.85.128.196])
-	by mail.openembedded.org (Postfix) with ESMTP id D53AC78237
+Return-Path: <alejandro.hernandez@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 6C16A7199E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Jun 2017 17:33:07 +0000 (UTC)
-Received: by mail-wr0-f196.google.com with SMTP id z45so39820874wrb.2
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Jun 2017 10:33:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
-	:cc; bh=P35nDu0OLH9XAuAdBKjXXAjKIv1xA4RTVZpAsKmJu4g=;
-	b=opgCDLUfWQO3NxQNJ5JogQFkequZVAJC4n2ykSgbp/Z5eU3gVdwY5+4TXMiVa6Dhz8
-	FXPMUZb6Blq9vDYY6y5TxsXL0Ip3oIM2+9oehkrtDi1Ka2EUiyJ0Sjv08i3hnH9Ah4/m
-	UxdVlB2FlwsGSiRlMNSeDar5kbWHk8LrFpKLe0SLbCw01UB9MQsDBXzFbT86SYQhR634
-	jLkZyFZoF5QA1feiPOXYOjD9VtrRx8jgfeWowsA7nHTZb9eN9VnbB5F2zkYsrYJhfE1N
-	0Jee1RTtpKTTLj0MSZJYSnoL9zPO/m1vsEcUEPOI1TVPSQf8eGfWCdKuNtfzdMQBbrUW
-	NoBw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
-	:message-id:subject:to:cc;
-	bh=P35nDu0OLH9XAuAdBKjXXAjKIv1xA4RTVZpAsKmJu4g=;
-	b=jD/5EZAFcDmXDbxi2P6rl4i5O74xnD6rmsrsh6dnI2u4oi0GuL/v8RfMbwFv9/qSsu
-	OEei7C+4jIW/jqRxuTXfL3fOYNGpiYMTPDNxrmwT4Q912cwGJmDMPzWq9Gogs+em+OV5
-	/YOtBy+ZKIDIXjXwU9xDLZ6FHao4/2ecG/eqN/WrvKDwF8I3XesJyeJ2CVBcfDtwasVD
-	rfpO7kTxvLhEqbTVF0Qb1QcAtFPwM3/RIVSthy3rQIj2DsCRCiBhSPFCevhFv50U3SZE
-	MsS71sVMWAvyJ9fYyWLUjKBa1HtladNWTPiRB6ciWZGFcvaHMD/67I9KhXT3Hj85qsJa
-	itkA==
-X-Gm-Message-State: AKS2vOzWKSevLZdh3Wn3Vw7hyD4YMtOFuJGquK1I94mCZp+lL6T9oqIe
-	br3l705EAzL/R52TOu8=
-X-Received: by 10.223.135.68 with SMTP id 4mr17978153wrz.141.1498843988231;
-	Fri, 30 Jun 2017 10:33:08 -0700 (PDT)
-Received: from mail-wm0-f45.google.com (mail-wm0-f45.google.com.
-	[74.125.82.45])
-	by smtp.gmail.com with ESMTPSA id n14sm6082119wmd.1.2017.06.30.10.33.06
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 30 Jun 2017 10:33:07 -0700 (PDT)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-wm0-f45.google.com with SMTP id w126so116055118wme.0
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Jun 2017 10:33:06 -0700 (PDT)
-X-Received: by 10.28.63.66 with SMTP id m63mr1507133wma.118.1498843986675;
-	Fri, 30 Jun 2017 10:33:06 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.28.209.14 with HTTP; Fri, 30 Jun 2017 10:33:05 -0700 (PDT)
-In-Reply-To: <20170630154456.GB28177@linux.intel.com>
-References: <cover.1498569961.git.ed.bartosh@linux.intel.com>
-	<CAP9ODKopDxEYw9vereQjoHve=n2Of2v-3EHbxaiumZN3T0hH8Q@mail.gmail.com>
-	<823180ba-066d-747d-8112-a110633a03a8@ossystems.com.br>
-	<20170628073121.GA11425@linux.intel.com>
-	<CAP9ODKoxxaJv=QZXp5m=Qt14t36n1TPXS19D+Xs3eyrPDG79bg@mail.gmail.com>
-	<20170629083942.GA14649@linux.intel.com>
-	<20170630083717.GA788@linux.intel.com>
-	<1498813333.5259.4.camel@intel.com>
-	<20170630122330.GA17125@linux.intel.com>
-	<1498828593.5259.7.camel@intel.com>
-	<20170630154456.GB28177@linux.intel.com>
-Date: Fri, 30 Jun 2017 14:33:05 -0300
-X-Gmail-Original-Message-ID: <CAP9ODKq3mB=0GBAZt21A3Ljw77TiNwBdCGZrSQt8L9rcr_i-Yw@mail.gmail.com>
-Message-ID: <CAP9ODKq3mB=0GBAZt21A3Ljw77TiNwBdCGZrSQt8L9rcr_i-Yw@mail.gmail.com>
-To: Ed Bartosh <ed.bartosh@linux.intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2 0/5] #11662 - wic should mount /boot
+	Fri, 30 Jun 2017 17:53:32 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	30 Jun 2017 10:53:31 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.40,287,1496127600"; d="scan'208";a="987324290"
+Received: from yctb02.ostc.intel.com (HELO yctb02.otcr.jf.intel.com)
+	([10.54.69.56])
+	by orsmga003.jf.intel.com with ESMTP; 30 Jun 2017 10:53:31 -0700
+From: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 30 Jun 2017 10:53:30 -0700
+Message-Id: <20170630175330.33908-1-alejandro.hernandez@linux.intel.com>
+X-Mailer: git-send-email 2.12.0
+Subject: [PATCH] bootimg-efi.py: Use IMGDEPLOYDIR instead of DEPLOY_DIR_IMAGE for initrd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -78,33 +29,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Jun 2017 17:33:08 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 30 Jun 2017 17:53:34 -0000
 
-On Fri, Jun 30, 2017 at 12:44 PM, Ed Bartosh <ed.bartosh@linux.intel.com> wrote:
-> We're talking about different things here, I guess. For me if target
-> rootfs content in the image is different from rootfs produced by bitbake
-> it means it's modified.
->
-> BTW, if this patchset is accepted wic will not be changing fstab in original rootfs anymore:
-> http://lists.openembedded.org/pipermail/openembedded-core/2017-June/138803.html
-> However, it would not mean that rootfs is not changed.
+When using wic to create an image from a certain build, wic is expecting
+to find initrd at the final destination of our images (DEPLOY_DIR_IMAGE),
+which is wrong, since the initrd file has not been copied to the final
+directory yet, so instead of trying to use an initrd file from 
+DEPLOY_DIR_IMAGE we get it from IMGDEPLOYDIR, which is the directory 
+where the resulting images are placed before their final destination, 
+and its where we can find the correct initrd file for our image.
 
-Honestly it is quite confusing to me that wic changes fstab content.
-It is confusing as you add something on base-files for fstab and it
-may, or not, be what is used.
+Signed-off-by: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
+---
+ scripts/lib/wic/plugins/source/bootimg-efi.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-As I mentioned before, our needs is to have a way to forbid this
-behavior and we use standard wks files specially when doing
-development so an option makes it easy to adopt one way or another in
-a distro for example.
-
-Other possible rootfs changes also should be possible to be disabled
-but IMO it should be per-feature (one for fstab, one for exclude,
-...).
-
+diff --git a/scripts/lib/wic/plugins/source/bootimg-efi.py b/scripts/lib/wic/plugins/source/bootimg-efi.py
+index 9879cb9fceb..d1d445ecfe1 100644
+--- a/scripts/lib/wic/plugins/source/bootimg-efi.py
++++ b/scripts/lib/wic/plugins/source/bootimg-efi.py
+@@ -105,9 +105,9 @@ class BootimgEFIPlugin(SourcePlugin):
+ 
+         if initrd:
+             # obviously we need to have a common common deploy var
+-            bootimg_dir = get_bitbake_var("DEPLOY_DIR_IMAGE")
++            bootimg_dir = get_bitbake_var("IMGDEPLOYDIR")
+             if not bootimg_dir:
+-                raise WicError("Couldn't find DEPLOY_DIR_IMAGE, exiting")
++                raise WicError("Couldn't find IMGDEPLOYDIR, exiting")
+ 
+             cp_cmd = "cp %s/%s %s" % (bootimg_dir, initrd, hdddir)
+             exec_cmd(cp_cmd, True)
 -- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+2.12.0
+
 
