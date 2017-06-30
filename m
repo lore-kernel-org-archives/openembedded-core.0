@@ -1,22 +1,65 @@
-Return-Path: <alejandro.hernandez@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 6C16A7199E
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-io0-f182.google.com (mail-io0-f182.google.com
+	[209.85.223.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 430E77829B
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Jun 2017 17:53:32 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	30 Jun 2017 10:53:31 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.40,287,1496127600"; d="scan'208";a="987324290"
-Received: from yctb02.ostc.intel.com (HELO yctb02.otcr.jf.intel.com)
-	([10.54.69.56])
-	by orsmga003.jf.intel.com with ESMTP; 30 Jun 2017 10:53:31 -0700
-From: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 30 Jun 2017 10:53:30 -0700
-Message-Id: <20170630175330.33908-1-alejandro.hernandez@linux.intel.com>
-X-Mailer: git-send-email 2.12.0
-Subject: [PATCH] bootimg-efi.py: Use IMGDEPLOYDIR instead of DEPLOY_DIR_IMAGE for initrd
+	Fri, 30 Jun 2017 18:34:32 +0000 (UTC)
+Received: by mail-io0-f182.google.com with SMTP id r36so28684912ioi.1
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 30 Jun 2017 11:34:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:organization:mime-version:content-transfer-encoding;
+	bh=ICakEBWEhsNF4Mc2hsF7tgZR/t9/wadMWoautKa/QhE=;
+	b=0st1q3CsT51I396LsDghVzUYKvcBISVpNCZavDl2xlfz+M+eRcFNYcevozMaEduJbc
+	IJagP3GZoHjrBW53UosYJhhzr4htDMCOAvZQy4oXJzXpjvDJJ27UfyBE2ghyPg4sFd04
+	5+j/cF7JPD/bbunC7htLdS6Lde3X0kfQI6x/ji2dADx/wSNKHChNZzatrB+cTplJ4OTB
+	7XHjKAQH5MztBYx7+GYhrxwJBzEntAxlvoVYKqLfM4LA56PkxalTXxnk4R46UIIukgBI
+	LSRW4TWfu1d82nhS+wMaOxv2Dl4ihtSKYK+iLbxtc0t9RPGKO6I9jfBTI9FY+WNVvqxH
+	ScvQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:organization:mime-version:content-transfer-encoding;
+	bh=ICakEBWEhsNF4Mc2hsF7tgZR/t9/wadMWoautKa/QhE=;
+	b=dZ0s8hhmgGd/pOliltrmu1U1CEwvdNgGith1iGBIgrlTV87IYDdw+wnIuKAru2HFTD
+	jPAOTrCLdZUFejTjdrp7wkmO/TZKeNntk2P4I6KoEvyyhiC0Y+4Mfq3W6OJx6BICxabX
+	2GRLWO8skDanUbD4AXt88ltFbuwyml9hfx8iEd3lnIYZNEi64+nAthoYberW2LjtlJPv
+	g/qEIrmQ7SGvkB7HEi4IHWS52xy67h+q1/DGFS6hF7uCvVE0s7SAhS1j9UNtR706Oebe
+	shqyHdj8t3O4yF1AhEr2vBcBAY9KIlMNc0YUY2ZbYIBPX68P/Fl0D7IiQOYomDSXHKGp
+	axhw==
+X-Gm-Message-State: AKS2vOzDo7JxiXJmMTB2FzGVFkUe/URPHUWak1qFNeF0Dsgevm6uGWeo
+	GlSFlYJ/27gETVR+
+X-Received: by 10.107.32.139 with SMTP id g133mr22630833iog.58.1498847674142; 
+	Fri, 30 Jun 2017 11:34:34 -0700 (PDT)
+Received: from pohly-mobl1 (p5DE8FA66.dip0.t-ipconnect.de. [93.232.250.102])
+	by smtp.gmail.com with ESMTPSA id y18sm455413ioy.13.2017.06.30.11.34.31
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 30 Jun 2017 11:34:32 -0700 (PDT)
+Message-ID: <1498847670.5259.9.camel@intel.com>
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: Otavio Salvador <otavio.salvador@ossystems.com.br>
+Date: Fri, 30 Jun 2017 20:34:30 +0200
+In-Reply-To: <CAP9ODKq3mB=0GBAZt21A3Ljw77TiNwBdCGZrSQt8L9rcr_i-Yw@mail.gmail.com>
+References: <cover.1498569961.git.ed.bartosh@linux.intel.com>
+	<CAP9ODKopDxEYw9vereQjoHve=n2Of2v-3EHbxaiumZN3T0hH8Q@mail.gmail.com>
+	<823180ba-066d-747d-8112-a110633a03a8@ossystems.com.br>
+	<20170628073121.GA11425@linux.intel.com>
+	<CAP9ODKoxxaJv=QZXp5m=Qt14t36n1TPXS19D+Xs3eyrPDG79bg@mail.gmail.com>
+	<20170629083942.GA14649@linux.intel.com>
+	<20170630083717.GA788@linux.intel.com>
+	<1498813333.5259.4.camel@intel.com>
+	<20170630122330.GA17125@linux.intel.com>
+	<1498828593.5259.7.camel@intel.com>
+	<20170630154456.GB28177@linux.intel.com>
+	<CAP9ODKq3mB=0GBAZt21A3Ljw77TiNwBdCGZrSQt8L9rcr_i-Yw@mail.gmail.com>
+Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
+X-Mailer: Evolution 3.12.9-1+b1 
+Mime-Version: 1.0
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2 0/5] #11662 - wic should mount /boot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,38 +72,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Jun 2017 17:53:34 -0000
+X-List-Received-Date: Fri, 30 Jun 2017 18:34:33 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-When using wic to create an image from a certain build, wic is expecting
-to find initrd at the final destination of our images (DEPLOY_DIR_IMAGE),
-which is wrong, since the initrd file has not been copied to the final
-directory yet, so instead of trying to use an initrd file from 
-DEPLOY_DIR_IMAGE we get it from IMGDEPLOYDIR, which is the directory 
-where the resulting images are placed before their final destination, 
-and its where we can find the correct initrd file for our image.
+On Fri, 2017-06-30 at 14:33 -0300, Otavio Salvador wrote:
+> Other possible rootfs changes also should be possible to be disabled
+> but IMO it should be per-feature (one for fstab, one for exclude,
+> ...).
 
-Signed-off-by: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
----
- scripts/lib/wic/plugins/source/bootimg-efi.py | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+I also think it should be per-feature, it necessary at all.
 
-diff --git a/scripts/lib/wic/plugins/source/bootimg-efi.py b/scripts/lib/wic/plugins/source/bootimg-efi.py
-index 9879cb9fceb..d1d445ecfe1 100644
---- a/scripts/lib/wic/plugins/source/bootimg-efi.py
-+++ b/scripts/lib/wic/plugins/source/bootimg-efi.py
-@@ -105,9 +105,9 @@ class BootimgEFIPlugin(SourcePlugin):
- 
-         if initrd:
-             # obviously we need to have a common common deploy var
--            bootimg_dir = get_bitbake_var("DEPLOY_DIR_IMAGE")
-+            bootimg_dir = get_bitbake_var("IMGDEPLOYDIR")
-             if not bootimg_dir:
--                raise WicError("Couldn't find DEPLOY_DIR_IMAGE, exiting")
-+                raise WicError("Couldn't find IMGDEPLOYDIR, exiting")
- 
-             cp_cmd = "cp %s/%s %s" % (bootimg_dir, initrd, hdddir)
-             exec_cmd(cp_cmd, True)
+I still do not fully understand under which circumstances wic modifies
+the rootfs. If that happens only when explicitly requested in the wks
+file as Ed said, then I don't see a need for any additional flags. Just
+don't use the features which result in a rootfs modification.
+
 -- 
-2.12.0
+Best Regards, Patrick Ohly
+
+The content of this message is my personal opinion only and although
+I am an employee of Intel, the statements I make here in no way
+represent Intel's position on the issue, nor am I authorized to speak
+on behalf of Intel on this matter.
+
+
 
 
