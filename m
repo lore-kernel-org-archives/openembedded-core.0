@@ -1,21 +1,40 @@
-Return-Path: <mikko.ylinen@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 7C84878226
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 81BB0719D0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Jun 2017 11:24:04 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	30 Jun 2017 04:24:04 -0700
+	Fri, 30 Jun 2017 12:25:43 +0000 (UTC)
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+	by fmsmga105.fm.intel.com with ESMTP; 30 Jun 2017 05:25:44 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.40,286,1496127600"; d="scan'208";a="873432576"
-Received: from summit.tm.intel.com ([10.237.55.159])
-	by FMSMGA003.fm.intel.com with ESMTP; 30 Jun 2017 04:24:03 -0700
-From: Mikko Ylinen <mikko.ylinen@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 30 Jun 2017 14:24:11 +0300
-Message-Id: <20170630112411.11705-1-mikko.ylinen@linux.intel.com>
-X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] sanity.bbclass: fix AttributeError in mirror format checks
+X-IronPort-AV: E=Sophos;i="5.40,286,1496127600"; d="scan'208";a="121284772"
+Received: from linux.intel.com ([10.54.29.200])
+	by fmsmga006.fm.intel.com with ESMTP; 30 Jun 2017 05:25:44 -0700
+Received: from linux.intel.com (vmed.fi.intel.com [10.237.72.38])
+	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by linux.intel.com (Postfix) with ESMTPS id 63CE65801BC;
+	Fri, 30 Jun 2017 05:25:43 -0700 (PDT)
+Date: Fri, 30 Jun 2017 15:23:30 +0300
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: Patrick Ohly <patrick.ohly@intel.com>
+Message-ID: <20170630122330.GA17125@linux.intel.com>
+Reply-To: ed.bartosh@linux.intel.com
+References: <cover.1498569961.git.ed.bartosh@linux.intel.com>
+	<CAP9ODKopDxEYw9vereQjoHve=n2Of2v-3EHbxaiumZN3T0hH8Q@mail.gmail.com>
+	<823180ba-066d-747d-8112-a110633a03a8@ossystems.com.br>
+	<20170628073121.GA11425@linux.intel.com>
+	<CAP9ODKoxxaJv=QZXp5m=Qt14t36n1TPXS19D+Xs3eyrPDG79bg@mail.gmail.com>
+	<20170629083942.GA14649@linux.intel.com>
+	<20170630083717.GA788@linux.intel.com>
+	<1498813333.5259.4.camel@intel.com>
+MIME-Version: 1.0
+In-Reply-To: <1498813333.5259.4.camel@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: Otavio Salvador <otavio.salvador@ossystems.com.br>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2 0/5] #11662 - wic should mount /boot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,33 +47,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Jun 2017 11:24:05 -0000
+X-List-Received-Date: Fri, 30 Jun 2017 12:25:44 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-mirrors is a list after split() and results in:
+On Fri, Jun 30, 2017 at 11:02:13AM +0200, Patrick Ohly wrote:
+> On Fri, 2017-06-30 at 11:37 +0300, Ed Bartosh wrote:
+> > > I'm not sure I understand this. If you don't want fstab to be
+> > changed
+> > > you should not specify mount points in .wks
+> > > There is only one reason to have mount points in .wks: to make wic
+> > to
+> > > change /etc/fstab, which you apparently don't want. So, don't
+> > specify
+> > > mount points and you'll have what you want.
+> > > 
+> > > Having additional option for this looks redundand to me.
+> > 
+> > After thinking a bit more about it I'd propose to have global wic
+> > option
+> > to avoid rootfs content changes. Not just fstab updates, but any
+> > changes. For now this option (--no-rootfs-update ?) should prevent
+> > creating
+> > images if either mount points are specified or --exclude-path is used
+> > in .wks
+> 
+> Why does --exclude-path conflict with --no-rootfs-update? Is that a
+> conceptual problem or an implementation problem?
+>
 
-AttributeError: 'list' object has no attribute 'strip'
+I thought that removing directories from original rootfs is a
+modification.
 
-when the 'mirror values are pairs' check fails.
+> If I'm not mistaken, --exclude-path merely means "take this rootfs, but
+> exclude certain parts". That's in line with --no-rootfs-update == "do
+> not modify the content of the rootfs", as it just helps with choosing
+> where content goes (the "single rootfs" -> "different partitions"
+> approach).
+That's questionable statement, but I agree it makes sense in some cases.
+If nobody objects I'm ok with this. Let's assume that removing part of
+the content is not a modifiation :)
 
-Signed-off-by: Mikko Ylinen <mikko.ylinen@linux.intel.com>
----
- meta/classes/sanity.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
-index e8064ac483..1f74026e13 100644
---- a/meta/classes/sanity.bbclass
-+++ b/meta/classes/sanity.bbclass
-@@ -839,7 +839,7 @@ def check_sanity_everybuild(status, d):
- 
-         # Split into pairs
-         if len(mirrors) % 2 != 0:
--            bb.warn('Invalid mirror variable value for %s: %s, should contain paired members.' % (mirror_var, mirrors.strip()))
-+            bb.warn('Invalid mirror variable value for %s: %s, should contain paired members.' % (mirror_var, str(mirrors).strip()))
-             continue
-         mirrors = list(zip(*[iter(mirrors)]*2))
- 
--- 
-2.11.0
-
+--
+Regards,
+Ed
 
