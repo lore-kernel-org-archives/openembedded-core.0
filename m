@@ -1,26 +1,33 @@
-Return-Path: <Jackie.Huang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 81E3D78242
+Return-Path: <amarnath.valluri@intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 9835D71CA3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Jun 2017 06:30:18 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v5U6UJ24017000
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Jun 2017 23:30:19 -0700
-Received: from pek-hostel-deb01.wrs.com (128.224.153.151) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.294.0; Thu, 29 Jun 2017 23:30:18 -0700
-From: <jackie.huang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 30 Jun 2017 14:30:10 +0800
-Message-ID: <e36f2521175d3a44a8503bc7db833a37adcf2929.1498803976.git.jackie.huang@windriver.com>
-X-Mailer: git-send-email 2.11.0
-In-Reply-To: <cover.1498803976.git.jackie.huang@windriver.com>
-References: <cover.1498803976.git.jackie.huang@windriver.com>
+	Fri, 30 Jun 2017 07:03:11 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	30 Jun 2017 00:03:12 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.40,285,1496127600"; d="scan'208";a="987098516"
+Received: from irsmsx152.ger.corp.intel.com ([163.33.192.66])
+	by orsmga003.jf.intel.com with ESMTP; 30 Jun 2017 00:03:11 -0700
+Received: from irsmsx110.ger.corp.intel.com ([169.254.15.126]) by
+	IRSMSX152.ger.corp.intel.com ([169.254.6.83]) with mapi id
+	14.03.0319.002; Fri, 30 Jun 2017 08:03:11 +0100
+From: "Valluri, Amarnath" <amarnath.valluri@intel.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core][PATCH v4 0/7] Fix for #7040 - Support for /usr merge
+Thread-Index: AQHS5QHnvPvL3IKq5UWmOTZcuJ38PaI9A3IA
+Date: Fri, 30 Jun 2017 07:03:09 +0000
+Message-ID: <1498806268.35191.2.camel@intel.com>
+References: <1497439848-29967-1-git-send-email-amarnath.valluri@intel.com>
+In-Reply-To: <1497439848-29967-1-git-send-email-amarnath.valluri@intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.237.72.170]
 MIME-Version: 1.0
-Subject: [PATCH 2/2] rootfs-postcommands: split ssh_allow_empty_password
+Subject: Re: [PATCH v4 0/7] Fix for #7040 - Support for /usr merge
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,93 +40,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Jun 2017 06:30:18 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 30 Jun 2017 07:03:14 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <24F7B5A72952874B9FCF1516853673CC@intel.com>
+Content-Transfer-Encoding: base64
 
-From: Jackie Huang <jackie.huang@windriver.com>
-
-"allow root login" should not be bundled in ssh_allow_empty_password,
-because some distro may want only one of "allow root login" and "allow
-empty password", so split it out into ssh_allow_root_login and add new
-imagefeature allow-root-login so they can be controlled separately,
-debug-tweaks will still include both of them.
-
-Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
----
- meta/classes/image.bbclass               |  2 +-
- meta/classes/rootfs-postcommands.bbclass | 25 ++++++++++++++++++++++---
- 2 files changed, 23 insertions(+), 4 deletions(-)
-
-diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index 6e30b96745..180c19c10b 100644
---- a/meta/classes/image.bbclass
-+++ b/meta/classes/image.bbclass
-@@ -23,7 +23,7 @@ inherit ${TESTIMAGECLASS}
- # IMAGE_FEATURES may contain any available package group
- IMAGE_FEATURES ?= ""
- IMAGE_FEATURES[type] = "list"
--IMAGE_FEATURES[validitems] += "debug-tweaks read-only-rootfs empty-root-password allow-empty-password post-install-logging"
-+IMAGE_FEATURES[validitems] += "debug-tweaks read-only-rootfs empty-root-password allow-empty-password allow-root-login post-install-logging"
- 
- # Generate companion debugfs?
- IMAGE_GEN_DEBUGFS ?= "0"
-diff --git a/meta/classes/rootfs-postcommands.bbclass b/meta/classes/rootfs-postcommands.bbclass
-index 78f7c55933..81af4e8519 100644
---- a/meta/classes/rootfs-postcommands.bbclass
-+++ b/meta/classes/rootfs-postcommands.bbclass
-@@ -2,9 +2,12 @@
- # Zap the root password if debug-tweaks feature is not enabled
- ROOTFS_POSTPROCESS_COMMAND += '${@bb.utils.contains_any("IMAGE_FEATURES", [ 'debug-tweaks', 'empty-root-password' ], "", "zap_empty_root_password ; ",d)}'
- 
--# Allow dropbear/openssh to accept logins from accounts with an empty password string if debug-tweaks is enabled
-+# Allow dropbear/openssh to accept logins from accounts with an empty password string if debug-tweaks or allow-empty-password is enabled
- ROOTFS_POSTPROCESS_COMMAND += '${@bb.utils.contains_any("IMAGE_FEATURES", [ 'debug-tweaks', 'allow-empty-password' ], "ssh_allow_empty_password; ", "",d)}'
- 
-+# Allow dropbear/openssh to accept root logins if debug-tweaks or allow-root-login is enabled
-+ROOTFS_POSTPROCESS_COMMAND += '${@bb.utils.contains_any("IMAGE_FEATURES", [ 'debug-tweaks', 'allow-root-login' ], "ssh_allow_root_login; ", "",d)}'
-+
- # Enable postinst logging if debug-tweaks is enabled
- ROOTFS_POSTPROCESS_COMMAND += '${@bb.utils.contains_any("IMAGE_FEATURES", [ 'debug-tweaks', 'post-install-logging' ], "postinst_enable_logging; ", "",d)}'
- 
-@@ -137,12 +140,11 @@ zap_empty_root_password () {
- }
- 
- #
--# allow dropbear/openssh to accept root logins and logins from accounts with an empty password string
-+# allow dropbear/openssh to accept logins from accounts with an empty password string
- #
- ssh_allow_empty_password () {
- 	for config in sshd_config sshd_config_readonly; do
- 		if [ -e ${IMAGE_ROOTFS}${sysconfdir}/ssh/$config ]; then
--			sed -i 's/^[#[:space:]]*PermitRootLogin.*/PermitRootLogin yes/' ${IMAGE_ROOTFS}${sysconfdir}/ssh/$config
- 			sed -i 's/^[#[:space:]]*PermitEmptyPasswords.*/PermitEmptyPasswords yes/' ${IMAGE_ROOTFS}${sysconfdir}/ssh/$config
- 		fi
- 	done
-@@ -162,6 +164,23 @@ ssh_allow_empty_password () {
- 	fi
- }
- 
-+#
-+# allow dropbear/openssh to accept root logins
-+#
-+ssh_allow_root_login () {
-+	for config in sshd_config sshd_config_readonly; do
-+		if [ -e ${IMAGE_ROOTFS}${sysconfdir}/ssh/$config ]; then
-+			sed -i 's/^[#[:space:]]*PermitRootLogin.*/PermitRootLogin yes/' ${IMAGE_ROOTFS}${sysconfdir}/ssh/$config
-+		fi
-+	done
-+
-+	if [ -e ${IMAGE_ROOTFS}${sbindir}/dropbear ] ; then
-+		if grep -q DROPBEAR_EXTRA_ARGS ${IMAGE_ROOTFS}${sysconfdir}/default/dropbear 2>/dev/null ; then
-+			sed -i '/^DROPBEAR_EXTRA_ARGS=/ s/-w//' ${IMAGE_ROOTFS}${sysconfdir}/default/dropbear
-+		fi
-+	fi
-+}
-+
- ssh_disable_dns_lookup () {
- 	if [ -e ${IMAGE_ROOTFS}${sysconfdir}/ssh/sshd_config ]; then
- 		sed -i -e 's:#UseDNS yes:UseDNS no:' ${IMAGE_ROOTFS}${sysconfdir}/ssh/sshd_config
--- 
-2.11.0
-
+UlAsIGNhbiB5b3UgcGxlYXNlIHlvdXIgZ2l2ZSB5b3VyIGNvbW1lbnRzIGlmIHRoZXNlIHBhdGNo
+ZXNldCBjYW4gYmUNCmFjY2VwdGVkLg0KDQotIEFtYXJuYXRoDQpPbiBXZWQsIDIwMTctMDYtMTQg
+YXQgMTQ6MzAgKzAzMDAsIEFtYXJuYXRoIFZhbGx1cmkgd3JvdGU6DQo+IENoYW5nZXMgaW4gdjQ6
+DQo+IMKgwqDCoMKgLSByb290IHN5bWxpbmtzIGNyZWF0aW9uIGZvciBuYXRpdmVzZGsgaW1hZ2Vz
+Lg0KPiDCoMKgwqDCoC0gYWRkZWQgUEFDS0FHRUNPTkZJRyBvcHRpb24gZm9yICd1c3JtZXJnZScg
+aW4gc3lzdGVtZA0KPiANCj4gQW1hcm5hdGggVmFsbHVyaSAoNyk6DQo+IMKgIGJpdGJha2UuY29u
+Zjogc3VwcG9ydCBmb3IgbWVyZ2VkIHVzciB3aXRoIERJU1RST19GRUFUVVJFIHVzcm1lcmdlDQo+
+IMKgIGNyb3NzLmJiY2xhc3M6IG1lcmdlZCAvdXNyIHN1cHBvcnQNCj4gwqAgc3lzdGVtZDogY2hh
+bmdlcyB0byBzdXBwb3J0IG1lcmdlZCAvdXNyDQo+IMKgIGltYWdlOiBjcmVhdGUgc3ltbGlua3Mg
+bmVlZGVkIGZvciBtZXJnZWQgL3Vzcg0KPiDCoCBpbnNhbmUuYmJjbGFzczogQWRkIHBhY2thZ2Ug
+UUEgY2hlY2sgZm9yIG1lcmdlZCAvdXNyLg0KPiDCoCBtZXRhL2xpYi9vZS9zZGsucHk6IHN1cHBv
+cnQgYWRkZWQgZm9yIGV4ZWN1dGluZyBwcmUtdGFyZ2V0IGNvbW1hbmRzDQo+IMKgIGltYWdlLmJi
+Y2xhc3M6IGNyZWF0ZSByb290IHN5bWxpbmtzIGluIG5hdGl2ZXNkayB0YXJnZXQgc3lzcm9vdA0K
+PiANCj4gwqBtZXRhL2NsYXNzZXMvY3Jvc3MuYmJjbGFzc8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoHzCoMKgMiArLQ0KPiDCoG1ldGEvY2xhc3Nlcy9pbWFnZS5iYmNsYXNzwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgfCAzMg0KPiArKysrKysrKysrKysrKysrKysrKysrKysrKysr
+KysrKw0KPiDCoG1ldGEvY2xhc3Nlcy9pbnNhbmUuYmJjbGFzc8KgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqB8IDE2ICsrKysrKysrKysrKysrKysNCj4gwqBtZXRhL2NsYXNzZXMvcG9wdWxhdGVf
+c2RrX2Jhc2UuYmJjbGFzc8KgwqDCoHzCoMKgMyArLS0NCj4gwqBtZXRhL2NvbmYvYml0YmFrZS5j
+b25mwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqB8IDEwICsrKysrKy0tLS0N
+Cj4gwqBtZXRhL2xpYi9vZS9zZGsucHnCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgfMKgwqA2ICsrKysrKw0KPiDCoG1ldGEvcmVjaXBlcy1jb3JlL3N5c3RlbWQv
+c3lzdGVtZF8yMzIuYmIgfMKgwqA4ICsrKystLS0tDQo+IMKgNyBmaWxlcyBjaGFuZ2VkLCA2NiBp
+bnNlcnRpb25zKCspLCAxMSBkZWxldGlvbnMoLSkNCj4g
 
