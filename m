@@ -1,69 +1,26 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
-	by mail.openembedded.org (Postfix) with ESMTP id E08EB78277
+Return-Path: <maxin.john@intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id 07D2978247
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Jun 2017 13:58:28 +0000 (UTC)
-Received: by mail-wm0-f66.google.com with SMTP id u23so8159039wma.2
+	Fri, 30 Jun 2017 14:56:09 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	30 Jun 2017 07:56:09 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.40,287,1496127600"; d="scan'208";a="873503058"
+Received: from linux.intel.com ([10.54.29.200])
+	by FMSMGA003.fm.intel.com with ESMTP; 30 Jun 2017 07:56:09 -0700
+Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
+	[10.237.72.84])
+	by linux.intel.com (Postfix) with ESMTP id D0BF55800C1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Jun 2017 06:58:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
-	:cc; bh=CtFzzH6FZibCsE8/U0qTo1BCjhqj8hQjkaUdZSqRV6M=;
-	b=X/Y8dRZYCHm0b2LfChPppmwcZ6GOa55Edy3mgmy2eK5WtI5V4ZWMOgPKj2Nf8ewmS1
-	yNu9oJyC/cdOmuuZSt96fKmkj4EuU3KFIf83jEK/FmjgT2L/FKeieRJ9ucN50XQsV9uo
-	/lv9lWayN8TueLi8mAIttaN5V0SaVOZ5hotSQiRL1eBzNvhJqiRi6ZaXYeNYwvPOdbF+
-	/OHossYgMJkx1E9Ogs81ZP73cXN8PpnucVo/Mox9TEQBWXM3dITHmLn51FZC8z7dUUEL
-	4I3aw+Nc4Ri5vfZNonSZ4ooc3xZPej3/uSlH462pGgBfBPvy7McPb6CpQxhnItmG/vIg
-	S5NQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
-	:message-id:subject:to:cc;
-	bh=CtFzzH6FZibCsE8/U0qTo1BCjhqj8hQjkaUdZSqRV6M=;
-	b=bBQR6evaF4ge8ClHSl6qDkfoOcVC8nNsWI80gt/edsOHQf0Uz0aOE/X3W/mvoM+Kg6
-	4ZWvJnE2CFFtftYPi3exdByh7HeVJD2U29KWReK/LqQpNhef5piUVfCYKHQJuLc1blgi
-	/wtavrUJsXnTXvYW/Z4JBILORHRfow3r6CgYqI6lNI6GN1UO7wBrbZllnyfpoSo0PMpM
-	xqsVmzKpAsDiK1bF30Gz83/RCAq/r9yoUj1W2U/hvZh5REVi3YCBHhUPfEPGyQ6KtnwE
-	B1Aftomp67aPqAliBFEyOeW+LBA1wytN3plktbLaaUWfOQhhwfLNqL0KOG0sF7DnMJX+
-	dm9g==
-X-Gm-Message-State: AKS2vOwtEJUV1X38Xmg6yitxfAzAhIAfPlyxa5GQi7JOJXqS2TyMSqlW
-	t7LcJ6MHUpPKvJgBnJw=
-X-Received: by 10.28.194.137 with SMTP id s131mr5686645wmf.111.1498831109652; 
-	Fri, 30 Jun 2017 06:58:29 -0700 (PDT)
-Received: from mail-wr0-f179.google.com (mail-wr0-f179.google.com.
-	[209.85.128.179])
-	by smtp.gmail.com with ESMTPSA id 35sm5921881wrp.63.2017.06.30.06.58.28
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 30 Jun 2017 06:58:28 -0700 (PDT)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-wr0-f179.google.com with SMTP id r103so204945443wrb.0
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Jun 2017 06:58:28 -0700 (PDT)
-X-Received: by 10.223.163.197 with SMTP id m5mr25596744wrb.128.1498831108083; 
-	Fri, 30 Jun 2017 06:58:28 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.28.209.14 with HTTP; Fri, 30 Jun 2017 06:58:27 -0700 (PDT)
-In-Reply-To: <1498828593.5259.7.camel@intel.com>
-References: <cover.1498569961.git.ed.bartosh@linux.intel.com>
-	<CAP9ODKopDxEYw9vereQjoHve=n2Of2v-3EHbxaiumZN3T0hH8Q@mail.gmail.com>
-	<823180ba-066d-747d-8112-a110633a03a8@ossystems.com.br>
-	<20170628073121.GA11425@linux.intel.com>
-	<CAP9ODKoxxaJv=QZXp5m=Qt14t36n1TPXS19D+Xs3eyrPDG79bg@mail.gmail.com>
-	<20170629083942.GA14649@linux.intel.com>
-	<20170630083717.GA788@linux.intel.com>
-	<1498813333.5259.4.camel@intel.com>
-	<20170630122330.GA17125@linux.intel.com>
-	<1498828593.5259.7.camel@intel.com>
-Date: Fri, 30 Jun 2017 10:58:27 -0300
-X-Gmail-Original-Message-ID: <CAP9ODKoatZVRF2Jv3MAeDMsQwejNwp=XaoFgPuYQ85MysAYmTA@mail.gmail.com>
-Message-ID: <CAP9ODKoatZVRF2Jv3MAeDMsQwejNwp=XaoFgPuYQ85MysAYmTA@mail.gmail.com>
-To: Patrick Ohly <patrick.ohly@intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2 0/5] #11662 - wic should mount /boot
+	Fri, 30 Jun 2017 07:56:08 -0700 (PDT)
+From: "Maxin B. John" <maxin.john@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 30 Jun 2017 17:56:10 +0300
+Message-Id: <1498834581-12279-1-git-send-email-maxin.john@intel.com>
+X-Mailer: git-send-email 2.4.0
+Subject: [PATCH 00/11] gstreamer: upgrade to 1.12.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -76,49 +33,94 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Jun 2017 13:58:31 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 30 Jun 2017 14:56:12 -0000
 
-On Fri, Jun 30, 2017 at 10:16 AM, Patrick Ohly <patrick.ohly@intel.com> wrote:
-> On Fri, 2017-06-30 at 15:23 +0300, Ed Bartosh wrote:
->> On Fri, Jun 30, 2017 at 11:02:13AM +0200, Patrick Ohly wrote:
->> > On Fri, 2017-06-30 at 11:37 +0300, Ed Bartosh wrote:
->> > > > I'm not sure I understand this. If you don't want fstab to be
->> > > changed
->> > > > you should not specify mount points in .wks
->> > > > There is only one reason to have mount points in .wks: to make wic
->> > > to
->> > > > change /etc/fstab, which you apparently don't want. So, don't
->> > > specify
->> > > > mount points and you'll have what you want.
->> > > >
->> > > > Having additional option for this looks redundand to me.
->> > >
->> > > After thinking a bit more about it I'd propose to have global wic
->> > > option
->> > > to avoid rootfs content changes. Not just fstab updates, but any
->> > > changes. For now this option (--no-rootfs-update ?) should prevent
->> > > creating
->> > > images if either mount points are specified or --exclude-path is used
->> > > in .wks
->> >
->> > Why does --exclude-path conflict with --no-rootfs-update? Is that a
->> > conceptual problem or an implementation problem?
->> >
->>
->> I thought that removing directories from original rootfs is a
->> modification.
->
-> But it's not actually removed from the original roofs directory, right?
-> For me, "not modified" refers to that and the files in it.
+Upgrade gstreamer to 1.12.1
 
-My problem is with the fstab change. If I explicitly ask wic to drop
-something I know it is doing it so it is under my control.
+Also upgrade libva to 1.8.3. This upgrade helps us to remove
+the workaround patch in gst-player - [YOCTO #11437]
 
-Adding --no-fstab-change solves in an elegant way my problem.
+We "should" move to the new home of gst-player and upgrade it:
+https://cgit.freedesktop.org/gstreamer/gst-examples
+
+However, the buildsystem of gst-player moved to meson.
+Waiting for meson to be in oe-core for this transition.
+
+Thanks to Carlos Rafael Giani for his gstreamer 1.12.0 upgrade
+patches which were used as a base for this upgrade.
+
+Maxin B. John (11):
+  libva: upgrade to 1.8.3
+  gst-player: remove workaround which disable visualizations
+  gstreamer1.0: upgrade 1.10.4 -> 1.12.1
+  gstreamer1.0-plugins-base: upgrade 1.10.4 -> 1.12.1
+  gstreamer1.0-plugins-good: upgrade 1.10.4 -> 1.12.1
+  gstreamer1.0-plugins-ugly: upgrade 1.10.4 -> 1.12.1
+  gstreamer1.0-rtsp-server: upgrade 1.10.4 -> 1.12.1
+  gstreamer1.0-omx: upgrade 1.10.4 -> 1.12.1
+  gstreamer1.0-libav: upgrade 1.10.4 -> 1.12.1
+  gstreamer1.0-vaapi: upgrade 1.10.4 -> 1.12.1
+  gstreamer1.0-plugins-bad: upgrade 1.10.4 -> 1.12.1
+
+ ...-configure.ac-Use-wayland-scanner-in-PATH.patch |  37 -
+ ...and-Don-t-commit-and-ship-generated-files.patch | 339 --------
+ .../libva/{libva_1.7.3.bb => libva_1.8.3.bb}       |   8 +-
+ .../0001-gtk-play-Disable-visualizations.patch     |  59 --
+ ...error-signal-emission-for-missing-plugins.patch | 252 ------
+ .../gstreamer/gst-player/Fix-pause-play.patch      | 107 ---
+ .../gstreamer/gst-player/filechooser.patch         |  54 --
+ .../recipes-multimedia/gstreamer/gst-player_git.bb |   4 -
+ ...ideobufferpool-create-allocator-if-needed.patch |  61 --
+ ...ibav_1.10.4.bb => gstreamer1.0-libav_1.12.1.bb} |   4 +-
+ ....0-omx_1.10.4.bb => gstreamer1.0-omx_1.12.1.bb} |   4 +-
+ .../gstreamer/gstreamer1.0-plugins-bad.inc         |  24 +-
+ ...-don-t-hardcode-libtool-name-when-running.patch |  60 +-
+ ...G_CONFIG_SYSROOT_DIR-to-pkg-config-output.patch |  42 +-
+ ...gl.pc.in-don-t-append-GL_CFLAGS-to-CFLAGS.patch |  21 +-
+ ...1-mssdemux-improved-live-playback-support.patch | 929 ---------------------
+ ...ming-implement-adaptivedemux-s-get_live_s.patch | 183 ----
+ ...ming-use-the-duration-from-the-list-of-fr.patch |  62 --
+ ....10.4.bb => gstreamer1.0-plugins-bad_1.12.1.bb} |  11 +-
+ ...eed-more-buffers-in-output-queue-for-bett.patch |  32 -
+ ...10.4.bb => gstreamer1.0-plugins-base_1.12.1.bb} |   5 +-
+ ...Also-add-videometa-if-there-is-padding-to.patch |  35 -
+ ...10.4.bb => gstreamer1.0-plugins-good_1.12.1.bb} |   5 +-
+ .../gstreamer/gstreamer1.0-plugins-ugly.inc        |   1 -
+ ...10.4.bb => gstreamer1.0-plugins-ugly_1.12.1.bb} |   4 +-
+ .../gstreamer/gstreamer1.0-rtsp-server_1.10.4.bb   |   6 -
+ .../gstreamer/gstreamer1.0-rtsp-server_1.12.1.bb   |   6 +
+ .../gstreamer/gstreamer1.0-vaapi_1.10.4.bb         |   7 -
+ .../gstreamer/gstreamer1.0-vaapi_1.12.1.bb         |   5 +
+ meta/recipes-multimedia/gstreamer/gstreamer1.0.inc |   1 -
+ .../gstreamer1.0/deterministic-unwind.patch        |  29 +-
+ ...treamer1.0_1.10.4.bb => gstreamer1.0_1.12.1.bb} |   4 +-
+ 32 files changed, 135 insertions(+), 2266 deletions(-)
+ delete mode 100644 meta/recipes-graphics/libva/files/0001-configure.ac-Use-wayland-scanner-in-PATH.patch
+ delete mode 100644 meta/recipes-graphics/libva/files/0001-wayland-Don-t-commit-and-ship-generated-files.patch
+ rename meta/recipes-graphics/libva/{libva_1.7.3.bb => libva_1.8.3.bb} (88%)
+ delete mode 100644 meta/recipes-multimedia/gstreamer/gst-player/0001-gtk-play-Disable-visualizations.patch
+ delete mode 100644 meta/recipes-multimedia/gstreamer/gst-player/Add-error-signal-emission-for-missing-plugins.patch
+ delete mode 100644 meta/recipes-multimedia/gstreamer/gst-player/Fix-pause-play.patch
+ delete mode 100644 meta/recipes-multimedia/gstreamer/gst-player/filechooser.patch
+ delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer-vaapi/vaapivideobufferpool-create-allocator-if-needed.patch
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-libav_1.10.4.bb => gstreamer1.0-libav_1.12.1.bb} (88%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-omx_1.10.4.bb => gstreamer1.0-omx_1.12.1.bb} (69%)
+ delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0001-mssdemux-improved-live-playback-support.patch
+ delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0001-smoothstreaming-implement-adaptivedemux-s-get_live_s.patch
+ delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0001-smoothstreaming-use-the-duration-from-the-list-of-fr.patch
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-bad_1.10.4.bb => gstreamer1.0-plugins-bad_1.12.1.bb} (61%)
+ delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/encodebin-Need-more-buffers-in-output-queue-for-bett.patch
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-base_1.10.4.bb => gstreamer1.0-plugins-base_1.12.1.bb} (78%)
+ delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/0001-v4l2object-Also-add-videometa-if-there-is-padding-to.patch
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-good_1.10.4.bb => gstreamer1.0-plugins-good_1.12.1.bb} (78%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-ugly_1.10.4.bb => gstreamer1.0-plugins-ugly_1.12.1.bb} (76%)
+ delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.10.4.bb
+ create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.12.1.bb
+ delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.10.4.bb
+ create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.12.1.bb
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0_1.10.4.bb => gstreamer1.0_1.12.1.bb} (72%)
 
 -- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+2.4.0
+
 
