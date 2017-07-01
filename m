@@ -1,49 +1,49 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f194.google.com (mail-pf0-f194.google.com
-	[209.85.192.194])
-	by mail.openembedded.org (Postfix) with ESMTP id BF0D378288
+Received: from mail-pf0-f196.google.com (mail-pf0-f196.google.com
+	[209.85.192.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 40E2978293
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  1 Jul 2017 14:23:43 +0000 (UTC)
-Received: by mail-pf0-f194.google.com with SMTP id e199so20438363pfh.0
+	Sat,  1 Jul 2017 14:23:44 +0000 (UTC)
+Received: by mail-pf0-f196.google.com with SMTP id z6so20458357pfk.3
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 01 Jul 2017 07:23:45 -0700 (PDT)
+	Sat, 01 Jul 2017 07:23:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=1N+2dhs28SnuvFCty7CEt3Go0xzLoY4ZxXyhiIy573k=;
-	b=CCipb2xVZu599ZyAS/6/+hpOfO4qcrbpdlJEwtwpCz7ohRITRO5BY/jF8wWeCmI8X1
-	d/t/CSmUGKEmJ8Gc2oRfdtB6UXoDagwV02p/O6wrDOBcF9bHWtZy6b2cQjAEkXHN3UGO
-	RbXRER00FlsesRXtxhgwuryJuH3lOrs9qVLJ0DzNHgWPQusrzEYIkm2MOwuUCrkYF4SY
-	cxUfRfvl0eLSyprUAzb+beqcqtj0VC6S+4H/z4vG8uOl4zVcdVjT2TiNLWBVrOLH1vi7
-	EoPBUMv/8mqR8AjTERadjNSCxqCK4KcbB8TvK3WpdOS1GrjkxIxanh2KbcFksEgK+zX6
-	avDQ==
+	bh=UXgmUCBofunwR9lkagtgjwRHTyzR0jHdxWZ35GeKM5Y=;
+	b=SMz7/xgi38Rco1BQTqXG7xdHbr4ZjENvCvlewlm4gPZ1HnShxhM1Y9whITYo0hJXlt
+	2WP1qJVckemaindE9ykfZ0dLhjz9ZldlyYvsb0zxhAeP5R6LJxXTmkQLzaeK9JLfOsMe
+	3wAoW0fPCVlXEP3L4vSCgYv7+tVdDf9bmc6a8WlwhW0Ix3JXZM0sNDDJ5dCjG2VEXnVK
+	plWfkVz0A7r8lkjZTqcBy/zp2/uCPipgh/qBDgKmk/UIwbuX+aaDprOoqQT1i/idu52W
+	mfM449zrKD+yYcy4NA/eH5GMHltiYj7XOLs+hrdtYFdwiwVhf2YRKL/XAOZmDYwLtzFx
+	AUbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=1N+2dhs28SnuvFCty7CEt3Go0xzLoY4ZxXyhiIy573k=;
-	b=k3nrnZj36+Jg+Oj3AM2EVDdcJuokrYxxq8g72c4A3T4OX1HDw14+7z67xQXHL3bA2I
-	WJKDqyFVBxVh6TfY9l5C2kk05WBNNOf/MiL9wXOfxT/M5P2vkE+s7oKbjrwZ3mRlmXcr
-	OkAQfd1JXE50uLB+0ECe5vK+/0CmBZWhA4T4bzrZVHqf73S71yfiNxPgTjW9wNsS/EVG
-	Hzi/XlpzJIEiaap+GxOxGb3qRM68VCf0py3wXi0V/YfXmNX+4jNgQSTAvvtIzNrKqUjy
-	+rG28lhpn61OMYf/Oang7+8s4SSkA3vQqYrHibyQ7h9iNhWxQ8nYy4r28xdPnzCbP+t5
-	oZ8w==
-X-Gm-Message-State: AIVw111u7DiHzi2fA0Q7T3PliCN6L8z0uaD8j4eaSGX1S29ABZzVmHhP
-	0+MBQGGQ1NaaSICc
-X-Received: by 10.84.232.79 with SMTP id f15mr967064pln.189.1498919024604;
-	Sat, 01 Jul 2017 07:23:44 -0700 (PDT)
+	bh=UXgmUCBofunwR9lkagtgjwRHTyzR0jHdxWZ35GeKM5Y=;
+	b=Ruz3tts/9o18F2l650PzGrCHbokeoQtEfXt9pBGvxLJ+N49HTiclZ2XMgJ5DwfzRp5
+	i9GuJTU7/0gnXAmKoIShteixOlXqHIUms87+P4ad5Qv40Yqrs7ugoMjrJqXGvOr3TJFQ
+	uRx/SbFeN9I+IpKSDDe3zdxle/1PNnxCsGkOBSFQ291pbo0+KHgKGZRJhKTE9rDKfjJ4
+	erL5+P0hdfU1k3bfUl2kYCIXRvIMm6KuMFqogVqvIfYB8VwaOr4OpcRTcO9xmsSJ8r+s
+	hNonSF/qtZO/7Y2eA26HvhcsearpaSVnPhthiyq/sxQW1p0zywhz/Kpo5iBOoBtS8NNi
+	eFGw==
+X-Gm-Message-State: AIVw110YRuQeQZolkj6x4sZeCGuMJ33w71g36ZSX6ct/PXlEldVRwmru
+	IoGYjGwvf41DzPh/
+X-Received: by 10.84.241.67 with SMTP id u3mr969602plm.30.1498919026051;
+	Sat, 01 Jul 2017 07:23:46 -0700 (PDT)
 Received: from localhost.localdomain ([2601:646:8882:b8c::3df3])
 	by smtp.gmail.com with ESMTPSA id
-	17sm25026909pfn.84.2017.07.01.07.23.43
+	17sm25026909pfn.84.2017.07.01.07.23.44
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 01 Jul 2017 07:23:43 -0700 (PDT)
+	Sat, 01 Jul 2017 07:23:45 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat,  1 Jul 2017 07:23:07 -0700
-Message-Id: <776e6811105e112f7e924883eed5ed4fadb0d0e8.1498893436.git.raj.khem@gmail.com>
+Date: Sat,  1 Jul 2017 07:23:08 -0700
+Message-Id: <a31fe74e4ada5faaed09a8ba630b16a39eaa4f13.1498893436.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.13.2
 In-Reply-To: <cover.1498893436.git.raj.khem@gmail.com>
 References: <cover.1498893436.git.raj.khem@gmail.com>
-Subject: [PATCH 04/19] gcc: Introduce a knob to configure gcc to default to PIE
+Subject: [PATCH 05/19] security_flags.inc: Delete pinnings for SECURITY_NO_PIE_CFLAGS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,62 +56,139 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 01 Jul 2017 14:23:44 -0000
+X-List-Received-Date: Sat, 01 Jul 2017 14:23:45 -0000
 
-GCCPIE flag which is empty by default adds "--enable-default-pie"
-configure option for harderned distros
-
-We do not require to add -fpie -pie flag externally anymore
+GCC is configured correctly to pass PIE cflags/ldflags
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/conf/distro/include/security_flags.inc        | 4 +++-
- meta/recipes-devtools/gcc/gcc-configure-common.inc | 3 +++
- 2 files changed, 6 insertions(+), 1 deletion(-)
+ meta/conf/distro/include/security_flags.inc | 83 ++++++++---------------------
+ 1 file changed, 22 insertions(+), 61 deletions(-)
 
 diff --git a/meta/conf/distro/include/security_flags.inc b/meta/conf/distro/include/security_flags.inc
-index 38164d08b8..f2eb224a77 100644
+index f2eb224a77..dd713b9818 100644
 --- a/meta/conf/distro/include/security_flags.inc
 +++ b/meta/conf/distro/include/security_flags.inc
-@@ -5,6 +5,8 @@
- # From a Yocto Project perspective, this file is included and tested
- # in the DISTRO="poky-lsb" configuration.
- 
-+GCCPIE ?= "--enable-default-pie"
-+
- # _FORTIFY_SOURCE requires -O1 or higher, so disable in debug builds as they use
- # -O0 which then results in a compiler warning.
- lcl_maybe_fortify = "${@base_conditional('DEBUG_BUILD','1','','-D_FORTIFY_SOURCE=2',d)}"
-@@ -12,7 +14,7 @@ lcl_maybe_fortify = "${@base_conditional('DEBUG_BUILD','1','','-D_FORTIFY_SOURCE
+@@ -1,4 +1,4 @@
+-# Setup extra CFLAGS and LDFLAGS which have 'security' benefits. These 
++# Setup extra CFLAGS and LDFLAGS which have 'security' benefits. These
+ # don't work universally, there are recipes which can't use one, the other
+ # or both so a blacklist is maintained here. The idea would be over
+ # time to reduce this list to nothing.
+@@ -14,87 +14,45 @@ lcl_maybe_fortify = "${@base_conditional('DEBUG_BUILD','1','','-D_FORTIFY_SOURCE
  # Error on use of format strings that represent possible security problems
  SECURITY_STRINGFORMAT ?= "-Wformat -Wformat-security -Werror=format-security"
  
--SECURITY_CFLAGS ?= "-fstack-protector-strong -pie -fpie ${lcl_maybe_fortify} ${SECURITY_STRINGFORMAT}"
-+SECURITY_CFLAGS ?= "-fstack-protector-strong ${lcl_maybe_fortify} ${SECURITY_STRINGFORMAT}"
+-SECURITY_CFLAGS ?= "-fstack-protector-strong ${lcl_maybe_fortify} ${SECURITY_STRINGFORMAT}"
++# Inject pie flags into compiler flags if not configured with gcc itself
++# especially useful with external toolchains
++SECURITY_PIE_CFLAGS ?= "${@'' if '${GCCPIE}' else '-pie -fPIE'}"
++
++SECURITY_NOPIE_CFLAGS ?= "-no-pie -fno-PIE"
++
++SECURITY_CFLAGS ?= "-fstack-protector-strong ${SECURITY_PIE_CFLAGS} ${lcl_maybe_fortify} ${SECURITY_STRINGFORMAT}"
  SECURITY_NO_PIE_CFLAGS ?= "-fstack-protector-strong ${lcl_maybe_fortify} ${SECURITY_STRINGFORMAT}"
  
  SECURITY_LDFLAGS ?= "-fstack-protector-strong -Wl,-z,relro,-z,now"
-diff --git a/meta/recipes-devtools/gcc/gcc-configure-common.inc b/meta/recipes-devtools/gcc/gcc-configure-common.inc
-index 63fa1d9686..e2ce234aa1 100644
---- a/meta/recipes-devtools/gcc/gcc-configure-common.inc
-+++ b/meta/recipes-devtools/gcc/gcc-configure-common.inc
-@@ -22,6 +22,8 @@ EXTRA_OECONF_INITIAL ?= ""
- GCCMULTILIB ?= "--disable-multilib"
- GCCTHREADS ?= "posix"
+ SECURITY_X_LDFLAGS ?= "-fstack-protector-strong -Wl,-z,relro"
  
-+GCCPIE ??= ""
+ # powerpc does not get on with pie for reasons not looked into as yet
+-SECURITY_CFLAGS_powerpc = "-fstack-protector-strong ${lcl_maybe_fortify}"
+-# Deal with ppc specific linker failures when using the cflags
+-SECURITY_CFLAGS_pn-dbus_powerpc = ""
+-SECURITY_CFLAGS_pn-dbus-ptest_powerpc = ""
+-SECURITY_CFLAGS_pn-libmatchbox_powerpc = ""
++SECURITY_CFLAGS_powerpc = "-fstack-protector-strong ${lcl_maybe_fortify} ${SECURITY_NOPIE_CFLAGS}"
++SECURITY_CFLAGS_pn-libgcc_powerpc = ""
+ 
+ # arm specific security flag issues
+-SECURITY_CFLAGS_pn-lttng-tools_arm = "${SECURITY_NO_PIE_CFLAGS}"
+-SECURITY_CFLAGS_pn-aspell = "${SECURITY_NO_PIE_CFLAGS}"
+-SECURITY_CFLAGS_pn-beecrypt = "${SECURITY_NO_PIE_CFLAGS}"
+-SECURITY_CFLAGS_pn-coreutils = "${SECURITY_NO_PIE_CFLAGS}"
+-SECURITY_CFLAGS_pn-cups = "${SECURITY_NO_PIE_CFLAGS}"
+-SECURITY_CFLAGS_pn-db = "${SECURITY_NO_PIE_CFLAGS}"
+-SECURITY_CFLAGS_pn-directfb = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-glibc = ""
+ SECURITY_CFLAGS_pn-glibc-initial = ""
+-SECURITY_CFLAGS_pn-elfutils = "${SECURITY_NO_PIE_CFLAGS}"
+-SECURITY_CFLAGS_pn-enchant = "${SECURITY_NO_PIE_CFLAGS}"
+-SECURITY_CFLAGS_pn-expect = "${SECURITY_NO_PIE_CFLAGS}"
+-SECURITY_CFLAGS_pn-flac = "${SECURITY_NO_PIE_CFLAGS}"
+-SECURITY_CFLAGS_pn-gcc = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-gcc-runtime = ""
+-SECURITY_CFLAGS_pn-gcc-sanitizers = "${SECURITY_NO_PIE_CFLAGS}"
+-SECURITY_CFLAGS_pn-gdb = "${SECURITY_NO_PIE_CFLAGS}"
+-SECURITY_CFLAGS_pn-gmp = "${SECURITY_NO_PIE_CFLAGS}"
+-SECURITY_CFLAGS_pn-gnutls = "${SECURITY_NO_PIE_CFLAGS}"
+-SECURITY_CFLAGS_pn-gpgme = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-grub = ""
+ SECURITY_CFLAGS_pn-grub-efi = ""
+ SECURITY_CFLAGS_pn-grub-efi-native = ""
+ SECURITY_CFLAGS_pn-grub-efi-x86-native = ""
+ SECURITY_CFLAGS_pn-grub-efi-i586-native = ""
+ SECURITY_CFLAGS_pn-grub-efi-x86-64-native = ""
+-SECURITY_CFLAGS_pn-gstreamer1.0-plugins-bad = "${SECURITY_NO_PIE_CFLAGS}"
+-SECURITY_CFLAGS_pn-gstreamer1.0-plugins-good = "${SECURITY_NO_PIE_CFLAGS}"
+-SECURITY_CFLAGS_pn-harfbuzz = "${SECURITY_NO_PIE_CFLAGS}"
+-SECURITY_CFLAGS_pn-kexec-tools = "${SECURITY_NO_PIE_CFLAGS}"
+-SECURITY_CFLAGS_pn-iptables = "${SECURITY_NO_PIE_CFLAGS}"
+-SECURITY_CFLAGS_pn-libaio = "${SECURITY_NO_PIE_CFLAGS}"
+-SECURITY_CFLAGS_pn-libcap = "${SECURITY_NO_PIE_CFLAGS}"
+-SECURITY_CFLAGS_pn-libgcc = "${SECURITY_NO_PIE_CFLAGS}"
+-SECURITY_CFLAGS_pn-libid3tag = "${SECURITY_NO_PIE_CFLAGS}"
+-SECURITY_CFLAGS_pn-libnewt-python = "${SECURITY_NO_PIE_CFLAGS}"
+-SECURITY_CFLAGS_pn-libglu = "${SECURITY_NO_PIE_CFLAGS}"
+-SECURITY_CFLAGS_pn-libpcap = "${SECURITY_NO_PIE_CFLAGS}"
+-SECURITY_CFLAGS_pn-libpcre = "${SECURITY_NO_PIE_CFLAGS}"
+-SECURITY_CFLAGS_pn-libproxy = "${SECURITY_NO_PIE_CFLAGS}"
+-SECURITY_CFLAGS_pn-mesa = "${SECURITY_NO_PIE_CFLAGS}"
+-SECURITY_CFLAGS_pn-mesa-gl = "${SECURITY_NO_PIE_CFLAGS}"
+-SECURITY_CFLAGS_pn-openssl = "${SECURITY_NO_PIE_CFLAGS}"
+-SECURITY_CFLAGS_pn-opensp = "${SECURITY_NO_PIE_CFLAGS}"
+-SECURITY_CFLAGS_pn-ppp = "${SECURITY_NO_PIE_CFLAGS}"
+-SECURITY_CFLAGS_pn-python = "${SECURITY_NO_PIE_CFLAGS}"
+-SECURITY_CFLAGS_pn-python-pycurl = "${SECURITY_NO_PIE_CFLAGS}"
+-SECURITY_CFLAGS_pn-python-numpy = "${SECURITY_NO_PIE_CFLAGS}"
+-SECURITY_CFLAGS_pn-python3-numpy = "${SECURITY_NO_PIE_CFLAGS}"
+-SECURITY_CFLAGS_pn-python3-pycairo = "${SECURITY_NO_PIE_CFLAGS}"
+-SECURITY_CFLAGS_pn-python3-pycurl = "${SECURITY_NO_PIE_CFLAGS}"
+-SECURITY_CFLAGS_pn-python3-pygpgme = "${SECURITY_NO_PIE_CFLAGS}"
+-SECURITY_CFLAGS_pn-python3 = "${SECURITY_NO_PIE_CFLAGS}"
+-SECURITY_CFLAGS_pn-syslinux = "${SECURITY_NO_PIE_CFLAGS}"
+-SECURITY_CFLAGS_pn-slang = "${SECURITY_NO_PIE_CFLAGS}"
+-SECURITY_CFLAGS_pn-source-highlight = "${SECURITY_NO_PIE_CFLAGS}"
+-SECURITY_CFLAGS_pn-tcl = "${SECURITY_NO_PIE_CFLAGS}"
+-SECURITY_CFLAGS_pn-tiff = "${SECURITY_NO_PIE_CFLAGS}"
+-SECURITY_CFLAGS_pn-valgrind = ""
+-SECURITY_CFLAGS_pn-zlib = "${SECURITY_NO_PIE_CFLAGS}"
 +
- EXTRA_OECONF = "\
-     ${@['--enable-clocale=generic', ''][d.getVar('USE_NLS') != 'no']} \
-     --with-gnu-ld \
-@@ -29,6 +31,7 @@ EXTRA_OECONF = "\
-     --enable-languages=${LANGUAGES} \
-     --enable-threads=${GCCTHREADS} \
-     ${GCCMULTILIB} \
-+    ${GCCPIE} \
-     --enable-c99 \
-     --enable-long-long \
-     --enable-symvers=gnu \
++SECURITY_CFLAGS_pn-mkelfimage_x86 = ""
++
++SECURITY_CFLAGS_pn-valgrind = "${SECURITY_NOPIE_CFLAGS}"
++SECURITY_LDFLAGS_pn-valgrind = ""
++SECURITY_CFLAGS_pn-sysklogd = "${SECURITY_NOPIE_CFLAGS}"
++SECURITY_LDFLAGS_pn-sysklogd = ""
+ 
+ # Recipes which fail to compile when elevating -Wformat-security to an error
+ SECURITY_STRINGFORMAT_pn-busybox = ""
+ SECURITY_STRINGFORMAT_pn-gcc = ""
+-SECURITY_STRINGFORMAT_pn-oh-puzzles = ""
+ 
+-TARGET_CFLAGS_append_class-target = " ${SECURITY_CFLAGS}"
++TARGET_CC_ARCH_append_class-target = " ${SECURITY_CFLAGS}"
+ TARGET_LDFLAGS_append_class-target = " ${SECURITY_LDFLAGS}"
+ 
+ SECURITY_LDFLAGS_remove_pn-gcc-runtime = "-fstack-protector-strong"
+@@ -108,4 +66,7 @@ SECURITY_LDFLAGS_pn-xf86-video-vesa = "${SECURITY_X_LDFLAGS}"
+ SECURITY_LDFLAGS_pn-xf86-video-vmware = "${SECURITY_X_LDFLAGS}"
+ SECURITY_LDFLAGS_pn-xserver-xorg = "${SECURITY_X_LDFLAGS}"
+ 
+-TARGET_CC_ARCH_append_pn-binutils = " ${SECURITY_CFLAGS} ${SELECTED_OPTIMIZATION}"
++TARGET_CC_ARCH_append_pn-binutils = " ${SELECTED_OPTIMIZATION}"
++TARGET_CC_ARCH_append_pn-gcc = " ${SELECTED_OPTIMIZATION}"
++TARGET_CC_ARCH_append_pn-gdb = " ${SELECTED_OPTIMIZATION}"
++TARGET_CC_ARCH_append_pn-perf = " ${SELECTED_OPTIMIZATION}"
 -- 
 2.13.2
 
