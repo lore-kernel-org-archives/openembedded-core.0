@@ -1,48 +1,48 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg0-f68.google.com (mail-pg0-f68.google.com [74.125.83.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 806C478296
+Received: from mail-pg0-f41.google.com (mail-pg0-f41.google.com [74.125.83.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 1EFB6775DE
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  1 Jul 2017 14:24:00 +0000 (UTC)
-Received: by mail-pg0-f68.google.com with SMTP id u62so18368468pgb.0
+	Sat,  1 Jul 2017 14:24:01 +0000 (UTC)
+Received: by mail-pg0-f41.google.com with SMTP id k14so98736pgr.0
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 01 Jul 2017 07:24:02 -0700 (PDT)
+	Sat, 01 Jul 2017 07:24:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=nDXKlBzUM9N5q7tkmKnipDHDJtzLiDy5dO0f+T15jHI=;
-	b=lauMvHYwUHapRuU5pJFkq5Aq0BApB2Se+59U1sWU13ngWXsZoZQ9W6RZdPZpgDPkbc
-	/72AnCRC94I1K/fFpIklh1U9RZW0QPGN7Pdj2j66isslDgXtgfusk6XufLHz3kj9gRN1
-	+jXE6PsYxvlbuZho8DNKpZlPz8fqmIRNYhSLgA3hraYt6KmFpmpehcNzWxDWSqIOrwsO
-	t9qalsydzgAfQJi6Mq38na1Pzej2OBAqQ1kkYlPNt0Ga3uQRF1jlduwGm0fiKOf5DBF+
-	gcJkUlYRWyiwTN8+9Ht8kzc6wMkLra6LaQ0CQ/GwgQeHsNIrlDkhOD6ZeFXMkqrob1/1
-	HKSA==
+	bh=/krXaZn8j6f+TDf5TFEKD/Myd6MuIo4lRFQd1H+KxTA=;
+	b=KAtsbLmOurmdLo6oW2cuUr2UdxQbolJ6Pklr1LLw5laRwg+uRH2tqKlcuZpXFqOiGL
+	YGVvq/84dh9fxTHkEU/KF081shBXtu4N889nQm7vI35KB9Mx2BUUd9M5Mh7ea5wHOwZw
+	wCx8dJcvHO4NPhvTpFPIIpHfbXQJOsyo24CDbp4d2JpWfDP1Ov5dKBZ+56x/EwdMSuAD
+	D69nlHZPYfOwp6sCJnFo8C0O3rwamFOwlUt2jlIFdys9v0wj5OdGLiI5Ikb9mR8SBLJZ
+	y6sW+qFQ5anXPVI/I3emi3mvnbaFLsH3WjKSNk0k586vuiExrI0+wHX0n6LfWmc7ZTJ7
+	I+CA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=nDXKlBzUM9N5q7tkmKnipDHDJtzLiDy5dO0f+T15jHI=;
-	b=sqs+h+Bv1w+OqLXo4/5gen92ZBRb3cZEXRXqUoE7njdXsV9BmDG4C5Wp4cbMjqV3H4
-	Ll/oKuHL/GUc4UGkU0Zff3XQQjzg7xj3YZvQThVRDMy/4KlkGwhrrm3DJiQbqKHOKSjT
-	NVZHokZLRe6raeEb1FKzC8QKeE4Ydki0FvJBNYhoFbW9X7SXdjSpLUsTdC764VVLZ6q1
-	CVX/9E0t9YErCT8vA79m3szfdXdharzh3AnQiqBhpsYgjE8ISrhmR17hqCWXR3loDKfN
-	IXocgNXkhCMWGFXnVVqnpmOffr9urKFUBIx+pnVjJItLp8Hs9kNizOmpbQNCB8Ylz9yO
-	AqxQ==
-X-Gm-Message-State: AIVw1103mOB3frF2qTA6QZVOybI55s43kxWqIrQ5fnGj/pGURARV93ae
-	FIM1GNCQplJjtvX5
-X-Received: by 10.98.100.204 with SMTP id y195mr941148pfb.6.1498919041342;
-	Sat, 01 Jul 2017 07:24:01 -0700 (PDT)
+	bh=/krXaZn8j6f+TDf5TFEKD/Myd6MuIo4lRFQd1H+KxTA=;
+	b=Jqm82294YFnbqvmDZ6t+caro3M4vszF5s7fm85cW2PLPFrbM8K6M0sOHCARuAJdElV
+	F5h35PA8D8G5ZjEHWXwkuNPCynpqtLMj+IdAOZI0b1oFg2d4kSV4lX+yLlBn8CUkIg4G
+	MOsugFquzoo8HILgo4qyOabEKMPkOdtXkTSx8N5HXfRjNIg0iUgoqTz/AANy4HarhG8g
+	rE7YJi1j7Nd+qEI3g2Yx6e+WVmSU+/7CiCGwmMeFg+8dPpJOQzIPi147WW9FSGeZpjYH
+	E+X2uUyui9Tz7JiXlO4Y+MgaGTtgvYllar222wnhbRDBST6gUUdM/ytOrPF8F6B+F89t
+	HYPw==
+X-Gm-Message-State: AIVw1104V9yZoQ5WFqr66tKVJNRd4PNXYOk6qaXGQJkNxGX+f9s9oXGT
+	gAAdH7Hj0/DLIIll
+X-Received: by 10.98.104.71 with SMTP id d68mr962557pfc.35.1498919042741;
+	Sat, 01 Jul 2017 07:24:02 -0700 (PDT)
 Received: from localhost.localdomain ([2601:646:8882:b8c::3df3])
 	by smtp.gmail.com with ESMTPSA id
-	17sm25026909pfn.84.2017.07.01.07.23.59
+	17sm25026909pfn.84.2017.07.01.07.24.01
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 01 Jul 2017 07:24:00 -0700 (PDT)
+	Sat, 01 Jul 2017 07:24:01 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat,  1 Jul 2017 07:23:18 -0700
-Message-Id: <c9f3c8c194c2dd783b173a9d839496b354226641.1498893436.git.raj.khem@gmail.com>
+Date: Sat,  1 Jul 2017 07:23:19 -0700
+Message-Id: <b5dd75791bca9645923aa1dda29e0967fb4ca5c4.1498893436.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.13.2
 In-Reply-To: <cover.1498893436.git.raj.khem@gmail.com>
 References: <cover.1498893436.git.raj.khem@gmail.com>
-Subject: [PATCH 15/19] gcc: Use ucontext_t instead of ucontext
+Subject: [PATCH 16/19] valgrind: Fix build with glibc 2.26
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,184 +55,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 01 Jul 2017 14:24:00 -0000
-
-glibc 2.26 does not expose struct ucontext anymore
+X-List-Received-Date: Sat, 01 Jul 2017 14:24:02 -0000
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-devtools/gcc/gcc-7.1.inc              |   1 +
- ...0-replace-struct-ucontext-with-ucontext_t.patch | 149 +++++++++++++++++++++
- 2 files changed, 150 insertions(+)
- create mode 100644 meta/recipes-devtools/gcc/gcc-7.1/0050-replace-struct-ucontext-with-ucontext_t.patch
+ ...sts-Use-ucontext_t-instead-of-struct-ucon.patch | 30 ++++++++++++++++++++++
+ meta/recipes-devtools/valgrind/valgrind_3.12.0.bb  |  1 +
+ 2 files changed, 31 insertions(+)
+ create mode 100644 meta/recipes-devtools/valgrind/valgrind/0001-memcheck-tests-Use-ucontext_t-instead-of-struct-ucon.patch
 
-diff --git a/meta/recipes-devtools/gcc/gcc-7.1.inc b/meta/recipes-devtools/gcc/gcc-7.1.inc
-index f30a73c31c..3f1c06dafd 100644
---- a/meta/recipes-devtools/gcc/gcc-7.1.inc
-+++ b/meta/recipes-devtools/gcc/gcc-7.1.inc
-@@ -74,6 +74,7 @@ SRC_URI = "\
-            file://0047-sync-gcc-stddef.h-with-musl.patch \
-            file://0048-gcc-Enable-static-PIE.patch \
-            file://0049-libsanitizer-Use-stack_t-instead-of-struct-sigaltsta.patch \
-+           file://0050-replace-struct-ucontext-with-ucontext_t.patch \
-            ${BACKPORTS} \
- "
- BACKPORTS = "\
-diff --git a/meta/recipes-devtools/gcc/gcc-7.1/0050-replace-struct-ucontext-with-ucontext_t.patch b/meta/recipes-devtools/gcc/gcc-7.1/0050-replace-struct-ucontext-with-ucontext_t.patch
+diff --git a/meta/recipes-devtools/valgrind/valgrind/0001-memcheck-tests-Use-ucontext_t-instead-of-struct-ucon.patch b/meta/recipes-devtools/valgrind/valgrind/0001-memcheck-tests-Use-ucontext_t-instead-of-struct-ucon.patch
 new file mode 100644
-index 0000000000..e814992e44
+index 0000000000..bf16a1adfe
 --- /dev/null
-+++ b/meta/recipes-devtools/gcc/gcc-7.1/0050-replace-struct-ucontext-with-ucontext_t.patch
-@@ -0,0 +1,149 @@
-+From 7b3cb36ab07d0c36b500bb5d0548b190d4b5a9f6 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-devtools/valgrind/valgrind/0001-memcheck-tests-Use-ucontext_t-instead-of-struct-ucon.patch
+@@ -0,0 +1,30 @@
++From 629ac492b1d9bc709d17337eb9b1c28603eca250 Mon Sep 17 00:00:00 2001
 +From: Khem Raj <raj.khem@gmail.com>
-+Date: Wed, 28 Jun 2017 00:25:57 -0700
-+Subject: [PATCH 50/50] replace struct ucontext with ucontext_t
++Date: Wed, 28 Jun 2017 11:01:25 -0700
++Subject: [PATCH] memcheck/tests: Use ucontext_t instead of struct ucontext
 +
-+Upstream-Status: Pending
++glibc 2.26 does not expose struct ucontext anymore
++
++Upstream-Status: Submitted [https://bugs.kde.org/show_bug.cgi?id=381769]
 +
 +Signed-off-by: Khem Raj <raj.khem@gmail.com>
 +---
-+ libgcc/config/aarch64/linux-unwind.h | 2 +-
-+ libgcc/config/alpha/linux-unwind.h   | 2 +-
-+ libgcc/config/bfin/linux-unwind.h    | 2 +-
-+ libgcc/config/i386/linux-unwind.h    | 4 ++--
-+ libgcc/config/pa/linux-unwind.h      | 2 +-
-+ libgcc/config/riscv/linux-unwind.h   | 2 +-
-+ libgcc/config/sh/linux-unwind.h      | 2 +-
-+ libgcc/config/tilepro/linux-unwind.h | 2 +-
-+ libgcc/config/xtensa/linux-unwind.h  | 2 +-
-+ 9 files changed, 10 insertions(+), 10 deletions(-)
++ memcheck/tests/linux/stack_changes.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
 +
-+diff --git a/libgcc/config/aarch64/linux-unwind.h b/libgcc/config/aarch64/linux-unwind.h
-+index d5d6980442f..d46d5f53be3 100644
-+--- a/libgcc/config/aarch64/linux-unwind.h
-++++ b/libgcc/config/aarch64/linux-unwind.h
-+@@ -55,7 +55,7 @@ aarch64_fallback_frame_state (struct _Unwind_Context *context,
-+   struct rt_sigframe
-+   {
-+     siginfo_t info;
-+-    struct ucontext uc;
-++    ucontext_t uc;
-+   };
++diff --git a/memcheck/tests/linux/stack_changes.c b/memcheck/tests/linux/stack_changes.c
++index ffb49c6..acc4109 100644
++--- a/memcheck/tests/linux/stack_changes.c
+++++ b/memcheck/tests/linux/stack_changes.c
++@@ -11,7 +11,7 @@
++ // checks that Valgrind notices their stack changes properly.
 + 
-+   struct rt_sigframe *rt_;
-+diff --git a/libgcc/config/alpha/linux-unwind.h b/libgcc/config/alpha/linux-unwind.h
-+index a91a5f4fe26..7202516581d 100644
-+--- a/libgcc/config/alpha/linux-unwind.h
-++++ b/libgcc/config/alpha/linux-unwind.h
-+@@ -51,7 +51,7 @@ alpha_fallback_frame_state (struct _Unwind_Context *context,
-+     {
-+       struct rt_sigframe {
-+ 	siginfo_t info;
-+-	struct ucontext uc;
-++	ucontext_t uc;
-+       } *rt_ = context->cfa;
-+       sc = &rt_->uc.uc_mcontext;
-+     }
-+diff --git a/libgcc/config/bfin/linux-unwind.h b/libgcc/config/bfin/linux-unwind.h
-+index 9412c7652b8..37e9feb6965 100644
-+--- a/libgcc/config/bfin/linux-unwind.h
-++++ b/libgcc/config/bfin/linux-unwind.h
-+@@ -52,7 +52,7 @@ bfin_fallback_frame_state (struct _Unwind_Context *context,
-+ 	void *puc;
-+ 	char retcode[8];
-+ 	siginfo_t info;
-+-	struct ucontext uc;
-++	ucontext_t uc;
-+       } *rt_ = context->cfa;
++ #ifdef __GLIBC__
++-typedef  struct ucontext  mycontext;
+++typedef ucontext_t  mycontext;
 + 
-+       /* The void * cast is necessary to avoid an aliasing warning.
-+diff --git a/libgcc/config/i386/linux-unwind.h b/libgcc/config/i386/linux-unwind.h
-+index b1d5040a687..2009ad72260 100644
-+--- a/libgcc/config/i386/linux-unwind.h
-++++ b/libgcc/config/i386/linux-unwind.h
-+@@ -58,7 +58,7 @@ x86_64_fallback_frame_state (struct _Unwind_Context *context,
-+   if (*(unsigned char *)(pc+0) == 0x48
-+       && *(unsigned long long *)(pc+1) == RT_SIGRETURN_SYSCALL)
-+     {
-+-      struct ucontext *uc_ = context->cfa;
-++      ucontext_t *uc_ = context->cfa;
-+       /* The void * cast is necessary to avoid an aliasing warning.
-+          The aliasing warning is correct, but should not be a problem
-+          because it does not alias anything.  */
-+@@ -138,7 +138,7 @@ x86_fallback_frame_state (struct _Unwind_Context *context,
-+ 	siginfo_t *pinfo;
-+ 	void *puc;
-+ 	siginfo_t info;
-+-	struct ucontext uc;
-++	ucontext_t uc;
-+       } *rt_ = context->cfa;
-+       /* The void * cast is necessary to avoid an aliasing warning.
-+          The aliasing warning is correct, but should not be a problem
-+diff --git a/libgcc/config/pa/linux-unwind.h b/libgcc/config/pa/linux-unwind.h
-+index 580c18dad69..c2c3409bcc1 100644
-+--- a/libgcc/config/pa/linux-unwind.h
-++++ b/libgcc/config/pa/linux-unwind.h
-+@@ -80,7 +80,7 @@ pa32_fallback_frame_state (struct _Unwind_Context *context,
-+   struct sigcontext *sc;
-+   struct rt_sigframe {
-+     siginfo_t info;
-+-    struct ucontext uc;
-++    ucontext_t uc;
-+   } *frame;
-+ 
-+   /* rt_sigreturn trampoline:
-+diff --git a/libgcc/config/riscv/linux-unwind.h b/libgcc/config/riscv/linux-unwind.h
-+index a051a2869d4..1c8aeff7ef0 100644
-+--- a/libgcc/config/riscv/linux-unwind.h
-++++ b/libgcc/config/riscv/linux-unwind.h
-+@@ -42,7 +42,7 @@ riscv_fallback_frame_state (struct _Unwind_Context *context,
-+   struct rt_sigframe
-+   {
-+     siginfo_t info;
-+-    struct ucontext uc;
-++    ucontext_t uc;
-+   };
-+ 
-+   struct rt_sigframe *rt_;
-+diff --git a/libgcc/config/sh/linux-unwind.h b/libgcc/config/sh/linux-unwind.h
-+index 1038caeb5c3..a8c98220282 100644
-+--- a/libgcc/config/sh/linux-unwind.h
-++++ b/libgcc/config/sh/linux-unwind.h
-+@@ -82,7 +82,7 @@ sh_fallback_frame_state (struct _Unwind_Context *context,
-+     {
-+       struct rt_sigframe {
-+ 	siginfo_t info;
-+-	struct ucontext uc;
-++	ucontext_t uc;
-+       } *rt_ = context->cfa;
-+       /* The void * cast is necessary to avoid an aliasing warning.
-+          The aliasing warning is correct, but should not be a problem
-+diff --git a/libgcc/config/tilepro/linux-unwind.h b/libgcc/config/tilepro/linux-unwind.h
-+index a8dc4405715..dba3b410279 100644
-+--- a/libgcc/config/tilepro/linux-unwind.h
-++++ b/libgcc/config/tilepro/linux-unwind.h
-+@@ -61,7 +61,7 @@ tile_fallback_frame_state (struct _Unwind_Context *context,
-+   struct rt_sigframe {
-+     unsigned char save_area[C_ABI_SAVE_AREA_SIZE];
-+     siginfo_t info;
-+-    struct ucontext uc;
-++    ucontext_t uc;
-+   } *rt_;
-+ 
-+   /* Return if this is not a signal handler.  */
-+diff --git a/libgcc/config/xtensa/linux-unwind.h b/libgcc/config/xtensa/linux-unwind.h
-+index 67c272820d0..b37b8b31bbf 100644
-+--- a/libgcc/config/xtensa/linux-unwind.h
-++++ b/libgcc/config/xtensa/linux-unwind.h
-+@@ -67,7 +67,7 @@ xtensa_fallback_frame_state (struct _Unwind_Context *context,
-+ 
-+   struct rt_sigframe {
-+     siginfo_t info;
-+-    struct ucontext uc;
-++    struct ucontext_t uc;
-+   } *rt_;
-+ 
-+   /* movi a2, __NR_rt_sigreturn; syscall */
++ mycontext ctx1, ctx2, oldc;
++ int count;
 +-- 
 +2.13.2
 +
+diff --git a/meta/recipes-devtools/valgrind/valgrind_3.12.0.bb b/meta/recipes-devtools/valgrind/valgrind_3.12.0.bb
+index 888b132ec7..4cf8062031 100644
+--- a/meta/recipes-devtools/valgrind/valgrind_3.12.0.bb
++++ b/meta/recipes-devtools/valgrind/valgrind_3.12.0.bb
+@@ -31,6 +31,7 @@ SRC_URI = "http://www.valgrind.org/downloads/valgrind-${PV}.tar.bz2 \
+            file://0004-pth_atfork1.c-Define-error-API-for-musl.patch \
+            file://0005-tc20_verifywrap.c-Fake-__GLIBC_PREREQ-with-musl.patch \
+            file://0006-pth_detached3.c-Dereference-pthread_t-before-adding-.patch \
++           file://0001-memcheck-tests-Use-ucontext_t-instead-of-struct-ucon.patch \
+            "
+ SRC_URI_append_libc-musl = "\
+            file://0001-fix-build-for-musl-targets.patch \
 -- 
 2.13.2
 
