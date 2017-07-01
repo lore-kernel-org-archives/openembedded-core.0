@@ -1,49 +1,49 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f195.google.com (mail-pf0-f195.google.com
-	[209.85.192.195])
-	by mail.openembedded.org (Postfix) with ESMTP id A3671775DE
+Received: from mail-pf0-f181.google.com (mail-pf0-f181.google.com
+	[209.85.192.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 46AF3775DE
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  1 Jul 2017 14:23:46 +0000 (UTC)
-Received: by mail-pf0-f195.google.com with SMTP id e199so20438492pfh.0
+	Sat,  1 Jul 2017 14:23:47 +0000 (UTC)
+Received: by mail-pf0-f181.google.com with SMTP id c73so80194572pfk.2
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 01 Jul 2017 07:23:48 -0700 (PDT)
+	Sat, 01 Jul 2017 07:23:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=wu88WV9IrzUiSshi7RI6V17GvK5x9pqwacP8Eoo6Gtw=;
-	b=bm5h2dmOYX9By2DwdFKaGDTQ/sHfgjpK+6G81fFnm6PtZzQy8KAOQtB77FXteGl/9/
-	ETEUsvuI3L9Gwka7E972h7EfeCvo+qNUI75KuPtQ8HLqEyL5VhxoBScZYNacZTvtDDA1
-	fawI7N6D+Hf+kuh32URG36ZkuHgBBl3mfQZs/AT+XJA9egdoHdx8v6fY3N/hUTi1GfcS
-	YB5g/WXcSq4fa6VsAX+SOJd2QzBiqM3PDsLweQmN+aQf++Pb4of/EyfYoJwMXWPhBUY4
-	viygFChIC9xhFrwpBBn78DWUHFW6radkiHfEQ5L6GFOuDUOn4kDA8+9b73fiTEaAMUk7
-	LU/w==
+	bh=MyXxFFTqsgC4/nC0ZOJZkbcdQpfgko0LLk/6HidsIxo=;
+	b=K5ajn0Y6nn+S1AHWlSasUmbQZKapwOdi9tN8A5k/YVd2zUpTmEBjMIaVORjpu91kqC
+	SQdTWnGos35VqK4Uav++p+qBwt6hvzno+Pl8zMQExxfLeCQ4Y0ReB+3gOln3mCwYwxqH
+	177kD9zKIWLIcO94OMqEJ6NCUJEmZ8V96aE3ux5LfeRLj9bDade0txug/YQK8FG/SVif
+	3wHs0DN3v+f8LjwAIYDsx4PvRgaJmH/r8x6LdeybGMuwDd3s3xpoCWmNoN7tLN5KZHIj
+	PN47cuvjPGm60uSWfZeofjPU3NDXTyHZcUqw1NCK4aE1X88D5e6Y90QdJ0FOX/7el6H9
+	Ypew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=wu88WV9IrzUiSshi7RI6V17GvK5x9pqwacP8Eoo6Gtw=;
-	b=Wzwu5qRV92CPanRdKbgc+TW4KSDGp0MEkjHmVMxRBsz3YacWYzTeBizpKX+Zp/iR0y
-	OKqiSSWdfLyw9rEh/HU373oAJukdadSbIehzWkzxLmhsDqIPih/GYa34wNG+tc2pR8Zi
-	IlwXm0lb2mXKjn/M0QrCQn7bBk0oY/JkN9VOdxDdvVeX8bW5zBaKv3VK+TKSOADkdfPu
-	pI0D7IEaR20BREWe2kR+Kik88U4WEs9ACmzbz1XEVoRHNQ+6AYrs+AiP45t3ig4MKmUG
-	lZ+c3brD4Mkpa+AjaHtkF+t2H+t+AxOGryy4Y97WVujcKtGTtq09RehK4YFI8YZ+urF2
-	SqBg==
-X-Gm-Message-State: AIVw110OPFzH4mCUOK4bu362gYsQNDUuspc1X+xhEaeCnJT8qSQloeZv
-	51OeKmYOt6UtzYXX
-X-Received: by 10.84.194.228 with SMTP id h91mr964336pld.46.1498919027516;
-	Sat, 01 Jul 2017 07:23:47 -0700 (PDT)
+	bh=MyXxFFTqsgC4/nC0ZOJZkbcdQpfgko0LLk/6HidsIxo=;
+	b=Ck9bM7ARG72zvWptVALVwtQZF2VrNURmZiP1h6cgrMsKSdXGzXJxZsJGAN7q/u2ncg
+	ebbj0vJuFf68KsQoMV5X7weysUeQ3rL/hc3CJN8TlULgjI8wfDvFDWGlXbbS8bWryahY
+	2w43meesb7e2Ab4e1XAB+lRaEg4OubZE6PQiUrBCLkl/d1ku52AZ4wmh3VDKTsVFZDBv
+	CWN4KOolurP5TqZAAK/kTdignl9HGoPBwI0yNgMBo4coVSzBrBbgayAkL6T/Nu4cBbdW
+	9oHybFcW2drVXyiSixTB/i4eCVvpnIJyu+Wmp0Lf3E6S39Dh7nXQ6oDKtSAFZ5ej1yfx
+	1sww==
+X-Gm-Message-State: AIVw110g/d9A6LTq6kQ6CBRPimvHu9oRRBkBtiscZxEWuy+J6yZfcx3B
+	sVUt3sJyn6iAd5wA
+X-Received: by 10.84.132.40 with SMTP id 37mr996780ple.141.1498919029028;
+	Sat, 01 Jul 2017 07:23:49 -0700 (PDT)
 Received: from localhost.localdomain ([2601:646:8882:b8c::3df3])
 	by smtp.gmail.com with ESMTPSA id
-	17sm25026909pfn.84.2017.07.01.07.23.46
+	17sm25026909pfn.84.2017.07.01.07.23.47
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 01 Jul 2017 07:23:46 -0700 (PDT)
+	Sat, 01 Jul 2017 07:23:48 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat,  1 Jul 2017 07:23:09 -0700
-Message-Id: <d5f3d041c597264bb5374370e8db1855c20d380b.1498893436.git.raj.khem@gmail.com>
+Date: Sat,  1 Jul 2017 07:23:10 -0700
+Message-Id: <b2a086b7ab2bdd94f64ec8ddf7b29d1321135526.1498893436.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.13.2
 In-Reply-To: <cover.1498893436.git.raj.khem@gmail.com>
 References: <cover.1498893436.git.raj.khem@gmail.com>
-Subject: [PATCH 06/19] distutils, setuptools: Delete use of SECURITY_NO_PIE_CFLAGS
+Subject: [PATCH 07/19] gcc7: Enable static PIE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,36 +56,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 01 Jul 2017 14:23:46 -0000
-
-gcc can handle PIE in gcc driver
+X-List-Received-Date: Sat, 01 Jul 2017 14:23:48 -0000
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/classes/distutils-common-base.bbclass | 2 --
- meta/classes/setuptools.bbclass            | 2 --
- 2 files changed, 4 deletions(-)
+ meta/recipes-devtools/gcc/gcc-7.1.inc              |  1 +
+ .../gcc/gcc-7.1/0048-gcc-Enable-static-PIE.patch   | 37 ++++++++++++++++++++++
+ 2 files changed, 38 insertions(+)
+ create mode 100644 meta/recipes-devtools/gcc/gcc-7.1/0048-gcc-Enable-static-PIE.patch
 
-diff --git a/meta/classes/distutils-common-base.bbclass b/meta/classes/distutils-common-base.bbclass
-index fa733c672c..824a1b68b1 100644
---- a/meta/classes/distutils-common-base.bbclass
-+++ b/meta/classes/distutils-common-base.bbclass
-@@ -11,5 +11,3 @@ FILES_${PN}-dev += "\
-   ${libdir}/pkgconfig \
-   ${PYTHON_SITEPACKAGES_DIR}/*.la \
+diff --git a/meta/recipes-devtools/gcc/gcc-7.1.inc b/meta/recipes-devtools/gcc/gcc-7.1.inc
+index 4098d6a2c1..b52d51fba6 100644
+--- a/meta/recipes-devtools/gcc/gcc-7.1.inc
++++ b/meta/recipes-devtools/gcc/gcc-7.1.inc
+@@ -72,6 +72,7 @@ SRC_URI = "\
+            file://0045-Link-libgcc-using-LDFLAGS-not-just-SHLIB_LDFLAGS.patch \
+            file://0046-libgcc_s-Use-alias-for-__cpu_indicator_init-instead-.patch \
+            file://0047-sync-gcc-stddef.h-with-musl.patch \
++           file://0048-gcc-Enable-static-PIE.patch \
+            ${BACKPORTS} \
  "
--
--SECURITY_CFLAGS = "${SECURITY_NO_PIE_CFLAGS}"
-diff --git a/meta/classes/setuptools.bbclass b/meta/classes/setuptools.bbclass
-index 7d0c5267d7..56343b1c73 100644
---- a/meta/classes/setuptools.bbclass
-+++ b/meta/classes/setuptools.bbclass
-@@ -6,5 +6,3 @@ DISTUTILS_INSTALL_ARGS = "--root=${D} \
-     --prefix=${prefix} \
-     --install-lib=${PYTHON_SITEPACKAGES_DIR} \
-     --install-data=${datadir}"
--
--SECURITY_CFLAGS = "${SECURITY_NO_PIE_CFLAGS}"
+ BACKPORTS = "\
+diff --git a/meta/recipes-devtools/gcc/gcc-7.1/0048-gcc-Enable-static-PIE.patch b/meta/recipes-devtools/gcc/gcc-7.1/0048-gcc-Enable-static-PIE.patch
+new file mode 100644
+index 0000000000..879e360cf3
+--- /dev/null
++++ b/meta/recipes-devtools/gcc/gcc-7.1/0048-gcc-Enable-static-PIE.patch
+@@ -0,0 +1,37 @@
++From 44ef80688b56beea85c0070840dea1e2a4e34aed Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Tue, 13 Jun 2017 12:12:52 -0700
++Subject: [PATCH 49/49] gcc: Enable static PIE
++
++Static PIE support in GCC
++see
++https://gcc.gnu.org/ml/gcc/2015-06/msg00008.html
++
++Upstream-Status: Pending
++
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++ gcc/config/gnu-user.h | 6 +++---
++ 1 file changed, 3 insertions(+), 3 deletions(-)
++
++diff --git a/gcc/config/gnu-user.h b/gcc/config/gnu-user.h
++index 2787a3d16be..ee7b781319e 100644
++--- a/gcc/config/gnu-user.h
+++++ b/gcc/config/gnu-user.h
++@@ -51,10 +51,10 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
++ #if defined HAVE_LD_PIE
++ #define GNU_USER_TARGET_STARTFILE_SPEC \
++   "%{!shared: %{pg|p|profile:gcrt1.o%s;: \
++-    %{" PIE_SPEC ":Scrt1.o%s} %{" NO_PIE_SPEC ":crt1.o%s}}} \
++-   crti.o%s %{static:crtbeginT.o%s;: %{shared:crtbeginS.o%s} \
+++    %{" PIE_SPEC ":%{static:rcrt1.o%s;:Scrt1.o%s}} %{" NO_PIE_SPEC ":crt1.o%s}}} \
+++   crti.o%s %{shared:crtbeginS.o%s;: \
++ 	      %{" PIE_SPEC ":crtbeginS.o%s} \
++-	      %{" NO_PIE_SPEC ":crtbegin.o%s}} \
+++	      %{" NO_PIE_SPEC ":%{static:crtbeginT.o%s;:crtbegin.o%s}}} \
++    %{fvtable-verify=none:%s; \
++      fvtable-verify=preinit:vtv_start_preinit.o%s; \
++      fvtable-verify=std:vtv_start.o%s} \
++-- 
++2.13.1
++
 -- 
 2.13.2
 
