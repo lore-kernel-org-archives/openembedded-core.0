@@ -1,43 +1,24 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-ua0-f196.google.com (mail-ua0-f196.google.com
-	[209.85.217.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 9A73173068
+Return-Path: <jose.perez.carranza@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 09B3F73119
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Jul 2017 20:02:24 +0000 (UTC)
-Received: by mail-ua0-f196.google.com with SMTP id g40so13857196uaa.3
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 03 Jul 2017 13:02:26 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:organization;
-	bh=sfEpe5IIihPkdx5h7OJH+7ZhIe6yW8fiVdZ0GjTldnQ=;
-	b=nWtVOt3dlPtrU9oGR3a1REMUg9i2QIqQRO9Jdq7fuSL1rVVmfVTzKKK6sVhASDHCqa
-	jdopUGx4uRD+MsCRNzZJvPUdZAqNG75FTUwarAAfrZnbwVTBL4TqWsL/159CGK8IH9iz
-	odYIK49gB5HlmUQl+Nhwm3soAtTQC5kE5gYl4+rrieknCp7XFeNchuEEMqxTxzS5oljb
-	YDsa/RbuRFjGbmFbM5W0dx4RkeKTkTD3Z2xdBKaUGpr4wtCcInGx8/67lvXYOvze/lQp
-	6CCscM1gl8YddPi1vwNBhA+GNnDf2jdOg5t2uAjy1Z3mkTJJ4VZ9+B6a2JApsruw6v3s
-	r15A==
-X-Gm-Message-State: AKS2vOwErpMQZZzTHUtB1mKWnF1tLEY++J7+UUqLASPnCM3Cjjgi49jP
-	XIuj6L1Pk0W3a2ID
-X-Received: by 10.176.85.91 with SMTP id u27mr18503898uaa.114.1499112145066;
-	Mon, 03 Jul 2017 13:02:25 -0700 (PDT)
-Received: from localhost.localdomain ([179.105.243.125])
-	by smtp.gmail.com with ESMTPSA id f36sm326396uaf.10.2017.07.03.13.02.22
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Mon, 03 Jul 2017 13:02:23 -0700 (PDT)
-Received: by localhost.localdomain (sSMTP sendmail emulation);
-	Mon, 03 Jul 2017 17:02:20 -0300
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Mon,  3 Jul 2017 17:02:10 -0300
-Message-Id: <20170703200210.32229-2-otavio@ossystems.com.br>
-X-Mailer: git-send-email 2.13.2
-In-Reply-To: <20170703200210.32229-1-otavio@ossystems.com.br>
-References: <20170703200210.32229-1-otavio@ossystems.com.br>
-Organization: O.S. Systems Software LTDA.
-Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH v2 2/2] mesa: Upgrade to 17.1.4 release
+	Mon,  3 Jul 2017 20:04:17 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	03 Jul 2017 13:04:17 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.40,305,1496127600"; d="scan'208";a="1167686147"
+Received: from yctb06.ostc.intel.com ([10.54.69.60])
+	by fmsmga001.fm.intel.com with ESMTP; 03 Jul 2017 13:04:17 -0700
+From: jose.perez.carranza@linux.intel.com
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  3 Jul 2017 13:04:15 -0700
+Message-Id: <20170703200415.8736-1-jose.perez.carranza@linux.intel.com>
+X-Mailer: git-send-email 2.12.0
+In-Reply-To: <20170703162641.42332-1-jose.perez.carranza@linux.intel.com^C--confirm=always>
+References: <20170703162641.42332-1-jose.perez.carranza@linux.intel.com^C--confirm=always>
+MIME-Version: 1.0
+Subject: [PATCH v2] oeqa/sdk: Replace buildiptables for buildlzip tests
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,53 +31,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Jul 2017 20:02:24 -0000
+X-List-Received-Date: Mon, 03 Jul 2017 20:04:18 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-This includes following upstream bug fixes:
+From: Jose Perez Carranza <jose.perez.carranza@linux.intel.com>
 
-Bug 77240 - khrplatform.h not installed if EGL is disabled
-Bug 95530 - Stellaris - colored overlay of sectors doesn't render on i965
-Bug 96958 - [SKL] Improper rendering in Europa Universalis IV
-Bug 99467 - [radv] DOOM 2016 + wine. Green screen everywhere (but can be started)
-Bug 101071 - compiling glsl fails with undefined reference to `pthread_create'
-Bug 101252 - eglGetDisplay() is not thread safe
-Bug 101294 - radeonsi minecraft forge splash freeze since 17.1
-Bug 101451 - [G33] ES2-CTS.functional.clipping.polygon regression
+Buildiptables test cases are conflicting with images built with “musl”
+as standard C library, in order to avoid those issues lzip package was
+selected to be used on the tests as this does not have any "musl"
+dependency.
 
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+[YOCTO #11713]
+
+Signed-off-by: Jose Perez Carranza <jose.perez.carranza@linux.intel.com>
 ---
+ meta/lib/oeqa/sdk/cases/{buildiptables.py => buildlzip.py} | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+ rename meta/lib/oeqa/sdk/cases/{buildiptables.py => buildlzip.py} (84%)
 
-Changes in v2: None
-
- meta/recipes-graphics/mesa/{mesa-gl_17.1.3.bb => mesa-gl_17.1.4.bb} | 0
- meta/recipes-graphics/mesa/{mesa_17.1.3.bb => mesa_17.1.4.bb}       | 4 ++--
- 2 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/mesa/{mesa-gl_17.1.3.bb => mesa-gl_17.1.4.bb} (100%)
- rename meta/recipes-graphics/mesa/{mesa_17.1.3.bb => mesa_17.1.4.bb} (84%)
-
-diff --git a/meta/recipes-graphics/mesa/mesa-gl_17.1.3.bb b/meta/recipes-graphics/mesa/mesa-gl_17.1.4.bb
-similarity index 100%
-rename from meta/recipes-graphics/mesa/mesa-gl_17.1.3.bb
-rename to meta/recipes-graphics/mesa/mesa-gl_17.1.4.bb
-diff --git a/meta/recipes-graphics/mesa/mesa_17.1.3.bb b/meta/recipes-graphics/mesa/mesa_17.1.4.bb
+diff --git a/meta/lib/oeqa/sdk/cases/buildiptables.py b/meta/lib/oeqa/sdk/cases/buildlzip.py
 similarity index 84%
-rename from meta/recipes-graphics/mesa/mesa_17.1.3.bb
-rename to meta/recipes-graphics/mesa/mesa_17.1.4.bb
-index d9860213f2..2a1ecd3124 100644
---- a/meta/recipes-graphics/mesa/mesa_17.1.3.bb
-+++ b/meta/recipes-graphics/mesa/mesa_17.1.4.bb
-@@ -7,8 +7,8 @@ SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
-            file://0002-hardware-gloat.patch \
- "
+rename from meta/lib/oeqa/sdk/cases/buildiptables.py
+rename to meta/lib/oeqa/sdk/cases/buildlzip.py
+index 419c7ebd09b..3a89ce86276 100644
+--- a/meta/lib/oeqa/sdk/cases/buildiptables.py
++++ b/meta/lib/oeqa/sdk/cases/buildlzip.py
+@@ -3,15 +3,15 @@ from oeqa.sdk.case import OESDKTestCase
+ from oeqa.sdk.utils.sdkbuildproject import SDKBuildProject
  
--SRC_URI[md5sum] = "1946a93d543bc219427e2bebe2ac4752"
--SRC_URI[sha256sum] = "5f1ee9a8aea2880f887884df2dea0c16dd1b13eb42fd2e52265db0dc1b380e8c"
-+SRC_URI[md5sum] = "be2ef7c9edec23b07f74f6512a6a6fa5"
-+SRC_URI[sha256sum] = "06f3b0e6a28f0d20b7f3391cf67fe89ae98ecd0a686cd545da76557b6cec9cad"
  
- #because we cannot rely on the fact that all apps will use pkgconfig,
- #make eglplatform.h independent of MESA_EGL_NO_X11_HEADER
+-class BuildIptablesTest(OESDKTestCase):
++class BuildLzipTest(OESDKTestCase):
+     td_vars = ['DATETIME']
+ 
+     @classmethod
+     def setUpClass(self):
+         dl_dir = self.td.get('DL_DIR', None)
+ 
+-        self.project = SDKBuildProject(self.tc.sdk_dir + "/iptables/", self.tc.sdk_env, 
+-                        "http://downloads.yoctoproject.org/mirror/sources/iptables-1.4.13.tar.bz2",
++        self.project = SDKBuildProject(self.tc.sdk_dir + "/lzip/", self.tc.sdk_env,
++                        "http://downloads.yoctoproject.org/mirror/sources/lzip-1.19.tar.gz",
+                         self.tc.sdk_dir, self.td['DATETIME'], dl_dir=dl_dir)
+         self.project.download_archive()
+ 
+@@ -21,7 +21,7 @@ class BuildIptablesTest(OESDKTestCase):
+                 self.tc.hasTargetPackage("gcc")):
+             raise unittest.SkipTest("SDK doesn't contain a cross-canadian toolchain")
+ 
+-    def test_iptables(self):
++    def test_lzip(self):
+         self.assertEqual(self.project.run_configure(), 0,
+                         msg="Running configure failed")
+ 
 -- 
-2.13.2
+2.12.0
 
 
