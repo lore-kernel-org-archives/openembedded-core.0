@@ -1,53 +1,53 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-io0-f182.google.com (mail-io0-f182.google.com
-	[209.85.223.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 5DAFA605B3
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
+	by mail.openembedded.org (Postfix) with ESMTP id D365D6FF84
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Jul 2017 09:56:42 +0000 (UTC)
-Received: by mail-io0-f182.google.com with SMTP id h134so54108160iof.2
+	Mon,  3 Jul 2017 10:15:06 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bes.se.axis.com (Postfix) with ESMTP id B0FE62E1C5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 03 Jul 2017 02:56:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:organization:mime-version:content-transfer-encoding;
-	bh=kHZHr69qHLppmOrd2xlGMm2ySc75ju546rd+mUuad/Y=;
-	b=zyoT9y3fn4xyfrKYVn6ZsxgTxHNLOXVZdXFR02bZkOm0j+XZW3m8fgHrwC0Rx4JACp
-	uMIOmJq6vqMM80jkBWFsxBKZGk7w5ytHS35Z07mZdJSzf3NuEHHkmJxxpZQoxQ1G2eoF
-	eCyZWnGpLQ2yEXJLEIILk/dAzYNZHOBOtoiuPDL6lhV7s1QqHIEjCqTnt0k73SmB9JFj
-	jwqhYoMbJnLK2fXMzOaO7vruX5UNAD8M3f03rBnSadBoQt0og9n+2EnGeR84QAy7Shsp
-	PgVv/nFSzx9SbwzhMl0ZuWjEpU1f4TUxrIod7QCq5MVC9rLmbub6NQRhS5QuvXuW1uxP
-	k3Dg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:organization:mime-version:content-transfer-encoding;
-	bh=kHZHr69qHLppmOrd2xlGMm2ySc75ju546rd+mUuad/Y=;
-	b=SDRPQ4zPtnbEdcENl3z4yu/wP9nBNIptopC5pBnh0ptnYaz4JziqxNeir+T23vfi9s
-	AX0TOR8yPeC0iCAeQReACFQjBWE7maQV1+gQCCUKEEldY88fzrHUWu7CQHFZlQKtX86W
-	LrTCR1zd8N+izUvtW7WmXQ6jUXP6VunICZzjgNVv6OqKnrH8OHg65nrfmdZbmZrF/42v
-	gHkl8UYcO/ScMrW8ckVcnQVVotxjE81+x+JTQ0Q4mzkBJWJmffT/2TLlY5Tvmzs7/7qJ
-	9/c/yXSiNOeR9AYM98b0GelHP1cFgNeGTRa8K6u7O8EN2NOGLYFyh/RRdDLtqi9YAo8M
-	H3Kg==
-X-Gm-Message-State: AKS2vOyzXSXmoLogRbc/kLN5rVzwkIcQ/Ev/tUXRKa0D8vFizkdQhiFY
-	ZnQnN6utXFcJIbCM
-X-Received: by 10.107.12.166 with SMTP id 38mr31729791iom.151.1499075803152;
-	Mon, 03 Jul 2017 02:56:43 -0700 (PDT)
-Received: from pohly-mobl1 (p5DE8EF7A.dip0.t-ipconnect.de. [93.232.239.122])
-	by smtp.gmail.com with ESMTPSA id t5sm2559976ita.22.2017.07.03.02.56.41
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 03 Jul 2017 02:56:42 -0700 (PDT)
-Message-ID: <1499075799.5259.77.camel@intel.com>
-From: Patrick Ohly <patrick.ohly@intel.com>
-To: Mikko Ylinen <mikko.ylinen@linux.intel.com>
-Date: Mon, 03 Jul 2017 11:56:39 +0200
-In-Reply-To: <20170630112411.11705-1-mikko.ylinen@linux.intel.com>
-References: <20170630112411.11705-1-mikko.ylinen@linux.intel.com>
-Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
-X-Mailer: Evolution 3.12.9-1+b1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] sanity.bbclass: fix AttributeError in mirror format checks
+	Mon,  3 Jul 2017 12:15:05 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
+Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP id 7Oj2LwBLAlhZ
+	for <openembedded-core@lists.openembedded.org>;
+	Mon,  3 Jul 2017 12:15:04 +0200 (CEST)
+Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
+	by bes.se.axis.com (Postfix) with ESMTPS id 84E2F2E233
+	for <openembedded-core@lists.openembedded.org>;
+	Mon,  3 Jul 2017 12:15:04 +0200 (CEST)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 458A01A061
+	for <openembedded-core@lists.openembedded.org>;
+	Mon,  3 Jul 2017 12:15:04 +0200 (CEST)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 3A7751A05C
+	for <openembedded-core@lists.openembedded.org>;
+	Mon,  3 Jul 2017 12:15:04 +0200 (CEST)
+Received: from seth.se.axis.com (unknown [10.0.2.172])
+	by boulder02.se.axis.com (Postfix) with ESMTP
+	for <openembedded-core@lists.openembedded.org>;
+	Mon,  3 Jul 2017 12:15:04 +0200 (CEST)
+Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
+	by seth.se.axis.com (Postfix) with ESMTP id 2E72423FC
+	for <openembedded-core@lists.openembedded.org>;
+	Mon,  3 Jul 2017 12:15:04 +0200 (CEST)
+Received: from saur-2.se.axis.com (localhost [127.0.0.1])
+	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id v63AF3P1031168
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 3 Jul 2017 12:15:03 +0200
+Received: (from pkj@localhost)
+	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id v63AF3Uj031166
+	for openembedded-core@lists.openembedded.org;
+	Mon, 3 Jul 2017 12:15:03 +0200
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  3 Jul 2017 12:14:59 +0200
+Message-Id: <20170703101459.31116-1-pkj@axis.com>
+X-Mailer: git-send-email 2.12.0
+X-TM-AS-GCONF: 00
+Subject: [PATCHv4] oe-pkgdata-util: package-info: Allow extra variables to be displayed
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,44 +60,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Jul 2017 09:56:46 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 03 Jul 2017 10:15:07 -0000
 
-On Fri, 2017-06-30 at 14:24 +0300, Mikko Ylinen wrote:
-> mirrors is a list after split() and results in:
-> 
-> AttributeError: 'list' object has no attribute 'strip'
-> 
-> when the 'mirror values are pairs' check fails.
-> 
-> Signed-off-by: Mikko Ylinen <mikko.ylinen@linux.intel.com>
-> ---
->  meta/classes/sanity.bbclass | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
-> index e8064ac483..1f74026e13 100644
-> --- a/meta/classes/sanity.bbclass
-> +++ b/meta/classes/sanity.bbclass
-> @@ -839,7 +839,7 @@ def check_sanity_everybuild(status, d):
->  
->          # Split into pairs
->          if len(mirrors) % 2 != 0:
-> -            bb.warn('Invalid mirror variable value for %s: %s, should contain paired members.' % (mirror_var, mirrors.strip()))
-> +            bb.warn('Invalid mirror variable value for %s: %s, should contain paired members.' % (mirror_var, str(mirrors).strip()))
+By specifying the -e <var> option one or multiple times, extra
+variables available in the pkgdata can be displayed, e.,g,
+`oe-pkgdata-util package-info -e SUMMARY -e LICENSE ...`. The extra
+variables displayed are quoted since some of them may contain
+whitespace.
 
-.strip() is redundant here, because str(mirrors) will produce [...],
-i.e. the string will never have leading or trailing spaces.
+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+---
+PATCHv2: Changed references to SRC_URI into LICENSE, since SRC_URI is
+not an available variable in the pkgdata.
 
+PATCHv3: Avoid a "TypeError: 'NoneType' object is not iterable" if
+no --extra argument is specified. Duh!
+
+PATCHv4: Removed a remaining reference to src_uri in a variable name.
+
+ scripts/oe-pkgdata-util | 12 ++++++++++--
+ 1 file changed, 10 insertions(+), 2 deletions(-)
+
+diff --git a/scripts/oe-pkgdata-util b/scripts/oe-pkgdata-util
+index 6255662a4b..677effeef6 100755
+--- a/scripts/oe-pkgdata-util
++++ b/scripts/oe-pkgdata-util
+@@ -325,8 +325,15 @@ def package_info(args):
+             recipe_version = recipe_version + "-" + mappings[pkg]['PR']
+         pkg_size = mappings[pkg]['PKGSIZE']
+ 
+-        items.append("%s %s %s %s %s" %
+-                     (pkg, pkg_version, recipe, recipe_version, pkg_size))
++        line = "%s %s %s %s %s" % (pkg, pkg_version, recipe, recipe_version, pkg_size)
++
++        if args.extra:
++            for var in args.extra:
++                val = mappings[pkg][var].strip()
++                val = re.sub(r'\s+', ' ', val)
++                line += ' "%s"' % val
++
++        items.append(line)
+     print('\n'.join(items))
+ 
+ def get_recipe_pkgs(pkgdata_dir, recipe, unpackaged):
+@@ -530,6 +537,7 @@ def main():
+                                           description='Looks up the specified runtime package(s) and display information')
+     parser_package_info.add_argument('pkg', nargs='*', help='Runtime package name to look up')
+     parser_package_info.add_argument('-f', '--file', help='Read package names from the specified file (one per line, first field only)')
++    parser_package_info.add_argument('-e', '--extra', help='Extra variables to display, e.g., LICENSE (can be specified multiple times)', action='append')
+     parser_package_info.set_defaults(func=package_info)
+ 
+     parser_find_path = subparsers.add_parser('find-path',
 -- 
-Best Regards, Patrick Ohly
-
-The content of this message is my personal opinion only and although
-I am an employee of Intel, the statements I make here in no way
-represent Intel's position on the issue, nor am I authorized to speak
-on behalf of Intel on this matter.
-
-
+2.12.0
 
 
