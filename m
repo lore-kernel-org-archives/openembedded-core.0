@@ -1,45 +1,46 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-wm0-f53.google.com (mail-wm0-f53.google.com [74.125.82.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 0457277F69;
-	Mon,  3 Jul 2017 16:02:09 +0000 (UTC)
-Received: by mail-wm0-f53.google.com with SMTP id 62so173230692wmw.1;
-	Mon, 03 Jul 2017 09:02:11 -0700 (PDT)
+Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 3C63A77FEC
+	for <openembedded-core@lists.openembedded.org>;
+	Mon,  3 Jul 2017 16:04:16 +0000 (UTC)
+Received: by mail-wm0-f66.google.com with SMTP id j85so21364107wmj.0
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 03 Jul 2017 09:04:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=OPiOJrOFHrRAKGGztdSpzNc8wcBftW06NkLdiWN1SvA=;
-	b=u0tv5D5pcDqKqGTxSG7LtMsraqSOcDSY6xxh76HolaWiKfqg0D/Q5ADzG7+88m2znh
-	k/hdKz2KvgsoQcWYRKz1pUi8J1NP24dGffiEETqiraf2l59r36m9aozzQiLu66nCM8Xe
-	DeK2j5aMWYQR41JnnER5WYUY7/UAhrt/WYlboK6+SU75PZt2yTa6hE9ZT7sxduNW8ust
-	IBi/8l3i9X19KdLqsVcEwzXyoXPRaVx3xmxMB6NyejpmrxX8YioJeUtRZI4F8s8sj2/+
-	HJndHRyGec+13MwIYtq9SqMi9ezqA2ZgFipr4oJ2KVOjlCTmLj8ycTZIR6yTBSAY/OZU
-	5kjQ==
+	:cc; bh=NcRae5PvanO56VoUiCzxcgobtKvqwwvOW73keUrf/HQ=;
+	b=AfYN7d3NRADHZPC+5zKUaRwjadXZTxY5jPiWYpAqQR3n1KEyhgvyYkSXyepPfnUAms
+	B+rby+IWzbtdNiHxjasAqc6Ge3km5avG2wTCDnirsRbbpEiuPp7j/LU81+HWzo1cgDVw
+	04MxCo9tqnP0HbsAE/FesNBLeAIcHfRtTP7wDswsw5BZjTUFB5qGdF0hs0PC+sJzTbCt
+	Lig+i0R00XR/wnncbN0Fb07/wCxn4yiFOHvEyK6EKsO5b+EbbO5IE71OXwQX/TxbTWlq
+	87o7UC8wsujehqbE17FGsG6xRCu3Ph95FgVkqz26HR2xvCaDbUtlppsVZHV8DNY+vTI0
+	le+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=OPiOJrOFHrRAKGGztdSpzNc8wcBftW06NkLdiWN1SvA=;
-	b=QqIW/Ch/CjmQ0QWnc1CmwI0N4yyS8zA29bkvYUuPirkgAUD0V/UoUZ4Ca14G8+kSg9
-	zPnoGAJK+1nl64R/ImWuYd60OsK31s6vkaLu3dPDsu3XEjNUKDTEBY0ylUy26GgGpzi2
-	/FJem8N5VjbhqXWDGTZEsxfR1sCW62JfUQxucDNt6JgKbZeJ4l8cQKIqqVnZFxCFrFvl
-	o4n4YM3VpVZZ2Av4xxM8eHMOpJGtVOIq3ObdNGhzWd0fqxXdAiHRXheqI1qOTAA5IOig
-	gnVqfvhyQ6ggMrxmXMex2DmlUZOXpVSHw4HgjFWC+FUj/HGkPrGV++3YIPGFMPDWxuyZ
-	N4wA==
-X-Gm-Message-State: AKS2vOyF8K5XHphf8Oj+MX6Oyle8GDxwjGUmycEBhG8nO9JVbGpYX5kS
-	mUh+CPwug2VsS4b5B45+kFO+eLZo4g==
-X-Received: by 10.80.151.49 with SMTP id c46mr15736603edb.30.1499097730228;
-	Mon, 03 Jul 2017 09:02:10 -0700 (PDT)
+	bh=NcRae5PvanO56VoUiCzxcgobtKvqwwvOW73keUrf/HQ=;
+	b=bEOlf/tdrMXh2cZRlb7WMO7jYKOLCuV3WMzZIwjp4YUSV4H2mAbcbKOD01C35jIGOG
+	8YwITH6Q+Cej5t5fAwo+LNTUo6At9w2KC7sGz2n08e72ZVw+4r8m3hTp4vT8Nclj6VFQ
+	ZwTu+SoBLQee386W8yWUu1ilNtA8+76PRLPjyp7DJGPsrFj/h0A3cYdJsTv/tK8wPRSq
+	4kuwVkOH4rgyAazTU9Cv0uHeggHxihX1xWwRdxKPW4nidhqOwXH4ErgBG310pvV6Ovyw
+	Jx/oNg8TAJTSmTaCEmxDlTdhiMQ1LPWgbveLlOZ5gmNDG4RsxJv0J3xXMzR7fAlOcnbd
+	6Bxg==
+X-Gm-Message-State: AKS2vOzWyzdiOgANp8stoofpT5DCM7+S04nCxpaQnMlFT3787V038d/f
+	ZesRAuTMAQDRZWfmxM9trqAMfpXV4w==
+X-Received: by 10.80.137.45 with SMTP id e42mr15275604ede.67.1499097858005;
+	Mon, 03 Jul 2017 09:04:18 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.80.165.198 with HTTP; Mon, 3 Jul 2017 09:01:39 -0700 (PDT)
-In-Reply-To: <CA+chaQeKdNstTz6s1KMLcM+oHE2Rb3CZ0PWo0+j+wM4kzbcQFw@mail.gmail.com>
-References: <CA+chaQeKdNstTz6s1KMLcM+oHE2Rb3CZ0PWo0+j+wM4kzbcQFw@mail.gmail.com>
+Received: by 10.80.165.198 with HTTP; Mon, 3 Jul 2017 09:03:47 -0700 (PDT)
+In-Reply-To: <20170630085114.32050-1-ricardo.ribalda@gmail.com>
+References: <20170630085114.32050-1-ricardo.ribalda@gmail.com>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 3 Jul 2017 09:01:39 -0700
-Message-ID: <CAMKF1sqX_v0KA2ETEdT7wYBtx-nAybPk-t1TOZRsjLaENNjCvQ@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: openembedded-devel <openembedded-devel@lists.openembedded.org>,
-	Patches and discussions about the oe-core layer
+Date: Mon, 3 Jul 2017 09:03:47 -0700
+Message-ID: <CAMKF1sqz3J9q_BT7zdKU=oVttQmsrkP+5_k=nZW6h2gGgpYUmg@mail.gmail.com>
+To: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: State of bitbake world, Failed tasks 2017-07-02
+Subject: Re: [PATCH 1/3] gcc-6.3: Fix libgfortran build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,47 +53,95 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Jul 2017 16:02:10 -0000
+X-List-Received-Date: Mon, 03 Jul 2017 16:04:17 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Mon, Jul 3, 2017 at 4:20 AM, Martin Jansa <martin.jansa@gmail.com> wrote:
-> http://www.openembedded.org/wiki/Bitbake_World_Status
+On Fri, Jun 30, 2017 at 1:51 AM, Ricardo Ribalda Delgado
+<ricardo.ribalda@gmail.com> wrote:
+> Without this patch libbacktrace cannot be included/link during
+> libgfortran build.
 >
-> == Number of issues - stats ==
-> {| class='wikitable'
-> !|Date     !!colspan='3'|Failed tasks    !!|Signatures
-> !!colspan='14'|QA !!Comment
-> |-
-> || ||qemuarm ||qemux86 ||qemux86_64 ||all
-> ||already-stripped ||libdir ||textrel ||build-deps ||file-rdeps ||version-going-backwards ||host-user-contaminated ||installed-vs-shipped ||unknown-configure-option ||symlink-to-sysroot ||invalid-pkgconfig ||pkgname ||ldflags ||compile-host-path ||
-> |-
-> ||2017-07-02 ||7 ||8 ||5 ||0 ||0 ||1 ||4 ||0 ||0 ||1238 ||1 ||0 ||0 ||0 ||0 ||0 ||0 ||0 ||
-> |}
+> libbtool: link: cannot find the library `../libbacktrace/libbacktrace.la'
+> or unhandled argument `../libbacktrace/libbacktrace.la'
 >
-> == Failed tasks 2017-07-02 ==
+> Signed-off-by: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
+> ---
+>  meta/recipes-devtools/gcc/gcc-6.3.inc              |  1 +
+>  .../gcc/gcc-6.3/0099-Fix-gfortran-build.patch      | 44 ++++++++++++++++++++++
+>  2 files changed, 45 insertions(+)
+>  create mode 100644 meta/recipes-devtools/gcc/gcc-6.3/0099-Fix-gfortran-build.patch
 >
-> INFO: jenkins-job.sh-1.8.24 Complete log available at
-> http://logs.nslu2-linux.org/buildlogs/oe/world/rocko/log.report.20170702_225940.log
->
-> === common (3) ===
->     *
-> meta-openembedded/meta-multimedia/recipes-mediacenter/kodi/kodi_17.bb:do_configure
->     *
-> meta-openembedded/meta-oe/recipes-extended/fluentbit/fluentbit_0.11.11.bb:do_package
->     *
-> virtual:native:meta-qt5/recipes-qt/qt5/qtxmlpatterns_git.bb:do_populate_sysroot
->
-> === common-x86 (2) ===
->     * meta-qt5/recipes-qt/qt5/qtwebengine_git.bb:do_compile
->     *
-> openembedded-core/meta/recipes-devtools/valgrind/valgrind_3.12.0.bb:do_compile_ptest_base
->
-> === qemuarm (4) ===
->     *
-> meta-openembedded/meta-oe/recipes-graphics/gegl/gegl_0.3.18.bb:do_fetch
->     *
-> meta-openembedded/meta-oe/recipes-support/synergy/synergy_git.bb:do_fetch
->     *
+> diff --git a/meta/recipes-devtools/gcc/gcc-6.3.inc b/meta/recipes-devtools/gcc/gcc-6.3.inc
+> index 86b3e9ff19a4..36a116d48fb4 100644
+> --- a/meta/recipes-devtools/gcc/gcc-6.3.inc
+> +++ b/meta/recipes-devtools/gcc/gcc-6.3.inc
+> @@ -74,6 +74,7 @@ SRC_URI = "\
+>             file://0047-libgcc_s-Use-alias-for-__cpu_indicator_init-instead-.patch \
+>             file://0048-sync-gcc-stddef.h-with-musl.patch \
+>             file://0054_all_nopie-all-flags.patch \
+> +           file://0099-Fix-gfortran-build.patch \
 
-these worked ok for me. Seems to be transitory failures.
+call it 0055 for legibility sake.
+
+>             ${BACKPORTS} \
+>  "
+>  BACKPORTS = "\
+> diff --git a/meta/recipes-devtools/gcc/gcc-6.3/0099-Fix-gfortran-build.patch b/meta/recipes-devtools/gcc/gcc-6.3/0099-Fix-gfortran-build.patch
+> new file mode 100644
+> index 000000000000..32b2f9a0567f
+> --- /dev/null
+> +++ b/meta/recipes-devtools/gcc/gcc-6.3/0099-Fix-gfortran-build.patch
+> @@ -0,0 +1,44 @@
+> +diff --git a/libgfortran/Makefile.am b/libgfortran/Makefile.am
+> +index 39d3e11d223c..b5efe6dfe195 100644
+> +--- a/libgfortran/Makefile.am
+> ++++ b/libgfortran/Makefile.am
+> +@@ -37,7 +37,7 @@ toolexeclib_LTLIBRARIES = libgfortran.la
+> + toolexeclib_DATA = libgfortran.spec
+> + libgfortran_la_LINK = $(LINK) $(libgfortran_la_LDFLAGS)
+> + libgfortran_la_LDFLAGS = -version-info `grep -v '^\#' $(srcdir)/libtool-version` \
+> +-      $(LTLDFLAGS) $(LIBQUADLIB) ../libbacktrace/libbacktrace.la \
+> ++      $(LTLDFLAGS) $(LIBQUADLIB) ../../libbacktrace/libbacktrace.la \
+> +       -lm $(extra_ldflags_libgfortran) \
+> +       $(version_arg) -Wc,-shared-libgcc
+> + libgfortran_la_DEPENDENCIES = $(version_dep) libgfortran.spec $(LIBQUADLIB_DEP)
+> +@@ -63,7 +63,7 @@ AM_CPPFLAGS = -iquote$(srcdir)/io -I$(srcdir)/$(MULTISRCTOP)../gcc \
+> +             -I$(MULTIBUILDTOP)../libgcc \
+> +             -I$(srcdir)/$(MULTISRCTOP)../libbacktrace \
+> +             -I$(MULTIBUILDTOP)../libbacktrace \
+> +-            -I../libbacktrace
+> ++            -I../../libbacktrace
+> +
+> + # Fortran rules for complex multiplication and division
+> + AM_CFLAGS += -fcx-fortran-rules
+> +diff --git a/libgfortran/Makefile.in b/libgfortran/Makefile.in
+> +index 7ed080cf7b0d..d197fbd6b683 100644
+> +--- a/libgfortran/Makefile.in
+> ++++ b/libgfortran/Makefile.in
+> +@@ -598,7 +598,7 @@ toolexeclib_LTLIBRARIES = libgfortran.la
+> + toolexeclib_DATA = libgfortran.spec
+> + libgfortran_la_LINK = $(LINK) $(libgfortran_la_LDFLAGS)
+> + libgfortran_la_LDFLAGS = -version-info `grep -v '^\#' $(srcdir)/libtool-version` \
+> +-      $(LTLDFLAGS) $(LIBQUADLIB) ../libbacktrace/libbacktrace.la \
+> ++      $(LTLDFLAGS) $(LIBQUADLIB) ../../libbacktrace/libbacktrace.la \
+> +       -lm $(extra_ldflags_libgfortran) \
+> +       $(version_arg) -Wc,-shared-libgcc
+> +
+> +@@ -618,7 +618,7 @@ AM_CPPFLAGS = -iquote$(srcdir)/io -I$(srcdir)/$(MULTISRCTOP)../gcc \
+> +             -I$(MULTIBUILDTOP)../libgcc \
+> +             -I$(srcdir)/$(MULTISRCTOP)../libbacktrace \
+> +             -I$(MULTIBUILDTOP)../libbacktrace \
+> +-            -I../libbacktrace
+> ++            -I../../libbacktrace
+> +
+> + gfor_io_src = io/size_from_kind.c $(am__append_2)
+> + gfor_io_headers = \
+> --
+> 2.11.0
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
