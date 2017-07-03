@@ -1,47 +1,44 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f173.google.com (mail-qk0-f173.google.com
-	[209.85.220.173])
-	by mail.openembedded.org (Postfix) with ESMTP id AB21671AD4
+Return-Path: <fathi.boudra@linaro.org>
+Received: from mail-lf0-f46.google.com (mail-lf0-f46.google.com
+	[209.85.215.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 2A47A780BD
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Jul 2017 11:44:47 +0000 (UTC)
-Received: by mail-qk0-f173.google.com with SMTP id v143so59407217qkb.0
+	Mon,  3 Jul 2017 11:45:37 +0000 (UTC)
+Received: by mail-lf0-f46.google.com with SMTP id l13so101187566lfl.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 03 Jul 2017 04:44:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=3qBSYSGKDGHtlh6HBharfxo3I69cjwxeewNUasp+PpQ=;
-	b=IjFjzS8pq7zd85tPQuQvE9yXuT1aZqB1Shp/QpbULpB5au/06PlEQBCsX0BfqWL2fm
-	WCkKVE7mPLdMWNcNuwRe+RGQ7pqQT2EMy3LfQLDmz/mli08Ng4+hg8uR/76wVjjQNC7h
-	QccTFnHrjeQH5dKh+pllV93KVn8AGTgKIJjI/EVX3y98BrNoJTUNFpjPb9kEXZxZ2yma
-	TWRTIqpViyU4oxMh3Kdogf3MnTeqC8osy3XpR2aw7Ckf/YvzWzsK7w3YXoSynxdrageZ
-	pFDODwI7UYr9ErE3tXGzQVOWP5Y4AokY1jDffidOWkaN1eG9TQGdtNp8GktgHsuxy/m8
-	4vjg==
+	Mon, 03 Jul 2017 04:45:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=from:to:cc:subject:date:message-id;
+	bh=MXqqhJXEXHgOd0wicb4Dv7BrWYKpsinpAZH5f5Q+B8k=;
+	b=C8DYC6eTpQPSYScQdKx8EeZkFtaV8mzrIuaDd1RjhbeNHDG82f6o4PMrAhZZpsEObT
+	YrZfxiNA9YTWh/pQ0tiObw3M/pZGOojKEHPpJXVCghdj0CG2+IdqLx3YofO+ll9MPQ8h
+	iQyD77lDi30IBkUPegTNDCp1fVqQfdmIj/ESU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=3qBSYSGKDGHtlh6HBharfxo3I69cjwxeewNUasp+PpQ=;
-	b=Ap+ICGBUKeJcLJY7gPvfnK3hjYQkwFuJQRVRVMN9NHvxWnZVu4jW0uqZLu1L8w30I0
-	BzwSyZrSD3IxRyVdrlKm+tIBs8xMhLlpjdFBLuk76mx0Ht5npZWG13hR5w5UPkpB2d6f
-	rhb8+Xyjbe3i2mNEi+vJN2kdWSm1NyX0CmtYw5GTS1eM5Jadr0948dfE3GHRgZ8wo81z
-	HB1aVAX5OwIdAo5e9lNZEVDbO7SmrEMbUFDNsSy/01oDk9vRTUjYn/EPFk3CVfs6HeaC
-	RFgl4lAA8AMJqv23Gn3V0/CE4DhWU9jppJiiodcLiy5a4QpFP4HikKpW/PUKwdSmGy1r
-	aeLQ==
-X-Gm-Message-State: AKS2vOwdedABHG+2fqD/nSSnTCDsjWh/aPuEEzjE/QzMSfCqX98Z3HBJ
-	AU/KmvJMJGaxRVSC1MG/m/Wni3nuEK4z
-X-Received: by 10.55.31.162 with SMTP id n34mr38584760qkh.46.1499082288352;
-	Mon, 03 Jul 2017 04:44:48 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.31.118 with HTTP; Mon, 3 Jul 2017 04:44:27 -0700 (PDT)
-In-Reply-To: <017fe027-8557-dada-f6f6-e112faee58d4@Net2Edge.com>
-References: <017fe027-8557-dada-f6f6-e112faee58d4@Net2Edge.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 3 Jul 2017 12:44:27 +0100
-Message-ID: <CAJTo0LYpa+Q6yVRYfriUVt+oV4fZkmSb=HAy01zVs=wT-ZxOEQ@mail.gmail.com>
-To: Thomas.Thorne@net2edge.com
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: New Recipe for ser2net with IPv6 Support (v3.0 & v3.1)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=MXqqhJXEXHgOd0wicb4Dv7BrWYKpsinpAZH5f5Q+B8k=;
+	b=b2wYgWBZyv9Xr+kv1o5ucvnw7Zv3lxs4nSI+UCKU7kXwNWztqitpoTDW/k4Tiq4hYT
+	mRBYHWZBxQSXQaSwEZsxc7oF8YAOLX2yXyfBnGyDGb6MDLRjxCdJjoG78jOUpjkutQug
+	WhbNR8AAPtso0RVwuXMS6S8QyyxBi6Y75inBXXb2N9lvuhyCPU5w29ik4QPYkVseDWP5
+	9hVrqOH0/DuOyRz8jzOMgYn1U+APA8O+9DIYX+/KalVvLtgQ+40LqjGlsu5hPJNl4JSE
+	yvzZqyDGk9A1mi0B90MLA3ffn9tipfnnIck/3359TVT64ba4Zk+0IZWLpG8tjDsHbpm/
+	unHg==
+X-Gm-Message-State: AIVw111DE4K6zxhLMVVjqAA+M4isfUtmT8eYcvqSDX1nQPoV8D2k/sWY
+	T3jj4+vvxVTM4I7HBtTCPg==
+X-Received: by 10.46.15.25 with SMTP id 25mr895432ljp.90.1499082338092;
+	Mon, 03 Jul 2017 04:45:38 -0700 (PDT)
+Received: from localhost.localdomain (a91-156-68-101.elisa-laajakaista.fi.
+	[91.156.68.101])
+	by smtp.gmail.com with ESMTPSA id 8sm3191545ljw.61.2017.07.03.04.45.36
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 03 Jul 2017 04:45:36 -0700 (PDT)
+From: Fathi Boudra <fathi.boudra@linaro.org>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  3 Jul 2017 14:45:34 +0300
+Message-Id: <20170703114534.27853-1-fathi.boudra@linaro.org>
+X-Mailer: git-send-email 2.13.0
+Cc: Milosz Wasilewski <milosz.wasilewski@linaro.org>
+Subject: [PATCH] ltp: syscalls/add_key02: fix for nonempty NULL payload
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,62 +51,175 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Jul 2017 11:44:47 -0000
-Content-Type: multipart/alternative; boundary="001a1147e5f84961040553684bff"
+X-List-Received-Date: Mon, 03 Jul 2017 11:45:38 -0000
 
---001a1147e5f84961040553684bff
-Content-Type: text/plain; charset="UTF-8"
+Add upstream patch to fix syscalls/add_key02 test for nonempty
+NULL payload:
+https://github.com/linux-test-project/ltp/commit/25045624e941ee76a13febd36187e23c6c435507
 
-On 30 June 2017 at 08:30, Thomas A. F. Thorne MEng AUS MIET <
-Thomas.Thorne@net2edge.com> wrote:
+Signed-off-by: Milosz Wasilewski <milosz.wasilewski@linaro.org>
+Signed-off-by: Fathi Boudra <fathi.boudra@linaro.org>
+---
+ ...d_key02-update-to-test-fix-for-nonempty-N.patch | 136 +++++++++++++++++++++
+ meta/recipes-extended/ltp/ltp_20170516.bb          |   1 +
+ 2 files changed, 137 insertions(+)
+ create mode 100644 meta/recipes-extended/ltp/ltp/0038-syscalls-add_key02-update-to-test-fix-for-nonempty-N.patch
 
-> I am creating recipes for ser2net_3.0.bb and ser2net_3.1.bb as part of
-> my testing.  I would be happy to submit the files as patches.  I am
-> currently working on krogoth but could submit the patch against another
-> version if preferred.
->
-> I have CCed the meta-oe maintainers (on my first message attempt but not
-> my second)
-> as that the is the layer that holds the ser2net recipe at present.  I hope
-> that was not a mistake, please
-> for give the extra email if it was.
->
+diff --git a/meta/recipes-extended/ltp/ltp/0038-syscalls-add_key02-update-to-test-fix-for-nonempty-N.patch b/meta/recipes-extended/ltp/ltp/0038-syscalls-add_key02-update-to-test-fix-for-nonempty-N.patch
+new file mode 100644
+index 0000000000..3759e1fa9f
+--- /dev/null
++++ b/meta/recipes-extended/ltp/ltp/0038-syscalls-add_key02-update-to-test-fix-for-nonempty-N.patch
+@@ -0,0 +1,136 @@
++From 25045624e941ee76a13febd36187e23c6c435507 Mon Sep 17 00:00:00 2001
++From: Eric Biggers <ebiggers@google.com>
++Date: Mon, 12 Jun 2017 11:55:21 -0700
++Subject: [PATCH 01/39] syscalls/add_key02: update to test fix for nonempty
++ NULL payload
++
++add_key02 was supposed to be a "Basic test for the add_key() syscall",
++but it actually happened to test the obscure case of passing a NULL
++payload with nonzero length.  This case was mishandled by the kernel,
++which either returned EINVAL or crashed with a NULL pointer dereference,
++depending on the key type.  (The former applied to the test, as it used
++the "user" key type.)  The expected behavior in this case is that the
++syscall fail with EFAULT.
++
++Update the test to expect the fixed behavior from v4.12-rc5, and make
++the test more thorough by testing additional key types, including ones
++that caused a NULL pointer dereference in unfixed kernels.
++
++Signed-off-by: Eric Biggers <ebiggers@google.com>
++Upstream-Status: Accepted [https://github.com/linux-test-project/ltp/commit/25045624e941ee76a13febd36187e23c6c435507]
++---
++ testcases/kernel/syscalls/add_key/add_key02.c | 69 ++++++++++++++++++++-------
++ 1 file changed, 51 insertions(+), 18 deletions(-)
++
++diff --git a/testcases/kernel/syscalls/add_key/add_key02.c b/testcases/kernel/syscalls/add_key/add_key02.c
++index 866800d6f..2e3308dcd 100644
++--- a/testcases/kernel/syscalls/add_key/add_key02.c
+++++ b/testcases/kernel/syscalls/add_key/add_key02.c
++@@ -1,5 +1,6 @@
++ /******************************************************************************
++  * Copyright (c) Crackerjack Project., 2007				      *
+++ * Copyright (c) 2017 Google, Inc.                                            *
++  *									      *
++  * This program is free software;  you can redistribute it and/or modify      *
++  * it under the terms of the GNU General Public License as published by       *
++@@ -18,10 +19,17 @@
++  ******************************************************************************/
++ 
++ /*
++- * Basic test for the add_key() syscall.
+++ * Test that the add_key() syscall correctly handles a NULL payload with nonzero
+++ * length.  Specifically, it should fail with EFAULT rather than oopsing the
+++ * kernel with a NULL pointer dereference or failing with EINVAL, as it did
+++ * before (depending on the key type).  This is a regression test for commit
+++ * 5649645d725c ("KEYS: fix dereferencing NULL payload with nonzero length").
++  *
++- * History:   Porting from Crackerjack to LTP is done by
++- *	      Manas Kumar Nayak maknayak@in.ibm.com>
+++ * Note that none of the key types that exhibited the NULL pointer dereference
+++ * are guaranteed to be built into the kernel, so we just test as many as we
+++ * can, in the hope of catching one.  We also test with the "user" key type for
+++ * good measure, although it was one of the types that failed with EINVAL rather
+++ * than dereferencing NULL.
++  */
++ 
++ #include "config.h"
++@@ -33,36 +41,61 @@
++ 
++ #ifdef HAVE_LINUX_KEYCTL_H
++ struct tcase {
++-	char *type;
++-	char *desc;
++-	void *payload;
++-	int plen;
++-	int exp_errno;
+++	const char *type;
+++	size_t plen;
++ } tcases[] = {
++-	{"user", "firstkey", NULL, 1, EINVAL}
+++	/*
+++	 * The payload length we test for each key type needs to pass initial
+++	 * validation but is otherwise arbitrary.  Note: the "rxrpc_s" key type
+++	 * requires a payload of exactly 8 bytes.
+++	 */
+++	{ "asymmetric",		64 },
+++	{ "cifs.idmap",		64 },
+++	{ "cifs.spnego",	64 },
+++	{ "pkcs7_test",		64 },
+++	{ "rxrpc",		64 },
+++	{ "rxrpc_s",		 8 },
+++	{ "user",		64 },
++ };
++ #endif /* HAVE_LINUX_KEYCTL_H */
++ 
++ static void verify_add_key(unsigned int i)
++ {
++ #ifdef HAVE_LINUX_KEYCTL_H
++-	TEST(tst_syscall(__NR_add_key, tcases[i].type, tcases[i].desc,
++-	                 tcases[i].payload, tcases[i].plen,
++-	                 KEY_SPEC_USER_KEYRING));
+++	TEST(tst_syscall(__NR_add_key, tcases[i].type, "abc:def",
+++			 NULL, tcases[i].plen, KEY_SPEC_PROCESS_KEYRING));
++ 
++ 	if (TEST_RETURN != -1) {
++-		tst_res(TFAIL, "add_key() passed unexpectedly");
+++		tst_res(TFAIL,
+++			"add_key() with key type '%s' unexpectedly succeeded",
+++			tcases[i].type);
++ 		return;
++ 	}
++ 
++-	if (TEST_ERRNO == tcases[i].exp_errno) {
++-		tst_res(TPASS | TTERRNO, "add_key() failed expectedly");
+++	if (TEST_ERRNO == EFAULT) {
+++		tst_res(TPASS, "received expected EFAULT with key type '%s'",
+++			tcases[i].type);
++ 		return;
++ 	}
++ 
++-	tst_res(TFAIL | TTERRNO,
++-	        "add_key() failed unexpectedly, expected %s",
++-	        tst_strerrno(tcases[i].exp_errno));
+++	if (TEST_ERRNO == ENODEV) {
+++		tst_res(TCONF, "kernel doesn't support key type '%s'",
+++			tcases[i].type);
+++		return;
+++	}
+++
+++	/*
+++	 * It's possible for the "asymmetric" key type to be supported, but with
+++	 * no asymmetric key parsers registered.  In that case, attempting to
+++	 * add a key of type asymmetric will fail with EBADMSG.
+++	 */
+++	if (TEST_ERRNO == EBADMSG && !strcmp(tcases[i].type, "asymmetric")) {
+++		tst_res(TCONF, "no asymmetric key parsers are registered");
+++		return;
+++	}
+++
+++	tst_res(TFAIL | TTERRNO, "unexpected error with key type '%s'",
+++		tcases[i].type);
++ #else
++ 	tst_brk(TCONF, "linux/keyctl.h was missing upon compilation.");
++ #endif /* HAVE_LINUX_KEYCTL_H */
++-- 
++2.13.0
++
+diff --git a/meta/recipes-extended/ltp/ltp_20170516.bb b/meta/recipes-extended/ltp/ltp_20170516.bb
+index f537d60c15..ac66b09569 100644
+--- a/meta/recipes-extended/ltp/ltp_20170516.bb
++++ b/meta/recipes-extended/ltp/ltp_20170516.bb
+@@ -51,6 +51,7 @@ SRC_URI = "git://github.com/linux-test-project/ltp.git \
+            file://0036-testcases-network-nfsv4-acl-acl1.c-Security-fix-on-s.patch \
+            file://0001-dirtyc0w-Include-stdint.h.patch \
+            file://0037-faccessat-and-fchmodat-Fix-build-warnings.patch \
++           file://0038-syscalls-add_key02-update-to-test-fix-for-nonempty-N.patch \
+            "
+ 
+ S = "${WORKDIR}/git"
+-- 
+2.13.0
 
-If the existing recipes are in meta-oe then submitting an upgrade to 3.1
-(assuming thats the latest version) to meta-oe would be great.  This would
-have to be against the master branch, and in general we don't like to
-maintain many versions of each recipe as only one of them will be tested.
 
-Ross
-
---001a1147e5f84961040553684bff
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 30 June 2017 at 08:30, Thomas A. F. Thorne MEng AUS MIET <span dir=3D"lt=
-r">&lt;<a href=3D"mailto:Thomas.Thorne@net2edge.com" target=3D"_blank">Thom=
-as.Thorne@net2edge.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_=
-quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1=
-ex"><div id=3D":u9" class=3D"a3s aXjCH m15cf7e9311949670">I am creating rec=
-ipes for <a href=3D"http://ser2net_3.0.bb" rel=3D"noreferrer" target=3D"_bl=
-ank">ser2net_3.0.bb</a> and <a href=3D"http://ser2net_3.1.bb" rel=3D"norefe=
-rrer" target=3D"_blank">ser2net_3.1.bb</a> as part of<br>
-my testing.=C2=A0 I would be happy to submit the files as patches.=C2=A0 I =
-am<br>
-currently working on krogoth but could submit the patch against another<br>
-version if preferred.<br>
-<br>
-I have CCed the meta-oe maintainers (on my first message attempt but not my=
- second)<br>
-as that the is the layer that holds the ser2net recipe at present.=C2=A0 I =
-hope that was not a mistake, please<br>
-for give the extra email if it was.<br></div></blockquote></div><br>If the =
-existing recipes are in meta-oe then submitting an upgrade to 3.1 (assuming=
- thats the latest version) to meta-oe would be great.=C2=A0 This would have=
- to be against the master branch, and in general we don&#39;t like to maint=
-ain many versions of each recipe as only one of them will be tested.</div><=
-div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></=
-div>
-
---001a1147e5f84961040553684bff--
