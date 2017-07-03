@@ -1,46 +1,46 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f174.google.com (mail-qk0-f174.google.com
-	[209.85.220.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 78724719AF
+Return-Path: <ricardo.ribalda@gmail.com>
+Received: from mail-io0-f178.google.com (mail-io0-f178.google.com
+	[209.85.223.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 9BA8D6FEFE
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Jul 2017 15:22:28 +0000 (UTC)
-Received: by mail-qk0-f174.google.com with SMTP id p21so148599544qke.3
+	Mon,  3 Jul 2017 15:28:22 +0000 (UTC)
+Received: by mail-io0-f178.google.com with SMTP id r36so58457943ioi.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 03 Jul 2017 08:22:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	Mon, 03 Jul 2017 08:28:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=H+D86i6W8nt4VYGU3DVIPIIW38zm9e1fAWrr8LM1Gnc=;
-	b=bVuIhoRui10/63nns2dzSAKIgjfImZlsHb4VgTsZk6Is3QhrdaweDfePt9k3uRqbqm
-	qBiTwh8/HmPfFv1IbxoHCn8n2E5M1kYgZrAc69u669skvptRUcCLFnOnasKEPf09l7qv
-	b6NovcI6BdGZoaB9MK0WUsWPRFqGv5SNCETElAW5Lr6kRvK06bb6gXFnTL3e8qNdGe5E
-	sM77onkdoOY+j0rdVyh7Y87bg7dzL/B9TqtdlwGlBpikvOnNLxsXzxxgAfloWC/huxFp
-	baCkqEHQiVD19PCozdZWqjFrc/gndA8Y9hLsruygWUwOnxfi7J74MVB7FwZXBUDpCoNU
-	DysQ==
+	:cc; bh=DddPL6SVDAvoVah/e/dx2MuCns3BxCHK8jMjIu0x6QI=;
+	b=EJcTfAV+ou1NOKhw6dwecdiM8Sh0+MvTUfKSAXkamQF18+0oZTIf0B/YMqdVihALNu
+	M1MnU2OvfrbaW1zTOG8PvdD+trEtzJi0vR0IqLg6D/XyqNLlCJvdn6eEwWu0oHuTjNb7
+	5n4WAZ/QQQvdZSomOeKZfnpJntdGdgX/fhATF71yJGfJMech3UbagXCxGXjPW83HkgqI
+	ZTf6Okfa3GQLc6kYPxreB2fMYFcpaXYTUkDfgaTT8iLxNX+I0g3GWLKRwDPOtRz3Ww3Q
+	KwNRfhxT6ttAeqlhlTKixwEPksBqml4PNkCA7WcPmchb7bkID3F/auKDIM3YnjSVsHjX
+	dJCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=H+D86i6W8nt4VYGU3DVIPIIW38zm9e1fAWrr8LM1Gnc=;
-	b=Fx1018ep/DNhr5lB0O4wFd5cnJrXfk8IOxntl6GwIVJFz9mazABc35dBJ7V32et1fV
-	+HwkVS/iUkQPN/Xn/WeK7Y8nRmdRkXAvxoiSyrjhe+82LttToB5+P2z9g/Cxko3AycaK
-	8M2/cRGfm3paVS08wwCkI9eEjpEYJL+vZ+IiqJBfaWnDQZu5AEi6IphbOdmxX/ZSI47F
-	NXdbZpCktNYji8/VzH6Bbpn+MLJhMXZfQZMQj7ScA0/ssJsv9jSn5okLvfUVLfs9Irz3
-	6QSzD5VnCLTOgxvWE/OTYFhrlSKpH2/Ri3Y2mliIbHMqY0NpW7jpCo7dnuks3TSRj7ri
-	Mh5Q==
-X-Gm-Message-State: AKS2vOwIm1G4FUDnskOfwrJWWKnk5r50j7gtS1Af2n093u5ze/9G/Agb
-	A6p2TgGIYPM+iT9mwtk/RJb4Dth/Cz85
-X-Received: by 10.55.31.162 with SMTP id n34mr39814965qkh.46.1499095350133;
-	Mon, 03 Jul 2017 08:22:30 -0700 (PDT)
+	bh=DddPL6SVDAvoVah/e/dx2MuCns3BxCHK8jMjIu0x6QI=;
+	b=R/N7JFcboVaAWCIjBCdiSCzePi5REc18uigGr6Jph7RFlzd1MC9p5cFBBpTLgOgLJu
+	O5DkFLQdPUBWptlP9VYPg5Q+l1iYzhzJaUbs3xqhJku6vZjA3Aa/YcQdbeMuSEIVgQ9o
+	gF2dMcBNMDH1CeAJ0+dvYemQPPlqYn6TKEGGd6ZkQOwhIEXXW8KFgkx0mVMphao7uCqX
+	0QH68iVwuiANRBQcP5FqRYwcMjQXGvwBSOKTBZ2ckv1ZXx1McZsxq5n67CQblks2nh3i
+	KM35GdvLSdvKmAtBtekRKpVo0u2ACzRYWH/FypelHXUJzgERc2EjRKVuLhxwbOp+Dmzm
+	twhQ==
+X-Gm-Message-State: AKS2vOz+gCKTXpWw4VstaE0QV+aMVjomMSD5rI8zVw1rZu+4fllSPTCo
+	G40F4aS3qgfJKsY1SOrBOZ8P45UvJw==
+X-Received: by 10.107.202.195 with SMTP id a186mr33076102iog.37.1499095703547; 
+	Mon, 03 Jul 2017 08:28:23 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.140.31.118 with HTTP; Mon, 3 Jul 2017 08:22:09 -0700 (PDT)
-In-Reply-To: <20170630092543.3151-1-ricardo.ribalda@gmail.com>
+Received: by 10.107.180.77 with HTTP; Mon, 3 Jul 2017 08:28:03 -0700 (PDT)
+In-Reply-To: <CAJTo0LYyubn4hEUwJEQog_pVGYd954TuDPPjQUL+7MQnaD+Bug@mail.gmail.com>
 References: <20170630092543.3151-1-ricardo.ribalda@gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 3 Jul 2017 16:22:09 +0100
-Message-ID: <CAJTo0LYyubn4hEUwJEQog_pVGYd954TuDPPjQUL+7MQnaD+Bug@mail.gmail.com>
-To: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
+	<CAJTo0LYyubn4hEUwJEQog_pVGYd954TuDPPjQUL+7MQnaD+Bug@mail.gmail.com>
+From: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
+Date: Mon, 3 Jul 2017 17:28:03 +0200
+Message-ID: <CAPybu_1MyLOF5OTM=N1UAG12Uy81z2M5ST8sS+JBRocjarXcrg@mail.gmail.com>
+To: Ross Burton <ross.burton@intel.com>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH v2 1/3] gcc-6.3: Fix libgfortran build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -54,40 +54,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Jul 2017 15:22:29 -0000
-Content-Type: multipart/alternative; boundary="001a1147e5f8d4765505536b5500"
+X-List-Received-Date: Mon, 03 Jul 2017 15:28:22 -0000
+Content-Type: multipart/alternative; boundary="94eb2c0bdd6ee4fd8105536b6a46"
 
---001a1147e5f8d4765505536b5500
+--94eb2c0bdd6ee4fd8105536b6a46
 Content-Type: text/plain; charset="UTF-8"
 
-On 30 June 2017 at 10:25, Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com
-> wrote:
+Hi Ross
 
-> --- a/meta/recipes-devtools/gcc/gcc-6.3.inc
-> +++ b/meta/recipes-devtools/gcc/gcc-6.3.inc
+
+On 3 Jul 2017 5:22 pm, "Burton, Ross" <ross.burton@intel.com> wrote:
+
+>
+> On 30 June 2017 at 10:25, Ricardo Ribalda Delgado <
+> ricardo.ribalda@gmail.com> wrote:
+>
+>> --- a/meta/recipes-devtools/gcc/gcc-6.3.inc
+>> +++ b/meta/recipes-devtools/gcc/gcc-6.3.inc
+>>
+>
+> Is this fixed in gcc 7 (in which case the upstream-status is backport), or
+> is gcc 7.1 still broken?
 >
 
-Is this fixed in gcc 7 (in which case the upstream-status is backport), or
-is gcc 7.1 still broken?
+I do not know, at qtec we are following yocto, and currently it is at
+version 6.3.
 
-Ross
+ I could try to build it with gcc7 during this week. and send another patch
+if needed.
 
---001a1147e5f8d4765505536b5500
+Regards!
+
+
+>
+> Ross
+>
+
+--94eb2c0bdd6ee4fd8105536b6a46
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 30 June 2017 at 10:25, Ricardo Ribalda Delgado <span dir=3D"ltr">&lt;<a =
-href=3D"mailto:ricardo.ribalda@gmail.com" target=3D"_blank">ricardo.ribalda=
-@gmail.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=
-=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=
-=3D":2jw" class=3D"a3s aXjCH m15cf85277fd443d1">--- a/meta/recipes-devtools=
-/<span class=3D"il">gcc</span>/<wbr><span class=3D"il">gcc</span>-<span cla=
-ss=3D"il">6.3</span>.inc<br>
-+++ b/meta/recipes-devtools/<span class=3D"il">gcc</span>/<wbr><span class=
-=3D"il">gcc</span>-<span class=3D"il">6.3</span>.inc<br></div></blockquote>=
-</div><br>Is this fixed in gcc 7 (in which case the upstream-status is back=
-port), or is gcc 7.1 still broken?</div><div class=3D"gmail_extra"><br></di=
-v><div class=3D"gmail_extra">Ross</div></div>
+<div dir=3D"ltr"><div>Hi Ross</div><div dir=3D"auto"><br></div><div dir=3D"=
+auto"><br></div><div class=3D"gmail_extra"><div class=3D"gmail_quote">On 3 =
+Jul 2017 5:22 pm, &quot;Burton, Ross&quot; &lt;<a href=3D"mailto:ross.burto=
+n@intel.com" target=3D"_blank">ross.burton@intel.com</a>&gt; wrote:<br type=
+=3D"attribution"><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
+0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=
+=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">On 30 Ju=
+ne 2017 at 10:25, Ricardo Ribalda Delgado <span dir=3D"ltr">&lt;<a href=3D"=
+mailto:ricardo.ribalda@gmail.com" target=3D"_blank">ricardo.ribalda@gmail.c=
+om</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"marg=
+in:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1e=
+x"><div id=3D"gmail-m_-6351636745689971924m_-933641636719609878:2jw" class=
+=3D"gmail-m_-6351636745689971924m_-933641636719609878a3s gmail-m_-635163674=
+5689971924m_-933641636719609878aXjCH gmail-m_-6351636745689971924m_-9336416=
+36719609878m15cf85277fd443d1">--- a/meta/recipes-devtools/<span class=3D"gm=
+ail-m_-6351636745689971924m_-933641636719609878il">gcc</span>/<span class=
+=3D"gmail-m_-6351636745689971924m_-933641636719609878il">gc<wbr>c</span>-<s=
+pan class=3D"gmail-m_-6351636745689971924m_-933641636719609878il">6.3</span=
+>.inc<br>
++++ b/meta/recipes-devtools/<span class=3D"gmail-m_-6351636745689971924m_-9=
+33641636719609878il">gcc</span>/<span class=3D"gmail-m_-6351636745689971924=
+m_-933641636719609878il">gc<wbr>c</span>-<span class=3D"gmail-m_-6351636745=
+689971924m_-933641636719609878il">6.3</span>.inc<br></div></blockquote></di=
+v><br>Is this fixed in gcc 7 (in which case the upstream-status is backport=
+), or is gcc 7.1 still broken?</div></div></blockquote><div><br></div><div =
+dir=3D"auto">I do not know, at qtec we are following yocto, and currently i=
+t is at version 6.3.</div><div dir=3D"auto"><br></div><div dir=3D"auto">=C2=
+=A0I could try to build it with gcc7 during this week. and send another pat=
+ch if needed.</div><div><br></div><div>Regards!</div><div>=C2=A0</div><bloc=
+kquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:=
+1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><div class=3D=
+"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+</blockquote></div></div>
+</div>
 
---001a1147e5f8d4765505536b5500--
+--94eb2c0bdd6ee4fd8105536b6a46--
