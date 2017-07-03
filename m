@@ -1,47 +1,47 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qt0-f180.google.com (mail-qt0-f180.google.com
-	[209.85.216.180])
-	by mail.openembedded.org (Postfix) with ESMTP id EA17278082
+Received: from mail-qk0-f174.google.com (mail-qk0-f174.google.com
+	[209.85.220.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 78724719AF
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Jul 2017 15:02:48 +0000 (UTC)
-Received: by mail-qt0-f180.google.com with SMTP id 32so145404326qtv.1
+	Mon,  3 Jul 2017 15:22:28 +0000 (UTC)
+Received: by mail-qk0-f174.google.com with SMTP id p21so148599544qke.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 03 Jul 2017 08:02:50 -0700 (PDT)
+	Mon, 03 Jul 2017 08:22:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=wUOymrKc6/NF2w/ljvTOJsiriHsJ0m7oT+xGzZ5k8gg=;
-	b=D6PJfGjN+HYIARxhuxJFLAsXbZQL9tAPuKw0WQ6c1sPMWs3CLlHvw2VLInmIQ2E9K9
-	O2c3+U5Ls9MDguwJxnzHmEcOtYr8axp1bHSNZwi4YCSWKMX7o9feWRCgmWiao5+zaTTs
-	Uj7dmKrrzPRA10x0ggZyTO3XOnAaSxCcKyPTLrMedaQ/2fx3vpktKx5+6ljYNvKbtsEi
-	JduOzqtHlLk1woSjfDwLdVplqUF0jwqJ//m9CwAYhWQRp/WYeIFhoNROy8kzV7p/HyUj
-	ojWhvjPhdtHDS0mUR4pFUXjYi0ESfrUpTRIQe3tLFVkir7TQS2MfgqQKFqE5kAJgZlEX
-	eD/g==
+	:cc; bh=H+D86i6W8nt4VYGU3DVIPIIW38zm9e1fAWrr8LM1Gnc=;
+	b=bVuIhoRui10/63nns2dzSAKIgjfImZlsHb4VgTsZk6Is3QhrdaweDfePt9k3uRqbqm
+	qBiTwh8/HmPfFv1IbxoHCn8n2E5M1kYgZrAc69u669skvptRUcCLFnOnasKEPf09l7qv
+	b6NovcI6BdGZoaB9MK0WUsWPRFqGv5SNCETElAW5Lr6kRvK06bb6gXFnTL3e8qNdGe5E
+	sM77onkdoOY+j0rdVyh7Y87bg7dzL/B9TqtdlwGlBpikvOnNLxsXzxxgAfloWC/huxFp
+	baCkqEHQiVD19PCozdZWqjFrc/gndA8Y9hLsruygWUwOnxfi7J74MVB7FwZXBUDpCoNU
+	DysQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=wUOymrKc6/NF2w/ljvTOJsiriHsJ0m7oT+xGzZ5k8gg=;
-	b=HY3bdyLTGIM2+M3+h7z7b/fuF23bcHsTxeZ7pEYWoK/wxeQMWJCKVxrdA0GtP9hhmH
-	ulbosSZ/qp5fVWJUoLfVrAoM/tgUI3jUC4xOmP7fgNYqYf0dNfdU1dCGh0OE7/Wzxw9k
-	McldH0+XUi0u8FzFp0TOMyY8O2QuZf3cWTd8DwniAxdFQ54UdzPMiBH8DOfnNlJpJ1CL
-	UqLR+QoDZoypYKdRd3qiRLglwBhWxL2OBu/dzS6YLten1N11JSGRmOxzy3Xn/kNkASDV
-	jPyaiYew+57KGE68+Kk70HRUqZqcHebNk7wlYsNydvJp4s7KwZRiW5ZQNkScVFEzbR0K
-	WIVQ==
-X-Gm-Message-State: AKS2vOyfMsvXzGaYblv6wUD2bpbU47RqRxBllVjL/E9bK2zXDNxVKm15
-	MYufKE56z64WDSjrnbUICKv10ySHlSo7
-X-Received: by 10.200.45.228 with SMTP id q33mr27677095qta.177.1499094169565; 
-	Mon, 03 Jul 2017 08:02:49 -0700 (PDT)
+	bh=H+D86i6W8nt4VYGU3DVIPIIW38zm9e1fAWrr8LM1Gnc=;
+	b=Fx1018ep/DNhr5lB0O4wFd5cnJrXfk8IOxntl6GwIVJFz9mazABc35dBJ7V32et1fV
+	+HwkVS/iUkQPN/Xn/WeK7Y8nRmdRkXAvxoiSyrjhe+82LttToB5+P2z9g/Cxko3AycaK
+	8M2/cRGfm3paVS08wwCkI9eEjpEYJL+vZ+IiqJBfaWnDQZu5AEi6IphbOdmxX/ZSI47F
+	NXdbZpCktNYji8/VzH6Bbpn+MLJhMXZfQZMQj7ScA0/ssJsv9jSn5okLvfUVLfs9Irz3
+	6QSzD5VnCLTOgxvWE/OTYFhrlSKpH2/Ri3Y2mliIbHMqY0NpW7jpCo7dnuks3TSRj7ri
+	Mh5Q==
+X-Gm-Message-State: AKS2vOwIm1G4FUDnskOfwrJWWKnk5r50j7gtS1Af2n093u5ze/9G/Agb
+	A6p2TgGIYPM+iT9mwtk/RJb4Dth/Cz85
+X-Received: by 10.55.31.162 with SMTP id n34mr39814965qkh.46.1499095350133;
+	Mon, 03 Jul 2017 08:22:30 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.140.31.118 with HTTP; Mon, 3 Jul 2017 08:02:29 -0700 (PDT)
-In-Reply-To: <20170629123022.4580-1-JPEWhacker@gmail.com>
-References: <20170629123022.4580-1-JPEWhacker@gmail.com>
+Received: by 10.140.31.118 with HTTP; Mon, 3 Jul 2017 08:22:09 -0700 (PDT)
+In-Reply-To: <20170630092543.3151-1-ricardo.ribalda@gmail.com>
+References: <20170630092543.3151-1-ricardo.ribalda@gmail.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 3 Jul 2017 16:02:29 +0100
-Message-ID: <CAJTo0LYJcXSKWUNg5gSQ=vvObrcnj2w=CXgWKUa-pA2GKRK8DQ@mail.gmail.com>
-To: Joshua Watt <jpewhacker@gmail.com>
-Cc: adraszik@tycoint.com, OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] openssh: Fix key generation with systemd
+Date: Mon, 3 Jul 2017 16:22:09 +0100
+Message-ID: <CAJTo0LYyubn4hEUwJEQog_pVGYd954TuDPPjQUL+7MQnaD+Bug@mail.gmail.com>
+To: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2 1/3] gcc-6.3: Fix libgfortran build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,46 +54,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Jul 2017 15:02:49 -0000
-Content-Type: multipart/alternative; boundary="001a114541b27650da05536b0f33"
+X-List-Received-Date: Mon, 03 Jul 2017 15:22:29 -0000
+Content-Type: multipart/alternative; boundary="001a1147e5f8d4765505536b5500"
 
---001a114541b27650da05536b0f33
+--001a1147e5f8d4765505536b5500
 Content-Type: text/plain; charset="UTF-8"
 
-On 29 June 2017 at 13:30, Joshua Watt <jpewhacker@gmail.com> wrote:
+On 30 June 2017 at 10:25, Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com
+> wrote:
 
-> +       install -D -m 0755 ${WORKDIR}/sshd_check_keys
-> ${D}${libexecdir}/${BPN}/sshd_check_keys
+> --- a/meta/recipes-devtools/gcc/gcc-6.3.inc
+> +++ b/meta/recipes-devtools/gcc/gcc-6.3.inc
 >
 
-packages/corei7-64-poky-linux/openssh/openssh:
-  PKGSIZE changed from 0 to 2423 (+100%)
-  FILELIST: added "/usr/libexec/openssh/sshd_check_keys"
-
-Can you pthat binary in the openssh-sshd package instead of the previously
-empty openssh?
+Is this fixed in gcc 7 (in which case the upstream-status is backport), or
+is gcc 7.1 still broken?
 
 Ross
 
---001a114541b27650da05536b0f33
+--001a1147e5f8d4765505536b5500
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 29 June 2017 at 13:30, Joshua Watt <span dir=3D"ltr">&lt;<a href=3D"mail=
-to:jpewhacker@gmail.com" target=3D"_blank">jpewhacker@gmail.com</a>&gt;</sp=
-an> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px=
- 0.8ex;border-left-width:1px;border-left-style:solid;border-left-color:rgb(=
-204,204,204);padding-left:1ex"><div id=3D"gmail-:22m" class=3D"gmail-a3s gm=
-ail-aXjCH gmail-m15cf3d514eb3c9b4">+=C2=A0 =C2=A0 =C2=A0 =C2=A0install -D -=
-m 0755 ${WORKDIR}/sshd_check_keys ${D}${libexecdir}/${BPN}/sshd_<wbr>check_=
-keys<br></div></blockquote></div><br><div class=3D"gmail_extra">packages/co=
-rei7-64-poky-linux/openssh/openssh:</div><div class=3D"gmail_extra">=C2=A0 =
-PKGSIZE changed from 0 to 2423 (+100%)</div><div class=3D"gmail_extra">=C2=
-=A0 FILELIST: added &quot;/usr/libexec/openssh/sshd_check_keys&quot;</div><=
-div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Can you ptha=
-t binary in the openssh-sshd package instead of the previously empty openss=
-h?</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ros=
-s</div></div></div>
+On 30 June 2017 at 10:25, Ricardo Ribalda Delgado <span dir=3D"ltr">&lt;<a =
+href=3D"mailto:ricardo.ribalda@gmail.com" target=3D"_blank">ricardo.ribalda=
+@gmail.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=
+=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=
+=3D":2jw" class=3D"a3s aXjCH m15cf85277fd443d1">--- a/meta/recipes-devtools=
+/<span class=3D"il">gcc</span>/<wbr><span class=3D"il">gcc</span>-<span cla=
+ss=3D"il">6.3</span>.inc<br>
++++ b/meta/recipes-devtools/<span class=3D"il">gcc</span>/<wbr><span class=
+=3D"il">gcc</span>-<span class=3D"il">6.3</span>.inc<br></div></blockquote>=
+</div><br>Is this fixed in gcc 7 (in which case the upstream-status is back=
+port), or is gcc 7.1 still broken?</div><div class=3D"gmail_extra"><br></di=
+v><div class=3D"gmail_extra">Ross</div></div>
 
---001a114541b27650da05536b0f33--
+--001a1147e5f8d4765505536b5500--
