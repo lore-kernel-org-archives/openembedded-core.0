@@ -1,44 +1,45 @@
 Return-Path: <fathi.boudra@linaro.org>
-Received: from mail-lf0-f46.google.com (mail-lf0-f46.google.com
-	[209.85.215.46])
-	by mail.openembedded.org (Postfix) with ESMTP id BD3636093F
+Received: from mail-wr0-f180.google.com (mail-wr0-f180.google.com
+	[209.85.128.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 8962E7808D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Jul 2017 10:59:21 +0000 (UTC)
-Received: by mail-lf0-f46.google.com with SMTP id l13so100527328lfl.1
+	Mon,  3 Jul 2017 11:01:03 +0000 (UTC)
+Received: by mail-wr0-f180.google.com with SMTP id c11so232485638wrc.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 03 Jul 2017 03:59:23 -0700 (PDT)
+	Mon, 03 Jul 2017 04:01:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=from:to:cc:subject:date:message-id;
-	bh=UpVxlt8ZAiHzdvAKNftOSe+ej5+Hp9567uZDTS97ZDM=;
-	b=koyJY+2uhJ9gXr1U4SkGhXUbLEX0Ra0VqqlVPEhGEPy08Le93AISh1CQ2Ncq8OUSRK
-	y+1oXymZqxNcoQU/G8VOzk0TIrF9yrGUw+ka4tubtzV8HRjARMBof/ZCrMZamwvsxwxn
-	vxQ+0ICf9go4p1Rdy/ouRv3rbdMjza8IDExpc=
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=F6N+/W0enn0uTfJd6ww21DOitn0E8TkYA7Styv5I7T4=;
+	b=T7RcH9UV8gMOSkwMwlQHoeeYezT9zyIqzSPQyAadAN+DkZhXKBle1ooMWNB+8T7m82
+	NSM0go+IUOgp4LQwo5M/ZTGpdHjS6beQUrddGdiZqEzcICMZwTZZbx5pkofvOg3J7MIp
+	bxxzrALze0NgLOi2B7NRHKHUrvsbLoNsL9sCs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=UpVxlt8ZAiHzdvAKNftOSe+ej5+Hp9567uZDTS97ZDM=;
-	b=qW0h9AXe8FaGB0YRwnklIk1w/eIcdtHrSxjRKVeHzDLIp7tJngoohr2J2dUZsJjvBd
-	Pm1R4uLjO4HuqGrwBzc8Gs/XmSr2xjjbCUSB/HcWApsX8yahc1cUCZL4OhHrLlkYSpOk
-	PY2JtlUFBdH2qv++oFKj71UuBbfypUwEjMFIADymoq6fnnjBwea7efTiuBLxS5j09rYf
-	GEQ+/LoE4IFzqJWYNWMOyck3CQGJwucPpSnpP9TmjzrzZgSj/G2WDvlx8dR5ct2N2Uuj
-	ROJ4INhxtSadZneDHXvNg5P2K8qLPATc5R2mCAQG0cactY7AFmiWh9MNJx6RR8Ebipl1
-	yC+Q==
-X-Gm-Message-State: AIVw1123aLEZLmyCTbWzxvjW+utKlw4vBbxLQSlHO3l0GHI0SUx/oKxC
-	Tx6WPJrfbPcvKsrhtE1SDw==
-X-Received: by 10.25.206.203 with SMTP id e194mr3300940lfg.43.1499079562309;
-	Mon, 03 Jul 2017 03:59:22 -0700 (PDT)
-Received: from localhost.localdomain (a91-156-68-101.elisa-laajakaista.fi.
-	[91.156.68.101])
-	by smtp.gmail.com with ESMTPSA id y4sm4157468lfc.8.2017.07.03.03.59.20
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 03 Jul 2017 03:59:20 -0700 (PDT)
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=F6N+/W0enn0uTfJd6ww21DOitn0E8TkYA7Styv5I7T4=;
+	b=Qa4gJevawd8zZGsL86YOctq+gqsNHQApbRLy4qCqHi/eApzzz3ER4C9WvdLsx5cXMl
+	WumtUygOFo4Jhyv4+6CHnWIhkFpEy72d0JVbMirx3OVKiVwANeSn6yixoCm0LSIyurmJ
+	o/GEGii9qUIdtVcxdsmn3zAQqYVusCWgwAmHqvkhsXFxtxSgRWOUix2TtbRJjGzpCdKD
+	EirkJ1zLUkcQkHKkAWk448ADLW66ZJp7o9dULrTMQRw67cIg6Cq7vGxg+K9f4W16KiEz
+	/fbaFZNYWdstEqPlrjroMblN4Uw3YLKPiM0inoraQW6y1ArbdXD98NoQy2jZbmdBX0EG
+	Kjgw==
+X-Gm-Message-State: AKS2vOxBsPPIgjSO6eJ3gJ505rtXxO9xfmLD7fufbBzB5c63Ej6lPh0+
+	IuZF+5A3+g43R98m+hrcIdxaoBGXEUC/
+X-Received: by 10.223.128.209 with SMTP id 75mr25415888wrl.99.1499079664092;
+	Mon, 03 Jul 2017 04:01:04 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.28.207.132 with HTTP; Mon, 3 Jul 2017 04:01:03 -0700 (PDT)
+In-Reply-To: <20170703085935.GA17530@mbabyjoh-desk.ger.corp.intel.com>
+References: <20170703080331.5973-1-fathi.boudra@linaro.org>
+	<20170703085935.GA17530@mbabyjoh-desk.ger.corp.intel.com>
 From: Fathi Boudra <fathi.boudra@linaro.org>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  3 Jul 2017 13:59:18 +0300
-Message-Id: <20170703105918.21597-1-fathi.boudra@linaro.org>
-X-Mailer: git-send-email 2.13.0
-Cc: naresh.kamboju@linaro.org
-Subject: [PATCH v2] ltp: add acl, attr, curl and util-linux runtime dependencies
+Date: Mon, 3 Jul 2017 14:01:03 +0300
+Message-ID: <CAGNsrLAjB-hT4-1XzU5ZakcCCFMY1quaPvBWH0mSTGrKafjiTA@mail.gmail.com>
+To: "Maxin B. John" <maxin.john@intel.com>
+Cc: Naresh Kamboju <naresh.kamboju@linaro.org>,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] ltp: add acl, attr, curl and util-linux runtime dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,64 +52,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Jul 2017 10:59:23 -0000
+X-List-Received-Date: Mon, 03 Jul 2017 11:01:03 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-* Use a list and re-order alphabetically to make it easier to read and
-  update.
-* Add missing runtime dependencies:
-  - acl (getfacl/setfacl commands are required)
-  - attr (getfattr/setfattr commands are required)
-  - curl (curl command is required)
-  - util-linux (ipcs command is required)
+On 3 July 2017 at 11:59, Maxin B. John <maxin.john@intel.com> wrote:
+> Hi,
+>
+> On Mon, Jul 03, 2017 at 11:03:31AM +0300, Fathi Boudra wrote:
+>> * Use a list and re-order alphabetically to make it easier to read and
+>>   update.
+>> * Add missing runtime dependencies:
+>>   - acl (getfacl/setfacl commands are required)
+>>   - attr (getfattr/setfattr commands are required)
+>>   - curl (curl command is required)
+>>   - util-linux (ipcs command is required)
+>>
+>> Reported-by: Naresh Kamboju <naresh.kamboju@linaro.org>
+>> Signed-off-by: Fathi Boudra <fathi.boudra@linaro.org>
+>> ---
+>>  meta/recipes-extended/ltp/ltp_20170516.bb | 23 +++++++++++++++++++++--
+>>  1 file changed, 21 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/meta/recipes-extended/ltp/ltp_20170516.bb b/meta/recipes-extended/ltp/ltp_20170516.bb
+>> index f537d60c15..564fdcf8c2 100644
+>> --- a/meta/recipes-extended/ltp/ltp_20170516.bb
+>> +++ b/meta/recipes-extended/ltp/ltp_20170516.bb
+>> @@ -95,7 +95,27 @@ do_install(){
+>>      cp -r testcases/open_posix_testsuite ${D}/opt/ltp/testcases
+>>  }
+>>
+>> -RDEPENDS_${PN} = "perl e2fsprogs-mke2fs python-core libaio bash gawk expect ldd unzip gzip cpio cronie logrotate which at"
+>> +RDEPENDS_${PN} = "
+>> +    acl \
+>> +    at \
+>> +    attr \
+>> +    bash \
+>> +    cpio \
+>> +    cronie \
+>> +    curl \
+>> +    e2fsprogs-mke2fs \
+>> +    expect \
+>> +    gawk \
+>> +    gzip \
+>> +    ldd \
+>> +    libaio \
+>> +    logrotate \
+>> +    perl \
+>> +    python-core \
+>> +    unzip \
+>> +    util-linux \
+>> +    which \
+>> +"
+>
+> These changes look good. However, this patch is causing a parser error:
+> ERROR: ParseError at /home/maxin/poky/meta/recipes-extended/ltp/ltp_20170516.bb:98: unparsed line: 'RDEPENDS_${PN} = "
+>
+> Please fix it.
 
-Reported-by: Naresh Kamboju <naresh.kamboju@linaro.org>
-Signed-off-by: Fathi Boudra <fathi.boudra@linaro.org>
----
-Changes in v2:
- * add missing backslash
+fixed in v2: https://patchwork.openembedded.org/patch/141483/
 
- meta/recipes-extended/ltp/ltp_20170516.bb | 23 +++++++++++++++++++++--
- 1 file changed, 21 insertions(+), 2 deletions(-)
-
-diff --git a/meta/recipes-extended/ltp/ltp_20170516.bb b/meta/recipes-extended/ltp/ltp_20170516.bb
-index f537d60c15..564fdcf8c2 100644
---- a/meta/recipes-extended/ltp/ltp_20170516.bb
-+++ b/meta/recipes-extended/ltp/ltp_20170516.bb
-@@ -95,7 +95,27 @@ do_install(){
-     cp -r testcases/open_posix_testsuite ${D}/opt/ltp/testcases
- }
- 
--RDEPENDS_${PN} = "perl e2fsprogs-mke2fs python-core libaio bash gawk expect ldd unzip gzip cpio cronie logrotate which at"
-+RDEPENDS_${PN} = "\
-+    acl \
-+    at \
-+    attr \
-+    bash \
-+    cpio \
-+    cronie \
-+    curl \
-+    e2fsprogs-mke2fs \
-+    expect \
-+    gawk \
-+    gzip \
-+    ldd \
-+    libaio \
-+    logrotate \
-+    perl \
-+    python-core \
-+    unzip \
-+    util-linux \
-+    which \
-+"
- 
- FILES_${PN}-staticdev += "/opt/ltp/lib/libmem.a /opt/ltp/testcases/data/nm01/lib.a"
- 
-@@ -106,4 +126,3 @@ INHIBIT_PACKAGE_STRIP = "1"
- INHIBIT_PACKAGE_DEBUG_SPLIT = "1"
- # However, test_arch_stripped is already stripped, so...
- INSANE_SKIP_${PN} += "already-stripped"
--
--- 
-2.13.0
-
+>>  FILES_${PN}-staticdev += "/opt/ltp/lib/libmem.a /opt/ltp/testcases/data/nm01/lib.a"
+>>
+>> @@ -106,4 +126,3 @@ INHIBIT_PACKAGE_STRIP = "1"
+>>  INHIBIT_PACKAGE_DEBUG_SPLIT = "1"
+>>  # However, test_arch_stripped is already stripped, so...
+>>  INSANE_SKIP_${PN} += "already-stripped"
+>
+> Best Regards,
+> Maxin
 
