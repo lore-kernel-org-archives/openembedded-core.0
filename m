@@ -1,47 +1,45 @@
-Return-Path: <ricardo.ribalda@gmail.com>
-Received: from mail-io0-f178.google.com (mail-io0-f178.google.com
-	[209.85.223.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 9BA8D6FEFE
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pg0-f45.google.com (mail-pg0-f45.google.com [74.125.83.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 5D05B6FEFE
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Jul 2017 15:28:22 +0000 (UTC)
-Received: by mail-io0-f178.google.com with SMTP id r36so58457943ioi.1
+	Mon,  3 Jul 2017 15:59:39 +0000 (UTC)
+Received: by mail-pg0-f45.google.com with SMTP id j186so97101976pge.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 03 Jul 2017 08:28:23 -0700 (PDT)
+	Mon, 03 Jul 2017 08:59:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=DddPL6SVDAvoVah/e/dx2MuCns3BxCHK8jMjIu0x6QI=;
-	b=EJcTfAV+ou1NOKhw6dwecdiM8Sh0+MvTUfKSAXkamQF18+0oZTIf0B/YMqdVihALNu
-	M1MnU2OvfrbaW1zTOG8PvdD+trEtzJi0vR0IqLg6D/XyqNLlCJvdn6eEwWu0oHuTjNb7
-	5n4WAZ/QQQvdZSomOeKZfnpJntdGdgX/fhATF71yJGfJMech3UbagXCxGXjPW83HkgqI
-	ZTf6Okfa3GQLc6kYPxreB2fMYFcpaXYTUkDfgaTT8iLxNX+I0g3GWLKRwDPOtRz3Ww3Q
-	KwNRfhxT6ttAeqlhlTKixwEPksBqml4PNkCA7WcPmchb7bkID3F/auKDIM3YnjSVsHjX
-	dJCg==
+	h=from:to:cc:subject:date:message-id;
+	bh=076ljz1RdSuvdJDDKxb1LxClfvKziqxdcS5IEgbr/Gc=;
+	b=jebctts7ovtQL6Jk0ICnSgMGrA8GxIUOlgL530SmSjAD4M7beLc4YmolRgJnFi/NAH
+	cvWa04LH6Xa9saCAQg8nKQX356cxXYk7lv3n1+QGkyOf7XlqIeoDsBvoSuQ1IYghnjaH
+	Rskf74mZjUk1mZ1AOHDYG7dgNtjD8q2unJXwa3jufgMNlCeuda+SXyabxTTS3fucVXwd
+	yFXJkcK3Aykhgi61r+M2TuCb0Oht3k6q+ANkebje7AqGmwlNWtnjtHM1Pr4+zBGf6FMB
+	cL8snz2DVjMks8fR2De3/vD5/9mUzn/th22pkh1GvCtMnhNGN01lKUYcGFXTyVyECQ0c
+	i4VQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=DddPL6SVDAvoVah/e/dx2MuCns3BxCHK8jMjIu0x6QI=;
-	b=R/N7JFcboVaAWCIjBCdiSCzePi5REc18uigGr6Jph7RFlzd1MC9p5cFBBpTLgOgLJu
-	O5DkFLQdPUBWptlP9VYPg5Q+l1iYzhzJaUbs3xqhJku6vZjA3Aa/YcQdbeMuSEIVgQ9o
-	gF2dMcBNMDH1CeAJ0+dvYemQPPlqYn6TKEGGd6ZkQOwhIEXXW8KFgkx0mVMphao7uCqX
-	0QH68iVwuiANRBQcP5FqRYwcMjQXGvwBSOKTBZ2ckv1ZXx1McZsxq5n67CQblks2nh3i
-	KM35GdvLSdvKmAtBtekRKpVo0u2ACzRYWH/FypelHXUJzgERc2EjRKVuLhxwbOp+Dmzm
-	twhQ==
-X-Gm-Message-State: AKS2vOz+gCKTXpWw4VstaE0QV+aMVjomMSD5rI8zVw1rZu+4fllSPTCo
-	G40F4aS3qgfJKsY1SOrBOZ8P45UvJw==
-X-Received: by 10.107.202.195 with SMTP id a186mr33076102iog.37.1499095703547; 
-	Mon, 03 Jul 2017 08:28:23 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.107.180.77 with HTTP; Mon, 3 Jul 2017 08:28:03 -0700 (PDT)
-In-Reply-To: <CAJTo0LYyubn4hEUwJEQog_pVGYd954TuDPPjQUL+7MQnaD+Bug@mail.gmail.com>
-References: <20170630092543.3151-1-ricardo.ribalda@gmail.com>
-	<CAJTo0LYyubn4hEUwJEQog_pVGYd954TuDPPjQUL+7MQnaD+Bug@mail.gmail.com>
-From: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
-Date: Mon, 3 Jul 2017 17:28:03 +0200
-Message-ID: <CAPybu_1MyLOF5OTM=N1UAG12Uy81z2M5ST8sS+JBRocjarXcrg@mail.gmail.com>
-To: Ross Burton <ross.burton@intel.com>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2 1/3] gcc-6.3: Fix libgfortran build
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=076ljz1RdSuvdJDDKxb1LxClfvKziqxdcS5IEgbr/Gc=;
+	b=qjZgIFcqOiPmHSMoojuyiOKDc+wYu7BQ2KTrJ43/7SP9SiwGK1RN8E6JdkefDtSaEj
+	Nv2d9szK/kH409TWGBOxX1L+tRsbw9q7/TzHkMwRtNrWSgFxa7OCZSBqiPNnbOYiKfh0
+	ujLTH7PsgmeZdciFr9F57YbtAETc5WauLbYVwl75JJ363n0P/YNT51mK4ckBFUF2ld6q
+	qyJ+7ckJy5miCZZnHSdTg8HRuoAYzsPLarC1SNwL7WS80fNqHg8JapOzNbgo1NhmcSNJ
+	bFvVSgk66tHORRihUUAxixdFfpaiu2pksnkC9veCTZS1iokQOkvBer0zsFsEhtK8e6G9
+	hBDw==
+X-Gm-Message-State: AIVw110LgSxr5uz5KT0Lpys/fF/v83t/f5vikN6pA9+FbRRwrS4n5kdd
+	iKiKc0Zh3oziqXMS
+X-Received: by 10.99.132.198 with SMTP id k189mr11277960pgd.233.1499097579986; 
+	Mon, 03 Jul 2017 08:59:39 -0700 (PDT)
+Received: from localhost.localdomain ([2601:646:8882:b8c::3df3])
+	by smtp.gmail.com with ESMTPSA id
+	l4sm32369249pgr.21.2017.07.03.08.59.38
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 03 Jul 2017 08:59:38 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  3 Jul 2017 08:59:27 -0700
+Message-Id: <20170703155927.888-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.13.2
+Subject: [PATCH] systemd: Do not use xlocale.h
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,79 +52,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Jul 2017 15:28:22 -0000
-Content-Type: multipart/alternative; boundary="94eb2c0bdd6ee4fd8105536b6a46"
+X-List-Received-Date: Mon, 03 Jul 2017 15:59:39 -0000
 
---94eb2c0bdd6ee4fd8105536b6a46
-Content-Type: text/plain; charset="UTF-8"
+glibc specific header which has been removed from glibc 2.26+
 
-Hi Ross
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ ...se-util-Do-not-include-unneeded-xlocale.h.patch | 27 ++++++++++++++++++++++
+ meta/recipes-core/systemd/systemd_232.bb           |  3 ++-
+ 2 files changed, 29 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-core/systemd/systemd/0022-parse-util-Do-not-include-unneeded-xlocale.h.patch
+
+diff --git a/meta/recipes-core/systemd/systemd/0022-parse-util-Do-not-include-unneeded-xlocale.h.patch b/meta/recipes-core/systemd/systemd/0022-parse-util-Do-not-include-unneeded-xlocale.h.patch
+new file mode 100644
+index 0000000000..cad1867a4c
+--- /dev/null
++++ b/meta/recipes-core/systemd/systemd/0022-parse-util-Do-not-include-unneeded-xlocale.h.patch
+@@ -0,0 +1,27 @@
++From 0c50b8332092178378257c2de800fb6b6b4a8706 Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Mon, 3 Jul 2017 08:45:04 -0700
++Subject: [PATCH] parse-util: Do not include unneeded xlocale.h
++
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++Upstream-Status: Backport [ partial https://github.com/systemd/systemd/commit/284d1cd0a12cad96a5ea61d1afb0dd677dbd147e]
++
++ src/basic/parse-util.c | 1 -
++ 1 file changed, 1 deletion(-)
++
++diff --git a/src/basic/parse-util.c b/src/basic/parse-util.c
++index c98815b9b..a0eb45805 100644
++--- a/src/basic/parse-util.c
+++++ b/src/basic/parse-util.c
++@@ -23,7 +23,6 @@
++ #include <stdio.h>
++ #include <stdlib.h>
++ #include <string.h>
++-#include <xlocale.h>
++ 
++ #include "alloc-util.h"
++ #include "extract-word.h"
++-- 
++2.13.2
++
+diff --git a/meta/recipes-core/systemd/systemd_232.bb b/meta/recipes-core/systemd/systemd_232.bb
+index d54e92707f..287e07b153 100644
+--- a/meta/recipes-core/systemd/systemd_232.bb
++++ b/meta/recipes-core/systemd/systemd_232.bb
+@@ -31,7 +31,8 @@ SRC_URI += " \
+            file://0019-socket-util-don-t-fail-if-libc-doesn-t-support-IDN.patch \
+            file://0020-back-port-233-don-t-use-the-unified-hierarchy-for-the-systemd.patch \
+            file://0021-build-sys-check-for-lz4-in-the-old-and-new-numbering.patch \
+-"
++           file://0022-parse-util-Do-not-include-unneeded-xlocale.h.patch \
++           "
+ SRC_URI_append_qemuall = " file://0001-core-device.c-Change-the-default-device-timeout-to-2.patch"
+ 
+ PACKAGECONFIG ??= "xz \
+-- 
+2.13.2
 
 
-On 3 Jul 2017 5:22 pm, "Burton, Ross" <ross.burton@intel.com> wrote:
-
->
-> On 30 June 2017 at 10:25, Ricardo Ribalda Delgado <
-> ricardo.ribalda@gmail.com> wrote:
->
->> --- a/meta/recipes-devtools/gcc/gcc-6.3.inc
->> +++ b/meta/recipes-devtools/gcc/gcc-6.3.inc
->>
->
-> Is this fixed in gcc 7 (in which case the upstream-status is backport), or
-> is gcc 7.1 still broken?
->
-
-I do not know, at qtec we are following yocto, and currently it is at
-version 6.3.
-
- I could try to build it with gcc7 during this week. and send another patch
-if needed.
-
-Regards!
-
-
->
-> Ross
->
-
---94eb2c0bdd6ee4fd8105536b6a46
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>Hi Ross</div><div dir=3D"auto"><br></div><div dir=3D"=
-auto"><br></div><div class=3D"gmail_extra"><div class=3D"gmail_quote">On 3 =
-Jul 2017 5:22 pm, &quot;Burton, Ross&quot; &lt;<a href=3D"mailto:ross.burto=
-n@intel.com" target=3D"_blank">ross.burton@intel.com</a>&gt; wrote:<br type=
-=3D"attribution"><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
-0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=
-=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">On 30 Ju=
-ne 2017 at 10:25, Ricardo Ribalda Delgado <span dir=3D"ltr">&lt;<a href=3D"=
-mailto:ricardo.ribalda@gmail.com" target=3D"_blank">ricardo.ribalda@gmail.c=
-om</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"marg=
-in:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1e=
-x"><div id=3D"gmail-m_-6351636745689971924m_-933641636719609878:2jw" class=
-=3D"gmail-m_-6351636745689971924m_-933641636719609878a3s gmail-m_-635163674=
-5689971924m_-933641636719609878aXjCH gmail-m_-6351636745689971924m_-9336416=
-36719609878m15cf85277fd443d1">--- a/meta/recipes-devtools/<span class=3D"gm=
-ail-m_-6351636745689971924m_-933641636719609878il">gcc</span>/<span class=
-=3D"gmail-m_-6351636745689971924m_-933641636719609878il">gc<wbr>c</span>-<s=
-pan class=3D"gmail-m_-6351636745689971924m_-933641636719609878il">6.3</span=
->.inc<br>
-+++ b/meta/recipes-devtools/<span class=3D"gmail-m_-6351636745689971924m_-9=
-33641636719609878il">gcc</span>/<span class=3D"gmail-m_-6351636745689971924=
-m_-933641636719609878il">gc<wbr>c</span>-<span class=3D"gmail-m_-6351636745=
-689971924m_-933641636719609878il">6.3</span>.inc<br></div></blockquote></di=
-v><br>Is this fixed in gcc 7 (in which case the upstream-status is backport=
-), or is gcc 7.1 still broken?</div></div></blockquote><div><br></div><div =
-dir=3D"auto">I do not know, at qtec we are following yocto, and currently i=
-t is at version 6.3.</div><div dir=3D"auto"><br></div><div dir=3D"auto">=C2=
-=A0I could try to build it with gcc7 during this week. and send another pat=
-ch if needed.</div><div><br></div><div>Regards!</div><div>=C2=A0</div><bloc=
-kquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:=
-1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><div class=3D=
-"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
-</blockquote></div></div>
-</div>
-
---94eb2c0bdd6ee4fd8105536b6a46--
