@@ -1,30 +1,43 @@
-Return-Path: <Dengke.Du@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id CAEF677AA9
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 825D970101
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Jul 2017 09:06:10 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v6396ALR014413
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 3 Jul 2017 02:06:10 -0700 (PDT)
-Received: from [128.224.162.194] (128.224.162.194) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.294.0;
-	Mon, 3 Jul 2017 02:06:09 -0700
-To: "Maxin B. John" <maxin.john@intel.com>, Fathi Boudra
-	<fathi.boudra@linaro.org>
-References: <20170703080331.5973-1-fathi.boudra@linaro.org>
-	<20170703085935.GA17530@mbabyjoh-desk.ger.corp.intel.com>
-From: Dengke Du <dengke.du@windriver.com>
-Message-ID: <fc55f06f-e68a-33b3-a529-a6cb1a74efff@windriver.com>
-Date: Mon, 3 Jul 2017 17:05:47 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.1.1
+	Mon,  3 Jul 2017 09:11:37 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	03 Jul 2017 02:11:37 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.40,302,1496127600"; d="scan'208";a="1147258168"
+Received: from linux.intel.com ([10.54.29.200])
+	by orsmga001.jf.intel.com with ESMTP; 03 Jul 2017 02:11:37 -0700
+Received: from linux.intel.com (vmed.fi.intel.com [10.237.72.38])
+	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by linux.intel.com (Postfix) with ESMTPS id 58EE858056B;
+	Mon,  3 Jul 2017 02:11:36 -0700 (PDT)
+Date: Mon, 3 Jul 2017 11:59:47 +0300
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: Patrick Ohly <patrick.ohly@intel.com>
+Message-ID: <20170703085947.GA5571@linux.intel.com>
+Reply-To: ed.bartosh@linux.intel.com
+References: <20170629083942.GA14649@linux.intel.com>
+	<20170630083717.GA788@linux.intel.com>
+	<1498813333.5259.4.camel@intel.com>
+	<20170630122330.GA17125@linux.intel.com>
+	<1498828593.5259.7.camel@intel.com>
+	<20170630154456.GB28177@linux.intel.com>
+	<CAP9ODKq3mB=0GBAZt21A3Ljw77TiNwBdCGZrSQt8L9rcr_i-Yw@mail.gmail.com>
+	<1498847670.5259.9.camel@intel.com>
+	<20170703073115.GA5380@linux.intel.com>
+	<1499068412.5259.71.camel@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <20170703085935.GA17530@mbabyjoh-desk.ger.corp.intel.com>
-X-Originating-IP: [128.224.162.194]
-Cc: naresh.kamboju@linaro.org, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] ltp: add acl, attr, curl and util-linux runtime dependencies
+In-Reply-To: <1499068412.5259.71.camel@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: Otavio Salvador <otavio.salvador@ossystems.com.br>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2 0/5] #11662 - wic should mount /boot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,76 +50,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Jul 2017 09:06:15 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+X-List-Received-Date: Mon, 03 Jul 2017 09:11:38 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-
-
-On 2017年07月03日 16:59, Maxin B. John wrote:
-> Hi,
+On Mon, Jul 03, 2017 at 09:53:32AM +0200, Patrick Ohly wrote:
+> On Mon, 2017-07-03 at 10:31 +0300, Ed Bartosh wrote:
+> > On Fri, Jun 30, 2017 at 08:34:30PM +0200, Patrick Ohly wrote:
+> > > then I don't see a need for any additional flags. Just
+> > > don't use the features which result in a rootfs modification.
+> > 
+> > I also didn't see it till last message from Otavio. Now I do - they
+> > don't want to change .wks files. They're using standard wks from
+> > scripts/lib/wic/canned-wks or from standard layers and they don't want
+> > to duplicate them when they don't want rootfs modifications.
+> > 
+> > It could be a valid reason to have --no-fstab-update option I think.
+> > However, I'm still not 100% convinced I'm ok with this if nobody else
+> > objects.
+> 
+> Okay, now I see what the purpose is.
+> 
+> I prefer a --no-fstab-update over a general --no-rootfs-update because
+> for each case where wic would normally modify the rootfs, some other
+> mechanism must be in place which makes that modification redundant (like
+> using PARTUUID). Having separate parameters forces the developers to
+> think about it. Just my 2 cents...
 >
-> On Mon, Jul 03, 2017 at 11:03:31AM +0300, Fathi Boudra wrote:
->> * Use a list and re-order alphabetically to make it easier to read and
->>    update.
->> * Add missing runtime dependencies:
->>    - acl (getfacl/setfacl commands are required)
->>    - attr (getfattr/setfattr commands are required)
->>    - curl (curl command is required)
->>    - util-linux (ipcs command is required)
->>
->> Reported-by: Naresh Kamboju <naresh.kamboju@linaro.org>
->> Signed-off-by: Fathi Boudra <fathi.boudra@linaro.org>
->> ---
->>   meta/recipes-extended/ltp/ltp_20170516.bb | 23 +++++++++++++++++++++--
->>   1 file changed, 21 insertions(+), 2 deletions(-)
->>
->> diff --git a/meta/recipes-extended/ltp/ltp_20170516.bb b/meta/recipes-extended/ltp/ltp_20170516.bb
->> index f537d60c15..564fdcf8c2 100644
->> --- a/meta/recipes-extended/ltp/ltp_20170516.bb
->> +++ b/meta/recipes-extended/ltp/ltp_20170516.bb
->> @@ -95,7 +95,27 @@ do_install(){
->>       cp -r testcases/open_posix_testsuite ${D}/opt/ltp/testcases
->>   }
->>   
->> -RDEPENDS_${PN} = "perl e2fsprogs-mke2fs python-core libaio bash gawk expect ldd unzip gzip cpio cronie logrotate which at"
->> +RDEPENDS_${PN} = "
-should be:
 
-     RDEPENDS_${PN} = " \
->> +    acl \
->> +    at \
->> +    attr \
->> +    bash \
->> +    cpio \
->> +    cronie \
->> +    curl \
->> +    e2fsprogs-mke2fs \
->> +    expect \
->> +    gawk \
->> +    gzip \
->> +    ldd \
->> +    libaio \
->> +    logrotate \
->> +    perl \
->> +    python-core \
->> +    unzip \
->> +    util-linux \
->> +    which \
->> +"
-> These changes look good. However, this patch is causing a parser error:
-> ERROR: ParseError at /home/maxin/poky/meta/recipes-extended/ltp/ltp_20170516.bb:98: unparsed line: 'RDEPENDS_${PN} = "
->
-> Please fix it.
->
->>   FILES_${PN}-staticdev += "/opt/ltp/lib/libmem.a /opt/ltp/testcases/data/nm01/lib.a"
->>   
->> @@ -106,4 +126,3 @@ INHIBIT_PACKAGE_STRIP = "1"
->>   INHIBIT_PACKAGE_DEBUG_SPLIT = "1"
->>   # However, test_arch_stripped is already stripped, so...
->>   INSANE_SKIP_${PN} += "already-stripped"
-> Best Regards,
-> Maxin
+Tha makes sense to me.
 
+From other point of view if the goal is to have rootfs unmodified
+--no-rootfs-update would make it easier to achive. Moreover it will
+guarantee that rootfs is unmodified even if wic introduces new
+functionality that modifies rootfs.
+
+--
+Regards,
+Ed
 
