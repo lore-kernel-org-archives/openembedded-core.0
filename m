@@ -1,66 +1,44 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-it0-f52.google.com (mail-it0-f52.google.com
-	[209.85.214.52])
-	by mail.openembedded.org (Postfix) with ESMTP id C5B2571994
+Return-Path: <fathi.boudra@linaro.org>
+Received: from mail-lf0-f46.google.com (mail-lf0-f46.google.com
+	[209.85.215.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 92A3760806
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Jul 2017 07:53:34 +0000 (UTC)
-Received: by mail-it0-f52.google.com with SMTP id v202so15727382itb.1
+	Mon,  3 Jul 2017 08:03:34 +0000 (UTC)
+Received: by mail-lf0-f46.google.com with SMTP id h22so97861862lfk.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 03 Jul 2017 00:53:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:organization:mime-version:content-transfer-encoding;
-	bh=DvPWA69LT27URIch5h9Rl43VZ3YE4OMxfBz7ekLuSWA=;
-	b=gAHRrzL8XwEezkFWDMVJePqZ51zBgrUrb5LW40bj9qlMGUQVh5yWN/r1Dez+b/l3lg
-	dcnhT/S2LXhvXAC5Za+hkqhwZt5l2zOmdRwbRe7vkOGGaYF8iUL5VOvSi2HQQKDJQw7S
-	hVASFVZF1vLP0SAfdnrwLMa+D7wtRxWBnljb1+rqt/DEfT6YyNRlHDUS3bkaOw38ZjD6
-	0kiAXXiV/yJA0mFHuglZlBVAp8QWxNaz3wbiR+/klslysGStEWaPokSbytyf2FuxIDO2
-	+VlCG1vAL3JZ1gU/RqFJEgfyZvaJzs+sHTiqahV316ZLVQRWV7N4+c9rp6HSsh+UUTzc
-	AM2w==
+	Mon, 03 Jul 2017 01:03:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=from:to:cc:subject:date:message-id;
+	bh=RYzJOXjtvmk5/HC1s1oWL0Oq7twdKk979sDAxdQCxV4=;
+	b=KbVy3+47AlzodW219SHhVgmA7gWWTE6mpSXUdc2E1zMCx6VnmXmwSSp4A02hbVqNSr
+	DfkNOpMICFly002FuN0CPAQa3VrIAQELDj/gbH+g4AnSkPaIfDOs+rnGdSTHD/GYFkCz
+	Gq1qvoNF6bj1teywU+kr1MNt/eX33AuvFks0Y=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:organization:mime-version:content-transfer-encoding;
-	bh=DvPWA69LT27URIch5h9Rl43VZ3YE4OMxfBz7ekLuSWA=;
-	b=RIsnt7fd4uL3cKnHQMrNkqVKg3ieSbsftZEZDyb+8k3r5a5vUQ4MjF0JF6JwxChMCU
-	43rpNeADH5wFjk/tRnh1mwdxhYjr62K7KzQJoR8MZ2HH5ioRqGgH0FAzTTN26LD2WvXm
-	8mC8V7KH90lrcQgiYDk1IgI3k5lGyR4Fcz2WIyfwNa32Z8+siSh3fF4xeZvjNBklZKzi
-	TUIhAjgSSk4nXMAlAgH2oJhm1gsg68G0KMo7yC+WD1NUdcu2RrCn/SwPO04hqZ8iepzN
-	MLki9Oiep/9tGBwLPIuIfBgKZfSnkS+Yx5NKeRnZHKz5LtTbFXToPwhY+QiDxjfp5+19
-	iTZw==
-X-Gm-Message-State: AKS2vOyEekabr4pL8fwGOW3UEF8KlfMIgxOxjL14NgY8qgJEMWuQ5xSn
-	EMbnaCQyj9pi1zdW
-X-Received: by 10.36.18.74 with SMTP id 71mr29189966itp.71.1499068415862;
-	Mon, 03 Jul 2017 00:53:35 -0700 (PDT)
-Received: from pohly-mobl1 (p5DE8EF7A.dip0.t-ipconnect.de. [93.232.239.122])
-	by smtp.gmail.com with ESMTPSA id
-	c198sm8087885ioe.48.2017.07.03.00.53.33
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 03 Jul 2017 00:53:34 -0700 (PDT)
-Message-ID: <1499068412.5259.71.camel@intel.com>
-From: Patrick Ohly <patrick.ohly@intel.com>
-To: ed.bartosh@linux.intel.com
-Date: Mon, 03 Jul 2017 09:53:32 +0200
-In-Reply-To: <20170703073115.GA5380@linux.intel.com>
-References: <20170628073121.GA11425@linux.intel.com>
-	<CAP9ODKoxxaJv=QZXp5m=Qt14t36n1TPXS19D+Xs3eyrPDG79bg@mail.gmail.com>
-	<20170629083942.GA14649@linux.intel.com>
-	<20170630083717.GA788@linux.intel.com>
-	<1498813333.5259.4.camel@intel.com>
-	<20170630122330.GA17125@linux.intel.com>
-	<1498828593.5259.7.camel@intel.com>
-	<20170630154456.GB28177@linux.intel.com>
-	<CAP9ODKq3mB=0GBAZt21A3Ljw77TiNwBdCGZrSQt8L9rcr_i-Yw@mail.gmail.com>
-	<1498847670.5259.9.camel@intel.com>
-	<20170703073115.GA5380@linux.intel.com>
-Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
-X-Mailer: Evolution 3.12.9-1+b1 
-Mime-Version: 1.0
-Cc: Otavio Salvador <otavio.salvador@ossystems.com.br>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2 0/5] #11662 - wic should mount /boot
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=RYzJOXjtvmk5/HC1s1oWL0Oq7twdKk979sDAxdQCxV4=;
+	b=Dtr65vK5jlMCI6cCgKNICa+huOGxu9FQd3Pqf9WKEEtQd9lWPC7aKbPuE7Q/Iz4/8f
+	MQTLUNPO23IzQnXMpJTbb2ksKM5LSQQWR7rJeH0D3RIYpLUGjewAlXXaQ2ALtqGWrWxg
+	YvPLFZO/efJof+EqjGCD+OWtV3unDBDS5trlTW8YIZYnaeRVu8q7sg8+rTG7n00zLVIL
+	t7FeFlx+B4L/gubXHGjNeekltqWagePbKWXf+xxtdWNhwxhVhF3XVBP+/zyOdRIgRpBs
+	M+hg9QdridumJp5ohx4/cQY1ElROt4i9HlfIzeKUTFOVkkCNzPme9lBlPaNf/Ox1pPX6
+	9jGw==
+X-Gm-Message-State: AKS2vOxAKFmyPOj3e6GH3JO7Z3rWITjD8glG6jQlGTSPEY2+mqZEwOJs
+	qVh44ZdGcVhXiDrLVY4+fw==
+X-Received: by 10.46.83.13 with SMTP id h13mr9594965ljb.102.1499069014828;
+	Mon, 03 Jul 2017 01:03:34 -0700 (PDT)
+Received: from localhost.localdomain (a91-156-68-101.elisa-laajakaista.fi.
+	[91.156.68.101])
+	by smtp.gmail.com with ESMTPSA id s199sm866548lfs.4.2017.07.03.01.03.33
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 03 Jul 2017 01:03:33 -0700 (PDT)
+From: Fathi Boudra <fathi.boudra@linaro.org>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  3 Jul 2017 11:03:31 +0300
+Message-Id: <20170703080331.5973-1-fathi.boudra@linaro.org>
+X-Mailer: git-send-email 2.13.0
+Cc: naresh.kamboju@linaro.org
+Subject: [PATCH] ltp: add acl, attr, curl and util-linux runtime dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -73,40 +51,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Jul 2017 07:53:34 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 03 Jul 2017 08:03:35 -0000
 
-On Mon, 2017-07-03 at 10:31 +0300, Ed Bartosh wrote:
-> On Fri, Jun 30, 2017 at 08:34:30PM +0200, Patrick Ohly wrote:
-> > then I don't see a need for any additional flags. Just
-> > don't use the features which result in a rootfs modification.
-> 
-> I also didn't see it till last message from Otavio. Now I do - they
-> don't want to change .wks files. They're using standard wks from
-> scripts/lib/wic/canned-wks or from standard layers and they don't want
-> to duplicate them when they don't want rootfs modifications.
-> 
-> It could be a valid reason to have --no-fstab-update option I think.
-> However, I'm still not 100% convinced I'm ok with this if nobody else
-> objects.
+* Use a list and re-order alphabetically to make it easier to read and
+  update.
+* Add missing runtime dependencies:
+  - acl (getfacl/setfacl commands are required)
+  - attr (getfattr/setfattr commands are required)
+  - curl (curl command is required)
+  - util-linux (ipcs command is required)
 
-Okay, now I see what the purpose is.
+Reported-by: Naresh Kamboju <naresh.kamboju@linaro.org>
+Signed-off-by: Fathi Boudra <fathi.boudra@linaro.org>
+---
+ meta/recipes-extended/ltp/ltp_20170516.bb | 23 +++++++++++++++++++++--
+ 1 file changed, 21 insertions(+), 2 deletions(-)
 
-I prefer a --no-fstab-update over a general --no-rootfs-update because
-for each case where wic would normally modify the rootfs, some other
-mechanism must be in place which makes that modification redundant (like
-using PARTUUID). Having separate parameters forces the developers to
-think about it. Just my 2 cents...
-
+diff --git a/meta/recipes-extended/ltp/ltp_20170516.bb b/meta/recipes-extended/ltp/ltp_20170516.bb
+index f537d60c15..564fdcf8c2 100644
+--- a/meta/recipes-extended/ltp/ltp_20170516.bb
++++ b/meta/recipes-extended/ltp/ltp_20170516.bb
+@@ -95,7 +95,27 @@ do_install(){
+     cp -r testcases/open_posix_testsuite ${D}/opt/ltp/testcases
+ }
+ 
+-RDEPENDS_${PN} = "perl e2fsprogs-mke2fs python-core libaio bash gawk expect ldd unzip gzip cpio cronie logrotate which at"
++RDEPENDS_${PN} = "
++    acl \
++    at \
++    attr \
++    bash \
++    cpio \
++    cronie \
++    curl \
++    e2fsprogs-mke2fs \
++    expect \
++    gawk \
++    gzip \
++    ldd \
++    libaio \
++    logrotate \
++    perl \
++    python-core \
++    unzip \
++    util-linux \
++    which \
++"
+ 
+ FILES_${PN}-staticdev += "/opt/ltp/lib/libmem.a /opt/ltp/testcases/data/nm01/lib.a"
+ 
+@@ -106,4 +126,3 @@ INHIBIT_PACKAGE_STRIP = "1"
+ INHIBIT_PACKAGE_DEBUG_SPLIT = "1"
+ # However, test_arch_stripped is already stripped, so...
+ INSANE_SKIP_${PN} += "already-stripped"
+-
 -- 
-Best Regards, Patrick Ohly
-
-The content of this message is my personal opinion only and although
-I am an employee of Intel, the statements I make here in no way
-represent Intel's position on the issue, nor am I authorized to speak
-on behalf of Intel on this matter.
-
-
+2.13.0
 
 
