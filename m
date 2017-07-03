@@ -1,56 +1,49 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
-	by mail.openembedded.org (Postfix) with ESMTP id 9491577DBE
+Return-Path: <jussi.kukkonen@intel.com>
+Received: from mail-io0-f177.google.com (mail-io0-f177.google.com
+	[209.85.223.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 4801460778
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  2 Jul 2017 18:18:12 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bes.se.axis.com (Postfix) with ESMTP id 9F1012E23F;
-	Sun,  2 Jul 2017 20:18:12 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
-Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id 5RSIWO_rCp5F; Sun,  2 Jul 2017 20:18:12 +0200 (CEST)
-Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
-	by bes.se.axis.com (Postfix) with ESMTPS id EEA0A2E227;
-	Sun,  2 Jul 2017 20:18:11 +0200 (CEST)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 7A9D91E057;
-	Sun,  2 Jul 2017 20:18:11 +0200 (CEST)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 65A961E056;
-	Sun,  2 Jul 2017 20:18:11 +0200 (CEST)
-Received: from seth.se.axis.com (unknown [10.0.2.172])
-	by boulder03.se.axis.com (Postfix) with ESMTP;
-	Sun,  2 Jul 2017 20:18:11 +0200 (CEST)
-Received: from XBOX02.axis.com (xbox02.axis.com [10.0.5.16])
-	by seth.se.axis.com (Postfix) with ESMTP id 57CA12367;
-	Sun,  2 Jul 2017 20:18:11 +0200 (CEST)
-Received: from XBOX02.axis.com (10.0.5.16) by XBOX02.axis.com (10.0.5.16) with
-	Microsoft SMTP Server (TLS) id 15.0.1210.3;
-	Sun, 2 Jul 2017 20:18:11 +0200
-Received: from XBOX02.axis.com ([fe80::d00f:cb52:1b56:20d]) by XBOX02.axis.com
-	([fe80::d00f:cb52:1b56:20d%21]) with mapi id 15.00.1210.000;
-	Sun, 2 Jul 2017 20:18:11 +0200
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Thread-Topic: [OE-core] [PATCHv3] oe-pkgdata-util: package-info: Allow extra
-	variables to be displayed
-Thread-Index: AQHS7CH7kwhDKhDmBkij7Hg4m4wp9KJA5mug
-Date: Sun, 2 Jul 2017 18:18:11 +0000
-Message-ID: <ed253ba8d0334a8aa1a38d036f0a4dd8@XBOX02.axis.com>
-References: <20170619143145.11911-1-pkj@axis.com>
-	<CAJTo0LaBMEicpXpyOdA+U+=Wm9fVCepREHJMcsZ_LeMRRd7WaA@mail.gmail.com>
-In-Reply-To: <CAJTo0LaBMEicpXpyOdA+U+=Wm9fVCepREHJMcsZ_LeMRRd7WaA@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.60]
+	Mon,  3 Jul 2017 06:33:38 +0000 (UTC)
+Received: by mail-io0-f177.google.com with SMTP id h134so51742411iof.2
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 02 Jul 2017 23:33:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=k4mFrUW2z68sy4Z1dVHlGnaaTdrwrfxvBQOM+9uNwS4=;
+	b=r0WDbXH+Z1q2g4dKbiVTQ2VYyfpMXzaG642fYPmT/86ATwOQTcoE/qlCzenVHGmfm4
+	thh7zkhWbqVT0jYZwx3HOgoRlF/lyTv5TS5q/d1FdCax5Whqfg6Inux3woRXt4DlL0DJ
+	OaBEE5BMC4/sqwcPT8otyxNJLtgA6nBI3pVzkNF8ziUOoPIujNyUE6afQoesyPSlHxLj
+	O+nwGFqsq71zf+vXI71ihMbcEeL6qV4tMlLvv5/SsQhRSw0k6AmMU26vLP05tlG9LIiX
+	iF3JGsWtCv94Lyi95fxFkDOzEcLeUo8UhCgPsEK+DShq+2JeXYi/tG90/zqrXy2hXc8c
+	DMtg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=k4mFrUW2z68sy4Z1dVHlGnaaTdrwrfxvBQOM+9uNwS4=;
+	b=aTZZBrXgY1/0bAsGbN7DeMVgkWUKgSlnyTXvz9iqj6IFEaqj/46l/EH5KZv7YuLHbr
+	b1ey+ajHPGtmALSxd5csYjWWe/pkyNOHa3E+Ql3+0XpqRqmkpNCVJi5QhXG/JDCSCNia
+	Gg/GoCJn5qHbZ93A3t9Qi4I0O+dOqB0mIeZNPq/bXUtFz/l4MYSAP9f4bjLzaW+6n5zz
+	p7U4DO6bA1ORTI2Zn/05IVMiaW3WdFT1JtXlmYqR976Zmu9w6CWXO252NngK9dFOlwnX
+	DlNLlCRTw72+G1lbAF3htKOhxbGNcput3NJGFFpyX3osLx2QL2mWWAiHBh6wqhVwGL6I
+	bPLw==
+X-Gm-Message-State: AIVw113hNTgwvcgEKtOTNxxCmAwCz1KmWw+PO8IrZ5sQAeEmmV5umglI
+	2weOJu8UKcn/aLSZu0GVrqm0YVPQ/nMh
+X-Received: by 10.107.151.140 with SMTP id z134mr7565692iod.83.1499063620087; 
+	Sun, 02 Jul 2017 23:33:40 -0700 (PDT)
 MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCHv3] oe-pkgdata-util: package-info: Allow extra variables to be displayed
+Received: by 10.107.44.87 with HTTP; Sun, 2 Jul 2017 23:33:09 -0700 (PDT)
+In-Reply-To: <1498834581-12279-6-git-send-email-maxin.john@intel.com>
+References: <1498834581-12279-1-git-send-email-maxin.john@intel.com>
+	<1498834581-12279-6-git-send-email-maxin.john@intel.com>
+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+Date: Mon, 3 Jul 2017 09:33:09 +0300
+Message-ID: <CAHiDW_FoefUdvKCuOzdsy-xBDFBwaTBvnOzOeXEbZYPnigUQ6w@mail.gmail.com>
+To: "Maxin B. John" <maxin.john@intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 05/11] gstreamer1.0-plugins-good: upgrade 1.10.4 -> 1.12.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,120 +56,276 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 02 Jul 2017 18:18:13 -0000
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_ed253ba8d0334a8aa1a38d036f0a4dd8XBOX02axiscom_"
+X-List-Received-Date: Mon, 03 Jul 2017 06:33:39 -0000
+Content-Type: multipart/alternative; boundary="001a11402a52924b88055363f2d7"
 
---_000_ed253ba8d0334a8aa1a38d036f0a4dd8XBOX02axiscom_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+--001a11402a52924b88055363f2d7
+Content-Type: text/plain; charset="UTF-8"
 
-RHVoISBUaGF0IGlzIGEgcmVtbmFudCBmcm9tIHRoZSBmaXJzdCwgbm9uLWdlbmVyaWMsIGltcGxl
-bWVudGF0aW9uIEkgZGlkIHdoZXJlIEkgb25seSBhZGRlZCBzdXBwb3J0IGZvciB0aGUgU1JDX1VS
-SSB2YXJpYWJsZS4gSSB3aWxsIHNlbmQgYW4gdXBkYXRlZCB2ZXJzaW9u4oCmDQoNCi8vUGV0ZXIN
-Cg0KRnJvbTogQnVydG9uLCBSb3NzIFttYWlsdG86cm9zcy5idXJ0b25AaW50ZWwuY29tXQ0KU2Vu
-dDogZGVuIDIzIGp1bmkgMjAxNyAxNTowOQ0KVG86IFBldGVyIEtqZWxsZXJzdGVkdCA8cGV0ZXIu
-a2plbGxlcnN0ZWR0QGF4aXMuY29tPg0KQ2M6IE9FLWNvcmUgPG9wZW5lbWJlZGRlZC1jb3JlQGxp
-c3RzLm9wZW5lbWJlZGRlZC5vcmc+DQpTdWJqZWN0OiBSZTogW09FLWNvcmVdIFtQQVRDSHYzXSBv
-ZS1wa2dkYXRhLXV0aWw6IHBhY2thZ2UtaW5mbzogQWxsb3cgZXh0cmEgdmFyaWFibGVzIHRvIGJl
-IGRpc3BsYXllZA0KDQoNCk9uIDE5IEp1bmUgMjAxNyBhdCAxNTozMSwgUGV0ZXIgS2plbGxlcnN0
-ZWR0IDxwZXRlci5ramVsbGVyc3RlZHRAYXhpcy5jb208bWFpbHRvOnBldGVyLmtqZWxsZXJzdGVk
-dEBheGlzLmNvbT4+IHdyb3RlOg0KKyAgICAgICAgaWYgYXJncy5leHRyYToNCisgICAgICAgICAg
-ICBmb3IgdmFsIGluIGFyZ3MuZXh0cmE6DQorICAgICAgICAgICAgICAgIHNyY191cmkgPSBtYXBw
-aW5nc1twa2ddW3ZhbF0uc3RyaXAoKQ0KKyAgICAgICAgICAgICAgICBzcmNfdXJpID0gcmUuc3Vi
-KHInXHMrJywgJyAnLCBzcmNfdXJpKQ0KKyAgICAgICAgICAgICAgICBsaW5lICs9ICcgIiVzIicg
-JSBzcmNfdXJpDQoNCkkgZG9uJ3QgdGhpbmsgeW91IG1lYW50IHNyY191cmkgaGVyZS4gIDopDQoN
-ClJvc3MNCg==
+I'm guessing 12.1 has the same issue with renamed plugins that I reported
+on the previous patchset?
 
---_000_ed253ba8d0334a8aa1a38d036f0a4dd8XBOX02axiscom_
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: base64
+See
+https://cgit.freedesktop.org/gstreamer/gst-plugins-good/commit/?id=ca0ed8a134f1d26083e6f89636493df89ff29cff
+: this changes packages names so we need to add special case RPROVIDES for
+these three (and probably should also change gstreamer1.0-meta-base to use
+the real name).
 
-PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
-bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
-YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
-cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
-VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
-Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
-ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
-PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
-IkNhbWJyaWEgTWF0aCI7DQoJcGFub3NlLTE6MiA0IDUgMyA1IDQgNiAzIDIgNDt9DQpAZm9udC1m
-YWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIgMiAyIDQgMyAy
-IDQ7fQ0KLyogU3R5bGUgRGVmaW5pdGlvbnMgKi8NCnAuTXNvTm9ybWFsLCBsaS5Nc29Ob3JtYWws
-IGRpdi5Nc29Ob3JtYWwNCgl7bWFyZ2luOjBjbTsNCgltYXJnaW4tYm90dG9tOi4wMDAxcHQ7DQoJ
-Zm9udC1zaXplOjEyLjBwdDsNCglmb250LWZhbWlseToiVGltZXMgTmV3IFJvbWFuIixzZXJpZjt9
-DQphOmxpbmssIHNwYW4uTXNvSHlwZXJsaW5rDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsNCglj
-b2xvcjpibHVlOw0KCXRleHQtZGVjb3JhdGlvbjp1bmRlcmxpbmU7fQ0KYTp2aXNpdGVkLCBzcGFu
-Lk1zb0h5cGVybGlua0ZvbGxvd2VkDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsNCgljb2xvcjpw
-dXJwbGU7DQoJdGV4dC1kZWNvcmF0aW9uOnVuZGVybGluZTt9DQpwLm1zb25vcm1hbDAsIGxpLm1z
-b25vcm1hbDAsIGRpdi5tc29ub3JtYWwwDQoJe21zby1zdHlsZS1uYW1lOm1zb25vcm1hbDsNCglt
-c28tbWFyZ2luLXRvcC1hbHQ6YXV0bzsNCgltYXJnaW4tcmlnaHQ6MGNtOw0KCW1zby1tYXJnaW4t
-Ym90dG9tLWFsdDphdXRvOw0KCW1hcmdpbi1sZWZ0OjBjbTsNCglmb250LXNpemU6MTIuMHB0Ow0K
-CWZvbnQtZmFtaWx5OiJUaW1lcyBOZXcgUm9tYW4iLHNlcmlmO30NCnNwYW4uRW1haWxTdHlsZTE4
-DQoJe21zby1zdHlsZS10eXBlOnBlcnNvbmFsLXJlcGx5Ow0KCWZvbnQtZmFtaWx5OiJDYWxpYnJp
-IixzYW5zLXNlcmlmOw0KCWNvbG9yOiM5NDM2MzQ7DQoJZm9udC13ZWlnaHQ6bm9ybWFsOw0KCWZv
-bnQtc3R5bGU6bm9ybWFsOw0KCXRleHQtZGVjb3JhdGlvbjpub25lIG5vbmU7fQ0KLk1zb0NocERl
-ZmF1bHQNCgl7bXNvLXN0eWxlLXR5cGU6ZXhwb3J0LW9ubHk7DQoJZm9udC1mYW1pbHk6IkNhbGli
-cmkiLHNhbnMtc2VyaWY7DQoJbXNvLWZhcmVhc3QtbGFuZ3VhZ2U6RU4tVVM7fQ0KQHBhZ2UgV29y
-ZFNlY3Rpb24xDQoJe3NpemU6NjEyLjBwdCA3OTIuMHB0Ow0KCW1hcmdpbjo3Mi4wcHQgNzIuMHB0
-IDcyLjBwdCA3Mi4wcHQ7fQ0KZGl2LldvcmRTZWN0aW9uMQ0KCXtwYWdlOldvcmRTZWN0aW9uMTt9
-DQotLT48L3N0eWxlPjwhLS1baWYgZ3RlIG1zbyA5XT48eG1sPg0KPG86c2hhcGVkZWZhdWx0cyB2
-OmV4dD0iZWRpdCIgc3BpZG1heD0iMTAyNiIgLz4NCjwveG1sPjwhW2VuZGlmXS0tPjwhLS1baWYg
-Z3RlIG1zbyA5XT48eG1sPg0KPG86c2hhcGVsYXlvdXQgdjpleHQ9ImVkaXQiPg0KPG86aWRtYXAg
-djpleHQ9ImVkaXQiIGRhdGE9IjEiIC8+DQo8L286c2hhcGVsYXlvdXQ+PC94bWw+PCFbZW5kaWZd
-LS0+DQo8L2hlYWQ+DQo8Ym9keSBsYW5nPSJTViIgbGluaz0iYmx1ZSIgdmxpbms9InB1cnBsZSI+
-DQo8ZGl2IGNsYXNzPSJXb3JkU2VjdGlvbjEiPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4g
-bGFuZz0iRU4tVVMiIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0Nh
-bGlicmkmcXVvdDssc2Fucy1zZXJpZjtjb2xvcjojOTQzNjM0O21zby1mYXJlYXN0LWxhbmd1YWdl
-OkVOLVVTIj5EdWghIFRoYXQgaXMgYSByZW1uYW50IGZyb20gdGhlIGZpcnN0LCBub24tZ2VuZXJp
-YywgaW1wbGVtZW50YXRpb24gSSBkaWQgd2hlcmUgSSBvbmx5IGFkZGVkIHN1cHBvcnQgZm9yIHRo
-ZSBTUkNfVVJJIHZhcmlhYmxlLg0KIEkgd2lsbCBzZW5kIGFuIHVwZGF0ZWQgdmVyc2lvbuKApjxv
-OnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIGxhbmc9IkVO
-LVVTIiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1
-b3Q7LHNhbnMtc2VyaWY7Y29sb3I6Izk0MzYzNDttc28tZmFyZWFzdC1sYW5ndWFnZTpFTi1VUyI+
-PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4g
-bGFuZz0iRU4tVVMiIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0Nh
-bGlicmkmcXVvdDssc2Fucy1zZXJpZjtjb2xvcjojOTQzNjM0O21zby1mYXJlYXN0LWxhbmd1YWdl
-OkVOLVVTIj4vL1BldGVyPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1h
-bCI+PHNwYW4gbGFuZz0iRU4tVVMiIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5
-OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJpZjtjb2xvcjojOTQzNjM0O21zby1mYXJlYXN0
-LWxhbmd1YWdlOkVOLVVTIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8ZGl2IHN0eWxl
-PSJib3JkZXI6bm9uZTtib3JkZXItbGVmdDpzb2xpZCBibHVlIDEuNXB0O3BhZGRpbmc6MGNtIDBj
-bSAwY20gNC4wcHQiPg0KPGRpdj4NCjxkaXYgc3R5bGU9ImJvcmRlcjpub25lO2JvcmRlci10b3A6
-c29saWQgI0UxRTFFMSAxLjBwdDtwYWRkaW5nOjMuMHB0IDBjbSAwY20gMGNtIj4NCjxwIGNsYXNz
-PSJNc29Ob3JtYWwiPjxiPjxzcGFuIGxhbmc9IkVOLVVTIiBzdHlsZT0iZm9udC1zaXplOjExLjBw
-dDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWYiPkZyb206PC9zcGFu
-PjwvYj48c3BhbiBsYW5nPSJFTi1VUyIgc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1p
-bHk6JnF1b3Q7Q2FsaWJyaSZxdW90OyxzYW5zLXNlcmlmIj4gQnVydG9uLCBSb3NzIFttYWlsdG86
-cm9zcy5idXJ0b25AaW50ZWwuY29tXQ0KPGJyPg0KPGI+U2VudDo8L2I+IGRlbiAyMyBqdW5pIDIw
-MTcgMTU6MDk8YnI+DQo8Yj5Ubzo8L2I+IFBldGVyIEtqZWxsZXJzdGVkdCAmbHQ7cGV0ZXIua2pl
-bGxlcnN0ZWR0QGF4aXMuY29tJmd0Ozxicj4NCjxiPkNjOjwvYj4gT0UtY29yZSAmbHQ7b3BlbmVt
-YmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZyZndDs8YnI+DQo8Yj5TdWJqZWN0Ojwv
-Yj4gUmU6IFtPRS1jb3JlXSBbUEFUQ0h2M10gb2UtcGtnZGF0YS11dGlsOiBwYWNrYWdlLWluZm86
-IEFsbG93IGV4dHJhIHZhcmlhYmxlcyB0byBiZSBkaXNwbGF5ZWQ8bzpwPjwvbzpwPjwvc3Bhbj48
-L3A+DQo8L2Rpdj4NCjwvZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PG86cD4mbmJzcDs8L286
-cD48L3A+DQo8ZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9v
-OnA+PC9wPg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPk9uIDE5IEp1bmUgMjAxNyBhdCAx
-NTozMSwgUGV0ZXIgS2plbGxlcnN0ZWR0ICZsdDs8YSBocmVmPSJtYWlsdG86cGV0ZXIua2plbGxl
-cnN0ZWR0QGF4aXMuY29tIiB0YXJnZXQ9Il9ibGFuayI+cGV0ZXIua2plbGxlcnN0ZWR0QGF4aXMu
-Y29tPC9hPiZndDsgd3JvdGU6PG86cD48L286cD48L3A+DQo8YmxvY2txdW90ZSBzdHlsZT0iYm9y
-ZGVyOm5vbmU7Ym9yZGVyLWxlZnQ6c29saWQgI0NDQ0NDQyAxLjBwdDtwYWRkaW5nOjBjbSAwY20g
-MGNtIDYuMHB0O21hcmdpbi1sZWZ0OjQuOHB0O21hcmdpbi1yaWdodDowY20iPg0KPGRpdiBpZD0i
-OjUxMSI+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj4mIzQzOyZuYnNwOyAmbmJzcDsgJm5ic3A7ICZu
-YnNwOyBpZiBhcmdzLmV4dHJhOjxicj4NCiYjNDM7Jm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7
-ICZuYnNwOyAmbmJzcDsgZm9yIHZhbCBpbiBhcmdzLmV4dHJhOjxicj4NCiYjNDM7Jm5ic3A7ICZu
-YnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyBzcmNfdXJpID0g
-bWFwcGluZ3NbcGtnXVt2YWxdLnN0cmlwKCk8YnI+DQomIzQzOyZuYnNwOyAmbmJzcDsgJm5ic3A7
-ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgc3JjX3VyaSA9IHJlLnN1YihyJ1xz
-JiM0MzsnLCAnICcsIHNyY191cmkpPGJyPg0KJiM0MzsmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJz
-cDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7IGxpbmUgJiM0Mzs9ICcgJnF1b3Q7JXMmcXVv
-dDsnICUgc3JjX3VyaTxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8L2Jsb2NrcXVvdGU+DQo8ZGl2
-Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PG86cD4mbmJzcDs8L286cD48L3A+DQo8L2Rpdj4NCjxk
-aXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj5JIGRvbid0IHRoaW5rIHlvdSBtZWFudCBzcmNfdXJp
-IGhlcmUuICZuYnNwOzopPG86cD48L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0i
-TXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNz
-PSJNc29Ob3JtYWwiPlJvc3MmbmJzcDs8bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPC9kaXY+DQo8
-L2Rpdj4NCjwvZGl2Pg0KPC9kaXY+DQo8L2Rpdj4NCjwvYm9keT4NCjwvaHRtbD4NCg==
+  - Jussi
 
---_000_ed253ba8d0334a8aa1a38d036f0a4dd8XBOX02axiscom_--
+
+On 30 June 2017 at 17:56, Maxin B. John <maxin.john@intel.com> wrote:
+
+> Remove backported patch:
+>         1.0001-v4l2object-Also-add-videometa-if-there-is-padding-to.patch
+>
+> Signed-off-by: Maxin B. John <maxin.john@intel.com>
+> ---
+>  ...Also-add-videometa-if-there-is-padding-to.patch | 35
+> ----------------------
+>  ...10.4.bb => gstreamer1.0-plugins-good_1.12.1.bb} |  5 ++--
+>  2 files changed, 2 insertions(+), 38 deletions(-)
+>  delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-
+> plugins-good/0001-v4l2object-Also-add-videometa-if-there-
+> is-padding-to.patch
+>  rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-
+> plugins-good_1.10.4.bb => gstreamer1.0-plugins-good_1.12.1.bb} (78%)
+>
+> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-
+> plugins-good/0001-v4l2object-Also-add-videometa-if-there-is-padding-to.patch
+> b/meta/recipes-multimedia/gstreamer/gstreamer1.0-
+> plugins-good/0001-v4l2object-Also-add-videometa-if-there-
+> is-padding-to.patch
+> deleted file mode 100644
+> index 2a9a23e..0000000
+> --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-
+> plugins-good/0001-v4l2object-Also-add-videometa-if-there-
+> is-padding-to.patch
+> +++ /dev/null
+> @@ -1,35 +0,0 @@
+> -From 22be02612adc757f6a43cefc6ee65ecaef68f0d9 Mon Sep 17 00:00:00 2001
+> -From: Carlos Rafael Giani <dv@pseudoterminal.org>
+> -Date: Thu, 23 Mar 2017 22:13:05 +0100
+> -Subject: [PATCH] v4l2object: Also add videometa if there is padding to the
+> - right and bottom
+> -
+> -https://bugzilla.gnome.org/show_bug.cgi?id=780478
+> -
+> -Upstream-Status: Backport [1.10.5]
+> -
+> -Signed-off-by: Carlos Rafael Giani <dv@pseudoterminal.org>
+> ----
+> - sys/v4l2/gstv4l2object.c | 5 +++--
+> - 1 file changed, 3 insertions(+), 2 deletions(-)
+> -
+> -diff --git a/sys/v4l2/gstv4l2object.c b/sys/v4l2/gstv4l2object.c
+> -index 91c8ff0..ed4654e 100644
+> ---- a/sys/v4l2/gstv4l2object.c
+> -+++ b/sys/v4l2/gstv4l2object.c
+> -@@ -3070,9 +3070,10 @@ store_info:
+> -   GST_DEBUG_OBJECT (v4l2object->element, "Got sizeimage %"
+> G_GSIZE_FORMAT,
+> -       info->size);
+> -
+> --  /* to avoid copies we need video meta if top or left padding */
+> -+  /* to avoid copies we need video meta if there is padding */
+> -   v4l2object->need_video_meta =
+> --      ((align->padding_top + align->padding_left) != 0);
+> -+      ((align->padding_top + align->padding_left + align->padding_right +
+> -+          align->padding_bottom) != 0);
+> -
+> -   /* ... or if stride is non "standard" */
+> -   if (!standard_stride)
+> ---
+> -2.7.4
+> -
+> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-
+> plugins-good_1.10.4.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-
+> plugins-good_1.12.1.bb
+> similarity index 78%
+> rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-
+> plugins-good_1.10.4.bb
+> rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-
+> plugins-good_1.12.1.bb
+> index 57447bf..8665d7b 100644
+> --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-
+> plugins-good_1.10.4.bb
+> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-
+> plugins-good_1.12.1.bb
+> @@ -10,9 +10,8 @@ SRC_URI = " \
+>      file://avoid-including-sys-poll.h-directly.patch \
+>      file://ensure-valid-sentinel-for-gst_structure_get.patch \
+>      file://0001-introspection.m4-prefix-pkgconfig-paths-with-PKG_CON.patch
+> \
+> -    file://0001-v4l2object-Also-add-videometa-if-there-is-padding-to.patch
+> \
+>  "
+> -SRC_URI[md5sum] = "cc0cc13cdb07d4237600b6886b81f31d"
+> -SRC_URI[sha256sum] = "8a86c61434a8c44665365bd0b3557a
+> 040937d1f44bf69caee4e9ea816ce74d7e"
+> +SRC_URI[md5sum] = "53647e9fe9446f2ad808d55fcdf85b6e"
+> +SRC_URI[sha256sum] = "121e8e46a7f0e622f09ec9be012607
+> b89d737dd72d48b0f2f0680821ae2cf54b"
+>
+>  S = "${WORKDIR}/gst-plugins-good-${PV}"
+> --
+> 2.4.0
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+
+--001a11402a52924b88055363f2d7
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div><br></div>I&#39;m guessing 12.1 has the same issue wi=
+th renamed plugins that I reported on the previous patchset?=C2=A0<div><br>=
+</div><div>See <a href=3D"https://cgit.freedesktop.org/gstreamer/gst-plugin=
+s-good/commit/?id=3Dca0ed8a134f1d26083e6f89636493df89ff29cff">https://cgit.=
+freedesktop.org/gstreamer/gst-plugins-good/commit/?id=3Dca0ed8a134f1d26083e=
+6f89636493df89ff29cff</a> : this changes packages names so we need to add s=
+pecial case RPROVIDES for these three (and probably should also change=C2=
+=A0<span style=3D"font-size:12.8px">gstreamer1.0-meta-base to use the real =
+name</span>).</div><div><div class=3D"gmail_extra"><br></div><div class=3D"=
+gmail_extra">=C2=A0 - Jussi</div><div class=3D"gmail_extra"><br></div><div =
+class=3D"gmail_extra"><br><div class=3D"gmail_quote">On 30 June 2017 at 17:=
+56, Maxin B. John <span dir=3D"ltr">&lt;<a href=3D"mailto:maxin.john@intel.=
+com" target=3D"_blank">maxin.john@intel.com</a>&gt;</span> wrote:<br><block=
+quote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1=
+px solid rgb(204,204,204);padding-left:1ex">Remove backported patch:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 1.0001-v4l2object-Also-add-<wbr>videometa-if-th=
+ere-is-padding-<wbr>to.patch<br>
+<br>
+Signed-off-by: Maxin B. John &lt;<a href=3D"mailto:maxin.john@intel.com">ma=
+xin.john@intel.com</a>&gt;<br>
+---<br>
+=C2=A0...Also-add-videometa-if-<wbr>there-is-padding-to.patch | 35 --------=
+--------------<br>
+=C2=A0...<a href=3D"http://10.4.bb" rel=3D"noreferrer" target=3D"_blank">10=
+.4.bb</a> =3D&gt; <a href=3D"http://gstreamer1.0-plugins-good_1.12.1.bb" re=
+l=3D"noreferrer" target=3D"_blank">gstreamer1.0-plugins-good_1.<wbr>12.1.bb=
+</a>} |=C2=A0 5 ++--<br>
+=C2=A02 files changed, 2 insertions(+), 38 deletions(-)<br>
+=C2=A0delete mode 100644 meta/recipes-multimedia/<wbr>gstreamer/gstreamer1.=
+0-<wbr>plugins-good/0001-v4l2object-<wbr>Also-add-videometa-if-there-<wbr>i=
+s-padding-to.patch<br>
+=C2=A0rename meta/recipes-multimedia/<wbr>gstreamer/{<a href=3D"http://gstr=
+eamer1.0-plugins-good_1.10.4.bb" rel=3D"noreferrer" target=3D"_blank">gstre=
+amer1.0-<wbr>plugins-good_1.10.4.bb</a> =3D&gt; <a href=3D"http://gstreamer=
+1.0-plugins-good_1.12.1.bb" rel=3D"noreferrer" target=3D"_blank">gstreamer1=
+.0-plugins-good_1.<wbr>12.1.bb</a>} (78%)<br>
+<br>
+diff --git a/meta/recipes-multimedia/<wbr>gstreamer/gstreamer1.0-<wbr>plugi=
+ns-good/0001-v4l2object-<wbr>Also-add-videometa-if-there-<wbr>is-padding-to=
+.patch b/meta/recipes-multimedia/<wbr>gstreamer/gstreamer1.0-<wbr>plugins-g=
+ood/0001-v4l2object-<wbr>Also-add-videometa-if-there-<wbr>is-padding-to.pat=
+ch<br>
+deleted file mode 100644<br>
+index 2a9a23e..0000000<br>
+--- a/meta/recipes-multimedia/<wbr>gstreamer/gstreamer1.0-<wbr>plugins-good=
+/0001-v4l2object-<wbr>Also-add-videometa-if-there-<wbr>is-padding-to.patch<=
+br>
++++ /dev/null<br>
+@@ -1,35 +0,0 @@<br>
+-From 22be02612adc757f6a43cefc6ee65e<wbr>caef68f0d9 Mon Sep 17 00:00:00 200=
+1<br>
+-From: Carlos Rafael Giani &lt;<a href=3D"mailto:dv@pseudoterminal.org">dv@=
+pseudoterminal.org</a>&gt;<br>
+-Date: Thu, 23 Mar 2017 22:13:05 +0100<br>
+-Subject: [PATCH] v4l2object: Also add videometa if there is padding to the=
+<br>
+- right and bottom<br>
+-<br>
+-<a href=3D"https://bugzilla.gnome.org/show_bug.cgi?id=3D780478" rel=3D"nor=
+eferrer" target=3D"_blank">https://bugzilla.gnome.org/<wbr>show_bug.cgi?id=
+=3D780478</a><br>
+-<br>
+-Upstream-Status: Backport [1.10.5]<br>
+-<br>
+-Signed-off-by: Carlos Rafael Giani &lt;<a href=3D"mailto:dv@pseudoterminal=
+.org">dv@pseudoterminal.org</a>&gt;<br>
+----<br>
+- sys/v4l2/gstv4l2object.c | 5 +++--<br>
+- 1 file changed, 3 insertions(+), 2 deletions(-)<br>
+-<br>
+-diff --git a/sys/v4l2/gstv4l2object.c b/sys/v4l2/gstv4l2object.c<br>
+-index 91c8ff0..ed4654e 100644<br>
+---- a/sys/v4l2/gstv4l2object.c<br>
+-+++ b/sys/v4l2/gstv4l2object.c<br>
+-@@ -3070,9 +3070,10 @@ store_info:<br>
+-=C2=A0 =C2=A0GST_DEBUG_OBJECT (v4l2object-&gt;element, &quot;Got sizeimage=
+ %&quot; G_GSIZE_FORMAT,<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0info-&gt;size);<br>
+-<br>
+--=C2=A0 /* to avoid copies we need video meta if top or left padding */<br=
+>
+-+=C2=A0 /* to avoid copies we need video meta if there is padding */<br>
+-=C2=A0 =C2=A0v4l2object-&gt;need_video_meta =3D<br>
+--=C2=A0 =C2=A0 =C2=A0 ((align-&gt;padding_top + align-&gt;padding_left) !=
+=3D 0);<br>
+-+=C2=A0 =C2=A0 =C2=A0 ((align-&gt;padding_top + align-&gt;padding_left + a=
+lign-&gt;padding_right +<br>
+-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 align-&gt;padding_bottom) !=3D 0);<br>
+-<br>
+-=C2=A0 =C2=A0/* ... or if stride is non &quot;standard&quot; */<br>
+-=C2=A0 =C2=A0if (!standard_stride)<br>
+---<br>
+-2.7.4<br>
+-<br>
+diff --git a/meta/recipes-multimedia/<wbr>gstreamer/<a href=3D"http://gstre=
+amer1.0-plugins-good_1.10.4.bb" rel=3D"noreferrer" target=3D"_blank">gstrea=
+mer1.0-<wbr>plugins-good_1.10.4.bb</a> b/meta/recipes-multimedia/<wbr>gstre=
+amer/<a href=3D"http://gstreamer1.0-plugins-good_1.12.1.bb" rel=3D"noreferr=
+er" target=3D"_blank">gstreamer1.0-<wbr>plugins-good_1.12.1.bb</a><br>
+similarity index 78%<br>
+rename from meta/recipes-multimedia/<wbr>gstreamer/<a href=3D"http://gstrea=
+mer1.0-plugins-good_1.10.4.bb" rel=3D"noreferrer" target=3D"_blank">gstream=
+er1.0-<wbr>plugins-good_1.10.4.bb</a><br>
+rename to meta/recipes-multimedia/<wbr>gstreamer/<a href=3D"http://gstreame=
+r1.0-plugins-good_1.12.1.bb" rel=3D"noreferrer" target=3D"_blank">gstreamer=
+1.0-<wbr>plugins-good_1.12.1.bb</a><br>
+index 57447bf..8665d7b 100644<br>
+--- a/meta/recipes-multimedia/<wbr>gstreamer/<a href=3D"http://gstreamer1.0=
+-plugins-good_1.10.4.bb" rel=3D"noreferrer" target=3D"_blank">gstreamer1.0-=
+<wbr>plugins-good_1.10.4.bb</a><br>
++++ b/meta/recipes-multimedia/<wbr>gstreamer/<a href=3D"http://gstreamer1.0=
+-plugins-good_1.12.1.bb" rel=3D"noreferrer" target=3D"_blank">gstreamer1.0-=
+<wbr>plugins-good_1.12.1.bb</a><br>
+@@ -10,9 +10,8 @@ SRC_URI =3D &quot; \<br>
+=C2=A0 =C2=A0 =C2=A0file://avoid-including-sys-<wbr>poll.h-directly.patch \=
+<br>
+=C2=A0 =C2=A0 =C2=A0file://ensure-valid-sentinel-<wbr>for-gst_structure_get=
+.patch \<br>
+=C2=A0 =C2=A0 =C2=A0file://0001-introspection.m4-<wbr>prefix-pkgconfig-path=
+s-with-<wbr>PKG_CON.patch \<br>
+-=C2=A0 =C2=A0 file://0001-v4l2object-Also-<wbr>add-videometa-if-there-is-<=
+wbr>padding-to.patch \<br>
+=C2=A0&quot;<br>
+-SRC_URI[md5sum] =3D &quot;<wbr>cc0cc13cdb07d4237600b6886b81f3<wbr>1d&quot;=
+<br>
+-SRC_URI[sha256sum] =3D &quot;<wbr>8a86c61434a8c44665365bd0b3557a<wbr>04093=
+7d1f44bf69caee4e9ea816ce7<wbr>4d7e&quot;<br>
++SRC_URI[md5sum] =3D &quot;<wbr>53647e9fe9446f2ad808d55fcdf85b<wbr>6e&quot;=
+<br>
++SRC_URI[sha256sum] =3D &quot;<wbr>121e8e46a7f0e622f09ec9be012607<wbr>b89d7=
+37dd72d48b0f2f0680821ae2c<wbr>f54b&quot;<br>
+<br>
+=C2=A0S =3D &quot;${WORKDIR}/gst-plugins-good-$<wbr>{PV}&quot;<br>
+<span class=3D"gmail-HOEnZb"><font color=3D"#888888">--<br>
+2.4.0<br>
+<br>
+--<br>
+______________________________<wbr>_________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
+re@lists.<wbr>openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
+ailman/listinfo/openembedded-<wbr>core</a><br>
+</font></span></blockquote></div><br></div></div></div>
+
+--001a11402a52924b88055363f2d7--
