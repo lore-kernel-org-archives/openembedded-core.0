@@ -1,24 +1,48 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 33F96606CB
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-it0-f52.google.com (mail-it0-f52.google.com
+	[209.85.214.52])
+	by mail.openembedded.org (Postfix) with ESMTP id C5B2571994
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Jul 2017 07:43:04 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga105.fm.intel.com with ESMTP; 03 Jul 2017 00:43:05 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.40,301,1496127600"; d="scan'208";a="988087546"
-Received: from linux.intel.com ([10.54.29.200])
-	by orsmga003.jf.intel.com with ESMTP; 03 Jul 2017 00:43:05 -0700
-Received: from linux.intel.com (vmed.fi.intel.com [10.237.72.38])
-	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by linux.intel.com (Postfix) with ESMTPS id A35E758056B;
-	Mon,  3 Jul 2017 00:43:04 -0700 (PDT)
-Date: Mon, 3 Jul 2017 10:31:15 +0300
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
-To: Patrick Ohly <patrick.ohly@intel.com>
-Message-ID: <20170703073115.GA5380@linux.intel.com>
-Reply-To: ed.bartosh@linux.intel.com
+	Mon,  3 Jul 2017 07:53:34 +0000 (UTC)
+Received: by mail-it0-f52.google.com with SMTP id v202so15727382itb.1
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 03 Jul 2017 00:53:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:organization:mime-version:content-transfer-encoding;
+	bh=DvPWA69LT27URIch5h9Rl43VZ3YE4OMxfBz7ekLuSWA=;
+	b=gAHRrzL8XwEezkFWDMVJePqZ51zBgrUrb5LW40bj9qlMGUQVh5yWN/r1Dez+b/l3lg
+	dcnhT/S2LXhvXAC5Za+hkqhwZt5l2zOmdRwbRe7vkOGGaYF8iUL5VOvSi2HQQKDJQw7S
+	hVASFVZF1vLP0SAfdnrwLMa+D7wtRxWBnljb1+rqt/DEfT6YyNRlHDUS3bkaOw38ZjD6
+	0kiAXXiV/yJA0mFHuglZlBVAp8QWxNaz3wbiR+/klslysGStEWaPokSbytyf2FuxIDO2
+	+VlCG1vAL3JZ1gU/RqFJEgfyZvaJzs+sHTiqahV316ZLVQRWV7N4+c9rp6HSsh+UUTzc
+	AM2w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:organization:mime-version:content-transfer-encoding;
+	bh=DvPWA69LT27URIch5h9Rl43VZ3YE4OMxfBz7ekLuSWA=;
+	b=RIsnt7fd4uL3cKnHQMrNkqVKg3ieSbsftZEZDyb+8k3r5a5vUQ4MjF0JF6JwxChMCU
+	43rpNeADH5wFjk/tRnh1mwdxhYjr62K7KzQJoR8MZ2HH5ioRqGgH0FAzTTN26LD2WvXm
+	8mC8V7KH90lrcQgiYDk1IgI3k5lGyR4Fcz2WIyfwNa32Z8+siSh3fF4xeZvjNBklZKzi
+	TUIhAjgSSk4nXMAlAgH2oJhm1gsg68G0KMo7yC+WD1NUdcu2RrCn/SwPO04hqZ8iepzN
+	MLki9Oiep/9tGBwLPIuIfBgKZfSnkS+Yx5NKeRnZHKz5LtTbFXToPwhY+QiDxjfp5+19
+	iTZw==
+X-Gm-Message-State: AKS2vOyEekabr4pL8fwGOW3UEF8KlfMIgxOxjL14NgY8qgJEMWuQ5xSn
+	EMbnaCQyj9pi1zdW
+X-Received: by 10.36.18.74 with SMTP id 71mr29189966itp.71.1499068415862;
+	Mon, 03 Jul 2017 00:53:35 -0700 (PDT)
+Received: from pohly-mobl1 (p5DE8EF7A.dip0.t-ipconnect.de. [93.232.239.122])
+	by smtp.gmail.com with ESMTPSA id
+	c198sm8087885ioe.48.2017.07.03.00.53.33
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 03 Jul 2017 00:53:34 -0700 (PDT)
+Message-ID: <1499068412.5259.71.camel@intel.com>
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: ed.bartosh@linux.intel.com
+Date: Mon, 03 Jul 2017 09:53:32 +0200
+In-Reply-To: <20170703073115.GA5380@linux.intel.com>
 References: <20170628073121.GA11425@linux.intel.com>
 	<CAP9ODKoxxaJv=QZXp5m=Qt14t36n1TPXS19D+Xs3eyrPDG79bg@mail.gmail.com>
 	<20170629083942.GA14649@linux.intel.com>
@@ -29,10 +53,10 @@ References: <20170628073121.GA11425@linux.intel.com>
 	<20170630154456.GB28177@linux.intel.com>
 	<CAP9ODKq3mB=0GBAZt21A3Ljw77TiNwBdCGZrSQt8L9rcr_i-Yw@mail.gmail.com>
 	<1498847670.5259.9.camel@intel.com>
-MIME-Version: 1.0
-In-Reply-To: <1498847670.5259.9.camel@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-User-Agent: Mutt/1.5.21 (2010-09-15)
+	<20170703073115.GA5380@linux.intel.com>
+Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
+X-Mailer: Evolution 3.12.9-1+b1 
+Mime-Version: 1.0
 Cc: Otavio Salvador <otavio.salvador@ossystems.com.br>,
 	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
@@ -49,38 +73,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Jul 2017 07:43:06 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Mon, 03 Jul 2017 07:53:34 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Fri, Jun 30, 2017 at 08:34:30PM +0200, Patrick Ohly wrote:
-> On Fri, 2017-06-30 at 14:33 -0300, Otavio Salvador wrote:
-> > Other possible rootfs changes also should be possible to be disabled
-> > but IMO it should be per-feature (one for fstab, one for exclude,
-> > ...).
+On Mon, 2017-07-03 at 10:31 +0300, Ed Bartosh wrote:
+> On Fri, Jun 30, 2017 at 08:34:30PM +0200, Patrick Ohly wrote:
+> > then I don't see a need for any additional flags. Just
+> > don't use the features which result in a rootfs modification.
 > 
-> I also think it should be per-feature, it necessary at all.
+> I also didn't see it till last message from Otavio. Now I do - they
+> don't want to change .wks files. They're using standard wks from
+> scripts/lib/wic/canned-wks or from standard layers and they don't want
+> to duplicate them when they don't want rootfs modifications.
 > 
-> I still do not fully understand under which circumstances wic modifies
-> the rootfs. If that happens only when explicitly requested in the wks
-> file as Ed said, then I don't see a need for any additional flags.
+> It could be a valid reason to have --no-fstab-update option I think.
+> However, I'm still not 100% convinced I'm ok with this if nobody else
+> objects.
 
-Yes, that happens only if it explicitly requested, i.e. if there are valid
-mount points in .wks file
+Okay, now I see what the purpose is.
 
-> then I don't see a need for any additional flags. Just
-> don't use the features which result in a rootfs modification.
+I prefer a --no-fstab-update over a general --no-rootfs-update because
+for each case where wic would normally modify the rootfs, some other
+mechanism must be in place which makes that modification redundant (like
+using PARTUUID). Having separate parameters forces the developers to
+think about it. Just my 2 cents...
 
-I also didn't see it till last message from Otavio. Now I do - they
-don't want to change .wks files. They're using standard wks from
-scripts/lib/wic/canned-wks or from standard layers and they don't want
-to duplicate them when they don't want rootfs modifications.
+-- 
+Best Regards, Patrick Ohly
 
-It could be a valid reason to have --no-fstab-update option I think.
-However, I'm still not 100% convinced I'm ok with this if nobody else
-objects.
+The content of this message is my personal opinion only and although
+I am an employee of Intel, the statements I make here in no way
+represent Intel's position on the issue, nor am I authorized to speak
+on behalf of Intel on this matter.
 
---
-Regards,
-Ed
+
+
 
