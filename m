@@ -1,61 +1,50 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-wm0-f43.google.com (mail-wm0-f43.google.com [74.125.82.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 62F3477BC8
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f172.google.com (mail-qk0-f172.google.com
+	[209.85.220.172])
+	by mail.openembedded.org (Postfix) with ESMTP id D6FD771A65
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Jul 2017 22:08:01 +0000 (UTC)
-Received: by mail-wm0-f43.google.com with SMTP id 62so206590381wmw.1
+	Tue,  4 Jul 2017 22:11:30 +0000 (UTC)
+Received: by mail-qk0-f172.google.com with SMTP id p21so177091025qke.3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 04 Jul 2017 15:08:03 -0700 (PDT)
+	Tue, 04 Jul 2017 15:11:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
-	:cc; bh=CEfqNCz/sfjzcrHwhYWfiXt7g+YyC5oV6F43gSYL4ik=;
-	b=vkcacmpDpMpFk10NQl1Fm0O2NTPIWhDcwebD58qlYFYRTvpT+rtLyJHVQdU9LXjPC3
-	IJGd5ebVWNC9aoU/zFMJG0TWdMbiqE7gnYar7NshBYky8h0xAKQDP2ftOvvdqy9SjiGR
-	1MAqX4Cs1kNdG9+g9j8h3DpAIMbGySgxq62vOajVucNYpeL2xAK4EiO7+QbJAluf70Y3
-	2cjwNAsWZccw2jkENArbDuTltLETJi/VmSAtp3f/LykVZNvhE9N5VJraiD0S2W+vT4H6
-	B2jJI8NoNVFi9lRABiPpQ0R8sVWZ8ucF8wjT7GuhmfyuLSvI5O/36EAN8jQfpFihY3Bm
-	rh6w==
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=3RukQcQttVGKdFH3da6vP5PatbI6yRPZYn+BwIeWzp0=;
+	b=Lk1hbUkCDzS533EjnkBLPoYl1jI+seYItKZwaK1aiqbtYR/gTau4iMLTZGwQ11Le9I
+	i57ROM9LPQFSvDDlBKdbEuzImLgkq+h/ui6FPvwjdGv4ZgG1ZARNGuLlEI+HnBrG6qkf
+	d61AIvapkS2qk9k98txwOd+e9wGY+fMphDdIzjY4d1i3rVRmntmNpRjPstmXUzW1WfMH
+	FeZFe37xAmP8iFnyjpR+u/EMrrTfhqPrqfWfkz2MNVN1XSUHVLKW7CEcd1VR5u8lMV45
+	1GnYw+25P1KjjUQ/5np317yGFpWIq789F8bymU604OxCBtb2yObpUVIEKYUk/ED+Kr1H
+	A9rg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=CEfqNCz/sfjzcrHwhYWfiXt7g+YyC5oV6F43gSYL4ik=;
-	b=uFF/yztgrCrqErTvC9VWm8d0x0iuka6UkRTKVr1VNa+3A2rfPvnqpszFWQohTPGSS3
-	Rakk4m7YMjqSJxuEhG7wtgJN+LBxHWSwTYL11CUeSpYjAR13peh7ACYaHOeo6nX4B1UV
-	AOnRMFm3fsx9n0eRcr4bA0gEG93pDxWmAp5dyPKQX8woz6V8eeSLNhpr8L1E6eY+NBX7
-	qncizD5YM7Cy1LcSkPXLkRGtpzbF9ge2Sie73Sj/rZoX+QRpRtwg9ySCvEd9Z35zzck0
-	MxH7KMKMOmU2Q0OBDajqLQTyQQhZTX73qObb5MTSviynev00fp4KGQgEz9ztJeES0/Sr
-	NuFw==
-X-Gm-Message-State: AIVw112HI7rrC9BcVcQ+nC7dP3cCzcEbzwRmz3ZDorIPhKhnLKdy+7Ce
-	pnVhbGOW0l6KxwWQvxw=
-X-Received: by 10.28.186.65 with SMTP id k62mr6817513wmf.34.1499206082145;
-	Tue, 04 Jul 2017 15:08:02 -0700 (PDT)
-Received: from mail-wr0-f180.google.com (mail-wr0-f180.google.com.
-	[209.85.128.180]) by smtp.gmail.com with ESMTPSA id
-	t204sm12510062wme.2.2017.07.04.15.08.01
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 04 Jul 2017 15:08:01 -0700 (PDT)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-wr0-f180.google.com with SMTP id k67so253816040wrc.2
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 04 Jul 2017 15:08:01 -0700 (PDT)
-X-Received: by 10.223.163.197 with SMTP id m5mr36402389wrb.128.1499206080912; 
-	Tue, 04 Jul 2017 15:08:00 -0700 (PDT)
+	bh=3RukQcQttVGKdFH3da6vP5PatbI6yRPZYn+BwIeWzp0=;
+	b=WwiMEwk5Mqe9OFcceUW8cH8cV8zG3HQsrgEBHBbTDdVKFakQY0/w1sMK884IMnrYiJ
+	G1A/jjOytLlwkaVligWZakAQjihCfvScRzEEYf0YplIDdS2pSy3i3+duqWBRkYm72e8W
+	aDk/dRvc0xuRdMxvBZGzgzUlHohwwdG3NO7mRlJwLmVgR0VTRYXK8yiFVVTGN5qAh5Uh
+	i9aT51jVtb1lhk70yRutbwemxS7SHsh2hW1sjqPdk77i6pSwZ60dXZmJIGd2pxLptPdW
+	K4OV2/FCUQpM7IUQdRr558pq2VbyXRJGth7I0w7JStznArSFKQYFk99idZ7jyjOTRhK6
+	Yq2A==
+X-Gm-Message-State: AKS2vOwVlOsourCAflZcWFVrwI0HYKEz/Ns9aRH4jb8Fk34qxP1NhhP6
+	kAD/R3VP3ZtrPbnlgf00MBEMCEJdR9K1
+X-Received: by 10.55.31.162 with SMTP id n34mr47125623qkh.46.1499206292000;
+	Tue, 04 Jul 2017 15:11:32 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.28.209.14 with HTTP; Tue, 4 Jul 2017 15:08:00 -0700 (PDT)
-In-Reply-To: <20170704153229.6628-1-sledz@dresearch-fe.de>
+Received: by 10.140.31.118 with HTTP; Tue, 4 Jul 2017 15:11:11 -0700 (PDT)
+In-Reply-To: <CAP9ODKqtEV8B1MqKMhZbG0mY7DTfK7EVi-M39roTqp5dvPeS1g@mail.gmail.com>
 References: <CAJTo0LZ85U2djZGW4rzK7uumBkutYb91yXY40irYyAVvCKOBRQ@mail.gmail.com>
 	<20170704153229.6628-1-sledz@dresearch-fe.de>
-Date: Tue, 4 Jul 2017 19:08:00 -0300
-X-Gmail-Original-Message-ID: <CAP9ODKqtEV8B1MqKMhZbG0mY7DTfK7EVi-M39roTqp5dvPeS1g@mail.gmail.com>
-Message-ID: <CAP9ODKqtEV8B1MqKMhZbG0mY7DTfK7EVi-M39roTqp5dvPeS1g@mail.gmail.com>
-To: Steffen Sledz <sledz@dresearch-fe.de>
-Cc: Max Krummenacher <max.krummenacher@toradex.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
+	<CAP9ODKqtEV8B1MqKMhZbG0mY7DTfK7EVi-M39roTqp5dvPeS1g@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 4 Jul 2017 23:11:11 +0100
+Message-ID: <CAJTo0LbK1brj7Xd_LeOZNf8ZkCHfRHXVujtKeAXGDxvJnT0cfw@mail.gmail.com>
+To: Otavio Salvador <otavio.salvador@ossystems.com.br>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>,
+	Max Krummenacher <max.krummenacher@toradex.com>
 Subject: Re: [pyro][PATCH] u-boot-mkimage: fix nativesdk build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -69,37 +58,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Jul 2017 22:08:03 -0000
+X-List-Received-Date: Tue, 04 Jul 2017 22:11:31 -0000
+Content-Type: multipart/alternative; boundary="001a1147e5f87aec760553852af5"
+
+--001a1147e5f87aec760553852af5
 Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Jul 4, 2017 at 12:32 PM, Steffen Sledz <sledz@dresearch-fe.de> wrote:
-> From: Max Krummenacher <max.oss.09@gmail.com>
->
-> If building for nativesdk the wrong rss sysroot is used leading the
-> following error message.
->
-> | ERROR: oe_runmake failed
-> | In file included from tools/imximage.c:13:0:
-> | include/image.h:1024:27: fatal error: openssl/evp.h: No such file or directory
-> |  # include  <openssl/evp.h>
->
-> Tools needed on the build host (script/basic/fixdep) and code compiled
-> for the SDK machine are both built with the build host's compiler,
-> leading to additinal errors.
->
-> Adding CROSS_COMPILE="${HOST_PREFIX}" and using the cross-compiler for
-> the SDK_ARCH fixes the build error.
-> The resulting binary in the SDK is working.
->
-> Signed-off-by: Max Krummenacher <max.krummenacher@toradex.com>
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
+On 4 July 2017 at 23:08, Otavio Salvador <otavio.salvador@ossystems.com.br>
+wrote:
 
-Ross, please apply it as it has been causing problems for many users.
-It is applied in master
-OE-Core:5d3df78367be0afbfe001b4fa776a98a82e6ce54
+> Ross, please apply it as it has been causing problems for many users.
+> It is applied in master
+> OE-Core:5d3df78367be0afbfe001b4fa776a98a82e6ce54
+>
 
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+I would, but I'm not Pyro maintainer ...
 
+Ross
+
+--001a1147e5f87aec760553852af5
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 4 July 2017 at 23:08, Otavio Salvador <span dir=3D"ltr">&lt;<a href=3D"m=
+ailto:otavio.salvador@ossystems.com.br" target=3D"_blank">otavio.salvador@o=
+ssystems.com.br</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" =
+style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><di=
+v id=3D":v0" class=3D"a3s aXjCH m15d0fa5c05e15bc2">Ross, please apply it as=
+ it has been causing problems for many users.<br>
+It is applied in master<br>
+OE-Core:<wbr>5d3df78367be0afbfe001b4fa776a9<wbr>8a82e6ce54<br></div></block=
+quote><div><br></div><div>I would, but I&#39;m not Pyro maintainer ...</div=
+><div><br></div><div>Ross</div></div></div></div>
+
+--001a1147e5f87aec760553852af5--
