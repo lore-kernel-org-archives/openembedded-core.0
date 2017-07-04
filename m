@@ -1,49 +1,26 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qt0-f181.google.com (mail-qt0-f181.google.com
-	[209.85.216.181])
-	by mail.openembedded.org (Postfix) with ESMTP id C7C5460722
+Return-Path: <maxin.john@intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id AFB1271ABC
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Jul 2017 11:11:10 +0000 (UTC)
-Received: by mail-qt0-f181.google.com with SMTP id r30so162676417qtc.0
+	Tue,  4 Jul 2017 13:29:18 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	04 Jul 2017 06:29:19 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.40,307,1496127600"; d="scan'208";a="106937605"
+Received: from linux.intel.com ([10.54.29.200])
+	by orsmga002.jf.intel.com with ESMTP; 04 Jul 2017 06:29:18 -0700
+Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
+	[10.237.72.84])
+	by linux.intel.com (Postfix) with ESMTP id 573865801CF
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 04 Jul 2017 04:11:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=FUHbApWRTJUIqNuNQqbTzY46TWNTLKkftzCZZMAIiW4=;
-	b=CuZudT77v4caq3cTUk43RaBOutIM1s8/lTkYI+LCWMAAy1sMn7dhw4FBzGjKhNpr9X
-	RKWZDLtpGnXtEU90Pn5D1fQZ9giFoSKpPR1lfNqTGNNUEJSlem8V42mGT6fEGWj3OMRI
-	+pVvFhicQ3nGbLnbgFGun7LHk3zuYtXV2upqm3dxvp9VVsumFdzBWn35UJ2M6D72PyB8
-	QAigB8lKu0G1zYdHsXou6LOtTEW0//bXf9BLoQx+ckidmEAtiN7g6LQBeoZPpYMd8JSD
-	7fvn3tohX7u01Pqi+BexQ8lf7AkEgD9i6/U4Gt23fI3S7n6Uz+jmPHJqn62sTny7W1q7
-	++UQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=FUHbApWRTJUIqNuNQqbTzY46TWNTLKkftzCZZMAIiW4=;
-	b=DAvlobYTRix/ddNaFME+3nOKPJsP8pQGkEFc0crXEn8fisld1PkFNP+I7w4Yx0P95a
-	+RWCa4uEhe0C6iEGyAUqZlYZBOXq3EKU0iISlalSuPY1B6H6R/vyUymWoy2Dg+KHBO+W
-	jsQtPAUcfEJifLbHvrioXeAusbRHSFzrNbGzC388NjyYc4GPImurjzE58v8zjJMOkI0T
-	jDR8VTymylPvsKIqkF428A3OtYCv+e8aw0y6rWlxD/QWEb4cIILuSsht3MVeBaR1Jw6v
-	jMddYbpc3+fd6A+jjBbps/EGpM6Z0It2ic0TWuH0RqNAwhkaSJgqbzMnWOi/gbub5edF
-	3zOA==
-X-Gm-Message-State: AKS2vOylwVqPCupu0Lctyul6/Z6NLZufr0NxMgdGuZd1lA4mZq1Tinx3
-	v/TvAMXzWEQS/+a2AMtkQZTmXOUnwyul
-X-Received: by 10.237.42.129 with SMTP id t1mr45100816qtd.93.1499166671739;
-	Tue, 04 Jul 2017 04:11:11 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.31.118 with HTTP; Tue, 4 Jul 2017 04:10:51 -0700 (PDT)
-In-Reply-To: <f85be1a4-8f83-fc87-c808-00190070bd3e@pelagicore.com>
-References: <20170703123433.23528-2-gordan.markus@pelagicore.com>
-	<CAJTo0LYCWai_UhPcfv7VV3iB+NCRdCvPjsLdbE=iv3f9CSzA0Q@mail.gmail.com>
-	<f85be1a4-8f83-fc87-c808-00190070bd3e@pelagicore.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 4 Jul 2017 12:10:51 +0100
-Message-ID: <CAJTo0LZ+dRctp=f6ZZMb_JTT3dt5jed5g+NP4yq=ssry74KjwA@mail.gmail.com>
-To: =?UTF-8?Q?Gordan_Marku=C5=A1?= <gordan.markus@pelagicore.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] cairo: fix QA Issue
+	Tue,  4 Jul 2017 06:29:18 -0700 (PDT)
+From: "Maxin B. John" <maxin.john@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  4 Jul 2017 16:29:29 +0300
+Message-Id: <1499174980-28223-1-git-send-email-maxin.john@intel.com>
+X-Mailer: git-send-email 2.4.0
+Subject: [PATCH v2 00/11] gstreamer: upgrade to 1.12.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,161 +33,98 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Jul 2017 11:11:18 -0000
-Content-Type: multipart/alternative; boundary="94eb2c05ac1aedb4ae05537bf0eb"
+X-List-Received-Date: Tue, 04 Jul 2017 13:29:19 -0000
 
---94eb2c05ac1aedb4ae05537bf0eb
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Upgrade gstreamer to 1.12.1
 
-Yes, the bbappend is breaking the packaging so should fix its own mess.
+Also upgrade libva to 1.8.3. This upgrade helps us to remove
+the workaround patch in gst-player - [YOCTO #11437]
 
-Ross
+We "should" move to the new home of gst-player and upgrade it:
+https://cgit.freedesktop.org/gstreamer/gst-examples
 
-On 4 July 2017 at 08:36, Gordan Marku=C5=A1 <gordan.markus@pelagicore.com> =
-wrote:
+However, the buildsystem of gst-player moved to meson.
+Waiting for meson to be in oe-core for this transition.
 
-> On 2017-07-03 15:56, Burton, Ross wrote:
->
->
-> On 3 July 2017 at 13:34, Gordan Marku=C5=A1 <gordan.markus@pelagicore.com=
->
->  wrote:
->
->> -FILES_${PN}-dev +=3D "${libdir}/cairo/*.so"
->> +FILES_${PN}-dev +=3D "${libdir}/cairo ${libdir}/cairo/*.so"
->>
->
-> I just spent five minutes working out *why* this fixes the QA issue you
-> were getting.
->
-> A better fix would be to delete ${libdir}/cairo using:
->
->   rmdir ${libdir}/cairo || :
->
-> or
->
->   rmdir --ignore-fail-on-non-empty ${libdir}/cairo
->
-> (former is POSIX compliant, but I can't think of a situation where that i=
-s
-> only a hypothetical problem)
->
-> Then in the commit message you can say that the directory is always
-> created but it only has content if you disable cairo-trace.  At least, I
-> hope you are explicitly disabling cairo-trace as there's no other way I c=
-an
-> see for you go get this.
->
-> Ross
->
-> Thanks for the suggestion Ross, and you are right this only happens if
-> there is a bbappend that removes the 'cairo-perf-utils' package. An examp=
-le
-> of this is the meta-ivi layer.
-> Experimenting a bit it seems to me that even by adding the directory
-> removal, in case it is empty, the do_package step still fails. By
-> inspecting further I can observe that the directory is in fact not being
-> removed but left empty which is quite puzzling.
-> After doing some thinking I believe it might be better to add the removal
-> of the directory and the package files in the bbappend, do you agree with
-> this? Here is the PR to meta-ivi that does that https://github.com/GENIVI=
-/
-> meta-ivi/pull/45.
->
+Thanks to Carlos Rafael Giani for his gstreamer 1.12.0 upgrade
+patches which were used as a base for this upgrade.
 
---94eb2c05ac1aedb4ae05537bf0eb
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Changes in v2:
+    Handle remaming of plugins in gstreamer1.0-plugins-good
 
-<div dir=3D"ltr">Yes, the bbappend is breaking the packaging so should fix =
-its own mess.<div><br></div><div>Ross</div></div><div class=3D"gmail_extra"=
-><br><div class=3D"gmail_quote">On 4 July 2017 at 08:36, Gordan Marku=C5=A1=
- <span dir=3D"ltr">&lt;<a href=3D"mailto:gordan.markus@pelagicore.com" targ=
-et=3D"_blank">gordan.markus@pelagicore.com</a>&gt;</span> wrote:<br><blockq=
-uote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc =
-solid;padding-left:1ex">
- =20
-   =20
- =20
-  <div text=3D"#000000" bgcolor=3D"#FFFFFF"><div><div class=3D"h5">
-    On 2017-07-03 15:56, Burton, Ross wrote:<br>
-    <blockquote type=3D"cite">
-     =20
-      <div dir=3D"ltr"><br>
-        <div>
-          <div class=3D"gmail_extra">
-            <div class=3D"gmail_quote">On 3 July 2017 at 13:34, Gordan
-              Marku=C5=A1=C2=A0<span dir=3D"ltr">&lt;<a href=3D"mailto:gord=
-an.markus@pelagicore.com" target=3D"_blank">gordan.markus@<wbr>pelagicore.c=
-om</a>&gt;</span>=C2=A0wrote:<br>
-              <blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px=
- 0.8ex;border-left-width:1px;border-left-style:solid;border-left-color:rgb(=
-204,204,204);padding-left:1ex">
-                <div id=3D"m_-718120503281343026gmail-:yn" class=3D"m_-7181=
-20503281343026gmail-a3s m_-718120503281343026gmail-aXjCH m_-718120503281343=
-026gmail-m15d087d2c6436eea">-FILES_${PN}-dev +=3D
-                  &quot;${libdir}/cairo/*.so&quot;<br>
-                  +FILES_${PN}-dev +=3D &quot;${libdir}/cairo
-                  ${libdir}/cairo/*.so&quot;<br>
-                </div>
-              </blockquote>
-            </div>
-            <br>
-          </div>
-          <div class=3D"gmail_extra">I just spent five minutes working out
-            *why* this fixes the QA issue you were getting.</div>
-        </div>
-        <div class=3D"gmail_extra"><br>
-        </div>
-        <div class=3D"gmail_extra">A better fix would be to delete
-          ${libdir}/cairo using:</div>
-        <div class=3D"gmail_extra"><br>
-        </div>
-        <div class=3D"gmail_extra">=C2=A0 rmdir ${libdir}/cairo || :</div>
-        <div class=3D"gmail_extra"><br>
-        </div>
-        <div class=3D"gmail_extra">or</div>
-        <div class=3D"gmail_extra"><br>
-        </div>
-        <div class=3D"gmail_extra">=C2=A0 rmdir=C2=A0--ignore-fail-on-non-<=
-wbr>empty
-          ${libdir}/cairo</div>
-        <div class=3D"gmail_extra"><br>
-        </div>
-        <div class=3D"gmail_extra">(former is POSIX compliant, but I can&#3=
-9;t
-          think of a situation where that is only a hypothetical
-          problem)</div>
-        <div class=3D"gmail_extra"><br>
-        </div>
-        <div class=3D"gmail_extra">Then in the commit message you can say
-          that the directory is always created but it only has content
-          if you disable cairo-trace.=C2=A0 At least, I hope you are
-          explicitly disabling cairo-trace as there&#39;s no other way I ca=
-n
-          see for you go get this.</div>
-        <div class=3D"gmail_extra"><br>
-        </div>
-        <div class=3D"gmail_extra">Ross</div>
-      </div>
-    </blockquote></div></div>
-    Thanks for the suggestion Ross, and you are right this only happens
-    if there is a bbappend that removes the &#39;cairo-perf-utils&#39; pack=
-age.
-    An example of this is the meta-ivi layer.<br>
-    Experimenting a bit it seems to me that even by adding the directory
-    removal, in case it is empty, the do_package step still fails. By
-    inspecting further I can observe that the directory is in fact not
-    being removed but left empty which is quite puzzling.<br>
-    After doing some thinking I believe it might be better to add the
-    removal of the directory and the package files in the bbappend, do
-    you agree with this? Here is the PR to meta-ivi that does that
-    <a class=3D"m_-718120503281343026moz-txt-link-freetext" href=3D"https:/=
-/github.com/GENIVI/meta-ivi/pull/45" target=3D"_blank">https://github.com/G=
-ENIVI/<wbr>meta-ivi/pull/45</a>.<br>
-  </div>
+Maxin B. John (11):
+  libva: upgrade to 1.8.3
+  gst-player: remove workaround which disable visualizations
+  gstreamer1.0: upgrade 1.10.4 -> 1.12.1
+  gstreamer1.0-plugins-base: upgrade 1.10.4 -> 1.12.1
+  gstreamer1.0-plugins-ugly: upgrade 1.10.4 -> 1.12.1
+  gstreamer1.0-rtsp-server: upgrade 1.10.4 -> 1.12.1
+  gstreamer1.0-omx: upgrade 1.10.4 -> 1.12.1
+  gstreamer1.0-libav: upgrade 1.10.4 -> 1.12.1
+  gstreamer1.0-vaapi: upgrade 1.10.4 -> 1.12.1
+  gstreamer1.0-plugins-bad: upgrade 1.10.4 -> 1.12.1
+  gstreamer1.0-plugins-good: upgrade 1.10.4 -> 1.12.1
 
-</blockquote></div><br></div>
+ ...-configure.ac-Use-wayland-scanner-in-PATH.patch |  37 -
+ ...and-Don-t-commit-and-ship-generated-files.patch | 339 --------
+ .../libva/{libva_1.7.3.bb => libva_1.8.3.bb}       |   8 +-
+ .../0001-gtk-play-Disable-visualizations.patch     |  59 --
+ ...error-signal-emission-for-missing-plugins.patch | 252 ------
+ .../gstreamer/gst-player/Fix-pause-play.patch      | 107 ---
+ .../gstreamer/gst-player/filechooser.patch         |  54 --
+ .../recipes-multimedia/gstreamer/gst-player_git.bb |   4 -
+ ...ideobufferpool-create-allocator-if-needed.patch |  61 --
+ ...ibav_1.10.4.bb => gstreamer1.0-libav_1.12.1.bb} |   4 +-
+ .../gstreamer/gstreamer1.0-meta-base.bb            |   2 +-
+ ....0-omx_1.10.4.bb => gstreamer1.0-omx_1.12.1.bb} |   4 +-
+ .../gstreamer/gstreamer1.0-plugins-bad.inc         |  24 +-
+ ...-don-t-hardcode-libtool-name-when-running.patch |  60 +-
+ ...G_CONFIG_SYSROOT_DIR-to-pkg-config-output.patch |  42 +-
+ ...gl.pc.in-don-t-append-GL_CFLAGS-to-CFLAGS.patch |  21 +-
+ ...1-mssdemux-improved-live-playback-support.patch | 929 ---------------------
+ ...ming-implement-adaptivedemux-s-get_live_s.patch | 183 ----
+ ...ming-use-the-duration-from-the-list-of-fr.patch |  62 --
+ ....10.4.bb => gstreamer1.0-plugins-bad_1.12.1.bb} |  11 +-
+ ...eed-more-buffers-in-output-queue-for-bett.patch |  32 -
+ ...10.4.bb => gstreamer1.0-plugins-base_1.12.1.bb} |   5 +-
+ ...Also-add-videometa-if-there-is-padding-to.patch |  35 -
+ ...10.4.bb => gstreamer1.0-plugins-good_1.12.1.bb} |   7 +-
+ .../gstreamer/gstreamer1.0-plugins-ugly.inc        |   1 -
+ ...10.4.bb => gstreamer1.0-plugins-ugly_1.12.1.bb} |   4 +-
+ .../gstreamer/gstreamer1.0-rtsp-server_1.10.4.bb   |   6 -
+ .../gstreamer/gstreamer1.0-rtsp-server_1.12.1.bb   |   6 +
+ .../gstreamer/gstreamer1.0-vaapi_1.10.4.bb         |   7 -
+ .../gstreamer/gstreamer1.0-vaapi_1.12.1.bb         |   5 +
+ meta/recipes-multimedia/gstreamer/gstreamer1.0.inc |   1 -
+ .../gstreamer1.0/deterministic-unwind.patch        |  29 +-
+ ...treamer1.0_1.10.4.bb => gstreamer1.0_1.12.1.bb} |   4 +-
+ 33 files changed, 138 insertions(+), 2267 deletions(-)
+ delete mode 100644 meta/recipes-graphics/libva/files/0001-configure.ac-Use-wayland-scanner-in-PATH.patch
+ delete mode 100644 meta/recipes-graphics/libva/files/0001-wayland-Don-t-commit-and-ship-generated-files.patch
+ rename meta/recipes-graphics/libva/{libva_1.7.3.bb => libva_1.8.3.bb} (88%)
+ delete mode 100644 meta/recipes-multimedia/gstreamer/gst-player/0001-gtk-play-Disable-visualizations.patch
+ delete mode 100644 meta/recipes-multimedia/gstreamer/gst-player/Add-error-signal-emission-for-missing-plugins.patch
+ delete mode 100644 meta/recipes-multimedia/gstreamer/gst-player/Fix-pause-play.patch
+ delete mode 100644 meta/recipes-multimedia/gstreamer/gst-player/filechooser.patch
+ delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer-vaapi/vaapivideobufferpool-create-allocator-if-needed.patch
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-libav_1.10.4.bb => gstreamer1.0-libav_1.12.1.bb} (88%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-omx_1.10.4.bb => gstreamer1.0-omx_1.12.1.bb} (69%)
+ delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0001-mssdemux-improved-live-playback-support.patch
+ delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0001-smoothstreaming-implement-adaptivedemux-s-get_live_s.patch
+ delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0001-smoothstreaming-use-the-duration-from-the-list-of-fr.patch
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-bad_1.10.4.bb => gstreamer1.0-plugins-bad_1.12.1.bb} (61%)
+ delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/encodebin-Need-more-buffers-in-output-queue-for-bett.patch
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-base_1.10.4.bb => gstreamer1.0-plugins-base_1.12.1.bb} (78%)
+ delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/0001-v4l2object-Also-add-videometa-if-there-is-padding-to.patch
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-good_1.10.4.bb => gstreamer1.0-plugins-good_1.12.1.bb} (74%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-ugly_1.10.4.bb => gstreamer1.0-plugins-ugly_1.12.1.bb} (76%)
+ delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.10.4.bb
+ create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.12.1.bb
+ delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.10.4.bb
+ create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.12.1.bb
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0_1.10.4.bb => gstreamer1.0_1.12.1.bb} (72%)
 
---94eb2c05ac1aedb4ae05537bf0eb--
+-- 
+2.4.0
+
+
