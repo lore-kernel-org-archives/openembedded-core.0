@@ -1,56 +1,42 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f193.google.com (mail-pf0-f193.google.com
-	[209.85.192.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 49F2D6076F
+Return-Path: <wei.tee.ng@intel.com>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	by mail.openembedded.org (Postfix) with ESMTP id 794BD607A4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Jul 2017 00:07:10 +0000 (UTC)
-Received: by mail-pf0-f193.google.com with SMTP id e199so27306669pfh.0
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 03 Jul 2017 17:07:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:references:from:organization:message-id:date:user-agent
-	:mime-version:in-reply-to:content-language:content-transfer-encoding;
-	bh=3K9Ah3UlfnmMe6DI42mq7ihcQMZyXfGwmhouRo2RStI=;
-	b=qs6Bx+CPT4VP8AH+1kspbcAsFhgVvKaY1+DUvHQweyyPV7Cw5iXr5PMjhcbo+7NsAg
-	N5qHM5gxzPTRZq3Ie1X8ekhG+yAAUqPPmzQIZgxR9YCWbVBrZAsSNNtUHJo036cC02mk
-	hog0oDg+hmzyrVZ11VPPSRS2RGgrxLPIhmxLyOGfeU/cG2TY0ND+fE1wBRiJybk/ejb3
-	5zWp3hJzb7Eo/zSLSq68dXb2No1SlVN75k3Al+oa3Sczt2e3VOQse1/wAk+DEZk5dfkS
-	oS5/CpiLFUlMgZF1AXRxc0WxZCS2mPNs4zlZkN56/YO7Rwk0M3X6ubWOiGSAhhfB4COL
-	860w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:references:from:organization
-	:message-id:date:user-agent:mime-version:in-reply-to
-	:content-language:content-transfer-encoding;
-	bh=3K9Ah3UlfnmMe6DI42mq7ihcQMZyXfGwmhouRo2RStI=;
-	b=PVT65us7KNKKJymqBrqRqSkhJ5fUMLixvXJ3whOd/5qrEBaPwKyidS2uGND9kFMZpd
-	+8b8huFh0R1WPjLTWSxUuHt2t3MURTPkkEuPniNzDxoBCNXZR/uY2NJG2c9b9N5QzFLJ
-	gpbjf2MmXV0DgeZ5S65faBqm2oUwdg15vddUzE5GRS4um1kY5noCNm1LR8lkhzplVNit
-	wVbPqeM+HgdTcZddn5WONonrBMLsN9g043/IjM0gv0fBU44NicQWdtJfUaOVukqGCtNC
-	g+CoyehM99yI1a8Kh1opw+DyK75JpbUaalQYpBmzIXXc60rPp3YmGKDswuLzH7KOeST1
-	QCzA==
-X-Gm-Message-State: AIVw112VmEw7/ScWj3dikOU+YtAVGfHZpzzYnIwxmjkcfl6PH5kjx27b
-	PqwLeFACYAJMJdwDGT4=
-X-Received: by 10.99.119.194 with SMTP id s185mr12990358pgc.256.1499126831308; 
-	Mon, 03 Jul 2017 17:07:11 -0700 (PDT)
-Received: from Khems-MacBook-Pro.local
-	([2601:646:8882:b8c:98c2:a462:52b5:f035])
-	by smtp.gmail.com with ESMTPSA id
-	x124sm30162351pgb.20.2017.07.03.17.07.09
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 03 Jul 2017 17:07:10 -0700 (PDT)
-To: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>,
-	openembedded-core@lists.openembedded.org
-References: <20170703215744.19096-1-ricardo.ribalda@gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Organization: HIMVIS LLC
-Message-ID: <05071b35-42a4-1733-7e04-4ecc512901b3@gmail.com>
-Date: Mon, 3 Jul 2017 17:07:08 -0700
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:54.0)
-	Gecko/20100101 Thunderbird/54.0
+	Tue,  4 Jul 2017 01:11:54 +0000 (UTC)
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+	by orsmga105.jf.intel.com with ESMTP; 03 Jul 2017 18:11:55 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.40,306,1496127600"; d="scan'208";a="120523276"
+Received: from kmsmsx151.gar.corp.intel.com ([172.21.73.86])
+	by orsmga005.jf.intel.com with ESMTP; 03 Jul 2017 18:11:54 -0700
+Received: from pgsmsx110.gar.corp.intel.com (10.221.44.111) by
+	KMSMSX151.gar.corp.intel.com (172.21.73.86) with Microsoft SMTP Server
+	(TLS) id 14.3.319.2; Tue, 4 Jul 2017 09:11:53 +0800
+Received: from pgsmsx105.gar.corp.intel.com ([169.254.4.183]) by
+	PGSMSX110.gar.corp.intel.com ([10.221.44.111]) with mapi id
+	14.03.0319.002; Tue, 4 Jul 2017 09:11:53 +0800
+From: "Ng, Wei Tee" <wei.tee.ng@intel.com>
+To: Otavio Salvador <otavio.salvador@ossystems.com.br>
+Thread-Topic: [OE-core] [PATCH v2 1/3] initramfs-framework: udev: Add a
+	runtime dependency on udev-extraconf
+Thread-Index: AQHS9DllXz1+lu0qO0+IBeNrRM7Jx6JC2c0A
+Date: Tue, 4 Jul 2017 01:11:53 +0000
+Message-ID: <CBAEED2EB06BF94889E80B47A33FE329ED6B5E@PGSMSX105.gar.corp.intel.com>
+References: <cover.1498782014.git.wei.tee.ng@intel.com>
+	<340dcd3ae5be23d6f1395d4f8bb6fd25f7a95c6e.1498782014.git.wei.tee.ng@intel.com>
+	<CAP9ODKoZ48A6Qp1TEvvt2mwE-LEvArjTEQim=FHE9ksvCG1U2w@mail.gmail.com>
+In-Reply-To: <CAP9ODKoZ48A6Qp1TEvvt2mwE-LEvArjTEQim=FHE9ksvCG1U2w@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-version: 10.0.102.7
+dlp-reaction: no-action
+x-originating-ip: [172.30.20.206]
 MIME-Version: 1.0
-In-Reply-To: <20170703215744.19096-1-ricardo.ribalda@gmail.com>
-Subject: Re: [PATCH v3 1/4] gcc-6.3: Fix libgfortran build
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2 1/3] initramfs-framework: udev: Add a runtime dependency on udev-extraconf
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,97 +49,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Jul 2017 00:07:10 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
+X-List-Received-Date: Tue, 04 Jul 2017 01:11:55 -0000
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Whole series looks ok to me.
-
-On 7/3/17 2:57 PM, Ricardo Ribalda Delgado wrote:
-> Without this patch libbacktrace cannot be included/link during
-> libgfortran build.
-> 
-> libbtool: link: cannot find the library `../libbacktrace/libbacktrace.la'
-> or unhandled argument `../libbacktrace/libbacktrace.la'
-> 
-> Signed-off-by: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
-> ---
->   meta/recipes-devtools/gcc/gcc-6.3.inc              |  1 +
->   .../gcc/gcc-6.3/0055-Fix-gfortran-build.patch      | 53 ++++++++++++++++++++++
->   2 files changed, 54 insertions(+)
->   create mode 100644 meta/recipes-devtools/gcc/gcc-6.3/0055-Fix-gfortran-build.patch
-> 
-> diff --git a/meta/recipes-devtools/gcc/gcc-6.3.inc b/meta/recipes-devtools/gcc/gcc-6.3.inc
-> index 86b3e9ff19a4..2595dbd0ee8b 100644
-> --- a/meta/recipes-devtools/gcc/gcc-6.3.inc
-> +++ b/meta/recipes-devtools/gcc/gcc-6.3.inc
-> @@ -74,6 +74,7 @@ SRC_URI = "\
->              file://0047-libgcc_s-Use-alias-for-__cpu_indicator_init-instead-.patch \
->              file://0048-sync-gcc-stddef.h-with-musl.patch \
->              file://0054_all_nopie-all-flags.patch \
-> +           file://0055-Fix-gfortran-build.patch \
->              ${BACKPORTS} \
->   "
->   BACKPORTS = "\
-> diff --git a/meta/recipes-devtools/gcc/gcc-6.3/0055-Fix-gfortran-build.patch b/meta/recipes-devtools/gcc/gcc-6.3/0055-Fix-gfortran-build.patch
-> new file mode 100644
-> index 000000000000..30b135b9780f
-> --- /dev/null
-> +++ b/meta/recipes-devtools/gcc/gcc-6.3/0055-Fix-gfortran-build.patch
-> @@ -0,0 +1,53 @@
-> +Without this patch libbacktrace cannot be included/link during
-> +libgfortran build.
-> +
-> +libbtool: link: cannot find the library `../libbacktrace/libbacktrace.la'
-> +or unhandled argument `../libbacktrace/libbacktrace.la'
-> +
-> +Upstream-Status: Inappropriate [OE specific]
-> +Signed-off-by: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
-> +
-> +diff --git a/libgfortran/Makefile.am b/libgfortran/Makefile.am
-> +index 39d3e11d223c..b5efe6dfe195 100644
-> +--- a/libgfortran/Makefile.am
-> ++++ b/libgfortran/Makefile.am
-> +@@ -37,7 +37,7 @@ toolexeclib_LTLIBRARIES = libgfortran.la
-> + toolexeclib_DATA = libgfortran.spec
-> + libgfortran_la_LINK = $(LINK) $(libgfortran_la_LDFLAGS)
-> + libgfortran_la_LDFLAGS = -version-info `grep -v '^\#' $(srcdir)/libtool-version` \
-> +-	$(LTLDFLAGS) $(LIBQUADLIB) ../libbacktrace/libbacktrace.la \
-> ++	$(LTLDFLAGS) $(LIBQUADLIB) ../../libbacktrace/libbacktrace.la \
-> + 	-lm $(extra_ldflags_libgfortran) \
-> + 	$(version_arg) -Wc,-shared-libgcc
-> + libgfortran_la_DEPENDENCIES = $(version_dep) libgfortran.spec $(LIBQUADLIB_DEP)
-> +@@ -63,7 +63,7 @@ AM_CPPFLAGS = -iquote$(srcdir)/io -I$(srcdir)/$(MULTISRCTOP)../gcc \
-> + 	      -I$(MULTIBUILDTOP)../libgcc \
-> + 	      -I$(srcdir)/$(MULTISRCTOP)../libbacktrace \
-> + 	      -I$(MULTIBUILDTOP)../libbacktrace \
-> +-	      -I../libbacktrace
-> ++	      -I../../libbacktrace
-> +
-> + # Fortran rules for complex multiplication and division
-> + AM_CFLAGS += -fcx-fortran-rules
-> +diff --git a/libgfortran/Makefile.in b/libgfortran/Makefile.in
-> +index 7ed080cf7b0d..d197fbd6b683 100644
-> +--- a/libgfortran/Makefile.in
-> ++++ b/libgfortran/Makefile.in
-> +@@ -598,7 +598,7 @@ toolexeclib_LTLIBRARIES = libgfortran.la
-> + toolexeclib_DATA = libgfortran.spec
-> + libgfortran_la_LINK = $(LINK) $(libgfortran_la_LDFLAGS)
-> + libgfortran_la_LDFLAGS = -version-info `grep -v '^\#' $(srcdir)/libtool-version` \
-> +-	$(LTLDFLAGS) $(LIBQUADLIB) ../libbacktrace/libbacktrace.la \
-> ++	$(LTLDFLAGS) $(LIBQUADLIB) ../../libbacktrace/libbacktrace.la \
-> + 	-lm $(extra_ldflags_libgfortran) \
-> + 	$(version_arg) -Wc,-shared-libgcc
-> +
-> +@@ -618,7 +618,7 @@ AM_CPPFLAGS = -iquote$(srcdir)/io -I$(srcdir)/$(MULTISRCTOP)../gcc \
-> + 	      -I$(MULTIBUILDTOP)../libgcc \
-> + 	      -I$(srcdir)/$(MULTISRCTOP)../libbacktrace \
-> + 	      -I$(MULTIBUILDTOP)../libbacktrace \
-> +-	      -I../libbacktrace
-> ++	      -I../../libbacktrace
-> +
-> + gfor_io_src = io/size_from_kind.c $(am__append_2)
-> + gfor_io_headers = \
-> 
+WWVzLCBpdCdzIG1haW5seSB0byBzdXBwb3J0IHRoZSBsaXZlIGJvb3QgaW1hZ2UuIFRoZXJlZm9y
+ZSB0aGUgdWRldi1leHRyYWNvbmYgaXMgYmVpbmcgYWRkZWQgaW4gdGhlIHJkZXBlbmRzLg0KVGhl
+IHdyb25nIHRoYXQgeW91IG1lbnRpb25lZCBpcyBiZWNhdXNlIG9mIHRoZSBjb21taXQgbWVzc2Fn
+ZSB3YXMgbm90IGNvbnZleSBpbiB0aGUgY29ycmVjdCB3YXk/DQpUaGUgaW5pdHJhbWZzLWZyYW1l
+d29yayBjdXJyZW50bHkgaXMgbm90IGhhbmRsaW5nIGxpdmUgYm9vdCBzdXBwb3J0LiBQZXJoYXBz
+LCAiSW4gb3JkZXIgdG8gaW1wbGVtZW50IGluaXRyYW1mcy1mcmFtZXdvcmsgZm9yIGxpdmUgYm9v
+dCBzdXBwb3J0IiB3aWxsIGJlIGJldHRlcj8NCg0KUmVnYXJkcywNCldlaSBUZWUNCg0KLS0tLS1P
+cmlnaW5hbCBNZXNzYWdlLS0tLS0NCkZyb206IE90YXZpbyBTYWx2YWRvciBbbWFpbHRvOm90YXZp
+by5zYWx2YWRvckBvc3N5c3RlbXMuY29tLmJyXSANClNlbnQ6IFR1ZXNkYXksIEp1bHkgNCwgMjAx
+NyA0OjE3IEFNDQpUbzogTmcsIFdlaSBUZWUgPHdlaS50ZWUubmdAaW50ZWwuY29tPg0KQ2M6IFBh
+dGNoZXMgYW5kIGRpc2N1c3Npb25zIGFib3V0IHRoZSBvZS1jb3JlIGxheWVyIDxvcGVuZW1iZWRk
+ZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnPg0KU3ViamVjdDogUmU6IFtPRS1jb3JlXSBb
+UEFUQ0ggdjIgMS8zXSBpbml0cmFtZnMtZnJhbWV3b3JrOiB1ZGV2OiBBZGQgYSBydW50aW1lIGRl
+cGVuZGVuY3kgb24gdWRldi1leHRyYWNvbmYNCg0KT24gVGh1LCBKdW4gMjksIDIwMTcgYXQgOToz
+MCBQTSwgIDx3ZWkudGVlLm5nQGludGVsLmNvbT4gd3JvdGU6DQo+IEZyb206ICJOZywgV2VpIFRl
+ZSIgPHdlaS50ZWUubmdAaW50ZWwuY29tPg0KPg0KPiBJbiBvcmRlciB0byBpbXBsZW1lbnQgaW5p
+dHJhbWZzLWZyYW1ld29yayBmb3IgYm9vdCB1cCBwcm9jZXNzLCBpdCANCj4gZGVwZW5kcyBvbiB1
+ZGV2IHBlcmZvcm1pbmcgYXV0b21vdW50aW5nLCB3aGljaCBoYXBwZW5zIGluIHVkZXYtZXh0cmFj
+b25mLg0KPiBFeHBsaWNpdGx5IGRlcGVuZCBvbiBpdCBzbyB0aGF0IHdlIGFsd2F5cyBoYXZlIGl0
+IGluc3RhbGxlZC4NCj4NCj4gU2lnbmVkLW9mZi1ieTogTmcsIFdlaSBUZWUgPHdlaS50ZWUubmdA
+aW50ZWwuY29tPg0KDQpXcm9uZzsgdGhpcyBpcyBuZWVkIGZvciB0aGUgbGl2ZSBzdXBwb3J0IHNv
+IHRoZSByZGVwZW5kcyBzaG91bGQgYmUgdGhlcmUuDQoNCg0KLS0gDQpPdGF2aW8gU2FsdmFkb3Ig
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgIE8uUy4gU3lzdGVtcw0KaHR0cDovL3d3dy5vc3N5
+c3RlbXMuY29tLmJyICAgICAgICBodHRwOi8vY29kZS5vc3N5c3RlbXMuY29tLmJyDQpNb2JpbGU6
+ICs1NSAoNTMpIDk5ODEtNzg1NCAgICAgICAgICAgIE1vYmlsZTogKzEgKDM0NykgOTAzLTk3NTAN
+Cg==
 
