@@ -1,65 +1,36 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-wr0-f196.google.com (mail-wr0-f196.google.com
-	[209.85.128.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 193CD77BCD
+Return-Path: <marex@denx.de>
+Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
+	by mail.openembedded.org (Postfix) with ESMTP id 46A7E6067D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Jul 2017 22:16:56 +0000 (UTC)
-Received: by mail-wr0-f196.google.com with SMTP id 77so48436723wrb.3
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 04 Jul 2017 15:16:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
-	:cc; bh=SwtV2uEjeb7UCowK6ptqYuLeL34wmo956rmT7cdjbSo=;
-	b=EtQHb2Y/p00kOTummpH6HJFMIZ80amLhE9aQpDVZTpweDyzr0ThTGFFk4p7R+44aON
-	7ELjMmQ7BwOwS6ELWNlgwHo/ZQegcEaSAVtykMsbggg4cvc4zsMeqVRlMKDTR5t86vLh
-	pWg6+RtkHSQzUwrPh+ZiycEkD8Xj3XujdmMpf2pjZgd0W2xqTuV8N2gRUEedALEle+zu
-	xDD1TMIL2ex7mBxcAzFGG4OhpEGDdsfWmX2A3bKpAEXtkQ3U9vEMFidAIC/cg5uJOTUS
-	gjhVDvZmFGXet3uSvUQ6sRzPeISd7TwhgDVo4ptNdo8FugJHkej0k/r4/jQRJUX+JTg1
-	IZMg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
-	:message-id:subject:to:cc;
-	bh=SwtV2uEjeb7UCowK6ptqYuLeL34wmo956rmT7cdjbSo=;
-	b=NHuZYPvTdmPZzS5wbSC6lloVNHY6fUZTmjPAhAMR7DPRJDmCrg6BQasiMspB3kapzV
-	qWKNxlDv+7SEbovdWM6R5eyFPeCXgrL5mq/ZZ1NolFxSLEavSW5N6FEfUcSNbpHvNU5o
-	L/TsE65b+XczfMFf68Dp48j41fyhDr02rAOftoT/0PGvLEPasn55ZX+od1LNFBdC9GCJ
-	C1rLg2T0oZvid3wAR0IDhtwtuUfmP7EVTEPadH9P0rjNETaILojeCxExUFgrpNi+kdS6
-	nkHmzENXFckyUilMuJEnVs2i1bpV9KbxkcE+cEiAtgwQ5JpieCUsIYXdXxfzuTJzvQWu
-	lNjw==
-X-Gm-Message-State: AKS2vOwcCdQBrDNK6CL4XHNdwaGbfUyEJN/a6xFwPPNn+91guMdxH37I
-	9iQ5m9GKvkB0I24euX0=
-X-Received: by 10.223.164.83 with SMTP id e19mr39819285wra.101.1499206617560; 
-	Tue, 04 Jul 2017 15:16:57 -0700 (PDT)
-Received: from mail-wm0-f53.google.com (mail-wm0-f53.google.com.
-	[74.125.82.53]) by smtp.gmail.com with ESMTPSA id
-	92sm21288233wrb.55.2017.07.04.15.16.56
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 04 Jul 2017 15:16:56 -0700 (PDT)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-wm0-f53.google.com with SMTP id f67so95725124wmh.1
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 04 Jul 2017 15:16:56 -0700 (PDT)
-X-Received: by 10.28.18.144 with SMTP id 138mr4342144wms.118.1499206616112;
-	Tue, 04 Jul 2017 15:16:56 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.28.209.14 with HTTP; Tue, 4 Jul 2017 15:16:55 -0700 (PDT)
-In-Reply-To: <CAJTo0LbK1brj7Xd_LeOZNf8ZkCHfRHXVujtKeAXGDxvJnT0cfw@mail.gmail.com>
-References: <CAJTo0LZ85U2djZGW4rzK7uumBkutYb91yXY40irYyAVvCKOBRQ@mail.gmail.com>
-	<20170704153229.6628-1-sledz@dresearch-fe.de>
-	<CAP9ODKqtEV8B1MqKMhZbG0mY7DTfK7EVi-M39roTqp5dvPeS1g@mail.gmail.com>
-	<CAJTo0LbK1brj7Xd_LeOZNf8ZkCHfRHXVujtKeAXGDxvJnT0cfw@mail.gmail.com>
-Date: Tue, 4 Jul 2017 19:16:55 -0300
-X-Gmail-Original-Message-ID: <CAP9ODKrfKZqLkcb+c4Yk8CHtPMCrLQqgwiNN7ad4O__ZzuNgAg@mail.gmail.com>
-Message-ID: <CAP9ODKrfKZqLkcb+c4Yk8CHtPMCrLQqgwiNN7ad4O__ZzuNgAg@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: Max Krummenacher <max.krummenacher@toradex.com>,
-	Patches and discussions about the oe-core layer
+	Tue,  4 Jul 2017 23:10:32 +0000 (UTC)
+Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
+	by mail-out.m-online.net (Postfix) with ESMTP id 3x2KVH5dfGz1qsDN;
+	Wed,  5 Jul 2017 01:10:31 +0200 (CEST)
+Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
+	by mail.m-online.net (Postfix) with ESMTP id 3x2KVH4Smzz3jgYH;
+	Wed,  5 Jul 2017 01:10:31 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at mnet-online.de
+Received: from mail.mnet-online.de ([192.168.8.182])
+	by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new,
+	port 10024)
+	with ESMTP id GS2m0XBjGRC0; Wed,  5 Jul 2017 01:10:28 +0200 (CEST)
+X-Auth-Info: 2unFZD8VKGt8mNkeAV90UfM3Ko8sMUdUSAYgxyUOI6g=
+Received: from [IPv6:::1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mail.mnet-online.de (Postfix) with ESMTPSA;
+	Wed,  5 Jul 2017 01:10:28 +0200 (CEST)
+To: Otavio Salvador <otavio@ossystems.com.br>, OpenEmbedded Core Mailing List
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [pyro][PATCH] u-boot-mkimage: fix nativesdk build
+References: <20170704220128.28747-1-otavio@ossystems.com.br>
+From: Marek Vasut <marex@denx.de>
+Message-ID: <933095de-34ee-963a-cc7f-55f76956355c@denx.de>
+Date: Wed, 5 Jul 2017 01:10:27 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.8.0
+MIME-Version: 1.0
+In-Reply-To: <20170704220128.28747-1-otavio@ossystems.com.br>
+Subject: Re: [RFT PATCH] u-boot: Upgrade to 2017.07 release (WIP)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -72,25 +43,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Jul 2017 22:16:57 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 04 Jul 2017 23:10:33 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 
-On Tue, Jul 4, 2017 at 7:11 PM, Burton, Ross <ross.burton@intel.com> wrote:
->
-> On 4 July 2017 at 23:08, Otavio Salvador <otavio.salvador@ossystems.com.br>
-> wrote:
->>
->> Ross, please apply it as it has been causing problems for many users.
->> It is applied in master
->> OE-Core:5d3df78367be0afbfe001b4fa776a98a82e6ce54
->
-> I would, but I'm not Pyro maintainer ...
+On 07/05/2017 12:01 AM, Otavio Salvador wrote:
+> This patch upgrades the U-Boot to the 2017.07-rc3 release; for now it
+> is not intended to be merged but to expose possible problems prior the
+> official release so we may try to include fixes for final release.
+> 
+> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+> ---
+> 
+>  .../u-boot/{u-boot-common_2017.05.inc => u-boot-common_2017.07.inc}     | 2 +-
+>  .../u-boot/{u-boot-fw-utils_2017.05.bb => u-boot-fw-utils_2017.07.bb}   | 0
+>  .../u-boot/{u-boot-mkimage_2017.05.bb => u-boot-mkimage_2017.07.bb}     | 0
+>  meta/recipes-bsp/u-boot/{u-boot_2017.05.bb => u-boot_2017.07.bb}        | 0
 
-Sorry, who is? I must have missed the announcement.
+NAK, you're updating to -rc3 yet mark it as final release , that's wrong.
+
+>  4 files changed, 1 insertion(+), 1 deletion(-)
+>  rename meta/recipes-bsp/u-boot/{u-boot-common_2017.05.inc => u-boot-common_2017.07.inc} (88%)
+>  rename meta/recipes-bsp/u-boot/{u-boot-fw-utils_2017.05.bb => u-boot-fw-utils_2017.07.bb} (100%)
+>  rename meta/recipes-bsp/u-boot/{u-boot-mkimage_2017.05.bb => u-boot-mkimage_2017.07.bb} (100%)
+>  rename meta/recipes-bsp/u-boot/{u-boot_2017.05.bb => u-boot_2017.07.bb} (100%)
+> 
+> diff --git a/meta/recipes-bsp/u-boot/u-boot-common_2017.05.inc b/meta/recipes-bsp/u-boot/u-boot-common_2017.07.inc
+> similarity index 88%
+> rename from meta/recipes-bsp/u-boot/u-boot-common_2017.05.inc
+> rename to meta/recipes-bsp/u-boot/u-boot-common_2017.07.inc
+> index 0e52f27df8..3c0ee2341b 100644
+> --- a/meta/recipes-bsp/u-boot/u-boot-common_2017.05.inc
+> +++ b/meta/recipes-bsp/u-boot/u-boot-common_2017.07.inc
+> @@ -7,7 +7,7 @@ PE = "1"
+>  
+>  # We use the revision in order to avoid having to fetch it from the
+>  # repo during parse
+> -SRCREV = "64c4ffa9fa223f7ae8640f9c8f3044bfa0e3bfda"
+> +SRCREV = "2f4c1d83f4e838bda4a02a408321aebc746b9eaa"
+>  
+>  SRC_URI = "git://git.denx.de/u-boot.git \
+>      file://MPC8315ERDB-enable-DHCP.patch \
+> diff --git a/meta/recipes-bsp/u-boot/u-boot-fw-utils_2017.05.bb b/meta/recipes-bsp/u-boot/u-boot-fw-utils_2017.07.bb
+> similarity index 100%
+> rename from meta/recipes-bsp/u-boot/u-boot-fw-utils_2017.05.bb
+> rename to meta/recipes-bsp/u-boot/u-boot-fw-utils_2017.07.bb
+> diff --git a/meta/recipes-bsp/u-boot/u-boot-mkimage_2017.05.bb b/meta/recipes-bsp/u-boot/u-boot-mkimage_2017.07.bb
+> similarity index 100%
+> rename from meta/recipes-bsp/u-boot/u-boot-mkimage_2017.05.bb
+> rename to meta/recipes-bsp/u-boot/u-boot-mkimage_2017.07.bb
+> diff --git a/meta/recipes-bsp/u-boot/u-boot_2017.05.bb b/meta/recipes-bsp/u-boot/u-boot_2017.07.bb
+> similarity index 100%
+> rename from meta/recipes-bsp/u-boot/u-boot_2017.05.bb
+> rename to meta/recipes-bsp/u-boot/u-boot_2017.07.bb
+> 
 
 
 -- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+Best regards,
+Marek Vasut
 
