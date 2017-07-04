@@ -1,28 +1,28 @@
 Return-Path: <maxin.john@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 3966677DCC
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 289CB77DCC
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Jul 2017 13:29:20 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	04 Jul 2017 06:29:22 -0700
+	Tue,  4 Jul 2017 13:29:22 +0000 (UTC)
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	04 Jul 2017 06:29:24 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.40,307,1496127600"; d="scan'208";a="1190397414"
+X-IronPort-AV: E=Sophos;i="5.40,307,1496127600"; d="scan'208";a="122617952"
 Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga002.fm.intel.com with ESMTP; 04 Jul 2017 06:29:21 -0700
+	by fmsmga006.fm.intel.com with ESMTP; 04 Jul 2017 06:29:24 -0700
 Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
 	[10.237.72.84])
-	by linux.intel.com (Postfix) with ESMTP id 636005801CF
+	by linux.intel.com (Postfix) with ESMTP id 86A3A5801CF
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Jul 2017 06:29:21 -0700 (PDT)
+	Tue,  4 Jul 2017 06:29:23 -0700 (PDT)
 From: "Maxin B. John" <maxin.john@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  4 Jul 2017 16:29:32 +0300
-Message-Id: <1499174980-28223-4-git-send-email-maxin.john@intel.com>
+Date: Tue,  4 Jul 2017 16:29:34 +0300
+Message-Id: <1499174980-28223-6-git-send-email-maxin.john@intel.com>
 X-Mailer: git-send-email 2.4.0
 In-Reply-To: <1499174980-28223-1-git-send-email-maxin.john@intel.com>
 References: <1499174980-28223-1-git-send-email-maxin.john@intel.com>
-Subject: [PATCH 03/11] gstreamer1.0: upgrade 1.10.4 -> 1.12.1
+Subject: [PATCH 05/11] gstreamer1.0-plugins-ugly: upgrade 1.10.4 -> 1.12.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,99 +35,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Jul 2017 13:29:22 -0000
+X-List-Received-Date: Tue, 04 Jul 2017 13:29:23 -0000
 
-Remove "--disable-docbook" configure option and refresh
-the following patch:
-        1. deterministic-unwind.patch
+libmad support is not present anymore.
 
 Signed-off-by: Maxin B. John <maxin.john@intel.com>
 ---
- meta/recipes-multimedia/gstreamer/gstreamer1.0.inc |  1 -
- .../gstreamer1.0/deterministic-unwind.patch        | 29 ++++++++++++++++------
- ...treamer1.0_1.10.4.bb => gstreamer1.0_1.12.1.bb} |  4 +--
- 3 files changed, 23 insertions(+), 11 deletions(-)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0_1.10.4.bb => gstreamer1.0_1.12.1.bb} (72%)
+ meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly.inc       | 1 -
+ ...1.0-plugins-ugly_1.10.4.bb => gstreamer1.0-plugins-ugly_1.12.1.bb} | 4 ++--
+ 2 files changed, 2 insertions(+), 3 deletions(-)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-ugly_1.10.4.bb => gstreamer1.0-plugins-ugly_1.12.1.bb} (76%)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0.inc
-index 72d7ce6..d174a82 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0.inc
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0.inc
-@@ -28,7 +28,6 @@ PACKAGECONFIG[unwind] = "--with-unwind,--without-unwind,libunwind"
- 
- EXTRA_OECONF = " \
-     --disable-dependency-tracking \
--    --disable-docbook \
-     --disable-examples \
- "
- 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0/deterministic-unwind.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0/deterministic-unwind.patch
-index e39e6ca..dfca096 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0/deterministic-unwind.patch
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0/deterministic-unwind.patch
-@@ -1,24 +1,37 @@
--Make the detection of libunwind deterministic.
-+From 31fb9cde63f55f2610a736f390124a570c564169 Mon Sep 17 00:00:00 2001
-+From: Ross Burton <ross.burton@intel.com>
-+Date: Fri, 12 May 2017 17:43:08 +0300
-+Subject: [PATCH] Make the detection of libunwind deterministic.
- 
- Upstream-Status: Pending
-+
- Signed-off-by: Ross Burton <ross.burton@intel.com>
-+Signed-off-by: Maxin B. John <maxin.john@intel.com>
-+---
-+ configure.ac | 10 ++++++----
-+ 1 file changed, 6 insertions(+), 4 deletions(-)
- 
- diff --git a/configure.ac b/configure.ac
--index ac88fb2..182c19a 100644
-+index 9fa6824..fe9696f 100644
- --- a/configure.ac
- +++ b/configure.ac
--@@ -829,3 +828,0 @@ AM_CONDITIONAL(HAVE_GTK, test "x$HAVE_GTK" = "xyes")
---dnl libunwind is optionally used by the leaks tracer
-+@@ -821,10 +821,12 @@ fi
-+ AM_CONDITIONAL(HAVE_GTK, test "x$HAVE_GTK" = "xyes")
-+ 
-+ dnl libunwind is optionally used by the leaks tracer
- -PKG_CHECK_MODULES(UNWIND, libunwind, HAVE_UNWIND=yes, HAVE_UNWIND=no)
---
--@@ -839,3 +836,7 @@ AC_CHECK_FUNC(backtrace, [
- -if test "x$HAVE_UNWIND" = "xyes"; then
- -  AC_DEFINE(HAVE_UNWIND, 1, [libunwind available])
- -fi
--+dnl libunwind is optionally used by the leaks tracer
- +AC_ARG_WITH([unwind],[AS_HELP_STRING([--with-unwind],[use libunwind])],
- +            [], [with_unwind=yes])
- +AS_IF([test "$with_unwind" = yes],
- +      [PKG_CHECK_MODULES(UNWIND, libunwind)
- +       AC_DEFINE(HAVE_UNWIND, 1, [libunwind available])]
--+)
-++ )
-+ 
-+ dnl libdw is optionally used to add source lines and numbers to backtraces
-+ PKG_CHECK_MODULES(DW, libdw, HAVE_DW=yes, HAVE_DW=no)
-+-- 
-+2.4.0
-+
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.10.4.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.12.1.bb
-similarity index 72%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0_1.10.4.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0_1.12.1.bb
-index 2a67993..f1a7001 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.10.4.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.12.1.bb
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly.inc
+index 708ad7a..60aa968 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly.inc
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly.inc
+@@ -18,7 +18,6 @@ PACKAGECONFIG[amrwb]    = "--enable-amrwb,--disable-amrwb,opencore-amr"
+ PACKAGECONFIG[cdio]     = "--enable-cdio,--disable-cdio,libcdio"
+ PACKAGECONFIG[dvdread]  = "--enable-dvdread,--disable-dvdread,libdvdread"
+ PACKAGECONFIG[lame]     = "--enable-lame,--disable-lame,lame"
+-PACKAGECONFIG[mad]      = "--enable-mad,--disable-mad,libmad"
+ PACKAGECONFIG[mpeg2dec] = "--enable-mpeg2dec,--disable-mpeg2dec,mpeg2dec"
+ PACKAGECONFIG[mpg123]   = "--enable-mpg123,--disable-mpg123,mpg123"
+ PACKAGECONFIG[x264]     = "--enable-x264,--disable-x264,x264"
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.10.4.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.12.1.bb
+similarity index 76%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.10.4.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.12.1.bb
+index 92a2caa..fb6cc90 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.10.4.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.12.1.bb
 @@ -7,7 +7,7 @@ SRC_URI = " \
-     http://gstreamer.freedesktop.org/src/gstreamer/gstreamer-${PV}.tar.xz \
-     file://deterministic-unwind.patch \
+     http://gstreamer.freedesktop.org/src/gst-plugins-ugly/gst-plugins-ugly-${PV}.tar.xz \
+     file://0001-introspection.m4-prefix-pkgconfig-paths-with-PKG_CON.patch \
  "
--SRC_URI[md5sum] = "7c91a97e4a2dc81eafd59d0a2f8b0d6e"
--SRC_URI[sha256sum] = "50c2f5af50a6cc6c0a3f3ed43bdd8b5e2bff00bacfb766d4be139ec06d8b5218"
-+SRC_URI[md5sum] = "3c9f2bc7d75daf87fb5d8d0f2158b8ea"
-+SRC_URI[sha256sum] = "9044b9d8b3ff44457fa9e36faa59c56684b587b34dee449bfe15ec0c32a3a6d2"
+-SRC_URI[md5sum] = "c68d0509c9980b0b70a4b836ff73fff1"
+-SRC_URI[sha256sum] = "6386c77ca8459cba431ed0b63da780c7062c7cc48055d222024d8eaf198ffa59"
++SRC_URI[md5sum] = "101a9d1613c16889df43f00d859c954a"
++SRC_URI[sha256sum] = "8fc2123d059713a34fa5d0a26641fb8158f52f6766633d2db7a661adc88e1069"
  
- S = "${WORKDIR}/gstreamer-${PV}"
+ S = "${WORKDIR}/gst-plugins-ugly-${PV}"
 -- 
 2.4.0
 
