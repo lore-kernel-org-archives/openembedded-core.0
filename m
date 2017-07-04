@@ -1,26 +1,27 @@
-Return-Path: <Dengke.Du@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 5EF7877E99
+Return-Path: <gordan.markus@pelagicore.com>
+Received: from ORO-EDGE-03.luxoft.com (oro-edge-03.luxoft.com [109.166.244.23])
+	by mail.openembedded.org (Postfix) with ESMTP id 3024177E7F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Jul 2017 03:36:24 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v643aPge010977
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 3 Jul 2017 20:36:25 -0700
-Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.294.0;
-	Mon, 3 Jul 2017 20:36:24 -0700
-From: Dengke Du <dengke.du@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 3 Jul 2017 23:36:21 -0400
-Message-ID: <aec76af1a888728cbbf53e3274af9966079336e7.1499139296.git.dengke.du@windriver.com>
-X-Mailer: git-send-email 2.8.1
-In-Reply-To: <cover.1499139296.git.dengke.du@windriver.com>
-References: <cover.1499139296.git.dengke.du@windriver.com>
+	Tue,  4 Jul 2017 07:36:36 +0000 (UTC)
+Received: from ORO-HUBT-03.luxoft.com (172.30.115.38) by
+	oro-edge-03.luxoft.com (172.30.19.23) with Microsoft SMTP Server (TLS)
+	id 14.3.319.2; Tue, 4 Jul 2017 10:36:34 +0300
+Received: from [172.31.241.7] (172.31.241.7) by ORO-HUBT-03.luxoft.com
+	(172.30.115.101) with Microsoft SMTP Server (TLS) id 14.3.319.2;
+	Tue, 4 Jul 2017 10:36:35 +0300
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <20170703123433.23528-2-gordan.markus@pelagicore.com>
+	<CAJTo0LYCWai_UhPcfv7VV3iB+NCRdCvPjsLdbE=iv3f9CSzA0Q@mail.gmail.com>
+From: =?UTF-8?Q?Gordan_Marku=c5=a1?= <gordan.markus@pelagicore.com>
+Message-ID: <f85be1a4-8f83-fc87-c808-00190070bd3e@pelagicore.com>
+Date: Tue, 4 Jul 2017 09:36:29 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.1.1
 MIME-Version: 1.0
-Subject: [PATCH 1/1] ltp: Reduce local Pending patches
+In-Reply-To: <CAJTo0LYCWai_UhPcfv7VV3iB+NCRdCvPjsLdbE=iv3f9CSzA0Q@mail.gmail.com>
+X-Originating-IP: [172.31.241.7]
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] cairo: fix QA Issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,145 +34,134 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Jul 2017 03:36:28 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 04 Jul 2017 07:36:44 -0000
+Content-Type: multipart/alternative;
+	boundary="------------F5C58E43B119B0E318604A47"
+Content-Language: en-US
 
-Rebase the patch on latest ltp upstream:
+--------------F5C58E43B119B0E318604A47
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
-    0007-fix-__WORDSIZE-undeclared-when-building-with-musl.patch
+On 2017-07-03 15:56, Burton, Ross wrote:
+>
+> On 3 July 2017 at 13:34, Gordan Markuš <gordan.markus@pelagicore.com 
+> <mailto:gordan.markus@pelagicore.com>> wrote:
+>
+>     -FILES_${PN}-dev += "${libdir}/cairo/*.so"
+>     +FILES_${PN}-dev += "${libdir}/cairo ${libdir}/cairo/*.so"
+>
+>
+> I just spent five minutes working out *why* this fixes the QA issue 
+> you were getting.
+>
+> A better fix would be to delete ${libdir}/cairo using:
+>
+>   rmdir ${libdir}/cairo || :
+>
+> or
+>
+>   rmdir --ignore-fail-on-non-empty ${libdir}/cairo
+>
+> (former is POSIX compliant, but I can't think of a situation where 
+> that is only a hypothetical problem)
+>
+> Then in the commit message you can say that the directory is always 
+> created but it only has content if you disable cairo-trace.  At least, 
+> I hope you are explicitly disabling cairo-trace as there's no other 
+> way I can see for you go get this.
+>
+> Ross
+Thanks for the suggestion Ross, and you are right this only happens if 
+there is a bbappend that removes the 'cairo-perf-utils' package. An 
+example of this is the meta-ivi layer.
+Experimenting a bit it seems to me that even by adding the directory 
+removal, in case it is empty, the do_package step still fails. By 
+inspecting further I can observe that the directory is in fact not being 
+removed but left empty which is quite puzzling.
+After doing some thinking I believe it might be better to add the 
+removal of the directory and the package files in the bbappend, do you 
+agree with this? Here is the PR to meta-ivi that does that 
+https://github.com/GENIVI/meta-ivi/pull/45.
 
-[Yocto #11548]
+--------------F5C58E43B119B0E318604A47
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-Signed-off-by: Dengke Du <dengke.du@windriver.com>
----
- ...TH_MAX-undeclared-when-building-with-musl.patch | 15 +++++++-------
- ...RDSIZE-undeclared-when-building-with-musl.patch | 23 +++++++++++-----------
- ...ition-of-struct-msgbuf-error-building-wit.patch |  9 +++++----
- 3 files changed, 25 insertions(+), 22 deletions(-)
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  </head>
+  <body text="#000000" bgcolor="#FFFFFF">
+    On 2017-07-03 15:56, Burton, Ross wrote:<br>
+    <blockquote type="cite"
+cite="mid:CAJTo0LYCWai_UhPcfv7VV3iB+NCRdCvPjsLdbE=iv3f9CSzA0Q@mail.gmail.com">
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <div dir="ltr"><br>
+        <div>
+          <div class="gmail_extra">
+            <div class="gmail_quote">On 3 July 2017 at 13:34, Gordan
+              Markuš <span dir="ltr">&lt;<a
+                  href="mailto:gordan.markus@pelagicore.com"
+                  target="_blank" moz-do-not-send="true">gordan.markus@pelagicore.com</a>&gt;</span> wrote:<br>
+              <blockquote class="gmail_quote" style="margin:0px 0px 0px
+0.8ex;border-left-width:1px;border-left-style:solid;border-left-color:rgb(204,204,204);padding-left:1ex">
+                <div id="gmail-:yn" class="gmail-a3s gmail-aXjCH
+                  gmail-m15d087d2c6436eea">-FILES_${PN}-dev +=
+                  "${libdir}/cairo/*.so"<br>
+                  +FILES_${PN}-dev += "${libdir}/cairo
+                  ${libdir}/cairo/*.so"<br>
+                </div>
+              </blockquote>
+            </div>
+            <br>
+          </div>
+          <div class="gmail_extra">I just spent five minutes working out
+            *why* this fixes the QA issue you were getting.</div>
+        </div>
+        <div class="gmail_extra"><br>
+        </div>
+        <div class="gmail_extra">A better fix would be to delete
+          ${libdir}/cairo using:</div>
+        <div class="gmail_extra"><br>
+        </div>
+        <div class="gmail_extra">  rmdir ${libdir}/cairo || :</div>
+        <div class="gmail_extra"><br>
+        </div>
+        <div class="gmail_extra">or</div>
+        <div class="gmail_extra"><br>
+        </div>
+        <div class="gmail_extra">  rmdir --ignore-fail-on-non-empty
+          ${libdir}/cairo</div>
+        <div class="gmail_extra"><br>
+        </div>
+        <div class="gmail_extra">(former is POSIX compliant, but I can't
+          think of a situation where that is only a hypothetical
+          problem)</div>
+        <div class="gmail_extra"><br>
+        </div>
+        <div class="gmail_extra">Then in the commit message you can say
+          that the directory is always created but it only has content
+          if you disable cairo-trace.  At least, I hope you are
+          explicitly disabling cairo-trace as there's no other way I can
+          see for you go get this.</div>
+        <div class="gmail_extra"><br>
+        </div>
+        <div class="gmail_extra">Ross</div>
+      </div>
+    </blockquote>
+    Thanks for the suggestion Ross, and you are right this only happens
+    if there is a bbappend that removes the 'cairo-perf-utils' package.
+    An example of this is the meta-ivi layer.<br>
+    Experimenting a bit it seems to me that even by adding the directory
+    removal, in case it is empty, the do_package step still fails. By
+    inspecting further I can observe that the directory is in fact not
+    being removed but left empty which is quite puzzling.<br>
+    After doing some thinking I believe it might be better to add the
+    removal of the directory and the package files in the bbappend, do
+    you agree with this? Here is the PR to meta-ivi that does that
+    <a class="moz-txt-link-freetext" href="https://github.com/GENIVI/meta-ivi/pull/45">https://github.com/GENIVI/meta-ivi/pull/45</a>.<br>
+  </body>
+</html>
 
-diff --git a/meta/recipes-extended/ltp/ltp/0006-fix-PATH_MAX-undeclared-when-building-with-musl.patch b/meta/recipes-extended/ltp/ltp/0006-fix-PATH_MAX-undeclared-when-building-with-musl.patch
-index 8874b95..020ddfe 100644
---- a/meta/recipes-extended/ltp/ltp/0006-fix-PATH_MAX-undeclared-when-building-with-musl.patch
-+++ b/meta/recipes-extended/ltp/ltp/0006-fix-PATH_MAX-undeclared-when-building-with-musl.patch
-@@ -1,22 +1,23 @@
--From 32644bde4d33b677614534ec37030e57883b8e15 Mon Sep 17 00:00:00 2001
-+From b906ec2fe4711a727e198cd9259287c042eef8e2 Mon Sep 17 00:00:00 2001
- From: Dengke Du <dengke.du@windriver.com>
- Date: Thu, 9 Feb 2017 16:41:12 +0800
--Subject: [PATCH 1/3] fix PATH_MAX undeclared when building with musl
-+Subject: [PATCH] fix PATH_MAX undeclared when building with musl
- 
- fix PATH_MAX undeclared when building with musl.
- 
-+Upstream-Status: Submitted [https://github.com/linux-test-project/ltp/pull/176]
-+
- Signed-off-by: Dengke Du <dengke.du@windriver.com>
--Upstream-Status: Pending
- ---
-  include/tst_test.h | 3 +++
-  1 file changed, 3 insertions(+)
- 
- diff --git a/include/tst_test.h b/include/tst_test.h
--index 7ff33b2..9779c0e 100644
-+index 335c82684..4dfa1511b 100644
- --- a/include/tst_test.h
- +++ b/include/tst_test.h
--@@ -19,6 +19,9 @@
-- #define TST_TEST_H__
-+@@ -23,6 +23,9 @@
-+ #endif /* __TEST_H__ */
-  
-  #include <unistd.h>
- +#ifndef __GLIBC__
-@@ -26,5 +27,5 @@ index 7ff33b2..9779c0e 100644
-  #include "tst_common.h"
-  #include "tst_res_flags.h"
- -- 
--2.7.4
-+2.11.0
- 
-diff --git a/meta/recipes-extended/ltp/ltp/0007-fix-__WORDSIZE-undeclared-when-building-with-musl.patch b/meta/recipes-extended/ltp/ltp/0007-fix-__WORDSIZE-undeclared-when-building-with-musl.patch
-index 8d0e739..2f4ca63 100644
---- a/meta/recipes-extended/ltp/ltp/0007-fix-__WORDSIZE-undeclared-when-building-with-musl.patch
-+++ b/meta/recipes-extended/ltp/ltp/0007-fix-__WORDSIZE-undeclared-when-building-with-musl.patch
-@@ -1,30 +1,31 @@
--From a2639bd0f0d3f9f3049ee33e6710fed06225f54f Mon Sep 17 00:00:00 2001
-+From d1a27570457fb6e1d6bafe81bfa0f3507b137e32 Mon Sep 17 00:00:00 2001
- From: Dengke Du <dengke.du@windriver.com>
- Date: Thu, 9 Feb 2017 18:20:58 +0800
--Subject: [PATCH 1/2] fix __WORDSIZE undeclared when building with musl
-+Subject: [PATCH] fix __WORDSIZE undeclared when building with musl
- 
- fix __WORDSIZE undeclared when building with musl.
- 
-+Upstream-Status: Submitted [https://github.com/linux-test-project/ltp/pull/177]
-+
- Signed-off-by: Dengke Du <dengke.du@windriver.com>
--Upstream-Status: Pending
- ---
-  include/old/test.h | 3 +++
-  1 file changed, 3 insertions(+)
- 
- diff --git a/include/old/test.h b/include/old/test.h
--index d492560..263e92e 100644
-+index b36764d83..cc6f1b551 100644
- --- a/include/old/test.h
- +++ b/include/old/test.h
--@@ -58,6 +58,9 @@
-- #include "tst_clone.h"
-- #include "old_device.h"
-- #include "old_tmpdir.h"
-+@@ -44,6 +44,9 @@
-+ #include <string.h>
-+ #include <stdlib.h>
-+ #include <stdint.h>
- +#ifndef __GLIBC__
- +#include <bits/reg.h>
- +#endif
-  
-- /*
--  * Ensure that NUMSIGS is defined.
-+ #include "usctest.h"
-+ 
- -- 
--2.7.4
-+2.11.0
- 
-diff --git a/meta/recipes-extended/ltp/ltp/0009-fix-redefinition-of-struct-msgbuf-error-building-wit.patch b/meta/recipes-extended/ltp/ltp/0009-fix-redefinition-of-struct-msgbuf-error-building-wit.patch
-index 6886c55..dd7d283 100644
---- a/meta/recipes-extended/ltp/ltp/0009-fix-redefinition-of-struct-msgbuf-error-building-wit.patch
-+++ b/meta/recipes-extended/ltp/ltp/0009-fix-redefinition-of-struct-msgbuf-error-building-wit.patch
-@@ -1,18 +1,19 @@
--From 2d7ea67e8eaa41cbd6816f7ab654254b40b530a1 Mon Sep 17 00:00:00 2001
-+From bf5dd2932200e0199a38f3028d3bef2253f32e38 Mon Sep 17 00:00:00 2001
- From: Dengke Du <dengke.du@windriver.com>
- Date: Thu, 9 Feb 2017 17:17:37 +0800
- Subject: [PATCH] fix redefinition of 'struct msgbuf' error building with musl
- 
- When building with musl the file "sys/msg.h" already contain 'struct msgbuf'
- 
-+Upstream-Status: Submitted [https://github.com/linux-test-project/ltp/pull/177]
-+
- Signed-off-by: Dengke Du <dengke.du@windriver.com>
--Upstream-Status: Pending
- ---
-  testcases/kernel/syscalls/ipc/msgrcv/msgrcv08.c | 4 +++-
-  1 file changed, 3 insertions(+), 1 deletion(-)
- 
- diff --git a/testcases/kernel/syscalls/ipc/msgrcv/msgrcv08.c b/testcases/kernel/syscalls/ipc/msgrcv/msgrcv08.c
--index a757c0d..e023114 100644
-+index a757c0d18..e023114d2 100644
- --- a/testcases/kernel/syscalls/ipc/msgrcv/msgrcv08.c
- +++ b/testcases/kernel/syscalls/ipc/msgrcv/msgrcv08.c
- @@ -47,11 +47,13 @@ const char *TCID = "msgrcv08";
-@@ -31,5 +32,5 @@ index a757c0d..e023114 100644
-  static void msr(int msqid)
-  {
- -- 
--2.7.4
-+2.11.0
- 
--- 
-2.8.1
-
-
+--------------F5C58E43B119B0E318604A47--
