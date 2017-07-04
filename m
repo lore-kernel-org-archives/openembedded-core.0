@@ -1,27 +1,64 @@
-Return-Path: <maxin.john@intel.com>
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id 3B0EB77E4A
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-wr0-f195.google.com (mail-wr0-f195.google.com
+	[209.85.128.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 7962977E4A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Jul 2017 13:29:28 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga105.jf.intel.com with ESMTP; 04 Jul 2017 06:29:30 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.40,307,1496127600"; d="scan'208";a="874652536"
-Received: from linux.intel.com ([10.54.29.200])
-	by FMSMGA003.fm.intel.com with ESMTP; 04 Jul 2017 06:29:30 -0700
-Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
-	[10.237.72.84])
-	by linux.intel.com (Postfix) with ESMTP id BC8745801CF
+	Tue,  4 Jul 2017 13:49:40 +0000 (UTC)
+Received: by mail-wr0-f195.google.com with SMTP id k67so47271319wrc.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Jul 2017 06:29:29 -0700 (PDT)
-From: "Maxin B. John" <maxin.john@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  4 Jul 2017 16:29:40 +0300
-Message-Id: <1499174980-28223-12-git-send-email-maxin.john@intel.com>
-X-Mailer: git-send-email 2.4.0
-In-Reply-To: <1499174980-28223-1-git-send-email-maxin.john@intel.com>
-References: <1499174980-28223-1-git-send-email-maxin.john@intel.com>
-Subject: [PATCH v2 11/11] gstreamer1.0-plugins-good: upgrade 1.10.4 -> 1.12.1
+	Tue, 04 Jul 2017 06:49:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
+	:cc; bh=KQMUmmAH5YF3LxWLc00WBAFS3Kro+8qV9mY4aP4t0ZU=;
+	b=tHdwzb66sNqH/a+Y7CYM5OU4kFjy58rgCzFDdCw64x0kuWTwVS1oV+yI6n138MoxZA
+	rW+H8J1+D7ThIeG5z13LwDtMNixOV5VQ3PVPL7HEdDSFmRKsmFc17jk0pJ2YX9NHhQ6M
+	QoScb2VwOkJc1sBlSgiBdBxIZAXFmtTXguHPdN2i9DZT8y8eXnI9uQhQ0mYtm6eFIyX3
+	bQtJmfOaYaEzKabMM1sqbCtlAoMxpKTuw6Ixelx6LI4iwtkIy0FeGRmDYVZyAOqMa6bl
+	J3l4jbgtdqCyvZ6aF4kMJZnqLuJNkmY0t8wlpT4omqYnCy8q8IuFBzfy/Tl2tuMiQEgw
+	4V+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
+	:message-id:subject:to:cc;
+	bh=KQMUmmAH5YF3LxWLc00WBAFS3Kro+8qV9mY4aP4t0ZU=;
+	b=ghJ3P7p3xdov5p56I9j+uJtP7BE5vn2tX0iASLGccCLjVo/zXl8cPO5aMmsSE+/c6e
+	5cGWUZzTcoBEFr4e49VHEKpojx6EF72Q48/8es9aHJ/+QvFSaoAMSOR4vA1Wlk4uKz8C
+	42qNaE3ghrEGiIjH8rllO/ULBdOetme4yGkrfsrIGoK5I6rwbiZgxBp5Zw5mqOvKjZXt
+	+ImIR4sqztP6dEarsUt5fG5frM5JRpF+CdKI54FxSW5BqmjVy1b0HXAX6+RNWc1vY+I1
+	F+mEzH+VLJHhOrEekcHxE3B08vhdGwBd795Z+ePubFqAz6wvMIwfaaL0+VrVeysdXp3N
+	ePBA==
+X-Gm-Message-State: AKS2vOy9iffGLVBkXBrx+plmte2wDM1wTmAxbvKx+LJLExwuww4uSJjo
+	Eg/hOrooBL5tIYIRjZA=
+X-Received: by 10.223.150.89 with SMTP id c25mr34347834wra.15.1499176180951;
+	Tue, 04 Jul 2017 06:49:40 -0700 (PDT)
+Received: from mail-wr0-f174.google.com (mail-wr0-f174.google.com.
+	[209.85.128.174]) by smtp.gmail.com with ESMTPSA id
+	l20sm14457151wre.25.2017.07.04.06.49.39
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 04 Jul 2017 06:49:40 -0700 (PDT)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-wr0-f174.google.com with SMTP id r103so249581198wrb.0
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 04 Jul 2017 06:49:39 -0700 (PDT)
+X-Received: by 10.223.138.252 with SMTP id z57mr39909623wrz.66.1499176179495; 
+	Tue, 04 Jul 2017 06:49:39 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.28.209.14 with HTTP; Tue, 4 Jul 2017 06:49:38 -0700 (PDT)
+In-Reply-To: <CBAEED2EB06BF94889E80B47A33FE329ED6B5E@PGSMSX105.gar.corp.intel.com>
+References: <cover.1498782014.git.wei.tee.ng@intel.com>
+	<340dcd3ae5be23d6f1395d4f8bb6fd25f7a95c6e.1498782014.git.wei.tee.ng@intel.com>
+	<CAP9ODKoZ48A6Qp1TEvvt2mwE-LEvArjTEQim=FHE9ksvCG1U2w@mail.gmail.com>
+	<CBAEED2EB06BF94889E80B47A33FE329ED6B5E@PGSMSX105.gar.corp.intel.com>
+Date: Tue, 4 Jul 2017 10:49:38 -0300
+X-Gmail-Original-Message-ID: <CAP9ODKo2hNUgt1VioyhK6Y=s-qp+bcXH1R17hWzG6yGEkUY67w@mail.gmail.com>
+Message-ID: <CAP9ODKo2hNUgt1VioyhK6Y=s-qp+bcXH1R17hWzG6yGEkUY67w@mail.gmail.com>
+To: "Ng, Wei Tee" <wei.tee.ng@intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2 1/3] initramfs-framework: udev: Add a runtime dependency on udev-extraconf
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,103 +71,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Jul 2017 13:29:29 -0000
+X-List-Received-Date: Tue, 04 Jul 2017 13:49:41 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Remove backported patch:
-        1.0001-v4l2object-Also-add-videometa-if-there-is-padding-to.patch
+On Mon, Jul 3, 2017 at 10:11 PM, Ng, Wei Tee <wei.tee.ng@intel.com> wrote:
+> Yes, it's mainly to support the live boot image. Therefore the udev-extraconf is being added in the rdepends.
+> The wrong that you mentioned is because of the commit message was not convey in the correct way?
+> The initramfs-framework currently is not handling live boot support. Perhaps, "In order to implement initramfs-framework for live boot support" will be better?
 
-Added RPROVIDES to handle the renamed plugins (oss4 is not enabled):
-        1. libgstpulse -> libgstpulseaudio
-        2. libgstsouphttpsrc -> libgstsoup
+Move it to live-boot package rdepends.
 
-Updated gstreamer1.0-meta-base to include this change:
-        1.gstsouphttpsrc plugin was renamed to gstsoup
+I don't want automount when adding udev only it seems wrong.
 
-Signed-off-by: Maxin B. John <maxin.john@intel.com>
----
- .../gstreamer/gstreamer1.0-meta-base.bb            |  2 +-
- ...Also-add-videometa-if-there-is-padding-to.patch | 35 ----------------------
- ...10.4.bb => gstreamer1.0-plugins-good_1.12.1.bb} |  7 +++--
- 3 files changed, 5 insertions(+), 39 deletions(-)
- delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/0001-v4l2object-Also-add-videometa-if-there-is-padding-to.patch
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-good_1.10.4.bb => gstreamer1.0-plugins-good_1.12.1.bb} (74%)
-
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-meta-base.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-meta-base.bb
-index c542b13..016e176 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-meta-base.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-meta-base.bb
-@@ -37,7 +37,7 @@ RDEPENDS_gstreamer1.0-meta-base = "\
-     gstreamer1.0-plugins-base-videoscale \
-     gstreamer1.0-plugins-base-videoconvert \
-     gstreamer1.0-plugins-good-autodetect \
--    gstreamer1.0-plugins-good-souphttpsrc"
-+    gstreamer1.0-plugins-good-soup"
- 
- RRECOMMENDS_gstreamer1.0-meta-x11-base = "\
-     gstreamer1.0-plugins-base-ximagesink \
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/0001-v4l2object-Also-add-videometa-if-there-is-padding-to.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/0001-v4l2object-Also-add-videometa-if-there-is-padding-to.patch
-deleted file mode 100644
-index 2a9a23e..0000000
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/0001-v4l2object-Also-add-videometa-if-there-is-padding-to.patch
-+++ /dev/null
-@@ -1,35 +0,0 @@
--From 22be02612adc757f6a43cefc6ee65ecaef68f0d9 Mon Sep 17 00:00:00 2001
--From: Carlos Rafael Giani <dv@pseudoterminal.org>
--Date: Thu, 23 Mar 2017 22:13:05 +0100
--Subject: [PATCH] v4l2object: Also add videometa if there is padding to the
-- right and bottom
--
--https://bugzilla.gnome.org/show_bug.cgi?id=780478
--
--Upstream-Status: Backport [1.10.5]
--
--Signed-off-by: Carlos Rafael Giani <dv@pseudoterminal.org>
-----
-- sys/v4l2/gstv4l2object.c | 5 +++--
-- 1 file changed, 3 insertions(+), 2 deletions(-)
--
--diff --git a/sys/v4l2/gstv4l2object.c b/sys/v4l2/gstv4l2object.c
--index 91c8ff0..ed4654e 100644
----- a/sys/v4l2/gstv4l2object.c
--+++ b/sys/v4l2/gstv4l2object.c
--@@ -3070,9 +3070,10 @@ store_info:
--   GST_DEBUG_OBJECT (v4l2object->element, "Got sizeimage %" G_GSIZE_FORMAT,
--       info->size);
-- 
---  /* to avoid copies we need video meta if top or left padding */
--+  /* to avoid copies we need video meta if there is padding */
--   v4l2object->need_video_meta =
---      ((align->padding_top + align->padding_left) != 0);
--+      ((align->padding_top + align->padding_left + align->padding_right +
--+          align->padding_bottom) != 0);
-- 
--   /* ... or if stride is non "standard" */
--   if (!standard_stride)
---- 
--2.7.4
--
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.10.4.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.12.1.bb
-similarity index 74%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.10.4.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.12.1.bb
-index 57447bf..7f7e570 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.10.4.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.12.1.bb
-@@ -10,9 +10,10 @@ SRC_URI = " \
-     file://avoid-including-sys-poll.h-directly.patch \
-     file://ensure-valid-sentinel-for-gst_structure_get.patch \
-     file://0001-introspection.m4-prefix-pkgconfig-paths-with-PKG_CON.patch \
--    file://0001-v4l2object-Also-add-videometa-if-there-is-padding-to.patch \
- "
--SRC_URI[md5sum] = "cc0cc13cdb07d4237600b6886b81f31d"
--SRC_URI[sha256sum] = "8a86c61434a8c44665365bd0b3557a040937d1f44bf69caee4e9ea816ce74d7e"
-+SRC_URI[md5sum] = "53647e9fe9446f2ad808d55fcdf85b6e"
-+SRC_URI[sha256sum] = "121e8e46a7f0e622f09ec9be012607b89d737dd72d48b0f2f0680821ae2cf54b"
- 
- S = "${WORKDIR}/gst-plugins-good-${PV}"
-+
-+RPROVIDES_${PN} += "${@bb.utils.contains('DISTRO_FEATURES', 'pulseaudio', '${PN}-pulse', '', d)} ${PN}-souphttpsrc"
 -- 
-2.4.0
-
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
