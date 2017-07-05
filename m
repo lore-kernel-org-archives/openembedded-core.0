@@ -1,27 +1,27 @@
 Return-Path: <maxin.john@intel.com>
 Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id 3A3D077A56
+	by mail.openembedded.org (Postfix) with ESMTP id 1016077AB5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Jul 2017 15:03:03 +0000 (UTC)
+	Wed,  5 Jul 2017 15:03:04 +0000 (UTC)
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
 	by orsmga105.jf.intel.com with ESMTP; 05 Jul 2017 08:03:05 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.40,312,1496127600"; d="scan'208";a="121115756"
+X-IronPort-AV: E=Sophos;i="5.40,312,1496127600"; d="scan'208";a="121115777"
 Received: from linux.intel.com ([10.54.29.200])
-	by orsmga005.jf.intel.com with ESMTP; 05 Jul 2017 08:03:03 -0700
+	by orsmga005.jf.intel.com with ESMTP; 05 Jul 2017 08:03:05 -0700
 Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
 	[10.237.72.84])
-	by linux.intel.com (Postfix) with ESMTP id 318115801CF
+	by linux.intel.com (Postfix) with ESMTP id 166155800EA
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Jul 2017 08:03:02 -0700 (PDT)
+	Wed,  5 Jul 2017 08:03:04 -0700 (PDT)
 From: "Maxin B. John" <maxin.john@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  5 Jul 2017 18:03:15 +0300
-Message-Id: <1499267003-20382-5-git-send-email-maxin.john@intel.com>
+Date: Wed,  5 Jul 2017 18:03:17 +0300
+Message-Id: <1499267003-20382-7-git-send-email-maxin.john@intel.com>
 X-Mailer: git-send-email 2.4.0
 In-Reply-To: <1499267003-20382-1-git-send-email-maxin.john@intel.com>
 References: <1499267003-20382-1-git-send-email-maxin.john@intel.com>
-Subject: [PATCH 04/12] gstreamer1.0-plugins-ugly: upgrade 1.10.4 -> 1.12.1
+Subject: [PATCH 06/12] gstreamer1.0-omx: upgrade 1.10.4 -> 1.12.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,46 +34,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Jul 2017 15:03:03 -0000
+X-List-Received-Date: Wed, 05 Jul 2017 15:03:04 -0000
 
-libmad support is not present anymore.
+Upgrade to 1.12.1
 
 Signed-off-by: Maxin B. John <maxin.john@intel.com>
 ---
- meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly.inc       | 1 -
- ...1.0-plugins-ugly_1.10.4.bb => gstreamer1.0-plugins-ugly_1.12.1.bb} | 4 ++--
- 2 files changed, 2 insertions(+), 3 deletions(-)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-ugly_1.10.4.bb => gstreamer1.0-plugins-ugly_1.12.1.bb} (76%)
+ .../{gstreamer1.0-omx_1.10.4.bb => gstreamer1.0-omx_1.12.1.bb}        | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-omx_1.10.4.bb => gstreamer1.0-omx_1.12.1.bb} (69%)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly.inc
-index 708ad7a..60aa968 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly.inc
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly.inc
-@@ -18,7 +18,6 @@ PACKAGECONFIG[amrwb]    = "--enable-amrwb,--disable-amrwb,opencore-amr"
- PACKAGECONFIG[cdio]     = "--enable-cdio,--disable-cdio,libcdio"
- PACKAGECONFIG[dvdread]  = "--enable-dvdread,--disable-dvdread,libdvdread"
- PACKAGECONFIG[lame]     = "--enable-lame,--disable-lame,lame"
--PACKAGECONFIG[mad]      = "--enable-mad,--disable-mad,libmad"
- PACKAGECONFIG[mpeg2dec] = "--enable-mpeg2dec,--disable-mpeg2dec,mpeg2dec"
- PACKAGECONFIG[mpg123]   = "--enable-mpg123,--disable-mpg123,mpg123"
- PACKAGECONFIG[x264]     = "--enable-x264,--disable-x264,x264"
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.10.4.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.12.1.bb
-similarity index 76%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.10.4.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.12.1.bb
-index 92a2caa..fb6cc90 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.10.4.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.12.1.bb
-@@ -7,7 +7,7 @@ SRC_URI = " \
-     http://gstreamer.freedesktop.org/src/gst-plugins-ugly/gst-plugins-ugly-${PV}.tar.xz \
-     file://0001-introspection.m4-prefix-pkgconfig-paths-with-PKG_CON.patch \
- "
--SRC_URI[md5sum] = "c68d0509c9980b0b70a4b836ff73fff1"
--SRC_URI[sha256sum] = "6386c77ca8459cba431ed0b63da780c7062c7cc48055d222024d8eaf198ffa59"
-+SRC_URI[md5sum] = "101a9d1613c16889df43f00d859c954a"
-+SRC_URI[sha256sum] = "8fc2123d059713a34fa5d0a26641fb8158f52f6766633d2db7a661adc88e1069"
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.10.4.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.12.1.bb
+similarity index 69%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.10.4.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.12.1.bb
+index dfeefa5..bf4432c 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.10.4.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.12.1.bb
+@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c \
  
- S = "${WORKDIR}/gst-plugins-ugly-${PV}"
+ SRC_URI = "http://gstreamer.freedesktop.org/src/gst-omx/gst-omx-${PV}.tar.xz"
+ 
+-SRC_URI[md5sum] = "cedb230f1c47d0cf4b575d70dff66ff2"
+-SRC_URI[sha256sum] = "45072925cf262f0fd528fab78f0de52734e46a5a88aa802fae51c67c09c81aa2"
++SRC_URI[md5sum] = "c9ae4cfc8e7479949ec75da034f85727"
++SRC_URI[sha256sum] = "13faf0eb679c37a01f64c47f23018c2d894fa0ff1c3b98d4b1d1c69a7b3ca183"
+ 
+ S = "${WORKDIR}/gst-omx-${PV}"
 -- 
 2.4.0
 
