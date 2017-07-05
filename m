@@ -1,44 +1,49 @@
-Return-Path: <fathi.boudra@linaro.org>
-Received: from mail-lf0-f42.google.com (mail-lf0-f42.google.com
-	[209.85.215.42])
-	by mail.openembedded.org (Postfix) with ESMTP id D26F371AC2
+Return-Path: <trini@konsulko.com>
+Received: from mail-yb0-f170.google.com (mail-yb0-f170.google.com
+	[209.85.213.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 9E3BF71DD2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Jul 2017 11:13:14 +0000 (UTC)
-Received: by mail-lf0-f42.google.com with SMTP id z78so90838831lff.0
+	Wed,  5 Jul 2017 12:28:17 +0000 (UTC)
+Received: by mail-yb0-f170.google.com with SMTP id f194so12210438yba.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 05 Jul 2017 04:13:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=from:to:cc:subject:date:message-id;
-	bh=zTTUdTdX0tMrb2/xGnJey9c0rPEs7rLvnc0+k4SdI6Q=;
-	b=W5ba0jyS2MTf3jASWil9QPLNhw9Bj9BaubT3sePrXcGrY0I4aetUMLlx95d9WqGN3m
-	rlO2RJ/ZBhuno2GdrH+LV7fpmuNhqLVEasxAVMxvPumeA2p6WMUaWjODcoh8gwsbREQs
-	giXJHQQ2rqaAFzBGUcKjTqugHxsmg7hZD3Q4M=
+	Wed, 05 Jul 2017 05:28:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=YnX4zcE9ZAY0uR0hH1hMNlfLWy3yyJKqloPJzhZy68s=;
+	b=EW8DgKaFdQj2IkXxs40JkY7+4Tm/6++G111RR1bC4Q1S9xvjrMhcuSTg0nIFrB9rdm
+	cNrXqz1Fs+L1Ud5m6OnhEDU248bxtMBjPuFqZ3V4xfzBBs7y9p3OzYPHC8fjTgwZKGKr
+	9x05qVllwvzmgwHcqgyiykr3OIN50S44gklEM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=zTTUdTdX0tMrb2/xGnJey9c0rPEs7rLvnc0+k4SdI6Q=;
-	b=muqTpYUdqS4l3u6mW+3aZZ3PUbnilIF0L0xoVgT6bzipE18pfMZjcaRKjXOTxGYfdW
-	J1W2CtkfasB4fo92vU7EnORUG5KeN+PDE7giR2qzupRnVTLOOw7u8FM1BGDCYUtIDQxm
-	A9896Vwblt0JwVflb50eINWGzPnFpnhySiKCJ+4iRXWF3VU5VeV61EHAeVj87Y6Yt2nW
-	uYi67V8ltKPqTZ8PosvACGVyxkv8pRqIcErAtIqUS4mGZz4p9YgyW+FT2Wnby+YH17af
-	wTQerjJTpRTqFJqi2TRSBraTp12hP8ZkO421fgiyGDOTW3FtgqH8IjcdP+gylVGsusLP
-	nSpA==
-X-Gm-Message-State: AKS2vOxWZCgS0ky8G7GaQ8HWYzaNGOEU5aIcEBKNuw6U7gkV2Yd0zUA5
-	DTxd4gr5EpQqpZHrmsRlEg==
-X-Received: by 10.25.15.221 with SMTP id 90mr13745307lfp.10.1499253194926;
-	Wed, 05 Jul 2017 04:13:14 -0700 (PDT)
-Received: from localhost.localdomain (a91-156-68-101.elisa-laajakaista.fi.
-	[91.156.68.101]) by smtp.gmail.com with ESMTPSA id
-	h74sm3964309lfh.31.2017.07.05.04.13.13
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 05 Jul 2017 04:13:13 -0700 (PDT)
-From: Fathi Boudra <fathi.boudra@linaro.org>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  5 Jul 2017 14:13:11 +0300
-Message-Id: <20170705111311.13943-1-fathi.boudra@linaro.org>
-X-Mailer: git-send-email 2.13.0
-Cc: Tom Rini <trini@konsulko.com>, naresh.kamboju@linaro.org
-Subject: [PATCH v3] ltp: add acl, attr, curl and util-linux runtime dependencies
+	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=YnX4zcE9ZAY0uR0hH1hMNlfLWy3yyJKqloPJzhZy68s=;
+	b=gCt4ITe/r6oNgxlOi4uQVSWFHCEVusempjZrKx9kQmCi0f2A1dpFQG7vxIo3ecmWvI
+	aEassF/xWKXMQDuG07zBFsnFLUiiwd6159vYpEZrZ9gbjFTknuOEe2G3YwnzB5RsZtOK
+	aZJf+w2TRwZDY4vXccYuARxraa6apFXwPQ2je3pxgaiTf+zEUHJvJpWIwricPu8FLFQV
+	BXHmjTuer0elFegtsXp9RDeMlicroFQWaJ/foKILJV8hb/wZGQrt7YEZxtj3NdDMYOcL
+	jqnIucyMPiE0IOXqXnkwMj5HgUgV9LYSbRuJGTQ5vlkvNRmL876cza+yz3CTABQinpsf
+	D2PA==
+X-Gm-Message-State: AIVw110IMmZpKOyFSuypwsKKCyj4CsExHAb0FOZAunJFVvG+iZ2/4NGa
+	XhugDzqoA2ylDX5I
+X-Received: by 10.37.126.69 with SMTP id z66mr15178701ybc.132.1499257699007;
+	Wed, 05 Jul 2017 05:28:19 -0700 (PDT)
+Received: from bill-the-cat (cpe-75-180-228-133.ec.res.rr.com.
+	[75.180.228.133]) by smtp.gmail.com with ESMTPSA id
+	l190sm108765ywe.78.2017.07.05.05.28.18
+	(version=TLS1_2 cipher=AES128-SHA bits=128/128);
+	Wed, 05 Jul 2017 05:28:18 -0700 (PDT)
+Date: Wed, 5 Jul 2017 08:29:09 -0400
+From: Tom Rini <trini@konsulko.com>
+To: Fathi Boudra <fathi.boudra@linaro.org>
+Message-ID: <20170705122909.GT9889@bill-the-cat>
+References: <20170705111311.13943-1-fathi.boudra@linaro.org>
+MIME-Version: 1.0
+In-Reply-To: <20170705111311.13943-1-fathi.boudra@linaro.org>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: naresh.kamboju@linaro.org, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v3] ltp: add acl, attr, curl and util-linux runtime dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,69 +56,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Jul 2017 11:13:15 -0000
+X-List-Received-Date: Wed, 05 Jul 2017 12:28:19 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-* Use a list and re-order alphabetically to make it easier to read and
-  update.
-* Add missing runtime dependencies:
-  - acl (getfacl/setfacl commands are required)
-  - attr (getfattr/setfattr commands are required)
-  - iproute2 (required for netns tests)
-  - curl (curl command is required)
-  - util-linux (ipcs command is required)
+On Wed, Jul 05, 2017 at 02:13:11PM +0300, Fathi Boudra wrote:
 
-Reported-by: Naresh Kamboju <naresh.kamboju@linaro.org>
-Signed-off-by: Fathi Boudra <fathi.boudra@linaro.org>
----
-Changes in v3:
- * add iproute2, used by netns tests. Thanks to Tom Rini <trini@konsulko.com>
+> * Use a list and re-order alphabetically to make it easier to read and
+>   update.
+> * Add missing runtime dependencies:
+>   - acl (getfacl/setfacl commands are required)
+>   - attr (getfattr/setfattr commands are required)
+>   - iproute2 (required for netns tests)
+>   - curl (curl command is required)
+>   - util-linux (ipcs command is required)
+> 
+> Reported-by: Naresh Kamboju <naresh.kamboju@linaro.org>
+> Signed-off-by: Fathi Boudra <fathi.boudra@linaro.org>
 
-Changes in v2:
- * add missing backslash
+Reviewed-by: Tom Rini <trini@konsulko.com>
 
- meta/recipes-extended/ltp/ltp_20170516.bb | 24 ++++++++++++++++++++++--
- 1 file changed, 22 insertions(+), 2 deletions(-)
-
-diff --git a/meta/recipes-extended/ltp/ltp_20170516.bb b/meta/recipes-extended/ltp/ltp_20170516.bb
-index f537d60c15..1d5f999dd0 100644
---- a/meta/recipes-extended/ltp/ltp_20170516.bb
-+++ b/meta/recipes-extended/ltp/ltp_20170516.bb
-@@ -95,7 +95,28 @@ do_install(){
-     cp -r testcases/open_posix_testsuite ${D}/opt/ltp/testcases
- }
- 
--RDEPENDS_${PN} = "perl e2fsprogs-mke2fs python-core libaio bash gawk expect ldd unzip gzip cpio cronie logrotate which at"
-+RDEPENDS_${PN} = "\
-+    acl \
-+    at \
-+    attr \
-+    bash \
-+    cpio \
-+    cronie \
-+    curl \
-+    e2fsprogs-mke2fs \
-+    expect \
-+    gawk \
-+    gzip \
-+    iproute2 \
-+    ldd \
-+    libaio \
-+    logrotate \
-+    perl \
-+    python-core \
-+    unzip \
-+    util-linux \
-+    which \
-+"
- 
- FILES_${PN}-staticdev += "/opt/ltp/lib/libmem.a /opt/ltp/testcases/data/nm01/lib.a"
- 
-@@ -106,4 +127,3 @@ INHIBIT_PACKAGE_STRIP = "1"
- INHIBIT_PACKAGE_DEBUG_SPLIT = "1"
- # However, test_arch_stripped is already stripped, so...
- INSANE_SKIP_${PN} += "already-stripped"
--
 -- 
-2.13.0
-
+Tom
 
