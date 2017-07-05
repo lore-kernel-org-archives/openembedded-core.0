@@ -1,67 +1,62 @@
 Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 2467571DD2
+Received: from mail-wr0-f195.google.com (mail-wr0-f195.google.com
+	[209.85.128.195])
+	by mail.openembedded.org (Postfix) with ESMTP id AE86771DD2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Jul 2017 12:52:43 +0000 (UTC)
-Received: by mail-wm0-f65.google.com with SMTP id j85so32267847wmj.0
+	Wed,  5 Jul 2017 12:54:09 +0000 (UTC)
+Received: by mail-wr0-f195.google.com with SMTP id k67so49806514wrc.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 05 Jul 2017 05:52:45 -0700 (PDT)
+	Wed, 05 Jul 2017 05:54:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
 	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
-	:cc; bh=oczf7LDZSTSMNhlUnfip25bPIX1dFNg2gMM277g6gds=;
-	b=RTVO0AXqLVmrLwP07DtjRDmTDfGvOMDsHOa4nzu3w+GhbGji3eBC8CEvL/nUpc86bv
-	Fb22woY6BQkbhLQGz3LpDfC/da+3FjS+C6WKxbnJXNQHd30RN5fbFkIKj6GhLIPHJ7ii
-	o01Lr9uYExDZPyn8Ci3rauGw+Q01fB/0rYv+PnoSF2wiv2gePMnsHesf82hKMxfapCNE
-	S90thBGuyiYe3OCs0frA99MD8g+EHS5kiriDaVDT+TrliOnx31C+FDwmH0H7XaiK3J9K
-	uIZAtB6yxTRulbjJKwEnMbaXoRBJhgw47m1QkGWUEi2WztfGVrVpL7OpmStdaL7zhDFo
-	xcFA==
+	:cc; bh=SHCB/UuWesLR1Wei3ZprW4Y6z1Kt2Pp8Gn58m7ALS1s=;
+	b=zlvpHcDKmrGwEjaQtAzS8ZzmMq1QoTfoVyp0eImZ/8liPMFbar86nAFBKEeVEb/SRq
+	KlwfcNjb3QHkDO5ueoVqJZz3HNGgX+K8DqwDshHffL3vubNpfFVmSBT2VvhDz8mG+acD
+	EtD4M7S15VRILiBCqYzkYo8hYqYfQvKCwWrhnOKBmOnGXr0IQ2TjFX12PEfIxb8bgTYQ
+	11PbPMPAH7XzD6oq+atC70Rgh7viSA02kaCJqlLYaXohBP2bb+CcAMW375MVy5Auk3FJ
+	c4WalFEFNr74evIdsIK9cxfJ6VGD4EtyO3AyITjchsS6c3tIjDpDn2lzjURJ5vYwtXIY
+	FPLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
 	:message-id:subject:to:cc;
-	bh=oczf7LDZSTSMNhlUnfip25bPIX1dFNg2gMM277g6gds=;
-	b=gV1MgdC2VxxpQFYDWbWFbBHgTj2crID3HKirjUfannaveWmZ5yEHifZDT0oLXV0ZOo
-	bnNZg9PUCxPiqS9fguYWlvR58XDJQDnYxeIBUEqtXCKE94QrfDBunrZYyumBG4jltj5j
-	tY4WDFsjEyq8rRPuYJxMitovu946oVe+AF5BkWhDiQ2WuC7hIZ08nU7/pyaFZTDqfCAK
-	XIKpCB2A73bcPpI/GvJEhnpKjaL68iI1oGhdbMWi00pgl3ZUIb77JyoiI5EaqGfu9B51
-	r888am6NFEEmyYatqiNbamRMJv5sQV51uqiLJSJ6KSJCSS/vqOq8Fd2gUtDZrEn5CIcK
-	Ulyg==
-X-Gm-Message-State: AKS2vOzHorxTSDRAVgCOpr0uzPAjESBmscAwS+P4Fd1MTMyHXkG5eYcg
-	cNy18y8JAONXUit2sCU=
-X-Received: by 10.28.129.149 with SMTP id c143mr30865242wmd.47.1499259164751; 
-	Wed, 05 Jul 2017 05:52:44 -0700 (PDT)
-Received: from mail-wm0-f52.google.com (mail-wm0-f52.google.com.
-	[74.125.82.52])
-	by smtp.gmail.com with ESMTPSA id q17sm9664009wmd.4.2017.07.05.05.52.43
+	bh=SHCB/UuWesLR1Wei3ZprW4Y6z1Kt2Pp8Gn58m7ALS1s=;
+	b=BB9zfJuTOB28g2RZSsm76Ljw3CDN/GKQ9zL5+xxA2FzCla8+GuIochepaBhdcwzN/0
+	7G6NGEE5fxiFaMqihc3Cm9tQEIIsHMUeNvosxh4uhP8xZj2hqB+LgtpEOeM1p9jgn9NP
+	CH3a1R/qNpAk7MEdOOKJqgQeOoGZzgUoCm0o7tQWJcKC4RD/MlSChWZqhGdKjcWQB2s3
+	7M7CB7fqlnZIzleQdPzj7suyLRkJZI6fkbfL+7VIucnkyNKnhoyJk0+ZLyhS/desU2jI
+	jnqUoIDLTWMufNAv1YAnOpZm6NcfKwQ4TnHTnLmj2jAS4Oy7LKDGCAzHMzJakl1R92Nd
+	79cg==
+X-Gm-Message-State: AKS2vOxRjKziv8DHJI38GVgljpAv7DszDIzoyKy8YzYvL6j8GAKsh6bJ
+	7fKcXA0fPgjdI7hEi38=
+X-Received: by 10.223.130.162 with SMTP id 31mr36184136wrc.202.1499259250250; 
+	Wed, 05 Jul 2017 05:54:10 -0700 (PDT)
+Received: from mail-wm0-f51.google.com (mail-wm0-f51.google.com.
+	[74.125.82.51]) by smtp.gmail.com with ESMTPSA id
+	187sm22430739wma.13.2017.07.05.05.54.09
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 05 Jul 2017 05:52:44 -0700 (PDT)
+	Wed, 05 Jul 2017 05:54:09 -0700 (PDT)
 From: Otavio Salvador <otavio.salvador@ossystems.com.br>
 X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-wm0-f52.google.com with SMTP id f67so111927201wmh.1
+Received: by mail-wm0-f51.google.com with SMTP id i127so165797185wma.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 05 Jul 2017 05:52:43 -0700 (PDT)
-X-Received: by 10.28.19.205 with SMTP id 196mr23430926wmt.122.1499259163293;
-	Wed, 05 Jul 2017 05:52:43 -0700 (PDT)
+	Wed, 05 Jul 2017 05:54:09 -0700 (PDT)
+X-Received: by 10.28.113.85 with SMTP id m82mr33564454wmc.21.1499259248854;
+	Wed, 05 Jul 2017 05:54:08 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.28.209.14 with HTTP; Wed, 5 Jul 2017 05:52:42 -0700 (PDT)
-In-Reply-To: <CAMKF1srQZZss3qf3SvGC1cy1S2OXpoPhdN7g2w-a-akQXZJMfg@mail.gmail.com>
-References: <CAJTo0LZ85U2djZGW4rzK7uumBkutYb91yXY40irYyAVvCKOBRQ@mail.gmail.com>
-	<20170704153229.6628-1-sledz@dresearch-fe.de>
-	<CAP9ODKqtEV8B1MqKMhZbG0mY7DTfK7EVi-M39roTqp5dvPeS1g@mail.gmail.com>
-	<CAJTo0LbK1brj7Xd_LeOZNf8ZkCHfRHXVujtKeAXGDxvJnT0cfw@mail.gmail.com>
-	<CAP9ODKrfKZqLkcb+c4Yk8CHtPMCrLQqgwiNN7ad4O__ZzuNgAg@mail.gmail.com>
-	<CAMKF1srQZZss3qf3SvGC1cy1S2OXpoPhdN7g2w-a-akQXZJMfg@mail.gmail.com>
-Date: Wed, 5 Jul 2017 09:52:42 -0300
-X-Gmail-Original-Message-ID: <CAP9ODKrYceNRtaSu9Sg157OC_a9Lj2oWuPgHPj3Xeo-2ORSXZQ@mail.gmail.com>
-Message-ID: <CAP9ODKrYceNRtaSu9Sg157OC_a9Lj2oWuPgHPj3Xeo-2ORSXZQ@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Max Krummenacher <max.krummenacher@toradex.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [pyro][PATCH] u-boot-mkimage: fix nativesdk build
+Received: by 10.28.209.14 with HTTP; Wed, 5 Jul 2017 05:54:08 -0700 (PDT)
+In-Reply-To: <933095de-34ee-963a-cc7f-55f76956355c@denx.de>
+References: <20170704220128.28747-1-otavio@ossystems.com.br>
+	<933095de-34ee-963a-cc7f-55f76956355c@denx.de>
+Date: Wed, 5 Jul 2017 09:54:08 -0300
+X-Gmail-Original-Message-ID: <CAP9ODKqi1vHHWx23hV2w9WaGBTucq277-pWyemQiJBt2SSsTDA@mail.gmail.com>
+Message-ID: <CAP9ODKqi1vHHWx23hV2w9WaGBTucq277-pWyemQiJBt2SSsTDA@mail.gmail.com>
+To: Marek Vasut <marex@denx.de>
+Cc: Otavio Salvador <otavio@ossystems.com.br>,
+	OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Subject: Re: [RFT PATCH] u-boot: Upgrade to 2017.07 release (WIP)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -74,29 +69,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Jul 2017 12:52:44 -0000
+X-List-Received-Date: Wed, 05 Jul 2017 12:54:10 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Jul 4, 2017 at 8:17 PM, Khem Raj <raj.khem@gmail.com> wrote:
-> On Tue, Jul 4, 2017 at 3:16 PM, Otavio Salvador
-> <otavio.salvador@ossystems.com.br> wrote:
->> On Tue, Jul 4, 2017 at 7:11 PM, Burton, Ross <ross.burton@intel.com> wrote:
->>>
->>> On 4 July 2017 at 23:08, Otavio Salvador <otavio.salvador@ossystems.com.br>
->>> wrote:
->>>>
->>>> Ross, please apply it as it has been causing problems for many users.
->>>> It is applied in master
->>>> OE-Core:5d3df78367be0afbfe001b4fa776a98a82e6ce54
->>>
->>> I would, but I'm not Pyro maintainer ...
+On Tue, Jul 4, 2017 at 8:10 PM, Marek Vasut <marex@denx.de> wrote:
+> On 07/05/2017 12:01 AM, Otavio Salvador wrote:
+>> This patch upgrades the U-Boot to the 2017.07-rc3 release; for now it
+>> is not intended to be merged but to expose possible problems prior the
+>> official release so we may try to include fixes for final release.
 >>
->> Sorry, who is? I must have missed the announcement.
+>> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+>> ---
+>>
+>>  .../u-boot/{u-boot-common_2017.05.inc => u-boot-common_2017.07.inc}     | 2 +-
+>>  .../u-boot/{u-boot-fw-utils_2017.05.bb => u-boot-fw-utils_2017.07.bb}   | 0
+>>  .../u-boot/{u-boot-mkimage_2017.05.bb => u-boot-mkimage_2017.07.bb}     | 0
+>>  meta/recipes-bsp/u-boot/{u-boot_2017.05.bb => u-boot_2017.07.bb}        | 0
 >
-> Richard as of now see https://wiki.yoctoproject.org/wiki/Releases
+> NAK, you're updating to -rc3 yet mark it as final release , that's wrong.
 
-Added RP on Cc.
-
+Marek, did you READ the COMMIT LOG? I doubt you did.
 
 -- 
 Otavio Salvador                             O.S. Systems
