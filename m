@@ -1,21 +1,23 @@
 Return-Path: <swee.aun.khor@intel.com>
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id E23DD6FEFE
+	by mail.openembedded.org (Postfix) with ESMTP id 05E63771A3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Jul 2017 07:07:16 +0000 (UTC)
+	Thu,  6 Jul 2017 07:07:17 +0000 (UTC)
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
 	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
 	06 Jul 2017 00:07:17 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.40,315,1496127600"; d="scan'208";a="1148285518"
+X-IronPort-AV: E=Sophos;i="5.40,315,1496127600"; d="scan'208";a="1148285519"
 Received: from platypus.jf.intel.com ([10.54.77.139])
 	by orsmga001.jf.intel.com with ESMTP; 06 Jul 2017 00:07:17 -0700
 From: swee.aun.khor@intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  5 Jul 2017 16:56:31 -0700
-Message-Id: <cover.1499127835.git.swee.aun.khor@intel.com>
+Date: Wed,  5 Jul 2017 16:56:32 -0700
+Message-Id: <db6cb452880c87e101953b450be4668908031276.1499127835.git.swee.aun.khor@intel.com>
 X-Mailer: git-send-email 2.7.4
-Subject: [PATCH 0/7] Support combination of MUSL and x32 build
+In-Reply-To: <cover.1499127835.git.swee.aun.khor@intel.com>
+References: <cover.1499127835.git.swee.aun.khor@intel.com>
+Subject: [PATCH 1/7] insane.bbclass: Support musl-x32
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,38 +34,36 @@ X-List-Received-Date: Thu, 06 Jul 2017 07:07:17 -0000
 
 From: sweeaun <swee.aun.khor@intel.com>
 
-Modified infrastructure (bbclass) and fixed bugs on multiple recipes to 
-enable combination of MUSL and x32 build.
+Added musl-x32 elf header into dictionary.
 
-The following changes since commit 98099349e358a9caaec8ec81f0d4abe588909cfe:
+Signed-off-by: sweeaun <swee.aun.khor@intel.com>
+---
+ meta/classes/insane.bbclass | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-  bitbake: npm fetcher: fix unknown variable name. (2017-06-29 14:33:42 +0100)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib sweeaun/musl_x32_support
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=sweeaun/musl_x32_support
-
-sweeaun (7):
-  insane.bbclass: Support musl-x32
-  siteinfo.bbclass: Support musl-x32
-  gnu-efi: Support musl-x32 build
-  grub-efi: Support musl-x32
-  openssl: Support musl-x32 build
-  perl: Support musl-x32 build
-  libffi: Support musl-x32 build
-
- meta/classes/insane.bbclass                        |  5 +++-
- meta/classes/siteinfo.bbclass                      |  2 ++
- meta/recipes-bsp/gnu-efi/gnu-efi_3.0.5.bb          |  1 +
- meta/recipes-bsp/grub/grub-efi_2.02.bb             |  2 ++
- meta/recipes-connectivity/openssl/openssl.inc      |  6 +++--
- meta/recipes-devtools/perl/perl_5.24.1.bb          |  2 +-
- .../0001-libffi-Support-musl-x32-build.patch       | 29 ++++++++++++++++++++++
- meta/recipes-support/libffi/libffi_3.2.1.bb        |  1 +
- 8 files changed, 44 insertions(+), 4 deletions(-)
- create mode 100644 meta/recipes-support/libffi/libffi/0001-libffi-Support-musl-x32-build.patch
-
+diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+index 0e974b5..259d820 100644
+--- a/meta/classes/insane.bbclass
++++ b/meta/classes/insane.bbclass
+@@ -147,6 +147,9 @@ def package_qa_get_machine_dict(d):
+             "linux-gnux32" :       {
+                         "x86_64":     (62,     0,    0,          True,          32),
+                       },
++            "linux-muslx32" :       {
++                        "x86_64":     (62,     0,    0,          True,          32),
++                      },
+             "linux-gnun32" :       {
+                         "mips64":       ( 8,     0,    0,          False,         32),
+                         "mips64el":     ( 8,     0,    0,          True,          32),
+@@ -485,7 +488,7 @@ def package_qa_check_arch(path,name,d, elf, messages):
+ 
+     # Check the architecture and endiannes of the binary
+     is_32 = (("virtual/kernel" in provides) or bb.data.inherits_class("module", d)) and \
+-            (target_os == "linux-gnux32" or re.match('mips64.*32', d.getVar('DEFAULTTUNE')))
++            (target_os == "linux-gnux32" or target_os == "linux-muslx32"  or re.match('mips64.*32', d.getVar('DEFAULTTUNE')))
+     if not ((machine == elf.machine()) or is_32):
+         package_qa_add_message(messages, "arch", "Architecture did not match (%s, expected %s) on %s" % \
+                  (oe.qa.elf_machine_to_string(elf.machine()), oe.qa.elf_machine_to_string(machine), package_qa_clean_path(path,d)))
 -- 
 2.7.4
 
