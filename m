@@ -1,26 +1,29 @@
-Return-Path: <Dengke.Du@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 3B0CB71985
+Return-Path: <gordan.markus@pelagicore.com>
+Received: from ORO-EDGE-02.luxoft.com (oro-edge-02.luxoft.com [109.166.244.22])
+	by mail.openembedded.org (Postfix) with ESMTP id 7717377A61
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Jul 2017 08:33:31 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v658XXJu014131
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 5 Jul 2017 01:33:33 -0700 (PDT)
-Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.294.0;
-	Wed, 5 Jul 2017 01:33:32 -0700
-From: Dengke Du <dengke.du@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 5 Jul 2017 04:33:29 -0400
-Message-ID: <4fc70efa7bc22e8748fd58a1bf30edb63bcc33bc.1499243564.git.dengke.du@windriver.com>
-X-Mailer: git-send-email 2.8.1
-In-Reply-To: <cover.1499243564.git.dengke.du@windriver.com>
-References: <cover.1499243564.git.dengke.du@windriver.com>
+	Wed,  5 Jul 2017 08:52:39 +0000 (UTC)
+Received: from ORO-HUBT-03.luxoft.com (172.30.115.38) by
+	oro-edge-02.luxoft.com (172.30.19.22) with Microsoft SMTP Server (TLS)
+	id 14.3.319.2; Wed, 5 Jul 2017 11:52:37 +0300
+Received: from [172.31.241.69] (172.31.241.69) by ORO-HUBT-03.luxoft.com
+	(172.30.115.101) with Microsoft SMTP Server (TLS) id 14.3.319.2;
+	Wed, 5 Jul 2017 11:52:38 +0300
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <20170703123433.23528-2-gordan.markus@pelagicore.com>
+	<CAJTo0LYCWai_UhPcfv7VV3iB+NCRdCvPjsLdbE=iv3f9CSzA0Q@mail.gmail.com>
+	<f85be1a4-8f83-fc87-c808-00190070bd3e@pelagicore.com>
+	<CAJTo0LZ+dRctp=f6ZZMb_JTT3dt5jed5g+NP4yq=ssry74KjwA@mail.gmail.com>
+From: =?UTF-8?Q?Gordan_Marku=c5=a1?= <gordan.markus@pelagicore.com>
+Message-ID: <ddf369e8-7b62-ca83-18c4-88f34f992f70@pelagicore.com>
+Date: Wed, 5 Jul 2017 10:52:37 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.1.1
 MIME-Version: 1.0
-Subject: [PATCH 1/1] avahi-ui: reduce local pending patches
+In-Reply-To: <CAJTo0LZ+dRctp=f6ZZMb_JTT3dt5jed5g+NP4yq=ssry74KjwA@mail.gmail.com>
+X-Originating-IP: [172.31.241.69]
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] cairo: fix QA Issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,50 +36,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Jul 2017 08:33:32 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 05 Jul 2017 08:52:44 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 
-[Yocto #11548]
+Acknowledged. Thanks Ross.
 
-Signed-off-by: Dengke Du <dengke.du@windriver.com>
----
- ...01-configure.ac-install-GtkBuilder-interface-files-for-.patch | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
-
-diff --git a/meta/recipes-connectivity/avahi/files/0001-configure.ac-install-GtkBuilder-interface-files-for-.patch b/meta/recipes-connectivity/avahi/files/0001-configure.ac-install-GtkBuilder-interface-files-for-.patch
-index 8ccef08..942607a 100644
---- a/meta/recipes-connectivity/avahi/files/0001-configure.ac-install-GtkBuilder-interface-files-for-.patch
-+++ b/meta/recipes-connectivity/avahi/files/0001-configure.ac-install-GtkBuilder-interface-files-for-.patch
-@@ -1,17 +1,18 @@
--From a59f13fab31a6e25bb03b2c2bc3aea576f857b6c Mon Sep 17 00:00:00 2001
-+From 6ff255eff4fea6350b5e0462fee176fadc26fc1c Mon Sep 17 00:00:00 2001
- From: Jussi Kukkonen <jussi.kukkonen@intel.com>
- Date: Sun, 12 Jun 2016 18:32:49 +0300
- Subject: [PATCH] configure.ac: install GtkBuilder interface files for GTK+3
-  too
- 
--Upstream-Status: Pending
-+Upstream-Status: Submitted [https://github.com/lathiat/avahi/pull/130]
- Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
-+Signed-off-by: Dengke Du <dengke.du@windriver.com>
- ---
-  configure.ac | 2 +-
-  1 file changed, 1 insertion(+), 1 deletion(-)
- 
- diff --git a/configure.ac b/configure.ac
--index aebb716..48bdf63 100644
-+index 87a9a17..9860dcc 100644
- --- a/configure.ac
- +++ b/configure.ac
- @@ -965,7 +965,7 @@ AC_SUBST(avahi_socket)
-@@ -24,5 +25,5 @@ index aebb716..48bdf63 100644
-  	AC_SUBST(interfacesdir)
-  fi
- -- 
--2.1.4
-+2.8.1
- 
--- 
-2.8.1
-
+On 2017-07-04 13:10, Burton, Ross wrote:
+> Yes, the bbappend is breaking the packaging so should fix its own mess.
+> 
+> Ross
+> 
+> On 4 July 2017 at 08:36, Gordan Markuš <gordan.markus@pelagicore.com 
+> <mailto:gordan.markus@pelagicore.com>> wrote:
+> 
+>     On 2017-07-03 15:56, Burton, Ross wrote:
+>>
+>>     On 3 July 2017 at 13:34, Gordan Markuš
+>>     <gordan.markus@pelagicore.com
+>>     <mailto:gordan.markus@pelagicore.com>> wrote:
+>>
+>>         -FILES_${PN}-dev += "${libdir}/cairo/*.so"
+>>         +FILES_${PN}-dev += "${libdir}/cairo ${libdir}/cairo/*.so"
+>>
+>>
+>>     I just spent five minutes working out *why* this fixes the QA
+>>     issue you were getting.
+>>
+>>     A better fix would be to delete ${libdir}/cairo using:
+>>
+>>       rmdir ${libdir}/cairo || :
+>>
+>>     or
+>>
+>>       rmdir --ignore-fail-on-non-empty ${libdir}/cairo
+>>
+>>     (former is POSIX compliant, but I can't think of a situation where
+>>     that is only a hypothetical problem)
+>>
+>>     Then in the commit message you can say that the directory is
+>>     always created but it only has content if you disable
+>>     cairo-trace.  At least, I hope you are explicitly disabling
+>>     cairo-trace as there's no other way I can see for you go get this.
+>>
+>>     Ross
+>     Thanks for the suggestion Ross, and you are right this only happens
+>     if there is a bbappend that removes the 'cairo-perf-utils' package.
+>     An example of this is the meta-ivi layer.
+>     Experimenting a bit it seems to me that even by adding the directory
+>     removal, in case it is empty, the do_package step still fails. By
+>     inspecting further I can observe that the directory is in fact not
+>     being removed but left empty which is quite puzzling.
+>     After doing some thinking I believe it might be better to add the
+>     removal of the directory and the package files in the bbappend, do
+>     you agree with this? Here is the PR to meta-ivi that does that
+>     https://github.com/GENIVI/meta-ivi/pull/45
+>     <https://github.com/GENIVI/meta-ivi/pull/45>.
+> 
+> 
 
