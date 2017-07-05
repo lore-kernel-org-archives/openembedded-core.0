@@ -1,48 +1,44 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qt0-f170.google.com (mail-qt0-f170.google.com
-	[209.85.216.170])
-	by mail.openembedded.org (Postfix) with ESMTP id B776960777
+Return-Path: <fathi.boudra@linaro.org>
+Received: from mail-lf0-f42.google.com (mail-lf0-f42.google.com
+	[209.85.215.42])
+	by mail.openembedded.org (Postfix) with ESMTP id D26F371AC2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Jul 2017 10:40:38 +0000 (UTC)
-Received: by mail-qt0-f170.google.com with SMTP id i2so182614953qta.3
+	Wed,  5 Jul 2017 11:13:14 +0000 (UTC)
+Received: by mail-lf0-f42.google.com with SMTP id z78so90838831lff.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 05 Jul 2017 03:40:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=p34kSrSe0D2HFoPNL7QUOHPN276mIAK3gVwy8dXtfVI=;
-	b=RWtRsx66Gms0B3Du2uy19DhSZzGsc8RsHKrt303PanH+JnevKJ/6Jvi0EYpYdgTEny
-	B7vB9b8a8Q23A9JISBOq5wVm18rWCJ5ZGlw6jRoyczKVBTxS5OTKM2JTXzGfUAX6M3LD
-	+f/Un/2wusZbh140TXPvxJYbbMREudjrJNAbnOLnXDBwjHVBldQicDrmO4Nb9UkhEeIj
-	qg5uFTYGM0lHQKlLKMVZMQe+2qV4bcZqrfEvqa7u/WOvYa8Ewaj9sIR0G8RN6BaujtLS
-	8vqmvSJGwAIBLnfoMYhZ5M7Qvp4vT657txQjvQi4DZ6pJLvJANdomo+8+S252o8I6IlW
-	pP9A==
+	Wed, 05 Jul 2017 04:13:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=from:to:cc:subject:date:message-id;
+	bh=zTTUdTdX0tMrb2/xGnJey9c0rPEs7rLvnc0+k4SdI6Q=;
+	b=W5ba0jyS2MTf3jASWil9QPLNhw9Bj9BaubT3sePrXcGrY0I4aetUMLlx95d9WqGN3m
+	rlO2RJ/ZBhuno2GdrH+LV7fpmuNhqLVEasxAVMxvPumeA2p6WMUaWjODcoh8gwsbREQs
+	giXJHQQ2rqaAFzBGUcKjTqugHxsmg7hZD3Q4M=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=p34kSrSe0D2HFoPNL7QUOHPN276mIAK3gVwy8dXtfVI=;
-	b=qSvuozPYq0auLRphA1HI0aXZEsKJn6COR0/OEMegBOGi9Gnf2S+TnffIXlcoB6hpEs
-	ichL42lgh2As8fvgM7Nhtrl2JQHWmjcc/J0UESYXRf/8P4qWa/LfaKSZz15o6uIV6HQb
-	IuE63lWzSJ04iQCzM55Rxkj/0GpsSTscTq+XQCyzXYqc5Q4npBZFjpsy0P8Hl49GyG33
-	VNVkA0/t+btmS9VMS3OXK1SxDGgGcAsOP03RGlKuwBvpPtbT+foMcf4kfZ2HEcpgAEZA
-	57XPeHQZScLmcEuKlmJqkaFX0JSXy3I7c2cZoWoGwgDaGixvftA7ptk8Kr44If+MLEjj
-	SIMw==
-X-Gm-Message-State: AIVw112DNZKaeqYJEAuRNmBHiv1g69jfWXJFgNvoJvxQxwQ4gMWPxSW+
-	vjHSQmEAIb01wUVfFWxpmwFt0FGgPY3i
-X-Received: by 10.237.55.105 with SMTP id i96mr28861473qtb.139.1499251239669; 
-	Wed, 05 Jul 2017 03:40:39 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.31.118 with HTTP; Wed, 5 Jul 2017 03:40:19 -0700 (PDT)
-In-Reply-To: <f66a80ddb1ba569ce0e27d561d776a260601ef3d.1499241206.git.kai.kang@windriver.com>
-References: <cover.1499241206.git.kai.kang@windriver.com>
-	<f66a80ddb1ba569ce0e27d561d776a260601ef3d.1499241206.git.kai.kang@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 5 Jul 2017 11:40:19 +0100
-Message-ID: <CAJTo0LYcbcD4nyo7ota1VB1X1HNQ_77oBAR4SFeTAUQULFGCqw@mail.gmail.com>
-To: Kang Kai <kai.kang@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] openssl: disable weak ciphers
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=zTTUdTdX0tMrb2/xGnJey9c0rPEs7rLvnc0+k4SdI6Q=;
+	b=muqTpYUdqS4l3u6mW+3aZZ3PUbnilIF0L0xoVgT6bzipE18pfMZjcaRKjXOTxGYfdW
+	J1W2CtkfasB4fo92vU7EnORUG5KeN+PDE7giR2qzupRnVTLOOw7u8FM1BGDCYUtIDQxm
+	A9896Vwblt0JwVflb50eINWGzPnFpnhySiKCJ+4iRXWF3VU5VeV61EHAeVj87Y6Yt2nW
+	uYi67V8ltKPqTZ8PosvACGVyxkv8pRqIcErAtIqUS4mGZz4p9YgyW+FT2Wnby+YH17af
+	wTQerjJTpRTqFJqi2TRSBraTp12hP8ZkO421fgiyGDOTW3FtgqH8IjcdP+gylVGsusLP
+	nSpA==
+X-Gm-Message-State: AKS2vOxWZCgS0ky8G7GaQ8HWYzaNGOEU5aIcEBKNuw6U7gkV2Yd0zUA5
+	DTxd4gr5EpQqpZHrmsRlEg==
+X-Received: by 10.25.15.221 with SMTP id 90mr13745307lfp.10.1499253194926;
+	Wed, 05 Jul 2017 04:13:14 -0700 (PDT)
+Received: from localhost.localdomain (a91-156-68-101.elisa-laajakaista.fi.
+	[91.156.68.101]) by smtp.gmail.com with ESMTPSA id
+	h74sm3964309lfh.31.2017.07.05.04.13.13
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 05 Jul 2017 04:13:13 -0700 (PDT)
+From: Fathi Boudra <fathi.boudra@linaro.org>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  5 Jul 2017 14:13:11 +0300
+Message-Id: <20170705111311.13943-1-fathi.boudra@linaro.org>
+X-Mailer: git-send-email 2.13.0
+Cc: Tom Rini <trini@konsulko.com>, naresh.kamboju@linaro.org
+Subject: [PATCH v3] ltp: add acl, attr, curl and util-linux runtime dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,36 +51,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Jul 2017 10:40:39 -0000
-Content-Type: multipart/alternative; boundary="001a113cd01891ed6c05538fa14c"
+X-List-Received-Date: Wed, 05 Jul 2017 11:13:15 -0000
 
---001a113cd01891ed6c05538fa14c
-Content-Type: text/plain; charset="UTF-8"
+* Use a list and re-order alphabetically to make it easier to read and
+  update.
+* Add missing runtime dependencies:
+  - acl (getfacl/setfacl commands are required)
+  - attr (getfattr/setfattr commands are required)
+  - iproute2 (required for netns tests)
+  - curl (curl command is required)
+  - util-linux (ipcs command is required)
 
-On 5 July 2017 at 08:58, <kai.kang@windriver.com> wrote:
+Reported-by: Naresh Kamboju <naresh.kamboju@linaro.org>
+Signed-off-by: Fathi Boudra <fathi.boudra@linaro.org>
+---
+Changes in v3:
+ * add iproute2, used by netns tests. Thanks to Tom Rini <trini@konsulko.com>
 
-> Check distro feature 'openssl-no-weak-ciphers' to disable weak ciphers
-> provided by openssl:
->
+Changes in v2:
+ * add missing backslash
 
-Would it be controversial to just say weak ciphers should be disabled
-globally?
+ meta/recipes-extended/ltp/ltp_20170516.bb | 24 ++++++++++++++++++++++--
+ 1 file changed, 22 insertions(+), 2 deletions(-)
 
-Ross
+diff --git a/meta/recipes-extended/ltp/ltp_20170516.bb b/meta/recipes-extended/ltp/ltp_20170516.bb
+index f537d60c15..1d5f999dd0 100644
+--- a/meta/recipes-extended/ltp/ltp_20170516.bb
++++ b/meta/recipes-extended/ltp/ltp_20170516.bb
+@@ -95,7 +95,28 @@ do_install(){
+     cp -r testcases/open_posix_testsuite ${D}/opt/ltp/testcases
+ }
+ 
+-RDEPENDS_${PN} = "perl e2fsprogs-mke2fs python-core libaio bash gawk expect ldd unzip gzip cpio cronie logrotate which at"
++RDEPENDS_${PN} = "\
++    acl \
++    at \
++    attr \
++    bash \
++    cpio \
++    cronie \
++    curl \
++    e2fsprogs-mke2fs \
++    expect \
++    gawk \
++    gzip \
++    iproute2 \
++    ldd \
++    libaio \
++    logrotate \
++    perl \
++    python-core \
++    unzip \
++    util-linux \
++    which \
++"
+ 
+ FILES_${PN}-staticdev += "/opt/ltp/lib/libmem.a /opt/ltp/testcases/data/nm01/lib.a"
+ 
+@@ -106,4 +127,3 @@ INHIBIT_PACKAGE_STRIP = "1"
+ INHIBIT_PACKAGE_DEBUG_SPLIT = "1"
+ # However, test_arch_stripped is already stripped, so...
+ INSANE_SKIP_${PN} += "already-stripped"
+-
+-- 
+2.13.0
 
---001a113cd01891ed6c05538fa14c
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 5 July 2017 at 08:58,  <span dir=3D"ltr">&lt;<a href=3D"mailto:kai.kang@=
-windriver.com" target=3D"_blank">kai.kang@windriver.com</a>&gt;</span> wrot=
-e:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-l=
-eft:1px #ccc solid;padding-left:1ex"><div id=3D":2hu" class=3D"a3s aXjCH m1=
-5d11caea015a5c7">Check distro feature &#39;openssl-no-weak-ciphers&#39; to =
-disable weak ciphers<br>
-provided by openssl:<br></div></blockquote></div><br>Would it be controvers=
-ial to just say weak ciphers should be disabled globally?</div><div class=
-=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
-
---001a113cd01891ed6c05538fa14c--
