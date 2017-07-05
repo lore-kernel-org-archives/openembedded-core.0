@@ -1,26 +1,26 @@
 Return-Path: <jussi.kukkonen@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id BA05B7782F
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 39C2D77809
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Jul 2017 12:28:41 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	05 Jul 2017 05:28:43 -0700
+	Wed,  5 Jul 2017 12:28:43 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	05 Jul 2017 05:28:45 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.40,311,1496127600"; d="scan'208";a="1190750457"
+X-IronPort-AV: E=Sophos;i="5.40,311,1496127600"; d="scan'208";a="874973831"
 Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga002.fm.intel.com with ESMTP; 05 Jul 2017 05:28:43 -0700
+	by FMSMGA003.fm.intel.com with ESMTP; 05 Jul 2017 05:28:44 -0700
 Received: from theory.fi.intel.com (theory.fi.intel.com [10.237.72.53])
-	by linux.intel.com (Postfix) with ESMTP id B0AC45801CF;
-	Wed,  5 Jul 2017 05:28:42 -0700 (PDT)
+	by linux.intel.com (Postfix) with ESMTP id C7E7E5801CF;
+	Wed,  5 Jul 2017 05:28:43 -0700 (PDT)
 From: Jussi Kukkonen <jussi.kukkonen@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  5 Jul 2017 15:28:35 +0300
-Message-Id: <b1872664bf7b98ab1634415bbade4f25a25f0bfb.1499256752.git.jussi.kukkonen@intel.com>
+Date: Wed,  5 Jul 2017 15:28:36 +0300
+Message-Id: <c481a3ded2a1df05896706ddc6e962e7ad997d29.1499256752.git.jussi.kukkonen@intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1499256752.git.jussi.kukkonen@intel.com>
 References: <cover.1499256752.git.jussi.kukkonen@intel.com>
-Subject: [PATCH 3/6] vulkan-demos: Add recipe
+Subject: [PATCH 4/6] gstreamer1.0-plugins-bad: Add vulkan PACKAGECONFIG
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,251 +33,177 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Jul 2017 12:28:41 -0000
+X-List-Received-Date: Wed, 05 Jul 2017 12:28:44 -0000
 
-Sascha Willems collection of Vulkan demos is useful as a smoke testing
-tool.
+This adds a Vulkan video sink (using xcb and/or wayland).
 
-Add patch to install binaries and data. Use a combination of patch and
-do_install_append to avoid some 3D models with unclear licensing.
+Add a few patches to fix the build.
 
 Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
 ---
- ...ild-demos-with-questionably-licensed-data.patch | 91 ++++++++++++++++++++++
- ...stalling-demos-support-out-of-tree-builds.patch | 85 ++++++++++++++++++++
- meta/recipes-graphics/vulkan/vulkan-demos_git.bb   | 33 ++++++++
- 3 files changed, 209 insertions(+)
- create mode 100644 meta/recipes-graphics/vulkan/vulkan-demos/0001-Don-t-build-demos-with-questionably-licensed-data.patch
- create mode 100644 meta/recipes-graphics/vulkan/vulkan-demos/0001-Support-installing-demos-support-out-of-tree-builds.patch
- create mode 100644 meta/recipes-graphics/vulkan/vulkan-demos_git.bb
+ .../gstreamer/gstreamer1.0-plugins-bad.inc         |  4 +-
+ ...y-Use-ifdef-for-platform-specific-defines.patch | 37 +++++++++++++
+ ...n-Use-the-generated-version-of-vkconfig.h.patch | 64 ++++++++++++++++++++++
+ .../gstreamer/gstreamer1.0-plugins-bad_1.10.4.bb   |  2 +
+ 4 files changed, 105 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0001-vkdisplay-Use-ifdef-for-platform-specific-defines.patch
+ create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0002-vulkan-Use-the-generated-version-of-vkconfig.h.patch
 
-diff --git a/meta/recipes-graphics/vulkan/vulkan-demos/0001-Don-t-build-demos-with-questionably-licensed-data.patch b/meta/recipes-graphics/vulkan/vulkan-demos/0001-Don-t-build-demos-with-questionably-licensed-data.patch
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc
+index 0ccfc89..4f6bc85 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc
+@@ -66,6 +66,7 @@ PACKAGECONFIG[srtp]            = "--enable-srtp,--disable-srtp,libsrtp"
+ PACKAGECONFIG[uvch264]         = "--enable-uvch264,--disable-uvch264,libusb1 libgudev"
+ PACKAGECONFIG[voaacenc]        = "--enable-voaacenc,--disable-voaacenc,vo-aacenc"
+ PACKAGECONFIG[voamrwbenc]      = "--enable-voamrwbenc,--disable-voamrwbenc,vo-amrwbenc"
++PACKAGECONFIG[vulkan]          = "--enable-vulkan,--disable-vulkan,vulkan"
+ PACKAGECONFIG[wayland]         = "--enable-wayland,--disable-wayland,wayland-native wayland wayland-protocols"
+ PACKAGECONFIG[webp]            = "--enable-webp,--disable-webp,libwebp"
+ 
+@@ -78,7 +79,7 @@ PACKAGECONFIG[webp]            = "--enable-webp,--disable-webp,libwebp"
+ #   openni2 winks direct3d directsound winscreencap acm apple_media
+ #   android_media avc bs2b chromaprint daala dts fdkaac gme gsm kate ladspa libde265
+ #   lv2 mimic mpeg2enc mplex musepack nvenc ofa openh264 opensles pvr soundtouch spandsp
+-#   spc teletextdec tinyalsa vdpau vulkan wasapi x265 zbar
++#   spc teletextdec tinyalsa vdpau wasapi x265 zbar
+ 
+ # qt5 support is disabled, because it is not present in OE core, and requires more work than
+ # just adding a packageconfig (it requires access to moc, uic, rcc, and qmake paths).
+@@ -136,7 +137,6 @@ EXTRA_OECONF += " \
+     --disable-timidity \
+     --disable-tinyalsa \
+     --disable-vdpau \
+-    --disable-vulkan \
+     --disable-wasapi \
+     --disable-wildmidi \
+     --disable-wininet \
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0001-vkdisplay-Use-ifdef-for-platform-specific-defines.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0001-vkdisplay-Use-ifdef-for-platform-specific-defines.patch
 new file mode 100644
-index 0000000..e4a6241
+index 0000000..caaa62d
 --- /dev/null
-+++ b/meta/recipes-graphics/vulkan/vulkan-demos/0001-Don-t-build-demos-with-questionably-licensed-data.patch
-@@ -0,0 +1,91 @@
-+From 55770fb07c42fe410cf8d09f8f5976babc89b9ef Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0001-vkdisplay-Use-ifdef-for-platform-specific-defines.patch
+@@ -0,0 +1,37 @@
++From 1523ab462c1bf19055960ced255f4872b6cf9f5c Mon Sep 17 00:00:00 2001
 +From: Jussi Kukkonen <jussi.kukkonen@intel.com>
-+Date: Tue, 4 Jul 2017 17:13:45 +0300
-+Subject: [PATCH] Don't build demos with questionably licensed data
++Date: Wed, 5 Jul 2017 11:00:42 +0300
++Subject: [PATCH 1/2] vkdisplay: Use ifdef for platform specific defines
 +
-+Some of the models don't have open source compatible licenses:
-+don't build demos using those. Also don't build demos that need
-+resources that are not included.
++VK_KHR_*_SURFACE_EXTENSION_NAME are only available when corresponding
++WSI is enabled.
 +
-+ssao:
-+scenerendering:
-+	Sibenik model, no license found
-+
-+deferred:
-+deferredmultisampling:
-+deferredshadows:
-+	armor model, CC-BY-3.0
-+
-+vulkanscene:
-+imgui:
-+shadowmapping:
-+	vulkanscene model, no license found
-+
-+indirectdraw:
-+	plant model, no license found
-+
-+hdr:
-+pbribl:
-+pbrtexture:
-+	Require external Vulkan Asset Pack
-+
-+Upstream-Status: Inppropriate [configuration]
 +Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
++Upstream-Status: Submitted [https://bugzilla.gnome.org/show_bug.cgi?id=784539]
 +---
-+ CMakeLists.txt | 13 -------------
-+ 1 file changed, 13 deletions(-)
++ ext/vulkan/vkdisplay.c | 4 ++++
++ 1 file changed, 4 insertions(+)
 +
-+diff --git a/CMakeLists.txt b/CMakeLists.txt
-+index 4958fff..0f9d3e4 100644
-+--- a/CMakeLists.txt
-++++ b/CMakeLists.txt
-+@@ -150,17 +150,11 @@ set(EXAMPLES
-+ 	computeparticles
-+ 	computeshader
-+ 	debugmarker
-+-	deferred
-+-	deferredmultisampling
-+-	deferredshadows
-+ 	displacement
-+ 	distancefieldfonts
-+ 	dynamicuniformbuffer
-+ 	gears
-+ 	geometryshader
-+-	hdr
-+-	imgui
-+-	indirectdraw	
-+ 	instancing
-+ 	mesh
-+ 	multisampling
-+@@ -170,20 +164,14 @@ set(EXAMPLES
-+ 	parallaxmapping
-+ 	particlefire
-+ 	pbrbasic
-+-	pbribl
-+-	pbrtexture
-+ 	pipelines
-+ 	pushconstants
-+ 	radialblur
-+ 	raytracing
-+-	scenerendering
-+ 	screenshot
-+-	shadowmapping
-+-	shadowmappingomni
-+ 	skeletalanimation
-+ 	specializationconstants
-+ 	sphericalenvmapping
-+-	ssao
-+ 	subpasses
-+ 	terraintessellation
-+ 	tessellation
-+@@ -196,7 +184,6 @@ set(EXAMPLES
-+ 	texturesparseresidency
-+ 	triangle
-+ 	viewportarray
-+-	vulkanscene
-+ )
++diff --git a/ext/vulkan/vkdisplay.c b/ext/vulkan/vkdisplay.c
++index 550134cd8..ade5d4583 100644
++--- a/ext/vulkan/vkdisplay.c
+++++ b/ext/vulkan/vkdisplay.c
++@@ -448,11 +448,15 @@ gst_vulkan_display_type_to_extension_string (GstVulkanDisplayType type)
++   if (type == GST_VULKAN_DISPLAY_TYPE_NONE)
++     return NULL;
 + 
-+ buildExamples()
-+-- 
-+2.13.2
-+
-diff --git a/meta/recipes-graphics/vulkan/vulkan-demos/0001-Support-installing-demos-support-out-of-tree-builds.patch b/meta/recipes-graphics/vulkan/vulkan-demos/0001-Support-installing-demos-support-out-of-tree-builds.patch
-new file mode 100644
-index 0000000..4addea3
---- /dev/null
-+++ b/meta/recipes-graphics/vulkan/vulkan-demos/0001-Support-installing-demos-support-out-of-tree-builds.patch
-@@ -0,0 +1,85 @@
-+From edca667684764cfcc0460e448e834fadf623a887 Mon Sep 17 00:00:00 2001
-+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
-+Date: Mon, 3 Jul 2017 14:49:18 +0300
-+Subject: [PATCH] Support installing demos, support out-of-tree builds
-+
-+This is especially useful for cross-compile situation where testing
-+happens on target.
-+
-+-DRESOURCE_INSTALL_DIR=<path> decides where data is installed (and
-+where the binaries will load the data from): if it's left empty,
-+then nothing will be installed and binaries will load the data from
-+CMAKE_SOURCE_DIR.
-+
-+Binaries are now correctly built in CMAKE_BINARY_DIR.
-+
-+Upstream-Status: Submitted [https://github.com/SaschaWillems/Vulkan/pull/352]
-+Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
-+---
-+ CMakeLists.txt             | 15 ++++++++++++++-
-+ base/vulkanexamplebase.cpp |  2 +-
-+ 2 files changed, 15 insertions(+), 2 deletions(-)
-+
-+diff --git a/CMakeLists.txt b/CMakeLists.txt
-+index b9886bc..4958fff 100644
-+--- a/CMakeLists.txt
-++++ b/CMakeLists.txt
-+@@ -16,6 +16,8 @@ include_directories(base)
-+ OPTION(USE_D2D_WSI "Build the project using Direct to Display swapchain" OFF)
-+ OPTION(USE_WAYLAND_WSI "Build the project using Wayland swapchain" OFF)
+++#if GST_VULKAN_HAVE_WINDOW_XCB
++   if (type & GST_VULKAN_DISPLAY_TYPE_XCB)
++     return VK_KHR_XCB_SURFACE_EXTENSION_NAME;
+++#endif
 + 
-++set(RESOURCE_INSTALL_DIR "" CACHE PATH "Path to install resources to (leave empty for running uninstalled)")
-++
-+ # Use FindVulkan module added with CMAKE 3.7
-+ if (NOT CMAKE_VERSION VERSION_LESS 3.7.0)
-+ 	message(STATUS "Using module to find Vulkan")
-+@@ -108,6 +110,10 @@ function(buildExample EXAMPLE_NAME)
-+ 		add_executable(${EXAMPLE_NAME} ${MAIN_CPP} ${SOURCE} ${SHADERS})
-+ 		target_link_libraries(${EXAMPLE_NAME} ${Vulkan_LIBRARY} ${ASSIMP_LIBRARIES} ${WAYLAND_CLIENT_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT})
-+ 	endif(WIN32)
-++
-++	if(RESOURCE_INSTALL_DIR)
-++		install(TARGETS ${EXAMPLE_NAME} DESTINATION ${CMAKE_INSTALL_BINDIR})
-++	endif()
-+ endfunction(buildExample)
+++#if GST_VULKAN_HAVE_WINDOW_WAYLAND
++   if (type & GST_VULKAN_DISPLAY_TYPE_WAYLAND)
++     return VK_KHR_WAYLAND_SURFACE_EXTENSION_NAME;
+++#endif
 + 
-+ # Build all examples
-+@@ -117,6 +123,13 @@ function(buildExamples)
-+ 	endforeach(EXAMPLE)
-+ endfunction(buildExamples)
-+ 
-++if(RESOURCE_INSTALL_DIR)
-++	add_definitions(-DVK_EXAMPLE_DATA_DIR=\"${RESOURCE_INSTALL_DIR}/\")
-++	install(DIRECTORY data/ DESTINATION ${RESOURCE_INSTALL_DIR}/)
-++else()
-++	add_definitions(-DVK_EXAMPLE_DATA_DIR=\"${CMAKE_SOURCE_DIR}/data/\")
-++endif()
-++
-+ # Compiler specific stuff
-+ IF(MSVC)
-+ 	SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /EHsc")
-+@@ -128,7 +141,7 @@ ELSE(WIN32)
-+ 	link_libraries(${XCB_LIBRARIES} ${Vulkan_LIBRARY})
-+ ENDIF(WIN32)
-+ 
-+-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/bin/")
-++set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin/")
-+ 
-+ set(EXAMPLES 
-+ 	bloom
-+diff --git a/base/vulkanexamplebase.cpp b/base/vulkanexamplebase.cpp
-+index 647368a..a0f28a5 100644
-+--- a/base/vulkanexamplebase.cpp
-++++ b/base/vulkanexamplebase.cpp
-+@@ -84,7 +84,7 @@ const std::string VulkanExampleBase::getAssetPath()
-+ #if defined(__ANDROID__)
-+ 	return "";
-+ #else
-+-	return "./../data/";
-++	return VK_EXAMPLE_DATA_DIR;
-+ #endif
++   return NULL;
 + }
-+ #endif
 +-- 
 +2.13.2
 +
-diff --git a/meta/recipes-graphics/vulkan/vulkan-demos_git.bb b/meta/recipes-graphics/vulkan/vulkan-demos_git.bb
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0002-vulkan-Use-the-generated-version-of-vkconfig.h.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0002-vulkan-Use-the-generated-version-of-vkconfig.h.patch
 new file mode 100644
-index 0000000..4ec33a2
+index 0000000..0df145d
 --- /dev/null
-+++ b/meta/recipes-graphics/vulkan/vulkan-demos_git.bb
-@@ -0,0 +1,33 @@
-+DESCRIPTION = "Collection of Vulkan examples"
-+LICENSE = "MIT"
-+DEPENDS = "zlib"
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0002-vulkan-Use-the-generated-version-of-vkconfig.h.patch
+@@ -0,0 +1,64 @@
++From c23e1dc22deb495561cffb877edb2746b740a1fa Mon Sep 17 00:00:00 2001
++From: Jussi Kukkonen <jussi.kukkonen@intel.com>
++Date: Wed, 5 Jul 2017 11:07:05 +0300
++Subject: [PATCH 2/2] vulkan: Use the generated version of vkconfig.h
 +
-+LIC_FILES_CHKSUM = "file://LICENSE.md;md5=dcf473723faabf17baa9b5f2207599d0 \
-+                    file://triangle/triangle.cpp;endline=12;md5=bccd1bf9cadd9e10086cf7872157e4fa"
++Build fails in ext/vulkan/xcb and ext/vulkan/wayland when:
++* building from tarball
++* building out-of-tree
++* Only one WSI integration (xcb or wayland) is enabled by configure.ac
++This is because vkconfig.h from source directory gets used instead
++of the generated one.
 +
-+SRC_URI = "git://github.com/SaschaWillems/Vulkan.git \
-+           file://0001-Support-installing-demos-support-out-of-tree-builds.patch \
-+           file://0001-Don-t-build-demos-with-questionably-licensed-data.patch \
-+"
-+SRCREV = "18df00c7b4677b0889486e16977857aa987947e2"
++Add the correct build directory to "-I". Use angle bracket
++include in vkapi.h so that it actually looks in the include search
++path instead of defaulting to the same (source tree) directory.
 +
-+S = "${WORKDIR}/git"
++Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
++Upstream-Status: Submitted [https://bugzilla.gnome.org/show_bug.cgi?id=784539]
++---
++ ext/vulkan/vkapi.h             | 2 +-
++ ext/vulkan/wayland/Makefile.am | 1 +
++ ext/vulkan/xcb/Makefile.am     | 1 +
++ 3 files changed, 3 insertions(+), 1 deletion(-)
 +
-+inherit cmake
-+DEPENDS = "vulkan assimp"
++diff --git a/ext/vulkan/vkapi.h b/ext/vulkan/vkapi.h
++index e9c23aa92..a37c29d0f 100644
++--- a/ext/vulkan/vkapi.h
+++++ b/ext/vulkan/vkapi.h
++@@ -23,7 +23,7 @@
++ 
++ #define VK_PROTOTYPES
++ 
++-#include "vkconfig.h"
+++#include <vkconfig.h>
++ #include "vk_fwd.h"
++ #include "vkmacros.h"
++ 
++diff --git a/ext/vulkan/wayland/Makefile.am b/ext/vulkan/wayland/Makefile.am
++index f92d85e2c..10cfb70e6 100644
++--- a/ext/vulkan/wayland/Makefile.am
+++++ b/ext/vulkan/wayland/Makefile.am
++@@ -14,6 +14,7 @@ noinst_HEADERS = \
++ 
++ libgstvulkan_wayland_la_CFLAGS = \
++ 	-I$(top_srcdir)/gst-libs \
+++	-I$(top_builddir)/ext/vulkan \
++ 	-I$(top_srcdir)/ext/vulkan \
++ 	-I$(top_builddir)/gst-libs \
++ 	$(GST_PLUGINS_BASE_CFLAGS) \
++diff --git a/ext/vulkan/xcb/Makefile.am b/ext/vulkan/xcb/Makefile.am
++index 7debcff9e..b5103551b 100644
++--- a/ext/vulkan/xcb/Makefile.am
+++++ b/ext/vulkan/xcb/Makefile.am
++@@ -14,6 +14,7 @@ noinst_HEADERS = \
++ 
++ libgstvulkan_xcb_la_CFLAGS = \
++ 	-I$(top_srcdir)/gst-libs \
+++	-I$(top_builddir)/ext/vulkan \
++ 	-I$(top_srcdir)/ext/vulkan \
++ 	-I$(top_builddir)/gst-libs \
++ 	$(GST_PLUGINS_BASE_CFLAGS) \
++-- 
++2.13.2
 +
-+do_install_append () {
-+    # Remove assets that have uncertain licenses
-+    rm ${D}${datadir}/vulkan-demos/models/armor/* \
-+       ${D}${datadir}/vulkan-demos/models/sibenik/* \
-+       ${D}${datadir}/vulkan-demos/models/vulkanscene* \
-+       ${D}${datadir}/vulkan-demos/models/plants.dae \
-+       ${D}${datadir}/vulkan-demos/textures/texturearray_plants*
-+}
-+
-+EXTRA_OECMAKE = "-DRESOURCE_INSTALL_DIR=${datadir}/vulkan-demos"
-+
-+# Can only pick one of [wayland,xcb]
-+PACKAGECONFIG = "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'wayland', 'xcb' ,d)}"
-+PACKAGECONFIG[wayland] = "-DUSE_WAYLAND_WSI=ON, -DUSE_WAYLAND_WSI=OFF, wayland"
-+PACKAGECONFIG[xcb] = ",,libxcb"
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.10.4.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.10.4.bb
+index 0bb4053..b4a2ab7 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.10.4.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.10.4.bb
+@@ -18,6 +18,8 @@ SRC_URI = " \
+     file://0001-smoothstreaming-implement-adaptivedemux-s-get_live_s.patch \
+     file://0001-smoothstreaming-use-the-duration-from-the-list-of-fr.patch \
+     file://0001-mssdemux-improved-live-playback-support.patch \
++    file://0001-vkdisplay-Use-ifdef-for-platform-specific-defines.patch \
++    file://0002-vulkan-Use-the-generated-version-of-vkconfig.h.patch \
+ "
+ SRC_URI[md5sum] = "2757103e57a096a1a05b3ab85b8381af"
+ SRC_URI[sha256sum] = "23ddae506b3a223b94869a0d3eea3e9a12e847f94d2d0e0b97102ce13ecd6966"
 -- 
 2.1.4
 
