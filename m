@@ -1,27 +1,27 @@
 Return-Path: <maxin.john@intel.com>
 Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id 876E777A60
+	by mail.openembedded.org (Postfix) with ESMTP id 1097D77AB5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Jul 2017 15:03:00 +0000 (UTC)
+	Wed,  5 Jul 2017 15:03:03 +0000 (UTC)
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by orsmga105.jf.intel.com with ESMTP; 05 Jul 2017 08:03:01 -0700
+	by orsmga105.jf.intel.com with ESMTP; 05 Jul 2017 08:03:04 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.40,312,1496127600"; d="scan'208";a="282400246"
+X-IronPort-AV: E=Sophos;i="5.40,312,1496127600"; d="scan'208";a="282400266"
 Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga004.fm.intel.com with ESMTP; 05 Jul 2017 08:03:01 -0700
+	by fmsmga004.fm.intel.com with ESMTP; 05 Jul 2017 08:03:04 -0700
 Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
 	[10.237.72.84])
-	by linux.intel.com (Postfix) with ESMTP id 0E8B65800EA
+	by linux.intel.com (Postfix) with ESMTP id 057895801CF
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Jul 2017 08:03:00 -0700 (PDT)
+	Wed,  5 Jul 2017 08:03:03 -0700 (PDT)
 From: "Maxin B. John" <maxin.john@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  5 Jul 2017 18:03:13 +0300
-Message-Id: <1499267003-20382-3-git-send-email-maxin.john@intel.com>
+Date: Wed,  5 Jul 2017 18:03:16 +0300
+Message-Id: <1499267003-20382-6-git-send-email-maxin.john@intel.com>
 X-Mailer: git-send-email 2.4.0
 In-Reply-To: <1499267003-20382-1-git-send-email-maxin.john@intel.com>
 References: <1499267003-20382-1-git-send-email-maxin.john@intel.com>
-Subject: [PATCH 02/12] gstreamer1.0: upgrade 1.10.4 -> 1.12.1
+Subject: [PATCH 05/12] gstreamer1.0-rtsp-server: upgrade 1.10.4 -> 1.12.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,99 +34,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Jul 2017 15:03:01 -0000
+X-List-Received-Date: Wed, 05 Jul 2017 15:03:03 -0000
 
-Remove "--disable-docbook" configure option and refresh
-the following patch:
-        1. deterministic-unwind.patch
+Upgrade to 1.12.1
 
 Signed-off-by: Maxin B. John <maxin.john@intel.com>
 ---
- meta/recipes-multimedia/gstreamer/gstreamer1.0.inc |  1 -
- .../gstreamer1.0/deterministic-unwind.patch        | 29 ++++++++++++++++------
- ...treamer1.0_1.10.4.bb => gstreamer1.0_1.12.1.bb} |  4 +--
- 3 files changed, 23 insertions(+), 11 deletions(-)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0_1.10.4.bb => gstreamer1.0_1.12.1.bb} (72%)
+ .../recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.10.4.bb | 6 ------
+ .../recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.12.1.bb | 6 ++++++
+ 2 files changed, 6 insertions(+), 6 deletions(-)
+ delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.10.4.bb
+ create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.12.1.bb
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0.inc
-index 72d7ce6..d174a82 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0.inc
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0.inc
-@@ -28,7 +28,6 @@ PACKAGECONFIG[unwind] = "--with-unwind,--without-unwind,libunwind"
- 
- EXTRA_OECONF = " \
-     --disable-dependency-tracking \
--    --disable-docbook \
-     --disable-examples \
- "
- 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0/deterministic-unwind.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0/deterministic-unwind.patch
-index e39e6ca..dfca096 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0/deterministic-unwind.patch
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0/deterministic-unwind.patch
-@@ -1,24 +1,37 @@
--Make the detection of libunwind deterministic.
-+From 31fb9cde63f55f2610a736f390124a570c564169 Mon Sep 17 00:00:00 2001
-+From: Ross Burton <ross.burton@intel.com>
-+Date: Fri, 12 May 2017 17:43:08 +0300
-+Subject: [PATCH] Make the detection of libunwind deterministic.
- 
- Upstream-Status: Pending
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.10.4.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.10.4.bb
+deleted file mode 100644
+index 6aa9a53..0000000
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.10.4.bb
++++ /dev/null
+@@ -1,6 +0,0 @@
+-require gstreamer1.0-rtsp-server.inc
+-
+-SRC_URI[md5sum] = "ef587fa6393e09bc26f884510596e305"
+-SRC_URI[sha256sum] = "2f6e12fd4e3568ee190dc24e57e4c3a878971c3a3fb6904a9674404fac256de6"
+-
+-LIC_FILES_CHKSUM = "file://COPYING;md5=6762ed442b3822387a51c92d928ead0d"
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.12.1.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.12.1.bb
+new file mode 100644
+index 0000000..2e115dc
+--- /dev/null
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.12.1.bb
+@@ -0,0 +1,6 @@
++require gstreamer1.0-rtsp-server.inc
 +
- Signed-off-by: Ross Burton <ross.burton@intel.com>
-+Signed-off-by: Maxin B. John <maxin.john@intel.com>
-+---
-+ configure.ac | 10 ++++++----
-+ 1 file changed, 6 insertions(+), 4 deletions(-)
- 
- diff --git a/configure.ac b/configure.ac
--index ac88fb2..182c19a 100644
-+index 9fa6824..fe9696f 100644
- --- a/configure.ac
- +++ b/configure.ac
--@@ -829,3 +828,0 @@ AM_CONDITIONAL(HAVE_GTK, test "x$HAVE_GTK" = "xyes")
---dnl libunwind is optionally used by the leaks tracer
-+@@ -821,10 +821,12 @@ fi
-+ AM_CONDITIONAL(HAVE_GTK, test "x$HAVE_GTK" = "xyes")
-+ 
-+ dnl libunwind is optionally used by the leaks tracer
- -PKG_CHECK_MODULES(UNWIND, libunwind, HAVE_UNWIND=yes, HAVE_UNWIND=no)
---
--@@ -839,3 +836,7 @@ AC_CHECK_FUNC(backtrace, [
- -if test "x$HAVE_UNWIND" = "xyes"; then
- -  AC_DEFINE(HAVE_UNWIND, 1, [libunwind available])
- -fi
--+dnl libunwind is optionally used by the leaks tracer
- +AC_ARG_WITH([unwind],[AS_HELP_STRING([--with-unwind],[use libunwind])],
- +            [], [with_unwind=yes])
- +AS_IF([test "$with_unwind" = yes],
- +      [PKG_CHECK_MODULES(UNWIND, libunwind)
- +       AC_DEFINE(HAVE_UNWIND, 1, [libunwind available])]
--+)
-++ )
-+ 
-+ dnl libdw is optionally used to add source lines and numbers to backtraces
-+ PKG_CHECK_MODULES(DW, libdw, HAVE_DW=yes, HAVE_DW=no)
-+-- 
-+2.4.0
++SRC_URI[md5sum] = "5fdc18925caab476b4388d77b9ffbc72"
++SRC_URI[sha256sum] = "f27b9bde057e861a7705fa1263a9288a09fce8c42d8d5363c0bef4fe93994292"
 +
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.10.4.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.12.1.bb
-similarity index 72%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0_1.10.4.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0_1.12.1.bb
-index 2a67993..f1a7001 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.10.4.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.12.1.bb
-@@ -7,7 +7,7 @@ SRC_URI = " \
-     http://gstreamer.freedesktop.org/src/gstreamer/gstreamer-${PV}.tar.xz \
-     file://deterministic-unwind.patch \
- "
--SRC_URI[md5sum] = "7c91a97e4a2dc81eafd59d0a2f8b0d6e"
--SRC_URI[sha256sum] = "50c2f5af50a6cc6c0a3f3ed43bdd8b5e2bff00bacfb766d4be139ec06d8b5218"
-+SRC_URI[md5sum] = "3c9f2bc7d75daf87fb5d8d0f2158b8ea"
-+SRC_URI[sha256sum] = "9044b9d8b3ff44457fa9e36faa59c56684b587b34dee449bfe15ec0c32a3a6d2"
- 
- S = "${WORKDIR}/gstreamer-${PV}"
++LIC_FILES_CHKSUM = "file://COPYING;md5=6762ed442b3822387a51c92d928ead0d"
 -- 
 2.4.0
 
