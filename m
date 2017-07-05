@@ -1,49 +1,24 @@
-Return-Path: <trini@konsulko.com>
-Received: from mail-yb0-f170.google.com (mail-yb0-f170.google.com
-	[209.85.213.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 9E3BF71DD2
+Return-Path: <jussi.kukkonen@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id B12A377809
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Jul 2017 12:28:17 +0000 (UTC)
-Received: by mail-yb0-f170.google.com with SMTP id f194so12210438yba.3
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 05 Jul 2017 05:28:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=YnX4zcE9ZAY0uR0hH1hMNlfLWy3yyJKqloPJzhZy68s=;
-	b=EW8DgKaFdQj2IkXxs40JkY7+4Tm/6++G111RR1bC4Q1S9xvjrMhcuSTg0nIFrB9rdm
-	cNrXqz1Fs+L1Ud5m6OnhEDU248bxtMBjPuFqZ3V4xfzBBs7y9p3OzYPHC8fjTgwZKGKr
-	9x05qVllwvzmgwHcqgyiykr3OIN50S44gklEM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=YnX4zcE9ZAY0uR0hH1hMNlfLWy3yyJKqloPJzhZy68s=;
-	b=gCt4ITe/r6oNgxlOi4uQVSWFHCEVusempjZrKx9kQmCi0f2A1dpFQG7vxIo3ecmWvI
-	aEassF/xWKXMQDuG07zBFsnFLUiiwd6159vYpEZrZ9gbjFTknuOEe2G3YwnzB5RsZtOK
-	aZJf+w2TRwZDY4vXccYuARxraa6apFXwPQ2je3pxgaiTf+zEUHJvJpWIwricPu8FLFQV
-	BXHmjTuer0elFegtsXp9RDeMlicroFQWaJ/foKILJV8hb/wZGQrt7YEZxtj3NdDMYOcL
-	jqnIucyMPiE0IOXqXnkwMj5HgUgV9LYSbRuJGTQ5vlkvNRmL876cza+yz3CTABQinpsf
-	D2PA==
-X-Gm-Message-State: AIVw110IMmZpKOyFSuypwsKKCyj4CsExHAb0FOZAunJFVvG+iZ2/4NGa
-	XhugDzqoA2ylDX5I
-X-Received: by 10.37.126.69 with SMTP id z66mr15178701ybc.132.1499257699007;
-	Wed, 05 Jul 2017 05:28:19 -0700 (PDT)
-Received: from bill-the-cat (cpe-75-180-228-133.ec.res.rr.com.
-	[75.180.228.133]) by smtp.gmail.com with ESMTPSA id
-	l190sm108765ywe.78.2017.07.05.05.28.18
-	(version=TLS1_2 cipher=AES128-SHA bits=128/128);
-	Wed, 05 Jul 2017 05:28:18 -0700 (PDT)
-Date: Wed, 5 Jul 2017 08:29:09 -0400
-From: Tom Rini <trini@konsulko.com>
-To: Fathi Boudra <fathi.boudra@linaro.org>
-Message-ID: <20170705122909.GT9889@bill-the-cat>
-References: <20170705111311.13943-1-fathi.boudra@linaro.org>
-MIME-Version: 1.0
-In-Reply-To: <20170705111311.13943-1-fathi.boudra@linaro.org>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: naresh.kamboju@linaro.org, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v3] ltp: add acl, attr, curl and util-linux runtime dependencies
+	Wed,  5 Jul 2017 12:28:30 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	05 Jul 2017 05:28:31 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.40,311,1496127600"; d="scan'208";a="107280837"
+Received: from linux.intel.com ([10.54.29.200])
+	by orsmga002.jf.intel.com with ESMTP; 05 Jul 2017 05:28:31 -0700
+Received: from theory.fi.intel.com (theory.fi.intel.com [10.237.72.53])
+	by linux.intel.com (Postfix) with ESMTP id 9541F5801CF;
+	Wed,  5 Jul 2017 05:28:30 -0700 (PDT)
+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  5 Jul 2017 15:28:23 +0300
+Message-Id: <cover.1499256752.git.jussi.kukkonen@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH 0/6] Vulkan improvements
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,26 +31,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Jul 2017 12:28:19 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Wed, 05 Jul 2017 12:28:30 -0000
 
-On Wed, Jul 05, 2017 at 02:13:11PM +0300, Fathi Boudra wrote:
 
-> * Use a list and re-order alphabetically to make it easier to read and
->   update.
-> * Add missing runtime dependencies:
->   - acl (getfacl/setfacl commands are required)
->   - attr (getfattr/setfattr commands are required)
->   - iproute2 (required for netns tests)
->   - curl (curl command is required)
->   - util-linux (ipcs command is required)
-> 
-> Reported-by: Naresh Kamboju <naresh.kamboju@linaro.org>
-> Signed-off-by: Fathi Boudra <fathi.boudra@linaro.org>
+* vulkan-demos
 
-Reviewed-by: Tom Rini <trini@konsulko.com>
+Originally I submitted vkcube as a vulkan smoketest
+but that never ended in oe-core. Instead of vkcube I'm now submitting
+Sascha Willems collection of Vulkan demos: it's not a test suite but
+it contains quite a few small demos. 
+ I did take a look at adding the vulkan conformance test suite (part
+of VK-GL-CTS): It looks quite impressive but the amount of work
+needed to get it running is significantly higher.
+
+* DISTRO_FEATURE
+
+Not sure what the policy on adding these is but this does make it a
+little easier to enable vulkan. Current state when feature is enabled:
+ * With weston it just works
+ * With Xorg (xf86-video-intel) dri3 must be enabled in xorg.xonf
+ * With Xorg (modesetting) it just works  
+
+
+Jussi
+
+The following changes since commit 4b1d270602a0542eef1b497eaf15bad2b747686f:
+
+  bitbake: bitbake-user-manual: Removed and replaced broken link (2017-07-04 16:05:22 +0100)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib jku/vulkan
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=jku/vulkan
+
+Jussi Kukkonen (6):
+  vulkan: Upgrade 1.0.39.1 -> 1.0.51.0
+  assimp: Add as dependency of vulkan-demos
+  vulkan-demos: Add recipe
+  gstreamer1.0-plugins-bad: Add vulkan PACKAGECONFIG
+  mesa, gstreamer: Add "vulkan" DISTRO_FEATURE
+  vulkan: RRECOMMEND mesa drivers
+
+ meta/recipes-graphics/mesa/mesa.inc                |  3 +-
+ meta/recipes-graphics/vulkan/assimp_git.bb         | 14 ++++
+ ...ild-demos-with-questionably-licensed-data.patch | 91 ++++++++++++++++++++++
+ ...stalling-demos-support-out-of-tree-builds.patch | 85 ++++++++++++++++++++
+ meta/recipes-graphics/vulkan/vulkan-demos_git.bb   | 33 ++++++++
+ ...se-getenv-if-secure_getenv-does-not-exist.patch | 34 --------
+ .../{vulkan_1.0.39.1.bb => vulkan_1.0.51.0.bb}     |  6 +-
+ .../gstreamer/gstreamer1.0-plugins-bad.inc         |  6 +-
+ ...y-Use-ifdef-for-platform-specific-defines.patch | 37 +++++++++
+ ...n-Use-the-generated-version-of-vkconfig.h.patch | 64 +++++++++++++++
+ .../gstreamer/gstreamer1.0-plugins-bad_1.10.4.bb   |  2 +
+ 11 files changed, 334 insertions(+), 41 deletions(-)
+ create mode 100644 meta/recipes-graphics/vulkan/assimp_git.bb
+ create mode 100644 meta/recipes-graphics/vulkan/vulkan-demos/0001-Don-t-build-demos-with-questionably-licensed-data.patch
+ create mode 100644 meta/recipes-graphics/vulkan/vulkan-demos/0001-Support-installing-demos-support-out-of-tree-builds.patch
+ create mode 100644 meta/recipes-graphics/vulkan/vulkan-demos_git.bb
+ delete mode 100644 meta/recipes-graphics/vulkan/vulkan/0001-Use-getenv-if-secure_getenv-does-not-exist.patch
+ rename meta/recipes-graphics/vulkan/{vulkan_1.0.39.1.bb => vulkan_1.0.51.0.bb} (90%)
+ create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0001-vkdisplay-Use-ifdef-for-platform-specific-defines.patch
+ create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0002-vulkan-Use-the-generated-version-of-vkconfig.h.patch
 
 -- 
-Tom
+2.1.4
+
 
