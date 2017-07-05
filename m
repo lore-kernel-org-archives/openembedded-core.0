@@ -1,26 +1,18 @@
-Return-Path: <jussi.kukkonen@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id A695D7782F
-	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Jul 2017 12:28:45 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	05 Jul 2017 05:28:47 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.40,311,1496127600"; d="scan'208";a="988912737"
-Received: from linux.intel.com ([10.54.29.200])
-	by orsmga003.jf.intel.com with ESMTP; 05 Jul 2017 05:28:47 -0700
-Received: from theory.fi.intel.com (theory.fi.intel.com [10.237.72.53])
-	by linux.intel.com (Postfix) with ESMTP id 759415801CF;
-	Wed,  5 Jul 2017 05:28:46 -0700 (PDT)
-From: Jussi Kukkonen <jussi.kukkonen@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  5 Jul 2017 15:28:38 +0300
-Message-Id: <b2b6b7edcca74bba793472f34b670d464edeff49.1499256752.git.jussi.kukkonen@intel.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <cover.1499256752.git.jussi.kukkonen@intel.com>
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id AA05F77804;
+	Wed,  5 Jul 2017 12:31:22 +0000 (UTC)
+MIME-Version: 1.0
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Jussi Kukkonen <jussi.kukkonen@intel.com>
+Date: Wed, 05 Jul 2017 12:31:24 -0000
+Message-ID: <20170705123124.2383.65519@do.openembedded.org>
 References: <cover.1499256752.git.jussi.kukkonen@intel.com>
-Subject: [PATCH 6/6] vulkan: RRECOMMEND mesa drivers
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <cover.1499256752.git.jussi.kukkonen@intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgVnVsa2FuIGltcHJvdmVtZW50cw==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,26 +25,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Jul 2017 12:28:45 -0000
+X-List-Received-Date: Wed, 05 Jul 2017 12:31:23 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-One less thing to remember when trying to build an image
-with working vulkan.
+== Series Details ==
 
-Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+Series: Vulkan improvements
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/7583/
+State : failure
+
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             Upstream-Status is in incorrect format [test_upstream_status_format] 
+  Suggested fix    Fix Upstream-Status format in meta/recipes-graphics/vulkan/vulkan-demos/0001-Don-t-build-demos-with-questionably-licensed-data.patch so it is one of: Pending, Submitted, Accepted, Backport, Denied, Inappropriate
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- meta/recipes-graphics/vulkan/vulkan_1.0.51.0.bb | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/meta/recipes-graphics/vulkan/vulkan_1.0.51.0.bb b/meta/recipes-graphics/vulkan/vulkan_1.0.51.0.bb
-index fe7dac0..555d741 100644
---- a/meta/recipes-graphics/vulkan/vulkan_1.0.51.0.bb
-+++ b/meta/recipes-graphics/vulkan/vulkan_1.0.51.0.bb
-@@ -32,3 +32,4 @@ PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', '' ,d)}
- PACKAGECONFIG[x11] = "-DBUILD_WSI_XLIB_SUPPORT=ON -DBUILD_WSI_XCB_SUPPORT=ON -DDEMOS_WSI_SELECTION=XCB, -DBUILD_WSI_XLIB_SUPPORT=OFF -DBUILD_WSI_XCB_SUPPORT=OFF -DDEMOS_WSI_SELECTION=WAYLAND, libxcb libx11 libxrandr"
- PACKAGECONFIG[wayland] = "-DBUILD_WSI_WAYLAND_SUPPORT=ON, -DBUILD_WSI_WAYLAND_SUPPORT=OFF, wayland"
- 
-+RRECOMMENDS_${PN} = "mesa-vulkan-drivers"
--- 
-2.1.4
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
