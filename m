@@ -1,23 +1,23 @@
 Return-Path: <swee.aun.khor@intel.com>
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 42F98774DC
+	by mail.openembedded.org (Postfix) with ESMTP id 4A04A774FC
 	for <openembedded-core@lists.openembedded.org>;
 	Thu,  6 Jul 2017 07:07:17 +0000 (UTC)
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
 	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
 	06 Jul 2017 00:07:17 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.40,315,1496127600"; d="scan'208";a="1148285531"
+X-IronPort-AV: E=Sophos;i="5.40,315,1496127600"; d="scan'208";a="1148285534"
 Received: from platypus.jf.intel.com ([10.54.77.139])
 	by orsmga001.jf.intel.com with ESMTP; 06 Jul 2017 00:07:17 -0700
 From: swee.aun.khor@intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  5 Jul 2017 16:56:36 -0700
-Message-Id: <497112f6f6f805ab4dbc8ca48fbb53163f311f60.1499127835.git.swee.aun.khor@intel.com>
+Date: Wed,  5 Jul 2017 16:56:37 -0700
+Message-Id: <d6a716541236f608f880a5914712303195027af6.1499127835.git.swee.aun.khor@intel.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1499127835.git.swee.aun.khor@intel.com>
 References: <cover.1499127835.git.swee.aun.khor@intel.com>
-Subject: [PATCH 5/7] openssl: Support musl-x32 build
+Subject: [PATCH 6/7] perl: Support musl-x32 build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,37 +34,27 @@ X-List-Received-Date: Thu, 06 Jul 2017 07:07:18 -0000
 
 From: sweeaun <swee.aun.khor@intel.com>
 
-Support musl-x32 build which to build openssl with 32 bits.
+Existing musl fixups in perl recipe doesn't cover linux-muslx32.
+This is fixed to support musl-x32 build.
 
 Signed-off-by: sweeaun <swee.aun.khor@intel.com>
 ---
- meta/recipes-connectivity/openssl/openssl.inc | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ meta/recipes-devtools/perl/perl_5.24.1.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-connectivity/openssl/openssl.inc b/meta/recipes-connectivity/openssl/openssl.inc
-index 3980ec2..bcbbe06 100644
---- a/meta/recipes-connectivity/openssl/openssl.inc
-+++ b/meta/recipes-connectivity/openssl/openssl.inc
-@@ -65,8 +65,7 @@ do_configure () {
- 	os=${HOST_OS}
- 	case $os in
- 	linux-gnueabi |\
--	linux-gnuspe |\
--	linux-musl*)
-+	linux-gnuspe)
- 		os=linux
- 		;;
- 		*)
-@@ -101,6 +100,9 @@ do_configure () {
- 	linux-gnux32-x86_64)
- 		target=linux-x32
- 		;;
-+        linux-muslx32-x86_64)
-+                target=linux-x32
-+                ;;
- 	linux-gnu64-x86_64)
- 		target=linux-x86_64
- 		;;
+diff --git a/meta/recipes-devtools/perl/perl_5.24.1.bb b/meta/recipes-devtools/perl/perl_5.24.1.bb
+index b0ceb84..95d9694 100644
+--- a/meta/recipes-devtools/perl/perl_5.24.1.bb
++++ b/meta/recipes-devtools/perl/perl_5.24.1.bb
+@@ -125,7 +125,7 @@ do_configure() {
+         done
+ 
+         # Fixups for musl
+-        if [ "${TARGET_OS}" = "linux-musl" -o "${TARGET_OS}" = "linux-musleabi" ]; then
++        if [ "${TARGET_OS}" = "linux-musl" -o "${TARGET_OS}" = "linux-musleabi" -o "${TARGET_OS}" = "linux-muslx32" ]; then
+                 sed -i -e "s,\(d_libm_lib_version=\)'define',\1'undef',g" \
+                        -e "s,\(d_stdio_ptr_lval=\)'define',\1'undef',g" \
+                        -e "s,\(d_stdio_ptr_lval_sets_cnt=\)'define',\1'undef',g" \
 -- 
 2.7.4
 
