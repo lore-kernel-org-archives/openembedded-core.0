@@ -1,26 +1,25 @@
 Return-Path: <jussi.kukkonen@intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 172FA7782F
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	by mail.openembedded.org (Postfix) with ESMTP id A42207757F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Jul 2017 07:54:46 +0000 (UTC)
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	06 Jul 2017 00:54:47 -0700
+	Thu,  6 Jul 2017 07:54:48 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by orsmga105.jf.intel.com with ESMTP; 06 Jul 2017 00:54:49 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.40,316,1496127600"; d="scan'208";a="122956758"
+X-IronPort-AV: E=Sophos;i="5.40,316,1496127600"; d="scan'208";a="1191199296"
 Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga005.fm.intel.com with ESMTP; 06 Jul 2017 00:54:47 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 06 Jul 2017 00:54:49 -0700
 Received: from theory.fi.intel.com (theory.fi.intel.com [10.237.72.53])
-	by linux.intel.com (Postfix) with ESMTP id D0B4F580585;
-	Thu,  6 Jul 2017 00:54:46 -0700 (PDT)
+	by linux.intel.com (Postfix) with ESMTP id 2274D580585;
+	Thu,  6 Jul 2017 00:54:47 -0700 (PDT)
 From: Jussi Kukkonen <jussi.kukkonen@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  6 Jul 2017 10:54:37 +0300
-Message-Id: <3b4979a63b0180acb311669c93f6f32a6bcd119a.1499327365.git.jussi.kukkonen@intel.com>
+Date: Thu,  6 Jul 2017 10:54:38 +0300
+Message-Id: <c338eaecfcc1cda89f709fe0ae323206e05f0e09.1499327365.git.jussi.kukkonen@intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1499327365.git.jussi.kukkonen@intel.com>
 References: <cover.1499327365.git.jussi.kukkonen@intel.com>
-Subject: [PATCHv2 5/6] mesa, gstreamer: Add "vulkan" DISTRO_FEATURE
+Subject: [PATCHv2 6/6] vulkan: RRECOMMEND mesa drivers
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,43 +32,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Jul 2017 07:54:46 -0000
+X-List-Received-Date: Thu, 06 Jul 2017 07:54:48 -0000
 
-It doesn't do much but does make enabling vulkan a little less fiddly.
+One less thing to remember when trying to build an image
+with working vulkan.
 
 Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
 ---
- meta/recipes-graphics/mesa/mesa.inc                            | 3 ++-
- meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc | 2 +-
- 2 files changed, 3 insertions(+), 2 deletions(-)
+ meta/recipes-graphics/vulkan/vulkan_1.0.51.0.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
-index 41747cf..27bc4fb 100644
---- a/meta/recipes-graphics/mesa/mesa.inc
-+++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -25,7 +25,8 @@ REQUIRED_DISTRO_FEATURES = "opengl"
- EXTRA_OECONF = "--enable-shared-glapi --with-llvm-prefix=${STAGING_BINDIR_NATIVE}"
+diff --git a/meta/recipes-graphics/vulkan/vulkan_1.0.51.0.bb b/meta/recipes-graphics/vulkan/vulkan_1.0.51.0.bb
+index fe7dac0..555d741 100644
+--- a/meta/recipes-graphics/vulkan/vulkan_1.0.51.0.bb
++++ b/meta/recipes-graphics/vulkan/vulkan_1.0.51.0.bb
+@@ -32,3 +32,4 @@ PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', '' ,d)}
+ PACKAGECONFIG[x11] = "-DBUILD_WSI_XLIB_SUPPORT=ON -DBUILD_WSI_XCB_SUPPORT=ON -DDEMOS_WSI_SELECTION=XCB, -DBUILD_WSI_XLIB_SUPPORT=OFF -DBUILD_WSI_XCB_SUPPORT=OFF -DDEMOS_WSI_SELECTION=WAYLAND, libxcb libx11 libxrandr"
+ PACKAGECONFIG[wayland] = "-DBUILD_WSI_WAYLAND_SUPPORT=ON, -DBUILD_WSI_WAYLAND_SUPPORT=OFF, wayland"
  
- PACKAGECONFIG ??= "gbm egl gles dri \
--		${@bb.utils.filter('DISTRO_FEATURES', 'wayland x11', d)} \
-+		${@bb.utils.filter('DISTRO_FEATURES', 'wayland x11 vulkan', d)} \
-+		${@bb.utils.contains('DISTRO_FEATURES', 'x11 vulkan', 'dri3', '', d)} \
- 		"
- PACKAGECONFIG[gbm] = "--enable-gbm,--disable-gbm"
- 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc
-index 4f6bc85..e964fef 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc
-@@ -20,7 +20,7 @@ PACKAGECONFIG ??= " \
-     ${GSTREAMER_ORC} \
-     ${PACKAGECONFIG_GL} \
-     ${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth', 'bluez', '', d)} \
--    ${@bb.utils.filter('DISTRO_FEATURES', 'directfb', d)} \
-+    ${@bb.utils.filter('DISTRO_FEATURES', 'directfb vulkan', d)} \
-     ${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'wayland egl', '', d)} \
-     bz2 curl dash dtls hls neon rsvg sbc smoothstreaming sndfile uvch264 webp \
- "
++RRECOMMENDS_${PN} = "mesa-vulkan-drivers"
 -- 
 2.1.4
 
