@@ -1,48 +1,27 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-qk0-f176.google.com (mail-qk0-f176.google.com
-	[209.85.220.176])
-	by mail.openembedded.org (Postfix) with ESMTP id E4A9C60068
+Return-Path: <jose.perez.carranza@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 87C9F71CA3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Jul 2017 15:20:26 +0000 (UTC)
-Received: by mail-qk0-f176.google.com with SMTP id p21so4974753qke.3
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 06 Jul 2017 08:20:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=IPP+VuOaZmnMpnTgzlPZkU0aLOX2gLzX3DhCITlUiHs=;
-	b=o+FG6Tn3uJf04dWwJT4L0dsLnZSH1X0rPiHi9uLQNv5trGMU6+SkBnR2u26c2MXfOL
-	B4I2SyFyTHhSmjC0XGe3IpzExSAJlHd67R93NB8uLA+bwonbBg9stvV85OoB0/4hFAgf
-	vcELUOVzsxRUGdDIGlE8S1QBJNXxsWuSII0km07RlBuZB9ZazE1myZSJL7x2iO3Zzijt
-	B8a2DmezV75UB9umEJLz3ui66MIZMFe7Ng6eLC/Lkpm7jCfPMqPxuwOYPqMwvhRzsKQb
-	3ARs3AdwFYESAEIfugwR77bXabmKNWKvQOR41q6YGseUG2VizuiC3P+g1avIw4vRQRbr
-	Yrcg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=IPP+VuOaZmnMpnTgzlPZkU0aLOX2gLzX3DhCITlUiHs=;
-	b=XBfa98t5XJ8w45AgtrxImwWPF4a8dnYzqZIm6NPqiZqWoajBEFoHrik9TpoNLK2I+N
-	V5dKGI7RW1C6NBIeOJIEKGRDQXFGWo311CYrvjreJrLYh6Umu7GmvZwZUfc7AAhSgYtQ
-	XXshxa+yWRabwK083xchuWr3jprnIDbSkm5qdts534mcImBGAaT2SynicrZ76mJYZnX6
-	DYAoMeNRsnusL20uJnv/oU390G/sf6QSnaSMIfVlH/jParMb+EN4xVxbp4ngcs6baqmw
-	Vx6K1/O3hY++82xQnPC+t0ODYE8Jtc1rxywdbojXHrmjYSKuDQa/hdu7oW6wQ+kMDfFr
-	U3GQ==
-X-Gm-Message-State: AKS2vOygBRxypywdbk3Tv6inI/Ovm4RI5bIulUe4zdF3RD6PGrxlkp/y
-	5v+Wi2UXt+0GWoNIjXcrSYSssdYr4A==
-X-Received: by 10.55.164.88 with SMTP id n85mr58205862qke.159.1499354427644;
-	Thu, 06 Jul 2017 08:20:27 -0700 (PDT)
+	Thu,  6 Jul 2017 15:31:52 +0000 (UTC)
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	06 Jul 2017 08:31:53 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.40,317,1496127600"; d="scan'208";a="123665040"
+Received: from jgperezc-mobl1.zpn.intel.com (HELO [10.219.4.33])
+	([10.219.4.33])
+	by fmsmga006.fm.intel.com with ESMTP; 06 Jul 2017 08:31:53 -0700
+To: Khem Raj <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org
+References: <cover.1499351361.git.raj.khem@gmail.com>
+	<3107cc24993f111ff2d5714213bd85ff15173221.1499351361.git.raj.khem@gmail.com>
+From: Jose Perez Carranza <jose.perez.carranza@linux.intel.com>
+Message-ID: <48ec40d9-45ec-a6c1-add5-e389819f6e07@linux.intel.com>
+Date: Thu, 6 Jul 2017 10:34:46 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.1.0
 MIME-Version: 1.0
-Received: by 10.140.21.230 with HTTP; Thu, 6 Jul 2017 08:20:07 -0700 (PDT)
-In-Reply-To: <1499352019-27001-1-git-send-email-liu.ming50@gmail.com>
-References: <1499352019-27001-1-git-send-email-liu.ming50@gmail.com>
-From: Christopher Larson <kergoth@gmail.com>
-Date: Thu, 6 Jul 2017 08:20:07 -0700
-Message-ID: <CABcZANkx3ytxjXnCG_smtzeqYD4sCZUE3JLhbhCaKHuMaUHV0w@mail.gmail.com>
-To: Ming Liu <liu.ming50@gmail.com>
-Cc: Ming Liu <peter.x.liu@external.atlascopco.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] meta: move image-mklibs image-prelink to IMAGE_CLASSES
+In-Reply-To: <3107cc24993f111ff2d5714213bd85ff15173221.1499351361.git.raj.khem@gmail.com>
+Subject: Re: [PATCH 22/22] testimage: Use the renamed buildlzip
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,77 +34,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Jul 2017 15:20:27 -0000
-Content-Type: multipart/alternative; boundary="001a114fa5020d5e6c0553a7a8cb"
+X-List-Received-Date: Thu, 06 Jul 2017 15:31:52 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 
---001a114fa5020d5e6c0553a7a8cb
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jul 6, 2017 at 7:40 AM, <liu.ming50@gmail.com> wrote:
-
-> From: Ming Liu <peter.x.liu@external.atlascopco.com>
+On 07/06/2017 09:33 AM, Khem Raj wrote:
+> buildiptables has been replaced with buildlzip
 >
-> The code logic in image-mklibs.bbclass and image-prelink.bbclass is all
-> about optimizing the rootfs image, so it makes more sense to put them
-> into IMAGE_CLASSES rather than USER_CLASSES.
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ---
+>   meta/classes/testimage.bbclass | 6 +++---
+>   1 file changed, 3 insertions(+), 3 deletions(-)
 >
-> What's more, this fixes a potential issue by moving out image-mklibs
-> from INHERIT, considering that, a following dependency is missing in
-> image-mklibs.bblcass:
-> ...
-> do_rootfs[depends] +=3D "virtual/${MLPREFIX}${TARGET_
-> PREFIX}binutils:do_populate_sysroot"
->
+> diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.bbclass
+> index 6fa2d6fd9f..0c4a84e111 100644
+> --- a/meta/classes/testimage.bbclass
+> +++ b/meta/classes/testimage.bbclass
+> @@ -49,10 +49,10 @@ DEFAULT_TEST_SUITES_pn-core-image-x11 = "${MINTESTSUITE}"
+>   DEFAULT_TEST_SUITES_pn-core-image-lsb = "${NETTESTSUITE} pam parselogs ${RPMTESTSUITE}"
+>   DEFAULT_TEST_SUITES_pn-core-image-sato = "${NETTESTSUITE} connman xorg parselogs ${RPMTESTSUITE} \
+>       ${@bb.utils.contains('IMAGE_PKGTYPE', 'rpm', 'python', '', d)}"
+> -DEFAULT_TEST_SUITES_pn-core-image-sato-sdk = "${NETTESTSUITE} buildcpio buildiptables buildgalculator \
+> +DEFAULT_TEST_SUITES_pn-core-image-sato-sdk = "${NETTESTSUITE} buildcpio buildlzip buildgalculator \
+>       connman ${DEVTESTSUITE} logrotate perl parselogs python ${RPMTESTSUITE} xorg"
+>   DEFAULT_TEST_SUITES_pn-core-image-lsb-dev = "${NETTESTSUITE} pam perl python parselogs ${RPMTESTSUITE}"
+> -DEFAULT_TEST_SUITES_pn-core-image-lsb-sdk = "${NETTESTSUITE} buildcpio buildiptables buildgalculator \
+> +DEFAULT_TEST_SUITES_pn-core-image-lsb-sdk = "${NETTESTSUITE} buildcpio buildlzip buildgalculator \
+>       connman ${DEVTESTSUITE} logrotate pam parselogs perl python ${RPMTESTSUITE}"
+>   DEFAULT_TEST_SUITES_pn-meta-toolchain = "auto"
+>   
+> @@ -61,7 +61,7 @@ DEFAULT_TEST_SUITES_remove_aarch64 = "xorg"
+>   
+>   # qemumips is quite slow and has reached the timeout limit several times on the YP build cluster,
+>   # mitigate this by removing build tests for qemumips machines.
+> -MIPSREMOVE ??= "buildcpio buildiptables buildgalculator"
+> +MIPSREMOVE ??= "buildcpio buildlzip buildgalculator"
+>   DEFAULT_TEST_SUITES_remove_qemumips = "${MIPSREMOVE}"
+>   DEFAULT_TEST_SUITES_remove_qemumips64 = "${MIPSREMOVE}"
+>   
+I think this patch is not applicable as for runtime tests 
+(meta/lib/oeqa/runtime/cases/) we do actually use buildiptables test, 
+for sdk test there are not filters so in the case of using "testsdk" all 
+the available test under meta/lib/oeqa/sdk/cases should be executed.
 
-This removes the example usage of IMAGE_CLASSES to alter the default image
-types inclusion in local.conf.sample.extended, but doesn=E2=80=99t replace =
-it with
-anything, and the commit message doesn=E2=80=99t mention it. Either find a =
-way to
-fix that example (i.e. use +=3D or something) or at least mention that you=
-=E2=80=99re
-removing it, particularly since adding image types is currently the most
-common reason to alter that variable.
---=20
-Christopher Larson
-kergoth at gmail dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Senior Software Engineer, Mentor Graphics
+-- 
+Saludos
+José
 
---001a114fa5020d5e6c0553a7a8cb
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
-te">On Thu, Jul 6, 2017 at 7:40 AM,  <span dir=3D"ltr">&lt;<a href=3D"mailt=
-o:liu.ming50@gmail.com" target=3D"_blank">liu.ming50@gmail.com</a>&gt;</spa=
-n> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;b=
-order-left:1px #ccc solid;padding-left:1ex">From: Ming Liu &lt;<a href=3D"m=
-ailto:peter.x.liu@external.atlascopco.com">peter.x.liu@external.<wbr>atlasc=
-opco.com</a>&gt;<br>
-<br>
-The code logic in image-mklibs.bbclass and image-prelink.bbclass is all<br>
-about optimizing the rootfs image, so it makes more sense to put them<br>
-into IMAGE_CLASSES rather than USER_CLASSES.<br>
-<br>
-What&#39;s more, this fixes a potential issue by moving out image-mklibs<br=
->
-from INHERIT, considering that, a following dependency is missing in<br>
-image-mklibs.bblcass:<br>
-...<br>
-do_rootfs[depends] +=3D &quot;virtual/${MLPREFIX}${TARGET_<wbr>PREFIX}binut=
-ils:do_populate_<wbr>sysroot&quot;<br></blockquote><div><br></div><div>This=
- removes the example usage of IMAGE_CLASSES to alter the default image type=
-s inclusion in local.conf.sample.extended, but doesn=E2=80=99t replace it w=
-ith anything, and the commit message doesn=E2=80=99t mention it. Either fin=
-d a way to fix that example (i.e. use +=3D or something) or at least mentio=
-n that you=E2=80=99re removing it, particularly since adding image types is=
- currently the most common reason to alter that variable.</div></div>-- <br=
-><div class=3D"gmail_signature" data-smartmail=3D"gmail_signature"><div dir=
-=3D"ltr"><div><div dir=3D"ltr">Christopher Larson<br>kergoth at gmail dot c=
-om<br>Founder - BitBake, OpenEmbedded, OpenZaurus<br>Senior Software Engine=
-er, Mentor Graphics</div></div></div></div>
-</div></div>
-
---001a114fa5020d5e6c0553a7a8cb--
