@@ -1,22 +1,23 @@
 Return-Path: <jose.perez.carranza@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 922177309A
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by mail.openembedded.org (Postfix) with ESMTP id B9C987309A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Jul 2017 21:03:06 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	06 Jul 2017 14:03:08 -0700
+	Thu,  6 Jul 2017 21:03:09 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga104.jf.intel.com with ESMTP; 06 Jul 2017 14:03:10 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.40,319,1496127600"; d="scan'208";a="1148719727"
+X-IronPort-AV: E=Sophos;i="5.40,319,1496127600"; d="scan'208";a="1169411942"
 Received: from yctb06.ostc.intel.com ([10.54.69.60])
-	by orsmga001.jf.intel.com with ESMTP; 06 Jul 2017 14:03:07 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 06 Jul 2017 14:03:10 -0700
 From: jose.perez.carranza@linux.intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  6 Jul 2017 14:03:06 -0700
-Message-Id: <cover.1499373694.git.jose.perez.carranza@linux.intel.com>
+Date: Thu,  6 Jul 2017 14:03:07 -0700
+Message-Id: <10ab7f62538cf461e911f81df8e8e1ec28944f5a.1499373694.git.jose.perez.carranza@linux.intel.com>
 X-Mailer: git-send-email 2.12.0
+In-Reply-To: <cover.1499373694.git.jose.perez.carranza@linux.intel.com>
+References: <cover.1499373694.git.jose.perez.carranza@linux.intel.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/2] Add lzip test instead of iptables for runtime
+Subject: [PATCH 1/2] oeqa/runtime: Replace buildiptables for buildlzip on runtime tests
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,39 +30,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Jul 2017 21:03:08 -0000
+X-List-Received-Date: Thu, 06 Jul 2017 21:03:09 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
 From: Jose Perez Carranza <jose.perez.carranza@linux.intel.com>
 
-This series is created to replace iptables tests for lzip test and avoid conflicts with images built with “musl”. A two separate patches were sent before related to this, one for SDK [1] and other one to add changes to testimage.bbclass[2], the second one itself doe not works, hence in this series the second patch is included and also the complement fully apply the test on runtime.
+Buildiptables test cases are conflicting with images built with “musl”
+as standard C library, in order to avoid those issues lzip package was
+selected to be used on the tests as this does not have any "musl"
+dependency.
 
-Patch [1] is still applicable and does not conflicts with this series.
+This patch is applicable for testimage tests
 
-  1-  https://patchwork.openembedded.org/patch/141496/
-  2-  https://patchwork.openembedded.org/patch/141620/
+[YOCTO # 11713]
 
-The following changes since commit 754c03006943a219ffd417c36ab909b464f57f67:
-
-  local.conf.sample: drop image-swab reference (2017-07-06 15:03:10 +0100)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib jperez/bug11713
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=jperez/bug11713
-
-Jose Perez Carranza (1):
-  oeqa/runtime: Replace buildiptables for buildlzip on runtime tests
-
-Khem Raj (1):
-  testimage: Use the renamed buildlzip
-
- meta/classes/testimage.bbclass                                 | 6 +++---
+Signed-off-by: Jose Perez Carranza <jose.perez.carranza@linux.intel.com>
+---
  meta/lib/oeqa/runtime/cases/{buildiptables.py => buildlzip.py} | 6 +++---
- 2 files changed, 6 insertions(+), 6 deletions(-)
+ 1 file changed, 3 insertions(+), 3 deletions(-)
  rename meta/lib/oeqa/runtime/cases/{buildiptables.py => buildlzip.py} (89%)
 
+diff --git a/meta/lib/oeqa/runtime/cases/buildiptables.py b/meta/lib/oeqa/runtime/cases/buildlzip.py
+similarity index 89%
+rename from meta/lib/oeqa/runtime/cases/buildiptables.py
+rename to meta/lib/oeqa/runtime/cases/buildlzip.py
+index 002b16c4835..ca3fead2e49 100644
+--- a/meta/lib/oeqa/runtime/cases/buildiptables.py
++++ b/meta/lib/oeqa/runtime/cases/buildlzip.py
+@@ -5,12 +5,12 @@ from oeqa.core.decorator.data import skipIfNotFeature
+ 
+ from oeqa.runtime.utils.targetbuildproject import TargetBuildProject
+ 
+-class BuildIptablesTest(OERuntimeTestCase):
++class BuildLzipTest(OERuntimeTestCase):
+ 
+     @classmethod
+     def setUpClass(cls):
+         uri = 'http://downloads.yoctoproject.org/mirror/sources'
+-        uri = '%s/iptables-1.4.13.tar.bz2' % uri
++        uri = '%s/lzip-1.19.tar.gz' % uri
+         cls.project = TargetBuildProject(cls.tc.target,
+                                          uri,
+                                          dl_dir = cls.tc.td['DL_DIR'])
+@@ -24,7 +24,7 @@ class BuildIptablesTest(OERuntimeTestCase):
+     @skipIfNotFeature('tools-sdk',
+                       'Test requires tools-sdk to be in IMAGE_FEATURES')
+     @OETestDepends(['ssh.SSHTest.test_ssh'])
+-    def test_iptables(self):
++    def test_lzip(self):
+         self.project.run_configure()
+         self.project.run_make()
+         self.project.run_install()
 -- 
 2.12.0
 
