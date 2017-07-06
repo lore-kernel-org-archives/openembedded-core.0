@@ -1,27 +1,41 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id B6C8C77BCD
+Return-Path: <swee.aun.khor@intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 2A224719D0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Jul 2017 08:09:37 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	06 Jul 2017 01:09:37 -0700
+	Thu,  6 Jul 2017 08:25:06 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	06 Jul 2017 01:25:07 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.40,316,1496127600"; d="scan'208";a="875385655"
-Received: from linux.intel.com ([10.54.29.200])
-	by FMSMGA003.fm.intel.com with ESMTP; 06 Jul 2017 01:09:37 -0700
-Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
-	by linux.intel.com (Postfix) with ESMTP id 731D7580571
-	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Jul 2017 01:09:36 -0700 (PDT)
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  6 Jul 2017 10:56:49 +0300
-Message-Id: <a8f774a7c65d2a48c6548363dc01111714d63420.1499326977.git.ed.bartosh@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <cover.1499326977.git.ed.bartosh@linux.intel.com>
-References: <cover.1499326977.git.ed.bartosh@linux.intel.com>
-Subject: [PATCH 8/8] selftest: fixed 3 wic test cases
+X-IronPort-AV: E=Sophos;i="5.40,316,1496127600"; d="scan'208";a="989333886"
+Received: from kmsmsx151.gar.corp.intel.com ([172.21.73.86])
+	by orsmga003.jf.intel.com with ESMTP; 06 Jul 2017 01:25:06 -0700
+Received: from pgsmsx110.gar.corp.intel.com (10.221.44.111) by
+	KMSMSX151.gar.corp.intel.com (172.21.73.86) with Microsoft SMTP Server
+	(TLS) id 14.3.319.2; Thu, 6 Jul 2017 16:25:05 +0800
+Received: from pgsmsx102.gar.corp.intel.com ([169.254.6.4]) by
+	PGSMSX110.gar.corp.intel.com ([10.221.44.111]) with mapi id
+	14.03.0319.002; Thu, 6 Jul 2017 16:25:05 +0800
+From: "Khor, Swee Aun" <swee.aun.khor@intel.com>
+To: Khem Raj <raj.khem@gmail.com>, "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH 7/7] libffi: Support musl-x32 build
+Thread-Index: AQHS9iiwKH183xbBQ06MZ72Or3jyiKJGdlAw
+Date: Thu, 6 Jul 2017 08:25:04 +0000
+Message-ID: <28423BAF0BC5B94BADBD663D77F7839024EF6CFB@PGSMSX102.gar.corp.intel.com>
+References: <cover.1499127835.git.swee.aun.khor@intel.com>
+	<722571d3f7603fc4dbe132ba50c11057244a8161.1499127835.git.swee.aun.khor@intel.com>
+	<e67110b8-07b3-768b-e80b-2a06c4fb55e4@gmail.com>
+In-Reply-To: <e67110b8-07b3-768b-e80b-2a06c4fb55e4@gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-version: 10.0.102.7
+dlp-reaction: no-action
+x-originating-ip: [172.30.20.206]
+MIME-Version: 1.0
+Subject: Re: [PATCH 7/7] libffi: Support musl-x32 build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,55 +48,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Jul 2017 08:09:38 -0000
+X-List-Received-Date: Thu, 06 Jul 2017 08:25:07 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Added core-image-minimal -> syslinux dependency to ensure
-syslinux artifacts are available from core-image-minimal
-build. This should fix test_iso_image, test_bootloader_config and
-test_default_output_dir test cases.
-
-Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
----
- meta/lib/oeqa/selftest/cases/wic.py | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
-
-diff --git a/meta/lib/oeqa/selftest/cases/wic.py b/meta/lib/oeqa/selftest/cases/wic.py
-index e27dbe9..b22a038 100644
---- a/meta/lib/oeqa/selftest/cases/wic.py
-+++ b/meta/lib/oeqa/selftest/cases/wic.py
-@@ -188,7 +188,8 @@ class Wic(OESelftestTestCase):
-     def test_iso_image(self):
-         """Test creation of hybrid iso image with legacy and EFI boot"""
-         config = 'INITRAMFS_IMAGE = "core-image-minimal-initramfs"\n'\
--                 'MACHINE_FEATURES_append = " efi"\n'
-+                 'MACHINE_FEATURES_append = " efi"\n'\
-+                 'DEPENDS_pn-core-image-minimal += "syslinux"\n'
-         self.append_config(config)
-         bitbake('core-image-minimal')
-         self.remove_config(config)
-@@ -217,6 +218,10 @@ class Wic(OESelftestTestCase):
-     @only_for_arch(['i586', 'i686', 'x86_64'])
-     def test_bootloader_config(self):
-         """Test creation of directdisk-bootloader-config image"""
-+        config = 'DEPENDS_pn-core-image-minimal += "syslinux"\n'
-+        self.append_config(config)
-+        bitbake('core-image-minimal')
-+        self.remove_config(config)
-         cmd = "wic create directdisk-bootloader-config -e core-image-minimal -o %s" % self.resultdir
-         self.assertEqual(0, runCmd(cmd).status)
-         self.assertEqual(1, len(glob(self.resultdir + "directdisk-bootloader-config-*direct")))
-@@ -248,6 +253,10 @@ class Wic(OESelftestTestCase):
-         """Test default output location"""
-         for fname in glob("directdisk-*.direct"):
-             os.remove(fname)
-+        config = 'DEPENDS_pn-core-image-minimal += "syslinux"\n'
-+        self.append_config(config)
-+        bitbake('core-image-minimal')
-+        self.remove_config(config)
-         cmd = "wic create directdisk -e core-image-minimal"
-         self.assertEqual(0, runCmd(cmd).status)
-         self.assertEqual(1, len(glob("directdisk-*.direct")))
--- 
-2.1.4
-
+V2lsbCBkbyB0aGF0LiANCg0KLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCkZyb206IEtoZW0g
+UmFqIFttYWlsdG86cmFqLmtoZW1AZ21haWwuY29tXSANClNlbnQ6IFRodXJzZGF5LCBKdWx5IDYs
+IDIwMTcgMzoyMiBQTQ0KVG86IEtob3IsIFN3ZWUgQXVuIDxzd2VlLmF1bi5raG9yQGludGVsLmNv
+bT47IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNClN1YmplY3Q6IFJl
+OiBbT0UtY29yZV0gW1BBVENIIDcvN10gbGliZmZpOiBTdXBwb3J0IG11c2wteDMyIGJ1aWxkDQoN
+Cg0KDQpPbiA3LzUvMTcgNDo1NiBQTSwgc3dlZS5hdW4ua2hvckBpbnRlbC5jb20gd3JvdGU6DQo+
+IEZyb206IHN3ZWVhdW4gPHN3ZWUuYXVuLmtob3JAaW50ZWwuY29tPg0KPiANCj4gVXBzdHJlYW0t
+U3RhdHVzOiBQZW5kaW5nLg0KPiBBZGRlZCB0YXJnZXQgbXVzbC14MzIgaW4gY29uZmlndXJlLmFj
+IHRvIHN1cHBvcnQgbXVzbC14MzIgYnVpbGQgaW4gbGliZmZpLg0KPiANCj4gU2lnbmVkLW9mZi1i
+eTogc3dlZWF1biA8c3dlZS5hdW4ua2hvckBpbnRlbC5jb20+DQo+IC0tLQ0KPiAgLi4uLzAwMDEt
+bGliZmZpLVN1cHBvcnQtbXVzbC14MzItYnVpbGQucGF0Y2ggICAgICAgfCAyOSArKysrKysrKysr
+KysrKysrKysrKysrDQo+ICBtZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJmZmkvbGliZmZpXzMuMi4x
+LmJiICAgICAgICB8ICAxICsNCj4gIDIgZmlsZXMgY2hhbmdlZCwgMzAgaW5zZXJ0aW9ucygrKQ0K
+PiAgY3JlYXRlIG1vZGUgMTAwNjQ0IA0KPiBtZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJmZmkvbGli
+ZmZpLzAwMDEtbGliZmZpLVN1cHBvcnQtbXVzbC14MzItYnVpbGQuDQo+IHBhdGNoDQo+IA0KPiBk
+aWZmIC0tZ2l0IA0KPiBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYmZmaS9saWJmZmkvMDAwMS1s
+aWJmZmktU3VwcG9ydC1tdXNsLXgzMi1idWlsDQo+IGQucGF0Y2ggDQo+IGIvbWV0YS9yZWNpcGVz
+LXN1cHBvcnQvbGliZmZpL2xpYmZmaS8wMDAxLWxpYmZmaS1TdXBwb3J0LW11c2wteDMyLWJ1aWwN
+Cj4gZC5wYXRjaA0KPiBuZXcgZmlsZSBtb2RlIDEwMDY0NA0KPiBpbmRleCAwMDAwMDAwLi45NzFh
+NTQzDQo+IC0tLSAvZGV2L251bGwNCj4gKysrIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGliZmZp
+L2xpYmZmaS8wMDAxLWxpYmZmaS1TdXBwb3J0LW11c2wteDMyLQ0KPiArKysgYnVpbGQucGF0Y2gN
+Cj4gQEAgLTAsMCArMSwyOSBAQA0KPiArRnJvbSA2MmFjODIxNGIzZThiMzY4YmQ5MzY1YTY5MjBi
+MDgxYWEwMTI1NjcxIE1vbiBTZXAgMTcgMDA6MDA6MDAgDQo+ICsyMDAxDQo+ICtGcm9tOiBzd2Vl
+YXVuIDxzd2VlLmF1bi5raG9yQGludGVsLmNvbT4NCj4gK0RhdGU6IE1vbiwgMyBKdWwgMjAxNyAx
+MzoyMzozMSAtMDcwMA0KPiArU3ViamVjdDogW1BBVENIXSBsaWJmZmk6IFN1cHBvcnQgbXVzbCB4
+MzIgYnVpbGQNCj4gKw0KPiArU3VwcG9ydCBsaWJmZmkgYnVpbGQgd2l0aCB0YXJnZXQgbXVzbC14
+MzIuDQo+ICsNCj4gK1NpZ25lZC1vZmYtYnk6IHN3ZWVhdW4gPHN3ZWUuYXVuLmtob3JAaW50ZWwu
+Y29tPg0KPiArLS0tDQo+ICsgY29uZmlndXJlLmFjIHwgMyArKysNCj4gKyAxIGZpbGUgY2hhbmdl
+ZCwgMyBpbnNlcnRpb25zKCspDQo+ICsNCj4gK2RpZmYgLS1naXQgYS9jb25maWd1cmUuYWMgYi9j
+b25maWd1cmUuYWMgaW5kZXggYTdiZjVlZS4uZjRlMTAxZCANCj4gKzEwMDY0NA0KPiArLS0tIGEv
+Y29uZmlndXJlLmFjDQo+ICsrKysgYi9jb25maWd1cmUuYWMNCj4gK0BAIC0xODAsNiArMTgwLDkg
+QEAgY2FzZSAiJGhvc3QiIGluDQo+ICsgCSAgICAqLWdudXgzMikNCj4gKyAJICAgICAgVEFSR0VU
+PVg4Nl82NA0KPiArIAkgICAgICA7Ow0KPiArKyAgICAgICAgICAgICotbXVzbHgzMikNCj4gKysg
+ICAgICAgICAgICAgIFRBUkdFVD1YODZfNjQNCj4gKysgICAgICAgICAgICAgIDs7DQoNCmp1c3Qg
+T1IgaXQgd2l0aCBjYXNlIGp1c3QgYWJvdmUgaXQuDQoqLWdudXgzMiB8ICotbXVzbHgzMg0KDQo+
+ICsgCSAgICAqKQ0KPiArIAkgICAgICBUQVJHRVQ9WDg2DQo+ICsgCSAgICAgIDs7DQo+ICstLQ0K
+PiArMi43LjQNCj4gKw0KPiBkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGliZmZp
+L2xpYmZmaV8zLjIuMS5iYiANCj4gYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJmZmkvbGliZmZp
+XzMuMi4xLmJiDQo+IGluZGV4IDQzZWVlOGUuLjJhM2Y0YjcgMTAwNjQ0DQo+IC0tLSBhL21ldGEv
+cmVjaXBlcy1zdXBwb3J0L2xpYmZmaS9saWJmZmlfMy4yLjEuYmINCj4gKysrIGIvbWV0YS9yZWNp
+cGVzLXN1cHBvcnQvbGliZmZpL2xpYmZmaV8zLjIuMS5iYg0KPiBAQCAtMTMsNiArMTMsNyBAQCBT
+UkNfVVJJID0gImZ0cDovL3NvdXJjZXdhcmUub3JnL3B1Yi9saWJmZmkvJHtCUH0udGFyLmd6IFwN
+Cj4gICAgICAgICAgICAgZmlsZTovL25vdC13aW4zMi5wYXRjaCBcDQo+ICAJICAgZmlsZTovLzAw
+MDEtbWlwcy1Vc2UtY29tcGlsZXItaW50ZXJuYWwtZGVmaW5lLWZvci1saW51eC5wYXRjaCBcDQo+
+ICAgICAgICAgICAgIGZpbGU6Ly8wMDAxLW1pcHMtZml4LU1JUFMtc29mdGZsb2F0LWJ1aWxkLWlz
+c3VlLnBhdGNoIFwNCj4gKyAgICAgICAgICAgZmlsZTovLzAwMDEtbGliZmZpLVN1cHBvcnQtbXVz
+bC14MzItYnVpbGQucGF0Y2ggXA0KPiAgCSAgICINCj4gIA0KPiAgU1JDX1VSSVttZDVzdW1dID0g
+IjgzYjg5NTg3NjA3ZTNlYjY1YzcwZDM2MWYxM2JhYjQzIg0KPiANCg0K
 
