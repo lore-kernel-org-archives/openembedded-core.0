@@ -1,27 +1,30 @@
-Return-Path: <richard@rpsys.net>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 75CCC77805
+Return-Path: <jose.perez.carranza@linux.intel.com>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 941DB77A60
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Jul 2017 15:47:28 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	v66FlQmq032524
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Thu, 6 Jul 2017 16:47:28 +0100
-Received: from richard by hex with local (Exim 4.86_2)
-	(envelope-from <richard@rpsys.net>)
-	id 1dT902-0003Od-MR; Thu, 06 Jul 2017 16:47:26 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  6 Jul 2017 16:47:22 +0100
-Message-Id: <1499356042-13015-1-git-send-email-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.7.4
-X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.11
-	(dan.rpsys.net [192.168.3.1]);
-	Thu, 06 Jul 2017 16:47:28 +0100 (BST)
-X-Virus-Scanned: clamav-milter 0.99.2 at dan
-X-Virus-Status: Clean
-Subject: [PATCH] base: Add MultiConfigParsed handler to deal with unstable build signatures
+	Thu,  6 Jul 2017 16:03:05 +0000 (UTC)
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+	by fmsmga105.fm.intel.com with ESMTP; 06 Jul 2017 09:03:00 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.40,317,1496127600"; d="scan'208";a="123681425"
+Received: from jgperezc-mobl1.zpn.intel.com (HELO [10.219.4.33])
+	([10.219.4.33])
+	by fmsmga006.fm.intel.com with ESMTP; 06 Jul 2017 09:03:00 -0700
+To: Khem Raj <raj.khem@gmail.com>
+References: <cover.1499351361.git.raj.khem@gmail.com>
+	<3107cc24993f111ff2d5714213bd85ff15173221.1499351361.git.raj.khem@gmail.com>
+	<48ec40d9-45ec-a6c1-add5-e389819f6e07@linux.intel.com>
+	<CAMKF1spku=Ybg6cpduDAbgjgK6xYgSqFdhk2JSnciQ+URkNAmA@mail.gmail.com>
+From: Jose Perez Carranza <jose.perez.carranza@linux.intel.com>
+Message-ID: <77b8ac69-1626-27d8-8743-1bb2589a4503@linux.intel.com>
+Date: Thu, 6 Jul 2017 11:05:53 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.1.0
+MIME-Version: 1.0
+In-Reply-To: <CAMKF1spku=Ybg6cpduDAbgjgK6xYgSqFdhk2JSnciQ+URkNAmA@mail.gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 22/22] testimage: Use the renamed buildlzip
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,67 +37,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Jul 2017 15:47:30 -0000
+X-List-Received-Date: Thu, 06 Jul 2017 16:03:06 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 
-This uses the newly added MultiConfigParsed event to handle problems where
-checksums in multiconfig build were not fuctioning as expected.
 
-The issue arises around SIGGEN_EXCLUDE_SAFE_RECIPE_DEPS which contains
-entries like:
 
-* gcc-cross-${TARGET_ARCH}->virtual/${TARGET_PREFIX}libc-for-gcc
-* gcc-cross-${TARGET_ARCH}->linux-libc-headers
+On 07/06/2017 10:40 AM, Khem Raj wrote:
+> On Thu, Jul 6, 2017 at 8:34 AM, Jose Perez Carranza
+> <jose.perez.carranza@linux.intel.com> wrote:
+>> On 07/06/2017 09:33 AM, Khem Raj wrote:
+>>> buildiptables has been replaced with buildlzip
+>>>
+>>> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+>>> ---
+>>>    meta/classes/testimage.bbclass | 6 +++---
+>>>    1 file changed, 3 insertions(+), 3 deletions(-)
+>>>
+>>> diff --git a/meta/classes/testimage.bbclass
+>>> b/meta/classes/testimage.bbclass
+>>> index 6fa2d6fd9f..0c4a84e111 100644
+>>> --- a/meta/classes/testimage.bbclass
+>>> +++ b/meta/classes/testimage.bbclass
+>>> @@ -49,10 +49,10 @@ DEFAULT_TEST_SUITES_pn-core-image-x11 =
+>>> "${MINTESTSUITE}"
+>>>    DEFAULT_TEST_SUITES_pn-core-image-lsb = "${NETTESTSUITE} pam parselogs
+>>> ${RPMTESTSUITE}"
+>>>    DEFAULT_TEST_SUITES_pn-core-image-sato = "${NETTESTSUITE} connman xorg
+>>> parselogs ${RPMTESTSUITE} \
+>>>        ${@bb.utils.contains('IMAGE_PKGTYPE', 'rpm', 'python', '', d)}"
+>>> -DEFAULT_TEST_SUITES_pn-core-image-sato-sdk = "${NETTESTSUITE} buildcpio
+>>> buildiptables buildgalculator \
+>>> +DEFAULT_TEST_SUITES_pn-core-image-sato-sdk = "${NETTESTSUITE} buildcpio
+>>> buildlzip buildgalculator \
+>>>        connman ${DEVTESTSUITE} logrotate perl parselogs python
+>>> ${RPMTESTSUITE} xorg"
+>>>    DEFAULT_TEST_SUITES_pn-core-image-lsb-dev = "${NETTESTSUITE} pam perl
+>>> python parselogs ${RPMTESTSUITE}"
+>>> -DEFAULT_TEST_SUITES_pn-core-image-lsb-sdk = "${NETTESTSUITE} buildcpio
+>>> buildiptables buildgalculator \
+>>> +DEFAULT_TEST_SUITES_pn-core-image-lsb-sdk = "${NETTESTSUITE} buildcpio
+>>> buildlzip buildgalculator \
+>>>        connman ${DEVTESTSUITE} logrotate pam parselogs perl python
+>>> ${RPMTESTSUITE}"
+>>>    DEFAULT_TEST_SUITES_pn-meta-toolchain = "auto"
+>>>    @@ -61,7 +61,7 @@ DEFAULT_TEST_SUITES_remove_aarch64 = "xorg"
+>>>      # qemumips is quite slow and has reached the timeout limit several
+>>> times on the YP build cluster,
+>>>    # mitigate this by removing build tests for qemumips machines.
+>>> -MIPSREMOVE ??= "buildcpio buildiptables buildgalculator"
+>>> +MIPSREMOVE ??= "buildcpio buildlzip buildgalculator"
+>>>    DEFAULT_TEST_SUITES_remove_qemumips = "${MIPSREMOVE}"
+>>>    DEFAULT_TEST_SUITES_remove_qemumips64 = "${MIPSREMOVE}"
+>>>
+>> I think this patch is not applicable as for runtime tests
+>> (meta/lib/oeqa/runtime/cases/) we do actually use buildiptables test, for
+>> sdk test there are not filters so in the case of using "testsdk" all the
+>> available test under meta/lib/oeqa/sdk/cases should be executed.
+>>
+> Thats fine, send a followup. Without this patch I was still seeing
+> that bitbake -ctestimage <image> would not execute the new test and
+> looking for old test.
+The new test is only applicable to sdk test, to execute this tests 
+"bitbake -c testsdk <image>" should be used an this actually executes 
+new lzip tests, on the bug 11713 is tatetd tht the problems are in 
+sdl/cases/iptables, are you also having issues on the 
+"runtime/cases/buildiptables"? if that is the case please add a comment 
+on the bug as this will need some more effort.
+> "
+> As can be seen the patch is just a rename the occurrences of old test
+> with new test.
+>
+>> --
+>> Saludos
+>> José
+>>
 
-These need to be expanded in the multiconfig data store but then placed
-into the shared main datastore used by the siggen code. The only other
-alternative would be a siggen instance for each multiconfig however that
-seemed even more complex and invasive.
-
-In real world usage, this issue would mean a qemux86 base config with
-other armv5 and armv7 configs (e.g. beaglebone and qemuarm) would
-try and build gcc-cross twice since dependencies normaly excluded
-(e.g. linux-libc-headers) would now be included. This breaks sstate reuse
-as well as breaking builds unless separate tmpdirs are used.
-
-This patch adds all the entries for each multiconfig. Whilst there may
-be duplicates, this shouldn't be an issue.
-
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/classes/base.bbclass | 12 +++++++++++-
- 1 file changed, 11 insertions(+), 1 deletion(-)
-
-diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
-index 3762c8a..27a28b8 100644
---- a/meta/classes/base.bbclass
-+++ b/meta/classes/base.bbclass
-@@ -220,7 +220,7 @@ def buildcfg_neededvars(d):
-         bb.fatal('The following variable(s) were not set: %s\nPlease set them directly, or choose a MACHINE or DISTRO that sets them.' % ', '.join(pesteruser))
- 
- addhandler base_eventhandler
--base_eventhandler[eventmask] = "bb.event.ConfigParsed bb.event.BuildStarted bb.event.RecipePreFinalise bb.runqueue.sceneQueueComplete bb.event.RecipeParsed"
-+base_eventhandler[eventmask] = "bb.event.ConfigParsed bb.event.MultiConfigParsed bb.event.BuildStarted bb.event.RecipePreFinalise bb.runqueue.sceneQueueComplete bb.event.RecipeParsed"
- python base_eventhandler() {
-     import bb.runqueue
- 
-@@ -235,6 +235,16 @@ python base_eventhandler() {
-         setup_hosttools_dir(d.getVar('HOSTTOOLS_DIR'), 'HOSTTOOLS', d)
-         setup_hosttools_dir(d.getVar('HOSTTOOLS_DIR'), 'HOSTTOOLS_NONFATAL', d, fatal=False)
- 
-+    if isinstance(e, bb.event.MultiConfigParsed):
-+        # We need to expand SIGGEN_EXCLUDE_SAFE_RECIPE_DEPS in each of the multiconfig data stores
-+        # own contexts so the variables get expanded correctly for that arch, then inject back into
-+        # the main data store.
-+        deps = []
-+        for config in e.mcdata:
-+            deps.append(e.mcdata[config].getVar("SIGGEN_EXCLUDE_SAFE_RECIPE_DEPS"))
-+        deps = " ".join(deps)
-+        e.mcdata[''].setVar("SIGGEN_EXCLUDE_SAFE_RECIPE_DEPS", deps)
-+
-     if isinstance(e, bb.event.BuildStarted):
-         localdata = bb.data.createCopy(e.data)
-         statuslines = []
 -- 
-2.7.4
+Saludos
+José
 
 
