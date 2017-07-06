@@ -1,47 +1,25 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wr0-f175.google.com (mail-wr0-f175.google.com
-	[209.85.128.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 7E75A719E2
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 5B248719E2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Jul 2017 11:43:57 +0000 (UTC)
-Received: by mail-wr0-f175.google.com with SMTP id 77so25476232wrb.1
+	Thu,  6 Jul 2017 11:44:41 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	06 Jul 2017 04:44:43 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.40,317,1496127600"; d="scan'208";a="107793116"
+Received: from linux.intel.com ([10.54.29.200])
+	by orsmga002.jf.intel.com with ESMTP; 06 Jul 2017 04:44:38 -0700
+Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
+	by linux.intel.com (Postfix) with ESMTP id 59BE058038E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 06 Jul 2017 04:43:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=8UYIQoQMxc4GzE46HNZKbq95FZfCE1naf6FpP8kG+5Q=;
-	b=VX0u2flTpEf7DfNmgrLthpTpz+Dph1mngWH95sq6FcHVIzZIQSIclsVwGVS4SoR+oi
-	IZwCFMqTlkPB/IPXgVM8tJeK+/6AJXqQn2A3/BEgwJYO8nLKaXuCwIE8/xY86HJ4Ifnk
-	5pY2uKboN2vNtWyIcdc0uJR/raB0m1Jo/g8GzOv7QkWjDnT7MTjBDeXhfxNdplVKEabZ
-	iH52BMK7hFcLHeOtwXxpHFafuZSdG4VSxNQEX+SOiULUtXYKxmzLoiFszmv8xy0YqExh
-	DJpW3et/bwpOMlhjihLBltS2BWn7MGdHO4F/XzGPo6bzOgs6hXwdmUDm9Pb/caGcp4Hy
-	erIA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=8UYIQoQMxc4GzE46HNZKbq95FZfCE1naf6FpP8kG+5Q=;
-	b=bB/XwI6MfanRz8hAYpaxrFryPe00ZegpmZ5qlFj5sfhT/Qzv6rrwOMGm1fdLvnDFrU
-	z/TweArHkifwRfsWuY4sx+gxC1Ek7JdaHGESgXpLlUWycGAxwGG0sRqi6aCuJycyxh8a
-	IhR5BcDfi+8ZREc4Q0aM6RZh0XBwlRgeG0NciYUtVH2bD2NpWiGFM6MCm7md38PmRvyx
-	KH6Rbvu+754MYyTwfJlunvK4+x2wivTO5PHMHvkqrj/biaOmMeQsUxEFoZYaH6AGy1pZ
-	gWlb+FDz+c9cv/1NhdfPqzFnU20kC3LW4xLMBx0x9yGO36MVj46u9/PlyO1Awbl9WHs5
-	fKNw==
-X-Gm-Message-State: AKS2vOxkQ0c13LUscc402gnur84SLyU9iK8TIjmpszqmkx8SG6Wa5kbw
-	1/iCCktcK18+//MxNJM=
-X-Received: by 10.223.166.139 with SMTP id t11mr41644384wrc.39.1499341437840; 
-	Thu, 06 Jul 2017 04:43:57 -0700 (PDT)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id 79sm89230wrc.34.2017.07.06.04.43.56
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 06 Jul 2017 04:43:57 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
+	Thu,  6 Jul 2017 04:44:38 -0700 (PDT)
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  6 Jul 2017 12:43:55 +0100
-Message-Id: <20170706114355.17393-1-ross.burton@intel.com>
-X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] speex: update SRC_URI
+Date: Thu,  6 Jul 2017 14:32:32 +0300
+Message-Id: <cover.1499340568.git.ed.bartosh@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH 0/3] #11709: Implemented --mkfs-extraopts
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,29 +32,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Jul 2017 11:43:57 -0000
+X-List-Received-Date: Thu, 06 Jul 2017 11:44:42 -0000
 
-The US download mirror appears to be down, so use the main host instead.
+Hi,
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-multimedia/speex/speex_1.2.0.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+This patchset implements new wks option --mkfs-extraopts, updates
+documentation and adds test case for it to the wic oe-selftest test suite.
 
-diff --git a/meta/recipes-multimedia/speex/speex_1.2.0.bb b/meta/recipes-multimedia/speex/speex_1.2.0.bb
-index cc69bb50672..19636bb202e 100644
---- a/meta/recipes-multimedia/speex/speex_1.2.0.bb
-+++ b/meta/recipes-multimedia/speex/speex_1.2.0.bb
-@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=314649d8ba9dd7045dfb6683f298d0a8 \
-                     file://include/speex/speex.h;beginline=1;endline=34;md5=ef8c8ea4f7198d71cf3509c6ed05ea50"
- DEPENDS = "libogg speexdsp"
- 
--SRC_URI = "http://downloads.us.xiph.org/releases/speex/speex-${PV}.tar.gz"
-+SRC_URI = "http://downloads.xiph.org/releases/speex/speex-${PV}.tar.gz"
- UPSTREAM_CHECK_REGEX = "speex-(?P<pver>\d+(\.\d+)+)\.tar"
- 
- SRC_URI[md5sum] = "8ab7bb2589110dfaf0ed7fa7757dc49c"
--- 
-2.11.0
+The following changes since commit 302b7497f94a37ccc65541ac6973251969c0ba77:
+
+  live-vm-common: add MKDOSFS_EXTRAOPTS variable (2017-07-06 11:38:36 +0300)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib ed/wip
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=ed/wip
+
+Ed Bartosh (3):
+  wic: implement wks option --mkfs-extraopts
+  wic: add description of --mkfs-extraopts
+  oe-selftest: wic: add test_mkfs_extraopts test case
+
+ meta/lib/oeqa/selftest/cases/wic.py | 19 ++++++++++++++++++
+ scripts/lib/wic/help.py             |  6 ++++++
+ scripts/lib/wic/ksparser.py         |  1 +
+ scripts/lib/wic/partition.py        | 39 +++++++++++++++++++++++--------------
+ 4 files changed, 50 insertions(+), 15 deletions(-)
+
+--
+Regards,
+Ed
 
 
