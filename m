@@ -1,24 +1,24 @@
-Return-Path: <Zhixiong.Chi@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 67E9671BE5
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 69B1F71B27
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Jul 2017 08:44:14 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v668iDRO012200
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 6 Jul 2017 01:44:13 -0700 (PDT)
-Received: from pek-lpggp2.wrs.com (128.224.153.75) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
-	Thu, 6 Jul 2017 01:44:11 -0700
-From: Zhixiong Chi <zhixiong.chi@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 6 Jul 2017 16:43:32 +0800
-Message-ID: <1499330612-120142-1-git-send-email-zhixiong.chi@windriver.com>
-X-Mailer: git-send-email 1.9.1
-MIME-Version: 1.0
-Subject: [PATCH][v2] grub: CVE-2017-9763
+	Thu,  6 Jul 2017 08:55:00 +0000 (UTC)
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	06 Jul 2017 01:55:02 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.40,316,1496127600"; d="scan'208";a="105036390"
+Received: from linux.intel.com ([10.54.29.200])
+	by orsmga004.jf.intel.com with ESMTP; 06 Jul 2017 01:55:01 -0700
+Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
+	by linux.intel.com (Postfix) with ESMTP id 206F95801CF;
+	Thu,  6 Jul 2017 01:55:00 -0700 (PDT)
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  6 Jul 2017 11:43:00 +0300
+Message-Id: <1499330580-27442-1-git-send-email-ed.bartosh@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] live-vm-common: add MKDOSFS_EXTRAOPTS variable
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,412 +31,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Jul 2017 08:44:15 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 06 Jul 2017 08:55:01 -0000
 
-The grub_ext2_read_block function in fs/ext2.c in GNU GRUB before
-2013-11-12, allows remote attackers to cause a denial of service
-(excessive stack use and application crash) via a crafted binary
-file, related to use of a variable-size stack array.
+Sometimes it's needed to create FAT filesystem with specific
+sector or cluster size, FAT size or to use one of other useful
+mkdosfs options.
 
-patch from http://git.savannah.gnu.org/cgit/grub.git commit
-f797ec85a02c0137a739fba7ee3f40d063bb7ade
-ac8cac1dac50daaf1c390d701cca3b55e16ee768
+Introduced MKDOSFS_EXTRAOPTS variable to set options for mkdosfs.
 
-CVE: CVE-2017-9763
+[YOCTO #11709]
 
-Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
+Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 ---
- meta/recipes-bsp/grub/files/CVE-2017-9763.patch    | 252 +++++++++++++++++++++
- .../grub-core-fs-ext2-use-shifts-rather-than.patch | 105 +++++++++
- meta/recipes-bsp/grub/grub2.inc                    |   2 +
- 3 files changed, 359 insertions(+)
- create mode 100644 meta/recipes-bsp/grub/files/CVE-2017-9763.patch
- create mode 100644 meta/recipes-bsp/grub/files/grub-core-fs-ext2-use-shifts-rather-than.patch
+ meta/classes/image-live.bbclass     | 4 ++--
+ meta/classes/image-vm.bbclass       | 2 +-
+ meta/classes/live-vm-common.bbclass | 2 ++
+ 3 files changed, 5 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-bsp/grub/files/CVE-2017-9763.patch b/meta/recipes-bsp/grub/files/CVE-2017-9763.patch
-new file mode 100644
-index 0000000..4286730
---- /dev/null
-+++ b/meta/recipes-bsp/grub/files/CVE-2017-9763.patch
-@@ -0,0 +1,252 @@
-+From ac8cac1dac50daaf1c390d701cca3b55e16ee768 Mon Sep 17 00:00:00 2001
-+From: Vladimir Serbinenko <phcoder@gmail.com>
-+Date: Tue, 12 Nov 2013 03:04:19 +0100
-+Subject: 	* grub-core/fs/ext2.c: Remove variable length arrays.
-+
-+Upstream-Status: Backport
-+
-+CVE: CVE-2017-9763
-+
-+Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
-+
-+---
-+ ChangeLog           |  4 +++
-+ grub-core/fs/ext2.c | 79 +++++++++++++++++++++++++++++++++--------------------
-+ 2 files changed, 53 insertions(+), 30 deletions(-)
-+
-+diff --git a/ChangeLog b/ChangeLog
-+index 269a841..75034e0 100644
-+--- a/ChangeLog
-++++ b/ChangeLog
-+@@ -1,3 +1,7 @@
-++2013-11-12  Vladimir Serbinenko  <phcoder@gmail.com>
-++
-++	* grub-core/fs/ext2.c: Remove variable length arrays.
-++
-+ 2013-01-05  Vladimir Serbinenko  <phcoder@gmail.com>
-+ 
-+ 	* grub-core/fs/ext2.c (grub_ext2_read_block): Use shifts rather than 
-+diff --git a/grub-core/fs/ext2.c b/grub-core/fs/ext2.c
-+index 6941ef2..aba5cb1 100644
-+--- a/grub-core/fs/ext2.c
-++++ b/grub-core/fs/ext2.c
-+@@ -247,6 +247,7 @@ struct ext2_dirent
-+ {
-+   grub_uint32_t inode;
-+   grub_uint16_t direntlen;
-++#define MAX_NAMELEN 255
-+   grub_uint8_t namelen;
-+   grub_uint8_t filetype;
-+ };
-+@@ -344,11 +345,12 @@ grub_ext2_blockgroup (struct grub_ext2_data *data, int group,
-+ }
-+ 
-+ static struct grub_ext4_extent_header *
-+-grub_ext4_find_leaf (struct grub_ext2_data *data, grub_properly_aligned_t *buf,
-++grub_ext4_find_leaf (struct grub_ext2_data *data,
-+                      struct grub_ext4_extent_header *ext_block,
-+                      grub_uint32_t fileblock)
-+ {
-+   struct grub_ext4_extent_idx *index;
-++  void *buf = NULL;
-+ 
-+   while (1)
-+     {
-+@@ -357,8 +359,8 @@ grub_ext4_find_leaf (struct grub_ext2_data *data, grub_properly_aligned_t *buf,
-+ 
-+       index = (struct grub_ext4_extent_idx *) (ext_block + 1);
-+ 
-+-      if (grub_le_to_cpu16(ext_block->magic) != EXT4_EXT_MAGIC)
-+-        return 0;
-++      if (ext_block->magic != grub_cpu_to_le16_compile_time (EXT4_EXT_MAGIC))
-++	goto fail;
-+ 
-+       if (ext_block->depth == 0)
-+         return ext_block;
-+@@ -370,17 +372,24 @@ grub_ext4_find_leaf (struct grub_ext2_data *data, grub_properly_aligned_t *buf,
-+         }
-+ 
-+       if (--i < 0)
-+-        return 0;
-++	goto fail;
-+ 
-+       block = grub_le_to_cpu16 (index[i].leaf_hi);
-+       block = (block << 32) + grub_le_to_cpu32 (index[i].leaf);
-++      if (!buf)
-++	buf = grub_malloc (EXT2_BLOCK_SIZE(data));
-++      if (!buf)
-++	goto fail;
-+       if (grub_disk_read (data->disk,
-+                           block << LOG2_EXT2_BLOCK_SIZE (data),
-+                           0, EXT2_BLOCK_SIZE(data), buf))
-+-        return 0;
-++	goto fail;
-+ 
-+-      ext_block = (struct grub_ext4_extent_header *) buf;
-++      ext_block = buf;
-+     }
-++ fail:
-++  grub_free (buf);
-++  return 0;
-+ }
-+ 
-+ static grub_disk_addr_t
-+@@ -394,14 +403,12 @@ grub_ext2_read_block (grub_fshelp_node_t node, grub_disk_addr_t fileblock)
-+ 
-+   if (inode->flags & grub_cpu_to_le32_compile_time (EXT4_EXTENTS_FLAG))
-+     {
-+-      GRUB_PROPERLY_ALIGNED_ARRAY (buf, EXT2_BLOCK_SIZE(data));
-+       struct grub_ext4_extent_header *leaf;
-+       struct grub_ext4_extent *ext;
-+       int i;
-++      grub_disk_addr_t ret;
-+ 
-+-      leaf = grub_ext4_find_leaf (data, buf,
-+-                                  (struct grub_ext4_extent_header *) inode->blocks.dir_blocks,
-+-                                  fileblock);
-++      leaf = grub_ext4_find_leaf (data, (struct grub_ext4_extent_header *) inode->blocks.dir_blocks, fileblock);
-+       if (! leaf)
-+         {
-+           grub_error (GRUB_ERR_BAD_FS, "invalid extent");
-+@@ -419,7 +426,7 @@ grub_ext2_read_block (grub_fshelp_node_t node, grub_disk_addr_t fileblock)
-+         {
-+           fileblock -= grub_le_to_cpu32 (ext[i].block);
-+           if (fileblock >= grub_le_to_cpu16 (ext[i].len))
-+-            return 0;
-++	    ret = 0;
-+           else
-+             {
-+               grub_disk_addr_t start;
-+@@ -427,14 +434,19 @@ grub_ext2_read_block (grub_fshelp_node_t node, grub_disk_addr_t fileblock)
-+               start = grub_le_to_cpu16 (ext[i].start_hi);
-+               start = (start << 32) + grub_le_to_cpu32 (ext[i].start);
-+ 
-+-              return fileblock + start;
-++              ret = fileblock + start;
-+             }
-+         }
-+       else
-+         {
-+           grub_error (GRUB_ERR_BAD_FS, "something wrong with extent");
-+-          return -1;
-++	  ret = -1;
-+         }
-++
-++      if (leaf != (struct grub_ext4_extent_header *) inode->blocks.dir_blocks)
-++	grub_free (leaf);
-++
-++      return ret;
-+     }
-+   /* Direct blocks.  */
-+   if (fileblock < INDIRECT_BLOCKS)
-+@@ -442,16 +454,17 @@ grub_ext2_read_block (grub_fshelp_node_t node, grub_disk_addr_t fileblock)
-+   /* Indirect.  */
-+   else if (fileblock < INDIRECT_BLOCKS + blksz / 4)
-+     {
-+-      grub_uint32_t indir[blksz / 4];
-++      grub_uint32_t indir;
-+ 
-+       if (grub_disk_read (data->disk,
-+ 			  ((grub_disk_addr_t)
-+ 			   grub_le_to_cpu32 (inode->blocks.indir_block))
-+ 			  << log2_blksz,
-+-			  0, blksz, indir))
-++			  (fileblock - INDIRECT_BLOCKS) * sizeof (indir),
-++			  sizeof (indir), &indir))
-+ 	return grub_errno;
-+ 
-+-      blknr = grub_le_to_cpu32 (indir[fileblock - INDIRECT_BLOCKS]);
-++      blknr = grub_le_to_cpu32 (indir);
-+     }
-+   /* Double indirect.  */
-+   else if (fileblock < INDIRECT_BLOCKS
-+@@ -460,24 +473,26 @@ grub_ext2_read_block (grub_fshelp_node_t node, grub_disk_addr_t fileblock)
-+       int log_perblock = log2_blksz + 9 - 2;
-+       grub_disk_addr_t rblock = fileblock - (INDIRECT_BLOCKS
-+ 					     + blksz / 4);
-+-      grub_uint32_t indir[blksz / 4];
-++      grub_uint32_t indir;
-+ 
-+       if (grub_disk_read (data->disk,
-+ 			  ((grub_disk_addr_t)
-+ 			   grub_le_to_cpu32 (inode->blocks.double_indir_block))
-+ 			  << log2_blksz,
-+-			  0, blksz, indir))
-++			  (rblock >> log_perblock) * sizeof (indir),
-++			  sizeof (indir), &indir))
-+ 	return grub_errno;
-+ 
-+       if (grub_disk_read (data->disk,
-+ 			  ((grub_disk_addr_t)
-+-			   grub_le_to_cpu32 (indir[rblock >> log_perblock]))
-++			   grub_le_to_cpu32 (indir))
-+ 			  << log2_blksz,
-+-			  0, blksz, indir))
-++			  (rblock & ((1 << log_perblock) - 1)) * sizeof (indir),
-++			  sizeof (indir), &indir))
-+ 	return grub_errno;
-+ 
-+ 
-+-      blknr = grub_le_to_cpu32 (indir[rblock & ((1 << log_perblock) - 1)]);
-++      blknr = grub_le_to_cpu32 (indir);
-+     }
-+   /* triple indirect.  */
-+   else if (fileblock < INDIRECT_BLOCKS + blksz / 4 * ((grub_disk_addr_t) blksz / 4 + 1)
-+@@ -487,34 +502,38 @@ grub_ext2_read_block (grub_fshelp_node_t node, grub_disk_addr_t fileblock)
-+       int log_perblock = log2_blksz + 9 - 2;
-+       grub_disk_addr_t rblock = fileblock - (INDIRECT_BLOCKS + blksz / 4
-+ 					     * (blksz / 4 + 1));
-+-      grub_uint32_t indir[blksz / 4];
-++      grub_uint32_t indir;
-+ 
-+       if (grub_disk_read (data->disk,
-+ 			  ((grub_disk_addr_t)
-+ 			   grub_le_to_cpu32 (inode->blocks.triple_indir_block))
-+ 			  << log2_blksz,
-+-			  0, blksz, indir))
-++			  ((rblock >> log_perblock) >> log_perblock)
-++			  * sizeof (indir), sizeof (indir), &indir))
-+ 	return grub_errno;
-+ 
-+       if (grub_disk_read (data->disk,
-+ 			  ((grub_disk_addr_t)
-+-			   grub_le_to_cpu32 (indir[(rblock >> log_perblock) >> log_perblock]))
-++			   grub_le_to_cpu32 (indir))
-+ 			  << log2_blksz,
-+-			  0, blksz, indir))
-++			  ((rblock >> log_perblock)
-++			   & ((1 << log_perblock) - 1)) * sizeof (indir),
-++			  sizeof (indir), &indir))
-+ 	return grub_errno;
-+ 
-+       if (grub_disk_read (data->disk,
-+ 			  ((grub_disk_addr_t)
-+-			   grub_le_to_cpu32 (indir[(rblock >> log_perblock) & ((1 << log_perblock) - 1)]))
-++			   grub_le_to_cpu32 (indir))
-+ 			  << log2_blksz,
-+-			  0, blksz, indir))
-++			  (rblock  & ((1 << log_perblock) - 1))
-++			  * sizeof (indir), sizeof (indir), &indir))
-+ 	return grub_errno;
-+ 
-+-      blknr = grub_le_to_cpu32 (indir[rblock  & ((1 << log_perblock) - 1)]);
-++      blknr = grub_le_to_cpu32 (indir);
-+     }
-+   else
-+     {
-+-      grub_error (GRUB_ERR_NOT_IMPLEMENTED_YET,
-++      grub_error (GRUB_ERR_BAD_FS,
-+ 		  "ext2fs doesn't support quadruple indirect blocks");
-+     }
-+ 
-+@@ -719,7 +738,7 @@ grub_ext2_iterate_dir (grub_fshelp_node_t dir,
-+ 
-+       if (dirent.inode != 0 && dirent.namelen != 0)
-+ 	{
-+-	  char filename[dirent.namelen + 1];
-++	  char filename[MAX_NAMELEN + 1];
-+ 	  struct grub_fshelp_node *fdiro;
-+ 	  enum grub_fshelp_filetype type = GRUB_FSHELP_UNKNOWN;
-+ 
-+-- 
-+cgit v1.0-41-gc330
-diff --git a/meta/recipes-bsp/grub/files/grub-core-fs-ext2-use-shifts-rather-than.patch b/meta/recipes-bsp/grub/files/grub-core-fs-ext2-use-shifts-rather-than.patch
-new file mode 100644
-index 0000000..d7fca89
---- /dev/null
-+++ b/meta/recipes-bsp/grub/files/grub-core-fs-ext2-use-shifts-rather-than.patch
-@@ -0,0 +1,105 @@
-+From f797ec85a02c0137a739fba7ee3f40d063bb7ade Mon Sep 17 00:00:00 2001
-+From: Vladimir 'phcoder' Serbinenko <phcoder@gmail.com>
-+Date: Sat, 5 Jan 2013 18:37:34 +0100
-+Subject: 	* grub-core/fs/ext2.c (grub_ext2_read_block): Use shifts
-+ rather than 	divisions.
-+
-+Upstream-Status: Backport
-+
-+This patch is for CVE-2017-9763 patch.
-+
-+Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
-+---
-+ ChangeLog           |  5 +++++
-+ grub-core/fs/ext2.c | 30 ++++++++++++++++--------------
-+ 2 files changed, 21 insertions(+), 14 deletions(-)
-+
-+diff --git a/ChangeLog b/ChangeLog
-+index 88fd763..af29161 100644
-+--- a/ChangeLog
-++++ b/ChangeLog
-+@@ -1,3 +1,8 @@
-++2013-01-05  Vladimir Serbinenko  <phcoder@gmail.com>
-++
-++	* grub-core/fs/ext2.c (grub_ext2_read_block): Use shifts rather than
-++	divisions.
-++
-+ 2013-01-20  Colin Watson  <cjwatson@ubuntu.com>
-+
-+        * grub-core/loader/i386/linux.c (grub_cmd_initrd): Don't add the
-+diff --git a/grub-core/fs/ext2.c b/grub-core/fs/ext2.c
-+index bd1ab24..cf2e2f4 100644
-+--- a/grub-core/fs/ext2.c
-++++ b/grub-core/fs/ext2.c
-+@@ -454,11 +454,12 @@ grub_ext2_read_block (grub_fshelp_node_t node, grub_disk_addr_t fileblock)
-+       blknr = grub_le_to_cpu32 (indir[fileblock - INDIRECT_BLOCKS]);
-+     }
-+   /* Double indirect.  */
-+-  else if (fileblock < INDIRECT_BLOCKS + blksz / 4 * (blksz / 4 + 1))
-++  else if (fileblock < INDIRECT_BLOCKS
-++	   + blksz / 4 * ((grub_disk_addr_t) blksz / 4 + 1))
-+     {
-+-      unsigned int perblock = blksz / 4;
-+-      unsigned int rblock = fileblock - (INDIRECT_BLOCKS
-+-					 + blksz / 4);
-++      int log_perblock = log2_blksz + 9 - 2;
-++      grub_disk_addr_t rblock = fileblock - (INDIRECT_BLOCKS
-++					     + blksz / 4);
-+       grub_uint32_t indir[blksz / 4];
-+ 
-+       if (grub_disk_read (data->disk,
-+@@ -470,21 +471,22 @@ grub_ext2_read_block (grub_fshelp_node_t node, grub_disk_addr_t fileblock)
-+ 
-+       if (grub_disk_read (data->disk,
-+ 			  ((grub_disk_addr_t)
-+-			   grub_le_to_cpu32 (indir[rblock / perblock]))
-++			   grub_le_to_cpu32 (indir[rblock >> log_perblock]))
-+ 			  << log2_blksz,
-+ 			  0, blksz, indir))
-+ 	return grub_errno;
-+ 
-+ 
-+-      blknr = grub_le_to_cpu32 (indir[rblock % perblock]);
-++      blknr = grub_le_to_cpu32 (indir[rblock & ((1 << log_perblock) - 1)]);
-+     }
-+   /* triple indirect.  */
-+-  else if (fileblock < INDIRECT_BLOCKS + blksz / 4 * (blksz / 4 + 1)
-+-	   + (blksz / 4) * (blksz / 4) * (blksz / 4 + 1))
-++  else if (fileblock < INDIRECT_BLOCKS + blksz / 4 * ((grub_disk_addr_t) blksz / 4 + 1)
-++	   + ((grub_disk_addr_t) blksz / 4) * ((grub_disk_addr_t) blksz / 4)
-++	   * ((grub_disk_addr_t) blksz / 4 + 1))
-+     {
-+-      unsigned int perblock = blksz / 4;
-+-      unsigned int rblock = fileblock - (INDIRECT_BLOCKS + blksz / 4
-+-					 * (blksz / 4 + 1));
-++      int log_perblock = log2_blksz + 9 - 2;
-++      grub_disk_addr_t rblock = fileblock - (INDIRECT_BLOCKS + blksz / 4
-++					     * (blksz / 4 + 1));
-+       grub_uint32_t indir[blksz / 4];
-+ 
-+       if (grub_disk_read (data->disk,
-+@@ -496,19 +498,19 @@ grub_ext2_read_block (grub_fshelp_node_t node, grub_disk_addr_t fileblock)
-+ 
-+       if (grub_disk_read (data->disk,
-+ 			  ((grub_disk_addr_t)
-+-			   grub_le_to_cpu32 (indir[(rblock / perblock) / perblock]))
-++			   grub_le_to_cpu32 (indir[(rblock >> log_perblock) >> log_perblock]))
-+ 			  << log2_blksz,
-+ 			  0, blksz, indir))
-+ 	return grub_errno;
-+ 
-+       if (grub_disk_read (data->disk,
-+ 			  ((grub_disk_addr_t)
-+-			   grub_le_to_cpu32 (indir[(rblock / perblock) % perblock]))
-++			   grub_le_to_cpu32 (indir[(rblock >> log_perblock) & ((1 << log_perblock) - 1)]))
-+ 			  << log2_blksz,
-+ 			  0, blksz, indir))
-+ 	return grub_errno;
-+ 
-+-      blknr = grub_le_to_cpu32 (indir[rblock % perblock]);
-++      blknr = grub_le_to_cpu32 (indir[rblock  & ((1 << log_perblock) - 1)]);
-+     }
-+   else
-+     {
-+-- 
-+cgit v1.0-41-gc330
-diff --git a/meta/recipes-bsp/grub/grub2.inc b/meta/recipes-bsp/grub/grub2.inc
-index ef893b3..a51c5ac 100644
---- a/meta/recipes-bsp/grub/grub2.inc
-+++ b/meta/recipes-bsp/grub/grub2.inc
-@@ -36,6 +36,8 @@ SRC_URI = "ftp://ftp.gnu.org/gnu/grub/grub-${PV}.tar.gz \
-            file://0001-grub-core-kern-efi-mm.c-grub_efi_finish_boot_service.patch \
-            file://0002-grub-core-kern-efi-mm.c-grub_efi_get_memory_map-Neve.patch \
-            file://0001-build-Use-AC_HEADER_MAJOR-to-find-device-macros.patch \
-+           file://grub-core-fs-ext2-use-shifts-rather-than.patch \
-+           file://CVE-2017-9763.patch \
-             "
+diff --git a/meta/classes/image-live.bbclass b/meta/classes/image-live.bbclass
+index 3a6e5f0..c1862b1 100644
+--- a/meta/classes/image-live.bbclass
++++ b/meta/classes/image-live.bbclass
+@@ -217,10 +217,10 @@ build_fat_img() {
+ 	fi
  
- DEPENDS = "flex-native bison-native autogen-native"
+ 	if [ -z "${HDDIMG_ID}" ]; then
+-		mkdosfs ${FATSIZE} -n ${BOOTIMG_VOLUME_ID} -S 512 -C ${FATIMG} \
++		mkdosfs ${FATSIZE} -n ${BOOTIMG_VOLUME_ID} ${MKDOSFS_EXTRAOPTS} -C ${FATIMG} \
+ 			${BLOCKS}
+ 	else
+-		mkdosfs ${FATSIZE} -n ${BOOTIMG_VOLUME_ID} -S 512 -C ${FATIMG} \
++		mkdosfs ${FATSIZE} -n ${BOOTIMG_VOLUME_ID} ${MKDOSFS_EXTRAOPTS} -C ${FATIMG} \
+ 		${BLOCKS} -i ${HDDIMG_ID}
+ 	fi
+ 
+diff --git a/meta/classes/image-vm.bbclass b/meta/classes/image-vm.bbclass
+index 98bd920..b52df9f 100644
+--- a/meta/classes/image-vm.bbclass
++++ b/meta/classes/image-vm.bbclass
+@@ -68,7 +68,7 @@ build_boot_dd() {
+ 
+ 	# Remove it since mkdosfs would fail when it exists
+ 	rm -f $HDDIMG
+-	mkdosfs -n ${BOOTDD_VOLUME_ID} -S 512 -C $HDDIMG $BLOCKS 
++	mkdosfs -n ${BOOTDD_VOLUME_ID} ${MKDOSFS_EXTRAOPTS} -C $HDDIMG $BLOCKS
+ 	mcopy -i $HDDIMG -s $HDDDIR/* ::/
+ 
+ 	if [ "${PCBIOS}" = "1" ]; then
+diff --git a/meta/classes/live-vm-common.bbclass b/meta/classes/live-vm-common.bbclass
+index 27b137d..e1d8b18 100644
+--- a/meta/classes/live-vm-common.bbclass
++++ b/meta/classes/live-vm-common.bbclass
+@@ -15,6 +15,8 @@ EFI = "${@bb.utils.contains("MACHINE_FEATURES", "efi", "1", "0", d)}"
+ EFI_PROVIDER ?= "grub-efi"
+ EFI_CLASS = "${@bb.utils.contains("MACHINE_FEATURES", "efi", "${EFI_PROVIDER}", "", d)}"
+ 
++MKDOSFS_EXTRAOPTS ??= "-S 512"
++
+ # Include legacy boot if MACHINE_FEATURES includes "pcbios" or if it does not
+ # contain "efi". This way legacy is supported by default if neither is
+ # specified, maintaining the original behavior.
 -- 
-1.9.1
+2.1.4
 
 
