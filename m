@@ -1,26 +1,26 @@
 Return-Path: <ed.bartosh@linux.intel.com>
 Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id A605C7780E
+	by mail.openembedded.org (Postfix) with ESMTP id 5F39B77BBE
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Jul 2017 08:09:32 +0000 (UTC)
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by orsmga105.jf.intel.com with ESMTP; 06 Jul 2017 01:09:34 -0700
+	Thu,  6 Jul 2017 08:09:33 +0000 (UTC)
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+	by orsmga105.jf.intel.com with ESMTP; 06 Jul 2017 01:09:35 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.40,316,1496127600"; d="scan'208";a="282785539"
+X-IronPort-AV: E=Sophos;i="5.40,316,1496127600"; d="scan'208";a="123460468"
 Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga004.fm.intel.com with ESMTP; 06 Jul 2017 01:09:32 -0700
+	by fmsmga006.fm.intel.com with ESMTP; 06 Jul 2017 01:09:35 -0700
 Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
-	by linux.intel.com (Postfix) with ESMTP id 40D81580571
+	by linux.intel.com (Postfix) with ESMTP id 60631580571
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Jul 2017 01:09:32 -0700 (PDT)
+	Thu,  6 Jul 2017 01:09:34 -0700 (PDT)
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  6 Jul 2017 10:56:45 +0300
-Message-Id: <ad95f914dca9da1f7f4419ed7f3c8e31f189a14b.1499326977.git.ed.bartosh@linux.intel.com>
+Date: Thu,  6 Jul 2017 10:56:47 +0300
+Message-Id: <c1ab5f6f84e705b6d17e1aa7b03a2cc0aa0cdcf4.1499326977.git.ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1499326977.git.ed.bartosh@linux.intel.com>
 References: <cover.1499326977.git.ed.bartosh@linux.intel.com>
-Subject: [PATCH 4/8] wic: isoimage-isohybrid: check result of glob()
+Subject: [PATCH 6/8] image_types_wic: set default WKS_FILE_DEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,39 +33,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Jul 2017 08:09:32 -0000
+X-List-Received-Date: Thu, 06 Jul 2017 08:09:33 -0000
 
-isoimage-isohybrid plugin uses result of glob call to
-get path to initrd image. When glob returns empty list
-the plugin crashes with IndexError.
+The default set of dependencies used via wic-tools is not used
+anymore as wic images don't depend on wic-tools.
 
-Checking if result of glob call is not empty should fix
-the breakage.
+Set of packages required to produce wic image depends on the content
+of the .wks file, so WKS_FILE_DEPENDS variable should be used to
+provide correct list of dependencies when WKS_FILE variable is set.
+
+As WKS_FILE_DEPENDS is not used in many existing recipes yet we need
+to provide default value for it to ensure that removal of wic-tool
+dependency doesn't cause image build failures.
+
+Initialized WKS_FILE_DEPENDS with the set of dependencies previously
+brought by wic-tool. This is done to provide compatibility and to
+avoid breakages of existing image recipes that rely on current set
+of dependencies.
+
+Note: This is a temporary solution for transition period.
+After some time the list will be either reduced or removed.
+Recommended solution is to use WKS_FILE_DEPENDS in image recipes
+together with WKS_FILE to specify dependencies.
 
 Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 ---
- scripts/lib/wic/plugins/source/isoimage-isohybrid.py | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ meta/classes/image_types_wic.bbclass | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/scripts/lib/wic/plugins/source/isoimage-isohybrid.py b/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
-index ffa5429..ece4b0c 100644
---- a/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
-+++ b/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
-@@ -164,9 +164,12 @@ class IsoImagePlugin(SourcePlugin):
+diff --git a/meta/classes/image_types_wic.bbclass b/meta/classes/image_types_wic.bbclass
+index 05ee68d..e9750b5 100644
+--- a/meta/classes/image_types_wic.bbclass
++++ b/meta/classes/image_types_wic.bbclass
+@@ -40,7 +40,10 @@ USING_WIC = "${@bb.utils.contains_any('IMAGE_FSTYPES', 'wic ' + ' '.join('wic.%s
+ WKS_FILE_CHECKSUM = "${@'${WKS_FULL_PATH}:%s' % os.path.exists('${WKS_FULL_PATH}') if '${USING_WIC}' else ''}"
+ do_image_wic[file-checksums] += "${WKS_FILE_CHECKSUM}"
+ do_image_wic[depends] += "${@' '.join('%s-native:do_populate_sysroot' % r for r in ('parted', 'gptfdisk', 'dosfstools', 'mtools'))}"
+-WKS_FILE_DEPENDS ??= ''
++WKS_FILE_DEPENDS ??= 'syslinux-native bmap-tools-native cdrtools-native btrfs-tools-native squashfs-tools-native'
++WKS_FILE_DEPENDS_append_x86 = " syslinux grub-efi systemd-boot"
++WKS_FILE_DEPENDS_append_x86-64 = " syslinux grub-efi systemd-boot"
++
+ DEPENDS += "${@ '${WKS_FILE_DEPENDS}' if d.getVar('USING_WIC') else '' }"
  
-             machine = os.path.basename(initrd_dir)
- 
--            initrd = glob.glob('%s/%s*%s.%s' % (initrd_dir, image_name, machine, image_type))[0]
-+            pattern = '%s/%s*%s.%s' % (initrd_dir, image_name, machine, image_type)
-+            files = glob.glob(pattern)
-+            if files:
-+                initrd = files[0]
- 
--        if not os.path.exists(initrd):
-+        if not initrd or not os.path.exists(initrd):
-             # Create initrd from rootfs directory
-             initrd = "%s/initrd.cpio.gz" % cr_workdir
-             initrd_dir = "%s/INITRD" % cr_workdir
+ python () {
 -- 
 2.1.4
 
