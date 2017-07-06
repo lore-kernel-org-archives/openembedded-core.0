@@ -1,23 +1,22 @@
 Return-Path: <jose.perez.carranza@linux.intel.com>
 Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id B9C987309A
+	by mail.openembedded.org (Postfix) with ESMTP id DBFB477BD9
 	for <openembedded-core@lists.openembedded.org>;
 	Thu,  6 Jul 2017 21:03:09 +0000 (UTC)
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga104.jf.intel.com with ESMTP; 06 Jul 2017 14:03:10 -0700
+	by orsmga104.jf.intel.com with ESMTP; 06 Jul 2017 14:03:11 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.40,319,1496127600"; d="scan'208";a="1169411942"
+X-IronPort-AV: E=Sophos;i="5.40,319,1496127600"; d="scan'208";a="1169411956"
 Received: from yctb06.ostc.intel.com ([10.54.69.60])
-	by fmsmga001.fm.intel.com with ESMTP; 06 Jul 2017 14:03:10 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 06 Jul 2017 14:03:11 -0700
 From: jose.perez.carranza@linux.intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  6 Jul 2017 14:03:07 -0700
-Message-Id: <10ab7f62538cf461e911f81df8e8e1ec28944f5a.1499373694.git.jose.perez.carranza@linux.intel.com>
+Date: Thu,  6 Jul 2017 14:03:08 -0700
+Message-Id: <4dabc888e55ec24bfbcf1d031ff6cb30329ee957.1499373694.git.jose.perez.carranza@linux.intel.com>
 X-Mailer: git-send-email 2.12.0
 In-Reply-To: <cover.1499373694.git.jose.perez.carranza@linux.intel.com>
 References: <cover.1499373694.git.jose.perez.carranza@linux.intel.com>
-MIME-Version: 1.0
-Subject: [PATCH 1/2] oeqa/runtime: Replace buildiptables for buildlzip on runtime tests
+Subject: [PATCH 2/2] testimage: Use the renamed buildlzip
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,58 +29,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Jul 2017 21:03:09 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 06 Jul 2017 21:03:10 -0000
 
-From: Jose Perez Carranza <jose.perez.carranza@linux.intel.com>
+From: Khem Raj <raj.khem@gmail.com>
 
-Buildiptables test cases are conflicting with images built with “musl”
-as standard C library, in order to avoid those issues lzip package was
-selected to be used on the tests as this does not have any "musl"
-dependency.
+buildiptables has been replaced with buildlzip
 
-This patch is applicable for testimage tests
-
-[YOCTO # 11713]
-
-Signed-off-by: Jose Perez Carranza <jose.perez.carranza@linux.intel.com>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/lib/oeqa/runtime/cases/{buildiptables.py => buildlzip.py} | 6 +++---
+ meta/classes/testimage.bbclass | 6 +++---
  1 file changed, 3 insertions(+), 3 deletions(-)
- rename meta/lib/oeqa/runtime/cases/{buildiptables.py => buildlzip.py} (89%)
 
-diff --git a/meta/lib/oeqa/runtime/cases/buildiptables.py b/meta/lib/oeqa/runtime/cases/buildlzip.py
-similarity index 89%
-rename from meta/lib/oeqa/runtime/cases/buildiptables.py
-rename to meta/lib/oeqa/runtime/cases/buildlzip.py
-index 002b16c4835..ca3fead2e49 100644
---- a/meta/lib/oeqa/runtime/cases/buildiptables.py
-+++ b/meta/lib/oeqa/runtime/cases/buildlzip.py
-@@ -5,12 +5,12 @@ from oeqa.core.decorator.data import skipIfNotFeature
+diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.bbclass
+index 6fa2d6fd9f4..0c4a84e1119 100644
+--- a/meta/classes/testimage.bbclass
++++ b/meta/classes/testimage.bbclass
+@@ -49,10 +49,10 @@ DEFAULT_TEST_SUITES_pn-core-image-x11 = "${MINTESTSUITE}"
+ DEFAULT_TEST_SUITES_pn-core-image-lsb = "${NETTESTSUITE} pam parselogs ${RPMTESTSUITE}"
+ DEFAULT_TEST_SUITES_pn-core-image-sato = "${NETTESTSUITE} connman xorg parselogs ${RPMTESTSUITE} \
+     ${@bb.utils.contains('IMAGE_PKGTYPE', 'rpm', 'python', '', d)}"
+-DEFAULT_TEST_SUITES_pn-core-image-sato-sdk = "${NETTESTSUITE} buildcpio buildiptables buildgalculator \
++DEFAULT_TEST_SUITES_pn-core-image-sato-sdk = "${NETTESTSUITE} buildcpio buildlzip buildgalculator \
+     connman ${DEVTESTSUITE} logrotate perl parselogs python ${RPMTESTSUITE} xorg"
+ DEFAULT_TEST_SUITES_pn-core-image-lsb-dev = "${NETTESTSUITE} pam perl python parselogs ${RPMTESTSUITE}"
+-DEFAULT_TEST_SUITES_pn-core-image-lsb-sdk = "${NETTESTSUITE} buildcpio buildiptables buildgalculator \
++DEFAULT_TEST_SUITES_pn-core-image-lsb-sdk = "${NETTESTSUITE} buildcpio buildlzip buildgalculator \
+     connman ${DEVTESTSUITE} logrotate pam parselogs perl python ${RPMTESTSUITE}"
+ DEFAULT_TEST_SUITES_pn-meta-toolchain = "auto"
  
- from oeqa.runtime.utils.targetbuildproject import TargetBuildProject
+@@ -61,7 +61,7 @@ DEFAULT_TEST_SUITES_remove_aarch64 = "xorg"
  
--class BuildIptablesTest(OERuntimeTestCase):
-+class BuildLzipTest(OERuntimeTestCase):
+ # qemumips is quite slow and has reached the timeout limit several times on the YP build cluster,
+ # mitigate this by removing build tests for qemumips machines.
+-MIPSREMOVE ??= "buildcpio buildiptables buildgalculator"
++MIPSREMOVE ??= "buildcpio buildlzip buildgalculator"
+ DEFAULT_TEST_SUITES_remove_qemumips = "${MIPSREMOVE}"
+ DEFAULT_TEST_SUITES_remove_qemumips64 = "${MIPSREMOVE}"
  
-     @classmethod
-     def setUpClass(cls):
-         uri = 'http://downloads.yoctoproject.org/mirror/sources'
--        uri = '%s/iptables-1.4.13.tar.bz2' % uri
-+        uri = '%s/lzip-1.19.tar.gz' % uri
-         cls.project = TargetBuildProject(cls.tc.target,
-                                          uri,
-                                          dl_dir = cls.tc.td['DL_DIR'])
-@@ -24,7 +24,7 @@ class BuildIptablesTest(OERuntimeTestCase):
-     @skipIfNotFeature('tools-sdk',
-                       'Test requires tools-sdk to be in IMAGE_FEATURES')
-     @OETestDepends(['ssh.SSHTest.test_ssh'])
--    def test_iptables(self):
-+    def test_lzip(self):
-         self.project.run_configure()
-         self.project.run_make()
-         self.project.run_install()
 -- 
 2.12.0
 
