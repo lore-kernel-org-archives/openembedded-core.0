@@ -1,48 +1,49 @@
 Return-Path: <armccurdy@gmail.com>
-Received: from mail-pg0-f67.google.com (mail-pg0-f67.google.com [74.125.83.67])
-	by mail.openembedded.org (Postfix) with ESMTP id BF6E777BDB
+Received: from mail-pf0-f177.google.com (mail-pf0-f177.google.com
+	[209.85.192.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 7079477BE0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Jul 2017 19:49:16 +0000 (UTC)
-Received: by mail-pg0-f67.google.com with SMTP id u36so1368150pgn.3
+	Thu,  6 Jul 2017 19:49:19 +0000 (UTC)
+Received: by mail-pf0-f177.google.com with SMTP id c73so5789463pfk.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 06 Jul 2017 12:49:18 -0700 (PDT)
+	Thu, 06 Jul 2017 12:49:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=ACukxwbIAgLlLQcCzlqdlOfoPVlkDzxvOvdfIHFiRAs=;
-	b=fZL6osMH3OQ48SILY0g297odw7C0BCfzwoS/miRNg+A8gX4sicv+O7q03b8LlGiZpp
-	s6cWfmKAJ06LpSEdUhiqrmXXh4ys+V63fJDfEHsPGXahsHe5JeCfNMPtSpbfwl28MYhY
-	mKDJKmbx927Tt/50wFC+tL+61U3IPEdGOV9MAVIbhkxiiTiN3h8+RVEhAqEnOe8vu9Q+
-	m1aq+3/5wkn4xt1yScV+/uj10dtoRHXOEkGIf1+X6d2lvyL19VNGWp+rQRL0LfiqTn3a
-	SgUzoh6KvqOEHUr8em4kqTvuj2oe8/u70AYLYm9c0NLJ8HsTHykyZmit14Lc2hM674dZ
-	IFew==
+	bh=ZFB7Je/h4M+5/fOb3yD/MoPXtrbW+TCAPRqfOrTiLgE=;
+	b=I1bsGaiFpAb0IZhWQLPq41PsU8wl1J5Sijld5ocknQHO8HfCwOP4EQy4Bbfsg8h1Ts
+	TSWJdkCDV5FYToqWYHxOe++G8HV9wF2WR9w+l0kvT1N+YEW02PhRtf1ZNAsC13qSVnbI
+	WghC/I0LYAMfXajYs0tDwgBixNamxRc5VEsvyPL1+KmeYkJFF+xdneEGyAWAf04FS+iv
+	HVc/+1VTwkIFSu7drGZY/RqKwJb5j+VA42sbEEpfxo3Ye6Gw9y+8TezDPVvuPVqvWcS7
+	eveS7NBpwcF4VJ2iNnv1AxVcVw1b+L0SId8FGE5uz4uxUNvlJY26iuS4y9THzaAj1E9K
+	8QDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=ACukxwbIAgLlLQcCzlqdlOfoPVlkDzxvOvdfIHFiRAs=;
-	b=oc+WutFoy2id/Bsl1oQj6b4qooP68VAhxIgMdix53tgucLf8yPx82uSr55l7SqbOmX
-	7DL2/nKjioDoP8e6K+o7unDFg1k6K2mHyZEbfU1ilbA8czxxHPYTmkJ01J1VoTIfL0be
-	BDyVFM5Sxo20gG1pF5RkWy9mgGsoXcWUq3azb7boBZ9/ypAvdHhVEA1JAIbZs9oAQ+Xo
-	X6nGK7g927MseYWpyvWR03cF2yuKf+jmaPSXktzmR5VmtuBmLUiUV2+UKnoEjxSJ90UG
-	WCwT7OLOKNapt/KlljUi0EOQ9qu5yMKLrmGgZmlOkXJPn8F3d0SpGRWhmET50+rhDIwE
-	oeYA==
-X-Gm-Message-State: AIVw111nKfV5LfKNDWv+o/LXlddttUCnuXaGlN3doylFJfVwmplQQHGN
-	eXElKjSpdo2NWja7
-X-Received: by 10.99.66.1 with SMTP id p1mr8291642pga.120.1499370557674;
-	Thu, 06 Jul 2017 12:49:17 -0700 (PDT)
+	bh=ZFB7Je/h4M+5/fOb3yD/MoPXtrbW+TCAPRqfOrTiLgE=;
+	b=psVbz7KSZXM/Z9Gz5jxGMSPrzZUSWu5DrCfo45ZCzO5GnYTJtt+I3/ZIflrcCRX7pN
+	QCO9F23LoqoJWxPUHWwT/fojQLeafg0/nzYWMWudtDGvPQRMgk/XvPmhWryLfRvY1+Wp
+	djbzLPRcWiPuWNalKStNx1Vm5g/sRQqzAH4StKrc8RvIrCNkNSDWZKpCQpvBJ7qhBe27
+	5mw8JAQiy6Dn9061nWHK9sVEzdI30uskdx/5+zXGNEY3/CZR+kWxfBokGipn0xVXzIWA
+	1N/TCnbF4FpAorrV8CHUu6K7bCDOQb0rjqQXYXf0oavGwaA2J0oUlTU4Jqo6RT4ef1H/
+	g+EA==
+X-Gm-Message-State: AIVw1110NhZi/MK3M9TaChkaQrGI62lQqD7JLkpeQYm6xgKSPmQF5e95
+	IRYt1WUgvizNou48
+X-Received: by 10.99.104.3 with SMTP id d3mr14185228pgc.278.1499370560337;
+	Thu, 06 Jul 2017 12:49:20 -0700 (PDT)
 Received: from e6520.guest-wifi.scl.liberty.com ([4.16.80.121])
 	by smtp.gmail.com with ESMTPSA id
-	e124sm2347580pfc.76.2017.07.06.12.49.16
+	e124sm2347580pfc.76.2017.07.06.12.49.19
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 06 Jul 2017 12:49:16 -0700 (PDT)
+	Thu, 06 Jul 2017 12:49:19 -0700 (PDT)
 From: Andre McCurdy <armccurdy@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  6 Jul 2017 12:49:01 -0700
-Message-Id: <1499370542-31845-3-git-send-email-armccurdy@gmail.com>
+Date: Thu,  6 Jul 2017 12:49:02 -0700
+Message-Id: <1499370542-31845-4-git-send-email-armccurdy@gmail.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1499370542-31845-1-git-send-email-armccurdy@gmail.com>
 References: <1499370542-31845-1-git-send-email-armccurdy@gmail.com>
-Subject: [PATCH 2/3] lsof: update SRC_URI
+Subject: [PATCH 3/3] mirrors.bbclass: remove stale lsof ftp mirrors
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,47 +56,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Jul 2017 19:49:16 -0000
+X-List-Received-Date: Thu, 06 Jul 2017 19:49:19 -0000
 
-Upstream lsof releases are hosted on an ftp server which times out
-download attempts from hosts for which it can not perform a DNS
-reverse-lookup. See:
-
-  https://people.freebsd.org/~abe/
-
-http://www.mirrorservice.org seems to be the most commonly used
-alternative (and using it for SRC_URI allows the custom
-UPSTREAM_CHECK_URI to be removed).
+Replace with an mapping for http://www.mirrorservice.org to align
+with recent changes to SRC_URI in the lsof recipe and allow
+non-current lsof tar files to be found in the /OLD subdirectory.
 
 Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
 ---
- meta/recipes-extended/lsof/lsof_4.89.bb | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+ meta/classes/mirrors.bbclass | 11 +----------
+ 1 file changed, 1 insertion(+), 10 deletions(-)
 
-diff --git a/meta/recipes-extended/lsof/lsof_4.89.bb b/meta/recipes-extended/lsof/lsof_4.89.bb
-index 0c38e97..29245b1 100644
---- a/meta/recipes-extended/lsof/lsof_4.89.bb
-+++ b/meta/recipes-extended/lsof/lsof_4.89.bb
-@@ -6,13 +6,16 @@ SECTION = "devel"
- LICENSE = "BSD"
- LIC_FILES_CHKSUM = "file://00README;beginline=645;endline=679;md5=964df275d26429ba3b39dbb9f205172a"
- 
--SRC_URI = "ftp://lsof.itap.purdue.edu/pub/tools/unix/lsof/lsof_${PV}.tar.bz2"
-+# Upstream lsof releases are hosted on an ftp server which times out download
-+# attempts from hosts for which it can not perform a DNS reverse-lookup (See:
-+# https://people.freebsd.org/~abe/ ). http://www.mirrorservice.org seems to be
-+# the most commonly used alternative.
-+
-+SRC_URI = "http://www.mirrorservice.org/sites/lsof.itap.purdue.edu/pub/tools/unix/lsof/lsof_${PV}.tar.bz2"
- 
- SRC_URI[md5sum] = "1b9cd34f3fb86856a125abbf2be3a386"
- SRC_URI[sha256sum] = "81ac2fc5fdc944793baf41a14002b6deb5a29096b387744e28f8c30a360a3718"
- 
--UPSTREAM_CHECK_URI = "http://www.mirrorservice.org/sites/lsof.itap.purdue.edu/pub/tools/unix/lsof"
--
- LOCALSRC = "file://${WORKDIR}/lsof_${PV}/lsof_${PV}_src.tar"
- 
- S = "${WORKDIR}/lsof_${PV}_src"
+diff --git a/meta/classes/mirrors.bbclass b/meta/classes/mirrors.bbclass
+index de2c2b9..9b72473 100644
+--- a/meta/classes/mirrors.bbclass
++++ b/meta/classes/mirrors.bbclass
+@@ -30,16 +30,7 @@ ftp://dante.ctan.org/tex-archive http://ctan.unsw.edu.au/ \n \
+ ftp://ftp.gnutls.org/gcrypt/gnutls ${GNUPG_MIRROR}/gnutls \n \
+ http://ftp.info-zip.org/pub/infozip/src/ http://mirror.switch.ch/ftp/mirror/infozip/src/ \n \
+ http://ftp.info-zip.org/pub/infozip/src/ ftp://sunsite.icm.edu.pl/pub/unix/archiving/info-zip/src/ \n \
+-ftp://lsof.itap.purdue.edu/pub/tools/unix/lsof/  ftp://ftp.cerias.purdue.edu/pub/tools/unix/sysutils/lsof/ \n \
+-ftp://lsof.itap.purdue.edu/pub/tools/unix/lsof/  ftp://ftp.tau.ac.il/pub/unix/admin/ \n \
+-ftp://lsof.itap.purdue.edu/pub/tools/unix/lsof/  ftp://ftp.cert.dfn.de/pub/tools/admin/lsof/ \n \
+-ftp://lsof.itap.purdue.edu/pub/tools/unix/lsof/  ftp://ftp.fu-berlin.de/pub/unix/tools/lsof/ \n \
+-ftp://lsof.itap.purdue.edu/pub/tools/unix/lsof/  ftp://ftp.kaizo.org/pub/lsof/ \n \
+-ftp://lsof.itap.purdue.edu/pub/tools/unix/lsof/  ftp://ftp.tu-darmstadt.de/pub/sysadmin/lsof/ \n \
+-ftp://lsof.itap.purdue.edu/pub/tools/unix/lsof/  ftp://ftp.tux.org/pub/sites/vic.cc.purdue.edu/tools/unix/lsof/ \n \
+-ftp://lsof.itap.purdue.edu/pub/tools/unix/lsof/  ftp://gd.tuwien.ac.at/utils/admin-tools/lsof/ \n \
+-ftp://lsof.itap.purdue.edu/pub/tools/unix/lsof/  ftp://sunsite.ualberta.ca/pub/Mirror/lsof/ \n \
+-ftp://lsof.itap.purdue.edu/pub/tools/unix/lsof/  ftp://the.wiretapped.net/pub/security/host-security/lsof/ \n \
++http://www.mirrorservice.org/sites/lsof.itap.purdue.edu/pub/tools/unix/lsof/ http://www.mirrorservice.org/sites/lsof.itap.purdue.edu/pub/tools/unix/lsof/OLD/ \n \
+ ${APACHE_MIRROR}  http://www.us.apache.org/dist \n \
+ ${APACHE_MIRROR}  http://archive.apache.org/dist \n \
+ http://downloads.sourceforge.net/watchdog/ http://fossies.org/linux/misc/ \n \
 -- 
 2.7.4
 
