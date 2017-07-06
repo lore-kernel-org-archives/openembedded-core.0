@@ -1,18 +1,18 @@
 Return-Path: <patchwork@patchwork.openembedded.org>
 Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 287E171B27;
-	Thu,  6 Jul 2017 09:01:26 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id 31E3F71B27;
+	Thu,  6 Jul 2017 09:01:27 +0000 (UTC)
 MIME-Version: 1.0
 From: Patchwork <patchwork@patchwork.openembedded.org>
 To: Zhixiong Chi <zhixiong.chi@windriver.com>
-Date: Thu, 06 Jul 2017 09:01:27 -0000
-Message-ID: <20170706090127.2383.91597@do.openembedded.org>
-References: <1499330451-117347-1-git-send-email-zhixiong.chi@windriver.com>
+Date: Thu, 06 Jul 2017 09:01:29 -0000
+Message-ID: <20170706090129.2382.50406@do.openembedded.org>
+References: <1499330612-120142-1-git-send-email-zhixiong.chi@windriver.com>
 Reply-To: openembedded-core@lists.openembedded.org
 X-Patchwork-Hint: ignore
-In-Reply-To: <1499330451-117347-1-git-send-email-zhixiong.chi@windriver.com>
+In-Reply-To: <1499330612-120142-1-git-send-email-zhixiong.chi@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgZ3J1YjogQ1ZFLTIwMTctOTc2Mw==?=
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgZ3J1YjogQ1ZFLTIwMTctOTc2MyAocmV2Mik=?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,14 +25,14 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Jul 2017 09:01:26 -0000
+X-List-Received-Date: Thu, 06 Jul 2017 09:01:27 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
 == Series Details ==
 
-Series: grub: CVE-2017-9763
-Revision: 1
+Series: grub: CVE-2017-9763 (rev2)
+Revision: 2
 URL   : https://patchwork.openembedded.org/series/7594/
 State : failure
 
