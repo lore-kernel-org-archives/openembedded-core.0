@@ -1,49 +1,48 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f194.google.com (mail-pf0-f194.google.com
-	[209.85.192.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 7FCCF71C7D
+Received: from mail-pg0-f48.google.com (mail-pg0-f48.google.com [74.125.83.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 9EF49776D1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Jul 2017 14:33:48 +0000 (UTC)
-Received: by mail-pf0-f194.google.com with SMTP id z6so523530pfk.3
+	Thu,  6 Jul 2017 14:33:51 +0000 (UTC)
+Received: by mail-pg0-f48.google.com with SMTP id k14so1966601pgr.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 06 Jul 2017 07:33:50 -0700 (PDT)
+	Thu, 06 Jul 2017 07:33:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=zZuJ5a5O5Nd8+lXK/a4A/TiMmaxDB3VrsdHtwjmgskU=;
-	b=azwWlBos5wASyLezgpuMJsZNM2cbZcLf7igqa7y3FpvChMlwbAcEn+k4w1fuq72Ln7
-	GC3cHOgiaBzBUX1xsdIDd0h04Qo/S8jkDlVkuVNW8JiJrFKfPivKCUfo+5Kl7Ni//EGs
-	itTSNJUjBPFsxWPpvTKKHo+CO5pLISecdu1noQuxPpelBYia7sFNx53VlgLm/WghUEAa
-	MVI64g8uHKplLIxriwXP9KHMQ2mSCN0dwYbBGz8xvcmMQ5d+FnMKDzUo7ipYZLFlks7w
-	iNiuPwMgEnwH7DBxUXulSnIR8Yd3WS6rgxJuNpeOZ7IZ3iDgG4/Zf/KJK3utNFym35Mq
-	540g==
+	bh=rd8VsjzFpLe5hvsIWzur/u5S9iLwce77GWYL/gBVMig=;
+	b=o08fLkX7O7ZYCHpGgGz+5rPwms6xSPl9yfBWCo8i1cs2fEvEPPwv56BadAg/uRYRF+
+	TlvslPF1DAWwtVB6KlshYxHvPzvcanJeLphx2d5cU/T294/UMz2DV1oJBERJ4OwiiD1b
+	xWjLgxryNbnuLfIdOGDj1wajquKfnwLipeaIsdPFn6jf3A0tdcl/sVGQ0qWGt//2ERTD
+	JKa/tGrumu3EWGfZnzRsZSNPyZ7KeIhciVKMxzyX8xsyjyRMOw+hMkc/HJ9213v7jJIH
+	PtjN77fkfMN2IBUO4WZSGDPk+SJUwY7FQGxwGRY5Pk8Yqc1cy6XpgEFif041H7+zn4HN
+	TSEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=zZuJ5a5O5Nd8+lXK/a4A/TiMmaxDB3VrsdHtwjmgskU=;
-	b=pQKnWT39t3vFcgMuf++LZ4goA3KKdgNFaxAgU6eRHF/5DTdr9F62rD9MblD+tvjPuY
-	9y1TdZ3fsgLHYWnP6ptbvCEMZ0xYyaMRz3togu96d62EOr9kl7mGeLUlqrvZVoPtga1+
-	Ud+t+7DRBjMjhbOzeZ752J0oIKYGJDRs1E3jfYxRloyuZf/i8n3qiB+DXQ/1U4U9ku4T
-	oWT8ytqUf4pD8BenrEwwamr8Yvfl8Ak0zUsCN0kMWW/QWmO427qXesrbuQGYdHOMERtt
-	ThExv0eNs04XQJVtS7WaxrDzFjanVMPPv/vyQd3mK1SyjmMSJd4/hg5iK/MwVned8Fay
-	pefA==
-X-Gm-Message-State: AIVw111/oKHGvsUlRx1BueUVGk9qKYUJ4yHrExLb6GbdJ5Arql0Jr2KF
-	UZpucUTDdPor8SeQ
-X-Received: by 10.84.130.40 with SMTP id 37mr27388863plc.291.1499351629502;
-	Thu, 06 Jul 2017 07:33:49 -0700 (PDT)
+	bh=rd8VsjzFpLe5hvsIWzur/u5S9iLwce77GWYL/gBVMig=;
+	b=iMPeiLa1D5byzKnb7hIX5bp69MuTYKxJTcSv9CioRE9lMLkObAXRA8a0N6Qoq6ENxa
+	L1ztuTXcqUd4eusVZy6gXQ4zVJ3xMqBt42rB9hXBlUL90/epFohRBI0aY5ZXoAcv+BRv
+	QtBstkbU1Bx50UsiMqJVs6SZ/BXi25O5TC7gZtB9bwzoEIgJysQGVsEcjTlnmb8Mz+XB
+	8ml54pj5d68KB+X+TwjAwWO2k4odg9QgYO9JU+MQaVblahC390f1FHSbX4ZcDDCblCSU
+	4vb/mwGT4hdENEB1QgFio2vtExVn6xRITuZjLXCmrMxujLRFeIP8ZcmJLqVsynwsF8W6
+	jsKg==
+X-Gm-Message-State: AIVw110fZ0n35YRA4jdrl0g/ObPhIQwFTw002CW2tuvKv0fC6fLTsPDa
+	yIqnIo22wr6T5cp6
+X-Received: by 10.84.216.26 with SMTP id m26mr29088526pli.112.1499351631036;
+	Thu, 06 Jul 2017 07:33:51 -0700 (PDT)
 Received: from localhost.localdomain ([2601:646:8882:b8c::3df3])
 	by smtp.gmail.com with ESMTPSA id
-	w66sm1132739pfi.63.2017.07.06.07.33.48
+	w66sm1132739pfi.63.2017.07.06.07.33.49
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 06 Jul 2017 07:33:48 -0700 (PDT)
+	Thu, 06 Jul 2017 07:33:50 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  6 Jul 2017 07:33:11 -0700
-Message-Id: <d7d57e417532c70560283a4339aa11dbe6a8f02b.1499351361.git.raj.khem@gmail.com>
+Date: Thu,  6 Jul 2017 07:33:12 -0700
+Message-Id: <1bef7b17dc372cb1804c99ead9d72bef98b213c6.1499351361.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.13.2
 In-Reply-To: <cover.1499351361.git.raj.khem@gmail.com>
 References: <cover.1499351361.git.raj.khem@gmail.com>
-Subject: [PATCH 10/22] ovmf: Fix build with toolchain defaulting to PIE
+Subject: [PATCH 11/22] glibc: Upgrade to 2.25.90
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,74 +55,1898 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Jul 2017 14:33:48 -0000
+X-List-Received-Date: Thu, 06 Jul 2017 14:33:51 -0000
 
-GCC44_IA32_X64_DLINK_COMMON and GCC49_IA32_X64_DLINK_COMMON
-variables add to final linker flags that ovmf build forms
-on its own, so trying to inject it from environment will not
-work.
-
-Here we add option to disable pie during linking, which should
-have been accompanied with correcponding gcc/cflags.
-
-Fixes
-
-|   /mnt/a/oe/build/tmp/work/i586-bec-linux/ovmf/git-r0/git/Build/OvmfIa32/RELEASE_GCC5/IA32/OvmfPkg/AcpiTables/AcpiTables/OUTPUT/./Facs.dll: Bad definition for symbol '<unknown>'@0 or unsupported symbol type.  For example, absolute and undefined symbols are not supported.
+Eventually it will be released as 2.26 final
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../ovmf/ovmf/0001-ia32-Dont-use-pie.patch         | 27 ++++++++++++++--------
- 1 file changed, 18 insertions(+), 9 deletions(-)
+ meta/conf/distro/include/tcmode-default.inc        |  2 +-
+ ...e_2.25.bb => cross-localedef-native_2.25.90.bb} | 26 ++++-----
+ ...bc-initial_2.25.bb => glibc-initial_2.25.90.bb} |  0
+ ...libc-locale_2.25.bb => glibc-locale_2.25.90.bb} |  0
+ ...libc-mtrace_2.25.bb => glibc-mtrace_2.25.90.bb} |  0
+ ...bc-scripts_2.25.bb => glibc-scripts_2.25.90.bb} |  0
+ ...libc-Look-for-host-system-ld.so.cache-as-.patch |  8 +--
+ ...libc-Fix-buffer-overrun-with-a-relocated-.patch |  8 +--
+ ...libc-Raise-the-size-of-arrays-containing-.patch | 36 ++++++------
+ ...ivesdk-glibc-Allow-64-bit-atomics-for-x86.patch | 13 +++--
+ ...500-e5500-e6500-603e-fsqrt-implementation.patch | 44 +++++++--------
+ ...-OECORE_KNOWN_INTERPRETER_NAMES-to-known-.patch |  8 +--
+ ...-Fix-undefined-reference-to-__sqrt_finite.patch | 30 +++++-----
+ ...qrt-f-are-now-inline-functions-and-call-o.patch | 30 +++++-----
+ ...bug-1443-which-explains-what-the-patch-do.patch | 10 ++--
+ ...n-libm-err-tab.pl-with-specific-dirs-in-S.patch |  8 +--
+ ...qrt-f-are-now-inline-functions-and-call-o.patch | 10 ++--
+ ...ersion-output-matching-grok-gold-s-output.patch | 44 ---------------
+ ...configure.ac-handle-correctly-libc_cv_ro.patch} | 10 ++--
+ ...ibute.patch => 0013-Add-unused-attribute.patch} |  8 +--
+ ...hin-the-path-sets-wrong-config-variables.patch} | 30 +++++-----
+ ...timezone-re-written-tzselect-as-posix-sh.patch} | 12 ++--
+ ...ove-bash-dependency-for-nscd-init-script.patch} | 11 ++--
+ ...-Cross-building-and-testing-instructions.patch} | 10 ++--
+ ...18-eglibc-Help-bootstrap-cross-toolchain.patch} | 10 ++--
+ ... 0019-eglibc-Clear-cache-lines-on-ppc8xx.patch} | 10 ++--
+ ...020-eglibc-Resolve-__fpscr_values-on-SH4.patch} | 10 ++--
+ .../glibc/0020-eglibc-cherry-picked-from.patch     | 64 ----------------------
+ ...atch => 0021-eglibc-Install-PIC-archives.patch} | 20 +++----
+ ...ard-port-cross-locale-generation-support.patch} | 36 ++++++------
+ ...023-Define-DUMMY_LOCALE_T-if-not-defined.patch} |  8 +--
+ ...c-Make-_dl_build_local_scope-breadth-fir.patch} |  8 +--
+ ...locale-fix-hard-coded-reference-to-gcc-E.patch} | 10 ++--
+ .../glibc/{glibc_2.25.bb => glibc_2.25.90.bb}      | 35 ++++++------
+ 34 files changed, 231 insertions(+), 338 deletions(-)
+ rename meta/recipes-core/glibc/{cross-localedef-native_2.25.bb => cross-localedef-native_2.25.90.bb} (62%)
+ rename meta/recipes-core/glibc/{glibc-initial_2.25.bb => glibc-initial_2.25.90.bb} (100%)
+ rename meta/recipes-core/glibc/{glibc-locale_2.25.bb => glibc-locale_2.25.90.bb} (100%)
+ rename meta/recipes-core/glibc/{glibc-mtrace_2.25.bb => glibc-mtrace_2.25.90.bb} (100%)
+ rename meta/recipes-core/glibc/{glibc-scripts_2.25.bb => glibc-scripts_2.25.90.bb} (100%)
+ delete mode 100644 meta/recipes-core/glibc/glibc/0012-Make-ld-version-output-matching-grok-gold-s-output.patch
+ rename meta/recipes-core/glibc/glibc/{0013-sysdeps-gnu-configure.ac-handle-correctly-libc_cv_ro.patch => 0012-sysdeps-gnu-configure.ac-handle-correctly-libc_cv_ro.patch} (82%)
+ rename meta/recipes-core/glibc/glibc/{0014-Add-unused-attribute.patch => 0013-Add-unused-attribute.patch} (82%)
+ rename meta/recipes-core/glibc/glibc/{0015-yes-within-the-path-sets-wrong-config-variables.patch => 0014-yes-within-the-path-sets-wrong-config-variables.patch} (94%)
+ rename meta/recipes-core/glibc/glibc/{0016-timezone-re-written-tzselect-as-posix-sh.patch => 0015-timezone-re-written-tzselect-as-posix-sh.patch} (81%)
+ rename meta/recipes-core/glibc/glibc/{0017-Remove-bash-dependency-for-nscd-init-script.patch => 0016-Remove-bash-dependency-for-nscd-init-script.patch} (89%)
+ rename meta/recipes-core/glibc/glibc/{0018-eglibc-Cross-building-and-testing-instructions.patch => 0017-eglibc-Cross-building-and-testing-instructions.patch} (99%)
+ rename meta/recipes-core/glibc/glibc/{0019-eglibc-Help-bootstrap-cross-toolchain.patch => 0018-eglibc-Help-bootstrap-cross-toolchain.patch} (94%)
+ rename meta/recipes-core/glibc/glibc/{0021-eglibc-Clear-cache-lines-on-ppc8xx.patch => 0019-eglibc-Clear-cache-lines-on-ppc8xx.patch} (94%)
+ rename meta/recipes-core/glibc/glibc/{0022-eglibc-Resolve-__fpscr_values-on-SH4.patch => 0020-eglibc-Resolve-__fpscr_values-on-SH4.patch} (88%)
+ delete mode 100644 meta/recipes-core/glibc/glibc/0020-eglibc-cherry-picked-from.patch
+ rename meta/recipes-core/glibc/glibc/{0023-eglibc-Install-PIC-archives.patch => 0021-eglibc-Install-PIC-archives.patch} (90%)
+ rename meta/recipes-core/glibc/glibc/{0024-eglibc-Forward-port-cross-locale-generation-support.patch => 0022-eglibc-Forward-port-cross-locale-generation-support.patch} (96%)
+ rename meta/recipes-core/glibc/glibc/{0025-Define-DUMMY_LOCALE_T-if-not-defined.patch => 0023-Define-DUMMY_LOCALE_T-if-not-defined.patch} (80%)
+ rename meta/recipes-core/glibc/glibc/{0026-elf-dl-deps.c-Make-_dl_build_local_scope-breadth-fir.patch => 0024-elf-dl-deps.c-Make-_dl_build_local_scope-breadth-fir.patch} (89%)
+ rename meta/recipes-core/glibc/glibc/{0027-locale-fix-hard-coded-reference-to-gcc-E.patch => 0025-locale-fix-hard-coded-reference-to-gcc-E.patch} (82%)
+ rename meta/recipes-core/glibc/{glibc_2.25.bb => glibc_2.25.90.bb} (80%)
 
-diff --git a/meta/recipes-core/ovmf/ovmf/0001-ia32-Dont-use-pie.patch b/meta/recipes-core/ovmf/ovmf/0001-ia32-Dont-use-pie.patch
-index 7ce20be54c..5bb418b954 100644
---- a/meta/recipes-core/ovmf/ovmf/0001-ia32-Dont-use-pie.patch
-+++ b/meta/recipes-core/ovmf/ovmf/0001-ia32-Dont-use-pie.patch
-@@ -10,10 +10,10 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
-  BaseTools/Conf/tools_def.template | 4 ++--
-  1 file changed, 2 insertions(+), 2 deletions(-)
+diff --git a/meta/conf/distro/include/tcmode-default.inc b/meta/conf/distro/include/tcmode-default.inc
+index 424b8887cc..8ffb8ad046 100644
+--- a/meta/conf/distro/include/tcmode-default.inc
++++ b/meta/conf/distro/include/tcmode-default.inc
+@@ -26,7 +26,7 @@ GCCVERSION ?= "7.%"
+ SDKGCCVERSION ?= "${GCCVERSION}"
+ BINUVERSION ?= "2.28%"
+ GDBVERSION ?= "8.0%"
+-GLIBCVERSION ?= "2.25"
++GLIBCVERSION ?= "2.25%"
+ LINUXLIBCVERSION ?= "4.10%"
  
--diff --git a/BaseTools/Conf/tools_def.template b/BaseTools/Conf/tools_def.template
--index 04a1bcb210..84c5f84f93 100755
----- a/BaseTools/Conf/tools_def.template
--+++ b/BaseTools/Conf/tools_def.template
-+Index: git/BaseTools/Conf/tools_def.template
-+===================================================================
-+--- git.orig/BaseTools/Conf/tools_def.template
-++++ git/BaseTools/Conf/tools_def.template
- @@ -4336,7 +4336,7 @@ RELEASE_*_*_OBJCOPY_ADDDEBUGFLAG   =
-  NOOPT_*_*_OBJCOPY_ADDDEBUGFLAG     = --add-gnu-debuglink=$(DEBUG_DIR)/$(MODULE_NAME).debug
+ PREFERRED_VERSION_gcc ?= "${GCCVERSION}"
+diff --git a/meta/recipes-core/glibc/cross-localedef-native_2.25.bb b/meta/recipes-core/glibc/cross-localedef-native_2.25.90.bb
+similarity index 62%
+rename from meta/recipes-core/glibc/cross-localedef-native_2.25.bb
+rename to meta/recipes-core/glibc/cross-localedef-native_2.25.90.bb
+index cbd16f7263..6a5c7f5cc6 100644
+--- a/meta/recipes-core/glibc/cross-localedef-native_2.25.bb
++++ b/meta/recipes-core/glibc/cross-localedef-native_2.25.90.bb
+@@ -17,25 +17,25 @@ inherit autotools
+ 
+ FILESEXTRAPATHS =. "${FILE_DIRNAME}/${PN}:${FILE_DIRNAME}/glibc:"
+ 
+-SRCBRANCH ?= "release/${PV}/master"
++#SRCBRANCH ?= "release/${PV}/master"
++SRCBRANCH ?= "master"
+ GLIBC_GIT_URI ?= "git://sourceware.org/git/glibc.git"
+ UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+\.\d+(\.\d+)*)"
+ 
+-SRCREV_glibc ?= "db0242e3023436757bbc7c488a779e6e3343db04"
+-SRCREV_localedef ?= "29869b6dc11427c5bab839bdb155c85a7c644c71"
++SRCREV_glibc ?= "cc31b141f95410ee786bec09e2de8e4af4d112d0"
++SRCREV_localedef ?= "dfb4afe551c6c6e94f9cc85417bd1f582168c843"
+ 
+ SRC_URI = "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
+            git://github.com/kraj/localedef;branch=master;name=localedef;destsuffix=git/localedef \
+-           file://0016-timezone-re-written-tzselect-as-posix-sh.patch \
+-           file://0017-Remove-bash-dependency-for-nscd-init-script.patch \
+-           file://0018-eglibc-Cross-building-and-testing-instructions.patch \
+-           file://0019-eglibc-Help-bootstrap-cross-toolchain.patch \
+-           file://0020-eglibc-cherry-picked-from.patch \
+-           file://0021-eglibc-Clear-cache-lines-on-ppc8xx.patch \
+-           file://0022-eglibc-Resolve-__fpscr_values-on-SH4.patch \
+-           file://0023-eglibc-Install-PIC-archives.patch \
+-           file://0024-eglibc-Forward-port-cross-locale-generation-support.patch \
+-           file://0025-Define-DUMMY_LOCALE_T-if-not-defined.patch \
++           file://0015-timezone-re-written-tzselect-as-posix-sh.patch \
++           file://0016-Remove-bash-dependency-for-nscd-init-script.patch \
++           file://0017-eglibc-Cross-building-and-testing-instructions.patch \
++           file://0018-eglibc-Help-bootstrap-cross-toolchain.patch \
++           file://0019-eglibc-Clear-cache-lines-on-ppc8xx.patch \
++           file://0020-eglibc-Resolve-__fpscr_values-on-SH4.patch \
++           file://0021-eglibc-Install-PIC-archives.patch \
++           file://0022-eglibc-Forward-port-cross-locale-generation-support.patch \
++           file://0023-Define-DUMMY_LOCALE_T-if-not-defined.patch \
+ "
+ # Makes for a rather long rev (22 characters), but...
+ #
+diff --git a/meta/recipes-core/glibc/glibc-initial_2.25.bb b/meta/recipes-core/glibc/glibc-initial_2.25.90.bb
+similarity index 100%
+rename from meta/recipes-core/glibc/glibc-initial_2.25.bb
+rename to meta/recipes-core/glibc/glibc-initial_2.25.90.bb
+diff --git a/meta/recipes-core/glibc/glibc-locale_2.25.bb b/meta/recipes-core/glibc/glibc-locale_2.25.90.bb
+similarity index 100%
+rename from meta/recipes-core/glibc/glibc-locale_2.25.bb
+rename to meta/recipes-core/glibc/glibc-locale_2.25.90.bb
+diff --git a/meta/recipes-core/glibc/glibc-mtrace_2.25.bb b/meta/recipes-core/glibc/glibc-mtrace_2.25.90.bb
+similarity index 100%
+rename from meta/recipes-core/glibc/glibc-mtrace_2.25.bb
+rename to meta/recipes-core/glibc/glibc-mtrace_2.25.90.bb
+diff --git a/meta/recipes-core/glibc/glibc-scripts_2.25.bb b/meta/recipes-core/glibc/glibc-scripts_2.25.90.bb
+similarity index 100%
+rename from meta/recipes-core/glibc/glibc-scripts_2.25.bb
+rename to meta/recipes-core/glibc/glibc-scripts_2.25.90.bb
+diff --git a/meta/recipes-core/glibc/glibc/0001-nativesdk-glibc-Look-for-host-system-ld.so.cache-as-.patch b/meta/recipes-core/glibc/glibc/0001-nativesdk-glibc-Look-for-host-system-ld.so.cache-as-.patch
+index 0553f8a472..19c1d9bf14 100644
+--- a/meta/recipes-core/glibc/glibc/0001-nativesdk-glibc-Look-for-host-system-ld.so.cache-as-.patch
++++ b/meta/recipes-core/glibc/glibc/0001-nativesdk-glibc-Look-for-host-system-ld.so.cache-as-.patch
+@@ -1,7 +1,7 @@
+-From 2727e58d1d269994de17cadb12195001b14585e7 Mon Sep 17 00:00:00 2001
++From 81346b2f7735698078d5bf919a78b6c0269d6fee Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Wed, 18 Mar 2015 01:48:24 +0000
+-Subject: [PATCH 01/26] nativesdk-glibc: Look for host system ld.so.cache as
++Subject: [PATCH 01/25] nativesdk-glibc: Look for host system ld.so.cache as
+  well
+ 
+ Upstream-Status: Inappropriate [embedded specific]
+@@ -31,7 +31,7 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+  1 file changed, 8 insertions(+), 8 deletions(-)
+ 
+ diff --git a/elf/dl-load.c b/elf/dl-load.c
+-index 51fb0d0..f503dbc 100644
++index c1b6d4ba0f..d7af9ebcbc 100644
+ --- a/elf/dl-load.c
+ +++ b/elf/dl-load.c
+ @@ -2054,6 +2054,14 @@ _dl_map_object (struct link_map *loader, const char *name,
+@@ -65,5 +65,5 @@ index 51fb0d0..f503dbc 100644
+        if (__glibc_unlikely (GLRO(dl_debug_mask) & DL_DEBUG_LIBS))
+  	_dl_debug_printf ("\n");
+ -- 
+-2.10.2
++2.13.2
+ 
+diff --git a/meta/recipes-core/glibc/glibc/0002-nativesdk-glibc-Fix-buffer-overrun-with-a-relocated-.patch b/meta/recipes-core/glibc/glibc/0002-nativesdk-glibc-Fix-buffer-overrun-with-a-relocated-.patch
+index e5ef3410e9..2ce240be6f 100644
+--- a/meta/recipes-core/glibc/glibc/0002-nativesdk-glibc-Fix-buffer-overrun-with-a-relocated-.patch
++++ b/meta/recipes-core/glibc/glibc/0002-nativesdk-glibc-Fix-buffer-overrun-with-a-relocated-.patch
+@@ -1,7 +1,7 @@
+-From 1578f52647ec8804186d1944d4cd2095132efc39 Mon Sep 17 00:00:00 2001
++From 82f2e910ec0e2de6a9e2b007825bddfc5850575d Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Wed, 18 Mar 2015 01:50:00 +0000
+-Subject: [PATCH 02/26] nativesdk-glibc: Fix buffer overrun with a relocated
++Subject: [PATCH 02/25] nativesdk-glibc: Fix buffer overrun with a relocated
+  SDK
+ 
+ When ld-linux-*.so.2 is relocated to a path that is longer than the
+@@ -22,7 +22,7 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+  1 file changed, 12 insertions(+)
+ 
+ diff --git a/elf/dl-load.c b/elf/dl-load.c
+-index f503dbc..3a3d112 100644
++index d7af9ebcbc..19c1db9948 100644
+ --- a/elf/dl-load.c
+ +++ b/elf/dl-load.c
+ @@ -1753,7 +1753,19 @@ open_path (const char *name, size_t namelen, int mode,
+@@ -46,5 +46,5 @@ index f503dbc..3a3d112 100644
+      {
+        struct r_search_path_elem *this_dir = *dirs;
+ -- 
+-2.10.2
++2.13.2
+ 
+diff --git a/meta/recipes-core/glibc/glibc/0003-nativesdk-glibc-Raise-the-size-of-arrays-containing-.patch b/meta/recipes-core/glibc/glibc/0003-nativesdk-glibc-Raise-the-size-of-arrays-containing-.patch
+index 9e207e44d9..397e8b3169 100644
+--- a/meta/recipes-core/glibc/glibc/0003-nativesdk-glibc-Raise-the-size-of-arrays-containing-.patch
++++ b/meta/recipes-core/glibc/glibc/0003-nativesdk-glibc-Raise-the-size-of-arrays-containing-.patch
+@@ -1,7 +1,7 @@
+-From e53968d61804b6bab32ec6e13cc0b3cd57214796 Mon Sep 17 00:00:00 2001
++From 490a0eb4da1af726ea5d68e3efc0d18ba94c4054 Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Wed, 18 Mar 2015 01:51:38 +0000
+-Subject: [PATCH 03/26] nativesdk-glibc: Raise the size of arrays containing dl
++Subject: [PATCH 03/25] nativesdk-glibc: Raise the size of arrays containing dl
+  paths
+ 
+ This patch puts the dynamic loader path in the binaries, SYSTEM_DIRS strings
+@@ -26,10 +26,10 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+  7 files changed, 14 insertions(+), 10 deletions(-)
+ 
+ diff --git a/elf/dl-cache.c b/elf/dl-cache.c
+-index cfa335e..daa12ec 100644
++index e9632da0b3..4de529d2cf 100644
+ --- a/elf/dl-cache.c
+ +++ b/elf/dl-cache.c
+-@@ -132,6 +132,10 @@ do									      \
++@@ -133,6 +133,10 @@ do									      \
+  while (0)
   
-@@ -23,15 +23,24 @@ index 04a1bcb210..84c5f84f93 100755
-  DEFINE GCC_X64_CC_FLAGS            = DEF(GCC_ALL_CC_FLAGS) -mno-red-zone -Wno-address -mno-stack-arg-probe
-  DEFINE GCC_IPF_CC_FLAGS            = DEF(GCC_ALL_CC_FLAGS) -minline-int-divide-min-latency
-  DEFINE GCC_ARM_CC_FLAGS            = DEF(GCC_ALL_CC_FLAGS) -mlittle-endian -mabi=aapcs -fno-short-enums -funsigned-char -ffunction-sections -fdata-sections -fomit-frame-pointer -Wno-address -mthumb -mfloat-abi=soft -fno-pic -fno-pie
--@@ -4369,7 +4369,7 @@ DEFINE GCC_ARM_RC_FLAGS            = -I binary -O elf32-littlearm     -B arm
-+@@ -4369,9 +4369,9 @@ DEFINE GCC_ARM_RC_FLAGS            = -I
-  DEFINE GCC_AARCH64_RC_FLAGS        = -I binary -O elf64-littleaarch64 -B aarch64 --rename-section .data=.hii
   
-  DEFINE GCC44_ALL_CC_FLAGS            = -g -fshort-wchar -fno-builtin -fno-strict-aliasing -Wall -Werror -Wno-array-bounds -ffunction-sections -fdata-sections -include AutoGen.h -fno-common -DSTRING_ARRAY_NAME=$(BASE_NAME)Strings
- -DEFINE GCC44_IA32_CC_FLAGS           = DEF(GCC44_ALL_CC_FLAGS) -m32 -march=i586 -malign-double -fno-stack-protector -D EFI32 -fno-asynchronous-unwind-tables
- +DEFINE GCC44_IA32_CC_FLAGS           = DEF(GCC44_ALL_CC_FLAGS) -m32 -march=i586 -malign-double -fno-stack-protector -D EFI32 -fno-asynchronous-unwind-tables -fno-PIE -no-pie
-  DEFINE GCC44_X64_CC_FLAGS            = DEF(GCC44_ALL_CC_FLAGS) -m64 -fno-stack-protector "-DEFIAPI=__attribute__((ms_abi))" -maccumulate-outgoing-args -mno-red-zone -Wno-address -mcmodel=small -fpie -fno-asynchronous-unwind-tables
-- DEFINE GCC44_IA32_X64_DLINK_COMMON   = -nostdlib -Wl,-n,-q,--gc-sections -z common-page-size=0x20
-+-DEFINE GCC44_IA32_X64_DLINK_COMMON   = -nostdlib -Wl,-n,-q,--gc-sections -z common-page-size=0x20
-++DEFINE GCC44_IA32_X64_DLINK_COMMON   = -nostdlib -Wl,-n,-q,--gc-sections -z common-page-size=0x20 -no-pie
-  DEFINE GCC44_IA32_X64_ASLDLINK_FLAGS = DEF(GCC44_IA32_X64_DLINK_COMMON) -Wl,--entry,ReferenceAcpiTable -u ReferenceAcpiTable
---- 
--2.13.1
+@@ -41,7 +41,7 @@ index cfa335e..daa12ec 100644
+  internal_function
+  _dl_cache_libcmp (const char *p1, const char *p2)
+ diff --git a/elf/dl-load.c b/elf/dl-load.c
+-index 3a3d112..a1410e4 100644
++index 19c1db9948..70c259b400 100644
+ --- a/elf/dl-load.c
+ +++ b/elf/dl-load.c
+ @@ -106,8 +106,8 @@ static size_t max_capstrlen attribute_relro;
+@@ -56,7 +56,7 @@ index 3a3d112..a1410e4 100644
+    SYSTEM_DIRS_LEN
+  };
+ diff --git a/elf/interp.c b/elf/interp.c
+-index 9448802..e7e8c70 100644
++index b6e8f04444..47c20415bc 100644
+ --- a/elf/interp.c
+ +++ b/elf/interp.c
+ @@ -18,5 +18,5 @@
+@@ -67,7 +67,7 @@ index 9448802..e7e8c70 100644
+ +const char __invoke_dynamic_linker__[4096] __attribute__ ((section (".interp")))
+    = RUNTIME_LINKER;
+ diff --git a/elf/ldconfig.c b/elf/ldconfig.c
+-index 467ca82..631a2a9 100644
++index 99caf9e9bb..36ea5df5f1 100644
+ --- a/elf/ldconfig.c
+ +++ b/elf/ldconfig.c
+ @@ -168,6 +168,9 @@ static struct argp argp =
+@@ -81,18 +81,18 @@ index 467ca82..631a2a9 100644
+     a platform.  */
+  static int
+ diff --git a/elf/rtld.c b/elf/rtld.c
+-index 4ec25d7..e159c12 100644
++index 65647fb1c8..cd8381cb33 100644
+ --- a/elf/rtld.c
+ +++ b/elf/rtld.c
+-@@ -99,6 +99,7 @@ uintptr_t __pointer_chk_guard_local
+- strong_alias (__pointer_chk_guard_local, __pointer_chk_guard)
+- #endif
+- 
++@@ -128,6 +128,7 @@ dso_name_valid_for_suid (const char *p)
++     }
++   return *p != '\0';
++ }
+ +extern const char LD_SO_CACHE[4096] __attribute__ ((section (".ldsocache")));
+  
+- /* List of auditing DSOs.  */
+- static struct audit_list
+-@@ -854,12 +855,12 @@ of this helper program; chances are you did not intend to run this program.\n\
++ /* LD_AUDIT variable contents.  Must be processed before the
++    audit_list below.  */
++@@ -999,12 +1000,12 @@ of this helper program; chances are you did not intend to run this program.\n\
+    --list                list all dependencies and how they are resolved\n\
+    --verify              verify that given object really is a dynamically linked\n\
+  			object we can handle\n\
+@@ -108,7 +108,7 @@ index 4ec25d7..e159c12 100644
+        ++_dl_skip_args;
+        --_dl_argc;
+ diff --git a/iconv/gconv_conf.c b/iconv/gconv_conf.c
+-index e235188..569f72e 100644
++index 5aa055de6e..b9a14b9bd3 100644
+ --- a/iconv/gconv_conf.c
+ +++ b/iconv/gconv_conf.c
+ @@ -36,7 +36,7 @@
+@@ -121,7 +121,7 @@ index e235188..569f72e 100644
+  /* The path elements, as determined by the __gconv_get_path function.
+     All path elements end in a slash.  */
+ diff --git a/sysdeps/generic/dl-cache.h b/sysdeps/generic/dl-cache.h
+-index eb2f900..505804e 100644
++index 1f0b8f629d..acbe68399d 100644
+ --- a/sysdeps/generic/dl-cache.h
+ +++ b/sysdeps/generic/dl-cache.h
+ @@ -27,10 +27,6 @@
+@@ -136,5 +136,5 @@ index eb2f900..505804e 100644
+  # define add_system_dir(dir) add_dir (dir)
+  #endif
+ -- 
+-2.10.2
++2.13.2
+ 
+diff --git a/meta/recipes-core/glibc/glibc/0004-nativesdk-glibc-Allow-64-bit-atomics-for-x86.patch b/meta/recipes-core/glibc/glibc/0004-nativesdk-glibc-Allow-64-bit-atomics-for-x86.patch
+index 0926a110e0..8db47bca78 100644
+--- a/meta/recipes-core/glibc/glibc/0004-nativesdk-glibc-Allow-64-bit-atomics-for-x86.patch
++++ b/meta/recipes-core/glibc/glibc/0004-nativesdk-glibc-Allow-64-bit-atomics-for-x86.patch
+@@ -1,22 +1,23 @@
+-From 0b95f34207ffed3aa53fa949662bfbccc7c864a4 Mon Sep 17 00:00:00 2001
++From 8fe1b56180c30d237cc2ab9a5a9c97a0311f41da Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Thu, 31 Dec 2015 14:35:35 -0800
+-Subject: [PATCH 04/26] nativesdk-glibc: Allow 64 bit atomics for x86
++Subject: [PATCH 04/25] nativesdk-glibc: Allow 64 bit atomics for x86
+ 
+ The fix consist of allowing 64bit atomic ops for x86.
+ This should be safe for i586 and newer CPUs.
+ It also makes the synchronization more efficient.
+ 
++Upstream-Status: Inappropriate [OE-Specific]
++
+ Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
+ Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-Upstream-Status: Pending
+ ---
+  sysdeps/i386/atomic-machine.h | 2 +-
+  1 file changed, 1 insertion(+), 1 deletion(-)
+ 
+ diff --git a/sysdeps/i386/atomic-machine.h b/sysdeps/i386/atomic-machine.h
+-index ce62b33..4fe44ea 100644
++index 0e24200617..1532f52dec 100644
+ --- a/sysdeps/i386/atomic-machine.h
+ +++ b/sysdeps/i386/atomic-machine.h
+ @@ -54,7 +54,7 @@ typedef uintmax_t uatomic_max_t;
+@@ -26,8 +27,8 @@ index ce62b33..4fe44ea 100644
+ -#define __HAVE_64B_ATOMICS 0
+ +#define __HAVE_64B_ATOMICS 1
+  #define USE_ATOMIC_COMPILER_BUILTINS 0
+- 
++ #define ATOMIC_EXCHANGE_USES_CAS 0
+  
+ -- 
+-2.10.2
++2.13.2
+ 
+diff --git a/meta/recipes-core/glibc/glibc/0005-fsl-e500-e5500-e6500-603e-fsqrt-implementation.patch b/meta/recipes-core/glibc/glibc/0005-fsl-e500-e5500-e6500-603e-fsqrt-implementation.patch
+index ee50000319..956b2aae7a 100644
+--- a/meta/recipes-core/glibc/glibc/0005-fsl-e500-e5500-e6500-603e-fsqrt-implementation.patch
++++ b/meta/recipes-core/glibc/glibc/0005-fsl-e500-e5500-e6500-603e-fsqrt-implementation.patch
+@@ -1,7 +1,7 @@
+-From 77a7495376c7d0c5507c0ec99bf1568150339ef4 Mon Sep 17 00:00:00 2001
++From b9edcc845641956b7286c60c833f05a9f70cfab9 Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Wed, 18 Mar 2015 00:01:50 +0000
+-Subject: [PATCH 05/26] fsl e500/e5500/e6500/603e fsqrt implementation
++Subject: [PATCH 05/25] fsl e500/e5500/e6500/603e fsqrt implementation
+ 
+ Upstream-Status: Pending
+ Signed-off-by: Edmar Wienskoski <edmar@freescale.com>
+@@ -49,7 +49,7 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+ 
+ diff --git a/sysdeps/powerpc/powerpc32/603e/fpu/e_sqrt.c b/sysdeps/powerpc/powerpc32/603e/fpu/e_sqrt.c
+ new file mode 100644
+-index 0000000..71e516d
++index 0000000000..71e516d1c8
+ --- /dev/null
+ +++ b/sysdeps/powerpc/powerpc32/603e/fpu/e_sqrt.c
+ @@ -0,0 +1,134 @@
+@@ -189,7 +189,7 @@ index 0000000..71e516d
+ +}
+ diff --git a/sysdeps/powerpc/powerpc32/603e/fpu/e_sqrtf.c b/sysdeps/powerpc/powerpc32/603e/fpu/e_sqrtf.c
+ new file mode 100644
+-index 0000000..26fa067
++index 0000000000..26fa067abf
+ --- /dev/null
+ +++ b/sysdeps/powerpc/powerpc32/603e/fpu/e_sqrtf.c
+ @@ -0,0 +1,101 @@
+@@ -296,7 +296,7 @@ index 0000000..26fa067
+ +}
+ diff --git a/sysdeps/powerpc/powerpc32/e500mc/fpu/e_sqrt.c b/sysdeps/powerpc/powerpc32/e500mc/fpu/e_sqrt.c
+ new file mode 100644
+-index 0000000..71e516d
++index 0000000000..71e516d1c8
+ --- /dev/null
+ +++ b/sysdeps/powerpc/powerpc32/e500mc/fpu/e_sqrt.c
+ @@ -0,0 +1,134 @@
+@@ -436,7 +436,7 @@ index 0000000..71e516d
+ +}
+ diff --git a/sysdeps/powerpc/powerpc32/e500mc/fpu/e_sqrtf.c b/sysdeps/powerpc/powerpc32/e500mc/fpu/e_sqrtf.c
+ new file mode 100644
+-index 0000000..26fa067
++index 0000000000..26fa067abf
+ --- /dev/null
+ +++ b/sysdeps/powerpc/powerpc32/e500mc/fpu/e_sqrtf.c
+ @@ -0,0 +1,101 @@
+@@ -543,7 +543,7 @@ index 0000000..26fa067
+ +}
+ diff --git a/sysdeps/powerpc/powerpc32/e5500/fpu/e_sqrt.c b/sysdeps/powerpc/powerpc32/e5500/fpu/e_sqrt.c
+ new file mode 100644
+-index 0000000..71e516d
++index 0000000000..71e516d1c8
+ --- /dev/null
+ +++ b/sysdeps/powerpc/powerpc32/e5500/fpu/e_sqrt.c
+ @@ -0,0 +1,134 @@
+@@ -683,7 +683,7 @@ index 0000000..71e516d
+ +}
+ diff --git a/sysdeps/powerpc/powerpc32/e5500/fpu/e_sqrtf.c b/sysdeps/powerpc/powerpc32/e5500/fpu/e_sqrtf.c
+ new file mode 100644
+-index 0000000..26fa067
++index 0000000000..26fa067abf
+ --- /dev/null
+ +++ b/sysdeps/powerpc/powerpc32/e5500/fpu/e_sqrtf.c
+ @@ -0,0 +1,101 @@
+@@ -790,7 +790,7 @@ index 0000000..26fa067
+ +}
+ diff --git a/sysdeps/powerpc/powerpc32/e6500/fpu/e_sqrt.c b/sysdeps/powerpc/powerpc32/e6500/fpu/e_sqrt.c
+ new file mode 100644
+-index 0000000..71e516d
++index 0000000000..71e516d1c8
+ --- /dev/null
+ +++ b/sysdeps/powerpc/powerpc32/e6500/fpu/e_sqrt.c
+ @@ -0,0 +1,134 @@
+@@ -930,7 +930,7 @@ index 0000000..71e516d
+ +}
+ diff --git a/sysdeps/powerpc/powerpc32/e6500/fpu/e_sqrtf.c b/sysdeps/powerpc/powerpc32/e6500/fpu/e_sqrtf.c
+ new file mode 100644
+-index 0000000..26fa067
++index 0000000000..26fa067abf
+ --- /dev/null
+ +++ b/sysdeps/powerpc/powerpc32/e6500/fpu/e_sqrtf.c
+ @@ -0,0 +1,101 @@
+@@ -1037,7 +1037,7 @@ index 0000000..26fa067
+ +}
+ diff --git a/sysdeps/powerpc/powerpc64/e5500/fpu/e_sqrt.c b/sysdeps/powerpc/powerpc64/e5500/fpu/e_sqrt.c
+ new file mode 100644
+-index 0000000..71e516d
++index 0000000000..71e516d1c8
+ --- /dev/null
+ +++ b/sysdeps/powerpc/powerpc64/e5500/fpu/e_sqrt.c
+ @@ -0,0 +1,134 @@
+@@ -1177,7 +1177,7 @@ index 0000000..71e516d
+ +}
+ diff --git a/sysdeps/powerpc/powerpc64/e5500/fpu/e_sqrtf.c b/sysdeps/powerpc/powerpc64/e5500/fpu/e_sqrtf.c
+ new file mode 100644
+-index 0000000..26fa067
++index 0000000000..26fa067abf
+ --- /dev/null
+ +++ b/sysdeps/powerpc/powerpc64/e5500/fpu/e_sqrtf.c
+ @@ -0,0 +1,101 @@
+@@ -1284,7 +1284,7 @@ index 0000000..26fa067
+ +}
+ diff --git a/sysdeps/powerpc/powerpc64/e6500/fpu/e_sqrt.c b/sysdeps/powerpc/powerpc64/e6500/fpu/e_sqrt.c
+ new file mode 100644
+-index 0000000..71e516d
++index 0000000000..71e516d1c8
+ --- /dev/null
+ +++ b/sysdeps/powerpc/powerpc64/e6500/fpu/e_sqrt.c
+ @@ -0,0 +1,134 @@
+@@ -1424,7 +1424,7 @@ index 0000000..71e516d
+ +}
+ diff --git a/sysdeps/powerpc/powerpc64/e6500/fpu/e_sqrtf.c b/sysdeps/powerpc/powerpc64/e6500/fpu/e_sqrtf.c
+ new file mode 100644
+-index 0000000..26fa067
++index 0000000000..26fa067abf
+ --- /dev/null
+ +++ b/sysdeps/powerpc/powerpc64/e6500/fpu/e_sqrtf.c
+ @@ -0,0 +1,101 @@
+@@ -1531,14 +1531,14 @@ index 0000000..26fa067
+ +}
+ diff --git a/sysdeps/unix/sysv/linux/powerpc/powerpc32/603e/fpu/Implies b/sysdeps/unix/sysv/linux/powerpc/powerpc32/603e/fpu/Implies
+ new file mode 100644
+-index 0000000..b103b4d
++index 0000000000..b103b4dea5
+ --- /dev/null
+ +++ b/sysdeps/unix/sysv/linux/powerpc/powerpc32/603e/fpu/Implies
+ @@ -0,0 +1 @@
+ +powerpc/powerpc32/603e/fpu
+ diff --git a/sysdeps/unix/sysv/linux/powerpc/powerpc32/e300c3/fpu/Implies b/sysdeps/unix/sysv/linux/powerpc/powerpc32/e300c3/fpu/Implies
+ new file mode 100644
+-index 0000000..64db17f
++index 0000000000..64db17fada
+ --- /dev/null
+ +++ b/sysdeps/unix/sysv/linux/powerpc/powerpc32/e300c3/fpu/Implies
+ @@ -0,0 +1,2 @@
+@@ -1546,39 +1546,39 @@ index 0000000..64db17f
+ +powerpc/powerpc32/603e/fpu
+ diff --git a/sysdeps/unix/sysv/linux/powerpc/powerpc32/e500mc/fpu/Implies b/sysdeps/unix/sysv/linux/powerpc/powerpc32/e500mc/fpu/Implies
+ new file mode 100644
+-index 0000000..7eac5fc
++index 0000000000..7eac5fcf02
+ --- /dev/null
+ +++ b/sysdeps/unix/sysv/linux/powerpc/powerpc32/e500mc/fpu/Implies
+ @@ -0,0 +1 @@
+ +powerpc/powerpc32/e500mc/fpu
+ diff --git a/sysdeps/unix/sysv/linux/powerpc/powerpc32/e5500/fpu/Implies b/sysdeps/unix/sysv/linux/powerpc/powerpc32/e5500/fpu/Implies
+ new file mode 100644
+-index 0000000..264b2a7
++index 0000000000..264b2a7700
+ --- /dev/null
+ +++ b/sysdeps/unix/sysv/linux/powerpc/powerpc32/e5500/fpu/Implies
+ @@ -0,0 +1 @@
+ +powerpc/powerpc32/e5500/fpu
+ diff --git a/sysdeps/unix/sysv/linux/powerpc/powerpc32/e6500/fpu/Implies b/sysdeps/unix/sysv/linux/powerpc/powerpc32/e6500/fpu/Implies
+ new file mode 100644
+-index 0000000..a259344
++index 0000000000..a25934467b
+ --- /dev/null
+ +++ b/sysdeps/unix/sysv/linux/powerpc/powerpc32/e6500/fpu/Implies
+ @@ -0,0 +1 @@
+ +powerpc/powerpc32/e6500/fpu
+ diff --git a/sysdeps/unix/sysv/linux/powerpc/powerpc64/e5500/fpu/Implies b/sysdeps/unix/sysv/linux/powerpc/powerpc64/e5500/fpu/Implies
+ new file mode 100644
+-index 0000000..a7bc854
++index 0000000000..a7bc854be8
+ --- /dev/null
+ +++ b/sysdeps/unix/sysv/linux/powerpc/powerpc64/e5500/fpu/Implies
+ @@ -0,0 +1 @@
+ +powerpc/powerpc64/e5500/fpu
+ diff --git a/sysdeps/unix/sysv/linux/powerpc/powerpc64/e6500/fpu/Implies b/sysdeps/unix/sysv/linux/powerpc/powerpc64/e6500/fpu/Implies
+ new file mode 100644
+-index 0000000..04ff8cc
++index 0000000000..04ff8cc181
+ --- /dev/null
+ +++ b/sysdeps/unix/sysv/linux/powerpc/powerpc64/e6500/fpu/Implies
+ @@ -0,0 +1 @@
+ +powerpc/powerpc64/e6500/fpu
+ -- 
+-2.10.2
++2.13.2
+ 
+diff --git a/meta/recipes-core/glibc/glibc/0006-readlib-Add-OECORE_KNOWN_INTERPRETER_NAMES-to-known-.patch b/meta/recipes-core/glibc/glibc/0006-readlib-Add-OECORE_KNOWN_INTERPRETER_NAMES-to-known-.patch
+index 9088d29c4a..c74fead625 100644
+--- a/meta/recipes-core/glibc/glibc/0006-readlib-Add-OECORE_KNOWN_INTERPRETER_NAMES-to-known-.patch
++++ b/meta/recipes-core/glibc/glibc/0006-readlib-Add-OECORE_KNOWN_INTERPRETER_NAMES-to-known-.patch
+@@ -1,7 +1,7 @@
+-From 520cb9e746af637cf01fea385b7f4ee4aadbdfdd Mon Sep 17 00:00:00 2001
++From 324202488a1c2439be345745722f5cb04c0e0847 Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Wed, 18 Mar 2015 00:11:22 +0000
+-Subject: [PATCH 06/26] readlib: Add OECORE_KNOWN_INTERPRETER_NAMES to known
++Subject: [PATCH 06/25] readlib: Add OECORE_KNOWN_INTERPRETER_NAMES to known
+  names
+ 
+ This bolts in a hook for OE to pass its own version of interpreter
+@@ -17,7 +17,7 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+  1 file changed, 1 insertion(+)
+ 
+ diff --git a/elf/readlib.c b/elf/readlib.c
+-index 8a66ffe..08d56fc 100644
++index d278a189b2..a84cb85158 100644
+ --- a/elf/readlib.c
+ +++ b/elf/readlib.c
+ @@ -51,6 +51,7 @@ static struct known_names interpreters[] =
+@@ -29,5 +29,5 @@ index 8a66ffe..08d56fc 100644
+  
+  static struct known_names known_libs[] =
+ -- 
+-2.10.2
++2.13.2
+ 
+diff --git a/meta/recipes-core/glibc/glibc/0007-ppc-sqrt-Fix-undefined-reference-to-__sqrt_finite.patch b/meta/recipes-core/glibc/glibc/0007-ppc-sqrt-Fix-undefined-reference-to-__sqrt_finite.patch
+index f33defe075..b64327667c 100644
+--- a/meta/recipes-core/glibc/glibc/0007-ppc-sqrt-Fix-undefined-reference-to-__sqrt_finite.patch
++++ b/meta/recipes-core/glibc/glibc/0007-ppc-sqrt-Fix-undefined-reference-to-__sqrt_finite.patch
+@@ -1,7 +1,7 @@
+-From 64130262787d54e2e6695ae4ed8783bfec14ffef Mon Sep 17 00:00:00 2001
++From cf00bf9de8128171e79a019de809e35f3aeed281 Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Wed, 18 Mar 2015 00:15:07 +0000
+-Subject: [PATCH 07/26] ppc/sqrt: Fix undefined reference to `__sqrt_finite'
++Subject: [PATCH 07/25] ppc/sqrt: Fix undefined reference to `__sqrt_finite'
+ 
+ on ppc fixes the errors like below
+ | ./.libs/libpulsecore-1.1.so: undefined reference to `__sqrt_finite'
+@@ -36,7 +36,7 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+  12 files changed, 12 insertions(+), 24 deletions(-)
+ 
+ diff --git a/sysdeps/powerpc/powerpc32/603e/fpu/e_sqrt.c b/sysdeps/powerpc/powerpc32/603e/fpu/e_sqrt.c
+-index 71e516d..1795fd6 100644
++index 71e516d1c8..1795fd6c3e 100644
+ --- a/sysdeps/powerpc/powerpc32/603e/fpu/e_sqrt.c
+ +++ b/sysdeps/powerpc/powerpc32/603e/fpu/e_sqrt.c
+ @@ -39,14 +39,8 @@ static const float half = 0.5;
+@@ -60,7 +60,7 @@ index 71e516d..1795fd6 100644
+  }
+ +strong_alias (__ieee754_sqrt, __sqrt_finite)
+ diff --git a/sysdeps/powerpc/powerpc32/603e/fpu/e_sqrtf.c b/sysdeps/powerpc/powerpc32/603e/fpu/e_sqrtf.c
+-index 26fa067..a917f31 100644
++index 26fa067abf..a917f313ab 100644
+ --- a/sysdeps/powerpc/powerpc32/603e/fpu/e_sqrtf.c
+ +++ b/sysdeps/powerpc/powerpc32/603e/fpu/e_sqrtf.c
+ @@ -37,14 +37,8 @@ static const float threehalf = 1.5;
+@@ -84,7 +84,7 @@ index 26fa067..a917f31 100644
+  }
+ +strong_alias (__ieee754_sqrtf, __sqrtf_finite)
+ diff --git a/sysdeps/powerpc/powerpc32/e500mc/fpu/e_sqrt.c b/sysdeps/powerpc/powerpc32/e500mc/fpu/e_sqrt.c
+-index 71e516d..fc4a749 100644
++index 71e516d1c8..fc4a74990e 100644
+ --- a/sysdeps/powerpc/powerpc32/e500mc/fpu/e_sqrt.c
+ +++ b/sysdeps/powerpc/powerpc32/e500mc/fpu/e_sqrt.c
+ @@ -132,3 +132,4 @@ __ieee754_sqrt (b)
+@@ -93,7 +93,7 @@ index 71e516d..fc4a749 100644
+  }
+ +strong_alias (__ieee754_sqrt, __sqrt_finite)
+ diff --git a/sysdeps/powerpc/powerpc32/e500mc/fpu/e_sqrtf.c b/sysdeps/powerpc/powerpc32/e500mc/fpu/e_sqrtf.c
+-index 26fa067..9d17512 100644
++index 26fa067abf..9d175122a8 100644
+ --- a/sysdeps/powerpc/powerpc32/e500mc/fpu/e_sqrtf.c
+ +++ b/sysdeps/powerpc/powerpc32/e500mc/fpu/e_sqrtf.c
+ @@ -99,3 +99,4 @@ __ieee754_sqrtf (b)
+@@ -102,7 +102,7 @@ index 26fa067..9d17512 100644
+  }
+ +strong_alias (__ieee754_sqrtf, __sqrtf_finite)
+ diff --git a/sysdeps/powerpc/powerpc32/e5500/fpu/e_sqrt.c b/sysdeps/powerpc/powerpc32/e5500/fpu/e_sqrt.c
+-index 71e516d..fc4a749 100644
++index 71e516d1c8..fc4a74990e 100644
+ --- a/sysdeps/powerpc/powerpc32/e5500/fpu/e_sqrt.c
+ +++ b/sysdeps/powerpc/powerpc32/e5500/fpu/e_sqrt.c
+ @@ -132,3 +132,4 @@ __ieee754_sqrt (b)
+@@ -111,7 +111,7 @@ index 71e516d..fc4a749 100644
+  }
+ +strong_alias (__ieee754_sqrt, __sqrt_finite)
+ diff --git a/sysdeps/powerpc/powerpc32/e5500/fpu/e_sqrtf.c b/sysdeps/powerpc/powerpc32/e5500/fpu/e_sqrtf.c
+-index 26fa067..9d17512 100644
++index 26fa067abf..9d175122a8 100644
+ --- a/sysdeps/powerpc/powerpc32/e5500/fpu/e_sqrtf.c
+ +++ b/sysdeps/powerpc/powerpc32/e5500/fpu/e_sqrtf.c
+ @@ -99,3 +99,4 @@ __ieee754_sqrtf (b)
+@@ -120,7 +120,7 @@ index 26fa067..9d17512 100644
+  }
+ +strong_alias (__ieee754_sqrtf, __sqrtf_finite)
+ diff --git a/sysdeps/powerpc/powerpc32/e6500/fpu/e_sqrt.c b/sysdeps/powerpc/powerpc32/e6500/fpu/e_sqrt.c
+-index 71e516d..fc4a749 100644
++index 71e516d1c8..fc4a74990e 100644
+ --- a/sysdeps/powerpc/powerpc32/e6500/fpu/e_sqrt.c
+ +++ b/sysdeps/powerpc/powerpc32/e6500/fpu/e_sqrt.c
+ @@ -132,3 +132,4 @@ __ieee754_sqrt (b)
+@@ -129,7 +129,7 @@ index 71e516d..fc4a749 100644
+  }
+ +strong_alias (__ieee754_sqrt, __sqrt_finite)
+ diff --git a/sysdeps/powerpc/powerpc32/e6500/fpu/e_sqrtf.c b/sysdeps/powerpc/powerpc32/e6500/fpu/e_sqrtf.c
+-index 26fa067..9d17512 100644
++index 26fa067abf..9d175122a8 100644
+ --- a/sysdeps/powerpc/powerpc32/e6500/fpu/e_sqrtf.c
+ +++ b/sysdeps/powerpc/powerpc32/e6500/fpu/e_sqrtf.c
+ @@ -99,3 +99,4 @@ __ieee754_sqrtf (b)
+@@ -138,7 +138,7 @@ index 26fa067..9d17512 100644
+  }
+ +strong_alias (__ieee754_sqrtf, __sqrtf_finite)
+ diff --git a/sysdeps/powerpc/powerpc64/e5500/fpu/e_sqrt.c b/sysdeps/powerpc/powerpc64/e5500/fpu/e_sqrt.c
+-index 71e516d..1795fd6 100644
++index 71e516d1c8..1795fd6c3e 100644
+ --- a/sysdeps/powerpc/powerpc64/e5500/fpu/e_sqrt.c
+ +++ b/sysdeps/powerpc/powerpc64/e5500/fpu/e_sqrt.c
+ @@ -39,14 +39,8 @@ static const float half = 0.5;
+@@ -162,7 +162,7 @@ index 71e516d..1795fd6 100644
+  }
+ +strong_alias (__ieee754_sqrt, __sqrt_finite)
+ diff --git a/sysdeps/powerpc/powerpc64/e5500/fpu/e_sqrtf.c b/sysdeps/powerpc/powerpc64/e5500/fpu/e_sqrtf.c
+-index 26fa067..a917f31 100644
++index 26fa067abf..a917f313ab 100644
+ --- a/sysdeps/powerpc/powerpc64/e5500/fpu/e_sqrtf.c
+ +++ b/sysdeps/powerpc/powerpc64/e5500/fpu/e_sqrtf.c
+ @@ -37,14 +37,8 @@ static const float threehalf = 1.5;
+@@ -186,7 +186,7 @@ index 26fa067..a917f31 100644
+  }
+ +strong_alias (__ieee754_sqrtf, __sqrtf_finite)
+ diff --git a/sysdeps/powerpc/powerpc64/e6500/fpu/e_sqrt.c b/sysdeps/powerpc/powerpc64/e6500/fpu/e_sqrt.c
+-index 71e516d..fc4a749 100644
++index 71e516d1c8..fc4a74990e 100644
+ --- a/sysdeps/powerpc/powerpc64/e6500/fpu/e_sqrt.c
+ +++ b/sysdeps/powerpc/powerpc64/e6500/fpu/e_sqrt.c
+ @@ -132,3 +132,4 @@ __ieee754_sqrt (b)
+@@ -195,7 +195,7 @@ index 71e516d..fc4a749 100644
+  }
+ +strong_alias (__ieee754_sqrt, __sqrt_finite)
+ diff --git a/sysdeps/powerpc/powerpc64/e6500/fpu/e_sqrtf.c b/sysdeps/powerpc/powerpc64/e6500/fpu/e_sqrtf.c
+-index 26fa067..9d17512 100644
++index 26fa067abf..9d175122a8 100644
+ --- a/sysdeps/powerpc/powerpc64/e6500/fpu/e_sqrtf.c
+ +++ b/sysdeps/powerpc/powerpc64/e6500/fpu/e_sqrtf.c
+ @@ -99,3 +99,4 @@ __ieee754_sqrtf (b)
+@@ -204,5 +204,5 @@ index 26fa067..9d17512 100644
+  }
+ +strong_alias (__ieee754_sqrtf, __sqrtf_finite)
+ -- 
+-2.10.2
++2.13.2
+ 
+diff --git a/meta/recipes-core/glibc/glibc/0008-__ieee754_sqrt-f-are-now-inline-functions-and-call-o.patch b/meta/recipes-core/glibc/glibc/0008-__ieee754_sqrt-f-are-now-inline-functions-and-call-o.patch
+index 26f65c5b17..3aeec5288b 100644
+--- a/meta/recipes-core/glibc/glibc/0008-__ieee754_sqrt-f-are-now-inline-functions-and-call-o.patch
++++ b/meta/recipes-core/glibc/glibc/0008-__ieee754_sqrt-f-are-now-inline-functions-and-call-o.patch
+@@ -1,7 +1,7 @@
+-From 5afb0147e3e49c3b474404524014efe51b2bca5a Mon Sep 17 00:00:00 2001
++From babe311deca9ee2730278f13b061b914b5286dc3 Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Wed, 18 Mar 2015 00:16:38 +0000
+-Subject: [PATCH 08/26] __ieee754_sqrt{,f} are now inline functions and call
++Subject: [PATCH 08/25] __ieee754_sqrt{,f} are now inline functions and call
+  out __slow versions
+ 
+ Upstream-Status: Pending
+@@ -23,7 +23,7 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+  12 files changed, 114 insertions(+), 21 deletions(-)
+ 
+ diff --git a/sysdeps/powerpc/powerpc32/603e/fpu/e_sqrt.c b/sysdeps/powerpc/powerpc32/603e/fpu/e_sqrt.c
+-index 1795fd6..daa83f3 100644
++index 1795fd6c3e..daa83f3fe8 100644
+ --- a/sysdeps/powerpc/powerpc32/603e/fpu/e_sqrt.c
+ +++ b/sysdeps/powerpc/powerpc32/603e/fpu/e_sqrt.c
+ @@ -40,7 +40,7 @@ static const float half = 0.5;
+@@ -58,7 +58,7 @@ index 1795fd6..daa83f3 100644
+ +
+  strong_alias (__ieee754_sqrt, __sqrt_finite)
+ diff --git a/sysdeps/powerpc/powerpc32/603e/fpu/e_sqrtf.c b/sysdeps/powerpc/powerpc32/603e/fpu/e_sqrtf.c
+-index a917f31..b812cf1 100644
++index a917f313ab..b812cf1705 100644
+ --- a/sysdeps/powerpc/powerpc32/603e/fpu/e_sqrtf.c
+ +++ b/sysdeps/powerpc/powerpc32/603e/fpu/e_sqrtf.c
+ @@ -38,7 +38,7 @@ static const float threehalf = 1.5;
+@@ -82,7 +82,7 @@ index a917f31..b812cf1 100644
+ +}
+  strong_alias (__ieee754_sqrtf, __sqrtf_finite)
+ diff --git a/sysdeps/powerpc/powerpc32/e500mc/fpu/e_sqrt.c b/sysdeps/powerpc/powerpc32/e500mc/fpu/e_sqrt.c
+-index fc4a749..7038a70 100644
++index fc4a74990e..7038a70b47 100644
+ --- a/sysdeps/powerpc/powerpc32/e500mc/fpu/e_sqrt.c
+ +++ b/sysdeps/powerpc/powerpc32/e500mc/fpu/e_sqrt.c
+ @@ -41,10 +41,10 @@ static const float half = 0.5;
+@@ -121,7 +121,7 @@ index fc4a749..7038a70 100644
+ +
+  strong_alias (__ieee754_sqrt, __sqrt_finite)
+ diff --git a/sysdeps/powerpc/powerpc32/e500mc/fpu/e_sqrtf.c b/sysdeps/powerpc/powerpc32/e500mc/fpu/e_sqrtf.c
+-index 9d17512..10de1f0 100644
++index 9d175122a8..10de1f0cc3 100644
+ --- a/sysdeps/powerpc/powerpc32/e500mc/fpu/e_sqrtf.c
+ +++ b/sysdeps/powerpc/powerpc32/e500mc/fpu/e_sqrtf.c
+ @@ -39,10 +39,10 @@ static const float threehalf = 1.5;
+@@ -151,7 +151,7 @@ index 9d17512..10de1f0 100644
+ +
+  strong_alias (__ieee754_sqrtf, __sqrtf_finite)
+ diff --git a/sysdeps/powerpc/powerpc32/e5500/fpu/e_sqrt.c b/sysdeps/powerpc/powerpc32/e5500/fpu/e_sqrt.c
+-index fc4a749..7038a70 100644
++index fc4a74990e..7038a70b47 100644
+ --- a/sysdeps/powerpc/powerpc32/e5500/fpu/e_sqrt.c
+ +++ b/sysdeps/powerpc/powerpc32/e5500/fpu/e_sqrt.c
+ @@ -41,10 +41,10 @@ static const float half = 0.5;
+@@ -190,7 +190,7 @@ index fc4a749..7038a70 100644
+ +
+  strong_alias (__ieee754_sqrt, __sqrt_finite)
+ diff --git a/sysdeps/powerpc/powerpc32/e5500/fpu/e_sqrtf.c b/sysdeps/powerpc/powerpc32/e5500/fpu/e_sqrtf.c
+-index 9d17512..10de1f0 100644
++index 9d175122a8..10de1f0cc3 100644
+ --- a/sysdeps/powerpc/powerpc32/e5500/fpu/e_sqrtf.c
+ +++ b/sysdeps/powerpc/powerpc32/e5500/fpu/e_sqrtf.c
+ @@ -39,10 +39,10 @@ static const float threehalf = 1.5;
+@@ -220,7 +220,7 @@ index 9d17512..10de1f0 100644
+ +
+  strong_alias (__ieee754_sqrtf, __sqrtf_finite)
+ diff --git a/sysdeps/powerpc/powerpc32/e6500/fpu/e_sqrt.c b/sysdeps/powerpc/powerpc32/e6500/fpu/e_sqrt.c
+-index fc4a749..1c34244 100644
++index fc4a74990e..1c34244bd8 100644
+ --- a/sysdeps/powerpc/powerpc32/e6500/fpu/e_sqrt.c
+ +++ b/sysdeps/powerpc/powerpc32/e6500/fpu/e_sqrt.c
+ @@ -132,4 +132,12 @@ __ieee754_sqrt (b)
+@@ -237,7 +237,7 @@ index fc4a749..1c34244 100644
+ +
+  strong_alias (__ieee754_sqrt, __sqrt_finite)
+ diff --git a/sysdeps/powerpc/powerpc32/e6500/fpu/e_sqrtf.c b/sysdeps/powerpc/powerpc32/e6500/fpu/e_sqrtf.c
+-index 9d17512..8126535 100644
++index 9d175122a8..812653558f 100644
+ --- a/sysdeps/powerpc/powerpc32/e6500/fpu/e_sqrtf.c
+ +++ b/sysdeps/powerpc/powerpc32/e6500/fpu/e_sqrtf.c
+ @@ -99,4 +99,12 @@ __ieee754_sqrtf (b)
+@@ -254,7 +254,7 @@ index 9d17512..8126535 100644
+ +
+  strong_alias (__ieee754_sqrtf, __sqrtf_finite)
+ diff --git a/sysdeps/powerpc/powerpc64/e5500/fpu/e_sqrt.c b/sysdeps/powerpc/powerpc64/e5500/fpu/e_sqrt.c
+-index 1795fd6..13a8197 100644
++index 1795fd6c3e..13a81973e3 100644
+ --- a/sysdeps/powerpc/powerpc64/e5500/fpu/e_sqrt.c
+ +++ b/sysdeps/powerpc/powerpc64/e5500/fpu/e_sqrt.c
+ @@ -40,7 +40,7 @@ static const float half = 0.5;
+@@ -289,7 +289,7 @@ index 1795fd6..13a8197 100644
+ +
+  strong_alias (__ieee754_sqrt, __sqrt_finite)
+ diff --git a/sysdeps/powerpc/powerpc64/e5500/fpu/e_sqrtf.c b/sysdeps/powerpc/powerpc64/e5500/fpu/e_sqrtf.c
+-index a917f31..fae2d81 100644
++index a917f313ab..fae2d81210 100644
+ --- a/sysdeps/powerpc/powerpc64/e5500/fpu/e_sqrtf.c
+ +++ b/sysdeps/powerpc/powerpc64/e5500/fpu/e_sqrtf.c
+ @@ -38,7 +38,7 @@ static const float threehalf = 1.5;
+@@ -314,7 +314,7 @@ index a917f31..fae2d81 100644
+ +
+  strong_alias (__ieee754_sqrtf, __sqrtf_finite)
+ diff --git a/sysdeps/powerpc/powerpc64/e6500/fpu/e_sqrt.c b/sysdeps/powerpc/powerpc64/e6500/fpu/e_sqrt.c
+-index fc4a749..7038a70 100644
++index fc4a74990e..7038a70b47 100644
+ --- a/sysdeps/powerpc/powerpc64/e6500/fpu/e_sqrt.c
+ +++ b/sysdeps/powerpc/powerpc64/e6500/fpu/e_sqrt.c
+ @@ -41,10 +41,10 @@ static const float half = 0.5;
+@@ -353,7 +353,7 @@ index fc4a749..7038a70 100644
+ +
+  strong_alias (__ieee754_sqrt, __sqrt_finite)
+ diff --git a/sysdeps/powerpc/powerpc64/e6500/fpu/e_sqrtf.c b/sysdeps/powerpc/powerpc64/e6500/fpu/e_sqrtf.c
+-index 9d17512..10de1f0 100644
++index 9d175122a8..10de1f0cc3 100644
+ --- a/sysdeps/powerpc/powerpc64/e6500/fpu/e_sqrtf.c
+ +++ b/sysdeps/powerpc/powerpc64/e6500/fpu/e_sqrtf.c
+ @@ -39,10 +39,10 @@ static const float threehalf = 1.5;
+@@ -383,5 +383,5 @@ index 9d17512..10de1f0 100644
+ +
+  strong_alias (__ieee754_sqrtf, __sqrtf_finite)
+ -- 
+-2.10.2
++2.13.2
+ 
+diff --git a/meta/recipes-core/glibc/glibc/0009-Quote-from-bug-1443-which-explains-what-the-patch-do.patch b/meta/recipes-core/glibc/glibc/0009-Quote-from-bug-1443-which-explains-what-the-patch-do.patch
+index d416acde3e..7d5c2e31f5 100644
+--- a/meta/recipes-core/glibc/glibc/0009-Quote-from-bug-1443-which-explains-what-the-patch-do.patch
++++ b/meta/recipes-core/glibc/glibc/0009-Quote-from-bug-1443-which-explains-what-the-patch-do.patch
+@@ -1,7 +1,7 @@
+-From ddd51bb4e005432cb3c0f8f33822954408a9fee1 Mon Sep 17 00:00:00 2001
++From 93b5d6bed19939039031c45b777d29619db06184 Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Wed, 18 Mar 2015 00:20:09 +0000
+-Subject: [PATCH 09/26] Quote from bug 1443 which explains what the patch does
++Subject: [PATCH 09/25] Quote from bug 1443 which explains what the patch does
+  :
+ 
+   We build some random program and link it with -lust.  When we run it,
+@@ -45,10 +45,10 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+  1 file changed, 1 insertion(+), 1 deletion(-)
+ 
+ diff --git a/sysdeps/arm/dl-machine.h b/sysdeps/arm/dl-machine.h
+-index 60eee00..7d54d5e 100644
++index 7053ead16e..0b1e1716b0 100644
+ --- a/sysdeps/arm/dl-machine.h
+ +++ b/sysdeps/arm/dl-machine.h
+-@@ -499,7 +499,7 @@ elf_machine_rel (struct link_map *map, const Elf32_Rel *reloc,
++@@ -500,7 +500,7 @@ elf_machine_rel (struct link_map *map, const Elf32_Rel *reloc,
+  
+  	case R_ARM_TLS_DTPOFF32:
+  	  if (sym != NULL)
+@@ -58,5 +58,5 @@ index 60eee00..7d54d5e 100644
+  
+  	case R_ARM_TLS_TPOFF32:
+ -- 
+-2.10.2
++2.13.2
+ 
+diff --git a/meta/recipes-core/glibc/glibc/0010-eglibc-run-libm-err-tab.pl-with-specific-dirs-in-S.patch b/meta/recipes-core/glibc/glibc/0010-eglibc-run-libm-err-tab.pl-with-specific-dirs-in-S.patch
+index 276f1fa4c2..7275c3e96d 100644
+--- a/meta/recipes-core/glibc/glibc/0010-eglibc-run-libm-err-tab.pl-with-specific-dirs-in-S.patch
++++ b/meta/recipes-core/glibc/glibc/0010-eglibc-run-libm-err-tab.pl-with-specific-dirs-in-S.patch
+@@ -1,7 +1,7 @@
+-From d7e74670825330f5421a55f5aa2a1ce6fda7d7fb Mon Sep 17 00:00:00 2001
++From 1a6e0f4ee8584b04226156df1a3de3e467f0ef6f Mon Sep 17 00:00:00 2001
+ From: Ting Liu <b28495@freescale.com>
+ Date: Wed, 19 Dec 2012 04:39:57 -0600
+-Subject: [PATCH 10/26] eglibc: run libm-err-tab.pl with specific dirs in ${S}
++Subject: [PATCH 10/25] eglibc: run libm-err-tab.pl with specific dirs in ${S}
+ 
+ libm-err-tab.pl will parse all the files named "libm-test-ulps"
+ in the given dir recursively. To avoid parsing the one in
+@@ -18,7 +18,7 @@ Signed-off-by: Ting Liu <b28495@freescale.com>
+  1 file changed, 2 insertions(+), 1 deletion(-)
+ 
+ diff --git a/manual/Makefile b/manual/Makefile
+-index f2f694f..e062833 100644
++index 4ed63a8ef3..e89919eb19 100644
+ --- a/manual/Makefile
+ +++ b/manual/Makefile
+ @@ -105,7 +105,8 @@ $(objpfx)libm-err.texi: $(objpfx)stamp-libm-err
+@@ -32,5 +32,5 @@ index f2f694f..e062833 100644
+  	touch $@
+  
+ -- 
+-2.10.2
++2.13.2
+ 
+diff --git a/meta/recipes-core/glibc/glibc/0011-__ieee754_sqrt-f-are-now-inline-functions-and-call-o.patch b/meta/recipes-core/glibc/glibc/0011-__ieee754_sqrt-f-are-now-inline-functions-and-call-o.patch
+index 096dab5474..84f2ca5234 100644
+--- a/meta/recipes-core/glibc/glibc/0011-__ieee754_sqrt-f-are-now-inline-functions-and-call-o.patch
++++ b/meta/recipes-core/glibc/glibc/0011-__ieee754_sqrt-f-are-now-inline-functions-and-call-o.patch
+@@ -1,7 +1,7 @@
+-From d6e2076571263e45c48889896d3d94ff576df2be Mon Sep 17 00:00:00 2001
++From 9b2af6cbf68d3353d72519e7f6c46becb7bd1d0f Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Wed, 18 Mar 2015 00:24:46 +0000
+-Subject: [PATCH 11/26] __ieee754_sqrt{,f} are now inline functions and call
++Subject: [PATCH 11/25] __ieee754_sqrt{,f} are now inline functions and call
+  out __slow versions
+ 
+ Upstream-Status: Pending
+@@ -14,7 +14,7 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+  2 files changed, 5 insertions(+), 5 deletions(-)
+ 
+ diff --git a/sysdeps/powerpc/powerpc32/e6500/fpu/e_sqrt.c b/sysdeps/powerpc/powerpc32/e6500/fpu/e_sqrt.c
+-index 1c34244..7038a70 100644
++index 1c34244bd8..7038a70b47 100644
+ --- a/sysdeps/powerpc/powerpc32/e6500/fpu/e_sqrt.c
+ +++ b/sysdeps/powerpc/powerpc32/e6500/fpu/e_sqrt.c
+ @@ -41,10 +41,10 @@ static const float half = 0.5;
+@@ -40,7 +40,7 @@ index 1c34244..7038a70 100644
+  #define FMADD(a_, c_, b_)                                               \
+            ({ double __r;                                                \
+ diff --git a/sysdeps/powerpc/powerpc32/e6500/fpu/e_sqrtf.c b/sysdeps/powerpc/powerpc32/e6500/fpu/e_sqrtf.c
+-index 8126535..10de1f0 100644
++index 812653558f..10de1f0cc3 100644
+ --- a/sysdeps/powerpc/powerpc32/e6500/fpu/e_sqrtf.c
+ +++ b/sysdeps/powerpc/powerpc32/e6500/fpu/e_sqrtf.c
+ @@ -39,10 +39,10 @@ static const float threehalf = 1.5;
+@@ -57,5 +57,5 @@ index 8126535..10de1f0 100644
+  #endif
+  {
+ -- 
+-2.10.2
++2.13.2
+ 
+diff --git a/meta/recipes-core/glibc/glibc/0012-Make-ld-version-output-matching-grok-gold-s-output.patch b/meta/recipes-core/glibc/glibc/0012-Make-ld-version-output-matching-grok-gold-s-output.patch
+deleted file mode 100644
+index 7728c61a9d..0000000000
+--- a/meta/recipes-core/glibc/glibc/0012-Make-ld-version-output-matching-grok-gold-s-output.patch
++++ /dev/null
+@@ -1,44 +0,0 @@
+-From c0974c746e026650bef5d1940eb3f519765c77af Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Wed, 18 Mar 2015 00:25:45 +0000
+-Subject: [PATCH 12/26] Make ld --version output matching grok gold's output
 -
-+ DEFINE GCC44_IA32_X64_DLINK_FLAGS    = DEF(GCC44_IA32_X64_DLINK_COMMON) -Wl,--entry,$(IMAGE_ENTRY_POINT) -u $(IMAGE_ENTRY_POINT) -Wl,-Map,$(DEST_DIR_DEBUG)/$(BASE_NAME).map
-+ DEFINE GCC44_IA32_DLINK2_FLAGS       = -Wl,--defsym=PECOFF_HEADER_SIZE=0x220 DEF(GCC_DLINK2_FLAGS_COMMON)
-+@@ -4451,7 +4451,7 @@ DEFINE GCC48_AARCH64_ASLDLINK_FLAGS  = D
-+ 
-+ DEFINE GCC49_IA32_CC_FLAGS           = DEF(GCC48_IA32_CC_FLAGS)
-+ DEFINE GCC49_X64_CC_FLAGS            = DEF(GCC48_X64_CC_FLAGS)
-+-DEFINE GCC49_IA32_X64_DLINK_COMMON   = -nostdlib -Wl,-n,-q,--gc-sections -z common-page-size=0x40
-++DEFINE GCC49_IA32_X64_DLINK_COMMON   = -nostdlib -Wl,-n,-q,--gc-sections -z common-page-size=0x40 -no-pie
-+ DEFINE GCC49_IA32_X64_ASLDLINK_FLAGS = DEF(GCC49_IA32_X64_DLINK_COMMON) -Wl,--entry,ReferenceAcpiTable -u ReferenceAcpiTable
-+ DEFINE GCC49_IA32_X64_DLINK_FLAGS    = DEF(GCC49_IA32_X64_DLINK_COMMON) -Wl,--entry,$(IMAGE_ENTRY_POINT) -u $(IMAGE_ENTRY_POINT) -Wl,-Map,$(DEST_DIR_DEBUG)/$(BASE_NAME).map
-+ DEFINE GCC49_IA32_DLINK2_FLAGS       = DEF(GCC48_IA32_DLINK2_FLAGS)
+-adapted from from upstream branch roland/gold-vs-libc
+-
+-Upstream-Status: Backport
+-
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+- configure    | 2 +-
+- configure.ac | 2 +-
+- 2 files changed, 2 insertions(+), 2 deletions(-)
+-
+-diff --git a/configure b/configure
+-index 5cf3230..391f29d 100755
+---- a/configure
+-+++ b/configure
+-@@ -4555,7 +4555,7 @@ else
+-   # Found it, now check the version.
+-   { $as_echo "$as_me:${as_lineno-$LINENO}: checking version of $LD" >&5
+- $as_echo_n "checking version of $LD... " >&6; }
+--  ac_prog_version=`$LD --version 2>&1 | sed -n 's/^.*GNU ld.* \([0-9][0-9]*\.[0-9.]*\).*$/\1/p'`
+-+  ac_prog_version=`$LD --version 2>&1 | sed -n 's/^.*GNU [Bbinutilsd][^.]* \([0-9][0-9]*\.[0-9.]*\).*$/\1/p'`
+-   case $ac_prog_version in
+-     '') ac_prog_version="v. ?.??, bad"; ac_verc_fail=yes;;
+-     2.1[0-9][0-9]*|2.2[2-9]*|2.[3-9][0-9]*|[3-9].*|[1-9][0-9]*)
+-diff --git a/configure.ac b/configure.ac
+-index d719fad..5b5877c 100644
+---- a/configure.ac
+-+++ b/configure.ac
+-@@ -990,7 +990,7 @@ AC_CHECK_PROG_VER(AS, $AS, --version,
+- 		  [2.1[0-9][0-9]*|2.2[2-9]*|2.[3-9][0-9]*|[3-9].*|[1-9][0-9]*],
+- 		  AS=: critic_missing="$critic_missing as")
+- AC_CHECK_PROG_VER(LD, $LD, --version,
+--		  [GNU ld.* \([0-9][0-9]*\.[0-9.]*\)],
+-+		  [GNU [Bbinutilsd][^.]* \([0-9][0-9]*\.[0-9.]*\)],
+- 		  [2.1[0-9][0-9]*|2.2[2-9]*|2.[3-9][0-9]*|[3-9].*|[1-9][0-9]*],
+- 		  LD=: critic_missing="$critic_missing ld")
+- 
+--- 
+-2.10.2
+-
+diff --git a/meta/recipes-core/glibc/glibc/0013-sysdeps-gnu-configure.ac-handle-correctly-libc_cv_ro.patch b/meta/recipes-core/glibc/glibc/0012-sysdeps-gnu-configure.ac-handle-correctly-libc_cv_ro.patch
+similarity index 82%
+rename from meta/recipes-core/glibc/glibc/0013-sysdeps-gnu-configure.ac-handle-correctly-libc_cv_ro.patch
+rename to meta/recipes-core/glibc/glibc/0012-sysdeps-gnu-configure.ac-handle-correctly-libc_cv_ro.patch
+index 1c81c729db..2bf6b23ad1 100644
+--- a/meta/recipes-core/glibc/glibc/0013-sysdeps-gnu-configure.ac-handle-correctly-libc_cv_ro.patch
++++ b/meta/recipes-core/glibc/glibc/0012-sysdeps-gnu-configure.ac-handle-correctly-libc_cv_ro.patch
+@@ -1,7 +1,7 @@
+-From 2a12eadfd7940b6b0913de8e95d851254cce7953 Mon Sep 17 00:00:00 2001
++From ffd3c5a04d8f2f26fea71fed4ce41e88b6f51086 Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Wed, 18 Mar 2015 00:27:10 +0000
+-Subject: [PATCH 13/26] sysdeps/gnu/configure.ac: handle correctly
++Subject: [PATCH 12/25] sysdeps/gnu/configure.ac: handle correctly
+  $libc_cv_rootsbindir
+ 
+ Upstream-Status:Pending
+@@ -14,7 +14,7 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+  2 files changed, 2 insertions(+), 2 deletions(-)
+ 
+ diff --git a/sysdeps/gnu/configure b/sysdeps/gnu/configure
+-index 71243ad..f578187 100644
++index 71243ad0c6..f578187576 100644
+ --- a/sysdeps/gnu/configure
+ +++ b/sysdeps/gnu/configure
+ @@ -32,6 +32,6 @@ case "$prefix" in
+@@ -26,7 +26,7 @@ index 71243ad..f578187 100644
+    ;;
+  esac
+ diff --git a/sysdeps/gnu/configure.ac b/sysdeps/gnu/configure.ac
+-index 634fe4d..3db1697 100644
++index 634fe4de2a..3db1697f4f 100644
+ --- a/sysdeps/gnu/configure.ac
+ +++ b/sysdeps/gnu/configure.ac
+ @@ -21,6 +21,6 @@ case "$prefix" in
+@@ -38,5 +38,5 @@ index 634fe4d..3db1697 100644
+    ;;
+  esac
+ -- 
+-2.10.2
++2.13.2
+ 
+diff --git a/meta/recipes-core/glibc/glibc/0014-Add-unused-attribute.patch b/meta/recipes-core/glibc/glibc/0013-Add-unused-attribute.patch
+similarity index 82%
+rename from meta/recipes-core/glibc/glibc/0014-Add-unused-attribute.patch
+rename to meta/recipes-core/glibc/glibc/0013-Add-unused-attribute.patch
+index b23e104ff8..099fe50ee2 100644
+--- a/meta/recipes-core/glibc/glibc/0014-Add-unused-attribute.patch
++++ b/meta/recipes-core/glibc/glibc/0013-Add-unused-attribute.patch
+@@ -1,7 +1,7 @@
+-From ec4f7763b30603b7ba0b70bd7750e34d442821b3 Mon Sep 17 00:00:00 2001
++From 049cce82f35e0d864d98075b83888dbba4d68afd Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Wed, 18 Mar 2015 00:28:41 +0000
+-Subject: [PATCH 14/26] Add unused attribute
++Subject: [PATCH 13/25] Add unused attribute
+ 
+ Helps in avoiding gcc warning when header is is included in
+ a source file which does not use both functions
+@@ -17,7 +17,7 @@ Upstream-Status: Pending
+  1 file changed, 1 insertion(+), 1 deletion(-)
+ 
+ diff --git a/iconv/gconv_charset.h b/iconv/gconv_charset.h
+-index 95cbce7..191a0dd 100644
++index 18d8bd6ae7..eb729da5d3 100644
+ --- a/iconv/gconv_charset.h
+ +++ b/iconv/gconv_charset.h
+ @@ -21,7 +21,7 @@
+@@ -30,5 +30,5 @@ index 95cbce7..191a0dd 100644
+  {
+    int slash_count = 0;
+ -- 
+-2.10.2
++2.13.2
+ 
+diff --git a/meta/recipes-core/glibc/glibc/0015-yes-within-the-path-sets-wrong-config-variables.patch b/meta/recipes-core/glibc/glibc/0014-yes-within-the-path-sets-wrong-config-variables.patch
+similarity index 94%
+rename from meta/recipes-core/glibc/glibc/0015-yes-within-the-path-sets-wrong-config-variables.patch
+rename to meta/recipes-core/glibc/glibc/0014-yes-within-the-path-sets-wrong-config-variables.patch
+index 98d425a7bd..ddc70e0e60 100644
+--- a/meta/recipes-core/glibc/glibc/0015-yes-within-the-path-sets-wrong-config-variables.patch
++++ b/meta/recipes-core/glibc/glibc/0014-yes-within-the-path-sets-wrong-config-variables.patch
+@@ -1,7 +1,7 @@
+-From 18d64951cbb68d8d75e8ef347cbd0e0a5c14604b Mon Sep 17 00:00:00 2001
++From 3b904bee81a1cfe81e3f437b5f3296efd54a51ac Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Wed, 18 Mar 2015 00:31:06 +0000
+-Subject: [PATCH 15/26] 'yes' within the path sets wrong config variables
++Subject: [PATCH 14/25] 'yes' within the path sets wrong config variables
+ 
+ It seems that the 'AC_EGREP_CPP(yes...' example is quite popular
+ but being such a short word to grep it is likely to produce
+@@ -29,7 +29,7 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+  12 files changed, 28 insertions(+), 28 deletions(-)
+ 
+ diff --git a/sysdeps/aarch64/configure b/sysdeps/aarch64/configure
+-index 5bd355a..3bc5537 100644
++index 5bd355a691..3bc5537bc0 100644
+ --- a/sysdeps/aarch64/configure
+ +++ b/sysdeps/aarch64/configure
+ @@ -148,12 +148,12 @@ else
+@@ -48,7 +48,7 @@ index 5bd355a..3bc5537 100644
+  else
+    libc_cv_aarch64_be=no
+ diff --git a/sysdeps/aarch64/configure.ac b/sysdeps/aarch64/configure.ac
+-index 7851dd4..6e92381 100644
++index 7851dd4dac..6e9238171f 100644
+ --- a/sysdeps/aarch64/configure.ac
+ +++ b/sysdeps/aarch64/configure.ac
+ @@ -10,8 +10,8 @@ GLIBC_PROVIDES dnl See aclocal.m4 in the top level source directory.
+@@ -63,7 +63,7 @@ index 7851dd4..6e92381 100644
+    ], libc_cv_aarch64_be=yes, libc_cv_aarch64_be=no)])
+  if test $libc_cv_aarch64_be = yes; then
+ diff --git a/sysdeps/arm/configure b/sysdeps/arm/configure
+-index 431e843..e152461 100644
++index 431e843b2b..e152461138 100644
+ --- a/sysdeps/arm/configure
+ +++ b/sysdeps/arm/configure
+ @@ -151,12 +151,12 @@ else
+@@ -82,7 +82,7 @@ index 431e843..e152461 100644
+  else
+    libc_cv_arm_pcs_vfp=no
+ diff --git a/sysdeps/arm/configure.ac b/sysdeps/arm/configure.ac
+-index 90cdd69..05a262b 100644
++index 90cdd69c75..05a262ba00 100644
+ --- a/sysdeps/arm/configure.ac
+ +++ b/sysdeps/arm/configure.ac
+ @@ -15,8 +15,8 @@ AC_DEFINE(PI_STATIC_AND_HIDDEN)
+@@ -97,7 +97,7 @@ index 90cdd69..05a262b 100644
+    ], libc_cv_arm_pcs_vfp=yes, libc_cv_arm_pcs_vfp=no)])
+  if test $libc_cv_arm_pcs_vfp = yes; then
+ diff --git a/sysdeps/mips/configure b/sysdeps/mips/configure
+-index 4e13248..f14af95 100644
++index 4e13248c03..f14af952d0 100644
+ --- a/sysdeps/mips/configure
+ +++ b/sysdeps/mips/configure
+ @@ -143,11 +143,11 @@ else
+@@ -115,7 +115,7 @@ index 4e13248..f14af95 100644
+  else
+    libc_cv_mips_nan2008=no
+ diff --git a/sysdeps/mips/configure.ac b/sysdeps/mips/configure.ac
+-index bcbdaff..ad3057f 100644
++index bcbdaffd9f..ad3057f4cc 100644
+ --- a/sysdeps/mips/configure.ac
+ +++ b/sysdeps/mips/configure.ac
+ @@ -6,9 +6,9 @@ dnl position independent way.
+@@ -131,7 +131,7 @@ index bcbdaff..ad3057f 100644
+  if test x$libc_cv_mips_nan2008 = xyes; then
+    AC_DEFINE(HAVE_MIPS_NAN2008)
+ diff --git a/sysdeps/nios2/configure b/sysdeps/nios2/configure
+-index 14c8a3a..dde3814 100644
++index 14c8a3a014..dde3814ef2 100644
+ --- a/sysdeps/nios2/configure
+ +++ b/sysdeps/nios2/configure
+ @@ -142,12 +142,12 @@ else
+@@ -150,7 +150,7 @@ index 14c8a3a..dde3814 100644
+  else
+    libc_cv_nios2_be=no
+ diff --git a/sysdeps/nios2/configure.ac b/sysdeps/nios2/configure.ac
+-index f05f438..dc86399 100644
++index f05f43802b..dc8639902d 100644
+ --- a/sysdeps/nios2/configure.ac
+ +++ b/sysdeps/nios2/configure.ac
+ @@ -4,8 +4,8 @@ GLIBC_PROVIDES dnl See aclocal.m4 in the top level source directory.
+@@ -165,7 +165,7 @@ index f05f438..dc86399 100644
+    ], libc_cv_nios2_be=yes, libc_cv_nios2_be=no)])
+  if test $libc_cv_nios2_be = yes; then
+ diff --git a/sysdeps/unix/sysv/linux/mips/configure b/sysdeps/unix/sysv/linux/mips/configure
+-index a5513fa..283b293 100644
++index a5513fad48..283b293ff3 100644
+ --- a/sysdeps/unix/sysv/linux/mips/configure
+ +++ b/sysdeps/unix/sysv/linux/mips/configure
+ @@ -414,11 +414,11 @@ else
+@@ -183,7 +183,7 @@ index a5513fa..283b293 100644
+  else
+    libc_cv_mips_nan2008=no
+ diff --git a/sysdeps/unix/sysv/linux/mips/configure.ac b/sysdeps/unix/sysv/linux/mips/configure.ac
+-index 9147aa4..7898e24 100644
++index 9147aa4582..7898e24738 100644
+ --- a/sysdeps/unix/sysv/linux/mips/configure.ac
+ +++ b/sysdeps/unix/sysv/linux/mips/configure.ac
+ @@ -105,9 +105,9 @@ AC_COMPILE_IFELSE(
+@@ -199,7 +199,7 @@ index 9147aa4..7898e24 100644
+  
+  libc_mips_nan=
+ diff --git a/sysdeps/unix/sysv/linux/powerpc/powerpc64/configure b/sysdeps/unix/sysv/linux/powerpc/powerpc64/configure
+-index af06970..27b8c1b 100644
++index 4e7fcf1d97..44a9cb3791 100644
+ --- a/sysdeps/unix/sysv/linux/powerpc/powerpc64/configure
+ +++ b/sysdeps/unix/sysv/linux/powerpc/powerpc64/configure
+ @@ -155,12 +155,12 @@ else
+@@ -233,7 +233,7 @@ index af06970..27b8c1b 100644
+  else
+    libc_cv_ppc64_def_call_elf=no
+ diff --git a/sysdeps/unix/sysv/linux/powerpc/powerpc64/configure.ac b/sysdeps/unix/sysv/linux/powerpc/powerpc64/configure.ac
+-index 0822915..9a32fdd 100644
++index f9cba6e15d..b21f72f1e4 100644
+ --- a/sysdeps/unix/sysv/linux/powerpc/powerpc64/configure.ac
+ +++ b/sysdeps/unix/sysv/linux/powerpc/powerpc64/configure.ac
+ @@ -6,8 +6,8 @@ LIBC_SLIBDIR_RTLDDIR([lib64], [lib64])
+@@ -259,5 +259,5 @@ index 0822915..9a32fdd 100644
+      ], libc_cv_ppc64_def_call_elf=yes, libc_cv_ppc64_def_call_elf=no)])
+    if test $libc_cv_ppc64_def_call_elf = no; then
+ -- 
+-2.10.2
++2.13.2
+ 
+diff --git a/meta/recipes-core/glibc/glibc/0016-timezone-re-written-tzselect-as-posix-sh.patch b/meta/recipes-core/glibc/glibc/0015-timezone-re-written-tzselect-as-posix-sh.patch
+similarity index 81%
+rename from meta/recipes-core/glibc/glibc/0016-timezone-re-written-tzselect-as-posix-sh.patch
+rename to meta/recipes-core/glibc/glibc/0015-timezone-re-written-tzselect-as-posix-sh.patch
+index 426a2c0c2d..b5feffa06a 100644
+--- a/meta/recipes-core/glibc/glibc/0016-timezone-re-written-tzselect-as-posix-sh.patch
++++ b/meta/recipes-core/glibc/glibc/0015-timezone-re-written-tzselect-as-posix-sh.patch
+@@ -1,7 +1,7 @@
+-From 2bed515b9f9f613ae0db9b9607d8fa60a4afca5b Mon Sep 17 00:00:00 2001
++From b8cb8cb242cb751d888feb1ada5c4d0f05cbc1d7 Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Wed, 18 Mar 2015 00:33:03 +0000
+-Subject: [PATCH 16/26] timezone: re-written tzselect as posix sh
++Subject: [PATCH 15/25] timezone: re-written tzselect as posix sh
+ 
+ To avoid the bash dependency.
+ 
+@@ -15,10 +15,10 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+  2 files changed, 2 insertions(+), 2 deletions(-)
+ 
+ diff --git a/timezone/Makefile b/timezone/Makefile
+-index dee7568..66a50be 100644
++index d6cc7ba357..e4ead6e1a7 100644
+ --- a/timezone/Makefile
+ +++ b/timezone/Makefile
+-@@ -120,7 +120,7 @@ $(testdata)/XT%: testdata/XT%
++@@ -122,7 +122,7 @@ $(testdata)/XT%: testdata/XT%
+  	cp $< $@
+  
+  $(objpfx)tzselect: tzselect.ksh $(common-objpfx)config.make
+@@ -28,7 +28,7 @@ index dee7568..66a50be 100644
+  	    -e '/TZVERSION=/s|see_Makefile|"$(version)"|' \
+  	    -e '/PKGVERSION=/s|=.*|="$(PKGVERSION)"|' \
+ diff --git a/timezone/tzselect.ksh b/timezone/tzselect.ksh
+-index 2c3b2f4..0c04a61 100755
++index d2c3a6d1dd..089679f306 100755
+ --- a/timezone/tzselect.ksh
+ +++ b/timezone/tzselect.ksh
+ @@ -35,7 +35,7 @@ REPORT_BUGS_TO=tz@iana.org
+@@ -41,5 +41,5 @@ index 2c3b2f4..0c04a61 100755
+  # Output one argument as-is to standard output.
+  # Safer than 'echo', which can mishandle '\' or leading '-'.
+ -- 
+-2.10.2
++2.13.2
+ 
+diff --git a/meta/recipes-core/glibc/glibc/0017-Remove-bash-dependency-for-nscd-init-script.patch b/meta/recipes-core/glibc/glibc/0016-Remove-bash-dependency-for-nscd-init-script.patch
+similarity index 89%
+rename from meta/recipes-core/glibc/glibc/0017-Remove-bash-dependency-for-nscd-init-script.patch
+rename to meta/recipes-core/glibc/glibc/0016-Remove-bash-dependency-for-nscd-init-script.patch
+index e44be894f6..1d9983b8e5 100644
+--- a/meta/recipes-core/glibc/glibc/0017-Remove-bash-dependency-for-nscd-init-script.patch
++++ b/meta/recipes-core/glibc/glibc/0016-Remove-bash-dependency-for-nscd-init-script.patch
+@@ -1,20 +1,21 @@
+-From c8814875b362efbfd778345d0d2777478bf11a30 Mon Sep 17 00:00:00 2001
++From 69d378001adfe9a359d2f4b069c1ed2d36de4480 Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Thu, 31 Dec 2015 14:33:02 -0800
+-Subject: [PATCH 17/26] Remove bash dependency for nscd init script
++Subject: [PATCH 16/25] Remove bash dependency for nscd init script
+ 
+ The nscd init script uses #! /bin/bash but only really uses one bashism
+ (translated strings), so remove them and switch the shell to #!/bin/sh.
+ 
++Upstream-Status: Pending
++
+ Signed-off-by: Ross Burton <ross.burton@intel.com>
+ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-Upstream-Status: Inappropriate
+ ---
+  nscd/nscd.init | 14 +++++++-------
+  1 file changed, 7 insertions(+), 7 deletions(-)
+ 
+ diff --git a/nscd/nscd.init b/nscd/nscd.init
+-index a882da7..b02986e 100644
++index a882da7d8b..b02986ec15 100644
+ --- a/nscd/nscd.init
+ +++ b/nscd/nscd.init
+ @@ -1,4 +1,4 @@
+@@ -70,5 +71,5 @@ index a882da7..b02986e 100644
+  	;;
+  esac
+ -- 
+-2.10.2
++2.13.2
+ 
+diff --git a/meta/recipes-core/glibc/glibc/0018-eglibc-Cross-building-and-testing-instructions.patch b/meta/recipes-core/glibc/glibc/0017-eglibc-Cross-building-and-testing-instructions.patch
+similarity index 99%
+rename from meta/recipes-core/glibc/glibc/0018-eglibc-Cross-building-and-testing-instructions.patch
+rename to meta/recipes-core/glibc/glibc/0017-eglibc-Cross-building-and-testing-instructions.patch
+index 2ec01f05c7..3e39d7458c 100644
+--- a/meta/recipes-core/glibc/glibc/0018-eglibc-Cross-building-and-testing-instructions.patch
++++ b/meta/recipes-core/glibc/glibc/0017-eglibc-Cross-building-and-testing-instructions.patch
+@@ -1,7 +1,7 @@
+-From df96d6b61bb60f13cd3d4989d1afc56d705f4a33 Mon Sep 17 00:00:00 2001
++From cdc88dffa226815e3a218604655459e33dc86483 Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Wed, 18 Mar 2015 00:42:58 +0000
+-Subject: [PATCH 18/26] eglibc: Cross building and testing instructions
++Subject: [PATCH 17/25] eglibc: Cross building and testing instructions
+ 
+ Ported from eglibc
+ Upstream-Status: Pending
+@@ -16,7 +16,7 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+ 
+ diff --git a/GLIBC.cross-building b/GLIBC.cross-building
+ new file mode 100644
+-index 0000000..e6e0da1
++index 0000000000..e6e0da1aaf
+ --- /dev/null
+ +++ b/GLIBC.cross-building
+ @@ -0,0 +1,383 @@
+@@ -405,7 +405,7 @@ index 0000000..e6e0da1
+ +    Hello, C++ world!
+ diff --git a/GLIBC.cross-testing b/GLIBC.cross-testing
+ new file mode 100644
+-index 0000000..b67b468
++index 0000000000..b67b468466
+ --- /dev/null
+ +++ b/GLIBC.cross-testing
+ @@ -0,0 +1,205 @@
+@@ -615,5 +615,5 @@ index 0000000..b67b468
+ +  simply place copies of these libraries in the top GLIBC build
+ +  directory.
+ -- 
+-2.10.2
++2.13.2
+ 
+diff --git a/meta/recipes-core/glibc/glibc/0019-eglibc-Help-bootstrap-cross-toolchain.patch b/meta/recipes-core/glibc/glibc/0018-eglibc-Help-bootstrap-cross-toolchain.patch
+similarity index 94%
+rename from meta/recipes-core/glibc/glibc/0019-eglibc-Help-bootstrap-cross-toolchain.patch
+rename to meta/recipes-core/glibc/glibc/0018-eglibc-Help-bootstrap-cross-toolchain.patch
+index f5921bb7be..02f35f4e7b 100644
+--- a/meta/recipes-core/glibc/glibc/0019-eglibc-Help-bootstrap-cross-toolchain.patch
++++ b/meta/recipes-core/glibc/glibc/0018-eglibc-Help-bootstrap-cross-toolchain.patch
+@@ -1,7 +1,7 @@
+-From 2cb7e3cae4020f431d426ad1740bb25506cde899 Mon Sep 17 00:00:00 2001
++From 1161cd1c683547d29a03626d9d7de7f9cc03b74a Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Wed, 18 Mar 2015 00:49:28 +0000
+-Subject: [PATCH 19/26] eglibc: Help bootstrap cross toolchain
++Subject: [PATCH 18/25] eglibc: Help bootstrap cross toolchain
+ 
+ Taken from EGLIBC, r1484 + r1525
+ 
+@@ -29,7 +29,7 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+  create mode 100644 include/stubs-bootstrap.h
+ 
+ diff --git a/Makefile b/Makefile
+-index 1ae3281..26ab7bf 100644
++index 3e0ae6f43b..24dc66d17c 100644
+ --- a/Makefile
+ +++ b/Makefile
+ @@ -70,9 +70,18 @@ subdir-dirs = include
+@@ -79,7 +79,7 @@ index 1ae3281..26ab7bf 100644
+  # Since stubs.h is never needed when building the library, we simplify the
+ diff --git a/include/stubs-bootstrap.h b/include/stubs-bootstrap.h
+ new file mode 100644
+-index 0000000..1d2b669
++index 0000000000..1d2b669aff
+ --- /dev/null
+ +++ b/include/stubs-bootstrap.h
+ @@ -0,0 +1,12 @@
+@@ -96,5 +96,5 @@ index 0000000..1d2b669
+ +   EGLIBC subdir 'stubs' make targets, on every .o file in EGLIBC, but
+ +   an empty stubs.h like this will do fine for GCC.  */
+ -- 
+-2.10.2
++2.13.2
+ 
+diff --git a/meta/recipes-core/glibc/glibc/0021-eglibc-Clear-cache-lines-on-ppc8xx.patch b/meta/recipes-core/glibc/glibc/0019-eglibc-Clear-cache-lines-on-ppc8xx.patch
+similarity index 94%
+rename from meta/recipes-core/glibc/glibc/0021-eglibc-Clear-cache-lines-on-ppc8xx.patch
+rename to meta/recipes-core/glibc/glibc/0019-eglibc-Clear-cache-lines-on-ppc8xx.patch
+index a9a73916f3..adb28cfd34 100644
+--- a/meta/recipes-core/glibc/glibc/0021-eglibc-Clear-cache-lines-on-ppc8xx.patch
++++ b/meta/recipes-core/glibc/glibc/0019-eglibc-Clear-cache-lines-on-ppc8xx.patch
+@@ -1,7 +1,7 @@
+-From 000ab518aa1269714bc0a9a4633b0a538fae91d9 Mon Sep 17 00:00:00 2001
++From 1732c7f25453c879c17701839ef34876a7357008 Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Thu, 31 Dec 2015 15:15:09 -0800
+-Subject: [PATCH 21/26] eglibc: Clear cache lines on ppc8xx
++Subject: [PATCH 19/25] eglibc: Clear cache lines on ppc8xx
+ 
+ 2007-06-13  Nathan Sidwell  <nathan@codesourcery.com>
+             Mark Shinwell  <shinwell@codesourcery.com>
+@@ -21,7 +21,7 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+  2 files changed, 28 insertions(+), 2 deletions(-)
+ 
+ diff --git a/sysdeps/unix/sysv/linux/powerpc/dl-sysdep.c b/sysdeps/unix/sysv/linux/powerpc/dl-sysdep.c
+-index 98ec2b3..b384ae0 100644
++index 23f5d5d388..7e45288db7 100644
+ --- a/sysdeps/unix/sysv/linux/powerpc/dl-sysdep.c
+ +++ b/sysdeps/unix/sysv/linux/powerpc/dl-sysdep.c
+ @@ -24,9 +24,21 @@ int __cache_line_size attribute_hidden;
+@@ -48,7 +48,7 @@ index 98ec2b3..b384ae0 100644
+  	break;
+  
+ diff --git a/sysdeps/unix/sysv/linux/powerpc/libc-start.c b/sysdeps/unix/sysv/linux/powerpc/libc-start.c
+-index 0efd297..8cc0ef8 100644
++index ad036c1e4b..afee56a3da 100644
+ --- a/sysdeps/unix/sysv/linux/powerpc/libc-start.c
+ +++ b/sysdeps/unix/sysv/linux/powerpc/libc-start.c
+ @@ -73,11 +73,25 @@ __libc_start_main (int argc, char **argv,
+@@ -79,5 +79,5 @@ index 0efd297..8cc0ef8 100644
+  	break;
+  #ifndef SHARED
+ -- 
+-2.10.2
++2.13.2
+ 
+diff --git a/meta/recipes-core/glibc/glibc/0022-eglibc-Resolve-__fpscr_values-on-SH4.patch b/meta/recipes-core/glibc/glibc/0020-eglibc-Resolve-__fpscr_values-on-SH4.patch
+similarity index 88%
+rename from meta/recipes-core/glibc/glibc/0022-eglibc-Resolve-__fpscr_values-on-SH4.patch
+rename to meta/recipes-core/glibc/glibc/0020-eglibc-Resolve-__fpscr_values-on-SH4.patch
+index c0cd5b0d12..f835d871ab 100644
+--- a/meta/recipes-core/glibc/glibc/0022-eglibc-Resolve-__fpscr_values-on-SH4.patch
++++ b/meta/recipes-core/glibc/glibc/0020-eglibc-Resolve-__fpscr_values-on-SH4.patch
+@@ -1,7 +1,7 @@
+-From a50c6e80543fb4cbc589978c11fe846bf4a94492 Mon Sep 17 00:00:00 2001
++From 108b3a1df96a85522c52a0dec032fc2c106f5f2d Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Wed, 18 Mar 2015 00:55:53 +0000
+-Subject: [PATCH 22/26] eglibc: Resolve __fpscr_values on SH4
++Subject: [PATCH 20/25] eglibc: Resolve __fpscr_values on SH4
+ 
+ 2010-09-29  Nobuhiro Iwamatsu  <iwamatsu@nigauri.org>
+             Andrew Stubbs  <ams@codesourcery.com>
+@@ -21,7 +21,7 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+  2 files changed, 12 insertions(+)
+ 
+ diff --git a/sysdeps/unix/sysv/linux/sh/Versions b/sysdeps/unix/sysv/linux/sh/Versions
+-index e0938c4..ca1d7da 100644
++index e0938c4165..ca1d7da339 100644
+ --- a/sysdeps/unix/sysv/linux/sh/Versions
+ +++ b/sysdeps/unix/sysv/linux/sh/Versions
+ @@ -2,6 +2,7 @@ libc {
+@@ -33,7 +33,7 @@ index e0938c4..ca1d7da 100644
+      # a*
+      alphasort64;
+ diff --git a/sysdeps/unix/sysv/linux/sh/sysdep.S b/sysdeps/unix/sysv/linux/sh/sysdep.S
+-index 0024d79..d1db7e4 100644
++index 5f11bc737b..2fd217b00b 100644
+ --- a/sysdeps/unix/sysv/linux/sh/sysdep.S
+ +++ b/sysdeps/unix/sysv/linux/sh/sysdep.S
+ @@ -30,3 +30,14 @@ ENTRY (__syscall_error)
+@@ -52,5 +52,5 @@ index 0024d79..d1db7e4 100644
+ +weak_alias (___fpscr_values, __fpscr_values)
+ +
+ -- 
+-2.10.2
++2.13.2
+ 
+diff --git a/meta/recipes-core/glibc/glibc/0020-eglibc-cherry-picked-from.patch b/meta/recipes-core/glibc/glibc/0020-eglibc-cherry-picked-from.patch
+deleted file mode 100644
+index 43445739b1..0000000000
+--- a/meta/recipes-core/glibc/glibc/0020-eglibc-cherry-picked-from.patch
++++ /dev/null
+@@ -1,64 +0,0 @@
+-From b2ed906ec864583b43379ef9ad2b5630c1232565 Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Thu, 31 Dec 2015 15:10:33 -0800
+-Subject: [PATCH 20/26] eglibc: cherry-picked from
+-
+-http://www.eglibc.org/archives/patches/msg00772.html
+-
+-Not yet merged into glibc
+-
+-Upstream-Status: Pending
+-
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+- resolv/res_libc.c | 14 +++++++++++++-
+- 1 file changed, 13 insertions(+), 1 deletion(-)
+-
+-diff --git a/resolv/res_libc.c b/resolv/res_libc.c
+-index a4b376f..3256e12 100644
+---- a/resolv/res_libc.c
+-+++ b/resolv/res_libc.c
+-@@ -21,11 +21,13 @@
+- #include <atomic.h>
+- #include <limits.h>
+- #include <sys/types.h>
+-+#include <sys/stat.h>
+- #include <netinet/in.h>
+- #include <arpa/nameser.h>
+- #include <resolv.h>
+- #include <libc-lock.h>
+- 
+-+__libc_lock_define_initialized (static, lock);
+- extern unsigned long long int __res_initstamp attribute_hidden;
+- /* We have atomic increment operations on 64-bit platforms.  */
+- #if __WORDSIZE == 64
+-@@ -33,7 +35,6 @@ extern unsigned long long int __res_initstamp attribute_hidden;
+- # define atomicincunlock(lock) (void) 0
+- # define atomicinc(var) catomic_increment (&(var))
+- #else
+--__libc_lock_define_initialized (static, lock);
+- # define atomicinclock(lock) __libc_lock_lock (lock)
+- # define atomicincunlock(lock) __libc_lock_unlock (lock)
+- # define atomicinc(var) ++var
+-@@ -92,7 +93,18 @@ res_init(void) {
+- int
+- __res_maybe_init (res_state resp, int preinit)
+- {
+-+	static time_t last_mtime;
+-+	struct stat statbuf;
+-+	int ret;
+-+
+- 	if (resp->options & RES_INIT) {
+-+		ret = stat (_PATH_RESCONF, &statbuf);
+-+		__libc_lock_lock (lock);
+-+		if ((ret == 0) && (last_mtime != statbuf.st_mtime)) {
+-+			last_mtime = statbuf.st_mtime;
+-+			atomicinc (__res_initstamp);
+-+		}
+-+		__libc_lock_unlock (lock);
+- 		if (__res_initstamp != resp->_u._ext.initstamp) {
+- 			if (resp->nscount > 0)
+- 				__res_iclose (resp, true);
+--- 
+-2.10.2
+-
+diff --git a/meta/recipes-core/glibc/glibc/0023-eglibc-Install-PIC-archives.patch b/meta/recipes-core/glibc/glibc/0021-eglibc-Install-PIC-archives.patch
+similarity index 90%
+rename from meta/recipes-core/glibc/glibc/0023-eglibc-Install-PIC-archives.patch
+rename to meta/recipes-core/glibc/glibc/0021-eglibc-Install-PIC-archives.patch
+index c3e571f8a9..6ee397bf75 100644
+--- a/meta/recipes-core/glibc/glibc/0023-eglibc-Install-PIC-archives.patch
++++ b/meta/recipes-core/glibc/glibc/0021-eglibc-Install-PIC-archives.patch
+@@ -1,7 +1,7 @@
+-From 101568daf48d99e71b280a2fdd85460fe740d583 Mon Sep 17 00:00:00 2001
++From 3392ee83b0132c089dffb1e9892b4b252ce1ec0e Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Wed, 18 Mar 2015 01:57:01 +0000
+-Subject: [PATCH 23/26] eglibc: Install PIC archives
++Subject: [PATCH 21/25] eglibc: Install PIC archives
+ 
+ Forward port from eglibc
+ 
+@@ -29,10 +29,10 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+  1 file changed, 40 insertions(+), 2 deletions(-)
+ 
+ diff --git a/Makerules b/Makerules
+-index 61a0240..373e628 100644
++index 9bb707c168..74cbefb9ba 100644
+ --- a/Makerules
+ +++ b/Makerules
+-@@ -762,6 +762,9 @@ ifeq ($(build-shared),yes)
++@@ -775,6 +775,9 @@ ifeq ($(build-shared),yes)
+  $(common-objpfx)libc.so: $(common-objpfx)libc.map
+  endif
+  common-generated += libc.so libc_pic.os
+@@ -42,7 +42,7 @@ index 61a0240..373e628 100644
+  ifdef libc.so-version
+  $(common-objpfx)libc.so$(libc.so-version): $(common-objpfx)libc.so
+  	$(make-link)
+-@@ -1004,6 +1007,7 @@ endif
++@@ -1026,6 +1029,7 @@ endif
+  
+  install: check-install-supported
+  
+@@ -50,7 +50,7 @@ index 61a0240..373e628 100644
+  install: $(installed-libcs)
+  $(installed-libcs): $(inst_libdir)/lib$(libprefix)%: lib $(+force)
+  	$(make-target-directory)
+-@@ -1032,6 +1036,22 @@ versioned := $(strip $(foreach so,$(install-lib.so),\
++@@ -1054,6 +1058,22 @@ versioned := $(strip $(foreach so,$(install-lib.so),\
+  install-lib.so-versioned := $(filter $(versioned), $(install-lib.so))
+  install-lib.so-unversioned := $(filter-out $(versioned), $(install-lib.so))
+  
+@@ -73,7 +73,7 @@ index 61a0240..373e628 100644
+  # For versioned libraries, we install three files:
+  #	$(inst_libdir)/libfoo.so	-- for linking, symlink or ld script
+  #	$(inst_slibdir)/libfoo.so.NN	-- for loading by SONAME, symlink
+-@@ -1275,9 +1295,22 @@ $(addprefix $(inst_includedir)/,$(headers-nonh)): $(inst_includedir)/%: \
++@@ -1298,9 +1318,22 @@ $(addprefix $(inst_includedir)/,$(headers-nonh)): $(inst_includedir)/%: \
+  endif	# headers-nonh
+  endif	# headers
+  
+@@ -97,7 +97,7 @@ index 61a0240..373e628 100644
+  install-bin-nosubdir: $(addprefix $(inst_bindir)/,$(install-bin))
+  install-bin-script-nosubdir: $(addprefix $(inst_bindir)/,$(install-bin-script))
+  install-rootsbin-nosubdir: \
+-@@ -1290,6 +1323,10 @@ install-data-nosubdir: $(addprefix $(inst_datadir)/,$(install-data))
++@@ -1313,6 +1346,10 @@ install-data-nosubdir: $(addprefix $(inst_datadir)/,$(install-data))
+  install-headers-nosubdir: $(addprefix $(inst_includedir)/,$(headers))
+  install-others-nosubdir: $(install-others)
+  install-others-programs-nosubdir: $(install-others-programs)
+@@ -108,7 +108,7 @@ index 61a0240..373e628 100644
+  
+  # We need all the `-nosubdir' targets so that `install' in the parent
+  # doesn't depend on several things which each iterate over the subdirs.
+-@@ -1299,7 +1336,8 @@ install-%:: install-%-nosubdir ;
++@@ -1322,7 +1359,8 @@ install-%:: install-%-nosubdir ;
+  
+  .PHONY: install install-no-libc.a-nosubdir
+  install-no-libc.a-nosubdir: install-headers-nosubdir install-data-nosubdir \
+@@ -119,5 +119,5 @@ index 61a0240..373e628 100644
+  install-no-libc.a-nosubdir: install-bin-nosubdir install-bin-script-nosubdir \
+  			    install-rootsbin-nosubdir install-sbin-nosubdir \
+ -- 
+-2.10.2
++2.13.2
+ 
+diff --git a/meta/recipes-core/glibc/glibc/0024-eglibc-Forward-port-cross-locale-generation-support.patch b/meta/recipes-core/glibc/glibc/0022-eglibc-Forward-port-cross-locale-generation-support.patch
+similarity index 96%
+rename from meta/recipes-core/glibc/glibc/0024-eglibc-Forward-port-cross-locale-generation-support.patch
+rename to meta/recipes-core/glibc/glibc/0022-eglibc-Forward-port-cross-locale-generation-support.patch
+index 3399890de1..2a8a20ac8d 100644
+--- a/meta/recipes-core/glibc/glibc/0024-eglibc-Forward-port-cross-locale-generation-support.patch
++++ b/meta/recipes-core/glibc/glibc/0022-eglibc-Forward-port-cross-locale-generation-support.patch
+@@ -1,7 +1,7 @@
+-From 82516e3ed372f618c886a2de4f9498f597aa8a8b Mon Sep 17 00:00:00 2001
++From d97533dc201cfd863765b1a67a27fde3e2622da7 Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Wed, 18 Mar 2015 01:33:49 +0000
+-Subject: [PATCH 24/26] eglibc: Forward port cross locale generation support
++Subject: [PATCH 22/25] eglibc: Forward port cross locale generation support
+ 
+ Upstream-Status: Pending
+ 
+@@ -23,11 +23,11 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+  create mode 100644 locale/catnames.c
+ 
+ diff --git a/locale/Makefile b/locale/Makefile
+-index c5379e6..c98c675 100644
++index 98ee76272d..bc3afb2248 100644
+ --- a/locale/Makefile
+ +++ b/locale/Makefile
+-@@ -25,7 +25,8 @@ include ../Makeconfig
+- headers		= locale.h bits/locale.h langinfo.h xlocale.h
++@@ -26,7 +26,8 @@ headers		= langinfo.h locale.h bits/locale.h \
++ 		  bits/types/locale_t.h bits/types/__locale_t.h
+  routines	= setlocale findlocale loadlocale loadarchive \
+  		  localeconv nl_langinfo nl_langinfo_l mb_cur_max \
+ -		  newlocale duplocale freelocale uselocale
+@@ -38,7 +38,7 @@ index c5379e6..c98c675 100644
+  		  address telephone measurement identification collate
+ diff --git a/locale/catnames.c b/locale/catnames.c
+ new file mode 100644
+-index 0000000..9fad357
++index 0000000000..9fad357db1
+ --- /dev/null
+ +++ b/locale/catnames.c
+ @@ -0,0 +1,48 @@
+@@ -91,10 +91,10 @@ index 0000000..9fad357
+ +    [LC_ALL] = sizeof ("LC_ALL") - 1
+ +  };
+ diff --git a/locale/localeinfo.h b/locale/localeinfo.h
+-index 1f4da92..7f68935 100644
++index 4e1c8c568a..f7ed946f1c 100644
+ --- a/locale/localeinfo.h
+ +++ b/locale/localeinfo.h
+-@@ -224,7 +224,7 @@ __libc_tsd_define (extern, __locale_t, LOCALE)
++@@ -224,7 +224,7 @@ __libc_tsd_define (extern, locale_t, LOCALE)
+     unused.  We can manage this playing some tricks with weak references.
+     But with thread-local locale settings, it becomes quite ungainly unless
+     we can use __thread variables.  So only in that case do we attempt this.  */
+@@ -104,7 +104,7 @@ index 1f4da92..7f68935 100644
+  # define NL_CURRENT_INDIRECT	1
+  #endif
+ diff --git a/locale/programs/charmap-dir.c b/locale/programs/charmap-dir.c
+-index 99fcd35..5e528dc 100644
++index e55ab86e28..0f87e6dd28 100644
+ --- a/locale/programs/charmap-dir.c
+ +++ b/locale/programs/charmap-dir.c
+ @@ -19,7 +19,9 @@
+@@ -150,7 +150,7 @@ index 99fcd35..5e528dc 100644
+    return NULL;
+  }
+ diff --git a/locale/programs/ld-collate.c b/locale/programs/ld-collate.c
+-index 1e125f6..3b2867f 100644
++index cec848cb7c..fcd768eb7d 100644
+ --- a/locale/programs/ld-collate.c
+ +++ b/locale/programs/ld-collate.c
+ @@ -350,7 +350,7 @@ new_element (struct locale_collate_t *collate, const char *mbs, size_t mbslen,
+@@ -199,7 +199,7 @@ index 1e125f6..3b2867f 100644
+  			 == runp->wcnext->wcs[runp->nwcs - 1] + 1));
+  
+ diff --git a/locale/programs/ld-ctype.c b/locale/programs/ld-ctype.c
+-index 0fd141c..68136e6 100644
++index df266c20d6..05c0152ec9 100644
+ --- a/locale/programs/ld-ctype.c
+ +++ b/locale/programs/ld-ctype.c
+ @@ -926,7 +926,7 @@ ctype_output (struct localedef_t *locale, const struct charmap_t *charmap,
+@@ -281,7 +281,7 @@ index 0fd141c..68136e6 100644
+  	      srunp = srunp->next;
+  	    }
+ diff --git a/locale/programs/ld-time.c b/locale/programs/ld-time.c
+-index 87531bc..5f2c266 100644
++index 32e9c41e35..6a61fcedeb 100644
+ --- a/locale/programs/ld-time.c
+ +++ b/locale/programs/ld-time.c
+ @@ -215,8 +215,10 @@ No definition for %s category found"), "LC_TIME"));
+@@ -350,7 +350,7 @@ index 87531bc..5f2c266 100644
+  
+  
+ diff --git a/locale/programs/linereader.c b/locale/programs/linereader.c
+-index b885f65..0afb631 100644
++index 52b340963a..1a8bce17b4 100644
+ --- a/locale/programs/linereader.c
+ +++ b/locale/programs/linereader.c
+ @@ -595,7 +595,7 @@ get_string (struct linereader *lr, const struct charmap_t *charmap,
+@@ -363,7 +363,7 @@ index b885f65..0afb631 100644
+    size_t bufmax = 56;
+  
+ diff --git a/locale/programs/localedef.c b/locale/programs/localedef.c
+-index b4c48f1..ed08d48 100644
++index 6acc1342c7..df87740f8b 100644
+ --- a/locale/programs/localedef.c
+ +++ b/locale/programs/localedef.c
+ @@ -108,6 +108,7 @@ void (*argp_program_version_hook) (FILE *, struct argp_state *) = print_version;
+@@ -409,7 +409,7 @@ index b4c48f1..ed08d48 100644
+        force_output = 1;
+        break;
+ diff --git a/locale/programs/locfile.c b/locale/programs/locfile.c
+-index 32f5cd2..02967b0 100644
++index 0990ef11be..683422c908 100644
+ --- a/locale/programs/locfile.c
+ +++ b/locale/programs/locfile.c
+ @@ -544,6 +544,9 @@ compare_files (const char *filename1, const char *filename2, size_t size,
+@@ -432,7 +432,7 @@ index 32f5cd2..02967b0 100644
+  
+  /* Record that FILE's next element is the 32-bit integer VALUE.  */
+ diff --git a/locale/programs/locfile.h b/locale/programs/locfile.h
+-index a3dd904..2c7763a 100644
++index 3407e13c13..0bb556caf8 100644
+ --- a/locale/programs/locfile.h
+ +++ b/locale/programs/locfile.h
+ @@ -71,6 +71,8 @@ extern void write_all_categories (struct localedef_t *definitions,
+@@ -521,7 +521,7 @@ index a3dd904..2c7763a 100644
+ +
+  #endif /* locfile.h */
+ diff --git a/locale/setlocale.c b/locale/setlocale.c
+-index 69b3141..1cef0be 100644
++index 19acc4b2c7..c89d3b87ad 100644
+ --- a/locale/setlocale.c
+ +++ b/locale/setlocale.c
+ @@ -64,36 +64,6 @@ static char *const _nl_current_used[] =
+@@ -562,5 +562,5 @@ index 69b3141..1cef0be 100644
+  # define WEAK_POSTLOAD(postload) weak_extern (postload)
+  #else
+ -- 
+-2.10.2
++2.13.2
+ 
+diff --git a/meta/recipes-core/glibc/glibc/0025-Define-DUMMY_LOCALE_T-if-not-defined.patch b/meta/recipes-core/glibc/glibc/0023-Define-DUMMY_LOCALE_T-if-not-defined.patch
+similarity index 80%
+rename from meta/recipes-core/glibc/glibc/0025-Define-DUMMY_LOCALE_T-if-not-defined.patch
+rename to meta/recipes-core/glibc/glibc/0023-Define-DUMMY_LOCALE_T-if-not-defined.patch
+index 1f0f5d4da2..9e580d44b1 100644
+--- a/meta/recipes-core/glibc/glibc/0025-Define-DUMMY_LOCALE_T-if-not-defined.patch
++++ b/meta/recipes-core/glibc/glibc/0023-Define-DUMMY_LOCALE_T-if-not-defined.patch
+@@ -1,7 +1,7 @@
+-From c2d8cdeab116caacdfedb35eeb3e743b44807bec Mon Sep 17 00:00:00 2001
++From cb4d00eac7f84092314de593626eea40f9529038 Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Wed, 20 Apr 2016 21:11:00 -0700
+-Subject: [PATCH 25/26] Define DUMMY_LOCALE_T if not defined
++Subject: [PATCH 23/25] Define DUMMY_LOCALE_T if not defined
+ 
+ This is a hack to fix building the locale bits on an older
+ CentOs 5.X machine
+@@ -14,7 +14,7 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+  1 file changed, 3 insertions(+)
+ 
+ diff --git a/locale/programs/config.h b/locale/programs/config.h
+-index f606365..0e5f8c3 100644
++index 5b416be0d8..79e66eed5e 100644
+ --- a/locale/programs/config.h
+ +++ b/locale/programs/config.h
+ @@ -19,6 +19,9 @@
+@@ -28,5 +28,5 @@ index f606365..0e5f8c3 100644
+  #define PACKAGE _libc_intl_domainname
+  #ifndef VERSION
+ -- 
+-2.10.2
++2.13.2
+ 
+diff --git a/meta/recipes-core/glibc/glibc/0026-elf-dl-deps.c-Make-_dl_build_local_scope-breadth-fir.patch b/meta/recipes-core/glibc/glibc/0024-elf-dl-deps.c-Make-_dl_build_local_scope-breadth-fir.patch
+similarity index 89%
+rename from meta/recipes-core/glibc/glibc/0026-elf-dl-deps.c-Make-_dl_build_local_scope-breadth-fir.patch
+rename to meta/recipes-core/glibc/glibc/0024-elf-dl-deps.c-Make-_dl_build_local_scope-breadth-fir.patch
+index 852f5304ce..0b59352536 100644
+--- a/meta/recipes-core/glibc/glibc/0026-elf-dl-deps.c-Make-_dl_build_local_scope-breadth-fir.patch
++++ b/meta/recipes-core/glibc/glibc/0024-elf-dl-deps.c-Make-_dl_build_local_scope-breadth-fir.patch
+@@ -1,7 +1,7 @@
+-From fb315c197cca61299a6f6588ea3460145c255d06 Mon Sep 17 00:00:00 2001
++From a784742739c90eea0d4ccbbd073a067d55ca95e8 Mon Sep 17 00:00:00 2001
+ From: Mark Hatle <mark.hatle@windriver.com>
+ Date: Thu, 18 Aug 2016 14:07:58 -0500
+-Subject: [PATCH 26/26] elf/dl-deps.c: Make _dl_build_local_scope breadth first
++Subject: [PATCH 24/25] elf/dl-deps.c: Make _dl_build_local_scope breadth first
+ 
+ According to the ELF specification:
+ 
+@@ -24,7 +24,7 @@ Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+  1 file changed, 10 insertions(+), 4 deletions(-)
+ 
+ diff --git a/elf/dl-deps.c b/elf/dl-deps.c
+-index 6a82987..53be824 100644
++index 1b8bac6593..c616808f31 100644
+ --- a/elf/dl-deps.c
+ +++ b/elf/dl-deps.c
+ @@ -73,13 +73,19 @@ _dl_build_local_scope (struct link_map **list, struct link_map *map)
+@@ -52,5 +52,5 @@ index 6a82987..53be824 100644
+  }
+  
+ -- 
+-2.10.2
++2.13.2
+ 
+diff --git a/meta/recipes-core/glibc/glibc/0027-locale-fix-hard-coded-reference-to-gcc-E.patch b/meta/recipes-core/glibc/glibc/0025-locale-fix-hard-coded-reference-to-gcc-E.patch
+similarity index 82%
+rename from meta/recipes-core/glibc/glibc/0027-locale-fix-hard-coded-reference-to-gcc-E.patch
+rename to meta/recipes-core/glibc/glibc/0025-locale-fix-hard-coded-reference-to-gcc-E.patch
+index bce90557cf..f653077405 100644
+--- a/meta/recipes-core/glibc/glibc/0027-locale-fix-hard-coded-reference-to-gcc-E.patch
++++ b/meta/recipes-core/glibc/glibc/0025-locale-fix-hard-coded-reference-to-gcc-E.patch
+@@ -1,7 +1,7 @@
+-From a2fc86cb8d0366171f100ebd033aeb9609fa40de Mon Sep 17 00:00:00 2001
++From f3a670496c8fe6d4acf045f5b167a19cf41b044e Mon Sep 17 00:00:00 2001
+ From: =?UTF-8?q?J=C3=A9r=C3=A9my=20Rosen?= <jeremy.rosen@smile.fr>
+ Date: Mon, 22 Aug 2016 16:09:25 +0200
+-Subject: [PATCH 27/27] locale: fix hard-coded reference to gcc -E
++Subject: [PATCH 25/25] locale: fix hard-coded reference to gcc -E
+ 
+ When new version of compilers are published, they may not be compatible with
+ older versions of software. This is particularly common when software is built
+@@ -17,13 +17,13 @@ environment.
+ This patch replaces the hard-coded reference to the gcc binary with the proper
+ environment variable, thus allowing a user to override it.
+ 
+-Upstream-Status: Submitted [https://sourceware.org/ml/libc-alpha/2016-08/msg00746.html]
++Upstream-Status : Submitted [https://sourceware.org/ml/libc-alpha/2016-08/msg00746.html]
+ ---
+  locale/gen-translit.pl | 2 +-
+  1 file changed, 1 insertion(+), 1 deletion(-)
+ 
+ diff --git a/locale/gen-translit.pl b/locale/gen-translit.pl
+-index 30d3f2f..e976530 100644
++index 30d3f2f195..e97653017c 100644
+ --- a/locale/gen-translit.pl
+ +++ b/locale/gen-translit.pl
+ @@ -1,5 +1,5 @@
+@@ -34,5 +34,5 @@ index 30d3f2f..e976530 100644
+  
+  sub cstrlen {
+ -- 
+-2.10.2
++2.13.2
+ 
+diff --git a/meta/recipes-core/glibc/glibc_2.25.bb b/meta/recipes-core/glibc/glibc_2.25.90.bb
+similarity index 80%
+rename from meta/recipes-core/glibc/glibc_2.25.bb
+rename to meta/recipes-core/glibc/glibc_2.25.90.bb
+index c37438a2d1..0efa9e6e02 100644
+--- a/meta/recipes-core/glibc/glibc_2.25.bb
++++ b/meta/recipes-core/glibc/glibc_2.25.90.bb
+@@ -7,9 +7,10 @@ LIC_FILES_CHKSUM = "file://LICENSES;md5=e9a558e243b36d3209f380deb394b213 \
+ 
+ DEPENDS += "gperf-native"
+ 
+-SRCREV ?= "db0242e3023436757bbc7c488a779e6e3343db04"
++SRCREV ?= "cc31b141f95410ee786bec09e2de8e4af4d112d0"
+ 
+-SRCBRANCH ?= "release/${PV}/master"
++#SRCBRANCH ?= "release/${PV}/master"
++SRCBRANCH ?= "master"
+ 
+ GLIBC_GIT_URI ?= "git://sourceware.org/git/glibc.git"
+ UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+\.\d+(\.\d+)*)"
+@@ -26,22 +27,20 @@ SRC_URI = "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
+            file://0009-Quote-from-bug-1443-which-explains-what-the-patch-do.patch \
+            file://0010-eglibc-run-libm-err-tab.pl-with-specific-dirs-in-S.patch \
+            file://0011-__ieee754_sqrt-f-are-now-inline-functions-and-call-o.patch \
+-           file://0012-Make-ld-version-output-matching-grok-gold-s-output.patch \
+-           file://0013-sysdeps-gnu-configure.ac-handle-correctly-libc_cv_ro.patch \
+-           file://0014-Add-unused-attribute.patch \
+-           file://0015-yes-within-the-path-sets-wrong-config-variables.patch \
+-           file://0016-timezone-re-written-tzselect-as-posix-sh.patch \
+-           file://0017-Remove-bash-dependency-for-nscd-init-script.patch \
+-           file://0018-eglibc-Cross-building-and-testing-instructions.patch \
+-           file://0019-eglibc-Help-bootstrap-cross-toolchain.patch \
+-           file://0020-eglibc-cherry-picked-from.patch \
+-           file://0021-eglibc-Clear-cache-lines-on-ppc8xx.patch \
+-           file://0022-eglibc-Resolve-__fpscr_values-on-SH4.patch \
+-           file://0023-eglibc-Install-PIC-archives.patch \
+-           file://0024-eglibc-Forward-port-cross-locale-generation-support.patch \
+-           file://0025-Define-DUMMY_LOCALE_T-if-not-defined.patch \
+-           file://0026-elf-dl-deps.c-Make-_dl_build_local_scope-breadth-fir.patch \
+-           file://0027-locale-fix-hard-coded-reference-to-gcc-E.patch \
++           file://0012-sysdeps-gnu-configure.ac-handle-correctly-libc_cv_ro.patch \
++           file://0013-Add-unused-attribute.patch \
++           file://0014-yes-within-the-path-sets-wrong-config-variables.patch \
++           file://0015-timezone-re-written-tzselect-as-posix-sh.patch \
++           file://0016-Remove-bash-dependency-for-nscd-init-script.patch \
++           file://0017-eglibc-Cross-building-and-testing-instructions.patch \
++           file://0018-eglibc-Help-bootstrap-cross-toolchain.patch \
++           file://0019-eglibc-Clear-cache-lines-on-ppc8xx.patch \
++           file://0020-eglibc-Resolve-__fpscr_values-on-SH4.patch \
++           file://0021-eglibc-Install-PIC-archives.patch \
++           file://0022-eglibc-Forward-port-cross-locale-generation-support.patch \
++           file://0023-Define-DUMMY_LOCALE_T-if-not-defined.patch \
++           file://0024-elf-dl-deps.c-Make-_dl_build_local_scope-breadth-fir.patch \
++           file://0025-locale-fix-hard-coded-reference-to-gcc-E.patch \
+ "
+ 
+ NATIVESDKFIXES ?= ""
 -- 
 2.13.2
 
