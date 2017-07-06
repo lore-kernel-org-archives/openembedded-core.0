@@ -1,22 +1,24 @@
 Return-Path: <wei.tee.ng@intel.com>
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 3BAE47198E
+	by mail.openembedded.org (Postfix) with ESMTP id 57E5077CEC
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Jul 2017 01:39:05 +0000 (UTC)
+	Fri,  7 Jul 2017 01:39:06 +0000 (UTC)
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
 	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
 	06 Jul 2017 18:39:07 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.40,320,1496127600"; d="scan'208";a="989880827"
+X-IronPort-AV: E=Sophos;i="5.40,320,1496127600"; d="scan'208";a="989880836"
 Received: from platypus.jf.intel.com ([10.54.77.139])
-	by orsmga003.jf.intel.com with ESMTP; 06 Jul 2017 18:39:06 -0700
+	by orsmga003.jf.intel.com with ESMTP; 06 Jul 2017 18:39:07 -0700
 From: wei.tee.ng@intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  6 Jul 2017 11:28:33 -0700
-Message-Id: <cover.1499294682.git.wei.tee.ng@intel.com>
+Date: Thu,  6 Jul 2017 11:28:34 -0700
+Message-Id: <ccbf5f4746d009a5424034e6fce978e9f3dea49c.1499294682.git.wei.tee.ng@intel.com>
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <cover.1499294682.git.wei.tee.ng@intel.com>
+References: <cover.1499294682.git.wei.tee.ng@intel.com>
 Cc: wei.tee.ng@intel.com, saul.wold@intel.com
-Subject: [poky][master] [PATCH v3 0/2] initramfs-framework: configuration to boot up live image
+Subject: [PATCH v3 1/2] initramfs-framework: setup-live: detect media and assign rootfs image
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,43 +35,101 @@ X-List-Received-Date: Fri, 07 Jul 2017 01:39:06 -0000
 
 From: "Ng, Wei Tee" <wei.tee.ng@intel.com>
 
-Hi, 
+Integrate the featuers in init-live.sh into new scriptlet to handle
+boot up live image process using framework method.
 
-This patch is to get initramfs-framework able to boot up live image. A new scriplet
-named setup-live module has been created to handle the removeable media detection
-and assign the rootfs.img. This is because the current rootfs module has no support
-for rootfs images, only rootfs partitions. 
+This commit include the changes for:
+- Create a conditional loop for the bootparam_root variable. If it is
+not set, then it will boot from ROOT_IMAGE. Else, it will boot normally
+which is not from removable media.
 
-This version 3 included the changes for creation of initramfs-module-setup-live in the
-recipe and added udev-extraconf rdepends on this module because it is needed for
-automounting process. 
+- Gives a standard path to the original boot disk mount which can be
+used to. While /media/sda is a good guess, it isn't always right, nor
+is it a good assumption that only one boot disk is in the system.
 
-This changes has been verified with build test and boot up test on Minnowboard Max platform.
+- The current rootfs module has no support for rootfs images, currently
+it only support for rootfs partitions for wic image. Therefore, there
+is a need to assign the rootfs image for live image.
 
-Please review and provide feedback if you have any.
-The patches are targeted for merging into poky master branch.
-
-Thanks and regards,
-Wei Tee
-
-The following changes since commit 4b1d270602a0542eef1b497eaf15bad2b747686f:
-
-  bitbake: bitbake-user-manual: Removed and replaced broken link (2017-07-04 16:05:22 +0100)
-
-are available in the git repository at:
-
-  ssh://git.yoctoproject.org/poky-contrib weiteeng/initramfs-v3
-  http://git.yoctoproject.org/cgit.cgi//log/?h=weiteeng/initramfs-v3
-
-Ng, Wei Tee (2):
-  initramfs-framework: setup-live: detect media and assign rootfs image
-  initramfs-framwork: module to support boot live image
-
+Signed-off-by: Ng, Wei Tee <wei.tee.ng@intel.com>
+---
  .../initrdscripts/initramfs-framework/setup-live   | 67 ++++++++++++++++++++++
- .../initrdscripts/initramfs-framework_1.0.bb       | 13 ++++-
- 2 files changed, 78 insertions(+), 2 deletions(-)
+ 1 file changed, 67 insertions(+)
  create mode 100644 meta/recipes-core/initrdscripts/initramfs-framework/setup-live
 
+diff --git a/meta/recipes-core/initrdscripts/initramfs-framework/setup-live b/meta/recipes-core/initrdscripts/initramfs-framework/setup-live
+new file mode 100644
+index 0000000..16da34a
+--- /dev/null
++++ b/meta/recipes-core/initrdscripts/initramfs-framework/setup-live
+@@ -0,0 +1,67 @@
++#/bin/sh
++# Copyright (C) 2011 O.S. Systems Software LTDA.
++# Licensed on MIT
++
++setup_enabled() {
++	return 0
++}
++
++setup_run() {
++ROOT_IMAGE="rootfs.img"
++ISOLINUX=""
++ROOT_DISK=""
++shelltimeout=30
++
++	if [ -z $bootparam_root ]; then
++		echo "Waiting for removable media..."
++		C=0
++		while true
++		do
++		  for i in `ls /run/media 2>/dev/null`; do
++		      if [ -f /run/media/$i/$ROOT_IMAGE ] ; then
++				found="yes"
++				ROOT_DISK="$i"
++				break
++			  elif [ -f /run/media/$i/isolinux/$ROOT_IMAGE ]; then
++				found="yes"
++				ISOLINUX="isolinux"
++				ROOT_DISK="$i"
++				break
++		      fi
++		  done
++		  if [ "$found" = "yes" ]; then
++		      break;
++		  fi
++		  # don't wait for more than $shelltimeout seconds, if it's set
++		  if [ -n "$shelltimeout" ]; then
++		      echo -n " " $(( $shelltimeout - $C ))
++		      if [ $C -ge $shelltimeout ]; then
++		           echo "..."
++			   echo "Mounted filesystems"
++		           mount | grep media
++		           echo "Available block devices"
++		           cat /proc/partitions
++		           fatal "Cannot find $ROOT_IMAGE file in /run/media/* , dropping to a shell "
++		      fi
++		      C=$(( C + 1 ))
++		  fi
++		  sleep 1
++		done
++
++		# The existing rootfs module has no support for rootfs images. Assign the rootfs image.
++		bootparam_root="/run/media/$ROOT_DISK/$ISOLINUX/$ROOT_IMAGE"
++	else
++		break
++	fi
++
++	if [ "$bootparam_LABEL" != "boot" -a -f /init.d/$bootparam_LABEL.sh ] ; then
++		if [ -f /run/media/$i/$ISOLINUX/$ROOT_IMAGE ] ; then
++		    ./init.d/$bootparam_LABEL.sh $i/$ISOLINUX $ROOT_IMAGE $video_mode $vga_mode $console_params
++		else
++		    fatal "Could not find $bootparam_LABEL script"
++		fi
++
++		# If we're getting here, we failed...
++		fatal "Target $bootparam_LABEL failed"
++	fi
++}
 -- 
 2.7.4
 
