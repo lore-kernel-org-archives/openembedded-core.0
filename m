@@ -1,18 +1,29 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id A1C626FFD4;
-	Wed,  5 Jul 2017 22:01:20 +0000 (UTC)
+Return-Path: <Kai.Kang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id AA0DB60190
+	for <openembedded-core@lists.openembedded.org>;
+	Thu,  6 Jul 2017 01:41:27 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v661fQpl009623
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 5 Jul 2017 18:41:26 -0700 (PDT)
+Received: from [128.224.162.212] (128.224.162.212) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
+	Wed, 5 Jul 2017 18:41:25 -0700
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	<openembedded-core@lists.openembedded.org>
+References: <cover.1499241206.git.kai.kang@windriver.com>
+	<35164d05e9ab2505c931424d4b7c7b9fea9c65f8.1499241206.git.kai.kang@windriver.com>
+	<1499264918.9571.180.camel@linuxfoundation.org>
+From: Kang Kai <Kai.Kang@windriver.com>
+Message-ID: <165f0567-b31b-966f-5728-4b0d5bd86bf4@windriver.com>
+Date: Thu, 6 Jul 2017 09:44:46 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.1.1
 MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Date: Wed, 05 Jul 2017 22:01:22 -0000
-Message-ID: <20170705220122.2382.70322@do.openembedded.org>
-References: <20170705213627.23967-1-otavio@ossystems.com.br>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <20170705213627.23967-1-otavio@ossystems.com.br>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgbWVzYTogZXRuYXZpdjogZml4IHNoYWRlciBtaXNjb21waWxhdGlvbiB3aXRoIG1vcmUgdGhhbiAxNiBsYWJlbHM=?=
+In-Reply-To: <1499264918.9571.180.camel@linuxfoundation.org>
+Subject: Re: [PATCH 2/2] bind: disable ecdsa if openssl doesn't support it
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,41 +36,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Jul 2017 22:01:20 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 06 Jul 2017 01:41:30 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 
-== Series Details ==
+On 2017年07月05日 22:28, Richard Purdie wrote:
+> On Wed, 2017-07-05 at 15:58 +0800, kai.kang@windriver.com wrote:
+>> From: Kai Kang <kai.kang@windriver.com>
+>>
+>> Distro feature 'openssl-no-weak-ciphers' is introduced to disable
+>> openssl weak ciphers support which include ecdsa. So configure bind
+>> without ecdsa if openssl doesn't support it.
+>>
+>> Signed-off-by: Kai Kang <kai.kang@windriver.com>
+>> ---
+>>   meta/recipes-connectivity/bind/bind_9.10.3-P3.bb | 1 +
+>>   1 file changed, 1 insertion(+)
+>>
+>> diff --git a/meta/recipes-connectivity/bind/bind_9.10.3-P3.bb
+>> b/meta/recipes-connectivity/bind/bind_9.10.3-P3.bb
+>> index 7eb79b0..e10cffc 100644
+>> --- a/meta/recipes-connectivity/bind/bind_9.10.3-P3.bb
+>> +++ b/meta/recipes-connectivity/bind/bind_9.10.3-P3.bb
+>> @@ -41,6 +41,7 @@ ENABLE_IPV6 = "--enable-ipv6=${@bb.utils.contains('
+>> DISTRO_FEATURES', 'ipv6', 'ye
+>>   EXTRA_OECONF = " ${ENABLE_IPV6} --with-libtool --enable-threads \
+>>                    --disable-devpoll --enable-epoll --with-gost=no \
+>>                    --with-gssapi=no --with-ecdsa=yes \
+>> +                 --with-ecdsa=${@bb.utils.contains('DISTRO_FEATURES'
+>> , 'openssl-no-weak-ciphers', 'no', 'yes', d)} \
+>>                    --sysconfdir=${sysconfdir}/bind \
+>>                    --with-openssl=${STAGING_LIBDIR}/.. \
+>>                  "
+>>
+> I think there are a few more questions that need answering about this,
+> like why ecdsa is considered weak but this patch leaves --with-
+> ecdsa=yes  in there which is confusing at best.
+>
+> I do think these are best controlled as individual PACKAGECONFIG
+> options rather than a distro setting which is ambigous (what is
+> 'weak').
 
-Series: mesa: etnaviv: fix shader miscompilation with more than 16 labels
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/7589/
-State : failure
-
-== Summary ==
-
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
+Maybe I didn't express clearly. The original requirement is that disable 
+weak ciphers(maybe we should discuss the scope of weak ciphers)
+for openssl. And then other packages depends on openssl. For bind, if 
+openssl configured with 'no-ecdsa', bind will compile failed. So add
+a distro feature to sync openssl and other packages depends on it.
 
 
+Thanks,
+Kai
+>
+> Cheers,
+>
+> Richard
+>
 
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  master (currently at de79149545)
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
----
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+-- 
+Regards,
+Neil | Kai Kang
 
 
