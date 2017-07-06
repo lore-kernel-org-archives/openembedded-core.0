@@ -1,26 +1,26 @@
 Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	by mail.openembedded.org (Postfix) with ESMTP id BBBD5778D8
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	by mail.openembedded.org (Postfix) with ESMTP id 64E467780E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Jul 2017 08:09:30 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga105.fm.intel.com with ESMTP; 06 Jul 2017 01:09:32 -0700
+	Thu,  6 Jul 2017 08:09:32 +0000 (UTC)
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+	by orsmga105.jf.intel.com with ESMTP; 06 Jul 2017 01:09:34 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.40,316,1496127600"; d="scan'208";a="989328248"
+X-IronPort-AV: E=Sophos;i="5.40,316,1496127600"; d="scan'208";a="123460455"
 Received: from linux.intel.com ([10.54.29.200])
-	by orsmga003.jf.intel.com with ESMTP; 06 Jul 2017 01:09:31 -0700
+	by fmsmga006.fm.intel.com with ESMTP; 06 Jul 2017 01:09:34 -0700
 Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
-	by linux.intel.com (Postfix) with ESMTP id 3181D5801CF
+	by linux.intel.com (Postfix) with ESMTP id 520E5580571
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Jul 2017 01:09:30 -0700 (PDT)
+	Thu,  6 Jul 2017 01:09:33 -0700 (PDT)
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  6 Jul 2017 10:56:44 +0300
-Message-Id: <3efcbaf59507e0043825ea2ad3da6ab4eef12a02.1499326977.git.ed.bartosh@linux.intel.com>
+Date: Thu,  6 Jul 2017 10:56:46 +0300
+Message-Id: <127a3f2f2aa014f0812693f2a323113837a3e345.1499326977.git.ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1499326977.git.ed.bartosh@linux.intel.com>
 References: <cover.1499326977.git.ed.bartosh@linux.intel.com>
-Subject: [PATCH 3/8] wic: build wic-tools only if wic is run manually
+Subject: [PATCH 5/8] wic-tools: don't create wic-tools.env
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,44 +33,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Jul 2017 08:09:30 -0000
+X-List-Received-Date: Thu, 06 Jul 2017 08:09:32 -0000
 
-When wic can't find native sysroot it tries to build wic-tools
-However, it's not possible when wic is run from bitbake.
-Moreover, it's not even feasible anymore as wic-tools should be
-used only when wic is run manually.
-
-Checked if wic is run manually before building wic-tools.
+wic-tools.env was uses only when wic is run from bitbake.
+As wic doesn't use wic-tools anymore in this mode there is
+no need for this file.
 
 Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 ---
- scripts/wic | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ meta/recipes-core/meta/wic-tools.bb | 10 +---------
+ 1 file changed, 1 insertion(+), 9 deletions(-)
 
-diff --git a/scripts/wic b/scripts/wic
-index 881393a..0510447 100755
---- a/scripts/wic
-+++ b/scripts/wic
-@@ -166,15 +166,15 @@ def wic_create_subcommand(options, usage_str):
-                            "(Use -e/--image-name to specify it)")
-         native_sysroot = options.native_sysroot
+diff --git a/meta/recipes-core/meta/wic-tools.bb b/meta/recipes-core/meta/wic-tools.bb
+index cd494ec..c416a2e 100644
+--- a/meta/recipes-core/meta/wic-tools.bb
++++ b/meta/recipes-core/meta/wic-tools.bb
+@@ -11,6 +11,7 @@ DEPENDS_append_x86 = " syslinux grub-efi systemd-boot"
+ DEPENDS_append_x86-64 = " syslinux grub-efi systemd-boot"
  
--    if not native_sysroot or not os.path.isdir(native_sysroot):
-+    if not options.vars_dir and (not native_sysroot or not os.path.isdir(native_sysroot)):
-         logger.info("Building wic-tools...\n")
-         if bitbake_main(BitBakeConfigParameters("bitbake wic-tools".split()),
-                         cookerdata.CookerConfiguration()):
-             raise WicError("bitbake wic-tools failed")
-         native_sysroot = get_bitbake_var("RECIPE_SYSROOT_NATIVE", "wic-tools")
--        if not native_sysroot:
--            raise WicError("Unable to find the location of the native "
--                           "tools sysroot to use")
+ INHIBIT_DEFAULT_DEPS = "1"
 +
-+    if not native_sysroot:
-+        raise WicError("Unable to find the location of the native tools sysroot")
+ inherit nopackages
  
-     wks_file = options.wks_file
+ # The sysroot of wic-tools is needed for wic, but if rm_work is enabled, it will
+@@ -19,14 +20,5 @@ RM_WORK_EXCLUDE += "${PN}"
  
+ python do_build_sysroot () {
+     bb.build.exec_func("extend_recipe_sysroot", d)
+-
+-    # Write environment variables used by wic
+-    # to tmp/sysroots/<machine>/imgdata/wictools.env
+-    outdir = os.path.join(d.getVar('STAGING_DIR'), d.getVar('MACHINE'), 'imgdata')
+-    bb.utils.mkdirhier(outdir)
+-    with open(os.path.join(outdir, "wic-tools.env"), 'w') as envf:
+-        for var in ('RECIPE_SYSROOT_NATIVE', 'STAGING_DATADIR', 'STAGING_LIBDIR'):
+-            envf.write('%s="%s"\n' % (var, d.getVar(var).strip()))
+-
+ }
+ addtask do_build_sysroot after do_prepare_recipe_sysroot before do_build
 -- 
 2.1.4
 
